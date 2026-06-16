@@ -74,9 +74,9 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [RuleSetDoesNotExistException].
   /// May throw [AlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [RuleSetDoesNotExistException].
   ///
   /// Parameter [originalRuleSetName] :
   /// The name of the rule set to clone.
@@ -208,8 +208,8 @@ class Ses {
   /// SES Developer Guide</a>.
   ///
   /// May throw [ConfigurationSetDoesNotExistException].
-  /// May throw [TrackingOptionsAlreadyExistsException].
   /// May throw [InvalidTrackingOptionsException].
+  /// May throw [TrackingOptionsAlreadyExistsException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that the tracking options should be
@@ -243,9 +243,9 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
+  /// May throw [CustomVerificationEmailInvalidContentException].
   /// May throw [CustomVerificationEmailTemplateAlreadyExistsException].
   /// May throw [FromEmailAddressNotVerifiedException].
-  /// May throw [CustomVerificationEmailInvalidContentException].
   /// May throw [LimitExceededException].
   ///
   /// Parameter [failureRedirectionURL] :
@@ -306,8 +306,8 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [AlreadyExistsException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [filter] :
   /// A data structure that describes the IP address filter to create, which
@@ -338,13 +338,13 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [InvalidSnsTopicException].
-  /// May throw [InvalidS3ConfigurationException].
-  /// May throw [InvalidLambdaFunctionException].
   /// May throw [AlreadyExistsException].
+  /// May throw [InvalidLambdaFunctionException].
+  /// May throw [InvalidS3ConfigurationException].
+  /// May throw [InvalidSnsTopicException].
+  /// May throw [LimitExceededException].
   /// May throw [RuleDoesNotExistException].
   /// May throw [RuleSetDoesNotExistException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [rule] :
   /// A data structure that contains the specified rule's name, actions,
@@ -1647,8 +1647,8 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [RuleSetDoesNotExistException].
   /// May throw [RuleDoesNotExistException].
+  /// May throw [RuleSetDoesNotExistException].
   ///
   /// Parameter [ruleNames] :
   /// The specified receipt rule set's receipt rules, in order.
@@ -1802,12 +1802,12 @@ class Ses {
   /// </li>
   /// </ul>
   ///
-  /// May throw [MessageRejected].
-  /// May throw [MailFromDomainNotVerifiedException].
-  /// May throw [ConfigurationSetDoesNotExistException].
-  /// May throw [TemplateDoesNotExistException].
-  /// May throw [ConfigurationSetSendingPausedException].
   /// May throw [AccountSendingPausedException].
+  /// May throw [ConfigurationSetDoesNotExistException].
+  /// May throw [ConfigurationSetSendingPausedException].
+  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [MessageRejected].
+  /// May throw [TemplateDoesNotExistException].
   ///
   /// Parameter [defaultTemplateData] :
   /// A list of replacement values to apply to the template when replacement
@@ -1985,10 +1985,10 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [MessageRejected].
   /// May throw [ConfigurationSetDoesNotExistException].
   /// May throw [CustomVerificationEmailTemplateDoesNotExistException].
   /// May throw [FromEmailAddressNotVerifiedException].
+  /// May throw [MessageRejected].
   /// May throw [ProductionAccessNotGrantedException].
   ///
   /// Parameter [emailAddress] :
@@ -2068,11 +2068,11 @@ class Ses {
   /// Guide.</i>
   /// </important>
   ///
-  /// May throw [MessageRejected].
-  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [AccountSendingPausedException].
   /// May throw [ConfigurationSetDoesNotExistException].
   /// May throw [ConfigurationSetSendingPausedException].
-  /// May throw [AccountSendingPausedException].
+  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [MessageRejected].
   ///
   /// Parameter [destination] :
   /// The destination for this email, composed of To:, CC:, and BCC: fields.
@@ -2326,11 +2326,11 @@ class Ses {
   /// </li>
   /// </ul>
   ///
-  /// May throw [MessageRejected].
-  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [AccountSendingPausedException].
   /// May throw [ConfigurationSetDoesNotExistException].
   /// May throw [ConfigurationSetSendingPausedException].
-  /// May throw [AccountSendingPausedException].
+  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [MessageRejected].
   ///
   /// Parameter [rawMessage] :
   /// The raw email message itself. The message has to meet the following
@@ -2364,8 +2364,8 @@ class Ses {
   /// </li>
   /// <li>
   /// Per <a href="https://tools.ietf.org/html/rfc5321#section-4.5.3.1.6">RFC
-  /// 5321</a>, the maximum length of each line of text, including the
-  /// &lt;CRLF&gt;, must not exceed 1,000 characters.
+  /// 5321</a>, the maximum length of each line of text, including the <CRLF>,
+  /// must not exceed 1,000 characters.
   /// </li>
   /// </ul>
   ///
@@ -2573,12 +2573,12 @@ class Ses {
   /// Email Service Developer Guide</i>.
   /// </important>
   ///
-  /// May throw [MessageRejected].
-  /// May throw [MailFromDomainNotVerifiedException].
-  /// May throw [ConfigurationSetDoesNotExistException].
-  /// May throw [TemplateDoesNotExistException].
-  /// May throw [ConfigurationSetSendingPausedException].
   /// May throw [AccountSendingPausedException].
+  /// May throw [ConfigurationSetDoesNotExistException].
+  /// May throw [ConfigurationSetSendingPausedException].
+  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [MessageRejected].
+  /// May throw [TemplateDoesNotExistException].
   ///
   /// Parameter [destination] :
   /// The destination for this email, composed of To:, CC:, and BCC: fields. A
@@ -3026,8 +3026,8 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [RuleSetDoesNotExistException].
   /// May throw [RuleDoesNotExistException].
+  /// May throw [RuleSetDoesNotExistException].
   ///
   /// Parameter [ruleName] :
   /// The name of the receipt rule to reposition.
@@ -3065,9 +3065,9 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [TemplateDoesNotExistException].
   /// May throw [InvalidRenderingParameterException].
   /// May throw [MissingRenderingAttributeException].
+  /// May throw [TemplateDoesNotExistException].
   ///
   /// Parameter [templateData] :
   /// A list of replacement values to apply to the template. This parameter is a
@@ -3251,8 +3251,8 @@ class Ses {
   /// SES Developer Guide</a>.
   ///
   /// May throw [ConfigurationSetDoesNotExistException].
-  /// May throw [TrackingOptionsDoesNotExistException].
   /// May throw [InvalidTrackingOptionsException].
+  /// May throw [TrackingOptionsDoesNotExistException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set.
@@ -3285,9 +3285,9 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
+  /// May throw [CustomVerificationEmailInvalidContentException].
   /// May throw [CustomVerificationEmailTemplateDoesNotExistException].
   /// May throw [FromEmailAddressNotVerifiedException].
-  /// May throw [CustomVerificationEmailInvalidContentException].
   ///
   /// Parameter [templateName] :
   /// The name of the custom verification email template to update.
@@ -3349,12 +3349,12 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [InvalidSnsTopicException].
-  /// May throw [InvalidS3ConfigurationException].
   /// May throw [InvalidLambdaFunctionException].
-  /// May throw [RuleSetDoesNotExistException].
-  /// May throw [RuleDoesNotExistException].
+  /// May throw [InvalidS3ConfigurationException].
+  /// May throw [InvalidSnsTopicException].
   /// May throw [LimitExceededException].
+  /// May throw [RuleDoesNotExistException].
+  /// May throw [RuleSetDoesNotExistException].
   ///
   /// Parameter [rule] :
   /// A data structure that contains the updated receipt rule information.
@@ -3388,8 +3388,8 @@ class Ses {
   ///
   /// You can execute this operation no more than once per second.
   ///
-  /// May throw [TemplateDoesNotExistException].
   /// May throw [InvalidTemplateException].
+  /// May throw [TemplateDoesNotExistException].
   Future<void> updateTemplate({
     required Template template,
   }) async {
@@ -3546,512 +3546,6 @@ class Ses {
   }
 }
 
-/// When included in a receipt rule, this action adds a header to the received
-/// email.
-///
-/// For information about adding a header using a receipt rule, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-add-header.html">Amazon
-/// SES Developer Guide</a>.
-class AddHeaderAction {
-  /// The name of the header to add to the incoming message. The name must contain
-  /// at least one character, and can contain up to 50 characters. It consists of
-  /// alphanumeric (a–z, A–Z, 0–9) characters and dashes.
-  final String headerName;
-
-  /// The content to include in the header. This value can contain up to 2048
-  /// characters. It can't contain newline (<code>\n</code>) or carriage return
-  /// (<code>\r</code>) characters.
-  final String headerValue;
-
-  AddHeaderAction({
-    required this.headerName,
-    required this.headerValue,
-  });
-  factory AddHeaderAction.fromXml(_s.XmlElement elem) {
-    return AddHeaderAction(
-      headerName: _s.extractXmlStringValue(elem, 'HeaderName')!,
-      headerValue: _s.extractXmlStringValue(elem, 'HeaderValue')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final headerName = this.headerName;
-    final headerValue = this.headerValue;
-    return {
-      'HeaderName': headerName,
-      'HeaderValue': headerValue,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final headerName = this.headerName;
-    final headerValue = this.headerValue;
-    return {
-      'HeaderName': headerName,
-      'HeaderValue': headerValue,
-    };
-  }
-}
-
-class BehaviorOnMXFailure {
-  static const useDefaultValue = BehaviorOnMXFailure._('UseDefaultValue');
-  static const rejectMessage = BehaviorOnMXFailure._('RejectMessage');
-
-  final String value;
-
-  const BehaviorOnMXFailure._(this.value);
-
-  static const values = [useDefaultValue, rejectMessage];
-
-  static BehaviorOnMXFailure fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BehaviorOnMXFailure._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BehaviorOnMXFailure && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the body of the message. You can specify text, HTML, or both. If
-/// you use both, then the message should display correctly in the widest
-/// variety of email clients.
-class Body {
-  /// The content of the message, in HTML format. Use this for email clients that
-  /// can process HTML. You can include clickable links, formatted text, and much
-  /// more in an HTML message.
-  final Content? html;
-
-  /// The content of the message, in text format. Use this for text-based email
-  /// clients, or clients on high-latency networks (such as mobile devices).
-  final Content? text;
-
-  Body({
-    this.html,
-    this.text,
-  });
-
-  Map<String, dynamic> toJson() {
-    final html = this.html;
-    final text = this.text;
-    return {
-      if (html != null) 'Html': html,
-      if (text != null) 'Text': text,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final html = this.html;
-    final text = this.text;
-    return {
-      if (html != null)
-        for (var e1 in html.toQueryMap().entries) 'Html.${e1.key}': e1.value,
-      if (text != null)
-        for (var e1 in text.toQueryMap().entries) 'Text.${e1.key}': e1.value,
-    };
-  }
-}
-
-/// When included in a receipt rule, this action rejects the received email by
-/// returning a bounce response to the sender and, optionally, publishes a
-/// notification to Amazon Simple Notification Service (Amazon SNS).
-///
-/// For information about sending a bounce message in response to a received
-/// email, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-bounce.html">Amazon
-/// SES Developer Guide</a>.
-class BounceAction {
-  /// Human-readable text to include in the bounce message.
-  final String message;
-
-  /// The email address of the sender of the bounced email. This is the address
-  /// from which the bounce message is sent.
-  final String sender;
-
-  /// The SMTP reply code, as defined by <a
-  /// href="https://tools.ietf.org/html/rfc5321">RFC 5321</a>.
-  final String smtpReplyCode;
-
-  /// The SMTP enhanced status code, as defined by <a
-  /// href="https://tools.ietf.org/html/rfc3463">RFC 3463</a>.
-  final String? statusCode;
-
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
-  /// bounce action is taken. You can find the ARN of a topic by using the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
-  /// operation in Amazon SNS.
-  ///
-  /// For more information about Amazon SNS topics, see the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
-  /// Developer Guide</a>.
-  final String? topicArn;
-
-  BounceAction({
-    required this.message,
-    required this.sender,
-    required this.smtpReplyCode,
-    this.statusCode,
-    this.topicArn,
-  });
-  factory BounceAction.fromXml(_s.XmlElement elem) {
-    return BounceAction(
-      message: _s.extractXmlStringValue(elem, 'Message')!,
-      sender: _s.extractXmlStringValue(elem, 'Sender')!,
-      smtpReplyCode: _s.extractXmlStringValue(elem, 'SmtpReplyCode')!,
-      statusCode: _s.extractXmlStringValue(elem, 'StatusCode'),
-      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final sender = this.sender;
-    final smtpReplyCode = this.smtpReplyCode;
-    final statusCode = this.statusCode;
-    final topicArn = this.topicArn;
-    return {
-      'Message': message,
-      'Sender': sender,
-      'SmtpReplyCode': smtpReplyCode,
-      if (statusCode != null) 'StatusCode': statusCode,
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final message = this.message;
-    final sender = this.sender;
-    final smtpReplyCode = this.smtpReplyCode;
-    final statusCode = this.statusCode;
-    final topicArn = this.topicArn;
-    return {
-      'Message': message,
-      'Sender': sender,
-      'SmtpReplyCode': smtpReplyCode,
-      if (statusCode != null) 'StatusCode': statusCode,
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-}
-
-class BounceType {
-  static const doesNotExist = BounceType._('DoesNotExist');
-  static const messageTooLarge = BounceType._('MessageTooLarge');
-  static const exceededQuota = BounceType._('ExceededQuota');
-  static const contentRejected = BounceType._('ContentRejected');
-  static const undefined = BounceType._('Undefined');
-  static const temporaryFailure = BounceType._('TemporaryFailure');
-
-  final String value;
-
-  const BounceType._(this.value);
-
-  static const values = [
-    doesNotExist,
-    messageTooLarge,
-    exceededQuota,
-    contentRejected,
-    undefined,
-    temporaryFailure
-  ];
-
-  static BounceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BounceType._(value));
-
-  @override
-  bool operator ==(other) => other is BounceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Recipient-related information to include in the Delivery Status Notification
-/// (DSN) when an email that Amazon SES receives on your behalf bounces.
-///
-/// For information about receiving email through Amazon SES, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
-/// SES Developer Guide</a>.
-class BouncedRecipientInfo {
-  /// The email address of the recipient of the bounced email.
-  final String recipient;
-
-  /// The reason for the bounce. You must provide either this parameter or
-  /// <code>RecipientDsnFields</code>.
-  final BounceType? bounceType;
-
-  /// This parameter is used only for sending authorization. It is the ARN of the
-  /// identity that is associated with the sending authorization policy that
-  /// permits you to receive email for the recipient of the bounced email. For
-  /// more information about sending authorization, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
-  /// SES Developer Guide</a>.
-  final String? recipientArn;
-
-  /// Recipient-related DSN fields, most of which would normally be filled in
-  /// automatically when provided with a <code>BounceType</code>. You must provide
-  /// either this parameter or <code>BounceType</code>.
-  final RecipientDsnFields? recipientDsnFields;
-
-  BouncedRecipientInfo({
-    required this.recipient,
-    this.bounceType,
-    this.recipientArn,
-    this.recipientDsnFields,
-  });
-
-  Map<String, dynamic> toJson() {
-    final recipient = this.recipient;
-    final bounceType = this.bounceType;
-    final recipientArn = this.recipientArn;
-    final recipientDsnFields = this.recipientDsnFields;
-    return {
-      'Recipient': recipient,
-      if (bounceType != null) 'BounceType': bounceType.value,
-      if (recipientArn != null) 'RecipientArn': recipientArn,
-      if (recipientDsnFields != null) 'RecipientDsnFields': recipientDsnFields,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final recipient = this.recipient;
-    final bounceType = this.bounceType;
-    final recipientArn = this.recipientArn;
-    final recipientDsnFields = this.recipientDsnFields;
-    return {
-      'Recipient': recipient,
-      if (bounceType != null) 'BounceType': bounceType.value,
-      if (recipientArn != null) 'RecipientArn': recipientArn,
-      if (recipientDsnFields != null)
-        for (var e1 in recipientDsnFields.toQueryMap().entries)
-          'RecipientDsnFields.${e1.key}': e1.value,
-    };
-  }
-}
-
-/// An array that contains one or more Destinations, as well as the tags and
-/// replacement data associated with each of those Destinations.
-class BulkEmailDestination {
-  final Destination destination;
-
-  /// A list of tags, in the form of name/value pairs, to apply to an email that
-  /// you send using <code>SendBulkTemplatedEmail</code>. Tags correspond to
-  /// characteristics of the email that you define, so that you can publish email
-  /// sending events.
-  final List<MessageTag>? replacementTags;
-
-  /// A list of replacement values to apply to the template. This parameter is a
-  /// JSON object, typically consisting of key-value pairs in which the keys
-  /// correspond to replacement tags in the email template.
-  final String? replacementTemplateData;
-
-  BulkEmailDestination({
-    required this.destination,
-    this.replacementTags,
-    this.replacementTemplateData,
-  });
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final replacementTags = this.replacementTags;
-    final replacementTemplateData = this.replacementTemplateData;
-    return {
-      'Destination': destination,
-      if (replacementTags != null) 'ReplacementTags': replacementTags,
-      if (replacementTemplateData != null)
-        'ReplacementTemplateData': replacementTemplateData,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final destination = this.destination;
-    final replacementTags = this.replacementTags;
-    final replacementTemplateData = this.replacementTemplateData;
-    return {
-      for (var e1 in destination.toQueryMap().entries)
-        'Destination.${e1.key}': e1.value,
-      if (replacementTags != null)
-        if (replacementTags.isEmpty)
-          'ReplacementTags': ''
-        else
-          for (var i1 = 0; i1 < replacementTags.length; i1++)
-            for (var e3 in replacementTags[i1].toQueryMap().entries)
-              'ReplacementTags.member.${i1 + 1}.${e3.key}': e3.value,
-      if (replacementTemplateData != null)
-        'ReplacementTemplateData': replacementTemplateData,
-    };
-  }
-}
-
-/// An object that contains the response from the
-/// <code>SendBulkTemplatedEmail</code> operation.
-class BulkEmailDestinationStatus {
-  /// A description of an error that prevented a message being sent using the
-  /// <code>SendBulkTemplatedEmail</code> operation.
-  final String? error;
-
-  /// The unique message identifier returned from the
-  /// <code>SendBulkTemplatedEmail</code> operation.
-  final String? messageId;
-
-  /// The status of a message sent using the <code>SendBulkTemplatedEmail</code>
-  /// operation.
-  ///
-  /// Possible values for this parameter include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Success</code>: Amazon SES accepted the message, and attempts to
-  /// deliver it to the recipients.
-  /// </li>
-  /// <li>
-  /// <code>MessageRejected</code>: The message was rejected because it contained
-  /// a virus.
-  /// </li>
-  /// <li>
-  /// <code>MailFromDomainNotVerified</code>: The sender's email address or domain
-  /// was not verified.
-  /// </li>
-  /// <li>
-  /// <code>ConfigurationSetDoesNotExist</code>: The configuration set you
-  /// specified does not exist.
-  /// </li>
-  /// <li>
-  /// <code>TemplateDoesNotExist</code>: The template you specified does not
-  /// exist.
-  /// </li>
-  /// <li>
-  /// <code>AccountSuspended</code>: Your account has been shut down because of
-  /// issues related to your email sending practices.
-  /// </li>
-  /// <li>
-  /// <code>AccountThrottled</code>: The number of emails you can send has been
-  /// reduced because your account has exceeded its allocated sending limit.
-  /// </li>
-  /// <li>
-  /// <code>AccountDailyQuotaExceeded</code>: You have reached or exceeded the
-  /// maximum number of emails you can send from your account in a 24-hour period.
-  /// </li>
-  /// <li>
-  /// <code>InvalidSendingPoolName</code>: The configuration set you specified
-  /// refers to an IP pool that does not exist.
-  /// </li>
-  /// <li>
-  /// <code>AccountSendingPaused</code>: Email sending for the Amazon SES account
-  /// was disabled using the <a>UpdateAccountSendingEnabled</a> operation.
-  /// </li>
-  /// <li>
-  /// <code>ConfigurationSetSendingPaused</code>: Email sending for this
-  /// configuration set was disabled using the
-  /// <a>UpdateConfigurationSetSendingEnabled</a> operation.
-  /// </li>
-  /// <li>
-  /// <code>InvalidParameterValue</code>: One or more of the parameters you
-  /// specified when calling this operation was invalid. See the error message for
-  /// additional information.
-  /// </li>
-  /// <li>
-  /// <code>TransientFailure</code>: Amazon SES was unable to process your request
-  /// because of a temporary issue.
-  /// </li>
-  /// <li>
-  /// <code>Failed</code>: Amazon SES was unable to process your request. See the
-  /// error message for additional information.
-  /// </li>
-  /// </ul>
-  final BulkEmailStatus? status;
-
-  BulkEmailDestinationStatus({
-    this.error,
-    this.messageId,
-    this.status,
-  });
-  factory BulkEmailDestinationStatus.fromXml(_s.XmlElement elem) {
-    return BulkEmailDestinationStatus(
-      error: _s.extractXmlStringValue(elem, 'Error'),
-      messageId: _s.extractXmlStringValue(elem, 'MessageId'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(BulkEmailStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final error = this.error;
-    final messageId = this.messageId;
-    final status = this.status;
-    return {
-      if (error != null) 'Error': error,
-      if (messageId != null) 'MessageId': messageId,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class BulkEmailStatus {
-  static const success = BulkEmailStatus._('Success');
-  static const messageRejected = BulkEmailStatus._('MessageRejected');
-  static const mailFromDomainNotVerified =
-      BulkEmailStatus._('MailFromDomainNotVerified');
-  static const configurationSetDoesNotExist =
-      BulkEmailStatus._('ConfigurationSetDoesNotExist');
-  static const templateDoesNotExist = BulkEmailStatus._('TemplateDoesNotExist');
-  static const accountSuspended = BulkEmailStatus._('AccountSuspended');
-  static const accountThrottled = BulkEmailStatus._('AccountThrottled');
-  static const accountDailyQuotaExceeded =
-      BulkEmailStatus._('AccountDailyQuotaExceeded');
-  static const invalidSendingPoolName =
-      BulkEmailStatus._('InvalidSendingPoolName');
-  static const accountSendingPaused = BulkEmailStatus._('AccountSendingPaused');
-  static const configurationSetSendingPaused =
-      BulkEmailStatus._('ConfigurationSetSendingPaused');
-  static const invalidParameterValue =
-      BulkEmailStatus._('InvalidParameterValue');
-  static const transientFailure = BulkEmailStatus._('TransientFailure');
-  static const failed = BulkEmailStatus._('Failed');
-
-  final String value;
-
-  const BulkEmailStatus._(this.value);
-
-  static const values = [
-    success,
-    messageRejected,
-    mailFromDomainNotVerified,
-    configurationSetDoesNotExist,
-    templateDoesNotExist,
-    accountSuspended,
-    accountThrottled,
-    accountDailyQuotaExceeded,
-    invalidSendingPoolName,
-    accountSendingPaused,
-    configurationSetSendingPaused,
-    invalidParameterValue,
-    transientFailure,
-    failed
-  ];
-
-  static BulkEmailStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BulkEmailStatus._(value));
-
-  @override
-  bool operator ==(other) => other is BulkEmailStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// An empty element returned on a successful request.
 class CloneReceiptRuleSetResponse {
   CloneReceiptRuleSetResponse();
@@ -4066,252 +3560,17 @@ class CloneReceiptRuleSetResponse {
   }
 }
 
-/// Contains information associated with an Amazon CloudWatch event destination
-/// to which email sending events are published.
-///
-/// Event destinations, such as Amazon CloudWatch, are associated with
-/// configuration sets, which enable you to publish email sending events. For
-/// information about using configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
-/// SES Developer Guide</a>.
-class CloudWatchDestination {
-  /// A list of dimensions upon which to categorize your emails when you publish
-  /// email sending events to Amazon CloudWatch.
-  final List<CloudWatchDimensionConfiguration> dimensionConfigurations;
-
-  CloudWatchDestination({
-    required this.dimensionConfigurations,
-  });
-  factory CloudWatchDestination.fromXml(_s.XmlElement elem) {
-    return CloudWatchDestination(
-      dimensionConfigurations: _s
-          .extractXmlChild(elem, 'DimensionConfigurations')!
-          .findElements('member')
-          .map(CloudWatchDimensionConfiguration.fromXml)
-          .toList(),
-    );
+/// An empty element returned on a successful request.
+class CreateConfigurationSetResponse {
+  CreateConfigurationSetResponse();
+  factory CreateConfigurationSetResponse.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return CreateConfigurationSetResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final dimensionConfigurations = this.dimensionConfigurations;
-    return {
-      'DimensionConfigurations': dimensionConfigurations,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final dimensionConfigurations = this.dimensionConfigurations;
-    return {
-      if (dimensionConfigurations.isEmpty)
-        'DimensionConfigurations': ''
-      else
-        for (var i1 = 0; i1 < dimensionConfigurations.length; i1++)
-          for (var e3 in dimensionConfigurations[i1].toQueryMap().entries)
-            'DimensionConfigurations.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
-/// Contains the dimension configuration to use when you publish email sending
-/// events to Amazon CloudWatch.
-///
-/// For information about publishing email sending events to Amazon CloudWatch,
-/// see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
-/// SES Developer Guide</a>.
-class CloudWatchDimensionConfiguration {
-  /// The default value of the dimension that is published to Amazon CloudWatch if
-  /// you do not provide the value of the dimension when you send an email. The
-  /// default value must meet the following requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
-  /// dashes (-), at signs (@), or periods (.).
-  /// </li>
-  /// <li>
-  /// Contain 256 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String defaultDimensionValue;
-
-  /// The name of an Amazon CloudWatch dimension associated with an email sending
-  /// metric. The name must meet the following requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
-  /// dashes (-), or colons (:).
-  /// </li>
-  /// <li>
-  /// Contain 256 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String dimensionName;
-
-  /// The place where Amazon SES finds the value of a dimension to publish to
-  /// Amazon CloudWatch. To use the message tags that you specify using an
-  /// <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the
-  /// <code>SendEmail</code>/<code>SendRawEmail</code> API, specify
-  /// <code>messageTag</code>. To use your own email headers, specify
-  /// <code>emailHeader</code>. To put a custom tag on any link included in your
-  /// email, specify <code>linkTag</code>.
-  final DimensionValueSource dimensionValueSource;
-
-  CloudWatchDimensionConfiguration({
-    required this.defaultDimensionValue,
-    required this.dimensionName,
-    required this.dimensionValueSource,
-  });
-  factory CloudWatchDimensionConfiguration.fromXml(_s.XmlElement elem) {
-    return CloudWatchDimensionConfiguration(
-      defaultDimensionValue:
-          _s.extractXmlStringValue(elem, 'DefaultDimensionValue')!,
-      dimensionName: _s.extractXmlStringValue(elem, 'DimensionName')!,
-      dimensionValueSource: _s
-          .extractXmlStringValue(elem, 'DimensionValueSource')!
-          .let(DimensionValueSource.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultDimensionValue = this.defaultDimensionValue;
-    final dimensionName = this.dimensionName;
-    final dimensionValueSource = this.dimensionValueSource;
-    return {
-      'DefaultDimensionValue': defaultDimensionValue,
-      'DimensionName': dimensionName,
-      'DimensionValueSource': dimensionValueSource.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final defaultDimensionValue = this.defaultDimensionValue;
-    final dimensionName = this.dimensionName;
-    final dimensionValueSource = this.dimensionValueSource;
-    return {
-      'DefaultDimensionValue': defaultDimensionValue,
-      'DimensionName': dimensionName,
-      'DimensionValueSource': dimensionValueSource.value,
-    };
-  }
-}
-
-/// The name of the configuration set.
-///
-/// Configuration sets let you create groups of rules that you can apply to the
-/// emails you send using Amazon SES. For more information about using
-/// configuration sets, see <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/using-configuration-sets.html">Using
-/// Amazon SES Configuration Sets</a> in the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/">Amazon SES Developer
-/// Guide</a>.
-class ConfigurationSet {
-  /// The name of the configuration set. The name must meet the following
-  /// requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes
-  /// (-).
-  /// </li>
-  /// <li>
-  /// Contain 64 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String name;
-
-  ConfigurationSet({
-    required this.name,
-  });
-  factory ConfigurationSet.fromXml(_s.XmlElement elem) {
-    return ConfigurationSet(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    return {
-      'Name': name,
-    };
-  }
-}
-
-class ConfigurationSetAttribute {
-  static const eventDestinations =
-      ConfigurationSetAttribute._('eventDestinations');
-  static const trackingOptions = ConfigurationSetAttribute._('trackingOptions');
-  static const deliveryOptions = ConfigurationSetAttribute._('deliveryOptions');
-  static const reputationOptions =
-      ConfigurationSetAttribute._('reputationOptions');
-
-  final String value;
-
-  const ConfigurationSetAttribute._(this.value);
-
-  static const values = [
-    eventDestinations,
-    trackingOptions,
-    deliveryOptions,
-    reputationOptions
-  ];
-
-  static ConfigurationSetAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigurationSetAttribute._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigurationSetAttribute && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents textual data, plus an optional character set specification.
-///
-/// By default, the text must be 7-bit ASCII, due to the constraints of the SMTP
-/// protocol. If the text must contain any other characters, then you must also
-/// specify a character set. Examples include UTF-8, ISO-8859-1, and Shift_JIS.
-class Content {
-  /// The textual data of the content.
-  final String data;
-
-  /// The character set of the content.
-  final String? charset;
-
-  Content({
-    required this.data,
-    this.charset,
-  });
-
-  Map<String, dynamic> toJson() {
-    final data = this.data;
-    final charset = this.charset;
-    return {
-      'Data': data,
-      if (charset != null) 'Charset': charset,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final data = this.data;
-    final charset = this.charset;
-    return {
-      'Data': data,
-      if (charset != null) 'Charset': charset,
-    };
+    return {};
   }
 }
 
@@ -4322,20 +3581,6 @@ class CreateConfigurationSetEventDestinationResponse {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateConfigurationSetEventDestinationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An empty element returned on a successful request.
-class CreateConfigurationSetResponse {
-  CreateConfigurationSetResponse();
-  factory CreateConfigurationSetResponse.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return CreateConfigurationSetResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4412,86 +3657,17 @@ class CreateTemplateResponse {
   }
 }
 
-class CustomMailFromStatus {
-  static const pending = CustomMailFromStatus._('Pending');
-  static const success = CustomMailFromStatus._('Success');
-  static const failed = CustomMailFromStatus._('Failed');
-  static const temporaryFailure = CustomMailFromStatus._('TemporaryFailure');
-
-  final String value;
-
-  const CustomMailFromStatus._(this.value);
-
-  static const values = [pending, success, failed, temporaryFailure];
-
-  static CustomMailFromStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomMailFromStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomMailFromStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about a custom verification email template.
-class CustomVerificationEmailTemplate {
-  /// The URL that the recipient of the verification email is sent to if his or
-  /// her address is not successfully verified.
-  final String? failureRedirectionURL;
-
-  /// The email address that the custom verification email is sent from.
-  final String? fromEmailAddress;
-
-  /// The URL that the recipient of the verification email is sent to if his or
-  /// her address is successfully verified.
-  final String? successRedirectionURL;
-
-  /// The name of the custom verification email template.
-  final String? templateName;
-
-  /// The subject line of the custom verification email.
-  final String? templateSubject;
-
-  CustomVerificationEmailTemplate({
-    this.failureRedirectionURL,
-    this.fromEmailAddress,
-    this.successRedirectionURL,
-    this.templateName,
-    this.templateSubject,
-  });
-  factory CustomVerificationEmailTemplate.fromXml(_s.XmlElement elem) {
-    return CustomVerificationEmailTemplate(
-      failureRedirectionURL:
-          _s.extractXmlStringValue(elem, 'FailureRedirectionURL'),
-      fromEmailAddress: _s.extractXmlStringValue(elem, 'FromEmailAddress'),
-      successRedirectionURL:
-          _s.extractXmlStringValue(elem, 'SuccessRedirectionURL'),
-      templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
-      templateSubject: _s.extractXmlStringValue(elem, 'TemplateSubject'),
-    );
+/// An empty element returned on a successful request.
+class DeleteConfigurationSetResponse {
+  DeleteConfigurationSetResponse();
+  factory DeleteConfigurationSetResponse.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return DeleteConfigurationSetResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final failureRedirectionURL = this.failureRedirectionURL;
-    final fromEmailAddress = this.fromEmailAddress;
-    final successRedirectionURL = this.successRedirectionURL;
-    final templateName = this.templateName;
-    final templateSubject = this.templateSubject;
-    return {
-      if (failureRedirectionURL != null)
-        'FailureRedirectionURL': failureRedirectionURL,
-      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
-      if (successRedirectionURL != null)
-        'SuccessRedirectionURL': successRedirectionURL,
-      if (templateName != null) 'TemplateName': templateName,
-      if (templateSubject != null) 'TemplateSubject': templateSubject,
-    };
+    return {};
   }
 }
 
@@ -4502,20 +3678,6 @@ class DeleteConfigurationSetEventDestinationResponse {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteConfigurationSetEventDestinationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An empty element returned on a successful request.
-class DeleteConfigurationSetResponse {
-  DeleteConfigurationSetResponse();
-  factory DeleteConfigurationSetResponse.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return DeleteConfigurationSetResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4538,12 +3700,12 @@ class DeleteConfigurationSetTrackingOptionsResponse {
 }
 
 /// An empty element returned on a successful request.
-class DeleteIdentityPolicyResponse {
-  DeleteIdentityPolicyResponse();
-  factory DeleteIdentityPolicyResponse.fromXml(
+class DeleteIdentityResponse {
+  DeleteIdentityResponse();
+  factory DeleteIdentityResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
-    return DeleteIdentityPolicyResponse();
+    return DeleteIdentityResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4552,12 +3714,12 @@ class DeleteIdentityPolicyResponse {
 }
 
 /// An empty element returned on a successful request.
-class DeleteIdentityResponse {
-  DeleteIdentityResponse();
-  factory DeleteIdentityResponse.fromXml(
+class DeleteIdentityPolicyResponse {
+  DeleteIdentityPolicyResponse();
+  factory DeleteIdentityPolicyResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
-    return DeleteIdentityResponse();
+    return DeleteIdentityPolicyResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4617,42 +3779,6 @@ class DeleteTemplateResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Specifies whether messages that use the configuration set are required to
-/// use Transport Layer Security (TLS).
-class DeliveryOptions {
-  /// Specifies whether messages that use the configuration set are required to
-  /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
-  /// messages are only delivered if a TLS connection can be established. If the
-  /// value is <code>Optional</code>, messages can be delivered in plain text if a
-  /// TLS connection can't be established.
-  final TlsPolicy? tlsPolicy;
-
-  DeliveryOptions({
-    this.tlsPolicy,
-  });
-  factory DeliveryOptions.fromXml(_s.XmlElement elem) {
-    return DeliveryOptions(
-      tlsPolicy: _s
-          .extractXmlStringValue(elem, 'TlsPolicy')
-          ?.let(TlsPolicy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tlsPolicy = this.tlsPolicy;
-    return {
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final tlsPolicy = this.tlsPolicy;
-    return {
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
-    };
   }
 }
 
@@ -4810,363 +3936,6 @@ class DescribeReceiptRuleSetResponse {
     return {
       if (metadata != null) 'Metadata': metadata,
       if (rules != null) 'Rules': rules,
-    };
-  }
-}
-
-/// Represents the destination of the message, consisting of To:, CC:, and BCC:
-/// fields.
-/// <note>
-/// Amazon SES does not support the SMTPUTF8 extension, as described in <a
-/// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason, the
-/// email address string must be 7-bit ASCII. If you want to send to or from
-/// email addresses that contain Unicode characters in the domain part of an
-/// address, you must encode the domain using Punycode. Punycode is not
-/// permitted in the local part of the email address (the part before the @
-/// sign) nor in the "friendly from" name. If you want to use Unicode characters
-/// in the "friendly from" name, you must encode the "friendly from" name using
-/// MIME encoded-word syntax, as described in <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Sending
-/// raw email using the Amazon SES API</a>. For more information about Punycode,
-/// see <a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>.
-/// </note>
-class Destination {
-  /// The recipients to place on the BCC: line of the message.
-  final List<String>? bccAddresses;
-
-  /// The recipients to place on the CC: line of the message.
-  final List<String>? ccAddresses;
-
-  /// The recipients to place on the To: line of the message.
-  final List<String>? toAddresses;
-
-  Destination({
-    this.bccAddresses,
-    this.ccAddresses,
-    this.toAddresses,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bccAddresses = this.bccAddresses;
-    final ccAddresses = this.ccAddresses;
-    final toAddresses = this.toAddresses;
-    return {
-      if (bccAddresses != null) 'BccAddresses': bccAddresses,
-      if (ccAddresses != null) 'CcAddresses': ccAddresses,
-      if (toAddresses != null) 'ToAddresses': toAddresses,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final bccAddresses = this.bccAddresses;
-    final ccAddresses = this.ccAddresses;
-    final toAddresses = this.toAddresses;
-    return {
-      if (bccAddresses != null)
-        if (bccAddresses.isEmpty)
-          'BccAddresses': ''
-        else
-          for (var i1 = 0; i1 < bccAddresses.length; i1++)
-            'BccAddresses.member.${i1 + 1}': bccAddresses[i1],
-      if (ccAddresses != null)
-        if (ccAddresses.isEmpty)
-          'CcAddresses': ''
-        else
-          for (var i1 = 0; i1 < ccAddresses.length; i1++)
-            'CcAddresses.member.${i1 + 1}': ccAddresses[i1],
-      if (toAddresses != null)
-        if (toAddresses.isEmpty)
-          'ToAddresses': ''
-        else
-          for (var i1 = 0; i1 < toAddresses.length; i1++)
-            'ToAddresses.member.${i1 + 1}': toAddresses[i1],
-    };
-  }
-}
-
-class DimensionValueSource {
-  static const messageTag = DimensionValueSource._('messageTag');
-  static const emailHeader = DimensionValueSource._('emailHeader');
-  static const linkTag = DimensionValueSource._('linkTag');
-
-  final String value;
-
-  const DimensionValueSource._(this.value);
-
-  static const values = [messageTag, emailHeader, linkTag];
-
-  static DimensionValueSource fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DimensionValueSource._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DimensionValueSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DsnAction {
-  static const failed = DsnAction._('failed');
-  static const delayed = DsnAction._('delayed');
-  static const delivered = DsnAction._('delivered');
-  static const relayed = DsnAction._('relayed');
-  static const expanded = DsnAction._('expanded');
-
-  final String value;
-
-  const DsnAction._(this.value);
-
-  static const values = [failed, delayed, delivered, relayed, expanded];
-
-  static DsnAction fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DsnAction._(value));
-
-  @override
-  bool operator ==(other) => other is DsnAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about an event destination.
-/// <note>
-/// When you create or update an event destination, you must provide one, and
-/// only one, destination. The destination can be Amazon CloudWatch, Amazon
-/// Kinesis Firehose or Amazon Simple Notification Service (Amazon SNS).
-/// </note>
-/// Event destinations are associated with configuration sets, which enable you
-/// to publish email sending events to Amazon CloudWatch, Amazon Kinesis
-/// Firehose, or Amazon Simple Notification Service (Amazon SNS). For
-/// information about using configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
-/// SES Developer Guide</a>.
-class EventDestination {
-  /// The type of email sending events to publish to the event destination.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>send</code> - The call was successful and Amazon SES is attempting to
-  /// deliver the email.
-  /// </li>
-  /// <li>
-  /// <code>reject</code> - Amazon SES determined that the email contained a virus
-  /// and rejected it.
-  /// </li>
-  /// <li>
-  /// <code>bounce</code> - The recipient's mail server permanently rejected the
-  /// email. This corresponds to a hard bounce.
-  /// </li>
-  /// <li>
-  /// <code>complaint</code> - The recipient marked the email as spam.
-  /// </li>
-  /// <li>
-  /// <code>delivery</code> - Amazon SES successfully delivered the email to the
-  /// recipient's mail server.
-  /// </li>
-  /// <li>
-  /// <code>open</code> - The recipient received the email and opened it in their
-  /// email client.
-  /// </li>
-  /// <li>
-  /// <code>click</code> - The recipient clicked one or more links in the email.
-  /// </li>
-  /// <li>
-  /// <code>renderingFailure</code> - Amazon SES did not send the email because of
-  /// a template rendering issue.
-  /// </li>
-  /// </ul>
-  final List<EventType> matchingEventTypes;
-
-  /// The name of the event destination. The name must meet the following
-  /// requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
-  /// dashes (-).
-  /// </li>
-  /// <li>
-  /// Contain 64 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String name;
-
-  /// An object that contains the names, default values, and sources of the
-  /// dimensions associated with an Amazon CloudWatch event destination.
-  final CloudWatchDestination? cloudWatchDestination;
-
-  /// Sets whether Amazon SES publishes events to this destination when you send
-  /// an email with the associated configuration set. Set to <code>true</code> to
-  /// enable publishing to this destination; set to <code>false</code> to prevent
-  /// publishing to this destination. The default value is <code>false</code>.
-  final bool? enabled;
-
-  /// An object that contains the delivery stream ARN and the IAM role ARN
-  /// associated with an Amazon Kinesis Firehose event destination.
-  final KinesisFirehoseDestination? kinesisFirehoseDestination;
-
-  /// An object that contains the topic ARN associated with an Amazon Simple
-  /// Notification Service (Amazon SNS) event destination.
-  final SNSDestination? sNSDestination;
-
-  EventDestination({
-    required this.matchingEventTypes,
-    required this.name,
-    this.cloudWatchDestination,
-    this.enabled,
-    this.kinesisFirehoseDestination,
-    this.sNSDestination,
-  });
-  factory EventDestination.fromXml(_s.XmlElement elem) {
-    return EventDestination(
-      matchingEventTypes: _s
-          .extractXmlStringListValues(
-              _s.extractXmlChild(elem, 'MatchingEventTypes')!, 'member')
-          .map(EventType.fromString)
-          .toList(),
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      cloudWatchDestination: _s
-          .extractXmlChild(elem, 'CloudWatchDestination')
-          ?.let(CloudWatchDestination.fromXml),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      kinesisFirehoseDestination: _s
-          .extractXmlChild(elem, 'KinesisFirehoseDestination')
-          ?.let(KinesisFirehoseDestination.fromXml),
-      sNSDestination: _s
-          .extractXmlChild(elem, 'SNSDestination')
-          ?.let(SNSDestination.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final matchingEventTypes = this.matchingEventTypes;
-    final name = this.name;
-    final cloudWatchDestination = this.cloudWatchDestination;
-    final enabled = this.enabled;
-    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
-    final sNSDestination = this.sNSDestination;
-    return {
-      'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
-      'Name': name,
-      if (cloudWatchDestination != null)
-        'CloudWatchDestination': cloudWatchDestination,
-      if (enabled != null) 'Enabled': enabled,
-      if (kinesisFirehoseDestination != null)
-        'KinesisFirehoseDestination': kinesisFirehoseDestination,
-      if (sNSDestination != null) 'SNSDestination': sNSDestination,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final matchingEventTypes = this.matchingEventTypes;
-    final name = this.name;
-    final cloudWatchDestination = this.cloudWatchDestination;
-    final enabled = this.enabled;
-    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
-    final sNSDestination = this.sNSDestination;
-    return {
-      if (matchingEventTypes.isEmpty)
-        'MatchingEventTypes': ''
-      else
-        for (var i1 = 0; i1 < matchingEventTypes.length; i1++)
-          'MatchingEventTypes.member.${i1 + 1}': matchingEventTypes[i1].value,
-      'Name': name,
-      if (cloudWatchDestination != null)
-        for (var e1 in cloudWatchDestination.toQueryMap().entries)
-          'CloudWatchDestination.${e1.key}': e1.value,
-      if (enabled != null) 'Enabled': enabled.toString(),
-      if (kinesisFirehoseDestination != null)
-        for (var e1 in kinesisFirehoseDestination.toQueryMap().entries)
-          'KinesisFirehoseDestination.${e1.key}': e1.value,
-      if (sNSDestination != null)
-        for (var e1 in sNSDestination.toQueryMap().entries)
-          'SNSDestination.${e1.key}': e1.value,
-    };
-  }
-}
-
-class EventType {
-  static const send = EventType._('send');
-  static const reject = EventType._('reject');
-  static const bounce = EventType._('bounce');
-  static const complaint = EventType._('complaint');
-  static const delivery = EventType._('delivery');
-  static const open = EventType._('open');
-  static const click = EventType._('click');
-  static const renderingFailure = EventType._('renderingFailure');
-
-  final String value;
-
-  const EventType._(this.value);
-
-  static const values = [
-    send,
-    reject,
-    bounce,
-    complaint,
-    delivery,
-    open,
-    click,
-    renderingFailure
-  ];
-
-  static EventType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
-
-  @override
-  bool operator ==(other) => other is EventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Additional X-headers to include in the Delivery Status Notification (DSN)
-/// when an email that Amazon SES receives on your behalf bounces.
-///
-/// For information about receiving email through Amazon SES, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
-/// SES Developer Guide</a>.
-class ExtensionField {
-  /// The name of the header to add. Must be between 1 and 50 characters,
-  /// inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes
-  /// only.
-  final String name;
-
-  /// The value of the header to add. Must contain 2048 characters or fewer, and
-  /// must not contain newline characters ("\r" or "\n").
-  final String value;
-
-  ExtensionField({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
     };
   }
 }
@@ -5507,428 +4276,6 @@ class GetTemplateResponse {
   }
 }
 
-/// Represents the DKIM attributes of a verified email address or a domain.
-class IdentityDkimAttributes {
-  /// Is true if DKIM signing is enabled for email sent from the identity. It's
-  /// false otherwise. The default value is true.
-  final bool dkimEnabled;
-
-  /// Describes whether Amazon SES has successfully verified the DKIM DNS records
-  /// (tokens) published in the domain name's DNS. (This only applies to domain
-  /// identities, not email address identities.)
-  final VerificationStatus dkimVerificationStatus;
-
-  /// A set of character strings that represent the domain's identity. Using these
-  /// tokens, you need to create DNS CNAME records that point to DKIM public keys
-  /// that are hosted by Amazon SES. Amazon Web Services eventually detects that
-  /// you've updated your DNS records. This detection process might take up to 72
-  /// hours. After successful detection, Amazon SES is able to DKIM-sign email
-  /// originating from that domain. (This only applies to domain identities, not
-  /// email address identities.)
-  ///
-  /// For more information about creating DNS records using DKIM tokens, see the
-  /// <a
-  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html">Amazon
-  /// SES Developer Guide</a>.
-  final List<String>? dkimTokens;
-
-  IdentityDkimAttributes({
-    required this.dkimEnabled,
-    required this.dkimVerificationStatus,
-    this.dkimTokens,
-  });
-  factory IdentityDkimAttributes.fromXml(_s.XmlElement elem) {
-    return IdentityDkimAttributes(
-      dkimEnabled: _s.extractXmlBoolValue(elem, 'DkimEnabled')!,
-      dkimVerificationStatus: _s
-          .extractXmlStringValue(elem, 'DkimVerificationStatus')!
-          .let(VerificationStatus.fromString),
-      dkimTokens: _s
-          .extractXmlChild(elem, 'DkimTokens')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dkimEnabled = this.dkimEnabled;
-    final dkimVerificationStatus = this.dkimVerificationStatus;
-    final dkimTokens = this.dkimTokens;
-    return {
-      'DkimEnabled': dkimEnabled,
-      'DkimVerificationStatus': dkimVerificationStatus.value,
-      if (dkimTokens != null) 'DkimTokens': dkimTokens,
-    };
-  }
-}
-
-/// Represents the custom MAIL FROM domain attributes of a verified identity
-/// (email address or domain).
-class IdentityMailFromDomainAttributes {
-  /// The action that Amazon SES takes if it cannot successfully read the required
-  /// MX record when you send an email. A value of <code>UseDefaultValue</code>
-  /// indicates that if Amazon SES cannot read the required MX record, it uses
-  /// amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of
-  /// <code>RejectMessage</code> indicates that if Amazon SES cannot read the
-  /// required MX record, Amazon SES returns a
-  /// <code>MailFromDomainNotVerified</code> error and does not send the email.
-  ///
-  /// The custom MAIL FROM setup states that result in this behavior are
-  /// <code>Pending</code>, <code>Failed</code>, and
-  /// <code>TemporaryFailure</code>.
-  final BehaviorOnMXFailure behaviorOnMXFailure;
-
-  /// The custom MAIL FROM domain that the identity is configured to use.
-  final String mailFromDomain;
-
-  /// The state that indicates whether Amazon SES has successfully read the MX
-  /// record required for custom MAIL FROM domain setup. If the state is
-  /// <code>Success</code>, Amazon SES uses the specified custom MAIL FROM domain
-  /// when the verified identity sends an email. All other states indicate that
-  /// Amazon SES takes the action described by <code>BehaviorOnMXFailure</code>.
-  final CustomMailFromStatus mailFromDomainStatus;
-
-  IdentityMailFromDomainAttributes({
-    required this.behaviorOnMXFailure,
-    required this.mailFromDomain,
-    required this.mailFromDomainStatus,
-  });
-  factory IdentityMailFromDomainAttributes.fromXml(_s.XmlElement elem) {
-    return IdentityMailFromDomainAttributes(
-      behaviorOnMXFailure: _s
-          .extractXmlStringValue(elem, 'BehaviorOnMXFailure')!
-          .let(BehaviorOnMXFailure.fromString),
-      mailFromDomain: _s.extractXmlStringValue(elem, 'MailFromDomain')!,
-      mailFromDomainStatus: _s
-          .extractXmlStringValue(elem, 'MailFromDomainStatus')!
-          .let(CustomMailFromStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final behaviorOnMXFailure = this.behaviorOnMXFailure;
-    final mailFromDomain = this.mailFromDomain;
-    final mailFromDomainStatus = this.mailFromDomainStatus;
-    return {
-      'BehaviorOnMXFailure': behaviorOnMXFailure.value,
-      'MailFromDomain': mailFromDomain,
-      'MailFromDomainStatus': mailFromDomainStatus.value,
-    };
-  }
-}
-
-/// Represents the notification attributes of an identity, including whether an
-/// identity has Amazon Simple Notification Service (Amazon SNS) topics set for
-/// bounce, complaint, and/or delivery notifications, and whether feedback
-/// forwarding is enabled for bounce and complaint notifications.
-class IdentityNotificationAttributes {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
-  /// publishes bounce notifications.
-  final String bounceTopic;
-
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
-  /// publishes complaint notifications.
-  final String complaintTopic;
-
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
-  /// publishes delivery notifications.
-  final String deliveryTopic;
-
-  /// Describes whether Amazon SES forwards bounce and complaint notifications as
-  /// email. <code>true</code> indicates that Amazon SES forwards bounce and
-  /// complaint notifications as email, while <code>false</code> indicates that
-  /// bounce and complaint notifications are published only to the specified
-  /// bounce and complaint Amazon SNS topics.
-  final bool forwardingEnabled;
-
-  /// Describes whether Amazon SES includes the original email headers in Amazon
-  /// SNS notifications of type <code>Bounce</code>. A value of <code>true</code>
-  /// specifies that Amazon SES includes headers in bounce notifications, and a
-  /// value of <code>false</code> specifies that Amazon SES does not include
-  /// headers in bounce notifications.
-  final bool? headersInBounceNotificationsEnabled;
-
-  /// Describes whether Amazon SES includes the original email headers in Amazon
-  /// SNS notifications of type <code>Complaint</code>. A value of
-  /// <code>true</code> specifies that Amazon SES includes headers in complaint
-  /// notifications, and a value of <code>false</code> specifies that Amazon SES
-  /// does not include headers in complaint notifications.
-  final bool? headersInComplaintNotificationsEnabled;
-
-  /// Describes whether Amazon SES includes the original email headers in Amazon
-  /// SNS notifications of type <code>Delivery</code>. A value of
-  /// <code>true</code> specifies that Amazon SES includes headers in delivery
-  /// notifications, and a value of <code>false</code> specifies that Amazon SES
-  /// does not include headers in delivery notifications.
-  final bool? headersInDeliveryNotificationsEnabled;
-
-  IdentityNotificationAttributes({
-    required this.bounceTopic,
-    required this.complaintTopic,
-    required this.deliveryTopic,
-    required this.forwardingEnabled,
-    this.headersInBounceNotificationsEnabled,
-    this.headersInComplaintNotificationsEnabled,
-    this.headersInDeliveryNotificationsEnabled,
-  });
-  factory IdentityNotificationAttributes.fromXml(_s.XmlElement elem) {
-    return IdentityNotificationAttributes(
-      bounceTopic: _s.extractXmlStringValue(elem, 'BounceTopic')!,
-      complaintTopic: _s.extractXmlStringValue(elem, 'ComplaintTopic')!,
-      deliveryTopic: _s.extractXmlStringValue(elem, 'DeliveryTopic')!,
-      forwardingEnabled: _s.extractXmlBoolValue(elem, 'ForwardingEnabled')!,
-      headersInBounceNotificationsEnabled:
-          _s.extractXmlBoolValue(elem, 'HeadersInBounceNotificationsEnabled'),
-      headersInComplaintNotificationsEnabled: _s.extractXmlBoolValue(
-          elem, 'HeadersInComplaintNotificationsEnabled'),
-      headersInDeliveryNotificationsEnabled:
-          _s.extractXmlBoolValue(elem, 'HeadersInDeliveryNotificationsEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bounceTopic = this.bounceTopic;
-    final complaintTopic = this.complaintTopic;
-    final deliveryTopic = this.deliveryTopic;
-    final forwardingEnabled = this.forwardingEnabled;
-    final headersInBounceNotificationsEnabled =
-        this.headersInBounceNotificationsEnabled;
-    final headersInComplaintNotificationsEnabled =
-        this.headersInComplaintNotificationsEnabled;
-    final headersInDeliveryNotificationsEnabled =
-        this.headersInDeliveryNotificationsEnabled;
-    return {
-      'BounceTopic': bounceTopic,
-      'ComplaintTopic': complaintTopic,
-      'DeliveryTopic': deliveryTopic,
-      'ForwardingEnabled': forwardingEnabled,
-      if (headersInBounceNotificationsEnabled != null)
-        'HeadersInBounceNotificationsEnabled':
-            headersInBounceNotificationsEnabled,
-      if (headersInComplaintNotificationsEnabled != null)
-        'HeadersInComplaintNotificationsEnabled':
-            headersInComplaintNotificationsEnabled,
-      if (headersInDeliveryNotificationsEnabled != null)
-        'HeadersInDeliveryNotificationsEnabled':
-            headersInDeliveryNotificationsEnabled,
-    };
-  }
-}
-
-class IdentityType {
-  static const emailAddress = IdentityType._('EmailAddress');
-  static const domain = IdentityType._('Domain');
-
-  final String value;
-
-  const IdentityType._(this.value);
-
-  static const values = [emailAddress, domain];
-
-  static IdentityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
-
-  @override
-  bool operator ==(other) => other is IdentityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the verification attributes of a single identity.
-class IdentityVerificationAttributes {
-  /// The verification status of the identity: "Pending", "Success", "Failed", or
-  /// "TemporaryFailure".
-  final VerificationStatus verificationStatus;
-
-  /// The verification token for a domain identity. Null for email address
-  /// identities.
-  final String? verificationToken;
-
-  IdentityVerificationAttributes({
-    required this.verificationStatus,
-    this.verificationToken,
-  });
-  factory IdentityVerificationAttributes.fromXml(_s.XmlElement elem) {
-    return IdentityVerificationAttributes(
-      verificationStatus: _s
-          .extractXmlStringValue(elem, 'VerificationStatus')!
-          .let(VerificationStatus.fromString),
-      verificationToken: _s.extractXmlStringValue(elem, 'VerificationToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final verificationStatus = this.verificationStatus;
-    final verificationToken = this.verificationToken;
-    return {
-      'VerificationStatus': verificationStatus.value,
-      if (verificationToken != null) 'VerificationToken': verificationToken,
-    };
-  }
-}
-
-class InvocationType {
-  static const event = InvocationType._('Event');
-  static const requestResponse = InvocationType._('RequestResponse');
-
-  final String value;
-
-  const InvocationType._(this.value);
-
-  static const values = [event, requestResponse];
-
-  static InvocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InvocationType._(value));
-
-  @override
-  bool operator ==(other) => other is InvocationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the delivery stream ARN and the IAM role ARN associated with an
-/// Amazon Kinesis Firehose event destination.
-///
-/// Event destinations, such as Amazon Kinesis Firehose, are associated with
-/// configuration sets, which enable you to publish email sending events. For
-/// information about using configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
-/// SES Developer Guide</a>.
-class KinesisFirehoseDestination {
-  /// The ARN of the Amazon Kinesis Firehose stream that email sending events
-  /// should be published to.
-  final String deliveryStreamARN;
-
-  /// The ARN of the IAM role under which Amazon SES publishes email sending
-  /// events to the Amazon Kinesis Firehose stream.
-  final String iAMRoleARN;
-
-  KinesisFirehoseDestination({
-    required this.deliveryStreamARN,
-    required this.iAMRoleARN,
-  });
-  factory KinesisFirehoseDestination.fromXml(_s.XmlElement elem) {
-    return KinesisFirehoseDestination(
-      deliveryStreamARN: _s.extractXmlStringValue(elem, 'DeliveryStreamARN')!,
-      iAMRoleARN: _s.extractXmlStringValue(elem, 'IAMRoleARN')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryStreamARN = this.deliveryStreamARN;
-    final iAMRoleARN = this.iAMRoleARN;
-    return {
-      'DeliveryStreamARN': deliveryStreamARN,
-      'IAMRoleARN': iAMRoleARN,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final deliveryStreamARN = this.deliveryStreamARN;
-    final iAMRoleARN = this.iAMRoleARN;
-    return {
-      'DeliveryStreamARN': deliveryStreamARN,
-      'IAMRoleARN': iAMRoleARN,
-    };
-  }
-}
-
-/// When included in a receipt rule, this action calls an Amazon Web Services
-/// Lambda function and, optionally, publishes a notification to Amazon Simple
-/// Notification Service (Amazon SNS).
-///
-/// To enable Amazon SES to call your Amazon Web Services Lambda function or to
-/// publish to an Amazon SNS topic of another account, Amazon SES must have
-/// permission to access those resources. For information about giving
-/// permissions, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
-/// SES Developer Guide</a>.
-///
-/// For information about using Amazon Web Services Lambda actions in receipt
-/// rules, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-lambda.html">Amazon
-/// SES Developer Guide</a>.
-class LambdaAction {
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function.
-  /// An example of an Amazon Web Services Lambda function ARN is
-  /// <code>arn:aws:lambda:us-west-2:account-id:function:MyFunction</code>. For
-  /// more information about Amazon Web Services Lambda, see the <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">Amazon Web
-  /// Services Lambda Developer Guide</a>.
-  final String functionArn;
-
-  /// The invocation type of the Amazon Web Services Lambda function. An
-  /// invocation type of <code>RequestResponse</code> means that the execution of
-  /// the function immediately results in a response, and a value of
-  /// <code>Event</code> means that the function is invoked asynchronously. The
-  /// default value is <code>Event</code>. For information about Amazon Web
-  /// Services Lambda invocation types, see the <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html">Amazon
-  /// Web Services Lambda Developer Guide</a>.
-  /// <important>
-  /// There is a 30-second timeout on <code>RequestResponse</code> invocations.
-  /// You should use <code>Event</code> invocation in most cases. Use
-  /// <code>RequestResponse</code> only to make a mail flow decision, such as
-  /// whether to stop the receipt rule or the receipt rule set.
-  /// </important>
-  final InvocationType? invocationType;
-
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
-  /// Lambda action is executed. You can find the ARN of a topic by using the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
-  /// operation in Amazon SNS.
-  ///
-  /// For more information about Amazon SNS topics, see the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
-  /// Developer Guide</a>.
-  final String? topicArn;
-
-  LambdaAction({
-    required this.functionArn,
-    this.invocationType,
-    this.topicArn,
-  });
-  factory LambdaAction.fromXml(_s.XmlElement elem) {
-    return LambdaAction(
-      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn')!,
-      invocationType: _s
-          .extractXmlStringValue(elem, 'InvocationType')
-          ?.let(InvocationType.fromString),
-      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final functionArn = this.functionArn;
-    final invocationType = this.invocationType;
-    final topicArn = this.topicArn;
-    return {
-      'FunctionArn': functionArn,
-      if (invocationType != null) 'InvocationType': invocationType.value,
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final functionArn = this.functionArn;
-    final invocationType = this.invocationType;
-    final topicArn = this.topicArn;
-    return {
-      'FunctionArn': functionArn,
-      if (invocationType != null) 'InvocationType': invocationType.value,
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-}
-
 /// A list of configuration sets associated with your Amazon Web Services
 /// account. Configuration sets enable you to publish email sending events. For
 /// information about using configuration sets, see the <a
@@ -6187,179 +4534,6 @@ class ListVerifiedEmailAddressesResponse {
   }
 }
 
-/// Represents the message to be sent, composed of a subject and a body.
-class Message {
-  /// The message body.
-  final Body body;
-
-  /// The subject of the message: A short summary of the content, which appears in
-  /// the recipient's inbox.
-  final Content subject;
-
-  Message({
-    required this.body,
-    required this.subject,
-  });
-
-  Map<String, dynamic> toJson() {
-    final body = this.body;
-    final subject = this.subject;
-    return {
-      'Body': body,
-      'Subject': subject,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final body = this.body;
-    final subject = this.subject;
-    return {
-      for (var e1 in body.toQueryMap().entries) 'Body.${e1.key}': e1.value,
-      for (var e1 in subject.toQueryMap().entries)
-        'Subject.${e1.key}': e1.value,
-    };
-  }
-}
-
-/// Message-related information to include in the Delivery Status Notification
-/// (DSN) when an email that Amazon SES receives on your behalf bounces.
-///
-/// For information about receiving email through Amazon SES, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
-/// SES Developer Guide</a>.
-class MessageDsn {
-  /// The reporting MTA that attempted to deliver the message, formatted as
-  /// specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
-  /// (<code>mta-name-type; mta-name</code>). The default value is <code>dns;
-  /// inbound-smtp.[region].amazonaws.com</code>.
-  final String reportingMta;
-
-  /// When the message was received by the reporting mail transfer agent (MTA), in
-  /// <a href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
-  final DateTime? arrivalDate;
-
-  /// Additional X-headers to include in the DSN.
-  final List<ExtensionField>? extensionFields;
-
-  MessageDsn({
-    required this.reportingMta,
-    this.arrivalDate,
-    this.extensionFields,
-  });
-
-  Map<String, dynamic> toJson() {
-    final reportingMta = this.reportingMta;
-    final arrivalDate = this.arrivalDate;
-    final extensionFields = this.extensionFields;
-    return {
-      'ReportingMta': reportingMta,
-      if (arrivalDate != null) 'ArrivalDate': iso8601ToJson(arrivalDate),
-      if (extensionFields != null) 'ExtensionFields': extensionFields,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final reportingMta = this.reportingMta;
-    final arrivalDate = this.arrivalDate;
-    final extensionFields = this.extensionFields;
-    return {
-      'ReportingMta': reportingMta,
-      if (arrivalDate != null) 'ArrivalDate': _s.iso8601ToJson(arrivalDate),
-      if (extensionFields != null)
-        if (extensionFields.isEmpty)
-          'ExtensionFields': ''
-        else
-          for (var i1 = 0; i1 < extensionFields.length; i1++)
-            for (var e3 in extensionFields[i1].toQueryMap().entries)
-              'ExtensionFields.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
-/// Contains the name and value of a tag that you can provide to
-/// <code>SendEmail</code> or <code>SendRawEmail</code> to apply to an email.
-///
-/// Message tags, which you use with configuration sets, enable you to publish
-/// email sending events. For information about using configuration sets, see
-/// the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
-/// SES Developer Guide</a>.
-class MessageTag {
-  /// The name of the tag. The name must meet the following requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
-  /// dashes (-).
-  /// </li>
-  /// <li>
-  /// Contain 256 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String name;
-
-  /// The value of the tag. The value must meet the following requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
-  /// dashes (-).
-  /// </li>
-  /// <li>
-  /// Contain 256 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String value;
-
-  MessageTag({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-}
-
-class NotificationType {
-  static const bounce = NotificationType._('Bounce');
-  static const complaint = NotificationType._('Complaint');
-  static const delivery = NotificationType._('Delivery');
-
-  final String value;
-
-  const NotificationType._(this.value);
-
-  static const values = [bounce, complaint, delivery];
-
-  static NotificationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NotificationType._(value));
-
-  @override
-  bool operator ==(other) => other is NotificationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 class PutConfigurationSetDeliveryOptionsResponse {
@@ -6389,578 +4563,6 @@ class PutIdentityPolicyResponse {
   }
 }
 
-/// Represents the raw data of the message.
-class RawMessage {
-  /// The raw data of the message. This data needs to base64-encoded if you are
-  /// accessing Amazon SES directly through the HTTPS interface. If you are
-  /// accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of
-  /// the base 64-encoding for you. In all cases, the client must ensure that the
-  /// message format complies with Internet email standards regarding email header
-  /// fields, MIME types, and MIME encoding.
-  ///
-  /// The To:, CC:, and BCC: headers in the raw message can contain a group list.
-  ///
-  /// If you are using <code>SendRawEmail</code> with sending authorization, you
-  /// can include X-headers in the raw message to specify the "Source," "From,"
-  /// and "Return-Path" addresses. For more information, see the documentation for
-  /// <code>SendRawEmail</code>.
-  /// <important>
-  /// Do not include these X-headers in the DKIM signature, because they are
-  /// removed by Amazon SES before sending the email.
-  /// </important>
-  /// For more information, go to the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Amazon
-  /// SES Developer Guide</a>.
-  final Uint8List data;
-
-  RawMessage({
-    required this.data,
-  });
-
-  Map<String, dynamic> toJson() {
-    final data = this.data;
-    return {
-      'Data': base64Encode(data),
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final data = this.data;
-    return {
-      'Data': base64Encode(data),
-    };
-  }
-}
-
-/// An action that Amazon SES can take when it receives an email on behalf of
-/// one or more email addresses or domains that you own. An instance of this
-/// data type can represent only one action.
-///
-/// For information about setting up receipt rules, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
-/// SES Developer Guide</a>.
-class ReceiptAction {
-  /// Adds a header to the received email.
-  final AddHeaderAction? addHeaderAction;
-
-  /// Rejects the received email by returning a bounce response to the sender and,
-  /// optionally, publishes a notification to Amazon Simple Notification Service
-  /// (Amazon SNS).
-  final BounceAction? bounceAction;
-
-  /// Calls an Amazon Web Services Lambda function, and optionally, publishes a
-  /// notification to Amazon SNS.
-  final LambdaAction? lambdaAction;
-
-  /// Saves the received message to an Amazon Simple Storage Service (Amazon S3)
-  /// bucket and, optionally, publishes a notification to Amazon SNS.
-  final S3Action? s3Action;
-
-  /// Publishes the email content within a notification to Amazon SNS.
-  final SNSAction? sNSAction;
-
-  /// Terminates the evaluation of the receipt rule set and optionally publishes a
-  /// notification to Amazon SNS.
-  final StopAction? stopAction;
-
-  /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon
-  /// Amazon SNS.
-  final WorkmailAction? workmailAction;
-
-  ReceiptAction({
-    this.addHeaderAction,
-    this.bounceAction,
-    this.lambdaAction,
-    this.s3Action,
-    this.sNSAction,
-    this.stopAction,
-    this.workmailAction,
-  });
-  factory ReceiptAction.fromXml(_s.XmlElement elem) {
-    return ReceiptAction(
-      addHeaderAction: _s
-          .extractXmlChild(elem, 'AddHeaderAction')
-          ?.let(AddHeaderAction.fromXml),
-      bounceAction:
-          _s.extractXmlChild(elem, 'BounceAction')?.let(BounceAction.fromXml),
-      lambdaAction:
-          _s.extractXmlChild(elem, 'LambdaAction')?.let(LambdaAction.fromXml),
-      s3Action: _s.extractXmlChild(elem, 'S3Action')?.let(S3Action.fromXml),
-      sNSAction: _s.extractXmlChild(elem, 'SNSAction')?.let(SNSAction.fromXml),
-      stopAction:
-          _s.extractXmlChild(elem, 'StopAction')?.let(StopAction.fromXml),
-      workmailAction: _s
-          .extractXmlChild(elem, 'WorkmailAction')
-          ?.let(WorkmailAction.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final addHeaderAction = this.addHeaderAction;
-    final bounceAction = this.bounceAction;
-    final lambdaAction = this.lambdaAction;
-    final s3Action = this.s3Action;
-    final sNSAction = this.sNSAction;
-    final stopAction = this.stopAction;
-    final workmailAction = this.workmailAction;
-    return {
-      if (addHeaderAction != null) 'AddHeaderAction': addHeaderAction,
-      if (bounceAction != null) 'BounceAction': bounceAction,
-      if (lambdaAction != null) 'LambdaAction': lambdaAction,
-      if (s3Action != null) 'S3Action': s3Action,
-      if (sNSAction != null) 'SNSAction': sNSAction,
-      if (stopAction != null) 'StopAction': stopAction,
-      if (workmailAction != null) 'WorkmailAction': workmailAction,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final addHeaderAction = this.addHeaderAction;
-    final bounceAction = this.bounceAction;
-    final lambdaAction = this.lambdaAction;
-    final s3Action = this.s3Action;
-    final sNSAction = this.sNSAction;
-    final stopAction = this.stopAction;
-    final workmailAction = this.workmailAction;
-    return {
-      if (addHeaderAction != null)
-        for (var e1 in addHeaderAction.toQueryMap().entries)
-          'AddHeaderAction.${e1.key}': e1.value,
-      if (bounceAction != null)
-        for (var e1 in bounceAction.toQueryMap().entries)
-          'BounceAction.${e1.key}': e1.value,
-      if (lambdaAction != null)
-        for (var e1 in lambdaAction.toQueryMap().entries)
-          'LambdaAction.${e1.key}': e1.value,
-      if (s3Action != null)
-        for (var e1 in s3Action.toQueryMap().entries)
-          'S3Action.${e1.key}': e1.value,
-      if (sNSAction != null)
-        for (var e1 in sNSAction.toQueryMap().entries)
-          'SNSAction.${e1.key}': e1.value,
-      if (stopAction != null)
-        for (var e1 in stopAction.toQueryMap().entries)
-          'StopAction.${e1.key}': e1.value,
-      if (workmailAction != null)
-        for (var e1 in workmailAction.toQueryMap().entries)
-          'WorkmailAction.${e1.key}': e1.value,
-    };
-  }
-}
-
-/// A receipt IP address filter enables you to specify whether to accept or
-/// reject mail originating from an IP address or range of IP addresses.
-///
-/// For information about setting up IP address filters, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
-/// SES Developer Guide</a>.
-class ReceiptFilter {
-  /// A structure that provides the IP addresses to block or allow, and whether to
-  /// block or allow incoming mail from them.
-  final ReceiptIpFilter ipFilter;
-
-  /// The name of the IP address filter. The name must meet the following
-  /// requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
-  /// dashes (-).
-  /// </li>
-  /// <li>
-  /// Start and end with a letter or number.
-  /// </li>
-  /// <li>
-  /// Contain 64 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String name;
-
-  ReceiptFilter({
-    required this.ipFilter,
-    required this.name,
-  });
-  factory ReceiptFilter.fromXml(_s.XmlElement elem) {
-    return ReceiptFilter(
-      ipFilter: ReceiptIpFilter.fromXml(_s.extractXmlChild(elem, 'IpFilter')!),
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ipFilter = this.ipFilter;
-    final name = this.name;
-    return {
-      'IpFilter': ipFilter,
-      'Name': name,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final ipFilter = this.ipFilter;
-    final name = this.name;
-    return {
-      for (var e1 in ipFilter.toQueryMap().entries)
-        'IpFilter.${e1.key}': e1.value,
-      'Name': name,
-    };
-  }
-}
-
-class ReceiptFilterPolicy {
-  static const block = ReceiptFilterPolicy._('Block');
-  static const allow = ReceiptFilterPolicy._('Allow');
-
-  final String value;
-
-  const ReceiptFilterPolicy._(this.value);
-
-  static const values = [block, allow];
-
-  static ReceiptFilterPolicy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReceiptFilterPolicy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReceiptFilterPolicy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A receipt IP address filter enables you to specify whether to accept or
-/// reject mail originating from an IP address or range of IP addresses.
-///
-/// For information about setting up IP address filters, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
-/// SES Developer Guide</a>.
-class ReceiptIpFilter {
-  /// A single IP address or a range of IP addresses to block or allow, specified
-  /// in Classless Inter-Domain Routing (CIDR) notation. An example of a single
-  /// email address is 10.0.0.1. An example of a range of IP addresses is
-  /// 10.0.0.1/24. For more information about CIDR notation, see <a
-  /// href="https://tools.ietf.org/html/rfc2317">RFC 2317</a>.
-  final String cidr;
-
-  /// Indicates whether to block or allow incoming mail from the specified IP
-  /// addresses.
-  final ReceiptFilterPolicy policy;
-
-  ReceiptIpFilter({
-    required this.cidr,
-    required this.policy,
-  });
-  factory ReceiptIpFilter.fromXml(_s.XmlElement elem) {
-    return ReceiptIpFilter(
-      cidr: _s.extractXmlStringValue(elem, 'Cidr')!,
-      policy: _s
-          .extractXmlStringValue(elem, 'Policy')!
-          .let(ReceiptFilterPolicy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidr = this.cidr;
-    final policy = this.policy;
-    return {
-      'Cidr': cidr,
-      'Policy': policy.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final cidr = this.cidr;
-    final policy = this.policy;
-    return {
-      'Cidr': cidr,
-      'Policy': policy.value,
-    };
-  }
-}
-
-/// Receipt rules enable you to specify which actions Amazon SES should take
-/// when it receives mail on behalf of one or more email addresses or domains
-/// that you own.
-///
-/// Each receipt rule defines a set of email addresses or domains that it
-/// applies to. If the email addresses or domains match at least one recipient
-/// address of the message, Amazon SES executes all of the receipt rule's
-/// actions on the message.
-///
-/// For information about setting up receipt rules, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
-/// SES Developer Guide</a>.
-class ReceiptRule {
-  /// The name of the receipt rule. The name must meet the following requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
-  /// dashes (-), or periods (.).
-  /// </li>
-  /// <li>
-  /// Start and end with a letter or number.
-  /// </li>
-  /// <li>
-  /// Contain 64 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String name;
-
-  /// An ordered list of actions to perform on messages that match at least one of
-  /// the recipient email addresses or domains specified in the receipt rule.
-  final List<ReceiptAction>? actions;
-
-  /// If <code>true</code>, the receipt rule is active. The default value is
-  /// <code>false</code>.
-  final bool? enabled;
-
-  /// The recipient domains and email addresses that the receipt rule applies to.
-  /// If this field is not specified, this rule matches all recipients on all
-  /// verified domains.
-  final List<String>? recipients;
-
-  /// If <code>true</code>, then messages that this receipt rule applies to are
-  /// scanned for spam and viruses. The default value is <code>false</code>.
-  final bool? scanEnabled;
-
-  /// Specifies whether Amazon SES should require that incoming email is delivered
-  /// over a connection encrypted with Transport Layer Security (TLS). If this
-  /// parameter is set to <code>Require</code>, Amazon SES bounces emails that are
-  /// not received over TLS. The default is <code>Optional</code>.
-  final TlsPolicy? tlsPolicy;
-
-  ReceiptRule({
-    required this.name,
-    this.actions,
-    this.enabled,
-    this.recipients,
-    this.scanEnabled,
-    this.tlsPolicy,
-  });
-  factory ReceiptRule.fromXml(_s.XmlElement elem) {
-    return ReceiptRule(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      actions: _s.extractXmlChild(elem, 'Actions')?.let((elem) =>
-          elem.findElements('member').map(ReceiptAction.fromXml).toList()),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      recipients: _s
-          .extractXmlChild(elem, 'Recipients')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      scanEnabled: _s.extractXmlBoolValue(elem, 'ScanEnabled'),
-      tlsPolicy: _s
-          .extractXmlStringValue(elem, 'TlsPolicy')
-          ?.let(TlsPolicy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final actions = this.actions;
-    final enabled = this.enabled;
-    final recipients = this.recipients;
-    final scanEnabled = this.scanEnabled;
-    final tlsPolicy = this.tlsPolicy;
-    return {
-      'Name': name,
-      if (actions != null) 'Actions': actions,
-      if (enabled != null) 'Enabled': enabled,
-      if (recipients != null) 'Recipients': recipients,
-      if (scanEnabled != null) 'ScanEnabled': scanEnabled,
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final actions = this.actions;
-    final enabled = this.enabled;
-    final recipients = this.recipients;
-    final scanEnabled = this.scanEnabled;
-    final tlsPolicy = this.tlsPolicy;
-    return {
-      'Name': name,
-      if (actions != null)
-        if (actions.isEmpty)
-          'Actions': ''
-        else
-          for (var i1 = 0; i1 < actions.length; i1++)
-            for (var e3 in actions[i1].toQueryMap().entries)
-              'Actions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (enabled != null) 'Enabled': enabled.toString(),
-      if (recipients != null)
-        if (recipients.isEmpty)
-          'Recipients': ''
-        else
-          for (var i1 = 0; i1 < recipients.length; i1++)
-            'Recipients.member.${i1 + 1}': recipients[i1],
-      if (scanEnabled != null) 'ScanEnabled': scanEnabled.toString(),
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
-    };
-  }
-}
-
-/// Information about a receipt rule set.
-///
-/// A receipt rule set is a collection of rules that specify what Amazon SES
-/// should do with mail it receives on behalf of your account's verified
-/// domains.
-///
-/// For information about setting up receipt rule sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules">Amazon
-/// SES Developer Guide</a>.
-class ReceiptRuleSetMetadata {
-  /// The date and time the receipt rule set was created.
-  final DateTime? createdTimestamp;
-
-  /// The name of the receipt rule set. The name must meet the following
-  /// requirements:
-  ///
-  /// <ul>
-  /// <li>
-  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
-  /// dashes (-).
-  /// </li>
-  /// <li>
-  /// Start and end with a letter or number.
-  /// </li>
-  /// <li>
-  /// Contain 64 characters or fewer.
-  /// </li>
-  /// </ul>
-  final String? name;
-
-  ReceiptRuleSetMetadata({
-    this.createdTimestamp,
-    this.name,
-  });
-  factory ReceiptRuleSetMetadata.fromXml(_s.XmlElement elem) {
-    return ReceiptRuleSetMetadata(
-      createdTimestamp: _s.extractXmlDateTimeValue(elem, 'CreatedTimestamp'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final name = this.name;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Recipient-related information to include in the Delivery Status Notification
-/// (DSN) when an email that Amazon SES receives on your behalf bounces.
-///
-/// For information about receiving email through Amazon SES, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
-/// SES Developer Guide</a>.
-class RecipientDsnFields {
-  /// The action performed by the reporting mail transfer agent (MTA) as a result
-  /// of its attempt to deliver the message to the recipient address. This is
-  /// required by <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>.
-  final DsnAction action;
-
-  /// The status code that indicates what went wrong. This is required by <a
-  /// href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>.
-  final String status;
-
-  /// An extended explanation of what went wrong; this is usually an SMTP
-  /// response. See <a href="https://tools.ietf.org/html/rfc3463">RFC 3463</a> for
-  /// the correct formatting of this parameter.
-  final String? diagnosticCode;
-
-  /// Additional X-headers to include in the DSN.
-  final List<ExtensionField>? extensionFields;
-
-  /// The email address that the message was ultimately delivered to. This
-  /// corresponds to the <code>Final-Recipient</code> in the DSN. If not
-  /// specified, <code>FinalRecipient</code> is set to the <code>Recipient</code>
-  /// specified in the <code>BouncedRecipientInfo</code> structure. Either
-  /// <code>FinalRecipient</code> or the recipient in
-  /// <code>BouncedRecipientInfo</code> must be a recipient of the original
-  /// bounced message.
-  /// <note>
-  /// Do not prepend the <code>FinalRecipient</code> email address with <code>rfc
-  /// 822;</code>, as described in <a
-  /// href="https://tools.ietf.org/html/rfc3798">RFC 3798</a>.
-  /// </note>
-  final String? finalRecipient;
-
-  /// The time the final delivery attempt was made, in <a
-  /// href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
-  final DateTime? lastAttemptDate;
-
-  /// The MTA to which the remote MTA attempted to deliver the message, formatted
-  /// as specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
-  /// (<code>mta-name-type; mta-name</code>). This parameter typically applies
-  /// only to propagating synchronous bounces.
-  final String? remoteMta;
-
-  RecipientDsnFields({
-    required this.action,
-    required this.status,
-    this.diagnosticCode,
-    this.extensionFields,
-    this.finalRecipient,
-    this.lastAttemptDate,
-    this.remoteMta,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final status = this.status;
-    final diagnosticCode = this.diagnosticCode;
-    final extensionFields = this.extensionFields;
-    final finalRecipient = this.finalRecipient;
-    final lastAttemptDate = this.lastAttemptDate;
-    final remoteMta = this.remoteMta;
-    return {
-      'Action': action.value,
-      'Status': status,
-      if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
-      if (extensionFields != null) 'ExtensionFields': extensionFields,
-      if (finalRecipient != null) 'FinalRecipient': finalRecipient,
-      if (lastAttemptDate != null)
-        'LastAttemptDate': iso8601ToJson(lastAttemptDate),
-      if (remoteMta != null) 'RemoteMta': remoteMta,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final action = this.action;
-    final status = this.status;
-    final diagnosticCode = this.diagnosticCode;
-    final extensionFields = this.extensionFields;
-    final finalRecipient = this.finalRecipient;
-    final lastAttemptDate = this.lastAttemptDate;
-    final remoteMta = this.remoteMta;
-    return {
-      'Action': action.value,
-      'Status': status,
-      if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
-      if (extensionFields != null)
-        if (extensionFields.isEmpty)
-          'ExtensionFields': ''
-        else
-          for (var i1 = 0; i1 < extensionFields.length; i1++)
-            for (var e3 in extensionFields[i1].toQueryMap().entries)
-              'ExtensionFields.member.${i1 + 1}.${e3.key}': e3.value,
-      if (finalRecipient != null) 'FinalRecipient': finalRecipient,
-      if (lastAttemptDate != null)
-        'LastAttemptDate': _s.iso8601ToJson(lastAttemptDate),
-      if (remoteMta != null) 'RemoteMta': remoteMta,
-    };
-  }
-}
-
 /// An empty element returned on a successful request.
 class ReorderReceiptRuleSetResponse {
   ReorderReceiptRuleSetResponse();
@@ -6972,357 +4574,6 @@ class ReorderReceiptRuleSetResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Contains information about the reputation settings for a configuration set.
-class ReputationOptions {
-  /// The date and time at which the reputation metrics for the configuration set
-  /// were last reset. Resetting these metrics is known as a <i>fresh start</i>.
-  ///
-  /// When you disable email sending for a configuration set using
-  /// <a>UpdateConfigurationSetSendingEnabled</a> and later re-enable it, the
-  /// reputation metrics for the configuration set (but not for the entire Amazon
-  /// SES account) are reset.
-  ///
-  /// If email sending for the configuration set has never been disabled and later
-  /// re-enabled, the value of this attribute is <code>null</code>.
-  final DateTime? lastFreshStart;
-
-  /// Describes whether or not Amazon SES publishes reputation metrics for the
-  /// configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
-  ///
-  /// If the value is <code>true</code>, reputation metrics are published. If the
-  /// value is <code>false</code>, reputation metrics are not published. The
-  /// default value is <code>false</code>.
-  final bool? reputationMetricsEnabled;
-
-  /// Describes whether email sending is enabled or disabled for the configuration
-  /// set. If the value is <code>true</code>, then Amazon SES sends emails that
-  /// use the configuration set. If the value is <code>false</code>, Amazon SES
-  /// does not send emails that use the configuration set. The default value is
-  /// <code>true</code>. You can change this setting using
-  /// <a>UpdateConfigurationSetSendingEnabled</a>.
-  final bool? sendingEnabled;
-
-  ReputationOptions({
-    this.lastFreshStart,
-    this.reputationMetricsEnabled,
-    this.sendingEnabled,
-  });
-  factory ReputationOptions.fromXml(_s.XmlElement elem) {
-    return ReputationOptions(
-      lastFreshStart: _s.extractXmlDateTimeValue(elem, 'LastFreshStart'),
-      reputationMetricsEnabled:
-          _s.extractXmlBoolValue(elem, 'ReputationMetricsEnabled'),
-      sendingEnabled: _s.extractXmlBoolValue(elem, 'SendingEnabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastFreshStart = this.lastFreshStart;
-    final reputationMetricsEnabled = this.reputationMetricsEnabled;
-    final sendingEnabled = this.sendingEnabled;
-    return {
-      if (lastFreshStart != null)
-        'LastFreshStart': iso8601ToJson(lastFreshStart),
-      if (reputationMetricsEnabled != null)
-        'ReputationMetricsEnabled': reputationMetricsEnabled,
-      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
-    };
-  }
-}
-
-/// When included in a receipt rule, this action saves the received message to
-/// an Amazon Simple Storage Service (Amazon S3) bucket and, optionally,
-/// publishes a notification to Amazon Simple Notification Service (Amazon SNS).
-///
-/// To enable Amazon SES to write emails to your Amazon S3 bucket, use an Amazon
-/// Web Services KMS key to encrypt your emails, or publish to an Amazon SNS
-/// topic of another account, Amazon SES must have permission to access those
-/// resources. For information about granting permissions, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
-/// SES Developer Guide</a>.
-/// <note>
-/// When you save your emails to an Amazon S3 bucket, the maximum email size
-/// (including headers) is 40 MB. Emails larger than that bounces.
-/// </note>
-/// For information about specifying Amazon S3 actions in receipt rules, see the
-/// <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-s3.html">Amazon
-/// SES Developer Guide</a>.
-class S3Action {
-  /// The name of the Amazon S3 bucket for incoming email.
-  final String bucketName;
-
-  /// The ARN of the IAM role to be used by Amazon Simple Email Service while
-  /// writing to the Amazon S3 bucket, optionally encrypting your mail via the
-  /// provided customer managed key, and publishing to the Amazon SNS topic. This
-  /// role should have access to the following APIs:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>s3:PutObject</code>, <code>kms:Encrypt</code> and
-  /// <code>kms:GenerateDataKey</code> for the given Amazon S3 bucket.
-  /// </li>
-  /// <li>
-  /// <code>kms:GenerateDataKey</code> for the given Amazon Web Services KMS
-  /// customer managed key.
-  /// </li>
-  /// <li>
-  /// <code>sns:Publish</code> for the given Amazon SNS topic.
-  /// </li>
-  /// </ul> <note>
-  /// If an IAM role ARN is provided, the role (and only the role) is used to
-  /// access all the given resources (Amazon S3 bucket, Amazon Web Services KMS
-  /// customer managed key and Amazon SNS topic). Therefore, setting up individual
-  /// resource access permissions is not required.
-  /// </note>
-  final String? iamRoleArn;
-
-  /// The customer managed key that Amazon SES should use to encrypt your emails
-  /// before saving them to the Amazon S3 bucket. You can use the default managed
-  /// key or a custom managed key that you created in Amazon Web Services KMS as
-  /// follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// To use the default managed key, provide an ARN in the form of
-  /// <code>arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses</code>.
-  /// For example, if your Amazon Web Services account ID is 123456789012 and you
-  /// want to use the default managed key in the US West (Oregon) Region, the ARN
-  /// of the default master key would be
-  /// <code>arn:aws:kms:us-west-2:123456789012:alias/aws/ses</code>. If you use
-  /// the default managed key, you don't need to perform any extra steps to give
-  /// Amazon SES permission to use the key.
-  /// </li>
-  /// <li>
-  /// To use a custom managed key that you created in Amazon Web Services KMS,
-  /// provide the ARN of the managed key and ensure that you add a statement to
-  /// your key's policy to give Amazon SES permission to use it. For more
-  /// information about giving permissions, see the <a
-  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
-  /// SES Developer Guide</a>.
-  /// </li>
-  /// </ul>
-  /// For more information about key policies, see the <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Amazon
-  /// Web Services KMS Developer Guide</a>. If you do not specify a managed key,
-  /// Amazon SES does not encrypt your emails.
-  /// <important>
-  /// Your mail is encrypted by Amazon SES using the Amazon S3 encryption client
-  /// before the mail is submitted to Amazon S3 for storage. It is not encrypted
-  /// using Amazon S3 server-side encryption. This means that you must use the
-  /// Amazon S3 encryption client to decrypt the email after retrieving it from
-  /// Amazon S3, as the service has no access to use your Amazon Web Services KMS
-  /// keys for decryption. This encryption client is currently available with the
-  /// <a href="http://aws.amazon.com/sdk-for-java/">Amazon Web Services SDK for
-  /// Java</a> and <a href="http://aws.amazon.com/sdk-for-ruby/">Amazon Web
-  /// Services SDK for Ruby</a> only. For more information about client-side
-  /// encryption using Amazon Web Services KMS managed keys, see the <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">Amazon
-  /// S3 Developer Guide</a>.
-  /// </important>
-  final String? kmsKeyArn;
-
-  /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a
-  /// directory name that enables you to store similar data under the same
-  /// directory in a bucket.
-  final String? objectKeyPrefix;
-
-  /// The ARN of the Amazon SNS topic to notify when the message is saved to the
-  /// Amazon S3 bucket. You can find the ARN of a topic by using the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
-  /// operation in Amazon SNS.
-  ///
-  /// For more information about Amazon SNS topics, see the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
-  /// Developer Guide</a>.
-  final String? topicArn;
-
-  S3Action({
-    required this.bucketName,
-    this.iamRoleArn,
-    this.kmsKeyArn,
-    this.objectKeyPrefix,
-    this.topicArn,
-  });
-  factory S3Action.fromXml(_s.XmlElement elem) {
-    return S3Action(
-      bucketName: _s.extractXmlStringValue(elem, 'BucketName')!,
-      iamRoleArn: _s.extractXmlStringValue(elem, 'IamRoleArn'),
-      kmsKeyArn: _s.extractXmlStringValue(elem, 'KmsKeyArn'),
-      objectKeyPrefix: _s.extractXmlStringValue(elem, 'ObjectKeyPrefix'),
-      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final iamRoleArn = this.iamRoleArn;
-    final kmsKeyArn = this.kmsKeyArn;
-    final objectKeyPrefix = this.objectKeyPrefix;
-    final topicArn = this.topicArn;
-    return {
-      'BucketName': bucketName,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
-      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final bucketName = this.bucketName;
-    final iamRoleArn = this.iamRoleArn;
-    final kmsKeyArn = this.kmsKeyArn;
-    final objectKeyPrefix = this.objectKeyPrefix;
-    final topicArn = this.topicArn;
-    return {
-      'BucketName': bucketName,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
-      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-}
-
-/// When included in a receipt rule, this action publishes a notification to
-/// Amazon Simple Notification Service (Amazon SNS). This action includes a
-/// complete copy of the email content in the Amazon SNS notifications. Amazon
-/// SNS notifications for all other actions simply provide information about the
-/// email. They do not include the email content itself.
-///
-/// If you own the Amazon SNS topic, you don't need to do anything to give
-/// Amazon SES permission to publish emails to it. However, if you don't own the
-/// Amazon SNS topic, you need to attach a policy to the topic to give Amazon
-/// SES permissions to access it. For information about giving permissions, see
-/// the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
-/// SES Developer Guide</a>.
-/// <important>
-/// You can only publish emails that are 150 KB or less (including the header)
-/// to Amazon SNS. Larger emails bounce. If you anticipate emails larger than
-/// 150 KB, use the S3 action instead.
-/// </important>
-/// For information about using a receipt rule to publish an Amazon SNS
-/// notification, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-sns.html">Amazon
-/// SES Developer Guide</a>.
-class SNSAction {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. You can
-  /// find the ARN of a topic by using the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
-  /// operation in Amazon SNS.
-  ///
-  /// For more information about Amazon SNS topics, see the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
-  /// Developer Guide</a>.
-  final String topicArn;
-
-  /// The encoding to use for the email within the Amazon SNS notification. UTF-8
-  /// is easier to use, but may not preserve all special characters when a message
-  /// was encoded with a different encoding format. Base64 preserves all special
-  /// characters. The default value is UTF-8.
-  final SNSActionEncoding? encoding;
-
-  SNSAction({
-    required this.topicArn,
-    this.encoding,
-  });
-  factory SNSAction.fromXml(_s.XmlElement elem) {
-    return SNSAction(
-      topicArn: _s.extractXmlStringValue(elem, 'TopicArn')!,
-      encoding: _s
-          .extractXmlStringValue(elem, 'Encoding')
-          ?.let(SNSActionEncoding.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final topicArn = this.topicArn;
-    final encoding = this.encoding;
-    return {
-      'TopicArn': topicArn,
-      if (encoding != null) 'Encoding': encoding.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final topicArn = this.topicArn;
-    final encoding = this.encoding;
-    return {
-      'TopicArn': topicArn,
-      if (encoding != null) 'Encoding': encoding.value,
-    };
-  }
-}
-
-class SNSActionEncoding {
-  static const utf_8 = SNSActionEncoding._('UTF-8');
-  static const base64 = SNSActionEncoding._('Base64');
-
-  final String value;
-
-  const SNSActionEncoding._(this.value);
-
-  static const values = [utf_8, base64];
-
-  static SNSActionEncoding fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SNSActionEncoding._(value));
-
-  @override
-  bool operator ==(other) => other is SNSActionEncoding && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the topic ARN associated with an Amazon Simple Notification Service
-/// (Amazon SNS) event destination.
-///
-/// Event destinations, such as Amazon SNS, are associated with configuration
-/// sets, which enable you to publish email sending events. For information
-/// about using configuration sets, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
-/// SES Developer Guide</a>.
-class SNSDestination {
-  /// The ARN of the Amazon SNS topic for email sending events. You can find the
-  /// ARN of a topic by using the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
-  /// Amazon SNS operation.
-  ///
-  /// For more information about Amazon SNS topics, see the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
-  /// Developer Guide</a>.
-  final String topicARN;
-
-  SNSDestination({
-    required this.topicARN,
-  });
-  factory SNSDestination.fromXml(_s.XmlElement elem) {
-    return SNSDestination(
-      topicARN: _s.extractXmlStringValue(elem, 'TopicARN')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final topicARN = this.topicARN;
-    return {
-      'TopicARN': topicARN,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final topicARN = this.topicARN;
-    return {
-      'TopicARN': topicARN,
-    };
   }
 }
 
@@ -7395,57 +4646,6 @@ class SendCustomVerificationEmailResponse {
     final messageId = this.messageId;
     return {
       if (messageId != null) 'MessageId': messageId,
-    };
-  }
-}
-
-/// Represents sending statistics data. Each <code>SendDataPoint</code> contains
-/// statistics for a 15-minute period of sending activity.
-class SendDataPoint {
-  /// Number of emails that have bounced.
-  final int? bounces;
-
-  /// Number of unwanted emails that were rejected by recipients.
-  final int? complaints;
-
-  /// Number of emails that have been sent.
-  final int? deliveryAttempts;
-
-  /// Number of emails rejected by Amazon SES.
-  final int? rejects;
-
-  /// Time of the data point.
-  final DateTime? timestamp;
-
-  SendDataPoint({
-    this.bounces,
-    this.complaints,
-    this.deliveryAttempts,
-    this.rejects,
-    this.timestamp,
-  });
-  factory SendDataPoint.fromXml(_s.XmlElement elem) {
-    return SendDataPoint(
-      bounces: _s.extractXmlIntValue(elem, 'Bounces'),
-      complaints: _s.extractXmlIntValue(elem, 'Complaints'),
-      deliveryAttempts: _s.extractXmlIntValue(elem, 'DeliveryAttempts'),
-      rejects: _s.extractXmlIntValue(elem, 'Rejects'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bounces = this.bounces;
-    final complaints = this.complaints;
-    final deliveryAttempts = this.deliveryAttempts;
-    final rejects = this.rejects;
-    final timestamp = this.timestamp;
-    return {
-      if (bounces != null) 'Bounces': bounces,
-      if (complaints != null) 'Complaints': complaints,
-      if (deliveryAttempts != null) 'DeliveryAttempts': deliveryAttempts,
-      if (rejects != null) 'Rejects': rejects,
-      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
     };
   }
 }
@@ -7616,170 +4816,6 @@ class SetReceiptRulePositionResponse {
   }
 }
 
-/// When included in a receipt rule, this action terminates the evaluation of
-/// the receipt rule set and, optionally, publishes a notification to Amazon
-/// Simple Notification Service (Amazon SNS).
-///
-/// For information about setting a stop action in a receipt rule, see the <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-stop.html">Amazon
-/// SES Developer Guide</a>.
-class StopAction {
-  /// The scope of the StopAction. The only acceptable value is
-  /// <code>RuleSet</code>.
-  final StopScope scope;
-
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
-  /// stop action is taken. You can find the ARN of a topic by using the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
-  /// Amazon SNS operation.
-  ///
-  /// For more information about Amazon SNS topics, see the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
-  /// Developer Guide</a>.
-  final String? topicArn;
-
-  StopAction({
-    required this.scope,
-    this.topicArn,
-  });
-  factory StopAction.fromXml(_s.XmlElement elem) {
-    return StopAction(
-      scope: _s.extractXmlStringValue(elem, 'Scope')!.let(StopScope.fromString),
-      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scope = this.scope;
-    final topicArn = this.topicArn;
-    return {
-      'Scope': scope.value,
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final scope = this.scope;
-    final topicArn = this.topicArn;
-    return {
-      'Scope': scope.value,
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-}
-
-class StopScope {
-  static const ruleSet = StopScope._('RuleSet');
-
-  final String value;
-
-  const StopScope._(this.value);
-
-  static const values = [ruleSet];
-
-  static StopScope fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StopScope._(value));
-
-  @override
-  bool operator ==(other) => other is StopScope && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The content of the email, composed of a subject line and either an HTML part
-/// or a text-only part.
-class Template {
-  /// The name of the template. You use this name when you send email using the
-  /// <code>SendTemplatedEmail</code> or <code>SendBulkTemplatedEmail</code>
-  /// operations.
-  final String templateName;
-
-  /// The HTML body of the email.
-  final String? htmlPart;
-
-  /// The subject line of the email.
-  final String? subjectPart;
-
-  /// The email body that is visible to recipients whose email clients do not
-  /// display HTML content.
-  final String? textPart;
-
-  Template({
-    required this.templateName,
-    this.htmlPart,
-    this.subjectPart,
-    this.textPart,
-  });
-  factory Template.fromXml(_s.XmlElement elem) {
-    return Template(
-      templateName: _s.extractXmlStringValue(elem, 'TemplateName')!,
-      htmlPart: _s.extractXmlStringValue(elem, 'HtmlPart'),
-      subjectPart: _s.extractXmlStringValue(elem, 'SubjectPart'),
-      textPart: _s.extractXmlStringValue(elem, 'TextPart'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final templateName = this.templateName;
-    final htmlPart = this.htmlPart;
-    final subjectPart = this.subjectPart;
-    final textPart = this.textPart;
-    return {
-      'TemplateName': templateName,
-      if (htmlPart != null) 'HtmlPart': htmlPart,
-      if (subjectPart != null) 'SubjectPart': subjectPart,
-      if (textPart != null) 'TextPart': textPart,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final templateName = this.templateName;
-    final htmlPart = this.htmlPart;
-    final subjectPart = this.subjectPart;
-    final textPart = this.textPart;
-    return {
-      'TemplateName': templateName,
-      if (htmlPart != null) 'HtmlPart': htmlPart,
-      if (subjectPart != null) 'SubjectPart': subjectPart,
-      if (textPart != null) 'TextPart': textPart,
-    };
-  }
-}
-
-/// Contains information about an email template.
-class TemplateMetadata {
-  /// The time and date the template was created.
-  final DateTime? createdTimestamp;
-
-  /// The name of the template.
-  final String? name;
-
-  TemplateMetadata({
-    this.createdTimestamp,
-    this.name,
-  });
-  factory TemplateMetadata.fromXml(_s.XmlElement elem) {
-    return TemplateMetadata(
-      createdTimestamp: _s.extractXmlDateTimeValue(elem, 'CreatedTimestamp'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final name = this.name;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
 class TestRenderTemplateResponse {
   /// The complete MIME message rendered by applying the data in the TemplateData
   /// parameter to the template specified in the TemplateName parameter.
@@ -7798,69 +4834,6 @@ class TestRenderTemplateResponse {
     final renderedTemplate = this.renderedTemplate;
     return {
       if (renderedTemplate != null) 'RenderedTemplate': renderedTemplate,
-    };
-  }
-}
-
-class TlsPolicy {
-  static const require = TlsPolicy._('Require');
-  static const optional = TlsPolicy._('Optional');
-
-  final String value;
-
-  const TlsPolicy._(this.value);
-
-  static const values = [require, optional];
-
-  static TlsPolicy fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TlsPolicy._(value));
-
-  @override
-  bool operator ==(other) => other is TlsPolicy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A domain that is used to redirect email recipients to an Amazon SES-operated
-/// domain. This domain captures open and click events generated by Amazon SES
-/// emails.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html">Configuring
-/// Custom Domains to Handle Open and Click Tracking</a> in the <i>Amazon SES
-/// Developer Guide</i>.
-class TrackingOptions {
-  /// The custom subdomain that is used to redirect email recipients to the Amazon
-  /// SES event tracking domain.
-  final String? customRedirectDomain;
-
-  TrackingOptions({
-    this.customRedirectDomain,
-  });
-  factory TrackingOptions.fromXml(_s.XmlElement elem) {
-    return TrackingOptions(
-      customRedirectDomain:
-          _s.extractXmlStringValue(elem, 'CustomRedirectDomain'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customRedirectDomain = this.customRedirectDomain;
-    return {
-      if (customRedirectDomain != null)
-        'CustomRedirectDomain': customRedirectDomain,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final customRedirectDomain = this.customRedirectDomain;
-    return {
-      if (customRedirectDomain != null)
-        'CustomRedirectDomain': customRedirectDomain,
     };
   }
 }
@@ -7918,40 +4891,6 @@ class UpdateTemplateResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-class VerificationStatus {
-  static const pending = VerificationStatus._('Pending');
-  static const success = VerificationStatus._('Success');
-  static const failed = VerificationStatus._('Failed');
-  static const temporaryFailure = VerificationStatus._('TemporaryFailure');
-  static const notStarted = VerificationStatus._('NotStarted');
-
-  final String value;
-
-  const VerificationStatus._(this.value);
-
-  static const values = [
-    pending,
-    success,
-    failed,
-    temporaryFailure,
-    notStarted
-  ];
-
-  static VerificationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VerificationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VerificationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Returns CNAME records that you must publish to the DNS server of your domain
@@ -8038,6 +4977,577 @@ class VerifyEmailIdentityResponse {
   }
 }
 
+/// The content of the email, composed of a subject line and either an HTML part
+/// or a text-only part.
+class Template {
+  /// The name of the template. You use this name when you send email using the
+  /// <code>SendTemplatedEmail</code> or <code>SendBulkTemplatedEmail</code>
+  /// operations.
+  final String templateName;
+
+  /// The HTML body of the email.
+  final String? htmlPart;
+
+  /// The subject line of the email.
+  final String? subjectPart;
+
+  /// The email body that is visible to recipients whose email clients do not
+  /// display HTML content.
+  final String? textPart;
+
+  Template({
+    required this.templateName,
+    this.htmlPart,
+    this.subjectPart,
+    this.textPart,
+  });
+  factory Template.fromXml(_s.XmlElement elem) {
+    return Template(
+      templateName: _s.extractXmlStringValue(elem, 'TemplateName')!,
+      htmlPart: _s.extractXmlStringValue(elem, 'HtmlPart'),
+      subjectPart: _s.extractXmlStringValue(elem, 'SubjectPart'),
+      textPart: _s.extractXmlStringValue(elem, 'TextPart'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final templateName = this.templateName;
+    final htmlPart = this.htmlPart;
+    final subjectPart = this.subjectPart;
+    final textPart = this.textPart;
+    return {
+      'TemplateName': templateName,
+      if (htmlPart != null) 'HtmlPart': htmlPart,
+      if (subjectPart != null) 'SubjectPart': subjectPart,
+      if (textPart != null) 'TextPart': textPart,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final templateName = this.templateName;
+    final htmlPart = this.htmlPart;
+    final subjectPart = this.subjectPart;
+    final textPart = this.textPart;
+    return {
+      'TemplateName': templateName,
+      if (htmlPart != null) 'HtmlPart': htmlPart,
+      if (subjectPart != null) 'SubjectPart': subjectPart,
+      if (textPart != null) 'TextPart': textPart,
+    };
+  }
+}
+
+/// Receipt rules enable you to specify which actions Amazon SES should take
+/// when it receives mail on behalf of one or more email addresses or domains
+/// that you own.
+///
+/// Each receipt rule defines a set of email addresses or domains that it
+/// applies to. If the email addresses or domains match at least one recipient
+/// address of the message, Amazon SES executes all of the receipt rule's
+/// actions on the message.
+///
+/// For information about setting up receipt rules, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
+/// SES Developer Guide</a>.
+class ReceiptRule {
+  /// The name of the receipt rule. The name must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
+  /// dashes (-), or periods (.).
+  /// </li>
+  /// <li>
+  /// Start and end with a letter or number.
+  /// </li>
+  /// <li>
+  /// Contain 64 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String name;
+
+  /// An ordered list of actions to perform on messages that match at least one of
+  /// the recipient email addresses or domains specified in the receipt rule.
+  final List<ReceiptAction>? actions;
+
+  /// If <code>true</code>, the receipt rule is active. The default value is
+  /// <code>false</code>.
+  final bool? enabled;
+
+  /// The recipient domains and email addresses that the receipt rule applies to.
+  /// If this field is not specified, this rule matches all recipients on all
+  /// verified domains.
+  final List<String>? recipients;
+
+  /// If <code>true</code>, then messages that this receipt rule applies to are
+  /// scanned for spam and viruses. The default value is <code>false</code>.
+  final bool? scanEnabled;
+
+  /// Specifies whether Amazon SES should require that incoming email is delivered
+  /// over a connection encrypted with Transport Layer Security (TLS). If this
+  /// parameter is set to <code>Require</code>, Amazon SES bounces emails that are
+  /// not received over TLS. The default is <code>Optional</code>.
+  final TlsPolicy? tlsPolicy;
+
+  ReceiptRule({
+    required this.name,
+    this.actions,
+    this.enabled,
+    this.recipients,
+    this.scanEnabled,
+    this.tlsPolicy,
+  });
+  factory ReceiptRule.fromXml(_s.XmlElement elem) {
+    return ReceiptRule(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      actions: _s.extractXmlChild(elem, 'Actions')?.let((elem) =>
+          elem.findElements('member').map(ReceiptAction.fromXml).toList()),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      recipients: _s
+          .extractXmlChild(elem, 'Recipients')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      scanEnabled: _s.extractXmlBoolValue(elem, 'ScanEnabled'),
+      tlsPolicy: _s
+          .extractXmlStringValue(elem, 'TlsPolicy')
+          ?.let(TlsPolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final actions = this.actions;
+    final enabled = this.enabled;
+    final recipients = this.recipients;
+    final scanEnabled = this.scanEnabled;
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      'Name': name,
+      if (actions != null) 'Actions': actions,
+      if (enabled != null) 'Enabled': enabled,
+      if (recipients != null) 'Recipients': recipients,
+      if (scanEnabled != null) 'ScanEnabled': scanEnabled,
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final actions = this.actions;
+    final enabled = this.enabled;
+    final recipients = this.recipients;
+    final scanEnabled = this.scanEnabled;
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      'Name': name,
+      if (actions != null)
+        if (actions.isEmpty)
+          'Actions': ''
+        else
+          for (var i1 = 0; i1 < actions.length; i1++)
+            for (var e3 in actions[i1].toQueryMap().entries)
+              'Actions.member.${i1 + 1}.${e3.key}': e3.value,
+      if (enabled != null) 'Enabled': enabled.toString(),
+      if (recipients != null)
+        if (recipients.isEmpty)
+          'Recipients': ''
+        else
+          for (var i1 = 0; i1 < recipients.length; i1++)
+            'Recipients.member.${i1 + 1}': recipients[i1],
+      if (scanEnabled != null) 'ScanEnabled': scanEnabled.toString(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
+    };
+  }
+}
+
+class TlsPolicy {
+  static const require = TlsPolicy._('Require');
+  static const optional = TlsPolicy._('Optional');
+
+  final String value;
+
+  const TlsPolicy._(this.value);
+
+  static const values = [require, optional];
+
+  static TlsPolicy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TlsPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is TlsPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An action that Amazon SES can take when it receives an email on behalf of
+/// one or more email addresses or domains that you own. An instance of this
+/// data type can represent only one action.
+///
+/// For information about setting up receipt rules, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-receipt-rules-console-walkthrough.html">Amazon
+/// SES Developer Guide</a>.
+class ReceiptAction {
+  /// Adds a header to the received email.
+  final AddHeaderAction? addHeaderAction;
+
+  /// Rejects the received email by returning a bounce response to the sender and,
+  /// optionally, publishes a notification to Amazon Simple Notification Service
+  /// (Amazon SNS).
+  final BounceAction? bounceAction;
+
+  /// Parses the received message and starts an email contact in Amazon Connect on
+  /// your behalf.
+  final ConnectAction? connectAction;
+
+  /// Calls an Amazon Web Services Lambda function, and optionally, publishes a
+  /// notification to Amazon SNS.
+  final LambdaAction? lambdaAction;
+
+  /// Saves the received message to an Amazon Simple Storage Service (Amazon S3)
+  /// bucket and, optionally, publishes a notification to Amazon SNS.
+  final S3Action? s3Action;
+
+  /// Publishes the email content within a notification to Amazon SNS.
+  final SNSAction? sNSAction;
+
+  /// Terminates the evaluation of the receipt rule set and optionally publishes a
+  /// notification to Amazon SNS.
+  final StopAction? stopAction;
+
+  /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon
+  /// Amazon SNS.
+  final WorkmailAction? workmailAction;
+
+  ReceiptAction({
+    this.addHeaderAction,
+    this.bounceAction,
+    this.connectAction,
+    this.lambdaAction,
+    this.s3Action,
+    this.sNSAction,
+    this.stopAction,
+    this.workmailAction,
+  });
+  factory ReceiptAction.fromXml(_s.XmlElement elem) {
+    return ReceiptAction(
+      addHeaderAction: _s
+          .extractXmlChild(elem, 'AddHeaderAction')
+          ?.let(AddHeaderAction.fromXml),
+      bounceAction:
+          _s.extractXmlChild(elem, 'BounceAction')?.let(BounceAction.fromXml),
+      connectAction:
+          _s.extractXmlChild(elem, 'ConnectAction')?.let(ConnectAction.fromXml),
+      lambdaAction:
+          _s.extractXmlChild(elem, 'LambdaAction')?.let(LambdaAction.fromXml),
+      s3Action: _s.extractXmlChild(elem, 'S3Action')?.let(S3Action.fromXml),
+      sNSAction: _s.extractXmlChild(elem, 'SNSAction')?.let(SNSAction.fromXml),
+      stopAction:
+          _s.extractXmlChild(elem, 'StopAction')?.let(StopAction.fromXml),
+      workmailAction: _s
+          .extractXmlChild(elem, 'WorkmailAction')
+          ?.let(WorkmailAction.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addHeaderAction = this.addHeaderAction;
+    final bounceAction = this.bounceAction;
+    final connectAction = this.connectAction;
+    final lambdaAction = this.lambdaAction;
+    final s3Action = this.s3Action;
+    final sNSAction = this.sNSAction;
+    final stopAction = this.stopAction;
+    final workmailAction = this.workmailAction;
+    return {
+      if (addHeaderAction != null) 'AddHeaderAction': addHeaderAction,
+      if (bounceAction != null) 'BounceAction': bounceAction,
+      if (connectAction != null) 'ConnectAction': connectAction,
+      if (lambdaAction != null) 'LambdaAction': lambdaAction,
+      if (s3Action != null) 'S3Action': s3Action,
+      if (sNSAction != null) 'SNSAction': sNSAction,
+      if (stopAction != null) 'StopAction': stopAction,
+      if (workmailAction != null) 'WorkmailAction': workmailAction,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final addHeaderAction = this.addHeaderAction;
+    final bounceAction = this.bounceAction;
+    final connectAction = this.connectAction;
+    final lambdaAction = this.lambdaAction;
+    final s3Action = this.s3Action;
+    final sNSAction = this.sNSAction;
+    final stopAction = this.stopAction;
+    final workmailAction = this.workmailAction;
+    return {
+      if (addHeaderAction != null)
+        for (var e1 in addHeaderAction.toQueryMap().entries)
+          'AddHeaderAction.${e1.key}': e1.value,
+      if (bounceAction != null)
+        for (var e1 in bounceAction.toQueryMap().entries)
+          'BounceAction.${e1.key}': e1.value,
+      if (connectAction != null)
+        for (var e1 in connectAction.toQueryMap().entries)
+          'ConnectAction.${e1.key}': e1.value,
+      if (lambdaAction != null)
+        for (var e1 in lambdaAction.toQueryMap().entries)
+          'LambdaAction.${e1.key}': e1.value,
+      if (s3Action != null)
+        for (var e1 in s3Action.toQueryMap().entries)
+          'S3Action.${e1.key}': e1.value,
+      if (sNSAction != null)
+        for (var e1 in sNSAction.toQueryMap().entries)
+          'SNSAction.${e1.key}': e1.value,
+      if (stopAction != null)
+        for (var e1 in stopAction.toQueryMap().entries)
+          'StopAction.${e1.key}': e1.value,
+      if (workmailAction != null)
+        for (var e1 in workmailAction.toQueryMap().entries)
+          'WorkmailAction.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// When included in a receipt rule, this action saves the received message to
+/// an Amazon Simple Storage Service (Amazon S3) bucket and, optionally,
+/// publishes a notification to Amazon Simple Notification Service (Amazon SNS).
+///
+/// To enable Amazon SES to write emails to your Amazon S3 bucket, use an Amazon
+/// Web Services KMS key to encrypt your emails, or publish to an Amazon SNS
+/// topic of another account, Amazon SES must have permission to access those
+/// resources. For information about granting permissions, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
+/// SES Developer Guide</a>.
+/// <note>
+/// When you save your emails to an Amazon S3 bucket, the maximum email size
+/// (including headers) is 40 MB. Emails larger than that bounces.
+/// </note>
+/// For information about specifying Amazon S3 actions in receipt rules, see the
+/// <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-s3.html">Amazon
+/// SES Developer Guide</a>.
+class S3Action {
+  /// The name of the Amazon S3 bucket for incoming email.
+  final String bucketName;
+
+  /// The ARN of the IAM role to be used by Amazon Simple Email Service while
+  /// writing to the Amazon S3 bucket, optionally encrypting your mail via the
+  /// provided customer managed key, and publishing to the Amazon SNS topic. This
+  /// role should have access to the following APIs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>s3:PutObject</code>, <code>kms:Encrypt</code> and
+  /// <code>kms:GenerateDataKey</code> for the given Amazon S3 bucket.
+  /// </li>
+  /// <li>
+  /// <code>kms:GenerateDataKey</code> for the given Amazon Web Services KMS
+  /// customer managed key.
+  /// </li>
+  /// <li>
+  /// <code>sns:Publish</code> for the given Amazon SNS topic.
+  /// </li>
+  /// </ul> <note>
+  /// If an IAM role ARN is provided, the role (and only the role) is used to
+  /// access all the given resources (Amazon S3 bucket, Amazon Web Services KMS
+  /// customer managed key and Amazon SNS topic). Therefore, setting up individual
+  /// resource access permissions is not required.
+  /// </note>
+  final String? iamRoleArn;
+
+  /// The customer managed key that Amazon SES should use to encrypt your emails
+  /// before saving them to the Amazon S3 bucket. You can use the Amazon Web
+  /// Services managed key or a customer managed key that you created in Amazon
+  /// Web Services KMS as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// To use the Amazon Web Services managed key, provide an ARN in the form of
+  /// <code>arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses</code>.
+  /// For example, if your Amazon Web Services account ID is 123456789012 and you
+  /// want to use the Amazon Web Services managed key in the US West (Oregon)
+  /// Region, the ARN of the Amazon Web Services managed key would be
+  /// <code>arn:aws:kms:us-west-2:123456789012:alias/aws/ses</code>. If you use
+  /// the Amazon Web Services managed key, you don't need to perform any extra
+  /// steps to give Amazon SES permission to use the key.
+  /// </li>
+  /// <li>
+  /// To use a customer managed key that you created in Amazon Web Services KMS,
+  /// provide the ARN of the customer managed key and ensure that you add a
+  /// statement to your key's policy to give Amazon SES permission to use it. For
+  /// more information about giving permissions, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
+  /// SES Developer Guide</a>.
+  /// </li>
+  /// </ul>
+  /// For more information about key policies, see the <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">Amazon
+  /// Web Services KMS Developer Guide</a>. If you do not specify an Amazon Web
+  /// Services KMS key, Amazon SES does not encrypt your emails.
+  /// <important>
+  /// Your mail is encrypted by Amazon SES using the Amazon S3 encryption client
+  /// before the mail is submitted to Amazon S3 for storage. It is not encrypted
+  /// using Amazon S3 server-side encryption. This means that you must use the
+  /// Amazon S3 encryption client to decrypt the email after retrieving it from
+  /// Amazon S3, as the service has no access to use your Amazon Web Services KMS
+  /// keys for decryption. This encryption client is currently available with the
+  /// <a href="http://aws.amazon.com/sdk-for-java/">Amazon Web Services SDK for
+  /// Java</a> and <a href="http://aws.amazon.com/sdk-for-ruby/">Amazon Web
+  /// Services SDK for Ruby</a> only. For more information about client-side
+  /// encryption using Amazon Web Services KMS managed keys, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">Amazon
+  /// S3 Developer Guide</a>.
+  /// </important>
+  final String? kmsKeyArn;
+
+  /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a
+  /// directory name that enables you to store similar data under the same
+  /// directory in a bucket.
+  final String? objectKeyPrefix;
+
+  /// The ARN of the Amazon SNS topic to notify when the message is saved to the
+  /// Amazon S3 bucket. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
+  /// Developer Guide</a>.
+  final String? topicArn;
+
+  S3Action({
+    required this.bucketName,
+    this.iamRoleArn,
+    this.kmsKeyArn,
+    this.objectKeyPrefix,
+    this.topicArn,
+  });
+  factory S3Action.fromXml(_s.XmlElement elem) {
+    return S3Action(
+      bucketName: _s.extractXmlStringValue(elem, 'BucketName')!,
+      iamRoleArn: _s.extractXmlStringValue(elem, 'IamRoleArn'),
+      kmsKeyArn: _s.extractXmlStringValue(elem, 'KmsKeyArn'),
+      objectKeyPrefix: _s.extractXmlStringValue(elem, 'ObjectKeyPrefix'),
+      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final iamRoleArn = this.iamRoleArn;
+    final kmsKeyArn = this.kmsKeyArn;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    final topicArn = this.topicArn;
+    return {
+      'BucketName': bucketName,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final bucketName = this.bucketName;
+    final iamRoleArn = this.iamRoleArn;
+    final kmsKeyArn = this.kmsKeyArn;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    final topicArn = this.topicArn;
+    return {
+      'BucketName': bucketName,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+}
+
+/// When included in a receipt rule, this action rejects the received email by
+/// returning a bounce response to the sender and, optionally, publishes a
+/// notification to Amazon Simple Notification Service (Amazon SNS).
+///
+/// For information about sending a bounce message in response to a received
+/// email, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-bounce.html">Amazon
+/// SES Developer Guide</a>.
+class BounceAction {
+  /// Human-readable text to include in the bounce message.
+  final String message;
+
+  /// The email address of the sender of the bounced email. This is the address
+  /// from which the bounce message is sent.
+  final String sender;
+
+  /// The SMTP reply code, as defined by <a
+  /// href="https://tools.ietf.org/html/rfc5321">RFC 5321</a>.
+  final String smtpReplyCode;
+
+  /// The SMTP enhanced status code, as defined by <a
+  /// href="https://tools.ietf.org/html/rfc3463">RFC 3463</a>.
+  final String? statusCode;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
+  /// bounce action is taken. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
+  /// Developer Guide</a>.
+  final String? topicArn;
+
+  BounceAction({
+    required this.message,
+    required this.sender,
+    required this.smtpReplyCode,
+    this.statusCode,
+    this.topicArn,
+  });
+  factory BounceAction.fromXml(_s.XmlElement elem) {
+    return BounceAction(
+      message: _s.extractXmlStringValue(elem, 'Message')!,
+      sender: _s.extractXmlStringValue(elem, 'Sender')!,
+      smtpReplyCode: _s.extractXmlStringValue(elem, 'SmtpReplyCode')!,
+      statusCode: _s.extractXmlStringValue(elem, 'StatusCode'),
+      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final sender = this.sender;
+    final smtpReplyCode = this.smtpReplyCode;
+    final statusCode = this.statusCode;
+    final topicArn = this.topicArn;
+    return {
+      'Message': message,
+      'Sender': sender,
+      'SmtpReplyCode': smtpReplyCode,
+      if (statusCode != null) 'StatusCode': statusCode,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final message = this.message;
+    final sender = this.sender;
+    final smtpReplyCode = this.smtpReplyCode;
+    final statusCode = this.statusCode;
+    final topicArn = this.topicArn;
+    return {
+      'Message': message,
+      'Sender': sender,
+      'SmtpReplyCode': smtpReplyCode,
+      if (statusCode != null) 'StatusCode': statusCode,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+}
+
 /// When included in a receipt rule, this action calls Amazon WorkMail and,
 /// optionally, publishes a notification to Amazon Simple Notification Service
 /// (Amazon SNS). It usually isn't necessary to set this up manually, because
@@ -8050,7 +5560,7 @@ class WorkmailAction {
   /// The Amazon Resource Name (ARN) of the Amazon WorkMail organization. Amazon
   /// WorkMail ARNs use the following format:
   ///
-  /// <code>arn:aws:workmail:&lt;region&gt;:&lt;awsAccountId&gt;:organization/&lt;workmailOrganizationId&gt;</code>
+  /// <code>arn:aws:workmail:<region>:<awsAccountId>:organization/<workmailOrganizationId></code>
   ///
   /// You can find the ID of your organization by using the <a
   /// href="https://docs.aws.amazon.com/workmail/latest/APIReference/API_ListOrganizations.html">ListOrganizations</a>
@@ -8100,6 +5610,2563 @@ class WorkmailAction {
       if (topicArn != null) 'TopicArn': topicArn,
     };
   }
+}
+
+/// When included in a receipt rule, this action calls an Amazon Web Services
+/// Lambda function and, optionally, publishes a notification to Amazon Simple
+/// Notification Service (Amazon SNS).
+///
+/// To enable Amazon SES to call your Amazon Web Services Lambda function or to
+/// publish to an Amazon SNS topic of another account, Amazon SES must have
+/// permission to access those resources. For information about giving
+/// permissions, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
+/// SES Developer Guide</a>.
+///
+/// For information about using Amazon Web Services Lambda actions in receipt
+/// rules, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-lambda.html">Amazon
+/// SES Developer Guide</a>.
+class LambdaAction {
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services Lambda function.
+  /// An example of an Amazon Web Services Lambda function ARN is
+  /// <code>arn:aws:lambda:us-west-2:account-id:function:MyFunction</code>. For
+  /// more information about Amazon Web Services Lambda, see the <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">Amazon Web
+  /// Services Lambda Developer Guide</a>.
+  final String functionArn;
+
+  /// The invocation type of the Amazon Web Services Lambda function. An
+  /// invocation type of <code>RequestResponse</code> means that the execution of
+  /// the function immediately results in a response, and a value of
+  /// <code>Event</code> means that the function is invoked asynchronously. The
+  /// default value is <code>Event</code>. For information about Amazon Web
+  /// Services Lambda invocation types, see the <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/API_Invoke.html">Amazon
+  /// Web Services Lambda Developer Guide</a>.
+  /// <important>
+  /// There is a 30-second timeout on <code>RequestResponse</code> invocations.
+  /// You should use <code>Event</code> invocation in most cases. Use
+  /// <code>RequestResponse</code> only to make a mail flow decision, such as
+  /// whether to stop the receipt rule or the receipt rule set.
+  /// </important>
+  final InvocationType? invocationType;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
+  /// Lambda action is executed. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
+  /// Developer Guide</a>.
+  final String? topicArn;
+
+  LambdaAction({
+    required this.functionArn,
+    this.invocationType,
+    this.topicArn,
+  });
+  factory LambdaAction.fromXml(_s.XmlElement elem) {
+    return LambdaAction(
+      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn')!,
+      invocationType: _s
+          .extractXmlStringValue(elem, 'InvocationType')
+          ?.let(InvocationType.fromString),
+      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionArn = this.functionArn;
+    final invocationType = this.invocationType;
+    final topicArn = this.topicArn;
+    return {
+      'FunctionArn': functionArn,
+      if (invocationType != null) 'InvocationType': invocationType.value,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final functionArn = this.functionArn;
+    final invocationType = this.invocationType;
+    final topicArn = this.topicArn;
+    return {
+      'FunctionArn': functionArn,
+      if (invocationType != null) 'InvocationType': invocationType.value,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+}
+
+/// When included in a receipt rule, this action terminates the evaluation of
+/// the receipt rule set and, optionally, publishes a notification to Amazon
+/// Simple Notification Service (Amazon SNS).
+///
+/// For information about setting a stop action in a receipt rule, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-stop.html">Amazon
+/// SES Developer Guide</a>.
+class StopAction {
+  /// The scope of the StopAction. The only acceptable value is
+  /// <code>RuleSet</code>.
+  final StopScope scope;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
+  /// stop action is taken. You can find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// Amazon SNS operation.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
+  /// Developer Guide</a>.
+  final String? topicArn;
+
+  StopAction({
+    required this.scope,
+    this.topicArn,
+  });
+  factory StopAction.fromXml(_s.XmlElement elem) {
+    return StopAction(
+      scope: _s.extractXmlStringValue(elem, 'Scope')!.let(StopScope.fromString),
+      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scope = this.scope;
+    final topicArn = this.topicArn;
+    return {
+      'Scope': scope.value,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final scope = this.scope;
+    final topicArn = this.topicArn;
+    return {
+      'Scope': scope.value,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+}
+
+/// When included in a receipt rule, this action adds a header to the received
+/// email.
+///
+/// For information about adding a header using a receipt rule, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-add-header.html">Amazon
+/// SES Developer Guide</a>.
+class AddHeaderAction {
+  /// The name of the header to add to the incoming message. The name must contain
+  /// at least one character, and can contain up to 50 characters. It consists of
+  /// alphanumeric (a–z, A–Z, 0–9) characters and dashes.
+  final String headerName;
+
+  /// The content to include in the header. This value can contain up to 2048
+  /// characters. It can't contain newline (<code>\n</code>) or carriage return
+  /// (<code>\r</code>) characters.
+  final String headerValue;
+
+  AddHeaderAction({
+    required this.headerName,
+    required this.headerValue,
+  });
+  factory AddHeaderAction.fromXml(_s.XmlElement elem) {
+    return AddHeaderAction(
+      headerName: _s.extractXmlStringValue(elem, 'HeaderName')!,
+      headerValue: _s.extractXmlStringValue(elem, 'HeaderValue')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headerName = this.headerName;
+    final headerValue = this.headerValue;
+    return {
+      'HeaderName': headerName,
+      'HeaderValue': headerValue,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final headerName = this.headerName;
+    final headerValue = this.headerValue;
+    return {
+      'HeaderName': headerName,
+      'HeaderValue': headerValue,
+    };
+  }
+}
+
+/// When included in a receipt rule, this action publishes a notification to
+/// Amazon Simple Notification Service (Amazon SNS). This action includes a
+/// complete copy of the email content in the Amazon SNS notifications. Amazon
+/// SNS notifications for all other actions simply provide information about the
+/// email. They do not include the email content itself.
+///
+/// If you own the Amazon SNS topic, you don't need to do anything to give
+/// Amazon SES permission to publish emails to it. However, if you don't own the
+/// Amazon SNS topic, you need to attach a policy to the topic to give Amazon
+/// SES permissions to access it. For information about giving permissions, see
+/// the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-permissions.html">Amazon
+/// SES Developer Guide</a>.
+/// <important>
+/// You can only publish emails that are 150 KB or less (including the header)
+/// to Amazon SNS. Larger emails bounce. If you anticipate emails larger than
+/// 150 KB, use the S3 action instead.
+/// </important>
+/// For information about using a receipt rule to publish an Amazon SNS
+/// notification, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-action-sns.html">Amazon
+/// SES Developer Guide</a>.
+class SNSAction {
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. You can
+  /// find the ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// operation in Amazon SNS.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
+  /// Developer Guide</a>.
+  final String topicArn;
+
+  /// The encoding to use for the email within the Amazon SNS notification. UTF-8
+  /// is easier to use, but may not preserve all special characters when a message
+  /// was encoded with a different encoding format. Base64 preserves all special
+  /// characters. The default value is UTF-8.
+  final SNSActionEncoding? encoding;
+
+  SNSAction({
+    required this.topicArn,
+    this.encoding,
+  });
+  factory SNSAction.fromXml(_s.XmlElement elem) {
+    return SNSAction(
+      topicArn: _s.extractXmlStringValue(elem, 'TopicArn')!,
+      encoding: _s
+          .extractXmlStringValue(elem, 'Encoding')
+          ?.let(SNSActionEncoding.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    final encoding = this.encoding;
+    return {
+      'TopicArn': topicArn,
+      if (encoding != null) 'Encoding': encoding.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final topicArn = this.topicArn;
+    final encoding = this.encoding;
+    return {
+      'TopicArn': topicArn,
+      if (encoding != null) 'Encoding': encoding.value,
+    };
+  }
+}
+
+/// When included in a receipt rule, this action parses the received message and
+/// starts an email contact in Amazon Connect on your behalf.
+/// <note>
+/// When you receive emails, the maximum email size (including headers) is 40
+/// MB. Additionally, emails may only have up to 10 attachments. Emails larger
+/// than 40 MB or with more than 10 attachments will be bounced.
+/// </note>
+/// We recommend that you configure this action via Amazon Connect.
+class ConnectAction {
+  /// The Amazon Resource Name (ARN) of the IAM role to be used by Amazon Simple
+  /// Email Service while starting email contacts to the Amazon Connect instance.
+  /// This role should have permission to invoke
+  /// <code>connect:StartEmailContact</code> for the given Amazon Connect
+  /// instance.
+  final String iAMRoleARN;
+
+  /// The Amazon Resource Name (ARN) for the Amazon Connect instance that Amazon
+  /// SES integrates with for starting email contacts.
+  ///
+  /// For more information about Amazon Connect instances, see the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instances.html">Amazon
+  /// Connect Administrator Guide</a>
+  final String instanceARN;
+
+  ConnectAction({
+    required this.iAMRoleARN,
+    required this.instanceARN,
+  });
+  factory ConnectAction.fromXml(_s.XmlElement elem) {
+    return ConnectAction(
+      iAMRoleARN: _s.extractXmlStringValue(elem, 'IAMRoleARN')!,
+      instanceARN: _s.extractXmlStringValue(elem, 'InstanceARN')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iAMRoleARN = this.iAMRoleARN;
+    final instanceARN = this.instanceARN;
+    return {
+      'IAMRoleARN': iAMRoleARN,
+      'InstanceARN': instanceARN,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final iAMRoleARN = this.iAMRoleARN;
+    final instanceARN = this.instanceARN;
+    return {
+      'IAMRoleARN': iAMRoleARN,
+      'InstanceARN': instanceARN,
+    };
+  }
+}
+
+class SNSActionEncoding {
+  static const utf_8 = SNSActionEncoding._('UTF-8');
+  static const base64 = SNSActionEncoding._('Base64');
+
+  final String value;
+
+  const SNSActionEncoding._(this.value);
+
+  static const values = [utf_8, base64];
+
+  static SNSActionEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SNSActionEncoding._(value));
+
+  @override
+  bool operator ==(other) => other is SNSActionEncoding && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StopScope {
+  static const ruleSet = StopScope._('RuleSet');
+
+  final String value;
+
+  const StopScope._(this.value);
+
+  static const values = [ruleSet];
+
+  static StopScope fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StopScope._(value));
+
+  @override
+  bool operator ==(other) => other is StopScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InvocationType {
+  static const event = InvocationType._('Event');
+  static const requestResponse = InvocationType._('RequestResponse');
+
+  final String value;
+
+  const InvocationType._(this.value);
+
+  static const values = [event, requestResponse];
+
+  static InvocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InvocationType._(value));
+
+  @override
+  bool operator ==(other) => other is InvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A domain that is used to redirect email recipients to an Amazon SES-operated
+/// domain. This domain captures open and click events generated by Amazon SES
+/// emails.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/configure-custom-open-click-domains.html">Configuring
+/// Custom Domains to Handle Open and Click Tracking</a> in the <i>Amazon SES
+/// Developer Guide</i>.
+class TrackingOptions {
+  /// The custom subdomain that is used to redirect email recipients to the Amazon
+  /// SES event tracking domain.
+  final String? customRedirectDomain;
+
+  TrackingOptions({
+    this.customRedirectDomain,
+  });
+  factory TrackingOptions.fromXml(_s.XmlElement elem) {
+    return TrackingOptions(
+      customRedirectDomain:
+          _s.extractXmlStringValue(elem, 'CustomRedirectDomain'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customRedirectDomain = this.customRedirectDomain;
+    return {
+      if (customRedirectDomain != null)
+        'CustomRedirectDomain': customRedirectDomain,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final customRedirectDomain = this.customRedirectDomain;
+    return {
+      if (customRedirectDomain != null)
+        'CustomRedirectDomain': customRedirectDomain,
+    };
+  }
+}
+
+/// Contains information about an event destination.
+/// <note>
+/// When you create or update an event destination, you must provide one, and
+/// only one, destination. The destination can be Amazon CloudWatch, Amazon
+/// Kinesis Firehose or Amazon Simple Notification Service (Amazon SNS).
+/// </note>
+/// Event destinations are associated with configuration sets, which enable you
+/// to publish email sending events to Amazon CloudWatch, Amazon Kinesis
+/// Firehose, or Amazon Simple Notification Service (Amazon SNS). For
+/// information about using configuration sets, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
+/// SES Developer Guide</a>.
+class EventDestination {
+  /// The type of email sending events to publish to the event destination.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>send</code> - The call was successful and Amazon SES is attempting to
+  /// deliver the email.
+  /// </li>
+  /// <li>
+  /// <code>reject</code> - Amazon SES determined that the email contained a virus
+  /// and rejected it.
+  /// </li>
+  /// <li>
+  /// <code>bounce</code> - The recipient's mail server permanently rejected the
+  /// email. This corresponds to a hard bounce.
+  /// </li>
+  /// <li>
+  /// <code>complaint</code> - The recipient marked the email as spam.
+  /// </li>
+  /// <li>
+  /// <code>delivery</code> - Amazon SES successfully delivered the email to the
+  /// recipient's mail server.
+  /// </li>
+  /// <li>
+  /// <code>open</code> - The recipient received the email and opened it in their
+  /// email client.
+  /// </li>
+  /// <li>
+  /// <code>click</code> - The recipient clicked one or more links in the email.
+  /// </li>
+  /// <li>
+  /// <code>renderingFailure</code> - Amazon SES did not send the email because of
+  /// a template rendering issue.
+  /// </li>
+  /// </ul>
+  final List<EventType> matchingEventTypes;
+
+  /// The name of the event destination. The name must meet the following
+  /// requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
+  /// </li>
+  /// <li>
+  /// Contain 64 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String name;
+
+  /// An object that contains the names, default values, and sources of the
+  /// dimensions associated with an Amazon CloudWatch event destination.
+  final CloudWatchDestination? cloudWatchDestination;
+
+  /// Sets whether Amazon SES publishes events to this destination when you send
+  /// an email with the associated configuration set. Set to <code>true</code> to
+  /// enable publishing to this destination; set to <code>false</code> to prevent
+  /// publishing to this destination. The default value is <code>false</code>.
+  final bool? enabled;
+
+  /// An object that contains the delivery stream ARN and the IAM role ARN
+  /// associated with an Amazon Kinesis Firehose event destination.
+  final KinesisFirehoseDestination? kinesisFirehoseDestination;
+
+  /// An object that contains the topic ARN associated with an Amazon Simple
+  /// Notification Service (Amazon SNS) event destination.
+  final SNSDestination? sNSDestination;
+
+  EventDestination({
+    required this.matchingEventTypes,
+    required this.name,
+    this.cloudWatchDestination,
+    this.enabled,
+    this.kinesisFirehoseDestination,
+    this.sNSDestination,
+  });
+  factory EventDestination.fromXml(_s.XmlElement elem) {
+    return EventDestination(
+      matchingEventTypes: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'MatchingEventTypes')!, 'member')
+          .map(EventType.fromString)
+          .toList(),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      cloudWatchDestination: _s
+          .extractXmlChild(elem, 'CloudWatchDestination')
+          ?.let(CloudWatchDestination.fromXml),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      kinesisFirehoseDestination: _s
+          .extractXmlChild(elem, 'KinesisFirehoseDestination')
+          ?.let(KinesisFirehoseDestination.fromXml),
+      sNSDestination: _s
+          .extractXmlChild(elem, 'SNSDestination')
+          ?.let(SNSDestination.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchingEventTypes = this.matchingEventTypes;
+    final name = this.name;
+    final cloudWatchDestination = this.cloudWatchDestination;
+    final enabled = this.enabled;
+    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
+    final sNSDestination = this.sNSDestination;
+    return {
+      'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
+      'Name': name,
+      if (cloudWatchDestination != null)
+        'CloudWatchDestination': cloudWatchDestination,
+      if (enabled != null) 'Enabled': enabled,
+      if (kinesisFirehoseDestination != null)
+        'KinesisFirehoseDestination': kinesisFirehoseDestination,
+      if (sNSDestination != null) 'SNSDestination': sNSDestination,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final matchingEventTypes = this.matchingEventTypes;
+    final name = this.name;
+    final cloudWatchDestination = this.cloudWatchDestination;
+    final enabled = this.enabled;
+    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
+    final sNSDestination = this.sNSDestination;
+    return {
+      if (matchingEventTypes.isEmpty)
+        'MatchingEventTypes': ''
+      else
+        for (var i1 = 0; i1 < matchingEventTypes.length; i1++)
+          'MatchingEventTypes.member.${i1 + 1}': matchingEventTypes[i1].value,
+      'Name': name,
+      if (cloudWatchDestination != null)
+        for (var e1 in cloudWatchDestination.toQueryMap().entries)
+          'CloudWatchDestination.${e1.key}': e1.value,
+      if (enabled != null) 'Enabled': enabled.toString(),
+      if (kinesisFirehoseDestination != null)
+        for (var e1 in kinesisFirehoseDestination.toQueryMap().entries)
+          'KinesisFirehoseDestination.${e1.key}': e1.value,
+      if (sNSDestination != null)
+        for (var e1 in sNSDestination.toQueryMap().entries)
+          'SNSDestination.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// Contains the delivery stream ARN and the IAM role ARN associated with an
+/// Amazon Kinesis Firehose event destination.
+///
+/// Event destinations, such as Amazon Kinesis Firehose, are associated with
+/// configuration sets, which enable you to publish email sending events. For
+/// information about using configuration sets, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
+/// SES Developer Guide</a>.
+class KinesisFirehoseDestination {
+  /// The ARN of the Amazon Kinesis Firehose stream that email sending events
+  /// should be published to.
+  final String deliveryStreamARN;
+
+  /// The ARN of the IAM role under which Amazon SES publishes email sending
+  /// events to the Amazon Kinesis Firehose stream.
+  final String iAMRoleARN;
+
+  KinesisFirehoseDestination({
+    required this.deliveryStreamARN,
+    required this.iAMRoleARN,
+  });
+  factory KinesisFirehoseDestination.fromXml(_s.XmlElement elem) {
+    return KinesisFirehoseDestination(
+      deliveryStreamARN: _s.extractXmlStringValue(elem, 'DeliveryStreamARN')!,
+      iAMRoleARN: _s.extractXmlStringValue(elem, 'IAMRoleARN')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamARN = this.deliveryStreamARN;
+    final iAMRoleARN = this.iAMRoleARN;
+    return {
+      'DeliveryStreamARN': deliveryStreamARN,
+      'IAMRoleARN': iAMRoleARN,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final deliveryStreamARN = this.deliveryStreamARN;
+    final iAMRoleARN = this.iAMRoleARN;
+    return {
+      'DeliveryStreamARN': deliveryStreamARN,
+      'IAMRoleARN': iAMRoleARN,
+    };
+  }
+}
+
+/// Contains information associated with an Amazon CloudWatch event destination
+/// to which email sending events are published.
+///
+/// Event destinations, such as Amazon CloudWatch, are associated with
+/// configuration sets, which enable you to publish email sending events. For
+/// information about using configuration sets, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
+/// SES Developer Guide</a>.
+class CloudWatchDestination {
+  /// A list of dimensions upon which to categorize your emails when you publish
+  /// email sending events to Amazon CloudWatch.
+  final List<CloudWatchDimensionConfiguration> dimensionConfigurations;
+
+  CloudWatchDestination({
+    required this.dimensionConfigurations,
+  });
+  factory CloudWatchDestination.fromXml(_s.XmlElement elem) {
+    return CloudWatchDestination(
+      dimensionConfigurations: _s
+          .extractXmlChild(elem, 'DimensionConfigurations')!
+          .findElements('member')
+          .map(CloudWatchDimensionConfiguration.fromXml)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionConfigurations = this.dimensionConfigurations;
+    return {
+      'DimensionConfigurations': dimensionConfigurations,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final dimensionConfigurations = this.dimensionConfigurations;
+    return {
+      if (dimensionConfigurations.isEmpty)
+        'DimensionConfigurations': ''
+      else
+        for (var i1 = 0; i1 < dimensionConfigurations.length; i1++)
+          for (var e3 in dimensionConfigurations[i1].toQueryMap().entries)
+            'DimensionConfigurations.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Contains the topic ARN associated with an Amazon Simple Notification Service
+/// (Amazon SNS) event destination.
+///
+/// Event destinations, such as Amazon SNS, are associated with configuration
+/// sets, which enable you to publish email sending events. For information
+/// about using configuration sets, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
+/// SES Developer Guide</a>.
+class SNSDestination {
+  /// The ARN of the Amazon SNS topic for email sending events. You can find the
+  /// ARN of a topic by using the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html">ListTopics</a>
+  /// Amazon SNS operation.
+  ///
+  /// For more information about Amazon SNS topics, see the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
+  /// Developer Guide</a>.
+  final String topicARN;
+
+  SNSDestination({
+    required this.topicARN,
+  });
+  factory SNSDestination.fromXml(_s.XmlElement elem) {
+    return SNSDestination(
+      topicARN: _s.extractXmlStringValue(elem, 'TopicARN')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicARN = this.topicARN;
+    return {
+      'TopicARN': topicARN,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final topicARN = this.topicARN;
+    return {
+      'TopicARN': topicARN,
+    };
+  }
+}
+
+/// Contains the dimension configuration to use when you publish email sending
+/// events to Amazon CloudWatch.
+///
+/// For information about publishing email sending events to Amazon CloudWatch,
+/// see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
+/// SES Developer Guide</a>.
+class CloudWatchDimensionConfiguration {
+  /// The default value of the dimension that is published to Amazon CloudWatch if
+  /// you do not provide the value of the dimension when you send an email. The
+  /// default value must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
+  /// dashes (-), at signs (@), or periods (.).
+  /// </li>
+  /// <li>
+  /// Contain 256 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String defaultDimensionValue;
+
+  /// The name of an Amazon CloudWatch dimension associated with an email sending
+  /// metric. The name must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_),
+  /// dashes (-), or colons (:).
+  /// </li>
+  /// <li>
+  /// Contain 256 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String dimensionName;
+
+  /// The place where Amazon SES finds the value of a dimension to publish to
+  /// Amazon CloudWatch. To use the message tags that you specify using an
+  /// <code>X-SES-MESSAGE-TAGS</code> header or a parameter to the
+  /// <code>SendEmail</code>/<code>SendRawEmail</code> API, specify
+  /// <code>messageTag</code>. To use your own email headers, specify
+  /// <code>emailHeader</code>. To put a custom tag on any link included in your
+  /// email, specify <code>linkTag</code>.
+  final DimensionValueSource dimensionValueSource;
+
+  CloudWatchDimensionConfiguration({
+    required this.defaultDimensionValue,
+    required this.dimensionName,
+    required this.dimensionValueSource,
+  });
+  factory CloudWatchDimensionConfiguration.fromXml(_s.XmlElement elem) {
+    return CloudWatchDimensionConfiguration(
+      defaultDimensionValue:
+          _s.extractXmlStringValue(elem, 'DefaultDimensionValue')!,
+      dimensionName: _s.extractXmlStringValue(elem, 'DimensionName')!,
+      dimensionValueSource: _s
+          .extractXmlStringValue(elem, 'DimensionValueSource')!
+          .let(DimensionValueSource.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultDimensionValue = this.defaultDimensionValue;
+    final dimensionName = this.dimensionName;
+    final dimensionValueSource = this.dimensionValueSource;
+    return {
+      'DefaultDimensionValue': defaultDimensionValue,
+      'DimensionName': dimensionName,
+      'DimensionValueSource': dimensionValueSource.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final defaultDimensionValue = this.defaultDimensionValue;
+    final dimensionName = this.dimensionName;
+    final dimensionValueSource = this.dimensionValueSource;
+    return {
+      'DefaultDimensionValue': defaultDimensionValue,
+      'DimensionName': dimensionName,
+      'DimensionValueSource': dimensionValueSource.value,
+    };
+  }
+}
+
+class DimensionValueSource {
+  static const messageTag = DimensionValueSource._('messageTag');
+  static const emailHeader = DimensionValueSource._('emailHeader');
+  static const linkTag = DimensionValueSource._('linkTag');
+
+  final String value;
+
+  const DimensionValueSource._(this.value);
+
+  static const values = [messageTag, emailHeader, linkTag];
+
+  static DimensionValueSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EventType {
+  static const send = EventType._('send');
+  static const reject = EventType._('reject');
+  static const bounce = EventType._('bounce');
+  static const complaint = EventType._('complaint');
+  static const delivery = EventType._('delivery');
+  static const open = EventType._('open');
+  static const click = EventType._('click');
+  static const renderingFailure = EventType._('renderingFailure');
+
+  final String value;
+
+  const EventType._(this.value);
+
+  static const values = [
+    send,
+    reject,
+    bounce,
+    complaint,
+    delivery,
+    open,
+    click,
+    renderingFailure
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NotificationType {
+  static const bounce = NotificationType._('Bounce');
+  static const complaint = NotificationType._('Complaint');
+  static const delivery = NotificationType._('Delivery');
+
+  final String value;
+
+  const NotificationType._(this.value);
+
+  static const values = [bounce, complaint, delivery];
+
+  static NotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationType._(value));
+
+  @override
+  bool operator ==(other) => other is NotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BehaviorOnMXFailure {
+  static const useDefaultValue = BehaviorOnMXFailure._('UseDefaultValue');
+  static const rejectMessage = BehaviorOnMXFailure._('RejectMessage');
+
+  final String value;
+
+  const BehaviorOnMXFailure._(this.value);
+
+  static const values = [useDefaultValue, rejectMessage];
+
+  static BehaviorOnMXFailure fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BehaviorOnMXFailure._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BehaviorOnMXFailure && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the destination of the message, consisting of To:, CC:, and BCC:
+/// fields.
+/// <note>
+/// Amazon SES does not support the SMTPUTF8 extension, as described in <a
+/// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason, the
+/// email address string must be 7-bit ASCII. If you want to send to or from
+/// email addresses that contain Unicode characters in the domain part of an
+/// address, you must encode the domain using Punycode. Punycode is not
+/// permitted in the local part of the email address (the part before the @
+/// sign) nor in the "friendly from" name. If you want to use Unicode characters
+/// in the "friendly from" name, you must encode the "friendly from" name using
+/// MIME encoded-word syntax, as described in <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Sending
+/// raw email using the Amazon SES API</a>. For more information about Punycode,
+/// see <a href="http://tools.ietf.org/html/rfc3492">RFC 3492</a>.
+/// </note>
+class Destination {
+  /// The recipients to place on the BCC: line of the message.
+  final List<String>? bccAddresses;
+
+  /// The recipients to place on the CC: line of the message.
+  final List<String>? ccAddresses;
+
+  /// The recipients to place on the To: line of the message.
+  final List<String>? toAddresses;
+
+  Destination({
+    this.bccAddresses,
+    this.ccAddresses,
+    this.toAddresses,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bccAddresses = this.bccAddresses;
+    final ccAddresses = this.ccAddresses;
+    final toAddresses = this.toAddresses;
+    return {
+      if (bccAddresses != null) 'BccAddresses': bccAddresses,
+      if (ccAddresses != null) 'CcAddresses': ccAddresses,
+      if (toAddresses != null) 'ToAddresses': toAddresses,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final bccAddresses = this.bccAddresses;
+    final ccAddresses = this.ccAddresses;
+    final toAddresses = this.toAddresses;
+    return {
+      if (bccAddresses != null)
+        if (bccAddresses.isEmpty)
+          'BccAddresses': ''
+        else
+          for (var i1 = 0; i1 < bccAddresses.length; i1++)
+            'BccAddresses.member.${i1 + 1}': bccAddresses[i1],
+      if (ccAddresses != null)
+        if (ccAddresses.isEmpty)
+          'CcAddresses': ''
+        else
+          for (var i1 = 0; i1 < ccAddresses.length; i1++)
+            'CcAddresses.member.${i1 + 1}': ccAddresses[i1],
+      if (toAddresses != null)
+        if (toAddresses.isEmpty)
+          'ToAddresses': ''
+        else
+          for (var i1 = 0; i1 < toAddresses.length; i1++)
+            'ToAddresses.member.${i1 + 1}': toAddresses[i1],
+    };
+  }
+}
+
+/// Contains the name and value of a tag that you can provide to
+/// <code>SendEmail</code> or <code>SendRawEmail</code> to apply to an email.
+///
+/// Message tags, which you use with configuration sets, enable you to publish
+/// email sending events. For information about using configuration sets, see
+/// the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html">Amazon
+/// SES Developer Guide</a>.
+class MessageTag {
+  /// The name of the tag. The name must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
+  /// </li>
+  /// <li>
+  /// Contain 256 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String name;
+
+  /// The value of the tag. The value must meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
+  /// </li>
+  /// <li>
+  /// Contain 256 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String value;
+
+  MessageTag({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// Represents the raw data of the message.
+class RawMessage {
+  /// The raw data of the message. This data needs to base64-encoded if you are
+  /// accessing Amazon SES directly through the HTTPS interface. If you are
+  /// accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of
+  /// the base 64-encoding for you. In all cases, the client must ensure that the
+  /// message format complies with Internet email standards regarding email header
+  /// fields, MIME types, and MIME encoding.
+  ///
+  /// The To:, CC:, and BCC: headers in the raw message can contain a group list.
+  ///
+  /// If you are using <code>SendRawEmail</code> with sending authorization, you
+  /// can include X-headers in the raw message to specify the "Source," "From,"
+  /// and "Return-Path" addresses. For more information, see the documentation for
+  /// <code>SendRawEmail</code>.
+  /// <important>
+  /// Do not include these X-headers in the DKIM signature, because they are
+  /// removed by Amazon SES before sending the email.
+  /// </important>
+  /// For more information, go to the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-raw.html">Amazon
+  /// SES Developer Guide</a>.
+  final Uint8List data;
+
+  RawMessage({
+    required this.data,
+  });
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    return {
+      'Data': base64Encode(data),
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final data = this.data;
+    return {
+      'Data': base64Encode(data),
+    };
+  }
+}
+
+/// Represents the message to be sent, composed of a subject and a body.
+class Message {
+  /// The message body.
+  final Body body;
+
+  /// The subject of the message: A short summary of the content, which appears in
+  /// the recipient's inbox.
+  final Content subject;
+
+  Message({
+    required this.body,
+    required this.subject,
+  });
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final subject = this.subject;
+    return {
+      'Body': body,
+      'Subject': subject,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final body = this.body;
+    final subject = this.subject;
+    return {
+      for (var e1 in body.toQueryMap().entries) 'Body.${e1.key}': e1.value,
+      for (var e1 in subject.toQueryMap().entries)
+        'Subject.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// Represents textual data, plus an optional character set specification.
+///
+/// By default, the text must be 7-bit ASCII, due to the constraints of the SMTP
+/// protocol. If the text must contain any other characters, then you must also
+/// specify a character set. Examples include UTF-8, ISO-8859-1, and Shift_JIS.
+class Content {
+  /// The textual data of the content.
+  final String data;
+
+  /// The character set of the content.
+  final String? charset;
+
+  Content({
+    required this.data,
+    this.charset,
+  });
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final charset = this.charset;
+    return {
+      'Data': data,
+      if (charset != null) 'Charset': charset,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final data = this.data;
+    final charset = this.charset;
+    return {
+      'Data': data,
+      if (charset != null) 'Charset': charset,
+    };
+  }
+}
+
+/// Represents the body of the message. You can specify text, HTML, or both. If
+/// you use both, then the message should display correctly in the widest
+/// variety of email clients.
+class Body {
+  /// The content of the message, in HTML format. Use this for email clients that
+  /// can process HTML. You can include clickable links, formatted text, and much
+  /// more in an HTML message.
+  final Content? html;
+
+  /// The content of the message, in text format. Use this for text-based email
+  /// clients, or clients on high-latency networks (such as mobile devices).
+  final Content? text;
+
+  Body({
+    this.html,
+    this.text,
+  });
+
+  Map<String, dynamic> toJson() {
+    final html = this.html;
+    final text = this.text;
+    return {
+      if (html != null) 'Html': html,
+      if (text != null) 'Text': text,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final html = this.html;
+    final text = this.text;
+    return {
+      if (html != null)
+        for (var e1 in html.toQueryMap().entries) 'Html.${e1.key}': e1.value,
+      if (text != null)
+        for (var e1 in text.toQueryMap().entries) 'Text.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// An object that contains the response from the
+/// <code>SendBulkTemplatedEmail</code> operation.
+class BulkEmailDestinationStatus {
+  /// A description of an error that prevented a message being sent using the
+  /// <code>SendBulkTemplatedEmail</code> operation.
+  final String? error;
+
+  /// The unique message identifier returned from the
+  /// <code>SendBulkTemplatedEmail</code> operation.
+  final String? messageId;
+
+  /// The status of a message sent using the <code>SendBulkTemplatedEmail</code>
+  /// operation.
+  ///
+  /// Possible values for this parameter include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Success</code>: Amazon SES accepted the message, and attempts to
+  /// deliver it to the recipients.
+  /// </li>
+  /// <li>
+  /// <code>MessageRejected</code>: The message was rejected because it contained
+  /// a virus.
+  /// </li>
+  /// <li>
+  /// <code>MailFromDomainNotVerified</code>: The sender's email address or domain
+  /// was not verified.
+  /// </li>
+  /// <li>
+  /// <code>ConfigurationSetDoesNotExist</code>: The configuration set you
+  /// specified does not exist.
+  /// </li>
+  /// <li>
+  /// <code>TemplateDoesNotExist</code>: The template you specified does not
+  /// exist.
+  /// </li>
+  /// <li>
+  /// <code>AccountSuspended</code>: Your account has been shut down because of
+  /// issues related to your email sending practices.
+  /// </li>
+  /// <li>
+  /// <code>AccountThrottled</code>: The number of emails you can send has been
+  /// reduced because your account has exceeded its allocated sending limit.
+  /// </li>
+  /// <li>
+  /// <code>AccountDailyQuotaExceeded</code>: You have reached or exceeded the
+  /// maximum number of emails you can send from your account in a 24-hour period.
+  /// </li>
+  /// <li>
+  /// <code>InvalidSendingPoolName</code>: The configuration set you specified
+  /// refers to an IP pool that does not exist.
+  /// </li>
+  /// <li>
+  /// <code>AccountSendingPaused</code>: Email sending for the Amazon SES account
+  /// was disabled using the <a>UpdateAccountSendingEnabled</a> operation.
+  /// </li>
+  /// <li>
+  /// <code>ConfigurationSetSendingPaused</code>: Email sending for this
+  /// configuration set was disabled using the
+  /// <a>UpdateConfigurationSetSendingEnabled</a> operation.
+  /// </li>
+  /// <li>
+  /// <code>InvalidParameterValue</code>: One or more of the parameters you
+  /// specified when calling this operation was invalid. See the error message for
+  /// additional information.
+  /// </li>
+  /// <li>
+  /// <code>TransientFailure</code>: Amazon SES was unable to process your request
+  /// because of a temporary issue.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code>: Amazon SES was unable to process your request. See the
+  /// error message for additional information.
+  /// </li>
+  /// </ul>
+  final BulkEmailStatus? status;
+
+  BulkEmailDestinationStatus({
+    this.error,
+    this.messageId,
+    this.status,
+  });
+  factory BulkEmailDestinationStatus.fromXml(_s.XmlElement elem) {
+    return BulkEmailDestinationStatus(
+      error: _s.extractXmlStringValue(elem, 'Error'),
+      messageId: _s.extractXmlStringValue(elem, 'MessageId'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(BulkEmailStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final messageId = this.messageId;
+    final status = this.status;
+    return {
+      if (error != null) 'Error': error,
+      if (messageId != null) 'MessageId': messageId,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class BulkEmailStatus {
+  static const success = BulkEmailStatus._('Success');
+  static const messageRejected = BulkEmailStatus._('MessageRejected');
+  static const mailFromDomainNotVerified =
+      BulkEmailStatus._('MailFromDomainNotVerified');
+  static const configurationSetDoesNotExist =
+      BulkEmailStatus._('ConfigurationSetDoesNotExist');
+  static const templateDoesNotExist = BulkEmailStatus._('TemplateDoesNotExist');
+  static const accountSuspended = BulkEmailStatus._('AccountSuspended');
+  static const accountThrottled = BulkEmailStatus._('AccountThrottled');
+  static const accountDailyQuotaExceeded =
+      BulkEmailStatus._('AccountDailyQuotaExceeded');
+  static const invalidSendingPoolName =
+      BulkEmailStatus._('InvalidSendingPoolName');
+  static const accountSendingPaused = BulkEmailStatus._('AccountSendingPaused');
+  static const configurationSetSendingPaused =
+      BulkEmailStatus._('ConfigurationSetSendingPaused');
+  static const invalidParameterValue =
+      BulkEmailStatus._('InvalidParameterValue');
+  static const transientFailure = BulkEmailStatus._('TransientFailure');
+  static const failed = BulkEmailStatus._('Failed');
+
+  final String value;
+
+  const BulkEmailStatus._(this.value);
+
+  static const values = [
+    success,
+    messageRejected,
+    mailFromDomainNotVerified,
+    configurationSetDoesNotExist,
+    templateDoesNotExist,
+    accountSuspended,
+    accountThrottled,
+    accountDailyQuotaExceeded,
+    invalidSendingPoolName,
+    accountSendingPaused,
+    configurationSetSendingPaused,
+    invalidParameterValue,
+    transientFailure,
+    failed
+  ];
+
+  static BulkEmailStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BulkEmailStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BulkEmailStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An array that contains one or more Destinations, as well as the tags and
+/// replacement data associated with each of those Destinations.
+class BulkEmailDestination {
+  final Destination destination;
+
+  /// A list of tags, in the form of name/value pairs, to apply to an email that
+  /// you send using <code>SendBulkTemplatedEmail</code>. Tags correspond to
+  /// characteristics of the email that you define, so that you can publish email
+  /// sending events.
+  final List<MessageTag>? replacementTags;
+
+  /// A list of replacement values to apply to the template. This parameter is a
+  /// JSON object, typically consisting of key-value pairs in which the keys
+  /// correspond to replacement tags in the email template.
+  final String? replacementTemplateData;
+
+  BulkEmailDestination({
+    required this.destination,
+    this.replacementTags,
+    this.replacementTemplateData,
+  });
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final replacementTags = this.replacementTags;
+    final replacementTemplateData = this.replacementTemplateData;
+    return {
+      'Destination': destination,
+      if (replacementTags != null) 'ReplacementTags': replacementTags,
+      if (replacementTemplateData != null)
+        'ReplacementTemplateData': replacementTemplateData,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final destination = this.destination;
+    final replacementTags = this.replacementTags;
+    final replacementTemplateData = this.replacementTemplateData;
+    return {
+      for (var e1 in destination.toQueryMap().entries)
+        'Destination.${e1.key}': e1.value,
+      if (replacementTags != null)
+        if (replacementTags.isEmpty)
+          'ReplacementTags': ''
+        else
+          for (var i1 = 0; i1 < replacementTags.length; i1++)
+            for (var e3 in replacementTags[i1].toQueryMap().entries)
+              'ReplacementTags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (replacementTemplateData != null)
+        'ReplacementTemplateData': replacementTemplateData,
+    };
+  }
+}
+
+/// Message-related information to include in the Delivery Status Notification
+/// (DSN) when an email that Amazon SES receives on your behalf bounces.
+///
+/// For information about receiving email through Amazon SES, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
+/// SES Developer Guide</a>.
+class MessageDsn {
+  /// The reporting MTA that attempted to deliver the message, formatted as
+  /// specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
+  /// (<code>mta-name-type; mta-name</code>). The default value is <code>dns;
+  /// inbound-smtp.[region].amazonaws.com</code>.
+  final String reportingMta;
+
+  /// When the message was received by the reporting mail transfer agent (MTA), in
+  /// <a href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
+  final DateTime? arrivalDate;
+
+  /// Additional X-headers to include in the DSN.
+  final List<ExtensionField>? extensionFields;
+
+  MessageDsn({
+    required this.reportingMta,
+    this.arrivalDate,
+    this.extensionFields,
+  });
+
+  Map<String, dynamic> toJson() {
+    final reportingMta = this.reportingMta;
+    final arrivalDate = this.arrivalDate;
+    final extensionFields = this.extensionFields;
+    return {
+      'ReportingMta': reportingMta,
+      if (arrivalDate != null) 'ArrivalDate': iso8601ToJson(arrivalDate),
+      if (extensionFields != null) 'ExtensionFields': extensionFields,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final reportingMta = this.reportingMta;
+    final arrivalDate = this.arrivalDate;
+    final extensionFields = this.extensionFields;
+    return {
+      'ReportingMta': reportingMta,
+      if (arrivalDate != null) 'ArrivalDate': _s.iso8601ToJson(arrivalDate),
+      if (extensionFields != null)
+        if (extensionFields.isEmpty)
+          'ExtensionFields': ''
+        else
+          for (var i1 = 0; i1 < extensionFields.length; i1++)
+            for (var e3 in extensionFields[i1].toQueryMap().entries)
+              'ExtensionFields.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Recipient-related information to include in the Delivery Status Notification
+/// (DSN) when an email that Amazon SES receives on your behalf bounces.
+///
+/// For information about receiving email through Amazon SES, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
+/// SES Developer Guide</a>.
+class BouncedRecipientInfo {
+  /// The email address of the recipient of the bounced email.
+  final String recipient;
+
+  /// The reason for the bounce. You must provide either this parameter or
+  /// <code>RecipientDsnFields</code>.
+  final BounceType? bounceType;
+
+  /// This parameter is used only for sending authorization. It is the ARN of the
+  /// identity that is associated with the sending authorization policy that
+  /// permits you to receive email for the recipient of the bounced email. For
+  /// more information about sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  final String? recipientArn;
+
+  /// Recipient-related DSN fields, most of which would normally be filled in
+  /// automatically when provided with a <code>BounceType</code>. You must provide
+  /// either this parameter or <code>BounceType</code>.
+  final RecipientDsnFields? recipientDsnFields;
+
+  BouncedRecipientInfo({
+    required this.recipient,
+    this.bounceType,
+    this.recipientArn,
+    this.recipientDsnFields,
+  });
+
+  Map<String, dynamic> toJson() {
+    final recipient = this.recipient;
+    final bounceType = this.bounceType;
+    final recipientArn = this.recipientArn;
+    final recipientDsnFields = this.recipientDsnFields;
+    return {
+      'Recipient': recipient,
+      if (bounceType != null) 'BounceType': bounceType.value,
+      if (recipientArn != null) 'RecipientArn': recipientArn,
+      if (recipientDsnFields != null) 'RecipientDsnFields': recipientDsnFields,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final recipient = this.recipient;
+    final bounceType = this.bounceType;
+    final recipientArn = this.recipientArn;
+    final recipientDsnFields = this.recipientDsnFields;
+    return {
+      'Recipient': recipient,
+      if (bounceType != null) 'BounceType': bounceType.value,
+      if (recipientArn != null) 'RecipientArn': recipientArn,
+      if (recipientDsnFields != null)
+        for (var e1 in recipientDsnFields.toQueryMap().entries)
+          'RecipientDsnFields.${e1.key}': e1.value,
+    };
+  }
+}
+
+class BounceType {
+  static const doesNotExist = BounceType._('DoesNotExist');
+  static const messageTooLarge = BounceType._('MessageTooLarge');
+  static const exceededQuota = BounceType._('ExceededQuota');
+  static const contentRejected = BounceType._('ContentRejected');
+  static const undefined = BounceType._('Undefined');
+  static const temporaryFailure = BounceType._('TemporaryFailure');
+
+  final String value;
+
+  const BounceType._(this.value);
+
+  static const values = [
+    doesNotExist,
+    messageTooLarge,
+    exceededQuota,
+    contentRejected,
+    undefined,
+    temporaryFailure
+  ];
+
+  static BounceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BounceType._(value));
+
+  @override
+  bool operator ==(other) => other is BounceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Recipient-related information to include in the Delivery Status Notification
+/// (DSN) when an email that Amazon SES receives on your behalf bounces.
+///
+/// For information about receiving email through Amazon SES, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
+/// SES Developer Guide</a>.
+class RecipientDsnFields {
+  /// The action performed by the reporting mail transfer agent (MTA) as a result
+  /// of its attempt to deliver the message to the recipient address. This is
+  /// required by <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>.
+  final DsnAction action;
+
+  /// The status code that indicates what went wrong. This is required by <a
+  /// href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>.
+  final String status;
+
+  /// An extended explanation of what went wrong; this is usually an SMTP
+  /// response. See <a href="https://tools.ietf.org/html/rfc3463">RFC 3463</a> for
+  /// the correct formatting of this parameter.
+  final String? diagnosticCode;
+
+  /// Additional X-headers to include in the DSN.
+  final List<ExtensionField>? extensionFields;
+
+  /// The email address that the message was ultimately delivered to. This
+  /// corresponds to the <code>Final-Recipient</code> in the DSN. If not
+  /// specified, <code>FinalRecipient</code> is set to the <code>Recipient</code>
+  /// specified in the <code>BouncedRecipientInfo</code> structure. Either
+  /// <code>FinalRecipient</code> or the recipient in
+  /// <code>BouncedRecipientInfo</code> must be a recipient of the original
+  /// bounced message.
+  /// <note>
+  /// Do not prepend the <code>FinalRecipient</code> email address with <code>rfc
+  /// 822;</code>, as described in <a
+  /// href="https://tools.ietf.org/html/rfc3798">RFC 3798</a>.
+  /// </note>
+  final String? finalRecipient;
+
+  /// The time the final delivery attempt was made, in <a
+  /// href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
+  final DateTime? lastAttemptDate;
+
+  /// The MTA to which the remote MTA attempted to deliver the message, formatted
+  /// as specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
+  /// (<code>mta-name-type; mta-name</code>). This parameter typically applies
+  /// only to propagating synchronous bounces.
+  final String? remoteMta;
+
+  RecipientDsnFields({
+    required this.action,
+    required this.status,
+    this.diagnosticCode,
+    this.extensionFields,
+    this.finalRecipient,
+    this.lastAttemptDate,
+    this.remoteMta,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final status = this.status;
+    final diagnosticCode = this.diagnosticCode;
+    final extensionFields = this.extensionFields;
+    final finalRecipient = this.finalRecipient;
+    final lastAttemptDate = this.lastAttemptDate;
+    final remoteMta = this.remoteMta;
+    return {
+      'Action': action.value,
+      'Status': status,
+      if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
+      if (extensionFields != null) 'ExtensionFields': extensionFields,
+      if (finalRecipient != null) 'FinalRecipient': finalRecipient,
+      if (lastAttemptDate != null)
+        'LastAttemptDate': iso8601ToJson(lastAttemptDate),
+      if (remoteMta != null) 'RemoteMta': remoteMta,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final action = this.action;
+    final status = this.status;
+    final diagnosticCode = this.diagnosticCode;
+    final extensionFields = this.extensionFields;
+    final finalRecipient = this.finalRecipient;
+    final lastAttemptDate = this.lastAttemptDate;
+    final remoteMta = this.remoteMta;
+    return {
+      'Action': action.value,
+      'Status': status,
+      if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
+      if (extensionFields != null)
+        if (extensionFields.isEmpty)
+          'ExtensionFields': ''
+        else
+          for (var i1 = 0; i1 < extensionFields.length; i1++)
+            for (var e3 in extensionFields[i1].toQueryMap().entries)
+              'ExtensionFields.member.${i1 + 1}.${e3.key}': e3.value,
+      if (finalRecipient != null) 'FinalRecipient': finalRecipient,
+      if (lastAttemptDate != null)
+        'LastAttemptDate': _s.iso8601ToJson(lastAttemptDate),
+      if (remoteMta != null) 'RemoteMta': remoteMta,
+    };
+  }
+}
+
+class DsnAction {
+  static const failed = DsnAction._('failed');
+  static const delayed = DsnAction._('delayed');
+  static const delivered = DsnAction._('delivered');
+  static const relayed = DsnAction._('relayed');
+  static const expanded = DsnAction._('expanded');
+
+  final String value;
+
+  const DsnAction._(this.value);
+
+  static const values = [failed, delayed, delivered, relayed, expanded];
+
+  static DsnAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DsnAction._(value));
+
+  @override
+  bool operator ==(other) => other is DsnAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Additional X-headers to include in the Delivery Status Notification (DSN)
+/// when an email that Amazon SES receives on your behalf bounces.
+///
+/// For information about receiving email through Amazon SES, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email.html">Amazon
+/// SES Developer Guide</a>.
+class ExtensionField {
+  /// The name of the header to add. Must be between 1 and 50 characters,
+  /// inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes
+  /// only.
+  final String name;
+
+  /// The value of the header to add. Must contain 2048 characters or fewer, and
+  /// must not contain newline characters ("\r" or "\n").
+  final String value;
+
+  ExtensionField({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// Specifies whether messages that use the configuration set are required to
+/// use Transport Layer Security (TLS).
+class DeliveryOptions {
+  /// Specifies whether messages that use the configuration set are required to
+  /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
+  /// messages are only delivered if a TLS connection can be established. If the
+  /// value is <code>Optional</code>, messages can be delivered in plain text if a
+  /// TLS connection can't be established.
+  final TlsPolicy? tlsPolicy;
+
+  DeliveryOptions({
+    this.tlsPolicy,
+  });
+  factory DeliveryOptions.fromXml(_s.XmlElement elem) {
+    return DeliveryOptions(
+      tlsPolicy: _s
+          .extractXmlStringValue(elem, 'TlsPolicy')
+          ?.let(TlsPolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
+    };
+  }
+}
+
+/// Contains information about an email template.
+class TemplateMetadata {
+  /// The time and date the template was created.
+  final DateTime? createdTimestamp;
+
+  /// The name of the template.
+  final String? name;
+
+  TemplateMetadata({
+    this.createdTimestamp,
+    this.name,
+  });
+  factory TemplateMetadata.fromXml(_s.XmlElement elem) {
+    return TemplateMetadata(
+      createdTimestamp: _s.extractXmlDateTimeValue(elem, 'CreatedTimestamp'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final name = this.name;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Information about a receipt rule set.
+///
+/// A receipt rule set is a collection of rules that specify what Amazon SES
+/// should do with mail it receives on behalf of your account's verified
+/// domains.
+///
+/// For information about setting up receipt rule sets, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-concepts.html#receiving-email-concepts-rules">Amazon
+/// SES Developer Guide</a>.
+class ReceiptRuleSetMetadata {
+  /// The date and time the receipt rule set was created.
+  final DateTime? createdTimestamp;
+
+  /// The name of the receipt rule set. The name must meet the following
+  /// requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
+  /// </li>
+  /// <li>
+  /// Start and end with a letter or number.
+  /// </li>
+  /// <li>
+  /// Contain 64 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String? name;
+
+  ReceiptRuleSetMetadata({
+    this.createdTimestamp,
+    this.name,
+  });
+  factory ReceiptRuleSetMetadata.fromXml(_s.XmlElement elem) {
+    return ReceiptRuleSetMetadata(
+      createdTimestamp: _s.extractXmlDateTimeValue(elem, 'CreatedTimestamp'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final name = this.name;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// A receipt IP address filter enables you to specify whether to accept or
+/// reject mail originating from an IP address or range of IP addresses.
+///
+/// For information about setting up IP address filters, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
+/// SES Developer Guide</a>.
+class ReceiptFilter {
+  /// A structure that provides the IP addresses to block or allow, and whether to
+  /// block or allow incoming mail from them.
+  final ReceiptIpFilter ipFilter;
+
+  /// The name of the IP address filter. The name must meet the following
+  /// requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  /// dashes (-).
+  /// </li>
+  /// <li>
+  /// Start and end with a letter or number.
+  /// </li>
+  /// <li>
+  /// Contain 64 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String name;
+
+  ReceiptFilter({
+    required this.ipFilter,
+    required this.name,
+  });
+  factory ReceiptFilter.fromXml(_s.XmlElement elem) {
+    return ReceiptFilter(
+      ipFilter: ReceiptIpFilter.fromXml(_s.extractXmlChild(elem, 'IpFilter')!),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipFilter = this.ipFilter;
+    final name = this.name;
+    return {
+      'IpFilter': ipFilter,
+      'Name': name,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final ipFilter = this.ipFilter;
+    final name = this.name;
+    return {
+      for (var e1 in ipFilter.toQueryMap().entries)
+        'IpFilter.${e1.key}': e1.value,
+      'Name': name,
+    };
+  }
+}
+
+/// A receipt IP address filter enables you to specify whether to accept or
+/// reject mail originating from an IP address or range of IP addresses.
+///
+/// For information about setting up IP address filters, see the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/receiving-email-ip-filtering-console-walkthrough.html">Amazon
+/// SES Developer Guide</a>.
+class ReceiptIpFilter {
+  /// A single IP address or a range of IP addresses to block or allow, specified
+  /// in Classless Inter-Domain Routing (CIDR) notation. An example of a single
+  /// email address is 10.0.0.1. An example of a range of IP addresses is
+  /// 10.0.0.1/24. For more information about CIDR notation, see <a
+  /// href="https://tools.ietf.org/html/rfc2317">RFC 2317</a>.
+  final String cidr;
+
+  /// Indicates whether to block or allow incoming mail from the specified IP
+  /// addresses.
+  final ReceiptFilterPolicy policy;
+
+  ReceiptIpFilter({
+    required this.cidr,
+    required this.policy,
+  });
+  factory ReceiptIpFilter.fromXml(_s.XmlElement elem) {
+    return ReceiptIpFilter(
+      cidr: _s.extractXmlStringValue(elem, 'Cidr')!,
+      policy: _s
+          .extractXmlStringValue(elem, 'Policy')!
+          .let(ReceiptFilterPolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    final policy = this.policy;
+    return {
+      'Cidr': cidr,
+      'Policy': policy.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final cidr = this.cidr;
+    final policy = this.policy;
+    return {
+      'Cidr': cidr,
+      'Policy': policy.value,
+    };
+  }
+}
+
+class ReceiptFilterPolicy {
+  static const block = ReceiptFilterPolicy._('Block');
+  static const allow = ReceiptFilterPolicy._('Allow');
+
+  final String value;
+
+  const ReceiptFilterPolicy._(this.value);
+
+  static const values = [block, allow];
+
+  static ReceiptFilterPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReceiptFilterPolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReceiptFilterPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IdentityType {
+  static const emailAddress = IdentityType._('EmailAddress');
+  static const domain = IdentityType._('Domain');
+
+  final String value;
+
+  const IdentityType._(this.value);
+
+  static const values = [emailAddress, domain];
+
+  static IdentityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a custom verification email template.
+class CustomVerificationEmailTemplate {
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is not successfully verified.
+  final String? failureRedirectionURL;
+
+  /// The email address that the custom verification email is sent from.
+  final String? fromEmailAddress;
+
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is successfully verified.
+  final String? successRedirectionURL;
+
+  /// The name of the custom verification email template.
+  final String? templateName;
+
+  /// The subject line of the custom verification email.
+  final String? templateSubject;
+
+  CustomVerificationEmailTemplate({
+    this.failureRedirectionURL,
+    this.fromEmailAddress,
+    this.successRedirectionURL,
+    this.templateName,
+    this.templateSubject,
+  });
+  factory CustomVerificationEmailTemplate.fromXml(_s.XmlElement elem) {
+    return CustomVerificationEmailTemplate(
+      failureRedirectionURL:
+          _s.extractXmlStringValue(elem, 'FailureRedirectionURL'),
+      fromEmailAddress: _s.extractXmlStringValue(elem, 'FromEmailAddress'),
+      successRedirectionURL:
+          _s.extractXmlStringValue(elem, 'SuccessRedirectionURL'),
+      templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
+      templateSubject: _s.extractXmlStringValue(elem, 'TemplateSubject'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureRedirectionURL = this.failureRedirectionURL;
+    final fromEmailAddress = this.fromEmailAddress;
+    final successRedirectionURL = this.successRedirectionURL;
+    final templateName = this.templateName;
+    final templateSubject = this.templateSubject;
+    return {
+      if (failureRedirectionURL != null)
+        'FailureRedirectionURL': failureRedirectionURL,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (successRedirectionURL != null)
+        'SuccessRedirectionURL': successRedirectionURL,
+      if (templateName != null) 'TemplateName': templateName,
+      if (templateSubject != null) 'TemplateSubject': templateSubject,
+    };
+  }
+}
+
+/// The name of the configuration set.
+///
+/// Configuration sets let you create groups of rules that you can apply to the
+/// emails you send using Amazon SES. For more information about using
+/// configuration sets, see <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/using-configuration-sets.html">Using
+/// Amazon SES Configuration Sets</a> in the <a
+/// href="https://docs.aws.amazon.com/ses/latest/dg/">Amazon SES Developer
+/// Guide</a>.
+class ConfigurationSet {
+  /// The name of the configuration set. The name must meet the following
+  /// requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes
+  /// (-).
+  /// </li>
+  /// <li>
+  /// Contain 64 characters or fewer.
+  /// </li>
+  /// </ul>
+  final String name;
+
+  ConfigurationSet({
+    required this.name,
+  });
+  factory ConfigurationSet.fromXml(_s.XmlElement elem) {
+    return ConfigurationSet(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
+}
+
+/// Represents sending statistics data. Each <code>SendDataPoint</code> contains
+/// statistics for a 15-minute period of sending activity.
+class SendDataPoint {
+  /// Number of emails that have bounced.
+  final int? bounces;
+
+  /// Number of unwanted emails that were rejected by recipients.
+  final int? complaints;
+
+  /// Number of emails that have been sent.
+  final int? deliveryAttempts;
+
+  /// Number of emails rejected by Amazon SES.
+  final int? rejects;
+
+  /// Time of the data point.
+  final DateTime? timestamp;
+
+  SendDataPoint({
+    this.bounces,
+    this.complaints,
+    this.deliveryAttempts,
+    this.rejects,
+    this.timestamp,
+  });
+  factory SendDataPoint.fromXml(_s.XmlElement elem) {
+    return SendDataPoint(
+      bounces: _s.extractXmlIntValue(elem, 'Bounces'),
+      complaints: _s.extractXmlIntValue(elem, 'Complaints'),
+      deliveryAttempts: _s.extractXmlIntValue(elem, 'DeliveryAttempts'),
+      rejects: _s.extractXmlIntValue(elem, 'Rejects'),
+      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bounces = this.bounces;
+    final complaints = this.complaints;
+    final deliveryAttempts = this.deliveryAttempts;
+    final rejects = this.rejects;
+    final timestamp = this.timestamp;
+    return {
+      if (bounces != null) 'Bounces': bounces,
+      if (complaints != null) 'Complaints': complaints,
+      if (deliveryAttempts != null) 'DeliveryAttempts': deliveryAttempts,
+      if (rejects != null) 'Rejects': rejects,
+      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
+    };
+  }
+}
+
+/// Represents the verification attributes of a single identity.
+class IdentityVerificationAttributes {
+  /// The verification status of the identity: "Pending", "Success", "Failed", or
+  /// "TemporaryFailure".
+  final VerificationStatus verificationStatus;
+
+  /// The verification token for a domain identity. Null for email address
+  /// identities.
+  final String? verificationToken;
+
+  IdentityVerificationAttributes({
+    required this.verificationStatus,
+    this.verificationToken,
+  });
+  factory IdentityVerificationAttributes.fromXml(_s.XmlElement elem) {
+    return IdentityVerificationAttributes(
+      verificationStatus: _s
+          .extractXmlStringValue(elem, 'VerificationStatus')!
+          .let(VerificationStatus.fromString),
+      verificationToken: _s.extractXmlStringValue(elem, 'VerificationToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final verificationStatus = this.verificationStatus;
+    final verificationToken = this.verificationToken;
+    return {
+      'VerificationStatus': verificationStatus.value,
+      if (verificationToken != null) 'VerificationToken': verificationToken,
+    };
+  }
+}
+
+class VerificationStatus {
+  static const pending = VerificationStatus._('Pending');
+  static const success = VerificationStatus._('Success');
+  static const failed = VerificationStatus._('Failed');
+  static const temporaryFailure = VerificationStatus._('TemporaryFailure');
+  static const notStarted = VerificationStatus._('NotStarted');
+
+  final String value;
+
+  const VerificationStatus._(this.value);
+
+  static const values = [
+    pending,
+    success,
+    failed,
+    temporaryFailure,
+    notStarted
+  ];
+
+  static VerificationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VerificationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VerificationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the notification attributes of an identity, including whether an
+/// identity has Amazon Simple Notification Service (Amazon SNS) topics set for
+/// bounce, complaint, and/or delivery notifications, and whether feedback
+/// forwarding is enabled for bounce and complaint notifications.
+class IdentityNotificationAttributes {
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
+  /// publishes bounce notifications.
+  final String bounceTopic;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
+  /// publishes complaint notifications.
+  final String complaintTopic;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic where Amazon SES
+  /// publishes delivery notifications.
+  final String deliveryTopic;
+
+  /// Describes whether Amazon SES forwards bounce and complaint notifications as
+  /// email. <code>true</code> indicates that Amazon SES forwards bounce and
+  /// complaint notifications as email, while <code>false</code> indicates that
+  /// bounce and complaint notifications are published only to the specified
+  /// bounce and complaint Amazon SNS topics.
+  final bool forwardingEnabled;
+
+  /// Describes whether Amazon SES includes the original email headers in Amazon
+  /// SNS notifications of type <code>Bounce</code>. A value of <code>true</code>
+  /// specifies that Amazon SES includes headers in bounce notifications, and a
+  /// value of <code>false</code> specifies that Amazon SES does not include
+  /// headers in bounce notifications.
+  final bool? headersInBounceNotificationsEnabled;
+
+  /// Describes whether Amazon SES includes the original email headers in Amazon
+  /// SNS notifications of type <code>Complaint</code>. A value of
+  /// <code>true</code> specifies that Amazon SES includes headers in complaint
+  /// notifications, and a value of <code>false</code> specifies that Amazon SES
+  /// does not include headers in complaint notifications.
+  final bool? headersInComplaintNotificationsEnabled;
+
+  /// Describes whether Amazon SES includes the original email headers in Amazon
+  /// SNS notifications of type <code>Delivery</code>. A value of
+  /// <code>true</code> specifies that Amazon SES includes headers in delivery
+  /// notifications, and a value of <code>false</code> specifies that Amazon SES
+  /// does not include headers in delivery notifications.
+  final bool? headersInDeliveryNotificationsEnabled;
+
+  IdentityNotificationAttributes({
+    required this.bounceTopic,
+    required this.complaintTopic,
+    required this.deliveryTopic,
+    required this.forwardingEnabled,
+    this.headersInBounceNotificationsEnabled,
+    this.headersInComplaintNotificationsEnabled,
+    this.headersInDeliveryNotificationsEnabled,
+  });
+  factory IdentityNotificationAttributes.fromXml(_s.XmlElement elem) {
+    return IdentityNotificationAttributes(
+      bounceTopic: _s.extractXmlStringValue(elem, 'BounceTopic')!,
+      complaintTopic: _s.extractXmlStringValue(elem, 'ComplaintTopic')!,
+      deliveryTopic: _s.extractXmlStringValue(elem, 'DeliveryTopic')!,
+      forwardingEnabled: _s.extractXmlBoolValue(elem, 'ForwardingEnabled')!,
+      headersInBounceNotificationsEnabled:
+          _s.extractXmlBoolValue(elem, 'HeadersInBounceNotificationsEnabled'),
+      headersInComplaintNotificationsEnabled: _s.extractXmlBoolValue(
+          elem, 'HeadersInComplaintNotificationsEnabled'),
+      headersInDeliveryNotificationsEnabled:
+          _s.extractXmlBoolValue(elem, 'HeadersInDeliveryNotificationsEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bounceTopic = this.bounceTopic;
+    final complaintTopic = this.complaintTopic;
+    final deliveryTopic = this.deliveryTopic;
+    final forwardingEnabled = this.forwardingEnabled;
+    final headersInBounceNotificationsEnabled =
+        this.headersInBounceNotificationsEnabled;
+    final headersInComplaintNotificationsEnabled =
+        this.headersInComplaintNotificationsEnabled;
+    final headersInDeliveryNotificationsEnabled =
+        this.headersInDeliveryNotificationsEnabled;
+    return {
+      'BounceTopic': bounceTopic,
+      'ComplaintTopic': complaintTopic,
+      'DeliveryTopic': deliveryTopic,
+      'ForwardingEnabled': forwardingEnabled,
+      if (headersInBounceNotificationsEnabled != null)
+        'HeadersInBounceNotificationsEnabled':
+            headersInBounceNotificationsEnabled,
+      if (headersInComplaintNotificationsEnabled != null)
+        'HeadersInComplaintNotificationsEnabled':
+            headersInComplaintNotificationsEnabled,
+      if (headersInDeliveryNotificationsEnabled != null)
+        'HeadersInDeliveryNotificationsEnabled':
+            headersInDeliveryNotificationsEnabled,
+    };
+  }
+}
+
+/// Represents the custom MAIL FROM domain attributes of a verified identity
+/// (email address or domain).
+class IdentityMailFromDomainAttributes {
+  /// The action that Amazon SES takes if it cannot successfully read the required
+  /// MX record when you send an email. A value of <code>UseDefaultValue</code>
+  /// indicates that if Amazon SES cannot read the required MX record, it uses
+  /// amazonses.com (or a subdomain of that) as the MAIL FROM domain. A value of
+  /// <code>RejectMessage</code> indicates that if Amazon SES cannot read the
+  /// required MX record, Amazon SES returns a
+  /// <code>MailFromDomainNotVerified</code> error and does not send the email.
+  ///
+  /// The custom MAIL FROM setup states that result in this behavior are
+  /// <code>Pending</code>, <code>Failed</code>, and
+  /// <code>TemporaryFailure</code>.
+  final BehaviorOnMXFailure behaviorOnMXFailure;
+
+  /// The custom MAIL FROM domain that the identity is configured to use.
+  final String mailFromDomain;
+
+  /// The state that indicates whether Amazon SES has successfully read the MX
+  /// record required for custom MAIL FROM domain setup. If the state is
+  /// <code>Success</code>, Amazon SES uses the specified custom MAIL FROM domain
+  /// when the verified identity sends an email. All other states indicate that
+  /// Amazon SES takes the action described by <code>BehaviorOnMXFailure</code>.
+  final CustomMailFromStatus mailFromDomainStatus;
+
+  IdentityMailFromDomainAttributes({
+    required this.behaviorOnMXFailure,
+    required this.mailFromDomain,
+    required this.mailFromDomainStatus,
+  });
+  factory IdentityMailFromDomainAttributes.fromXml(_s.XmlElement elem) {
+    return IdentityMailFromDomainAttributes(
+      behaviorOnMXFailure: _s
+          .extractXmlStringValue(elem, 'BehaviorOnMXFailure')!
+          .let(BehaviorOnMXFailure.fromString),
+      mailFromDomain: _s.extractXmlStringValue(elem, 'MailFromDomain')!,
+      mailFromDomainStatus: _s
+          .extractXmlStringValue(elem, 'MailFromDomainStatus')!
+          .let(CustomMailFromStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behaviorOnMXFailure = this.behaviorOnMXFailure;
+    final mailFromDomain = this.mailFromDomain;
+    final mailFromDomainStatus = this.mailFromDomainStatus;
+    return {
+      'BehaviorOnMXFailure': behaviorOnMXFailure.value,
+      'MailFromDomain': mailFromDomain,
+      'MailFromDomainStatus': mailFromDomainStatus.value,
+    };
+  }
+}
+
+class CustomMailFromStatus {
+  static const pending = CustomMailFromStatus._('Pending');
+  static const success = CustomMailFromStatus._('Success');
+  static const failed = CustomMailFromStatus._('Failed');
+  static const temporaryFailure = CustomMailFromStatus._('TemporaryFailure');
+
+  final String value;
+
+  const CustomMailFromStatus._(this.value);
+
+  static const values = [pending, success, failed, temporaryFailure];
+
+  static CustomMailFromStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomMailFromStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomMailFromStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the DKIM attributes of a verified email address or a domain.
+class IdentityDkimAttributes {
+  /// Is true if DKIM signing is enabled for email sent from the identity. It's
+  /// false otherwise. The default value is true.
+  final bool dkimEnabled;
+
+  /// Describes whether Amazon SES has successfully verified the DKIM DNS records
+  /// (tokens) published in the domain name's DNS. (This only applies to domain
+  /// identities, not email address identities.)
+  final VerificationStatus dkimVerificationStatus;
+
+  /// A set of character strings that represent the domain's identity. Using these
+  /// tokens, you need to create DNS CNAME records that point to DKIM public keys
+  /// that are hosted by Amazon SES. Amazon Web Services eventually detects that
+  /// you've updated your DNS records. This detection process might take up to 72
+  /// hours. After successful detection, Amazon SES is able to DKIM-sign email
+  /// originating from that domain. (This only applies to domain identities, not
+  /// email address identities.)
+  ///
+  /// For more information about creating DNS records using DKIM tokens, see the
+  /// <a
+  /// href="https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html">Amazon
+  /// SES Developer Guide</a>.
+  final List<String>? dkimTokens;
+
+  IdentityDkimAttributes({
+    required this.dkimEnabled,
+    required this.dkimVerificationStatus,
+    this.dkimTokens,
+  });
+  factory IdentityDkimAttributes.fromXml(_s.XmlElement elem) {
+    return IdentityDkimAttributes(
+      dkimEnabled: _s.extractXmlBoolValue(elem, 'DkimEnabled')!,
+      dkimVerificationStatus: _s
+          .extractXmlStringValue(elem, 'DkimVerificationStatus')!
+          .let(VerificationStatus.fromString),
+      dkimTokens: _s
+          .extractXmlChild(elem, 'DkimTokens')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dkimEnabled = this.dkimEnabled;
+    final dkimVerificationStatus = this.dkimVerificationStatus;
+    final dkimTokens = this.dkimTokens;
+    return {
+      'DkimEnabled': dkimEnabled,
+      'DkimVerificationStatus': dkimVerificationStatus.value,
+      if (dkimTokens != null) 'DkimTokens': dkimTokens,
+    };
+  }
+}
+
+/// Contains information about the reputation settings for a configuration set.
+class ReputationOptions {
+  /// The date and time at which the reputation metrics for the configuration set
+  /// were last reset. Resetting these metrics is known as a <i>fresh start</i>.
+  ///
+  /// When you disable email sending for a configuration set using
+  /// <a>UpdateConfigurationSetSendingEnabled</a> and later re-enable it, the
+  /// reputation metrics for the configuration set (but not for the entire Amazon
+  /// SES account) are reset.
+  ///
+  /// If email sending for the configuration set has never been disabled and later
+  /// re-enabled, the value of this attribute is <code>null</code>.
+  final DateTime? lastFreshStart;
+
+  /// Describes whether or not Amazon SES publishes reputation metrics for the
+  /// configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
+  ///
+  /// If the value is <code>true</code>, reputation metrics are published. If the
+  /// value is <code>false</code>, reputation metrics are not published. The
+  /// default value is <code>false</code>.
+  final bool? reputationMetricsEnabled;
+
+  /// Describes whether email sending is enabled or disabled for the configuration
+  /// set. If the value is <code>true</code>, then Amazon SES sends emails that
+  /// use the configuration set. If the value is <code>false</code>, Amazon SES
+  /// does not send emails that use the configuration set. The default value is
+  /// <code>true</code>. You can change this setting using
+  /// <a>UpdateConfigurationSetSendingEnabled</a>.
+  final bool? sendingEnabled;
+
+  ReputationOptions({
+    this.lastFreshStart,
+    this.reputationMetricsEnabled,
+    this.sendingEnabled,
+  });
+  factory ReputationOptions.fromXml(_s.XmlElement elem) {
+    return ReputationOptions(
+      lastFreshStart: _s.extractXmlDateTimeValue(elem, 'LastFreshStart'),
+      reputationMetricsEnabled:
+          _s.extractXmlBoolValue(elem, 'ReputationMetricsEnabled'),
+      sendingEnabled: _s.extractXmlBoolValue(elem, 'SendingEnabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastFreshStart = this.lastFreshStart;
+    final reputationMetricsEnabled = this.reputationMetricsEnabled;
+    final sendingEnabled = this.sendingEnabled;
+    return {
+      if (lastFreshStart != null)
+        'LastFreshStart': iso8601ToJson(lastFreshStart),
+      if (reputationMetricsEnabled != null)
+        'ReputationMetricsEnabled': reputationMetricsEnabled,
+      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
+    };
+  }
+}
+
+class ConfigurationSetAttribute {
+  static const eventDestinations =
+      ConfigurationSetAttribute._('eventDestinations');
+  static const trackingOptions = ConfigurationSetAttribute._('trackingOptions');
+  static const deliveryOptions = ConfigurationSetAttribute._('deliveryOptions');
+  static const reputationOptions =
+      ConfigurationSetAttribute._('reputationOptions');
+
+  final String value;
+
+  const ConfigurationSetAttribute._(this.value);
+
+  static const values = [
+    eventDestinations,
+    trackingOptions,
+    deliveryOptions,
+    reputationOptions
+  ];
+
+  static ConfigurationSetAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationSetAttribute._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationSetAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccountSendingPausedException extends _s.GenericAwsException {

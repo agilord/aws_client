@@ -23,7 +23,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// The Health API provides access to the Health information that appears in the
 /// <a href="https://health.aws.amazon.com/health/home">Health Dashboard</a>.
 /// You can use the API operations to get information about events that might
-/// affect your Amazon Web Services and resources.
+/// affect your Amazon Web Services services and resources.
 class Health {
   final _s.JsonProtocol _protocol;
   Health({
@@ -124,9 +124,9 @@ class Health {
   /// Returns a list of entities that have been affected by the specified
   /// events, based on the specified filter criteria. Entities can refer to
   /// individual customer resources, groups of customer resources, or any other
-  /// construct, depending on the Amazon Web Service. Events that have impact
-  /// beyond that of the affected entities, or where the extent of impact is
-  /// unknown, include at least one entity indicating this.
+  /// construct, depending on the Amazon Web Services service. Events that have
+  /// impact beyond that of the affected entities, or where the extent of impact
+  /// is unknown, include at least one entity indicating this.
   ///
   /// At least one event ARN is required.
   /// <note>
@@ -155,7 +155,7 @@ class Health {
   /// default and the only supported value at this time.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// The maximum number of items to return in one batch, between 1 and 100,
   /// inclusive.
   ///
   /// Parameter [nextToken] :
@@ -173,7 +173,7 @@ class Health {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      10,
+      1,
       100,
     );
     final headers = <String, String>{
@@ -201,7 +201,7 @@ class Health {
   /// for one or more accounts in your organization in Organizations, based on
   /// the filter criteria. Entities can refer to individual customer resources,
   /// groups of customer resources, or any other construct, depending on the
-  /// Amazon Web Service.
+  /// Amazon Web Services service.
   ///
   /// At least one event Amazon Resource Name (ARN) and account ID are required.
   ///
@@ -232,7 +232,7 @@ class Health {
   /// default and the only supported value at this time.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// The maximum number of items to return in one batch, between 1 and 100,
   /// inclusive.
   ///
   /// Parameter [nextToken] :
@@ -544,77 +544,6 @@ class Health {
         jsonResponse.body);
   }
 
-  /// Returns the event types that meet the specified filter criteria. You can
-  /// use this API operation to find information about the Health event, such as
-  /// the category, Amazon Web Service, and event code. The metadata for each
-  /// event appears in the <a
-  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html">EventType</a>
-  /// object.
-  ///
-  /// If you don't specify a filter criteria, the API operation returns all
-  /// event types, in no particular order.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the next request to return more results.
-  /// </note>
-  ///
-  /// May throw [InvalidPaginationToken].
-  /// May throw [UnsupportedLocale].
-  ///
-  /// Parameter [filter] :
-  /// Values to narrow the results returned.
-  ///
-  /// Parameter [locale] :
-  /// The locale (language) to return information in. English (en) is the
-  /// default and the only supported value at this time.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return in one batch, between 10 and 100,
-  /// inclusive.
-  /// <note>
-  /// If you don't specify the <code>maxResults</code> parameter, this operation
-  /// returns a maximum of 30 items by default.
-  /// </note>
-  ///
-  /// Parameter [nextToken] :
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next batch of results, reissue the search
-  /// request and include the returned token. When all results have been
-  /// returned, the response does not contain a pagination token value.
-  Future<DescribeEventTypesResponse> describeEventTypes({
-    EventTypeFilter? filter,
-    String? locale,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      10,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSHealth_20160804.DescribeEventTypes'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (filter != null) 'filter': filter,
-        if (locale != null) 'locale': locale,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return DescribeEventTypesResponse.fromJson(jsonResponse.body);
-  }
-
   /// Returns information about events that meet the specified filter criteria.
   /// Events are returned in a summary form and do not include the detailed
   /// description, any additional metadata that depends on the event type, or
@@ -657,7 +586,7 @@ class Health {
   /// default and the only supported value at this time.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// The maximum number of items to return in one batch, between 1 and 100,
   /// inclusive.
   ///
   /// Parameter [nextToken] :
@@ -675,7 +604,7 @@ class Health {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      10,
+      1,
       100,
     );
     final headers = <String, String>{
@@ -748,7 +677,7 @@ class Health {
   /// default and the only supported value at this time.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// The maximum number of items to return in one batch, between 1 and 100,
   /// inclusive.
   ///
   /// Parameter [nextToken] :
@@ -788,6 +717,77 @@ class Health {
     );
 
     return DescribeEventsForOrganizationResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the event types that meet the specified filter criteria. You can
+  /// use this API operation to find information about the Health event, such as
+  /// the category, Amazon Web Services service, and event code. The metadata
+  /// for each event appears in the <a
+  /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventType.html">EventType</a>
+  /// object.
+  ///
+  /// If you don't specify a filter criteria, the API operation returns all
+  /// event types, in no particular order.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the next request to return more results.
+  /// </note>
+  ///
+  /// May throw [InvalidPaginationToken].
+  /// May throw [UnsupportedLocale].
+  ///
+  /// Parameter [filter] :
+  /// Values to narrow the results returned.
+  ///
+  /// Parameter [locale] :
+  /// The locale (language) to return information in. English (en) is the
+  /// default and the only supported value at this time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return in one batch, between 10 and 100,
+  /// inclusive.
+  /// <note>
+  /// If you don't specify the <code>maxResults</code> parameter, this operation
+  /// returns a maximum of 30 items by default.
+  /// </note>
+  ///
+  /// Parameter [nextToken] :
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search
+  /// request and include the returned token. When all results have been
+  /// returned, the response does not contain a pagination token value.
+  Future<DescribeEventTypesResponse> describeEventTypes({
+    EventTypeFilter? filter,
+    String? locale,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      10,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHealth_20160804.DescribeEventTypes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filter != null) 'filter': filter,
+        if (locale != null) 'locale': locale,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return DescribeEventTypesResponse.fromJson(jsonResponse.body);
   }
 
   /// This operation provides status information on enabling or disabling Health
@@ -899,178 +899,12 @@ class Health {
   }
 }
 
-/// The number of entities in an account that are impacted by a specific event
-/// aggregated by the entity status codes.
-class AccountEntityAggregate {
-  /// The 12-digit Amazon Web Services account numbers that contains the affected
-  /// entities.
-  final String? accountId;
-
-  /// The number of entities that match the filter criteria for the specified
-  /// events.
-  final int? count;
-
-  /// The number of affected entities aggregated by the entity status codes.
-  final Map<EntityStatusCode, int>? statuses;
-
-  AccountEntityAggregate({
-    this.accountId,
-    this.count,
-    this.statuses,
-  });
-
-  factory AccountEntityAggregate.fromJson(Map<String, dynamic> json) {
-    return AccountEntityAggregate(
-      accountId: json['accountId'] as String?,
-      count: json['count'] as int?,
-      statuses: (json['statuses'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final count = this.count;
-    final statuses = this.statuses;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (count != null) 'count': count,
-      if (statuses != null)
-        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// Information about an entity that is affected by a Health event.
-class AffectedEntity {
-  /// The 12-digit Amazon Web Services account number that contains the affected
-  /// entity.
-  final String? awsAccountId;
-
-  /// The unique identifier for the entity. Format:
-  /// <code>arn:aws:health:<i>entity-region</i>:<i>aws-account</i>:entity/<i>entity-id</i>
-  /// </code>. Example:
-  /// <code>arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K</code>
-  final String? entityArn;
-
-  /// The URL of the affected entity.
-  final String? entityUrl;
-
-  /// The ID of the affected entity.
-  final String? entityValue;
-
-  /// The unique identifier for the event. The event ARN has the
-  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
-  /// </code> format.
-  ///
-  /// For example, an event ARN might look like the following:
-  ///
-  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
-  final String? eventArn;
-
-  /// The most recent time that the entity was updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The most recent status of the entity affected by the event. The possible
-  /// values are <code>IMPAIRED</code>, <code>UNIMPAIRED</code>, and
-  /// <code>UNKNOWN</code>.
-  final EntityStatusCode? statusCode;
-
-  /// A map of entity tags attached to the affected entity.
-  /// <note>
-  /// Currently, the <code>tags</code> property isn't supported.
-  /// </note>
-  final Map<String, String>? tags;
-
-  AffectedEntity({
-    this.awsAccountId,
-    this.entityArn,
-    this.entityUrl,
-    this.entityValue,
-    this.eventArn,
-    this.lastUpdatedTime,
-    this.statusCode,
-    this.tags,
-  });
-
-  factory AffectedEntity.fromJson(Map<String, dynamic> json) {
-    return AffectedEntity(
-      awsAccountId: json['awsAccountId'] as String?,
-      entityArn: json['entityArn'] as String?,
-      entityUrl: json['entityUrl'] as String?,
-      entityValue: json['entityValue'] as String?,
-      eventArn: json['eventArn'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      statusCode:
-          (json['statusCode'] as String?)?.let(EntityStatusCode.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsAccountId = this.awsAccountId;
-    final entityArn = this.entityArn;
-    final entityUrl = this.entityUrl;
-    final entityValue = this.entityValue;
-    final eventArn = this.eventArn;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final statusCode = this.statusCode;
-    final tags = this.tags;
-    return {
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (entityArn != null) 'entityArn': entityArn,
-      if (entityUrl != null) 'entityUrl': entityUrl,
-      if (entityValue != null) 'entityValue': entityValue,
-      if (eventArn != null) 'eventArn': eventArn,
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (statusCode != null) 'statusCode': statusCode.value,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// A range of dates and times that is used by the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html">EventFilter</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html">EntityFilter</a>
-/// objects. If <code>from</code> is set and <code>to</code> is set: match items
-/// where the timestamp (<code>startTime</code>, <code>endTime</code>, or
-/// <code>lastUpdatedTime</code>) is between <code>from</code> and
-/// <code>to</code> inclusive. If <code>from</code> is set and <code>to</code>
-/// is not set: match items where the timestamp value is equal to or after
-/// <code>from</code>. If <code>from</code> is not set and <code>to</code> is
-/// set: match items where the timestamp value is equal to or before
-/// <code>to</code>.
-class DateTimeRange {
-  /// The starting date and time of a time range.
-  final DateTime? from;
-
-  /// The ending date and time of a time range.
-  final DateTime? to;
-
-  DateTimeRange({
-    this.from,
-    this.to,
-  });
-
-  Map<String, dynamic> toJson() {
-    final from = this.from;
-    final to = this.to;
-    return {
-      if (from != null) 'from': unixTimestampToJson(from),
-      if (to != null) 'to': unixTimestampToJson(to),
-    };
-  }
-}
-
 class DescribeAffectedAccountsForOrganizationResponse {
   /// A JSON set of elements of the affected accounts.
   final List<String>? affectedAccounts;
 
-  /// This parameter specifies if the Health event is a public Amazon Web Service
-  /// event or an account-specific event.
+  /// This parameter specifies if the Health event is a public Amazon Web Services
+  /// service event or an account-specific event.
   ///
   /// <ul>
   /// <li>
@@ -1131,6 +965,42 @@ class DescribeAffectedAccountsForOrganizationResponse {
   }
 }
 
+class DescribeAffectedEntitiesResponse {
+  /// The entities that match the filter criteria.
+  final List<AffectedEntity>? entities;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  final String? nextToken;
+
+  DescribeAffectedEntitiesResponse({
+    this.entities,
+    this.nextToken,
+  });
+
+  factory DescribeAffectedEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAffectedEntitiesResponse(
+      entities: (json['entities'] as List?)
+          ?.nonNulls
+          .map((e) => AffectedEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final nextToken = this.nextToken;
+    return {
+      if (entities != null) 'entities': entities,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class DescribeAffectedEntitiesForOrganizationResponse {
   /// A JSON set of elements including the <code>awsAccountId</code> and its
   /// <code>entityArn</code>, <code>entityValue</code> and its
@@ -1184,38 +1054,27 @@ class DescribeAffectedEntitiesForOrganizationResponse {
   }
 }
 
-class DescribeAffectedEntitiesResponse {
-  /// The entities that match the filter criteria.
-  final List<AffectedEntity>? entities;
+class DescribeEntityAggregatesResponse {
+  /// The number of entities that are affected by each of the specified events.
+  final List<EntityAggregate>? entityAggregates;
 
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next batch of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  final String? nextToken;
-
-  DescribeAffectedEntitiesResponse({
-    this.entities,
-    this.nextToken,
+  DescribeEntityAggregatesResponse({
+    this.entityAggregates,
   });
 
-  factory DescribeAffectedEntitiesResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAffectedEntitiesResponse(
-      entities: (json['entities'] as List?)
+  factory DescribeEntityAggregatesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEntityAggregatesResponse(
+      entityAggregates: (json['entityAggregates'] as List?)
           ?.nonNulls
-          .map((e) => AffectedEntity.fromJson(e as Map<String, dynamic>))
+          .map((e) => EntityAggregate.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final entities = this.entities;
-    final nextToken = this.nextToken;
+    final entityAggregates = this.entityAggregates;
     return {
-      if (entities != null) 'entities': entities,
-      if (nextToken != null) 'nextToken': nextToken,
+      if (entityAggregates != null) 'entityAggregates': entityAggregates,
     };
   }
 }
@@ -1246,31 +1105,6 @@ class DescribeEntityAggregatesForOrganizationResponse {
     return {
       if (organizationEntityAggregates != null)
         'organizationEntityAggregates': organizationEntityAggregates,
-    };
-  }
-}
-
-class DescribeEntityAggregatesResponse {
-  /// The number of entities that are affected by each of the specified events.
-  final List<EntityAggregate>? entityAggregates;
-
-  DescribeEntityAggregatesResponse({
-    this.entityAggregates,
-  });
-
-  factory DescribeEntityAggregatesResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeEntityAggregatesResponse(
-      entityAggregates: (json['entityAggregates'] as List?)
-          ?.nonNulls
-          .map((e) => EntityAggregate.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entityAggregates = this.entityAggregates;
-    return {
-      if (entityAggregates != null) 'entityAggregates': entityAggregates,
     };
   }
 }
@@ -1308,6 +1142,41 @@ class DescribeEventAggregatesResponse {
     return {
       if (eventAggregates != null) 'eventAggregates': eventAggregates,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeEventDetailsResponse {
+  /// Error messages for any events that could not be retrieved.
+  final List<EventDetailsErrorItem>? failedSet;
+
+  /// Information about the events that could be retrieved.
+  final List<EventDetails>? successfulSet;
+
+  DescribeEventDetailsResponse({
+    this.failedSet,
+    this.successfulSet,
+  });
+
+  factory DescribeEventDetailsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventDetailsResponse(
+      failedSet: (json['failedSet'] as List?)
+          ?.nonNulls
+          .map((e) => EventDetailsErrorItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successfulSet: (json['successfulSet'] as List?)
+          ?.nonNulls
+          .map((e) => EventDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedSet = this.failedSet;
+    final successfulSet = this.successfulSet;
+    return {
+      if (failedSet != null) 'failedSet': failedSet,
+      if (successfulSet != null) 'successfulSet': successfulSet,
     };
   }
 }
@@ -1350,37 +1219,75 @@ class DescribeEventDetailsForOrganizationResponse {
   }
 }
 
-class DescribeEventDetailsResponse {
-  /// Error messages for any events that could not be retrieved.
-  final List<EventDetailsErrorItem>? failedSet;
+class DescribeEventsResponse {
+  /// The events that match the specified filter criteria.
+  final List<Event>? events;
 
-  /// Information about the events that could be retrieved.
-  final List<EventDetails>? successfulSet;
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  final String? nextToken;
 
-  DescribeEventDetailsResponse({
-    this.failedSet,
-    this.successfulSet,
+  DescribeEventsResponse({
+    this.events,
+    this.nextToken,
   });
 
-  factory DescribeEventDetailsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeEventDetailsResponse(
-      failedSet: (json['failedSet'] as List?)
+  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventsResponse(
+      events: (json['events'] as List?)
           ?.nonNulls
-          .map((e) => EventDetailsErrorItem.fromJson(e as Map<String, dynamic>))
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
           .toList(),
-      successfulSet: (json['successfulSet'] as List?)
-          ?.nonNulls
-          .map((e) => EventDetails.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final failedSet = this.failedSet;
-    final successfulSet = this.successfulSet;
+    final events = this.events;
+    final nextToken = this.nextToken;
     return {
-      if (failedSet != null) 'failedSet': failedSet,
-      if (successfulSet != null) 'successfulSet': successfulSet,
+      if (events != null) 'events': events,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeEventsForOrganizationResponse {
+  /// The events that match the specified filter criteria.
+  final List<OrganizationEvent>? events;
+
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next batch of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  final String? nextToken;
+
+  DescribeEventsForOrganizationResponse({
+    this.events,
+    this.nextToken,
+  });
+
+  factory DescribeEventsForOrganizationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeEventsForOrganizationResponse(
+      events: (json['events'] as List?)
+          ?.nonNulls
+          .map((e) => OrganizationEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final nextToken = this.nextToken;
+    return {
+      if (events != null) 'events': events,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -1426,79 +1333,6 @@ class DescribeEventTypesResponse {
   }
 }
 
-class DescribeEventsForOrganizationResponse {
-  /// The events that match the specified filter criteria.
-  final List<OrganizationEvent>? events;
-
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next batch of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  final String? nextToken;
-
-  DescribeEventsForOrganizationResponse({
-    this.events,
-    this.nextToken,
-  });
-
-  factory DescribeEventsForOrganizationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeEventsForOrganizationResponse(
-      events: (json['events'] as List?)
-          ?.nonNulls
-          .map((e) => OrganizationEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final nextToken = this.nextToken;
-    return {
-      if (events != null) 'events': events,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeEventsResponse {
-  /// The events that match the specified filter criteria.
-  final List<Event>? events;
-
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next batch of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  final String? nextToken;
-
-  DescribeEventsResponse({
-    this.events,
-    this.nextToken,
-  });
-
-  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeEventsResponse(
-      events: (json['events'] as List?)
-          ?.nonNulls
-          .map((e) => Event.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final nextToken = this.nextToken;
-    return {
-      if (events != null) 'events': events,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
 class DescribeHealthServiceStatusForOrganizationResponse {
   /// Information about the status of enabling or disabling the Health
   /// organizational view feature in your organization.
@@ -1529,594 +1363,6 @@ class DescribeHealthServiceStatusForOrganizationResponse {
   }
 }
 
-/// A JSON set of elements including the <code>awsAccountId</code>,
-/// <code>eventArn</code> and a set of <code>statusCodes</code>.
-class EntityAccountFilter {
-  /// The unique identifier for the event. The event ARN has the
-  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
-  /// </code> format.
-  ///
-  /// For example, an event ARN might look like the following:
-  ///
-  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
-  final String eventArn;
-
-  /// The 12-digit Amazon Web Services account numbers that contains the affected
-  /// entities.
-  final String? awsAccountId;
-
-  /// A list of entity status codes.
-  final List<EntityStatusCode>? statusCodes;
-
-  EntityAccountFilter({
-    required this.eventArn,
-    this.awsAccountId,
-    this.statusCodes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final eventArn = this.eventArn;
-    final awsAccountId = this.awsAccountId;
-    final statusCodes = this.statusCodes;
-    return {
-      'eventArn': eventArn,
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (statusCodes != null)
-        'statusCodes': statusCodes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// The number of entities that are affected by one or more events. Returned by
-/// the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEntityAggregates.html">DescribeEntityAggregates</a>
-/// operation.
-class EntityAggregate {
-  /// The number of entities that match the criteria for the specified events.
-  final int? count;
-
-  /// The unique identifier for the event. The event ARN has the
-  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
-  /// </code> format.
-  ///
-  /// For example, an event ARN might look like the following:
-  ///
-  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
-  final String? eventArn;
-
-  /// The number of affected entities aggregated by the entity status codes.
-  final Map<EntityStatusCode, int>? statuses;
-
-  EntityAggregate({
-    this.count,
-    this.eventArn,
-    this.statuses,
-  });
-
-  factory EntityAggregate.fromJson(Map<String, dynamic> json) {
-    return EntityAggregate(
-      count: json['count'] as int?,
-      eventArn: json['eventArn'] as String?,
-      statuses: (json['statuses'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    final eventArn = this.eventArn;
-    final statuses = this.statuses;
-    return {
-      if (count != null) 'count': count,
-      if (eventArn != null) 'eventArn': eventArn,
-      if (statuses != null)
-        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
-    };
-  }
-}
-
-/// The values to use to filter results from the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html">DescribeAffectedEntities</a>
-/// operation.
-class EntityFilter {
-  /// A list of event ARNs (unique identifiers). For example:
-  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
-  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
-  final List<String> eventArns;
-
-  /// A list of entity ARNs (unique identifiers).
-  final List<String>? entityArns;
-
-  /// A list of IDs for affected entities.
-  final List<String>? entityValues;
-
-  /// A list of the most recent dates and times that the entity was updated.
-  final List<DateTimeRange>? lastUpdatedTimes;
-
-  /// A list of entity status codes (<code>IMPAIRED</code>,
-  /// <code>UNIMPAIRED</code>, or <code>UNKNOWN</code>).
-  final List<EntityStatusCode>? statusCodes;
-
-  /// A map of entity tags attached to the affected entity.
-  /// <note>
-  /// Currently, the <code>tags</code> property isn't supported.
-  /// </note>
-  final List<Map<String, String>>? tags;
-
-  EntityFilter({
-    required this.eventArns,
-    this.entityArns,
-    this.entityValues,
-    this.lastUpdatedTimes,
-    this.statusCodes,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final eventArns = this.eventArns;
-    final entityArns = this.entityArns;
-    final entityValues = this.entityValues;
-    final lastUpdatedTimes = this.lastUpdatedTimes;
-    final statusCodes = this.statusCodes;
-    final tags = this.tags;
-    return {
-      'eventArns': eventArns,
-      if (entityArns != null) 'entityArns': entityArns,
-      if (entityValues != null) 'entityValues': entityValues,
-      if (lastUpdatedTimes != null) 'lastUpdatedTimes': lastUpdatedTimes,
-      if (statusCodes != null)
-        'statusCodes': statusCodes.map((e) => e.value).toList(),
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Summary information about an Health event.
-///
-/// Health events can be public or account-specific:
-///
-/// <ul>
-/// <li>
-/// <i>Public events</i> might be service events that are not specific to an
-/// Amazon Web Services account. For example, if there is an issue with an
-/// Amazon Web Services Region, Health provides information about the event,
-/// even if you don't use services or resources in that Region.
-/// </li>
-/// <li>
-/// <i>Account-specific</i> events are specific to either your Amazon Web
-/// Services account or an account in your organization. For example, if there's
-/// an issue with Amazon Elastic Compute Cloud in a Region that you use, Health
-/// provides information about the event and the affected resources in the
-/// account.
-/// </li>
-/// </ul>
-/// You can determine if an event is public or account-specific by using the
-/// <code>eventScopeCode</code> parameter. For more information, see <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html#AWSHealth-Type-Event-eventScopeCode">eventScopeCode</a>.
-class Event {
-  /// The unique identifier for the event. The event ARN has the
-  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
-  /// </code> format.
-  ///
-  /// For example, an event ARN might look like the following:
-  ///
-  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
-  final String? arn;
-
-  /// The Amazon Web Services Availability Zone of the event. For example,
-  /// us-east-1a.
-  final String? availabilityZone;
-
-  /// The date and time that the event ended.
-  final DateTime? endTime;
-
-  /// This parameter specifies if the Health event is a public Amazon Web Service
-  /// event or an account-specific event.
-  ///
-  /// <ul>
-  /// <li>
-  /// If the <code>eventScopeCode</code> value is <code>PUBLIC</code>, then the
-  /// <code>affectedAccounts</code> value is always empty.
-  /// </li>
-  /// <li>
-  /// If the <code>eventScopeCode</code> value is <code>ACCOUNT_SPECIFIC</code>,
-  /// then the <code>affectedAccounts</code> value lists the affected Amazon Web
-  /// Services accounts in your organization. For example, if an event affects a
-  /// service such as Amazon Elastic Compute Cloud and you have Amazon Web
-  /// Services accounts that use that service, those account IDs appear in the
-  /// response.
-  /// </li>
-  /// <li>
-  /// If the <code>eventScopeCode</code> value is <code>NONE</code>, then the
-  /// <code>eventArn</code> that you specified in the request is invalid or
-  /// doesn't exist.
-  /// </li>
-  /// </ul>
-  final EventScopeCode? eventScopeCode;
-
-  /// A list of event type category codes. Possible values are <code>issue</code>,
-  /// <code>accountNotification</code>, or <code>scheduledChange</code>.
-  /// Currently, the <code>investigation</code> value isn't supported at this
-  /// time.
-  final EventTypeCategory? eventTypeCategory;
-
-  /// The unique identifier for the event type. The format is
-  /// <code>AWS_<i>SERVICE</i>_<i>DESCRIPTION</i> </code>; for example,
-  /// <code>AWS_EC2_SYSTEM_MAINTENANCE_EVENT</code>.
-  final String? eventTypeCode;
-
-  /// The most recent date and time that the event was updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The Amazon Web Services Region name of the event.
-  final String? region;
-
-  /// The Amazon Web Service that is affected by the event. For example,
-  /// <code>EC2</code>, <code>RDS</code>.
-  final String? service;
-
-  /// The date and time that the event began.
-  final DateTime? startTime;
-
-  /// The most recent status of the event. Possible values are <code>open</code>,
-  /// <code>closed</code>, and <code>upcoming</code>.
-  final EventStatusCode? statusCode;
-
-  Event({
-    this.arn,
-    this.availabilityZone,
-    this.endTime,
-    this.eventScopeCode,
-    this.eventTypeCategory,
-    this.eventTypeCode,
-    this.lastUpdatedTime,
-    this.region,
-    this.service,
-    this.startTime,
-    this.statusCode,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-      arn: json['arn'] as String?,
-      availabilityZone: json['availabilityZone'] as String?,
-      endTime: timeStampFromJson(json['endTime']),
-      eventScopeCode:
-          (json['eventScopeCode'] as String?)?.let(EventScopeCode.fromString),
-      eventTypeCategory: (json['eventTypeCategory'] as String?)
-          ?.let(EventTypeCategory.fromString),
-      eventTypeCode: json['eventTypeCode'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      region: json['region'] as String?,
-      service: json['service'] as String?,
-      startTime: timeStampFromJson(json['startTime']),
-      statusCode:
-          (json['statusCode'] as String?)?.let(EventStatusCode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final availabilityZone = this.availabilityZone;
-    final endTime = this.endTime;
-    final eventScopeCode = this.eventScopeCode;
-    final eventTypeCategory = this.eventTypeCategory;
-    final eventTypeCode = this.eventTypeCode;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final region = this.region;
-    final service = this.service;
-    final startTime = this.startTime;
-    final statusCode = this.statusCode;
-    return {
-      if (arn != null) 'arn': arn,
-      if (availabilityZone != null) 'availabilityZone': availabilityZone,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.value,
-      if (eventTypeCategory != null)
-        'eventTypeCategory': eventTypeCategory.value,
-      if (eventTypeCode != null) 'eventTypeCode': eventTypeCode,
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (region != null) 'region': region,
-      if (service != null) 'service': service,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (statusCode != null) 'statusCode': statusCode.value,
-    };
-  }
-}
-
-/// The values used to filter results from the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
-/// operations.
-class EventAccountFilter {
-  /// The unique identifier for the event. The event ARN has the
-  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
-  /// </code> format.
-  ///
-  /// For example, an event ARN might look like the following:
-  ///
-  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
-  final String eventArn;
-
-  /// The 12-digit Amazon Web Services account numbers that contains the affected
-  /// entities.
-  final String? awsAccountId;
-
-  EventAccountFilter({
-    required this.eventArn,
-    this.awsAccountId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final eventArn = this.eventArn;
-    final awsAccountId = this.awsAccountId;
-    return {
-      'eventArn': eventArn,
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-    };
-  }
-}
-
-/// The number of events of each issue type. Returned by the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html">DescribeEventAggregates</a>
-/// operation.
-class EventAggregate {
-  /// The issue type for the associated count.
-  final String? aggregateValue;
-
-  /// The number of events of the associated issue type.
-  final int? count;
-
-  EventAggregate({
-    this.aggregateValue,
-    this.count,
-  });
-
-  factory EventAggregate.fromJson(Map<String, dynamic> json) {
-    return EventAggregate(
-      aggregateValue: json['aggregateValue'] as String?,
-      count: json['count'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aggregateValue = this.aggregateValue;
-    final count = this.count;
-    return {
-      if (aggregateValue != null) 'aggregateValue': aggregateValue,
-      if (count != null) 'count': count,
-    };
-  }
-}
-
-/// The detailed description of the event. Included in the information returned
-/// by the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
-/// operation.
-class EventDescription {
-  /// The most recent description of the event.
-  final String? latestDescription;
-
-  EventDescription({
-    this.latestDescription,
-  });
-
-  factory EventDescription.fromJson(Map<String, dynamic> json) {
-    return EventDescription(
-      latestDescription: json['latestDescription'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final latestDescription = this.latestDescription;
-    return {
-      if (latestDescription != null) 'latestDescription': latestDescription,
-    };
-  }
-}
-
-/// Detailed information about an event. A combination of an <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>
-/// object, an <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventDescription.html">EventDescription</a>
-/// object, and additional metadata about the event. Returned by the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
-/// operation.
-class EventDetails {
-  /// Summary information about the event.
-  final Event? event;
-
-  /// The most recent description of the event.
-  final EventDescription? eventDescription;
-
-  /// Additional metadata about the event.
-  final Map<String, String>? eventMetadata;
-
-  EventDetails({
-    this.event,
-    this.eventDescription,
-    this.eventMetadata,
-  });
-
-  factory EventDetails.fromJson(Map<String, dynamic> json) {
-    return EventDetails(
-      event: json['event'] != null
-          ? Event.fromJson(json['event'] as Map<String, dynamic>)
-          : null,
-      eventDescription: json['eventDescription'] != null
-          ? EventDescription.fromJson(
-              json['eventDescription'] as Map<String, dynamic>)
-          : null,
-      eventMetadata: (json['eventMetadata'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final event = this.event;
-    final eventDescription = this.eventDescription;
-    final eventMetadata = this.eventMetadata;
-    return {
-      if (event != null) 'event': event,
-      if (eventDescription != null) 'eventDescription': eventDescription,
-      if (eventMetadata != null) 'eventMetadata': eventMetadata,
-    };
-  }
-}
-
-/// Error information returned when a <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
-/// operation can't find a specified event.
-class EventDetailsErrorItem {
-  /// A message that describes the error.
-  final String? errorMessage;
-
-  /// The name of the error.
-  final String? errorName;
-
-  /// The unique identifier for the event. The event ARN has the
-  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
-  /// </code> format.
-  ///
-  /// For example, an event ARN might look like the following:
-  ///
-  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
-  final String? eventArn;
-
-  EventDetailsErrorItem({
-    this.errorMessage,
-    this.errorName,
-    this.eventArn,
-  });
-
-  factory EventDetailsErrorItem.fromJson(Map<String, dynamic> json) {
-    return EventDetailsErrorItem(
-      errorMessage: json['errorMessage'] as String?,
-      errorName: json['errorName'] as String?,
-      eventArn: json['eventArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorMessage = this.errorMessage;
-    final errorName = this.errorName;
-    final eventArn = this.eventArn;
-    return {
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (errorName != null) 'errorName': errorName,
-      if (eventArn != null) 'eventArn': eventArn,
-    };
-  }
-}
-
-/// The values to use to filter results from the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEvents.html">DescribeEvents</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html">DescribeEventAggregates</a>
-/// operations.
-class EventFilter {
-  /// A list of Amazon Web Services Availability Zones.
-  final List<String>? availabilityZones;
-
-  /// A list of dates and times that the event ended.
-  final List<DateTimeRange>? endTimes;
-
-  /// A list of entity ARNs (unique identifiers).
-  final List<String>? entityArns;
-
-  /// A list of entity identifiers, such as EC2 instance IDs
-  /// (<code>i-34ab692e</code>) or EBS volumes (<code>vol-426ab23e</code>).
-  final List<String>? entityValues;
-
-  /// A list of event ARNs (unique identifiers). For example:
-  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
-  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
-  final List<String>? eventArns;
-
-  /// A list of event status codes.
-  final List<EventStatusCode>? eventStatusCodes;
-
-  /// A list of event type category codes. Possible values are <code>issue</code>,
-  /// <code>accountNotification</code>, or <code>scheduledChange</code>.
-  /// Currently, the <code>investigation</code> value isn't supported at this
-  /// time.
-  final List<EventTypeCategory>? eventTypeCategories;
-
-  /// A list of unique identifiers for event types. For example,
-  /// <code>"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".</code>
-  final List<String>? eventTypeCodes;
-
-  /// A list of dates and times that the event was last updated.
-  final List<DateTimeRange>? lastUpdatedTimes;
-
-  /// A list of Amazon Web Services Regions.
-  final List<String>? regions;
-
-  /// The Amazon Web Services associated with the event. For example,
-  /// <code>EC2</code>, <code>RDS</code>.
-  final List<String>? services;
-
-  /// A list of dates and times that the event began.
-  final List<DateTimeRange>? startTimes;
-
-  /// A map of entity tags attached to the affected entity.
-  /// <note>
-  /// Currently, the <code>tags</code> property isn't supported.
-  /// </note>
-  final List<Map<String, String>>? tags;
-
-  EventFilter({
-    this.availabilityZones,
-    this.endTimes,
-    this.entityArns,
-    this.entityValues,
-    this.eventArns,
-    this.eventStatusCodes,
-    this.eventTypeCategories,
-    this.eventTypeCodes,
-    this.lastUpdatedTimes,
-    this.regions,
-    this.services,
-    this.startTimes,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final availabilityZones = this.availabilityZones;
-    final endTimes = this.endTimes;
-    final entityArns = this.entityArns;
-    final entityValues = this.entityValues;
-    final eventArns = this.eventArns;
-    final eventStatusCodes = this.eventStatusCodes;
-    final eventTypeCategories = this.eventTypeCategories;
-    final eventTypeCodes = this.eventTypeCodes;
-    final lastUpdatedTimes = this.lastUpdatedTimes;
-    final regions = this.regions;
-    final services = this.services;
-    final startTimes = this.startTimes;
-    final tags = this.tags;
-    return {
-      if (availabilityZones != null) 'availabilityZones': availabilityZones,
-      if (endTimes != null) 'endTimes': endTimes,
-      if (entityArns != null) 'entityArns': entityArns,
-      if (entityValues != null) 'entityValues': entityValues,
-      if (eventArns != null) 'eventArns': eventArns,
-      if (eventStatusCodes != null)
-        'eventStatusCodes': eventStatusCodes.map((e) => e.value).toList(),
-      if (eventTypeCategories != null)
-        'eventTypeCategories': eventTypeCategories.map((e) => e.value).toList(),
-      if (eventTypeCodes != null) 'eventTypeCodes': eventTypeCodes,
-      if (lastUpdatedTimes != null) 'lastUpdatedTimes': lastUpdatedTimes,
-      if (regions != null) 'regions': regions,
-      if (services != null) 'services': services,
-      if (startTimes != null) 'startTimes': startTimes,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
 /// Contains the metadata about a type of event that is reported by Health. The
 /// <code>EventType</code> shows the category, service, and the event type code
 /// of the event. For example, an <code>issue</code> might be the category,
@@ -2134,6 +1380,17 @@ class EventFilter {
 /// for Health events with Amazon CloudWatch Events</a> in the <i>Health User
 /// Guide</i>.
 class EventType {
+  /// The actionability classification of the event. Possible values are
+  /// <code>ACTION_REQUIRED</code>, <code>ACTION_MAY_BE_REQUIRED</code> and
+  /// <code>INFORMATIONAL</code>. Events with <code>ACTION_REQUIRED</code>
+  /// actionability require customer action to resolve or mitigate the event.
+  /// Events with <code>ACTION_MAY_BE_REQUIRED</code> actionability indicates that
+  /// the current status is unknown or conditional and inspection is needed to
+  /// determine if action is required. Events with <code>INFORMATIONAL</code>
+  /// actionability are provided for awareness and do not require immediate
+  /// action.
+  final EventTypeActionability? actionability;
+
   /// A list of event type category codes. Possible values are <code>issue</code>,
   /// <code>accountNotification</code>, or <code>scheduledChange</code>.
   /// Currently, the <code>investigation</code> value isn't supported at this
@@ -2145,41 +1402,147 @@ class EventType {
   /// <code>AWS_EC2_SYSTEM_MAINTENANCE_EVENT</code>.
   final String? code;
 
-  /// The Amazon Web Service that is affected by the event. For example,
+  /// A list of persona classifications that indicate the target audience for the
+  /// event. Possible values are <code>OPERATIONS</code>, <code>SECURITY</code>,
+  /// and <code>BILLING</code>. Events can be associated with multiple personas to
+  /// indicate relevance to different teams or roles within an organization.
+  final List<EventTypePersona>? personas;
+
+  /// The Amazon Web Services service that is affected by the event. For example,
   /// <code>EC2</code>, <code>RDS</code>.
   final String? service;
 
   EventType({
+    this.actionability,
     this.category,
     this.code,
+    this.personas,
     this.service,
   });
 
   factory EventType.fromJson(Map<String, dynamic> json) {
     return EventType(
+      actionability: (json['actionability'] as String?)
+          ?.let(EventTypeActionability.fromString),
       category:
           (json['category'] as String?)?.let(EventTypeCategory.fromString),
       code: json['code'] as String?,
+      personas: (json['personas'] as List?)
+          ?.nonNulls
+          .map((e) => EventTypePersona.fromString((e as String)))
+          .toList(),
       service: json['service'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final actionability = this.actionability;
     final category = this.category;
     final code = this.code;
+    final personas = this.personas;
     final service = this.service;
     return {
+      if (actionability != null) 'actionability': actionability.value,
       if (category != null) 'category': category.value,
       if (code != null) 'code': code,
+      if (personas != null) 'personas': personas.map((e) => e.value).toList(),
       if (service != null) 'service': service,
     };
   }
+}
+
+class EventTypeCategory {
+  static const issue = EventTypeCategory._('issue');
+  static const accountNotification = EventTypeCategory._('accountNotification');
+  static const scheduledChange = EventTypeCategory._('scheduledChange');
+  static const investigation = EventTypeCategory._('investigation');
+
+  final String value;
+
+  const EventTypeCategory._(this.value);
+
+  static const values = [
+    issue,
+    accountNotification,
+    scheduledChange,
+    investigation
+  ];
+
+  static EventTypeCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventTypeCategory._(value));
+
+  @override
+  bool operator ==(other) => other is EventTypeCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EventTypeActionability {
+  static const actionRequired = EventTypeActionability._('ACTION_REQUIRED');
+  static const actionMayBeRequired =
+      EventTypeActionability._('ACTION_MAY_BE_REQUIRED');
+  static const informational = EventTypeActionability._('INFORMATIONAL');
+
+  final String value;
+
+  const EventTypeActionability._(this.value);
+
+  static const values = [actionRequired, actionMayBeRequired, informational];
+
+  static EventTypeActionability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventTypeActionability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventTypeActionability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EventTypePersona {
+  static const operations = EventTypePersona._('OPERATIONS');
+  static const security = EventTypePersona._('SECURITY');
+  static const billing = EventTypePersona._('BILLING');
+
+  final String value;
+
+  const EventTypePersona._(this.value);
+
+  static const values = [operations, security, billing];
+
+  static EventTypePersona fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventTypePersona._(value));
+
+  @override
+  bool operator ==(other) => other is EventTypePersona && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The values to use to filter results from the <a
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventTypes.html">DescribeEventTypes</a>
 /// operation.
 class EventTypeFilter {
+  /// A list of actionability values to filter event types. Possible values are
+  /// <code>ACTION_REQUIRED</code>, <code>ACTION_MAY_BE_REQUIRED</code> and
+  /// <code>INFORMATIONAL</code>.
+  final List<EventTypeActionability>? actionabilities;
+
   /// A list of event type category codes. Possible values are <code>issue</code>,
   /// <code>accountNotification</code>, or <code>scheduledChange</code>.
   /// Currently, the <code>investigation</code> value isn't supported at this
@@ -2189,144 +1552,36 @@ class EventTypeFilter {
   /// A list of event type codes.
   final List<String>? eventTypeCodes;
 
-  /// The Amazon Web Services associated with the event. For example,
+  /// A list of persona classifications to filter event types. Possible values are
+  /// <code>OPERATIONS</code>, <code>SECURITY</code>, and <code>BILLING</code>.
+  final List<EventTypePersona>? personas;
+
+  /// The Amazon Web Services services associated with the event. For example,
   /// <code>EC2</code>, <code>RDS</code>.
   final List<String>? services;
 
   EventTypeFilter({
+    this.actionabilities,
     this.eventTypeCategories,
     this.eventTypeCodes,
+    this.personas,
     this.services,
   });
 
   Map<String, dynamic> toJson() {
+    final actionabilities = this.actionabilities;
     final eventTypeCategories = this.eventTypeCategories;
     final eventTypeCodes = this.eventTypeCodes;
+    final personas = this.personas;
     final services = this.services;
     return {
+      if (actionabilities != null)
+        'actionabilities': actionabilities.map((e) => e.value).toList(),
       if (eventTypeCategories != null)
         'eventTypeCategories': eventTypeCategories.map((e) => e.value).toList(),
       if (eventTypeCodes != null) 'eventTypeCodes': eventTypeCodes,
+      if (personas != null) 'personas': personas.map((e) => e.value).toList(),
       if (services != null) 'services': services,
-    };
-  }
-}
-
-/// Error information returned when a <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
-/// operation can't find or process a specific entity.
-class OrganizationAffectedEntitiesErrorItem {
-  /// The 12-digit Amazon Web Services account numbers that contains the affected
-  /// entities.
-  final String? awsAccountId;
-
-  /// A message that describes the error. Follow the error message and retry your
-  /// request.
-  ///
-  /// For example, the <code>InvalidAccountInputError</code> error message appears
-  /// if you call the <code>DescribeAffectedEntitiesForOrganization</code>
-  /// operation and specify the <code>AccountSpecific</code> value for the
-  /// <code>EventScopeCode</code> parameter, but don't specify an Amazon Web
-  /// Services account.
-  final String? errorMessage;
-
-  /// The name of the error.
-  final String? errorName;
-
-  /// The unique identifier for the event. The event ARN has the
-  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
-  /// </code> format.
-  ///
-  /// For example, an event ARN might look like the following:
-  ///
-  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
-  final String? eventArn;
-
-  OrganizationAffectedEntitiesErrorItem({
-    this.awsAccountId,
-    this.errorMessage,
-    this.errorName,
-    this.eventArn,
-  });
-
-  factory OrganizationAffectedEntitiesErrorItem.fromJson(
-      Map<String, dynamic> json) {
-    return OrganizationAffectedEntitiesErrorItem(
-      awsAccountId: json['awsAccountId'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-      errorName: json['errorName'] as String?,
-      eventArn: json['eventArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsAccountId = this.awsAccountId;
-    final errorMessage = this.errorMessage;
-    final errorName = this.errorName;
-    final eventArn = this.eventArn;
-    return {
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (errorName != null) 'errorName': errorName,
-      if (eventArn != null) 'eventArn': eventArn,
-    };
-  }
-}
-
-/// The aggregate results of entities affected by the specified event in your
-/// organization. The results are aggregated by the entity status codes for the
-/// specified set of accountsIDs.
-class OrganizationEntityAggregate {
-  /// A list of entity aggregates for each of the specified accounts in your
-  /// organization that are affected by a specific event. If there are no
-  /// <code>awsAccountIds</code> provided in the request, this field will be empty
-  /// in the response.
-  final List<AccountEntityAggregate>? accounts;
-
-  /// The number of entities for the organization that match the filter criteria
-  /// for the specified events.
-  final int? count;
-
-  /// A list of event ARNs (unique identifiers). For example:
-  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
-  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
-  final String? eventArn;
-
-  /// The number of affected entities aggregated by the entitiy status codes.
-  final Map<EntityStatusCode, int>? statuses;
-
-  OrganizationEntityAggregate({
-    this.accounts,
-    this.count,
-    this.eventArn,
-    this.statuses,
-  });
-
-  factory OrganizationEntityAggregate.fromJson(Map<String, dynamic> json) {
-    return OrganizationEntityAggregate(
-      accounts: (json['accounts'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => AccountEntityAggregate.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      count: json['count'] as int?,
-      eventArn: json['eventArn'] as String?,
-      statuses: (json['statuses'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accounts = this.accounts;
-    final count = this.count;
-    final eventArn = this.eventArn;
-    final statuses = this.statuses;
-    return {
-      if (accounts != null) 'accounts': accounts,
-      if (count != null) 'count': count,
-      if (eventArn != null) 'eventArn': eventArn,
-      if (statuses != null)
-        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -2335,6 +1590,17 @@ class OrganizationEntityAggregate {
 /// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>
 /// operation.
 class OrganizationEvent {
+  /// The actionability classification of the event. Possible values are
+  /// <code>ACTION_REQUIRED</code>, <code>ACTION_MAY_BE_REQUIRED</code> and
+  /// <code>INFORMATIONAL</code>. Events with <code>ACTION_REQUIRED</code>
+  /// actionability require customer action to resolve or mitigate the event.
+  /// Events with <code>ACTION_MAY_BE_REQUIRED</code> actionability indicates that
+  /// the current status is unknown or conditional and inspection is needed to
+  /// determine if action is required. Events with <code>INFORMATIONAL</code>
+  /// actionability are provided for awareness and do not require immediate
+  /// action.
+  final EventActionability? actionability;
+
   /// The unique identifier for the event. The event ARN has the
   /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
   /// </code> format.
@@ -2347,8 +1613,8 @@ class OrganizationEvent {
   /// The date and time that the event ended.
   final DateTime? endTime;
 
-  /// This parameter specifies if the Health event is a public Amazon Web Service
-  /// event or an account-specific event.
+  /// This parameter specifies if the Health event is a public Amazon Web Services
+  /// service event or an account-specific event.
   ///
   /// <ul>
   /// <li>
@@ -2385,10 +1651,17 @@ class OrganizationEvent {
   /// The most recent date and time that the event was updated.
   final DateTime? lastUpdatedTime;
 
+  /// A list of persona classifications that indicate the target audience for the
+  /// event. Possible values are <code>OPERATIONS</code>, <code>SECURITY</code>,
+  /// and <code>BILLING</code>. Events can be associated with multiple personas to
+  /// indicate relevance to different teams or roles within an organization.
+  final List<EventPersona>? personas;
+
   /// The Amazon Web Services Region name of the event.
   final String? region;
 
-  /// The Amazon Web Service that is affected by the event, such as EC2 and RDS.
+  /// The Amazon Web Services service that is affected by the event, such as EC2
+  /// and RDS.
   final String? service;
 
   /// The date and time that the event began.
@@ -2399,12 +1672,14 @@ class OrganizationEvent {
   final EventStatusCode? statusCode;
 
   OrganizationEvent({
+    this.actionability,
     this.arn,
     this.endTime,
     this.eventScopeCode,
     this.eventTypeCategory,
     this.eventTypeCode,
     this.lastUpdatedTime,
+    this.personas,
     this.region,
     this.service,
     this.startTime,
@@ -2413,6 +1688,8 @@ class OrganizationEvent {
 
   factory OrganizationEvent.fromJson(Map<String, dynamic> json) {
     return OrganizationEvent(
+      actionability: (json['actionability'] as String?)
+          ?.let(EventActionability.fromString),
       arn: json['arn'] as String?,
       endTime: timeStampFromJson(json['endTime']),
       eventScopeCode:
@@ -2421,6 +1698,10 @@ class OrganizationEvent {
           ?.let(EventTypeCategory.fromString),
       eventTypeCode: json['eventTypeCode'] as String?,
       lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      personas: (json['personas'] as List?)
+          ?.nonNulls
+          .map((e) => EventPersona.fromString((e as String)))
+          .toList(),
       region: json['region'] as String?,
       service: json['service'] as String?,
       startTime: timeStampFromJson(json['startTime']),
@@ -2430,17 +1711,20 @@ class OrganizationEvent {
   }
 
   Map<String, dynamic> toJson() {
+    final actionability = this.actionability;
     final arn = this.arn;
     final endTime = this.endTime;
     final eventScopeCode = this.eventScopeCode;
     final eventTypeCategory = this.eventTypeCategory;
     final eventTypeCode = this.eventTypeCode;
     final lastUpdatedTime = this.lastUpdatedTime;
+    final personas = this.personas;
     final region = this.region;
     final service = this.service;
     final startTime = this.startTime;
     final statusCode = this.statusCode;
     return {
+      if (actionability != null) 'actionability': actionability.value,
       if (arn != null) 'arn': arn,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.value,
@@ -2449,6 +1733,7 @@ class OrganizationEvent {
       if (eventTypeCode != null) 'eventTypeCode': eventTypeCode,
       if (lastUpdatedTime != null)
         'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (personas != null) 'personas': personas.map((e) => e.value).toList(),
       if (region != null) 'region': region,
       if (service != null) 'service': service,
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
@@ -2457,55 +1742,544 @@ class OrganizationEvent {
   }
 }
 
-/// Detailed information about an event. A combination of an <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>
-/// object, an <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventDescription.html">EventDescription</a>
-/// object, and additional metadata about the event. Returned by the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
+class EventScopeCode {
+  static const public = EventScopeCode._('PUBLIC');
+  static const accountSpecific = EventScopeCode._('ACCOUNT_SPECIFIC');
+  static const none = EventScopeCode._('NONE');
+
+  final String value;
+
+  const EventScopeCode._(this.value);
+
+  static const values = [public, accountSpecific, none];
+
+  static EventScopeCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventScopeCode._(value));
+
+  @override
+  bool operator ==(other) => other is EventScopeCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EventStatusCode {
+  static const open = EventStatusCode._('open');
+  static const closed = EventStatusCode._('closed');
+  static const upcoming = EventStatusCode._('upcoming');
+
+  final String value;
+
+  const EventStatusCode._(this.value);
+
+  static const values = [open, closed, upcoming];
+
+  static EventStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventStatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is EventStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EventActionability {
+  static const actionRequired = EventActionability._('ACTION_REQUIRED');
+  static const actionMayBeRequired =
+      EventActionability._('ACTION_MAY_BE_REQUIRED');
+  static const informational = EventActionability._('INFORMATIONAL');
+
+  final String value;
+
+  const EventActionability._(this.value);
+
+  static const values = [actionRequired, actionMayBeRequired, informational];
+
+  static EventActionability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventActionability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventActionability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EventPersona {
+  static const operations = EventPersona._('OPERATIONS');
+  static const security = EventPersona._('SECURITY');
+  static const billing = EventPersona._('BILLING');
+
+  final String value;
+
+  const EventPersona._(this.value);
+
+  static const values = [operations, security, billing];
+
+  static EventPersona fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventPersona._(value));
+
+  @override
+  bool operator ==(other) => other is EventPersona && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The values to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>
 /// operation.
-class OrganizationEventDetails {
-  /// The 12-digit Amazon Web Services account numbers that contains the affected
-  /// entities.
-  final String? awsAccountId;
-  final Event? event;
-  final EventDescription? eventDescription;
+class OrganizationEventFilter {
+  /// A list of actionability values to filter events. Use this to filter events
+  /// based on whether they require action (<code>ACTION_REQUIRED</code>), may
+  /// require action (<code>ACTION_MAY_BE_REQUIRED</code>) or are informational
+  /// (<code>INFORMATIONAL</code>).
+  final List<EventActionability>? actionabilities;
 
-  /// Additional metadata about the event.
-  final Map<String, String>? eventMetadata;
+  /// A list of 12-digit Amazon Web Services account numbers that contains the
+  /// affected entities.
+  final List<String>? awsAccountIds;
+  final DateTimeRange? endTime;
 
-  OrganizationEventDetails({
-    this.awsAccountId,
-    this.event,
-    this.eventDescription,
-    this.eventMetadata,
+  /// A list of entity ARNs (unique identifiers).
+  final List<String>? entityArns;
+
+  /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS
+  /// volumes (vol-426ab23e).
+  final List<String>? entityValues;
+
+  /// A list of event status codes.
+  final List<EventStatusCode>? eventStatusCodes;
+
+  /// A list of event type category codes. Possible values are <code>issue</code>,
+  /// <code>accountNotification</code>, or <code>scheduledChange</code>.
+  /// Currently, the <code>investigation</code> value isn't supported at this
+  /// time.
+  final List<EventTypeCategory>? eventTypeCategories;
+
+  /// A list of unique identifiers for event types. For example,
+  /// <code>"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".</code>
+  final List<String>? eventTypeCodes;
+  final DateTimeRange? lastUpdatedTime;
+
+  /// A list of persona values to filter events. Use this to filter events based
+  /// on their target audience: <code>OPERATIONS</code>, <code>SECURITY</code>, or
+  /// <code>BILLING</code>.
+  final List<EventPersona>? personas;
+
+  /// A list of Amazon Web Services Regions.
+  final List<String>? regions;
+
+  /// The Amazon Web Services services associated with the event. For example,
+  /// <code>EC2</code>, <code>RDS</code>.
+  final List<String>? services;
+  final DateTimeRange? startTime;
+
+  OrganizationEventFilter({
+    this.actionabilities,
+    this.awsAccountIds,
+    this.endTime,
+    this.entityArns,
+    this.entityValues,
+    this.eventStatusCodes,
+    this.eventTypeCategories,
+    this.eventTypeCodes,
+    this.lastUpdatedTime,
+    this.personas,
+    this.regions,
+    this.services,
+    this.startTime,
   });
 
-  factory OrganizationEventDetails.fromJson(Map<String, dynamic> json) {
-    return OrganizationEventDetails(
-      awsAccountId: json['awsAccountId'] as String?,
-      event: json['event'] != null
-          ? Event.fromJson(json['event'] as Map<String, dynamic>)
-          : null,
-      eventDescription: json['eventDescription'] != null
-          ? EventDescription.fromJson(
-              json['eventDescription'] as Map<String, dynamic>)
-          : null,
-      eventMetadata: (json['eventMetadata'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+  Map<String, dynamic> toJson() {
+    final actionabilities = this.actionabilities;
+    final awsAccountIds = this.awsAccountIds;
+    final endTime = this.endTime;
+    final entityArns = this.entityArns;
+    final entityValues = this.entityValues;
+    final eventStatusCodes = this.eventStatusCodes;
+    final eventTypeCategories = this.eventTypeCategories;
+    final eventTypeCodes = this.eventTypeCodes;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final personas = this.personas;
+    final regions = this.regions;
+    final services = this.services;
+    final startTime = this.startTime;
+    return {
+      if (actionabilities != null)
+        'actionabilities': actionabilities.map((e) => e.value).toList(),
+      if (awsAccountIds != null) 'awsAccountIds': awsAccountIds,
+      if (endTime != null) 'endTime': endTime,
+      if (entityArns != null) 'entityArns': entityArns,
+      if (entityValues != null) 'entityValues': entityValues,
+      if (eventStatusCodes != null)
+        'eventStatusCodes': eventStatusCodes.map((e) => e.value).toList(),
+      if (eventTypeCategories != null)
+        'eventTypeCategories': eventTypeCategories.map((e) => e.value).toList(),
+      if (eventTypeCodes != null) 'eventTypeCodes': eventTypeCodes,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (personas != null) 'personas': personas.map((e) => e.value).toList(),
+      if (regions != null) 'regions': regions,
+      if (services != null) 'services': services,
+      if (startTime != null) 'startTime': startTime,
+    };
+  }
+}
+
+/// A range of dates and times that is used by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html">EventFilter</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html">EntityFilter</a>
+/// objects. If <code>from</code> is set and <code>to</code> is set: match items
+/// where the timestamp (<code>startTime</code>, <code>endTime</code>, or
+/// <code>lastUpdatedTime</code>) is between <code>from</code> and
+/// <code>to</code> inclusive. If <code>from</code> is set and <code>to</code>
+/// is not set: match items where the timestamp value is equal to or after
+/// <code>from</code>. If <code>from</code> is not set and <code>to</code> is
+/// set: match items where the timestamp value is equal to or before
+/// <code>to</code>.
+class DateTimeRange {
+  /// The starting date and time of a time range.
+  final DateTime? from;
+
+  /// The ending date and time of a time range.
+  final DateTime? to;
+
+  DateTimeRange({
+    this.from,
+    this.to,
+  });
+
+  Map<String, dynamic> toJson() {
+    final from = this.from;
+    final to = this.to;
+    return {
+      if (from != null) 'from': unixTimestampToJson(from),
+      if (to != null) 'to': unixTimestampToJson(to),
+    };
+  }
+}
+
+/// Summary information about an Health event.
+///
+/// Health events can be public or account-specific:
+///
+/// <ul>
+/// <li>
+/// <i>Public events</i> might be service events that are not specific to an
+/// Amazon Web Services account. For example, if there is an issue with an
+/// Amazon Web Services Region, Health provides information about the event,
+/// even if you don't use services or resources in that Region.
+/// </li>
+/// <li>
+/// <i>Account-specific</i> events are specific to either your Amazon Web
+/// Services account or an account in your organization. For example, if there's
+/// an issue with Amazon Elastic Compute Cloud in a Region that you use, Health
+/// provides information about the event and the affected resources in the
+/// account.
+/// </li>
+/// </ul>
+/// You can determine if an event is public or account-specific by using the
+/// <code>eventScopeCode</code> parameter. For more information, see <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html#AWSHealth-Type-Event-eventScopeCode">eventScopeCode</a>.
+class Event {
+  /// The actionability classification of the event. Possible values are
+  /// <code>ACTION_REQUIRED</code>, <code>ACTION_MAY_BE_REQUIRED</code> and
+  /// <code>INFORMATIONAL</code>. Events with <code>ACTION_REQUIRED</code>
+  /// actionability require customer action to resolve or mitigate the event.
+  /// Events with <code>ACTION_MAY_BE_REQUIRED</code> actionability indicates that
+  /// the current status is unknown or conditional and inspection is needed to
+  /// determine if action is required. Events with <code>INFORMATIONAL</code>
+  /// actionability are provided for awareness and do not require immediate
+  /// action.
+  final EventActionability? actionability;
+
+  /// The unique identifier for the event. The event ARN has the
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code> format.
+  ///
+  /// For example, an event ARN might look like the following:
+  ///
+  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  final String? arn;
+
+  /// The Amazon Web Services Availability Zone of the event. For example,
+  /// us-east-1a.
+  final String? availabilityZone;
+
+  /// The date and time that the event ended.
+  final DateTime? endTime;
+
+  /// This parameter specifies if the Health event is a public Amazon Web Services
+  /// service event or an account-specific event.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>PUBLIC</code>, then the
+  /// <code>affectedAccounts</code> value is always empty.
+  /// </li>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>ACCOUNT_SPECIFIC</code>,
+  /// then the <code>affectedAccounts</code> value lists the affected Amazon Web
+  /// Services accounts in your organization. For example, if an event affects a
+  /// service such as Amazon Elastic Compute Cloud and you have Amazon Web
+  /// Services accounts that use that service, those account IDs appear in the
+  /// response.
+  /// </li>
+  /// <li>
+  /// If the <code>eventScopeCode</code> value is <code>NONE</code>, then the
+  /// <code>eventArn</code> that you specified in the request is invalid or
+  /// doesn't exist.
+  /// </li>
+  /// </ul>
+  final EventScopeCode? eventScopeCode;
+
+  /// A list of event type category codes. Possible values are <code>issue</code>,
+  /// <code>accountNotification</code>, or <code>scheduledChange</code>.
+  /// Currently, the <code>investigation</code> value isn't supported at this
+  /// time.
+  final EventTypeCategory? eventTypeCategory;
+
+  /// The unique identifier for the event type. The format is
+  /// <code>AWS_<i>SERVICE</i>_<i>DESCRIPTION</i> </code>; for example,
+  /// <code>AWS_EC2_SYSTEM_MAINTENANCE_EVENT</code>.
+  final String? eventTypeCode;
+
+  /// The most recent date and time that the event was updated.
+  final DateTime? lastUpdatedTime;
+
+  /// A list of persona classifications that indicate the target audience for the
+  /// event. Possible values are <code>OPERATIONS</code>, <code>SECURITY</code>,
+  /// and <code>BILLING</code>. Events can be associated with multiple personas to
+  /// indicate relevance to different teams or roles within an organization.
+  final List<EventPersona>? personas;
+
+  /// The Amazon Web Services Region name of the event.
+  final String? region;
+
+  /// The Amazon Web Services service that is affected by the event. For example,
+  /// <code>EC2</code>, <code>RDS</code>.
+  final String? service;
+
+  /// The date and time that the event began.
+  final DateTime? startTime;
+
+  /// The most recent status of the event. Possible values are <code>open</code>,
+  /// <code>closed</code>, and <code>upcoming</code>.
+  final EventStatusCode? statusCode;
+
+  Event({
+    this.actionability,
+    this.arn,
+    this.availabilityZone,
+    this.endTime,
+    this.eventScopeCode,
+    this.eventTypeCategory,
+    this.eventTypeCode,
+    this.lastUpdatedTime,
+    this.personas,
+    this.region,
+    this.service,
+    this.startTime,
+    this.statusCode,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      actionability: (json['actionability'] as String?)
+          ?.let(EventActionability.fromString),
+      arn: json['arn'] as String?,
+      availabilityZone: json['availabilityZone'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      eventScopeCode:
+          (json['eventScopeCode'] as String?)?.let(EventScopeCode.fromString),
+      eventTypeCategory: (json['eventTypeCategory'] as String?)
+          ?.let(EventTypeCategory.fromString),
+      eventTypeCode: json['eventTypeCode'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      personas: (json['personas'] as List?)
+          ?.nonNulls
+          .map((e) => EventPersona.fromString((e as String)))
+          .toList(),
+      region: json['region'] as String?,
+      service: json['service'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      statusCode:
+          (json['statusCode'] as String?)?.let(EventStatusCode.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final awsAccountId = this.awsAccountId;
-    final event = this.event;
-    final eventDescription = this.eventDescription;
-    final eventMetadata = this.eventMetadata;
+    final actionability = this.actionability;
+    final arn = this.arn;
+    final availabilityZone = this.availabilityZone;
+    final endTime = this.endTime;
+    final eventScopeCode = this.eventScopeCode;
+    final eventTypeCategory = this.eventTypeCategory;
+    final eventTypeCode = this.eventTypeCode;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final personas = this.personas;
+    final region = this.region;
+    final service = this.service;
+    final startTime = this.startTime;
+    final statusCode = this.statusCode;
     return {
-      if (awsAccountId != null) 'awsAccountId': awsAccountId,
-      if (event != null) 'event': event,
-      if (eventDescription != null) 'eventDescription': eventDescription,
-      if (eventMetadata != null) 'eventMetadata': eventMetadata,
+      if (actionability != null) 'actionability': actionability.value,
+      if (arn != null) 'arn': arn,
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (eventScopeCode != null) 'eventScopeCode': eventScopeCode.value,
+      if (eventTypeCategory != null)
+        'eventTypeCategory': eventTypeCategory.value,
+      if (eventTypeCode != null) 'eventTypeCode': eventTypeCode,
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (personas != null) 'personas': personas.map((e) => e.value).toList(),
+      if (region != null) 'region': region,
+      if (service != null) 'service': service,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (statusCode != null) 'statusCode': statusCode.value,
+    };
+  }
+}
+
+/// The values to use to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEvents.html">DescribeEvents</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html">DescribeEventAggregates</a>
+/// operations.
+class EventFilter {
+  /// A list of actionability values to filter events. Use this to filter events
+  /// based on whether they require action (<code>ACTION_REQUIRED</code>), may
+  /// require action (<code>ACTION_MAY_BE_REQUIRED</code>) or are informational
+  /// (<code>INFORMATIONAL</code>).
+  final List<EventActionability>? actionabilities;
+
+  /// A list of Amazon Web Services Availability Zones.
+  final List<String>? availabilityZones;
+
+  /// A list of dates and times that the event ended.
+  final List<DateTimeRange>? endTimes;
+
+  /// A list of entity ARNs (unique identifiers).
+  final List<String>? entityArns;
+
+  /// A list of entity identifiers, such as EC2 instance IDs
+  /// (<code>i-34ab692e</code>) or EBS volumes (<code>vol-426ab23e</code>).
+  final List<String>? entityValues;
+
+  /// A list of event ARNs (unique identifiers). For example:
+  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+  final List<String>? eventArns;
+
+  /// A list of event status codes.
+  final List<EventStatusCode>? eventStatusCodes;
+
+  /// A list of event type category codes. Possible values are <code>issue</code>,
+  /// <code>accountNotification</code>, or <code>scheduledChange</code>.
+  /// Currently, the <code>investigation</code> value isn't supported at this
+  /// time.
+  final List<EventTypeCategory>? eventTypeCategories;
+
+  /// A list of unique identifiers for event types. For example,
+  /// <code>"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".</code>
+  final List<String>? eventTypeCodes;
+
+  /// A list of dates and times that the event was last updated.
+  final List<DateTimeRange>? lastUpdatedTimes;
+
+  /// A list of persona values to filter events. Use this to filter events based
+  /// on their target audience: <code>OPERATIONS</code>, <code>SECURITY</code>, or
+  /// <code>BILLING</code>.
+  final List<EventPersona>? personas;
+
+  /// A list of Amazon Web Services Regions.
+  final List<String>? regions;
+
+  /// The Amazon Web Services services associated with the event. For example,
+  /// <code>EC2</code>, <code>RDS</code>.
+  final List<String>? services;
+
+  /// A list of dates and times that the event began.
+  final List<DateTimeRange>? startTimes;
+
+  /// A map of entity tags attached to the affected entity.
+  /// <note>
+  /// Currently, the <code>tags</code> property isn't supported.
+  /// </note>
+  final List<Map<String, String>>? tags;
+
+  EventFilter({
+    this.actionabilities,
+    this.availabilityZones,
+    this.endTimes,
+    this.entityArns,
+    this.entityValues,
+    this.eventArns,
+    this.eventStatusCodes,
+    this.eventTypeCategories,
+    this.eventTypeCodes,
+    this.lastUpdatedTimes,
+    this.personas,
+    this.regions,
+    this.services,
+    this.startTimes,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final actionabilities = this.actionabilities;
+    final availabilityZones = this.availabilityZones;
+    final endTimes = this.endTimes;
+    final entityArns = this.entityArns;
+    final entityValues = this.entityValues;
+    final eventArns = this.eventArns;
+    final eventStatusCodes = this.eventStatusCodes;
+    final eventTypeCategories = this.eventTypeCategories;
+    final eventTypeCodes = this.eventTypeCodes;
+    final lastUpdatedTimes = this.lastUpdatedTimes;
+    final personas = this.personas;
+    final regions = this.regions;
+    final services = this.services;
+    final startTimes = this.startTimes;
+    final tags = this.tags;
+    return {
+      if (actionabilities != null)
+        'actionabilities': actionabilities.map((e) => e.value).toList(),
+      if (availabilityZones != null) 'availabilityZones': availabilityZones,
+      if (endTimes != null) 'endTimes': endTimes,
+      if (entityArns != null) 'entityArns': entityArns,
+      if (entityValues != null) 'entityValues': entityValues,
+      if (eventArns != null) 'eventArns': eventArns,
+      if (eventStatusCodes != null)
+        'eventStatusCodes': eventStatusCodes.map((e) => e.value).toList(),
+      if (eventTypeCategories != null)
+        'eventTypeCategories': eventTypeCategories.map((e) => e.value).toList(),
+      if (eventTypeCodes != null) 'eventTypeCodes': eventTypeCodes,
+      if (lastUpdatedTimes != null) 'lastUpdatedTimes': lastUpdatedTimes,
+      if (personas != null) 'personas': personas.map((e) => e.value).toList(),
+      if (regions != null) 'regions': regions,
+      if (services != null) 'services': services,
+      if (startTimes != null) 'startTimes': startTimes,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -2587,84 +2361,365 @@ class OrganizationEventDetailsErrorItem {
   }
 }
 
-/// The values to filter results from the <a
-/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventsForOrganization.html">DescribeEventsForOrganization</a>
+/// Detailed information about an event. A combination of an <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>
+/// object, an <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventDescription.html">EventDescription</a>
+/// object, and additional metadata about the event. Returned by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
 /// operation.
-class OrganizationEventFilter {
-  /// A list of 12-digit Amazon Web Services account numbers that contains the
-  /// affected entities.
-  final List<String>? awsAccountIds;
-  final DateTimeRange? endTime;
+class OrganizationEventDetails {
+  /// The 12-digit Amazon Web Services account numbers that contains the affected
+  /// entities.
+  final String? awsAccountId;
+  final Event? event;
+  final EventDescription? eventDescription;
 
-  /// A list of entity ARNs (unique identifiers).
-  final List<String>? entityArns;
+  /// Additional metadata about the event.
+  final Map<String, String>? eventMetadata;
 
-  /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS
-  /// volumes (vol-426ab23e).
-  final List<String>? entityValues;
+  OrganizationEventDetails({
+    this.awsAccountId,
+    this.event,
+    this.eventDescription,
+    this.eventMetadata,
+  });
 
-  /// A list of event status codes.
-  final List<EventStatusCode>? eventStatusCodes;
+  factory OrganizationEventDetails.fromJson(Map<String, dynamic> json) {
+    return OrganizationEventDetails(
+      awsAccountId: json['awsAccountId'] as String?,
+      event: json['event'] != null
+          ? Event.fromJson(json['event'] as Map<String, dynamic>)
+          : null,
+      eventDescription: json['eventDescription'] != null
+          ? EventDescription.fromJson(
+              json['eventDescription'] as Map<String, dynamic>)
+          : null,
+      eventMetadata: (json['eventMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
 
-  /// A list of event type category codes. Possible values are <code>issue</code>,
-  /// <code>accountNotification</code>, or <code>scheduledChange</code>.
-  /// Currently, the <code>investigation</code> value isn't supported at this
-  /// time.
-  final List<EventTypeCategory>? eventTypeCategories;
+  Map<String, dynamic> toJson() {
+    final awsAccountId = this.awsAccountId;
+    final event = this.event;
+    final eventDescription = this.eventDescription;
+    final eventMetadata = this.eventMetadata;
+    return {
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (event != null) 'event': event,
+      if (eventDescription != null) 'eventDescription': eventDescription,
+      if (eventMetadata != null) 'eventMetadata': eventMetadata,
+    };
+  }
+}
 
-  /// A list of unique identifiers for event types. For example,
-  /// <code>"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".</code>
-  final List<String>? eventTypeCodes;
-  final DateTimeRange? lastUpdatedTime;
+/// The detailed description of the event. Included in the information returned
+/// by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
+/// operation.
+class EventDescription {
+  /// The most recent description of the event.
+  final String? latestDescription;
 
-  /// A list of Amazon Web Services Regions.
-  final List<String>? regions;
+  EventDescription({
+    this.latestDescription,
+  });
 
-  /// The Amazon Web Services associated with the event. For example,
-  /// <code>EC2</code>, <code>RDS</code>.
-  final List<String>? services;
-  final DateTimeRange? startTime;
+  factory EventDescription.fromJson(Map<String, dynamic> json) {
+    return EventDescription(
+      latestDescription: json['latestDescription'] as String?,
+    );
+  }
 
-  OrganizationEventFilter({
-    this.awsAccountIds,
-    this.endTime,
-    this.entityArns,
-    this.entityValues,
-    this.eventStatusCodes,
-    this.eventTypeCategories,
-    this.eventTypeCodes,
-    this.lastUpdatedTime,
-    this.regions,
-    this.services,
-    this.startTime,
+  Map<String, dynamic> toJson() {
+    final latestDescription = this.latestDescription;
+    return {
+      if (latestDescription != null) 'latestDescription': latestDescription,
+    };
+  }
+}
+
+/// The values used to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetailsForOrganization.html">DescribeEventDetailsForOrganization</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
+/// operations.
+class EventAccountFilter {
+  /// The unique identifier for the event. The event ARN has the
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code> format.
+  ///
+  /// For example, an event ARN might look like the following:
+  ///
+  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  final String eventArn;
+
+  /// The 12-digit Amazon Web Services account numbers that contains the affected
+  /// entities.
+  final String? awsAccountId;
+
+  EventAccountFilter({
+    required this.eventArn,
+    this.awsAccountId,
   });
 
   Map<String, dynamic> toJson() {
-    final awsAccountIds = this.awsAccountIds;
-    final endTime = this.endTime;
-    final entityArns = this.entityArns;
-    final entityValues = this.entityValues;
-    final eventStatusCodes = this.eventStatusCodes;
-    final eventTypeCategories = this.eventTypeCategories;
-    final eventTypeCodes = this.eventTypeCodes;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final regions = this.regions;
-    final services = this.services;
-    final startTime = this.startTime;
+    final eventArn = this.eventArn;
+    final awsAccountId = this.awsAccountId;
     return {
-      if (awsAccountIds != null) 'awsAccountIds': awsAccountIds,
-      if (endTime != null) 'endTime': endTime,
-      if (entityArns != null) 'entityArns': entityArns,
-      if (entityValues != null) 'entityValues': entityValues,
-      if (eventStatusCodes != null)
-        'eventStatusCodes': eventStatusCodes.map((e) => e.value).toList(),
-      if (eventTypeCategories != null)
-        'eventTypeCategories': eventTypeCategories.map((e) => e.value).toList(),
-      if (eventTypeCodes != null) 'eventTypeCodes': eventTypeCodes,
-      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
-      if (regions != null) 'regions': regions,
-      if (services != null) 'services': services,
-      if (startTime != null) 'startTime': startTime,
+      'eventArn': eventArn,
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+    };
+  }
+}
+
+/// Error information returned when a <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
+/// operation can't find a specified event.
+class EventDetailsErrorItem {
+  /// A message that describes the error.
+  final String? errorMessage;
+
+  /// The name of the error.
+  final String? errorName;
+
+  /// The unique identifier for the event. The event ARN has the
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code> format.
+  ///
+  /// For example, an event ARN might look like the following:
+  ///
+  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  final String? eventArn;
+
+  EventDetailsErrorItem({
+    this.errorMessage,
+    this.errorName,
+    this.eventArn,
+  });
+
+  factory EventDetailsErrorItem.fromJson(Map<String, dynamic> json) {
+    return EventDetailsErrorItem(
+      errorMessage: json['errorMessage'] as String?,
+      errorName: json['errorName'] as String?,
+      eventArn: json['eventArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final errorName = this.errorName;
+    final eventArn = this.eventArn;
+    return {
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (errorName != null) 'errorName': errorName,
+      if (eventArn != null) 'eventArn': eventArn,
+    };
+  }
+}
+
+/// Detailed information about an event. A combination of an <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_Event.html">Event</a>
+/// object, an <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_EventDescription.html">EventDescription</a>
+/// object, and additional metadata about the event. Returned by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventDetails.html">DescribeEventDetails</a>
+/// operation.
+class EventDetails {
+  /// Summary information about the event.
+  final Event? event;
+
+  /// The most recent description of the event.
+  final EventDescription? eventDescription;
+
+  /// Additional metadata about the event.
+  final Map<String, String>? eventMetadata;
+
+  EventDetails({
+    this.event,
+    this.eventDescription,
+    this.eventMetadata,
+  });
+
+  factory EventDetails.fromJson(Map<String, dynamic> json) {
+    return EventDetails(
+      event: json['event'] != null
+          ? Event.fromJson(json['event'] as Map<String, dynamic>)
+          : null,
+      eventDescription: json['eventDescription'] != null
+          ? EventDescription.fromJson(
+              json['eventDescription'] as Map<String, dynamic>)
+          : null,
+      eventMetadata: (json['eventMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final event = this.event;
+    final eventDescription = this.eventDescription;
+    final eventMetadata = this.eventMetadata;
+    return {
+      if (event != null) 'event': event,
+      if (eventDescription != null) 'eventDescription': eventDescription,
+      if (eventMetadata != null) 'eventMetadata': eventMetadata,
+    };
+  }
+}
+
+/// The number of events of each issue type. Returned by the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEventAggregates.html">DescribeEventAggregates</a>
+/// operation.
+class EventAggregate {
+  /// The issue type for the associated count.
+  final String? aggregateValue;
+
+  /// The number of events of the associated issue type.
+  final int? count;
+
+  EventAggregate({
+    this.aggregateValue,
+    this.count,
+  });
+
+  factory EventAggregate.fromJson(Map<String, dynamic> json) {
+    return EventAggregate(
+      aggregateValue: json['aggregateValue'] as String?,
+      count: json['count'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregateValue = this.aggregateValue;
+    final count = this.count;
+    return {
+      if (aggregateValue != null) 'aggregateValue': aggregateValue,
+      if (count != null) 'count': count,
+    };
+  }
+}
+
+class EventAggregateField {
+  static const eventTypeCategory = EventAggregateField._('eventTypeCategory');
+
+  final String value;
+
+  const EventAggregateField._(this.value);
+
+  static const values = [eventTypeCategory];
+
+  static EventAggregateField fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventAggregateField._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventAggregateField && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The aggregate results of entities affected by the specified event in your
+/// organization. The results are aggregated by the entity status codes for the
+/// specified set of accountsIDs.
+class OrganizationEntityAggregate {
+  /// A list of entity aggregates for each of the specified accounts in your
+  /// organization that are affected by a specific event. If there are no
+  /// <code>awsAccountIds</code> provided in the request, this field will be empty
+  /// in the response.
+  final List<AccountEntityAggregate>? accounts;
+
+  /// The number of entities for the organization that match the filter criteria
+  /// for the specified events.
+  final int? count;
+
+  /// A list of event ARNs (unique identifiers). For example:
+  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+  final String? eventArn;
+
+  /// The number of affected entities aggregated by the entitiy status codes.
+  final Map<EntityStatusCode, int>? statuses;
+
+  OrganizationEntityAggregate({
+    this.accounts,
+    this.count,
+    this.eventArn,
+    this.statuses,
+  });
+
+  factory OrganizationEntityAggregate.fromJson(Map<String, dynamic> json) {
+    return OrganizationEntityAggregate(
+      accounts: (json['accounts'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => AccountEntityAggregate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      count: json['count'] as int?,
+      eventArn: json['eventArn'] as String?,
+      statuses: (json['statuses'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final count = this.count;
+    final eventArn = this.eventArn;
+    final statuses = this.statuses;
+    return {
+      if (accounts != null) 'accounts': accounts,
+      if (count != null) 'count': count,
+      if (eventArn != null) 'eventArn': eventArn,
+      if (statuses != null)
+        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+/// The number of entities in an account that are impacted by a specific event
+/// aggregated by the entity status codes.
+class AccountEntityAggregate {
+  /// The 12-digit Amazon Web Services account numbers that contains the affected
+  /// entities.
+  final String? accountId;
+
+  /// The number of entities that match the filter criteria for the specified
+  /// events.
+  final int? count;
+
+  /// The number of affected entities aggregated by the entity status codes.
+  final Map<EntityStatusCode, int>? statuses;
+
+  AccountEntityAggregate({
+    this.accountId,
+    this.count,
+    this.statuses,
+  });
+
+  factory AccountEntityAggregate.fromJson(Map<String, dynamic> json) {
+    return AccountEntityAggregate(
+      accountId: json['accountId'] as String?,
+      count: json['count'] as int?,
+      statuses: (json['statuses'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final count = this.count;
+    final statuses = this.statuses;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (count != null) 'count': count,
+      if (statuses != null)
+        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
     };
   }
 }
@@ -2696,109 +2751,305 @@ class EntityStatusCode {
   String toString() => value;
 }
 
-class EventAggregateField {
-  static const eventTypeCategory = EventAggregateField._('eventTypeCategory');
+/// The number of entities that are affected by one or more events. Returned by
+/// the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeEntityAggregates.html">DescribeEntityAggregates</a>
+/// operation.
+class EntityAggregate {
+  /// The number of entities that match the criteria for the specified events.
+  final int? count;
 
-  final String value;
+  /// The unique identifier for the event. The event ARN has the
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code> format.
+  ///
+  /// For example, an event ARN might look like the following:
+  ///
+  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  final String? eventArn;
 
-  const EventAggregateField._(this.value);
+  /// The number of affected entities aggregated by the entity status codes.
+  final Map<EntityStatusCode, int>? statuses;
 
-  static const values = [eventTypeCategory];
+  EntityAggregate({
+    this.count,
+    this.eventArn,
+    this.statuses,
+  });
 
-  static EventAggregateField fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventAggregateField._(value));
+  factory EntityAggregate.fromJson(Map<String, dynamic> json) {
+    return EntityAggregate(
+      count: json['count'] as int?,
+      eventArn: json['eventArn'] as String?,
+      statuses: (json['statuses'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(EntityStatusCode.fromString(k), e as int)),
+    );
+  }
 
-  @override
-  bool operator ==(other) =>
-      other is EventAggregateField && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final eventArn = this.eventArn;
+    final statuses = this.statuses;
+    return {
+      if (count != null) 'count': count,
+      if (eventArn != null) 'eventArn': eventArn,
+      if (statuses != null)
+        'statuses': statuses.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
 }
 
-class EventScopeCode {
-  static const public = EventScopeCode._('PUBLIC');
-  static const accountSpecific = EventScopeCode._('ACCOUNT_SPECIFIC');
-  static const none = EventScopeCode._('NONE');
+/// Error information returned when a <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntitiesForOrganization.html">DescribeAffectedEntitiesForOrganization</a>
+/// operation can't find or process a specific entity.
+class OrganizationAffectedEntitiesErrorItem {
+  /// The 12-digit Amazon Web Services account numbers that contains the affected
+  /// entities.
+  final String? awsAccountId;
 
-  final String value;
+  /// A message that describes the error. Follow the error message and retry your
+  /// request.
+  ///
+  /// For example, the <code>InvalidAccountInputError</code> error message appears
+  /// if you call the <code>DescribeAffectedEntitiesForOrganization</code>
+  /// operation and specify the <code>AccountSpecific</code> value for the
+  /// <code>EventScopeCode</code> parameter, but don't specify an Amazon Web
+  /// Services account.
+  final String? errorMessage;
 
-  const EventScopeCode._(this.value);
+  /// The name of the error.
+  final String? errorName;
 
-  static const values = [public, accountSpecific, none];
+  /// The unique identifier for the event. The event ARN has the
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code> format.
+  ///
+  /// For example, an event ARN might look like the following:
+  ///
+  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  final String? eventArn;
 
-  static EventScopeCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventScopeCode._(value));
+  OrganizationAffectedEntitiesErrorItem({
+    this.awsAccountId,
+    this.errorMessage,
+    this.errorName,
+    this.eventArn,
+  });
 
-  @override
-  bool operator ==(other) => other is EventScopeCode && other.value == value;
+  factory OrganizationAffectedEntitiesErrorItem.fromJson(
+      Map<String, dynamic> json) {
+    return OrganizationAffectedEntitiesErrorItem(
+      awsAccountId: json['awsAccountId'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      errorName: json['errorName'] as String?,
+      eventArn: json['eventArn'] as String?,
+    );
+  }
 
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final awsAccountId = this.awsAccountId;
+    final errorMessage = this.errorMessage;
+    final errorName = this.errorName;
+    final eventArn = this.eventArn;
+    return {
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (errorName != null) 'errorName': errorName,
+      if (eventArn != null) 'eventArn': eventArn,
+    };
+  }
 }
 
-class EventStatusCode {
-  static const open = EventStatusCode._('open');
-  static const closed = EventStatusCode._('closed');
-  static const upcoming = EventStatusCode._('upcoming');
+/// Information about an entity that is affected by a Health event.
+class AffectedEntity {
+  /// The 12-digit Amazon Web Services account number that contains the affected
+  /// entity.
+  final String? awsAccountId;
 
-  final String value;
+  /// The unique identifier for the entity. Format:
+  /// <code>arn:aws:health:<i>entity-region</i>:<i>aws-account</i>:entity/<i>entity-id</i>
+  /// </code>. Example:
+  /// <code>arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K</code>
+  final String? entityArn;
 
-  const EventStatusCode._(this.value);
+  /// Additional metadata about the affected entity.
+  final Map<String, String>? entityMetadata;
 
-  static const values = [open, closed, upcoming];
+  /// The URL of the affected entity.
+  final String? entityUrl;
 
-  static EventStatusCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventStatusCode._(value));
+  /// The ID of the affected entity.
+  final String? entityValue;
 
-  @override
-  bool operator ==(other) => other is EventStatusCode && other.value == value;
+  /// The unique identifier for the event. The event ARN has the
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code> format.
+  ///
+  /// For example, an event ARN might look like the following:
+  ///
+  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  final String? eventArn;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The most recent time that the entity was updated.
+  final DateTime? lastUpdatedTime;
 
-  @override
-  String toString() => value;
+  /// The most recent status of the entity affected by the event. The possible
+  /// values are <code>IMPAIRED</code>, <code>UNIMPAIRED</code>,
+  /// <code>UNKNOWN</code>, <code>PENDING</code>, and <code>RESOLVED</code>.
+  final EntityStatusCode? statusCode;
+
+  /// A map of entity tags attached to the affected entity.
+  /// <note>
+  /// Currently, the <code>tags</code> property isn't supported.
+  /// </note>
+  final Map<String, String>? tags;
+
+  AffectedEntity({
+    this.awsAccountId,
+    this.entityArn,
+    this.entityMetadata,
+    this.entityUrl,
+    this.entityValue,
+    this.eventArn,
+    this.lastUpdatedTime,
+    this.statusCode,
+    this.tags,
+  });
+
+  factory AffectedEntity.fromJson(Map<String, dynamic> json) {
+    return AffectedEntity(
+      awsAccountId: json['awsAccountId'] as String?,
+      entityArn: json['entityArn'] as String?,
+      entityMetadata: (json['entityMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      entityUrl: json['entityUrl'] as String?,
+      entityValue: json['entityValue'] as String?,
+      eventArn: json['eventArn'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      statusCode:
+          (json['statusCode'] as String?)?.let(EntityStatusCode.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountId = this.awsAccountId;
+    final entityArn = this.entityArn;
+    final entityMetadata = this.entityMetadata;
+    final entityUrl = this.entityUrl;
+    final entityValue = this.entityValue;
+    final eventArn = this.eventArn;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final statusCode = this.statusCode;
+    final tags = this.tags;
+    return {
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (entityArn != null) 'entityArn': entityArn,
+      if (entityMetadata != null) 'entityMetadata': entityMetadata,
+      if (entityUrl != null) 'entityUrl': entityUrl,
+      if (entityValue != null) 'entityValue': entityValue,
+      if (eventArn != null) 'eventArn': eventArn,
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (statusCode != null) 'statusCode': statusCode.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-class EventTypeCategory {
-  static const issue = EventTypeCategory._('issue');
-  static const accountNotification = EventTypeCategory._('accountNotification');
-  static const scheduledChange = EventTypeCategory._('scheduledChange');
-  static const investigation = EventTypeCategory._('investigation');
+/// A JSON set of elements including the <code>awsAccountId</code>,
+/// <code>eventArn</code> and a set of <code>statusCodes</code>.
+class EntityAccountFilter {
+  /// The unique identifier for the event. The event ARN has the
+  /// <code>arn:aws:health:<i>event-region</i>::event/<i>SERVICE</i>/<i>EVENT_TYPE_CODE</i>/<i>EVENT_TYPE_PLUS_ID</i>
+  /// </code> format.
+  ///
+  /// For example, an event ARN might look like the following:
+  ///
+  /// <code>arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456</code>
+  final String eventArn;
 
-  final String value;
+  /// The 12-digit Amazon Web Services account numbers that contains the affected
+  /// entities.
+  final String? awsAccountId;
 
-  const EventTypeCategory._(this.value);
+  /// A list of entity status codes.
+  final List<EntityStatusCode>? statusCodes;
 
-  static const values = [
-    issue,
-    accountNotification,
-    scheduledChange,
-    investigation
-  ];
+  EntityAccountFilter({
+    required this.eventArn,
+    this.awsAccountId,
+    this.statusCodes,
+  });
 
-  static EventTypeCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventTypeCategory._(value));
+  Map<String, dynamic> toJson() {
+    final eventArn = this.eventArn;
+    final awsAccountId = this.awsAccountId;
+    final statusCodes = this.statusCodes;
+    return {
+      'eventArn': eventArn,
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
+      if (statusCodes != null)
+        'statusCodes': statusCodes.map((e) => e.value).toList(),
+    };
+  }
+}
 
-  @override
-  bool operator ==(other) => other is EventTypeCategory && other.value == value;
+/// The values to use to filter results from the <a
+/// href="https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeAffectedEntities.html">DescribeAffectedEntities</a>
+/// operation.
+class EntityFilter {
+  /// A list of event ARNs (unique identifiers). For example:
+  /// <code>"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456",
+  /// "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"</code>
+  final List<String> eventArns;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// A list of entity ARNs (unique identifiers).
+  final List<String>? entityArns;
 
-  @override
-  String toString() => value;
+  /// A list of IDs for affected entities.
+  final List<String>? entityValues;
+
+  /// A list of the most recent dates and times that the entity was updated.
+  final List<DateTimeRange>? lastUpdatedTimes;
+
+  /// A list of entity status codes (<code>IMPAIRED</code>,
+  /// <code>UNIMPAIRED</code>, or <code>UNKNOWN</code>).
+  final List<EntityStatusCode>? statusCodes;
+
+  /// A map of entity tags attached to the affected entity.
+  /// <note>
+  /// Currently, the <code>tags</code> property isn't supported.
+  /// </note>
+  final List<Map<String, String>>? tags;
+
+  EntityFilter({
+    required this.eventArns,
+    this.entityArns,
+    this.entityValues,
+    this.lastUpdatedTimes,
+    this.statusCodes,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final eventArns = this.eventArns;
+    final entityArns = this.entityArns;
+    final entityValues = this.entityValues;
+    final lastUpdatedTimes = this.lastUpdatedTimes;
+    final statusCodes = this.statusCodes;
+    final tags = this.tags;
+    return {
+      'eventArns': eventArns,
+      if (entityArns != null) 'entityArns': entityArns,
+      if (entityValues != null) 'entityValues': entityValues,
+      if (lastUpdatedTimes != null) 'lastUpdatedTimes': lastUpdatedTimes,
+      if (statusCodes != null)
+        'statusCodes': statusCodes.map((e) => e.value).toList(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

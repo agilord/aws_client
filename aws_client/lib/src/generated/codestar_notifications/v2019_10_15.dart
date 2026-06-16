@@ -20,10 +20,10 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// This AWS CodeStar Notifications API Reference provides descriptions and
-/// usage examples of the operations and data types for the AWS CodeStar
-/// Notifications API. You can use the AWS CodeStar Notifications API to work
-/// with the following objects:
+/// This CodeStar Notifications API Reference provides descriptions and usage
+/// examples of the operations and data types for the CodeStar Notifications
+/// API. You can use the CodeStar Notifications API to work with the following
+/// objects:
 ///
 /// Notification rules, by calling the following:
 ///
@@ -90,12 +90,12 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// account.
 /// </li>
 /// </ul>
-/// For information about how to use AWS CodeStar Notifications, see the <a
+/// For information about how to use CodeStar Notifications, see the <a
 /// href="https://docs.aws.amazon.com/dtconsole/latest/userguide/what-is-dtconsole.html">Amazon
 /// Web Services Developer Tools Console User Guide</a>.
-class CodeStarNotifications {
+class CodestarNotifications {
   final _s.RestJsonProtocol _protocol;
-  CodeStarNotifications({
+  CodestarNotifications({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -105,7 +105,6 @@ class CodeStarNotifications {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'codestar-notifications',
-            signingName: 'codestar-notifications',
           ),
           region: region,
           credentials: credentials,
@@ -123,21 +122,22 @@ class CodeStarNotifications {
   }
 
   /// Creates a notification rule for a resource. The rule specifies the events
-  /// you want notifications about and the targets (such as Chatbot topics or
-  /// Chatbot clients configured for Slack) where you want to receive them.
+  /// you want notifications about and the targets (such as Amazon Q Developer
+  /// in chat applications topics or Amazon Q Developer in chat applications
+  /// clients configured for Slack) where you want to receive them.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConfigurationException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [ConfigurationException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [detailType] :
   /// The level of detail to include in the notifications for this resource.
   /// <code>BASIC</code> will include only the contents of the event as it would
   /// appear in Amazon CloudWatch. <code>FULL</code> will include any
-  /// supplemental information provided by AWS CodeStar Notifications and/or the
+  /// supplemental information provided by CodeStar Notifications and/or the
   /// service for the resource for which the notification is created.
   ///
   /// Parameter [eventTypeIds] :
@@ -155,8 +155,8 @@ class CodeStarNotifications {
   ///
   /// Parameter [targets] :
   /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification
-  /// Service topics and Chatbot clients to associate with the notification
-  /// rule.
+  /// Service topics and Amazon Q Developer in chat applications clients to
+  /// associate with the notification rule.
   ///
   /// Parameter [clientRequestToken] :
   /// A unique, client-generated idempotency token that, when provided in a
@@ -208,9 +208,9 @@ class CodeStarNotifications {
 
   /// Deletes a notification rule for a resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the notification rule you want to
@@ -235,14 +235,15 @@ class CodeStarNotifications {
   /// May throw [ValidationException].
   ///
   /// Parameter [targetAddress] :
-  /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to
+  /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat
+  /// applications topic or Amazon Q Developer in chat applications client to
   /// delete.
   ///
   /// Parameter [forceUnsubscribeAll] :
   /// A Boolean value that can be used to delete all associations with this
-  /// Chatbot topic. The default value is FALSE. If set to TRUE, all
-  /// associations between that target and every notification rule in your
-  /// Amazon Web Services account are deleted.
+  /// Amazon Q Developer in chat applications topic. The default value is FALSE.
+  /// If set to TRUE, all associations between that target and every
+  /// notification rule in your Amazon Web Services account are deleted.
   Future<void> deleteTarget({
     required String targetAddress,
     bool? forceUnsubscribeAll,
@@ -440,13 +441,14 @@ class CodeStarNotifications {
     return ListTargetsResult.fromJson(response);
   }
 
-  /// Creates an association between a notification rule and an Chatbot topic or
-  /// Chatbot client so that the associated target can receive notifications
-  /// when the events described in the rule are triggered.
+  /// Creates an association between a notification rule and an Amazon Q
+  /// Developer in chat applications topic or Amazon Q Developer in chat
+  /// applications client so that the associated target can receive
+  /// notifications when the events described in the rule are triggered.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConfigurationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the notification rule for which you want
@@ -476,10 +478,10 @@ class CodeStarNotifications {
 
   /// Associates a set of provided tags with a notification rule.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [ValidationException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the notification rule to tag.
@@ -504,9 +506,10 @@ class CodeStarNotifications {
     return TagResourceResult.fromJson(response);
   }
 
-  /// Removes an association between a notification rule and an Chatbot topic so
-  /// that subscribers to that topic stop receiving notifications when the
-  /// events described in the rule are triggered.
+  /// Removes an association between a notification rule and an Amazon Q
+  /// Developer in chat applications topic so that subscribers to that topic
+  /// stop receiving notifications when the events described in the rule are
+  /// triggered.
   ///
   /// May throw [ValidationException].
   ///
@@ -514,7 +517,8 @@ class CodeStarNotifications {
   /// The Amazon Resource Name (ARN) of the notification rule.
   ///
   /// Parameter [targetAddress] :
-  /// The ARN of the Chatbot topic to unsubscribe from the notification rule.
+  /// The ARN of the Amazon Q Developer in chat applications topic to
+  /// unsubscribe from the notification rule.
   Future<UnsubscribeResult> unsubscribe({
     required String arn,
     required String targetAddress,
@@ -535,10 +539,10 @@ class CodeStarNotifications {
   /// Removes the association between one or more provided tags and a
   /// notification rule.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [ValidationException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the notification rule from which to
@@ -570,9 +574,9 @@ class CodeStarNotifications {
   /// <a>TagResource</a> and <a>UntagResource</a>.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConfigurationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the notification rule.
@@ -581,8 +585,8 @@ class CodeStarNotifications {
   /// The level of detail to include in the notifications for this resource.
   /// BASIC will include only the contents of the event as it would appear in
   /// Amazon CloudWatch. FULL will include any supplemental information provided
-  /// by AWS CodeStar Notifications and/or the service for the resource for
-  /// which the notification is created.
+  /// by CodeStar Notifications and/or the service for the resource for which
+  /// the notification is created.
   ///
   /// Parameter [eventTypeIds] :
   /// A list of event types associated with this notification rule. For a
@@ -693,7 +697,7 @@ class DescribeNotificationRuleResult {
 
   /// The level of detail included in the notifications for this resource. BASIC
   /// will include only the contents of the event as it would appear in Amazon
-  /// CloudWatch. FULL will include any supplemental information provided by AWS
+  /// CloudWatch. FULL will include any supplemental information provided by
   /// CodeStar Notifications and/or the service for the resource for which the
   /// notification is created.
   final DetailType? detailType;
@@ -719,8 +723,9 @@ class DescribeNotificationRuleResult {
   /// The tags associated with the notification rule.
   final Map<String, String>? tags;
 
-  /// A list of the Chatbot topics and Chatbot clients associated with the
-  /// notification rule.
+  /// A list of the Amazon Q Developer in chat applications topics and Amazon Q
+  /// Developer in chat applications clients associated with the notification
+  /// rule.
   final List<TargetSummary>? targets;
 
   DescribeNotificationRuleResult({
@@ -791,6 +796,249 @@ class DescribeNotificationRuleResult {
   }
 }
 
+class ListEventTypesResult {
+  /// Information about each event, including service name, resource type, event
+  /// ID, and event name.
+  final List<EventTypeSummary>? eventTypes;
+
+  /// An enumeration token that can be used in a request to return the next batch
+  /// of the results.
+  final String? nextToken;
+
+  ListEventTypesResult({
+    this.eventTypes,
+    this.nextToken,
+  });
+
+  factory ListEventTypesResult.fromJson(Map<String, dynamic> json) {
+    return ListEventTypesResult(
+      eventTypes: (json['EventTypes'] as List?)
+          ?.nonNulls
+          .map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTypes = this.eventTypes;
+    final nextToken = this.nextToken;
+    return {
+      if (eventTypes != null) 'EventTypes': eventTypes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListNotificationRulesResult {
+  /// An enumeration token that can be used in a request to return the next batch
+  /// of the results.
+  final String? nextToken;
+
+  /// The list of notification rules for the Amazon Web Services account, by
+  /// Amazon Resource Name (ARN) and ID.
+  final List<NotificationRuleSummary>? notificationRules;
+
+  ListNotificationRulesResult({
+    this.nextToken,
+    this.notificationRules,
+  });
+
+  factory ListNotificationRulesResult.fromJson(Map<String, dynamic> json) {
+    return ListNotificationRulesResult(
+      nextToken: json['NextToken'] as String?,
+      notificationRules: (json['NotificationRules'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              NotificationRuleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final notificationRules = this.notificationRules;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (notificationRules != null) 'NotificationRules': notificationRules,
+    };
+  }
+}
+
+class ListTagsForResourceResult {
+  /// The tags associated with the notification rule.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResult({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResult(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ListTargetsResult {
+  /// An enumeration token that can be used in a request to return the next batch
+  /// of results.
+  final String? nextToken;
+
+  /// The list of notification rule targets.
+  final List<TargetSummary>? targets;
+
+  ListTargetsResult({
+    this.nextToken,
+    this.targets,
+  });
+
+  factory ListTargetsResult.fromJson(Map<String, dynamic> json) {
+    return ListTargetsResult(
+      nextToken: json['NextToken'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.nonNulls
+          .map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final targets = this.targets;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (targets != null) 'Targets': targets,
+    };
+  }
+}
+
+class SubscribeResult {
+  /// The Amazon Resource Name (ARN) of the notification rule for which you have
+  /// created assocations.
+  final String? arn;
+
+  SubscribeResult({
+    this.arn,
+  });
+
+  factory SubscribeResult.fromJson(Map<String, dynamic> json) {
+    return SubscribeResult(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+class TagResourceResult {
+  /// The list of tags associated with the resource.
+  final Map<String, String>? tags;
+
+  TagResourceResult({
+    this.tags,
+  });
+
+  factory TagResourceResult.fromJson(Map<String, dynamic> json) {
+    return TagResourceResult(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class UnsubscribeResult {
+  /// The Amazon Resource Name (ARN) of the the notification rule from which you
+  /// have removed a subscription.
+  final String arn;
+
+  UnsubscribeResult({
+    required this.arn,
+  });
+
+  factory UnsubscribeResult.fromJson(Map<String, dynamic> json) {
+    return UnsubscribeResult(
+      arn: (json['Arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'Arn': arn,
+    };
+  }
+}
+
+class UntagResourceResult {
+  UntagResourceResult();
+
+  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateNotificationRuleResult {
+  UpdateNotificationRuleResult();
+
+  factory UpdateNotificationRuleResult.fromJson(Map<String, dynamic> _) {
+    return UpdateNotificationRuleResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class NotificationRuleStatus {
+  static const enabled = NotificationRuleStatus._('ENABLED');
+  static const disabled = NotificationRuleStatus._('DISABLED');
+
+  final String value;
+
+  const NotificationRuleStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static NotificationRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class DetailType {
   static const basic = DetailType._('BASIC');
   static const full = DetailType._('FULL');
@@ -806,6 +1054,262 @@ class DetailType {
 
   @override
   bool operator ==(other) => other is DetailType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the Amazon Q Developer in chat applications topics or
+/// Amazon Q Developer in chat applications clients associated with a
+/// notification rule.
+class Target {
+  /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat
+  /// applications topic or Amazon Q Developer in chat applications client.
+  final String? targetAddress;
+
+  /// The target type. Can be an Amazon Q Developer in chat applications topic or
+  /// Amazon Q Developer in chat applications client.
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Q Developer in chat applications topics are specified as
+  /// <code>SNS</code>.
+  /// </li>
+  /// <li>
+  /// Amazon Q Developer in chat applications clients are specified as
+  /// <code>AWSChatbotSlack</code>.
+  /// </li>
+  /// </ul>
+  final String? targetType;
+
+  Target({
+    this.targetAddress,
+    this.targetType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final targetAddress = this.targetAddress;
+    final targetType = this.targetType;
+    return {
+      if (targetAddress != null) 'TargetAddress': targetAddress,
+      if (targetType != null) 'TargetType': targetType,
+    };
+  }
+}
+
+/// Information about the targets specified for a notification rule.
+class TargetSummary {
+  /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat
+  /// applications topic or Amazon Q Developer in chat applications client.
+  final String? targetAddress;
+
+  /// The status of the target.
+  final TargetStatus? targetStatus;
+
+  /// The type of the target (for example, <code>SNS</code>).
+  ///
+  /// <ul>
+  /// <li>
+  /// Amazon Q Developer in chat applications topics are specified as
+  /// <code>SNS</code>.
+  /// </li>
+  /// <li>
+  /// Amazon Q Developer in chat applications clients are specified as
+  /// <code>AWSChatbotSlack</code>.
+  /// </li>
+  /// </ul>
+  final String? targetType;
+
+  TargetSummary({
+    this.targetAddress,
+    this.targetStatus,
+    this.targetType,
+  });
+
+  factory TargetSummary.fromJson(Map<String, dynamic> json) {
+    return TargetSummary(
+      targetAddress: json['TargetAddress'] as String?,
+      targetStatus:
+          (json['TargetStatus'] as String?)?.let(TargetStatus.fromString),
+      targetType: json['TargetType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetAddress = this.targetAddress;
+    final targetStatus = this.targetStatus;
+    final targetType = this.targetType;
+    return {
+      if (targetAddress != null) 'TargetAddress': targetAddress,
+      if (targetStatus != null) 'TargetStatus': targetStatus.value,
+      if (targetType != null) 'TargetType': targetType,
+    };
+  }
+}
+
+class TargetStatus {
+  static const pending = TargetStatus._('PENDING');
+  static const active = TargetStatus._('ACTIVE');
+  static const unreachable = TargetStatus._('UNREACHABLE');
+  static const inactive = TargetStatus._('INACTIVE');
+  static const deactivated = TargetStatus._('DEACTIVATED');
+
+  final String value;
+
+  const TargetStatus._(this.value);
+
+  static const values = [pending, active, unreachable, inactive, deactivated];
+
+  static TargetStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a filter to apply to the list of returned targets. You can
+/// filter by target type, address, or status. For example, to filter results to
+/// notification rules that have active Amazon Q Developer in chat applications
+/// topics as targets, you could specify a ListTargetsFilter Name as
+/// <code>TargetType</code> and a Value of <code>SNS</code>, and a Name of
+/// <code>TARGET_STATUS</code> and a Value of <code>ACTIVE</code>.
+class ListTargetsFilter {
+  /// The name of the attribute you want to use to filter the returned targets.
+  final ListTargetsFilterName name;
+
+  /// The value of the attribute you want to use to filter the returned targets.
+  /// For example, if you specify <code>SNS</code> for the Target type, you could
+  /// specify an Amazon Resource Name (ARN) for a topic as the value.
+  final String value;
+
+  ListTargetsFilter({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name.value,
+      'Value': value,
+    };
+  }
+}
+
+class ListTargetsFilterName {
+  static const targetType = ListTargetsFilterName._('TARGET_TYPE');
+  static const targetAddress = ListTargetsFilterName._('TARGET_ADDRESS');
+  static const targetStatus = ListTargetsFilterName._('TARGET_STATUS');
+
+  final String value;
+
+  const ListTargetsFilterName._(this.value);
+
+  static const values = [targetType, targetAddress, targetStatus];
+
+  static ListTargetsFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListTargetsFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListTargetsFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a specified notification rule.
+class NotificationRuleSummary {
+  /// The Amazon Resource Name (ARN) of the notification rule.
+  final String? arn;
+
+  /// The unique ID of the notification rule.
+  final String? id;
+
+  NotificationRuleSummary({
+    this.arn,
+    this.id,
+  });
+
+  factory NotificationRuleSummary.fromJson(Map<String, dynamic> json) {
+    return NotificationRuleSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Information about a filter to apply to the list of returned notification
+/// rules. You can filter by event type, owner, resource, or target.
+class ListNotificationRulesFilter {
+  /// The name of the attribute you want to use to filter the returned
+  /// notification rules.
+  final ListNotificationRulesFilterName name;
+
+  /// The value of the attribute you want to use to filter the returned
+  /// notification rules. For example, if you specify filtering by <i>RESOURCE</i>
+  /// in Name, you might specify the ARN of a pipeline in CodePipeline for the
+  /// value.
+  final String value;
+
+  ListNotificationRulesFilter({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name.value,
+      'Value': value,
+    };
+  }
+}
+
+class ListNotificationRulesFilterName {
+  static const eventTypeId = ListNotificationRulesFilterName._('EVENT_TYPE_ID');
+  static const createdBy = ListNotificationRulesFilterName._('CREATED_BY');
+  static const resource = ListNotificationRulesFilterName._('RESOURCE');
+  static const targetAddress =
+      ListNotificationRulesFilterName._('TARGET_ADDRESS');
+
+  final String value;
+
+  const ListNotificationRulesFilterName._(this.value);
+
+  static const values = [eventTypeId, createdBy, resource, targetAddress];
+
+  static ListNotificationRulesFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListNotificationRulesFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListNotificationRulesFilterName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -909,497 +1413,6 @@ class ListEventTypesFilterName {
 
   @override
   String toString() => value;
-}
-
-class ListEventTypesResult {
-  /// Information about each event, including service name, resource type, event
-  /// ID, and event name.
-  final List<EventTypeSummary>? eventTypes;
-
-  /// An enumeration token that can be used in a request to return the next batch
-  /// of the results.
-  final String? nextToken;
-
-  ListEventTypesResult({
-    this.eventTypes,
-    this.nextToken,
-  });
-
-  factory ListEventTypesResult.fromJson(Map<String, dynamic> json) {
-    return ListEventTypesResult(
-      eventTypes: (json['EventTypes'] as List?)
-          ?.nonNulls
-          .map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventTypes = this.eventTypes;
-    final nextToken = this.nextToken;
-    return {
-      if (eventTypes != null) 'EventTypes': eventTypes,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Information about a filter to apply to the list of returned notification
-/// rules. You can filter by event type, owner, resource, or target.
-class ListNotificationRulesFilter {
-  /// The name of the attribute you want to use to filter the returned
-  /// notification rules.
-  final ListNotificationRulesFilterName name;
-
-  /// The value of the attribute you want to use to filter the returned
-  /// notification rules. For example, if you specify filtering by <i>RESOURCE</i>
-  /// in Name, you might specify the ARN of a pipeline in CodePipeline for the
-  /// value.
-  final String value;
-
-  ListNotificationRulesFilter({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name.value,
-      'Value': value,
-    };
-  }
-}
-
-class ListNotificationRulesFilterName {
-  static const eventTypeId = ListNotificationRulesFilterName._('EVENT_TYPE_ID');
-  static const createdBy = ListNotificationRulesFilterName._('CREATED_BY');
-  static const resource = ListNotificationRulesFilterName._('RESOURCE');
-  static const targetAddress =
-      ListNotificationRulesFilterName._('TARGET_ADDRESS');
-
-  final String value;
-
-  const ListNotificationRulesFilterName._(this.value);
-
-  static const values = [eventTypeId, createdBy, resource, targetAddress];
-
-  static ListNotificationRulesFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListNotificationRulesFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListNotificationRulesFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListNotificationRulesResult {
-  /// An enumeration token that can be used in a request to return the next batch
-  /// of the results.
-  final String? nextToken;
-
-  /// The list of notification rules for the Amazon Web Services account, by
-  /// Amazon Resource Name (ARN) and ID.
-  final List<NotificationRuleSummary>? notificationRules;
-
-  ListNotificationRulesResult({
-    this.nextToken,
-    this.notificationRules,
-  });
-
-  factory ListNotificationRulesResult.fromJson(Map<String, dynamic> json) {
-    return ListNotificationRulesResult(
-      nextToken: json['NextToken'] as String?,
-      notificationRules: (json['NotificationRules'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              NotificationRuleSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final notificationRules = this.notificationRules;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (notificationRules != null) 'NotificationRules': notificationRules,
-    };
-  }
-}
-
-class ListTagsForResourceResult {
-  /// The tags associated with the notification rule.
-  final Map<String, String>? tags;
-
-  ListTagsForResourceResult({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResult(
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Information about a filter to apply to the list of returned targets. You can
-/// filter by target type, address, or status. For example, to filter results to
-/// notification rules that have active Chatbot topics as targets, you could
-/// specify a ListTargetsFilter Name as <code>TargetType</code> and a Value of
-/// <code>SNS</code>, and a Name of <code>TARGET_STATUS</code> and a Value of
-/// <code>ACTIVE</code>.
-class ListTargetsFilter {
-  /// The name of the attribute you want to use to filter the returned targets.
-  final ListTargetsFilterName name;
-
-  /// The value of the attribute you want to use to filter the returned targets.
-  /// For example, if you specify <code>SNS</code> for the Target type, you could
-  /// specify an Amazon Resource Name (ARN) for a topic as the value.
-  final String value;
-
-  ListTargetsFilter({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name.value,
-      'Value': value,
-    };
-  }
-}
-
-class ListTargetsFilterName {
-  static const targetType = ListTargetsFilterName._('TARGET_TYPE');
-  static const targetAddress = ListTargetsFilterName._('TARGET_ADDRESS');
-  static const targetStatus = ListTargetsFilterName._('TARGET_STATUS');
-
-  final String value;
-
-  const ListTargetsFilterName._(this.value);
-
-  static const values = [targetType, targetAddress, targetStatus];
-
-  static ListTargetsFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListTargetsFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListTargetsFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListTargetsResult {
-  /// An enumeration token that can be used in a request to return the next batch
-  /// of results.
-  final String? nextToken;
-
-  /// The list of notification rule targets.
-  final List<TargetSummary>? targets;
-
-  ListTargetsResult({
-    this.nextToken,
-    this.targets,
-  });
-
-  factory ListTargetsResult.fromJson(Map<String, dynamic> json) {
-    return ListTargetsResult(
-      nextToken: json['NextToken'] as String?,
-      targets: (json['Targets'] as List?)
-          ?.nonNulls
-          .map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final targets = this.targets;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (targets != null) 'Targets': targets,
-    };
-  }
-}
-
-class NotificationRuleStatus {
-  static const enabled = NotificationRuleStatus._('ENABLED');
-  static const disabled = NotificationRuleStatus._('DISABLED');
-
-  final String value;
-
-  const NotificationRuleStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static NotificationRuleStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NotificationRuleStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NotificationRuleStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a specified notification rule.
-class NotificationRuleSummary {
-  /// The Amazon Resource Name (ARN) of the notification rule.
-  final String? arn;
-
-  /// The unique ID of the notification rule.
-  final String? id;
-
-  NotificationRuleSummary({
-    this.arn,
-    this.id,
-  });
-
-  factory NotificationRuleSummary.fromJson(Map<String, dynamic> json) {
-    return NotificationRuleSummary(
-      arn: json['Arn'] as String?,
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-class SubscribeResult {
-  /// The Amazon Resource Name (ARN) of the notification rule for which you have
-  /// created assocations.
-  final String? arn;
-
-  SubscribeResult({
-    this.arn,
-  });
-
-  factory SubscribeResult.fromJson(Map<String, dynamic> json) {
-    return SubscribeResult(
-      arn: json['Arn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'Arn': arn,
-    };
-  }
-}
-
-class TagResourceResult {
-  /// The list of tags associated with the resource.
-  final Map<String, String>? tags;
-
-  TagResourceResult({
-    this.tags,
-  });
-
-  factory TagResourceResult.fromJson(Map<String, dynamic> json) {
-    return TagResourceResult(
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Information about the Chatbot topics or Chatbot clients associated with a
-/// notification rule.
-class Target {
-  /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
-  final String? targetAddress;
-
-  /// The target type. Can be an Chatbot topic or Chatbot client.
-  ///
-  /// <ul>
-  /// <li>
-  /// Chatbot topics are specified as <code>SNS</code>.
-  /// </li>
-  /// <li>
-  /// Chatbot clients are specified as <code>AWSChatbotSlack</code>.
-  /// </li>
-  /// </ul>
-  final String? targetType;
-
-  Target({
-    this.targetAddress,
-    this.targetType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final targetAddress = this.targetAddress;
-    final targetType = this.targetType;
-    return {
-      if (targetAddress != null) 'TargetAddress': targetAddress,
-      if (targetType != null) 'TargetType': targetType,
-    };
-  }
-}
-
-class TargetStatus {
-  static const pending = TargetStatus._('PENDING');
-  static const active = TargetStatus._('ACTIVE');
-  static const unreachable = TargetStatus._('UNREACHABLE');
-  static const inactive = TargetStatus._('INACTIVE');
-  static const deactivated = TargetStatus._('DEACTIVATED');
-
-  final String value;
-
-  const TargetStatus._(this.value);
-
-  static const values = [pending, active, unreachable, inactive, deactivated];
-
-  static TargetStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TargetStatus._(value));
-
-  @override
-  bool operator ==(other) => other is TargetStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the targets specified for a notification rule.
-class TargetSummary {
-  /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
-  final String? targetAddress;
-
-  /// The status of the target.
-  final TargetStatus? targetStatus;
-
-  /// The type of the target (for example, <code>SNS</code>).
-  ///
-  /// <ul>
-  /// <li>
-  /// Chatbot topics are specified as <code>SNS</code>.
-  /// </li>
-  /// <li>
-  /// Chatbot clients are specified as <code>AWSChatbotSlack</code>.
-  /// </li>
-  /// </ul>
-  final String? targetType;
-
-  TargetSummary({
-    this.targetAddress,
-    this.targetStatus,
-    this.targetType,
-  });
-
-  factory TargetSummary.fromJson(Map<String, dynamic> json) {
-    return TargetSummary(
-      targetAddress: json['TargetAddress'] as String?,
-      targetStatus:
-          (json['TargetStatus'] as String?)?.let(TargetStatus.fromString),
-      targetType: json['TargetType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetAddress = this.targetAddress;
-    final targetStatus = this.targetStatus;
-    final targetType = this.targetType;
-    return {
-      if (targetAddress != null) 'TargetAddress': targetAddress,
-      if (targetStatus != null) 'TargetStatus': targetStatus.value,
-      if (targetType != null) 'TargetType': targetType,
-    };
-  }
-}
-
-class UnsubscribeResult {
-  /// The Amazon Resource Name (ARN) of the the notification rule from which you
-  /// have removed a subscription.
-  final String arn;
-
-  UnsubscribeResult({
-    required this.arn,
-  });
-
-  factory UnsubscribeResult.fromJson(Map<String, dynamic> json) {
-    return UnsubscribeResult(
-      arn: (json['Arn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'Arn': arn,
-    };
-  }
-}
-
-class UntagResourceResult {
-  UntagResourceResult();
-
-  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateNotificationRuleResult {
-  UpdateNotificationRuleResult();
-
-  factory UpdateNotificationRuleResult.fromJson(Map<String, dynamic> _) {
-    return UpdateNotificationRuleResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

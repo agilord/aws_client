@@ -56,6 +56,62 @@ class IoTDataPlane {
     _protocol.close();
   }
 
+  /// Disconnects a connected MQTT client from Amazon Web Services IoT Core.
+  /// When you disconnect a client, Amazon Web Services IoT Core closes the
+  /// client's network connection and optionally cleans the session state.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteConnection</a>
+  /// action.
+  ///
+  /// May throw [ForbiddenException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [clientId] :
+  /// The unique identifier of the MQTT client to disconnect. The client ID
+  /// can't start with a dollar sign ($).
+  ///
+  /// MQTT client IDs must be URL encoded (percent-encoded) when they contain
+  /// characters that are not valid in HTTP requests, such as spaces, forward
+  /// slashes (/), and UTF-8 characters.
+  ///
+  /// Parameter [cleanSession] :
+  /// Specifies whether to remove the client's persistent session state when
+  /// disconnecting. Set to <code>TRUE</code> to delete all session information,
+  /// including subscriptions and queued messages. Set to <code>FALSE</code> to
+  /// preserve the session state for <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html#mqtt-persistent-sessions">persistent
+  /// sessions</a>. For clean sessions this parameter will be ignored. By
+  /// default, this is set to <code>FALSE</code> (preserves the session state).
+  ///
+  /// Parameter [preventWillMessage] :
+  /// Controls if Amazon Web Services IoT Core publishes the client's Last Will
+  /// and Testament (LWT) message upon disconnection. Set to <code>TRUE</code>
+  /// to prevent publishing the LWT message. Set to <code>FALSE</code> to ensure
+  /// that LWT is published. By default, this is set to <code>FALSE</code> (LWT
+  /// message is published).
+  Future<void> deleteConnection({
+    required String clientId,
+    bool? cleanSession,
+    bool? preventWillMessage,
+  }) async {
+    final $query = <String, List<String>>{
+      if (cleanSession != null) 'cleanSession': [cleanSession.toString()],
+      if (preventWillMessage != null)
+        'preventWillMessage': [preventWillMessage.toString()],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/connections/${Uri.encodeComponent(clientId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes the shadow for the specified thing.
   ///
   /// Requires permission to access the <a
@@ -66,13 +122,13 @@ class IoTDataPlane {
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/API_DeleteThingShadow.html">DeleteThingShadow</a>
   /// in the IoT Developer Guide.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InternalFailureException].
-  /// May throw [MethodNotAllowedException].
   /// May throw [UnsupportedDocumentEncodingException].
   ///
   /// Parameter [thingName] :
@@ -99,6 +155,52 @@ class IoTDataPlane {
     );
   }
 
+  /// Retrieves connection information for the specified MQTT client.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetConnection</a>
+  /// action.
+  ///
+  /// May throw [ForbiddenException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [clientId] :
+  /// The unique identifier of the MQTT client to retrieve connection
+  /// information. The client ID can't start with a dollar sign ($).
+  ///
+  /// MQTT client IDs must be URL encoded (percent-encoded) when they contain
+  /// characters that are not valid in HTTP requests, such as spaces, forward
+  /// slashes (/), and UTF-8 characters.
+  ///
+  /// Parameter [includeSocketInformation] :
+  /// Specifies if socket information (sourcePort, targetPort, sourceIp,
+  /// targetIp) should be included in the GetConnection response. Set to
+  /// <code>TRUE</code> to include socket information. Set to <code>FALSE</code>
+  /// to omit socket information. By default, this is set to <code>FALSE</code>.
+  /// See the <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html#mqtt-client-disconnect">developer
+  /// guide</a> for how to authorize this parameter.
+  Future<GetConnectionResponse> getConnection({
+    required String clientId,
+    bool? includeSocketInformation,
+  }) async {
+    final $query = <String, List<String>>{
+      if (includeSocketInformation != null)
+        'includeSocketInformation': [includeSocketInformation.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/connections/${Uri.encodeComponent(clientId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetConnectionResponse.fromJson(response);
+  }
+
   /// Gets the details of a single retained message for the specified topic.
   ///
   /// This action returns the message payload of the retained message, which can
@@ -107,20 +209,20 @@ class IoTDataPlane {
   /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_iotdata_ListRetainedMessages.html">ListRetainedMessages</a>.
   ///
   /// Requires permission to access the <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions">GetRetainedMessage</a>
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html">GetRetainedMessage</a>
   /// action.
   ///
   /// For more information about messaging costs, see <a
   /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">Amazon Web
   /// Services IoT Core pricing - Messaging</a>.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [MethodNotAllowedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InternalFailureException].
-  /// May throw [MethodNotAllowedException].
   ///
   /// Parameter [topic] :
   /// The topic name of the retained message to retrieve.
@@ -146,13 +248,13 @@ class IoTDataPlane {
   /// href="http://docs.aws.amazon.com/iot/latest/developerguide/API_GetThingShadow.html">GetThingShadow</a>
   /// in the IoT Developer Guide.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [MethodNotAllowedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InternalFailureException].
-  /// May throw [MethodNotAllowedException].
   /// May throw [UnsupportedDocumentEncodingException].
   ///
   /// Parameter [thingName] :
@@ -185,13 +287,13 @@ class IoTDataPlane {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListNamedShadowsForThing</a>
   /// action.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InternalFailureException].
-  /// May throw [MethodNotAllowedException].
   ///
   /// Parameter [thingName] :
   /// The name of the thing.
@@ -239,19 +341,19 @@ class IoTDataPlane {
   /// with the topic name of the retained message.
   ///
   /// Requires permission to access the <a
-  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotfleethubfordevicemanagement.html#awsiotfleethubfordevicemanagement-actions-as-permissions">ListRetainedMessages</a>
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html">ListRetainedMessages</a>
   /// action.
   ///
   /// For more information about messaging costs, see <a
   /// href="http://aws.amazon.com/iot-core/pricing/#Messaging">Amazon Web
   /// Services IoT Core pricing - Messaging</a>.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InternalFailureException].
-  /// May throw [MethodNotAllowedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at one time.
@@ -284,6 +386,60 @@ class IoTDataPlane {
     return ListRetainedMessagesResponse.fromJson(response);
   }
 
+  /// Returns a list of all subscriptions for MQTT clients with active sessions,
+  /// including offline clients with persistent sessions.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListSubscriptions</a>
+  /// action.
+  ///
+  /// May throw [ForbiddenException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [clientId] :
+  /// The unique identifier of the MQTT client to list subscriptions for. The
+  /// client ID can't start with a dollar sign ($).
+  ///
+  /// MQTT client IDs must be URL encoded (percent-encoded) when they contain
+  /// characters that are not valid in HTTP requests, such as spaces, forward
+  /// slashes (/), and UTF-8 characters.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of subscriptions to return in a single request. By
+  /// default, this is set to 20.
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
+  Future<ListSubscriptionsResponse> listSubscriptions({
+    required String clientId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/connections/${Uri.encodeComponent(clientId)}/subscriptions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSubscriptionsResponse.fromJson(response);
+  }
+
   /// Publishes an MQTT message.
   ///
   /// Requires permission to access the <a
@@ -300,9 +456,9 @@ class IoTDataPlane {
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
-  /// May throw [UnauthorizedException].
   /// May throw [MethodNotAllowedException].
   /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [topic] :
   /// The name of the MQTT topic.
@@ -412,6 +568,158 @@ class IoTDataPlane {
     );
   }
 
+  /// Sends an MQTT message directly to a specific client identified by its
+  /// client ID.
+  ///
+  /// <code>SendDirectMessage</code> targets a single client ID. The receiving
+  /// client does not need to subscribe to the topic, but the receiver's policy
+  /// must allow <code>iot:Receive</code> on the specified topic.
+  ///
+  /// Requires permission to access the <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">SendDirectMessage</a>
+  /// action.
+  ///
+  /// For more information about messaging costs, see <a
+  /// href="http://aws.amazon.com/iot-core/pricing/">Amazon Web Services IoT
+  /// Core pricing</a>.
+  ///
+  /// May throw [ForbiddenException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [RequestEntityTooLargeException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [clientId] :
+  /// The unique identifier of the MQTT client to send the message to.
+  ///
+  /// Client IDs must not exceed 128 characters and can't start with a dollar
+  /// sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they
+  /// contain characters that are not valid in HTTP requests, such as spaces,
+  /// forward slashes (/), and UTF-8 characters. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits">Amazon
+  /// Web Services IoT Core message broker and protocol limits and quotas</a>.
+  ///
+  /// Parameter [topic] :
+  /// The topic of the outbound MQTT Publish message to the receiving client.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits">Amazon
+  /// Web Services IoT Core message broker and protocol limits and quotas</a>.
+  ///
+  /// Parameter [confirmation] :
+  /// A Boolean value that specifies whether to wait for delivery confirmation
+  /// from the receiving client.
+  ///
+  /// When set to <code>true</code>, the API delivers the message at QoS 1 and
+  /// waits for the client to send a delivery confirmation (PUBACK) before
+  /// returning a successful response. If delivery confirmation is not received
+  /// within the specified <code>timeout</code> period, the API returns HTTP
+  /// 504.
+  ///
+  /// When set to <code>false</code>, the API delivers the message at QoS 0 and
+  /// returns after Amazon Web Services IoT Core attempts to deliver the
+  /// message.
+  ///
+  /// Valid values: <code>true</code> | <code>false</code>
+  ///
+  /// Default value: <code>false</code>
+  ///
+  /// Parameter [contentType] :
+  /// The MQTT5 content type property forwarded to the receiving client (for
+  /// example, <code>application/json</code>).
+  ///
+  /// Parameter [correlationData] :
+  /// The base64-encoded binary data used by the sender of the request message
+  /// to identify which request the response message is for when it's received.
+  /// <code>correlationData</code> is an HTTP header value in the API.
+  ///
+  /// Parameter [payload] :
+  /// The message body. MQTT accepts text, binary, and empty (null) message
+  /// payloads.
+  ///
+  /// Parameter [payloadFormatIndicator] :
+  /// An <code>Enum</code> string value that indicates whether the payload is
+  /// formatted as UTF-8. <code>payloadFormatIndicator</code> is an HTTP header
+  /// value in the API.
+  ///
+  /// Parameter [responseTopic] :
+  /// A UTF-8 encoded string that's used as the topic name for a response
+  /// message. The response topic describes the topic which the receiver should
+  /// publish to as part of the request-response flow. The topic must not
+  /// contain wildcard characters. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/iot-core.html#message-broker-limits">Amazon
+  /// Web Services IoT Core message broker and protocol limits and quotas</a>.
+  ///
+  /// Parameter [timeout] :
+  /// An integer that represents the maximum time, in seconds, to wait for a
+  /// delivery confirmation (PUBACK) from the receiving client after the message
+  /// has been delivered. This parameter is only used when
+  /// <code>confirmation</code> is set to <code>true</code>. If
+  /// <code>confirmation</code> is <code>false</code>, this parameter is
+  /// ignored.
+  ///
+  /// The total API response time may be higher than this value due to internal
+  /// processing. Set your HTTP client timeout to a value greater than this
+  /// parameter.
+  ///
+  /// Valid range: 1 to 15 seconds.
+  ///
+  /// Default value: <code>5</code> seconds.
+  ///
+  /// Parameter [userProperties] :
+  /// A JSON string that contains an array of JSON objects. If you don't use
+  /// Amazon Web Services SDK or CLI, you must encode the JSON string to base64
+  /// format before adding it to the HTTP header. <code>userProperties</code> is
+  /// an HTTP header value in the API.
+  ///
+  /// For MQTT 3.1.1 clients, user properties are silently dropped.
+  ///
+  /// The following example <code>userProperties</code> parameter is a JSON
+  /// string which represents two User Properties. Note that it needs to be
+  /// base64-encoded:
+  ///
+  /// <code>[{"deviceName": "alpha"}, {"deviceCnt": "45"}]</code>
+  Future<SendDirectMessageResponse> sendDirectMessage({
+    required String clientId,
+    required String topic,
+    bool? confirmation,
+    String? contentType,
+    String? correlationData,
+    Uint8List? payload,
+    PayloadFormatIndicator? payloadFormatIndicator,
+    String? responseTopic,
+    int? timeout,
+    Object? userProperties,
+  }) async {
+    final headers = <String, String>{
+      if (correlationData != null)
+        'x-amz-mqtt5-correlation-data': correlationData.toString(),
+      if (payloadFormatIndicator != null)
+        'x-amz-mqtt5-payload-format-indicator': payloadFormatIndicator.value,
+      if (userProperties != null)
+        'x-amz-mqtt5-user-properties':
+            base64Encode(utf8.encode(jsonEncode(userProperties))),
+    };
+    final $query = <String, List<String>>{
+      'topic': [topic],
+      if (confirmation != null) 'confirmation': [confirmation.toString()],
+      if (contentType != null) 'contentType': [contentType],
+      if (responseTopic != null) 'responseTopic': [responseTopic],
+      if (timeout != null) 'timeout': [timeout.toString()],
+    };
+    final response = await _protocol.send(
+      payload: payload,
+      method: 'POST',
+      requestUri: '/connections/${Uri.encodeComponent(clientId)}/messages',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return SendDirectMessageResponse.fromJson(response);
+  }
+
   /// Updates the shadow for the specified thing.
   ///
   /// Requires permission to access the <a
@@ -423,13 +731,13 @@ class IoTDataPlane {
   /// in the IoT Developer Guide.
   ///
   /// May throw [ConflictException].
-  /// May throw [RequestEntityTooLargeException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [MethodNotAllowedException].
+  /// May throw [RequestEntityTooLargeException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InternalFailureException].
-  /// May throw [MethodNotAllowedException].
   /// May throw [UnsupportedDocumentEncodingException].
   ///
   /// Parameter [payload] :
@@ -474,6 +782,140 @@ class DeleteThingShadowResponse {
     final payload = this.payload;
     return {
       'payload': base64Encode(payload),
+    };
+  }
+}
+
+class GetConnectionResponse {
+  /// Indicates whether the client is using a clean session. Returns
+  /// <code>true</code> for clean sessions or <code>false</code> for persistent
+  /// sessions.
+  final bool? cleanSession;
+
+  /// The unique identifier of the MQTT client. This is the same client ID that
+  /// was used when the client established the connection.
+  final String? clientId;
+
+  /// The connection state of the client. Returns <code>true</code> if the client
+  /// is currently connected, or <code>false</code> if the client is not
+  /// connected.
+  final bool? connected;
+
+  /// Unix timestamp (in milliseconds) indicating when the client connected.
+  /// Present only when connected is true.
+  final int? connectedSince;
+
+  /// The reason for the last disconnection, if the client is currently
+  /// disconnected. See the <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/life-cycle-events.html#connect-disconnect">developer
+  /// guide</a> for valid disconnect reasons.
+  final String? disconnectReason;
+
+  /// Unix timestamp (in milliseconds) indicating when the client disconnected.
+  /// Present only when connected is false. This information is available for 30
+  /// minutes after the client disconnects.
+  final int? disconnectedSince;
+
+  /// The keep-alive interval in seconds that the client specified when
+  /// establishing the connection.
+  final int? keepAliveDuration;
+
+  /// The session expiry interval in seconds for the MQTT client connection. This
+  /// is configured by the user. This value indicates how long the session will
+  /// remain active after the client disconnects.
+  final int? sessionExpiry;
+
+  /// The IP address of the client that initiated the connection.
+  final String? sourceIp;
+
+  /// The client's source port.
+  final int? sourcePort;
+
+  /// The IP address of the Amazon Web Services IoT Core endpoint that the client
+  /// connected to. For clients connected to VPC endpoints, this is the private IP
+  /// address of the network interface the client is connected to.
+  final String? targetIp;
+
+  /// The port number of the Amazon Web Services IoT Core endpoint that the client
+  /// connected to.
+  final int? targetPort;
+
+  /// The name of the thing associated with the principal of the MQTT client, if
+  /// applicable.
+  final String? thingName;
+
+  /// The ID of the VPC endpoint. Present for clients connected to IoT Core via a
+  /// <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/IoTCore-VPC.html">VPC
+  /// endpoint</a>.
+  final String? vpcEndpointId;
+
+  GetConnectionResponse({
+    this.cleanSession,
+    this.clientId,
+    this.connected,
+    this.connectedSince,
+    this.disconnectReason,
+    this.disconnectedSince,
+    this.keepAliveDuration,
+    this.sessionExpiry,
+    this.sourceIp,
+    this.sourcePort,
+    this.targetIp,
+    this.targetPort,
+    this.thingName,
+    this.vpcEndpointId,
+  });
+
+  factory GetConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectionResponse(
+      cleanSession: json['cleanSession'] as bool?,
+      clientId: json['clientId'] as String?,
+      connected: json['connected'] as bool?,
+      connectedSince: json['connectedSince'] as int?,
+      disconnectReason: json['disconnectReason'] as String?,
+      disconnectedSince: json['disconnectedSince'] as int?,
+      keepAliveDuration: json['keepAliveDuration'] as int?,
+      sessionExpiry: json['sessionExpiry'] as int?,
+      sourceIp: json['sourceIp'] as String?,
+      sourcePort: json['sourcePort'] as int?,
+      targetIp: json['targetIp'] as String?,
+      targetPort: json['targetPort'] as int?,
+      thingName: json['thingName'] as String?,
+      vpcEndpointId: json['vpcEndpointId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cleanSession = this.cleanSession;
+    final clientId = this.clientId;
+    final connected = this.connected;
+    final connectedSince = this.connectedSince;
+    final disconnectReason = this.disconnectReason;
+    final disconnectedSince = this.disconnectedSince;
+    final keepAliveDuration = this.keepAliveDuration;
+    final sessionExpiry = this.sessionExpiry;
+    final sourceIp = this.sourceIp;
+    final sourcePort = this.sourcePort;
+    final targetIp = this.targetIp;
+    final targetPort = this.targetPort;
+    final thingName = this.thingName;
+    final vpcEndpointId = this.vpcEndpointId;
+    return {
+      if (cleanSession != null) 'cleanSession': cleanSession,
+      if (clientId != null) 'clientId': clientId,
+      if (connected != null) 'connected': connected,
+      if (connectedSince != null) 'connectedSince': connectedSince,
+      if (disconnectReason != null) 'disconnectReason': disconnectReason,
+      if (disconnectedSince != null) 'disconnectedSince': disconnectedSince,
+      if (keepAliveDuration != null) 'keepAliveDuration': keepAliveDuration,
+      if (sessionExpiry != null) 'sessionExpiry': sessionExpiry,
+      if (sourceIp != null) 'sourceIp': sourceIp,
+      if (sourcePort != null) 'sourcePort': sourcePort,
+      if (targetIp != null) 'targetIp': targetIp,
+      if (targetPort != null) 'targetPort': targetPort,
+      if (thingName != null) 'thingName': thingName,
+      if (vpcEndpointId != null) 'vpcEndpointId': vpcEndpointId,
     };
   }
 }
@@ -628,6 +1070,88 @@ class ListRetainedMessagesResponse {
   }
 }
 
+class ListSubscriptionsResponse {
+  /// The token to use to get the next set of results, or <b>null</b> if there are
+  /// no additional results.
+  final String? nextToken;
+
+  /// A list of topic filters and their associated Quality of Service (QoS) levels
+  /// that the client is subscribed to.
+  final List<SubscriptionSummary>? subscriptions;
+
+  ListSubscriptionsResponse({
+    this.nextToken,
+    this.subscriptions,
+  });
+
+  factory ListSubscriptionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSubscriptionsResponse(
+      nextToken: json['nextToken'] as String?,
+      subscriptions: (json['subscriptions'] as List?)
+          ?.nonNulls
+          .map((e) => SubscriptionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final subscriptions = this.subscriptions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (subscriptions != null) 'subscriptions': subscriptions,
+    };
+  }
+}
+
+/// The output from the SendDirectMessage operation.
+class SendDirectMessageResponse {
+  /// The status message indicating the result of the operation.
+  final String? message;
+
+  /// A unique identifier for the request. Include this value when contacting
+  /// Amazon Web Services Support for troubleshooting.
+  final String? traceId;
+
+  SendDirectMessageResponse({
+    this.message,
+    this.traceId,
+  });
+
+  factory SendDirectMessageResponse.fromJson(Map<String, dynamic> json) {
+    return SendDirectMessageResponse(
+      message: json['message'] as String?,
+      traceId: json['traceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final traceId = this.traceId;
+    return {
+      if (message != null) 'message': message,
+      if (traceId != null) 'traceId': traceId,
+    };
+  }
+}
+
+/// The output from the UpdateThingShadow operation.
+class UpdateThingShadowResponse {
+  /// The state information, in JSON format.
+  final Uint8List? payload;
+
+  UpdateThingShadowResponse({
+    this.payload,
+  });
+
+  Map<String, dynamic> toJson() {
+    final payload = this.payload;
+    return {
+      if (payload != null) 'payload': base64Encode(payload),
+    };
+  }
+}
+
 class PayloadFormatIndicator {
   static const unspecifiedBytes = PayloadFormatIndicator._('UNSPECIFIED_BYTES');
   static const utf8Data = PayloadFormatIndicator._('UTF8_DATA');
@@ -651,6 +1175,39 @@ class PayloadFormatIndicator {
 
   @override
   String toString() => value;
+}
+
+/// Contains information about a subscription for an MQTT client, including the
+/// topic filter and Quality of Service (QoS) level.
+class SubscriptionSummary {
+  /// The Quality of Service (QoS) level for the subscription. Valid values are 0
+  /// (at most once) and 1 (at least once).
+  final int qos;
+
+  /// The topic filter pattern that the client is subscribed to. May include MQTT
+  /// wildcards such as + (single-level) and # (multi-level).
+  final String topicFilter;
+
+  SubscriptionSummary({
+    required this.qos,
+    required this.topicFilter,
+  });
+
+  factory SubscriptionSummary.fromJson(Map<String, dynamic> json) {
+    return SubscriptionSummary(
+      qos: (json['qos'] as int?) ?? 0,
+      topicFilter: (json['topicFilter'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final qos = this.qos;
+    final topicFilter = this.topicFilter;
+    return {
+      'qos': qos,
+      'topicFilter': topicFilter,
+    };
+  }
 }
 
 /// Information about a single retained message.
@@ -698,26 +1255,19 @@ class RetainedMessageSummary {
   }
 }
 
-/// The output from the UpdateThingShadow operation.
-class UpdateThingShadowResponse {
-  /// The state information, in JSON format.
-  final Uint8List? payload;
-
-  UpdateThingShadowResponse({
-    this.payload,
-  });
-
-  Map<String, dynamic> toJson() {
-    final payload = this.payload;
-    return {
-      if (payload != null) 'payload': base64Encode(payload),
-    };
-  }
-}
-
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
+}
+
+class ForbiddenException extends _s.GenericAwsException {
+  ForbiddenException({String? type, String? message})
+      : super(type: type, code: 'ForbiddenException', message: message);
+}
+
+class GatewayTimeoutException extends _s.GenericAwsException {
+  GatewayTimeoutException({String? type, String? message})
+      : super(type: type, code: 'GatewayTimeoutException', message: message);
 }
 
 class InternalFailureException extends _s.GenericAwsException {
@@ -775,6 +1325,10 @@ class UnsupportedDocumentEncodingException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
+  'ForbiddenException': (type, message) =>
+      ForbiddenException(type: type, message: message),
+  'GatewayTimeoutException': (type, message) =>
+      GatewayTimeoutException(type: type, message: message),
   'InternalFailureException': (type, message) =>
       InternalFailureException(type: type, message: message),
   'InvalidRequestException': (type, message) =>

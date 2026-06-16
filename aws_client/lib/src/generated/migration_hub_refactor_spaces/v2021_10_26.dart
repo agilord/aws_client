@@ -40,7 +40,6 @@ class MigrationHubRefactorSpaces {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'refactor-spaces',
-            signingName: 'refactor-spaces',
           ),
           region: region,
           credentials: credentials,
@@ -74,13 +73,13 @@ class MigrationHubRefactorSpaces {
   /// href="https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/getting-started-create-application.html">
   /// Create an application</a> in the <i>Refactor Spaces User Guide</i>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentIdentifier] :
   /// The unique identifier of the environment.
@@ -150,13 +149,13 @@ class MigrationHubRefactorSpaces {
   /// and you must use your network infrastructure to route traffic to services
   /// with private URL endpoints.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the environment.
@@ -288,13 +287,13 @@ class MigrationHubRefactorSpaces {
   /// Create a route</a> in the <i>Refactor Spaces User Guide</i>.
   /// <p/>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application within which the route is being created.
@@ -367,13 +366,13 @@ class MigrationHubRefactorSpaces {
   /// own security group.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application which the service is created.
@@ -447,12 +446,12 @@ class MigrationHubRefactorSpaces {
   /// Before you can delete an application, you must first delete any services
   /// or routes within the application.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application.
@@ -477,12 +476,12 @@ class MigrationHubRefactorSpaces {
   /// Before you can delete an environment, you must first delete any
   /// applications and services within the environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentIdentifier] :
   /// The ID of the environment.
@@ -500,11 +499,11 @@ class MigrationHubRefactorSpaces {
 
   /// Deletes the resource policy set for the environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identifier] :
   /// Amazon Resource Name (ARN) of the resource associated with the policy.
@@ -521,12 +520,12 @@ class MigrationHubRefactorSpaces {
 
   /// Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application to delete the route from.
@@ -553,12 +552,12 @@ class MigrationHubRefactorSpaces {
 
   /// Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// Deletes a Refactor Spaces service.
@@ -590,11 +589,11 @@ class MigrationHubRefactorSpaces {
 
   /// Gets an Amazon Web Services Migration Hub Refactor Spaces application.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application.
@@ -617,11 +616,11 @@ class MigrationHubRefactorSpaces {
 
   /// Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentIdentifier] :
   /// The ID of the environment.
@@ -640,11 +639,11 @@ class MigrationHubRefactorSpaces {
   /// Gets the resource-based permission policy that is set for the given
   /// environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identifier] :
   /// The Amazon Resource Name (ARN) of the resource associated with the policy.
@@ -662,11 +661,11 @@ class MigrationHubRefactorSpaces {
 
   /// Gets an Amazon Web Services Migration Hub Refactor Spaces route.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application.
@@ -693,11 +692,11 @@ class MigrationHubRefactorSpaces {
 
   /// Gets an Amazon Web Services Migration Hub Refactor Spaces service.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application.
@@ -725,13 +724,13 @@ class MigrationHubRefactorSpaces {
   /// Lists all the Amazon Web Services Migration Hub Refactor Spaces
   /// applications within an environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentIdentifier] :
   /// The ID of the environment.
@@ -769,14 +768,54 @@ class MigrationHubRefactorSpaces {
     return ListApplicationsResponse.fromJson(response);
   }
 
+  /// Lists Amazon Web Services Migration Hub Refactor Spaces environments owned
+  /// by a caller account or shared with the caller account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<ListEnvironmentsResponse> listEnvironments({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/environments',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEnvironmentsResponse.fromJson(response);
+  }
+
   /// Lists all Amazon Web Services Migration Hub Refactor Spaces service
   /// virtual private clouds (VPCs) that are part of the environment.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [environmentIdentifier] :
   /// The ID of the environment.
@@ -814,56 +853,16 @@ class MigrationHubRefactorSpaces {
     return ListEnvironmentVpcsResponse.fromJson(response);
   }
 
-  /// Lists Amazon Web Services Migration Hub Refactor Spaces environments owned
-  /// by a caller account or shared with the caller account.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return with a single call. To retrieve
-  /// the remaining results, make another call with the returned
-  /// <code>nextToken</code> value.
-  ///
-  /// Parameter [nextToken] :
-  /// The token for the next page of results.
-  Future<ListEnvironmentsResponse> listEnvironments({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/environments',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListEnvironmentsResponse.fromJson(response);
-  }
-
   /// Lists all the Amazon Web Services Migration Hub Refactor Spaces routes
   /// within an application.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application.
@@ -908,13 +907,13 @@ class MigrationHubRefactorSpaces {
   /// Lists all the Amazon Web Services Migration Hub Refactor Spaces services
   /// within an application.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The ID of the application.
@@ -960,8 +959,8 @@ class MigrationHubRefactorSpaces {
   /// resource’s <code>OwnerAccountId</code>. Listing tags in other accounts is
   /// not supported.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
@@ -985,12 +984,12 @@ class MigrationHubRefactorSpaces {
   /// permission in Resource Access Manager. The policy must not contain new
   /// lines or blank lines.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [InvalidResourcePolicyException].
-  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [policy] :
   /// A JSON-formatted string for an Amazon Web Services resource-based policy.
@@ -1023,8 +1022,8 @@ class MigrationHubRefactorSpaces {
   /// to orchestrated resources, such as an environment’s transit gateway.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
@@ -1052,8 +1051,8 @@ class MigrationHubRefactorSpaces {
   /// account must be the same as the resource’s <code>OwnerAccountId</code>.
   /// Untagging resources across accounts is not supported.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
@@ -1079,11 +1078,11 @@ class MigrationHubRefactorSpaces {
 
   /// Updates an Amazon Web Services Migration Hub Refactor Spaces route.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [activationState] :
   /// If set to <code>ACTIVE</code>, traffic is forwarded to this route’s
@@ -1114,360 +1113,6 @@ class MigrationHubRefactorSpaces {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRouteResponse.fromJson(response);
-  }
-}
-
-class ApiGatewayEndpointType {
-  static const regional = ApiGatewayEndpointType._('REGIONAL');
-  static const private = ApiGatewayEndpointType._('PRIVATE');
-
-  final String value;
-
-  const ApiGatewayEndpointType._(this.value);
-
-  static const values = [regional, private];
-
-  static ApiGatewayEndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApiGatewayEndpointType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApiGatewayEndpointType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A wrapper object holding the Amazon API Gateway proxy configuration.
-class ApiGatewayProxyConfig {
-  /// The resource ID of the API Gateway for the proxy.
-  final String? apiGatewayId;
-
-  /// The type of API Gateway endpoint created.
-  final ApiGatewayEndpointType? endpointType;
-
-  /// The Amazon Resource Name (ARN) of the Network Load Balancer configured by
-  /// the API Gateway proxy.
-  final String? nlbArn;
-
-  /// The name of the Network Load Balancer that is configured by the API Gateway
-  /// proxy.
-  final String? nlbName;
-
-  /// The endpoint URL of the API Gateway proxy.
-  final String? proxyUrl;
-
-  /// The name of the API Gateway stage. The name defaults to <code>prod</code>.
-  final String? stageName;
-
-  /// The <code>VpcLink</code> ID of the API Gateway proxy.
-  final String? vpcLinkId;
-
-  ApiGatewayProxyConfig({
-    this.apiGatewayId,
-    this.endpointType,
-    this.nlbArn,
-    this.nlbName,
-    this.proxyUrl,
-    this.stageName,
-    this.vpcLinkId,
-  });
-
-  factory ApiGatewayProxyConfig.fromJson(Map<String, dynamic> json) {
-    return ApiGatewayProxyConfig(
-      apiGatewayId: json['ApiGatewayId'] as String?,
-      endpointType: (json['EndpointType'] as String?)
-          ?.let(ApiGatewayEndpointType.fromString),
-      nlbArn: json['NlbArn'] as String?,
-      nlbName: json['NlbName'] as String?,
-      proxyUrl: json['ProxyUrl'] as String?,
-      stageName: json['StageName'] as String?,
-      vpcLinkId: json['VpcLinkId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiGatewayId = this.apiGatewayId;
-    final endpointType = this.endpointType;
-    final nlbArn = this.nlbArn;
-    final nlbName = this.nlbName;
-    final proxyUrl = this.proxyUrl;
-    final stageName = this.stageName;
-    final vpcLinkId = this.vpcLinkId;
-    return {
-      if (apiGatewayId != null) 'ApiGatewayId': apiGatewayId,
-      if (endpointType != null) 'EndpointType': endpointType.value,
-      if (nlbArn != null) 'NlbArn': nlbArn,
-      if (nlbName != null) 'NlbName': nlbName,
-      if (proxyUrl != null) 'ProxyUrl': proxyUrl,
-      if (stageName != null) 'StageName': stageName,
-      if (vpcLinkId != null) 'VpcLinkId': vpcLinkId,
-    };
-  }
-}
-
-/// A wrapper object holding the Amazon API Gateway endpoint input.
-class ApiGatewayProxyInput {
-  /// The type of endpoint to use for the API Gateway proxy. If no value is
-  /// specified in the request, the value is set to <code>REGIONAL</code> by
-  /// default.
-  ///
-  /// If the value is set to <code>PRIVATE</code> in the request, this creates a
-  /// private API endpoint that is isolated from the public internet. The private
-  /// endpoint can only be accessed by using Amazon Virtual Private Cloud (Amazon
-  /// VPC) interface endpoints for the Amazon API Gateway that has been granted
-  /// access. For more information about creating a private connection with
-  /// Refactor Spaces and interface endpoint (Amazon Web Services PrivateLink)
-  /// availability, see <a
-  /// href="https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/vpc-interface-endpoints.html">Access
-  /// Refactor Spaces using an interface endpoint (Amazon Web Services
-  /// PrivateLink)</a>.
-  final ApiGatewayEndpointType? endpointType;
-
-  /// The name of the API Gateway stage. The name defaults to <code>prod</code>.
-  final String? stageName;
-
-  ApiGatewayProxyInput({
-    this.endpointType,
-    this.stageName,
-  });
-
-  factory ApiGatewayProxyInput.fromJson(Map<String, dynamic> json) {
-    return ApiGatewayProxyInput(
-      endpointType: (json['EndpointType'] as String?)
-          ?.let(ApiGatewayEndpointType.fromString),
-      stageName: json['StageName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointType = this.endpointType;
-    final stageName = this.stageName;
-    return {
-      if (endpointType != null) 'EndpointType': endpointType.value,
-      if (stageName != null) 'StageName': stageName,
-    };
-  }
-}
-
-/// A wrapper object holding the Amazon API Gateway proxy summary.
-class ApiGatewayProxySummary {
-  /// The resource ID of the API Gateway for the proxy.
-  final String? apiGatewayId;
-
-  /// The type of API Gateway endpoint created.
-  final ApiGatewayEndpointType? endpointType;
-
-  /// The Amazon Resource Name (ARN) of the Network Load Balancer configured by
-  /// the API Gateway proxy.
-  final String? nlbArn;
-
-  /// The name of the Network Load Balancer that is configured by the API Gateway
-  /// proxy.
-  final String? nlbName;
-
-  /// The endpoint URL of the API Gateway proxy.
-  final String? proxyUrl;
-
-  /// The name of the API Gateway stage. The name defaults to <code>prod</code>.
-  final String? stageName;
-
-  /// The <code>VpcLink</code> ID of the API Gateway proxy.
-  final String? vpcLinkId;
-
-  ApiGatewayProxySummary({
-    this.apiGatewayId,
-    this.endpointType,
-    this.nlbArn,
-    this.nlbName,
-    this.proxyUrl,
-    this.stageName,
-    this.vpcLinkId,
-  });
-
-  factory ApiGatewayProxySummary.fromJson(Map<String, dynamic> json) {
-    return ApiGatewayProxySummary(
-      apiGatewayId: json['ApiGatewayId'] as String?,
-      endpointType: (json['EndpointType'] as String?)
-          ?.let(ApiGatewayEndpointType.fromString),
-      nlbArn: json['NlbArn'] as String?,
-      nlbName: json['NlbName'] as String?,
-      proxyUrl: json['ProxyUrl'] as String?,
-      stageName: json['StageName'] as String?,
-      vpcLinkId: json['VpcLinkId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiGatewayId = this.apiGatewayId;
-    final endpointType = this.endpointType;
-    final nlbArn = this.nlbArn;
-    final nlbName = this.nlbName;
-    final proxyUrl = this.proxyUrl;
-    final stageName = this.stageName;
-    final vpcLinkId = this.vpcLinkId;
-    return {
-      if (apiGatewayId != null) 'ApiGatewayId': apiGatewayId,
-      if (endpointType != null) 'EndpointType': endpointType.value,
-      if (nlbArn != null) 'NlbArn': nlbArn,
-      if (nlbName != null) 'NlbName': nlbName,
-      if (proxyUrl != null) 'ProxyUrl': proxyUrl,
-      if (stageName != null) 'StageName': stageName,
-      if (vpcLinkId != null) 'VpcLinkId': vpcLinkId,
-    };
-  }
-}
-
-class ApplicationState {
-  static const creating = ApplicationState._('CREATING');
-  static const active = ApplicationState._('ACTIVE');
-  static const deleting = ApplicationState._('DELETING');
-  static const failed = ApplicationState._('FAILED');
-  static const updating = ApplicationState._('UPDATING');
-
-  final String value;
-
-  const ApplicationState._(this.value);
-
-  static const values = [creating, active, deleting, failed, updating];
-
-  static ApplicationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationState._(value));
-
-  @override
-  bool operator ==(other) => other is ApplicationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The list of <code>ApplicationSummary</code> objects.
-class ApplicationSummary {
-  /// The endpoint URL of the Amazon API Gateway proxy.
-  final ApiGatewayProxySummary? apiGatewayProxy;
-
-  /// The unique identifier of the application.
-  final String? applicationId;
-
-  /// The Amazon Resource Name (ARN) of the application.
-  final String? arn;
-
-  /// The Amazon Web Services account ID of the application creator.
-  final String? createdByAccountId;
-
-  /// A timestamp that indicates when the application is created.
-  final DateTime? createdTime;
-
-  /// The unique identifier of the environment.
-  final String? environmentId;
-
-  /// Any error associated with the application resource.
-  final ErrorResponse? error;
-
-  /// A timestamp that indicates when the application was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The name of the application.
-  final String? name;
-
-  /// The Amazon Web Services account ID of the application owner (which is always
-  /// the same as the environment owner account ID).
-  final String? ownerAccountId;
-
-  /// The proxy type of the proxy created within the application.
-  final ProxyType? proxyType;
-
-  /// The current state of the application.
-  final ApplicationState? state;
-
-  /// The tags assigned to the application.
-  final Map<String, String>? tags;
-
-  /// The ID of the virtual private cloud (VPC).
-  final String? vpcId;
-
-  ApplicationSummary({
-    this.apiGatewayProxy,
-    this.applicationId,
-    this.arn,
-    this.createdByAccountId,
-    this.createdTime,
-    this.environmentId,
-    this.error,
-    this.lastUpdatedTime,
-    this.name,
-    this.ownerAccountId,
-    this.proxyType,
-    this.state,
-    this.tags,
-    this.vpcId,
-  });
-
-  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
-    return ApplicationSummary(
-      apiGatewayProxy: json['ApiGatewayProxy'] != null
-          ? ApiGatewayProxySummary.fromJson(
-              json['ApiGatewayProxy'] as Map<String, dynamic>)
-          : null,
-      applicationId: json['ApplicationId'] as String?,
-      arn: json['Arn'] as String?,
-      createdByAccountId: json['CreatedByAccountId'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      environmentId: json['EnvironmentId'] as String?,
-      error: json['Error'] != null
-          ? ErrorResponse.fromJson(json['Error'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      name: json['Name'] as String?,
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      proxyType: (json['ProxyType'] as String?)?.let(ProxyType.fromString),
-      state: (json['State'] as String?)?.let(ApplicationState.fromString),
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      vpcId: json['VpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiGatewayProxy = this.apiGatewayProxy;
-    final applicationId = this.applicationId;
-    final arn = this.arn;
-    final createdByAccountId = this.createdByAccountId;
-    final createdTime = this.createdTime;
-    final environmentId = this.environmentId;
-    final error = this.error;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final name = this.name;
-    final ownerAccountId = this.ownerAccountId;
-    final proxyType = this.proxyType;
-    final state = this.state;
-    final tags = this.tags;
-    final vpcId = this.vpcId;
-    return {
-      if (apiGatewayProxy != null) 'ApiGatewayProxy': apiGatewayProxy,
-      if (applicationId != null) 'ApplicationId': applicationId,
-      if (arn != null) 'Arn': arn,
-      if (createdByAccountId != null) 'CreatedByAccountId': createdByAccountId,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (environmentId != null) 'EnvironmentId': environmentId,
-      if (error != null) 'Error': error,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (name != null) 'Name': name,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (proxyType != null) 'ProxyType': proxyType.value,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
   }
 }
 
@@ -1932,24 +1577,6 @@ class CreateServiceResponse {
   }
 }
 
-/// The configuration for the default route type.
-class DefaultRouteInput {
-  /// If set to <code>ACTIVE</code>, traffic is forwarded to this route’s service
-  /// after the route is created.
-  final RouteActivationState? activationState;
-
-  DefaultRouteInput({
-    this.activationState,
-  });
-
-  Map<String, dynamic> toJson() {
-    final activationState = this.activationState;
-    return {
-      if (activationState != null) 'ActivationState': activationState.value,
-    };
-  }
-}
-
 class DeleteApplicationResponse {
   /// The ID of the application.
   final String? applicationId;
@@ -2190,384 +1817,6 @@ class DeleteServiceResponse {
       if (name != null) 'Name': name,
       if (serviceId != null) 'ServiceId': serviceId,
       if (state != null) 'State': state.value,
-    };
-  }
-}
-
-class EnvironmentState {
-  static const creating = EnvironmentState._('CREATING');
-  static const active = EnvironmentState._('ACTIVE');
-  static const deleting = EnvironmentState._('DELETING');
-  static const failed = EnvironmentState._('FAILED');
-
-  final String value;
-
-  const EnvironmentState._(this.value);
-
-  static const values = [creating, active, deleting, failed];
-
-  static EnvironmentState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EnvironmentState._(value));
-
-  @override
-  bool operator ==(other) => other is EnvironmentState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The summary information for environments as a response to
-/// <code>ListEnvironments</code>.
-class EnvironmentSummary {
-  /// The Amazon Resource Name (ARN) of the environment.
-  final String? arn;
-
-  /// A timestamp that indicates when the environment is created.
-  final DateTime? createdTime;
-
-  /// A description of the environment.
-  final String? description;
-
-  /// The unique identifier of the environment.
-  final String? environmentId;
-
-  /// Any error associated with the environment resource.
-  final ErrorResponse? error;
-
-  /// A timestamp that indicates when the environment was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The name of the environment.
-  final String? name;
-
-  /// The network fabric type of the environment.
-  final NetworkFabricType? networkFabricType;
-
-  /// The Amazon Web Services account ID of the environment owner.
-  final String? ownerAccountId;
-
-  /// The current state of the environment.
-  final EnvironmentState? state;
-
-  /// The tags assigned to the environment.
-  final Map<String, String>? tags;
-
-  /// The ID of the Transit Gateway set up by the environment.
-  final String? transitGatewayId;
-
-  EnvironmentSummary({
-    this.arn,
-    this.createdTime,
-    this.description,
-    this.environmentId,
-    this.error,
-    this.lastUpdatedTime,
-    this.name,
-    this.networkFabricType,
-    this.ownerAccountId,
-    this.state,
-    this.tags,
-    this.transitGatewayId,
-  });
-
-  factory EnvironmentSummary.fromJson(Map<String, dynamic> json) {
-    return EnvironmentSummary(
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      description: json['Description'] as String?,
-      environmentId: json['EnvironmentId'] as String?,
-      error: json['Error'] != null
-          ? ErrorResponse.fromJson(json['Error'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      name: json['Name'] as String?,
-      networkFabricType: (json['NetworkFabricType'] as String?)
-          ?.let(NetworkFabricType.fromString),
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      transitGatewayId: json['TransitGatewayId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final description = this.description;
-    final environmentId = this.environmentId;
-    final error = this.error;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final name = this.name;
-    final networkFabricType = this.networkFabricType;
-    final ownerAccountId = this.ownerAccountId;
-    final state = this.state;
-    final tags = this.tags;
-    final transitGatewayId = this.transitGatewayId;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (environmentId != null) 'EnvironmentId': environmentId,
-      if (error != null) 'Error': error,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (name != null) 'Name': name,
-      if (networkFabricType != null)
-        'NetworkFabricType': networkFabricType.value,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-      if (transitGatewayId != null) 'TransitGatewayId': transitGatewayId,
-    };
-  }
-}
-
-/// Provides summary information for the <code>EnvironmentVpc</code> resource as
-/// a response to <code>ListEnvironmentVpc</code>.
-class EnvironmentVpc {
-  /// The Amazon Web Services account ID of the virtual private cloud (VPC) owner.
-  final String? accountId;
-
-  /// The list of Amazon Virtual Private Cloud (Amazon VPC) CIDR blocks.
-  final List<String>? cidrBlocks;
-
-  /// A timestamp that indicates when the VPC is first added to the environment.
-  final DateTime? createdTime;
-
-  /// The unique identifier of the environment.
-  final String? environmentId;
-
-  /// A timestamp that indicates when the VPC was last updated by the environment.
-  final DateTime? lastUpdatedTime;
-
-  /// The ID of the VPC.
-  final String? vpcId;
-
-  /// The name of the VPC at the time it is added to the environment.
-  final String? vpcName;
-
-  EnvironmentVpc({
-    this.accountId,
-    this.cidrBlocks,
-    this.createdTime,
-    this.environmentId,
-    this.lastUpdatedTime,
-    this.vpcId,
-    this.vpcName,
-  });
-
-  factory EnvironmentVpc.fromJson(Map<String, dynamic> json) {
-    return EnvironmentVpc(
-      accountId: json['AccountId'] as String?,
-      cidrBlocks: (json['CidrBlocks'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      environmentId: json['EnvironmentId'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      vpcId: json['VpcId'] as String?,
-      vpcName: json['VpcName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final cidrBlocks = this.cidrBlocks;
-    final createdTime = this.createdTime;
-    final environmentId = this.environmentId;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final vpcId = this.vpcId;
-    final vpcName = this.vpcName;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (cidrBlocks != null) 'CidrBlocks': cidrBlocks,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (environmentId != null) 'EnvironmentId': environmentId,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (vpcId != null) 'VpcId': vpcId,
-      if (vpcName != null) 'VpcName': vpcName,
-    };
-  }
-}
-
-class ErrorCode {
-  static const invalidResourceState = ErrorCode._('INVALID_RESOURCE_STATE');
-  static const resourceLimitExceeded = ErrorCode._('RESOURCE_LIMIT_EXCEEDED');
-  static const resourceCreationFailure =
-      ErrorCode._('RESOURCE_CREATION_FAILURE');
-  static const resourceUpdateFailure = ErrorCode._('RESOURCE_UPDATE_FAILURE');
-  static const serviceEndpointHealthCheckFailure =
-      ErrorCode._('SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE');
-  static const resourceDeletionFailure =
-      ErrorCode._('RESOURCE_DELETION_FAILURE');
-  static const resourceRetrievalFailure =
-      ErrorCode._('RESOURCE_RETRIEVAL_FAILURE');
-  static const resourceInUse = ErrorCode._('RESOURCE_IN_USE');
-  static const resourceNotFound = ErrorCode._('RESOURCE_NOT_FOUND');
-  static const stateTransitionFailure = ErrorCode._('STATE_TRANSITION_FAILURE');
-  static const requestLimitExceeded = ErrorCode._('REQUEST_LIMIT_EXCEEDED');
-  static const notAuthorized = ErrorCode._('NOT_AUTHORIZED');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [
-    invalidResourceState,
-    resourceLimitExceeded,
-    resourceCreationFailure,
-    resourceUpdateFailure,
-    serviceEndpointHealthCheckFailure,
-    resourceDeletionFailure,
-    resourceRetrievalFailure,
-    resourceInUse,
-    resourceNotFound,
-    stateTransitionFailure,
-    requestLimitExceeded,
-    notAuthorized
-  ];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ErrorResourceType {
-  static const environment = ErrorResourceType._('ENVIRONMENT');
-  static const application = ErrorResourceType._('APPLICATION');
-  static const route = ErrorResourceType._('ROUTE');
-  static const service = ErrorResourceType._('SERVICE');
-  static const transitGateway = ErrorResourceType._('TRANSIT_GATEWAY');
-  static const transitGatewayAttachment =
-      ErrorResourceType._('TRANSIT_GATEWAY_ATTACHMENT');
-  static const apiGateway = ErrorResourceType._('API_GATEWAY');
-  static const nlb = ErrorResourceType._('NLB');
-  static const targetGroup = ErrorResourceType._('TARGET_GROUP');
-  static const loadBalancerListener =
-      ErrorResourceType._('LOAD_BALANCER_LISTENER');
-  static const vpcLink = ErrorResourceType._('VPC_LINK');
-  static const lambda = ErrorResourceType._('LAMBDA');
-  static const vpc = ErrorResourceType._('VPC');
-  static const subnet = ErrorResourceType._('SUBNET');
-  static const routeTable = ErrorResourceType._('ROUTE_TABLE');
-  static const securityGroup = ErrorResourceType._('SECURITY_GROUP');
-  static const vpcEndpointServiceConfiguration =
-      ErrorResourceType._('VPC_ENDPOINT_SERVICE_CONFIGURATION');
-  static const resourceShare = ErrorResourceType._('RESOURCE_SHARE');
-  static const iamRole = ErrorResourceType._('IAM_ROLE');
-
-  final String value;
-
-  const ErrorResourceType._(this.value);
-
-  static const values = [
-    environment,
-    application,
-    route,
-    service,
-    transitGateway,
-    transitGatewayAttachment,
-    apiGateway,
-    nlb,
-    targetGroup,
-    loadBalancerListener,
-    vpcLink,
-    lambda,
-    vpc,
-    subnet,
-    routeTable,
-    securityGroup,
-    vpcEndpointServiceConfiguration,
-    resourceShare,
-    iamRole
-  ];
-
-  static ErrorResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ErrorResourceType._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Error associated with a resource returned for a Get or List resource
-/// response.
-class ErrorResponse {
-  /// The Amazon Web Services account ID of the resource owner.
-  final String? accountId;
-
-  /// Additional details about the error.
-  final Map<String, String>? additionalDetails;
-
-  /// The error code associated with the error.
-  final ErrorCode? code;
-
-  /// The message associated with the error.
-  final String? message;
-
-  /// The ID of the resource.
-  final String? resourceIdentifier;
-
-  /// The type of resource.
-  final ErrorResourceType? resourceType;
-
-  ErrorResponse({
-    this.accountId,
-    this.additionalDetails,
-    this.code,
-    this.message,
-    this.resourceIdentifier,
-    this.resourceType,
-  });
-
-  factory ErrorResponse.fromJson(Map<String, dynamic> json) {
-    return ErrorResponse(
-      accountId: json['AccountId'] as String?,
-      additionalDetails: (json['AdditionalDetails'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      code: (json['Code'] as String?)?.let(ErrorCode.fromString),
-      message: json['Message'] as String?,
-      resourceIdentifier: json['ResourceIdentifier'] as String?,
-      resourceType:
-          (json['ResourceType'] as String?)?.let(ErrorResourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final additionalDetails = this.additionalDetails;
-    final code = this.code;
-    final message = this.message;
-    final resourceIdentifier = this.resourceIdentifier;
-    final resourceType = this.resourceType;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (additionalDetails != null) 'AdditionalDetails': additionalDetails,
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
-      if (resourceType != null) 'ResourceType': resourceType.value,
     };
   }
 }
@@ -3140,103 +2389,6 @@ class GetServiceResponse {
   }
 }
 
-class HttpMethod {
-  static const delete = HttpMethod._('DELETE');
-  static const get = HttpMethod._('GET');
-  static const head = HttpMethod._('HEAD');
-  static const options = HttpMethod._('OPTIONS');
-  static const patch = HttpMethod._('PATCH');
-  static const post = HttpMethod._('POST');
-  static const put = HttpMethod._('PUT');
-
-  final String value;
-
-  const HttpMethod._(this.value);
-
-  static const values = [delete, get, head, options, patch, post, put];
-
-  static HttpMethod fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => HttpMethod._(value));
-
-  @override
-  bool operator ==(other) => other is HttpMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration for the Lambda endpoint type.
-class LambdaEndpointConfig {
-  /// The Amazon Resource Name (ARN) of the Lambda endpoint.
-  final String? arn;
-
-  LambdaEndpointConfig({
-    this.arn,
-  });
-
-  factory LambdaEndpointConfig.fromJson(Map<String, dynamic> json) {
-    return LambdaEndpointConfig(
-      arn: json['Arn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'Arn': arn,
-    };
-  }
-}
-
-/// The input for the Lambda endpoint type.
-class LambdaEndpointInput {
-  /// The Amazon Resource Name (ARN) of the Lambda function or alias.
-  final String arn;
-
-  LambdaEndpointInput({
-    required this.arn,
-  });
-
-  factory LambdaEndpointInput.fromJson(Map<String, dynamic> json) {
-    return LambdaEndpointInput(
-      arn: (json['Arn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'Arn': arn,
-    };
-  }
-}
-
-/// The summary for the Lambda endpoint type.
-class LambdaEndpointSummary {
-  /// The Amazon Resource Name (ARN) of the Lambda endpoint.
-  final String? arn;
-
-  LambdaEndpointSummary({
-    this.arn,
-  });
-
-  factory LambdaEndpointSummary.fromJson(Map<String, dynamic> json) {
-    return LambdaEndpointSummary(
-      arn: json['Arn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'Arn': arn,
-    };
-  }
-}
-
 class ListApplicationsResponse {
   /// The list of <code>ApplicationSummary</code> objects.
   final List<ApplicationSummary>? applicationSummaryList;
@@ -3270,38 +2422,6 @@ class ListApplicationsResponse {
   }
 }
 
-class ListEnvironmentVpcsResponse {
-  /// The list of <code>EnvironmentVpc</code> objects.
-  final List<EnvironmentVpc>? environmentVpcList;
-
-  /// The token for the next page of results.
-  final String? nextToken;
-
-  ListEnvironmentVpcsResponse({
-    this.environmentVpcList,
-    this.nextToken,
-  });
-
-  factory ListEnvironmentVpcsResponse.fromJson(Map<String, dynamic> json) {
-    return ListEnvironmentVpcsResponse(
-      environmentVpcList: (json['EnvironmentVpcList'] as List?)
-          ?.nonNulls
-          .map((e) => EnvironmentVpc.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final environmentVpcList = this.environmentVpcList;
-    final nextToken = this.nextToken;
-    return {
-      if (environmentVpcList != null) 'EnvironmentVpcList': environmentVpcList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
 class ListEnvironmentsResponse {
   /// The list of <code>EnvironmentSummary</code> objects.
   final List<EnvironmentSummary>? environmentSummaryList;
@@ -3330,6 +2450,38 @@ class ListEnvironmentsResponse {
     return {
       if (environmentSummaryList != null)
         'EnvironmentSummaryList': environmentSummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListEnvironmentVpcsResponse {
+  /// The list of <code>EnvironmentVpc</code> objects.
+  final List<EnvironmentVpc>? environmentVpcList;
+
+  /// The token for the next page of results.
+  final String? nextToken;
+
+  ListEnvironmentVpcsResponse({
+    this.environmentVpcList,
+    this.nextToken,
+  });
+
+  factory ListEnvironmentVpcsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEnvironmentVpcsResponse(
+      environmentVpcList: (json['EnvironmentVpcList'] as List?)
+          ?.nonNulls
+          .map((e) => EnvironmentVpc.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final environmentVpcList = this.environmentVpcList;
+    final nextToken = this.nextToken;
+    return {
+      if (environmentVpcList != null) 'EnvironmentVpcList': environmentVpcList,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -3422,52 +2574,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-class NetworkFabricType {
-  static const transitGateway = NetworkFabricType._('TRANSIT_GATEWAY');
-  static const none = NetworkFabricType._('NONE');
-
-  final String value;
-
-  const NetworkFabricType._(this.value);
-
-  static const values = [transitGateway, none];
-
-  static NetworkFabricType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NetworkFabricType._(value));
-
-  @override
-  bool operator ==(other) => other is NetworkFabricType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProxyType {
-  static const apiGateway = ProxyType._('API_GATEWAY');
-
-  final String value;
-
-  const ProxyType._(this.value);
-
-  static const values = [apiGateway];
-
-  static ProxyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ProxyType._(value));
-
-  @override
-  bool operator ==(other) => other is ProxyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class PutResourcePolicyResponse {
   PutResourcePolicyResponse();
 
@@ -3480,29 +2586,92 @@ class PutResourcePolicyResponse {
   }
 }
 
-class RouteActivationState {
-  static const active = RouteActivationState._('ACTIVE');
-  static const inactive = RouteActivationState._('INACTIVE');
+class TagResourceResponse {
+  TagResourceResponse();
 
-  final String value;
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 
-  const RouteActivationState._(this.value);
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  static const values = [active, inactive];
+class UntagResourceResponse {
+  UntagResourceResponse();
 
-  static RouteActivationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RouteActivationState._(value));
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
 
-  @override
-  bool operator ==(other) =>
-      other is RouteActivationState && other.value == value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  @override
-  int get hashCode => value.hashCode;
+class UpdateRouteResponse {
+  /// The ID of the application in which the route is being updated.
+  final String? applicationId;
 
-  @override
-  String toString() => value;
+  /// The Amazon Resource Name (ARN) of the route. The format for this ARN is
+  /// <code>arn:aws:refactor-spaces:<i>region</i>:<i>account-id</i>:<i>resource-type/resource-id</i>
+  /// </code>. For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
+  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
+
+  /// A timestamp that indicates when the route was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The unique identifier of the route.
+  final String? routeId;
+
+  /// The ID of service in which the route was created. Traffic that matches this
+  /// route is forwarded to this service.
+  final String? serviceId;
+
+  /// The current state of the route.
+  final RouteState? state;
+
+  UpdateRouteResponse({
+    this.applicationId,
+    this.arn,
+    this.lastUpdatedTime,
+    this.routeId,
+    this.serviceId,
+    this.state,
+  });
+
+  factory UpdateRouteResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRouteResponse(
+      applicationId: json['ApplicationId'] as String?,
+      arn: json['Arn'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      routeId: json['RouteId'] as String?,
+      serviceId: json['ServiceId'] as String?,
+      state: (json['State'] as String?)?.let(RouteState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final arn = this.arn;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final routeId = this.routeId;
+    final serviceId = this.serviceId;
+    final state = this.state;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (arn != null) 'Arn': arn,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (routeId != null) 'RouteId': routeId,
+      if (serviceId != null) 'ServiceId': serviceId,
+      if (state != null) 'State': state.value,
+    };
+  }
 }
 
 class RouteState {
@@ -3531,6 +2700,464 @@ class RouteState {
 
   @override
   bool operator ==(other) => other is RouteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RouteActivationState {
+  static const active = RouteActivationState._('ACTIVE');
+  static const inactive = RouteActivationState._('INACTIVE');
+
+  final String value;
+
+  const RouteActivationState._(this.value);
+
+  static const values = [active, inactive];
+
+  static RouteActivationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteActivationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteActivationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary for the service as a response to <code>ListServices</code>.
+class ServiceSummary {
+  /// The unique identifier of the application.
+  final String? applicationId;
+
+  /// The Amazon Resource Name (ARN) of the service.
+  final String? arn;
+
+  /// The Amazon Web Services account ID of the service creator.
+  final String? createdByAccountId;
+
+  /// A timestamp that indicates when the service is created.
+  final DateTime? createdTime;
+
+  /// A description of the service.
+  final String? description;
+
+  /// The endpoint type of the service.
+  final ServiceEndpointType? endpointType;
+
+  /// The unique identifier of the environment.
+  final String? environmentId;
+
+  /// Any error associated with the service resource.
+  final ErrorResponse? error;
+
+  /// A summary of the configuration for the Lambda endpoint type.
+  final LambdaEndpointSummary? lambdaEndpoint;
+
+  /// A timestamp that indicates when the service was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The name of the service.
+  final String? name;
+
+  /// The Amazon Web Services account ID of the service owner.
+  final String? ownerAccountId;
+
+  /// The unique identifier of the service.
+  final String? serviceId;
+
+  /// The current state of the service.
+  final ServiceState? state;
+
+  /// The tags assigned to the service.
+  final Map<String, String>? tags;
+
+  /// The summary of the configuration for the URL endpoint type.
+  final UrlEndpointSummary? urlEndpoint;
+
+  /// The ID of the virtual private cloud (VPC).
+  final String? vpcId;
+
+  ServiceSummary({
+    this.applicationId,
+    this.arn,
+    this.createdByAccountId,
+    this.createdTime,
+    this.description,
+    this.endpointType,
+    this.environmentId,
+    this.error,
+    this.lambdaEndpoint,
+    this.lastUpdatedTime,
+    this.name,
+    this.ownerAccountId,
+    this.serviceId,
+    this.state,
+    this.tags,
+    this.urlEndpoint,
+    this.vpcId,
+  });
+
+  factory ServiceSummary.fromJson(Map<String, dynamic> json) {
+    return ServiceSummary(
+      applicationId: json['ApplicationId'] as String?,
+      arn: json['Arn'] as String?,
+      createdByAccountId: json['CreatedByAccountId'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ServiceEndpointType.fromString),
+      environmentId: json['EnvironmentId'] as String?,
+      error: json['Error'] != null
+          ? ErrorResponse.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      lambdaEndpoint: json['LambdaEndpoint'] != null
+          ? LambdaEndpointSummary.fromJson(
+              json['LambdaEndpoint'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      name: json['Name'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      serviceId: json['ServiceId'] as String?,
+      state: (json['State'] as String?)?.let(ServiceState.fromString),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      urlEndpoint: json['UrlEndpoint'] != null
+          ? UrlEndpointSummary.fromJson(
+              json['UrlEndpoint'] as Map<String, dynamic>)
+          : null,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final arn = this.arn;
+    final createdByAccountId = this.createdByAccountId;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final endpointType = this.endpointType;
+    final environmentId = this.environmentId;
+    final error = this.error;
+    final lambdaEndpoint = this.lambdaEndpoint;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final ownerAccountId = this.ownerAccountId;
+    final serviceId = this.serviceId;
+    final state = this.state;
+    final tags = this.tags;
+    final urlEndpoint = this.urlEndpoint;
+    final vpcId = this.vpcId;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (arn != null) 'Arn': arn,
+      if (createdByAccountId != null) 'CreatedByAccountId': createdByAccountId,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (endpointType != null) 'EndpointType': endpointType.value,
+      if (environmentId != null) 'EnvironmentId': environmentId,
+      if (error != null) 'Error': error,
+      if (lambdaEndpoint != null) 'LambdaEndpoint': lambdaEndpoint,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (name != null) 'Name': name,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (serviceId != null) 'ServiceId': serviceId,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+      if (urlEndpoint != null) 'UrlEndpoint': urlEndpoint,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+class ServiceEndpointType {
+  static const lambda = ServiceEndpointType._('LAMBDA');
+  static const url = ServiceEndpointType._('URL');
+
+  final String value;
+
+  const ServiceEndpointType._(this.value);
+
+  static const values = [lambda, url];
+
+  static ServiceEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The summary of the configuration for the URL endpoint type.
+class UrlEndpointSummary {
+  /// The health check URL of the URL endpoint type. If the URL is a public
+  /// endpoint, the <code>HealthUrl</code> must also be a public endpoint. If the
+  /// URL is a private endpoint inside a virtual private cloud (VPC), the health
+  /// URL must also be a private endpoint, and the host must be the same as the
+  /// URL.
+  final String? healthUrl;
+
+  /// The URL to route traffic to. The URL must be an <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc3986">rfc3986-formatted
+  /// URL</a>. If the host is a domain name, the name must be resolvable over the
+  /// public internet. If the scheme is <code>https</code>, the top level domain
+  /// of the host must be listed in the <a
+  /// href="https://www.iana.org/domains/root/db">IANA root zone database</a>.
+  final String? url;
+
+  UrlEndpointSummary({
+    this.healthUrl,
+    this.url,
+  });
+
+  factory UrlEndpointSummary.fromJson(Map<String, dynamic> json) {
+    return UrlEndpointSummary(
+      healthUrl: json['HealthUrl'] as String?,
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthUrl = this.healthUrl;
+    final url = this.url;
+    return {
+      if (healthUrl != null) 'HealthUrl': healthUrl,
+      if (url != null) 'Url': url,
+    };
+  }
+}
+
+/// The summary for the Lambda endpoint type.
+class LambdaEndpointSummary {
+  /// The Amazon Resource Name (ARN) of the Lambda endpoint.
+  final String? arn;
+
+  LambdaEndpointSummary({
+    this.arn,
+  });
+
+  factory LambdaEndpointSummary.fromJson(Map<String, dynamic> json) {
+    return LambdaEndpointSummary(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+class ServiceState {
+  static const creating = ServiceState._('CREATING');
+  static const active = ServiceState._('ACTIVE');
+  static const deleting = ServiceState._('DELETING');
+  static const failed = ServiceState._('FAILED');
+
+  final String value;
+
+  const ServiceState._(this.value);
+
+  static const values = [creating, active, deleting, failed];
+
+  static ServiceState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceState._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Error associated with a resource returned for a Get or List resource
+/// response.
+class ErrorResponse {
+  /// The Amazon Web Services account ID of the resource owner.
+  final String? accountId;
+
+  /// Additional details about the error.
+  final Map<String, String>? additionalDetails;
+
+  /// The error code associated with the error.
+  final ErrorCode? code;
+
+  /// The message associated with the error.
+  final String? message;
+
+  /// The ID of the resource.
+  final String? resourceIdentifier;
+
+  /// The type of resource.
+  final ErrorResourceType? resourceType;
+
+  ErrorResponse({
+    this.accountId,
+    this.additionalDetails,
+    this.code,
+    this.message,
+    this.resourceIdentifier,
+    this.resourceType,
+  });
+
+  factory ErrorResponse.fromJson(Map<String, dynamic> json) {
+    return ErrorResponse(
+      accountId: json['AccountId'] as String?,
+      additionalDetails: (json['AdditionalDetails'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      code: (json['Code'] as String?)?.let(ErrorCode.fromString),
+      message: json['Message'] as String?,
+      resourceIdentifier: json['ResourceIdentifier'] as String?,
+      resourceType:
+          (json['ResourceType'] as String?)?.let(ErrorResourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final additionalDetails = this.additionalDetails;
+    final code = this.code;
+    final message = this.message;
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (additionalDetails != null) 'AdditionalDetails': additionalDetails,
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+      if (resourceType != null) 'ResourceType': resourceType.value,
+    };
+  }
+}
+
+class ErrorCode {
+  static const invalidResourceState = ErrorCode._('INVALID_RESOURCE_STATE');
+  static const resourceLimitExceeded = ErrorCode._('RESOURCE_LIMIT_EXCEEDED');
+  static const resourceCreationFailure =
+      ErrorCode._('RESOURCE_CREATION_FAILURE');
+  static const resourceUpdateFailure = ErrorCode._('RESOURCE_UPDATE_FAILURE');
+  static const serviceEndpointHealthCheckFailure =
+      ErrorCode._('SERVICE_ENDPOINT_HEALTH_CHECK_FAILURE');
+  static const resourceDeletionFailure =
+      ErrorCode._('RESOURCE_DELETION_FAILURE');
+  static const resourceRetrievalFailure =
+      ErrorCode._('RESOURCE_RETRIEVAL_FAILURE');
+  static const resourceInUse = ErrorCode._('RESOURCE_IN_USE');
+  static const resourceNotFound = ErrorCode._('RESOURCE_NOT_FOUND');
+  static const stateTransitionFailure = ErrorCode._('STATE_TRANSITION_FAILURE');
+  static const requestLimitExceeded = ErrorCode._('REQUEST_LIMIT_EXCEEDED');
+  static const notAuthorized = ErrorCode._('NOT_AUTHORIZED');
+
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [
+    invalidResourceState,
+    resourceLimitExceeded,
+    resourceCreationFailure,
+    resourceUpdateFailure,
+    serviceEndpointHealthCheckFailure,
+    resourceDeletionFailure,
+    resourceRetrievalFailure,
+    resourceInUse,
+    resourceNotFound,
+    stateTransitionFailure,
+    requestLimitExceeded,
+    notAuthorized
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ErrorResourceType {
+  static const environment = ErrorResourceType._('ENVIRONMENT');
+  static const application = ErrorResourceType._('APPLICATION');
+  static const route = ErrorResourceType._('ROUTE');
+  static const service = ErrorResourceType._('SERVICE');
+  static const transitGateway = ErrorResourceType._('TRANSIT_GATEWAY');
+  static const transitGatewayAttachment =
+      ErrorResourceType._('TRANSIT_GATEWAY_ATTACHMENT');
+  static const apiGateway = ErrorResourceType._('API_GATEWAY');
+  static const nlb = ErrorResourceType._('NLB');
+  static const targetGroup = ErrorResourceType._('TARGET_GROUP');
+  static const loadBalancerListener =
+      ErrorResourceType._('LOAD_BALANCER_LISTENER');
+  static const vpcLink = ErrorResourceType._('VPC_LINK');
+  static const lambda = ErrorResourceType._('LAMBDA');
+  static const vpc = ErrorResourceType._('VPC');
+  static const subnet = ErrorResourceType._('SUBNET');
+  static const routeTable = ErrorResourceType._('ROUTE_TABLE');
+  static const securityGroup = ErrorResourceType._('SECURITY_GROUP');
+  static const vpcEndpointServiceConfiguration =
+      ErrorResourceType._('VPC_ENDPOINT_SERVICE_CONFIGURATION');
+  static const resourceShare = ErrorResourceType._('RESOURCE_SHARE');
+  static const iamRole = ErrorResourceType._('IAM_ROLE');
+
+  final String value;
+
+  const ErrorResourceType._(this.value);
+
+  static const values = [
+    environment,
+    application,
+    route,
+    service,
+    transitGateway,
+    transitGatewayAttachment,
+    apiGateway,
+    nlb,
+    targetGroup,
+    loadBalancerListener,
+    vpcLink,
+    lambda,
+    vpc,
+    subnet,
+    routeTable,
+    securityGroup,
+    vpcEndpointServiceConfiguration,
+    resourceShare,
+    iamRole
+  ];
+
+  static ErrorResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ErrorResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorResourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3722,23 +3349,26 @@ class RouteType {
   String toString() => value;
 }
 
-class ServiceEndpointType {
-  static const lambda = ServiceEndpointType._('LAMBDA');
-  static const url = ServiceEndpointType._('URL');
+class HttpMethod {
+  static const delete = HttpMethod._('DELETE');
+  static const get = HttpMethod._('GET');
+  static const head = HttpMethod._('HEAD');
+  static const options = HttpMethod._('OPTIONS');
+  static const patch = HttpMethod._('PATCH');
+  static const post = HttpMethod._('POST');
+  static const put = HttpMethod._('PUT');
 
   final String value;
 
-  const ServiceEndpointType._(this.value);
+  const HttpMethod._(this.value);
 
-  static const values = [lambda, url];
+  static const values = [delete, get, head, options, patch, post, put];
 
-  static ServiceEndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceEndpointType._(value));
+  static HttpMethod fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HttpMethod._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ServiceEndpointType && other.value == value;
+  bool operator ==(other) => other is HttpMethod && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3747,261 +3377,676 @@ class ServiceEndpointType {
   String toString() => value;
 }
 
-class ServiceState {
-  static const creating = ServiceState._('CREATING');
-  static const active = ServiceState._('ACTIVE');
-  static const deleting = ServiceState._('DELETING');
-  static const failed = ServiceState._('FAILED');
+/// Provides summary information for the <code>EnvironmentVpc</code> resource as
+/// a response to <code>ListEnvironmentVpc</code>.
+class EnvironmentVpc {
+  /// The Amazon Web Services account ID of the virtual private cloud (VPC) owner.
+  final String? accountId;
 
-  final String value;
+  /// The list of Amazon Virtual Private Cloud (Amazon VPC) CIDR blocks.
+  final List<String>? cidrBlocks;
 
-  const ServiceState._(this.value);
-
-  static const values = [creating, active, deleting, failed];
-
-  static ServiceState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ServiceState._(value));
-
-  @override
-  bool operator ==(other) => other is ServiceState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A summary for the service as a response to <code>ListServices</code>.
-class ServiceSummary {
-  /// The unique identifier of the application.
-  final String? applicationId;
-
-  /// The Amazon Resource Name (ARN) of the service.
-  final String? arn;
-
-  /// The Amazon Web Services account ID of the service creator.
-  final String? createdByAccountId;
-
-  /// A timestamp that indicates when the service is created.
+  /// A timestamp that indicates when the VPC is first added to the environment.
   final DateTime? createdTime;
-
-  /// A description of the service.
-  final String? description;
-
-  /// The endpoint type of the service.
-  final ServiceEndpointType? endpointType;
 
   /// The unique identifier of the environment.
   final String? environmentId;
 
-  /// Any error associated with the service resource.
-  final ErrorResponse? error;
-
-  /// A summary of the configuration for the Lambda endpoint type.
-  final LambdaEndpointSummary? lambdaEndpoint;
-
-  /// A timestamp that indicates when the service was last updated.
+  /// A timestamp that indicates when the VPC was last updated by the environment.
   final DateTime? lastUpdatedTime;
 
-  /// The name of the service.
-  final String? name;
-
-  /// The Amazon Web Services account ID of the service owner.
-  final String? ownerAccountId;
-
-  /// The unique identifier of the service.
-  final String? serviceId;
-
-  /// The current state of the service.
-  final ServiceState? state;
-
-  /// The tags assigned to the service.
-  final Map<String, String>? tags;
-
-  /// The summary of the configuration for the URL endpoint type.
-  final UrlEndpointSummary? urlEndpoint;
-
-  /// The ID of the virtual private cloud (VPC).
+  /// The ID of the VPC.
   final String? vpcId;
 
-  ServiceSummary({
-    this.applicationId,
-    this.arn,
-    this.createdByAccountId,
+  /// The name of the VPC at the time it is added to the environment.
+  final String? vpcName;
+
+  EnvironmentVpc({
+    this.accountId,
+    this.cidrBlocks,
     this.createdTime,
-    this.description,
-    this.endpointType,
     this.environmentId,
-    this.error,
-    this.lambdaEndpoint,
     this.lastUpdatedTime,
-    this.name,
-    this.ownerAccountId,
-    this.serviceId,
-    this.state,
-    this.tags,
-    this.urlEndpoint,
     this.vpcId,
+    this.vpcName,
   });
 
-  factory ServiceSummary.fromJson(Map<String, dynamic> json) {
-    return ServiceSummary(
-      applicationId: json['ApplicationId'] as String?,
+  factory EnvironmentVpc.fromJson(Map<String, dynamic> json) {
+    return EnvironmentVpc(
+      accountId: json['AccountId'] as String?,
+      cidrBlocks: (json['CidrBlocks'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      environmentId: json['EnvironmentId'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      vpcId: json['VpcId'] as String?,
+      vpcName: json['VpcName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final cidrBlocks = this.cidrBlocks;
+    final createdTime = this.createdTime;
+    final environmentId = this.environmentId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final vpcId = this.vpcId;
+    final vpcName = this.vpcName;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (cidrBlocks != null) 'CidrBlocks': cidrBlocks,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (environmentId != null) 'EnvironmentId': environmentId,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (vpcId != null) 'VpcId': vpcId,
+      if (vpcName != null) 'VpcName': vpcName,
+    };
+  }
+}
+
+/// The summary information for environments as a response to
+/// <code>ListEnvironments</code>.
+class EnvironmentSummary {
+  /// The Amazon Resource Name (ARN) of the environment.
+  final String? arn;
+
+  /// A timestamp that indicates when the environment is created.
+  final DateTime? createdTime;
+
+  /// A description of the environment.
+  final String? description;
+
+  /// The unique identifier of the environment.
+  final String? environmentId;
+
+  /// Any error associated with the environment resource.
+  final ErrorResponse? error;
+
+  /// A timestamp that indicates when the environment was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The name of the environment.
+  final String? name;
+
+  /// The network fabric type of the environment.
+  final NetworkFabricType? networkFabricType;
+
+  /// The Amazon Web Services account ID of the environment owner.
+  final String? ownerAccountId;
+
+  /// The current state of the environment.
+  final EnvironmentState? state;
+
+  /// The tags assigned to the environment.
+  final Map<String, String>? tags;
+
+  /// The ID of the Transit Gateway set up by the environment.
+  final String? transitGatewayId;
+
+  EnvironmentSummary({
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.environmentId,
+    this.error,
+    this.lastUpdatedTime,
+    this.name,
+    this.networkFabricType,
+    this.ownerAccountId,
+    this.state,
+    this.tags,
+    this.transitGatewayId,
+  });
+
+  factory EnvironmentSummary.fromJson(Map<String, dynamic> json) {
+    return EnvironmentSummary(
       arn: json['Arn'] as String?,
-      createdByAccountId: json['CreatedByAccountId'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
-      endpointType: (json['EndpointType'] as String?)
-          ?.let(ServiceEndpointType.fromString),
       environmentId: json['EnvironmentId'] as String?,
       error: json['Error'] != null
           ? ErrorResponse.fromJson(json['Error'] as Map<String, dynamic>)
           : null,
-      lambdaEndpoint: json['LambdaEndpoint'] != null
-          ? LambdaEndpointSummary.fromJson(
-              json['LambdaEndpoint'] as Map<String, dynamic>)
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      name: json['Name'] as String?,
+      networkFabricType: (json['NetworkFabricType'] as String?)
+          ?.let(NetworkFabricType.fromString),
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      state: (json['State'] as String?)?.let(EnvironmentState.fromString),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      transitGatewayId: json['TransitGatewayId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final environmentId = this.environmentId;
+    final error = this.error;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final networkFabricType = this.networkFabricType;
+    final ownerAccountId = this.ownerAccountId;
+    final state = this.state;
+    final tags = this.tags;
+    final transitGatewayId = this.transitGatewayId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (environmentId != null) 'EnvironmentId': environmentId,
+      if (error != null) 'Error': error,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (name != null) 'Name': name,
+      if (networkFabricType != null)
+        'NetworkFabricType': networkFabricType.value,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+      if (transitGatewayId != null) 'TransitGatewayId': transitGatewayId,
+    };
+  }
+}
+
+class NetworkFabricType {
+  static const transitGateway = NetworkFabricType._('TRANSIT_GATEWAY');
+  static const none = NetworkFabricType._('NONE');
+
+  final String value;
+
+  const NetworkFabricType._(this.value);
+
+  static const values = [transitGateway, none];
+
+  static NetworkFabricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkFabricType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkFabricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EnvironmentState {
+  static const creating = EnvironmentState._('CREATING');
+  static const active = EnvironmentState._('ACTIVE');
+  static const deleting = EnvironmentState._('DELETING');
+  static const failed = EnvironmentState._('FAILED');
+
+  final String value;
+
+  const EnvironmentState._(this.value);
+
+  static const values = [creating, active, deleting, failed];
+
+  static EnvironmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnvironmentState._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The list of <code>ApplicationSummary</code> objects.
+class ApplicationSummary {
+  /// The endpoint URL of the Amazon API Gateway proxy.
+  final ApiGatewayProxySummary? apiGatewayProxy;
+
+  /// The unique identifier of the application.
+  final String? applicationId;
+
+  /// The Amazon Resource Name (ARN) of the application.
+  final String? arn;
+
+  /// The Amazon Web Services account ID of the application creator.
+  final String? createdByAccountId;
+
+  /// A timestamp that indicates when the application is created.
+  final DateTime? createdTime;
+
+  /// The unique identifier of the environment.
+  final String? environmentId;
+
+  /// Any error associated with the application resource.
+  final ErrorResponse? error;
+
+  /// A timestamp that indicates when the application was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The name of the application.
+  final String? name;
+
+  /// The Amazon Web Services account ID of the application owner (which is always
+  /// the same as the environment owner account ID).
+  final String? ownerAccountId;
+
+  /// The proxy type of the proxy created within the application.
+  final ProxyType? proxyType;
+
+  /// The current state of the application.
+  final ApplicationState? state;
+
+  /// The tags assigned to the application.
+  final Map<String, String>? tags;
+
+  /// The ID of the virtual private cloud (VPC).
+  final String? vpcId;
+
+  ApplicationSummary({
+    this.apiGatewayProxy,
+    this.applicationId,
+    this.arn,
+    this.createdByAccountId,
+    this.createdTime,
+    this.environmentId,
+    this.error,
+    this.lastUpdatedTime,
+    this.name,
+    this.ownerAccountId,
+    this.proxyType,
+    this.state,
+    this.tags,
+    this.vpcId,
+  });
+
+  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationSummary(
+      apiGatewayProxy: json['ApiGatewayProxy'] != null
+          ? ApiGatewayProxySummary.fromJson(
+              json['ApiGatewayProxy'] as Map<String, dynamic>)
+          : null,
+      applicationId: json['ApplicationId'] as String?,
+      arn: json['Arn'] as String?,
+      createdByAccountId: json['CreatedByAccountId'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      environmentId: json['EnvironmentId'] as String?,
+      error: json['Error'] != null
+          ? ErrorResponse.fromJson(json['Error'] as Map<String, dynamic>)
           : null,
       lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
       name: json['Name'] as String?,
       ownerAccountId: json['OwnerAccountId'] as String?,
-      serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.let(ServiceState.fromString),
+      proxyType: (json['ProxyType'] as String?)?.let(ProxyType.fromString),
+      state: (json['State'] as String?)?.let(ApplicationState.fromString),
       tags: (json['Tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
-      urlEndpoint: json['UrlEndpoint'] != null
-          ? UrlEndpointSummary.fromJson(
-              json['UrlEndpoint'] as Map<String, dynamic>)
-          : null,
       vpcId: json['VpcId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final apiGatewayProxy = this.apiGatewayProxy;
     final applicationId = this.applicationId;
     final arn = this.arn;
     final createdByAccountId = this.createdByAccountId;
     final createdTime = this.createdTime;
-    final description = this.description;
-    final endpointType = this.endpointType;
     final environmentId = this.environmentId;
     final error = this.error;
-    final lambdaEndpoint = this.lambdaEndpoint;
     final lastUpdatedTime = this.lastUpdatedTime;
     final name = this.name;
     final ownerAccountId = this.ownerAccountId;
-    final serviceId = this.serviceId;
+    final proxyType = this.proxyType;
     final state = this.state;
     final tags = this.tags;
-    final urlEndpoint = this.urlEndpoint;
     final vpcId = this.vpcId;
     return {
+      if (apiGatewayProxy != null) 'ApiGatewayProxy': apiGatewayProxy,
       if (applicationId != null) 'ApplicationId': applicationId,
       if (arn != null) 'Arn': arn,
       if (createdByAccountId != null) 'CreatedByAccountId': createdByAccountId,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (description != null) 'Description': description,
-      if (endpointType != null) 'EndpointType': endpointType.value,
       if (environmentId != null) 'EnvironmentId': environmentId,
       if (error != null) 'Error': error,
-      if (lambdaEndpoint != null) 'LambdaEndpoint': lambdaEndpoint,
       if (lastUpdatedTime != null)
         'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
       if (name != null) 'Name': name,
       if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (serviceId != null) 'ServiceId': serviceId,
+      if (proxyType != null) 'ProxyType': proxyType.value,
       if (state != null) 'State': state.value,
       if (tags != null) 'Tags': tags,
-      if (urlEndpoint != null) 'UrlEndpoint': urlEndpoint,
       if (vpcId != null) 'VpcId': vpcId,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+class ProxyType {
+  static const apiGateway = ProxyType._('API_GATEWAY');
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
+  const ProxyType._(this.value);
+
+  static const values = [apiGateway];
+
+  static ProxyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProxyType._(value));
+
+  @override
+  bool operator ==(other) => other is ProxyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// A wrapper object holding the Amazon API Gateway proxy summary.
+class ApiGatewayProxySummary {
+  /// The resource ID of the API Gateway for the proxy.
+  final String? apiGatewayId;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  /// The type of API Gateway endpoint created.
+  final ApiGatewayEndpointType? endpointType;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The Amazon Resource Name (ARN) of the Network Load Balancer configured by
+  /// the API Gateway proxy.
+  final String? nlbArn;
 
-class UpdateRouteResponse {
-  /// The ID of the application in which the route is being updated.
-  final String? applicationId;
+  /// The name of the Network Load Balancer that is configured by the API Gateway
+  /// proxy.
+  final String? nlbName;
 
-  /// The Amazon Resource Name (ARN) of the route. The format for this ARN is
-  /// <code>arn:aws:refactor-spaces:<i>region</i>:<i>account-id</i>:<i>resource-type/resource-id</i>
-  /// </code>. For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">
-  /// Amazon Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  final String? arn;
+  /// The endpoint URL of the API Gateway proxy.
+  final String? proxyUrl;
 
-  /// A timestamp that indicates when the route was last updated.
-  final DateTime? lastUpdatedTime;
+  /// The name of the API Gateway stage. The name defaults to <code>prod</code>.
+  final String? stageName;
 
-  /// The unique identifier of the route.
-  final String? routeId;
+  /// The <code>VpcLink</code> ID of the API Gateway proxy.
+  final String? vpcLinkId;
 
-  /// The ID of service in which the route was created. Traffic that matches this
-  /// route is forwarded to this service.
-  final String? serviceId;
-
-  /// The current state of the route.
-  final RouteState? state;
-
-  UpdateRouteResponse({
-    this.applicationId,
-    this.arn,
-    this.lastUpdatedTime,
-    this.routeId,
-    this.serviceId,
-    this.state,
+  ApiGatewayProxySummary({
+    this.apiGatewayId,
+    this.endpointType,
+    this.nlbArn,
+    this.nlbName,
+    this.proxyUrl,
+    this.stageName,
+    this.vpcLinkId,
   });
 
-  factory UpdateRouteResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRouteResponse(
-      applicationId: json['ApplicationId'] as String?,
-      arn: json['Arn'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      routeId: json['RouteId'] as String?,
-      serviceId: json['ServiceId'] as String?,
-      state: (json['State'] as String?)?.let(RouteState.fromString),
+  factory ApiGatewayProxySummary.fromJson(Map<String, dynamic> json) {
+    return ApiGatewayProxySummary(
+      apiGatewayId: json['ApiGatewayId'] as String?,
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ApiGatewayEndpointType.fromString),
+      nlbArn: json['NlbArn'] as String?,
+      nlbName: json['NlbName'] as String?,
+      proxyUrl: json['ProxyUrl'] as String?,
+      stageName: json['StageName'] as String?,
+      vpcLinkId: json['VpcLinkId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final applicationId = this.applicationId;
-    final arn = this.arn;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final routeId = this.routeId;
-    final serviceId = this.serviceId;
-    final state = this.state;
+    final apiGatewayId = this.apiGatewayId;
+    final endpointType = this.endpointType;
+    final nlbArn = this.nlbArn;
+    final nlbName = this.nlbName;
+    final proxyUrl = this.proxyUrl;
+    final stageName = this.stageName;
+    final vpcLinkId = this.vpcLinkId;
     return {
-      if (applicationId != null) 'ApplicationId': applicationId,
+      if (apiGatewayId != null) 'ApiGatewayId': apiGatewayId,
+      if (endpointType != null) 'EndpointType': endpointType.value,
+      if (nlbArn != null) 'NlbArn': nlbArn,
+      if (nlbName != null) 'NlbName': nlbName,
+      if (proxyUrl != null) 'ProxyUrl': proxyUrl,
+      if (stageName != null) 'StageName': stageName,
+      if (vpcLinkId != null) 'VpcLinkId': vpcLinkId,
+    };
+  }
+}
+
+class ApplicationState {
+  static const creating = ApplicationState._('CREATING');
+  static const active = ApplicationState._('ACTIVE');
+  static const deleting = ApplicationState._('DELETING');
+  static const failed = ApplicationState._('FAILED');
+  static const updating = ApplicationState._('UPDATING');
+
+  final String value;
+
+  const ApplicationState._(this.value);
+
+  static const values = [creating, active, deleting, failed, updating];
+
+  static ApplicationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationState._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApiGatewayEndpointType {
+  static const regional = ApiGatewayEndpointType._('REGIONAL');
+  static const private = ApiGatewayEndpointType._('PRIVATE');
+
+  final String value;
+
+  const ApiGatewayEndpointType._(this.value);
+
+  static const values = [regional, private];
+
+  static ApiGatewayEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApiGatewayEndpointType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApiGatewayEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for the URL endpoint type.
+class UrlEndpointConfig {
+  /// The health check URL of the URL endpoint type.
+  final String? healthUrl;
+
+  /// The HTTP URL endpoint.
+  final String? url;
+
+  UrlEndpointConfig({
+    this.healthUrl,
+    this.url,
+  });
+
+  factory UrlEndpointConfig.fromJson(Map<String, dynamic> json) {
+    return UrlEndpointConfig(
+      healthUrl: json['HealthUrl'] as String?,
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthUrl = this.healthUrl;
+    final url = this.url;
+    return {
+      if (healthUrl != null) 'HealthUrl': healthUrl,
+      if (url != null) 'Url': url,
+    };
+  }
+}
+
+/// The configuration for the Lambda endpoint type.
+class LambdaEndpointConfig {
+  /// The Amazon Resource Name (ARN) of the Lambda endpoint.
+  final String? arn;
+
+  LambdaEndpointConfig({
+    this.arn,
+  });
+
+  factory LambdaEndpointConfig.fromJson(Map<String, dynamic> json) {
+    return LambdaEndpointConfig(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
       if (arn != null) 'Arn': arn,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (routeId != null) 'RouteId': routeId,
-      if (serviceId != null) 'ServiceId': serviceId,
-      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+/// A wrapper object holding the Amazon API Gateway proxy configuration.
+class ApiGatewayProxyConfig {
+  /// The resource ID of the API Gateway for the proxy.
+  final String? apiGatewayId;
+
+  /// The type of API Gateway endpoint created.
+  final ApiGatewayEndpointType? endpointType;
+
+  /// The Amazon Resource Name (ARN) of the Network Load Balancer configured by
+  /// the API Gateway proxy.
+  final String? nlbArn;
+
+  /// The name of the Network Load Balancer that is configured by the API Gateway
+  /// proxy.
+  final String? nlbName;
+
+  /// The endpoint URL of the API Gateway proxy.
+  final String? proxyUrl;
+
+  /// The name of the API Gateway stage. The name defaults to <code>prod</code>.
+  final String? stageName;
+
+  /// The <code>VpcLink</code> ID of the API Gateway proxy.
+  final String? vpcLinkId;
+
+  ApiGatewayProxyConfig({
+    this.apiGatewayId,
+    this.endpointType,
+    this.nlbArn,
+    this.nlbName,
+    this.proxyUrl,
+    this.stageName,
+    this.vpcLinkId,
+  });
+
+  factory ApiGatewayProxyConfig.fromJson(Map<String, dynamic> json) {
+    return ApiGatewayProxyConfig(
+      apiGatewayId: json['ApiGatewayId'] as String?,
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ApiGatewayEndpointType.fromString),
+      nlbArn: json['NlbArn'] as String?,
+      nlbName: json['NlbName'] as String?,
+      proxyUrl: json['ProxyUrl'] as String?,
+      stageName: json['StageName'] as String?,
+      vpcLinkId: json['VpcLinkId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiGatewayId = this.apiGatewayId;
+    final endpointType = this.endpointType;
+    final nlbArn = this.nlbArn;
+    final nlbName = this.nlbName;
+    final proxyUrl = this.proxyUrl;
+    final stageName = this.stageName;
+    final vpcLinkId = this.vpcLinkId;
+    return {
+      if (apiGatewayId != null) 'ApiGatewayId': apiGatewayId,
+      if (endpointType != null) 'EndpointType': endpointType.value,
+      if (nlbArn != null) 'NlbArn': nlbArn,
+      if (nlbName != null) 'NlbName': nlbName,
+      if (proxyUrl != null) 'ProxyUrl': proxyUrl,
+      if (stageName != null) 'StageName': stageName,
+      if (vpcLinkId != null) 'VpcLinkId': vpcLinkId,
+    };
+  }
+}
+
+/// The configuration for the URL endpoint type.
+class UrlEndpointInput {
+  /// The URL to route traffic to. The URL must be an <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc3986">rfc3986-formatted
+  /// URL</a>. If the host is a domain name, the name must be resolvable over the
+  /// public internet. If the scheme is <code>https</code>, the top level domain
+  /// of the host must be listed in the <a
+  /// href="https://www.iana.org/domains/root/db">IANA root zone database</a>.
+  final String url;
+
+  /// The health check URL of the URL endpoint type. If the URL is a public
+  /// endpoint, the <code>HealthUrl</code> must also be a public endpoint. If the
+  /// URL is a private endpoint inside a virtual private cloud (VPC), the health
+  /// URL must also be a private endpoint, and the host must be the same as the
+  /// URL.
+  final String? healthUrl;
+
+  UrlEndpointInput({
+    required this.url,
+    this.healthUrl,
+  });
+
+  factory UrlEndpointInput.fromJson(Map<String, dynamic> json) {
+    return UrlEndpointInput(
+      url: (json['Url'] as String?) ?? '',
+      healthUrl: json['HealthUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    final healthUrl = this.healthUrl;
+    return {
+      'Url': url,
+      if (healthUrl != null) 'HealthUrl': healthUrl,
+    };
+  }
+}
+
+/// The input for the Lambda endpoint type.
+class LambdaEndpointInput {
+  /// The Amazon Resource Name (ARN) of the Lambda function or alias.
+  final String arn;
+
+  LambdaEndpointInput({
+    required this.arn,
+  });
+
+  factory LambdaEndpointInput.fromJson(Map<String, dynamic> json) {
+    return LambdaEndpointInput(
+      arn: (json['Arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'Arn': arn,
     };
   }
 }
@@ -4071,110 +4116,64 @@ class UriPathRouteInput {
   }
 }
 
-/// The configuration for the URL endpoint type.
-class UrlEndpointConfig {
-  /// The health check URL of the URL endpoint type.
-  final String? healthUrl;
+/// The configuration for the default route type.
+class DefaultRouteInput {
+  /// If set to <code>ACTIVE</code>, traffic is forwarded to this route’s service
+  /// after the route is created.
+  final RouteActivationState? activationState;
 
-  /// The HTTP URL endpoint.
-  final String? url;
-
-  UrlEndpointConfig({
-    this.healthUrl,
-    this.url,
+  DefaultRouteInput({
+    this.activationState,
   });
 
-  factory UrlEndpointConfig.fromJson(Map<String, dynamic> json) {
-    return UrlEndpointConfig(
-      healthUrl: json['HealthUrl'] as String?,
-      url: json['Url'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final healthUrl = this.healthUrl;
-    final url = this.url;
+    final activationState = this.activationState;
     return {
-      if (healthUrl != null) 'HealthUrl': healthUrl,
-      if (url != null) 'Url': url,
+      if (activationState != null) 'ActivationState': activationState.value,
     };
   }
 }
 
-/// The configuration for the URL endpoint type.
-class UrlEndpointInput {
-  /// The URL to route traffic to. The URL must be an <a
-  /// href="https://datatracker.ietf.org/doc/html/rfc3986">rfc3986-formatted
-  /// URL</a>. If the host is a domain name, the name must be resolvable over the
-  /// public internet. If the scheme is <code>https</code>, the top level domain
-  /// of the host must be listed in the <a
-  /// href="https://www.iana.org/domains/root/db">IANA root zone database</a>.
-  final String url;
+/// A wrapper object holding the Amazon API Gateway endpoint input.
+class ApiGatewayProxyInput {
+  /// The type of endpoint to use for the API Gateway proxy. If no value is
+  /// specified in the request, the value is set to <code>REGIONAL</code> by
+  /// default.
+  ///
+  /// If the value is set to <code>PRIVATE</code> in the request, this creates a
+  /// private API endpoint that is isolated from the public internet. The private
+  /// endpoint can only be accessed by using Amazon Virtual Private Cloud (Amazon
+  /// VPC) interface endpoints for the Amazon API Gateway that has been granted
+  /// access. For more information about creating a private connection with
+  /// Refactor Spaces and interface endpoint (Amazon Web Services PrivateLink)
+  /// availability, see <a
+  /// href="https://docs.aws.amazon.com/migrationhub-refactor-spaces/latest/userguide/vpc-interface-endpoints.html">Access
+  /// Refactor Spaces using an interface endpoint (Amazon Web Services
+  /// PrivateLink)</a>.
+  final ApiGatewayEndpointType? endpointType;
 
-  /// The health check URL of the URL endpoint type. If the URL is a public
-  /// endpoint, the <code>HealthUrl</code> must also be a public endpoint. If the
-  /// URL is a private endpoint inside a virtual private cloud (VPC), the health
-  /// URL must also be a private endpoint, and the host must be the same as the
-  /// URL.
-  final String? healthUrl;
+  /// The name of the API Gateway stage. The name defaults to <code>prod</code>.
+  final String? stageName;
 
-  UrlEndpointInput({
-    required this.url,
-    this.healthUrl,
+  ApiGatewayProxyInput({
+    this.endpointType,
+    this.stageName,
   });
 
-  factory UrlEndpointInput.fromJson(Map<String, dynamic> json) {
-    return UrlEndpointInput(
-      url: (json['Url'] as String?) ?? '',
-      healthUrl: json['HealthUrl'] as String?,
+  factory ApiGatewayProxyInput.fromJson(Map<String, dynamic> json) {
+    return ApiGatewayProxyInput(
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ApiGatewayEndpointType.fromString),
+      stageName: json['StageName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final url = this.url;
-    final healthUrl = this.healthUrl;
+    final endpointType = this.endpointType;
+    final stageName = this.stageName;
     return {
-      'Url': url,
-      if (healthUrl != null) 'HealthUrl': healthUrl,
-    };
-  }
-}
-
-/// The summary of the configuration for the URL endpoint type.
-class UrlEndpointSummary {
-  /// The health check URL of the URL endpoint type. If the URL is a public
-  /// endpoint, the <code>HealthUrl</code> must also be a public endpoint. If the
-  /// URL is a private endpoint inside a virtual private cloud (VPC), the health
-  /// URL must also be a private endpoint, and the host must be the same as the
-  /// URL.
-  final String? healthUrl;
-
-  /// The URL to route traffic to. The URL must be an <a
-  /// href="https://datatracker.ietf.org/doc/html/rfc3986">rfc3986-formatted
-  /// URL</a>. If the host is a domain name, the name must be resolvable over the
-  /// public internet. If the scheme is <code>https</code>, the top level domain
-  /// of the host must be listed in the <a
-  /// href="https://www.iana.org/domains/root/db">IANA root zone database</a>.
-  final String? url;
-
-  UrlEndpointSummary({
-    this.healthUrl,
-    this.url,
-  });
-
-  factory UrlEndpointSummary.fromJson(Map<String, dynamic> json) {
-    return UrlEndpointSummary(
-      healthUrl: json['HealthUrl'] as String?,
-      url: json['Url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final healthUrl = this.healthUrl;
-    final url = this.url;
-    return {
-      if (healthUrl != null) 'HealthUrl': healthUrl,
-      if (url != null) 'Url': url,
+      if (endpointType != null) 'EndpointType': endpointType.value,
+      if (stageName != null) 'StageName': stageName,
     };
   }
 }

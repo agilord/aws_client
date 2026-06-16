@@ -24,9 +24,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// establishes a communication channel for discovering peers, transmitting
 /// offers and answers in order to establish peer-to-peer connection in webRTC
 /// technology.
-class KinesisVideoSignalingChannels {
+class KinesisVideoSignaling {
   final _s.RestJsonProtocol _protocol;
-  KinesisVideoSignalingChannels({
+  KinesisVideoSignaling({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -71,12 +71,12 @@ class KinesisVideoSignalingChannels {
   /// a signaling channel. You must specify either a signaling channel ARN or
   /// the client ID in order to invoke this API.
   ///
-  /// May throw [InvalidClientException].
-  /// May throw [SessionExpiredException].
   /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArgumentException].
+  /// May throw [InvalidClientException].
   /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [SessionExpiredException].
   ///
   /// Parameter [channelARN] :
   /// The ARN of the signaling channel to be used for the peer-to-peer
@@ -122,9 +122,9 @@ class KinesisVideoSignalingChannels {
   /// expires.
   ///
   /// May throw [ClientLimitExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArgumentException].
   /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [channelARN] :
   /// The ARN of the signaling channel by which Alexa and the master peer
@@ -180,6 +180,28 @@ class GetIceServerConfigResponse {
   }
 }
 
+class SendAlexaOfferToMasterResponse {
+  /// The base64-encoded SDP answer content.
+  final String? answer;
+
+  SendAlexaOfferToMasterResponse({
+    this.answer,
+  });
+
+  factory SendAlexaOfferToMasterResponse.fromJson(Map<String, dynamic> json) {
+    return SendAlexaOfferToMasterResponse(
+      answer: json['Answer'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answer = this.answer;
+    return {
+      if (answer != null) 'Answer': answer,
+    };
+  }
+}
+
 /// A structure for the ICE server connection data.
 class IceServer {
   /// A password to login to the ICE server.
@@ -224,28 +246,6 @@ class IceServer {
       if (ttl != null) 'Ttl': ttl,
       if (uris != null) 'Uris': uris,
       if (username != null) 'Username': username,
-    };
-  }
-}
-
-class SendAlexaOfferToMasterResponse {
-  /// The base64-encoded SDP answer content.
-  final String? answer;
-
-  SendAlexaOfferToMasterResponse({
-    this.answer,
-  });
-
-  factory SendAlexaOfferToMasterResponse.fromJson(Map<String, dynamic> json) {
-    return SendAlexaOfferToMasterResponse(
-      answer: json['Answer'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final answer = this.answer;
-    return {
-      if (answer != null) 'Answer': answer,
     };
   }
 }

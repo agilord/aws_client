@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aws_client/api_gateway_2015_07_09.dart';
+import 'package:aws_client/api_gateway.dart';
 
 void main() async {
   final apiGateway = ApiGateway(region: 'us-east-2');

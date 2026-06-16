@@ -59,8 +59,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [customerId] :
   /// An Amazon Web Services Marketplace customer identifier, when integrating
@@ -125,8 +125,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [name] :
   /// The name of the authorizer.
@@ -251,8 +251,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [domainName] :
   /// The domain name of the BasePathMapping resource to create.
@@ -266,6 +266,10 @@ class ApiGateway {
   /// across a single API. Specify '(none)' if you do not want callers to
   /// specify a base path name after the domain name.
   ///
+  /// Parameter [domainNameId] :
+  /// The identifier for the domain name resource. Required for private custom
+  /// domain names.
+  ///
   /// Parameter [stage] :
   /// The name of the API's stage that you want to use for this mapping. Specify
   /// '(none)' if you want callers to explicitly specify the stage name after
@@ -274,8 +278,12 @@ class ApiGateway {
     required String domainName,
     required String restApiId,
     String? basePath,
+    String? domainNameId,
     String? stage,
   }) async {
+    final $query = <String, List<String>>{
+      if (domainNameId != null) 'domainNameId': [domainNameId],
+    };
     final $payload = <String, dynamic>{
       'restApiId': restApiId,
       if (basePath != null) 'basePath': basePath,
@@ -286,6 +294,7 @@ class ApiGateway {
       method: 'POST',
       requestUri:
           '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return BasePathMapping.fromJson(response);
@@ -298,9 +307,9 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -335,7 +344,7 @@ class ApiGateway {
   /// A map that defines the stage variables for the Stage resource that is
   /// associated with the new deployment. Variable names can have alphanumeric
   /// and underscore characters, and the values must match
-  /// <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
+  /// <code>[A-Za-z0-9-._~:/?#&=,]+</code>.
   Future<Deployment> createDeployment({
     required String restApiId,
     bool? cacheClusterEnabled,
@@ -373,8 +382,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [location] :
   /// The location of the targeted API entity of the to-be-created documentation
@@ -412,8 +421,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [documentationVersion] :
   /// The version identifier of the new snapshot.
@@ -452,21 +461,21 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [domainName] :
   /// The name of the DomainName resource.
   ///
   /// Parameter [certificateArn] :
   /// The reference to an Amazon Web Services-managed certificate that will be
-  /// used by edge-optimized endpoint for this domain name. Certificate Manager
-  /// is the only supported source.
+  /// used by edge-optimized endpoint or private endpoint for this domain name.
+  /// Certificate Manager is the only supported source.
   ///
   /// Parameter [certificateBody] :
   /// [Deprecated] The body of the server certificate that will be used by
-  /// edge-optimized endpoint for this domain name provided by your certificate
-  /// authority.
+  /// edge-optimized endpoint or private endpoint for this domain name provided
+  /// by your certificate authority.
   ///
   /// Parameter [certificateChain] :
   /// [Deprecated] The intermediate certificates and optionally the root
@@ -479,20 +488,30 @@ class ApiGateway {
   ///
   /// Parameter [certificateName] :
   /// The user-friendly name of the certificate that will be used by
-  /// edge-optimized endpoint for this domain name.
+  /// edge-optimized endpoint or private endpoint for this domain name.
   ///
   /// Parameter [certificatePrivateKey] :
   /// [Deprecated] Your edge-optimized endpoint's domain name certificate's
   /// private key.
   ///
+  /// Parameter [endpointAccessMode] :
+  /// The endpoint access mode of the DomainName. Only available for DomainNames
+  /// that use security policies that start with <code>SecurityPolicy_</code>.
+  ///
   /// Parameter [endpointConfiguration] :
   /// The endpoint configuration of this DomainName showing the endpoint types
-  /// of the domain name.
+  /// and IP address types of the domain name.
   ///
   /// Parameter [ownershipVerificationCertificateArn] :
   /// The ARN of the public certificate issued by ACM to validate ownership of
   /// your custom domain. Only required when configuring mutual TLS and using an
   /// ACM imported or private CA certificate ARN as the regionalCertificateArn.
+  ///
+  /// Parameter [policy] :
+  /// A stringified JSON policy document that applies to the
+  /// <code>execute-api</code> service for this DomainName regardless of the
+  /// caller and Method configuration. Supported only for private custom domain
+  /// names.
   ///
   /// Parameter [regionalCertificateArn] :
   /// The reference to an Amazon Web Services-managed certificate that will be
@@ -503,10 +522,13 @@ class ApiGateway {
   /// The user-friendly name of the certificate that will be used by regional
   /// endpoint for this domain name.
   ///
+  /// Parameter [routingMode] :
+  /// The routing mode for this domain name. The routing mode determines how API
+  /// Gateway sends traffic from your custom domain name to your private APIs.
+  ///
   /// Parameter [securityPolicy] :
   /// The Transport Layer Security (TLS) version + cipher suite for this
-  /// DomainName. The valid values are <code>TLS_1_0</code> and
-  /// <code>TLS_1_2</code>.
+  /// DomainName.
   ///
   /// Parameter [tags] :
   /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
@@ -519,11 +541,14 @@ class ApiGateway {
     String? certificateChain,
     String? certificateName,
     String? certificatePrivateKey,
+    EndpointAccessMode? endpointAccessMode,
     EndpointConfiguration? endpointConfiguration,
     MutualTlsAuthenticationInput? mutualTlsAuthentication,
     String? ownershipVerificationCertificateArn,
+    String? policy,
     String? regionalCertificateArn,
     String? regionalCertificateName,
+    RoutingMode? routingMode,
     SecurityPolicy? securityPolicy,
     Map<String, String>? tags,
   }) async {
@@ -535,6 +560,8 @@ class ApiGateway {
       if (certificateName != null) 'certificateName': certificateName,
       if (certificatePrivateKey != null)
         'certificatePrivateKey': certificatePrivateKey,
+      if (endpointAccessMode != null)
+        'endpointAccessMode': endpointAccessMode.value,
       if (endpointConfiguration != null)
         'endpointConfiguration': endpointConfiguration,
       if (mutualTlsAuthentication != null)
@@ -542,10 +569,12 @@ class ApiGateway {
       if (ownershipVerificationCertificateArn != null)
         'ownershipVerificationCertificateArn':
             ownershipVerificationCertificateArn,
+      if (policy != null) 'policy': policy,
       if (regionalCertificateArn != null)
         'regionalCertificateArn': regionalCertificateArn,
       if (regionalCertificateName != null)
         'regionalCertificateName': regionalCertificateName,
+      if (routingMode != null) 'routingMode': routingMode.value,
       if (securityPolicy != null) 'securityPolicy': securityPolicy.value,
       if (tags != null) 'tags': tags,
     };
@@ -558,14 +587,58 @@ class ApiGateway {
     return DomainName.fromJson(response);
   }
 
+  /// Creates a domain name access association resource between an access
+  /// association source and a private custom domain name.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [accessAssociationSource] :
+  /// The identifier of the domain name access association source. For a VPCE,
+  /// the value is the VPC endpoint ID.
+  ///
+  /// Parameter [accessAssociationSourceType] :
+  /// The type of the domain name access association source.
+  ///
+  /// Parameter [domainNameArn] :
+  /// The ARN of the domain name.
+  ///
+  /// Parameter [tags] :
+  /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
+  /// The tag key can be up to 128 characters and must not start with
+  /// <code>aws:</code>. The tag value can be up to 256 characters.
+  Future<DomainNameAccessAssociation> createDomainNameAccessAssociation({
+    required String accessAssociationSource,
+    required AccessAssociationSourceType accessAssociationSourceType,
+    required String domainNameArn,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'accessAssociationSource': accessAssociationSource,
+      'accessAssociationSourceType': accessAssociationSourceType.value,
+      'domainNameArn': domainNameArn,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/domainnameaccessassociations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DomainNameAccessAssociation.fromJson(response);
+  }
+
   /// Adds a new Model resource to an existing RestApi resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [contentType] :
   /// The content-type for the model.
@@ -611,8 +684,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -653,12 +726,12 @@ class ApiGateway {
 
   /// Creates a Resource resource.
   ///
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [parentId] :
   /// The parent resource's identifier.
@@ -691,8 +764,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [name] :
   /// The name of the RestApi.
@@ -722,9 +795,13 @@ class ApiGateway {
   /// To require that clients use a custom domain name to invoke your API,
   /// disable the default endpoint
   ///
+  /// Parameter [endpointAccessMode] :
+  /// The endpoint access mode of the RestApi. Only available for RestApis that
+  /// use security policies that start with <code>SecurityPolicy_</code>.
+  ///
   /// Parameter [endpointConfiguration] :
-  /// The endpoint configuration of this RestApi showing the endpoint types of
-  /// the API.
+  /// The endpoint configuration of this RestApi showing the endpoint types and
+  /// IP address types of the API.
   ///
   /// Parameter [minimumCompressionSize] :
   /// A nullable integer that is used to enable compression (with non-negative
@@ -737,6 +814,10 @@ class ApiGateway {
   /// Parameter [policy] :
   /// A stringified JSON policy document that applies to this RestApi regardless
   /// of the caller and Method configuration.
+  ///
+  /// Parameter [securityPolicy] :
+  /// The Transport Layer Security (TLS) version + cipher suite for this
+  /// RestApi.
   ///
   /// Parameter [tags] :
   /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/].
@@ -752,9 +833,11 @@ class ApiGateway {
     String? cloneFrom,
     String? description,
     bool? disableExecuteApiEndpoint,
+    EndpointAccessMode? endpointAccessMode,
     EndpointConfiguration? endpointConfiguration,
     int? minimumCompressionSize,
     String? policy,
+    SecurityPolicy? securityPolicy,
     Map<String, String>? tags,
     String? version,
   }) async {
@@ -766,11 +849,14 @@ class ApiGateway {
       if (description != null) 'description': description,
       if (disableExecuteApiEndpoint != null)
         'disableExecuteApiEndpoint': disableExecuteApiEndpoint,
+      if (endpointAccessMode != null)
+        'endpointAccessMode': endpointAccessMode.value,
       if (endpointConfiguration != null)
         'endpointConfiguration': endpointConfiguration,
       if (minimumCompressionSize != null)
         'minimumCompressionSize': minimumCompressionSize,
       if (policy != null) 'policy': policy,
+      if (securityPolicy != null) 'securityPolicy': securityPolicy.value,
       if (tags != null) 'tags': tags,
       if (version != null) 'version': version,
     };
@@ -786,12 +872,12 @@ class ApiGateway {
   /// Creates a new Stage resource that references a pre-existing Deployment for
   /// the API.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [BadRequestException].
-  /// May throw [NotFoundException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [deploymentId] :
   /// The identifier of the Deployment resource for the Stage resource.
@@ -832,7 +918,7 @@ class ApiGateway {
   /// Parameter [variables] :
   /// A map that defines the stage variables for the new Stage resource.
   /// Variable names can have alphanumeric and underscore characters, and the
-  /// values must match <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
+  /// values must match <code>[A-Za-z0-9-._~:/?#&=,]+</code>.
   Future<Stage> createStage({
     required String deploymentId,
     required String restApiId,
@@ -876,8 +962,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [name] :
   /// The name of the usage plan.
@@ -929,8 +1015,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [keyId] :
   /// The identifier of a UsagePlanKey resource for a plan customer.
@@ -967,8 +1053,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [name] :
   /// The name used to label and identify the VPC link.
@@ -1011,8 +1097,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [apiKey] :
   /// The identifier of the ApiKey resource to be deleted.
@@ -1032,8 +1118,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [authorizerId] :
   /// The identifier of the Authorizer resource.
@@ -1058,8 +1144,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [basePath] :
   /// The base path name of the BasePathMapping resource to delete.
@@ -1069,15 +1155,24 @@ class ApiGateway {
   ///
   /// Parameter [domainName] :
   /// The domain name of the BasePathMapping resource to delete.
+  ///
+  /// Parameter [domainNameId] :
+  /// The identifier for the domain name resource. Supported only for private
+  /// custom domain names.
   Future<void> deleteBasePathMapping({
     required String basePath,
     required String domainName,
+    String? domainNameId,
   }) async {
+    final $query = <String, List<String>>{
+      if (domainNameId != null) 'domainNameId': [domainNameId],
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings/${Uri.encodeComponent(basePath)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1087,8 +1182,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [clientCertificateId] :
   /// The identifier of the ClientCertificate resource to be deleted.
@@ -1111,8 +1206,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [deploymentId] :
   /// The identifier of the Deployment resource to delete.
@@ -1137,8 +1232,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [documentationPartId] :
   /// The identifier of the to-be-deleted documentation part.
@@ -1163,8 +1258,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [documentationVersion] :
   /// The version identifier of a to-be-deleted documentation snapshot.
@@ -1189,18 +1284,54 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [domainName] :
   /// The name of the DomainName resource to be deleted.
+  ///
+  /// Parameter [domainNameId] :
+  /// The identifier for the domain name resource. Supported only for private
+  /// custom domain names.
   Future<void> deleteDomainName({
     required String domainName,
+    String? domainNameId,
   }) async {
+    final $query = <String, List<String>>{
+      if (domainNameId != null) 'domainNameId': [domainNameId],
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/domainnames/${Uri.encodeComponent(domainName)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the DomainNameAccessAssociation resource.
+  ///
+  /// Only the AWS account that created the DomainNameAccessAssociation resource
+  /// can delete it. To stop an access association source in another AWS account
+  /// from accessing your private custom domain name, use the
+  /// RejectDomainNameAccessAssociation operation.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainNameAccessAssociationArn] :
+  /// The ARN of the domain name access association resource.
+  Future<void> deleteDomainNameAccessAssociation({
+    required String domainNameAccessAssociationArn,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/domainnameaccessassociations/${Uri.encodeComponent(domainNameAccessAssociationArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1211,8 +1342,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [responseType] :
   /// The response type of the associated GatewayResponse.
@@ -1237,8 +1368,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies a delete integration request's HTTP method.
@@ -1267,8 +1398,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies a delete integration response request's HTTP method.
@@ -1298,10 +1429,10 @@ class ApiGateway {
 
   /// Deletes an existing Method resource.
   ///
-  /// May throw [UnauthorizedException].
+  /// May throw [ConflictException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [ConflictException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// The HTTP verb of the Method resource.
@@ -1327,11 +1458,11 @@ class ApiGateway {
 
   /// Deletes an existing MethodResponse resource.
   ///
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// The HTTP verb of the Method resource.
@@ -1364,8 +1495,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [modelName] :
   /// The name of the model to delete.
@@ -1390,8 +1521,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [requestValidatorId] :
   /// The identifier of the RequestValidator to be deleted.
@@ -1413,11 +1544,11 @@ class ApiGateway {
 
   /// Deletes a Resource resource.
   ///
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
+  /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceId] :
   /// The identifier of the Resource resource.
@@ -1442,8 +1573,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -1464,8 +1595,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -1490,8 +1621,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [usagePlanId] :
   /// The Id of the to-be-deleted usage plan.
@@ -1512,8 +1643,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [keyId] :
   /// The Id of the UsagePlanKey resource to be deleted.
@@ -1539,8 +1670,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [vpcLinkId] :
   /// The identifier of the VpcLink. It is used in an Integration to reference
@@ -1562,8 +1693,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -1589,8 +1720,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -1615,8 +1746,8 @@ class ApiGateway {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [description] :
   /// The description of the ClientCertificate.
@@ -1646,8 +1777,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   Future<Account> getAccount() async {
     final response = await _protocol.send(
       payload: null,
@@ -1662,8 +1793,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [apiKey] :
   /// The identifier of the ApiKey resource.
@@ -1692,8 +1823,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [customerId] :
   /// The identifier of a customer in Amazon Web Services Marketplace or an
@@ -1740,8 +1871,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [authorizerId] :
   /// The identifier of the Authorizer resource.
@@ -1766,8 +1897,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -1801,8 +1932,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [basePath] :
   /// The base path name that callers of the API must provide as part of the URL
@@ -1812,15 +1943,24 @@ class ApiGateway {
   ///
   /// Parameter [domainName] :
   /// The domain name of the BasePathMapping resource to be described.
+  ///
+  /// Parameter [domainNameId] :
+  /// The identifier for the domain name resource. Supported only for private
+  /// custom domain names.
   Future<BasePathMapping> getBasePathMapping({
     required String basePath,
     required String domainName,
+    String? domainNameId,
   }) async {
+    final $query = <String, List<String>>{
+      if (domainNameId != null) 'domainNameId': [domainNameId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings/${Uri.encodeComponent(basePath)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return BasePathMapping.fromJson(response);
@@ -1830,11 +1970,15 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [domainName] :
   /// The domain name of a BasePathMapping resource.
+  ///
+  /// Parameter [domainNameId] :
+  /// The identifier for the domain name resource. Supported only for private
+  /// custom domain names.
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -1844,10 +1988,12 @@ class ApiGateway {
   /// The current pagination position in the paged result set.
   Future<BasePathMappings> getBasePathMappings({
     required String domainName,
+    String? domainNameId,
     int? limit,
     String? position,
   }) async {
     final $query = <String, List<String>>{
+      if (domainNameId != null) 'domainNameId': [domainNameId],
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
     };
@@ -1866,8 +2012,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [clientCertificateId] :
   /// The identifier of the ClientCertificate resource to be described.
@@ -1888,8 +2034,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -1919,9 +2065,9 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [deploymentId] :
   /// The identifier of the Deployment resource to get information about.
@@ -1964,9 +2110,9 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2000,8 +2146,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [documentationPartId] :
   /// The string identifier of the associated RestApi.
@@ -2026,8 +2172,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2083,9 +2229,9 @@ class ApiGateway {
 
   /// Gets a documentation version.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [documentationVersion] :
   /// The version identifier of the to-be-retrieved documentation snapshot.
@@ -2109,9 +2255,9 @@ class ApiGateway {
   /// Gets documentation versions.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2147,29 +2293,38 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [domainName] :
   /// The name of the DomainName resource.
+  ///
+  /// Parameter [domainNameId] :
+  /// The identifier for the domain name resource. Required for private custom
+  /// domain names.
   Future<DomainName> getDomainName({
     required String domainName,
+    String? domainNameId,
   }) async {
+    final $query = <String, List<String>>{
+      if (domainNameId != null) 'domainNameId': [domainNameId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/domainnames/${Uri.encodeComponent(domainName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DomainName.fromJson(response);
   }
 
-  /// Represents a collection of DomainName resources.
+  /// Represents a collection on DomainNameAccessAssociations resources.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2177,13 +2332,58 @@ class ApiGateway {
   ///
   /// Parameter [position] :
   /// The current pagination position in the paged result set.
-  Future<DomainNames> getDomainNames({
+  ///
+  /// Parameter [resourceOwner] :
+  /// The owner of the domain name access association. Use <code>SELF</code> to
+  /// only list the domain name access associations owned by your own account.
+  /// Use <code>OTHER_ACCOUNTS</code> to list the domain name access
+  /// associations with your private custom domain names that are owned by other
+  /// AWS accounts.
+  Future<DomainNameAccessAssociations> getDomainNameAccessAssociations({
     int? limit,
     String? position,
+    ResourceOwner? resourceOwner,
   }) async {
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (position != null) 'position': [position],
+      if (resourceOwner != null) 'resourceOwner': [resourceOwner.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/domainnameaccessassociations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DomainNameAccessAssociations.fromJson(response);
+  }
+
+  /// Represents a collection of DomainName resources.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of returned results per page. The default value is 25
+  /// and the maximum value is 500.
+  ///
+  /// Parameter [position] :
+  /// The current pagination position in the paged result set.
+  ///
+  /// Parameter [resourceOwner] :
+  /// The owner of the domain name access association.
+  Future<DomainNames> getDomainNames({
+    int? limit,
+    String? position,
+    ResourceOwner? resourceOwner,
+  }) async {
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+      if (resourceOwner != null) 'resourceOwner': [resourceOwner.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2201,8 +2401,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [exportType] :
   /// The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and
@@ -2243,16 +2443,11 @@ class ApiGateway {
     final headers = <String, String>{
       if (accepts != null) 'Accept': accepts.toString(),
     };
-    final $query = <String, List<String>>{
-      if (parameters != null)
-        for (var e in parameters.entries) e.key: [e.value],
-    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}/exports/${Uri.encodeComponent(exportType)}',
-      queryParams: $query,
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -2269,8 +2464,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [responseType] :
   /// The response type of the associated GatewayResponse.
@@ -2298,8 +2493,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2337,8 +2532,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies a get integration request's HTTP method.
@@ -2367,8 +2562,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies a get integration response request's HTTP method.
@@ -2399,9 +2594,9 @@ class ApiGateway {
 
   /// Describe an existing Method resource.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies the method request's HTTP method type.
@@ -2428,9 +2623,9 @@ class ApiGateway {
 
   /// Describes a MethodResponse resource.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// The HTTP verb of the Method resource.
@@ -2463,8 +2658,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [modelName] :
   /// The name of the model as an identifier.
@@ -2495,39 +2690,12 @@ class ApiGateway {
     return Model.fromJson(response);
   }
 
-  /// Generates a sample mapping template that can be used to transform a
-  /// payload into the structure of a model.
-  ///
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
-  /// May throw [BadRequestException].
-  /// May throw [TooManyRequestsException].
-  ///
-  /// Parameter [modelName] :
-  /// The name of the model for which to generate a template.
-  ///
-  /// Parameter [restApiId] :
-  /// The string identifier of the associated RestApi.
-  Future<Template> getModelTemplate({
-    required String modelName,
-    required String restApiId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId)}/models/${Uri.encodeComponent(modelName)}/default_template',
-      exceptionFnMap: _exceptionFns,
-    );
-    return Template.fromJson(response);
-  }
-
   /// Describes existing Models defined for a RestApi resource.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2557,12 +2725,39 @@ class ApiGateway {
     return Models.fromJson(response);
   }
 
+  /// Generates a sample mapping template that can be used to transform a
+  /// payload into the structure of a model.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [modelName] :
+  /// The name of the model for which to generate a template.
+  ///
+  /// Parameter [restApiId] :
+  /// The string identifier of the associated RestApi.
+  Future<Template> getModelTemplate({
+    required String modelName,
+    required String restApiId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/restapis/${Uri.encodeComponent(restApiId)}/models/${Uri.encodeComponent(modelName)}/default_template',
+      exceptionFnMap: _exceptionFns,
+    );
+    return Template.fromJson(response);
+  }
+
   /// Gets a RequestValidator of a given RestApi.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [requestValidatorId] :
   /// The identifier of the RequestValidator to be retrieved.
@@ -2587,8 +2782,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2621,9 +2816,9 @@ class ApiGateway {
 
   /// Lists information about a resource.
   ///
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceId] :
   /// The identifier for the Resource resource.
@@ -2661,9 +2856,9 @@ class ApiGateway {
   /// Lists information about a collection of Resource resources.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2708,8 +2903,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2729,8 +2924,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2762,8 +2957,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2793,16 +2988,11 @@ class ApiGateway {
     required String stageName,
     Map<String, String>? parameters,
   }) async {
-    final $query = <String, List<String>>{
-      if (parameters != null)
-        for (var e in parameters.entries) e.key: [e.value],
-    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}/sdks/${Uri.encodeComponent(sdkType)}',
-      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return SdkResponse(
@@ -2818,8 +3008,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [id] :
   /// The identifier of the queried SdkType instance.
@@ -2839,8 +3029,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -2872,8 +3062,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2900,8 +3090,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -2929,8 +3119,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of a resource that can be tagged.
@@ -2964,9 +3154,9 @@ class ApiGateway {
   /// Gets the usage data of a usage plan in a specified time interval.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [endDate] :
   /// The ending date (e.g., 2016-12-31) of the usage data.
@@ -3015,8 +3205,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [usagePlanId] :
   /// The identifier of the UsagePlan resource to be retrieved.
@@ -3036,8 +3226,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [keyId] :
   /// The key Id of the to-be-retrieved UsagePlanKey resource representing a
@@ -3065,8 +3255,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [usagePlanId] :
   /// The Id of the UsagePlan resource representing the usage plan containing
@@ -3107,8 +3297,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [keyId] :
   /// The identifier of the API key associated with the usage plans.
@@ -3143,8 +3333,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [vpcLinkId] :
   /// The identifier of the VpcLink. It is used in an Integration to reference
@@ -3166,8 +3356,8 @@ class ApiGateway {
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [limit] :
   /// The maximum number of returned results per page. The default value is 25
@@ -3199,8 +3389,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [body] :
   /// The payload of the POST request to import API keys. For the payload
@@ -3238,8 +3428,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [body] :
   /// Raw byte array representing the to-be-imported documentation parts. To
@@ -3286,8 +3476,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [body] :
   /// The POST request body containing external API definitions. Currently, only
@@ -3323,8 +3513,6 @@ class ApiGateway {
   }) async {
     final $query = <String, List<String>>{
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
-      if (parameters != null)
-        for (var e in parameters.entries) e.key: [e.value],
     };
     final response = await _protocol.send(
       payload: body,
@@ -3343,8 +3531,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [responseType] :
   /// The response type of the associated GatewayResponse
@@ -3390,8 +3578,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies the HTTP method for the integration.
@@ -3443,6 +3631,9 @@ class ApiGateway {
   /// Parameter [integrationHttpMethod] :
   /// The HTTP method for the integration.
   ///
+  /// Parameter [integrationTarget] :
+  /// The ALB or NLB listener to send the request to.
+  ///
   /// Parameter [passthroughBehavior] :
   /// Specifies the pass-through behavior for incoming requests based on the
   /// Content-Type header in the request, and the available mapping templates
@@ -3468,9 +3659,13 @@ class ApiGateway {
   /// The content type value is the key in this map, and the template (as a
   /// String) is the value.
   ///
+  /// Parameter [responseTransferMode] :
+  /// The response transfer mode of the integration.
+  ///
   /// Parameter [timeoutInMillis] :
   /// Custom timeout between 50 and 29,000 milliseconds. The default value is
-  /// 29,000 milliseconds or 29 seconds.
+  /// 29,000 milliseconds or 29 seconds. You can increase the default value to
+  /// longer than 29 seconds for Regional or private APIs only.
   ///
   /// Parameter [uri] :
   /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.
@@ -3487,15 +3682,15 @@ class ApiGateway {
   /// {subdomain} is a designated subdomain supported by certain Amazon Web
   /// Services service for fast host-name lookup. action can be used for an
   /// Amazon Web Services service action-based API, using an
-  /// Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing
-  /// {service_api} refers to a supported action {name} plus any required input
-  /// parameters. Alternatively, path can be used for an Amazon Web Services
-  /// service path-based API. The ensuing service_api refers to the path to an
-  /// Amazon Web Services service resource, including the region of the
-  /// integrated Amazon Web Services service, if applicable. For example, for
-  /// integration with the S3 API of <code>GetObject</code>, the
-  /// <code>uri</code> can be either
-  /// <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}</code>
+  /// Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api}
+  /// refers to a supported action {name} plus any required input parameters.
+  /// Alternatively, path can be used for an Amazon Web Services service
+  /// path-based API. The ensuing service_api refers to the path to an Amazon
+  /// Web Services service resource, including the region of the integrated
+  /// Amazon Web Services service, if applicable. For example, for integration
+  /// with the S3 API of <code>GetObject</code>, the <code>uri</code> can be
+  /// either
+  /// <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key}</code>
   /// or <code>arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}</code>.
   Future<Integration> putIntegration({
     required String httpMethod,
@@ -3509,9 +3704,11 @@ class ApiGateway {
     ContentHandlingStrategy? contentHandling,
     String? credentials,
     String? integrationHttpMethod,
+    String? integrationTarget,
     String? passthroughBehavior,
     Map<String, String>? requestParameters,
     Map<String, String>? requestTemplates,
+    ResponseTransferMode? responseTransferMode,
     int? timeoutInMillis,
     TlsConfig? tlsConfig,
     String? uri,
@@ -3525,10 +3722,13 @@ class ApiGateway {
       if (contentHandling != null) 'contentHandling': contentHandling.value,
       if (credentials != null) 'credentials': credentials,
       if (integrationHttpMethod != null) 'httpMethod': integrationHttpMethod,
+      if (integrationTarget != null) 'integrationTarget': integrationTarget,
       if (passthroughBehavior != null)
         'passthroughBehavior': passthroughBehavior,
       if (requestParameters != null) 'requestParameters': requestParameters,
       if (requestTemplates != null) 'requestTemplates': requestTemplates,
+      if (responseTransferMode != null)
+        'responseTransferMode': responseTransferMode.value,
       if (timeoutInMillis != null) 'timeoutInMillis': timeoutInMillis,
       if (tlsConfig != null) 'tlsConfig': tlsConfig,
       if (uri != null) 'uri': uri,
@@ -3549,8 +3749,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies a put integration response request's HTTP method.
@@ -3623,11 +3823,11 @@ class ApiGateway {
   /// Add a method to an existing Resource resource.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [authorizationType] :
   /// The method's authorization type. Valid values are <code>NONE</code> for
@@ -3722,12 +3922,12 @@ class ApiGateway {
 
   /// Adds a MethodResponse to an existing Method resource.
   ///
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// The HTTP verb of the Method resource.
@@ -3793,8 +3993,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [body] :
   /// The PUT request body containing external API definitions. Currently, only
@@ -3831,8 +4031,6 @@ class ApiGateway {
     final $query = <String, List<String>>{
       if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
       if (mode != null) 'mode': [mode.value],
-      if (parameters != null)
-        for (var e in parameters.entries) e.key: [e.value],
     };
     final response = await _protocol.send(
       payload: body,
@@ -3844,14 +4042,50 @@ class ApiGateway {
     return RestApi.fromJson(response);
   }
 
+  /// Rejects a domain name access association with a private custom domain
+  /// name.
+  ///
+  /// To reject a domain name access association with an access association
+  /// source in another AWS account, use this operation. To remove a domain name
+  /// access association with an access association source in your own account,
+  /// use the DeleteDomainNameAccessAssociation operation.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [domainNameAccessAssociationArn] :
+  /// The ARN of the domain name access association resource.
+  ///
+  /// Parameter [domainNameArn] :
+  /// The ARN of the domain name.
+  Future<void> rejectDomainNameAccessAssociation({
+    required String domainNameAccessAssociationArn,
+    required String domainNameArn,
+  }) async {
+    final $query = <String, List<String>>{
+      'domainNameAccessAssociationArn': [domainNameAccessAssociationArn],
+      'domainNameArn': [domainNameArn],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri: '/rejectdomainnameaccessassociations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Adds or updates a tag on a given resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of a resource that can be tagged.
@@ -3879,9 +4113,9 @@ class ApiGateway {
   /// parameters, and an incoming request body.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [authorizerId] :
   /// Specifies a test invoke authorizer request's Authorizer ID.
@@ -3945,9 +4179,9 @@ class ApiGateway {
   /// parameters, and an incoming request body.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies a test invoke method request's HTTP method.
@@ -4017,8 +4251,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of a resource that can be tagged.
@@ -4047,8 +4281,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [patchOperations] :
   /// For more information about supported patch operations, see <a
@@ -4075,8 +4309,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [apiKey] :
   /// The identifier of the ApiKey resource to be updated.
@@ -4107,8 +4341,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [authorizerId] :
   /// The identifier of the Authorizer resource.
@@ -4144,8 +4378,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [basePath] :
   /// The base path of the BasePathMapping resource to change.
@@ -4156,6 +4390,10 @@ class ApiGateway {
   /// Parameter [domainName] :
   /// The domain name of the BasePathMapping resource to change.
   ///
+  /// Parameter [domainNameId] :
+  /// The identifier for the domain name resource. Supported only for private
+  /// custom domain names.
+  ///
   /// Parameter [patchOperations] :
   /// For more information about supported patch operations, see <a
   /// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
@@ -4163,8 +4401,12 @@ class ApiGateway {
   Future<BasePathMapping> updateBasePathMapping({
     required String basePath,
     required String domainName,
+    String? domainNameId,
     List<PatchOperation>? patchOperations,
   }) async {
+    final $query = <String, List<String>>{
+      if (domainNameId != null) 'domainNameId': [domainNameId],
+    };
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4173,6 +4415,7 @@ class ApiGateway {
       method: 'PATCH',
       requestUri:
           '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings/${Uri.encodeComponent(basePath)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return BasePathMapping.fromJson(response);
@@ -4184,8 +4427,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [clientCertificateId] :
   /// The identifier of the ClientCertificate resource to be updated.
@@ -4217,9 +4460,9 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [deploymentId] :
   /// The replacement identifier for the Deployment resource to change
@@ -4256,8 +4499,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [documentationPartId] :
   /// The identifier of the to-be-updated documentation part.
@@ -4293,8 +4536,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [documentationVersion] :
   /// The version identifier of the to-be-updated documentation version.
@@ -4330,11 +4573,15 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [domainName] :
   /// The name of the DomainName resource to be changed.
+  ///
+  /// Parameter [domainNameId] :
+  /// The identifier for the domain name resource. Supported only for private
+  /// custom domain names.
   ///
   /// Parameter [patchOperations] :
   /// For more information about supported patch operations, see <a
@@ -4342,8 +4589,12 @@ class ApiGateway {
   /// Operations</a>.
   Future<DomainName> updateDomainName({
     required String domainName,
+    String? domainNameId,
     List<PatchOperation>? patchOperations,
   }) async {
+    final $query = <String, List<String>>{
+      if (domainNameId != null) 'domainNameId': [domainNameId],
+    };
     final $payload = <String, dynamic>{
       if (patchOperations != null) 'patchOperations': patchOperations,
     };
@@ -4351,6 +4602,7 @@ class ApiGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/domainnames/${Uri.encodeComponent(domainName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DomainName.fromJson(response);
@@ -4363,8 +4615,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [responseType] :
   /// The response type of the associated GatewayResponse.
@@ -4400,8 +4652,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Represents an update integration request's HTTP method.
@@ -4441,8 +4693,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// Specifies an update integration response request's HTTP method.
@@ -4482,11 +4734,11 @@ class ApiGateway {
 
   /// Updates an existing Method resource.
   ///
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
+  /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// The HTTP verb of the Method resource.
@@ -4522,12 +4774,12 @@ class ApiGateway {
 
   /// Updates an existing MethodResponse resource.
   ///
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
-  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [httpMethod] :
   /// The HTTP verb of the Method resource.
@@ -4572,8 +4824,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [modelName] :
   /// The name of the model to update.
@@ -4609,8 +4861,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [requestValidatorId] :
   /// The identifier of RequestValidator to be updated.
@@ -4642,11 +4894,11 @@ class ApiGateway {
 
   /// Changes information about a Resource resource.
   ///
-  /// May throw [UnauthorizedException].
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceId] :
   /// The identifier of the Resource resource.
@@ -4682,8 +4934,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -4714,8 +4966,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [restApiId] :
   /// The string identifier of the associated RestApi.
@@ -4752,8 +5004,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [keyId] :
   /// The identifier of the API key associated with the usage plan in which a
@@ -4790,8 +5042,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [usagePlanId] :
   /// The Id of the to-be-updated usage plan.
@@ -4822,8 +5074,8 @@ class ApiGateway {
   /// May throw [ConflictException].
   /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [vpcLinkId] :
   /// The identifier of the VpcLink. It is used in an Integration to reference
@@ -4847,93 +5099,6 @@ class ApiGateway {
       exceptionFnMap: _exceptionFns,
     );
     return VpcLink.fromJson(response);
-  }
-}
-
-/// Access log settings, including the access log format and access log
-/// destination ARN.
-class AccessLogSettings {
-  /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or Kinesis
-  /// Data Firehose delivery stream to receive access logs. If you specify a
-  /// Kinesis Data Firehose delivery stream, the stream name must begin with
-  /// <code>amazon-apigateway-</code>.
-  final String? destinationArn;
-
-  /// A single line format of the access logs of data, as specified by selected
-  /// $context variables. The format must include at least
-  /// <code>$context.requestId</code>.
-  final String? format;
-
-  AccessLogSettings({
-    this.destinationArn,
-    this.format,
-  });
-
-  factory AccessLogSettings.fromJson(Map<String, dynamic> json) {
-    return AccessLogSettings(
-      destinationArn: json['destinationArn'] as String?,
-      format: json['format'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationArn = this.destinationArn;
-    final format = this.format;
-    return {
-      if (destinationArn != null) 'destinationArn': destinationArn,
-      if (format != null) 'format': format,
-    };
-  }
-}
-
-/// Represents an AWS account that is associated with API Gateway.
-class Account {
-  /// The version of the API keys used for the account.
-  final String? apiKeyVersion;
-
-  /// The ARN of an Amazon CloudWatch role for the current Account.
-  final String? cloudwatchRoleArn;
-
-  /// A list of features supported for the account. When usage plans are enabled,
-  /// the features list will include an entry of <code>"UsagePlans"</code>.
-  final List<String>? features;
-
-  /// Specifies the API request limits configured for the current Account.
-  final ThrottleSettings? throttleSettings;
-
-  Account({
-    this.apiKeyVersion,
-    this.cloudwatchRoleArn,
-    this.features,
-    this.throttleSettings,
-  });
-
-  factory Account.fromJson(Map<String, dynamic> json) {
-    return Account(
-      apiKeyVersion: json['apiKeyVersion'] as String?,
-      cloudwatchRoleArn: json['cloudwatchRoleArn'] as String?,
-      features: (json['features'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      throttleSettings: json['throttleSettings'] != null
-          ? ThrottleSettings.fromJson(
-              json['throttleSettings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiKeyVersion = this.apiKeyVersion;
-    final cloudwatchRoleArn = this.cloudwatchRoleArn;
-    final features = this.features;
-    final throttleSettings = this.throttleSettings;
-    return {
-      if (apiKeyVersion != null) 'apiKeyVersion': apiKeyVersion,
-      if (cloudwatchRoleArn != null) 'cloudwatchRoleArn': cloudwatchRoleArn,
-      if (features != null) 'features': features,
-      if (throttleSettings != null) 'throttleSettings': throttleSettings,
-    };
   }
 }
 
@@ -5029,167 +5194,6 @@ class ApiKey {
       if (stageKeys != null) 'stageKeys': stageKeys,
       if (tags != null) 'tags': tags,
       if (value != null) 'value': value,
-    };
-  }
-}
-
-/// The identifier of an ApiKey used in a UsagePlan.
-class ApiKeyIds {
-  /// A list of all the ApiKey identifiers.
-  final List<String>? ids;
-
-  /// A list of warning messages.
-  final List<String>? warnings;
-
-  ApiKeyIds({
-    this.ids,
-    this.warnings,
-  });
-
-  factory ApiKeyIds.fromJson(Map<String, dynamic> json) {
-    return ApiKeyIds(
-      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      warnings: (json['warnings'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ids = this.ids;
-    final warnings = this.warnings;
-    return {
-      if (ids != null) 'ids': ids,
-      if (warnings != null) 'warnings': warnings,
-    };
-  }
-}
-
-class ApiKeySourceType {
-  static const header = ApiKeySourceType._('HEADER');
-  static const authorizer = ApiKeySourceType._('AUTHORIZER');
-
-  final String value;
-
-  const ApiKeySourceType._(this.value);
-
-  static const values = [header, authorizer];
-
-  static ApiKeySourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApiKeySourceType._(value));
-
-  @override
-  bool operator ==(other) => other is ApiKeySourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a collection of API keys as represented by an ApiKeys resource.
-class ApiKeys {
-  /// The current page of elements from this collection.
-  final List<ApiKey>? items;
-  final String? position;
-
-  /// A list of warning messages logged during the import of API keys when the
-  /// <code>failOnWarnings</code> option is set to true.
-  final List<String>? warnings;
-
-  ApiKeys({
-    this.items,
-    this.position,
-    this.warnings,
-  });
-
-  factory ApiKeys.fromJson(Map<String, dynamic> json) {
-    return ApiKeys(
-      items: (json['item'] as List?)
-          ?.nonNulls
-          .map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      position: json['position'] as String?,
-      warnings: (json['warnings'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final position = this.position;
-    final warnings = this.warnings;
-    return {
-      if (items != null) 'item': items,
-      if (position != null) 'position': position,
-      if (warnings != null) 'warnings': warnings,
-    };
-  }
-}
-
-class ApiKeysFormat {
-  static const csv = ApiKeysFormat._('csv');
-
-  final String value;
-
-  const ApiKeysFormat._(this.value);
-
-  static const values = [csv];
-
-  static ApiKeysFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApiKeysFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ApiKeysFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// API stage name of the associated API stage in a usage plan.
-class ApiStage {
-  /// API Id of the associated API stage in a usage plan.
-  final String? apiId;
-
-  /// API stage name of the associated API stage in a usage plan.
-  final String? stage;
-
-  /// Map containing method level throttling information for API stage in a usage
-  /// plan.
-  final Map<String, ThrottleSettings>? throttle;
-
-  ApiStage({
-    this.apiId,
-    this.stage,
-    this.throttle,
-  });
-
-  factory ApiStage.fromJson(Map<String, dynamic> json) {
-    return ApiStage(
-      apiId: json['apiId'] as String?,
-      stage: json['stage'] as String?,
-      throttle: (json['throttle'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ThrottleSettings.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiId = this.apiId;
-    final stage = this.stage;
-    final throttle = this.throttle;
-    return {
-      if (apiId != null) 'apiId': apiId,
-      if (stage != null) 'stage': stage,
-      if (throttle != null) 'throttle': throttle,
     };
   }
 }
@@ -5340,67 +5344,6 @@ class Authorizer {
   }
 }
 
-/// The authorizer type. Valid values are <code>TOKEN</code> for a Lambda
-/// function using a single authorization token submitted in a custom header,
-/// <code>REQUEST</code> for a Lambda function using incoming request
-/// parameters, and <code>COGNITO_USER_POOLS</code> for using an Amazon Cognito
-/// user pool.
-class AuthorizerType {
-  static const token = AuthorizerType._('TOKEN');
-  static const request = AuthorizerType._('REQUEST');
-  static const cognitoUserPools = AuthorizerType._('COGNITO_USER_POOLS');
-
-  final String value;
-
-  const AuthorizerType._(this.value);
-
-  static const values = [token, request, cognitoUserPools];
-
-  static AuthorizerType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthorizerType._(value));
-
-  @override
-  bool operator ==(other) => other is AuthorizerType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a collection of Authorizer resources.
-class Authorizers {
-  /// The current page of elements from this collection.
-  final List<Authorizer>? items;
-  final String? position;
-
-  Authorizers({
-    this.items,
-    this.position,
-  });
-
-  factory Authorizers.fromJson(Map<String, dynamic> json) {
-    return Authorizers(
-      items: (json['item'] as List?)
-          ?.nonNulls
-          .map((e) => Authorizer.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      position: json['position'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final position = this.position;
-    return {
-      if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
 /// Represents the base path that callers of the API must provide as part of the
 /// URL after the domain name.
 class BasePathMapping {
@@ -5440,150 +5383,1164 @@ class BasePathMapping {
   }
 }
 
-/// Represents a collection of BasePathMapping resources.
-class BasePathMappings {
-  /// The current page of elements from this collection.
-  final List<BasePathMapping>? items;
-  final String? position;
+/// An immutable representation of a RestApi resource that can be called by
+/// users using Stages. A deployment must be associated with a Stage for it to
+/// be callable over the Internet.
+class Deployment {
+  /// A summary of the RestApi at the date and time that the deployment resource
+  /// was created.
+  final Map<String, Map<String, MethodSnapshot>>? apiSummary;
 
-  BasePathMappings({
-    this.items,
-    this.position,
+  /// The date and time that the deployment resource was created.
+  final DateTime? createdDate;
+
+  /// The description for the deployment resource.
+  final String? description;
+
+  /// The identifier for the deployment resource.
+  final String? id;
+
+  Deployment({
+    this.apiSummary,
+    this.createdDate,
+    this.description,
+    this.id,
   });
 
-  factory BasePathMappings.fromJson(Map<String, dynamic> json) {
-    return BasePathMappings(
-      items: (json['item'] as List?)
-          ?.nonNulls
-          .map((e) => BasePathMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      position: json['position'] as String?,
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      apiSummary: (json['apiSummary'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k,
+              (e as Map<String, dynamic>).map((k, e) => MapEntry(
+                  k, MethodSnapshot.fromJson(e as Map<String, dynamic>))))),
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final items = this.items;
-    final position = this.position;
+    final apiSummary = this.apiSummary;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final id = this.id;
     return {
-      if (items != null) 'item': items,
-      if (position != null) 'position': position,
+      if (apiSummary != null) 'apiSummary': apiSummary,
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
     };
   }
 }
 
-/// Returns the size of the CacheCluster.
-class CacheClusterSize {
-  static const $0_5 = CacheClusterSize._('0.5');
-  static const $1_6 = CacheClusterSize._('1.6');
-  static const $6_1 = CacheClusterSize._('6.1');
-  static const $13_5 = CacheClusterSize._('13.5');
-  static const $28_4 = CacheClusterSize._('28.4');
-  static const $58_2 = CacheClusterSize._('58.2');
-  static const $118 = CacheClusterSize._('118');
-  static const $237 = CacheClusterSize._('237');
+/// A documentation part for a targeted API entity.
+class DocumentationPart {
+  /// The DocumentationPart identifier, generated by API Gateway when the
+  /// <code>DocumentationPart</code> is created.
+  final String? id;
 
-  final String value;
+  /// The location of the API entity to which the documentation applies. Valid
+  /// fields depend on the targeted API entity type. All the valid location fields
+  /// are not required. If not explicitly specified, a valid location field is
+  /// treated as a wildcard and associated documentation content may be inherited
+  /// by matching entities, unless overridden.
+  final DocumentationPartLocation? location;
 
-  const CacheClusterSize._(this.value);
+  /// A content map of API-specific key-value pairs describing the targeted API
+  /// entity. The map must be encoded as a JSON string, e.g., <code>"{
+  /// \"description\": \"The API does ...\" }"</code>. Only OpenAPI-compliant
+  /// documentation-related fields from the properties map are exported and,
+  /// hence, published as part of the API entity definitions, while the original
+  /// documentation parts are exported in a OpenAPI extension of
+  /// <code>x-amazon-apigateway-documentation</code>.
+  final String? properties;
 
-  static const values = [$0_5, $1_6, $6_1, $13_5, $28_4, $58_2, $118, $237];
-
-  static CacheClusterSize fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CacheClusterSize._(value));
-
-  @override
-  bool operator ==(other) => other is CacheClusterSize && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns the status of the CacheCluster.
-class CacheClusterStatus {
-  static const createInProgress = CacheClusterStatus._('CREATE_IN_PROGRESS');
-  static const available = CacheClusterStatus._('AVAILABLE');
-  static const deleteInProgress = CacheClusterStatus._('DELETE_IN_PROGRESS');
-  static const notAvailable = CacheClusterStatus._('NOT_AVAILABLE');
-  static const flushInProgress = CacheClusterStatus._('FLUSH_IN_PROGRESS');
-
-  final String value;
-
-  const CacheClusterStatus._(this.value);
-
-  static const values = [
-    createInProgress,
-    available,
-    deleteInProgress,
-    notAvailable,
-    flushInProgress
-  ];
-
-  static CacheClusterStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CacheClusterStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CacheClusterStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration settings of a canary deployment.
-class CanarySettings {
-  /// The ID of the canary deployment.
-  final String? deploymentId;
-
-  /// The percent (0-100) of traffic diverted to a canary deployment.
-  final double? percentTraffic;
-
-  /// Stage variables overridden for a canary release deployment, including new
-  /// stage variables introduced in the canary. These stage variables are
-  /// represented as a string-to-string map between stage variable names and their
-  /// values.
-  final Map<String, String>? stageVariableOverrides;
-
-  /// A Boolean flag to indicate whether the canary deployment uses the stage
-  /// cache or not.
-  final bool? useStageCache;
-
-  CanarySettings({
-    this.deploymentId,
-    this.percentTraffic,
-    this.stageVariableOverrides,
-    this.useStageCache,
+  DocumentationPart({
+    this.id,
+    this.location,
+    this.properties,
   });
 
-  factory CanarySettings.fromJson(Map<String, dynamic> json) {
-    return CanarySettings(
-      deploymentId: json['deploymentId'] as String?,
-      percentTraffic: json['percentTraffic'] as double?,
-      stageVariableOverrides:
-          (json['stageVariableOverrides'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      useStageCache: json['useStageCache'] as bool?,
+  factory DocumentationPart.fromJson(Map<String, dynamic> json) {
+    return DocumentationPart(
+      id: json['id'] as String?,
+      location: json['location'] != null
+          ? DocumentationPartLocation.fromJson(
+              json['location'] as Map<String, dynamic>)
+          : null,
+      properties: json['properties'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deploymentId = this.deploymentId;
-    final percentTraffic = this.percentTraffic;
-    final stageVariableOverrides = this.stageVariableOverrides;
-    final useStageCache = this.useStageCache;
+    final id = this.id;
+    final location = this.location;
+    final properties = this.properties;
     return {
+      if (id != null) 'id': id,
+      if (location != null) 'location': location,
+      if (properties != null) 'properties': properties,
+    };
+  }
+}
+
+/// A snapshot of the documentation of an API.
+class DocumentationVersion {
+  /// The date when the API documentation snapshot is created.
+  final DateTime? createdDate;
+
+  /// The description of the API documentation snapshot.
+  final String? description;
+
+  /// The version identifier of the API documentation snapshot.
+  final String? version;
+
+  DocumentationVersion({
+    this.createdDate,
+    this.description,
+    this.version,
+  });
+
+  factory DocumentationVersion.fromJson(Map<String, dynamic> json) {
+    return DocumentationVersion(
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final version = this.version;
+    return {
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+/// Represents a custom domain name as a user-friendly host name of an API
+/// (RestApi).
+class DomainName {
+  /// The reference to an Amazon Web Services-managed certificate that will be
+  /// used by edge-optimized endpoint or private endpoint for this domain name.
+  /// Certificate Manager is the only supported source.
+  final String? certificateArn;
+
+  /// The name of the certificate that will be used by edge-optimized endpoint or
+  /// private endpoint for this domain name.
+  final String? certificateName;
+
+  /// The timestamp when the certificate that was used by edge-optimized endpoint
+  /// or private endpoint for this domain name was uploaded.
+  final DateTime? certificateUploadDate;
+
+  /// The domain name of the Amazon CloudFront distribution associated with this
+  /// custom domain name for an edge-optimized endpoint. You set up this
+  /// association when adding a DNS record pointing the custom domain name to this
+  /// distribution name. For more information about CloudFront distributions, see
+  /// the Amazon CloudFront documentation.
+  final String? distributionDomainName;
+
+  /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized
+  /// endpoint. The valid value is <code>Z2FDTNDATAQYW2</code> for all the
+  /// regions. For more information, see Set up a Regional Custom Domain Name and
+  /// AWS Regions and Endpoints for API Gateway.
+  final String? distributionHostedZoneId;
+
+  /// The custom domain name as an API host name, for example,
+  /// <code>my-api.example.com</code>.
+  final String? domainName;
+
+  /// The ARN of the domain name.
+  final String? domainNameArn;
+
+  /// The identifier for the domain name resource. Supported only for private
+  /// custom domain names.
+  final String? domainNameId;
+
+  /// The status of the DomainName migration. The valid values are
+  /// <code>AVAILABLE</code> and <code>UPDATING</code>. If the status is
+  /// <code>UPDATING</code>, the domain cannot be modified further until the
+  /// existing operation is complete. If it is <code>AVAILABLE</code>, the domain
+  /// can be updated.
+  final DomainNameStatus? domainNameStatus;
+
+  /// An optional text message containing detailed information about status of the
+  /// DomainName migration.
+  final String? domainNameStatusMessage;
+
+  /// The endpoint access mode of the DomainName.
+  final EndpointAccessMode? endpointAccessMode;
+
+  /// The endpoint configuration of this DomainName showing the endpoint types and
+  /// IP address types of the domain name.
+  final EndpointConfiguration? endpointConfiguration;
+
+  /// A stringified JSON policy document that applies to the API Gateway
+  /// Management service for this DomainName. This policy document controls access
+  /// for access association sources to create domain name access associations
+  /// with this DomainName. Supported only for private custom domain names.
+  final String? managementPolicy;
+
+  /// The mutual TLS authentication configuration for a custom domain name. If
+  /// specified, API Gateway performs two-way authentication between the client
+  /// and the server. Clients must present a trusted certificate to access your
+  /// API.
+  final MutualTlsAuthentication? mutualTlsAuthentication;
+
+  /// The ARN of the public certificate issued by ACM to validate ownership of
+  /// your custom domain. Only required when configuring mutual TLS and using an
+  /// ACM imported or private CA certificate ARN as the regionalCertificateArn.
+  final String? ownershipVerificationCertificateArn;
+
+  /// A stringified JSON policy document that applies to the
+  /// <code>execute-api</code> service for this DomainName regardless of the
+  /// caller and Method configuration. Supported only for private custom domain
+  /// names.
+  final String? policy;
+
+  /// The reference to an Amazon Web Services-managed certificate that will be
+  /// used for validating the regional domain name. Certificate Manager is the
+  /// only supported source.
+  final String? regionalCertificateArn;
+
+  /// The name of the certificate that will be used for validating the regional
+  /// domain name.
+  final String? regionalCertificateName;
+
+  /// The domain name associated with the regional endpoint for this custom domain
+  /// name. You set up this association by adding a DNS record that points the
+  /// custom domain name to this regional domain name. The regional domain name is
+  /// returned by API Gateway when you create a regional endpoint.
+  final String? regionalDomainName;
+
+  /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint.
+  /// For more information, see Set up a Regional Custom Domain Name and AWS
+  /// Regions and Endpoints for API Gateway.
+  final String? regionalHostedZoneId;
+
+  /// The routing mode for this domain name. The routing mode determines how API
+  /// Gateway sends traffic from your custom domain name to your private APIs.
+  final RoutingMode? routingMode;
+
+  /// The Transport Layer Security (TLS) version + cipher suite for this
+  /// DomainName.
+  final SecurityPolicy? securityPolicy;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  final Map<String, String>? tags;
+
+  DomainName({
+    this.certificateArn,
+    this.certificateName,
+    this.certificateUploadDate,
+    this.distributionDomainName,
+    this.distributionHostedZoneId,
+    this.domainName,
+    this.domainNameArn,
+    this.domainNameId,
+    this.domainNameStatus,
+    this.domainNameStatusMessage,
+    this.endpointAccessMode,
+    this.endpointConfiguration,
+    this.managementPolicy,
+    this.mutualTlsAuthentication,
+    this.ownershipVerificationCertificateArn,
+    this.policy,
+    this.regionalCertificateArn,
+    this.regionalCertificateName,
+    this.regionalDomainName,
+    this.regionalHostedZoneId,
+    this.routingMode,
+    this.securityPolicy,
+    this.tags,
+  });
+
+  factory DomainName.fromJson(Map<String, dynamic> json) {
+    return DomainName(
+      certificateArn: json['certificateArn'] as String?,
+      certificateName: json['certificateName'] as String?,
+      certificateUploadDate: timeStampFromJson(json['certificateUploadDate']),
+      distributionDomainName: json['distributionDomainName'] as String?,
+      distributionHostedZoneId: json['distributionHostedZoneId'] as String?,
+      domainName: json['domainName'] as String?,
+      domainNameArn: json['domainNameArn'] as String?,
+      domainNameId: json['domainNameId'] as String?,
+      domainNameStatus: (json['domainNameStatus'] as String?)
+          ?.let(DomainNameStatus.fromString),
+      domainNameStatusMessage: json['domainNameStatusMessage'] as String?,
+      endpointAccessMode: (json['endpointAccessMode'] as String?)
+          ?.let(EndpointAccessMode.fromString),
+      endpointConfiguration: json['endpointConfiguration'] != null
+          ? EndpointConfiguration.fromJson(
+              json['endpointConfiguration'] as Map<String, dynamic>)
+          : null,
+      managementPolicy: json['managementPolicy'] as String?,
+      mutualTlsAuthentication: json['mutualTlsAuthentication'] != null
+          ? MutualTlsAuthentication.fromJson(
+              json['mutualTlsAuthentication'] as Map<String, dynamic>)
+          : null,
+      ownershipVerificationCertificateArn:
+          json['ownershipVerificationCertificateArn'] as String?,
+      policy: json['policy'] as String?,
+      regionalCertificateArn: json['regionalCertificateArn'] as String?,
+      regionalCertificateName: json['regionalCertificateName'] as String?,
+      regionalDomainName: json['regionalDomainName'] as String?,
+      regionalHostedZoneId: json['regionalHostedZoneId'] as String?,
+      routingMode:
+          (json['routingMode'] as String?)?.let(RoutingMode.fromString),
+      securityPolicy:
+          (json['securityPolicy'] as String?)?.let(SecurityPolicy.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateName = this.certificateName;
+    final certificateUploadDate = this.certificateUploadDate;
+    final distributionDomainName = this.distributionDomainName;
+    final distributionHostedZoneId = this.distributionHostedZoneId;
+    final domainName = this.domainName;
+    final domainNameArn = this.domainNameArn;
+    final domainNameId = this.domainNameId;
+    final domainNameStatus = this.domainNameStatus;
+    final domainNameStatusMessage = this.domainNameStatusMessage;
+    final endpointAccessMode = this.endpointAccessMode;
+    final endpointConfiguration = this.endpointConfiguration;
+    final managementPolicy = this.managementPolicy;
+    final mutualTlsAuthentication = this.mutualTlsAuthentication;
+    final ownershipVerificationCertificateArn =
+        this.ownershipVerificationCertificateArn;
+    final policy = this.policy;
+    final regionalCertificateArn = this.regionalCertificateArn;
+    final regionalCertificateName = this.regionalCertificateName;
+    final regionalDomainName = this.regionalDomainName;
+    final regionalHostedZoneId = this.regionalHostedZoneId;
+    final routingMode = this.routingMode;
+    final securityPolicy = this.securityPolicy;
+    final tags = this.tags;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateName != null) 'certificateName': certificateName,
+      if (certificateUploadDate != null)
+        'certificateUploadDate': unixTimestampToJson(certificateUploadDate),
+      if (distributionDomainName != null)
+        'distributionDomainName': distributionDomainName,
+      if (distributionHostedZoneId != null)
+        'distributionHostedZoneId': distributionHostedZoneId,
+      if (domainName != null) 'domainName': domainName,
+      if (domainNameArn != null) 'domainNameArn': domainNameArn,
+      if (domainNameId != null) 'domainNameId': domainNameId,
+      if (domainNameStatus != null) 'domainNameStatus': domainNameStatus.value,
+      if (domainNameStatusMessage != null)
+        'domainNameStatusMessage': domainNameStatusMessage,
+      if (endpointAccessMode != null)
+        'endpointAccessMode': endpointAccessMode.value,
+      if (endpointConfiguration != null)
+        'endpointConfiguration': endpointConfiguration,
+      if (managementPolicy != null) 'managementPolicy': managementPolicy,
+      if (mutualTlsAuthentication != null)
+        'mutualTlsAuthentication': mutualTlsAuthentication,
+      if (ownershipVerificationCertificateArn != null)
+        'ownershipVerificationCertificateArn':
+            ownershipVerificationCertificateArn,
+      if (policy != null) 'policy': policy,
+      if (regionalCertificateArn != null)
+        'regionalCertificateArn': regionalCertificateArn,
+      if (regionalCertificateName != null)
+        'regionalCertificateName': regionalCertificateName,
+      if (regionalDomainName != null) 'regionalDomainName': regionalDomainName,
+      if (regionalHostedZoneId != null)
+        'regionalHostedZoneId': regionalHostedZoneId,
+      if (routingMode != null) 'routingMode': routingMode.value,
+      if (securityPolicy != null) 'securityPolicy': securityPolicy.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Represents a domain name access association between an access association
+/// source and a private custom domain name. With a domain name access
+/// association, an access association source can invoke a private custom domain
+/// name while isolated from the public internet.
+class DomainNameAccessAssociation {
+  /// The ARN of the domain name access association source. For a VPCE, the ARN
+  /// must be a VPC endpoint.
+  final String? accessAssociationSource;
+
+  /// The type of the domain name access association source.
+  final AccessAssociationSourceType? accessAssociationSourceType;
+
+  /// The ARN of the domain name access association resource.
+  final String? domainNameAccessAssociationArn;
+
+  /// The ARN of the domain name.
+  final String? domainNameArn;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  final Map<String, String>? tags;
+
+  DomainNameAccessAssociation({
+    this.accessAssociationSource,
+    this.accessAssociationSourceType,
+    this.domainNameAccessAssociationArn,
+    this.domainNameArn,
+    this.tags,
+  });
+
+  factory DomainNameAccessAssociation.fromJson(Map<String, dynamic> json) {
+    return DomainNameAccessAssociation(
+      accessAssociationSource: json['accessAssociationSource'] as String?,
+      accessAssociationSourceType:
+          (json['accessAssociationSourceType'] as String?)
+              ?.let(AccessAssociationSourceType.fromString),
+      domainNameAccessAssociationArn:
+          json['domainNameAccessAssociationArn'] as String?,
+      domainNameArn: json['domainNameArn'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessAssociationSource = this.accessAssociationSource;
+    final accessAssociationSourceType = this.accessAssociationSourceType;
+    final domainNameAccessAssociationArn = this.domainNameAccessAssociationArn;
+    final domainNameArn = this.domainNameArn;
+    final tags = this.tags;
+    return {
+      if (accessAssociationSource != null)
+        'accessAssociationSource': accessAssociationSource,
+      if (accessAssociationSourceType != null)
+        'accessAssociationSourceType': accessAssociationSourceType.value,
+      if (domainNameAccessAssociationArn != null)
+        'domainNameAccessAssociationArn': domainNameAccessAssociationArn,
+      if (domainNameArn != null) 'domainNameArn': domainNameArn,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Represents the data structure of a method's request or response payload.
+class Model {
+  /// The content-type for the model.
+  final String? contentType;
+
+  /// The description of the model.
+  final String? description;
+
+  /// The identifier for the model resource.
+  final String? id;
+
+  /// The name of the model. Must be an alphanumeric string.
+  final String? name;
+
+  /// The schema for the model. For <code>application/json</code> models, this
+  /// should be JSON schema draft 4 model. Do not include "\*/" characters in the
+  /// description of any properties because such "\*/" characters may be
+  /// interpreted as the closing marker for comments in some languages, such as
+  /// Java or JavaScript, causing the installation of your API's SDK generated by
+  /// API Gateway to fail.
+  final String? schema;
+
+  Model({
+    this.contentType,
+    this.description,
+    this.id,
+    this.name,
+    this.schema,
+  });
+
+  factory Model.fromJson(Map<String, dynamic> json) {
+    return Model(
+      contentType: json['contentType'] as String?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      schema: json['schema'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final schema = this.schema;
+    return {
+      if (contentType != null) 'contentType': contentType,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (schema != null) 'schema': schema,
+    };
+  }
+}
+
+/// A set of validation rules for incoming Method requests.
+class RequestValidator {
+  /// The identifier of this RequestValidator.
+  final String? id;
+
+  /// The name of this RequestValidator
+  final String? name;
+
+  /// A Boolean flag to indicate whether to validate a request body according to
+  /// the configured Model schema.
+  final bool? validateRequestBody;
+
+  /// A Boolean flag to indicate whether to validate request parameters
+  /// (<code>true</code>) or not (<code>false</code>).
+  final bool? validateRequestParameters;
+
+  RequestValidator({
+    this.id,
+    this.name,
+    this.validateRequestBody,
+    this.validateRequestParameters,
+  });
+
+  factory RequestValidator.fromJson(Map<String, dynamic> json) {
+    return RequestValidator(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      validateRequestBody: json['validateRequestBody'] as bool?,
+      validateRequestParameters: json['validateRequestParameters'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final validateRequestBody = this.validateRequestBody;
+    final validateRequestParameters = this.validateRequestParameters;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (validateRequestBody != null)
+        'validateRequestBody': validateRequestBody,
+      if (validateRequestParameters != null)
+        'validateRequestParameters': validateRequestParameters,
+    };
+  }
+}
+
+/// Represents an API resource.
+class Resource {
+  /// The resource's identifier.
+  final String? id;
+
+  /// The parent resource's identifier.
+  final String? parentId;
+
+  /// The full path for this resource.
+  final String? path;
+
+  /// The last path segment for this resource.
+  final String? pathPart;
+
+  /// Gets an API resource's method of a given HTTP verb.
+  final Map<String, Method>? resourceMethods;
+
+  Resource({
+    this.id,
+    this.parentId,
+    this.path,
+    this.pathPart,
+    this.resourceMethods,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      id: json['id'] as String?,
+      parentId: json['parentId'] as String?,
+      path: json['path'] as String?,
+      pathPart: json['pathPart'] as String?,
+      resourceMethods: (json['resourceMethods'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Method.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final parentId = this.parentId;
+    final path = this.path;
+    final pathPart = this.pathPart;
+    final resourceMethods = this.resourceMethods;
+    return {
+      if (id != null) 'id': id,
+      if (parentId != null) 'parentId': parentId,
+      if (path != null) 'path': path,
+      if (pathPart != null) 'pathPart': pathPart,
+      if (resourceMethods != null) 'resourceMethods': resourceMethods,
+    };
+  }
+}
+
+/// Represents a REST API.
+class RestApi {
+  /// The source of the API key for metering requests according to a usage plan.
+  /// Valid values are: ><code>HEADER</code> to read the API key from the
+  /// <code>X-API-Key</code> header of a request. <code>AUTHORIZER</code> to read
+  /// the API key from the <code>UsageIdentifierKey</code> from a custom
+  /// authorizer.
+  final ApiKeySourceType? apiKeySource;
+
+  /// The ApiStatus of the RestApi.
+  final ApiStatus? apiStatus;
+
+  /// The status message of the RestApi. When the status message is
+  /// <code>UPDATING</code> you can still invoke it.
+  final String? apiStatusMessage;
+
+  /// The list of binary media types supported by the RestApi. By default, the
+  /// RestApi supports only UTF-8-encoded text payloads.
+  final List<String>? binaryMediaTypes;
+
+  /// The timestamp when the API was created.
+  final DateTime? createdDate;
+
+  /// The API's description.
+  final String? description;
+
+  /// Specifies whether clients can invoke your API by using the default
+  /// <code>execute-api</code> endpoint. By default, clients can invoke your API
+  /// with the default
+  /// <code>https://{api_id}.execute-api.{region}.amazonaws.com</code> endpoint.
+  /// To require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
+  final bool? disableExecuteApiEndpoint;
+
+  /// The endpoint access mode of the RestApi.
+  final EndpointAccessMode? endpointAccessMode;
+
+  /// The endpoint configuration of this RestApi showing the endpoint types and IP
+  /// address types of the API.
+  final EndpointConfiguration? endpointConfiguration;
+
+  /// The API's identifier. This identifier is unique across all of your APIs in
+  /// API Gateway.
+  final String? id;
+
+  /// A nullable integer that is used to enable compression (with non-negative
+  /// between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with
+  /// a null value) on an API. When compression is enabled, compression or
+  /// decompression is not applied on the payload if the payload size is smaller
+  /// than this value. Setting it to zero allows compression for any payload size.
+  final int? minimumCompressionSize;
+
+  /// The API's name.
+  final String? name;
+
+  /// A stringified JSON policy document that applies to this RestApi regardless
+  /// of the caller and Method configuration.
+  final String? policy;
+
+  /// The API's root resource ID.
+  final String? rootResourceId;
+
+  /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+  final SecurityPolicy? securityPolicy;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  final Map<String, String>? tags;
+
+  /// A version identifier for the API.
+  final String? version;
+
+  /// The warning messages reported when <code>failonwarnings</code> is turned on
+  /// during API import.
+  final List<String>? warnings;
+
+  RestApi({
+    this.apiKeySource,
+    this.apiStatus,
+    this.apiStatusMessage,
+    this.binaryMediaTypes,
+    this.createdDate,
+    this.description,
+    this.disableExecuteApiEndpoint,
+    this.endpointAccessMode,
+    this.endpointConfiguration,
+    this.id,
+    this.minimumCompressionSize,
+    this.name,
+    this.policy,
+    this.rootResourceId,
+    this.securityPolicy,
+    this.tags,
+    this.version,
+    this.warnings,
+  });
+
+  factory RestApi.fromJson(Map<String, dynamic> json) {
+    return RestApi(
+      apiKeySource:
+          (json['apiKeySource'] as String?)?.let(ApiKeySourceType.fromString),
+      apiStatus: (json['apiStatus'] as String?)?.let(ApiStatus.fromString),
+      apiStatusMessage: json['apiStatusMessage'] as String?,
+      binaryMediaTypes: (json['binaryMediaTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      createdDate: timeStampFromJson(json['createdDate']),
+      description: json['description'] as String?,
+      disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
+      endpointAccessMode: (json['endpointAccessMode'] as String?)
+          ?.let(EndpointAccessMode.fromString),
+      endpointConfiguration: json['endpointConfiguration'] != null
+          ? EndpointConfiguration.fromJson(
+              json['endpointConfiguration'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      minimumCompressionSize: json['minimumCompressionSize'] as int?,
+      name: json['name'] as String?,
+      policy: json['policy'] as String?,
+      rootResourceId: json['rootResourceId'] as String?,
+      securityPolicy:
+          (json['securityPolicy'] as String?)?.let(SecurityPolicy.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      version: json['version'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiKeySource = this.apiKeySource;
+    final apiStatus = this.apiStatus;
+    final apiStatusMessage = this.apiStatusMessage;
+    final binaryMediaTypes = this.binaryMediaTypes;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final disableExecuteApiEndpoint = this.disableExecuteApiEndpoint;
+    final endpointAccessMode = this.endpointAccessMode;
+    final endpointConfiguration = this.endpointConfiguration;
+    final id = this.id;
+    final minimumCompressionSize = this.minimumCompressionSize;
+    final name = this.name;
+    final policy = this.policy;
+    final rootResourceId = this.rootResourceId;
+    final securityPolicy = this.securityPolicy;
+    final tags = this.tags;
+    final version = this.version;
+    final warnings = this.warnings;
+    return {
+      if (apiKeySource != null) 'apiKeySource': apiKeySource.value,
+      if (apiStatus != null) 'apiStatus': apiStatus.value,
+      if (apiStatusMessage != null) 'apiStatusMessage': apiStatusMessage,
+      if (binaryMediaTypes != null) 'binaryMediaTypes': binaryMediaTypes,
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
+      if (description != null) 'description': description,
+      if (disableExecuteApiEndpoint != null)
+        'disableExecuteApiEndpoint': disableExecuteApiEndpoint,
+      if (endpointAccessMode != null)
+        'endpointAccessMode': endpointAccessMode.value,
+      if (endpointConfiguration != null)
+        'endpointConfiguration': endpointConfiguration,
+      if (id != null) 'id': id,
+      if (minimumCompressionSize != null)
+        'minimumCompressionSize': minimumCompressionSize,
+      if (name != null) 'name': name,
+      if (policy != null) 'policy': policy,
+      if (rootResourceId != null) 'rootResourceId': rootResourceId,
+      if (securityPolicy != null) 'securityPolicy': securityPolicy.value,
+      if (tags != null) 'tags': tags,
+      if (version != null) 'version': version,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
+}
+
+/// Represents a unique identifier for a version of a deployed RestApi that is
+/// callable by users.
+class Stage {
+  /// Settings for logging access in this stage.
+  final AccessLogSettings? accessLogSettings;
+
+  /// Specifies whether a cache cluster is enabled for the stage. To activate a
+  /// method-level cache, set <code>CachingEnabled</code> to <code>true</code> for
+  /// a method.
+  final bool? cacheClusterEnabled;
+
+  /// The stage's cache capacity in GB. For more information about choosing a
+  /// cache size, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html">Enabling
+  /// API caching to enhance responsiveness</a>.
+  final CacheClusterSize? cacheClusterSize;
+
+  /// The status of the cache cluster for the stage, if enabled.
+  final CacheClusterStatus? cacheClusterStatus;
+
+  /// Settings for the canary deployment in this stage.
+  final CanarySettings? canarySettings;
+
+  /// The identifier of a client certificate for an API stage.
+  final String? clientCertificateId;
+
+  /// The timestamp when the stage was created.
+  final DateTime? createdDate;
+
+  /// The identifier of the Deployment that the stage points to.
+  final String? deploymentId;
+
+  /// The stage's description.
+  final String? description;
+
+  /// The version of the associated API documentation.
+  final String? documentationVersion;
+
+  /// The timestamp when the stage last updated.
+  final DateTime? lastUpdatedDate;
+
+  /// A map that defines the method settings for a Stage resource. Keys
+  /// (designated as <code>/{method_setting_key</code> below) are method paths
+  /// defined as <code>{resource_path}/{http_method}</code> for an individual
+  /// method override, or <code>/\*/\*</code> for overriding all methods in the
+  /// stage.
+  final Map<String, MethodSetting>? methodSettings;
+
+  /// The name of the stage is the first path segment in the Uniform Resource
+  /// Identifier (URI) of a call to API Gateway. Stage names can only contain
+  /// alphanumeric characters, hyphens, and underscores. Maximum length is 128
+  /// characters.
+  final String? stageName;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  final Map<String, String>? tags;
+
+  /// Specifies whether active tracing with X-ray is enabled for the Stage.
+  final bool? tracingEnabled;
+
+  /// A map that defines the stage variables for a Stage resource. Variable names
+  /// can have alphanumeric and underscore characters, and the values must match
+  /// <code>[A-Za-z0-9-._~:/?#&=,]+</code>.
+  final Map<String, String>? variables;
+
+  /// The ARN of the WebAcl associated with the Stage.
+  final String? webAclArn;
+
+  Stage({
+    this.accessLogSettings,
+    this.cacheClusterEnabled,
+    this.cacheClusterSize,
+    this.cacheClusterStatus,
+    this.canarySettings,
+    this.clientCertificateId,
+    this.createdDate,
+    this.deploymentId,
+    this.description,
+    this.documentationVersion,
+    this.lastUpdatedDate,
+    this.methodSettings,
+    this.stageName,
+    this.tags,
+    this.tracingEnabled,
+    this.variables,
+    this.webAclArn,
+  });
+
+  factory Stage.fromJson(Map<String, dynamic> json) {
+    return Stage(
+      accessLogSettings: json['accessLogSettings'] != null
+          ? AccessLogSettings.fromJson(
+              json['accessLogSettings'] as Map<String, dynamic>)
+          : null,
+      cacheClusterEnabled: json['cacheClusterEnabled'] as bool?,
+      cacheClusterSize: (json['cacheClusterSize'] as String?)
+          ?.let(CacheClusterSize.fromString),
+      cacheClusterStatus: (json['cacheClusterStatus'] as String?)
+          ?.let(CacheClusterStatus.fromString),
+      canarySettings: json['canarySettings'] != null
+          ? CanarySettings.fromJson(
+              json['canarySettings'] as Map<String, dynamic>)
+          : null,
+      clientCertificateId: json['clientCertificateId'] as String?,
+      createdDate: timeStampFromJson(json['createdDate']),
+      deploymentId: json['deploymentId'] as String?,
+      description: json['description'] as String?,
+      documentationVersion: json['documentationVersion'] as String?,
+      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+      methodSettings: (json['methodSettings'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, MethodSetting.fromJson(e as Map<String, dynamic>))),
+      stageName: json['stageName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tracingEnabled: json['tracingEnabled'] as bool?,
+      variables: (json['variables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      webAclArn: json['webAclArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessLogSettings = this.accessLogSettings;
+    final cacheClusterEnabled = this.cacheClusterEnabled;
+    final cacheClusterSize = this.cacheClusterSize;
+    final cacheClusterStatus = this.cacheClusterStatus;
+    final canarySettings = this.canarySettings;
+    final clientCertificateId = this.clientCertificateId;
+    final createdDate = this.createdDate;
+    final deploymentId = this.deploymentId;
+    final description = this.description;
+    final documentationVersion = this.documentationVersion;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final methodSettings = this.methodSettings;
+    final stageName = this.stageName;
+    final tags = this.tags;
+    final tracingEnabled = this.tracingEnabled;
+    final variables = this.variables;
+    final webAclArn = this.webAclArn;
+    return {
+      if (accessLogSettings != null) 'accessLogSettings': accessLogSettings,
+      if (cacheClusterEnabled != null)
+        'cacheClusterEnabled': cacheClusterEnabled,
+      if (cacheClusterSize != null) 'cacheClusterSize': cacheClusterSize.value,
+      if (cacheClusterStatus != null)
+        'cacheClusterStatus': cacheClusterStatus.value,
+      if (canarySettings != null) 'canarySettings': canarySettings,
+      if (clientCertificateId != null)
+        'clientCertificateId': clientCertificateId,
+      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
       if (deploymentId != null) 'deploymentId': deploymentId,
-      if (percentTraffic != null) 'percentTraffic': percentTraffic,
-      if (stageVariableOverrides != null)
-        'stageVariableOverrides': stageVariableOverrides,
-      if (useStageCache != null) 'useStageCache': useStageCache,
+      if (description != null) 'description': description,
+      if (documentationVersion != null)
+        'documentationVersion': documentationVersion,
+      if (lastUpdatedDate != null)
+        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
+      if (methodSettings != null) 'methodSettings': methodSettings,
+      if (stageName != null) 'stageName': stageName,
+      if (tags != null) 'tags': tags,
+      if (tracingEnabled != null) 'tracingEnabled': tracingEnabled,
+      if (variables != null) 'variables': variables,
+      if (webAclArn != null) 'webAclArn': webAclArn,
+    };
+  }
+}
+
+/// Represents a usage plan used to specify who can assess associated API
+/// stages. Optionally, target request rate and quota limits can be set. In some
+/// cases clients can exceed the targets that you set. Don’t rely on usage plans
+/// to control costs. Consider using <a
+/// href="https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html">Amazon
+/// Web Services Budgets</a> to monitor costs and <a
+/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF</a>
+/// to manage API requests.
+class UsagePlan {
+  /// The associated API stages of a usage plan.
+  final List<ApiStage>? apiStages;
+
+  /// The description of a usage plan.
+  final String? description;
+
+  /// The identifier of a UsagePlan resource.
+  final String? id;
+
+  /// The name of a usage plan.
+  final String? name;
+
+  /// The Amazon Web Services Marketplace product identifier to associate with the
+  /// usage plan as a SaaS product on the Amazon Web Services Marketplace.
+  final String? productCode;
+
+  /// The target maximum number of permitted requests per a given unit time
+  /// interval.
+  final QuotaSettings? quota;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  final Map<String, String>? tags;
+
+  /// A map containing method level throttling information for API stage in a
+  /// usage plan.
+  final ThrottleSettings? throttle;
+
+  UsagePlan({
+    this.apiStages,
+    this.description,
+    this.id,
+    this.name,
+    this.productCode,
+    this.quota,
+    this.tags,
+    this.throttle,
+  });
+
+  factory UsagePlan.fromJson(Map<String, dynamic> json) {
+    return UsagePlan(
+      apiStages: (json['apiStages'] as List?)
+          ?.nonNulls
+          .map((e) => ApiStage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      productCode: json['productCode'] as String?,
+      quota: json['quota'] != null
+          ? QuotaSettings.fromJson(json['quota'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      throttle: json['throttle'] != null
+          ? ThrottleSettings.fromJson(json['throttle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiStages = this.apiStages;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final productCode = this.productCode;
+    final quota = this.quota;
+    final tags = this.tags;
+    final throttle = this.throttle;
+    return {
+      if (apiStages != null) 'apiStages': apiStages,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (productCode != null) 'productCode': productCode,
+      if (quota != null) 'quota': quota,
+      if (tags != null) 'tags': tags,
+      if (throttle != null) 'throttle': throttle,
+    };
+  }
+}
+
+/// Represents a usage plan key to identify a plan customer.
+class UsagePlanKey {
+  /// The Id of a usage plan key.
+  final String? id;
+
+  /// The name of a usage plan key.
+  final String? name;
+
+  /// The type of a usage plan key. Currently, the valid key type is
+  /// <code>API_KEY</code>.
+  final String? type;
+
+  /// The value of a usage plan key.
+  final String? value;
+
+  UsagePlanKey({
+    this.id,
+    this.name,
+    this.type,
+    this.value,
+  });
+
+  factory UsagePlanKey.fromJson(Map<String, dynamic> json) {
+    return UsagePlanKey(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      type: json['type'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (type != null) 'type': type,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// An API Gateway VPC link for a RestApi to access resources in an Amazon
+/// Virtual Private Cloud (VPC).
+class VpcLink {
+  /// The description of the VPC link.
+  final String? description;
+
+  /// The identifier of the VpcLink. It is used in an Integration to reference
+  /// this VpcLink.
+  final String? id;
+
+  /// The name used to label and identify the VPC link.
+  final String? name;
+
+  /// The status of the VPC link. The valid values are <code>AVAILABLE</code>,
+  /// <code>PENDING</code>, <code>DELETING</code>, or <code>FAILED</code>.
+  /// Deploying an API will wait if the status is <code>PENDING</code> and will
+  /// fail if the status is <code>DELETING</code>.
+  final VpcLinkStatus? status;
+
+  /// A description about the VPC link status.
+  final String? statusMessage;
+
+  /// The collection of tags. Each tag element is associated with a given
+  /// resource.
+  final Map<String, String>? tags;
+
+  /// The ARN of the network load balancer of the VPC targeted by the VPC link.
+  /// The network load balancer must be owned by the same Amazon Web Services
+  /// account of the API owner.
+  final List<String>? targetArns;
+
+  VpcLink({
+    this.description,
+    this.id,
+    this.name,
+    this.status,
+    this.statusMessage,
+    this.tags,
+    this.targetArns,
+  });
+
+  factory VpcLink.fromJson(Map<String, dynamic> json) {
+    return VpcLink(
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(VpcLinkStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetArns: (json['targetArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    final targetArns = this.targetArns;
+    return {
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (tags != null) 'tags': tags,
+      if (targetArns != null) 'targetArns': targetArns,
     };
   }
 }
@@ -5653,10 +6610,170 @@ class ClientCertificate {
   }
 }
 
+/// Represents an AWS account that is associated with API Gateway.
+class Account {
+  /// The version of the API keys used for the account.
+  final String? apiKeyVersion;
+
+  /// The ARN of an Amazon CloudWatch role for the current Account.
+  final String? cloudwatchRoleArn;
+
+  /// A list of features supported for the account. When usage plans are enabled,
+  /// the features list will include an entry of <code>"UsagePlans"</code>.
+  final List<String>? features;
+
+  /// Specifies the API request limits configured for the current Account.
+  final ThrottleSettings? throttleSettings;
+
+  Account({
+    this.apiKeyVersion,
+    this.cloudwatchRoleArn,
+    this.features,
+    this.throttleSettings,
+  });
+
+  factory Account.fromJson(Map<String, dynamic> json) {
+    return Account(
+      apiKeyVersion: json['apiKeyVersion'] as String?,
+      cloudwatchRoleArn: json['cloudwatchRoleArn'] as String?,
+      features: (json['features'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      throttleSettings: json['throttleSettings'] != null
+          ? ThrottleSettings.fromJson(
+              json['throttleSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiKeyVersion = this.apiKeyVersion;
+    final cloudwatchRoleArn = this.cloudwatchRoleArn;
+    final features = this.features;
+    final throttleSettings = this.throttleSettings;
+    return {
+      if (apiKeyVersion != null) 'apiKeyVersion': apiKeyVersion,
+      if (cloudwatchRoleArn != null) 'cloudwatchRoleArn': cloudwatchRoleArn,
+      if (features != null) 'features': features,
+      if (throttleSettings != null) 'throttleSettings': throttleSettings,
+    };
+  }
+}
+
+/// Represents a collection of API keys as represented by an ApiKeys resource.
+class ApiKeys {
+  /// The current page of elements from this collection.
+  final List<ApiKey>? items;
+
+  /// The current pagination position in the paged result set.
+  final String? position;
+
+  /// A list of warning messages logged during the import of API keys when the
+  /// <code>failOnWarnings</code> option is set to true.
+  final List<String>? warnings;
+
+  ApiKeys({
+    this.items,
+    this.position,
+    this.warnings,
+  });
+
+  factory ApiKeys.fromJson(Map<String, dynamic> json) {
+    return ApiKeys(
+      items: (json['item'] as List?)
+          ?.nonNulls
+          .map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      position: json['position'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final position = this.position;
+    final warnings = this.warnings;
+    return {
+      if (items != null) 'item': items,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
+}
+
+/// Represents a collection of Authorizer resources.
+class Authorizers {
+  /// The current page of elements from this collection.
+  final List<Authorizer>? items;
+
+  /// The current pagination position in the paged result set.
+  final String? position;
+
+  Authorizers({
+    this.items,
+    this.position,
+  });
+
+  factory Authorizers.fromJson(Map<String, dynamic> json) {
+    return Authorizers(
+      items: (json['item'] as List?)
+          ?.nonNulls
+          .map((e) => Authorizer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      position: json['position'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final position = this.position;
+    return {
+      if (items != null) 'item': items,
+    };
+  }
+}
+
+/// Represents a collection of BasePathMapping resources.
+class BasePathMappings {
+  /// The current page of elements from this collection.
+  final List<BasePathMapping>? items;
+
+  /// The current pagination position in the paged result set.
+  final String? position;
+
+  BasePathMappings({
+    this.items,
+    this.position,
+  });
+
+  factory BasePathMappings.fromJson(Map<String, dynamic> json) {
+    return BasePathMappings(
+      items: (json['item'] as List?)
+          ?.nonNulls
+          .map((e) => BasePathMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      position: json['position'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final position = this.position;
+    return {
+      if (items != null) 'item': items,
+    };
+  }
+}
+
 /// Represents a collection of ClientCertificate resources.
 class ClientCertificates {
   /// The current page of elements from this collection.
   final List<ClientCertificate>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   ClientCertificates({
@@ -5679,141 +6796,6 @@ class ClientCertificates {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-class ConnectionType {
-  static const internet = ConnectionType._('INTERNET');
-  static const vpcLink = ConnectionType._('VPC_LINK');
-
-  final String value;
-
-  const ConnectionType._(this.value);
-
-  static const values = [internet, vpcLink];
-
-  static ConnectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionType._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ContentHandlingStrategy {
-  static const convertToBinary = ContentHandlingStrategy._('CONVERT_TO_BINARY');
-  static const convertToText = ContentHandlingStrategy._('CONVERT_TO_TEXT');
-
-  final String value;
-
-  const ContentHandlingStrategy._(this.value);
-
-  static const values = [convertToBinary, convertToText];
-
-  static ContentHandlingStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentHandlingStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContentHandlingStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An immutable representation of a RestApi resource that can be called by
-/// users using Stages. A deployment must be associated with a Stage for it to
-/// be callable over the Internet.
-class Deployment {
-  /// A summary of the RestApi at the date and time that the deployment resource
-  /// was created.
-  final Map<String, Map<String, MethodSnapshot>>? apiSummary;
-
-  /// The date and time that the deployment resource was created.
-  final DateTime? createdDate;
-
-  /// The description for the deployment resource.
-  final String? description;
-
-  /// The identifier for the deployment resource.
-  final String? id;
-
-  Deployment({
-    this.apiSummary,
-    this.createdDate,
-    this.description,
-    this.id,
-  });
-
-  factory Deployment.fromJson(Map<String, dynamic> json) {
-    return Deployment(
-      apiSummary: (json['apiSummary'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k,
-              (e as Map<String, dynamic>).map((k, e) => MapEntry(
-                  k, MethodSnapshot.fromJson(e as Map<String, dynamic>))))),
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiSummary = this.apiSummary;
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final id = this.id;
-    return {
-      if (apiSummary != null) 'apiSummary': apiSummary,
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// The input configuration for a canary deployment.
-class DeploymentCanarySettings {
-  /// The percentage (0.0-100.0) of traffic routed to the canary deployment.
-  final double? percentTraffic;
-
-  /// A stage variable overrides used for the canary release deployment. They can
-  /// override existing stage variables or add new stage variables for the canary
-  /// release deployment. These stage variables are represented as a
-  /// string-to-string map between stage variable names and their values.
-  final Map<String, String>? stageVariableOverrides;
-
-  /// A Boolean flag to indicate whether the canary release deployment uses the
-  /// stage cache or not.
-  final bool? useStageCache;
-
-  DeploymentCanarySettings({
-    this.percentTraffic,
-    this.stageVariableOverrides,
-    this.useStageCache,
-  });
-
-  Map<String, dynamic> toJson() {
-    final percentTraffic = this.percentTraffic;
-    final stageVariableOverrides = this.stageVariableOverrides;
-    final useStageCache = this.useStageCache;
-    return {
-      if (percentTraffic != null) 'percentTraffic': percentTraffic,
-      if (stageVariableOverrides != null)
-        'stageVariableOverrides': stageVariableOverrides,
-      if (useStageCache != null) 'useStageCache': useStageCache,
     };
   }
 }
@@ -5825,6 +6807,8 @@ class DeploymentCanarySettings {
 class Deployments {
   /// The current page of elements from this collection.
   final List<Deployment>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   Deployments({
@@ -5847,235 +6831,16 @@ class Deployments {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
     };
   }
-}
-
-/// A documentation part for a targeted API entity.
-class DocumentationPart {
-  /// The DocumentationPart identifier, generated by API Gateway when the
-  /// <code>DocumentationPart</code> is created.
-  final String? id;
-
-  /// The location of the API entity to which the documentation applies. Valid
-  /// fields depend on the targeted API entity type. All the valid location fields
-  /// are not required. If not explicitly specified, a valid location field is
-  /// treated as a wildcard and associated documentation content may be inherited
-  /// by matching entities, unless overridden.
-  final DocumentationPartLocation? location;
-
-  /// A content map of API-specific key-value pairs describing the targeted API
-  /// entity. The map must be encoded as a JSON string, e.g., <code>"{
-  /// \"description\": \"The API does ...\" }"</code>. Only OpenAPI-compliant
-  /// documentation-related fields from the properties map are exported and,
-  /// hence, published as part of the API entity definitions, while the original
-  /// documentation parts are exported in a OpenAPI extension of
-  /// <code>x-amazon-apigateway-documentation</code>.
-  final String? properties;
-
-  DocumentationPart({
-    this.id,
-    this.location,
-    this.properties,
-  });
-
-  factory DocumentationPart.fromJson(Map<String, dynamic> json) {
-    return DocumentationPart(
-      id: json['id'] as String?,
-      location: json['location'] != null
-          ? DocumentationPartLocation.fromJson(
-              json['location'] as Map<String, dynamic>)
-          : null,
-      properties: json['properties'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final location = this.location;
-    final properties = this.properties;
-    return {
-      if (id != null) 'id': id,
-      if (location != null) 'location': location,
-      if (properties != null) 'properties': properties,
-    };
-  }
-}
-
-/// A collection of the imported DocumentationPart identifiers.
-class DocumentationPartIds {
-  /// A list of the returned documentation part identifiers.
-  final List<String>? ids;
-
-  /// A list of warning messages reported during import of documentation parts.
-  final List<String>? warnings;
-
-  DocumentationPartIds({
-    this.ids,
-    this.warnings,
-  });
-
-  factory DocumentationPartIds.fromJson(Map<String, dynamic> json) {
-    return DocumentationPartIds(
-      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      warnings: (json['warnings'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ids = this.ids;
-    final warnings = this.warnings;
-    return {
-      if (ids != null) 'ids': ids,
-      if (warnings != null) 'warnings': warnings,
-    };
-  }
-}
-
-/// Specifies the target API entity to which the documentation applies.
-class DocumentationPartLocation {
-  /// The type of API entity to which the documentation content applies. Valid
-  /// values are <code>API</code>, <code>AUTHORIZER</code>, <code>MODEL</code>,
-  /// <code>RESOURCE</code>, <code>METHOD</code>, <code>PATH_PARAMETER</code>,
-  /// <code>QUERY_PARAMETER</code>, <code>REQUEST_HEADER</code>,
-  /// <code>REQUEST_BODY</code>, <code>RESPONSE</code>,
-  /// <code>RESPONSE_HEADER</code>, and <code>RESPONSE_BODY</code>. Content
-  /// inheritance does not apply to any entity of the <code>API</code>,
-  /// <code>AUTHORIZER</code>, <code>METHOD</code>, <code>MODEL</code>,
-  /// <code>REQUEST_BODY</code>, or <code>RESOURCE</code> type.
-  final DocumentationPartType type;
-
-  /// The HTTP verb of a method. It is a valid field for the API entity types of
-  /// <code>METHOD</code>, <code>PATH_PARAMETER</code>,
-  /// <code>QUERY_PARAMETER</code>, <code>REQUEST_HEADER</code>,
-  /// <code>REQUEST_BODY</code>, <code>RESPONSE</code>,
-  /// <code>RESPONSE_HEADER</code>, and <code>RESPONSE_BODY</code>. The default
-  /// value is <code>*</code> for any method. When an applicable child entity
-  /// inherits the content of an entity of the same type with more general
-  /// specifications of the other <code>location</code> attributes, the child
-  /// entity's <code>method</code> attribute must match that of the parent entity
-  /// exactly.
-  final String? method;
-
-  /// The name of the targeted API entity. It is a valid and required field for
-  /// the API entity types of <code>AUTHORIZER</code>, <code>MODEL</code>,
-  /// <code>PATH_PARAMETER</code>, <code>QUERY_PARAMETER</code>,
-  /// <code>REQUEST_HEADER</code>, <code>REQUEST_BODY</code> and
-  /// <code>RESPONSE_HEADER</code>. It is an invalid field for any other entity
-  /// type.
-  final String? name;
-
-  /// The URL path of the target. It is a valid field for the API entity types of
-  /// <code>RESOURCE</code>, <code>METHOD</code>, <code>PATH_PARAMETER</code>,
-  /// <code>QUERY_PARAMETER</code>, <code>REQUEST_HEADER</code>,
-  /// <code>REQUEST_BODY</code>, <code>RESPONSE</code>,
-  /// <code>RESPONSE_HEADER</code>, and <code>RESPONSE_BODY</code>. The default
-  /// value is <code>/</code> for the root resource. When an applicable child
-  /// entity inherits the content of another entity of the same type with more
-  /// general specifications of the other <code>location</code> attributes, the
-  /// child entity's <code>path</code> attribute must match that of the parent
-  /// entity as a prefix.
-  final String? path;
-
-  /// The HTTP status code of a response. It is a valid field for the API entity
-  /// types of <code>RESPONSE</code>, <code>RESPONSE_HEADER</code>, and
-  /// <code>RESPONSE_BODY</code>. The default value is <code>*</code> for any
-  /// status code. When an applicable child entity inherits the content of an
-  /// entity of the same type with more general specifications of the other
-  /// <code>location</code> attributes, the child entity's <code>statusCode</code>
-  /// attribute must match that of the parent entity exactly.
-  final String? statusCode;
-
-  DocumentationPartLocation({
-    required this.type,
-    this.method,
-    this.name,
-    this.path,
-    this.statusCode,
-  });
-
-  factory DocumentationPartLocation.fromJson(Map<String, dynamic> json) {
-    return DocumentationPartLocation(
-      type: DocumentationPartType.fromString((json['type'] as String?) ?? ''),
-      method: json['method'] as String?,
-      name: json['name'] as String?,
-      path: json['path'] as String?,
-      statusCode: json['statusCode'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final method = this.method;
-    final name = this.name;
-    final path = this.path;
-    final statusCode = this.statusCode;
-    return {
-      'type': type.value,
-      if (method != null) 'method': method,
-      if (name != null) 'name': name,
-      if (path != null) 'path': path,
-      if (statusCode != null) 'statusCode': statusCode,
-    };
-  }
-}
-
-class DocumentationPartType {
-  static const api = DocumentationPartType._('API');
-  static const authorizer = DocumentationPartType._('AUTHORIZER');
-  static const model = DocumentationPartType._('MODEL');
-  static const resource = DocumentationPartType._('RESOURCE');
-  static const method = DocumentationPartType._('METHOD');
-  static const pathParameter = DocumentationPartType._('PATH_PARAMETER');
-  static const queryParameter = DocumentationPartType._('QUERY_PARAMETER');
-  static const requestHeader = DocumentationPartType._('REQUEST_HEADER');
-  static const requestBody = DocumentationPartType._('REQUEST_BODY');
-  static const response = DocumentationPartType._('RESPONSE');
-  static const responseHeader = DocumentationPartType._('RESPONSE_HEADER');
-  static const responseBody = DocumentationPartType._('RESPONSE_BODY');
-
-  final String value;
-
-  const DocumentationPartType._(this.value);
-
-  static const values = [
-    api,
-    authorizer,
-    model,
-    resource,
-    method,
-    pathParameter,
-    queryParameter,
-    requestHeader,
-    requestBody,
-    response,
-    responseHeader,
-    responseBody
-  ];
-
-  static DocumentationPartType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DocumentationPartType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DocumentationPartType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// The collection of documentation parts of an API.
 class DocumentationParts {
   /// The current page of elements from this collection.
   final List<DocumentationPart>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   DocumentationParts({
@@ -6098,44 +6863,6 @@ class DocumentationParts {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-/// A snapshot of the documentation of an API.
-class DocumentationVersion {
-  /// The date when the API documentation snapshot is created.
-  final DateTime? createdDate;
-
-  /// The description of the API documentation snapshot.
-  final String? description;
-
-  /// The version identifier of the API documentation snapshot.
-  final String? version;
-
-  DocumentationVersion({
-    this.createdDate,
-    this.description,
-    this.version,
-  });
-
-  factory DocumentationVersion.fromJson(Map<String, dynamic> json) {
-    return DocumentationVersion(
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final version = this.version;
-    return {
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (version != null) 'version': version,
     };
   }
 }
@@ -6144,6 +6871,8 @@ class DocumentationVersion {
 class DocumentationVersions {
   /// The current page of elements from this collection.
   final List<DocumentationVersion>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   DocumentationVersions({
@@ -6166,242 +6895,48 @@ class DocumentationVersions {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
     };
   }
 }
 
-/// Represents a custom domain name as a user-friendly host name of an API
-/// (RestApi).
-class DomainName {
-  /// The reference to an Amazon Web Services-managed certificate that will be
-  /// used by edge-optimized endpoint for this domain name. Certificate Manager is
-  /// the only supported source.
-  final String? certificateArn;
+class DomainNameAccessAssociations {
+  /// The current page of elements from this collection.
+  final List<DomainNameAccessAssociation>? items;
 
-  /// The name of the certificate that will be used by edge-optimized endpoint for
-  /// this domain name.
-  final String? certificateName;
+  /// The current pagination position in the paged result set.
+  final String? position;
 
-  /// The timestamp when the certificate that was used by edge-optimized endpoint
-  /// for this domain name was uploaded.
-  final DateTime? certificateUploadDate;
-
-  /// The domain name of the Amazon CloudFront distribution associated with this
-  /// custom domain name for an edge-optimized endpoint. You set up this
-  /// association when adding a DNS record pointing the custom domain name to this
-  /// distribution name. For more information about CloudFront distributions, see
-  /// the Amazon CloudFront documentation.
-  final String? distributionDomainName;
-
-  /// The region-agnostic Amazon Route 53 Hosted Zone ID of the edge-optimized
-  /// endpoint. The valid value is <code>Z2FDTNDATAQYW2</code> for all the
-  /// regions. For more information, see Set up a Regional Custom Domain Name and
-  /// AWS Regions and Endpoints for API Gateway.
-  final String? distributionHostedZoneId;
-
-  /// The custom domain name as an API host name, for example,
-  /// <code>my-api.example.com</code>.
-  final String? domainName;
-
-  /// The status of the DomainName migration. The valid values are
-  /// <code>AVAILABLE</code> and <code>UPDATING</code>. If the status is
-  /// <code>UPDATING</code>, the domain cannot be modified further until the
-  /// existing operation is complete. If it is <code>AVAILABLE</code>, the domain
-  /// can be updated.
-  final DomainNameStatus? domainNameStatus;
-
-  /// An optional text message containing detailed information about status of the
-  /// DomainName migration.
-  final String? domainNameStatusMessage;
-
-  /// The endpoint configuration of this DomainName showing the endpoint types of
-  /// the domain name.
-  final EndpointConfiguration? endpointConfiguration;
-
-  /// The mutual TLS authentication configuration for a custom domain name. If
-  /// specified, API Gateway performs two-way authentication between the client
-  /// and the server. Clients must present a trusted certificate to access your
-  /// API.
-  final MutualTlsAuthentication? mutualTlsAuthentication;
-
-  /// The ARN of the public certificate issued by ACM to validate ownership of
-  /// your custom domain. Only required when configuring mutual TLS and using an
-  /// ACM imported or private CA certificate ARN as the regionalCertificateArn.
-  final String? ownershipVerificationCertificateArn;
-
-  /// The reference to an Amazon Web Services-managed certificate that will be
-  /// used for validating the regional domain name. Certificate Manager is the
-  /// only supported source.
-  final String? regionalCertificateArn;
-
-  /// The name of the certificate that will be used for validating the regional
-  /// domain name.
-  final String? regionalCertificateName;
-
-  /// The domain name associated with the regional endpoint for this custom domain
-  /// name. You set up this association by adding a DNS record that points the
-  /// custom domain name to this regional domain name. The regional domain name is
-  /// returned by API Gateway when you create a regional endpoint.
-  final String? regionalDomainName;
-
-  /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint.
-  /// For more information, see Set up a Regional Custom Domain Name and AWS
-  /// Regions and Endpoints for API Gateway.
-  final String? regionalHostedZoneId;
-
-  /// The Transport Layer Security (TLS) version + cipher suite for this
-  /// DomainName. The valid values are <code>TLS_1_0</code> and
-  /// <code>TLS_1_2</code>.
-  final SecurityPolicy? securityPolicy;
-
-  /// The collection of tags. Each tag element is associated with a given
-  /// resource.
-  final Map<String, String>? tags;
-
-  DomainName({
-    this.certificateArn,
-    this.certificateName,
-    this.certificateUploadDate,
-    this.distributionDomainName,
-    this.distributionHostedZoneId,
-    this.domainName,
-    this.domainNameStatus,
-    this.domainNameStatusMessage,
-    this.endpointConfiguration,
-    this.mutualTlsAuthentication,
-    this.ownershipVerificationCertificateArn,
-    this.regionalCertificateArn,
-    this.regionalCertificateName,
-    this.regionalDomainName,
-    this.regionalHostedZoneId,
-    this.securityPolicy,
-    this.tags,
+  DomainNameAccessAssociations({
+    this.items,
+    this.position,
   });
 
-  factory DomainName.fromJson(Map<String, dynamic> json) {
-    return DomainName(
-      certificateArn: json['certificateArn'] as String?,
-      certificateName: json['certificateName'] as String?,
-      certificateUploadDate: timeStampFromJson(json['certificateUploadDate']),
-      distributionDomainName: json['distributionDomainName'] as String?,
-      distributionHostedZoneId: json['distributionHostedZoneId'] as String?,
-      domainName: json['domainName'] as String?,
-      domainNameStatus: (json['domainNameStatus'] as String?)
-          ?.let(DomainNameStatus.fromString),
-      domainNameStatusMessage: json['domainNameStatusMessage'] as String?,
-      endpointConfiguration: json['endpointConfiguration'] != null
-          ? EndpointConfiguration.fromJson(
-              json['endpointConfiguration'] as Map<String, dynamic>)
-          : null,
-      mutualTlsAuthentication: json['mutualTlsAuthentication'] != null
-          ? MutualTlsAuthentication.fromJson(
-              json['mutualTlsAuthentication'] as Map<String, dynamic>)
-          : null,
-      ownershipVerificationCertificateArn:
-          json['ownershipVerificationCertificateArn'] as String?,
-      regionalCertificateArn: json['regionalCertificateArn'] as String?,
-      regionalCertificateName: json['regionalCertificateName'] as String?,
-      regionalDomainName: json['regionalDomainName'] as String?,
-      regionalHostedZoneId: json['regionalHostedZoneId'] as String?,
-      securityPolicy:
-          (json['securityPolicy'] as String?)?.let(SecurityPolicy.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+  factory DomainNameAccessAssociations.fromJson(Map<String, dynamic> json) {
+    return DomainNameAccessAssociations(
+      items: (json['item'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DomainNameAccessAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      position: json['position'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final certificateName = this.certificateName;
-    final certificateUploadDate = this.certificateUploadDate;
-    final distributionDomainName = this.distributionDomainName;
-    final distributionHostedZoneId = this.distributionHostedZoneId;
-    final domainName = this.domainName;
-    final domainNameStatus = this.domainNameStatus;
-    final domainNameStatusMessage = this.domainNameStatusMessage;
-    final endpointConfiguration = this.endpointConfiguration;
-    final mutualTlsAuthentication = this.mutualTlsAuthentication;
-    final ownershipVerificationCertificateArn =
-        this.ownershipVerificationCertificateArn;
-    final regionalCertificateArn = this.regionalCertificateArn;
-    final regionalCertificateName = this.regionalCertificateName;
-    final regionalDomainName = this.regionalDomainName;
-    final regionalHostedZoneId = this.regionalHostedZoneId;
-    final securityPolicy = this.securityPolicy;
-    final tags = this.tags;
+    final items = this.items;
+    final position = this.position;
     return {
-      if (certificateArn != null) 'certificateArn': certificateArn,
-      if (certificateName != null) 'certificateName': certificateName,
-      if (certificateUploadDate != null)
-        'certificateUploadDate': unixTimestampToJson(certificateUploadDate),
-      if (distributionDomainName != null)
-        'distributionDomainName': distributionDomainName,
-      if (distributionHostedZoneId != null)
-        'distributionHostedZoneId': distributionHostedZoneId,
-      if (domainName != null) 'domainName': domainName,
-      if (domainNameStatus != null) 'domainNameStatus': domainNameStatus.value,
-      if (domainNameStatusMessage != null)
-        'domainNameStatusMessage': domainNameStatusMessage,
-      if (endpointConfiguration != null)
-        'endpointConfiguration': endpointConfiguration,
-      if (mutualTlsAuthentication != null)
-        'mutualTlsAuthentication': mutualTlsAuthentication,
-      if (ownershipVerificationCertificateArn != null)
-        'ownershipVerificationCertificateArn':
-            ownershipVerificationCertificateArn,
-      if (regionalCertificateArn != null)
-        'regionalCertificateArn': regionalCertificateArn,
-      if (regionalCertificateName != null)
-        'regionalCertificateName': regionalCertificateName,
-      if (regionalDomainName != null) 'regionalDomainName': regionalDomainName,
-      if (regionalHostedZoneId != null)
-        'regionalHostedZoneId': regionalHostedZoneId,
-      if (securityPolicy != null) 'securityPolicy': securityPolicy.value,
-      if (tags != null) 'tags': tags,
+      if (items != null) 'item': items,
     };
   }
-}
-
-class DomainNameStatus {
-  static const available = DomainNameStatus._('AVAILABLE');
-  static const updating = DomainNameStatus._('UPDATING');
-  static const pending = DomainNameStatus._('PENDING');
-  static const pendingCertificateReimport =
-      DomainNameStatus._('PENDING_CERTIFICATE_REIMPORT');
-  static const pendingOwnershipVerification =
-      DomainNameStatus._('PENDING_OWNERSHIP_VERIFICATION');
-
-  final String value;
-
-  const DomainNameStatus._(this.value);
-
-  static const values = [
-    available,
-    updating,
-    pending,
-    pendingCertificateReimport,
-    pendingOwnershipVerification
-  ];
-
-  static DomainNameStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DomainNameStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DomainNameStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Represents a collection of DomainName resources.
 class DomainNames {
   /// The current page of elements from this collection.
   final List<DomainName>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   DomainNames({
@@ -6424,79 +6959,8 @@ class DomainNames {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
     };
   }
-}
-
-/// The endpoint configuration to indicate the types of endpoints an API
-/// (RestApi) or its custom domain name (DomainName) has.
-class EndpointConfiguration {
-  /// A list of endpoint types of an API (RestApi) or its custom domain name
-  /// (DomainName). For an edge-optimized API and its custom domain name, the
-  /// endpoint type is <code>"EDGE"</code>. For a regional API and its custom
-  /// domain name, the endpoint type is <code>REGIONAL</code>. For a private API,
-  /// the endpoint type is <code>PRIVATE</code>.
-  final List<EndpointType>? types;
-
-  /// A list of VpcEndpointIds of an API (RestApi) against which to create Route53
-  /// ALIASes. It is only supported for <code>PRIVATE</code> endpoint type.
-  final List<String>? vpcEndpointIds;
-
-  EndpointConfiguration({
-    this.types,
-    this.vpcEndpointIds,
-  });
-
-  factory EndpointConfiguration.fromJson(Map<String, dynamic> json) {
-    return EndpointConfiguration(
-      types: (json['types'] as List?)
-          ?.nonNulls
-          .map((e) => EndpointType.fromString((e as String)))
-          .toList(),
-      vpcEndpointIds: (json['vpcEndpointIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final types = this.types;
-    final vpcEndpointIds = this.vpcEndpointIds;
-    return {
-      if (types != null) 'types': types.map((e) => e.value).toList(),
-      if (vpcEndpointIds != null) 'vpcEndpointIds': vpcEndpointIds,
-    };
-  }
-}
-
-/// The endpoint type. The valid values are <code>EDGE</code> for edge-optimized
-/// API setup, most suitable for mobile applications; <code>REGIONAL</code> for
-/// regional API endpoint setup, most suitable for calling from AWS Region; and
-/// <code>PRIVATE</code> for private APIs.
-class EndpointType {
-  static const regional = EndpointType._('REGIONAL');
-  static const edge = EndpointType._('EDGE');
-  static const private = EndpointType._('PRIVATE');
-
-  final String value;
-
-  const EndpointType._(this.value);
-
-  static const values = [regional, edge, private];
-
-  static EndpointType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
-
-  @override
-  bool operator ==(other) => other is EndpointType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// The binary blob response to GetExport, which contains the generated SDK.
@@ -6587,85 +7051,15 @@ class GatewayResponse {
   }
 }
 
-class GatewayResponseType {
-  static const default_4xx = GatewayResponseType._('DEFAULT_4XX');
-  static const default_5xx = GatewayResponseType._('DEFAULT_5XX');
-  static const resourceNotFound = GatewayResponseType._('RESOURCE_NOT_FOUND');
-  static const unauthorized = GatewayResponseType._('UNAUTHORIZED');
-  static const invalidApiKey = GatewayResponseType._('INVALID_API_KEY');
-  static const accessDenied = GatewayResponseType._('ACCESS_DENIED');
-  static const authorizerFailure = GatewayResponseType._('AUTHORIZER_FAILURE');
-  static const authorizerConfigurationError =
-      GatewayResponseType._('AUTHORIZER_CONFIGURATION_ERROR');
-  static const invalidSignature = GatewayResponseType._('INVALID_SIGNATURE');
-  static const expiredToken = GatewayResponseType._('EXPIRED_TOKEN');
-  static const missingAuthenticationToken =
-      GatewayResponseType._('MISSING_AUTHENTICATION_TOKEN');
-  static const integrationFailure =
-      GatewayResponseType._('INTEGRATION_FAILURE');
-  static const integrationTimeout =
-      GatewayResponseType._('INTEGRATION_TIMEOUT');
-  static const apiConfigurationError =
-      GatewayResponseType._('API_CONFIGURATION_ERROR');
-  static const unsupportedMediaType =
-      GatewayResponseType._('UNSUPPORTED_MEDIA_TYPE');
-  static const badRequestParameters =
-      GatewayResponseType._('BAD_REQUEST_PARAMETERS');
-  static const badRequestBody = GatewayResponseType._('BAD_REQUEST_BODY');
-  static const requestTooLarge = GatewayResponseType._('REQUEST_TOO_LARGE');
-  static const throttled = GatewayResponseType._('THROTTLED');
-  static const quotaExceeded = GatewayResponseType._('QUOTA_EXCEEDED');
-  static const wafFiltered = GatewayResponseType._('WAF_FILTERED');
-
-  final String value;
-
-  const GatewayResponseType._(this.value);
-
-  static const values = [
-    default_4xx,
-    default_5xx,
-    resourceNotFound,
-    unauthorized,
-    invalidApiKey,
-    accessDenied,
-    authorizerFailure,
-    authorizerConfigurationError,
-    invalidSignature,
-    expiredToken,
-    missingAuthenticationToken,
-    integrationFailure,
-    integrationTimeout,
-    apiConfigurationError,
-    unsupportedMediaType,
-    badRequestParameters,
-    badRequestBody,
-    requestTooLarge,
-    throttled,
-    quotaExceeded,
-    wafFiltered
-  ];
-
-  static GatewayResponseType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GatewayResponseType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GatewayResponseType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// The collection of the GatewayResponse instances of a RestApi as a
 /// <code>responseType</code>-to-GatewayResponse object map of key-value pairs.
 /// As such, pagination is not supported for querying this collection.
 class GatewayResponses {
   /// Returns the entire collection, because of no pagination support.
   final List<GatewayResponse>? items;
+
+  /// The current pagination position in the paged result set. The GatewayResponse
+  /// collection does not support pagination and the position does not apply here.
   final String? position;
 
   GatewayResponses({
@@ -6688,7 +7082,6 @@ class GatewayResponses {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
     };
   }
 }
@@ -6745,6 +7138,9 @@ class Integration {
   /// Specifies the integration's responses.
   final Map<String, IntegrationResponse>? integrationResponses;
 
+  /// The ALB or NLB listener to send the request to.
+  final String? integrationTarget;
+
   /// Specifies how the method request body of an unmapped content type will be
   /// passed through the integration request to the back end without
   /// transformation. A content type is unmapped if no mapping template is defined
@@ -6783,8 +7179,12 @@ class Integration {
   /// String) is the value.
   final Map<String, String>? requestTemplates;
 
+  /// The response transfer mode of the integration.
+  final ResponseTransferMode? responseTransferMode;
+
   /// Custom timeout between 50 and 29,000 milliseconds. The default value is
-  /// 29,000 milliseconds or 29 seconds.
+  /// 29,000 milliseconds or 29 seconds. You can increase the default value to
+  /// longer than 29 seconds for Regional or private APIs only.
   final int? timeoutInMillis;
 
   /// Specifies the TLS configuration for an integration.
@@ -6815,14 +7215,14 @@ class Integration {
   /// {subdomain} is a designated subdomain supported by certain Amazon Web
   /// Services service for fast host-name lookup. action can be used for an Amazon
   /// Web Services service action-based API, using an
-  /// Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing
-  /// {service_api} refers to a supported action {name} plus any required input
-  /// parameters. Alternatively, path can be used for an Amazon Web Services
-  /// service path-based API. The ensuing service_api refers to the path to an
-  /// Amazon Web Services service resource, including the region of the integrated
-  /// Amazon Web Services service, if applicable. For example, for integration
-  /// with the S3 API of GetObject, the uri can be either
-  /// <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}</code>
+  /// Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api}
+  /// refers to a supported action {name} plus any required input parameters.
+  /// Alternatively, path can be used for an Amazon Web Services service
+  /// path-based API. The ensuing service_api refers to the path to an Amazon Web
+  /// Services service resource, including the region of the integrated Amazon Web
+  /// Services service, if applicable. For example, for integration with the S3
+  /// API of GetObject, the uri can be either
+  /// <code>arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key}</code>
   /// or <code>arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}</code>
   final String? uri;
 
@@ -6835,9 +7235,11 @@ class Integration {
     this.credentials,
     this.httpMethod,
     this.integrationResponses,
+    this.integrationTarget,
     this.passthroughBehavior,
     this.requestParameters,
     this.requestTemplates,
+    this.responseTransferMode,
     this.timeoutInMillis,
     this.tlsConfig,
     this.type,
@@ -6862,11 +7264,14 @@ class Integration {
           (json['integrationResponses'] as Map<String, dynamic>?)?.map((k, e) =>
               MapEntry(
                   k, IntegrationResponse.fromJson(e as Map<String, dynamic>))),
+      integrationTarget: json['integrationTarget'] as String?,
       passthroughBehavior: json['passthroughBehavior'] as String?,
       requestParameters: (json['requestParameters'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
       requestTemplates: (json['requestTemplates'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
+      responseTransferMode: (json['responseTransferMode'] as String?)
+          ?.let(ResponseTransferMode.fromString),
       timeoutInMillis: json['timeoutInMillis'] as int?,
       tlsConfig: json['tlsConfig'] != null
           ? TlsConfig.fromJson(json['tlsConfig'] as Map<String, dynamic>)
@@ -6885,9 +7290,11 @@ class Integration {
     final credentials = this.credentials;
     final httpMethod = this.httpMethod;
     final integrationResponses = this.integrationResponses;
+    final integrationTarget = this.integrationTarget;
     final passthroughBehavior = this.passthroughBehavior;
     final requestParameters = this.requestParameters;
     final requestTemplates = this.requestTemplates;
+    final responseTransferMode = this.responseTransferMode;
     final timeoutInMillis = this.timeoutInMillis;
     final tlsConfig = this.tlsConfig;
     final type = this.type;
@@ -6902,10 +7309,13 @@ class Integration {
       if (httpMethod != null) 'httpMethod': httpMethod,
       if (integrationResponses != null)
         'integrationResponses': integrationResponses,
+      if (integrationTarget != null) 'integrationTarget': integrationTarget,
       if (passthroughBehavior != null)
         'passthroughBehavior': passthroughBehavior,
       if (requestParameters != null) 'requestParameters': requestParameters,
       if (requestTemplates != null) 'requestTemplates': requestTemplates,
+      if (responseTransferMode != null)
+        'responseTransferMode': responseTransferMode.value,
       if (timeoutInMillis != null) 'timeoutInMillis': timeoutInMillis,
       if (tlsConfig != null) 'tlsConfig': tlsConfig,
       if (type != null) 'type': type.value,
@@ -6994,64 +7404,6 @@ class IntegrationResponse {
       if (statusCode != null) 'statusCode': statusCode,
     };
   }
-}
-
-/// The integration type. The valid value is <code>HTTP</code> for integrating
-/// an API method with an HTTP backend; <code>AWS</code> with any Amazon Web
-/// Services service endpoints; <code>MOCK</code> for testing without actually
-/// invoking the backend; <code>HTTP_PROXY</code> for integrating with the HTTP
-/// proxy integration; <code>AWS_PROXY</code> for integrating with the Lambda
-/// proxy integration.
-class IntegrationType {
-  static const http = IntegrationType._('HTTP');
-  static const aws = IntegrationType._('AWS');
-  static const mock = IntegrationType._('MOCK');
-  static const httpProxy = IntegrationType._('HTTP_PROXY');
-  static const awsProxy = IntegrationType._('AWS_PROXY');
-
-  final String value;
-
-  const IntegrationType._(this.value);
-
-  static const values = [http, aws, mock, httpProxy, awsProxy];
-
-  static IntegrationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IntegrationType._(value));
-
-  @override
-  bool operator ==(other) => other is IntegrationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LocationStatusType {
-  static const documented = LocationStatusType._('DOCUMENTED');
-  static const undocumented = LocationStatusType._('UNDOCUMENTED');
-
-  final String value;
-
-  const LocationStatusType._(this.value);
-
-  static const values = [documented, undocumented];
-
-  static LocationStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LocationStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LocationStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Represents a client-facing interface by which the client calls the API to
@@ -7253,208 +7605,12 @@ class MethodResponse {
   }
 }
 
-/// Specifies the method setting properties.
-class MethodSetting {
-  /// Specifies whether the cached responses are encrypted.
-  final bool? cacheDataEncrypted;
-
-  /// Specifies the time to live (TTL), in seconds, for cached responses. The
-  /// higher the TTL, the longer the response will be cached.
-  final int? cacheTtlInSeconds;
-
-  /// Specifies whether responses should be cached and returned for requests. A
-  /// cache cluster must be enabled on the stage for responses to be cached.
-  final bool? cachingEnabled;
-
-  /// Specifies whether data trace logging is enabled for this method, which
-  /// affects the log entries pushed to Amazon CloudWatch Logs. This can be useful
-  /// to troubleshoot APIs, but can result in logging sensitive data. We recommend
-  /// that you don't enable this option for production APIs.
-  final bool? dataTraceEnabled;
-
-  /// Specifies the logging level for this method, which affects the log entries
-  /// pushed to Amazon CloudWatch Logs. Valid values are <code>OFF</code>,
-  /// <code>ERROR</code>, and <code>INFO</code>. Choose <code>ERROR</code> to
-  /// write only error-level entries to CloudWatch Logs, or choose
-  /// <code>INFO</code> to include all <code>ERROR</code> events as well as extra
-  /// informational events.
-  final String? loggingLevel;
-
-  /// Specifies whether Amazon CloudWatch metrics are enabled for this method.
-  final bool? metricsEnabled;
-
-  /// Specifies whether authorization is required for a cache invalidation
-  /// request.
-  final bool? requireAuthorizationForCacheControl;
-
-  /// Specifies the throttling burst limit.
-  final int? throttlingBurstLimit;
-
-  /// Specifies the throttling rate limit.
-  final double? throttlingRateLimit;
-
-  /// Specifies how to handle unauthorized requests for cache invalidation.
-  final UnauthorizedCacheControlHeaderStrategy?
-      unauthorizedCacheControlHeaderStrategy;
-
-  MethodSetting({
-    this.cacheDataEncrypted,
-    this.cacheTtlInSeconds,
-    this.cachingEnabled,
-    this.dataTraceEnabled,
-    this.loggingLevel,
-    this.metricsEnabled,
-    this.requireAuthorizationForCacheControl,
-    this.throttlingBurstLimit,
-    this.throttlingRateLimit,
-    this.unauthorizedCacheControlHeaderStrategy,
-  });
-
-  factory MethodSetting.fromJson(Map<String, dynamic> json) {
-    return MethodSetting(
-      cacheDataEncrypted: json['cacheDataEncrypted'] as bool?,
-      cacheTtlInSeconds: json['cacheTtlInSeconds'] as int?,
-      cachingEnabled: json['cachingEnabled'] as bool?,
-      dataTraceEnabled: json['dataTraceEnabled'] as bool?,
-      loggingLevel: json['loggingLevel'] as String?,
-      metricsEnabled: json['metricsEnabled'] as bool?,
-      requireAuthorizationForCacheControl:
-          json['requireAuthorizationForCacheControl'] as bool?,
-      throttlingBurstLimit: json['throttlingBurstLimit'] as int?,
-      throttlingRateLimit: json['throttlingRateLimit'] as double?,
-      unauthorizedCacheControlHeaderStrategy:
-          (json['unauthorizedCacheControlHeaderStrategy'] as String?)
-              ?.let(UnauthorizedCacheControlHeaderStrategy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheDataEncrypted = this.cacheDataEncrypted;
-    final cacheTtlInSeconds = this.cacheTtlInSeconds;
-    final cachingEnabled = this.cachingEnabled;
-    final dataTraceEnabled = this.dataTraceEnabled;
-    final loggingLevel = this.loggingLevel;
-    final metricsEnabled = this.metricsEnabled;
-    final requireAuthorizationForCacheControl =
-        this.requireAuthorizationForCacheControl;
-    final throttlingBurstLimit = this.throttlingBurstLimit;
-    final throttlingRateLimit = this.throttlingRateLimit;
-    final unauthorizedCacheControlHeaderStrategy =
-        this.unauthorizedCacheControlHeaderStrategy;
-    return {
-      if (cacheDataEncrypted != null) 'cacheDataEncrypted': cacheDataEncrypted,
-      if (cacheTtlInSeconds != null) 'cacheTtlInSeconds': cacheTtlInSeconds,
-      if (cachingEnabled != null) 'cachingEnabled': cachingEnabled,
-      if (dataTraceEnabled != null) 'dataTraceEnabled': dataTraceEnabled,
-      if (loggingLevel != null) 'loggingLevel': loggingLevel,
-      if (metricsEnabled != null) 'metricsEnabled': metricsEnabled,
-      if (requireAuthorizationForCacheControl != null)
-        'requireAuthorizationForCacheControl':
-            requireAuthorizationForCacheControl,
-      if (throttlingBurstLimit != null)
-        'throttlingBurstLimit': throttlingBurstLimit,
-      if (throttlingRateLimit != null)
-        'throttlingRateLimit': throttlingRateLimit,
-      if (unauthorizedCacheControlHeaderStrategy != null)
-        'unauthorizedCacheControlHeaderStrategy':
-            unauthorizedCacheControlHeaderStrategy.value,
-    };
-  }
-}
-
-/// Represents a summary of a Method resource, given a particular date and time.
-class MethodSnapshot {
-  /// Specifies whether the method requires a valid ApiKey.
-  final bool? apiKeyRequired;
-
-  /// The method's authorization type. Valid values are <code>NONE</code> for open
-  /// access, <code>AWS_IAM</code> for using AWS IAM permissions,
-  /// <code>CUSTOM</code> for using a custom authorizer, or
-  /// <code>COGNITO_USER_POOLS</code> for using a Cognito user pool.
-  final String? authorizationType;
-
-  MethodSnapshot({
-    this.apiKeyRequired,
-    this.authorizationType,
-  });
-
-  factory MethodSnapshot.fromJson(Map<String, dynamic> json) {
-    return MethodSnapshot(
-      apiKeyRequired: json['apiKeyRequired'] as bool?,
-      authorizationType: json['authorizationType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiKeyRequired = this.apiKeyRequired;
-    final authorizationType = this.authorizationType;
-    return {
-      if (apiKeyRequired != null) 'apiKeyRequired': apiKeyRequired,
-      if (authorizationType != null) 'authorizationType': authorizationType,
-    };
-  }
-}
-
-/// Represents the data structure of a method's request or response payload.
-class Model {
-  /// The content-type for the model.
-  final String? contentType;
-
-  /// The description of the model.
-  final String? description;
-
-  /// The identifier for the model resource.
-  final String? id;
-
-  /// The name of the model. Must be an alphanumeric string.
-  final String? name;
-
-  /// The schema for the model. For <code>application/json</code> models, this
-  /// should be JSON schema draft 4 model. Do not include "\*/" characters in the
-  /// description of any properties because such "\*/" characters may be
-  /// interpreted as the closing marker for comments in some languages, such as
-  /// Java or JavaScript, causing the installation of your API's SDK generated by
-  /// API Gateway to fail.
-  final String? schema;
-
-  Model({
-    this.contentType,
-    this.description,
-    this.id,
-    this.name,
-    this.schema,
-  });
-
-  factory Model.fromJson(Map<String, dynamic> json) {
-    return Model(
-      contentType: json['contentType'] as String?,
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      schema: json['schema'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentType = this.contentType;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final schema = this.schema;
-    return {
-      if (contentType != null) 'contentType': contentType,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (schema != null) 'schema': schema,
-    };
-  }
-}
-
 /// Represents a collection of Model resources.
 class Models {
   /// The current page of elements from this collection.
   final List<Model>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   Models({
@@ -7477,311 +7633,30 @@ class Models {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
     };
   }
 }
 
-/// The mutual TLS authentication configuration for a custom domain name. If
-/// specified, API Gateway performs two-way authentication between the client
-/// and the server. Clients must present a trusted certificate to access your
-/// API.
-class MutualTlsAuthentication {
-  /// An Amazon S3 URL that specifies the truststore for mutual TLS
-  /// authentication, for example <code>s3://bucket-name/key-name</code>. The
-  /// truststore can contain certificates from public or private certificate
-  /// authorities. To update the truststore, upload a new version to S3, and then
-  /// update your custom domain name to use the new version. To update the
-  /// truststore, you must have permissions to access the S3 object.
-  final String? truststoreUri;
-
-  /// The version of the S3 object that contains your truststore. To specify a
-  /// version, you must have versioning enabled for the S3 bucket.
-  final String? truststoreVersion;
-
-  /// A list of warnings that API Gateway returns while processing your
-  /// truststore. Invalid certificates produce warnings. Mutual TLS is still
-  /// enabled, but some clients might not be able to access your API. To resolve
-  /// warnings, upload a new truststore to S3, and then update you domain name to
-  /// use the new version.
-  final List<String>? truststoreWarnings;
-
-  MutualTlsAuthentication({
-    this.truststoreUri,
-    this.truststoreVersion,
-    this.truststoreWarnings,
-  });
-
-  factory MutualTlsAuthentication.fromJson(Map<String, dynamic> json) {
-    return MutualTlsAuthentication(
-      truststoreUri: json['truststoreUri'] as String?,
-      truststoreVersion: json['truststoreVersion'] as String?,
-      truststoreWarnings: (json['truststoreWarnings'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final truststoreUri = this.truststoreUri;
-    final truststoreVersion = this.truststoreVersion;
-    final truststoreWarnings = this.truststoreWarnings;
-    return {
-      if (truststoreUri != null) 'truststoreUri': truststoreUri,
-      if (truststoreVersion != null) 'truststoreVersion': truststoreVersion,
-      if (truststoreWarnings != null) 'truststoreWarnings': truststoreWarnings,
-    };
-  }
-}
-
-/// The mutual TLS authentication configuration for a custom domain name. If
-/// specified, API Gateway performs two-way authentication between the client
-/// and the server. Clients must present a trusted certificate to access your
-/// API.
-class MutualTlsAuthenticationInput {
-  /// An Amazon S3 URL that specifies the truststore for mutual TLS
-  /// authentication, for example <code>s3://bucket-name/key-name</code>. The
-  /// truststore can contain certificates from public or private certificate
-  /// authorities. To update the truststore, upload a new version to S3, and then
-  /// update your custom domain name to use the new version. To update the
-  /// truststore, you must have permissions to access the S3 object.
-  final String? truststoreUri;
-
-  /// The version of the S3 object that contains your truststore. To specify a
-  /// version, you must have versioning enabled for the S3 bucket
-  final String? truststoreVersion;
-
-  MutualTlsAuthenticationInput({
-    this.truststoreUri,
-    this.truststoreVersion,
-  });
-
-  Map<String, dynamic> toJson() {
-    final truststoreUri = this.truststoreUri;
-    final truststoreVersion = this.truststoreVersion;
-    return {
-      if (truststoreUri != null) 'truststoreUri': truststoreUri,
-      if (truststoreVersion != null) 'truststoreVersion': truststoreVersion,
-    };
-  }
-}
-
-class Op {
-  static const add = Op._('add');
-  static const remove = Op._('remove');
-  static const replace = Op._('replace');
-  static const move = Op._('move');
-  static const copy = Op._('copy');
-  static const test = Op._('test');
-
-  final String value;
-
-  const Op._(this.value);
-
-  static const values = [add, remove, replace, move, copy, test];
-
-  static Op fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Op._(value));
-
-  @override
-  bool operator ==(other) => other is Op && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// For more information about supported patch operations, see <a
-/// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
-/// Operations</a>.
-class PatchOperation {
-  /// The copy update operation's source as identified by a JSON-Pointer value
-  /// referencing the location within the targeted resource to copy the value
-  /// from. For example, to promote a canary deployment, you copy the canary
-  /// deployment ID to the affiliated deployment ID by calling a PATCH request on
-  /// a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and
-  /// "path":"/deploymentId".
-  final String? from;
-
-  /// An update operation to be performed with this PATCH request. The valid value
-  /// can be add, remove, replace or copy. Not all valid operations are supported
-  /// for a given resource. Support of the operations depends on specific
-  /// operational contexts. Attempts to apply an unsupported operation on a
-  /// resource will return an error message..
-  final Op? op;
-
-  /// The op operation's target, as identified by a JSON Pointer value that
-  /// references a location within the targeted resource. For example, if the
-  /// target resource has an updateable property of {"name":"value"}, the path for
-  /// this property is /name. If the name property value is a JSON object (e.g.,
-  /// {"name": {"child/name": "child-value"}}), the path for the child/name
-  /// property will be /name/child~1name. Any slash ("/") character appearing in
-  /// path names must be escaped with "~1", as shown in the example above. Each op
-  /// operation can have only one path associated with it.
-  final String? path;
-
-  /// The new target value of the update operation. It is applicable for the add
-  /// or replace operation. When using AWS CLI to update a property of a JSON
-  /// value, enclose the JSON object with a pair of single quotes in a Linux
-  /// shell, e.g., '{"a": ...}'.
+/// Represents a mapping template used to transform a payload.
+class Template {
+  /// The Apache Velocity Template Language (VTL) template content used for the
+  /// template resource.
   final String? value;
 
-  PatchOperation({
-    this.from,
-    this.op,
-    this.path,
+  Template({
     this.value,
   });
 
+  factory Template.fromJson(Map<String, dynamic> json) {
+    return Template(
+      value: json['value'] as String?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final from = this.from;
-    final op = this.op;
-    final path = this.path;
     final value = this.value;
     return {
-      if (from != null) 'from': from,
-      if (op != null) 'op': op.value,
-      if (path != null) 'path': path,
       if (value != null) 'value': value,
-    };
-  }
-}
-
-class PutMode {
-  static const merge = PutMode._('merge');
-  static const overwrite = PutMode._('overwrite');
-
-  final String value;
-
-  const PutMode._(this.value);
-
-  static const values = [merge, overwrite];
-
-  static PutMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PutMode._(value));
-
-  @override
-  bool operator ==(other) => other is PutMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class QuotaPeriodType {
-  static const day = QuotaPeriodType._('DAY');
-  static const week = QuotaPeriodType._('WEEK');
-  static const month = QuotaPeriodType._('MONTH');
-
-  final String value;
-
-  const QuotaPeriodType._(this.value);
-
-  static const values = [day, week, month];
-
-  static QuotaPeriodType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QuotaPeriodType._(value));
-
-  @override
-  bool operator ==(other) => other is QuotaPeriodType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Quotas configured for a usage plan.
-class QuotaSettings {
-  /// The target maximum number of requests that can be made in a given time
-  /// period.
-  final int? limit;
-
-  /// The number of requests subtracted from the given limit in the initial time
-  /// period.
-  final int? offset;
-
-  /// The time period in which the limit applies. Valid values are "DAY", "WEEK"
-  /// or "MONTH".
-  final QuotaPeriodType? period;
-
-  QuotaSettings({
-    this.limit,
-    this.offset,
-    this.period,
-  });
-
-  factory QuotaSettings.fromJson(Map<String, dynamic> json) {
-    return QuotaSettings(
-      limit: json['limit'] as int?,
-      offset: json['offset'] as int?,
-      period: (json['period'] as String?)?.let(QuotaPeriodType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final limit = this.limit;
-    final offset = this.offset;
-    final period = this.period;
-    return {
-      if (limit != null) 'limit': limit,
-      if (offset != null) 'offset': offset,
-      if (period != null) 'period': period.value,
-    };
-  }
-}
-
-/// A set of validation rules for incoming Method requests.
-class RequestValidator {
-  /// The identifier of this RequestValidator.
-  final String? id;
-
-  /// The name of this RequestValidator
-  final String? name;
-
-  /// A Boolean flag to indicate whether to validate a request body according to
-  /// the configured Model schema.
-  final bool? validateRequestBody;
-
-  /// A Boolean flag to indicate whether to validate request parameters
-  /// (<code>true</code>) or not (<code>false</code>).
-  final bool? validateRequestParameters;
-
-  RequestValidator({
-    this.id,
-    this.name,
-    this.validateRequestBody,
-    this.validateRequestParameters,
-  });
-
-  factory RequestValidator.fromJson(Map<String, dynamic> json) {
-    return RequestValidator(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      validateRequestBody: json['validateRequestBody'] as bool?,
-      validateRequestParameters: json['validateRequestParameters'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final validateRequestBody = this.validateRequestBody;
-    final validateRequestParameters = this.validateRequestParameters;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (validateRequestBody != null)
-        'validateRequestBody': validateRequestBody,
-      if (validateRequestParameters != null)
-        'validateRequestParameters': validateRequestParameters,
     };
   }
 }
@@ -7790,6 +7665,8 @@ class RequestValidator {
 class RequestValidators {
   /// The current page of elements from this collection.
   final List<RequestValidator>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   RequestValidators({
@@ -7812,59 +7689,6 @@ class RequestValidators {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-/// Represents an API resource.
-class Resource {
-  /// The resource's identifier.
-  final String? id;
-
-  /// The parent resource's identifier.
-  final String? parentId;
-
-  /// The full path for this resource.
-  final String? path;
-
-  /// The last path segment for this resource.
-  final String? pathPart;
-
-  /// Gets an API resource's method of a given HTTP verb.
-  final Map<String, Method>? resourceMethods;
-
-  Resource({
-    this.id,
-    this.parentId,
-    this.path,
-    this.pathPart,
-    this.resourceMethods,
-  });
-
-  factory Resource.fromJson(Map<String, dynamic> json) {
-    return Resource(
-      id: json['id'] as String?,
-      parentId: json['parentId'] as String?,
-      path: json['path'] as String?,
-      pathPart: json['pathPart'] as String?,
-      resourceMethods: (json['resourceMethods'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k, Method.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final parentId = this.parentId;
-    final path = this.path;
-    final pathPart = this.pathPart;
-    final resourceMethods = this.resourceMethods;
-    return {
-      if (id != null) 'id': id,
-      if (parentId != null) 'parentId': parentId,
-      if (path != null) 'path': path,
-      if (pathPart != null) 'pathPart': pathPart,
-      if (resourceMethods != null) 'resourceMethods': resourceMethods,
     };
   }
 }
@@ -7873,6 +7697,8 @@ class Resource {
 class Resources {
   /// The current page of elements from this collection.
   final List<Resource>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   Resources({
@@ -7895,154 +7721,6 @@ class Resources {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-/// Represents a REST API.
-class RestApi {
-  /// The source of the API key for metering requests according to a usage plan.
-  /// Valid values are: &gt;<code>HEADER</code> to read the API key from the
-  /// <code>X-API-Key</code> header of a request. <code>AUTHORIZER</code> to read
-  /// the API key from the <code>UsageIdentifierKey</code> from a custom
-  /// authorizer.
-  final ApiKeySourceType? apiKeySource;
-
-  /// The list of binary media types supported by the RestApi. By default, the
-  /// RestApi supports only UTF-8-encoded text payloads.
-  final List<String>? binaryMediaTypes;
-
-  /// The timestamp when the API was created.
-  final DateTime? createdDate;
-
-  /// The API's description.
-  final String? description;
-
-  /// Specifies whether clients can invoke your API by using the default
-  /// <code>execute-api</code> endpoint. By default, clients can invoke your API
-  /// with the default
-  /// <code>https://{api_id}.execute-api.{region}.amazonaws.com</code> endpoint.
-  /// To require that clients use a custom domain name to invoke your API, disable
-  /// the default endpoint.
-  final bool? disableExecuteApiEndpoint;
-
-  /// The endpoint configuration of this RestApi showing the endpoint types of the
-  /// API.
-  final EndpointConfiguration? endpointConfiguration;
-
-  /// The API's identifier. This identifier is unique across all of your APIs in
-  /// API Gateway.
-  final String? id;
-
-  /// A nullable integer that is used to enable compression (with non-negative
-  /// between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with
-  /// a null value) on an API. When compression is enabled, compression or
-  /// decompression is not applied on the payload if the payload size is smaller
-  /// than this value. Setting it to zero allows compression for any payload size.
-  final int? minimumCompressionSize;
-
-  /// The API's name.
-  final String? name;
-
-  /// A stringified JSON policy document that applies to this RestApi regardless
-  /// of the caller and Method configuration.
-  final String? policy;
-
-  /// The API's root resource ID.
-  final String? rootResourceId;
-
-  /// The collection of tags. Each tag element is associated with a given
-  /// resource.
-  final Map<String, String>? tags;
-
-  /// A version identifier for the API.
-  final String? version;
-
-  /// The warning messages reported when <code>failonwarnings</code> is turned on
-  /// during API import.
-  final List<String>? warnings;
-
-  RestApi({
-    this.apiKeySource,
-    this.binaryMediaTypes,
-    this.createdDate,
-    this.description,
-    this.disableExecuteApiEndpoint,
-    this.endpointConfiguration,
-    this.id,
-    this.minimumCompressionSize,
-    this.name,
-    this.policy,
-    this.rootResourceId,
-    this.tags,
-    this.version,
-    this.warnings,
-  });
-
-  factory RestApi.fromJson(Map<String, dynamic> json) {
-    return RestApi(
-      apiKeySource:
-          (json['apiKeySource'] as String?)?.let(ApiKeySourceType.fromString),
-      binaryMediaTypes: (json['binaryMediaTypes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      createdDate: timeStampFromJson(json['createdDate']),
-      description: json['description'] as String?,
-      disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool?,
-      endpointConfiguration: json['endpointConfiguration'] != null
-          ? EndpointConfiguration.fromJson(
-              json['endpointConfiguration'] as Map<String, dynamic>)
-          : null,
-      id: json['id'] as String?,
-      minimumCompressionSize: json['minimumCompressionSize'] as int?,
-      name: json['name'] as String?,
-      policy: json['policy'] as String?,
-      rootResourceId: json['rootResourceId'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      version: json['version'] as String?,
-      warnings: (json['warnings'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiKeySource = this.apiKeySource;
-    final binaryMediaTypes = this.binaryMediaTypes;
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final disableExecuteApiEndpoint = this.disableExecuteApiEndpoint;
-    final endpointConfiguration = this.endpointConfiguration;
-    final id = this.id;
-    final minimumCompressionSize = this.minimumCompressionSize;
-    final name = this.name;
-    final policy = this.policy;
-    final rootResourceId = this.rootResourceId;
-    final tags = this.tags;
-    final version = this.version;
-    final warnings = this.warnings;
-    return {
-      if (apiKeySource != null) 'apiKeySource': apiKeySource.value,
-      if (binaryMediaTypes != null) 'binaryMediaTypes': binaryMediaTypes,
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (description != null) 'description': description,
-      if (disableExecuteApiEndpoint != null)
-        'disableExecuteApiEndpoint': disableExecuteApiEndpoint,
-      if (endpointConfiguration != null)
-        'endpointConfiguration': endpointConfiguration,
-      if (id != null) 'id': id,
-      if (minimumCompressionSize != null)
-        'minimumCompressionSize': minimumCompressionSize,
-      if (name != null) 'name': name,
-      if (policy != null) 'policy': policy,
-      if (rootResourceId != null) 'rootResourceId': rootResourceId,
-      if (tags != null) 'tags': tags,
-      if (version != null) 'version': version,
-      if (warnings != null) 'warnings': warnings,
     };
   }
 }
@@ -8052,6 +7730,8 @@ class RestApi {
 class RestApis {
   /// The current page of elements from this collection.
   final List<RestApi>? items;
+
+  /// The current pagination position in the paged result set.
   final String? position;
 
   RestApis({
@@ -8074,60 +7754,6 @@ class RestApis {
     final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-/// A configuration property of an SDK type.
-class SdkConfigurationProperty {
-  /// The default value of an SdkType configuration property.
-  final String? defaultValue;
-
-  /// The description of an SdkType configuration property.
-  final String? description;
-
-  /// The user-friendly name of an SdkType configuration property.
-  final String? friendlyName;
-
-  /// The name of a an SdkType configuration property.
-  final String? name;
-
-  /// A boolean flag of an SdkType configuration property to indicate if the
-  /// associated SDK configuration property is required (<code>true</code>) or not
-  /// (<code>false</code>).
-  final bool? required;
-
-  SdkConfigurationProperty({
-    this.defaultValue,
-    this.description,
-    this.friendlyName,
-    this.name,
-    this.required,
-  });
-
-  factory SdkConfigurationProperty.fromJson(Map<String, dynamic> json) {
-    return SdkConfigurationProperty(
-      defaultValue: json['defaultValue'] as String?,
-      description: json['description'] as String?,
-      friendlyName: json['friendlyName'] as String?,
-      name: json['name'] as String?,
-      required: json['required'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultValue = this.defaultValue;
-    final description = this.description;
-    final friendlyName = this.friendlyName;
-    final name = this.name;
-    final required = this.required;
-    return {
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (description != null) 'description': description,
-      if (friendlyName != null) 'friendlyName': friendlyName,
-      if (name != null) 'name': name,
-      if (required != null) 'required': required,
     };
   }
 }
@@ -8212,11 +7838,9 @@ class SdkType {
 class SdkTypes {
   /// The current page of elements from this collection.
   final List<SdkType>? items;
-  final String? position;
 
   SdkTypes({
     this.items,
-    this.position,
   });
 
   factory SdkTypes.fromJson(Map<String, dynamic> json) {
@@ -8225,232 +7849,13 @@ class SdkTypes {
           ?.nonNulls
           .map((e) => SdkType.fromJson(e as Map<String, dynamic>))
           .toList(),
-      position: json['position'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final items = this.items;
-    final position = this.position;
     return {
       if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-class SecurityPolicy {
-  static const tls_1_0 = SecurityPolicy._('TLS_1_0');
-  static const tls_1_2 = SecurityPolicy._('TLS_1_2');
-
-  final String value;
-
-  const SecurityPolicy._(this.value);
-
-  static const values = [tls_1_0, tls_1_2];
-
-  static SecurityPolicy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SecurityPolicy._(value));
-
-  @override
-  bool operator ==(other) => other is SecurityPolicy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a unique identifier for a version of a deployed RestApi that is
-/// callable by users.
-class Stage {
-  /// Settings for logging access in this stage.
-  final AccessLogSettings? accessLogSettings;
-
-  /// Specifies whether a cache cluster is enabled for the stage. To activate a
-  /// method-level cache, set <code>CachingEnabled</code> to <code>true</code> for
-  /// a method.
-  final bool? cacheClusterEnabled;
-
-  /// The stage's cache capacity in GB. For more information about choosing a
-  /// cache size, see <a
-  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html">Enabling
-  /// API caching to enhance responsiveness</a>.
-  final CacheClusterSize? cacheClusterSize;
-
-  /// The status of the cache cluster for the stage, if enabled.
-  final CacheClusterStatus? cacheClusterStatus;
-
-  /// Settings for the canary deployment in this stage.
-  final CanarySettings? canarySettings;
-
-  /// The identifier of a client certificate for an API stage.
-  final String? clientCertificateId;
-
-  /// The timestamp when the stage was created.
-  final DateTime? createdDate;
-
-  /// The identifier of the Deployment that the stage points to.
-  final String? deploymentId;
-
-  /// The stage's description.
-  final String? description;
-
-  /// The version of the associated API documentation.
-  final String? documentationVersion;
-
-  /// The timestamp when the stage last updated.
-  final DateTime? lastUpdatedDate;
-
-  /// A map that defines the method settings for a Stage resource. Keys
-  /// (designated as <code>/{method_setting_key</code> below) are method paths
-  /// defined as <code>{resource_path}/{http_method}</code> for an individual
-  /// method override, or <code>/\*/\*</code> for overriding all methods in the
-  /// stage.
-  final Map<String, MethodSetting>? methodSettings;
-
-  /// The name of the stage is the first path segment in the Uniform Resource
-  /// Identifier (URI) of a call to API Gateway. Stage names can only contain
-  /// alphanumeric characters, hyphens, and underscores. Maximum length is 128
-  /// characters.
-  final String? stageName;
-
-  /// The collection of tags. Each tag element is associated with a given
-  /// resource.
-  final Map<String, String>? tags;
-
-  /// Specifies whether active tracing with X-ray is enabled for the Stage.
-  final bool? tracingEnabled;
-
-  /// A map that defines the stage variables for a Stage resource. Variable names
-  /// can have alphanumeric and underscore characters, and the values must match
-  /// <code>[A-Za-z0-9-._~:/?#&amp;=,]+</code>.
-  final Map<String, String>? variables;
-
-  /// The ARN of the WebAcl associated with the Stage.
-  final String? webAclArn;
-
-  Stage({
-    this.accessLogSettings,
-    this.cacheClusterEnabled,
-    this.cacheClusterSize,
-    this.cacheClusterStatus,
-    this.canarySettings,
-    this.clientCertificateId,
-    this.createdDate,
-    this.deploymentId,
-    this.description,
-    this.documentationVersion,
-    this.lastUpdatedDate,
-    this.methodSettings,
-    this.stageName,
-    this.tags,
-    this.tracingEnabled,
-    this.variables,
-    this.webAclArn,
-  });
-
-  factory Stage.fromJson(Map<String, dynamic> json) {
-    return Stage(
-      accessLogSettings: json['accessLogSettings'] != null
-          ? AccessLogSettings.fromJson(
-              json['accessLogSettings'] as Map<String, dynamic>)
-          : null,
-      cacheClusterEnabled: json['cacheClusterEnabled'] as bool?,
-      cacheClusterSize: (json['cacheClusterSize'] as String?)
-          ?.let(CacheClusterSize.fromString),
-      cacheClusterStatus: (json['cacheClusterStatus'] as String?)
-          ?.let(CacheClusterStatus.fromString),
-      canarySettings: json['canarySettings'] != null
-          ? CanarySettings.fromJson(
-              json['canarySettings'] as Map<String, dynamic>)
-          : null,
-      clientCertificateId: json['clientCertificateId'] as String?,
-      createdDate: timeStampFromJson(json['createdDate']),
-      deploymentId: json['deploymentId'] as String?,
-      description: json['description'] as String?,
-      documentationVersion: json['documentationVersion'] as String?,
-      lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
-      methodSettings: (json['methodSettings'] as Map<String, dynamic>?)?.map(
-          (k, e) =>
-              MapEntry(k, MethodSetting.fromJson(e as Map<String, dynamic>))),
-      stageName: json['stageName'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      tracingEnabled: json['tracingEnabled'] as bool?,
-      variables: (json['variables'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      webAclArn: json['webAclArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessLogSettings = this.accessLogSettings;
-    final cacheClusterEnabled = this.cacheClusterEnabled;
-    final cacheClusterSize = this.cacheClusterSize;
-    final cacheClusterStatus = this.cacheClusterStatus;
-    final canarySettings = this.canarySettings;
-    final clientCertificateId = this.clientCertificateId;
-    final createdDate = this.createdDate;
-    final deploymentId = this.deploymentId;
-    final description = this.description;
-    final documentationVersion = this.documentationVersion;
-    final lastUpdatedDate = this.lastUpdatedDate;
-    final methodSettings = this.methodSettings;
-    final stageName = this.stageName;
-    final tags = this.tags;
-    final tracingEnabled = this.tracingEnabled;
-    final variables = this.variables;
-    final webAclArn = this.webAclArn;
-    return {
-      if (accessLogSettings != null) 'accessLogSettings': accessLogSettings,
-      if (cacheClusterEnabled != null)
-        'cacheClusterEnabled': cacheClusterEnabled,
-      if (cacheClusterSize != null) 'cacheClusterSize': cacheClusterSize.value,
-      if (cacheClusterStatus != null)
-        'cacheClusterStatus': cacheClusterStatus.value,
-      if (canarySettings != null) 'canarySettings': canarySettings,
-      if (clientCertificateId != null)
-        'clientCertificateId': clientCertificateId,
-      if (createdDate != null) 'createdDate': unixTimestampToJson(createdDate),
-      if (deploymentId != null) 'deploymentId': deploymentId,
-      if (description != null) 'description': description,
-      if (documentationVersion != null)
-        'documentationVersion': documentationVersion,
-      if (lastUpdatedDate != null)
-        'lastUpdatedDate': unixTimestampToJson(lastUpdatedDate),
-      if (methodSettings != null) 'methodSettings': methodSettings,
-      if (stageName != null) 'stageName': stageName,
-      if (tags != null) 'tags': tags,
-      if (tracingEnabled != null) 'tracingEnabled': tracingEnabled,
-      if (variables != null) 'variables': variables,
-      if (webAclArn != null) 'webAclArn': webAclArn,
-    };
-  }
-}
-
-/// A reference to a unique stage identified in the format
-/// <code>{restApiId}/{stage}</code>.
-class StageKey {
-  /// The string identifier of the associated RestApi.
-  final String? restApiId;
-
-  /// The stage name associated with the stage key.
-  final String? stageName;
-
-  StageKey({
-    this.restApiId,
-    this.stageName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final restApiId = this.restApiId;
-    final stageName = this.stageName;
-    return {
-      if (restApiId != null) 'restApiId': restApiId,
-      if (stageName != null) 'stageName': stageName,
     };
   }
 }
@@ -8507,26 +7912,225 @@ class Tags {
   }
 }
 
-/// Represents a mapping template used to transform a payload.
-class Template {
-  /// The Apache Velocity Template Language (VTL) template content used for the
-  /// template resource.
-  final String? value;
+/// Represents the usage data of a usage plan.
+class Usage {
+  /// The ending date of the usage data.
+  final String? endDate;
 
-  Template({
-    this.value,
+  /// The usage data, as daily logs of used and remaining quotas, over the
+  /// specified time interval indexed over the API keys in a usage plan. For
+  /// example, <code>{..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100,
+  /// 10]]}</code>, where <code>{api_key}</code> stands for an API key value and
+  /// the daily log entry is of the format <code>[used quota, remaining
+  /// quota]</code>.
+  final Map<String, List<List<int>>>? items;
+
+  /// The current pagination position in the paged result set.
+  final String? position;
+
+  /// The starting date of the usage data.
+  final String? startDate;
+
+  /// The plan Id associated with this usage data.
+  final String? usagePlanId;
+
+  Usage({
+    this.endDate,
+    this.items,
+    this.position,
+    this.startDate,
+    this.usagePlanId,
   });
 
-  factory Template.fromJson(Map<String, dynamic> json) {
-    return Template(
-      value: json['value'] as String?,
+  factory Usage.fromJson(Map<String, dynamic> json) {
+    return Usage(
+      endDate: json['endDate'] as String?,
+      items: (json['values'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
+          k,
+          (e as List)
+              .nonNulls
+              .map((e) => (e as List).nonNulls.map((e) => e as int).toList())
+              .toList())),
+      position: json['position'] as String?,
+      startDate: json['startDate'] as String?,
+      usagePlanId: json['usagePlanId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final value = this.value;
+    final endDate = this.endDate;
+    final items = this.items;
+    final position = this.position;
+    final startDate = this.startDate;
+    final usagePlanId = this.usagePlanId;
     return {
-      if (value != null) 'value': value,
+      if (endDate != null) 'endDate': endDate,
+      if (items != null) 'values': items,
+      if (startDate != null) 'startDate': startDate,
+      if (usagePlanId != null) 'usagePlanId': usagePlanId,
+    };
+  }
+}
+
+/// Represents the collection of usage plan keys added to usage plans for the
+/// associated API keys and, possibly, other types of keys.
+class UsagePlanKeys {
+  /// The current page of elements from this collection.
+  final List<UsagePlanKey>? items;
+
+  /// The current pagination position in the paged result set.
+  final String? position;
+
+  UsagePlanKeys({
+    this.items,
+    this.position,
+  });
+
+  factory UsagePlanKeys.fromJson(Map<String, dynamic> json) {
+    return UsagePlanKeys(
+      items: (json['item'] as List?)
+          ?.nonNulls
+          .map((e) => UsagePlanKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      position: json['position'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final position = this.position;
+    return {
+      if (items != null) 'item': items,
+    };
+  }
+}
+
+/// Represents a collection of usage plans for an AWS account.
+class UsagePlans {
+  /// The current page of elements from this collection.
+  final List<UsagePlan>? items;
+
+  /// The current pagination position in the paged result set.
+  final String? position;
+
+  UsagePlans({
+    this.items,
+    this.position,
+  });
+
+  factory UsagePlans.fromJson(Map<String, dynamic> json) {
+    return UsagePlans(
+      items: (json['item'] as List?)
+          ?.nonNulls
+          .map((e) => UsagePlan.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      position: json['position'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final position = this.position;
+    return {
+      if (items != null) 'item': items,
+    };
+  }
+}
+
+/// The collection of VPC links under the caller's account in a region.
+class VpcLinks {
+  /// The current page of elements from this collection.
+  final List<VpcLink>? items;
+
+  /// The current pagination position in the paged result set.
+  final String? position;
+
+  VpcLinks({
+    this.items,
+    this.position,
+  });
+
+  factory VpcLinks.fromJson(Map<String, dynamic> json) {
+    return VpcLinks(
+      items: (json['item'] as List?)
+          ?.nonNulls
+          .map((e) => VpcLink.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      position: json['position'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final position = this.position;
+    return {
+      if (items != null) 'item': items,
+    };
+  }
+}
+
+/// The identifier of an ApiKey used in a UsagePlan.
+class ApiKeyIds {
+  /// A list of all the ApiKey identifiers.
+  final List<String>? ids;
+
+  /// A list of warning messages.
+  final List<String>? warnings;
+
+  ApiKeyIds({
+    this.ids,
+    this.warnings,
+  });
+
+  factory ApiKeyIds.fromJson(Map<String, dynamic> json) {
+    return ApiKeyIds(
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      warnings: (json['warnings'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ids = this.ids;
+    final warnings = this.warnings;
+    return {
+      if (ids != null) 'ids': ids,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
+}
+
+/// A collection of the imported DocumentationPart identifiers.
+class DocumentationPartIds {
+  /// A list of the returned documentation part identifiers.
+  final List<String>? ids;
+
+  /// A list of warning messages reported during import of documentation parts.
+  final List<String>? warnings;
+
+  DocumentationPartIds({
+    this.ids,
+    this.warnings,
+  });
+
+  factory DocumentationPartIds.fromJson(Map<String, dynamic> json) {
+    return DocumentationPartIds(
+      ids: (json['ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      warnings: (json['warnings'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ids = this.ids;
+    final warnings = this.warnings;
+    return {
+      if (ids != null) 'ids': ids,
+      if (warnings != null) 'warnings': warnings,
     };
   }
 }
@@ -8662,35 +8266,265 @@ class TestInvokeMethodResponse {
   }
 }
 
-/// The API request rate limits.
-class ThrottleSettings {
-  /// The API target request burst rate limit. This allows more requests through
-  /// for a period of time than the target rate limit.
-  final int? burstLimit;
+/// For more information about supported patch operations, see <a
+/// href="https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html">Patch
+/// Operations</a>.
+class PatchOperation {
+  /// The copy update operation's source as identified by a JSON-Pointer value
+  /// referencing the location within the targeted resource to copy the value
+  /// from. For example, to promote a canary deployment, you copy the canary
+  /// deployment ID to the affiliated deployment ID by calling a PATCH request on
+  /// a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and
+  /// "path":"/deploymentId".
+  final String? from;
 
-  /// The API target request rate limit.
-  final double? rateLimit;
+  /// An update operation to be performed with this PATCH request. The valid value
+  /// can be add, remove, replace or copy. Not all valid operations are supported
+  /// for a given resource. Support of the operations depends on specific
+  /// operational contexts. Attempts to apply an unsupported operation on a
+  /// resource will return an error message..
+  final Op? op;
 
-  ThrottleSettings({
-    this.burstLimit,
-    this.rateLimit,
+  /// The op operation's target, as identified by a JSON Pointer value that
+  /// references a location within the targeted resource. For example, if the
+  /// target resource has an updateable property of {"name":"value"}, the path for
+  /// this property is /name. If the name property value is a JSON object (e.g.,
+  /// {"name": {"child/name": "child-value"}}), the path for the child/name
+  /// property will be /name/child~1name. Any slash ("/") character appearing in
+  /// path names must be escaped with "~1", as shown in the example above. Each op
+  /// operation can have only one path associated with it.
+  final String? path;
+
+  /// The new target value of the update operation. It is applicable for the add
+  /// or replace operation. When using AWS CLI to update a property of a JSON
+  /// value, enclose the JSON object with a pair of single quotes in a Linux
+  /// shell, e.g., '{"a": ...}'.
+  final String? value;
+
+  PatchOperation({
+    this.from,
+    this.op,
+    this.path,
+    this.value,
   });
 
-  factory ThrottleSettings.fromJson(Map<String, dynamic> json) {
-    return ThrottleSettings(
-      burstLimit: json['burstLimit'] as int?,
-      rateLimit: json['rateLimit'] as double?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final burstLimit = this.burstLimit;
-    final rateLimit = this.rateLimit;
+    final from = this.from;
+    final op = this.op;
+    final path = this.path;
+    final value = this.value;
     return {
-      if (burstLimit != null) 'burstLimit': burstLimit,
-      if (rateLimit != null) 'rateLimit': rateLimit,
+      if (from != null) 'from': from,
+      if (op != null) 'op': op.value,
+      if (path != null) 'path': path,
+      if (value != null) 'value': value,
     };
   }
+}
+
+class Op {
+  static const add = Op._('add');
+  static const remove = Op._('remove');
+  static const replace = Op._('replace');
+  static const move = Op._('move');
+  static const copy = Op._('copy');
+  static const test = Op._('test');
+
+  final String value;
+
+  const Op._(this.value);
+
+  static const values = [add, remove, replace, move, copy, test];
+
+  static Op fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Op._(value));
+
+  @override
+  bool operator ==(other) => other is Op && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GatewayResponseType {
+  static const default_4xx = GatewayResponseType._('DEFAULT_4XX');
+  static const default_5xx = GatewayResponseType._('DEFAULT_5XX');
+  static const resourceNotFound = GatewayResponseType._('RESOURCE_NOT_FOUND');
+  static const unauthorized = GatewayResponseType._('UNAUTHORIZED');
+  static const invalidApiKey = GatewayResponseType._('INVALID_API_KEY');
+  static const accessDenied = GatewayResponseType._('ACCESS_DENIED');
+  static const authorizerFailure = GatewayResponseType._('AUTHORIZER_FAILURE');
+  static const authorizerConfigurationError =
+      GatewayResponseType._('AUTHORIZER_CONFIGURATION_ERROR');
+  static const invalidSignature = GatewayResponseType._('INVALID_SIGNATURE');
+  static const expiredToken = GatewayResponseType._('EXPIRED_TOKEN');
+  static const missingAuthenticationToken =
+      GatewayResponseType._('MISSING_AUTHENTICATION_TOKEN');
+  static const integrationFailure =
+      GatewayResponseType._('INTEGRATION_FAILURE');
+  static const integrationTimeout =
+      GatewayResponseType._('INTEGRATION_TIMEOUT');
+  static const apiConfigurationError =
+      GatewayResponseType._('API_CONFIGURATION_ERROR');
+  static const unsupportedMediaType =
+      GatewayResponseType._('UNSUPPORTED_MEDIA_TYPE');
+  static const badRequestParameters =
+      GatewayResponseType._('BAD_REQUEST_PARAMETERS');
+  static const badRequestBody = GatewayResponseType._('BAD_REQUEST_BODY');
+  static const requestTooLarge = GatewayResponseType._('REQUEST_TOO_LARGE');
+  static const throttled = GatewayResponseType._('THROTTLED');
+  static const quotaExceeded = GatewayResponseType._('QUOTA_EXCEEDED');
+  static const wafFiltered = GatewayResponseType._('WAF_FILTERED');
+
+  final String value;
+
+  const GatewayResponseType._(this.value);
+
+  static const values = [
+    default_4xx,
+    default_5xx,
+    resourceNotFound,
+    unauthorized,
+    invalidApiKey,
+    accessDenied,
+    authorizerFailure,
+    authorizerConfigurationError,
+    invalidSignature,
+    expiredToken,
+    missingAuthenticationToken,
+    integrationFailure,
+    integrationTimeout,
+    apiConfigurationError,
+    unsupportedMediaType,
+    badRequestParameters,
+    badRequestBody,
+    requestTooLarge,
+    throttled,
+    quotaExceeded,
+    wafFiltered
+  ];
+
+  static GatewayResponseType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GatewayResponseType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GatewayResponseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PutMode {
+  static const merge = PutMode._('merge');
+  static const overwrite = PutMode._('overwrite');
+
+  final String value;
+
+  const PutMode._(this.value);
+
+  static const values = [merge, overwrite];
+
+  static PutMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PutMode._(value));
+
+  @override
+  bool operator ==(other) => other is PutMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ContentHandlingStrategy {
+  static const convertToBinary = ContentHandlingStrategy._('CONVERT_TO_BINARY');
+  static const convertToText = ContentHandlingStrategy._('CONVERT_TO_TEXT');
+
+  final String value;
+
+  const ContentHandlingStrategy._(this.value);
+
+  static const values = [convertToBinary, convertToText];
+
+  static ContentHandlingStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentHandlingStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContentHandlingStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The integration type. The valid value is <code>HTTP</code> for integrating
+/// an API method with an HTTP backend; <code>AWS</code> with any Amazon Web
+/// Services service endpoints; <code>MOCK</code> for testing without actually
+/// invoking the backend; <code>HTTP_PROXY</code> for integrating with the HTTP
+/// proxy integration; <code>AWS_PROXY</code> for integrating with the Lambda
+/// proxy integration.
+class IntegrationType {
+  static const http = IntegrationType._('HTTP');
+  static const aws = IntegrationType._('AWS');
+  static const mock = IntegrationType._('MOCK');
+  static const httpProxy = IntegrationType._('HTTP_PROXY');
+  static const awsProxy = IntegrationType._('AWS_PROXY');
+
+  final String value;
+
+  const IntegrationType._(this.value);
+
+  static const values = [http, aws, mock, httpProxy, awsProxy];
+
+  static IntegrationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IntegrationType._(value));
+
+  @override
+  bool operator ==(other) => other is IntegrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConnectionType {
+  static const internet = ConnectionType._('INTERNET');
+  static const vpcLink = ConnectionType._('VPC_LINK');
+
+  final String value;
+
+  const ConnectionType._(this.value);
+
+  static const values = [internet, vpcLink];
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the TLS configuration for an integration.
@@ -8730,6 +8564,627 @@ class TlsConfig {
   }
 }
 
+class ResponseTransferMode {
+  static const buffered = ResponseTransferMode._('BUFFERED');
+  static const stream = ResponseTransferMode._('STREAM');
+
+  final String value;
+
+  const ResponseTransferMode._(this.value);
+
+  static const values = [buffered, stream];
+
+  static ResponseTransferMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResponseTransferMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResponseTransferMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApiKeysFormat {
+  static const csv = ApiKeysFormat._('csv');
+
+  final String value;
+
+  const ApiKeysFormat._(this.value);
+
+  static const values = [csv];
+
+  static ApiKeysFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApiKeysFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ApiKeysFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A configuration property of an SDK type.
+class SdkConfigurationProperty {
+  /// The default value of an SdkType configuration property.
+  final String? defaultValue;
+
+  /// The description of an SdkType configuration property.
+  final String? description;
+
+  /// The user-friendly name of an SdkType configuration property.
+  final String? friendlyName;
+
+  /// The name of a an SdkType configuration property.
+  final String? name;
+
+  /// A boolean flag of an SdkType configuration property to indicate if the
+  /// associated SDK configuration property is required (<code>true</code>) or not
+  /// (<code>false</code>).
+  final bool? required;
+
+  SdkConfigurationProperty({
+    this.defaultValue,
+    this.description,
+    this.friendlyName,
+    this.name,
+    this.required,
+  });
+
+  factory SdkConfigurationProperty.fromJson(Map<String, dynamic> json) {
+    return SdkConfigurationProperty(
+      defaultValue: json['defaultValue'] as String?,
+      description: json['description'] as String?,
+      friendlyName: json['friendlyName'] as String?,
+      name: json['name'] as String?,
+      required: json['required'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final friendlyName = this.friendlyName;
+    final name = this.name;
+    final required = this.required;
+    return {
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (description != null) 'description': description,
+      if (friendlyName != null) 'friendlyName': friendlyName,
+      if (name != null) 'name': name,
+      if (required != null) 'required': required,
+    };
+  }
+}
+
+class ResourceOwner {
+  static const self = ResourceOwner._('SELF');
+  static const otherAccounts = ResourceOwner._('OTHER_ACCOUNTS');
+
+  final String value;
+
+  const ResourceOwner._(this.value);
+
+  static const values = [self, otherAccounts];
+
+  static ResourceOwner fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceOwner._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceOwner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DocumentationPartType {
+  static const api = DocumentationPartType._('API');
+  static const authorizer = DocumentationPartType._('AUTHORIZER');
+  static const model = DocumentationPartType._('MODEL');
+  static const resource = DocumentationPartType._('RESOURCE');
+  static const method = DocumentationPartType._('METHOD');
+  static const pathParameter = DocumentationPartType._('PATH_PARAMETER');
+  static const queryParameter = DocumentationPartType._('QUERY_PARAMETER');
+  static const requestHeader = DocumentationPartType._('REQUEST_HEADER');
+  static const requestBody = DocumentationPartType._('REQUEST_BODY');
+  static const response = DocumentationPartType._('RESPONSE');
+  static const responseHeader = DocumentationPartType._('RESPONSE_HEADER');
+  static const responseBody = DocumentationPartType._('RESPONSE_BODY');
+
+  final String value;
+
+  const DocumentationPartType._(this.value);
+
+  static const values = [
+    api,
+    authorizer,
+    model,
+    resource,
+    method,
+    pathParameter,
+    queryParameter,
+    requestHeader,
+    requestBody,
+    response,
+    responseHeader,
+    responseBody
+  ];
+
+  static DocumentationPartType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentationPartType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DocumentationPartType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LocationStatusType {
+  static const documented = LocationStatusType._('DOCUMENTED');
+  static const undocumented = LocationStatusType._('UNDOCUMENTED');
+
+  final String value;
+
+  const LocationStatusType._(this.value);
+
+  static const values = [documented, undocumented];
+
+  static LocationStatusType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LocationStatusType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LocationStatusType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The API request rate limits.
+class ThrottleSettings {
+  /// The API target request burst rate limit. This allows more requests through
+  /// for a period of time than the target rate limit.
+  final int? burstLimit;
+
+  /// The API target request rate limit.
+  final double? rateLimit;
+
+  ThrottleSettings({
+    this.burstLimit,
+    this.rateLimit,
+  });
+
+  factory ThrottleSettings.fromJson(Map<String, dynamic> json) {
+    return ThrottleSettings(
+      burstLimit: json['burstLimit'] as int?,
+      rateLimit: json['rateLimit'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final burstLimit = this.burstLimit;
+    final rateLimit = this.rateLimit;
+    return {
+      if (burstLimit != null) 'burstLimit': burstLimit,
+      if (rateLimit != null) 'rateLimit': rateLimit,
+    };
+  }
+}
+
+class VpcLinkStatus {
+  static const available = VpcLinkStatus._('AVAILABLE');
+  static const pending = VpcLinkStatus._('PENDING');
+  static const deleting = VpcLinkStatus._('DELETING');
+  static const failed = VpcLinkStatus._('FAILED');
+
+  final String value;
+
+  const VpcLinkStatus._(this.value);
+
+  static const values = [available, pending, deleting, failed];
+
+  static VpcLinkStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VpcLinkStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VpcLinkStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Quotas configured for a usage plan.
+class QuotaSettings {
+  /// The target maximum number of requests that can be made in a given time
+  /// period.
+  final int? limit;
+
+  /// The number of requests subtracted from the given limit in the initial time
+  /// period.
+  final int? offset;
+
+  /// The time period in which the limit applies. Valid values are "DAY", "WEEK"
+  /// or "MONTH".
+  final QuotaPeriodType? period;
+
+  QuotaSettings({
+    this.limit,
+    this.offset,
+    this.period,
+  });
+
+  factory QuotaSettings.fromJson(Map<String, dynamic> json) {
+    return QuotaSettings(
+      limit: json['limit'] as int?,
+      offset: json['offset'] as int?,
+      period: (json['period'] as String?)?.let(QuotaPeriodType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final limit = this.limit;
+    final offset = this.offset;
+    final period = this.period;
+    return {
+      if (limit != null) 'limit': limit,
+      if (offset != null) 'offset': offset,
+      if (period != null) 'period': period.value,
+    };
+  }
+}
+
+class QuotaPeriodType {
+  static const day = QuotaPeriodType._('DAY');
+  static const week = QuotaPeriodType._('WEEK');
+  static const month = QuotaPeriodType._('MONTH');
+
+  final String value;
+
+  const QuotaPeriodType._(this.value);
+
+  static const values = [day, week, month];
+
+  static QuotaPeriodType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuotaPeriodType._(value));
+
+  @override
+  bool operator ==(other) => other is QuotaPeriodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// API stage name of the associated API stage in a usage plan.
+class ApiStage {
+  /// API Id of the associated API stage in a usage plan.
+  final String? apiId;
+
+  /// API stage name of the associated API stage in a usage plan.
+  final String? stage;
+
+  /// Map containing method level throttling information for API stage in a usage
+  /// plan.
+  final Map<String, ThrottleSettings>? throttle;
+
+  ApiStage({
+    this.apiId,
+    this.stage,
+    this.throttle,
+  });
+
+  factory ApiStage.fromJson(Map<String, dynamic> json) {
+    return ApiStage(
+      apiId: json['apiId'] as String?,
+      stage: json['stage'] as String?,
+      throttle: (json['throttle'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ThrottleSettings.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiId = this.apiId;
+    final stage = this.stage;
+    final throttle = this.throttle;
+    return {
+      if (apiId != null) 'apiId': apiId,
+      if (stage != null) 'stage': stage,
+      if (throttle != null) 'throttle': throttle,
+    };
+  }
+}
+
+/// Returns the size of the CacheCluster.
+class CacheClusterSize {
+  static const $0_5 = CacheClusterSize._('0.5');
+  static const $1_6 = CacheClusterSize._('1.6');
+  static const $6_1 = CacheClusterSize._('6.1');
+  static const $13_5 = CacheClusterSize._('13.5');
+  static const $28_4 = CacheClusterSize._('28.4');
+  static const $58_2 = CacheClusterSize._('58.2');
+  static const $118 = CacheClusterSize._('118');
+  static const $237 = CacheClusterSize._('237');
+
+  final String value;
+
+  const CacheClusterSize._(this.value);
+
+  static const values = [$0_5, $1_6, $6_1, $13_5, $28_4, $58_2, $118, $237];
+
+  static CacheClusterSize fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CacheClusterSize._(value));
+
+  @override
+  bool operator ==(other) => other is CacheClusterSize && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns the status of the CacheCluster.
+class CacheClusterStatus {
+  static const createInProgress = CacheClusterStatus._('CREATE_IN_PROGRESS');
+  static const available = CacheClusterStatus._('AVAILABLE');
+  static const deleteInProgress = CacheClusterStatus._('DELETE_IN_PROGRESS');
+  static const notAvailable = CacheClusterStatus._('NOT_AVAILABLE');
+  static const flushInProgress = CacheClusterStatus._('FLUSH_IN_PROGRESS');
+
+  final String value;
+
+  const CacheClusterStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    available,
+    deleteInProgress,
+    notAvailable,
+    flushInProgress
+  ];
+
+  static CacheClusterStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CacheClusterStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CacheClusterStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Access log settings, including the access log format and access log
+/// destination ARN.
+class AccessLogSettings {
+  /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group or Kinesis
+  /// Data Firehose delivery stream to receive access logs. If you specify a
+  /// Kinesis Data Firehose delivery stream, the stream name must begin with
+  /// <code>amazon-apigateway-</code>.
+  final String? destinationArn;
+
+  /// A single line format of the access logs of data, as specified by selected
+  /// $context variables. The format must include at least
+  /// <code>$context.requestId</code>.
+  final String? format;
+
+  AccessLogSettings({
+    this.destinationArn,
+    this.format,
+  });
+
+  factory AccessLogSettings.fromJson(Map<String, dynamic> json) {
+    return AccessLogSettings(
+      destinationArn: json['destinationArn'] as String?,
+      format: json['format'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationArn = this.destinationArn;
+    final format = this.format;
+    return {
+      if (destinationArn != null) 'destinationArn': destinationArn,
+      if (format != null) 'format': format,
+    };
+  }
+}
+
+/// Configuration settings of a canary deployment.
+class CanarySettings {
+  /// The ID of the canary deployment.
+  final String? deploymentId;
+
+  /// The percent (0-100) of traffic diverted to a canary deployment.
+  final double? percentTraffic;
+
+  /// Stage variables overridden for a canary release deployment, including new
+  /// stage variables introduced in the canary. These stage variables are
+  /// represented as a string-to-string map between stage variable names and their
+  /// values.
+  final Map<String, String>? stageVariableOverrides;
+
+  /// A Boolean flag to indicate whether the canary deployment uses the stage
+  /// cache or not.
+  final bool? useStageCache;
+
+  CanarySettings({
+    this.deploymentId,
+    this.percentTraffic,
+    this.stageVariableOverrides,
+    this.useStageCache,
+  });
+
+  factory CanarySettings.fromJson(Map<String, dynamic> json) {
+    return CanarySettings(
+      deploymentId: json['deploymentId'] as String?,
+      percentTraffic: json['percentTraffic'] as double?,
+      stageVariableOverrides:
+          (json['stageVariableOverrides'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      useStageCache: json['useStageCache'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final percentTraffic = this.percentTraffic;
+    final stageVariableOverrides = this.stageVariableOverrides;
+    final useStageCache = this.useStageCache;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (percentTraffic != null) 'percentTraffic': percentTraffic,
+      if (stageVariableOverrides != null)
+        'stageVariableOverrides': stageVariableOverrides,
+      if (useStageCache != null) 'useStageCache': useStageCache,
+    };
+  }
+}
+
+/// Specifies the method setting properties.
+class MethodSetting {
+  /// Specifies whether the cached responses are encrypted.
+  final bool? cacheDataEncrypted;
+
+  /// Specifies the time to live (TTL), in seconds, for cached responses. The
+  /// higher the TTL, the longer the response will be cached.
+  final int? cacheTtlInSeconds;
+
+  /// Specifies whether responses should be cached and returned for requests. A
+  /// cache cluster must be enabled on the stage for responses to be cached.
+  final bool? cachingEnabled;
+
+  /// Specifies whether data trace logging is enabled for this method, which
+  /// affects the log entries pushed to Amazon CloudWatch Logs. This can be useful
+  /// to troubleshoot APIs, but can result in logging sensitive data. We recommend
+  /// that you don't enable this option for production APIs.
+  final bool? dataTraceEnabled;
+
+  /// Specifies the logging level for this method, which affects the log entries
+  /// pushed to Amazon CloudWatch Logs. Valid values are <code>OFF</code>,
+  /// <code>ERROR</code>, and <code>INFO</code>. Choose <code>ERROR</code> to
+  /// write only error-level entries to CloudWatch Logs, or choose
+  /// <code>INFO</code> to include all <code>ERROR</code> events as well as extra
+  /// informational events.
+  final String? loggingLevel;
+
+  /// Specifies whether Amazon CloudWatch metrics are enabled for this method.
+  final bool? metricsEnabled;
+
+  /// Specifies whether authorization is required for a cache invalidation
+  /// request.
+  final bool? requireAuthorizationForCacheControl;
+
+  /// Specifies the throttling burst limit.
+  final int? throttlingBurstLimit;
+
+  /// Specifies the throttling rate limit.
+  final double? throttlingRateLimit;
+
+  /// Specifies how to handle unauthorized requests for cache invalidation.
+  final UnauthorizedCacheControlHeaderStrategy?
+      unauthorizedCacheControlHeaderStrategy;
+
+  MethodSetting({
+    this.cacheDataEncrypted,
+    this.cacheTtlInSeconds,
+    this.cachingEnabled,
+    this.dataTraceEnabled,
+    this.loggingLevel,
+    this.metricsEnabled,
+    this.requireAuthorizationForCacheControl,
+    this.throttlingBurstLimit,
+    this.throttlingRateLimit,
+    this.unauthorizedCacheControlHeaderStrategy,
+  });
+
+  factory MethodSetting.fromJson(Map<String, dynamic> json) {
+    return MethodSetting(
+      cacheDataEncrypted: json['cacheDataEncrypted'] as bool?,
+      cacheTtlInSeconds: json['cacheTtlInSeconds'] as int?,
+      cachingEnabled: json['cachingEnabled'] as bool?,
+      dataTraceEnabled: json['dataTraceEnabled'] as bool?,
+      loggingLevel: json['loggingLevel'] as String?,
+      metricsEnabled: json['metricsEnabled'] as bool?,
+      requireAuthorizationForCacheControl:
+          json['requireAuthorizationForCacheControl'] as bool?,
+      throttlingBurstLimit: json['throttlingBurstLimit'] as int?,
+      throttlingRateLimit: json['throttlingRateLimit'] as double?,
+      unauthorizedCacheControlHeaderStrategy:
+          (json['unauthorizedCacheControlHeaderStrategy'] as String?)
+              ?.let(UnauthorizedCacheControlHeaderStrategy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheDataEncrypted = this.cacheDataEncrypted;
+    final cacheTtlInSeconds = this.cacheTtlInSeconds;
+    final cachingEnabled = this.cachingEnabled;
+    final dataTraceEnabled = this.dataTraceEnabled;
+    final loggingLevel = this.loggingLevel;
+    final metricsEnabled = this.metricsEnabled;
+    final requireAuthorizationForCacheControl =
+        this.requireAuthorizationForCacheControl;
+    final throttlingBurstLimit = this.throttlingBurstLimit;
+    final throttlingRateLimit = this.throttlingRateLimit;
+    final unauthorizedCacheControlHeaderStrategy =
+        this.unauthorizedCacheControlHeaderStrategy;
+    return {
+      if (cacheDataEncrypted != null) 'cacheDataEncrypted': cacheDataEncrypted,
+      if (cacheTtlInSeconds != null) 'cacheTtlInSeconds': cacheTtlInSeconds,
+      if (cachingEnabled != null) 'cachingEnabled': cachingEnabled,
+      if (dataTraceEnabled != null) 'dataTraceEnabled': dataTraceEnabled,
+      if (loggingLevel != null) 'loggingLevel': loggingLevel,
+      if (metricsEnabled != null) 'metricsEnabled': metricsEnabled,
+      if (requireAuthorizationForCacheControl != null)
+        'requireAuthorizationForCacheControl':
+            requireAuthorizationForCacheControl,
+      if (throttlingBurstLimit != null)
+        'throttlingBurstLimit': throttlingBurstLimit,
+      if (throttlingRateLimit != null)
+        'throttlingRateLimit': throttlingRateLimit,
+      if (unauthorizedCacheControlHeaderStrategy != null)
+        'unauthorizedCacheControlHeaderStrategy':
+            unauthorizedCacheControlHeaderStrategy.value,
+    };
+  }
+}
+
 class UnauthorizedCacheControlHeaderStrategy {
   static const failWith_403 =
       UnauthorizedCacheControlHeaderStrategy._('FAIL_WITH_403');
@@ -8764,359 +9219,22 @@ class UnauthorizedCacheControlHeaderStrategy {
   String toString() => value;
 }
 
-/// Represents the usage data of a usage plan.
-class Usage {
-  /// The ending date of the usage data.
-  final String? endDate;
-
-  /// The usage data, as daily logs of used and remaining quotas, over the
-  /// specified time interval indexed over the API keys in a usage plan. For
-  /// example, <code>{..., "values" : { "{api_key}" : [ [0, 100], [10, 90], [100,
-  /// 10]]}</code>, where <code>{api_key}</code> stands for an API key value and
-  /// the daily log entry is of the format <code>[used quota, remaining
-  /// quota]</code>.
-  final Map<String, List<List<int>>>? items;
-  final String? position;
-
-  /// The starting date of the usage data.
-  final String? startDate;
-
-  /// The plan Id associated with this usage data.
-  final String? usagePlanId;
-
-  Usage({
-    this.endDate,
-    this.items,
-    this.position,
-    this.startDate,
-    this.usagePlanId,
-  });
-
-  factory Usage.fromJson(Map<String, dynamic> json) {
-    return Usage(
-      endDate: json['endDate'] as String?,
-      items: (json['values'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          k,
-          (e as List)
-              .nonNulls
-              .map((e) => (e as List).nonNulls.map((e) => e as int).toList())
-              .toList())),
-      position: json['position'] as String?,
-      startDate: json['startDate'] as String?,
-      usagePlanId: json['usagePlanId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endDate = this.endDate;
-    final items = this.items;
-    final position = this.position;
-    final startDate = this.startDate;
-    final usagePlanId = this.usagePlanId;
-    return {
-      if (endDate != null) 'endDate': endDate,
-      if (items != null) 'values': items,
-      if (position != null) 'position': position,
-      if (startDate != null) 'startDate': startDate,
-      if (usagePlanId != null) 'usagePlanId': usagePlanId,
-    };
-  }
-}
-
-/// Represents a usage plan used to specify who can assess associated API
-/// stages. Optionally, target request rate and quota limits can be set. In some
-/// cases clients can exceed the targets that you set. Don’t rely on usage plans
-/// to control costs. Consider using <a
-/// href="https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html">Amazon
-/// Web Services Budgets</a> to monitor costs and <a
-/// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">WAF</a>
-/// to manage API requests.
-class UsagePlan {
-  /// The associated API stages of a usage plan.
-  final List<ApiStage>? apiStages;
-
-  /// The description of a usage plan.
-  final String? description;
-
-  /// The identifier of a UsagePlan resource.
-  final String? id;
-
-  /// The name of a usage plan.
-  final String? name;
-
-  /// The Amazon Web Services Marketplace product identifier to associate with the
-  /// usage plan as a SaaS product on the Amazon Web Services Marketplace.
-  final String? productCode;
-
-  /// The target maximum number of permitted requests per a given unit time
-  /// interval.
-  final QuotaSettings? quota;
-
-  /// The collection of tags. Each tag element is associated with a given
-  /// resource.
-  final Map<String, String>? tags;
-
-  /// A map containing method level throttling information for API stage in a
-  /// usage plan.
-  final ThrottleSettings? throttle;
-
-  UsagePlan({
-    this.apiStages,
-    this.description,
-    this.id,
-    this.name,
-    this.productCode,
-    this.quota,
-    this.tags,
-    this.throttle,
-  });
-
-  factory UsagePlan.fromJson(Map<String, dynamic> json) {
-    return UsagePlan(
-      apiStages: (json['apiStages'] as List?)
-          ?.nonNulls
-          .map((e) => ApiStage.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      productCode: json['productCode'] as String?,
-      quota: json['quota'] != null
-          ? QuotaSettings.fromJson(json['quota'] as Map<String, dynamic>)
-          : null,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      throttle: json['throttle'] != null
-          ? ThrottleSettings.fromJson(json['throttle'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apiStages = this.apiStages;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final productCode = this.productCode;
-    final quota = this.quota;
-    final tags = this.tags;
-    final throttle = this.throttle;
-    return {
-      if (apiStages != null) 'apiStages': apiStages,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (productCode != null) 'productCode': productCode,
-      if (quota != null) 'quota': quota,
-      if (tags != null) 'tags': tags,
-      if (throttle != null) 'throttle': throttle,
-    };
-  }
-}
-
-/// Represents a usage plan key to identify a plan customer.
-class UsagePlanKey {
-  /// The Id of a usage plan key.
-  final String? id;
-
-  /// The name of a usage plan key.
-  final String? name;
-
-  /// The type of a usage plan key. Currently, the valid key type is
-  /// <code>API_KEY</code>.
-  final String? type;
-
-  /// The value of a usage plan key.
-  final String? value;
-
-  UsagePlanKey({
-    this.id,
-    this.name,
-    this.type,
-    this.value,
-  });
-
-  factory UsagePlanKey.fromJson(Map<String, dynamic> json) {
-    return UsagePlanKey(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      type: json['type'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (type != null) 'type': type,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// Represents the collection of usage plan keys added to usage plans for the
-/// associated API keys and, possibly, other types of keys.
-class UsagePlanKeys {
-  /// The current page of elements from this collection.
-  final List<UsagePlanKey>? items;
-  final String? position;
-
-  UsagePlanKeys({
-    this.items,
-    this.position,
-  });
-
-  factory UsagePlanKeys.fromJson(Map<String, dynamic> json) {
-    return UsagePlanKeys(
-      items: (json['item'] as List?)
-          ?.nonNulls
-          .map((e) => UsagePlanKey.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      position: json['position'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final position = this.position;
-    return {
-      if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-/// Represents a collection of usage plans for an AWS account.
-class UsagePlans {
-  /// The current page of elements from this collection.
-  final List<UsagePlan>? items;
-  final String? position;
-
-  UsagePlans({
-    this.items,
-    this.position,
-  });
-
-  factory UsagePlans.fromJson(Map<String, dynamic> json) {
-    return UsagePlans(
-      items: (json['item'] as List?)
-          ?.nonNulls
-          .map((e) => UsagePlan.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      position: json['position'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final items = this.items;
-    final position = this.position;
-    return {
-      if (items != null) 'item': items,
-      if (position != null) 'position': position,
-    };
-  }
-}
-
-/// An API Gateway VPC link for a RestApi to access resources in an Amazon
-/// Virtual Private Cloud (VPC).
-class VpcLink {
-  /// The description of the VPC link.
-  final String? description;
-
-  /// The identifier of the VpcLink. It is used in an Integration to reference
-  /// this VpcLink.
-  final String? id;
-
-  /// The name used to label and identify the VPC link.
-  final String? name;
-
-  /// The status of the VPC link. The valid values are <code>AVAILABLE</code>,
-  /// <code>PENDING</code>, <code>DELETING</code>, or <code>FAILED</code>.
-  /// Deploying an API will wait if the status is <code>PENDING</code> and will
-  /// fail if the status is <code>DELETING</code>.
-  final VpcLinkStatus? status;
-
-  /// A description about the VPC link status.
-  final String? statusMessage;
-
-  /// The collection of tags. Each tag element is associated with a given
-  /// resource.
-  final Map<String, String>? tags;
-
-  /// The ARN of the network load balancer of the VPC targeted by the VPC link.
-  /// The network load balancer must be owned by the same Amazon Web Services
-  /// account of the API owner.
-  final List<String>? targetArns;
-
-  VpcLink({
-    this.description,
-    this.id,
-    this.name,
-    this.status,
-    this.statusMessage,
-    this.tags,
-    this.targetArns,
-  });
-
-  factory VpcLink.fromJson(Map<String, dynamic> json) {
-    return VpcLink(
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      status: (json['status'] as String?)?.let(VpcLinkStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      targetArns: (json['targetArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final tags = this.tags;
-    final targetArns = this.targetArns;
-    return {
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-      if (tags != null) 'tags': tags,
-      if (targetArns != null) 'targetArns': targetArns,
-    };
-  }
-}
-
-class VpcLinkStatus {
-  static const available = VpcLinkStatus._('AVAILABLE');
-  static const pending = VpcLinkStatus._('PENDING');
-  static const deleting = VpcLinkStatus._('DELETING');
-  static const failed = VpcLinkStatus._('FAILED');
+class ApiKeySourceType {
+  static const header = ApiKeySourceType._('HEADER');
+  static const authorizer = ApiKeySourceType._('AUTHORIZER');
 
   final String value;
 
-  const VpcLinkStatus._(this.value);
+  const ApiKeySourceType._(this.value);
 
-  static const values = [available, pending, deleting, failed];
+  static const values = [header, authorizer];
 
-  static VpcLinkStatus fromString(String value) =>
+  static ApiKeySourceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => VpcLinkStatus._(value));
+          orElse: () => ApiKeySourceType._(value));
 
   @override
-  bool operator ==(other) => other is VpcLinkStatus && other.value == value;
+  bool operator ==(other) => other is ApiKeySourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9125,33 +9243,600 @@ class VpcLinkStatus {
   String toString() => value;
 }
 
-/// The collection of VPC links under the caller's account in a region.
-class VpcLinks {
-  /// The current page of elements from this collection.
-  final List<VpcLink>? items;
-  final String? position;
+/// The endpoint configuration to indicate the types of endpoints an API
+/// (RestApi) or its custom domain name (DomainName) has and the IP address
+/// types that can invoke it.
+class EndpointConfiguration {
+  /// The IP address types that can invoke an API (RestApi) or a DomainName. Use
+  /// <code>ipv4</code> to allow only IPv4 addresses to invoke an API or
+  /// DomainName, or use <code>dualstack</code> to allow both IPv4 and IPv6
+  /// addresses to invoke an API or a DomainName. For the <code>PRIVATE</code>
+  /// endpoint type, only <code>dualstack</code> is supported.
+  final IpAddressType? ipAddressType;
 
-  VpcLinks({
-    this.items,
-    this.position,
+  /// A list of endpoint types of an API (RestApi) or its custom domain name
+  /// (DomainName). For an edge-optimized API and its custom domain name, the
+  /// endpoint type is <code>"EDGE"</code>. For a regional API and its custom
+  /// domain name, the endpoint type is <code>REGIONAL</code>. For a private API,
+  /// the endpoint type is <code>PRIVATE</code>.
+  final List<EndpointType>? types;
+
+  /// A list of VpcEndpointIds of an API (RestApi) against which to create Route53
+  /// ALIASes. It is only supported for <code>PRIVATE</code> endpoint type.
+  final List<String>? vpcEndpointIds;
+
+  EndpointConfiguration({
+    this.ipAddressType,
+    this.types,
+    this.vpcEndpointIds,
   });
 
-  factory VpcLinks.fromJson(Map<String, dynamic> json) {
-    return VpcLinks(
-      items: (json['item'] as List?)
+  factory EndpointConfiguration.fromJson(Map<String, dynamic> json) {
+    return EndpointConfiguration(
+      ipAddressType:
+          (json['ipAddressType'] as String?)?.let(IpAddressType.fromString),
+      types: (json['types'] as List?)
           ?.nonNulls
-          .map((e) => VpcLink.fromJson(e as Map<String, dynamic>))
+          .map((e) => EndpointType.fromString((e as String)))
           .toList(),
-      position: json['position'] as String?,
+      vpcEndpointIds: (json['vpcEndpointIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final items = this.items;
-    final position = this.position;
+    final ipAddressType = this.ipAddressType;
+    final types = this.types;
+    final vpcEndpointIds = this.vpcEndpointIds;
     return {
-      if (items != null) 'item': items,
-      if (position != null) 'position': position,
+      if (ipAddressType != null) 'ipAddressType': ipAddressType.value,
+      if (types != null) 'types': types.map((e) => e.value).toList(),
+      if (vpcEndpointIds != null) 'vpcEndpointIds': vpcEndpointIds,
+    };
+  }
+}
+
+class SecurityPolicy {
+  static const tls_1_0 = SecurityPolicy._('TLS_1_0');
+  static const tls_1_2 = SecurityPolicy._('TLS_1_2');
+  static const securityPolicyTls13_1_3_2025_09 =
+      SecurityPolicy._('SecurityPolicy_TLS13_1_3_2025_09');
+  static const securityPolicyTls13_1_3Fips_2025_09 =
+      SecurityPolicy._('SecurityPolicy_TLS13_1_3_FIPS_2025_09');
+  static const securityPolicyTls13_1_2PfsPq_2025_09 =
+      SecurityPolicy._('SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09');
+  static const securityPolicyTls13_1_2FipsPq_2025_09 =
+      SecurityPolicy._('SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09');
+  static const securityPolicyTls13_1_2FipsPfsPq_2025_09 =
+      SecurityPolicy._('SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09');
+  static const securityPolicyTls13_1_2Pq_2025_09 =
+      SecurityPolicy._('SecurityPolicy_TLS13_1_2_PQ_2025_09');
+  static const securityPolicyTls13_1_2_2021_06 =
+      SecurityPolicy._('SecurityPolicy_TLS13_1_2_2021_06');
+  static const securityPolicyTls13_2025Edge =
+      SecurityPolicy._('SecurityPolicy_TLS13_2025_EDGE');
+  static const securityPolicyTls12Pfs_2025Edge =
+      SecurityPolicy._('SecurityPolicy_TLS12_PFS_2025_EDGE');
+  static const securityPolicyTls12_2018Edge =
+      SecurityPolicy._('SecurityPolicy_TLS12_2018_EDGE');
+
+  final String value;
+
+  const SecurityPolicy._(this.value);
+
+  static const values = [
+    tls_1_0,
+    tls_1_2,
+    securityPolicyTls13_1_3_2025_09,
+    securityPolicyTls13_1_3Fips_2025_09,
+    securityPolicyTls13_1_2PfsPq_2025_09,
+    securityPolicyTls13_1_2FipsPq_2025_09,
+    securityPolicyTls13_1_2FipsPfsPq_2025_09,
+    securityPolicyTls13_1_2Pq_2025_09,
+    securityPolicyTls13_1_2_2021_06,
+    securityPolicyTls13_2025Edge,
+    securityPolicyTls12Pfs_2025Edge,
+    securityPolicyTls12_2018Edge
+  ];
+
+  static SecurityPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SecurityPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is SecurityPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EndpointAccessMode {
+  static const basic = EndpointAccessMode._('BASIC');
+  static const strict = EndpointAccessMode._('STRICT');
+
+  final String value;
+
+  const EndpointAccessMode._(this.value);
+
+  static const values = [basic, strict];
+
+  static EndpointAccessMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointAccessMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointAccessMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApiStatus {
+  static const updating = ApiStatus._('UPDATING');
+  static const available = ApiStatus._('AVAILABLE');
+  static const pending = ApiStatus._('PENDING');
+  static const failed = ApiStatus._('FAILED');
+
+  final String value;
+
+  const ApiStatus._(this.value);
+
+  static const values = [updating, available, pending, failed];
+
+  static ApiStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ApiStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApiStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IpAddressType {
+  static const ipv4 = IpAddressType._('ipv4');
+  static const dualstack = IpAddressType._('dualstack');
+
+  final String value;
+
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, dualstack];
+
+  static IpAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The endpoint type. The valid values are <code>EDGE</code> for edge-optimized
+/// API setup, most suitable for mobile applications; <code>REGIONAL</code> for
+/// regional API endpoint setup, most suitable for calling from AWS Region; and
+/// <code>PRIVATE</code> for private APIs.
+class EndpointType {
+  static const regional = EndpointType._('REGIONAL');
+  static const edge = EndpointType._('EDGE');
+  static const private = EndpointType._('PRIVATE');
+
+  final String value;
+
+  const EndpointType._(this.value);
+
+  static const values = [regional, edge, private];
+
+  static EndpointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AccessAssociationSourceType {
+  static const vpce = AccessAssociationSourceType._('VPCE');
+
+  final String value;
+
+  const AccessAssociationSourceType._(this.value);
+
+  static const values = [vpce];
+
+  static AccessAssociationSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccessAssociationSourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AccessAssociationSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DomainNameStatus {
+  static const available = DomainNameStatus._('AVAILABLE');
+  static const updating = DomainNameStatus._('UPDATING');
+  static const pending = DomainNameStatus._('PENDING');
+  static const pendingCertificateReimport =
+      DomainNameStatus._('PENDING_CERTIFICATE_REIMPORT');
+  static const pendingOwnershipVerification =
+      DomainNameStatus._('PENDING_OWNERSHIP_VERIFICATION');
+  static const failed = DomainNameStatus._('FAILED');
+
+  final String value;
+
+  const DomainNameStatus._(this.value);
+
+  static const values = [
+    available,
+    updating,
+    pending,
+    pendingCertificateReimport,
+    pendingOwnershipVerification,
+    failed
+  ];
+
+  static DomainNameStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DomainNameStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DomainNameStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The mutual TLS authentication configuration for a custom domain name. If
+/// specified, API Gateway performs two-way authentication between the client
+/// and the server. Clients must present a trusted certificate to access your
+/// API.
+class MutualTlsAuthentication {
+  /// An Amazon S3 URL that specifies the truststore for mutual TLS
+  /// authentication, for example <code>s3://bucket-name/key-name</code>. The
+  /// truststore can contain certificates from public or private certificate
+  /// authorities. To update the truststore, upload a new version to S3, and then
+  /// update your custom domain name to use the new version. To update the
+  /// truststore, you must have permissions to access the S3 object.
+  final String? truststoreUri;
+
+  /// The version of the S3 object that contains your truststore. To specify a
+  /// version, you must have versioning enabled for the S3 bucket.
+  final String? truststoreVersion;
+
+  /// A list of warnings that API Gateway returns while processing your
+  /// truststore. Invalid certificates produce warnings. Mutual TLS is still
+  /// enabled, but some clients might not be able to access your API. To resolve
+  /// warnings, upload a new truststore to S3, and then update you domain name to
+  /// use the new version.
+  final List<String>? truststoreWarnings;
+
+  MutualTlsAuthentication({
+    this.truststoreUri,
+    this.truststoreVersion,
+    this.truststoreWarnings,
+  });
+
+  factory MutualTlsAuthentication.fromJson(Map<String, dynamic> json) {
+    return MutualTlsAuthentication(
+      truststoreUri: json['truststoreUri'] as String?,
+      truststoreVersion: json['truststoreVersion'] as String?,
+      truststoreWarnings: (json['truststoreWarnings'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final truststoreUri = this.truststoreUri;
+    final truststoreVersion = this.truststoreVersion;
+    final truststoreWarnings = this.truststoreWarnings;
+    return {
+      if (truststoreUri != null) 'truststoreUri': truststoreUri,
+      if (truststoreVersion != null) 'truststoreVersion': truststoreVersion,
+      if (truststoreWarnings != null) 'truststoreWarnings': truststoreWarnings,
+    };
+  }
+}
+
+class RoutingMode {
+  static const basePathMappingOnly = RoutingMode._('BASE_PATH_MAPPING_ONLY');
+  static const routingRuleOnly = RoutingMode._('ROUTING_RULE_ONLY');
+  static const routingRuleThenBasePathMapping =
+      RoutingMode._('ROUTING_RULE_THEN_BASE_PATH_MAPPING');
+
+  final String value;
+
+  const RoutingMode._(this.value);
+
+  static const values = [
+    basePathMappingOnly,
+    routingRuleOnly,
+    routingRuleThenBasePathMapping
+  ];
+
+  static RoutingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RoutingMode._(value));
+
+  @override
+  bool operator ==(other) => other is RoutingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The mutual TLS authentication configuration for a custom domain name. If
+/// specified, API Gateway performs two-way authentication between the client
+/// and the server. Clients must present a trusted certificate to access your
+/// API.
+class MutualTlsAuthenticationInput {
+  /// An Amazon S3 URL that specifies the truststore for mutual TLS
+  /// authentication, for example <code>s3://bucket-name/key-name</code>. The
+  /// truststore can contain certificates from public or private certificate
+  /// authorities. To update the truststore, upload a new version to S3, and then
+  /// update your custom domain name to use the new version. To update the
+  /// truststore, you must have permissions to access the S3 object.
+  final String? truststoreUri;
+
+  /// The version of the S3 object that contains your truststore. To specify a
+  /// version, you must have versioning enabled for the S3 bucket
+  final String? truststoreVersion;
+
+  MutualTlsAuthenticationInput({
+    this.truststoreUri,
+    this.truststoreVersion,
+  });
+
+  Map<String, dynamic> toJson() {
+    final truststoreUri = this.truststoreUri;
+    final truststoreVersion = this.truststoreVersion;
+    return {
+      if (truststoreUri != null) 'truststoreUri': truststoreUri,
+      if (truststoreVersion != null) 'truststoreVersion': truststoreVersion,
+    };
+  }
+}
+
+/// Specifies the target API entity to which the documentation applies.
+class DocumentationPartLocation {
+  /// The type of API entity to which the documentation content applies. Valid
+  /// values are <code>API</code>, <code>AUTHORIZER</code>, <code>MODEL</code>,
+  /// <code>RESOURCE</code>, <code>METHOD</code>, <code>PATH_PARAMETER</code>,
+  /// <code>QUERY_PARAMETER</code>, <code>REQUEST_HEADER</code>,
+  /// <code>REQUEST_BODY</code>, <code>RESPONSE</code>,
+  /// <code>RESPONSE_HEADER</code>, and <code>RESPONSE_BODY</code>. Content
+  /// inheritance does not apply to any entity of the <code>API</code>,
+  /// <code>AUTHORIZER</code>, <code>METHOD</code>, <code>MODEL</code>,
+  /// <code>REQUEST_BODY</code>, or <code>RESOURCE</code> type.
+  final DocumentationPartType type;
+
+  /// The HTTP verb of a method. It is a valid field for the API entity types of
+  /// <code>METHOD</code>, <code>PATH_PARAMETER</code>,
+  /// <code>QUERY_PARAMETER</code>, <code>REQUEST_HEADER</code>,
+  /// <code>REQUEST_BODY</code>, <code>RESPONSE</code>,
+  /// <code>RESPONSE_HEADER</code>, and <code>RESPONSE_BODY</code>. The default
+  /// value is <code>*</code> for any method. When an applicable child entity
+  /// inherits the content of an entity of the same type with more general
+  /// specifications of the other <code>location</code> attributes, the child
+  /// entity's <code>method</code> attribute must match that of the parent entity
+  /// exactly.
+  final String? method;
+
+  /// The name of the targeted API entity. It is a valid and required field for
+  /// the API entity types of <code>AUTHORIZER</code>, <code>MODEL</code>,
+  /// <code>PATH_PARAMETER</code>, <code>QUERY_PARAMETER</code>,
+  /// <code>REQUEST_HEADER</code>, <code>REQUEST_BODY</code> and
+  /// <code>RESPONSE_HEADER</code>. It is an invalid field for any other entity
+  /// type.
+  final String? name;
+
+  /// The URL path of the target. It is a valid field for the API entity types of
+  /// <code>RESOURCE</code>, <code>METHOD</code>, <code>PATH_PARAMETER</code>,
+  /// <code>QUERY_PARAMETER</code>, <code>REQUEST_HEADER</code>,
+  /// <code>REQUEST_BODY</code>, <code>RESPONSE</code>,
+  /// <code>RESPONSE_HEADER</code>, and <code>RESPONSE_BODY</code>. The default
+  /// value is <code>/</code> for the root resource. When an applicable child
+  /// entity inherits the content of another entity of the same type with more
+  /// general specifications of the other <code>location</code> attributes, the
+  /// child entity's <code>path</code> attribute must match that of the parent
+  /// entity as a prefix.
+  final String? path;
+
+  /// The HTTP status code of a response. It is a valid field for the API entity
+  /// types of <code>RESPONSE</code>, <code>RESPONSE_HEADER</code>, and
+  /// <code>RESPONSE_BODY</code>. The default value is <code>*</code> for any
+  /// status code. When an applicable child entity inherits the content of an
+  /// entity of the same type with more general specifications of the other
+  /// <code>location</code> attributes, the child entity's <code>statusCode</code>
+  /// attribute must match that of the parent entity exactly.
+  final String? statusCode;
+
+  DocumentationPartLocation({
+    required this.type,
+    this.method,
+    this.name,
+    this.path,
+    this.statusCode,
+  });
+
+  factory DocumentationPartLocation.fromJson(Map<String, dynamic> json) {
+    return DocumentationPartLocation(
+      type: DocumentationPartType.fromString((json['type'] as String?) ?? ''),
+      method: json['method'] as String?,
+      name: json['name'] as String?,
+      path: json['path'] as String?,
+      statusCode: json['statusCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final method = this.method;
+    final name = this.name;
+    final path = this.path;
+    final statusCode = this.statusCode;
+    return {
+      'type': type.value,
+      if (method != null) 'method': method,
+      if (name != null) 'name': name,
+      if (path != null) 'path': path,
+      if (statusCode != null) 'statusCode': statusCode,
+    };
+  }
+}
+
+/// Represents a summary of a Method resource, given a particular date and time.
+class MethodSnapshot {
+  /// Specifies whether the method requires a valid ApiKey.
+  final bool? apiKeyRequired;
+
+  /// The method's authorization type. Valid values are <code>NONE</code> for open
+  /// access, <code>AWS_IAM</code> for using AWS IAM permissions,
+  /// <code>CUSTOM</code> for using a custom authorizer, or
+  /// <code>COGNITO_USER_POOLS</code> for using a Cognito user pool.
+  final String? authorizationType;
+
+  MethodSnapshot({
+    this.apiKeyRequired,
+    this.authorizationType,
+  });
+
+  factory MethodSnapshot.fromJson(Map<String, dynamic> json) {
+    return MethodSnapshot(
+      apiKeyRequired: json['apiKeyRequired'] as bool?,
+      authorizationType: json['authorizationType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apiKeyRequired = this.apiKeyRequired;
+    final authorizationType = this.authorizationType;
+    return {
+      if (apiKeyRequired != null) 'apiKeyRequired': apiKeyRequired,
+      if (authorizationType != null) 'authorizationType': authorizationType,
+    };
+  }
+}
+
+/// The input configuration for a canary deployment.
+class DeploymentCanarySettings {
+  /// The percentage (0.0-100.0) of traffic routed to the canary deployment.
+  final double? percentTraffic;
+
+  /// A stage variable overrides used for the canary release deployment. They can
+  /// override existing stage variables or add new stage variables for the canary
+  /// release deployment. These stage variables are represented as a
+  /// string-to-string map between stage variable names and their values.
+  final Map<String, String>? stageVariableOverrides;
+
+  /// A Boolean flag to indicate whether the canary release deployment uses the
+  /// stage cache or not.
+  final bool? useStageCache;
+
+  DeploymentCanarySettings({
+    this.percentTraffic,
+    this.stageVariableOverrides,
+    this.useStageCache,
+  });
+
+  Map<String, dynamic> toJson() {
+    final percentTraffic = this.percentTraffic;
+    final stageVariableOverrides = this.stageVariableOverrides;
+    final useStageCache = this.useStageCache;
+    return {
+      if (percentTraffic != null) 'percentTraffic': percentTraffic,
+      if (stageVariableOverrides != null)
+        'stageVariableOverrides': stageVariableOverrides,
+      if (useStageCache != null) 'useStageCache': useStageCache,
+    };
+  }
+}
+
+/// The authorizer type. Valid values are <code>TOKEN</code> for a Lambda
+/// function using a single authorization token submitted in a custom header,
+/// <code>REQUEST</code> for a Lambda function using incoming request
+/// parameters, and <code>COGNITO_USER_POOLS</code> for using an Amazon Cognito
+/// user pool.
+class AuthorizerType {
+  static const token = AuthorizerType._('TOKEN');
+  static const request = AuthorizerType._('REQUEST');
+  static const cognitoUserPools = AuthorizerType._('COGNITO_USER_POOLS');
+
+  final String value;
+
+  const AuthorizerType._(this.value);
+
+  static const values = [token, request, cognitoUserPools];
+
+  static AuthorizerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthorizerType._(value));
+
+  @override
+  bool operator ==(other) => other is AuthorizerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A reference to a unique stage identified in the format
+/// <code>{restApiId}/{stage}</code>.
+class StageKey {
+  /// The string identifier of the associated RestApi.
+  final String? restApiId;
+
+  /// The stage name associated with the stage key.
+  final String? stageName;
+
+  StageKey({
+    this.restApiId,
+    this.stageName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final restApiId = this.restApiId;
+    final stageName = this.stageName;
+    return {
+      if (restApiId != null) 'restApiId': restApiId,
+      if (stageName != null) 'stageName': stageName,
     };
   }
 }

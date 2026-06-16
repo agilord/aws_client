@@ -53,8 +53,8 @@ class CognitoIdentity {
   }
 
   /// Creates a new identity pool. The identity pool is a store of user identity
-  /// information that is specific to your AWS account. The keys for
-  /// <code>SupportedLoginProviders</code> are as follows:
+  /// information that is specific to your Amazon Web Services account. The keys
+  /// for <code>SupportedLoginProviders</code> are as follows:
   ///
   /// <ul>
   /// <li>
@@ -62,6 +62,9 @@ class CognitoIdentity {
   /// </li>
   /// <li>
   /// Google: <code>accounts.google.com</code>
+  /// </li>
+  /// <li>
+  /// Sign in With Apple: <code>appleid.apple.com</code>
   /// </li>
   /// <li>
   /// Amazon: <code>www.amazon.com</code>
@@ -72,15 +75,19 @@ class CognitoIdentity {
   /// <li>
   /// Digits: <code>www.digits.com</code>
   /// </li>
-  /// </ul>
-  /// You must use AWS Developer credentials to call this API.
+  /// </ul> <important>
+  /// If you don't provide a value for a parameter, Amazon Cognito sets it to
+  /// its default value.
+  /// </important>
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
+  /// May throw [LimitExceededException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [allowUnauthenticatedIdentities] :
   /// TRUE if the identity pool supports unauthenticated logins.
@@ -166,11 +173,12 @@ class CognitoIdentity {
   /// Deletes identities from an identity pool. You can specify a list of 1-60
   /// identities that you want to delete.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
   ///
   /// Parameter [identityIdsToDelete] :
   /// A list of 1-60 identities that you want to delete.
@@ -198,13 +206,14 @@ class CognitoIdentity {
   /// Deletes an identity pool. Once a pool is deleted, users will not be able
   /// to authenticate with the pool.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
@@ -230,13 +239,14 @@ class CognitoIdentity {
   /// Returns metadata related to the given identity, including when the
   /// identity was created and any associated linked logins.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityId] :
   /// A unique identifier in the format REGION:GUID.
@@ -264,13 +274,14 @@ class CognitoIdentity {
   /// Gets details about a particular identity pool, including the pool name, ID
   /// description, creation date, and current number of users.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
@@ -297,19 +308,19 @@ class CognitoIdentity {
 
   /// Returns credentials for the provided identity ID. Any provided logins will
   /// be validated against supported login providers. If the token is for
-  /// cognito-identity.amazonaws.com, it will be passed through to AWS Security
-  /// Token Service with the appropriate role for the token.
+  /// <code>cognito-identity.amazonaws.com</code>, it will be passed through to
+  /// Security Token Service with the appropriate role for the token.
   ///
   /// This is a public API. You do not need any credentials to call this API.
   ///
+  /// May throw [ExternalServiceException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidIdentityPoolConfigurationException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InvalidIdentityPoolConfigurationException].
-  /// May throw [InternalErrorException].
-  /// May throw [ExternalServiceException].
   ///
   /// Parameter [identityId] :
   /// A unique identifier in the format REGION:GUID.
@@ -359,25 +370,25 @@ class CognitoIdentity {
     return GetCredentialsForIdentityResponse.fromJson(jsonResponse.body);
   }
 
-  /// Generates (or retrieves) a Cognito ID. Supplying multiple logins will
-  /// create an implicit linked account.
+  /// Generates (or retrieves) IdentityID. Supplying multiple logins will create
+  /// an implicit linked account.
   ///
   /// This is a public API. You do not need any credentials to call this API.
   ///
+  /// May throw [ExternalServiceException].
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
-  /// May throw [LimitExceededException].
-  /// May throw [ExternalServiceException].
   ///
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
   ///
   /// Parameter [accountId] :
-  /// A standard AWS account ID (9+ digits).
+  /// A standard Amazon Web Services account ID (9+ digits).
   ///
   /// Parameter [logins] :
   /// A set of optional name-value pairs that map provider names to provider
@@ -390,8 +401,8 @@ class CognitoIdentity {
   /// </li>
   /// <li>
   /// Amazon Cognito user pool:
-  /// <code>cognito-idp.&lt;region&gt;.amazonaws.com/&lt;YOUR_USER_POOL_ID&gt;</code>,
-  /// for example,
+  /// <code>cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID></code>, for
+  /// example,
   /// <code>cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789</code>.
   /// </li>
   /// <li>
@@ -435,14 +446,15 @@ class CognitoIdentity {
 
   /// Gets the roles for an identity pool.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
   ///
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
@@ -475,13 +487,13 @@ class CognitoIdentity {
   ///
   /// This is a public API. You do not need any credentials to call this API.
   ///
+  /// May throw [ExternalServiceException].
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
-  /// May throw [ExternalServiceException].
   ///
   /// Parameter [identityId] :
   /// A unique identifier in the format REGION:GUID.
@@ -533,15 +545,16 @@ class CognitoIdentity {
   /// existing <code>IdentityId</code>. This API will create the identity in the
   /// specified <code>IdentityPoolId</code>.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [DeveloperUserAlreadyRegisteredException].
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
-  /// May throw [DeveloperUserAlreadyRegisteredException].
   ///
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
@@ -567,11 +580,12 @@ class CognitoIdentity {
   /// The expiration time of the token, in seconds. You can specify a custom
   /// expiration time for the token so that you can cache it. If you don't
   /// provide an expiration time, the token is valid for 15 minutes. You can
-  /// exchange the token with Amazon STS for temporary AWS credentials, which
-  /// are valid for a maximum of one hour. The maximum token duration you can
-  /// set is 24 hours. You should take care in setting the expiration time for a
-  /// token, as there are significant security implications: an attacker could
-  /// use a leaked token to access your AWS resources for the token's duration.
+  /// exchange the token with Amazon STS for temporary Amazon Web Services
+  /// credentials, which are valid for a maximum of one hour. The maximum token
+  /// duration you can set is 24 hours. You should take care in setting the
+  /// expiration time for a token, as there are significant security
+  /// implications: an attacker could use a leaked token to access your Amazon
+  /// Web Services resources for the token's duration.
   /// <note>
   /// Please provide for a small grace period, usually no more than 5 minutes,
   /// to account for clock skew.
@@ -617,11 +631,11 @@ class CognitoIdentity {
   /// Use <code>GetPrincipalTagAttributeMap</code> to list all mappings between
   /// <code>PrincipalTags</code> and user attributes.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
   /// You can use this operation to get the ID of the Identity Pool you setup
@@ -654,13 +668,14 @@ class CognitoIdentity {
 
   /// Lists the identities in an identity pool.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
@@ -711,13 +726,14 @@ class CognitoIdentity {
 
   /// Lists all of the Cognito identity pools registered for your account.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
   /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalErrorException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of identities to return.
@@ -762,11 +778,11 @@ class CognitoIdentity {
   ///
   /// You can use this action up to 10 times per second, per account.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the identity pool that the tags are
@@ -801,8 +817,8 @@ class CognitoIdentity {
   /// searched in the database and returned as a part of the response. If you
   /// supply both, <code>DeveloperUserIdentifier</code> will be matched against
   /// <code>IdentityID</code>. If the values are verified against the database,
-  /// the response returns both values and is the same as the request. Otherwise
-  /// a <code>ResourceConflictException</code> is thrown.
+  /// the response returns both values and is the same as the request.
+  /// Otherwise, a <code>ResourceConflictException</code> is thrown.
   ///
   /// <code>LookupDeveloperIdentity</code> is intended for low-throughput
   /// control plane operations: for example, to enable customer service to
@@ -811,14 +827,15 @@ class CognitoIdentity {
   /// throttled. <a>GetOpenIdTokenForDeveloperIdentity</a> is a better option
   /// for higher-volume operations for user authentication.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
   ///
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
@@ -893,14 +910,15 @@ class CognitoIdentity {
   /// destination user, <code>DestinationUserIdentifier</code>, together should
   /// not be larger than 20. Otherwise, an exception will be thrown.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
   ///
   /// Parameter [destinationUserIdentifier] :
   /// User identifier for the destination user. The value should be a
@@ -950,15 +968,16 @@ class CognitoIdentity {
   /// Sets the roles for an identity pool. These roles are used when making
   /// calls to <a>GetCredentialsForIdentity</a> action.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [identityPoolId] :
   /// An identity pool ID in the format REGION:GUID.
@@ -971,8 +990,8 @@ class CognitoIdentity {
   /// Parameter [roleMappings] :
   /// How users for a specific identity provider are to mapped to roles. This is
   /// a string to <a>RoleMapping</a> object map. The string identifies the
-  /// identity provider, for example, "graph.facebook.com" or
-  /// "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
+  /// identity provider, for example, <code>graph.facebook.com</code> or
+  /// <code>cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id</code>.
   ///
   /// Up to 25 rules can be specified per identity provider.
   Future<void> setIdentityPoolRoles({
@@ -1001,11 +1020,11 @@ class CognitoIdentity {
   /// You can use this operation to use default (username and clientID)
   /// attribute or custom attribute mappings.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
   /// The ID of the Identity Pool you want to set attribute mappings for.
@@ -1066,11 +1085,11 @@ class CognitoIdentity {
   /// You can use this action up to 5 times per second, per account. An identity
   /// pool can have as many as 50 tags.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the identity pool.
@@ -1104,14 +1123,15 @@ class CognitoIdentity {
   /// identities as well as the developer user identifier, the Cognito identity
   /// becomes inaccessible.
   ///
-  /// You must use AWS Developer credentials to call this API.
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
   ///
   /// Parameter [developerProviderName] :
   /// The "domain" by which Cognito will refer to your users.
@@ -1156,13 +1176,13 @@ class CognitoIdentity {
   ///
   /// This is a public API. You do not need any credentials to call this API.
   ///
+  /// May throw [ExternalServiceException].
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
-  /// May throw [ExternalServiceException].
   ///
   /// Parameter [identityId] :
   /// A unique identifier in the format REGION:GUID.
@@ -1200,11 +1220,11 @@ class CognitoIdentity {
   /// Removes the specified tags from the specified Amazon Cognito identity
   /// pool. You can use this action up to 5 times per second, per account
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the identity pool.
@@ -1232,18 +1252,22 @@ class CognitoIdentity {
     );
   }
 
-  /// Updates an identity pool.
+  /// Updates the configuration of an identity pool.
+  /// <important>
+  /// If you don't provide a value for a parameter, Amazon Cognito sets it to
+  /// its default value.
+  /// </important>
+  /// You must use Amazon Web Services developer credentials to call this
+  /// operation.
   ///
-  /// You must use AWS Developer credentials to call this API.
-  ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [allowUnauthenticatedIdentities] :
   /// TRUE if the identity pool supports unauthenticated logins.
@@ -1322,437 +1346,6 @@ class CognitoIdentity {
     );
 
     return IdentityPool.fromJson(jsonResponse.body);
-  }
-}
-
-class AmbiguousRoleResolutionType {
-  static const authenticatedRole =
-      AmbiguousRoleResolutionType._('AuthenticatedRole');
-  static const deny = AmbiguousRoleResolutionType._('Deny');
-
-  final String value;
-
-  const AmbiguousRoleResolutionType._(this.value);
-
-  static const values = [authenticatedRole, deny];
-
-  static AmbiguousRoleResolutionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AmbiguousRoleResolutionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AmbiguousRoleResolutionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A provider representing an Amazon Cognito user pool and its client ID.
-class CognitoIdentityProvider {
-  /// The client ID for the Amazon Cognito user pool.
-  final String? clientId;
-
-  /// The provider name for an Amazon Cognito user pool. For example,
-  /// <code>cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789</code>.
-  final String? providerName;
-
-  /// TRUE if server-side token validation is enabled for the identity provider’s
-  /// token.
-  ///
-  /// Once you set <code>ServerSideTokenCheck</code> to TRUE for an identity pool,
-  /// that identity pool will check with the integrated user pools to make sure
-  /// that the user has not been globally signed out or deleted before the
-  /// identity pool provides an OIDC token or AWS credentials for the user.
-  ///
-  /// If the user is signed out or deleted, the identity pool will return a 400
-  /// Not Authorized error.
-  final bool? serverSideTokenCheck;
-
-  CognitoIdentityProvider({
-    this.clientId,
-    this.providerName,
-    this.serverSideTokenCheck,
-  });
-
-  factory CognitoIdentityProvider.fromJson(Map<String, dynamic> json) {
-    return CognitoIdentityProvider(
-      clientId: json['ClientId'] as String?,
-      providerName: json['ProviderName'] as String?,
-      serverSideTokenCheck: json['ServerSideTokenCheck'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientId = this.clientId;
-    final providerName = this.providerName;
-    final serverSideTokenCheck = this.serverSideTokenCheck;
-    return {
-      if (clientId != null) 'ClientId': clientId,
-      if (providerName != null) 'ProviderName': providerName,
-      if (serverSideTokenCheck != null)
-        'ServerSideTokenCheck': serverSideTokenCheck,
-    };
-  }
-}
-
-/// Credentials for the provided identity ID.
-class Credentials {
-  /// The Access Key portion of the credentials.
-  final String? accessKeyId;
-
-  /// The date at which these credentials will expire.
-  final DateTime? expiration;
-
-  /// The Secret Access Key portion of the credentials
-  final String? secretKey;
-
-  /// The Session Token portion of the credentials
-  final String? sessionToken;
-
-  Credentials({
-    this.accessKeyId,
-    this.expiration,
-    this.secretKey,
-    this.sessionToken,
-  });
-
-  factory Credentials.fromJson(Map<String, dynamic> json) {
-    return Credentials(
-      accessKeyId: json['AccessKeyId'] as String?,
-      expiration: timeStampFromJson(json['Expiration']),
-      secretKey: json['SecretKey'] as String?,
-      sessionToken: json['SessionToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessKeyId = this.accessKeyId;
-    final expiration = this.expiration;
-    final secretKey = this.secretKey;
-    final sessionToken = this.sessionToken;
-    return {
-      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
-      if (expiration != null) 'Expiration': unixTimestampToJson(expiration),
-      if (secretKey != null) 'SecretKey': secretKey,
-      if (sessionToken != null) 'SessionToken': sessionToken,
-    };
-  }
-}
-
-/// Returned in response to a successful <code>DeleteIdentities</code>
-/// operation.
-class DeleteIdentitiesResponse {
-  /// An array of UnprocessedIdentityId objects, each of which contains an
-  /// ErrorCode and IdentityId.
-  final List<UnprocessedIdentityId>? unprocessedIdentityIds;
-
-  DeleteIdentitiesResponse({
-    this.unprocessedIdentityIds,
-  });
-
-  factory DeleteIdentitiesResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteIdentitiesResponse(
-      unprocessedIdentityIds: (json['UnprocessedIdentityIds'] as List?)
-          ?.nonNulls
-          .map((e) => UnprocessedIdentityId.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final unprocessedIdentityIds = this.unprocessedIdentityIds;
-    return {
-      if (unprocessedIdentityIds != null)
-        'UnprocessedIdentityIds': unprocessedIdentityIds,
-    };
-  }
-}
-
-class ErrorCode {
-  static const accessDenied = ErrorCode._('AccessDenied');
-  static const internalServerError = ErrorCode._('InternalServerError');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [accessDenied, internalServerError];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returned in response to a successful <code>GetCredentialsForIdentity</code>
-/// operation.
-class GetCredentialsForIdentityResponse {
-  /// Credentials for the provided identity ID.
-  final Credentials? credentials;
-
-  /// A unique identifier in the format REGION:GUID.
-  final String? identityId;
-
-  GetCredentialsForIdentityResponse({
-    this.credentials,
-    this.identityId,
-  });
-
-  factory GetCredentialsForIdentityResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetCredentialsForIdentityResponse(
-      credentials: json['Credentials'] != null
-          ? Credentials.fromJson(json['Credentials'] as Map<String, dynamic>)
-          : null,
-      identityId: json['IdentityId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final credentials = this.credentials;
-    final identityId = this.identityId;
-    return {
-      if (credentials != null) 'Credentials': credentials,
-      if (identityId != null) 'IdentityId': identityId,
-    };
-  }
-}
-
-/// Returned in response to a GetId request.
-class GetIdResponse {
-  /// A unique identifier in the format REGION:GUID.
-  final String? identityId;
-
-  GetIdResponse({
-    this.identityId,
-  });
-
-  factory GetIdResponse.fromJson(Map<String, dynamic> json) {
-    return GetIdResponse(
-      identityId: json['IdentityId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityId = this.identityId;
-    return {
-      if (identityId != null) 'IdentityId': identityId,
-    };
-  }
-}
-
-/// Returned in response to a successful <code>GetIdentityPoolRoles</code>
-/// operation.
-class GetIdentityPoolRolesResponse {
-  /// An identity pool ID in the format REGION:GUID.
-  final String? identityPoolId;
-
-  /// How users for a specific identity provider are to mapped to roles. This is a
-  /// String-to-<a>RoleMapping</a> object map. The string identifies the identity
-  /// provider, for example, "graph.facebook.com" or
-  /// "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id".
-  final Map<String, RoleMapping>? roleMappings;
-
-  /// The map of roles associated with this pool. Currently only authenticated and
-  /// unauthenticated roles are supported.
-  final Map<String, String>? roles;
-
-  GetIdentityPoolRolesResponse({
-    this.identityPoolId,
-    this.roleMappings,
-    this.roles,
-  });
-
-  factory GetIdentityPoolRolesResponse.fromJson(Map<String, dynamic> json) {
-    return GetIdentityPoolRolesResponse(
-      identityPoolId: json['IdentityPoolId'] as String?,
-      roleMappings: (json['RoleMappings'] as Map<String, dynamic>?)?.map(
-          (k, e) =>
-              MapEntry(k, RoleMapping.fromJson(e as Map<String, dynamic>))),
-      roles: (json['Roles'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityPoolId = this.identityPoolId;
-    final roleMappings = this.roleMappings;
-    final roles = this.roles;
-    return {
-      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-      if (roleMappings != null) 'RoleMappings': roleMappings,
-      if (roles != null) 'Roles': roles,
-    };
-  }
-}
-
-/// Returned in response to a successful
-/// <code>GetOpenIdTokenForDeveloperIdentity</code> request.
-class GetOpenIdTokenForDeveloperIdentityResponse {
-  /// A unique identifier in the format REGION:GUID.
-  final String? identityId;
-
-  /// An OpenID token.
-  final String? token;
-
-  GetOpenIdTokenForDeveloperIdentityResponse({
-    this.identityId,
-    this.token,
-  });
-
-  factory GetOpenIdTokenForDeveloperIdentityResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetOpenIdTokenForDeveloperIdentityResponse(
-      identityId: json['IdentityId'] as String?,
-      token: json['Token'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityId = this.identityId;
-    final token = this.token;
-    return {
-      if (identityId != null) 'IdentityId': identityId,
-      if (token != null) 'Token': token,
-    };
-  }
-}
-
-/// Returned in response to a successful GetOpenIdToken request.
-class GetOpenIdTokenResponse {
-  /// A unique identifier in the format REGION:GUID. Note that the IdentityId
-  /// returned may not match the one passed on input.
-  final String? identityId;
-
-  /// An OpenID token, valid for 10 minutes.
-  final String? token;
-
-  GetOpenIdTokenResponse({
-    this.identityId,
-    this.token,
-  });
-
-  factory GetOpenIdTokenResponse.fromJson(Map<String, dynamic> json) {
-    return GetOpenIdTokenResponse(
-      identityId: json['IdentityId'] as String?,
-      token: json['Token'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityId = this.identityId;
-    final token = this.token;
-    return {
-      if (identityId != null) 'IdentityId': identityId,
-      if (token != null) 'Token': token,
-    };
-  }
-}
-
-class GetPrincipalTagAttributeMapResponse {
-  /// You can use this operation to get the ID of the Identity Pool you setup
-  /// attribute mappings for.
-  final String? identityPoolId;
-
-  /// You can use this operation to get the provider name.
-  final String? identityProviderName;
-
-  /// You can use this operation to add principal tags. The
-  /// <code>PrincipalTags</code>operation enables you to reference user attributes
-  /// in your IAM permissions policy.
-  final Map<String, String>? principalTags;
-
-  /// You can use this operation to list
-  final bool? useDefaults;
-
-  GetPrincipalTagAttributeMapResponse({
-    this.identityPoolId,
-    this.identityProviderName,
-    this.principalTags,
-    this.useDefaults,
-  });
-
-  factory GetPrincipalTagAttributeMapResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetPrincipalTagAttributeMapResponse(
-      identityPoolId: json['IdentityPoolId'] as String?,
-      identityProviderName: json['IdentityProviderName'] as String?,
-      principalTags: (json['PrincipalTags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      useDefaults: json['UseDefaults'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityPoolId = this.identityPoolId;
-    final identityProviderName = this.identityProviderName;
-    final principalTags = this.principalTags;
-    final useDefaults = this.useDefaults;
-    return {
-      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-      if (identityProviderName != null)
-        'IdentityProviderName': identityProviderName,
-      if (principalTags != null) 'PrincipalTags': principalTags,
-      if (useDefaults != null) 'UseDefaults': useDefaults,
-    };
-  }
-}
-
-/// A description of the identity.
-class IdentityDescription {
-  /// Date on which the identity was created.
-  final DateTime? creationDate;
-
-  /// A unique identifier in the format REGION:GUID.
-  final String? identityId;
-
-  /// Date on which the identity was last modified.
-  final DateTime? lastModifiedDate;
-
-  /// The provider names.
-  final List<String>? logins;
-
-  IdentityDescription({
-    this.creationDate,
-    this.identityId,
-    this.lastModifiedDate,
-    this.logins,
-  });
-
-  factory IdentityDescription.fromJson(Map<String, dynamic> json) {
-    return IdentityDescription(
-      creationDate: timeStampFromJson(json['CreationDate']),
-      identityId: json['IdentityId'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      logins:
-          (json['Logins'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final identityId = this.identityId;
-    final lastModifiedDate = this.lastModifiedDate;
-    final logins = this.logins;
-    return {
-      if (creationDate != null)
-        'CreationDate': unixTimestampToJson(creationDate),
-      if (identityId != null) 'IdentityId': identityId,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (logins != null) 'Logins': logins,
-    };
   }
 }
 
@@ -1867,32 +1460,292 @@ class IdentityPool {
   }
 }
 
-/// A description of the identity pool.
-class IdentityPoolShortDescription {
+/// Returned in response to a successful <code>DeleteIdentities</code>
+/// operation.
+class DeleteIdentitiesResponse {
+  /// An array of UnprocessedIdentityId objects, each of which contains an
+  /// ErrorCode and IdentityId.
+  final List<UnprocessedIdentityId>? unprocessedIdentityIds;
+
+  DeleteIdentitiesResponse({
+    this.unprocessedIdentityIds,
+  });
+
+  factory DeleteIdentitiesResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteIdentitiesResponse(
+      unprocessedIdentityIds: (json['UnprocessedIdentityIds'] as List?)
+          ?.nonNulls
+          .map((e) => UnprocessedIdentityId.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedIdentityIds = this.unprocessedIdentityIds;
+    return {
+      if (unprocessedIdentityIds != null)
+        'UnprocessedIdentityIds': unprocessedIdentityIds,
+    };
+  }
+}
+
+/// A description of the identity.
+class IdentityDescription {
+  /// Date on which the identity was created.
+  final DateTime? creationDate;
+
+  /// A unique identifier in the format REGION:GUID.
+  final String? identityId;
+
+  /// Date on which the identity was last modified.
+  final DateTime? lastModifiedDate;
+
+  /// The provider names.
+  final List<String>? logins;
+
+  IdentityDescription({
+    this.creationDate,
+    this.identityId,
+    this.lastModifiedDate,
+    this.logins,
+  });
+
+  factory IdentityDescription.fromJson(Map<String, dynamic> json) {
+    return IdentityDescription(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      identityId: json['IdentityId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      logins:
+          (json['Logins'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final identityId = this.identityId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final logins = this.logins;
+    return {
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (identityId != null) 'IdentityId': identityId,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (logins != null) 'Logins': logins,
+    };
+  }
+}
+
+/// Returned in response to a successful <code>GetCredentialsForIdentity</code>
+/// operation.
+class GetCredentialsForIdentityResponse {
+  /// Credentials for the provided identity ID.
+  final Credentials? credentials;
+
+  /// A unique identifier in the format REGION:GUID.
+  final String? identityId;
+
+  GetCredentialsForIdentityResponse({
+    this.credentials,
+    this.identityId,
+  });
+
+  factory GetCredentialsForIdentityResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCredentialsForIdentityResponse(
+      credentials: json['Credentials'] != null
+          ? Credentials.fromJson(json['Credentials'] as Map<String, dynamic>)
+          : null,
+      identityId: json['IdentityId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final credentials = this.credentials;
+    final identityId = this.identityId;
+    return {
+      if (credentials != null) 'Credentials': credentials,
+      if (identityId != null) 'IdentityId': identityId,
+    };
+  }
+}
+
+/// Returned in response to a GetId request.
+class GetIdResponse {
+  /// A unique identifier in the format REGION:GUID.
+  final String? identityId;
+
+  GetIdResponse({
+    this.identityId,
+  });
+
+  factory GetIdResponse.fromJson(Map<String, dynamic> json) {
+    return GetIdResponse(
+      identityId: json['IdentityId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityId = this.identityId;
+    return {
+      if (identityId != null) 'IdentityId': identityId,
+    };
+  }
+}
+
+/// Returned in response to a successful <code>GetIdentityPoolRoles</code>
+/// operation.
+class GetIdentityPoolRolesResponse {
   /// An identity pool ID in the format REGION:GUID.
   final String? identityPoolId;
 
-  /// A string that you provide.
-  final String? identityPoolName;
+  /// How users for a specific identity provider are to mapped to roles. This is a
+  /// String-to-<a>RoleMapping</a> object map. The string identifies the identity
+  /// provider, for example, <code>graph.facebook.com</code> or
+  /// <code>cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id</code>.
+  final Map<String, RoleMapping>? roleMappings;
 
-  IdentityPoolShortDescription({
+  /// The map of roles associated with this pool. Currently only authenticated and
+  /// unauthenticated roles are supported.
+  final Map<String, String>? roles;
+
+  GetIdentityPoolRolesResponse({
     this.identityPoolId,
-    this.identityPoolName,
+    this.roleMappings,
+    this.roles,
   });
 
-  factory IdentityPoolShortDescription.fromJson(Map<String, dynamic> json) {
-    return IdentityPoolShortDescription(
+  factory GetIdentityPoolRolesResponse.fromJson(Map<String, dynamic> json) {
+    return GetIdentityPoolRolesResponse(
       identityPoolId: json['IdentityPoolId'] as String?,
-      identityPoolName: json['IdentityPoolName'] as String?,
+      roleMappings: (json['RoleMappings'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, RoleMapping.fromJson(e as Map<String, dynamic>))),
+      roles: (json['Roles'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
     final identityPoolId = this.identityPoolId;
-    final identityPoolName = this.identityPoolName;
+    final roleMappings = this.roleMappings;
+    final roles = this.roles;
     return {
       if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-      if (identityPoolName != null) 'IdentityPoolName': identityPoolName,
+      if (roleMappings != null) 'RoleMappings': roleMappings,
+      if (roles != null) 'Roles': roles,
+    };
+  }
+}
+
+/// Returned in response to a successful GetOpenIdToken request.
+class GetOpenIdTokenResponse {
+  /// A unique identifier in the format REGION:GUID. Note that the IdentityId
+  /// returned may not match the one passed on input.
+  final String? identityId;
+
+  /// An OpenID token, valid for 10 minutes.
+  final String? token;
+
+  GetOpenIdTokenResponse({
+    this.identityId,
+    this.token,
+  });
+
+  factory GetOpenIdTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetOpenIdTokenResponse(
+      identityId: json['IdentityId'] as String?,
+      token: json['Token'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityId = this.identityId;
+    final token = this.token;
+    return {
+      if (identityId != null) 'IdentityId': identityId,
+      if (token != null) 'Token': token,
+    };
+  }
+}
+
+/// Returned in response to a successful
+/// <code>GetOpenIdTokenForDeveloperIdentity</code> request.
+class GetOpenIdTokenForDeveloperIdentityResponse {
+  /// A unique identifier in the format REGION:GUID.
+  final String? identityId;
+
+  /// An OpenID token.
+  final String? token;
+
+  GetOpenIdTokenForDeveloperIdentityResponse({
+    this.identityId,
+    this.token,
+  });
+
+  factory GetOpenIdTokenForDeveloperIdentityResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetOpenIdTokenForDeveloperIdentityResponse(
+      identityId: json['IdentityId'] as String?,
+      token: json['Token'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityId = this.identityId;
+    final token = this.token;
+    return {
+      if (identityId != null) 'IdentityId': identityId,
+      if (token != null) 'Token': token,
+    };
+  }
+}
+
+class GetPrincipalTagAttributeMapResponse {
+  /// You can use this operation to get the ID of the Identity Pool you setup
+  /// attribute mappings for.
+  final String? identityPoolId;
+
+  /// You can use this operation to get the provider name.
+  final String? identityProviderName;
+
+  /// You can use this operation to add principal tags. The
+  /// <code>PrincipalTags</code>operation enables you to reference user attributes
+  /// in your IAM permissions policy.
+  final Map<String, String>? principalTags;
+
+  /// You can use this operation to list
+  final bool? useDefaults;
+
+  GetPrincipalTagAttributeMapResponse({
+    this.identityPoolId,
+    this.identityProviderName,
+    this.principalTags,
+    this.useDefaults,
+  });
+
+  factory GetPrincipalTagAttributeMapResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetPrincipalTagAttributeMapResponse(
+      identityPoolId: json['IdentityPoolId'] as String?,
+      identityProviderName: json['IdentityProviderName'] as String?,
+      principalTags: (json['PrincipalTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      useDefaults: json['UseDefaults'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityPoolId = this.identityPoolId;
+    final identityProviderName = this.identityProviderName;
+    final principalTags = this.principalTags;
+    final useDefaults = this.useDefaults;
+    return {
+      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
+      if (identityProviderName != null)
+        'IdentityProviderName': identityProviderName,
+      if (principalTags != null) 'PrincipalTags': principalTags,
+      if (useDefaults != null) 'UseDefaults': useDefaults,
     };
   }
 }
@@ -2045,81 +1898,6 @@ class LookupDeveloperIdentityResponse {
   }
 }
 
-/// A rule that maps a claim name, a claim value, and a match type to a role
-/// ARN.
-class MappingRule {
-  /// The claim name that must be present in the token, for example, "isAdmin" or
-  /// "paid".
-  final String claim;
-
-  /// The match condition that specifies how closely the claim value in the IdP
-  /// token must match <code>Value</code>.
-  final MappingRuleMatchType matchType;
-
-  /// The role ARN.
-  final String roleARN;
-
-  /// A brief string that the claim must match, for example, "paid" or "yes".
-  final String value;
-
-  MappingRule({
-    required this.claim,
-    required this.matchType,
-    required this.roleARN,
-    required this.value,
-  });
-
-  factory MappingRule.fromJson(Map<String, dynamic> json) {
-    return MappingRule(
-      claim: (json['Claim'] as String?) ?? '',
-      matchType:
-          MappingRuleMatchType.fromString((json['MatchType'] as String?) ?? ''),
-      roleARN: (json['RoleARN'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final claim = this.claim;
-    final matchType = this.matchType;
-    final roleARN = this.roleARN;
-    final value = this.value;
-    return {
-      'Claim': claim,
-      'MatchType': matchType.value,
-      'RoleARN': roleARN,
-      'Value': value,
-    };
-  }
-}
-
-class MappingRuleMatchType {
-  static const equals = MappingRuleMatchType._('Equals');
-  static const contains = MappingRuleMatchType._('Contains');
-  static const startsWith = MappingRuleMatchType._('StartsWith');
-  static const notEqual = MappingRuleMatchType._('NotEqual');
-
-  final String value;
-
-  const MappingRuleMatchType._(this.value);
-
-  static const values = [equals, contains, startsWith, notEqual];
-
-  static MappingRuleMatchType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MappingRuleMatchType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MappingRuleMatchType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Returned in response to a successful <code>MergeDeveloperIdentities</code>
 /// action.
 class MergeDeveloperIdentitiesResponse {
@@ -2141,6 +1919,79 @@ class MergeDeveloperIdentitiesResponse {
     return {
       if (identityId != null) 'IdentityId': identityId,
     };
+  }
+}
+
+class SetPrincipalTagAttributeMapResponse {
+  /// The ID of the Identity Pool you want to set attribute mappings for.
+  final String? identityPoolId;
+
+  /// The provider name you want to use for attribute mappings.
+  final String? identityProviderName;
+
+  /// You can use this operation to add principal tags. The
+  /// <code>PrincipalTags</code>operation enables you to reference user attributes
+  /// in your IAM permissions policy.
+  final Map<String, String>? principalTags;
+
+  /// You can use this operation to select default (username and clientID)
+  /// attribute mappings.
+  final bool? useDefaults;
+
+  SetPrincipalTagAttributeMapResponse({
+    this.identityPoolId,
+    this.identityProviderName,
+    this.principalTags,
+    this.useDefaults,
+  });
+
+  factory SetPrincipalTagAttributeMapResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SetPrincipalTagAttributeMapResponse(
+      identityPoolId: json['IdentityPoolId'] as String?,
+      identityProviderName: json['IdentityProviderName'] as String?,
+      principalTags: (json['PrincipalTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      useDefaults: json['UseDefaults'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityPoolId = this.identityPoolId;
+    final identityProviderName = this.identityProviderName;
+    final principalTags = this.principalTags;
+    final useDefaults = this.useDefaults;
+    return {
+      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
+      if (identityProviderName != null)
+        'IdentityProviderName': identityProviderName,
+      if (principalTags != null) 'PrincipalTags': principalTags,
+      if (useDefaults != null) 'UseDefaults': useDefaults,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -2222,6 +2073,32 @@ class RoleMappingType {
   String toString() => value;
 }
 
+class AmbiguousRoleResolutionType {
+  static const authenticatedRole =
+      AmbiguousRoleResolutionType._('AuthenticatedRole');
+  static const deny = AmbiguousRoleResolutionType._('Deny');
+
+  final String value;
+
+  const AmbiguousRoleResolutionType._(this.value);
+
+  static const values = [authenticatedRole, deny];
+
+  static AmbiguousRoleResolutionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AmbiguousRoleResolutionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmbiguousRoleResolutionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A container for rules.
 class RulesConfigurationType {
   /// An array of rules. You can specify up to 25 rules per identity provider.
@@ -2250,64 +2127,152 @@ class RulesConfigurationType {
   }
 }
 
-class SetPrincipalTagAttributeMapResponse {
-  /// The ID of the Identity Pool you want to set attribute mappings for.
-  final String? identityPoolId;
+/// A rule that maps a claim name, a claim value, and a match type to a role
+/// ARN.
+class MappingRule {
+  /// The claim name that must be present in the token, for example, "isAdmin" or
+  /// "paid".
+  final String claim;
 
-  /// The provider name you want to use for attribute mappings.
-  final String? identityProviderName;
+  /// The match condition that specifies how closely the claim value in the IdP
+  /// token must match <code>Value</code>.
+  final MappingRuleMatchType matchType;
 
-  /// You can use this operation to add principal tags. The
-  /// <code>PrincipalTags</code>operation enables you to reference user attributes
-  /// in your IAM permissions policy.
-  final Map<String, String>? principalTags;
+  /// The role ARN.
+  final String roleARN;
 
-  /// You can use this operation to select default (username and clientID)
-  /// attribute mappings.
-  final bool? useDefaults;
+  /// A brief string that the claim must match, for example, "paid" or "yes".
+  final String value;
 
-  SetPrincipalTagAttributeMapResponse({
-    this.identityPoolId,
-    this.identityProviderName,
-    this.principalTags,
-    this.useDefaults,
+  MappingRule({
+    required this.claim,
+    required this.matchType,
+    required this.roleARN,
+    required this.value,
   });
 
-  factory SetPrincipalTagAttributeMapResponse.fromJson(
-      Map<String, dynamic> json) {
-    return SetPrincipalTagAttributeMapResponse(
+  factory MappingRule.fromJson(Map<String, dynamic> json) {
+    return MappingRule(
+      claim: (json['Claim'] as String?) ?? '',
+      matchType:
+          MappingRuleMatchType.fromString((json['MatchType'] as String?) ?? ''),
+      roleARN: (json['RoleARN'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final claim = this.claim;
+    final matchType = this.matchType;
+    final roleARN = this.roleARN;
+    final value = this.value;
+    return {
+      'Claim': claim,
+      'MatchType': matchType.value,
+      'RoleARN': roleARN,
+      'Value': value,
+    };
+  }
+}
+
+class MappingRuleMatchType {
+  static const equals = MappingRuleMatchType._('Equals');
+  static const contains = MappingRuleMatchType._('Contains');
+  static const startsWith = MappingRuleMatchType._('StartsWith');
+  static const notEqual = MappingRuleMatchType._('NotEqual');
+
+  final String value;
+
+  const MappingRuleMatchType._(this.value);
+
+  static const values = [equals, contains, startsWith, notEqual];
+
+  static MappingRuleMatchType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MappingRuleMatchType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MappingRuleMatchType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A description of the identity pool.
+class IdentityPoolShortDescription {
+  /// An identity pool ID in the format REGION:GUID.
+  final String? identityPoolId;
+
+  /// A string that you provide.
+  final String? identityPoolName;
+
+  IdentityPoolShortDescription({
+    this.identityPoolId,
+    this.identityPoolName,
+  });
+
+  factory IdentityPoolShortDescription.fromJson(Map<String, dynamic> json) {
+    return IdentityPoolShortDescription(
       identityPoolId: json['IdentityPoolId'] as String?,
-      identityProviderName: json['IdentityProviderName'] as String?,
-      principalTags: (json['PrincipalTags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      useDefaults: json['UseDefaults'] as bool?,
+      identityPoolName: json['IdentityPoolName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final identityPoolId = this.identityPoolId;
-    final identityProviderName = this.identityProviderName;
-    final principalTags = this.principalTags;
-    final useDefaults = this.useDefaults;
+    final identityPoolName = this.identityPoolName;
     return {
       if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-      if (identityProviderName != null)
-        'IdentityProviderName': identityProviderName,
-      if (principalTags != null) 'PrincipalTags': principalTags,
-      if (useDefaults != null) 'UseDefaults': useDefaults,
+      if (identityPoolName != null) 'IdentityPoolName': identityPoolName,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Credentials for the provided identity ID.
+class Credentials {
+  /// The Access Key portion of the credentials.
+  final String? accessKeyId;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// The date at which these credentials will expire.
+  final DateTime? expiration;
+
+  /// The Secret Access Key portion of the credentials
+  final String? secretKey;
+
+  /// The Session Token portion of the credentials
+  final String? sessionToken;
+
+  Credentials({
+    this.accessKeyId,
+    this.expiration,
+    this.secretKey,
+    this.sessionToken,
+  });
+
+  factory Credentials.fromJson(Map<String, dynamic> json) {
+    return Credentials(
+      accessKeyId: json['AccessKeyId'] as String?,
+      expiration: timeStampFromJson(json['Expiration']),
+      secretKey: json['SecretKey'] as String?,
+      sessionToken: json['SessionToken'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final accessKeyId = this.accessKeyId;
+    final expiration = this.expiration;
+    final secretKey = this.secretKey;
+    final sessionToken = this.sessionToken;
+    return {
+      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
+      if (expiration != null) 'Expiration': unixTimestampToJson(expiration),
+      if (secretKey != null) 'SecretKey': secretKey,
+      if (sessionToken != null) 'SessionToken': sessionToken,
+    };
   }
 }
 
@@ -2342,15 +2307,75 @@ class UnprocessedIdentityId {
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+class ErrorCode {
+  static const accessDenied = ErrorCode._('AccessDenied');
+  static const internalServerError = ErrorCode._('InternalServerError');
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [accessDenied, internalServerError];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A provider representing an Amazon Cognito user pool and its client ID.
+class CognitoIdentityProvider {
+  /// The client ID for the Amazon Cognito user pool.
+  final String? clientId;
+
+  /// The provider name for an Amazon Cognito user pool. For example,
+  /// <code>cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789</code>.
+  final String? providerName;
+
+  /// TRUE if server-side token validation is enabled for the identity provider’s
+  /// token.
+  ///
+  /// Once you set <code>ServerSideTokenCheck</code> to TRUE for an identity pool,
+  /// that identity pool will check with the integrated user pools to make sure
+  /// that the user has not been globally signed out or deleted before the
+  /// identity pool provides an OIDC token or Amazon Web Services credentials for
+  /// the user.
+  ///
+  /// If the user is signed out or deleted, the identity pool will return a 400
+  /// Not Authorized error.
+  final bool? serverSideTokenCheck;
+
+  CognitoIdentityProvider({
+    this.clientId,
+    this.providerName,
+    this.serverSideTokenCheck,
+  });
+
+  factory CognitoIdentityProvider.fromJson(Map<String, dynamic> json) {
+    return CognitoIdentityProvider(
+      clientId: json['ClientId'] as String?,
+      providerName: json['ProviderName'] as String?,
+      serverSideTokenCheck: json['ServerSideTokenCheck'] as bool?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final clientId = this.clientId;
+    final providerName = this.providerName;
+    final serverSideTokenCheck = this.serverSideTokenCheck;
+    return {
+      if (clientId != null) 'ClientId': clientId,
+      if (providerName != null) 'ProviderName': providerName,
+      if (serverSideTokenCheck != null)
+        'ServerSideTokenCheck': serverSideTokenCheck,
+    };
   }
 }
 

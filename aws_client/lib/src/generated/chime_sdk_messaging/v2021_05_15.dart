@@ -24,7 +24,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// developers to send and receive messages in custom messaging applications.
 /// These APIs depend on the frameworks provided by the Amazon Chime SDK
 /// identity APIs. For more information about the messaging APIs, see <a
-/// href="https://docs.aws.amazon.com/chime/latest/APIReference/API_Operations_Amazon_Chime_SDK_Messaging.html">Amazon
+/// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_Operations_Amazon_Chime_SDK_Messaging.html">Amazon
 /// Chime SDK messaging</a>.
 class ChimeSdkMessaging {
   final _s.RestJsonProtocol _protocol;
@@ -66,13 +66,13 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -104,14 +104,14 @@ class ChimeSdkMessaging {
 
   /// Adds a specified number of users and bots to a channel.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ResourceLimitExceededException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [BadRequestException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [ThrottledClientException].
-  /// May throw [ResourceLimitExceededException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel to which you're adding users or bots.
@@ -183,12 +183,12 @@ class ChimeSdkMessaging {
   /// </ul>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -234,13 +234,13 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the channel request.
@@ -253,7 +253,8 @@ class ChimeSdkMessaging {
   /// The name of the channel.
   ///
   /// Parameter [channelId] :
-  /// The ID of the channel in the request.
+  /// An ID for the channel being created. If you do not specify an ID, a UUID
+  /// will be created for the channel.
   ///
   /// Parameter [clientRequestToken] :
   /// The client token for the request. An <code>Idempotency</code> token.
@@ -347,13 +348,13 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the ban request.
@@ -405,18 +406,18 @@ class ChimeSdkMessaging {
   /// Channel flows don't process Control or System messages. For more
   /// information about the message types provided by Chime SDK messaging, refer
   /// to <a
-  /// href="https://docs.aws.amazon.com/chime/latest/dg/using-the-messaging-sdk.html#msg-types">Message
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/using-the-messaging-sdk.html#msg-types">Message
   /// types</a> in the <i>Amazon Chime developer guide</i>.
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the channel flow request.
@@ -493,14 +494,14 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel to which you're adding users.
@@ -577,13 +578,13 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -624,12 +625,12 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel being deleted.
@@ -662,10 +663,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel from which the <code>AppInstanceUser</code> was
@@ -705,12 +706,12 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
   /// May throw [ConflictException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelFlowArn] :
   /// The ARN of the channel flow.
@@ -733,12 +734,12 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel from which you want to remove the user.
@@ -790,10 +791,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -843,10 +844,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -882,10 +883,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the streaming configurations being deleted.
@@ -911,10 +912,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -949,10 +950,10 @@ class ChimeSdkMessaging {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel from which the user is banned.
@@ -987,10 +988,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelFlowArn] :
   /// The ARN of the channel flow.
@@ -1016,10 +1017,10 @@ class ChimeSdkMessaging {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -1071,10 +1072,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the user or bot in a channel.
@@ -1120,10 +1121,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the user or bot in the moderated channel.
@@ -1168,10 +1169,10 @@ class ChimeSdkMessaging {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -1213,13 +1214,13 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -1261,11 +1262,11 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -1307,10 +1308,10 @@ class ChimeSdkMessaging {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -1385,10 +1386,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel
@@ -1431,17 +1432,26 @@ class ChimeSdkMessaging {
 
   /// The details of the endpoint for the messaging session.
   ///
-  /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
-  Future<GetMessagingSessionEndpointResponse>
-      getMessagingSessionEndpoint() async {
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  ///
+  /// Parameter [networkType] :
+  /// The type of network for the messaging session endpoint. Either IPv4 only
+  /// or dual-stack (IPv4 and IPv6).
+  Future<GetMessagingSessionEndpointResponse> getMessagingSessionEndpoint({
+    NetworkType? networkType,
+  }) async {
+    final $query = <String, List<String>>{
+      if (networkType != null) 'network-type': [networkType.value],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/endpoints/messaging-session',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetMessagingSessionEndpointResponse.fromJson(response);
@@ -1455,10 +1465,10 @@ class ChimeSdkMessaging {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the streaming configurations.
@@ -1485,10 +1495,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -1538,10 +1548,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the app instance.
@@ -1586,15 +1596,15 @@ class ChimeSdkMessaging {
   /// </note>
   /// If you want to list the channels to which a specific app instance user
   /// belongs, see the <a
-  /// href="https://docs.aws.amazon.com/chime/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html">ListChannelMembershipsForAppInstanceUser</a>
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_messaging-chime_ListChannelMembershipsForAppInstanceUser.html">ListChannelMembershipsForAppInstanceUser</a>
   /// API.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The maximum number of channel memberships that you want returned.
@@ -1669,10 +1679,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [chimeBearer] :
   /// The ARN of the <code>AppInstanceUser</code> or <code>AppInstanceBot</code>
@@ -1735,10 +1745,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -1819,10 +1829,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -1869,7 +1879,7 @@ class ChimeSdkMessaging {
 
   /// Lists all Channels created under a single Chime App as a paginated list.
   /// You can specify filters to narrow results.
-  /// <p class="title"> <b>Functionality &amp; restrictions</b>
+  /// <p class="title"> <b>Functionality & restrictions</b>
   ///
   /// <ul>
   /// <li>
@@ -1888,10 +1898,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -1950,10 +1960,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelFlowArn] :
   /// The ARN of the channel flow.
@@ -2000,10 +2010,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [chimeBearer] :
   /// The ARN of the <code>AppInstanceUser</code> or <code>AppInstanceBot</code>
@@ -2057,10 +2067,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of elastic channel.
@@ -2108,10 +2118,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource.
@@ -2150,12 +2160,12 @@ class ChimeSdkMessaging {
   /// </ul> </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -2203,11 +2213,11 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -2250,14 +2260,14 @@ class ChimeSdkMessaging {
   /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/streaming-export.html">Streaming
   /// messaging data</a> in the <i>Amazon Chime SDK Developer Guide</i>.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
   /// May throw [ConflictException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the streaming configuration.
@@ -2282,8 +2292,8 @@ class ChimeSdkMessaging {
     return PutMessagingStreamingConfigurationsResponse.fromJson(response);
   }
 
-  /// Redacts message content, but not metadata. The message exists in the back
-  /// end, but the action returns null content, and the state shows as redacted.
+  /// Redacts message content and metadata. The message exists in the back end,
+  /// but the action returns null content, and the state shows as redacted.
   /// <note>
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// ARN of the <code>AppInstanceUser</code> or <code>AppInstanceBot</code>
@@ -2291,12 +2301,12 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel containing the messages that you want to redact.
@@ -2340,13 +2350,17 @@ class ChimeSdkMessaging {
   /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
   /// ARN of the <code>AppInstanceUser</code> or <code>AppInstanceBot</code>
   /// that makes the API call as the value in the header.
+  /// <note>
+  /// This operation isn't supported for <code>AppInstanceUsers</code> with a
+  /// large number of memberships.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [fields] :
   /// A list of the <code>Field</code> objects in the channel being searched.
@@ -2410,10 +2424,10 @@ class ChimeSdkMessaging {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -2509,11 +2523,11 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The resource ARN.
@@ -2541,10 +2555,10 @@ class ChimeSdkMessaging {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The resource ARN.
@@ -2577,12 +2591,12 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -2627,12 +2641,12 @@ class ChimeSdkMessaging {
   /// Updates channel flow attributes. This is a developer API.
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelFlowArn] :
   /// The ARN of the channel flow.
@@ -2670,10 +2684,10 @@ class ChimeSdkMessaging {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -2737,12 +2751,12 @@ class ChimeSdkMessaging {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
@@ -2765,168 +2779,6 @@ class ChimeSdkMessaging {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateChannelReadMarkerResponse.fromJson(response);
-  }
-}
-
-class AllowNotifications {
-  static const all = AllowNotifications._('ALL');
-  static const none = AllowNotifications._('NONE');
-  static const filtered = AllowNotifications._('FILTERED');
-
-  final String value;
-
-  const AllowNotifications._(this.value);
-
-  static const values = [all, none, filtered];
-
-  static AllowNotifications fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AllowNotifications._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AllowNotifications && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary of the membership details of an <code>AppInstanceUser</code>.
-class AppInstanceUserMembershipSummary {
-  /// The time at which an <code>AppInstanceUser</code> last marked a channel as
-  /// read.
-  final DateTime? readMarkerTimestamp;
-
-  /// The ID of the SubChannel that the <code>AppInstanceUser</code> is a member
-  /// of.
-  final String? subChannelId;
-
-  /// The type of <code>ChannelMembership</code>.
-  final ChannelMembershipType? type;
-
-  AppInstanceUserMembershipSummary({
-    this.readMarkerTimestamp,
-    this.subChannelId,
-    this.type,
-  });
-
-  factory AppInstanceUserMembershipSummary.fromJson(Map<String, dynamic> json) {
-    return AppInstanceUserMembershipSummary(
-      readMarkerTimestamp: timeStampFromJson(json['ReadMarkerTimestamp']),
-      subChannelId: json['SubChannelId'] as String?,
-      type: (json['Type'] as String?)?.let(ChannelMembershipType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final readMarkerTimestamp = this.readMarkerTimestamp;
-    final subChannelId = this.subChannelId;
-    final type = this.type;
-    return {
-      if (readMarkerTimestamp != null)
-        'ReadMarkerTimestamp': unixTimestampToJson(readMarkerTimestamp),
-      if (subChannelId != null) 'SubChannelId': subChannelId,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// The membership information, including member ARNs, the channel ARN, and
-/// membership types.
-class BatchChannelMemberships {
-  /// The ARN of the channel to which you're adding members.
-  final String? channelArn;
-
-  /// The identifier of the member who invited another member.
-  final Identity? invitedBy;
-
-  /// The users successfully added to the request.
-  final List<Identity>? members;
-
-  /// The ID of the SubChannel.
-  final String? subChannelId;
-
-  /// The membership types set for the channel members.
-  final ChannelMembershipType? type;
-
-  BatchChannelMemberships({
-    this.channelArn,
-    this.invitedBy,
-    this.members,
-    this.subChannelId,
-    this.type,
-  });
-
-  factory BatchChannelMemberships.fromJson(Map<String, dynamic> json) {
-    return BatchChannelMemberships(
-      channelArn: json['ChannelArn'] as String?,
-      invitedBy: json['InvitedBy'] != null
-          ? Identity.fromJson(json['InvitedBy'] as Map<String, dynamic>)
-          : null,
-      members: (json['Members'] as List?)
-          ?.nonNulls
-          .map((e) => Identity.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      subChannelId: json['SubChannelId'] as String?,
-      type: (json['Type'] as String?)?.let(ChannelMembershipType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelArn = this.channelArn;
-    final invitedBy = this.invitedBy;
-    final members = this.members;
-    final subChannelId = this.subChannelId;
-    final type = this.type;
-    return {
-      if (channelArn != null) 'ChannelArn': channelArn,
-      if (invitedBy != null) 'InvitedBy': invitedBy,
-      if (members != null) 'Members': members,
-      if (subChannelId != null) 'SubChannelId': subChannelId,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// A list of failed member ARNs, error codes, and error messages.
-class BatchCreateChannelMembershipError {
-  /// The error code.
-  final ErrorCode? errorCode;
-
-  /// The error message.
-  final String? errorMessage;
-
-  /// The <code>AppInstanceUserArn</code> of the member that the service couldn't
-  /// add.
-  final String? memberArn;
-
-  BatchCreateChannelMembershipError({
-    this.errorCode,
-    this.errorMessage,
-    this.memberArn,
-  });
-
-  factory BatchCreateChannelMembershipError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchCreateChannelMembershipError(
-      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-      memberArn: json['MemberArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final memberArn = this.memberArn;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (memberArn != null) 'MemberArn': memberArn,
-    };
   }
 }
 
@@ -2970,300 +2822,6 @@ class BatchCreateChannelMembershipResponse {
   }
 }
 
-/// The details of a channel.
-class Channel {
-  /// The ARN of a channel.
-  final String? channelArn;
-
-  /// The ARN of the channel flow.
-  final String? channelFlowArn;
-
-  /// The <code>AppInstanceUser</code> who created the channel.
-  final Identity? createdBy;
-
-  /// The time at which the <code>AppInstanceUser</code> created the channel.
-  final DateTime? createdTimestamp;
-
-  /// The attributes required to configure and create an elastic channel. An
-  /// elastic channel can support a maximum of 1-million members.
-  final ElasticChannelConfiguration? elasticChannelConfiguration;
-
-  /// Settings that control when a channel expires.
-  final ExpirationSettings? expirationSettings;
-
-  /// The time at which a member sent the last message in the channel.
-  final DateTime? lastMessageTimestamp;
-
-  /// The time at which a channel was last updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The channel's metadata.
-  final String? metadata;
-
-  /// The mode of the channel.
-  final ChannelMode? mode;
-
-  /// The name of a channel.
-  final String? name;
-
-  /// The channel's privacy setting.
-  final ChannelPrivacy? privacy;
-
-  Channel({
-    this.channelArn,
-    this.channelFlowArn,
-    this.createdBy,
-    this.createdTimestamp,
-    this.elasticChannelConfiguration,
-    this.expirationSettings,
-    this.lastMessageTimestamp,
-    this.lastUpdatedTimestamp,
-    this.metadata,
-    this.mode,
-    this.name,
-    this.privacy,
-  });
-
-  factory Channel.fromJson(Map<String, dynamic> json) {
-    return Channel(
-      channelArn: json['ChannelArn'] as String?,
-      channelFlowArn: json['ChannelFlowArn'] as String?,
-      createdBy: json['CreatedBy'] != null
-          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
-          : null,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      elasticChannelConfiguration: json['ElasticChannelConfiguration'] != null
-          ? ElasticChannelConfiguration.fromJson(
-              json['ElasticChannelConfiguration'] as Map<String, dynamic>)
-          : null,
-      expirationSettings: json['ExpirationSettings'] != null
-          ? ExpirationSettings.fromJson(
-              json['ExpirationSettings'] as Map<String, dynamic>)
-          : null,
-      lastMessageTimestamp: timeStampFromJson(json['LastMessageTimestamp']),
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      metadata: json['Metadata'] as String?,
-      mode: (json['Mode'] as String?)?.let(ChannelMode.fromString),
-      name: json['Name'] as String?,
-      privacy: (json['Privacy'] as String?)?.let(ChannelPrivacy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelArn = this.channelArn;
-    final channelFlowArn = this.channelFlowArn;
-    final createdBy = this.createdBy;
-    final createdTimestamp = this.createdTimestamp;
-    final elasticChannelConfiguration = this.elasticChannelConfiguration;
-    final expirationSettings = this.expirationSettings;
-    final lastMessageTimestamp = this.lastMessageTimestamp;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final metadata = this.metadata;
-    final mode = this.mode;
-    final name = this.name;
-    final privacy = this.privacy;
-    return {
-      if (channelArn != null) 'ChannelArn': channelArn,
-      if (channelFlowArn != null) 'ChannelFlowArn': channelFlowArn,
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (elasticChannelConfiguration != null)
-        'ElasticChannelConfiguration': elasticChannelConfiguration,
-      if (expirationSettings != null) 'ExpirationSettings': expirationSettings,
-      if (lastMessageTimestamp != null)
-        'LastMessageTimestamp': unixTimestampToJson(lastMessageTimestamp),
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (metadata != null) 'Metadata': metadata,
-      if (mode != null) 'Mode': mode.value,
-      if (name != null) 'Name': name,
-      if (privacy != null) 'Privacy': privacy.value,
-    };
-  }
-}
-
-/// Summary of details of a channel associated with channel flow.
-class ChannelAssociatedWithFlowSummary {
-  /// The ARN of the channel.
-  final String? channelArn;
-
-  /// The channel's metadata.
-  final String? metadata;
-
-  /// The mode of the channel.
-  final ChannelMode? mode;
-
-  /// The name of the channel flow.
-  final String? name;
-
-  /// The channel's privacy setting.
-  final ChannelPrivacy? privacy;
-
-  ChannelAssociatedWithFlowSummary({
-    this.channelArn,
-    this.metadata,
-    this.mode,
-    this.name,
-    this.privacy,
-  });
-
-  factory ChannelAssociatedWithFlowSummary.fromJson(Map<String, dynamic> json) {
-    return ChannelAssociatedWithFlowSummary(
-      channelArn: json['ChannelArn'] as String?,
-      metadata: json['Metadata'] as String?,
-      mode: (json['Mode'] as String?)?.let(ChannelMode.fromString),
-      name: json['Name'] as String?,
-      privacy: (json['Privacy'] as String?)?.let(ChannelPrivacy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelArn = this.channelArn;
-    final metadata = this.metadata;
-    final mode = this.mode;
-    final name = this.name;
-    final privacy = this.privacy;
-    return {
-      if (channelArn != null) 'ChannelArn': channelArn,
-      if (metadata != null) 'Metadata': metadata,
-      if (mode != null) 'Mode': mode.value,
-      if (name != null) 'Name': name,
-      if (privacy != null) 'Privacy': privacy.value,
-    };
-  }
-}
-
-/// The details of a channel ban.
-class ChannelBan {
-  /// The ARN of the channel from which a member is being banned.
-  final String? channelArn;
-
-  /// The <code>AppInstanceUser</code> who created the ban.
-  final Identity? createdBy;
-
-  /// The time at which the ban was created.
-  final DateTime? createdTimestamp;
-
-  /// The member being banned from the channel.
-  final Identity? member;
-
-  ChannelBan({
-    this.channelArn,
-    this.createdBy,
-    this.createdTimestamp,
-    this.member,
-  });
-
-  factory ChannelBan.fromJson(Map<String, dynamic> json) {
-    return ChannelBan(
-      channelArn: json['ChannelArn'] as String?,
-      createdBy: json['CreatedBy'] != null
-          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
-          : null,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      member: json['Member'] != null
-          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelArn = this.channelArn;
-    final createdBy = this.createdBy;
-    final createdTimestamp = this.createdTimestamp;
-    final member = this.member;
-    return {
-      if (channelArn != null) 'ChannelArn': channelArn,
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (member != null) 'Member': member,
-    };
-  }
-}
-
-/// Summary of the details of a <code>ChannelBan</code>.
-class ChannelBanSummary {
-  /// The member being banned from a channel.
-  final Identity? member;
-
-  ChannelBanSummary({
-    this.member,
-  });
-
-  factory ChannelBanSummary.fromJson(Map<String, dynamic> json) {
-    return ChannelBanSummary(
-      member: json['Member'] != null
-          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final member = this.member;
-    return {
-      if (member != null) 'Member': member,
-    };
-  }
-}
-
-/// The details of a channel flow.
-class ChannelFlow {
-  /// The ARN of the channel flow.
-  final String? channelFlowArn;
-
-  /// The time at which the channel flow was created.
-  final DateTime? createdTimestamp;
-
-  /// The time at which a channel flow was updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The name of the channel flow.
-  final String? name;
-
-  /// Information about the processor Lambda functions.
-  final List<Processor>? processors;
-
-  ChannelFlow({
-    this.channelFlowArn,
-    this.createdTimestamp,
-    this.lastUpdatedTimestamp,
-    this.name,
-    this.processors,
-  });
-
-  factory ChannelFlow.fromJson(Map<String, dynamic> json) {
-    return ChannelFlow(
-      channelFlowArn: json['ChannelFlowArn'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      name: json['Name'] as String?,
-      processors: (json['Processors'] as List?)
-          ?.nonNulls
-          .map((e) => Processor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelFlowArn = this.channelFlowArn;
-    final createdTimestamp = this.createdTimestamp;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final name = this.name;
-    final processors = this.processors;
-    return {
-      if (channelFlowArn != null) 'ChannelFlowArn': channelFlowArn,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (name != null) 'Name': name,
-      if (processors != null) 'Processors': processors,
-    };
-  }
-}
-
 class ChannelFlowCallbackResponse {
   /// The call back ID passed in the request.
   final String? callbackId;
@@ -3293,918 +2851,24 @@ class ChannelFlowCallbackResponse {
   }
 }
 
-/// Summary of details of a channel flow.
-class ChannelFlowSummary {
-  /// The ARN of the channel flow.
-  final String? channelFlowArn;
-
-  /// The name of the channel flow.
-  final String? name;
-
-  /// Information about the processor Lambda functions.
-  final List<Processor>? processors;
-
-  ChannelFlowSummary({
-    this.channelFlowArn,
-    this.name,
-    this.processors,
-  });
-
-  factory ChannelFlowSummary.fromJson(Map<String, dynamic> json) {
-    return ChannelFlowSummary(
-      channelFlowArn: json['ChannelFlowArn'] as String?,
-      name: json['Name'] as String?,
-      processors: (json['Processors'] as List?)
-          ?.nonNulls
-          .map((e) => Processor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelFlowArn = this.channelFlowArn;
-    final name = this.name;
-    final processors = this.processors;
-    return {
-      if (channelFlowArn != null) 'ChannelFlowArn': channelFlowArn,
-      if (name != null) 'Name': name,
-      if (processors != null) 'Processors': processors,
-    };
-  }
-}
-
-/// The details of a channel member.
-class ChannelMembership {
-  /// The ARN of the member's channel.
-  final String? channelArn;
-
-  /// The time at which the channel membership was created.
-  final DateTime? createdTimestamp;
-
-  /// The identifier of the member who invited another member.
-  final Identity? invitedBy;
-
-  /// The time at which a channel membership was last updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The data of the channel member.
-  final Identity? member;
-
-  /// The ID of the SubChannel that a user belongs to.
-  final String? subChannelId;
-
-  /// The membership type set for the channel member.
-  final ChannelMembershipType? type;
-
-  ChannelMembership({
-    this.channelArn,
-    this.createdTimestamp,
-    this.invitedBy,
-    this.lastUpdatedTimestamp,
-    this.member,
-    this.subChannelId,
-    this.type,
-  });
-
-  factory ChannelMembership.fromJson(Map<String, dynamic> json) {
-    return ChannelMembership(
-      channelArn: json['ChannelArn'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      invitedBy: json['InvitedBy'] != null
-          ? Identity.fromJson(json['InvitedBy'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      member: json['Member'] != null
-          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
-          : null,
-      subChannelId: json['SubChannelId'] as String?,
-      type: (json['Type'] as String?)?.let(ChannelMembershipType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelArn = this.channelArn;
-    final createdTimestamp = this.createdTimestamp;
-    final invitedBy = this.invitedBy;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final member = this.member;
-    final subChannelId = this.subChannelId;
-    final type = this.type;
-    return {
-      if (channelArn != null) 'ChannelArn': channelArn,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (invitedBy != null) 'InvitedBy': invitedBy,
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (member != null) 'Member': member,
-      if (subChannelId != null) 'SubChannelId': subChannelId,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Summary of the channel membership details of an
-/// <code>AppInstanceUser</code>.
-class ChannelMembershipForAppInstanceUserSummary {
-  /// Returns the channel membership data for an <code>AppInstance</code>.
-  final AppInstanceUserMembershipSummary? appInstanceUserMembershipSummary;
-
-  /// Returns the channel data for an <code>AppInstance</code>.
-  final ChannelSummary? channelSummary;
-
-  ChannelMembershipForAppInstanceUserSummary({
-    this.appInstanceUserMembershipSummary,
-    this.channelSummary,
-  });
-
-  factory ChannelMembershipForAppInstanceUserSummary.fromJson(
-      Map<String, dynamic> json) {
-    return ChannelMembershipForAppInstanceUserSummary(
-      appInstanceUserMembershipSummary:
-          json['AppInstanceUserMembershipSummary'] != null
-              ? AppInstanceUserMembershipSummary.fromJson(
-                  json['AppInstanceUserMembershipSummary']
-                      as Map<String, dynamic>)
-              : null,
-      channelSummary: json['ChannelSummary'] != null
-          ? ChannelSummary.fromJson(
-              json['ChannelSummary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstanceUserMembershipSummary =
-        this.appInstanceUserMembershipSummary;
-    final channelSummary = this.channelSummary;
-    return {
-      if (appInstanceUserMembershipSummary != null)
-        'AppInstanceUserMembershipSummary': appInstanceUserMembershipSummary,
-      if (channelSummary != null) 'ChannelSummary': channelSummary,
-    };
-  }
-}
-
-/// The channel membership preferences for an <code>AppInstanceUser</code>.
-class ChannelMembershipPreferences {
-  /// The push notification configuration of a message.
-  final PushNotificationPreferences? pushNotifications;
-
-  ChannelMembershipPreferences({
-    this.pushNotifications,
-  });
-
-  factory ChannelMembershipPreferences.fromJson(Map<String, dynamic> json) {
-    return ChannelMembershipPreferences(
-      pushNotifications: json['PushNotifications'] != null
-          ? PushNotificationPreferences.fromJson(
-              json['PushNotifications'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pushNotifications = this.pushNotifications;
-    return {
-      if (pushNotifications != null) 'PushNotifications': pushNotifications,
-    };
-  }
-}
-
-/// Summary of the details of a <code>ChannelMembership</code>.
-class ChannelMembershipSummary {
-  /// A member's summary data.
-  final Identity? member;
-
-  ChannelMembershipSummary({
-    this.member,
-  });
-
-  factory ChannelMembershipSummary.fromJson(Map<String, dynamic> json) {
-    return ChannelMembershipSummary(
-      member: json['Member'] != null
-          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final member = this.member;
-    return {
-      if (member != null) 'Member': member,
-    };
-  }
-}
-
-class ChannelMembershipType {
-  static const $default = ChannelMembershipType._('DEFAULT');
-  static const hidden = ChannelMembershipType._('HIDDEN');
-
-  final String value;
-
-  const ChannelMembershipType._(this.value);
-
-  static const values = [$default, hidden];
-
-  static ChannelMembershipType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChannelMembershipType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ChannelMembershipType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The details of a message in a channel.
-class ChannelMessage {
+class CreateChannelResponse {
   /// The ARN of the channel.
   final String? channelArn;
 
-  /// The content of the channel message. For Amazon Lex V2 bot responses, this
-  /// field holds a list of messages originating from the bot. For more
-  /// information, refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final String? content;
-
-  /// The content type of the channel message. For Amazon Lex V2 bot responses,
-  /// the content type is <code>application/amz-chime-lex-msgs</code> for success
-  /// responses and <code>application/amz-chime-lex-error</code> for failure
-  /// responses. For more information, refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final String? contentType;
-
-  /// The time at which the message was created.
-  final DateTime? createdTimestamp;
-
-  /// The time at which a message was edited.
-  final DateTime? lastEditedTimestamp;
-
-  /// The time at which a message was updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
-  /// attributes are mapped to specific fields from the bot. For more information,
-  /// refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final Map<String, MessageAttributeValue>? messageAttributes;
-
-  /// The ID of a message.
-  final String? messageId;
-
-  /// The message metadata.
-  final String? metadata;
-
-  /// The persistence setting for a channel message.
-  final ChannelMessagePersistenceType? persistence;
-
-  /// Hides the content of a message.
-  final bool? redacted;
-
-  /// The message sender.
-  final Identity? sender;
-
-  /// The status of the channel message.
-  final ChannelMessageStatusStructure? status;
-
-  /// The ID of the SubChannel.
-  final String? subChannelId;
-
-  /// The target of a message, a sender, a user, or a bot. Only the target and the
-  /// sender can view targeted messages. Only users who can see targeted messages
-  /// can take actions on them. However, administrators can delete targeted
-  /// messages that they can’t see.
-  final List<Target>? target;
-
-  /// The message type.
-  final ChannelMessageType? type;
-
-  ChannelMessage({
+  CreateChannelResponse({
     this.channelArn,
-    this.content,
-    this.contentType,
-    this.createdTimestamp,
-    this.lastEditedTimestamp,
-    this.lastUpdatedTimestamp,
-    this.messageAttributes,
-    this.messageId,
-    this.metadata,
-    this.persistence,
-    this.redacted,
-    this.sender,
-    this.status,
-    this.subChannelId,
-    this.target,
-    this.type,
   });
 
-  factory ChannelMessage.fromJson(Map<String, dynamic> json) {
-    return ChannelMessage(
+  factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateChannelResponse(
       channelArn: json['ChannelArn'] as String?,
-      content: json['Content'] as String?,
-      contentType: json['ContentType'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      lastEditedTimestamp: timeStampFromJson(json['LastEditedTimestamp']),
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      messageAttributes: (json['MessageAttributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(
-              k, MessageAttributeValue.fromJson(e as Map<String, dynamic>))),
-      messageId: json['MessageId'] as String?,
-      metadata: json['Metadata'] as String?,
-      persistence: (json['Persistence'] as String?)
-          ?.let(ChannelMessagePersistenceType.fromString),
-      redacted: json['Redacted'] as bool?,
-      sender: json['Sender'] != null
-          ? Identity.fromJson(json['Sender'] as Map<String, dynamic>)
-          : null,
-      status: json['Status'] != null
-          ? ChannelMessageStatusStructure.fromJson(
-              json['Status'] as Map<String, dynamic>)
-          : null,
-      subChannelId: json['SubChannelId'] as String?,
-      target: (json['Target'] as List?)
-          ?.nonNulls
-          .map((e) => Target.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(ChannelMessageType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final channelArn = this.channelArn;
-    final content = this.content;
-    final contentType = this.contentType;
-    final createdTimestamp = this.createdTimestamp;
-    final lastEditedTimestamp = this.lastEditedTimestamp;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final messageAttributes = this.messageAttributes;
-    final messageId = this.messageId;
-    final metadata = this.metadata;
-    final persistence = this.persistence;
-    final redacted = this.redacted;
-    final sender = this.sender;
-    final status = this.status;
-    final subChannelId = this.subChannelId;
-    final target = this.target;
-    final type = this.type;
     return {
       if (channelArn != null) 'ChannelArn': channelArn,
-      if (content != null) 'Content': content,
-      if (contentType != null) 'ContentType': contentType,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (lastEditedTimestamp != null)
-        'LastEditedTimestamp': unixTimestampToJson(lastEditedTimestamp),
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
-      if (messageId != null) 'MessageId': messageId,
-      if (metadata != null) 'Metadata': metadata,
-      if (persistence != null) 'Persistence': persistence.value,
-      if (redacted != null) 'Redacted': redacted,
-      if (sender != null) 'Sender': sender,
-      if (status != null) 'Status': status,
-      if (subChannelId != null) 'SubChannelId': subChannelId,
-      if (target != null) 'Target': target,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Stores information about a callback.
-class ChannelMessageCallback {
-  /// The message ID.
-  final String messageId;
-
-  /// The message content. For Amazon Lex V2 bot responses, this field holds a
-  /// list of messages originating from the bot. For more information, refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final String? content;
-
-  /// The content type of the call-back message. For Amazon Lex V2 bot responses,
-  /// the content type is <code>application/amz-chime-lex-msgs</code> for success
-  /// responses and <code>application/amz-chime-lex-error</code> for failure
-  /// responses. For more information, refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final String? contentType;
-
-  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
-  /// attributes are mapped to specific fields from the bot. For more information,
-  /// refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final Map<String, MessageAttributeValue>? messageAttributes;
-
-  /// The message metadata.
-  final String? metadata;
-
-  /// The push notification configuration of the message.
-  final PushNotificationConfiguration? pushNotification;
-
-  /// The ID of the SubChannel.
-  final String? subChannelId;
-
-  ChannelMessageCallback({
-    required this.messageId,
-    this.content,
-    this.contentType,
-    this.messageAttributes,
-    this.metadata,
-    this.pushNotification,
-    this.subChannelId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final messageId = this.messageId;
-    final content = this.content;
-    final contentType = this.contentType;
-    final messageAttributes = this.messageAttributes;
-    final metadata = this.metadata;
-    final pushNotification = this.pushNotification;
-    final subChannelId = this.subChannelId;
-    return {
-      'MessageId': messageId,
-      if (content != null) 'Content': content,
-      if (contentType != null) 'ContentType': contentType,
-      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
-      if (metadata != null) 'Metadata': metadata,
-      if (pushNotification != null) 'PushNotification': pushNotification,
-      if (subChannelId != null) 'SubChannelId': subChannelId,
-    };
-  }
-}
-
-class ChannelMessagePersistenceType {
-  static const persistent = ChannelMessagePersistenceType._('PERSISTENT');
-  static const nonPersistent =
-      ChannelMessagePersistenceType._('NON_PERSISTENT');
-
-  final String value;
-
-  const ChannelMessagePersistenceType._(this.value);
-
-  static const values = [persistent, nonPersistent];
-
-  static ChannelMessagePersistenceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChannelMessagePersistenceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ChannelMessagePersistenceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChannelMessageStatus {
-  static const sent = ChannelMessageStatus._('SENT');
-  static const pending = ChannelMessageStatus._('PENDING');
-  static const failed = ChannelMessageStatus._('FAILED');
-  static const denied = ChannelMessageStatus._('DENIED');
-
-  final String value;
-
-  const ChannelMessageStatus._(this.value);
-
-  static const values = [sent, pending, failed, denied];
-
-  static ChannelMessageStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChannelMessageStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ChannelMessageStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Stores information about a message status.
-class ChannelMessageStatusStructure {
-  /// Contains more details about the message status.
-  final String? detail;
-
-  /// The message status value.
-  final ChannelMessageStatus? value;
-
-  ChannelMessageStatusStructure({
-    this.detail,
-    this.value,
-  });
-
-  factory ChannelMessageStatusStructure.fromJson(Map<String, dynamic> json) {
-    return ChannelMessageStatusStructure(
-      detail: json['Detail'] as String?,
-      value: (json['Value'] as String?)?.let(ChannelMessageStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detail = this.detail;
-    final value = this.value;
-    return {
-      if (detail != null) 'Detail': detail,
-      if (value != null) 'Value': value.value,
-    };
-  }
-}
-
-/// Summary of the messages in a <code>Channel</code>.
-class ChannelMessageSummary {
-  /// The content of the channel message. For Amazon Lex V2 bot responses, this
-  /// field holds a list of messages originating from the bot. For more
-  /// information, refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final String? content;
-
-  /// The content type of the channel message listed in the summary. For Amazon
-  /// Lex V2 bot responses, the content type is
-  /// <code>application/amz-chime-lex-msgs</code> for success responses and
-  /// <code>application/amz-chime-lex-error</code> for failure responses. For more
-  /// information, refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final String? contentType;
-
-  /// The time at which the message summary was created.
-  final DateTime? createdTimestamp;
-
-  /// The time at which a message was last edited.
-  final DateTime? lastEditedTimestamp;
-
-  /// The time at which a message was last updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
-  /// attributes are mapped to specific fields from the bot. For more information,
-  /// refer to <a
-  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
-  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
-  /// Developer Guide</i>.
-  final Map<String, MessageAttributeValue>? messageAttributes;
-
-  /// The ID of the message.
-  final String? messageId;
-
-  /// The metadata of the message.
-  final String? metadata;
-
-  /// Indicates whether a message was redacted.
-  final bool? redacted;
-
-  /// The message sender.
-  final Identity? sender;
-
-  /// The message status. The status value is <code>SENT</code> for messages sent
-  /// to a channel without a channel flow. For channels associated with channel
-  /// flow, the value determines the processing stage.
-  final ChannelMessageStatusStructure? status;
-
-  /// The target of a message, a sender, a user, or a bot. Only the target and the
-  /// sender can view targeted messages. Only users who can see targeted messages
-  /// can take actions on them. However, administrators can delete targeted
-  /// messages that they can’t see.
-  final List<Target>? target;
-
-  /// The type of message.
-  final ChannelMessageType? type;
-
-  ChannelMessageSummary({
-    this.content,
-    this.contentType,
-    this.createdTimestamp,
-    this.lastEditedTimestamp,
-    this.lastUpdatedTimestamp,
-    this.messageAttributes,
-    this.messageId,
-    this.metadata,
-    this.redacted,
-    this.sender,
-    this.status,
-    this.target,
-    this.type,
-  });
-
-  factory ChannelMessageSummary.fromJson(Map<String, dynamic> json) {
-    return ChannelMessageSummary(
-      content: json['Content'] as String?,
-      contentType: json['ContentType'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      lastEditedTimestamp: timeStampFromJson(json['LastEditedTimestamp']),
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      messageAttributes: (json['MessageAttributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(
-              k, MessageAttributeValue.fromJson(e as Map<String, dynamic>))),
-      messageId: json['MessageId'] as String?,
-      metadata: json['Metadata'] as String?,
-      redacted: json['Redacted'] as bool?,
-      sender: json['Sender'] != null
-          ? Identity.fromJson(json['Sender'] as Map<String, dynamic>)
-          : null,
-      status: json['Status'] != null
-          ? ChannelMessageStatusStructure.fromJson(
-              json['Status'] as Map<String, dynamic>)
-          : null,
-      target: (json['Target'] as List?)
-          ?.nonNulls
-          .map((e) => Target.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['Type'] as String?)?.let(ChannelMessageType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final contentType = this.contentType;
-    final createdTimestamp = this.createdTimestamp;
-    final lastEditedTimestamp = this.lastEditedTimestamp;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final messageAttributes = this.messageAttributes;
-    final messageId = this.messageId;
-    final metadata = this.metadata;
-    final redacted = this.redacted;
-    final sender = this.sender;
-    final status = this.status;
-    final target = this.target;
-    final type = this.type;
-    return {
-      if (content != null) 'Content': content,
-      if (contentType != null) 'ContentType': contentType,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (lastEditedTimestamp != null)
-        'LastEditedTimestamp': unixTimestampToJson(lastEditedTimestamp),
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
-      if (messageId != null) 'MessageId': messageId,
-      if (metadata != null) 'Metadata': metadata,
-      if (redacted != null) 'Redacted': redacted,
-      if (sender != null) 'Sender': sender,
-      if (status != null) 'Status': status,
-      if (target != null) 'Target': target,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ChannelMessageType {
-  static const standard = ChannelMessageType._('STANDARD');
-  static const control = ChannelMessageType._('CONTROL');
-
-  final String value;
-
-  const ChannelMessageType._(this.value);
-
-  static const values = [standard, control];
-
-  static ChannelMessageType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChannelMessageType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ChannelMessageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChannelMode {
-  static const unrestricted = ChannelMode._('UNRESTRICTED');
-  static const restricted = ChannelMode._('RESTRICTED');
-
-  final String value;
-
-  const ChannelMode._(this.value);
-
-  static const values = [unrestricted, restricted];
-
-  static ChannelMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChannelMode._(value));
-
-  @override
-  bool operator ==(other) => other is ChannelMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary of the details of a moderated channel.
-class ChannelModeratedByAppInstanceUserSummary {
-  /// Summary of the details of a <code>Channel</code>.
-  final ChannelSummary? channelSummary;
-
-  ChannelModeratedByAppInstanceUserSummary({
-    this.channelSummary,
-  });
-
-  factory ChannelModeratedByAppInstanceUserSummary.fromJson(
-      Map<String, dynamic> json) {
-    return ChannelModeratedByAppInstanceUserSummary(
-      channelSummary: json['ChannelSummary'] != null
-          ? ChannelSummary.fromJson(
-              json['ChannelSummary'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelSummary = this.channelSummary;
-    return {
-      if (channelSummary != null) 'ChannelSummary': channelSummary,
-    };
-  }
-}
-
-/// The details of a channel moderator.
-class ChannelModerator {
-  /// The ARN of the moderator's channel.
-  final String? channelArn;
-
-  /// The <code>AppInstanceUser</code> who created the moderator.
-  final Identity? createdBy;
-
-  /// The time at which the moderator was created.
-  final DateTime? createdTimestamp;
-
-  /// The moderator's data.
-  final Identity? moderator;
-
-  ChannelModerator({
-    this.channelArn,
-    this.createdBy,
-    this.createdTimestamp,
-    this.moderator,
-  });
-
-  factory ChannelModerator.fromJson(Map<String, dynamic> json) {
-    return ChannelModerator(
-      channelArn: json['ChannelArn'] as String?,
-      createdBy: json['CreatedBy'] != null
-          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
-          : null,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      moderator: json['Moderator'] != null
-          ? Identity.fromJson(json['Moderator'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelArn = this.channelArn;
-    final createdBy = this.createdBy;
-    final createdTimestamp = this.createdTimestamp;
-    final moderator = this.moderator;
-    return {
-      if (channelArn != null) 'ChannelArn': channelArn,
-      if (createdBy != null) 'CreatedBy': createdBy,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (moderator != null) 'Moderator': moderator,
-    };
-  }
-}
-
-/// Summary of the details of a <code>ChannelModerator</code>.
-class ChannelModeratorSummary {
-  /// The data for a moderator.
-  final Identity? moderator;
-
-  ChannelModeratorSummary({
-    this.moderator,
-  });
-
-  factory ChannelModeratorSummary.fromJson(Map<String, dynamic> json) {
-    return ChannelModeratorSummary(
-      moderator: json['Moderator'] != null
-          ? Identity.fromJson(json['Moderator'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final moderator = this.moderator;
-    return {
-      if (moderator != null) 'Moderator': moderator,
-    };
-  }
-}
-
-class ChannelPrivacy {
-  static const public = ChannelPrivacy._('PUBLIC');
-  static const private = ChannelPrivacy._('PRIVATE');
-
-  final String value;
-
-  const ChannelPrivacy._(this.value);
-
-  static const values = [public, private];
-
-  static ChannelPrivacy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChannelPrivacy._(value));
-
-  @override
-  bool operator ==(other) => other is ChannelPrivacy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary of the details of a <code>Channel</code>.
-class ChannelSummary {
-  /// The ARN of the channel.
-  final String? channelArn;
-
-  /// The time at which the last persistent message visible to the caller in a
-  /// channel was sent.
-  final DateTime? lastMessageTimestamp;
-
-  /// The metadata of the channel.
-  final String? metadata;
-
-  /// The mode of the channel.
-  final ChannelMode? mode;
-
-  /// The name of the channel.
-  final String? name;
-
-  /// The privacy setting of the channel.
-  final ChannelPrivacy? privacy;
-
-  ChannelSummary({
-    this.channelArn,
-    this.lastMessageTimestamp,
-    this.metadata,
-    this.mode,
-    this.name,
-    this.privacy,
-  });
-
-  factory ChannelSummary.fromJson(Map<String, dynamic> json) {
-    return ChannelSummary(
-      channelArn: json['ChannelArn'] as String?,
-      lastMessageTimestamp: timeStampFromJson(json['LastMessageTimestamp']),
-      metadata: json['Metadata'] as String?,
-      mode: (json['Mode'] as String?)?.let(ChannelMode.fromString),
-      name: json['Name'] as String?,
-      privacy: (json['Privacy'] as String?)?.let(ChannelPrivacy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelArn = this.channelArn;
-    final lastMessageTimestamp = this.lastMessageTimestamp;
-    final metadata = this.metadata;
-    final mode = this.mode;
-    final name = this.name;
-    final privacy = this.privacy;
-    return {
-      if (channelArn != null) 'ChannelArn': channelArn,
-      if (lastMessageTimestamp != null)
-        'LastMessageTimestamp': unixTimestampToJson(lastMessageTimestamp),
-      if (metadata != null) 'Metadata': metadata,
-      if (mode != null) 'Mode': mode.value,
-      if (name != null) 'Name': name,
-      if (privacy != null) 'Privacy': privacy.value,
     };
   }
 }
@@ -4332,24 +2996,26 @@ class CreateChannelModeratorResponse {
   }
 }
 
-class CreateChannelResponse {
-  /// The ARN of the channel.
-  final String? channelArn;
+class DescribeChannelResponse {
+  /// The channel details.
+  final Channel? channel;
 
-  CreateChannelResponse({
-    this.channelArn,
+  DescribeChannelResponse({
+    this.channel,
   });
 
-  factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
-    return CreateChannelResponse(
-      channelArn: json['ChannelArn'] as String?,
+  factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeChannelResponse(
+      channel: json['Channel'] != null
+          ? Channel.fromJson(json['Channel'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final channelArn = this.channelArn;
+    final channel = this.channel;
     return {
-      if (channelArn != null) 'ChannelArn': channelArn,
+      if (channel != null) 'Channel': channel,
     };
   }
 }
@@ -4402,32 +3068,6 @@ class DescribeChannelFlowResponse {
   }
 }
 
-class DescribeChannelMembershipForAppInstanceUserResponse {
-  /// The channel to which a user belongs.
-  final ChannelMembershipForAppInstanceUserSummary? channelMembership;
-
-  DescribeChannelMembershipForAppInstanceUserResponse({
-    this.channelMembership,
-  });
-
-  factory DescribeChannelMembershipForAppInstanceUserResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeChannelMembershipForAppInstanceUserResponse(
-      channelMembership: json['ChannelMembership'] != null
-          ? ChannelMembershipForAppInstanceUserSummary.fromJson(
-              json['ChannelMembership'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelMembership = this.channelMembership;
-    return {
-      if (channelMembership != null) 'ChannelMembership': channelMembership,
-    };
-  }
-}
-
 class DescribeChannelMembershipResponse {
   /// The details of the membership.
   final ChannelMembership? channelMembership;
@@ -4441,6 +3081,32 @@ class DescribeChannelMembershipResponse {
     return DescribeChannelMembershipResponse(
       channelMembership: json['ChannelMembership'] != null
           ? ChannelMembership.fromJson(
+              json['ChannelMembership'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelMembership = this.channelMembership;
+    return {
+      if (channelMembership != null) 'ChannelMembership': channelMembership,
+    };
+  }
+}
+
+class DescribeChannelMembershipForAppInstanceUserResponse {
+  /// The channel to which a user belongs.
+  final ChannelMembershipForAppInstanceUserSummary? channelMembership;
+
+  DescribeChannelMembershipForAppInstanceUserResponse({
+    this.channelMembership,
+  });
+
+  factory DescribeChannelMembershipForAppInstanceUserResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeChannelMembershipForAppInstanceUserResponse(
+      channelMembership: json['ChannelMembership'] != null
+          ? ChannelMembershipForAppInstanceUserSummary.fromJson(
               json['ChannelMembership'] as Map<String, dynamic>)
           : null,
     );
@@ -4503,208 +3169,6 @@ class DescribeChannelModeratorResponse {
       if (channelModerator != null) 'ChannelModerator': channelModerator,
     };
   }
-}
-
-class DescribeChannelResponse {
-  /// The channel details.
-  final Channel? channel;
-
-  DescribeChannelResponse({
-    this.channel,
-  });
-
-  factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeChannelResponse(
-      channel: json['Channel'] != null
-          ? Channel.fromJson(json['Channel'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channel = this.channel;
-    return {
-      if (channel != null) 'Channel': channel,
-    };
-  }
-}
-
-/// The attributes required to configure and create an elastic channel. An
-/// elastic channel can support a maximum of 1-million members.
-class ElasticChannelConfiguration {
-  /// The maximum number of SubChannels that you want to allow in the elastic
-  /// channel.
-  final int maximumSubChannels;
-
-  /// The minimum allowed percentage of TargetMembershipsPerSubChannel users. Ceil
-  /// of the calculated value is used in balancing members among SubChannels of
-  /// the elastic channel.
-  final int minimumMembershipPercentage;
-
-  /// The maximum number of members allowed in a SubChannel.
-  final int targetMembershipsPerSubChannel;
-
-  ElasticChannelConfiguration({
-    required this.maximumSubChannels,
-    required this.minimumMembershipPercentage,
-    required this.targetMembershipsPerSubChannel,
-  });
-
-  factory ElasticChannelConfiguration.fromJson(Map<String, dynamic> json) {
-    return ElasticChannelConfiguration(
-      maximumSubChannels: (json['MaximumSubChannels'] as int?) ?? 0,
-      minimumMembershipPercentage:
-          (json['MinimumMembershipPercentage'] as int?) ?? 0,
-      targetMembershipsPerSubChannel:
-          (json['TargetMembershipsPerSubChannel'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maximumSubChannels = this.maximumSubChannels;
-    final minimumMembershipPercentage = this.minimumMembershipPercentage;
-    final targetMembershipsPerSubChannel = this.targetMembershipsPerSubChannel;
-    return {
-      'MaximumSubChannels': maximumSubChannels,
-      'MinimumMembershipPercentage': minimumMembershipPercentage,
-      'TargetMembershipsPerSubChannel': targetMembershipsPerSubChannel,
-    };
-  }
-}
-
-class ErrorCode {
-  static const badRequest = ErrorCode._('BadRequest');
-  static const conflict = ErrorCode._('Conflict');
-  static const forbidden = ErrorCode._('Forbidden');
-  static const notFound = ErrorCode._('NotFound');
-  static const preconditionFailed = ErrorCode._('PreconditionFailed');
-  static const resourceLimitExceeded = ErrorCode._('ResourceLimitExceeded');
-  static const serviceFailure = ErrorCode._('ServiceFailure');
-  static const accessDenied = ErrorCode._('AccessDenied');
-  static const serviceUnavailable = ErrorCode._('ServiceUnavailable');
-  static const throttled = ErrorCode._('Throttled');
-  static const throttling = ErrorCode._('Throttling');
-  static const unauthorized = ErrorCode._('Unauthorized');
-  static const unprocessable = ErrorCode._('Unprocessable');
-  static const voiceConnectorGroupAssociationsExist =
-      ErrorCode._('VoiceConnectorGroupAssociationsExist');
-  static const phoneNumberAssociationsExist =
-      ErrorCode._('PhoneNumberAssociationsExist');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [
-    badRequest,
-    conflict,
-    forbidden,
-    notFound,
-    preconditionFailed,
-    resourceLimitExceeded,
-    serviceFailure,
-    accessDenied,
-    serviceUnavailable,
-    throttled,
-    throttling,
-    unauthorized,
-    unprocessable,
-    voiceConnectorGroupAssociationsExist,
-    phoneNumberAssociationsExist
-  ];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExpirationCriterion {
-  static const createdTimestamp = ExpirationCriterion._('CREATED_TIMESTAMP');
-  static const lastMessageTimestamp =
-      ExpirationCriterion._('LAST_MESSAGE_TIMESTAMP');
-
-  final String value;
-
-  const ExpirationCriterion._(this.value);
-
-  static const values = [createdTimestamp, lastMessageTimestamp];
-
-  static ExpirationCriterion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExpirationCriterion._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExpirationCriterion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Settings that control the interval after which a channel is deleted.
-class ExpirationSettings {
-  /// The conditions that must be met for a channel to expire.
-  final ExpirationCriterion expirationCriterion;
-
-  /// The period in days after which the system automatically deletes a channel.
-  final int expirationDays;
-
-  ExpirationSettings({
-    required this.expirationCriterion,
-    required this.expirationDays,
-  });
-
-  factory ExpirationSettings.fromJson(Map<String, dynamic> json) {
-    return ExpirationSettings(
-      expirationCriterion: ExpirationCriterion.fromString(
-          (json['ExpirationCriterion'] as String?) ?? ''),
-      expirationDays: (json['ExpirationDays'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final expirationCriterion = this.expirationCriterion;
-    final expirationDays = this.expirationDays;
-    return {
-      'ExpirationCriterion': expirationCriterion.value,
-      'ExpirationDays': expirationDays,
-    };
-  }
-}
-
-class FallbackAction {
-  static const $continue = FallbackAction._('CONTINUE');
-  static const abort = FallbackAction._('ABORT');
-
-  final String value;
-
-  const FallbackAction._(this.value);
-
-  static const values = [$continue, abort];
-
-  static FallbackAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FallbackAction._(value));
-
-  @override
-  bool operator ==(other) => other is FallbackAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetChannelMembershipPreferencesResponse {
@@ -4853,90 +3317,6 @@ class GetMessagingStreamingConfigurationsResponse {
   }
 }
 
-/// The details of a user or bot.
-class Identity {
-  /// The ARN in an Identity.
-  final String? arn;
-
-  /// The name in an Identity.
-  final String? name;
-
-  Identity({
-    this.arn,
-    this.name,
-  });
-
-  factory Identity.fromJson(Map<String, dynamic> json) {
-    return Identity(
-      arn: json['Arn'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-class InvocationType {
-  static const async = InvocationType._('ASYNC');
-
-  final String value;
-
-  const InvocationType._(this.value);
-
-  static const values = [async];
-
-  static InvocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InvocationType._(value));
-
-  @override
-  bool operator ==(other) => other is InvocationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Stores metadata about a Lambda processor.
-class LambdaConfiguration {
-  /// Controls how the Lambda function is invoked.
-  final InvocationType invocationType;
-
-  /// The ARN of the Lambda message processing function.
-  final String resourceArn;
-
-  LambdaConfiguration({
-    required this.invocationType,
-    required this.resourceArn,
-  });
-
-  factory LambdaConfiguration.fromJson(Map<String, dynamic> json) {
-    return LambdaConfiguration(
-      invocationType:
-          InvocationType.fromString((json['InvocationType'] as String?) ?? ''),
-      resourceArn: (json['ResourceArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final invocationType = this.invocationType;
-    final resourceArn = this.resourceArn;
-    return {
-      'InvocationType': invocationType.value,
-      'ResourceArn': resourceArn,
-    };
-  }
-}
-
 class ListChannelBansResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -5010,41 +3390,6 @@ class ListChannelFlowsResponse {
   }
 }
 
-class ListChannelMembershipsForAppInstanceUserResponse {
-  /// The information for the requested channel memberships.
-  final List<ChannelMembershipForAppInstanceUserSummary>? channelMemberships;
-
-  /// The token passed by previous API calls until all requested users are
-  /// returned.
-  final String? nextToken;
-
-  ListChannelMembershipsForAppInstanceUserResponse({
-    this.channelMemberships,
-    this.nextToken,
-  });
-
-  factory ListChannelMembershipsForAppInstanceUserResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListChannelMembershipsForAppInstanceUserResponse(
-      channelMemberships: (json['ChannelMemberships'] as List?)
-          ?.nonNulls
-          .map((e) => ChannelMembershipForAppInstanceUserSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelMemberships = this.channelMemberships;
-    final nextToken = this.nextToken;
-    return {
-      if (channelMemberships != null) 'ChannelMemberships': channelMemberships,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
 class ListChannelMembershipsResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -5080,6 +3425,41 @@ class ListChannelMembershipsResponse {
     final nextToken = this.nextToken;
     return {
       if (channelArn != null) 'ChannelArn': channelArn,
+      if (channelMemberships != null) 'ChannelMemberships': channelMemberships,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListChannelMembershipsForAppInstanceUserResponse {
+  /// The information for the requested channel memberships.
+  final List<ChannelMembershipForAppInstanceUserSummary>? channelMemberships;
+
+  /// The token passed by previous API calls until all requested users are
+  /// returned.
+  final String? nextToken;
+
+  ListChannelMembershipsForAppInstanceUserResponse({
+    this.channelMemberships,
+    this.nextToken,
+  });
+
+  factory ListChannelMembershipsForAppInstanceUserResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListChannelMembershipsForAppInstanceUserResponse(
+      channelMemberships: (json['ChannelMemberships'] as List?)
+          ?.nonNulls
+          .map((e) => ChannelMembershipForAppInstanceUserSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelMemberships = this.channelMemberships;
+    final nextToken = this.nextToken;
+    return {
       if (channelMemberships != null) 'ChannelMemberships': channelMemberships,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -5174,6 +3554,39 @@ class ListChannelModeratorsResponse {
   }
 }
 
+class ListChannelsResponse {
+  /// The information about each channel.
+  final List<ChannelSummary>? channels;
+
+  /// The token returned from previous API requests until the number of channels
+  /// is reached.
+  final String? nextToken;
+
+  ListChannelsResponse({
+    this.channels,
+    this.nextToken,
+  });
+
+  factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListChannelsResponse(
+      channels: (json['Channels'] as List?)
+          ?.nonNulls
+          .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channels = this.channels;
+    final nextToken = this.nextToken;
+    return {
+      if (channels != null) 'Channels': channels,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListChannelsAssociatedWithChannelFlowResponse {
   /// The information about each channel.
   final List<ChannelAssociatedWithFlowSummary>? channels;
@@ -5229,39 +3642,6 @@ class ListChannelsModeratedByAppInstanceUserResponse {
           ?.nonNulls
           .map((e) => ChannelModeratedByAppInstanceUserSummary.fromJson(
               e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channels = this.channels;
-    final nextToken = this.nextToken;
-    return {
-      if (channels != null) 'Channels': channels,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListChannelsResponse {
-  /// The information about each channel.
-  final List<ChannelSummary>? channels;
-
-  /// The token returned from previous API requests until the number of channels
-  /// is reached.
-  final String? nextToken;
-
-  ListChannelsResponse({
-    this.channels,
-    this.nextToken,
-  });
-
-  factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
-    return ListChannelsResponse(
-      channels: (json['Channels'] as List?)
-          ?.nonNulls
-          .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -5340,252 +3720,6 @@ class ListTagsForResourceResponse {
       if (tags != null) 'Tags': tags,
     };
   }
-}
-
-/// A list of message attribute values.
-class MessageAttributeValue {
-  /// The strings in a message attribute value.
-  final List<String>? stringValues;
-
-  MessageAttributeValue({
-    this.stringValues,
-  });
-
-  factory MessageAttributeValue.fromJson(Map<String, dynamic> json) {
-    return MessageAttributeValue(
-      stringValues: (json['StringValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stringValues = this.stringValues;
-    return {
-      if (stringValues != null) 'StringValues': stringValues,
-    };
-  }
-}
-
-class MessagingDataType {
-  static const channel = MessagingDataType._('Channel');
-  static const channelMessage = MessagingDataType._('ChannelMessage');
-
-  final String value;
-
-  const MessagingDataType._(this.value);
-
-  static const values = [channel, channelMessage];
-
-  static MessagingDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MessagingDataType._(value));
-
-  @override
-  bool operator ==(other) => other is MessagingDataType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The websocket endpoint used to connect to Amazon Chime SDK messaging.
-class MessagingSessionEndpoint {
-  /// The endpoint to which you establish a websocket connection.
-  final String? url;
-
-  MessagingSessionEndpoint({
-    this.url,
-  });
-
-  factory MessagingSessionEndpoint.fromJson(Map<String, dynamic> json) {
-    return MessagingSessionEndpoint(
-      url: json['Url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final url = this.url;
-    return {
-      if (url != null) 'Url': url,
-    };
-  }
-}
-
-/// The information about a processor in a channel flow.
-class Processor {
-  /// The information about the type of processor and its identifier.
-  final ProcessorConfiguration configuration;
-
-  /// The sequence in which processors run. If you have multiple processors in a
-  /// channel flow, message processing goes through each processor in the
-  /// sequence. The value determines the sequence. At this point, we support only
-  /// 1 processor within a flow.
-  final int executionOrder;
-
-  /// Determines whether to continue with message processing or stop it in cases
-  /// where communication with a processor fails. If a processor has a fallback
-  /// action of <code>ABORT</code> and communication with it fails, the processor
-  /// sets the message status to <code>FAILED</code> and does not send the message
-  /// to any recipients. Note that if the last processor in the channel flow
-  /// sequence has a fallback action of <code>CONTINUE</code> and communication
-  /// with the processor fails, then the message is considered processed and sent
-  /// to recipients of the channel.
-  final FallbackAction fallbackAction;
-
-  /// The name of the channel flow.
-  final String name;
-
-  Processor({
-    required this.configuration,
-    required this.executionOrder,
-    required this.fallbackAction,
-    required this.name,
-  });
-
-  factory Processor.fromJson(Map<String, dynamic> json) {
-    return Processor(
-      configuration: ProcessorConfiguration.fromJson(
-          (json['Configuration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      executionOrder: (json['ExecutionOrder'] as int?) ?? 0,
-      fallbackAction:
-          FallbackAction.fromString((json['FallbackAction'] as String?) ?? ''),
-      name: (json['Name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configuration = this.configuration;
-    final executionOrder = this.executionOrder;
-    final fallbackAction = this.fallbackAction;
-    final name = this.name;
-    return {
-      'Configuration': configuration,
-      'ExecutionOrder': executionOrder,
-      'FallbackAction': fallbackAction.value,
-      'Name': name,
-    };
-  }
-}
-
-/// A processor's metadata.
-class ProcessorConfiguration {
-  /// Indicates that the processor is of type Lambda.
-  final LambdaConfiguration lambda;
-
-  ProcessorConfiguration({
-    required this.lambda,
-  });
-
-  factory ProcessorConfiguration.fromJson(Map<String, dynamic> json) {
-    return ProcessorConfiguration(
-      lambda: LambdaConfiguration.fromJson(
-          (json['Lambda'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lambda = this.lambda;
-    return {
-      'Lambda': lambda,
-    };
-  }
-}
-
-/// The push notification configuration of the message.
-class PushNotificationConfiguration {
-  /// The body of the push notification.
-  final String? body;
-
-  /// The title of the push notification.
-  final String? title;
-
-  /// Enum value that indicates the type of the push notification for a message.
-  /// <code>DEFAULT</code>: Normal mobile push notification. <code>VOIP</code>:
-  /// VOIP mobile push notification.
-  final PushNotificationType? type;
-
-  PushNotificationConfiguration({
-    this.body,
-    this.title,
-    this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final body = this.body;
-    final title = this.title;
-    final type = this.type;
-    return {
-      if (body != null) 'Body': body,
-      if (title != null) 'Title': title,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// The channel membership preferences for push notification.
-class PushNotificationPreferences {
-  /// Enum value that indicates which push notifications to send to the requested
-  /// member of a channel. <code>ALL</code> sends all push notifications,
-  /// <code>NONE</code> sends no push notifications, <code>FILTERED</code> sends
-  /// only filtered push notifications.
-  final AllowNotifications allowNotifications;
-
-  /// The simple JSON object used to send a subset of a push notification to the
-  /// requested member.
-  final String? filterRule;
-
-  PushNotificationPreferences({
-    required this.allowNotifications,
-    this.filterRule,
-  });
-
-  factory PushNotificationPreferences.fromJson(Map<String, dynamic> json) {
-    return PushNotificationPreferences(
-      allowNotifications: AllowNotifications.fromString(
-          (json['AllowNotifications'] as String?) ?? ''),
-      filterRule: json['FilterRule'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowNotifications = this.allowNotifications;
-    final filterRule = this.filterRule;
-    return {
-      'AllowNotifications': allowNotifications.value,
-      if (filterRule != null) 'FilterRule': filterRule,
-    };
-  }
-}
-
-class PushNotificationType {
-  static const $default = PushNotificationType._('DEFAULT');
-  static const voip = PushNotificationType._('VOIP');
-
-  final String value;
-
-  const PushNotificationType._(this.value);
-
-  static const values = [$default, voip];
-
-  static PushNotificationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PushNotificationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PushNotificationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class PutChannelExpirationSettingsResponse {
@@ -5764,96 +3898,6 @@ class SearchChannelsResponse {
   }
 }
 
-/// A <code>Field</code> of the channel that you want to search.
-class SearchField {
-  /// An <code>enum</code> value that indicates the key to search the channel on.
-  /// <code>MEMBERS</code> allows you to search channels based on memberships. You
-  /// can use it with the <code>EQUALS</code> operator to get channels whose
-  /// memberships are equal to the specified values, and with the
-  /// <code>INCLUDES</code> operator to get channels whose memberships include the
-  /// specified values.
-  final SearchFieldKey key;
-
-  /// The operator used to compare field values, currently <code>EQUALS</code> or
-  /// <code>INCLUDES</code>. Use the <code>EQUALS</code> operator to find channels
-  /// whose memberships equal the specified values. Use the <code>INCLUDES</code>
-  /// operator to find channels whose memberships include the specified values.
-  final SearchFieldOperator operator;
-
-  /// The values that you want to search for, a list of strings. The values must
-  /// be <code>AppInstanceUserArns</code> specified as a list of strings.
-  /// <note>
-  /// This operation isn't supported for <code>AppInstanceUsers</code> with large
-  /// number of memberships.
-  /// </note>
-  final List<String> values;
-
-  SearchField({
-    required this.key,
-    required this.operator,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final operator = this.operator;
-    final values = this.values;
-    return {
-      'Key': key.value,
-      'Operator': operator.value,
-      'Values': values,
-    };
-  }
-}
-
-class SearchFieldKey {
-  static const members = SearchFieldKey._('MEMBERS');
-
-  final String value;
-
-  const SearchFieldKey._(this.value);
-
-  static const values = [members];
-
-  static SearchFieldKey fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SearchFieldKey._(value));
-
-  @override
-  bool operator ==(other) => other is SearchFieldKey && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SearchFieldOperator {
-  static const equals = SearchFieldOperator._('EQUALS');
-  static const includes = SearchFieldOperator._('INCLUDES');
-
-  final String value;
-
-  const SearchFieldOperator._(this.value);
-
-  static const values = [equals, includes];
-
-  static SearchFieldOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SearchFieldOperator._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SearchFieldOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class SendChannelMessageResponse {
   /// The ARN of the channel.
   final String? channelArn;
@@ -5900,142 +3944,24 @@ class SendChannelMessageResponse {
   }
 }
 
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
+class UpdateChannelResponse {
+  /// The ARN of the channel.
+  final String? channelArn;
 
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration for connecting a messaging stream to Amazon Kinesis.
-class StreamingConfiguration {
-  /// The data type of the configuration.
-  final MessagingDataType dataType;
-
-  /// The ARN of the resource in the configuration.
-  final String resourceArn;
-
-  StreamingConfiguration({
-    required this.dataType,
-    required this.resourceArn,
+  UpdateChannelResponse({
+    this.channelArn,
   });
 
-  factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
-    return StreamingConfiguration(
-      dataType:
-          MessagingDataType.fromString((json['DataType'] as String?) ?? ''),
-      resourceArn: (json['ResourceArn'] as String?) ?? '',
+  factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateChannelResponse(
+      channelArn: json['ChannelArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final resourceArn = this.resourceArn;
+    final channelArn = this.channelArn;
     return {
-      'DataType': dataType.value,
-      'ResourceArn': resourceArn,
-    };
-  }
-}
-
-/// Summary of the sub-channels associated with the elastic channel.
-class SubChannelSummary {
-  /// The number of members in a SubChannel.
-  final int? membershipCount;
-
-  /// The unique ID of a SubChannel.
-  final String? subChannelId;
-
-  SubChannelSummary({
-    this.membershipCount,
-    this.subChannelId,
-  });
-
-  factory SubChannelSummary.fromJson(Map<String, dynamic> json) {
-    return SubChannelSummary(
-      membershipCount: json['MembershipCount'] as int?,
-      subChannelId: json['SubChannelId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final membershipCount = this.membershipCount;
-    final subChannelId = this.subChannelId;
-    return {
-      if (membershipCount != null) 'MembershipCount': membershipCount,
-      if (subChannelId != null) 'SubChannelId': subChannelId,
-    };
-  }
-}
-
-/// A tag object containing a key-value pair.
-class Tag {
-  /// The key in a tag.
-  final String key;
-
-  /// The value in a tag.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// The target of a message, a sender, a user, or a bot. Only the target and the
-/// sender can view targeted messages. Only users who can see targeted messages
-/// can take actions on them. However, administrators can delete targeted
-/// messages that they can’t see.
-class Target {
-  /// The ARN of the target channel member.
-  final String? memberArn;
-
-  Target({
-    this.memberArn,
-  });
-
-  factory Target.fromJson(Map<String, dynamic> json) {
-    return Target(
-      memberArn: json['MemberArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final memberArn = this.memberArn;
-    return {
-      if (memberArn != null) 'MemberArn': memberArn,
+      if (channelArn != null) 'ChannelArn': channelArn,
     };
   }
 }
@@ -6130,24 +4056,2139 @@ class UpdateChannelReadMarkerResponse {
   }
 }
 
-class UpdateChannelResponse {
+/// Stores information about a message status.
+class ChannelMessageStatusStructure {
+  /// Contains more details about the message status.
+  final String? detail;
+
+  /// The message status value.
+  final ChannelMessageStatus? value;
+
+  ChannelMessageStatusStructure({
+    this.detail,
+    this.value,
+  });
+
+  factory ChannelMessageStatusStructure.fromJson(Map<String, dynamic> json) {
+    return ChannelMessageStatusStructure(
+      detail: json['Detail'] as String?,
+      value: (json['Value'] as String?)?.let(ChannelMessageStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detail = this.detail;
+    final value = this.value;
+    return {
+      if (detail != null) 'Detail': detail,
+      if (value != null) 'Value': value.value,
+    };
+  }
+}
+
+class ChannelMessageStatus {
+  static const sent = ChannelMessageStatus._('SENT');
+  static const pending = ChannelMessageStatus._('PENDING');
+  static const failed = ChannelMessageStatus._('FAILED');
+  static const denied = ChannelMessageStatus._('DENIED');
+
+  final String value;
+
+  const ChannelMessageStatus._(this.value);
+
+  static const values = [sent, pending, failed, denied];
+
+  static ChannelMessageStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelMessageStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelMessageStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The information about a processor in a channel flow.
+class Processor {
+  /// The information about the type of processor and its identifier.
+  final ProcessorConfiguration configuration;
+
+  /// The sequence in which processors run. If you have multiple processors in a
+  /// channel flow, message processing goes through each processor in the
+  /// sequence. The value determines the sequence. At this point, we support only
+  /// 1 processor within a flow.
+  final int executionOrder;
+
+  /// Determines whether to continue with message processing or stop it in cases
+  /// where communication with a processor fails. If a processor has a fallback
+  /// action of <code>ABORT</code> and communication with it fails, the processor
+  /// sets the message status to <code>FAILED</code> and does not send the message
+  /// to any recipients. Note that if the last processor in the channel flow
+  /// sequence has a fallback action of <code>CONTINUE</code> and communication
+  /// with the processor fails, then the message is considered processed and sent
+  /// to recipients of the channel.
+  final FallbackAction fallbackAction;
+
+  /// The name of the channel flow.
+  final String name;
+
+  Processor({
+    required this.configuration,
+    required this.executionOrder,
+    required this.fallbackAction,
+    required this.name,
+  });
+
+  factory Processor.fromJson(Map<String, dynamic> json) {
+    return Processor(
+      configuration: ProcessorConfiguration.fromJson(
+          (json['Configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      executionOrder: (json['ExecutionOrder'] as int?) ?? 0,
+      fallbackAction:
+          FallbackAction.fromString((json['FallbackAction'] as String?) ?? ''),
+      name: (json['Name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final executionOrder = this.executionOrder;
+    final fallbackAction = this.fallbackAction;
+    final name = this.name;
+    return {
+      'Configuration': configuration,
+      'ExecutionOrder': executionOrder,
+      'FallbackAction': fallbackAction.value,
+      'Name': name,
+    };
+  }
+}
+
+/// A processor's metadata.
+class ProcessorConfiguration {
+  /// Indicates that the processor is of type Lambda.
+  final LambdaConfiguration lambda;
+
+  ProcessorConfiguration({
+    required this.lambda,
+  });
+
+  factory ProcessorConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProcessorConfiguration(
+      lambda: LambdaConfiguration.fromJson(
+          (json['Lambda'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambda = this.lambda;
+    return {
+      'Lambda': lambda,
+    };
+  }
+}
+
+class FallbackAction {
+  static const $continue = FallbackAction._('CONTINUE');
+  static const abort = FallbackAction._('ABORT');
+
+  final String value;
+
+  const FallbackAction._(this.value);
+
+  static const values = [$continue, abort];
+
+  static FallbackAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FallbackAction._(value));
+
+  @override
+  bool operator ==(other) => other is FallbackAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Stores metadata about a Lambda processor.
+class LambdaConfiguration {
+  /// Controls how the Lambda function is invoked.
+  final InvocationType invocationType;
+
+  /// The ARN of the Lambda message processing function.
+  final String resourceArn;
+
+  LambdaConfiguration({
+    required this.invocationType,
+    required this.resourceArn,
+  });
+
+  factory LambdaConfiguration.fromJson(Map<String, dynamic> json) {
+    return LambdaConfiguration(
+      invocationType:
+          InvocationType.fromString((json['InvocationType'] as String?) ?? ''),
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invocationType = this.invocationType;
+    final resourceArn = this.resourceArn;
+    return {
+      'InvocationType': invocationType.value,
+      'ResourceArn': resourceArn,
+    };
+  }
+}
+
+class InvocationType {
+  static const async = InvocationType._('ASYNC');
+
+  final String value;
+
+  const InvocationType._(this.value);
+
+  static const values = [async];
+
+  static InvocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InvocationType._(value));
+
+  @override
+  bool operator ==(other) => other is InvocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ChannelMode {
+  static const unrestricted = ChannelMode._('UNRESTRICTED');
+  static const restricted = ChannelMode._('RESTRICTED');
+
+  final String value;
+
+  const ChannelMode._(this.value);
+
+  static const values = [unrestricted, restricted];
+
+  static ChannelMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelMode._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A tag object containing a key-value pair.
+class Tag {
+  /// The key in a tag.
+  final String key;
+
+  /// The value in a tag.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class ChannelMessageType {
+  static const standard = ChannelMessageType._('STANDARD');
+  static const control = ChannelMessageType._('CONTROL');
+
+  final String value;
+
+  const ChannelMessageType._(this.value);
+
+  static const values = [standard, control];
+
+  static ChannelMessageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelMessageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelMessageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ChannelMessagePersistenceType {
+  static const persistent = ChannelMessagePersistenceType._('PERSISTENT');
+  static const nonPersistent =
+      ChannelMessagePersistenceType._('NON_PERSISTENT');
+
+  final String value;
+
+  const ChannelMessagePersistenceType._(this.value);
+
+  static const values = [persistent, nonPersistent];
+
+  static ChannelMessagePersistenceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelMessagePersistenceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelMessagePersistenceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The push notification configuration of the message.
+class PushNotificationConfiguration {
+  /// The body of the push notification.
+  final String? body;
+
+  /// The title of the push notification.
+  final String? title;
+
+  /// Enum value that indicates the type of the push notification for a message.
+  /// <code>DEFAULT</code>: Normal mobile push notification. <code>VOIP</code>:
+  /// VOIP mobile push notification.
+  final PushNotificationType? type;
+
+  PushNotificationConfiguration({
+    this.body,
+    this.title,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final title = this.title;
+    final type = this.type;
+    return {
+      if (body != null) 'Body': body,
+      if (title != null) 'Title': title,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// The target of a message, a sender, a user, or a bot. Only the target and the
+/// sender can view targeted messages. Only users who can see targeted messages
+/// can take actions on them. However, administrators can delete targeted
+/// messages that they can’t see.
+class Target {
+  /// The ARN of the target channel member.
+  final String? memberArn;
+
+  Target({
+    this.memberArn,
+  });
+
+  factory Target.fromJson(Map<String, dynamic> json) {
+    return Target(
+      memberArn: json['MemberArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberArn = this.memberArn;
+    return {
+      if (memberArn != null) 'MemberArn': memberArn,
+    };
+  }
+}
+
+/// A list of message attribute values.
+class MessageAttributeValue {
+  /// The strings in a message attribute value.
+  final List<String>? stringValues;
+
+  MessageAttributeValue({
+    this.stringValues,
+  });
+
+  factory MessageAttributeValue.fromJson(Map<String, dynamic> json) {
+    return MessageAttributeValue(
+      stringValues: (json['StringValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stringValues = this.stringValues;
+    return {
+      if (stringValues != null) 'StringValues': stringValues,
+    };
+  }
+}
+
+class PushNotificationType {
+  static const $default = PushNotificationType._('DEFAULT');
+  static const voip = PushNotificationType._('VOIP');
+
+  final String value;
+
+  const PushNotificationType._(this.value);
+
+  static const values = [$default, voip];
+
+  static PushNotificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PushNotificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PushNotificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of the details of a <code>Channel</code>.
+class ChannelSummary {
   /// The ARN of the channel.
   final String? channelArn;
 
-  UpdateChannelResponse({
+  /// The time at which the last persistent message visible to the caller in a
+  /// channel was sent.
+  final DateTime? lastMessageTimestamp;
+
+  /// The metadata of the channel.
+  final String? metadata;
+
+  /// The mode of the channel.
+  final ChannelMode? mode;
+
+  /// The name of the channel.
+  final String? name;
+
+  /// The privacy setting of the channel.
+  final ChannelPrivacy? privacy;
+
+  ChannelSummary({
     this.channelArn,
+    this.lastMessageTimestamp,
+    this.metadata,
+    this.mode,
+    this.name,
+    this.privacy,
   });
 
-  factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateChannelResponse(
+  factory ChannelSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelSummary(
       channelArn: json['ChannelArn'] as String?,
+      lastMessageTimestamp: timeStampFromJson(json['LastMessageTimestamp']),
+      metadata: json['Metadata'] as String?,
+      mode: (json['Mode'] as String?)?.let(ChannelMode.fromString),
+      name: json['Name'] as String?,
+      privacy: (json['Privacy'] as String?)?.let(ChannelPrivacy.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final channelArn = this.channelArn;
+    final lastMessageTimestamp = this.lastMessageTimestamp;
+    final metadata = this.metadata;
+    final mode = this.mode;
+    final name = this.name;
+    final privacy = this.privacy;
     return {
       if (channelArn != null) 'ChannelArn': channelArn,
+      if (lastMessageTimestamp != null)
+        'LastMessageTimestamp': unixTimestampToJson(lastMessageTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (mode != null) 'Mode': mode.value,
+      if (name != null) 'Name': name,
+      if (privacy != null) 'Privacy': privacy.value,
+    };
+  }
+}
+
+class ChannelPrivacy {
+  static const public = ChannelPrivacy._('PUBLIC');
+  static const private = ChannelPrivacy._('PRIVATE');
+
+  final String value;
+
+  const ChannelPrivacy._(this.value);
+
+  static const values = [public, private];
+
+  static ChannelPrivacy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelPrivacy._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelPrivacy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A <code>Field</code> of the channel that you want to search.
+/// <note>
+/// This operation isn't supported for <code>AppInstanceUsers</code> with a
+/// large number of memberships.
+/// </note>
+class SearchField {
+  /// An <code>enum</code> value that indicates the key to search the channel on.
+  /// <code>MEMBERS</code> allows you to search channels based on memberships. You
+  /// can use it with the <code>EQUALS</code> operator to get channels whose
+  /// memberships are equal to the specified values, and with the
+  /// <code>INCLUDES</code> operator to get channels whose memberships include the
+  /// specified values.
+  final SearchFieldKey key;
+
+  /// The operator used to compare field values, currently <code>EQUALS</code> or
+  /// <code>INCLUDES</code>. Use the <code>EQUALS</code> operator to find channels
+  /// whose memberships equal the specified values. Use the <code>INCLUDES</code>
+  /// operator to find channels whose memberships include the specified values.
+  final SearchFieldOperator operator;
+
+  /// The values that you want to search for, a list of strings. The values must
+  /// be <code>AppInstanceUserArns</code> specified as a list of strings.
+  /// <note>
+  /// This operation isn't supported for <code>AppInstanceUsers</code> with a
+  /// large number of memberships.
+  /// </note>
+  final List<String> values;
+
+  SearchField({
+    required this.key,
+    required this.operator,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'Key': key.value,
+      'Operator': operator.value,
+      'Values': values,
+    };
+  }
+}
+
+class SearchFieldKey {
+  static const members = SearchFieldKey._('MEMBERS');
+
+  final String value;
+
+  const SearchFieldKey._(this.value);
+
+  static const values = [members];
+
+  static SearchFieldKey fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchFieldKey._(value));
+
+  @override
+  bool operator ==(other) => other is SearchFieldKey && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SearchFieldOperator {
+  static const equals = SearchFieldOperator._('EQUALS');
+  static const includes = SearchFieldOperator._('INCLUDES');
+
+  final String value;
+
+  const SearchFieldOperator._(this.value);
+
+  static const values = [equals, includes];
+
+  static SearchFieldOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SearchFieldOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SearchFieldOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for connecting a messaging stream to Amazon Kinesis.
+class StreamingConfiguration {
+  /// The data type of the configuration.
+  final MessagingDataType dataType;
+
+  /// The ARN of the resource in the configuration.
+  final String resourceArn;
+
+  StreamingConfiguration({
+    required this.dataType,
+    required this.resourceArn,
+  });
+
+  factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
+    return StreamingConfiguration(
+      dataType:
+          MessagingDataType.fromString((json['DataType'] as String?) ?? ''),
+      resourceArn: (json['ResourceArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final resourceArn = this.resourceArn;
+    return {
+      'DataType': dataType.value,
+      'ResourceArn': resourceArn,
+    };
+  }
+}
+
+class MessagingDataType {
+  static const channel = MessagingDataType._('Channel');
+  static const channelMessage = MessagingDataType._('ChannelMessage');
+
+  final String value;
+
+  const MessagingDataType._(this.value);
+
+  static const values = [channel, channelMessage];
+
+  static MessagingDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MessagingDataType._(value));
+
+  @override
+  bool operator ==(other) => other is MessagingDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of a user or bot.
+class Identity {
+  /// The ARN in an Identity.
+  final String? arn;
+
+  /// The name in an Identity.
+  final String? name;
+
+  Identity({
+    this.arn,
+    this.name,
+  });
+
+  factory Identity.fromJson(Map<String, dynamic> json) {
+    return Identity(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// The channel membership preferences for an <code>AppInstanceUser</code>.
+class ChannelMembershipPreferences {
+  /// The push notification configuration of a message.
+  final PushNotificationPreferences? pushNotifications;
+
+  ChannelMembershipPreferences({
+    this.pushNotifications,
+  });
+
+  factory ChannelMembershipPreferences.fromJson(Map<String, dynamic> json) {
+    return ChannelMembershipPreferences(
+      pushNotifications: json['PushNotifications'] != null
+          ? PushNotificationPreferences.fromJson(
+              json['PushNotifications'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pushNotifications = this.pushNotifications;
+    return {
+      if (pushNotifications != null) 'PushNotifications': pushNotifications,
+    };
+  }
+}
+
+/// The channel membership preferences for push notification.
+class PushNotificationPreferences {
+  /// Enum value that indicates which push notifications to send to the requested
+  /// member of a channel. <code>ALL</code> sends all push notifications,
+  /// <code>NONE</code> sends no push notifications, <code>FILTERED</code> sends
+  /// only filtered push notifications.
+  final AllowNotifications allowNotifications;
+
+  /// The simple JSON object used to send a subset of a push notification to the
+  /// requested member.
+  final String? filterRule;
+
+  PushNotificationPreferences({
+    required this.allowNotifications,
+    this.filterRule,
+  });
+
+  factory PushNotificationPreferences.fromJson(Map<String, dynamic> json) {
+    return PushNotificationPreferences(
+      allowNotifications: AllowNotifications.fromString(
+          (json['AllowNotifications'] as String?) ?? ''),
+      filterRule: json['FilterRule'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowNotifications = this.allowNotifications;
+    final filterRule = this.filterRule;
+    return {
+      'AllowNotifications': allowNotifications.value,
+      if (filterRule != null) 'FilterRule': filterRule,
+    };
+  }
+}
+
+class AllowNotifications {
+  static const all = AllowNotifications._('ALL');
+  static const none = AllowNotifications._('NONE');
+  static const filtered = AllowNotifications._('FILTERED');
+
+  final String value;
+
+  const AllowNotifications._(this.value);
+
+  static const values = [all, none, filtered];
+
+  static AllowNotifications fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AllowNotifications._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AllowNotifications && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Settings that control the interval after which a channel is deleted.
+class ExpirationSettings {
+  /// The conditions that must be met for a channel to expire.
+  final ExpirationCriterion expirationCriterion;
+
+  /// The period in days after which the system automatically deletes a channel.
+  final int expirationDays;
+
+  ExpirationSettings({
+    required this.expirationCriterion,
+    required this.expirationDays,
+  });
+
+  factory ExpirationSettings.fromJson(Map<String, dynamic> json) {
+    return ExpirationSettings(
+      expirationCriterion: ExpirationCriterion.fromString(
+          (json['ExpirationCriterion'] as String?) ?? ''),
+      expirationDays: (json['ExpirationDays'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expirationCriterion = this.expirationCriterion;
+    final expirationDays = this.expirationDays;
+    return {
+      'ExpirationCriterion': expirationCriterion.value,
+      'ExpirationDays': expirationDays,
+    };
+  }
+}
+
+class ExpirationCriterion {
+  static const createdTimestamp = ExpirationCriterion._('CREATED_TIMESTAMP');
+  static const lastMessageTimestamp =
+      ExpirationCriterion._('LAST_MESSAGE_TIMESTAMP');
+
+  final String value;
+
+  const ExpirationCriterion._(this.value);
+
+  static const values = [createdTimestamp, lastMessageTimestamp];
+
+  static ExpirationCriterion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExpirationCriterion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExpirationCriterion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of the sub-channels associated with the elastic channel.
+class SubChannelSummary {
+  /// The number of members in a SubChannel.
+  final int? membershipCount;
+
+  /// The unique ID of a SubChannel.
+  final String? subChannelId;
+
+  SubChannelSummary({
+    this.membershipCount,
+    this.subChannelId,
+  });
+
+  factory SubChannelSummary.fromJson(Map<String, dynamic> json) {
+    return SubChannelSummary(
+      membershipCount: json['MembershipCount'] as int?,
+      subChannelId: json['SubChannelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final membershipCount = this.membershipCount;
+    final subChannelId = this.subChannelId;
+    return {
+      if (membershipCount != null) 'MembershipCount': membershipCount,
+      if (subChannelId != null) 'SubChannelId': subChannelId,
+    };
+  }
+}
+
+/// Summary of the details of a moderated channel.
+class ChannelModeratedByAppInstanceUserSummary {
+  /// Summary of the details of a <code>Channel</code>.
+  final ChannelSummary? channelSummary;
+
+  ChannelModeratedByAppInstanceUserSummary({
+    this.channelSummary,
+  });
+
+  factory ChannelModeratedByAppInstanceUserSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ChannelModeratedByAppInstanceUserSummary(
+      channelSummary: json['ChannelSummary'] != null
+          ? ChannelSummary.fromJson(
+              json['ChannelSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelSummary = this.channelSummary;
+    return {
+      if (channelSummary != null) 'ChannelSummary': channelSummary,
+    };
+  }
+}
+
+/// Summary of details of a channel associated with channel flow.
+class ChannelAssociatedWithFlowSummary {
+  /// The ARN of the channel.
+  final String? channelArn;
+
+  /// The channel's metadata.
+  final String? metadata;
+
+  /// The mode of the channel.
+  final ChannelMode? mode;
+
+  /// The name of the channel flow.
+  final String? name;
+
+  /// The channel's privacy setting.
+  final ChannelPrivacy? privacy;
+
+  ChannelAssociatedWithFlowSummary({
+    this.channelArn,
+    this.metadata,
+    this.mode,
+    this.name,
+    this.privacy,
+  });
+
+  factory ChannelAssociatedWithFlowSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelAssociatedWithFlowSummary(
+      channelArn: json['ChannelArn'] as String?,
+      metadata: json['Metadata'] as String?,
+      mode: (json['Mode'] as String?)?.let(ChannelMode.fromString),
+      name: json['Name'] as String?,
+      privacy: (json['Privacy'] as String?)?.let(ChannelPrivacy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final metadata = this.metadata;
+    final mode = this.mode;
+    final name = this.name;
+    final privacy = this.privacy;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (metadata != null) 'Metadata': metadata,
+      if (mode != null) 'Mode': mode.value,
+      if (name != null) 'Name': name,
+      if (privacy != null) 'Privacy': privacy.value,
+    };
+  }
+}
+
+/// Summary of the details of a <code>ChannelModerator</code>.
+class ChannelModeratorSummary {
+  /// The data for a moderator.
+  final Identity? moderator;
+
+  ChannelModeratorSummary({
+    this.moderator,
+  });
+
+  factory ChannelModeratorSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelModeratorSummary(
+      moderator: json['Moderator'] != null
+          ? Identity.fromJson(json['Moderator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final moderator = this.moderator;
+    return {
+      if (moderator != null) 'Moderator': moderator,
+    };
+  }
+}
+
+/// Summary of the messages in a <code>Channel</code>.
+class ChannelMessageSummary {
+  /// The content of the channel message. For Amazon Lex V2 bot responses, this
+  /// field holds a list of messages originating from the bot. For more
+  /// information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final String? content;
+
+  /// The content type of the channel message listed in the summary. For Amazon
+  /// Lex V2 bot responses, the content type is
+  /// <code>application/amz-chime-lex-msgs</code> for success responses and
+  /// <code>application/amz-chime-lex-error</code> for failure responses. For more
+  /// information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final String? contentType;
+
+  /// The time at which the message summary was created.
+  final DateTime? createdTimestamp;
+
+  /// The time at which a message was last edited.
+  final DateTime? lastEditedTimestamp;
+
+  /// The time at which a message was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
+  /// attributes are mapped to specific fields from the bot. For more information,
+  /// refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final Map<String, MessageAttributeValue>? messageAttributes;
+
+  /// The ID of the message.
+  final String? messageId;
+
+  /// The metadata of the message.
+  final String? metadata;
+
+  /// Indicates whether a message was redacted.
+  final bool? redacted;
+
+  /// The message sender.
+  final Identity? sender;
+
+  /// The message status. The status value is <code>SENT</code> for messages sent
+  /// to a channel without a channel flow. For channels associated with channel
+  /// flow, the value determines the processing stage.
+  final ChannelMessageStatusStructure? status;
+
+  /// The target of a message, a sender, a user, or a bot. Only the target and the
+  /// sender can view targeted messages. Only users who can see targeted messages
+  /// can take actions on them. However, administrators can delete targeted
+  /// messages that they can’t see.
+  final List<Target>? target;
+
+  /// The type of message.
+  final ChannelMessageType? type;
+
+  ChannelMessageSummary({
+    this.content,
+    this.contentType,
+    this.createdTimestamp,
+    this.lastEditedTimestamp,
+    this.lastUpdatedTimestamp,
+    this.messageAttributes,
+    this.messageId,
+    this.metadata,
+    this.redacted,
+    this.sender,
+    this.status,
+    this.target,
+    this.type,
+  });
+
+  factory ChannelMessageSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelMessageSummary(
+      content: json['Content'] as String?,
+      contentType: json['ContentType'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastEditedTimestamp: timeStampFromJson(json['LastEditedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      messageAttributes: (json['MessageAttributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, MessageAttributeValue.fromJson(e as Map<String, dynamic>))),
+      messageId: json['MessageId'] as String?,
+      metadata: json['Metadata'] as String?,
+      redacted: json['Redacted'] as bool?,
+      sender: json['Sender'] != null
+          ? Identity.fromJson(json['Sender'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? ChannelMessageStatusStructure.fromJson(
+              json['Status'] as Map<String, dynamic>)
+          : null,
+      target: (json['Target'] as List?)
+          ?.nonNulls
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(ChannelMessageType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final contentType = this.contentType;
+    final createdTimestamp = this.createdTimestamp;
+    final lastEditedTimestamp = this.lastEditedTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final messageAttributes = this.messageAttributes;
+    final messageId = this.messageId;
+    final metadata = this.metadata;
+    final redacted = this.redacted;
+    final sender = this.sender;
+    final status = this.status;
+    final target = this.target;
+    final type = this.type;
+    return {
+      if (content != null) 'Content': content,
+      if (contentType != null) 'ContentType': contentType,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastEditedTimestamp != null)
+        'LastEditedTimestamp': unixTimestampToJson(lastEditedTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
+      if (messageId != null) 'MessageId': messageId,
+      if (metadata != null) 'Metadata': metadata,
+      if (redacted != null) 'Redacted': redacted,
+      if (sender != null) 'Sender': sender,
+      if (status != null) 'Status': status,
+      if (target != null) 'Target': target,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of the channel membership details of an
+/// <code>AppInstanceUser</code>.
+class ChannelMembershipForAppInstanceUserSummary {
+  /// Returns the channel membership data for an <code>AppInstance</code>.
+  final AppInstanceUserMembershipSummary? appInstanceUserMembershipSummary;
+
+  /// Returns the channel data for an <code>AppInstance</code>.
+  final ChannelSummary? channelSummary;
+
+  ChannelMembershipForAppInstanceUserSummary({
+    this.appInstanceUserMembershipSummary,
+    this.channelSummary,
+  });
+
+  factory ChannelMembershipForAppInstanceUserSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ChannelMembershipForAppInstanceUserSummary(
+      appInstanceUserMembershipSummary:
+          json['AppInstanceUserMembershipSummary'] != null
+              ? AppInstanceUserMembershipSummary.fromJson(
+                  json['AppInstanceUserMembershipSummary']
+                      as Map<String, dynamic>)
+              : null,
+      channelSummary: json['ChannelSummary'] != null
+          ? ChannelSummary.fromJson(
+              json['ChannelSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserMembershipSummary =
+        this.appInstanceUserMembershipSummary;
+    final channelSummary = this.channelSummary;
+    return {
+      if (appInstanceUserMembershipSummary != null)
+        'AppInstanceUserMembershipSummary': appInstanceUserMembershipSummary,
+      if (channelSummary != null) 'ChannelSummary': channelSummary,
+    };
+  }
+}
+
+/// Summary of the membership details of an <code>AppInstanceUser</code>.
+class AppInstanceUserMembershipSummary {
+  /// The time at which an <code>AppInstanceUser</code> last marked a channel as
+  /// read.
+  final DateTime? readMarkerTimestamp;
+
+  /// The ID of the SubChannel that the <code>AppInstanceUser</code> is a member
+  /// of.
+  final String? subChannelId;
+
+  /// The type of <code>ChannelMembership</code>.
+  final ChannelMembershipType? type;
+
+  AppInstanceUserMembershipSummary({
+    this.readMarkerTimestamp,
+    this.subChannelId,
+    this.type,
+  });
+
+  factory AppInstanceUserMembershipSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceUserMembershipSummary(
+      readMarkerTimestamp: timeStampFromJson(json['ReadMarkerTimestamp']),
+      subChannelId: json['SubChannelId'] as String?,
+      type: (json['Type'] as String?)?.let(ChannelMembershipType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readMarkerTimestamp = this.readMarkerTimestamp;
+    final subChannelId = this.subChannelId;
+    final type = this.type;
+    return {
+      if (readMarkerTimestamp != null)
+        'ReadMarkerTimestamp': unixTimestampToJson(readMarkerTimestamp),
+      if (subChannelId != null) 'SubChannelId': subChannelId,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ChannelMembershipType {
+  static const $default = ChannelMembershipType._('DEFAULT');
+  static const hidden = ChannelMembershipType._('HIDDEN');
+
+  final String value;
+
+  const ChannelMembershipType._(this.value);
+
+  static const values = [$default, hidden];
+
+  static ChannelMembershipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChannelMembershipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChannelMembershipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of the details of a <code>ChannelMembership</code>.
+class ChannelMembershipSummary {
+  /// A member's summary data.
+  final Identity? member;
+
+  ChannelMembershipSummary({
+    this.member,
+  });
+
+  factory ChannelMembershipSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelMembershipSummary(
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final member = this.member;
+    return {
+      if (member != null) 'Member': member,
+    };
+  }
+}
+
+/// Summary of details of a channel flow.
+class ChannelFlowSummary {
+  /// The ARN of the channel flow.
+  final String? channelFlowArn;
+
+  /// The name of the channel flow.
+  final String? name;
+
+  /// Information about the processor Lambda functions.
+  final List<Processor>? processors;
+
+  ChannelFlowSummary({
+    this.channelFlowArn,
+    this.name,
+    this.processors,
+  });
+
+  factory ChannelFlowSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelFlowSummary(
+      channelFlowArn: json['ChannelFlowArn'] as String?,
+      name: json['Name'] as String?,
+      processors: (json['Processors'] as List?)
+          ?.nonNulls
+          .map((e) => Processor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelFlowArn = this.channelFlowArn;
+    final name = this.name;
+    final processors = this.processors;
+    return {
+      if (channelFlowArn != null) 'ChannelFlowArn': channelFlowArn,
+      if (name != null) 'Name': name,
+      if (processors != null) 'Processors': processors,
+    };
+  }
+}
+
+/// Summary of the details of a <code>ChannelBan</code>.
+class ChannelBanSummary {
+  /// The member being banned from a channel.
+  final Identity? member;
+
+  ChannelBanSummary({
+    this.member,
+  });
+
+  factory ChannelBanSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelBanSummary(
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final member = this.member;
+    return {
+      if (member != null) 'Member': member,
+    };
+  }
+}
+
+/// The websocket endpoint used to connect to Amazon Chime SDK messaging.
+class MessagingSessionEndpoint {
+  /// The endpoint to which you establish a websocket connection.
+  final String? url;
+
+  MessagingSessionEndpoint({
+    this.url,
+  });
+
+  factory MessagingSessionEndpoint.fromJson(Map<String, dynamic> json) {
+    return MessagingSessionEndpoint(
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'Url': url,
+    };
+  }
+}
+
+class NetworkType {
+  static const ipv4Only = NetworkType._('IPV4_ONLY');
+  static const dualStack = NetworkType._('DUAL_STACK');
+
+  final String value;
+
+  const NetworkType._(this.value);
+
+  static const values = [ipv4Only, dualStack];
+
+  static NetworkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of a message in a channel.
+class ChannelMessage {
+  /// The ARN of the channel.
+  final String? channelArn;
+
+  /// The content of the channel message. For Amazon Lex V2 bot responses, this
+  /// field holds a list of messages originating from the bot. For more
+  /// information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final String? content;
+
+  /// The content type of the channel message. For Amazon Lex V2 bot responses,
+  /// the content type is <code>application/amz-chime-lex-msgs</code> for success
+  /// responses and <code>application/amz-chime-lex-error</code> for failure
+  /// responses. For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final String? contentType;
+
+  /// The time at which the message was created.
+  final DateTime? createdTimestamp;
+
+  /// The time at which a message was edited.
+  final DateTime? lastEditedTimestamp;
+
+  /// The time at which a message was updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
+  /// attributes are mapped to specific fields from the bot. For more information,
+  /// refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final Map<String, MessageAttributeValue>? messageAttributes;
+
+  /// The ID of a message.
+  final String? messageId;
+
+  /// The message metadata.
+  final String? metadata;
+
+  /// The persistence setting for a channel message.
+  final ChannelMessagePersistenceType? persistence;
+
+  /// Hides the content of a message.
+  final bool? redacted;
+
+  /// The message sender.
+  final Identity? sender;
+
+  /// The status of the channel message.
+  final ChannelMessageStatusStructure? status;
+
+  /// The ID of the SubChannel.
+  final String? subChannelId;
+
+  /// The target of a message, a sender, a user, or a bot. Only the target and the
+  /// sender can view targeted messages. Only users who can see targeted messages
+  /// can take actions on them. However, administrators can delete targeted
+  /// messages that they can’t see.
+  final List<Target>? target;
+
+  /// The message type.
+  final ChannelMessageType? type;
+
+  ChannelMessage({
+    this.channelArn,
+    this.content,
+    this.contentType,
+    this.createdTimestamp,
+    this.lastEditedTimestamp,
+    this.lastUpdatedTimestamp,
+    this.messageAttributes,
+    this.messageId,
+    this.metadata,
+    this.persistence,
+    this.redacted,
+    this.sender,
+    this.status,
+    this.subChannelId,
+    this.target,
+    this.type,
+  });
+
+  factory ChannelMessage.fromJson(Map<String, dynamic> json) {
+    return ChannelMessage(
+      channelArn: json['ChannelArn'] as String?,
+      content: json['Content'] as String?,
+      contentType: json['ContentType'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastEditedTimestamp: timeStampFromJson(json['LastEditedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      messageAttributes: (json['MessageAttributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, MessageAttributeValue.fromJson(e as Map<String, dynamic>))),
+      messageId: json['MessageId'] as String?,
+      metadata: json['Metadata'] as String?,
+      persistence: (json['Persistence'] as String?)
+          ?.let(ChannelMessagePersistenceType.fromString),
+      redacted: json['Redacted'] as bool?,
+      sender: json['Sender'] != null
+          ? Identity.fromJson(json['Sender'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? ChannelMessageStatusStructure.fromJson(
+              json['Status'] as Map<String, dynamic>)
+          : null,
+      subChannelId: json['SubChannelId'] as String?,
+      target: (json['Target'] as List?)
+          ?.nonNulls
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.let(ChannelMessageType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final content = this.content;
+    final contentType = this.contentType;
+    final createdTimestamp = this.createdTimestamp;
+    final lastEditedTimestamp = this.lastEditedTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final messageAttributes = this.messageAttributes;
+    final messageId = this.messageId;
+    final metadata = this.metadata;
+    final persistence = this.persistence;
+    final redacted = this.redacted;
+    final sender = this.sender;
+    final status = this.status;
+    final subChannelId = this.subChannelId;
+    final target = this.target;
+    final type = this.type;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (content != null) 'Content': content,
+      if (contentType != null) 'ContentType': contentType,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastEditedTimestamp != null)
+        'LastEditedTimestamp': unixTimestampToJson(lastEditedTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
+      if (messageId != null) 'MessageId': messageId,
+      if (metadata != null) 'Metadata': metadata,
+      if (persistence != null) 'Persistence': persistence.value,
+      if (redacted != null) 'Redacted': redacted,
+      if (sender != null) 'Sender': sender,
+      if (status != null) 'Status': status,
+      if (subChannelId != null) 'SubChannelId': subChannelId,
+      if (target != null) 'Target': target,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// The details of a channel moderator.
+class ChannelModerator {
+  /// The ARN of the moderator's channel.
+  final String? channelArn;
+
+  /// The <code>AppInstanceUser</code> who created the moderator.
+  final Identity? createdBy;
+
+  /// The time at which the moderator was created.
+  final DateTime? createdTimestamp;
+
+  /// The moderator's data.
+  final Identity? moderator;
+
+  ChannelModerator({
+    this.channelArn,
+    this.createdBy,
+    this.createdTimestamp,
+    this.moderator,
+  });
+
+  factory ChannelModerator.fromJson(Map<String, dynamic> json) {
+    return ChannelModerator(
+      channelArn: json['ChannelArn'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      moderator: json['Moderator'] != null
+          ? Identity.fromJson(json['Moderator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final createdBy = this.createdBy;
+    final createdTimestamp = this.createdTimestamp;
+    final moderator = this.moderator;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (moderator != null) 'Moderator': moderator,
+    };
+  }
+}
+
+/// The details of a channel member.
+class ChannelMembership {
+  /// The ARN of the member's channel.
+  final String? channelArn;
+
+  /// The time at which the channel membership was created.
+  final DateTime? createdTimestamp;
+
+  /// The identifier of the member who invited another member.
+  final Identity? invitedBy;
+
+  /// The time at which a channel membership was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The data of the channel member.
+  final Identity? member;
+
+  /// The ID of the SubChannel that a user belongs to.
+  final String? subChannelId;
+
+  /// The membership type set for the channel member.
+  final ChannelMembershipType? type;
+
+  ChannelMembership({
+    this.channelArn,
+    this.createdTimestamp,
+    this.invitedBy,
+    this.lastUpdatedTimestamp,
+    this.member,
+    this.subChannelId,
+    this.type,
+  });
+
+  factory ChannelMembership.fromJson(Map<String, dynamic> json) {
+    return ChannelMembership(
+      channelArn: json['ChannelArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      invitedBy: json['InvitedBy'] != null
+          ? Identity.fromJson(json['InvitedBy'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+      subChannelId: json['SubChannelId'] as String?,
+      type: (json['Type'] as String?)?.let(ChannelMembershipType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final createdTimestamp = this.createdTimestamp;
+    final invitedBy = this.invitedBy;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final member = this.member;
+    final subChannelId = this.subChannelId;
+    final type = this.type;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (invitedBy != null) 'InvitedBy': invitedBy,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (member != null) 'Member': member,
+      if (subChannelId != null) 'SubChannelId': subChannelId,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// The details of a channel flow.
+class ChannelFlow {
+  /// The ARN of the channel flow.
+  final String? channelFlowArn;
+
+  /// The time at which the channel flow was created.
+  final DateTime? createdTimestamp;
+
+  /// The time at which a channel flow was updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The name of the channel flow.
+  final String? name;
+
+  /// Information about the processor Lambda functions.
+  final List<Processor>? processors;
+
+  ChannelFlow({
+    this.channelFlowArn,
+    this.createdTimestamp,
+    this.lastUpdatedTimestamp,
+    this.name,
+    this.processors,
+  });
+
+  factory ChannelFlow.fromJson(Map<String, dynamic> json) {
+    return ChannelFlow(
+      channelFlowArn: json['ChannelFlowArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      name: json['Name'] as String?,
+      processors: (json['Processors'] as List?)
+          ?.nonNulls
+          .map((e) => Processor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelFlowArn = this.channelFlowArn;
+    final createdTimestamp = this.createdTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final name = this.name;
+    final processors = this.processors;
+    return {
+      if (channelFlowArn != null) 'ChannelFlowArn': channelFlowArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (name != null) 'Name': name,
+      if (processors != null) 'Processors': processors,
+    };
+  }
+}
+
+/// The details of a channel ban.
+class ChannelBan {
+  /// The ARN of the channel from which a member is being banned.
+  final String? channelArn;
+
+  /// The <code>AppInstanceUser</code> who created the ban.
+  final Identity? createdBy;
+
+  /// The time at which the ban was created.
+  final DateTime? createdTimestamp;
+
+  /// The member being banned from the channel.
+  final Identity? member;
+
+  ChannelBan({
+    this.channelArn,
+    this.createdBy,
+    this.createdTimestamp,
+    this.member,
+  });
+
+  factory ChannelBan.fromJson(Map<String, dynamic> json) {
+    return ChannelBan(
+      channelArn: json['ChannelArn'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final createdBy = this.createdBy;
+    final createdTimestamp = this.createdTimestamp;
+    final member = this.member;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (member != null) 'Member': member,
+    };
+  }
+}
+
+/// The details of a channel.
+class Channel {
+  /// The ARN of a channel.
+  final String? channelArn;
+
+  /// The ARN of the channel flow.
+  final String? channelFlowArn;
+
+  /// The <code>AppInstanceUser</code> who created the channel.
+  final Identity? createdBy;
+
+  /// The time at which the <code>AppInstanceUser</code> created the channel.
+  final DateTime? createdTimestamp;
+
+  /// The attributes required to configure and create an elastic channel. An
+  /// elastic channel can support a maximum of 1-million members.
+  final ElasticChannelConfiguration? elasticChannelConfiguration;
+
+  /// Settings that control when a channel expires.
+  final ExpirationSettings? expirationSettings;
+
+  /// The time at which a member sent the last message in the channel.
+  final DateTime? lastMessageTimestamp;
+
+  /// The time at which a channel was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The channel's metadata.
+  final String? metadata;
+
+  /// The mode of the channel.
+  final ChannelMode? mode;
+
+  /// The name of a channel.
+  final String? name;
+
+  /// The channel's privacy setting.
+  final ChannelPrivacy? privacy;
+
+  Channel({
+    this.channelArn,
+    this.channelFlowArn,
+    this.createdBy,
+    this.createdTimestamp,
+    this.elasticChannelConfiguration,
+    this.expirationSettings,
+    this.lastMessageTimestamp,
+    this.lastUpdatedTimestamp,
+    this.metadata,
+    this.mode,
+    this.name,
+    this.privacy,
+  });
+
+  factory Channel.fromJson(Map<String, dynamic> json) {
+    return Channel(
+      channelArn: json['ChannelArn'] as String?,
+      channelFlowArn: json['ChannelFlowArn'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      elasticChannelConfiguration: json['ElasticChannelConfiguration'] != null
+          ? ElasticChannelConfiguration.fromJson(
+              json['ElasticChannelConfiguration'] as Map<String, dynamic>)
+          : null,
+      expirationSettings: json['ExpirationSettings'] != null
+          ? ExpirationSettings.fromJson(
+              json['ExpirationSettings'] as Map<String, dynamic>)
+          : null,
+      lastMessageTimestamp: timeStampFromJson(json['LastMessageTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      metadata: json['Metadata'] as String?,
+      mode: (json['Mode'] as String?)?.let(ChannelMode.fromString),
+      name: json['Name'] as String?,
+      privacy: (json['Privacy'] as String?)?.let(ChannelPrivacy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelFlowArn = this.channelFlowArn;
+    final createdBy = this.createdBy;
+    final createdTimestamp = this.createdTimestamp;
+    final elasticChannelConfiguration = this.elasticChannelConfiguration;
+    final expirationSettings = this.expirationSettings;
+    final lastMessageTimestamp = this.lastMessageTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final metadata = this.metadata;
+    final mode = this.mode;
+    final name = this.name;
+    final privacy = this.privacy;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (channelFlowArn != null) 'ChannelFlowArn': channelFlowArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (elasticChannelConfiguration != null)
+        'ElasticChannelConfiguration': elasticChannelConfiguration,
+      if (expirationSettings != null) 'ExpirationSettings': expirationSettings,
+      if (lastMessageTimestamp != null)
+        'LastMessageTimestamp': unixTimestampToJson(lastMessageTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (mode != null) 'Mode': mode.value,
+      if (name != null) 'Name': name,
+      if (privacy != null) 'Privacy': privacy.value,
+    };
+  }
+}
+
+/// The attributes required to configure and create an elastic channel. An
+/// elastic channel can support a maximum of 1-million members.
+class ElasticChannelConfiguration {
+  /// The maximum number of SubChannels that you want to allow in the elastic
+  /// channel.
+  final int maximumSubChannels;
+
+  /// The minimum allowed percentage of TargetMembershipsPerSubChannel users. Ceil
+  /// of the calculated value is used in balancing members among SubChannels of
+  /// the elastic channel.
+  final int minimumMembershipPercentage;
+
+  /// The maximum number of members allowed in a SubChannel.
+  final int targetMembershipsPerSubChannel;
+
+  ElasticChannelConfiguration({
+    required this.maximumSubChannels,
+    required this.minimumMembershipPercentage,
+    required this.targetMembershipsPerSubChannel,
+  });
+
+  factory ElasticChannelConfiguration.fromJson(Map<String, dynamic> json) {
+    return ElasticChannelConfiguration(
+      maximumSubChannels: (json['MaximumSubChannels'] as int?) ?? 0,
+      minimumMembershipPercentage:
+          (json['MinimumMembershipPercentage'] as int?) ?? 0,
+      targetMembershipsPerSubChannel:
+          (json['TargetMembershipsPerSubChannel'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumSubChannels = this.maximumSubChannels;
+    final minimumMembershipPercentage = this.minimumMembershipPercentage;
+    final targetMembershipsPerSubChannel = this.targetMembershipsPerSubChannel;
+    return {
+      'MaximumSubChannels': maximumSubChannels,
+      'MinimumMembershipPercentage': minimumMembershipPercentage,
+      'TargetMembershipsPerSubChannel': targetMembershipsPerSubChannel,
+    };
+  }
+}
+
+/// Stores information about a callback.
+class ChannelMessageCallback {
+  /// The message ID.
+  final String messageId;
+
+  /// The message content. For Amazon Lex V2 bot responses, this field holds a
+  /// list of messages originating from the bot. For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final String? content;
+
+  /// The content type of the call-back message. For Amazon Lex V2 bot responses,
+  /// the content type is <code>application/amz-chime-lex-msgs</code> for success
+  /// responses and <code>application/amz-chime-lex-error</code> for failure
+  /// responses. For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final String? contentType;
+
+  /// The attributes for the channel message. For Amazon Lex V2 bot responses, the
+  /// attributes are mapped to specific fields from the bot. For more information,
+  /// refer to <a
+  /// href="https://docs.aws.amazon.com/chime-sdk/latest/dg/appinstance-bots#process-response.html">Processing
+  /// responses from an AppInstanceBot</a> in the <i>Amazon Chime SDK Messaging
+  /// Developer Guide</i>.
+  final Map<String, MessageAttributeValue>? messageAttributes;
+
+  /// The message metadata.
+  final String? metadata;
+
+  /// The push notification configuration of the message.
+  final PushNotificationConfiguration? pushNotification;
+
+  /// The ID of the SubChannel.
+  final String? subChannelId;
+
+  ChannelMessageCallback({
+    required this.messageId,
+    this.content,
+    this.contentType,
+    this.messageAttributes,
+    this.metadata,
+    this.pushNotification,
+    this.subChannelId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    final content = this.content;
+    final contentType = this.contentType;
+    final messageAttributes = this.messageAttributes;
+    final metadata = this.metadata;
+    final pushNotification = this.pushNotification;
+    final subChannelId = this.subChannelId;
+    return {
+      'MessageId': messageId,
+      if (content != null) 'Content': content,
+      if (contentType != null) 'ContentType': contentType,
+      if (messageAttributes != null) 'MessageAttributes': messageAttributes,
+      if (metadata != null) 'Metadata': metadata,
+      if (pushNotification != null) 'PushNotification': pushNotification,
+      if (subChannelId != null) 'SubChannelId': subChannelId,
+    };
+  }
+}
+
+class ErrorCode {
+  static const badRequest = ErrorCode._('BadRequest');
+  static const conflict = ErrorCode._('Conflict');
+  static const forbidden = ErrorCode._('Forbidden');
+  static const notFound = ErrorCode._('NotFound');
+  static const preconditionFailed = ErrorCode._('PreconditionFailed');
+  static const resourceLimitExceeded = ErrorCode._('ResourceLimitExceeded');
+  static const serviceFailure = ErrorCode._('ServiceFailure');
+  static const accessDenied = ErrorCode._('AccessDenied');
+  static const serviceUnavailable = ErrorCode._('ServiceUnavailable');
+  static const throttled = ErrorCode._('Throttled');
+  static const throttling = ErrorCode._('Throttling');
+  static const unauthorized = ErrorCode._('Unauthorized');
+  static const unprocessable = ErrorCode._('Unprocessable');
+  static const voiceConnectorGroupAssociationsExist =
+      ErrorCode._('VoiceConnectorGroupAssociationsExist');
+  static const phoneNumberAssociationsExist =
+      ErrorCode._('PhoneNumberAssociationsExist');
+
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [
+    badRequest,
+    conflict,
+    forbidden,
+    notFound,
+    preconditionFailed,
+    resourceLimitExceeded,
+    serviceFailure,
+    accessDenied,
+    serviceUnavailable,
+    throttled,
+    throttling,
+    unauthorized,
+    unprocessable,
+    voiceConnectorGroupAssociationsExist,
+    phoneNumberAssociationsExist
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The membership information, including member ARNs, the channel ARN, and
+/// membership types.
+class BatchChannelMemberships {
+  /// The ARN of the channel to which you're adding members.
+  final String? channelArn;
+
+  /// The identifier of the member who invited another member.
+  final Identity? invitedBy;
+
+  /// The users successfully added to the request.
+  final List<Identity>? members;
+
+  /// The ID of the SubChannel.
+  final String? subChannelId;
+
+  /// The membership types set for the channel members.
+  final ChannelMembershipType? type;
+
+  BatchChannelMemberships({
+    this.channelArn,
+    this.invitedBy,
+    this.members,
+    this.subChannelId,
+    this.type,
+  });
+
+  factory BatchChannelMemberships.fromJson(Map<String, dynamic> json) {
+    return BatchChannelMemberships(
+      channelArn: json['ChannelArn'] as String?,
+      invitedBy: json['InvitedBy'] != null
+          ? Identity.fromJson(json['InvitedBy'] as Map<String, dynamic>)
+          : null,
+      members: (json['Members'] as List?)
+          ?.nonNulls
+          .map((e) => Identity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subChannelId: json['SubChannelId'] as String?,
+      type: (json['Type'] as String?)?.let(ChannelMembershipType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final invitedBy = this.invitedBy;
+    final members = this.members;
+    final subChannelId = this.subChannelId;
+    final type = this.type;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (invitedBy != null) 'InvitedBy': invitedBy,
+      if (members != null) 'Members': members,
+      if (subChannelId != null) 'SubChannelId': subChannelId,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// A list of failed member ARNs, error codes, and error messages.
+class BatchCreateChannelMembershipError {
+  /// The error code.
+  final ErrorCode? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  /// The <code>AppInstanceUserArn</code> of the member that the service couldn't
+  /// add.
+  final String? memberArn;
+
+  BatchCreateChannelMembershipError({
+    this.errorCode,
+    this.errorMessage,
+    this.memberArn,
+  });
+
+  factory BatchCreateChannelMembershipError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchCreateChannelMembershipError(
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+      memberArn: json['MemberArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final memberArn = this.memberArn;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (memberArn != null) 'MemberArn': memberArn,
     };
   }
 }

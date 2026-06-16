@@ -52,7 +52,6 @@ class Transcribe {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'transcribe',
-            signingName: 'transcribe',
           ),
           region: region,
           credentials: credentials,
@@ -97,9 +96,9 @@ class Transcribe {
   /// categories for real-time transcriptions</a>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [categoryName] :
   /// A unique name, chosen by you, for your Call Analytics category. It's
@@ -131,10 +130,19 @@ class Transcribe {
   ///
   /// If you do not include <code>InputType</code>, your category is created as
   /// a post-call category by default.
+  ///
+  /// Parameter [tags] :
+  /// Adds one or more custom tags, each in the form of a key:value pair, to a
+  /// new call analytics category at the time you start this new job.
+  ///
+  /// To learn more about using tags with Amazon Transcribe, refer to <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html">Tagging
+  /// resources</a>.
   Future<CreateCallAnalyticsCategoryResponse> createCallAnalyticsCategory({
     required String categoryName,
     required List<Rule> rules,
     InputType? inputType,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -150,6 +158,7 @@ class Transcribe {
         'CategoryName': categoryName,
         'Rules': rules,
         if (inputType != null) 'InputType': inputType.value,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -178,9 +187,9 @@ class Transcribe {
   /// </ul>
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [baseModelName] :
   /// The Amazon Transcribe standard language model, or base model, used to
@@ -288,9 +297,9 @@ class Transcribe {
   /// vocabularies</a>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [languageCode] :
   /// The language code that represents the language of the entries in your
@@ -367,9 +376,9 @@ class Transcribe {
   /// vocabularies</a>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [languageCode] :
   /// The language code that represents the language of the entries in your
@@ -495,9 +504,9 @@ class Transcribe {
   /// filtering</a>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [languageCode] :
   /// The language code that represents the language of the entries in your
@@ -612,10 +621,10 @@ class Transcribe {
   /// of the category you want to delete using <code>CategoryName</code>.
   /// Category names are case sensitive.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [categoryName] :
   /// The name of the Call Analytics category you want to delete. Category names
@@ -643,9 +652,9 @@ class Transcribe {
   /// the job you want to delete using <code>CallAnalyticsJobName</code>. Job
   /// names are case sensitive.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [callAnalyticsJobName] :
   /// The name of the Call Analytics job you want to delete. Job names are case
@@ -674,8 +683,8 @@ class Transcribe {
   /// custom language model names are case sensitive.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [modelName] :
   /// The name of the custom language model you want to delete. Model names are
@@ -703,9 +712,9 @@ class Transcribe {
   /// the job you want to delete using <code>MedicalScribeJobName</code>. Job
   /// names are case sensitive.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [medicalScribeJobName] :
   /// The name of the Medical Scribe job you want to delete. Job names are case
@@ -733,9 +742,9 @@ class Transcribe {
   /// name of the job you want to delete using
   /// <code>MedicalTranscriptionJobName</code>. Job names are case sensitive.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [medicalTranscriptionJobName] :
   /// The name of the medical transcription job you want to delete. Job names
@@ -763,10 +772,10 @@ class Transcribe {
   /// name of the custom vocabulary you want to delete using
   /// <code>VocabularyName</code>. Custom vocabulary names are case sensitive.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyName] :
   /// The name of the custom medical vocabulary you want to delete. Custom
@@ -794,9 +803,9 @@ class Transcribe {
   /// the job you want to delete using <code>TranscriptionJobName</code>. Job
   /// names are case sensitive.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [transcriptionJobName] :
   /// The name of the transcription job you want to delete. Job names are case
@@ -824,10 +833,10 @@ class Transcribe {
   /// the custom vocabulary you want to delete using
   /// <code>VocabularyName</code>. Custom vocabulary names are case sensitive.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyName] :
   /// The name of the custom vocabulary you want to delete. Custom vocabulary
@@ -856,10 +865,10 @@ class Transcribe {
   /// <code>VocabularyFilterName</code>. Custom vocabulary filter names are case
   /// sensitive.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyFilterName] :
   /// The name of the custom vocabulary filter you want to delete. Custom
@@ -895,8 +904,8 @@ class Transcribe {
   /// identify the reason for this failure.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [modelName] :
@@ -927,10 +936,10 @@ class Transcribe {
   ///
   /// To get a list of your Call Analytics categories, use the operation.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [categoryName] :
   /// The name of the Call Analytics category you want information about.
@@ -976,8 +985,8 @@ class Transcribe {
   /// To get a list of your Call Analytics jobs, use the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [callAnalyticsJobName] :
@@ -1016,8 +1025,8 @@ class Transcribe {
   /// To get a list of your Medical Scribe jobs, use the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [medicalScribeJobName] :
@@ -1056,8 +1065,8 @@ class Transcribe {
   /// To get a list of your medical transcription jobs, use the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [medicalTranscriptionJobName] :
@@ -1094,10 +1103,10 @@ class Transcribe {
   ///
   /// To get a list of your custom medical vocabularies, use the operation.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyName] :
   /// The name of the custom medical vocabulary you want information about.
@@ -1138,8 +1147,8 @@ class Transcribe {
   /// To get a list of your transcription jobs, use the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [transcriptionJobName] :
@@ -1176,10 +1185,10 @@ class Transcribe {
   ///
   /// To get a list of your custom vocabularies, use the operation.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyName] :
   /// The name of the custom vocabulary you want information about. Custom
@@ -1209,10 +1218,10 @@ class Transcribe {
   ///
   /// To get a list of your custom vocabulary filters, use the operation.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyFilterName] :
   /// The name of the custom vocabulary filter you want information about.
@@ -1245,8 +1254,8 @@ class Transcribe {
   /// the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of Call Analytics categories to return in each page of
@@ -1296,8 +1305,8 @@ class Transcribe {
   /// operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [jobNameContains] :
   /// Returns only the Call Analytics jobs that contain the specified string.
@@ -1361,8 +1370,8 @@ class Transcribe {
   /// the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of custom language models to return in each page of
@@ -1426,8 +1435,8 @@ class Transcribe {
   /// operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [jobNameContains] :
   /// Returns only the Medical Scribe jobs that contain the specified string.
@@ -1491,8 +1500,8 @@ class Transcribe {
   /// use the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [jobNameContains] :
   /// Returns only the medical transcription jobs that contain the specified
@@ -1556,8 +1565,8 @@ class Transcribe {
   /// use the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of custom medical vocabularies to return in each page
@@ -1622,9 +1631,9 @@ class Transcribe {
   /// resources</a>.
   ///
   /// May throw [BadRequestException].
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// Returns a list of all tags associated with the specified Amazon Resource
@@ -1666,8 +1675,8 @@ class Transcribe {
   /// operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [jobNameContains] :
   /// Returns only the transcription jobs that contain the specified string. The
@@ -1730,8 +1739,8 @@ class Transcribe {
   /// operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of custom vocabularies to return in each page of
@@ -1796,8 +1805,8 @@ class Transcribe {
   /// the operation.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of custom vocabulary filters to return in each page of
@@ -1870,7 +1879,10 @@ class Transcribe {
   /// upload your media file into an Amazon S3 bucket; you can then specify the
   /// Amazon S3 location of the file using the <code>Media</code> parameter.
   ///
-  /// Note that job queuing is enabled by default for Call Analytics jobs.
+  /// Job queuing is available for Call Analytics jobs. If you pass a
+  /// <code>DataAccessRoleArn</code> in your request and you exceed your
+  /// Concurrent Job Limit, your job will automatically be added to a queue to
+  /// be processed once your concurrent job count is below the limit.
   ///
   /// You must include the following parameters in your
   /// <code>StartCallAnalyticsJob</code> request:
@@ -1888,11 +1900,6 @@ class Transcribe {
   /// transcription job that's unique within your Amazon Web Services account.
   /// </li>
   /// <li>
-  /// <code>DataAccessRoleArn</code>: The Amazon Resource Name (ARN) of an IAM
-  /// role that has permissions to access the Amazon S3 bucket that contains
-  /// your input files.
-  /// </li>
-  /// <li>
   /// <code>Media</code> (<code>MediaFileUri</code> or
   /// <code>RedactedMediaFileUri</code>): The Amazon S3 location of your media
   /// file.
@@ -1907,9 +1914,9 @@ class Transcribe {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [callAnalyticsJobName] :
   /// A unique name, chosen by you, for your Call Analytics job.
@@ -1945,47 +1952,22 @@ class Transcribe {
   /// ARNs</a>.
   ///
   /// Parameter [outputEncryptionKMSKeyId] :
-  /// The KMS key you want to use to encrypt your Call Analytics output.
+  /// The Amazon Resource Name (ARN) of a KMS key that you want to use to
+  /// encrypt your Call Analytics output.
   ///
-  /// If using a key located in the <b>current</b> Amazon Web Services account,
-  /// you can specify your KMS key in one of four ways:
-  /// <ol>
-  /// <li>
-  /// Use the KMS key ID itself. For example,
-  /// <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use an alias for the KMS key ID. For example,
-  /// <code>alias/ExampleAlias</code>.
-  /// </li>
-  /// <li>
-  /// Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-  /// <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use the ARN for the KMS key alias. For example,
-  /// <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.
-  /// </li> </ol>
-  /// If using a key located in a <b>different</b> Amazon Web Services account
-  /// than the current Amazon Web Services account, you can specify your KMS key
-  /// in one of two ways:
-  /// <ol>
-  /// <li>
-  /// Use the ARN for the KMS key ID. For example,
-  /// <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use the ARN for the KMS key alias. For example,
-  /// <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.
-  /// </li> </ol>
+  /// KMS key ARNs have the format
+  /// <code>arn:partition:kms:region:account:key/key-id</code>. For example:
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">
+  /// KMS key ARNs</a>.
+  ///
   /// If you do not specify an encryption key, your output is encrypted with the
   /// default Amazon S3 key (SSE-S3).
   ///
-  /// If you specify a KMS key to encrypt your output, you must also specify an
-  /// output location using the <code>OutputLocation</code> parameter.
-  ///
-  /// Note that the role making the request must have permission to use the
-  /// specified KMS key.
+  /// Note that the role making the request and the role specified in the
+  /// <code>DataAccessRoleArn</code> request parameter (if present) must have
+  /// permission to use the specified KMS key.
   ///
   /// Parameter [outputLocation] :
   /// The Amazon S3 location where you want your Call Analytics transcription
@@ -2018,6 +2000,14 @@ class Transcribe {
   /// Specify additional optional settings in your request, including content
   /// redaction; allows you to apply custom language models, vocabulary filters,
   /// and custom vocabularies to your Call Analytics job.
+  ///
+  /// Parameter [tags] :
+  /// Adds one or more custom tags, each in the form of a key:value pair, to a
+  /// new call analytics job at the time you start this new job.
+  ///
+  /// To learn more about using tags with Amazon Transcribe, refer to <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html">Tagging
+  /// resources</a>.
   Future<StartCallAnalyticsJobResponse> startCallAnalyticsJob({
     required String callAnalyticsJobName,
     required Media media,
@@ -2026,6 +2016,7 @@ class Transcribe {
     String? outputEncryptionKMSKeyId,
     String? outputLocation,
     CallAnalyticsJobSettings? settings,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2047,6 +2038,7 @@ class Transcribe {
           'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
         if (outputLocation != null) 'OutputLocation': outputLocation,
         if (settings != null) 'Settings': settings,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2091,7 +2083,7 @@ class Transcribe {
   /// output files stored.
   /// </li>
   /// <li>
-  /// <code>Settings</code>: A <code>MedicalScribeSettings</code> obect that
+  /// <code>Settings</code>: A <code>MedicalScribeSettings</code> object that
   /// must set exactly one of <code>ShowSpeakerLabels</code> or
   /// <code>ChannelIdentification</code> to true. If
   /// <code>ShowSpeakerLabels</code> is true, <code>MaxSpeakerLabels</code> must
@@ -2106,9 +2098,9 @@ class Transcribe {
   /// </ul>
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of an IAM role that has permissions to
@@ -2180,49 +2172,32 @@ class Transcribe {
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html">Asymmetric
   /// keys in KMS</a>.
   ///
-  /// Parameter [outputEncryptionKMSKeyId] :
-  /// The KMS key you want to use to encrypt your Medical Scribe output.
+  /// Parameter [medicalScribeContext] :
+  /// The <code>MedicalScribeContext</code> object that contains contextual
+  /// information which is used during clinical note generation to add relevant
+  /// context to the note.
   ///
-  /// If using a key located in the <b>current</b> Amazon Web Services account,
-  /// you can specify your KMS key in one of four ways:
-  /// <ol>
-  /// <li>
-  /// Use the KMS key ID itself. For example,
-  /// <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use an alias for the KMS key ID. For example,
-  /// <code>alias/ExampleAlias</code>.
-  /// </li>
-  /// <li>
-  /// Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-  /// <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use the ARN for the KMS key alias. For example,
-  /// <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.
-  /// </li> </ol>
-  /// If using a key located in a <b>different</b> Amazon Web Services account
-  /// than the current Amazon Web Services account, you can specify your KMS key
-  /// in one of two ways:
-  /// <ol>
-  /// <li>
-  /// Use the ARN for the KMS key ID. For example,
-  /// <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use the ARN for the KMS key alias. For example,
-  /// <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.
-  /// </li> </ol>
+  /// Parameter [outputEncryptionKMSKeyId] :
+  /// The Amazon Resource Name (ARN) of a KMS key that you want to use to
+  /// encrypt your Medical Scribe output.
+  ///
+  /// KMS key ARNs have the format
+  /// <code>arn:partition:kms:region:account:key/key-id</code>. For example:
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">
+  /// KMS key ARNs</a>.
+  ///
   /// If you do not specify an encryption key, your output is encrypted with the
   /// default Amazon S3 key (SSE-S3).
   ///
-  /// Note that the role specified in the <code>DataAccessRoleArn</code> request
-  /// parameter must have permission to use the specified KMS key.
+  /// Note that the role making the request and the role specified in the
+  /// <code>DataAccessRoleArn</code> request parameter (if present) must have
+  /// permission to use the specified KMS key.
   ///
   /// Parameter [tags] :
   /// Adds one or more custom tags, each in the form of a key:value pair, to the
-  /// Medica Scribe job.
+  /// Medical Scribe job.
   ///
   /// To learn more about using tags with Amazon Transcribe, refer to <a
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html">Tagging
@@ -2235,6 +2210,7 @@ class Transcribe {
     required MedicalScribeSettings settings,
     List<MedicalScribeChannelDefinition>? channelDefinitions,
     Map<String, String>? kMSEncryptionContext,
+    MedicalScribeContext? medicalScribeContext,
     String? outputEncryptionKMSKeyId,
     List<Tag>? tags,
   }) async {
@@ -2258,6 +2234,8 @@ class Transcribe {
           'ChannelDefinitions': channelDefinitions,
         if (kMSEncryptionContext != null)
           'KMSEncryptionContext': kMSEncryptionContext,
+        if (medicalScribeContext != null)
+          'MedicalScribeContext': medicalScribeContext,
         if (outputEncryptionKMSKeyId != null)
           'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
         if (tags != null) 'Tags': tags,
@@ -2320,9 +2298,9 @@ class Transcribe {
   /// </ul>
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [languageCode] :
   /// The language code that represents the language spoken in the input media
@@ -2409,47 +2387,22 @@ class Transcribe {
   /// determine the sample rate.
   ///
   /// Parameter [outputEncryptionKMSKeyId] :
-  /// The KMS key you want to use to encrypt your medical transcription output.
+  /// The Amazon Resource Name (ARN) of a KMS key that you want to use to
+  /// encrypt your medical transcription output.
   ///
-  /// If using a key located in the <b>current</b> Amazon Web Services account,
-  /// you can specify your KMS key in one of four ways:
-  /// <ol>
-  /// <li>
-  /// Use the KMS key ID itself. For example,
-  /// <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use an alias for the KMS key ID. For example,
-  /// <code>alias/ExampleAlias</code>.
-  /// </li>
-  /// <li>
-  /// Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-  /// <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use the ARN for the KMS key alias. For example,
-  /// <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.
-  /// </li> </ol>
-  /// If using a key located in a <b>different</b> Amazon Web Services account
-  /// than the current Amazon Web Services account, you can specify your KMS key
-  /// in one of two ways:
-  /// <ol>
-  /// <li>
-  /// Use the ARN for the KMS key ID. For example,
-  /// <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use the ARN for the KMS key alias. For example,
-  /// <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.
-  /// </li> </ol>
+  /// KMS key ARNs have the format
+  /// <code>arn:partition:kms:region:account:key/key-id</code>. For example:
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">
+  /// KMS key ARNs</a>.
+  ///
   /// If you do not specify an encryption key, your output is encrypted with the
   /// default Amazon S3 key (SSE-S3).
   ///
-  /// If you specify a KMS key to encrypt your output, you must also specify an
-  /// output location using the <code>OutputLocation</code> parameter.
-  ///
-  /// Note that the role making the request must have permission to use the
-  /// specified KMS key.
+  /// Note that the role making the request and the role specified in the
+  /// <code>DataAccessRoleArn</code> request parameter (if present) must have
+  /// permission to use the specified KMS key.
   ///
   /// Parameter [outputKey] :
   /// Use in combination with <code>OutputBucketName</code> to specify the
@@ -2599,9 +2552,9 @@ class Transcribe {
   /// </ul>
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [media] :
   /// Describes the Amazon S3 location of the media file you want to use in your
@@ -2714,8 +2667,11 @@ class Transcribe {
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
   /// languages</a> table.
   /// <note>
-  /// To transcribe speech in Modern Standard Arabic (<code>ar-SA</code>), your
-  /// media file must be encoded at a sample rate of 16,000 Hz or higher.
+  /// To transcribe speech in Modern Standard Arabic (<code>ar-SA</code>) in
+  /// Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web
+  /// Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary,
+  /// ca-west-1) and Africa (Cape Town, af-south-1), your media file must be
+  /// encoded at a sample rate of 16,000 Hz or higher.
   /// </note>
   ///
   /// Parameter [languageIdSettings] :
@@ -2746,12 +2702,12 @@ class Transcribe {
   ///
   /// If you want to include a custom language model with your request but <b>do
   /// not</b> want to use automatic language identification, use instead the
-  /// <code/> parameter with the <code>LanguageModelName</code> sub-parameter.
-  /// If you want to include a custom vocabulary or a custom vocabulary filter
-  /// (or both) with your request but <b>do not</b> want to use automatic
-  /// language identification, use instead the <code/> parameter with the
-  /// <code>VocabularyName</code> or <code>VocabularyFilterName</code> (or both)
-  /// sub-parameter.
+  /// <code></code> parameter with the <code>LanguageModelName</code>
+  /// sub-parameter. If you want to include a custom vocabulary or a custom
+  /// vocabulary filter (or both) with your request but <b>do not</b> want to
+  /// use automatic language identification, use instead the <code></code>
+  /// parameter with the <code>VocabularyName</code> or
+  /// <code>VocabularyFilterName</code> (or both) sub-parameter.
   ///
   /// Parameter [languageOptions] :
   /// You can specify two or more language codes that represent the languages
@@ -2766,8 +2722,11 @@ class Transcribe {
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
   /// languages</a>.
   ///
-  /// To transcribe speech in Modern Standard Arabic (<code>ar-SA</code>), your
-  /// media file must be encoded at a sample rate of 16,000 Hz or higher.
+  /// To transcribe speech in Modern Standard Arabic (<code>ar-SA</code>)in
+  /// Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web
+  /// Services GovCloud (US) (US-East, us-gov-east-1), in Canada (Calgary)
+  /// ca-west-1 and Africa (Cape Town) af-south-1, your media file must be
+  /// encoded at a sample rate of 16,000 Hz or higher.
   ///
   /// Parameter [mediaFormat] :
   /// Specify the format of your input media file.
@@ -2820,47 +2779,22 @@ class Transcribe {
   /// URI to access your transcript.
   ///
   /// Parameter [outputEncryptionKMSKeyId] :
-  /// The KMS key you want to use to encrypt your transcription output.
+  /// The Amazon Resource Name (ARN) of a KMS key that you want to use to
+  /// encrypt your transcription output.
   ///
-  /// If using a key located in the <b>current</b> Amazon Web Services account,
-  /// you can specify your KMS key in one of four ways:
-  /// <ol>
-  /// <li>
-  /// Use the KMS key ID itself. For example,
-  /// <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use an alias for the KMS key ID. For example,
-  /// <code>alias/ExampleAlias</code>.
-  /// </li>
-  /// <li>
-  /// Use the Amazon Resource Name (ARN) for the KMS key ID. For example,
-  /// <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use the ARN for the KMS key alias. For example,
-  /// <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.
-  /// </li> </ol>
-  /// If using a key located in a <b>different</b> Amazon Web Services account
-  /// than the current Amazon Web Services account, you can specify your KMS key
-  /// in one of two ways:
-  /// <ol>
-  /// <li>
-  /// Use the ARN for the KMS key ID. For example,
-  /// <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Use the ARN for the KMS key alias. For example,
-  /// <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.
-  /// </li> </ol>
+  /// KMS key ARNs have the format
+  /// <code>arn:partition:kms:region:account:key/key-id</code>. For example:
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN">
+  /// KMS key ARNs</a>.
+  ///
   /// If you do not specify an encryption key, your output is encrypted with the
   /// default Amazon S3 key (SSE-S3).
   ///
-  /// If you specify a KMS key to encrypt your output, you must also specify an
-  /// output location using the <code>OutputLocation</code> parameter.
-  ///
-  /// Note that the role making the request must have permission to use the
-  /// specified KMS key.
+  /// Note that the role making the request and the role specified in the
+  /// <code>DataAccessRoleArn</code> request parameter (if present) must have
+  /// permission to use the specified KMS key.
   ///
   /// Parameter [outputKey] :
   /// Use in combination with <code>OutputBucketName</code> to specify the
@@ -2914,7 +2848,7 @@ class Transcribe {
   ///
   /// If you're using automatic language identification with your request and
   /// want to include a custom language model, a custom vocabulary, or a custom
-  /// vocabulary filter, use instead the <code/> parameter with the
+  /// vocabulary filter, use instead the <code></code> parameter with the
   /// <code>LanguageModelName</code>, <code>VocabularyName</code> or
   /// <code>VocabularyFilterName</code> sub-parameters.
   ///
@@ -3021,9 +2955,9 @@ class Transcribe {
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource you want to tag. ARNs have
@@ -3071,11 +3005,11 @@ class Transcribe {
   /// If you include <code>UntagResource</code> in your request, you must also
   /// include <code>ResourceArn</code> and <code>TagKeys</code>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want
@@ -3122,10 +3056,10 @@ class Transcribe {
   /// To create a new category, see .
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [NotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [categoryName] :
   /// The name of the Call Analytics category you want to update. Category names
@@ -3172,10 +3106,10 @@ class Transcribe {
   /// cannot append new terms onto an existing custom vocabulary.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [NotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [languageCode] :
   /// The language code that represents the language of the entries in the
@@ -3223,10 +3157,10 @@ class Transcribe {
   /// append new terms onto an existing custom vocabulary.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
-  /// May throw [NotFoundException].
   /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [languageCode] :
   /// The language code that represents the language of the entries in the
@@ -3325,8 +3259,8 @@ class Transcribe {
   /// new terms onto an existing custom vocabulary filter.
   ///
   /// May throw [BadRequestException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyFilterName] :
@@ -3404,975 +3338,6 @@ class Transcribe {
     );
 
     return UpdateVocabularyFilterResponse.fromJson(jsonResponse.body);
-  }
-}
-
-/// A time range, in milliseconds, between two points in your media file.
-///
-/// You can use <code>StartTime</code> and <code>EndTime</code> to search a
-/// custom segment. For example, setting <code>StartTime</code> to 10000 and
-/// <code>EndTime</code> to 50000 only searches for your specified criteria in
-/// the audio contained between the 10,000 millisecond mark and the 50,000
-/// millisecond mark of your media file. You must use <code>StartTime</code> and
-/// <code>EndTime</code> as a set; that is, if you include one, you must include
-/// both.
-///
-/// You can use also <code>First</code> to search from the start of the audio
-/// until the time that you specify, or <code>Last</code> to search from the
-/// time that you specify until the end of the audio. For example, setting
-/// <code>First</code> to 50000 only searches for your specified criteria in the
-/// audio contained between the start of the media file to the 50,000
-/// millisecond mark. You can use <code>First</code> and <code>Last</code>
-/// independently of each other.
-///
-/// If you prefer to use percentage instead of milliseconds, see .
-class AbsoluteTimeRange {
-  /// The time, in milliseconds, when Amazon Transcribe stops searching for the
-  /// specified criteria in your audio. If you include <code>EndTime</code> in
-  /// your request, you must also include <code>StartTime</code>.
-  final int? endTime;
-
-  /// The time, in milliseconds, from the start of your media file until the
-  /// specified value. Amazon Transcribe searches for your specified criteria in
-  /// this time segment.
-  final int? first;
-
-  /// The time, in milliseconds, from the specified value until the end of your
-  /// media file. Amazon Transcribe searches for your specified criteria in this
-  /// time segment.
-  final int? last;
-
-  /// The time, in milliseconds, when Amazon Transcribe starts searching for the
-  /// specified criteria in your audio. If you include <code>StartTime</code> in
-  /// your request, you must also include <code>EndTime</code>.
-  final int? startTime;
-
-  AbsoluteTimeRange({
-    this.endTime,
-    this.first,
-    this.last,
-    this.startTime,
-  });
-
-  factory AbsoluteTimeRange.fromJson(Map<String, dynamic> json) {
-    return AbsoluteTimeRange(
-      endTime: json['EndTime'] as int?,
-      first: json['First'] as int?,
-      last: json['Last'] as int?,
-      startTime: json['StartTime'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final first = this.first;
-    final last = this.last;
-    final startTime = this.startTime;
-    return {
-      if (endTime != null) 'EndTime': endTime,
-      if (first != null) 'First': first,
-      if (last != null) 'Last': last,
-      if (startTime != null) 'StartTime': startTime,
-    };
-  }
-}
-
-class BaseModelName {
-  static const narrowBand = BaseModelName._('NarrowBand');
-  static const wideBand = BaseModelName._('WideBand');
-
-  final String value;
-
-  const BaseModelName._(this.value);
-
-  static const values = [narrowBand, wideBand];
-
-  static BaseModelName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BaseModelName._(value));
-
-  @override
-  bool operator ==(other) => other is BaseModelName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CLMLanguageCode {
-  static const enUs = CLMLanguageCode._('en-US');
-  static const hiIn = CLMLanguageCode._('hi-IN');
-  static const esUs = CLMLanguageCode._('es-US');
-  static const enGb = CLMLanguageCode._('en-GB');
-  static const enAu = CLMLanguageCode._('en-AU');
-  static const deDe = CLMLanguageCode._('de-DE');
-  static const jaJp = CLMLanguageCode._('ja-JP');
-
-  final String value;
-
-  const CLMLanguageCode._(this.value);
-
-  static const values = [enUs, hiIn, esUs, enGb, enAu, deDe, jaJp];
-
-  static CLMLanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CLMLanguageCode._(value));
-
-  @override
-  bool operator ==(other) => other is CLMLanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CallAnalyticsFeature {
-  static const generativeSummarization =
-      CallAnalyticsFeature._('GENERATIVE_SUMMARIZATION');
-
-  final String value;
-
-  const CallAnalyticsFeature._(this.value);
-
-  static const values = [generativeSummarization];
-
-  static CallAnalyticsFeature fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CallAnalyticsFeature._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CallAnalyticsFeature && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides detailed information about a Call Analytics job.
-///
-/// To view the job's status, refer to <code>CallAnalyticsJobStatus</code>. If
-/// the status is <code>COMPLETED</code>, the job is finished. You can find your
-/// completed transcript at the URI specified in <code>TranscriptFileUri</code>.
-/// If the status is <code>FAILED</code>, <code>FailureReason</code> provides
-/// details on why your transcription job failed.
-///
-/// If you enabled personally identifiable information (PII) redaction, the
-/// redacted transcript appears at the location specified in
-/// <code>RedactedTranscriptFileUri</code>.
-///
-/// If you chose to redact the audio in your media file, you can find your
-/// redacted media file at the location specified in the
-/// <code>RedactedMediaFileUri</code> field of your response.
-class CallAnalyticsJob {
-  /// Provides detailed information about a call analytics job, including
-  /// information about skipped analytics features.
-  final CallAnalyticsJobDetails? callAnalyticsJobDetails;
-
-  /// The name of the Call Analytics job. Job names are case sensitive and must be
-  /// unique within an Amazon Web Services account.
-  final String? callAnalyticsJobName;
-
-  /// Provides the status of the specified Call Analytics job.
-  ///
-  /// If the status is <code>COMPLETED</code>, the job is finished and you can
-  /// find the results at the location specified in <code>TranscriptFileUri</code>
-  /// (or <code>RedactedTranscriptFileUri</code>, if you requested transcript
-  /// redaction). If the status is <code>FAILED</code>, <code>FailureReason</code>
-  /// provides details on why your transcription job failed.
-  final CallAnalyticsJobStatus? callAnalyticsJobStatus;
-
-  /// Indicates which speaker is on which channel.
-  final List<ChannelDefinition>? channelDefinitions;
-
-  /// The date and time the specified Call Analytics job finished processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:33:13.922000-07:00</code> represents a
-  /// transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-  final DateTime? completionTime;
-
-  /// The date and time the specified Call Analytics job request was made.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
-  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? creationTime;
-
-  /// The Amazon Resource Name (ARN) you included in your request.
-  final String? dataAccessRoleArn;
-
-  /// If <code>CallAnalyticsJobStatus</code> is <code>FAILED</code>,
-  /// <code>FailureReason</code> contains information about why the Call Analytics
-  /// job request failed.
-  ///
-  /// The <code>FailureReason</code> field contains one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Unsupported media format</code>.
-  ///
-  /// The media format specified in <code>MediaFormat</code> isn't valid. Refer to
-  /// refer to the <code>MediaFormat</code> parameter for a list of supported
-  /// formats.
-  /// </li>
-  /// <li>
-  /// <code>The media format provided does not match the detected media
-  /// format</code>.
-  ///
-  /// The media format specified in <code>MediaFormat</code> doesn't match the
-  /// format of the input file. Check the media format of your media file and
-  /// correct the specified value.
-  /// </li>
-  /// <li>
-  /// <code>Invalid sample rate for audio file</code>.
-  ///
-  /// The sample rate specified in <code>MediaSampleRateHertz</code> isn't valid.
-  /// The sample rate must be between 8,000 and 48,000 hertz.
-  /// </li>
-  /// <li>
-  /// <code>The sample rate provided does not match the detected sample
-  /// rate</code>.
-  ///
-  /// The sample rate specified in <code>MediaSampleRateHertz</code> doesn't match
-  /// the sample rate detected in your input media file. Check the sample rate of
-  /// your media file and correct the specified value.
-  /// </li>
-  /// <li>
-  /// <code>Invalid file size: file size too large</code>.
-  ///
-  /// The size of your media file is larger than what Amazon Transcribe can
-  /// process. For more information, refer to <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe">Service
-  /// quotas</a>.
-  /// </li>
-  /// <li>
-  /// <code>Invalid number of channels: number of channels too large</code>.
-  ///
-  /// Your audio contains more channels than Amazon Transcribe is able to process.
-  /// For more information, refer to <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe">Service
-  /// quotas</a>.
-  /// </li>
-  /// </ul>
-  final String? failureReason;
-
-  /// The confidence score associated with the language identified in your media
-  /// file.
-  ///
-  /// Confidence scores are values between 0 and 1; a larger value indicates a
-  /// higher probability that the identified language correctly matches the
-  /// language spoken in your media.
-  final double? identifiedLanguageScore;
-
-  /// The language code used to create your Call Analytics job. For a list of
-  /// supported languages and their associated language codes, refer to the <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
-  /// languages</a> table.
-  ///
-  /// If you do not know the language spoken in your media file, you can omit this
-  /// field and let Amazon Transcribe automatically identify the language of your
-  /// media. To improve the accuracy of language identification, you can include
-  /// several language codes and Amazon Transcribe chooses the closest match for
-  /// your transcription.
-  final LanguageCode? languageCode;
-
-  /// Provides the Amazon S3 location of the media file you used in your Call
-  /// Analytics request.
-  final Media? media;
-
-  /// The format of the input media file.
-  final MediaFormat? mediaFormat;
-
-  /// The sample rate, in hertz, of the audio track in your input media file.
-  final int? mediaSampleRateHertz;
-
-  /// Provides information on any additional settings that were included in your
-  /// request. Additional settings include content redaction and language
-  /// identification settings.
-  final CallAnalyticsJobSettings? settings;
-
-  /// The date and time the specified Call Analytics job began processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
-  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? startTime;
-  final Transcript? transcript;
-
-  CallAnalyticsJob({
-    this.callAnalyticsJobDetails,
-    this.callAnalyticsJobName,
-    this.callAnalyticsJobStatus,
-    this.channelDefinitions,
-    this.completionTime,
-    this.creationTime,
-    this.dataAccessRoleArn,
-    this.failureReason,
-    this.identifiedLanguageScore,
-    this.languageCode,
-    this.media,
-    this.mediaFormat,
-    this.mediaSampleRateHertz,
-    this.settings,
-    this.startTime,
-    this.transcript,
-  });
-
-  factory CallAnalyticsJob.fromJson(Map<String, dynamic> json) {
-    return CallAnalyticsJob(
-      callAnalyticsJobDetails: json['CallAnalyticsJobDetails'] != null
-          ? CallAnalyticsJobDetails.fromJson(
-              json['CallAnalyticsJobDetails'] as Map<String, dynamic>)
-          : null,
-      callAnalyticsJobName: json['CallAnalyticsJobName'] as String?,
-      callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
-          ?.let(CallAnalyticsJobStatus.fromString),
-      channelDefinitions: (json['ChannelDefinitions'] as List?)
-          ?.nonNulls
-          .map((e) => ChannelDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      completionTime: timeStampFromJson(json['CompletionTime']),
-      creationTime: timeStampFromJson(json['CreationTime']),
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
-      failureReason: json['FailureReason'] as String?,
-      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      media: json['Media'] != null
-          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
-          : null,
-      mediaFormat:
-          (json['MediaFormat'] as String?)?.let(MediaFormat.fromString),
-      mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
-      settings: json['Settings'] != null
-          ? CallAnalyticsJobSettings.fromJson(
-              json['Settings'] as Map<String, dynamic>)
-          : null,
-      startTime: timeStampFromJson(json['StartTime']),
-      transcript: json['Transcript'] != null
-          ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final callAnalyticsJobDetails = this.callAnalyticsJobDetails;
-    final callAnalyticsJobName = this.callAnalyticsJobName;
-    final callAnalyticsJobStatus = this.callAnalyticsJobStatus;
-    final channelDefinitions = this.channelDefinitions;
-    final completionTime = this.completionTime;
-    final creationTime = this.creationTime;
-    final dataAccessRoleArn = this.dataAccessRoleArn;
-    final failureReason = this.failureReason;
-    final identifiedLanguageScore = this.identifiedLanguageScore;
-    final languageCode = this.languageCode;
-    final media = this.media;
-    final mediaFormat = this.mediaFormat;
-    final mediaSampleRateHertz = this.mediaSampleRateHertz;
-    final settings = this.settings;
-    final startTime = this.startTime;
-    final transcript = this.transcript;
-    return {
-      if (callAnalyticsJobDetails != null)
-        'CallAnalyticsJobDetails': callAnalyticsJobDetails,
-      if (callAnalyticsJobName != null)
-        'CallAnalyticsJobName': callAnalyticsJobName,
-      if (callAnalyticsJobStatus != null)
-        'CallAnalyticsJobStatus': callAnalyticsJobStatus.value,
-      if (channelDefinitions != null) 'ChannelDefinitions': channelDefinitions,
-      if (completionTime != null)
-        'CompletionTime': unixTimestampToJson(completionTime),
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (identifiedLanguageScore != null)
-        'IdentifiedLanguageScore': identifiedLanguageScore,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (media != null) 'Media': media,
-      if (mediaFormat != null) 'MediaFormat': mediaFormat.value,
-      if (mediaSampleRateHertz != null)
-        'MediaSampleRateHertz': mediaSampleRateHertz,
-      if (settings != null) 'Settings': settings,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (transcript != null) 'Transcript': transcript,
-    };
-  }
-}
-
-/// Contains details about a call analytics job, including information about
-/// skipped analytics features.
-class CallAnalyticsJobDetails {
-  /// Contains information about any skipped analytics features during the
-  /// analysis of a call analytics job.
-  ///
-  /// This array lists all the analytics features that were skipped, along with
-  /// their corresponding reason code and message.
-  final List<CallAnalyticsSkippedFeature>? skipped;
-
-  CallAnalyticsJobDetails({
-    this.skipped,
-  });
-
-  factory CallAnalyticsJobDetails.fromJson(Map<String, dynamic> json) {
-    return CallAnalyticsJobDetails(
-      skipped: (json['Skipped'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CallAnalyticsSkippedFeature.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final skipped = this.skipped;
-    return {
-      if (skipped != null) 'Skipped': skipped,
-    };
-  }
-}
-
-/// Provides additional optional settings for your request, including content
-/// redaction, automatic language identification; allows you to apply custom
-/// language models, custom vocabulary filters, and custom vocabularies.
-class CallAnalyticsJobSettings {
-  final ContentRedaction? contentRedaction;
-
-  /// If using automatic language identification in your request and you want to
-  /// apply a custom language model, a custom vocabulary, or a custom vocabulary
-  /// filter, include <code>LanguageIdSettings</code> with the relevant
-  /// sub-parameters (<code>VocabularyName</code>, <code>LanguageModelName</code>,
-  /// and <code>VocabularyFilterName</code>).
-  ///
-  /// <code>LanguageIdSettings</code> supports two to five language codes. Each
-  /// language code you include can have an associated custom language model,
-  /// custom vocabulary, and custom vocabulary filter. The language codes that you
-  /// specify must match the languages of the associated custom language models,
-  /// custom vocabularies, and custom vocabulary filters.
-  ///
-  /// It's recommended that you include <code>LanguageOptions</code> when using
-  /// <code>LanguageIdSettings</code> to ensure that the correct language dialect
-  /// is identified. For example, if you specify a custom vocabulary that is in
-  /// <code>en-US</code> but Amazon Transcribe determines that the language spoken
-  /// in your media is <code>en-AU</code>, your custom vocabulary <i>is not</i>
-  /// applied to your transcription. If you include <code>LanguageOptions</code>
-  /// and include <code>en-US</code> as the only English language dialect, your
-  /// custom vocabulary <i>is</i> applied to your transcription.
-  ///
-  /// If you want to include a custom language model, custom vocabulary, or custom
-  /// vocabulary filter with your request but <b>do not</b> want to use automatic
-  /// language identification, use instead the <code/> parameter with the
-  /// <code>LanguageModelName</code>, <code>VocabularyName</code>, or
-  /// <code>VocabularyFilterName</code> sub-parameters.
-  ///
-  /// For a list of languages supported with Call Analytics, refer to <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
-  /// languages and language-specific features</a>.
-  final Map<LanguageCode, LanguageIdSettings>? languageIdSettings;
-
-  /// The name of the custom language model you want to use when processing your
-  /// Call Analytics job. Note that custom language model names are case
-  /// sensitive.
-  ///
-  /// The language of the specified custom language model must match the language
-  /// code that you specify in your transcription request. If the languages do not
-  /// match, the custom language model isn't applied. There are no errors or
-  /// warnings associated with a language mismatch.
-  final String? languageModelName;
-
-  /// You can specify two or more language codes that represent the languages you
-  /// think may be present in your media. Including more than five is not
-  /// recommended. If you're unsure what languages are present, do not include
-  /// this parameter.
-  ///
-  /// Including language options can improve the accuracy of language
-  /// identification.
-  ///
-  /// For a list of languages supported with Call Analytics, refer to the <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
-  /// languages</a> table.
-  ///
-  /// To transcribe speech in Modern Standard Arabic (<code>ar-SA</code>), your
-  /// media file must be encoded at a sample rate of 16,000 Hz or higher.
-  final List<LanguageCode>? languageOptions;
-
-  /// Contains <code>GenerateAbstractiveSummary</code>, which is a required
-  /// parameter if you want to enable Generative call summarization in your Call
-  /// Analytics request.
-  final Summarization? summarization;
-
-  /// Specify how you want your custom vocabulary filter applied to your
-  /// transcript.
-  ///
-  /// To replace words with <code>***</code>, choose <code>mask</code>.
-  ///
-  /// To delete words, choose <code>remove</code>.
-  ///
-  /// To flag words without changing them, choose <code>tag</code>.
-  final VocabularyFilterMethod? vocabularyFilterMethod;
-
-  /// The name of the custom vocabulary filter you want to include in your Call
-  /// Analytics transcription request. Custom vocabulary filter names are case
-  /// sensitive.
-  ///
-  /// Note that if you include <code>VocabularyFilterName</code> in your request,
-  /// you must also include <code>VocabularyFilterMethod</code>.
-  final String? vocabularyFilterName;
-
-  /// The name of the custom vocabulary you want to include in your Call Analytics
-  /// transcription request. Custom vocabulary names are case sensitive.
-  final String? vocabularyName;
-
-  CallAnalyticsJobSettings({
-    this.contentRedaction,
-    this.languageIdSettings,
-    this.languageModelName,
-    this.languageOptions,
-    this.summarization,
-    this.vocabularyFilterMethod,
-    this.vocabularyFilterName,
-    this.vocabularyName,
-  });
-
-  factory CallAnalyticsJobSettings.fromJson(Map<String, dynamic> json) {
-    return CallAnalyticsJobSettings(
-      contentRedaction: json['ContentRedaction'] != null
-          ? ContentRedaction.fromJson(
-              json['ContentRedaction'] as Map<String, dynamic>)
-          : null,
-      languageIdSettings: (json['LanguageIdSettings'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(LanguageCode.fromString(k),
-              LanguageIdSettings.fromJson(e as Map<String, dynamic>))),
-      languageModelName: json['LanguageModelName'] as String?,
-      languageOptions: (json['LanguageOptions'] as List?)
-          ?.nonNulls
-          .map((e) => LanguageCode.fromString((e as String)))
-          .toList(),
-      summarization: json['Summarization'] != null
-          ? Summarization.fromJson(
-              json['Summarization'] as Map<String, dynamic>)
-          : null,
-      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
-          ?.let(VocabularyFilterMethod.fromString),
-      vocabularyFilterName: json['VocabularyFilterName'] as String?,
-      vocabularyName: json['VocabularyName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentRedaction = this.contentRedaction;
-    final languageIdSettings = this.languageIdSettings;
-    final languageModelName = this.languageModelName;
-    final languageOptions = this.languageOptions;
-    final summarization = this.summarization;
-    final vocabularyFilterMethod = this.vocabularyFilterMethod;
-    final vocabularyFilterName = this.vocabularyFilterName;
-    final vocabularyName = this.vocabularyName;
-    return {
-      if (contentRedaction != null) 'ContentRedaction': contentRedaction,
-      if (languageIdSettings != null)
-        'LanguageIdSettings':
-            languageIdSettings.map((k, e) => MapEntry(k.value, e)),
-      if (languageModelName != null) 'LanguageModelName': languageModelName,
-      if (languageOptions != null)
-        'LanguageOptions': languageOptions.map((e) => e.value).toList(),
-      if (summarization != null) 'Summarization': summarization,
-      if (vocabularyFilterMethod != null)
-        'VocabularyFilterMethod': vocabularyFilterMethod.value,
-      if (vocabularyFilterName != null)
-        'VocabularyFilterName': vocabularyFilterName,
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
-    };
-  }
-}
-
-class CallAnalyticsJobStatus {
-  static const queued = CallAnalyticsJobStatus._('QUEUED');
-  static const inProgress = CallAnalyticsJobStatus._('IN_PROGRESS');
-  static const failed = CallAnalyticsJobStatus._('FAILED');
-  static const completed = CallAnalyticsJobStatus._('COMPLETED');
-
-  final String value;
-
-  const CallAnalyticsJobStatus._(this.value);
-
-  static const values = [queued, inProgress, failed, completed];
-
-  static CallAnalyticsJobStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CallAnalyticsJobStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CallAnalyticsJobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides detailed information about a specific Call Analytics job.
-class CallAnalyticsJobSummary {
-  /// Provides detailed information about a call analytics job, including
-  /// information about skipped analytics features.
-  final CallAnalyticsJobDetails? callAnalyticsJobDetails;
-
-  /// The name of the Call Analytics job. Job names are case sensitive and must be
-  /// unique within an Amazon Web Services account.
-  final String? callAnalyticsJobName;
-
-  /// Provides the status of your Call Analytics job.
-  ///
-  /// If the status is <code>COMPLETED</code>, the job is finished and you can
-  /// find the results at the location specified in <code>TranscriptFileUri</code>
-  /// (or <code>RedactedTranscriptFileUri</code>, if you requested transcript
-  /// redaction). If the status is <code>FAILED</code>, <code>FailureReason</code>
-  /// provides details on why your transcription job failed.
-  final CallAnalyticsJobStatus? callAnalyticsJobStatus;
-
-  /// The date and time the specified Call Analytics job finished processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:33:13.922000-07:00</code> represents a
-  /// transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-  final DateTime? completionTime;
-
-  /// The date and time the specified Call Analytics job request was made.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
-  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? creationTime;
-
-  /// If <code>CallAnalyticsJobStatus</code> is <code>FAILED</code>,
-  /// <code>FailureReason</code> contains information about why the Call Analytics
-  /// job failed. See also: <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
-  /// Errors</a>.
-  final String? failureReason;
-
-  /// The language code used to create your Call Analytics transcription.
-  final LanguageCode? languageCode;
-
-  /// The date and time your Call Analytics job began processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
-  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? startTime;
-
-  CallAnalyticsJobSummary({
-    this.callAnalyticsJobDetails,
-    this.callAnalyticsJobName,
-    this.callAnalyticsJobStatus,
-    this.completionTime,
-    this.creationTime,
-    this.failureReason,
-    this.languageCode,
-    this.startTime,
-  });
-
-  factory CallAnalyticsJobSummary.fromJson(Map<String, dynamic> json) {
-    return CallAnalyticsJobSummary(
-      callAnalyticsJobDetails: json['CallAnalyticsJobDetails'] != null
-          ? CallAnalyticsJobDetails.fromJson(
-              json['CallAnalyticsJobDetails'] as Map<String, dynamic>)
-          : null,
-      callAnalyticsJobName: json['CallAnalyticsJobName'] as String?,
-      callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
-          ?.let(CallAnalyticsJobStatus.fromString),
-      completionTime: timeStampFromJson(json['CompletionTime']),
-      creationTime: timeStampFromJson(json['CreationTime']),
-      failureReason: json['FailureReason'] as String?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      startTime: timeStampFromJson(json['StartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final callAnalyticsJobDetails = this.callAnalyticsJobDetails;
-    final callAnalyticsJobName = this.callAnalyticsJobName;
-    final callAnalyticsJobStatus = this.callAnalyticsJobStatus;
-    final completionTime = this.completionTime;
-    final creationTime = this.creationTime;
-    final failureReason = this.failureReason;
-    final languageCode = this.languageCode;
-    final startTime = this.startTime;
-    return {
-      if (callAnalyticsJobDetails != null)
-        'CallAnalyticsJobDetails': callAnalyticsJobDetails,
-      if (callAnalyticsJobName != null)
-        'CallAnalyticsJobName': callAnalyticsJobName,
-      if (callAnalyticsJobStatus != null)
-        'CallAnalyticsJobStatus': callAnalyticsJobStatus.value,
-      if (completionTime != null)
-        'CompletionTime': unixTimestampToJson(completionTime),
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
-/// Represents a skipped analytics feature during the analysis of a call
-/// analytics job.
-///
-/// The <code>Feature</code> field indicates the type of analytics feature that
-/// was skipped.
-///
-/// The <code>Message</code> field contains additional information or a message
-/// explaining why the analytics feature was skipped.
-///
-/// The <code>ReasonCode</code> field provides a code indicating the reason why
-/// the analytics feature was skipped.
-class CallAnalyticsSkippedFeature {
-  /// Indicates the type of analytics feature that was skipped during the analysis
-  /// of a call analytics job.
-  final CallAnalyticsFeature? feature;
-
-  /// Contains additional information or a message explaining why a specific
-  /// analytics feature was skipped during the analysis of a call analytics job.
-  final String? message;
-
-  /// Provides a code indicating the reason why a specific analytics feature was
-  /// skipped during the analysis of a call analytics job.
-  final CallAnalyticsSkippedReasonCode? reasonCode;
-
-  CallAnalyticsSkippedFeature({
-    this.feature,
-    this.message,
-    this.reasonCode,
-  });
-
-  factory CallAnalyticsSkippedFeature.fromJson(Map<String, dynamic> json) {
-    return CallAnalyticsSkippedFeature(
-      feature:
-          (json['Feature'] as String?)?.let(CallAnalyticsFeature.fromString),
-      message: json['Message'] as String?,
-      reasonCode: (json['ReasonCode'] as String?)
-          ?.let(CallAnalyticsSkippedReasonCode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final feature = this.feature;
-    final message = this.message;
-    final reasonCode = this.reasonCode;
-    return {
-      if (feature != null) 'Feature': feature.value,
-      if (message != null) 'Message': message,
-      if (reasonCode != null) 'ReasonCode': reasonCode.value,
-    };
-  }
-}
-
-class CallAnalyticsSkippedReasonCode {
-  static const insufficientConversationContent =
-      CallAnalyticsSkippedReasonCode._('INSUFFICIENT_CONVERSATION_CONTENT');
-  static const failedSafetyGuidelines =
-      CallAnalyticsSkippedReasonCode._('FAILED_SAFETY_GUIDELINES');
-
-  final String value;
-
-  const CallAnalyticsSkippedReasonCode._(this.value);
-
-  static const values = [
-    insufficientConversationContent,
-    failedSafetyGuidelines
-  ];
-
-  static CallAnalyticsSkippedReasonCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CallAnalyticsSkippedReasonCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CallAnalyticsSkippedReasonCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides you with the properties of the Call Analytics category you
-/// specified in your request. This includes the list of rules that define the
-/// specified category.
-class CategoryProperties {
-  /// The name of the Call Analytics category. Category names are case sensitive
-  /// and must be unique within an Amazon Web Services account.
-  final String? categoryName;
-
-  /// The date and time the specified Call Analytics category was created.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
-  /// PM UTC-7 on May 4, 2022.
-  final DateTime? createTime;
-
-  /// The input type associated with the specified category.
-  /// <code>POST_CALL</code> refers to a category that is applied to batch
-  /// transcriptions; <code>REAL_TIME</code> refers to a category that is applied
-  /// to streaming transcriptions.
-  final InputType? inputType;
-
-  /// The date and time the specified Call Analytics category was last updated.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-05T12:45:32.691000-07:00</code> represents 12:45
-  /// PM UTC-7 on May 5, 2022.
-  final DateTime? lastUpdateTime;
-
-  /// The rules used to define a Call Analytics category. Each category can have
-  /// between 1 and 20 rules.
-  final List<Rule>? rules;
-
-  CategoryProperties({
-    this.categoryName,
-    this.createTime,
-    this.inputType,
-    this.lastUpdateTime,
-    this.rules,
-  });
-
-  factory CategoryProperties.fromJson(Map<String, dynamic> json) {
-    return CategoryProperties(
-      categoryName: json['CategoryName'] as String?,
-      createTime: timeStampFromJson(json['CreateTime']),
-      inputType: (json['InputType'] as String?)?.let(InputType.fromString),
-      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-      rules: (json['Rules'] as List?)
-          ?.nonNulls
-          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final categoryName = this.categoryName;
-    final createTime = this.createTime;
-    final inputType = this.inputType;
-    final lastUpdateTime = this.lastUpdateTime;
-    final rules = this.rules;
-    return {
-      if (categoryName != null) 'CategoryName': categoryName,
-      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
-      if (inputType != null) 'InputType': inputType.value,
-      if (lastUpdateTime != null)
-        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-      if (rules != null) 'Rules': rules,
-    };
-  }
-}
-
-/// Makes it possible to specify which speaker is on which channel. For example,
-/// if your agent is the first participant to speak, you would set
-/// <code>ChannelId</code> to <code>0</code> (to indicate the first channel) and
-/// <code>ParticipantRole</code> to <code>AGENT</code> (to indicate that it's
-/// the agent speaking).
-class ChannelDefinition {
-  /// Specify the audio channel you want to define.
-  final int? channelId;
-
-  /// Specify the speaker you want to define. Omitting this parameter is
-  /// equivalent to specifying both participants.
-  final ParticipantRole? participantRole;
-
-  ChannelDefinition({
-    this.channelId,
-    this.participantRole,
-  });
-
-  factory ChannelDefinition.fromJson(Map<String, dynamic> json) {
-    return ChannelDefinition(
-      channelId: json['ChannelId'] as int?,
-      participantRole:
-          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelId = this.channelId;
-    final participantRole = this.participantRole;
-    return {
-      if (channelId != null) 'ChannelId': channelId,
-      if (participantRole != null) 'ParticipantRole': participantRole.value,
-    };
-  }
-}
-
-/// Makes it possible to redact or flag specified personally identifiable
-/// information (PII) in your transcript. If you use
-/// <code>ContentRedaction</code>, you must also include the sub-parameters:
-/// <code>RedactionOutput</code> and <code>RedactionType</code>. You can
-/// optionally include <code>PiiEntityTypes</code> to choose which types of PII
-/// you want to redact.
-class ContentRedaction {
-  /// Specify if you want only a redacted transcript, or if you want a redacted
-  /// and an unredacted transcript.
-  ///
-  /// When you choose <code>redacted</code> Amazon Transcribe creates only a
-  /// redacted transcript.
-  ///
-  /// When you choose <code>redacted_and_unredacted</code> Amazon Transcribe
-  /// creates a redacted and an unredacted transcript (as two separate files).
-  final RedactionOutput redactionOutput;
-
-  /// Specify the category of information you want to redact; <code>PII</code>
-  /// (personally identifiable information) is the only valid value. You can use
-  /// <code>PiiEntityTypes</code> to choose which types of PII you want to redact.
-  /// If you do not include <code>PiiEntityTypes</code> in your request, all PII
-  /// is redacted.
-  final RedactionType redactionType;
-
-  /// Specify which types of personally identifiable information (PII) you want to
-  /// redact in your transcript. You can include as many types as you'd like, or
-  /// you can select <code>ALL</code>. If you do not include
-  /// <code>PiiEntityTypes</code> in your request, all PII is redacted.
-  final List<PiiEntityType>? piiEntityTypes;
-
-  ContentRedaction({
-    required this.redactionOutput,
-    required this.redactionType,
-    this.piiEntityTypes,
-  });
-
-  factory ContentRedaction.fromJson(Map<String, dynamic> json) {
-    return ContentRedaction(
-      redactionOutput: RedactionOutput.fromString(
-          (json['RedactionOutput'] as String?) ?? ''),
-      redactionType:
-          RedactionType.fromString((json['RedactionType'] as String?) ?? ''),
-      piiEntityTypes: (json['PiiEntityTypes'] as List?)
-          ?.nonNulls
-          .map((e) => PiiEntityType.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final redactionOutput = this.redactionOutput;
-    final redactionType = this.redactionType;
-    final piiEntityTypes = this.piiEntityTypes;
-    return {
-      'RedactionOutput': redactionOutput.value,
-      'RedactionType': redactionType.value,
-      if (piiEntityTypes != null)
-        'PiiEntityTypes': piiEntityTypes.map((e) => e.value).toList(),
-    };
   }
 }
 
@@ -4528,49 +3493,6 @@ class CreateMedicalVocabularyResponse {
   }
 }
 
-class CreateVocabularyFilterResponse {
-  /// The language code you selected for your custom vocabulary filter.
-  final LanguageCode? languageCode;
-
-  /// The date and time you created your custom vocabulary filter.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
-  /// PM UTC-7 on May 4, 2022.
-  final DateTime? lastModifiedTime;
-
-  /// The name you chose for your custom vocabulary filter.
-  final String? vocabularyFilterName;
-
-  CreateVocabularyFilterResponse({
-    this.languageCode,
-    this.lastModifiedTime,
-    this.vocabularyFilterName,
-  });
-
-  factory CreateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
-    return CreateVocabularyFilterResponse(
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      vocabularyFilterName: json['VocabularyFilterName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final lastModifiedTime = this.lastModifiedTime;
-    final vocabularyFilterName = this.vocabularyFilterName;
-    return {
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (vocabularyFilterName != null)
-        'VocabularyFilterName': vocabularyFilterName,
-    };
-  }
-}
-
 class CreateVocabularyResponse {
   /// If <code>VocabularyState</code> is <code>FAILED</code>,
   /// <code>FailureReason</code> contains information about why the custom
@@ -4630,6 +3552,49 @@ class CreateVocabularyResponse {
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (vocabularyName != null) 'VocabularyName': vocabularyName,
       if (vocabularyState != null) 'VocabularyState': vocabularyState.value,
+    };
+  }
+}
+
+class CreateVocabularyFilterResponse {
+  /// The language code you selected for your custom vocabulary filter.
+  final LanguageCode? languageCode;
+
+  /// The date and time you created your custom vocabulary filter.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
+  /// PM UTC-7 on May 4, 2022.
+  final DateTime? lastModifiedTime;
+
+  /// The name you chose for your custom vocabulary filter.
+  final String? vocabularyFilterName;
+
+  CreateVocabularyFilterResponse({
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyFilterName,
+  });
+
+  factory CreateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVocabularyFilterResponse(
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final lastModifiedTime = this.lastModifiedTime;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
     };
   }
 }
@@ -4897,57 +3862,6 @@ class GetTranscriptionJobResponse {
   }
 }
 
-class GetVocabularyFilterResponse {
-  /// The Amazon S3 location where the custom vocabulary filter is stored; use
-  /// this URI to view or download the custom vocabulary filter.
-  final String? downloadUri;
-
-  /// The language code you selected for your custom vocabulary filter.
-  final LanguageCode? languageCode;
-
-  /// The date and time the specified custom vocabulary filter was last modified.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
-  /// PM UTC-7 on May 4, 2022.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the custom vocabulary filter you requested information about.
-  final String? vocabularyFilterName;
-
-  GetVocabularyFilterResponse({
-    this.downloadUri,
-    this.languageCode,
-    this.lastModifiedTime,
-    this.vocabularyFilterName,
-  });
-
-  factory GetVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
-    return GetVocabularyFilterResponse(
-      downloadUri: json['DownloadUri'] as String?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      vocabularyFilterName: json['VocabularyFilterName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final downloadUri = this.downloadUri;
-    final languageCode = this.languageCode;
-    final lastModifiedTime = this.lastModifiedTime;
-    final vocabularyFilterName = this.vocabularyFilterName;
-    return {
-      if (downloadUri != null) 'DownloadUri': downloadUri,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (vocabularyFilterName != null)
-        'VocabularyFilterName': vocabularyFilterName,
-    };
-  }
-}
-
 class GetVocabularyResponse {
   /// The Amazon S3 location where the custom vocabulary is stored; use this URI
   /// to view or download the custom vocabulary.
@@ -5019,737 +3933,53 @@ class GetVocabularyResponse {
   }
 }
 
-/// Contains the Amazon S3 location of the training data you want to use to
-/// create a new custom language model, and permissions to access this location.
-///
-/// When using <code>InputDataConfig</code>, you must include these
-/// sub-parameters: <code>S3Uri</code> and <code>DataAccessRoleArn</code>. You
-/// can optionally include <code>TuningDataS3Uri</code>.
-class InputDataConfig {
-  /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access
-  /// the Amazon S3 bucket that contains your input files. If the role that you
-  /// specify doesn’t have the appropriate permissions to access the specified
-  /// Amazon S3 location, your request fails.
-  ///
-  /// IAM role ARNs have the format
-  /// <code>arn:partition:iam::account:role/role-name-with-path</code>. For
-  /// example: <code>arn:aws:iam::111122223333:role/Admin</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns">IAM
-  /// ARNs</a>.
-  final String dataAccessRoleArn;
+class GetVocabularyFilterResponse {
+  /// The Amazon S3 location where the custom vocabulary filter is stored; use
+  /// this URI to view or download the custom vocabulary filter.
+  final String? downloadUri;
 
-  /// The Amazon S3 location (URI) of the text files you want to use to train your
-  /// custom language model.
-  ///
-  /// Here's an example URI path:
-  /// <code>s3://DOC-EXAMPLE-BUCKET/my-model-training-data/</code>
-  final String s3Uri;
-
-  /// The Amazon S3 location (URI) of the text files you want to use to tune your
-  /// custom language model.
-  ///
-  /// Here's an example URI path:
-  /// <code>s3://DOC-EXAMPLE-BUCKET/my-model-tuning-data/</code>
-  final String? tuningDataS3Uri;
-
-  InputDataConfig({
-    required this.dataAccessRoleArn,
-    required this.s3Uri,
-    this.tuningDataS3Uri,
-  });
-
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
-    return InputDataConfig(
-      dataAccessRoleArn: (json['DataAccessRoleArn'] as String?) ?? '',
-      s3Uri: (json['S3Uri'] as String?) ?? '',
-      tuningDataS3Uri: json['TuningDataS3Uri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataAccessRoleArn = this.dataAccessRoleArn;
-    final s3Uri = this.s3Uri;
-    final tuningDataS3Uri = this.tuningDataS3Uri;
-    return {
-      'DataAccessRoleArn': dataAccessRoleArn,
-      'S3Uri': s3Uri,
-      if (tuningDataS3Uri != null) 'TuningDataS3Uri': tuningDataS3Uri,
-    };
-  }
-}
-
-class InputType {
-  static const realTime = InputType._('REAL_TIME');
-  static const postCall = InputType._('POST_CALL');
-
-  final String value;
-
-  const InputType._(this.value);
-
-  static const values = [realTime, postCall];
-
-  static InputType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => InputType._(value));
-
-  @override
-  bool operator ==(other) => other is InputType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Flag the presence or absence of interruptions in your Call Analytics
-/// transcription output.
-///
-/// Rules using <code>InterruptionFilter</code> are designed to match:
-///
-/// <ul>
-/// <li>
-/// Instances where an agent interrupts a customer
-/// </li>
-/// <li>
-/// Instances where a customer interrupts an agent
-/// </li>
-/// <li>
-/// Either participant interrupting the other
-/// </li>
-/// <li>
-/// A lack of interruptions
-/// </li>
-/// </ul>
-/// See <a
-/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
-/// criteria for post-call categories</a> for usage examples.
-class InterruptionFilter {
-  /// Makes it possible to specify a time range (in milliseconds) in your audio,
-  /// during which you want to search for an interruption. See for more detail.
-  final AbsoluteTimeRange? absoluteTimeRange;
-
-  /// Set to <code>TRUE</code> to flag speech that does not contain interruptions.
-  /// Set to <code>FALSE</code> to flag speech that contains interruptions.
-  final bool? negate;
-
-  /// Specify the interrupter that you want to flag. Omitting this parameter is
-  /// equivalent to specifying both participants.
-  final ParticipantRole? participantRole;
-
-  /// Makes it possible to specify a time range (in percentage) in your media
-  /// file, during which you want to search for an interruption. See for more
-  /// detail.
-  final RelativeTimeRange? relativeTimeRange;
-
-  /// Specify the duration of the interruptions in milliseconds. For example, you
-  /// can flag speech that contains more than 10,000 milliseconds of
-  /// interruptions.
-  final int? threshold;
-
-  InterruptionFilter({
-    this.absoluteTimeRange,
-    this.negate,
-    this.participantRole,
-    this.relativeTimeRange,
-    this.threshold,
-  });
-
-  factory InterruptionFilter.fromJson(Map<String, dynamic> json) {
-    return InterruptionFilter(
-      absoluteTimeRange: json['AbsoluteTimeRange'] != null
-          ? AbsoluteTimeRange.fromJson(
-              json['AbsoluteTimeRange'] as Map<String, dynamic>)
-          : null,
-      negate: json['Negate'] as bool?,
-      participantRole:
-          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
-      relativeTimeRange: json['RelativeTimeRange'] != null
-          ? RelativeTimeRange.fromJson(
-              json['RelativeTimeRange'] as Map<String, dynamic>)
-          : null,
-      threshold: json['Threshold'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absoluteTimeRange = this.absoluteTimeRange;
-    final negate = this.negate;
-    final participantRole = this.participantRole;
-    final relativeTimeRange = this.relativeTimeRange;
-    final threshold = this.threshold;
-    return {
-      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
-      if (negate != null) 'Negate': negate,
-      if (participantRole != null) 'ParticipantRole': participantRole.value,
-      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
-      if (threshold != null) 'Threshold': threshold,
-    };
-  }
-}
-
-/// Makes it possible to control how your transcription job is processed.
-/// Currently, the only <code>JobExecutionSettings</code> modification you can
-/// choose is enabling job queueing using the
-/// <code>AllowDeferredExecution</code> sub-parameter.
-///
-/// If you include <code>JobExecutionSettings</code> in your request, you must
-/// also include the sub-parameters: <code>AllowDeferredExecution</code> and
-/// <code>DataAccessRoleArn</code>.
-class JobExecutionSettings {
-  /// Makes it possible to enable job queuing when your concurrent request limit
-  /// is exceeded. When <code>AllowDeferredExecution</code> is set to
-  /// <code>true</code>, transcription job requests are placed in a queue until
-  /// the number of jobs falls below the concurrent request limit. If
-  /// <code>AllowDeferredExecution</code> is set to <code>false</code> and the
-  /// number of transcription job requests exceed the concurrent request limit,
-  /// you get a <code>LimitExceededException</code> error.
-  ///
-  /// If you include <code>AllowDeferredExecution</code> in your request, you must
-  /// also include <code>DataAccessRoleArn</code>.
-  final bool? allowDeferredExecution;
-
-  /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access
-  /// the Amazon S3 bucket that contains your input files. If the role that you
-  /// specify doesn’t have the appropriate permissions to access the specified
-  /// Amazon S3 location, your request fails.
-  ///
-  /// IAM role ARNs have the format
-  /// <code>arn:partition:iam::account:role/role-name-with-path</code>. For
-  /// example: <code>arn:aws:iam::111122223333:role/Admin</code>. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns">IAM
-  /// ARNs</a>.
-  ///
-  /// Note that if you include <code>DataAccessRoleArn</code> in your request, you
-  /// must also include <code>AllowDeferredExecution</code>.
-  final String? dataAccessRoleArn;
-
-  JobExecutionSettings({
-    this.allowDeferredExecution,
-    this.dataAccessRoleArn,
-  });
-
-  factory JobExecutionSettings.fromJson(Map<String, dynamic> json) {
-    return JobExecutionSettings(
-      allowDeferredExecution: json['AllowDeferredExecution'] as bool?,
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowDeferredExecution = this.allowDeferredExecution;
-    final dataAccessRoleArn = this.dataAccessRoleArn;
-    return {
-      if (allowDeferredExecution != null)
-        'AllowDeferredExecution': allowDeferredExecution,
-      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
-    };
-  }
-}
-
-class LanguageCode {
-  static const afZa = LanguageCode._('af-ZA');
-  static const arAe = LanguageCode._('ar-AE');
-  static const arSa = LanguageCode._('ar-SA');
-  static const daDk = LanguageCode._('da-DK');
-  static const deCh = LanguageCode._('de-CH');
-  static const deDe = LanguageCode._('de-DE');
-  static const enAb = LanguageCode._('en-AB');
-  static const enAu = LanguageCode._('en-AU');
-  static const enGb = LanguageCode._('en-GB');
-  static const enIe = LanguageCode._('en-IE');
-  static const enIn = LanguageCode._('en-IN');
-  static const enUs = LanguageCode._('en-US');
-  static const enWl = LanguageCode._('en-WL');
-  static const esEs = LanguageCode._('es-ES');
-  static const esUs = LanguageCode._('es-US');
-  static const faIr = LanguageCode._('fa-IR');
-  static const frCa = LanguageCode._('fr-CA');
-  static const frFr = LanguageCode._('fr-FR');
-  static const heIl = LanguageCode._('he-IL');
-  static const hiIn = LanguageCode._('hi-IN');
-  static const idId = LanguageCode._('id-ID');
-  static const itIt = LanguageCode._('it-IT');
-  static const jaJp = LanguageCode._('ja-JP');
-  static const koKr = LanguageCode._('ko-KR');
-  static const msMy = LanguageCode._('ms-MY');
-  static const nlNl = LanguageCode._('nl-NL');
-  static const ptBr = LanguageCode._('pt-BR');
-  static const ptPt = LanguageCode._('pt-PT');
-  static const ruRu = LanguageCode._('ru-RU');
-  static const taIn = LanguageCode._('ta-IN');
-  static const teIn = LanguageCode._('te-IN');
-  static const trTr = LanguageCode._('tr-TR');
-  static const zhCn = LanguageCode._('zh-CN');
-  static const zhTw = LanguageCode._('zh-TW');
-  static const thTh = LanguageCode._('th-TH');
-  static const enZa = LanguageCode._('en-ZA');
-  static const enNz = LanguageCode._('en-NZ');
-  static const viVn = LanguageCode._('vi-VN');
-  static const svSe = LanguageCode._('sv-SE');
-  static const abGe = LanguageCode._('ab-GE');
-  static const astEs = LanguageCode._('ast-ES');
-  static const azAz = LanguageCode._('az-AZ');
-  static const baRu = LanguageCode._('ba-RU');
-  static const beBy = LanguageCode._('be-BY');
-  static const bgBg = LanguageCode._('bg-BG');
-  static const bnIn = LanguageCode._('bn-IN');
-  static const bsBa = LanguageCode._('bs-BA');
-  static const caEs = LanguageCode._('ca-ES');
-  static const ckbIq = LanguageCode._('ckb-IQ');
-  static const ckbIr = LanguageCode._('ckb-IR');
-  static const csCz = LanguageCode._('cs-CZ');
-  static const cyWl = LanguageCode._('cy-WL');
-  static const elGr = LanguageCode._('el-GR');
-  static const etEt = LanguageCode._('et-ET');
-  static const euEs = LanguageCode._('eu-ES');
-  static const fiFi = LanguageCode._('fi-FI');
-  static const glEs = LanguageCode._('gl-ES');
-  static const guIn = LanguageCode._('gu-IN');
-  static const haNg = LanguageCode._('ha-NG');
-  static const hrHr = LanguageCode._('hr-HR');
-  static const huHu = LanguageCode._('hu-HU');
-  static const hyAm = LanguageCode._('hy-AM');
-  static const isIs = LanguageCode._('is-IS');
-  static const kaGe = LanguageCode._('ka-GE');
-  static const kabDz = LanguageCode._('kab-DZ');
-  static const kkKz = LanguageCode._('kk-KZ');
-  static const knIn = LanguageCode._('kn-IN');
-  static const kyKg = LanguageCode._('ky-KG');
-  static const lgIn = LanguageCode._('lg-IN');
-  static const ltLt = LanguageCode._('lt-LT');
-  static const lvLv = LanguageCode._('lv-LV');
-  static const mhrRu = LanguageCode._('mhr-RU');
-  static const miNz = LanguageCode._('mi-NZ');
-  static const mkMk = LanguageCode._('mk-MK');
-  static const mlIn = LanguageCode._('ml-IN');
-  static const mnMn = LanguageCode._('mn-MN');
-  static const mrIn = LanguageCode._('mr-IN');
-  static const mtMt = LanguageCode._('mt-MT');
-  static const noNo = LanguageCode._('no-NO');
-  static const orIn = LanguageCode._('or-IN');
-  static const paIn = LanguageCode._('pa-IN');
-  static const plPl = LanguageCode._('pl-PL');
-  static const psAf = LanguageCode._('ps-AF');
-  static const roRo = LanguageCode._('ro-RO');
-  static const rwRw = LanguageCode._('rw-RW');
-  static const siLk = LanguageCode._('si-LK');
-  static const skSk = LanguageCode._('sk-SK');
-  static const slSi = LanguageCode._('sl-SI');
-  static const soSo = LanguageCode._('so-SO');
-  static const srRs = LanguageCode._('sr-RS');
-  static const suId = LanguageCode._('su-ID');
-  static const swBi = LanguageCode._('sw-BI');
-  static const swKe = LanguageCode._('sw-KE');
-  static const swRw = LanguageCode._('sw-RW');
-  static const swTz = LanguageCode._('sw-TZ');
-  static const swUg = LanguageCode._('sw-UG');
-  static const tlPh = LanguageCode._('tl-PH');
-  static const ttRu = LanguageCode._('tt-RU');
-  static const ugCn = LanguageCode._('ug-CN');
-  static const ukUa = LanguageCode._('uk-UA');
-  static const uzUz = LanguageCode._('uz-UZ');
-  static const woSn = LanguageCode._('wo-SN');
-  static const zuZa = LanguageCode._('zu-ZA');
-
-  final String value;
-
-  const LanguageCode._(this.value);
-
-  static const values = [
-    afZa,
-    arAe,
-    arSa,
-    daDk,
-    deCh,
-    deDe,
-    enAb,
-    enAu,
-    enGb,
-    enIe,
-    enIn,
-    enUs,
-    enWl,
-    esEs,
-    esUs,
-    faIr,
-    frCa,
-    frFr,
-    heIl,
-    hiIn,
-    idId,
-    itIt,
-    jaJp,
-    koKr,
-    msMy,
-    nlNl,
-    ptBr,
-    ptPt,
-    ruRu,
-    taIn,
-    teIn,
-    trTr,
-    zhCn,
-    zhTw,
-    thTh,
-    enZa,
-    enNz,
-    viVn,
-    svSe,
-    abGe,
-    astEs,
-    azAz,
-    baRu,
-    beBy,
-    bgBg,
-    bnIn,
-    bsBa,
-    caEs,
-    ckbIq,
-    ckbIr,
-    csCz,
-    cyWl,
-    elGr,
-    etEt,
-    euEs,
-    fiFi,
-    glEs,
-    guIn,
-    haNg,
-    hrHr,
-    huHu,
-    hyAm,
-    isIs,
-    kaGe,
-    kabDz,
-    kkKz,
-    knIn,
-    kyKg,
-    lgIn,
-    ltLt,
-    lvLv,
-    mhrRu,
-    miNz,
-    mkMk,
-    mlIn,
-    mnMn,
-    mrIn,
-    mtMt,
-    noNo,
-    orIn,
-    paIn,
-    plPl,
-    psAf,
-    roRo,
-    rwRw,
-    siLk,
-    skSk,
-    slSi,
-    soSo,
-    srRs,
-    suId,
-    swBi,
-    swKe,
-    swRw,
-    swTz,
-    swUg,
-    tlPh,
-    ttRu,
-    ugCn,
-    ukUa,
-    uzUz,
-    woSn,
-    zuZa
-  ];
-
-  static LanguageCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
-
-  @override
-  bool operator ==(other) => other is LanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information on the speech contained in a discreet utterance when
-/// multi-language identification is enabled in your request. This utterance
-/// represents a block of speech consisting of one language, preceded or
-/// followed by a block of speech in a different language.
-class LanguageCodeItem {
-  /// Provides the total time, in seconds, each identified language is spoken in
-  /// your media.
-  final double? durationInSeconds;
-
-  /// Provides the language code for each language identified in your media.
+  /// The language code you selected for your custom vocabulary filter.
   final LanguageCode? languageCode;
 
-  LanguageCodeItem({
-    this.durationInSeconds,
-    this.languageCode,
-  });
-
-  factory LanguageCodeItem.fromJson(Map<String, dynamic> json) {
-    return LanguageCodeItem(
-      durationInSeconds: json['DurationInSeconds'] as double?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
-    final languageCode = this.languageCode;
-    return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-    };
-  }
-}
-
-/// If using automatic language identification in your request and you want to
-/// apply a custom language model, a custom vocabulary, or a custom vocabulary
-/// filter, include <code>LanguageIdSettings</code> with the relevant
-/// sub-parameters (<code>VocabularyName</code>, <code>LanguageModelName</code>,
-/// and <code>VocabularyFilterName</code>). Note that multi-language
-/// identification (<code>IdentifyMultipleLanguages</code>) doesn't support
-/// custom language models.
-///
-/// <code>LanguageIdSettings</code> supports two to five language codes. Each
-/// language code you include can have an associated custom language model,
-/// custom vocabulary, and custom vocabulary filter. The language codes that you
-/// specify must match the languages of the associated custom language models,
-/// custom vocabularies, and custom vocabulary filters.
-///
-/// It's recommended that you include <code>LanguageOptions</code> when using
-/// <code>LanguageIdSettings</code> to ensure that the correct language dialect
-/// is identified. For example, if you specify a custom vocabulary that is in
-/// <code>en-US</code> but Amazon Transcribe determines that the language spoken
-/// in your media is <code>en-AU</code>, your custom vocabulary <i>is not</i>
-/// applied to your transcription. If you include <code>LanguageOptions</code>
-/// and include <code>en-US</code> as the only English language dialect, your
-/// custom vocabulary <i>is</i> applied to your transcription.
-///
-/// If you want to include a custom language model with your request but <b>do
-/// not</b> want to use automatic language identification, use instead the
-/// <code/> parameter with the <code>LanguageModelName</code> sub-parameter. If
-/// you want to include a custom vocabulary or a custom vocabulary filter (or
-/// both) with your request but <b>do not</b> want to use automatic language
-/// identification, use instead the <code/> parameter with the
-/// <code>VocabularyName</code> or <code>VocabularyFilterName</code> (or both)
-/// sub-parameter.
-class LanguageIdSettings {
-  /// The name of the custom language model you want to use when processing your
-  /// transcription job. Note that custom language model names are case sensitive.
-  ///
-  /// The language of the specified custom language model must match the language
-  /// code that you specify in your transcription request. If the languages do not
-  /// match, the custom language model isn't applied. There are no errors or
-  /// warnings associated with a language mismatch.
-  final String? languageModelName;
-
-  /// The name of the custom vocabulary filter you want to use when processing
-  /// your transcription job. Custom vocabulary filter names are case sensitive.
-  ///
-  /// The language of the specified custom vocabulary filter must match the
-  /// language code that you specify in your transcription request. If the
-  /// languages do not match, the custom vocabulary filter isn't applied. There
-  /// are no errors or warnings associated with a language mismatch.
-  ///
-  /// Note that if you include <code>VocabularyFilterName</code> in your request,
-  /// you must also include <code>VocabularyFilterMethod</code>.
-  final String? vocabularyFilterName;
-
-  /// The name of the custom vocabulary you want to use when processing your
-  /// transcription job. Custom vocabulary names are case sensitive.
-  ///
-  /// The language of the specified custom vocabulary must match the language code
-  /// that you specify in your transcription request. If the languages do not
-  /// match, the custom vocabulary isn't applied. There are no errors or warnings
-  /// associated with a language mismatch.
-  final String? vocabularyName;
-
-  LanguageIdSettings({
-    this.languageModelName,
-    this.vocabularyFilterName,
-    this.vocabularyName,
-  });
-
-  factory LanguageIdSettings.fromJson(Map<String, dynamic> json) {
-    return LanguageIdSettings(
-      languageModelName: json['LanguageModelName'] as String?,
-      vocabularyFilterName: json['VocabularyFilterName'] as String?,
-      vocabularyName: json['VocabularyName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final languageModelName = this.languageModelName;
-    final vocabularyFilterName = this.vocabularyFilterName;
-    final vocabularyName = this.vocabularyName;
-    return {
-      if (languageModelName != null) 'LanguageModelName': languageModelName,
-      if (vocabularyFilterName != null)
-        'VocabularyFilterName': vocabularyFilterName,
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
-    };
-  }
-}
-
-/// Provides information about a custom language model, including:
-///
-/// <ul>
-/// <li>
-/// The base model name
-/// </li>
-/// <li>
-/// When the model was created
-/// </li>
-/// <li>
-/// The location of the files used to train the model
-/// </li>
-/// <li>
-/// When the model was last modified
-/// </li>
-/// <li>
-/// The name you chose for the model
-/// </li>
-/// <li>
-/// The model's language
-/// </li>
-/// <li>
-/// The model's processing state
-/// </li>
-/// <li>
-/// Any available upgrades for the base model
-/// </li>
-/// </ul>
-class LanguageModel {
-  /// The Amazon Transcribe standard language model, or base model, used to create
-  /// your custom language model.
-  final BaseModelName? baseModelName;
-
-  /// The date and time the specified custom language model was created.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
-  /// PM UTC-7 on May 4, 2022.
-  final DateTime? createTime;
-
-  /// If <code>ModelStatus</code> is <code>FAILED</code>,
-  /// <code>FailureReason</code> contains information about why the custom
-  /// language model request failed. See also: <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
-  /// Errors</a>.
-  final String? failureReason;
-
-  /// The Amazon S3 location of the input files used to train and tune your custom
-  /// language model, in addition to the data access role ARN (Amazon Resource
-  /// Name) that has permissions to access these data.
-  final InputDataConfig? inputDataConfig;
-
-  /// The language code used to create your custom language model. Each custom
-  /// language model must contain terms in only one language, and the language you
-  /// select for your custom language model must match the language of your
-  /// training and tuning data.
-  ///
-  /// For a list of supported languages and their associated language codes, refer
-  /// to the <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
-  /// languages</a> table. Note that US English (<code>en-US</code>) is the only
-  /// language supported with Amazon Transcribe Medical.
-  final CLMLanguageCode? languageCode;
-
-  /// The date and time the specified custom language model was last modified.
+  /// The date and time the specified custom vocabulary filter was last modified.
   ///
   /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
   /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
   /// PM UTC-7 on May 4, 2022.
   final DateTime? lastModifiedTime;
 
-  /// A unique name, chosen by you, for your custom language model.
-  ///
-  /// This name is case sensitive, cannot contain spaces, and must be unique
-  /// within an Amazon Web Services account.
-  final String? modelName;
+  /// The name of the custom vocabulary filter you requested information about.
+  final String? vocabularyFilterName;
 
-  /// The status of the specified custom language model. When the status displays
-  /// as <code>COMPLETED</code> the model is ready for use.
-  final ModelStatus? modelStatus;
-
-  /// Shows if a more current base model is available for use with the specified
-  /// custom language model.
-  ///
-  /// If <code>false</code>, your custom language model is using the most
-  /// up-to-date base model.
-  ///
-  /// If <code>true</code>, there is a newer base model available than the one
-  /// your language model is using.
-  ///
-  /// Note that to update a base model, you must recreate the custom language
-  /// model using the new base model. Base model upgrades for existing custom
-  /// language models are not supported.
-  final bool? upgradeAvailability;
-
-  LanguageModel({
-    this.baseModelName,
-    this.createTime,
-    this.failureReason,
-    this.inputDataConfig,
+  GetVocabularyFilterResponse({
+    this.downloadUri,
     this.languageCode,
     this.lastModifiedTime,
-    this.modelName,
-    this.modelStatus,
-    this.upgradeAvailability,
+    this.vocabularyFilterName,
   });
 
-  factory LanguageModel.fromJson(Map<String, dynamic> json) {
-    return LanguageModel(
-      baseModelName:
-          (json['BaseModelName'] as String?)?.let(BaseModelName.fromString),
-      createTime: timeStampFromJson(json['CreateTime']),
-      failureReason: json['FailureReason'] as String?,
-      inputDataConfig: json['InputDataConfig'] != null
-          ? InputDataConfig.fromJson(
-              json['InputDataConfig'] as Map<String, dynamic>)
-          : null,
+  factory GetVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
+    return GetVocabularyFilterResponse(
+      downloadUri: json['DownloadUri'] as String?,
       languageCode:
-          (json['LanguageCode'] as String?)?.let(CLMLanguageCode.fromString),
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      modelName: json['ModelName'] as String?,
-      modelStatus:
-          (json['ModelStatus'] as String?)?.let(ModelStatus.fromString),
-      upgradeAvailability: json['UpgradeAvailability'] as bool?,
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final baseModelName = this.baseModelName;
-    final createTime = this.createTime;
-    final failureReason = this.failureReason;
-    final inputDataConfig = this.inputDataConfig;
+    final downloadUri = this.downloadUri;
     final languageCode = this.languageCode;
     final lastModifiedTime = this.lastModifiedTime;
-    final modelName = this.modelName;
-    final modelStatus = this.modelStatus;
-    final upgradeAvailability = this.upgradeAvailability;
+    final vocabularyFilterName = this.vocabularyFilterName;
     return {
-      if (baseModelName != null) 'BaseModelName': baseModelName.value,
-      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (downloadUri != null) 'DownloadUri': downloadUri,
       if (languageCode != null) 'LanguageCode': languageCode.value,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (modelName != null) 'ModelName': modelName,
-      if (modelStatus != null) 'ModelStatus': modelStatus.value,
-      if (upgradeAvailability != null)
-        'UpgradeAvailability': upgradeAvailability,
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
     };
   }
 }
@@ -6182,1885 +4412,6 @@ class ListVocabularyFiltersResponse {
   }
 }
 
-/// Describes the Amazon S3 location of the media file you want to use in your
-/// request.
-///
-/// For information on supported media formats, refer to the
-/// <code>MediaFormat</code> parameter or the <a
-/// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio">Media
-/// formats</a> section in the Amazon S3 Developer Guide.
-class Media {
-  /// The Amazon S3 location of the media file you want to transcribe. For
-  /// example:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>s3://DOC-EXAMPLE-BUCKET/my-media-file.flac</code>
-  /// </li>
-  /// <li>
-  /// <code>s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac</code>
-  /// </li>
-  /// </ul>
-  /// Note that the Amazon S3 bucket that contains your input media must be
-  /// located in the same Amazon Web Services Region where you're making your
-  /// transcription request.
-  final String? mediaFileUri;
-
-  /// The Amazon S3 location of the media file you want to redact. For example:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>s3://DOC-EXAMPLE-BUCKET/my-media-file.flac</code>
-  /// </li>
-  /// <li>
-  /// <code>s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac</code>
-  /// </li>
-  /// </ul>
-  /// Note that the Amazon S3 bucket that contains your input media must be
-  /// located in the same Amazon Web Services Region where you're making your
-  /// transcription request.
-  /// <important>
-  /// <code>RedactedMediaFileUri</code> produces a redacted audio file in addition
-  /// to a redacted transcript. It is only supported for Call Analytics
-  /// (<code>StartCallAnalyticsJob</code>) transcription requests.
-  /// </important>
-  final String? redactedMediaFileUri;
-
-  Media({
-    this.mediaFileUri,
-    this.redactedMediaFileUri,
-  });
-
-  factory Media.fromJson(Map<String, dynamic> json) {
-    return Media(
-      mediaFileUri: json['MediaFileUri'] as String?,
-      redactedMediaFileUri: json['RedactedMediaFileUri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mediaFileUri = this.mediaFileUri;
-    final redactedMediaFileUri = this.redactedMediaFileUri;
-    return {
-      if (mediaFileUri != null) 'MediaFileUri': mediaFileUri,
-      if (redactedMediaFileUri != null)
-        'RedactedMediaFileUri': redactedMediaFileUri,
-    };
-  }
-}
-
-class MediaFormat {
-  static const mp3 = MediaFormat._('mp3');
-  static const mp4 = MediaFormat._('mp4');
-  static const wav = MediaFormat._('wav');
-  static const flac = MediaFormat._('flac');
-  static const ogg = MediaFormat._('ogg');
-  static const amr = MediaFormat._('amr');
-  static const webm = MediaFormat._('webm');
-  static const m4a = MediaFormat._('m4a');
-
-  final String value;
-
-  const MediaFormat._(this.value);
-
-  static const values = [mp3, mp4, wav, flac, ogg, amr, webm, m4a];
-
-  static MediaFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MediaFormat._(value));
-
-  @override
-  bool operator ==(other) => other is MediaFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MedicalContentIdentificationType {
-  static const phi = MedicalContentIdentificationType._('PHI');
-
-  final String value;
-
-  const MedicalContentIdentificationType._(this.value);
-
-  static const values = [phi];
-
-  static MedicalContentIdentificationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MedicalContentIdentificationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MedicalContentIdentificationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Indicates which speaker is on which channel. The options are
-/// <code>CLINICIAN</code> and <code>PATIENT</code>
-class MedicalScribeChannelDefinition {
-  /// Specify the audio channel you want to define.
-  final int channelId;
-
-  /// Specify the participant that you want to flag. The options are
-  /// <code>CLINICIAN</code> and <code>PATIENT</code>
-  final MedicalScribeParticipantRole participantRole;
-
-  MedicalScribeChannelDefinition({
-    required this.channelId,
-    required this.participantRole,
-  });
-
-  factory MedicalScribeChannelDefinition.fromJson(Map<String, dynamic> json) {
-    return MedicalScribeChannelDefinition(
-      channelId: (json['ChannelId'] as int?) ?? 0,
-      participantRole: MedicalScribeParticipantRole.fromString(
-          (json['ParticipantRole'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelId = this.channelId;
-    final participantRole = this.participantRole;
-    return {
-      'ChannelId': channelId,
-      'ParticipantRole': participantRole.value,
-    };
-  }
-}
-
-/// Provides detailed information about a Medical Scribe job.
-///
-/// To view the status of the specified Medical Scribe job, check the
-/// <code>MedicalScribeJobStatus</code> field. If the status is
-/// <code>COMPLETED</code>, the job is finished and you can find the results at
-/// the locations specified in <code>MedicalScribeOutput</code>. If the status
-/// is <code>FAILED</code>, <code>FailureReason</code> provides details on why
-/// your Medical Scribe job failed.
-class MedicalScribeJob {
-  /// Makes it possible to specify which speaker is on which channel. For example,
-  /// if the clinician is the first participant to speak, you would set
-  /// <code>ChannelId</code> of the first <code>ChannelDefinition</code> in the
-  /// list to <code>0</code> (to indicate the first channel) and
-  /// <code>ParticipantRole</code> to <code>CLINICIAN</code> (to indicate that
-  /// it's the clinician speaking). Then you would set the <code>ChannelId</code>
-  /// of the second <code>ChannelDefinition</code> in the list to <code>1</code>
-  /// (to indicate the second channel) and <code>ParticipantRole</code> to
-  /// <code>PATIENT</code> (to indicate that it's the patient speaking).
-  final List<MedicalScribeChannelDefinition>? channelDefinitions;
-
-  /// The date and time the specified Medical Scribe job finished processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
-  /// Medical Scribe job that finished processing at 12:32 PM UTC-7 on May 4,
-  /// 2022.
-  final DateTime? completionTime;
-
-  /// The date and time the specified Medical Scribe job request was made.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
-  /// Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? creationTime;
-
-  /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access
-  /// the Amazon S3 bucket that contains your input files, write to the output
-  /// bucket, and use your KMS key if supplied. If the role that you specify
-  /// doesn’t have the appropriate permissions your request fails.
-  ///
-  /// IAM role ARNs have the format
-  /// <code>arn:partition:iam::account:role/role-name-with-path</code>. For
-  /// example: <code>arn:aws:iam::111122223333:role/Admin</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns">IAM
-  /// ARNs</a>.
-  final String? dataAccessRoleArn;
-
-  /// If <code>MedicalScribeJobStatus</code> is <code>FAILED</code>,
-  /// <code>FailureReason</code> contains information about why the transcription
-  /// job failed. See also: <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
-  /// Errors</a>.
-  final String? failureReason;
-
-  /// The language code used to create your Medical Scribe job. US English
-  /// (<code>en-US</code>) is the only supported language for Medical Scribe jobs.
-  final MedicalScribeLanguageCode? languageCode;
-  final Media? media;
-
-  /// The name of the Medical Scribe job. Job names are case sensitive and must be
-  /// unique within an Amazon Web Services account.
-  final String? medicalScribeJobName;
-
-  /// Provides the status of the specified Medical Scribe job.
-  ///
-  /// If the status is <code>COMPLETED</code>, the job is finished and you can
-  /// find the results at the location specified in
-  /// <code>MedicalScribeOutput</code> If the status is <code>FAILED</code>,
-  /// <code>FailureReason</code> provides details on why your Medical Scribe job
-  /// failed.
-  final MedicalScribeJobStatus? medicalScribeJobStatus;
-
-  /// The location of the output of your Medical Scribe job.
-  /// <code>ClinicalDocumentUri</code> holds the Amazon S3 URI for the Clinical
-  /// Document and <code>TranscriptFileUri</code> holds the Amazon S3 URI for the
-  /// Transcript.
-  final MedicalScribeOutput? medicalScribeOutput;
-
-  /// Makes it possible to control how your Medical Scribe job is processed using
-  /// a <code>MedicalScribeSettings</code> object. Specify
-  /// <code>ChannelIdentification</code> if <code>ChannelDefinitions</code> are
-  /// set. Enabled <code>ShowSpeakerLabels</code> if
-  /// <code>ChannelIdentification</code> and <code>ChannelDefinitions</code> are
-  /// not set. One and only one of <code>ChannelIdentification</code> and
-  /// <code>ShowSpeakerLabels</code> must be set. If
-  /// <code>ShowSpeakerLabels</code> is set, <code>MaxSpeakerLabels</code> must
-  /// also be set. Use <code>Settings</code> to specify a vocabulary or vocabulary
-  /// filter or both using <code>VocabularyName</code>,
-  /// <code>VocabularyFilterName</code>. <code>VocabularyFilterMethod</code> must
-  /// be specified if <code>VocabularyFilterName</code> is set.
-  final MedicalScribeSettings? settings;
-
-  /// The date and time your Medical Scribe job began processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
-  /// Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? startTime;
-
-  /// Adds one or more custom tags, each in the form of a key:value pair, to the
-  /// Medica Scribe job.
-  ///
-  /// To learn more about using tags with Amazon Transcribe, refer to <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html">Tagging
-  /// resources</a>.
-  final List<Tag>? tags;
-
-  MedicalScribeJob({
-    this.channelDefinitions,
-    this.completionTime,
-    this.creationTime,
-    this.dataAccessRoleArn,
-    this.failureReason,
-    this.languageCode,
-    this.media,
-    this.medicalScribeJobName,
-    this.medicalScribeJobStatus,
-    this.medicalScribeOutput,
-    this.settings,
-    this.startTime,
-    this.tags,
-  });
-
-  factory MedicalScribeJob.fromJson(Map<String, dynamic> json) {
-    return MedicalScribeJob(
-      channelDefinitions: (json['ChannelDefinitions'] as List?)
-          ?.nonNulls
-          .map((e) => MedicalScribeChannelDefinition.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      completionTime: timeStampFromJson(json['CompletionTime']),
-      creationTime: timeStampFromJson(json['CreationTime']),
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
-      failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)
-          ?.let(MedicalScribeLanguageCode.fromString),
-      media: json['Media'] != null
-          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
-          : null,
-      medicalScribeJobName: json['MedicalScribeJobName'] as String?,
-      medicalScribeJobStatus: (json['MedicalScribeJobStatus'] as String?)
-          ?.let(MedicalScribeJobStatus.fromString),
-      medicalScribeOutput: json['MedicalScribeOutput'] != null
-          ? MedicalScribeOutput.fromJson(
-              json['MedicalScribeOutput'] as Map<String, dynamic>)
-          : null,
-      settings: json['Settings'] != null
-          ? MedicalScribeSettings.fromJson(
-              json['Settings'] as Map<String, dynamic>)
-          : null,
-      startTime: timeStampFromJson(json['StartTime']),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelDefinitions = this.channelDefinitions;
-    final completionTime = this.completionTime;
-    final creationTime = this.creationTime;
-    final dataAccessRoleArn = this.dataAccessRoleArn;
-    final failureReason = this.failureReason;
-    final languageCode = this.languageCode;
-    final media = this.media;
-    final medicalScribeJobName = this.medicalScribeJobName;
-    final medicalScribeJobStatus = this.medicalScribeJobStatus;
-    final medicalScribeOutput = this.medicalScribeOutput;
-    final settings = this.settings;
-    final startTime = this.startTime;
-    final tags = this.tags;
-    return {
-      if (channelDefinitions != null) 'ChannelDefinitions': channelDefinitions,
-      if (completionTime != null)
-        'CompletionTime': unixTimestampToJson(completionTime),
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (media != null) 'Media': media,
-      if (medicalScribeJobName != null)
-        'MedicalScribeJobName': medicalScribeJobName,
-      if (medicalScribeJobStatus != null)
-        'MedicalScribeJobStatus': medicalScribeJobStatus.value,
-      if (medicalScribeOutput != null)
-        'MedicalScribeOutput': medicalScribeOutput,
-      if (settings != null) 'Settings': settings,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class MedicalScribeJobStatus {
-  static const queued = MedicalScribeJobStatus._('QUEUED');
-  static const inProgress = MedicalScribeJobStatus._('IN_PROGRESS');
-  static const failed = MedicalScribeJobStatus._('FAILED');
-  static const completed = MedicalScribeJobStatus._('COMPLETED');
-
-  final String value;
-
-  const MedicalScribeJobStatus._(this.value);
-
-  static const values = [queued, inProgress, failed, completed];
-
-  static MedicalScribeJobStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MedicalScribeJobStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MedicalScribeJobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides detailed information about a specific Medical Scribe job.
-class MedicalScribeJobSummary {
-  /// The date and time the specified Medical Scribe job finished processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
-  /// Medical Scribe job that finished processing at 12:32 PM UTC-7 on May 4,
-  /// 2022.
-  final DateTime? completionTime;
-
-  /// The date and time the specified Medical Scribe job request was made.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
-  /// Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? creationTime;
-
-  /// If <code>MedicalScribeJobStatus</code> is <code>FAILED</code>,
-  /// <code>FailureReason</code> contains information about why the transcription
-  /// job failed. See also: <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
-  /// Errors</a>.
-  final String? failureReason;
-
-  /// The language code used to create your Medical Scribe job. US English
-  /// (<code>en-US</code>) is the only supported language for Medical Scribe jobs.
-  final MedicalScribeLanguageCode? languageCode;
-
-  /// The name of the Medical Scribe job. Job names are case sensitive and must be
-  /// unique within an Amazon Web Services account.
-  final String? medicalScribeJobName;
-
-  /// Provides the status of the specified Medical Scribe job.
-  ///
-  /// If the status is <code>COMPLETED</code>, the job is finished and you can
-  /// find the results at the location specified in
-  /// <code>MedicalScribeOutput</code> If the status is <code>FAILED</code>,
-  /// <code>FailureReason</code> provides details on why your Medical Scribe job
-  /// failed.
-  final MedicalScribeJobStatus? medicalScribeJobStatus;
-
-  /// The date and time your Medical Scribe job began processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
-  /// Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? startTime;
-
-  MedicalScribeJobSummary({
-    this.completionTime,
-    this.creationTime,
-    this.failureReason,
-    this.languageCode,
-    this.medicalScribeJobName,
-    this.medicalScribeJobStatus,
-    this.startTime,
-  });
-
-  factory MedicalScribeJobSummary.fromJson(Map<String, dynamic> json) {
-    return MedicalScribeJobSummary(
-      completionTime: timeStampFromJson(json['CompletionTime']),
-      creationTime: timeStampFromJson(json['CreationTime']),
-      failureReason: json['FailureReason'] as String?,
-      languageCode: (json['LanguageCode'] as String?)
-          ?.let(MedicalScribeLanguageCode.fromString),
-      medicalScribeJobName: json['MedicalScribeJobName'] as String?,
-      medicalScribeJobStatus: (json['MedicalScribeJobStatus'] as String?)
-          ?.let(MedicalScribeJobStatus.fromString),
-      startTime: timeStampFromJson(json['StartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final completionTime = this.completionTime;
-    final creationTime = this.creationTime;
-    final failureReason = this.failureReason;
-    final languageCode = this.languageCode;
-    final medicalScribeJobName = this.medicalScribeJobName;
-    final medicalScribeJobStatus = this.medicalScribeJobStatus;
-    final startTime = this.startTime;
-    return {
-      if (completionTime != null)
-        'CompletionTime': unixTimestampToJson(completionTime),
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (medicalScribeJobName != null)
-        'MedicalScribeJobName': medicalScribeJobName,
-      if (medicalScribeJobStatus != null)
-        'MedicalScribeJobStatus': medicalScribeJobStatus.value,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
-class MedicalScribeLanguageCode {
-  static const enUs = MedicalScribeLanguageCode._('en-US');
-
-  final String value;
-
-  const MedicalScribeLanguageCode._(this.value);
-
-  static const values = [enUs];
-
-  static MedicalScribeLanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MedicalScribeLanguageCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MedicalScribeLanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The location of the output of your Medical Scribe job.
-/// <code>ClinicalDocumentUri</code> holds the Amazon S3 URI for the Clinical
-/// Document and <code>TranscriptFileUri</code> holds the Amazon S3 URI for the
-/// Transcript.
-class MedicalScribeOutput {
-  /// Holds the Amazon S3 URI for the Clinical Document.
-  final String clinicalDocumentUri;
-
-  /// Holds the Amazon S3 URI for the Transcript.
-  final String transcriptFileUri;
-
-  MedicalScribeOutput({
-    required this.clinicalDocumentUri,
-    required this.transcriptFileUri,
-  });
-
-  factory MedicalScribeOutput.fromJson(Map<String, dynamic> json) {
-    return MedicalScribeOutput(
-      clinicalDocumentUri: (json['ClinicalDocumentUri'] as String?) ?? '',
-      transcriptFileUri: (json['TranscriptFileUri'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clinicalDocumentUri = this.clinicalDocumentUri;
-    final transcriptFileUri = this.transcriptFileUri;
-    return {
-      'ClinicalDocumentUri': clinicalDocumentUri,
-      'TranscriptFileUri': transcriptFileUri,
-    };
-  }
-}
-
-class MedicalScribeParticipantRole {
-  static const patient = MedicalScribeParticipantRole._('PATIENT');
-  static const clinician = MedicalScribeParticipantRole._('CLINICIAN');
-
-  final String value;
-
-  const MedicalScribeParticipantRole._(this.value);
-
-  static const values = [patient, clinician];
-
-  static MedicalScribeParticipantRole fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MedicalScribeParticipantRole._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MedicalScribeParticipantRole && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Makes it possible to control how your Medical Scribe job is processed using
-/// a <code>MedicalScribeSettings</code> object. Specify
-/// <code>ChannelIdentification</code> if <code>ChannelDefinitions</code> are
-/// set. Enabled <code>ShowSpeakerLabels</code> if
-/// <code>ChannelIdentification</code> and <code>ChannelDefinitions</code> are
-/// not set. One and only one of <code>ChannelIdentification</code> and
-/// <code>ShowSpeakerLabels</code> must be set. If
-/// <code>ShowSpeakerLabels</code> is set, <code>MaxSpeakerLabels</code> must
-/// also be set. Use <code>Settings</code> to specify a vocabulary or vocabulary
-/// filter or both using <code>VocabularyName</code>,
-/// <code>VocabularyFilterName</code>. <code>VocabularyFilterMethod</code> must
-/// be specified if <code>VocabularyFilterName</code> is set.
-class MedicalScribeSettings {
-  /// Enables channel identification in multi-channel audio.
-  ///
-  /// Channel identification transcribes the audio on each channel independently,
-  /// then appends the output for each channel into one transcript.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html">Transcribing
-  /// multi-channel audio</a>.
-  final bool? channelIdentification;
-
-  /// Specify the maximum number of speakers you want to partition in your media.
-  ///
-  /// Note that if your media contains more speakers than the specified number,
-  /// multiple speakers are treated as a single speaker.
-  ///
-  /// If you specify the <code>MaxSpeakerLabels</code> field, you must set the
-  /// <code>ShowSpeakerLabels</code> field to true.
-  final int? maxSpeakerLabels;
-
-  /// Enables speaker partitioning (diarization) in your Medical Scribe output.
-  /// Speaker partitioning labels the speech from individual speakers in your
-  /// media file.
-  ///
-  /// If you enable <code>ShowSpeakerLabels</code> in your request, you must also
-  /// include <code>MaxSpeakerLabels</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html">Partitioning
-  /// speakers (diarization)</a>.
-  final bool? showSpeakerLabels;
-
-  /// Specify how you want your custom vocabulary filter applied to your
-  /// transcript.
-  ///
-  /// To replace words with <code>***</code>, choose <code>mask</code>.
-  ///
-  /// To delete words, choose <code>remove</code>.
-  ///
-  /// To flag words without changing them, choose <code>tag</code>.
-  final VocabularyFilterMethod? vocabularyFilterMethod;
-
-  /// The name of the custom vocabulary filter you want to include in your Medical
-  /// Scribe request. Custom vocabulary filter names are case sensitive.
-  ///
-  /// Note that if you include <code>VocabularyFilterName</code> in your request,
-  /// you must also include <code>VocabularyFilterMethod</code>.
-  final String? vocabularyFilterName;
-
-  /// The name of the custom vocabulary you want to include in your Medical Scribe
-  /// request. Custom vocabulary names are case sensitive.
-  final String? vocabularyName;
-
-  MedicalScribeSettings({
-    this.channelIdentification,
-    this.maxSpeakerLabels,
-    this.showSpeakerLabels,
-    this.vocabularyFilterMethod,
-    this.vocabularyFilterName,
-    this.vocabularyName,
-  });
-
-  factory MedicalScribeSettings.fromJson(Map<String, dynamic> json) {
-    return MedicalScribeSettings(
-      channelIdentification: json['ChannelIdentification'] as bool?,
-      maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
-      showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
-      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
-          ?.let(VocabularyFilterMethod.fromString),
-      vocabularyFilterName: json['VocabularyFilterName'] as String?,
-      vocabularyName: json['VocabularyName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelIdentification = this.channelIdentification;
-    final maxSpeakerLabels = this.maxSpeakerLabels;
-    final showSpeakerLabels = this.showSpeakerLabels;
-    final vocabularyFilterMethod = this.vocabularyFilterMethod;
-    final vocabularyFilterName = this.vocabularyFilterName;
-    final vocabularyName = this.vocabularyName;
-    return {
-      if (channelIdentification != null)
-        'ChannelIdentification': channelIdentification,
-      if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
-      if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
-      if (vocabularyFilterMethod != null)
-        'VocabularyFilterMethod': vocabularyFilterMethod.value,
-      if (vocabularyFilterName != null)
-        'VocabularyFilterName': vocabularyFilterName,
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
-    };
-  }
-}
-
-/// Provides you with the Amazon S3 URI you can use to access your transcript.
-class MedicalTranscript {
-  /// The Amazon S3 location of your transcript. You can use this URI to access or
-  /// download your transcript.
-  ///
-  /// Note that this is the Amazon S3 location you specified in your request using
-  /// the <code>OutputBucketName</code> parameter.
-  final String? transcriptFileUri;
-
-  MedicalTranscript({
-    this.transcriptFileUri,
-  });
-
-  factory MedicalTranscript.fromJson(Map<String, dynamic> json) {
-    return MedicalTranscript(
-      transcriptFileUri: json['TranscriptFileUri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final transcriptFileUri = this.transcriptFileUri;
-    return {
-      if (transcriptFileUri != null) 'TranscriptFileUri': transcriptFileUri,
-    };
-  }
-}
-
-/// Provides detailed information about a medical transcription job.
-///
-/// To view the status of the specified medical transcription job, check the
-/// <code>TranscriptionJobStatus</code> field. If the status is
-/// <code>COMPLETED</code>, the job is finished and you can find the results at
-/// the location specified in <code>TranscriptFileUri</code>. If the status is
-/// <code>FAILED</code>, <code>FailureReason</code> provides details on why your
-/// transcription job failed.
-class MedicalTranscriptionJob {
-  /// The date and time the specified medical transcription job finished
-  /// processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:33:13.922000-07:00</code> represents a
-  /// transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-  final DateTime? completionTime;
-
-  /// Indicates whether content identification was enabled for your transcription
-  /// request.
-  final MedicalContentIdentificationType? contentIdentificationType;
-
-  /// The date and time the specified medical transcription job request was made.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
-  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? creationTime;
-
-  /// If <code>TranscriptionJobStatus</code> is <code>FAILED</code>,
-  /// <code>FailureReason</code> contains information about why the transcription
-  /// job request failed.
-  ///
-  /// The <code>FailureReason</code> field contains one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Unsupported media format</code>.
-  ///
-  /// The media format specified in <code>MediaFormat</code> isn't valid. Refer to
-  /// refer to the <code>MediaFormat</code> parameter for a list of supported
-  /// formats.
-  /// </li>
-  /// <li>
-  /// <code>The media format provided does not match the detected media
-  /// format</code>.
-  ///
-  /// The media format specified in <code>MediaFormat</code> doesn't match the
-  /// format of the input file. Check the media format of your media file and
-  /// correct the specified value.
-  /// </li>
-  /// <li>
-  /// <code>Invalid sample rate for audio file</code>.
-  ///
-  /// The sample rate specified in <code>MediaSampleRateHertz</code> isn't valid.
-  /// The sample rate must be between 16,000 and 48,000 hertz.
-  /// </li>
-  /// <li>
-  /// <code>The sample rate provided does not match the detected sample
-  /// rate</code>.
-  ///
-  /// The sample rate specified in <code>MediaSampleRateHertz</code> doesn't match
-  /// the sample rate detected in your input media file. Check the sample rate of
-  /// your media file and correct the specified value.
-  /// </li>
-  /// <li>
-  /// <code>Invalid file size: file size too large</code>.
-  ///
-  /// The size of your media file is larger than what Amazon Transcribe can
-  /// process. For more information, refer to <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe">Service
-  /// quotas</a>.
-  /// </li>
-  /// <li>
-  /// <code>Invalid number of channels: number of channels too large</code>.
-  ///
-  /// Your audio contains more channels than Amazon Transcribe is able to process.
-  /// For more information, refer to <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe">Service
-  /// quotas</a>.
-  /// </li>
-  /// </ul>
-  final String? failureReason;
-
-  /// The language code used to create your medical transcription job. US English
-  /// (<code>en-US</code>) is the only supported language for medical
-  /// transcriptions.
-  final LanguageCode? languageCode;
-  final Media? media;
-
-  /// The format of the input media file.
-  final MediaFormat? mediaFormat;
-
-  /// The sample rate, in hertz, of the audio track in your input media file.
-  final int? mediaSampleRateHertz;
-
-  /// The name of the medical transcription job. Job names are case sensitive and
-  /// must be unique within an Amazon Web Services account.
-  final String? medicalTranscriptionJobName;
-
-  /// Provides information on any additional settings that were included in your
-  /// request. Additional settings include channel identification, alternative
-  /// transcriptions, speaker partitioning, custom vocabularies, and custom
-  /// vocabulary filters.
-  final MedicalTranscriptionSetting? settings;
-
-  /// Describes the medical specialty represented in your media.
-  final Specialty? specialty;
-
-  /// The date and time the specified medical transcription job began processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
-  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? startTime;
-
-  /// The tags, each in the form of a key:value pair, assigned to the specified
-  /// medical transcription job.
-  final List<Tag>? tags;
-
-  /// Provides you with the Amazon S3 URI you can use to access your transcript.
-  final MedicalTranscript? transcript;
-
-  /// Provides the status of the specified medical transcription job.
-  ///
-  /// If the status is <code>COMPLETED</code>, the job is finished and you can
-  /// find the results at the location specified in
-  /// <code>TranscriptFileUri</code>. If the status is <code>FAILED</code>,
-  /// <code>FailureReason</code> provides details on why your transcription job
-  /// failed.
-  final TranscriptionJobStatus? transcriptionJobStatus;
-
-  /// Indicates whether the input media is a dictation or a conversation, as
-  /// specified in the <code>StartMedicalTranscriptionJob</code> request.
-  final Type? type;
-
-  MedicalTranscriptionJob({
-    this.completionTime,
-    this.contentIdentificationType,
-    this.creationTime,
-    this.failureReason,
-    this.languageCode,
-    this.media,
-    this.mediaFormat,
-    this.mediaSampleRateHertz,
-    this.medicalTranscriptionJobName,
-    this.settings,
-    this.specialty,
-    this.startTime,
-    this.tags,
-    this.transcript,
-    this.transcriptionJobStatus,
-    this.type,
-  });
-
-  factory MedicalTranscriptionJob.fromJson(Map<String, dynamic> json) {
-    return MedicalTranscriptionJob(
-      completionTime: timeStampFromJson(json['CompletionTime']),
-      contentIdentificationType: (json['ContentIdentificationType'] as String?)
-          ?.let(MedicalContentIdentificationType.fromString),
-      creationTime: timeStampFromJson(json['CreationTime']),
-      failureReason: json['FailureReason'] as String?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      media: json['Media'] != null
-          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
-          : null,
-      mediaFormat:
-          (json['MediaFormat'] as String?)?.let(MediaFormat.fromString),
-      mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
-      medicalTranscriptionJobName:
-          json['MedicalTranscriptionJobName'] as String?,
-      settings: json['Settings'] != null
-          ? MedicalTranscriptionSetting.fromJson(
-              json['Settings'] as Map<String, dynamic>)
-          : null,
-      specialty: (json['Specialty'] as String?)?.let(Specialty.fromString),
-      startTime: timeStampFromJson(json['StartTime']),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      transcript: json['Transcript'] != null
-          ? MedicalTranscript.fromJson(
-              json['Transcript'] as Map<String, dynamic>)
-          : null,
-      transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
-          ?.let(TranscriptionJobStatus.fromString),
-      type: (json['Type'] as String?)?.let(Type.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final completionTime = this.completionTime;
-    final contentIdentificationType = this.contentIdentificationType;
-    final creationTime = this.creationTime;
-    final failureReason = this.failureReason;
-    final languageCode = this.languageCode;
-    final media = this.media;
-    final mediaFormat = this.mediaFormat;
-    final mediaSampleRateHertz = this.mediaSampleRateHertz;
-    final medicalTranscriptionJobName = this.medicalTranscriptionJobName;
-    final settings = this.settings;
-    final specialty = this.specialty;
-    final startTime = this.startTime;
-    final tags = this.tags;
-    final transcript = this.transcript;
-    final transcriptionJobStatus = this.transcriptionJobStatus;
-    final type = this.type;
-    return {
-      if (completionTime != null)
-        'CompletionTime': unixTimestampToJson(completionTime),
-      if (contentIdentificationType != null)
-        'ContentIdentificationType': contentIdentificationType.value,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (media != null) 'Media': media,
-      if (mediaFormat != null) 'MediaFormat': mediaFormat.value,
-      if (mediaSampleRateHertz != null)
-        'MediaSampleRateHertz': mediaSampleRateHertz,
-      if (medicalTranscriptionJobName != null)
-        'MedicalTranscriptionJobName': medicalTranscriptionJobName,
-      if (settings != null) 'Settings': settings,
-      if (specialty != null) 'Specialty': specialty.value,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (tags != null) 'Tags': tags,
-      if (transcript != null) 'Transcript': transcript,
-      if (transcriptionJobStatus != null)
-        'TranscriptionJobStatus': transcriptionJobStatus.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Provides detailed information about a specific medical transcription job.
-class MedicalTranscriptionJobSummary {
-  /// The date and time the specified medical transcription job finished
-  /// processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:33:13.922000-07:00</code> represents a
-  /// transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
-  final DateTime? completionTime;
-
-  /// Labels all personal health information (PHI) identified in your transcript.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html">Identifying
-  /// personal health information (PHI) in a transcription</a>.
-  final MedicalContentIdentificationType? contentIdentificationType;
-
-  /// The date and time the specified medical transcription job request was made.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
-  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? creationTime;
-
-  /// If <code>TranscriptionJobStatus</code> is <code>FAILED</code>,
-  /// <code>FailureReason</code> contains information about why the transcription
-  /// job failed. See also: <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
-  /// Errors</a>.
-  final String? failureReason;
-
-  /// The language code used to create your medical transcription. US English
-  /// (<code>en-US</code>) is the only supported language for medical
-  /// transcriptions.
-  final LanguageCode? languageCode;
-
-  /// The name of the medical transcription job. Job names are case sensitive and
-  /// must be unique within an Amazon Web Services account.
-  final String? medicalTranscriptionJobName;
-
-  /// Indicates where the specified medical transcription output is stored.
-  ///
-  /// If the value is <code>CUSTOMER_BUCKET</code>, the location is the Amazon S3
-  /// bucket you specified using the <code>OutputBucketName</code> parameter in
-  /// your request. If you also included <code>OutputKey</code> in your request,
-  /// your output is located in the path you specified in your request.
-  ///
-  /// If the value is <code>SERVICE_BUCKET</code>, the location is a
-  /// service-managed Amazon S3 bucket. To access a transcript stored in a
-  /// service-managed bucket, use the URI shown in the
-  /// <code>TranscriptFileUri</code> field.
-  final OutputLocationType? outputLocationType;
-
-  /// Provides the medical specialty represented in your media.
-  final Specialty? specialty;
-
-  /// The date and time your medical transcription job began processing.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
-  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
-  final DateTime? startTime;
-
-  /// Provides the status of your medical transcription job.
-  ///
-  /// If the status is <code>COMPLETED</code>, the job is finished and you can
-  /// find the results at the location specified in
-  /// <code>TranscriptFileUri</code>. If the status is <code>FAILED</code>,
-  /// <code>FailureReason</code> provides details on why your transcription job
-  /// failed.
-  final TranscriptionJobStatus? transcriptionJobStatus;
-
-  /// Indicates whether the input media is a dictation or a conversation, as
-  /// specified in the <code>StartMedicalTranscriptionJob</code> request.
-  final Type? type;
-
-  MedicalTranscriptionJobSummary({
-    this.completionTime,
-    this.contentIdentificationType,
-    this.creationTime,
-    this.failureReason,
-    this.languageCode,
-    this.medicalTranscriptionJobName,
-    this.outputLocationType,
-    this.specialty,
-    this.startTime,
-    this.transcriptionJobStatus,
-    this.type,
-  });
-
-  factory MedicalTranscriptionJobSummary.fromJson(Map<String, dynamic> json) {
-    return MedicalTranscriptionJobSummary(
-      completionTime: timeStampFromJson(json['CompletionTime']),
-      contentIdentificationType: (json['ContentIdentificationType'] as String?)
-          ?.let(MedicalContentIdentificationType.fromString),
-      creationTime: timeStampFromJson(json['CreationTime']),
-      failureReason: json['FailureReason'] as String?,
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      medicalTranscriptionJobName:
-          json['MedicalTranscriptionJobName'] as String?,
-      outputLocationType: (json['OutputLocationType'] as String?)
-          ?.let(OutputLocationType.fromString),
-      specialty: (json['Specialty'] as String?)?.let(Specialty.fromString),
-      startTime: timeStampFromJson(json['StartTime']),
-      transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
-          ?.let(TranscriptionJobStatus.fromString),
-      type: (json['Type'] as String?)?.let(Type.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final completionTime = this.completionTime;
-    final contentIdentificationType = this.contentIdentificationType;
-    final creationTime = this.creationTime;
-    final failureReason = this.failureReason;
-    final languageCode = this.languageCode;
-    final medicalTranscriptionJobName = this.medicalTranscriptionJobName;
-    final outputLocationType = this.outputLocationType;
-    final specialty = this.specialty;
-    final startTime = this.startTime;
-    final transcriptionJobStatus = this.transcriptionJobStatus;
-    final type = this.type;
-    return {
-      if (completionTime != null)
-        'CompletionTime': unixTimestampToJson(completionTime),
-      if (contentIdentificationType != null)
-        'ContentIdentificationType': contentIdentificationType.value,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (medicalTranscriptionJobName != null)
-        'MedicalTranscriptionJobName': medicalTranscriptionJobName,
-      if (outputLocationType != null)
-        'OutputLocationType': outputLocationType.value,
-      if (specialty != null) 'Specialty': specialty.value,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (transcriptionJobStatus != null)
-        'TranscriptionJobStatus': transcriptionJobStatus.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Allows additional optional settings in your request, including channel
-/// identification, alternative transcriptions, and speaker partitioning. You
-/// can use that to apply custom vocabularies to your medical transcription job.
-class MedicalTranscriptionSetting {
-  /// Enables channel identification in multi-channel audio.
-  ///
-  /// Channel identification transcribes the audio on each channel independently,
-  /// then appends the output for each channel into one transcript.
-  ///
-  /// If you have multi-channel audio and do not enable channel identification,
-  /// your audio is transcribed in a continuous manner and your transcript does
-  /// not separate the speech by channel.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html">Transcribing
-  /// multi-channel audio</a>.
-  final bool? channelIdentification;
-
-  /// Indicate the maximum number of alternative transcriptions you want Amazon
-  /// Transcribe Medical to include in your transcript.
-  ///
-  /// If you select a number greater than the number of alternative transcriptions
-  /// generated by Amazon Transcribe Medical, only the actual number of
-  /// alternative transcriptions are included.
-  ///
-  /// If you include <code>MaxAlternatives</code> in your request, you must also
-  /// include <code>ShowAlternatives</code> with a value of <code>true</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html">Alternative
-  /// transcriptions</a>.
-  final int? maxAlternatives;
-
-  /// Specify the maximum number of speakers you want to partition in your media.
-  ///
-  /// Note that if your media contains more speakers than the specified number,
-  /// multiple speakers are treated as a single speaker.
-  ///
-  /// If you specify the <code>MaxSpeakerLabels</code> field, you must set the
-  /// <code>ShowSpeakerLabels</code> field to true.
-  final int? maxSpeakerLabels;
-
-  /// To include alternative transcriptions within your transcription output,
-  /// include <code>ShowAlternatives</code> in your transcription request.
-  ///
-  /// If you include <code>ShowAlternatives</code>, you must also include
-  /// <code>MaxAlternatives</code>, which is the maximum number of alternative
-  /// transcriptions you want Amazon Transcribe Medical to generate.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html">Alternative
-  /// transcriptions</a>.
-  final bool? showAlternatives;
-
-  /// Enables speaker partitioning (diarization) in your transcription output.
-  /// Speaker partitioning labels the speech from individual speakers in your
-  /// media file.
-  ///
-  /// If you enable <code>ShowSpeakerLabels</code> in your request, you must also
-  /// include <code>MaxSpeakerLabels</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html">Partitioning
-  /// speakers (diarization)</a>.
-  final bool? showSpeakerLabels;
-
-  /// The name of the custom vocabulary you want to use when processing your
-  /// medical transcription job. Custom vocabulary names are case sensitive.
-  ///
-  /// The language of the specified custom vocabulary must match the language code
-  /// that you specify in your transcription request. If the languages do not
-  /// match, the custom vocabulary isn't applied. There are no errors or warnings
-  /// associated with a language mismatch. US English (<code>en-US</code>) is the
-  /// only valid language for Amazon Transcribe Medical.
-  final String? vocabularyName;
-
-  MedicalTranscriptionSetting({
-    this.channelIdentification,
-    this.maxAlternatives,
-    this.maxSpeakerLabels,
-    this.showAlternatives,
-    this.showSpeakerLabels,
-    this.vocabularyName,
-  });
-
-  factory MedicalTranscriptionSetting.fromJson(Map<String, dynamic> json) {
-    return MedicalTranscriptionSetting(
-      channelIdentification: json['ChannelIdentification'] as bool?,
-      maxAlternatives: json['MaxAlternatives'] as int?,
-      maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
-      showAlternatives: json['ShowAlternatives'] as bool?,
-      showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
-      vocabularyName: json['VocabularyName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelIdentification = this.channelIdentification;
-    final maxAlternatives = this.maxAlternatives;
-    final maxSpeakerLabels = this.maxSpeakerLabels;
-    final showAlternatives = this.showAlternatives;
-    final showSpeakerLabels = this.showSpeakerLabels;
-    final vocabularyName = this.vocabularyName;
-    return {
-      if (channelIdentification != null)
-        'ChannelIdentification': channelIdentification,
-      if (maxAlternatives != null) 'MaxAlternatives': maxAlternatives,
-      if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
-      if (showAlternatives != null) 'ShowAlternatives': showAlternatives,
-      if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
-    };
-  }
-}
-
-/// Provides the name of the custom language model that was included in the
-/// specified transcription job.
-///
-/// Only use <code>ModelSettings</code> with the <code>LanguageModelName</code>
-/// sub-parameter if you're <b>not</b> using automatic language identification
-/// (<code/>). If using <code>LanguageIdSettings</code> in your request, this
-/// parameter contains a <code>LanguageModelName</code> sub-parameter.
-class ModelSettings {
-  /// The name of the custom language model you want to use when processing your
-  /// transcription job. Note that custom language model names are case sensitive.
-  ///
-  /// The language of the specified custom language model must match the language
-  /// code that you specify in your transcription request. If the languages do not
-  /// match, the custom language model isn't applied. There are no errors or
-  /// warnings associated with a language mismatch.
-  final String? languageModelName;
-
-  ModelSettings({
-    this.languageModelName,
-  });
-
-  factory ModelSettings.fromJson(Map<String, dynamic> json) {
-    return ModelSettings(
-      languageModelName: json['LanguageModelName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final languageModelName = this.languageModelName;
-    return {
-      if (languageModelName != null) 'LanguageModelName': languageModelName,
-    };
-  }
-}
-
-class ModelStatus {
-  static const inProgress = ModelStatus._('IN_PROGRESS');
-  static const failed = ModelStatus._('FAILED');
-  static const completed = ModelStatus._('COMPLETED');
-
-  final String value;
-
-  const ModelStatus._(this.value);
-
-  static const values = [inProgress, failed, completed];
-
-  static ModelStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ModelStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ModelStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Flag the presence or absence of periods of silence in your Call Analytics
-/// transcription output.
-///
-/// Rules using <code>NonTalkTimeFilter</code> are designed to match:
-///
-/// <ul>
-/// <li>
-/// The presence of silence at specified periods throughout the call
-/// </li>
-/// <li>
-/// The presence of speech at specified periods throughout the call
-/// </li>
-/// </ul>
-/// See <a
-/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
-/// criteria for post-call categories</a> for usage examples.
-class NonTalkTimeFilter {
-  /// Makes it possible to specify a time range (in milliseconds) in your audio,
-  /// during which you want to search for a period of silence. See for more
-  /// detail.
-  final AbsoluteTimeRange? absoluteTimeRange;
-
-  /// Set to <code>TRUE</code> to flag periods of speech. Set to
-  /// <code>FALSE</code> to flag periods of silence
-  final bool? negate;
-
-  /// Makes it possible to specify a time range (in percentage) in your media
-  /// file, during which you want to search for a period of silence. See for more
-  /// detail.
-  final RelativeTimeRange? relativeTimeRange;
-
-  /// Specify the duration, in milliseconds, of the period of silence that you
-  /// want to flag. For example, you can flag a silent period that lasts 30,000
-  /// milliseconds.
-  final int? threshold;
-
-  NonTalkTimeFilter({
-    this.absoluteTimeRange,
-    this.negate,
-    this.relativeTimeRange,
-    this.threshold,
-  });
-
-  factory NonTalkTimeFilter.fromJson(Map<String, dynamic> json) {
-    return NonTalkTimeFilter(
-      absoluteTimeRange: json['AbsoluteTimeRange'] != null
-          ? AbsoluteTimeRange.fromJson(
-              json['AbsoluteTimeRange'] as Map<String, dynamic>)
-          : null,
-      negate: json['Negate'] as bool?,
-      relativeTimeRange: json['RelativeTimeRange'] != null
-          ? RelativeTimeRange.fromJson(
-              json['RelativeTimeRange'] as Map<String, dynamic>)
-          : null,
-      threshold: json['Threshold'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absoluteTimeRange = this.absoluteTimeRange;
-    final negate = this.negate;
-    final relativeTimeRange = this.relativeTimeRange;
-    final threshold = this.threshold;
-    return {
-      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
-      if (negate != null) 'Negate': negate,
-      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
-      if (threshold != null) 'Threshold': threshold,
-    };
-  }
-}
-
-class OutputLocationType {
-  static const customerBucket = OutputLocationType._('CUSTOMER_BUCKET');
-  static const serviceBucket = OutputLocationType._('SERVICE_BUCKET');
-
-  final String value;
-
-  const OutputLocationType._(this.value);
-
-  static const values = [customerBucket, serviceBucket];
-
-  static OutputLocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OutputLocationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OutputLocationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ParticipantRole {
-  static const agent = ParticipantRole._('AGENT');
-  static const customer = ParticipantRole._('CUSTOMER');
-
-  final String value;
-
-  const ParticipantRole._(this.value);
-
-  static const values = [agent, customer];
-
-  static ParticipantRole fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ParticipantRole._(value));
-
-  @override
-  bool operator ==(other) => other is ParticipantRole && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PiiEntityType {
-  static const bankAccountNumber = PiiEntityType._('BANK_ACCOUNT_NUMBER');
-  static const bankRouting = PiiEntityType._('BANK_ROUTING');
-  static const creditDebitNumber = PiiEntityType._('CREDIT_DEBIT_NUMBER');
-  static const creditDebitCvv = PiiEntityType._('CREDIT_DEBIT_CVV');
-  static const creditDebitExpiry = PiiEntityType._('CREDIT_DEBIT_EXPIRY');
-  static const pin = PiiEntityType._('PIN');
-  static const email = PiiEntityType._('EMAIL');
-  static const address = PiiEntityType._('ADDRESS');
-  static const name = PiiEntityType._('NAME');
-  static const phone = PiiEntityType._('PHONE');
-  static const ssn = PiiEntityType._('SSN');
-  static const all = PiiEntityType._('ALL');
-
-  final String value;
-
-  const PiiEntityType._(this.value);
-
-  static const values = [
-    bankAccountNumber,
-    bankRouting,
-    creditDebitNumber,
-    creditDebitCvv,
-    creditDebitExpiry,
-    pin,
-    email,
-    address,
-    name,
-    phone,
-    ssn,
-    all
-  ];
-
-  static PiiEntityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PiiEntityType._(value));
-
-  @override
-  bool operator ==(other) => other is PiiEntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RedactionOutput {
-  static const redacted = RedactionOutput._('redacted');
-  static const redactedAndUnredacted =
-      RedactionOutput._('redacted_and_unredacted');
-
-  final String value;
-
-  const RedactionOutput._(this.value);
-
-  static const values = [redacted, redactedAndUnredacted];
-
-  static RedactionOutput fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RedactionOutput._(value));
-
-  @override
-  bool operator ==(other) => other is RedactionOutput && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RedactionType {
-  static const pii = RedactionType._('PII');
-
-  final String value;
-
-  const RedactionType._(this.value);
-
-  static const values = [pii];
-
-  static RedactionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RedactionType._(value));
-
-  @override
-  bool operator ==(other) => other is RedactionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A time range, in percentage, between two points in your media file.
-///
-/// You can use <code>StartPercentage</code> and <code>EndPercentage</code> to
-/// search a custom segment. For example, setting <code>StartPercentage</code>
-/// to 10 and <code>EndPercentage</code> to 50 only searches for your specified
-/// criteria in the audio contained between the 10 percent mark and the 50
-/// percent mark of your media file.
-///
-/// You can use also <code>First</code> to search from the start of the media
-/// file until the time that you specify. Or use <code>Last</code> to search
-/// from the time that you specify until the end of the media file. For example,
-/// setting <code>First</code> to 10 only searches for your specified criteria
-/// in the audio contained in the first 10 percent of the media file.
-///
-/// If you prefer to use milliseconds instead of percentage, see .
-class RelativeTimeRange {
-  /// The time, in percentage, when Amazon Transcribe stops searching for the
-  /// specified criteria in your media file. If you include
-  /// <code>EndPercentage</code> in your request, you must also include
-  /// <code>StartPercentage</code>.
-  final int? endPercentage;
-
-  /// The time, in percentage, from the start of your media file until the
-  /// specified value. Amazon Transcribe searches for your specified criteria in
-  /// this time segment.
-  final int? first;
-
-  /// The time, in percentage, from the specified value until the end of your
-  /// media file. Amazon Transcribe searches for your specified criteria in this
-  /// time segment.
-  final int? last;
-
-  /// The time, in percentage, when Amazon Transcribe starts searching for the
-  /// specified criteria in your media file. If you include
-  /// <code>StartPercentage</code> in your request, you must also include
-  /// <code>EndPercentage</code>.
-  final int? startPercentage;
-
-  RelativeTimeRange({
-    this.endPercentage,
-    this.first,
-    this.last,
-    this.startPercentage,
-  });
-
-  factory RelativeTimeRange.fromJson(Map<String, dynamic> json) {
-    return RelativeTimeRange(
-      endPercentage: json['EndPercentage'] as int?,
-      first: json['First'] as int?,
-      last: json['Last'] as int?,
-      startPercentage: json['StartPercentage'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endPercentage = this.endPercentage;
-    final first = this.first;
-    final last = this.last;
-    final startPercentage = this.startPercentage;
-    return {
-      if (endPercentage != null) 'EndPercentage': endPercentage,
-      if (first != null) 'First': first,
-      if (last != null) 'Last': last,
-      if (startPercentage != null) 'StartPercentage': startPercentage,
-    };
-  }
-}
-
-/// A rule is a set of criteria that you can specify to flag an attribute in
-/// your Call Analytics output. Rules define a Call Analytics category.
-///
-/// Rules can include these parameters: , , , and .
-///
-/// To learn more about Call Analytics rules and categories, see <a
-/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html">Creating
-/// categories for post-call transcriptions</a> and <a
-/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html">Creating
-/// categories for real-time transcriptions</a>.
-///
-/// To learn more about Call Analytics, see <a
-/// href="https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html">Analyzing
-/// call center audio with Call Analytics</a>.
-class Rule {
-  /// Flag the presence or absence of interruptions in your Call Analytics
-  /// transcription output. Refer to for more detail.
-  final InterruptionFilter? interruptionFilter;
-
-  /// Flag the presence or absence of periods of silence in your Call Analytics
-  /// transcription output. Refer to for more detail.
-  final NonTalkTimeFilter? nonTalkTimeFilter;
-
-  /// Flag the presence or absence of specific sentiments in your Call Analytics
-  /// transcription output. Refer to for more detail.
-  final SentimentFilter? sentimentFilter;
-
-  /// Flag the presence or absence of specific words or phrases in your Call
-  /// Analytics transcription output. Refer to for more detail.
-  final TranscriptFilter? transcriptFilter;
-
-  Rule({
-    this.interruptionFilter,
-    this.nonTalkTimeFilter,
-    this.sentimentFilter,
-    this.transcriptFilter,
-  });
-
-  factory Rule.fromJson(Map<String, dynamic> json) {
-    return Rule(
-      interruptionFilter: json['InterruptionFilter'] != null
-          ? InterruptionFilter.fromJson(
-              json['InterruptionFilter'] as Map<String, dynamic>)
-          : null,
-      nonTalkTimeFilter: json['NonTalkTimeFilter'] != null
-          ? NonTalkTimeFilter.fromJson(
-              json['NonTalkTimeFilter'] as Map<String, dynamic>)
-          : null,
-      sentimentFilter: json['SentimentFilter'] != null
-          ? SentimentFilter.fromJson(
-              json['SentimentFilter'] as Map<String, dynamic>)
-          : null,
-      transcriptFilter: json['TranscriptFilter'] != null
-          ? TranscriptFilter.fromJson(
-              json['TranscriptFilter'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final interruptionFilter = this.interruptionFilter;
-    final nonTalkTimeFilter = this.nonTalkTimeFilter;
-    final sentimentFilter = this.sentimentFilter;
-    final transcriptFilter = this.transcriptFilter;
-    return {
-      if (interruptionFilter != null) 'InterruptionFilter': interruptionFilter,
-      if (nonTalkTimeFilter != null) 'NonTalkTimeFilter': nonTalkTimeFilter,
-      if (sentimentFilter != null) 'SentimentFilter': sentimentFilter,
-      if (transcriptFilter != null) 'TranscriptFilter': transcriptFilter,
-    };
-  }
-}
-
-/// Flag the presence or absence of specific sentiments detected in your Call
-/// Analytics transcription output.
-///
-/// Rules using <code>SentimentFilter</code> are designed to match:
-///
-/// <ul>
-/// <li>
-/// The presence or absence of a positive sentiment felt by the customer, agent,
-/// or both at specified points in the call
-/// </li>
-/// <li>
-/// The presence or absence of a negative sentiment felt by the customer, agent,
-/// or both at specified points in the call
-/// </li>
-/// <li>
-/// The presence or absence of a neutral sentiment felt by the customer, agent,
-/// or both at specified points in the call
-/// </li>
-/// <li>
-/// The presence or absence of a mixed sentiment felt by the customer, the
-/// agent, or both at specified points in the call
-/// </li>
-/// </ul>
-/// See <a
-/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
-/// criteria for post-call categories</a> for usage examples.
-class SentimentFilter {
-  /// Specify the sentiments that you want to flag.
-  final List<SentimentValue> sentiments;
-
-  /// Makes it possible to specify a time range (in milliseconds) in your audio,
-  /// during which you want to search for the specified sentiments. See for more
-  /// detail.
-  final AbsoluteTimeRange? absoluteTimeRange;
-
-  /// Set to <code>TRUE</code> to flag the sentiments that you didn't include in
-  /// your request. Set to <code>FALSE</code> to flag the sentiments that you
-  /// specified in your request.
-  final bool? negate;
-
-  /// Specify the participant that you want to flag. Omitting this parameter is
-  /// equivalent to specifying both participants.
-  final ParticipantRole? participantRole;
-
-  /// Makes it possible to specify a time range (in percentage) in your media
-  /// file, during which you want to search for the specified sentiments. See for
-  /// more detail.
-  final RelativeTimeRange? relativeTimeRange;
-
-  SentimentFilter({
-    required this.sentiments,
-    this.absoluteTimeRange,
-    this.negate,
-    this.participantRole,
-    this.relativeTimeRange,
-  });
-
-  factory SentimentFilter.fromJson(Map<String, dynamic> json) {
-    return SentimentFilter(
-      sentiments: ((json['Sentiments'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => SentimentValue.fromString((e as String)))
-          .toList(),
-      absoluteTimeRange: json['AbsoluteTimeRange'] != null
-          ? AbsoluteTimeRange.fromJson(
-              json['AbsoluteTimeRange'] as Map<String, dynamic>)
-          : null,
-      negate: json['Negate'] as bool?,
-      participantRole:
-          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
-      relativeTimeRange: json['RelativeTimeRange'] != null
-          ? RelativeTimeRange.fromJson(
-              json['RelativeTimeRange'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sentiments = this.sentiments;
-    final absoluteTimeRange = this.absoluteTimeRange;
-    final negate = this.negate;
-    final participantRole = this.participantRole;
-    final relativeTimeRange = this.relativeTimeRange;
-    return {
-      'Sentiments': sentiments.map((e) => e.value).toList(),
-      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
-      if (negate != null) 'Negate': negate,
-      if (participantRole != null) 'ParticipantRole': participantRole.value,
-      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
-    };
-  }
-}
-
-class SentimentValue {
-  static const positive = SentimentValue._('POSITIVE');
-  static const negative = SentimentValue._('NEGATIVE');
-  static const neutral = SentimentValue._('NEUTRAL');
-  static const mixed = SentimentValue._('MIXED');
-
-  final String value;
-
-  const SentimentValue._(this.value);
-
-  static const values = [positive, negative, neutral, mixed];
-
-  static SentimentValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SentimentValue._(value));
-
-  @override
-  bool operator ==(other) => other is SentimentValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Allows additional optional settings in your request, including channel
-/// identification, alternative transcriptions, and speaker partitioning. You
-/// can use that to apply custom vocabularies to your transcription job.
-class Settings {
-  /// Enables channel identification in multi-channel audio.
-  ///
-  /// Channel identification transcribes the audio on each channel independently,
-  /// then appends the output for each channel into one transcript.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html">Transcribing
-  /// multi-channel audio</a>.
-  final bool? channelIdentification;
-
-  /// Indicate the maximum number of alternative transcriptions you want Amazon
-  /// Transcribe to include in your transcript.
-  ///
-  /// If you select a number greater than the number of alternative transcriptions
-  /// generated by Amazon Transcribe, only the actual number of alternative
-  /// transcriptions are included.
-  ///
-  /// If you include <code>MaxAlternatives</code> in your request, you must also
-  /// include <code>ShowAlternatives</code> with a value of <code>true</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html">Alternative
-  /// transcriptions</a>.
-  final int? maxAlternatives;
-
-  /// Specify the maximum number of speakers you want to partition in your media.
-  ///
-  /// Note that if your media contains more speakers than the specified number,
-  /// multiple speakers are treated as a single speaker.
-  ///
-  /// If you specify the <code>MaxSpeakerLabels</code> field, you must set the
-  /// <code>ShowSpeakerLabels</code> field to true.
-  final int? maxSpeakerLabels;
-
-  /// To include alternative transcriptions within your transcription output,
-  /// include <code>ShowAlternatives</code> in your transcription request.
-  ///
-  /// If you have multi-channel audio and do not enable channel identification,
-  /// your audio is transcribed in a continuous manner and your transcript does
-  /// not separate the speech by channel.
-  ///
-  /// If you include <code>ShowAlternatives</code>, you must also include
-  /// <code>MaxAlternatives</code>, which is the maximum number of alternative
-  /// transcriptions you want Amazon Transcribe to generate.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html">Alternative
-  /// transcriptions</a>.
-  final bool? showAlternatives;
-
-  /// Enables speaker partitioning (diarization) in your transcription output.
-  /// Speaker partitioning labels the speech from individual speakers in your
-  /// media file.
-  ///
-  /// If you enable <code>ShowSpeakerLabels</code> in your request, you must also
-  /// include <code>MaxSpeakerLabels</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html">Partitioning
-  /// speakers (diarization)</a>.
-  final bool? showSpeakerLabels;
-
-  /// Specify how you want your custom vocabulary filter applied to your
-  /// transcript.
-  ///
-  /// To replace words with <code>***</code>, choose <code>mask</code>.
-  ///
-  /// To delete words, choose <code>remove</code>.
-  ///
-  /// To flag words without changing them, choose <code>tag</code>.
-  final VocabularyFilterMethod? vocabularyFilterMethod;
-
-  /// The name of the custom vocabulary filter you want to use in your
-  /// transcription job request. This name is case sensitive, cannot contain
-  /// spaces, and must be unique within an Amazon Web Services account.
-  ///
-  /// Note that if you include <code>VocabularyFilterName</code> in your request,
-  /// you must also include <code>VocabularyFilterMethod</code>.
-  final String? vocabularyFilterName;
-
-  /// The name of the custom vocabulary you want to use in your transcription job
-  /// request. This name is case sensitive, cannot contain spaces, and must be
-  /// unique within an Amazon Web Services account.
-  final String? vocabularyName;
-
-  Settings({
-    this.channelIdentification,
-    this.maxAlternatives,
-    this.maxSpeakerLabels,
-    this.showAlternatives,
-    this.showSpeakerLabels,
-    this.vocabularyFilterMethod,
-    this.vocabularyFilterName,
-    this.vocabularyName,
-  });
-
-  factory Settings.fromJson(Map<String, dynamic> json) {
-    return Settings(
-      channelIdentification: json['ChannelIdentification'] as bool?,
-      maxAlternatives: json['MaxAlternatives'] as int?,
-      maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
-      showAlternatives: json['ShowAlternatives'] as bool?,
-      showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
-      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
-          ?.let(VocabularyFilterMethod.fromString),
-      vocabularyFilterName: json['VocabularyFilterName'] as String?,
-      vocabularyName: json['VocabularyName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelIdentification = this.channelIdentification;
-    final maxAlternatives = this.maxAlternatives;
-    final maxSpeakerLabels = this.maxSpeakerLabels;
-    final showAlternatives = this.showAlternatives;
-    final showSpeakerLabels = this.showSpeakerLabels;
-    final vocabularyFilterMethod = this.vocabularyFilterMethod;
-    final vocabularyFilterName = this.vocabularyFilterName;
-    final vocabularyName = this.vocabularyName;
-    return {
-      if (channelIdentification != null)
-        'ChannelIdentification': channelIdentification,
-      if (maxAlternatives != null) 'MaxAlternatives': maxAlternatives,
-      if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
-      if (showAlternatives != null) 'ShowAlternatives': showAlternatives,
-      if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
-      if (vocabularyFilterMethod != null)
-        'VocabularyFilterMethod': vocabularyFilterMethod.value,
-      if (vocabularyFilterName != null)
-        'VocabularyFilterName': vocabularyFilterName,
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
-    };
-  }
-}
-
-class Specialty {
-  static const primarycare = Specialty._('PRIMARYCARE');
-
-  final String value;
-
-  const Specialty._(this.value);
-
-  static const values = [primarycare];
-
-  static Specialty fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Specialty._(value));
-
-  @override
-  bool operator ==(other) => other is Specialty && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StartCallAnalyticsJobResponse {
   /// Provides detailed information about the current Call Analytics job,
   /// including job status and, if applicable, failure reason.
@@ -8167,22 +4518,454 @@ class StartTranscriptionJobResponse {
   }
 }
 
-class SubtitleFormat {
-  static const vtt = SubtitleFormat._('vtt');
-  static const srt = SubtitleFormat._('srt');
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateCallAnalyticsCategoryResponse {
+  /// Provides you with the properties of the Call Analytics category you
+  /// specified in your <code>UpdateCallAnalyticsCategory</code> request.
+  final CategoryProperties? categoryProperties;
+
+  UpdateCallAnalyticsCategoryResponse({
+    this.categoryProperties,
+  });
+
+  factory UpdateCallAnalyticsCategoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCallAnalyticsCategoryResponse(
+      categoryProperties: json['CategoryProperties'] != null
+          ? CategoryProperties.fromJson(
+              json['CategoryProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryProperties = this.categoryProperties;
+    return {
+      if (categoryProperties != null) 'CategoryProperties': categoryProperties,
+    };
+  }
+}
+
+class UpdateMedicalVocabularyResponse {
+  /// The language code you selected for your custom medical vocabulary. US
+  /// English (<code>en-US</code>) is the only language supported with Amazon
+  /// Transcribe Medical.
+  final LanguageCode? languageCode;
+
+  /// The date and time the specified custom medical vocabulary was last updated.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
+  /// PM UTC-7 on May 4, 2022.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the updated custom medical vocabulary.
+  final String? vocabularyName;
+
+  /// The processing state of your custom medical vocabulary. If the state is
+  /// <code>READY</code>, you can use the custom vocabulary in a
+  /// <code>StartMedicalTranscriptionJob</code> request.
+  final VocabularyState? vocabularyState;
+
+  UpdateMedicalVocabularyResponse({
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+
+  factory UpdateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMedicalVocabularyResponse(
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final lastModifiedTime = this.lastModifiedTime;
+    final vocabularyName = this.vocabularyName;
+    final vocabularyState = this.vocabularyState;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+      if (vocabularyState != null) 'VocabularyState': vocabularyState.value,
+    };
+  }
+}
+
+class UpdateVocabularyResponse {
+  /// The language code you selected for your custom vocabulary.
+  final LanguageCode? languageCode;
+
+  /// The date and time the specified custom vocabulary was last updated.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
+  /// PM UTC-7 on May 4, 2022.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the updated custom vocabulary.
+  final String? vocabularyName;
+
+  /// The processing state of your custom vocabulary. If the state is
+  /// <code>READY</code>, you can use the custom vocabulary in a
+  /// <code>StartTranscriptionJob</code> request.
+  final VocabularyState? vocabularyState;
+
+  UpdateVocabularyResponse({
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+
+  factory UpdateVocabularyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVocabularyResponse(
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final lastModifiedTime = this.lastModifiedTime;
+    final vocabularyName = this.vocabularyName;
+    final vocabularyState = this.vocabularyState;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+      if (vocabularyState != null) 'VocabularyState': vocabularyState.value,
+    };
+  }
+}
+
+class UpdateVocabularyFilterResponse {
+  /// The language code you selected for your custom vocabulary filter.
+  final LanguageCode? languageCode;
+
+  /// The date and time the specified custom vocabulary filter was last updated.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
+  /// PM UTC-7 on May 4, 2022.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the updated custom vocabulary filter.
+  final String? vocabularyFilterName;
+
+  UpdateVocabularyFilterResponse({
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyFilterName,
+  });
+
+  factory UpdateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVocabularyFilterResponse(
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final lastModifiedTime = this.lastModifiedTime;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+    };
+  }
+}
+
+class LanguageCode {
+  static const afZa = LanguageCode._('af-ZA');
+  static const arAe = LanguageCode._('ar-AE');
+  static const arSa = LanguageCode._('ar-SA');
+  static const amEt = LanguageCode._('am-ET');
+  static const cyGb = LanguageCode._('cy-GB');
+  static const daDk = LanguageCode._('da-DK');
+  static const deCh = LanguageCode._('de-CH');
+  static const deDe = LanguageCode._('de-DE');
+  static const enAb = LanguageCode._('en-AB');
+  static const enAu = LanguageCode._('en-AU');
+  static const enGb = LanguageCode._('en-GB');
+  static const enIe = LanguageCode._('en-IE');
+  static const enIn = LanguageCode._('en-IN');
+  static const enUs = LanguageCode._('en-US');
+  static const enWl = LanguageCode._('en-WL');
+  static const esEs = LanguageCode._('es-ES');
+  static const esMx = LanguageCode._('es-MX');
+  static const esUs = LanguageCode._('es-US');
+  static const faAf = LanguageCode._('fa-AF');
+  static const faIr = LanguageCode._('fa-IR');
+  static const frCa = LanguageCode._('fr-CA');
+  static const frFr = LanguageCode._('fr-FR');
+  static const gaIe = LanguageCode._('ga-IE');
+  static const gdGb = LanguageCode._('gd-GB');
+  static const heIl = LanguageCode._('he-IL');
+  static const hiIn = LanguageCode._('hi-IN');
+  static const htHt = LanguageCode._('ht-HT');
+  static const idId = LanguageCode._('id-ID');
+  static const itIt = LanguageCode._('it-IT');
+  static const jaJp = LanguageCode._('ja-JP');
+  static const jvId = LanguageCode._('jv-ID');
+  static const kmKh = LanguageCode._('km-KH');
+  static const koKr = LanguageCode._('ko-KR');
+  static const myMm = LanguageCode._('my-MM');
+  static const msMy = LanguageCode._('ms-MY');
+  static const nlNl = LanguageCode._('nl-NL');
+  static const ptBr = LanguageCode._('pt-BR');
+  static const ptPt = LanguageCode._('pt-PT');
+  static const ruRu = LanguageCode._('ru-RU');
+  static const taIn = LanguageCode._('ta-IN');
+  static const teIn = LanguageCode._('te-IN');
+  static const trTr = LanguageCode._('tr-TR');
+  static const zhCn = LanguageCode._('zh-CN');
+  static const zhTw = LanguageCode._('zh-TW');
+  static const thTh = LanguageCode._('th-TH');
+  static const enZa = LanguageCode._('en-ZA');
+  static const enNz = LanguageCode._('en-NZ');
+  static const viVn = LanguageCode._('vi-VN');
+  static const svSe = LanguageCode._('sv-SE');
+  static const abGe = LanguageCode._('ab-GE');
+  static const astEs = LanguageCode._('ast-ES');
+  static const azAz = LanguageCode._('az-AZ');
+  static const baRu = LanguageCode._('ba-RU');
+  static const beBy = LanguageCode._('be-BY');
+  static const bgBg = LanguageCode._('bg-BG');
+  static const bnIn = LanguageCode._('bn-IN');
+  static const bsBa = LanguageCode._('bs-BA');
+  static const caEs = LanguageCode._('ca-ES');
+  static const ckbIq = LanguageCode._('ckb-IQ');
+  static const ckbIr = LanguageCode._('ckb-IR');
+  static const csCz = LanguageCode._('cs-CZ');
+  static const cyWl = LanguageCode._('cy-WL');
+  static const elGr = LanguageCode._('el-GR');
+  static const etEe = LanguageCode._('et-EE');
+  static const etEt = LanguageCode._('et-ET');
+  static const euEs = LanguageCode._('eu-ES');
+  static const fiFi = LanguageCode._('fi-FI');
+  static const glEs = LanguageCode._('gl-ES');
+  static const guIn = LanguageCode._('gu-IN');
+  static const haNg = LanguageCode._('ha-NG');
+  static const hrHr = LanguageCode._('hr-HR');
+  static const huHu = LanguageCode._('hu-HU');
+  static const hyAm = LanguageCode._('hy-AM');
+  static const isIs = LanguageCode._('is-IS');
+  static const kaGe = LanguageCode._('ka-GE');
+  static const kabDz = LanguageCode._('kab-DZ');
+  static const kkKz = LanguageCode._('kk-KZ');
+  static const knIn = LanguageCode._('kn-IN');
+  static const kyKg = LanguageCode._('ky-KG');
+  static const lgIn = LanguageCode._('lg-IN');
+  static const ltLt = LanguageCode._('lt-LT');
+  static const lvLv = LanguageCode._('lv-LV');
+  static const mhrRu = LanguageCode._('mhr-RU');
+  static const miNz = LanguageCode._('mi-NZ');
+  static const mkMk = LanguageCode._('mk-MK');
+  static const mlIn = LanguageCode._('ml-IN');
+  static const mnMn = LanguageCode._('mn-MN');
+  static const mrIn = LanguageCode._('mr-IN');
+  static const mtMt = LanguageCode._('mt-MT');
+  static const noNo = LanguageCode._('no-NO');
+  static const neNp = LanguageCode._('ne-NP');
+  static const orIn = LanguageCode._('or-IN');
+  static const paIn = LanguageCode._('pa-IN');
+  static const plPl = LanguageCode._('pl-PL');
+  static const psAf = LanguageCode._('ps-AF');
+  static const roRo = LanguageCode._('ro-RO');
+  static const rwRw = LanguageCode._('rw-RW');
+  static const siLk = LanguageCode._('si-LK');
+  static const skSk = LanguageCode._('sk-SK');
+  static const slSi = LanguageCode._('sl-SI');
+  static const soSo = LanguageCode._('so-SO');
+  static const sqAl = LanguageCode._('sq-AL');
+  static const srRs = LanguageCode._('sr-RS');
+  static const suId = LanguageCode._('su-ID');
+  static const swBi = LanguageCode._('sw-BI');
+  static const swKe = LanguageCode._('sw-KE');
+  static const swRw = LanguageCode._('sw-RW');
+  static const swTz = LanguageCode._('sw-TZ');
+  static const swUg = LanguageCode._('sw-UG');
+  static const tlPh = LanguageCode._('tl-PH');
+  static const ttRu = LanguageCode._('tt-RU');
+  static const ugCn = LanguageCode._('ug-CN');
+  static const ukUa = LanguageCode._('uk-UA');
+  static const uzUz = LanguageCode._('uz-UZ');
+  static const woSn = LanguageCode._('wo-SN');
+  static const zhHk = LanguageCode._('zh-HK');
+  static const zuZa = LanguageCode._('zu-ZA');
 
   final String value;
 
-  const SubtitleFormat._(this.value);
+  const LanguageCode._(this.value);
 
-  static const values = [vtt, srt];
+  static const values = [
+    afZa,
+    arAe,
+    arSa,
+    amEt,
+    cyGb,
+    daDk,
+    deCh,
+    deDe,
+    enAb,
+    enAu,
+    enGb,
+    enIe,
+    enIn,
+    enUs,
+    enWl,
+    esEs,
+    esMx,
+    esUs,
+    faAf,
+    faIr,
+    frCa,
+    frFr,
+    gaIe,
+    gdGb,
+    heIl,
+    hiIn,
+    htHt,
+    idId,
+    itIt,
+    jaJp,
+    jvId,
+    kmKh,
+    koKr,
+    myMm,
+    msMy,
+    nlNl,
+    ptBr,
+    ptPt,
+    ruRu,
+    taIn,
+    teIn,
+    trTr,
+    zhCn,
+    zhTw,
+    thTh,
+    enZa,
+    enNz,
+    viVn,
+    svSe,
+    abGe,
+    astEs,
+    azAz,
+    baRu,
+    beBy,
+    bgBg,
+    bnIn,
+    bsBa,
+    caEs,
+    ckbIq,
+    ckbIr,
+    csCz,
+    cyWl,
+    elGr,
+    etEe,
+    etEt,
+    euEs,
+    fiFi,
+    glEs,
+    guIn,
+    haNg,
+    hrHr,
+    huHu,
+    hyAm,
+    isIs,
+    kaGe,
+    kabDz,
+    kkKz,
+    knIn,
+    kyKg,
+    lgIn,
+    ltLt,
+    lvLv,
+    mhrRu,
+    miNz,
+    mkMk,
+    mlIn,
+    mnMn,
+    mrIn,
+    mtMt,
+    noNo,
+    neNp,
+    orIn,
+    paIn,
+    plPl,
+    psAf,
+    roRo,
+    rwRw,
+    siLk,
+    skSk,
+    slSi,
+    soSo,
+    sqAl,
+    srRs,
+    suId,
+    swBi,
+    swKe,
+    swRw,
+    swTz,
+    swUg,
+    tlPh,
+    ttRu,
+    ugCn,
+    ukUa,
+    uzUz,
+    woSn,
+    zhHk,
+    zuZa
+  ];
 
-  static SubtitleFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SubtitleFormat._(value));
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
 
   @override
-  bool operator ==(other) => other is SubtitleFormat && other.value == value;
+  bool operator ==(other) => other is LanguageCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8191,140 +4974,133 @@ class SubtitleFormat {
   String toString() => value;
 }
 
-/// Generate subtitles for your media file with your transcription request.
-///
-/// You can choose a start index of 0 or 1, and you can specify either WebVTT or
-/// SubRip (or both) as your output format.
-///
-/// Note that your subtitle files are placed in the same location as your
-/// transcription output.
-class Subtitles {
-  /// Specify the output format for your subtitle file; if you select both WebVTT
-  /// (<code>vtt</code>) and SubRip (<code>srt</code>) formats, two output files
-  /// are generated.
-  final List<SubtitleFormat>? formats;
+class VocabularyState {
+  static const pending = VocabularyState._('PENDING');
+  static const ready = VocabularyState._('READY');
+  static const failed = VocabularyState._('FAILED');
 
-  /// Specify the starting value that is assigned to the first subtitle segment.
-  ///
-  /// The default start index for Amazon Transcribe is <code>0</code>, which
-  /// differs from the more widely used standard of <code>1</code>. If you're
-  /// uncertain which value to use, we recommend choosing <code>1</code>, as this
-  /// may improve compatibility with other services.
-  final int? outputStartIndex;
+  final String value;
 
-  Subtitles({
-    this.formats,
-    this.outputStartIndex,
-  });
+  const VocabularyState._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final formats = this.formats;
-    final outputStartIndex = this.outputStartIndex;
-    return {
-      if (formats != null) 'Formats': formats.map((e) => e.value).toList(),
-      if (outputStartIndex != null) 'OutputStartIndex': outputStartIndex,
-    };
-  }
+  static const values = [pending, ready, failed];
+
+  static VocabularyState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VocabularyState._(value));
+
+  @override
+  bool operator ==(other) => other is VocabularyState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// Provides information about your subtitle file, including format, start
-/// index, and Amazon S3 location.
-class SubtitlesOutput {
-  /// Provides the format of your subtitle files. If your request included both
-  /// WebVTT (<code>vtt</code>) and SubRip (<code>srt</code>) formats, both
-  /// formats are shown.
-  final List<SubtitleFormat>? formats;
+/// Provides you with the properties of the Call Analytics category you
+/// specified in your request. This includes the list of rules that define the
+/// specified category.
+class CategoryProperties {
+  /// The name of the Call Analytics category. Category names are case sensitive
+  /// and must be unique within an Amazon Web Services account.
+  final String? categoryName;
 
-  /// Provides the start index value for your subtitle files. If you did not
-  /// specify a value in your request, the default value of <code>0</code> is
-  /// used.
-  final int? outputStartIndex;
-
-  /// The Amazon S3 location of your transcript. You can use this URI to access or
-  /// download your subtitle file. Your subtitle file is stored in the same
-  /// location as your transcript. If you specified both WebVTT and SubRip
-  /// subtitle formats, two URIs are provided.
+  /// The date and time the specified Call Analytics category was created.
   ///
-  /// If you included <code>OutputBucketName</code> in your transcription job
-  /// request, this is the URI of that bucket. If you also included
-  /// <code>OutputKey</code> in your request, your output is located in the path
-  /// you specified in your request.
-  ///
-  /// If you didn't include <code>OutputBucketName</code> in your transcription
-  /// job request, your subtitle file is stored in a service-managed bucket, and
-  /// <code>TranscriptFileUri</code> provides you with a temporary URI you can use
-  /// for secure access to your subtitle file.
-  /// <note>
-  /// Temporary URIs for service-managed Amazon S3 buckets are only valid for 15
-  /// minutes. If you get an <code>AccesDenied</code> error, you can get a new
-  /// temporary URI by running a <code>GetTranscriptionJob</code> or
-  /// <code>ListTranscriptionJob</code> request.
-  /// </note>
-  final List<String>? subtitleFileUris;
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
+  /// PM UTC-7 on May 4, 2022.
+  final DateTime? createTime;
 
-  SubtitlesOutput({
-    this.formats,
-    this.outputStartIndex,
-    this.subtitleFileUris,
+  /// The input type associated with the specified category.
+  /// <code>POST_CALL</code> refers to a category that is applied to batch
+  /// transcriptions; <code>REAL_TIME</code> refers to a category that is applied
+  /// to streaming transcriptions.
+  final InputType? inputType;
+
+  /// The date and time the specified Call Analytics category was last updated.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-05T12:45:32.691000-07:00</code> represents 12:45
+  /// PM UTC-7 on May 5, 2022.
+  final DateTime? lastUpdateTime;
+
+  /// The rules used to define a Call Analytics category. Each category can have
+  /// between 1 and 20 rules.
+  final List<Rule>? rules;
+
+  /// The tags, each in the form of a key:value pair, assigned to the specified
+  /// call analytics category.
+  final List<Tag>? tags;
+
+  CategoryProperties({
+    this.categoryName,
+    this.createTime,
+    this.inputType,
+    this.lastUpdateTime,
+    this.rules,
+    this.tags,
   });
 
-  factory SubtitlesOutput.fromJson(Map<String, dynamic> json) {
-    return SubtitlesOutput(
-      formats: (json['Formats'] as List?)
+  factory CategoryProperties.fromJson(Map<String, dynamic> json) {
+    return CategoryProperties(
+      categoryName: json['CategoryName'] as String?,
+      createTime: timeStampFromJson(json['CreateTime']),
+      inputType: (json['InputType'] as String?)?.let(InputType.fromString),
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      rules: (json['Rules'] as List?)
           ?.nonNulls
-          .map((e) => SubtitleFormat.fromString((e as String)))
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
           .toList(),
-      outputStartIndex: json['OutputStartIndex'] as int?,
-      subtitleFileUris: (json['SubtitleFileUris'] as List?)
+      tags: (json['Tags'] as List?)
           ?.nonNulls
-          .map((e) => e as String)
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final formats = this.formats;
-    final outputStartIndex = this.outputStartIndex;
-    final subtitleFileUris = this.subtitleFileUris;
+    final categoryName = this.categoryName;
+    final createTime = this.createTime;
+    final inputType = this.inputType;
+    final lastUpdateTime = this.lastUpdateTime;
+    final rules = this.rules;
+    final tags = this.tags;
     return {
-      if (formats != null) 'Formats': formats.map((e) => e.value).toList(),
-      if (outputStartIndex != null) 'OutputStartIndex': outputStartIndex,
-      if (subtitleFileUris != null) 'SubtitleFileUris': subtitleFileUris,
+      if (categoryName != null) 'CategoryName': categoryName,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (inputType != null) 'InputType': inputType.value,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (rules != null) 'Rules': rules,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
 
-/// Contains <code>GenerateAbstractiveSummary</code>, which is a required
-/// parameter if you want to enable Generative call summarization in your Call
-/// Analytics request.
-class Summarization {
-  /// Enables Generative call summarization in your Call Analytics request
-  ///
-  /// Generative call summarization provides a summary of the transcript including
-  /// important components discussed in the conversation.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-enable-summarization.html">Enabling
-  /// generative call summarization</a>.
-  final bool generateAbstractiveSummary;
+class InputType {
+  static const realTime = InputType._('REAL_TIME');
+  static const postCall = InputType._('POST_CALL');
 
-  Summarization({
-    required this.generateAbstractiveSummary,
-  });
+  final String value;
 
-  factory Summarization.fromJson(Map<String, dynamic> json) {
-    return Summarization(
-      generateAbstractiveSummary:
-          (json['GenerateAbstractiveSummary'] as bool?) ?? false,
-    );
-  }
+  const InputType._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final generateAbstractiveSummary = this.generateAbstractiveSummary;
-    return {
-      'GenerateAbstractiveSummary': generateAbstractiveSummary,
-    };
-  }
+  static const values = [realTime, postCall];
+
+  static InputType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InputType._(value));
+
+  @override
+  bool operator ==(other) => other is InputType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Adds metadata, in the form of a key:value pair, to the specified resource.
@@ -8373,132 +5149,233 @@ class Tag {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// A rule is a set of criteria that you can specify to flag an attribute in
+/// your Call Analytics output. Rules define a Call Analytics category.
+///
+/// Rules can include these parameters: , , , and .
+///
+/// To learn more about Call Analytics rules and categories, see <a
+/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html">Creating
+/// categories for post-call transcriptions</a> and <a
+/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html">Creating
+/// categories for real-time transcriptions</a>.
+///
+/// To learn more about Call Analytics, see <a
+/// href="https://docs.aws.amazon.com/transcribe/latest/dg/call-analytics.html">Analyzing
+/// call center audio with Call Analytics</a>.
+class Rule {
+  /// Flag the presence or absence of interruptions in your Call Analytics
+  /// transcription output. Refer to for more detail.
+  final InterruptionFilter? interruptionFilter;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
+  /// Flag the presence or absence of periods of silence in your Call Analytics
+  /// transcription output. Refer to for more detail.
+  final NonTalkTimeFilter? nonTalkTimeFilter;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// Flag the presence or absence of specific sentiments in your Call Analytics
+  /// transcription output. Refer to for more detail.
+  final SentimentFilter? sentimentFilter;
 
-class ToxicityCategory {
-  static const all = ToxicityCategory._('ALL');
+  /// Flag the presence or absence of specific words or phrases in your Call
+  /// Analytics transcription output. Refer to for more detail.
+  final TranscriptFilter? transcriptFilter;
 
-  final String value;
-
-  const ToxicityCategory._(this.value);
-
-  static const values = [all];
-
-  static ToxicityCategory fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ToxicityCategory._(value));
-
-  @override
-  bool operator ==(other) => other is ToxicityCategory && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains <code>ToxicityCategories</code>, which is a required parameter if
-/// you want to enable toxicity detection (<code>ToxicityDetection</code>) in
-/// your transcription request.
-class ToxicityDetectionSettings {
-  /// If you include <code>ToxicityDetection</code> in your transcription request,
-  /// you must also include <code>ToxicityCategories</code>. The only accepted
-  /// value for this parameter is <code>ALL</code>.
-  final List<ToxicityCategory> toxicityCategories;
-
-  ToxicityDetectionSettings({
-    required this.toxicityCategories,
+  Rule({
+    this.interruptionFilter,
+    this.nonTalkTimeFilter,
+    this.sentimentFilter,
+    this.transcriptFilter,
   });
 
-  factory ToxicityDetectionSettings.fromJson(Map<String, dynamic> json) {
-    return ToxicityDetectionSettings(
-      toxicityCategories: ((json['ToxicityCategories'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ToxicityCategory.fromString((e as String)))
-          .toList(),
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      interruptionFilter: json['InterruptionFilter'] != null
+          ? InterruptionFilter.fromJson(
+              json['InterruptionFilter'] as Map<String, dynamic>)
+          : null,
+      nonTalkTimeFilter: json['NonTalkTimeFilter'] != null
+          ? NonTalkTimeFilter.fromJson(
+              json['NonTalkTimeFilter'] as Map<String, dynamic>)
+          : null,
+      sentimentFilter: json['SentimentFilter'] != null
+          ? SentimentFilter.fromJson(
+              json['SentimentFilter'] as Map<String, dynamic>)
+          : null,
+      transcriptFilter: json['TranscriptFilter'] != null
+          ? TranscriptFilter.fromJson(
+              json['TranscriptFilter'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final toxicityCategories = this.toxicityCategories;
+    final interruptionFilter = this.interruptionFilter;
+    final nonTalkTimeFilter = this.nonTalkTimeFilter;
+    final sentimentFilter = this.sentimentFilter;
+    final transcriptFilter = this.transcriptFilter;
     return {
-      'ToxicityCategories': toxicityCategories.map((e) => e.value).toList(),
+      if (interruptionFilter != null) 'InterruptionFilter': interruptionFilter,
+      if (nonTalkTimeFilter != null) 'NonTalkTimeFilter': nonTalkTimeFilter,
+      if (sentimentFilter != null) 'SentimentFilter': sentimentFilter,
+      if (transcriptFilter != null) 'TranscriptFilter': transcriptFilter,
     };
   }
 }
 
-/// Provides you with the Amazon S3 URI you can use to access your transcript.
-class Transcript {
-  /// The Amazon S3 location of your redacted transcript. You can use this URI to
-  /// access or download your transcript.
-  ///
-  /// If you included <code>OutputBucketName</code> in your transcription job
-  /// request, this is the URI of that bucket. If you also included
-  /// <code>OutputKey</code> in your request, your output is located in the path
-  /// you specified in your request.
-  ///
-  /// If you didn't include <code>OutputBucketName</code> in your transcription
-  /// job request, your transcript is stored in a service-managed bucket, and
-  /// <code>RedactedTranscriptFileUri</code> provides you with a temporary URI you
-  /// can use for secure access to your transcript.
-  /// <note>
-  /// Temporary URIs for service-managed Amazon S3 buckets are only valid for 15
-  /// minutes. If you get an <code>AccesDenied</code> error, you can get a new
-  /// temporary URI by running a <code>GetTranscriptionJob</code> or
-  /// <code>ListTranscriptionJob</code> request.
-  /// </note>
-  final String? redactedTranscriptFileUri;
+/// Flag the presence or absence of periods of silence in your Call Analytics
+/// transcription output.
+///
+/// Rules using <code>NonTalkTimeFilter</code> are designed to match:
+///
+/// <ul>
+/// <li>
+/// The presence of silence at specified periods throughout the call
+/// </li>
+/// <li>
+/// The presence of speech at specified periods throughout the call
+/// </li>
+/// </ul>
+/// See <a
+/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
+/// criteria for post-call categories</a> for usage examples.
+class NonTalkTimeFilter {
+  /// Makes it possible to specify a time range (in milliseconds) in your audio,
+  /// during which you want to search for a period of silence. See for more
+  /// detail.
+  final AbsoluteTimeRange? absoluteTimeRange;
 
-  /// The Amazon S3 location of your transcript. You can use this URI to access or
-  /// download your transcript.
-  ///
-  /// If you included <code>OutputBucketName</code> in your transcription job
-  /// request, this is the URI of that bucket. If you also included
-  /// <code>OutputKey</code> in your request, your output is located in the path
-  /// you specified in your request.
-  ///
-  /// If you didn't include <code>OutputBucketName</code> in your transcription
-  /// job request, your transcript is stored in a service-managed bucket, and
-  /// <code>TranscriptFileUri</code> provides you with a temporary URI you can use
-  /// for secure access to your transcript.
-  /// <note>
-  /// Temporary URIs for service-managed Amazon S3 buckets are only valid for 15
-  /// minutes. If you get an <code>AccesDenied</code> error, you can get a new
-  /// temporary URI by running a <code>GetTranscriptionJob</code> or
-  /// <code>ListTranscriptionJob</code> request.
-  /// </note>
-  final String? transcriptFileUri;
+  /// Set to <code>TRUE</code> to flag periods of speech. Set to
+  /// <code>FALSE</code> to flag periods of silence
+  final bool? negate;
 
-  Transcript({
-    this.redactedTranscriptFileUri,
-    this.transcriptFileUri,
+  /// Makes it possible to specify a time range (in percentage) in your media
+  /// file, during which you want to search for a period of silence. See for more
+  /// detail.
+  final RelativeTimeRange? relativeTimeRange;
+
+  /// Specify the duration, in milliseconds, of the period of silence that you
+  /// want to flag. For example, you can flag a silent period that lasts 30,000
+  /// milliseconds.
+  final int? threshold;
+
+  NonTalkTimeFilter({
+    this.absoluteTimeRange,
+    this.negate,
+    this.relativeTimeRange,
+    this.threshold,
   });
 
-  factory Transcript.fromJson(Map<String, dynamic> json) {
-    return Transcript(
-      redactedTranscriptFileUri: json['RedactedTranscriptFileUri'] as String?,
-      transcriptFileUri: json['TranscriptFileUri'] as String?,
+  factory NonTalkTimeFilter.fromJson(Map<String, dynamic> json) {
+    return NonTalkTimeFilter(
+      absoluteTimeRange: json['AbsoluteTimeRange'] != null
+          ? AbsoluteTimeRange.fromJson(
+              json['AbsoluteTimeRange'] as Map<String, dynamic>)
+          : null,
+      negate: json['Negate'] as bool?,
+      relativeTimeRange: json['RelativeTimeRange'] != null
+          ? RelativeTimeRange.fromJson(
+              json['RelativeTimeRange'] as Map<String, dynamic>)
+          : null,
+      threshold: json['Threshold'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final redactedTranscriptFileUri = this.redactedTranscriptFileUri;
-    final transcriptFileUri = this.transcriptFileUri;
+    final absoluteTimeRange = this.absoluteTimeRange;
+    final negate = this.negate;
+    final relativeTimeRange = this.relativeTimeRange;
+    final threshold = this.threshold;
     return {
-      if (redactedTranscriptFileUri != null)
-        'RedactedTranscriptFileUri': redactedTranscriptFileUri,
-      if (transcriptFileUri != null) 'TranscriptFileUri': transcriptFileUri,
+      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
+      if (negate != null) 'Negate': negate,
+      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
+      if (threshold != null) 'Threshold': threshold,
+    };
+  }
+}
+
+/// Flag the presence or absence of interruptions in your Call Analytics
+/// transcription output.
+///
+/// Rules using <code>InterruptionFilter</code> are designed to match:
+///
+/// <ul>
+/// <li>
+/// Instances where an agent interrupts a customer
+/// </li>
+/// <li>
+/// Instances where a customer interrupts an agent
+/// </li>
+/// <li>
+/// Either participant interrupting the other
+/// </li>
+/// <li>
+/// A lack of interruptions
+/// </li>
+/// </ul>
+/// See <a
+/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
+/// criteria for post-call categories</a> for usage examples.
+class InterruptionFilter {
+  /// Makes it possible to specify a time range (in milliseconds) in your audio,
+  /// during which you want to search for an interruption. See for more detail.
+  final AbsoluteTimeRange? absoluteTimeRange;
+
+  /// Set to <code>TRUE</code> to flag speech that does not contain interruptions.
+  /// Set to <code>FALSE</code> to flag speech that contains interruptions.
+  final bool? negate;
+
+  /// Specify the interrupter that you want to flag. Omitting this parameter is
+  /// equivalent to specifying both participants.
+  final ParticipantRole? participantRole;
+
+  /// Makes it possible to specify a time range (in percentage) in your media
+  /// file, during which you want to search for an interruption. See for more
+  /// detail.
+  final RelativeTimeRange? relativeTimeRange;
+
+  /// Specify the duration of the interruptions in milliseconds. For example, you
+  /// can flag speech that contains more than 10,000 milliseconds of
+  /// interruptions.
+  final int? threshold;
+
+  InterruptionFilter({
+    this.absoluteTimeRange,
+    this.negate,
+    this.participantRole,
+    this.relativeTimeRange,
+    this.threshold,
+  });
+
+  factory InterruptionFilter.fromJson(Map<String, dynamic> json) {
+    return InterruptionFilter(
+      absoluteTimeRange: json['AbsoluteTimeRange'] != null
+          ? AbsoluteTimeRange.fromJson(
+              json['AbsoluteTimeRange'] as Map<String, dynamic>)
+          : null,
+      negate: json['Negate'] as bool?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
+      relativeTimeRange: json['RelativeTimeRange'] != null
+          ? RelativeTimeRange.fromJson(
+              json['RelativeTimeRange'] as Map<String, dynamic>)
+          : null,
+      threshold: json['Threshold'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTimeRange = this.absoluteTimeRange;
+    final negate = this.negate;
+    final participantRole = this.participantRole;
+    final relativeTimeRange = this.relativeTimeRange;
+    final threshold = this.threshold;
+    return {
+      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
+      if (negate != null) 'Negate': negate,
+      if (participantRole != null) 'ParticipantRole': participantRole.value,
+      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
+      if (threshold != null) 'Threshold': threshold,
     };
   }
 }
@@ -8604,6 +5481,287 @@ class TranscriptFilter {
       if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
     };
   }
+}
+
+/// Flag the presence or absence of specific sentiments detected in your Call
+/// Analytics transcription output.
+///
+/// Rules using <code>SentimentFilter</code> are designed to match:
+///
+/// <ul>
+/// <li>
+/// The presence or absence of a positive sentiment felt by the customer, agent,
+/// or both at specified points in the call
+/// </li>
+/// <li>
+/// The presence or absence of a negative sentiment felt by the customer, agent,
+/// or both at specified points in the call
+/// </li>
+/// <li>
+/// The presence or absence of a neutral sentiment felt by the customer, agent,
+/// or both at specified points in the call
+/// </li>
+/// <li>
+/// The presence or absence of a mixed sentiment felt by the customer, the
+/// agent, or both at specified points in the call
+/// </li>
+/// </ul>
+/// See <a
+/// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html#tca-rules-batch">Rule
+/// criteria for post-call categories</a> for usage examples.
+class SentimentFilter {
+  /// Specify the sentiments that you want to flag.
+  final List<SentimentValue> sentiments;
+
+  /// Makes it possible to specify a time range (in milliseconds) in your audio,
+  /// during which you want to search for the specified sentiments. See for more
+  /// detail.
+  final AbsoluteTimeRange? absoluteTimeRange;
+
+  /// Set to <code>TRUE</code> to flag the sentiments that you didn't include in
+  /// your request. Set to <code>FALSE</code> to flag the sentiments that you
+  /// specified in your request.
+  final bool? negate;
+
+  /// Specify the participant that you want to flag. Omitting this parameter is
+  /// equivalent to specifying both participants.
+  final ParticipantRole? participantRole;
+
+  /// Makes it possible to specify a time range (in percentage) in your media
+  /// file, during which you want to search for the specified sentiments. See for
+  /// more detail.
+  final RelativeTimeRange? relativeTimeRange;
+
+  SentimentFilter({
+    required this.sentiments,
+    this.absoluteTimeRange,
+    this.negate,
+    this.participantRole,
+    this.relativeTimeRange,
+  });
+
+  factory SentimentFilter.fromJson(Map<String, dynamic> json) {
+    return SentimentFilter(
+      sentiments: ((json['Sentiments'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SentimentValue.fromString((e as String)))
+          .toList(),
+      absoluteTimeRange: json['AbsoluteTimeRange'] != null
+          ? AbsoluteTimeRange.fromJson(
+              json['AbsoluteTimeRange'] as Map<String, dynamic>)
+          : null,
+      negate: json['Negate'] as bool?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
+      relativeTimeRange: json['RelativeTimeRange'] != null
+          ? RelativeTimeRange.fromJson(
+              json['RelativeTimeRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sentiments = this.sentiments;
+    final absoluteTimeRange = this.absoluteTimeRange;
+    final negate = this.negate;
+    final participantRole = this.participantRole;
+    final relativeTimeRange = this.relativeTimeRange;
+    return {
+      'Sentiments': sentiments.map((e) => e.value).toList(),
+      if (absoluteTimeRange != null) 'AbsoluteTimeRange': absoluteTimeRange,
+      if (negate != null) 'Negate': negate,
+      if (participantRole != null) 'ParticipantRole': participantRole.value,
+      if (relativeTimeRange != null) 'RelativeTimeRange': relativeTimeRange,
+    };
+  }
+}
+
+/// A time range, in milliseconds, between two points in your media file.
+///
+/// You can use <code>StartTime</code> and <code>EndTime</code> to search a
+/// custom segment. For example, setting <code>StartTime</code> to 10000 and
+/// <code>EndTime</code> to 50000 only searches for your specified criteria in
+/// the audio contained between the 10,000 millisecond mark and the 50,000
+/// millisecond mark of your media file. You must use <code>StartTime</code> and
+/// <code>EndTime</code> as a set; that is, if you include one, you must include
+/// both.
+///
+/// You can use also <code>First</code> to search from the start of the audio
+/// until the time that you specify, or <code>Last</code> to search from the
+/// time that you specify until the end of the audio. For example, setting
+/// <code>First</code> to 50000 only searches for your specified criteria in the
+/// audio contained between the start of the media file to the 50,000
+/// millisecond mark. You can use <code>First</code> and <code>Last</code>
+/// independently of each other.
+///
+/// If you prefer to use percentage instead of milliseconds, see .
+class AbsoluteTimeRange {
+  /// The time, in milliseconds, when Amazon Transcribe stops searching for the
+  /// specified criteria in your audio. If you include <code>EndTime</code> in
+  /// your request, you must also include <code>StartTime</code>.
+  final int? endTime;
+
+  /// The time, in milliseconds, from the start of your media file until the
+  /// specified value. Amazon Transcribe searches for your specified criteria in
+  /// this time segment.
+  final int? first;
+
+  /// The time, in milliseconds, from the specified value until the end of your
+  /// media file. Amazon Transcribe searches for your specified criteria in this
+  /// time segment.
+  final int? last;
+
+  /// The time, in milliseconds, when Amazon Transcribe starts searching for the
+  /// specified criteria in your audio. If you include <code>StartTime</code> in
+  /// your request, you must also include <code>EndTime</code>.
+  final int? startTime;
+
+  AbsoluteTimeRange({
+    this.endTime,
+    this.first,
+    this.last,
+    this.startTime,
+  });
+
+  factory AbsoluteTimeRange.fromJson(Map<String, dynamic> json) {
+    return AbsoluteTimeRange(
+      endTime: json['EndTime'] as int?,
+      first: json['First'] as int?,
+      last: json['Last'] as int?,
+      startTime: json['StartTime'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final first = this.first;
+    final last = this.last;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': endTime,
+      if (first != null) 'First': first,
+      if (last != null) 'Last': last,
+      if (startTime != null) 'StartTime': startTime,
+    };
+  }
+}
+
+/// A time range, in percentage, between two points in your media file.
+///
+/// You can use <code>StartPercentage</code> and <code>EndPercentage</code> to
+/// search a custom segment. For example, setting <code>StartPercentage</code>
+/// to 10 and <code>EndPercentage</code> to 50 only searches for your specified
+/// criteria in the audio contained between the 10 percent mark and the 50
+/// percent mark of your media file.
+///
+/// You can use also <code>First</code> to search from the start of the media
+/// file until the time that you specify. Or use <code>Last</code> to search
+/// from the time that you specify until the end of the media file. For example,
+/// setting <code>First</code> to 10 only searches for your specified criteria
+/// in the audio contained in the first 10 percent of the media file.
+///
+/// If you prefer to use milliseconds instead of percentage, see .
+class RelativeTimeRange {
+  /// The time, in percentage, when Amazon Transcribe stops searching for the
+  /// specified criteria in your media file. If you include
+  /// <code>EndPercentage</code> in your request, you must also include
+  /// <code>StartPercentage</code>.
+  final int? endPercentage;
+
+  /// The time, in percentage, from the start of your media file until the
+  /// specified value. Amazon Transcribe searches for your specified criteria in
+  /// this time segment.
+  final int? first;
+
+  /// The time, in percentage, from the specified value until the end of your
+  /// media file. Amazon Transcribe searches for your specified criteria in this
+  /// time segment.
+  final int? last;
+
+  /// The time, in percentage, when Amazon Transcribe starts searching for the
+  /// specified criteria in your media file. If you include
+  /// <code>StartPercentage</code> in your request, you must also include
+  /// <code>EndPercentage</code>.
+  final int? startPercentage;
+
+  RelativeTimeRange({
+    this.endPercentage,
+    this.first,
+    this.last,
+    this.startPercentage,
+  });
+
+  factory RelativeTimeRange.fromJson(Map<String, dynamic> json) {
+    return RelativeTimeRange(
+      endPercentage: json['EndPercentage'] as int?,
+      first: json['First'] as int?,
+      last: json['Last'] as int?,
+      startPercentage: json['StartPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endPercentage = this.endPercentage;
+    final first = this.first;
+    final last = this.last;
+    final startPercentage = this.startPercentage;
+    return {
+      if (endPercentage != null) 'EndPercentage': endPercentage,
+      if (first != null) 'First': first,
+      if (last != null) 'Last': last,
+      if (startPercentage != null) 'StartPercentage': startPercentage,
+    };
+  }
+}
+
+class ParticipantRole {
+  static const agent = ParticipantRole._('AGENT');
+  static const customer = ParticipantRole._('CUSTOMER');
+
+  final String value;
+
+  const ParticipantRole._(this.value);
+
+  static const values = [agent, customer];
+
+  static ParticipantRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParticipantRole._(value));
+
+  @override
+  bool operator ==(other) => other is ParticipantRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SentimentValue {
+  static const positive = SentimentValue._('POSITIVE');
+  static const negative = SentimentValue._('NEGATIVE');
+  static const neutral = SentimentValue._('NEUTRAL');
+  static const mixed = SentimentValue._('MIXED');
+
+  final String value;
+
+  const SentimentValue._(this.value);
+
+  static const values = [positive, negative, neutral, mixed];
+
+  static SentimentValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SentimentValue._(value));
+
+  @override
+  bool operator ==(other) => other is SentimentValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TranscriptFilterType {
@@ -8991,6 +6149,2738 @@ class TranscriptionJobStatus {
   String toString() => value;
 }
 
+class MediaFormat {
+  static const mp3 = MediaFormat._('mp3');
+  static const mp4 = MediaFormat._('mp4');
+  static const wav = MediaFormat._('wav');
+  static const flac = MediaFormat._('flac');
+  static const ogg = MediaFormat._('ogg');
+  static const amr = MediaFormat._('amr');
+  static const webm = MediaFormat._('webm');
+  static const m4a = MediaFormat._('m4a');
+
+  final String value;
+
+  const MediaFormat._(this.value);
+
+  static const values = [mp3, mp4, wav, flac, ogg, amr, webm, m4a];
+
+  static MediaFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MediaFormat._(value));
+
+  @override
+  bool operator ==(other) => other is MediaFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the Amazon S3 location of the media file you want to use in your
+/// request.
+///
+/// For information on supported media formats, refer to the
+/// <code>MediaFormat</code> parameter or the <a
+/// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio">Media
+/// formats</a> section in the Amazon S3 Developer Guide.
+class Media {
+  /// The Amazon S3 location of the media file you want to transcribe. For
+  /// example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>s3://DOC-EXAMPLE-BUCKET/my-media-file.flac</code>
+  /// </li>
+  /// <li>
+  /// <code>s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac</code>
+  /// </li>
+  /// </ul>
+  /// Note that the Amazon S3 bucket that contains your input media must be
+  /// located in the same Amazon Web Services Region where you're making your
+  /// transcription request.
+  final String? mediaFileUri;
+
+  /// The Amazon S3 location of the media file you want to redact. For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>s3://DOC-EXAMPLE-BUCKET/my-media-file.flac</code>
+  /// </li>
+  /// <li>
+  /// <code>s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac</code>
+  /// </li>
+  /// </ul>
+  /// Note that the Amazon S3 bucket that contains your input media must be
+  /// located in the same Amazon Web Services Region where you're making your
+  /// transcription request.
+  /// <important>
+  /// <code>RedactedMediaFileUri</code> produces a redacted audio file in addition
+  /// to a redacted transcript. It is only supported for Call Analytics
+  /// (<code>StartCallAnalyticsJob</code>) transcription requests.
+  /// </important>
+  final String? redactedMediaFileUri;
+
+  Media({
+    this.mediaFileUri,
+    this.redactedMediaFileUri,
+  });
+
+  factory Media.fromJson(Map<String, dynamic> json) {
+    return Media(
+      mediaFileUri: json['MediaFileUri'] as String?,
+      redactedMediaFileUri: json['RedactedMediaFileUri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaFileUri = this.mediaFileUri;
+    final redactedMediaFileUri = this.redactedMediaFileUri;
+    return {
+      if (mediaFileUri != null) 'MediaFileUri': mediaFileUri,
+      if (redactedMediaFileUri != null)
+        'RedactedMediaFileUri': redactedMediaFileUri,
+    };
+  }
+}
+
+/// Provides you with the Amazon S3 URI you can use to access your transcript.
+class Transcript {
+  /// The Amazon S3 location of your redacted transcript. You can use this URI to
+  /// access or download your transcript.
+  ///
+  /// If you included <code>OutputBucketName</code> in your transcription job
+  /// request, this is the URI of that bucket. If you also included
+  /// <code>OutputKey</code> in your request, your output is located in the path
+  /// you specified in your request.
+  ///
+  /// If you didn't include <code>OutputBucketName</code> in your transcription
+  /// job request, your transcript is stored in a service-managed bucket, and
+  /// <code>RedactedTranscriptFileUri</code> provides you with a temporary URI you
+  /// can use for secure access to your transcript.
+  /// <note>
+  /// Temporary URIs for service-managed Amazon S3 buckets are only valid for 15
+  /// minutes. If you get an <code>AccesDenied</code> error, you can get a new
+  /// temporary URI by running a <code>GetTranscriptionJob</code> or
+  /// <code>ListTranscriptionJob</code> request.
+  /// </note>
+  final String? redactedTranscriptFileUri;
+
+  /// The Amazon S3 location of your transcript. You can use this URI to access or
+  /// download your transcript.
+  ///
+  /// If you included <code>OutputBucketName</code> in your transcription job
+  /// request, this is the URI of that bucket. If you also included
+  /// <code>OutputKey</code> in your request, your output is located in the path
+  /// you specified in your request.
+  ///
+  /// If you didn't include <code>OutputBucketName</code> in your transcription
+  /// job request, your transcript is stored in a service-managed bucket, and
+  /// <code>TranscriptFileUri</code> provides you with a temporary URI you can use
+  /// for secure access to your transcript.
+  /// <note>
+  /// Temporary URIs for service-managed Amazon S3 buckets are only valid for 15
+  /// minutes. If you get an <code>AccesDenied</code> error, you can get a new
+  /// temporary URI by running a <code>GetTranscriptionJob</code> or
+  /// <code>ListTranscriptionJob</code> request.
+  /// </note>
+  final String? transcriptFileUri;
+
+  Transcript({
+    this.redactedTranscriptFileUri,
+    this.transcriptFileUri,
+  });
+
+  factory Transcript.fromJson(Map<String, dynamic> json) {
+    return Transcript(
+      redactedTranscriptFileUri: json['RedactedTranscriptFileUri'] as String?,
+      transcriptFileUri: json['TranscriptFileUri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final redactedTranscriptFileUri = this.redactedTranscriptFileUri;
+    final transcriptFileUri = this.transcriptFileUri;
+    return {
+      if (redactedTranscriptFileUri != null)
+        'RedactedTranscriptFileUri': redactedTranscriptFileUri,
+      if (transcriptFileUri != null) 'TranscriptFileUri': transcriptFileUri,
+    };
+  }
+}
+
+/// Allows additional optional settings in your request, including channel
+/// identification, alternative transcriptions, and speaker partitioning. You
+/// can use that to apply custom vocabularies to your transcription job.
+class Settings {
+  /// Enables channel identification in multi-channel audio.
+  ///
+  /// Channel identification transcribes the audio on each channel independently,
+  /// then appends the output for each channel into one transcript.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html">Transcribing
+  /// multi-channel audio</a>.
+  final bool? channelIdentification;
+
+  /// Indicate the maximum number of alternative transcriptions you want Amazon
+  /// Transcribe to include in your transcript.
+  ///
+  /// If you select a number greater than the number of alternative transcriptions
+  /// generated by Amazon Transcribe, only the actual number of alternative
+  /// transcriptions are included.
+  ///
+  /// If you include <code>MaxAlternatives</code> in your request, you must also
+  /// include <code>ShowAlternatives</code> with a value of <code>true</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html">Alternative
+  /// transcriptions</a>.
+  final int? maxAlternatives;
+
+  /// Specify the maximum number of speakers you want to partition in your media.
+  ///
+  /// Note that if your media contains more speakers than the specified number,
+  /// multiple speakers are treated as a single speaker.
+  ///
+  /// If you specify the <code>MaxSpeakerLabels</code> field, you must set the
+  /// <code>ShowSpeakerLabels</code> field to true.
+  final int? maxSpeakerLabels;
+
+  /// To include alternative transcriptions within your transcription output,
+  /// include <code>ShowAlternatives</code> in your transcription request.
+  ///
+  /// If you have multi-channel audio and do not enable channel identification,
+  /// your audio is transcribed in a continuous manner and your transcript does
+  /// not separate the speech by channel.
+  ///
+  /// If you include <code>ShowAlternatives</code>, you must also include
+  /// <code>MaxAlternatives</code>, which is the maximum number of alternative
+  /// transcriptions you want Amazon Transcribe to generate.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html">Alternative
+  /// transcriptions</a>.
+  final bool? showAlternatives;
+
+  /// Enables speaker partitioning (diarization) in your transcription output.
+  /// Speaker partitioning labels the speech from individual speakers in your
+  /// media file.
+  ///
+  /// If you enable <code>ShowSpeakerLabels</code> in your request, you must also
+  /// include <code>MaxSpeakerLabels</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html">Partitioning
+  /// speakers (diarization)</a>.
+  final bool? showSpeakerLabels;
+
+  /// Specify how you want your custom vocabulary filter applied to your
+  /// transcript.
+  ///
+  /// To replace words with <code>***</code>, choose <code>mask</code>.
+  ///
+  /// To delete words, choose <code>remove</code>.
+  ///
+  /// To flag words without changing them, choose <code>tag</code>.
+  final VocabularyFilterMethod? vocabularyFilterMethod;
+
+  /// The name of the custom vocabulary filter you want to use in your
+  /// transcription job request. This name is case sensitive, cannot contain
+  /// spaces, and must be unique within an Amazon Web Services account.
+  ///
+  /// Note that if you include <code>VocabularyFilterName</code> in your request,
+  /// you must also include <code>VocabularyFilterMethod</code>.
+  final String? vocabularyFilterName;
+
+  /// The name of the custom vocabulary you want to use in your transcription job
+  /// request. This name is case sensitive, cannot contain spaces, and must be
+  /// unique within an Amazon Web Services account.
+  final String? vocabularyName;
+
+  Settings({
+    this.channelIdentification,
+    this.maxAlternatives,
+    this.maxSpeakerLabels,
+    this.showAlternatives,
+    this.showSpeakerLabels,
+    this.vocabularyFilterMethod,
+    this.vocabularyFilterName,
+    this.vocabularyName,
+  });
+
+  factory Settings.fromJson(Map<String, dynamic> json) {
+    return Settings(
+      channelIdentification: json['ChannelIdentification'] as bool?,
+      maxAlternatives: json['MaxAlternatives'] as int?,
+      maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
+      showAlternatives: json['ShowAlternatives'] as bool?,
+      showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
+      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
+          ?.let(VocabularyFilterMethod.fromString),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelIdentification = this.channelIdentification;
+    final maxAlternatives = this.maxAlternatives;
+    final maxSpeakerLabels = this.maxSpeakerLabels;
+    final showAlternatives = this.showAlternatives;
+    final showSpeakerLabels = this.showSpeakerLabels;
+    final vocabularyFilterMethod = this.vocabularyFilterMethod;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (channelIdentification != null)
+        'ChannelIdentification': channelIdentification,
+      if (maxAlternatives != null) 'MaxAlternatives': maxAlternatives,
+      if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
+      if (showAlternatives != null) 'ShowAlternatives': showAlternatives,
+      if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
+      if (vocabularyFilterMethod != null)
+        'VocabularyFilterMethod': vocabularyFilterMethod.value,
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
+}
+
+/// Provides the name of the custom language model that was included in the
+/// specified transcription job.
+///
+/// Only use <code>ModelSettings</code> with the <code>LanguageModelName</code>
+/// sub-parameter if you're <b>not</b> using automatic language identification
+/// (<code></code>). If using <code>LanguageIdSettings</code> in your request,
+/// this parameter contains a <code>LanguageModelName</code> sub-parameter.
+class ModelSettings {
+  /// The name of the custom language model you want to use when processing your
+  /// transcription job. Note that custom language model names are case sensitive.
+  ///
+  /// The language of the specified custom language model must match the language
+  /// code that you specify in your transcription request. If the languages do not
+  /// match, the custom language model isn't applied. There are no errors or
+  /// warnings associated with a language mismatch.
+  final String? languageModelName;
+
+  ModelSettings({
+    this.languageModelName,
+  });
+
+  factory ModelSettings.fromJson(Map<String, dynamic> json) {
+    return ModelSettings(
+      languageModelName: json['LanguageModelName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageModelName = this.languageModelName;
+    return {
+      if (languageModelName != null) 'LanguageModelName': languageModelName,
+    };
+  }
+}
+
+/// Makes it possible to control how your transcription job is processed.
+/// Currently, the only <code>JobExecutionSettings</code> modification you can
+/// choose is enabling job queueing using the
+/// <code>AllowDeferredExecution</code> sub-parameter.
+///
+/// If you include <code>JobExecutionSettings</code> in your request, you must
+/// also include the sub-parameters: <code>AllowDeferredExecution</code> and
+/// <code>DataAccessRoleArn</code>.
+class JobExecutionSettings {
+  /// Makes it possible to enable job queuing when your concurrent request limit
+  /// is exceeded. When <code>AllowDeferredExecution</code> is set to
+  /// <code>true</code>, transcription job requests are placed in a queue until
+  /// the number of jobs falls below the concurrent request limit. If
+  /// <code>AllowDeferredExecution</code> is set to <code>false</code> and the
+  /// number of transcription job requests exceed the concurrent request limit,
+  /// you get a <code>LimitExceededException</code> error.
+  ///
+  /// If you include <code>AllowDeferredExecution</code> in your request, you must
+  /// also include <code>DataAccessRoleArn</code>.
+  final bool? allowDeferredExecution;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access
+  /// the Amazon S3 bucket that contains your input files. If the role that you
+  /// specify doesn’t have the appropriate permissions to access the specified
+  /// Amazon S3 location, your request fails.
+  ///
+  /// IAM role ARNs have the format
+  /// <code>arn:partition:iam::account:role/role-name-with-path</code>. For
+  /// example: <code>arn:aws:iam::111122223333:role/Admin</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns">IAM
+  /// ARNs</a>.
+  ///
+  /// Note that if you include <code>DataAccessRoleArn</code> in your request, you
+  /// must also include <code>AllowDeferredExecution</code>.
+  final String? dataAccessRoleArn;
+
+  JobExecutionSettings({
+    this.allowDeferredExecution,
+    this.dataAccessRoleArn,
+  });
+
+  factory JobExecutionSettings.fromJson(Map<String, dynamic> json) {
+    return JobExecutionSettings(
+      allowDeferredExecution: json['AllowDeferredExecution'] as bool?,
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowDeferredExecution = this.allowDeferredExecution;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    return {
+      if (allowDeferredExecution != null)
+        'AllowDeferredExecution': allowDeferredExecution,
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+    };
+  }
+}
+
+/// Makes it possible to redact or flag specified personally identifiable
+/// information (PII) in your transcript. If you use
+/// <code>ContentRedaction</code>, you must also include the sub-parameters:
+/// <code>RedactionOutput</code> and <code>RedactionType</code>. You can
+/// optionally include <code>PiiEntityTypes</code> to choose which types of PII
+/// you want to redact.
+class ContentRedaction {
+  /// Specify if you want only a redacted transcript, or if you want a redacted
+  /// and an unredacted transcript.
+  ///
+  /// When you choose <code>redacted</code> Amazon Transcribe creates only a
+  /// redacted transcript.
+  ///
+  /// When you choose <code>redacted_and_unredacted</code> Amazon Transcribe
+  /// creates a redacted and an unredacted transcript (as two separate files).
+  final RedactionOutput redactionOutput;
+
+  /// Specify the category of information you want to redact; <code>PII</code>
+  /// (personally identifiable information) is the only valid value. You can use
+  /// <code>PiiEntityTypes</code> to choose which types of PII you want to redact.
+  /// If you do not include <code>PiiEntityTypes</code> in your request, all PII
+  /// is redacted.
+  final RedactionType redactionType;
+
+  /// Specify which types of personally identifiable information (PII) you want to
+  /// redact in your transcript. You can include as many types as you'd like, or
+  /// you can select <code>ALL</code>. If you do not include
+  /// <code>PiiEntityTypes</code> in your request, all PII is redacted.
+  final List<PiiEntityType>? piiEntityTypes;
+
+  ContentRedaction({
+    required this.redactionOutput,
+    required this.redactionType,
+    this.piiEntityTypes,
+  });
+
+  factory ContentRedaction.fromJson(Map<String, dynamic> json) {
+    return ContentRedaction(
+      redactionOutput: RedactionOutput.fromString(
+          (json['RedactionOutput'] as String?) ?? ''),
+      redactionType:
+          RedactionType.fromString((json['RedactionType'] as String?) ?? ''),
+      piiEntityTypes: (json['PiiEntityTypes'] as List?)
+          ?.nonNulls
+          .map((e) => PiiEntityType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final redactionOutput = this.redactionOutput;
+    final redactionType = this.redactionType;
+    final piiEntityTypes = this.piiEntityTypes;
+    return {
+      'RedactionOutput': redactionOutput.value,
+      'RedactionType': redactionType.value,
+      if (piiEntityTypes != null)
+        'PiiEntityTypes': piiEntityTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Provides information about your subtitle file, including format, start
+/// index, and Amazon S3 location.
+class SubtitlesOutput {
+  /// Provides the format of your subtitle files. If your request included both
+  /// WebVTT (<code>vtt</code>) and SubRip (<code>srt</code>) formats, both
+  /// formats are shown.
+  final List<SubtitleFormat>? formats;
+
+  /// Provides the start index value for your subtitle files. If you did not
+  /// specify a value in your request, the default value of <code>0</code> is
+  /// used.
+  final int? outputStartIndex;
+
+  /// The Amazon S3 location of your transcript. You can use this URI to access or
+  /// download your subtitle file. Your subtitle file is stored in the same
+  /// location as your transcript. If you specified both WebVTT and SubRip
+  /// subtitle formats, two URIs are provided.
+  ///
+  /// If you included <code>OutputBucketName</code> in your transcription job
+  /// request, this is the URI of that bucket. If you also included
+  /// <code>OutputKey</code> in your request, your output is located in the path
+  /// you specified in your request.
+  ///
+  /// If you didn't include <code>OutputBucketName</code> in your transcription
+  /// job request, your subtitle file is stored in a service-managed bucket, and
+  /// <code>TranscriptFileUri</code> provides you with a temporary URI you can use
+  /// for secure access to your subtitle file.
+  /// <note>
+  /// Temporary URIs for service-managed Amazon S3 buckets are only valid for 15
+  /// minutes. If you get an <code>AccesDenied</code> error, you can get a new
+  /// temporary URI by running a <code>GetTranscriptionJob</code> or
+  /// <code>ListTranscriptionJob</code> request.
+  /// </note>
+  final List<String>? subtitleFileUris;
+
+  SubtitlesOutput({
+    this.formats,
+    this.outputStartIndex,
+    this.subtitleFileUris,
+  });
+
+  factory SubtitlesOutput.fromJson(Map<String, dynamic> json) {
+    return SubtitlesOutput(
+      formats: (json['Formats'] as List?)
+          ?.nonNulls
+          .map((e) => SubtitleFormat.fromString((e as String)))
+          .toList(),
+      outputStartIndex: json['OutputStartIndex'] as int?,
+      subtitleFileUris: (json['SubtitleFileUris'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formats = this.formats;
+    final outputStartIndex = this.outputStartIndex;
+    final subtitleFileUris = this.subtitleFileUris;
+    return {
+      if (formats != null) 'Formats': formats.map((e) => e.value).toList(),
+      if (outputStartIndex != null) 'OutputStartIndex': outputStartIndex,
+      if (subtitleFileUris != null) 'SubtitleFileUris': subtitleFileUris,
+    };
+  }
+}
+
+/// Contains <code>ToxicityCategories</code>, which is a required parameter if
+/// you want to enable toxicity detection (<code>ToxicityDetection</code>) in
+/// your transcription request.
+class ToxicityDetectionSettings {
+  /// If you include <code>ToxicityDetection</code> in your transcription request,
+  /// you must also include <code>ToxicityCategories</code>. The only accepted
+  /// value for this parameter is <code>ALL</code>.
+  final List<ToxicityCategory> toxicityCategories;
+
+  ToxicityDetectionSettings({
+    required this.toxicityCategories,
+  });
+
+  factory ToxicityDetectionSettings.fromJson(Map<String, dynamic> json) {
+    return ToxicityDetectionSettings(
+      toxicityCategories: ((json['ToxicityCategories'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ToxicityCategory.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final toxicityCategories = this.toxicityCategories;
+    return {
+      'ToxicityCategories': toxicityCategories.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class ToxicityCategory {
+  static const all = ToxicityCategory._('ALL');
+
+  final String value;
+
+  const ToxicityCategory._(this.value);
+
+  static const values = [all];
+
+  static ToxicityCategory fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ToxicityCategory._(value));
+
+  @override
+  bool operator ==(other) => other is ToxicityCategory && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// If using automatic language identification in your request and you want to
+/// apply a custom language model, a custom vocabulary, or a custom vocabulary
+/// filter, include <code>LanguageIdSettings</code> with the relevant
+/// sub-parameters (<code>VocabularyName</code>, <code>LanguageModelName</code>,
+/// and <code>VocabularyFilterName</code>). Note that multi-language
+/// identification (<code>IdentifyMultipleLanguages</code>) doesn't support
+/// custom language models.
+///
+/// <code>LanguageIdSettings</code> supports two to five language codes. Each
+/// language code you include can have an associated custom language model,
+/// custom vocabulary, and custom vocabulary filter. The language codes that you
+/// specify must match the languages of the associated custom language models,
+/// custom vocabularies, and custom vocabulary filters.
+///
+/// It's recommended that you include <code>LanguageOptions</code> when using
+/// <code>LanguageIdSettings</code> to ensure that the correct language dialect
+/// is identified. For example, if you specify a custom vocabulary that is in
+/// <code>en-US</code> but Amazon Transcribe determines that the language spoken
+/// in your media is <code>en-AU</code>, your custom vocabulary <i>is not</i>
+/// applied to your transcription. If you include <code>LanguageOptions</code>
+/// and include <code>en-US</code> as the only English language dialect, your
+/// custom vocabulary <i>is</i> applied to your transcription.
+///
+/// If you want to include a custom language model with your request but <b>do
+/// not</b> want to use automatic language identification, use instead the
+/// <code></code> parameter with the <code>LanguageModelName</code>
+/// sub-parameter. If you want to include a custom vocabulary or a custom
+/// vocabulary filter (or both) with your request but <b>do not</b> want to use
+/// automatic language identification, use instead the <code></code> parameter
+/// with the <code>VocabularyName</code> or <code>VocabularyFilterName</code>
+/// (or both) sub-parameter.
+class LanguageIdSettings {
+  /// The name of the custom language model you want to use when processing your
+  /// transcription job. Note that custom language model names are case sensitive.
+  ///
+  /// The language of the specified custom language model must match the language
+  /// code that you specify in your transcription request. If the languages do not
+  /// match, the custom language model isn't applied. There are no errors or
+  /// warnings associated with a language mismatch.
+  final String? languageModelName;
+
+  /// The name of the custom vocabulary filter you want to use when processing
+  /// your transcription job. Custom vocabulary filter names are case sensitive.
+  ///
+  /// The language of the specified custom vocabulary filter must match the
+  /// language code that you specify in your transcription request. If the
+  /// languages do not match, the custom vocabulary filter isn't applied. There
+  /// are no errors or warnings associated with a language mismatch.
+  ///
+  /// Note that if you include <code>VocabularyFilterName</code> in your request,
+  /// you must also include <code>VocabularyFilterMethod</code>.
+  final String? vocabularyFilterName;
+
+  /// The name of the custom vocabulary you want to use when processing your
+  /// transcription job. Custom vocabulary names are case sensitive.
+  ///
+  /// The language of the specified custom vocabulary must match the language code
+  /// that you specify in your transcription request. If the languages do not
+  /// match, the custom vocabulary isn't applied. There are no errors or warnings
+  /// associated with a language mismatch.
+  final String? vocabularyName;
+
+  LanguageIdSettings({
+    this.languageModelName,
+    this.vocabularyFilterName,
+    this.vocabularyName,
+  });
+
+  factory LanguageIdSettings.fromJson(Map<String, dynamic> json) {
+    return LanguageIdSettings(
+      languageModelName: json['LanguageModelName'] as String?,
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageModelName = this.languageModelName;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (languageModelName != null) 'LanguageModelName': languageModelName,
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
+}
+
+class SubtitleFormat {
+  static const vtt = SubtitleFormat._('vtt');
+  static const srt = SubtitleFormat._('srt');
+
+  final String value;
+
+  const SubtitleFormat._(this.value);
+
+  static const values = [vtt, srt];
+
+  static SubtitleFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubtitleFormat._(value));
+
+  @override
+  bool operator ==(other) => other is SubtitleFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information on the speech contained in a discreet utterance when
+/// multi-language identification is enabled in your request. This utterance
+/// represents a block of speech consisting of one language, preceded or
+/// followed by a block of speech in a different language.
+class LanguageCodeItem {
+  /// Provides the total time, in seconds, each identified language is spoken in
+  /// your media.
+  final double? durationInSeconds;
+
+  /// Provides the language code for each language identified in your media.
+  final LanguageCode? languageCode;
+
+  LanguageCodeItem({
+    this.durationInSeconds,
+    this.languageCode,
+  });
+
+  factory LanguageCodeItem.fromJson(Map<String, dynamic> json) {
+    return LanguageCodeItem(
+      durationInSeconds: json['DurationInSeconds'] as double?,
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    final languageCode = this.languageCode;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+    };
+  }
+}
+
+class RedactionType {
+  static const pii = RedactionType._('PII');
+
+  final String value;
+
+  const RedactionType._(this.value);
+
+  static const values = [pii];
+
+  static RedactionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RedactionType._(value));
+
+  @override
+  bool operator ==(other) => other is RedactionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RedactionOutput {
+  static const redacted = RedactionOutput._('redacted');
+  static const redactedAndUnredacted =
+      RedactionOutput._('redacted_and_unredacted');
+
+  final String value;
+
+  const RedactionOutput._(this.value);
+
+  static const values = [redacted, redactedAndUnredacted];
+
+  static RedactionOutput fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RedactionOutput._(value));
+
+  @override
+  bool operator ==(other) => other is RedactionOutput && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PiiEntityType {
+  static const bankAccountNumber = PiiEntityType._('BANK_ACCOUNT_NUMBER');
+  static const bankRouting = PiiEntityType._('BANK_ROUTING');
+  static const creditDebitNumber = PiiEntityType._('CREDIT_DEBIT_NUMBER');
+  static const creditDebitCvv = PiiEntityType._('CREDIT_DEBIT_CVV');
+  static const creditDebitExpiry = PiiEntityType._('CREDIT_DEBIT_EXPIRY');
+  static const pin = PiiEntityType._('PIN');
+  static const email = PiiEntityType._('EMAIL');
+  static const address = PiiEntityType._('ADDRESS');
+  static const name = PiiEntityType._('NAME');
+  static const phone = PiiEntityType._('PHONE');
+  static const ssn = PiiEntityType._('SSN');
+  static const all = PiiEntityType._('ALL');
+
+  final String value;
+
+  const PiiEntityType._(this.value);
+
+  static const values = [
+    bankAccountNumber,
+    bankRouting,
+    creditDebitNumber,
+    creditDebitCvv,
+    creditDebitExpiry,
+    pin,
+    email,
+    address,
+    name,
+    phone,
+    ssn,
+    all
+  ];
+
+  static PiiEntityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PiiEntityType._(value));
+
+  @override
+  bool operator ==(other) => other is PiiEntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class VocabularyFilterMethod {
+  static const remove = VocabularyFilterMethod._('remove');
+  static const mask = VocabularyFilterMethod._('mask');
+  static const tag = VocabularyFilterMethod._('tag');
+
+  final String value;
+
+  const VocabularyFilterMethod._(this.value);
+
+  static const values = [remove, mask, tag];
+
+  static VocabularyFilterMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VocabularyFilterMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VocabularyFilterMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Generate subtitles for your media file with your transcription request.
+///
+/// You can choose a start index of 0 or 1, and you can specify either WebVTT or
+/// SubRip (or both) as your output format.
+///
+/// Note that your subtitle files are placed in the same location as your
+/// transcription output.
+class Subtitles {
+  /// Specify the output format for your subtitle file; if you select both WebVTT
+  /// (<code>vtt</code>) and SubRip (<code>srt</code>) formats, two output files
+  /// are generated.
+  final List<SubtitleFormat>? formats;
+
+  /// Specify the starting value that is assigned to the first subtitle segment.
+  ///
+  /// The default start index for Amazon Transcribe is <code>0</code>, which
+  /// differs from the more widely used standard of <code>1</code>. If you're
+  /// uncertain which value to use, we recommend choosing <code>1</code>, as this
+  /// may improve compatibility with other services.
+  final int? outputStartIndex;
+
+  Subtitles({
+    this.formats,
+    this.outputStartIndex,
+  });
+
+  Map<String, dynamic> toJson() {
+    final formats = this.formats;
+    final outputStartIndex = this.outputStartIndex;
+    return {
+      if (formats != null) 'Formats': formats.map((e) => e.value).toList(),
+      if (outputStartIndex != null) 'OutputStartIndex': outputStartIndex,
+    };
+  }
+}
+
+/// Provides detailed information about a medical transcription job.
+///
+/// To view the status of the specified medical transcription job, check the
+/// <code>TranscriptionJobStatus</code> field. If the status is
+/// <code>COMPLETED</code>, the job is finished and you can find the results at
+/// the location specified in <code>TranscriptFileUri</code>. If the status is
+/// <code>FAILED</code>, <code>FailureReason</code> provides details on why your
+/// transcription job failed.
+class MedicalTranscriptionJob {
+  /// The date and time the specified medical transcription job finished
+  /// processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:33:13.922000-07:00</code> represents a
+  /// transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
+  final DateTime? completionTime;
+
+  /// Indicates whether content identification was enabled for your transcription
+  /// request.
+  final MedicalContentIdentificationType? contentIdentificationType;
+
+  /// The date and time the specified medical transcription job request was made.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
+  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? creationTime;
+
+  /// If <code>TranscriptionJobStatus</code> is <code>FAILED</code>,
+  /// <code>FailureReason</code> contains information about why the transcription
+  /// job request failed.
+  ///
+  /// The <code>FailureReason</code> field contains one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Unsupported media format</code>.
+  ///
+  /// The media format specified in <code>MediaFormat</code> isn't valid. Refer to
+  /// refer to the <code>MediaFormat</code> parameter for a list of supported
+  /// formats.
+  /// </li>
+  /// <li>
+  /// <code>The media format provided does not match the detected media
+  /// format</code>.
+  ///
+  /// The media format specified in <code>MediaFormat</code> doesn't match the
+  /// format of the input file. Check the media format of your media file and
+  /// correct the specified value.
+  /// </li>
+  /// <li>
+  /// <code>Invalid sample rate for audio file</code>.
+  ///
+  /// The sample rate specified in <code>MediaSampleRateHertz</code> isn't valid.
+  /// The sample rate must be between 16,000 and 48,000 hertz.
+  /// </li>
+  /// <li>
+  /// <code>The sample rate provided does not match the detected sample
+  /// rate</code>.
+  ///
+  /// The sample rate specified in <code>MediaSampleRateHertz</code> doesn't match
+  /// the sample rate detected in your input media file. Check the sample rate of
+  /// your media file and correct the specified value.
+  /// </li>
+  /// <li>
+  /// <code>Invalid file size: file size too large</code>.
+  ///
+  /// The size of your media file is larger than what Amazon Transcribe can
+  /// process. For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe">Service
+  /// quotas</a>.
+  /// </li>
+  /// <li>
+  /// <code>Invalid number of channels: number of channels too large</code>.
+  ///
+  /// Your audio contains more channels than Amazon Transcribe is able to process.
+  /// For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe">Service
+  /// quotas</a>.
+  /// </li>
+  /// </ul>
+  final String? failureReason;
+
+  /// The language code used to create your medical transcription job. US English
+  /// (<code>en-US</code>) is the only supported language for medical
+  /// transcriptions.
+  final LanguageCode? languageCode;
+  final Media? media;
+
+  /// The format of the input media file.
+  final MediaFormat? mediaFormat;
+
+  /// The sample rate, in hertz, of the audio track in your input media file.
+  final int? mediaSampleRateHertz;
+
+  /// The name of the medical transcription job. Job names are case sensitive and
+  /// must be unique within an Amazon Web Services account.
+  final String? medicalTranscriptionJobName;
+
+  /// Provides information on any additional settings that were included in your
+  /// request. Additional settings include channel identification, alternative
+  /// transcriptions, speaker partitioning, custom vocabularies, and custom
+  /// vocabulary filters.
+  final MedicalTranscriptionSetting? settings;
+
+  /// Describes the medical specialty represented in your media.
+  final Specialty? specialty;
+
+  /// The date and time the specified medical transcription job began processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
+  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? startTime;
+
+  /// The tags, each in the form of a key:value pair, assigned to the specified
+  /// medical transcription job.
+  final List<Tag>? tags;
+
+  /// Provides you with the Amazon S3 URI you can use to access your transcript.
+  final MedicalTranscript? transcript;
+
+  /// Provides the status of the specified medical transcription job.
+  ///
+  /// If the status is <code>COMPLETED</code>, the job is finished and you can
+  /// find the results at the location specified in
+  /// <code>TranscriptFileUri</code>. If the status is <code>FAILED</code>,
+  /// <code>FailureReason</code> provides details on why your transcription job
+  /// failed.
+  final TranscriptionJobStatus? transcriptionJobStatus;
+
+  /// Indicates whether the input media is a dictation or a conversation, as
+  /// specified in the <code>StartMedicalTranscriptionJob</code> request.
+  final Type? type;
+
+  MedicalTranscriptionJob({
+    this.completionTime,
+    this.contentIdentificationType,
+    this.creationTime,
+    this.failureReason,
+    this.languageCode,
+    this.media,
+    this.mediaFormat,
+    this.mediaSampleRateHertz,
+    this.medicalTranscriptionJobName,
+    this.settings,
+    this.specialty,
+    this.startTime,
+    this.tags,
+    this.transcript,
+    this.transcriptionJobStatus,
+    this.type,
+  });
+
+  factory MedicalTranscriptionJob.fromJson(Map<String, dynamic> json) {
+    return MedicalTranscriptionJob(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      contentIdentificationType: (json['ContentIdentificationType'] as String?)
+          ?.let(MedicalContentIdentificationType.fromString),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      media: json['Media'] != null
+          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
+          : null,
+      mediaFormat:
+          (json['MediaFormat'] as String?)?.let(MediaFormat.fromString),
+      mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
+      medicalTranscriptionJobName:
+          json['MedicalTranscriptionJobName'] as String?,
+      settings: json['Settings'] != null
+          ? MedicalTranscriptionSetting.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      specialty: (json['Specialty'] as String?)?.let(Specialty.fromString),
+      startTime: timeStampFromJson(json['StartTime']),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      transcript: json['Transcript'] != null
+          ? MedicalTranscript.fromJson(
+              json['Transcript'] as Map<String, dynamic>)
+          : null,
+      transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
+          ?.let(TranscriptionJobStatus.fromString),
+      type: (json['Type'] as String?)?.let(Type.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionTime = this.completionTime;
+    final contentIdentificationType = this.contentIdentificationType;
+    final creationTime = this.creationTime;
+    final failureReason = this.failureReason;
+    final languageCode = this.languageCode;
+    final media = this.media;
+    final mediaFormat = this.mediaFormat;
+    final mediaSampleRateHertz = this.mediaSampleRateHertz;
+    final medicalTranscriptionJobName = this.medicalTranscriptionJobName;
+    final settings = this.settings;
+    final specialty = this.specialty;
+    final startTime = this.startTime;
+    final tags = this.tags;
+    final transcript = this.transcript;
+    final transcriptionJobStatus = this.transcriptionJobStatus;
+    final type = this.type;
+    return {
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (contentIdentificationType != null)
+        'ContentIdentificationType': contentIdentificationType.value,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (media != null) 'Media': media,
+      if (mediaFormat != null) 'MediaFormat': mediaFormat.value,
+      if (mediaSampleRateHertz != null)
+        'MediaSampleRateHertz': mediaSampleRateHertz,
+      if (medicalTranscriptionJobName != null)
+        'MedicalTranscriptionJobName': medicalTranscriptionJobName,
+      if (settings != null) 'Settings': settings,
+      if (specialty != null) 'Specialty': specialty.value,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tags != null) 'Tags': tags,
+      if (transcript != null) 'Transcript': transcript,
+      if (transcriptionJobStatus != null)
+        'TranscriptionJobStatus': transcriptionJobStatus.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// Provides you with the Amazon S3 URI you can use to access your transcript.
+class MedicalTranscript {
+  /// The Amazon S3 location of your transcript. You can use this URI to access or
+  /// download your transcript.
+  ///
+  /// Note that this is the Amazon S3 location you specified in your request using
+  /// the <code>OutputBucketName</code> parameter.
+  final String? transcriptFileUri;
+
+  MedicalTranscript({
+    this.transcriptFileUri,
+  });
+
+  factory MedicalTranscript.fromJson(Map<String, dynamic> json) {
+    return MedicalTranscript(
+      transcriptFileUri: json['TranscriptFileUri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transcriptFileUri = this.transcriptFileUri;
+    return {
+      if (transcriptFileUri != null) 'TranscriptFileUri': transcriptFileUri,
+    };
+  }
+}
+
+/// Allows additional optional settings in your request, including channel
+/// identification, alternative transcriptions, and speaker partitioning. You
+/// can use that to apply custom vocabularies to your medical transcription job.
+class MedicalTranscriptionSetting {
+  /// Enables channel identification in multi-channel audio.
+  ///
+  /// Channel identification transcribes the audio on each channel independently,
+  /// then appends the output for each channel into one transcript.
+  ///
+  /// If you have multi-channel audio and do not enable channel identification,
+  /// your audio is transcribed in a continuous manner and your transcript does
+  /// not separate the speech by channel.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html">Transcribing
+  /// multi-channel audio</a>.
+  final bool? channelIdentification;
+
+  /// Indicate the maximum number of alternative transcriptions you want Amazon
+  /// Transcribe Medical to include in your transcript.
+  ///
+  /// If you select a number greater than the number of alternative transcriptions
+  /// generated by Amazon Transcribe Medical, only the actual number of
+  /// alternative transcriptions are included.
+  ///
+  /// If you include <code>MaxAlternatives</code> in your request, you must also
+  /// include <code>ShowAlternatives</code> with a value of <code>true</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html">Alternative
+  /// transcriptions</a>.
+  final int? maxAlternatives;
+
+  /// Specify the maximum number of speakers you want to partition in your media.
+  ///
+  /// Note that if your media contains more speakers than the specified number,
+  /// multiple speakers are treated as a single speaker.
+  ///
+  /// If you specify the <code>MaxSpeakerLabels</code> field, you must set the
+  /// <code>ShowSpeakerLabels</code> field to true.
+  final int? maxSpeakerLabels;
+
+  /// To include alternative transcriptions within your transcription output,
+  /// include <code>ShowAlternatives</code> in your transcription request.
+  ///
+  /// If you include <code>ShowAlternatives</code>, you must also include
+  /// <code>MaxAlternatives</code>, which is the maximum number of alternative
+  /// transcriptions you want Amazon Transcribe Medical to generate.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/how-alternatives.html">Alternative
+  /// transcriptions</a>.
+  final bool? showAlternatives;
+
+  /// Enables speaker partitioning (diarization) in your transcription output.
+  /// Speaker partitioning labels the speech from individual speakers in your
+  /// media file.
+  ///
+  /// If you enable <code>ShowSpeakerLabels</code> in your request, you must also
+  /// include <code>MaxSpeakerLabels</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html">Partitioning
+  /// speakers (diarization)</a>.
+  final bool? showSpeakerLabels;
+
+  /// The name of the custom vocabulary you want to use when processing your
+  /// medical transcription job. Custom vocabulary names are case sensitive.
+  ///
+  /// The language of the specified custom vocabulary must match the language code
+  /// that you specify in your transcription request. If the languages do not
+  /// match, the custom vocabulary isn't applied. There are no errors or warnings
+  /// associated with a language mismatch. US English (<code>en-US</code>) is the
+  /// only valid language for Amazon Transcribe Medical.
+  final String? vocabularyName;
+
+  MedicalTranscriptionSetting({
+    this.channelIdentification,
+    this.maxAlternatives,
+    this.maxSpeakerLabels,
+    this.showAlternatives,
+    this.showSpeakerLabels,
+    this.vocabularyName,
+  });
+
+  factory MedicalTranscriptionSetting.fromJson(Map<String, dynamic> json) {
+    return MedicalTranscriptionSetting(
+      channelIdentification: json['ChannelIdentification'] as bool?,
+      maxAlternatives: json['MaxAlternatives'] as int?,
+      maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
+      showAlternatives: json['ShowAlternatives'] as bool?,
+      showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelIdentification = this.channelIdentification;
+    final maxAlternatives = this.maxAlternatives;
+    final maxSpeakerLabels = this.maxSpeakerLabels;
+    final showAlternatives = this.showAlternatives;
+    final showSpeakerLabels = this.showSpeakerLabels;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (channelIdentification != null)
+        'ChannelIdentification': channelIdentification,
+      if (maxAlternatives != null) 'MaxAlternatives': maxAlternatives,
+      if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
+      if (showAlternatives != null) 'ShowAlternatives': showAlternatives,
+      if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
+}
+
+class MedicalContentIdentificationType {
+  static const phi = MedicalContentIdentificationType._('PHI');
+
+  final String value;
+
+  const MedicalContentIdentificationType._(this.value);
+
+  static const values = [phi];
+
+  static MedicalContentIdentificationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MedicalContentIdentificationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalContentIdentificationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Specialty {
+  static const primarycare = Specialty._('PRIMARYCARE');
+
+  final String value;
+
+  const Specialty._(this.value);
+
+  static const values = [primarycare];
+
+  static Specialty fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Specialty._(value));
+
+  @override
+  bool operator ==(other) => other is Specialty && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Type {
+  static const conversation = Type._('CONVERSATION');
+  static const dictation = Type._('DICTATION');
+
+  final String value;
+
+  const Type._(this.value);
+
+  static const values = [conversation, dictation];
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides detailed information about a Medical Scribe job.
+///
+/// To view the status of the specified Medical Scribe job, check the
+/// <code>MedicalScribeJobStatus</code> field. If the status is
+/// <code>COMPLETED</code>, the job is finished and you can find the results at
+/// the locations specified in <code>MedicalScribeOutput</code>. If the status
+/// is <code>FAILED</code>, <code>FailureReason</code> provides details on why
+/// your Medical Scribe job failed.
+class MedicalScribeJob {
+  /// Makes it possible to specify which speaker is on which channel. For example,
+  /// if the clinician is the first participant to speak, you would set
+  /// <code>ChannelId</code> of the first <code>ChannelDefinition</code> in the
+  /// list to <code>0</code> (to indicate the first channel) and
+  /// <code>ParticipantRole</code> to <code>CLINICIAN</code> (to indicate that
+  /// it's the clinician speaking). Then you would set the <code>ChannelId</code>
+  /// of the second <code>ChannelDefinition</code> in the list to <code>1</code>
+  /// (to indicate the second channel) and <code>ParticipantRole</code> to
+  /// <code>PATIENT</code> (to indicate that it's the patient speaking).
+  final List<MedicalScribeChannelDefinition>? channelDefinitions;
+
+  /// The date and time the specified Medical Scribe job finished processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
+  /// Medical Scribe job that finished processing at 12:32 PM UTC-7 on May 4,
+  /// 2022.
+  final DateTime? completionTime;
+
+  /// The date and time the specified Medical Scribe job request was made.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
+  /// Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access
+  /// the Amazon S3 bucket that contains your input files, write to the output
+  /// bucket, and use your KMS key if supplied. If the role that you specify
+  /// doesn’t have the appropriate permissions your request fails.
+  ///
+  /// IAM role ARNs have the format
+  /// <code>arn:partition:iam::account:role/role-name-with-path</code>. For
+  /// example: <code>arn:aws:iam::111122223333:role/Admin</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns">IAM
+  /// ARNs</a>.
+  final String? dataAccessRoleArn;
+
+  /// If <code>MedicalScribeJobStatus</code> is <code>FAILED</code>,
+  /// <code>FailureReason</code> contains information about why the transcription
+  /// job failed. See also: <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
+  /// Errors</a>.
+  final String? failureReason;
+
+  /// The language code used to create your Medical Scribe job. US English
+  /// (<code>en-US</code>) is the only supported language for Medical Scribe jobs.
+  final MedicalScribeLanguageCode? languageCode;
+  final Media? media;
+
+  /// Indicates whether the <code>MedicalScribeContext</code> object was provided
+  /// when the Medical Scribe job was started.
+  final bool? medicalScribeContextProvided;
+
+  /// The name of the Medical Scribe job. Job names are case sensitive and must be
+  /// unique within an Amazon Web Services account.
+  final String? medicalScribeJobName;
+
+  /// Provides the status of the specified Medical Scribe job.
+  ///
+  /// If the status is <code>COMPLETED</code>, the job is finished and you can
+  /// find the results at the location specified in
+  /// <code>MedicalScribeOutput</code> If the status is <code>FAILED</code>,
+  /// <code>FailureReason</code> provides details on why your Medical Scribe job
+  /// failed.
+  final MedicalScribeJobStatus? medicalScribeJobStatus;
+
+  /// The location of the output of your Medical Scribe job.
+  /// <code>ClinicalDocumentUri</code> holds the Amazon S3 URI for the Clinical
+  /// Document and <code>TranscriptFileUri</code> holds the Amazon S3 URI for the
+  /// Transcript.
+  final MedicalScribeOutput? medicalScribeOutput;
+
+  /// Makes it possible to control how your Medical Scribe job is processed using
+  /// a <code>MedicalScribeSettings</code> object. Specify
+  /// <code>ChannelIdentification</code> if <code>ChannelDefinitions</code> are
+  /// set. Enabled <code>ShowSpeakerLabels</code> if
+  /// <code>ChannelIdentification</code> and <code>ChannelDefinitions</code> are
+  /// not set. One and only one of <code>ChannelIdentification</code> and
+  /// <code>ShowSpeakerLabels</code> must be set. If
+  /// <code>ShowSpeakerLabels</code> is set, <code>MaxSpeakerLabels</code> must
+  /// also be set. Use <code>Settings</code> to specify a vocabulary or vocabulary
+  /// filter or both using <code>VocabularyName</code>,
+  /// <code>VocabularyFilterName</code>. <code>VocabularyFilterMethod</code> must
+  /// be specified if <code>VocabularyFilterName</code> is set.
+  final MedicalScribeSettings? settings;
+
+  /// The date and time your Medical Scribe job began processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
+  /// Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? startTime;
+
+  /// Adds one or more custom tags, each in the form of a key:value pair, to the
+  /// Medical Scribe job.
+  ///
+  /// To learn more about using tags with Amazon Transcribe, refer to <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html">Tagging
+  /// resources</a>.
+  final List<Tag>? tags;
+
+  MedicalScribeJob({
+    this.channelDefinitions,
+    this.completionTime,
+    this.creationTime,
+    this.dataAccessRoleArn,
+    this.failureReason,
+    this.languageCode,
+    this.media,
+    this.medicalScribeContextProvided,
+    this.medicalScribeJobName,
+    this.medicalScribeJobStatus,
+    this.medicalScribeOutput,
+    this.settings,
+    this.startTime,
+    this.tags,
+  });
+
+  factory MedicalScribeJob.fromJson(Map<String, dynamic> json) {
+    return MedicalScribeJob(
+      channelDefinitions: (json['ChannelDefinitions'] as List?)
+          ?.nonNulls
+          .map((e) => MedicalScribeChannelDefinition.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)
+          ?.let(MedicalScribeLanguageCode.fromString),
+      media: json['Media'] != null
+          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
+          : null,
+      medicalScribeContextProvided:
+          json['MedicalScribeContextProvided'] as bool?,
+      medicalScribeJobName: json['MedicalScribeJobName'] as String?,
+      medicalScribeJobStatus: (json['MedicalScribeJobStatus'] as String?)
+          ?.let(MedicalScribeJobStatus.fromString),
+      medicalScribeOutput: json['MedicalScribeOutput'] != null
+          ? MedicalScribeOutput.fromJson(
+              json['MedicalScribeOutput'] as Map<String, dynamic>)
+          : null,
+      settings: json['Settings'] != null
+          ? MedicalScribeSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelDefinitions = this.channelDefinitions;
+    final completionTime = this.completionTime;
+    final creationTime = this.creationTime;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final failureReason = this.failureReason;
+    final languageCode = this.languageCode;
+    final media = this.media;
+    final medicalScribeContextProvided = this.medicalScribeContextProvided;
+    final medicalScribeJobName = this.medicalScribeJobName;
+    final medicalScribeJobStatus = this.medicalScribeJobStatus;
+    final medicalScribeOutput = this.medicalScribeOutput;
+    final settings = this.settings;
+    final startTime = this.startTime;
+    final tags = this.tags;
+    return {
+      if (channelDefinitions != null) 'ChannelDefinitions': channelDefinitions,
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (media != null) 'Media': media,
+      if (medicalScribeContextProvided != null)
+        'MedicalScribeContextProvided': medicalScribeContextProvided,
+      if (medicalScribeJobName != null)
+        'MedicalScribeJobName': medicalScribeJobName,
+      if (medicalScribeJobStatus != null)
+        'MedicalScribeJobStatus': medicalScribeJobStatus.value,
+      if (medicalScribeOutput != null)
+        'MedicalScribeOutput': medicalScribeOutput,
+      if (settings != null) 'Settings': settings,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class MedicalScribeJobStatus {
+  static const queued = MedicalScribeJobStatus._('QUEUED');
+  static const inProgress = MedicalScribeJobStatus._('IN_PROGRESS');
+  static const failed = MedicalScribeJobStatus._('FAILED');
+  static const completed = MedicalScribeJobStatus._('COMPLETED');
+
+  final String value;
+
+  const MedicalScribeJobStatus._(this.value);
+
+  static const values = [queued, inProgress, failed, completed];
+
+  static MedicalScribeJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MedicalScribeJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalScribeJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MedicalScribeLanguageCode {
+  static const enUs = MedicalScribeLanguageCode._('en-US');
+
+  final String value;
+
+  const MedicalScribeLanguageCode._(this.value);
+
+  static const values = [enUs];
+
+  static MedicalScribeLanguageCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MedicalScribeLanguageCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalScribeLanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The location of the output of your Medical Scribe job.
+/// <code>ClinicalDocumentUri</code> holds the Amazon S3 URI for the Clinical
+/// Document and <code>TranscriptFileUri</code> holds the Amazon S3 URI for the
+/// Transcript.
+class MedicalScribeOutput {
+  /// Holds the Amazon S3 URI for the Clinical Document.
+  final String clinicalDocumentUri;
+
+  /// Holds the Amazon S3 URI for the Transcript.
+  final String transcriptFileUri;
+
+  MedicalScribeOutput({
+    required this.clinicalDocumentUri,
+    required this.transcriptFileUri,
+  });
+
+  factory MedicalScribeOutput.fromJson(Map<String, dynamic> json) {
+    return MedicalScribeOutput(
+      clinicalDocumentUri: (json['ClinicalDocumentUri'] as String?) ?? '',
+      transcriptFileUri: (json['TranscriptFileUri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clinicalDocumentUri = this.clinicalDocumentUri;
+    final transcriptFileUri = this.transcriptFileUri;
+    return {
+      'ClinicalDocumentUri': clinicalDocumentUri,
+      'TranscriptFileUri': transcriptFileUri,
+    };
+  }
+}
+
+/// Makes it possible to control how your Medical Scribe job is processed using
+/// a <code>MedicalScribeSettings</code> object. Specify
+/// <code>ChannelIdentification</code> if <code>ChannelDefinitions</code> are
+/// set. Enabled <code>ShowSpeakerLabels</code> if
+/// <code>ChannelIdentification</code> and <code>ChannelDefinitions</code> are
+/// not set. One and only one of <code>ChannelIdentification</code> and
+/// <code>ShowSpeakerLabels</code> must be set. If
+/// <code>ShowSpeakerLabels</code> is set, <code>MaxSpeakerLabels</code> must
+/// also be set. Use <code>Settings</code> to specify a vocabulary or vocabulary
+/// filter or both using <code>VocabularyName</code>,
+/// <code>VocabularyFilterName</code>. <code>VocabularyFilterMethod</code> must
+/// be specified if <code>VocabularyFilterName</code> is set.
+class MedicalScribeSettings {
+  /// Enables channel identification in multi-channel audio.
+  ///
+  /// Channel identification transcribes the audio on each channel independently,
+  /// then appends the output for each channel into one transcript.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html">Transcribing
+  /// multi-channel audio</a>.
+  final bool? channelIdentification;
+
+  /// Specify settings for the clinical note generation.
+  final ClinicalNoteGenerationSettings? clinicalNoteGenerationSettings;
+
+  /// Specify the maximum number of speakers you want to partition in your media.
+  ///
+  /// Note that if your media contains more speakers than the specified number,
+  /// multiple speakers are treated as a single speaker.
+  ///
+  /// If you specify the <code>MaxSpeakerLabels</code> field, you must set the
+  /// <code>ShowSpeakerLabels</code> field to true.
+  final int? maxSpeakerLabels;
+
+  /// Enables speaker partitioning (diarization) in your Medical Scribe output.
+  /// Speaker partitioning labels the speech from individual speakers in your
+  /// media file.
+  ///
+  /// If you enable <code>ShowSpeakerLabels</code> in your request, you must also
+  /// include <code>MaxSpeakerLabels</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html">Partitioning
+  /// speakers (diarization)</a>.
+  final bool? showSpeakerLabels;
+
+  /// Specify how you want your custom vocabulary filter applied to your
+  /// transcript.
+  ///
+  /// To replace words with <code>***</code>, choose <code>mask</code>.
+  ///
+  /// To delete words, choose <code>remove</code>.
+  ///
+  /// To flag words without changing them, choose <code>tag</code>.
+  final VocabularyFilterMethod? vocabularyFilterMethod;
+
+  /// The name of the custom vocabulary filter you want to include in your Medical
+  /// Scribe request. Custom vocabulary filter names are case sensitive.
+  ///
+  /// Note that if you include <code>VocabularyFilterName</code> in your request,
+  /// you must also include <code>VocabularyFilterMethod</code>.
+  final String? vocabularyFilterName;
+
+  /// The name of the custom vocabulary you want to include in your Medical Scribe
+  /// request. Custom vocabulary names are case sensitive.
+  final String? vocabularyName;
+
+  MedicalScribeSettings({
+    this.channelIdentification,
+    this.clinicalNoteGenerationSettings,
+    this.maxSpeakerLabels,
+    this.showSpeakerLabels,
+    this.vocabularyFilterMethod,
+    this.vocabularyFilterName,
+    this.vocabularyName,
+  });
+
+  factory MedicalScribeSettings.fromJson(Map<String, dynamic> json) {
+    return MedicalScribeSettings(
+      channelIdentification: json['ChannelIdentification'] as bool?,
+      clinicalNoteGenerationSettings: json['ClinicalNoteGenerationSettings'] !=
+              null
+          ? ClinicalNoteGenerationSettings.fromJson(
+              json['ClinicalNoteGenerationSettings'] as Map<String, dynamic>)
+          : null,
+      maxSpeakerLabels: json['MaxSpeakerLabels'] as int?,
+      showSpeakerLabels: json['ShowSpeakerLabels'] as bool?,
+      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
+          ?.let(VocabularyFilterMethod.fromString),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelIdentification = this.channelIdentification;
+    final clinicalNoteGenerationSettings = this.clinicalNoteGenerationSettings;
+    final maxSpeakerLabels = this.maxSpeakerLabels;
+    final showSpeakerLabels = this.showSpeakerLabels;
+    final vocabularyFilterMethod = this.vocabularyFilterMethod;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (channelIdentification != null)
+        'ChannelIdentification': channelIdentification,
+      if (clinicalNoteGenerationSettings != null)
+        'ClinicalNoteGenerationSettings': clinicalNoteGenerationSettings,
+      if (maxSpeakerLabels != null) 'MaxSpeakerLabels': maxSpeakerLabels,
+      if (showSpeakerLabels != null) 'ShowSpeakerLabels': showSpeakerLabels,
+      if (vocabularyFilterMethod != null)
+        'VocabularyFilterMethod': vocabularyFilterMethod.value,
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
+}
+
+/// Indicates which speaker is on which channel. The options are
+/// <code>CLINICIAN</code> and <code>PATIENT</code>
+class MedicalScribeChannelDefinition {
+  /// Specify the audio channel you want to define.
+  final int channelId;
+
+  /// Specify the participant that you want to flag. The options are
+  /// <code>CLINICIAN</code> and <code>PATIENT</code>
+  final MedicalScribeParticipantRole participantRole;
+
+  MedicalScribeChannelDefinition({
+    required this.channelId,
+    required this.participantRole,
+  });
+
+  factory MedicalScribeChannelDefinition.fromJson(Map<String, dynamic> json) {
+    return MedicalScribeChannelDefinition(
+      channelId: (json['ChannelId'] as int?) ?? 0,
+      participantRole: MedicalScribeParticipantRole.fromString(
+          (json['ParticipantRole'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelId = this.channelId;
+    final participantRole = this.participantRole;
+    return {
+      'ChannelId': channelId,
+      'ParticipantRole': participantRole.value,
+    };
+  }
+}
+
+class MedicalScribeParticipantRole {
+  static const patient = MedicalScribeParticipantRole._('PATIENT');
+  static const clinician = MedicalScribeParticipantRole._('CLINICIAN');
+
+  final String value;
+
+  const MedicalScribeParticipantRole._(this.value);
+
+  static const values = [patient, clinician];
+
+  static MedicalScribeParticipantRole fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MedicalScribeParticipantRole._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalScribeParticipantRole && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The output configuration for clinical note generation.
+class ClinicalNoteGenerationSettings {
+  /// Specify one of the following templates to use for the clinical note summary.
+  /// The default is <code>HISTORY_AND_PHYSICAL</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical
+  /// documentation. Examples of sections include Chief Complaint, History of
+  /// Present Illness, Review of Systems, Past Medical History, Assessment, and
+  /// Plan.
+  /// </li>
+  /// <li>
+  /// GIRPP: Provides summaries based on the patients progress toward goals.
+  /// Examples of sections include Goal, Intervention, Response, Progress, and
+  /// Plan.
+  /// </li>
+  /// <li>
+  /// BIRP: Focuses on the patient's behavioral patterns and responses. Examples
+  /// of sections include Behavior, Intervention, Response, and Plan.
+  /// </li>
+  /// <li>
+  /// SIRP: Emphasizes the situational context of therapy. Examples of sections
+  /// include Situation, Intervention, Response, and Plan.
+  /// </li>
+  /// <li>
+  /// DAP: Provides a simplified format for clinical documentation. Examples of
+  /// sections include Data, Assessment, and Plan.
+  /// </li>
+  /// <li>
+  /// BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of
+  /// sections include Subjective, Objective, Assessment, and Plan.
+  /// </li>
+  /// <li>
+  /// PHYSICAL_SOAP: Physical health focused documentation format. Examples of
+  /// sections include Subjective, Objective, Assessment, and Plan.
+  /// </li>
+  /// </ul>
+  final MedicalScribeNoteTemplate? noteTemplate;
+
+  ClinicalNoteGenerationSettings({
+    this.noteTemplate,
+  });
+
+  factory ClinicalNoteGenerationSettings.fromJson(Map<String, dynamic> json) {
+    return ClinicalNoteGenerationSettings(
+      noteTemplate: (json['NoteTemplate'] as String?)
+          ?.let(MedicalScribeNoteTemplate.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final noteTemplate = this.noteTemplate;
+    return {
+      if (noteTemplate != null) 'NoteTemplate': noteTemplate.value,
+    };
+  }
+}
+
+class MedicalScribeNoteTemplate {
+  static const historyAndPhysical =
+      MedicalScribeNoteTemplate._('HISTORY_AND_PHYSICAL');
+  static const girpp = MedicalScribeNoteTemplate._('GIRPP');
+  static const birp = MedicalScribeNoteTemplate._('BIRP');
+  static const sirp = MedicalScribeNoteTemplate._('SIRP');
+  static const dap = MedicalScribeNoteTemplate._('DAP');
+  static const behavioralSoap = MedicalScribeNoteTemplate._('BEHAVIORAL_SOAP');
+  static const physicalSoap = MedicalScribeNoteTemplate._('PHYSICAL_SOAP');
+
+  final String value;
+
+  const MedicalScribeNoteTemplate._(this.value);
+
+  static const values = [
+    historyAndPhysical,
+    girpp,
+    birp,
+    sirp,
+    dap,
+    behavioralSoap,
+    physicalSoap
+  ];
+
+  static MedicalScribeNoteTemplate fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MedicalScribeNoteTemplate._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MedicalScribeNoteTemplate && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The <code>MedicalScribeContext</code> object that contains contextual
+/// information used to generate customized clinical notes.
+class MedicalScribeContext {
+  /// Contains patient-specific information.
+  final MedicalScribePatientContext? patientContext;
+
+  MedicalScribeContext({
+    this.patientContext,
+  });
+
+  Map<String, dynamic> toJson() {
+    final patientContext = this.patientContext;
+    return {
+      if (patientContext != null) 'PatientContext': patientContext,
+    };
+  }
+}
+
+/// Contains patient-specific information used to customize the clinical note
+/// generation.
+class MedicalScribePatientContext {
+  /// The patient's preferred pronouns that the user wants to provide as a context
+  /// for clinical note generation.
+  final Pronouns? pronouns;
+
+  MedicalScribePatientContext({
+    this.pronouns,
+  });
+
+  Map<String, dynamic> toJson() {
+    final pronouns = this.pronouns;
+    return {
+      if (pronouns != null) 'Pronouns': pronouns.value,
+    };
+  }
+}
+
+class Pronouns {
+  static const heHim = Pronouns._('HE_HIM');
+  static const sheHer = Pronouns._('SHE_HER');
+  static const theyThem = Pronouns._('THEY_THEM');
+
+  final String value;
+
+  const Pronouns._(this.value);
+
+  static const values = [heHim, sheHer, theyThem];
+
+  static Pronouns fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Pronouns._(value));
+
+  @override
+  bool operator ==(other) => other is Pronouns && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides detailed information about a Call Analytics job.
+///
+/// To view the job's status, refer to <code>CallAnalyticsJobStatus</code>. If
+/// the status is <code>COMPLETED</code>, the job is finished. You can find your
+/// completed transcript at the URI specified in <code>TranscriptFileUri</code>.
+/// If the status is <code>FAILED</code>, <code>FailureReason</code> provides
+/// details on why your transcription job failed.
+///
+/// If you enabled personally identifiable information (PII) redaction, the
+/// redacted transcript appears at the location specified in
+/// <code>RedactedTranscriptFileUri</code>.
+///
+/// If you chose to redact the audio in your media file, you can find your
+/// redacted media file at the location specified in the
+/// <code>RedactedMediaFileUri</code> field of your response.
+class CallAnalyticsJob {
+  /// Provides detailed information about a call analytics job, including
+  /// information about skipped analytics features.
+  final CallAnalyticsJobDetails? callAnalyticsJobDetails;
+
+  /// The name of the Call Analytics job. Job names are case sensitive and must be
+  /// unique within an Amazon Web Services account.
+  final String? callAnalyticsJobName;
+
+  /// Provides the status of the specified Call Analytics job.
+  ///
+  /// If the status is <code>COMPLETED</code>, the job is finished and you can
+  /// find the results at the location specified in <code>TranscriptFileUri</code>
+  /// (or <code>RedactedTranscriptFileUri</code>, if you requested transcript
+  /// redaction). If the status is <code>FAILED</code>, <code>FailureReason</code>
+  /// provides details on why your transcription job failed.
+  final CallAnalyticsJobStatus? callAnalyticsJobStatus;
+
+  /// Indicates which speaker is on which channel.
+  final List<ChannelDefinition>? channelDefinitions;
+
+  /// The date and time the specified Call Analytics job finished processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:33:13.922000-07:00</code> represents a
+  /// transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
+  final DateTime? completionTime;
+
+  /// The date and time the specified Call Analytics job request was made.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
+  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) you included in your request.
+  final String? dataAccessRoleArn;
+
+  /// If <code>CallAnalyticsJobStatus</code> is <code>FAILED</code>,
+  /// <code>FailureReason</code> contains information about why the Call Analytics
+  /// job request failed.
+  ///
+  /// The <code>FailureReason</code> field contains one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Unsupported media format</code>.
+  ///
+  /// The media format specified in <code>MediaFormat</code> isn't valid. Refer to
+  /// refer to the <code>MediaFormat</code> parameter for a list of supported
+  /// formats.
+  /// </li>
+  /// <li>
+  /// <code>The media format provided does not match the detected media
+  /// format</code>.
+  ///
+  /// The media format specified in <code>MediaFormat</code> doesn't match the
+  /// format of the input file. Check the media format of your media file and
+  /// correct the specified value.
+  /// </li>
+  /// <li>
+  /// <code>Invalid sample rate for audio file</code>.
+  ///
+  /// The sample rate specified in <code>MediaSampleRateHertz</code> isn't valid.
+  /// The sample rate must be between 8,000 and 48,000 hertz.
+  /// </li>
+  /// <li>
+  /// <code>The sample rate provided does not match the detected sample
+  /// rate</code>.
+  ///
+  /// The sample rate specified in <code>MediaSampleRateHertz</code> doesn't match
+  /// the sample rate detected in your input media file. Check the sample rate of
+  /// your media file and correct the specified value.
+  /// </li>
+  /// <li>
+  /// <code>Invalid file size: file size too large</code>.
+  ///
+  /// The size of your media file is larger than what Amazon Transcribe can
+  /// process. For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe">Service
+  /// quotas</a>.
+  /// </li>
+  /// <li>
+  /// <code>Invalid number of channels: number of channels too large</code>.
+  ///
+  /// Your audio contains more channels than Amazon Transcribe is able to process.
+  /// For more information, refer to <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe">Service
+  /// quotas</a>.
+  /// </li>
+  /// </ul>
+  final String? failureReason;
+
+  /// The confidence score associated with the language identified in your media
+  /// file.
+  ///
+  /// Confidence scores are values between 0 and 1; a larger value indicates a
+  /// higher probability that the identified language correctly matches the
+  /// language spoken in your media.
+  final double? identifiedLanguageScore;
+
+  /// The language code used to create your Call Analytics job. For a list of
+  /// supported languages and their associated language codes, refer to the <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
+  /// languages</a> table.
+  ///
+  /// If you do not know the language spoken in your media file, you can omit this
+  /// field and let Amazon Transcribe automatically identify the language of your
+  /// media. To improve the accuracy of language identification, you can include
+  /// several language codes and Amazon Transcribe chooses the closest match for
+  /// your transcription.
+  final LanguageCode? languageCode;
+
+  /// Provides the Amazon S3 location of the media file you used in your Call
+  /// Analytics request.
+  final Media? media;
+
+  /// The format of the input media file.
+  final MediaFormat? mediaFormat;
+
+  /// The sample rate, in hertz, of the audio track in your input media file.
+  final int? mediaSampleRateHertz;
+
+  /// Provides information on any additional settings that were included in your
+  /// request. Additional settings include content redaction and language
+  /// identification settings.
+  final CallAnalyticsJobSettings? settings;
+
+  /// The date and time the specified Call Analytics job began processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
+  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? startTime;
+
+  /// The tags, each in the form of a key:value pair, assigned to the specified
+  /// call analytics job.
+  final List<Tag>? tags;
+  final Transcript? transcript;
+
+  CallAnalyticsJob({
+    this.callAnalyticsJobDetails,
+    this.callAnalyticsJobName,
+    this.callAnalyticsJobStatus,
+    this.channelDefinitions,
+    this.completionTime,
+    this.creationTime,
+    this.dataAccessRoleArn,
+    this.failureReason,
+    this.identifiedLanguageScore,
+    this.languageCode,
+    this.media,
+    this.mediaFormat,
+    this.mediaSampleRateHertz,
+    this.settings,
+    this.startTime,
+    this.tags,
+    this.transcript,
+  });
+
+  factory CallAnalyticsJob.fromJson(Map<String, dynamic> json) {
+    return CallAnalyticsJob(
+      callAnalyticsJobDetails: json['CallAnalyticsJobDetails'] != null
+          ? CallAnalyticsJobDetails.fromJson(
+              json['CallAnalyticsJobDetails'] as Map<String, dynamic>)
+          : null,
+      callAnalyticsJobName: json['CallAnalyticsJobName'] as String?,
+      callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
+          ?.let(CallAnalyticsJobStatus.fromString),
+      channelDefinitions: (json['ChannelDefinitions'] as List?)
+          ?.nonNulls
+          .map((e) => ChannelDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      identifiedLanguageScore: json['IdentifiedLanguageScore'] as double?,
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      media: json['Media'] != null
+          ? Media.fromJson(json['Media'] as Map<String, dynamic>)
+          : null,
+      mediaFormat:
+          (json['MediaFormat'] as String?)?.let(MediaFormat.fromString),
+      mediaSampleRateHertz: json['MediaSampleRateHertz'] as int?,
+      settings: json['Settings'] != null
+          ? CallAnalyticsJobSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      transcript: json['Transcript'] != null
+          ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callAnalyticsJobDetails = this.callAnalyticsJobDetails;
+    final callAnalyticsJobName = this.callAnalyticsJobName;
+    final callAnalyticsJobStatus = this.callAnalyticsJobStatus;
+    final channelDefinitions = this.channelDefinitions;
+    final completionTime = this.completionTime;
+    final creationTime = this.creationTime;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final failureReason = this.failureReason;
+    final identifiedLanguageScore = this.identifiedLanguageScore;
+    final languageCode = this.languageCode;
+    final media = this.media;
+    final mediaFormat = this.mediaFormat;
+    final mediaSampleRateHertz = this.mediaSampleRateHertz;
+    final settings = this.settings;
+    final startTime = this.startTime;
+    final tags = this.tags;
+    final transcript = this.transcript;
+    return {
+      if (callAnalyticsJobDetails != null)
+        'CallAnalyticsJobDetails': callAnalyticsJobDetails,
+      if (callAnalyticsJobName != null)
+        'CallAnalyticsJobName': callAnalyticsJobName,
+      if (callAnalyticsJobStatus != null)
+        'CallAnalyticsJobStatus': callAnalyticsJobStatus.value,
+      if (channelDefinitions != null) 'ChannelDefinitions': channelDefinitions,
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (identifiedLanguageScore != null)
+        'IdentifiedLanguageScore': identifiedLanguageScore,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (media != null) 'Media': media,
+      if (mediaFormat != null) 'MediaFormat': mediaFormat.value,
+      if (mediaSampleRateHertz != null)
+        'MediaSampleRateHertz': mediaSampleRateHertz,
+      if (settings != null) 'Settings': settings,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tags != null) 'Tags': tags,
+      if (transcript != null) 'Transcript': transcript,
+    };
+  }
+}
+
+class CallAnalyticsJobStatus {
+  static const queued = CallAnalyticsJobStatus._('QUEUED');
+  static const inProgress = CallAnalyticsJobStatus._('IN_PROGRESS');
+  static const failed = CallAnalyticsJobStatus._('FAILED');
+  static const completed = CallAnalyticsJobStatus._('COMPLETED');
+
+  final String value;
+
+  const CallAnalyticsJobStatus._(this.value);
+
+  static const values = [queued, inProgress, failed, completed];
+
+  static CallAnalyticsJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CallAnalyticsJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CallAnalyticsJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about a call analytics job, including information about
+/// skipped analytics features.
+class CallAnalyticsJobDetails {
+  /// Contains information about any skipped analytics features during the
+  /// analysis of a call analytics job.
+  ///
+  /// This array lists all the analytics features that were skipped, along with
+  /// their corresponding reason code and message.
+  final List<CallAnalyticsSkippedFeature>? skipped;
+
+  CallAnalyticsJobDetails({
+    this.skipped,
+  });
+
+  factory CallAnalyticsJobDetails.fromJson(Map<String, dynamic> json) {
+    return CallAnalyticsJobDetails(
+      skipped: (json['Skipped'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CallAnalyticsSkippedFeature.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final skipped = this.skipped;
+    return {
+      if (skipped != null) 'Skipped': skipped,
+    };
+  }
+}
+
+/// Provides additional optional settings for your request, including content
+/// redaction, automatic language identification; allows you to apply custom
+/// language models, custom vocabulary filters, and custom vocabularies.
+class CallAnalyticsJobSettings {
+  final ContentRedaction? contentRedaction;
+
+  /// If using automatic language identification in your request and you want to
+  /// apply a custom language model, a custom vocabulary, or a custom vocabulary
+  /// filter, include <code>LanguageIdSettings</code> with the relevant
+  /// sub-parameters (<code>VocabularyName</code>, <code>LanguageModelName</code>,
+  /// and <code>VocabularyFilterName</code>).
+  ///
+  /// <code>LanguageIdSettings</code> supports two to five language codes. Each
+  /// language code you include can have an associated custom language model,
+  /// custom vocabulary, and custom vocabulary filter. The language codes that you
+  /// specify must match the languages of the associated custom language models,
+  /// custom vocabularies, and custom vocabulary filters.
+  ///
+  /// It's recommended that you include <code>LanguageOptions</code> when using
+  /// <code>LanguageIdSettings</code> to ensure that the correct language dialect
+  /// is identified. For example, if you specify a custom vocabulary that is in
+  /// <code>en-US</code> but Amazon Transcribe determines that the language spoken
+  /// in your media is <code>en-AU</code>, your custom vocabulary <i>is not</i>
+  /// applied to your transcription. If you include <code>LanguageOptions</code>
+  /// and include <code>en-US</code> as the only English language dialect, your
+  /// custom vocabulary <i>is</i> applied to your transcription.
+  ///
+  /// If you want to include a custom language model, custom vocabulary, or custom
+  /// vocabulary filter with your request but <b>do not</b> want to use automatic
+  /// language identification, use instead the <code></code> parameter with the
+  /// <code>LanguageModelName</code>, <code>VocabularyName</code>, or
+  /// <code>VocabularyFilterName</code> sub-parameters.
+  ///
+  /// For a list of languages supported with Call Analytics, refer to <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
+  /// languages and language-specific features</a>.
+  final Map<LanguageCode, LanguageIdSettings>? languageIdSettings;
+
+  /// The name of the custom language model you want to use when processing your
+  /// Call Analytics job. Note that custom language model names are case
+  /// sensitive.
+  ///
+  /// The language of the specified custom language model must match the language
+  /// code that you specify in your transcription request. If the languages do not
+  /// match, the custom language model isn't applied. There are no errors or
+  /// warnings associated with a language mismatch.
+  final String? languageModelName;
+
+  /// You can specify two or more language codes that represent the languages you
+  /// think may be present in your media. Including more than five is not
+  /// recommended. If you're unsure what languages are present, do not include
+  /// this parameter.
+  ///
+  /// Including language options can improve the accuracy of language
+  /// identification.
+  ///
+  /// For a list of languages supported with Call Analytics, refer to the <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
+  /// languages</a> table.
+  ///
+  /// To transcribe speech in Modern Standard Arabic (<code>ar-SA</code>) in
+  /// Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web
+  /// Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary) ca-west-1
+  /// and Africa (Cape Town) af-south-1, your media file must be encoded at a
+  /// sample rate of 16,000 Hz or higher.
+  final List<LanguageCode>? languageOptions;
+
+  /// Contains <code>GenerateAbstractiveSummary</code>, which is a required
+  /// parameter if you want to enable Generative call summarization in your Call
+  /// Analytics request.
+  final Summarization? summarization;
+
+  /// Specify how you want your custom vocabulary filter applied to your
+  /// transcript.
+  ///
+  /// To replace words with <code>***</code>, choose <code>mask</code>.
+  ///
+  /// To delete words, choose <code>remove</code>.
+  ///
+  /// To flag words without changing them, choose <code>tag</code>.
+  final VocabularyFilterMethod? vocabularyFilterMethod;
+
+  /// The name of the custom vocabulary filter you want to include in your Call
+  /// Analytics transcription request. Custom vocabulary filter names are case
+  /// sensitive.
+  ///
+  /// Note that if you include <code>VocabularyFilterName</code> in your request,
+  /// you must also include <code>VocabularyFilterMethod</code>.
+  final String? vocabularyFilterName;
+
+  /// The name of the custom vocabulary you want to include in your Call Analytics
+  /// transcription request. Custom vocabulary names are case sensitive.
+  final String? vocabularyName;
+
+  CallAnalyticsJobSettings({
+    this.contentRedaction,
+    this.languageIdSettings,
+    this.languageModelName,
+    this.languageOptions,
+    this.summarization,
+    this.vocabularyFilterMethod,
+    this.vocabularyFilterName,
+    this.vocabularyName,
+  });
+
+  factory CallAnalyticsJobSettings.fromJson(Map<String, dynamic> json) {
+    return CallAnalyticsJobSettings(
+      contentRedaction: json['ContentRedaction'] != null
+          ? ContentRedaction.fromJson(
+              json['ContentRedaction'] as Map<String, dynamic>)
+          : null,
+      languageIdSettings: (json['LanguageIdSettings'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(LanguageCode.fromString(k),
+              LanguageIdSettings.fromJson(e as Map<String, dynamic>))),
+      languageModelName: json['LanguageModelName'] as String?,
+      languageOptions: (json['LanguageOptions'] as List?)
+          ?.nonNulls
+          .map((e) => LanguageCode.fromString((e as String)))
+          .toList(),
+      summarization: json['Summarization'] != null
+          ? Summarization.fromJson(
+              json['Summarization'] as Map<String, dynamic>)
+          : null,
+      vocabularyFilterMethod: (json['VocabularyFilterMethod'] as String?)
+          ?.let(VocabularyFilterMethod.fromString),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      vocabularyName: json['VocabularyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentRedaction = this.contentRedaction;
+    final languageIdSettings = this.languageIdSettings;
+    final languageModelName = this.languageModelName;
+    final languageOptions = this.languageOptions;
+    final summarization = this.summarization;
+    final vocabularyFilterMethod = this.vocabularyFilterMethod;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    final vocabularyName = this.vocabularyName;
+    return {
+      if (contentRedaction != null) 'ContentRedaction': contentRedaction,
+      if (languageIdSettings != null)
+        'LanguageIdSettings':
+            languageIdSettings.map((k, e) => MapEntry(k.value, e)),
+      if (languageModelName != null) 'LanguageModelName': languageModelName,
+      if (languageOptions != null)
+        'LanguageOptions': languageOptions.map((e) => e.value).toList(),
+      if (summarization != null) 'Summarization': summarization,
+      if (vocabularyFilterMethod != null)
+        'VocabularyFilterMethod': vocabularyFilterMethod.value,
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+    };
+  }
+}
+
+/// Makes it possible to specify which speaker is on which channel. For example,
+/// if your agent is the first participant to speak, you would set
+/// <code>ChannelId</code> to <code>0</code> (to indicate the first channel) and
+/// <code>ParticipantRole</code> to <code>AGENT</code> (to indicate that it's
+/// the agent speaking).
+class ChannelDefinition {
+  /// Specify the audio channel you want to define.
+  final int? channelId;
+
+  /// Specify the speaker you want to define. Omitting this parameter is
+  /// equivalent to specifying both participants.
+  final ParticipantRole? participantRole;
+
+  ChannelDefinition({
+    this.channelId,
+    this.participantRole,
+  });
+
+  factory ChannelDefinition.fromJson(Map<String, dynamic> json) {
+    return ChannelDefinition(
+      channelId: json['ChannelId'] as int?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.let(ParticipantRole.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelId = this.channelId;
+    final participantRole = this.participantRole;
+    return {
+      if (channelId != null) 'ChannelId': channelId,
+      if (participantRole != null) 'ParticipantRole': participantRole.value,
+    };
+  }
+}
+
+/// Contains <code>GenerateAbstractiveSummary</code>, which is a required
+/// parameter if you want to enable Generative call summarization in your Call
+/// Analytics request.
+class Summarization {
+  /// Enables Generative call summarization in your Call Analytics request
+  ///
+  /// Generative call summarization provides a summary of the transcript including
+  /// important components discussed in the conversation.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/tca-enable-summarization.html">Enabling
+  /// generative call summarization</a>.
+  final bool generateAbstractiveSummary;
+
+  Summarization({
+    required this.generateAbstractiveSummary,
+  });
+
+  factory Summarization.fromJson(Map<String, dynamic> json) {
+    return Summarization(
+      generateAbstractiveSummary:
+          (json['GenerateAbstractiveSummary'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final generateAbstractiveSummary = this.generateAbstractiveSummary;
+    return {
+      'GenerateAbstractiveSummary': generateAbstractiveSummary,
+    };
+  }
+}
+
+/// Represents a skipped analytics feature during the analysis of a call
+/// analytics job.
+///
+/// The <code>Feature</code> field indicates the type of analytics feature that
+/// was skipped.
+///
+/// The <code>Message</code> field contains additional information or a message
+/// explaining why the analytics feature was skipped.
+///
+/// The <code>ReasonCode</code> field provides a code indicating the reason why
+/// the analytics feature was skipped.
+class CallAnalyticsSkippedFeature {
+  /// Indicates the type of analytics feature that was skipped during the analysis
+  /// of a call analytics job.
+  final CallAnalyticsFeature? feature;
+
+  /// Contains additional information or a message explaining why a specific
+  /// analytics feature was skipped during the analysis of a call analytics job.
+  final String? message;
+
+  /// Provides a code indicating the reason why a specific analytics feature was
+  /// skipped during the analysis of a call analytics job.
+  final CallAnalyticsSkippedReasonCode? reasonCode;
+
+  CallAnalyticsSkippedFeature({
+    this.feature,
+    this.message,
+    this.reasonCode,
+  });
+
+  factory CallAnalyticsSkippedFeature.fromJson(Map<String, dynamic> json) {
+    return CallAnalyticsSkippedFeature(
+      feature:
+          (json['Feature'] as String?)?.let(CallAnalyticsFeature.fromString),
+      message: json['Message'] as String?,
+      reasonCode: (json['ReasonCode'] as String?)
+          ?.let(CallAnalyticsSkippedReasonCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final feature = this.feature;
+    final message = this.message;
+    final reasonCode = this.reasonCode;
+    return {
+      if (feature != null) 'Feature': feature.value,
+      if (message != null) 'Message': message,
+      if (reasonCode != null) 'ReasonCode': reasonCode.value,
+    };
+  }
+}
+
+class CallAnalyticsFeature {
+  static const generativeSummarization =
+      CallAnalyticsFeature._('GENERATIVE_SUMMARIZATION');
+
+  final String value;
+
+  const CallAnalyticsFeature._(this.value);
+
+  static const values = [generativeSummarization];
+
+  static CallAnalyticsFeature fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CallAnalyticsFeature._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CallAnalyticsFeature && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CallAnalyticsSkippedReasonCode {
+  static const insufficientConversationContent =
+      CallAnalyticsSkippedReasonCode._('INSUFFICIENT_CONVERSATION_CONTENT');
+  static const failedSafetyGuidelines =
+      CallAnalyticsSkippedReasonCode._('FAILED_SAFETY_GUIDELINES');
+
+  final String value;
+
+  const CallAnalyticsSkippedReasonCode._(this.value);
+
+  static const values = [
+    insufficientConversationContent,
+    failedSafetyGuidelines
+  ];
+
+  static CallAnalyticsSkippedReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CallAnalyticsSkippedReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CallAnalyticsSkippedReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about a custom vocabulary filter, including the
+/// language of the filter, when it was last modified, and its name.
+class VocabularyFilterInfo {
+  /// The language code that represents the language of the entries in your
+  /// vocabulary filter. Each custom vocabulary filter must contain terms in only
+  /// one language.
+  ///
+  /// A custom vocabulary filter can only be used to transcribe files in the same
+  /// language as the filter. For example, if you create a custom vocabulary
+  /// filter using US English (<code>en-US</code>), you can only apply this filter
+  /// to files that contain English audio.
+  ///
+  /// For a list of supported languages and their associated language codes, refer
+  /// to the <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
+  /// languages</a> table.
+  final LanguageCode? languageCode;
+
+  /// The date and time the specified custom vocabulary filter was last modified.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
+  /// PM UTC-7 on May 4, 2022.
+  final DateTime? lastModifiedTime;
+
+  /// A unique name, chosen by you, for your custom vocabulary filter. This name
+  /// is case sensitive, cannot contain spaces, and must be unique within an
+  /// Amazon Web Services account.
+  final String? vocabularyFilterName;
+
+  VocabularyFilterInfo({
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyFilterName,
+  });
+
+  factory VocabularyFilterInfo.fromJson(Map<String, dynamic> json) {
+    return VocabularyFilterInfo(
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final lastModifiedTime = this.lastModifiedTime;
+    final vocabularyFilterName = this.vocabularyFilterName;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (vocabularyFilterName != null)
+        'VocabularyFilterName': vocabularyFilterName,
+    };
+  }
+}
+
+/// Provides information about a custom vocabulary, including the language of
+/// the custom vocabulary, when it was last modified, its name, and the
+/// processing state.
+class VocabularyInfo {
+  /// The language code used to create your custom vocabulary. Each custom
+  /// vocabulary must contain terms in only one language.
+  ///
+  /// A custom vocabulary can only be used to transcribe files in the same
+  /// language as the custom vocabulary. For example, if you create a custom
+  /// vocabulary using US English (<code>en-US</code>), you can only apply this
+  /// custom vocabulary to files that contain English audio.
+  final LanguageCode? languageCode;
+
+  /// The date and time the specified custom vocabulary was last modified.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
+  /// PM UTC-7 on May 4, 2022.
+  final DateTime? lastModifiedTime;
+
+  /// A unique name, chosen by you, for your custom vocabulary. This name is case
+  /// sensitive, cannot contain spaces, and must be unique within an Amazon Web
+  /// Services account.
+  final String? vocabularyName;
+
+  /// The processing state of your custom vocabulary. If the state is
+  /// <code>READY</code>, you can use the custom vocabulary in a
+  /// <code>StartTranscriptionJob</code> request.
+  final VocabularyState? vocabularyState;
+
+  VocabularyInfo({
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+
+  factory VocabularyInfo.fromJson(Map<String, dynamic> json) {
+    return VocabularyInfo(
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      vocabularyName: json['VocabularyName'] as String?,
+      vocabularyState:
+          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final lastModifiedTime = this.lastModifiedTime;
+    final vocabularyName = this.vocabularyName;
+    final vocabularyState = this.vocabularyState;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (vocabularyName != null) 'VocabularyName': vocabularyName,
+      if (vocabularyState != null) 'VocabularyState': vocabularyState.value,
+    };
+  }
+}
+
 /// Provides detailed information about a specific transcription job.
 class TranscriptionJobSummary {
   /// The date and time the specified transcription job finished processing.
@@ -9178,21 +9068,23 @@ class TranscriptionJobSummary {
   }
 }
 
-class Type {
-  static const conversation = Type._('CONVERSATION');
-  static const dictation = Type._('DICTATION');
+class OutputLocationType {
+  static const customerBucket = OutputLocationType._('CUSTOMER_BUCKET');
+  static const serviceBucket = OutputLocationType._('SERVICE_BUCKET');
 
   final String value;
 
-  const Type._(this.value);
+  const OutputLocationType._(this.value);
 
-  static const values = [conversation, dictation];
+  static const values = [customerBucket, serviceBucket];
 
-  static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+  static OutputLocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OutputLocationType._(value));
 
   @override
-  bool operator ==(other) => other is Type && other.value == value;
+  bool operator ==(other) =>
+      other is OutputLocationType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9201,271 +9093,420 @@ class Type {
   String toString() => value;
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// Provides detailed information about a specific medical transcription job.
+class MedicalTranscriptionJobSummary {
+  /// The date and time the specified medical transcription job finished
+  /// processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:33:13.922000-07:00</code> represents a
+  /// transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
+  final DateTime? completionTime;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  /// Labels all personal health information (PHI) identified in your transcript.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html">Identifying
+  /// personal health information (PHI) in a transcription</a>.
+  final MedicalContentIdentificationType? contentIdentificationType;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The date and time the specified medical transcription job request was made.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
+  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? creationTime;
 
-class UpdateCallAnalyticsCategoryResponse {
-  /// Provides you with the properties of the Call Analytics category you
-  /// specified in your <code>UpdateCallAnalyticsCategory</code> request.
-  final CategoryProperties? categoryProperties;
+  /// If <code>TranscriptionJobStatus</code> is <code>FAILED</code>,
+  /// <code>FailureReason</code> contains information about why the transcription
+  /// job failed. See also: <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
+  /// Errors</a>.
+  final String? failureReason;
 
-  UpdateCallAnalyticsCategoryResponse({
-    this.categoryProperties,
+  /// The language code used to create your medical transcription. US English
+  /// (<code>en-US</code>) is the only supported language for medical
+  /// transcriptions.
+  final LanguageCode? languageCode;
+
+  /// The name of the medical transcription job. Job names are case sensitive and
+  /// must be unique within an Amazon Web Services account.
+  final String? medicalTranscriptionJobName;
+
+  /// Indicates where the specified medical transcription output is stored.
+  ///
+  /// If the value is <code>CUSTOMER_BUCKET</code>, the location is the Amazon S3
+  /// bucket you specified using the <code>OutputBucketName</code> parameter in
+  /// your request. If you also included <code>OutputKey</code> in your request,
+  /// your output is located in the path you specified in your request.
+  ///
+  /// If the value is <code>SERVICE_BUCKET</code>, the location is a
+  /// service-managed Amazon S3 bucket. To access a transcript stored in a
+  /// service-managed bucket, use the URI shown in the
+  /// <code>TranscriptFileUri</code> field.
+  final OutputLocationType? outputLocationType;
+
+  /// Provides the medical specialty represented in your media.
+  final Specialty? specialty;
+
+  /// The date and time your medical transcription job began processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
+  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? startTime;
+
+  /// Provides the status of your medical transcription job.
+  ///
+  /// If the status is <code>COMPLETED</code>, the job is finished and you can
+  /// find the results at the location specified in
+  /// <code>TranscriptFileUri</code>. If the status is <code>FAILED</code>,
+  /// <code>FailureReason</code> provides details on why your transcription job
+  /// failed.
+  final TranscriptionJobStatus? transcriptionJobStatus;
+
+  /// Indicates whether the input media is a dictation or a conversation, as
+  /// specified in the <code>StartMedicalTranscriptionJob</code> request.
+  final Type? type;
+
+  MedicalTranscriptionJobSummary({
+    this.completionTime,
+    this.contentIdentificationType,
+    this.creationTime,
+    this.failureReason,
+    this.languageCode,
+    this.medicalTranscriptionJobName,
+    this.outputLocationType,
+    this.specialty,
+    this.startTime,
+    this.transcriptionJobStatus,
+    this.type,
   });
 
-  factory UpdateCallAnalyticsCategoryResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateCallAnalyticsCategoryResponse(
-      categoryProperties: json['CategoryProperties'] != null
-          ? CategoryProperties.fromJson(
-              json['CategoryProperties'] as Map<String, dynamic>)
-          : null,
+  factory MedicalTranscriptionJobSummary.fromJson(Map<String, dynamic> json) {
+    return MedicalTranscriptionJobSummary(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      contentIdentificationType: (json['ContentIdentificationType'] as String?)
+          ?.let(MedicalContentIdentificationType.fromString),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      medicalTranscriptionJobName:
+          json['MedicalTranscriptionJobName'] as String?,
+      outputLocationType: (json['OutputLocationType'] as String?)
+          ?.let(OutputLocationType.fromString),
+      specialty: (json['Specialty'] as String?)?.let(Specialty.fromString),
+      startTime: timeStampFromJson(json['StartTime']),
+      transcriptionJobStatus: (json['TranscriptionJobStatus'] as String?)
+          ?.let(TranscriptionJobStatus.fromString),
+      type: (json['Type'] as String?)?.let(Type.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final categoryProperties = this.categoryProperties;
+    final completionTime = this.completionTime;
+    final contentIdentificationType = this.contentIdentificationType;
+    final creationTime = this.creationTime;
+    final failureReason = this.failureReason;
+    final languageCode = this.languageCode;
+    final medicalTranscriptionJobName = this.medicalTranscriptionJobName;
+    final outputLocationType = this.outputLocationType;
+    final specialty = this.specialty;
+    final startTime = this.startTime;
+    final transcriptionJobStatus = this.transcriptionJobStatus;
+    final type = this.type;
     return {
-      if (categoryProperties != null) 'CategoryProperties': categoryProperties,
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (contentIdentificationType != null)
+        'ContentIdentificationType': contentIdentificationType.value,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (medicalTranscriptionJobName != null)
+        'MedicalTranscriptionJobName': medicalTranscriptionJobName,
+      if (outputLocationType != null)
+        'OutputLocationType': outputLocationType.value,
+      if (specialty != null) 'Specialty': specialty.value,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (transcriptionJobStatus != null)
+        'TranscriptionJobStatus': transcriptionJobStatus.value,
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
-class UpdateMedicalVocabularyResponse {
-  /// The language code you selected for your custom medical vocabulary. US
-  /// English (<code>en-US</code>) is the only language supported with Amazon
-  /// Transcribe Medical.
-  final LanguageCode? languageCode;
+/// Provides detailed information about a specific Medical Scribe job.
+class MedicalScribeJobSummary {
+  /// The date and time the specified Medical Scribe job finished processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
+  /// Medical Scribe job that finished processing at 12:32 PM UTC-7 on May 4,
+  /// 2022.
+  final DateTime? completionTime;
 
-  /// The date and time the specified custom medical vocabulary was last updated.
+  /// The date and time the specified Medical Scribe job request was made.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
+  /// Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? creationTime;
+
+  /// If <code>MedicalScribeJobStatus</code> is <code>FAILED</code>,
+  /// <code>FailureReason</code> contains information about why the transcription
+  /// job failed. See also: <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
+  /// Errors</a>.
+  final String? failureReason;
+
+  /// The language code used to create your Medical Scribe job. US English
+  /// (<code>en-US</code>) is the only supported language for Medical Scribe jobs.
+  final MedicalScribeLanguageCode? languageCode;
+
+  /// The name of the Medical Scribe job. Job names are case sensitive and must be
+  /// unique within an Amazon Web Services account.
+  final String? medicalScribeJobName;
+
+  /// Provides the status of the specified Medical Scribe job.
+  ///
+  /// If the status is <code>COMPLETED</code>, the job is finished and you can
+  /// find the results at the location specified in
+  /// <code>MedicalScribeOutput</code> If the status is <code>FAILED</code>,
+  /// <code>FailureReason</code> provides details on why your Medical Scribe job
+  /// failed.
+  final MedicalScribeJobStatus? medicalScribeJobStatus;
+
+  /// The date and time your Medical Scribe job began processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
+  /// Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? startTime;
+
+  MedicalScribeJobSummary({
+    this.completionTime,
+    this.creationTime,
+    this.failureReason,
+    this.languageCode,
+    this.medicalScribeJobName,
+    this.medicalScribeJobStatus,
+    this.startTime,
+  });
+
+  factory MedicalScribeJobSummary.fromJson(Map<String, dynamic> json) {
+    return MedicalScribeJobSummary(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      languageCode: (json['LanguageCode'] as String?)
+          ?.let(MedicalScribeLanguageCode.fromString),
+      medicalScribeJobName: json['MedicalScribeJobName'] as String?,
+      medicalScribeJobStatus: (json['MedicalScribeJobStatus'] as String?)
+          ?.let(MedicalScribeJobStatus.fromString),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionTime = this.completionTime;
+    final creationTime = this.creationTime;
+    final failureReason = this.failureReason;
+    final languageCode = this.languageCode;
+    final medicalScribeJobName = this.medicalScribeJobName;
+    final medicalScribeJobStatus = this.medicalScribeJobStatus;
+    final startTime = this.startTime;
+    return {
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (medicalScribeJobName != null)
+        'MedicalScribeJobName': medicalScribeJobName,
+      if (medicalScribeJobStatus != null)
+        'MedicalScribeJobStatus': medicalScribeJobStatus.value,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// Provides information about a custom language model, including:
+///
+/// <ul>
+/// <li>
+/// The base model name
+/// </li>
+/// <li>
+/// When the model was created
+/// </li>
+/// <li>
+/// The location of the files used to train the model
+/// </li>
+/// <li>
+/// When the model was last modified
+/// </li>
+/// <li>
+/// The name you chose for the model
+/// </li>
+/// <li>
+/// The model's language
+/// </li>
+/// <li>
+/// The model's processing state
+/// </li>
+/// <li>
+/// Any available upgrades for the base model
+/// </li>
+/// </ul>
+class LanguageModel {
+  /// The Amazon Transcribe standard language model, or base model, used to create
+  /// your custom language model.
+  final BaseModelName? baseModelName;
+
+  /// The date and time the specified custom language model was created.
   ///
   /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
   /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
   /// PM UTC-7 on May 4, 2022.
-  final DateTime? lastModifiedTime;
+  final DateTime? createTime;
 
-  /// The name of the updated custom medical vocabulary.
-  final String? vocabularyName;
+  /// If <code>ModelStatus</code> is <code>FAILED</code>,
+  /// <code>FailureReason</code> contains information about why the custom
+  /// language model request failed. See also: <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
+  /// Errors</a>.
+  final String? failureReason;
 
-  /// The processing state of your custom medical vocabulary. If the state is
-  /// <code>READY</code>, you can use the custom vocabulary in a
-  /// <code>StartMedicalTranscriptionJob</code> request.
-  final VocabularyState? vocabularyState;
+  /// The Amazon S3 location of the input files used to train and tune your custom
+  /// language model, in addition to the data access role ARN (Amazon Resource
+  /// Name) that has permissions to access these data.
+  final InputDataConfig? inputDataConfig;
 
-  UpdateMedicalVocabularyResponse({
-    this.languageCode,
-    this.lastModifiedTime,
-    this.vocabularyName,
-    this.vocabularyState,
-  });
-
-  factory UpdateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateMedicalVocabularyResponse(
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      vocabularyName: json['VocabularyName'] as String?,
-      vocabularyState:
-          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final lastModifiedTime = this.lastModifiedTime;
-    final vocabularyName = this.vocabularyName;
-    final vocabularyState = this.vocabularyState;
-    return {
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
-      if (vocabularyState != null) 'VocabularyState': vocabularyState.value,
-    };
-  }
-}
-
-class UpdateVocabularyFilterResponse {
-  /// The language code you selected for your custom vocabulary filter.
-  final LanguageCode? languageCode;
-
-  /// The date and time the specified custom vocabulary filter was last updated.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
-  /// PM UTC-7 on May 4, 2022.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the updated custom vocabulary filter.
-  final String? vocabularyFilterName;
-
-  UpdateVocabularyFilterResponse({
-    this.languageCode,
-    this.lastModifiedTime,
-    this.vocabularyFilterName,
-  });
-
-  factory UpdateVocabularyFilterResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateVocabularyFilterResponse(
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      vocabularyFilterName: json['VocabularyFilterName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final lastModifiedTime = this.lastModifiedTime;
-    final vocabularyFilterName = this.vocabularyFilterName;
-    return {
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (vocabularyFilterName != null)
-        'VocabularyFilterName': vocabularyFilterName,
-    };
-  }
-}
-
-class UpdateVocabularyResponse {
-  /// The language code you selected for your custom vocabulary.
-  final LanguageCode? languageCode;
-
-  /// The date and time the specified custom vocabulary was last updated.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
-  /// PM UTC-7 on May 4, 2022.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the updated custom vocabulary.
-  final String? vocabularyName;
-
-  /// The processing state of your custom vocabulary. If the state is
-  /// <code>READY</code>, you can use the custom vocabulary in a
-  /// <code>StartTranscriptionJob</code> request.
-  final VocabularyState? vocabularyState;
-
-  UpdateVocabularyResponse({
-    this.languageCode,
-    this.lastModifiedTime,
-    this.vocabularyName,
-    this.vocabularyState,
-  });
-
-  factory UpdateVocabularyResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateVocabularyResponse(
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      vocabularyName: json['VocabularyName'] as String?,
-      vocabularyState:
-          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final lastModifiedTime = this.lastModifiedTime;
-    final vocabularyName = this.vocabularyName;
-    final vocabularyState = this.vocabularyState;
-    return {
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
-      if (vocabularyState != null) 'VocabularyState': vocabularyState.value,
-    };
-  }
-}
-
-/// Provides information about a custom vocabulary filter, including the
-/// language of the filter, when it was last modified, and its name.
-class VocabularyFilterInfo {
-  /// The language code that represents the language of the entries in your
-  /// vocabulary filter. Each custom vocabulary filter must contain terms in only
-  /// one language.
-  ///
-  /// A custom vocabulary filter can only be used to transcribe files in the same
-  /// language as the filter. For example, if you create a custom vocabulary
-  /// filter using US English (<code>en-US</code>), you can only apply this filter
-  /// to files that contain English audio.
+  /// The language code used to create your custom language model. Each custom
+  /// language model must contain terms in only one language, and the language you
+  /// select for your custom language model must match the language of your
+  /// training and tuning data.
   ///
   /// For a list of supported languages and their associated language codes, refer
   /// to the <a
   /// href="https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html">Supported
-  /// languages</a> table.
-  final LanguageCode? languageCode;
+  /// languages</a> table. Note that US English (<code>en-US</code>) is the only
+  /// language supported with Amazon Transcribe Medical.
+  final CLMLanguageCode? languageCode;
 
-  /// The date and time the specified custom vocabulary filter was last modified.
+  /// The date and time the specified custom language model was last modified.
   ///
   /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
   /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
   /// PM UTC-7 on May 4, 2022.
   final DateTime? lastModifiedTime;
 
-  /// A unique name, chosen by you, for your custom vocabulary filter. This name
-  /// is case sensitive, cannot contain spaces, and must be unique within an
-  /// Amazon Web Services account.
-  final String? vocabularyFilterName;
+  /// A unique name, chosen by you, for your custom language model.
+  ///
+  /// This name is case sensitive, cannot contain spaces, and must be unique
+  /// within an Amazon Web Services account.
+  final String? modelName;
 
-  VocabularyFilterInfo({
+  /// The status of the specified custom language model. When the status displays
+  /// as <code>COMPLETED</code> the model is ready for use.
+  final ModelStatus? modelStatus;
+
+  /// Shows if a more current base model is available for use with the specified
+  /// custom language model.
+  ///
+  /// If <code>false</code>, your custom language model is using the most
+  /// up-to-date base model.
+  ///
+  /// If <code>true</code>, there is a newer base model available than the one
+  /// your language model is using.
+  ///
+  /// Note that to update a base model, you must recreate the custom language
+  /// model using the new base model. Base model upgrades for existing custom
+  /// language models are not supported.
+  final bool? upgradeAvailability;
+
+  LanguageModel({
+    this.baseModelName,
+    this.createTime,
+    this.failureReason,
+    this.inputDataConfig,
     this.languageCode,
     this.lastModifiedTime,
-    this.vocabularyFilterName,
+    this.modelName,
+    this.modelStatus,
+    this.upgradeAvailability,
   });
 
-  factory VocabularyFilterInfo.fromJson(Map<String, dynamic> json) {
-    return VocabularyFilterInfo(
+  factory LanguageModel.fromJson(Map<String, dynamic> json) {
+    return LanguageModel(
+      baseModelName:
+          (json['BaseModelName'] as String?)?.let(BaseModelName.fromString),
+      createTime: timeStampFromJson(json['CreateTime']),
+      failureReason: json['FailureReason'] as String?,
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
       languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+          (json['LanguageCode'] as String?)?.let(CLMLanguageCode.fromString),
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      vocabularyFilterName: json['VocabularyFilterName'] as String?,
+      modelName: json['ModelName'] as String?,
+      modelStatus:
+          (json['ModelStatus'] as String?)?.let(ModelStatus.fromString),
+      upgradeAvailability: json['UpgradeAvailability'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final baseModelName = this.baseModelName;
+    final createTime = this.createTime;
+    final failureReason = this.failureReason;
+    final inputDataConfig = this.inputDataConfig;
     final languageCode = this.languageCode;
     final lastModifiedTime = this.lastModifiedTime;
-    final vocabularyFilterName = this.vocabularyFilterName;
+    final modelName = this.modelName;
+    final modelStatus = this.modelStatus;
+    final upgradeAvailability = this.upgradeAvailability;
     return {
+      if (baseModelName != null) 'BaseModelName': baseModelName.value,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
       if (languageCode != null) 'LanguageCode': languageCode.value,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (vocabularyFilterName != null)
-        'VocabularyFilterName': vocabularyFilterName,
+      if (modelName != null) 'ModelName': modelName,
+      if (modelStatus != null) 'ModelStatus': modelStatus.value,
+      if (upgradeAvailability != null)
+        'UpgradeAvailability': upgradeAvailability,
     };
   }
 }
 
-class VocabularyFilterMethod {
-  static const remove = VocabularyFilterMethod._('remove');
-  static const mask = VocabularyFilterMethod._('mask');
-  static const tag = VocabularyFilterMethod._('tag');
+class CLMLanguageCode {
+  static const enUs = CLMLanguageCode._('en-US');
+  static const hiIn = CLMLanguageCode._('hi-IN');
+  static const esUs = CLMLanguageCode._('es-US');
+  static const enGb = CLMLanguageCode._('en-GB');
+  static const enAu = CLMLanguageCode._('en-AU');
+  static const deDe = CLMLanguageCode._('de-DE');
+  static const jaJp = CLMLanguageCode._('ja-JP');
 
   final String value;
 
-  const VocabularyFilterMethod._(this.value);
+  const CLMLanguageCode._(this.value);
 
-  static const values = [remove, mask, tag];
+  static const values = [enUs, hiIn, esUs, enGb, enAu, deDe, jaJp];
 
-  static VocabularyFilterMethod fromString(String value) =>
+  static CLMLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => VocabularyFilterMethod._(value));
+          orElse: () => CLMLanguageCode._(value));
 
   @override
-  bool operator ==(other) =>
-      other is VocabularyFilterMethod && other.value == value;
+  bool operator ==(other) => other is CLMLanguageCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9474,92 +9515,219 @@ class VocabularyFilterMethod {
   String toString() => value;
 }
 
-/// Provides information about a custom vocabulary, including the language of
-/// the custom vocabulary, when it was last modified, its name, and the
-/// processing state.
-class VocabularyInfo {
-  /// The language code used to create your custom vocabulary. Each custom
-  /// vocabulary must contain terms in only one language.
-  ///
-  /// A custom vocabulary can only be used to transcribe files in the same
-  /// language as the custom vocabulary. For example, if you create a custom
-  /// vocabulary using US English (<code>en-US</code>), you can only apply this
-  /// custom vocabulary to files that contain English audio.
-  final LanguageCode? languageCode;
-
-  /// The date and time the specified custom vocabulary was last modified.
-  ///
-  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
-  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents 12:32
-  /// PM UTC-7 on May 4, 2022.
-  final DateTime? lastModifiedTime;
-
-  /// A unique name, chosen by you, for your custom vocabulary. This name is case
-  /// sensitive, cannot contain spaces, and must be unique within an Amazon Web
-  /// Services account.
-  final String? vocabularyName;
-
-  /// The processing state of your custom vocabulary. If the state is
-  /// <code>READY</code>, you can use the custom vocabulary in a
-  /// <code>StartTranscriptionJob</code> request.
-  final VocabularyState? vocabularyState;
-
-  VocabularyInfo({
-    this.languageCode,
-    this.lastModifiedTime,
-    this.vocabularyName,
-    this.vocabularyState,
-  });
-
-  factory VocabularyInfo.fromJson(Map<String, dynamic> json) {
-    return VocabularyInfo(
-      languageCode:
-          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      vocabularyName: json['VocabularyName'] as String?,
-      vocabularyState:
-          (json['VocabularyState'] as String?)?.let(VocabularyState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final lastModifiedTime = this.lastModifiedTime;
-    final vocabularyName = this.vocabularyName;
-    final vocabularyState = this.vocabularyState;
-    return {
-      if (languageCode != null) 'LanguageCode': languageCode.value,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (vocabularyName != null) 'VocabularyName': vocabularyName,
-      if (vocabularyState != null) 'VocabularyState': vocabularyState.value,
-    };
-  }
-}
-
-class VocabularyState {
-  static const pending = VocabularyState._('PENDING');
-  static const ready = VocabularyState._('READY');
-  static const failed = VocabularyState._('FAILED');
+class BaseModelName {
+  static const narrowBand = BaseModelName._('NarrowBand');
+  static const wideBand = BaseModelName._('WideBand');
 
   final String value;
 
-  const VocabularyState._(this.value);
+  const BaseModelName._(this.value);
 
-  static const values = [pending, ready, failed];
+  static const values = [narrowBand, wideBand];
 
-  static VocabularyState fromString(String value) =>
+  static BaseModelName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => VocabularyState._(value));
+          orElse: () => BaseModelName._(value));
 
   @override
-  bool operator ==(other) => other is VocabularyState && other.value == value;
+  bool operator ==(other) => other is BaseModelName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class ModelStatus {
+  static const inProgress = ModelStatus._('IN_PROGRESS');
+  static const failed = ModelStatus._('FAILED');
+  static const completed = ModelStatus._('COMPLETED');
+
+  final String value;
+
+  const ModelStatus._(this.value);
+
+  static const values = [inProgress, failed, completed];
+
+  static ModelStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ModelStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ModelStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the Amazon S3 location of the training data you want to use to
+/// create a new custom language model, and permissions to access this location.
+///
+/// When using <code>InputDataConfig</code>, you must include these
+/// sub-parameters: <code>S3Uri</code> and <code>DataAccessRoleArn</code>. You
+/// can optionally include <code>TuningDataS3Uri</code>.
+class InputDataConfig {
+  /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access
+  /// the Amazon S3 bucket that contains your input files. If the role that you
+  /// specify doesn’t have the appropriate permissions to access the specified
+  /// Amazon S3 location, your request fails.
+  ///
+  /// IAM role ARNs have the format
+  /// <code>arn:partition:iam::account:role/role-name-with-path</code>. For
+  /// example: <code>arn:aws:iam::111122223333:role/Admin</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns">IAM
+  /// ARNs</a>.
+  final String dataAccessRoleArn;
+
+  /// The Amazon S3 location (URI) of the text files you want to use to train your
+  /// custom language model.
+  ///
+  /// Here's an example URI path:
+  /// <code>s3://DOC-EXAMPLE-BUCKET/my-model-training-data/</code>
+  final String s3Uri;
+
+  /// The Amazon S3 location (URI) of the text files you want to use to tune your
+  /// custom language model.
+  ///
+  /// Here's an example URI path:
+  /// <code>s3://DOC-EXAMPLE-BUCKET/my-model-tuning-data/</code>
+  final String? tuningDataS3Uri;
+
+  InputDataConfig({
+    required this.dataAccessRoleArn,
+    required this.s3Uri,
+    this.tuningDataS3Uri,
+  });
+
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      dataAccessRoleArn: (json['DataAccessRoleArn'] as String?) ?? '',
+      s3Uri: (json['S3Uri'] as String?) ?? '',
+      tuningDataS3Uri: json['TuningDataS3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final s3Uri = this.s3Uri;
+    final tuningDataS3Uri = this.tuningDataS3Uri;
+    return {
+      'DataAccessRoleArn': dataAccessRoleArn,
+      'S3Uri': s3Uri,
+      if (tuningDataS3Uri != null) 'TuningDataS3Uri': tuningDataS3Uri,
+    };
+  }
+}
+
+/// Provides detailed information about a specific Call Analytics job.
+class CallAnalyticsJobSummary {
+  /// Provides detailed information about a call analytics job, including
+  /// information about skipped analytics features.
+  final CallAnalyticsJobDetails? callAnalyticsJobDetails;
+
+  /// The name of the Call Analytics job. Job names are case sensitive and must be
+  /// unique within an Amazon Web Services account.
+  final String? callAnalyticsJobName;
+
+  /// Provides the status of your Call Analytics job.
+  ///
+  /// If the status is <code>COMPLETED</code>, the job is finished and you can
+  /// find the results at the location specified in <code>TranscriptFileUri</code>
+  /// (or <code>RedactedTranscriptFileUri</code>, if you requested transcript
+  /// redaction). If the status is <code>FAILED</code>, <code>FailureReason</code>
+  /// provides details on why your transcription job failed.
+  final CallAnalyticsJobStatus? callAnalyticsJobStatus;
+
+  /// The date and time the specified Call Analytics job finished processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:33:13.922000-07:00</code> represents a
+  /// transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
+  final DateTime? completionTime;
+
+  /// The date and time the specified Call Analytics job request was made.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.761000-07:00</code> represents a
+  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? creationTime;
+
+  /// If <code>CallAnalyticsJobStatus</code> is <code>FAILED</code>,
+  /// <code>FailureReason</code> contains information about why the Call Analytics
+  /// job failed. See also: <a
+  /// href="https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html">Common
+  /// Errors</a>.
+  final String? failureReason;
+
+  /// The language code used to create your Call Analytics transcription.
+  final LanguageCode? languageCode;
+
+  /// The date and time your Call Analytics job began processing.
+  ///
+  /// Timestamps are in the format <code>YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC</code>.
+  /// For example, <code>2022-05-04T12:32:58.789000-07:00</code> represents a
+  /// transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+  final DateTime? startTime;
+
+  CallAnalyticsJobSummary({
+    this.callAnalyticsJobDetails,
+    this.callAnalyticsJobName,
+    this.callAnalyticsJobStatus,
+    this.completionTime,
+    this.creationTime,
+    this.failureReason,
+    this.languageCode,
+    this.startTime,
+  });
+
+  factory CallAnalyticsJobSummary.fromJson(Map<String, dynamic> json) {
+    return CallAnalyticsJobSummary(
+      callAnalyticsJobDetails: json['CallAnalyticsJobDetails'] != null
+          ? CallAnalyticsJobDetails.fromJson(
+              json['CallAnalyticsJobDetails'] as Map<String, dynamic>)
+          : null,
+      callAnalyticsJobName: json['CallAnalyticsJobName'] as String?,
+      callAnalyticsJobStatus: (json['CallAnalyticsJobStatus'] as String?)
+          ?.let(CallAnalyticsJobStatus.fromString),
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      languageCode:
+          (json['LanguageCode'] as String?)?.let(LanguageCode.fromString),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callAnalyticsJobDetails = this.callAnalyticsJobDetails;
+    final callAnalyticsJobName = this.callAnalyticsJobName;
+    final callAnalyticsJobStatus = this.callAnalyticsJobStatus;
+    final completionTime = this.completionTime;
+    final creationTime = this.creationTime;
+    final failureReason = this.failureReason;
+    final languageCode = this.languageCode;
+    final startTime = this.startTime;
+    return {
+      if (callAnalyticsJobDetails != null)
+        'CallAnalyticsJobDetails': callAnalyticsJobDetails,
+      if (callAnalyticsJobName != null)
+        'CallAnalyticsJobName': callAnalyticsJobName,
+      if (callAnalyticsJobStatus != null)
+        'CallAnalyticsJobStatus': callAnalyticsJobStatus.value,
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (languageCode != null) 'LanguageCode': languageCode.value,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {

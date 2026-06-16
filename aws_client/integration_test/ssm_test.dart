@@ -1,4 +1,4 @@
-import 'package:aws_client/ssm_2014_11_06.dart';
+import 'package:aws_client/ssm.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

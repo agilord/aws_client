@@ -36,7 +36,6 @@ class CodeConnections {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'codeconnections',
-            signingName: 'codeconnections',
           ),
           region: region,
           credentials: credentials,
@@ -83,8 +82,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.CreateConnection'
+      'X-Amz-Target': 'CodeConnections_20231201.CreateConnection'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -143,8 +141,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.CreateHost'
+      'X-Amz-Target': 'CodeConnections_20231201.CreateHost'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -202,8 +199,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.CreateRepositoryLink'
+      'X-Amz-Target': 'CodeConnections_20231201.CreateRepositoryLink'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -266,6 +262,10 @@ class CodeConnections {
   /// Whether to enable or disable publishing of deployment status to source
   /// providers.
   ///
+  /// Parameter [pullRequestComment] :
+  /// A toggle that specifies whether to enable or disable pull request comments
+  /// for the sync configuration to be created.
+  ///
   /// Parameter [triggerResourceUpdateOn] :
   /// When to trigger Git sync to begin the stack update.
   Future<CreateSyncConfigurationOutput> createSyncConfiguration({
@@ -276,12 +276,12 @@ class CodeConnections {
     required String roleArn,
     required SyncConfigurationType syncType,
     PublishDeploymentStatus? publishDeploymentStatus,
+    PullRequestComment? pullRequestComment,
     TriggerResourceUpdateOn? triggerResourceUpdateOn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.CreateSyncConfiguration'
+      'X-Amz-Target': 'CodeConnections_20231201.CreateSyncConfiguration'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -298,6 +298,8 @@ class CodeConnections {
         'SyncType': syncType.value,
         if (publishDeploymentStatus != null)
           'PublishDeploymentStatus': publishDeploymentStatus.value,
+        if (pullRequestComment != null)
+          'PullRequestComment': pullRequestComment.value,
         if (triggerResourceUpdateOn != null)
           'TriggerResourceUpdateOn': triggerResourceUpdateOn.value,
       },
@@ -320,8 +322,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.DeleteConnection'
+      'X-Amz-Target': 'CodeConnections_20231201.DeleteConnection'
     };
     await _protocol.send(
       method: 'POST',
@@ -352,8 +353,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.DeleteHost'
+      'X-Amz-Target': 'CodeConnections_20231201.DeleteHost'
     };
     await _protocol.send(
       method: 'POST',
@@ -374,8 +374,8 @@ class CodeConnections {
   /// May throw [ConcurrentModificationException].
   /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
-  /// May throw [SyncConfigurationStillExistsException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [SyncConfigurationStillExistsException].
   /// May throw [ThrottlingException].
   /// May throw [UnsupportedProviderTypeException].
   ///
@@ -386,8 +386,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.DeleteRepositoryLink'
+      'X-Amz-Target': 'CodeConnections_20231201.DeleteRepositoryLink'
     };
     await _protocol.send(
       method: 'POST',
@@ -422,8 +421,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.DeleteSyncConfiguration'
+      'X-Amz-Target': 'CodeConnections_20231201.DeleteSyncConfiguration'
     };
     await _protocol.send(
       method: 'POST',
@@ -451,8 +449,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.GetConnection'
+      'X-Amz-Target': 'CodeConnections_20231201.GetConnection'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -481,8 +478,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.GetHost'
+      'X-Amz-Target': 'CodeConnections_20231201.GetHost'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -515,8 +511,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.GetRepositoryLink'
+      'X-Amz-Target': 'CodeConnections_20231201.GetRepositoryLink'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -557,8 +552,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.GetRepositorySyncStatus'
+      'X-Amz-Target': 'CodeConnections_20231201.GetRepositorySyncStatus'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -597,8 +591,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.GetResourceSyncStatus'
+      'X-Amz-Target': 'CodeConnections_20231201.GetResourceSyncStatus'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -635,8 +628,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.GetSyncBlockerSummary'
+      'X-Amz-Target': 'CodeConnections_20231201.GetSyncBlockerSummary'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -677,8 +669,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.GetSyncConfiguration'
+      'X-Amz-Target': 'CodeConnections_20231201.GetSyncConfiguration'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -728,8 +719,7 @@ class CodeConnections {
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.ListConnections'
+      'X-Amz-Target': 'CodeConnections_20231201.ListConnections'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -771,8 +761,7 @@ class CodeConnections {
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.ListHosts'
+      'X-Amz-Target': 'CodeConnections_20231201.ListHosts'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -817,8 +806,7 @@ class CodeConnections {
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.ListRepositoryLinks'
+      'X-Amz-Target': 'CodeConnections_20231201.ListRepositoryLinks'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -857,8 +845,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.ListRepositorySyncDefinitions'
+      'X-Amz-Target': 'CodeConnections_20231201.ListRepositorySyncDefinitions'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -911,8 +898,7 @@ class CodeConnections {
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.ListSyncConfigurations'
+      'X-Amz-Target': 'CodeConnections_20231201.ListSyncConfigurations'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -944,8 +930,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.ListTagsForResource'
+      'X-Amz-Target': 'CodeConnections_20231201.ListTagsForResource'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -964,8 +949,8 @@ class CodeConnections {
   /// Adds to or modifies the tags of the given resource. Tags are metadata that
   /// can be used to manage a resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to which you want to add or
@@ -979,8 +964,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.TagResource'
+      'X-Amz-Target': 'CodeConnections_20231201.TagResource'
     };
     await _protocol.send(
       method: 'POST',
@@ -1010,8 +994,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.UntagResource'
+      'X-Amz-Target': 'CodeConnections_20231201.UntagResource'
     };
     await _protocol.send(
       method: 'POST',
@@ -1050,8 +1033,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.UpdateHost'
+      'X-Amz-Target': 'CodeConnections_20231201.UpdateHost'
     };
     await _protocol.send(
       method: 'POST',
@@ -1097,8 +1079,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.UpdateRepositoryLink'
+      'X-Amz-Target': 'CodeConnections_20231201.UpdateRepositoryLink'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1146,8 +1127,7 @@ class CodeConnections {
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.UpdateSyncBlocker'
+      'X-Amz-Target': 'CodeConnections_20231201.UpdateSyncBlocker'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1194,6 +1174,10 @@ class CodeConnections {
   /// Whether to enable or disable publishing of deployment status to source
   /// providers.
   ///
+  /// Parameter [pullRequestComment] :
+  /// TA toggle that specifies whether to enable or disable pull request
+  /// comments for the sync configuration to be updated.
+  ///
   /// Parameter [repositoryLinkId] :
   /// The ID of the repository link for the sync configuration to be updated.
   ///
@@ -1208,14 +1192,14 @@ class CodeConnections {
     String? branch,
     String? configFile,
     PublishDeploymentStatus? publishDeploymentStatus,
+    PullRequestComment? pullRequestComment,
     String? repositoryLinkId,
     String? roleArn,
     TriggerResourceUpdateOn? triggerResourceUpdateOn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'com.amazonaws.codeconnections.CodeConnections_20231201.UpdateSyncConfiguration'
+      'X-Amz-Target': 'CodeConnections_20231201.UpdateSyncConfiguration'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1230,6 +1214,8 @@ class CodeConnections {
         if (configFile != null) 'ConfigFile': configFile,
         if (publishDeploymentStatus != null)
           'PublishDeploymentStatus': publishDeploymentStatus.value,
+        if (pullRequestComment != null)
+          'PullRequestComment': pullRequestComment.value,
         if (repositoryLinkId != null) 'RepositoryLinkId': repositoryLinkId,
         if (roleArn != null) 'RoleArn': roleArn,
         if (triggerResourceUpdateOn != null)
@@ -1239,151 +1225,6 @@ class CodeConnections {
 
     return UpdateSyncConfigurationOutput.fromJson(jsonResponse.body);
   }
-}
-
-class BlockerStatus {
-  static const active = BlockerStatus._('ACTIVE');
-  static const resolved = BlockerStatus._('RESOLVED');
-
-  final String value;
-
-  const BlockerStatus._(this.value);
-
-  static const values = [active, resolved];
-
-  static BlockerStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BlockerStatus._(value));
-
-  @override
-  bool operator ==(other) => other is BlockerStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class BlockerType {
-  static const automated = BlockerType._('AUTOMATED');
-
-  final String value;
-
-  const BlockerType._(this.value);
-
-  static const values = [automated];
-
-  static BlockerType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BlockerType._(value));
-
-  @override
-  bool operator ==(other) => other is BlockerType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A resource that is used to connect third-party source providers with
-/// services like CodePipeline.
-///
-/// Note: A connection created through CloudFormation, the CLI, or the SDK is in
-/// `PENDING` status by default. You can make its status `AVAILABLE` by updating
-/// the connection in the console.
-class Connection {
-  /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the
-  /// connection reference when the connection is shared between Amazon Web
-  /// Services.
-  /// <note>
-  /// The ARN is never reused if the connection is deleted.
-  /// </note>
-  final String? connectionArn;
-
-  /// The name of the connection. Connection names must be unique in an Amazon Web
-  /// Services account.
-  final String? connectionName;
-
-  /// The current status of the connection.
-  final ConnectionStatus? connectionStatus;
-
-  /// The Amazon Resource Name (ARN) of the host associated with the connection.
-  final String? hostArn;
-
-  /// The identifier of the external provider where your third-party code
-  /// repository is configured. For Bitbucket, this is the account ID of the owner
-  /// of the Bitbucket repository.
-  final String? ownerAccountId;
-
-  /// The name of the external provider where your third-party code repository is
-  /// configured.
-  final ProviderType? providerType;
-
-  Connection({
-    this.connectionArn,
-    this.connectionName,
-    this.connectionStatus,
-    this.hostArn,
-    this.ownerAccountId,
-    this.providerType,
-  });
-
-  factory Connection.fromJson(Map<String, dynamic> json) {
-    return Connection(
-      connectionArn: json['ConnectionArn'] as String?,
-      connectionName: json['ConnectionName'] as String?,
-      connectionStatus: (json['ConnectionStatus'] as String?)
-          ?.let(ConnectionStatus.fromString),
-      hostArn: json['HostArn'] as String?,
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      providerType:
-          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionArn = this.connectionArn;
-    final connectionName = this.connectionName;
-    final connectionStatus = this.connectionStatus;
-    final hostArn = this.hostArn;
-    final ownerAccountId = this.ownerAccountId;
-    final providerType = this.providerType;
-    return {
-      if (connectionArn != null) 'ConnectionArn': connectionArn,
-      if (connectionName != null) 'ConnectionName': connectionName,
-      if (connectionStatus != null) 'ConnectionStatus': connectionStatus.value,
-      if (hostArn != null) 'HostArn': hostArn,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (providerType != null) 'ProviderType': providerType.value,
-    };
-  }
-}
-
-class ConnectionStatus {
-  static const pending = ConnectionStatus._('PENDING');
-  static const available = ConnectionStatus._('AVAILABLE');
-  static const error = ConnectionStatus._('ERROR');
-
-  final String value;
-
-  const ConnectionStatus._(this.value);
-
-  static const values = [pending, available, error];
-
-  static ConnectionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateConnectionOutput {
@@ -1775,85 +1616,6 @@ class GetSyncConfigurationOutput {
   }
 }
 
-/// A resource that represents the infrastructure where a third-party provider
-/// is installed. The host is used when you create connections to an installed
-/// third-party provider type, such as GitHub Enterprise Server. You create one
-/// host for all connections to that provider.
-/// <note>
-/// A host created through the CLI or the SDK is in `PENDING` status by default.
-/// You can make its status `AVAILABLE` by setting up the host in the console.
-/// </note>
-class Host {
-  /// The Amazon Resource Name (ARN) of the host.
-  final String? hostArn;
-
-  /// The name of the host.
-  final String? name;
-
-  /// The endpoint of the infrastructure where your provider type is installed.
-  final String? providerEndpoint;
-
-  /// The name of the installed provider to be associated with your connection.
-  /// The host resource represents the infrastructure where your provider type is
-  /// installed. The valid provider type is GitHub Enterprise Server.
-  final ProviderType? providerType;
-
-  /// The status of the host, such as PENDING, AVAILABLE, VPC_CONFIG_DELETING,
-  /// VPC_CONFIG_INITIALIZING, and VPC_CONFIG_FAILED_INITIALIZATION.
-  final String? status;
-
-  /// The status description for the host.
-  final String? statusMessage;
-
-  /// The VPC configuration provisioned for the host.
-  final VpcConfiguration? vpcConfiguration;
-
-  Host({
-    this.hostArn,
-    this.name,
-    this.providerEndpoint,
-    this.providerType,
-    this.status,
-    this.statusMessage,
-    this.vpcConfiguration,
-  });
-
-  factory Host.fromJson(Map<String, dynamic> json) {
-    return Host(
-      hostArn: json['HostArn'] as String?,
-      name: json['Name'] as String?,
-      providerEndpoint: json['ProviderEndpoint'] as String?,
-      providerType:
-          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
-      status: json['Status'] as String?,
-      statusMessage: json['StatusMessage'] as String?,
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? VpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostArn = this.hostArn;
-    final name = this.name;
-    final providerEndpoint = this.providerEndpoint;
-    final providerType = this.providerType;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final vpcConfiguration = this.vpcConfiguration;
-    return {
-      if (hostArn != null) 'HostArn': hostArn,
-      if (name != null) 'Name': name,
-      if (providerEndpoint != null) 'ProviderEndpoint': providerEndpoint,
-      if (providerType != null) 'ProviderType': providerType.value,
-      if (status != null) 'Status': status,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-    };
-  }
-}
-
 class ListConnectionsOutput {
   /// A list of connections and the details for each connection, such as status,
   /// owner, and provider type.
@@ -2054,842 +1816,6 @@ class ListTagsForResourceOutput {
   }
 }
 
-class ProviderType {
-  static const bitbucket = ProviderType._('Bitbucket');
-  static const gitHub = ProviderType._('GitHub');
-  static const gitHubEnterpriseServer =
-      ProviderType._('GitHubEnterpriseServer');
-  static const gitLab = ProviderType._('GitLab');
-  static const gitLabSelfManaged = ProviderType._('GitLabSelfManaged');
-
-  final String value;
-
-  const ProviderType._(this.value);
-
-  static const values = [
-    bitbucket,
-    gitHub,
-    gitHubEnterpriseServer,
-    gitLab,
-    gitLabSelfManaged
-  ];
-
-  static ProviderType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ProviderType._(value));
-
-  @override
-  bool operator ==(other) => other is ProviderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PublishDeploymentStatus {
-  static const enabled = PublishDeploymentStatus._('ENABLED');
-  static const disabled = PublishDeploymentStatus._('DISABLED');
-
-  final String value;
-
-  const PublishDeploymentStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static PublishDeploymentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PublishDeploymentStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PublishDeploymentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the repository link resource, such as the repository link
-/// ARN, the associated connection ARN, encryption key ARN, and owner ID.
-class RepositoryLinkInfo {
-  /// The Amazon Resource Name (ARN) of the connection associated with the
-  /// repository link.
-  final String connectionArn;
-
-  /// The owner ID for the repository associated with the repository link, such as
-  /// the owner ID in GitHub.
-  final String ownerId;
-
-  /// The provider type for the connection, such as GitHub, associated with the
-  /// repository link.
-  final ProviderType providerType;
-
-  /// The Amazon Resource Name (ARN) of the repository link.
-  final String repositoryLinkArn;
-
-  /// The ID of the repository link.
-  final String repositoryLinkId;
-
-  /// The name of the repository associated with the repository link.
-  final String repositoryName;
-
-  /// The Amazon Resource Name (ARN) of the encryption key for the repository
-  /// associated with the repository link.
-  final String? encryptionKeyArn;
-
-  RepositoryLinkInfo({
-    required this.connectionArn,
-    required this.ownerId,
-    required this.providerType,
-    required this.repositoryLinkArn,
-    required this.repositoryLinkId,
-    required this.repositoryName,
-    this.encryptionKeyArn,
-  });
-
-  factory RepositoryLinkInfo.fromJson(Map<String, dynamic> json) {
-    return RepositoryLinkInfo(
-      connectionArn: (json['ConnectionArn'] as String?) ?? '',
-      ownerId: (json['OwnerId'] as String?) ?? '',
-      providerType:
-          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
-      repositoryLinkArn: (json['RepositoryLinkArn'] as String?) ?? '',
-      repositoryLinkId: (json['RepositoryLinkId'] as String?) ?? '',
-      repositoryName: (json['RepositoryName'] as String?) ?? '',
-      encryptionKeyArn: json['EncryptionKeyArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionArn = this.connectionArn;
-    final ownerId = this.ownerId;
-    final providerType = this.providerType;
-    final repositoryLinkArn = this.repositoryLinkArn;
-    final repositoryLinkId = this.repositoryLinkId;
-    final repositoryName = this.repositoryName;
-    final encryptionKeyArn = this.encryptionKeyArn;
-    return {
-      'ConnectionArn': connectionArn,
-      'OwnerId': ownerId,
-      'ProviderType': providerType.value,
-      'RepositoryLinkArn': repositoryLinkArn,
-      'RepositoryLinkId': repositoryLinkId,
-      'RepositoryName': repositoryName,
-      if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
-    };
-  }
-}
-
-/// Information about a repository sync attempt for a repository with a sync
-/// configuration.
-class RepositorySyncAttempt {
-  /// The events associated with a specific sync attempt.
-  final List<RepositorySyncEvent> events;
-
-  /// The start time of a specific sync attempt.
-  final DateTime startedAt;
-
-  /// The status of a specific sync attempt. The following are valid statuses:
-  ///
-  /// <ul>
-  /// <li>
-  /// INITIATED - A repository sync attempt has been created and will begin soon.
-  /// </li>
-  /// <li>
-  /// IN_PROGRESS - A repository sync attempt has started and work is being done
-  /// to reconcile the branch.
-  /// </li>
-  /// <li>
-  /// SUCCEEDED - The repository sync attempt has completed successfully.
-  /// </li>
-  /// <li>
-  /// FAILED - The repository sync attempt has failed.
-  /// </li>
-  /// <li>
-  /// QUEUED - The repository sync attempt didn't execute and was queued.
-  /// </li>
-  /// </ul>
-  final RepositorySyncStatus status;
-
-  RepositorySyncAttempt({
-    required this.events,
-    required this.startedAt,
-    required this.status,
-  });
-
-  factory RepositorySyncAttempt.fromJson(Map<String, dynamic> json) {
-    return RepositorySyncAttempt(
-      events: ((json['Events'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
-      status:
-          RepositorySyncStatus.fromString((json['Status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final startedAt = this.startedAt;
-    final status = this.status;
-    return {
-      'Events': events,
-      'StartedAt': unixTimestampToJson(startedAt),
-      'Status': status.value,
-    };
-  }
-}
-
-/// The definition for a repository with a sync configuration.
-class RepositorySyncDefinition {
-  /// The branch specified for a repository sync definition.
-  final String branch;
-
-  /// The configuration file for a repository sync definition. This value comes
-  /// from creating or updating the <code>config-file</code> field of a
-  /// <code>sync-configuration</code>.
-  final String directory;
-
-  /// The parent resource specified for a repository sync definition.
-  final String parent;
-
-  /// The target resource specified for a repository sync definition. In some
-  /// cases, such as CFN_STACK_SYNC, the parent and target resource are the same.
-  final String target;
-
-  RepositorySyncDefinition({
-    required this.branch,
-    required this.directory,
-    required this.parent,
-    required this.target,
-  });
-
-  factory RepositorySyncDefinition.fromJson(Map<String, dynamic> json) {
-    return RepositorySyncDefinition(
-      branch: (json['Branch'] as String?) ?? '',
-      directory: (json['Directory'] as String?) ?? '',
-      parent: (json['Parent'] as String?) ?? '',
-      target: (json['Target'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final branch = this.branch;
-    final directory = this.directory;
-    final parent = this.parent;
-    final target = this.target;
-    return {
-      'Branch': branch,
-      'Directory': directory,
-      'Parent': parent,
-      'Target': target,
-    };
-  }
-}
-
-/// Information about a repository sync event.
-class RepositorySyncEvent {
-  /// A description of a repository sync event.
-  final String event;
-
-  /// The time that a repository sync event occurred.
-  final DateTime time;
-
-  /// The event type for a repository sync event.
-  final String type;
-
-  /// The ID for a repository sync event.
-  final String? externalId;
-
-  RepositorySyncEvent({
-    required this.event,
-    required this.time,
-    required this.type,
-    this.externalId,
-  });
-
-  factory RepositorySyncEvent.fromJson(Map<String, dynamic> json) {
-    return RepositorySyncEvent(
-      event: (json['Event'] as String?) ?? '',
-      time: nonNullableTimeStampFromJson(json['Time'] ?? 0),
-      type: (json['Type'] as String?) ?? '',
-      externalId: json['ExternalId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final event = this.event;
-    final time = this.time;
-    final type = this.type;
-    final externalId = this.externalId;
-    return {
-      'Event': event,
-      'Time': unixTimestampToJson(time),
-      'Type': type,
-      if (externalId != null) 'ExternalId': externalId,
-    };
-  }
-}
-
-class RepositorySyncStatus {
-  static const failed = RepositorySyncStatus._('FAILED');
-  static const initiated = RepositorySyncStatus._('INITIATED');
-  static const inProgress = RepositorySyncStatus._('IN_PROGRESS');
-  static const succeeded = RepositorySyncStatus._('SUCCEEDED');
-  static const queued = RepositorySyncStatus._('QUEUED');
-
-  final String value;
-
-  const RepositorySyncStatus._(this.value);
-
-  static const values = [failed, initiated, inProgress, succeeded, queued];
-
-  static RepositorySyncStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RepositorySyncStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RepositorySyncStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a resource sync attempt.
-class ResourceSyncAttempt {
-  /// The events related to a resource sync attempt.
-  final List<ResourceSyncEvent> events;
-
-  /// The current state of the resource as defined in the resource's
-  /// <code>config-file</code> in the linked repository.
-  final Revision initialRevision;
-
-  /// The start time for a resource sync attempt.
-  final DateTime startedAt;
-
-  /// The status for a resource sync attempt. The follow are valid statuses:
-  ///
-  /// <ul>
-  /// <li>
-  /// SYNC-INITIATED - A resource sync attempt has been created and will begin
-  /// soon.
-  /// </li>
-  /// <li>
-  /// SYNCING - Syncing has started and work is being done to reconcile state.
-  /// </li>
-  /// <li>
-  /// SYNCED - Syncing has completed successfully.
-  /// </li>
-  /// <li>
-  /// SYNC_FAILED - A resource sync attempt has failed.
-  /// </li>
-  /// </ul>
-  final ResourceSyncStatus status;
-
-  /// The name of the Amazon Web Services resource that is attempted to be
-  /// synchronized.
-  final String target;
-
-  /// The desired state of the resource as defined in the resource's
-  /// <code>config-file</code> in the linked repository. Git sync attempts to
-  /// update the resource to this state.
-  final Revision targetRevision;
-
-  ResourceSyncAttempt({
-    required this.events,
-    required this.initialRevision,
-    required this.startedAt,
-    required this.status,
-    required this.target,
-    required this.targetRevision,
-  });
-
-  factory ResourceSyncAttempt.fromJson(Map<String, dynamic> json) {
-    return ResourceSyncAttempt(
-      events: ((json['Events'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ResourceSyncEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      initialRevision: Revision.fromJson(
-          (json['InitialRevision'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
-      status: ResourceSyncStatus.fromString((json['Status'] as String?) ?? ''),
-      target: (json['Target'] as String?) ?? '',
-      targetRevision: Revision.fromJson(
-          (json['TargetRevision'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final initialRevision = this.initialRevision;
-    final startedAt = this.startedAt;
-    final status = this.status;
-    final target = this.target;
-    final targetRevision = this.targetRevision;
-    return {
-      'Events': events,
-      'InitialRevision': initialRevision,
-      'StartedAt': unixTimestampToJson(startedAt),
-      'Status': status.value,
-      'Target': target,
-      'TargetRevision': targetRevision,
-    };
-  }
-}
-
-/// Information about a resource sync event for the resource associated with a
-/// sync configuration.
-class ResourceSyncEvent {
-  /// The event for a resource sync event.
-  final String event;
-
-  /// The time that a resource sync event occurred.
-  final DateTime time;
-
-  /// The type of resource sync event.
-  final String type;
-
-  /// The ID for a resource sync event.
-  final String? externalId;
-
-  ResourceSyncEvent({
-    required this.event,
-    required this.time,
-    required this.type,
-    this.externalId,
-  });
-
-  factory ResourceSyncEvent.fromJson(Map<String, dynamic> json) {
-    return ResourceSyncEvent(
-      event: (json['Event'] as String?) ?? '',
-      time: nonNullableTimeStampFromJson(json['Time'] ?? 0),
-      type: (json['Type'] as String?) ?? '',
-      externalId: json['ExternalId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final event = this.event;
-    final time = this.time;
-    final type = this.type;
-    final externalId = this.externalId;
-    return {
-      'Event': event,
-      'Time': unixTimestampToJson(time),
-      'Type': type,
-      if (externalId != null) 'ExternalId': externalId,
-    };
-  }
-}
-
-class ResourceSyncStatus {
-  static const failed = ResourceSyncStatus._('FAILED');
-  static const initiated = ResourceSyncStatus._('INITIATED');
-  static const inProgress = ResourceSyncStatus._('IN_PROGRESS');
-  static const succeeded = ResourceSyncStatus._('SUCCEEDED');
-
-  final String value;
-
-  const ResourceSyncStatus._(this.value);
-
-  static const values = [failed, initiated, inProgress, succeeded];
-
-  static ResourceSyncStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceSyncStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceSyncStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the revision for a specific sync event, such as the
-/// branch, owner ID, and name of the repository.
-class Revision {
-  /// The branch name for a specific revision.
-  final String branch;
-
-  /// The directory, if any, for a specific revision.
-  final String directory;
-
-  /// The owner ID for a specific revision, such as the GitHub owner ID for a
-  /// GitHub repository.
-  final String ownerId;
-
-  /// The provider type for a revision, such as GitHub.
-  final ProviderType providerType;
-
-  /// The repository name for a specific revision.
-  final String repositoryName;
-
-  /// The SHA, such as the commit ID, for a specific revision.
-  final String sha;
-
-  Revision({
-    required this.branch,
-    required this.directory,
-    required this.ownerId,
-    required this.providerType,
-    required this.repositoryName,
-    required this.sha,
-  });
-
-  factory Revision.fromJson(Map<String, dynamic> json) {
-    return Revision(
-      branch: (json['Branch'] as String?) ?? '',
-      directory: (json['Directory'] as String?) ?? '',
-      ownerId: (json['OwnerId'] as String?) ?? '',
-      providerType:
-          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
-      repositoryName: (json['RepositoryName'] as String?) ?? '',
-      sha: (json['Sha'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final branch = this.branch;
-    final directory = this.directory;
-    final ownerId = this.ownerId;
-    final providerType = this.providerType;
-    final repositoryName = this.repositoryName;
-    final sha = this.sha;
-    return {
-      'Branch': branch,
-      'Directory': directory,
-      'OwnerId': ownerId,
-      'ProviderType': providerType.value,
-      'RepositoryName': repositoryName,
-      'Sha': sha,
-    };
-  }
-}
-
-/// Information about a blocker for a sync event.
-class SyncBlocker {
-  /// The creation time for a specific sync blocker.
-  final DateTime createdAt;
-
-  /// The provided reason for a specific sync blocker.
-  final String createdReason;
-
-  /// The ID for a specific sync blocker.
-  final String id;
-
-  /// The status for a specific sync blocker.
-  final BlockerStatus status;
-
-  /// The sync blocker type.
-  final BlockerType type;
-
-  /// The contexts for a specific sync blocker.
-  final List<SyncBlockerContext>? contexts;
-
-  /// The time that a specific sync blocker was resolved.
-  final DateTime? resolvedAt;
-
-  /// The resolved reason for a specific sync blocker.
-  final String? resolvedReason;
-
-  SyncBlocker({
-    required this.createdAt,
-    required this.createdReason,
-    required this.id,
-    required this.status,
-    required this.type,
-    this.contexts,
-    this.resolvedAt,
-    this.resolvedReason,
-  });
-
-  factory SyncBlocker.fromJson(Map<String, dynamic> json) {
-    return SyncBlocker(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
-      createdReason: (json['CreatedReason'] as String?) ?? '',
-      id: (json['Id'] as String?) ?? '',
-      status: BlockerStatus.fromString((json['Status'] as String?) ?? ''),
-      type: BlockerType.fromString((json['Type'] as String?) ?? ''),
-      contexts: (json['Contexts'] as List?)
-          ?.nonNulls
-          .map((e) => SyncBlockerContext.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resolvedAt: timeStampFromJson(json['ResolvedAt']),
-      resolvedReason: json['ResolvedReason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final createdReason = this.createdReason;
-    final id = this.id;
-    final status = this.status;
-    final type = this.type;
-    final contexts = this.contexts;
-    final resolvedAt = this.resolvedAt;
-    final resolvedReason = this.resolvedReason;
-    return {
-      'CreatedAt': unixTimestampToJson(createdAt),
-      'CreatedReason': createdReason,
-      'Id': id,
-      'Status': status.value,
-      'Type': type.value,
-      if (contexts != null) 'Contexts': contexts,
-      if (resolvedAt != null) 'ResolvedAt': unixTimestampToJson(resolvedAt),
-      if (resolvedReason != null) 'ResolvedReason': resolvedReason,
-    };
-  }
-}
-
-/// The context for a specific sync blocker.
-class SyncBlockerContext {
-  /// The key provided for a context key-value pair for a specific sync blocker.
-  final String key;
-
-  /// The value provided for a context key-value pair for a specific sync blocker.
-  final String value;
-
-  SyncBlockerContext({
-    required this.key,
-    required this.value,
-  });
-
-  factory SyncBlockerContext.fromJson(Map<String, dynamic> json) {
-    return SyncBlockerContext(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// A summary for sync blockers.
-class SyncBlockerSummary {
-  /// The resource name for sync blocker summary.
-  final String resourceName;
-
-  /// The latest events for a sync blocker summary.
-  final List<SyncBlocker>? latestBlockers;
-
-  /// The parent resource name for a sync blocker summary.
-  final String? parentResourceName;
-
-  SyncBlockerSummary({
-    required this.resourceName,
-    this.latestBlockers,
-    this.parentResourceName,
-  });
-
-  factory SyncBlockerSummary.fromJson(Map<String, dynamic> json) {
-    return SyncBlockerSummary(
-      resourceName: (json['ResourceName'] as String?) ?? '',
-      latestBlockers: (json['LatestBlockers'] as List?)
-          ?.nonNulls
-          .map((e) => SyncBlocker.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      parentResourceName: json['ParentResourceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceName = this.resourceName;
-    final latestBlockers = this.latestBlockers;
-    final parentResourceName = this.parentResourceName;
-    return {
-      'ResourceName': resourceName,
-      if (latestBlockers != null) 'LatestBlockers': latestBlockers,
-      if (parentResourceName != null) 'ParentResourceName': parentResourceName,
-    };
-  }
-}
-
-/// Information, such as repository, branch, provider, and resource names for a
-/// specific sync configuration.
-class SyncConfiguration {
-  /// The branch associated with a specific sync configuration.
-  final String branch;
-
-  /// The owner ID for the repository associated with a specific sync
-  /// configuration, such as the owner ID in GitHub.
-  final String ownerId;
-
-  /// The connection provider type associated with a specific sync configuration,
-  /// such as GitHub.
-  final ProviderType providerType;
-
-  /// The ID of the repository link associated with a specific sync configuration.
-  final String repositoryLinkId;
-
-  /// The name of the repository associated with a specific sync configuration.
-  final String repositoryName;
-
-  /// The name of the connection resource associated with a specific sync
-  /// configuration.
-  final String resourceName;
-
-  /// The Amazon Resource Name (ARN) of the IAM role associated with a specific
-  /// sync configuration.
-  final String roleArn;
-
-  /// The type of sync for a specific sync configuration.
-  final SyncConfigurationType syncType;
-
-  /// The file path to the configuration file associated with a specific sync
-  /// configuration. The path should point to an actual file in the sync
-  /// configurations linked repository.
-  final String? configFile;
-
-  /// Whether to enable or disable publishing of deployment status to source
-  /// providers.
-  final PublishDeploymentStatus? publishDeploymentStatus;
-
-  /// When to trigger Git sync to begin the stack update.
-  final TriggerResourceUpdateOn? triggerResourceUpdateOn;
-
-  SyncConfiguration({
-    required this.branch,
-    required this.ownerId,
-    required this.providerType,
-    required this.repositoryLinkId,
-    required this.repositoryName,
-    required this.resourceName,
-    required this.roleArn,
-    required this.syncType,
-    this.configFile,
-    this.publishDeploymentStatus,
-    this.triggerResourceUpdateOn,
-  });
-
-  factory SyncConfiguration.fromJson(Map<String, dynamic> json) {
-    return SyncConfiguration(
-      branch: (json['Branch'] as String?) ?? '',
-      ownerId: (json['OwnerId'] as String?) ?? '',
-      providerType:
-          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
-      repositoryLinkId: (json['RepositoryLinkId'] as String?) ?? '',
-      repositoryName: (json['RepositoryName'] as String?) ?? '',
-      resourceName: (json['ResourceName'] as String?) ?? '',
-      roleArn: (json['RoleArn'] as String?) ?? '',
-      syncType:
-          SyncConfigurationType.fromString((json['SyncType'] as String?) ?? ''),
-      configFile: json['ConfigFile'] as String?,
-      publishDeploymentStatus: (json['PublishDeploymentStatus'] as String?)
-          ?.let(PublishDeploymentStatus.fromString),
-      triggerResourceUpdateOn: (json['TriggerResourceUpdateOn'] as String?)
-          ?.let(TriggerResourceUpdateOn.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final branch = this.branch;
-    final ownerId = this.ownerId;
-    final providerType = this.providerType;
-    final repositoryLinkId = this.repositoryLinkId;
-    final repositoryName = this.repositoryName;
-    final resourceName = this.resourceName;
-    final roleArn = this.roleArn;
-    final syncType = this.syncType;
-    final configFile = this.configFile;
-    final publishDeploymentStatus = this.publishDeploymentStatus;
-    final triggerResourceUpdateOn = this.triggerResourceUpdateOn;
-    return {
-      'Branch': branch,
-      'OwnerId': ownerId,
-      'ProviderType': providerType.value,
-      'RepositoryLinkId': repositoryLinkId,
-      'RepositoryName': repositoryName,
-      'ResourceName': resourceName,
-      'RoleArn': roleArn,
-      'SyncType': syncType.value,
-      if (configFile != null) 'ConfigFile': configFile,
-      if (publishDeploymentStatus != null)
-        'PublishDeploymentStatus': publishDeploymentStatus.value,
-      if (triggerResourceUpdateOn != null)
-        'TriggerResourceUpdateOn': triggerResourceUpdateOn.value,
-    };
-  }
-}
-
-class SyncConfigurationType {
-  static const cfnStackSync = SyncConfigurationType._('CFN_STACK_SYNC');
-
-  final String value;
-
-  const SyncConfigurationType._(this.value);
-
-  static const values = [cfnStackSync];
-
-  static SyncConfigurationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SyncConfigurationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SyncConfigurationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A tag is a key-value pair that is used to manage the resource.
-///
-/// This tag is available for use by Amazon Web Services services that support
-/// tags.
-class Tag {
-  /// The tag's key.
-  final String key;
-
-  /// The tag's value.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
 class TagResourceOutput {
   TagResourceOutput();
 
@@ -2900,31 +1826,6 @@ class TagResourceOutput {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-class TriggerResourceUpdateOn {
-  static const anyChange = TriggerResourceUpdateOn._('ANY_CHANGE');
-  static const fileChange = TriggerResourceUpdateOn._('FILE_CHANGE');
-
-  final String value;
-
-  const TriggerResourceUpdateOn._(this.value);
-
-  static const values = [anyChange, fileChange];
-
-  static TriggerResourceUpdateOn fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TriggerResourceUpdateOn._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TriggerResourceUpdateOn && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class UntagResourceOutput {
@@ -3037,6 +1938,479 @@ class UpdateSyncConfigurationOutput {
   }
 }
 
+/// Information, such as repository, branch, provider, and resource names for a
+/// specific sync configuration.
+class SyncConfiguration {
+  /// The branch associated with a specific sync configuration.
+  final String branch;
+
+  /// The owner ID for the repository associated with a specific sync
+  /// configuration, such as the owner ID in GitHub.
+  final String ownerId;
+
+  /// The connection provider type associated with a specific sync configuration,
+  /// such as GitHub.
+  final ProviderType providerType;
+
+  /// The ID of the repository link associated with a specific sync configuration.
+  final String repositoryLinkId;
+
+  /// The name of the repository associated with a specific sync configuration.
+  final String repositoryName;
+
+  /// The name of the connection resource associated with a specific sync
+  /// configuration.
+  final String resourceName;
+
+  /// The Amazon Resource Name (ARN) of the IAM role associated with a specific
+  /// sync configuration.
+  final String roleArn;
+
+  /// The type of sync for a specific sync configuration.
+  final SyncConfigurationType syncType;
+
+  /// The file path to the configuration file associated with a specific sync
+  /// configuration. The path should point to an actual file in the sync
+  /// configurations linked repository.
+  final String? configFile;
+
+  /// Whether to enable or disable publishing of deployment status to source
+  /// providers.
+  final PublishDeploymentStatus? publishDeploymentStatus;
+
+  /// A toggle that specifies whether to enable or disable pull request comments
+  /// for the sync configuration to be created.
+  final PullRequestComment? pullRequestComment;
+
+  /// When to trigger Git sync to begin the stack update.
+  final TriggerResourceUpdateOn? triggerResourceUpdateOn;
+
+  SyncConfiguration({
+    required this.branch,
+    required this.ownerId,
+    required this.providerType,
+    required this.repositoryLinkId,
+    required this.repositoryName,
+    required this.resourceName,
+    required this.roleArn,
+    required this.syncType,
+    this.configFile,
+    this.publishDeploymentStatus,
+    this.pullRequestComment,
+    this.triggerResourceUpdateOn,
+  });
+
+  factory SyncConfiguration.fromJson(Map<String, dynamic> json) {
+    return SyncConfiguration(
+      branch: (json['Branch'] as String?) ?? '',
+      ownerId: (json['OwnerId'] as String?) ?? '',
+      providerType:
+          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
+      repositoryLinkId: (json['RepositoryLinkId'] as String?) ?? '',
+      repositoryName: (json['RepositoryName'] as String?) ?? '',
+      resourceName: (json['ResourceName'] as String?) ?? '',
+      roleArn: (json['RoleArn'] as String?) ?? '',
+      syncType:
+          SyncConfigurationType.fromString((json['SyncType'] as String?) ?? ''),
+      configFile: json['ConfigFile'] as String?,
+      publishDeploymentStatus: (json['PublishDeploymentStatus'] as String?)
+          ?.let(PublishDeploymentStatus.fromString),
+      pullRequestComment: (json['PullRequestComment'] as String?)
+          ?.let(PullRequestComment.fromString),
+      triggerResourceUpdateOn: (json['TriggerResourceUpdateOn'] as String?)
+          ?.let(TriggerResourceUpdateOn.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    final ownerId = this.ownerId;
+    final providerType = this.providerType;
+    final repositoryLinkId = this.repositoryLinkId;
+    final repositoryName = this.repositoryName;
+    final resourceName = this.resourceName;
+    final roleArn = this.roleArn;
+    final syncType = this.syncType;
+    final configFile = this.configFile;
+    final publishDeploymentStatus = this.publishDeploymentStatus;
+    final pullRequestComment = this.pullRequestComment;
+    final triggerResourceUpdateOn = this.triggerResourceUpdateOn;
+    return {
+      'Branch': branch,
+      'OwnerId': ownerId,
+      'ProviderType': providerType.value,
+      'RepositoryLinkId': repositoryLinkId,
+      'RepositoryName': repositoryName,
+      'ResourceName': resourceName,
+      'RoleArn': roleArn,
+      'SyncType': syncType.value,
+      if (configFile != null) 'ConfigFile': configFile,
+      if (publishDeploymentStatus != null)
+        'PublishDeploymentStatus': publishDeploymentStatus.value,
+      if (pullRequestComment != null)
+        'PullRequestComment': pullRequestComment.value,
+      if (triggerResourceUpdateOn != null)
+        'TriggerResourceUpdateOn': triggerResourceUpdateOn.value,
+    };
+  }
+}
+
+class ProviderType {
+  static const bitbucket = ProviderType._('Bitbucket');
+  static const gitHub = ProviderType._('GitHub');
+  static const gitHubEnterpriseServer =
+      ProviderType._('GitHubEnterpriseServer');
+  static const gitLab = ProviderType._('GitLab');
+  static const gitLabSelfManaged = ProviderType._('GitLabSelfManaged');
+  static const azureDevOps = ProviderType._('AzureDevOps');
+
+  final String value;
+
+  const ProviderType._(this.value);
+
+  static const values = [
+    bitbucket,
+    gitHub,
+    gitHubEnterpriseServer,
+    gitLab,
+    gitLabSelfManaged,
+    azureDevOps
+  ];
+
+  static ProviderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProviderType._(value));
+
+  @override
+  bool operator ==(other) => other is ProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SyncConfigurationType {
+  static const cfnStackSync = SyncConfigurationType._('CFN_STACK_SYNC');
+
+  final String value;
+
+  const SyncConfigurationType._(this.value);
+
+  static const values = [cfnStackSync];
+
+  static SyncConfigurationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyncConfigurationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SyncConfigurationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PublishDeploymentStatus {
+  static const enabled = PublishDeploymentStatus._('ENABLED');
+  static const disabled = PublishDeploymentStatus._('DISABLED');
+
+  final String value;
+
+  const PublishDeploymentStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static PublishDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PublishDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PublishDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TriggerResourceUpdateOn {
+  static const anyChange = TriggerResourceUpdateOn._('ANY_CHANGE');
+  static const fileChange = TriggerResourceUpdateOn._('FILE_CHANGE');
+
+  final String value;
+
+  const TriggerResourceUpdateOn._(this.value);
+
+  static const values = [anyChange, fileChange];
+
+  static TriggerResourceUpdateOn fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TriggerResourceUpdateOn._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TriggerResourceUpdateOn && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PullRequestComment {
+  static const enabled = PullRequestComment._('ENABLED');
+  static const disabled = PullRequestComment._('DISABLED');
+
+  final String value;
+
+  const PullRequestComment._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static PullRequestComment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PullRequestComment._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PullRequestComment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a blocker for a sync event.
+class SyncBlocker {
+  /// The creation time for a specific sync blocker.
+  final DateTime createdAt;
+
+  /// The provided reason for a specific sync blocker.
+  final String createdReason;
+
+  /// The ID for a specific sync blocker.
+  final String id;
+
+  /// The status for a specific sync blocker.
+  final BlockerStatus status;
+
+  /// The sync blocker type.
+  final BlockerType type;
+
+  /// The contexts for a specific sync blocker.
+  final List<SyncBlockerContext>? contexts;
+
+  /// The time that a specific sync blocker was resolved.
+  final DateTime? resolvedAt;
+
+  /// The resolved reason for a specific sync blocker.
+  final String? resolvedReason;
+
+  SyncBlocker({
+    required this.createdAt,
+    required this.createdReason,
+    required this.id,
+    required this.status,
+    required this.type,
+    this.contexts,
+    this.resolvedAt,
+    this.resolvedReason,
+  });
+
+  factory SyncBlocker.fromJson(Map<String, dynamic> json) {
+    return SyncBlocker(
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      createdReason: (json['CreatedReason'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      status: BlockerStatus.fromString((json['Status'] as String?) ?? ''),
+      type: BlockerType.fromString((json['Type'] as String?) ?? ''),
+      contexts: (json['Contexts'] as List?)
+          ?.nonNulls
+          .map((e) => SyncBlockerContext.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resolvedAt: timeStampFromJson(json['ResolvedAt']),
+      resolvedReason: json['ResolvedReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final createdReason = this.createdReason;
+    final id = this.id;
+    final status = this.status;
+    final type = this.type;
+    final contexts = this.contexts;
+    final resolvedAt = this.resolvedAt;
+    final resolvedReason = this.resolvedReason;
+    return {
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'CreatedReason': createdReason,
+      'Id': id,
+      'Status': status.value,
+      'Type': type.value,
+      if (contexts != null) 'Contexts': contexts,
+      if (resolvedAt != null) 'ResolvedAt': unixTimestampToJson(resolvedAt),
+      if (resolvedReason != null) 'ResolvedReason': resolvedReason,
+    };
+  }
+}
+
+class BlockerType {
+  static const automated = BlockerType._('AUTOMATED');
+
+  final String value;
+
+  const BlockerType._(this.value);
+
+  static const values = [automated];
+
+  static BlockerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BlockerType._(value));
+
+  @override
+  bool operator ==(other) => other is BlockerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BlockerStatus {
+  static const active = BlockerStatus._('ACTIVE');
+  static const resolved = BlockerStatus._('RESOLVED');
+
+  final String value;
+
+  const BlockerStatus._(this.value);
+
+  static const values = [active, resolved];
+
+  static BlockerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BlockerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BlockerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The context for a specific sync blocker.
+class SyncBlockerContext {
+  /// The key provided for a context key-value pair for a specific sync blocker.
+  final String key;
+
+  /// The value provided for a context key-value pair for a specific sync blocker.
+  final String value;
+
+  SyncBlockerContext({
+    required this.key,
+    required this.value,
+  });
+
+  factory SyncBlockerContext.fromJson(Map<String, dynamic> json) {
+    return SyncBlockerContext(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Information about the repository link resource, such as the repository link
+/// ARN, the associated connection ARN, encryption key ARN, and owner ID.
+class RepositoryLinkInfo {
+  /// The Amazon Resource Name (ARN) of the connection associated with the
+  /// repository link.
+  final String connectionArn;
+
+  /// The owner ID for the repository associated with the repository link, such as
+  /// the owner ID in GitHub.
+  final String ownerId;
+
+  /// The provider type for the connection, such as GitHub, associated with the
+  /// repository link.
+  final ProviderType providerType;
+
+  /// The Amazon Resource Name (ARN) of the repository link.
+  final String repositoryLinkArn;
+
+  /// The ID of the repository link.
+  final String repositoryLinkId;
+
+  /// The name of the repository associated with the repository link.
+  final String repositoryName;
+
+  /// The Amazon Resource Name (ARN) of the encryption key for the repository
+  /// associated with the repository link.
+  final String? encryptionKeyArn;
+
+  RepositoryLinkInfo({
+    required this.connectionArn,
+    required this.ownerId,
+    required this.providerType,
+    required this.repositoryLinkArn,
+    required this.repositoryLinkId,
+    required this.repositoryName,
+    this.encryptionKeyArn,
+  });
+
+  factory RepositoryLinkInfo.fromJson(Map<String, dynamic> json) {
+    return RepositoryLinkInfo(
+      connectionArn: (json['ConnectionArn'] as String?) ?? '',
+      ownerId: (json['OwnerId'] as String?) ?? '',
+      providerType:
+          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
+      repositoryLinkArn: (json['RepositoryLinkArn'] as String?) ?? '',
+      repositoryLinkId: (json['RepositoryLinkId'] as String?) ?? '',
+      repositoryName: (json['RepositoryName'] as String?) ?? '',
+      encryptionKeyArn: json['EncryptionKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionArn = this.connectionArn;
+    final ownerId = this.ownerId;
+    final providerType = this.providerType;
+    final repositoryLinkArn = this.repositoryLinkArn;
+    final repositoryLinkId = this.repositoryLinkId;
+    final repositoryName = this.repositoryName;
+    final encryptionKeyArn = this.encryptionKeyArn;
+    return {
+      'ConnectionArn': connectionArn,
+      'OwnerId': ownerId,
+      'ProviderType': providerType.value,
+      'RepositoryLinkArn': repositoryLinkArn,
+      'RepositoryLinkId': repositoryLinkId,
+      'RepositoryName': repositoryName,
+      if (encryptionKeyArn != null) 'EncryptionKeyArn': encryptionKeyArn,
+    };
+  }
+}
+
 /// The VPC configuration provisioned for the host.
 class VpcConfiguration {
   /// The ID of the security group or security groups associated with the Amazon
@@ -3087,6 +2461,655 @@ class VpcConfiguration {
       'SubnetIds': subnetIds,
       'VpcId': vpcId,
       if (tlsCertificate != null) 'TlsCertificate': tlsCertificate,
+    };
+  }
+}
+
+/// A tag is a key-value pair that is used to manage the resource.
+///
+/// This tag is available for use by Amazon Web Services services that support
+/// tags.
+class Tag {
+  /// The tag's key.
+  final String key;
+
+  /// The tag's value.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// The definition for a repository with a sync configuration.
+class RepositorySyncDefinition {
+  /// The branch specified for a repository sync definition.
+  final String branch;
+
+  /// The configuration file for a repository sync definition. This value comes
+  /// from creating or updating the <code>config-file</code> field of a
+  /// <code>sync-configuration</code>.
+  final String directory;
+
+  /// The parent resource specified for a repository sync definition.
+  final String parent;
+
+  /// The target resource specified for a repository sync definition. In some
+  /// cases, such as CFN_STACK_SYNC, the parent and target resource are the same.
+  final String target;
+
+  RepositorySyncDefinition({
+    required this.branch,
+    required this.directory,
+    required this.parent,
+    required this.target,
+  });
+
+  factory RepositorySyncDefinition.fromJson(Map<String, dynamic> json) {
+    return RepositorySyncDefinition(
+      branch: (json['Branch'] as String?) ?? '',
+      directory: (json['Directory'] as String?) ?? '',
+      parent: (json['Parent'] as String?) ?? '',
+      target: (json['Target'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    final directory = this.directory;
+    final parent = this.parent;
+    final target = this.target;
+    return {
+      'Branch': branch,
+      'Directory': directory,
+      'Parent': parent,
+      'Target': target,
+    };
+  }
+}
+
+/// A resource that represents the infrastructure where a third-party provider
+/// is installed. The host is used when you create connections to an installed
+/// third-party provider type, such as GitHub Enterprise Server. You create one
+/// host for all connections to that provider.
+/// <note>
+/// A host created through the CLI or the SDK is in `PENDING` status by default.
+/// You can make its status `AVAILABLE` by setting up the host in the console.
+/// </note>
+class Host {
+  /// The Amazon Resource Name (ARN) of the host.
+  final String? hostArn;
+
+  /// The name of the host.
+  final String? name;
+
+  /// The endpoint of the infrastructure where your provider type is installed.
+  final String? providerEndpoint;
+
+  /// The name of the installed provider to be associated with your connection.
+  /// The host resource represents the infrastructure where your provider type is
+  /// installed. The valid provider type is GitHub Enterprise Server.
+  final ProviderType? providerType;
+
+  /// The status of the host, such as PENDING, AVAILABLE, VPC_CONFIG_DELETING,
+  /// VPC_CONFIG_INITIALIZING, and VPC_CONFIG_FAILED_INITIALIZATION.
+  final String? status;
+
+  /// The status description for the host.
+  final String? statusMessage;
+
+  /// The VPC configuration provisioned for the host.
+  final VpcConfiguration? vpcConfiguration;
+
+  Host({
+    this.hostArn,
+    this.name,
+    this.providerEndpoint,
+    this.providerType,
+    this.status,
+    this.statusMessage,
+    this.vpcConfiguration,
+  });
+
+  factory Host.fromJson(Map<String, dynamic> json) {
+    return Host(
+      hostArn: json['HostArn'] as String?,
+      name: json['Name'] as String?,
+      providerEndpoint: json['ProviderEndpoint'] as String?,
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
+      status: json['Status'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? VpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostArn = this.hostArn;
+    final name = this.name;
+    final providerEndpoint = this.providerEndpoint;
+    final providerType = this.providerType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      if (hostArn != null) 'HostArn': hostArn,
+      if (name != null) 'Name': name,
+      if (providerEndpoint != null) 'ProviderEndpoint': providerEndpoint,
+      if (providerType != null) 'ProviderType': providerType.value,
+      if (status != null) 'Status': status,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// A resource that is used to connect third-party source providers with
+/// services like CodePipeline.
+///
+/// Note: A connection created through CloudFormation, the CLI, or the SDK is in
+/// `PENDING` status by default. You can make its status `AVAILABLE` by updating
+/// the connection in the console.
+class Connection {
+  /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the
+  /// connection reference when the connection is shared between Amazon Web
+  /// Services services.
+  /// <note>
+  /// The ARN is never reused if the connection is deleted.
+  /// </note>
+  final String? connectionArn;
+
+  /// The name of the connection. Connection names must be unique in an Amazon Web
+  /// Services account.
+  final String? connectionName;
+
+  /// The current status of the connection.
+  final ConnectionStatus? connectionStatus;
+
+  /// The Amazon Resource Name (ARN) of the host associated with the connection.
+  final String? hostArn;
+
+  /// The identifier of the external provider where your third-party code
+  /// repository is configured. For Bitbucket, this is the account ID of the owner
+  /// of the Bitbucket repository.
+  final String? ownerAccountId;
+
+  /// The name of the external provider where your third-party code repository is
+  /// configured.
+  final ProviderType? providerType;
+
+  Connection({
+    this.connectionArn,
+    this.connectionName,
+    this.connectionStatus,
+    this.hostArn,
+    this.ownerAccountId,
+    this.providerType,
+  });
+
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      connectionArn: json['ConnectionArn'] as String?,
+      connectionName: json['ConnectionName'] as String?,
+      connectionStatus: (json['ConnectionStatus'] as String?)
+          ?.let(ConnectionStatus.fromString),
+      hostArn: json['HostArn'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionArn = this.connectionArn;
+    final connectionName = this.connectionName;
+    final connectionStatus = this.connectionStatus;
+    final hostArn = this.hostArn;
+    final ownerAccountId = this.ownerAccountId;
+    final providerType = this.providerType;
+    return {
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus.value,
+      if (hostArn != null) 'HostArn': hostArn,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (providerType != null) 'ProviderType': providerType.value,
+    };
+  }
+}
+
+class ConnectionStatus {
+  static const pending = ConnectionStatus._('PENDING');
+  static const available = ConnectionStatus._('AVAILABLE');
+  static const error = ConnectionStatus._('ERROR');
+
+  final String value;
+
+  const ConnectionStatus._(this.value);
+
+  static const values = [pending, available, error];
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary for sync blockers.
+class SyncBlockerSummary {
+  /// The resource name for sync blocker summary.
+  final String resourceName;
+
+  /// The latest events for a sync blocker summary.
+  final List<SyncBlocker>? latestBlockers;
+
+  /// The parent resource name for a sync blocker summary.
+  final String? parentResourceName;
+
+  SyncBlockerSummary({
+    required this.resourceName,
+    this.latestBlockers,
+    this.parentResourceName,
+  });
+
+  factory SyncBlockerSummary.fromJson(Map<String, dynamic> json) {
+    return SyncBlockerSummary(
+      resourceName: (json['ResourceName'] as String?) ?? '',
+      latestBlockers: (json['LatestBlockers'] as List?)
+          ?.nonNulls
+          .map((e) => SyncBlocker.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      parentResourceName: json['ParentResourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceName = this.resourceName;
+    final latestBlockers = this.latestBlockers;
+    final parentResourceName = this.parentResourceName;
+    return {
+      'ResourceName': resourceName,
+      if (latestBlockers != null) 'LatestBlockers': latestBlockers,
+      if (parentResourceName != null) 'ParentResourceName': parentResourceName,
+    };
+  }
+}
+
+/// Information about the revision for a specific sync event, such as the
+/// branch, owner ID, and name of the repository.
+class Revision {
+  /// The branch name for a specific revision.
+  final String branch;
+
+  /// The directory, if any, for a specific revision.
+  final String directory;
+
+  /// The owner ID for a specific revision, such as the GitHub owner ID for a
+  /// GitHub repository.
+  final String ownerId;
+
+  /// The provider type for a revision, such as GitHub.
+  final ProviderType providerType;
+
+  /// The repository name for a specific revision.
+  final String repositoryName;
+
+  /// The SHA, such as the commit ID, for a specific revision.
+  final String sha;
+
+  Revision({
+    required this.branch,
+    required this.directory,
+    required this.ownerId,
+    required this.providerType,
+    required this.repositoryName,
+    required this.sha,
+  });
+
+  factory Revision.fromJson(Map<String, dynamic> json) {
+    return Revision(
+      branch: (json['Branch'] as String?) ?? '',
+      directory: (json['Directory'] as String?) ?? '',
+      ownerId: (json['OwnerId'] as String?) ?? '',
+      providerType:
+          ProviderType.fromString((json['ProviderType'] as String?) ?? ''),
+      repositoryName: (json['RepositoryName'] as String?) ?? '',
+      sha: (json['Sha'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    final directory = this.directory;
+    final ownerId = this.ownerId;
+    final providerType = this.providerType;
+    final repositoryName = this.repositoryName;
+    final sha = this.sha;
+    return {
+      'Branch': branch,
+      'Directory': directory,
+      'OwnerId': ownerId,
+      'ProviderType': providerType.value,
+      'RepositoryName': repositoryName,
+      'Sha': sha,
+    };
+  }
+}
+
+/// Information about a resource sync attempt.
+class ResourceSyncAttempt {
+  /// The events related to a resource sync attempt.
+  final List<ResourceSyncEvent> events;
+
+  /// The current state of the resource as defined in the resource's
+  /// <code>config-file</code> in the linked repository.
+  final Revision initialRevision;
+
+  /// The start time for a resource sync attempt.
+  final DateTime startedAt;
+
+  /// The status for a resource sync attempt. The follow are valid statuses:
+  ///
+  /// <ul>
+  /// <li>
+  /// SYNC-INITIATED - A resource sync attempt has been created and will begin
+  /// soon.
+  /// </li>
+  /// <li>
+  /// SYNCING - Syncing has started and work is being done to reconcile state.
+  /// </li>
+  /// <li>
+  /// SYNCED - Syncing has completed successfully.
+  /// </li>
+  /// <li>
+  /// SYNC_FAILED - A resource sync attempt has failed.
+  /// </li>
+  /// </ul>
+  final ResourceSyncStatus status;
+
+  /// The name of the Amazon Web Services resource that is attempted to be
+  /// synchronized.
+  final String target;
+
+  /// The desired state of the resource as defined in the resource's
+  /// <code>config-file</code> in the linked repository. Git sync attempts to
+  /// update the resource to this state.
+  final Revision targetRevision;
+
+  ResourceSyncAttempt({
+    required this.events,
+    required this.initialRevision,
+    required this.startedAt,
+    required this.status,
+    required this.target,
+    required this.targetRevision,
+  });
+
+  factory ResourceSyncAttempt.fromJson(Map<String, dynamic> json) {
+    return ResourceSyncAttempt(
+      events: ((json['Events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ResourceSyncEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      initialRevision: Revision.fromJson(
+          (json['InitialRevision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
+      status: ResourceSyncStatus.fromString((json['Status'] as String?) ?? ''),
+      target: (json['Target'] as String?) ?? '',
+      targetRevision: Revision.fromJson(
+          (json['TargetRevision'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final initialRevision = this.initialRevision;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final target = this.target;
+    final targetRevision = this.targetRevision;
+    return {
+      'Events': events,
+      'InitialRevision': initialRevision,
+      'StartedAt': unixTimestampToJson(startedAt),
+      'Status': status.value,
+      'Target': target,
+      'TargetRevision': targetRevision,
+    };
+  }
+}
+
+class ResourceSyncStatus {
+  static const failed = ResourceSyncStatus._('FAILED');
+  static const initiated = ResourceSyncStatus._('INITIATED');
+  static const inProgress = ResourceSyncStatus._('IN_PROGRESS');
+  static const succeeded = ResourceSyncStatus._('SUCCEEDED');
+
+  final String value;
+
+  const ResourceSyncStatus._(this.value);
+
+  static const values = [failed, initiated, inProgress, succeeded];
+
+  static ResourceSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceSyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceSyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a resource sync event for the resource associated with a
+/// sync configuration.
+class ResourceSyncEvent {
+  /// The event for a resource sync event.
+  final String event;
+
+  /// The time that a resource sync event occurred.
+  final DateTime time;
+
+  /// The type of resource sync event.
+  final String type;
+
+  /// The ID for a resource sync event.
+  final String? externalId;
+
+  ResourceSyncEvent({
+    required this.event,
+    required this.time,
+    required this.type,
+    this.externalId,
+  });
+
+  factory ResourceSyncEvent.fromJson(Map<String, dynamic> json) {
+    return ResourceSyncEvent(
+      event: (json['Event'] as String?) ?? '',
+      time: nonNullableTimeStampFromJson(json['Time'] ?? 0),
+      type: (json['Type'] as String?) ?? '',
+      externalId: json['ExternalId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final event = this.event;
+    final time = this.time;
+    final type = this.type;
+    final externalId = this.externalId;
+    return {
+      'Event': event,
+      'Time': unixTimestampToJson(time),
+      'Type': type,
+      if (externalId != null) 'ExternalId': externalId,
+    };
+  }
+}
+
+/// Information about a repository sync attempt for a repository with a sync
+/// configuration.
+class RepositorySyncAttempt {
+  /// The events associated with a specific sync attempt.
+  final List<RepositorySyncEvent> events;
+
+  /// The start time of a specific sync attempt.
+  final DateTime startedAt;
+
+  /// The status of a specific sync attempt. The following are valid statuses:
+  ///
+  /// <ul>
+  /// <li>
+  /// INITIATED - A repository sync attempt has been created and will begin soon.
+  /// </li>
+  /// <li>
+  /// IN_PROGRESS - A repository sync attempt has started and work is being done
+  /// to reconcile the branch.
+  /// </li>
+  /// <li>
+  /// SUCCEEDED - The repository sync attempt has completed successfully.
+  /// </li>
+  /// <li>
+  /// FAILED - The repository sync attempt has failed.
+  /// </li>
+  /// <li>
+  /// QUEUED - The repository sync attempt didn't execute and was queued.
+  /// </li>
+  /// </ul>
+  final RepositorySyncStatus status;
+
+  RepositorySyncAttempt({
+    required this.events,
+    required this.startedAt,
+    required this.status,
+  });
+
+  factory RepositorySyncAttempt.fromJson(Map<String, dynamic> json) {
+    return RepositorySyncAttempt(
+      events: ((json['Events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RepositorySyncEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startedAt: nonNullableTimeStampFromJson(json['StartedAt'] ?? 0),
+      status:
+          RepositorySyncStatus.fromString((json['Status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    return {
+      'Events': events,
+      'StartedAt': unixTimestampToJson(startedAt),
+      'Status': status.value,
+    };
+  }
+}
+
+class RepositorySyncStatus {
+  static const failed = RepositorySyncStatus._('FAILED');
+  static const initiated = RepositorySyncStatus._('INITIATED');
+  static const inProgress = RepositorySyncStatus._('IN_PROGRESS');
+  static const succeeded = RepositorySyncStatus._('SUCCEEDED');
+  static const queued = RepositorySyncStatus._('QUEUED');
+
+  final String value;
+
+  const RepositorySyncStatus._(this.value);
+
+  static const values = [failed, initiated, inProgress, succeeded, queued];
+
+  static RepositorySyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepositorySyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositorySyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a repository sync event.
+class RepositorySyncEvent {
+  /// A description of a repository sync event.
+  final String event;
+
+  /// The time that a repository sync event occurred.
+  final DateTime time;
+
+  /// The event type for a repository sync event.
+  final String type;
+
+  /// The ID for a repository sync event.
+  final String? externalId;
+
+  RepositorySyncEvent({
+    required this.event,
+    required this.time,
+    required this.type,
+    this.externalId,
+  });
+
+  factory RepositorySyncEvent.fromJson(Map<String, dynamic> json) {
+    return RepositorySyncEvent(
+      event: (json['Event'] as String?) ?? '',
+      time: nonNullableTimeStampFromJson(json['Time'] ?? 0),
+      type: (json['Type'] as String?) ?? '',
+      externalId: json['ExternalId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final event = this.event;
+    final time = this.time;
+    final type = this.type;
+    final externalId = this.externalId;
+    return {
+      'Event': event,
+      'Time': unixTimestampToJson(time),
+      'Type': type,
+      if (externalId != null) 'ExternalId': externalId,
     };
   }
 }

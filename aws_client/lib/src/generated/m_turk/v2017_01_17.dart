@@ -57,8 +57,8 @@ class MTurk {
   /// A successful request for the <code>AcceptQualificationRequest</code>
   /// operation returns with no errors and an empty body.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationRequestId] :
   /// The ID of the Qualification request, as returned by the
@@ -117,8 +117,8 @@ class MTurk {
   /// previous 30 days and only if the assignment's related HIT has not been
   /// deleted.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [assignmentId] :
   /// The ID of the assignment. The assignment must correspond to a HIT created
@@ -171,8 +171,8 @@ class MTurk {
   /// with the <code>RejectQualificationRequest</code> operation.
   /// </note>
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationTypeId] :
   /// The ID of the Qualification type to use for the assigned Qualification.
@@ -237,8 +237,8 @@ class MTurk {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITId] :
   /// The ID of the HIT to extend.
@@ -307,8 +307,8 @@ class MTurk {
   /// Pricing</a>.
   /// </note>
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [assignmentDurationInSeconds] :
   /// The amount of time, in seconds, that a Worker has to complete the HIT
@@ -482,8 +482,8 @@ class MTurk {
   /// when creating HITs. If you register a HIT type with values that match an
   /// existing HIT type, the HIT type ID of the existing type will be returned.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [assignmentDurationInSeconds] :
   /// The amount of time, in seconds, that a Worker has to complete the HIT
@@ -579,8 +579,8 @@ class MTurk {
   /// Pricing</a>.
   /// </note>
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITTypeId] :
   /// The HIT type ID you want to create this HIT with.
@@ -701,8 +701,8 @@ class MTurk {
   /// Qualification type, which is represented by a
   /// <code>QualificationType</code> data structure.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [description] :
   /// A long description for the Qualification type. On the Amazon Mechanical
@@ -817,8 +817,8 @@ class MTurk {
   /// Worker from working on your HITs. For example, you can block a Worker who
   /// is producing poor quality work. You can block up to 100,000 Workers.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [reason] :
   /// A message explaining the reason for blocking the Worker. This parameter
@@ -876,8 +876,8 @@ class MTurk {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITId] :
   /// The ID of the HIT to be deleted.
@@ -915,8 +915,8 @@ class MTurk {
   /// Qualification type is available for reuse with CreateQualificationType.
   /// </note>
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationTypeId] :
   /// The ID of the QualificationType to dispose.
@@ -946,8 +946,8 @@ class MTurk {
   /// and returns the message “WorkerId is invalid.” If the specified Worker is
   /// not blocked, this operation returns successfully.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [workerId] :
   /// The ID of the Worker to unblock.
@@ -982,8 +982,8 @@ class MTurk {
   /// You can provide a text message explaining why the Qualification was
   /// revoked. The user who had the Qualification can see this message.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationTypeId] :
   /// The ID of the Qualification type of the Qualification to be revoked.
@@ -1026,8 +1026,8 @@ class MTurk {
   /// this balance can be viewed on the My Account page in the Requester
   /// console.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   Future<GetAccountBalanceResponse> getAccountBalance() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1047,8 +1047,8 @@ class MTurk {
   /// The <code>GetAssignment</code> operation retrieves the details of the
   /// specified Assignment.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [assignmentId] :
   /// The ID of the Assignment to be retrieved.
@@ -1085,8 +1085,8 @@ class MTurk {
   /// QuestionForm data structure. Instead, we recommend that Requesters who
   /// want to create HITs asking Workers to upload files to use Amazon S3.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [assignmentId] :
   /// The ID of the assignment that contains the question with a
@@ -1121,8 +1121,8 @@ class MTurk {
   /// The <code>GetHIT</code> operation retrieves the details of the specified
   /// HIT.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITId] :
   /// The ID of the HIT to be retrieved.
@@ -1157,8 +1157,8 @@ class MTurk {
   /// Only the owner of a Qualification type can query the value of a Worker's
   /// Qualification of that type.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationTypeId] :
   /// The ID of the QualificationType.
@@ -1191,8 +1191,8 @@ class MTurk {
   /// The <code>GetQualificationType</code>operation retrieves information about
   /// a Qualification type using its ID.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationTypeId] :
   /// The ID of the QualificationType.
@@ -1240,8 +1240,8 @@ class MTurk {
   /// returns a single page of results. You can use the parameters of the
   /// operation to control sorting and pagination.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITId] :
   /// The ID of the HIT.
@@ -1288,8 +1288,8 @@ class MTurk {
   /// The <code>ListBonusPayments</code> operation retrieves the amounts of
   /// bonuses you have paid to Workers for a given HIT or assignment.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [assignmentId] :
   /// The ID of the assignment associated with the bonus payments to retrieve.
@@ -1341,8 +1341,8 @@ class MTurk {
   /// operation returns HITs of any status, except for HITs that have been
   /// deleted of with the DeleteHIT operation or that have been auto-deleted.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [nextToken] :
   /// Pagination token
@@ -1381,8 +1381,8 @@ class MTurk {
   /// deleted with the <code>DeleteHIT</code> operation or that have been
   /// auto-deleted.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationTypeId] :
   /// The ID of the Qualification type to use when querying HITs.
@@ -1429,8 +1429,8 @@ class MTurk {
   /// Qualification type calls this operation to poll for pending requests, and
   /// accepts them using the AcceptQualification operation.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
@@ -1472,8 +1472,8 @@ class MTurk {
   /// The <code>ListQualificationTypes</code> operation returns a list of
   /// Qualification types, filtered by an optional search term.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [mustBeRequestable] :
   /// Specifies that only Qualification types that a user can request through
@@ -1529,6 +1529,59 @@ class MTurk {
     return ListQualificationTypesResponse.fromJson(jsonResponse.body);
   }
 
+  /// The <code>ListReviewableHITs</code> operation retrieves the HITs with
+  /// Status equal to Reviewable or Status equal to Reviewing that belong to the
+  /// Requester calling the operation.
+  ///
+  /// May throw [RequestError].
+  /// May throw [ServiceFault].
+  ///
+  /// Parameter [hITTypeId] :
+  /// The ID of the HIT type of the HITs to consider for the query. If not
+  /// specified, all HITs for the Reviewer are considered
+  ///
+  /// Parameter [maxResults] :
+  /// Limit the number of results returned.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination Token
+  ///
+  /// Parameter [status] :
+  /// Can be either <code>Reviewable</code> or <code>Reviewing</code>.
+  /// Reviewable is the default value.
+  Future<ListReviewableHITsResponse> listReviewableHITs({
+    String? hITTypeId,
+    int? maxResults,
+    String? nextToken,
+    ReviewableHITStatus? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListReviewableHITs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (hITTypeId != null) 'HITTypeId': hITTypeId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (status != null) 'Status': status.value,
+      },
+    );
+
+    return ListReviewableHITsResponse.fromJson(jsonResponse.body);
+  }
+
   /// The <code>ListReviewPolicyResultsForHIT</code> operation retrieves the
   /// computed results and the actions taken in the course of executing your
   /// Review Policies for a given HIT. For information about how to specify
@@ -1536,8 +1589,8 @@ class MTurk {
   /// ListReviewPolicyResultsForHIT operation can return results for both
   /// Assignment-level and HIT-level review results.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITId] :
   /// The unique identifier of the HIT to retrieve review results for.
@@ -1599,64 +1652,11 @@ class MTurk {
     return ListReviewPolicyResultsForHITResponse.fromJson(jsonResponse.body);
   }
 
-  /// The <code>ListReviewableHITs</code> operation retrieves the HITs with
-  /// Status equal to Reviewable or Status equal to Reviewing that belong to the
-  /// Requester calling the operation.
-  ///
-  /// May throw [ServiceFault].
-  /// May throw [RequestError].
-  ///
-  /// Parameter [hITTypeId] :
-  /// The ID of the HIT type of the HITs to consider for the query. If not
-  /// specified, all HITs for the Reviewer are considered
-  ///
-  /// Parameter [maxResults] :
-  /// Limit the number of results returned.
-  ///
-  /// Parameter [nextToken] :
-  /// Pagination Token
-  ///
-  /// Parameter [status] :
-  /// Can be either <code>Reviewable</code> or <code>Reviewing</code>.
-  /// Reviewable is the default value.
-  Future<ListReviewableHITsResponse> listReviewableHITs({
-    String? hITTypeId,
-    int? maxResults,
-    String? nextToken,
-    ReviewableHITStatus? status,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'MTurkRequesterServiceV20170117.ListReviewableHITs'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (hITTypeId != null) 'HITTypeId': hITTypeId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status.value,
-      },
-    );
-
-    return ListReviewableHITsResponse.fromJson(jsonResponse.body);
-  }
-
   /// The <code>ListWorkersBlocks</code> operation retrieves a list of Workers
   /// who are blocked from working on your HITs.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [nextToken] :
   /// Pagination token
@@ -1692,8 +1692,8 @@ class MTurk {
   /// The <code>ListWorkersWithQualificationType</code> operation returns all of
   /// the Workers that have been associated with a given Qualification type.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationTypeId] :
   /// The ID of the Qualification type of the Qualifications to return.
@@ -1749,8 +1749,8 @@ class MTurk {
   /// notification email to a Worker only if you have previously approved or
   /// rejected work from the Worker.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [messageText] :
   /// The text of the email message to send. Can include up to 4,096 characters
@@ -1799,8 +1799,8 @@ class MTurk {
   /// Only the Requester who created the HIT can reject an assignment for the
   /// HIT.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [assignmentId] :
   /// The ID of the assignment. The assignment must correspond to a HIT created
@@ -1836,8 +1836,8 @@ class MTurk {
   /// You can provide a text message explaining why the request was rejected.
   /// The Worker who made the request can see this message.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationRequestId] :
   /// The ID of the Qualification request, as returned by the
@@ -1878,8 +1878,8 @@ class MTurk {
   /// to the HIT listing fee. This operation fails if your account does not have
   /// enough funds to pay for both the bonus and the fees.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [assignmentId] :
   /// The ID of the assignment for which this bonus is paid.
@@ -1938,8 +1938,8 @@ class MTurk {
   /// and trying to trigger them using the website. When you call this
   /// operation, the service attempts to send the test notification immediately.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [notification] :
   /// The notification specification to test. This value is identical to the
@@ -1976,8 +1976,8 @@ class MTurk {
   /// expiration time of a HIT. If you update it to a time in the past, the HIT
   /// will be immediately expired.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [expireAt] :
   /// The date and time at which you want the HIT to expire
@@ -2009,8 +2009,8 @@ class MTurk {
   /// HIT. If the status is Reviewable, this operation can update the status to
   /// Reviewing, or it can revert a Reviewing HIT back to the Reviewable status.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITId] :
   /// The ID of the HIT to update.
@@ -2055,8 +2055,8 @@ class MTurk {
   /// The HIT takes on the properties of the new HITType in place of the old
   /// ones.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITId] :
   /// The HIT to update.
@@ -2096,8 +2096,8 @@ class MTurk {
   /// have a notification specification, or one must be provided in the same
   /// call to <code>UpdateNotificationSettings</code>.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [hITTypeId] :
   /// The ID of the HIT type whose notification specification is being updated.
@@ -2170,8 +2170,8 @@ class MTurk {
   /// You can also update the AutoGranted and AutoGrantedValue attributes of the
   /// Qualification type.
   ///
-  /// May throw [ServiceFault].
   /// May throw [RequestError].
+  /// May throw [ServiceFault].
   ///
   /// Parameter [qualificationTypeId] :
   /// The ID of the Qualification type to update.
@@ -2285,156 +2285,6 @@ class ApproveAssignmentResponse {
   }
 }
 
-/// The Assignment data structure represents a single assignment of a HIT to a
-/// Worker. The assignment tracks the Worker's efforts to complete the HIT, and
-/// contains the results for later retrieval.
-class Assignment {
-  /// The date and time the Worker accepted the assignment.
-  final DateTime? acceptTime;
-
-  /// The Worker's answers submitted for the HIT contained in a
-  /// QuestionFormAnswers document, if the Worker provides an answer. If the
-  /// Worker does not provide any answers, Answer may contain a
-  /// QuestionFormAnswers document, or Answer may be empty.
-  final String? answer;
-
-  /// If the Worker has submitted results and the Requester has approved the
-  /// results, ApprovalTime is the date and time the Requester approved the
-  /// results. This value is omitted from the assignment if the Requester has not
-  /// yet approved the results.
-  final DateTime? approvalTime;
-
-  /// A unique identifier for the assignment.
-  final String? assignmentId;
-
-  /// The status of the assignment.
-  final AssignmentStatus? assignmentStatus;
-
-  /// If results have been submitted, AutoApprovalTime is the date and time the
-  /// results of the assignment results are considered Approved automatically if
-  /// they have not already been explicitly approved or rejected by the Requester.
-  /// This value is derived from the auto-approval delay specified by the
-  /// Requester in the HIT. This value is omitted from the assignment if the
-  /// Worker has not yet submitted results.
-  final DateTime? autoApprovalTime;
-
-  /// The date and time of the deadline for the assignment. This value is derived
-  /// from the deadline specification for the HIT and the date and time the Worker
-  /// accepted the HIT.
-  final DateTime? deadline;
-
-  /// The ID of the HIT.
-  final String? hITId;
-
-  /// If the Worker has submitted results and the Requester has rejected the
-  /// results, RejectionTime is the date and time the Requester rejected the
-  /// results.
-  final DateTime? rejectionTime;
-
-  /// The feedback string included with the call to the ApproveAssignment
-  /// operation or the RejectAssignment operation, if the Requester approved or
-  /// rejected the assignment and specified feedback.
-  final String? requesterFeedback;
-
-  /// If the Worker has submitted results, SubmitTime is the date and time the
-  /// assignment was submitted. This value is omitted from the assignment if the
-  /// Worker has not yet submitted results.
-  final DateTime? submitTime;
-
-  /// The ID of the Worker who accepted the HIT.
-  final String? workerId;
-
-  Assignment({
-    this.acceptTime,
-    this.answer,
-    this.approvalTime,
-    this.assignmentId,
-    this.assignmentStatus,
-    this.autoApprovalTime,
-    this.deadline,
-    this.hITId,
-    this.rejectionTime,
-    this.requesterFeedback,
-    this.submitTime,
-    this.workerId,
-  });
-
-  factory Assignment.fromJson(Map<String, dynamic> json) {
-    return Assignment(
-      acceptTime: timeStampFromJson(json['AcceptTime']),
-      answer: json['Answer'] as String?,
-      approvalTime: timeStampFromJson(json['ApprovalTime']),
-      assignmentId: json['AssignmentId'] as String?,
-      assignmentStatus: (json['AssignmentStatus'] as String?)
-          ?.let(AssignmentStatus.fromString),
-      autoApprovalTime: timeStampFromJson(json['AutoApprovalTime']),
-      deadline: timeStampFromJson(json['Deadline']),
-      hITId: json['HITId'] as String?,
-      rejectionTime: timeStampFromJson(json['RejectionTime']),
-      requesterFeedback: json['RequesterFeedback'] as String?,
-      submitTime: timeStampFromJson(json['SubmitTime']),
-      workerId: json['WorkerId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final acceptTime = this.acceptTime;
-    final answer = this.answer;
-    final approvalTime = this.approvalTime;
-    final assignmentId = this.assignmentId;
-    final assignmentStatus = this.assignmentStatus;
-    final autoApprovalTime = this.autoApprovalTime;
-    final deadline = this.deadline;
-    final hITId = this.hITId;
-    final rejectionTime = this.rejectionTime;
-    final requesterFeedback = this.requesterFeedback;
-    final submitTime = this.submitTime;
-    final workerId = this.workerId;
-    return {
-      if (acceptTime != null) 'AcceptTime': unixTimestampToJson(acceptTime),
-      if (answer != null) 'Answer': answer,
-      if (approvalTime != null)
-        'ApprovalTime': unixTimestampToJson(approvalTime),
-      if (assignmentId != null) 'AssignmentId': assignmentId,
-      if (assignmentStatus != null) 'AssignmentStatus': assignmentStatus.value,
-      if (autoApprovalTime != null)
-        'AutoApprovalTime': unixTimestampToJson(autoApprovalTime),
-      if (deadline != null) 'Deadline': unixTimestampToJson(deadline),
-      if (hITId != null) 'HITId': hITId,
-      if (rejectionTime != null)
-        'RejectionTime': unixTimestampToJson(rejectionTime),
-      if (requesterFeedback != null) 'RequesterFeedback': requesterFeedback,
-      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
-      if (workerId != null) 'WorkerId': workerId,
-    };
-  }
-}
-
-class AssignmentStatus {
-  static const submitted = AssignmentStatus._('Submitted');
-  static const approved = AssignmentStatus._('Approved');
-  static const rejected = AssignmentStatus._('Rejected');
-
-  final String value;
-
-  const AssignmentStatus._(this.value);
-
-  static const values = [submitted, approved, rejected];
-
-  static AssignmentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssignmentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AssignmentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class AssociateQualificationWithWorkerResponse {
   AssociateQualificationWithWorkerResponse();
 
@@ -2446,97 +2296,6 @@ class AssociateQualificationWithWorkerResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// An object representing a Bonus payment paid to a Worker.
-class BonusPayment {
-  /// The ID of the assignment associated with this bonus payment.
-  final String? assignmentId;
-  final String? bonusAmount;
-
-  /// The date and time of when the bonus was granted.
-  final DateTime? grantTime;
-
-  /// The Reason text given when the bonus was granted, if any.
-  final String? reason;
-
-  /// The ID of the Worker to whom the bonus was paid.
-  final String? workerId;
-
-  BonusPayment({
-    this.assignmentId,
-    this.bonusAmount,
-    this.grantTime,
-    this.reason,
-    this.workerId,
-  });
-
-  factory BonusPayment.fromJson(Map<String, dynamic> json) {
-    return BonusPayment(
-      assignmentId: json['AssignmentId'] as String?,
-      bonusAmount: json['BonusAmount'] as String?,
-      grantTime: timeStampFromJson(json['GrantTime']),
-      reason: json['Reason'] as String?,
-      workerId: json['WorkerId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assignmentId = this.assignmentId;
-    final bonusAmount = this.bonusAmount;
-    final grantTime = this.grantTime;
-    final reason = this.reason;
-    final workerId = this.workerId;
-    return {
-      if (assignmentId != null) 'AssignmentId': assignmentId,
-      if (bonusAmount != null) 'BonusAmount': bonusAmount,
-      if (grantTime != null) 'GrantTime': unixTimestampToJson(grantTime),
-      if (reason != null) 'Reason': reason,
-      if (workerId != null) 'WorkerId': workerId,
-    };
-  }
-}
-
-class Comparator {
-  static const lessThan = Comparator._('LessThan');
-  static const lessThanOrEqualTo = Comparator._('LessThanOrEqualTo');
-  static const greaterThan = Comparator._('GreaterThan');
-  static const greaterThanOrEqualTo = Comparator._('GreaterThanOrEqualTo');
-  static const equalTo = Comparator._('EqualTo');
-  static const notEqualTo = Comparator._('NotEqualTo');
-  static const exists = Comparator._('Exists');
-  static const doesNotExist = Comparator._('DoesNotExist');
-  static const $in = Comparator._('In');
-  static const notIn = Comparator._('NotIn');
-
-  final String value;
-
-  const Comparator._(this.value);
-
-  static const values = [
-    lessThan,
-    lessThanOrEqualTo,
-    greaterThan,
-    greaterThanOrEqualTo,
-    equalTo,
-    notEqualTo,
-    exists,
-    doesNotExist,
-    $in,
-    notIn
-  ];
-
-  static Comparator fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Comparator._(value));
-
-  @override
-  bool operator ==(other) => other is Comparator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateAdditionalAssignmentsForHITResponse {
@@ -2713,52 +2472,6 @@ class DisassociateQualificationFromWorkerResponse {
   }
 }
 
-class EventType {
-  static const assignmentAccepted = EventType._('AssignmentAccepted');
-  static const assignmentAbandoned = EventType._('AssignmentAbandoned');
-  static const assignmentReturned = EventType._('AssignmentReturned');
-  static const assignmentSubmitted = EventType._('AssignmentSubmitted');
-  static const assignmentRejected = EventType._('AssignmentRejected');
-  static const assignmentApproved = EventType._('AssignmentApproved');
-  static const hITCreated = EventType._('HITCreated');
-  static const hITExpired = EventType._('HITExpired');
-  static const hITReviewable = EventType._('HITReviewable');
-  static const hITExtended = EventType._('HITExtended');
-  static const hITDisposed = EventType._('HITDisposed');
-  static const ping = EventType._('Ping');
-
-  final String value;
-
-  const EventType._(this.value);
-
-  static const values = [
-    assignmentAccepted,
-    assignmentAbandoned,
-    assignmentReturned,
-    assignmentSubmitted,
-    assignmentRejected,
-    assignmentApproved,
-    hITCreated,
-    hITExpired,
-    hITReviewable,
-    hITExtended,
-    hITDisposed,
-    ping
-  ];
-
-  static EventType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
-
-  @override
-  bool operator ==(other) => other is EventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class GetAccountBalanceResponse {
   final String? availableBalance;
   final String? onHoldBalance;
@@ -2914,6 +2627,1439 @@ class GetQualificationTypeResponse {
       if (qualificationType != null) 'QualificationType': qualificationType,
     };
   }
+}
+
+class ListAssignmentsForHITResponse {
+  /// The collection of Assignment data structures returned by this call.
+  final List<Assignment>? assignments;
+  final String? nextToken;
+
+  /// The number of assignments on the page in the filtered results list,
+  /// equivalent to the number of assignments returned by this call.
+  final int? numResults;
+
+  ListAssignmentsForHITResponse({
+    this.assignments,
+    this.nextToken,
+    this.numResults,
+  });
+
+  factory ListAssignmentsForHITResponse.fromJson(Map<String, dynamic> json) {
+    return ListAssignmentsForHITResponse(
+      assignments: (json['Assignments'] as List?)
+          ?.nonNulls
+          .map((e) => Assignment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assignments = this.assignments;
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    return {
+      if (assignments != null) 'Assignments': assignments,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+    };
+  }
+}
+
+class ListBonusPaymentsResponse {
+  /// A successful request to the ListBonusPayments operation returns a list of
+  /// BonusPayment objects.
+  final List<BonusPayment>? bonusPayments;
+  final String? nextToken;
+
+  /// The number of bonus payments on this page in the filtered results list,
+  /// equivalent to the number of bonus payments being returned by this call.
+  final int? numResults;
+
+  ListBonusPaymentsResponse({
+    this.bonusPayments,
+    this.nextToken,
+    this.numResults,
+  });
+
+  factory ListBonusPaymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBonusPaymentsResponse(
+      bonusPayments: (json['BonusPayments'] as List?)
+          ?.nonNulls
+          .map((e) => BonusPayment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bonusPayments = this.bonusPayments;
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    return {
+      if (bonusPayments != null) 'BonusPayments': bonusPayments,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+    };
+  }
+}
+
+class ListHITsResponse {
+  /// The list of HIT elements returned by the query.
+  final List<HIT>? hITs;
+  final String? nextToken;
+
+  /// The number of HITs on this page in the filtered results list, equivalent to
+  /// the number of HITs being returned by this call.
+  final int? numResults;
+
+  ListHITsResponse({
+    this.hITs,
+    this.nextToken,
+    this.numResults,
+  });
+
+  factory ListHITsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHITsResponse(
+      hITs: (json['HITs'] as List?)
+          ?.nonNulls
+          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hITs = this.hITs;
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    return {
+      if (hITs != null) 'HITs': hITs,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+    };
+  }
+}
+
+class ListHITsForQualificationTypeResponse {
+  /// The list of HIT elements returned by the query.
+  final List<HIT>? hITs;
+  final String? nextToken;
+
+  /// The number of HITs on this page in the filtered results list, equivalent to
+  /// the number of HITs being returned by this call.
+  final int? numResults;
+
+  ListHITsForQualificationTypeResponse({
+    this.hITs,
+    this.nextToken,
+    this.numResults,
+  });
+
+  factory ListHITsForQualificationTypeResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListHITsForQualificationTypeResponse(
+      hITs: (json['HITs'] as List?)
+          ?.nonNulls
+          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hITs = this.hITs;
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    return {
+      if (hITs != null) 'HITs': hITs,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+    };
+  }
+}
+
+class ListQualificationRequestsResponse {
+  final String? nextToken;
+
+  /// The number of Qualification requests on this page in the filtered results
+  /// list, equivalent to the number of Qualification requests being returned by
+  /// this call.
+  final int? numResults;
+
+  /// The Qualification request. The response includes one QualificationRequest
+  /// element for each Qualification request returned by the query.
+  final List<QualificationRequest>? qualificationRequests;
+
+  ListQualificationRequestsResponse({
+    this.nextToken,
+    this.numResults,
+    this.qualificationRequests,
+  });
+
+  factory ListQualificationRequestsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListQualificationRequestsResponse(
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+      qualificationRequests: (json['QualificationRequests'] as List?)
+          ?.nonNulls
+          .map((e) => QualificationRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    final qualificationRequests = this.qualificationRequests;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+      if (qualificationRequests != null)
+        'QualificationRequests': qualificationRequests,
+    };
+  }
+}
+
+class ListQualificationTypesResponse {
+  final String? nextToken;
+
+  /// The number of Qualification types on this page in the filtered results list,
+  /// equivalent to the number of types this operation returns.
+  final int? numResults;
+
+  /// The list of QualificationType elements returned by the query.
+  final List<QualificationType>? qualificationTypes;
+
+  ListQualificationTypesResponse({
+    this.nextToken,
+    this.numResults,
+    this.qualificationTypes,
+  });
+
+  factory ListQualificationTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListQualificationTypesResponse(
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+      qualificationTypes: (json['QualificationTypes'] as List?)
+          ?.nonNulls
+          .map((e) => QualificationType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    final qualificationTypes = this.qualificationTypes;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+      if (qualificationTypes != null) 'QualificationTypes': qualificationTypes,
+    };
+  }
+}
+
+class ListReviewableHITsResponse {
+  /// The list of HIT elements returned by the query.
+  final List<HIT>? hITs;
+  final String? nextToken;
+
+  /// The number of HITs on this page in the filtered results list, equivalent to
+  /// the number of HITs being returned by this call.
+  final int? numResults;
+
+  ListReviewableHITsResponse({
+    this.hITs,
+    this.nextToken,
+    this.numResults,
+  });
+
+  factory ListReviewableHITsResponse.fromJson(Map<String, dynamic> json) {
+    return ListReviewableHITsResponse(
+      hITs: (json['HITs'] as List?)
+          ?.nonNulls
+          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hITs = this.hITs;
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    return {
+      if (hITs != null) 'HITs': hITs,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+    };
+  }
+}
+
+class ListReviewPolicyResultsForHITResponse {
+  /// The name of the Assignment-level Review Policy. This contains only the
+  /// PolicyName element.
+  final ReviewPolicy? assignmentReviewPolicy;
+
+  /// Contains both ReviewResult and ReviewAction elements for an Assignment.
+  final ReviewReport? assignmentReviewReport;
+
+  /// The HITId of the HIT for which results have been returned.
+  final String? hITId;
+
+  /// The name of the HIT-level Review Policy. This contains only the PolicyName
+  /// element.
+  final ReviewPolicy? hITReviewPolicy;
+
+  /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
+  final ReviewReport? hITReviewReport;
+  final String? nextToken;
+
+  ListReviewPolicyResultsForHITResponse({
+    this.assignmentReviewPolicy,
+    this.assignmentReviewReport,
+    this.hITId,
+    this.hITReviewPolicy,
+    this.hITReviewReport,
+    this.nextToken,
+  });
+
+  factory ListReviewPolicyResultsForHITResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListReviewPolicyResultsForHITResponse(
+      assignmentReviewPolicy: json['AssignmentReviewPolicy'] != null
+          ? ReviewPolicy.fromJson(
+              json['AssignmentReviewPolicy'] as Map<String, dynamic>)
+          : null,
+      assignmentReviewReport: json['AssignmentReviewReport'] != null
+          ? ReviewReport.fromJson(
+              json['AssignmentReviewReport'] as Map<String, dynamic>)
+          : null,
+      hITId: json['HITId'] as String?,
+      hITReviewPolicy: json['HITReviewPolicy'] != null
+          ? ReviewPolicy.fromJson(
+              json['HITReviewPolicy'] as Map<String, dynamic>)
+          : null,
+      hITReviewReport: json['HITReviewReport'] != null
+          ? ReviewReport.fromJson(
+              json['HITReviewReport'] as Map<String, dynamic>)
+          : null,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assignmentReviewPolicy = this.assignmentReviewPolicy;
+    final assignmentReviewReport = this.assignmentReviewReport;
+    final hITId = this.hITId;
+    final hITReviewPolicy = this.hITReviewPolicy;
+    final hITReviewReport = this.hITReviewReport;
+    final nextToken = this.nextToken;
+    return {
+      if (assignmentReviewPolicy != null)
+        'AssignmentReviewPolicy': assignmentReviewPolicy,
+      if (assignmentReviewReport != null)
+        'AssignmentReviewReport': assignmentReviewReport,
+      if (hITId != null) 'HITId': hITId,
+      if (hITReviewPolicy != null) 'HITReviewPolicy': hITReviewPolicy,
+      if (hITReviewReport != null) 'HITReviewReport': hITReviewReport,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListWorkerBlocksResponse {
+  final String? nextToken;
+
+  /// The number of assignments on the page in the filtered results list,
+  /// equivalent to the number of assignments returned by this call.
+  final int? numResults;
+
+  /// The list of WorkerBlocks, containing the collection of Worker IDs and
+  /// reasons for blocking.
+  final List<WorkerBlock>? workerBlocks;
+
+  ListWorkerBlocksResponse({
+    this.nextToken,
+    this.numResults,
+    this.workerBlocks,
+  });
+
+  factory ListWorkerBlocksResponse.fromJson(Map<String, dynamic> json) {
+    return ListWorkerBlocksResponse(
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+      workerBlocks: (json['WorkerBlocks'] as List?)
+          ?.nonNulls
+          .map((e) => WorkerBlock.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    final workerBlocks = this.workerBlocks;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+      if (workerBlocks != null) 'WorkerBlocks': workerBlocks,
+    };
+  }
+}
+
+class ListWorkersWithQualificationTypeResponse {
+  final String? nextToken;
+
+  /// The number of Qualifications on this page in the filtered results list,
+  /// equivalent to the number of Qualifications being returned by this call.
+  final int? numResults;
+
+  /// The list of Qualification elements returned by this call.
+  final List<Qualification>? qualifications;
+
+  ListWorkersWithQualificationTypeResponse({
+    this.nextToken,
+    this.numResults,
+    this.qualifications,
+  });
+
+  factory ListWorkersWithQualificationTypeResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListWorkersWithQualificationTypeResponse(
+      nextToken: json['NextToken'] as String?,
+      numResults: json['NumResults'] as int?,
+      qualifications: (json['Qualifications'] as List?)
+          ?.nonNulls
+          .map((e) => Qualification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final numResults = this.numResults;
+    final qualifications = this.qualifications;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (numResults != null) 'NumResults': numResults,
+      if (qualifications != null) 'Qualifications': qualifications,
+    };
+  }
+}
+
+class NotifyWorkersResponse {
+  /// When MTurk sends notifications to the list of Workers, it returns back any
+  /// failures it encounters in this list of NotifyWorkersFailureStatus objects.
+  final List<NotifyWorkersFailureStatus>? notifyWorkersFailureStatuses;
+
+  NotifyWorkersResponse({
+    this.notifyWorkersFailureStatuses,
+  });
+
+  factory NotifyWorkersResponse.fromJson(Map<String, dynamic> json) {
+    return NotifyWorkersResponse(
+      notifyWorkersFailureStatuses: (json['NotifyWorkersFailureStatuses']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              NotifyWorkersFailureStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notifyWorkersFailureStatuses = this.notifyWorkersFailureStatuses;
+    return {
+      if (notifyWorkersFailureStatuses != null)
+        'NotifyWorkersFailureStatuses': notifyWorkersFailureStatuses,
+    };
+  }
+}
+
+class RejectAssignmentResponse {
+  RejectAssignmentResponse();
+
+  factory RejectAssignmentResponse.fromJson(Map<String, dynamic> _) {
+    return RejectAssignmentResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RejectQualificationRequestResponse {
+  RejectQualificationRequestResponse();
+
+  factory RejectQualificationRequestResponse.fromJson(Map<String, dynamic> _) {
+    return RejectQualificationRequestResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class SendBonusResponse {
+  SendBonusResponse();
+
+  factory SendBonusResponse.fromJson(Map<String, dynamic> _) {
+    return SendBonusResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class SendTestEventNotificationResponse {
+  SendTestEventNotificationResponse();
+
+  factory SendTestEventNotificationResponse.fromJson(Map<String, dynamic> _) {
+    return SendTestEventNotificationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateExpirationForHITResponse {
+  UpdateExpirationForHITResponse();
+
+  factory UpdateExpirationForHITResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateExpirationForHITResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateHITReviewStatusResponse {
+  UpdateHITReviewStatusResponse();
+
+  factory UpdateHITReviewStatusResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateHITReviewStatusResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateHITTypeOfHITResponse {
+  UpdateHITTypeOfHITResponse();
+
+  factory UpdateHITTypeOfHITResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateHITTypeOfHITResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateNotificationSettingsResponse {
+  UpdateNotificationSettingsResponse();
+
+  factory UpdateNotificationSettingsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateNotificationSettingsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateQualificationTypeResponse {
+  /// Contains a QualificationType data structure.
+  final QualificationType? qualificationType;
+
+  UpdateQualificationTypeResponse({
+    this.qualificationType,
+  });
+
+  factory UpdateQualificationTypeResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateQualificationTypeResponse(
+      qualificationType: json['QualificationType'] != null
+          ? QualificationType.fromJson(
+              json['QualificationType'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final qualificationType = this.qualificationType;
+    return {
+      if (qualificationType != null) 'QualificationType': qualificationType,
+    };
+  }
+}
+
+/// The QualificationType data structure represents a Qualification type, a
+/// description of a property of a Worker that must match the requirements of a
+/// HIT for the Worker to be able to accept the HIT. The type also describes how
+/// a Worker can obtain a Qualification of that type, such as through a
+/// Qualification test.
+class QualificationType {
+  /// The answers to the Qualification test specified in the Test parameter.
+  final String? answerKey;
+
+  /// Specifies that requests for the Qualification type are granted immediately,
+  /// without prompting the Worker with a Qualification test. Valid values are
+  /// True | False.
+  final bool? autoGranted;
+
+  /// The Qualification integer value to use for automatically granted
+  /// Qualifications, if AutoGranted is true. This is 1 by default.
+  final int? autoGrantedValue;
+
+  /// The date and time the Qualification type was created.
+  final DateTime? creationTime;
+
+  /// A long description for the Qualification type.
+  final String? description;
+
+  /// Specifies whether the Qualification type is one that a user can request
+  /// through the Amazon Mechanical Turk web site, such as by taking a
+  /// Qualification test. This value is False for Qualifications assigned
+  /// automatically by the system. Valid values are True | False.
+  final bool? isRequestable;
+
+  /// One or more words or phrases that describe theQualification type, separated
+  /// by commas. The Keywords make the type easier to find using a search.
+  final String? keywords;
+
+  /// The name of the Qualification type. The type name is used to identify the
+  /// type, and to find the type using a Qualification type search.
+  final String? name;
+
+  /// A unique identifier for the Qualification type. A Qualification type is
+  /// given a Qualification type ID when you call the CreateQualificationType
+  /// operation.
+  final String? qualificationTypeId;
+
+  /// The status of the Qualification type. A Qualification type's status
+  /// determines if users can apply to receive a Qualification of this type, and
+  /// if HITs can be created with requirements based on this type. Valid values
+  /// are Active | Inactive.
+  final QualificationTypeStatus? qualificationTypeStatus;
+
+  /// The amount of time, in seconds, Workers must wait after taking the
+  /// Qualification test before they can take it again. Workers can take a
+  /// Qualification test multiple times if they were not granted the Qualification
+  /// from a previous attempt, or if the test offers a gradient score and they
+  /// want a better score. If not specified, retries are disabled and Workers can
+  /// request a Qualification only once.
+  final int? retryDelayInSeconds;
+
+  /// The questions for a Qualification test associated with this Qualification
+  /// type that a user can take to obtain a Qualification of this type. This
+  /// parameter must be specified if AnswerKey is present. A Qualification type
+  /// cannot have both a specified Test parameter and an AutoGranted value of
+  /// true.
+  final String? test;
+
+  /// The amount of time, in seconds, given to a Worker to complete the
+  /// Qualification test, beginning from the time the Worker requests the
+  /// Qualification.
+  final int? testDurationInSeconds;
+
+  QualificationType({
+    this.answerKey,
+    this.autoGranted,
+    this.autoGrantedValue,
+    this.creationTime,
+    this.description,
+    this.isRequestable,
+    this.keywords,
+    this.name,
+    this.qualificationTypeId,
+    this.qualificationTypeStatus,
+    this.retryDelayInSeconds,
+    this.test,
+    this.testDurationInSeconds,
+  });
+
+  factory QualificationType.fromJson(Map<String, dynamic> json) {
+    return QualificationType(
+      answerKey: json['AnswerKey'] as String?,
+      autoGranted: json['AutoGranted'] as bool?,
+      autoGrantedValue: json['AutoGrantedValue'] as int?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      isRequestable: json['IsRequestable'] as bool?,
+      keywords: json['Keywords'] as String?,
+      name: json['Name'] as String?,
+      qualificationTypeId: json['QualificationTypeId'] as String?,
+      qualificationTypeStatus: (json['QualificationTypeStatus'] as String?)
+          ?.let(QualificationTypeStatus.fromString),
+      retryDelayInSeconds: json['RetryDelayInSeconds'] as int?,
+      test: json['Test'] as String?,
+      testDurationInSeconds: json['TestDurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answerKey = this.answerKey;
+    final autoGranted = this.autoGranted;
+    final autoGrantedValue = this.autoGrantedValue;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final isRequestable = this.isRequestable;
+    final keywords = this.keywords;
+    final name = this.name;
+    final qualificationTypeId = this.qualificationTypeId;
+    final qualificationTypeStatus = this.qualificationTypeStatus;
+    final retryDelayInSeconds = this.retryDelayInSeconds;
+    final test = this.test;
+    final testDurationInSeconds = this.testDurationInSeconds;
+    return {
+      if (answerKey != null) 'AnswerKey': answerKey,
+      if (autoGranted != null) 'AutoGranted': autoGranted,
+      if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'Description': description,
+      if (isRequestable != null) 'IsRequestable': isRequestable,
+      if (keywords != null) 'Keywords': keywords,
+      if (name != null) 'Name': name,
+      if (qualificationTypeId != null)
+        'QualificationTypeId': qualificationTypeId,
+      if (qualificationTypeStatus != null)
+        'QualificationTypeStatus': qualificationTypeStatus.value,
+      if (retryDelayInSeconds != null)
+        'RetryDelayInSeconds': retryDelayInSeconds,
+      if (test != null) 'Test': test,
+      if (testDurationInSeconds != null)
+        'TestDurationInSeconds': testDurationInSeconds,
+    };
+  }
+}
+
+class QualificationTypeStatus {
+  static const active = QualificationTypeStatus._('Active');
+  static const inactive = QualificationTypeStatus._('Inactive');
+
+  final String value;
+
+  const QualificationTypeStatus._(this.value);
+
+  static const values = [active, inactive];
+
+  static QualificationTypeStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QualificationTypeStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QualificationTypeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The NotificationSpecification data structure describes a HIT event
+/// notification for a HIT type.
+class NotificationSpecification {
+  /// The target for notification messages. The Destination’s format is determined
+  /// by the specified Transport:
+  ///
+  /// <ul>
+  /// <li>
+  /// When Transport is Email, the Destination is your email address.
+  /// </li>
+  /// <li>
+  /// When Transport is SQS, the Destination is your queue URL.
+  /// </li>
+  /// <li>
+  /// When Transport is SNS, the Destination is the ARN of your topic.
+  /// </li>
+  /// </ul>
+  final String destination;
+
+  /// The list of events that should cause notifications to be sent. Valid Values:
+  /// AssignmentAccepted | AssignmentAbandoned | AssignmentReturned |
+  /// AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated |
+  /// HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping
+  /// event is only valid for the SendTestEventNotification operation.
+  final List<EventType> eventTypes;
+
+  /// The method Amazon Mechanical Turk uses to send the notification. Valid
+  /// Values: Email | SQS | SNS.
+  final NotificationTransport transport;
+
+  /// The version of the Notification API to use. Valid value is 2006-05-05.
+  final String version;
+
+  NotificationSpecification({
+    required this.destination,
+    required this.eventTypes,
+    required this.transport,
+    required this.version,
+  });
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final eventTypes = this.eventTypes;
+    final transport = this.transport;
+    final version = this.version;
+    return {
+      'Destination': destination,
+      'EventTypes': eventTypes.map((e) => e.value).toList(),
+      'Transport': transport.value,
+      'Version': version,
+    };
+  }
+}
+
+class NotificationTransport {
+  static const email = NotificationTransport._('Email');
+  static const sqs = NotificationTransport._('SQS');
+  static const sns = NotificationTransport._('SNS');
+
+  final String value;
+
+  const NotificationTransport._(this.value);
+
+  static const values = [email, sqs, sns];
+
+  static NotificationTransport fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationTransport._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationTransport && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EventType {
+  static const assignmentAccepted = EventType._('AssignmentAccepted');
+  static const assignmentAbandoned = EventType._('AssignmentAbandoned');
+  static const assignmentReturned = EventType._('AssignmentReturned');
+  static const assignmentSubmitted = EventType._('AssignmentSubmitted');
+  static const assignmentRejected = EventType._('AssignmentRejected');
+  static const assignmentApproved = EventType._('AssignmentApproved');
+  static const hITCreated = EventType._('HITCreated');
+  static const hITExpired = EventType._('HITExpired');
+  static const hITReviewable = EventType._('HITReviewable');
+  static const hITExtended = EventType._('HITExtended');
+  static const hITDisposed = EventType._('HITDisposed');
+  static const ping = EventType._('Ping');
+
+  final String value;
+
+  const EventType._(this.value);
+
+  static const values = [
+    assignmentAccepted,
+    assignmentAbandoned,
+    assignmentReturned,
+    assignmentSubmitted,
+    assignmentRejected,
+    assignmentApproved,
+    hITCreated,
+    hITExpired,
+    hITReviewable,
+    hITExtended,
+    hITDisposed,
+    ping
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// When MTurk encounters an issue with notifying the Workers you specified, it
+/// returns back this object with failure details.
+class NotifyWorkersFailureStatus {
+  /// Encoded value for the failure type.
+  final NotifyWorkersFailureCode? notifyWorkersFailureCode;
+
+  /// A message detailing the reason the Worker could not be notified.
+  final String? notifyWorkersFailureMessage;
+
+  /// The ID of the Worker.
+  final String? workerId;
+
+  NotifyWorkersFailureStatus({
+    this.notifyWorkersFailureCode,
+    this.notifyWorkersFailureMessage,
+    this.workerId,
+  });
+
+  factory NotifyWorkersFailureStatus.fromJson(Map<String, dynamic> json) {
+    return NotifyWorkersFailureStatus(
+      notifyWorkersFailureCode: (json['NotifyWorkersFailureCode'] as String?)
+          ?.let(NotifyWorkersFailureCode.fromString),
+      notifyWorkersFailureMessage:
+          json['NotifyWorkersFailureMessage'] as String?,
+      workerId: json['WorkerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notifyWorkersFailureCode = this.notifyWorkersFailureCode;
+    final notifyWorkersFailureMessage = this.notifyWorkersFailureMessage;
+    final workerId = this.workerId;
+    return {
+      if (notifyWorkersFailureCode != null)
+        'NotifyWorkersFailureCode': notifyWorkersFailureCode.value,
+      if (notifyWorkersFailureMessage != null)
+        'NotifyWorkersFailureMessage': notifyWorkersFailureMessage,
+      if (workerId != null) 'WorkerId': workerId,
+    };
+  }
+}
+
+class NotifyWorkersFailureCode {
+  static const softFailure = NotifyWorkersFailureCode._('SoftFailure');
+  static const hardFailure = NotifyWorkersFailureCode._('HardFailure');
+
+  final String value;
+
+  const NotifyWorkersFailureCode._(this.value);
+
+  static const values = [softFailure, hardFailure];
+
+  static NotifyWorkersFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotifyWorkersFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotifyWorkersFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Qualification data structure represents a Qualification assigned to a
+/// user, including the Qualification type and the value (score).
+class Qualification {
+  /// The date and time the Qualification was granted to the Worker. If the
+  /// Worker's Qualification was revoked, and then re-granted based on a new
+  /// Qualification request, GrantTime is the date and time of the last call to
+  /// the AcceptQualificationRequest operation.
+  final DateTime? grantTime;
+
+  /// The value (score) of the Qualification, if the Qualification has an integer
+  /// value.
+  final int? integerValue;
+  final Locale? localeValue;
+
+  /// The ID of the Qualification type for the Qualification.
+  final String? qualificationTypeId;
+
+  /// The status of the Qualification. Valid values are Granted | Revoked.
+  final QualificationStatus? status;
+
+  /// The ID of the Worker who possesses the Qualification.
+  final String? workerId;
+
+  Qualification({
+    this.grantTime,
+    this.integerValue,
+    this.localeValue,
+    this.qualificationTypeId,
+    this.status,
+    this.workerId,
+  });
+
+  factory Qualification.fromJson(Map<String, dynamic> json) {
+    return Qualification(
+      grantTime: timeStampFromJson(json['GrantTime']),
+      integerValue: json['IntegerValue'] as int?,
+      localeValue: json['LocaleValue'] != null
+          ? Locale.fromJson(json['LocaleValue'] as Map<String, dynamic>)
+          : null,
+      qualificationTypeId: json['QualificationTypeId'] as String?,
+      status: (json['Status'] as String?)?.let(QualificationStatus.fromString),
+      workerId: json['WorkerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grantTime = this.grantTime;
+    final integerValue = this.integerValue;
+    final localeValue = this.localeValue;
+    final qualificationTypeId = this.qualificationTypeId;
+    final status = this.status;
+    final workerId = this.workerId;
+    return {
+      if (grantTime != null) 'GrantTime': unixTimestampToJson(grantTime),
+      if (integerValue != null) 'IntegerValue': integerValue,
+      if (localeValue != null) 'LocaleValue': localeValue,
+      if (qualificationTypeId != null)
+        'QualificationTypeId': qualificationTypeId,
+      if (status != null) 'Status': status.value,
+      if (workerId != null) 'WorkerId': workerId,
+    };
+  }
+}
+
+/// The Locale data structure represents a geographical region or location.
+class Locale {
+  /// The country of the locale. Must be a valid ISO 3166 country code. For
+  /// example, the code US refers to the United States of America.
+  final String country;
+
+  /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code.
+  /// For example, the code WA refers to the state of Washington.
+  final String? subdivision;
+
+  Locale({
+    required this.country,
+    this.subdivision,
+  });
+
+  factory Locale.fromJson(Map<String, dynamic> json) {
+    return Locale(
+      country: (json['Country'] as String?) ?? '',
+      subdivision: json['Subdivision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final country = this.country;
+    final subdivision = this.subdivision;
+    return {
+      'Country': country,
+      if (subdivision != null) 'Subdivision': subdivision,
+    };
+  }
+}
+
+class QualificationStatus {
+  static const granted = QualificationStatus._('Granted');
+  static const revoked = QualificationStatus._('Revoked');
+
+  final String value;
+
+  const QualificationStatus._(this.value);
+
+  static const values = [granted, revoked];
+
+  static QualificationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QualificationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QualificationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The WorkerBlock data structure represents a Worker who has been blocked. It
+/// has two elements: the WorkerId and the Reason for the block.
+class WorkerBlock {
+  /// A message explaining the reason the Worker was blocked.
+  final String? reason;
+
+  /// The ID of the Worker who accepted the HIT.
+  final String? workerId;
+
+  WorkerBlock({
+    this.reason,
+    this.workerId,
+  });
+
+  factory WorkerBlock.fromJson(Map<String, dynamic> json) {
+    return WorkerBlock(
+      reason: json['Reason'] as String?,
+      workerId: json['WorkerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final workerId = this.workerId;
+    return {
+      if (reason != null) 'Reason': reason,
+      if (workerId != null) 'WorkerId': workerId,
+    };
+  }
+}
+
+/// HIT Review Policy data structures represent HIT review policies, which you
+/// specify when you create a HIT.
+class ReviewPolicy {
+  /// Name of a Review Policy: SimplePlurality/2011-09-01 or
+  /// ScoreMyKnownAnswers/2011-09-01
+  final String policyName;
+
+  /// Name of the parameter from the Review policy.
+  final List<PolicyParameter>? parameters;
+
+  ReviewPolicy({
+    required this.policyName,
+    this.parameters,
+  });
+
+  factory ReviewPolicy.fromJson(Map<String, dynamic> json) {
+    return ReviewPolicy(
+      policyName: (json['PolicyName'] as String?) ?? '',
+      parameters: (json['Parameters'] as List?)
+          ?.nonNulls
+          .map((e) => PolicyParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyName = this.policyName;
+    final parameters = this.parameters;
+    return {
+      'PolicyName': policyName,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// Contains both ReviewResult and ReviewAction elements for a particular HIT.
+class ReviewReport {
+  /// A list of ReviewAction objects for each action specified in the Review
+  /// Policy.
+  final List<ReviewActionDetail>? reviewActions;
+
+  /// A list of ReviewResults objects for each action specified in the Review
+  /// Policy.
+  final List<ReviewResultDetail>? reviewResults;
+
+  ReviewReport({
+    this.reviewActions,
+    this.reviewResults,
+  });
+
+  factory ReviewReport.fromJson(Map<String, dynamic> json) {
+    return ReviewReport(
+      reviewActions: (json['ReviewActions'] as List?)
+          ?.nonNulls
+          .map((e) => ReviewActionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reviewResults: (json['ReviewResults'] as List?)
+          ?.nonNulls
+          .map((e) => ReviewResultDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reviewActions = this.reviewActions;
+    final reviewResults = this.reviewResults;
+    return {
+      if (reviewActions != null) 'ReviewActions': reviewActions,
+      if (reviewResults != null) 'ReviewResults': reviewResults,
+    };
+  }
+}
+
+/// Both the AssignmentReviewReport and the HITReviewReport elements contains
+/// the ReviewActionDetail data structure. This structure is returned multiple
+/// times for each action specified in the Review Policy.
+class ReviewActionDetail {
+  /// The unique identifier for the action.
+  final String? actionId;
+
+  /// The nature of the action itself. The Review Policy is responsible for
+  /// examining the HIT and Assignments, emitting results, and deciding which
+  /// other actions will be necessary.
+  final String? actionName;
+
+  /// The date when the action was completed.
+  final DateTime? completeTime;
+
+  /// Present only when the Results have a FAILED Status.
+  final String? errorCode;
+
+  /// A description of the outcome of the review.
+  final String? result;
+
+  /// The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or
+  /// CANCELLED.
+  final ReviewActionStatus? status;
+
+  /// The specific HITId or AssignmentID targeted by the action.
+  final String? targetId;
+
+  /// The type of object in TargetId.
+  final String? targetType;
+
+  ReviewActionDetail({
+    this.actionId,
+    this.actionName,
+    this.completeTime,
+    this.errorCode,
+    this.result,
+    this.status,
+    this.targetId,
+    this.targetType,
+  });
+
+  factory ReviewActionDetail.fromJson(Map<String, dynamic> json) {
+    return ReviewActionDetail(
+      actionId: json['ActionId'] as String?,
+      actionName: json['ActionName'] as String?,
+      completeTime: timeStampFromJson(json['CompleteTime']),
+      errorCode: json['ErrorCode'] as String?,
+      result: json['Result'] as String?,
+      status: (json['Status'] as String?)?.let(ReviewActionStatus.fromString),
+      targetId: json['TargetId'] as String?,
+      targetType: json['TargetType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final actionName = this.actionName;
+    final completeTime = this.completeTime;
+    final errorCode = this.errorCode;
+    final result = this.result;
+    final status = this.status;
+    final targetId = this.targetId;
+    final targetType = this.targetType;
+    return {
+      if (actionId != null) 'ActionId': actionId,
+      if (actionName != null) 'ActionName': actionName,
+      if (completeTime != null)
+        'CompleteTime': unixTimestampToJson(completeTime),
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (result != null) 'Result': result,
+      if (status != null) 'Status': status.value,
+      if (targetId != null) 'TargetId': targetId,
+      if (targetType != null) 'TargetType': targetType,
+    };
+  }
+}
+
+class ReviewActionStatus {
+  static const intended = ReviewActionStatus._('Intended');
+  static const succeeded = ReviewActionStatus._('Succeeded');
+  static const failed = ReviewActionStatus._('Failed');
+  static const cancelled = ReviewActionStatus._('Cancelled');
+
+  final String value;
+
+  const ReviewActionStatus._(this.value);
+
+  static const values = [intended, succeeded, failed, cancelled];
+
+  static ReviewActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReviewActionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReviewActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This data structure is returned multiple times for each result specified in
+/// the Review Policy.
+class ReviewResultDetail {
+  /// A unique identifier of the Review action result.
+  final String? actionId;
+
+  /// Key identifies the particular piece of reviewed information.
+  final String? key;
+
+  /// Specifies the QuestionId the result is describing. Depending on whether the
+  /// TargetType is a HIT or Assignment this results could specify multiple
+  /// values. If TargetType is HIT and QuestionId is absent, then the result
+  /// describes results of the HIT, including the HIT agreement score. If
+  /// ObjectType is Assignment and QuestionId is absent, then the result describes
+  /// the Worker's performance on the HIT.
+  final String? questionId;
+
+  /// The HITID or AssignmentId about which this result was taken. Note that
+  /// HIT-level Review Policies will often emit results about both the HIT itself
+  /// and its Assignments, while Assignment-level review policies generally only
+  /// emit results about the Assignment itself.
+  final String? subjectId;
+
+  /// The type of the object from the SubjectId field.
+  final String? subjectType;
+
+  /// The values of Key provided by the review policies you have selected.
+  final String? value;
+
+  ReviewResultDetail({
+    this.actionId,
+    this.key,
+    this.questionId,
+    this.subjectId,
+    this.subjectType,
+    this.value,
+  });
+
+  factory ReviewResultDetail.fromJson(Map<String, dynamic> json) {
+    return ReviewResultDetail(
+      actionId: json['ActionId'] as String?,
+      key: json['Key'] as String?,
+      questionId: json['QuestionId'] as String?,
+      subjectId: json['SubjectId'] as String?,
+      subjectType: json['SubjectType'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final key = this.key;
+    final questionId = this.questionId;
+    final subjectId = this.subjectId;
+    final subjectType = this.subjectType;
+    final value = this.value;
+    return {
+      if (actionId != null) 'ActionId': actionId,
+      if (key != null) 'Key': key,
+      if (questionId != null) 'QuestionId': questionId,
+      if (subjectId != null) 'SubjectId': subjectId,
+      if (subjectType != null) 'SubjectType': subjectType,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Name of the parameter from the Review policy.
+class PolicyParameter {
+  /// Name of the parameter from the list of Review Polices.
+  final String? key;
+
+  /// List of ParameterMapEntry objects.
+  final List<ParameterMapEntry>? mapEntries;
+
+  /// The list of values of the Parameter
+  final List<String>? values;
+
+  PolicyParameter({
+    this.key,
+    this.mapEntries,
+    this.values,
+  });
+
+  factory PolicyParameter.fromJson(Map<String, dynamic> json) {
+    return PolicyParameter(
+      key: json['Key'] as String?,
+      mapEntries: (json['MapEntries'] as List?)
+          ?.nonNulls
+          .map((e) => ParameterMapEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final mapEntries = this.mapEntries;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (mapEntries != null) 'MapEntries': mapEntries,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// This data structure is the data type for the AnswerKey parameter of the
+/// ScoreMyKnownAnswers/2011-09-01 Review Policy.
+class ParameterMapEntry {
+  /// The QuestionID from the HIT that is used to identify which question requires
+  /// Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01
+  /// Review Policy.
+  final String? key;
+
+  /// The list of answers to the question specified in the MapEntry Key element.
+  /// The Worker must match all values in order for the answer to be scored
+  /// correctly.
+  final List<String>? values;
+
+  ParameterMapEntry({
+    this.key,
+    this.values,
+  });
+
+  factory ParameterMapEntry.fromJson(Map<String, dynamic> json) {
+    return ParameterMapEntry(
+      key: json['Key'] as String?,
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+class ReviewPolicyLevel {
+  static const assignment = ReviewPolicyLevel._('Assignment');
+  static const hit = ReviewPolicyLevel._('HIT');
+
+  final String value;
+
+  const ReviewPolicyLevel._(this.value);
+
+  static const values = [assignment, hit];
+
+  static ReviewPolicyLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReviewPolicyLevel._(value));
+
+  @override
+  bool operator ==(other) => other is ReviewPolicyLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The HIT data structure represents a single HIT, including all the
@@ -3114,89 +4260,6 @@ class HIT {
   }
 }
 
-class HITAccessActions {
-  static const accept = HITAccessActions._('Accept');
-  static const previewAndAccept = HITAccessActions._('PreviewAndAccept');
-  static const discoverPreviewAndAccept =
-      HITAccessActions._('DiscoverPreviewAndAccept');
-
-  final String value;
-
-  const HITAccessActions._(this.value);
-
-  static const values = [accept, previewAndAccept, discoverPreviewAndAccept];
-
-  static HITAccessActions fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HITAccessActions._(value));
-
-  @override
-  bool operator ==(other) => other is HITAccessActions && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The HITLayoutParameter data structure defines parameter values used with a
-/// HITLayout. A HITLayout is a reusable Amazon Mechanical Turk project template
-/// used to provide Human Intelligence Task (HIT) question data for CreateHIT.
-class HITLayoutParameter {
-  /// The name of the parameter in the HITLayout.
-  final String name;
-
-  /// The value substituted for the parameter referenced in the HITLayout.
-  final String value;
-
-  HITLayoutParameter({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-}
-
-class HITReviewStatus {
-  static const notReviewed = HITReviewStatus._('NotReviewed');
-  static const markedForReview = HITReviewStatus._('MarkedForReview');
-  static const reviewedAppropriate = HITReviewStatus._('ReviewedAppropriate');
-  static const reviewedInappropriate =
-      HITReviewStatus._('ReviewedInappropriate');
-
-  final String value;
-
-  const HITReviewStatus._(this.value);
-
-  static const values = [
-    notReviewed,
-    markedForReview,
-    reviewedAppropriate,
-    reviewedInappropriate
-  ];
-
-  static HITReviewStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HITReviewStatus._(value));
-
-  @override
-  bool operator ==(other) => other is HITReviewStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class HITStatus {
   static const assignable = HITStatus._('Assignable');
   static const unassignable = HITStatus._('Unassignable');
@@ -3229,851 +4292,36 @@ class HITStatus {
   String toString() => value;
 }
 
-class ListAssignmentsForHITResponse {
-  /// The collection of Assignment data structures returned by this call.
-  final List<Assignment>? assignments;
-  final String? nextToken;
-
-  /// The number of assignments on the page in the filtered results list,
-  /// equivalent to the number of assignments returned by this call.
-  final int? numResults;
-
-  ListAssignmentsForHITResponse({
-    this.assignments,
-    this.nextToken,
-    this.numResults,
-  });
-
-  factory ListAssignmentsForHITResponse.fromJson(Map<String, dynamic> json) {
-    return ListAssignmentsForHITResponse(
-      assignments: (json['Assignments'] as List?)
-          ?.nonNulls
-          .map((e) => Assignment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assignments = this.assignments;
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    return {
-      if (assignments != null) 'Assignments': assignments,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-    };
-  }
-}
-
-class ListBonusPaymentsResponse {
-  /// A successful request to the ListBonusPayments operation returns a list of
-  /// BonusPayment objects.
-  final List<BonusPayment>? bonusPayments;
-  final String? nextToken;
-
-  /// The number of bonus payments on this page in the filtered results list,
-  /// equivalent to the number of bonus payments being returned by this call.
-  final int? numResults;
-
-  ListBonusPaymentsResponse({
-    this.bonusPayments,
-    this.nextToken,
-    this.numResults,
-  });
-
-  factory ListBonusPaymentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListBonusPaymentsResponse(
-      bonusPayments: (json['BonusPayments'] as List?)
-          ?.nonNulls
-          .map((e) => BonusPayment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bonusPayments = this.bonusPayments;
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    return {
-      if (bonusPayments != null) 'BonusPayments': bonusPayments,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-    };
-  }
-}
-
-class ListHITsForQualificationTypeResponse {
-  /// The list of HIT elements returned by the query.
-  final List<HIT>? hITs;
-  final String? nextToken;
-
-  /// The number of HITs on this page in the filtered results list, equivalent to
-  /// the number of HITs being returned by this call.
-  final int? numResults;
-
-  ListHITsForQualificationTypeResponse({
-    this.hITs,
-    this.nextToken,
-    this.numResults,
-  });
-
-  factory ListHITsForQualificationTypeResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListHITsForQualificationTypeResponse(
-      hITs: (json['HITs'] as List?)
-          ?.nonNulls
-          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hITs = this.hITs;
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    return {
-      if (hITs != null) 'HITs': hITs,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-    };
-  }
-}
-
-class ListHITsResponse {
-  /// The list of HIT elements returned by the query.
-  final List<HIT>? hITs;
-  final String? nextToken;
-
-  /// The number of HITs on this page in the filtered results list, equivalent to
-  /// the number of HITs being returned by this call.
-  final int? numResults;
-
-  ListHITsResponse({
-    this.hITs,
-    this.nextToken,
-    this.numResults,
-  });
-
-  factory ListHITsResponse.fromJson(Map<String, dynamic> json) {
-    return ListHITsResponse(
-      hITs: (json['HITs'] as List?)
-          ?.nonNulls
-          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hITs = this.hITs;
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    return {
-      if (hITs != null) 'HITs': hITs,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-    };
-  }
-}
-
-class ListQualificationRequestsResponse {
-  final String? nextToken;
-
-  /// The number of Qualification requests on this page in the filtered results
-  /// list, equivalent to the number of Qualification requests being returned by
-  /// this call.
-  final int? numResults;
-
-  /// The Qualification request. The response includes one QualificationRequest
-  /// element for each Qualification request returned by the query.
-  final List<QualificationRequest>? qualificationRequests;
-
-  ListQualificationRequestsResponse({
-    this.nextToken,
-    this.numResults,
-    this.qualificationRequests,
-  });
-
-  factory ListQualificationRequestsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListQualificationRequestsResponse(
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-      qualificationRequests: (json['QualificationRequests'] as List?)
-          ?.nonNulls
-          .map((e) => QualificationRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    final qualificationRequests = this.qualificationRequests;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-      if (qualificationRequests != null)
-        'QualificationRequests': qualificationRequests,
-    };
-  }
-}
-
-class ListQualificationTypesResponse {
-  final String? nextToken;
-
-  /// The number of Qualification types on this page in the filtered results list,
-  /// equivalent to the number of types this operation returns.
-  final int? numResults;
-
-  /// The list of QualificationType elements returned by the query.
-  final List<QualificationType>? qualificationTypes;
-
-  ListQualificationTypesResponse({
-    this.nextToken,
-    this.numResults,
-    this.qualificationTypes,
-  });
-
-  factory ListQualificationTypesResponse.fromJson(Map<String, dynamic> json) {
-    return ListQualificationTypesResponse(
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-      qualificationTypes: (json['QualificationTypes'] as List?)
-          ?.nonNulls
-          .map((e) => QualificationType.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    final qualificationTypes = this.qualificationTypes;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-      if (qualificationTypes != null) 'QualificationTypes': qualificationTypes,
-    };
-  }
-}
-
-class ListReviewPolicyResultsForHITResponse {
-  /// The name of the Assignment-level Review Policy. This contains only the
-  /// PolicyName element.
-  final ReviewPolicy? assignmentReviewPolicy;
-
-  /// Contains both ReviewResult and ReviewAction elements for an Assignment.
-  final ReviewReport? assignmentReviewReport;
-
-  /// The HITId of the HIT for which results have been returned.
-  final String? hITId;
-
-  /// The name of the HIT-level Review Policy. This contains only the PolicyName
-  /// element.
-  final ReviewPolicy? hITReviewPolicy;
-
-  /// Contains both ReviewResult and ReviewAction elements for a particular HIT.
-  final ReviewReport? hITReviewReport;
-  final String? nextToken;
-
-  ListReviewPolicyResultsForHITResponse({
-    this.assignmentReviewPolicy,
-    this.assignmentReviewReport,
-    this.hITId,
-    this.hITReviewPolicy,
-    this.hITReviewReport,
-    this.nextToken,
-  });
-
-  factory ListReviewPolicyResultsForHITResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListReviewPolicyResultsForHITResponse(
-      assignmentReviewPolicy: json['AssignmentReviewPolicy'] != null
-          ? ReviewPolicy.fromJson(
-              json['AssignmentReviewPolicy'] as Map<String, dynamic>)
-          : null,
-      assignmentReviewReport: json['AssignmentReviewReport'] != null
-          ? ReviewReport.fromJson(
-              json['AssignmentReviewReport'] as Map<String, dynamic>)
-          : null,
-      hITId: json['HITId'] as String?,
-      hITReviewPolicy: json['HITReviewPolicy'] != null
-          ? ReviewPolicy.fromJson(
-              json['HITReviewPolicy'] as Map<String, dynamic>)
-          : null,
-      hITReviewReport: json['HITReviewReport'] != null
-          ? ReviewReport.fromJson(
-              json['HITReviewReport'] as Map<String, dynamic>)
-          : null,
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assignmentReviewPolicy = this.assignmentReviewPolicy;
-    final assignmentReviewReport = this.assignmentReviewReport;
-    final hITId = this.hITId;
-    final hITReviewPolicy = this.hITReviewPolicy;
-    final hITReviewReport = this.hITReviewReport;
-    final nextToken = this.nextToken;
-    return {
-      if (assignmentReviewPolicy != null)
-        'AssignmentReviewPolicy': assignmentReviewPolicy,
-      if (assignmentReviewReport != null)
-        'AssignmentReviewReport': assignmentReviewReport,
-      if (hITId != null) 'HITId': hITId,
-      if (hITReviewPolicy != null) 'HITReviewPolicy': hITReviewPolicy,
-      if (hITReviewReport != null) 'HITReviewReport': hITReviewReport,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListReviewableHITsResponse {
-  /// The list of HIT elements returned by the query.
-  final List<HIT>? hITs;
-  final String? nextToken;
-
-  /// The number of HITs on this page in the filtered results list, equivalent to
-  /// the number of HITs being returned by this call.
-  final int? numResults;
-
-  ListReviewableHITsResponse({
-    this.hITs,
-    this.nextToken,
-    this.numResults,
-  });
-
-  factory ListReviewableHITsResponse.fromJson(Map<String, dynamic> json) {
-    return ListReviewableHITsResponse(
-      hITs: (json['HITs'] as List?)
-          ?.nonNulls
-          .map((e) => HIT.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hITs = this.hITs;
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    return {
-      if (hITs != null) 'HITs': hITs,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-    };
-  }
-}
-
-class ListWorkerBlocksResponse {
-  final String? nextToken;
-
-  /// The number of assignments on the page in the filtered results list,
-  /// equivalent to the number of assignments returned by this call.
-  final int? numResults;
-
-  /// The list of WorkerBlocks, containing the collection of Worker IDs and
-  /// reasons for blocking.
-  final List<WorkerBlock>? workerBlocks;
-
-  ListWorkerBlocksResponse({
-    this.nextToken,
-    this.numResults,
-    this.workerBlocks,
-  });
-
-  factory ListWorkerBlocksResponse.fromJson(Map<String, dynamic> json) {
-    return ListWorkerBlocksResponse(
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-      workerBlocks: (json['WorkerBlocks'] as List?)
-          ?.nonNulls
-          .map((e) => WorkerBlock.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    final workerBlocks = this.workerBlocks;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-      if (workerBlocks != null) 'WorkerBlocks': workerBlocks,
-    };
-  }
-}
-
-class ListWorkersWithQualificationTypeResponse {
-  final String? nextToken;
-
-  /// The number of Qualifications on this page in the filtered results list,
-  /// equivalent to the number of Qualifications being returned by this call.
-  final int? numResults;
-
-  /// The list of Qualification elements returned by this call.
-  final List<Qualification>? qualifications;
-
-  ListWorkersWithQualificationTypeResponse({
-    this.nextToken,
-    this.numResults,
-    this.qualifications,
-  });
-
-  factory ListWorkersWithQualificationTypeResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListWorkersWithQualificationTypeResponse(
-      nextToken: json['NextToken'] as String?,
-      numResults: json['NumResults'] as int?,
-      qualifications: (json['Qualifications'] as List?)
-          ?.nonNulls
-          .map((e) => Qualification.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final numResults = this.numResults;
-    final qualifications = this.qualifications;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (numResults != null) 'NumResults': numResults,
-      if (qualifications != null) 'Qualifications': qualifications,
-    };
-  }
-}
-
-/// The Locale data structure represents a geographical region or location.
-class Locale {
-  /// The country of the locale. Must be a valid ISO 3166 country code. For
-  /// example, the code US refers to the United States of America.
-  final String country;
-
-  /// The state or subdivision of the locale. A valid ISO 3166-2 subdivision code.
-  /// For example, the code WA refers to the state of Washington.
-  final String? subdivision;
-
-  Locale({
-    required this.country,
-    this.subdivision,
-  });
-
-  factory Locale.fromJson(Map<String, dynamic> json) {
-    return Locale(
-      country: (json['Country'] as String?) ?? '',
-      subdivision: json['Subdivision'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final country = this.country;
-    final subdivision = this.subdivision;
-    return {
-      'Country': country,
-      if (subdivision != null) 'Subdivision': subdivision,
-    };
-  }
-}
-
-/// The NotificationSpecification data structure describes a HIT event
-/// notification for a HIT type.
-class NotificationSpecification {
-  /// The target for notification messages. The Destination’s format is determined
-  /// by the specified Transport:
-  ///
-  /// <ul>
-  /// <li>
-  /// When Transport is Email, the Destination is your email address.
-  /// </li>
-  /// <li>
-  /// When Transport is SQS, the Destination is your queue URL.
-  /// </li>
-  /// <li>
-  /// When Transport is SNS, the Destination is the ARN of your topic.
-  /// </li>
-  /// </ul>
-  final String destination;
-
-  /// The list of events that should cause notifications to be sent. Valid Values:
-  /// AssignmentAccepted | AssignmentAbandoned | AssignmentReturned |
-  /// AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated |
-  /// HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping
-  /// event is only valid for the SendTestEventNotification operation.
-  final List<EventType> eventTypes;
-
-  /// The method Amazon Mechanical Turk uses to send the notification. Valid
-  /// Values: Email | SQS | SNS.
-  final NotificationTransport transport;
-
-  /// The version of the Notification API to use. Valid value is 2006-05-05.
-  final String version;
-
-  NotificationSpecification({
-    required this.destination,
-    required this.eventTypes,
-    required this.transport,
-    required this.version,
-  });
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final eventTypes = this.eventTypes;
-    final transport = this.transport;
-    final version = this.version;
-    return {
-      'Destination': destination,
-      'EventTypes': eventTypes.map((e) => e.value).toList(),
-      'Transport': transport.value,
-      'Version': version,
-    };
-  }
-}
-
-class NotificationTransport {
-  static const email = NotificationTransport._('Email');
-  static const sqs = NotificationTransport._('SQS');
-  static const sns = NotificationTransport._('SNS');
+class HITReviewStatus {
+  static const notReviewed = HITReviewStatus._('NotReviewed');
+  static const markedForReview = HITReviewStatus._('MarkedForReview');
+  static const reviewedAppropriate = HITReviewStatus._('ReviewedAppropriate');
+  static const reviewedInappropriate =
+      HITReviewStatus._('ReviewedInappropriate');
 
   final String value;
 
-  const NotificationTransport._(this.value);
+  const HITReviewStatus._(this.value);
 
-  static const values = [email, sqs, sns];
+  static const values = [
+    notReviewed,
+    markedForReview,
+    reviewedAppropriate,
+    reviewedInappropriate
+  ];
 
-  static NotificationTransport fromString(String value) =>
+  static HITReviewStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => NotificationTransport._(value));
+          orElse: () => HITReviewStatus._(value));
 
   @override
-  bool operator ==(other) =>
-      other is NotificationTransport && other.value == value;
+  bool operator ==(other) => other is HITReviewStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class NotifyWorkersFailureCode {
-  static const softFailure = NotifyWorkersFailureCode._('SoftFailure');
-  static const hardFailure = NotifyWorkersFailureCode._('HardFailure');
-
-  final String value;
-
-  const NotifyWorkersFailureCode._(this.value);
-
-  static const values = [softFailure, hardFailure];
-
-  static NotifyWorkersFailureCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NotifyWorkersFailureCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NotifyWorkersFailureCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// When MTurk encounters an issue with notifying the Workers you specified, it
-/// returns back this object with failure details.
-class NotifyWorkersFailureStatus {
-  /// Encoded value for the failure type.
-  final NotifyWorkersFailureCode? notifyWorkersFailureCode;
-
-  /// A message detailing the reason the Worker could not be notified.
-  final String? notifyWorkersFailureMessage;
-
-  /// The ID of the Worker.
-  final String? workerId;
-
-  NotifyWorkersFailureStatus({
-    this.notifyWorkersFailureCode,
-    this.notifyWorkersFailureMessage,
-    this.workerId,
-  });
-
-  factory NotifyWorkersFailureStatus.fromJson(Map<String, dynamic> json) {
-    return NotifyWorkersFailureStatus(
-      notifyWorkersFailureCode: (json['NotifyWorkersFailureCode'] as String?)
-          ?.let(NotifyWorkersFailureCode.fromString),
-      notifyWorkersFailureMessage:
-          json['NotifyWorkersFailureMessage'] as String?,
-      workerId: json['WorkerId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final notifyWorkersFailureCode = this.notifyWorkersFailureCode;
-    final notifyWorkersFailureMessage = this.notifyWorkersFailureMessage;
-    final workerId = this.workerId;
-    return {
-      if (notifyWorkersFailureCode != null)
-        'NotifyWorkersFailureCode': notifyWorkersFailureCode.value,
-      if (notifyWorkersFailureMessage != null)
-        'NotifyWorkersFailureMessage': notifyWorkersFailureMessage,
-      if (workerId != null) 'WorkerId': workerId,
-    };
-  }
-}
-
-class NotifyWorkersResponse {
-  /// When MTurk sends notifications to the list of Workers, it returns back any
-  /// failures it encounters in this list of NotifyWorkersFailureStatus objects.
-  final List<NotifyWorkersFailureStatus>? notifyWorkersFailureStatuses;
-
-  NotifyWorkersResponse({
-    this.notifyWorkersFailureStatuses,
-  });
-
-  factory NotifyWorkersResponse.fromJson(Map<String, dynamic> json) {
-    return NotifyWorkersResponse(
-      notifyWorkersFailureStatuses: (json['NotifyWorkersFailureStatuses']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              NotifyWorkersFailureStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final notifyWorkersFailureStatuses = this.notifyWorkersFailureStatuses;
-    return {
-      if (notifyWorkersFailureStatuses != null)
-        'NotifyWorkersFailureStatuses': notifyWorkersFailureStatuses,
-    };
-  }
-}
-
-/// This data structure is the data type for the AnswerKey parameter of the
-/// ScoreMyKnownAnswers/2011-09-01 Review Policy.
-class ParameterMapEntry {
-  /// The QuestionID from the HIT that is used to identify which question requires
-  /// Mechanical Turk to score as part of the ScoreMyKnownAnswers/2011-09-01
-  /// Review Policy.
-  final String? key;
-
-  /// The list of answers to the question specified in the MapEntry Key element.
-  /// The Worker must match all values in order for the answer to be scored
-  /// correctly.
-  final List<String>? values;
-
-  ParameterMapEntry({
-    this.key,
-    this.values,
-  });
-
-  factory ParameterMapEntry.fromJson(Map<String, dynamic> json) {
-    return ParameterMapEntry(
-      key: json['Key'] as String?,
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final values = this.values;
-    return {
-      if (key != null) 'Key': key,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// Name of the parameter from the Review policy.
-class PolicyParameter {
-  /// Name of the parameter from the list of Review Polices.
-  final String? key;
-
-  /// List of ParameterMapEntry objects.
-  final List<ParameterMapEntry>? mapEntries;
-
-  /// The list of values of the Parameter
-  final List<String>? values;
-
-  PolicyParameter({
-    this.key,
-    this.mapEntries,
-    this.values,
-  });
-
-  factory PolicyParameter.fromJson(Map<String, dynamic> json) {
-    return PolicyParameter(
-      key: json['Key'] as String?,
-      mapEntries: (json['MapEntries'] as List?)
-          ?.nonNulls
-          .map((e) => ParameterMapEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      values:
-          (json['Values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final mapEntries = this.mapEntries;
-    final values = this.values;
-    return {
-      if (key != null) 'Key': key,
-      if (mapEntries != null) 'MapEntries': mapEntries,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// The Qualification data structure represents a Qualification assigned to a
-/// user, including the Qualification type and the value (score).
-class Qualification {
-  /// The date and time the Qualification was granted to the Worker. If the
-  /// Worker's Qualification was revoked, and then re-granted based on a new
-  /// Qualification request, GrantTime is the date and time of the last call to
-  /// the AcceptQualificationRequest operation.
-  final DateTime? grantTime;
-
-  /// The value (score) of the Qualification, if the Qualification has an integer
-  /// value.
-  final int? integerValue;
-  final Locale? localeValue;
-
-  /// The ID of the Qualification type for the Qualification.
-  final String? qualificationTypeId;
-
-  /// The status of the Qualification. Valid values are Granted | Revoked.
-  final QualificationStatus? status;
-
-  /// The ID of the Worker who possesses the Qualification.
-  final String? workerId;
-
-  Qualification({
-    this.grantTime,
-    this.integerValue,
-    this.localeValue,
-    this.qualificationTypeId,
-    this.status,
-    this.workerId,
-  });
-
-  factory Qualification.fromJson(Map<String, dynamic> json) {
-    return Qualification(
-      grantTime: timeStampFromJson(json['GrantTime']),
-      integerValue: json['IntegerValue'] as int?,
-      localeValue: json['LocaleValue'] != null
-          ? Locale.fromJson(json['LocaleValue'] as Map<String, dynamic>)
-          : null,
-      qualificationTypeId: json['QualificationTypeId'] as String?,
-      status: (json['Status'] as String?)?.let(QualificationStatus.fromString),
-      workerId: json['WorkerId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final grantTime = this.grantTime;
-    final integerValue = this.integerValue;
-    final localeValue = this.localeValue;
-    final qualificationTypeId = this.qualificationTypeId;
-    final status = this.status;
-    final workerId = this.workerId;
-    return {
-      if (grantTime != null) 'GrantTime': unixTimestampToJson(grantTime),
-      if (integerValue != null) 'IntegerValue': integerValue,
-      if (localeValue != null) 'LocaleValue': localeValue,
-      if (qualificationTypeId != null)
-        'QualificationTypeId': qualificationTypeId,
-      if (status != null) 'Status': status.value,
-      if (workerId != null) 'WorkerId': workerId,
-    };
-  }
-}
-
-/// The QualificationRequest data structure represents a request a Worker has
-/// made for a Qualification.
-class QualificationRequest {
-  /// The Worker's answers for the Qualification type's test contained in a
-  /// QuestionFormAnswers document, if the type has a test and the Worker has
-  /// submitted answers. If the Worker does not provide any answers, Answer may be
-  /// empty.
-  final String? answer;
-
-  /// The ID of the Qualification request, a unique identifier generated when the
-  /// request was submitted.
-  final String? qualificationRequestId;
-
-  /// The ID of the Qualification type the Worker is requesting, as returned by
-  /// the CreateQualificationType operation.
-  final String? qualificationTypeId;
-
-  /// The date and time the Qualification request had a status of Submitted. This
-  /// is either the time the Worker submitted answers for a Qualification test, or
-  /// the time the Worker requested the Qualification if the Qualification type
-  /// does not have a test.
-  final DateTime? submitTime;
-
-  /// The contents of the Qualification test that was presented to the Worker, if
-  /// the type has a test and the Worker has submitted answers. This value is
-  /// identical to the QuestionForm associated with the Qualification type at the
-  /// time the Worker requests the Qualification.
-  final String? test;
-
-  /// The ID of the Worker requesting the Qualification.
-  final String? workerId;
-
-  QualificationRequest({
-    this.answer,
-    this.qualificationRequestId,
-    this.qualificationTypeId,
-    this.submitTime,
-    this.test,
-    this.workerId,
-  });
-
-  factory QualificationRequest.fromJson(Map<String, dynamic> json) {
-    return QualificationRequest(
-      answer: json['Answer'] as String?,
-      qualificationRequestId: json['QualificationRequestId'] as String?,
-      qualificationTypeId: json['QualificationTypeId'] as String?,
-      submitTime: timeStampFromJson(json['SubmitTime']),
-      test: json['Test'] as String?,
-      workerId: json['WorkerId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final answer = this.answer;
-    final qualificationRequestId = this.qualificationRequestId;
-    final qualificationTypeId = this.qualificationTypeId;
-    final submitTime = this.submitTime;
-    final test = this.test;
-    final workerId = this.workerId;
-    return {
-      if (answer != null) 'Answer': answer,
-      if (qualificationRequestId != null)
-        'QualificationRequestId': qualificationRequestId,
-      if (qualificationTypeId != null)
-        'QualificationTypeId': qualificationTypeId,
-      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
-      if (test != null) 'Test': test,
-      if (workerId != null) 'WorkerId': workerId,
-    };
-  }
 }
 
 /// The QualificationRequirement data structure describes a Qualification that a
@@ -4190,23 +4438,40 @@ class QualificationRequirement {
   }
 }
 
-class QualificationStatus {
-  static const granted = QualificationStatus._('Granted');
-  static const revoked = QualificationStatus._('Revoked');
+class Comparator {
+  static const lessThan = Comparator._('LessThan');
+  static const lessThanOrEqualTo = Comparator._('LessThanOrEqualTo');
+  static const greaterThan = Comparator._('GreaterThan');
+  static const greaterThanOrEqualTo = Comparator._('GreaterThanOrEqualTo');
+  static const equalTo = Comparator._('EqualTo');
+  static const notEqualTo = Comparator._('NotEqualTo');
+  static const exists = Comparator._('Exists');
+  static const doesNotExist = Comparator._('DoesNotExist');
+  static const $in = Comparator._('In');
+  static const notIn = Comparator._('NotIn');
 
   final String value;
 
-  const QualificationStatus._(this.value);
+  const Comparator._(this.value);
 
-  static const values = [granted, revoked];
+  static const values = [
+    lessThan,
+    lessThanOrEqualTo,
+    greaterThan,
+    greaterThanOrEqualTo,
+    equalTo,
+    notEqualTo,
+    exists,
+    doesNotExist,
+    $in,
+    notIn
+  ];
 
-  static QualificationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QualificationStatus._(value));
+  static Comparator fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Comparator._(value));
 
   @override
-  bool operator ==(other) =>
-      other is QualificationStatus && other.value == value;
+  bool operator ==(other) => other is Comparator && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4215,463 +4480,30 @@ class QualificationStatus {
   String toString() => value;
 }
 
-/// The QualificationType data structure represents a Qualification type, a
-/// description of a property of a Worker that must match the requirements of a
-/// HIT for the Worker to be able to accept the HIT. The type also describes how
-/// a Worker can obtain a Qualification of that type, such as through a
-/// Qualification test.
-class QualificationType {
-  /// The answers to the Qualification test specified in the Test parameter.
-  final String? answerKey;
-
-  /// Specifies that requests for the Qualification type are granted immediately,
-  /// without prompting the Worker with a Qualification test. Valid values are
-  /// True | False.
-  final bool? autoGranted;
-
-  /// The Qualification integer value to use for automatically granted
-  /// Qualifications, if AutoGranted is true. This is 1 by default.
-  final int? autoGrantedValue;
-
-  /// The date and time the Qualification type was created.
-  final DateTime? creationTime;
-
-  /// A long description for the Qualification type.
-  final String? description;
-
-  /// Specifies whether the Qualification type is one that a user can request
-  /// through the Amazon Mechanical Turk web site, such as by taking a
-  /// Qualification test. This value is False for Qualifications assigned
-  /// automatically by the system. Valid values are True | False.
-  final bool? isRequestable;
-
-  /// One or more words or phrases that describe theQualification type, separated
-  /// by commas. The Keywords make the type easier to find using a search.
-  final String? keywords;
-
-  /// The name of the Qualification type. The type name is used to identify the
-  /// type, and to find the type using a Qualification type search.
-  final String? name;
-
-  /// A unique identifier for the Qualification type. A Qualification type is
-  /// given a Qualification type ID when you call the CreateQualificationType
-  /// operation.
-  final String? qualificationTypeId;
-
-  /// The status of the Qualification type. A Qualification type's status
-  /// determines if users can apply to receive a Qualification of this type, and
-  /// if HITs can be created with requirements based on this type. Valid values
-  /// are Active | Inactive.
-  final QualificationTypeStatus? qualificationTypeStatus;
-
-  /// The amount of time, in seconds, Workers must wait after taking the
-  /// Qualification test before they can take it again. Workers can take a
-  /// Qualification test multiple times if they were not granted the Qualification
-  /// from a previous attempt, or if the test offers a gradient score and they
-  /// want a better score. If not specified, retries are disabled and Workers can
-  /// request a Qualification only once.
-  final int? retryDelayInSeconds;
-
-  /// The questions for a Qualification test associated with this Qualification
-  /// type that a user can take to obtain a Qualification of this type. This
-  /// parameter must be specified if AnswerKey is present. A Qualification type
-  /// cannot have both a specified Test parameter and an AutoGranted value of
-  /// true.
-  final String? test;
-
-  /// The amount of time, in seconds, given to a Worker to complete the
-  /// Qualification test, beginning from the time the Worker requests the
-  /// Qualification.
-  final int? testDurationInSeconds;
-
-  QualificationType({
-    this.answerKey,
-    this.autoGranted,
-    this.autoGrantedValue,
-    this.creationTime,
-    this.description,
-    this.isRequestable,
-    this.keywords,
-    this.name,
-    this.qualificationTypeId,
-    this.qualificationTypeStatus,
-    this.retryDelayInSeconds,
-    this.test,
-    this.testDurationInSeconds,
-  });
-
-  factory QualificationType.fromJson(Map<String, dynamic> json) {
-    return QualificationType(
-      answerKey: json['AnswerKey'] as String?,
-      autoGranted: json['AutoGranted'] as bool?,
-      autoGrantedValue: json['AutoGrantedValue'] as int?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      description: json['Description'] as String?,
-      isRequestable: json['IsRequestable'] as bool?,
-      keywords: json['Keywords'] as String?,
-      name: json['Name'] as String?,
-      qualificationTypeId: json['QualificationTypeId'] as String?,
-      qualificationTypeStatus: (json['QualificationTypeStatus'] as String?)
-          ?.let(QualificationTypeStatus.fromString),
-      retryDelayInSeconds: json['RetryDelayInSeconds'] as int?,
-      test: json['Test'] as String?,
-      testDurationInSeconds: json['TestDurationInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final answerKey = this.answerKey;
-    final autoGranted = this.autoGranted;
-    final autoGrantedValue = this.autoGrantedValue;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final isRequestable = this.isRequestable;
-    final keywords = this.keywords;
-    final name = this.name;
-    final qualificationTypeId = this.qualificationTypeId;
-    final qualificationTypeStatus = this.qualificationTypeStatus;
-    final retryDelayInSeconds = this.retryDelayInSeconds;
-    final test = this.test;
-    final testDurationInSeconds = this.testDurationInSeconds;
-    return {
-      if (answerKey != null) 'AnswerKey': answerKey,
-      if (autoGranted != null) 'AutoGranted': autoGranted,
-      if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'Description': description,
-      if (isRequestable != null) 'IsRequestable': isRequestable,
-      if (keywords != null) 'Keywords': keywords,
-      if (name != null) 'Name': name,
-      if (qualificationTypeId != null)
-        'QualificationTypeId': qualificationTypeId,
-      if (qualificationTypeStatus != null)
-        'QualificationTypeStatus': qualificationTypeStatus.value,
-      if (retryDelayInSeconds != null)
-        'RetryDelayInSeconds': retryDelayInSeconds,
-      if (test != null) 'Test': test,
-      if (testDurationInSeconds != null)
-        'TestDurationInSeconds': testDurationInSeconds,
-    };
-  }
-}
-
-class QualificationTypeStatus {
-  static const active = QualificationTypeStatus._('Active');
-  static const inactive = QualificationTypeStatus._('Inactive');
+class HITAccessActions {
+  static const accept = HITAccessActions._('Accept');
+  static const previewAndAccept = HITAccessActions._('PreviewAndAccept');
+  static const discoverPreviewAndAccept =
+      HITAccessActions._('DiscoverPreviewAndAccept');
 
   final String value;
 
-  const QualificationTypeStatus._(this.value);
+  const HITAccessActions._(this.value);
 
-  static const values = [active, inactive];
+  static const values = [accept, previewAndAccept, discoverPreviewAndAccept];
 
-  static QualificationTypeStatus fromString(String value) =>
+  static HITAccessActions fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => QualificationTypeStatus._(value));
+          orElse: () => HITAccessActions._(value));
 
   @override
-  bool operator ==(other) =>
-      other is QualificationTypeStatus && other.value == value;
+  bool operator ==(other) => other is HITAccessActions && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class RejectAssignmentResponse {
-  RejectAssignmentResponse();
-
-  factory RejectAssignmentResponse.fromJson(Map<String, dynamic> _) {
-    return RejectAssignmentResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class RejectQualificationRequestResponse {
-  RejectQualificationRequestResponse();
-
-  factory RejectQualificationRequestResponse.fromJson(Map<String, dynamic> _) {
-    return RejectQualificationRequestResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Both the AssignmentReviewReport and the HITReviewReport elements contains
-/// the ReviewActionDetail data structure. This structure is returned multiple
-/// times for each action specified in the Review Policy.
-class ReviewActionDetail {
-  /// The unique identifier for the action.
-  final String? actionId;
-
-  /// The nature of the action itself. The Review Policy is responsible for
-  /// examining the HIT and Assignments, emitting results, and deciding which
-  /// other actions will be necessary.
-  final String? actionName;
-
-  /// The date when the action was completed.
-  final DateTime? completeTime;
-
-  /// Present only when the Results have a FAILED Status.
-  final String? errorCode;
-
-  /// A description of the outcome of the review.
-  final String? result;
-
-  /// The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or
-  /// CANCELLED.
-  final ReviewActionStatus? status;
-
-  /// The specific HITId or AssignmentID targeted by the action.
-  final String? targetId;
-
-  /// The type of object in TargetId.
-  final String? targetType;
-
-  ReviewActionDetail({
-    this.actionId,
-    this.actionName,
-    this.completeTime,
-    this.errorCode,
-    this.result,
-    this.status,
-    this.targetId,
-    this.targetType,
-  });
-
-  factory ReviewActionDetail.fromJson(Map<String, dynamic> json) {
-    return ReviewActionDetail(
-      actionId: json['ActionId'] as String?,
-      actionName: json['ActionName'] as String?,
-      completeTime: timeStampFromJson(json['CompleteTime']),
-      errorCode: json['ErrorCode'] as String?,
-      result: json['Result'] as String?,
-      status: (json['Status'] as String?)?.let(ReviewActionStatus.fromString),
-      targetId: json['TargetId'] as String?,
-      targetType: json['TargetType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionId = this.actionId;
-    final actionName = this.actionName;
-    final completeTime = this.completeTime;
-    final errorCode = this.errorCode;
-    final result = this.result;
-    final status = this.status;
-    final targetId = this.targetId;
-    final targetType = this.targetType;
-    return {
-      if (actionId != null) 'ActionId': actionId,
-      if (actionName != null) 'ActionName': actionName,
-      if (completeTime != null)
-        'CompleteTime': unixTimestampToJson(completeTime),
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (result != null) 'Result': result,
-      if (status != null) 'Status': status.value,
-      if (targetId != null) 'TargetId': targetId,
-      if (targetType != null) 'TargetType': targetType,
-    };
-  }
-}
-
-class ReviewActionStatus {
-  static const intended = ReviewActionStatus._('Intended');
-  static const succeeded = ReviewActionStatus._('Succeeded');
-  static const failed = ReviewActionStatus._('Failed');
-  static const cancelled = ReviewActionStatus._('Cancelled');
-
-  final String value;
-
-  const ReviewActionStatus._(this.value);
-
-  static const values = [intended, succeeded, failed, cancelled];
-
-  static ReviewActionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReviewActionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReviewActionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// HIT Review Policy data structures represent HIT review policies, which you
-/// specify when you create a HIT.
-class ReviewPolicy {
-  /// Name of a Review Policy: SimplePlurality/2011-09-01 or
-  /// ScoreMyKnownAnswers/2011-09-01
-  final String policyName;
-
-  /// Name of the parameter from the Review policy.
-  final List<PolicyParameter>? parameters;
-
-  ReviewPolicy({
-    required this.policyName,
-    this.parameters,
-  });
-
-  factory ReviewPolicy.fromJson(Map<String, dynamic> json) {
-    return ReviewPolicy(
-      policyName: (json['PolicyName'] as String?) ?? '',
-      parameters: (json['Parameters'] as List?)
-          ?.nonNulls
-          .map((e) => PolicyParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policyName = this.policyName;
-    final parameters = this.parameters;
-    return {
-      'PolicyName': policyName,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-class ReviewPolicyLevel {
-  static const assignment = ReviewPolicyLevel._('Assignment');
-  static const hit = ReviewPolicyLevel._('HIT');
-
-  final String value;
-
-  const ReviewPolicyLevel._(this.value);
-
-  static const values = [assignment, hit];
-
-  static ReviewPolicyLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReviewPolicyLevel._(value));
-
-  @override
-  bool operator ==(other) => other is ReviewPolicyLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains both ReviewResult and ReviewAction elements for a particular HIT.
-class ReviewReport {
-  /// A list of ReviewAction objects for each action specified in the Review
-  /// Policy.
-  final List<ReviewActionDetail>? reviewActions;
-
-  /// A list of ReviewResults objects for each action specified in the Review
-  /// Policy.
-  final List<ReviewResultDetail>? reviewResults;
-
-  ReviewReport({
-    this.reviewActions,
-    this.reviewResults,
-  });
-
-  factory ReviewReport.fromJson(Map<String, dynamic> json) {
-    return ReviewReport(
-      reviewActions: (json['ReviewActions'] as List?)
-          ?.nonNulls
-          .map((e) => ReviewActionDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      reviewResults: (json['ReviewResults'] as List?)
-          ?.nonNulls
-          .map((e) => ReviewResultDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reviewActions = this.reviewActions;
-    final reviewResults = this.reviewResults;
-    return {
-      if (reviewActions != null) 'ReviewActions': reviewActions,
-      if (reviewResults != null) 'ReviewResults': reviewResults,
-    };
-  }
-}
-
-/// This data structure is returned multiple times for each result specified in
-/// the Review Policy.
-class ReviewResultDetail {
-  /// A unique identifier of the Review action result.
-  final String? actionId;
-
-  /// Key identifies the particular piece of reviewed information.
-  final String? key;
-
-  /// Specifies the QuestionId the result is describing. Depending on whether the
-  /// TargetType is a HIT or Assignment this results could specify multiple
-  /// values. If TargetType is HIT and QuestionId is absent, then the result
-  /// describes results of the HIT, including the HIT agreement score. If
-  /// ObjectType is Assignment and QuestionId is absent, then the result describes
-  /// the Worker's performance on the HIT.
-  final String? questionId;
-
-  /// The HITID or AssignmentId about which this result was taken. Note that
-  /// HIT-level Review Policies will often emit results about both the HIT itself
-  /// and its Assignments, while Assignment-level review policies generally only
-  /// emit results about the Assignment itself.
-  final String? subjectId;
-
-  /// The type of the object from the SubjectId field.
-  final String? subjectType;
-
-  /// The values of Key provided by the review policies you have selected.
-  final String? value;
-
-  ReviewResultDetail({
-    this.actionId,
-    this.key,
-    this.questionId,
-    this.subjectId,
-    this.subjectType,
-    this.value,
-  });
-
-  factory ReviewResultDetail.fromJson(Map<String, dynamic> json) {
-    return ReviewResultDetail(
-      actionId: json['ActionId'] as String?,
-      key: json['Key'] as String?,
-      questionId: json['QuestionId'] as String?,
-      subjectId: json['SubjectId'] as String?,
-      subjectType: json['SubjectType'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionId = this.actionId;
-    final key = this.key;
-    final questionId = this.questionId;
-    final subjectId = this.subjectId;
-    final subjectType = this.subjectType;
-    final value = this.value;
-    return {
-      if (actionId != null) 'ActionId': actionId,
-      if (key != null) 'Key': key,
-      if (questionId != null) 'QuestionId': questionId,
-      if (subjectId != null) 'SubjectId': subjectId,
-      if (subjectType != null) 'SubjectType': subjectType,
-      if (value != null) 'Value': value,
-    };
-  }
 }
 
 class ReviewableHITStatus {
@@ -4699,130 +4531,298 @@ class ReviewableHITStatus {
   String toString() => value;
 }
 
-class SendBonusResponse {
-  SendBonusResponse();
+/// The QualificationRequest data structure represents a request a Worker has
+/// made for a Qualification.
+class QualificationRequest {
+  /// The Worker's answers for the Qualification type's test contained in a
+  /// QuestionFormAnswers document, if the type has a test and the Worker has
+  /// submitted answers. If the Worker does not provide any answers, Answer may be
+  /// empty.
+  final String? answer;
 
-  factory SendBonusResponse.fromJson(Map<String, dynamic> _) {
-    return SendBonusResponse();
-  }
+  /// The ID of the Qualification request, a unique identifier generated when the
+  /// request was submitted.
+  final String? qualificationRequestId;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The ID of the Qualification type the Worker is requesting, as returned by
+  /// the CreateQualificationType operation.
+  final String? qualificationTypeId;
 
-class SendTestEventNotificationResponse {
-  SendTestEventNotificationResponse();
+  /// The date and time the Qualification request had a status of Submitted. This
+  /// is either the time the Worker submitted answers for a Qualification test, or
+  /// the time the Worker requested the Qualification if the Qualification type
+  /// does not have a test.
+  final DateTime? submitTime;
 
-  factory SendTestEventNotificationResponse.fromJson(Map<String, dynamic> _) {
-    return SendTestEventNotificationResponse();
-  }
+  /// The contents of the Qualification test that was presented to the Worker, if
+  /// the type has a test and the Worker has submitted answers. This value is
+  /// identical to the QuestionForm associated with the Qualification type at the
+  /// time the Worker requests the Qualification.
+  final String? test;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The ID of the Worker requesting the Qualification.
+  final String? workerId;
 
-class UpdateExpirationForHITResponse {
-  UpdateExpirationForHITResponse();
-
-  factory UpdateExpirationForHITResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateExpirationForHITResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateHITReviewStatusResponse {
-  UpdateHITReviewStatusResponse();
-
-  factory UpdateHITReviewStatusResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateHITReviewStatusResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateHITTypeOfHITResponse {
-  UpdateHITTypeOfHITResponse();
-
-  factory UpdateHITTypeOfHITResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateHITTypeOfHITResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateNotificationSettingsResponse {
-  UpdateNotificationSettingsResponse();
-
-  factory UpdateNotificationSettingsResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateNotificationSettingsResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateQualificationTypeResponse {
-  /// Contains a QualificationType data structure.
-  final QualificationType? qualificationType;
-
-  UpdateQualificationTypeResponse({
-    this.qualificationType,
+  QualificationRequest({
+    this.answer,
+    this.qualificationRequestId,
+    this.qualificationTypeId,
+    this.submitTime,
+    this.test,
+    this.workerId,
   });
 
-  factory UpdateQualificationTypeResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateQualificationTypeResponse(
-      qualificationType: json['QualificationType'] != null
-          ? QualificationType.fromJson(
-              json['QualificationType'] as Map<String, dynamic>)
-          : null,
+  factory QualificationRequest.fromJson(Map<String, dynamic> json) {
+    return QualificationRequest(
+      answer: json['Answer'] as String?,
+      qualificationRequestId: json['QualificationRequestId'] as String?,
+      qualificationTypeId: json['QualificationTypeId'] as String?,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      test: json['Test'] as String?,
+      workerId: json['WorkerId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final qualificationType = this.qualificationType;
+    final answer = this.answer;
+    final qualificationRequestId = this.qualificationRequestId;
+    final qualificationTypeId = this.qualificationTypeId;
+    final submitTime = this.submitTime;
+    final test = this.test;
+    final workerId = this.workerId;
     return {
-      if (qualificationType != null) 'QualificationType': qualificationType,
+      if (answer != null) 'Answer': answer,
+      if (qualificationRequestId != null)
+        'QualificationRequestId': qualificationRequestId,
+      if (qualificationTypeId != null)
+        'QualificationTypeId': qualificationTypeId,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (test != null) 'Test': test,
+      if (workerId != null) 'WorkerId': workerId,
     };
   }
 }
 
-/// The WorkerBlock data structure represents a Worker who has been blocked. It
-/// has two elements: the WorkerId and the Reason for the block.
-class WorkerBlock {
-  /// A message explaining the reason the Worker was blocked.
+/// An object representing a Bonus payment paid to a Worker.
+class BonusPayment {
+  /// The ID of the assignment associated with this bonus payment.
+  final String? assignmentId;
+  final String? bonusAmount;
+
+  /// The date and time of when the bonus was granted.
+  final DateTime? grantTime;
+
+  /// The Reason text given when the bonus was granted, if any.
   final String? reason;
 
-  /// The ID of the Worker who accepted the HIT.
+  /// The ID of the Worker to whom the bonus was paid.
   final String? workerId;
 
-  WorkerBlock({
+  BonusPayment({
+    this.assignmentId,
+    this.bonusAmount,
+    this.grantTime,
     this.reason,
     this.workerId,
   });
 
-  factory WorkerBlock.fromJson(Map<String, dynamic> json) {
-    return WorkerBlock(
+  factory BonusPayment.fromJson(Map<String, dynamic> json) {
+    return BonusPayment(
+      assignmentId: json['AssignmentId'] as String?,
+      bonusAmount: json['BonusAmount'] as String?,
+      grantTime: timeStampFromJson(json['GrantTime']),
       reason: json['Reason'] as String?,
       workerId: json['WorkerId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final assignmentId = this.assignmentId;
+    final bonusAmount = this.bonusAmount;
+    final grantTime = this.grantTime;
     final reason = this.reason;
     final workerId = this.workerId;
     return {
+      if (assignmentId != null) 'AssignmentId': assignmentId,
+      if (bonusAmount != null) 'BonusAmount': bonusAmount,
+      if (grantTime != null) 'GrantTime': unixTimestampToJson(grantTime),
       if (reason != null) 'Reason': reason,
       if (workerId != null) 'WorkerId': workerId,
+    };
+  }
+}
+
+/// The Assignment data structure represents a single assignment of a HIT to a
+/// Worker. The assignment tracks the Worker's efforts to complete the HIT, and
+/// contains the results for later retrieval.
+class Assignment {
+  /// The date and time the Worker accepted the assignment.
+  final DateTime? acceptTime;
+
+  /// The Worker's answers submitted for the HIT contained in a
+  /// QuestionFormAnswers document, if the Worker provides an answer. If the
+  /// Worker does not provide any answers, Answer may contain a
+  /// QuestionFormAnswers document, or Answer may be empty.
+  final String? answer;
+
+  /// If the Worker has submitted results and the Requester has approved the
+  /// results, ApprovalTime is the date and time the Requester approved the
+  /// results. This value is omitted from the assignment if the Requester has not
+  /// yet approved the results.
+  final DateTime? approvalTime;
+
+  /// A unique identifier for the assignment.
+  final String? assignmentId;
+
+  /// The status of the assignment.
+  final AssignmentStatus? assignmentStatus;
+
+  /// If results have been submitted, AutoApprovalTime is the date and time the
+  /// results of the assignment results are considered Approved automatically if
+  /// they have not already been explicitly approved or rejected by the Requester.
+  /// This value is derived from the auto-approval delay specified by the
+  /// Requester in the HIT. This value is omitted from the assignment if the
+  /// Worker has not yet submitted results.
+  final DateTime? autoApprovalTime;
+
+  /// The date and time of the deadline for the assignment. This value is derived
+  /// from the deadline specification for the HIT and the date and time the Worker
+  /// accepted the HIT.
+  final DateTime? deadline;
+
+  /// The ID of the HIT.
+  final String? hITId;
+
+  /// If the Worker has submitted results and the Requester has rejected the
+  /// results, RejectionTime is the date and time the Requester rejected the
+  /// results.
+  final DateTime? rejectionTime;
+
+  /// The feedback string included with the call to the ApproveAssignment
+  /// operation or the RejectAssignment operation, if the Requester approved or
+  /// rejected the assignment and specified feedback.
+  final String? requesterFeedback;
+
+  /// If the Worker has submitted results, SubmitTime is the date and time the
+  /// assignment was submitted. This value is omitted from the assignment if the
+  /// Worker has not yet submitted results.
+  final DateTime? submitTime;
+
+  /// The ID of the Worker who accepted the HIT.
+  final String? workerId;
+
+  Assignment({
+    this.acceptTime,
+    this.answer,
+    this.approvalTime,
+    this.assignmentId,
+    this.assignmentStatus,
+    this.autoApprovalTime,
+    this.deadline,
+    this.hITId,
+    this.rejectionTime,
+    this.requesterFeedback,
+    this.submitTime,
+    this.workerId,
+  });
+
+  factory Assignment.fromJson(Map<String, dynamic> json) {
+    return Assignment(
+      acceptTime: timeStampFromJson(json['AcceptTime']),
+      answer: json['Answer'] as String?,
+      approvalTime: timeStampFromJson(json['ApprovalTime']),
+      assignmentId: json['AssignmentId'] as String?,
+      assignmentStatus: (json['AssignmentStatus'] as String?)
+          ?.let(AssignmentStatus.fromString),
+      autoApprovalTime: timeStampFromJson(json['AutoApprovalTime']),
+      deadline: timeStampFromJson(json['Deadline']),
+      hITId: json['HITId'] as String?,
+      rejectionTime: timeStampFromJson(json['RejectionTime']),
+      requesterFeedback: json['RequesterFeedback'] as String?,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      workerId: json['WorkerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptTime = this.acceptTime;
+    final answer = this.answer;
+    final approvalTime = this.approvalTime;
+    final assignmentId = this.assignmentId;
+    final assignmentStatus = this.assignmentStatus;
+    final autoApprovalTime = this.autoApprovalTime;
+    final deadline = this.deadline;
+    final hITId = this.hITId;
+    final rejectionTime = this.rejectionTime;
+    final requesterFeedback = this.requesterFeedback;
+    final submitTime = this.submitTime;
+    final workerId = this.workerId;
+    return {
+      if (acceptTime != null) 'AcceptTime': unixTimestampToJson(acceptTime),
+      if (answer != null) 'Answer': answer,
+      if (approvalTime != null)
+        'ApprovalTime': unixTimestampToJson(approvalTime),
+      if (assignmentId != null) 'AssignmentId': assignmentId,
+      if (assignmentStatus != null) 'AssignmentStatus': assignmentStatus.value,
+      if (autoApprovalTime != null)
+        'AutoApprovalTime': unixTimestampToJson(autoApprovalTime),
+      if (deadline != null) 'Deadline': unixTimestampToJson(deadline),
+      if (hITId != null) 'HITId': hITId,
+      if (rejectionTime != null)
+        'RejectionTime': unixTimestampToJson(rejectionTime),
+      if (requesterFeedback != null) 'RequesterFeedback': requesterFeedback,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (workerId != null) 'WorkerId': workerId,
+    };
+  }
+}
+
+class AssignmentStatus {
+  static const submitted = AssignmentStatus._('Submitted');
+  static const approved = AssignmentStatus._('Approved');
+  static const rejected = AssignmentStatus._('Rejected');
+
+  final String value;
+
+  const AssignmentStatus._(this.value);
+
+  static const values = [submitted, approved, rejected];
+
+  static AssignmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssignmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AssignmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The HITLayoutParameter data structure defines parameter values used with a
+/// HITLayout. A HITLayout is a reusable Amazon Mechanical Turk project template
+/// used to provide Human Intelligence Task (HIT) question data for CreateHIT.
+class HITLayoutParameter {
+  /// The name of the parameter in the HITLayout.
+  final String name;
+
+  /// The value substituted for the parameter referenced in the HITLayout.
+  final String value;
+
+  HITLayoutParameter({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
     };
   }
 }

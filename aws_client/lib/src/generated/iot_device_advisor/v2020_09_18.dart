@@ -32,9 +32,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Network to get your device qualified for the Amazon Web Services Partner
 /// Device Catalog without the need to send your device in and wait for it to be
 /// tested.
-class IoTDeviceAdvisor {
+class IotDeviceAdvisor {
   final _s.RestJsonProtocol _protocol;
-  IoTDeviceAdvisor({
+  IotDeviceAdvisor({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -67,20 +67,27 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">CreateSuiteDefinition</a>
   /// action.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [suiteDefinitionConfiguration] :
   /// Creates a Device Advisor test suite with suite definition configuration.
+  ///
+  /// Parameter [clientToken] :
+  /// The client token for the test suite definition creation. This token is
+  /// used for tracking test suite definition creation using retries and
+  /// obtaining its status. This parameter is optional.
   ///
   /// Parameter [tags] :
   /// The tags to be attached to the suite definition.
   Future<CreateSuiteDefinitionResponse> createSuiteDefinition({
     required SuiteDefinitionConfiguration suiteDefinitionConfiguration,
+    String? clientToken,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'suiteDefinitionConfiguration': suiteDefinitionConfiguration,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -98,8 +105,8 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">DeleteSuiteDefinition</a>
   /// action.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [suiteDefinitionId] :
   /// Suite definition ID of the test suite to be deleted.
@@ -116,9 +123,9 @@ class IoTDeviceAdvisor {
 
   /// Gets information about an Device Advisor endpoint.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [authenticationMethod] :
   /// The authentication method used during the device connection.
@@ -160,9 +167,9 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetSuiteDefinition</a>
   /// action.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [suiteDefinitionId] :
   /// Suite definition ID of the test suite to get.
@@ -193,9 +200,9 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetSuiteRun</a>
   /// action.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [suiteDefinitionId] :
   /// Suite definition ID for the test suite run.
@@ -223,9 +230,9 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">GetSuiteRunReport</a>
   /// action.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [suiteDefinitionId] :
   /// Suite definition ID of the test suite.
@@ -252,8 +259,8 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListSuiteDefinitions</a>
   /// action.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at once.
@@ -292,8 +299,8 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">ListSuiteRuns</a>
   /// action.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at once.
@@ -344,8 +351,8 @@ class IoTDeviceAdvisor {
   /// action.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The resource ARN of the IoT Device Advisor resource. This can be
@@ -368,9 +375,9 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">StartSuiteRun</a>
   /// action.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [suiteDefinitionId] :
   /// Suite definition ID of the test suite.
@@ -411,9 +418,9 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">StopSuiteRun</a>
   /// action.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [suiteDefinitionId] :
   /// Suite definition ID of the test suite run to be stopped.
@@ -440,8 +447,8 @@ class IoTDeviceAdvisor {
   /// action.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The resource ARN of an IoT Device Advisor resource. This can be
@@ -471,8 +478,8 @@ class IoTDeviceAdvisor {
   /// action.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The resource ARN of an IoT Device Advisor resource. This can be
@@ -502,8 +509,8 @@ class IoTDeviceAdvisor {
   /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions">UpdateSuiteDefinition</a>
   /// action.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [suiteDefinitionConfiguration] :
   /// Updates a Device Advisor test suite with suite definition configuration.
@@ -525,32 +532,6 @@ class IoTDeviceAdvisor {
     );
     return UpdateSuiteDefinitionResponse.fromJson(response);
   }
-}
-
-class AuthenticationMethod {
-  static const x509ClientCertificate =
-      AuthenticationMethod._('X509ClientCertificate');
-  static const signatureVersion4 = AuthenticationMethod._('SignatureVersion4');
-
-  final String value;
-
-  const AuthenticationMethod._(this.value);
-
-  static const values = [x509ClientCertificate, signatureVersion4];
-
-  static AuthenticationMethod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthenticationMethod._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthenticationMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateSuiteDefinitionResponse {
@@ -606,44 +587,6 @@ class DeleteSuiteDefinitionResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Information of a test device. A thing ARN, certificate ARN or device role
-/// ARN is required.
-class DeviceUnderTest {
-  /// Lists device's certificate ARN.
-  final String? certificateArn;
-
-  /// Lists device's role ARN.
-  final String? deviceRoleArn;
-
-  /// Lists device's thing ARN.
-  final String? thingArn;
-
-  DeviceUnderTest({
-    this.certificateArn,
-    this.deviceRoleArn,
-    this.thingArn,
-  });
-
-  factory DeviceUnderTest.fromJson(Map<String, dynamic> json) {
-    return DeviceUnderTest(
-      certificateArn: json['certificateArn'] as String?,
-      deviceRoleArn: json['deviceRoleArn'] as String?,
-      thingArn: json['thingArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final deviceRoleArn = this.deviceRoleArn;
-    final thingArn = this.thingArn;
-    return {
-      if (certificateArn != null) 'certificateArn': certificateArn,
-      if (deviceRoleArn != null) 'deviceRoleArn': deviceRoleArn,
-      if (thingArn != null) 'thingArn': thingArn,
-    };
   }
 }
 
@@ -743,30 +686,6 @@ class GetSuiteDefinitionResponse {
       if (suiteDefinitionVersion != null)
         'suiteDefinitionVersion': suiteDefinitionVersion,
       if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class GetSuiteRunReportResponse {
-  /// Download URL of the qualification report.
-  final String? qualificationReportDownloadUrl;
-
-  GetSuiteRunReportResponse({
-    this.qualificationReportDownloadUrl,
-  });
-
-  factory GetSuiteRunReportResponse.fromJson(Map<String, dynamic> json) {
-    return GetSuiteRunReportResponse(
-      qualificationReportDownloadUrl:
-          json['qualificationReportDownloadUrl'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final qualificationReportDownloadUrl = this.qualificationReportDownloadUrl;
-    return {
-      if (qualificationReportDownloadUrl != null)
-        'qualificationReportDownloadUrl': qualificationReportDownloadUrl,
     };
   }
 }
@@ -871,42 +790,26 @@ class GetSuiteRunResponse {
   }
 }
 
-/// Show Group Result.
-class GroupResult {
-  /// Group result ID.
-  final String? groupId;
+class GetSuiteRunReportResponse {
+  /// Download URL of the qualification report.
+  final String? qualificationReportDownloadUrl;
 
-  /// Group Result Name.
-  final String? groupName;
-
-  /// Tests under Group Result.
-  final List<TestCaseRun>? tests;
-
-  GroupResult({
-    this.groupId,
-    this.groupName,
-    this.tests,
+  GetSuiteRunReportResponse({
+    this.qualificationReportDownloadUrl,
   });
 
-  factory GroupResult.fromJson(Map<String, dynamic> json) {
-    return GroupResult(
-      groupId: json['groupId'] as String?,
-      groupName: json['groupName'] as String?,
-      tests: (json['tests'] as List?)
-          ?.nonNulls
-          .map((e) => TestCaseRun.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory GetSuiteRunReportResponse.fromJson(Map<String, dynamic> json) {
+    return GetSuiteRunReportResponse(
+      qualificationReportDownloadUrl:
+          json['qualificationReportDownloadUrl'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final groupId = this.groupId;
-    final groupName = this.groupName;
-    final tests = this.tests;
+    final qualificationReportDownloadUrl = this.qualificationReportDownloadUrl;
     return {
-      if (groupId != null) 'groupId': groupId,
-      if (groupName != null) 'groupName': groupName,
-      if (tests != null) 'tests': tests,
+      if (qualificationReportDownloadUrl != null)
+        'qualificationReportDownloadUrl': qualificationReportDownloadUrl,
     };
   }
 }
@@ -1003,36 +906,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-class Protocol {
-  static const mqttV3_1_1 = Protocol._('MqttV3_1_1');
-  static const mqttV5 = Protocol._('MqttV5');
-  static const mqttV3_1_1OverWebSocket = Protocol._('MqttV3_1_1_OverWebSocket');
-  static const mqttV5OverWebSocket = Protocol._('MqttV5_OverWebSocket');
-
-  final String value;
-
-  const Protocol._(this.value);
-
-  static const values = [
-    mqttV3_1_1,
-    mqttV5,
-    mqttV3_1_1OverWebSocket,
-    mqttV5OverWebSocket
-  ];
-
-  static Protocol fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
-
-  @override
-  bool operator ==(other) => other is Protocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StartSuiteRunResponse {
   /// Starts a Device Advisor test suite run based on suite create time.
   final DateTime? createdAt;
@@ -1076,46 +949,6 @@ class StartSuiteRunResponse {
   }
 }
 
-class Status {
-  static const pass = Status._('PASS');
-  static const fail = Status._('FAIL');
-  static const canceled = Status._('CANCELED');
-  static const pending = Status._('PENDING');
-  static const running = Status._('RUNNING');
-  static const stopping = Status._('STOPPING');
-  static const stopped = Status._('STOPPED');
-  static const passWithWarnings = Status._('PASS_WITH_WARNINGS');
-  static const error = Status._('ERROR');
-
-  final String value;
-
-  const Status._(this.value);
-
-  static const values = [
-    pass,
-    fail,
-    canceled,
-    pending,
-    running,
-    stopping,
-    stopped,
-    passWithWarnings,
-    error
-  ];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StopSuiteRunResponse {
   StopSuiteRunResponse();
 
@@ -1125,6 +958,90 @@ class StopSuiteRunResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateSuiteDefinitionResponse {
+  /// Timestamp of when the test suite was created.
+  final DateTime? createdAt;
+
+  /// Timestamp of when the test suite was updated.
+  final DateTime? lastUpdatedAt;
+
+  /// Amazon Resource Name (ARN) of the updated test suite.
+  final String? suiteDefinitionArn;
+
+  /// Suite definition ID of the updated test suite.
+  final String? suiteDefinitionId;
+
+  /// Updates the suite definition name. This is a required parameter.
+  final String? suiteDefinitionName;
+
+  /// Suite definition version of the updated test suite.
+  final String? suiteDefinitionVersion;
+
+  UpdateSuiteDefinitionResponse({
+    this.createdAt,
+    this.lastUpdatedAt,
+    this.suiteDefinitionArn,
+    this.suiteDefinitionId,
+    this.suiteDefinitionName,
+    this.suiteDefinitionVersion,
+  });
+
+  factory UpdateSuiteDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSuiteDefinitionResponse(
+      createdAt: timeStampFromJson(json['createdAt']),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      suiteDefinitionArn: json['suiteDefinitionArn'] as String?,
+      suiteDefinitionId: json['suiteDefinitionId'] as String?,
+      suiteDefinitionName: json['suiteDefinitionName'] as String?,
+      suiteDefinitionVersion: json['suiteDefinitionVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final suiteDefinitionArn = this.suiteDefinitionArn;
+    final suiteDefinitionId = this.suiteDefinitionId;
+    final suiteDefinitionName = this.suiteDefinitionName;
+    final suiteDefinitionVersion = this.suiteDefinitionVersion;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (suiteDefinitionArn != null) 'suiteDefinitionArn': suiteDefinitionArn,
+      if (suiteDefinitionId != null) 'suiteDefinitionId': suiteDefinitionId,
+      if (suiteDefinitionName != null)
+        'suiteDefinitionName': suiteDefinitionName,
+      if (suiteDefinitionVersion != null)
+        'suiteDefinitionVersion': suiteDefinitionVersion,
+    };
   }
 }
 
@@ -1208,72 +1125,70 @@ class SuiteDefinitionConfiguration {
   }
 }
 
-/// Information about the suite definition.
-class SuiteDefinitionInformation {
-  /// Date (in Unix epoch time) when the test suite was created.
-  final DateTime? createdAt;
+class Protocol {
+  static const mqttV3_1_1 = Protocol._('MqttV3_1_1');
+  static const mqttV5 = Protocol._('MqttV5');
+  static const mqttV3_1_1OverWebSocket = Protocol._('MqttV3_1_1_OverWebSocket');
+  static const mqttV5OverWebSocket = Protocol._('MqttV5_OverWebSocket');
 
-  /// Specifies the devices that are under test for the test suite.
-  final List<DeviceUnderTest>? defaultDevices;
+  final String value;
 
-  /// Specifies if the test suite is intended for qualification.
-  final bool? intendedForQualification;
+  const Protocol._(this.value);
 
-  /// Verifies if the test suite is a long duration test.
-  final bool? isLongDurationTest;
+  static const values = [
+    mqttV3_1_1,
+    mqttV5,
+    mqttV3_1_1OverWebSocket,
+    mqttV5OverWebSocket
+  ];
 
-  /// Gets the MQTT protocol that is configured in the suite definition.
-  final Protocol? protocol;
+  static Protocol fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Protocol._(value));
 
-  /// Suite definition ID of the test suite.
-  final String? suiteDefinitionId;
+  @override
+  bool operator ==(other) => other is Protocol && other.value == value;
 
-  /// Suite name of the test suite.
-  final String? suiteDefinitionName;
+  @override
+  int get hashCode => value.hashCode;
 
-  SuiteDefinitionInformation({
-    this.createdAt,
-    this.defaultDevices,
-    this.intendedForQualification,
-    this.isLongDurationTest,
-    this.protocol,
-    this.suiteDefinitionId,
-    this.suiteDefinitionName,
+  @override
+  String toString() => value;
+}
+
+/// Information of a test device. A thing ARN, certificate ARN or device role
+/// ARN is required.
+class DeviceUnderTest {
+  /// Lists device's certificate ARN.
+  final String? certificateArn;
+
+  /// Lists device's role ARN.
+  final String? deviceRoleArn;
+
+  /// Lists device's thing ARN.
+  final String? thingArn;
+
+  DeviceUnderTest({
+    this.certificateArn,
+    this.deviceRoleArn,
+    this.thingArn,
   });
 
-  factory SuiteDefinitionInformation.fromJson(Map<String, dynamic> json) {
-    return SuiteDefinitionInformation(
-      createdAt: timeStampFromJson(json['createdAt']),
-      defaultDevices: (json['defaultDevices'] as List?)
-          ?.nonNulls
-          .map((e) => DeviceUnderTest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      intendedForQualification: json['intendedForQualification'] as bool?,
-      isLongDurationTest: json['isLongDurationTest'] as bool?,
-      protocol: (json['protocol'] as String?)?.let(Protocol.fromString),
-      suiteDefinitionId: json['suiteDefinitionId'] as String?,
-      suiteDefinitionName: json['suiteDefinitionName'] as String?,
+  factory DeviceUnderTest.fromJson(Map<String, dynamic> json) {
+    return DeviceUnderTest(
+      certificateArn: json['certificateArn'] as String?,
+      deviceRoleArn: json['deviceRoleArn'] as String?,
+      thingArn: json['thingArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final defaultDevices = this.defaultDevices;
-    final intendedForQualification = this.intendedForQualification;
-    final isLongDurationTest = this.isLongDurationTest;
-    final protocol = this.protocol;
-    final suiteDefinitionId = this.suiteDefinitionId;
-    final suiteDefinitionName = this.suiteDefinitionName;
+    final certificateArn = this.certificateArn;
+    final deviceRoleArn = this.deviceRoleArn;
+    final thingArn = this.thingArn;
     return {
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (defaultDevices != null) 'defaultDevices': defaultDevices,
-      if (intendedForQualification != null)
-        'intendedForQualification': intendedForQualification,
-      if (isLongDurationTest != null) 'isLongDurationTest': isLongDurationTest,
-      if (protocol != null) 'protocol': protocol.value,
-      if (suiteDefinitionId != null) 'suiteDefinitionId': suiteDefinitionId,
-      if (suiteDefinitionName != null)
-        'suiteDefinitionName': suiteDefinitionName,
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (deviceRoleArn != null) 'deviceRoleArn': deviceRoleArn,
+      if (thingArn != null) 'thingArn': thingArn,
     };
   }
 }
@@ -1454,15 +1369,139 @@ class SuiteRunStatus {
   String toString() => value;
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Information about the suite definition.
+class SuiteDefinitionInformation {
+  /// Date (in Unix epoch time) when the test suite was created.
+  final DateTime? createdAt;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// Specifies the devices that are under test for the test suite.
+  final List<DeviceUnderTest>? defaultDevices;
+
+  /// Specifies if the test suite is intended for qualification.
+  final bool? intendedForQualification;
+
+  /// Verifies if the test suite is a long duration test.
+  final bool? isLongDurationTest;
+
+  /// Gets the MQTT protocol that is configured in the suite definition.
+  final Protocol? protocol;
+
+  /// Suite definition ID of the test suite.
+  final String? suiteDefinitionId;
+
+  /// Suite name of the test suite.
+  final String? suiteDefinitionName;
+
+  SuiteDefinitionInformation({
+    this.createdAt,
+    this.defaultDevices,
+    this.intendedForQualification,
+    this.isLongDurationTest,
+    this.protocol,
+    this.suiteDefinitionId,
+    this.suiteDefinitionName,
+  });
+
+  factory SuiteDefinitionInformation.fromJson(Map<String, dynamic> json) {
+    return SuiteDefinitionInformation(
+      createdAt: timeStampFromJson(json['createdAt']),
+      defaultDevices: (json['defaultDevices'] as List?)
+          ?.nonNulls
+          .map((e) => DeviceUnderTest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      intendedForQualification: json['intendedForQualification'] as bool?,
+      isLongDurationTest: json['isLongDurationTest'] as bool?,
+      protocol: (json['protocol'] as String?)?.let(Protocol.fromString),
+      suiteDefinitionId: json['suiteDefinitionId'] as String?,
+      suiteDefinitionName: json['suiteDefinitionName'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final createdAt = this.createdAt;
+    final defaultDevices = this.defaultDevices;
+    final intendedForQualification = this.intendedForQualification;
+    final isLongDurationTest = this.isLongDurationTest;
+    final protocol = this.protocol;
+    final suiteDefinitionId = this.suiteDefinitionId;
+    final suiteDefinitionName = this.suiteDefinitionName;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (defaultDevices != null) 'defaultDevices': defaultDevices,
+      if (intendedForQualification != null)
+        'intendedForQualification': intendedForQualification,
+      if (isLongDurationTest != null) 'isLongDurationTest': isLongDurationTest,
+      if (protocol != null) 'protocol': protocol.value,
+      if (suiteDefinitionId != null) 'suiteDefinitionId': suiteDefinitionId,
+      if (suiteDefinitionName != null)
+        'suiteDefinitionName': suiteDefinitionName,
+    };
+  }
+}
+
+/// Show each group result.
+class TestResult {
+  /// Show each group of test results.
+  final List<GroupResult>? groups;
+
+  TestResult({
+    this.groups,
+  });
+
+  factory TestResult.fromJson(Map<String, dynamic> json) {
+    return TestResult(
+      groups: (json['groups'] as List?)
+          ?.nonNulls
+          .map((e) => GroupResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    return {
+      if (groups != null) 'groups': groups,
+    };
+  }
+}
+
+/// Show Group Result.
+class GroupResult {
+  /// Group result ID.
+  final String? groupId;
+
+  /// Group Result Name.
+  final String? groupName;
+
+  /// Tests under Group Result.
+  final List<TestCaseRun>? tests;
+
+  GroupResult({
+    this.groupId,
+    this.groupName,
+    this.tests,
+  });
+
+  factory GroupResult.fromJson(Map<String, dynamic> json) {
+    return GroupResult(
+      groupId: json['groupId'] as String?,
+      groupName: json['groupName'] as String?,
+      tests: (json['tests'] as List?)
+          ?.nonNulls
+          .map((e) => TestCaseRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    final tests = this.tests;
+    return {
+      if (groupId != null) 'groupId': groupId,
+      if (groupName != null) 'groupName': groupName,
+      if (tests != null) 'tests': tests,
+    };
   }
 }
 
@@ -1587,6 +1626,46 @@ class TestCaseRun {
   }
 }
 
+class Status {
+  static const pass = Status._('PASS');
+  static const fail = Status._('FAIL');
+  static const canceled = Status._('CANCELED');
+  static const pending = Status._('PENDING');
+  static const running = Status._('RUNNING');
+  static const stopping = Status._('STOPPING');
+  static const stopped = Status._('STOPPED');
+  static const passWithWarnings = Status._('PASS_WITH_WARNINGS');
+  static const error = Status._('ERROR');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [
+    pass,
+    fail,
+    canceled,
+    pending,
+    running,
+    stopping,
+    stopped,
+    passWithWarnings,
+    error
+  ];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Provides test case scenario.
 class TestCaseScenario {
   /// Provides test case scenario failure result.
@@ -1680,6 +1759,31 @@ class TestCaseScenario {
   }
 }
 
+class TestCaseScenarioType {
+  static const advanced = TestCaseScenarioType._('Advanced');
+  static const basic = TestCaseScenarioType._('Basic');
+
+  final String value;
+
+  const TestCaseScenarioType._(this.value);
+
+  static const values = [advanced, basic];
+
+  static TestCaseScenarioType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestCaseScenarioType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestCaseScenarioType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class TestCaseScenarioStatus {
   static const pass = TestCaseScenarioStatus._('PASS');
   static const fail = TestCaseScenarioStatus._('FAIL');
@@ -1723,127 +1827,30 @@ class TestCaseScenarioStatus {
   String toString() => value;
 }
 
-class TestCaseScenarioType {
-  static const advanced = TestCaseScenarioType._('Advanced');
-  static const basic = TestCaseScenarioType._('Basic');
+class AuthenticationMethod {
+  static const x509ClientCertificate =
+      AuthenticationMethod._('X509ClientCertificate');
+  static const signatureVersion4 = AuthenticationMethod._('SignatureVersion4');
 
   final String value;
 
-  const TestCaseScenarioType._(this.value);
+  const AuthenticationMethod._(this.value);
 
-  static const values = [advanced, basic];
+  static const values = [x509ClientCertificate, signatureVersion4];
 
-  static TestCaseScenarioType fromString(String value) =>
+  static AuthenticationMethod fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TestCaseScenarioType._(value));
+          orElse: () => AuthenticationMethod._(value));
 
   @override
   bool operator ==(other) =>
-      other is TestCaseScenarioType && other.value == value;
+      other is AuthenticationMethod && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-/// Show each group result.
-class TestResult {
-  /// Show each group of test results.
-  final List<GroupResult>? groups;
-
-  TestResult({
-    this.groups,
-  });
-
-  factory TestResult.fromJson(Map<String, dynamic> json) {
-    return TestResult(
-      groups: (json['groups'] as List?)
-          ?.nonNulls
-          .map((e) => GroupResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groups = this.groups;
-    return {
-      if (groups != null) 'groups': groups,
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateSuiteDefinitionResponse {
-  /// Timestamp of when the test suite was created.
-  final DateTime? createdAt;
-
-  /// Timestamp of when the test suite was updated.
-  final DateTime? lastUpdatedAt;
-
-  /// Amazon Resource Name (ARN) of the updated test suite.
-  final String? suiteDefinitionArn;
-
-  /// Suite definition ID of the updated test suite.
-  final String? suiteDefinitionId;
-
-  /// Updates the suite definition name. This is a required parameter.
-  final String? suiteDefinitionName;
-
-  /// Suite definition version of the updated test suite.
-  final String? suiteDefinitionVersion;
-
-  UpdateSuiteDefinitionResponse({
-    this.createdAt,
-    this.lastUpdatedAt,
-    this.suiteDefinitionArn,
-    this.suiteDefinitionId,
-    this.suiteDefinitionName,
-    this.suiteDefinitionVersion,
-  });
-
-  factory UpdateSuiteDefinitionResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateSuiteDefinitionResponse(
-      createdAt: timeStampFromJson(json['createdAt']),
-      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-      suiteDefinitionArn: json['suiteDefinitionArn'] as String?,
-      suiteDefinitionId: json['suiteDefinitionId'] as String?,
-      suiteDefinitionName: json['suiteDefinitionName'] as String?,
-      suiteDefinitionVersion: json['suiteDefinitionVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final suiteDefinitionArn = this.suiteDefinitionArn;
-    final suiteDefinitionId = this.suiteDefinitionId;
-    final suiteDefinitionName = this.suiteDefinitionName;
-    final suiteDefinitionVersion = this.suiteDefinitionVersion;
-    return {
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (lastUpdatedAt != null)
-        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (suiteDefinitionArn != null) 'suiteDefinitionArn': suiteDefinitionArn,
-      if (suiteDefinitionId != null) 'suiteDefinitionId': suiteDefinitionId,
-      if (suiteDefinitionName != null)
-        'suiteDefinitionName': suiteDefinitionName,
-      if (suiteDefinitionVersion != null)
-        'suiteDefinitionVersion': suiteDefinitionVersion,
-    };
-  }
 }
 
 class ConflictException extends _s.GenericAwsException {

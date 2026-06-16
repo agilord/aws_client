@@ -35,7 +35,6 @@ class NetworkManager {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'networkmanager',
-            signingName: 'networkmanager',
           ),
           region: region,
           credentials: credentials,
@@ -57,12 +56,12 @@ class NetworkManager {
   /// Once the attachment request is accepted by a core network owner, the
   /// attachment is created and connected to a core network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentId] :
   /// The ID of the attachment.
@@ -85,13 +84,13 @@ class NetworkManager {
   /// You can only associate core network Connect peers that have been created
   /// on a core network Connect attachment on a core network.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectPeerId] :
   /// The ID of the Connect peer.
@@ -140,13 +139,13 @@ class NetworkManager {
   /// You cannot associate a customer gateway with more than one device and
   /// link.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [customerGatewayArn] :
   /// The Amazon Resource Name (ARN) of the customer gateway.
@@ -184,13 +183,13 @@ class NetworkManager {
   /// links and a link can be associated to multiple devices. The device and
   /// link must be in the same global network and the same site.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// The ID of the device.
@@ -229,13 +228,13 @@ class NetworkManager {
   /// You cannot associate a transit gateway Connect peer with more than one
   /// device and link.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// The ID of the device.
@@ -278,12 +277,12 @@ class NetworkManager {
   /// appliance. A core network Connect attachment uses an existing VPC
   /// attachment as the underlying transport mechanism.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network where you want to create the attachment.
@@ -300,6 +299,10 @@ class NetworkManager {
   /// Parameter [clientToken] :
   /// The client token associated with the request.
   ///
+  /// Parameter [routingPolicyLabel] :
+  /// The routing policy label to apply to the Connect attachment for traffic
+  /// routing decisions.
+  ///
   /// Parameter [tags] :
   /// The list of key-value tags associated with the request.
   Future<CreateConnectAttachmentResponse> createConnectAttachment({
@@ -308,6 +311,7 @@ class NetworkManager {
     required ConnectAttachmentOptions options,
     required String transportAttachmentId,
     String? clientToken,
+    String? routingPolicyLabel,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -316,6 +320,7 @@ class NetworkManager {
       'Options': options,
       'TransportAttachmentId': transportAttachmentId,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (routingPolicyLabel != null) 'RoutingPolicyLabel': routingPolicyLabel,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -327,16 +332,77 @@ class NetworkManager {
     return CreateConnectAttachmentResponse.fromJson(response);
   }
 
+  /// Creates a connection between two devices. The devices can be a physical or
+  /// virtual appliance that connects to a third-party appliance in a VPC, or a
+  /// physical appliance that connects to another physical appliance in an
+  /// on-premises network.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectedDeviceId] :
+  /// The ID of the second device in the connection.
+  ///
+  /// Parameter [deviceId] :
+  /// The ID of the first device in the connection.
+  ///
+  /// Parameter [globalNetworkId] :
+  /// The ID of the global network.
+  ///
+  /// Parameter [connectedLinkId] :
+  /// The ID of the link for the second device.
+  ///
+  /// Parameter [description] :
+  /// A description of the connection.
+  ///
+  /// Length Constraints: Maximum length of 256 characters.
+  ///
+  /// Parameter [linkId] :
+  /// The ID of the link for the first device.
+  ///
+  /// Parameter [tags] :
+  /// The tags to apply to the resource during creation.
+  Future<CreateConnectionResponse> createConnection({
+    required String connectedDeviceId,
+    required String deviceId,
+    required String globalNetworkId,
+    String? connectedLinkId,
+    String? description,
+    String? linkId,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ConnectedDeviceId': connectedDeviceId,
+      'DeviceId': deviceId,
+      if (connectedLinkId != null) 'ConnectedLinkId': connectedLinkId,
+      if (description != null) 'Description': description,
+      if (linkId != null) 'LinkId': linkId,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/global-networks/${Uri.encodeComponent(globalNetworkId)}/connections',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateConnectionResponse.fromJson(response);
+  }
+
   /// Creates a core network Connect peer for a specified core network connect
   /// attachment between a core network and an appliance. The peer address and
   /// transit gateway address must be the same IP address family (IPv4 or IPv6).
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectAttachmentId] :
   /// The ID of the connection attachment.
@@ -393,77 +459,16 @@ class NetworkManager {
     return CreateConnectPeerResponse.fromJson(response);
   }
 
-  /// Creates a connection between two devices. The devices can be a physical or
-  /// virtual appliance that connects to a third-party appliance in a VPC, or a
-  /// physical appliance that connects to another physical appliance in an
-  /// on-premises network.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [connectedDeviceId] :
-  /// The ID of the second device in the connection.
-  ///
-  /// Parameter [deviceId] :
-  /// The ID of the first device in the connection.
-  ///
-  /// Parameter [globalNetworkId] :
-  /// The ID of the global network.
-  ///
-  /// Parameter [connectedLinkId] :
-  /// The ID of the link for the second device.
-  ///
-  /// Parameter [description] :
-  /// A description of the connection.
-  ///
-  /// Length Constraints: Maximum length of 256 characters.
-  ///
-  /// Parameter [linkId] :
-  /// The ID of the link for the first device.
-  ///
-  /// Parameter [tags] :
-  /// The tags to apply to the resource during creation.
-  Future<CreateConnectionResponse> createConnection({
-    required String connectedDeviceId,
-    required String deviceId,
-    required String globalNetworkId,
-    String? connectedLinkId,
-    String? description,
-    String? linkId,
-    List<Tag>? tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'ConnectedDeviceId': connectedDeviceId,
-      'DeviceId': deviceId,
-      if (connectedLinkId != null) 'ConnectedLinkId': connectedLinkId,
-      if (description != null) 'Description': description,
-      if (linkId != null) 'LinkId': linkId,
-      if (tags != null) 'Tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId)}/connections',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateConnectionResponse.fromJson(response);
-  }
-
   /// Creates a core network as part of your global network, and optionally,
   /// with a core network policy.
   ///
-  /// May throw [CoreNetworkPolicyException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
+  /// May throw [CoreNetworkPolicyException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network that a core network will be a part of.
@@ -502,17 +507,62 @@ class NetworkManager {
     return CreateCoreNetworkResponse.fromJson(response);
   }
 
+  /// Creates an association between a core network and a prefix list for
+  /// routing control.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of the core network to associate with the prefix list.
+  ///
+  /// Parameter [prefixListAlias] :
+  /// An optional alias for the prefix list association.
+  ///
+  /// Parameter [prefixListArn] :
+  /// The ARN of the prefix list to associate with the core network.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<CreateCoreNetworkPrefixListAssociationResponse>
+      createCoreNetworkPrefixListAssociation({
+    required String coreNetworkId,
+    required String prefixListAlias,
+    required String prefixListArn,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CoreNetworkId': coreNetworkId,
+      'PrefixListAlias': prefixListAlias,
+      'PrefixListArn': prefixListArn,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prefix-list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCoreNetworkPrefixListAssociationResponse.fromJson(response);
+  }
+
   /// Creates a new device in a global network. If you specify both a site ID
   /// and a location, the location of the site is used for visualization in the
   /// Network Manager console.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -585,14 +635,70 @@ class NetworkManager {
     return CreateDeviceResponse.fromJson(response);
   }
 
-  /// Creates a new, empty global network.
+  /// Creates an Amazon Web Services Direct Connect gateway attachment
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of the Cloud WAN core network that the Direct Connect gateway
+  /// attachment should be attached to.
+  ///
+  /// Parameter [directConnectGatewayArn] :
+  /// The ARN of the Direct Connect gateway attachment.
+  ///
+  /// Parameter [edgeLocations] :
+  /// One or more core network edge locations that the Direct Connect gateway
+  /// attachment is associated with.
+  ///
+  /// Parameter [clientToken] :
+  /// client token
+  ///
+  /// Parameter [routingPolicyLabel] :
+  /// The routing policy label to apply to the Direct Connect Gateway attachment
+  /// for traffic routing decisions.
+  ///
+  /// Parameter [tags] :
+  /// The key value tags to apply to the Direct Connect gateway attachment
+  /// during creation.
+  Future<CreateDirectConnectGatewayAttachmentResponse>
+      createDirectConnectGatewayAttachment({
+    required String coreNetworkId,
+    required String directConnectGatewayArn,
+    required List<String> edgeLocations,
+    String? clientToken,
+    String? routingPolicyLabel,
+    List<Tag>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'CoreNetworkId': coreNetworkId,
+      'DirectConnectGatewayArn': directConnectGatewayArn,
+      'EdgeLocations': edgeLocations,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (routingPolicyLabel != null) 'RoutingPolicyLabel': routingPolicyLabel,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/direct-connect-gateway-attachments',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDirectConnectGatewayAttachmentResponse.fromJson(response);
+  }
+
+  /// Creates a new, empty global network.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [description] :
   /// A description of the global network.
@@ -620,13 +726,13 @@ class NetworkManager {
 
   /// Creates a new link for a specified site.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [bandwidth] :
   /// The upload speed and download speed in Mbps.
@@ -685,13 +791,13 @@ class NetworkManager {
 
   /// Creates a new site in a global network.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -744,12 +850,12 @@ class NetworkManager {
   /// Creates an Amazon Web Services site-to-site VPN attachment on an edge
   /// location of a core network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network where you're creating a site-to-site VPN
@@ -761,18 +867,24 @@ class NetworkManager {
   /// Parameter [clientToken] :
   /// The client token associated with the request.
   ///
+  /// Parameter [routingPolicyLabel] :
+  /// The routing policy label to apply to the Site-to-Site VPN attachment for
+  /// traffic routing decisions.
+  ///
   /// Parameter [tags] :
   /// The tags associated with the request.
   Future<CreateSiteToSiteVpnAttachmentResponse> createSiteToSiteVpnAttachment({
     required String coreNetworkId,
     required String vpnConnectionArn,
     String? clientToken,
+    String? routingPolicyLabel,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'CoreNetworkId': coreNetworkId,
       'VpnConnectionArn': vpnConnectionArn,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (routingPolicyLabel != null) 'RoutingPolicyLabel': routingPolicyLabel,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -786,12 +898,12 @@ class NetworkManager {
 
   /// Creates a transit gateway peering connection.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -827,12 +939,12 @@ class NetworkManager {
 
   /// Creates a transit gateway route table attachment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [peeringId] :
   /// The ID of the peer for the
@@ -845,6 +957,10 @@ class NetworkManager {
   /// Parameter [clientToken] :
   /// The client token associated with the request.
   ///
+  /// Parameter [routingPolicyLabel] :
+  /// The routing policy label to apply to the Transit Gateway route table
+  /// attachment for traffic routing decisions.
+  ///
   /// Parameter [tags] :
   /// The list of key-value tags associated with the request.
   Future<CreateTransitGatewayRouteTableAttachmentResponse>
@@ -852,12 +968,14 @@ class NetworkManager {
     required String peeringId,
     required String transitGatewayRouteTableArn,
     String? clientToken,
+    String? routingPolicyLabel,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'PeeringId': peeringId,
       'TransitGatewayRouteTableArn': transitGatewayRouteTableArn,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (routingPolicyLabel != null) 'RoutingPolicyLabel': routingPolicyLabel,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -871,12 +989,12 @@ class NetworkManager {
 
   /// Creates a VPC attachment on an edge location of a core network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network for the VPC attachment.
@@ -893,6 +1011,10 @@ class NetworkManager {
   /// Parameter [options] :
   /// Options for the VPC attachment.
   ///
+  /// Parameter [routingPolicyLabel] :
+  /// The routing policy label to apply to the VPC attachment for traffic
+  /// routing decisions.
+  ///
   /// Parameter [tags] :
   /// The key-value tags associated with the request.
   Future<CreateVpcAttachmentResponse> createVpcAttachment({
@@ -901,6 +1023,7 @@ class NetworkManager {
     required String vpcArn,
     String? clientToken,
     VpcOptions? options,
+    String? routingPolicyLabel,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -909,6 +1032,7 @@ class NetworkManager {
       'VpcArn': vpcArn,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (options != null) 'Options': options,
+      if (routingPolicyLabel != null) 'RoutingPolicyLabel': routingPolicyLabel,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -922,12 +1046,12 @@ class NetworkManager {
 
   /// Deletes an attachment. Supports all attachment types.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentId] :
   /// The ID of the attachment to delete.
@@ -943,37 +1067,14 @@ class NetworkManager {
     return DeleteAttachmentResponse.fromJson(response);
   }
 
-  /// Deletes a Connect peer.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [connectPeerId] :
-  /// The ID of the deleted Connect peer.
-  Future<DeleteConnectPeerResponse> deleteConnectPeer({
-    required String connectPeerId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/connect-peers/${Uri.encodeComponent(connectPeerId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeleteConnectPeerResponse.fromJson(response);
-  }
-
   /// Deletes the specified connection in your global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -994,15 +1095,38 @@ class NetworkManager {
     return DeleteConnectionResponse.fromJson(response);
   }
 
+  /// Deletes a Connect peer.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectPeerId] :
+  /// The ID of the deleted Connect peer.
+  Future<DeleteConnectPeerResponse> deleteConnectPeer({
+    required String connectPeerId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/connect-peers/${Uri.encodeComponent(connectPeerId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteConnectPeerResponse.fromJson(response);
+  }
+
   /// Deletes a core network along with all core network policies. This can only
   /// be done if there are no attachments on a core network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The network ID of the deleted core network.
@@ -1021,12 +1145,12 @@ class NetworkManager {
   /// Deletes a policy version from a core network. You can't delete the current
   /// LIVE policy.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network for the deleted policy.
@@ -1048,15 +1172,46 @@ class NetworkManager {
     return DeleteCoreNetworkPolicyVersionResponse.fromJson(response);
   }
 
+  /// Deletes an association between a core network and a prefix list.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of the core network from which to delete the prefix list
+  /// association.
+  ///
+  /// Parameter [prefixListArn] :
+  /// The ARN of the prefix list to disassociate from the core network.
+  Future<DeleteCoreNetworkPrefixListAssociationResponse>
+      deleteCoreNetworkPrefixListAssociation({
+    required String coreNetworkId,
+    required String prefixListArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/prefix-list/${Uri.encodeComponent(prefixListArn)}/core-network/${Uri.encodeComponent(coreNetworkId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteCoreNetworkPrefixListAssociationResponse.fromJson(response);
+  }
+
   /// Deletes an existing device. You must first disassociate the device from
   /// any links and customer gateways.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// The ID of the device.
@@ -1081,12 +1236,12 @@ class NetworkManager {
   /// network objects (devices, links, and sites), deregister all transit
   /// gateways, and delete any core networks.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1105,12 +1260,12 @@ class NetworkManager {
   /// Deletes an existing link. You must first disassociate the link from any
   /// devices and customer gateways.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1133,12 +1288,12 @@ class NetworkManager {
 
   /// Deletes an existing peering connection.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [peeringId] :
   /// The ID of the peering connection to delete.
@@ -1157,11 +1312,11 @@ class NetworkManager {
   /// Deletes a resource policy for the specified resource. This revokes the
   /// access of the principals specified in the resource policy.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the policy to delete.
@@ -1179,12 +1334,12 @@ class NetworkManager {
   /// Deletes an existing site. The site cannot be associated with any device or
   /// link.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1209,12 +1364,12 @@ class NetworkManager {
   /// not delete your transit gateway, or modify any of its attachments. This
   /// action removes any customer gateway associations.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1241,11 +1396,11 @@ class NetworkManager {
   /// gateways in your global network, use
   /// <a>GetTransitGatewayRegistrations</a>.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkIds] :
   /// The IDs of one or more global networks. The maximum is 10.
@@ -1283,12 +1438,12 @@ class NetworkManager {
 
   /// Disassociates a core network Connect peer from a device and a link.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectPeerId] :
   /// The ID of the Connect peer to disassociate from a device.
@@ -1311,12 +1466,12 @@ class NetworkManager {
 
   /// Disassociates a customer gateway from a device and a link.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [customerGatewayArn] :
   /// The Amazon Resource Name (ARN) of the customer gateway.
@@ -1340,12 +1495,12 @@ class NetworkManager {
   /// Disassociates an existing device from a link. You must first disassociate
   /// any customer gateways that are associated with the link.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// The ID of the device.
@@ -1377,12 +1532,12 @@ class NetworkManager {
 
   /// Disassociates a transit gateway Connect peer from a device and link.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1407,12 +1562,12 @@ class NetworkManager {
   /// Executes a change set on your core network. Deploys changes globally based
   /// on the policy submitted..
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -1434,11 +1589,11 @@ class NetworkManager {
 
   /// Returns information about a core network Connect attachment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentId] :
   /// The ID of the attachment.
@@ -1454,84 +1609,14 @@ class NetworkManager {
     return GetConnectAttachmentResponse.fromJson(response);
   }
 
-  /// Returns information about a core network Connect peer.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [connectPeerId] :
-  /// The ID of the Connect peer.
-  Future<GetConnectPeerResponse> getConnectPeer({
-    required String connectPeerId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/connect-peers/${Uri.encodeComponent(connectPeerId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetConnectPeerResponse.fromJson(response);
-  }
-
-  /// Returns information about a core network Connect peer associations.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [globalNetworkId] :
-  /// The ID of the global network.
-  ///
-  /// Parameter [connectPeerIds] :
-  /// The IDs of the Connect peers.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return.
-  ///
-  /// Parameter [nextToken] :
-  /// The token for the next page of results.
-  Future<GetConnectPeerAssociationsResponse> getConnectPeerAssociations({
-    required String globalNetworkId,
-    List<String>? connectPeerIds,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    final $query = <String, List<String>>{
-      if (connectPeerIds != null) 'connectPeerIds': connectPeerIds,
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/global-networks/${Uri.encodeComponent(globalNetworkId)}/connect-peer-associations',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetConnectPeerAssociationsResponse.fromJson(response);
-  }
-
   /// Gets information about one or more of your connections in a global
   /// network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1577,13 +1662,83 @@ class NetworkManager {
     return GetConnectionsResponse.fromJson(response);
   }
 
-  /// Returns information about the LIVE policy for a core network.
+  /// Returns information about a core network Connect peer.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [connectPeerId] :
+  /// The ID of the Connect peer.
+  Future<GetConnectPeerResponse> getConnectPeer({
+    required String connectPeerId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/connect-peers/${Uri.encodeComponent(connectPeerId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetConnectPeerResponse.fromJson(response);
+  }
+
+  /// Returns information about a core network Connect peer associations.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [globalNetworkId] :
+  /// The ID of the global network.
+  ///
+  /// Parameter [connectPeerIds] :
+  /// The IDs of the Connect peers.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<GetConnectPeerAssociationsResponse> getConnectPeerAssociations({
+    required String globalNetworkId,
+    List<String>? connectPeerIds,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $query = <String, List<String>>{
+      if (connectPeerIds != null) 'connectPeerIds': connectPeerIds,
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/global-networks/${Uri.encodeComponent(globalNetworkId)}/connect-peer-associations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetConnectPeerAssociationsResponse.fromJson(response);
+  }
+
+  /// Returns information about the LIVE policy for a core network.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -1601,11 +1756,11 @@ class NetworkManager {
 
   /// Returns information about a core network change event.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -1648,11 +1803,11 @@ class NetworkManager {
   /// Returns a change set between the LIVE core network policy and a submitted
   /// policy.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -1695,11 +1850,11 @@ class NetworkManager {
   /// Returns details about a core network policy. You can get details about
   /// your current live policy or any previous policy version.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -1733,12 +1888,12 @@ class NetworkManager {
   /// Gets the association information for customer gateways that are associated
   /// with devices and links in your global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1784,11 +1939,11 @@ class NetworkManager {
 
   /// Gets information about one or more of your devices in a global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1834,14 +1989,40 @@ class NetworkManager {
     return GetDevicesResponse.fromJson(response);
   }
 
+  /// Returns information about a specific Amazon Web Services Direct Connect
+  /// gateway attachment.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [attachmentId] :
+  /// The ID of the Direct Connect gateway attachment that you want to see
+  /// details about.
+  Future<GetDirectConnectGatewayAttachmentResponse>
+      getDirectConnectGatewayAttachment({
+    required String attachmentId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/direct-connect-gateway-attachments/${Uri.encodeComponent(attachmentId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDirectConnectGatewayAttachmentResponse.fromJson(response);
+  }
+
   /// Gets the link associations for a device or a link. Either the device ID or
   /// the link ID must be specified.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1892,11 +2073,11 @@ class NetworkManager {
   /// If you specify the site ID, you cannot specify the type or provider in the
   /// same request. You can specify the type and provider in the same request.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -1955,10 +2136,10 @@ class NetworkManager {
   /// Gets the count of network resources, by resource type, for the specified
   /// global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2065,11 +2246,11 @@ class NetworkManager {
 
   /// Gets the network resource relationships for the specified global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2206,11 +2387,11 @@ class NetworkManager {
   /// The results include information from the corresponding Describe call for
   /// the resource, minus any sensitive information such as pre-shared keys.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2343,11 +2524,11 @@ class NetworkManager {
 
   /// Gets the network routes of the specified global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2416,11 +2597,11 @@ class NetworkManager {
 
   /// Gets the network telemetry of the specified global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2501,10 +2682,10 @@ class NetworkManager {
 
   /// Returns information about a resource policy.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource.
@@ -2522,11 +2703,11 @@ class NetworkManager {
 
   /// Gets information about the specified route analysis.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2547,36 +2728,13 @@ class NetworkManager {
     return GetRouteAnalysisResponse.fromJson(response);
   }
 
-  /// Returns information about a site-to-site VPN attachment.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [attachmentId] :
-  /// The ID of the attachment.
-  Future<GetSiteToSiteVpnAttachmentResponse> getSiteToSiteVpnAttachment({
-    required String attachmentId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/site-to-site-vpn-attachments/${Uri.encodeComponent(attachmentId)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetSiteToSiteVpnAttachmentResponse.fromJson(response);
-  }
-
   /// Gets information about one or more of your sites in a global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2617,15 +2775,38 @@ class NetworkManager {
     return GetSitesResponse.fromJson(response);
   }
 
+  /// Returns information about a site-to-site VPN attachment.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [attachmentId] :
+  /// The ID of the attachment.
+  Future<GetSiteToSiteVpnAttachmentResponse> getSiteToSiteVpnAttachment({
+    required String attachmentId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/site-to-site-vpn-attachments/${Uri.encodeComponent(attachmentId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSiteToSiteVpnAttachmentResponse.fromJson(response);
+  }
+
   /// Gets information about one or more of your transit gateway Connect peer
   /// associations in a global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2670,11 +2851,11 @@ class NetworkManager {
 
   /// Returns information about a transit gateway peer.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [peeringId] :
   /// The ID of the peering request.
@@ -2693,11 +2874,11 @@ class NetworkManager {
   /// Gets information about the transit gateway registrations in a specified
   /// global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -2742,11 +2923,11 @@ class NetworkManager {
 
   /// Returns information about a transit gateway route table attachment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentId] :
   /// The ID of the transit gateway route table attachment.
@@ -2766,11 +2947,11 @@ class NetworkManager {
 
   /// Returns information about a VPC attachment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentId] :
   /// The ID of the attachment.
@@ -2786,12 +2967,61 @@ class NetworkManager {
     return GetVpcAttachmentResponse.fromJson(response);
   }
 
+  /// Lists the routing policy associations for attachments in a core network.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of the core network to list attachment routing policy associations
+  /// for.
+  ///
+  /// Parameter [attachmentId] :
+  /// The ID of a specific attachment to filter the routing policy associations.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<ListAttachmentRoutingPolicyAssociationsResponse>
+      listAttachmentRoutingPolicyAssociations({
+    required String coreNetworkId,
+    String? attachmentId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $query = <String, List<String>>{
+      if (attachmentId != null) 'attachmentId': [attachmentId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/routing-policy-label/core-network/${Uri.encodeComponent(coreNetworkId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAttachmentRoutingPolicyAssociationsResponse.fromJson(response);
+  }
+
   /// Returns a list of core network attachments.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentType] :
   /// The type of attachment.
@@ -2844,10 +3074,10 @@ class NetworkManager {
 
   /// Returns a list of core network Connect peers.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectAttachmentId] :
   /// The ID of the attachment.
@@ -2891,11 +3121,11 @@ class NetworkManager {
 
   /// Returns a list of core network policy versions.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -2931,12 +3161,144 @@ class NetworkManager {
     return ListCoreNetworkPolicyVersionsResponse.fromJson(response);
   }
 
+  /// Lists the prefix list associations for a core network.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of the core network to list prefix list associations for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [prefixListArn] :
+  /// The ARN of a specific prefix list to filter the associations.
+  Future<ListCoreNetworkPrefixListAssociationsResponse>
+      listCoreNetworkPrefixListAssociations({
+    required String coreNetworkId,
+    int? maxResults,
+    String? nextToken,
+    String? prefixListArn,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (prefixListArn != null) 'prefixListArn': [prefixListArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/prefix-list/core-network/${Uri.encodeComponent(coreNetworkId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCoreNetworkPrefixListAssociationsResponse.fromJson(response);
+  }
+
+  /// Lists routing information for a core network, including routes and their
+  /// attributes.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of the core network to retrieve routing information for.
+  ///
+  /// Parameter [edgeLocation] :
+  /// The edge location to filter routing information by.
+  ///
+  /// Parameter [segmentName] :
+  /// The name of the segment to filter routing information by.
+  ///
+  /// Parameter [communityMatches] :
+  /// BGP community values to match when filtering routing information.
+  ///
+  /// Parameter [exactAsPathMatches] :
+  /// Exact AS path values to match when filtering routing information.
+  ///
+  /// Parameter [localPreferenceMatches] :
+  /// Local preference values to match when filtering routing information.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of routing information entries to return in a single
+  /// page.
+  ///
+  /// Parameter [medMatches] :
+  /// Multi-Exit Discriminator (MED) values to match when filtering routing
+  /// information.
+  ///
+  /// Parameter [nextHopFilters] :
+  /// Filters to apply based on next hop information.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<ListCoreNetworkRoutingInformationResponse>
+      listCoreNetworkRoutingInformation({
+    required String coreNetworkId,
+    required String edgeLocation,
+    required String segmentName,
+    List<String>? communityMatches,
+    List<String>? exactAsPathMatches,
+    List<String>? localPreferenceMatches,
+    int? maxResults,
+    List<String>? medMatches,
+    Map<String, List<String>>? nextHopFilters,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final $payload = <String, dynamic>{
+      'EdgeLocation': edgeLocation,
+      'SegmentName': segmentName,
+      if (communityMatches != null) 'CommunityMatches': communityMatches,
+      if (exactAsPathMatches != null) 'ExactAsPathMatches': exactAsPathMatches,
+      if (localPreferenceMatches != null)
+        'LocalPreferenceMatches': localPreferenceMatches,
+      if (medMatches != null) 'MedMatches': medMatches,
+      if (nextHopFilters != null) 'NextHopFilters': nextHopFilters,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/core-networks/${Uri.encodeComponent(coreNetworkId)}/core-network-routing-information',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCoreNetworkRoutingInformationResponse.fromJson(response);
+  }
+
   /// Returns a list of owned and shared core networks.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -3002,10 +3364,10 @@ class NetworkManager {
 
   /// Lists the peerings for a core network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -3058,11 +3420,11 @@ class NetworkManager {
 
   /// Lists the tags for a specified resource.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -3078,17 +3440,62 @@ class NetworkManager {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Applies a routing policy label to an attachment for traffic routing
+  /// decisions.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [attachmentId] :
+  /// The ID of the attachment to apply the routing policy label to.
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of the core network containing the attachment.
+  ///
+  /// Parameter [routingPolicyLabel] :
+  /// The routing policy label to apply to the attachment.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  Future<PutAttachmentRoutingPolicyLabelResponse>
+      putAttachmentRoutingPolicyLabel({
+    required String attachmentId,
+    required String coreNetworkId,
+    required String routingPolicyLabel,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AttachmentId': attachmentId,
+      'CoreNetworkId': coreNetworkId,
+      'RoutingPolicyLabel': routingPolicyLabel,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/routing-policy-label',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAttachmentRoutingPolicyLabelResponse.fromJson(response);
+  }
+
   /// Creates a new, immutable version of a core network policy. A subsequent
   /// change set is created showing the differences between the LIVE policy and
   /// the submitted policy.
   ///
-  /// May throw [CoreNetworkPolicyException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [CoreNetworkPolicyException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -3129,12 +3536,12 @@ class NetworkManager {
 
   /// Creates or updates a resource policy.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [policyDocument] :
   /// The JSON resource policy document.
@@ -3166,12 +3573,12 @@ class NetworkManager {
   /// Amazon Web Services account that owns the global network. You cannot
   /// register a transit gateway in more than one global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -3197,12 +3604,12 @@ class NetworkManager {
 
   /// Rejects a core network attachment request.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentId] :
   /// The ID of the attachment.
@@ -3218,16 +3625,46 @@ class NetworkManager {
     return RejectAttachmentResponse.fromJson(response);
   }
 
+  /// Removes a routing policy label from an attachment.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [attachmentId] :
+  /// The ID of the attachment to remove the routing policy label from.
+  ///
+  /// Parameter [coreNetworkId] :
+  /// The ID of the core network containing the attachment.
+  Future<RemoveAttachmentRoutingPolicyLabelResponse>
+      removeAttachmentRoutingPolicyLabel({
+    required String attachmentId,
+    required String coreNetworkId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/routing-policy-label/core-network/${Uri.encodeComponent(coreNetworkId)}/attachment/${Uri.encodeComponent(attachmentId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RemoveAttachmentRoutingPolicyLabelResponse.fromJson(response);
+  }
+
   /// Restores a previous policy version as a new, immutable version of a core
   /// network policy. A subsequent change set is created showing the differences
   /// between the LIVE policy and restored policy.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -3253,12 +3690,12 @@ class NetworkManager {
   /// Organization. This can only be called by a management account within the
   /// organization.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [action] :
   /// The action to take for the update request. This can be either
@@ -3284,12 +3721,12 @@ class NetworkManager {
   /// href="https://docs.aws.amazon.com/vpc/latest/tgw/route-analyzer.html">Route
   /// Analyzer</a>.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [destination] :
   /// The destination.
@@ -3332,13 +3769,13 @@ class NetworkManager {
 
   /// Tags a specified resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -3362,12 +3799,12 @@ class NetworkManager {
 
   /// Removes tags from a specified resource.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -3393,12 +3830,12 @@ class NetworkManager {
   /// Updates the information for an existing connection. To remove information
   /// for any of the parameters, specify an empty string.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -3440,12 +3877,12 @@ class NetworkManager {
 
   /// Updates the description of a core network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [coreNetworkId] :
   /// The ID of a core network.
@@ -3471,12 +3908,12 @@ class NetworkManager {
   /// Updates the details for an existing device. To remove information for any
   /// of the parameters, specify an empty string.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// The ID of the device.
@@ -3545,15 +3982,52 @@ class NetworkManager {
     return UpdateDeviceResponse.fromJson(response);
   }
 
+  /// Updates the edge locations associated with an Amazon Web Services Direct
+  /// Connect gateway attachment.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [attachmentId] :
+  /// The ID of the Direct Connect gateway attachment for the updated edge
+  /// locations.
+  ///
+  /// Parameter [edgeLocations] :
+  /// One or more edge locations to update for the Direct Connect gateway
+  /// attachment. The updated array of edge locations overwrites the previous
+  /// array of locations. <code>EdgeLocations</code> is only used for Direct
+  /// Connect gateway attachments.
+  Future<UpdateDirectConnectGatewayAttachmentResponse>
+      updateDirectConnectGatewayAttachment({
+    required String attachmentId,
+    List<String>? edgeLocations,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri:
+          '/direct-connect-gateway-attachments/${Uri.encodeComponent(attachmentId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateDirectConnectGatewayAttachmentResponse.fromJson(response);
+  }
+
   /// Updates an existing global network. To remove information for any of the
   /// parameters, specify an empty string.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of your global network.
@@ -3581,13 +4055,13 @@ class NetworkManager {
   /// Updates the details for an existing link. To remove information for any of
   /// the parameters, specify an empty string.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -3638,12 +4112,12 @@ class NetworkManager {
 
   /// Updates the resource metadata for the specified global network.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -3674,12 +4148,12 @@ class NetworkManager {
   /// Updates the information for an existing site. To remove information for
   /// any of the parameters, specify an empty string.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
@@ -3728,12 +4202,12 @@ class NetworkManager {
 
   /// Updates a VPC attachment.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attachmentId] :
   /// The ID of the attachment.
@@ -3767,37 +4241,6 @@ class NetworkManager {
   }
 }
 
-/// Specifies a location in Amazon Web Services.
-class AWSLocation {
-  /// The Amazon Resource Name (ARN) of the subnet that the device is located in.
-  final String? subnetArn;
-
-  /// The Zone that the device is located in. Specify the ID of an Availability
-  /// Zone, Local Zone, Wavelength Zone, or an Outpost.
-  final String? zone;
-
-  AWSLocation({
-    this.subnetArn,
-    this.zone,
-  });
-
-  factory AWSLocation.fromJson(Map<String, dynamic> json) {
-    return AWSLocation(
-      subnetArn: json['SubnetArn'] as String?,
-      zone: json['Zone'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final subnetArn = this.subnetArn;
-    final zone = this.zone;
-    return {
-      if (subnetArn != null) 'SubnetArn': subnetArn,
-      if (zone != null) 'Zone': zone,
-    };
-  }
-}
-
 class AcceptAttachmentResponse {
   /// The response to the attachment request.
   final Attachment? attachment;
@@ -3818,38 +4261,6 @@ class AcceptAttachmentResponse {
     final attachment = this.attachment;
     return {
       if (attachment != null) 'Attachment': attachment,
-    };
-  }
-}
-
-/// Describes the current status of an account within an Amazon Web Services
-/// Organization, including service-linked roles (SLRs).
-class AccountStatus {
-  /// The ID of an account within the Amazon Web Services Organization.
-  final String? accountId;
-
-  /// The status of SLR deployment for the account.
-  final String? sLRDeploymentStatus;
-
-  AccountStatus({
-    this.accountId,
-    this.sLRDeploymentStatus,
-  });
-
-  factory AccountStatus.fromJson(Map<String, dynamic> json) {
-    return AccountStatus(
-      accountId: json['AccountId'] as String?,
-      sLRDeploymentStatus: json['SLRDeploymentStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final sLRDeploymentStatus = this.sLRDeploymentStatus;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (sLRDeploymentStatus != null)
-        'SLRDeploymentStatus': sLRDeploymentStatus,
     };
   }
 }
@@ -3963,2111 +4374,6 @@ class AssociateTransitGatewayConnectPeerResponse {
   }
 }
 
-/// Describes a core network attachment.
-class Attachment {
-  /// The ID of the attachment.
-  final String? attachmentId;
-
-  /// The policy rule number associated with the attachment.
-  final int? attachmentPolicyRuleNumber;
-
-  /// The type of attachment.
-  final AttachmentType? attachmentType;
-
-  /// The ARN of a core network.
-  final String? coreNetworkArn;
-
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The timestamp when the attachment was created.
-  final DateTime? createdAt;
-
-  /// The Region where the edge is located.
-  final String? edgeLocation;
-
-  /// Describes the error associated with the attachment request.
-  final List<AttachmentError>? lastModificationErrors;
-
-  /// The name of the network function group.
-  final String? networkFunctionGroupName;
-
-  /// The ID of the attachment account owner.
-  final String? ownerAccountId;
-
-  /// Describes a proposed change to a network function group associated with the
-  /// attachment.
-  final ProposedNetworkFunctionGroupChange? proposedNetworkFunctionGroupChange;
-
-  /// The attachment to move from one segment to another.
-  final ProposedSegmentChange? proposedSegmentChange;
-
-  /// The attachment resource ARN.
-  final String? resourceArn;
-
-  /// The name of the segment attachment.
-  final String? segmentName;
-
-  /// The state of the attachment.
-  final AttachmentState? state;
-
-  /// The tags associated with the attachment.
-  final List<Tag>? tags;
-
-  /// The timestamp when the attachment was last updated.
-  final DateTime? updatedAt;
-
-  Attachment({
-    this.attachmentId,
-    this.attachmentPolicyRuleNumber,
-    this.attachmentType,
-    this.coreNetworkArn,
-    this.coreNetworkId,
-    this.createdAt,
-    this.edgeLocation,
-    this.lastModificationErrors,
-    this.networkFunctionGroupName,
-    this.ownerAccountId,
-    this.proposedNetworkFunctionGroupChange,
-    this.proposedSegmentChange,
-    this.resourceArn,
-    this.segmentName,
-    this.state,
-    this.tags,
-    this.updatedAt,
-  });
-
-  factory Attachment.fromJson(Map<String, dynamic> json) {
-    return Attachment(
-      attachmentId: json['AttachmentId'] as String?,
-      attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
-      attachmentType:
-          (json['AttachmentType'] as String?)?.let(AttachmentType.fromString),
-      coreNetworkArn: json['CoreNetworkArn'] as String?,
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      edgeLocation: json['EdgeLocation'] as String?,
-      lastModificationErrors: (json['LastModificationErrors'] as List?)
-          ?.nonNulls
-          .map((e) => AttachmentError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      proposedNetworkFunctionGroupChange:
-          json['ProposedNetworkFunctionGroupChange'] != null
-              ? ProposedNetworkFunctionGroupChange.fromJson(
-                  json['ProposedNetworkFunctionGroupChange']
-                      as Map<String, dynamic>)
-              : null,
-      proposedSegmentChange: json['ProposedSegmentChange'] != null
-          ? ProposedSegmentChange.fromJson(
-              json['ProposedSegmentChange'] as Map<String, dynamic>)
-          : null,
-      resourceArn: json['ResourceArn'] as String?,
-      segmentName: json['SegmentName'] as String?,
-      state: (json['State'] as String?)?.let(AttachmentState.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentId = this.attachmentId;
-    final attachmentPolicyRuleNumber = this.attachmentPolicyRuleNumber;
-    final attachmentType = this.attachmentType;
-    final coreNetworkArn = this.coreNetworkArn;
-    final coreNetworkId = this.coreNetworkId;
-    final createdAt = this.createdAt;
-    final edgeLocation = this.edgeLocation;
-    final lastModificationErrors = this.lastModificationErrors;
-    final networkFunctionGroupName = this.networkFunctionGroupName;
-    final ownerAccountId = this.ownerAccountId;
-    final proposedNetworkFunctionGroupChange =
-        this.proposedNetworkFunctionGroupChange;
-    final proposedSegmentChange = this.proposedSegmentChange;
-    final resourceArn = this.resourceArn;
-    final segmentName = this.segmentName;
-    final state = this.state;
-    final tags = this.tags;
-    final updatedAt = this.updatedAt;
-    return {
-      if (attachmentId != null) 'AttachmentId': attachmentId,
-      if (attachmentPolicyRuleNumber != null)
-        'AttachmentPolicyRuleNumber': attachmentPolicyRuleNumber,
-      if (attachmentType != null) 'AttachmentType': attachmentType.value,
-      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (lastModificationErrors != null)
-        'LastModificationErrors': lastModificationErrors,
-      if (networkFunctionGroupName != null)
-        'NetworkFunctionGroupName': networkFunctionGroupName,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (proposedNetworkFunctionGroupChange != null)
-        'ProposedNetworkFunctionGroupChange':
-            proposedNetworkFunctionGroupChange,
-      if (proposedSegmentChange != null)
-        'ProposedSegmentChange': proposedSegmentChange,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (segmentName != null) 'SegmentName': segmentName,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// Describes the error associated with an attachment request.
-class AttachmentError {
-  /// The error code for the attachment request.
-  final AttachmentErrorCode? code;
-
-  /// The message associated with the error <code>code</code>.
-  final String? message;
-
-  /// The ID of the attachment request.
-  final String? requestId;
-
-  /// The ARN of the requested attachment resource.
-  final String? resourceArn;
-
-  AttachmentError({
-    this.code,
-    this.message,
-    this.requestId,
-    this.resourceArn,
-  });
-
-  factory AttachmentError.fromJson(Map<String, dynamic> json) {
-    return AttachmentError(
-      code: (json['Code'] as String?)?.let(AttachmentErrorCode.fromString),
-      message: json['Message'] as String?,
-      requestId: json['RequestId'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final requestId = this.requestId;
-    final resourceArn = this.resourceArn;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-      if (requestId != null) 'RequestId': requestId,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-    };
-  }
-}
-
-class AttachmentErrorCode {
-  static const vpcNotFound = AttachmentErrorCode._('VPC_NOT_FOUND');
-  static const subnetNotFound = AttachmentErrorCode._('SUBNET_NOT_FOUND');
-  static const subnetDuplicatedInAvailabilityZone =
-      AttachmentErrorCode._('SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE');
-  static const subnetNoFreeAddresses =
-      AttachmentErrorCode._('SUBNET_NO_FREE_ADDRESSES');
-  static const subnetUnsupportedAvailabilityZone =
-      AttachmentErrorCode._('SUBNET_UNSUPPORTED_AVAILABILITY_ZONE');
-  static const subnetNoIpv6Cidrs =
-      AttachmentErrorCode._('SUBNET_NO_IPV6_CIDRS');
-  static const vpnConnectionNotFound =
-      AttachmentErrorCode._('VPN_CONNECTION_NOT_FOUND');
-  static const maximumNoEncapLimitExceeded =
-      AttachmentErrorCode._('MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED');
-
-  final String value;
-
-  const AttachmentErrorCode._(this.value);
-
-  static const values = [
-    vpcNotFound,
-    subnetNotFound,
-    subnetDuplicatedInAvailabilityZone,
-    subnetNoFreeAddresses,
-    subnetUnsupportedAvailabilityZone,
-    subnetNoIpv6Cidrs,
-    vpnConnectionNotFound,
-    maximumNoEncapLimitExceeded
-  ];
-
-  static AttachmentErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttachmentErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AttachmentErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AttachmentState {
-  static const rejected = AttachmentState._('REJECTED');
-  static const pendingAttachmentAcceptance =
-      AttachmentState._('PENDING_ATTACHMENT_ACCEPTANCE');
-  static const creating = AttachmentState._('CREATING');
-  static const failed = AttachmentState._('FAILED');
-  static const available = AttachmentState._('AVAILABLE');
-  static const updating = AttachmentState._('UPDATING');
-  static const pendingNetworkUpdate =
-      AttachmentState._('PENDING_NETWORK_UPDATE');
-  static const pendingTagAcceptance =
-      AttachmentState._('PENDING_TAG_ACCEPTANCE');
-  static const deleting = AttachmentState._('DELETING');
-
-  final String value;
-
-  const AttachmentState._(this.value);
-
-  static const values = [
-    rejected,
-    pendingAttachmentAcceptance,
-    creating,
-    failed,
-    available,
-    updating,
-    pendingNetworkUpdate,
-    pendingTagAcceptance,
-    deleting
-  ];
-
-  static AttachmentState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttachmentState._(value));
-
-  @override
-  bool operator ==(other) => other is AttachmentState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AttachmentType {
-  static const connect = AttachmentType._('CONNECT');
-  static const siteToSiteVpn = AttachmentType._('SITE_TO_SITE_VPN');
-  static const vpc = AttachmentType._('VPC');
-  static const transitGatewayRouteTable =
-      AttachmentType._('TRANSIT_GATEWAY_ROUTE_TABLE');
-
-  final String value;
-
-  const AttachmentType._(this.value);
-
-  static const values = [connect, siteToSiteVpn, vpc, transitGatewayRouteTable];
-
-  static AttachmentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttachmentType._(value));
-
-  @override
-  bool operator ==(other) => other is AttachmentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes bandwidth information.
-class Bandwidth {
-  /// Download speed in Mbps.
-  final int? downloadSpeed;
-
-  /// Upload speed in Mbps.
-  final int? uploadSpeed;
-
-  Bandwidth({
-    this.downloadSpeed,
-    this.uploadSpeed,
-  });
-
-  factory Bandwidth.fromJson(Map<String, dynamic> json) {
-    return Bandwidth(
-      downloadSpeed: json['DownloadSpeed'] as int?,
-      uploadSpeed: json['UploadSpeed'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final downloadSpeed = this.downloadSpeed;
-    final uploadSpeed = this.uploadSpeed;
-    return {
-      if (downloadSpeed != null) 'DownloadSpeed': downloadSpeed,
-      if (uploadSpeed != null) 'UploadSpeed': uploadSpeed,
-    };
-  }
-}
-
-/// Describes the BGP options.
-class BgpOptions {
-  /// The Peer ASN of the BGP.
-  final int? peerAsn;
-
-  BgpOptions({
-    this.peerAsn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final peerAsn = this.peerAsn;
-    return {
-      if (peerAsn != null) 'PeerAsn': peerAsn,
-    };
-  }
-}
-
-class ChangeAction {
-  static const add = ChangeAction._('ADD');
-  static const modify = ChangeAction._('MODIFY');
-  static const remove = ChangeAction._('REMOVE');
-
-  final String value;
-
-  const ChangeAction._(this.value);
-
-  static const values = [add, modify, remove];
-
-  static ChangeAction fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChangeSetState {
-  static const pendingGeneration = ChangeSetState._('PENDING_GENERATION');
-  static const failedGeneration = ChangeSetState._('FAILED_GENERATION');
-  static const readyToExecute = ChangeSetState._('READY_TO_EXECUTE');
-  static const executing = ChangeSetState._('EXECUTING');
-  static const executionSucceeded = ChangeSetState._('EXECUTION_SUCCEEDED');
-  static const outOfDate = ChangeSetState._('OUT_OF_DATE');
-
-  final String value;
-
-  const ChangeSetState._(this.value);
-
-  static const values = [
-    pendingGeneration,
-    failedGeneration,
-    readyToExecute,
-    executing,
-    executionSucceeded,
-    outOfDate
-  ];
-
-  static ChangeSetState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChangeSetState._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeSetState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChangeStatus {
-  static const notStarted = ChangeStatus._('NOT_STARTED');
-  static const inProgress = ChangeStatus._('IN_PROGRESS');
-  static const complete = ChangeStatus._('COMPLETE');
-  static const failed = ChangeStatus._('FAILED');
-
-  final String value;
-
-  const ChangeStatus._(this.value);
-
-  static const values = [notStarted, inProgress, complete, failed];
-
-  static ChangeStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ChangeType {
-  static const coreNetworkSegment = ChangeType._('CORE_NETWORK_SEGMENT');
-  static const networkFunctionGroup = ChangeType._('NETWORK_FUNCTION_GROUP');
-  static const coreNetworkEdge = ChangeType._('CORE_NETWORK_EDGE');
-  static const attachmentMapping = ChangeType._('ATTACHMENT_MAPPING');
-  static const attachmentRoutePropagation =
-      ChangeType._('ATTACHMENT_ROUTE_PROPAGATION');
-  static const attachmentRouteStatic = ChangeType._('ATTACHMENT_ROUTE_STATIC');
-  static const coreNetworkConfiguration =
-      ChangeType._('CORE_NETWORK_CONFIGURATION');
-  static const segmentsConfiguration = ChangeType._('SEGMENTS_CONFIGURATION');
-  static const segmentActionsConfiguration =
-      ChangeType._('SEGMENT_ACTIONS_CONFIGURATION');
-  static const attachmentPoliciesConfiguration =
-      ChangeType._('ATTACHMENT_POLICIES_CONFIGURATION');
-
-  final String value;
-
-  const ChangeType._(this.value);
-
-  static const values = [
-    coreNetworkSegment,
-    networkFunctionGroup,
-    coreNetworkEdge,
-    attachmentMapping,
-    attachmentRoutePropagation,
-    attachmentRouteStatic,
-    coreNetworkConfiguration,
-    segmentsConfiguration,
-    segmentActionsConfiguration,
-    attachmentPoliciesConfiguration
-  ];
-
-  static ChangeType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a core network Connect attachment.
-class ConnectAttachment {
-  /// The attachment details.
-  final Attachment? attachment;
-
-  /// Options for connecting an attachment.
-  final ConnectAttachmentOptions? options;
-
-  /// The ID of the transport attachment.
-  final String? transportAttachmentId;
-
-  ConnectAttachment({
-    this.attachment,
-    this.options,
-    this.transportAttachmentId,
-  });
-
-  factory ConnectAttachment.fromJson(Map<String, dynamic> json) {
-    return ConnectAttachment(
-      attachment: json['Attachment'] != null
-          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
-          : null,
-      options: json['Options'] != null
-          ? ConnectAttachmentOptions.fromJson(
-              json['Options'] as Map<String, dynamic>)
-          : null,
-      transportAttachmentId: json['TransportAttachmentId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachment = this.attachment;
-    final options = this.options;
-    final transportAttachmentId = this.transportAttachmentId;
-    return {
-      if (attachment != null) 'Attachment': attachment,
-      if (options != null) 'Options': options,
-      if (transportAttachmentId != null)
-        'TransportAttachmentId': transportAttachmentId,
-    };
-  }
-}
-
-/// Describes a core network Connect attachment options.
-class ConnectAttachmentOptions {
-  /// The protocol used for the attachment connection.
-  final TunnelProtocol? protocol;
-
-  ConnectAttachmentOptions({
-    this.protocol,
-  });
-
-  factory ConnectAttachmentOptions.fromJson(Map<String, dynamic> json) {
-    return ConnectAttachmentOptions(
-      protocol: (json['Protocol'] as String?)?.let(TunnelProtocol.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final protocol = this.protocol;
-    return {
-      if (protocol != null) 'Protocol': protocol.value,
-    };
-  }
-}
-
-/// Describes a core network Connect peer.
-class ConnectPeer {
-  /// The configuration of the Connect peer.
-  final ConnectPeerConfiguration? configuration;
-
-  /// The ID of the attachment to connect.
-  final String? connectAttachmentId;
-
-  /// The ID of the Connect peer.
-  final String? connectPeerId;
-
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The timestamp when the Connect peer was created.
-  final DateTime? createdAt;
-
-  /// The Connect peer Regions where edges are located.
-  final String? edgeLocation;
-
-  /// Describes the error associated with the attachment request.
-  final List<ConnectPeerError>? lastModificationErrors;
-
-  /// The state of the Connect peer.
-  final ConnectPeerState? state;
-
-  /// The subnet ARN for the Connect peer. This only applies only when the
-  /// protocol is NO_ENCAP.
-  final String? subnetArn;
-
-  /// The list of key-value tags associated with the Connect peer.
-  final List<Tag>? tags;
-
-  ConnectPeer({
-    this.configuration,
-    this.connectAttachmentId,
-    this.connectPeerId,
-    this.coreNetworkId,
-    this.createdAt,
-    this.edgeLocation,
-    this.lastModificationErrors,
-    this.state,
-    this.subnetArn,
-    this.tags,
-  });
-
-  factory ConnectPeer.fromJson(Map<String, dynamic> json) {
-    return ConnectPeer(
-      configuration: json['Configuration'] != null
-          ? ConnectPeerConfiguration.fromJson(
-              json['Configuration'] as Map<String, dynamic>)
-          : null,
-      connectAttachmentId: json['ConnectAttachmentId'] as String?,
-      connectPeerId: json['ConnectPeerId'] as String?,
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      edgeLocation: json['EdgeLocation'] as String?,
-      lastModificationErrors: (json['LastModificationErrors'] as List?)
-          ?.nonNulls
-          .map((e) => ConnectPeerError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      state: (json['State'] as String?)?.let(ConnectPeerState.fromString),
-      subnetArn: json['SubnetArn'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configuration = this.configuration;
-    final connectAttachmentId = this.connectAttachmentId;
-    final connectPeerId = this.connectPeerId;
-    final coreNetworkId = this.coreNetworkId;
-    final createdAt = this.createdAt;
-    final edgeLocation = this.edgeLocation;
-    final lastModificationErrors = this.lastModificationErrors;
-    final state = this.state;
-    final subnetArn = this.subnetArn;
-    final tags = this.tags;
-    return {
-      if (configuration != null) 'Configuration': configuration,
-      if (connectAttachmentId != null)
-        'ConnectAttachmentId': connectAttachmentId,
-      if (connectPeerId != null) 'ConnectPeerId': connectPeerId,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (lastModificationErrors != null)
-        'LastModificationErrors': lastModificationErrors,
-      if (state != null) 'State': state.value,
-      if (subnetArn != null) 'SubnetArn': subnetArn,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Describes a core network Connect peer association.
-class ConnectPeerAssociation {
-  /// The ID of the Connect peer.
-  final String? connectPeerId;
-
-  /// The ID of the device to connect to.
-  final String? deviceId;
-
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The ID of the link.
-  final String? linkId;
-
-  /// The state of the Connect peer association.
-  final ConnectPeerAssociationState? state;
-
-  ConnectPeerAssociation({
-    this.connectPeerId,
-    this.deviceId,
-    this.globalNetworkId,
-    this.linkId,
-    this.state,
-  });
-
-  factory ConnectPeerAssociation.fromJson(Map<String, dynamic> json) {
-    return ConnectPeerAssociation(
-      connectPeerId: json['ConnectPeerId'] as String?,
-      deviceId: json['DeviceId'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      linkId: json['LinkId'] as String?,
-      state: (json['State'] as String?)
-          ?.let(ConnectPeerAssociationState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectPeerId = this.connectPeerId;
-    final deviceId = this.deviceId;
-    final globalNetworkId = this.globalNetworkId;
-    final linkId = this.linkId;
-    final state = this.state;
-    return {
-      if (connectPeerId != null) 'ConnectPeerId': connectPeerId,
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (linkId != null) 'LinkId': linkId,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-class ConnectPeerAssociationState {
-  static const pending = ConnectPeerAssociationState._('PENDING');
-  static const available = ConnectPeerAssociationState._('AVAILABLE');
-  static const deleting = ConnectPeerAssociationState._('DELETING');
-  static const deleted = ConnectPeerAssociationState._('DELETED');
-
-  final String value;
-
-  const ConnectPeerAssociationState._(this.value);
-
-  static const values = [pending, available, deleting, deleted];
-
-  static ConnectPeerAssociationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectPeerAssociationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConnectPeerAssociationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a core network BGP configuration.
-class ConnectPeerBgpConfiguration {
-  /// The address of a core network.
-  final String? coreNetworkAddress;
-
-  /// The ASN of the Coret Network.
-  final int? coreNetworkAsn;
-
-  /// The address of a core network Connect peer.
-  final String? peerAddress;
-
-  /// The ASN of the Connect peer.
-  final int? peerAsn;
-
-  ConnectPeerBgpConfiguration({
-    this.coreNetworkAddress,
-    this.coreNetworkAsn,
-    this.peerAddress,
-    this.peerAsn,
-  });
-
-  factory ConnectPeerBgpConfiguration.fromJson(Map<String, dynamic> json) {
-    return ConnectPeerBgpConfiguration(
-      coreNetworkAddress: json['CoreNetworkAddress'] as String?,
-      coreNetworkAsn: json['CoreNetworkAsn'] as int?,
-      peerAddress: json['PeerAddress'] as String?,
-      peerAsn: json['PeerAsn'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkAddress = this.coreNetworkAddress;
-    final coreNetworkAsn = this.coreNetworkAsn;
-    final peerAddress = this.peerAddress;
-    final peerAsn = this.peerAsn;
-    return {
-      if (coreNetworkAddress != null) 'CoreNetworkAddress': coreNetworkAddress,
-      if (coreNetworkAsn != null) 'CoreNetworkAsn': coreNetworkAsn,
-      if (peerAddress != null) 'PeerAddress': peerAddress,
-      if (peerAsn != null) 'PeerAsn': peerAsn,
-    };
-  }
-}
-
-/// Describes a core network Connect peer configuration.
-class ConnectPeerConfiguration {
-  /// The Connect peer BGP configurations.
-  final List<ConnectPeerBgpConfiguration>? bgpConfigurations;
-
-  /// The IP address of a core network.
-  final String? coreNetworkAddress;
-
-  /// The inside IP addresses used for a Connect peer configuration.
-  final List<String>? insideCidrBlocks;
-
-  /// The IP address of the Connect peer.
-  final String? peerAddress;
-
-  /// The protocol used for a Connect peer configuration.
-  final TunnelProtocol? protocol;
-
-  ConnectPeerConfiguration({
-    this.bgpConfigurations,
-    this.coreNetworkAddress,
-    this.insideCidrBlocks,
-    this.peerAddress,
-    this.protocol,
-  });
-
-  factory ConnectPeerConfiguration.fromJson(Map<String, dynamic> json) {
-    return ConnectPeerConfiguration(
-      bgpConfigurations: (json['BgpConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ConnectPeerBgpConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      coreNetworkAddress: json['CoreNetworkAddress'] as String?,
-      insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      peerAddress: json['PeerAddress'] as String?,
-      protocol: (json['Protocol'] as String?)?.let(TunnelProtocol.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bgpConfigurations = this.bgpConfigurations;
-    final coreNetworkAddress = this.coreNetworkAddress;
-    final insideCidrBlocks = this.insideCidrBlocks;
-    final peerAddress = this.peerAddress;
-    final protocol = this.protocol;
-    return {
-      if (bgpConfigurations != null) 'BgpConfigurations': bgpConfigurations,
-      if (coreNetworkAddress != null) 'CoreNetworkAddress': coreNetworkAddress,
-      if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
-      if (peerAddress != null) 'PeerAddress': peerAddress,
-      if (protocol != null) 'Protocol': protocol.value,
-    };
-  }
-}
-
-/// Describes an error associated with a Connect peer request
-class ConnectPeerError {
-  /// The error code for the Connect peer request.
-  final ConnectPeerErrorCode? code;
-
-  /// The message associated with the error <code>code</code>.
-  final String? message;
-
-  /// The ID of the Connect peer request.
-  final String? requestId;
-
-  /// The ARN of the requested Connect peer resource.
-  final String? resourceArn;
-
-  ConnectPeerError({
-    this.code,
-    this.message,
-    this.requestId,
-    this.resourceArn,
-  });
-
-  factory ConnectPeerError.fromJson(Map<String, dynamic> json) {
-    return ConnectPeerError(
-      code: (json['Code'] as String?)?.let(ConnectPeerErrorCode.fromString),
-      message: json['Message'] as String?,
-      requestId: json['RequestId'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final requestId = this.requestId;
-    final resourceArn = this.resourceArn;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-      if (requestId != null) 'RequestId': requestId,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-    };
-  }
-}
-
-class ConnectPeerErrorCode {
-  static const edgeLocationNoFreeIps =
-      ConnectPeerErrorCode._('EDGE_LOCATION_NO_FREE_IPS');
-  static const edgeLocationPeerDuplicate =
-      ConnectPeerErrorCode._('EDGE_LOCATION_PEER_DUPLICATE');
-  static const subnetNotFound = ConnectPeerErrorCode._('SUBNET_NOT_FOUND');
-  static const ipOutsideSubnetCidrRange =
-      ConnectPeerErrorCode._('IP_OUTSIDE_SUBNET_CIDR_RANGE');
-  static const invalidInsideCidrBlock =
-      ConnectPeerErrorCode._('INVALID_INSIDE_CIDR_BLOCK');
-  static const noAssociatedCidrBlock =
-      ConnectPeerErrorCode._('NO_ASSOCIATED_CIDR_BLOCK');
-
-  final String value;
-
-  const ConnectPeerErrorCode._(this.value);
-
-  static const values = [
-    edgeLocationNoFreeIps,
-    edgeLocationPeerDuplicate,
-    subnetNotFound,
-    ipOutsideSubnetCidrRange,
-    invalidInsideCidrBlock,
-    noAssociatedCidrBlock
-  ];
-
-  static ConnectPeerErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectPeerErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConnectPeerErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ConnectPeerState {
-  static const creating = ConnectPeerState._('CREATING');
-  static const failed = ConnectPeerState._('FAILED');
-  static const available = ConnectPeerState._('AVAILABLE');
-  static const deleting = ConnectPeerState._('DELETING');
-
-  final String value;
-
-  const ConnectPeerState._(this.value);
-
-  static const values = [creating, failed, available, deleting];
-
-  static ConnectPeerState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectPeerState._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectPeerState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary description of a Connect peer.
-class ConnectPeerSummary {
-  /// The ID of a Connect peer attachment.
-  final String? connectAttachmentId;
-
-  /// The ID of a Connect peer.
-  final String? connectPeerId;
-
-  /// The state of a Connect peer.
-  final ConnectPeerState? connectPeerState;
-
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The timestamp when a Connect peer was created.
-  final DateTime? createdAt;
-
-  /// The Region where the edge is located.
-  final String? edgeLocation;
-
-  /// The subnet ARN for the Connect peer summary.
-  final String? subnetArn;
-
-  /// The list of key-value tags associated with the Connect peer summary.
-  final List<Tag>? tags;
-
-  ConnectPeerSummary({
-    this.connectAttachmentId,
-    this.connectPeerId,
-    this.connectPeerState,
-    this.coreNetworkId,
-    this.createdAt,
-    this.edgeLocation,
-    this.subnetArn,
-    this.tags,
-  });
-
-  factory ConnectPeerSummary.fromJson(Map<String, dynamic> json) {
-    return ConnectPeerSummary(
-      connectAttachmentId: json['ConnectAttachmentId'] as String?,
-      connectPeerId: json['ConnectPeerId'] as String?,
-      connectPeerState: (json['ConnectPeerState'] as String?)
-          ?.let(ConnectPeerState.fromString),
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      edgeLocation: json['EdgeLocation'] as String?,
-      subnetArn: json['SubnetArn'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectAttachmentId = this.connectAttachmentId;
-    final connectPeerId = this.connectPeerId;
-    final connectPeerState = this.connectPeerState;
-    final coreNetworkId = this.coreNetworkId;
-    final createdAt = this.createdAt;
-    final edgeLocation = this.edgeLocation;
-    final subnetArn = this.subnetArn;
-    final tags = this.tags;
-    return {
-      if (connectAttachmentId != null)
-        'ConnectAttachmentId': connectAttachmentId,
-      if (connectPeerId != null) 'ConnectPeerId': connectPeerId,
-      if (connectPeerState != null) 'ConnectPeerState': connectPeerState.value,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (subnetArn != null) 'SubnetArn': subnetArn,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Describes a connection.
-class Connection {
-  /// The ID of the second device in the connection.
-  final String? connectedDeviceId;
-
-  /// The ID of the link for the second device in the connection.
-  final String? connectedLinkId;
-
-  /// The Amazon Resource Name (ARN) of the connection.
-  final String? connectionArn;
-
-  /// The ID of the connection.
-  final String? connectionId;
-
-  /// The date and time that the connection was created.
-  final DateTime? createdAt;
-
-  /// The description of the connection.
-  final String? description;
-
-  /// The ID of the first device in the connection.
-  final String? deviceId;
-
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The ID of the link for the first device in the connection.
-  final String? linkId;
-
-  /// The state of the connection.
-  final ConnectionState? state;
-
-  /// The tags for the connection.
-  final List<Tag>? tags;
-
-  Connection({
-    this.connectedDeviceId,
-    this.connectedLinkId,
-    this.connectionArn,
-    this.connectionId,
-    this.createdAt,
-    this.description,
-    this.deviceId,
-    this.globalNetworkId,
-    this.linkId,
-    this.state,
-    this.tags,
-  });
-
-  factory Connection.fromJson(Map<String, dynamic> json) {
-    return Connection(
-      connectedDeviceId: json['ConnectedDeviceId'] as String?,
-      connectedLinkId: json['ConnectedLinkId'] as String?,
-      connectionArn: json['ConnectionArn'] as String?,
-      connectionId: json['ConnectionId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      deviceId: json['DeviceId'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      linkId: json['LinkId'] as String?,
-      state: (json['State'] as String?)?.let(ConnectionState.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectedDeviceId = this.connectedDeviceId;
-    final connectedLinkId = this.connectedLinkId;
-    final connectionArn = this.connectionArn;
-    final connectionId = this.connectionId;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final deviceId = this.deviceId;
-    final globalNetworkId = this.globalNetworkId;
-    final linkId = this.linkId;
-    final state = this.state;
-    final tags = this.tags;
-    return {
-      if (connectedDeviceId != null) 'ConnectedDeviceId': connectedDeviceId,
-      if (connectedLinkId != null) 'ConnectedLinkId': connectedLinkId,
-      if (connectionArn != null) 'ConnectionArn': connectionArn,
-      if (connectionId != null) 'ConnectionId': connectionId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (linkId != null) 'LinkId': linkId,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Describes connection health.
-class ConnectionHealth {
-  /// The connection status.
-  final ConnectionStatus? status;
-
-  /// The time the status was last updated.
-  final DateTime? timestamp;
-
-  /// The connection type.
-  final ConnectionType? type;
-
-  ConnectionHealth({
-    this.status,
-    this.timestamp,
-    this.type,
-  });
-
-  factory ConnectionHealth.fromJson(Map<String, dynamic> json) {
-    return ConnectionHealth(
-      status: (json['Status'] as String?)?.let(ConnectionStatus.fromString),
-      timestamp: timeStampFromJson(json['Timestamp']),
-      type: (json['Type'] as String?)?.let(ConnectionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final timestamp = this.timestamp;
-    final type = this.type;
-    return {
-      if (status != null) 'Status': status.value,
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ConnectionState {
-  static const pending = ConnectionState._('PENDING');
-  static const available = ConnectionState._('AVAILABLE');
-  static const deleting = ConnectionState._('DELETING');
-  static const updating = ConnectionState._('UPDATING');
-
-  final String value;
-
-  const ConnectionState._(this.value);
-
-  static const values = [pending, available, deleting, updating];
-
-  static ConnectionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionState._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ConnectionStatus {
-  static const up = ConnectionStatus._('UP');
-  static const down = ConnectionStatus._('DOWN');
-
-  final String value;
-
-  const ConnectionStatus._(this.value);
-
-  static const values = [up, down];
-
-  static ConnectionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ConnectionType {
-  static const bgp = ConnectionType._('BGP');
-  static const ipsec = ConnectionType._('IPSEC');
-
-  final String value;
-
-  const ConnectionType._(this.value);
-
-  static const values = [bgp, ipsec];
-
-  static ConnectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionType._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a core network.
-class CoreNetwork {
-  /// The ARN of a core network.
-  final String? coreNetworkArn;
-
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The timestamp when a core network was created.
-  final DateTime? createdAt;
-
-  /// The description of a core network.
-  final String? description;
-
-  /// The edges within a core network.
-  final List<CoreNetworkEdge>? edges;
-
-  /// The ID of the global network that your core network is a part of.
-  final String? globalNetworkId;
-
-  /// The network function groups associated with a core network.
-  final List<CoreNetworkNetworkFunctionGroup>? networkFunctionGroups;
-
-  /// The segments within a core network.
-  final List<CoreNetworkSegment>? segments;
-
-  /// The current state of a core network.
-  final CoreNetworkState? state;
-
-  /// The list of key-value tags associated with a core network.
-  final List<Tag>? tags;
-
-  CoreNetwork({
-    this.coreNetworkArn,
-    this.coreNetworkId,
-    this.createdAt,
-    this.description,
-    this.edges,
-    this.globalNetworkId,
-    this.networkFunctionGroups,
-    this.segments,
-    this.state,
-    this.tags,
-  });
-
-  factory CoreNetwork.fromJson(Map<String, dynamic> json) {
-    return CoreNetwork(
-      coreNetworkArn: json['CoreNetworkArn'] as String?,
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      edges: (json['Edges'] as List?)
-          ?.nonNulls
-          .map((e) => CoreNetworkEdge.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      networkFunctionGroups: (json['NetworkFunctionGroups'] as List?)
-          ?.nonNulls
-          .map((e) => CoreNetworkNetworkFunctionGroup.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      segments: (json['Segments'] as List?)
-          ?.nonNulls
-          .map((e) => CoreNetworkSegment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      state: (json['State'] as String?)?.let(CoreNetworkState.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkArn = this.coreNetworkArn;
-    final coreNetworkId = this.coreNetworkId;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final edges = this.edges;
-    final globalNetworkId = this.globalNetworkId;
-    final networkFunctionGroups = this.networkFunctionGroups;
-    final segments = this.segments;
-    final state = this.state;
-    final tags = this.tags;
-    return {
-      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (edges != null) 'Edges': edges,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (networkFunctionGroups != null)
-        'NetworkFunctionGroups': networkFunctionGroups,
-      if (segments != null) 'Segments': segments,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Details describing a core network change.
-class CoreNetworkChange {
-  /// The action to take for a core network.
-  final ChangeAction? action;
-
-  /// The resource identifier.
-  final String? identifier;
-
-  /// Uniquely identifies the path for a change within the changeset. For example,
-  /// the <code>IdentifierPath</code> for a core network segment change might be
-  /// <code>"CORE_NETWORK_SEGMENT/us-east-1/devsegment"</code>.
-  final String? identifierPath;
-
-  /// The new value for a core network
-  final CoreNetworkChangeValues? newValues;
-
-  /// The previous values for a core network.
-  final CoreNetworkChangeValues? previousValues;
-
-  /// The type of change.
-  final ChangeType? type;
-
-  CoreNetworkChange({
-    this.action,
-    this.identifier,
-    this.identifierPath,
-    this.newValues,
-    this.previousValues,
-    this.type,
-  });
-
-  factory CoreNetworkChange.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkChange(
-      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
-      identifier: json['Identifier'] as String?,
-      identifierPath: json['IdentifierPath'] as String?,
-      newValues: json['NewValues'] != null
-          ? CoreNetworkChangeValues.fromJson(
-              json['NewValues'] as Map<String, dynamic>)
-          : null,
-      previousValues: json['PreviousValues'] != null
-          ? CoreNetworkChangeValues.fromJson(
-              json['PreviousValues'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(ChangeType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final identifier = this.identifier;
-    final identifierPath = this.identifierPath;
-    final newValues = this.newValues;
-    final previousValues = this.previousValues;
-    final type = this.type;
-    return {
-      if (action != null) 'Action': action.value,
-      if (identifier != null) 'Identifier': identifier,
-      if (identifierPath != null) 'IdentifierPath': identifierPath,
-      if (newValues != null) 'NewValues': newValues,
-      if (previousValues != null) 'PreviousValues': previousValues,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Describes a core network change event. This can be a change to a segment,
-/// attachment, route, etc.
-class CoreNetworkChangeEvent {
-  /// The action taken for the change event.
-  final ChangeAction? action;
-
-  /// The timestamp for an event change in status.
-  final DateTime? eventTime;
-
-  /// Uniquely identifies the path for a change within the changeset. For example,
-  /// the <code>IdentifierPath</code> for a core network segment change might be
-  /// <code>"CORE_NETWORK_SEGMENT/us-east-1/devsegment"</code>.
-  final String? identifierPath;
-
-  /// The status of the core network change event.
-  final ChangeStatus? status;
-
-  /// Describes the type of change event.
-  final ChangeType? type;
-
-  /// Details of the change event.
-  final CoreNetworkChangeEventValues? values;
-
-  CoreNetworkChangeEvent({
-    this.action,
-    this.eventTime,
-    this.identifierPath,
-    this.status,
-    this.type,
-    this.values,
-  });
-
-  factory CoreNetworkChangeEvent.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkChangeEvent(
-      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
-      eventTime: timeStampFromJson(json['EventTime']),
-      identifierPath: json['IdentifierPath'] as String?,
-      status: (json['Status'] as String?)?.let(ChangeStatus.fromString),
-      type: (json['Type'] as String?)?.let(ChangeType.fromString),
-      values: json['Values'] != null
-          ? CoreNetworkChangeEventValues.fromJson(
-              json['Values'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final eventTime = this.eventTime;
-    final identifierPath = this.identifierPath;
-    final status = this.status;
-    final type = this.type;
-    final values = this.values;
-    return {
-      if (action != null) 'Action': action.value,
-      if (eventTime != null) 'EventTime': unixTimestampToJson(eventTime),
-      if (identifierPath != null) 'IdentifierPath': identifierPath,
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type.value,
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// Describes a core network change event.
-class CoreNetworkChangeEventValues {
-  /// The ID of the attachment if the change event is associated with an
-  /// attachment.
-  final String? attachmentId;
-
-  /// For a <code>STATIC_ROUTE</code> event, this is the IP address.
-  final String? cidr;
-
-  /// The edge location for the core network change event.
-  final String? edgeLocation;
-
-  /// The changed network function group name.
-  final String? networkFunctionGroupName;
-
-  /// The segment name if the change event is associated with a segment.
-  final String? segmentName;
-
-  CoreNetworkChangeEventValues({
-    this.attachmentId,
-    this.cidr,
-    this.edgeLocation,
-    this.networkFunctionGroupName,
-    this.segmentName,
-  });
-
-  factory CoreNetworkChangeEventValues.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkChangeEventValues(
-      attachmentId: json['AttachmentId'] as String?,
-      cidr: json['Cidr'] as String?,
-      edgeLocation: json['EdgeLocation'] as String?,
-      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
-      segmentName: json['SegmentName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentId = this.attachmentId;
-    final cidr = this.cidr;
-    final edgeLocation = this.edgeLocation;
-    final networkFunctionGroupName = this.networkFunctionGroupName;
-    final segmentName = this.segmentName;
-    return {
-      if (attachmentId != null) 'AttachmentId': attachmentId,
-      if (cidr != null) 'Cidr': cidr,
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (networkFunctionGroupName != null)
-        'NetworkFunctionGroupName': networkFunctionGroupName,
-      if (segmentName != null) 'SegmentName': segmentName,
-    };
-  }
-}
-
-/// Describes a core network change.
-class CoreNetworkChangeValues {
-  /// The ASN of a core network.
-  final int? asn;
-
-  /// The IP addresses used for a core network.
-  final String? cidr;
-
-  /// The ID of the destination.
-  final String? destinationIdentifier;
-
-  /// The Regions where edges are located in a core network.
-  final List<String>? edgeLocations;
-
-  /// The inside IP addresses used for core network change values.
-  final List<String>? insideCidrBlocks;
-
-  /// The network function group name if the change event is associated with a
-  /// network function group.
-  final String? networkFunctionGroupName;
-
-  /// The names of the segments in a core network.
-  final String? segmentName;
-
-  /// Describes the service insertion action.
-  final List<ServiceInsertionAction>? serviceInsertionActions;
-
-  /// The shared segments for a core network change value.
-  final List<String>? sharedSegments;
-
-  CoreNetworkChangeValues({
-    this.asn,
-    this.cidr,
-    this.destinationIdentifier,
-    this.edgeLocations,
-    this.insideCidrBlocks,
-    this.networkFunctionGroupName,
-    this.segmentName,
-    this.serviceInsertionActions,
-    this.sharedSegments,
-  });
-
-  factory CoreNetworkChangeValues.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkChangeValues(
-      asn: json['Asn'] as int?,
-      cidr: json['Cidr'] as String?,
-      destinationIdentifier: json['DestinationIdentifier'] as String?,
-      edgeLocations: (json['EdgeLocations'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
-      segmentName: json['SegmentName'] as String?,
-      serviceInsertionActions: (json['ServiceInsertionActions'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => ServiceInsertionAction.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      sharedSegments: (json['SharedSegments'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final asn = this.asn;
-    final cidr = this.cidr;
-    final destinationIdentifier = this.destinationIdentifier;
-    final edgeLocations = this.edgeLocations;
-    final insideCidrBlocks = this.insideCidrBlocks;
-    final networkFunctionGroupName = this.networkFunctionGroupName;
-    final segmentName = this.segmentName;
-    final serviceInsertionActions = this.serviceInsertionActions;
-    final sharedSegments = this.sharedSegments;
-    return {
-      if (asn != null) 'Asn': asn,
-      if (cidr != null) 'Cidr': cidr,
-      if (destinationIdentifier != null)
-        'DestinationIdentifier': destinationIdentifier,
-      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
-      if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
-      if (networkFunctionGroupName != null)
-        'NetworkFunctionGroupName': networkFunctionGroupName,
-      if (segmentName != null) 'SegmentName': segmentName,
-      if (serviceInsertionActions != null)
-        'ServiceInsertionActions': serviceInsertionActions,
-      if (sharedSegments != null) 'SharedSegments': sharedSegments,
-    };
-  }
-}
-
-/// Describes a core network edge.
-class CoreNetworkEdge {
-  /// The ASN of a core network edge.
-  final int? asn;
-
-  /// The Region where a core network edge is located.
-  final String? edgeLocation;
-
-  /// The inside IP addresses used for core network edges.
-  final List<String>? insideCidrBlocks;
-
-  CoreNetworkEdge({
-    this.asn,
-    this.edgeLocation,
-    this.insideCidrBlocks,
-  });
-
-  factory CoreNetworkEdge.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkEdge(
-      asn: json['Asn'] as int?,
-      edgeLocation: json['EdgeLocation'] as String?,
-      insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final asn = this.asn;
-    final edgeLocation = this.edgeLocation;
-    final insideCidrBlocks = this.insideCidrBlocks;
-    return {
-      if (asn != null) 'Asn': asn,
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
-    };
-  }
-}
-
-/// Describes a network function group.
-class CoreNetworkNetworkFunctionGroup {
-  /// The core network edge locations.
-  final List<String>? edgeLocations;
-
-  /// The name of the network function group.
-  final String? name;
-
-  /// The segments associated with the network function group.
-  final ServiceInsertionSegments? segments;
-
-  CoreNetworkNetworkFunctionGroup({
-    this.edgeLocations,
-    this.name,
-    this.segments,
-  });
-
-  factory CoreNetworkNetworkFunctionGroup.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkNetworkFunctionGroup(
-      edgeLocations: (json['EdgeLocations'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      name: json['Name'] as String?,
-      segments: json['Segments'] != null
-          ? ServiceInsertionSegments.fromJson(
-              json['Segments'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final edgeLocations = this.edgeLocations;
-    final name = this.name;
-    final segments = this.segments;
-    return {
-      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
-      if (name != null) 'Name': name,
-      if (segments != null) 'Segments': segments,
-    };
-  }
-}
-
-/// Describes a core network
-class CoreNetworkNetworkFunctionGroupIdentifier {
-  /// The ID of the core network.
-  final String? coreNetworkId;
-
-  /// The location for the core network edge.
-  final String? edgeLocation;
-
-  /// The network function group name.
-  final String? networkFunctionGroupName;
-
-  CoreNetworkNetworkFunctionGroupIdentifier({
-    this.coreNetworkId,
-    this.edgeLocation,
-    this.networkFunctionGroupName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkId = this.coreNetworkId;
-    final edgeLocation = this.edgeLocation;
-    final networkFunctionGroupName = this.networkFunctionGroupName;
-    return {
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (networkFunctionGroupName != null)
-        'NetworkFunctionGroupName': networkFunctionGroupName,
-    };
-  }
-}
-
-/// Describes a core network policy. You can have only one LIVE Core Policy.
-class CoreNetworkPolicy {
-  /// Whether a core network policy is the current LIVE policy or the most
-  /// recently submitted policy.
-  final CoreNetworkPolicyAlias? alias;
-
-  /// The state of a core network policy.
-  final ChangeSetState? changeSetState;
-
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The timestamp when a core network policy was created.
-  final DateTime? createdAt;
-
-  /// The description of a core network policy.
-  final String? description;
-
-  /// Describes a core network policy.
-  final Object? policyDocument;
-
-  /// Describes any errors in a core network policy.
-  final List<CoreNetworkPolicyError>? policyErrors;
-
-  /// The ID of the policy version.
-  final int? policyVersionId;
-
-  CoreNetworkPolicy({
-    this.alias,
-    this.changeSetState,
-    this.coreNetworkId,
-    this.createdAt,
-    this.description,
-    this.policyDocument,
-    this.policyErrors,
-    this.policyVersionId,
-  });
-
-  factory CoreNetworkPolicy.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkPolicy(
-      alias: (json['Alias'] as String?)?.let(CoreNetworkPolicyAlias.fromString),
-      changeSetState:
-          (json['ChangeSetState'] as String?)?.let(ChangeSetState.fromString),
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      policyDocument: json['PolicyDocument'] == null
-          ? null
-          : jsonDecode(json['PolicyDocument'] as String),
-      policyErrors: (json['PolicyErrors'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => CoreNetworkPolicyError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      policyVersionId: json['PolicyVersionId'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alias = this.alias;
-    final changeSetState = this.changeSetState;
-    final coreNetworkId = this.coreNetworkId;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final policyDocument = this.policyDocument;
-    final policyErrors = this.policyErrors;
-    final policyVersionId = this.policyVersionId;
-    return {
-      if (alias != null) 'Alias': alias.value,
-      if (changeSetState != null) 'ChangeSetState': changeSetState.value,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (policyDocument != null) 'PolicyDocument': jsonEncode(policyDocument),
-      if (policyErrors != null) 'PolicyErrors': policyErrors,
-      if (policyVersionId != null) 'PolicyVersionId': policyVersionId,
-    };
-  }
-}
-
-class CoreNetworkPolicyAlias {
-  static const live = CoreNetworkPolicyAlias._('LIVE');
-  static const latest = CoreNetworkPolicyAlias._('LATEST');
-
-  final String value;
-
-  const CoreNetworkPolicyAlias._(this.value);
-
-  static const values = [live, latest];
-
-  static CoreNetworkPolicyAlias fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CoreNetworkPolicyAlias._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CoreNetworkPolicyAlias && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides details about an error in a core network policy.
-class CoreNetworkPolicyError {
-  /// The error code associated with a core network policy error.
-  final String errorCode;
-
-  /// The message associated with a core network policy error code.
-  final String message;
-
-  /// The JSON path where the error was discovered in the policy document.
-  final String? path;
-
-  CoreNetworkPolicyError({
-    required this.errorCode,
-    required this.message,
-    this.path,
-  });
-
-  factory CoreNetworkPolicyError.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkPolicyError(
-      errorCode: (json['ErrorCode'] as String?) ?? '',
-      message: (json['Message'] as String?) ?? '',
-      path: json['Path'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final message = this.message;
-    final path = this.path;
-    return {
-      'ErrorCode': errorCode,
-      'Message': message,
-      if (path != null) 'Path': path,
-    };
-  }
-}
-
-/// Describes a core network policy version.
-class CoreNetworkPolicyVersion {
-  /// Whether a core network policy is the current policy or the most recently
-  /// submitted policy.
-  final CoreNetworkPolicyAlias? alias;
-
-  /// The status of the policy version change set.
-  final ChangeSetState? changeSetState;
-
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The timestamp when a core network policy version was created.
-  final DateTime? createdAt;
-
-  /// The description of a core network policy version.
-  final String? description;
-
-  /// The ID of the policy version.
-  final int? policyVersionId;
-
-  CoreNetworkPolicyVersion({
-    this.alias,
-    this.changeSetState,
-    this.coreNetworkId,
-    this.createdAt,
-    this.description,
-    this.policyVersionId,
-  });
-
-  factory CoreNetworkPolicyVersion.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkPolicyVersion(
-      alias: (json['Alias'] as String?)?.let(CoreNetworkPolicyAlias.fromString),
-      changeSetState:
-          (json['ChangeSetState'] as String?)?.let(ChangeSetState.fromString),
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      policyVersionId: json['PolicyVersionId'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alias = this.alias;
-    final changeSetState = this.changeSetState;
-    final coreNetworkId = this.coreNetworkId;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final policyVersionId = this.policyVersionId;
-    return {
-      if (alias != null) 'Alias': alias.value,
-      if (changeSetState != null) 'ChangeSetState': changeSetState.value,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (policyVersionId != null) 'PolicyVersionId': policyVersionId,
-    };
-  }
-}
-
-/// Describes a core network segment, which are dedicated routes. Only
-/// attachments within this segment can communicate with each other.
-class CoreNetworkSegment {
-  /// The Regions where the edges are located.
-  final List<String>? edgeLocations;
-
-  /// The name of a core network segment.
-  final String? name;
-
-  /// The shared segments of a core network.
-  final List<String>? sharedSegments;
-
-  CoreNetworkSegment({
-    this.edgeLocations,
-    this.name,
-    this.sharedSegments,
-  });
-
-  factory CoreNetworkSegment.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkSegment(
-      edgeLocations: (json['EdgeLocations'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      name: json['Name'] as String?,
-      sharedSegments: (json['SharedSegments'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final edgeLocations = this.edgeLocations;
-    final name = this.name;
-    final sharedSegments = this.sharedSegments;
-    return {
-      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
-      if (name != null) 'Name': name,
-      if (sharedSegments != null) 'SharedSegments': sharedSegments,
-    };
-  }
-}
-
-/// Returns details about a core network edge.
-class CoreNetworkSegmentEdgeIdentifier {
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The Region where the segment edge is located.
-  final String? edgeLocation;
-
-  /// The name of the segment edge.
-  final String? segmentName;
-
-  CoreNetworkSegmentEdgeIdentifier({
-    this.coreNetworkId,
-    this.edgeLocation,
-    this.segmentName,
-  });
-
-  factory CoreNetworkSegmentEdgeIdentifier.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkSegmentEdgeIdentifier(
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      edgeLocation: json['EdgeLocation'] as String?,
-      segmentName: json['SegmentName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkId = this.coreNetworkId;
-    final edgeLocation = this.edgeLocation;
-    final segmentName = this.segmentName;
-    return {
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (segmentName != null) 'SegmentName': segmentName,
-    };
-  }
-}
-
-class CoreNetworkState {
-  static const creating = CoreNetworkState._('CREATING');
-  static const updating = CoreNetworkState._('UPDATING');
-  static const available = CoreNetworkState._('AVAILABLE');
-  static const deleting = CoreNetworkState._('DELETING');
-
-  final String value;
-
-  const CoreNetworkState._(this.value);
-
-  static const values = [creating, updating, available, deleting];
-
-  static CoreNetworkState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CoreNetworkState._(value));
-
-  @override
-  bool operator ==(other) => other is CoreNetworkState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns summary information about a core network.
-class CoreNetworkSummary {
-  /// a core network ARN.
-  final String? coreNetworkArn;
-
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The description of a core network.
-  final String? description;
-
-  /// The global network ID.
-  final String? globalNetworkId;
-
-  /// The ID of the account owner.
-  final String? ownerAccountId;
-
-  /// The state of a core network.
-  final CoreNetworkState? state;
-
-  /// The key-value tags associated with a core network summary.
-  final List<Tag>? tags;
-
-  CoreNetworkSummary({
-    this.coreNetworkArn,
-    this.coreNetworkId,
-    this.description,
-    this.globalNetworkId,
-    this.ownerAccountId,
-    this.state,
-    this.tags,
-  });
-
-  factory CoreNetworkSummary.fromJson(Map<String, dynamic> json) {
-    return CoreNetworkSummary(
-      coreNetworkArn: json['CoreNetworkArn'] as String?,
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      description: json['Description'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      state: (json['State'] as String?)?.let(CoreNetworkState.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkArn = this.coreNetworkArn;
-    final coreNetworkId = this.coreNetworkId;
-    final description = this.description;
-    final globalNetworkId = this.globalNetworkId;
-    final ownerAccountId = this.ownerAccountId;
-    final state = this.state;
-    final tags = this.tags;
-    return {
-      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (description != null) 'Description': description,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
 class CreateConnectAttachmentResponse {
   /// The response to a Connect attachment request.
   final ConnectAttachment? connectAttachment;
@@ -6089,30 +4395,6 @@ class CreateConnectAttachmentResponse {
     final connectAttachment = this.connectAttachment;
     return {
       if (connectAttachment != null) 'ConnectAttachment': connectAttachment,
-    };
-  }
-}
-
-class CreateConnectPeerResponse {
-  /// The response to the request.
-  final ConnectPeer? connectPeer;
-
-  CreateConnectPeerResponse({
-    this.connectPeer,
-  });
-
-  factory CreateConnectPeerResponse.fromJson(Map<String, dynamic> json) {
-    return CreateConnectPeerResponse(
-      connectPeer: json['ConnectPeer'] != null
-          ? ConnectPeer.fromJson(json['ConnectPeer'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectPeer = this.connectPeer;
-    return {
-      if (connectPeer != null) 'ConnectPeer': connectPeer,
     };
   }
 }
@@ -6141,6 +4423,30 @@ class CreateConnectionResponse {
   }
 }
 
+class CreateConnectPeerResponse {
+  /// The response to the request.
+  final ConnectPeer? connectPeer;
+
+  CreateConnectPeerResponse({
+    this.connectPeer,
+  });
+
+  factory CreateConnectPeerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConnectPeerResponse(
+      connectPeer: json['ConnectPeer'] != null
+          ? ConnectPeer.fromJson(json['ConnectPeer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectPeer = this.connectPeer;
+    return {
+      if (connectPeer != null) 'ConnectPeer': connectPeer,
+    };
+  }
+}
+
 class CreateCoreNetworkResponse {
   /// Returns details about a core network.
   final CoreNetwork? coreNetwork;
@@ -6165,6 +4471,43 @@ class CreateCoreNetworkResponse {
   }
 }
 
+class CreateCoreNetworkPrefixListAssociationResponse {
+  /// The ID of the core network associated with the prefix list.
+  final String? coreNetworkId;
+
+  /// The alias of the prefix list association, if provided.
+  final String? prefixListAlias;
+
+  /// The ARN of the prefix list that was associated with the core network.
+  final String? prefixListArn;
+
+  CreateCoreNetworkPrefixListAssociationResponse({
+    this.coreNetworkId,
+    this.prefixListAlias,
+    this.prefixListArn,
+  });
+
+  factory CreateCoreNetworkPrefixListAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCoreNetworkPrefixListAssociationResponse(
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      prefixListAlias: json['PrefixListAlias'] as String?,
+      prefixListArn: json['PrefixListArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkId = this.coreNetworkId;
+    final prefixListAlias = this.prefixListAlias;
+    final prefixListArn = this.prefixListArn;
+    return {
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (prefixListAlias != null) 'PrefixListAlias': prefixListAlias,
+      if (prefixListArn != null) 'PrefixListArn': prefixListArn,
+    };
+  }
+}
+
 class CreateDeviceResponse {
   /// Information about the device.
   final Device? device;
@@ -6185,6 +4528,35 @@ class CreateDeviceResponse {
     final device = this.device;
     return {
       if (device != null) 'Device': device,
+    };
+  }
+}
+
+class CreateDirectConnectGatewayAttachmentResponse {
+  /// Describes the details of a <code>CreateDirectConnectGatewayAttachment</code>
+  /// request.
+  final DirectConnectGatewayAttachment? directConnectGatewayAttachment;
+
+  CreateDirectConnectGatewayAttachmentResponse({
+    this.directConnectGatewayAttachment,
+  });
+
+  factory CreateDirectConnectGatewayAttachmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateDirectConnectGatewayAttachmentResponse(
+      directConnectGatewayAttachment: json['DirectConnectGatewayAttachment'] !=
+              null
+          ? DirectConnectGatewayAttachment.fromJson(
+              json['DirectConnectGatewayAttachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAttachment = this.directConnectGatewayAttachment;
+    return {
+      if (directConnectGatewayAttachment != null)
+        'DirectConnectGatewayAttachment': directConnectGatewayAttachment,
     };
   }
 }
@@ -6373,85 +4745,6 @@ class CreateVpcAttachmentResponse {
   }
 }
 
-/// Describes the association between a customer gateway, a device, and a link.
-class CustomerGatewayAssociation {
-  /// The Amazon Resource Name (ARN) of the customer gateway.
-  final String? customerGatewayArn;
-
-  /// The ID of the device.
-  final String? deviceId;
-
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The ID of the link.
-  final String? linkId;
-
-  /// The association state.
-  final CustomerGatewayAssociationState? state;
-
-  CustomerGatewayAssociation({
-    this.customerGatewayArn,
-    this.deviceId,
-    this.globalNetworkId,
-    this.linkId,
-    this.state,
-  });
-
-  factory CustomerGatewayAssociation.fromJson(Map<String, dynamic> json) {
-    return CustomerGatewayAssociation(
-      customerGatewayArn: json['CustomerGatewayArn'] as String?,
-      deviceId: json['DeviceId'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      linkId: json['LinkId'] as String?,
-      state: (json['State'] as String?)
-          ?.let(CustomerGatewayAssociationState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customerGatewayArn = this.customerGatewayArn;
-    final deviceId = this.deviceId;
-    final globalNetworkId = this.globalNetworkId;
-    final linkId = this.linkId;
-    final state = this.state;
-    return {
-      if (customerGatewayArn != null) 'CustomerGatewayArn': customerGatewayArn,
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (linkId != null) 'LinkId': linkId,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-class CustomerGatewayAssociationState {
-  static const pending = CustomerGatewayAssociationState._('PENDING');
-  static const available = CustomerGatewayAssociationState._('AVAILABLE');
-  static const deleting = CustomerGatewayAssociationState._('DELETING');
-  static const deleted = CustomerGatewayAssociationState._('DELETED');
-
-  final String value;
-
-  const CustomerGatewayAssociationState._(this.value);
-
-  static const values = [pending, available, deleting, deleted];
-
-  static CustomerGatewayAssociationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomerGatewayAssociationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomerGatewayAssociationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeleteAttachmentResponse {
   /// Information about the deleted attachment.
   final Attachment? attachment;
@@ -6472,6 +4765,30 @@ class DeleteAttachmentResponse {
     final attachment = this.attachment;
     return {
       if (attachment != null) 'Attachment': attachment,
+    };
+  }
+}
+
+class DeleteConnectionResponse {
+  /// Information about the connection.
+  final Connection? connection;
+
+  DeleteConnectionResponse({
+    this.connection,
+  });
+
+  factory DeleteConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
     };
   }
 }
@@ -6500,26 +4817,26 @@ class DeleteConnectPeerResponse {
   }
 }
 
-class DeleteConnectionResponse {
-  /// Information about the connection.
-  final Connection? connection;
+class DeleteCoreNetworkResponse {
+  /// Information about the deleted core network.
+  final CoreNetwork? coreNetwork;
 
-  DeleteConnectionResponse({
-    this.connection,
+  DeleteCoreNetworkResponse({
+    this.coreNetwork,
   });
 
-  factory DeleteConnectionResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteConnectionResponse(
-      connection: json['Connection'] != null
-          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+  factory DeleteCoreNetworkResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteCoreNetworkResponse(
+      coreNetwork: json['CoreNetwork'] != null
+          ? CoreNetwork.fromJson(json['CoreNetwork'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final connection = this.connection;
+    final coreNetwork = this.coreNetwork;
     return {
-      if (connection != null) 'Connection': connection,
+      if (coreNetwork != null) 'CoreNetwork': coreNetwork,
     };
   }
 }
@@ -6550,26 +4867,33 @@ class DeleteCoreNetworkPolicyVersionResponse {
   }
 }
 
-class DeleteCoreNetworkResponse {
-  /// Information about the deleted core network.
-  final CoreNetwork? coreNetwork;
+class DeleteCoreNetworkPrefixListAssociationResponse {
+  /// The ID of the core network from which the prefix list association was
+  /// deleted.
+  final String? coreNetworkId;
 
-  DeleteCoreNetworkResponse({
-    this.coreNetwork,
+  /// The ARN of the prefix list that was disassociated from the core network.
+  final String? prefixListArn;
+
+  DeleteCoreNetworkPrefixListAssociationResponse({
+    this.coreNetworkId,
+    this.prefixListArn,
   });
 
-  factory DeleteCoreNetworkResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteCoreNetworkResponse(
-      coreNetwork: json['CoreNetwork'] != null
-          ? CoreNetwork.fromJson(json['CoreNetwork'] as Map<String, dynamic>)
-          : null,
+  factory DeleteCoreNetworkPrefixListAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteCoreNetworkPrefixListAssociationResponse(
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      prefixListArn: json['PrefixListArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final coreNetwork = this.coreNetwork;
+    final coreNetworkId = this.coreNetworkId;
+    final prefixListArn = this.prefixListArn;
     return {
-      if (coreNetwork != null) 'CoreNetwork': coreNetwork,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (prefixListArn != null) 'PrefixListArn': prefixListArn,
     };
   }
 }
@@ -6765,152 +5089,6 @@ class DescribeGlobalNetworksResponse {
   }
 }
 
-/// Describes a device.
-class Device {
-  /// The Amazon Web Services location of the device.
-  final AWSLocation? awsLocation;
-
-  /// The date and time that the site was created.
-  final DateTime? createdAt;
-
-  /// The description of the device.
-  final String? description;
-
-  /// The Amazon Resource Name (ARN) of the device.
-  final String? deviceArn;
-
-  /// The ID of the device.
-  final String? deviceId;
-
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The site location.
-  final Location? location;
-
-  /// The device model.
-  final String? model;
-
-  /// The device serial number.
-  final String? serialNumber;
-
-  /// The site ID.
-  final String? siteId;
-
-  /// The device state.
-  final DeviceState? state;
-
-  /// The tags for the device.
-  final List<Tag>? tags;
-
-  /// The device type.
-  final String? type;
-
-  /// The device vendor.
-  final String? vendor;
-
-  Device({
-    this.awsLocation,
-    this.createdAt,
-    this.description,
-    this.deviceArn,
-    this.deviceId,
-    this.globalNetworkId,
-    this.location,
-    this.model,
-    this.serialNumber,
-    this.siteId,
-    this.state,
-    this.tags,
-    this.type,
-    this.vendor,
-  });
-
-  factory Device.fromJson(Map<String, dynamic> json) {
-    return Device(
-      awsLocation: json['AWSLocation'] != null
-          ? AWSLocation.fromJson(json['AWSLocation'] as Map<String, dynamic>)
-          : null,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      deviceArn: json['DeviceArn'] as String?,
-      deviceId: json['DeviceId'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      location: json['Location'] != null
-          ? Location.fromJson(json['Location'] as Map<String, dynamic>)
-          : null,
-      model: json['Model'] as String?,
-      serialNumber: json['SerialNumber'] as String?,
-      siteId: json['SiteId'] as String?,
-      state: (json['State'] as String?)?.let(DeviceState.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: json['Type'] as String?,
-      vendor: json['Vendor'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsLocation = this.awsLocation;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final deviceArn = this.deviceArn;
-    final deviceId = this.deviceId;
-    final globalNetworkId = this.globalNetworkId;
-    final location = this.location;
-    final model = this.model;
-    final serialNumber = this.serialNumber;
-    final siteId = this.siteId;
-    final state = this.state;
-    final tags = this.tags;
-    final type = this.type;
-    final vendor = this.vendor;
-    return {
-      if (awsLocation != null) 'AWSLocation': awsLocation,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (deviceArn != null) 'DeviceArn': deviceArn,
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (location != null) 'Location': location,
-      if (model != null) 'Model': model,
-      if (serialNumber != null) 'SerialNumber': serialNumber,
-      if (siteId != null) 'SiteId': siteId,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type,
-      if (vendor != null) 'Vendor': vendor,
-    };
-  }
-}
-
-class DeviceState {
-  static const pending = DeviceState._('PENDING');
-  static const available = DeviceState._('AVAILABLE');
-  static const deleting = DeviceState._('DELETING');
-  static const updating = DeviceState._('UPDATING');
-
-  final String value;
-
-  const DeviceState._(this.value);
-
-  static const values = [pending, available, deleting, updating];
-
-  static DeviceState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DeviceState._(value));
-
-  @override
-  bool operator ==(other) => other is DeviceState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DisassociateConnectPeerResponse {
   /// Describes the Connect peer association.
   final ConnectPeerAssociation? connectPeerAssociation;
@@ -7021,39 +5199,6 @@ class DisassociateTransitGatewayConnectPeerResponse {
   }
 }
 
-/// Describes the edge that's used for the override.
-class EdgeOverride {
-  /// The list of edge locations.
-  final List<List<String>>? edgeSets;
-
-  /// The edge that should be used when overriding the current edge order.
-  final String? useEdge;
-
-  EdgeOverride({
-    this.edgeSets,
-    this.useEdge,
-  });
-
-  factory EdgeOverride.fromJson(Map<String, dynamic> json) {
-    return EdgeOverride(
-      edgeSets: (json['EdgeSets'] as List?)
-          ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
-          .toList(),
-      useEdge: json['UseEdge'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final edgeSets = this.edgeSets;
-    final useEdge = this.useEdge;
-    return {
-      if (edgeSets != null) 'EdgeSets': edgeSets,
-      if (useEdge != null) 'UseEdge': useEdge,
-    };
-  }
-}
-
 class ExecuteCoreNetworkChangeSetResponse {
   ExecuteCoreNetworkChangeSetResponse();
 
@@ -7087,6 +5232,62 @@ class GetConnectAttachmentResponse {
     final connectAttachment = this.connectAttachment;
     return {
       if (connectAttachment != null) 'ConnectAttachment': connectAttachment,
+    };
+  }
+}
+
+class GetConnectionsResponse {
+  /// Information about the connections.
+  final List<Connection>? connections;
+
+  /// The token to use for the next page of results.
+  final String? nextToken;
+
+  GetConnectionsResponse({
+    this.connections,
+    this.nextToken,
+  });
+
+  factory GetConnectionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectionsResponse(
+      connections: (json['Connections'] as List?)
+          ?.nonNulls
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    final nextToken = this.nextToken;
+    return {
+      if (connections != null) 'Connections': connections,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class GetConnectPeerResponse {
+  /// Returns information about a core network Connect peer.
+  final ConnectPeer? connectPeer;
+
+  GetConnectPeerResponse({
+    this.connectPeer,
+  });
+
+  factory GetConnectPeerResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectPeerResponse(
+      connectPeer: json['ConnectPeer'] != null
+          ? ConnectPeer.fromJson(json['ConnectPeer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectPeer = this.connectPeer;
+    return {
+      if (connectPeer != null) 'ConnectPeer': connectPeer,
     };
   }
 }
@@ -7126,58 +5327,26 @@ class GetConnectPeerAssociationsResponse {
   }
 }
 
-class GetConnectPeerResponse {
-  /// Returns information about a core network Connect peer.
-  final ConnectPeer? connectPeer;
+class GetCoreNetworkResponse {
+  /// Details about a core network.
+  final CoreNetwork? coreNetwork;
 
-  GetConnectPeerResponse({
-    this.connectPeer,
+  GetCoreNetworkResponse({
+    this.coreNetwork,
   });
 
-  factory GetConnectPeerResponse.fromJson(Map<String, dynamic> json) {
-    return GetConnectPeerResponse(
-      connectPeer: json['ConnectPeer'] != null
-          ? ConnectPeer.fromJson(json['ConnectPeer'] as Map<String, dynamic>)
+  factory GetCoreNetworkResponse.fromJson(Map<String, dynamic> json) {
+    return GetCoreNetworkResponse(
+      coreNetwork: json['CoreNetwork'] != null
+          ? CoreNetwork.fromJson(json['CoreNetwork'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final connectPeer = this.connectPeer;
+    final coreNetwork = this.coreNetwork;
     return {
-      if (connectPeer != null) 'ConnectPeer': connectPeer,
-    };
-  }
-}
-
-class GetConnectionsResponse {
-  /// Information about the connections.
-  final List<Connection>? connections;
-
-  /// The token to use for the next page of results.
-  final String? nextToken;
-
-  GetConnectionsResponse({
-    this.connections,
-    this.nextToken,
-  });
-
-  factory GetConnectionsResponse.fromJson(Map<String, dynamic> json) {
-    return GetConnectionsResponse(
-      connections: (json['Connections'] as List?)
-          ?.nonNulls
-          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connections = this.connections;
-    final nextToken = this.nextToken;
-    return {
-      if (connections != null) 'Connections': connections,
-      if (nextToken != null) 'NextToken': nextToken,
+      if (coreNetwork != null) 'CoreNetwork': coreNetwork,
     };
   }
 }
@@ -7274,30 +5443,6 @@ class GetCoreNetworkPolicyResponse {
   }
 }
 
-class GetCoreNetworkResponse {
-  /// Details about a core network.
-  final CoreNetwork? coreNetwork;
-
-  GetCoreNetworkResponse({
-    this.coreNetwork,
-  });
-
-  factory GetCoreNetworkResponse.fromJson(Map<String, dynamic> json) {
-    return GetCoreNetworkResponse(
-      coreNetwork: json['CoreNetwork'] != null
-          ? CoreNetwork.fromJson(json['CoreNetwork'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetwork = this.coreNetwork;
-    return {
-      if (coreNetwork != null) 'CoreNetwork': coreNetwork,
-    };
-  }
-}
-
 class GetCustomerGatewayAssociationsResponse {
   /// The customer gateway associations.
   final List<CustomerGatewayAssociation>? customerGatewayAssociations;
@@ -7362,6 +5507,34 @@ class GetDevicesResponse {
     return {
       if (devices != null) 'Devices': devices,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class GetDirectConnectGatewayAttachmentResponse {
+  /// Shows details about the Direct Connect gateway attachment.
+  final DirectConnectGatewayAttachment? directConnectGatewayAttachment;
+
+  GetDirectConnectGatewayAttachmentResponse({
+    this.directConnectGatewayAttachment,
+  });
+
+  factory GetDirectConnectGatewayAttachmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetDirectConnectGatewayAttachmentResponse(
+      directConnectGatewayAttachment: json['DirectConnectGatewayAttachment'] !=
+              null
+          ? DirectConnectGatewayAttachment.fromJson(
+              json['DirectConnectGatewayAttachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAttachment = this.directConnectGatewayAttachment;
+    return {
+      if (directConnectGatewayAttachment != null)
+        'DirectConnectGatewayAttachment': directConnectGatewayAttachment,
     };
   }
 }
@@ -7668,33 +5841,6 @@ class GetRouteAnalysisResponse {
   }
 }
 
-class GetSiteToSiteVpnAttachmentResponse {
-  /// Describes the site-to-site attachment.
-  final SiteToSiteVpnAttachment? siteToSiteVpnAttachment;
-
-  GetSiteToSiteVpnAttachmentResponse({
-    this.siteToSiteVpnAttachment,
-  });
-
-  factory GetSiteToSiteVpnAttachmentResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetSiteToSiteVpnAttachmentResponse(
-      siteToSiteVpnAttachment: json['SiteToSiteVpnAttachment'] != null
-          ? SiteToSiteVpnAttachment.fromJson(
-              json['SiteToSiteVpnAttachment'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final siteToSiteVpnAttachment = this.siteToSiteVpnAttachment;
-    return {
-      if (siteToSiteVpnAttachment != null)
-        'SiteToSiteVpnAttachment': siteToSiteVpnAttachment,
-    };
-  }
-}
-
 class GetSitesResponse {
   /// The token for the next page of results.
   final String? nextToken;
@@ -7723,6 +5869,33 @@ class GetSitesResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (sites != null) 'Sites': sites,
+    };
+  }
+}
+
+class GetSiteToSiteVpnAttachmentResponse {
+  /// Describes the site-to-site attachment.
+  final SiteToSiteVpnAttachment? siteToSiteVpnAttachment;
+
+  GetSiteToSiteVpnAttachmentResponse({
+    this.siteToSiteVpnAttachment,
+  });
+
+  factory GetSiteToSiteVpnAttachmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetSiteToSiteVpnAttachmentResponse(
+      siteToSiteVpnAttachment: json['SiteToSiteVpnAttachment'] != null
+          ? SiteToSiteVpnAttachment.fromJson(
+              json['SiteToSiteVpnAttachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final siteToSiteVpnAttachment = this.siteToSiteVpnAttachment;
+    return {
+      if (siteToSiteVpnAttachment != null)
+        'SiteToSiteVpnAttachment': siteToSiteVpnAttachment,
     };
   }
 }
@@ -7884,290 +6057,43 @@ class GetVpcAttachmentResponse {
   }
 }
 
-/// Describes a global network. This is a single private network acting as a
-/// high-level container for your network objects, including an Amazon Web
-/// Services-managed Core Network.
-class GlobalNetwork {
-  /// The date and time that the global network was created.
-  final DateTime? createdAt;
+class ListAttachmentRoutingPolicyAssociationsResponse {
+  /// The list of attachment routing policy associations.
+  final List<AttachmentRoutingPolicyAssociationSummary>?
+      attachmentRoutingPolicyAssociations;
 
-  /// The description of the global network.
-  final String? description;
+  /// The token for the next page of results.
+  final String? nextToken;
 
-  /// The Amazon Resource Name (ARN) of the global network.
-  final String? globalNetworkArn;
-
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The state of the global network.
-  final GlobalNetworkState? state;
-
-  /// The tags for the global network.
-  final List<Tag>? tags;
-
-  GlobalNetwork({
-    this.createdAt,
-    this.description,
-    this.globalNetworkArn,
-    this.globalNetworkId,
-    this.state,
-    this.tags,
+  ListAttachmentRoutingPolicyAssociationsResponse({
+    this.attachmentRoutingPolicyAssociations,
+    this.nextToken,
   });
 
-  factory GlobalNetwork.fromJson(Map<String, dynamic> json) {
-    return GlobalNetwork(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      globalNetworkArn: json['GlobalNetworkArn'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      state: (json['State'] as String?)?.let(GlobalNetworkState.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory ListAttachmentRoutingPolicyAssociationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAttachmentRoutingPolicyAssociationsResponse(
+      attachmentRoutingPolicyAssociations:
+          (json['AttachmentRoutingPolicyAssociations'] as List?)
+              ?.nonNulls
+              .map((e) => AttachmentRoutingPolicyAssociationSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final globalNetworkArn = this.globalNetworkArn;
-    final globalNetworkId = this.globalNetworkId;
-    final state = this.state;
-    final tags = this.tags;
+    final attachmentRoutingPolicyAssociations =
+        this.attachmentRoutingPolicyAssociations;
+    final nextToken = this.nextToken;
     return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (globalNetworkArn != null) 'GlobalNetworkArn': globalNetworkArn,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
+      if (attachmentRoutingPolicyAssociations != null)
+        'AttachmentRoutingPolicyAssociations':
+            attachmentRoutingPolicyAssociations,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
-}
-
-class GlobalNetworkState {
-  static const pending = GlobalNetworkState._('PENDING');
-  static const available = GlobalNetworkState._('AVAILABLE');
-  static const deleting = GlobalNetworkState._('DELETING');
-  static const updating = GlobalNetworkState._('UPDATING');
-
-  final String value;
-
-  const GlobalNetworkState._(this.value);
-
-  static const values = [pending, available, deleting, updating];
-
-  static GlobalNetworkState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GlobalNetworkState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GlobalNetworkState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a link.
-class Link {
-  /// The bandwidth for the link.
-  final Bandwidth? bandwidth;
-
-  /// The date and time that the link was created.
-  final DateTime? createdAt;
-
-  /// The description of the link.
-  final String? description;
-
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The Amazon Resource Name (ARN) of the link.
-  final String? linkArn;
-
-  /// The ID of the link.
-  final String? linkId;
-
-  /// The provider of the link.
-  final String? provider;
-
-  /// The ID of the site.
-  final String? siteId;
-
-  /// The state of the link.
-  final LinkState? state;
-
-  /// The tags for the link.
-  final List<Tag>? tags;
-
-  /// The type of the link.
-  final String? type;
-
-  Link({
-    this.bandwidth,
-    this.createdAt,
-    this.description,
-    this.globalNetworkId,
-    this.linkArn,
-    this.linkId,
-    this.provider,
-    this.siteId,
-    this.state,
-    this.tags,
-    this.type,
-  });
-
-  factory Link.fromJson(Map<String, dynamic> json) {
-    return Link(
-      bandwidth: json['Bandwidth'] != null
-          ? Bandwidth.fromJson(json['Bandwidth'] as Map<String, dynamic>)
-          : null,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      linkArn: json['LinkArn'] as String?,
-      linkId: json['LinkId'] as String?,
-      provider: json['Provider'] as String?,
-      siteId: json['SiteId'] as String?,
-      state: (json['State'] as String?)?.let(LinkState.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bandwidth = this.bandwidth;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final globalNetworkId = this.globalNetworkId;
-    final linkArn = this.linkArn;
-    final linkId = this.linkId;
-    final provider = this.provider;
-    final siteId = this.siteId;
-    final state = this.state;
-    final tags = this.tags;
-    final type = this.type;
-    return {
-      if (bandwidth != null) 'Bandwidth': bandwidth,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (linkArn != null) 'LinkArn': linkArn,
-      if (linkId != null) 'LinkId': linkId,
-      if (provider != null) 'Provider': provider,
-      if (siteId != null) 'SiteId': siteId,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Describes the association between a device and a link.
-class LinkAssociation {
-  /// The device ID for the link association.
-  final String? deviceId;
-
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The state of the association.
-  final LinkAssociationState? linkAssociationState;
-
-  /// The ID of the link.
-  final String? linkId;
-
-  LinkAssociation({
-    this.deviceId,
-    this.globalNetworkId,
-    this.linkAssociationState,
-    this.linkId,
-  });
-
-  factory LinkAssociation.fromJson(Map<String, dynamic> json) {
-    return LinkAssociation(
-      deviceId: json['DeviceId'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      linkAssociationState: (json['LinkAssociationState'] as String?)
-          ?.let(LinkAssociationState.fromString),
-      linkId: json['LinkId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deviceId = this.deviceId;
-    final globalNetworkId = this.globalNetworkId;
-    final linkAssociationState = this.linkAssociationState;
-    final linkId = this.linkId;
-    return {
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (linkAssociationState != null)
-        'LinkAssociationState': linkAssociationState.value,
-      if (linkId != null) 'LinkId': linkId,
-    };
-  }
-}
-
-class LinkAssociationState {
-  static const pending = LinkAssociationState._('PENDING');
-  static const available = LinkAssociationState._('AVAILABLE');
-  static const deleting = LinkAssociationState._('DELETING');
-  static const deleted = LinkAssociationState._('DELETED');
-
-  final String value;
-
-  const LinkAssociationState._(this.value);
-
-  static const values = [pending, available, deleting, deleted];
-
-  static LinkAssociationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LinkAssociationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LinkAssociationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LinkState {
-  static const pending = LinkState._('PENDING');
-  static const available = LinkState._('AVAILABLE');
-  static const deleting = LinkState._('DELETING');
-  static const updating = LinkState._('UPDATING');
-
-  final String value;
-
-  const LinkState._(this.value);
-
-  static const values = [pending, available, deleting, updating];
-
-  static LinkState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LinkState._(value));
-
-  @override
-  bool operator ==(other) => other is LinkState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListAttachmentsResponse {
@@ -8264,6 +6190,76 @@ class ListCoreNetworkPolicyVersionsResponse {
     return {
       if (coreNetworkPolicyVersions != null)
         'CoreNetworkPolicyVersions': coreNetworkPolicyVersions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCoreNetworkPrefixListAssociationsResponse {
+  /// The token for the next page of results.
+  final String? nextToken;
+
+  /// The list of prefix list associations for the core network.
+  final List<PrefixListAssociation>? prefixListAssociations;
+
+  ListCoreNetworkPrefixListAssociationsResponse({
+    this.nextToken,
+    this.prefixListAssociations,
+  });
+
+  factory ListCoreNetworkPrefixListAssociationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCoreNetworkPrefixListAssociationsResponse(
+      nextToken: json['NextToken'] as String?,
+      prefixListAssociations: (json['PrefixListAssociations'] as List?)
+          ?.nonNulls
+          .map((e) => PrefixListAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final prefixListAssociations = this.prefixListAssociations;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (prefixListAssociations != null)
+        'PrefixListAssociations': prefixListAssociations,
+    };
+  }
+}
+
+class ListCoreNetworkRoutingInformationResponse {
+  /// The list of routing information for the core network.
+  final List<CoreNetworkRoutingInformation>? coreNetworkRoutingInformation;
+
+  /// The token for the next page of results.
+  final String? nextToken;
+
+  ListCoreNetworkRoutingInformationResponse({
+    this.coreNetworkRoutingInformation,
+    this.nextToken,
+  });
+
+  factory ListCoreNetworkRoutingInformationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCoreNetworkRoutingInformationResponse(
+      coreNetworkRoutingInformation: (json['CoreNetworkRoutingInformation']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              CoreNetworkRoutingInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkRoutingInformation = this.coreNetworkRoutingInformation;
+    final nextToken = this.nextToken;
+    return {
+      if (coreNetworkRoutingInformation != null)
+        'CoreNetworkRoutingInformation': coreNetworkRoutingInformation,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -8392,6 +6388,1150 @@ class ListTagsForResourceResponse {
   }
 }
 
+class PutAttachmentRoutingPolicyLabelResponse {
+  /// The ID of the attachment that received the routing policy label.
+  final String? attachmentId;
+
+  /// The ID of the core network containing the attachment.
+  final String? coreNetworkId;
+
+  /// The routing policy label that was applied to the attachment.
+  final String? routingPolicyLabel;
+
+  PutAttachmentRoutingPolicyLabelResponse({
+    this.attachmentId,
+    this.coreNetworkId,
+    this.routingPolicyLabel,
+  });
+
+  factory PutAttachmentRoutingPolicyLabelResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutAttachmentRoutingPolicyLabelResponse(
+      attachmentId: json['AttachmentId'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      routingPolicyLabel: json['RoutingPolicyLabel'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final coreNetworkId = this.coreNetworkId;
+    final routingPolicyLabel = this.routingPolicyLabel;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (routingPolicyLabel != null) 'RoutingPolicyLabel': routingPolicyLabel,
+    };
+  }
+}
+
+class PutCoreNetworkPolicyResponse {
+  /// Describes the changed core network policy.
+  final CoreNetworkPolicy? coreNetworkPolicy;
+
+  PutCoreNetworkPolicyResponse({
+    this.coreNetworkPolicy,
+  });
+
+  factory PutCoreNetworkPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutCoreNetworkPolicyResponse(
+      coreNetworkPolicy: json['CoreNetworkPolicy'] != null
+          ? CoreNetworkPolicy.fromJson(
+              json['CoreNetworkPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkPolicy = this.coreNetworkPolicy;
+    return {
+      if (coreNetworkPolicy != null) 'CoreNetworkPolicy': coreNetworkPolicy,
+    };
+  }
+}
+
+class PutResourcePolicyResponse {
+  PutResourcePolicyResponse();
+
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return PutResourcePolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RegisterTransitGatewayResponse {
+  /// Information about the transit gateway registration.
+  final TransitGatewayRegistration? transitGatewayRegistration;
+
+  RegisterTransitGatewayResponse({
+    this.transitGatewayRegistration,
+  });
+
+  factory RegisterTransitGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterTransitGatewayResponse(
+      transitGatewayRegistration: json['TransitGatewayRegistration'] != null
+          ? TransitGatewayRegistration.fromJson(
+              json['TransitGatewayRegistration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayRegistration = this.transitGatewayRegistration;
+    return {
+      if (transitGatewayRegistration != null)
+        'TransitGatewayRegistration': transitGatewayRegistration,
+    };
+  }
+}
+
+class RejectAttachmentResponse {
+  /// Describes the rejected attachment request.
+  final Attachment? attachment;
+
+  RejectAttachmentResponse({
+    this.attachment,
+  });
+
+  factory RejectAttachmentResponse.fromJson(Map<String, dynamic> json) {
+    return RejectAttachmentResponse(
+      attachment: json['Attachment'] != null
+          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    return {
+      if (attachment != null) 'Attachment': attachment,
+    };
+  }
+}
+
+class RemoveAttachmentRoutingPolicyLabelResponse {
+  /// The ID of the attachment from which the routing policy label was removed.
+  final String? attachmentId;
+
+  /// The ID of the core network containing the attachment.
+  final String? coreNetworkId;
+
+  /// The routing policy label that was removed from the attachment.
+  final String? routingPolicyLabel;
+
+  RemoveAttachmentRoutingPolicyLabelResponse({
+    this.attachmentId,
+    this.coreNetworkId,
+    this.routingPolicyLabel,
+  });
+
+  factory RemoveAttachmentRoutingPolicyLabelResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RemoveAttachmentRoutingPolicyLabelResponse(
+      attachmentId: json['AttachmentId'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      routingPolicyLabel: json['RoutingPolicyLabel'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final coreNetworkId = this.coreNetworkId;
+    final routingPolicyLabel = this.routingPolicyLabel;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (routingPolicyLabel != null) 'RoutingPolicyLabel': routingPolicyLabel,
+    };
+  }
+}
+
+class RestoreCoreNetworkPolicyVersionResponse {
+  /// Describes the restored core network policy.
+  final CoreNetworkPolicy? coreNetworkPolicy;
+
+  RestoreCoreNetworkPolicyVersionResponse({
+    this.coreNetworkPolicy,
+  });
+
+  factory RestoreCoreNetworkPolicyVersionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RestoreCoreNetworkPolicyVersionResponse(
+      coreNetworkPolicy: json['CoreNetworkPolicy'] != null
+          ? CoreNetworkPolicy.fromJson(
+              json['CoreNetworkPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkPolicy = this.coreNetworkPolicy;
+    return {
+      if (coreNetworkPolicy != null) 'CoreNetworkPolicy': coreNetworkPolicy,
+    };
+  }
+}
+
+class StartOrganizationServiceAccessUpdateResponse {
+  /// The status of the service access update request for an Amazon Web Services
+  /// Organization.
+  final OrganizationStatus? organizationStatus;
+
+  StartOrganizationServiceAccessUpdateResponse({
+    this.organizationStatus,
+  });
+
+  factory StartOrganizationServiceAccessUpdateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartOrganizationServiceAccessUpdateResponse(
+      organizationStatus: json['OrganizationStatus'] != null
+          ? OrganizationStatus.fromJson(
+              json['OrganizationStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationStatus = this.organizationStatus;
+    return {
+      if (organizationStatus != null) 'OrganizationStatus': organizationStatus,
+    };
+  }
+}
+
+class StartRouteAnalysisResponse {
+  /// The route analysis.
+  final RouteAnalysis? routeAnalysis;
+
+  StartRouteAnalysisResponse({
+    this.routeAnalysis,
+  });
+
+  factory StartRouteAnalysisResponse.fromJson(Map<String, dynamic> json) {
+    return StartRouteAnalysisResponse(
+      routeAnalysis: json['RouteAnalysis'] != null
+          ? RouteAnalysis.fromJson(
+              json['RouteAnalysis'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final routeAnalysis = this.routeAnalysis;
+    return {
+      if (routeAnalysis != null) 'RouteAnalysis': routeAnalysis,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateConnectionResponse {
+  /// Information about the connection.
+  final Connection? connection;
+
+  UpdateConnectionResponse({
+    this.connection,
+  });
+
+  factory UpdateConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
+}
+
+class UpdateCoreNetworkResponse {
+  /// Returns information about a core network update.
+  final CoreNetwork? coreNetwork;
+
+  UpdateCoreNetworkResponse({
+    this.coreNetwork,
+  });
+
+  factory UpdateCoreNetworkResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateCoreNetworkResponse(
+      coreNetwork: json['CoreNetwork'] != null
+          ? CoreNetwork.fromJson(json['CoreNetwork'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetwork = this.coreNetwork;
+    return {
+      if (coreNetwork != null) 'CoreNetwork': coreNetwork,
+    };
+  }
+}
+
+class UpdateDeviceResponse {
+  /// Information about the device.
+  final Device? device;
+
+  UpdateDeviceResponse({
+    this.device,
+  });
+
+  factory UpdateDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDeviceResponse(
+      device: json['Device'] != null
+          ? Device.fromJson(json['Device'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    return {
+      if (device != null) 'Device': device,
+    };
+  }
+}
+
+class UpdateDirectConnectGatewayAttachmentResponse {
+  /// Returns details of the Direct Connect gateway attachment with the updated
+  /// edge locations.
+  final DirectConnectGatewayAttachment? directConnectGatewayAttachment;
+
+  UpdateDirectConnectGatewayAttachmentResponse({
+    this.directConnectGatewayAttachment,
+  });
+
+  factory UpdateDirectConnectGatewayAttachmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateDirectConnectGatewayAttachmentResponse(
+      directConnectGatewayAttachment: json['DirectConnectGatewayAttachment'] !=
+              null
+          ? DirectConnectGatewayAttachment.fromJson(
+              json['DirectConnectGatewayAttachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAttachment = this.directConnectGatewayAttachment;
+    return {
+      if (directConnectGatewayAttachment != null)
+        'DirectConnectGatewayAttachment': directConnectGatewayAttachment,
+    };
+  }
+}
+
+class UpdateGlobalNetworkResponse {
+  /// Information about the global network object.
+  final GlobalNetwork? globalNetwork;
+
+  UpdateGlobalNetworkResponse({
+    this.globalNetwork,
+  });
+
+  factory UpdateGlobalNetworkResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGlobalNetworkResponse(
+      globalNetwork: json['GlobalNetwork'] != null
+          ? GlobalNetwork.fromJson(
+              json['GlobalNetwork'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalNetwork = this.globalNetwork;
+    return {
+      if (globalNetwork != null) 'GlobalNetwork': globalNetwork,
+    };
+  }
+}
+
+class UpdateLinkResponse {
+  /// Information about the link.
+  final Link? link;
+
+  UpdateLinkResponse({
+    this.link,
+  });
+
+  factory UpdateLinkResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateLinkResponse(
+      link: json['Link'] != null
+          ? Link.fromJson(json['Link'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final link = this.link;
+    return {
+      if (link != null) 'Link': link,
+    };
+  }
+}
+
+class UpdateNetworkResourceMetadataResponse {
+  /// The updated resource metadata.
+  final Map<String, String>? metadata;
+
+  /// The ARN of the resource.
+  final String? resourceArn;
+
+  UpdateNetworkResourceMetadataResponse({
+    this.metadata,
+    this.resourceArn,
+  });
+
+  factory UpdateNetworkResourceMetadataResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateNetworkResourceMetadataResponse(
+      metadata: (json['Metadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final resourceArn = this.resourceArn;
+    return {
+      if (metadata != null) 'Metadata': metadata,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+class UpdateSiteResponse {
+  /// Information about the site.
+  final Site? site;
+
+  UpdateSiteResponse({
+    this.site,
+  });
+
+  factory UpdateSiteResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSiteResponse(
+      site: json['Site'] != null
+          ? Site.fromJson(json['Site'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final site = this.site;
+    return {
+      if (site != null) 'Site': site,
+    };
+  }
+}
+
+class UpdateVpcAttachmentResponse {
+  /// Describes the updated VPC attachment.
+  final VpcAttachment? vpcAttachment;
+
+  UpdateVpcAttachmentResponse({
+    this.vpcAttachment,
+  });
+
+  factory UpdateVpcAttachmentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVpcAttachmentResponse(
+      vpcAttachment: json['VpcAttachment'] != null
+          ? VpcAttachment.fromJson(
+              json['VpcAttachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpcAttachment = this.vpcAttachment;
+    return {
+      if (vpcAttachment != null) 'VpcAttachment': vpcAttachment,
+    };
+  }
+}
+
+/// Describes a VPC attachment.
+class VpcAttachment {
+  /// Provides details about the VPC attachment.
+  final Attachment? attachment;
+
+  /// Provides details about the VPC attachment.
+  final VpcOptions? options;
+
+  /// The subnet ARNs.
+  final List<String>? subnetArns;
+
+  VpcAttachment({
+    this.attachment,
+    this.options,
+    this.subnetArns,
+  });
+
+  factory VpcAttachment.fromJson(Map<String, dynamic> json) {
+    return VpcAttachment(
+      attachment: json['Attachment'] != null
+          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
+          : null,
+      options: json['Options'] != null
+          ? VpcOptions.fromJson(json['Options'] as Map<String, dynamic>)
+          : null,
+      subnetArns: (json['SubnetArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    final options = this.options;
+    final subnetArns = this.subnetArns;
+    return {
+      if (attachment != null) 'Attachment': attachment,
+      if (options != null) 'Options': options,
+      if (subnetArns != null) 'SubnetArns': subnetArns,
+    };
+  }
+}
+
+/// Describes a core network attachment.
+class Attachment {
+  /// The ID of the attachment.
+  final String? attachmentId;
+
+  /// The policy rule number associated with the attachment.
+  final int? attachmentPolicyRuleNumber;
+
+  /// The type of attachment.
+  final AttachmentType? attachmentType;
+
+  /// The ARN of a core network.
+  final String? coreNetworkArn;
+
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The timestamp when the attachment was created.
+  final DateTime? createdAt;
+
+  /// The Region where the edge is located. This is returned for all attachment
+  /// types except a Direct Connect gateway attachment, which instead returns
+  /// <code>EdgeLocations</code>.
+  final String? edgeLocation;
+
+  /// The edge locations that the Direct Connect gateway is associated with. This
+  /// is returned only for Direct Connect gateway attachments. All other
+  /// attachment types retrun <code>EdgeLocation</code>.
+  final List<String>? edgeLocations;
+
+  /// Describes the error associated with the attachment request.
+  final List<AttachmentError>? lastModificationErrors;
+
+  /// The name of the network function group.
+  final String? networkFunctionGroupName;
+
+  /// The ID of the attachment account owner.
+  final String? ownerAccountId;
+
+  /// Describes a proposed change to a network function group associated with the
+  /// attachment.
+  final ProposedNetworkFunctionGroupChange? proposedNetworkFunctionGroupChange;
+
+  /// The attachment to move from one segment to another.
+  final ProposedSegmentChange? proposedSegmentChange;
+
+  /// The attachment resource ARN.
+  final String? resourceArn;
+
+  /// The name of the segment attachment.
+  final String? segmentName;
+
+  /// The state of the attachment.
+  final AttachmentState? state;
+
+  /// The tags associated with the attachment.
+  final List<Tag>? tags;
+
+  /// The timestamp when the attachment was last updated.
+  final DateTime? updatedAt;
+
+  Attachment({
+    this.attachmentId,
+    this.attachmentPolicyRuleNumber,
+    this.attachmentType,
+    this.coreNetworkArn,
+    this.coreNetworkId,
+    this.createdAt,
+    this.edgeLocation,
+    this.edgeLocations,
+    this.lastModificationErrors,
+    this.networkFunctionGroupName,
+    this.ownerAccountId,
+    this.proposedNetworkFunctionGroupChange,
+    this.proposedSegmentChange,
+    this.resourceArn,
+    this.segmentName,
+    this.state,
+    this.tags,
+    this.updatedAt,
+  });
+
+  factory Attachment.fromJson(Map<String, dynamic> json) {
+    return Attachment(
+      attachmentId: json['AttachmentId'] as String?,
+      attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
+      attachmentType:
+          (json['AttachmentType'] as String?)?.let(AttachmentType.fromString),
+      coreNetworkArn: json['CoreNetworkArn'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      edgeLocation: json['EdgeLocation'] as String?,
+      edgeLocations: (json['EdgeLocations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      lastModificationErrors: (json['LastModificationErrors'] as List?)
+          ?.nonNulls
+          .map((e) => AttachmentError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      proposedNetworkFunctionGroupChange:
+          json['ProposedNetworkFunctionGroupChange'] != null
+              ? ProposedNetworkFunctionGroupChange.fromJson(
+                  json['ProposedNetworkFunctionGroupChange']
+                      as Map<String, dynamic>)
+              : null,
+      proposedSegmentChange: json['ProposedSegmentChange'] != null
+          ? ProposedSegmentChange.fromJson(
+              json['ProposedSegmentChange'] as Map<String, dynamic>)
+          : null,
+      resourceArn: json['ResourceArn'] as String?,
+      segmentName: json['SegmentName'] as String?,
+      state: (json['State'] as String?)?.let(AttachmentState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final attachmentPolicyRuleNumber = this.attachmentPolicyRuleNumber;
+    final attachmentType = this.attachmentType;
+    final coreNetworkArn = this.coreNetworkArn;
+    final coreNetworkId = this.coreNetworkId;
+    final createdAt = this.createdAt;
+    final edgeLocation = this.edgeLocation;
+    final edgeLocations = this.edgeLocations;
+    final lastModificationErrors = this.lastModificationErrors;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
+    final ownerAccountId = this.ownerAccountId;
+    final proposedNetworkFunctionGroupChange =
+        this.proposedNetworkFunctionGroupChange;
+    final proposedSegmentChange = this.proposedSegmentChange;
+    final resourceArn = this.resourceArn;
+    final segmentName = this.segmentName;
+    final state = this.state;
+    final tags = this.tags;
+    final updatedAt = this.updatedAt;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (attachmentPolicyRuleNumber != null)
+        'AttachmentPolicyRuleNumber': attachmentPolicyRuleNumber,
+      if (attachmentType != null) 'AttachmentType': attachmentType.value,
+      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
+      if (lastModificationErrors != null)
+        'LastModificationErrors': lastModificationErrors,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (proposedNetworkFunctionGroupChange != null)
+        'ProposedNetworkFunctionGroupChange':
+            proposedNetworkFunctionGroupChange,
+      if (proposedSegmentChange != null)
+        'ProposedSegmentChange': proposedSegmentChange,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (segmentName != null) 'SegmentName': segmentName,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Describes the VPC options.
+class VpcOptions {
+  /// Indicates whether appliance mode is supported. If enabled, traffic flow
+  /// between a source and destination use the same Availability Zone for the VPC
+  /// attachment for the lifetime of that flow. The default value is
+  /// <code>false</code>.
+  final bool? applianceModeSupport;
+
+  /// Indicates whether DNS is supported.
+  final bool? dnsSupport;
+
+  /// Indicates whether IPv6 is supported.
+  final bool? ipv6Support;
+
+  /// Indicates whether security group referencing is enabled for this VPC
+  /// attachment. The default is <code>true</code>. However, at the core network
+  /// policy-level the default is set to <code>false</code>.
+  final bool? securityGroupReferencingSupport;
+
+  VpcOptions({
+    this.applianceModeSupport,
+    this.dnsSupport,
+    this.ipv6Support,
+    this.securityGroupReferencingSupport,
+  });
+
+  factory VpcOptions.fromJson(Map<String, dynamic> json) {
+    return VpcOptions(
+      applianceModeSupport: json['ApplianceModeSupport'] as bool?,
+      dnsSupport: json['DnsSupport'] as bool?,
+      ipv6Support: json['Ipv6Support'] as bool?,
+      securityGroupReferencingSupport:
+          json['SecurityGroupReferencingSupport'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applianceModeSupport = this.applianceModeSupport;
+    final dnsSupport = this.dnsSupport;
+    final ipv6Support = this.ipv6Support;
+    final securityGroupReferencingSupport =
+        this.securityGroupReferencingSupport;
+    return {
+      if (applianceModeSupport != null)
+        'ApplianceModeSupport': applianceModeSupport,
+      if (dnsSupport != null) 'DnsSupport': dnsSupport,
+      if (ipv6Support != null) 'Ipv6Support': ipv6Support,
+      if (securityGroupReferencingSupport != null)
+        'SecurityGroupReferencingSupport': securityGroupReferencingSupport,
+    };
+  }
+}
+
+class AttachmentType {
+  static const connect = AttachmentType._('CONNECT');
+  static const siteToSiteVpn = AttachmentType._('SITE_TO_SITE_VPN');
+  static const vpc = AttachmentType._('VPC');
+  static const directConnectGateway =
+      AttachmentType._('DIRECT_CONNECT_GATEWAY');
+  static const transitGatewayRouteTable =
+      AttachmentType._('TRANSIT_GATEWAY_ROUTE_TABLE');
+
+  final String value;
+
+  const AttachmentType._(this.value);
+
+  static const values = [
+    connect,
+    siteToSiteVpn,
+    vpc,
+    directConnectGateway,
+    transitGatewayRouteTable
+  ];
+
+  static AttachmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttachmentType._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AttachmentState {
+  static const rejected = AttachmentState._('REJECTED');
+  static const pendingAttachmentAcceptance =
+      AttachmentState._('PENDING_ATTACHMENT_ACCEPTANCE');
+  static const creating = AttachmentState._('CREATING');
+  static const failed = AttachmentState._('FAILED');
+  static const available = AttachmentState._('AVAILABLE');
+  static const updating = AttachmentState._('UPDATING');
+  static const pendingNetworkUpdate =
+      AttachmentState._('PENDING_NETWORK_UPDATE');
+  static const pendingTagAcceptance =
+      AttachmentState._('PENDING_TAG_ACCEPTANCE');
+  static const deleting = AttachmentState._('DELETING');
+
+  final String value;
+
+  const AttachmentState._(this.value);
+
+  static const values = [
+    rejected,
+    pendingAttachmentAcceptance,
+    creating,
+    failed,
+    available,
+    updating,
+    pendingNetworkUpdate,
+    pendingTagAcceptance,
+    deleting
+  ];
+
+  static AttachmentState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttachmentState._(value));
+
+  @override
+  bool operator ==(other) => other is AttachmentState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a proposed segment change. In some cases, the segment change must
+/// first be evaluated and accepted.
+class ProposedSegmentChange {
+  /// The rule number in the policy document that applies to this change.
+  final int? attachmentPolicyRuleNumber;
+
+  /// The name of the segment to change.
+  final String? segmentName;
+
+  /// The list of key-value tags that changed for the segment.
+  final List<Tag>? tags;
+
+  ProposedSegmentChange({
+    this.attachmentPolicyRuleNumber,
+    this.segmentName,
+    this.tags,
+  });
+
+  factory ProposedSegmentChange.fromJson(Map<String, dynamic> json) {
+    return ProposedSegmentChange(
+      attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
+      segmentName: json['SegmentName'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentPolicyRuleNumber = this.attachmentPolicyRuleNumber;
+    final segmentName = this.segmentName;
+    final tags = this.tags;
+    return {
+      if (attachmentPolicyRuleNumber != null)
+        'AttachmentPolicyRuleNumber': attachmentPolicyRuleNumber,
+      if (segmentName != null) 'SegmentName': segmentName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Describes proposed changes to a network function group.
+class ProposedNetworkFunctionGroupChange {
+  /// The proposed new attachment policy rule number for the network function
+  /// group.
+  final int? attachmentPolicyRuleNumber;
+
+  /// The proposed name change for the network function group name.
+  final String? networkFunctionGroupName;
+
+  /// The list of proposed changes to the key-value tags associated with the
+  /// network function group.
+  final List<Tag>? tags;
+
+  ProposedNetworkFunctionGroupChange({
+    this.attachmentPolicyRuleNumber,
+    this.networkFunctionGroupName,
+    this.tags,
+  });
+
+  factory ProposedNetworkFunctionGroupChange.fromJson(
+      Map<String, dynamic> json) {
+    return ProposedNetworkFunctionGroupChange(
+      attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentPolicyRuleNumber = this.attachmentPolicyRuleNumber;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
+    final tags = this.tags;
+    return {
+      if (attachmentPolicyRuleNumber != null)
+        'AttachmentPolicyRuleNumber': attachmentPolicyRuleNumber,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Describes the error associated with an attachment request.
+class AttachmentError {
+  /// The error code for the attachment request.
+  final AttachmentErrorCode? code;
+
+  /// The message associated with the error <code>code</code>.
+  final String? message;
+
+  /// The ID of the attachment request.
+  final String? requestId;
+
+  /// The ARN of the requested attachment resource.
+  final String? resourceArn;
+
+  AttachmentError({
+    this.code,
+    this.message,
+    this.requestId,
+    this.resourceArn,
+  });
+
+  factory AttachmentError.fromJson(Map<String, dynamic> json) {
+    return AttachmentError(
+      code: (json['Code'] as String?)?.let(AttachmentErrorCode.fromString),
+      message: json['Message'] as String?,
+      requestId: json['RequestId'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final requestId = this.requestId;
+    final resourceArn = this.resourceArn;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+      if (requestId != null) 'RequestId': requestId,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+class AttachmentErrorCode {
+  static const vpcNotFound = AttachmentErrorCode._('VPC_NOT_FOUND');
+  static const subnetNotFound = AttachmentErrorCode._('SUBNET_NOT_FOUND');
+  static const subnetDuplicatedInAvailabilityZone =
+      AttachmentErrorCode._('SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE');
+  static const subnetNoFreeAddresses =
+      AttachmentErrorCode._('SUBNET_NO_FREE_ADDRESSES');
+  static const subnetUnsupportedAvailabilityZone =
+      AttachmentErrorCode._('SUBNET_UNSUPPORTED_AVAILABILITY_ZONE');
+  static const subnetNoIpv6Cidrs =
+      AttachmentErrorCode._('SUBNET_NO_IPV6_CIDRS');
+  static const vpnConnectionNotFound =
+      AttachmentErrorCode._('VPN_CONNECTION_NOT_FOUND');
+  static const maximumNoEncapLimitExceeded =
+      AttachmentErrorCode._('MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED');
+  static const directConnectGatewayNotFound =
+      AttachmentErrorCode._('DIRECT_CONNECT_GATEWAY_NOT_FOUND');
+  static const directConnectGatewayExistingAttachments =
+      AttachmentErrorCode._('DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS');
+  static const directConnectGatewayNoPrivateVif =
+      AttachmentErrorCode._('DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF');
+  static const vpnExistingAssociations =
+      AttachmentErrorCode._('VPN_EXISTING_ASSOCIATIONS');
+  static const vpcUnsupportedFeatures =
+      AttachmentErrorCode._('VPC_UNSUPPORTED_FEATURES');
+
+  final String value;
+
+  const AttachmentErrorCode._(this.value);
+
+  static const values = [
+    vpcNotFound,
+    subnetNotFound,
+    subnetDuplicatedInAvailabilityZone,
+    subnetNoFreeAddresses,
+    subnetUnsupportedAvailabilityZone,
+    subnetNoIpv6Cidrs,
+    vpnConnectionNotFound,
+    maximumNoEncapLimitExceeded,
+    directConnectGatewayNotFound,
+    directConnectGatewayExistingAttachments,
+    directConnectGatewayNoPrivateVif,
+    vpnExistingAssociations,
+    vpcUnsupportedFeatures
+  ];
+
+  static AttachmentErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttachmentErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttachmentErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a tag.
+class Tag {
+  /// The tag key.
+  ///
+  /// Constraints: Maximum length of 128 characters.
+  final String? key;
+
+  /// The tag value.
+  ///
+  /// Constraints: Maximum length of 256 characters.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Describes a site.
+class Site {
+  /// The date and time that the site was created.
+  final DateTime? createdAt;
+
+  /// The description of the site.
+  final String? description;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The location of the site.
+  final Location? location;
+
+  /// The Amazon Resource Name (ARN) of the site.
+  final String? siteArn;
+
+  /// The ID of the site.
+  final String? siteId;
+
+  /// The state of the site.
+  final SiteState? state;
+
+  /// The tags for the site.
+  final List<Tag>? tags;
+
+  Site({
+    this.createdAt,
+    this.description,
+    this.globalNetworkId,
+    this.location,
+    this.siteArn,
+    this.siteId,
+    this.state,
+    this.tags,
+  });
+
+  factory Site.fromJson(Map<String, dynamic> json) {
+    return Site(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      location: json['Location'] != null
+          ? Location.fromJson(json['Location'] as Map<String, dynamic>)
+          : null,
+      siteArn: json['SiteArn'] as String?,
+      siteId: json['SiteId'] as String?,
+      state: (json['State'] as String?)?.let(SiteState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final globalNetworkId = this.globalNetworkId;
+    final location = this.location;
+    final siteArn = this.siteArn;
+    final siteId = this.siteId;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (location != null) 'Location': location,
+      if (siteArn != null) 'SiteArn': siteArn,
+      if (siteId != null) 'SiteId': siteId,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
 /// Describes a location.
 class Location {
   /// The physical address.
@@ -8429,25 +7569,3143 @@ class Location {
   }
 }
 
-/// Describes a network function group for service insertion.
-class NetworkFunctionGroup {
-  /// The name of the network function group.
-  final String? name;
+class SiteState {
+  static const pending = SiteState._('PENDING');
+  static const available = SiteState._('AVAILABLE');
+  static const deleting = SiteState._('DELETING');
+  static const updating = SiteState._('UPDATING');
 
-  NetworkFunctionGroup({
-    this.name,
+  final String value;
+
+  const SiteState._(this.value);
+
+  static const values = [pending, available, deleting, updating];
+
+  static SiteState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SiteState._(value));
+
+  @override
+  bool operator ==(other) => other is SiteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a link.
+class Link {
+  /// The bandwidth for the link.
+  final Bandwidth? bandwidth;
+
+  /// The date and time that the link was created.
+  final DateTime? createdAt;
+
+  /// The description of the link.
+  final String? description;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The Amazon Resource Name (ARN) of the link.
+  final String? linkArn;
+
+  /// The ID of the link.
+  final String? linkId;
+
+  /// The provider of the link.
+  final String? provider;
+
+  /// The ID of the site.
+  final String? siteId;
+
+  /// The state of the link.
+  final LinkState? state;
+
+  /// The tags for the link.
+  final List<Tag>? tags;
+
+  /// The type of the link.
+  final String? type;
+
+  Link({
+    this.bandwidth,
+    this.createdAt,
+    this.description,
+    this.globalNetworkId,
+    this.linkArn,
+    this.linkId,
+    this.provider,
+    this.siteId,
+    this.state,
+    this.tags,
+    this.type,
   });
 
-  factory NetworkFunctionGroup.fromJson(Map<String, dynamic> json) {
-    return NetworkFunctionGroup(
-      name: json['Name'] as String?,
+  factory Link.fromJson(Map<String, dynamic> json) {
+    return Link(
+      bandwidth: json['Bandwidth'] != null
+          ? Bandwidth.fromJson(json['Bandwidth'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkArn: json['LinkArn'] as String?,
+      linkId: json['LinkId'] as String?,
+      provider: json['Provider'] as String?,
+      siteId: json['SiteId'] as String?,
+      state: (json['State'] as String?)?.let(LinkState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
+    final bandwidth = this.bandwidth;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final globalNetworkId = this.globalNetworkId;
+    final linkArn = this.linkArn;
+    final linkId = this.linkId;
+    final provider = this.provider;
+    final siteId = this.siteId;
+    final state = this.state;
+    final tags = this.tags;
+    final type = this.type;
     return {
+      if (bandwidth != null) 'Bandwidth': bandwidth,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkArn != null) 'LinkArn': linkArn,
+      if (linkId != null) 'LinkId': linkId,
+      if (provider != null) 'Provider': provider,
+      if (siteId != null) 'SiteId': siteId,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Describes bandwidth information.
+class Bandwidth {
+  /// Download speed in Mbps.
+  final int? downloadSpeed;
+
+  /// Upload speed in Mbps.
+  final int? uploadSpeed;
+
+  Bandwidth({
+    this.downloadSpeed,
+    this.uploadSpeed,
+  });
+
+  factory Bandwidth.fromJson(Map<String, dynamic> json) {
+    return Bandwidth(
+      downloadSpeed: json['DownloadSpeed'] as int?,
+      uploadSpeed: json['UploadSpeed'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final downloadSpeed = this.downloadSpeed;
+    final uploadSpeed = this.uploadSpeed;
+    return {
+      if (downloadSpeed != null) 'DownloadSpeed': downloadSpeed,
+      if (uploadSpeed != null) 'UploadSpeed': uploadSpeed,
+    };
+  }
+}
+
+class LinkState {
+  static const pending = LinkState._('PENDING');
+  static const available = LinkState._('AVAILABLE');
+  static const deleting = LinkState._('DELETING');
+  static const updating = LinkState._('UPDATING');
+
+  final String value;
+
+  const LinkState._(this.value);
+
+  static const values = [pending, available, deleting, updating];
+
+  static LinkState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LinkState._(value));
+
+  @override
+  bool operator ==(other) => other is LinkState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a global network. This is a single private network acting as a
+/// high-level container for your network objects, including an Amazon Web
+/// Services-managed Core Network.
+class GlobalNetwork {
+  /// The date and time that the global network was created.
+  final DateTime? createdAt;
+
+  /// The description of the global network.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of the global network.
+  final String? globalNetworkArn;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The state of the global network.
+  final GlobalNetworkState? state;
+
+  /// The tags for the global network.
+  final List<Tag>? tags;
+
+  GlobalNetwork({
+    this.createdAt,
+    this.description,
+    this.globalNetworkArn,
+    this.globalNetworkId,
+    this.state,
+    this.tags,
+  });
+
+  factory GlobalNetwork.fromJson(Map<String, dynamic> json) {
+    return GlobalNetwork(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      globalNetworkArn: json['GlobalNetworkArn'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      state: (json['State'] as String?)?.let(GlobalNetworkState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final globalNetworkArn = this.globalNetworkArn;
+    final globalNetworkId = this.globalNetworkId;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (globalNetworkArn != null) 'GlobalNetworkArn': globalNetworkArn,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class GlobalNetworkState {
+  static const pending = GlobalNetworkState._('PENDING');
+  static const available = GlobalNetworkState._('AVAILABLE');
+  static const deleting = GlobalNetworkState._('DELETING');
+  static const updating = GlobalNetworkState._('UPDATING');
+
+  final String value;
+
+  const GlobalNetworkState._(this.value);
+
+  static const values = [pending, available, deleting, updating];
+
+  static GlobalNetworkState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GlobalNetworkState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is GlobalNetworkState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a Direct Connect gateway attachment.
+class DirectConnectGatewayAttachment {
+  final Attachment? attachment;
+
+  /// The Direct Connect gateway attachment ARN.
+  final String? directConnectGatewayArn;
+
+  DirectConnectGatewayAttachment({
+    this.attachment,
+    this.directConnectGatewayArn,
+  });
+
+  factory DirectConnectGatewayAttachment.fromJson(Map<String, dynamic> json) {
+    return DirectConnectGatewayAttachment(
+      attachment: json['Attachment'] != null
+          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
+          : null,
+      directConnectGatewayArn: json['DirectConnectGatewayArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    final directConnectGatewayArn = this.directConnectGatewayArn;
+    return {
+      if (attachment != null) 'Attachment': attachment,
+      if (directConnectGatewayArn != null)
+        'DirectConnectGatewayArn': directConnectGatewayArn,
+    };
+  }
+}
+
+/// Describes a device.
+class Device {
+  /// The Amazon Web Services location of the device.
+  final AWSLocation? awsLocation;
+
+  /// The date and time that the site was created.
+  final DateTime? createdAt;
+
+  /// The description of the device.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of the device.
+  final String? deviceArn;
+
+  /// The ID of the device.
+  final String? deviceId;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The site location.
+  final Location? location;
+
+  /// The device model.
+  final String? model;
+
+  /// The device serial number.
+  final String? serialNumber;
+
+  /// The site ID.
+  final String? siteId;
+
+  /// The device state.
+  final DeviceState? state;
+
+  /// The tags for the device.
+  final List<Tag>? tags;
+
+  /// The device type.
+  final String? type;
+
+  /// The device vendor.
+  final String? vendor;
+
+  Device({
+    this.awsLocation,
+    this.createdAt,
+    this.description,
+    this.deviceArn,
+    this.deviceId,
+    this.globalNetworkId,
+    this.location,
+    this.model,
+    this.serialNumber,
+    this.siteId,
+    this.state,
+    this.tags,
+    this.type,
+    this.vendor,
+  });
+
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      awsLocation: json['AWSLocation'] != null
+          ? AWSLocation.fromJson(json['AWSLocation'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      deviceArn: json['DeviceArn'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      location: json['Location'] != null
+          ? Location.fromJson(json['Location'] as Map<String, dynamic>)
+          : null,
+      model: json['Model'] as String?,
+      serialNumber: json['SerialNumber'] as String?,
+      siteId: json['SiteId'] as String?,
+      state: (json['State'] as String?)?.let(DeviceState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+      vendor: json['Vendor'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsLocation = this.awsLocation;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final deviceArn = this.deviceArn;
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final location = this.location;
+    final model = this.model;
+    final serialNumber = this.serialNumber;
+    final siteId = this.siteId;
+    final state = this.state;
+    final tags = this.tags;
+    final type = this.type;
+    final vendor = this.vendor;
+    return {
+      if (awsLocation != null) 'AWSLocation': awsLocation,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (deviceArn != null) 'DeviceArn': deviceArn,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (location != null) 'Location': location,
+      if (model != null) 'Model': model,
+      if (serialNumber != null) 'SerialNumber': serialNumber,
+      if (siteId != null) 'SiteId': siteId,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
+      if (vendor != null) 'Vendor': vendor,
+    };
+  }
+}
+
+/// Specifies a location in Amazon Web Services.
+class AWSLocation {
+  /// The Amazon Resource Name (ARN) of the subnet that the device is located in.
+  final String? subnetArn;
+
+  /// The Zone that the device is located in. Specify the ID of an Availability
+  /// Zone, Local Zone, Wavelength Zone, or an Outpost.
+  final String? zone;
+
+  AWSLocation({
+    this.subnetArn,
+    this.zone,
+  });
+
+  factory AWSLocation.fromJson(Map<String, dynamic> json) {
+    return AWSLocation(
+      subnetArn: json['SubnetArn'] as String?,
+      zone: json['Zone'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetArn = this.subnetArn;
+    final zone = this.zone;
+    return {
+      if (subnetArn != null) 'SubnetArn': subnetArn,
+      if (zone != null) 'Zone': zone,
+    };
+  }
+}
+
+class DeviceState {
+  static const pending = DeviceState._('PENDING');
+  static const available = DeviceState._('AVAILABLE');
+  static const deleting = DeviceState._('DELETING');
+  static const updating = DeviceState._('UPDATING');
+
+  final String value;
+
+  const DeviceState._(this.value);
+
+  static const values = [pending, available, deleting, updating];
+
+  static DeviceState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceState._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a core network.
+class CoreNetwork {
+  /// The ARN of a core network.
+  final String? coreNetworkArn;
+
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The timestamp when a core network was created.
+  final DateTime? createdAt;
+
+  /// The description of a core network.
+  final String? description;
+
+  /// The edges within a core network.
+  final List<CoreNetworkEdge>? edges;
+
+  /// The ID of the global network that your core network is a part of.
+  final String? globalNetworkId;
+
+  /// The network function groups associated with a core network.
+  final List<CoreNetworkNetworkFunctionGroup>? networkFunctionGroups;
+
+  /// The segments within a core network.
+  final List<CoreNetworkSegment>? segments;
+
+  /// The current state of a core network.
+  final CoreNetworkState? state;
+
+  /// The list of key-value tags associated with a core network.
+  final List<Tag>? tags;
+
+  CoreNetwork({
+    this.coreNetworkArn,
+    this.coreNetworkId,
+    this.createdAt,
+    this.description,
+    this.edges,
+    this.globalNetworkId,
+    this.networkFunctionGroups,
+    this.segments,
+    this.state,
+    this.tags,
+  });
+
+  factory CoreNetwork.fromJson(Map<String, dynamic> json) {
+    return CoreNetwork(
+      coreNetworkArn: json['CoreNetworkArn'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      edges: (json['Edges'] as List?)
+          ?.nonNulls
+          .map((e) => CoreNetworkEdge.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      networkFunctionGroups: (json['NetworkFunctionGroups'] as List?)
+          ?.nonNulls
+          .map((e) => CoreNetworkNetworkFunctionGroup.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      segments: (json['Segments'] as List?)
+          ?.nonNulls
+          .map((e) => CoreNetworkSegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['State'] as String?)?.let(CoreNetworkState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkArn = this.coreNetworkArn;
+    final coreNetworkId = this.coreNetworkId;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final edges = this.edges;
+    final globalNetworkId = this.globalNetworkId;
+    final networkFunctionGroups = this.networkFunctionGroups;
+    final segments = this.segments;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (edges != null) 'Edges': edges,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (networkFunctionGroups != null)
+        'NetworkFunctionGroups': networkFunctionGroups,
+      if (segments != null) 'Segments': segments,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class CoreNetworkState {
+  static const creating = CoreNetworkState._('CREATING');
+  static const updating = CoreNetworkState._('UPDATING');
+  static const available = CoreNetworkState._('AVAILABLE');
+  static const deleting = CoreNetworkState._('DELETING');
+
+  final String value;
+
+  const CoreNetworkState._(this.value);
+
+  static const values = [creating, updating, available, deleting];
+
+  static CoreNetworkState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CoreNetworkState._(value));
+
+  @override
+  bool operator ==(other) => other is CoreNetworkState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a core network edge.
+class CoreNetworkEdge {
+  /// The ASN of a core network edge.
+  final int? asn;
+
+  /// The Region where a core network edge is located.
+  final String? edgeLocation;
+
+  /// The inside IP addresses used for core network edges.
+  final List<String>? insideCidrBlocks;
+
+  CoreNetworkEdge({
+    this.asn,
+    this.edgeLocation,
+    this.insideCidrBlocks,
+  });
+
+  factory CoreNetworkEdge.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkEdge(
+      asn: json['Asn'] as int?,
+      edgeLocation: json['EdgeLocation'] as String?,
+      insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asn = this.asn;
+    final edgeLocation = this.edgeLocation;
+    final insideCidrBlocks = this.insideCidrBlocks;
+    return {
+      if (asn != null) 'Asn': asn,
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
+    };
+  }
+}
+
+/// Describes a network function group.
+class CoreNetworkNetworkFunctionGroup {
+  /// The core network edge locations.
+  final List<String>? edgeLocations;
+
+  /// The name of the network function group.
+  final String? name;
+
+  /// The segments associated with the network function group.
+  final ServiceInsertionSegments? segments;
+
+  CoreNetworkNetworkFunctionGroup({
+    this.edgeLocations,
+    this.name,
+    this.segments,
+  });
+
+  factory CoreNetworkNetworkFunctionGroup.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkNetworkFunctionGroup(
+      edgeLocations: (json['EdgeLocations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      segments: json['Segments'] != null
+          ? ServiceInsertionSegments.fromJson(
+              json['Segments'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edgeLocations = this.edgeLocations;
+    final name = this.name;
+    final segments = this.segments;
+    return {
+      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
       if (name != null) 'Name': name,
+      if (segments != null) 'Segments': segments,
+    };
+  }
+}
+
+/// Describes the segments associated with the service insertion action.
+class ServiceInsertionSegments {
+  /// The list of segments associated with the <code>send-to</code> action.
+  final List<String>? sendTo;
+
+  /// The list of segments associated with the <code>send-via</code> action.
+  final List<String>? sendVia;
+
+  ServiceInsertionSegments({
+    this.sendTo,
+    this.sendVia,
+  });
+
+  factory ServiceInsertionSegments.fromJson(Map<String, dynamic> json) {
+    return ServiceInsertionSegments(
+      sendTo:
+          (json['SendTo'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      sendVia:
+          (json['SendVia'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sendTo = this.sendTo;
+    final sendVia = this.sendVia;
+    return {
+      if (sendTo != null) 'SendTo': sendTo,
+      if (sendVia != null) 'SendVia': sendVia,
+    };
+  }
+}
+
+/// Describes a core network segment, which are dedicated routes. Only
+/// attachments within this segment can communicate with each other.
+class CoreNetworkSegment {
+  /// The Regions where the edges are located.
+  final List<String>? edgeLocations;
+
+  /// The name of a core network segment.
+  final String? name;
+
+  /// The shared segments of a core network.
+  final List<String>? sharedSegments;
+
+  CoreNetworkSegment({
+    this.edgeLocations,
+    this.name,
+    this.sharedSegments,
+  });
+
+  factory CoreNetworkSegment.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkSegment(
+      edgeLocations: (json['EdgeLocations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      sharedSegments: (json['SharedSegments'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edgeLocations = this.edgeLocations;
+    final name = this.name;
+    final sharedSegments = this.sharedSegments;
+    return {
+      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
+      if (name != null) 'Name': name,
+      if (sharedSegments != null) 'SharedSegments': sharedSegments,
+    };
+  }
+}
+
+/// Describes a connection.
+class Connection {
+  /// The ID of the second device in the connection.
+  final String? connectedDeviceId;
+
+  /// The ID of the link for the second device in the connection.
+  final String? connectedLinkId;
+
+  /// The Amazon Resource Name (ARN) of the connection.
+  final String? connectionArn;
+
+  /// The ID of the connection.
+  final String? connectionId;
+
+  /// The date and time that the connection was created.
+  final DateTime? createdAt;
+
+  /// The description of the connection.
+  final String? description;
+
+  /// The ID of the first device in the connection.
+  final String? deviceId;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The ID of the link for the first device in the connection.
+  final String? linkId;
+
+  /// The state of the connection.
+  final ConnectionState? state;
+
+  /// The tags for the connection.
+  final List<Tag>? tags;
+
+  Connection({
+    this.connectedDeviceId,
+    this.connectedLinkId,
+    this.connectionArn,
+    this.connectionId,
+    this.createdAt,
+    this.description,
+    this.deviceId,
+    this.globalNetworkId,
+    this.linkId,
+    this.state,
+    this.tags,
+  });
+
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      connectedDeviceId: json['ConnectedDeviceId'] as String?,
+      connectedLinkId: json['ConnectedLinkId'] as String?,
+      connectionArn: json['ConnectionArn'] as String?,
+      connectionId: json['ConnectionId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkId: json['LinkId'] as String?,
+      state: (json['State'] as String?)?.let(ConnectionState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectedDeviceId = this.connectedDeviceId;
+    final connectedLinkId = this.connectedLinkId;
+    final connectionArn = this.connectionArn;
+    final connectionId = this.connectionId;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final linkId = this.linkId;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (connectedDeviceId != null) 'ConnectedDeviceId': connectedDeviceId,
+      if (connectedLinkId != null) 'ConnectedLinkId': connectedLinkId,
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+      if (connectionId != null) 'ConnectionId': connectionId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkId != null) 'LinkId': linkId,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ConnectionState {
+  static const pending = ConnectionState._('PENDING');
+  static const available = ConnectionState._('AVAILABLE');
+  static const deleting = ConnectionState._('DELETING');
+  static const updating = ConnectionState._('UPDATING');
+
+  final String value;
+
+  const ConnectionState._(this.value);
+
+  static const values = [pending, available, deleting, updating];
+
+  static ConnectionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a route analysis.
+class RouteAnalysis {
+  /// The destination.
+  final RouteAnalysisEndpointOptions? destination;
+
+  /// The forward path.
+  final RouteAnalysisPath? forwardPath;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// Indicates whether to analyze the return path. The return path is not
+  /// analyzed if the forward path analysis does not succeed.
+  final bool? includeReturnPath;
+
+  /// The ID of the AWS account that created the route analysis.
+  final String? ownerAccountId;
+
+  /// The return path.
+  final RouteAnalysisPath? returnPath;
+
+  /// The ID of the route analysis.
+  final String? routeAnalysisId;
+
+  /// The source.
+  final RouteAnalysisEndpointOptions? source;
+
+  /// The time that the analysis started.
+  final DateTime? startTimestamp;
+
+  /// The status of the route analysis.
+  final RouteAnalysisStatus? status;
+
+  /// Indicates whether to include the location of middlebox appliances in the
+  /// route analysis.
+  final bool? useMiddleboxes;
+
+  RouteAnalysis({
+    this.destination,
+    this.forwardPath,
+    this.globalNetworkId,
+    this.includeReturnPath,
+    this.ownerAccountId,
+    this.returnPath,
+    this.routeAnalysisId,
+    this.source,
+    this.startTimestamp,
+    this.status,
+    this.useMiddleboxes,
+  });
+
+  factory RouteAnalysis.fromJson(Map<String, dynamic> json) {
+    return RouteAnalysis(
+      destination: json['Destination'] != null
+          ? RouteAnalysisEndpointOptions.fromJson(
+              json['Destination'] as Map<String, dynamic>)
+          : null,
+      forwardPath: json['ForwardPath'] != null
+          ? RouteAnalysisPath.fromJson(
+              json['ForwardPath'] as Map<String, dynamic>)
+          : null,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      includeReturnPath: json['IncludeReturnPath'] as bool?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      returnPath: json['ReturnPath'] != null
+          ? RouteAnalysisPath.fromJson(
+              json['ReturnPath'] as Map<String, dynamic>)
+          : null,
+      routeAnalysisId: json['RouteAnalysisId'] as String?,
+      source: json['Source'] != null
+          ? RouteAnalysisEndpointOptions.fromJson(
+              json['Source'] as Map<String, dynamic>)
+          : null,
+      startTimestamp: timeStampFromJson(json['StartTimestamp']),
+      status: (json['Status'] as String?)?.let(RouteAnalysisStatus.fromString),
+      useMiddleboxes: json['UseMiddleboxes'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final forwardPath = this.forwardPath;
+    final globalNetworkId = this.globalNetworkId;
+    final includeReturnPath = this.includeReturnPath;
+    final ownerAccountId = this.ownerAccountId;
+    final returnPath = this.returnPath;
+    final routeAnalysisId = this.routeAnalysisId;
+    final source = this.source;
+    final startTimestamp = this.startTimestamp;
+    final status = this.status;
+    final useMiddleboxes = this.useMiddleboxes;
+    return {
+      if (destination != null) 'Destination': destination,
+      if (forwardPath != null) 'ForwardPath': forwardPath,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (includeReturnPath != null) 'IncludeReturnPath': includeReturnPath,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (returnPath != null) 'ReturnPath': returnPath,
+      if (routeAnalysisId != null) 'RouteAnalysisId': routeAnalysisId,
+      if (source != null) 'Source': source,
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+      if (status != null) 'Status': status.value,
+      if (useMiddleboxes != null) 'UseMiddleboxes': useMiddleboxes,
+    };
+  }
+}
+
+class RouteAnalysisStatus {
+  static const running = RouteAnalysisStatus._('RUNNING');
+  static const completed = RouteAnalysisStatus._('COMPLETED');
+  static const failed = RouteAnalysisStatus._('FAILED');
+
+  final String value;
+
+  const RouteAnalysisStatus._(this.value);
+
+  static const values = [running, completed, failed];
+
+  static RouteAnalysisStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteAnalysisStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteAnalysisStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a source or a destination.
+class RouteAnalysisEndpointOptions {
+  /// The IP address.
+  final String? ipAddress;
+
+  /// The ARN of the transit gateway.
+  final String? transitGatewayArn;
+
+  /// The ARN of the transit gateway attachment.
+  final String? transitGatewayAttachmentArn;
+
+  RouteAnalysisEndpointOptions({
+    this.ipAddress,
+    this.transitGatewayArn,
+    this.transitGatewayAttachmentArn,
+  });
+
+  factory RouteAnalysisEndpointOptions.fromJson(Map<String, dynamic> json) {
+    return RouteAnalysisEndpointOptions(
+      ipAddress: json['IpAddress'] as String?,
+      transitGatewayArn: json['TransitGatewayArn'] as String?,
+      transitGatewayAttachmentArn:
+          json['TransitGatewayAttachmentArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipAddress = this.ipAddress;
+    final transitGatewayArn = this.transitGatewayArn;
+    final transitGatewayAttachmentArn = this.transitGatewayAttachmentArn;
+    return {
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (transitGatewayArn != null) 'TransitGatewayArn': transitGatewayArn,
+      if (transitGatewayAttachmentArn != null)
+        'TransitGatewayAttachmentArn': transitGatewayAttachmentArn,
+    };
+  }
+}
+
+/// Describes a route analysis path.
+class RouteAnalysisPath {
+  /// The status of the analysis at completion.
+  final RouteAnalysisCompletion? completionStatus;
+
+  /// The route analysis path.
+  final List<PathComponent>? path;
+
+  RouteAnalysisPath({
+    this.completionStatus,
+    this.path,
+  });
+
+  factory RouteAnalysisPath.fromJson(Map<String, dynamic> json) {
+    return RouteAnalysisPath(
+      completionStatus: json['CompletionStatus'] != null
+          ? RouteAnalysisCompletion.fromJson(
+              json['CompletionStatus'] as Map<String, dynamic>)
+          : null,
+      path: (json['Path'] as List?)
+          ?.nonNulls
+          .map((e) => PathComponent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionStatus = this.completionStatus;
+    final path = this.path;
+    return {
+      if (completionStatus != null) 'CompletionStatus': completionStatus,
+      if (path != null) 'Path': path,
+    };
+  }
+}
+
+/// Describes the status of an analysis at completion.
+class RouteAnalysisCompletion {
+  /// The reason code. Available only if a connection is not found.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND</code> - Found a black hole
+  /// route with the destination CIDR block.
+  /// </li>
+  /// <li>
+  /// <code>CYCLIC_PATH_DETECTED</code> - Found the same resource multiple times
+  /// while traversing the path.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE_ROUTE_FOR_DESTINATION_FOUND</code> - Found an inactive route
+  /// with the destination CIDR block.
+  /// </li>
+  /// <li>
+  /// <code>MAX_HOPS_EXCEEDED</code> - Analysis exceeded 64 hops without finding
+  /// the destination.
+  /// </li>
+  /// <li>
+  /// <code>ROUTE_NOT_FOUND</code> - Cannot find a route table with the
+  /// destination CIDR block.
+  /// </li>
+  /// <li>
+  /// <code>TGW_ATTACH_ARN_NO_MATCH</code> - Found an attachment, but not with the
+  /// correct destination ARN.
+  /// </li>
+  /// <li>
+  /// <code>TGW_ATTACH_NOT_FOUND</code> - Cannot find an attachment.
+  /// </li>
+  /// <li>
+  /// <code>TGW_ATTACH_NOT_IN_TGW</code> - Found an attachment, but not to the
+  /// correct transit gateway.
+  /// </li>
+  /// <li>
+  /// <code>TGW_ATTACH_STABLE_ROUTE_TABLE_NOT_FOUND</code> - The state of the
+  /// route table association is not associated.
+  /// </li>
+  /// </ul>
+  final RouteAnalysisCompletionReasonCode? reasonCode;
+
+  /// Additional information about the path. Available only if a connection is not
+  /// found.
+  final Map<String, String>? reasonContext;
+
+  /// The result of the analysis. If the status is <code>NOT_CONNECTED</code>,
+  /// check the reason code.
+  final RouteAnalysisCompletionResultCode? resultCode;
+
+  RouteAnalysisCompletion({
+    this.reasonCode,
+    this.reasonContext,
+    this.resultCode,
+  });
+
+  factory RouteAnalysisCompletion.fromJson(Map<String, dynamic> json) {
+    return RouteAnalysisCompletion(
+      reasonCode: (json['ReasonCode'] as String?)
+          ?.let(RouteAnalysisCompletionReasonCode.fromString),
+      reasonContext: (json['ReasonContext'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resultCode: (json['ResultCode'] as String?)
+          ?.let(RouteAnalysisCompletionResultCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reasonCode = this.reasonCode;
+    final reasonContext = this.reasonContext;
+    final resultCode = this.resultCode;
+    return {
+      if (reasonCode != null) 'ReasonCode': reasonCode.value,
+      if (reasonContext != null) 'ReasonContext': reasonContext,
+      if (resultCode != null) 'ResultCode': resultCode.value,
+    };
+  }
+}
+
+/// Describes a path component.
+class PathComponent {
+  /// The destination CIDR block in the route table.
+  final String? destinationCidrBlock;
+
+  /// The resource.
+  final NetworkResourceSummary? resource;
+
+  /// The sequence number in the path. The destination is 0.
+  final int? sequence;
+
+  PathComponent({
+    this.destinationCidrBlock,
+    this.resource,
+    this.sequence,
+  });
+
+  factory PathComponent.fromJson(Map<String, dynamic> json) {
+    return PathComponent(
+      destinationCidrBlock: json['DestinationCidrBlock'] as String?,
+      resource: json['Resource'] != null
+          ? NetworkResourceSummary.fromJson(
+              json['Resource'] as Map<String, dynamic>)
+          : null,
+      sequence: json['Sequence'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationCidrBlock = this.destinationCidrBlock;
+    final resource = this.resource;
+    final sequence = this.sequence;
+    return {
+      if (destinationCidrBlock != null)
+        'DestinationCidrBlock': destinationCidrBlock,
+      if (resource != null) 'Resource': resource,
+      if (sequence != null) 'Sequence': sequence,
+    };
+  }
+}
+
+/// Describes a network resource.
+class NetworkResourceSummary {
+  /// Information about the resource, in JSON format. Network Manager gets this
+  /// information by describing the resource using its Describe API call.
+  final String? definition;
+
+  /// Indicates whether this is a middlebox appliance.
+  final bool? isMiddlebox;
+
+  /// The value for the Name tag.
+  final String? nameTag;
+
+  /// The ARN of the gateway.
+  final String? registeredGatewayArn;
+
+  /// The ARN of the resource.
+  final String? resourceArn;
+
+  /// The resource type.
+  final String? resourceType;
+
+  NetworkResourceSummary({
+    this.definition,
+    this.isMiddlebox,
+    this.nameTag,
+    this.registeredGatewayArn,
+    this.resourceArn,
+    this.resourceType,
+  });
+
+  factory NetworkResourceSummary.fromJson(Map<String, dynamic> json) {
+    return NetworkResourceSummary(
+      definition: json['Definition'] as String?,
+      isMiddlebox: json['IsMiddlebox'] as bool?,
+      nameTag: json['NameTag'] as String?,
+      registeredGatewayArn: json['RegisteredGatewayArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final isMiddlebox = this.isMiddlebox;
+    final nameTag = this.nameTag;
+    final registeredGatewayArn = this.registeredGatewayArn;
+    final resourceArn = this.resourceArn;
+    final resourceType = this.resourceType;
+    return {
+      if (definition != null) 'Definition': definition,
+      if (isMiddlebox != null) 'IsMiddlebox': isMiddlebox,
+      if (nameTag != null) 'NameTag': nameTag,
+      if (registeredGatewayArn != null)
+        'RegisteredGatewayArn': registeredGatewayArn,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+class RouteAnalysisCompletionResultCode {
+  static const connected = RouteAnalysisCompletionResultCode._('CONNECTED');
+  static const notConnected =
+      RouteAnalysisCompletionResultCode._('NOT_CONNECTED');
+
+  final String value;
+
+  const RouteAnalysisCompletionResultCode._(this.value);
+
+  static const values = [connected, notConnected];
+
+  static RouteAnalysisCompletionResultCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteAnalysisCompletionResultCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteAnalysisCompletionResultCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RouteAnalysisCompletionReasonCode {
+  static const transitGatewayAttachmentNotFound =
+      RouteAnalysisCompletionReasonCode._(
+          'TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND');
+  static const transitGatewayAttachmentNotInTransitGateway =
+      RouteAnalysisCompletionReasonCode._(
+          'TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY');
+  static const cyclicPathDetected =
+      RouteAnalysisCompletionReasonCode._('CYCLIC_PATH_DETECTED');
+  static const transitGatewayAttachmentStableRouteTableNotFound =
+      RouteAnalysisCompletionReasonCode._(
+          'TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND');
+  static const routeNotFound =
+      RouteAnalysisCompletionReasonCode._('ROUTE_NOT_FOUND');
+  static const blackholeRouteForDestinationFound =
+      RouteAnalysisCompletionReasonCode._(
+          'BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND');
+  static const inactiveRouteForDestinationFound =
+      RouteAnalysisCompletionReasonCode._(
+          'INACTIVE_ROUTE_FOR_DESTINATION_FOUND');
+  static const transitGatewayAttachmentAttachArnNoMatch =
+      RouteAnalysisCompletionReasonCode._(
+          'TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH');
+  static const maxHopsExceeded =
+      RouteAnalysisCompletionReasonCode._('MAX_HOPS_EXCEEDED');
+  static const possibleMiddlebox =
+      RouteAnalysisCompletionReasonCode._('POSSIBLE_MIDDLEBOX');
+  static const noDestinationArnProvided =
+      RouteAnalysisCompletionReasonCode._('NO_DESTINATION_ARN_PROVIDED');
+
+  final String value;
+
+  const RouteAnalysisCompletionReasonCode._(this.value);
+
+  static const values = [
+    transitGatewayAttachmentNotFound,
+    transitGatewayAttachmentNotInTransitGateway,
+    cyclicPathDetected,
+    transitGatewayAttachmentStableRouteTableNotFound,
+    routeNotFound,
+    blackholeRouteForDestinationFound,
+    inactiveRouteForDestinationFound,
+    transitGatewayAttachmentAttachArnNoMatch,
+    maxHopsExceeded,
+    possibleMiddlebox,
+    noDestinationArnProvided
+  ];
+
+  static RouteAnalysisCompletionReasonCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteAnalysisCompletionReasonCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RouteAnalysisCompletionReasonCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a source or a destination.
+class RouteAnalysisEndpointOptionsSpecification {
+  /// The IP address.
+  final String? ipAddress;
+
+  /// The ARN of the transit gateway attachment.
+  final String? transitGatewayAttachmentArn;
+
+  RouteAnalysisEndpointOptionsSpecification({
+    this.ipAddress,
+    this.transitGatewayAttachmentArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final ipAddress = this.ipAddress;
+    final transitGatewayAttachmentArn = this.transitGatewayAttachmentArn;
+    return {
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (transitGatewayAttachmentArn != null)
+        'TransitGatewayAttachmentArn': transitGatewayAttachmentArn,
+    };
+  }
+}
+
+/// The status of an Amazon Web Services Organization and the accounts within
+/// that organization.
+class OrganizationStatus {
+  /// The current service-linked role (SLR) deployment status for an Amazon Web
+  /// Services Organization's accounts. This will be either <code>SUCCEEDED</code>
+  /// or <code>IN_PROGRESS</code>.
+  final List<AccountStatus>? accountStatusList;
+
+  /// The status of the organization's AWS service access. This will be
+  /// <code>ENABLED</code> or <code>DISABLED</code>.
+  final String? organizationAwsServiceAccessStatus;
+
+  /// The ID of an Amazon Web Services Organization.
+  final String? organizationId;
+
+  /// The status of the SLR deployment for the account. This will be either
+  /// <code>SUCCEEDED</code> or <code>IN_PROGRESS</code>.
+  final String? sLRDeploymentStatus;
+
+  OrganizationStatus({
+    this.accountStatusList,
+    this.organizationAwsServiceAccessStatus,
+    this.organizationId,
+    this.sLRDeploymentStatus,
+  });
+
+  factory OrganizationStatus.fromJson(Map<String, dynamic> json) {
+    return OrganizationStatus(
+      accountStatusList: (json['AccountStatusList'] as List?)
+          ?.nonNulls
+          .map((e) => AccountStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      organizationAwsServiceAccessStatus:
+          json['OrganizationAwsServiceAccessStatus'] as String?,
+      organizationId: json['OrganizationId'] as String?,
+      sLRDeploymentStatus: json['SLRDeploymentStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountStatusList = this.accountStatusList;
+    final organizationAwsServiceAccessStatus =
+        this.organizationAwsServiceAccessStatus;
+    final organizationId = this.organizationId;
+    final sLRDeploymentStatus = this.sLRDeploymentStatus;
+    return {
+      if (accountStatusList != null) 'AccountStatusList': accountStatusList,
+      if (organizationAwsServiceAccessStatus != null)
+        'OrganizationAwsServiceAccessStatus':
+            organizationAwsServiceAccessStatus,
+      if (organizationId != null) 'OrganizationId': organizationId,
+      if (sLRDeploymentStatus != null)
+        'SLRDeploymentStatus': sLRDeploymentStatus,
+    };
+  }
+}
+
+/// Describes the current status of an account within an Amazon Web Services
+/// Organization, including service-linked roles (SLRs).
+class AccountStatus {
+  /// The ID of an account within the Amazon Web Services Organization.
+  final String? accountId;
+
+  /// The status of SLR deployment for the account.
+  final String? sLRDeploymentStatus;
+
+  AccountStatus({
+    this.accountId,
+    this.sLRDeploymentStatus,
+  });
+
+  factory AccountStatus.fromJson(Map<String, dynamic> json) {
+    return AccountStatus(
+      accountId: json['AccountId'] as String?,
+      sLRDeploymentStatus: json['SLRDeploymentStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final sLRDeploymentStatus = this.sLRDeploymentStatus;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (sLRDeploymentStatus != null)
+        'SLRDeploymentStatus': sLRDeploymentStatus,
+    };
+  }
+}
+
+/// Describes a core network policy. You can have only one LIVE Core Policy.
+class CoreNetworkPolicy {
+  /// Whether a core network policy is the current LIVE policy or the most
+  /// recently submitted policy.
+  final CoreNetworkPolicyAlias? alias;
+
+  /// The state of a core network policy.
+  final ChangeSetState? changeSetState;
+
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The timestamp when a core network policy was created.
+  final DateTime? createdAt;
+
+  /// The description of a core network policy.
+  final String? description;
+
+  /// Describes a core network policy.
+  final Object? policyDocument;
+
+  /// Describes any errors in a core network policy.
+  final List<CoreNetworkPolicyError>? policyErrors;
+
+  /// The ID of the policy version.
+  final int? policyVersionId;
+
+  CoreNetworkPolicy({
+    this.alias,
+    this.changeSetState,
+    this.coreNetworkId,
+    this.createdAt,
+    this.description,
+    this.policyDocument,
+    this.policyErrors,
+    this.policyVersionId,
+  });
+
+  factory CoreNetworkPolicy.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkPolicy(
+      alias: (json['Alias'] as String?)?.let(CoreNetworkPolicyAlias.fromString),
+      changeSetState:
+          (json['ChangeSetState'] as String?)?.let(ChangeSetState.fromString),
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      policyDocument: json['PolicyDocument'] == null
+          ? null
+          : jsonDecode(json['PolicyDocument'] as String),
+      policyErrors: (json['PolicyErrors'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => CoreNetworkPolicyError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      policyVersionId: json['PolicyVersionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final changeSetState = this.changeSetState;
+    final coreNetworkId = this.coreNetworkId;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final policyDocument = this.policyDocument;
+    final policyErrors = this.policyErrors;
+    final policyVersionId = this.policyVersionId;
+    return {
+      if (alias != null) 'Alias': alias.value,
+      if (changeSetState != null) 'ChangeSetState': changeSetState.value,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (policyDocument != null) 'PolicyDocument': jsonEncode(policyDocument),
+      if (policyErrors != null) 'PolicyErrors': policyErrors,
+      if (policyVersionId != null) 'PolicyVersionId': policyVersionId,
+    };
+  }
+}
+
+class CoreNetworkPolicyAlias {
+  static const live = CoreNetworkPolicyAlias._('LIVE');
+  static const latest = CoreNetworkPolicyAlias._('LATEST');
+
+  final String value;
+
+  const CoreNetworkPolicyAlias._(this.value);
+
+  static const values = [live, latest];
+
+  static CoreNetworkPolicyAlias fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CoreNetworkPolicyAlias._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CoreNetworkPolicyAlias && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ChangeSetState {
+  static const pendingGeneration = ChangeSetState._('PENDING_GENERATION');
+  static const failedGeneration = ChangeSetState._('FAILED_GENERATION');
+  static const readyToExecute = ChangeSetState._('READY_TO_EXECUTE');
+  static const executing = ChangeSetState._('EXECUTING');
+  static const executionSucceeded = ChangeSetState._('EXECUTION_SUCCEEDED');
+  static const outOfDate = ChangeSetState._('OUT_OF_DATE');
+
+  final String value;
+
+  const ChangeSetState._(this.value);
+
+  static const values = [
+    pendingGeneration,
+    failedGeneration,
+    readyToExecute,
+    executing,
+    executionSucceeded,
+    outOfDate
+  ];
+
+  static ChangeSetState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChangeSetState._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeSetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides details about an error in a core network policy.
+class CoreNetworkPolicyError {
+  /// The error code associated with a core network policy error.
+  final String errorCode;
+
+  /// The message associated with a core network policy error code.
+  final String message;
+
+  /// The JSON path where the error was discovered in the policy document.
+  final String? path;
+
+  CoreNetworkPolicyError({
+    required this.errorCode,
+    required this.message,
+    this.path,
+  });
+
+  factory CoreNetworkPolicyError.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkPolicyError(
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      message: (json['Message'] as String?) ?? '',
+      path: json['Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final message = this.message;
+    final path = this.path;
+    return {
+      'ErrorCode': errorCode,
+      'Message': message,
+      if (path != null) 'Path': path,
+    };
+  }
+}
+
+/// Describes the registration of a transit gateway to a global network.
+class TransitGatewayRegistration {
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The state of the transit gateway registration.
+  final TransitGatewayRegistrationStateReason? state;
+
+  /// The Amazon Resource Name (ARN) of the transit gateway.
+  final String? transitGatewayArn;
+
+  TransitGatewayRegistration({
+    this.globalNetworkId,
+    this.state,
+    this.transitGatewayArn,
+  });
+
+  factory TransitGatewayRegistration.fromJson(Map<String, dynamic> json) {
+    return TransitGatewayRegistration(
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      state: json['State'] != null
+          ? TransitGatewayRegistrationStateReason.fromJson(
+              json['State'] as Map<String, dynamic>)
+          : null,
+      transitGatewayArn: json['TransitGatewayArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalNetworkId = this.globalNetworkId;
+    final state = this.state;
+    final transitGatewayArn = this.transitGatewayArn;
+    return {
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (state != null) 'State': state,
+      if (transitGatewayArn != null) 'TransitGatewayArn': transitGatewayArn,
+    };
+  }
+}
+
+/// Describes the status of a transit gateway registration.
+class TransitGatewayRegistrationStateReason {
+  /// The code for the state reason.
+  final TransitGatewayRegistrationState? code;
+
+  /// The message for the state reason.
+  final String? message;
+
+  TransitGatewayRegistrationStateReason({
+    this.code,
+    this.message,
+  });
+
+  factory TransitGatewayRegistrationStateReason.fromJson(
+      Map<String, dynamic> json) {
+    return TransitGatewayRegistrationStateReason(
+      code: (json['Code'] as String?)
+          ?.let(TransitGatewayRegistrationState.fromString),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+class TransitGatewayRegistrationState {
+  static const pending = TransitGatewayRegistrationState._('PENDING');
+  static const available = TransitGatewayRegistrationState._('AVAILABLE');
+  static const deleting = TransitGatewayRegistrationState._('DELETING');
+  static const deleted = TransitGatewayRegistrationState._('DELETED');
+  static const failed = TransitGatewayRegistrationState._('FAILED');
+
+  final String value;
+
+  const TransitGatewayRegistrationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted, failed];
+
+  static TransitGatewayRegistrationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransitGatewayRegistrationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayRegistrationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a peering connection.
+class Peering {
+  /// The ARN of a core network.
+  final String? coreNetworkArn;
+
+  /// The ID of the core network for the peering request.
+  final String? coreNetworkId;
+
+  /// The timestamp when the attachment peer was created.
+  final DateTime? createdAt;
+
+  /// The edge location for the peer.
+  final String? edgeLocation;
+
+  /// Describes the error associated with the Connect peer request.
+  final List<PeeringError>? lastModificationErrors;
+
+  /// The ID of the account owner.
+  final String? ownerAccountId;
+
+  /// The ID of the peering attachment.
+  final String? peeringId;
+
+  /// The type of peering. This will be <code>TRANSIT_GATEWAY</code>.
+  final PeeringType? peeringType;
+
+  /// The resource ARN of the peer.
+  final String? resourceArn;
+
+  /// The current state of the peering connection.
+  final PeeringState? state;
+
+  /// The list of key-value tags associated with the peering.
+  final List<Tag>? tags;
+
+  Peering({
+    this.coreNetworkArn,
+    this.coreNetworkId,
+    this.createdAt,
+    this.edgeLocation,
+    this.lastModificationErrors,
+    this.ownerAccountId,
+    this.peeringId,
+    this.peeringType,
+    this.resourceArn,
+    this.state,
+    this.tags,
+  });
+
+  factory Peering.fromJson(Map<String, dynamic> json) {
+    return Peering(
+      coreNetworkArn: json['CoreNetworkArn'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      edgeLocation: json['EdgeLocation'] as String?,
+      lastModificationErrors: (json['LastModificationErrors'] as List?)
+          ?.nonNulls
+          .map((e) => PeeringError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      peeringId: json['PeeringId'] as String?,
+      peeringType:
+          (json['PeeringType'] as String?)?.let(PeeringType.fromString),
+      resourceArn: json['ResourceArn'] as String?,
+      state: (json['State'] as String?)?.let(PeeringState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkArn = this.coreNetworkArn;
+    final coreNetworkId = this.coreNetworkId;
+    final createdAt = this.createdAt;
+    final edgeLocation = this.edgeLocation;
+    final lastModificationErrors = this.lastModificationErrors;
+    final ownerAccountId = this.ownerAccountId;
+    final peeringId = this.peeringId;
+    final peeringType = this.peeringType;
+    final resourceArn = this.resourceArn;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (lastModificationErrors != null)
+        'LastModificationErrors': lastModificationErrors,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (peeringId != null) 'PeeringId': peeringId,
+      if (peeringType != null) 'PeeringType': peeringType.value,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class PeeringType {
+  static const transitGateway = PeeringType._('TRANSIT_GATEWAY');
+
+  final String value;
+
+  const PeeringType._(this.value);
+
+  static const values = [transitGateway];
+
+  static PeeringType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PeeringType._(value));
+
+  @override
+  bool operator ==(other) => other is PeeringType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PeeringState {
+  static const creating = PeeringState._('CREATING');
+  static const failed = PeeringState._('FAILED');
+  static const available = PeeringState._('AVAILABLE');
+  static const deleting = PeeringState._('DELETING');
+
+  final String value;
+
+  const PeeringState._(this.value);
+
+  static const values = [creating, failed, available, deleting];
+
+  static PeeringState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PeeringState._(value));
+
+  @override
+  bool operator ==(other) => other is PeeringState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an error associated with a peering request.
+class PeeringError {
+  /// The error code for the peering request.
+  final PeeringErrorCode? code;
+
+  /// The message associated with the error <code>code</code>.
+  final String? message;
+
+  /// Provides additional information about missing permissions for the peering
+  /// error.
+  final PermissionsErrorContext? missingPermissionsContext;
+
+  /// The ID of the Peering request.
+  final String? requestId;
+
+  /// The ARN of the requested peering resource.
+  final String? resourceArn;
+
+  PeeringError({
+    this.code,
+    this.message,
+    this.missingPermissionsContext,
+    this.requestId,
+    this.resourceArn,
+  });
+
+  factory PeeringError.fromJson(Map<String, dynamic> json) {
+    return PeeringError(
+      code: (json['Code'] as String?)?.let(PeeringErrorCode.fromString),
+      message: json['Message'] as String?,
+      missingPermissionsContext: json['MissingPermissionsContext'] != null
+          ? PermissionsErrorContext.fromJson(
+              json['MissingPermissionsContext'] as Map<String, dynamic>)
+          : null,
+      requestId: json['RequestId'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final missingPermissionsContext = this.missingPermissionsContext;
+    final requestId = this.requestId;
+    final resourceArn = this.resourceArn;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+      if (missingPermissionsContext != null)
+        'MissingPermissionsContext': missingPermissionsContext,
+      if (requestId != null) 'RequestId': requestId,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+class PeeringErrorCode {
+  static const transitGatewayNotFound =
+      PeeringErrorCode._('TRANSIT_GATEWAY_NOT_FOUND');
+  static const transitGatewayPeersLimitExceeded =
+      PeeringErrorCode._('TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED');
+  static const missingPermissions = PeeringErrorCode._('MISSING_PERMISSIONS');
+  static const internalError = PeeringErrorCode._('INTERNAL_ERROR');
+  static const edgeLocationPeerDuplicate =
+      PeeringErrorCode._('EDGE_LOCATION_PEER_DUPLICATE');
+  static const invalidTransitGatewayState =
+      PeeringErrorCode._('INVALID_TRANSIT_GATEWAY_STATE');
+
+  final String value;
+
+  const PeeringErrorCode._(this.value);
+
+  static const values = [
+    transitGatewayNotFound,
+    transitGatewayPeersLimitExceeded,
+    missingPermissions,
+    internalError,
+    edgeLocationPeerDuplicate,
+    invalidTransitGatewayState
+  ];
+
+  static PeeringErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PeeringErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is PeeringErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes additional information about missing permissions.
+class PermissionsErrorContext {
+  /// The missing permissions.
+  final String? missingPermission;
+
+  PermissionsErrorContext({
+    this.missingPermission,
+  });
+
+  factory PermissionsErrorContext.fromJson(Map<String, dynamic> json) {
+    return PermissionsErrorContext(
+      missingPermission: json['MissingPermission'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final missingPermission = this.missingPermission;
+    return {
+      if (missingPermission != null) 'MissingPermission': missingPermission,
+    };
+  }
+}
+
+/// Returns summary information about a core network.
+class CoreNetworkSummary {
+  /// a core network ARN.
+  final String? coreNetworkArn;
+
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The description of a core network.
+  final String? description;
+
+  /// The global network ID.
+  final String? globalNetworkId;
+
+  /// The ID of the account owner.
+  final String? ownerAccountId;
+
+  /// The state of a core network.
+  final CoreNetworkState? state;
+
+  /// The key-value tags associated with a core network summary.
+  final List<Tag>? tags;
+
+  CoreNetworkSummary({
+    this.coreNetworkArn,
+    this.coreNetworkId,
+    this.description,
+    this.globalNetworkId,
+    this.ownerAccountId,
+    this.state,
+    this.tags,
+  });
+
+  factory CoreNetworkSummary.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkSummary(
+      coreNetworkArn: json['CoreNetworkArn'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      description: json['Description'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      state: (json['State'] as String?)?.let(CoreNetworkState.fromString),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkArn = this.coreNetworkArn;
+    final coreNetworkId = this.coreNetworkId;
+    final description = this.description;
+    final globalNetworkId = this.globalNetworkId;
+    final ownerAccountId = this.ownerAccountId;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (description != null) 'Description': description,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Routing information for a core network, including route details and BGP
+/// attributes.
+class CoreNetworkRoutingInformation {
+  /// The BGP AS path for the route.
+  final List<String>? asPath;
+
+  /// The BGP community values for the route.
+  final List<String>? communities;
+
+  /// The BGP local preference value for the route.
+  final String? localPreference;
+
+  /// The BGP Multi-Exit Discriminator (MED) value for the route.
+  final String? med;
+
+  /// The next hop information for the route.
+  final RoutingInformationNextHop? nextHop;
+
+  /// The IP prefix for the route.
+  final String? prefix;
+
+  CoreNetworkRoutingInformation({
+    this.asPath,
+    this.communities,
+    this.localPreference,
+    this.med,
+    this.nextHop,
+    this.prefix,
+  });
+
+  factory CoreNetworkRoutingInformation.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkRoutingInformation(
+      asPath:
+          (json['AsPath'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      communities: (json['Communities'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      localPreference: json['LocalPreference'] as String?,
+      med: json['Med'] as String?,
+      nextHop: json['NextHop'] != null
+          ? RoutingInformationNextHop.fromJson(
+              json['NextHop'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asPath = this.asPath;
+    final communities = this.communities;
+    final localPreference = this.localPreference;
+    final med = this.med;
+    final nextHop = this.nextHop;
+    final prefix = this.prefix;
+    return {
+      if (asPath != null) 'AsPath': asPath,
+      if (communities != null) 'Communities': communities,
+      if (localPreference != null) 'LocalPreference': localPreference,
+      if (med != null) 'Med': med,
+      if (nextHop != null) 'NextHop': nextHop,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
+/// Information about the next hop for a route in the core network.
+class RoutingInformationNextHop {
+  /// The ID of the core network attachment for the next hop.
+  final String? coreNetworkAttachmentId;
+
+  /// The edge location for the next hop.
+  final String? edgeLocation;
+
+  /// The IP address of the next hop.
+  final String? ipAddress;
+
+  /// The ID of the resource for the next hop.
+  final String? resourceId;
+
+  /// The type of resource for the next hop.
+  final String? resourceType;
+
+  /// The name of the segment for the next hop.
+  final String? segmentName;
+
+  RoutingInformationNextHop({
+    this.coreNetworkAttachmentId,
+    this.edgeLocation,
+    this.ipAddress,
+    this.resourceId,
+    this.resourceType,
+    this.segmentName,
+  });
+
+  factory RoutingInformationNextHop.fromJson(Map<String, dynamic> json) {
+    return RoutingInformationNextHop(
+      coreNetworkAttachmentId: json['CoreNetworkAttachmentId'] as String?,
+      edgeLocation: json['EdgeLocation'] as String?,
+      ipAddress: json['IpAddress'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      segmentName: json['SegmentName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkAttachmentId = this.coreNetworkAttachmentId;
+    final edgeLocation = this.edgeLocation;
+    final ipAddress = this.ipAddress;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final segmentName = this.segmentName;
+    return {
+      if (coreNetworkAttachmentId != null)
+        'CoreNetworkAttachmentId': coreNetworkAttachmentId,
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (segmentName != null) 'SegmentName': segmentName,
+    };
+  }
+}
+
+/// Information about a prefix list association with a core network.
+class PrefixListAssociation {
+  /// The core network id in the association.
+  final String? coreNetworkId;
+
+  /// The alias of the prefix list in the association.
+  final String? prefixListAlias;
+
+  /// The ARN of the prefix list in the association.
+  final String? prefixListArn;
+
+  PrefixListAssociation({
+    this.coreNetworkId,
+    this.prefixListAlias,
+    this.prefixListArn,
+  });
+
+  factory PrefixListAssociation.fromJson(Map<String, dynamic> json) {
+    return PrefixListAssociation(
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      prefixListAlias: json['PrefixListAlias'] as String?,
+      prefixListArn: json['PrefixListArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkId = this.coreNetworkId;
+    final prefixListAlias = this.prefixListAlias;
+    final prefixListArn = this.prefixListArn;
+    return {
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (prefixListAlias != null) 'PrefixListAlias': prefixListAlias,
+      if (prefixListArn != null) 'PrefixListArn': prefixListArn,
+    };
+  }
+}
+
+/// Describes a core network policy version.
+class CoreNetworkPolicyVersion {
+  /// Whether a core network policy is the current policy or the most recently
+  /// submitted policy.
+  final CoreNetworkPolicyAlias? alias;
+
+  /// The status of the policy version change set.
+  final ChangeSetState? changeSetState;
+
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The timestamp when a core network policy version was created.
+  final DateTime? createdAt;
+
+  /// The description of a core network policy version.
+  final String? description;
+
+  /// The ID of the policy version.
+  final int? policyVersionId;
+
+  CoreNetworkPolicyVersion({
+    this.alias,
+    this.changeSetState,
+    this.coreNetworkId,
+    this.createdAt,
+    this.description,
+    this.policyVersionId,
+  });
+
+  factory CoreNetworkPolicyVersion.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkPolicyVersion(
+      alias: (json['Alias'] as String?)?.let(CoreNetworkPolicyAlias.fromString),
+      changeSetState:
+          (json['ChangeSetState'] as String?)?.let(ChangeSetState.fromString),
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      policyVersionId: json['PolicyVersionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final changeSetState = this.changeSetState;
+    final coreNetworkId = this.coreNetworkId;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final policyVersionId = this.policyVersionId;
+    return {
+      if (alias != null) 'Alias': alias.value,
+      if (changeSetState != null) 'ChangeSetState': changeSetState.value,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (policyVersionId != null) 'PolicyVersionId': policyVersionId,
+    };
+  }
+}
+
+/// Summary description of a Connect peer.
+class ConnectPeerSummary {
+  /// The ID of a Connect peer attachment.
+  final String? connectAttachmentId;
+
+  /// The ID of a Connect peer.
+  final String? connectPeerId;
+
+  /// The state of a Connect peer.
+  final ConnectPeerState? connectPeerState;
+
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The timestamp when a Connect peer was created.
+  final DateTime? createdAt;
+
+  /// The Region where the edge is located.
+  final String? edgeLocation;
+
+  /// The subnet ARN for the Connect peer summary.
+  final String? subnetArn;
+
+  /// The list of key-value tags associated with the Connect peer summary.
+  final List<Tag>? tags;
+
+  ConnectPeerSummary({
+    this.connectAttachmentId,
+    this.connectPeerId,
+    this.connectPeerState,
+    this.coreNetworkId,
+    this.createdAt,
+    this.edgeLocation,
+    this.subnetArn,
+    this.tags,
+  });
+
+  factory ConnectPeerSummary.fromJson(Map<String, dynamic> json) {
+    return ConnectPeerSummary(
+      connectAttachmentId: json['ConnectAttachmentId'] as String?,
+      connectPeerId: json['ConnectPeerId'] as String?,
+      connectPeerState: (json['ConnectPeerState'] as String?)
+          ?.let(ConnectPeerState.fromString),
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      edgeLocation: json['EdgeLocation'] as String?,
+      subnetArn: json['SubnetArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectAttachmentId = this.connectAttachmentId;
+    final connectPeerId = this.connectPeerId;
+    final connectPeerState = this.connectPeerState;
+    final coreNetworkId = this.coreNetworkId;
+    final createdAt = this.createdAt;
+    final edgeLocation = this.edgeLocation;
+    final subnetArn = this.subnetArn;
+    final tags = this.tags;
+    return {
+      if (connectAttachmentId != null)
+        'ConnectAttachmentId': connectAttachmentId,
+      if (connectPeerId != null) 'ConnectPeerId': connectPeerId,
+      if (connectPeerState != null) 'ConnectPeerState': connectPeerState.value,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (subnetArn != null) 'SubnetArn': subnetArn,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ConnectPeerState {
+  static const creating = ConnectPeerState._('CREATING');
+  static const failed = ConnectPeerState._('FAILED');
+  static const available = ConnectPeerState._('AVAILABLE');
+  static const deleting = ConnectPeerState._('DELETING');
+
+  final String value;
+
+  const ConnectPeerState._(this.value);
+
+  static const values = [creating, failed, available, deleting];
+
+  static ConnectPeerState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectPeerState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectPeerState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information about routing policy associations for an attachment.
+class AttachmentRoutingPolicyAssociationSummary {
+  /// The list of routing policies currently associated with the attachment.
+  final List<String>? associatedRoutingPolicies;
+
+  /// The ID of the attachment associated with the routing policy.
+  final String? attachmentId;
+
+  /// The list of routing policies that are pending association with the
+  /// attachment.
+  final List<String>? pendingRoutingPolicies;
+
+  /// The routing policy label associated with the attachment.
+  final String? routingPolicyLabel;
+
+  AttachmentRoutingPolicyAssociationSummary({
+    this.associatedRoutingPolicies,
+    this.attachmentId,
+    this.pendingRoutingPolicies,
+    this.routingPolicyLabel,
+  });
+
+  factory AttachmentRoutingPolicyAssociationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return AttachmentRoutingPolicyAssociationSummary(
+      associatedRoutingPolicies: (json['AssociatedRoutingPolicies'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      attachmentId: json['AttachmentId'] as String?,
+      pendingRoutingPolicies: (json['PendingRoutingPolicies'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      routingPolicyLabel: json['RoutingPolicyLabel'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedRoutingPolicies = this.associatedRoutingPolicies;
+    final attachmentId = this.attachmentId;
+    final pendingRoutingPolicies = this.pendingRoutingPolicies;
+    final routingPolicyLabel = this.routingPolicyLabel;
+    return {
+      if (associatedRoutingPolicies != null)
+        'AssociatedRoutingPolicies': associatedRoutingPolicies,
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (pendingRoutingPolicies != null)
+        'PendingRoutingPolicies': pendingRoutingPolicies,
+      if (routingPolicyLabel != null) 'RoutingPolicyLabel': routingPolicyLabel,
+    };
+  }
+}
+
+/// Describes a transit gateway route table attachment.
+class TransitGatewayRouteTableAttachment {
+  final Attachment? attachment;
+
+  /// The ID of the peering attachment.
+  final String? peeringId;
+
+  /// The ARN of the transit gateway attachment route table. For example,
+  /// <code>"TransitGatewayRouteTableArn":
+  /// "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456"</code>.
+  final String? transitGatewayRouteTableArn;
+
+  TransitGatewayRouteTableAttachment({
+    this.attachment,
+    this.peeringId,
+    this.transitGatewayRouteTableArn,
+  });
+
+  factory TransitGatewayRouteTableAttachment.fromJson(
+      Map<String, dynamic> json) {
+    return TransitGatewayRouteTableAttachment(
+      attachment: json['Attachment'] != null
+          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
+          : null,
+      peeringId: json['PeeringId'] as String?,
+      transitGatewayRouteTableArn:
+          json['TransitGatewayRouteTableArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    final peeringId = this.peeringId;
+    final transitGatewayRouteTableArn = this.transitGatewayRouteTableArn;
+    return {
+      if (attachment != null) 'Attachment': attachment,
+      if (peeringId != null) 'PeeringId': peeringId,
+      if (transitGatewayRouteTableArn != null)
+        'TransitGatewayRouteTableArn': transitGatewayRouteTableArn,
+    };
+  }
+}
+
+/// Describes a transit gateway peering attachment.
+class TransitGatewayPeering {
+  /// Describes a transit gateway peer connection.
+  final Peering? peering;
+
+  /// The ARN of the transit gateway.
+  final String? transitGatewayArn;
+
+  /// The ID of the transit gateway peering attachment.
+  final String? transitGatewayPeeringAttachmentId;
+
+  TransitGatewayPeering({
+    this.peering,
+    this.transitGatewayArn,
+    this.transitGatewayPeeringAttachmentId,
+  });
+
+  factory TransitGatewayPeering.fromJson(Map<String, dynamic> json) {
+    return TransitGatewayPeering(
+      peering: json['Peering'] != null
+          ? Peering.fromJson(json['Peering'] as Map<String, dynamic>)
+          : null,
+      transitGatewayArn: json['TransitGatewayArn'] as String?,
+      transitGatewayPeeringAttachmentId:
+          json['TransitGatewayPeeringAttachmentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final peering = this.peering;
+    final transitGatewayArn = this.transitGatewayArn;
+    final transitGatewayPeeringAttachmentId =
+        this.transitGatewayPeeringAttachmentId;
+    return {
+      if (peering != null) 'Peering': peering,
+      if (transitGatewayArn != null) 'TransitGatewayArn': transitGatewayArn,
+      if (transitGatewayPeeringAttachmentId != null)
+        'TransitGatewayPeeringAttachmentId': transitGatewayPeeringAttachmentId,
+    };
+  }
+}
+
+/// Describes a transit gateway Connect peer association.
+class TransitGatewayConnectPeerAssociation {
+  /// The ID of the device.
+  final String? deviceId;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The ID of the link.
+  final String? linkId;
+
+  /// The state of the association.
+  final TransitGatewayConnectPeerAssociationState? state;
+
+  /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
+  final String? transitGatewayConnectPeerArn;
+
+  TransitGatewayConnectPeerAssociation({
+    this.deviceId,
+    this.globalNetworkId,
+    this.linkId,
+    this.state,
+    this.transitGatewayConnectPeerArn,
+  });
+
+  factory TransitGatewayConnectPeerAssociation.fromJson(
+      Map<String, dynamic> json) {
+    return TransitGatewayConnectPeerAssociation(
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkId: json['LinkId'] as String?,
+      state: (json['State'] as String?)
+          ?.let(TransitGatewayConnectPeerAssociationState.fromString),
+      transitGatewayConnectPeerArn:
+          json['TransitGatewayConnectPeerArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final linkId = this.linkId;
+    final state = this.state;
+    final transitGatewayConnectPeerArn = this.transitGatewayConnectPeerArn;
+    return {
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkId != null) 'LinkId': linkId,
+      if (state != null) 'State': state.value,
+      if (transitGatewayConnectPeerArn != null)
+        'TransitGatewayConnectPeerArn': transitGatewayConnectPeerArn,
+    };
+  }
+}
+
+class TransitGatewayConnectPeerAssociationState {
+  static const pending = TransitGatewayConnectPeerAssociationState._('PENDING');
+  static const available =
+      TransitGatewayConnectPeerAssociationState._('AVAILABLE');
+  static const deleting =
+      TransitGatewayConnectPeerAssociationState._('DELETING');
+  static const deleted = TransitGatewayConnectPeerAssociationState._('DELETED');
+
+  final String value;
+
+  const TransitGatewayConnectPeerAssociationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
+
+  static TransitGatewayConnectPeerAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransitGatewayConnectPeerAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitGatewayConnectPeerAssociationState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Creates a site-to-site VPN attachment.
+class SiteToSiteVpnAttachment {
+  /// Provides details about a site-to-site VPN attachment.
+  final Attachment? attachment;
+
+  /// The ARN of the site-to-site VPN attachment.
+  final String? vpnConnectionArn;
+
+  SiteToSiteVpnAttachment({
+    this.attachment,
+    this.vpnConnectionArn,
+  });
+
+  factory SiteToSiteVpnAttachment.fromJson(Map<String, dynamic> json) {
+    return SiteToSiteVpnAttachment(
+      attachment: json['Attachment'] != null
+          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
+          : null,
+      vpnConnectionArn: json['VpnConnectionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    final vpnConnectionArn = this.vpnConnectionArn;
+    return {
+      if (attachment != null) 'Attachment': attachment,
+      if (vpnConnectionArn != null) 'VpnConnectionArn': vpnConnectionArn,
+    };
+  }
+}
+
+/// Describes the telemetry information for a resource.
+class NetworkTelemetry {
+  /// The Amazon Web Services account ID.
+  final String? accountId;
+
+  /// The address.
+  final String? address;
+
+  /// The Amazon Web Services Region.
+  final String? awsRegion;
+
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The connection health.
+  final ConnectionHealth? health;
+
+  /// The ARN of the gateway.
+  final String? registeredGatewayArn;
+
+  /// The ARN of the resource.
+  final String? resourceArn;
+
+  /// The ID of the resource.
+  final String? resourceId;
+
+  /// The resource type.
+  final String? resourceType;
+
+  NetworkTelemetry({
+    this.accountId,
+    this.address,
+    this.awsRegion,
+    this.coreNetworkId,
+    this.health,
+    this.registeredGatewayArn,
+    this.resourceArn,
+    this.resourceId,
+    this.resourceType,
+  });
+
+  factory NetworkTelemetry.fromJson(Map<String, dynamic> json) {
+    return NetworkTelemetry(
+      accountId: json['AccountId'] as String?,
+      address: json['Address'] as String?,
+      awsRegion: json['AwsRegion'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      health: json['Health'] != null
+          ? ConnectionHealth.fromJson(json['Health'] as Map<String, dynamic>)
+          : null,
+      registeredGatewayArn: json['RegisteredGatewayArn'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final address = this.address;
+    final awsRegion = this.awsRegion;
+    final coreNetworkId = this.coreNetworkId;
+    final health = this.health;
+    final registeredGatewayArn = this.registeredGatewayArn;
+    final resourceArn = this.resourceArn;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (address != null) 'Address': address,
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (health != null) 'Health': health,
+      if (registeredGatewayArn != null)
+        'RegisteredGatewayArn': registeredGatewayArn,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
+}
+
+/// Describes connection health.
+class ConnectionHealth {
+  /// The connection status.
+  final ConnectionStatus? status;
+
+  /// The time the status was last updated.
+  final DateTime? timestamp;
+
+  /// The connection type.
+  final ConnectionType? type;
+
+  ConnectionHealth({
+    this.status,
+    this.timestamp,
+    this.type,
+  });
+
+  factory ConnectionHealth.fromJson(Map<String, dynamic> json) {
+    return ConnectionHealth(
+      status: (json['Status'] as String?)?.let(ConnectionStatus.fromString),
+      timestamp: timeStampFromJson(json['Timestamp']),
+      type: (json['Type'] as String?)?.let(ConnectionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final timestamp = this.timestamp;
+    final type = this.type;
+    return {
+      if (status != null) 'Status': status.value,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ConnectionType {
+  static const bgp = ConnectionType._('BGP');
+  static const ipsec = ConnectionType._('IPSEC');
+
+  final String value;
+
+  const ConnectionType._(this.value);
+
+  static const values = [bgp, ipsec];
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConnectionStatus {
+  static const up = ConnectionStatus._('UP');
+  static const down = ConnectionStatus._('DOWN');
+
+  final String value;
+
+  const ConnectionStatus._(this.value);
+
+  static const values = [up, down];
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns details about a core network edge.
+class CoreNetworkSegmentEdgeIdentifier {
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The Region where the segment edge is located.
+  final String? edgeLocation;
+
+  /// The name of the segment edge.
+  final String? segmentName;
+
+  CoreNetworkSegmentEdgeIdentifier({
+    this.coreNetworkId,
+    this.edgeLocation,
+    this.segmentName,
+  });
+
+  factory CoreNetworkSegmentEdgeIdentifier.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkSegmentEdgeIdentifier(
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      edgeLocation: json['EdgeLocation'] as String?,
+      segmentName: json['SegmentName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkId = this.coreNetworkId;
+    final edgeLocation = this.edgeLocation;
+    final segmentName = this.segmentName;
+    return {
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (segmentName != null) 'SegmentName': segmentName,
+    };
+  }
+}
+
+class RouteTableType {
+  static const transitGatewayRouteTable =
+      RouteTableType._('TRANSIT_GATEWAY_ROUTE_TABLE');
+  static const coreNetworkSegment = RouteTableType._('CORE_NETWORK_SEGMENT');
+  static const networkFunctionGroup =
+      RouteTableType._('NETWORK_FUNCTION_GROUP');
+
+  final String value;
+
+  const RouteTableType._(this.value);
+
+  static const values = [
+    transitGatewayRouteTable,
+    coreNetworkSegment,
+    networkFunctionGroup
+  ];
+
+  static RouteTableType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RouteTableType._(value));
+
+  @override
+  bool operator ==(other) => other is RouteTableType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a network route.
+class NetworkRoute {
+  /// A unique identifier for the route, such as a CIDR block.
+  final String? destinationCidrBlock;
+
+  /// The destinations.
+  final List<NetworkRouteDestination>? destinations;
+
+  /// The ID of the prefix list.
+  final String? prefixListId;
+
+  /// The route state. The possible values are <code>active</code> and
+  /// <code>blackhole</code>.
+  final RouteState? state;
+
+  /// The route type. The possible values are <code>propagated</code> and
+  /// <code>static</code>.
+  final RouteType? type;
+
+  NetworkRoute({
+    this.destinationCidrBlock,
+    this.destinations,
+    this.prefixListId,
+    this.state,
+    this.type,
+  });
+
+  factory NetworkRoute.fromJson(Map<String, dynamic> json) {
+    return NetworkRoute(
+      destinationCidrBlock: json['DestinationCidrBlock'] as String?,
+      destinations: (json['Destinations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              NetworkRouteDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      prefixListId: json['PrefixListId'] as String?,
+      state: (json['State'] as String?)?.let(RouteState.fromString),
+      type: (json['Type'] as String?)?.let(RouteType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationCidrBlock = this.destinationCidrBlock;
+    final destinations = this.destinations;
+    final prefixListId = this.prefixListId;
+    final state = this.state;
+    final type = this.type;
+    return {
+      if (destinationCidrBlock != null)
+        'DestinationCidrBlock': destinationCidrBlock,
+      if (destinations != null) 'Destinations': destinations,
+      if (prefixListId != null) 'PrefixListId': prefixListId,
+      if (state != null) 'State': state.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class RouteState {
+  static const active = RouteState._('ACTIVE');
+  static const blackhole = RouteState._('BLACKHOLE');
+
+  final String value;
+
+  const RouteState._(this.value);
+
+  static const values = [active, blackhole];
+
+  static RouteState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteState._(value));
+
+  @override
+  bool operator ==(other) => other is RouteState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RouteType {
+  static const propagated = RouteType._('PROPAGATED');
+  static const static = RouteType._('STATIC');
+
+  final String value;
+
+  const RouteType._(this.value);
+
+  static const values = [propagated, static];
+
+  static RouteType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RouteType._(value));
+
+  @override
+  bool operator ==(other) => other is RouteType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the destination of a network route.
+class NetworkRouteDestination {
+  /// The ID of a core network attachment.
+  final String? coreNetworkAttachmentId;
+
+  /// The edge location for the network destination.
+  final String? edgeLocation;
+
+  /// The network function group name associated with the destination.
+  final String? networkFunctionGroupName;
+
+  /// The ID of the resource.
+  final String? resourceId;
+
+  /// The resource type.
+  final String? resourceType;
+
+  /// The name of the segment.
+  final String? segmentName;
+
+  /// The ID of the transit gateway attachment.
+  final String? transitGatewayAttachmentId;
+
+  NetworkRouteDestination({
+    this.coreNetworkAttachmentId,
+    this.edgeLocation,
+    this.networkFunctionGroupName,
+    this.resourceId,
+    this.resourceType,
+    this.segmentName,
+    this.transitGatewayAttachmentId,
+  });
+
+  factory NetworkRouteDestination.fromJson(Map<String, dynamic> json) {
+    return NetworkRouteDestination(
+      coreNetworkAttachmentId: json['CoreNetworkAttachmentId'] as String?,
+      edgeLocation: json['EdgeLocation'] as String?,
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      segmentName: json['SegmentName'] as String?,
+      transitGatewayAttachmentId: json['TransitGatewayAttachmentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkAttachmentId = this.coreNetworkAttachmentId;
+    final edgeLocation = this.edgeLocation;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final segmentName = this.segmentName;
+    final transitGatewayAttachmentId = this.transitGatewayAttachmentId;
+    return {
+      if (coreNetworkAttachmentId != null)
+        'CoreNetworkAttachmentId': coreNetworkAttachmentId,
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (segmentName != null) 'SegmentName': segmentName,
+      if (transitGatewayAttachmentId != null)
+        'TransitGatewayAttachmentId': transitGatewayAttachmentId,
+    };
+  }
+}
+
+/// Describes a route table.
+class RouteTableIdentifier {
+  /// The route table identifier associated with the network function group.
+  final CoreNetworkNetworkFunctionGroupIdentifier?
+      coreNetworkNetworkFunctionGroup;
+
+  /// The segment edge in a core network.
+  final CoreNetworkSegmentEdgeIdentifier? coreNetworkSegmentEdge;
+
+  /// The ARN of the transit gateway route table for the attachment request. For
+  /// example, <code>"TransitGatewayRouteTableArn":
+  /// "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456"</code>.
+  final String? transitGatewayRouteTableArn;
+
+  RouteTableIdentifier({
+    this.coreNetworkNetworkFunctionGroup,
+    this.coreNetworkSegmentEdge,
+    this.transitGatewayRouteTableArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkNetworkFunctionGroup =
+        this.coreNetworkNetworkFunctionGroup;
+    final coreNetworkSegmentEdge = this.coreNetworkSegmentEdge;
+    final transitGatewayRouteTableArn = this.transitGatewayRouteTableArn;
+    return {
+      if (coreNetworkNetworkFunctionGroup != null)
+        'CoreNetworkNetworkFunctionGroup': coreNetworkNetworkFunctionGroup,
+      if (coreNetworkSegmentEdge != null)
+        'CoreNetworkSegmentEdge': coreNetworkSegmentEdge,
+      if (transitGatewayRouteTableArn != null)
+        'TransitGatewayRouteTableArn': transitGatewayRouteTableArn,
+    };
+  }
+}
+
+/// Describes a core network
+class CoreNetworkNetworkFunctionGroupIdentifier {
+  /// The ID of the core network.
+  final String? coreNetworkId;
+
+  /// The location for the core network edge.
+  final String? edgeLocation;
+
+  /// The network function group name.
+  final String? networkFunctionGroupName;
+
+  CoreNetworkNetworkFunctionGroupIdentifier({
+    this.coreNetworkId,
+    this.edgeLocation,
+    this.networkFunctionGroupName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkId = this.coreNetworkId;
+    final edgeLocation = this.edgeLocation;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
+    return {
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
     };
   }
 }
@@ -8616,842 +10874,6 @@ class NetworkResource {
   }
 }
 
-/// Describes a resource count.
-class NetworkResourceCount {
-  /// The resource count.
-  final int? count;
-
-  /// The resource type.
-  final String? resourceType;
-
-  NetworkResourceCount({
-    this.count,
-    this.resourceType,
-  });
-
-  factory NetworkResourceCount.fromJson(Map<String, dynamic> json) {
-    return NetworkResourceCount(
-      count: json['Count'] as int?,
-      resourceType: json['ResourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    final resourceType = this.resourceType;
-    return {
-      if (count != null) 'Count': count,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
-  }
-}
-
-/// Describes a network resource.
-class NetworkResourceSummary {
-  /// Information about the resource, in JSON format. Network Manager gets this
-  /// information by describing the resource using its Describe API call.
-  final String? definition;
-
-  /// Indicates whether this is a middlebox appliance.
-  final bool? isMiddlebox;
-
-  /// The value for the Name tag.
-  final String? nameTag;
-
-  /// The ARN of the gateway.
-  final String? registeredGatewayArn;
-
-  /// The ARN of the resource.
-  final String? resourceArn;
-
-  /// The resource type.
-  final String? resourceType;
-
-  NetworkResourceSummary({
-    this.definition,
-    this.isMiddlebox,
-    this.nameTag,
-    this.registeredGatewayArn,
-    this.resourceArn,
-    this.resourceType,
-  });
-
-  factory NetworkResourceSummary.fromJson(Map<String, dynamic> json) {
-    return NetworkResourceSummary(
-      definition: json['Definition'] as String?,
-      isMiddlebox: json['IsMiddlebox'] as bool?,
-      nameTag: json['NameTag'] as String?,
-      registeredGatewayArn: json['RegisteredGatewayArn'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-      resourceType: json['ResourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definition = this.definition;
-    final isMiddlebox = this.isMiddlebox;
-    final nameTag = this.nameTag;
-    final registeredGatewayArn = this.registeredGatewayArn;
-    final resourceArn = this.resourceArn;
-    final resourceType = this.resourceType;
-    return {
-      if (definition != null) 'Definition': definition,
-      if (isMiddlebox != null) 'IsMiddlebox': isMiddlebox,
-      if (nameTag != null) 'NameTag': nameTag,
-      if (registeredGatewayArn != null)
-        'RegisteredGatewayArn': registeredGatewayArn,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
-  }
-}
-
-/// Describes a network route.
-class NetworkRoute {
-  /// A unique identifier for the route, such as a CIDR block.
-  final String? destinationCidrBlock;
-
-  /// The destinations.
-  final List<NetworkRouteDestination>? destinations;
-
-  /// The ID of the prefix list.
-  final String? prefixListId;
-
-  /// The route state. The possible values are <code>active</code> and
-  /// <code>blackhole</code>.
-  final RouteState? state;
-
-  /// The route type. The possible values are <code>propagated</code> and
-  /// <code>static</code>.
-  final RouteType? type;
-
-  NetworkRoute({
-    this.destinationCidrBlock,
-    this.destinations,
-    this.prefixListId,
-    this.state,
-    this.type,
-  });
-
-  factory NetworkRoute.fromJson(Map<String, dynamic> json) {
-    return NetworkRoute(
-      destinationCidrBlock: json['DestinationCidrBlock'] as String?,
-      destinations: (json['Destinations'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              NetworkRouteDestination.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      prefixListId: json['PrefixListId'] as String?,
-      state: (json['State'] as String?)?.let(RouteState.fromString),
-      type: (json['Type'] as String?)?.let(RouteType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationCidrBlock = this.destinationCidrBlock;
-    final destinations = this.destinations;
-    final prefixListId = this.prefixListId;
-    final state = this.state;
-    final type = this.type;
-    return {
-      if (destinationCidrBlock != null)
-        'DestinationCidrBlock': destinationCidrBlock,
-      if (destinations != null) 'Destinations': destinations,
-      if (prefixListId != null) 'PrefixListId': prefixListId,
-      if (state != null) 'State': state.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Describes the destination of a network route.
-class NetworkRouteDestination {
-  /// The ID of a core network attachment.
-  final String? coreNetworkAttachmentId;
-
-  /// The edge location for the network destination.
-  final String? edgeLocation;
-
-  /// The network function group name associated with the destination.
-  final String? networkFunctionGroupName;
-
-  /// The ID of the resource.
-  final String? resourceId;
-
-  /// The resource type.
-  final String? resourceType;
-
-  /// The name of the segment.
-  final String? segmentName;
-
-  /// The ID of the transit gateway attachment.
-  final String? transitGatewayAttachmentId;
-
-  NetworkRouteDestination({
-    this.coreNetworkAttachmentId,
-    this.edgeLocation,
-    this.networkFunctionGroupName,
-    this.resourceId,
-    this.resourceType,
-    this.segmentName,
-    this.transitGatewayAttachmentId,
-  });
-
-  factory NetworkRouteDestination.fromJson(Map<String, dynamic> json) {
-    return NetworkRouteDestination(
-      coreNetworkAttachmentId: json['CoreNetworkAttachmentId'] as String?,
-      edgeLocation: json['EdgeLocation'] as String?,
-      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
-      resourceId: json['ResourceId'] as String?,
-      resourceType: json['ResourceType'] as String?,
-      segmentName: json['SegmentName'] as String?,
-      transitGatewayAttachmentId: json['TransitGatewayAttachmentId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkAttachmentId = this.coreNetworkAttachmentId;
-    final edgeLocation = this.edgeLocation;
-    final networkFunctionGroupName = this.networkFunctionGroupName;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final segmentName = this.segmentName;
-    final transitGatewayAttachmentId = this.transitGatewayAttachmentId;
-    return {
-      if (coreNetworkAttachmentId != null)
-        'CoreNetworkAttachmentId': coreNetworkAttachmentId,
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (networkFunctionGroupName != null)
-        'NetworkFunctionGroupName': networkFunctionGroupName,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType,
-      if (segmentName != null) 'SegmentName': segmentName,
-      if (transitGatewayAttachmentId != null)
-        'TransitGatewayAttachmentId': transitGatewayAttachmentId,
-    };
-  }
-}
-
-/// Describes the telemetry information for a resource.
-class NetworkTelemetry {
-  /// The Amazon Web Services account ID.
-  final String? accountId;
-
-  /// The address.
-  final String? address;
-
-  /// The Amazon Web Services Region.
-  final String? awsRegion;
-
-  /// The ID of a core network.
-  final String? coreNetworkId;
-
-  /// The connection health.
-  final ConnectionHealth? health;
-
-  /// The ARN of the gateway.
-  final String? registeredGatewayArn;
-
-  /// The ARN of the resource.
-  final String? resourceArn;
-
-  /// The ID of the resource.
-  final String? resourceId;
-
-  /// The resource type.
-  final String? resourceType;
-
-  NetworkTelemetry({
-    this.accountId,
-    this.address,
-    this.awsRegion,
-    this.coreNetworkId,
-    this.health,
-    this.registeredGatewayArn,
-    this.resourceArn,
-    this.resourceId,
-    this.resourceType,
-  });
-
-  factory NetworkTelemetry.fromJson(Map<String, dynamic> json) {
-    return NetworkTelemetry(
-      accountId: json['AccountId'] as String?,
-      address: json['Address'] as String?,
-      awsRegion: json['AwsRegion'] as String?,
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      health: json['Health'] != null
-          ? ConnectionHealth.fromJson(json['Health'] as Map<String, dynamic>)
-          : null,
-      registeredGatewayArn: json['RegisteredGatewayArn'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-      resourceId: json['ResourceId'] as String?,
-      resourceType: json['ResourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final address = this.address;
-    final awsRegion = this.awsRegion;
-    final coreNetworkId = this.coreNetworkId;
-    final health = this.health;
-    final registeredGatewayArn = this.registeredGatewayArn;
-    final resourceArn = this.resourceArn;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (address != null) 'Address': address,
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (health != null) 'Health': health,
-      if (registeredGatewayArn != null)
-        'RegisteredGatewayArn': registeredGatewayArn,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType,
-    };
-  }
-}
-
-/// The status of an Amazon Web Services Organization and the accounts within
-/// that organization.
-class OrganizationStatus {
-  /// The current service-linked role (SLR) deployment status for an Amazon Web
-  /// Services Organization's accounts. This will be either <code>SUCCEEDED</code>
-  /// or <code>IN_PROGRESS</code>.
-  final List<AccountStatus>? accountStatusList;
-
-  /// The status of the organization's AWS service access. This will be
-  /// <code>ENABLED</code> or <code>DISABLED</code>.
-  final String? organizationAwsServiceAccessStatus;
-
-  /// The ID of an Amazon Web Services Organization.
-  final String? organizationId;
-
-  /// The status of the SLR deployment for the account. This will be either
-  /// <code>SUCCEEDED</code> or <code>IN_PROGRESS</code>.
-  final String? sLRDeploymentStatus;
-
-  OrganizationStatus({
-    this.accountStatusList,
-    this.organizationAwsServiceAccessStatus,
-    this.organizationId,
-    this.sLRDeploymentStatus,
-  });
-
-  factory OrganizationStatus.fromJson(Map<String, dynamic> json) {
-    return OrganizationStatus(
-      accountStatusList: (json['AccountStatusList'] as List?)
-          ?.nonNulls
-          .map((e) => AccountStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      organizationAwsServiceAccessStatus:
-          json['OrganizationAwsServiceAccessStatus'] as String?,
-      organizationId: json['OrganizationId'] as String?,
-      sLRDeploymentStatus: json['SLRDeploymentStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountStatusList = this.accountStatusList;
-    final organizationAwsServiceAccessStatus =
-        this.organizationAwsServiceAccessStatus;
-    final organizationId = this.organizationId;
-    final sLRDeploymentStatus = this.sLRDeploymentStatus;
-    return {
-      if (accountStatusList != null) 'AccountStatusList': accountStatusList,
-      if (organizationAwsServiceAccessStatus != null)
-        'OrganizationAwsServiceAccessStatus':
-            organizationAwsServiceAccessStatus,
-      if (organizationId != null) 'OrganizationId': organizationId,
-      if (sLRDeploymentStatus != null)
-        'SLRDeploymentStatus': sLRDeploymentStatus,
-    };
-  }
-}
-
-/// Describes a path component.
-class PathComponent {
-  /// The destination CIDR block in the route table.
-  final String? destinationCidrBlock;
-
-  /// The resource.
-  final NetworkResourceSummary? resource;
-
-  /// The sequence number in the path. The destination is 0.
-  final int? sequence;
-
-  PathComponent({
-    this.destinationCidrBlock,
-    this.resource,
-    this.sequence,
-  });
-
-  factory PathComponent.fromJson(Map<String, dynamic> json) {
-    return PathComponent(
-      destinationCidrBlock: json['DestinationCidrBlock'] as String?,
-      resource: json['Resource'] != null
-          ? NetworkResourceSummary.fromJson(
-              json['Resource'] as Map<String, dynamic>)
-          : null,
-      sequence: json['Sequence'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationCidrBlock = this.destinationCidrBlock;
-    final resource = this.resource;
-    final sequence = this.sequence;
-    return {
-      if (destinationCidrBlock != null)
-        'DestinationCidrBlock': destinationCidrBlock,
-      if (resource != null) 'Resource': resource,
-      if (sequence != null) 'Sequence': sequence,
-    };
-  }
-}
-
-/// Describes a peering connection.
-class Peering {
-  /// The ARN of a core network.
-  final String? coreNetworkArn;
-
-  /// The ID of the core network for the peering request.
-  final String? coreNetworkId;
-
-  /// The timestamp when the attachment peer was created.
-  final DateTime? createdAt;
-
-  /// The edge location for the peer.
-  final String? edgeLocation;
-
-  /// Describes the error associated with the Connect peer request.
-  final List<PeeringError>? lastModificationErrors;
-
-  /// The ID of the account owner.
-  final String? ownerAccountId;
-
-  /// The ID of the peering attachment.
-  final String? peeringId;
-
-  /// The type of peering. This will be <code>TRANSIT_GATEWAY</code>.
-  final PeeringType? peeringType;
-
-  /// The resource ARN of the peer.
-  final String? resourceArn;
-
-  /// The current state of the peering connection.
-  final PeeringState? state;
-
-  /// The list of key-value tags associated with the peering.
-  final List<Tag>? tags;
-
-  Peering({
-    this.coreNetworkArn,
-    this.coreNetworkId,
-    this.createdAt,
-    this.edgeLocation,
-    this.lastModificationErrors,
-    this.ownerAccountId,
-    this.peeringId,
-    this.peeringType,
-    this.resourceArn,
-    this.state,
-    this.tags,
-  });
-
-  factory Peering.fromJson(Map<String, dynamic> json) {
-    return Peering(
-      coreNetworkArn: json['CoreNetworkArn'] as String?,
-      coreNetworkId: json['CoreNetworkId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      edgeLocation: json['EdgeLocation'] as String?,
-      lastModificationErrors: (json['LastModificationErrors'] as List?)
-          ?.nonNulls
-          .map((e) => PeeringError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      peeringId: json['PeeringId'] as String?,
-      peeringType:
-          (json['PeeringType'] as String?)?.let(PeeringType.fromString),
-      resourceArn: json['ResourceArn'] as String?,
-      state: (json['State'] as String?)?.let(PeeringState.fromString),
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkArn = this.coreNetworkArn;
-    final coreNetworkId = this.coreNetworkId;
-    final createdAt = this.createdAt;
-    final edgeLocation = this.edgeLocation;
-    final lastModificationErrors = this.lastModificationErrors;
-    final ownerAccountId = this.ownerAccountId;
-    final peeringId = this.peeringId;
-    final peeringType = this.peeringType;
-    final resourceArn = this.resourceArn;
-    final state = this.state;
-    final tags = this.tags;
-    return {
-      if (coreNetworkArn != null) 'CoreNetworkArn': coreNetworkArn,
-      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
-      if (lastModificationErrors != null)
-        'LastModificationErrors': lastModificationErrors,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (peeringId != null) 'PeeringId': peeringId,
-      if (peeringType != null) 'PeeringType': peeringType.value,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Describes an error associated with a peering request.
-class PeeringError {
-  /// The error code for the peering request.
-  final PeeringErrorCode? code;
-
-  /// The message associated with the error <code>code</code>.
-  final String? message;
-
-  /// Provides additional information about missing permissions for the peering
-  /// error.
-  final PermissionsErrorContext? missingPermissionsContext;
-
-  /// The ID of the Peering request.
-  final String? requestId;
-
-  /// The ARN of the requested peering resource.
-  final String? resourceArn;
-
-  PeeringError({
-    this.code,
-    this.message,
-    this.missingPermissionsContext,
-    this.requestId,
-    this.resourceArn,
-  });
-
-  factory PeeringError.fromJson(Map<String, dynamic> json) {
-    return PeeringError(
-      code: (json['Code'] as String?)?.let(PeeringErrorCode.fromString),
-      message: json['Message'] as String?,
-      missingPermissionsContext: json['MissingPermissionsContext'] != null
-          ? PermissionsErrorContext.fromJson(
-              json['MissingPermissionsContext'] as Map<String, dynamic>)
-          : null,
-      requestId: json['RequestId'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final missingPermissionsContext = this.missingPermissionsContext;
-    final requestId = this.requestId;
-    final resourceArn = this.resourceArn;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-      if (missingPermissionsContext != null)
-        'MissingPermissionsContext': missingPermissionsContext,
-      if (requestId != null) 'RequestId': requestId,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-    };
-  }
-}
-
-class PeeringErrorCode {
-  static const transitGatewayNotFound =
-      PeeringErrorCode._('TRANSIT_GATEWAY_NOT_FOUND');
-  static const transitGatewayPeersLimitExceeded =
-      PeeringErrorCode._('TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED');
-  static const missingPermissions = PeeringErrorCode._('MISSING_PERMISSIONS');
-  static const internalError = PeeringErrorCode._('INTERNAL_ERROR');
-  static const edgeLocationPeerDuplicate =
-      PeeringErrorCode._('EDGE_LOCATION_PEER_DUPLICATE');
-  static const invalidTransitGatewayState =
-      PeeringErrorCode._('INVALID_TRANSIT_GATEWAY_STATE');
-
-  final String value;
-
-  const PeeringErrorCode._(this.value);
-
-  static const values = [
-    transitGatewayNotFound,
-    transitGatewayPeersLimitExceeded,
-    missingPermissions,
-    internalError,
-    edgeLocationPeerDuplicate,
-    invalidTransitGatewayState
-  ];
-
-  static PeeringErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PeeringErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is PeeringErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PeeringState {
-  static const creating = PeeringState._('CREATING');
-  static const failed = PeeringState._('FAILED');
-  static const available = PeeringState._('AVAILABLE');
-  static const deleting = PeeringState._('DELETING');
-
-  final String value;
-
-  const PeeringState._(this.value);
-
-  static const values = [creating, failed, available, deleting];
-
-  static PeeringState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PeeringState._(value));
-
-  @override
-  bool operator ==(other) => other is PeeringState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PeeringType {
-  static const transitGateway = PeeringType._('TRANSIT_GATEWAY');
-
-  final String value;
-
-  const PeeringType._(this.value);
-
-  static const values = [transitGateway];
-
-  static PeeringType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PeeringType._(value));
-
-  @override
-  bool operator ==(other) => other is PeeringType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes additional information about missing permissions.
-class PermissionsErrorContext {
-  /// The missing permissions.
-  final String? missingPermission;
-
-  PermissionsErrorContext({
-    this.missingPermission,
-  });
-
-  factory PermissionsErrorContext.fromJson(Map<String, dynamic> json) {
-    return PermissionsErrorContext(
-      missingPermission: json['MissingPermission'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final missingPermission = this.missingPermission;
-    return {
-      if (missingPermission != null) 'MissingPermission': missingPermission,
-    };
-  }
-}
-
-/// Describes proposed changes to a network function group.
-class ProposedNetworkFunctionGroupChange {
-  /// The proposed new attachment policy rule number for the network function
-  /// group.
-  final int? attachmentPolicyRuleNumber;
-
-  /// The proposed name change for the network function group name.
-  final String? networkFunctionGroupName;
-
-  /// The list of proposed changes to the key-value tags associated with the
-  /// network function group.
-  final List<Tag>? tags;
-
-  ProposedNetworkFunctionGroupChange({
-    this.attachmentPolicyRuleNumber,
-    this.networkFunctionGroupName,
-    this.tags,
-  });
-
-  factory ProposedNetworkFunctionGroupChange.fromJson(
-      Map<String, dynamic> json) {
-    return ProposedNetworkFunctionGroupChange(
-      attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
-      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentPolicyRuleNumber = this.attachmentPolicyRuleNumber;
-    final networkFunctionGroupName = this.networkFunctionGroupName;
-    final tags = this.tags;
-    return {
-      if (attachmentPolicyRuleNumber != null)
-        'AttachmentPolicyRuleNumber': attachmentPolicyRuleNumber,
-      if (networkFunctionGroupName != null)
-        'NetworkFunctionGroupName': networkFunctionGroupName,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Describes a proposed segment change. In some cases, the segment change must
-/// first be evaluated and accepted.
-class ProposedSegmentChange {
-  /// The rule number in the policy document that applies to this change.
-  final int? attachmentPolicyRuleNumber;
-
-  /// The name of the segment to change.
-  final String? segmentName;
-
-  /// The list of key-value tags that changed for the segment.
-  final List<Tag>? tags;
-
-  ProposedSegmentChange({
-    this.attachmentPolicyRuleNumber,
-    this.segmentName,
-    this.tags,
-  });
-
-  factory ProposedSegmentChange.fromJson(Map<String, dynamic> json) {
-    return ProposedSegmentChange(
-      attachmentPolicyRuleNumber: json['AttachmentPolicyRuleNumber'] as int?,
-      segmentName: json['SegmentName'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentPolicyRuleNumber = this.attachmentPolicyRuleNumber;
-    final segmentName = this.segmentName;
-    final tags = this.tags;
-    return {
-      if (attachmentPolicyRuleNumber != null)
-        'AttachmentPolicyRuleNumber': attachmentPolicyRuleNumber,
-      if (segmentName != null) 'SegmentName': segmentName,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class PutCoreNetworkPolicyResponse {
-  /// Describes the changed core network policy.
-  final CoreNetworkPolicy? coreNetworkPolicy;
-
-  PutCoreNetworkPolicyResponse({
-    this.coreNetworkPolicy,
-  });
-
-  factory PutCoreNetworkPolicyResponse.fromJson(Map<String, dynamic> json) {
-    return PutCoreNetworkPolicyResponse(
-      coreNetworkPolicy: json['CoreNetworkPolicy'] != null
-          ? CoreNetworkPolicy.fromJson(
-              json['CoreNetworkPolicy'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkPolicy = this.coreNetworkPolicy;
-    return {
-      if (coreNetworkPolicy != null) 'CoreNetworkPolicy': coreNetworkPolicy,
-    };
-  }
-}
-
-class PutResourcePolicyResponse {
-  PutResourcePolicyResponse();
-
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
-    return PutResourcePolicyResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class RegisterTransitGatewayResponse {
-  /// Information about the transit gateway registration.
-  final TransitGatewayRegistration? transitGatewayRegistration;
-
-  RegisterTransitGatewayResponse({
-    this.transitGatewayRegistration,
-  });
-
-  factory RegisterTransitGatewayResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterTransitGatewayResponse(
-      transitGatewayRegistration: json['TransitGatewayRegistration'] != null
-          ? TransitGatewayRegistration.fromJson(
-              json['TransitGatewayRegistration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final transitGatewayRegistration = this.transitGatewayRegistration;
-    return {
-      if (transitGatewayRegistration != null)
-        'TransitGatewayRegistration': transitGatewayRegistration,
-    };
-  }
-}
-
-class RejectAttachmentResponse {
-  /// Describes the rejected attachment request.
-  final Attachment? attachment;
-
-  RejectAttachmentResponse({
-    this.attachment,
-  });
-
-  factory RejectAttachmentResponse.fromJson(Map<String, dynamic> json) {
-    return RejectAttachmentResponse(
-      attachment: json['Attachment'] != null
-          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachment = this.attachment;
-    return {
-      if (attachment != null) 'Attachment': attachment,
-    };
-  }
-}
-
 /// Describes a resource relationship.
 class Relationship {
   /// The ARN of the resource.
@@ -9482,275 +10904,303 @@ class Relationship {
   }
 }
 
-class RestoreCoreNetworkPolicyVersionResponse {
-  /// Describes the restored core network policy.
-  final CoreNetworkPolicy? coreNetworkPolicy;
+/// Describes a resource count.
+class NetworkResourceCount {
+  /// The resource count.
+  final int? count;
 
-  RestoreCoreNetworkPolicyVersionResponse({
-    this.coreNetworkPolicy,
+  /// The resource type.
+  final String? resourceType;
+
+  NetworkResourceCount({
+    this.count,
+    this.resourceType,
   });
 
-  factory RestoreCoreNetworkPolicyVersionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return RestoreCoreNetworkPolicyVersionResponse(
-      coreNetworkPolicy: json['CoreNetworkPolicy'] != null
-          ? CoreNetworkPolicy.fromJson(
-              json['CoreNetworkPolicy'] as Map<String, dynamic>)
-          : null,
+  factory NetworkResourceCount.fromJson(Map<String, dynamic> json) {
+    return NetworkResourceCount(
+      count: json['Count'] as int?,
+      resourceType: json['ResourceType'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final coreNetworkPolicy = this.coreNetworkPolicy;
+    final count = this.count;
+    final resourceType = this.resourceType;
     return {
-      if (coreNetworkPolicy != null) 'CoreNetworkPolicy': coreNetworkPolicy,
+      if (count != null) 'Count': count,
+      if (resourceType != null) 'ResourceType': resourceType,
     };
   }
 }
 
-/// Describes a route analysis.
-class RouteAnalysis {
-  /// The destination.
-  final RouteAnalysisEndpointOptions? destination;
-
-  /// The forward path.
-  final RouteAnalysisPath? forwardPath;
+/// Describes the association between a device and a link.
+class LinkAssociation {
+  /// The device ID for the link association.
+  final String? deviceId;
 
   /// The ID of the global network.
   final String? globalNetworkId;
 
-  /// Indicates whether to analyze the return path. The return path is not
-  /// analyzed if the forward path analysis does not succeed.
-  final bool? includeReturnPath;
+  /// The state of the association.
+  final LinkAssociationState? linkAssociationState;
 
-  /// The ID of the AWS account that created the route analysis.
-  final String? ownerAccountId;
+  /// The ID of the link.
+  final String? linkId;
 
-  /// The return path.
-  final RouteAnalysisPath? returnPath;
-
-  /// The ID of the route analysis.
-  final String? routeAnalysisId;
-
-  /// The source.
-  final RouteAnalysisEndpointOptions? source;
-
-  /// The time that the analysis started.
-  final DateTime? startTimestamp;
-
-  /// The status of the route analysis.
-  final RouteAnalysisStatus? status;
-
-  /// Indicates whether to include the location of middlebox appliances in the
-  /// route analysis.
-  final bool? useMiddleboxes;
-
-  RouteAnalysis({
-    this.destination,
-    this.forwardPath,
+  LinkAssociation({
+    this.deviceId,
     this.globalNetworkId,
-    this.includeReturnPath,
-    this.ownerAccountId,
-    this.returnPath,
-    this.routeAnalysisId,
-    this.source,
-    this.startTimestamp,
-    this.status,
-    this.useMiddleboxes,
+    this.linkAssociationState,
+    this.linkId,
   });
 
-  factory RouteAnalysis.fromJson(Map<String, dynamic> json) {
-    return RouteAnalysis(
-      destination: json['Destination'] != null
-          ? RouteAnalysisEndpointOptions.fromJson(
-              json['Destination'] as Map<String, dynamic>)
-          : null,
-      forwardPath: json['ForwardPath'] != null
-          ? RouteAnalysisPath.fromJson(
-              json['ForwardPath'] as Map<String, dynamic>)
-          : null,
+  factory LinkAssociation.fromJson(Map<String, dynamic> json) {
+    return LinkAssociation(
+      deviceId: json['DeviceId'] as String?,
       globalNetworkId: json['GlobalNetworkId'] as String?,
-      includeReturnPath: json['IncludeReturnPath'] as bool?,
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      returnPath: json['ReturnPath'] != null
-          ? RouteAnalysisPath.fromJson(
-              json['ReturnPath'] as Map<String, dynamic>)
-          : null,
-      routeAnalysisId: json['RouteAnalysisId'] as String?,
-      source: json['Source'] != null
-          ? RouteAnalysisEndpointOptions.fromJson(
-              json['Source'] as Map<String, dynamic>)
-          : null,
-      startTimestamp: timeStampFromJson(json['StartTimestamp']),
-      status: (json['Status'] as String?)?.let(RouteAnalysisStatus.fromString),
-      useMiddleboxes: json['UseMiddleboxes'] as bool?,
+      linkAssociationState: (json['LinkAssociationState'] as String?)
+          ?.let(LinkAssociationState.fromString),
+      linkId: json['LinkId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final forwardPath = this.forwardPath;
+    final deviceId = this.deviceId;
     final globalNetworkId = this.globalNetworkId;
-    final includeReturnPath = this.includeReturnPath;
-    final ownerAccountId = this.ownerAccountId;
-    final returnPath = this.returnPath;
-    final routeAnalysisId = this.routeAnalysisId;
-    final source = this.source;
-    final startTimestamp = this.startTimestamp;
-    final status = this.status;
-    final useMiddleboxes = this.useMiddleboxes;
+    final linkAssociationState = this.linkAssociationState;
+    final linkId = this.linkId;
     return {
-      if (destination != null) 'Destination': destination,
-      if (forwardPath != null) 'ForwardPath': forwardPath,
+      if (deviceId != null) 'DeviceId': deviceId,
       if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (includeReturnPath != null) 'IncludeReturnPath': includeReturnPath,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (returnPath != null) 'ReturnPath': returnPath,
-      if (routeAnalysisId != null) 'RouteAnalysisId': routeAnalysisId,
-      if (source != null) 'Source': source,
-      if (startTimestamp != null)
-        'StartTimestamp': unixTimestampToJson(startTimestamp),
-      if (status != null) 'Status': status.value,
-      if (useMiddleboxes != null) 'UseMiddleboxes': useMiddleboxes,
+      if (linkAssociationState != null)
+        'LinkAssociationState': linkAssociationState.value,
+      if (linkId != null) 'LinkId': linkId,
     };
   }
 }
 
-/// Describes the status of an analysis at completion.
-class RouteAnalysisCompletion {
-  /// The reason code. Available only if a connection is not found.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND</code> - Found a black hole
-  /// route with the destination CIDR block.
-  /// </li>
-  /// <li>
-  /// <code>CYCLIC_PATH_DETECTED</code> - Found the same resource multiple times
-  /// while traversing the path.
-  /// </li>
-  /// <li>
-  /// <code>INACTIVE_ROUTE_FOR_DESTINATION_FOUND</code> - Found an inactive route
-  /// with the destination CIDR block.
-  /// </li>
-  /// <li>
-  /// <code>MAX_HOPS_EXCEEDED</code> - Analysis exceeded 64 hops without finding
-  /// the destination.
-  /// </li>
-  /// <li>
-  /// <code>ROUTE_NOT_FOUND</code> - Cannot find a route table with the
-  /// destination CIDR block.
-  /// </li>
-  /// <li>
-  /// <code>TGW_ATTACH_ARN_NO_MATCH</code> - Found an attachment, but not with the
-  /// correct destination ARN.
-  /// </li>
-  /// <li>
-  /// <code>TGW_ATTACH_NOT_FOUND</code> - Cannot find an attachment.
-  /// </li>
-  /// <li>
-  /// <code>TGW_ATTACH_NOT_IN_TGW</code> - Found an attachment, but not to the
-  /// correct transit gateway.
-  /// </li>
-  /// <li>
-  /// <code>TGW_ATTACH_STABLE_ROUTE_TABLE_NOT_FOUND</code> - The state of the
-  /// route table association is not associated.
-  /// </li>
-  /// </ul>
-  final RouteAnalysisCompletionReasonCode? reasonCode;
-
-  /// Additional information about the path. Available only if a connection is not
-  /// found.
-  final Map<String, String>? reasonContext;
-
-  /// The result of the analysis. If the status is <code>NOT_CONNECTED</code>,
-  /// check the reason code.
-  final RouteAnalysisCompletionResultCode? resultCode;
-
-  RouteAnalysisCompletion({
-    this.reasonCode,
-    this.reasonContext,
-    this.resultCode,
-  });
-
-  factory RouteAnalysisCompletion.fromJson(Map<String, dynamic> json) {
-    return RouteAnalysisCompletion(
-      reasonCode: (json['ReasonCode'] as String?)
-          ?.let(RouteAnalysisCompletionReasonCode.fromString),
-      reasonContext: (json['ReasonContext'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      resultCode: (json['ResultCode'] as String?)
-          ?.let(RouteAnalysisCompletionResultCode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reasonCode = this.reasonCode;
-    final reasonContext = this.reasonContext;
-    final resultCode = this.resultCode;
-    return {
-      if (reasonCode != null) 'ReasonCode': reasonCode.value,
-      if (reasonContext != null) 'ReasonContext': reasonContext,
-      if (resultCode != null) 'ResultCode': resultCode.value,
-    };
-  }
-}
-
-class RouteAnalysisCompletionReasonCode {
-  static const transitGatewayAttachmentNotFound =
-      RouteAnalysisCompletionReasonCode._(
-          'TRANSIT_GATEWAY_ATTACHMENT_NOT_FOUND');
-  static const transitGatewayAttachmentNotInTransitGateway =
-      RouteAnalysisCompletionReasonCode._(
-          'TRANSIT_GATEWAY_ATTACHMENT_NOT_IN_TRANSIT_GATEWAY');
-  static const cyclicPathDetected =
-      RouteAnalysisCompletionReasonCode._('CYCLIC_PATH_DETECTED');
-  static const transitGatewayAttachmentStableRouteTableNotFound =
-      RouteAnalysisCompletionReasonCode._(
-          'TRANSIT_GATEWAY_ATTACHMENT_STABLE_ROUTE_TABLE_NOT_FOUND');
-  static const routeNotFound =
-      RouteAnalysisCompletionReasonCode._('ROUTE_NOT_FOUND');
-  static const blackholeRouteForDestinationFound =
-      RouteAnalysisCompletionReasonCode._(
-          'BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND');
-  static const inactiveRouteForDestinationFound =
-      RouteAnalysisCompletionReasonCode._(
-          'INACTIVE_ROUTE_FOR_DESTINATION_FOUND');
-  static const transitGatewayAttachmentAttachArnNoMatch =
-      RouteAnalysisCompletionReasonCode._(
-          'TRANSIT_GATEWAY_ATTACHMENT_ATTACH_ARN_NO_MATCH');
-  static const maxHopsExceeded =
-      RouteAnalysisCompletionReasonCode._('MAX_HOPS_EXCEEDED');
-  static const possibleMiddlebox =
-      RouteAnalysisCompletionReasonCode._('POSSIBLE_MIDDLEBOX');
-  static const noDestinationArnProvided =
-      RouteAnalysisCompletionReasonCode._('NO_DESTINATION_ARN_PROVIDED');
+class LinkAssociationState {
+  static const pending = LinkAssociationState._('PENDING');
+  static const available = LinkAssociationState._('AVAILABLE');
+  static const deleting = LinkAssociationState._('DELETING');
+  static const deleted = LinkAssociationState._('DELETED');
 
   final String value;
 
-  const RouteAnalysisCompletionReasonCode._(this.value);
+  const LinkAssociationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
+
+  static LinkAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LinkAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LinkAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the association between a customer gateway, a device, and a link.
+class CustomerGatewayAssociation {
+  /// The Amazon Resource Name (ARN) of the customer gateway.
+  final String? customerGatewayArn;
+
+  /// The ID of the device.
+  final String? deviceId;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The ID of the link.
+  final String? linkId;
+
+  /// The association state.
+  final CustomerGatewayAssociationState? state;
+
+  CustomerGatewayAssociation({
+    this.customerGatewayArn,
+    this.deviceId,
+    this.globalNetworkId,
+    this.linkId,
+    this.state,
+  });
+
+  factory CustomerGatewayAssociation.fromJson(Map<String, dynamic> json) {
+    return CustomerGatewayAssociation(
+      customerGatewayArn: json['CustomerGatewayArn'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkId: json['LinkId'] as String?,
+      state: (json['State'] as String?)
+          ?.let(CustomerGatewayAssociationState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerGatewayArn = this.customerGatewayArn;
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final linkId = this.linkId;
+    final state = this.state;
+    return {
+      if (customerGatewayArn != null) 'CustomerGatewayArn': customerGatewayArn,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkId != null) 'LinkId': linkId,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class CustomerGatewayAssociationState {
+  static const pending = CustomerGatewayAssociationState._('PENDING');
+  static const available = CustomerGatewayAssociationState._('AVAILABLE');
+  static const deleting = CustomerGatewayAssociationState._('DELETING');
+  static const deleted = CustomerGatewayAssociationState._('DELETED');
+
+  final String value;
+
+  const CustomerGatewayAssociationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
+
+  static CustomerGatewayAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomerGatewayAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomerGatewayAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details describing a core network change.
+class CoreNetworkChange {
+  /// The action to take for a core network.
+  final ChangeAction? action;
+
+  /// The resource identifier.
+  final String? identifier;
+
+  /// Uniquely identifies the path for a change within the changeset. For example,
+  /// the <code>IdentifierPath</code> for a core network segment change might be
+  /// <code>"CORE_NETWORK_SEGMENT/us-east-1/devsegment"</code>.
+  final String? identifierPath;
+
+  /// The new value for a core network
+  final CoreNetworkChangeValues? newValues;
+
+  /// The previous values for a core network.
+  final CoreNetworkChangeValues? previousValues;
+
+  /// The type of change.
+  final ChangeType? type;
+
+  CoreNetworkChange({
+    this.action,
+    this.identifier,
+    this.identifierPath,
+    this.newValues,
+    this.previousValues,
+    this.type,
+  });
+
+  factory CoreNetworkChange.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkChange(
+      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
+      identifier: json['Identifier'] as String?,
+      identifierPath: json['IdentifierPath'] as String?,
+      newValues: json['NewValues'] != null
+          ? CoreNetworkChangeValues.fromJson(
+              json['NewValues'] as Map<String, dynamic>)
+          : null,
+      previousValues: json['PreviousValues'] != null
+          ? CoreNetworkChangeValues.fromJson(
+              json['PreviousValues'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(ChangeType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final identifier = this.identifier;
+    final identifierPath = this.identifierPath;
+    final newValues = this.newValues;
+    final previousValues = this.previousValues;
+    final type = this.type;
+    return {
+      if (action != null) 'Action': action.value,
+      if (identifier != null) 'Identifier': identifier,
+      if (identifierPath != null) 'IdentifierPath': identifierPath,
+      if (newValues != null) 'NewValues': newValues,
+      if (previousValues != null) 'PreviousValues': previousValues,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ChangeType {
+  static const coreNetworkSegment = ChangeType._('CORE_NETWORK_SEGMENT');
+  static const networkFunctionGroup = ChangeType._('NETWORK_FUNCTION_GROUP');
+  static const coreNetworkEdge = ChangeType._('CORE_NETWORK_EDGE');
+  static const attachmentMapping = ChangeType._('ATTACHMENT_MAPPING');
+  static const attachmentRoutePropagation =
+      ChangeType._('ATTACHMENT_ROUTE_PROPAGATION');
+  static const attachmentRouteStatic = ChangeType._('ATTACHMENT_ROUTE_STATIC');
+  static const routingPolicy = ChangeType._('ROUTING_POLICY');
+  static const routingPolicySegmentAssociation =
+      ChangeType._('ROUTING_POLICY_SEGMENT_ASSOCIATION');
+  static const routingPolicyEdgeAssociation =
+      ChangeType._('ROUTING_POLICY_EDGE_ASSOCIATION');
+  static const routingPolicyAttachmentAssociation =
+      ChangeType._('ROUTING_POLICY_ATTACHMENT_ASSOCIATION');
+  static const coreNetworkConfiguration =
+      ChangeType._('CORE_NETWORK_CONFIGURATION');
+  static const segmentsConfiguration = ChangeType._('SEGMENTS_CONFIGURATION');
+  static const segmentActionsConfiguration =
+      ChangeType._('SEGMENT_ACTIONS_CONFIGURATION');
+  static const attachmentPoliciesConfiguration =
+      ChangeType._('ATTACHMENT_POLICIES_CONFIGURATION');
+
+  final String value;
+
+  const ChangeType._(this.value);
 
   static const values = [
-    transitGatewayAttachmentNotFound,
-    transitGatewayAttachmentNotInTransitGateway,
-    cyclicPathDetected,
-    transitGatewayAttachmentStableRouteTableNotFound,
-    routeNotFound,
-    blackholeRouteForDestinationFound,
-    inactiveRouteForDestinationFound,
-    transitGatewayAttachmentAttachArnNoMatch,
-    maxHopsExceeded,
-    possibleMiddlebox,
-    noDestinationArnProvided
+    coreNetworkSegment,
+    networkFunctionGroup,
+    coreNetworkEdge,
+    attachmentMapping,
+    attachmentRoutePropagation,
+    attachmentRouteStatic,
+    routingPolicy,
+    routingPolicySegmentAssociation,
+    routingPolicyEdgeAssociation,
+    routingPolicyAttachmentAssociation,
+    coreNetworkConfiguration,
+    segmentsConfiguration,
+    segmentActionsConfiguration,
+    attachmentPoliciesConfiguration
   ];
 
-  static RouteAnalysisCompletionReasonCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RouteAnalysisCompletionReasonCode._(value));
+  static ChangeType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is RouteAnalysisCompletionReasonCode && other.value == value;
+  bool operator ==(other) => other is ChangeType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9759,24 +11209,22 @@ class RouteAnalysisCompletionReasonCode {
   String toString() => value;
 }
 
-class RouteAnalysisCompletionResultCode {
-  static const connected = RouteAnalysisCompletionResultCode._('CONNECTED');
-  static const notConnected =
-      RouteAnalysisCompletionResultCode._('NOT_CONNECTED');
+class ChangeAction {
+  static const add = ChangeAction._('ADD');
+  static const modify = ChangeAction._('MODIFY');
+  static const remove = ChangeAction._('REMOVE');
 
   final String value;
 
-  const RouteAnalysisCompletionResultCode._(this.value);
+  const ChangeAction._(this.value);
 
-  static const values = [connected, notConnected];
+  static const values = [add, modify, remove];
 
-  static RouteAnalysisCompletionResultCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RouteAnalysisCompletionResultCode._(value));
+  static ChangeAction fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeAction._(value));
 
   @override
-  bool operator ==(other) =>
-      other is RouteAnalysisCompletionResultCode && other.value == value;
+  bool operator ==(other) => other is ChangeAction && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9785,290 +11233,238 @@ class RouteAnalysisCompletionResultCode {
   String toString() => value;
 }
 
-/// Describes a source or a destination.
-class RouteAnalysisEndpointOptions {
-  /// The IP address.
-  final String? ipAddress;
+/// Describes a core network change.
+class CoreNetworkChangeValues {
+  /// The ASN of a core network.
+  final int? asn;
 
-  /// The ARN of the transit gateway.
-  final String? transitGatewayArn;
+  /// The attachment identifier in the core network change values.
+  final String? attachmentId;
 
-  /// The ARN of the transit gateway attachment.
-  final String? transitGatewayAttachmentArn;
+  /// The IP addresses used for a core network.
+  final String? cidr;
 
-  RouteAnalysisEndpointOptions({
-    this.ipAddress,
-    this.transitGatewayArn,
-    this.transitGatewayAttachmentArn,
+  /// The ID of the destination.
+  final String? destinationIdentifier;
+
+  /// Indicates whether public DNS support is supported. The default is
+  /// <code>true</code>.
+  final bool? dnsSupport;
+
+  /// The Regions where edges are located in a core network.
+  final List<String>? edgeLocations;
+
+  /// The inside IP addresses used for core network change values.
+  final List<String>? insideCidrBlocks;
+
+  /// The network function group name if the change event is associated with a
+  /// network function group.
+  final String? networkFunctionGroupName;
+
+  /// The edge locations of peers in the core network change values.
+  final List<String>? peerEdgeLocations;
+
+  /// The routing policy configuration in the core network change values.
+  final String? routingPolicy;
+
+  /// The names of the routing policies and other association details in the core
+  /// network change values.
+  final List<RoutingPolicyAssociationDetail>? routingPolicyAssociationDetails;
+
+  /// The routing policy direction (inbound/outbound) in a core network change
+  /// event.
+  final RoutingPolicyDirection? routingPolicyDirection;
+
+  /// Indicates whether security group referencing is enabled for the core
+  /// network.
+  final bool? securityGroupReferencingSupport;
+
+  /// The names of the segments in a core network.
+  final String? segmentName;
+
+  /// Describes the service insertion action.
+  final List<ServiceInsertionAction>? serviceInsertionActions;
+
+  /// The shared segments for a core network change value.
+  final List<String>? sharedSegments;
+
+  /// Indicates whether Equal Cost Multipath (ECMP) is enabled for the core
+  /// network.
+  final bool? vpnEcmpSupport;
+
+  CoreNetworkChangeValues({
+    this.asn,
+    this.attachmentId,
+    this.cidr,
+    this.destinationIdentifier,
+    this.dnsSupport,
+    this.edgeLocations,
+    this.insideCidrBlocks,
+    this.networkFunctionGroupName,
+    this.peerEdgeLocations,
+    this.routingPolicy,
+    this.routingPolicyAssociationDetails,
+    this.routingPolicyDirection,
+    this.securityGroupReferencingSupport,
+    this.segmentName,
+    this.serviceInsertionActions,
+    this.sharedSegments,
+    this.vpnEcmpSupport,
   });
 
-  factory RouteAnalysisEndpointOptions.fromJson(Map<String, dynamic> json) {
-    return RouteAnalysisEndpointOptions(
-      ipAddress: json['IpAddress'] as String?,
-      transitGatewayArn: json['TransitGatewayArn'] as String?,
-      transitGatewayAttachmentArn:
-          json['TransitGatewayAttachmentArn'] as String?,
+  factory CoreNetworkChangeValues.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkChangeValues(
+      asn: json['Asn'] as int?,
+      attachmentId: json['AttachmentId'] as String?,
+      cidr: json['Cidr'] as String?,
+      destinationIdentifier: json['DestinationIdentifier'] as String?,
+      dnsSupport: json['DnsSupport'] as bool?,
+      edgeLocations: (json['EdgeLocations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
+      peerEdgeLocations: (json['PeerEdgeLocations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      routingPolicy: json['RoutingPolicy'] as String?,
+      routingPolicyAssociationDetails:
+          (json['RoutingPolicyAssociationDetails'] as List?)
+              ?.nonNulls
+              .map((e) => RoutingPolicyAssociationDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      routingPolicyDirection: (json['RoutingPolicyDirection'] as String?)
+          ?.let(RoutingPolicyDirection.fromString),
+      securityGroupReferencingSupport:
+          json['SecurityGroupReferencingSupport'] as bool?,
+      segmentName: json['SegmentName'] as String?,
+      serviceInsertionActions: (json['ServiceInsertionActions'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ServiceInsertionAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sharedSegments: (json['SharedSegments'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpnEcmpSupport: json['VpnEcmpSupport'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final ipAddress = this.ipAddress;
-    final transitGatewayArn = this.transitGatewayArn;
-    final transitGatewayAttachmentArn = this.transitGatewayAttachmentArn;
+    final asn = this.asn;
+    final attachmentId = this.attachmentId;
+    final cidr = this.cidr;
+    final destinationIdentifier = this.destinationIdentifier;
+    final dnsSupport = this.dnsSupport;
+    final edgeLocations = this.edgeLocations;
+    final insideCidrBlocks = this.insideCidrBlocks;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
+    final peerEdgeLocations = this.peerEdgeLocations;
+    final routingPolicy = this.routingPolicy;
+    final routingPolicyAssociationDetails =
+        this.routingPolicyAssociationDetails;
+    final routingPolicyDirection = this.routingPolicyDirection;
+    final securityGroupReferencingSupport =
+        this.securityGroupReferencingSupport;
+    final segmentName = this.segmentName;
+    final serviceInsertionActions = this.serviceInsertionActions;
+    final sharedSegments = this.sharedSegments;
+    final vpnEcmpSupport = this.vpnEcmpSupport;
     return {
-      if (ipAddress != null) 'IpAddress': ipAddress,
-      if (transitGatewayArn != null) 'TransitGatewayArn': transitGatewayArn,
-      if (transitGatewayAttachmentArn != null)
-        'TransitGatewayAttachmentArn': transitGatewayAttachmentArn,
+      if (asn != null) 'Asn': asn,
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (cidr != null) 'Cidr': cidr,
+      if (destinationIdentifier != null)
+        'DestinationIdentifier': destinationIdentifier,
+      if (dnsSupport != null) 'DnsSupport': dnsSupport,
+      if (edgeLocations != null) 'EdgeLocations': edgeLocations,
+      if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
+      if (peerEdgeLocations != null) 'PeerEdgeLocations': peerEdgeLocations,
+      if (routingPolicy != null) 'RoutingPolicy': routingPolicy,
+      if (routingPolicyAssociationDetails != null)
+        'RoutingPolicyAssociationDetails': routingPolicyAssociationDetails,
+      if (routingPolicyDirection != null)
+        'RoutingPolicyDirection': routingPolicyDirection.value,
+      if (securityGroupReferencingSupport != null)
+        'SecurityGroupReferencingSupport': securityGroupReferencingSupport,
+      if (segmentName != null) 'SegmentName': segmentName,
+      if (serviceInsertionActions != null)
+        'ServiceInsertionActions': serviceInsertionActions,
+      if (sharedSegments != null) 'SharedSegments': sharedSegments,
+      if (vpnEcmpSupport != null) 'VpnEcmpSupport': vpnEcmpSupport,
     };
   }
 }
 
-/// Describes a source or a destination.
-class RouteAnalysisEndpointOptionsSpecification {
-  /// The IP address.
-  final String? ipAddress;
+class RoutingPolicyDirection {
+  static const inbound = RoutingPolicyDirection._('inbound');
+  static const outbound = RoutingPolicyDirection._('outbound');
 
-  /// The ARN of the transit gateway attachment.
-  final String? transitGatewayAttachmentArn;
+  final String value;
 
-  RouteAnalysisEndpointOptionsSpecification({
-    this.ipAddress,
-    this.transitGatewayAttachmentArn,
-  });
+  const RoutingPolicyDirection._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final ipAddress = this.ipAddress;
-    final transitGatewayAttachmentArn = this.transitGatewayAttachmentArn;
-    return {
-      if (ipAddress != null) 'IpAddress': ipAddress,
-      if (transitGatewayAttachmentArn != null)
-        'TransitGatewayAttachmentArn': transitGatewayAttachmentArn,
-    };
-  }
+  static const values = [inbound, outbound];
+
+  static RoutingPolicyDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RoutingPolicyDirection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RoutingPolicyDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// Describes a route analysis path.
-class RouteAnalysisPath {
-  /// The status of the analysis at completion.
-  final RouteAnalysisCompletion? completionStatus;
+/// Information about a routing policy association.
+class RoutingPolicyAssociationDetail {
+  /// The names of the routing policies in the association.
+  final List<String>? routingPolicyNames;
 
-  /// The route analysis path.
-  final List<PathComponent>? path;
+  /// The names of the segments that are shared with each other in the
+  /// association.
+  final List<String>? sharedSegments;
 
-  RouteAnalysisPath({
-    this.completionStatus,
-    this.path,
+  RoutingPolicyAssociationDetail({
+    this.routingPolicyNames,
+    this.sharedSegments,
   });
 
-  factory RouteAnalysisPath.fromJson(Map<String, dynamic> json) {
-    return RouteAnalysisPath(
-      completionStatus: json['CompletionStatus'] != null
-          ? RouteAnalysisCompletion.fromJson(
-              json['CompletionStatus'] as Map<String, dynamic>)
-          : null,
-      path: (json['Path'] as List?)
+  factory RoutingPolicyAssociationDetail.fromJson(Map<String, dynamic> json) {
+    return RoutingPolicyAssociationDetail(
+      routingPolicyNames: (json['RoutingPolicyNames'] as List?)
           ?.nonNulls
-          .map((e) => PathComponent.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as String)
+          .toList(),
+      sharedSegments: (json['SharedSegments'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final completionStatus = this.completionStatus;
-    final path = this.path;
+    final routingPolicyNames = this.routingPolicyNames;
+    final sharedSegments = this.sharedSegments;
     return {
-      if (completionStatus != null) 'CompletionStatus': completionStatus,
-      if (path != null) 'Path': path,
+      if (routingPolicyNames != null) 'RoutingPolicyNames': routingPolicyNames,
+      if (sharedSegments != null) 'SharedSegments': sharedSegments,
     };
   }
-}
-
-class RouteAnalysisStatus {
-  static const running = RouteAnalysisStatus._('RUNNING');
-  static const completed = RouteAnalysisStatus._('COMPLETED');
-  static const failed = RouteAnalysisStatus._('FAILED');
-
-  final String value;
-
-  const RouteAnalysisStatus._(this.value);
-
-  static const values = [running, completed, failed];
-
-  static RouteAnalysisStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RouteAnalysisStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RouteAnalysisStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RouteState {
-  static const active = RouteState._('ACTIVE');
-  static const blackhole = RouteState._('BLACKHOLE');
-
-  final String value;
-
-  const RouteState._(this.value);
-
-  static const values = [active, blackhole];
-
-  static RouteState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RouteState._(value));
-
-  @override
-  bool operator ==(other) => other is RouteState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a route table.
-class RouteTableIdentifier {
-  /// The route table identifier associated with the network function group.
-  final CoreNetworkNetworkFunctionGroupIdentifier?
-      coreNetworkNetworkFunctionGroup;
-
-  /// The segment edge in a core network.
-  final CoreNetworkSegmentEdgeIdentifier? coreNetworkSegmentEdge;
-
-  /// The ARN of the transit gateway route table for the attachment request. For
-  /// example, <code>"TransitGatewayRouteTableArn":
-  /// "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456"</code>.
-  final String? transitGatewayRouteTableArn;
-
-  RouteTableIdentifier({
-    this.coreNetworkNetworkFunctionGroup,
-    this.coreNetworkSegmentEdge,
-    this.transitGatewayRouteTableArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final coreNetworkNetworkFunctionGroup =
-        this.coreNetworkNetworkFunctionGroup;
-    final coreNetworkSegmentEdge = this.coreNetworkSegmentEdge;
-    final transitGatewayRouteTableArn = this.transitGatewayRouteTableArn;
-    return {
-      if (coreNetworkNetworkFunctionGroup != null)
-        'CoreNetworkNetworkFunctionGroup': coreNetworkNetworkFunctionGroup,
-      if (coreNetworkSegmentEdge != null)
-        'CoreNetworkSegmentEdge': coreNetworkSegmentEdge,
-      if (transitGatewayRouteTableArn != null)
-        'TransitGatewayRouteTableArn': transitGatewayRouteTableArn,
-    };
-  }
-}
-
-class RouteTableType {
-  static const transitGatewayRouteTable =
-      RouteTableType._('TRANSIT_GATEWAY_ROUTE_TABLE');
-  static const coreNetworkSegment = RouteTableType._('CORE_NETWORK_SEGMENT');
-  static const networkFunctionGroup =
-      RouteTableType._('NETWORK_FUNCTION_GROUP');
-
-  final String value;
-
-  const RouteTableType._(this.value);
-
-  static const values = [
-    transitGatewayRouteTable,
-    coreNetworkSegment,
-    networkFunctionGroup
-  ];
-
-  static RouteTableType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RouteTableType._(value));
-
-  @override
-  bool operator ==(other) => other is RouteTableType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RouteType {
-  static const propagated = RouteType._('PROPAGATED');
-  static const static = RouteType._('STATIC');
-
-  final String value;
-
-  const RouteType._(this.value);
-
-  static const values = [propagated, static];
-
-  static RouteType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RouteType._(value));
-
-  @override
-  bool operator ==(other) => other is RouteType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SegmentActionServiceInsertion {
-  static const sendVia = SegmentActionServiceInsertion._('send-via');
-  static const sendTo = SegmentActionServiceInsertion._('send-to');
-
-  final String value;
-
-  const SegmentActionServiceInsertion._(this.value);
-
-  static const values = [sendVia, sendTo];
-
-  static SegmentActionServiceInsertion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SegmentActionServiceInsertion._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SegmentActionServiceInsertion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SendViaMode {
-  static const dualHop = SendViaMode._('dual-hop');
-  static const singleHop = SendViaMode._('single-hop');
-
-  final String value;
-
-  const SendViaMode._(this.value);
-
-  static const values = [dualHop, singleHop];
-
-  static SendViaMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SendViaMode._(value));
-
-  @override
-  bool operator ==(other) => other is SendViaMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Describes the action that the service insertion will take for any segments
@@ -10134,773 +11530,79 @@ class ServiceInsertionAction {
   }
 }
 
-/// Describes the segments associated with the service insertion action.
-class ServiceInsertionSegments {
-  /// The list of segments associated with the <code>send-to</code> action.
-  final List<String>? sendTo;
+class SegmentActionServiceInsertion {
+  static const sendVia = SegmentActionServiceInsertion._('send-via');
+  static const sendTo = SegmentActionServiceInsertion._('send-to');
 
-  /// The list of segments associated with the <code>send-via</code> action.
-  final List<String>? sendVia;
+  final String value;
 
-  ServiceInsertionSegments({
-    this.sendTo,
-    this.sendVia,
-  });
+  const SegmentActionServiceInsertion._(this.value);
 
-  factory ServiceInsertionSegments.fromJson(Map<String, dynamic> json) {
-    return ServiceInsertionSegments(
-      sendTo:
-          (json['SendTo'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      sendVia:
-          (json['SendVia'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
+  static const values = [sendVia, sendTo];
 
-  Map<String, dynamic> toJson() {
-    final sendTo = this.sendTo;
-    final sendVia = this.sendVia;
-    return {
-      if (sendTo != null) 'SendTo': sendTo,
-      if (sendVia != null) 'SendVia': sendVia,
-    };
-  }
+  static SegmentActionServiceInsertion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SegmentActionServiceInsertion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SegmentActionServiceInsertion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// Describes a site.
-class Site {
-  /// The date and time that the site was created.
-  final DateTime? createdAt;
+class SendViaMode {
+  static const dualHop = SendViaMode._('dual-hop');
+  static const singleHop = SendViaMode._('single-hop');
 
-  /// The description of the site.
-  final String? description;
+  final String value;
 
-  /// The ID of the global network.
-  final String? globalNetworkId;
+  const SendViaMode._(this.value);
 
-  /// The location of the site.
-  final Location? location;
+  static const values = [dualHop, singleHop];
 
-  /// The Amazon Resource Name (ARN) of the site.
-  final String? siteArn;
+  static SendViaMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SendViaMode._(value));
 
-  /// The ID of the site.
-  final String? siteId;
+  @override
+  bool operator ==(other) => other is SendViaMode && other.value == value;
 
-  /// The state of the site.
-  final SiteState? state;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// The tags for the site.
-  final List<Tag>? tags;
+  @override
+  String toString() => value;
+}
 
-  Site({
-    this.createdAt,
-    this.description,
-    this.globalNetworkId,
-    this.location,
-    this.siteArn,
-    this.siteId,
-    this.state,
-    this.tags,
+/// Displays a list of the destination segments. Used only when the service
+/// insertion action is <code>send-to</code>.
+class WhenSentTo {
+  /// The list of destination segments when the service insertion action is
+  /// <code>send-to</code>.
+  final List<String>? whenSentToSegmentsList;
+
+  WhenSentTo({
+    this.whenSentToSegmentsList,
   });
 
-  factory Site.fromJson(Map<String, dynamic> json) {
-    return Site(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      location: json['Location'] != null
-          ? Location.fromJson(json['Location'] as Map<String, dynamic>)
-          : null,
-      siteArn: json['SiteArn'] as String?,
-      siteId: json['SiteId'] as String?,
-      state: (json['State'] as String?)?.let(SiteState.fromString),
-      tags: (json['Tags'] as List?)
+  factory WhenSentTo.fromJson(Map<String, dynamic> json) {
+    return WhenSentTo(
+      whenSentToSegmentsList: (json['WhenSentToSegmentsList'] as List?)
           ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as String)
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final globalNetworkId = this.globalNetworkId;
-    final location = this.location;
-    final siteArn = this.siteArn;
-    final siteId = this.siteId;
-    final state = this.state;
-    final tags = this.tags;
+    final whenSentToSegmentsList = this.whenSentToSegmentsList;
     return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (location != null) 'Location': location,
-      if (siteArn != null) 'SiteArn': siteArn,
-      if (siteId != null) 'SiteId': siteId,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class SiteState {
-  static const pending = SiteState._('PENDING');
-  static const available = SiteState._('AVAILABLE');
-  static const deleting = SiteState._('DELETING');
-  static const updating = SiteState._('UPDATING');
-
-  final String value;
-
-  const SiteState._(this.value);
-
-  static const values = [pending, available, deleting, updating];
-
-  static SiteState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SiteState._(value));
-
-  @override
-  bool operator ==(other) => other is SiteState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Creates a site-to-site VPN attachment.
-class SiteToSiteVpnAttachment {
-  /// Provides details about a site-to-site VPN attachment.
-  final Attachment? attachment;
-
-  /// The ARN of the site-to-site VPN attachment.
-  final String? vpnConnectionArn;
-
-  SiteToSiteVpnAttachment({
-    this.attachment,
-    this.vpnConnectionArn,
-  });
-
-  factory SiteToSiteVpnAttachment.fromJson(Map<String, dynamic> json) {
-    return SiteToSiteVpnAttachment(
-      attachment: json['Attachment'] != null
-          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
-          : null,
-      vpnConnectionArn: json['VpnConnectionArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachment = this.attachment;
-    final vpnConnectionArn = this.vpnConnectionArn;
-    return {
-      if (attachment != null) 'Attachment': attachment,
-      if (vpnConnectionArn != null) 'VpnConnectionArn': vpnConnectionArn,
-    };
-  }
-}
-
-class StartOrganizationServiceAccessUpdateResponse {
-  /// The status of the service access update request for an Amazon Web Services
-  /// Organization.
-  final OrganizationStatus? organizationStatus;
-
-  StartOrganizationServiceAccessUpdateResponse({
-    this.organizationStatus,
-  });
-
-  factory StartOrganizationServiceAccessUpdateResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartOrganizationServiceAccessUpdateResponse(
-      organizationStatus: json['OrganizationStatus'] != null
-          ? OrganizationStatus.fromJson(
-              json['OrganizationStatus'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final organizationStatus = this.organizationStatus;
-    return {
-      if (organizationStatus != null) 'OrganizationStatus': organizationStatus,
-    };
-  }
-}
-
-class StartRouteAnalysisResponse {
-  /// The route analysis.
-  final RouteAnalysis? routeAnalysis;
-
-  StartRouteAnalysisResponse({
-    this.routeAnalysis,
-  });
-
-  factory StartRouteAnalysisResponse.fromJson(Map<String, dynamic> json) {
-    return StartRouteAnalysisResponse(
-      routeAnalysis: json['RouteAnalysis'] != null
-          ? RouteAnalysis.fromJson(
-              json['RouteAnalysis'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final routeAnalysis = this.routeAnalysis;
-    return {
-      if (routeAnalysis != null) 'RouteAnalysis': routeAnalysis,
-    };
-  }
-}
-
-/// Describes a tag.
-class Tag {
-  /// The tag key.
-  ///
-  /// Constraints: Maximum length of 128 characters.
-  final String? key;
-
-  /// The tag value.
-  ///
-  /// Constraints: Maximum length of 256 characters.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Describes a transit gateway Connect peer association.
-class TransitGatewayConnectPeerAssociation {
-  /// The ID of the device.
-  final String? deviceId;
-
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The ID of the link.
-  final String? linkId;
-
-  /// The state of the association.
-  final TransitGatewayConnectPeerAssociationState? state;
-
-  /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
-  final String? transitGatewayConnectPeerArn;
-
-  TransitGatewayConnectPeerAssociation({
-    this.deviceId,
-    this.globalNetworkId,
-    this.linkId,
-    this.state,
-    this.transitGatewayConnectPeerArn,
-  });
-
-  factory TransitGatewayConnectPeerAssociation.fromJson(
-      Map<String, dynamic> json) {
-    return TransitGatewayConnectPeerAssociation(
-      deviceId: json['DeviceId'] as String?,
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      linkId: json['LinkId'] as String?,
-      state: (json['State'] as String?)
-          ?.let(TransitGatewayConnectPeerAssociationState.fromString),
-      transitGatewayConnectPeerArn:
-          json['TransitGatewayConnectPeerArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deviceId = this.deviceId;
-    final globalNetworkId = this.globalNetworkId;
-    final linkId = this.linkId;
-    final state = this.state;
-    final transitGatewayConnectPeerArn = this.transitGatewayConnectPeerArn;
-    return {
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (linkId != null) 'LinkId': linkId,
-      if (state != null) 'State': state.value,
-      if (transitGatewayConnectPeerArn != null)
-        'TransitGatewayConnectPeerArn': transitGatewayConnectPeerArn,
-    };
-  }
-}
-
-class TransitGatewayConnectPeerAssociationState {
-  static const pending = TransitGatewayConnectPeerAssociationState._('PENDING');
-  static const available =
-      TransitGatewayConnectPeerAssociationState._('AVAILABLE');
-  static const deleting =
-      TransitGatewayConnectPeerAssociationState._('DELETING');
-  static const deleted = TransitGatewayConnectPeerAssociationState._('DELETED');
-
-  final String value;
-
-  const TransitGatewayConnectPeerAssociationState._(this.value);
-
-  static const values = [pending, available, deleting, deleted];
-
-  static TransitGatewayConnectPeerAssociationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TransitGatewayConnectPeerAssociationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TransitGatewayConnectPeerAssociationState &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a transit gateway peering attachment.
-class TransitGatewayPeering {
-  /// Describes a transit gateway peer connection.
-  final Peering? peering;
-
-  /// The ARN of the transit gateway.
-  final String? transitGatewayArn;
-
-  /// The ID of the transit gateway peering attachment.
-  final String? transitGatewayPeeringAttachmentId;
-
-  TransitGatewayPeering({
-    this.peering,
-    this.transitGatewayArn,
-    this.transitGatewayPeeringAttachmentId,
-  });
-
-  factory TransitGatewayPeering.fromJson(Map<String, dynamic> json) {
-    return TransitGatewayPeering(
-      peering: json['Peering'] != null
-          ? Peering.fromJson(json['Peering'] as Map<String, dynamic>)
-          : null,
-      transitGatewayArn: json['TransitGatewayArn'] as String?,
-      transitGatewayPeeringAttachmentId:
-          json['TransitGatewayPeeringAttachmentId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final peering = this.peering;
-    final transitGatewayArn = this.transitGatewayArn;
-    final transitGatewayPeeringAttachmentId =
-        this.transitGatewayPeeringAttachmentId;
-    return {
-      if (peering != null) 'Peering': peering,
-      if (transitGatewayArn != null) 'TransitGatewayArn': transitGatewayArn,
-      if (transitGatewayPeeringAttachmentId != null)
-        'TransitGatewayPeeringAttachmentId': transitGatewayPeeringAttachmentId,
-    };
-  }
-}
-
-/// Describes the registration of a transit gateway to a global network.
-class TransitGatewayRegistration {
-  /// The ID of the global network.
-  final String? globalNetworkId;
-
-  /// The state of the transit gateway registration.
-  final TransitGatewayRegistrationStateReason? state;
-
-  /// The Amazon Resource Name (ARN) of the transit gateway.
-  final String? transitGatewayArn;
-
-  TransitGatewayRegistration({
-    this.globalNetworkId,
-    this.state,
-    this.transitGatewayArn,
-  });
-
-  factory TransitGatewayRegistration.fromJson(Map<String, dynamic> json) {
-    return TransitGatewayRegistration(
-      globalNetworkId: json['GlobalNetworkId'] as String?,
-      state: json['State'] != null
-          ? TransitGatewayRegistrationStateReason.fromJson(
-              json['State'] as Map<String, dynamic>)
-          : null,
-      transitGatewayArn: json['TransitGatewayArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalNetworkId = this.globalNetworkId;
-    final state = this.state;
-    final transitGatewayArn = this.transitGatewayArn;
-    return {
-      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
-      if (state != null) 'State': state,
-      if (transitGatewayArn != null) 'TransitGatewayArn': transitGatewayArn,
-    };
-  }
-}
-
-class TransitGatewayRegistrationState {
-  static const pending = TransitGatewayRegistrationState._('PENDING');
-  static const available = TransitGatewayRegistrationState._('AVAILABLE');
-  static const deleting = TransitGatewayRegistrationState._('DELETING');
-  static const deleted = TransitGatewayRegistrationState._('DELETED');
-  static const failed = TransitGatewayRegistrationState._('FAILED');
-
-  final String value;
-
-  const TransitGatewayRegistrationState._(this.value);
-
-  static const values = [pending, available, deleting, deleted, failed];
-
-  static TransitGatewayRegistrationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TransitGatewayRegistrationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TransitGatewayRegistrationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the status of a transit gateway registration.
-class TransitGatewayRegistrationStateReason {
-  /// The code for the state reason.
-  final TransitGatewayRegistrationState? code;
-
-  /// The message for the state reason.
-  final String? message;
-
-  TransitGatewayRegistrationStateReason({
-    this.code,
-    this.message,
-  });
-
-  factory TransitGatewayRegistrationStateReason.fromJson(
-      Map<String, dynamic> json) {
-    return TransitGatewayRegistrationStateReason(
-      code: (json['Code'] as String?)
-          ?.let(TransitGatewayRegistrationState.fromString),
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-/// Describes a transit gateway route table attachment.
-class TransitGatewayRouteTableAttachment {
-  final Attachment? attachment;
-
-  /// The ID of the peering attachment.
-  final String? peeringId;
-
-  /// The ARN of the transit gateway attachment route table. For example,
-  /// <code>"TransitGatewayRouteTableArn":
-  /// "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456"</code>.
-  final String? transitGatewayRouteTableArn;
-
-  TransitGatewayRouteTableAttachment({
-    this.attachment,
-    this.peeringId,
-    this.transitGatewayRouteTableArn,
-  });
-
-  factory TransitGatewayRouteTableAttachment.fromJson(
-      Map<String, dynamic> json) {
-    return TransitGatewayRouteTableAttachment(
-      attachment: json['Attachment'] != null
-          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
-          : null,
-      peeringId: json['PeeringId'] as String?,
-      transitGatewayRouteTableArn:
-          json['TransitGatewayRouteTableArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachment = this.attachment;
-    final peeringId = this.peeringId;
-    final transitGatewayRouteTableArn = this.transitGatewayRouteTableArn;
-    return {
-      if (attachment != null) 'Attachment': attachment,
-      if (peeringId != null) 'PeeringId': peeringId,
-      if (transitGatewayRouteTableArn != null)
-        'TransitGatewayRouteTableArn': transitGatewayRouteTableArn,
-    };
-  }
-}
-
-class TunnelProtocol {
-  static const gre = TunnelProtocol._('GRE');
-  static const noEncap = TunnelProtocol._('NO_ENCAP');
-
-  final String value;
-
-  const TunnelProtocol._(this.value);
-
-  static const values = [gre, noEncap];
-
-  static TunnelProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TunnelProtocol._(value));
-
-  @override
-  bool operator ==(other) => other is TunnelProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateConnectionResponse {
-  /// Information about the connection.
-  final Connection? connection;
-
-  UpdateConnectionResponse({
-    this.connection,
-  });
-
-  factory UpdateConnectionResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateConnectionResponse(
-      connection: json['Connection'] != null
-          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connection = this.connection;
-    return {
-      if (connection != null) 'Connection': connection,
-    };
-  }
-}
-
-class UpdateCoreNetworkResponse {
-  /// Returns information about a core network update.
-  final CoreNetwork? coreNetwork;
-
-  UpdateCoreNetworkResponse({
-    this.coreNetwork,
-  });
-
-  factory UpdateCoreNetworkResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateCoreNetworkResponse(
-      coreNetwork: json['CoreNetwork'] != null
-          ? CoreNetwork.fromJson(json['CoreNetwork'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreNetwork = this.coreNetwork;
-    return {
-      if (coreNetwork != null) 'CoreNetwork': coreNetwork,
-    };
-  }
-}
-
-class UpdateDeviceResponse {
-  /// Information about the device.
-  final Device? device;
-
-  UpdateDeviceResponse({
-    this.device,
-  });
-
-  factory UpdateDeviceResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateDeviceResponse(
-      device: json['Device'] != null
-          ? Device.fromJson(json['Device'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final device = this.device;
-    return {
-      if (device != null) 'Device': device,
-    };
-  }
-}
-
-class UpdateGlobalNetworkResponse {
-  /// Information about the global network object.
-  final GlobalNetwork? globalNetwork;
-
-  UpdateGlobalNetworkResponse({
-    this.globalNetwork,
-  });
-
-  factory UpdateGlobalNetworkResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateGlobalNetworkResponse(
-      globalNetwork: json['GlobalNetwork'] != null
-          ? GlobalNetwork.fromJson(
-              json['GlobalNetwork'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final globalNetwork = this.globalNetwork;
-    return {
-      if (globalNetwork != null) 'GlobalNetwork': globalNetwork,
-    };
-  }
-}
-
-class UpdateLinkResponse {
-  /// Information about the link.
-  final Link? link;
-
-  UpdateLinkResponse({
-    this.link,
-  });
-
-  factory UpdateLinkResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateLinkResponse(
-      link: json['Link'] != null
-          ? Link.fromJson(json['Link'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final link = this.link;
-    return {
-      if (link != null) 'Link': link,
-    };
-  }
-}
-
-class UpdateNetworkResourceMetadataResponse {
-  /// The updated resource metadata.
-  final Map<String, String>? metadata;
-
-  /// The ARN of the resource.
-  final String? resourceArn;
-
-  UpdateNetworkResourceMetadataResponse({
-    this.metadata,
-    this.resourceArn,
-  });
-
-  factory UpdateNetworkResourceMetadataResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateNetworkResourceMetadataResponse(
-      metadata: (json['Metadata'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      resourceArn: json['ResourceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metadata = this.metadata;
-    final resourceArn = this.resourceArn;
-    return {
-      if (metadata != null) 'Metadata': metadata,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-    };
-  }
-}
-
-class UpdateSiteResponse {
-  /// Information about the site.
-  final Site? site;
-
-  UpdateSiteResponse({
-    this.site,
-  });
-
-  factory UpdateSiteResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateSiteResponse(
-      site: json['Site'] != null
-          ? Site.fromJson(json['Site'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final site = this.site;
-    return {
-      if (site != null) 'Site': site,
-    };
-  }
-}
-
-class UpdateVpcAttachmentResponse {
-  /// Describes the updated VPC attachment.
-  final VpcAttachment? vpcAttachment;
-
-  UpdateVpcAttachmentResponse({
-    this.vpcAttachment,
-  });
-
-  factory UpdateVpcAttachmentResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateVpcAttachmentResponse(
-      vpcAttachment: json['VpcAttachment'] != null
-          ? VpcAttachment.fromJson(
-              json['VpcAttachment'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final vpcAttachment = this.vpcAttachment;
-    return {
-      if (vpcAttachment != null) 'VpcAttachment': vpcAttachment,
+      if (whenSentToSegmentsList != null)
+        'WhenSentToSegmentsList': whenSentToSegmentsList,
     };
   }
 }
@@ -10946,109 +11648,703 @@ class Via {
   }
 }
 
-/// Describes a VPC attachment.
-class VpcAttachment {
-  /// Provides details about the VPC attachment.
-  final Attachment? attachment;
+/// Describes the edge that's used for the override.
+class EdgeOverride {
+  /// The list of edge locations.
+  final List<List<String>>? edgeSets;
 
-  /// Provides details about the VPC attachment.
-  final VpcOptions? options;
+  /// The edge that should be used when overriding the current edge order.
+  final String? useEdge;
 
-  /// The subnet ARNs.
-  final List<String>? subnetArns;
-
-  VpcAttachment({
-    this.attachment,
-    this.options,
-    this.subnetArns,
+  EdgeOverride({
+    this.edgeSets,
+    this.useEdge,
   });
 
-  factory VpcAttachment.fromJson(Map<String, dynamic> json) {
-    return VpcAttachment(
+  factory EdgeOverride.fromJson(Map<String, dynamic> json) {
+    return EdgeOverride(
+      edgeSets: (json['EdgeSets'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .toList(),
+      useEdge: json['UseEdge'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edgeSets = this.edgeSets;
+    final useEdge = this.useEdge;
+    return {
+      if (edgeSets != null) 'EdgeSets': edgeSets,
+      if (useEdge != null) 'UseEdge': useEdge,
+    };
+  }
+}
+
+/// Describes a network function group for service insertion.
+class NetworkFunctionGroup {
+  /// The name of the network function group.
+  final String? name;
+
+  NetworkFunctionGroup({
+    this.name,
+  });
+
+  factory NetworkFunctionGroup.fromJson(Map<String, dynamic> json) {
+    return NetworkFunctionGroup(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Describes a core network change event. This can be a change to a segment,
+/// attachment, route, etc.
+class CoreNetworkChangeEvent {
+  /// The action taken for the change event.
+  final ChangeAction? action;
+
+  /// The timestamp for an event change in status.
+  final DateTime? eventTime;
+
+  /// Uniquely identifies the path for a change within the changeset. For example,
+  /// the <code>IdentifierPath</code> for a core network segment change might be
+  /// <code>"CORE_NETWORK_SEGMENT/us-east-1/devsegment"</code>.
+  final String? identifierPath;
+
+  /// The status of the core network change event.
+  final ChangeStatus? status;
+
+  /// Describes the type of change event.
+  final ChangeType? type;
+
+  /// Details of the change event.
+  final CoreNetworkChangeEventValues? values;
+
+  CoreNetworkChangeEvent({
+    this.action,
+    this.eventTime,
+    this.identifierPath,
+    this.status,
+    this.type,
+    this.values,
+  });
+
+  factory CoreNetworkChangeEvent.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkChangeEvent(
+      action: (json['Action'] as String?)?.let(ChangeAction.fromString),
+      eventTime: timeStampFromJson(json['EventTime']),
+      identifierPath: json['IdentifierPath'] as String?,
+      status: (json['Status'] as String?)?.let(ChangeStatus.fromString),
+      type: (json['Type'] as String?)?.let(ChangeType.fromString),
+      values: json['Values'] != null
+          ? CoreNetworkChangeEventValues.fromJson(
+              json['Values'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final eventTime = this.eventTime;
+    final identifierPath = this.identifierPath;
+    final status = this.status;
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (action != null) 'Action': action.value,
+      if (eventTime != null) 'EventTime': unixTimestampToJson(eventTime),
+      if (identifierPath != null) 'IdentifierPath': identifierPath,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+class ChangeStatus {
+  static const notStarted = ChangeStatus._('NOT_STARTED');
+  static const inProgress = ChangeStatus._('IN_PROGRESS');
+  static const complete = ChangeStatus._('COMPLETE');
+  static const failed = ChangeStatus._('FAILED');
+
+  final String value;
+
+  const ChangeStatus._(this.value);
+
+  static const values = [notStarted, inProgress, complete, failed];
+
+  static ChangeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a core network change event.
+class CoreNetworkChangeEventValues {
+  /// The ID of the attachment if the change event is associated with an
+  /// attachment.
+  final String? attachmentId;
+
+  /// For a <code>STATIC_ROUTE</code> event, this is the IP address.
+  final String? cidr;
+
+  /// The edge location for the core network change event.
+  final String? edgeLocation;
+
+  /// The changed network function group name.
+  final String? networkFunctionGroupName;
+
+  /// The edge location of the peer in a core network change event.
+  final String? peerEdgeLocation;
+
+  /// The names of the routing policies and other association details in the core
+  /// network change values.
+  final List<RoutingPolicyAssociationDetail>? routingPolicyAssociationDetails;
+
+  /// The routing policy direction (inbound/outbound) in a core network change
+  /// event.
+  final RoutingPolicyDirection? routingPolicyDirection;
+
+  /// The segment name if the change event is associated with a segment.
+  final String? segmentName;
+
+  CoreNetworkChangeEventValues({
+    this.attachmentId,
+    this.cidr,
+    this.edgeLocation,
+    this.networkFunctionGroupName,
+    this.peerEdgeLocation,
+    this.routingPolicyAssociationDetails,
+    this.routingPolicyDirection,
+    this.segmentName,
+  });
+
+  factory CoreNetworkChangeEventValues.fromJson(Map<String, dynamic> json) {
+    return CoreNetworkChangeEventValues(
+      attachmentId: json['AttachmentId'] as String?,
+      cidr: json['Cidr'] as String?,
+      edgeLocation: json['EdgeLocation'] as String?,
+      networkFunctionGroupName: json['NetworkFunctionGroupName'] as String?,
+      peerEdgeLocation: json['PeerEdgeLocation'] as String?,
+      routingPolicyAssociationDetails:
+          (json['RoutingPolicyAssociationDetails'] as List?)
+              ?.nonNulls
+              .map((e) => RoutingPolicyAssociationDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      routingPolicyDirection: (json['RoutingPolicyDirection'] as String?)
+          ?.let(RoutingPolicyDirection.fromString),
+      segmentName: json['SegmentName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final cidr = this.cidr;
+    final edgeLocation = this.edgeLocation;
+    final networkFunctionGroupName = this.networkFunctionGroupName;
+    final peerEdgeLocation = this.peerEdgeLocation;
+    final routingPolicyAssociationDetails =
+        this.routingPolicyAssociationDetails;
+    final routingPolicyDirection = this.routingPolicyDirection;
+    final segmentName = this.segmentName;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (cidr != null) 'Cidr': cidr,
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (networkFunctionGroupName != null)
+        'NetworkFunctionGroupName': networkFunctionGroupName,
+      if (peerEdgeLocation != null) 'PeerEdgeLocation': peerEdgeLocation,
+      if (routingPolicyAssociationDetails != null)
+        'RoutingPolicyAssociationDetails': routingPolicyAssociationDetails,
+      if (routingPolicyDirection != null)
+        'RoutingPolicyDirection': routingPolicyDirection.value,
+      if (segmentName != null) 'SegmentName': segmentName,
+    };
+  }
+}
+
+/// Describes a core network Connect peer association.
+class ConnectPeerAssociation {
+  /// The ID of the Connect peer.
+  final String? connectPeerId;
+
+  /// The ID of the device to connect to.
+  final String? deviceId;
+
+  /// The ID of the global network.
+  final String? globalNetworkId;
+
+  /// The ID of the link.
+  final String? linkId;
+
+  /// The state of the Connect peer association.
+  final ConnectPeerAssociationState? state;
+
+  ConnectPeerAssociation({
+    this.connectPeerId,
+    this.deviceId,
+    this.globalNetworkId,
+    this.linkId,
+    this.state,
+  });
+
+  factory ConnectPeerAssociation.fromJson(Map<String, dynamic> json) {
+    return ConnectPeerAssociation(
+      connectPeerId: json['ConnectPeerId'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkId: json['LinkId'] as String?,
+      state: (json['State'] as String?)
+          ?.let(ConnectPeerAssociationState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectPeerId = this.connectPeerId;
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final linkId = this.linkId;
+    final state = this.state;
+    return {
+      if (connectPeerId != null) 'ConnectPeerId': connectPeerId,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkId != null) 'LinkId': linkId,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class ConnectPeerAssociationState {
+  static const pending = ConnectPeerAssociationState._('PENDING');
+  static const available = ConnectPeerAssociationState._('AVAILABLE');
+  static const deleting = ConnectPeerAssociationState._('DELETING');
+  static const deleted = ConnectPeerAssociationState._('DELETED');
+
+  final String value;
+
+  const ConnectPeerAssociationState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
+
+  static ConnectPeerAssociationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectPeerAssociationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectPeerAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a core network Connect peer.
+class ConnectPeer {
+  /// The configuration of the Connect peer.
+  final ConnectPeerConfiguration? configuration;
+
+  /// The ID of the attachment to connect.
+  final String? connectAttachmentId;
+
+  /// The ID of the Connect peer.
+  final String? connectPeerId;
+
+  /// The ID of a core network.
+  final String? coreNetworkId;
+
+  /// The timestamp when the Connect peer was created.
+  final DateTime? createdAt;
+
+  /// The Connect peer Regions where edges are located.
+  final String? edgeLocation;
+
+  /// Describes the error associated with the attachment request.
+  final List<ConnectPeerError>? lastModificationErrors;
+
+  /// The state of the Connect peer.
+  final ConnectPeerState? state;
+
+  /// The subnet ARN for the Connect peer. This only applies only when the
+  /// protocol is NO_ENCAP.
+  final String? subnetArn;
+
+  /// The list of key-value tags associated with the Connect peer.
+  final List<Tag>? tags;
+
+  ConnectPeer({
+    this.configuration,
+    this.connectAttachmentId,
+    this.connectPeerId,
+    this.coreNetworkId,
+    this.createdAt,
+    this.edgeLocation,
+    this.lastModificationErrors,
+    this.state,
+    this.subnetArn,
+    this.tags,
+  });
+
+  factory ConnectPeer.fromJson(Map<String, dynamic> json) {
+    return ConnectPeer(
+      configuration: json['Configuration'] != null
+          ? ConnectPeerConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      connectAttachmentId: json['ConnectAttachmentId'] as String?,
+      connectPeerId: json['ConnectPeerId'] as String?,
+      coreNetworkId: json['CoreNetworkId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      edgeLocation: json['EdgeLocation'] as String?,
+      lastModificationErrors: (json['LastModificationErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ConnectPeerError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['State'] as String?)?.let(ConnectPeerState.fromString),
+      subnetArn: json['SubnetArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final connectAttachmentId = this.connectAttachmentId;
+    final connectPeerId = this.connectPeerId;
+    final coreNetworkId = this.coreNetworkId;
+    final createdAt = this.createdAt;
+    final edgeLocation = this.edgeLocation;
+    final lastModificationErrors = this.lastModificationErrors;
+    final state = this.state;
+    final subnetArn = this.subnetArn;
+    final tags = this.tags;
+    return {
+      if (configuration != null) 'Configuration': configuration,
+      if (connectAttachmentId != null)
+        'ConnectAttachmentId': connectAttachmentId,
+      if (connectPeerId != null) 'ConnectPeerId': connectPeerId,
+      if (coreNetworkId != null) 'CoreNetworkId': coreNetworkId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (edgeLocation != null) 'EdgeLocation': edgeLocation,
+      if (lastModificationErrors != null)
+        'LastModificationErrors': lastModificationErrors,
+      if (state != null) 'State': state.value,
+      if (subnetArn != null) 'SubnetArn': subnetArn,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Describes a core network Connect peer configuration.
+class ConnectPeerConfiguration {
+  /// The Connect peer BGP configurations.
+  final List<ConnectPeerBgpConfiguration>? bgpConfigurations;
+
+  /// The IP address of a core network.
+  final String? coreNetworkAddress;
+
+  /// The inside IP addresses used for a Connect peer configuration.
+  final List<String>? insideCidrBlocks;
+
+  /// The IP address of the Connect peer.
+  final String? peerAddress;
+
+  /// The protocol used for a Connect peer configuration.
+  final TunnelProtocol? protocol;
+
+  ConnectPeerConfiguration({
+    this.bgpConfigurations,
+    this.coreNetworkAddress,
+    this.insideCidrBlocks,
+    this.peerAddress,
+    this.protocol,
+  });
+
+  factory ConnectPeerConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConnectPeerConfiguration(
+      bgpConfigurations: (json['BgpConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConnectPeerBgpConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      coreNetworkAddress: json['CoreNetworkAddress'] as String?,
+      insideCidrBlocks: (json['InsideCidrBlocks'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      peerAddress: json['PeerAddress'] as String?,
+      protocol: (json['Protocol'] as String?)?.let(TunnelProtocol.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bgpConfigurations = this.bgpConfigurations;
+    final coreNetworkAddress = this.coreNetworkAddress;
+    final insideCidrBlocks = this.insideCidrBlocks;
+    final peerAddress = this.peerAddress;
+    final protocol = this.protocol;
+    return {
+      if (bgpConfigurations != null) 'BgpConfigurations': bgpConfigurations,
+      if (coreNetworkAddress != null) 'CoreNetworkAddress': coreNetworkAddress,
+      if (insideCidrBlocks != null) 'InsideCidrBlocks': insideCidrBlocks,
+      if (peerAddress != null) 'PeerAddress': peerAddress,
+      if (protocol != null) 'Protocol': protocol.value,
+    };
+  }
+}
+
+/// Describes an error associated with a Connect peer request
+class ConnectPeerError {
+  /// The error code for the Connect peer request.
+  final ConnectPeerErrorCode? code;
+
+  /// The message associated with the error <code>code</code>.
+  final String? message;
+
+  /// The ID of the Connect peer request.
+  final String? requestId;
+
+  /// The ARN of the requested Connect peer resource.
+  final String? resourceArn;
+
+  ConnectPeerError({
+    this.code,
+    this.message,
+    this.requestId,
+    this.resourceArn,
+  });
+
+  factory ConnectPeerError.fromJson(Map<String, dynamic> json) {
+    return ConnectPeerError(
+      code: (json['Code'] as String?)?.let(ConnectPeerErrorCode.fromString),
+      message: json['Message'] as String?,
+      requestId: json['RequestId'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final requestId = this.requestId;
+    final resourceArn = this.resourceArn;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+      if (requestId != null) 'RequestId': requestId,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+class ConnectPeerErrorCode {
+  static const edgeLocationNoFreeIps =
+      ConnectPeerErrorCode._('EDGE_LOCATION_NO_FREE_IPS');
+  static const edgeLocationPeerDuplicate =
+      ConnectPeerErrorCode._('EDGE_LOCATION_PEER_DUPLICATE');
+  static const subnetNotFound = ConnectPeerErrorCode._('SUBNET_NOT_FOUND');
+  static const ipOutsideSubnetCidrRange =
+      ConnectPeerErrorCode._('IP_OUTSIDE_SUBNET_CIDR_RANGE');
+  static const invalidInsideCidrBlock =
+      ConnectPeerErrorCode._('INVALID_INSIDE_CIDR_BLOCK');
+  static const noAssociatedCidrBlock =
+      ConnectPeerErrorCode._('NO_ASSOCIATED_CIDR_BLOCK');
+
+  final String value;
+
+  const ConnectPeerErrorCode._(this.value);
+
+  static const values = [
+    edgeLocationNoFreeIps,
+    edgeLocationPeerDuplicate,
+    subnetNotFound,
+    ipOutsideSubnetCidrRange,
+    invalidInsideCidrBlock,
+    noAssociatedCidrBlock
+  ];
+
+  static ConnectPeerErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectPeerErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectPeerErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TunnelProtocol {
+  static const gre = TunnelProtocol._('GRE');
+  static const noEncap = TunnelProtocol._('NO_ENCAP');
+
+  final String value;
+
+  const TunnelProtocol._(this.value);
+
+  static const values = [gre, noEncap];
+
+  static TunnelProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TunnelProtocol._(value));
+
+  @override
+  bool operator ==(other) => other is TunnelProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a core network BGP configuration.
+class ConnectPeerBgpConfiguration {
+  /// The address of a core network.
+  final String? coreNetworkAddress;
+
+  /// The ASN of the Coret Network.
+  final int? coreNetworkAsn;
+
+  /// The address of a core network Connect peer.
+  final String? peerAddress;
+
+  /// The ASN of the Connect peer.
+  final int? peerAsn;
+
+  ConnectPeerBgpConfiguration({
+    this.coreNetworkAddress,
+    this.coreNetworkAsn,
+    this.peerAddress,
+    this.peerAsn,
+  });
+
+  factory ConnectPeerBgpConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConnectPeerBgpConfiguration(
+      coreNetworkAddress: json['CoreNetworkAddress'] as String?,
+      coreNetworkAsn: json['CoreNetworkAsn'] as int?,
+      peerAddress: json['PeerAddress'] as String?,
+      peerAsn: json['PeerAsn'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreNetworkAddress = this.coreNetworkAddress;
+    final coreNetworkAsn = this.coreNetworkAsn;
+    final peerAddress = this.peerAddress;
+    final peerAsn = this.peerAsn;
+    return {
+      if (coreNetworkAddress != null) 'CoreNetworkAddress': coreNetworkAddress,
+      if (coreNetworkAsn != null) 'CoreNetworkAsn': coreNetworkAsn,
+      if (peerAddress != null) 'PeerAddress': peerAddress,
+      if (peerAsn != null) 'PeerAsn': peerAsn,
+    };
+  }
+}
+
+/// Describes a core network Connect attachment.
+class ConnectAttachment {
+  /// The attachment details.
+  final Attachment? attachment;
+
+  /// Options for connecting an attachment.
+  final ConnectAttachmentOptions? options;
+
+  /// The ID of the transport attachment.
+  final String? transportAttachmentId;
+
+  ConnectAttachment({
+    this.attachment,
+    this.options,
+    this.transportAttachmentId,
+  });
+
+  factory ConnectAttachment.fromJson(Map<String, dynamic> json) {
+    return ConnectAttachment(
       attachment: json['Attachment'] != null
           ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
           : null,
       options: json['Options'] != null
-          ? VpcOptions.fromJson(json['Options'] as Map<String, dynamic>)
+          ? ConnectAttachmentOptions.fromJson(
+              json['Options'] as Map<String, dynamic>)
           : null,
-      subnetArns: (json['SubnetArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
+      transportAttachmentId: json['TransportAttachmentId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final attachment = this.attachment;
     final options = this.options;
-    final subnetArns = this.subnetArns;
+    final transportAttachmentId = this.transportAttachmentId;
     return {
       if (attachment != null) 'Attachment': attachment,
       if (options != null) 'Options': options,
-      if (subnetArns != null) 'SubnetArns': subnetArns,
+      if (transportAttachmentId != null)
+        'TransportAttachmentId': transportAttachmentId,
     };
   }
 }
 
-/// Describes the VPC options.
-class VpcOptions {
-  /// Indicates whether appliance mode is supported. If enabled, traffic flow
-  /// between a source and destination use the same Availability Zone for the VPC
-  /// attachment for the lifetime of that flow. The default value is
-  /// <code>false</code>.
-  final bool? applianceModeSupport;
+/// Describes a core network Connect attachment options.
+class ConnectAttachmentOptions {
+  /// The protocol used for the attachment connection.
+  final TunnelProtocol? protocol;
 
-  /// Indicates whether IPv6 is supported.
-  final bool? ipv6Support;
-
-  VpcOptions({
-    this.applianceModeSupport,
-    this.ipv6Support,
+  ConnectAttachmentOptions({
+    this.protocol,
   });
 
-  factory VpcOptions.fromJson(Map<String, dynamic> json) {
-    return VpcOptions(
-      applianceModeSupport: json['ApplianceModeSupport'] as bool?,
-      ipv6Support: json['Ipv6Support'] as bool?,
+  factory ConnectAttachmentOptions.fromJson(Map<String, dynamic> json) {
+    return ConnectAttachmentOptions(
+      protocol: (json['Protocol'] as String?)?.let(TunnelProtocol.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final applianceModeSupport = this.applianceModeSupport;
-    final ipv6Support = this.ipv6Support;
+    final protocol = this.protocol;
     return {
-      if (applianceModeSupport != null)
-        'ApplianceModeSupport': applianceModeSupport,
-      if (ipv6Support != null) 'Ipv6Support': ipv6Support,
+      if (protocol != null) 'Protocol': protocol.value,
     };
   }
 }
 
-/// Displays a list of the destination segments. Used only when the service
-/// insertion action is <code>send-to</code>.
-class WhenSentTo {
-  /// The list of destination segments when the service insertion action is
-  /// <code>send-to</code>.
-  final List<String>? whenSentToSegmentsList;
+/// Describes the BGP options.
+class BgpOptions {
+  /// The Peer ASN of the BGP.
+  final int? peerAsn;
 
-  WhenSentTo({
-    this.whenSentToSegmentsList,
+  BgpOptions({
+    this.peerAsn,
   });
 
-  factory WhenSentTo.fromJson(Map<String, dynamic> json) {
-    return WhenSentTo(
-      whenSentToSegmentsList: (json['WhenSentToSegmentsList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final whenSentToSegmentsList = this.whenSentToSegmentsList;
+    final peerAsn = this.peerAsn;
     return {
-      if (whenSentToSegmentsList != null)
-        'WhenSentToSegmentsList': whenSentToSegmentsList,
+      if (peerAsn != null) 'PeerAsn': peerAsn,
     };
   }
 }

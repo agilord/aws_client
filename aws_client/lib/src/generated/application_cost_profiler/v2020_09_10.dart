@@ -42,7 +42,6 @@ class ApplicationCostProfiler {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'application-cost-profiler',
-            signingName: 'application-cost-profiler',
           ),
           region: region,
           credentials: credentials,
@@ -62,10 +61,10 @@ class ApplicationCostProfiler {
   /// Deletes the specified report definition in AWS Application Cost Profiler.
   /// This stops the report from being generated.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [reportId] :
   /// Required. ID of the report to delete.
@@ -84,10 +83,10 @@ class ApplicationCostProfiler {
   /// Retrieves the definition of a report already configured in AWS Application
   /// Cost Profiler.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [reportId] :
   /// ID of the report to retrieve.
@@ -110,10 +109,10 @@ class ApplicationCostProfiler {
   /// Application Cost Profiler copies the object from your S3 bucket to an S3
   /// bucket owned by Amazon for processing asynchronously.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [sourceS3Location] :
   /// Amazon S3 location to import application usage data from.
@@ -137,10 +136,10 @@ class ApplicationCostProfiler {
   ///
   /// The maximum number of reports is one.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return.
@@ -173,11 +172,11 @@ class ApplicationCostProfiler {
 
   /// Creates the report definition for a report in Application Cost Profiler.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [destinationS3Location] :
   /// Required. Amazon Simple Storage Service (Amazon S3) location where
@@ -220,10 +219,10 @@ class ApplicationCostProfiler {
 
   /// Updates existing report in AWS Application Cost Profiler.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [destinationS3Location] :
   /// Required. Amazon Simple Storage Service (Amazon S3) location where
@@ -283,29 +282,6 @@ class DeleteReportDefinitionResult {
       if (reportId != null) 'reportId': reportId,
     };
   }
-}
-
-class Format {
-  static const csv = Format._('CSV');
-  static const parquet = Format._('PARQUET');
-
-  final String value;
-
-  const Format._(this.value);
-
-  static const values = [csv, parquet];
-
-  static Format fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
-
-  @override
-  bool operator ==(other) => other is Format && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetReportDefinitionResult {
@@ -453,6 +429,107 @@ class PutReportDefinitionResult {
   }
 }
 
+class UpdateReportDefinitionResult {
+  /// ID of the report.
+  final String? reportId;
+
+  UpdateReportDefinitionResult({
+    this.reportId,
+  });
+
+  factory UpdateReportDefinitionResult.fromJson(Map<String, dynamic> json) {
+    return UpdateReportDefinitionResult(
+      reportId: json['reportId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reportId = this.reportId;
+    return {
+      if (reportId != null) 'reportId': reportId,
+    };
+  }
+}
+
+class ReportFrequency {
+  static const monthly = ReportFrequency._('MONTHLY');
+  static const daily = ReportFrequency._('DAILY');
+  static const all = ReportFrequency._('ALL');
+
+  final String value;
+
+  const ReportFrequency._(this.value);
+
+  static const values = [monthly, daily, all];
+
+  static ReportFrequency fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportFrequency._(value));
+
+  @override
+  bool operator ==(other) => other is ReportFrequency && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Format {
+  static const csv = Format._('CSV');
+  static const parquet = Format._('PARQUET');
+
+  final String value;
+
+  const Format._(this.value);
+
+  static const values = [csv, parquet];
+
+  static Format fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Format._(value));
+
+  @override
+  bool operator ==(other) => other is Format && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the Amazon Simple Storage Service (Amazon S3) location where AWS
+/// Application Cost Profiler reports are generated and then written to.
+class S3Location {
+  /// Name of the S3 bucket.
+  final String bucket;
+
+  /// Prefix for the location to write to.
+  final String prefix;
+
+  S3Location({
+    required this.bucket,
+    required this.prefix,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: (json['bucket'] as String?) ?? '',
+      prefix: (json['prefix'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'bucket': bucket,
+      'prefix': prefix,
+    };
+  }
+}
+
 /// The configuration of a report in AWS Application Cost Profiler.
 class ReportDefinition {
   /// Timestamp (milliseconds) when this report definition was created.
@@ -525,88 +602,6 @@ class ReportDefinition {
   }
 }
 
-class ReportFrequency {
-  static const monthly = ReportFrequency._('MONTHLY');
-  static const daily = ReportFrequency._('DAILY');
-  static const all = ReportFrequency._('ALL');
-
-  final String value;
-
-  const ReportFrequency._(this.value);
-
-  static const values = [monthly, daily, all];
-
-  static ReportFrequency fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReportFrequency._(value));
-
-  @override
-  bool operator ==(other) => other is ReportFrequency && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class S3BucketRegion {
-  static const apEast_1 = S3BucketRegion._('ap-east-1');
-  static const meSouth_1 = S3BucketRegion._('me-south-1');
-  static const euSouth_1 = S3BucketRegion._('eu-south-1');
-  static const afSouth_1 = S3BucketRegion._('af-south-1');
-
-  final String value;
-
-  const S3BucketRegion._(this.value);
-
-  static const values = [apEast_1, meSouth_1, euSouth_1, afSouth_1];
-
-  static S3BucketRegion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => S3BucketRegion._(value));
-
-  @override
-  bool operator ==(other) => other is S3BucketRegion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the Amazon Simple Storage Service (Amazon S3) location where AWS
-/// Application Cost Profiler reports are generated and then written to.
-class S3Location {
-  /// Name of the S3 bucket.
-  final String bucket;
-
-  /// Prefix for the location to write to.
-  final String prefix;
-
-  S3Location({
-    required this.bucket,
-    required this.prefix,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      bucket: (json['bucket'] as String?) ?? '',
-      prefix: (json['prefix'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final prefix = this.prefix;
-    return {
-      'bucket': bucket,
-      'prefix': prefix,
-    };
-  }
-}
-
 /// Represents the Amazon Simple Storage Service (Amazon S3) location where
 /// usage data is read from.
 class SourceS3Location {
@@ -641,26 +636,30 @@ class SourceS3Location {
   }
 }
 
-class UpdateReportDefinitionResult {
-  /// ID of the report.
-  final String? reportId;
+class S3BucketRegion {
+  static const apEast_1 = S3BucketRegion._('ap-east-1');
+  static const meSouth_1 = S3BucketRegion._('me-south-1');
+  static const euSouth_1 = S3BucketRegion._('eu-south-1');
+  static const afSouth_1 = S3BucketRegion._('af-south-1');
 
-  UpdateReportDefinitionResult({
-    this.reportId,
-  });
+  final String value;
 
-  factory UpdateReportDefinitionResult.fromJson(Map<String, dynamic> json) {
-    return UpdateReportDefinitionResult(
-      reportId: json['reportId'] as String?,
-    );
-  }
+  const S3BucketRegion._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final reportId = this.reportId;
-    return {
-      if (reportId != null) 'reportId': reportId,
-    };
-  }
+  static const values = [apEast_1, meSouth_1, euSouth_1, afSouth_1];
+
+  static S3BucketRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => S3BucketRegion._(value));
+
+  @override
+  bool operator ==(other) => other is S3BucketRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

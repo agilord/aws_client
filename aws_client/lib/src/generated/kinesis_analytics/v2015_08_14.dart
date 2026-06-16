@@ -70,10 +70,10 @@ class KinesisAnalytics {
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html">Working
   /// with Amazon CloudWatch Logs</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -143,11 +143,11 @@ class KinesisAnalytics {
   /// This operation requires permissions to perform the
   /// <code>kinesisanalytics:AddApplicationInput</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ConcurrentModificationException].
   /// May throw [CodeValidationException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -208,10 +208,10 @@ class KinesisAnalytics {
   /// input processor available is <a
   /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -305,10 +305,10 @@ class KinesisAnalytics {
   /// This operation requires permissions to perform the
   /// <code>kinesisanalytics:AddApplicationOutput</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -383,10 +383,10 @@ class KinesisAnalytics {
   /// This operation requires permissions to perform the
   /// <code>kinesisanalytics:AddApplicationOutput</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -479,11 +479,11 @@ class KinesisAnalytics {
   /// Started</a>.
   ///
   /// May throw [CodeValidationException].
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [TooManyTagsException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [applicationName] :
   /// Name of your Amazon Kinesis Analytics application (for example,
@@ -615,8 +615,8 @@ class KinesisAnalytics {
   /// <code>kinesisanalytics:DeleteApplication</code> action.
   ///
   /// May throw [ConcurrentModificationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -659,10 +659,10 @@ class KinesisAnalytics {
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/cloudwatch-logs.html">Working
   /// with Amazon CloudWatch Logs</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -719,10 +719,10 @@ class KinesisAnalytics {
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html">InputProcessingConfiguration</a>
   /// from an input.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -782,10 +782,10 @@ class KinesisAnalytics {
   /// This operation requires permissions to perform the
   /// <code>kinesisanalytics:DeleteApplicationOutput</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -856,10 +856,10 @@ class KinesisAnalytics {
   /// This operation requires permissions to perform the
   /// <code>kinesisanalytics.DeleteApplicationReferenceDataSource</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -978,9 +978,9 @@ class KinesisAnalytics {
   /// <code>kinesisanalytics:DiscoverInputSchema</code> action.
   ///
   /// May throw [InvalidArgumentException].
-  /// May throw [UnableToDetectSchemaException].
   /// May throw [ResourceProvisionedThroughputExceededException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnableToDetectSchemaException].
   ///
   /// Parameter [inputProcessingConfiguration] :
   /// The <a
@@ -1098,9 +1098,9 @@ class KinesisAnalytics {
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html">Using
   /// Tagging</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the application for which to retrieve tags.
@@ -1153,10 +1153,10 @@ class KinesisAnalytics {
   /// This operation requires permissions to perform the
   /// <code>kinesisanalytics:StartApplication</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [InvalidApplicationConfigurationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -1206,8 +1206,8 @@ class KinesisAnalytics {
   /// This operation requires permissions to perform the
   /// <code>kinesisanalytics:StopApplication</code> action.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -1238,11 +1238,11 @@ class KinesisAnalytics {
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html">Using
   /// Tagging</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [TooManyTagsException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the application to assign the tags.
@@ -1275,11 +1275,11 @@ class KinesisAnalytics {
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html">Using
   /// Tagging</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [TooManyTagsException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the Kinesis Analytics application from which to remove the
@@ -1327,10 +1327,10 @@ class KinesisAnalytics {
   /// <code>kinesisanalytics:UpdateApplication</code> action.
   ///
   /// May throw [CodeValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationName] :
@@ -1387,6 +1387,19 @@ class AddApplicationCloudWatchLoggingOptionResponse {
   }
 }
 
+///
+class AddApplicationInputResponse {
+  AddApplicationInputResponse();
+
+  factory AddApplicationInputResponse.fromJson(Map<String, dynamic> _) {
+    return AddApplicationInputResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class AddApplicationInputProcessingConfigurationResponse {
   AddApplicationInputProcessingConfigurationResponse();
 
@@ -1400,20 +1413,7 @@ class AddApplicationInputProcessingConfigurationResponse {
   }
 }
 
-/// <p/>
-class AddApplicationInputResponse {
-  AddApplicationInputResponse();
-
-  factory AddApplicationInputResponse.fromJson(Map<String, dynamic> _) {
-    return AddApplicationInputResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// <p/>
+///
 class AddApplicationOutputResponse {
   AddApplicationOutputResponse();
 
@@ -1426,7 +1426,7 @@ class AddApplicationOutputResponse {
   }
 }
 
-/// <p/>
+///
 class AddApplicationReferenceDataSourceResponse {
   AddApplicationReferenceDataSourceResponse();
 
@@ -1437,6 +1437,1422 @@ class AddApplicationReferenceDataSourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+/// TBD
+class CreateApplicationResponse {
+  /// In response to your <code>CreateApplication</code> request, Amazon Kinesis
+  /// Analytics returns a response with a summary of the application it created,
+  /// including the application Amazon Resource Name (ARN), name, and status.
+  final ApplicationSummary applicationSummary;
+
+  CreateApplicationResponse({
+    required this.applicationSummary,
+  });
+
+  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationResponse(
+      applicationSummary: ApplicationSummary.fromJson(
+          (json['ApplicationSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationSummary = this.applicationSummary;
+    return {
+      'ApplicationSummary': applicationSummary,
+    };
+  }
+}
+
+///
+class DeleteApplicationResponse {
+  DeleteApplicationResponse();
+
+  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteApplicationCloudWatchLoggingOptionResponse {
+  DeleteApplicationCloudWatchLoggingOptionResponse();
+
+  factory DeleteApplicationCloudWatchLoggingOptionResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteApplicationCloudWatchLoggingOptionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteApplicationInputProcessingConfigurationResponse {
+  DeleteApplicationInputProcessingConfigurationResponse();
+
+  factory DeleteApplicationInputProcessingConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteApplicationInputProcessingConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+///
+class DeleteApplicationOutputResponse {
+  DeleteApplicationOutputResponse();
+
+  factory DeleteApplicationOutputResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationOutputResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteApplicationReferenceDataSourceResponse {
+  DeleteApplicationReferenceDataSourceResponse();
+
+  factory DeleteApplicationReferenceDataSourceResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteApplicationReferenceDataSourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+///
+class DescribeApplicationResponse {
+  /// Provides a description of the application, such as the application Amazon
+  /// Resource Name (ARN), status, latest version, and input and output
+  /// configuration details.
+  final ApplicationDetail applicationDetail;
+
+  DescribeApplicationResponse({
+    required this.applicationDetail,
+  });
+
+  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeApplicationResponse(
+      applicationDetail: ApplicationDetail.fromJson(
+          (json['ApplicationDetail'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationDetail = this.applicationDetail;
+    return {
+      'ApplicationDetail': applicationDetail,
+    };
+  }
+}
+
+///
+class DiscoverInputSchemaResponse {
+  /// Schema inferred from the streaming source. It identifies the format of the
+  /// data in the streaming source and how each data element maps to corresponding
+  /// columns in the in-application stream that you can create.
+  final SourceSchema? inputSchema;
+
+  /// An array of elements, where each element corresponds to a row in a stream
+  /// record (a stream record can have more than one row).
+  final List<List<String>>? parsedInputRecords;
+
+  /// Stream data that was modified by the processor specified in the
+  /// <code>InputProcessingConfiguration</code> parameter.
+  final List<String>? processedInputRecords;
+
+  /// Raw stream data that was sampled to infer the schema.
+  final List<String>? rawInputRecords;
+
+  DiscoverInputSchemaResponse({
+    this.inputSchema,
+    this.parsedInputRecords,
+    this.processedInputRecords,
+    this.rawInputRecords,
+  });
+
+  factory DiscoverInputSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return DiscoverInputSchemaResponse(
+      inputSchema: json['InputSchema'] != null
+          ? SourceSchema.fromJson(json['InputSchema'] as Map<String, dynamic>)
+          : null,
+      parsedInputRecords: (json['ParsedInputRecords'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .toList(),
+      processedInputRecords: (json['ProcessedInputRecords'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      rawInputRecords: (json['RawInputRecords'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputSchema = this.inputSchema;
+    final parsedInputRecords = this.parsedInputRecords;
+    final processedInputRecords = this.processedInputRecords;
+    final rawInputRecords = this.rawInputRecords;
+    return {
+      if (inputSchema != null) 'InputSchema': inputSchema,
+      if (parsedInputRecords != null) 'ParsedInputRecords': parsedInputRecords,
+      if (processedInputRecords != null)
+        'ProcessedInputRecords': processedInputRecords,
+      if (rawInputRecords != null) 'RawInputRecords': rawInputRecords,
+    };
+  }
+}
+
+///
+class ListApplicationsResponse {
+  /// List of <code>ApplicationSummary</code> objects.
+  final List<ApplicationSummary> applicationSummaries;
+
+  /// Returns true if there are more applications to retrieve.
+  final bool hasMoreApplications;
+
+  ListApplicationsResponse({
+    required this.applicationSummaries,
+    required this.hasMoreApplications,
+  });
+
+  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationsResponse(
+      applicationSummaries: ((json['ApplicationSummaries'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hasMoreApplications: (json['HasMoreApplications'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationSummaries = this.applicationSummaries;
+    final hasMoreApplications = this.hasMoreApplications;
+    return {
+      'ApplicationSummaries': applicationSummaries,
+      'HasMoreApplications': hasMoreApplications,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The key-value tags assigned to the application.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+///
+class StartApplicationResponse {
+  StartApplicationResponse();
+
+  factory StartApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return StartApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+///
+class StopApplicationResponse {
+  StopApplicationResponse();
+
+  factory StopApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return StopApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateApplicationResponse {
+  UpdateApplicationResponse();
+
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Describes updates to apply to an existing Amazon Kinesis Analytics
+/// application.
+class ApplicationUpdate {
+  /// Describes application code updates.
+  final String? applicationCodeUpdate;
+
+  /// Describes application CloudWatch logging option updates.
+  final List<CloudWatchLoggingOptionUpdate>? cloudWatchLoggingOptionUpdates;
+
+  /// Describes application input configuration updates.
+  final List<InputUpdate>? inputUpdates;
+
+  /// Describes application output configuration updates.
+  final List<OutputUpdate>? outputUpdates;
+
+  /// Describes application reference data source updates.
+  final List<ReferenceDataSourceUpdate>? referenceDataSourceUpdates;
+
+  ApplicationUpdate({
+    this.applicationCodeUpdate,
+    this.cloudWatchLoggingOptionUpdates,
+    this.inputUpdates,
+    this.outputUpdates,
+    this.referenceDataSourceUpdates,
+  });
+
+  Map<String, dynamic> toJson() {
+    final applicationCodeUpdate = this.applicationCodeUpdate;
+    final cloudWatchLoggingOptionUpdates = this.cloudWatchLoggingOptionUpdates;
+    final inputUpdates = this.inputUpdates;
+    final outputUpdates = this.outputUpdates;
+    final referenceDataSourceUpdates = this.referenceDataSourceUpdates;
+    return {
+      if (applicationCodeUpdate != null)
+        'ApplicationCodeUpdate': applicationCodeUpdate,
+      if (cloudWatchLoggingOptionUpdates != null)
+        'CloudWatchLoggingOptionUpdates': cloudWatchLoggingOptionUpdates,
+      if (inputUpdates != null) 'InputUpdates': inputUpdates,
+      if (outputUpdates != null) 'OutputUpdates': outputUpdates,
+      if (referenceDataSourceUpdates != null)
+        'ReferenceDataSourceUpdates': referenceDataSourceUpdates,
+    };
+  }
+}
+
+/// Describes CloudWatch logging option updates.
+class CloudWatchLoggingOptionUpdate {
+  /// ID of the CloudWatch logging option to update
+  final String cloudWatchLoggingOptionId;
+
+  /// ARN of the CloudWatch log to receive application messages.
+  final String? logStreamARNUpdate;
+
+  /// IAM ARN of the role to use to send application messages. Note: To write
+  /// application messages to CloudWatch, the IAM role used must have the
+  /// <code>PutLogEvents</code> policy action enabled.
+  final String? roleARNUpdate;
+
+  CloudWatchLoggingOptionUpdate({
+    required this.cloudWatchLoggingOptionId,
+    this.logStreamARNUpdate,
+    this.roleARNUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLoggingOptionId = this.cloudWatchLoggingOptionId;
+    final logStreamARNUpdate = this.logStreamARNUpdate;
+    final roleARNUpdate = this.roleARNUpdate;
+    return {
+      'CloudWatchLoggingOptionId': cloudWatchLoggingOptionId,
+      if (logStreamARNUpdate != null) 'LogStreamARNUpdate': logStreamARNUpdate,
+      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
+    };
+  }
+}
+
+/// When you update a reference data source configuration for an application,
+/// this object provides all the updated values (such as the source bucket name
+/// and object key name), the in-application table name that is created, and
+/// updated mapping information that maps the data in the Amazon S3 object to
+/// the in-application reference table that is created.
+class ReferenceDataSourceUpdate {
+  /// ID of the reference data source being updated. You can use the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation to get this value.
+  final String referenceId;
+
+  /// Describes the format of the data in the streaming source, and how each data
+  /// element maps to corresponding columns created in the in-application stream.
+  final SourceSchema? referenceSchemaUpdate;
+
+  /// Describes the S3 bucket name, object key name, and IAM role that Amazon
+  /// Kinesis Analytics can assume to read the Amazon S3 object on your behalf and
+  /// populate the in-application reference table.
+  final S3ReferenceDataSourceUpdate? s3ReferenceDataSourceUpdate;
+
+  /// In-application table name that is created by this update.
+  final String? tableNameUpdate;
+
+  ReferenceDataSourceUpdate({
+    required this.referenceId,
+    this.referenceSchemaUpdate,
+    this.s3ReferenceDataSourceUpdate,
+    this.tableNameUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final referenceId = this.referenceId;
+    final referenceSchemaUpdate = this.referenceSchemaUpdate;
+    final s3ReferenceDataSourceUpdate = this.s3ReferenceDataSourceUpdate;
+    final tableNameUpdate = this.tableNameUpdate;
+    return {
+      'ReferenceId': referenceId,
+      if (referenceSchemaUpdate != null)
+        'ReferenceSchemaUpdate': referenceSchemaUpdate,
+      if (s3ReferenceDataSourceUpdate != null)
+        'S3ReferenceDataSourceUpdate': s3ReferenceDataSourceUpdate,
+      if (tableNameUpdate != null) 'TableNameUpdate': tableNameUpdate,
+    };
+  }
+}
+
+/// Describes the S3 bucket name, object key name, and IAM role that Amazon
+/// Kinesis Analytics can assume to read the Amazon S3 object on your behalf and
+/// populate the in-application reference table.
+class S3ReferenceDataSourceUpdate {
+  /// Amazon Resource Name (ARN) of the S3 bucket.
+  final String? bucketARNUpdate;
+
+  /// Object key name.
+  final String? fileKeyUpdate;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the
+  /// Amazon S3 object and populate the in-application.
+  final String? referenceRoleARNUpdate;
+
+  S3ReferenceDataSourceUpdate({
+    this.bucketARNUpdate,
+    this.fileKeyUpdate,
+    this.referenceRoleARNUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketARNUpdate = this.bucketARNUpdate;
+    final fileKeyUpdate = this.fileKeyUpdate;
+    final referenceRoleARNUpdate = this.referenceRoleARNUpdate;
+    return {
+      if (bucketARNUpdate != null) 'BucketARNUpdate': bucketARNUpdate,
+      if (fileKeyUpdate != null) 'FileKeyUpdate': fileKeyUpdate,
+      if (referenceRoleARNUpdate != null)
+        'ReferenceRoleARNUpdate': referenceRoleARNUpdate,
+    };
+  }
+}
+
+/// Describes the format of the data in the streaming source, and how each data
+/// element maps to corresponding columns created in the in-application stream.
+class SourceSchema {
+  /// A list of <code>RecordColumn</code> objects.
+  final List<RecordColumn> recordColumns;
+
+  /// Specifies the format of the records on the streaming source.
+  final RecordFormat recordFormat;
+
+  /// Specifies the encoding of the records in the streaming source. For example,
+  /// UTF-8.
+  final String? recordEncoding;
+
+  SourceSchema({
+    required this.recordColumns,
+    required this.recordFormat,
+    this.recordEncoding,
+  });
+
+  factory SourceSchema.fromJson(Map<String, dynamic> json) {
+    return SourceSchema(
+      recordColumns: ((json['RecordColumns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recordFormat: RecordFormat.fromJson(
+          (json['RecordFormat'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      recordEncoding: json['RecordEncoding'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordColumns = this.recordColumns;
+    final recordFormat = this.recordFormat;
+    final recordEncoding = this.recordEncoding;
+    return {
+      'RecordColumns': recordColumns,
+      'RecordFormat': recordFormat,
+      if (recordEncoding != null) 'RecordEncoding': recordEncoding,
+    };
+  }
+}
+
+/// Describes the record format and relevant mapping information that should be
+/// applied to schematize the records on the stream.
+class RecordFormat {
+  /// The type of record format.
+  final RecordFormatType recordFormatType;
+
+  /// When configuring application input at the time of creating or updating an
+  /// application, provides additional mapping information specific to the record
+  /// format (such as JSON, CSV, or record fields delimited by some delimiter) on
+  /// the streaming source.
+  final MappingParameters? mappingParameters;
+
+  RecordFormat({
+    required this.recordFormatType,
+    this.mappingParameters,
+  });
+
+  factory RecordFormat.fromJson(Map<String, dynamic> json) {
+    return RecordFormat(
+      recordFormatType: RecordFormatType.fromString(
+          (json['RecordFormatType'] as String?) ?? ''),
+      mappingParameters: json['MappingParameters'] != null
+          ? MappingParameters.fromJson(
+              json['MappingParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordFormatType = this.recordFormatType;
+    final mappingParameters = this.mappingParameters;
+    return {
+      'RecordFormatType': recordFormatType.value,
+      if (mappingParameters != null) 'MappingParameters': mappingParameters,
+    };
+  }
+}
+
+/// Describes the mapping of each data element in the streaming source to the
+/// corresponding column in the in-application stream.
+///
+/// Also used to describe the format of the reference data source.
+class RecordColumn {
+  /// Name of the column created in the in-application input stream or reference
+  /// table.
+  final String name;
+
+  /// Type of column created in the in-application input stream or reference
+  /// table.
+  final String sqlType;
+
+  /// Reference to the data element in the streaming input or the reference data
+  /// source. This element is required if the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_RecordFormat.html#analytics-Type-RecordFormat-RecordFormatTypel">RecordFormatType</a>
+  /// is <code>JSON</code>.
+  final String? mapping;
+
+  RecordColumn({
+    required this.name,
+    required this.sqlType,
+    this.mapping,
+  });
+
+  factory RecordColumn.fromJson(Map<String, dynamic> json) {
+    return RecordColumn(
+      name: (json['Name'] as String?) ?? '',
+      sqlType: (json['SqlType'] as String?) ?? '',
+      mapping: json['Mapping'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final sqlType = this.sqlType;
+    final mapping = this.mapping;
+    return {
+      'Name': name,
+      'SqlType': sqlType,
+      if (mapping != null) 'Mapping': mapping,
+    };
+  }
+}
+
+class RecordFormatType {
+  static const json = RecordFormatType._('JSON');
+  static const csv = RecordFormatType._('CSV');
+
+  final String value;
+
+  const RecordFormatType._(this.value);
+
+  static const values = [json, csv];
+
+  static RecordFormatType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordFormatType._(value));
+
+  @override
+  bool operator ==(other) => other is RecordFormatType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// When configuring application input at the time of creating or updating an
+/// application, provides additional mapping information specific to the record
+/// format (such as JSON, CSV, or record fields delimited by some delimiter) on
+/// the streaming source.
+class MappingParameters {
+  /// Provides additional mapping information when the record format uses
+  /// delimiters (for example, CSV).
+  final CSVMappingParameters? cSVMappingParameters;
+
+  /// Provides additional mapping information when JSON is the record format on
+  /// the streaming source.
+  final JSONMappingParameters? jSONMappingParameters;
+
+  MappingParameters({
+    this.cSVMappingParameters,
+    this.jSONMappingParameters,
+  });
+
+  factory MappingParameters.fromJson(Map<String, dynamic> json) {
+    return MappingParameters(
+      cSVMappingParameters: json['CSVMappingParameters'] != null
+          ? CSVMappingParameters.fromJson(
+              json['CSVMappingParameters'] as Map<String, dynamic>)
+          : null,
+      jSONMappingParameters: json['JSONMappingParameters'] != null
+          ? JSONMappingParameters.fromJson(
+              json['JSONMappingParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cSVMappingParameters = this.cSVMappingParameters;
+    final jSONMappingParameters = this.jSONMappingParameters;
+    return {
+      if (cSVMappingParameters != null)
+        'CSVMappingParameters': cSVMappingParameters,
+      if (jSONMappingParameters != null)
+        'JSONMappingParameters': jSONMappingParameters,
+    };
+  }
+}
+
+/// Provides additional mapping information when JSON is the record format on
+/// the streaming source.
+class JSONMappingParameters {
+  /// Path to the top-level parent that contains the records.
+  final String recordRowPath;
+
+  JSONMappingParameters({
+    required this.recordRowPath,
+  });
+
+  factory JSONMappingParameters.fromJson(Map<String, dynamic> json) {
+    return JSONMappingParameters(
+      recordRowPath: (json['RecordRowPath'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordRowPath = this.recordRowPath;
+    return {
+      'RecordRowPath': recordRowPath,
+    };
+  }
+}
+
+/// Provides additional mapping information when the record format uses
+/// delimiters, such as CSV. For example, the following sample records use CSV
+/// format, where the records use the <i>'\n'</i> as the row delimiter and a
+/// comma (",") as the column delimiter:
+///
+/// <code>"name1", "address1"</code>
+///
+/// <code>"name2", "address2"</code>
+class CSVMappingParameters {
+  /// Column delimiter. For example, in a CSV format, a comma (",") is the typical
+  /// column delimiter.
+  final String recordColumnDelimiter;
+
+  /// Row delimiter. For example, in a CSV format, <i>'\n'</i> is the typical row
+  /// delimiter.
+  final String recordRowDelimiter;
+
+  CSVMappingParameters({
+    required this.recordColumnDelimiter,
+    required this.recordRowDelimiter,
+  });
+
+  factory CSVMappingParameters.fromJson(Map<String, dynamic> json) {
+    return CSVMappingParameters(
+      recordColumnDelimiter: (json['RecordColumnDelimiter'] as String?) ?? '',
+      recordRowDelimiter: (json['RecordRowDelimiter'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordColumnDelimiter = this.recordColumnDelimiter;
+    final recordRowDelimiter = this.recordRowDelimiter;
+    return {
+      'RecordColumnDelimiter': recordColumnDelimiter,
+      'RecordRowDelimiter': recordRowDelimiter,
+    };
+  }
+}
+
+/// Describes updates to the output configuration identified by the
+/// <code>OutputId</code>.
+class OutputUpdate {
+  /// Identifies the specific output configuration that you want to update.
+  final String outputId;
+
+  /// Describes the data format when records are written to the destination. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
+  /// Application Output</a>.
+  final DestinationSchema? destinationSchemaUpdate;
+
+  /// Describes an Amazon Kinesis Firehose delivery stream as the destination for
+  /// the output.
+  final KinesisFirehoseOutputUpdate? kinesisFirehoseOutputUpdate;
+
+  /// Describes an Amazon Kinesis stream as the destination for the output.
+  final KinesisStreamsOutputUpdate? kinesisStreamsOutputUpdate;
+
+  /// Describes an AWS Lambda function as the destination for the output.
+  final LambdaOutputUpdate? lambdaOutputUpdate;
+
+  /// If you want to specify a different in-application stream for this output
+  /// configuration, use this field to specify the new in-application stream name.
+  final String? nameUpdate;
+
+  OutputUpdate({
+    required this.outputId,
+    this.destinationSchemaUpdate,
+    this.kinesisFirehoseOutputUpdate,
+    this.kinesisStreamsOutputUpdate,
+    this.lambdaOutputUpdate,
+    this.nameUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final outputId = this.outputId;
+    final destinationSchemaUpdate = this.destinationSchemaUpdate;
+    final kinesisFirehoseOutputUpdate = this.kinesisFirehoseOutputUpdate;
+    final kinesisStreamsOutputUpdate = this.kinesisStreamsOutputUpdate;
+    final lambdaOutputUpdate = this.lambdaOutputUpdate;
+    final nameUpdate = this.nameUpdate;
+    return {
+      'OutputId': outputId,
+      if (destinationSchemaUpdate != null)
+        'DestinationSchemaUpdate': destinationSchemaUpdate,
+      if (kinesisFirehoseOutputUpdate != null)
+        'KinesisFirehoseOutputUpdate': kinesisFirehoseOutputUpdate,
+      if (kinesisStreamsOutputUpdate != null)
+        'KinesisStreamsOutputUpdate': kinesisStreamsOutputUpdate,
+      if (lambdaOutputUpdate != null) 'LambdaOutputUpdate': lambdaOutputUpdate,
+      if (nameUpdate != null) 'NameUpdate': nameUpdate,
+    };
+  }
+}
+
+/// When updating an output configuration using the <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
+/// operation, provides information about an Amazon Kinesis stream configured as
+/// the destination.
+class KinesisStreamsOutputUpdate {
+  /// Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to
+  /// write the output.
+  final String? resourceARNUpdate;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream on your behalf. You need to grant the necessary permissions to this
+  /// role.
+  final String? roleARNUpdate;
+
+  KinesisStreamsOutputUpdate({
+    this.resourceARNUpdate,
+    this.roleARNUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    final roleARNUpdate = this.roleARNUpdate;
+    return {
+      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
+      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
+    };
+  }
+}
+
+/// When updating an output configuration using the <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
+/// operation, provides information about an Amazon Kinesis Firehose delivery
+/// stream configured as the destination.
+class KinesisFirehoseOutputUpdate {
+  /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to
+  /// write to.
+  final String? resourceARNUpdate;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream on your behalf. You need to grant the necessary permissions to this
+  /// role.
+  final String? roleARNUpdate;
+
+  KinesisFirehoseOutputUpdate({
+    this.resourceARNUpdate,
+    this.roleARNUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    final roleARNUpdate = this.roleARNUpdate;
+    return {
+      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
+      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
+    };
+  }
+}
+
+/// When updating an output configuration using the <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
+/// operation, provides information about an AWS Lambda function configured as
+/// the destination.
+class LambdaOutputUpdate {
+  /// Amazon Resource Name (ARN) of the destination Lambda function.
+  /// <note>
+  /// To specify an earlier version of the Lambda function than the latest,
+  /// include the Lambda function version in the Lambda function ARN. For more
+  /// information about Lambda ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// ARNs: AWS Lambda</a>
+  /// </note>
+  final String? resourceARNUpdate;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
+  /// destination function on your behalf. You need to grant the necessary
+  /// permissions to this role.
+  final String? roleARNUpdate;
+
+  LambdaOutputUpdate({
+    this.resourceARNUpdate,
+    this.roleARNUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    final roleARNUpdate = this.roleARNUpdate;
+    return {
+      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
+      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
+    };
+  }
+}
+
+/// Describes the data format when records are written to the destination. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
+/// Application Output</a>.
+class DestinationSchema {
+  /// Specifies the format of the records on the output stream.
+  final RecordFormatType recordFormatType;
+
+  DestinationSchema({
+    required this.recordFormatType,
+  });
+
+  factory DestinationSchema.fromJson(Map<String, dynamic> json) {
+    return DestinationSchema(
+      recordFormatType: RecordFormatType.fromString(
+          (json['RecordFormatType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordFormatType = this.recordFormatType;
+    return {
+      'RecordFormatType': recordFormatType.value,
+    };
+  }
+}
+
+/// Describes updates to a specific input configuration (identified by the
+/// <code>InputId</code> of an application).
+class InputUpdate {
+  /// Input ID of the application input to be updated.
+  final String inputId;
+
+  /// Describes the parallelism updates (the number in-application streams Amazon
+  /// Kinesis Analytics creates for the specific streaming source).
+  final InputParallelismUpdate? inputParallelismUpdate;
+
+  /// Describes updates for an input processing configuration.
+  final InputProcessingConfigurationUpdate? inputProcessingConfigurationUpdate;
+
+  /// Describes the data format on the streaming source, and how record elements
+  /// on the streaming source map to columns of the in-application stream that is
+  /// created.
+  final InputSchemaUpdate? inputSchemaUpdate;
+
+  /// If an Amazon Kinesis Firehose delivery stream is the streaming source to be
+  /// updated, provides an updated stream ARN and IAM role ARN.
+  final KinesisFirehoseInputUpdate? kinesisFirehoseInputUpdate;
+
+  /// If an Amazon Kinesis stream is the streaming source to be updated, provides
+  /// an updated stream Amazon Resource Name (ARN) and IAM role ARN.
+  final KinesisStreamsInputUpdate? kinesisStreamsInputUpdate;
+
+  /// Name prefix for in-application streams that Amazon Kinesis Analytics creates
+  /// for the specific streaming source.
+  final String? namePrefixUpdate;
+
+  InputUpdate({
+    required this.inputId,
+    this.inputParallelismUpdate,
+    this.inputProcessingConfigurationUpdate,
+    this.inputSchemaUpdate,
+    this.kinesisFirehoseInputUpdate,
+    this.kinesisStreamsInputUpdate,
+    this.namePrefixUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final inputId = this.inputId;
+    final inputParallelismUpdate = this.inputParallelismUpdate;
+    final inputProcessingConfigurationUpdate =
+        this.inputProcessingConfigurationUpdate;
+    final inputSchemaUpdate = this.inputSchemaUpdate;
+    final kinesisFirehoseInputUpdate = this.kinesisFirehoseInputUpdate;
+    final kinesisStreamsInputUpdate = this.kinesisStreamsInputUpdate;
+    final namePrefixUpdate = this.namePrefixUpdate;
+    return {
+      'InputId': inputId,
+      if (inputParallelismUpdate != null)
+        'InputParallelismUpdate': inputParallelismUpdate,
+      if (inputProcessingConfigurationUpdate != null)
+        'InputProcessingConfigurationUpdate':
+            inputProcessingConfigurationUpdate,
+      if (inputSchemaUpdate != null) 'InputSchemaUpdate': inputSchemaUpdate,
+      if (kinesisFirehoseInputUpdate != null)
+        'KinesisFirehoseInputUpdate': kinesisFirehoseInputUpdate,
+      if (kinesisStreamsInputUpdate != null)
+        'KinesisStreamsInputUpdate': kinesisStreamsInputUpdate,
+      if (namePrefixUpdate != null) 'NamePrefixUpdate': namePrefixUpdate,
+    };
+  }
+}
+
+/// Describes updates to an <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html">InputProcessingConfiguration</a>.
+class InputProcessingConfigurationUpdate {
+  /// Provides update information for an <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>.
+  final InputLambdaProcessorUpdate inputLambdaProcessorUpdate;
+
+  InputProcessingConfigurationUpdate({
+    required this.inputLambdaProcessorUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final inputLambdaProcessorUpdate = this.inputLambdaProcessorUpdate;
+    return {
+      'InputLambdaProcessorUpdate': inputLambdaProcessorUpdate,
+    };
+  }
+}
+
+/// When updating application input configuration, provides information about an
+/// Amazon Kinesis stream as the streaming source.
+class KinesisStreamsInputUpdate {
+  /// Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
+  final String? resourceARNUpdate;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream on your behalf. You need to grant the necessary permissions to this
+  /// role.
+  final String? roleARNUpdate;
+
+  KinesisStreamsInputUpdate({
+    this.resourceARNUpdate,
+    this.roleARNUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    final roleARNUpdate = this.roleARNUpdate;
+    return {
+      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
+      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
+    };
+  }
+}
+
+/// When updating application input configuration, provides information about an
+/// Amazon Kinesis Firehose delivery stream as the streaming source.
+class KinesisFirehoseInputUpdate {
+  /// Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery
+  /// stream to read.
+  final String? resourceARNUpdate;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream on your behalf. You need to grant the necessary permissions to this
+  /// role.
+  final String? roleARNUpdate;
+
+  KinesisFirehoseInputUpdate({
+    this.resourceARNUpdate,
+    this.roleARNUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    final roleARNUpdate = this.roleARNUpdate;
+    return {
+      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
+      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
+    };
+  }
+}
+
+/// Describes updates for the application's input schema.
+class InputSchemaUpdate {
+  /// A list of <code>RecordColumn</code> objects. Each object describes the
+  /// mapping of the streaming source element to the corresponding column in the
+  /// in-application stream.
+  final List<RecordColumn>? recordColumnUpdates;
+
+  /// Specifies the encoding of the records in the streaming source. For example,
+  /// UTF-8.
+  final String? recordEncodingUpdate;
+
+  /// Specifies the format of the records on the streaming source.
+  final RecordFormat? recordFormatUpdate;
+
+  InputSchemaUpdate({
+    this.recordColumnUpdates,
+    this.recordEncodingUpdate,
+    this.recordFormatUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final recordColumnUpdates = this.recordColumnUpdates;
+    final recordEncodingUpdate = this.recordEncodingUpdate;
+    final recordFormatUpdate = this.recordFormatUpdate;
+    return {
+      if (recordColumnUpdates != null)
+        'RecordColumnUpdates': recordColumnUpdates,
+      if (recordEncodingUpdate != null)
+        'RecordEncodingUpdate': recordEncodingUpdate,
+      if (recordFormatUpdate != null) 'RecordFormatUpdate': recordFormatUpdate,
+    };
+  }
+}
+
+/// Provides updates to the parallelism count.
+class InputParallelismUpdate {
+  /// Number of in-application streams to create for the specified streaming
+  /// source.
+  final int? countUpdate;
+
+  InputParallelismUpdate({
+    this.countUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final countUpdate = this.countUpdate;
+    return {
+      if (countUpdate != null) 'CountUpdate': countUpdate,
+    };
+  }
+}
+
+/// Represents an update to the <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>
+/// that is used to preprocess the records in the stream.
+class InputLambdaProcessorUpdate {
+  /// The Amazon Resource Name (ARN) of the new <a
+  /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a> function that is
+  /// used to preprocess the records in the stream.
+  /// <note>
+  /// To specify an earlier version of the Lambda function than the latest,
+  /// include the Lambda function version in the Lambda function ARN. For more
+  /// information about Lambda ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// ARNs: AWS Lambda</a>
+  /// </note>
+  final String? resourceARNUpdate;
+
+  /// The ARN of the new IAM role that is used to access the AWS Lambda function.
+  final String? roleARNUpdate;
+
+  InputLambdaProcessorUpdate({
+    this.resourceARNUpdate,
+    this.roleARNUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    final roleARNUpdate = this.roleARNUpdate;
+    return {
+      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
+      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
+    };
+  }
+}
+
+/// A key-value pair (the value is optional) that you can define and assign to
+/// AWS resources. If you specify a tag that already exists, the tag value is
+/// replaced with the value that you specify in the request. Note that the
+/// maximum number of application tags includes system tags. The maximum number
+/// of user-defined application tags is 50. For more information, see <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html">Using
+/// Tagging</a>.
+class Tag {
+  /// The key of the key-value tag.
+  final String key;
+
+  /// The value of the key-value tag. The value is optional.
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// When you start your application, you provide this configuration, which
+/// identifies the input source and the point in the input source at which you
+/// want the application to start processing records.
+class InputConfiguration {
+  /// Input source ID. You can get this ID by calling the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+  /// operation.
+  final String id;
+
+  /// Point at which you want the application to start processing records from the
+  /// streaming source.
+  final InputStartingPositionConfiguration inputStartingPositionConfiguration;
+
+  InputConfiguration({
+    required this.id,
+    required this.inputStartingPositionConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final inputStartingPositionConfiguration =
+        this.inputStartingPositionConfiguration;
+    return {
+      'Id': id,
+      'InputStartingPositionConfiguration': inputStartingPositionConfiguration,
+    };
+  }
+}
+
+/// Describes the point at which the application reads from the streaming
+/// source.
+class InputStartingPositionConfiguration {
+  /// The starting position on the stream.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NOW</code> - Start reading just after the most recent record in the
+  /// stream, start at the request time stamp that the customer issued.
+  /// </li>
+  /// <li>
+  /// <code>TRIM_HORIZON</code> - Start reading at the last untrimmed record in
+  /// the stream, which is the oldest record available in the stream. This option
+  /// is not available for an Amazon Kinesis Firehose delivery stream.
+  /// </li>
+  /// <li>
+  /// <code>LAST_STOPPED_POINT</code> - Resume reading from where the application
+  /// last stopped reading.
+  /// </li>
+  /// </ul>
+  final InputStartingPosition? inputStartingPosition;
+
+  InputStartingPositionConfiguration({
+    this.inputStartingPosition,
+  });
+
+  factory InputStartingPositionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return InputStartingPositionConfiguration(
+      inputStartingPosition: (json['InputStartingPosition'] as String?)
+          ?.let(InputStartingPosition.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputStartingPosition = this.inputStartingPosition;
+    return {
+      if (inputStartingPosition != null)
+        'InputStartingPosition': inputStartingPosition.value,
+    };
+  }
+}
+
+class InputStartingPosition {
+  static const now = InputStartingPosition._('NOW');
+  static const trimHorizon = InputStartingPosition._('TRIM_HORIZON');
+  static const lastStoppedPoint = InputStartingPosition._('LAST_STOPPED_POINT');
+
+  final String value;
+
+  const InputStartingPosition._(this.value);
+
+  static const values = [now, trimHorizon, lastStoppedPoint];
+
+  static InputStartingPosition fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InputStartingPosition._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InputStartingPosition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <note>
+/// This documentation is for version 1 of the Amazon Kinesis Data Analytics
+/// API, which only supports SQL applications. Version 2 of the API supports SQL
+/// and Java applications. For more information about version 2, see <a
+/// href="/kinesisanalytics/latest/apiv2/Welcome.html">Amazon Kinesis Data
+/// Analytics API V2 Documentation</a>.
+/// </note>
+/// Provides application summary information, including the application Amazon
+/// Resource Name (ARN), name, and status.
+class ApplicationSummary {
+  /// ARN of the application.
+  final String applicationARN;
+
+  /// Name of the application.
+  final String applicationName;
+
+  /// Status of the application.
+  final ApplicationStatus applicationStatus;
+
+  ApplicationSummary({
+    required this.applicationARN,
+    required this.applicationName,
+    required this.applicationStatus,
+  });
+
+  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationSummary(
+      applicationARN: (json['ApplicationARN'] as String?) ?? '',
+      applicationName: (json['ApplicationName'] as String?) ?? '',
+      applicationStatus: ApplicationStatus.fromString(
+          (json['ApplicationStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationName = this.applicationName;
+    final applicationStatus = this.applicationStatus;
+    return {
+      'ApplicationARN': applicationARN,
+      'ApplicationName': applicationName,
+      'ApplicationStatus': applicationStatus.value,
+    };
+  }
+}
+
+class ApplicationStatus {
+  static const deleting = ApplicationStatus._('DELETING');
+  static const starting = ApplicationStatus._('STARTING');
+  static const stopping = ApplicationStatus._('STOPPING');
+  static const ready = ApplicationStatus._('READY');
+  static const running = ApplicationStatus._('RUNNING');
+  static const updating = ApplicationStatus._('UPDATING');
+
+  final String value;
+
+  const ApplicationStatus._(this.value);
+
+  static const values = [
+    deleting,
+    starting,
+    stopping,
+    ready,
+    running,
+    updating
+  ];
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a description of an Amazon S3 data source, including the Amazon
+/// Resource Name (ARN) of the S3 bucket, the ARN of the IAM role that is used
+/// to access the bucket, and the name of the Amazon S3 object that contains the
+/// data.
+class S3Configuration {
+  /// ARN of the S3 bucket that contains the data.
+  final String bucketARN;
+
+  /// The name of the object that contains the data.
+  final String fileKey;
+
+  /// IAM ARN of the role used to access the data.
+  final String roleARN;
+
+  S3Configuration({
+    required this.bucketARN,
+    required this.fileKey,
+    required this.roleARN,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final fileKey = this.fileKey;
+    final roleARN = this.roleARN;
+    return {
+      'BucketARN': bucketARN,
+      'FileKey': fileKey,
+      'RoleARN': roleARN,
+    };
+  }
+}
+
+/// Provides a description of a processor that is used to preprocess the records
+/// in the stream before being processed by your application code. Currently,
+/// the only input processor available is <a
+/// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
+class InputProcessingConfiguration {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>
+  /// that is used to preprocess the records in the stream before being processed
+  /// by your application code.
+  final InputLambdaProcessor inputLambdaProcessor;
+
+  InputProcessingConfiguration({
+    required this.inputLambdaProcessor,
+  });
+
+  Map<String, dynamic> toJson() {
+    final inputLambdaProcessor = this.inputLambdaProcessor;
+    return {
+      'InputLambdaProcessor': inputLambdaProcessor,
+    };
+  }
+}
+
+/// An object that contains the Amazon Resource Name (ARN) of the <a
+/// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a> function that is
+/// used to preprocess records in the stream, and the ARN of the IAM role that
+/// is used to access the AWS Lambda function.
+class InputLambdaProcessor {
+  /// The ARN of the <a href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>
+  /// function that operates on records in the stream.
+  /// <note>
+  /// To specify an earlier version of the Lambda function than the latest,
+  /// include the Lambda function version in the Lambda function ARN. For more
+  /// information about Lambda ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// ARNs: AWS Lambda</a>
+  /// </note>
+  final String resourceARN;
+
+  /// The ARN of the IAM role that is used to access the AWS Lambda function.
+  final String roleARN;
+
+  InputLambdaProcessor({
+    required this.resourceARN,
+    required this.roleARN,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      'RoleARN': roleARN,
+    };
   }
 }
 
@@ -1587,197 +3003,6 @@ class ApplicationDetail {
   }
 }
 
-class ApplicationStatus {
-  static const deleting = ApplicationStatus._('DELETING');
-  static const starting = ApplicationStatus._('STARTING');
-  static const stopping = ApplicationStatus._('STOPPING');
-  static const ready = ApplicationStatus._('READY');
-  static const running = ApplicationStatus._('RUNNING');
-  static const updating = ApplicationStatus._('UPDATING');
-
-  final String value;
-
-  const ApplicationStatus._(this.value);
-
-  static const values = [
-    deleting,
-    starting,
-    stopping,
-    ready,
-    running,
-    updating
-  ];
-
-  static ApplicationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ApplicationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <note>
-/// This documentation is for version 1 of the Amazon Kinesis Data Analytics
-/// API, which only supports SQL applications. Version 2 of the API supports SQL
-/// and Java applications. For more information about version 2, see <a
-/// href="/kinesisanalytics/latest/apiv2/Welcome.html">Amazon Kinesis Data
-/// Analytics API V2 Documentation</a>.
-/// </note>
-/// Provides application summary information, including the application Amazon
-/// Resource Name (ARN), name, and status.
-class ApplicationSummary {
-  /// ARN of the application.
-  final String applicationARN;
-
-  /// Name of the application.
-  final String applicationName;
-
-  /// Status of the application.
-  final ApplicationStatus applicationStatus;
-
-  ApplicationSummary({
-    required this.applicationARN,
-    required this.applicationName,
-    required this.applicationStatus,
-  });
-
-  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
-    return ApplicationSummary(
-      applicationARN: (json['ApplicationARN'] as String?) ?? '',
-      applicationName: (json['ApplicationName'] as String?) ?? '',
-      applicationStatus: ApplicationStatus.fromString(
-          (json['ApplicationStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationARN = this.applicationARN;
-    final applicationName = this.applicationName;
-    final applicationStatus = this.applicationStatus;
-    return {
-      'ApplicationARN': applicationARN,
-      'ApplicationName': applicationName,
-      'ApplicationStatus': applicationStatus.value,
-    };
-  }
-}
-
-/// Describes updates to apply to an existing Amazon Kinesis Analytics
-/// application.
-class ApplicationUpdate {
-  /// Describes application code updates.
-  final String? applicationCodeUpdate;
-
-  /// Describes application CloudWatch logging option updates.
-  final List<CloudWatchLoggingOptionUpdate>? cloudWatchLoggingOptionUpdates;
-
-  /// Describes application input configuration updates.
-  final List<InputUpdate>? inputUpdates;
-
-  /// Describes application output configuration updates.
-  final List<OutputUpdate>? outputUpdates;
-
-  /// Describes application reference data source updates.
-  final List<ReferenceDataSourceUpdate>? referenceDataSourceUpdates;
-
-  ApplicationUpdate({
-    this.applicationCodeUpdate,
-    this.cloudWatchLoggingOptionUpdates,
-    this.inputUpdates,
-    this.outputUpdates,
-    this.referenceDataSourceUpdates,
-  });
-
-  Map<String, dynamic> toJson() {
-    final applicationCodeUpdate = this.applicationCodeUpdate;
-    final cloudWatchLoggingOptionUpdates = this.cloudWatchLoggingOptionUpdates;
-    final inputUpdates = this.inputUpdates;
-    final outputUpdates = this.outputUpdates;
-    final referenceDataSourceUpdates = this.referenceDataSourceUpdates;
-    return {
-      if (applicationCodeUpdate != null)
-        'ApplicationCodeUpdate': applicationCodeUpdate,
-      if (cloudWatchLoggingOptionUpdates != null)
-        'CloudWatchLoggingOptionUpdates': cloudWatchLoggingOptionUpdates,
-      if (inputUpdates != null) 'InputUpdates': inputUpdates,
-      if (outputUpdates != null) 'OutputUpdates': outputUpdates,
-      if (referenceDataSourceUpdates != null)
-        'ReferenceDataSourceUpdates': referenceDataSourceUpdates,
-    };
-  }
-}
-
-/// Provides additional mapping information when the record format uses
-/// delimiters, such as CSV. For example, the following sample records use CSV
-/// format, where the records use the <i>'\n'</i> as the row delimiter and a
-/// comma (",") as the column delimiter:
-///
-/// <code>"name1", "address1"</code>
-///
-/// <code>"name2", "address2"</code>
-class CSVMappingParameters {
-  /// Column delimiter. For example, in a CSV format, a comma (",") is the typical
-  /// column delimiter.
-  final String recordColumnDelimiter;
-
-  /// Row delimiter. For example, in a CSV format, <i>'\n'</i> is the typical row
-  /// delimiter.
-  final String recordRowDelimiter;
-
-  CSVMappingParameters({
-    required this.recordColumnDelimiter,
-    required this.recordRowDelimiter,
-  });
-
-  factory CSVMappingParameters.fromJson(Map<String, dynamic> json) {
-    return CSVMappingParameters(
-      recordColumnDelimiter: (json['RecordColumnDelimiter'] as String?) ?? '',
-      recordRowDelimiter: (json['RecordRowDelimiter'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recordColumnDelimiter = this.recordColumnDelimiter;
-    final recordRowDelimiter = this.recordRowDelimiter;
-    return {
-      'RecordColumnDelimiter': recordColumnDelimiter,
-      'RecordRowDelimiter': recordRowDelimiter,
-    };
-  }
-}
-
-/// Provides a description of CloudWatch logging options, including the log
-/// stream Amazon Resource Name (ARN) and the role ARN.
-class CloudWatchLoggingOption {
-  /// ARN of the CloudWatch log to receive application messages.
-  final String logStreamARN;
-
-  /// IAM ARN of the role to use to send application messages. Note: To write
-  /// application messages to CloudWatch, the IAM role that is used must have the
-  /// <code>PutLogEvents</code> policy action enabled.
-  final String roleARN;
-
-  CloudWatchLoggingOption({
-    required this.logStreamARN,
-    required this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final logStreamARN = this.logStreamARN;
-    final roleARN = this.roleARN;
-    return {
-      'LogStreamARN': logStreamARN,
-      'RoleARN': roleARN,
-    };
-  }
-}
-
 /// Description of the CloudWatch logging option.
 class CloudWatchLoggingOptionDescription {
   /// ARN of the CloudWatch log to receive application messages.
@@ -1819,351 +3044,283 @@ class CloudWatchLoggingOptionDescription {
   }
 }
 
-/// Describes CloudWatch logging option updates.
-class CloudWatchLoggingOptionUpdate {
-  /// ID of the CloudWatch logging option to update
-  final String cloudWatchLoggingOptionId;
-
-  /// ARN of the CloudWatch log to receive application messages.
-  final String? logStreamARNUpdate;
-
-  /// IAM ARN of the role to use to send application messages. Note: To write
-  /// application messages to CloudWatch, the IAM role used must have the
-  /// <code>PutLogEvents</code> policy action enabled.
-  final String? roleARNUpdate;
-
-  CloudWatchLoggingOptionUpdate({
-    required this.cloudWatchLoggingOptionId,
-    this.logStreamARNUpdate,
-    this.roleARNUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLoggingOptionId = this.cloudWatchLoggingOptionId;
-    final logStreamARNUpdate = this.logStreamARNUpdate;
-    final roleARNUpdate = this.roleARNUpdate;
-    return {
-      'CloudWatchLoggingOptionId': cloudWatchLoggingOptionId,
-      if (logStreamARNUpdate != null) 'LogStreamARNUpdate': logStreamARNUpdate,
-      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
-    };
-  }
-}
-
-/// TBD
-class CreateApplicationResponse {
-  /// In response to your <code>CreateApplication</code> request, Amazon Kinesis
-  /// Analytics returns a response with a summary of the application it created,
-  /// including the application Amazon Resource Name (ARN), name, and status.
-  final ApplicationSummary applicationSummary;
-
-  CreateApplicationResponse({
-    required this.applicationSummary,
-  });
-
-  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
-    return CreateApplicationResponse(
-      applicationSummary: ApplicationSummary.fromJson(
-          (json['ApplicationSummary'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationSummary = this.applicationSummary;
-    return {
-      'ApplicationSummary': applicationSummary,
-    };
-  }
-}
-
-class DeleteApplicationCloudWatchLoggingOptionResponse {
-  DeleteApplicationCloudWatchLoggingOptionResponse();
-
-  factory DeleteApplicationCloudWatchLoggingOptionResponse.fromJson(
-      Map<String, dynamic> _) {
-    return DeleteApplicationCloudWatchLoggingOptionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteApplicationInputProcessingConfigurationResponse {
-  DeleteApplicationInputProcessingConfigurationResponse();
-
-  factory DeleteApplicationInputProcessingConfigurationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return DeleteApplicationInputProcessingConfigurationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// <p/>
-class DeleteApplicationOutputResponse {
-  DeleteApplicationOutputResponse();
-
-  factory DeleteApplicationOutputResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteApplicationOutputResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteApplicationReferenceDataSourceResponse {
-  DeleteApplicationReferenceDataSourceResponse();
-
-  factory DeleteApplicationReferenceDataSourceResponse.fromJson(
-      Map<String, dynamic> _) {
-    return DeleteApplicationReferenceDataSourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// <p/>
-class DeleteApplicationResponse {
-  DeleteApplicationResponse();
-
-  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteApplicationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// <p/>
-class DescribeApplicationResponse {
-  /// Provides a description of the application, such as the application Amazon
-  /// Resource Name (ARN), status, latest version, and input and output
-  /// configuration details.
-  final ApplicationDetail applicationDetail;
-
-  DescribeApplicationResponse({
-    required this.applicationDetail,
-  });
-
-  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeApplicationResponse(
-      applicationDetail: ApplicationDetail.fromJson(
-          (json['ApplicationDetail'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationDetail = this.applicationDetail;
-    return {
-      'ApplicationDetail': applicationDetail,
-    };
-  }
-}
-
-/// Describes the data format when records are written to the destination. For
-/// more information, see <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
-/// Application Output</a>.
-class DestinationSchema {
-  /// Specifies the format of the records on the output stream.
-  final RecordFormatType recordFormatType;
-
-  DestinationSchema({
-    required this.recordFormatType,
-  });
-
-  factory DestinationSchema.fromJson(Map<String, dynamic> json) {
-    return DestinationSchema(
-      recordFormatType: RecordFormatType.fromString(
-          (json['RecordFormatType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recordFormatType = this.recordFormatType;
-    return {
-      'RecordFormatType': recordFormatType.value,
-    };
-  }
-}
-
-/// <p/>
-class DiscoverInputSchemaResponse {
-  /// Schema inferred from the streaming source. It identifies the format of the
-  /// data in the streaming source and how each data element maps to corresponding
-  /// columns in the in-application stream that you can create.
-  final SourceSchema? inputSchema;
-
-  /// An array of elements, where each element corresponds to a row in a stream
-  /// record (a stream record can have more than one row).
-  final List<List<String>>? parsedInputRecords;
-
-  /// Stream data that was modified by the processor specified in the
-  /// <code>InputProcessingConfiguration</code> parameter.
-  final List<String>? processedInputRecords;
-
-  /// Raw stream data that was sampled to infer the schema.
-  final List<String>? rawInputRecords;
-
-  DiscoverInputSchemaResponse({
-    this.inputSchema,
-    this.parsedInputRecords,
-    this.processedInputRecords,
-    this.rawInputRecords,
-  });
-
-  factory DiscoverInputSchemaResponse.fromJson(Map<String, dynamic> json) {
-    return DiscoverInputSchemaResponse(
-      inputSchema: json['InputSchema'] != null
-          ? SourceSchema.fromJson(json['InputSchema'] as Map<String, dynamic>)
-          : null,
-      parsedInputRecords: (json['ParsedInputRecords'] as List?)
-          ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
-          .toList(),
-      processedInputRecords: (json['ProcessedInputRecords'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      rawInputRecords: (json['RawInputRecords'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputSchema = this.inputSchema;
-    final parsedInputRecords = this.parsedInputRecords;
-    final processedInputRecords = this.processedInputRecords;
-    final rawInputRecords = this.rawInputRecords;
-    return {
-      if (inputSchema != null) 'InputSchema': inputSchema,
-      if (parsedInputRecords != null) 'ParsedInputRecords': parsedInputRecords,
-      if (processedInputRecords != null)
-        'ProcessedInputRecords': processedInputRecords,
-      if (rawInputRecords != null) 'RawInputRecords': rawInputRecords,
-    };
-  }
-}
-
-/// When you configure the application input, you specify the streaming source,
-/// the in-application stream name that is created, and the mapping between the
-/// two. For more information, see <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
-/// Application Input</a>.
-class Input {
-  /// Describes the format of the data in the streaming source, and how each data
-  /// element maps to corresponding columns in the in-application stream that is
-  /// being created.
-  ///
-  /// Also used to describe the format of the reference data source.
-  final SourceSchema inputSchema;
-
-  /// Name prefix to use when creating an in-application stream. Suppose that you
-  /// specify a prefix "MyInApplicationStream." Amazon Kinesis Analytics then
-  /// creates one or more (as per the <code>InputParallelism</code> count you
-  /// specified) in-application streams with names "MyInApplicationStream_001,"
-  /// "MyInApplicationStream_002," and so on.
-  final String namePrefix;
-
-  /// Describes the number of in-application streams to create.
-  ///
-  /// Data from your source is routed to these in-application input streams.
-  ///
-  /// (see <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
-  /// Application Input</a>.
-  final InputParallelism? inputParallelism;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html">InputProcessingConfiguration</a>
-  /// for the input. An input processor transforms records as they are received
-  /// from the stream, before the application's SQL code executes. Currently, the
-  /// only input processing configuration available is <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>.
-  final InputProcessingConfiguration? inputProcessingConfiguration;
-
-  /// If the streaming source is an Amazon Kinesis Firehose delivery stream,
-  /// identifies the delivery stream's ARN and an IAM role that enables Amazon
-  /// Kinesis Analytics to access the stream on your behalf.
-  ///
-  /// Note: Either <code>KinesisStreamsInput</code> or
-  /// <code>KinesisFirehoseInput</code> is required.
-  final KinesisFirehoseInput? kinesisFirehoseInput;
-
-  /// If the streaming source is an Amazon Kinesis stream, identifies the stream's
-  /// Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis
-  /// Analytics to access the stream on your behalf.
-  ///
-  /// Note: Either <code>KinesisStreamsInput</code> or
-  /// <code>KinesisFirehoseInput</code> is required.
-  final KinesisStreamsInput? kinesisStreamsInput;
-
-  Input({
-    required this.inputSchema,
-    required this.namePrefix,
-    this.inputParallelism,
-    this.inputProcessingConfiguration,
-    this.kinesisFirehoseInput,
-    this.kinesisStreamsInput,
-  });
-
-  Map<String, dynamic> toJson() {
-    final inputSchema = this.inputSchema;
-    final namePrefix = this.namePrefix;
-    final inputParallelism = this.inputParallelism;
-    final inputProcessingConfiguration = this.inputProcessingConfiguration;
-    final kinesisFirehoseInput = this.kinesisFirehoseInput;
-    final kinesisStreamsInput = this.kinesisStreamsInput;
-    return {
-      'InputSchema': inputSchema,
-      'NamePrefix': namePrefix,
-      if (inputParallelism != null) 'InputParallelism': inputParallelism,
-      if (inputProcessingConfiguration != null)
-        'InputProcessingConfiguration': inputProcessingConfiguration,
-      if (kinesisFirehoseInput != null)
-        'KinesisFirehoseInput': kinesisFirehoseInput,
-      if (kinesisStreamsInput != null)
-        'KinesisStreamsInput': kinesisStreamsInput,
-    };
-  }
-}
-
-/// When you start your application, you provide this configuration, which
-/// identifies the input source and the point in the input source at which you
-/// want the application to start processing records.
-class InputConfiguration {
-  /// Input source ID. You can get this ID by calling the <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
+/// Describes the reference data source configured for an application.
+class ReferenceDataSourceDescription {
+  /// ID of the reference data source. This is the ID that Amazon Kinesis
+  /// Analytics assigns when you add the reference data source to your application
+  /// using the <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_AddApplicationReferenceDataSource.html">AddApplicationReferenceDataSource</a>
   /// operation.
-  final String id;
+  final String referenceId;
 
-  /// Point at which you want the application to start processing records from the
-  /// streaming source.
-  final InputStartingPositionConfiguration inputStartingPositionConfiguration;
+  /// Provides the S3 bucket name, the object key name that contains the reference
+  /// data. It also provides the Amazon Resource Name (ARN) of the IAM role that
+  /// Amazon Kinesis Analytics can assume to read the Amazon S3 object and
+  /// populate the in-application reference table.
+  final S3ReferenceDataSourceDescription s3ReferenceDataSourceDescription;
 
-  InputConfiguration({
-    required this.id,
-    required this.inputStartingPositionConfiguration,
+  /// The in-application table name created by the specific reference data source
+  /// configuration.
+  final String tableName;
+
+  /// Describes the format of the data in the streaming source, and how each data
+  /// element maps to corresponding columns created in the in-application stream.
+  final SourceSchema? referenceSchema;
+
+  ReferenceDataSourceDescription({
+    required this.referenceId,
+    required this.s3ReferenceDataSourceDescription,
+    required this.tableName,
+    this.referenceSchema,
   });
 
+  factory ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
+    return ReferenceDataSourceDescription(
+      referenceId: (json['ReferenceId'] as String?) ?? '',
+      s3ReferenceDataSourceDescription:
+          S3ReferenceDataSourceDescription.fromJson(
+              (json['S3ReferenceDataSourceDescription']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+      tableName: (json['TableName'] as String?) ?? '',
+      referenceSchema: json['ReferenceSchema'] != null
+          ? SourceSchema.fromJson(
+              json['ReferenceSchema'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final id = this.id;
-    final inputStartingPositionConfiguration =
-        this.inputStartingPositionConfiguration;
+    final referenceId = this.referenceId;
+    final s3ReferenceDataSourceDescription =
+        this.s3ReferenceDataSourceDescription;
+    final tableName = this.tableName;
+    final referenceSchema = this.referenceSchema;
     return {
-      'Id': id,
-      'InputStartingPositionConfiguration': inputStartingPositionConfiguration,
+      'ReferenceId': referenceId,
+      'S3ReferenceDataSourceDescription': s3ReferenceDataSourceDescription,
+      'TableName': tableName,
+      if (referenceSchema != null) 'ReferenceSchema': referenceSchema,
+    };
+  }
+}
+
+/// Provides the bucket name and object key name that stores the reference data.
+class S3ReferenceDataSourceDescription {
+  /// Amazon Resource Name (ARN) of the S3 bucket.
+  final String bucketARN;
+
+  /// Amazon S3 object key name.
+  final String fileKey;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the
+  /// Amazon S3 object on your behalf to populate the in-application reference
+  /// table.
+  final String referenceRoleARN;
+
+  S3ReferenceDataSourceDescription({
+    required this.bucketARN,
+    required this.fileKey,
+    required this.referenceRoleARN,
+  });
+
+  factory S3ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
+    return S3ReferenceDataSourceDescription(
+      bucketARN: (json['BucketARN'] as String?) ?? '',
+      fileKey: (json['FileKey'] as String?) ?? '',
+      referenceRoleARN: (json['ReferenceRoleARN'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final fileKey = this.fileKey;
+    final referenceRoleARN = this.referenceRoleARN;
+    return {
+      'BucketARN': bucketARN,
+      'FileKey': fileKey,
+      'ReferenceRoleARN': referenceRoleARN,
+    };
+  }
+}
+
+/// Describes the application output configuration, which includes the
+/// in-application stream name and the destination where the stream data is
+/// written. The destination can be an Amazon Kinesis stream or an Amazon
+/// Kinesis Firehose delivery stream.
+class OutputDescription {
+  /// Data format used for writing data to the destination.
+  final DestinationSchema? destinationSchema;
+
+  /// Describes the Amazon Kinesis Firehose delivery stream configured as the
+  /// destination where output is written.
+  final KinesisFirehoseOutputDescription? kinesisFirehoseOutputDescription;
+
+  /// Describes Amazon Kinesis stream configured as the destination where output
+  /// is written.
+  final KinesisStreamsOutputDescription? kinesisStreamsOutputDescription;
+
+  /// Describes the AWS Lambda function configured as the destination where output
+  /// is written.
+  final LambdaOutputDescription? lambdaOutputDescription;
+
+  /// Name of the in-application stream configured as output.
+  final String? name;
+
+  /// A unique identifier for the output configuration.
+  final String? outputId;
+
+  OutputDescription({
+    this.destinationSchema,
+    this.kinesisFirehoseOutputDescription,
+    this.kinesisStreamsOutputDescription,
+    this.lambdaOutputDescription,
+    this.name,
+    this.outputId,
+  });
+
+  factory OutputDescription.fromJson(Map<String, dynamic> json) {
+    return OutputDescription(
+      destinationSchema: json['DestinationSchema'] != null
+          ? DestinationSchema.fromJson(
+              json['DestinationSchema'] as Map<String, dynamic>)
+          : null,
+      kinesisFirehoseOutputDescription:
+          json['KinesisFirehoseOutputDescription'] != null
+              ? KinesisFirehoseOutputDescription.fromJson(
+                  json['KinesisFirehoseOutputDescription']
+                      as Map<String, dynamic>)
+              : null,
+      kinesisStreamsOutputDescription:
+          json['KinesisStreamsOutputDescription'] != null
+              ? KinesisStreamsOutputDescription.fromJson(
+                  json['KinesisStreamsOutputDescription']
+                      as Map<String, dynamic>)
+              : null,
+      lambdaOutputDescription: json['LambdaOutputDescription'] != null
+          ? LambdaOutputDescription.fromJson(
+              json['LambdaOutputDescription'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      outputId: json['OutputId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationSchema = this.destinationSchema;
+    final kinesisFirehoseOutputDescription =
+        this.kinesisFirehoseOutputDescription;
+    final kinesisStreamsOutputDescription =
+        this.kinesisStreamsOutputDescription;
+    final lambdaOutputDescription = this.lambdaOutputDescription;
+    final name = this.name;
+    final outputId = this.outputId;
+    return {
+      if (destinationSchema != null) 'DestinationSchema': destinationSchema,
+      if (kinesisFirehoseOutputDescription != null)
+        'KinesisFirehoseOutputDescription': kinesisFirehoseOutputDescription,
+      if (kinesisStreamsOutputDescription != null)
+        'KinesisStreamsOutputDescription': kinesisStreamsOutputDescription,
+      if (lambdaOutputDescription != null)
+        'LambdaOutputDescription': lambdaOutputDescription,
+      if (name != null) 'Name': name,
+      if (outputId != null) 'OutputId': outputId,
+    };
+  }
+}
+
+/// For an application output, describes the Amazon Kinesis stream configured as
+/// its destination.
+class KinesisStreamsOutputDescription {
+  /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
+  final String? resourceARN;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream.
+  final String? roleARN;
+
+  KinesisStreamsOutputDescription({
+    this.resourceARN,
+    this.roleARN,
+  });
+
+  factory KinesisStreamsOutputDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamsOutputDescription(
+      resourceARN: json['ResourceARN'] as String?,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      if (resourceARN != null) 'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
+}
+
+/// For an application output, describes the Amazon Kinesis Firehose delivery
+/// stream configured as its destination.
+class KinesisFirehoseOutputDescription {
+  /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
+  final String? resourceARN;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream.
+  final String? roleARN;
+
+  KinesisFirehoseOutputDescription({
+    this.resourceARN,
+    this.roleARN,
+  });
+
+  factory KinesisFirehoseOutputDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseOutputDescription(
+      resourceARN: json['ResourceARN'] as String?,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      if (resourceARN != null) 'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
+}
+
+/// For an application output, describes the AWS Lambda function configured as
+/// its destination.
+class LambdaOutputDescription {
+  /// Amazon Resource Name (ARN) of the destination Lambda function.
+  final String? resourceARN;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
+  /// destination function.
+  final String? roleARN;
+
+  LambdaOutputDescription({
+    this.resourceARN,
+    this.roleARN,
+  });
+
+  factory LambdaOutputDescription.fromJson(Map<String, dynamic> json) {
+    return LambdaOutputDescription(
+      resourceARN: json['ResourceARN'] as String?,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      if (resourceARN != null) 'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
     };
   }
 }
@@ -2297,36 +3454,127 @@ class InputDescription {
   }
 }
 
-/// An object that contains the Amazon Resource Name (ARN) of the <a
-/// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a> function that is
-/// used to preprocess records in the stream, and the ARN of the IAM role that
-/// is used to access the AWS Lambda function.
-class InputLambdaProcessor {
-  /// The ARN of the <a href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>
-  /// function that operates on records in the stream.
-  /// <note>
-  /// To specify an earlier version of the Lambda function than the latest,
-  /// include the Lambda function version in the Lambda function ARN. For more
-  /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
-  /// ARNs: AWS Lambda</a>
-  /// </note>
-  final String resourceARN;
+/// Provides configuration information about an input processor. Currently, the
+/// only input processor available is <a
+/// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
+class InputProcessingConfigurationDescription {
+  /// Provides configuration information about the associated <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessorDescription.html">InputLambdaProcessorDescription</a>.
+  final InputLambdaProcessorDescription? inputLambdaProcessorDescription;
 
-  /// The ARN of the IAM role that is used to access the AWS Lambda function.
-  final String roleARN;
-
-  InputLambdaProcessor({
-    required this.resourceARN,
-    required this.roleARN,
+  InputProcessingConfigurationDescription({
+    this.inputLambdaProcessorDescription,
   });
+
+  factory InputProcessingConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return InputProcessingConfigurationDescription(
+      inputLambdaProcessorDescription:
+          json['InputLambdaProcessorDescription'] != null
+              ? InputLambdaProcessorDescription.fromJson(
+                  json['InputLambdaProcessorDescription']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputLambdaProcessorDescription =
+        this.inputLambdaProcessorDescription;
+    return {
+      if (inputLambdaProcessorDescription != null)
+        'InputLambdaProcessorDescription': inputLambdaProcessorDescription,
+    };
+  }
+}
+
+/// Describes the Amazon Kinesis stream that is configured as the streaming
+/// source in the application input configuration.
+class KinesisStreamsInputDescription {
+  /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
+  final String? resourceARN;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream.
+  final String? roleARN;
+
+  KinesisStreamsInputDescription({
+    this.resourceARN,
+    this.roleARN,
+  });
+
+  factory KinesisStreamsInputDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamsInputDescription(
+      resourceARN: json['ResourceARN'] as String?,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final resourceARN = this.resourceARN;
     final roleARN = this.roleARN;
     return {
-      'ResourceARN': resourceARN,
-      'RoleARN': roleARN,
+      if (resourceARN != null) 'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
+}
+
+/// Describes the Amazon Kinesis Firehose delivery stream that is configured as
+/// the streaming source in the application input configuration.
+class KinesisFirehoseInputDescription {
+  /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
+  final String? resourceARN;
+
+  /// ARN of the IAM role that Amazon Kinesis Analytics assumes to access the
+  /// stream.
+  final String? roleARN;
+
+  KinesisFirehoseInputDescription({
+    this.resourceARN,
+    this.roleARN,
+  });
+
+  factory KinesisFirehoseInputDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseInputDescription(
+      resourceARN: json['ResourceARN'] as String?,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      if (resourceARN != null) 'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
+}
+
+/// Describes the number of in-application streams to create for a given
+/// streaming source. For information about parallelism, see <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
+/// Application Input</a>.
+class InputParallelism {
+  /// Number of in-application streams to create. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/limits.html">Limits</a>.
+  final int? count;
+
+  InputParallelism({
+    this.count,
+  });
+
+  factory InputParallelism.fromJson(Map<String, dynamic> json) {
+    return InputParallelism(
+      count: json['Count'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    return {
+      if (count != null) 'Count': count,
     };
   }
 }
@@ -2365,904 +3613,28 @@ class InputLambdaProcessorDescription {
   }
 }
 
-/// Represents an update to the <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>
-/// that is used to preprocess the records in the stream.
-class InputLambdaProcessorUpdate {
-  /// The Amazon Resource Name (ARN) of the new <a
-  /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a> function that is
-  /// used to preprocess the records in the stream.
-  /// <note>
-  /// To specify an earlier version of the Lambda function than the latest,
-  /// include the Lambda function version in the Lambda function ARN. For more
-  /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
-  /// ARNs: AWS Lambda</a>
-  /// </note>
-  final String? resourceARNUpdate;
+/// Provides a description of CloudWatch logging options, including the log
+/// stream Amazon Resource Name (ARN) and the role ARN.
+class CloudWatchLoggingOption {
+  /// ARN of the CloudWatch log to receive application messages.
+  final String logStreamARN;
 
-  /// The ARN of the new IAM role that is used to access the AWS Lambda function.
-  final String? roleARNUpdate;
-
-  InputLambdaProcessorUpdate({
-    this.resourceARNUpdate,
-    this.roleARNUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARNUpdate = this.resourceARNUpdate;
-    final roleARNUpdate = this.roleARNUpdate;
-    return {
-      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
-      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
-    };
-  }
-}
-
-/// Describes the number of in-application streams to create for a given
-/// streaming source. For information about parallelism, see <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
-/// Application Input</a>.
-class InputParallelism {
-  /// Number of in-application streams to create. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/limits.html">Limits</a>.
-  final int? count;
-
-  InputParallelism({
-    this.count,
-  });
-
-  factory InputParallelism.fromJson(Map<String, dynamic> json) {
-    return InputParallelism(
-      count: json['Count'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    return {
-      if (count != null) 'Count': count,
-    };
-  }
-}
-
-/// Provides updates to the parallelism count.
-class InputParallelismUpdate {
-  /// Number of in-application streams to create for the specified streaming
-  /// source.
-  final int? countUpdate;
-
-  InputParallelismUpdate({
-    this.countUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final countUpdate = this.countUpdate;
-    return {
-      if (countUpdate != null) 'CountUpdate': countUpdate,
-    };
-  }
-}
-
-/// Provides a description of a processor that is used to preprocess the records
-/// in the stream before being processed by your application code. Currently,
-/// the only input processor available is <a
-/// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
-class InputProcessingConfiguration {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>
-  /// that is used to preprocess the records in the stream before being processed
-  /// by your application code.
-  final InputLambdaProcessor inputLambdaProcessor;
-
-  InputProcessingConfiguration({
-    required this.inputLambdaProcessor,
-  });
-
-  Map<String, dynamic> toJson() {
-    final inputLambdaProcessor = this.inputLambdaProcessor;
-    return {
-      'InputLambdaProcessor': inputLambdaProcessor,
-    };
-  }
-}
-
-/// Provides configuration information about an input processor. Currently, the
-/// only input processor available is <a
-/// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
-class InputProcessingConfigurationDescription {
-  /// Provides configuration information about the associated <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessorDescription.html">InputLambdaProcessorDescription</a>.
-  final InputLambdaProcessorDescription? inputLambdaProcessorDescription;
-
-  InputProcessingConfigurationDescription({
-    this.inputLambdaProcessorDescription,
-  });
-
-  factory InputProcessingConfigurationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return InputProcessingConfigurationDescription(
-      inputLambdaProcessorDescription:
-          json['InputLambdaProcessorDescription'] != null
-              ? InputLambdaProcessorDescription.fromJson(
-                  json['InputLambdaProcessorDescription']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputLambdaProcessorDescription =
-        this.inputLambdaProcessorDescription;
-    return {
-      if (inputLambdaProcessorDescription != null)
-        'InputLambdaProcessorDescription': inputLambdaProcessorDescription,
-    };
-  }
-}
-
-/// Describes updates to an <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html">InputProcessingConfiguration</a>.
-class InputProcessingConfigurationUpdate {
-  /// Provides update information for an <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>.
-  final InputLambdaProcessorUpdate inputLambdaProcessorUpdate;
-
-  InputProcessingConfigurationUpdate({
-    required this.inputLambdaProcessorUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final inputLambdaProcessorUpdate = this.inputLambdaProcessorUpdate;
-    return {
-      'InputLambdaProcessorUpdate': inputLambdaProcessorUpdate,
-    };
-  }
-}
-
-/// Describes updates for the application's input schema.
-class InputSchemaUpdate {
-  /// A list of <code>RecordColumn</code> objects. Each object describes the
-  /// mapping of the streaming source element to the corresponding column in the
-  /// in-application stream.
-  final List<RecordColumn>? recordColumnUpdates;
-
-  /// Specifies the encoding of the records in the streaming source. For example,
-  /// UTF-8.
-  final String? recordEncodingUpdate;
-
-  /// Specifies the format of the records on the streaming source.
-  final RecordFormat? recordFormatUpdate;
-
-  InputSchemaUpdate({
-    this.recordColumnUpdates,
-    this.recordEncodingUpdate,
-    this.recordFormatUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final recordColumnUpdates = this.recordColumnUpdates;
-    final recordEncodingUpdate = this.recordEncodingUpdate;
-    final recordFormatUpdate = this.recordFormatUpdate;
-    return {
-      if (recordColumnUpdates != null)
-        'RecordColumnUpdates': recordColumnUpdates,
-      if (recordEncodingUpdate != null)
-        'RecordEncodingUpdate': recordEncodingUpdate,
-      if (recordFormatUpdate != null) 'RecordFormatUpdate': recordFormatUpdate,
-    };
-  }
-}
-
-class InputStartingPosition {
-  static const now = InputStartingPosition._('NOW');
-  static const trimHorizon = InputStartingPosition._('TRIM_HORIZON');
-  static const lastStoppedPoint = InputStartingPosition._('LAST_STOPPED_POINT');
-
-  final String value;
-
-  const InputStartingPosition._(this.value);
-
-  static const values = [now, trimHorizon, lastStoppedPoint];
-
-  static InputStartingPosition fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InputStartingPosition._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InputStartingPosition && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the point at which the application reads from the streaming
-/// source.
-class InputStartingPositionConfiguration {
-  /// The starting position on the stream.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>NOW</code> - Start reading just after the most recent record in the
-  /// stream, start at the request time stamp that the customer issued.
-  /// </li>
-  /// <li>
-  /// <code>TRIM_HORIZON</code> - Start reading at the last untrimmed record in
-  /// the stream, which is the oldest record available in the stream. This option
-  /// is not available for an Amazon Kinesis Firehose delivery stream.
-  /// </li>
-  /// <li>
-  /// <code>LAST_STOPPED_POINT</code> - Resume reading from where the application
-  /// last stopped reading.
-  /// </li>
-  /// </ul>
-  final InputStartingPosition? inputStartingPosition;
-
-  InputStartingPositionConfiguration({
-    this.inputStartingPosition,
-  });
-
-  factory InputStartingPositionConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return InputStartingPositionConfiguration(
-      inputStartingPosition: (json['InputStartingPosition'] as String?)
-          ?.let(InputStartingPosition.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputStartingPosition = this.inputStartingPosition;
-    return {
-      if (inputStartingPosition != null)
-        'InputStartingPosition': inputStartingPosition.value,
-    };
-  }
-}
-
-/// Describes updates to a specific input configuration (identified by the
-/// <code>InputId</code> of an application).
-class InputUpdate {
-  /// Input ID of the application input to be updated.
-  final String inputId;
-
-  /// Describes the parallelism updates (the number in-application streams Amazon
-  /// Kinesis Analytics creates for the specific streaming source).
-  final InputParallelismUpdate? inputParallelismUpdate;
-
-  /// Describes updates for an input processing configuration.
-  final InputProcessingConfigurationUpdate? inputProcessingConfigurationUpdate;
-
-  /// Describes the data format on the streaming source, and how record elements
-  /// on the streaming source map to columns of the in-application stream that is
-  /// created.
-  final InputSchemaUpdate? inputSchemaUpdate;
-
-  /// If an Amazon Kinesis Firehose delivery stream is the streaming source to be
-  /// updated, provides an updated stream ARN and IAM role ARN.
-  final KinesisFirehoseInputUpdate? kinesisFirehoseInputUpdate;
-
-  /// If an Amazon Kinesis stream is the streaming source to be updated, provides
-  /// an updated stream Amazon Resource Name (ARN) and IAM role ARN.
-  final KinesisStreamsInputUpdate? kinesisStreamsInputUpdate;
-
-  /// Name prefix for in-application streams that Amazon Kinesis Analytics creates
-  /// for the specific streaming source.
-  final String? namePrefixUpdate;
-
-  InputUpdate({
-    required this.inputId,
-    this.inputParallelismUpdate,
-    this.inputProcessingConfigurationUpdate,
-    this.inputSchemaUpdate,
-    this.kinesisFirehoseInputUpdate,
-    this.kinesisStreamsInputUpdate,
-    this.namePrefixUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final inputId = this.inputId;
-    final inputParallelismUpdate = this.inputParallelismUpdate;
-    final inputProcessingConfigurationUpdate =
-        this.inputProcessingConfigurationUpdate;
-    final inputSchemaUpdate = this.inputSchemaUpdate;
-    final kinesisFirehoseInputUpdate = this.kinesisFirehoseInputUpdate;
-    final kinesisStreamsInputUpdate = this.kinesisStreamsInputUpdate;
-    final namePrefixUpdate = this.namePrefixUpdate;
-    return {
-      'InputId': inputId,
-      if (inputParallelismUpdate != null)
-        'InputParallelismUpdate': inputParallelismUpdate,
-      if (inputProcessingConfigurationUpdate != null)
-        'InputProcessingConfigurationUpdate':
-            inputProcessingConfigurationUpdate,
-      if (inputSchemaUpdate != null) 'InputSchemaUpdate': inputSchemaUpdate,
-      if (kinesisFirehoseInputUpdate != null)
-        'KinesisFirehoseInputUpdate': kinesisFirehoseInputUpdate,
-      if (kinesisStreamsInputUpdate != null)
-        'KinesisStreamsInputUpdate': kinesisStreamsInputUpdate,
-      if (namePrefixUpdate != null) 'NamePrefixUpdate': namePrefixUpdate,
-    };
-  }
-}
-
-/// Provides additional mapping information when JSON is the record format on
-/// the streaming source.
-class JSONMappingParameters {
-  /// Path to the top-level parent that contains the records.
-  final String recordRowPath;
-
-  JSONMappingParameters({
-    required this.recordRowPath,
-  });
-
-  factory JSONMappingParameters.fromJson(Map<String, dynamic> json) {
-    return JSONMappingParameters(
-      recordRowPath: (json['RecordRowPath'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recordRowPath = this.recordRowPath;
-    return {
-      'RecordRowPath': recordRowPath,
-    };
-  }
-}
-
-/// Identifies an Amazon Kinesis Firehose delivery stream as the streaming
-/// source. You provide the delivery stream's Amazon Resource Name (ARN) and an
-/// IAM role ARN that enables Amazon Kinesis Analytics to access the stream on
-/// your behalf.
-class KinesisFirehoseInput {
-  /// ARN of the input delivery stream.
-  final String resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream on your behalf. You need to make sure that the role has the necessary
-  /// permissions to access the stream.
+  /// IAM ARN of the role to use to send application messages. Note: To write
+  /// application messages to CloudWatch, the IAM role that is used must have the
+  /// <code>PutLogEvents</code> policy action enabled.
   final String roleARN;
 
-  KinesisFirehoseInput({
-    required this.resourceARN,
+  CloudWatchLoggingOption({
+    required this.logStreamARN,
     required this.roleARN,
   });
 
   Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
+    final logStreamARN = this.logStreamARN;
     final roleARN = this.roleARN;
     return {
-      'ResourceARN': resourceARN,
+      'LogStreamARN': logStreamARN,
       'RoleARN': roleARN,
-    };
-  }
-}
-
-/// Describes the Amazon Kinesis Firehose delivery stream that is configured as
-/// the streaming source in the application input configuration.
-class KinesisFirehoseInputDescription {
-  /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
-  final String? resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics assumes to access the
-  /// stream.
-  final String? roleARN;
-
-  KinesisFirehoseInputDescription({
-    this.resourceARN,
-    this.roleARN,
-  });
-
-  factory KinesisFirehoseInputDescription.fromJson(Map<String, dynamic> json) {
-    return KinesisFirehoseInputDescription(
-      resourceARN: json['ResourceARN'] as String?,
-      roleARN: json['RoleARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-/// When updating application input configuration, provides information about an
-/// Amazon Kinesis Firehose delivery stream as the streaming source.
-class KinesisFirehoseInputUpdate {
-  /// Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery
-  /// stream to read.
-  final String? resourceARNUpdate;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream on your behalf. You need to grant the necessary permissions to this
-  /// role.
-  final String? roleARNUpdate;
-
-  KinesisFirehoseInputUpdate({
-    this.resourceARNUpdate,
-    this.roleARNUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARNUpdate = this.resourceARNUpdate;
-    final roleARNUpdate = this.roleARNUpdate;
-    return {
-      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
-      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
-    };
-  }
-}
-
-/// When configuring application output, identifies an Amazon Kinesis Firehose
-/// delivery stream as the destination. You provide the stream Amazon Resource
-/// Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to write to
-/// the stream on your behalf.
-class KinesisFirehoseOutput {
-  /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
-  final String resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
-  /// destination stream on your behalf. You need to grant the necessary
-  /// permissions to this role.
-  final String roleARN;
-
-  KinesisFirehoseOutput({
-    required this.resourceARN,
-    required this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      'ResourceARN': resourceARN,
-      'RoleARN': roleARN,
-    };
-  }
-}
-
-/// For an application output, describes the Amazon Kinesis Firehose delivery
-/// stream configured as its destination.
-class KinesisFirehoseOutputDescription {
-  /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream.
-  final String? resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream.
-  final String? roleARN;
-
-  KinesisFirehoseOutputDescription({
-    this.resourceARN,
-    this.roleARN,
-  });
-
-  factory KinesisFirehoseOutputDescription.fromJson(Map<String, dynamic> json) {
-    return KinesisFirehoseOutputDescription(
-      resourceARN: json['ResourceARN'] as String?,
-      roleARN: json['RoleARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-/// When updating an output configuration using the <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
-/// operation, provides information about an Amazon Kinesis Firehose delivery
-/// stream configured as the destination.
-class KinesisFirehoseOutputUpdate {
-  /// Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to
-  /// write to.
-  final String? resourceARNUpdate;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream on your behalf. You need to grant the necessary permissions to this
-  /// role.
-  final String? roleARNUpdate;
-
-  KinesisFirehoseOutputUpdate({
-    this.resourceARNUpdate,
-    this.roleARNUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARNUpdate = this.resourceARNUpdate;
-    final roleARNUpdate = this.roleARNUpdate;
-    return {
-      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
-      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
-    };
-  }
-}
-
-/// Identifies an Amazon Kinesis stream as the streaming source. You provide the
-/// stream's Amazon Resource Name (ARN) and an IAM role ARN that enables Amazon
-/// Kinesis Analytics to access the stream on your behalf.
-class KinesisStreamsInput {
-  /// ARN of the input Amazon Kinesis stream to read.
-  final String resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream on your behalf. You need to grant the necessary permissions to this
-  /// role.
-  final String roleARN;
-
-  KinesisStreamsInput({
-    required this.resourceARN,
-    required this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      'ResourceARN': resourceARN,
-      'RoleARN': roleARN,
-    };
-  }
-}
-
-/// Describes the Amazon Kinesis stream that is configured as the streaming
-/// source in the application input configuration.
-class KinesisStreamsInputDescription {
-  /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
-  final String? resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream.
-  final String? roleARN;
-
-  KinesisStreamsInputDescription({
-    this.resourceARN,
-    this.roleARN,
-  });
-
-  factory KinesisStreamsInputDescription.fromJson(Map<String, dynamic> json) {
-    return KinesisStreamsInputDescription(
-      resourceARN: json['ResourceARN'] as String?,
-      roleARN: json['RoleARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-/// When updating application input configuration, provides information about an
-/// Amazon Kinesis stream as the streaming source.
-class KinesisStreamsInputUpdate {
-  /// Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
-  final String? resourceARNUpdate;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream on your behalf. You need to grant the necessary permissions to this
-  /// role.
-  final String? roleARNUpdate;
-
-  KinesisStreamsInputUpdate({
-    this.resourceARNUpdate,
-    this.roleARNUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARNUpdate = this.resourceARNUpdate;
-    final roleARNUpdate = this.roleARNUpdate;
-    return {
-      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
-      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
-    };
-  }
-}
-
-/// When configuring application output, identifies an Amazon Kinesis stream as
-/// the destination. You provide the stream Amazon Resource Name (ARN) and also
-/// an IAM role ARN that Amazon Kinesis Analytics can use to write to the stream
-/// on your behalf.
-class KinesisStreamsOutput {
-  /// ARN of the destination Amazon Kinesis stream to write to.
-  final String resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
-  /// destination stream on your behalf. You need to grant the necessary
-  /// permissions to this role.
-  final String roleARN;
-
-  KinesisStreamsOutput({
-    required this.resourceARN,
-    required this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      'ResourceARN': resourceARN,
-      'RoleARN': roleARN,
-    };
-  }
-}
-
-/// For an application output, describes the Amazon Kinesis stream configured as
-/// its destination.
-class KinesisStreamsOutputDescription {
-  /// Amazon Resource Name (ARN) of the Amazon Kinesis stream.
-  final String? resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream.
-  final String? roleARN;
-
-  KinesisStreamsOutputDescription({
-    this.resourceARN,
-    this.roleARN,
-  });
-
-  factory KinesisStreamsOutputDescription.fromJson(Map<String, dynamic> json) {
-    return KinesisStreamsOutputDescription(
-      resourceARN: json['ResourceARN'] as String?,
-      roleARN: json['RoleARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-/// When updating an output configuration using the <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
-/// operation, provides information about an Amazon Kinesis stream configured as
-/// the destination.
-class KinesisStreamsOutputUpdate {
-  /// Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to
-  /// write the output.
-  final String? resourceARNUpdate;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
-  /// stream on your behalf. You need to grant the necessary permissions to this
-  /// role.
-  final String? roleARNUpdate;
-
-  KinesisStreamsOutputUpdate({
-    this.resourceARNUpdate,
-    this.roleARNUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARNUpdate = this.resourceARNUpdate;
-    final roleARNUpdate = this.roleARNUpdate;
-    return {
-      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
-      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
-    };
-  }
-}
-
-/// When configuring application output, identifies an AWS Lambda function as
-/// the destination. You provide the function Amazon Resource Name (ARN) and
-/// also an IAM role ARN that Amazon Kinesis Analytics can use to write to the
-/// function on your behalf.
-class LambdaOutput {
-  /// Amazon Resource Name (ARN) of the destination Lambda function to write to.
-  /// <note>
-  /// To specify an earlier version of the Lambda function than the latest,
-  /// include the Lambda function version in the Lambda function ARN. For more
-  /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
-  /// ARNs: AWS Lambda</a>
-  /// </note>
-  final String resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
-  /// destination function on your behalf. You need to grant the necessary
-  /// permissions to this role.
-  final String roleARN;
-
-  LambdaOutput({
-    required this.resourceARN,
-    required this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      'ResourceARN': resourceARN,
-      'RoleARN': roleARN,
-    };
-  }
-}
-
-/// For an application output, describes the AWS Lambda function configured as
-/// its destination.
-class LambdaOutputDescription {
-  /// Amazon Resource Name (ARN) of the destination Lambda function.
-  final String? resourceARN;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
-  /// destination function.
-  final String? roleARN;
-
-  LambdaOutputDescription({
-    this.resourceARN,
-    this.roleARN,
-  });
-
-  factory LambdaOutputDescription.fromJson(Map<String, dynamic> json) {
-    return LambdaOutputDescription(
-      resourceARN: json['ResourceARN'] as String?,
-      roleARN: json['RoleARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final roleARN = this.roleARN;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-/// When updating an output configuration using the <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_UpdateApplication.html">UpdateApplication</a>
-/// operation, provides information about an AWS Lambda function configured as
-/// the destination.
-class LambdaOutputUpdate {
-  /// Amazon Resource Name (ARN) of the destination Lambda function.
-  /// <note>
-  /// To specify an earlier version of the Lambda function than the latest,
-  /// include the Lambda function version in the Lambda function ARN. For more
-  /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
-  /// ARNs: AWS Lambda</a>
-  /// </note>
-  final String? resourceARNUpdate;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
-  /// destination function on your behalf. You need to grant the necessary
-  /// permissions to this role.
-  final String? roleARNUpdate;
-
-  LambdaOutputUpdate({
-    this.resourceARNUpdate,
-    this.roleARNUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARNUpdate = this.resourceARNUpdate;
-    final roleARNUpdate = this.roleARNUpdate;
-    return {
-      if (resourceARNUpdate != null) 'ResourceARNUpdate': resourceARNUpdate,
-      if (roleARNUpdate != null) 'RoleARNUpdate': roleARNUpdate,
-    };
-  }
-}
-
-/// <p/>
-class ListApplicationsResponse {
-  /// List of <code>ApplicationSummary</code> objects.
-  final List<ApplicationSummary> applicationSummaries;
-
-  /// Returns true if there are more applications to retrieve.
-  final bool hasMoreApplications;
-
-  ListApplicationsResponse({
-    required this.applicationSummaries,
-    required this.hasMoreApplications,
-  });
-
-  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
-    return ListApplicationsResponse(
-      applicationSummaries: ((json['ApplicationSummaries'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      hasMoreApplications: (json['HasMoreApplications'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationSummaries = this.applicationSummaries;
-    final hasMoreApplications = this.hasMoreApplications;
-    return {
-      'ApplicationSummaries': applicationSummaries,
-      'HasMoreApplications': hasMoreApplications,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The key-value tags assigned to the application.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// When configuring application input at the time of creating or updating an
-/// application, provides additional mapping information specific to the record
-/// format (such as JSON, CSV, or record fields delimited by some delimiter) on
-/// the streaming source.
-class MappingParameters {
-  /// Provides additional mapping information when the record format uses
-  /// delimiters (for example, CSV).
-  final CSVMappingParameters? cSVMappingParameters;
-
-  /// Provides additional mapping information when JSON is the record format on
-  /// the streaming source.
-  final JSONMappingParameters? jSONMappingParameters;
-
-  MappingParameters({
-    this.cSVMappingParameters,
-    this.jSONMappingParameters,
-  });
-
-  factory MappingParameters.fromJson(Map<String, dynamic> json) {
-    return MappingParameters(
-      cSVMappingParameters: json['CSVMappingParameters'] != null
-          ? CSVMappingParameters.fromJson(
-              json['CSVMappingParameters'] as Map<String, dynamic>)
-          : null,
-      jSONMappingParameters: json['JSONMappingParameters'] != null
-          ? JSONMappingParameters.fromJson(
-              json['JSONMappingParameters'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cSVMappingParameters = this.cSVMappingParameters;
-    final jSONMappingParameters = this.jSONMappingParameters;
-    return {
-      if (cSVMappingParameters != null)
-        'CSVMappingParameters': cSVMappingParameters,
-      if (jSONMappingParameters != null)
-        'JSONMappingParameters': jSONMappingParameters,
     };
   }
 }
@@ -3271,7 +3643,9 @@ class MappingParameters {
 /// in-application stream and a destination where you want the in-application
 /// stream data to be written. The destination can be an Amazon Kinesis stream
 /// or an Amazon Kinesis Firehose delivery stream.
-/// <p/>
+///
+///
+///
 /// For limits on how many destinations an application can write and other
 /// limitations, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/limits.html">Limits</a>.
@@ -3320,252 +3694,233 @@ class Output {
   }
 }
 
-/// Describes the application output configuration, which includes the
-/// in-application stream name and the destination where the stream data is
-/// written. The destination can be an Amazon Kinesis stream or an Amazon
-/// Kinesis Firehose delivery stream.
-class OutputDescription {
-  /// Data format used for writing data to the destination.
-  final DestinationSchema? destinationSchema;
+/// When configuring application output, identifies an Amazon Kinesis stream as
+/// the destination. You provide the stream Amazon Resource Name (ARN) and also
+/// an IAM role ARN that Amazon Kinesis Analytics can use to write to the stream
+/// on your behalf.
+class KinesisStreamsOutput {
+  /// ARN of the destination Amazon Kinesis stream to write to.
+  final String resourceARN;
 
-  /// Describes the Amazon Kinesis Firehose delivery stream configured as the
-  /// destination where output is written.
-  final KinesisFirehoseOutputDescription? kinesisFirehoseOutputDescription;
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
+  /// destination stream on your behalf. You need to grant the necessary
+  /// permissions to this role.
+  final String roleARN;
 
-  /// Describes Amazon Kinesis stream configured as the destination where output
-  /// is written.
-  final KinesisStreamsOutputDescription? kinesisStreamsOutputDescription;
-
-  /// Describes the AWS Lambda function configured as the destination where output
-  /// is written.
-  final LambdaOutputDescription? lambdaOutputDescription;
-
-  /// Name of the in-application stream configured as output.
-  final String? name;
-
-  /// A unique identifier for the output configuration.
-  final String? outputId;
-
-  OutputDescription({
-    this.destinationSchema,
-    this.kinesisFirehoseOutputDescription,
-    this.kinesisStreamsOutputDescription,
-    this.lambdaOutputDescription,
-    this.name,
-    this.outputId,
+  KinesisStreamsOutput({
+    required this.resourceARN,
+    required this.roleARN,
   });
 
-  factory OutputDescription.fromJson(Map<String, dynamic> json) {
-    return OutputDescription(
-      destinationSchema: json['DestinationSchema'] != null
-          ? DestinationSchema.fromJson(
-              json['DestinationSchema'] as Map<String, dynamic>)
-          : null,
-      kinesisFirehoseOutputDescription:
-          json['KinesisFirehoseOutputDescription'] != null
-              ? KinesisFirehoseOutputDescription.fromJson(
-                  json['KinesisFirehoseOutputDescription']
-                      as Map<String, dynamic>)
-              : null,
-      kinesisStreamsOutputDescription:
-          json['KinesisStreamsOutputDescription'] != null
-              ? KinesisStreamsOutputDescription.fromJson(
-                  json['KinesisStreamsOutputDescription']
-                      as Map<String, dynamic>)
-              : null,
-      lambdaOutputDescription: json['LambdaOutputDescription'] != null
-          ? LambdaOutputDescription.fromJson(
-              json['LambdaOutputDescription'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      outputId: json['OutputId'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final destinationSchema = this.destinationSchema;
-    final kinesisFirehoseOutputDescription =
-        this.kinesisFirehoseOutputDescription;
-    final kinesisStreamsOutputDescription =
-        this.kinesisStreamsOutputDescription;
-    final lambdaOutputDescription = this.lambdaOutputDescription;
-    final name = this.name;
-    final outputId = this.outputId;
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
     return {
-      if (destinationSchema != null) 'DestinationSchema': destinationSchema,
-      if (kinesisFirehoseOutputDescription != null)
-        'KinesisFirehoseOutputDescription': kinesisFirehoseOutputDescription,
-      if (kinesisStreamsOutputDescription != null)
-        'KinesisStreamsOutputDescription': kinesisStreamsOutputDescription,
-      if (lambdaOutputDescription != null)
-        'LambdaOutputDescription': lambdaOutputDescription,
-      if (name != null) 'Name': name,
-      if (outputId != null) 'OutputId': outputId,
+      'ResourceARN': resourceARN,
+      'RoleARN': roleARN,
     };
   }
 }
 
-/// Describes updates to the output configuration identified by the
-/// <code>OutputId</code>.
-class OutputUpdate {
-  /// Identifies the specific output configuration that you want to update.
-  final String outputId;
+/// When configuring application output, identifies an Amazon Kinesis Firehose
+/// delivery stream as the destination. You provide the stream Amazon Resource
+/// Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to write to
+/// the stream on your behalf.
+class KinesisFirehoseOutput {
+  /// ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
+  final String resourceARN;
 
-  /// Describes the data format when records are written to the destination. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
-  /// Application Output</a>.
-  final DestinationSchema? destinationSchemaUpdate;
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
+  /// destination stream on your behalf. You need to grant the necessary
+  /// permissions to this role.
+  final String roleARN;
 
-  /// Describes an Amazon Kinesis Firehose delivery stream as the destination for
-  /// the output.
-  final KinesisFirehoseOutputUpdate? kinesisFirehoseOutputUpdate;
-
-  /// Describes an Amazon Kinesis stream as the destination for the output.
-  final KinesisStreamsOutputUpdate? kinesisStreamsOutputUpdate;
-
-  /// Describes an AWS Lambda function as the destination for the output.
-  final LambdaOutputUpdate? lambdaOutputUpdate;
-
-  /// If you want to specify a different in-application stream for this output
-  /// configuration, use this field to specify the new in-application stream name.
-  final String? nameUpdate;
-
-  OutputUpdate({
-    required this.outputId,
-    this.destinationSchemaUpdate,
-    this.kinesisFirehoseOutputUpdate,
-    this.kinesisStreamsOutputUpdate,
-    this.lambdaOutputUpdate,
-    this.nameUpdate,
+  KinesisFirehoseOutput({
+    required this.resourceARN,
+    required this.roleARN,
   });
 
   Map<String, dynamic> toJson() {
-    final outputId = this.outputId;
-    final destinationSchemaUpdate = this.destinationSchemaUpdate;
-    final kinesisFirehoseOutputUpdate = this.kinesisFirehoseOutputUpdate;
-    final kinesisStreamsOutputUpdate = this.kinesisStreamsOutputUpdate;
-    final lambdaOutputUpdate = this.lambdaOutputUpdate;
-    final nameUpdate = this.nameUpdate;
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
     return {
-      'OutputId': outputId,
-      if (destinationSchemaUpdate != null)
-        'DestinationSchemaUpdate': destinationSchemaUpdate,
-      if (kinesisFirehoseOutputUpdate != null)
-        'KinesisFirehoseOutputUpdate': kinesisFirehoseOutputUpdate,
-      if (kinesisStreamsOutputUpdate != null)
-        'KinesisStreamsOutputUpdate': kinesisStreamsOutputUpdate,
-      if (lambdaOutputUpdate != null) 'LambdaOutputUpdate': lambdaOutputUpdate,
-      if (nameUpdate != null) 'NameUpdate': nameUpdate,
+      'ResourceARN': resourceARN,
+      'RoleARN': roleARN,
     };
   }
 }
 
-/// Describes the mapping of each data element in the streaming source to the
-/// corresponding column in the in-application stream.
-///
-/// Also used to describe the format of the reference data source.
-class RecordColumn {
-  /// Name of the column created in the in-application input stream or reference
-  /// table.
-  final String name;
+/// When configuring application output, identifies an AWS Lambda function as
+/// the destination. You provide the function Amazon Resource Name (ARN) and
+/// also an IAM role ARN that Amazon Kinesis Analytics can use to write to the
+/// function on your behalf.
+class LambdaOutput {
+  /// Amazon Resource Name (ARN) of the destination Lambda function to write to.
+  /// <note>
+  /// To specify an earlier version of the Lambda function than the latest,
+  /// include the Lambda function version in the Lambda function ARN. For more
+  /// information about Lambda ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// ARNs: AWS Lambda</a>
+  /// </note>
+  final String resourceARN;
 
-  /// Type of column created in the in-application input stream or reference
-  /// table.
-  final String sqlType;
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the
+  /// destination function on your behalf. You need to grant the necessary
+  /// permissions to this role.
+  final String roleARN;
 
-  /// Reference to the data element in the streaming input or the reference data
-  /// source. This element is required if the <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_RecordFormat.html#analytics-Type-RecordFormat-RecordFormatTypel">RecordFormatType</a>
-  /// is <code>JSON</code>.
-  final String? mapping;
-
-  RecordColumn({
-    required this.name,
-    required this.sqlType,
-    this.mapping,
+  LambdaOutput({
+    required this.resourceARN,
+    required this.roleARN,
   });
 
-  factory RecordColumn.fromJson(Map<String, dynamic> json) {
-    return RecordColumn(
-      name: (json['Name'] as String?) ?? '',
-      sqlType: (json['SqlType'] as String?) ?? '',
-      mapping: json['Mapping'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final sqlType = this.sqlType;
-    final mapping = this.mapping;
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
     return {
-      'Name': name,
-      'SqlType': sqlType,
-      if (mapping != null) 'Mapping': mapping,
+      'ResourceARN': resourceARN,
+      'RoleARN': roleARN,
     };
   }
 }
 
-/// Describes the record format and relevant mapping information that should be
-/// applied to schematize the records on the stream.
-class RecordFormat {
-  /// The type of record format.
-  final RecordFormatType recordFormatType;
+/// When you configure the application input, you specify the streaming source,
+/// the in-application stream name that is created, and the mapping between the
+/// two. For more information, see <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
+/// Application Input</a>.
+class Input {
+  /// Describes the format of the data in the streaming source, and how each data
+  /// element maps to corresponding columns in the in-application stream that is
+  /// being created.
+  ///
+  /// Also used to describe the format of the reference data source.
+  final SourceSchema inputSchema;
 
-  /// When configuring application input at the time of creating or updating an
-  /// application, provides additional mapping information specific to the record
-  /// format (such as JSON, CSV, or record fields delimited by some delimiter) on
-  /// the streaming source.
-  final MappingParameters? mappingParameters;
+  /// Name prefix to use when creating an in-application stream. Suppose that you
+  /// specify a prefix "MyInApplicationStream." Amazon Kinesis Analytics then
+  /// creates one or more (as per the <code>InputParallelism</code> count you
+  /// specified) in-application streams with names "MyInApplicationStream_001,"
+  /// "MyInApplicationStream_002," and so on.
+  final String namePrefix;
 
-  RecordFormat({
-    required this.recordFormatType,
-    this.mappingParameters,
+  /// Describes the number of in-application streams to create.
+  ///
+  /// Data from your source is routed to these in-application input streams.
+  ///
+  /// (see <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-input.html">Configuring
+  /// Application Input</a>.
+  final InputParallelism? inputParallelism;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html">InputProcessingConfiguration</a>
+  /// for the input. An input processor transforms records as they are received
+  /// from the stream, before the application's SQL code executes. Currently, the
+  /// only input processing configuration available is <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputLambdaProcessor.html">InputLambdaProcessor</a>.
+  final InputProcessingConfiguration? inputProcessingConfiguration;
+
+  /// If the streaming source is an Amazon Kinesis Firehose delivery stream,
+  /// identifies the delivery stream's ARN and an IAM role that enables Amazon
+  /// Kinesis Analytics to access the stream on your behalf.
+  ///
+  /// Note: Either <code>KinesisStreamsInput</code> or
+  /// <code>KinesisFirehoseInput</code> is required.
+  final KinesisFirehoseInput? kinesisFirehoseInput;
+
+  /// If the streaming source is an Amazon Kinesis stream, identifies the stream's
+  /// Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis
+  /// Analytics to access the stream on your behalf.
+  ///
+  /// Note: Either <code>KinesisStreamsInput</code> or
+  /// <code>KinesisFirehoseInput</code> is required.
+  final KinesisStreamsInput? kinesisStreamsInput;
+
+  Input({
+    required this.inputSchema,
+    required this.namePrefix,
+    this.inputParallelism,
+    this.inputProcessingConfiguration,
+    this.kinesisFirehoseInput,
+    this.kinesisStreamsInput,
   });
 
-  factory RecordFormat.fromJson(Map<String, dynamic> json) {
-    return RecordFormat(
-      recordFormatType: RecordFormatType.fromString(
-          (json['RecordFormatType'] as String?) ?? ''),
-      mappingParameters: json['MappingParameters'] != null
-          ? MappingParameters.fromJson(
-              json['MappingParameters'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final recordFormatType = this.recordFormatType;
-    final mappingParameters = this.mappingParameters;
+    final inputSchema = this.inputSchema;
+    final namePrefix = this.namePrefix;
+    final inputParallelism = this.inputParallelism;
+    final inputProcessingConfiguration = this.inputProcessingConfiguration;
+    final kinesisFirehoseInput = this.kinesisFirehoseInput;
+    final kinesisStreamsInput = this.kinesisStreamsInput;
     return {
-      'RecordFormatType': recordFormatType.value,
-      if (mappingParameters != null) 'MappingParameters': mappingParameters,
+      'InputSchema': inputSchema,
+      'NamePrefix': namePrefix,
+      if (inputParallelism != null) 'InputParallelism': inputParallelism,
+      if (inputProcessingConfiguration != null)
+        'InputProcessingConfiguration': inputProcessingConfiguration,
+      if (kinesisFirehoseInput != null)
+        'KinesisFirehoseInput': kinesisFirehoseInput,
+      if (kinesisStreamsInput != null)
+        'KinesisStreamsInput': kinesisStreamsInput,
     };
   }
 }
 
-class RecordFormatType {
-  static const json = RecordFormatType._('JSON');
-  static const csv = RecordFormatType._('CSV');
+/// Identifies an Amazon Kinesis stream as the streaming source. You provide the
+/// stream's Amazon Resource Name (ARN) and an IAM role ARN that enables Amazon
+/// Kinesis Analytics to access the stream on your behalf.
+class KinesisStreamsInput {
+  /// ARN of the input Amazon Kinesis stream to read.
+  final String resourceARN;
 
-  final String value;
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream on your behalf. You need to grant the necessary permissions to this
+  /// role.
+  final String roleARN;
 
-  const RecordFormatType._(this.value);
+  KinesisStreamsInput({
+    required this.resourceARN,
+    required this.roleARN,
+  });
 
-  static const values = [json, csv];
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      'RoleARN': roleARN,
+    };
+  }
+}
 
-  static RecordFormatType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecordFormatType._(value));
+/// Identifies an Amazon Kinesis Firehose delivery stream as the streaming
+/// source. You provide the delivery stream's Amazon Resource Name (ARN) and an
+/// IAM role ARN that enables Amazon Kinesis Analytics to access the stream on
+/// your behalf.
+class KinesisFirehoseInput {
+  /// ARN of the input delivery stream.
+  final String resourceARN;
 
-  @override
-  bool operator ==(other) => other is RecordFormatType && other.value == value;
+  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to access the
+  /// stream on your behalf. You need to make sure that the role has the necessary
+  /// permissions to access the stream.
+  final String roleARN;
 
-  @override
-  int get hashCode => value.hashCode;
+  KinesisFirehoseInput({
+    required this.resourceARN,
+    required this.roleARN,
+  });
 
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      'RoleARN': roleARN,
+    };
+  }
 }
 
 /// Describes the reference data source by providing the source information (S3
@@ -3607,145 +3962,6 @@ class ReferenceDataSource {
   }
 }
 
-/// Describes the reference data source configured for an application.
-class ReferenceDataSourceDescription {
-  /// ID of the reference data source. This is the ID that Amazon Kinesis
-  /// Analytics assigns when you add the reference data source to your application
-  /// using the <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_AddApplicationReferenceDataSource.html">AddApplicationReferenceDataSource</a>
-  /// operation.
-  final String referenceId;
-
-  /// Provides the S3 bucket name, the object key name that contains the reference
-  /// data. It also provides the Amazon Resource Name (ARN) of the IAM role that
-  /// Amazon Kinesis Analytics can assume to read the Amazon S3 object and
-  /// populate the in-application reference table.
-  final S3ReferenceDataSourceDescription s3ReferenceDataSourceDescription;
-
-  /// The in-application table name created by the specific reference data source
-  /// configuration.
-  final String tableName;
-
-  /// Describes the format of the data in the streaming source, and how each data
-  /// element maps to corresponding columns created in the in-application stream.
-  final SourceSchema? referenceSchema;
-
-  ReferenceDataSourceDescription({
-    required this.referenceId,
-    required this.s3ReferenceDataSourceDescription,
-    required this.tableName,
-    this.referenceSchema,
-  });
-
-  factory ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
-    return ReferenceDataSourceDescription(
-      referenceId: (json['ReferenceId'] as String?) ?? '',
-      s3ReferenceDataSourceDescription:
-          S3ReferenceDataSourceDescription.fromJson(
-              (json['S3ReferenceDataSourceDescription']
-                      as Map<String, dynamic>?) ??
-                  const <String, dynamic>{}),
-      tableName: (json['TableName'] as String?) ?? '',
-      referenceSchema: json['ReferenceSchema'] != null
-          ? SourceSchema.fromJson(
-              json['ReferenceSchema'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final referenceId = this.referenceId;
-    final s3ReferenceDataSourceDescription =
-        this.s3ReferenceDataSourceDescription;
-    final tableName = this.tableName;
-    final referenceSchema = this.referenceSchema;
-    return {
-      'ReferenceId': referenceId,
-      'S3ReferenceDataSourceDescription': s3ReferenceDataSourceDescription,
-      'TableName': tableName,
-      if (referenceSchema != null) 'ReferenceSchema': referenceSchema,
-    };
-  }
-}
-
-/// When you update a reference data source configuration for an application,
-/// this object provides all the updated values (such as the source bucket name
-/// and object key name), the in-application table name that is created, and
-/// updated mapping information that maps the data in the Amazon S3 object to
-/// the in-application reference table that is created.
-class ReferenceDataSourceUpdate {
-  /// ID of the reference data source being updated. You can use the <a
-  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html">DescribeApplication</a>
-  /// operation to get this value.
-  final String referenceId;
-
-  /// Describes the format of the data in the streaming source, and how each data
-  /// element maps to corresponding columns created in the in-application stream.
-  final SourceSchema? referenceSchemaUpdate;
-
-  /// Describes the S3 bucket name, object key name, and IAM role that Amazon
-  /// Kinesis Analytics can assume to read the Amazon S3 object on your behalf and
-  /// populate the in-application reference table.
-  final S3ReferenceDataSourceUpdate? s3ReferenceDataSourceUpdate;
-
-  /// In-application table name that is created by this update.
-  final String? tableNameUpdate;
-
-  ReferenceDataSourceUpdate({
-    required this.referenceId,
-    this.referenceSchemaUpdate,
-    this.s3ReferenceDataSourceUpdate,
-    this.tableNameUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final referenceId = this.referenceId;
-    final referenceSchemaUpdate = this.referenceSchemaUpdate;
-    final s3ReferenceDataSourceUpdate = this.s3ReferenceDataSourceUpdate;
-    final tableNameUpdate = this.tableNameUpdate;
-    return {
-      'ReferenceId': referenceId,
-      if (referenceSchemaUpdate != null)
-        'ReferenceSchemaUpdate': referenceSchemaUpdate,
-      if (s3ReferenceDataSourceUpdate != null)
-        'S3ReferenceDataSourceUpdate': s3ReferenceDataSourceUpdate,
-      if (tableNameUpdate != null) 'TableNameUpdate': tableNameUpdate,
-    };
-  }
-}
-
-/// Provides a description of an Amazon S3 data source, including the Amazon
-/// Resource Name (ARN) of the S3 bucket, the ARN of the IAM role that is used
-/// to access the bucket, and the name of the Amazon S3 object that contains the
-/// data.
-class S3Configuration {
-  /// ARN of the S3 bucket that contains the data.
-  final String bucketARN;
-
-  /// The name of the object that contains the data.
-  final String fileKey;
-
-  /// IAM ARN of the role used to access the data.
-  final String roleARN;
-
-  S3Configuration({
-    required this.bucketARN,
-    required this.fileKey,
-    required this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketARN = this.bucketARN;
-    final fileKey = this.fileKey;
-    final roleARN = this.roleARN;
-    return {
-      'BucketARN': bucketARN,
-      'FileKey': fileKey,
-      'RoleARN': roleARN,
-    };
-  }
-}
-
 /// Identifies the S3 bucket and object that contains the reference data. Also
 /// identifies the IAM role Amazon Kinesis Analytics can assume to read this
 /// object on your behalf.
@@ -3782,220 +3998,6 @@ class S3ReferenceDataSource {
       'FileKey': fileKey,
       'ReferenceRoleARN': referenceRoleARN,
     };
-  }
-}
-
-/// Provides the bucket name and object key name that stores the reference data.
-class S3ReferenceDataSourceDescription {
-  /// Amazon Resource Name (ARN) of the S3 bucket.
-  final String bucketARN;
-
-  /// Amazon S3 object key name.
-  final String fileKey;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the
-  /// Amazon S3 object on your behalf to populate the in-application reference
-  /// table.
-  final String referenceRoleARN;
-
-  S3ReferenceDataSourceDescription({
-    required this.bucketARN,
-    required this.fileKey,
-    required this.referenceRoleARN,
-  });
-
-  factory S3ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
-    return S3ReferenceDataSourceDescription(
-      bucketARN: (json['BucketARN'] as String?) ?? '',
-      fileKey: (json['FileKey'] as String?) ?? '',
-      referenceRoleARN: (json['ReferenceRoleARN'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketARN = this.bucketARN;
-    final fileKey = this.fileKey;
-    final referenceRoleARN = this.referenceRoleARN;
-    return {
-      'BucketARN': bucketARN,
-      'FileKey': fileKey,
-      'ReferenceRoleARN': referenceRoleARN,
-    };
-  }
-}
-
-/// Describes the S3 bucket name, object key name, and IAM role that Amazon
-/// Kinesis Analytics can assume to read the Amazon S3 object on your behalf and
-/// populate the in-application reference table.
-class S3ReferenceDataSourceUpdate {
-  /// Amazon Resource Name (ARN) of the S3 bucket.
-  final String? bucketARNUpdate;
-
-  /// Object key name.
-  final String? fileKeyUpdate;
-
-  /// ARN of the IAM role that Amazon Kinesis Analytics can assume to read the
-  /// Amazon S3 object and populate the in-application.
-  final String? referenceRoleARNUpdate;
-
-  S3ReferenceDataSourceUpdate({
-    this.bucketARNUpdate,
-    this.fileKeyUpdate,
-    this.referenceRoleARNUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketARNUpdate = this.bucketARNUpdate;
-    final fileKeyUpdate = this.fileKeyUpdate;
-    final referenceRoleARNUpdate = this.referenceRoleARNUpdate;
-    return {
-      if (bucketARNUpdate != null) 'BucketARNUpdate': bucketARNUpdate,
-      if (fileKeyUpdate != null) 'FileKeyUpdate': fileKeyUpdate,
-      if (referenceRoleARNUpdate != null)
-        'ReferenceRoleARNUpdate': referenceRoleARNUpdate,
-    };
-  }
-}
-
-/// Describes the format of the data in the streaming source, and how each data
-/// element maps to corresponding columns created in the in-application stream.
-class SourceSchema {
-  /// A list of <code>RecordColumn</code> objects.
-  final List<RecordColumn> recordColumns;
-
-  /// Specifies the format of the records on the streaming source.
-  final RecordFormat recordFormat;
-
-  /// Specifies the encoding of the records in the streaming source. For example,
-  /// UTF-8.
-  final String? recordEncoding;
-
-  SourceSchema({
-    required this.recordColumns,
-    required this.recordFormat,
-    this.recordEncoding,
-  });
-
-  factory SourceSchema.fromJson(Map<String, dynamic> json) {
-    return SourceSchema(
-      recordColumns: ((json['RecordColumns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      recordFormat: RecordFormat.fromJson(
-          (json['RecordFormat'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      recordEncoding: json['RecordEncoding'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recordColumns = this.recordColumns;
-    final recordFormat = this.recordFormat;
-    final recordEncoding = this.recordEncoding;
-    return {
-      'RecordColumns': recordColumns,
-      'RecordFormat': recordFormat,
-      if (recordEncoding != null) 'RecordEncoding': recordEncoding,
-    };
-  }
-}
-
-/// <p/>
-class StartApplicationResponse {
-  StartApplicationResponse();
-
-  factory StartApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return StartApplicationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// <p/>
-class StopApplicationResponse {
-  StopApplicationResponse();
-
-  factory StopApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return StopApplicationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A key-value pair (the value is optional) that you can define and assign to
-/// AWS resources. If you specify a tag that already exists, the tag value is
-/// replaced with the value that you specify in the request. Note that the
-/// maximum number of application tags includes system tags. The maximum number
-/// of user-defined application tags is 50. For more information, see <a
-/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html">Using
-/// Tagging</a>.
-class Tag {
-  /// The key of the key-value tag.
-  final String key;
-
-  /// The value of the key-value tag. The value is optional.
-  final String? value;
-
-  Tag({
-    required this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateApplicationResponse {
-  UpdateApplicationResponse();
-
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateApplicationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 

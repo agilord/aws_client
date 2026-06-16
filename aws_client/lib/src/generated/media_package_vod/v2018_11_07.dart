@@ -33,7 +33,6 @@ class MediaPackageVod {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'mediapackage-vod',
-            signingName: 'mediapackage-vod',
           ),
           region: region,
           credentials: credentials,
@@ -52,12 +51,12 @@ class MediaPackageVod {
 
   /// Changes the packaging group's properities to configure log subscription
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of a MediaPackage VOD PackagingGroup resource.
@@ -79,12 +78,12 @@ class MediaPackageVod {
 
   /// Creates a new MediaPackage VOD Asset resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The unique identifier for the Asset.
@@ -127,12 +126,12 @@ class MediaPackageVod {
 
   /// Creates a new MediaPackage VOD PackagingConfiguration resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of the PackagingConfiguration.
@@ -168,12 +167,12 @@ class MediaPackageVod {
 
   /// Creates a new MediaPackage VOD PackagingGroup resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of the PackagingGroup.
@@ -200,12 +199,12 @@ class MediaPackageVod {
 
   /// Deletes an existing MediaPackage VOD Asset resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of the MediaPackage VOD Asset resource to delete.
@@ -222,12 +221,12 @@ class MediaPackageVod {
 
   /// Deletes a MediaPackage VOD PackagingConfiguration resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
@@ -244,12 +243,12 @@ class MediaPackageVod {
 
   /// Deletes a MediaPackage VOD PackagingGroup resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of the MediaPackage VOD PackagingGroup resource to delete.
@@ -266,12 +265,12 @@ class MediaPackageVod {
 
   /// Returns a description of a MediaPackage VOD Asset resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of an MediaPackage VOD Asset resource.
@@ -290,12 +289,12 @@ class MediaPackageVod {
   /// Returns a description of a MediaPackage VOD PackagingConfiguration
   /// resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of a MediaPackage VOD PackagingConfiguration resource.
@@ -314,12 +313,12 @@ class MediaPackageVod {
 
   /// Returns a description of a MediaPackage VOD PackagingGroup resource.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of a MediaPackage VOD PackagingGroup resource.
@@ -337,12 +336,12 @@ class MediaPackageVod {
 
   /// Returns a collection of MediaPackage VOD Asset resources.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [maxResults] :
   /// Upper bound on number of records to return.
@@ -380,12 +379,12 @@ class MediaPackageVod {
 
   /// Returns a collection of MediaPackage VOD PackagingConfiguration resources.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [maxResults] :
   /// Upper bound on number of records to return.
@@ -424,12 +423,12 @@ class MediaPackageVod {
 
   /// Returns a collection of MediaPackage VOD PackagingGroup resources.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [maxResults] :
   /// Upper bound on number of records to return.
@@ -529,12 +528,12 @@ class MediaPackageVod {
   /// Updates a specific packaging group. You can't change the id attribute or
   /// any other system-generated attributes.
   ///
-  /// May throw [UnprocessableEntityException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [id] :
   /// The ID of a MediaPackage VOD PackagingGroup resource.
@@ -552,225 +551,6 @@ class MediaPackageVod {
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePackagingGroupResponse.fromJson(response);
-  }
-}
-
-class AdMarkers {
-  static const none = AdMarkers._('NONE');
-  static const scte35Enhanced = AdMarkers._('SCTE35_ENHANCED');
-  static const passthrough = AdMarkers._('PASSTHROUGH');
-
-  final String value;
-
-  const AdMarkers._(this.value);
-
-  static const values = [none, scte35Enhanced, passthrough];
-
-  static AdMarkers fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AdMarkers._(value));
-
-  @override
-  bool operator ==(other) => other is AdMarkers && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A MediaPackage VOD Asset resource.
-class AssetShallow {
-  /// The ARN of the Asset.
-  final String? arn;
-
-  /// The time the Asset was initially submitted for Ingest.
-  final String? createdAt;
-
-  /// The unique identifier for the Asset.
-  final String? id;
-
-  /// The ID of the PackagingGroup for the Asset.
-  final String? packagingGroupId;
-
-  /// The resource ID to include in SPEKE key requests.
-  final String? resourceId;
-
-  /// ARN of the source object in S3.
-  final String? sourceArn;
-
-  /// The IAM role ARN used to access the source S3 bucket.
-  final String? sourceRoleArn;
-  final Map<String, String>? tags;
-
-  AssetShallow({
-    this.arn,
-    this.createdAt,
-    this.id,
-    this.packagingGroupId,
-    this.resourceId,
-    this.sourceArn,
-    this.sourceRoleArn,
-    this.tags,
-  });
-
-  factory AssetShallow.fromJson(Map<String, dynamic> json) {
-    return AssetShallow(
-      arn: json['arn'] as String?,
-      createdAt: json['createdAt'] as String?,
-      id: json['id'] as String?,
-      packagingGroupId: json['packagingGroupId'] as String?,
-      resourceId: json['resourceId'] as String?,
-      sourceArn: json['sourceArn'] as String?,
-      sourceRoleArn: json['sourceRoleArn'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final id = this.id;
-    final packagingGroupId = this.packagingGroupId;
-    final resourceId = this.resourceId;
-    final sourceArn = this.sourceArn;
-    final sourceRoleArn = this.sourceRoleArn;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': createdAt,
-      if (id != null) 'id': id,
-      if (packagingGroupId != null) 'packagingGroupId': packagingGroupId,
-      if (resourceId != null) 'resourceId': resourceId,
-      if (sourceArn != null) 'sourceArn': sourceArn,
-      if (sourceRoleArn != null) 'sourceRoleArn': sourceRoleArn,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// CDN Authorization credentials
-class Authorization {
-  /// The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is
-  /// used for CDN authorization.
-  final String cdnIdentifierSecret;
-
-  /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to
-  /// communicate with AWS Secrets Manager.
-  final String secretsRoleArn;
-
-  Authorization({
-    required this.cdnIdentifierSecret,
-    required this.secretsRoleArn,
-  });
-
-  factory Authorization.fromJson(Map<String, dynamic> json) {
-    return Authorization(
-      cdnIdentifierSecret: (json['cdnIdentifierSecret'] as String?) ?? '',
-      secretsRoleArn: (json['secretsRoleArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cdnIdentifierSecret = this.cdnIdentifierSecret;
-    final secretsRoleArn = this.secretsRoleArn;
-    return {
-      'cdnIdentifierSecret': cdnIdentifierSecret,
-      'secretsRoleArn': secretsRoleArn,
-    };
-  }
-}
-
-/// A CMAF encryption configuration.
-class CmafEncryption {
-  final SpekeKeyProvider spekeKeyProvider;
-
-  /// An optional 128-bit, 16-byte hex value represented by a 32-character string,
-  /// used in conjunction with the key for encrypting blocks. If you don't specify
-  /// a value, then MediaPackage creates the constant initialization vector (IV).
-  final String? constantInitializationVector;
-
-  CmafEncryption({
-    required this.spekeKeyProvider,
-    this.constantInitializationVector,
-  });
-
-  factory CmafEncryption.fromJson(Map<String, dynamic> json) {
-    return CmafEncryption(
-      spekeKeyProvider: SpekeKeyProvider.fromJson(
-          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      constantInitializationVector:
-          json['constantInitializationVector'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final spekeKeyProvider = this.spekeKeyProvider;
-    final constantInitializationVector = this.constantInitializationVector;
-    return {
-      'spekeKeyProvider': spekeKeyProvider,
-      if (constantInitializationVector != null)
-        'constantInitializationVector': constantInitializationVector,
-    };
-  }
-}
-
-/// A CMAF packaging configuration.
-class CmafPackage {
-  /// A list of HLS manifest configurations.
-  final List<HlsManifest> hlsManifests;
-  final CmafEncryption? encryption;
-
-  /// When includeEncoderConfigurationInSegments is set to true, MediaPackage
-  /// places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set
-  /// (PPS), and Video Parameter Set (VPS) metadata in every video segment instead
-  /// of in the init fragment. This lets you use different SPS/PPS/VPS settings
-  /// for your assets during content playback.
-  final bool? includeEncoderConfigurationInSegments;
-
-  /// Duration (in seconds) of each fragment. Actual fragments will be
-  /// rounded to the nearest multiple of the source fragment duration.
-  final int? segmentDurationSeconds;
-
-  CmafPackage({
-    required this.hlsManifests,
-    this.encryption,
-    this.includeEncoderConfigurationInSegments,
-    this.segmentDurationSeconds,
-  });
-
-  factory CmafPackage.fromJson(Map<String, dynamic> json) {
-    return CmafPackage(
-      hlsManifests: ((json['hlsManifests'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      encryption: json['encryption'] != null
-          ? CmafEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
-          : null,
-      includeEncoderConfigurationInSegments:
-          json['includeEncoderConfigurationInSegments'] as bool?,
-      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hlsManifests = this.hlsManifests;
-    final encryption = this.encryption;
-    final includeEncoderConfigurationInSegments =
-        this.includeEncoderConfigurationInSegments;
-    final segmentDurationSeconds = this.segmentDurationSeconds;
-    return {
-      'hlsManifests': hlsManifests,
-      if (encryption != null) 'encryption': encryption,
-      if (includeEncoderConfigurationInSegments != null)
-        'includeEncoderConfigurationInSegments':
-            includeEncoderConfigurationInSegments,
-      if (segmentDurationSeconds != null)
-        'segmentDurationSeconds': segmentDurationSeconds,
-    };
   }
 }
 
@@ -1062,196 +842,6 @@ class CreatePackagingGroupResponse {
   }
 }
 
-/// A Dynamic Adaptive Streaming over HTTP (DASH) encryption configuration.
-class DashEncryption {
-  final SpekeKeyProvider spekeKeyProvider;
-
-  DashEncryption({
-    required this.spekeKeyProvider,
-  });
-
-  factory DashEncryption.fromJson(Map<String, dynamic> json) {
-    return DashEncryption(
-      spekeKeyProvider: SpekeKeyProvider.fromJson(
-          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final spekeKeyProvider = this.spekeKeyProvider;
-    return {
-      'spekeKeyProvider': spekeKeyProvider,
-    };
-  }
-}
-
-/// A DASH manifest configuration.
-class DashManifest {
-  /// Determines the position of some tags in the Media Presentation Description
-  /// (MPD).  When set to FULL, elements like SegmentTemplate and
-  /// ContentProtection are included in each Representation.  When set to COMPACT,
-  /// duplicate elements are combined and presented at the AdaptationSet level.
-  final ManifestLayout? manifestLayout;
-
-  /// An optional string to include in the name of the manifest.
-  final String? manifestName;
-
-  /// Minimum duration (in seconds) that a player will buffer media before
-  /// starting the presentation.
-  final int? minBufferTimeSeconds;
-
-  /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to
-  /// "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
-  final Profile? profile;
-
-  /// The source of scte markers used. When set to SEGMENTS, the scte markers are
-  /// sourced from the segments of the ingested content. When set to MANIFEST, the
-  /// scte markers are sourced from the manifest of the ingested content.
-  final ScteMarkersSource? scteMarkersSource;
-  final StreamSelection? streamSelection;
-
-  DashManifest({
-    this.manifestLayout,
-    this.manifestName,
-    this.minBufferTimeSeconds,
-    this.profile,
-    this.scteMarkersSource,
-    this.streamSelection,
-  });
-
-  factory DashManifest.fromJson(Map<String, dynamic> json) {
-    return DashManifest(
-      manifestLayout:
-          (json['manifestLayout'] as String?)?.let(ManifestLayout.fromString),
-      manifestName: json['manifestName'] as String?,
-      minBufferTimeSeconds: json['minBufferTimeSeconds'] as int?,
-      profile: (json['profile'] as String?)?.let(Profile.fromString),
-      scteMarkersSource: (json['scteMarkersSource'] as String?)
-          ?.let(ScteMarkersSource.fromString),
-      streamSelection: json['streamSelection'] != null
-          ? StreamSelection.fromJson(
-              json['streamSelection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final manifestLayout = this.manifestLayout;
-    final manifestName = this.manifestName;
-    final minBufferTimeSeconds = this.minBufferTimeSeconds;
-    final profile = this.profile;
-    final scteMarkersSource = this.scteMarkersSource;
-    final streamSelection = this.streamSelection;
-    return {
-      if (manifestLayout != null) 'manifestLayout': manifestLayout.value,
-      if (manifestName != null) 'manifestName': manifestName,
-      if (minBufferTimeSeconds != null)
-        'minBufferTimeSeconds': minBufferTimeSeconds,
-      if (profile != null) 'profile': profile.value,
-      if (scteMarkersSource != null)
-        'scteMarkersSource': scteMarkersSource.value,
-      if (streamSelection != null) 'streamSelection': streamSelection,
-    };
-  }
-}
-
-/// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
-class DashPackage {
-  /// A list of DASH manifest configurations.
-  final List<DashManifest> dashManifests;
-  final DashEncryption? encryption;
-
-  /// When includeEncoderConfigurationInSegments is set to true, MediaPackage
-  /// places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set
-  /// (PPS), and Video Parameter Set (VPS) metadata in every video segment instead
-  /// of in the init fragment. This lets you use different SPS/PPS/VPS settings
-  /// for your assets during content playback.
-  final bool? includeEncoderConfigurationInSegments;
-
-  /// When enabled, an I-Frame only stream will be included in the output.
-  final bool? includeIframeOnlyStream;
-
-  /// A list of triggers that controls when the outgoing Dynamic Adaptive
-  /// Streaming over HTTP (DASH)
-  /// Media Presentation Description (MPD) will be partitioned into multiple
-  /// periods. If empty, the content will not
-  /// be partitioned into more than one period. If the list contains "ADS", new
-  /// periods will be created where
-  /// the Asset contains SCTE-35 ad markers.
-  final List<PeriodTriggersElement>? periodTriggers;
-
-  /// Duration (in seconds) of each segment. Actual segments will be
-  /// rounded to the nearest multiple of the source segment duration.
-  final int? segmentDurationSeconds;
-
-  /// Determines the type of SegmentTemplate included in the Media Presentation
-  /// Description (MPD).  When set to NUMBER_WITH_TIMELINE, a full timeline is
-  /// presented in each SegmentTemplate, with $Number$ media URLs.  When set to
-  /// TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate,
-  /// with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is
-  /// included in each SegmentTemplate, with $Number$ media URLs.
-  final SegmentTemplateFormat? segmentTemplateFormat;
-
-  DashPackage({
-    required this.dashManifests,
-    this.encryption,
-    this.includeEncoderConfigurationInSegments,
-    this.includeIframeOnlyStream,
-    this.periodTriggers,
-    this.segmentDurationSeconds,
-    this.segmentTemplateFormat,
-  });
-
-  factory DashPackage.fromJson(Map<String, dynamic> json) {
-    return DashPackage(
-      dashManifests: ((json['dashManifests'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => DashManifest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      encryption: json['encryption'] != null
-          ? DashEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
-          : null,
-      includeEncoderConfigurationInSegments:
-          json['includeEncoderConfigurationInSegments'] as bool?,
-      includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
-      periodTriggers: (json['periodTriggers'] as List?)
-          ?.nonNulls
-          .map((e) => PeriodTriggersElement.fromString((e as String)))
-          .toList(),
-      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
-      segmentTemplateFormat: (json['segmentTemplateFormat'] as String?)
-          ?.let(SegmentTemplateFormat.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dashManifests = this.dashManifests;
-    final encryption = this.encryption;
-    final includeEncoderConfigurationInSegments =
-        this.includeEncoderConfigurationInSegments;
-    final includeIframeOnlyStream = this.includeIframeOnlyStream;
-    final periodTriggers = this.periodTriggers;
-    final segmentDurationSeconds = this.segmentDurationSeconds;
-    final segmentTemplateFormat = this.segmentTemplateFormat;
-    return {
-      'dashManifests': dashManifests,
-      if (encryption != null) 'encryption': encryption,
-      if (includeEncoderConfigurationInSegments != null)
-        'includeEncoderConfigurationInSegments':
-            includeEncoderConfigurationInSegments,
-      if (includeIframeOnlyStream != null)
-        'includeIframeOnlyStream': includeIframeOnlyStream,
-      if (periodTriggers != null)
-        'periodTriggers': periodTriggers.map((e) => e.value).toList(),
-      if (segmentDurationSeconds != null)
-        'segmentDurationSeconds': segmentDurationSeconds,
-      if (segmentTemplateFormat != null)
-        'segmentTemplateFormat': segmentTemplateFormat.value,
-    };
-  }
-}
-
 class DeleteAssetResponse {
   DeleteAssetResponse();
 
@@ -1520,317 +1110,6 @@ class DescribePackagingGroupResponse {
   }
 }
 
-/// Configure egress access logging.
-class EgressAccessLogs {
-  /// Customize the log group name.
-  final String? logGroupName;
-
-  EgressAccessLogs({
-    this.logGroupName,
-  });
-
-  factory EgressAccessLogs.fromJson(Map<String, dynamic> json) {
-    return EgressAccessLogs(
-      logGroupName: json['logGroupName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroupName = this.logGroupName;
-    return {
-      if (logGroupName != null) 'logGroupName': logGroupName,
-    };
-  }
-}
-
-/// The endpoint URL used to access an Asset using one PackagingConfiguration.
-class EgressEndpoint {
-  /// The ID of the PackagingConfiguration being applied to the Asset.
-  final String? packagingConfigurationId;
-
-  /// The current processing status of the asset used for the packaging
-  /// configuration. The status can be either QUEUED, PROCESSING, PLAYABLE, or
-  /// FAILED. Status information won't be available for most assets ingested
-  /// before 2021-09-30.
-  final String? status;
-
-  /// The URL of the parent manifest for the repackaged Asset.
-  final String? url;
-
-  EgressEndpoint({
-    this.packagingConfigurationId,
-    this.status,
-    this.url,
-  });
-
-  factory EgressEndpoint.fromJson(Map<String, dynamic> json) {
-    return EgressEndpoint(
-      packagingConfigurationId: json['packagingConfigurationId'] as String?,
-      status: json['status'] as String?,
-      url: json['url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final packagingConfigurationId = this.packagingConfigurationId;
-    final status = this.status;
-    final url = this.url;
-    return {
-      if (packagingConfigurationId != null)
-        'packagingConfigurationId': packagingConfigurationId,
-      if (status != null) 'status': status,
-      if (url != null) 'url': url,
-    };
-  }
-}
-
-/// Use encryptionContractConfiguration to configure one or more content
-/// encryption keys for your endpoints that use SPEKE 2.0.
-/// The encryption contract defines which content keys are used to encrypt the
-/// audio and video tracks in your stream.
-/// To configure the encryption contract, specify which audio and video
-/// encryption presets to use.
-/// Note the following considerations when using
-/// encryptionContractConfiguration:
-/// encryptionContractConfiguration can be used for DASH endpoints that use
-/// SPEKE 2.0. SPEKE 2.0 relies on the CPIX 2.3 specification.
-/// You must disable key rotation for this endpoint by setting
-/// keyRotationIntervalSeconds to 0.
-class EncryptionContractConfiguration {
-  /// A collection of audio encryption presets.
-  final PresetSpeke20Audio presetSpeke20Audio;
-
-  /// A collection of video encryption presets.
-  final PresetSpeke20Video presetSpeke20Video;
-
-  EncryptionContractConfiguration({
-    required this.presetSpeke20Audio,
-    required this.presetSpeke20Video,
-  });
-
-  factory EncryptionContractConfiguration.fromJson(Map<String, dynamic> json) {
-    return EncryptionContractConfiguration(
-      presetSpeke20Audio: PresetSpeke20Audio.fromString(
-          (json['presetSpeke20Audio'] as String?) ?? ''),
-      presetSpeke20Video: PresetSpeke20Video.fromString(
-          (json['presetSpeke20Video'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final presetSpeke20Audio = this.presetSpeke20Audio;
-    final presetSpeke20Video = this.presetSpeke20Video;
-    return {
-      'presetSpeke20Audio': presetSpeke20Audio.value,
-      'presetSpeke20Video': presetSpeke20Video.value,
-    };
-  }
-}
-
-class EncryptionMethod {
-  static const aes_128 = EncryptionMethod._('AES_128');
-  static const sampleAes = EncryptionMethod._('SAMPLE_AES');
-
-  final String value;
-
-  const EncryptionMethod._(this.value);
-
-  static const values = [aes_128, sampleAes];
-
-  static EncryptionMethod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionMethod._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionMethod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An HTTP Live Streaming (HLS) encryption configuration.
-class HlsEncryption {
-  final SpekeKeyProvider spekeKeyProvider;
-
-  /// A constant initialization vector for encryption (optional).
-  /// When not specified the initialization vector will be periodically rotated.
-  final String? constantInitializationVector;
-
-  /// The encryption method to use.
-  final EncryptionMethod? encryptionMethod;
-
-  HlsEncryption({
-    required this.spekeKeyProvider,
-    this.constantInitializationVector,
-    this.encryptionMethod,
-  });
-
-  factory HlsEncryption.fromJson(Map<String, dynamic> json) {
-    return HlsEncryption(
-      spekeKeyProvider: SpekeKeyProvider.fromJson(
-          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      constantInitializationVector:
-          json['constantInitializationVector'] as String?,
-      encryptionMethod: (json['encryptionMethod'] as String?)
-          ?.let(EncryptionMethod.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final spekeKeyProvider = this.spekeKeyProvider;
-    final constantInitializationVector = this.constantInitializationVector;
-    final encryptionMethod = this.encryptionMethod;
-    return {
-      'spekeKeyProvider': spekeKeyProvider,
-      if (constantInitializationVector != null)
-        'constantInitializationVector': constantInitializationVector,
-      if (encryptionMethod != null) 'encryptionMethod': encryptionMethod.value,
-    };
-  }
-}
-
-/// An HTTP Live Streaming (HLS) manifest configuration.
-class HlsManifest {
-  /// This setting controls how ad markers are included in the packaged
-  /// OriginEndpoint.
-  /// "NONE" will omit all SCTE-35 ad markers from the output.
-  /// "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad
-  /// markers (comments) taken directly from the input HTTP Live Streaming (HLS)
-  /// manifest.
-  /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
-  /// messages in the input source.
-  final AdMarkers? adMarkers;
-
-  /// When enabled, an I-Frame only stream will be included in the output.
-  final bool? includeIframeOnlyStream;
-
-  /// An optional string to include in the name of the manifest.
-  final String? manifestName;
-
-  /// The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag
-  /// inserted into manifests. Additionally, when an interval is specified
-  /// ID3Timed Metadata messages will be generated every 5 seconds using the
-  /// ingest time of the content.
-  /// If the interval is not specified, or set to 0, then
-  /// no EXT-X-PROGRAM-DATE-TIME tags will be inserted into manifests and no
-  /// ID3Timed Metadata messages will be generated. Note that irrespective
-  /// of this parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming
-  /// (HLS) input,
-  /// it will be passed through to HLS output.
-  final int? programDateTimeIntervalSeconds;
-
-  /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
-  final bool? repeatExtXKey;
-  final StreamSelection? streamSelection;
-
-  HlsManifest({
-    this.adMarkers,
-    this.includeIframeOnlyStream,
-    this.manifestName,
-    this.programDateTimeIntervalSeconds,
-    this.repeatExtXKey,
-    this.streamSelection,
-  });
-
-  factory HlsManifest.fromJson(Map<String, dynamic> json) {
-    return HlsManifest(
-      adMarkers: (json['adMarkers'] as String?)?.let(AdMarkers.fromString),
-      includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
-      manifestName: json['manifestName'] as String?,
-      programDateTimeIntervalSeconds:
-          json['programDateTimeIntervalSeconds'] as int?,
-      repeatExtXKey: json['repeatExtXKey'] as bool?,
-      streamSelection: json['streamSelection'] != null
-          ? StreamSelection.fromJson(
-              json['streamSelection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adMarkers = this.adMarkers;
-    final includeIframeOnlyStream = this.includeIframeOnlyStream;
-    final manifestName = this.manifestName;
-    final programDateTimeIntervalSeconds = this.programDateTimeIntervalSeconds;
-    final repeatExtXKey = this.repeatExtXKey;
-    final streamSelection = this.streamSelection;
-    return {
-      if (adMarkers != null) 'adMarkers': adMarkers.value,
-      if (includeIframeOnlyStream != null)
-        'includeIframeOnlyStream': includeIframeOnlyStream,
-      if (manifestName != null) 'manifestName': manifestName,
-      if (programDateTimeIntervalSeconds != null)
-        'programDateTimeIntervalSeconds': programDateTimeIntervalSeconds,
-      if (repeatExtXKey != null) 'repeatExtXKey': repeatExtXKey,
-      if (streamSelection != null) 'streamSelection': streamSelection,
-    };
-  }
-}
-
-/// An HTTP Live Streaming (HLS) packaging configuration.
-class HlsPackage {
-  /// A list of HLS manifest configurations.
-  final List<HlsManifest> hlsManifests;
-  final HlsEncryption? encryption;
-
-  /// When enabled, MediaPackage passes through digital video broadcasting (DVB)
-  /// subtitles into the output.
-  final bool? includeDvbSubtitles;
-
-  /// Duration (in seconds) of each fragment. Actual fragments will be
-  /// rounded to the nearest multiple of the source fragment duration.
-  final int? segmentDurationSeconds;
-
-  /// When enabled, audio streams will be placed in rendition groups in the
-  /// output.
-  final bool? useAudioRenditionGroup;
-
-  HlsPackage({
-    required this.hlsManifests,
-    this.encryption,
-    this.includeDvbSubtitles,
-    this.segmentDurationSeconds,
-    this.useAudioRenditionGroup,
-  });
-
-  factory HlsPackage.fromJson(Map<String, dynamic> json) {
-    return HlsPackage(
-      hlsManifests: ((json['hlsManifests'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      encryption: json['encryption'] != null
-          ? HlsEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
-          : null,
-      includeDvbSubtitles: json['includeDvbSubtitles'] as bool?,
-      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
-      useAudioRenditionGroup: json['useAudioRenditionGroup'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hlsManifests = this.hlsManifests;
-    final encryption = this.encryption;
-    final includeDvbSubtitles = this.includeDvbSubtitles;
-    final segmentDurationSeconds = this.segmentDurationSeconds;
-    final useAudioRenditionGroup = this.useAudioRenditionGroup;
-    return {
-      'hlsManifests': hlsManifests,
-      if (encryption != null) 'encryption': encryption,
-      if (includeDvbSubtitles != null)
-        'includeDvbSubtitles': includeDvbSubtitles,
-      if (segmentDurationSeconds != null)
-        'segmentDurationSeconds': segmentDurationSeconds,
-      if (useAudioRenditionGroup != null)
-        'useAudioRenditionGroup': useAudioRenditionGroup,
-    };
-  }
-}
-
 class ListAssetsResponse {
   /// A list of MediaPackage VOD Asset resources.
   final List<AssetShallow>? assets;
@@ -1956,122 +1235,204 @@ class ListTagsForResourceResponse {
   }
 }
 
-class ManifestLayout {
-  static const full = ManifestLayout._('FULL');
-  static const compact = ManifestLayout._('COMPACT');
+class UpdatePackagingGroupResponse {
+  /// The approximate asset count of the PackagingGroup.
+  final int? approximateAssetCount;
 
-  final String value;
+  /// The ARN of the PackagingGroup.
+  final String? arn;
+  final Authorization? authorization;
 
-  const ManifestLayout._(this.value);
+  /// The time the PackagingGroup was created.
+  final String? createdAt;
 
-  static const values = [full, compact];
+  /// The fully qualified domain name for Assets in the PackagingGroup.
+  final String? domainName;
+  final EgressAccessLogs? egressAccessLogs;
 
-  static ManifestLayout fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ManifestLayout._(value));
+  /// The ID of the PackagingGroup.
+  final String? id;
+  final Map<String, String>? tags;
 
-  @override
-  bool operator ==(other) => other is ManifestLayout && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A Microsoft Smooth Streaming (MSS) encryption configuration.
-class MssEncryption {
-  final SpekeKeyProvider spekeKeyProvider;
-
-  MssEncryption({
-    required this.spekeKeyProvider,
+  UpdatePackagingGroupResponse({
+    this.approximateAssetCount,
+    this.arn,
+    this.authorization,
+    this.createdAt,
+    this.domainName,
+    this.egressAccessLogs,
+    this.id,
+    this.tags,
   });
 
-  factory MssEncryption.fromJson(Map<String, dynamic> json) {
-    return MssEncryption(
-      spekeKeyProvider: SpekeKeyProvider.fromJson(
-          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+  factory UpdatePackagingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePackagingGroupResponse(
+      approximateAssetCount: json['approximateAssetCount'] as int?,
+      arn: json['arn'] as String?,
+      authorization: json['authorization'] != null
+          ? Authorization.fromJson(
+              json['authorization'] as Map<String, dynamic>)
+          : null,
+      createdAt: json['createdAt'] as String?,
+      domainName: json['domainName'] as String?,
+      egressAccessLogs: json['egressAccessLogs'] != null
+          ? EgressAccessLogs.fromJson(
+              json['egressAccessLogs'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final spekeKeyProvider = this.spekeKeyProvider;
+    final approximateAssetCount = this.approximateAssetCount;
+    final arn = this.arn;
+    final authorization = this.authorization;
+    final createdAt = this.createdAt;
+    final domainName = this.domainName;
+    final egressAccessLogs = this.egressAccessLogs;
+    final id = this.id;
+    final tags = this.tags;
     return {
-      'spekeKeyProvider': spekeKeyProvider,
+      if (approximateAssetCount != null)
+        'approximateAssetCount': approximateAssetCount,
+      if (arn != null) 'arn': arn,
+      if (authorization != null) 'authorization': authorization,
+      if (createdAt != null) 'createdAt': createdAt,
+      if (domainName != null) 'domainName': domainName,
+      if (egressAccessLogs != null) 'egressAccessLogs': egressAccessLogs,
+      if (id != null) 'id': id,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-/// A Microsoft Smooth Streaming (MSS) manifest configuration.
-class MssManifest {
-  /// An optional string to include in the name of the manifest.
-  final String? manifestName;
-  final StreamSelection? streamSelection;
+/// CDN Authorization credentials
+class Authorization {
+  /// The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is
+  /// used for CDN authorization.
+  final String cdnIdentifierSecret;
 
-  MssManifest({
-    this.manifestName,
-    this.streamSelection,
+  /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to
+  /// communicate with AWS Secrets Manager.
+  final String secretsRoleArn;
+
+  Authorization({
+    required this.cdnIdentifierSecret,
+    required this.secretsRoleArn,
   });
 
-  factory MssManifest.fromJson(Map<String, dynamic> json) {
-    return MssManifest(
-      manifestName: json['manifestName'] as String?,
-      streamSelection: json['streamSelection'] != null
-          ? StreamSelection.fromJson(
-              json['streamSelection'] as Map<String, dynamic>)
-          : null,
+  factory Authorization.fromJson(Map<String, dynamic> json) {
+    return Authorization(
+      cdnIdentifierSecret: (json['cdnIdentifierSecret'] as String?) ?? '',
+      secretsRoleArn: (json['secretsRoleArn'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final manifestName = this.manifestName;
-    final streamSelection = this.streamSelection;
+    final cdnIdentifierSecret = this.cdnIdentifierSecret;
+    final secretsRoleArn = this.secretsRoleArn;
     return {
-      if (manifestName != null) 'manifestName': manifestName,
-      if (streamSelection != null) 'streamSelection': streamSelection,
+      'cdnIdentifierSecret': cdnIdentifierSecret,
+      'secretsRoleArn': secretsRoleArn,
     };
   }
 }
 
-/// A Microsoft Smooth Streaming (MSS) PackagingConfiguration.
-class MssPackage {
-  /// A list of MSS manifest configurations.
-  final List<MssManifest> mssManifests;
-  final MssEncryption? encryption;
+/// Configure egress access logging.
+class EgressAccessLogs {
+  /// Customize the log group name.
+  final String? logGroupName;
 
-  /// The duration (in seconds) of each segment.
-  final int? segmentDurationSeconds;
-
-  MssPackage({
-    required this.mssManifests,
-    this.encryption,
-    this.segmentDurationSeconds,
+  EgressAccessLogs({
+    this.logGroupName,
   });
 
-  factory MssPackage.fromJson(Map<String, dynamic> json) {
-    return MssPackage(
-      mssManifests: ((json['mssManifests'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => MssManifest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      encryption: json['encryption'] != null
-          ? MssEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
-          : null,
-      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+  factory EgressAccessLogs.fromJson(Map<String, dynamic> json) {
+    return EgressAccessLogs(
+      logGroupName: json['logGroupName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final mssManifests = this.mssManifests;
-    final encryption = this.encryption;
-    final segmentDurationSeconds = this.segmentDurationSeconds;
+    final logGroupName = this.logGroupName;
     return {
-      'mssManifests': mssManifests,
-      if (encryption != null) 'encryption': encryption,
-      if (segmentDurationSeconds != null)
-        'segmentDurationSeconds': segmentDurationSeconds,
+      if (logGroupName != null) 'logGroupName': logGroupName,
+    };
+  }
+}
+
+/// A MediaPackage VOD PackagingGroup resource.
+class PackagingGroup {
+  /// The approximate asset count of the PackagingGroup.
+  final int? approximateAssetCount;
+
+  /// The ARN of the PackagingGroup.
+  final String? arn;
+  final Authorization? authorization;
+
+  /// The time the PackagingGroup was created.
+  final String? createdAt;
+
+  /// The fully qualified domain name for Assets in the PackagingGroup.
+  final String? domainName;
+  final EgressAccessLogs? egressAccessLogs;
+
+  /// The ID of the PackagingGroup.
+  final String? id;
+  final Map<String, String>? tags;
+
+  PackagingGroup({
+    this.approximateAssetCount,
+    this.arn,
+    this.authorization,
+    this.createdAt,
+    this.domainName,
+    this.egressAccessLogs,
+    this.id,
+    this.tags,
+  });
+
+  factory PackagingGroup.fromJson(Map<String, dynamic> json) {
+    return PackagingGroup(
+      approximateAssetCount: json['approximateAssetCount'] as int?,
+      arn: json['arn'] as String?,
+      authorization: json['authorization'] != null
+          ? Authorization.fromJson(
+              json['authorization'] as Map<String, dynamic>)
+          : null,
+      createdAt: json['createdAt'] as String?,
+      domainName: json['domainName'] as String?,
+      egressAccessLogs: json['egressAccessLogs'] != null
+          ? EgressAccessLogs.fromJson(
+              json['egressAccessLogs'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateAssetCount = this.approximateAssetCount;
+    final arn = this.arn;
+    final authorization = this.authorization;
+    final createdAt = this.createdAt;
+    final domainName = this.domainName;
+    final egressAccessLogs = this.egressAccessLogs;
+    final id = this.id;
+    final tags = this.tags;
+    return {
+      if (approximateAssetCount != null)
+        'approximateAssetCount': approximateAssetCount,
+      if (arn != null) 'arn': arn,
+      if (authorization != null) 'authorization': authorization,
+      if (createdAt != null) 'createdAt': createdAt,
+      if (domainName != null) 'domainName': domainName,
+      if (egressAccessLogs != null) 'egressAccessLogs': egressAccessLogs,
+      if (id != null) 'id': id,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -2154,76 +1515,472 @@ class PackagingConfiguration {
   }
 }
 
-/// A MediaPackage VOD PackagingGroup resource.
-class PackagingGroup {
-  /// The approximate asset count of the PackagingGroup.
-  final int? approximateAssetCount;
+/// A CMAF packaging configuration.
+class CmafPackage {
+  /// A list of HLS manifest configurations.
+  final List<HlsManifest> hlsManifests;
+  final CmafEncryption? encryption;
 
-  /// The ARN of the PackagingGroup.
-  final String? arn;
-  final Authorization? authorization;
+  /// When includeEncoderConfigurationInSegments is set to true, MediaPackage
+  /// places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set
+  /// (PPS), and Video Parameter Set (VPS) metadata in every video segment instead
+  /// of in the init fragment. This lets you use different SPS/PPS/VPS settings
+  /// for your assets during content playback.
+  final bool? includeEncoderConfigurationInSegments;
 
-  /// The time the PackagingGroup was created.
-  final String? createdAt;
+  /// Duration (in seconds) of each fragment. Actual fragments will be rounded to
+  /// the nearest multiple of the source fragment duration.
+  final int? segmentDurationSeconds;
 
-  /// The fully qualified domain name for Assets in the PackagingGroup.
-  final String? domainName;
-  final EgressAccessLogs? egressAccessLogs;
-
-  /// The ID of the PackagingGroup.
-  final String? id;
-  final Map<String, String>? tags;
-
-  PackagingGroup({
-    this.approximateAssetCount,
-    this.arn,
-    this.authorization,
-    this.createdAt,
-    this.domainName,
-    this.egressAccessLogs,
-    this.id,
-    this.tags,
+  CmafPackage({
+    required this.hlsManifests,
+    this.encryption,
+    this.includeEncoderConfigurationInSegments,
+    this.segmentDurationSeconds,
   });
 
-  factory PackagingGroup.fromJson(Map<String, dynamic> json) {
-    return PackagingGroup(
-      approximateAssetCount: json['approximateAssetCount'] as int?,
-      arn: json['arn'] as String?,
-      authorization: json['authorization'] != null
-          ? Authorization.fromJson(
-              json['authorization'] as Map<String, dynamic>)
+  factory CmafPackage.fromJson(Map<String, dynamic> json) {
+    return CmafPackage(
+      hlsManifests: ((json['hlsManifests'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['encryption'] != null
+          ? CmafEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
           : null,
-      createdAt: json['createdAt'] as String?,
-      domainName: json['domainName'] as String?,
-      egressAccessLogs: json['egressAccessLogs'] != null
-          ? EgressAccessLogs.fromJson(
-              json['egressAccessLogs'] as Map<String, dynamic>)
-          : null,
-      id: json['id'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+      includeEncoderConfigurationInSegments:
+          json['includeEncoderConfigurationInSegments'] as bool?,
+      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final approximateAssetCount = this.approximateAssetCount;
-    final arn = this.arn;
-    final authorization = this.authorization;
-    final createdAt = this.createdAt;
-    final domainName = this.domainName;
-    final egressAccessLogs = this.egressAccessLogs;
-    final id = this.id;
-    final tags = this.tags;
+    final hlsManifests = this.hlsManifests;
+    final encryption = this.encryption;
+    final includeEncoderConfigurationInSegments =
+        this.includeEncoderConfigurationInSegments;
+    final segmentDurationSeconds = this.segmentDurationSeconds;
     return {
-      if (approximateAssetCount != null)
-        'approximateAssetCount': approximateAssetCount,
-      if (arn != null) 'arn': arn,
-      if (authorization != null) 'authorization': authorization,
-      if (createdAt != null) 'createdAt': createdAt,
-      if (domainName != null) 'domainName': domainName,
-      if (egressAccessLogs != null) 'egressAccessLogs': egressAccessLogs,
-      if (id != null) 'id': id,
-      if (tags != null) 'tags': tags,
+      'hlsManifests': hlsManifests,
+      if (encryption != null) 'encryption': encryption,
+      if (includeEncoderConfigurationInSegments != null)
+        'includeEncoderConfigurationInSegments':
+            includeEncoderConfigurationInSegments,
+      if (segmentDurationSeconds != null)
+        'segmentDurationSeconds': segmentDurationSeconds,
+    };
+  }
+}
+
+/// A Dynamic Adaptive Streaming over HTTP (DASH) packaging configuration.
+class DashPackage {
+  /// A list of DASH manifest configurations.
+  final List<DashManifest> dashManifests;
+  final DashEncryption? encryption;
+
+  /// When includeEncoderConfigurationInSegments is set to true, MediaPackage
+  /// places your encoder's Sequence Parameter Set (SPS), Picture Parameter Set
+  /// (PPS), and Video Parameter Set (VPS) metadata in every video segment instead
+  /// of in the init fragment. This lets you use different SPS/PPS/VPS settings
+  /// for your assets during content playback.
+  final bool? includeEncoderConfigurationInSegments;
+
+  /// When enabled, an I-Frame only stream will be included in the output.
+  final bool? includeIframeOnlyStream;
+
+  /// A list of triggers that controls when the outgoing Dynamic Adaptive
+  /// Streaming over HTTP (DASH) Media Presentation Description (MPD) will be
+  /// partitioned into multiple periods. If empty, the content will not be
+  /// partitioned into more than one period. If the list contains "ADS", new
+  /// periods will be created where the Asset contains SCTE-35 ad markers.
+  final List<PeriodTriggersElement>? periodTriggers;
+
+  /// Duration (in seconds) of each segment. Actual segments will be rounded to
+  /// the nearest multiple of the source segment duration.
+  final int? segmentDurationSeconds;
+
+  /// Determines the type of SegmentTemplate included in the Media Presentation
+  /// Description (MPD). When set to NUMBER_WITH_TIMELINE, a full timeline is
+  /// presented in each SegmentTemplate, with $Number$ media URLs. When set to
+  /// TIME_WITH_TIMELINE, a full timeline is presented in each SegmentTemplate,
+  /// with $Time$ media URLs. When set to NUMBER_WITH_DURATION, only a duration is
+  /// included in each SegmentTemplate, with $Number$ media URLs.
+  final SegmentTemplateFormat? segmentTemplateFormat;
+
+  DashPackage({
+    required this.dashManifests,
+    this.encryption,
+    this.includeEncoderConfigurationInSegments,
+    this.includeIframeOnlyStream,
+    this.periodTriggers,
+    this.segmentDurationSeconds,
+    this.segmentTemplateFormat,
+  });
+
+  factory DashPackage.fromJson(Map<String, dynamic> json) {
+    return DashPackage(
+      dashManifests: ((json['dashManifests'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DashManifest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['encryption'] != null
+          ? DashEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      includeEncoderConfigurationInSegments:
+          json['includeEncoderConfigurationInSegments'] as bool?,
+      includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
+      periodTriggers: (json['periodTriggers'] as List?)
+          ?.nonNulls
+          .map((e) => PeriodTriggersElement.fromString((e as String)))
+          .toList(),
+      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+      segmentTemplateFormat: (json['segmentTemplateFormat'] as String?)
+          ?.let(SegmentTemplateFormat.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashManifests = this.dashManifests;
+    final encryption = this.encryption;
+    final includeEncoderConfigurationInSegments =
+        this.includeEncoderConfigurationInSegments;
+    final includeIframeOnlyStream = this.includeIframeOnlyStream;
+    final periodTriggers = this.periodTriggers;
+    final segmentDurationSeconds = this.segmentDurationSeconds;
+    final segmentTemplateFormat = this.segmentTemplateFormat;
+    return {
+      'dashManifests': dashManifests,
+      if (encryption != null) 'encryption': encryption,
+      if (includeEncoderConfigurationInSegments != null)
+        'includeEncoderConfigurationInSegments':
+            includeEncoderConfigurationInSegments,
+      if (includeIframeOnlyStream != null)
+        'includeIframeOnlyStream': includeIframeOnlyStream,
+      if (periodTriggers != null)
+        'periodTriggers': periodTriggers.map((e) => e.value).toList(),
+      if (segmentDurationSeconds != null)
+        'segmentDurationSeconds': segmentDurationSeconds,
+      if (segmentTemplateFormat != null)
+        'segmentTemplateFormat': segmentTemplateFormat.value,
+    };
+  }
+}
+
+/// An HTTP Live Streaming (HLS) packaging configuration.
+class HlsPackage {
+  /// A list of HLS manifest configurations.
+  final List<HlsManifest> hlsManifests;
+  final HlsEncryption? encryption;
+
+  /// When enabled, MediaPackage passes through digital video broadcasting (DVB)
+  /// subtitles into the output.
+  final bool? includeDvbSubtitles;
+
+  /// Duration (in seconds) of each fragment. Actual fragments will be rounded to
+  /// the nearest multiple of the source fragment duration.
+  final int? segmentDurationSeconds;
+
+  /// When enabled, audio streams will be placed in rendition groups in the
+  /// output.
+  final bool? useAudioRenditionGroup;
+
+  HlsPackage({
+    required this.hlsManifests,
+    this.encryption,
+    this.includeDvbSubtitles,
+    this.segmentDurationSeconds,
+    this.useAudioRenditionGroup,
+  });
+
+  factory HlsPackage.fromJson(Map<String, dynamic> json) {
+    return HlsPackage(
+      hlsManifests: ((json['hlsManifests'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HlsManifest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['encryption'] != null
+          ? HlsEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      includeDvbSubtitles: json['includeDvbSubtitles'] as bool?,
+      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+      useAudioRenditionGroup: json['useAudioRenditionGroup'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hlsManifests = this.hlsManifests;
+    final encryption = this.encryption;
+    final includeDvbSubtitles = this.includeDvbSubtitles;
+    final segmentDurationSeconds = this.segmentDurationSeconds;
+    final useAudioRenditionGroup = this.useAudioRenditionGroup;
+    return {
+      'hlsManifests': hlsManifests,
+      if (encryption != null) 'encryption': encryption,
+      if (includeDvbSubtitles != null)
+        'includeDvbSubtitles': includeDvbSubtitles,
+      if (segmentDurationSeconds != null)
+        'segmentDurationSeconds': segmentDurationSeconds,
+      if (useAudioRenditionGroup != null)
+        'useAudioRenditionGroup': useAudioRenditionGroup,
+    };
+  }
+}
+
+/// A Microsoft Smooth Streaming (MSS) PackagingConfiguration.
+class MssPackage {
+  /// A list of MSS manifest configurations.
+  final List<MssManifest> mssManifests;
+  final MssEncryption? encryption;
+
+  /// The duration (in seconds) of each segment.
+  final int? segmentDurationSeconds;
+
+  MssPackage({
+    required this.mssManifests,
+    this.encryption,
+    this.segmentDurationSeconds,
+  });
+
+  factory MssPackage.fromJson(Map<String, dynamic> json) {
+    return MssPackage(
+      mssManifests: ((json['mssManifests'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => MssManifest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['encryption'] != null
+          ? MssEncryption.fromJson(json['encryption'] as Map<String, dynamic>)
+          : null,
+      segmentDurationSeconds: json['segmentDurationSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mssManifests = this.mssManifests;
+    final encryption = this.encryption;
+    final segmentDurationSeconds = this.segmentDurationSeconds;
+    return {
+      'mssManifests': mssManifests,
+      if (encryption != null) 'encryption': encryption,
+      if (segmentDurationSeconds != null)
+        'segmentDurationSeconds': segmentDurationSeconds,
+    };
+  }
+}
+
+/// A Microsoft Smooth Streaming (MSS) encryption configuration.
+class MssEncryption {
+  final SpekeKeyProvider spekeKeyProvider;
+
+  MssEncryption({
+    required this.spekeKeyProvider,
+  });
+
+  factory MssEncryption.fromJson(Map<String, dynamic> json) {
+    return MssEncryption(
+      spekeKeyProvider: SpekeKeyProvider.fromJson(
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final spekeKeyProvider = this.spekeKeyProvider;
+    return {
+      'spekeKeyProvider': spekeKeyProvider,
+    };
+  }
+}
+
+/// A Microsoft Smooth Streaming (MSS) manifest configuration.
+class MssManifest {
+  /// An optional string to include in the name of the manifest.
+  final String? manifestName;
+  final StreamSelection? streamSelection;
+
+  MssManifest({
+    this.manifestName,
+    this.streamSelection,
+  });
+
+  factory MssManifest.fromJson(Map<String, dynamic> json) {
+    return MssManifest(
+      manifestName: json['manifestName'] as String?,
+      streamSelection: json['streamSelection'] != null
+          ? StreamSelection.fromJson(
+              json['streamSelection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final manifestName = this.manifestName;
+    final streamSelection = this.streamSelection;
+    return {
+      if (manifestName != null) 'manifestName': manifestName,
+      if (streamSelection != null) 'streamSelection': streamSelection,
+    };
+  }
+}
+
+/// A StreamSelection configuration.
+class StreamSelection {
+  /// The maximum video bitrate (bps) to include in output.
+  final int? maxVideoBitsPerSecond;
+
+  /// The minimum video bitrate (bps) to include in output.
+  final int? minVideoBitsPerSecond;
+
+  /// A directive that determines the order of streams in the output.
+  final StreamOrder? streamOrder;
+
+  StreamSelection({
+    this.maxVideoBitsPerSecond,
+    this.minVideoBitsPerSecond,
+    this.streamOrder,
+  });
+
+  factory StreamSelection.fromJson(Map<String, dynamic> json) {
+    return StreamSelection(
+      maxVideoBitsPerSecond: json['maxVideoBitsPerSecond'] as int?,
+      minVideoBitsPerSecond: json['minVideoBitsPerSecond'] as int?,
+      streamOrder:
+          (json['streamOrder'] as String?)?.let(StreamOrder.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxVideoBitsPerSecond = this.maxVideoBitsPerSecond;
+    final minVideoBitsPerSecond = this.minVideoBitsPerSecond;
+    final streamOrder = this.streamOrder;
+    return {
+      if (maxVideoBitsPerSecond != null)
+        'maxVideoBitsPerSecond': maxVideoBitsPerSecond,
+      if (minVideoBitsPerSecond != null)
+        'minVideoBitsPerSecond': minVideoBitsPerSecond,
+      if (streamOrder != null) 'streamOrder': streamOrder.value,
+    };
+  }
+}
+
+class StreamOrder {
+  static const original = StreamOrder._('ORIGINAL');
+  static const videoBitrateAscending = StreamOrder._('VIDEO_BITRATE_ASCENDING');
+  static const videoBitrateDescending =
+      StreamOrder._('VIDEO_BITRATE_DESCENDING');
+
+  final String value;
+
+  const StreamOrder._(this.value);
+
+  static const values = [
+    original,
+    videoBitrateAscending,
+    videoBitrateDescending
+  ];
+
+  static StreamOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamOrder._(value));
+
+  @override
+  bool operator ==(other) => other is StreamOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A configuration for accessing an external Secure Packager and Encoder Key
+/// Exchange (SPEKE) service that will provide encryption keys.
+class SpekeKeyProvider {
+  /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental MediaPackage
+  /// will assume when accessing the key provider service.
+  final String roleArn;
+
+  /// The system IDs to include in key requests.
+  final List<String> systemIds;
+
+  /// The URL of the external key provider service.
+  final String url;
+  final EncryptionContractConfiguration? encryptionContractConfiguration;
+
+  SpekeKeyProvider({
+    required this.roleArn,
+    required this.systemIds,
+    required this.url,
+    this.encryptionContractConfiguration,
+  });
+
+  factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
+    return SpekeKeyProvider(
+      roleArn: (json['roleArn'] as String?) ?? '',
+      systemIds: ((json['systemIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      url: (json['url'] as String?) ?? '',
+      encryptionContractConfiguration:
+          json['encryptionContractConfiguration'] != null
+              ? EncryptionContractConfiguration.fromJson(
+                  json['encryptionContractConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final systemIds = this.systemIds;
+    final url = this.url;
+    final encryptionContractConfiguration =
+        this.encryptionContractConfiguration;
+    return {
+      'roleArn': roleArn,
+      'systemIds': systemIds,
+      'url': url,
+      if (encryptionContractConfiguration != null)
+        'encryptionContractConfiguration': encryptionContractConfiguration,
+    };
+  }
+}
+
+/// Use encryptionContractConfiguration to configure one or more content
+/// encryption keys for your endpoints that use SPEKE 2.0. The encryption
+/// contract defines which content keys are used to encrypt the audio and video
+/// tracks in your stream. To configure the encryption contract, specify which
+/// audio and video encryption presets to use. Note the following considerations
+/// when using encryptionContractConfiguration: encryptionContractConfiguration
+/// can be used for DASH endpoints that use SPEKE 2.0. SPEKE 2.0 relies on the
+/// CPIX 2.3 specification. You must disable key rotation for this endpoint by
+/// setting keyRotationIntervalSeconds to 0.
+class EncryptionContractConfiguration {
+  /// A collection of audio encryption presets.
+  final PresetSpeke20Audio presetSpeke20Audio;
+
+  /// A collection of video encryption presets.
+  final PresetSpeke20Video presetSpeke20Video;
+
+  EncryptionContractConfiguration({
+    required this.presetSpeke20Audio,
+    required this.presetSpeke20Video,
+  });
+
+  factory EncryptionContractConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionContractConfiguration(
+      presetSpeke20Audio: PresetSpeke20Audio.fromString(
+          (json['presetSpeke20Audio'] as String?) ?? ''),
+      presetSpeke20Video: PresetSpeke20Video.fromString(
+          (json['presetSpeke20Video'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final presetSpeke20Audio = this.presetSpeke20Audio;
+    final presetSpeke20Video = this.presetSpeke20Video;
+    return {
+      'presetSpeke20Audio': presetSpeke20Audio.value,
+      'presetSpeke20Video': presetSpeke20Video.value,
     };
   }
 }
@@ -2306,6 +2063,344 @@ class PresetSpeke20Video {
   String toString() => value;
 }
 
+/// An HTTP Live Streaming (HLS) encryption configuration.
+class HlsEncryption {
+  final SpekeKeyProvider spekeKeyProvider;
+
+  /// A constant initialization vector for encryption (optional). When not
+  /// specified the initialization vector will be periodically rotated.
+  final String? constantInitializationVector;
+
+  /// The encryption method to use.
+  final EncryptionMethod? encryptionMethod;
+
+  HlsEncryption({
+    required this.spekeKeyProvider,
+    this.constantInitializationVector,
+    this.encryptionMethod,
+  });
+
+  factory HlsEncryption.fromJson(Map<String, dynamic> json) {
+    return HlsEncryption(
+      spekeKeyProvider: SpekeKeyProvider.fromJson(
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      constantInitializationVector:
+          json['constantInitializationVector'] as String?,
+      encryptionMethod: (json['encryptionMethod'] as String?)
+          ?.let(EncryptionMethod.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final spekeKeyProvider = this.spekeKeyProvider;
+    final constantInitializationVector = this.constantInitializationVector;
+    final encryptionMethod = this.encryptionMethod;
+    return {
+      'spekeKeyProvider': spekeKeyProvider,
+      if (constantInitializationVector != null)
+        'constantInitializationVector': constantInitializationVector,
+      if (encryptionMethod != null) 'encryptionMethod': encryptionMethod.value,
+    };
+  }
+}
+
+/// An HTTP Live Streaming (HLS) manifest configuration.
+class HlsManifest {
+  /// This setting controls how ad markers are included in the packaged
+  /// OriginEndpoint. "NONE" will omit all SCTE-35 ad markers from the output.
+  /// "PASSTHROUGH" causes the manifest to contain a copy of the SCTE-35 ad
+  /// markers (comments) taken directly from the input HTTP Live Streaming (HLS)
+  /// manifest. "SCTE35_ENHANCED" generates ad markers and blackout tags based on
+  /// SCTE-35 messages in the input source.
+  final AdMarkers? adMarkers;
+
+  /// When enabled, an I-Frame only stream will be included in the output.
+  final bool? includeIframeOnlyStream;
+
+  /// An optional string to include in the name of the manifest.
+  final String? manifestName;
+
+  /// The interval (in seconds) between each EXT-X-PROGRAM-DATE-TIME tag inserted
+  /// into manifests. Additionally, when an interval is specified ID3Timed
+  /// Metadata messages will be generated every 5 seconds using the ingest time of
+  /// the content. If the interval is not specified, or set to 0, then no
+  /// EXT-X-PROGRAM-DATE-TIME tags will be inserted into manifests and no ID3Timed
+  /// Metadata messages will be generated. Note that irrespective of this
+  /// parameter, if any ID3 Timed Metadata is found in HTTP Live Streaming (HLS)
+  /// input, it will be passed through to HLS output.
+  final int? programDateTimeIntervalSeconds;
+
+  /// When enabled, the EXT-X-KEY tag will be repeated in output manifests.
+  final bool? repeatExtXKey;
+  final StreamSelection? streamSelection;
+
+  HlsManifest({
+    this.adMarkers,
+    this.includeIframeOnlyStream,
+    this.manifestName,
+    this.programDateTimeIntervalSeconds,
+    this.repeatExtXKey,
+    this.streamSelection,
+  });
+
+  factory HlsManifest.fromJson(Map<String, dynamic> json) {
+    return HlsManifest(
+      adMarkers: (json['adMarkers'] as String?)?.let(AdMarkers.fromString),
+      includeIframeOnlyStream: json['includeIframeOnlyStream'] as bool?,
+      manifestName: json['manifestName'] as String?,
+      programDateTimeIntervalSeconds:
+          json['programDateTimeIntervalSeconds'] as int?,
+      repeatExtXKey: json['repeatExtXKey'] as bool?,
+      streamSelection: json['streamSelection'] != null
+          ? StreamSelection.fromJson(
+              json['streamSelection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adMarkers = this.adMarkers;
+    final includeIframeOnlyStream = this.includeIframeOnlyStream;
+    final manifestName = this.manifestName;
+    final programDateTimeIntervalSeconds = this.programDateTimeIntervalSeconds;
+    final repeatExtXKey = this.repeatExtXKey;
+    final streamSelection = this.streamSelection;
+    return {
+      if (adMarkers != null) 'adMarkers': adMarkers.value,
+      if (includeIframeOnlyStream != null)
+        'includeIframeOnlyStream': includeIframeOnlyStream,
+      if (manifestName != null) 'manifestName': manifestName,
+      if (programDateTimeIntervalSeconds != null)
+        'programDateTimeIntervalSeconds': programDateTimeIntervalSeconds,
+      if (repeatExtXKey != null) 'repeatExtXKey': repeatExtXKey,
+      if (streamSelection != null) 'streamSelection': streamSelection,
+    };
+  }
+}
+
+class AdMarkers {
+  static const none = AdMarkers._('NONE');
+  static const scte35Enhanced = AdMarkers._('SCTE35_ENHANCED');
+  static const passthrough = AdMarkers._('PASSTHROUGH');
+
+  final String value;
+
+  const AdMarkers._(this.value);
+
+  static const values = [none, scte35Enhanced, passthrough];
+
+  static AdMarkers fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AdMarkers._(value));
+
+  @override
+  bool operator ==(other) => other is AdMarkers && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EncryptionMethod {
+  static const aes_128 = EncryptionMethod._('AES_128');
+  static const sampleAes = EncryptionMethod._('SAMPLE_AES');
+
+  final String value;
+
+  const EncryptionMethod._(this.value);
+
+  static const values = [aes_128, sampleAes];
+
+  static EncryptionMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionMethod._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A Dynamic Adaptive Streaming over HTTP (DASH) encryption configuration.
+class DashEncryption {
+  final SpekeKeyProvider spekeKeyProvider;
+
+  DashEncryption({
+    required this.spekeKeyProvider,
+  });
+
+  factory DashEncryption.fromJson(Map<String, dynamic> json) {
+    return DashEncryption(
+      spekeKeyProvider: SpekeKeyProvider.fromJson(
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final spekeKeyProvider = this.spekeKeyProvider;
+    return {
+      'spekeKeyProvider': spekeKeyProvider,
+    };
+  }
+}
+
+class SegmentTemplateFormat {
+  static const numberWithTimeline =
+      SegmentTemplateFormat._('NUMBER_WITH_TIMELINE');
+  static const timeWithTimeline = SegmentTemplateFormat._('TIME_WITH_TIMELINE');
+  static const numberWithDuration =
+      SegmentTemplateFormat._('NUMBER_WITH_DURATION');
+
+  final String value;
+
+  const SegmentTemplateFormat._(this.value);
+
+  static const values = [
+    numberWithTimeline,
+    timeWithTimeline,
+    numberWithDuration
+  ];
+
+  static SegmentTemplateFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SegmentTemplateFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SegmentTemplateFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PeriodTriggersElement {
+  static const ads = PeriodTriggersElement._('ADS');
+
+  final String value;
+
+  const PeriodTriggersElement._(this.value);
+
+  static const values = [ads];
+
+  static PeriodTriggersElement fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PeriodTriggersElement._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PeriodTriggersElement && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A DASH manifest configuration.
+class DashManifest {
+  /// Determines the position of some tags in the Media Presentation Description
+  /// (MPD). When set to FULL, elements like SegmentTemplate and ContentProtection
+  /// are included in each Representation. When set to COMPACT, duplicate elements
+  /// are combined and presented at the AdaptationSet level.
+  final ManifestLayout? manifestLayout;
+
+  /// An optional string to include in the name of the manifest.
+  final String? manifestName;
+
+  /// Minimum duration (in seconds) that a player will buffer media before
+  /// starting the presentation.
+  final int? minBufferTimeSeconds;
+
+  /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type. When set to
+  /// "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
+  final Profile? profile;
+
+  /// The source of scte markers used. When set to SEGMENTS, the scte markers are
+  /// sourced from the segments of the ingested content. When set to MANIFEST, the
+  /// scte markers are sourced from the manifest of the ingested content.
+  final ScteMarkersSource? scteMarkersSource;
+  final StreamSelection? streamSelection;
+
+  DashManifest({
+    this.manifestLayout,
+    this.manifestName,
+    this.minBufferTimeSeconds,
+    this.profile,
+    this.scteMarkersSource,
+    this.streamSelection,
+  });
+
+  factory DashManifest.fromJson(Map<String, dynamic> json) {
+    return DashManifest(
+      manifestLayout:
+          (json['manifestLayout'] as String?)?.let(ManifestLayout.fromString),
+      manifestName: json['manifestName'] as String?,
+      minBufferTimeSeconds: json['minBufferTimeSeconds'] as int?,
+      profile: (json['profile'] as String?)?.let(Profile.fromString),
+      scteMarkersSource: (json['scteMarkersSource'] as String?)
+          ?.let(ScteMarkersSource.fromString),
+      streamSelection: json['streamSelection'] != null
+          ? StreamSelection.fromJson(
+              json['streamSelection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final manifestLayout = this.manifestLayout;
+    final manifestName = this.manifestName;
+    final minBufferTimeSeconds = this.minBufferTimeSeconds;
+    final profile = this.profile;
+    final scteMarkersSource = this.scteMarkersSource;
+    final streamSelection = this.streamSelection;
+    return {
+      if (manifestLayout != null) 'manifestLayout': manifestLayout.value,
+      if (manifestName != null) 'manifestName': manifestName,
+      if (minBufferTimeSeconds != null)
+        'minBufferTimeSeconds': minBufferTimeSeconds,
+      if (profile != null) 'profile': profile.value,
+      if (scteMarkersSource != null)
+        'scteMarkersSource': scteMarkersSource.value,
+      if (streamSelection != null) 'streamSelection': streamSelection,
+    };
+  }
+}
+
+class ManifestLayout {
+  static const full = ManifestLayout._('FULL');
+  static const compact = ManifestLayout._('COMPACT');
+
+  final String value;
+
+  const ManifestLayout._(this.value);
+
+  static const values = [full, compact];
+
+  static ManifestLayout fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ManifestLayout._(value));
+
+  @override
+  bool operator ==(other) => other is ManifestLayout && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class Profile {
   static const none = Profile._('NONE');
   static const hbbtv_1_5 = Profile._('HBBTV_1_5');
@@ -2353,256 +2448,151 @@ class ScteMarkersSource {
   String toString() => value;
 }
 
-class SegmentTemplateFormat {
-  static const numberWithTimeline =
-      SegmentTemplateFormat._('NUMBER_WITH_TIMELINE');
-  static const timeWithTimeline = SegmentTemplateFormat._('TIME_WITH_TIMELINE');
-  static const numberWithDuration =
-      SegmentTemplateFormat._('NUMBER_WITH_DURATION');
+/// A CMAF encryption configuration.
+class CmafEncryption {
+  final SpekeKeyProvider spekeKeyProvider;
 
-  final String value;
+  /// An optional 128-bit, 16-byte hex value represented by a 32-character string,
+  /// used in conjunction with the key for encrypting blocks. If you don't specify
+  /// a value, then MediaPackage creates the constant initialization vector (IV).
+  final String? constantInitializationVector;
 
-  const SegmentTemplateFormat._(this.value);
-
-  static const values = [
-    numberWithTimeline,
-    timeWithTimeline,
-    numberWithDuration
-  ];
-
-  static SegmentTemplateFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SegmentTemplateFormat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SegmentTemplateFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A configuration for accessing an external Secure Packager and Encoder Key
-/// Exchange (SPEKE) service that will provide encryption keys.
-class SpekeKeyProvider {
-  /// An Amazon Resource Name (ARN) of an IAM role that AWS Elemental
-  /// MediaPackage will assume when accessing the key provider service.
-  final String roleArn;
-
-  /// The system IDs to include in key requests.
-  final List<String> systemIds;
-
-  /// The URL of the external key provider service.
-  final String url;
-  final EncryptionContractConfiguration? encryptionContractConfiguration;
-
-  SpekeKeyProvider({
-    required this.roleArn,
-    required this.systemIds,
-    required this.url,
-    this.encryptionContractConfiguration,
+  CmafEncryption({
+    required this.spekeKeyProvider,
+    this.constantInitializationVector,
   });
 
-  factory SpekeKeyProvider.fromJson(Map<String, dynamic> json) {
-    return SpekeKeyProvider(
-      roleArn: (json['roleArn'] as String?) ?? '',
-      systemIds: ((json['systemIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      url: (json['url'] as String?) ?? '',
-      encryptionContractConfiguration:
-          json['encryptionContractConfiguration'] != null
-              ? EncryptionContractConfiguration.fromJson(
-                  json['encryptionContractConfiguration']
-                      as Map<String, dynamic>)
-              : null,
+  factory CmafEncryption.fromJson(Map<String, dynamic> json) {
+    return CmafEncryption(
+      spekeKeyProvider: SpekeKeyProvider.fromJson(
+          (json['spekeKeyProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      constantInitializationVector:
+          json['constantInitializationVector'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final systemIds = this.systemIds;
-    final url = this.url;
-    final encryptionContractConfiguration =
-        this.encryptionContractConfiguration;
+    final spekeKeyProvider = this.spekeKeyProvider;
+    final constantInitializationVector = this.constantInitializationVector;
     return {
-      'roleArn': roleArn,
-      'systemIds': systemIds,
-      'url': url,
-      if (encryptionContractConfiguration != null)
-        'encryptionContractConfiguration': encryptionContractConfiguration,
+      'spekeKeyProvider': spekeKeyProvider,
+      if (constantInitializationVector != null)
+        'constantInitializationVector': constantInitializationVector,
     };
   }
 }
 
-class StreamOrder {
-  static const original = StreamOrder._('ORIGINAL');
-  static const videoBitrateAscending = StreamOrder._('VIDEO_BITRATE_ASCENDING');
-  static const videoBitrateDescending =
-      StreamOrder._('VIDEO_BITRATE_DESCENDING');
-
-  final String value;
-
-  const StreamOrder._(this.value);
-
-  static const values = [
-    original,
-    videoBitrateAscending,
-    videoBitrateDescending
-  ];
-
-  static StreamOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StreamOrder._(value));
-
-  @override
-  bool operator ==(other) => other is StreamOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A StreamSelection configuration.
-class StreamSelection {
-  /// The maximum video bitrate (bps) to include in output.
-  final int? maxVideoBitsPerSecond;
-
-  /// The minimum video bitrate (bps) to include in output.
-  final int? minVideoBitsPerSecond;
-
-  /// A directive that determines the order of streams in the output.
-  final StreamOrder? streamOrder;
-
-  StreamSelection({
-    this.maxVideoBitsPerSecond,
-    this.minVideoBitsPerSecond,
-    this.streamOrder,
-  });
-
-  factory StreamSelection.fromJson(Map<String, dynamic> json) {
-    return StreamSelection(
-      maxVideoBitsPerSecond: json['maxVideoBitsPerSecond'] as int?,
-      minVideoBitsPerSecond: json['minVideoBitsPerSecond'] as int?,
-      streamOrder:
-          (json['streamOrder'] as String?)?.let(StreamOrder.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxVideoBitsPerSecond = this.maxVideoBitsPerSecond;
-    final minVideoBitsPerSecond = this.minVideoBitsPerSecond;
-    final streamOrder = this.streamOrder;
-    return {
-      if (maxVideoBitsPerSecond != null)
-        'maxVideoBitsPerSecond': maxVideoBitsPerSecond,
-      if (minVideoBitsPerSecond != null)
-        'minVideoBitsPerSecond': minVideoBitsPerSecond,
-      if (streamOrder != null) 'streamOrder': streamOrder.value,
-    };
-  }
-}
-
-class UpdatePackagingGroupResponse {
-  /// The approximate asset count of the PackagingGroup.
-  final int? approximateAssetCount;
-
-  /// The ARN of the PackagingGroup.
+/// A MediaPackage VOD Asset resource.
+class AssetShallow {
+  /// The ARN of the Asset.
   final String? arn;
-  final Authorization? authorization;
 
-  /// The time the PackagingGroup was created.
+  /// The time the Asset was initially submitted for Ingest.
   final String? createdAt;
 
-  /// The fully qualified domain name for Assets in the PackagingGroup.
-  final String? domainName;
-  final EgressAccessLogs? egressAccessLogs;
-
-  /// The ID of the PackagingGroup.
+  /// The unique identifier for the Asset.
   final String? id;
+
+  /// The ID of the PackagingGroup for the Asset.
+  final String? packagingGroupId;
+
+  /// The resource ID to include in SPEKE key requests.
+  final String? resourceId;
+
+  /// ARN of the source object in S3.
+  final String? sourceArn;
+
+  /// The IAM role ARN used to access the source S3 bucket.
+  final String? sourceRoleArn;
   final Map<String, String>? tags;
 
-  UpdatePackagingGroupResponse({
-    this.approximateAssetCount,
+  AssetShallow({
     this.arn,
-    this.authorization,
     this.createdAt,
-    this.domainName,
-    this.egressAccessLogs,
     this.id,
+    this.packagingGroupId,
+    this.resourceId,
+    this.sourceArn,
+    this.sourceRoleArn,
     this.tags,
   });
 
-  factory UpdatePackagingGroupResponse.fromJson(Map<String, dynamic> json) {
-    return UpdatePackagingGroupResponse(
-      approximateAssetCount: json['approximateAssetCount'] as int?,
+  factory AssetShallow.fromJson(Map<String, dynamic> json) {
+    return AssetShallow(
       arn: json['arn'] as String?,
-      authorization: json['authorization'] != null
-          ? Authorization.fromJson(
-              json['authorization'] as Map<String, dynamic>)
-          : null,
       createdAt: json['createdAt'] as String?,
-      domainName: json['domainName'] as String?,
-      egressAccessLogs: json['egressAccessLogs'] != null
-          ? EgressAccessLogs.fromJson(
-              json['egressAccessLogs'] as Map<String, dynamic>)
-          : null,
       id: json['id'] as String?,
+      packagingGroupId: json['packagingGroupId'] as String?,
+      resourceId: json['resourceId'] as String?,
+      sourceArn: json['sourceArn'] as String?,
+      sourceRoleArn: json['sourceRoleArn'] as String?,
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final approximateAssetCount = this.approximateAssetCount;
     final arn = this.arn;
-    final authorization = this.authorization;
     final createdAt = this.createdAt;
-    final domainName = this.domainName;
-    final egressAccessLogs = this.egressAccessLogs;
     final id = this.id;
+    final packagingGroupId = this.packagingGroupId;
+    final resourceId = this.resourceId;
+    final sourceArn = this.sourceArn;
+    final sourceRoleArn = this.sourceRoleArn;
     final tags = this.tags;
     return {
-      if (approximateAssetCount != null)
-        'approximateAssetCount': approximateAssetCount,
       if (arn != null) 'arn': arn,
-      if (authorization != null) 'authorization': authorization,
       if (createdAt != null) 'createdAt': createdAt,
-      if (domainName != null) 'domainName': domainName,
-      if (egressAccessLogs != null) 'egressAccessLogs': egressAccessLogs,
       if (id != null) 'id': id,
+      if (packagingGroupId != null) 'packagingGroupId': packagingGroupId,
+      if (resourceId != null) 'resourceId': resourceId,
+      if (sourceArn != null) 'sourceArn': sourceArn,
+      if (sourceRoleArn != null) 'sourceRoleArn': sourceRoleArn,
       if (tags != null) 'tags': tags,
     };
   }
 }
 
-class PeriodTriggersElement {
-  static const ads = PeriodTriggersElement._('ADS');
+/// The endpoint URL used to access an Asset using one PackagingConfiguration.
+class EgressEndpoint {
+  /// The ID of the PackagingConfiguration being applied to the Asset.
+  final String? packagingConfigurationId;
 
-  final String value;
+  /// The current processing status of the asset used for the packaging
+  /// configuration. The status can be either QUEUED, PROCESSING, PLAYABLE, or
+  /// FAILED. Status information won't be available for most assets ingested
+  /// before 2021-09-30.
+  final String? status;
 
-  const PeriodTriggersElement._(this.value);
+  /// The URL of the parent manifest for the repackaged Asset.
+  final String? url;
 
-  static const values = [ads];
+  EgressEndpoint({
+    this.packagingConfigurationId,
+    this.status,
+    this.url,
+  });
 
-  static PeriodTriggersElement fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PeriodTriggersElement._(value));
+  factory EgressEndpoint.fromJson(Map<String, dynamic> json) {
+    return EgressEndpoint(
+      packagingConfigurationId: json['packagingConfigurationId'] as String?,
+      status: json['status'] as String?,
+      url: json['url'] as String?,
+    );
+  }
 
-  @override
-  bool operator ==(other) =>
-      other is PeriodTriggersElement && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final packagingConfigurationId = this.packagingConfigurationId;
+    final status = this.status;
+    final url = this.url;
+    return {
+      if (packagingConfigurationId != null)
+        'packagingConfigurationId': packagingConfigurationId,
+      if (status != null) 'status': status,
+      if (url != null) 'url': url,
+    };
+  }
 }
 
 class ForbiddenException extends _s.GenericAwsException {

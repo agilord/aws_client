@@ -54,11 +54,11 @@ class MachineLearning {
   /// already associated with the ML object, <code>AddTags</code> updates the
   /// tag's value.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [InvalidTagException].
-  /// May throw [TagLimitExceededException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// May throw [TagLimitExceededException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the ML object to tag. For example, <code>exampleModelId</code>.
@@ -113,9 +113,9 @@ class MachineLearning {
   /// After the <code>COMPLETED</code> status appears, the results are available
   /// in the location specified by the <code>OutputUri</code> parameter.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [InternalServerException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [batchPredictionDataSourceId] :
   /// The ID of the <code>DataSource</code> that points to the group of
@@ -186,17 +186,17 @@ class MachineLearning {
   /// created and ready for use, Amazon ML sets the <code>Status</code>
   /// parameter to <code>COMPLETED</code>. <code>DataSource</code> in the
   /// <code>COMPLETED</code> or <code>PENDING</code> state can be used only to
-  /// perform <code>&gt;CreateMLModel</code>&gt;, <code>CreateEvaluation</code>,
-  /// or <code>CreateBatchPrediction</code> operations.
+  /// perform <code>>CreateMLModel</code>>, <code>CreateEvaluation</code>, or
+  /// <code>CreateBatchPrediction</code> operations.
   ///
   /// If Amazon ML cannot accept the input source, it sets the
   /// <code>Status</code> parameter to <code>FAILED</code> and includes an error
   /// message in the <code>Message</code> attribute of the
   /// <code>GetDataSource</code> operation response.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [InternalServerException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [dataSourceId] :
   /// A user-supplied ID that uniquely identifies the <code>DataSource</code>.
@@ -273,15 +273,16 @@ class MachineLearning {
   /// The role that Amazon ML assumes on behalf of the user to create and
   /// activate a data pipeline in the user's account and copy data using the
   /// <code>SelectSqlQuery</code> query from Amazon RDS to Amazon S3.
-  /// <p/>
+  ///
+  ///
   ///
   /// Parameter [computeStatistics] :
   /// The compute statistics for a <code>DataSource</code>. The statistics are
   /// generated from the observation data referenced by a
   /// <code>DataSource</code>. Amazon ML uses the statistics internally during
   /// <code>MLModel</code> training. This parameter must be set to
-  /// <code>true</code> if the <code/>DataSource<code/> needs to be used for
-  /// <code>MLModel</code> training.
+  /// <code>true</code> if the <code></code>DataSource<code></code> needs to be
+  /// used for <code>MLModel</code> training.
   ///
   /// Parameter [dataSourceName] :
   /// A user-supplied name or description of the <code>DataSource</code>.
@@ -359,9 +360,9 @@ class MachineLearning {
   /// Change the settings that you want to change and make sure that all
   /// required fields have the appropriate values.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [InternalServerException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [dataSourceId] :
   /// A user-supplied ID that uniquely identifies the <code>DataSource</code>.
@@ -503,9 +504,9 @@ class MachineLearning {
   /// will it be split apart into word combinations? The recipe provides answers
   /// to these questions.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [InternalServerException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [dataSourceId] :
   /// A user-supplied identifier that uniquely identifies the
@@ -540,8 +541,8 @@ class MachineLearning {
   /// generated from the observation data referenced by a
   /// <code>DataSource</code>. Amazon ML uses the statistics internally during
   /// <code>MLModel</code> training. This parameter must be set to
-  /// <code>true</code> if the <code/>DataSource<code/> needs to be used for
-  /// <code>MLModel</code> training.
+  /// <code>true</code> if the <code></code>DataSource<code></code> needs to be
+  /// used for <code>MLModel</code> training.
   ///
   /// Parameter [dataSourceName] :
   /// A user-supplied name or description of the <code>DataSource</code>.
@@ -594,9 +595,9 @@ class MachineLearning {
   /// You can use the <code>GetEvaluation</code> operation to check progress of
   /// the evaluation during the creation operation.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [InternalServerException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [evaluationDataSourceId] :
   /// The ID of the <code>DataSource</code> for the evaluation. The schema of
@@ -663,9 +664,9 @@ class MachineLearning {
   /// <code>CreateDataSourceFromRDS</code>, <code>CreateDataSourceFromS3</code>,
   /// or <code>CreateDataSourceFromRedshift</code> operations.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [InternalServerException].
   /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [mLModelId] :
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>.
@@ -799,9 +800,9 @@ class MachineLearning {
   /// contains the URI of the <code>MLModel</code>; that is, the location to
   /// send real-time prediction requests for the specified <code>MLModel</code>.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [mLModelId] :
   /// The ID assigned to the <code>MLModel</code> during creation.
@@ -836,9 +837,9 @@ class MachineLearning {
   /// <b>Caution:</b> The result of the <code>DeleteBatchPrediction</code>
   /// operation is irreversible.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [batchPredictionId] :
   /// A user-supplied ID that uniquely identifies the
@@ -874,9 +875,9 @@ class MachineLearning {
   /// <b>Caution:</b> The results of the <code>DeleteDataSource</code> operation
   /// are irreversible.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [dataSourceId] :
   /// A user-supplied ID that uniquely identifies the <code>DataSource</code>.
@@ -911,9 +912,9 @@ class MachineLearning {
   /// <b>Caution:</b> The results of the <code>DeleteEvaluation</code> operation
   /// are irreversible.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [evaluationId] :
   /// A user-supplied ID that uniquely identifies the <code>Evaluation</code> to
@@ -949,9 +950,9 @@ class MachineLearning {
   /// <b>Caution:</b> The result of the <code>DeleteMLModel</code> operation is
   /// irreversible.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [mLModelId] :
   /// A user-supplied ID that uniquely identifies the <code>MLModel</code>.
@@ -978,9 +979,9 @@ class MachineLearning {
 
   /// Deletes a real time endpoint of an <code>MLModel</code>.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [mLModelId] :
   /// The ID assigned to the <code>MLModel</code> during creation.
@@ -1010,10 +1011,10 @@ class MachineLearning {
   ///
   /// If you specify a tag that doesn't exist, Amazon ML ignores it.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [InvalidTagException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the tagged ML object. For example, <code>exampleModelId</code>.
@@ -1051,8 +1052,8 @@ class MachineLearning {
   /// Returns a list of <code>BatchPrediction</code> operations that match the
   /// search criteria in the request.
   ///
-  /// May throw [InvalidInputException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [eq] :
   /// The equal to operator. The <code>BatchPrediction</code> results will have
@@ -1213,8 +1214,8 @@ class MachineLearning {
   /// Returns a list of <code>DataSource</code> that match the search criteria
   /// in the request.
   ///
-  /// May throw [InvalidInputException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [eq] :
   /// The equal to operator. The <code>DataSource</code> results will have
@@ -1365,8 +1366,8 @@ class MachineLearning {
   /// Returns a list of <code>DescribeEvaluations</code> that match the search
   /// criteria in the request.
   ///
-  /// May throw [InvalidInputException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [eq] :
   /// The equal to operator. The <code>Evaluation</code> results will have
@@ -1525,8 +1526,8 @@ class MachineLearning {
   /// Returns a list of <code>MLModel</code> that match the search criteria in
   /// the request.
   ///
-  /// May throw [InvalidInputException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
   ///
   /// Parameter [eq] :
   /// The equal to operator. The <code>MLModel</code> results will have
@@ -1695,9 +1696,9 @@ class MachineLearning {
 
   /// Describes one or more of the tags for your Amazon ML object.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceId] :
   /// The ID of the ML object. For example, <code>exampleModelId</code>.
@@ -1731,9 +1732,9 @@ class MachineLearning {
   /// status, and data file information for a <code>Batch Prediction</code>
   /// request.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [batchPredictionId] :
   /// An ID assigned to the <code>BatchPrediction</code> at creation.
@@ -1765,9 +1766,9 @@ class MachineLearning {
   /// The verbose format adds the schema description and the list of files
   /// pointed to by the DataSource to the normal format.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [dataSourceId] :
   /// The ID assigned to the <code>DataSource</code> at creation.
@@ -1805,9 +1806,9 @@ class MachineLearning {
   /// Returns an <code>Evaluation</code> that includes metadata as well as the
   /// current status of the <code>Evaluation</code>.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [evaluationId] :
   /// The ID of the <code>Evaluation</code> to retrieve. The evaluation of each
@@ -1839,9 +1840,9 @@ class MachineLearning {
   ///
   /// <code>GetMLModel</code> provides results in normal or verbose format.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [mLModelId] :
   /// The ID assigned to the <code>MLModel</code> at creation.
@@ -1882,11 +1883,11 @@ class MachineLearning {
   /// <b>Note:</b> Not all response parameters will be populated. Whether a
   /// response parameter is populated depends on the type of model requested.
   ///
-  /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
   /// May throw [PredictorNotMountedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [mLModelId] :
   /// A unique identifier of the <code>MLModel</code>.
@@ -1921,9 +1922,9 @@ class MachineLearning {
   /// You can use the <code>GetBatchPrediction</code> operation to view the
   /// contents of the updated data element.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [batchPredictionId] :
   /// The ID assigned to the <code>BatchPrediction</code> during creation.
@@ -1959,9 +1960,9 @@ class MachineLearning {
   /// You can use the <code>GetDataSource</code> operation to view the contents
   /// of the updated data element.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [dataSourceId] :
   /// The ID assigned to the <code>DataSource</code> during creation.
@@ -1997,9 +1998,9 @@ class MachineLearning {
   /// You can use the <code>GetEvaluation</code> operation to view the contents
   /// of the updated data element.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [evaluationId] :
   /// The ID assigned to the <code>Evaluation</code> during creation.
@@ -2036,9 +2037,9 @@ class MachineLearning {
   /// You can use the <code>GetMLModel</code> operation to view the contents of
   /// the updated data element.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [mLModelId] :
   /// The ID assigned to the <code>MLModel</code> during creation.
@@ -2113,278 +2114,11 @@ class AddTagsOutput {
   }
 }
 
-/// The function used to train an <code>MLModel</code>. Training choices
-/// supported by Amazon ML include the following:
-///
-/// <ul>
-/// <li>
-/// <code>SGD</code> - Stochastic Gradient Descent.
-/// </li>
-/// <li>
-/// <code>RandomForest</code> - Random forest of decision trees.
-/// </li>
-/// </ul>
-class Algorithm {
-  static const sgd = Algorithm._('sgd');
-
-  final String value;
-
-  const Algorithm._(this.value);
-
-  static const values = [sgd];
-
-  static Algorithm fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Algorithm._(value));
-
-  @override
-  bool operator ==(other) => other is Algorithm && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the output of a <code>GetBatchPrediction</code> operation.
-///
-/// The content consists of the detailed metadata, the status, and the data file
-/// information of a <code>Batch Prediction</code>.
-class BatchPrediction {
-  /// The ID of the <code>DataSource</code> that points to the group of
-  /// observations to predict.
-  final String? batchPredictionDataSourceId;
-
-  /// The ID assigned to the <code>BatchPrediction</code> at creation. This value
-  /// should be identical to the value of the <code>BatchPredictionID</code> in
-  /// the request.
-  final String? batchPredictionId;
-  final int? computeTime;
-
-  /// The time that the <code>BatchPrediction</code> was created. The time is
-  /// expressed in epoch time.
-  final DateTime? createdAt;
-
-  /// The AWS user account that invoked the <code>BatchPrediction</code>. The
-  /// account type can be either an AWS root account or an AWS Identity and Access
-  /// Management (IAM) user account.
-  final String? createdByIamUser;
-  final DateTime? finishedAt;
-
-  /// The location of the data file or directory in Amazon Simple Storage Service
-  /// (Amazon S3).
-  final String? inputDataLocationS3;
-  final int? invalidRecordCount;
-
-  /// The time of the most recent edit to the <code>BatchPrediction</code>. The
-  /// time is expressed in epoch time.
-  final DateTime? lastUpdatedAt;
-
-  /// The ID of the <code>MLModel</code> that generated predictions for the
-  /// <code>BatchPrediction</code> request.
-  final String? mLModelId;
-
-  /// A description of the most recent details about processing the batch
-  /// prediction request.
-  final String? message;
-
-  /// A user-supplied name or description of the <code>BatchPrediction</code>.
-  final String? name;
-
-  /// The location of an Amazon S3 bucket or directory to receive the operation
-  /// results. The following substrings are not allowed in the <code>s3 key</code>
-  /// portion of the <code>outputURI</code> field: ':', '//', '/./', '/../'.
-  final String? outputUri;
-  final DateTime? startedAt;
-
-  /// The status of the <code>BatchPrediction</code>. This element can have one of
-  /// the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
-  /// request to generate predictions for a batch of observations.
-  /// </li>
-  /// <li>
-  /// <code>INPROGRESS</code> - The process is underway.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> - The request to perform a batch prediction did not run
-  /// to completion. It is not usable.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED</code> - The batch prediction process completed
-  /// successfully.
-  /// </li>
-  /// <li>
-  /// <code>DELETED</code> - The <code>BatchPrediction</code> is marked as
-  /// deleted. It is not usable.
-  /// </li>
-  /// </ul>
-  final EntityStatus? status;
-  final int? totalRecordCount;
-
-  BatchPrediction({
-    this.batchPredictionDataSourceId,
-    this.batchPredictionId,
-    this.computeTime,
-    this.createdAt,
-    this.createdByIamUser,
-    this.finishedAt,
-    this.inputDataLocationS3,
-    this.invalidRecordCount,
-    this.lastUpdatedAt,
-    this.mLModelId,
-    this.message,
-    this.name,
-    this.outputUri,
-    this.startedAt,
-    this.status,
-    this.totalRecordCount,
-  });
-
-  factory BatchPrediction.fromJson(Map<String, dynamic> json) {
-    return BatchPrediction(
-      batchPredictionDataSourceId:
-          json['BatchPredictionDataSourceId'] as String?,
-      batchPredictionId: json['BatchPredictionId'] as String?,
-      computeTime: json['ComputeTime'] as int?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      createdByIamUser: json['CreatedByIamUser'] as String?,
-      finishedAt: timeStampFromJson(json['FinishedAt']),
-      inputDataLocationS3: json['InputDataLocationS3'] as String?,
-      invalidRecordCount: json['InvalidRecordCount'] as int?,
-      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      mLModelId: json['MLModelId'] as String?,
-      message: json['Message'] as String?,
-      name: json['Name'] as String?,
-      outputUri: json['OutputUri'] as String?,
-      startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
-      totalRecordCount: json['TotalRecordCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final batchPredictionDataSourceId = this.batchPredictionDataSourceId;
-    final batchPredictionId = this.batchPredictionId;
-    final computeTime = this.computeTime;
-    final createdAt = this.createdAt;
-    final createdByIamUser = this.createdByIamUser;
-    final finishedAt = this.finishedAt;
-    final inputDataLocationS3 = this.inputDataLocationS3;
-    final invalidRecordCount = this.invalidRecordCount;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final mLModelId = this.mLModelId;
-    final message = this.message;
-    final name = this.name;
-    final outputUri = this.outputUri;
-    final startedAt = this.startedAt;
-    final status = this.status;
-    final totalRecordCount = this.totalRecordCount;
-    return {
-      if (batchPredictionDataSourceId != null)
-        'BatchPredictionDataSourceId': batchPredictionDataSourceId,
-      if (batchPredictionId != null) 'BatchPredictionId': batchPredictionId,
-      if (computeTime != null) 'ComputeTime': computeTime,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (createdByIamUser != null) 'CreatedByIamUser': createdByIamUser,
-      if (finishedAt != null) 'FinishedAt': unixTimestampToJson(finishedAt),
-      if (inputDataLocationS3 != null)
-        'InputDataLocationS3': inputDataLocationS3,
-      if (invalidRecordCount != null) 'InvalidRecordCount': invalidRecordCount,
-      if (lastUpdatedAt != null)
-        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (mLModelId != null) 'MLModelId': mLModelId,
-      if (message != null) 'Message': message,
-      if (name != null) 'Name': name,
-      if (outputUri != null) 'OutputUri': outputUri,
-      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.value,
-      if (totalRecordCount != null) 'TotalRecordCount': totalRecordCount,
-    };
-  }
-}
-
-/// A list of the variables to use in searching or filtering
-/// <code>BatchPrediction</code>.
-///
-/// <ul>
-/// <li>
-/// <code>CreatedAt</code> - Sets the search criteria to
-/// <code>BatchPrediction</code> creation date.
-/// </li>
-/// <li>
-/// <code>Status</code> - Sets the search criteria to
-/// <code>BatchPrediction</code> status.
-/// </li>
-/// <li>
-/// <code>Name</code> - Sets the search criteria to the contents of
-/// <code>BatchPrediction</code> <code>Name</code>.
-/// </li>
-/// <li>
-/// <code>IAMUser</code> - Sets the search criteria to the user account that
-/// invoked the <code>BatchPrediction</code> creation.
-/// </li>
-/// <li>
-/// <code>MLModelId</code> - Sets the search criteria to the
-/// <code>MLModel</code> used in the <code>BatchPrediction</code>.
-/// </li>
-/// <li>
-/// <code>DataSourceId</code> - Sets the search criteria to the
-/// <code>DataSource</code> used in the <code>BatchPrediction</code>.
-/// </li>
-/// <li>
-/// <code>DataURI</code> - Sets the search criteria to the data file(s) used in
-/// the <code>BatchPrediction</code>. The URL can identify either a file or an
-/// Amazon Simple Storage Service (Amazon S3) bucket or directory.
-/// </li>
-/// </ul>
-class BatchPredictionFilterVariable {
-  static const createdAt = BatchPredictionFilterVariable._('CreatedAt');
-  static const lastUpdatedAt = BatchPredictionFilterVariable._('LastUpdatedAt');
-  static const status = BatchPredictionFilterVariable._('Status');
-  static const name = BatchPredictionFilterVariable._('Name');
-  static const iAMUser = BatchPredictionFilterVariable._('IAMUser');
-  static const mLModelId = BatchPredictionFilterVariable._('MLModelId');
-  static const dataSourceId = BatchPredictionFilterVariable._('DataSourceId');
-  static const dataURI = BatchPredictionFilterVariable._('DataURI');
-
-  final String value;
-
-  const BatchPredictionFilterVariable._(this.value);
-
-  static const values = [
-    createdAt,
-    lastUpdatedAt,
-    status,
-    name,
-    iAMUser,
-    mLModelId,
-    dataSourceId,
-    dataURI
-  ];
-
-  static BatchPredictionFilterVariable fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchPredictionFilterVariable._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchPredictionFilterVariable && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Represents the output of a <code>CreateBatchPrediction</code> operation, and
 /// is an acknowledgement that Amazon ML received the request.
 ///
 /// The <code>CreateBatchPrediction</code> operation is asynchronous. You can
-/// poll for status updates by using the <code>&gt;GetBatchPrediction</code>
+/// poll for status updates by using the <code>>GetBatchPrediction</code>
 /// operation and checking the <code>Status</code> parameter of the result.
 class CreateBatchPredictionOutput {
   /// A user-supplied ID that uniquely identifies the
@@ -2413,9 +2147,9 @@ class CreateBatchPredictionOutput {
 /// Represents the output of a <code>CreateDataSourceFromRDS</code> operation,
 /// and is an acknowledgement that Amazon ML received the request.
 ///
-/// The <code>CreateDataSourceFromRDS</code>&gt; operation is asynchronous. You
-/// can poll for updates by using the <code>GetBatchPrediction</code> operation
-/// and checking the <code>Status</code> parameter. You can inspect the
+/// The <code>CreateDataSourceFromRDS</code>> operation is asynchronous. You can
+/// poll for updates by using the <code>GetBatchPrediction</code> operation and
+/// checking the <code>Status</code> parameter. You can inspect the
 /// <code>Message</code> when <code>Status</code> shows up as
 /// <code>FAILED</code>. You can also check the progress of the copy operation
 /// by going to the <code>DataPipeline</code> console and looking up the
@@ -2606,240 +2340,6 @@ class CreateRealtimeEndpointOutput {
         'RealtimeEndpointInfo': realtimeEndpointInfo,
     };
   }
-}
-
-/// Represents the output of the <code>GetDataSource</code> operation.
-///
-/// The content consists of the detailed metadata and data file information and
-/// the current status of the <code>DataSource</code>.
-class DataSource {
-  /// The parameter is <code>true</code> if statistics need to be generated from
-  /// the observation data.
-  final bool? computeStatistics;
-  final int? computeTime;
-
-  /// The time that the <code>DataSource</code> was created. The time is expressed
-  /// in epoch time.
-  final DateTime? createdAt;
-
-  /// The AWS user account from which the <code>DataSource</code> was created. The
-  /// account type can be either an AWS root account or an AWS Identity and Access
-  /// Management (IAM) user account.
-  final String? createdByIamUser;
-
-  /// The location and name of the data in Amazon Simple Storage Service (Amazon
-  /// S3) that is used by a <code>DataSource</code>.
-  final String? dataLocationS3;
-
-  /// A JSON string that represents the splitting and rearrangement requirement
-  /// used when this <code>DataSource</code> was created.
-  final String? dataRearrangement;
-
-  /// The total number of observations contained in the data files that the
-  /// <code>DataSource</code> references.
-  final int? dataSizeInBytes;
-
-  /// The ID that is assigned to the <code>DataSource</code> during creation.
-  final String? dataSourceId;
-  final DateTime? finishedAt;
-
-  /// The time of the most recent edit to the <code>BatchPrediction</code>. The
-  /// time is expressed in epoch time.
-  final DateTime? lastUpdatedAt;
-
-  /// A description of the most recent details about creating the
-  /// <code>DataSource</code>.
-  final String? message;
-
-  /// A user-supplied name or description of the <code>DataSource</code>.
-  final String? name;
-
-  /// The number of data files referenced by the <code>DataSource</code>.
-  final int? numberOfFiles;
-  final RDSMetadata? rDSMetadata;
-  final RedshiftMetadata? redshiftMetadata;
-  final String? roleARN;
-  final DateTime? startedAt;
-
-  /// The current status of the <code>DataSource</code>. This element can have one
-  /// of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create
-  /// a <code>DataSource</code>.
-  /// </li>
-  /// <li>
-  /// INPROGRESS - The creation process is underway.
-  /// </li>
-  /// <li>
-  /// FAILED - The request to create a <code>DataSource</code> did not run to
-  /// completion. It is not usable.
-  /// </li>
-  /// <li>
-  /// COMPLETED - The creation process completed successfully.
-  /// </li>
-  /// <li>
-  /// DELETED - The <code>DataSource</code> is marked as deleted. It is not
-  /// usable.
-  /// </li>
-  /// </ul>
-  final EntityStatus? status;
-
-  DataSource({
-    this.computeStatistics,
-    this.computeTime,
-    this.createdAt,
-    this.createdByIamUser,
-    this.dataLocationS3,
-    this.dataRearrangement,
-    this.dataSizeInBytes,
-    this.dataSourceId,
-    this.finishedAt,
-    this.lastUpdatedAt,
-    this.message,
-    this.name,
-    this.numberOfFiles,
-    this.rDSMetadata,
-    this.redshiftMetadata,
-    this.roleARN,
-    this.startedAt,
-    this.status,
-  });
-
-  factory DataSource.fromJson(Map<String, dynamic> json) {
-    return DataSource(
-      computeStatistics: json['ComputeStatistics'] as bool?,
-      computeTime: json['ComputeTime'] as int?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      createdByIamUser: json['CreatedByIamUser'] as String?,
-      dataLocationS3: json['DataLocationS3'] as String?,
-      dataRearrangement: json['DataRearrangement'] as String?,
-      dataSizeInBytes: json['DataSizeInBytes'] as int?,
-      dataSourceId: json['DataSourceId'] as String?,
-      finishedAt: timeStampFromJson(json['FinishedAt']),
-      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      message: json['Message'] as String?,
-      name: json['Name'] as String?,
-      numberOfFiles: json['NumberOfFiles'] as int?,
-      rDSMetadata: json['RDSMetadata'] != null
-          ? RDSMetadata.fromJson(json['RDSMetadata'] as Map<String, dynamic>)
-          : null,
-      redshiftMetadata: json['RedshiftMetadata'] != null
-          ? RedshiftMetadata.fromJson(
-              json['RedshiftMetadata'] as Map<String, dynamic>)
-          : null,
-      roleARN: json['RoleARN'] as String?,
-      startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final computeStatistics = this.computeStatistics;
-    final computeTime = this.computeTime;
-    final createdAt = this.createdAt;
-    final createdByIamUser = this.createdByIamUser;
-    final dataLocationS3 = this.dataLocationS3;
-    final dataRearrangement = this.dataRearrangement;
-    final dataSizeInBytes = this.dataSizeInBytes;
-    final dataSourceId = this.dataSourceId;
-    final finishedAt = this.finishedAt;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final message = this.message;
-    final name = this.name;
-    final numberOfFiles = this.numberOfFiles;
-    final rDSMetadata = this.rDSMetadata;
-    final redshiftMetadata = this.redshiftMetadata;
-    final roleARN = this.roleARN;
-    final startedAt = this.startedAt;
-    final status = this.status;
-    return {
-      if (computeStatistics != null) 'ComputeStatistics': computeStatistics,
-      if (computeTime != null) 'ComputeTime': computeTime,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (createdByIamUser != null) 'CreatedByIamUser': createdByIamUser,
-      if (dataLocationS3 != null) 'DataLocationS3': dataLocationS3,
-      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
-      if (dataSizeInBytes != null) 'DataSizeInBytes': dataSizeInBytes,
-      if (dataSourceId != null) 'DataSourceId': dataSourceId,
-      if (finishedAt != null) 'FinishedAt': unixTimestampToJson(finishedAt),
-      if (lastUpdatedAt != null)
-        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (message != null) 'Message': message,
-      if (name != null) 'Name': name,
-      if (numberOfFiles != null) 'NumberOfFiles': numberOfFiles,
-      if (rDSMetadata != null) 'RDSMetadata': rDSMetadata,
-      if (redshiftMetadata != null) 'RedshiftMetadata': redshiftMetadata,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// A list of the variables to use in searching or filtering
-/// <code>DataSource</code>.
-///
-/// <ul>
-/// <li>
-/// <code>CreatedAt</code> - Sets the search criteria to <code>DataSource</code>
-/// creation date.
-/// </li>
-/// <li>
-/// <code>Status</code> - Sets the search criteria to <code>DataSource</code>
-/// status.
-/// </li>
-/// <li>
-/// <code>Name</code> - Sets the search criteria to the contents of
-/// <code>DataSource</code> <code>Name</code>.
-/// </li>
-/// <li>
-/// <code>DataUri</code> - Sets the search criteria to the URI of data files
-/// used to create the <code>DataSource</code>. The URI can identify either a
-/// file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
-/// </li>
-/// <li>
-/// <code>IAMUser</code> - Sets the search criteria to the user account that
-/// invoked the <code>DataSource</code> creation.
-/// </li>
-/// </ul>
-/// <b>Note:</b> The variable names should match the variable names in the
-/// <code>DataSource</code>.
-class DataSourceFilterVariable {
-  static const createdAt = DataSourceFilterVariable._('CreatedAt');
-  static const lastUpdatedAt = DataSourceFilterVariable._('LastUpdatedAt');
-  static const status = DataSourceFilterVariable._('Status');
-  static const name = DataSourceFilterVariable._('Name');
-  static const dataLocationS3 = DataSourceFilterVariable._('DataLocationS3');
-  static const iAMUser = DataSourceFilterVariable._('IAMUser');
-
-  final String value;
-
-  const DataSourceFilterVariable._(this.value);
-
-  static const values = [
-    createdAt,
-    lastUpdatedAt,
-    status,
-    name,
-    dataLocationS3,
-    iAMUser
-  ];
-
-  static DataSourceFilterVariable fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataSourceFilterVariable._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DataSourceFilterVariable && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Represents the output of a <code>DeleteBatchPrediction</code> operation.
@@ -3206,329 +2706,6 @@ class DescribeTagsOutput {
       if (tags != null) 'Tags': tags,
     };
   }
-}
-
-/// Contains the key values of <code>DetailsMap</code>:
-///
-/// <ul>
-/// <li>
-/// <code>PredictiveModelType</code> - Indicates the type of the
-/// <code>MLModel</code>.
-/// </li>
-/// <li>
-/// <code>Algorithm</code> - Indicates the algorithm that was used for the
-/// <code>MLModel</code>.
-/// </li>
-/// </ul>
-class DetailsAttributes {
-  static const predictiveModelType = DetailsAttributes._('PredictiveModelType');
-  static const algorithm = DetailsAttributes._('Algorithm');
-
-  final String value;
-
-  const DetailsAttributes._(this.value);
-
-  static const values = [predictiveModelType, algorithm];
-
-  static DetailsAttributes fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DetailsAttributes._(value));
-
-  @override
-  bool operator ==(other) => other is DetailsAttributes && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Object status with the following possible values:
-///
-/// <ul>
-/// <li>
-/// <code>PENDING</code>
-/// </li>
-/// <li>
-/// <code>INPROGRESS</code>
-/// </li>
-/// <li>
-/// <code>FAILED</code>
-/// </li>
-/// <li>
-/// <code>COMPLETED</code>
-/// </li>
-/// <li>
-/// <code>DELETED</code>
-/// </li>
-/// </ul>
-class EntityStatus {
-  static const pending = EntityStatus._('PENDING');
-  static const inprogress = EntityStatus._('INPROGRESS');
-  static const failed = EntityStatus._('FAILED');
-  static const completed = EntityStatus._('COMPLETED');
-  static const deleted = EntityStatus._('DELETED');
-
-  final String value;
-
-  const EntityStatus._(this.value);
-
-  static const values = [pending, inprogress, failed, completed, deleted];
-
-  static EntityStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EntityStatus._(value));
-
-  @override
-  bool operator ==(other) => other is EntityStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the output of <code>GetEvaluation</code> operation.
-///
-/// The content consists of the detailed metadata and data file information and
-/// the current status of the <code>Evaluation</code>.
-class Evaluation {
-  final int? computeTime;
-
-  /// The time that the <code>Evaluation</code> was created. The time is expressed
-  /// in epoch time.
-  final DateTime? createdAt;
-
-  /// The AWS user account that invoked the evaluation. The account type can be
-  /// either an AWS root account or an AWS Identity and Access Management (IAM)
-  /// user account.
-  final String? createdByIamUser;
-
-  /// The ID of the <code>DataSource</code> that is used to evaluate the
-  /// <code>MLModel</code>.
-  final String? evaluationDataSourceId;
-
-  /// The ID that is assigned to the <code>Evaluation</code> at creation.
-  final String? evaluationId;
-  final DateTime? finishedAt;
-
-  /// The location and name of the data in Amazon Simple Storage Server (Amazon
-  /// S3) that is used in the evaluation.
-  final String? inputDataLocationS3;
-
-  /// The time of the most recent edit to the <code>Evaluation</code>. The time is
-  /// expressed in epoch time.
-  final DateTime? lastUpdatedAt;
-
-  /// The ID of the <code>MLModel</code> that is the focus of the evaluation.
-  final String? mLModelId;
-
-  /// A description of the most recent details about evaluating the
-  /// <code>MLModel</code>.
-  final String? message;
-
-  /// A user-supplied name or description of the <code>Evaluation</code>.
-  final String? name;
-
-  /// Measurements of how well the <code>MLModel</code> performed, using
-  /// observations referenced by the <code>DataSource</code>. One of the following
-  /// metrics is returned, based on the type of the <code>MLModel</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// BinaryAUC: A binary <code>MLModel</code> uses the Area Under the Curve (AUC)
-  /// technique to measure performance.
-  /// </li>
-  /// <li>
-  /// RegressionRMSE: A regression <code>MLModel</code> uses the Root Mean Square
-  /// Error (RMSE) technique to measure performance. RMSE measures the difference
-  /// between predicted and actual values for a single variable.
-  /// </li>
-  /// <li>
-  /// MulticlassAvgFScore: A multiclass <code>MLModel</code> uses the F1 score
-  /// technique to measure performance.
-  /// </li>
-  /// </ul>
-  /// For more information about performance metrics, please see the <a
-  /// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
-  /// Learning Developer Guide</a>.
-  final PerformanceMetrics? performanceMetrics;
-  final DateTime? startedAt;
-
-  /// The status of the evaluation. This element can have one of the following
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
-  /// request to evaluate an <code>MLModel</code>.
-  /// </li>
-  /// <li>
-  /// <code>INPROGRESS</code> - The evaluation is underway.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> - The request to evaluate an <code>MLModel</code> did
-  /// not run to completion. It is not usable.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED</code> - The evaluation process completed successfully.
-  /// </li>
-  /// <li>
-  /// <code>DELETED</code> - The <code>Evaluation</code> is marked as deleted. It
-  /// is not usable.
-  /// </li>
-  /// </ul>
-  final EntityStatus? status;
-
-  Evaluation({
-    this.computeTime,
-    this.createdAt,
-    this.createdByIamUser,
-    this.evaluationDataSourceId,
-    this.evaluationId,
-    this.finishedAt,
-    this.inputDataLocationS3,
-    this.lastUpdatedAt,
-    this.mLModelId,
-    this.message,
-    this.name,
-    this.performanceMetrics,
-    this.startedAt,
-    this.status,
-  });
-
-  factory Evaluation.fromJson(Map<String, dynamic> json) {
-    return Evaluation(
-      computeTime: json['ComputeTime'] as int?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      createdByIamUser: json['CreatedByIamUser'] as String?,
-      evaluationDataSourceId: json['EvaluationDataSourceId'] as String?,
-      evaluationId: json['EvaluationId'] as String?,
-      finishedAt: timeStampFromJson(json['FinishedAt']),
-      inputDataLocationS3: json['InputDataLocationS3'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      mLModelId: json['MLModelId'] as String?,
-      message: json['Message'] as String?,
-      name: json['Name'] as String?,
-      performanceMetrics: json['PerformanceMetrics'] != null
-          ? PerformanceMetrics.fromJson(
-              json['PerformanceMetrics'] as Map<String, dynamic>)
-          : null,
-      startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final computeTime = this.computeTime;
-    final createdAt = this.createdAt;
-    final createdByIamUser = this.createdByIamUser;
-    final evaluationDataSourceId = this.evaluationDataSourceId;
-    final evaluationId = this.evaluationId;
-    final finishedAt = this.finishedAt;
-    final inputDataLocationS3 = this.inputDataLocationS3;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final mLModelId = this.mLModelId;
-    final message = this.message;
-    final name = this.name;
-    final performanceMetrics = this.performanceMetrics;
-    final startedAt = this.startedAt;
-    final status = this.status;
-    return {
-      if (computeTime != null) 'ComputeTime': computeTime,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (createdByIamUser != null) 'CreatedByIamUser': createdByIamUser,
-      if (evaluationDataSourceId != null)
-        'EvaluationDataSourceId': evaluationDataSourceId,
-      if (evaluationId != null) 'EvaluationId': evaluationId,
-      if (finishedAt != null) 'FinishedAt': unixTimestampToJson(finishedAt),
-      if (inputDataLocationS3 != null)
-        'InputDataLocationS3': inputDataLocationS3,
-      if (lastUpdatedAt != null)
-        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (mLModelId != null) 'MLModelId': mLModelId,
-      if (message != null) 'Message': message,
-      if (name != null) 'Name': name,
-      if (performanceMetrics != null) 'PerformanceMetrics': performanceMetrics,
-      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// A list of the variables to use in searching or filtering
-/// <code>Evaluation</code>.
-///
-/// <ul>
-/// <li>
-/// <code>CreatedAt</code> - Sets the search criteria to <code>Evaluation</code>
-/// creation date.
-/// </li>
-/// <li>
-/// <code>Status</code> - Sets the search criteria to <code>Evaluation</code>
-/// status.
-/// </li>
-/// <li>
-/// <code>Name</code> - Sets the search criteria to the contents of
-/// <code>Evaluation</code> <b> </b> <code>Name</code>.
-/// </li>
-/// <li>
-/// <code>IAMUser</code> - Sets the search criteria to the user account that
-/// invoked an evaluation.
-/// </li>
-/// <li>
-/// <code>MLModelId</code> - Sets the search criteria to the
-/// <code>Predictor</code> that was evaluated.
-/// </li>
-/// <li>
-/// <code>DataSourceId</code> - Sets the search criteria to the
-/// <code>DataSource</code> used in evaluation.
-/// </li>
-/// <li>
-/// <code>DataUri</code> - Sets the search criteria to the data file(s) used in
-/// evaluation. The URL can identify either a file or an Amazon Simple Storage
-/// Service (Amazon S3) bucket or directory.
-/// </li>
-/// </ul>
-class EvaluationFilterVariable {
-  static const createdAt = EvaluationFilterVariable._('CreatedAt');
-  static const lastUpdatedAt = EvaluationFilterVariable._('LastUpdatedAt');
-  static const status = EvaluationFilterVariable._('Status');
-  static const name = EvaluationFilterVariable._('Name');
-  static const iAMUser = EvaluationFilterVariable._('IAMUser');
-  static const mLModelId = EvaluationFilterVariable._('MLModelId');
-  static const dataSourceId = EvaluationFilterVariable._('DataSourceId');
-  static const dataURI = EvaluationFilterVariable._('DataURI');
-
-  final String value;
-
-  const EvaluationFilterVariable._(this.value);
-
-  static const values = [
-    createdAt,
-    lastUpdatedAt,
-    status,
-    name,
-    iAMUser,
-    mLModelId,
-    dataSourceId,
-    dataURI
-  ];
-
-  static EvaluationFilterVariable fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EvaluationFilterVariable._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EvaluationFilterVariable && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Represents the output of a <code>GetBatchPrediction</code> operation and
@@ -4400,6 +3577,672 @@ class GetMLModelOutput {
   }
 }
 
+class PredictOutput {
+  final Prediction? prediction;
+
+  PredictOutput({
+    this.prediction,
+  });
+
+  factory PredictOutput.fromJson(Map<String, dynamic> json) {
+    return PredictOutput(
+      prediction: json['Prediction'] != null
+          ? Prediction.fromJson(json['Prediction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prediction = this.prediction;
+    return {
+      if (prediction != null) 'Prediction': prediction,
+    };
+  }
+}
+
+/// Represents the output of an <code>UpdateBatchPrediction</code> operation.
+///
+/// You can see the updated content by using the <code>GetBatchPrediction</code>
+/// operation.
+class UpdateBatchPredictionOutput {
+  /// The ID assigned to the <code>BatchPrediction</code> during creation. This
+  /// value should be identical to the value of the <code>BatchPredictionId</code>
+  /// in the request.
+  final String? batchPredictionId;
+
+  UpdateBatchPredictionOutput({
+    this.batchPredictionId,
+  });
+
+  factory UpdateBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateBatchPredictionOutput(
+      batchPredictionId: json['BatchPredictionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchPredictionId = this.batchPredictionId;
+    return {
+      if (batchPredictionId != null) 'BatchPredictionId': batchPredictionId,
+    };
+  }
+}
+
+/// Represents the output of an <code>UpdateDataSource</code> operation.
+///
+/// You can see the updated content by using the <code>GetBatchPrediction</code>
+/// operation.
+class UpdateDataSourceOutput {
+  /// The ID assigned to the <code>DataSource</code> during creation. This value
+  /// should be identical to the value of the <code>DataSourceID</code> in the
+  /// request.
+  final String? dataSourceId;
+
+  UpdateDataSourceOutput({
+    this.dataSourceId,
+  });
+
+  factory UpdateDataSourceOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateDataSourceOutput(
+      dataSourceId: json['DataSourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceId = this.dataSourceId;
+    return {
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+    };
+  }
+}
+
+/// Represents the output of an <code>UpdateEvaluation</code> operation.
+///
+/// You can see the updated content by using the <code>GetEvaluation</code>
+/// operation.
+class UpdateEvaluationOutput {
+  /// The ID assigned to the <code>Evaluation</code> during creation. This value
+  /// should be identical to the value of the <code>Evaluation</code> in the
+  /// request.
+  final String? evaluationId;
+
+  UpdateEvaluationOutput({
+    this.evaluationId,
+  });
+
+  factory UpdateEvaluationOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateEvaluationOutput(
+      evaluationId: json['EvaluationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationId = this.evaluationId;
+    return {
+      if (evaluationId != null) 'EvaluationId': evaluationId,
+    };
+  }
+}
+
+/// Represents the output of an <code>UpdateMLModel</code> operation.
+///
+/// You can see the updated content by using the <code>GetMLModel</code>
+/// operation.
+class UpdateMLModelOutput {
+  /// The ID assigned to the <code>MLModel</code> during creation. This value
+  /// should be identical to the value of the <code>MLModelID</code> in the
+  /// request.
+  final String? mLModelId;
+
+  UpdateMLModelOutput({
+    this.mLModelId,
+  });
+
+  factory UpdateMLModelOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateMLModelOutput(
+      mLModelId: json['MLModelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mLModelId = this.mLModelId;
+    return {
+      if (mLModelId != null) 'MLModelId': mLModelId,
+    };
+  }
+}
+
+/// The output from a <code>Predict</code> operation:
+///
+/// <ul>
+/// <li>
+/// <code>Details</code> - Contains the following attributes:
+/// <code>DetailsAttributes.PREDICTIVE_MODEL_TYPE - REGRESSION | BINARY |
+/// MULTICLASS</code> <code>DetailsAttributes.ALGORITHM - SGD</code>
+/// </li>
+/// <li>
+/// <code>PredictedLabel</code> - Present for either a <code>BINARY</code> or
+/// <code>MULTICLASS</code> <code>MLModel</code> request.
+/// </li>
+/// <li>
+/// <code>PredictedScores</code> - Contains the raw classification score
+/// corresponding to each label.
+/// </li>
+/// <li>
+/// <code>PredictedValue</code> - Present for a <code>REGRESSION</code>
+/// <code>MLModel</code> request.
+/// </li>
+/// </ul>
+class Prediction {
+  final Map<DetailsAttributes, String>? details;
+
+  /// The prediction label for either a <code>BINARY</code> or
+  /// <code>MULTICLASS</code> <code>MLModel</code>.
+  final String? predictedLabel;
+  final Map<String, double>? predictedScores;
+
+  /// The prediction value for <code>REGRESSION</code> <code>MLModel</code>.
+  final double? predictedValue;
+
+  Prediction({
+    this.details,
+    this.predictedLabel,
+    this.predictedScores,
+    this.predictedValue,
+  });
+
+  factory Prediction.fromJson(Map<String, dynamic> json) {
+    return Prediction(
+      details: (json['details'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(DetailsAttributes.fromString(k), e as String)),
+      predictedLabel: json['predictedLabel'] as String?,
+      predictedScores: (json['predictedScores'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as double)),
+      predictedValue: json['predictedValue'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final predictedLabel = this.predictedLabel;
+    final predictedScores = this.predictedScores;
+    final predictedValue = this.predictedValue;
+    return {
+      if (details != null)
+        'details': details.map((k, e) => MapEntry(k.value, e)),
+      if (predictedLabel != null) 'predictedLabel': predictedLabel,
+      if (predictedScores != null) 'predictedScores': predictedScores,
+      if (predictedValue != null) 'predictedValue': predictedValue,
+    };
+  }
+}
+
+/// Contains the key values of <code>DetailsMap</code>:
+///
+/// <ul>
+/// <li>
+/// <code>PredictiveModelType</code> - Indicates the type of the
+/// <code>MLModel</code>.
+/// </li>
+/// <li>
+/// <code>Algorithm</code> - Indicates the algorithm that was used for the
+/// <code>MLModel</code>.
+/// </li>
+/// </ul>
+class DetailsAttributes {
+  static const predictiveModelType = DetailsAttributes._('PredictiveModelType');
+  static const algorithm = DetailsAttributes._('Algorithm');
+
+  final String value;
+
+  const DetailsAttributes._(this.value);
+
+  static const values = [predictiveModelType, algorithm];
+
+  static DetailsAttributes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DetailsAttributes._(value));
+
+  @override
+  bool operator ==(other) => other is DetailsAttributes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Object status with the following possible values:
+///
+/// <ul>
+/// <li>
+/// <code>PENDING</code>
+/// </li>
+/// <li>
+/// <code>INPROGRESS</code>
+/// </li>
+/// <li>
+/// <code>FAILED</code>
+/// </li>
+/// <li>
+/// <code>COMPLETED</code>
+/// </li>
+/// <li>
+/// <code>DELETED</code>
+/// </li>
+/// </ul>
+class EntityStatus {
+  static const pending = EntityStatus._('PENDING');
+  static const inprogress = EntityStatus._('INPROGRESS');
+  static const failed = EntityStatus._('FAILED');
+  static const completed = EntityStatus._('COMPLETED');
+  static const deleted = EntityStatus._('DELETED');
+
+  final String value;
+
+  const EntityStatus._(this.value);
+
+  static const values = [pending, inprogress, failed, completed, deleted];
+
+  static EntityStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EntityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the real-time endpoint information for an <code>MLModel</code>.
+class RealtimeEndpointInfo {
+  /// The time that the request to create the real-time endpoint for the
+  /// <code>MLModel</code> was received. The time is expressed in epoch time.
+  final DateTime? createdAt;
+
+  /// The current status of the real-time endpoint for the <code>MLModel</code>.
+  /// This element can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> - Endpoint does not exist or was previously deleted.
+  /// </li>
+  /// <li>
+  /// <code>READY</code> - Endpoint is ready to be used for real-time predictions.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - Updating/creating the endpoint.
+  /// </li>
+  /// </ul>
+  final RealtimeEndpointStatus? endpointStatus;
+
+  /// The URI that specifies where to send real-time prediction requests for the
+  /// <code>MLModel</code>.
+  ///
+  /// <b>Note:</b> The application must wait until the real-time endpoint is ready
+  /// before using this URI.
+  final String? endpointUrl;
+
+  /// The maximum processing rate for the real-time endpoint for
+  /// <code>MLModel</code>, measured in incoming requests per second.
+  final int? peakRequestsPerSecond;
+
+  RealtimeEndpointInfo({
+    this.createdAt,
+    this.endpointStatus,
+    this.endpointUrl,
+    this.peakRequestsPerSecond,
+  });
+
+  factory RealtimeEndpointInfo.fromJson(Map<String, dynamic> json) {
+    return RealtimeEndpointInfo(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      endpointStatus: (json['EndpointStatus'] as String?)
+          ?.let(RealtimeEndpointStatus.fromString),
+      endpointUrl: json['EndpointUrl'] as String?,
+      peakRequestsPerSecond: json['PeakRequestsPerSecond'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final endpointStatus = this.endpointStatus;
+    final endpointUrl = this.endpointUrl;
+    final peakRequestsPerSecond = this.peakRequestsPerSecond;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (endpointStatus != null) 'EndpointStatus': endpointStatus.value,
+      if (endpointUrl != null) 'EndpointUrl': endpointUrl,
+      if (peakRequestsPerSecond != null)
+        'PeakRequestsPerSecond': peakRequestsPerSecond,
+    };
+  }
+}
+
+class MLModelType {
+  static const regression = MLModelType._('REGRESSION');
+  static const binary = MLModelType._('BINARY');
+  static const multiclass = MLModelType._('MULTICLASS');
+
+  final String value;
+
+  const MLModelType._(this.value);
+
+  static const values = [regression, binary, multiclass];
+
+  static MLModelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MLModelType._(value));
+
+  @override
+  bool operator ==(other) => other is MLModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RealtimeEndpointStatus {
+  static const none = RealtimeEndpointStatus._('NONE');
+  static const ready = RealtimeEndpointStatus._('READY');
+  static const updating = RealtimeEndpointStatus._('UPDATING');
+  static const failed = RealtimeEndpointStatus._('FAILED');
+
+  final String value;
+
+  const RealtimeEndpointStatus._(this.value);
+
+  static const values = [none, ready, updating, failed];
+
+  static RealtimeEndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RealtimeEndpointStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RealtimeEndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Measurements of how well the <code>MLModel</code> performed on known
+/// observations. One of the following metrics is returned, based on the type of
+/// the <code>MLModel</code>:
+///
+/// <ul>
+/// <li>
+/// BinaryAUC: The binary <code>MLModel</code> uses the Area Under the Curve
+/// (AUC) technique to measure performance.
+/// </li>
+/// <li>
+/// RegressionRMSE: The regression <code>MLModel</code> uses the Root Mean
+/// Square Error (RMSE) technique to measure performance. RMSE measures the
+/// difference between predicted and actual values for a single variable.
+/// </li>
+/// <li>
+/// MulticlassAvgFScore: The multiclass <code>MLModel</code> uses the F1 score
+/// technique to measure performance.
+/// </li>
+/// </ul>
+/// For more information about performance metrics, please see the <a
+/// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
+/// Learning Developer Guide</a>.
+class PerformanceMetrics {
+  final Map<String, String>? properties;
+
+  PerformanceMetrics({
+    this.properties,
+  });
+
+  factory PerformanceMetrics.fromJson(Map<String, dynamic> json) {
+    return PerformanceMetrics(
+      properties: (json['Properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final properties = this.properties;
+    return {
+      if (properties != null) 'Properties': properties,
+    };
+  }
+}
+
+/// Describes the <code>DataSource</code> details specific to Amazon Redshift.
+class RedshiftMetadata {
+  final String? databaseUserName;
+  final RedshiftDatabase? redshiftDatabase;
+
+  /// The SQL query that is specified during <a>CreateDataSourceFromRedshift</a>.
+  /// Returns only if <code>Verbose</code> is true in GetDataSourceInput.
+  final String? selectSqlQuery;
+
+  RedshiftMetadata({
+    this.databaseUserName,
+    this.redshiftDatabase,
+    this.selectSqlQuery,
+  });
+
+  factory RedshiftMetadata.fromJson(Map<String, dynamic> json) {
+    return RedshiftMetadata(
+      databaseUserName: json['DatabaseUserName'] as String?,
+      redshiftDatabase: json['RedshiftDatabase'] != null
+          ? RedshiftDatabase.fromJson(
+              json['RedshiftDatabase'] as Map<String, dynamic>)
+          : null,
+      selectSqlQuery: json['SelectSqlQuery'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseUserName = this.databaseUserName;
+    final redshiftDatabase = this.redshiftDatabase;
+    final selectSqlQuery = this.selectSqlQuery;
+    return {
+      if (databaseUserName != null) 'DatabaseUserName': databaseUserName,
+      if (redshiftDatabase != null) 'RedshiftDatabase': redshiftDatabase,
+      if (selectSqlQuery != null) 'SelectSqlQuery': selectSqlQuery,
+    };
+  }
+}
+
+/// The datasource details that are specific to Amazon RDS.
+class RDSMetadata {
+  /// The ID of the Data Pipeline instance that is used to carry to copy data from
+  /// Amazon RDS to Amazon S3. You can use the ID to find details about the
+  /// instance in the Data Pipeline console.
+  final String? dataPipelineId;
+
+  /// The database details required to connect to an Amazon RDS.
+  final RDSDatabase? database;
+  final String? databaseUserName;
+
+  /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon EC2 instance
+  /// to carry out the copy task from Amazon RDS to Amazon S3. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
+  /// templates</a> for data pipelines.
+  final String? resourceRole;
+
+  /// The SQL query that is supplied during <a>CreateDataSourceFromRDS</a>.
+  /// Returns only if <code>Verbose</code> is true in
+  /// <code>GetDataSourceInput</code>.
+  final String? selectSqlQuery;
+
+  /// The role (DataPipelineDefaultRole) assumed by the Data Pipeline service to
+  /// monitor the progress of the copy task from Amazon RDS to Amazon S3. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
+  /// templates</a> for data pipelines.
+  final String? serviceRole;
+
+  RDSMetadata({
+    this.dataPipelineId,
+    this.database,
+    this.databaseUserName,
+    this.resourceRole,
+    this.selectSqlQuery,
+    this.serviceRole,
+  });
+
+  factory RDSMetadata.fromJson(Map<String, dynamic> json) {
+    return RDSMetadata(
+      dataPipelineId: json['DataPipelineId'] as String?,
+      database: json['Database'] != null
+          ? RDSDatabase.fromJson(json['Database'] as Map<String, dynamic>)
+          : null,
+      databaseUserName: json['DatabaseUserName'] as String?,
+      resourceRole: json['ResourceRole'] as String?,
+      selectSqlQuery: json['SelectSqlQuery'] as String?,
+      serviceRole: json['ServiceRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataPipelineId = this.dataPipelineId;
+    final database = this.database;
+    final databaseUserName = this.databaseUserName;
+    final resourceRole = this.resourceRole;
+    final selectSqlQuery = this.selectSqlQuery;
+    final serviceRole = this.serviceRole;
+    return {
+      if (dataPipelineId != null) 'DataPipelineId': dataPipelineId,
+      if (database != null) 'Database': database,
+      if (databaseUserName != null) 'DatabaseUserName': databaseUserName,
+      if (resourceRole != null) 'ResourceRole': resourceRole,
+      if (selectSqlQuery != null) 'SelectSqlQuery': selectSqlQuery,
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+    };
+  }
+}
+
+/// The database details of an Amazon RDS database.
+class RDSDatabase {
+  final String databaseName;
+
+  /// The ID of an RDS DB instance.
+  final String instanceIdentifier;
+
+  RDSDatabase({
+    required this.databaseName,
+    required this.instanceIdentifier,
+  });
+
+  factory RDSDatabase.fromJson(Map<String, dynamic> json) {
+    return RDSDatabase(
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      instanceIdentifier: (json['InstanceIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final instanceIdentifier = this.instanceIdentifier;
+    return {
+      'DatabaseName': databaseName,
+      'InstanceIdentifier': instanceIdentifier,
+    };
+  }
+}
+
+/// Describes the database details required to connect to an Amazon Redshift
+/// database.
+class RedshiftDatabase {
+  final String clusterIdentifier;
+  final String databaseName;
+
+  RedshiftDatabase({
+    required this.clusterIdentifier,
+    required this.databaseName,
+  });
+
+  factory RedshiftDatabase.fromJson(Map<String, dynamic> json) {
+    return RedshiftDatabase(
+      clusterIdentifier: (json['ClusterIdentifier'] as String?) ?? '',
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final databaseName = this.databaseName;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+      'DatabaseName': databaseName,
+    };
+  }
+}
+
+class TaggableResourceType {
+  static const batchPrediction = TaggableResourceType._('BatchPrediction');
+  static const dataSource = TaggableResourceType._('DataSource');
+  static const evaluation = TaggableResourceType._('Evaluation');
+  static const mLModel = TaggableResourceType._('MLModel');
+
+  final String value;
+
+  const TaggableResourceType._(this.value);
+
+  static const values = [batchPrediction, dataSource, evaluation, mLModel];
+
+  static TaggableResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TaggableResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TaggableResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A custom key-value pair associated with an ML object, such as an ML model.
+class Tag {
+  /// A unique identifier for the tag. Valid characters include Unicode letters,
+  /// digits, white space, _, ., /, =, +, -, %, and @.
+  final String? key;
+
+  /// An optional string, typically used to describe or define the tag. Valid
+  /// characters include Unicode letters, digits, white space, _, ., /, =, +, -,
+  /// %, and @.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// Represents the output of a <code>GetMLModel</code> operation.
 ///
 /// The content consists of the detailed metadata and the current status of the
@@ -4657,6 +4500,39 @@ class MLModel {
   }
 }
 
+/// The function used to train an <code>MLModel</code>. Training choices
+/// supported by Amazon ML include the following:
+///
+/// <ul>
+/// <li>
+/// <code>SGD</code> - Stochastic Gradient Descent.
+/// </li>
+/// <li>
+/// <code>RandomForest</code> - Random forest of decision trees.
+/// </li>
+/// </ul>
+class Algorithm {
+  static const sgd = Algorithm._('sgd');
+
+  final String value;
+
+  const Algorithm._(this.value);
+
+  static const values = [sgd];
+
+  static Algorithm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Algorithm._(value));
+
+  @override
+  bool operator ==(other) => other is Algorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class MLModelFilterVariable {
   static const createdAt = MLModelFilterVariable._('CreatedAt');
   static const lastUpdatedAt = MLModelFilterVariable._('LastUpdatedAt');
@@ -4703,22 +4579,32 @@ class MLModelFilterVariable {
   String toString() => value;
 }
 
-class MLModelType {
-  static const regression = MLModelType._('REGRESSION');
-  static const binary = MLModelType._('BINARY');
-  static const multiclass = MLModelType._('MULTICLASS');
+/// The sort order specified in a listing condition. Possible values include the
+/// following:
+///
+/// <ul>
+/// <li>
+/// <code>asc</code> - Present the information in ascending order (from A-Z).
+/// </li>
+/// <li>
+/// <code>dsc</code> - Present the information in descending order (from Z-A).
+/// </li>
+/// </ul>
+class SortOrder {
+  static const asc = SortOrder._('asc');
+  static const dsc = SortOrder._('dsc');
 
   final String value;
 
-  const MLModelType._(this.value);
+  const SortOrder._(this.value);
 
-  static const values = [regression, binary, multiclass];
+  static const values = [asc, dsc];
 
-  static MLModelType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MLModelType._(value));
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
 
   @override
-  bool operator ==(other) => other is MLModelType && other.value == value;
+  bool operator ==(other) => other is SortOrder && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4727,134 +4613,1087 @@ class MLModelType {
   String toString() => value;
 }
 
-/// Measurements of how well the <code>MLModel</code> performed on known
-/// observations. One of the following metrics is returned, based on the type of
-/// the <code>MLModel</code>:
+/// Represents the output of <code>GetEvaluation</code> operation.
 ///
-/// <ul>
-/// <li>
-/// BinaryAUC: The binary <code>MLModel</code> uses the Area Under the Curve
-/// (AUC) technique to measure performance.
-/// </li>
-/// <li>
-/// RegressionRMSE: The regression <code>MLModel</code> uses the Root Mean
-/// Square Error (RMSE) technique to measure performance. RMSE measures the
-/// difference between predicted and actual values for a single variable.
-/// </li>
-/// <li>
-/// MulticlassAvgFScore: The multiclass <code>MLModel</code> uses the F1 score
-/// technique to measure performance.
-/// </li>
-/// </ul>
-/// For more information about performance metrics, please see the <a
-/// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
-/// Learning Developer Guide</a>.
-class PerformanceMetrics {
-  final Map<String, String>? properties;
+/// The content consists of the detailed metadata and data file information and
+/// the current status of the <code>Evaluation</code>.
+class Evaluation {
+  final int? computeTime;
 
-  PerformanceMetrics({
-    this.properties,
+  /// The time that the <code>Evaluation</code> was created. The time is expressed
+  /// in epoch time.
+  final DateTime? createdAt;
+
+  /// The AWS user account that invoked the evaluation. The account type can be
+  /// either an AWS root account or an AWS Identity and Access Management (IAM)
+  /// user account.
+  final String? createdByIamUser;
+
+  /// The ID of the <code>DataSource</code> that is used to evaluate the
+  /// <code>MLModel</code>.
+  final String? evaluationDataSourceId;
+
+  /// The ID that is assigned to the <code>Evaluation</code> at creation.
+  final String? evaluationId;
+  final DateTime? finishedAt;
+
+  /// The location and name of the data in Amazon Simple Storage Server (Amazon
+  /// S3) that is used in the evaluation.
+  final String? inputDataLocationS3;
+
+  /// The time of the most recent edit to the <code>Evaluation</code>. The time is
+  /// expressed in epoch time.
+  final DateTime? lastUpdatedAt;
+
+  /// The ID of the <code>MLModel</code> that is the focus of the evaluation.
+  final String? mLModelId;
+
+  /// A description of the most recent details about evaluating the
+  /// <code>MLModel</code>.
+  final String? message;
+
+  /// A user-supplied name or description of the <code>Evaluation</code>.
+  final String? name;
+
+  /// Measurements of how well the <code>MLModel</code> performed, using
+  /// observations referenced by the <code>DataSource</code>. One of the following
+  /// metrics is returned, based on the type of the <code>MLModel</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// BinaryAUC: A binary <code>MLModel</code> uses the Area Under the Curve (AUC)
+  /// technique to measure performance.
+  /// </li>
+  /// <li>
+  /// RegressionRMSE: A regression <code>MLModel</code> uses the Root Mean Square
+  /// Error (RMSE) technique to measure performance. RMSE measures the difference
+  /// between predicted and actual values for a single variable.
+  /// </li>
+  /// <li>
+  /// MulticlassAvgFScore: A multiclass <code>MLModel</code> uses the F1 score
+  /// technique to measure performance.
+  /// </li>
+  /// </ul>
+  /// For more information about performance metrics, please see the <a
+  /// href="https://docs.aws.amazon.com/machine-learning/latest/dg">Amazon Machine
+  /// Learning Developer Guide</a>.
+  final PerformanceMetrics? performanceMetrics;
+  final DateTime? startedAt;
+
+  /// The status of the evaluation. This element can have one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
+  /// request to evaluate an <code>MLModel</code>.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The evaluation is underway.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request to evaluate an <code>MLModel</code> did
+  /// not run to completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The evaluation process completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>Evaluation</code> is marked as deleted. It
+  /// is not usable.
+  /// </li>
+  /// </ul>
+  final EntityStatus? status;
+
+  Evaluation({
+    this.computeTime,
+    this.createdAt,
+    this.createdByIamUser,
+    this.evaluationDataSourceId,
+    this.evaluationId,
+    this.finishedAt,
+    this.inputDataLocationS3,
+    this.lastUpdatedAt,
+    this.mLModelId,
+    this.message,
+    this.name,
+    this.performanceMetrics,
+    this.startedAt,
+    this.status,
   });
 
-  factory PerformanceMetrics.fromJson(Map<String, dynamic> json) {
-    return PerformanceMetrics(
-      properties: (json['Properties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final properties = this.properties;
-    return {
-      if (properties != null) 'Properties': properties,
-    };
-  }
-}
-
-class PredictOutput {
-  final Prediction? prediction;
-
-  PredictOutput({
-    this.prediction,
-  });
-
-  factory PredictOutput.fromJson(Map<String, dynamic> json) {
-    return PredictOutput(
-      prediction: json['Prediction'] != null
-          ? Prediction.fromJson(json['Prediction'] as Map<String, dynamic>)
+  factory Evaluation.fromJson(Map<String, dynamic> json) {
+    return Evaluation(
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      evaluationDataSourceId: json['EvaluationDataSourceId'] as String?,
+      evaluationId: json['EvaluationId'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      inputDataLocationS3: json['InputDataLocationS3'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      mLModelId: json['MLModelId'] as String?,
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      performanceMetrics: json['PerformanceMetrics'] != null
+          ? PerformanceMetrics.fromJson(
+              json['PerformanceMetrics'] as Map<String, dynamic>)
           : null,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final prediction = this.prediction;
+    final computeTime = this.computeTime;
+    final createdAt = this.createdAt;
+    final createdByIamUser = this.createdByIamUser;
+    final evaluationDataSourceId = this.evaluationDataSourceId;
+    final evaluationId = this.evaluationId;
+    final finishedAt = this.finishedAt;
+    final inputDataLocationS3 = this.inputDataLocationS3;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final mLModelId = this.mLModelId;
+    final message = this.message;
+    final name = this.name;
+    final performanceMetrics = this.performanceMetrics;
+    final startedAt = this.startedAt;
+    final status = this.status;
     return {
-      if (prediction != null) 'Prediction': prediction,
+      if (computeTime != null) 'ComputeTime': computeTime,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (createdByIamUser != null) 'CreatedByIamUser': createdByIamUser,
+      if (evaluationDataSourceId != null)
+        'EvaluationDataSourceId': evaluationDataSourceId,
+      if (evaluationId != null) 'EvaluationId': evaluationId,
+      if (finishedAt != null) 'FinishedAt': unixTimestampToJson(finishedAt),
+      if (inputDataLocationS3 != null)
+        'InputDataLocationS3': inputDataLocationS3,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (mLModelId != null) 'MLModelId': mLModelId,
+      if (message != null) 'Message': message,
+      if (name != null) 'Name': name,
+      if (performanceMetrics != null) 'PerformanceMetrics': performanceMetrics,
+      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
-/// The output from a <code>Predict</code> operation:
+/// A list of the variables to use in searching or filtering
+/// <code>Evaluation</code>.
 ///
 /// <ul>
 /// <li>
-/// <code>Details</code> - Contains the following attributes:
-/// <code>DetailsAttributes.PREDICTIVE_MODEL_TYPE - REGRESSION | BINARY |
-/// MULTICLASS</code> <code>DetailsAttributes.ALGORITHM - SGD</code>
+/// <code>CreatedAt</code> - Sets the search criteria to <code>Evaluation</code>
+/// creation date.
 /// </li>
 /// <li>
-/// <code>PredictedLabel</code> - Present for either a <code>BINARY</code> or
-/// <code>MULTICLASS</code> <code>MLModel</code> request.
+/// <code>Status</code> - Sets the search criteria to <code>Evaluation</code>
+/// status.
 /// </li>
 /// <li>
-/// <code>PredictedScores</code> - Contains the raw classification score
-/// corresponding to each label.
+/// <code>Name</code> - Sets the search criteria to the contents of
+/// <code>Evaluation</code> <b> </b> <code>Name</code>.
 /// </li>
 /// <li>
-/// <code>PredictedValue</code> - Present for a <code>REGRESSION</code>
-/// <code>MLModel</code> request.
+/// <code>IAMUser</code> - Sets the search criteria to the user account that
+/// invoked an evaluation.
+/// </li>
+/// <li>
+/// <code>MLModelId</code> - Sets the search criteria to the
+/// <code>Predictor</code> that was evaluated.
+/// </li>
+/// <li>
+/// <code>DataSourceId</code> - Sets the search criteria to the
+/// <code>DataSource</code> used in evaluation.
+/// </li>
+/// <li>
+/// <code>DataUri</code> - Sets the search criteria to the data file(s) used in
+/// evaluation. The URL can identify either a file or an Amazon Simple Storage
+/// Service (Amazon S3) bucket or directory.
 /// </li>
 /// </ul>
-class Prediction {
-  final Map<DetailsAttributes, String>? details;
+class EvaluationFilterVariable {
+  static const createdAt = EvaluationFilterVariable._('CreatedAt');
+  static const lastUpdatedAt = EvaluationFilterVariable._('LastUpdatedAt');
+  static const status = EvaluationFilterVariable._('Status');
+  static const name = EvaluationFilterVariable._('Name');
+  static const iAMUser = EvaluationFilterVariable._('IAMUser');
+  static const mLModelId = EvaluationFilterVariable._('MLModelId');
+  static const dataSourceId = EvaluationFilterVariable._('DataSourceId');
+  static const dataURI = EvaluationFilterVariable._('DataURI');
 
-  /// The prediction label for either a <code>BINARY</code> or
-  /// <code>MULTICLASS</code> <code>MLModel</code>.
-  final String? predictedLabel;
-  final Map<String, double>? predictedScores;
+  final String value;
 
-  /// The prediction value for <code>REGRESSION</code> <code>MLModel</code>.
-  final double? predictedValue;
+  const EvaluationFilterVariable._(this.value);
 
-  Prediction({
-    this.details,
-    this.predictedLabel,
-    this.predictedScores,
-    this.predictedValue,
+  static const values = [
+    createdAt,
+    lastUpdatedAt,
+    status,
+    name,
+    iAMUser,
+    mLModelId,
+    dataSourceId,
+    dataURI
+  ];
+
+  static EvaluationFilterVariable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EvaluationFilterVariable._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EvaluationFilterVariable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the output of the <code>GetDataSource</code> operation.
+///
+/// The content consists of the detailed metadata and data file information and
+/// the current status of the <code>DataSource</code>.
+class DataSource {
+  /// The parameter is <code>true</code> if statistics need to be generated from
+  /// the observation data.
+  final bool? computeStatistics;
+  final int? computeTime;
+
+  /// The time that the <code>DataSource</code> was created. The time is expressed
+  /// in epoch time.
+  final DateTime? createdAt;
+
+  /// The AWS user account from which the <code>DataSource</code> was created. The
+  /// account type can be either an AWS root account or an AWS Identity and Access
+  /// Management (IAM) user account.
+  final String? createdByIamUser;
+
+  /// The location and name of the data in Amazon Simple Storage Service (Amazon
+  /// S3) that is used by a <code>DataSource</code>.
+  final String? dataLocationS3;
+
+  /// A JSON string that represents the splitting and rearrangement requirement
+  /// used when this <code>DataSource</code> was created.
+  final String? dataRearrangement;
+
+  /// The total number of observations contained in the data files that the
+  /// <code>DataSource</code> references.
+  final int? dataSizeInBytes;
+
+  /// The ID that is assigned to the <code>DataSource</code> during creation.
+  final String? dataSourceId;
+  final DateTime? finishedAt;
+
+  /// The time of the most recent edit to the <code>BatchPrediction</code>. The
+  /// time is expressed in epoch time.
+  final DateTime? lastUpdatedAt;
+
+  /// A description of the most recent details about creating the
+  /// <code>DataSource</code>.
+  final String? message;
+
+  /// A user-supplied name or description of the <code>DataSource</code>.
+  final String? name;
+
+  /// The number of data files referenced by the <code>DataSource</code>.
+  final int? numberOfFiles;
+  final RDSMetadata? rDSMetadata;
+  final RedshiftMetadata? redshiftMetadata;
+  final String? roleARN;
+  final DateTime? startedAt;
+
+  /// The current status of the <code>DataSource</code>. This element can have one
+  /// of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING - Amazon Machine Learning (Amazon ML) submitted a request to create
+  /// a <code>DataSource</code>.
+  /// </li>
+  /// <li>
+  /// INPROGRESS - The creation process is underway.
+  /// </li>
+  /// <li>
+  /// FAILED - The request to create a <code>DataSource</code> did not run to
+  /// completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// COMPLETED - The creation process completed successfully.
+  /// </li>
+  /// <li>
+  /// DELETED - The <code>DataSource</code> is marked as deleted. It is not
+  /// usable.
+  /// </li>
+  /// </ul>
+  final EntityStatus? status;
+
+  DataSource({
+    this.computeStatistics,
+    this.computeTime,
+    this.createdAt,
+    this.createdByIamUser,
+    this.dataLocationS3,
+    this.dataRearrangement,
+    this.dataSizeInBytes,
+    this.dataSourceId,
+    this.finishedAt,
+    this.lastUpdatedAt,
+    this.message,
+    this.name,
+    this.numberOfFiles,
+    this.rDSMetadata,
+    this.redshiftMetadata,
+    this.roleARN,
+    this.startedAt,
+    this.status,
   });
 
-  factory Prediction.fromJson(Map<String, dynamic> json) {
-    return Prediction(
-      details: (json['details'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(DetailsAttributes.fromString(k), e as String)),
-      predictedLabel: json['predictedLabel'] as String?,
-      predictedScores: (json['predictedScores'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
-      predictedValue: json['predictedValue'] as double?,
+  factory DataSource.fromJson(Map<String, dynamic> json) {
+    return DataSource(
+      computeStatistics: json['ComputeStatistics'] as bool?,
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      dataLocationS3: json['DataLocationS3'] as String?,
+      dataRearrangement: json['DataRearrangement'] as String?,
+      dataSizeInBytes: json['DataSizeInBytes'] as int?,
+      dataSourceId: json['DataSourceId'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      numberOfFiles: json['NumberOfFiles'] as int?,
+      rDSMetadata: json['RDSMetadata'] != null
+          ? RDSMetadata.fromJson(json['RDSMetadata'] as Map<String, dynamic>)
+          : null,
+      redshiftMetadata: json['RedshiftMetadata'] != null
+          ? RedshiftMetadata.fromJson(
+              json['RedshiftMetadata'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final details = this.details;
-    final predictedLabel = this.predictedLabel;
-    final predictedScores = this.predictedScores;
-    final predictedValue = this.predictedValue;
+    final computeStatistics = this.computeStatistics;
+    final computeTime = this.computeTime;
+    final createdAt = this.createdAt;
+    final createdByIamUser = this.createdByIamUser;
+    final dataLocationS3 = this.dataLocationS3;
+    final dataRearrangement = this.dataRearrangement;
+    final dataSizeInBytes = this.dataSizeInBytes;
+    final dataSourceId = this.dataSourceId;
+    final finishedAt = this.finishedAt;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final message = this.message;
+    final name = this.name;
+    final numberOfFiles = this.numberOfFiles;
+    final rDSMetadata = this.rDSMetadata;
+    final redshiftMetadata = this.redshiftMetadata;
+    final roleARN = this.roleARN;
+    final startedAt = this.startedAt;
+    final status = this.status;
     return {
-      if (details != null)
-        'details': details.map((k, e) => MapEntry(k.value, e)),
-      if (predictedLabel != null) 'predictedLabel': predictedLabel,
-      if (predictedScores != null) 'predictedScores': predictedScores,
-      if (predictedValue != null) 'predictedValue': predictedValue,
+      if (computeStatistics != null) 'ComputeStatistics': computeStatistics,
+      if (computeTime != null) 'ComputeTime': computeTime,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (createdByIamUser != null) 'CreatedByIamUser': createdByIamUser,
+      if (dataLocationS3 != null) 'DataLocationS3': dataLocationS3,
+      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
+      if (dataSizeInBytes != null) 'DataSizeInBytes': dataSizeInBytes,
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+      if (finishedAt != null) 'FinishedAt': unixTimestampToJson(finishedAt),
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (message != null) 'Message': message,
+      if (name != null) 'Name': name,
+      if (numberOfFiles != null) 'NumberOfFiles': numberOfFiles,
+      if (rDSMetadata != null) 'RDSMetadata': rDSMetadata,
+      if (redshiftMetadata != null) 'RedshiftMetadata': redshiftMetadata,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// A list of the variables to use in searching or filtering
+/// <code>DataSource</code>.
+///
+/// <ul>
+/// <li>
+/// <code>CreatedAt</code> - Sets the search criteria to <code>DataSource</code>
+/// creation date.
+/// </li>
+/// <li>
+/// <code>Status</code> - Sets the search criteria to <code>DataSource</code>
+/// status.
+/// </li>
+/// <li>
+/// <code>Name</code> - Sets the search criteria to the contents of
+/// <code>DataSource</code> <code>Name</code>.
+/// </li>
+/// <li>
+/// <code>DataUri</code> - Sets the search criteria to the URI of data files
+/// used to create the <code>DataSource</code>. The URI can identify either a
+/// file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
+/// </li>
+/// <li>
+/// <code>IAMUser</code> - Sets the search criteria to the user account that
+/// invoked the <code>DataSource</code> creation.
+/// </li>
+/// </ul>
+/// <b>Note:</b> The variable names should match the variable names in the
+/// <code>DataSource</code>.
+class DataSourceFilterVariable {
+  static const createdAt = DataSourceFilterVariable._('CreatedAt');
+  static const lastUpdatedAt = DataSourceFilterVariable._('LastUpdatedAt');
+  static const status = DataSourceFilterVariable._('Status');
+  static const name = DataSourceFilterVariable._('Name');
+  static const dataLocationS3 = DataSourceFilterVariable._('DataLocationS3');
+  static const iAMUser = DataSourceFilterVariable._('IAMUser');
+
+  final String value;
+
+  const DataSourceFilterVariable._(this.value);
+
+  static const values = [
+    createdAt,
+    lastUpdatedAt,
+    status,
+    name,
+    dataLocationS3,
+    iAMUser
+  ];
+
+  static DataSourceFilterVariable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSourceFilterVariable._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceFilterVariable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the output of a <code>GetBatchPrediction</code> operation.
+///
+/// The content consists of the detailed metadata, the status, and the data file
+/// information of a <code>Batch Prediction</code>.
+class BatchPrediction {
+  /// The ID of the <code>DataSource</code> that points to the group of
+  /// observations to predict.
+  final String? batchPredictionDataSourceId;
+
+  /// The ID assigned to the <code>BatchPrediction</code> at creation. This value
+  /// should be identical to the value of the <code>BatchPredictionID</code> in
+  /// the request.
+  final String? batchPredictionId;
+  final int? computeTime;
+
+  /// The time that the <code>BatchPrediction</code> was created. The time is
+  /// expressed in epoch time.
+  final DateTime? createdAt;
+
+  /// The AWS user account that invoked the <code>BatchPrediction</code>. The
+  /// account type can be either an AWS root account or an AWS Identity and Access
+  /// Management (IAM) user account.
+  final String? createdByIamUser;
+  final DateTime? finishedAt;
+
+  /// The location of the data file or directory in Amazon Simple Storage Service
+  /// (Amazon S3).
+  final String? inputDataLocationS3;
+  final int? invalidRecordCount;
+
+  /// The time of the most recent edit to the <code>BatchPrediction</code>. The
+  /// time is expressed in epoch time.
+  final DateTime? lastUpdatedAt;
+
+  /// The ID of the <code>MLModel</code> that generated predictions for the
+  /// <code>BatchPrediction</code> request.
+  final String? mLModelId;
+
+  /// A description of the most recent details about processing the batch
+  /// prediction request.
+  final String? message;
+
+  /// A user-supplied name or description of the <code>BatchPrediction</code>.
+  final String? name;
+
+  /// The location of an Amazon S3 bucket or directory to receive the operation
+  /// results. The following substrings are not allowed in the <code>s3 key</code>
+  /// portion of the <code>outputURI</code> field: ':', '//', '/./', '/../'.
+  final String? outputUri;
+  final DateTime? startedAt;
+
+  /// The status of the <code>BatchPrediction</code>. This element can have one of
+  /// the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> - Amazon Machine Learning (Amazon ML) submitted a
+  /// request to generate predictions for a batch of observations.
+  /// </li>
+  /// <li>
+  /// <code>INPROGRESS</code> - The process is underway.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The request to perform a batch prediction did not run
+  /// to completion. It is not usable.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The batch prediction process completed
+  /// successfully.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The <code>BatchPrediction</code> is marked as
+  /// deleted. It is not usable.
+  /// </li>
+  /// </ul>
+  final EntityStatus? status;
+  final int? totalRecordCount;
+
+  BatchPrediction({
+    this.batchPredictionDataSourceId,
+    this.batchPredictionId,
+    this.computeTime,
+    this.createdAt,
+    this.createdByIamUser,
+    this.finishedAt,
+    this.inputDataLocationS3,
+    this.invalidRecordCount,
+    this.lastUpdatedAt,
+    this.mLModelId,
+    this.message,
+    this.name,
+    this.outputUri,
+    this.startedAt,
+    this.status,
+    this.totalRecordCount,
+  });
+
+  factory BatchPrediction.fromJson(Map<String, dynamic> json) {
+    return BatchPrediction(
+      batchPredictionDataSourceId:
+          json['BatchPredictionDataSourceId'] as String?,
+      batchPredictionId: json['BatchPredictionId'] as String?,
+      computeTime: json['ComputeTime'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      createdByIamUser: json['CreatedByIamUser'] as String?,
+      finishedAt: timeStampFromJson(json['FinishedAt']),
+      inputDataLocationS3: json['InputDataLocationS3'] as String?,
+      invalidRecordCount: json['InvalidRecordCount'] as int?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      mLModelId: json['MLModelId'] as String?,
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      outputUri: json['OutputUri'] as String?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.let(EntityStatus.fromString),
+      totalRecordCount: json['TotalRecordCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchPredictionDataSourceId = this.batchPredictionDataSourceId;
+    final batchPredictionId = this.batchPredictionId;
+    final computeTime = this.computeTime;
+    final createdAt = this.createdAt;
+    final createdByIamUser = this.createdByIamUser;
+    final finishedAt = this.finishedAt;
+    final inputDataLocationS3 = this.inputDataLocationS3;
+    final invalidRecordCount = this.invalidRecordCount;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final mLModelId = this.mLModelId;
+    final message = this.message;
+    final name = this.name;
+    final outputUri = this.outputUri;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final totalRecordCount = this.totalRecordCount;
+    return {
+      if (batchPredictionDataSourceId != null)
+        'BatchPredictionDataSourceId': batchPredictionDataSourceId,
+      if (batchPredictionId != null) 'BatchPredictionId': batchPredictionId,
+      if (computeTime != null) 'ComputeTime': computeTime,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (createdByIamUser != null) 'CreatedByIamUser': createdByIamUser,
+      if (finishedAt != null) 'FinishedAt': unixTimestampToJson(finishedAt),
+      if (inputDataLocationS3 != null)
+        'InputDataLocationS3': inputDataLocationS3,
+      if (invalidRecordCount != null) 'InvalidRecordCount': invalidRecordCount,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (mLModelId != null) 'MLModelId': mLModelId,
+      if (message != null) 'Message': message,
+      if (name != null) 'Name': name,
+      if (outputUri != null) 'OutputUri': outputUri,
+      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
+      if (status != null) 'Status': status.value,
+      if (totalRecordCount != null) 'TotalRecordCount': totalRecordCount,
+    };
+  }
+}
+
+/// A list of the variables to use in searching or filtering
+/// <code>BatchPrediction</code>.
+///
+/// <ul>
+/// <li>
+/// <code>CreatedAt</code> - Sets the search criteria to
+/// <code>BatchPrediction</code> creation date.
+/// </li>
+/// <li>
+/// <code>Status</code> - Sets the search criteria to
+/// <code>BatchPrediction</code> status.
+/// </li>
+/// <li>
+/// <code>Name</code> - Sets the search criteria to the contents of
+/// <code>BatchPrediction</code> <code>Name</code>.
+/// </li>
+/// <li>
+/// <code>IAMUser</code> - Sets the search criteria to the user account that
+/// invoked the <code>BatchPrediction</code> creation.
+/// </li>
+/// <li>
+/// <code>MLModelId</code> - Sets the search criteria to the
+/// <code>MLModel</code> used in the <code>BatchPrediction</code>.
+/// </li>
+/// <li>
+/// <code>DataSourceId</code> - Sets the search criteria to the
+/// <code>DataSource</code> used in the <code>BatchPrediction</code>.
+/// </li>
+/// <li>
+/// <code>DataURI</code> - Sets the search criteria to the data file(s) used in
+/// the <code>BatchPrediction</code>. The URL can identify either a file or an
+/// Amazon Simple Storage Service (Amazon S3) bucket or directory.
+/// </li>
+/// </ul>
+class BatchPredictionFilterVariable {
+  static const createdAt = BatchPredictionFilterVariable._('CreatedAt');
+  static const lastUpdatedAt = BatchPredictionFilterVariable._('LastUpdatedAt');
+  static const status = BatchPredictionFilterVariable._('Status');
+  static const name = BatchPredictionFilterVariable._('Name');
+  static const iAMUser = BatchPredictionFilterVariable._('IAMUser');
+  static const mLModelId = BatchPredictionFilterVariable._('MLModelId');
+  static const dataSourceId = BatchPredictionFilterVariable._('DataSourceId');
+  static const dataURI = BatchPredictionFilterVariable._('DataURI');
+
+  final String value;
+
+  const BatchPredictionFilterVariable._(this.value);
+
+  static const values = [
+    createdAt,
+    lastUpdatedAt,
+    status,
+    name,
+    iAMUser,
+    mLModelId,
+    dataSourceId,
+    dataURI
+  ];
+
+  static BatchPredictionFilterVariable fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchPredictionFilterVariable._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchPredictionFilterVariable && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the data specification of a <code>DataSource</code>.
+class S3DataSpec {
+  /// The location of the data file(s) used by a <code>DataSource</code>. The URI
+  /// specifies a data file or an Amazon Simple Storage Service (Amazon S3)
+  /// directory or bucket containing data files.
+  final String dataLocationS3;
+
+  /// A JSON string that represents the splitting and rearrangement processing to
+  /// be applied to a <code>DataSource</code>. If the
+  /// <code>DataRearrangement</code> parameter is not provided, all of the input
+  /// data is used to create the <code>Datasource</code>.
+  ///
+  /// There are multiple parameters that control what data is used to create a
+  /// datasource:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>percentBegin</code> </b>
+  ///
+  /// Use <code>percentBegin</code> to indicate the beginning of the range of the
+  /// data used to create the Datasource. If you do not include
+  /// <code>percentBegin</code> and <code>percentEnd</code>, Amazon ML includes
+  /// all of the data when creating the datasource.
+  /// </li>
+  /// <li>
+  /// <b> <code>percentEnd</code> </b>
+  ///
+  /// Use <code>percentEnd</code> to indicate the end of the range of the data
+  /// used to create the Datasource. If you do not include
+  /// <code>percentBegin</code> and <code>percentEnd</code>, Amazon ML includes
+  /// all of the data when creating the datasource.
+  /// </li>
+  /// <li>
+  /// <b> <code>complement</code> </b>
+  ///
+  /// The <code>complement</code> parameter instructs Amazon ML to use the data
+  /// that is not included in the range of <code>percentBegin</code> to
+  /// <code>percentEnd</code> to create a datasource. The <code>complement</code>
+  /// parameter is useful if you need to create complementary datasources for
+  /// training and evaluation. To create a complementary datasource, use the same
+  /// values for <code>percentBegin</code> and <code>percentEnd</code>, along with
+  /// the <code>complement</code> parameter.
+  ///
+  /// For example, the following two datasources do not share any data, and can be
+  /// used to train and evaluate a model. The first datasource has 25 percent of
+  /// the data, and the second one has 75 percent of the data.
+  ///
+  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":0,
+  /// "percentEnd":25}}</code>
+  ///
+  /// Datasource for training: <code>{"splitting":{"percentBegin":0,
+  /// "percentEnd":25, "complement":"true"}}</code>
+  /// </li>
+  /// <li>
+  /// <b> <code>strategy</code> </b>
+  ///
+  /// To change how Amazon ML splits the data for a datasource, use the
+  /// <code>strategy</code> parameter.
+  ///
+  /// The default value for the <code>strategy</code> parameter is
+  /// <code>sequential</code>, meaning that Amazon ML takes all of the data
+  /// records between the <code>percentBegin</code> and <code>percentEnd</code>
+  /// parameters for the datasource, in the order that the records appear in the
+  /// input data.
+  ///
+  /// The following two <code>DataRearrangement</code> lines are examples of
+  /// sequentially ordered training and evaluation datasources:
+  ///
+  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":70,
+  /// "percentEnd":100, "strategy":"sequential"}}</code>
+  ///
+  /// Datasource for training: <code>{"splitting":{"percentBegin":70,
+  /// "percentEnd":100, "strategy":"sequential", "complement":"true"}}</code>
+  ///
+  /// To randomly split the input data into the proportions indicated by the
+  /// percentBegin and percentEnd parameters, set the <code>strategy</code>
+  /// parameter to <code>random</code> and provide a string that is used as the
+  /// seed value for the random data splitting (for example, you can use the S3
+  /// path to your data as the random seed string). If you choose the random split
+  /// strategy, Amazon ML assigns each row of data a pseudo-random number between
+  /// 0 and 100, and then selects the rows that have an assigned number between
+  /// <code>percentBegin</code> and <code>percentEnd</code>. Pseudo-random numbers
+  /// are assigned using both the input seed string value and the byte offset as a
+  /// seed, so changing the data results in a different split. Any existing
+  /// ordering is preserved. The random splitting strategy ensures that variables
+  /// in the training and evaluation data are distributed similarly. It is useful
+  /// in the cases where the input data may have an implicit sort order, which
+  /// would otherwise result in training and evaluation datasources containing
+  /// non-similar data records.
+  ///
+  /// The following two <code>DataRearrangement</code> lines are examples of
+  /// non-sequentially ordered training and evaluation datasources:
+  ///
+  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":70,
+  /// "percentEnd":100, "strategy":"random",
+  /// "randomSeed"="s3://my_s3_path/bucket/file.csv"}}</code>
+  ///
+  /// Datasource for training: <code>{"splitting":{"percentBegin":70,
+  /// "percentEnd":100, "strategy":"random",
+  /// "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}</code>
+  /// </li>
+  /// </ul>
+  final String? dataRearrangement;
+
+  /// A JSON string that represents the schema for an Amazon S3
+  /// <code>DataSource</code>. The <code>DataSchema</code> defines the structure
+  /// of the observation data in the data file(s) referenced in the
+  /// <code>DataSource</code>.
+  ///
+  /// You must provide either the <code>DataSchema</code> or the
+  /// <code>DataSchemaLocationS3</code>.
+  ///
+  /// Define your <code>DataSchema</code> as a series of key-value pairs.
+  /// <code>attributes</code> and <code>excludedVariableNames</code> have an array
+  /// of key-value pairs for their value. Use the following format to define your
+  /// <code>DataSchema</code>.
+  ///
+  /// { "version": "1.0",
+  ///
+  /// "recordAnnotationFieldName": "F1",
+  ///
+  /// "recordWeightFieldName": "F2",
+  ///
+  /// "targetFieldName": "F3",
+  ///
+  /// "dataFormat": "CSV",
+  ///
+  /// "dataFileContainsHeader": true,
+  ///
+  /// "attributes": [
+  ///
+  /// { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2",
+  /// "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" },
+  /// { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5",
+  /// "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, {
+  /// "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName":
+  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
+  ///
+  /// "excludedVariableNames": [ "F6" ] }
+  final String? dataSchema;
+
+  /// Describes the schema location in Amazon S3. You must provide either the
+  /// <code>DataSchema</code> or the <code>DataSchemaLocationS3</code>.
+  final String? dataSchemaLocationS3;
+
+  S3DataSpec({
+    required this.dataLocationS3,
+    this.dataRearrangement,
+    this.dataSchema,
+    this.dataSchemaLocationS3,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataLocationS3 = this.dataLocationS3;
+    final dataRearrangement = this.dataRearrangement;
+    final dataSchema = this.dataSchema;
+    final dataSchemaLocationS3 = this.dataSchemaLocationS3;
+    return {
+      'DataLocationS3': dataLocationS3,
+      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
+      if (dataSchema != null) 'DataSchema': dataSchema,
+      if (dataSchemaLocationS3 != null)
+        'DataSchemaLocationS3': dataSchemaLocationS3,
+    };
+  }
+}
+
+/// Describes the data specification of an Amazon Redshift
+/// <code>DataSource</code>.
+class RedshiftDataSpec {
+  /// Describes AWS Identity and Access Management (IAM) credentials that are used
+  /// connect to the Amazon Redshift database.
+  final RedshiftDatabaseCredentials databaseCredentials;
+
+  /// Describes the <code>DatabaseName</code> and <code>ClusterIdentifier</code>
+  /// for an Amazon Redshift <code>DataSource</code>.
+  final RedshiftDatabase databaseInformation;
+
+  /// Describes an Amazon S3 location to store the result set of the
+  /// <code>SelectSqlQuery</code> query.
+  final String s3StagingLocation;
+
+  /// Describes the SQL Query to execute on an Amazon Redshift database for an
+  /// Amazon Redshift <code>DataSource</code>.
+  final String selectSqlQuery;
+
+  /// A JSON string that represents the splitting and rearrangement processing to
+  /// be applied to a <code>DataSource</code>. If the
+  /// <code>DataRearrangement</code> parameter is not provided, all of the input
+  /// data is used to create the <code>Datasource</code>.
+  ///
+  /// There are multiple parameters that control what data is used to create a
+  /// datasource:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>percentBegin</code> </b>
+  ///
+  /// Use <code>percentBegin</code> to indicate the beginning of the range of the
+  /// data used to create the Datasource. If you do not include
+  /// <code>percentBegin</code> and <code>percentEnd</code>, Amazon ML includes
+  /// all of the data when creating the datasource.
+  /// </li>
+  /// <li>
+  /// <b> <code>percentEnd</code> </b>
+  ///
+  /// Use <code>percentEnd</code> to indicate the end of the range of the data
+  /// used to create the Datasource. If you do not include
+  /// <code>percentBegin</code> and <code>percentEnd</code>, Amazon ML includes
+  /// all of the data when creating the datasource.
+  /// </li>
+  /// <li>
+  /// <b> <code>complement</code> </b>
+  ///
+  /// The <code>complement</code> parameter instructs Amazon ML to use the data
+  /// that is not included in the range of <code>percentBegin</code> to
+  /// <code>percentEnd</code> to create a datasource. The <code>complement</code>
+  /// parameter is useful if you need to create complementary datasources for
+  /// training and evaluation. To create a complementary datasource, use the same
+  /// values for <code>percentBegin</code> and <code>percentEnd</code>, along with
+  /// the <code>complement</code> parameter.
+  ///
+  /// For example, the following two datasources do not share any data, and can be
+  /// used to train and evaluate a model. The first datasource has 25 percent of
+  /// the data, and the second one has 75 percent of the data.
+  ///
+  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":0,
+  /// "percentEnd":25}}</code>
+  ///
+  /// Datasource for training: <code>{"splitting":{"percentBegin":0,
+  /// "percentEnd":25, "complement":"true"}}</code>
+  /// </li>
+  /// <li>
+  /// <b> <code>strategy</code> </b>
+  ///
+  /// To change how Amazon ML splits the data for a datasource, use the
+  /// <code>strategy</code> parameter.
+  ///
+  /// The default value for the <code>strategy</code> parameter is
+  /// <code>sequential</code>, meaning that Amazon ML takes all of the data
+  /// records between the <code>percentBegin</code> and <code>percentEnd</code>
+  /// parameters for the datasource, in the order that the records appear in the
+  /// input data.
+  ///
+  /// The following two <code>DataRearrangement</code> lines are examples of
+  /// sequentially ordered training and evaluation datasources:
+  ///
+  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":70,
+  /// "percentEnd":100, "strategy":"sequential"}}</code>
+  ///
+  /// Datasource for training: <code>{"splitting":{"percentBegin":70,
+  /// "percentEnd":100, "strategy":"sequential", "complement":"true"}}</code>
+  ///
+  /// To randomly split the input data into the proportions indicated by the
+  /// percentBegin and percentEnd parameters, set the <code>strategy</code>
+  /// parameter to <code>random</code> and provide a string that is used as the
+  /// seed value for the random data splitting (for example, you can use the S3
+  /// path to your data as the random seed string). If you choose the random split
+  /// strategy, Amazon ML assigns each row of data a pseudo-random number between
+  /// 0 and 100, and then selects the rows that have an assigned number between
+  /// <code>percentBegin</code> and <code>percentEnd</code>. Pseudo-random numbers
+  /// are assigned using both the input seed string value and the byte offset as a
+  /// seed, so changing the data results in a different split. Any existing
+  /// ordering is preserved. The random splitting strategy ensures that variables
+  /// in the training and evaluation data are distributed similarly. It is useful
+  /// in the cases where the input data may have an implicit sort order, which
+  /// would otherwise result in training and evaluation datasources containing
+  /// non-similar data records.
+  ///
+  /// The following two <code>DataRearrangement</code> lines are examples of
+  /// non-sequentially ordered training and evaluation datasources:
+  ///
+  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":70,
+  /// "percentEnd":100, "strategy":"random",
+  /// "randomSeed"="s3://my_s3_path/bucket/file.csv"}}</code>
+  ///
+  /// Datasource for training: <code>{"splitting":{"percentBegin":70,
+  /// "percentEnd":100, "strategy":"random",
+  /// "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}</code>
+  /// </li>
+  /// </ul>
+  final String? dataRearrangement;
+
+  /// A JSON string that represents the schema for an Amazon Redshift
+  /// <code>DataSource</code>. The <code>DataSchema</code> defines the structure
+  /// of the observation data in the data file(s) referenced in the
+  /// <code>DataSource</code>.
+  ///
+  /// A <code>DataSchema</code> is not required if you specify a
+  /// <code>DataSchemaUri</code>.
+  ///
+  /// Define your <code>DataSchema</code> as a series of key-value pairs.
+  /// <code>attributes</code> and <code>excludedVariableNames</code> have an array
+  /// of key-value pairs for their value. Use the following format to define your
+  /// <code>DataSchema</code>.
+  ///
+  /// { "version": "1.0",
+  ///
+  /// "recordAnnotationFieldName": "F1",
+  ///
+  /// "recordWeightFieldName": "F2",
+  ///
+  /// "targetFieldName": "F3",
+  ///
+  /// "dataFormat": "CSV",
+  ///
+  /// "dataFileContainsHeader": true,
+  ///
+  /// "attributes": [
+  ///
+  /// { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2",
+  /// "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" },
+  /// { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5",
+  /// "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, {
+  /// "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName":
+  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
+  ///
+  /// "excludedVariableNames": [ "F6" ] }
+  final String? dataSchema;
+
+  /// Describes the schema location for an Amazon Redshift
+  /// <code>DataSource</code>.
+  final String? dataSchemaUri;
+
+  RedshiftDataSpec({
+    required this.databaseCredentials,
+    required this.databaseInformation,
+    required this.s3StagingLocation,
+    required this.selectSqlQuery,
+    this.dataRearrangement,
+    this.dataSchema,
+    this.dataSchemaUri,
+  });
+
+  Map<String, dynamic> toJson() {
+    final databaseCredentials = this.databaseCredentials;
+    final databaseInformation = this.databaseInformation;
+    final s3StagingLocation = this.s3StagingLocation;
+    final selectSqlQuery = this.selectSqlQuery;
+    final dataRearrangement = this.dataRearrangement;
+    final dataSchema = this.dataSchema;
+    final dataSchemaUri = this.dataSchemaUri;
+    return {
+      'DatabaseCredentials': databaseCredentials,
+      'DatabaseInformation': databaseInformation,
+      'S3StagingLocation': s3StagingLocation,
+      'SelectSqlQuery': selectSqlQuery,
+      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
+      if (dataSchema != null) 'DataSchema': dataSchema,
+      if (dataSchemaUri != null) 'DataSchemaUri': dataSchemaUri,
+    };
+  }
+}
+
+/// Describes the database credentials for connecting to a database on an Amazon
+/// Redshift cluster.
+class RedshiftDatabaseCredentials {
+  final String password;
+  final String username;
+
+  RedshiftDatabaseCredentials({
+    required this.password,
+    required this.username,
+  });
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      'Password': password,
+      'Username': username,
     };
   }
 }
@@ -5082,35 +5921,6 @@ class RDSDataSpec {
   }
 }
 
-/// The database details of an Amazon RDS database.
-class RDSDatabase {
-  final String databaseName;
-
-  /// The ID of an RDS DB instance.
-  final String instanceIdentifier;
-
-  RDSDatabase({
-    required this.databaseName,
-    required this.instanceIdentifier,
-  });
-
-  factory RDSDatabase.fromJson(Map<String, dynamic> json) {
-    return RDSDatabase(
-      databaseName: (json['DatabaseName'] as String?) ?? '',
-      instanceIdentifier: (json['InstanceIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final instanceIdentifier = this.instanceIdentifier;
-    return {
-      'DatabaseName': databaseName,
-      'InstanceIdentifier': instanceIdentifier,
-    };
-  }
-}
-
 /// The database credentials to connect to a database on an RDS DB instance.
 class RDSDatabaseCredentials {
   final String password;
@@ -5127,815 +5937,6 @@ class RDSDatabaseCredentials {
     return {
       'Password': password,
       'Username': username,
-    };
-  }
-}
-
-/// The datasource details that are specific to Amazon RDS.
-class RDSMetadata {
-  /// The ID of the Data Pipeline instance that is used to carry to copy data from
-  /// Amazon RDS to Amazon S3. You can use the ID to find details about the
-  /// instance in the Data Pipeline console.
-  final String? dataPipelineId;
-
-  /// The database details required to connect to an Amazon RDS.
-  final RDSDatabase? database;
-  final String? databaseUserName;
-
-  /// The role (DataPipelineDefaultResourceRole) assumed by an Amazon EC2 instance
-  /// to carry out the copy task from Amazon RDS to Amazon S3. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
-  /// templates</a> for data pipelines.
-  final String? resourceRole;
-
-  /// The SQL query that is supplied during <a>CreateDataSourceFromRDS</a>.
-  /// Returns only if <code>Verbose</code> is true in
-  /// <code>GetDataSourceInput</code>.
-  final String? selectSqlQuery;
-
-  /// The role (DataPipelineDefaultRole) assumed by the Data Pipeline service to
-  /// monitor the progress of the copy task from Amazon RDS to Amazon S3. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-iam-roles.html">Role
-  /// templates</a> for data pipelines.
-  final String? serviceRole;
-
-  RDSMetadata({
-    this.dataPipelineId,
-    this.database,
-    this.databaseUserName,
-    this.resourceRole,
-    this.selectSqlQuery,
-    this.serviceRole,
-  });
-
-  factory RDSMetadata.fromJson(Map<String, dynamic> json) {
-    return RDSMetadata(
-      dataPipelineId: json['DataPipelineId'] as String?,
-      database: json['Database'] != null
-          ? RDSDatabase.fromJson(json['Database'] as Map<String, dynamic>)
-          : null,
-      databaseUserName: json['DatabaseUserName'] as String?,
-      resourceRole: json['ResourceRole'] as String?,
-      selectSqlQuery: json['SelectSqlQuery'] as String?,
-      serviceRole: json['ServiceRole'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataPipelineId = this.dataPipelineId;
-    final database = this.database;
-    final databaseUserName = this.databaseUserName;
-    final resourceRole = this.resourceRole;
-    final selectSqlQuery = this.selectSqlQuery;
-    final serviceRole = this.serviceRole;
-    return {
-      if (dataPipelineId != null) 'DataPipelineId': dataPipelineId,
-      if (database != null) 'Database': database,
-      if (databaseUserName != null) 'DatabaseUserName': databaseUserName,
-      if (resourceRole != null) 'ResourceRole': resourceRole,
-      if (selectSqlQuery != null) 'SelectSqlQuery': selectSqlQuery,
-      if (serviceRole != null) 'ServiceRole': serviceRole,
-    };
-  }
-}
-
-/// Describes the real-time endpoint information for an <code>MLModel</code>.
-class RealtimeEndpointInfo {
-  /// The time that the request to create the real-time endpoint for the
-  /// <code>MLModel</code> was received. The time is expressed in epoch time.
-  final DateTime? createdAt;
-
-  /// The current status of the real-time endpoint for the <code>MLModel</code>.
-  /// This element can have one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>NONE</code> - Endpoint does not exist or was previously deleted.
-  /// </li>
-  /// <li>
-  /// <code>READY</code> - Endpoint is ready to be used for real-time predictions.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - Updating/creating the endpoint.
-  /// </li>
-  /// </ul>
-  final RealtimeEndpointStatus? endpointStatus;
-
-  /// The URI that specifies where to send real-time prediction requests for the
-  /// <code>MLModel</code>.
-  ///
-  /// <b>Note:</b> The application must wait until the real-time endpoint is ready
-  /// before using this URI.
-  final String? endpointUrl;
-
-  /// The maximum processing rate for the real-time endpoint for
-  /// <code>MLModel</code>, measured in incoming requests per second.
-  final int? peakRequestsPerSecond;
-
-  RealtimeEndpointInfo({
-    this.createdAt,
-    this.endpointStatus,
-    this.endpointUrl,
-    this.peakRequestsPerSecond,
-  });
-
-  factory RealtimeEndpointInfo.fromJson(Map<String, dynamic> json) {
-    return RealtimeEndpointInfo(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      endpointStatus: (json['EndpointStatus'] as String?)
-          ?.let(RealtimeEndpointStatus.fromString),
-      endpointUrl: json['EndpointUrl'] as String?,
-      peakRequestsPerSecond: json['PeakRequestsPerSecond'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final endpointStatus = this.endpointStatus;
-    final endpointUrl = this.endpointUrl;
-    final peakRequestsPerSecond = this.peakRequestsPerSecond;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (endpointStatus != null) 'EndpointStatus': endpointStatus.value,
-      if (endpointUrl != null) 'EndpointUrl': endpointUrl,
-      if (peakRequestsPerSecond != null)
-        'PeakRequestsPerSecond': peakRequestsPerSecond,
-    };
-  }
-}
-
-class RealtimeEndpointStatus {
-  static const none = RealtimeEndpointStatus._('NONE');
-  static const ready = RealtimeEndpointStatus._('READY');
-  static const updating = RealtimeEndpointStatus._('UPDATING');
-  static const failed = RealtimeEndpointStatus._('FAILED');
-
-  final String value;
-
-  const RealtimeEndpointStatus._(this.value);
-
-  static const values = [none, ready, updating, failed];
-
-  static RealtimeEndpointStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RealtimeEndpointStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RealtimeEndpointStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the data specification of an Amazon Redshift
-/// <code>DataSource</code>.
-class RedshiftDataSpec {
-  /// Describes AWS Identity and Access Management (IAM) credentials that are used
-  /// connect to the Amazon Redshift database.
-  final RedshiftDatabaseCredentials databaseCredentials;
-
-  /// Describes the <code>DatabaseName</code> and <code>ClusterIdentifier</code>
-  /// for an Amazon Redshift <code>DataSource</code>.
-  final RedshiftDatabase databaseInformation;
-
-  /// Describes an Amazon S3 location to store the result set of the
-  /// <code>SelectSqlQuery</code> query.
-  final String s3StagingLocation;
-
-  /// Describes the SQL Query to execute on an Amazon Redshift database for an
-  /// Amazon Redshift <code>DataSource</code>.
-  final String selectSqlQuery;
-
-  /// A JSON string that represents the splitting and rearrangement processing to
-  /// be applied to a <code>DataSource</code>. If the
-  /// <code>DataRearrangement</code> parameter is not provided, all of the input
-  /// data is used to create the <code>Datasource</code>.
-  ///
-  /// There are multiple parameters that control what data is used to create a
-  /// datasource:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>percentBegin</code> </b>
-  ///
-  /// Use <code>percentBegin</code> to indicate the beginning of the range of the
-  /// data used to create the Datasource. If you do not include
-  /// <code>percentBegin</code> and <code>percentEnd</code>, Amazon ML includes
-  /// all of the data when creating the datasource.
-  /// </li>
-  /// <li>
-  /// <b> <code>percentEnd</code> </b>
-  ///
-  /// Use <code>percentEnd</code> to indicate the end of the range of the data
-  /// used to create the Datasource. If you do not include
-  /// <code>percentBegin</code> and <code>percentEnd</code>, Amazon ML includes
-  /// all of the data when creating the datasource.
-  /// </li>
-  /// <li>
-  /// <b> <code>complement</code> </b>
-  ///
-  /// The <code>complement</code> parameter instructs Amazon ML to use the data
-  /// that is not included in the range of <code>percentBegin</code> to
-  /// <code>percentEnd</code> to create a datasource. The <code>complement</code>
-  /// parameter is useful if you need to create complementary datasources for
-  /// training and evaluation. To create a complementary datasource, use the same
-  /// values for <code>percentBegin</code> and <code>percentEnd</code>, along with
-  /// the <code>complement</code> parameter.
-  ///
-  /// For example, the following two datasources do not share any data, and can be
-  /// used to train and evaluate a model. The first datasource has 25 percent of
-  /// the data, and the second one has 75 percent of the data.
-  ///
-  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":0,
-  /// "percentEnd":25}}</code>
-  ///
-  /// Datasource for training: <code>{"splitting":{"percentBegin":0,
-  /// "percentEnd":25, "complement":"true"}}</code>
-  /// </li>
-  /// <li>
-  /// <b> <code>strategy</code> </b>
-  ///
-  /// To change how Amazon ML splits the data for a datasource, use the
-  /// <code>strategy</code> parameter.
-  ///
-  /// The default value for the <code>strategy</code> parameter is
-  /// <code>sequential</code>, meaning that Amazon ML takes all of the data
-  /// records between the <code>percentBegin</code> and <code>percentEnd</code>
-  /// parameters for the datasource, in the order that the records appear in the
-  /// input data.
-  ///
-  /// The following two <code>DataRearrangement</code> lines are examples of
-  /// sequentially ordered training and evaluation datasources:
-  ///
-  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":70,
-  /// "percentEnd":100, "strategy":"sequential"}}</code>
-  ///
-  /// Datasource for training: <code>{"splitting":{"percentBegin":70,
-  /// "percentEnd":100, "strategy":"sequential", "complement":"true"}}</code>
-  ///
-  /// To randomly split the input data into the proportions indicated by the
-  /// percentBegin and percentEnd parameters, set the <code>strategy</code>
-  /// parameter to <code>random</code> and provide a string that is used as the
-  /// seed value for the random data splitting (for example, you can use the S3
-  /// path to your data as the random seed string). If you choose the random split
-  /// strategy, Amazon ML assigns each row of data a pseudo-random number between
-  /// 0 and 100, and then selects the rows that have an assigned number between
-  /// <code>percentBegin</code> and <code>percentEnd</code>. Pseudo-random numbers
-  /// are assigned using both the input seed string value and the byte offset as a
-  /// seed, so changing the data results in a different split. Any existing
-  /// ordering is preserved. The random splitting strategy ensures that variables
-  /// in the training and evaluation data are distributed similarly. It is useful
-  /// in the cases where the input data may have an implicit sort order, which
-  /// would otherwise result in training and evaluation datasources containing
-  /// non-similar data records.
-  ///
-  /// The following two <code>DataRearrangement</code> lines are examples of
-  /// non-sequentially ordered training and evaluation datasources:
-  ///
-  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":70,
-  /// "percentEnd":100, "strategy":"random",
-  /// "randomSeed"="s3://my_s3_path/bucket/file.csv"}}</code>
-  ///
-  /// Datasource for training: <code>{"splitting":{"percentBegin":70,
-  /// "percentEnd":100, "strategy":"random",
-  /// "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}</code>
-  /// </li>
-  /// </ul>
-  final String? dataRearrangement;
-
-  /// A JSON string that represents the schema for an Amazon Redshift
-  /// <code>DataSource</code>. The <code>DataSchema</code> defines the structure
-  /// of the observation data in the data file(s) referenced in the
-  /// <code>DataSource</code>.
-  ///
-  /// A <code>DataSchema</code> is not required if you specify a
-  /// <code>DataSchemaUri</code>.
-  ///
-  /// Define your <code>DataSchema</code> as a series of key-value pairs.
-  /// <code>attributes</code> and <code>excludedVariableNames</code> have an array
-  /// of key-value pairs for their value. Use the following format to define your
-  /// <code>DataSchema</code>.
-  ///
-  /// { "version": "1.0",
-  ///
-  /// "recordAnnotationFieldName": "F1",
-  ///
-  /// "recordWeightFieldName": "F2",
-  ///
-  /// "targetFieldName": "F3",
-  ///
-  /// "dataFormat": "CSV",
-  ///
-  /// "dataFileContainsHeader": true,
-  ///
-  /// "attributes": [
-  ///
-  /// { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2",
-  /// "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" },
-  /// { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5",
-  /// "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, {
-  /// "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName":
-  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
-  ///
-  /// "excludedVariableNames": [ "F6" ] }
-  final String? dataSchema;
-
-  /// Describes the schema location for an Amazon Redshift
-  /// <code>DataSource</code>.
-  final String? dataSchemaUri;
-
-  RedshiftDataSpec({
-    required this.databaseCredentials,
-    required this.databaseInformation,
-    required this.s3StagingLocation,
-    required this.selectSqlQuery,
-    this.dataRearrangement,
-    this.dataSchema,
-    this.dataSchemaUri,
-  });
-
-  Map<String, dynamic> toJson() {
-    final databaseCredentials = this.databaseCredentials;
-    final databaseInformation = this.databaseInformation;
-    final s3StagingLocation = this.s3StagingLocation;
-    final selectSqlQuery = this.selectSqlQuery;
-    final dataRearrangement = this.dataRearrangement;
-    final dataSchema = this.dataSchema;
-    final dataSchemaUri = this.dataSchemaUri;
-    return {
-      'DatabaseCredentials': databaseCredentials,
-      'DatabaseInformation': databaseInformation,
-      'S3StagingLocation': s3StagingLocation,
-      'SelectSqlQuery': selectSqlQuery,
-      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
-      if (dataSchema != null) 'DataSchema': dataSchema,
-      if (dataSchemaUri != null) 'DataSchemaUri': dataSchemaUri,
-    };
-  }
-}
-
-/// Describes the database details required to connect to an Amazon Redshift
-/// database.
-class RedshiftDatabase {
-  final String clusterIdentifier;
-  final String databaseName;
-
-  RedshiftDatabase({
-    required this.clusterIdentifier,
-    required this.databaseName,
-  });
-
-  factory RedshiftDatabase.fromJson(Map<String, dynamic> json) {
-    return RedshiftDatabase(
-      clusterIdentifier: (json['ClusterIdentifier'] as String?) ?? '',
-      databaseName: (json['DatabaseName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final databaseName = this.databaseName;
-    return {
-      'ClusterIdentifier': clusterIdentifier,
-      'DatabaseName': databaseName,
-    };
-  }
-}
-
-/// Describes the database credentials for connecting to a database on an Amazon
-/// Redshift cluster.
-class RedshiftDatabaseCredentials {
-  final String password;
-  final String username;
-
-  RedshiftDatabaseCredentials({
-    required this.password,
-    required this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final password = this.password;
-    final username = this.username;
-    return {
-      'Password': password,
-      'Username': username,
-    };
-  }
-}
-
-/// Describes the <code>DataSource</code> details specific to Amazon Redshift.
-class RedshiftMetadata {
-  final String? databaseUserName;
-  final RedshiftDatabase? redshiftDatabase;
-
-  /// The SQL query that is specified during <a>CreateDataSourceFromRedshift</a>.
-  /// Returns only if <code>Verbose</code> is true in GetDataSourceInput.
-  final String? selectSqlQuery;
-
-  RedshiftMetadata({
-    this.databaseUserName,
-    this.redshiftDatabase,
-    this.selectSqlQuery,
-  });
-
-  factory RedshiftMetadata.fromJson(Map<String, dynamic> json) {
-    return RedshiftMetadata(
-      databaseUserName: json['DatabaseUserName'] as String?,
-      redshiftDatabase: json['RedshiftDatabase'] != null
-          ? RedshiftDatabase.fromJson(
-              json['RedshiftDatabase'] as Map<String, dynamic>)
-          : null,
-      selectSqlQuery: json['SelectSqlQuery'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseUserName = this.databaseUserName;
-    final redshiftDatabase = this.redshiftDatabase;
-    final selectSqlQuery = this.selectSqlQuery;
-    return {
-      if (databaseUserName != null) 'DatabaseUserName': databaseUserName,
-      if (redshiftDatabase != null) 'RedshiftDatabase': redshiftDatabase,
-      if (selectSqlQuery != null) 'SelectSqlQuery': selectSqlQuery,
-    };
-  }
-}
-
-/// Describes the data specification of a <code>DataSource</code>.
-class S3DataSpec {
-  /// The location of the data file(s) used by a <code>DataSource</code>. The URI
-  /// specifies a data file or an Amazon Simple Storage Service (Amazon S3)
-  /// directory or bucket containing data files.
-  final String dataLocationS3;
-
-  /// A JSON string that represents the splitting and rearrangement processing to
-  /// be applied to a <code>DataSource</code>. If the
-  /// <code>DataRearrangement</code> parameter is not provided, all of the input
-  /// data is used to create the <code>Datasource</code>.
-  ///
-  /// There are multiple parameters that control what data is used to create a
-  /// datasource:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>percentBegin</code> </b>
-  ///
-  /// Use <code>percentBegin</code> to indicate the beginning of the range of the
-  /// data used to create the Datasource. If you do not include
-  /// <code>percentBegin</code> and <code>percentEnd</code>, Amazon ML includes
-  /// all of the data when creating the datasource.
-  /// </li>
-  /// <li>
-  /// <b> <code>percentEnd</code> </b>
-  ///
-  /// Use <code>percentEnd</code> to indicate the end of the range of the data
-  /// used to create the Datasource. If you do not include
-  /// <code>percentBegin</code> and <code>percentEnd</code>, Amazon ML includes
-  /// all of the data when creating the datasource.
-  /// </li>
-  /// <li>
-  /// <b> <code>complement</code> </b>
-  ///
-  /// The <code>complement</code> parameter instructs Amazon ML to use the data
-  /// that is not included in the range of <code>percentBegin</code> to
-  /// <code>percentEnd</code> to create a datasource. The <code>complement</code>
-  /// parameter is useful if you need to create complementary datasources for
-  /// training and evaluation. To create a complementary datasource, use the same
-  /// values for <code>percentBegin</code> and <code>percentEnd</code>, along with
-  /// the <code>complement</code> parameter.
-  ///
-  /// For example, the following two datasources do not share any data, and can be
-  /// used to train and evaluate a model. The first datasource has 25 percent of
-  /// the data, and the second one has 75 percent of the data.
-  ///
-  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":0,
-  /// "percentEnd":25}}</code>
-  ///
-  /// Datasource for training: <code>{"splitting":{"percentBegin":0,
-  /// "percentEnd":25, "complement":"true"}}</code>
-  /// </li>
-  /// <li>
-  /// <b> <code>strategy</code> </b>
-  ///
-  /// To change how Amazon ML splits the data for a datasource, use the
-  /// <code>strategy</code> parameter.
-  ///
-  /// The default value for the <code>strategy</code> parameter is
-  /// <code>sequential</code>, meaning that Amazon ML takes all of the data
-  /// records between the <code>percentBegin</code> and <code>percentEnd</code>
-  /// parameters for the datasource, in the order that the records appear in the
-  /// input data.
-  ///
-  /// The following two <code>DataRearrangement</code> lines are examples of
-  /// sequentially ordered training and evaluation datasources:
-  ///
-  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":70,
-  /// "percentEnd":100, "strategy":"sequential"}}</code>
-  ///
-  /// Datasource for training: <code>{"splitting":{"percentBegin":70,
-  /// "percentEnd":100, "strategy":"sequential", "complement":"true"}}</code>
-  ///
-  /// To randomly split the input data into the proportions indicated by the
-  /// percentBegin and percentEnd parameters, set the <code>strategy</code>
-  /// parameter to <code>random</code> and provide a string that is used as the
-  /// seed value for the random data splitting (for example, you can use the S3
-  /// path to your data as the random seed string). If you choose the random split
-  /// strategy, Amazon ML assigns each row of data a pseudo-random number between
-  /// 0 and 100, and then selects the rows that have an assigned number between
-  /// <code>percentBegin</code> and <code>percentEnd</code>. Pseudo-random numbers
-  /// are assigned using both the input seed string value and the byte offset as a
-  /// seed, so changing the data results in a different split. Any existing
-  /// ordering is preserved. The random splitting strategy ensures that variables
-  /// in the training and evaluation data are distributed similarly. It is useful
-  /// in the cases where the input data may have an implicit sort order, which
-  /// would otherwise result in training and evaluation datasources containing
-  /// non-similar data records.
-  ///
-  /// The following two <code>DataRearrangement</code> lines are examples of
-  /// non-sequentially ordered training and evaluation datasources:
-  ///
-  /// Datasource for evaluation: <code>{"splitting":{"percentBegin":70,
-  /// "percentEnd":100, "strategy":"random",
-  /// "randomSeed"="s3://my_s3_path/bucket/file.csv"}}</code>
-  ///
-  /// Datasource for training: <code>{"splitting":{"percentBegin":70,
-  /// "percentEnd":100, "strategy":"random",
-  /// "randomSeed"="s3://my_s3_path/bucket/file.csv", "complement":"true"}}</code>
-  /// </li>
-  /// </ul>
-  final String? dataRearrangement;
-
-  /// A JSON string that represents the schema for an Amazon S3
-  /// <code>DataSource</code>. The <code>DataSchema</code> defines the structure
-  /// of the observation data in the data file(s) referenced in the
-  /// <code>DataSource</code>.
-  ///
-  /// You must provide either the <code>DataSchema</code> or the
-  /// <code>DataSchemaLocationS3</code>.
-  ///
-  /// Define your <code>DataSchema</code> as a series of key-value pairs.
-  /// <code>attributes</code> and <code>excludedVariableNames</code> have an array
-  /// of key-value pairs for their value. Use the following format to define your
-  /// <code>DataSchema</code>.
-  ///
-  /// { "version": "1.0",
-  ///
-  /// "recordAnnotationFieldName": "F1",
-  ///
-  /// "recordWeightFieldName": "F2",
-  ///
-  /// "targetFieldName": "F3",
-  ///
-  /// "dataFormat": "CSV",
-  ///
-  /// "dataFileContainsHeader": true,
-  ///
-  /// "attributes": [
-  ///
-  /// { "fieldName": "F1", "fieldType": "TEXT" }, { "fieldName": "F2",
-  /// "fieldType": "NUMERIC" }, { "fieldName": "F3", "fieldType": "CATEGORICAL" },
-  /// { "fieldName": "F4", "fieldType": "NUMERIC" }, { "fieldName": "F5",
-  /// "fieldType": "CATEGORICAL" }, { "fieldName": "F6", "fieldType": "TEXT" }, {
-  /// "fieldName": "F7", "fieldType": "WEIGHTED_INT_SEQUENCE" }, { "fieldName":
-  /// "F8", "fieldType": "WEIGHTED_STRING_SEQUENCE" } ],
-  ///
-  /// "excludedVariableNames": [ "F6" ] }
-  final String? dataSchema;
-
-  /// Describes the schema location in Amazon S3. You must provide either the
-  /// <code>DataSchema</code> or the <code>DataSchemaLocationS3</code>.
-  final String? dataSchemaLocationS3;
-
-  S3DataSpec({
-    required this.dataLocationS3,
-    this.dataRearrangement,
-    this.dataSchema,
-    this.dataSchemaLocationS3,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dataLocationS3 = this.dataLocationS3;
-    final dataRearrangement = this.dataRearrangement;
-    final dataSchema = this.dataSchema;
-    final dataSchemaLocationS3 = this.dataSchemaLocationS3;
-    return {
-      'DataLocationS3': dataLocationS3,
-      if (dataRearrangement != null) 'DataRearrangement': dataRearrangement,
-      if (dataSchema != null) 'DataSchema': dataSchema,
-      if (dataSchemaLocationS3 != null)
-        'DataSchemaLocationS3': dataSchemaLocationS3,
-    };
-  }
-}
-
-/// The sort order specified in a listing condition. Possible values include the
-/// following:
-///
-/// <ul>
-/// <li>
-/// <code>asc</code> - Present the information in ascending order (from A-Z).
-/// </li>
-/// <li>
-/// <code>dsc</code> - Present the information in descending order (from Z-A).
-/// </li>
-/// </ul>
-class SortOrder {
-  static const asc = SortOrder._('asc');
-  static const dsc = SortOrder._('dsc');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [asc, dsc];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A custom key-value pair associated with an ML object, such as an ML model.
-class Tag {
-  /// A unique identifier for the tag. Valid characters include Unicode letters,
-  /// digits, white space, _, ., /, =, +, -, %, and @.
-  final String? key;
-
-  /// An optional string, typically used to describe or define the tag. Valid
-  /// characters include Unicode letters, digits, white space, _, ., /, =, +, -,
-  /// %, and @.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class TaggableResourceType {
-  static const batchPrediction = TaggableResourceType._('BatchPrediction');
-  static const dataSource = TaggableResourceType._('DataSource');
-  static const evaluation = TaggableResourceType._('Evaluation');
-  static const mLModel = TaggableResourceType._('MLModel');
-
-  final String value;
-
-  const TaggableResourceType._(this.value);
-
-  static const values = [batchPrediction, dataSource, evaluation, mLModel];
-
-  static TaggableResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TaggableResourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TaggableResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the output of an <code>UpdateBatchPrediction</code> operation.
-///
-/// You can see the updated content by using the <code>GetBatchPrediction</code>
-/// operation.
-class UpdateBatchPredictionOutput {
-  /// The ID assigned to the <code>BatchPrediction</code> during creation. This
-  /// value should be identical to the value of the <code>BatchPredictionId</code>
-  /// in the request.
-  final String? batchPredictionId;
-
-  UpdateBatchPredictionOutput({
-    this.batchPredictionId,
-  });
-
-  factory UpdateBatchPredictionOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateBatchPredictionOutput(
-      batchPredictionId: json['BatchPredictionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final batchPredictionId = this.batchPredictionId;
-    return {
-      if (batchPredictionId != null) 'BatchPredictionId': batchPredictionId,
-    };
-  }
-}
-
-/// Represents the output of an <code>UpdateDataSource</code> operation.
-///
-/// You can see the updated content by using the <code>GetBatchPrediction</code>
-/// operation.
-class UpdateDataSourceOutput {
-  /// The ID assigned to the <code>DataSource</code> during creation. This value
-  /// should be identical to the value of the <code>DataSourceID</code> in the
-  /// request.
-  final String? dataSourceId;
-
-  UpdateDataSourceOutput({
-    this.dataSourceId,
-  });
-
-  factory UpdateDataSourceOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateDataSourceOutput(
-      dataSourceId: json['DataSourceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceId = this.dataSourceId;
-    return {
-      if (dataSourceId != null) 'DataSourceId': dataSourceId,
-    };
-  }
-}
-
-/// Represents the output of an <code>UpdateEvaluation</code> operation.
-///
-/// You can see the updated content by using the <code>GetEvaluation</code>
-/// operation.
-class UpdateEvaluationOutput {
-  /// The ID assigned to the <code>Evaluation</code> during creation. This value
-  /// should be identical to the value of the <code>Evaluation</code> in the
-  /// request.
-  final String? evaluationId;
-
-  UpdateEvaluationOutput({
-    this.evaluationId,
-  });
-
-  factory UpdateEvaluationOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateEvaluationOutput(
-      evaluationId: json['EvaluationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final evaluationId = this.evaluationId;
-    return {
-      if (evaluationId != null) 'EvaluationId': evaluationId,
-    };
-  }
-}
-
-/// Represents the output of an <code>UpdateMLModel</code> operation.
-///
-/// You can see the updated content by using the <code>GetMLModel</code>
-/// operation.
-class UpdateMLModelOutput {
-  /// The ID assigned to the <code>MLModel</code> during creation. This value
-  /// should be identical to the value of the <code>MLModelID</code> in the
-  /// request.
-  final String? mLModelId;
-
-  UpdateMLModelOutput({
-    this.mLModelId,
-  });
-
-  factory UpdateMLModelOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateMLModelOutput(
-      mLModelId: json['MLModelId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mLModelId = this.mLModelId;
-    return {
-      if (mLModelId != null) 'MLModelId': mLModelId,
     };
   }
 }

@@ -29,9 +29,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html">Using
 /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
 /// Guide</i>.
-class RedshiftDataApi {
+class RedshiftData {
   final _s.JsonProtocol _protocol;
-  RedshiftDataApi({
+  RedshiftData({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -41,7 +41,6 @@ class RedshiftDataApi {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'redshift-data',
-            signingName: 'redshift-data',
           ),
           region: region,
           credentials: credentials,
@@ -107,18 +106,19 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [ActiveSessionsExceededException].
   /// May throw [ActiveStatementsExceededException].
   /// May throw [BatchExecuteStatementException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [sqls] :
-  /// One or more SQL statements to run. <pre><code> The SQL statements are run
-  /// as a single transaction. They run serially in the order of the array.
-  /// Subsequent SQL statements don't start until the previous statement in the
-  /// array completes. If any SQL statement fails, then because they are run as
-  /// one transaction, all work is rolled back.&lt;/p&gt; </code></pre>
+  /// One or more SQL statements to run. The SQL statements are run as a single
+  /// transaction. They run serially in the order of the array. Subsequent SQL
+  /// statements don't start until the previous statement in the array
+  /// completes. If any SQL statement fails, then because they are run as one
+  /// transaction, all work is rolled back.
   ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -136,6 +136,14 @@ class RedshiftDataApi {
   /// Parameter [dbUser] :
   /// The database user name. This parameter is required when connecting to a
   /// cluster as a database user and authenticating using temporary credentials.
+  ///
+  /// Parameter [parameters] :
+  /// The parameters for the SQL statements. The parameters are shared across
+  /// all SQL statements in the batch.
+  ///
+  /// Parameter [resultFormat] :
+  /// The data format of the result of the SQL statement. If no format is
+  /// specified, the default is JSON.
   ///
   /// Parameter [secretArn] :
   /// The name or ARN of the secret that enables access to the database. This
@@ -167,6 +175,8 @@ class RedshiftDataApi {
     String? clusterIdentifier,
     String? database,
     String? dbUser,
+    List<SqlParameter>? parameters,
+    ResultFormatString? resultFormat,
     String? secretArn,
     String? sessionId,
     int? sessionKeepAliveSeconds,
@@ -196,6 +206,8 @@ class RedshiftDataApi {
         if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
         if (database != null) 'Database': database,
         if (dbUser != null) 'DbUser': dbUser,
+        if (parameters != null) 'Parameters': parameters,
+        if (resultFormat != null) 'ResultFormat': resultFormat.value,
         if (secretArn != null) 'SecretArn': secretArn,
         if (sessionId != null) 'SessionId': sessionId,
         if (sessionKeepAliveSeconds != null)
@@ -217,10 +229,11 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [DatabaseConnectionException].
+  /// May throw [InternalServerException].
+  /// May throw [QueryTimeoutException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the SQL statement to cancel. This value is a universally
@@ -259,9 +272,9 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the SQL statement to describe. This value is a
@@ -342,10 +355,11 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [QueryTimeoutException].
-  /// May throw [InternalServerException].
   /// May throw [DatabaseConnectionException].
+  /// May throw [InternalServerException].
+  /// May throw [QueryTimeoutException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [database] :
   /// The name of the database that contains the tables to be described. If
@@ -490,11 +504,12 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [ActiveSessionsExceededException].
-  /// May throw [ExecuteStatementException].
   /// May throw [ActiveStatementsExceededException].
+  /// May throw [ExecuteStatementException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [sql] :
   /// The SQL statement text to run.
@@ -518,6 +533,10 @@ class RedshiftDataApi {
   ///
   /// Parameter [parameters] :
   /// The parameters for the SQL statement.
+  ///
+  /// Parameter [resultFormat] :
+  /// The data format of the result of the SQL statement. If no format is
+  /// specified, the default is JSON.
   ///
   /// Parameter [secretArn] :
   /// The name or ARN of the secret that enables access to the database. This
@@ -550,6 +569,7 @@ class RedshiftDataApi {
     String? database,
     String? dbUser,
     List<SqlParameter>? parameters,
+    ResultFormatString? resultFormat,
     String? secretArn,
     String? sessionId,
     int? sessionKeepAliveSeconds,
@@ -580,6 +600,7 @@ class RedshiftDataApi {
         if (database != null) 'Database': database,
         if (dbUser != null) 'DbUser': dbUser,
         if (parameters != null) 'Parameters': parameters,
+        if (resultFormat != null) 'ResultFormat': resultFormat.value,
         if (secretArn != null) 'SecretArn': secretArn,
         if (sessionId != null) 'SessionId': sessionId,
         if (sessionKeepAliveSeconds != null)
@@ -593,8 +614,11 @@ class RedshiftDataApi {
     return ExecuteStatementOutput.fromJson(jsonResponse.body);
   }
 
-  /// Fetches the temporarily cached result of an SQL statement. A token is
-  /// returned to page through the statement results.
+  /// Fetches the temporarily cached result of an SQL statement in JSON format.
+  /// The <code>ExecuteStatement</code> or <code>BatchExecuteStatement</code>
+  /// operation that ran the SQL statement must have specified
+  /// <code>ResultFormat</code> as <code>JSON</code> , or let the format default
+  /// to JSON. A token is returned to page through the statement results.
   ///
   /// For more information about the Amazon Redshift Data API and CLI usage
   /// examples, see <a
@@ -602,9 +626,9 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the SQL statement whose results are to be fetched. This
@@ -644,6 +668,62 @@ class RedshiftDataApi {
     );
 
     return GetStatementResultResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Fetches the temporarily cached result of an SQL statement in CSV format.
+  /// The <code>ExecuteStatement</code> or <code>BatchExecuteStatement</code>
+  /// operation that ran the SQL statement must have specified
+  /// <code>ResultFormat</code> as <code>CSV</code>. A token is returned to page
+  /// through the statement results.
+  ///
+  /// For more information about the Amazon Redshift Data API and CLI usage
+  /// examples, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html">Using
+  /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
+  /// Guide</i>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [id] :
+  /// The identifier of the SQL statement whose results are to be fetched. This
+  /// value is a universally unique identifier (UUID) generated by Amazon
+  /// Redshift Data API. A suffix indicates then number of the SQL statement.
+  /// For example, <code>d9b6c0c9-0747-4bf4-b142-e8883122f766:2</code> has a
+  /// suffix of <code>:2</code> that indicates the second SQL statement of a
+  /// batch query. This identifier is returned by
+  /// <code>BatchExecuteStatment</code>, <code>ExecuteStatment</code>, and
+  /// <code>ListStatements</code>.
+  ///
+  /// Parameter [nextToken] :
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned NextToken
+  /// value in the next NextToken parameter and retrying the command. If the
+  /// NextToken field is empty, all response records have been retrieved for the
+  /// request.
+  Future<GetStatementResultV2Response> getStatementResultV2({
+    required String id,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RedshiftData.GetStatementResultV2'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Id': id,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return GetStatementResultV2Response.fromJson(jsonResponse.body);
   }
 
   /// List the databases in a cluster. A token is returned to page through the
@@ -695,10 +775,11 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [QueryTimeoutException].
-  /// May throw [InternalServerException].
   /// May throw [DatabaseConnectionException].
+  /// May throw [InternalServerException].
+  /// May throw [QueryTimeoutException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [database] :
   /// The name of the database. This parameter is required when authenticating
@@ -822,10 +903,11 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [QueryTimeoutException].
-  /// May throw [InternalServerException].
   /// May throw [DatabaseConnectionException].
+  /// May throw [InternalServerException].
+  /// May throw [QueryTimeoutException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [database] :
   /// The name of the database that contains the schemas to list. If
@@ -918,14 +1000,32 @@ class RedshiftDataApi {
   /// List of SQL statements. By default, only finished statements are shown. A
   /// token is returned to page through the statement list.
   ///
+  /// When you use identity-enhanced role sessions to list statements, you must
+  /// provide either the <code>cluster-identifier</code> or
+  /// <code>workgroup-name</code> parameter. This ensures that the IdC user can
+  /// only access the Amazon Redshift IdC applications they are assigned. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html">
+  /// Trusted identity propagation overview</a>.
+  ///
   /// For more information about the Amazon Redshift Data API and CLI usage
   /// examples, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html">Using
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The cluster identifier. Only statements that ran on this cluster are
+  /// returned. When providing <code>ClusterIdentifier</code>, then
+  /// <code>WorkgroupName</code> can't be specified.
+  ///
+  /// Parameter [database] :
+  /// The name of the database when listing statements run against a
+  /// <code>ClusterIdentifier</code> or <code>WorkgroupName</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of SQL statements to return in the response. If more
@@ -983,12 +1083,21 @@ class RedshiftDataApi {
   /// SUBMITTED - The query was submitted, but not yet processed.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [workgroupName] :
+  /// The serverless workgroup name or Amazon Resource Name (ARN). Only
+  /// statements that ran on this workgroup are returned. When providing
+  /// <code>WorkgroupName</code>, then <code>ClusterIdentifier</code> can't be
+  /// specified.
   Future<ListStatementsResponse> listStatements({
+    String? clusterIdentifier,
+    String? database,
     int? maxResults,
     String? nextToken,
     bool? roleLevel,
     String? statementName,
     StatusString? status,
+    String? workgroupName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1007,11 +1116,14 @@ class RedshiftDataApi {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+        if (database != null) 'Database': database,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (roleLevel != null) 'RoleLevel': roleLevel,
         if (statementName != null) 'StatementName': statementName,
         if (status != null) 'Status': status.value,
+        if (workgroupName != null) 'WorkgroupName': workgroupName,
       },
     );
 
@@ -1069,10 +1181,11 @@ class RedshiftDataApi {
   /// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Management
   /// Guide</i>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [QueryTimeoutException].
-  /// May throw [InternalServerException].
   /// May throw [DatabaseConnectionException].
+  /// May throw [InternalServerException].
+  /// May throw [QueryTimeoutException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [database] :
   /// The name of the database that contains the tables to list. If
@@ -1284,113 +1397,6 @@ class CancelStatementResponse {
   }
 }
 
-/// The properties (metadata) of a column.
-class ColumnMetadata {
-  /// The default value of the column.
-  final String? columnDefault;
-
-  /// A value that indicates whether the column is case-sensitive.
-  final bool? isCaseSensitive;
-
-  /// A value that indicates whether the column contains currency values.
-  final bool? isCurrency;
-
-  /// A value that indicates whether an integer column is signed.
-  final bool? isSigned;
-
-  /// The label for the column.
-  final String? label;
-
-  /// The length of the column.
-  final int? length;
-
-  /// The name of the column.
-  final String? name;
-
-  /// A value that indicates whether the column is nullable.
-  final int? nullable;
-
-  /// The precision value of a decimal number column.
-  final int? precision;
-
-  /// The scale value of a decimal number column.
-  final int? scale;
-
-  /// The name of the schema that contains the table that includes the column.
-  final String? schemaName;
-
-  /// The name of the table that includes the column.
-  final String? tableName;
-
-  /// The database-specific data type of the column.
-  final String? typeName;
-
-  ColumnMetadata({
-    this.columnDefault,
-    this.isCaseSensitive,
-    this.isCurrency,
-    this.isSigned,
-    this.label,
-    this.length,
-    this.name,
-    this.nullable,
-    this.precision,
-    this.scale,
-    this.schemaName,
-    this.tableName,
-    this.typeName,
-  });
-
-  factory ColumnMetadata.fromJson(Map<String, dynamic> json) {
-    return ColumnMetadata(
-      columnDefault: json['columnDefault'] as String?,
-      isCaseSensitive: json['isCaseSensitive'] as bool?,
-      isCurrency: json['isCurrency'] as bool?,
-      isSigned: json['isSigned'] as bool?,
-      label: json['label'] as String?,
-      length: json['length'] as int?,
-      name: json['name'] as String?,
-      nullable: json['nullable'] as int?,
-      precision: json['precision'] as int?,
-      scale: json['scale'] as int?,
-      schemaName: json['schemaName'] as String?,
-      tableName: json['tableName'] as String?,
-      typeName: json['typeName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final columnDefault = this.columnDefault;
-    final isCaseSensitive = this.isCaseSensitive;
-    final isCurrency = this.isCurrency;
-    final isSigned = this.isSigned;
-    final label = this.label;
-    final length = this.length;
-    final name = this.name;
-    final nullable = this.nullable;
-    final precision = this.precision;
-    final scale = this.scale;
-    final schemaName = this.schemaName;
-    final tableName = this.tableName;
-    final typeName = this.typeName;
-    return {
-      if (columnDefault != null) 'columnDefault': columnDefault,
-      if (isCaseSensitive != null) 'isCaseSensitive': isCaseSensitive,
-      if (isCurrency != null) 'isCurrency': isCurrency,
-      if (isSigned != null) 'isSigned': isSigned,
-      if (label != null) 'label': label,
-      if (length != null) 'length': length,
-      if (name != null) 'name': name,
-      if (nullable != null) 'nullable': nullable,
-      if (precision != null) 'precision': precision,
-      if (scale != null) 'scale': scale,
-      if (schemaName != null) 'schemaName': schemaName,
-      if (tableName != null) 'tableName': tableName,
-      if (typeName != null) 'typeName': typeName,
-    };
-  }
-}
-
 class DescribeStatementResponse {
   /// The identifier of the SQL statement described. This value is a universally
   /// unique identifier (UUID) generated by Amazon Redshift Data API.
@@ -1433,6 +1439,9 @@ class DescribeStatementResponse {
   /// are also available in the <code>query</code> column of the
   /// <code>STL_QUERY</code> system view.
   final int? redshiftQueryId;
+
+  /// The data format of the result of the SQL statement.
+  final ResultFormatString? resultFormat;
 
   /// Either the number of rows returned from the SQL statement or the number of
   /// rows affected. If result size is greater than zero, the result rows can be
@@ -1503,6 +1512,7 @@ class DescribeStatementResponse {
     this.queryString,
     this.redshiftPid,
     this.redshiftQueryId,
+    this.resultFormat,
     this.resultRows,
     this.resultSize,
     this.secretArn,
@@ -1530,6 +1540,8 @@ class DescribeStatementResponse {
       queryString: json['QueryString'] as String?,
       redshiftPid: json['RedshiftPid'] as int?,
       redshiftQueryId: json['RedshiftQueryId'] as int?,
+      resultFormat:
+          (json['ResultFormat'] as String?)?.let(ResultFormatString.fromString),
       resultRows: json['ResultRows'] as int?,
       resultSize: json['ResultSize'] as int?,
       secretArn: json['SecretArn'] as String?,
@@ -1557,6 +1569,7 @@ class DescribeStatementResponse {
     final queryString = this.queryString;
     final redshiftPid = this.redshiftPid;
     final redshiftQueryId = this.redshiftQueryId;
+    final resultFormat = this.resultFormat;
     final resultRows = this.resultRows;
     final resultSize = this.resultSize;
     final secretArn = this.secretArn;
@@ -1578,6 +1591,7 @@ class DescribeStatementResponse {
       if (queryString != null) 'QueryString': queryString,
       if (redshiftPid != null) 'RedshiftPid': redshiftPid,
       if (redshiftQueryId != null) 'RedshiftQueryId': redshiftQueryId,
+      if (resultFormat != null) 'ResultFormat': resultFormat.value,
       if (resultRows != null) 'ResultRows': resultRows,
       if (resultSize != null) 'ResultSize': resultSize,
       if (secretArn != null) 'SecretArn': secretArn,
@@ -1719,66 +1733,8 @@ class ExecuteStatementOutput {
   }
 }
 
-/// A data value in a column.
-class Field {
-  /// A value of the BLOB data type.
-  final Uint8List? blobValue;
-
-  /// A value of the Boolean data type.
-  final bool? booleanValue;
-
-  /// A value of the double data type.
-  final double? doubleValue;
-
-  /// A value that indicates whether the data is NULL.
-  final bool? isNull;
-
-  /// A value of the long data type.
-  final int? longValue;
-
-  /// A value of the string data type.
-  final String? stringValue;
-
-  Field({
-    this.blobValue,
-    this.booleanValue,
-    this.doubleValue,
-    this.isNull,
-    this.longValue,
-    this.stringValue,
-  });
-
-  factory Field.fromJson(Map<String, dynamic> json) {
-    return Field(
-      blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
-      booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
-      isNull: json['isNull'] as bool?,
-      longValue: json['longValue'] as int?,
-      stringValue: json['stringValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blobValue = this.blobValue;
-    final booleanValue = this.booleanValue;
-    final doubleValue = this.doubleValue;
-    final isNull = this.isNull;
-    final longValue = this.longValue;
-    final stringValue = this.stringValue;
-    return {
-      if (blobValue != null) 'blobValue': base64Encode(blobValue),
-      if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
-      if (isNull != null) 'isNull': isNull,
-      if (longValue != null) 'longValue': longValue,
-      if (stringValue != null) 'stringValue': stringValue,
-    };
-  }
-}
-
 class GetStatementResultResponse {
-  /// The results of the SQL statement.
+  /// The results of the SQL statement in JSON format.
   final List<List<Field>> records;
 
   /// The properties (metadata) of a column.
@@ -1832,6 +1788,71 @@ class GetStatementResultResponse {
       'Records': records,
       if (columnMetadata != null) 'ColumnMetadata': columnMetadata,
       if (nextToken != null) 'NextToken': nextToken,
+      if (totalNumRows != null) 'TotalNumRows': totalNumRows,
+    };
+  }
+}
+
+class GetStatementResultV2Response {
+  /// The results of the SQL statement in CSV format.
+  final List<QueryRecords> records;
+
+  /// The properties (metadata) of a column.
+  final List<ColumnMetadata>? columnMetadata;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned NextToken
+  /// value in the next NextToken parameter and retrying the command. If the
+  /// NextToken field is empty, all response records have been retrieved for the
+  /// request.
+  final String? nextToken;
+
+  /// The data format of the result of the SQL statement.
+  final ResultFormatString? resultFormat;
+
+  /// The total number of rows in the result set returned from a query. You can
+  /// use this number to estimate the number of calls to the
+  /// <code>GetStatementResultV2</code> operation needed to page through the
+  /// results.
+  final int? totalNumRows;
+
+  GetStatementResultV2Response({
+    required this.records,
+    this.columnMetadata,
+    this.nextToken,
+    this.resultFormat,
+    this.totalNumRows,
+  });
+
+  factory GetStatementResultV2Response.fromJson(Map<String, dynamic> json) {
+    return GetStatementResultV2Response(
+      records: ((json['Records'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => QueryRecords.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      columnMetadata: (json['ColumnMetadata'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      resultFormat:
+          (json['ResultFormat'] as String?)?.let(ResultFormatString.fromString),
+      totalNumRows: json['TotalNumRows'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final records = this.records;
+    final columnMetadata = this.columnMetadata;
+    final nextToken = this.nextToken;
+    final resultFormat = this.resultFormat;
+    final totalNumRows = this.totalNumRows;
+    return {
+      'Records': records,
+      if (columnMetadata != null) 'ColumnMetadata': columnMetadata,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resultFormat != null) 'ResultFormat': resultFormat.value,
       if (totalNumRows != null) 'TotalNumRows': totalNumRows,
     };
   }
@@ -1983,35 +2004,40 @@ class ListTablesResponse {
   }
 }
 
-/// A parameter used in a SQL statement.
-class SqlParameter {
-  /// The name of the parameter.
-  final String name;
+/// The properties of a table.
+class TableMember {
+  /// The name of the table.
+  final String? name;
 
-  /// The value of the parameter. Amazon Redshift implicitly converts to the
-  /// proper data type. For more information, see <a
-  /// href="https://docs.aws.amazon.com/redshift/latest/dg/c_Supported_data_types.html">Data
-  /// types</a> in the <i>Amazon Redshift Database Developer Guide</i>.
-  final String value;
+  /// The schema containing the table.
+  final String? schema;
 
-  SqlParameter({
-    required this.name,
-    required this.value,
+  /// The type of the table. Possible values include TABLE, VIEW, SYSTEM TABLE,
+  /// GLOBAL TEMPORARY, LOCAL TEMPORARY, ALIAS, and SYNONYM.
+  final String? type;
+
+  TableMember({
+    this.name,
+    this.schema,
+    this.type,
   });
 
-  factory SqlParameter.fromJson(Map<String, dynamic> json) {
-    return SqlParameter(
-      name: (json['name'] as String?) ?? '',
-      value: (json['value'] as String?) ?? '',
+  factory TableMember.fromJson(Map<String, dynamic> json) {
+    return TableMember(
+      name: json['name'] as String?,
+      schema: json['schema'] as String?,
+      type: json['type'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final name = this.name;
-    final value = this.value;
+    final schema = this.schema;
+    final type = this.type;
     return {
-      'name': name,
-      'value': value,
+      if (name != null) 'name': name,
+      if (schema != null) 'schema': schema,
+      if (type != null) 'type': type,
     };
   }
 }
@@ -2038,6 +2064,9 @@ class StatementData {
   /// one of the queries in a batch query request.
   final List<String>? queryStrings;
 
+  /// The data format of the result of the SQL statement.
+  final ResultFormatString? resultFormat;
+
   /// The name or Amazon Resource Name (ARN) of the secret that enables access to
   /// the database.
   final String? secretArn;
@@ -2062,6 +2091,7 @@ class StatementData {
     this.queryParameters,
     this.queryString,
     this.queryStrings,
+    this.resultFormat,
     this.secretArn,
     this.sessionId,
     this.statementName,
@@ -2083,6 +2113,8 @@ class StatementData {
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
+      resultFormat:
+          (json['ResultFormat'] as String?)?.let(ResultFormatString.fromString),
       secretArn: json['SecretArn'] as String?,
       sessionId: json['SessionId'] as String?,
       statementName: json['StatementName'] as String?,
@@ -2098,6 +2130,7 @@ class StatementData {
     final queryParameters = this.queryParameters;
     final queryString = this.queryString;
     final queryStrings = this.queryStrings;
+    final resultFormat = this.resultFormat;
     final secretArn = this.secretArn;
     final sessionId = this.sessionId;
     final statementName = this.statementName;
@@ -2110,6 +2143,7 @@ class StatementData {
       if (queryParameters != null) 'QueryParameters': queryParameters,
       if (queryString != null) 'QueryString': queryString,
       if (queryStrings != null) 'QueryStrings': queryStrings,
+      if (resultFormat != null) 'ResultFormat': resultFormat.value,
       if (secretArn != null) 'SecretArn': secretArn,
       if (sessionId != null) 'SessionId': sessionId,
       if (statementName != null) 'StatementName': statementName,
@@ -2117,35 +2151,6 @@ class StatementData {
       if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
     };
   }
-}
-
-class StatementStatusString {
-  static const submitted = StatementStatusString._('SUBMITTED');
-  static const picked = StatementStatusString._('PICKED');
-  static const started = StatementStatusString._('STARTED');
-  static const finished = StatementStatusString._('FINISHED');
-  static const aborted = StatementStatusString._('ABORTED');
-  static const failed = StatementStatusString._('FAILED');
-
-  final String value;
-
-  const StatementStatusString._(this.value);
-
-  static const values = [submitted, picked, started, finished, aborted, failed];
-
-  static StatementStatusString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StatementStatusString._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StatementStatusString && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class StatusString {
@@ -2182,6 +2187,253 @@ class StatusString {
 
   @override
   String toString() => value;
+}
+
+class ResultFormatString {
+  static const json = ResultFormatString._('JSON');
+  static const csv = ResultFormatString._('CSV');
+
+  final String value;
+
+  const ResultFormatString._(this.value);
+
+  static const values = [json, csv];
+
+  static ResultFormatString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResultFormatString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResultFormatString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A parameter used in a SQL statement.
+class SqlParameter {
+  /// The name of the parameter.
+  final String name;
+
+  /// The value of the parameter. Amazon Redshift implicitly converts to the
+  /// proper data type. For more information, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/dg/c_Supported_data_types.html">Data
+  /// types</a> in the <i>Amazon Redshift Database Developer Guide</i>.
+  final String value;
+
+  SqlParameter({
+    required this.name,
+    required this.value,
+  });
+
+  factory SqlParameter.fromJson(Map<String, dynamic> json) {
+    return SqlParameter(
+      name: (json['name'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
+    };
+  }
+}
+
+/// The properties (metadata) of a column.
+class ColumnMetadata {
+  /// The default value of the column.
+  final String? columnDefault;
+
+  /// A value that indicates whether the column is case-sensitive.
+  final bool? isCaseSensitive;
+
+  /// A value that indicates whether the column contains currency values.
+  final bool? isCurrency;
+
+  /// A value that indicates whether an integer column is signed.
+  final bool? isSigned;
+
+  /// The label for the column.
+  final String? label;
+
+  /// The length of the column.
+  final int? length;
+
+  /// The name of the column.
+  final String? name;
+
+  /// A value that indicates whether the column is nullable.
+  final int? nullable;
+
+  /// The precision value of a decimal number column, or the column length for a
+  /// non-numeric column.
+  final int? precision;
+
+  /// The scale value of a decimal number column.
+  final int? scale;
+
+  /// The name of the schema that contains the table that includes the column.
+  final String? schemaName;
+
+  /// The name of the table that includes the column.
+  final String? tableName;
+
+  /// The database-specific data type of the column.
+  final String? typeName;
+
+  ColumnMetadata({
+    this.columnDefault,
+    this.isCaseSensitive,
+    this.isCurrency,
+    this.isSigned,
+    this.label,
+    this.length,
+    this.name,
+    this.nullable,
+    this.precision,
+    this.scale,
+    this.schemaName,
+    this.tableName,
+    this.typeName,
+  });
+
+  factory ColumnMetadata.fromJson(Map<String, dynamic> json) {
+    return ColumnMetadata(
+      columnDefault: json['columnDefault'] as String?,
+      isCaseSensitive: json['isCaseSensitive'] as bool?,
+      isCurrency: json['isCurrency'] as bool?,
+      isSigned: json['isSigned'] as bool?,
+      label: json['label'] as String?,
+      length: json['length'] as int?,
+      name: json['name'] as String?,
+      nullable: json['nullable'] as int?,
+      precision: json['precision'] as int?,
+      scale: json['scale'] as int?,
+      schemaName: json['schemaName'] as String?,
+      tableName: json['tableName'] as String?,
+      typeName: json['typeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnDefault = this.columnDefault;
+    final isCaseSensitive = this.isCaseSensitive;
+    final isCurrency = this.isCurrency;
+    final isSigned = this.isSigned;
+    final label = this.label;
+    final length = this.length;
+    final name = this.name;
+    final nullable = this.nullable;
+    final precision = this.precision;
+    final scale = this.scale;
+    final schemaName = this.schemaName;
+    final tableName = this.tableName;
+    final typeName = this.typeName;
+    return {
+      if (columnDefault != null) 'columnDefault': columnDefault,
+      if (isCaseSensitive != null) 'isCaseSensitive': isCaseSensitive,
+      if (isCurrency != null) 'isCurrency': isCurrency,
+      if (isSigned != null) 'isSigned': isSigned,
+      if (label != null) 'label': label,
+      if (length != null) 'length': length,
+      if (name != null) 'name': name,
+      if (nullable != null) 'nullable': nullable,
+      if (precision != null) 'precision': precision,
+      if (scale != null) 'scale': scale,
+      if (schemaName != null) 'schemaName': schemaName,
+      if (tableName != null) 'tableName': tableName,
+      if (typeName != null) 'typeName': typeName,
+    };
+  }
+}
+
+/// The results of the SQL statement.
+class QueryRecords {
+  /// The results of the SQL statement in CSV format.
+  final String? cSVRecords;
+
+  QueryRecords({
+    this.cSVRecords,
+  });
+
+  factory QueryRecords.fromJson(Map<String, dynamic> json) {
+    return QueryRecords(
+      cSVRecords: json['CSVRecords'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cSVRecords = this.cSVRecords;
+    return {
+      if (cSVRecords != null) 'CSVRecords': cSVRecords,
+    };
+  }
+}
+
+/// A data value in a column.
+class Field {
+  /// A value of the BLOB data type.
+  final Uint8List? blobValue;
+
+  /// A value of the Boolean data type.
+  final bool? booleanValue;
+
+  /// A value of the double data type.
+  final double? doubleValue;
+
+  /// A value that indicates whether the data is NULL.
+  final bool? isNull;
+
+  /// A value of the long data type.
+  final int? longValue;
+
+  /// A value of the string data type.
+  final String? stringValue;
+
+  Field({
+    this.blobValue,
+    this.booleanValue,
+    this.doubleValue,
+    this.isNull,
+    this.longValue,
+    this.stringValue,
+  });
+
+  factory Field.fromJson(Map<String, dynamic> json) {
+    return Field(
+      blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
+      booleanValue: json['booleanValue'] as bool?,
+      doubleValue: json['doubleValue'] as double?,
+      isNull: json['isNull'] as bool?,
+      longValue: json['longValue'] as int?,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blobValue = this.blobValue;
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final isNull = this.isNull;
+    final longValue = this.longValue;
+    final stringValue = this.stringValue;
+    return {
+      if (blobValue != null) 'blobValue': base64Encode(blobValue),
+      if (booleanValue != null) 'booleanValue': booleanValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (isNull != null) 'isNull': isNull,
+      if (longValue != null) 'longValue': longValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
 }
 
 /// Information about an SQL statement.
@@ -2290,42 +2542,33 @@ class SubStatementData {
   }
 }
 
-/// The properties of a table.
-class TableMember {
-  /// The name of the table.
-  final String? name;
+class StatementStatusString {
+  static const submitted = StatementStatusString._('SUBMITTED');
+  static const picked = StatementStatusString._('PICKED');
+  static const started = StatementStatusString._('STARTED');
+  static const finished = StatementStatusString._('FINISHED');
+  static const aborted = StatementStatusString._('ABORTED');
+  static const failed = StatementStatusString._('FAILED');
 
-  /// The schema containing the table.
-  final String? schema;
+  final String value;
 
-  /// The type of the table. Possible values include TABLE, VIEW, SYSTEM TABLE,
-  /// GLOBAL TEMPORARY, LOCAL TEMPORARY, ALIAS, and SYNONYM.
-  final String? type;
+  const StatementStatusString._(this.value);
 
-  TableMember({
-    this.name,
-    this.schema,
-    this.type,
-  });
+  static const values = [submitted, picked, started, finished, aborted, failed];
 
-  factory TableMember.fromJson(Map<String, dynamic> json) {
-    return TableMember(
-      name: json['name'] as String?,
-      schema: json['schema'] as String?,
-      type: json['type'] as String?,
-    );
-  }
+  static StatementStatusString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatementStatusString._(value));
 
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final schema = this.schema;
-    final type = this.type;
-    return {
-      if (name != null) 'name': name,
-      if (schema != null) 'schema': schema,
-      if (type != null) 'type': type,
-    };
-  }
+  @override
+  bool operator ==(other) =>
+      other is StatementStatusString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ActiveSessionsExceededException extends _s.GenericAwsException {

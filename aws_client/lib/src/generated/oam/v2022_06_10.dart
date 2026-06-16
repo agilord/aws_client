@@ -25,8 +25,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// cross-account observability</i>. With CloudWatch cross-account
 /// observability, you can monitor and troubleshoot applications that span
 /// multiple accounts within a Region. Seamlessly search, visualize, and analyze
-/// your metrics, logs, traces, and Application Insights applications in any of
-/// the linked accounts without account boundaries.
+/// your metrics, logs, traces, Application Signals services and service level
+/// objectives (SLOs), Application Insights applications, and internet monitors
+/// in any of the linked accounts without account boundaries.
 ///
 /// Set up one or more Amazon Web Services accounts as <i>monitoring
 /// accounts</i> and link them with multiple <i>source accounts</i>. A
@@ -36,11 +37,17 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// observability data for the resources that reside in it. Source accounts
 /// share their observability data with the monitoring account. The shared
 /// observability data can include metrics in Amazon CloudWatch, logs in Amazon
-/// CloudWatch Logs, traces in X-Ray, and applications in Amazon CloudWatch
-/// Application Insights.
-class CloudWatchObservabilityAccessManager {
+/// CloudWatch Logs, traces in X-Ray, Application Signals services and service
+/// level objectives (SLOs), applications in Amazon CloudWatch Application
+/// Insights, and internet monitors in CloudWatch Internet Monitor.
+///
+/// When you set up a link, you can choose to share the metrics from all
+/// namespaces with the monitoring account, or filter to a subset of namespaces.
+/// And for CloudWatch Logs, you can choose to share all log groups with the
+/// monitoring account, or filter to a subset of log groups.
+class Oam {
   final _s.RestJsonProtocol _protocol;
-  CloudWatchObservabilityAccessManager({
+  Oam({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -50,7 +57,6 @@ class CloudWatchObservabilityAccessManager {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'oam',
-            signingName: 'oam',
           ),
           region: region,
           credentials: credentials,
@@ -89,11 +95,11 @@ class CloudWatchObservabilityAccessManager {
   ///
   /// Each source account can be linked to as many as five monitoring accounts.
   ///
-  /// May throw [InternalServiceFault].
   /// May throw [ConflictException].
+  /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterException].
   /// May throw [MissingRequiredParameterException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [InvalidParameterException].
   ///
   /// Parameter [labelTemplate] :
   /// Specify a friendly human-readable name to use to identify this source
@@ -113,7 +119,13 @@ class CloudWatchObservabilityAccessManager {
   /// <code>$AccountEmailNoDomain</code> is the email address of the account
   /// without the domain name
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// In the Amazon Web Services GovCloud (US-East) and Amazon Web Services
+  /// GovCloud (US-West) Regions, the only supported option is to use custom
+  /// labels, and the <code>$AccountName</code>, <code>$AccountEmail</code>, and
+  /// <code>$AccountEmailNoDomain</code> variables all resolve as
+  /// <i>account-id</i> instead of the specified variable.
+  /// </note>
   ///
   /// Parameter [resourceTypes] :
   /// An array of strings that define which types of data that the source
@@ -177,11 +189,11 @@ class CloudWatchObservabilityAccessManager {
   /// Each account can contain one sink per Region. If you delete a sink, you
   /// can then create a new one in that Region.
   ///
-  /// May throw [InternalServiceFault].
   /// May throw [ConflictException].
+  /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterException].
   /// May throw [MissingRequiredParameterException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [InvalidParameterException].
   ///
   /// Parameter [name] :
   /// A name for the sink.
@@ -217,8 +229,8 @@ class CloudWatchObservabilityAccessManager {
   /// must run this operation in the source account.
   ///
   /// May throw [InternalServiceFault].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [identifier] :
@@ -240,10 +252,10 @@ class CloudWatchObservabilityAccessManager {
   /// Deletes a sink. You must delete all links to a sink before you can delete
   /// that sink.
   ///
-  /// May throw [InternalServiceFault].
   /// May throw [ConflictException].
-  /// May throw [MissingRequiredParameterException].
+  /// May throw [InternalServiceFault].
   /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [identifier] :
@@ -269,17 +281,29 @@ class CloudWatchObservabilityAccessManager {
   /// href="https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html">ListLinks</a>.
   ///
   /// May throw [InternalServiceFault].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [identifier] :
   /// The ARN of the link to retrieve information for.
+  ///
+  /// Parameter [includeTags] :
+  /// Specifies whether to include the tags associated with the link in the
+  /// response. When <code>IncludeTags</code> is set to <code>true</code> and
+  /// the caller has the required permission,
+  /// <code>oam:ListTagsForResource</code>, the API will return the tags for the
+  /// specified resource. If the caller doesn't have the required permission,
+  /// <code>oam:ListTagsForResource</code>, the API will raise an exception.
+  ///
+  /// The default value is <code>false</code>.
   Future<GetLinkOutput> getLink({
     required String identifier,
+    bool? includeTags,
   }) async {
     final $payload = <String, dynamic>{
       'Identifier': identifier,
+      if (includeTags != null) 'IncludeTags': includeTags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -297,17 +321,29 @@ class CloudWatchObservabilityAccessManager {
   /// href="https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html">ListSinks</a>.
   ///
   /// May throw [InternalServiceFault].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [identifier] :
   /// The ARN of the sink to retrieve information for.
+  ///
+  /// Parameter [includeTags] :
+  /// Specifies whether to include the tags associated with the sink in the
+  /// response. When <code>IncludeTags</code> is set to <code>true</code> and
+  /// the caller has the required permission,
+  /// <code>oam:ListTagsForResource</code>, the API will return the tags for the
+  /// specified resource. If the caller doesn't have the required permission,
+  /// <code>oam:ListTagsForResource</code>, the API will raise an exception.
+  ///
+  /// The default value is <code>false</code>.
   Future<GetSinkOutput> getSink({
     required String identifier,
+    bool? includeTags,
   }) async {
     final $payload = <String, dynamic>{
       'Identifier': identifier,
+      if (includeTags != null) 'IncludeTags': includeTags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -323,8 +359,8 @@ class CloudWatchObservabilityAccessManager {
   /// what types of data they can share.
   ///
   /// May throw [InternalServiceFault].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [sinkIdentifier] :
@@ -355,8 +391,8 @@ class CloudWatchObservabilityAccessManager {
   /// href="https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html">ListLinks</a>.
   ///
   /// May throw [InternalServiceFault].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [sinkIdentifier] :
@@ -472,8 +508,8 @@ class CloudWatchObservabilityAccessManager {
   /// Displays the tags associated with a resource. Both sinks and links support
   /// tagging.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource that you want to view tags for.
@@ -513,7 +549,8 @@ class CloudWatchObservabilityAccessManager {
   /// individual accounts.
   ///
   /// You can also use a sink policy to limit the types of data that is shared.
-  /// The three types that you can allow or deny are:
+  /// The six types of services with their respective resource types that you
+  /// can allow or deny are:
   ///
   /// <ul>
   /// <li>
@@ -529,13 +566,22 @@ class CloudWatchObservabilityAccessManager {
   /// <b>Application Insights - Applications</b> - Specify with
   /// <code>AWS::ApplicationInsights::Application</code>
   /// </li>
+  /// <li>
+  /// <b>Internet Monitor</b> - Specify with
+  /// <code>AWS::InternetMonitor::Monitor</code>
+  /// </li>
+  /// <li>
+  /// <b>Application Signals</b> - Specify with
+  /// <code>AWS::ApplicationSignals::Service</code> and
+  /// <code>AWS::ApplicationSignals::ServiceLevelObjective</code>
+  /// </li>
   /// </ul>
   /// See the examples in this section to see how to specify permitted source
   /// accounts and data types.
   ///
   /// May throw [InternalServiceFault].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [policy] :
@@ -591,9 +637,9 @@ class CloudWatchObservabilityAccessManager {
   /// to tag and untag links and sinks.
   /// </important>
   ///
-  /// May throw [ValidationException].
-  /// May throw [TooManyTagsException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource that you're adding tags to.
@@ -635,8 +681,8 @@ class CloudWatchObservabilityAccessManager {
   /// to tag and untag links and sinks.
   /// </important>
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource that you're removing tags from.
@@ -683,8 +729,8 @@ class CloudWatchObservabilityAccessManager {
   /// href="https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html">TagResource</a>.
   ///
   /// May throw [InternalServiceFault].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [InvalidParameterException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [identifier] :
@@ -696,17 +742,29 @@ class CloudWatchObservabilityAccessManager {
   ///
   /// Your input here replaces the current set of data types that are shared.
   ///
+  /// Parameter [includeTags] :
+  /// Specifies whether to include the tags associated with the link in the
+  /// response after the update operation. When <code>IncludeTags</code> is set
+  /// to <code>true</code> and the caller has the required permission,
+  /// <code>oam:ListTagsForResource</code>, the API will return the tags for the
+  /// specified resource. If the caller doesn't have the required permission,
+  /// <code>oam:ListTagsForResource</code>, the API will raise an exception.
+  ///
+  /// The default value is <code>false</code>.
+  ///
   /// Parameter [linkConfiguration] :
   /// Use this structure to filter which metric namespaces and which log groups
   /// are to be shared from the source account to the monitoring account.
   Future<UpdateLinkOutput> updateLink({
     required String identifier,
     required List<ResourceType> resourceTypes,
+    bool? includeTags,
     LinkConfiguration? linkConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'Identifier': identifier,
       'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
+      if (includeTags != null) 'IncludeTags': includeTags,
       if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
     };
     final response = await _protocol.send(
@@ -1037,90 +1095,6 @@ class GetSinkPolicyOutput {
   }
 }
 
-/// Use this structure to optionally create filters that specify that only some
-/// metric namespaces or log groups are to be shared from the source account to
-/// the monitoring account.
-class LinkConfiguration {
-  /// Use this structure to filter which log groups are to send log events from
-  /// the source account to the monitoring account.
-  final LogGroupConfiguration? logGroupConfiguration;
-
-  /// Use this structure to filter which metric namespaces are to be shared from
-  /// the source account to the monitoring account.
-  final MetricConfiguration? metricConfiguration;
-
-  LinkConfiguration({
-    this.logGroupConfiguration,
-    this.metricConfiguration,
-  });
-
-  factory LinkConfiguration.fromJson(Map<String, dynamic> json) {
-    return LinkConfiguration(
-      logGroupConfiguration: json['LogGroupConfiguration'] != null
-          ? LogGroupConfiguration.fromJson(
-              json['LogGroupConfiguration'] as Map<String, dynamic>)
-          : null,
-      metricConfiguration: json['MetricConfiguration'] != null
-          ? MetricConfiguration.fromJson(
-              json['MetricConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroupConfiguration = this.logGroupConfiguration;
-    final metricConfiguration = this.metricConfiguration;
-    return {
-      if (logGroupConfiguration != null)
-        'LogGroupConfiguration': logGroupConfiguration,
-      if (metricConfiguration != null)
-        'MetricConfiguration': metricConfiguration,
-    };
-  }
-}
-
-/// A structure that contains information about one link attached to this
-/// monitoring account sink.
-class ListAttachedLinksItem {
-  /// The label that was assigned to this link at creation, with the variables
-  /// resolved to their actual values.
-  final String? label;
-
-  /// The ARN of the link.
-  final String? linkArn;
-
-  /// The resource types supported by this link.
-  final List<String>? resourceTypes;
-
-  ListAttachedLinksItem({
-    this.label,
-    this.linkArn,
-    this.resourceTypes,
-  });
-
-  factory ListAttachedLinksItem.fromJson(Map<String, dynamic> json) {
-    return ListAttachedLinksItem(
-      label: json['Label'] as String?,
-      linkArn: json['LinkArn'] as String?,
-      resourceTypes: (json['ResourceTypes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final label = this.label;
-    final linkArn = this.linkArn;
-    final resourceTypes = this.resourceTypes;
-    return {
-      if (label != null) 'Label': label,
-      if (linkArn != null) 'LinkArn': linkArn,
-      if (resourceTypes != null) 'ResourceTypes': resourceTypes,
-    };
-  }
-}
-
 class ListAttachedLinksOutput {
   /// An array of structures that contain the information about the attached
   /// links.
@@ -1154,63 +1128,6 @@ class ListAttachedLinksOutput {
   }
 }
 
-/// A structure that contains information about one of this source account's
-/// links to a monitoring account.
-class ListLinksItem {
-  /// The ARN of the link.
-  final String? arn;
-
-  /// The random ID string that Amazon Web Services generated as part of the link
-  /// ARN.
-  final String? id;
-
-  /// The label that was assigned to this link at creation, with the variables
-  /// resolved to their actual values.
-  final String? label;
-
-  /// The resource types supported by this link.
-  final List<String>? resourceTypes;
-
-  /// The ARN of the sink that this link is attached to.
-  final String? sinkArn;
-
-  ListLinksItem({
-    this.arn,
-    this.id,
-    this.label,
-    this.resourceTypes,
-    this.sinkArn,
-  });
-
-  factory ListLinksItem.fromJson(Map<String, dynamic> json) {
-    return ListLinksItem(
-      arn: json['Arn'] as String?,
-      id: json['Id'] as String?,
-      label: json['Label'] as String?,
-      resourceTypes: (json['ResourceTypes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      sinkArn: json['SinkArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final label = this.label;
-    final resourceTypes = this.resourceTypes;
-    final sinkArn = this.sinkArn;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (id != null) 'Id': id,
-      if (label != null) 'Label': label,
-      if (resourceTypes != null) 'ResourceTypes': resourceTypes,
-      if (sinkArn != null) 'SinkArn': sinkArn,
-    };
-  }
-}
-
 class ListLinksOutput {
   /// An array of structures that contain the information about the returned
   /// links.
@@ -1240,45 +1157,6 @@ class ListLinksOutput {
     return {
       'Items': items,
       if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// A structure that contains information about one of this monitoring account's
-/// sinks.
-class ListSinksItem {
-  /// The ARN of the sink.
-  final String? arn;
-
-  /// The random ID string that Amazon Web Services generated as part of the sink
-  /// ARN.
-  final String? id;
-
-  /// The name of the sink.
-  final String? name;
-
-  ListSinksItem({
-    this.arn,
-    this.id,
-    this.name,
-  });
-
-  factory ListSinksItem.fromJson(Map<String, dynamic> json) {
-    return ListSinksItem(
-      arn: json['Arn'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
     };
   }
 }
@@ -1335,6 +1213,192 @@ class ListTagsForResourceOutput {
     final tags = this.tags;
     return {
       if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class PutSinkPolicyOutput {
+  /// The policy that you specified.
+  final String? policy;
+
+  /// The ARN of the sink.
+  final String? sinkArn;
+
+  /// The random ID string that Amazon Web Services generated as part of the sink
+  /// ARN.
+  final String? sinkId;
+
+  PutSinkPolicyOutput({
+    this.policy,
+    this.sinkArn,
+    this.sinkId,
+  });
+
+  factory PutSinkPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return PutSinkPolicyOutput(
+      policy: json['Policy'] as String?,
+      sinkArn: json['SinkArn'] as String?,
+      sinkId: json['SinkId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    final sinkArn = this.sinkArn;
+    final sinkId = this.sinkId;
+    return {
+      if (policy != null) 'Policy': policy,
+      if (sinkArn != null) 'SinkArn': sinkArn,
+      if (sinkId != null) 'SinkId': sinkId,
+    };
+  }
+}
+
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateLinkOutput {
+  /// The ARN of the link that you have updated.
+  final String? arn;
+
+  /// The random ID string that Amazon Web Services generated as part of the sink
+  /// ARN.
+  final String? id;
+
+  /// The label assigned to this link, with the variables resolved to their actual
+  /// values.
+  final String? label;
+
+  /// The exact label template that was specified when the link was created, with
+  /// the template variables not resolved.
+  final String? labelTemplate;
+
+  /// This structure includes filters that specify which metric namespaces and
+  /// which log groups are shared from the source account to the monitoring
+  /// account.
+  final LinkConfiguration? linkConfiguration;
+
+  /// The resource types now supported by this link.
+  final List<String>? resourceTypes;
+
+  /// The ARN of the sink that is used for this link.
+  final String? sinkArn;
+
+  /// The tags assigned to the link.
+  final Map<String, String>? tags;
+
+  UpdateLinkOutput({
+    this.arn,
+    this.id,
+    this.label,
+    this.labelTemplate,
+    this.linkConfiguration,
+    this.resourceTypes,
+    this.sinkArn,
+    this.tags,
+  });
+
+  factory UpdateLinkOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateLinkOutput(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      label: json['Label'] as String?,
+      labelTemplate: json['LabelTemplate'] as String?,
+      linkConfiguration: json['LinkConfiguration'] != null
+          ? LinkConfiguration.fromJson(
+              json['LinkConfiguration'] as Map<String, dynamic>)
+          : null,
+      resourceTypes: (json['ResourceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      sinkArn: json['SinkArn'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final label = this.label;
+    final labelTemplate = this.labelTemplate;
+    final linkConfiguration = this.linkConfiguration;
+    final resourceTypes = this.resourceTypes;
+    final sinkArn = this.sinkArn;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (label != null) 'Label': label,
+      if (labelTemplate != null) 'LabelTemplate': labelTemplate,
+      if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
+      if (resourceTypes != null) 'ResourceTypes': resourceTypes,
+      if (sinkArn != null) 'SinkArn': sinkArn,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Use this structure to optionally create filters that specify that only some
+/// metric namespaces or log groups are to be shared from the source account to
+/// the monitoring account.
+class LinkConfiguration {
+  /// Use this structure to filter which log groups are to send log events from
+  /// the source account to the monitoring account.
+  final LogGroupConfiguration? logGroupConfiguration;
+
+  /// Use this structure to filter which metric namespaces are to be shared from
+  /// the source account to the monitoring account.
+  final MetricConfiguration? metricConfiguration;
+
+  LinkConfiguration({
+    this.logGroupConfiguration,
+    this.metricConfiguration,
+  });
+
+  factory LinkConfiguration.fromJson(Map<String, dynamic> json) {
+    return LinkConfiguration(
+      logGroupConfiguration: json['LogGroupConfiguration'] != null
+          ? LogGroupConfiguration.fromJson(
+              json['LogGroupConfiguration'] as Map<String, dynamic>)
+          : null,
+      metricConfiguration: json['MetricConfiguration'] != null
+          ? MetricConfiguration.fromJson(
+              json['MetricConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupConfiguration = this.logGroupConfiguration;
+    final metricConfiguration = this.metricConfiguration;
+    return {
+      if (logGroupConfiguration != null)
+        'LogGroupConfiguration': logGroupConfiguration,
+      if (metricConfiguration != null)
+        'MetricConfiguration': metricConfiguration,
     };
   }
 }
@@ -1483,43 +1547,6 @@ class MetricConfiguration {
   }
 }
 
-class PutSinkPolicyOutput {
-  /// The policy that you specified.
-  final String? policy;
-
-  /// The ARN of the sink.
-  final String? sinkArn;
-
-  /// The random ID string that Amazon Web Services generated as part of the sink
-  /// ARN.
-  final String? sinkId;
-
-  PutSinkPolicyOutput({
-    this.policy,
-    this.sinkArn,
-    this.sinkId,
-  });
-
-  factory PutSinkPolicyOutput.fromJson(Map<String, dynamic> json) {
-    return PutSinkPolicyOutput(
-      policy: json['Policy'] as String?,
-      sinkArn: json['SinkArn'] as String?,
-      sinkId: json['SinkId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    final sinkArn = this.sinkArn;
-    final sinkId = this.sinkId;
-    return {
-      if (policy != null) 'Policy': policy,
-      if (sinkArn != null) 'SinkArn': sinkArn,
-      if (sinkId != null) 'SinkId': sinkId,
-    };
-  }
-}
-
 class ResourceType {
   static const awsCloudWatchMetric = ResourceType._('AWS::CloudWatch::Metric');
   static const awsLogsLogGroup = ResourceType._('AWS::Logs::LogGroup');
@@ -1528,6 +1555,10 @@ class ResourceType {
       ResourceType._('AWS::ApplicationInsights::Application');
   static const awsInternetMonitorMonitor =
       ResourceType._('AWS::InternetMonitor::Monitor');
+  static const awsApplicationSignalsService =
+      ResourceType._('AWS::ApplicationSignals::Service');
+  static const awsApplicationSignalsServiceLevelObjective =
+      ResourceType._('AWS::ApplicationSignals::ServiceLevelObjective');
 
   final String value;
 
@@ -1538,7 +1569,9 @@ class ResourceType {
     awsLogsLogGroup,
     awsXRayTrace,
     awsApplicationInsightsApplication,
-    awsInternetMonitorMonitor
+    awsInternetMonitorMonitor,
+    awsApplicationSignalsService,
+    awsApplicationSignalsServiceLevelObjective
   ];
 
   static ResourceType fromString(String value) => values
@@ -1554,88 +1587,83 @@ class ResourceType {
   String toString() => value;
 }
 
-class TagResourceOutput {
-  TagResourceOutput();
-
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateLinkOutput {
-  /// The ARN of the link that you have updated.
+/// A structure that contains information about one of this monitoring account's
+/// sinks.
+class ListSinksItem {
+  /// The ARN of the sink.
   final String? arn;
 
   /// The random ID string that Amazon Web Services generated as part of the sink
   /// ARN.
   final String? id;
 
-  /// The label assigned to this link, with the variables resolved to their actual
-  /// values.
+  /// The name of the sink.
+  final String? name;
+
+  ListSinksItem({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory ListSinksItem.fromJson(Map<String, dynamic> json) {
+    return ListSinksItem(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// A structure that contains information about one of this source account's
+/// links to a monitoring account.
+class ListLinksItem {
+  /// The ARN of the link.
+  final String? arn;
+
+  /// The random ID string that Amazon Web Services generated as part of the link
+  /// ARN.
+  final String? id;
+
+  /// The label that was assigned to this link at creation, with the variables
+  /// resolved to their actual values.
   final String? label;
 
-  /// The exact label template that was specified when the link was created, with
-  /// the template variables not resolved.
-  final String? labelTemplate;
-
-  /// This structure includes filters that specify which metric namespaces and
-  /// which log groups are shared from the source account to the monitoring
-  /// account.
-  final LinkConfiguration? linkConfiguration;
-
-  /// The resource types now supported by this link.
+  /// The resource types supported by this link.
   final List<String>? resourceTypes;
 
-  /// The ARN of the sink that is used for this link.
+  /// The ARN of the sink that this link is attached to.
   final String? sinkArn;
 
-  /// The tags assigned to the link.
-  final Map<String, String>? tags;
-
-  UpdateLinkOutput({
+  ListLinksItem({
     this.arn,
     this.id,
     this.label,
-    this.labelTemplate,
-    this.linkConfiguration,
     this.resourceTypes,
     this.sinkArn,
-    this.tags,
   });
 
-  factory UpdateLinkOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateLinkOutput(
+  factory ListLinksItem.fromJson(Map<String, dynamic> json) {
+    return ListLinksItem(
       arn: json['Arn'] as String?,
       id: json['Id'] as String?,
       label: json['Label'] as String?,
-      labelTemplate: json['LabelTemplate'] as String?,
-      linkConfiguration: json['LinkConfiguration'] != null
-          ? LinkConfiguration.fromJson(
-              json['LinkConfiguration'] as Map<String, dynamic>)
-          : null,
       resourceTypes: (json['ResourceTypes'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
       sinkArn: json['SinkArn'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
@@ -1643,20 +1671,56 @@ class UpdateLinkOutput {
     final arn = this.arn;
     final id = this.id;
     final label = this.label;
-    final labelTemplate = this.labelTemplate;
-    final linkConfiguration = this.linkConfiguration;
     final resourceTypes = this.resourceTypes;
     final sinkArn = this.sinkArn;
-    final tags = this.tags;
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
       if (label != null) 'Label': label,
-      if (labelTemplate != null) 'LabelTemplate': labelTemplate,
-      if (linkConfiguration != null) 'LinkConfiguration': linkConfiguration,
       if (resourceTypes != null) 'ResourceTypes': resourceTypes,
       if (sinkArn != null) 'SinkArn': sinkArn,
-      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A structure that contains information about one link attached to this
+/// monitoring account sink.
+class ListAttachedLinksItem {
+  /// The label that was assigned to this link at creation, with the variables
+  /// resolved to their actual values.
+  final String? label;
+
+  /// The ARN of the link.
+  final String? linkArn;
+
+  /// The resource types supported by this link.
+  final List<String>? resourceTypes;
+
+  ListAttachedLinksItem({
+    this.label,
+    this.linkArn,
+    this.resourceTypes,
+  });
+
+  factory ListAttachedLinksItem.fromJson(Map<String, dynamic> json) {
+    return ListAttachedLinksItem(
+      label: json['Label'] as String?,
+      linkArn: json['LinkArn'] as String?,
+      resourceTypes: (json['ResourceTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final label = this.label;
+    final linkArn = this.linkArn;
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (label != null) 'Label': label,
+      if (linkArn != null) 'LinkArn': linkArn,
+      if (resourceTypes != null) 'ResourceTypes': resourceTypes,
     };
   }
 }

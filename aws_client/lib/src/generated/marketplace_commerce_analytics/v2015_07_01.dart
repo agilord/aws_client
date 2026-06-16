@@ -33,7 +33,6 @@ class MarketplaceCommerceAnalytics {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'marketplacecommerceanalytics',
-            signingName: 'marketplacecommerceanalytics',
           ),
           region: region,
           credentials: credentials,
@@ -294,8 +293,6 @@ class MarketplaceCommerceAnalytics {
   /// "s3://mybucket/myprefix/mydatasets/outputfile". If the prefix directory
   /// structure does not exist, it will be created. If no prefix is provided,
   /// the data set will be published to the S3 bucket root.
-  @Deprecated(
-      'This target has been deprecated. As of December 2022 Product Support Connection is no longer supported.')
   Future<StartSupportDataExportResult> startSupportDataExport({
     required SupportDataSetType dataSetType,
     required String destinationS3BucketName,
@@ -331,6 +328,87 @@ class MarketplaceCommerceAnalytics {
 
     return StartSupportDataExportResult.fromJson(jsonResponse.body);
   }
+}
+
+/// Container for the result of the GenerateDataSet operation.
+class GenerateDataSetResult {
+  /// A unique identifier representing a specific request to the GenerateDataSet
+  /// operation. This identifier can be used to correlate a request with
+  /// notifications from the SNS topic.
+  final String? dataSetRequestId;
+
+  GenerateDataSetResult({
+    this.dataSetRequestId,
+  });
+
+  factory GenerateDataSetResult.fromJson(Map<String, dynamic> json) {
+    return GenerateDataSetResult(
+      dataSetRequestId: json['dataSetRequestId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetRequestId = this.dataSetRequestId;
+    return {
+      if (dataSetRequestId != null) 'dataSetRequestId': dataSetRequestId,
+    };
+  }
+}
+
+/// <i>This target has been deprecated.</i> Container for the result of the
+/// StartSupportDataExport operation.
+class StartSupportDataExportResult {
+  /// <i>This target has been deprecated.</i> A unique identifier representing a
+  /// specific request to the StartSupportDataExport operation. This identifier
+  /// can be used to correlate a request with notifications from the SNS topic.
+  final String? dataSetRequestId;
+
+  StartSupportDataExportResult({
+    this.dataSetRequestId,
+  });
+
+  factory StartSupportDataExportResult.fromJson(Map<String, dynamic> json) {
+    return StartSupportDataExportResult(
+      dataSetRequestId: json['dataSetRequestId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetRequestId = this.dataSetRequestId;
+    return {
+      if (dataSetRequestId != null) 'dataSetRequestId': dataSetRequestId,
+    };
+  }
+}
+
+class SupportDataSetType {
+  static const customerSupportContactsData =
+      SupportDataSetType._('customer_support_contacts_data');
+  static const testCustomerSupportContactsData =
+      SupportDataSetType._('test_customer_support_contacts_data');
+
+  final String value;
+
+  const SupportDataSetType._(this.value);
+
+  static const values = [
+    customerSupportContactsData,
+    testCustomerSupportContactsData
+  ];
+
+  static SupportDataSetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SupportDataSetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SupportDataSetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class DataSetType {
@@ -421,89 +499,6 @@ class DataSetType {
 
   @override
   bool operator ==(other) => other is DataSetType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Container for the result of the GenerateDataSet operation.
-class GenerateDataSetResult {
-  /// A unique identifier representing a specific request to the GenerateDataSet
-  /// operation. This identifier can be used to correlate a request with
-  /// notifications from the SNS topic.
-  final String? dataSetRequestId;
-
-  GenerateDataSetResult({
-    this.dataSetRequestId,
-  });
-
-  factory GenerateDataSetResult.fromJson(Map<String, dynamic> json) {
-    return GenerateDataSetResult(
-      dataSetRequestId: json['dataSetRequestId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSetRequestId = this.dataSetRequestId;
-    return {
-      if (dataSetRequestId != null) 'dataSetRequestId': dataSetRequestId,
-    };
-  }
-}
-
-/// <i>This target has been deprecated.</i> Container for the result of the
-/// StartSupportDataExport operation.
-@Deprecated(
-    'This target has been deprecated. As of December 2022 Product Support Connection is no longer supported.')
-class StartSupportDataExportResult {
-  /// <i>This target has been deprecated.</i> A unique identifier representing a
-  /// specific request to the StartSupportDataExport operation. This identifier
-  /// can be used to correlate a request with notifications from the SNS topic.
-  final String? dataSetRequestId;
-
-  StartSupportDataExportResult({
-    this.dataSetRequestId,
-  });
-
-  factory StartSupportDataExportResult.fromJson(Map<String, dynamic> json) {
-    return StartSupportDataExportResult(
-      dataSetRequestId: json['dataSetRequestId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSetRequestId = this.dataSetRequestId;
-    return {
-      if (dataSetRequestId != null) 'dataSetRequestId': dataSetRequestId,
-    };
-  }
-}
-
-class SupportDataSetType {
-  static const customerSupportContactsData =
-      SupportDataSetType._('customer_support_contacts_data');
-  static const testCustomerSupportContactsData =
-      SupportDataSetType._('test_customer_support_contacts_data');
-
-  final String value;
-
-  const SupportDataSetType._(this.value);
-
-  static const values = [
-    customerSupportContactsData,
-    testCustomerSupportContactsData
-  ];
-
-  static SupportDataSetType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SupportDataSetType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SupportDataSetType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

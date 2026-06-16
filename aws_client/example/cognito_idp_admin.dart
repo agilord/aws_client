@@ -1,4 +1,4 @@
-import 'package:aws_client/cognito_identity_provider_2016_04_18.dart';
+import 'package:aws_client/cognito_identity_provider.dart';
 
 void main() async {
   final api = CognitoIdentityProvider(region: 'us-east-1');

@@ -62,61 +62,6 @@ class Ec2InstanceConnect {
     _protocol.close();
   }
 
-  /// Pushes an SSH public key to the specified EC2 instance for use by the
-  /// specified user. The key remains for 60 seconds. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html">Connect
-  /// to your Linux instance using EC2 Instance Connect</a> in the <i>Amazon EC2
-  /// User Guide</i>.
-  ///
-  /// May throw [AuthException].
-  /// May throw [InvalidArgsException].
-  /// May throw [ServiceException].
-  /// May throw [ThrottlingException].
-  /// May throw [EC2InstanceNotFoundException].
-  /// May throw [EC2InstanceStateInvalidException].
-  /// May throw [EC2InstanceUnavailableException].
-  ///
-  /// Parameter [instanceId] :
-  /// The ID of the EC2 instance.
-  ///
-  /// Parameter [instanceOSUser] :
-  /// The OS user on the EC2 instance for whom the key can be used to
-  /// authenticate.
-  ///
-  /// Parameter [sSHPublicKey] :
-  /// The public key material. To use the public key, you must have the matching
-  /// private key.
-  ///
-  /// Parameter [availabilityZone] :
-  /// The Availability Zone in which the EC2 instance was launched.
-  Future<SendSSHPublicKeyResponse> sendSSHPublicKey({
-    required String instanceId,
-    required String instanceOSUser,
-    required String sSHPublicKey,
-    String? availabilityZone,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSEC2InstanceConnectService.SendSSHPublicKey'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'InstanceId': instanceId,
-        'InstanceOSUser': instanceOSUser,
-        'SSHPublicKey': sSHPublicKey,
-        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      },
-    );
-
-    return SendSSHPublicKeyResponse.fromJson(jsonResponse.body);
-  }
-
   /// Pushes an SSH public key to the specified EC2 instance. The key remains
   /// for 60 seconds, which gives you 60 seconds to establish a serial console
   /// connection to the instance using SSH. For more information, see <a
@@ -124,17 +69,17 @@ class Ec2InstanceConnect {
   /// Serial Console</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// May throw [AuthException].
-  /// May throw [SerialConsoleAccessDisabledException].
-  /// May throw [InvalidArgsException].
-  /// May throw [ServiceException].
-  /// May throw [ThrottlingException].
   /// May throw [EC2InstanceNotFoundException].
+  /// May throw [EC2InstanceStateInvalidException].
   /// May throw [EC2InstanceTypeInvalidException].
+  /// May throw [EC2InstanceUnavailableException].
+  /// May throw [InvalidArgsException].
+  /// May throw [SerialConsoleAccessDisabledException].
   /// May throw [SerialConsoleSessionLimitExceededException].
   /// May throw [SerialConsoleSessionUnavailableException].
-  /// May throw [EC2InstanceStateInvalidException].
-  /// May throw [EC2InstanceUnavailableException].
   /// May throw [SerialConsoleSessionUnsupportedException].
+  /// May throw [ServiceException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [instanceId] :
   /// The ID of the EC2 instance.
@@ -181,35 +126,60 @@ class Ec2InstanceConnect {
 
     return SendSerialConsoleSSHPublicKeyResponse.fromJson(jsonResponse.body);
   }
-}
 
-class SendSSHPublicKeyResponse {
-  /// The ID of the request. Please provide this ID when contacting AWS Support
-  /// for assistance.
-  final String? requestId;
-
-  /// Is true if the request succeeds and an error otherwise.
-  final bool? success;
-
-  SendSSHPublicKeyResponse({
-    this.requestId,
-    this.success,
-  });
-
-  factory SendSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) {
-    return SendSSHPublicKeyResponse(
-      requestId: json['RequestId'] as String?,
-      success: json['Success'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requestId = this.requestId;
-    final success = this.success;
-    return {
-      if (requestId != null) 'RequestId': requestId,
-      if (success != null) 'Success': success,
+  /// Pushes an SSH public key to the specified EC2 instance for use by the
+  /// specified user. The key remains for 60 seconds. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html">Connect
+  /// to your Linux instance using EC2 Instance Connect</a> in the <i>Amazon EC2
+  /// User Guide</i>.
+  ///
+  /// May throw [AuthException].
+  /// May throw [EC2InstanceNotFoundException].
+  /// May throw [EC2InstanceStateInvalidException].
+  /// May throw [EC2InstanceUnavailableException].
+  /// May throw [InvalidArgsException].
+  /// May throw [ServiceException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The ID of the EC2 instance.
+  ///
+  /// Parameter [instanceOSUser] :
+  /// The OS user on the EC2 instance for whom the key can be used to
+  /// authenticate.
+  ///
+  /// Parameter [sSHPublicKey] :
+  /// The public key material. To use the public key, you must have the matching
+  /// private key.
+  ///
+  /// Parameter [availabilityZone] :
+  /// The Availability Zone in which the EC2 instance was launched.
+  Future<SendSSHPublicKeyResponse> sendSSHPublicKey({
+    required String instanceId,
+    required String instanceOSUser,
+    required String sSHPublicKey,
+    String? availabilityZone,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSEC2InstanceConnectService.SendSSHPublicKey'
     };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceId': instanceId,
+        'InstanceOSUser': instanceOSUser,
+        'SSHPublicKey': sSHPublicKey,
+        if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      },
+    );
+
+    return SendSSHPublicKeyResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -229,6 +199,36 @@ class SendSerialConsoleSSHPublicKeyResponse {
   factory SendSerialConsoleSSHPublicKeyResponse.fromJson(
       Map<String, dynamic> json) {
     return SendSerialConsoleSSHPublicKeyResponse(
+      requestId: json['RequestId'] as String?,
+      success: json['Success'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestId = this.requestId;
+    final success = this.success;
+    return {
+      if (requestId != null) 'RequestId': requestId,
+      if (success != null) 'Success': success,
+    };
+  }
+}
+
+class SendSSHPublicKeyResponse {
+  /// The ID of the request. Please provide this ID when contacting AWS Support
+  /// for assistance.
+  final String? requestId;
+
+  /// Is true if the request succeeds and an error otherwise.
+  final bool? success;
+
+  SendSSHPublicKeyResponse({
+    this.requestId,
+    this.success,
+  });
+
+  factory SendSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) {
+    return SendSSHPublicKeyResponse(
       requestId: json['RequestId'] as String?,
       success: json['Success'] as bool?,
     );

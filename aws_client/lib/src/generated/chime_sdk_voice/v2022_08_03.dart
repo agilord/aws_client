@@ -57,14 +57,14 @@ class ChimeSdkVoice {
   /// Associates phone numbers with the specified Amazon Chime SDK Voice
   /// Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
-  /// May throw [BadRequestException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [e164PhoneNumbers] :
   /// List of phone numbers, in E.164 format.
@@ -100,14 +100,14 @@ class ChimeSdkVoice {
   /// Associates phone numbers with the specified Amazon Chime SDK Voice
   /// Connector group.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
-  /// May throw [BadRequestException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [e164PhoneNumbers] :
   /// List of phone numbers, in E.164 format.
@@ -148,13 +148,13 @@ class ChimeSdkVoice {
   /// Phone numbers remain in the <b>Deletion queue</b> for 7 days before they
   /// are deleted permanently.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [phoneNumberIds] :
   /// List of phone number IDs.
@@ -181,13 +181,13 @@ class ChimeSdkVoice {
   /// You cannot have a duplicate <code>phoneNumberId</code> in a request.
   /// </note>
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [updatePhoneNumberRequestItems] :
   /// Lists the phone numbers in the update request.
@@ -210,14 +210,14 @@ class ChimeSdkVoice {
   /// the U.S., you must use the Amazon Chime SDK SIP media application dial-in
   /// product type.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [e164PhoneNumbers] :
   /// List of phone numbers, in E.164 format.
@@ -249,13 +249,13 @@ class ChimeSdkVoice {
   /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector
   /// for the specified participant phone numbers.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [capabilities] :
   /// The proxy session's capabilities.
@@ -324,15 +324,15 @@ class ChimeSdkVoice {
   /// SIP media applications and rules</a> in the <i>Amazon Chime SDK
   /// Administrator Guide</i>.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ResourceLimitExceededException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [awsRegion] :
   /// The AWS Region assigned to the SIP media application.
@@ -370,14 +370,14 @@ class ChimeSdkVoice {
   /// in the request, and it invokes the endpoint of the specified
   /// <code>sipMediaApplicationId</code>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [fromPhoneNumber] :
   /// The phone number that a user calls from. This is a phone number in your
@@ -426,15 +426,15 @@ class ChimeSdkVoice {
   /// SIP media applications and rules</a> in the <i>Amazon Chime SDK
   /// Administrator Guide</i>.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ResourceLimitExceededException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [name] :
   /// The name of the SIP rule.
@@ -489,14 +489,14 @@ class ChimeSdkVoice {
   /// Amazon Chime SDK Voice Connector groups</a> in the <i>Amazon Chime SDK
   /// Administrator Guide</i>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [name] :
   /// The name of the Voice Connector.
@@ -508,18 +508,60 @@ class ChimeSdkVoice {
   /// The AWS Region in which the Amazon Chime SDK Voice Connector is created.
   /// Default value: <code>us-east-1</code> .
   ///
+  /// Parameter [integrationType] :
+  /// The connectors for use with Connect Customer.
+  ///
+  /// The following options are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CONNECT_CALL_TRANSFER_CONNECTOR</code> - Enables enterprises to
+  /// integrate Connect Customer with other voice systems to directly transfer
+  /// voice calls and metadata without using the public telephone network. They
+  /// can use Connect Customer telephony and Interactive Voice Response (IVR)
+  /// with their existing voice systems to modernize the IVR experience of their
+  /// existing contact center and their enterprise and branch voice systems.
+  /// Additionally, enterprises migrating their contact center to Connect
+  /// Customer can start with Connect telephony and IVR for immediate
+  /// modernization ahead of agent migration.
+  /// </li>
+  /// <li>
+  /// <code>CONNECT_ANALYTICS_CONNECTOR</code> - Enables enterprises to
+  /// integrate Connect Customer with other voice systems for real-time and
+  /// post-call analytics. They can use Connect Customer Contact Lens with their
+  /// existing voice systems to provides call recordings, conversational
+  /// analytics (including contact transcript, sensitive data redaction, content
+  /// categorization, theme detection, sentiment analysis, real-time alerts, and
+  /// post-contact summary), and agent performance evaluations (including
+  /// evaluation forms, automated evaluation, supervisor review) with a rich
+  /// user experience to display, search and filter customer interactions, and
+  /// programmatic access to data streams and the data lake. Additionally,
+  /// enterprises migrating their contact center to Connect Customer can start
+  /// with Contact Lens analytics and performance insights ahead of agent
+  /// migration.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [networkType] :
+  /// The type of network for the Voice Connector. Either IPv4 only or
+  /// dual-stack (IPv4 and IPv6).
+  ///
   /// Parameter [tags] :
   /// The tags assigned to the Voice Connector.
   Future<CreateVoiceConnectorResponse> createVoiceConnector({
     required String name,
     required bool requireEncryption,
     VoiceConnectorAwsRegion? awsRegion,
+    VoiceConnectorIntegrationType? integrationType,
+    NetworkType? networkType,
     List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'Name': name,
       'RequireEncryption': requireEncryption,
       if (awsRegion != null) 'AwsRegion': awsRegion.value,
+      if (integrationType != null) 'IntegrationType': integrationType.value,
+      if (networkType != null) 'NetworkType': networkType.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -540,14 +582,14 @@ class ChimeSdkVoice {
   /// This creates a fault tolerant mechanism for fallback in case of
   /// availability events.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [name] :
   /// The name of the Voice Connector group.
@@ -586,17 +628,17 @@ class ChimeSdkVoice {
   /// Amazon Chime SDK Voice Analytics</a> in the <i>Amazon Chime SDK Developer
   /// Guide</i>.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [ResourceLimitExceededException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
   /// May throw [GoneException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [NotFoundException].
+  /// May throw [ResourceLimitExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [speakerSearchTaskId] :
   /// The ID of the speaker search task.
@@ -629,15 +671,15 @@ class ChimeSdkVoice {
   /// Amazon Chime SDK Voice Analytics</a> in the <i>Amazon Chime SDK Developer
   /// Guide</i>.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
+  /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [name] :
   /// The name of the voice profile domain.
@@ -685,13 +727,13 @@ class ChimeSdkVoice {
   /// Deleted phone numbers remain in the <b>Deletion queue</b> queue for 7 days
   /// before they are deleted permanently.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [phoneNumberId] :
   /// The phone number ID.
@@ -709,13 +751,13 @@ class ChimeSdkVoice {
   /// Deletes the specified proxy session from the specified Amazon Chime SDK
   /// Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [proxySessionId] :
   /// The proxy session ID.
@@ -737,14 +779,14 @@ class ChimeSdkVoice {
 
   /// Deletes a SIP media application.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
@@ -762,14 +804,14 @@ class ChimeSdkVoice {
 
   /// Deletes a SIP rule.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipRuleId] :
   /// The SIP rule ID.
@@ -788,14 +830,14 @@ class ChimeSdkVoice {
   /// with the Amazon Chime SDK Voice Connector must be disassociated from it
   /// before it can be deleted.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -813,13 +855,13 @@ class ChimeSdkVoice {
   /// Deletes the emergency calling details from the specified Amazon Chime SDK
   /// Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -835,18 +877,43 @@ class ChimeSdkVoice {
     );
   }
 
+  /// Deletes the external systems configuration for a Voice Connector.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The ID of the Voice Connector for which to delete the external system
+  /// configuration.
+  Future<void> deleteVoiceConnectorExternalSystemsConfiguration({
+    required String voiceConnectorId,
+  }) async {
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/external-systems-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes an Amazon Chime SDK Voice Connector group. Any
   /// <code>VoiceConnectorItems</code> and phone numbers associated with the
   /// group must be removed before it can be deleted.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorGroupId] :
   /// The Voice Connector Group ID.
@@ -869,13 +936,13 @@ class ChimeSdkVoice {
   /// deleted prior to deleting the origination settings.
   /// </note>
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -894,13 +961,13 @@ class ChimeSdkVoice {
   /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice
   /// Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -918,13 +985,13 @@ class ChimeSdkVoice {
 
   /// Deletes a Voice Connector's streaming configuration.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -947,13 +1014,13 @@ class ChimeSdkVoice {
   /// deleted prior to deleting the termination settings.
   /// </note>
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -972,13 +1039,13 @@ class ChimeSdkVoice {
   /// Deletes the specified SIP credentials used by your equipment to
   /// authenticate during call termination.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [usernames] :
   /// The RFC2617 compliant username associated with the SIP credentials, in
@@ -1005,15 +1072,15 @@ class ChimeSdkVoice {
   /// Deletes a voice profile, including its voice print and enrollment data.
   /// WARNING: This action is not reversible.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceProfileId] :
   /// The voice profile ID.
@@ -1031,15 +1098,15 @@ class ChimeSdkVoice {
   /// Deletes all voice profiles in the domain. WARNING: This action is not
   /// reversible.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceProfileDomainId] :
   /// The voice profile domain ID.
@@ -1058,13 +1125,13 @@ class ChimeSdkVoice {
   /// Disassociates the specified phone numbers from the specified Amazon Chime
   /// SDK Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [e164PhoneNumbers] :
   /// List of phone numbers, in E.164 format.
@@ -1093,13 +1160,13 @@ class ChimeSdkVoice {
   /// Disassociates the specified phone numbers from the specified Amazon Chime
   /// SDK Voice Connector group.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [e164PhoneNumbers] :
   /// The list of phone numbers, in E.164 format.
@@ -1128,12 +1195,12 @@ class ChimeSdkVoice {
   /// Retrieves the global settings for the Amazon Chime SDK Voice Connectors in
   /// an AWS account.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   Future<GetGlobalSettingsResponse> getGlobalSettings() async {
     final response = await _protocol.send(
       payload: null,
@@ -1147,13 +1214,13 @@ class ChimeSdkVoice {
   /// Retrieves details for the specified phone number ID, such as associations,
   /// capabilities, and product type.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [phoneNumberId] :
   /// The phone number ID.
@@ -1173,13 +1240,13 @@ class ChimeSdkVoice {
   /// creation timestamp, phone numbers in E.164 format, product type, and order
   /// status.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [phoneNumberOrderId] :
   /// The ID of the phone number order .
@@ -1199,12 +1266,12 @@ class ChimeSdkVoice {
   /// Retrieves the phone number settings for the administrator's AWS account,
   /// such as the default outbound calling name.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   Future<GetPhoneNumberSettingsResponse> getPhoneNumberSettings() async {
     final response = await _protocol.send(
       payload: null,
@@ -1218,13 +1285,13 @@ class ChimeSdkVoice {
   /// Retrieves the specified proxy session details for the specified Amazon
   /// Chime SDK Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [proxySessionId] :
   /// The proxy session ID.
@@ -1248,13 +1315,13 @@ class ChimeSdkVoice {
   /// Retrieves the information for a SIP media application, including name, AWS
   /// Region, and endpoints.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID .
@@ -1279,18 +1346,16 @@ class ChimeSdkVoice {
   /// Smart Properties</a> page.
   /// </important>
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
-  @Deprecated(
-      'Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).')
   Future<GetSipMediaApplicationAlexaSkillConfigurationResponse>
       getSipMediaApplicationAlexaSkillConfiguration({
     required String sipMediaApplicationId,
@@ -1309,13 +1374,13 @@ class ChimeSdkVoice {
   /// Retrieves the logging configuration for the specified SIP media
   /// application.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
@@ -1337,13 +1402,13 @@ class ChimeSdkVoice {
   /// Retrieves the details of a SIP rule, such as the rule ID, name, triggers,
   /// and target endpoints.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipRuleId] :
   /// The SIP rule ID.
@@ -1361,15 +1426,15 @@ class ChimeSdkVoice {
 
   /// Retrieves the details of the specified speaker search task.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [speakerSearchTaskId] :
   /// The ID of the speaker search task.
@@ -1393,13 +1458,13 @@ class ChimeSdkVoice {
   /// Retrieves details for the specified Amazon Chime SDK Voice Connector, such
   /// as timestamps,name, outbound host, and encryption requirements.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1418,13 +1483,13 @@ class ChimeSdkVoice {
   /// Retrieves the emergency calling configuration details for the specified
   /// Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1443,17 +1508,46 @@ class ChimeSdkVoice {
         response);
   }
 
+  /// Gets information about an external systems configuration for a Voice
+  /// Connector.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The ID of the Voice Connector for which to return information about the
+  /// external system configuration.
+  Future<GetVoiceConnectorExternalSystemsConfigurationResponse>
+      getVoiceConnectorExternalSystemsConfiguration({
+    required String voiceConnectorId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/external-systems-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetVoiceConnectorExternalSystemsConfigurationResponse.fromJson(
+        response);
+  }
+
   /// Retrieves details for the specified Amazon Chime SDK Voice Connector
   /// group, such as timestamps,name, and associated
   /// <code>VoiceConnectorItems</code>.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorGroupId] :
   /// The Voice Connector group ID.
@@ -1474,13 +1568,13 @@ class ChimeSdkVoice {
   /// Connector. Shows whether SIP message logs are enabled for sending to
   /// Amazon CloudWatch Logs.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1500,13 +1594,13 @@ class ChimeSdkVoice {
 
   /// Retrieves the origination settings for the specified Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1526,13 +1620,13 @@ class ChimeSdkVoice {
   /// Retrieves the proxy configuration details for the specified Amazon Chime
   /// SDK Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1554,13 +1648,13 @@ class ChimeSdkVoice {
   /// sending to Amazon Kinesis. It also shows the retention period, in hours,
   /// for the Amazon Kinesis data.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1581,13 +1675,13 @@ class ChimeSdkVoice {
   /// Retrieves the termination setting details for the specified Voice
   /// Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1608,13 +1702,13 @@ class ChimeSdkVoice {
   /// was received from your SIP infrastructure for the specified Amazon Chime
   /// SDK Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1634,14 +1728,14 @@ class ChimeSdkVoice {
 
   /// Retrieves the details of the specified voice profile.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceProfileId] :
   /// The voice profile ID.
@@ -1659,14 +1753,14 @@ class ChimeSdkVoice {
 
   /// Retrieves the details of the specified voice profile domain.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceProfileDomainId] :
   /// The voice profile domain ID.
@@ -1685,15 +1779,15 @@ class ChimeSdkVoice {
 
   /// Retrieves the details of a voice tone analysis task.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ServiceFailureException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [isCaller] :
   /// Specifies whether the voice being analyzed is the caller (originator) or
@@ -1703,7 +1797,7 @@ class ChimeSdkVoice {
   /// The Voice Connector ID.
   ///
   /// Parameter [voiceToneAnalysisTaskId] :
-  /// The ID of the voice tone anlysis task.
+  /// The ID of the voice tone analysis task.
   Future<GetVoiceToneAnalysisTaskResponse> getVoiceToneAnalysisTask({
     required bool isCaller,
     required String voiceConnectorId,
@@ -1726,12 +1820,12 @@ class ChimeSdkVoice {
   /// Lists the available AWS Regions in which you can create an Amazon Chime
   /// SDK Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   Future<ListAvailableVoiceConnectorRegionsResponse>
       listAvailableVoiceConnectorRegions() async {
     final response = await _protocol.send(
@@ -1745,12 +1839,12 @@ class ChimeSdkVoice {
 
   /// Lists the phone numbers for an administrator's Amazon Chime SDK account.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
@@ -1785,13 +1879,13 @@ class ChimeSdkVoice {
   /// Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK
   /// Voice Connector group.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [filterName] :
   /// The filter to limit the number of results.
@@ -1845,13 +1939,13 @@ class ChimeSdkVoice {
   /// Lists the proxy sessions for the specified Amazon Chime SDK Voice
   /// Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -1894,12 +1988,12 @@ class ChimeSdkVoice {
 
   /// Lists the SIP media applications under the administrator's AWS account.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. Defaults to 100.
@@ -1932,12 +2026,12 @@ class ChimeSdkVoice {
 
   /// Lists the SIP rules under the administrator's AWS account.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. Defaults to 100.
@@ -1976,13 +2070,13 @@ class ChimeSdkVoice {
 
   /// Lists the countries that you can order phone numbers from.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [productType] :
   /// The phone number product type.
@@ -2008,9 +2102,9 @@ class ChimeSdkVoice {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The resource ARN.
@@ -2033,12 +2127,12 @@ class ChimeSdkVoice {
   /// Lists the Amazon Chime SDK Voice Connector groups in the administrator's
   /// AWS account.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
@@ -2069,42 +2163,15 @@ class ChimeSdkVoice {
     return ListVoiceConnectorGroupsResponse.fromJson(response);
   }
 
-  /// Lists the SIP credentials for the specified Amazon Chime SDK Voice
-  /// Connector.
-  ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
-  /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [voiceConnectorId] :
-  /// The Voice Connector ID.
-  Future<ListVoiceConnectorTerminationCredentialsResponse>
-      listVoiceConnectorTerminationCredentials({
-    required String voiceConnectorId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/termination/credentials',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListVoiceConnectorTerminationCredentialsResponse.fromJson(response);
-  }
-
   /// Lists the Amazon Chime SDK Voice Connectors in the administrators AWS
   /// account.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
@@ -2135,16 +2202,43 @@ class ChimeSdkVoice {
     return ListVoiceConnectorsResponse.fromJson(response);
   }
 
+  /// Lists the SIP credentials for the specified Amazon Chime SDK Voice
+  /// Connector.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The Voice Connector ID.
+  Future<ListVoiceConnectorTerminationCredentialsResponse>
+      listVoiceConnectorTerminationCredentials({
+    required String voiceConnectorId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/termination/credentials',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListVoiceConnectorTerminationCredentialsResponse.fromJson(response);
+  }
+
   /// Lists the specified voice profile domains in the administrator's AWS
   /// account.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
@@ -2177,13 +2271,13 @@ class ChimeSdkVoice {
 
   /// Lists the voice profiles in a voice profile domain.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceProfileDomainId] :
   /// The ID of the voice profile domain.
@@ -2227,21 +2321,19 @@ class ChimeSdkVoice {
   /// Smart Properties</a> page.
   /// </important>
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
   ///
   /// Parameter [sipMediaApplicationAlexaSkillConfiguration] :
   /// The Alexa Skill configuration.
-  @Deprecated(
-      'Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to the Alexa Smart Properties page(https://developer.amazon.com/en-US/alexa/alexasmartproperties).')
   Future<PutSipMediaApplicationAlexaSkillConfigurationResponse>
       putSipMediaApplicationAlexaSkillConfiguration({
     required String sipMediaApplicationId,
@@ -2266,13 +2358,13 @@ class ChimeSdkVoice {
 
   /// Updates the logging configuration for the specified SIP media application.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
@@ -2303,13 +2395,13 @@ class ChimeSdkVoice {
 
   /// Updates a Voice Connector's emergency calling configuration.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [emergencyCallingConfiguration] :
   /// The configuration being updated.
@@ -2335,15 +2427,60 @@ class ChimeSdkVoice {
         response);
   }
 
+  /// Adds an external systems configuration to a Voice Connector.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  ///
+  /// Parameter [voiceConnectorId] :
+  /// The ID of the Voice Connector for which to add the external system
+  /// configuration.
+  ///
+  /// Parameter [contactCenterSystemTypes] :
+  /// The contact center system to use.
+  ///
+  /// Parameter [sessionBorderControllerTypes] :
+  /// The session border controllers to use.
+  Future<PutVoiceConnectorExternalSystemsConfigurationResponse>
+      putVoiceConnectorExternalSystemsConfiguration({
+    required String voiceConnectorId,
+    List<ContactCenterSystemType>? contactCenterSystemTypes,
+    List<SessionBorderControllerType>? sessionBorderControllerTypes,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (contactCenterSystemTypes != null)
+        'ContactCenterSystemTypes':
+            contactCenterSystemTypes.map((e) => e.value).toList(),
+      if (sessionBorderControllerTypes != null)
+        'SessionBorderControllerTypes':
+            sessionBorderControllerTypes.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/voice-connectors/${Uri.encodeComponent(voiceConnectorId)}/external-systems-configuration',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutVoiceConnectorExternalSystemsConfigurationResponse.fromJson(
+        response);
+  }
+
   /// Updates a Voice Connector's logging configuration.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [loggingConfiguration] :
   /// The logging configuration being updated.
@@ -2370,13 +2507,13 @@ class ChimeSdkVoice {
 
   /// Updates a Voice Connector's origination settings.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [origination] :
   /// The origination settings being updated.
@@ -2403,14 +2540,14 @@ class ChimeSdkVoice {
   /// Puts the specified proxy configuration to the specified Amazon Chime SDK
   /// Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
   /// May throw [AccessDeniedException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [defaultSessionExpiryMinutes] :
   /// The default number of minutes allowed for proxy session.
@@ -2453,13 +2590,13 @@ class ChimeSdkVoice {
 
   /// Updates a Voice Connector's streaming configuration settings.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [streamingConfiguration] :
   /// The streaming settings being updated.
@@ -2486,14 +2623,14 @@ class ChimeSdkVoice {
 
   /// Updates a Voice Connector's termination settings.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
-  /// May throw [BadRequestException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [termination] :
   /// The termination settings to be updated.
@@ -2519,13 +2656,13 @@ class ChimeSdkVoice {
 
   /// Updates a Voice Connector's termination credentials.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -2550,14 +2687,14 @@ class ChimeSdkVoice {
 
   /// Restores a deleted phone number.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [phoneNumberId] :
   /// The ID of the phone number being restored.
@@ -2576,13 +2713,13 @@ class ChimeSdkVoice {
 
   /// Searches the provisioned phone numbers in an organization.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [AccessDeniedException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [areaCode] :
   /// Confines a search to just the phone numbers associated with the specified
@@ -2658,18 +2795,18 @@ class ChimeSdkVoice {
   /// Amazon Chime SDK.
   /// </important>
   ///
-  /// May throw [BadRequestException].
-  /// May throw [ResourceLimitExceededException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
   /// May throw [GoneException].
-  /// May throw [UnprocessableEntityException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [NotFoundException].
+  /// May throw [ResourceLimitExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [transactionId] :
   /// The transaction ID of the call being analyzed.
@@ -2722,18 +2859,18 @@ class ChimeSdkVoice {
   /// Amazon Chime SDK.
   /// </important>
   ///
-  /// May throw [BadRequestException].
-  /// May throw [ResourceLimitExceededException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
   /// May throw [GoneException].
-  /// May throw [UnprocessableEntityException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [NotFoundException].
+  /// May throw [ResourceLimitExceededException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [languageCode] :
   /// The language code.
@@ -2770,16 +2907,16 @@ class ChimeSdkVoice {
 
   /// Stops a speaker search task.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [UnprocessableEntityException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [speakerSearchTaskId] :
   /// The speaker search task ID.
@@ -2801,16 +2938,16 @@ class ChimeSdkVoice {
 
   /// Stops a voice tone analysis task.
   ///
-  /// May throw [BadRequestException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [UnprocessableEntityException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [UnprocessableEntityException].
   ///
   /// Parameter [voiceConnectorId] :
   /// The Voice Connector ID.
@@ -2836,9 +2973,9 @@ class ChimeSdkVoice {
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource being tagged.
@@ -2866,9 +3003,9 @@ class ChimeSdkVoice {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [NotFoundException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource having its tags removed.
@@ -2894,12 +3031,12 @@ class ChimeSdkVoice {
   /// Updates global settings for the Amazon Chime SDK Voice Connectors in an
   /// AWS account.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceConnector] :
   /// The Voice Connector settings.
@@ -2929,14 +3066,14 @@ class ChimeSdkVoice {
   /// updates to outbound calling names must be complete before you can request
   /// another update.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
   /// May throw [ConflictException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [phoneNumberId] :
   /// The phone number ID.
@@ -2974,12 +3111,12 @@ class ChimeSdkVoice {
   /// outbound calling name once every seven days. Outbound calling names can
   /// take up to 72 hours to update.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [callingName] :
   /// The default outbound calling name for the account.
@@ -3000,13 +3137,13 @@ class ChimeSdkVoice {
   /// Updates the specified proxy session details, such as voice or SMS
   /// capabilities.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [capabilities] :
   /// The proxy session capabilities.
@@ -3047,14 +3184,14 @@ class ChimeSdkVoice {
 
   /// Updates the details of the specified SIP media application.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
@@ -3088,13 +3225,13 @@ class ChimeSdkVoice {
   /// return a new set of actions.
   ///
   /// May throw [BadRequestException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [arguments] :
   /// Arguments made available to the Lambda function as part of the
@@ -3126,15 +3263,15 @@ class ChimeSdkVoice {
 
   /// Updates the details of the specified SIP rule.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [name] :
   /// The new name for the specified SIP rule.
@@ -3169,13 +3306,13 @@ class ChimeSdkVoice {
 
   /// Updates the details for the specified Amazon Chime SDK Voice Connector.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [name] :
   /// The name of the Voice Connector.
@@ -3206,14 +3343,14 @@ class ChimeSdkVoice {
   /// Updates the settings for the specified Amazon Chime SDK Voice Connector
   /// group.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [name] :
   /// The name of the Voice Connector group.
@@ -3259,16 +3396,16 @@ class ChimeSdkVoice {
   /// with AWS governing your use of the service.
   /// </important>
   ///
-  /// May throw [BadRequestException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
-  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
   /// May throw [GoneException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [speakerSearchTaskId] :
   /// The ID of the speaker search task.
@@ -3293,14 +3430,14 @@ class ChimeSdkVoice {
 
   /// Updates the settings for the specified voice profile domain.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [voiceProfileDomainId] :
   /// The domain ID.
@@ -3335,13 +3472,14 @@ class ChimeSdkVoice {
   /// requests. That helps ensure that addresses are routed to the appropriate
   /// Public Safety Answering Point.
   ///
-  /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
+  /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [awsAccountId] :
   /// The AWS account ID.
@@ -3350,7 +3488,10 @@ class ChimeSdkVoice {
   /// The address city, such as <code>Portland</code>.
   ///
   /// Parameter [country] :
-  /// The country in the address being validated.
+  /// The country in the address being validated as two-letter country code in
+  /// ISO 3166-1 alpha-2 format, such as <code>US</code>. For more information,
+  /// see <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1
+  /// alpha-2</a> in Wikipedia.
   ///
   /// Parameter [postalCode] :
   /// The dress postal code, such <code>04352</code>.
@@ -3391,131 +3532,19 @@ class ChimeSdkVoice {
   }
 }
 
-/// A validated address.
-class Address {
-  /// The city of an address.
-  final String? city;
-
-  /// The country of an address.
-  final String? country;
-
-  /// An address suffix location, such as the <code>S. Unit A</code> in
-  /// <code>Central Park S. Unit A</code>.
-  final String? postDirectional;
-
-  /// The postal code of an address.
-  final String? postalCode;
-
-  /// The zip + 4 or postal code + 4 of an address.
-  final String? postalCodePlus4;
-
-  /// An address prefix location, such as the <code>N</code> in <code>N. Third
-  /// St.</code>
-  final String? preDirectional;
-
-  /// The state of an address.
-  final String? state;
-
-  /// The address street, such as <code>8th Avenue</code>.
-  final String? streetName;
-
-  /// The numeric portion of an address.
-  final String? streetNumber;
-
-  /// The address suffix, such as the <code>N</code> in <code>8th Avenue N</code>.
-  final String? streetSuffix;
-
-  Address({
-    this.city,
-    this.country,
-    this.postDirectional,
-    this.postalCode,
-    this.postalCodePlus4,
-    this.preDirectional,
-    this.state,
-    this.streetName,
-    this.streetNumber,
-    this.streetSuffix,
-  });
-
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
-      city: json['city'] as String?,
-      country: json['country'] as String?,
-      postDirectional: json['postDirectional'] as String?,
-      postalCode: json['postalCode'] as String?,
-      postalCodePlus4: json['postalCodePlus4'] as String?,
-      preDirectional: json['preDirectional'] as String?,
-      state: json['state'] as String?,
-      streetName: json['streetName'] as String?,
-      streetNumber: json['streetNumber'] as String?,
-      streetSuffix: json['streetSuffix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final city = this.city;
-    final country = this.country;
-    final postDirectional = this.postDirectional;
-    final postalCode = this.postalCode;
-    final postalCodePlus4 = this.postalCodePlus4;
-    final preDirectional = this.preDirectional;
-    final state = this.state;
-    final streetName = this.streetName;
-    final streetNumber = this.streetNumber;
-    final streetSuffix = this.streetSuffix;
-    return {
-      if (city != null) 'city': city,
-      if (country != null) 'country': country,
-      if (postDirectional != null) 'postDirectional': postDirectional,
-      if (postalCode != null) 'postalCode': postalCode,
-      if (postalCodePlus4 != null) 'postalCodePlus4': postalCodePlus4,
-      if (preDirectional != null) 'preDirectional': preDirectional,
-      if (state != null) 'state': state,
-      if (streetName != null) 'streetName': streetName,
-      if (streetNumber != null) 'streetNumber': streetNumber,
-      if (streetSuffix != null) 'streetSuffix': streetSuffix,
-    };
-  }
-}
-
-class AlexaSkillStatus {
-  static const active = AlexaSkillStatus._('ACTIVE');
-  static const inactive = AlexaSkillStatus._('INACTIVE');
-
-  final String value;
-
-  const AlexaSkillStatus._(this.value);
-
-  static const values = [active, inactive];
-
-  static AlexaSkillStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AlexaSkillStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AlexaSkillStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
+class AssociatePhoneNumbersWithVoiceConnectorResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
   /// messages.
   final List<PhoneNumberError>? phoneNumberErrors;
 
-  AssociatePhoneNumbersWithVoiceConnectorGroupResponse({
+  AssociatePhoneNumbersWithVoiceConnectorResponse({
     this.phoneNumberErrors,
   });
 
-  factory AssociatePhoneNumbersWithVoiceConnectorGroupResponse.fromJson(
+  factory AssociatePhoneNumbersWithVoiceConnectorResponse.fromJson(
       Map<String, dynamic> json) {
-    return AssociatePhoneNumbersWithVoiceConnectorGroupResponse(
+    return AssociatePhoneNumbersWithVoiceConnectorResponse(
       phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
           ?.nonNulls
           .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
@@ -3531,19 +3560,19 @@ class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
   }
 }
 
-class AssociatePhoneNumbersWithVoiceConnectorResponse {
+class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
   /// messages.
   final List<PhoneNumberError>? phoneNumberErrors;
 
-  AssociatePhoneNumbersWithVoiceConnectorResponse({
+  AssociatePhoneNumbersWithVoiceConnectorGroupResponse({
     this.phoneNumberErrors,
   });
 
-  factory AssociatePhoneNumbersWithVoiceConnectorResponse.fromJson(
+  factory AssociatePhoneNumbersWithVoiceConnectorGroupResponse.fromJson(
       Map<String, dynamic> json) {
-    return AssociatePhoneNumbersWithVoiceConnectorResponse(
+    return AssociatePhoneNumbersWithVoiceConnectorGroupResponse(
       phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
           ?.nonNulls
           .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
@@ -3611,185 +3640,6 @@ class BatchUpdatePhoneNumberResponse {
   }
 }
 
-/// The details of an Amazon Chime SDK Voice Connector call.
-class CallDetails {
-  /// Identifies a person as the caller or the callee.
-  final bool? isCaller;
-
-  /// The transaction ID of a Voice Connector call.
-  final String? transactionId;
-
-  /// The Voice Connector ID.
-  final String? voiceConnectorId;
-
-  CallDetails({
-    this.isCaller,
-    this.transactionId,
-    this.voiceConnectorId,
-  });
-
-  factory CallDetails.fromJson(Map<String, dynamic> json) {
-    return CallDetails(
-      isCaller: json['IsCaller'] as bool?,
-      transactionId: json['TransactionId'] as String?,
-      voiceConnectorId: json['VoiceConnectorId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isCaller = this.isCaller;
-    final transactionId = this.transactionId;
-    final voiceConnectorId = this.voiceConnectorId;
-    return {
-      if (isCaller != null) 'IsCaller': isCaller,
-      if (transactionId != null) 'TransactionId': transactionId,
-      if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
-    };
-  }
-}
-
-class CallLegType {
-  static const caller = CallLegType._('Caller');
-  static const callee = CallLegType._('Callee');
-
-  final String value;
-
-  const CallLegType._(this.value);
-
-  static const values = [caller, callee];
-
-  static CallLegType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => CallLegType._(value));
-
-  @override
-  bool operator ==(other) => other is CallLegType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CallingNameStatus {
-  static const unassigned = CallingNameStatus._('Unassigned');
-  static const updateInProgress = CallingNameStatus._('UpdateInProgress');
-  static const updateSucceeded = CallingNameStatus._('UpdateSucceeded');
-  static const updateFailed = CallingNameStatus._('UpdateFailed');
-
-  final String value;
-
-  const CallingNameStatus._(this.value);
-
-  static const values = [
-    unassigned,
-    updateInProgress,
-    updateSucceeded,
-    updateFailed
-  ];
-
-  static CallingNameStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CallingNameStatus._(value));
-
-  @override
-  bool operator ==(other) => other is CallingNameStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A suggested address.
-class CandidateAddress {
-  /// The city of the candidate address.
-  final String? city;
-
-  /// The country of the candidate address.
-  final String? country;
-
-  /// The postal code of the candidate address.
-  final String? postalCode;
-
-  /// The zip + 4 or postal code +4 of the candidate address.
-  final String? postalCodePlus4;
-
-  /// The state of the candidate address.
-  final String? state;
-
-  /// The street information of the candidate address.
-  final String? streetInfo;
-
-  /// The numeric portion of the candidate address.
-  final String? streetNumber;
-
-  CandidateAddress({
-    this.city,
-    this.country,
-    this.postalCode,
-    this.postalCodePlus4,
-    this.state,
-    this.streetInfo,
-    this.streetNumber,
-  });
-
-  factory CandidateAddress.fromJson(Map<String, dynamic> json) {
-    return CandidateAddress(
-      city: json['city'] as String?,
-      country: json['country'] as String?,
-      postalCode: json['postalCode'] as String?,
-      postalCodePlus4: json['postalCodePlus4'] as String?,
-      state: json['state'] as String?,
-      streetInfo: json['streetInfo'] as String?,
-      streetNumber: json['streetNumber'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final city = this.city;
-    final country = this.country;
-    final postalCode = this.postalCode;
-    final postalCodePlus4 = this.postalCodePlus4;
-    final state = this.state;
-    final streetInfo = this.streetInfo;
-    final streetNumber = this.streetNumber;
-    return {
-      if (city != null) 'city': city,
-      if (country != null) 'country': country,
-      if (postalCode != null) 'postalCode': postalCode,
-      if (postalCodePlus4 != null) 'postalCodePlus4': postalCodePlus4,
-      if (state != null) 'state': state,
-      if (streetInfo != null) 'streetInfo': streetInfo,
-      if (streetNumber != null) 'streetNumber': streetNumber,
-    };
-  }
-}
-
-class Capability {
-  static const voice = Capability._('Voice');
-  static const sms = Capability._('SMS');
-
-  final String value;
-
-  const Capability._(this.value);
-
-  static const values = [voice, sms];
-
-  static Capability fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Capability._(value));
-
-  @override
-  bool operator ==(other) => other is Capability && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CreatePhoneNumberOrderResponse {
   /// The phone number order details.
   final PhoneNumberOrder? phoneNumberOrder;
@@ -3839,33 +3689,6 @@ class CreateProxySessionResponse {
   }
 }
 
-class CreateSipMediaApplicationCallResponse {
-  /// The actual call.
-  final SipMediaApplicationCall? sipMediaApplicationCall;
-
-  CreateSipMediaApplicationCallResponse({
-    this.sipMediaApplicationCall,
-  });
-
-  factory CreateSipMediaApplicationCallResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateSipMediaApplicationCallResponse(
-      sipMediaApplicationCall: json['SipMediaApplicationCall'] != null
-          ? SipMediaApplicationCall.fromJson(
-              json['SipMediaApplicationCall'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sipMediaApplicationCall = this.sipMediaApplicationCall;
-    return {
-      if (sipMediaApplicationCall != null)
-        'SipMediaApplicationCall': sipMediaApplicationCall,
-    };
-  }
-}
-
 class CreateSipMediaApplicationResponse {
   /// The SIP media application details.
   final SipMediaApplication? sipMediaApplication;
@@ -3893,6 +3716,33 @@ class CreateSipMediaApplicationResponse {
   }
 }
 
+class CreateSipMediaApplicationCallResponse {
+  /// The actual call.
+  final SipMediaApplicationCall? sipMediaApplicationCall;
+
+  CreateSipMediaApplicationCallResponse({
+    this.sipMediaApplicationCall,
+  });
+
+  factory CreateSipMediaApplicationCallResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateSipMediaApplicationCallResponse(
+      sipMediaApplicationCall: json['SipMediaApplicationCall'] != null
+          ? SipMediaApplicationCall.fromJson(
+              json['SipMediaApplicationCall'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplicationCall = this.sipMediaApplicationCall;
+    return {
+      if (sipMediaApplicationCall != null)
+        'SipMediaApplicationCall': sipMediaApplicationCall,
+    };
+  }
+}
+
 class CreateSipRuleResponse {
   /// The SIP rule information, including the rule ID, triggers, and target
   /// applications.
@@ -3914,6 +3764,31 @@ class CreateSipRuleResponse {
     final sipRule = this.sipRule;
     return {
       if (sipRule != null) 'SipRule': sipRule,
+    };
+  }
+}
+
+class CreateVoiceConnectorResponse {
+  /// The details of the Voice Connector.
+  final VoiceConnector? voiceConnector;
+
+  CreateVoiceConnectorResponse({
+    this.voiceConnector,
+  });
+
+  factory CreateVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVoiceConnectorResponse(
+      voiceConnector: json['VoiceConnector'] != null
+          ? VoiceConnector.fromJson(
+              json['VoiceConnector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnector = this.voiceConnector;
+    return {
+      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
     };
   }
 }
@@ -3945,27 +3820,26 @@ class CreateVoiceConnectorGroupResponse {
   }
 }
 
-class CreateVoiceConnectorResponse {
-  /// The details of the Voice Connector.
-  final VoiceConnector? voiceConnector;
+class CreateVoiceProfileResponse {
+  /// The requested voice profile.
+  final VoiceProfile? voiceProfile;
 
-  CreateVoiceConnectorResponse({
-    this.voiceConnector,
+  CreateVoiceProfileResponse({
+    this.voiceProfile,
   });
 
-  factory CreateVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
-    return CreateVoiceConnectorResponse(
-      voiceConnector: json['VoiceConnector'] != null
-          ? VoiceConnector.fromJson(
-              json['VoiceConnector'] as Map<String, dynamic>)
+  factory CreateVoiceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVoiceProfileResponse(
+      voiceProfile: json['VoiceProfile'] != null
+          ? VoiceProfile.fromJson(json['VoiceProfile'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final voiceConnector = this.voiceConnector;
+    final voiceProfile = this.voiceProfile;
     return {
-      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
+      if (voiceProfile != null) 'VoiceProfile': voiceProfile,
     };
   }
 }
@@ -3991,125 +3865,6 @@ class CreateVoiceProfileDomainResponse {
     final voiceProfileDomain = this.voiceProfileDomain;
     return {
       if (voiceProfileDomain != null) 'VoiceProfileDomain': voiceProfileDomain,
-    };
-  }
-}
-
-class CreateVoiceProfileResponse {
-  /// The requested voice profile.
-  final VoiceProfile? voiceProfile;
-
-  CreateVoiceProfileResponse({
-    this.voiceProfile,
-  });
-
-  factory CreateVoiceProfileResponse.fromJson(Map<String, dynamic> json) {
-    return CreateVoiceProfileResponse(
-      voiceProfile: json['VoiceProfile'] != null
-          ? VoiceProfile.fromJson(json['VoiceProfile'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final voiceProfile = this.voiceProfile;
-    return {
-      if (voiceProfile != null) 'VoiceProfile': voiceProfile,
-    };
-  }
-}
-
-/// The SIP credentials used to authenticate requests to an Amazon Chime SDK
-/// Voice Connector.
-class Credential {
-  /// The RFC2617 compliant password associated with the SIP credentials, in
-  /// US-ASCII format.
-  final String? password;
-
-  /// The RFC2617 compliant user name associated with the SIP credentials, in
-  /// US-ASCII format.
-  final String? username;
-
-  Credential({
-    this.password,
-    this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final password = this.password;
-    final username = this.username;
-    return {
-      if (password != null) 'Password': password,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// The Dialed Number Identification Service (DNIS) emergency calling
-/// configuration details associated with an Amazon Chime SDK Voice Connector's
-/// emergency calling configuration.
-class DNISEmergencyCallingConfiguration {
-  /// The country from which emergency calls are allowed, in ISO 3166-1 alpha-2
-  /// format.
-  final String callingCountry;
-
-  /// The DNIS phone number that you route emergency calls to, in E.164 format.
-  final String emergencyPhoneNumber;
-
-  /// The DNIS phone number for routing test emergency calls to, in E.164 format.
-  final String? testPhoneNumber;
-
-  DNISEmergencyCallingConfiguration({
-    required this.callingCountry,
-    required this.emergencyPhoneNumber,
-    this.testPhoneNumber,
-  });
-
-  factory DNISEmergencyCallingConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return DNISEmergencyCallingConfiguration(
-      callingCountry: (json['CallingCountry'] as String?) ?? '',
-      emergencyPhoneNumber: (json['EmergencyPhoneNumber'] as String?) ?? '',
-      testPhoneNumber: json['TestPhoneNumber'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final callingCountry = this.callingCountry;
-    final emergencyPhoneNumber = this.emergencyPhoneNumber;
-    final testPhoneNumber = this.testPhoneNumber;
-    return {
-      'CallingCountry': callingCountry,
-      'EmergencyPhoneNumber': emergencyPhoneNumber,
-      if (testPhoneNumber != null) 'TestPhoneNumber': testPhoneNumber,
-    };
-  }
-}
-
-class DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
-  /// If the action fails for one or more of the phone numbers in the request, a
-  /// list of the phone numbers is returned, along with error codes and error
-  /// messages.
-  final List<PhoneNumberError>? phoneNumberErrors;
-
-  DisassociatePhoneNumbersFromVoiceConnectorGroupResponse({
-    this.phoneNumberErrors,
-  });
-
-  factory DisassociatePhoneNumbersFromVoiceConnectorGroupResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DisassociatePhoneNumbersFromVoiceConnectorGroupResponse(
-      phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
-          ?.nonNulls
-          .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final phoneNumberErrors = this.phoneNumberErrors;
-    return {
-      if (phoneNumberErrors != null) 'PhoneNumberErrors': phoneNumberErrors,
     };
   }
 }
@@ -4142,141 +3897,30 @@ class DisassociatePhoneNumbersFromVoiceConnectorResponse {
   }
 }
 
-/// The emergency calling configuration details associated with an Amazon Chime
-/// SDK Voice Connector.
-class EmergencyCallingConfiguration {
-  /// The Dialed Number Identification Service (DNIS) emergency calling
-  /// configuration details.
-  final List<DNISEmergencyCallingConfiguration>? dnis;
+class DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
+  /// If the action fails for one or more of the phone numbers in the request, a
+  /// list of the phone numbers is returned, along with error codes and error
+  /// messages.
+  final List<PhoneNumberError>? phoneNumberErrors;
 
-  EmergencyCallingConfiguration({
-    this.dnis,
+  DisassociatePhoneNumbersFromVoiceConnectorGroupResponse({
+    this.phoneNumberErrors,
   });
 
-  factory EmergencyCallingConfiguration.fromJson(Map<String, dynamic> json) {
-    return EmergencyCallingConfiguration(
-      dnis: (json['DNIS'] as List?)
+  factory DisassociatePhoneNumbersFromVoiceConnectorGroupResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociatePhoneNumbersFromVoiceConnectorGroupResponse(
+      phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
           ?.nonNulls
-          .map((e) => DNISEmergencyCallingConfiguration.fromJson(
-              e as Map<String, dynamic>))
+          .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dnis = this.dnis;
+    final phoneNumberErrors = this.phoneNumberErrors;
     return {
-      if (dnis != null) 'DNIS': dnis,
-    };
-  }
-}
-
-class ErrorCode {
-  static const badRequest = ErrorCode._('BadRequest');
-  static const conflict = ErrorCode._('Conflict');
-  static const forbidden = ErrorCode._('Forbidden');
-  static const notFound = ErrorCode._('NotFound');
-  static const preconditionFailed = ErrorCode._('PreconditionFailed');
-  static const resourceLimitExceeded = ErrorCode._('ResourceLimitExceeded');
-  static const serviceFailure = ErrorCode._('ServiceFailure');
-  static const accessDenied = ErrorCode._('AccessDenied');
-  static const serviceUnavailable = ErrorCode._('ServiceUnavailable');
-  static const throttled = ErrorCode._('Throttled');
-  static const throttling = ErrorCode._('Throttling');
-  static const unauthorized = ErrorCode._('Unauthorized');
-  static const unprocessable = ErrorCode._('Unprocessable');
-  static const voiceConnectorGroupAssociationsExist =
-      ErrorCode._('VoiceConnectorGroupAssociationsExist');
-  static const phoneNumberAssociationsExist =
-      ErrorCode._('PhoneNumberAssociationsExist');
-  static const gone = ErrorCode._('Gone');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [
-    badRequest,
-    conflict,
-    forbidden,
-    notFound,
-    preconditionFailed,
-    resourceLimitExceeded,
-    serviceFailure,
-    accessDenied,
-    serviceUnavailable,
-    throttled,
-    throttling,
-    unauthorized,
-    unprocessable,
-    voiceConnectorGroupAssociationsExist,
-    phoneNumberAssociationsExist,
-    gone
-  ];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class GeoMatchLevel {
-  static const country = GeoMatchLevel._('Country');
-  static const areaCode = GeoMatchLevel._('AreaCode');
-
-  final String value;
-
-  const GeoMatchLevel._(this.value);
-
-  static const values = [country, areaCode];
-
-  static GeoMatchLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GeoMatchLevel._(value));
-
-  @override
-  bool operator ==(other) => other is GeoMatchLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The country and area code for a proxy phone number in a proxy phone session.
-class GeoMatchParams {
-  /// The area code.
-  final String areaCode;
-
-  /// The country.
-  final String country;
-
-  GeoMatchParams({
-    required this.areaCode,
-    required this.country,
-  });
-
-  factory GeoMatchParams.fromJson(Map<String, dynamic> json) {
-    return GeoMatchParams(
-      areaCode: (json['AreaCode'] as String?) ?? '',
-      country: (json['Country'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final areaCode = this.areaCode;
-    final country = this.country;
-    return {
-      'AreaCode': areaCode,
-      'Country': country,
+      if (phoneNumberErrors != null) 'PhoneNumberErrors': phoneNumberErrors,
     };
   }
 }
@@ -4306,6 +3950,30 @@ class GetGlobalSettingsResponse {
   }
 }
 
+class GetPhoneNumberResponse {
+  /// The phone number details.
+  final PhoneNumber? phoneNumber;
+
+  GetPhoneNumberResponse({
+    this.phoneNumber,
+  });
+
+  factory GetPhoneNumberResponse.fromJson(Map<String, dynamic> json) {
+    return GetPhoneNumberResponse(
+      phoneNumber: json['PhoneNumber'] != null
+          ? PhoneNumber.fromJson(json['PhoneNumber'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumber = this.phoneNumber;
+    return {
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
+}
+
 class GetPhoneNumberOrderResponse {
   /// The phone number order details.
   final PhoneNumberOrder? phoneNumberOrder;
@@ -4327,30 +3995,6 @@ class GetPhoneNumberOrderResponse {
     final phoneNumberOrder = this.phoneNumberOrder;
     return {
       if (phoneNumberOrder != null) 'PhoneNumberOrder': phoneNumberOrder,
-    };
-  }
-}
-
-class GetPhoneNumberResponse {
-  /// The phone number details.
-  final PhoneNumber? phoneNumber;
-
-  GetPhoneNumberResponse({
-    this.phoneNumber,
-  });
-
-  factory GetPhoneNumberResponse.fromJson(Map<String, dynamic> json) {
-    return GetPhoneNumberResponse(
-      phoneNumber: json['PhoneNumber'] != null
-          ? PhoneNumber.fromJson(json['PhoneNumber'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final phoneNumber = this.phoneNumber;
-    return {
-      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
     };
   }
 }
@@ -4407,6 +4051,32 @@ class GetProxySessionResponse {
     final proxySession = this.proxySession;
     return {
       if (proxySession != null) 'ProxySession': proxySession,
+    };
+  }
+}
+
+class GetSipMediaApplicationResponse {
+  /// The details of the SIP media application.
+  final SipMediaApplication? sipMediaApplication;
+
+  GetSipMediaApplicationResponse({
+    this.sipMediaApplication,
+  });
+
+  factory GetSipMediaApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return GetSipMediaApplicationResponse(
+      sipMediaApplication: json['SipMediaApplication'] != null
+          ? SipMediaApplication.fromJson(
+              json['SipMediaApplication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplication = this.sipMediaApplication;
+    return {
+      if (sipMediaApplication != null)
+        'SipMediaApplication': sipMediaApplication,
     };
   }
 }
@@ -4475,32 +4145,6 @@ class GetSipMediaApplicationLoggingConfigurationResponse {
   }
 }
 
-class GetSipMediaApplicationResponse {
-  /// The details of the SIP media application.
-  final SipMediaApplication? sipMediaApplication;
-
-  GetSipMediaApplicationResponse({
-    this.sipMediaApplication,
-  });
-
-  factory GetSipMediaApplicationResponse.fromJson(Map<String, dynamic> json) {
-    return GetSipMediaApplicationResponse(
-      sipMediaApplication: json['SipMediaApplication'] != null
-          ? SipMediaApplication.fromJson(
-              json['SipMediaApplication'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sipMediaApplication = this.sipMediaApplication;
-    return {
-      if (sipMediaApplication != null)
-        'SipMediaApplication': sipMediaApplication,
-    };
-  }
-}
-
 class GetSipRuleResponse {
   /// The SIP rule details.
   final SipRule? sipRule;
@@ -4550,6 +4194,31 @@ class GetSpeakerSearchTaskResponse {
   }
 }
 
+class GetVoiceConnectorResponse {
+  /// The Voice Connector details.
+  final VoiceConnector? voiceConnector;
+
+  GetVoiceConnectorResponse({
+    this.voiceConnector,
+  });
+
+  factory GetVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return GetVoiceConnectorResponse(
+      voiceConnector: json['VoiceConnector'] != null
+          ? VoiceConnector.fromJson(
+              json['VoiceConnector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnector = this.voiceConnector;
+    return {
+      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
+    };
+  }
+}
+
 class GetVoiceConnectorEmergencyCallingConfigurationResponse {
   /// The details of the emergency calling configuration.
   final EmergencyCallingConfiguration? emergencyCallingConfiguration;
@@ -4574,6 +4243,34 @@ class GetVoiceConnectorEmergencyCallingConfigurationResponse {
     return {
       if (emergencyCallingConfiguration != null)
         'EmergencyCallingConfiguration': emergencyCallingConfiguration,
+    };
+  }
+}
+
+class GetVoiceConnectorExternalSystemsConfigurationResponse {
+  /// An object that contains information about an external systems configuration
+  /// for a Voice Connector.
+  final ExternalSystemsConfiguration? externalSystemsConfiguration;
+
+  GetVoiceConnectorExternalSystemsConfigurationResponse({
+    this.externalSystemsConfiguration,
+  });
+
+  factory GetVoiceConnectorExternalSystemsConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetVoiceConnectorExternalSystemsConfigurationResponse(
+      externalSystemsConfiguration: json['ExternalSystemsConfiguration'] != null
+          ? ExternalSystemsConfiguration.fromJson(
+              json['ExternalSystemsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalSystemsConfiguration = this.externalSystemsConfiguration;
+    return {
+      if (externalSystemsConfiguration != null)
+        'ExternalSystemsConfiguration': externalSystemsConfiguration,
     };
   }
 }
@@ -4680,31 +4377,6 @@ class GetVoiceConnectorProxyResponse {
   }
 }
 
-class GetVoiceConnectorResponse {
-  /// The Voice Connector details.
-  final VoiceConnector? voiceConnector;
-
-  GetVoiceConnectorResponse({
-    this.voiceConnector,
-  });
-
-  factory GetVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
-    return GetVoiceConnectorResponse(
-      voiceConnector: json['VoiceConnector'] != null
-          ? VoiceConnector.fromJson(
-              json['VoiceConnector'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final voiceConnector = this.voiceConnector;
-    return {
-      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
-    };
-  }
-}
-
 class GetVoiceConnectorStreamingConfigurationResponse {
   /// The details of the streaming configuration.
   final StreamingConfiguration? streamingConfiguration;
@@ -4728,6 +4400,31 @@ class GetVoiceConnectorStreamingConfigurationResponse {
     return {
       if (streamingConfiguration != null)
         'StreamingConfiguration': streamingConfiguration,
+    };
+  }
+}
+
+class GetVoiceConnectorTerminationResponse {
+  /// The termination setting details.
+  final Termination? termination;
+
+  GetVoiceConnectorTerminationResponse({
+    this.termination,
+  });
+
+  factory GetVoiceConnectorTerminationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetVoiceConnectorTerminationResponse(
+      termination: json['Termination'] != null
+          ? Termination.fromJson(json['Termination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final termination = this.termination;
+    return {
+      if (termination != null) 'Termination': termination,
     };
   }
 }
@@ -4758,27 +4455,26 @@ class GetVoiceConnectorTerminationHealthResponse {
   }
 }
 
-class GetVoiceConnectorTerminationResponse {
-  /// The termination setting details.
-  final Termination? termination;
+class GetVoiceProfileResponse {
+  /// The voice profile details.
+  final VoiceProfile? voiceProfile;
 
-  GetVoiceConnectorTerminationResponse({
-    this.termination,
+  GetVoiceProfileResponse({
+    this.voiceProfile,
   });
 
-  factory GetVoiceConnectorTerminationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetVoiceConnectorTerminationResponse(
-      termination: json['Termination'] != null
-          ? Termination.fromJson(json['Termination'] as Map<String, dynamic>)
+  factory GetVoiceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetVoiceProfileResponse(
+      voiceProfile: json['VoiceProfile'] != null
+          ? VoiceProfile.fromJson(json['VoiceProfile'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final termination = this.termination;
+    final voiceProfile = this.voiceProfile;
     return {
-      if (termination != null) 'Termination': termination,
+      if (voiceProfile != null) 'VoiceProfile': voiceProfile,
     };
   }
 }
@@ -4808,30 +4504,6 @@ class GetVoiceProfileDomainResponse {
   }
 }
 
-class GetVoiceProfileResponse {
-  /// The voice profile details.
-  final VoiceProfile? voiceProfile;
-
-  GetVoiceProfileResponse({
-    this.voiceProfile,
-  });
-
-  factory GetVoiceProfileResponse.fromJson(Map<String, dynamic> json) {
-    return GetVoiceProfileResponse(
-      voiceProfile: json['VoiceProfile'] != null
-          ? VoiceProfile.fromJson(json['VoiceProfile'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final voiceProfile = this.voiceProfile;
-    return {
-      if (voiceProfile != null) 'VoiceProfile': voiceProfile,
-    };
-  }
-}
-
 class GetVoiceToneAnalysisTaskResponse {
   /// The details of the voice tone analysis task.
   final VoiceToneAnalysisTask? voiceToneAnalysisTask;
@@ -4856,28 +4528,6 @@ class GetVoiceToneAnalysisTaskResponse {
         'VoiceToneAnalysisTask': voiceToneAnalysisTask,
     };
   }
-}
-
-class LanguageCode {
-  static const enUs = LanguageCode._('en-US');
-
-  final String value;
-
-  const LanguageCode._(this.value);
-
-  static const values = [enUs];
-
-  static LanguageCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
-
-  @override
-  bool operator ==(other) => other is LanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListAvailableVoiceConnectorRegionsResponse {
@@ -5154,32 +4804,6 @@ class ListVoiceConnectorGroupsResponse {
   }
 }
 
-class ListVoiceConnectorTerminationCredentialsResponse {
-  /// A list of user names.
-  final List<String>? usernames;
-
-  ListVoiceConnectorTerminationCredentialsResponse({
-    this.usernames,
-  });
-
-  factory ListVoiceConnectorTerminationCredentialsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListVoiceConnectorTerminationCredentialsResponse(
-      usernames: (json['Usernames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final usernames = this.usernames;
-    return {
-      if (usernames != null) 'Usernames': usernames,
-    };
-  }
-}
-
 class ListVoiceConnectorsResponse {
   /// The token used to return the next page of results.
   final String? nextToken;
@@ -5208,6 +4832,32 @@ class ListVoiceConnectorsResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (voiceConnectors != null) 'VoiceConnectors': voiceConnectors,
+    };
+  }
+}
+
+class ListVoiceConnectorTerminationCredentialsResponse {
+  /// A list of user names.
+  final List<String>? usernames;
+
+  ListVoiceConnectorTerminationCredentialsResponse({
+    this.usernames,
+  });
+
+  factory ListVoiceConnectorTerminationCredentialsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListVoiceConnectorTerminationCredentialsResponse(
+      usernames: (json['Usernames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final usernames = this.usernames;
+    return {
+      if (usernames != null) 'Usernames': usernames,
     };
   }
 }
@@ -5276,1114 +4926,6 @@ class ListVoiceProfilesResponse {
       if (voiceProfiles != null) 'VoiceProfiles': voiceProfiles,
     };
   }
-}
-
-/// The logging configuration associated with an Amazon Chime SDK Voice
-/// Connector. Specifies whether SIP message logs can be sent to Amazon
-/// CloudWatch Logs.
-class LoggingConfiguration {
-  /// Enables or disables media metrics logging.
-  final bool? enableMediaMetricLogs;
-
-  /// Boolean that enables sending SIP message logs to Amazon CloudWatch.
-  final bool? enableSIPLogs;
-
-  LoggingConfiguration({
-    this.enableMediaMetricLogs,
-    this.enableSIPLogs,
-  });
-
-  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
-    return LoggingConfiguration(
-      enableMediaMetricLogs: json['EnableMediaMetricLogs'] as bool?,
-      enableSIPLogs: json['EnableSIPLogs'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enableMediaMetricLogs = this.enableMediaMetricLogs;
-    final enableSIPLogs = this.enableSIPLogs;
-    return {
-      if (enableMediaMetricLogs != null)
-        'EnableMediaMetricLogs': enableMediaMetricLogs,
-      if (enableSIPLogs != null) 'EnableSIPLogs': enableSIPLogs,
-    };
-  }
-}
-
-/// The configuration for a call analytics task.
-class MediaInsightsConfiguration {
-  /// The configuration's ARN.
-  final String? configurationArn;
-
-  /// Denotes the configration as enabled or disabled.
-  final bool? disabled;
-
-  MediaInsightsConfiguration({
-    this.configurationArn,
-    this.disabled,
-  });
-
-  factory MediaInsightsConfiguration.fromJson(Map<String, dynamic> json) {
-    return MediaInsightsConfiguration(
-      configurationArn: json['ConfigurationArn'] as String?,
-      disabled: json['Disabled'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configurationArn = this.configurationArn;
-    final disabled = this.disabled;
-    return {
-      if (configurationArn != null) 'ConfigurationArn': configurationArn,
-      if (disabled != null) 'Disabled': disabled,
-    };
-  }
-}
-
-class NotificationTarget {
-  static const eventBridge = NotificationTarget._('EventBridge');
-  static const sns = NotificationTarget._('SNS');
-  static const sqs = NotificationTarget._('SQS');
-
-  final String value;
-
-  const NotificationTarget._(this.value);
-
-  static const values = [eventBridge, sns, sqs];
-
-  static NotificationTarget fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NotificationTarget._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NotificationTarget && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class NumberSelectionBehavior {
-  static const preferSticky = NumberSelectionBehavior._('PreferSticky');
-  static const avoidSticky = NumberSelectionBehavior._('AvoidSticky');
-
-  final String value;
-
-  const NumberSelectionBehavior._(this.value);
-
-  static const values = [preferSticky, avoidSticky];
-
-  static NumberSelectionBehavior fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NumberSelectionBehavior._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NumberSelectionBehavior && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A phone number for which an order has been placed.
-class OrderedPhoneNumber {
-  /// The phone number, in E.164 format.
-  final String? e164PhoneNumber;
-
-  /// The phone number status.
-  final OrderedPhoneNumberStatus? status;
-
-  OrderedPhoneNumber({
-    this.e164PhoneNumber,
-    this.status,
-  });
-
-  factory OrderedPhoneNumber.fromJson(Map<String, dynamic> json) {
-    return OrderedPhoneNumber(
-      e164PhoneNumber: json['E164PhoneNumber'] as String?,
-      status:
-          (json['Status'] as String?)?.let(OrderedPhoneNumberStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final e164PhoneNumber = this.e164PhoneNumber;
-    final status = this.status;
-    return {
-      if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class OrderedPhoneNumberStatus {
-  static const processing = OrderedPhoneNumberStatus._('Processing');
-  static const acquired = OrderedPhoneNumberStatus._('Acquired');
-  static const failed = OrderedPhoneNumberStatus._('Failed');
-
-  final String value;
-
-  const OrderedPhoneNumberStatus._(this.value);
-
-  static const values = [processing, acquired, failed];
-
-  static OrderedPhoneNumberStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrderedPhoneNumberStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OrderedPhoneNumberStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Origination settings enable your SIP hosts to receive inbound calls using
-/// your Amazon Chime SDK Voice Connector.
-/// <note>
-/// The parameters listed below are not required, but you must use at least one.
-/// </note>
-class Origination {
-  /// When origination settings are disabled, inbound calls are not enabled for
-  /// your Amazon Chime SDK Voice Connector. This parameter is not required, but
-  /// you must specify this parameter or <code>Routes</code>.
-  final bool? disabled;
-
-  /// The call distribution properties defined for your SIP hosts. Valid range:
-  /// Minimum value of 1. Maximum value of 20. This parameter is not required, but
-  /// you must specify this parameter or <code>Disabled</code>.
-  final List<OriginationRoute>? routes;
-
-  Origination({
-    this.disabled,
-    this.routes,
-  });
-
-  factory Origination.fromJson(Map<String, dynamic> json) {
-    return Origination(
-      disabled: json['Disabled'] as bool?,
-      routes: (json['Routes'] as List?)
-          ?.nonNulls
-          .map((e) => OriginationRoute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final disabled = this.disabled;
-    final routes = this.routes;
-    return {
-      if (disabled != null) 'Disabled': disabled,
-      if (routes != null) 'Routes': routes,
-    };
-  }
-}
-
-/// Origination routes define call distribution properties for your SIP hosts to
-/// receive inbound calls using an Amazon Chime SDK Voice Connector. Limit: Ten
-/// origination routes for each Voice Connector.
-/// <note>
-/// The parameters listed below are not required, but you must use at least one.
-/// </note>
-class OriginationRoute {
-  /// The FQDN or IP address to contact for origination traffic.
-  final String? host;
-
-  /// The designated origination route port. Defaults to 5060.
-  final int? port;
-
-  /// The priority associated with the host, with 1 being the highest priority.
-  /// Higher priority hosts are attempted first.
-  final int? priority;
-
-  /// The protocol to use for the origination route. Encryption-enabled Amazon
-  /// Chime SDK Voice Connectors use TCP protocol by default.
-  final OriginationRouteProtocol? protocol;
-
-  /// The weight assigned to an origination route. When hosts have equal priority,
-  /// calls are distributed between them based on their relative weights.
-  final int? weight;
-
-  OriginationRoute({
-    this.host,
-    this.port,
-    this.priority,
-    this.protocol,
-    this.weight,
-  });
-
-  factory OriginationRoute.fromJson(Map<String, dynamic> json) {
-    return OriginationRoute(
-      host: json['Host'] as String?,
-      port: json['Port'] as int?,
-      priority: json['Priority'] as int?,
-      protocol: (json['Protocol'] as String?)
-          ?.let(OriginationRouteProtocol.fromString),
-      weight: json['Weight'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final host = this.host;
-    final port = this.port;
-    final priority = this.priority;
-    final protocol = this.protocol;
-    final weight = this.weight;
-    return {
-      if (host != null) 'Host': host,
-      if (port != null) 'Port': port,
-      if (priority != null) 'Priority': priority,
-      if (protocol != null) 'Protocol': protocol.value,
-      if (weight != null) 'Weight': weight,
-    };
-  }
-}
-
-class OriginationRouteProtocol {
-  static const tcp = OriginationRouteProtocol._('TCP');
-  static const udp = OriginationRouteProtocol._('UDP');
-
-  final String value;
-
-  const OriginationRouteProtocol._(this.value);
-
-  static const values = [tcp, udp];
-
-  static OriginationRouteProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OriginationRouteProtocol._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is OriginationRouteProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The phone number and proxy phone number for a participant in an Amazon Chime
-/// SDK Voice Connector proxy session.
-class Participant {
-  /// The participant's phone number.
-  final String? phoneNumber;
-
-  /// The participant's proxy phone number.
-  final String? proxyPhoneNumber;
-
-  Participant({
-    this.phoneNumber,
-    this.proxyPhoneNumber,
-  });
-
-  factory Participant.fromJson(Map<String, dynamic> json) {
-    return Participant(
-      phoneNumber: json['PhoneNumber'] as String?,
-      proxyPhoneNumber: json['ProxyPhoneNumber'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final phoneNumber = this.phoneNumber;
-    final proxyPhoneNumber = this.proxyPhoneNumber;
-    return {
-      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
-      if (proxyPhoneNumber != null) 'ProxyPhoneNumber': proxyPhoneNumber,
-    };
-  }
-}
-
-/// A phone number used to call an Amazon Chime SDK Voice Connector.
-class PhoneNumber {
-  /// The phone number's associations.
-  final List<PhoneNumberAssociation>? associations;
-
-  /// The outbound calling name associated with the phone number.
-  final String? callingName;
-
-  /// The outbound calling name status.
-  final CallingNameStatus? callingNameStatus;
-
-  /// The phone number's capabilities.
-  final PhoneNumberCapabilities? capabilities;
-
-  /// The phone number's country. Format: ISO 3166-1 alpha-2.
-  final String? country;
-
-  /// The phone number creation timestamp, in ISO 8601 format.
-  final DateTime? createdTimestamp;
-
-  /// The deleted phone number timestamp, in ISO 8601 format.
-  final DateTime? deletionTimestamp;
-
-  /// The phone number, in E.164 format.
-  final String? e164PhoneNumber;
-
-  /// The name of the phone number.
-  final String? name;
-
-  /// The phone number's order ID.
-  final String? orderId;
-
-  /// The phone number's ID.
-  final String? phoneNumberId;
-
-  /// The phone number's product type.
-  final PhoneNumberProductType? productType;
-
-  /// The phone number's status.
-  final PhoneNumberStatus? status;
-
-  /// The phone number's type.
-  final PhoneNumberType? type;
-
-  /// The updated phone number timestamp, in ISO 8601 format.
-  final DateTime? updatedTimestamp;
-
-  PhoneNumber({
-    this.associations,
-    this.callingName,
-    this.callingNameStatus,
-    this.capabilities,
-    this.country,
-    this.createdTimestamp,
-    this.deletionTimestamp,
-    this.e164PhoneNumber,
-    this.name,
-    this.orderId,
-    this.phoneNumberId,
-    this.productType,
-    this.status,
-    this.type,
-    this.updatedTimestamp,
-  });
-
-  factory PhoneNumber.fromJson(Map<String, dynamic> json) {
-    return PhoneNumber(
-      associations: (json['Associations'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => PhoneNumberAssociation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      callingName: json['CallingName'] as String?,
-      callingNameStatus: (json['CallingNameStatus'] as String?)
-          ?.let(CallingNameStatus.fromString),
-      capabilities: json['Capabilities'] != null
-          ? PhoneNumberCapabilities.fromJson(
-              json['Capabilities'] as Map<String, dynamic>)
-          : null,
-      country: json['Country'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      deletionTimestamp: timeStampFromJson(json['DeletionTimestamp']),
-      e164PhoneNumber: json['E164PhoneNumber'] as String?,
-      name: json['Name'] as String?,
-      orderId: json['OrderId'] as String?,
-      phoneNumberId: json['PhoneNumberId'] as String?,
-      productType: (json['ProductType'] as String?)
-          ?.let(PhoneNumberProductType.fromString),
-      status: (json['Status'] as String?)?.let(PhoneNumberStatus.fromString),
-      type: (json['Type'] as String?)?.let(PhoneNumberType.fromString),
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associations = this.associations;
-    final callingName = this.callingName;
-    final callingNameStatus = this.callingNameStatus;
-    final capabilities = this.capabilities;
-    final country = this.country;
-    final createdTimestamp = this.createdTimestamp;
-    final deletionTimestamp = this.deletionTimestamp;
-    final e164PhoneNumber = this.e164PhoneNumber;
-    final name = this.name;
-    final orderId = this.orderId;
-    final phoneNumberId = this.phoneNumberId;
-    final productType = this.productType;
-    final status = this.status;
-    final type = this.type;
-    final updatedTimestamp = this.updatedTimestamp;
-    return {
-      if (associations != null) 'Associations': associations,
-      if (callingName != null) 'CallingName': callingName,
-      if (callingNameStatus != null)
-        'CallingNameStatus': callingNameStatus.value,
-      if (capabilities != null) 'Capabilities': capabilities,
-      if (country != null) 'Country': country,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (deletionTimestamp != null)
-        'DeletionTimestamp': iso8601ToJson(deletionTimestamp),
-      if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
-      if (name != null) 'Name': name,
-      if (orderId != null) 'OrderId': orderId,
-      if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
-      if (productType != null) 'ProductType': productType.value,
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type.value,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-    };
-  }
-}
-
-/// The phone number associations, such as an Amazon Chime SDK account ID, user
-/// ID, Voice Connector ID, or Voice Connector group ID.
-class PhoneNumberAssociation {
-  /// The timestamp of the phone number association, in ISO 8601 format.
-  final DateTime? associatedTimestamp;
-
-  /// Defines the association with an Amazon Chime SDK account ID, user ID, Voice
-  /// Connector ID, or Voice Connector group ID.
-  final PhoneNumberAssociationName? name;
-
-  /// Contains the ID for the entity specified in Name.
-  final String? value;
-
-  PhoneNumberAssociation({
-    this.associatedTimestamp,
-    this.name,
-    this.value,
-  });
-
-  factory PhoneNumberAssociation.fromJson(Map<String, dynamic> json) {
-    return PhoneNumberAssociation(
-      associatedTimestamp: timeStampFromJson(json['AssociatedTimestamp']),
-      name:
-          (json['Name'] as String?)?.let(PhoneNumberAssociationName.fromString),
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associatedTimestamp = this.associatedTimestamp;
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (associatedTimestamp != null)
-        'AssociatedTimestamp': iso8601ToJson(associatedTimestamp),
-      if (name != null) 'Name': name.value,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class PhoneNumberAssociationName {
-  static const voiceConnectorId =
-      PhoneNumberAssociationName._('VoiceConnectorId');
-  static const voiceConnectorGroupId =
-      PhoneNumberAssociationName._('VoiceConnectorGroupId');
-  static const sipRuleId = PhoneNumberAssociationName._('SipRuleId');
-
-  final String value;
-
-  const PhoneNumberAssociationName._(this.value);
-
-  static const values = [voiceConnectorId, voiceConnectorGroupId, sipRuleId];
-
-  static PhoneNumberAssociationName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PhoneNumberAssociationName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PhoneNumberAssociationName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The phone number capabilities for Amazon Chime SDK phone numbers, such as
-/// enabled inbound and outbound calling, and text messaging.
-class PhoneNumberCapabilities {
-  /// Allows or denies inbound calling for the specified phone number.
-  final bool? inboundCall;
-
-  /// Allows or denies inbound MMS messaging for the specified phone number.
-  final bool? inboundMMS;
-
-  /// Allows or denies inbound SMS messaging for the specified phone number.
-  final bool? inboundSMS;
-
-  /// Allows or denies outbound calling for the specified phone number.
-  final bool? outboundCall;
-
-  /// Allows or denies inbound MMS messaging for the specified phone number.
-  final bool? outboundMMS;
-
-  /// Allows or denies outbound SMS messaging for the specified phone number.
-  final bool? outboundSMS;
-
-  PhoneNumberCapabilities({
-    this.inboundCall,
-    this.inboundMMS,
-    this.inboundSMS,
-    this.outboundCall,
-    this.outboundMMS,
-    this.outboundSMS,
-  });
-
-  factory PhoneNumberCapabilities.fromJson(Map<String, dynamic> json) {
-    return PhoneNumberCapabilities(
-      inboundCall: json['InboundCall'] as bool?,
-      inboundMMS: json['InboundMMS'] as bool?,
-      inboundSMS: json['InboundSMS'] as bool?,
-      outboundCall: json['OutboundCall'] as bool?,
-      outboundMMS: json['OutboundMMS'] as bool?,
-      outboundSMS: json['OutboundSMS'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inboundCall = this.inboundCall;
-    final inboundMMS = this.inboundMMS;
-    final inboundSMS = this.inboundSMS;
-    final outboundCall = this.outboundCall;
-    final outboundMMS = this.outboundMMS;
-    final outboundSMS = this.outboundSMS;
-    return {
-      if (inboundCall != null) 'InboundCall': inboundCall,
-      if (inboundMMS != null) 'InboundMMS': inboundMMS,
-      if (inboundSMS != null) 'InboundSMS': inboundSMS,
-      if (outboundCall != null) 'OutboundCall': outboundCall,
-      if (outboundMMS != null) 'OutboundMMS': outboundMMS,
-      if (outboundSMS != null) 'OutboundSMS': outboundSMS,
-    };
-  }
-}
-
-/// The phone number's country.
-class PhoneNumberCountry {
-  /// The phone number country code. Format: ISO 3166-1 alpha-2.
-  final String? countryCode;
-
-  /// The supported phone number types.
-  final List<PhoneNumberType>? supportedPhoneNumberTypes;
-
-  PhoneNumberCountry({
-    this.countryCode,
-    this.supportedPhoneNumberTypes,
-  });
-
-  factory PhoneNumberCountry.fromJson(Map<String, dynamic> json) {
-    return PhoneNumberCountry(
-      countryCode: json['CountryCode'] as String?,
-      supportedPhoneNumberTypes: (json['SupportedPhoneNumberTypes'] as List?)
-          ?.nonNulls
-          .map((e) => PhoneNumberType.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final countryCode = this.countryCode;
-    final supportedPhoneNumberTypes = this.supportedPhoneNumberTypes;
-    return {
-      if (countryCode != null) 'CountryCode': countryCode,
-      if (supportedPhoneNumberTypes != null)
-        'SupportedPhoneNumberTypes':
-            supportedPhoneNumberTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// If a phone number action fails for one or more of the phone numbers in a
-/// request, a list of the failed phone numbers is returned, along with error
-/// codes and error messages.
-class PhoneNumberError {
-  /// The error code.
-  final ErrorCode? errorCode;
-
-  /// The error message.
-  final String? errorMessage;
-
-  /// The phone number ID for which the action failed.
-  final String? phoneNumberId;
-
-  PhoneNumberError({
-    this.errorCode,
-    this.errorMessage,
-    this.phoneNumberId,
-  });
-
-  factory PhoneNumberError.fromJson(Map<String, dynamic> json) {
-    return PhoneNumberError(
-      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-      phoneNumberId: json['PhoneNumberId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final phoneNumberId = this.phoneNumberId;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
-    };
-  }
-}
-
-/// The details of an Amazon Chime SDK phone number order.
-class PhoneNumberOrder {
-  /// The phone number order creation time stamp, in ISO 8601 format.
-  final DateTime? createdTimestamp;
-
-  /// The type of phone number being ordered, local or toll-free.
-  final PhoneNumberOrderType? orderType;
-
-  /// The ordered phone number details, such as the phone number in E.164 format
-  /// and the phone number status.
-  final List<OrderedPhoneNumber>? orderedPhoneNumbers;
-
-  /// The ID of the phone order.
-  final String? phoneNumberOrderId;
-
-  /// The phone number order product type.
-  final PhoneNumberProductType? productType;
-
-  /// The status of the phone number order.
-  final PhoneNumberOrderStatus? status;
-
-  /// The updated phone number order time stamp, in ISO 8601 format.
-  final DateTime? updatedTimestamp;
-
-  PhoneNumberOrder({
-    this.createdTimestamp,
-    this.orderType,
-    this.orderedPhoneNumbers,
-    this.phoneNumberOrderId,
-    this.productType,
-    this.status,
-    this.updatedTimestamp,
-  });
-
-  factory PhoneNumberOrder.fromJson(Map<String, dynamic> json) {
-    return PhoneNumberOrder(
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      orderType:
-          (json['OrderType'] as String?)?.let(PhoneNumberOrderType.fromString),
-      orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List?)
-          ?.nonNulls
-          .map((e) => OrderedPhoneNumber.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      phoneNumberOrderId: json['PhoneNumberOrderId'] as String?,
-      productType: (json['ProductType'] as String?)
-          ?.let(PhoneNumberProductType.fromString),
-      status:
-          (json['Status'] as String?)?.let(PhoneNumberOrderStatus.fromString),
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final orderType = this.orderType;
-    final orderedPhoneNumbers = this.orderedPhoneNumbers;
-    final phoneNumberOrderId = this.phoneNumberOrderId;
-    final productType = this.productType;
-    final status = this.status;
-    final updatedTimestamp = this.updatedTimestamp;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (orderType != null) 'OrderType': orderType.value,
-      if (orderedPhoneNumbers != null)
-        'OrderedPhoneNumbers': orderedPhoneNumbers,
-      if (phoneNumberOrderId != null) 'PhoneNumberOrderId': phoneNumberOrderId,
-      if (productType != null) 'ProductType': productType.value,
-      if (status != null) 'Status': status.value,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-    };
-  }
-}
-
-class PhoneNumberOrderStatus {
-  static const processing = PhoneNumberOrderStatus._('Processing');
-  static const successful = PhoneNumberOrderStatus._('Successful');
-  static const failed = PhoneNumberOrderStatus._('Failed');
-  static const partial = PhoneNumberOrderStatus._('Partial');
-  static const pendingDocuments = PhoneNumberOrderStatus._('PendingDocuments');
-  static const submitted = PhoneNumberOrderStatus._('Submitted');
-  static const foc = PhoneNumberOrderStatus._('FOC');
-  static const changeRequested = PhoneNumberOrderStatus._('ChangeRequested');
-  static const exception = PhoneNumberOrderStatus._('Exception');
-  static const cancelRequested = PhoneNumberOrderStatus._('CancelRequested');
-  static const cancelled = PhoneNumberOrderStatus._('Cancelled');
-
-  final String value;
-
-  const PhoneNumberOrderStatus._(this.value);
-
-  static const values = [
-    processing,
-    successful,
-    failed,
-    partial,
-    pendingDocuments,
-    submitted,
-    foc,
-    changeRequested,
-    exception,
-    cancelRequested,
-    cancelled
-  ];
-
-  static PhoneNumberOrderStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PhoneNumberOrderStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PhoneNumberOrderStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PhoneNumberOrderType {
-  static const $new = PhoneNumberOrderType._('New');
-  static const porting = PhoneNumberOrderType._('Porting');
-
-  final String value;
-
-  const PhoneNumberOrderType._(this.value);
-
-  static const values = [$new, porting];
-
-  static PhoneNumberOrderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PhoneNumberOrderType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PhoneNumberOrderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PhoneNumberProductType {
-  static const voiceConnector = PhoneNumberProductType._('VoiceConnector');
-  static const sipMediaApplicationDialIn =
-      PhoneNumberProductType._('SipMediaApplicationDialIn');
-
-  final String value;
-
-  const PhoneNumberProductType._(this.value);
-
-  static const values = [voiceConnector, sipMediaApplicationDialIn];
-
-  static PhoneNumberProductType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PhoneNumberProductType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PhoneNumberProductType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PhoneNumberStatus {
-  static const cancelled = PhoneNumberStatus._('Cancelled');
-  static const portinCancelRequested =
-      PhoneNumberStatus._('PortinCancelRequested');
-  static const portinInProgress = PhoneNumberStatus._('PortinInProgress');
-  static const acquireInProgress = PhoneNumberStatus._('AcquireInProgress');
-  static const acquireFailed = PhoneNumberStatus._('AcquireFailed');
-  static const unassigned = PhoneNumberStatus._('Unassigned');
-  static const assigned = PhoneNumberStatus._('Assigned');
-  static const releaseInProgress = PhoneNumberStatus._('ReleaseInProgress');
-  static const deleteInProgress = PhoneNumberStatus._('DeleteInProgress');
-  static const releaseFailed = PhoneNumberStatus._('ReleaseFailed');
-  static const deleteFailed = PhoneNumberStatus._('DeleteFailed');
-
-  final String value;
-
-  const PhoneNumberStatus._(this.value);
-
-  static const values = [
-    cancelled,
-    portinCancelRequested,
-    portinInProgress,
-    acquireInProgress,
-    acquireFailed,
-    unassigned,
-    assigned,
-    releaseInProgress,
-    deleteInProgress,
-    releaseFailed,
-    deleteFailed
-  ];
-
-  static PhoneNumberStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PhoneNumberStatus._(value));
-
-  @override
-  bool operator ==(other) => other is PhoneNumberStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PhoneNumberType {
-  static const local = PhoneNumberType._('Local');
-  static const tollFree = PhoneNumberType._('TollFree');
-
-  final String value;
-
-  const PhoneNumberType._(this.value);
-
-  static const values = [local, tollFree];
-
-  static PhoneNumberType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PhoneNumberType._(value));
-
-  @override
-  bool operator ==(other) => other is PhoneNumberType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The proxy configuration for an Amazon Chime SDK Voice Connector.
-class Proxy {
-  /// The default number of minutes allowed for proxy sessions.
-  final int? defaultSessionExpiryMinutes;
-
-  /// When true, stops proxy sessions from being created on the specified Amazon
-  /// Chime SDK Voice Connector.
-  final bool? disabled;
-
-  /// The phone number to route calls to after a proxy session expires.
-  final String? fallBackPhoneNumber;
-
-  /// The countries for proxy phone numbers to be selected from.
-  final List<String>? phoneNumberCountries;
-
-  Proxy({
-    this.defaultSessionExpiryMinutes,
-    this.disabled,
-    this.fallBackPhoneNumber,
-    this.phoneNumberCountries,
-  });
-
-  factory Proxy.fromJson(Map<String, dynamic> json) {
-    return Proxy(
-      defaultSessionExpiryMinutes: json['DefaultSessionExpiryMinutes'] as int?,
-      disabled: json['Disabled'] as bool?,
-      fallBackPhoneNumber: json['FallBackPhoneNumber'] as String?,
-      phoneNumberCountries: (json['PhoneNumberCountries'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultSessionExpiryMinutes = this.defaultSessionExpiryMinutes;
-    final disabled = this.disabled;
-    final fallBackPhoneNumber = this.fallBackPhoneNumber;
-    final phoneNumberCountries = this.phoneNumberCountries;
-    return {
-      if (defaultSessionExpiryMinutes != null)
-        'DefaultSessionExpiryMinutes': defaultSessionExpiryMinutes,
-      if (disabled != null) 'Disabled': disabled,
-      if (fallBackPhoneNumber != null)
-        'FallBackPhoneNumber': fallBackPhoneNumber,
-      if (phoneNumberCountries != null)
-        'PhoneNumberCountries': phoneNumberCountries,
-    };
-  }
-}
-
-/// The proxy session for an Amazon Chime SDK Voice Connector.
-class ProxySession {
-  /// The proxy session capabilities.
-  final List<Capability>? capabilities;
-
-  /// The created time stamp, in ISO 8601 format.
-  final DateTime? createdTimestamp;
-
-  /// The ended time stamp, in ISO 8601 format.
-  final DateTime? endedTimestamp;
-
-  /// The number of minutes allowed for the proxy session.
-  final int? expiryMinutes;
-
-  /// The preference for matching the country or area code of the proxy phone
-  /// number with that of the first participant.
-  final GeoMatchLevel? geoMatchLevel;
-
-  /// The country and area code for the proxy phone number.
-  final GeoMatchParams? geoMatchParams;
-
-  /// The proxy session name.
-  final String? name;
-
-  /// The preference for proxy phone number reuse, or stickiness, between the same
-  /// participants across sessions.
-  final NumberSelectionBehavior? numberSelectionBehavior;
-
-  /// The proxy session participants.
-  final List<Participant>? participants;
-
-  /// The proxy session ID.
-  final String? proxySessionId;
-
-  /// The proxy session status.
-  final ProxySessionStatus? status;
-
-  /// The updated time stamp, in ISO 8601 format.
-  final DateTime? updatedTimestamp;
-
-  /// The Voice Connector ID.
-  final String? voiceConnectorId;
-
-  ProxySession({
-    this.capabilities,
-    this.createdTimestamp,
-    this.endedTimestamp,
-    this.expiryMinutes,
-    this.geoMatchLevel,
-    this.geoMatchParams,
-    this.name,
-    this.numberSelectionBehavior,
-    this.participants,
-    this.proxySessionId,
-    this.status,
-    this.updatedTimestamp,
-    this.voiceConnectorId,
-  });
-
-  factory ProxySession.fromJson(Map<String, dynamic> json) {
-    return ProxySession(
-      capabilities: (json['Capabilities'] as List?)
-          ?.nonNulls
-          .map((e) => Capability.fromString((e as String)))
-          .toList(),
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      endedTimestamp: timeStampFromJson(json['EndedTimestamp']),
-      expiryMinutes: json['ExpiryMinutes'] as int?,
-      geoMatchLevel:
-          (json['GeoMatchLevel'] as String?)?.let(GeoMatchLevel.fromString),
-      geoMatchParams: json['GeoMatchParams'] != null
-          ? GeoMatchParams.fromJson(
-              json['GeoMatchParams'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      numberSelectionBehavior: (json['NumberSelectionBehavior'] as String?)
-          ?.let(NumberSelectionBehavior.fromString),
-      participants: (json['Participants'] as List?)
-          ?.nonNulls
-          .map((e) => Participant.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      proxySessionId: json['ProxySessionId'] as String?,
-      status: (json['Status'] as String?)?.let(ProxySessionStatus.fromString),
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-      voiceConnectorId: json['VoiceConnectorId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capabilities = this.capabilities;
-    final createdTimestamp = this.createdTimestamp;
-    final endedTimestamp = this.endedTimestamp;
-    final expiryMinutes = this.expiryMinutes;
-    final geoMatchLevel = this.geoMatchLevel;
-    final geoMatchParams = this.geoMatchParams;
-    final name = this.name;
-    final numberSelectionBehavior = this.numberSelectionBehavior;
-    final participants = this.participants;
-    final proxySessionId = this.proxySessionId;
-    final status = this.status;
-    final updatedTimestamp = this.updatedTimestamp;
-    final voiceConnectorId = this.voiceConnectorId;
-    return {
-      if (capabilities != null)
-        'Capabilities': capabilities.map((e) => e.value).toList(),
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (endedTimestamp != null)
-        'EndedTimestamp': iso8601ToJson(endedTimestamp),
-      if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
-      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.value,
-      if (geoMatchParams != null) 'GeoMatchParams': geoMatchParams,
-      if (name != null) 'Name': name,
-      if (numberSelectionBehavior != null)
-        'NumberSelectionBehavior': numberSelectionBehavior.value,
-      if (participants != null) 'Participants': participants,
-      if (proxySessionId != null) 'ProxySessionId': proxySessionId,
-      if (status != null) 'Status': status.value,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-      if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
-    };
-  }
-}
-
-class ProxySessionStatus {
-  static const open = ProxySessionStatus._('Open');
-  static const inProgress = ProxySessionStatus._('InProgress');
-  static const closed = ProxySessionStatus._('Closed');
-
-  final String value;
-
-  const ProxySessionStatus._(this.value);
-
-  static const values = [open, inProgress, closed];
-
-  static ProxySessionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProxySessionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProxySessionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class PutSipMediaApplicationAlexaSkillConfigurationResponse {
@@ -6474,6 +5016,34 @@ class PutVoiceConnectorEmergencyCallingConfigurationResponse {
     return {
       if (emergencyCallingConfiguration != null)
         'EmergencyCallingConfiguration': emergencyCallingConfiguration,
+    };
+  }
+}
+
+class PutVoiceConnectorExternalSystemsConfigurationResponse {
+  /// An object that contains information about an external systems configuration
+  /// for a Voice Connector.
+  final ExternalSystemsConfiguration? externalSystemsConfiguration;
+
+  PutVoiceConnectorExternalSystemsConfigurationResponse({
+    this.externalSystemsConfiguration,
+  });
+
+  factory PutVoiceConnectorExternalSystemsConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutVoiceConnectorExternalSystemsConfigurationResponse(
+      externalSystemsConfiguration: json['ExternalSystemsConfiguration'] != null
+          ? ExternalSystemsConfiguration.fromJson(
+              json['ExternalSystemsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalSystemsConfiguration = this.externalSystemsConfiguration;
+    return {
+      if (externalSystemsConfiguration != null)
+        'ExternalSystemsConfiguration': externalSystemsConfiguration,
     };
   }
 }
@@ -6663,530 +5233,6 @@ class SearchAvailablePhoneNumbersResponse {
   }
 }
 
-/// A structure that contains the configuration settings for server-side
-/// encryption.
-/// <note>
-/// We only support symmetric keys. Do not use asymmetric or HMAC keys, or KMS
-/// aliases.
-/// </note>
-class ServerSideEncryptionConfiguration {
-  /// The ARN of the KMS key used to encrypt the enrollment data in a voice
-  /// profile domain. Asymmetric customer managed keys are not supported.
-  final String kmsKeyArn;
-
-  ServerSideEncryptionConfiguration({
-    required this.kmsKeyArn,
-  });
-
-  factory ServerSideEncryptionConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ServerSideEncryptionConfiguration(
-      kmsKeyArn: (json['KmsKeyArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kmsKeyArn = this.kmsKeyArn;
-    return {
-      'KmsKeyArn': kmsKeyArn,
-    };
-  }
-}
-
-/// The details of the SIP media application, including name and endpoints. An
-/// AWS account can have multiple SIP media applications.
-class SipMediaApplication {
-  /// The AWS Region in which the SIP media application is created.
-  final String? awsRegion;
-
-  /// The SIP media application creation timestamp, in ISO 8601 format.
-  final DateTime? createdTimestamp;
-
-  /// List of endpoints for a SIP media application. Currently, only one endpoint
-  /// per SIP media application is permitted.
-  final List<SipMediaApplicationEndpoint>? endpoints;
-
-  /// The SIP media application's name.
-  final String? name;
-
-  /// The ARN of the SIP media application.
-  final String? sipMediaApplicationArn;
-
-  /// A SIP media application's ID.
-  final String? sipMediaApplicationId;
-
-  /// The time at which the SIP media application was updated.
-  final DateTime? updatedTimestamp;
-
-  SipMediaApplication({
-    this.awsRegion,
-    this.createdTimestamp,
-    this.endpoints,
-    this.name,
-    this.sipMediaApplicationArn,
-    this.sipMediaApplicationId,
-    this.updatedTimestamp,
-  });
-
-  factory SipMediaApplication.fromJson(Map<String, dynamic> json) {
-    return SipMediaApplication(
-      awsRegion: json['AwsRegion'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      endpoints: (json['Endpoints'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SipMediaApplicationEndpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['Name'] as String?,
-      sipMediaApplicationArn: json['SipMediaApplicationArn'] as String?,
-      sipMediaApplicationId: json['SipMediaApplicationId'] as String?,
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsRegion = this.awsRegion;
-    final createdTimestamp = this.createdTimestamp;
-    final endpoints = this.endpoints;
-    final name = this.name;
-    final sipMediaApplicationArn = this.sipMediaApplicationArn;
-    final sipMediaApplicationId = this.sipMediaApplicationId;
-    final updatedTimestamp = this.updatedTimestamp;
-    return {
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (endpoints != null) 'Endpoints': endpoints,
-      if (name != null) 'Name': name,
-      if (sipMediaApplicationArn != null)
-        'SipMediaApplicationArn': sipMediaApplicationArn,
-      if (sipMediaApplicationId != null)
-        'SipMediaApplicationId': sipMediaApplicationId,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-    };
-  }
-}
-
-/// The Alexa Skill configuration of a SIP media application.
-/// <important>
-/// Due to changes made by the Amazon Alexa service, this data type is no longer
-/// available for use. For more information, refer to the <a
-/// href="https://developer.amazon.com/en-US/alexa/alexasmartproperties">Alexa
-/// Smart Properties</a> page.
-/// </important>
-class SipMediaApplicationAlexaSkillConfiguration {
-  /// The ID of the Alexa Skill configuration.
-  final List<String> alexaSkillIds;
-
-  /// The status of the Alexa Skill configuration.
-  final AlexaSkillStatus alexaSkillStatus;
-
-  SipMediaApplicationAlexaSkillConfiguration({
-    required this.alexaSkillIds,
-    required this.alexaSkillStatus,
-  });
-
-  factory SipMediaApplicationAlexaSkillConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return SipMediaApplicationAlexaSkillConfiguration(
-      alexaSkillIds: ((json['AlexaSkillIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      alexaSkillStatus: AlexaSkillStatus.fromString(
-          (json['AlexaSkillStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alexaSkillIds = this.alexaSkillIds;
-    final alexaSkillStatus = this.alexaSkillStatus;
-    return {
-      'AlexaSkillIds': alexaSkillIds,
-      'AlexaSkillStatus': alexaSkillStatus.value,
-    };
-  }
-}
-
-/// A <code>Call</code> instance for a SIP media application.
-class SipMediaApplicationCall {
-  /// The call's transaction ID.
-  final String? transactionId;
-
-  SipMediaApplicationCall({
-    this.transactionId,
-  });
-
-  factory SipMediaApplicationCall.fromJson(Map<String, dynamic> json) {
-    return SipMediaApplicationCall(
-      transactionId: json['TransactionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final transactionId = this.transactionId;
-    return {
-      if (transactionId != null) 'TransactionId': transactionId,
-    };
-  }
-}
-
-/// The endpoint assigned to a SIP media application.
-class SipMediaApplicationEndpoint {
-  /// Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias.
-  /// The function must be created in the same AWS Region as the SIP media
-  /// application.
-  final String? lambdaArn;
-
-  SipMediaApplicationEndpoint({
-    this.lambdaArn,
-  });
-
-  factory SipMediaApplicationEndpoint.fromJson(Map<String, dynamic> json) {
-    return SipMediaApplicationEndpoint(
-      lambdaArn: json['LambdaArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lambdaArn = this.lambdaArn;
-    return {
-      if (lambdaArn != null) 'LambdaArn': lambdaArn,
-    };
-  }
-}
-
-/// The logging configuration of a SIP media application.
-class SipMediaApplicationLoggingConfiguration {
-  /// Enables message logging for the specified SIP media application.
-  final bool? enableSipMediaApplicationMessageLogs;
-
-  SipMediaApplicationLoggingConfiguration({
-    this.enableSipMediaApplicationMessageLogs,
-  });
-
-  factory SipMediaApplicationLoggingConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return SipMediaApplicationLoggingConfiguration(
-      enableSipMediaApplicationMessageLogs:
-          json['EnableSipMediaApplicationMessageLogs'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enableSipMediaApplicationMessageLogs =
-        this.enableSipMediaApplicationMessageLogs;
-    return {
-      if (enableSipMediaApplicationMessageLogs != null)
-        'EnableSipMediaApplicationMessageLogs':
-            enableSipMediaApplicationMessageLogs,
-    };
-  }
-}
-
-/// The details of a SIP rule, including name, triggers, and target
-/// applications. An AWS account can have multiple SIP rules.
-class SipRule {
-  /// The time at which the SIP rule was created, in ISO 8601 format.
-  final DateTime? createdTimestamp;
-
-  /// Indicates whether the SIP rule is enabled or disabled. You must disable a
-  /// rule before you can delete it.
-  final bool? disabled;
-
-  /// A SIP rule's name.
-  final String? name;
-
-  /// A SIP rule's ID.
-  final String? sipRuleId;
-
-  /// The target SIP media application and other details, such as priority and AWS
-  /// Region, to be specified in the SIP rule. Only one SIP rule per AWS Region
-  /// can be provided.
-  final List<SipRuleTargetApplication>? targetApplications;
-
-  /// The type of trigger set for a SIP rule, either a phone number or a URI
-  /// request host name.
-  final SipRuleTriggerType? triggerType;
-
-  /// The value set for a SIP rule's trigger type. Either a phone number or a URI
-  /// hostname.
-  final String? triggerValue;
-
-  /// The time at which the SIP rule was updated, in ISO 8601 format.
-  final DateTime? updatedTimestamp;
-
-  SipRule({
-    this.createdTimestamp,
-    this.disabled,
-    this.name,
-    this.sipRuleId,
-    this.targetApplications,
-    this.triggerType,
-    this.triggerValue,
-    this.updatedTimestamp,
-  });
-
-  factory SipRule.fromJson(Map<String, dynamic> json) {
-    return SipRule(
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      disabled: json['Disabled'] as bool?,
-      name: json['Name'] as String?,
-      sipRuleId: json['SipRuleId'] as String?,
-      targetApplications: (json['TargetApplications'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SipRuleTargetApplication.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      triggerType:
-          (json['TriggerType'] as String?)?.let(SipRuleTriggerType.fromString),
-      triggerValue: json['TriggerValue'] as String?,
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final disabled = this.disabled;
-    final name = this.name;
-    final sipRuleId = this.sipRuleId;
-    final targetApplications = this.targetApplications;
-    final triggerType = this.triggerType;
-    final triggerValue = this.triggerValue;
-    final updatedTimestamp = this.updatedTimestamp;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (disabled != null) 'Disabled': disabled,
-      if (name != null) 'Name': name,
-      if (sipRuleId != null) 'SipRuleId': sipRuleId,
-      if (targetApplications != null) 'TargetApplications': targetApplications,
-      if (triggerType != null) 'TriggerType': triggerType.value,
-      if (triggerValue != null) 'TriggerValue': triggerValue,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-    };
-  }
-}
-
-/// A target SIP media application and other details, such as priority and AWS
-/// Region, to be specified in the SIP rule. Only one SIP rule per AWS Region
-/// can be provided.
-class SipRuleTargetApplication {
-  /// The AWS Region of a rule's target SIP media application.
-  final String? awsRegion;
-
-  /// The priority setting of a rule's target SIP media application.
-  final int? priority;
-
-  /// The ID of a rule's target SIP media application.
-  final String? sipMediaApplicationId;
-
-  SipRuleTargetApplication({
-    this.awsRegion,
-    this.priority,
-    this.sipMediaApplicationId,
-  });
-
-  factory SipRuleTargetApplication.fromJson(Map<String, dynamic> json) {
-    return SipRuleTargetApplication(
-      awsRegion: json['AwsRegion'] as String?,
-      priority: json['Priority'] as int?,
-      sipMediaApplicationId: json['SipMediaApplicationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsRegion = this.awsRegion;
-    final priority = this.priority;
-    final sipMediaApplicationId = this.sipMediaApplicationId;
-    return {
-      if (awsRegion != null) 'AwsRegion': awsRegion,
-      if (priority != null) 'Priority': priority,
-      if (sipMediaApplicationId != null)
-        'SipMediaApplicationId': sipMediaApplicationId,
-    };
-  }
-}
-
-class SipRuleTriggerType {
-  static const toPhoneNumber = SipRuleTriggerType._('ToPhoneNumber');
-  static const requestUriHostname = SipRuleTriggerType._('RequestUriHostname');
-
-  final String value;
-
-  const SipRuleTriggerType._(this.value);
-
-  static const values = [toPhoneNumber, requestUriHostname];
-
-  static SipRuleTriggerType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SipRuleTriggerType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SipRuleTriggerType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The details of a speaker search task.
-class SpeakerSearchDetails {
-  /// The result value in the speaker search details.
-  final List<SpeakerSearchResult>? results;
-
-  /// The status of a voice print generation operation,
-  /// <code>VoiceprintGenerationSuccess</code> or
-  /// <code>VoiceprintGenerationFailure</code>..
-  final String? voiceprintGenerationStatus;
-
-  SpeakerSearchDetails({
-    this.results,
-    this.voiceprintGenerationStatus,
-  });
-
-  factory SpeakerSearchDetails.fromJson(Map<String, dynamic> json) {
-    return SpeakerSearchDetails(
-      results: (json['Results'] as List?)
-          ?.nonNulls
-          .map((e) => SpeakerSearchResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      voiceprintGenerationStatus: json['VoiceprintGenerationStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final results = this.results;
-    final voiceprintGenerationStatus = this.voiceprintGenerationStatus;
-    return {
-      if (results != null) 'Results': results,
-      if (voiceprintGenerationStatus != null)
-        'VoiceprintGenerationStatus': voiceprintGenerationStatus,
-    };
-  }
-}
-
-/// The result of a speaker search analysis.
-class SpeakerSearchResult {
-  /// The confidence score in the speaker search analysis.
-  final double? confidenceScore;
-
-  /// The voice profile ID.
-  final String? voiceProfileId;
-
-  SpeakerSearchResult({
-    this.confidenceScore,
-    this.voiceProfileId,
-  });
-
-  factory SpeakerSearchResult.fromJson(Map<String, dynamic> json) {
-    return SpeakerSearchResult(
-      confidenceScore: json['ConfidenceScore'] as double?,
-      voiceProfileId: json['VoiceProfileId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidenceScore = this.confidenceScore;
-    final voiceProfileId = this.voiceProfileId;
-    return {
-      if (confidenceScore != null) 'ConfidenceScore': confidenceScore,
-      if (voiceProfileId != null) 'VoiceProfileId': voiceProfileId,
-    };
-  }
-}
-
-/// A representation of an asynchronous request to perform speaker search
-/// analysis on a Voice Connector call.
-class SpeakerSearchTask {
-  /// The call details of a speaker search task.
-  final CallDetails? callDetails;
-
-  /// The time at which a speaker search task was created.
-  final DateTime? createdTimestamp;
-
-  /// The details of a speaker search task.
-  final SpeakerSearchDetails? speakerSearchDetails;
-
-  /// The speaker search task ID.
-  final String? speakerSearchTaskId;
-
-  /// The status of the speaker search task, <code>IN_QUEUE</code>,
-  /// <code>IN_PROGRESS</code>, <code>PARTIAL_SUCCESS</code>,
-  /// <code>SUCCEEDED</code>, <code>FAILED</code>, or <code>STOPPED</code>.
-  final String? speakerSearchTaskStatus;
-
-  /// The time at which the speaker search task began.
-  final DateTime? startedTimestamp;
-
-  /// A detailed message about the status of a speaker search.
-  final String? statusMessage;
-
-  /// The time at which a speaker search task was updated.
-  final DateTime? updatedTimestamp;
-
-  SpeakerSearchTask({
-    this.callDetails,
-    this.createdTimestamp,
-    this.speakerSearchDetails,
-    this.speakerSearchTaskId,
-    this.speakerSearchTaskStatus,
-    this.startedTimestamp,
-    this.statusMessage,
-    this.updatedTimestamp,
-  });
-
-  factory SpeakerSearchTask.fromJson(Map<String, dynamic> json) {
-    return SpeakerSearchTask(
-      callDetails: json['CallDetails'] != null
-          ? CallDetails.fromJson(json['CallDetails'] as Map<String, dynamic>)
-          : null,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      speakerSearchDetails: json['SpeakerSearchDetails'] != null
-          ? SpeakerSearchDetails.fromJson(
-              json['SpeakerSearchDetails'] as Map<String, dynamic>)
-          : null,
-      speakerSearchTaskId: json['SpeakerSearchTaskId'] as String?,
-      speakerSearchTaskStatus: json['SpeakerSearchTaskStatus'] as String?,
-      startedTimestamp: timeStampFromJson(json['StartedTimestamp']),
-      statusMessage: json['StatusMessage'] as String?,
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final callDetails = this.callDetails;
-    final createdTimestamp = this.createdTimestamp;
-    final speakerSearchDetails = this.speakerSearchDetails;
-    final speakerSearchTaskId = this.speakerSearchTaskId;
-    final speakerSearchTaskStatus = this.speakerSearchTaskStatus;
-    final startedTimestamp = this.startedTimestamp;
-    final statusMessage = this.statusMessage;
-    final updatedTimestamp = this.updatedTimestamp;
-    return {
-      if (callDetails != null) 'CallDetails': callDetails,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (speakerSearchDetails != null)
-        'SpeakerSearchDetails': speakerSearchDetails,
-      if (speakerSearchTaskId != null)
-        'SpeakerSearchTaskId': speakerSearchTaskId,
-      if (speakerSearchTaskStatus != null)
-        'SpeakerSearchTaskStatus': speakerSearchTaskStatus,
-      if (startedTimestamp != null)
-        'StartedTimestamp': iso8601ToJson(startedTimestamp),
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-    };
-  }
-}
-
 class StartSpeakerSearchTaskResponse {
   /// The details of the speaker search task.
   final SpeakerSearchTask? speakerSearchTask;
@@ -7239,246 +5285,6 @@ class StartVoiceToneAnalysisTaskResponse {
   }
 }
 
-/// The streaming configuration associated with an Amazon Chime SDK Voice
-/// Connector. Specifies whether media streaming is enabled for sending to
-/// Amazon Kinesis, and shows the retention period for the Amazon Kinesis data,
-/// in hours.
-class StreamingConfiguration {
-  /// The amount of time, in hours, to the Kinesis data.
-  final int dataRetentionInHours;
-
-  /// When true, streaming to Kinesis is off.
-  final bool disabled;
-
-  /// The call analytics configuration.
-  final MediaInsightsConfiguration? mediaInsightsConfiguration;
-
-  /// The streaming notification targets.
-  final List<StreamingNotificationTarget>? streamingNotificationTargets;
-
-  StreamingConfiguration({
-    required this.dataRetentionInHours,
-    required this.disabled,
-    this.mediaInsightsConfiguration,
-    this.streamingNotificationTargets,
-  });
-
-  factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
-    return StreamingConfiguration(
-      dataRetentionInHours: (json['DataRetentionInHours'] as int?) ?? 0,
-      disabled: (json['Disabled'] as bool?) ?? false,
-      mediaInsightsConfiguration: json['MediaInsightsConfiguration'] != null
-          ? MediaInsightsConfiguration.fromJson(
-              json['MediaInsightsConfiguration'] as Map<String, dynamic>)
-          : null,
-      streamingNotificationTargets: (json['StreamingNotificationTargets']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              StreamingNotificationTarget.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataRetentionInHours = this.dataRetentionInHours;
-    final disabled = this.disabled;
-    final mediaInsightsConfiguration = this.mediaInsightsConfiguration;
-    final streamingNotificationTargets = this.streamingNotificationTargets;
-    return {
-      'DataRetentionInHours': dataRetentionInHours,
-      'Disabled': disabled,
-      if (mediaInsightsConfiguration != null)
-        'MediaInsightsConfiguration': mediaInsightsConfiguration,
-      if (streamingNotificationTargets != null)
-        'StreamingNotificationTargets': streamingNotificationTargets,
-    };
-  }
-}
-
-/// The target recipient for a streaming configuration notification.
-class StreamingNotificationTarget {
-  /// The streaming notification target.
-  final NotificationTarget? notificationTarget;
-
-  StreamingNotificationTarget({
-    this.notificationTarget,
-  });
-
-  factory StreamingNotificationTarget.fromJson(Map<String, dynamic> json) {
-    return StreamingNotificationTarget(
-      notificationTarget: (json['NotificationTarget'] as String?)
-          ?.let(NotificationTarget.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final notificationTarget = this.notificationTarget;
-    return {
-      if (notificationTarget != null)
-        'NotificationTarget': notificationTarget.value,
-    };
-  }
-}
-
-/// Describes a tag applied to a resource.
-class Tag {
-  /// The tag's key.
-  final String key;
-
-  /// The tag's value.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// Termination settings enable SIP hosts to make outbound calls using an Amazon
-/// Chime SDK Voice Connector.
-class Termination {
-  /// The countries to which calls are allowed, in ISO 3166-1 alpha-2 format.
-  /// Required.
-  final List<String>? callingRegions;
-
-  /// The IP addresses allowed to make calls, in CIDR format.
-  final List<String>? cidrAllowedList;
-
-  /// The limit on calls per second. Max value based on account service quota.
-  /// Default value of 1.
-  final int? cpsLimit;
-
-  /// The default outbound calling number.
-  final String? defaultPhoneNumber;
-
-  /// When termination is disabled, outbound calls cannot be made.
-  final bool? disabled;
-
-  Termination({
-    this.callingRegions,
-    this.cidrAllowedList,
-    this.cpsLimit,
-    this.defaultPhoneNumber,
-    this.disabled,
-  });
-
-  factory Termination.fromJson(Map<String, dynamic> json) {
-    return Termination(
-      callingRegions: (json['CallingRegions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      cidrAllowedList: (json['CidrAllowedList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      cpsLimit: json['CpsLimit'] as int?,
-      defaultPhoneNumber: json['DefaultPhoneNumber'] as String?,
-      disabled: json['Disabled'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final callingRegions = this.callingRegions;
-    final cidrAllowedList = this.cidrAllowedList;
-    final cpsLimit = this.cpsLimit;
-    final defaultPhoneNumber = this.defaultPhoneNumber;
-    final disabled = this.disabled;
-    return {
-      if (callingRegions != null) 'CallingRegions': callingRegions,
-      if (cidrAllowedList != null) 'CidrAllowedList': cidrAllowedList,
-      if (cpsLimit != null) 'CpsLimit': cpsLimit,
-      if (defaultPhoneNumber != null) 'DefaultPhoneNumber': defaultPhoneNumber,
-      if (disabled != null) 'Disabled': disabled,
-    };
-  }
-}
-
-/// The termination health details, including the source IP address and
-/// timestamp of the last successful <code>SIP OPTIONS</code> message from your
-/// SIP infrastructure.
-class TerminationHealth {
-  /// The source IP address.
-  final String? source;
-
-  /// The timestamp, in ISO 8601 format.
-  final DateTime? timestamp;
-
-  TerminationHealth({
-    this.source,
-    this.timestamp,
-  });
-
-  factory TerminationHealth.fromJson(Map<String, dynamic> json) {
-    return TerminationHealth(
-      source: json['Source'] as String?,
-      timestamp: timeStampFromJson(json['Timestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    final timestamp = this.timestamp;
-    return {
-      if (source != null) 'Source': source,
-      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
-    };
-  }
-}
-
-/// The phone number ID, product type, or calling name fields to update, used
-/// with the <a>BatchUpdatePhoneNumber</a> and <a>UpdatePhoneNumber</a> actions.
-class UpdatePhoneNumberRequestItem {
-  /// The phone number ID to update.
-  final String phoneNumberId;
-
-  /// The outbound calling name to update.
-  final String? callingName;
-
-  /// The name of the phone number.
-  final String? name;
-
-  /// The product type to update.
-  final PhoneNumberProductType? productType;
-
-  UpdatePhoneNumberRequestItem({
-    required this.phoneNumberId,
-    this.callingName,
-    this.name,
-    this.productType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final phoneNumberId = this.phoneNumberId;
-    final callingName = this.callingName;
-    final name = this.name;
-    final productType = this.productType;
-    return {
-      'PhoneNumberId': phoneNumberId,
-      if (callingName != null) 'CallingName': callingName,
-      if (name != null) 'Name': name,
-      if (productType != null) 'ProductType': productType.value,
-    };
-  }
-}
-
 class UpdatePhoneNumberResponse {
   /// The updated phone number details.
   final PhoneNumber? phoneNumber;
@@ -7527,33 +5333,6 @@ class UpdateProxySessionResponse {
   }
 }
 
-class UpdateSipMediaApplicationCallResponse {
-  /// A <code>Call</code> instance for a SIP media application.
-  final SipMediaApplicationCall? sipMediaApplicationCall;
-
-  UpdateSipMediaApplicationCallResponse({
-    this.sipMediaApplicationCall,
-  });
-
-  factory UpdateSipMediaApplicationCallResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateSipMediaApplicationCallResponse(
-      sipMediaApplicationCall: json['SipMediaApplicationCall'] != null
-          ? SipMediaApplicationCall.fromJson(
-              json['SipMediaApplicationCall'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sipMediaApplicationCall = this.sipMediaApplicationCall;
-    return {
-      if (sipMediaApplicationCall != null)
-        'SipMediaApplicationCall': sipMediaApplicationCall,
-    };
-  }
-}
-
 class UpdateSipMediaApplicationResponse {
   /// The updated SIP media application’s details.
   final SipMediaApplication? sipMediaApplication;
@@ -7581,6 +5360,33 @@ class UpdateSipMediaApplicationResponse {
   }
 }
 
+class UpdateSipMediaApplicationCallResponse {
+  /// A <code>Call</code> instance for a SIP media application.
+  final SipMediaApplicationCall? sipMediaApplicationCall;
+
+  UpdateSipMediaApplicationCallResponse({
+    this.sipMediaApplicationCall,
+  });
+
+  factory UpdateSipMediaApplicationCallResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSipMediaApplicationCallResponse(
+      sipMediaApplicationCall: json['SipMediaApplicationCall'] != null
+          ? SipMediaApplicationCall.fromJson(
+              json['SipMediaApplicationCall'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplicationCall = this.sipMediaApplicationCall;
+    return {
+      if (sipMediaApplicationCall != null)
+        'SipMediaApplicationCall': sipMediaApplicationCall,
+    };
+  }
+}
+
 class UpdateSipRuleResponse {
   /// The updated SIP rule details.
   final SipRule? sipRule;
@@ -7601,6 +5407,31 @@ class UpdateSipRuleResponse {
     final sipRule = this.sipRule;
     return {
       if (sipRule != null) 'SipRule': sipRule,
+    };
+  }
+}
+
+class UpdateVoiceConnectorResponse {
+  /// The updated Voice Connector details.
+  final VoiceConnector? voiceConnector;
+
+  UpdateVoiceConnectorResponse({
+    this.voiceConnector,
+  });
+
+  factory UpdateVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVoiceConnectorResponse(
+      voiceConnector: json['VoiceConnector'] != null
+          ? VoiceConnector.fromJson(
+              json['VoiceConnector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnector = this.voiceConnector;
+    return {
+      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
     };
   }
 }
@@ -7632,27 +5463,26 @@ class UpdateVoiceConnectorGroupResponse {
   }
 }
 
-class UpdateVoiceConnectorResponse {
-  /// The updated Voice Connector details.
-  final VoiceConnector? voiceConnector;
+class UpdateVoiceProfileResponse {
+  /// The updated voice profile settings.
+  final VoiceProfile? voiceProfile;
 
-  UpdateVoiceConnectorResponse({
-    this.voiceConnector,
+  UpdateVoiceProfileResponse({
+    this.voiceProfile,
   });
 
-  factory UpdateVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateVoiceConnectorResponse(
-      voiceConnector: json['VoiceConnector'] != null
-          ? VoiceConnector.fromJson(
-              json['VoiceConnector'] as Map<String, dynamic>)
+  factory UpdateVoiceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVoiceProfileResponse(
+      voiceProfile: json['VoiceProfile'] != null
+          ? VoiceProfile.fromJson(json['VoiceProfile'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final voiceConnector = this.voiceConnector;
+    final voiceProfile = this.voiceProfile;
     return {
-      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
+      if (voiceProfile != null) 'VoiceProfile': voiceProfile,
     };
   }
 }
@@ -7682,30 +5512,6 @@ class UpdateVoiceProfileDomainResponse {
   }
 }
 
-class UpdateVoiceProfileResponse {
-  /// The updated voice profile settings.
-  final VoiceProfile? voiceProfile;
-
-  UpdateVoiceProfileResponse({
-    this.voiceProfile,
-  });
-
-  factory UpdateVoiceProfileResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateVoiceProfileResponse(
-      voiceProfile: json['VoiceProfile'] != null
-          ? VoiceProfile.fromJson(json['VoiceProfile'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final voiceProfile = this.voiceProfile;
-    return {
-      if (voiceProfile != null) 'VoiceProfile': voiceProfile,
-    };
-  }
-}
-
 class ValidateE911AddressResponse {
   /// The validated address.
   final Address? address;
@@ -7716,10 +5522,24 @@ class ValidateE911AddressResponse {
   /// The list of address suggestions..
   final List<CandidateAddress>? candidateAddressList;
 
-  /// Number indicating the result of address validation. <code>0</code> means the
-  /// address was perfect as-is and successfully validated. <code>1</code> means
-  /// the address was corrected. <code>2</code> means the address sent was not
-  /// close enough and was not validated.
+  /// Number indicating the result of address validation.
+  ///
+  /// Each possible result is defined as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>0</code> - Address validation succeeded.
+  /// </li>
+  /// <li>
+  /// <code>1</code> - Address validation succeeded. The address was a close
+  /// enough match and has been corrected as part of the address object.
+  /// </li>
+  /// <li>
+  /// <code>2</code> - Address validation failed. You should re-submit the
+  /// validation request with candidates from the
+  /// <code>CandidateAddressList</code> result, if it's a close match.
+  /// </li>
+  /// </ul>
   final int? validationResult;
 
   ValidateE911AddressResponse({
@@ -7758,124 +5578,327 @@ class ValidateE911AddressResponse {
   }
 }
 
-/// The Amazon Chime SDK Voice Connector configuration, including outbound host
-/// name and encryption settings.
-class VoiceConnector {
-  /// The AWS Region in which the Voice Connector is created. Default: us-east-1.
-  final VoiceConnectorAwsRegion? awsRegion;
+/// A validated address.
+class Address {
+  /// The city of an address.
+  final String? city;
 
-  /// The Voice Connector's creation timestamp, in ISO 8601 format.
-  final DateTime? createdTimestamp;
+  /// The country of an address.
+  final String? country;
 
-  /// The Voice Connector's name.
-  final String? name;
+  /// An address suffix location, such as the <code>S. Unit A</code> in
+  /// <code>Central Park S. Unit A</code>.
+  final String? postDirectional;
 
-  /// The outbound host name for the Voice Connector.
-  final String? outboundHostName;
+  /// The postal code of an address.
+  final String? postalCode;
 
-  /// Enables or disables encryption for the Voice Connector.
-  final bool? requireEncryption;
+  /// The zip + 4 or postal code + 4 of an address.
+  final String? postalCodePlus4;
 
-  /// The Voice Connector's updated timestamp, in ISO 8601 format.
-  final DateTime? updatedTimestamp;
+  /// An address prefix location, such as the <code>N</code> in <code>N. Third
+  /// St.</code>
+  final String? preDirectional;
 
-  /// The ARN of the Voice Connector.
-  final String? voiceConnectorArn;
+  /// The state of an address.
+  final String? state;
 
-  /// The Voice Connector's ID.
-  final String? voiceConnectorId;
+  /// The address street, such as <code>8th Avenue</code>.
+  final String? streetName;
 
-  VoiceConnector({
-    this.awsRegion,
-    this.createdTimestamp,
-    this.name,
-    this.outboundHostName,
-    this.requireEncryption,
-    this.updatedTimestamp,
-    this.voiceConnectorArn,
-    this.voiceConnectorId,
+  /// The numeric portion of an address.
+  final String? streetNumber;
+
+  /// The address suffix, such as the <code>N</code> in <code>8th Avenue N</code>.
+  final String? streetSuffix;
+
+  Address({
+    this.city,
+    this.country,
+    this.postDirectional,
+    this.postalCode,
+    this.postalCodePlus4,
+    this.preDirectional,
+    this.state,
+    this.streetName,
+    this.streetNumber,
+    this.streetSuffix,
   });
 
-  factory VoiceConnector.fromJson(Map<String, dynamic> json) {
-    return VoiceConnector(
-      awsRegion: (json['AwsRegion'] as String?)
-          ?.let(VoiceConnectorAwsRegion.fromString),
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      name: json['Name'] as String?,
-      outboundHostName: json['OutboundHostName'] as String?,
-      requireEncryption: json['RequireEncryption'] as bool?,
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-      voiceConnectorArn: json['VoiceConnectorArn'] as String?,
-      voiceConnectorId: json['VoiceConnectorId'] as String?,
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      city: json['city'] as String?,
+      country: json['country'] as String?,
+      postDirectional: json['postDirectional'] as String?,
+      postalCode: json['postalCode'] as String?,
+      postalCodePlus4: json['postalCodePlus4'] as String?,
+      preDirectional: json['preDirectional'] as String?,
+      state: json['state'] as String?,
+      streetName: json['streetName'] as String?,
+      streetNumber: json['streetNumber'] as String?,
+      streetSuffix: json['streetSuffix'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final awsRegion = this.awsRegion;
-    final createdTimestamp = this.createdTimestamp;
-    final name = this.name;
-    final outboundHostName = this.outboundHostName;
-    final requireEncryption = this.requireEncryption;
-    final updatedTimestamp = this.updatedTimestamp;
-    final voiceConnectorArn = this.voiceConnectorArn;
-    final voiceConnectorId = this.voiceConnectorId;
+    final city = this.city;
+    final country = this.country;
+    final postDirectional = this.postDirectional;
+    final postalCode = this.postalCode;
+    final postalCodePlus4 = this.postalCodePlus4;
+    final preDirectional = this.preDirectional;
+    final state = this.state;
+    final streetName = this.streetName;
+    final streetNumber = this.streetNumber;
+    final streetSuffix = this.streetSuffix;
     return {
-      if (awsRegion != null) 'AwsRegion': awsRegion.value,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (name != null) 'Name': name,
-      if (outboundHostName != null) 'OutboundHostName': outboundHostName,
-      if (requireEncryption != null) 'RequireEncryption': requireEncryption,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-      if (voiceConnectorArn != null) 'VoiceConnectorArn': voiceConnectorArn,
-      if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
+      if (city != null) 'city': city,
+      if (country != null) 'country': country,
+      if (postDirectional != null) 'postDirectional': postDirectional,
+      if (postalCode != null) 'postalCode': postalCode,
+      if (postalCodePlus4 != null) 'postalCodePlus4': postalCodePlus4,
+      if (preDirectional != null) 'preDirectional': preDirectional,
+      if (state != null) 'state': state,
+      if (streetName != null) 'streetName': streetName,
+      if (streetNumber != null) 'streetNumber': streetNumber,
+      if (streetSuffix != null) 'streetSuffix': streetSuffix,
     };
   }
 }
 
-class VoiceConnectorAwsRegion {
-  static const usEast_1 = VoiceConnectorAwsRegion._('us-east-1');
-  static const usWest_2 = VoiceConnectorAwsRegion._('us-west-2');
-  static const caCentral_1 = VoiceConnectorAwsRegion._('ca-central-1');
-  static const euCentral_1 = VoiceConnectorAwsRegion._('eu-central-1');
-  static const euWest_1 = VoiceConnectorAwsRegion._('eu-west-1');
-  static const euWest_2 = VoiceConnectorAwsRegion._('eu-west-2');
-  static const apNortheast_2 = VoiceConnectorAwsRegion._('ap-northeast-2');
-  static const apNortheast_1 = VoiceConnectorAwsRegion._('ap-northeast-1');
-  static const apSoutheast_1 = VoiceConnectorAwsRegion._('ap-southeast-1');
-  static const apSoutheast_2 = VoiceConnectorAwsRegion._('ap-southeast-2');
+/// A suggested address.
+class CandidateAddress {
+  /// The city of the candidate address.
+  final String? city;
 
-  final String value;
+  /// The country of the candidate address.
+  final String? country;
 
-  const VoiceConnectorAwsRegion._(this.value);
+  /// The postal code of the candidate address.
+  final String? postalCode;
 
-  static const values = [
-    usEast_1,
-    usWest_2,
-    caCentral_1,
-    euCentral_1,
-    euWest_1,
-    euWest_2,
-    apNortheast_2,
-    apNortheast_1,
-    apSoutheast_1,
-    apSoutheast_2
-  ];
+  /// The zip + 4 or postal code +4 of the candidate address.
+  final String? postalCodePlus4;
 
-  static VoiceConnectorAwsRegion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VoiceConnectorAwsRegion._(value));
+  /// The state of the candidate address.
+  final String? state;
 
-  @override
-  bool operator ==(other) =>
-      other is VoiceConnectorAwsRegion && other.value == value;
+  /// The street information of the candidate address.
+  final String? streetInfo;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The numeric portion of the candidate address.
+  final String? streetNumber;
 
-  @override
-  String toString() => value;
+  CandidateAddress({
+    this.city,
+    this.country,
+    this.postalCode,
+    this.postalCodePlus4,
+    this.state,
+    this.streetInfo,
+    this.streetNumber,
+  });
+
+  factory CandidateAddress.fromJson(Map<String, dynamic> json) {
+    return CandidateAddress(
+      city: json['city'] as String?,
+      country: json['country'] as String?,
+      postalCode: json['postalCode'] as String?,
+      postalCodePlus4: json['postalCodePlus4'] as String?,
+      state: json['state'] as String?,
+      streetInfo: json['streetInfo'] as String?,
+      streetNumber: json['streetNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final city = this.city;
+    final country = this.country;
+    final postalCode = this.postalCode;
+    final postalCodePlus4 = this.postalCodePlus4;
+    final state = this.state;
+    final streetInfo = this.streetInfo;
+    final streetNumber = this.streetNumber;
+    return {
+      if (city != null) 'city': city,
+      if (country != null) 'country': country,
+      if (postalCode != null) 'postalCode': postalCode,
+      if (postalCodePlus4 != null) 'postalCodePlus4': postalCodePlus4,
+      if (state != null) 'state': state,
+      if (streetInfo != null) 'streetInfo': streetInfo,
+      if (streetNumber != null) 'streetNumber': streetNumber,
+    };
+  }
+}
+
+/// A collection of voice profiles.
+class VoiceProfileDomain {
+  /// The time at which the voice profile domain was created.
+  final DateTime? createdTimestamp;
+
+  /// The description of the voice profile domain.
+  final String? description;
+
+  /// The name of the voice profile domain.
+  final String? name;
+
+  /// A structure that contains the configuration settings for server-side
+  /// encryption.
+  final ServerSideEncryptionConfiguration? serverSideEncryptionConfiguration;
+
+  /// The time at which the voice profile was last updated.
+  final DateTime? updatedTimestamp;
+
+  /// The voice profile domain's Amazon Resource Number (ARN).
+  final String? voiceProfileDomainArn;
+
+  /// The ID of the voice profile domain.
+  final String? voiceProfileDomainId;
+
+  VoiceProfileDomain({
+    this.createdTimestamp,
+    this.description,
+    this.name,
+    this.serverSideEncryptionConfiguration,
+    this.updatedTimestamp,
+    this.voiceProfileDomainArn,
+    this.voiceProfileDomainId,
+  });
+
+  factory VoiceProfileDomain.fromJson(Map<String, dynamic> json) {
+    return VoiceProfileDomain(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      serverSideEncryptionConfiguration:
+          json['ServerSideEncryptionConfiguration'] != null
+              ? ServerSideEncryptionConfiguration.fromJson(
+                  json['ServerSideEncryptionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceProfileDomainArn: json['VoiceProfileDomainArn'] as String?,
+      voiceProfileDomainId: json['VoiceProfileDomainId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final description = this.description;
+    final name = this.name;
+    final serverSideEncryptionConfiguration =
+        this.serverSideEncryptionConfiguration;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceProfileDomainArn = this.voiceProfileDomainArn;
+    final voiceProfileDomainId = this.voiceProfileDomainId;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (serverSideEncryptionConfiguration != null)
+        'ServerSideEncryptionConfiguration': serverSideEncryptionConfiguration,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceProfileDomainArn != null)
+        'VoiceProfileDomainArn': voiceProfileDomainArn,
+      if (voiceProfileDomainId != null)
+        'VoiceProfileDomainId': voiceProfileDomainId,
+    };
+  }
+}
+
+/// A structure that contains the configuration settings for server-side
+/// encryption.
+/// <note>
+/// We only support symmetric keys. Do not use asymmetric or HMAC keys, or KMS
+/// aliases.
+/// </note>
+class ServerSideEncryptionConfiguration {
+  /// The ARN of the KMS key used to encrypt the enrollment data in a voice
+  /// profile domain. Asymmetric customer managed keys are not supported.
+  final String kmsKeyArn;
+
+  ServerSideEncryptionConfiguration({
+    required this.kmsKeyArn,
+  });
+
+  factory ServerSideEncryptionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ServerSideEncryptionConfiguration(
+      kmsKeyArn: (json['KmsKeyArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'KmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+/// The combination of a voice print and caller ID.
+class VoiceProfile {
+  /// The time at which the voice profile was created and enrolled.
+  final DateTime? createdTimestamp;
+
+  /// The time at which a voice profile expires unless you re-enroll the caller
+  /// via the <code>UpdateVoiceProfile</code> API.
+  final DateTime? expirationTimestamp;
+
+  /// The time at which the voice profile was last updated.
+  final DateTime? updatedTimestamp;
+
+  /// The ARN of the voice profile.
+  final String? voiceProfileArn;
+
+  /// The ID of the domain that contains the voice profile.
+  final String? voiceProfileDomainId;
+
+  /// The ID of the voice profile.
+  final String? voiceProfileId;
+
+  VoiceProfile({
+    this.createdTimestamp,
+    this.expirationTimestamp,
+    this.updatedTimestamp,
+    this.voiceProfileArn,
+    this.voiceProfileDomainId,
+    this.voiceProfileId,
+  });
+
+  factory VoiceProfile.fromJson(Map<String, dynamic> json) {
+    return VoiceProfile(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceProfileArn: json['VoiceProfileArn'] as String?,
+      voiceProfileDomainId: json['VoiceProfileDomainId'] as String?,
+      voiceProfileId: json['VoiceProfileId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final expirationTimestamp = this.expirationTimestamp;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceProfileArn = this.voiceProfileArn;
+    final voiceProfileDomainId = this.voiceProfileDomainId;
+    final voiceProfileId = this.voiceProfileId;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (expirationTimestamp != null)
+        'ExpirationTimestamp': iso8601ToJson(expirationTimestamp),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceProfileArn != null) 'VoiceProfileArn': voiceProfileArn,
+      if (voiceProfileDomainId != null)
+        'VoiceProfileDomainId': voiceProfileDomainId,
+      if (voiceProfileId != null) 'VoiceProfileId': voiceProfileId,
+    };
+  }
 }
 
 /// The Amazon Chime SDK Voice Connector group configuration, including
@@ -7982,6 +6005,1142 @@ class VoiceConnectorItem {
   }
 }
 
+/// The Amazon Chime SDK Voice Connector configuration, including outbound host
+/// name and encryption settings.
+class VoiceConnector {
+  /// The AWS Region in which the Voice Connector is created. Default: us-east-1.
+  final VoiceConnectorAwsRegion? awsRegion;
+
+  /// The Voice Connector's creation timestamp, in ISO 8601 format.
+  final DateTime? createdTimestamp;
+
+  /// The connectors for use with Connect Customer.
+  final VoiceConnectorIntegrationType? integrationType;
+
+  /// The Voice Connector's name.
+  final String? name;
+
+  /// The type of network of the Voice Connector. Either IPv4 only or dual-stack
+  /// (IPv4 and IPv6).
+  final NetworkType? networkType;
+
+  /// The outbound host name for the Voice Connector.
+  final String? outboundHostName;
+
+  /// Enables or disables encryption for the Voice Connector.
+  final bool? requireEncryption;
+
+  /// The Voice Connector's updated timestamp, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
+
+  /// The ARN of the Voice Connector.
+  final String? voiceConnectorArn;
+
+  /// The Voice Connector's ID.
+  final String? voiceConnectorId;
+
+  VoiceConnector({
+    this.awsRegion,
+    this.createdTimestamp,
+    this.integrationType,
+    this.name,
+    this.networkType,
+    this.outboundHostName,
+    this.requireEncryption,
+    this.updatedTimestamp,
+    this.voiceConnectorArn,
+    this.voiceConnectorId,
+  });
+
+  factory VoiceConnector.fromJson(Map<String, dynamic> json) {
+    return VoiceConnector(
+      awsRegion: (json['AwsRegion'] as String?)
+          ?.let(VoiceConnectorAwsRegion.fromString),
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      integrationType: (json['IntegrationType'] as String?)
+          ?.let(VoiceConnectorIntegrationType.fromString),
+      name: json['Name'] as String?,
+      networkType:
+          (json['NetworkType'] as String?)?.let(NetworkType.fromString),
+      outboundHostName: json['OutboundHostName'] as String?,
+      requireEncryption: json['RequireEncryption'] as bool?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceConnectorArn: json['VoiceConnectorArn'] as String?,
+      voiceConnectorId: json['VoiceConnectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final createdTimestamp = this.createdTimestamp;
+    final integrationType = this.integrationType;
+    final name = this.name;
+    final networkType = this.networkType;
+    final outboundHostName = this.outboundHostName;
+    final requireEncryption = this.requireEncryption;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceConnectorArn = this.voiceConnectorArn;
+    final voiceConnectorId = this.voiceConnectorId;
+    return {
+      if (awsRegion != null) 'AwsRegion': awsRegion.value,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (integrationType != null) 'IntegrationType': integrationType.value,
+      if (name != null) 'Name': name,
+      if (networkType != null) 'NetworkType': networkType.value,
+      if (outboundHostName != null) 'OutboundHostName': outboundHostName,
+      if (requireEncryption != null) 'RequireEncryption': requireEncryption,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceConnectorArn != null) 'VoiceConnectorArn': voiceConnectorArn,
+      if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
+    };
+  }
+}
+
+class VoiceConnectorAwsRegion {
+  static const usEast_1 = VoiceConnectorAwsRegion._('us-east-1');
+  static const usWest_2 = VoiceConnectorAwsRegion._('us-west-2');
+  static const caCentral_1 = VoiceConnectorAwsRegion._('ca-central-1');
+  static const euCentral_1 = VoiceConnectorAwsRegion._('eu-central-1');
+  static const euWest_1 = VoiceConnectorAwsRegion._('eu-west-1');
+  static const euWest_2 = VoiceConnectorAwsRegion._('eu-west-2');
+  static const apNortheast_2 = VoiceConnectorAwsRegion._('ap-northeast-2');
+  static const apNortheast_1 = VoiceConnectorAwsRegion._('ap-northeast-1');
+  static const apSoutheast_1 = VoiceConnectorAwsRegion._('ap-southeast-1');
+  static const apSoutheast_2 = VoiceConnectorAwsRegion._('ap-southeast-2');
+
+  final String value;
+
+  const VoiceConnectorAwsRegion._(this.value);
+
+  static const values = [
+    usEast_1,
+    usWest_2,
+    caCentral_1,
+    euCentral_1,
+    euWest_1,
+    euWest_2,
+    apNortheast_2,
+    apNortheast_1,
+    apSoutheast_1,
+    apSoutheast_2
+  ];
+
+  static VoiceConnectorAwsRegion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VoiceConnectorAwsRegion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VoiceConnectorAwsRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class VoiceConnectorIntegrationType {
+  static const connectCallTransferConnector =
+      VoiceConnectorIntegrationType._('CONNECT_CALL_TRANSFER_CONNECTOR');
+  static const connectAnalyticsConnector =
+      VoiceConnectorIntegrationType._('CONNECT_ANALYTICS_CONNECTOR');
+
+  final String value;
+
+  const VoiceConnectorIntegrationType._(this.value);
+
+  static const values = [
+    connectCallTransferConnector,
+    connectAnalyticsConnector
+  ];
+
+  static VoiceConnectorIntegrationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VoiceConnectorIntegrationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VoiceConnectorIntegrationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NetworkType {
+  static const ipv4Only = NetworkType._('IPV4_ONLY');
+  static const dualStack = NetworkType._('DUAL_STACK');
+
+  final String value;
+
+  const NetworkType._(this.value);
+
+  static const values = [ipv4Only, dualStack];
+
+  static NetworkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of a SIP rule, including name, triggers, and target
+/// applications. An AWS account can have multiple SIP rules.
+class SipRule {
+  /// The time at which the SIP rule was created, in ISO 8601 format.
+  final DateTime? createdTimestamp;
+
+  /// Indicates whether the SIP rule is enabled or disabled. You must disable a
+  /// rule before you can delete it.
+  final bool? disabled;
+
+  /// A SIP rule's name.
+  final String? name;
+
+  /// A SIP rule's ID.
+  final String? sipRuleId;
+
+  /// The target SIP media application and other details, such as priority and AWS
+  /// Region, to be specified in the SIP rule. Only one SIP rule per AWS Region
+  /// can be provided.
+  final List<SipRuleTargetApplication>? targetApplications;
+
+  /// The type of trigger set for a SIP rule, either a phone number or a URI
+  /// request host name.
+  final SipRuleTriggerType? triggerType;
+
+  /// The value set for a SIP rule's trigger type. Either a phone number or a URI
+  /// hostname.
+  final String? triggerValue;
+
+  /// The time at which the SIP rule was updated, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
+
+  SipRule({
+    this.createdTimestamp,
+    this.disabled,
+    this.name,
+    this.sipRuleId,
+    this.targetApplications,
+    this.triggerType,
+    this.triggerValue,
+    this.updatedTimestamp,
+  });
+
+  factory SipRule.fromJson(Map<String, dynamic> json) {
+    return SipRule(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      disabled: json['Disabled'] as bool?,
+      name: json['Name'] as String?,
+      sipRuleId: json['SipRuleId'] as String?,
+      targetApplications: (json['TargetApplications'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SipRuleTargetApplication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      triggerType:
+          (json['TriggerType'] as String?)?.let(SipRuleTriggerType.fromString),
+      triggerValue: json['TriggerValue'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final disabled = this.disabled;
+    final name = this.name;
+    final sipRuleId = this.sipRuleId;
+    final targetApplications = this.targetApplications;
+    final triggerType = this.triggerType;
+    final triggerValue = this.triggerValue;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (disabled != null) 'Disabled': disabled,
+      if (name != null) 'Name': name,
+      if (sipRuleId != null) 'SipRuleId': sipRuleId,
+      if (targetApplications != null) 'TargetApplications': targetApplications,
+      if (triggerType != null) 'TriggerType': triggerType.value,
+      if (triggerValue != null) 'TriggerValue': triggerValue,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
+class SipRuleTriggerType {
+  static const toPhoneNumber = SipRuleTriggerType._('ToPhoneNumber');
+  static const requestUriHostname = SipRuleTriggerType._('RequestUriHostname');
+
+  final String value;
+
+  const SipRuleTriggerType._(this.value);
+
+  static const values = [toPhoneNumber, requestUriHostname];
+
+  static SipRuleTriggerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SipRuleTriggerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SipRuleTriggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A target SIP media application and other details, such as priority and AWS
+/// Region, to be specified in the SIP rule. Only one SIP rule per AWS Region
+/// can be provided.
+class SipRuleTargetApplication {
+  /// The AWS Region of a rule's target SIP media application.
+  final String? awsRegion;
+
+  /// The priority setting of a rule's target SIP media application.
+  final int? priority;
+
+  /// The ID of a rule's target SIP media application.
+  final String? sipMediaApplicationId;
+
+  SipRuleTargetApplication({
+    this.awsRegion,
+    this.priority,
+    this.sipMediaApplicationId,
+  });
+
+  factory SipRuleTargetApplication.fromJson(Map<String, dynamic> json) {
+    return SipRuleTargetApplication(
+      awsRegion: json['AwsRegion'] as String?,
+      priority: json['Priority'] as int?,
+      sipMediaApplicationId: json['SipMediaApplicationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final priority = this.priority;
+    final sipMediaApplicationId = this.sipMediaApplicationId;
+    return {
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (priority != null) 'Priority': priority,
+      if (sipMediaApplicationId != null)
+        'SipMediaApplicationId': sipMediaApplicationId,
+    };
+  }
+}
+
+/// A <code>Call</code> instance for a SIP media application.
+class SipMediaApplicationCall {
+  /// The call's transaction ID.
+  final String? transactionId;
+
+  SipMediaApplicationCall({
+    this.transactionId,
+  });
+
+  factory SipMediaApplicationCall.fromJson(Map<String, dynamic> json) {
+    return SipMediaApplicationCall(
+      transactionId: json['TransactionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionId = this.transactionId;
+    return {
+      if (transactionId != null) 'TransactionId': transactionId,
+    };
+  }
+}
+
+/// The details of the SIP media application, including name and endpoints. An
+/// AWS account can have multiple SIP media applications.
+class SipMediaApplication {
+  /// The AWS Region in which the SIP media application is created.
+  final String? awsRegion;
+
+  /// The SIP media application creation timestamp, in ISO 8601 format.
+  final DateTime? createdTimestamp;
+
+  /// List of endpoints for a SIP media application. Currently, only one endpoint
+  /// per SIP media application is permitted.
+  final List<SipMediaApplicationEndpoint>? endpoints;
+
+  /// The SIP media application's name.
+  final String? name;
+
+  /// The ARN of the SIP media application.
+  final String? sipMediaApplicationArn;
+
+  /// A SIP media application's ID.
+  final String? sipMediaApplicationId;
+
+  /// The time at which the SIP media application was updated.
+  final DateTime? updatedTimestamp;
+
+  SipMediaApplication({
+    this.awsRegion,
+    this.createdTimestamp,
+    this.endpoints,
+    this.name,
+    this.sipMediaApplicationArn,
+    this.sipMediaApplicationId,
+    this.updatedTimestamp,
+  });
+
+  factory SipMediaApplication.fromJson(Map<String, dynamic> json) {
+    return SipMediaApplication(
+      awsRegion: json['AwsRegion'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      endpoints: (json['Endpoints'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SipMediaApplicationEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      sipMediaApplicationArn: json['SipMediaApplicationArn'] as String?,
+      sipMediaApplicationId: json['SipMediaApplicationId'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final createdTimestamp = this.createdTimestamp;
+    final endpoints = this.endpoints;
+    final name = this.name;
+    final sipMediaApplicationArn = this.sipMediaApplicationArn;
+    final sipMediaApplicationId = this.sipMediaApplicationId;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (name != null) 'Name': name,
+      if (sipMediaApplicationArn != null)
+        'SipMediaApplicationArn': sipMediaApplicationArn,
+      if (sipMediaApplicationId != null)
+        'SipMediaApplicationId': sipMediaApplicationId,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
+/// The endpoint assigned to a SIP media application.
+class SipMediaApplicationEndpoint {
+  /// Valid Amazon Resource Name (ARN) of the Lambda function, version, or alias.
+  /// The function must be created in the same AWS Region as the SIP media
+  /// application.
+  final String? lambdaArn;
+
+  SipMediaApplicationEndpoint({
+    this.lambdaArn,
+  });
+
+  factory SipMediaApplicationEndpoint.fromJson(Map<String, dynamic> json) {
+    return SipMediaApplicationEndpoint(
+      lambdaArn: json['LambdaArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    return {
+      if (lambdaArn != null) 'LambdaArn': lambdaArn,
+    };
+  }
+}
+
+/// The proxy session for an Amazon Chime SDK Voice Connector.
+class ProxySession {
+  /// The proxy session capabilities.
+  final List<Capability>? capabilities;
+
+  /// The created time stamp, in ISO 8601 format.
+  final DateTime? createdTimestamp;
+
+  /// The ended time stamp, in ISO 8601 format.
+  final DateTime? endedTimestamp;
+
+  /// The number of minutes allowed for the proxy session.
+  final int? expiryMinutes;
+
+  /// The preference for matching the country or area code of the proxy phone
+  /// number with that of the first participant.
+  final GeoMatchLevel? geoMatchLevel;
+
+  /// The country and area code for the proxy phone number.
+  final GeoMatchParams? geoMatchParams;
+
+  /// The proxy session name.
+  final String? name;
+
+  /// The preference for proxy phone number reuse, or stickiness, between the same
+  /// participants across sessions.
+  final NumberSelectionBehavior? numberSelectionBehavior;
+
+  /// The proxy session participants.
+  final List<Participant>? participants;
+
+  /// The proxy session ID.
+  final String? proxySessionId;
+
+  /// The proxy session status.
+  final ProxySessionStatus? status;
+
+  /// The updated time stamp, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
+
+  /// The Voice Connector ID.
+  final String? voiceConnectorId;
+
+  ProxySession({
+    this.capabilities,
+    this.createdTimestamp,
+    this.endedTimestamp,
+    this.expiryMinutes,
+    this.geoMatchLevel,
+    this.geoMatchParams,
+    this.name,
+    this.numberSelectionBehavior,
+    this.participants,
+    this.proxySessionId,
+    this.status,
+    this.updatedTimestamp,
+    this.voiceConnectorId,
+  });
+
+  factory ProxySession.fromJson(Map<String, dynamic> json) {
+    return ProxySession(
+      capabilities: (json['Capabilities'] as List?)
+          ?.nonNulls
+          .map((e) => Capability.fromString((e as String)))
+          .toList(),
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      endedTimestamp: timeStampFromJson(json['EndedTimestamp']),
+      expiryMinutes: json['ExpiryMinutes'] as int?,
+      geoMatchLevel:
+          (json['GeoMatchLevel'] as String?)?.let(GeoMatchLevel.fromString),
+      geoMatchParams: json['GeoMatchParams'] != null
+          ? GeoMatchParams.fromJson(
+              json['GeoMatchParams'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      numberSelectionBehavior: (json['NumberSelectionBehavior'] as String?)
+          ?.let(NumberSelectionBehavior.fromString),
+      participants: (json['Participants'] as List?)
+          ?.nonNulls
+          .map((e) => Participant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      proxySessionId: json['ProxySessionId'] as String?,
+      status: (json['Status'] as String?)?.let(ProxySessionStatus.fromString),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceConnectorId: json['VoiceConnectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capabilities = this.capabilities;
+    final createdTimestamp = this.createdTimestamp;
+    final endedTimestamp = this.endedTimestamp;
+    final expiryMinutes = this.expiryMinutes;
+    final geoMatchLevel = this.geoMatchLevel;
+    final geoMatchParams = this.geoMatchParams;
+    final name = this.name;
+    final numberSelectionBehavior = this.numberSelectionBehavior;
+    final participants = this.participants;
+    final proxySessionId = this.proxySessionId;
+    final status = this.status;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceConnectorId = this.voiceConnectorId;
+    return {
+      if (capabilities != null)
+        'Capabilities': capabilities.map((e) => e.value).toList(),
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (endedTimestamp != null)
+        'EndedTimestamp': iso8601ToJson(endedTimestamp),
+      if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
+      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.value,
+      if (geoMatchParams != null) 'GeoMatchParams': geoMatchParams,
+      if (name != null) 'Name': name,
+      if (numberSelectionBehavior != null)
+        'NumberSelectionBehavior': numberSelectionBehavior.value,
+      if (participants != null) 'Participants': participants,
+      if (proxySessionId != null) 'ProxySessionId': proxySessionId,
+      if (status != null) 'Status': status.value,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
+    };
+  }
+}
+
+class ProxySessionStatus {
+  static const open = ProxySessionStatus._('Open');
+  static const inProgress = ProxySessionStatus._('InProgress');
+  static const closed = ProxySessionStatus._('Closed');
+
+  final String value;
+
+  const ProxySessionStatus._(this.value);
+
+  static const values = [open, inProgress, closed];
+
+  static ProxySessionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProxySessionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProxySessionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NumberSelectionBehavior {
+  static const preferSticky = NumberSelectionBehavior._('PreferSticky');
+  static const avoidSticky = NumberSelectionBehavior._('AvoidSticky');
+
+  final String value;
+
+  const NumberSelectionBehavior._(this.value);
+
+  static const values = [preferSticky, avoidSticky];
+
+  static NumberSelectionBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NumberSelectionBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NumberSelectionBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GeoMatchLevel {
+  static const country = GeoMatchLevel._('Country');
+  static const areaCode = GeoMatchLevel._('AreaCode');
+
+  final String value;
+
+  const GeoMatchLevel._(this.value);
+
+  static const values = [country, areaCode];
+
+  static GeoMatchLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GeoMatchLevel._(value));
+
+  @override
+  bool operator ==(other) => other is GeoMatchLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The country and area code for a proxy phone number in a proxy phone session.
+class GeoMatchParams {
+  /// The area code.
+  final String areaCode;
+
+  /// The country.
+  final String country;
+
+  GeoMatchParams({
+    required this.areaCode,
+    required this.country,
+  });
+
+  factory GeoMatchParams.fromJson(Map<String, dynamic> json) {
+    return GeoMatchParams(
+      areaCode: (json['AreaCode'] as String?) ?? '',
+      country: (json['Country'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final areaCode = this.areaCode;
+    final country = this.country;
+    return {
+      'AreaCode': areaCode,
+      'Country': country,
+    };
+  }
+}
+
+/// The phone number and proxy phone number for a participant in an Amazon Chime
+/// SDK Voice Connector proxy session.
+class Participant {
+  /// The participant's phone number.
+  final String? phoneNumber;
+
+  /// The participant's proxy phone number.
+  final String? proxyPhoneNumber;
+
+  Participant({
+    this.phoneNumber,
+    this.proxyPhoneNumber,
+  });
+
+  factory Participant.fromJson(Map<String, dynamic> json) {
+    return Participant(
+      phoneNumber: json['PhoneNumber'] as String?,
+      proxyPhoneNumber: json['ProxyPhoneNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumber = this.phoneNumber;
+    final proxyPhoneNumber = this.proxyPhoneNumber;
+    return {
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+      if (proxyPhoneNumber != null) 'ProxyPhoneNumber': proxyPhoneNumber,
+    };
+  }
+}
+
+class Capability {
+  static const voice = Capability._('Voice');
+  static const sms = Capability._('SMS');
+
+  final String value;
+
+  const Capability._(this.value);
+
+  static const values = [voice, sms];
+
+  static Capability fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Capability._(value));
+
+  @override
+  bool operator ==(other) => other is Capability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A phone number used to call an Amazon Chime SDK Voice Connector.
+class PhoneNumber {
+  /// The phone number's associations.
+  final List<PhoneNumberAssociation>? associations;
+
+  /// The outbound calling name associated with the phone number.
+  final String? callingName;
+
+  /// The outbound calling name status.
+  final CallingNameStatus? callingNameStatus;
+
+  /// The phone number's capabilities.
+  final PhoneNumberCapabilities? capabilities;
+
+  /// The phone number's country. Format: ISO 3166-1 alpha-2.
+  final String? country;
+
+  /// The phone number creation timestamp, in ISO 8601 format.
+  final DateTime? createdTimestamp;
+
+  /// The deleted phone number timestamp, in ISO 8601 format.
+  final DateTime? deletionTimestamp;
+
+  /// The phone number, in E.164 format.
+  final String? e164PhoneNumber;
+
+  /// The name of the phone number.
+  final String? name;
+
+  /// The phone number's order ID.
+  final String? orderId;
+
+  /// The phone number's ID.
+  final String? phoneNumberId;
+
+  /// The phone number's product type.
+  final PhoneNumberProductType? productType;
+
+  /// The phone number's status.
+  final PhoneNumberStatus? status;
+
+  /// The phone number's type.
+  final PhoneNumberType? type;
+
+  /// The updated phone number timestamp, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
+
+  PhoneNumber({
+    this.associations,
+    this.callingName,
+    this.callingNameStatus,
+    this.capabilities,
+    this.country,
+    this.createdTimestamp,
+    this.deletionTimestamp,
+    this.e164PhoneNumber,
+    this.name,
+    this.orderId,
+    this.phoneNumberId,
+    this.productType,
+    this.status,
+    this.type,
+    this.updatedTimestamp,
+  });
+
+  factory PhoneNumber.fromJson(Map<String, dynamic> json) {
+    return PhoneNumber(
+      associations: (json['Associations'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => PhoneNumberAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      callingName: json['CallingName'] as String?,
+      callingNameStatus: (json['CallingNameStatus'] as String?)
+          ?.let(CallingNameStatus.fromString),
+      capabilities: json['Capabilities'] != null
+          ? PhoneNumberCapabilities.fromJson(
+              json['Capabilities'] as Map<String, dynamic>)
+          : null,
+      country: json['Country'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      deletionTimestamp: timeStampFromJson(json['DeletionTimestamp']),
+      e164PhoneNumber: json['E164PhoneNumber'] as String?,
+      name: json['Name'] as String?,
+      orderId: json['OrderId'] as String?,
+      phoneNumberId: json['PhoneNumberId'] as String?,
+      productType: (json['ProductType'] as String?)
+          ?.let(PhoneNumberProductType.fromString),
+      status: (json['Status'] as String?)?.let(PhoneNumberStatus.fromString),
+      type: (json['Type'] as String?)?.let(PhoneNumberType.fromString),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    final callingName = this.callingName;
+    final callingNameStatus = this.callingNameStatus;
+    final capabilities = this.capabilities;
+    final country = this.country;
+    final createdTimestamp = this.createdTimestamp;
+    final deletionTimestamp = this.deletionTimestamp;
+    final e164PhoneNumber = this.e164PhoneNumber;
+    final name = this.name;
+    final orderId = this.orderId;
+    final phoneNumberId = this.phoneNumberId;
+    final productType = this.productType;
+    final status = this.status;
+    final type = this.type;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (associations != null) 'Associations': associations,
+      if (callingName != null) 'CallingName': callingName,
+      if (callingNameStatus != null)
+        'CallingNameStatus': callingNameStatus.value,
+      if (capabilities != null) 'Capabilities': capabilities,
+      if (country != null) 'Country': country,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (deletionTimestamp != null)
+        'DeletionTimestamp': iso8601ToJson(deletionTimestamp),
+      if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
+      if (name != null) 'Name': name,
+      if (orderId != null) 'OrderId': orderId,
+      if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
+      if (productType != null) 'ProductType': productType.value,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
+class PhoneNumberType {
+  static const local = PhoneNumberType._('Local');
+  static const tollFree = PhoneNumberType._('TollFree');
+
+  final String value;
+
+  const PhoneNumberType._(this.value);
+
+  static const values = [local, tollFree];
+
+  static PhoneNumberType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhoneNumberType._(value));
+
+  @override
+  bool operator ==(other) => other is PhoneNumberType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PhoneNumberProductType {
+  static const voiceConnector = PhoneNumberProductType._('VoiceConnector');
+  static const sipMediaApplicationDialIn =
+      PhoneNumberProductType._('SipMediaApplicationDialIn');
+
+  final String value;
+
+  const PhoneNumberProductType._(this.value);
+
+  static const values = [voiceConnector, sipMediaApplicationDialIn];
+
+  static PhoneNumberProductType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhoneNumberProductType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberProductType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PhoneNumberStatus {
+  static const cancelled = PhoneNumberStatus._('Cancelled');
+  static const portinCancelRequested =
+      PhoneNumberStatus._('PortinCancelRequested');
+  static const portinInProgress = PhoneNumberStatus._('PortinInProgress');
+  static const acquireInProgress = PhoneNumberStatus._('AcquireInProgress');
+  static const acquireFailed = PhoneNumberStatus._('AcquireFailed');
+  static const unassigned = PhoneNumberStatus._('Unassigned');
+  static const assigned = PhoneNumberStatus._('Assigned');
+  static const releaseInProgress = PhoneNumberStatus._('ReleaseInProgress');
+  static const deleteInProgress = PhoneNumberStatus._('DeleteInProgress');
+  static const releaseFailed = PhoneNumberStatus._('ReleaseFailed');
+  static const deleteFailed = PhoneNumberStatus._('DeleteFailed');
+
+  final String value;
+
+  const PhoneNumberStatus._(this.value);
+
+  static const values = [
+    cancelled,
+    portinCancelRequested,
+    portinInProgress,
+    acquireInProgress,
+    acquireFailed,
+    unassigned,
+    assigned,
+    releaseInProgress,
+    deleteInProgress,
+    releaseFailed,
+    deleteFailed
+  ];
+
+  static PhoneNumberStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhoneNumberStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PhoneNumberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The phone number capabilities for Amazon Chime SDK phone numbers, such as
+/// enabled inbound and outbound calling, and text messaging.
+class PhoneNumberCapabilities {
+  /// Allows or denies inbound calling for the specified phone number.
+  final bool? inboundCall;
+
+  /// Allows or denies inbound MMS messaging for the specified phone number.
+  final bool? inboundMMS;
+
+  /// Allows or denies inbound SMS messaging for the specified phone number.
+  final bool? inboundSMS;
+
+  /// Allows or denies outbound calling for the specified phone number.
+  final bool? outboundCall;
+
+  /// Allows or denies inbound MMS messaging for the specified phone number.
+  final bool? outboundMMS;
+
+  /// Allows or denies outbound SMS messaging for the specified phone number.
+  final bool? outboundSMS;
+
+  PhoneNumberCapabilities({
+    this.inboundCall,
+    this.inboundMMS,
+    this.inboundSMS,
+    this.outboundCall,
+    this.outboundMMS,
+    this.outboundSMS,
+  });
+
+  factory PhoneNumberCapabilities.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberCapabilities(
+      inboundCall: json['InboundCall'] as bool?,
+      inboundMMS: json['InboundMMS'] as bool?,
+      inboundSMS: json['InboundSMS'] as bool?,
+      outboundCall: json['OutboundCall'] as bool?,
+      outboundMMS: json['OutboundMMS'] as bool?,
+      outboundSMS: json['OutboundSMS'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inboundCall = this.inboundCall;
+    final inboundMMS = this.inboundMMS;
+    final inboundSMS = this.inboundSMS;
+    final outboundCall = this.outboundCall;
+    final outboundMMS = this.outboundMMS;
+    final outboundSMS = this.outboundSMS;
+    return {
+      if (inboundCall != null) 'InboundCall': inboundCall,
+      if (inboundMMS != null) 'InboundMMS': inboundMMS,
+      if (inboundSMS != null) 'InboundSMS': inboundSMS,
+      if (outboundCall != null) 'OutboundCall': outboundCall,
+      if (outboundMMS != null) 'OutboundMMS': outboundMMS,
+      if (outboundSMS != null) 'OutboundSMS': outboundSMS,
+    };
+  }
+}
+
+class CallingNameStatus {
+  static const unassigned = CallingNameStatus._('Unassigned');
+  static const updateInProgress = CallingNameStatus._('UpdateInProgress');
+  static const updateSucceeded = CallingNameStatus._('UpdateSucceeded');
+  static const updateFailed = CallingNameStatus._('UpdateFailed');
+
+  final String value;
+
+  const CallingNameStatus._(this.value);
+
+  static const values = [
+    unassigned,
+    updateInProgress,
+    updateSucceeded,
+    updateFailed
+  ];
+
+  static CallingNameStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CallingNameStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CallingNameStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The phone number associations, such as an Amazon Chime SDK account ID, user
+/// ID, Voice Connector ID, or Voice Connector group ID.
+class PhoneNumberAssociation {
+  /// The timestamp of the phone number association, in ISO 8601 format.
+  final DateTime? associatedTimestamp;
+
+  /// Defines the association with an Amazon Chime SDK account ID, user ID, Voice
+  /// Connector ID, or Voice Connector group ID.
+  final PhoneNumberAssociationName? name;
+
+  /// Contains the ID for the entity specified in Name.
+  final String? value;
+
+  PhoneNumberAssociation({
+    this.associatedTimestamp,
+    this.name,
+    this.value,
+  });
+
+  factory PhoneNumberAssociation.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberAssociation(
+      associatedTimestamp: timeStampFromJson(json['AssociatedTimestamp']),
+      name:
+          (json['Name'] as String?)?.let(PhoneNumberAssociationName.fromString),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedTimestamp = this.associatedTimestamp;
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (associatedTimestamp != null)
+        'AssociatedTimestamp': iso8601ToJson(associatedTimestamp),
+      if (name != null) 'Name': name.value,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class PhoneNumberAssociationName {
+  static const voiceConnectorId =
+      PhoneNumberAssociationName._('VoiceConnectorId');
+  static const voiceConnectorGroupId =
+      PhoneNumberAssociationName._('VoiceConnectorGroupId');
+  static const sipRuleId = PhoneNumberAssociationName._('SipRuleId');
+
+  final String value;
+
+  const PhoneNumberAssociationName._(this.value);
+
+  static const values = [voiceConnectorId, voiceConnectorGroupId, sipRuleId];
+
+  static PhoneNumberAssociationName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhoneNumberAssociationName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberAssociationName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The Amazon Chime SDK Voice Connector settings. Includes any Amazon S3
 /// buckets designated for storing call detail records.
 class VoiceConnectorSettings {
@@ -8006,268 +7165,32 @@ class VoiceConnectorSettings {
   }
 }
 
-/// The combination of a voice print and caller ID.
-class VoiceProfile {
-  /// The time at which the voice profile was created and enrolled.
-  final DateTime? createdTimestamp;
+/// Describes a tag applied to a resource.
+class Tag {
+  /// The tag's key.
+  final String key;
 
-  /// The time at which a voice profile expires unless you re-enroll the caller
-  /// via the <code>UpdateVoiceProfile</code> API.
-  final DateTime? expirationTimestamp;
+  /// The tag's value.
+  final String value;
 
-  /// The time at which the voice profile was last updated.
-  final DateTime? updatedTimestamp;
-
-  /// The ARN of the voice profile.
-  final String? voiceProfileArn;
-
-  /// The ID of the domain that contains the voice profile.
-  final String? voiceProfileDomainId;
-
-  /// The ID of the voice profile.
-  final String? voiceProfileId;
-
-  VoiceProfile({
-    this.createdTimestamp,
-    this.expirationTimestamp,
-    this.updatedTimestamp,
-    this.voiceProfileArn,
-    this.voiceProfileDomainId,
-    this.voiceProfileId,
+  Tag({
+    required this.key,
+    required this.value,
   });
 
-  factory VoiceProfile.fromJson(Map<String, dynamic> json) {
-    return VoiceProfile(
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-      voiceProfileArn: json['VoiceProfileArn'] as String?,
-      voiceProfileDomainId: json['VoiceProfileDomainId'] as String?,
-      voiceProfileId: json['VoiceProfileId'] as String?,
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final expirationTimestamp = this.expirationTimestamp;
-    final updatedTimestamp = this.updatedTimestamp;
-    final voiceProfileArn = this.voiceProfileArn;
-    final voiceProfileDomainId = this.voiceProfileDomainId;
-    final voiceProfileId = this.voiceProfileId;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (expirationTimestamp != null)
-        'ExpirationTimestamp': iso8601ToJson(expirationTimestamp),
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-      if (voiceProfileArn != null) 'VoiceProfileArn': voiceProfileArn,
-      if (voiceProfileDomainId != null)
-        'VoiceProfileDomainId': voiceProfileDomainId,
-      if (voiceProfileId != null) 'VoiceProfileId': voiceProfileId,
-    };
-  }
-}
-
-/// A collection of voice profiles.
-class VoiceProfileDomain {
-  /// The time at which the voice profile domain was created.
-  final DateTime? createdTimestamp;
-
-  /// The description of the voice profile domain.
-  final String? description;
-
-  /// The name of the voice profile domain.
-  final String? name;
-
-  /// A structure that contains the configuration settings for server-side
-  /// encryption.
-  final ServerSideEncryptionConfiguration? serverSideEncryptionConfiguration;
-
-  /// The time at which the voice profile was last updated.
-  final DateTime? updatedTimestamp;
-
-  /// The voice profile domain's Amazon Resource Number (ARN).
-  final String? voiceProfileDomainArn;
-
-  /// The ID of the voice profile domain.
-  final String? voiceProfileDomainId;
-
-  VoiceProfileDomain({
-    this.createdTimestamp,
-    this.description,
-    this.name,
-    this.serverSideEncryptionConfiguration,
-    this.updatedTimestamp,
-    this.voiceProfileDomainArn,
-    this.voiceProfileDomainId,
-  });
-
-  factory VoiceProfileDomain.fromJson(Map<String, dynamic> json) {
-    return VoiceProfileDomain(
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      description: json['Description'] as String?,
-      name: json['Name'] as String?,
-      serverSideEncryptionConfiguration:
-          json['ServerSideEncryptionConfiguration'] != null
-              ? ServerSideEncryptionConfiguration.fromJson(
-                  json['ServerSideEncryptionConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-      voiceProfileDomainArn: json['VoiceProfileDomainArn'] as String?,
-      voiceProfileDomainId: json['VoiceProfileDomainId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final description = this.description;
-    final name = this.name;
-    final serverSideEncryptionConfiguration =
-        this.serverSideEncryptionConfiguration;
-    final updatedTimestamp = this.updatedTimestamp;
-    final voiceProfileDomainArn = this.voiceProfileDomainArn;
-    final voiceProfileDomainId = this.voiceProfileDomainId;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-      if (serverSideEncryptionConfiguration != null)
-        'ServerSideEncryptionConfiguration': serverSideEncryptionConfiguration,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-      if (voiceProfileDomainArn != null)
-        'VoiceProfileDomainArn': voiceProfileDomainArn,
-      if (voiceProfileDomainId != null)
-        'VoiceProfileDomainId': voiceProfileDomainId,
-    };
-  }
-}
-
-/// A high-level overview of a voice profile domain.
-class VoiceProfileDomainSummary {
-  /// The time at which the voice profile domain summary was created.
-  final DateTime? createdTimestamp;
-
-  /// Describes the voice profile domain summary.
-  final String? description;
-
-  /// The name of the voice profile domain summary.
-  final String? name;
-
-  /// The time at which the voice profile domain summary was last updated.
-  final DateTime? updatedTimestamp;
-
-  /// The ARN of a voice profile in a voice profile domain summary.
-  final String? voiceProfileDomainArn;
-
-  /// The ID of the voice profile domain summary.
-  final String? voiceProfileDomainId;
-
-  VoiceProfileDomainSummary({
-    this.createdTimestamp,
-    this.description,
-    this.name,
-    this.updatedTimestamp,
-    this.voiceProfileDomainArn,
-    this.voiceProfileDomainId,
-  });
-
-  factory VoiceProfileDomainSummary.fromJson(Map<String, dynamic> json) {
-    return VoiceProfileDomainSummary(
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      description: json['Description'] as String?,
-      name: json['Name'] as String?,
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-      voiceProfileDomainArn: json['VoiceProfileDomainArn'] as String?,
-      voiceProfileDomainId: json['VoiceProfileDomainId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final description = this.description;
-    final name = this.name;
-    final updatedTimestamp = this.updatedTimestamp;
-    final voiceProfileDomainArn = this.voiceProfileDomainArn;
-    final voiceProfileDomainId = this.voiceProfileDomainId;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-      if (voiceProfileDomainArn != null)
-        'VoiceProfileDomainArn': voiceProfileDomainArn,
-      if (voiceProfileDomainId != null)
-        'VoiceProfileDomainId': voiceProfileDomainId,
-    };
-  }
-}
-
-/// A high-level summary of a voice profile.
-class VoiceProfileSummary {
-  /// The time at which a voice profile summary was created.
-  final DateTime? createdTimestamp;
-
-  /// Extends the life of the voice profile. You can use
-  /// <code>UpdateVoiceProfile</code> to refresh an existing voice profile's voice
-  /// print and extend the life of the summary.
-  final DateTime? expirationTimestamp;
-
-  /// The time at which a voice profile summary was last updated.
-  final DateTime? updatedTimestamp;
-
-  /// The ARN of the voice profile in a voice profile summary.
-  final String? voiceProfileArn;
-
-  /// The ID of the voice profile domain in a voice profile summary.
-  final String? voiceProfileDomainId;
-
-  /// The ID of the voice profile in a voice profile summary.
-  final String? voiceProfileId;
-
-  VoiceProfileSummary({
-    this.createdTimestamp,
-    this.expirationTimestamp,
-    this.updatedTimestamp,
-    this.voiceProfileArn,
-    this.voiceProfileDomainId,
-    this.voiceProfileId,
-  });
-
-  factory VoiceProfileSummary.fromJson(Map<String, dynamic> json) {
-    return VoiceProfileSummary(
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
-      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
-      voiceProfileArn: json['VoiceProfileArn'] as String?,
-      voiceProfileDomainId: json['VoiceProfileDomainId'] as String?,
-      voiceProfileId: json['VoiceProfileId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTimestamp = this.createdTimestamp;
-    final expirationTimestamp = this.expirationTimestamp;
-    final updatedTimestamp = this.updatedTimestamp;
-    final voiceProfileArn = this.voiceProfileArn;
-    final voiceProfileDomainId = this.voiceProfileDomainId;
-    final voiceProfileId = this.voiceProfileId;
-    return {
-      if (createdTimestamp != null)
-        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
-      if (expirationTimestamp != null)
-        'ExpirationTimestamp': iso8601ToJson(expirationTimestamp),
-      if (updatedTimestamp != null)
-        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
-      if (voiceProfileArn != null) 'VoiceProfileArn': voiceProfileArn,
-      if (voiceProfileDomainId != null)
-        'VoiceProfileDomainId': voiceProfileDomainId,
-      if (voiceProfileId != null) 'VoiceProfileId': voiceProfileId,
+      'Key': key,
+      'Value': value,
     };
   }
 }
@@ -8344,6 +7267,1487 @@ class VoiceToneAnalysisTask {
         'VoiceToneAnalysisTaskId': voiceToneAnalysisTaskId,
       if (voiceToneAnalysisTaskStatus != null)
         'VoiceToneAnalysisTaskStatus': voiceToneAnalysisTaskStatus,
+    };
+  }
+}
+
+/// The details of an Amazon Chime SDK Voice Connector call.
+class CallDetails {
+  /// Identifies a person as the caller or the callee.
+  final bool? isCaller;
+
+  /// The transaction ID of a Voice Connector call.
+  final String? transactionId;
+
+  /// The Voice Connector ID.
+  final String? voiceConnectorId;
+
+  CallDetails({
+    this.isCaller,
+    this.transactionId,
+    this.voiceConnectorId,
+  });
+
+  factory CallDetails.fromJson(Map<String, dynamic> json) {
+    return CallDetails(
+      isCaller: json['IsCaller'] as bool?,
+      transactionId: json['TransactionId'] as String?,
+      voiceConnectorId: json['VoiceConnectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isCaller = this.isCaller;
+    final transactionId = this.transactionId;
+    final voiceConnectorId = this.voiceConnectorId;
+    return {
+      if (isCaller != null) 'IsCaller': isCaller,
+      if (transactionId != null) 'TransactionId': transactionId,
+      if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
+    };
+  }
+}
+
+class LanguageCode {
+  static const enUs = LanguageCode._('en-US');
+
+  final String value;
+
+  const LanguageCode._(this.value);
+
+  static const values = [enUs];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ErrorCode {
+  static const badRequest = ErrorCode._('BadRequest');
+  static const conflict = ErrorCode._('Conflict');
+  static const forbidden = ErrorCode._('Forbidden');
+  static const notFound = ErrorCode._('NotFound');
+  static const preconditionFailed = ErrorCode._('PreconditionFailed');
+  static const resourceLimitExceeded = ErrorCode._('ResourceLimitExceeded');
+  static const serviceFailure = ErrorCode._('ServiceFailure');
+  static const accessDenied = ErrorCode._('AccessDenied');
+  static const serviceUnavailable = ErrorCode._('ServiceUnavailable');
+  static const throttled = ErrorCode._('Throttled');
+  static const throttling = ErrorCode._('Throttling');
+  static const unauthorized = ErrorCode._('Unauthorized');
+  static const unprocessable = ErrorCode._('Unprocessable');
+  static const voiceConnectorGroupAssociationsExist =
+      ErrorCode._('VoiceConnectorGroupAssociationsExist');
+  static const phoneNumberAssociationsExist =
+      ErrorCode._('PhoneNumberAssociationsExist');
+  static const gone = ErrorCode._('Gone');
+
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [
+    badRequest,
+    conflict,
+    forbidden,
+    notFound,
+    preconditionFailed,
+    resourceLimitExceeded,
+    serviceFailure,
+    accessDenied,
+    serviceUnavailable,
+    throttled,
+    throttling,
+    unauthorized,
+    unprocessable,
+    voiceConnectorGroupAssociationsExist,
+    phoneNumberAssociationsExist,
+    gone
+  ];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A representation of an asynchronous request to perform speaker search
+/// analysis on a Voice Connector call.
+class SpeakerSearchTask {
+  /// The call details of a speaker search task.
+  final CallDetails? callDetails;
+
+  /// The time at which a speaker search task was created.
+  final DateTime? createdTimestamp;
+
+  /// The details of a speaker search task.
+  final SpeakerSearchDetails? speakerSearchDetails;
+
+  /// The speaker search task ID.
+  final String? speakerSearchTaskId;
+
+  /// The status of the speaker search task, <code>IN_QUEUE</code>,
+  /// <code>IN_PROGRESS</code>, <code>PARTIAL_SUCCESS</code>,
+  /// <code>SUCCEEDED</code>, <code>FAILED</code>, or <code>STOPPED</code>.
+  final String? speakerSearchTaskStatus;
+
+  /// The time at which the speaker search task began.
+  final DateTime? startedTimestamp;
+
+  /// A detailed message about the status of a speaker search.
+  final String? statusMessage;
+
+  /// The time at which a speaker search task was updated.
+  final DateTime? updatedTimestamp;
+
+  SpeakerSearchTask({
+    this.callDetails,
+    this.createdTimestamp,
+    this.speakerSearchDetails,
+    this.speakerSearchTaskId,
+    this.speakerSearchTaskStatus,
+    this.startedTimestamp,
+    this.statusMessage,
+    this.updatedTimestamp,
+  });
+
+  factory SpeakerSearchTask.fromJson(Map<String, dynamic> json) {
+    return SpeakerSearchTask(
+      callDetails: json['CallDetails'] != null
+          ? CallDetails.fromJson(json['CallDetails'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      speakerSearchDetails: json['SpeakerSearchDetails'] != null
+          ? SpeakerSearchDetails.fromJson(
+              json['SpeakerSearchDetails'] as Map<String, dynamic>)
+          : null,
+      speakerSearchTaskId: json['SpeakerSearchTaskId'] as String?,
+      speakerSearchTaskStatus: json['SpeakerSearchTaskStatus'] as String?,
+      startedTimestamp: timeStampFromJson(json['StartedTimestamp']),
+      statusMessage: json['StatusMessage'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callDetails = this.callDetails;
+    final createdTimestamp = this.createdTimestamp;
+    final speakerSearchDetails = this.speakerSearchDetails;
+    final speakerSearchTaskId = this.speakerSearchTaskId;
+    final speakerSearchTaskStatus = this.speakerSearchTaskStatus;
+    final startedTimestamp = this.startedTimestamp;
+    final statusMessage = this.statusMessage;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (callDetails != null) 'CallDetails': callDetails,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (speakerSearchDetails != null)
+        'SpeakerSearchDetails': speakerSearchDetails,
+      if (speakerSearchTaskId != null)
+        'SpeakerSearchTaskId': speakerSearchTaskId,
+      if (speakerSearchTaskStatus != null)
+        'SpeakerSearchTaskStatus': speakerSearchTaskStatus,
+      if (startedTimestamp != null)
+        'StartedTimestamp': iso8601ToJson(startedTimestamp),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
+/// The details of a speaker search task.
+class SpeakerSearchDetails {
+  /// The result value in the speaker search details.
+  final List<SpeakerSearchResult>? results;
+
+  /// The status of a voice print generation operation,
+  /// <code>VoiceprintGenerationSuccess</code> or
+  /// <code>VoiceprintGenerationFailure</code>..
+  final String? voiceprintGenerationStatus;
+
+  SpeakerSearchDetails({
+    this.results,
+    this.voiceprintGenerationStatus,
+  });
+
+  factory SpeakerSearchDetails.fromJson(Map<String, dynamic> json) {
+    return SpeakerSearchDetails(
+      results: (json['Results'] as List?)
+          ?.nonNulls
+          .map((e) => SpeakerSearchResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      voiceprintGenerationStatus: json['VoiceprintGenerationStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final voiceprintGenerationStatus = this.voiceprintGenerationStatus;
+    return {
+      if (results != null) 'Results': results,
+      if (voiceprintGenerationStatus != null)
+        'VoiceprintGenerationStatus': voiceprintGenerationStatus,
+    };
+  }
+}
+
+/// The result of a speaker search analysis.
+class SpeakerSearchResult {
+  /// The confidence score in the speaker search analysis.
+  final double? confidenceScore;
+
+  /// The voice profile ID.
+  final String? voiceProfileId;
+
+  SpeakerSearchResult({
+    this.confidenceScore,
+    this.voiceProfileId,
+  });
+
+  factory SpeakerSearchResult.fromJson(Map<String, dynamic> json) {
+    return SpeakerSearchResult(
+      confidenceScore: json['ConfidenceScore'] as double?,
+      voiceProfileId: json['VoiceProfileId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidenceScore = this.confidenceScore;
+    final voiceProfileId = this.voiceProfileId;
+    return {
+      if (confidenceScore != null) 'ConfidenceScore': confidenceScore,
+      if (voiceProfileId != null) 'VoiceProfileId': voiceProfileId,
+    };
+  }
+}
+
+class CallLegType {
+  static const caller = CallLegType._('Caller');
+  static const callee = CallLegType._('Callee');
+
+  final String value;
+
+  const CallLegType._(this.value);
+
+  static const values = [caller, callee];
+
+  static CallLegType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CallLegType._(value));
+
+  @override
+  bool operator ==(other) => other is CallLegType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The SIP credentials used to authenticate requests to an Amazon Chime SDK
+/// Voice Connector.
+class Credential {
+  /// The RFC2617 compliant password associated with the SIP credentials, in
+  /// US-ASCII format.
+  final String? password;
+
+  /// The RFC2617 compliant user name associated with the SIP credentials, in
+  /// US-ASCII format.
+  final String? username;
+
+  Credential({
+    this.password,
+    this.username,
+  });
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      if (password != null) 'Password': password,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Termination settings enable SIP hosts to make outbound calls using an Amazon
+/// Chime SDK Voice Connector.
+class Termination {
+  /// The countries to which calls are allowed, in ISO 3166-1 alpha-2 format.
+  /// Required.
+  final List<String>? callingRegions;
+
+  /// The IP addresses allowed to make calls, in CIDR format.
+  final List<String>? cidrAllowedList;
+
+  /// The limit on calls per second. Max value based on account service quota.
+  /// Default value of 1.
+  final int? cpsLimit;
+
+  /// The default outbound calling number.
+  final String? defaultPhoneNumber;
+
+  /// When termination is disabled, outbound calls cannot be made.
+  final bool? disabled;
+
+  Termination({
+    this.callingRegions,
+    this.cidrAllowedList,
+    this.cpsLimit,
+    this.defaultPhoneNumber,
+    this.disabled,
+  });
+
+  factory Termination.fromJson(Map<String, dynamic> json) {
+    return Termination(
+      callingRegions: (json['CallingRegions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      cidrAllowedList: (json['CidrAllowedList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      cpsLimit: json['CpsLimit'] as int?,
+      defaultPhoneNumber: json['DefaultPhoneNumber'] as String?,
+      disabled: json['Disabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callingRegions = this.callingRegions;
+    final cidrAllowedList = this.cidrAllowedList;
+    final cpsLimit = this.cpsLimit;
+    final defaultPhoneNumber = this.defaultPhoneNumber;
+    final disabled = this.disabled;
+    return {
+      if (callingRegions != null) 'CallingRegions': callingRegions,
+      if (cidrAllowedList != null) 'CidrAllowedList': cidrAllowedList,
+      if (cpsLimit != null) 'CpsLimit': cpsLimit,
+      if (defaultPhoneNumber != null) 'DefaultPhoneNumber': defaultPhoneNumber,
+      if (disabled != null) 'Disabled': disabled,
+    };
+  }
+}
+
+/// The streaming configuration associated with an Amazon Chime SDK Voice
+/// Connector. Specifies whether media streaming is enabled for sending to
+/// Amazon Kinesis, and shows the retention period for the Amazon Kinesis data,
+/// in hours.
+class StreamingConfiguration {
+  /// The amount of time, in hours, to the Kinesis data.
+  final int dataRetentionInHours;
+
+  /// When true, streaming to Kinesis is off.
+  final bool disabled;
+
+  /// The call analytics configuration.
+  final MediaInsightsConfiguration? mediaInsightsConfiguration;
+
+  /// The streaming notification targets.
+  final List<StreamingNotificationTarget>? streamingNotificationTargets;
+
+  StreamingConfiguration({
+    required this.dataRetentionInHours,
+    required this.disabled,
+    this.mediaInsightsConfiguration,
+    this.streamingNotificationTargets,
+  });
+
+  factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
+    return StreamingConfiguration(
+      dataRetentionInHours: (json['DataRetentionInHours'] as int?) ?? 0,
+      disabled: (json['Disabled'] as bool?) ?? false,
+      mediaInsightsConfiguration: json['MediaInsightsConfiguration'] != null
+          ? MediaInsightsConfiguration.fromJson(
+              json['MediaInsightsConfiguration'] as Map<String, dynamic>)
+          : null,
+      streamingNotificationTargets: (json['StreamingNotificationTargets']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              StreamingNotificationTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataRetentionInHours = this.dataRetentionInHours;
+    final disabled = this.disabled;
+    final mediaInsightsConfiguration = this.mediaInsightsConfiguration;
+    final streamingNotificationTargets = this.streamingNotificationTargets;
+    return {
+      'DataRetentionInHours': dataRetentionInHours,
+      'Disabled': disabled,
+      if (mediaInsightsConfiguration != null)
+        'MediaInsightsConfiguration': mediaInsightsConfiguration,
+      if (streamingNotificationTargets != null)
+        'StreamingNotificationTargets': streamingNotificationTargets,
+    };
+  }
+}
+
+/// The configuration for a call analytics task.
+class MediaInsightsConfiguration {
+  /// The configuration's ARN.
+  final String? configurationArn;
+
+  /// Denotes the configuration as enabled or disabled.
+  final bool? disabled;
+
+  MediaInsightsConfiguration({
+    this.configurationArn,
+    this.disabled,
+  });
+
+  factory MediaInsightsConfiguration.fromJson(Map<String, dynamic> json) {
+    return MediaInsightsConfiguration(
+      configurationArn: json['ConfigurationArn'] as String?,
+      disabled: json['Disabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationArn = this.configurationArn;
+    final disabled = this.disabled;
+    return {
+      if (configurationArn != null) 'ConfigurationArn': configurationArn,
+      if (disabled != null) 'Disabled': disabled,
+    };
+  }
+}
+
+/// The target recipient for a streaming configuration notification.
+class StreamingNotificationTarget {
+  /// The streaming notification target.
+  final NotificationTarget? notificationTarget;
+
+  StreamingNotificationTarget({
+    this.notificationTarget,
+  });
+
+  factory StreamingNotificationTarget.fromJson(Map<String, dynamic> json) {
+    return StreamingNotificationTarget(
+      notificationTarget: (json['NotificationTarget'] as String?)
+          ?.let(NotificationTarget.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notificationTarget = this.notificationTarget;
+    return {
+      if (notificationTarget != null)
+        'NotificationTarget': notificationTarget.value,
+    };
+  }
+}
+
+class NotificationTarget {
+  static const eventBridge = NotificationTarget._('EventBridge');
+  static const sns = NotificationTarget._('SNS');
+  static const sqs = NotificationTarget._('SQS');
+
+  final String value;
+
+  const NotificationTarget._(this.value);
+
+  static const values = [eventBridge, sns, sqs];
+
+  static NotificationTarget fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationTarget._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The proxy configuration for an Amazon Chime SDK Voice Connector.
+class Proxy {
+  /// The default number of minutes allowed for proxy sessions.
+  final int? defaultSessionExpiryMinutes;
+
+  /// When true, stops proxy sessions from being created on the specified Amazon
+  /// Chime SDK Voice Connector.
+  final bool? disabled;
+
+  /// The phone number to route calls to after a proxy session expires.
+  final String? fallBackPhoneNumber;
+
+  /// The countries for proxy phone numbers to be selected from.
+  final List<String>? phoneNumberCountries;
+
+  Proxy({
+    this.defaultSessionExpiryMinutes,
+    this.disabled,
+    this.fallBackPhoneNumber,
+    this.phoneNumberCountries,
+  });
+
+  factory Proxy.fromJson(Map<String, dynamic> json) {
+    return Proxy(
+      defaultSessionExpiryMinutes: json['DefaultSessionExpiryMinutes'] as int?,
+      disabled: json['Disabled'] as bool?,
+      fallBackPhoneNumber: json['FallBackPhoneNumber'] as String?,
+      phoneNumberCountries: (json['PhoneNumberCountries'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultSessionExpiryMinutes = this.defaultSessionExpiryMinutes;
+    final disabled = this.disabled;
+    final fallBackPhoneNumber = this.fallBackPhoneNumber;
+    final phoneNumberCountries = this.phoneNumberCountries;
+    return {
+      if (defaultSessionExpiryMinutes != null)
+        'DefaultSessionExpiryMinutes': defaultSessionExpiryMinutes,
+      if (disabled != null) 'Disabled': disabled,
+      if (fallBackPhoneNumber != null)
+        'FallBackPhoneNumber': fallBackPhoneNumber,
+      if (phoneNumberCountries != null)
+        'PhoneNumberCountries': phoneNumberCountries,
+    };
+  }
+}
+
+/// Origination settings enable your SIP hosts to receive inbound calls using
+/// your Amazon Chime SDK Voice Connector.
+/// <note>
+/// The parameters listed below are not required, but you must use at least one.
+/// </note>
+class Origination {
+  /// When origination settings are disabled, inbound calls are not enabled for
+  /// your Amazon Chime SDK Voice Connector. This parameter is not required, but
+  /// you must specify this parameter or <code>Routes</code>.
+  final bool? disabled;
+
+  /// The call distribution properties defined for your SIP hosts. Valid range:
+  /// Minimum value of 1. Maximum value of 20. This parameter is not required, but
+  /// you must specify this parameter or <code>Disabled</code>.
+  final List<OriginationRoute>? routes;
+
+  Origination({
+    this.disabled,
+    this.routes,
+  });
+
+  factory Origination.fromJson(Map<String, dynamic> json) {
+    return Origination(
+      disabled: json['Disabled'] as bool?,
+      routes: (json['Routes'] as List?)
+          ?.nonNulls
+          .map((e) => OriginationRoute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disabled = this.disabled;
+    final routes = this.routes;
+    return {
+      if (disabled != null) 'Disabled': disabled,
+      if (routes != null) 'Routes': routes,
+    };
+  }
+}
+
+/// Origination routes define call distribution properties for your SIP hosts to
+/// receive inbound calls using an Amazon Chime SDK Voice Connector. Limit: Ten
+/// origination routes for each Voice Connector.
+/// <note>
+/// The parameters listed below are not required, but you must use at least one.
+/// </note>
+class OriginationRoute {
+  /// The FQDN or IP address to contact for origination traffic.
+  final String? host;
+
+  /// The designated origination route port. Defaults to 5060.
+  final int? port;
+
+  /// The priority associated with the host, with 1 being the highest priority.
+  /// Higher priority hosts are attempted first.
+  final int? priority;
+
+  /// The protocol to use for the origination route. Encryption-enabled Amazon
+  /// Chime SDK Voice Connectors use TCP protocol by default.
+  final OriginationRouteProtocol? protocol;
+
+  /// The weight assigned to an origination route. When hosts have equal priority,
+  /// calls are distributed between them based on their relative weights.
+  final int? weight;
+
+  OriginationRoute({
+    this.host,
+    this.port,
+    this.priority,
+    this.protocol,
+    this.weight,
+  });
+
+  factory OriginationRoute.fromJson(Map<String, dynamic> json) {
+    return OriginationRoute(
+      host: json['Host'] as String?,
+      port: json['Port'] as int?,
+      priority: json['Priority'] as int?,
+      protocol: (json['Protocol'] as String?)
+          ?.let(OriginationRouteProtocol.fromString),
+      weight: json['Weight'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final host = this.host;
+    final port = this.port;
+    final priority = this.priority;
+    final protocol = this.protocol;
+    final weight = this.weight;
+    return {
+      if (host != null) 'Host': host,
+      if (port != null) 'Port': port,
+      if (priority != null) 'Priority': priority,
+      if (protocol != null) 'Protocol': protocol.value,
+      if (weight != null) 'Weight': weight,
+    };
+  }
+}
+
+class OriginationRouteProtocol {
+  static const tcp = OriginationRouteProtocol._('TCP');
+  static const udp = OriginationRouteProtocol._('UDP');
+
+  final String value;
+
+  const OriginationRouteProtocol._(this.value);
+
+  static const values = [tcp, udp];
+
+  static OriginationRouteProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OriginationRouteProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OriginationRouteProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The logging configuration associated with an Amazon Chime SDK Voice
+/// Connector. Specifies whether SIP message logs can be sent to Amazon
+/// CloudWatch Logs.
+class LoggingConfiguration {
+  /// Enables or disables media metrics logging.
+  final bool? enableMediaMetricLogs;
+
+  /// Boolean that enables sending SIP message logs to Amazon CloudWatch.
+  final bool? enableSIPLogs;
+
+  LoggingConfiguration({
+    this.enableMediaMetricLogs,
+    this.enableSIPLogs,
+  });
+
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      enableMediaMetricLogs: json['EnableMediaMetricLogs'] as bool?,
+      enableSIPLogs: json['EnableSIPLogs'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableMediaMetricLogs = this.enableMediaMetricLogs;
+    final enableSIPLogs = this.enableSIPLogs;
+    return {
+      if (enableMediaMetricLogs != null)
+        'EnableMediaMetricLogs': enableMediaMetricLogs,
+      if (enableSIPLogs != null) 'EnableSIPLogs': enableSIPLogs,
+    };
+  }
+}
+
+/// Contains information about an external systems configuration for a Voice
+/// Connector.
+class ExternalSystemsConfiguration {
+  /// The contact center system.
+  final List<ContactCenterSystemType>? contactCenterSystemTypes;
+
+  /// The session border controllers.
+  final List<SessionBorderControllerType>? sessionBorderControllerTypes;
+
+  ExternalSystemsConfiguration({
+    this.contactCenterSystemTypes,
+    this.sessionBorderControllerTypes,
+  });
+
+  factory ExternalSystemsConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExternalSystemsConfiguration(
+      contactCenterSystemTypes: (json['ContactCenterSystemTypes'] as List?)
+          ?.nonNulls
+          .map((e) => ContactCenterSystemType.fromString((e as String)))
+          .toList(),
+      sessionBorderControllerTypes:
+          (json['SessionBorderControllerTypes'] as List?)
+              ?.nonNulls
+              .map((e) => SessionBorderControllerType.fromString((e as String)))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactCenterSystemTypes = this.contactCenterSystemTypes;
+    final sessionBorderControllerTypes = this.sessionBorderControllerTypes;
+    return {
+      if (contactCenterSystemTypes != null)
+        'ContactCenterSystemTypes':
+            contactCenterSystemTypes.map((e) => e.value).toList(),
+      if (sessionBorderControllerTypes != null)
+        'SessionBorderControllerTypes':
+            sessionBorderControllerTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class ContactCenterSystemType {
+  static const genesysEngageOnPremises =
+      ContactCenterSystemType._('GENESYS_ENGAGE_ON_PREMISES');
+  static const avayaAuraCallCenterElite =
+      ContactCenterSystemType._('AVAYA_AURA_CALL_CENTER_ELITE');
+  static const avayaAuraContactCenter =
+      ContactCenterSystemType._('AVAYA_AURA_CONTACT_CENTER');
+  static const ciscoUnifiedContactCenterEnterprise =
+      ContactCenterSystemType._('CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE');
+
+  final String value;
+
+  const ContactCenterSystemType._(this.value);
+
+  static const values = [
+    genesysEngageOnPremises,
+    avayaAuraCallCenterElite,
+    avayaAuraContactCenter,
+    ciscoUnifiedContactCenterEnterprise
+  ];
+
+  static ContactCenterSystemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContactCenterSystemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContactCenterSystemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SessionBorderControllerType {
+  static const ribbonSbc = SessionBorderControllerType._('RIBBON_SBC');
+  static const oracleAcmePacketSbc =
+      SessionBorderControllerType._('ORACLE_ACME_PACKET_SBC');
+  static const avayaSbce = SessionBorderControllerType._('AVAYA_SBCE');
+  static const ciscoUnifiedBorderElement =
+      SessionBorderControllerType._('CISCO_UNIFIED_BORDER_ELEMENT');
+  static const audiocodesMediantSbc =
+      SessionBorderControllerType._('AUDIOCODES_MEDIANT_SBC');
+
+  final String value;
+
+  const SessionBorderControllerType._(this.value);
+
+  static const values = [
+    ribbonSbc,
+    oracleAcmePacketSbc,
+    avayaSbce,
+    ciscoUnifiedBorderElement,
+    audiocodesMediantSbc
+  ];
+
+  static SessionBorderControllerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SessionBorderControllerType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SessionBorderControllerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The emergency calling configuration details associated with an Amazon Chime
+/// SDK Voice Connector.
+class EmergencyCallingConfiguration {
+  /// The Dialed Number Identification Service (DNIS) emergency calling
+  /// configuration details.
+  final List<DNISEmergencyCallingConfiguration>? dnis;
+
+  EmergencyCallingConfiguration({
+    this.dnis,
+  });
+
+  factory EmergencyCallingConfiguration.fromJson(Map<String, dynamic> json) {
+    return EmergencyCallingConfiguration(
+      dnis: (json['DNIS'] as List?)
+          ?.nonNulls
+          .map((e) => DNISEmergencyCallingConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dnis = this.dnis;
+    return {
+      if (dnis != null) 'DNIS': dnis,
+    };
+  }
+}
+
+/// The Dialed Number Identification Service (DNIS) emergency calling
+/// configuration details associated with an Amazon Chime SDK Voice Connector's
+/// emergency calling configuration.
+class DNISEmergencyCallingConfiguration {
+  /// The country from which emergency calls are allowed, in ISO 3166-1 alpha-2
+  /// format.
+  final String callingCountry;
+
+  /// The DNIS phone number that you route emergency calls to, in E.164 format.
+  final String emergencyPhoneNumber;
+
+  /// The DNIS phone number for routing test emergency calls to, in E.164 format.
+  final String? testPhoneNumber;
+
+  DNISEmergencyCallingConfiguration({
+    required this.callingCountry,
+    required this.emergencyPhoneNumber,
+    this.testPhoneNumber,
+  });
+
+  factory DNISEmergencyCallingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return DNISEmergencyCallingConfiguration(
+      callingCountry: (json['CallingCountry'] as String?) ?? '',
+      emergencyPhoneNumber: (json['EmergencyPhoneNumber'] as String?) ?? '',
+      testPhoneNumber: json['TestPhoneNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callingCountry = this.callingCountry;
+    final emergencyPhoneNumber = this.emergencyPhoneNumber;
+    final testPhoneNumber = this.testPhoneNumber;
+    return {
+      'CallingCountry': callingCountry,
+      'EmergencyPhoneNumber': emergencyPhoneNumber,
+      if (testPhoneNumber != null) 'TestPhoneNumber': testPhoneNumber,
+    };
+  }
+}
+
+/// The logging configuration of a SIP media application.
+class SipMediaApplicationLoggingConfiguration {
+  /// Enables message logging for the specified SIP media application.
+  final bool? enableSipMediaApplicationMessageLogs;
+
+  SipMediaApplicationLoggingConfiguration({
+    this.enableSipMediaApplicationMessageLogs,
+  });
+
+  factory SipMediaApplicationLoggingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SipMediaApplicationLoggingConfiguration(
+      enableSipMediaApplicationMessageLogs:
+          json['EnableSipMediaApplicationMessageLogs'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableSipMediaApplicationMessageLogs =
+        this.enableSipMediaApplicationMessageLogs;
+    return {
+      if (enableSipMediaApplicationMessageLogs != null)
+        'EnableSipMediaApplicationMessageLogs':
+            enableSipMediaApplicationMessageLogs,
+    };
+  }
+}
+
+/// The Alexa Skill configuration of a SIP media application.
+/// <important>
+/// Due to changes made by the Amazon Alexa service, this data type is no longer
+/// available for use. For more information, refer to the <a
+/// href="https://developer.amazon.com/en-US/alexa/alexasmartproperties">Alexa
+/// Smart Properties</a> page.
+/// </important>
+class SipMediaApplicationAlexaSkillConfiguration {
+  /// The ID of the Alexa Skill configuration.
+  final List<String> alexaSkillIds;
+
+  /// The status of the Alexa Skill configuration.
+  final AlexaSkillStatus alexaSkillStatus;
+
+  SipMediaApplicationAlexaSkillConfiguration({
+    required this.alexaSkillIds,
+    required this.alexaSkillStatus,
+  });
+
+  factory SipMediaApplicationAlexaSkillConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SipMediaApplicationAlexaSkillConfiguration(
+      alexaSkillIds: ((json['AlexaSkillIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      alexaSkillStatus: AlexaSkillStatus.fromString(
+          (json['AlexaSkillStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alexaSkillIds = this.alexaSkillIds;
+    final alexaSkillStatus = this.alexaSkillStatus;
+    return {
+      'AlexaSkillIds': alexaSkillIds,
+      'AlexaSkillStatus': alexaSkillStatus.value,
+    };
+  }
+}
+
+class AlexaSkillStatus {
+  static const active = AlexaSkillStatus._('ACTIVE');
+  static const inactive = AlexaSkillStatus._('INACTIVE');
+
+  final String value;
+
+  const AlexaSkillStatus._(this.value);
+
+  static const values = [active, inactive];
+
+  static AlexaSkillStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AlexaSkillStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AlexaSkillStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A high-level summary of a voice profile.
+class VoiceProfileSummary {
+  /// The time at which a voice profile summary was created.
+  final DateTime? createdTimestamp;
+
+  /// Extends the life of the voice profile. You can use
+  /// <code>UpdateVoiceProfile</code> to refresh an existing voice profile's voice
+  /// print and extend the life of the summary.
+  final DateTime? expirationTimestamp;
+
+  /// The time at which a voice profile summary was last updated.
+  final DateTime? updatedTimestamp;
+
+  /// The ARN of the voice profile in a voice profile summary.
+  final String? voiceProfileArn;
+
+  /// The ID of the voice profile domain in a voice profile summary.
+  final String? voiceProfileDomainId;
+
+  /// The ID of the voice profile in a voice profile summary.
+  final String? voiceProfileId;
+
+  VoiceProfileSummary({
+    this.createdTimestamp,
+    this.expirationTimestamp,
+    this.updatedTimestamp,
+    this.voiceProfileArn,
+    this.voiceProfileDomainId,
+    this.voiceProfileId,
+  });
+
+  factory VoiceProfileSummary.fromJson(Map<String, dynamic> json) {
+    return VoiceProfileSummary(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceProfileArn: json['VoiceProfileArn'] as String?,
+      voiceProfileDomainId: json['VoiceProfileDomainId'] as String?,
+      voiceProfileId: json['VoiceProfileId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final expirationTimestamp = this.expirationTimestamp;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceProfileArn = this.voiceProfileArn;
+    final voiceProfileDomainId = this.voiceProfileDomainId;
+    final voiceProfileId = this.voiceProfileId;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (expirationTimestamp != null)
+        'ExpirationTimestamp': iso8601ToJson(expirationTimestamp),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceProfileArn != null) 'VoiceProfileArn': voiceProfileArn,
+      if (voiceProfileDomainId != null)
+        'VoiceProfileDomainId': voiceProfileDomainId,
+      if (voiceProfileId != null) 'VoiceProfileId': voiceProfileId,
+    };
+  }
+}
+
+/// A high-level overview of a voice profile domain.
+class VoiceProfileDomainSummary {
+  /// The time at which the voice profile domain summary was created.
+  final DateTime? createdTimestamp;
+
+  /// Describes the voice profile domain summary.
+  final String? description;
+
+  /// The name of the voice profile domain summary.
+  final String? name;
+
+  /// The time at which the voice profile domain summary was last updated.
+  final DateTime? updatedTimestamp;
+
+  /// The ARN of a voice profile in a voice profile domain summary.
+  final String? voiceProfileDomainArn;
+
+  /// The ID of the voice profile domain summary.
+  final String? voiceProfileDomainId;
+
+  VoiceProfileDomainSummary({
+    this.createdTimestamp,
+    this.description,
+    this.name,
+    this.updatedTimestamp,
+    this.voiceProfileDomainArn,
+    this.voiceProfileDomainId,
+  });
+
+  factory VoiceProfileDomainSummary.fromJson(Map<String, dynamic> json) {
+    return VoiceProfileDomainSummary(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceProfileDomainArn: json['VoiceProfileDomainArn'] as String?,
+      voiceProfileDomainId: json['VoiceProfileDomainId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final description = this.description;
+    final name = this.name;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceProfileDomainArn = this.voiceProfileDomainArn;
+    final voiceProfileDomainId = this.voiceProfileDomainId;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceProfileDomainArn != null)
+        'VoiceProfileDomainArn': voiceProfileDomainArn,
+      if (voiceProfileDomainId != null)
+        'VoiceProfileDomainId': voiceProfileDomainId,
+    };
+  }
+}
+
+/// The phone number's country.
+class PhoneNumberCountry {
+  /// The phone number country code. Format: ISO 3166-1 alpha-2.
+  final String? countryCode;
+
+  /// The supported phone number types.
+  final List<PhoneNumberType>? supportedPhoneNumberTypes;
+
+  PhoneNumberCountry({
+    this.countryCode,
+    this.supportedPhoneNumberTypes,
+  });
+
+  factory PhoneNumberCountry.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberCountry(
+      countryCode: json['CountryCode'] as String?,
+      supportedPhoneNumberTypes: (json['SupportedPhoneNumberTypes'] as List?)
+          ?.nonNulls
+          .map((e) => PhoneNumberType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final countryCode = this.countryCode;
+    final supportedPhoneNumberTypes = this.supportedPhoneNumberTypes;
+    return {
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (supportedPhoneNumberTypes != null)
+        'SupportedPhoneNumberTypes':
+            supportedPhoneNumberTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// The details of an Amazon Chime SDK phone number order.
+class PhoneNumberOrder {
+  /// The phone number order creation time stamp, in ISO 8601 format.
+  final DateTime? createdTimestamp;
+
+  /// The Firm Order Commitment (FOC) date for phone number porting orders. This
+  /// field is null if a phone number order is not a porting order.
+  final DateTime? focDate;
+
+  /// The type of phone number being ordered, local or toll-free.
+  final PhoneNumberOrderType? orderType;
+
+  /// The ordered phone number details, such as the phone number in E.164 format
+  /// and the phone number status.
+  final List<OrderedPhoneNumber>? orderedPhoneNumbers;
+
+  /// The ID of the phone order.
+  final String? phoneNumberOrderId;
+
+  /// The phone number order product type.
+  final PhoneNumberProductType? productType;
+
+  /// The status of the phone number order.
+  final PhoneNumberOrderStatus? status;
+
+  /// The updated phone number order time stamp, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
+
+  PhoneNumberOrder({
+    this.createdTimestamp,
+    this.focDate,
+    this.orderType,
+    this.orderedPhoneNumbers,
+    this.phoneNumberOrderId,
+    this.productType,
+    this.status,
+    this.updatedTimestamp,
+  });
+
+  factory PhoneNumberOrder.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberOrder(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      focDate: timeStampFromJson(json['FocDate']),
+      orderType:
+          (json['OrderType'] as String?)?.let(PhoneNumberOrderType.fromString),
+      orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List?)
+          ?.nonNulls
+          .map((e) => OrderedPhoneNumber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      phoneNumberOrderId: json['PhoneNumberOrderId'] as String?,
+      productType: (json['ProductType'] as String?)
+          ?.let(PhoneNumberProductType.fromString),
+      status:
+          (json['Status'] as String?)?.let(PhoneNumberOrderStatus.fromString),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final focDate = this.focDate;
+    final orderType = this.orderType;
+    final orderedPhoneNumbers = this.orderedPhoneNumbers;
+    final phoneNumberOrderId = this.phoneNumberOrderId;
+    final productType = this.productType;
+    final status = this.status;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (focDate != null) 'FocDate': iso8601ToJson(focDate),
+      if (orderType != null) 'OrderType': orderType.value,
+      if (orderedPhoneNumbers != null)
+        'OrderedPhoneNumbers': orderedPhoneNumbers,
+      if (phoneNumberOrderId != null) 'PhoneNumberOrderId': phoneNumberOrderId,
+      if (productType != null) 'ProductType': productType.value,
+      if (status != null) 'Status': status.value,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
+class PhoneNumberOrderStatus {
+  static const processing = PhoneNumberOrderStatus._('Processing');
+  static const successful = PhoneNumberOrderStatus._('Successful');
+  static const failed = PhoneNumberOrderStatus._('Failed');
+  static const partial = PhoneNumberOrderStatus._('Partial');
+  static const pendingDocuments = PhoneNumberOrderStatus._('PendingDocuments');
+  static const submitted = PhoneNumberOrderStatus._('Submitted');
+  static const foc = PhoneNumberOrderStatus._('FOC');
+  static const changeRequested = PhoneNumberOrderStatus._('ChangeRequested');
+  static const exception = PhoneNumberOrderStatus._('Exception');
+  static const cancelRequested = PhoneNumberOrderStatus._('CancelRequested');
+  static const cancelled = PhoneNumberOrderStatus._('Cancelled');
+
+  final String value;
+
+  const PhoneNumberOrderStatus._(this.value);
+
+  static const values = [
+    processing,
+    successful,
+    failed,
+    partial,
+    pendingDocuments,
+    submitted,
+    foc,
+    changeRequested,
+    exception,
+    cancelRequested,
+    cancelled
+  ];
+
+  static PhoneNumberOrderStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhoneNumberOrderStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberOrderStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PhoneNumberOrderType {
+  static const $new = PhoneNumberOrderType._('New');
+  static const porting = PhoneNumberOrderType._('Porting');
+
+  final String value;
+
+  const PhoneNumberOrderType._(this.value);
+
+  static const values = [$new, porting];
+
+  static PhoneNumberOrderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PhoneNumberOrderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PhoneNumberOrderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A phone number for which an order has been placed.
+class OrderedPhoneNumber {
+  /// The phone number, in E.164 format.
+  final String? e164PhoneNumber;
+
+  /// The phone number status.
+  final OrderedPhoneNumberStatus? status;
+
+  OrderedPhoneNumber({
+    this.e164PhoneNumber,
+    this.status,
+  });
+
+  factory OrderedPhoneNumber.fromJson(Map<String, dynamic> json) {
+    return OrderedPhoneNumber(
+      e164PhoneNumber: json['E164PhoneNumber'] as String?,
+      status:
+          (json['Status'] as String?)?.let(OrderedPhoneNumberStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final e164PhoneNumber = this.e164PhoneNumber;
+    final status = this.status;
+    return {
+      if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class OrderedPhoneNumberStatus {
+  static const processing = OrderedPhoneNumberStatus._('Processing');
+  static const acquired = OrderedPhoneNumberStatus._('Acquired');
+  static const failed = OrderedPhoneNumberStatus._('Failed');
+
+  final String value;
+
+  const OrderedPhoneNumberStatus._(this.value);
+
+  static const values = [processing, acquired, failed];
+
+  static OrderedPhoneNumberStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrderedPhoneNumberStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrderedPhoneNumberStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The termination health details, including the source IP address and
+/// timestamp of the last successful <code>SIP OPTIONS</code> message from your
+/// SIP infrastructure.
+class TerminationHealth {
+  /// The source IP address.
+  final String? source;
+
+  /// The timestamp, in ISO 8601 format.
+  final DateTime? timestamp;
+
+  TerminationHealth({
+    this.source,
+    this.timestamp,
+  });
+
+  factory TerminationHealth.fromJson(Map<String, dynamic> json) {
+    return TerminationHealth(
+      source: json['Source'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final timestamp = this.timestamp;
+    return {
+      if (source != null) 'Source': source,
+      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
+    };
+  }
+}
+
+/// If a phone number action fails for one or more of the phone numbers in a
+/// request, a list of the failed phone numbers is returned, along with error
+/// codes and error messages.
+class PhoneNumberError {
+  /// The error code.
+  final ErrorCode? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  /// The phone number ID for which the action failed.
+  final String? phoneNumberId;
+
+  PhoneNumberError({
+    this.errorCode,
+    this.errorMessage,
+    this.phoneNumberId,
+  });
+
+  factory PhoneNumberError.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberError(
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+      phoneNumberId: json['PhoneNumberId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final phoneNumberId = this.phoneNumberId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
+    };
+  }
+}
+
+/// The phone number ID, product type, or calling name fields to update, used
+/// with the <a>BatchUpdatePhoneNumber</a> and <a>UpdatePhoneNumber</a> actions.
+class UpdatePhoneNumberRequestItem {
+  /// The phone number ID to update.
+  final String phoneNumberId;
+
+  /// The outbound calling name to update.
+  final String? callingName;
+
+  /// The name of the phone number.
+  final String? name;
+
+  /// The product type to update.
+  final PhoneNumberProductType? productType;
+
+  UpdatePhoneNumberRequestItem({
+    required this.phoneNumberId,
+    this.callingName,
+    this.name,
+    this.productType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberId = this.phoneNumberId;
+    final callingName = this.callingName;
+    final name = this.name;
+    final productType = this.productType;
+    return {
+      'PhoneNumberId': phoneNumberId,
+      if (callingName != null) 'CallingName': callingName,
+      if (name != null) 'Name': name,
+      if (productType != null) 'ProductType': productType.value,
     };
   }
 }

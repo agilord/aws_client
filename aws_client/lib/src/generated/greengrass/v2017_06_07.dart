@@ -39,7 +39,6 @@ class Greengrass {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'greengrass',
-            signingName: 'greengrass',
           ),
           region: region,
           credentials: credentials,
@@ -1732,6 +1731,32 @@ class Greengrass {
     return ListBulkDeploymentsResponse.fromJson(response);
   }
 
+  /// Retrieves a list of connector definitions.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  Future<ListConnectorDefinitionsResponse> listConnectorDefinitions({
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/greengrass/definition/connectors',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListConnectorDefinitionsResponse.fromJson(response);
+  }
+
   /// Lists the versions of a connector definition, which are containers for
   /// connectors. Connectors run on the Greengrass core and contain built-in
   /// integration with local infrastructure, device protocols, AWS, and other
@@ -1769,7 +1794,7 @@ class Greengrass {
     return ListConnectorDefinitionVersionsResponse.fromJson(response);
   }
 
-  /// Retrieves a list of connector definitions.
+  /// Retrieves a list of core definitions.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -1777,7 +1802,7 @@ class Greengrass {
   /// Parameter [nextToken] :
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  Future<ListConnectorDefinitionsResponse> listConnectorDefinitions({
+  Future<ListCoreDefinitionsResponse> listCoreDefinitions({
     String? maxResults,
     String? nextToken,
   }) async {
@@ -1788,11 +1813,11 @@ class Greengrass {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/connectors',
+      requestUri: '/greengrass/definition/cores',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return ListConnectorDefinitionsResponse.fromJson(response);
+    return ListCoreDefinitionsResponse.fromJson(response);
   }
 
   /// Lists the versions of a core definition.
@@ -1828,32 +1853,6 @@ class Greengrass {
     return ListCoreDefinitionVersionsResponse.fromJson(response);
   }
 
-  /// Retrieves a list of core definitions.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to be returned per request.
-  ///
-  /// Parameter [nextToken] :
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  Future<ListCoreDefinitionsResponse> listCoreDefinitions({
-    String? maxResults,
-    String? nextToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'MaxResults': [maxResults],
-      if (nextToken != null) 'NextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/greengrass/definition/cores',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListCoreDefinitionsResponse.fromJson(response);
-  }
-
   /// Returns a history of deployments for the group.
   ///
   /// May throw [BadRequestException].
@@ -1885,6 +1884,32 @@ class Greengrass {
       exceptionFnMap: _exceptionFns,
     );
     return ListDeploymentsResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of device definitions.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  Future<ListDeviceDefinitionsResponse> listDeviceDefinitions({
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/greengrass/definition/devices',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDeviceDefinitionsResponse.fromJson(response);
   }
 
   /// Lists the versions of a device definition.
@@ -1920,7 +1945,7 @@ class Greengrass {
     return ListDeviceDefinitionVersionsResponse.fromJson(response);
   }
 
-  /// Retrieves a list of device definitions.
+  /// Retrieves a list of Lambda function definitions.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -1928,7 +1953,7 @@ class Greengrass {
   /// Parameter [nextToken] :
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  Future<ListDeviceDefinitionsResponse> listDeviceDefinitions({
+  Future<ListFunctionDefinitionsResponse> listFunctionDefinitions({
     String? maxResults,
     String? nextToken,
   }) async {
@@ -1939,11 +1964,11 @@ class Greengrass {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/devices',
+      requestUri: '/greengrass/definition/functions',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return ListDeviceDefinitionsResponse.fromJson(response);
+    return ListFunctionDefinitionsResponse.fromJson(response);
   }
 
   /// Lists the versions of a Lambda function definition.
@@ -1980,32 +2005,6 @@ class Greengrass {
     return ListFunctionDefinitionVersionsResponse.fromJson(response);
   }
 
-  /// Retrieves a list of Lambda function definitions.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to be returned per request.
-  ///
-  /// Parameter [nextToken] :
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  Future<ListFunctionDefinitionsResponse> listFunctionDefinitions({
-    String? maxResults,
-    String? nextToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'MaxResults': [maxResults],
-      if (nextToken != null) 'NextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/greengrass/definition/functions',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListFunctionDefinitionsResponse.fromJson(response);
-  }
-
   /// Retrieves the current CAs for a group.
   ///
   /// May throw [BadRequestException].
@@ -2025,6 +2024,32 @@ class Greengrass {
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupCertificateAuthoritiesResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of groups.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  Future<ListGroupsResponse> listGroups({
+    String? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/greengrass/groups',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListGroupsResponse.fromJson(response);
   }
 
   /// Lists the versions of a group.
@@ -2059,7 +2084,7 @@ class Greengrass {
     return ListGroupVersionsResponse.fromJson(response);
   }
 
-  /// Retrieves a list of groups.
+  /// Retrieves a list of logger definitions.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -2067,7 +2092,7 @@ class Greengrass {
   /// Parameter [nextToken] :
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  Future<ListGroupsResponse> listGroups({
+  Future<ListLoggerDefinitionsResponse> listLoggerDefinitions({
     String? maxResults,
     String? nextToken,
   }) async {
@@ -2078,11 +2103,11 @@ class Greengrass {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/groups',
+      requestUri: '/greengrass/definition/loggers',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return ListGroupsResponse.fromJson(response);
+    return ListLoggerDefinitionsResponse.fromJson(response);
   }
 
   /// Lists the versions of a logger definition.
@@ -2118,7 +2143,7 @@ class Greengrass {
     return ListLoggerDefinitionVersionsResponse.fromJson(response);
   }
 
-  /// Retrieves a list of logger definitions.
+  /// Retrieves a list of resource definitions.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -2126,7 +2151,7 @@ class Greengrass {
   /// Parameter [nextToken] :
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  Future<ListLoggerDefinitionsResponse> listLoggerDefinitions({
+  Future<ListResourceDefinitionsResponse> listResourceDefinitions({
     String? maxResults,
     String? nextToken,
   }) async {
@@ -2137,11 +2162,11 @@ class Greengrass {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/loggers',
+      requestUri: '/greengrass/definition/resources',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return ListLoggerDefinitionsResponse.fromJson(response);
+    return ListResourceDefinitionsResponse.fromJson(response);
   }
 
   /// Lists the versions of a resource definition.
@@ -2178,7 +2203,7 @@ class Greengrass {
     return ListResourceDefinitionVersionsResponse.fromJson(response);
   }
 
-  /// Retrieves a list of resource definitions.
+  /// Retrieves a list of subscription definitions.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
@@ -2186,7 +2211,7 @@ class Greengrass {
   /// Parameter [nextToken] :
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  Future<ListResourceDefinitionsResponse> listResourceDefinitions({
+  Future<ListSubscriptionDefinitionsResponse> listSubscriptionDefinitions({
     String? maxResults,
     String? nextToken,
   }) async {
@@ -2197,11 +2222,11 @@ class Greengrass {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/greengrass/definition/resources',
+      requestUri: '/greengrass/definition/subscriptions',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return ListResourceDefinitionsResponse.fromJson(response);
+    return ListSubscriptionDefinitionsResponse.fromJson(response);
   }
 
   /// Lists the versions of a subscription definition.
@@ -2236,32 +2261,6 @@ class Greengrass {
       exceptionFnMap: _exceptionFns,
     );
     return ListSubscriptionDefinitionVersionsResponse.fromJson(response);
-  }
-
-  /// Retrieves a list of subscription definitions.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to be returned per request.
-  ///
-  /// Parameter [nextToken] :
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  Future<ListSubscriptionDefinitionsResponse> listSubscriptionDefinitions({
-    String? maxResults,
-    String? nextToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'MaxResults': [maxResults],
-      if (nextToken != null) 'NextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/greengrass/definition/subscriptions',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListSubscriptionDefinitionsResponse.fromJson(response);
   }
 
   /// Retrieves a list of resource tags for a resource arn.
@@ -2773,415 +2772,6 @@ class AssociateServiceRoleToAccountResponse {
   }
 }
 
-/// Information about a bulk deployment. You cannot start a new bulk deployment
-/// while another one is still running or in a non-terminal state.
-class BulkDeployment {
-  /// The ARN of the bulk deployment.
-  final String? bulkDeploymentArn;
-
-  /// The ID of the bulk deployment.
-  final String? bulkDeploymentId;
-
-  /// The time, in ISO format, when the deployment was created.
-  final String? createdAt;
-
-  BulkDeployment({
-    this.bulkDeploymentArn,
-    this.bulkDeploymentId,
-    this.createdAt,
-  });
-
-  factory BulkDeployment.fromJson(Map<String, dynamic> json) {
-    return BulkDeployment(
-      bulkDeploymentArn: json['BulkDeploymentArn'] as String?,
-      bulkDeploymentId: json['BulkDeploymentId'] as String?,
-      createdAt: json['CreatedAt'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bulkDeploymentArn = this.bulkDeploymentArn;
-    final bulkDeploymentId = this.bulkDeploymentId;
-    final createdAt = this.createdAt;
-    return {
-      if (bulkDeploymentArn != null) 'BulkDeploymentArn': bulkDeploymentArn,
-      if (bulkDeploymentId != null) 'BulkDeploymentId': bulkDeploymentId,
-      if (createdAt != null) 'CreatedAt': createdAt,
-    };
-  }
-}
-
-/// Relevant metrics on input records processed during bulk deployment.
-class BulkDeploymentMetrics {
-  /// The total number of records that returned a non-retryable error. For
-  /// example, this can occur if a group record from the input file uses an
-  /// invalid format or specifies a nonexistent group version, or if the execution
-  /// role doesn't grant permission to deploy a group or group version.
-  final int? invalidInputRecords;
-
-  /// The total number of group records from the input file that have been
-  /// processed so far, or attempted.
-  final int? recordsProcessed;
-
-  /// The total number of deployment attempts that returned a retryable error. For
-  /// example, a retry is triggered if the attempt to deploy a group returns a
-  /// throttling error. ''StartBulkDeployment'' retries a group deployment up to
-  /// five times.
-  final int? retryAttempts;
-
-  BulkDeploymentMetrics({
-    this.invalidInputRecords,
-    this.recordsProcessed,
-    this.retryAttempts,
-  });
-
-  factory BulkDeploymentMetrics.fromJson(Map<String, dynamic> json) {
-    return BulkDeploymentMetrics(
-      invalidInputRecords: json['InvalidInputRecords'] as int?,
-      recordsProcessed: json['RecordsProcessed'] as int?,
-      retryAttempts: json['RetryAttempts'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final invalidInputRecords = this.invalidInputRecords;
-    final recordsProcessed = this.recordsProcessed;
-    final retryAttempts = this.retryAttempts;
-    return {
-      if (invalidInputRecords != null)
-        'InvalidInputRecords': invalidInputRecords,
-      if (recordsProcessed != null) 'RecordsProcessed': recordsProcessed,
-      if (retryAttempts != null) 'RetryAttempts': retryAttempts,
-    };
-  }
-}
-
-/// Information about an individual group deployment in a bulk deployment
-/// operation.
-class BulkDeploymentResult {
-  /// The time, in ISO format, when the deployment was created.
-  final String? createdAt;
-
-  /// The ARN of the group deployment.
-  final String? deploymentArn;
-
-  /// The ID of the group deployment.
-  final String? deploymentId;
-
-  /// The current status of the group deployment: ''InProgress'', ''Building'',
-  /// ''Success'', or ''Failure''.
-  final String? deploymentStatus;
-
-  /// The type of the deployment.
-  final DeploymentType? deploymentType;
-
-  /// Details about the error.
-  final List<ErrorDetail>? errorDetails;
-
-  /// The error message for a failed deployment
-  final String? errorMessage;
-
-  /// The ARN of the Greengrass group.
-  final String? groupArn;
-
-  BulkDeploymentResult({
-    this.createdAt,
-    this.deploymentArn,
-    this.deploymentId,
-    this.deploymentStatus,
-    this.deploymentType,
-    this.errorDetails,
-    this.errorMessage,
-    this.groupArn,
-  });
-
-  factory BulkDeploymentResult.fromJson(Map<String, dynamic> json) {
-    return BulkDeploymentResult(
-      createdAt: json['CreatedAt'] as String?,
-      deploymentArn: json['DeploymentArn'] as String?,
-      deploymentId: json['DeploymentId'] as String?,
-      deploymentStatus: json['DeploymentStatus'] as String?,
-      deploymentType:
-          (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
-      errorDetails: (json['ErrorDetails'] as List?)
-          ?.nonNulls
-          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      errorMessage: json['ErrorMessage'] as String?,
-      groupArn: json['GroupArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final deploymentArn = this.deploymentArn;
-    final deploymentId = this.deploymentId;
-    final deploymentStatus = this.deploymentStatus;
-    final deploymentType = this.deploymentType;
-    final errorDetails = this.errorDetails;
-    final errorMessage = this.errorMessage;
-    final groupArn = this.groupArn;
-    return {
-      if (createdAt != null) 'CreatedAt': createdAt,
-      if (deploymentArn != null) 'DeploymentArn': deploymentArn,
-      if (deploymentId != null) 'DeploymentId': deploymentId,
-      if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
-      if (deploymentType != null) 'DeploymentType': deploymentType.value,
-      if (errorDetails != null) 'ErrorDetails': errorDetails,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (groupArn != null) 'GroupArn': groupArn,
-    };
-  }
-}
-
-/// The current status of the bulk deployment.
-class BulkDeploymentStatus {
-  static const initializing = BulkDeploymentStatus._('Initializing');
-  static const running = BulkDeploymentStatus._('Running');
-  static const completed = BulkDeploymentStatus._('Completed');
-  static const stopping = BulkDeploymentStatus._('Stopping');
-  static const stopped = BulkDeploymentStatus._('Stopped');
-  static const failed = BulkDeploymentStatus._('Failed');
-
-  final String value;
-
-  const BulkDeploymentStatus._(this.value);
-
-  static const values = [
-    initializing,
-    running,
-    completed,
-    stopping,
-    stopped,
-    failed
-  ];
-
-  static BulkDeploymentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BulkDeploymentStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BulkDeploymentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ConfigurationSyncStatus {
-  static const inSync = ConfigurationSyncStatus._('InSync');
-  static const outOfSync = ConfigurationSyncStatus._('OutOfSync');
-
-  final String value;
-
-  const ConfigurationSyncStatus._(this.value);
-
-  static const values = [inSync, outOfSync];
-
-  static ConfigurationSyncStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigurationSyncStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigurationSyncStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a Greengrass core's connectivity.
-class ConnectivityInfo {
-  /// The endpoint for the Greengrass core. Can be an IP address or DNS.
-  final String? hostAddress;
-
-  /// The ID of the connectivity information.
-  final String? id;
-
-  /// Metadata for this endpoint.
-  final String? metadata;
-
-  /// The port of the Greengrass core. Usually 8883.
-  final int? portNumber;
-
-  ConnectivityInfo({
-    this.hostAddress,
-    this.id,
-    this.metadata,
-    this.portNumber,
-  });
-
-  factory ConnectivityInfo.fromJson(Map<String, dynamic> json) {
-    return ConnectivityInfo(
-      hostAddress: json['HostAddress'] as String?,
-      id: json['Id'] as String?,
-      metadata: json['Metadata'] as String?,
-      portNumber: json['PortNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostAddress = this.hostAddress;
-    final id = this.id;
-    final metadata = this.metadata;
-    final portNumber = this.portNumber;
-    return {
-      if (hostAddress != null) 'HostAddress': hostAddress,
-      if (id != null) 'Id': id,
-      if (metadata != null) 'Metadata': metadata,
-      if (portNumber != null) 'PortNumber': portNumber,
-    };
-  }
-}
-
-/// Information about a connector. Connectors run on the Greengrass core and
-/// contain built-in integration with local infrastructure, device protocols,
-/// AWS, and other cloud services.
-class Connector {
-  /// The ARN of the connector.
-  final String connectorArn;
-
-  /// A descriptive or arbitrary ID for the connector. This value must be unique
-  /// within the connector definition version. Max length is 128 characters with
-  /// pattern [a-zA-Z0-9:_-]+.
-  final String id;
-
-  /// The parameters or configuration that the connector uses.
-  final Map<String, String>? parameters;
-
-  Connector({
-    required this.connectorArn,
-    required this.id,
-    this.parameters,
-  });
-
-  factory Connector.fromJson(Map<String, dynamic> json) {
-    return Connector(
-      connectorArn: (json['ConnectorArn'] as String?) ?? '',
-      id: (json['Id'] as String?) ?? '',
-      parameters: (json['Parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorArn = this.connectorArn;
-    final id = this.id;
-    final parameters = this.parameters;
-    return {
-      'ConnectorArn': connectorArn,
-      'Id': id,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// Information about the connector definition version, which is a container for
-/// connectors.
-class ConnectorDefinitionVersion {
-  /// A list of references to connectors in this version, with their corresponding
-  /// configuration settings.
-  final List<Connector>? connectors;
-
-  ConnectorDefinitionVersion({
-    this.connectors,
-  });
-
-  factory ConnectorDefinitionVersion.fromJson(Map<String, dynamic> json) {
-    return ConnectorDefinitionVersion(
-      connectors: (json['Connectors'] as List?)
-          ?.nonNulls
-          .map((e) => Connector.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectors = this.connectors;
-    return {
-      if (connectors != null) 'Connectors': connectors,
-    };
-  }
-}
-
-/// Information about a core.
-class Core {
-  /// The ARN of the certificate associated with the core.
-  final String certificateArn;
-
-  /// A descriptive or arbitrary ID for the core. This value must be unique within
-  /// the core definition version. Max length is 128 characters with pattern
-  /// ''[a-zA-Z0-9:_-]+''.
-  final String id;
-
-  /// The ARN of the thing which is the core.
-  final String thingArn;
-
-  /// If true, the core's local shadow is automatically synced with the cloud.
-  final bool? syncShadow;
-
-  Core({
-    required this.certificateArn,
-    required this.id,
-    required this.thingArn,
-    this.syncShadow,
-  });
-
-  factory Core.fromJson(Map<String, dynamic> json) {
-    return Core(
-      certificateArn: (json['CertificateArn'] as String?) ?? '',
-      id: (json['Id'] as String?) ?? '',
-      thingArn: (json['ThingArn'] as String?) ?? '',
-      syncShadow: json['SyncShadow'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final id = this.id;
-    final thingArn = this.thingArn;
-    final syncShadow = this.syncShadow;
-    return {
-      'CertificateArn': certificateArn,
-      'Id': id,
-      'ThingArn': thingArn,
-      if (syncShadow != null) 'SyncShadow': syncShadow,
-    };
-  }
-}
-
-/// Information about a core definition version.
-class CoreDefinitionVersion {
-  /// A list of cores in the core definition version.
-  final List<Core>? cores;
-
-  CoreDefinitionVersion({
-    this.cores,
-  });
-
-  factory CoreDefinitionVersion.fromJson(Map<String, dynamic> json) {
-    return CoreDefinitionVersion(
-      cores: (json['Cores'] as List?)
-          ?.nonNulls
-          .map((e) => Core.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cores = this.cores;
-    return {
-      if (cores != null) 'Cores': cores,
-    };
-  }
-}
-
 class CreateConnectorDefinitionResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -3652,31 +3242,6 @@ class CreateFunctionDefinitionVersionResponse {
   }
 }
 
-class CreateGroupCertificateAuthorityResponse {
-  /// The ARN of the group certificate authority.
-  final String? groupCertificateAuthorityArn;
-
-  CreateGroupCertificateAuthorityResponse({
-    this.groupCertificateAuthorityArn,
-  });
-
-  factory CreateGroupCertificateAuthorityResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateGroupCertificateAuthorityResponse(
-      groupCertificateAuthorityArn:
-          json['GroupCertificateAuthorityArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupCertificateAuthorityArn = this.groupCertificateAuthorityArn;
-    return {
-      if (groupCertificateAuthorityArn != null)
-        'GroupCertificateAuthorityArn': groupCertificateAuthorityArn,
-    };
-  }
-}
-
 class CreateGroupResponse {
   /// The ARN of the definition.
   final String? arn;
@@ -3739,6 +3304,31 @@ class CreateGroupResponse {
       if (latestVersion != null) 'LatestVersion': latestVersion,
       if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
       if (name != null) 'Name': name,
+    };
+  }
+}
+
+class CreateGroupCertificateAuthorityResponse {
+  /// The ARN of the group certificate authority.
+  final String? groupCertificateAuthorityArn;
+
+  CreateGroupCertificateAuthorityResponse({
+    this.groupCertificateAuthorityArn,
+  });
+
+  factory CreateGroupCertificateAuthorityResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateGroupCertificateAuthorityResponse(
+      groupCertificateAuthorityArn:
+          json['GroupCertificateAuthorityArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupCertificateAuthorityArn = this.groupCertificateAuthorityArn;
+    return {
+      if (groupCertificateAuthorityArn != null)
+        'GroupCertificateAuthorityArn': groupCertificateAuthorityArn,
     };
   }
 }
@@ -4154,81 +3744,6 @@ class CreateSubscriptionDefinitionVersionResponse {
   }
 }
 
-/// Information about a definition.
-class DefinitionInformation {
-  /// The ARN of the definition.
-  final String? arn;
-
-  /// The time, in milliseconds since the epoch, when the definition was created.
-  final String? creationTimestamp;
-
-  /// The ID of the definition.
-  final String? id;
-
-  /// The time, in milliseconds since the epoch, when the definition was last
-  /// updated.
-  final String? lastUpdatedTimestamp;
-
-  /// The ID of the latest version associated with the definition.
-  final String? latestVersion;
-
-  /// The ARN of the latest version associated with the definition.
-  final String? latestVersionArn;
-
-  /// The name of the definition.
-  final String? name;
-
-  /// Tag(s) attached to the resource arn.
-  final Map<String, String>? tags;
-
-  DefinitionInformation({
-    this.arn,
-    this.creationTimestamp,
-    this.id,
-    this.lastUpdatedTimestamp,
-    this.latestVersion,
-    this.latestVersionArn,
-    this.name,
-    this.tags,
-  });
-
-  factory DefinitionInformation.fromJson(Map<String, dynamic> json) {
-    return DefinitionInformation(
-      arn: json['Arn'] as String?,
-      creationTimestamp: json['CreationTimestamp'] as String?,
-      id: json['Id'] as String?,
-      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
-      latestVersion: json['LatestVersion'] as String?,
-      latestVersionArn: json['LatestVersionArn'] as String?,
-      name: json['Name'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTimestamp = this.creationTimestamp;
-    final id = this.id;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final latestVersion = this.latestVersion;
-    final latestVersionArn = this.latestVersionArn;
-    final name = this.name;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
-      if (id != null) 'Id': id,
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': lastUpdatedTimestamp,
-      if (latestVersion != null) 'LatestVersion': latestVersion,
-      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
 class DeleteConnectorDefinitionResponse {
   DeleteConnectorDefinitionResponse();
 
@@ -4326,164 +3841,6 @@ class DeleteSubscriptionDefinitionResponse {
   }
 }
 
-/// Information about a deployment.
-class Deployment {
-  /// The time, in milliseconds since the epoch, when the deployment was created.
-  final String? createdAt;
-
-  /// The ARN of the deployment.
-  final String? deploymentArn;
-
-  /// The ID of the deployment.
-  final String? deploymentId;
-
-  /// The type of the deployment.
-  final DeploymentType? deploymentType;
-
-  /// The ARN of the group for this deployment.
-  final String? groupArn;
-
-  Deployment({
-    this.createdAt,
-    this.deploymentArn,
-    this.deploymentId,
-    this.deploymentType,
-    this.groupArn,
-  });
-
-  factory Deployment.fromJson(Map<String, dynamic> json) {
-    return Deployment(
-      createdAt: json['CreatedAt'] as String?,
-      deploymentArn: json['DeploymentArn'] as String?,
-      deploymentId: json['DeploymentId'] as String?,
-      deploymentType:
-          (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
-      groupArn: json['GroupArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final deploymentArn = this.deploymentArn;
-    final deploymentId = this.deploymentId;
-    final deploymentType = this.deploymentType;
-    final groupArn = this.groupArn;
-    return {
-      if (createdAt != null) 'CreatedAt': createdAt,
-      if (deploymentArn != null) 'DeploymentArn': deploymentArn,
-      if (deploymentId != null) 'DeploymentId': deploymentId,
-      if (deploymentType != null) 'DeploymentType': deploymentType.value,
-      if (groupArn != null) 'GroupArn': groupArn,
-    };
-  }
-}
-
-/// The type of deployment. When used for ''CreateDeployment'', only
-/// ''NewDeployment'' and ''Redeployment'' are valid.
-class DeploymentType {
-  static const newDeployment = DeploymentType._('NewDeployment');
-  static const redeployment = DeploymentType._('Redeployment');
-  static const resetDeployment = DeploymentType._('ResetDeployment');
-  static const forceResetDeployment = DeploymentType._('ForceResetDeployment');
-
-  final String value;
-
-  const DeploymentType._(this.value);
-
-  static const values = [
-    newDeployment,
-    redeployment,
-    resetDeployment,
-    forceResetDeployment
-  ];
-
-  static DeploymentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentType._(value));
-
-  @override
-  bool operator ==(other) => other is DeploymentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a device.
-class Device {
-  /// The ARN of the certificate associated with the device.
-  final String certificateArn;
-
-  /// A descriptive or arbitrary ID for the device. This value must be unique
-  /// within the device definition version. Max length is 128 characters with
-  /// pattern ''[a-zA-Z0-9:_-]+''.
-  final String id;
-
-  /// The thing ARN of the device.
-  final String thingArn;
-
-  /// If true, the device's local shadow will be automatically synced with the
-  /// cloud.
-  final bool? syncShadow;
-
-  Device({
-    required this.certificateArn,
-    required this.id,
-    required this.thingArn,
-    this.syncShadow,
-  });
-
-  factory Device.fromJson(Map<String, dynamic> json) {
-    return Device(
-      certificateArn: (json['CertificateArn'] as String?) ?? '',
-      id: (json['Id'] as String?) ?? '',
-      thingArn: (json['ThingArn'] as String?) ?? '',
-      syncShadow: json['SyncShadow'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final id = this.id;
-    final thingArn = this.thingArn;
-    final syncShadow = this.syncShadow;
-    return {
-      'CertificateArn': certificateArn,
-      'Id': id,
-      'ThingArn': thingArn,
-      if (syncShadow != null) 'SyncShadow': syncShadow,
-    };
-  }
-}
-
-/// Information about a device definition version.
-class DeviceDefinitionVersion {
-  /// A list of devices in the definition version.
-  final List<Device>? devices;
-
-  DeviceDefinitionVersion({
-    this.devices,
-  });
-
-  factory DeviceDefinitionVersion.fromJson(Map<String, dynamic> json) {
-    return DeviceDefinitionVersion(
-      devices: (json['Devices'] as List?)
-          ?.nonNulls
-          .map((e) => Device.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final devices = this.devices;
-    return {
-      if (devices != null) 'Devices': devices,
-    };
-  }
-}
-
 class DisassociateRoleFromGroupResponse {
   /// The time, in milliseconds since the epoch, when the role was disassociated
   /// from the group.
@@ -4527,436 +3884,6 @@ class DisassociateServiceRoleFromAccountResponse {
     final disassociatedAt = this.disassociatedAt;
     return {
       if (disassociatedAt != null) 'DisassociatedAt': disassociatedAt,
-    };
-  }
-}
-
-class EncodingType {
-  static const binary = EncodingType._('binary');
-  static const json = EncodingType._('json');
-
-  final String value;
-
-  const EncodingType._(this.value);
-
-  static const values = [binary, json];
-
-  static EncodingType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EncodingType._(value));
-
-  @override
-  bool operator ==(other) => other is EncodingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about the error.
-class ErrorDetail {
-  /// A detailed error code.
-  final String? detailedErrorCode;
-
-  /// A detailed error message.
-  final String? detailedErrorMessage;
-
-  ErrorDetail({
-    this.detailedErrorCode,
-    this.detailedErrorMessage,
-  });
-
-  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
-    return ErrorDetail(
-      detailedErrorCode: json['DetailedErrorCode'] as String?,
-      detailedErrorMessage: json['DetailedErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detailedErrorCode = this.detailedErrorCode;
-    final detailedErrorMessage = this.detailedErrorMessage;
-    return {
-      if (detailedErrorCode != null) 'DetailedErrorCode': detailedErrorCode,
-      if (detailedErrorMessage != null)
-        'DetailedErrorMessage': detailedErrorMessage,
-    };
-  }
-}
-
-/// Information about a Lambda function.
-class $Function {
-  /// A descriptive or arbitrary ID for the function. This value must be unique
-  /// within the function definition version. Max length is 128 characters with
-  /// pattern ''[a-zA-Z0-9:_-]+''.
-  final String id;
-
-  /// The ARN of the Lambda function.
-  final String? functionArn;
-
-  /// The configuration of the Lambda function.
-  final FunctionConfiguration? functionConfiguration;
-
-  $Function({
-    required this.id,
-    this.functionArn,
-    this.functionConfiguration,
-  });
-
-  factory $Function.fromJson(Map<String, dynamic> json) {
-    return $Function(
-      id: (json['Id'] as String?) ?? '',
-      functionArn: json['FunctionArn'] as String?,
-      functionConfiguration: json['FunctionConfiguration'] != null
-          ? FunctionConfiguration.fromJson(
-              json['FunctionConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final functionArn = this.functionArn;
-    final functionConfiguration = this.functionConfiguration;
-    return {
-      'Id': id,
-      if (functionArn != null) 'FunctionArn': functionArn,
-      if (functionConfiguration != null)
-        'FunctionConfiguration': functionConfiguration,
-    };
-  }
-}
-
-/// The configuration of the Lambda function.
-class FunctionConfiguration {
-  /// The expected encoding type of the input payload for the function. The
-  /// default is ''json''.
-  final EncodingType? encodingType;
-
-  /// The environment configuration of the function.
-  final FunctionConfigurationEnvironment? environment;
-
-  /// The execution arguments.
-  final String? execArgs;
-
-  /// The name of the function executable.
-  final String? executable;
-
-  /// The Lambda runtime supported by Greengrass which is to be used instead of
-  /// the one specified in the Lambda function.
-  final String? functionRuntimeOverride;
-
-  /// The memory size, in KB, which the function requires. This setting is not
-  /// applicable and should be cleared when you run the Lambda function without
-  /// containerization.
-  final int? memorySize;
-
-  /// True if the function is pinned. Pinned means the function is long-lived and
-  /// starts when the core starts.
-  final bool? pinned;
-
-  /// The allowed function execution time, after which Lambda should terminate the
-  /// function. This timeout still applies to pinned Lambda functions for each
-  /// request.
-  final int? timeout;
-
-  FunctionConfiguration({
-    this.encodingType,
-    this.environment,
-    this.execArgs,
-    this.executable,
-    this.functionRuntimeOverride,
-    this.memorySize,
-    this.pinned,
-    this.timeout,
-  });
-
-  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
-    return FunctionConfiguration(
-      encodingType:
-          (json['EncodingType'] as String?)?.let(EncodingType.fromString),
-      environment: json['Environment'] != null
-          ? FunctionConfigurationEnvironment.fromJson(
-              json['Environment'] as Map<String, dynamic>)
-          : null,
-      execArgs: json['ExecArgs'] as String?,
-      executable: json['Executable'] as String?,
-      functionRuntimeOverride: json['FunctionRuntimeOverride'] as String?,
-      memorySize: json['MemorySize'] as int?,
-      pinned: json['Pinned'] as bool?,
-      timeout: json['Timeout'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final encodingType = this.encodingType;
-    final environment = this.environment;
-    final execArgs = this.execArgs;
-    final executable = this.executable;
-    final functionRuntimeOverride = this.functionRuntimeOverride;
-    final memorySize = this.memorySize;
-    final pinned = this.pinned;
-    final timeout = this.timeout;
-    return {
-      if (encodingType != null) 'EncodingType': encodingType.value,
-      if (environment != null) 'Environment': environment,
-      if (execArgs != null) 'ExecArgs': execArgs,
-      if (executable != null) 'Executable': executable,
-      if (functionRuntimeOverride != null)
-        'FunctionRuntimeOverride': functionRuntimeOverride,
-      if (memorySize != null) 'MemorySize': memorySize,
-      if (pinned != null) 'Pinned': pinned,
-      if (timeout != null) 'Timeout': timeout,
-    };
-  }
-}
-
-/// The environment configuration of the function.
-class FunctionConfigurationEnvironment {
-  /// If true, the Lambda function is allowed to access the host's /sys folder.
-  /// Use this when the Lambda function needs to read device information from
-  /// /sys. This setting applies only when you run the Lambda function in a
-  /// Greengrass container.
-  final bool? accessSysfs;
-
-  /// Configuration related to executing the Lambda function
-  final FunctionExecutionConfig? execution;
-
-  /// A list of the resources, with their permissions, to which the Lambda
-  /// function will be granted access. A Lambda function can have at most 10
-  /// resources. ResourceAccessPolicies apply only when you run the Lambda
-  /// function in a Greengrass container.
-  final List<ResourceAccessPolicy>? resourceAccessPolicies;
-
-  /// Environment variables for the Lambda function's configuration.
-  final Map<String, String>? variables;
-
-  FunctionConfigurationEnvironment({
-    this.accessSysfs,
-    this.execution,
-    this.resourceAccessPolicies,
-    this.variables,
-  });
-
-  factory FunctionConfigurationEnvironment.fromJson(Map<String, dynamic> json) {
-    return FunctionConfigurationEnvironment(
-      accessSysfs: json['AccessSysfs'] as bool?,
-      execution: json['Execution'] != null
-          ? FunctionExecutionConfig.fromJson(
-              json['Execution'] as Map<String, dynamic>)
-          : null,
-      resourceAccessPolicies: (json['ResourceAccessPolicies'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceAccessPolicy.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      variables: (json['Variables'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessSysfs = this.accessSysfs;
-    final execution = this.execution;
-    final resourceAccessPolicies = this.resourceAccessPolicies;
-    final variables = this.variables;
-    return {
-      if (accessSysfs != null) 'AccessSysfs': accessSysfs,
-      if (execution != null) 'Execution': execution,
-      if (resourceAccessPolicies != null)
-        'ResourceAccessPolicies': resourceAccessPolicies,
-      if (variables != null) 'Variables': variables,
-    };
-  }
-}
-
-/// The default configuration that applies to all Lambda functions in the group.
-/// Individual Lambda functions can override these settings.
-class FunctionDefaultConfig {
-  final FunctionDefaultExecutionConfig? execution;
-
-  FunctionDefaultConfig({
-    this.execution,
-  });
-
-  factory FunctionDefaultConfig.fromJson(Map<String, dynamic> json) {
-    return FunctionDefaultConfig(
-      execution: json['Execution'] != null
-          ? FunctionDefaultExecutionConfig.fromJson(
-              json['Execution'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final execution = this.execution;
-    return {
-      if (execution != null) 'Execution': execution,
-    };
-  }
-}
-
-/// Configuration information that specifies how a Lambda function runs.
-class FunctionDefaultExecutionConfig {
-  final FunctionIsolationMode? isolationMode;
-  final FunctionRunAsConfig? runAs;
-
-  FunctionDefaultExecutionConfig({
-    this.isolationMode,
-    this.runAs,
-  });
-
-  factory FunctionDefaultExecutionConfig.fromJson(Map<String, dynamic> json) {
-    return FunctionDefaultExecutionConfig(
-      isolationMode: (json['IsolationMode'] as String?)
-          ?.let(FunctionIsolationMode.fromString),
-      runAs: json['RunAs'] != null
-          ? FunctionRunAsConfig.fromJson(json['RunAs'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isolationMode = this.isolationMode;
-    final runAs = this.runAs;
-    return {
-      if (isolationMode != null) 'IsolationMode': isolationMode.value,
-      if (runAs != null) 'RunAs': runAs,
-    };
-  }
-}
-
-/// Information about a function definition version.
-class FunctionDefinitionVersion {
-  /// The default configuration that applies to all Lambda functions in this
-  /// function definition version. Individual Lambda functions can override these
-  /// settings.
-  final FunctionDefaultConfig? defaultConfig;
-
-  /// A list of Lambda functions in this function definition version.
-  final List<$Function>? functions;
-
-  FunctionDefinitionVersion({
-    this.defaultConfig,
-    this.functions,
-  });
-
-  factory FunctionDefinitionVersion.fromJson(Map<String, dynamic> json) {
-    return FunctionDefinitionVersion(
-      defaultConfig: json['DefaultConfig'] != null
-          ? FunctionDefaultConfig.fromJson(
-              json['DefaultConfig'] as Map<String, dynamic>)
-          : null,
-      functions: (json['Functions'] as List?)
-          ?.nonNulls
-          .map((e) => $Function.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultConfig = this.defaultConfig;
-    final functions = this.functions;
-    return {
-      if (defaultConfig != null) 'DefaultConfig': defaultConfig,
-      if (functions != null) 'Functions': functions,
-    };
-  }
-}
-
-/// Configuration information that specifies how a Lambda function runs.
-class FunctionExecutionConfig {
-  final FunctionIsolationMode? isolationMode;
-  final FunctionRunAsConfig? runAs;
-
-  FunctionExecutionConfig({
-    this.isolationMode,
-    this.runAs,
-  });
-
-  factory FunctionExecutionConfig.fromJson(Map<String, dynamic> json) {
-    return FunctionExecutionConfig(
-      isolationMode: (json['IsolationMode'] as String?)
-          ?.let(FunctionIsolationMode.fromString),
-      runAs: json['RunAs'] != null
-          ? FunctionRunAsConfig.fromJson(json['RunAs'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isolationMode = this.isolationMode;
-    final runAs = this.runAs;
-    return {
-      if (isolationMode != null) 'IsolationMode': isolationMode.value,
-      if (runAs != null) 'RunAs': runAs,
-    };
-  }
-}
-
-/// Specifies whether the Lambda function runs in a Greengrass container
-/// (default) or without containerization. Unless your scenario requires that
-/// you run without containerization, we recommend that you run in a Greengrass
-/// container. Omit this value to run the Lambda function with the default
-/// containerization for the group.
-class FunctionIsolationMode {
-  static const greengrassContainer =
-      FunctionIsolationMode._('GreengrassContainer');
-  static const noContainer = FunctionIsolationMode._('NoContainer');
-
-  final String value;
-
-  const FunctionIsolationMode._(this.value);
-
-  static const values = [greengrassContainer, noContainer];
-
-  static FunctionIsolationMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FunctionIsolationMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FunctionIsolationMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the user and group whose permissions are used when running the
-/// Lambda function. You can specify one or both values to override the default
-/// values. We recommend that you avoid running as root unless absolutely
-/// necessary to minimize the risk of unintended changes or malicious attacks.
-/// To run as root, you must set ''IsolationMode'' to ''NoContainer'' and update
-/// config.json in ''greengrass-root/config'' to set
-/// ''allowFunctionsToRunAsRoot'' to ''yes''.
-class FunctionRunAsConfig {
-  /// The group ID whose permissions are used to run a Lambda function.
-  final int? gid;
-
-  /// The user ID whose permissions are used to run a Lambda function.
-  final int? uid;
-
-  FunctionRunAsConfig({
-    this.gid,
-    this.uid,
-  });
-
-  factory FunctionRunAsConfig.fromJson(Map<String, dynamic> json) {
-    return FunctionRunAsConfig(
-      gid: json['Gid'] as int?,
-      uid: json['Uid'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gid = this.gid;
-    final uid = this.uid;
-    return {
-      if (gid != null) 'Gid': gid,
-      if (uid != null) 'Uid': uid,
     };
   }
 }
@@ -5692,6 +4619,80 @@ class GetFunctionDefinitionVersionResponse {
   }
 }
 
+class GetGroupResponse {
+  /// The ARN of the definition.
+  final String? arn;
+
+  /// The time, in milliseconds since the epoch, when the definition was created.
+  final String? creationTimestamp;
+
+  /// The ID of the definition.
+  final String? id;
+
+  /// The time, in milliseconds since the epoch, when the definition was last
+  /// updated.
+  final String? lastUpdatedTimestamp;
+
+  /// The ID of the latest version associated with the definition.
+  final String? latestVersion;
+
+  /// The ARN of the latest version associated with the definition.
+  final String? latestVersionArn;
+
+  /// The name of the definition.
+  final String? name;
+
+  /// Tag(s) attached to the resource arn.
+  final Map<String, String>? tags;
+
+  GetGroupResponse({
+    this.arn,
+    this.creationTimestamp,
+    this.id,
+    this.lastUpdatedTimestamp,
+    this.latestVersion,
+    this.latestVersionArn,
+    this.name,
+    this.tags,
+  });
+
+  factory GetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetGroupResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
 class GetGroupCertificateAuthorityResponse {
   /// The ARN of the certificate authority for the group.
   final String? groupCertificateAuthorityArn;
@@ -5776,80 +4777,6 @@ class GetGroupCertificateConfigurationResponse {
       if (certificateExpiryInMilliseconds != null)
         'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
       if (groupId != null) 'GroupId': groupId,
-    };
-  }
-}
-
-class GetGroupResponse {
-  /// The ARN of the definition.
-  final String? arn;
-
-  /// The time, in milliseconds since the epoch, when the definition was created.
-  final String? creationTimestamp;
-
-  /// The ID of the definition.
-  final String? id;
-
-  /// The time, in milliseconds since the epoch, when the definition was last
-  /// updated.
-  final String? lastUpdatedTimestamp;
-
-  /// The ID of the latest version associated with the definition.
-  final String? latestVersion;
-
-  /// The ARN of the latest version associated with the definition.
-  final String? latestVersionArn;
-
-  /// The name of the definition.
-  final String? name;
-
-  /// Tag(s) attached to the resource arn.
-  final Map<String, String>? tags;
-
-  GetGroupResponse({
-    this.arn,
-    this.creationTimestamp,
-    this.id,
-    this.lastUpdatedTimestamp,
-    this.latestVersion,
-    this.latestVersionArn,
-    this.name,
-    this.tags,
-  });
-
-  factory GetGroupResponse.fromJson(Map<String, dynamic> json) {
-    return GetGroupResponse(
-      arn: json['Arn'] as String?,
-      creationTimestamp: json['CreationTimestamp'] as String?,
-      id: json['Id'] as String?,
-      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
-      latestVersion: json['LatestVersion'] as String?,
-      latestVersionArn: json['LatestVersionArn'] as String?,
-      name: json['Name'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTimestamp = this.creationTimestamp;
-    final id = this.id;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final latestVersion = this.latestVersion;
-    final latestVersionArn = this.latestVersionArn;
-    final name = this.name;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
-      if (id != null) 'Id': id,
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': lastUpdatedTimestamp,
-      if (latestVersion != null) 'LatestVersion': latestVersion,
-      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
-      if (name != null) 'Name': name,
-      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -6359,37 +5286,1147 @@ class GetThingRuntimeConfigurationResponse {
   }
 }
 
-/// Information about a certificate authority for a group.
-class GroupCertificateAuthorityProperties {
-  /// The ARN of the certificate authority for the group.
-  final String? groupCertificateAuthorityArn;
+class ListBulkDeploymentDetailedReportsResponse {
+  /// A list of the individual group deployments in the bulk deployment operation.
+  final List<BulkDeploymentResult>? deployments;
 
-  /// The ID of the certificate authority for the group.
-  final String? groupCertificateAuthorityId;
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
 
-  GroupCertificateAuthorityProperties({
-    this.groupCertificateAuthorityArn,
-    this.groupCertificateAuthorityId,
+  ListBulkDeploymentDetailedReportsResponse({
+    this.deployments,
+    this.nextToken,
   });
 
-  factory GroupCertificateAuthorityProperties.fromJson(
+  factory ListBulkDeploymentDetailedReportsResponse.fromJson(
       Map<String, dynamic> json) {
-    return GroupCertificateAuthorityProperties(
-      groupCertificateAuthorityArn:
-          json['GroupCertificateAuthorityArn'] as String?,
-      groupCertificateAuthorityId:
-          json['GroupCertificateAuthorityId'] as String?,
+    return ListBulkDeploymentDetailedReportsResponse(
+      deployments: (json['Deployments'] as List?)
+          ?.nonNulls
+          .map((e) => BulkDeploymentResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final groupCertificateAuthorityArn = this.groupCertificateAuthorityArn;
-    final groupCertificateAuthorityId = this.groupCertificateAuthorityId;
+    final deployments = this.deployments;
+    final nextToken = this.nextToken;
     return {
-      if (groupCertificateAuthorityArn != null)
-        'GroupCertificateAuthorityArn': groupCertificateAuthorityArn,
-      if (groupCertificateAuthorityId != null)
-        'GroupCertificateAuthorityId': groupCertificateAuthorityId,
+      if (deployments != null) 'Deployments': deployments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListBulkDeploymentsResponse {
+  /// A list of bulk deployments.
+  final List<BulkDeployment>? bulkDeployments;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListBulkDeploymentsResponse({
+    this.bulkDeployments,
+    this.nextToken,
+  });
+
+  factory ListBulkDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBulkDeploymentsResponse(
+      bulkDeployments: (json['BulkDeployments'] as List?)
+          ?.nonNulls
+          .map((e) => BulkDeployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bulkDeployments = this.bulkDeployments;
+    final nextToken = this.nextToken;
+    return {
+      if (bulkDeployments != null) 'BulkDeployments': bulkDeployments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListConnectorDefinitionsResponse {
+  /// Information about a definition.
+  final List<DefinitionInformation>? definitions;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListConnectorDefinitionsResponse({
+    this.definitions,
+    this.nextToken,
+  });
+
+  factory ListConnectorDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.nonNulls
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListConnectorDefinitionVersionsResponse {
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  /// Information about a version.
+  final List<VersionInformation>? versions;
+
+  ListConnectorDefinitionVersionsResponse({
+    this.nextToken,
+    this.versions,
+  });
+
+  factory ListConnectorDefinitionVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListConnectorDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.nonNulls
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+class ListCoreDefinitionsResponse {
+  /// Information about a definition.
+  final List<DefinitionInformation>? definitions;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListCoreDefinitionsResponse({
+    this.definitions,
+    this.nextToken,
+  });
+
+  factory ListCoreDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCoreDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.nonNulls
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListCoreDefinitionVersionsResponse {
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  /// Information about a version.
+  final List<VersionInformation>? versions;
+
+  ListCoreDefinitionVersionsResponse({
+    this.nextToken,
+    this.versions,
+  });
+
+  factory ListCoreDefinitionVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCoreDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.nonNulls
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+class ListDeploymentsResponse {
+  /// A list of deployments for the requested groups.
+  final List<Deployment>? deployments;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListDeploymentsResponse({
+    this.deployments,
+    this.nextToken,
+  });
+
+  factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentsResponse(
+      deployments: (json['Deployments'] as List?)
+          ?.nonNulls
+          .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployments = this.deployments;
+    final nextToken = this.nextToken;
+    return {
+      if (deployments != null) 'Deployments': deployments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListDeviceDefinitionsResponse {
+  /// Information about a definition.
+  final List<DefinitionInformation>? definitions;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListDeviceDefinitionsResponse({
+    this.definitions,
+    this.nextToken,
+  });
+
+  factory ListDeviceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDeviceDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.nonNulls
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListDeviceDefinitionVersionsResponse {
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  /// Information about a version.
+  final List<VersionInformation>? versions;
+
+  ListDeviceDefinitionVersionsResponse({
+    this.nextToken,
+    this.versions,
+  });
+
+  factory ListDeviceDefinitionVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDeviceDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.nonNulls
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+class ListFunctionDefinitionsResponse {
+  /// Information about a definition.
+  final List<DefinitionInformation>? definitions;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListFunctionDefinitionsResponse({
+    this.definitions,
+    this.nextToken,
+  });
+
+  factory ListFunctionDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFunctionDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.nonNulls
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListFunctionDefinitionVersionsResponse {
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  /// Information about a version.
+  final List<VersionInformation>? versions;
+
+  ListFunctionDefinitionVersionsResponse({
+    this.nextToken,
+    this.versions,
+  });
+
+  factory ListFunctionDefinitionVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListFunctionDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.nonNulls
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+class ListGroupCertificateAuthoritiesResponse {
+  /// A list of certificate authorities associated with the group.
+  final List<GroupCertificateAuthorityProperties>? groupCertificateAuthorities;
+
+  ListGroupCertificateAuthoritiesResponse({
+    this.groupCertificateAuthorities,
+  });
+
+  factory ListGroupCertificateAuthoritiesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListGroupCertificateAuthoritiesResponse(
+      groupCertificateAuthorities:
+          (json['GroupCertificateAuthorities'] as List?)
+              ?.nonNulls
+              .map((e) => GroupCertificateAuthorityProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupCertificateAuthorities = this.groupCertificateAuthorities;
+    return {
+      if (groupCertificateAuthorities != null)
+        'GroupCertificateAuthorities': groupCertificateAuthorities,
+    };
+  }
+}
+
+class ListGroupsResponse {
+  /// Information about a group.
+  final List<GroupInformation>? groups;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListGroupsResponse({
+    this.groups,
+    this.nextToken,
+  });
+
+  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsResponse(
+      groups: (json['Groups'] as List?)
+          ?.nonNulls
+          .map((e) => GroupInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final nextToken = this.nextToken;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListGroupVersionsResponse {
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  /// Information about a version.
+  final List<VersionInformation>? versions;
+
+  ListGroupVersionsResponse({
+    this.nextToken,
+    this.versions,
+  });
+
+  factory ListGroupVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.nonNulls
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+class ListLoggerDefinitionsResponse {
+  /// Information about a definition.
+  final List<DefinitionInformation>? definitions;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListLoggerDefinitionsResponse({
+    this.definitions,
+    this.nextToken,
+  });
+
+  factory ListLoggerDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLoggerDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.nonNulls
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListLoggerDefinitionVersionsResponse {
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  /// Information about a version.
+  final List<VersionInformation>? versions;
+
+  ListLoggerDefinitionVersionsResponse({
+    this.nextToken,
+    this.versions,
+  });
+
+  factory ListLoggerDefinitionVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListLoggerDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.nonNulls
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+class ListResourceDefinitionsResponse {
+  /// Information about a definition.
+  final List<DefinitionInformation>? definitions;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListResourceDefinitionsResponse({
+    this.definitions,
+    this.nextToken,
+  });
+
+  factory ListResourceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.nonNulls
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListResourceDefinitionVersionsResponse {
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  /// Information about a version.
+  final List<VersionInformation>? versions;
+
+  ListResourceDefinitionVersionsResponse({
+    this.nextToken,
+    this.versions,
+  });
+
+  factory ListResourceDefinitionVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListResourceDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.nonNulls
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+class ListSubscriptionDefinitionsResponse {
+  /// Information about a definition.
+  final List<DefinitionInformation>? definitions;
+
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListSubscriptionDefinitionsResponse({
+    this.definitions,
+    this.nextToken,
+  });
+
+  factory ListSubscriptionDefinitionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSubscriptionDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.nonNulls
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListSubscriptionDefinitionVersionsResponse {
+  /// The token for the next set of results, or ''null'' if there are no
+  /// additional results.
+  final String? nextToken;
+
+  /// Information about a version.
+  final List<VersionInformation>? versions;
+
+  ListSubscriptionDefinitionVersionsResponse({
+    this.nextToken,
+    this.versions,
+  });
+
+  factory ListSubscriptionDefinitionVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSubscriptionDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.nonNulls
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class ResetDeploymentsResponse {
+  /// The ARN of the deployment.
+  final String? deploymentArn;
+
+  /// The ID of the deployment.
+  final String? deploymentId;
+
+  ResetDeploymentsResponse({
+    this.deploymentArn,
+    this.deploymentId,
+  });
+
+  factory ResetDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ResetDeploymentsResponse(
+      deploymentArn: json['DeploymentArn'] as String?,
+      deploymentId: json['DeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentArn = this.deploymentArn;
+    final deploymentId = this.deploymentId;
+    return {
+      if (deploymentArn != null) 'DeploymentArn': deploymentArn,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+    };
+  }
+}
+
+class StartBulkDeploymentResponse {
+  /// The ARN of the bulk deployment.
+  final String? bulkDeploymentArn;
+
+  /// The ID of the bulk deployment.
+  final String? bulkDeploymentId;
+
+  StartBulkDeploymentResponse({
+    this.bulkDeploymentArn,
+    this.bulkDeploymentId,
+  });
+
+  factory StartBulkDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return StartBulkDeploymentResponse(
+      bulkDeploymentArn: json['BulkDeploymentArn'] as String?,
+      bulkDeploymentId: json['BulkDeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bulkDeploymentArn = this.bulkDeploymentArn;
+    final bulkDeploymentId = this.bulkDeploymentId;
+    return {
+      if (bulkDeploymentArn != null) 'BulkDeploymentArn': bulkDeploymentArn,
+      if (bulkDeploymentId != null) 'BulkDeploymentId': bulkDeploymentId,
+    };
+  }
+}
+
+class StopBulkDeploymentResponse {
+  StopBulkDeploymentResponse();
+
+  factory StopBulkDeploymentResponse.fromJson(Map<String, dynamic> _) {
+    return StopBulkDeploymentResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateConnectivityInfoResponse {
+  /// A message about the connectivity info update request.
+  final String? message;
+
+  /// The new version of the connectivity info.
+  final String? version;
+
+  UpdateConnectivityInfoResponse({
+    this.message,
+    this.version,
+  });
+
+  factory UpdateConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectivityInfoResponse(
+      message: json['message'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final version = this.version;
+    return {
+      if (message != null) 'message': message,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+class UpdateConnectorDefinitionResponse {
+  UpdateConnectorDefinitionResponse();
+
+  factory UpdateConnectorDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateConnectorDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateCoreDefinitionResponse {
+  UpdateCoreDefinitionResponse();
+
+  factory UpdateCoreDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateCoreDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDeviceDefinitionResponse {
+  UpdateDeviceDefinitionResponse();
+
+  factory UpdateDeviceDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDeviceDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateFunctionDefinitionResponse {
+  UpdateFunctionDefinitionResponse();
+
+  factory UpdateFunctionDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateFunctionDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateGroupResponse {
+  UpdateGroupResponse();
+
+  factory UpdateGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateGroupCertificateConfigurationResponse {
+  /// The amount of time remaining before the certificate authority expires, in
+  /// milliseconds.
+  final String? certificateAuthorityExpiryInMilliseconds;
+
+  /// The amount of time remaining before the certificate expires, in
+  /// milliseconds.
+  final String? certificateExpiryInMilliseconds;
+
+  /// The ID of the group certificate configuration.
+  final String? groupId;
+
+  UpdateGroupCertificateConfigurationResponse({
+    this.certificateAuthorityExpiryInMilliseconds,
+    this.certificateExpiryInMilliseconds,
+    this.groupId,
+  });
+
+  factory UpdateGroupCertificateConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateGroupCertificateConfigurationResponse(
+      certificateAuthorityExpiryInMilliseconds:
+          json['CertificateAuthorityExpiryInMilliseconds'] as String?,
+      certificateExpiryInMilliseconds:
+          json['CertificateExpiryInMilliseconds'] as String?,
+      groupId: json['GroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityExpiryInMilliseconds =
+        this.certificateAuthorityExpiryInMilliseconds;
+    final certificateExpiryInMilliseconds =
+        this.certificateExpiryInMilliseconds;
+    final groupId = this.groupId;
+    return {
+      if (certificateAuthorityExpiryInMilliseconds != null)
+        'CertificateAuthorityExpiryInMilliseconds':
+            certificateAuthorityExpiryInMilliseconds,
+      if (certificateExpiryInMilliseconds != null)
+        'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
+      if (groupId != null) 'GroupId': groupId,
+    };
+  }
+}
+
+class UpdateLoggerDefinitionResponse {
+  UpdateLoggerDefinitionResponse();
+
+  factory UpdateLoggerDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLoggerDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateResourceDefinitionResponse {
+  UpdateResourceDefinitionResponse();
+
+  factory UpdateResourceDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateResourceDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateSubscriptionDefinitionResponse {
+  UpdateSubscriptionDefinitionResponse();
+
+  factory UpdateSubscriptionDefinitionResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateSubscriptionDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateThingRuntimeConfigurationResponse {
+  UpdateThingRuntimeConfigurationResponse();
+
+  factory UpdateThingRuntimeConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateThingRuntimeConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Configuration settings for running telemetry.
+class TelemetryConfigurationUpdate {
+  /// Configure telemetry to be on or off.
+  final Telemetry telemetry;
+
+  TelemetryConfigurationUpdate({
+    required this.telemetry,
+  });
+
+  Map<String, dynamic> toJson() {
+    final telemetry = this.telemetry;
+    return {
+      'Telemetry': telemetry.value,
+    };
+  }
+}
+
+class Telemetry {
+  static const on = Telemetry._('On');
+  static const off = Telemetry._('Off');
+
+  final String value;
+
+  const Telemetry._(this.value);
+
+  static const values = [on, off];
+
+  static Telemetry fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Telemetry._(value));
+
+  @override
+  bool operator ==(other) => other is Telemetry && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a Greengrass core's connectivity.
+class ConnectivityInfo {
+  /// The endpoint for the Greengrass core. Can be an IP address or DNS.
+  final String? hostAddress;
+
+  /// The ID of the connectivity information.
+  final String? id;
+
+  /// Metadata for this endpoint.
+  final String? metadata;
+
+  /// The port of the Greengrass core. Usually 8883.
+  final int? portNumber;
+
+  ConnectivityInfo({
+    this.hostAddress,
+    this.id,
+    this.metadata,
+    this.portNumber,
+  });
+
+  factory ConnectivityInfo.fromJson(Map<String, dynamic> json) {
+    return ConnectivityInfo(
+      hostAddress: json['HostAddress'] as String?,
+      id: json['Id'] as String?,
+      metadata: json['Metadata'] as String?,
+      portNumber: json['PortNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostAddress = this.hostAddress;
+    final id = this.id;
+    final metadata = this.metadata;
+    final portNumber = this.portNumber;
+    return {
+      if (hostAddress != null) 'HostAddress': hostAddress,
+      if (id != null) 'Id': id,
+      if (metadata != null) 'Metadata': metadata,
+      if (portNumber != null) 'PortNumber': portNumber,
+    };
+  }
+}
+
+/// Information about a version.
+class VersionInformation {
+  /// The ARN of the version.
+  final String? arn;
+
+  /// The time, in milliseconds since the epoch, when the version was created.
+  final String? creationTimestamp;
+
+  /// The ID of the parent definition that the version is associated with.
+  final String? id;
+
+  /// The ID of the version.
+  final String? version;
+
+  VersionInformation({
+    this.arn,
+    this.creationTimestamp,
+    this.id,
+    this.version,
+  });
+
+  factory VersionInformation.fromJson(Map<String, dynamic> json) {
+    return VersionInformation(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// Information about a definition.
+class DefinitionInformation {
+  /// The ARN of the definition.
+  final String? arn;
+
+  /// The time, in milliseconds since the epoch, when the definition was created.
+  final String? creationTimestamp;
+
+  /// The ID of the definition.
+  final String? id;
+
+  /// The time, in milliseconds since the epoch, when the definition was last
+  /// updated.
+  final String? lastUpdatedTimestamp;
+
+  /// The ID of the latest version associated with the definition.
+  final String? latestVersion;
+
+  /// The ARN of the latest version associated with the definition.
+  final String? latestVersionArn;
+
+  /// The name of the definition.
+  final String? name;
+
+  /// Tag(s) attached to the resource arn.
+  final Map<String, String>? tags;
+
+  DefinitionInformation({
+    this.arn,
+    this.creationTimestamp,
+    this.id,
+    this.lastUpdatedTimestamp,
+    this.latestVersion,
+    this.latestVersionArn,
+    this.name,
+    this.tags,
+  });
+
+  factory DefinitionInformation.fromJson(Map<String, dynamic> json) {
+    return DefinitionInformation(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -6460,1083 +6497,456 @@ class GroupInformation {
   }
 }
 
-/// Group owner related settings for local resources.
-class GroupOwnerSetting {
-  /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group
-  /// owner of the resource to the Lambda process privileges. Thus the Lambda
-  /// process will have the file access permissions of the added Linux group.
-  final bool? autoAddGroupOwner;
+/// Information about a certificate authority for a group.
+class GroupCertificateAuthorityProperties {
+  /// The ARN of the certificate authority for the group.
+  final String? groupCertificateAuthorityArn;
 
-  /// The name of the Linux OS group whose privileges will be added to the Lambda
-  /// process. This field is optional.
-  final String? groupOwner;
+  /// The ID of the certificate authority for the group.
+  final String? groupCertificateAuthorityId;
 
-  GroupOwnerSetting({
-    this.autoAddGroupOwner,
-    this.groupOwner,
+  GroupCertificateAuthorityProperties({
+    this.groupCertificateAuthorityArn,
+    this.groupCertificateAuthorityId,
   });
 
-  factory GroupOwnerSetting.fromJson(Map<String, dynamic> json) {
-    return GroupOwnerSetting(
-      autoAddGroupOwner: json['AutoAddGroupOwner'] as bool?,
-      groupOwner: json['GroupOwner'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoAddGroupOwner = this.autoAddGroupOwner;
-    final groupOwner = this.groupOwner;
-    return {
-      if (autoAddGroupOwner != null) 'AutoAddGroupOwner': autoAddGroupOwner,
-      if (groupOwner != null) 'GroupOwner': groupOwner,
-    };
-  }
-}
-
-/// Information about a group version.
-class GroupVersion {
-  /// The ARN of the connector definition version for this group.
-  final String? connectorDefinitionVersionArn;
-
-  /// The ARN of the core definition version for this group.
-  final String? coreDefinitionVersionArn;
-
-  /// The ARN of the device definition version for this group.
-  final String? deviceDefinitionVersionArn;
-
-  /// The ARN of the function definition version for this group.
-  final String? functionDefinitionVersionArn;
-
-  /// The ARN of the logger definition version for this group.
-  final String? loggerDefinitionVersionArn;
-
-  /// The ARN of the resource definition version for this group.
-  final String? resourceDefinitionVersionArn;
-
-  /// The ARN of the subscription definition version for this group.
-  final String? subscriptionDefinitionVersionArn;
-
-  GroupVersion({
-    this.connectorDefinitionVersionArn,
-    this.coreDefinitionVersionArn,
-    this.deviceDefinitionVersionArn,
-    this.functionDefinitionVersionArn,
-    this.loggerDefinitionVersionArn,
-    this.resourceDefinitionVersionArn,
-    this.subscriptionDefinitionVersionArn,
-  });
-
-  factory GroupVersion.fromJson(Map<String, dynamic> json) {
-    return GroupVersion(
-      connectorDefinitionVersionArn:
-          json['ConnectorDefinitionVersionArn'] as String?,
-      coreDefinitionVersionArn: json['CoreDefinitionVersionArn'] as String?,
-      deviceDefinitionVersionArn: json['DeviceDefinitionVersionArn'] as String?,
-      functionDefinitionVersionArn:
-          json['FunctionDefinitionVersionArn'] as String?,
-      loggerDefinitionVersionArn: json['LoggerDefinitionVersionArn'] as String?,
-      resourceDefinitionVersionArn:
-          json['ResourceDefinitionVersionArn'] as String?,
-      subscriptionDefinitionVersionArn:
-          json['SubscriptionDefinitionVersionArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectorDefinitionVersionArn = this.connectorDefinitionVersionArn;
-    final coreDefinitionVersionArn = this.coreDefinitionVersionArn;
-    final deviceDefinitionVersionArn = this.deviceDefinitionVersionArn;
-    final functionDefinitionVersionArn = this.functionDefinitionVersionArn;
-    final loggerDefinitionVersionArn = this.loggerDefinitionVersionArn;
-    final resourceDefinitionVersionArn = this.resourceDefinitionVersionArn;
-    final subscriptionDefinitionVersionArn =
-        this.subscriptionDefinitionVersionArn;
-    return {
-      if (connectorDefinitionVersionArn != null)
-        'ConnectorDefinitionVersionArn': connectorDefinitionVersionArn,
-      if (coreDefinitionVersionArn != null)
-        'CoreDefinitionVersionArn': coreDefinitionVersionArn,
-      if (deviceDefinitionVersionArn != null)
-        'DeviceDefinitionVersionArn': deviceDefinitionVersionArn,
-      if (functionDefinitionVersionArn != null)
-        'FunctionDefinitionVersionArn': functionDefinitionVersionArn,
-      if (loggerDefinitionVersionArn != null)
-        'LoggerDefinitionVersionArn': loggerDefinitionVersionArn,
-      if (resourceDefinitionVersionArn != null)
-        'ResourceDefinitionVersionArn': resourceDefinitionVersionArn,
-      if (subscriptionDefinitionVersionArn != null)
-        'SubscriptionDefinitionVersionArn': subscriptionDefinitionVersionArn,
-    };
-  }
-}
-
-class ListBulkDeploymentDetailedReportsResponse {
-  /// A list of the individual group deployments in the bulk deployment operation.
-  final List<BulkDeploymentResult>? deployments;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListBulkDeploymentDetailedReportsResponse({
-    this.deployments,
-    this.nextToken,
-  });
-
-  factory ListBulkDeploymentDetailedReportsResponse.fromJson(
+  factory GroupCertificateAuthorityProperties.fromJson(
       Map<String, dynamic> json) {
-    return ListBulkDeploymentDetailedReportsResponse(
-      deployments: (json['Deployments'] as List?)
-          ?.nonNulls
-          .map((e) => BulkDeploymentResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
+    return GroupCertificateAuthorityProperties(
+      groupCertificateAuthorityArn:
+          json['GroupCertificateAuthorityArn'] as String?,
+      groupCertificateAuthorityId:
+          json['GroupCertificateAuthorityId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deployments = this.deployments;
-    final nextToken = this.nextToken;
+    final groupCertificateAuthorityArn = this.groupCertificateAuthorityArn;
+    final groupCertificateAuthorityId = this.groupCertificateAuthorityId;
     return {
-      if (deployments != null) 'Deployments': deployments,
-      if (nextToken != null) 'NextToken': nextToken,
+      if (groupCertificateAuthorityArn != null)
+        'GroupCertificateAuthorityArn': groupCertificateAuthorityArn,
+      if (groupCertificateAuthorityId != null)
+        'GroupCertificateAuthorityId': groupCertificateAuthorityId,
     };
   }
 }
 
-class ListBulkDeploymentsResponse {
-  /// A list of bulk deployments.
-  final List<BulkDeployment>? bulkDeployments;
+/// Information about a deployment.
+class Deployment {
+  /// The time, in milliseconds since the epoch, when the deployment was created.
+  final String? createdAt;
 
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListBulkDeploymentsResponse({
-    this.bulkDeployments,
-    this.nextToken,
-  });
-
-  factory ListBulkDeploymentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListBulkDeploymentsResponse(
-      bulkDeployments: (json['BulkDeployments'] as List?)
-          ?.nonNulls
-          .map((e) => BulkDeployment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bulkDeployments = this.bulkDeployments;
-    final nextToken = this.nextToken;
-    return {
-      if (bulkDeployments != null) 'BulkDeployments': bulkDeployments,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListConnectorDefinitionVersionsResponse {
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  /// Information about a version.
-  final List<VersionInformation>? versions;
-
-  ListConnectorDefinitionVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListConnectorDefinitionVersionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListConnectorDefinitionVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      versions: (json['Versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListConnectorDefinitionsResponse {
-  /// Information about a definition.
-  final List<DefinitionInformation>? definitions;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListConnectorDefinitionsResponse({
-    this.definitions,
-    this.nextToken,
-  });
-
-  factory ListConnectorDefinitionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListConnectorDefinitionsResponse(
-      definitions: (json['Definitions'] as List?)
-          ?.nonNulls
-          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definitions = this.definitions;
-    final nextToken = this.nextToken;
-    return {
-      if (definitions != null) 'Definitions': definitions,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListCoreDefinitionVersionsResponse {
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  /// Information about a version.
-  final List<VersionInformation>? versions;
-
-  ListCoreDefinitionVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListCoreDefinitionVersionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListCoreDefinitionVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      versions: (json['Versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListCoreDefinitionsResponse {
-  /// Information about a definition.
-  final List<DefinitionInformation>? definitions;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListCoreDefinitionsResponse({
-    this.definitions,
-    this.nextToken,
-  });
-
-  factory ListCoreDefinitionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListCoreDefinitionsResponse(
-      definitions: (json['Definitions'] as List?)
-          ?.nonNulls
-          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definitions = this.definitions;
-    final nextToken = this.nextToken;
-    return {
-      if (definitions != null) 'Definitions': definitions,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListDeploymentsResponse {
-  /// A list of deployments for the requested groups.
-  final List<Deployment>? deployments;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListDeploymentsResponse({
-    this.deployments,
-    this.nextToken,
-  });
-
-  factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDeploymentsResponse(
-      deployments: (json['Deployments'] as List?)
-          ?.nonNulls
-          .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deployments = this.deployments;
-    final nextToken = this.nextToken;
-    return {
-      if (deployments != null) 'Deployments': deployments,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListDeviceDefinitionVersionsResponse {
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  /// Information about a version.
-  final List<VersionInformation>? versions;
-
-  ListDeviceDefinitionVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListDeviceDefinitionVersionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListDeviceDefinitionVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      versions: (json['Versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListDeviceDefinitionsResponse {
-  /// Information about a definition.
-  final List<DefinitionInformation>? definitions;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListDeviceDefinitionsResponse({
-    this.definitions,
-    this.nextToken,
-  });
-
-  factory ListDeviceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDeviceDefinitionsResponse(
-      definitions: (json['Definitions'] as List?)
-          ?.nonNulls
-          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definitions = this.definitions;
-    final nextToken = this.nextToken;
-    return {
-      if (definitions != null) 'Definitions': definitions,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListFunctionDefinitionVersionsResponse {
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  /// Information about a version.
-  final List<VersionInformation>? versions;
-
-  ListFunctionDefinitionVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListFunctionDefinitionVersionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListFunctionDefinitionVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      versions: (json['Versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListFunctionDefinitionsResponse {
-  /// Information about a definition.
-  final List<DefinitionInformation>? definitions;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListFunctionDefinitionsResponse({
-    this.definitions,
-    this.nextToken,
-  });
-
-  factory ListFunctionDefinitionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFunctionDefinitionsResponse(
-      definitions: (json['Definitions'] as List?)
-          ?.nonNulls
-          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definitions = this.definitions;
-    final nextToken = this.nextToken;
-    return {
-      if (definitions != null) 'Definitions': definitions,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListGroupCertificateAuthoritiesResponse {
-  /// A list of certificate authorities associated with the group.
-  final List<GroupCertificateAuthorityProperties>? groupCertificateAuthorities;
-
-  ListGroupCertificateAuthoritiesResponse({
-    this.groupCertificateAuthorities,
-  });
-
-  factory ListGroupCertificateAuthoritiesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListGroupCertificateAuthoritiesResponse(
-      groupCertificateAuthorities:
-          (json['GroupCertificateAuthorities'] as List?)
-              ?.nonNulls
-              .map((e) => GroupCertificateAuthorityProperties.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupCertificateAuthorities = this.groupCertificateAuthorities;
-    return {
-      if (groupCertificateAuthorities != null)
-        'GroupCertificateAuthorities': groupCertificateAuthorities,
-    };
-  }
-}
-
-class ListGroupVersionsResponse {
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  /// Information about a version.
-  final List<VersionInformation>? versions;
-
-  ListGroupVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListGroupVersionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListGroupVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      versions: (json['Versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListGroupsResponse {
-  /// Information about a group.
-  final List<GroupInformation>? groups;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListGroupsResponse({
-    this.groups,
-    this.nextToken,
-  });
-
-  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
-    return ListGroupsResponse(
-      groups: (json['Groups'] as List?)
-          ?.nonNulls
-          .map((e) => GroupInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groups = this.groups;
-    final nextToken = this.nextToken;
-    return {
-      if (groups != null) 'Groups': groups,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListLoggerDefinitionVersionsResponse {
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  /// Information about a version.
-  final List<VersionInformation>? versions;
-
-  ListLoggerDefinitionVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListLoggerDefinitionVersionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListLoggerDefinitionVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      versions: (json['Versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListLoggerDefinitionsResponse {
-  /// Information about a definition.
-  final List<DefinitionInformation>? definitions;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListLoggerDefinitionsResponse({
-    this.definitions,
-    this.nextToken,
-  });
-
-  factory ListLoggerDefinitionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListLoggerDefinitionsResponse(
-      definitions: (json['Definitions'] as List?)
-          ?.nonNulls
-          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definitions = this.definitions;
-    final nextToken = this.nextToken;
-    return {
-      if (definitions != null) 'Definitions': definitions,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListResourceDefinitionVersionsResponse {
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  /// Information about a version.
-  final List<VersionInformation>? versions;
-
-  ListResourceDefinitionVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListResourceDefinitionVersionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListResourceDefinitionVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      versions: (json['Versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListResourceDefinitionsResponse {
-  /// Information about a definition.
-  final List<DefinitionInformation>? definitions;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListResourceDefinitionsResponse({
-    this.definitions,
-    this.nextToken,
-  });
-
-  factory ListResourceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListResourceDefinitionsResponse(
-      definitions: (json['Definitions'] as List?)
-          ?.nonNulls
-          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definitions = this.definitions;
-    final nextToken = this.nextToken;
-    return {
-      if (definitions != null) 'Definitions': definitions,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListSubscriptionDefinitionVersionsResponse {
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  /// Information about a version.
-  final List<VersionInformation>? versions;
-
-  ListSubscriptionDefinitionVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListSubscriptionDefinitionVersionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListSubscriptionDefinitionVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      versions: (json['Versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (versions != null) 'Versions': versions,
-    };
-  }
-}
-
-class ListSubscriptionDefinitionsResponse {
-  /// Information about a definition.
-  final List<DefinitionInformation>? definitions;
-
-  /// The token for the next set of results, or ''null'' if there are no
-  /// additional results.
-  final String? nextToken;
-
-  ListSubscriptionDefinitionsResponse({
-    this.definitions,
-    this.nextToken,
-  });
-
-  factory ListSubscriptionDefinitionsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListSubscriptionDefinitionsResponse(
-      definitions: (json['Definitions'] as List?)
-          ?.nonNulls
-          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definitions = this.definitions;
-    final nextToken = this.nextToken;
-    return {
-      if (definitions != null) 'Definitions': definitions,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  final Map<String, String>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Attributes that define a local device resource.
-class LocalDeviceResourceData {
-  /// Group/owner related settings for local resources.
-  final GroupOwnerSetting? groupOwnerSetting;
-
-  /// The local absolute path of the device resource. The source path for a device
-  /// resource can refer only to a character device or block device under
-  /// ''/dev''.
-  final String? sourcePath;
-
-  LocalDeviceResourceData({
-    this.groupOwnerSetting,
-    this.sourcePath,
-  });
-
-  factory LocalDeviceResourceData.fromJson(Map<String, dynamic> json) {
-    return LocalDeviceResourceData(
-      groupOwnerSetting: json['GroupOwnerSetting'] != null
-          ? GroupOwnerSetting.fromJson(
-              json['GroupOwnerSetting'] as Map<String, dynamic>)
-          : null,
-      sourcePath: json['SourcePath'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupOwnerSetting = this.groupOwnerSetting;
-    final sourcePath = this.sourcePath;
-    return {
-      if (groupOwnerSetting != null) 'GroupOwnerSetting': groupOwnerSetting,
-      if (sourcePath != null) 'SourcePath': sourcePath,
-    };
-  }
-}
-
-/// Attributes that define a local volume resource.
-class LocalVolumeResourceData {
-  /// The absolute local path of the resource inside the Lambda environment.
-  final String? destinationPath;
-
-  /// Allows you to configure additional group privileges for the Lambda process.
-  /// This field is optional.
-  final GroupOwnerSetting? groupOwnerSetting;
-
-  /// The local absolute path of the volume resource on the host. The source path
-  /// for a volume resource type cannot start with ''/sys''.
-  final String? sourcePath;
-
-  LocalVolumeResourceData({
-    this.destinationPath,
-    this.groupOwnerSetting,
-    this.sourcePath,
-  });
-
-  factory LocalVolumeResourceData.fromJson(Map<String, dynamic> json) {
-    return LocalVolumeResourceData(
-      destinationPath: json['DestinationPath'] as String?,
-      groupOwnerSetting: json['GroupOwnerSetting'] != null
-          ? GroupOwnerSetting.fromJson(
-              json['GroupOwnerSetting'] as Map<String, dynamic>)
-          : null,
-      sourcePath: json['SourcePath'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationPath = this.destinationPath;
-    final groupOwnerSetting = this.groupOwnerSetting;
-    final sourcePath = this.sourcePath;
-    return {
-      if (destinationPath != null) 'DestinationPath': destinationPath,
-      if (groupOwnerSetting != null) 'GroupOwnerSetting': groupOwnerSetting,
-      if (sourcePath != null) 'SourcePath': sourcePath,
-    };
-  }
-}
-
-/// Information about a logger
-class Logger {
-  /// The component that will be subject to logging.
-  final LoggerComponent component;
-
-  /// A descriptive or arbitrary ID for the logger. This value must be unique
-  /// within the logger definition version. Max length is 128 characters with
-  /// pattern ''[a-zA-Z0-9:_-]+''.
-  final String id;
-
-  /// The level of the logs.
-  final LoggerLevel level;
-
-  /// The type of log output which will be used.
-  final LoggerType type;
-
-  /// The amount of file space, in KB, to use if the local file system is used for
-  /// logging purposes.
-  final int? space;
-
-  Logger({
-    required this.component,
-    required this.id,
-    required this.level,
-    required this.type,
-    this.space,
-  });
-
-  factory Logger.fromJson(Map<String, dynamic> json) {
-    return Logger(
-      component:
-          LoggerComponent.fromString((json['Component'] as String?) ?? ''),
-      id: (json['Id'] as String?) ?? '',
-      level: LoggerLevel.fromString((json['Level'] as String?) ?? ''),
-      type: LoggerType.fromString((json['Type'] as String?) ?? ''),
-      space: json['Space'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final component = this.component;
-    final id = this.id;
-    final level = this.level;
-    final type = this.type;
-    final space = this.space;
-    return {
-      'Component': component.value,
-      'Id': id,
-      'Level': level.value,
-      'Type': type.value,
-      if (space != null) 'Space': space,
-    };
-  }
-}
-
-class LoggerComponent {
-  static const greengrassSystem = LoggerComponent._('GreengrassSystem');
-  static const lambda = LoggerComponent._('Lambda');
-
-  final String value;
-
-  const LoggerComponent._(this.value);
-
-  static const values = [greengrassSystem, lambda];
-
-  static LoggerComponent fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LoggerComponent._(value));
-
-  @override
-  bool operator ==(other) => other is LoggerComponent && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a logger definition version.
-class LoggerDefinitionVersion {
-  /// A list of loggers.
-  final List<Logger>? loggers;
-
-  LoggerDefinitionVersion({
-    this.loggers,
-  });
-
-  factory LoggerDefinitionVersion.fromJson(Map<String, dynamic> json) {
-    return LoggerDefinitionVersion(
-      loggers: (json['Loggers'] as List?)
-          ?.nonNulls
-          .map((e) => Logger.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loggers = this.loggers;
-    return {
-      if (loggers != null) 'Loggers': loggers,
-    };
-  }
-}
-
-class LoggerLevel {
-  static const debug = LoggerLevel._('DEBUG');
-  static const info = LoggerLevel._('INFO');
-  static const warn = LoggerLevel._('WARN');
-  static const error = LoggerLevel._('ERROR');
-  static const fatal = LoggerLevel._('FATAL');
-
-  final String value;
-
-  const LoggerLevel._(this.value);
-
-  static const values = [debug, info, warn, error, fatal];
-
-  static LoggerLevel fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LoggerLevel._(value));
-
-  @override
-  bool operator ==(other) => other is LoggerLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LoggerType {
-  static const fileSystem = LoggerType._('FileSystem');
-  static const awsCloudWatch = LoggerType._('AWSCloudWatch');
-
-  final String value;
-
-  const LoggerType._(this.value);
-
-  static const values = [fileSystem, awsCloudWatch];
-
-  static LoggerType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LoggerType._(value));
-
-  @override
-  bool operator ==(other) => other is LoggerType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The type of permission a function has to access a resource.
-class Permission {
-  static const ro = Permission._('ro');
-  static const rw = Permission._('rw');
-
-  final String value;
-
-  const Permission._(this.value);
-
-  static const values = [ro, rw];
-
-  static Permission fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
-
-  @override
-  bool operator ==(other) => other is Permission && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResetDeploymentsResponse {
   /// The ARN of the deployment.
   final String? deploymentArn;
 
   /// The ID of the deployment.
   final String? deploymentId;
 
-  ResetDeploymentsResponse({
+  /// The type of the deployment.
+  final DeploymentType? deploymentType;
+
+  /// The ARN of the group for this deployment.
+  final String? groupArn;
+
+  Deployment({
+    this.createdAt,
     this.deploymentArn,
     this.deploymentId,
+    this.deploymentType,
+    this.groupArn,
   });
 
-  factory ResetDeploymentsResponse.fromJson(Map<String, dynamic> json) {
-    return ResetDeploymentsResponse(
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      createdAt: json['CreatedAt'] as String?,
       deploymentArn: json['DeploymentArn'] as String?,
       deploymentId: json['DeploymentId'] as String?,
+      deploymentType:
+          (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
+      groupArn: json['GroupArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
     final deploymentArn = this.deploymentArn;
     final deploymentId = this.deploymentId;
+    final deploymentType = this.deploymentType;
+    final groupArn = this.groupArn;
     return {
+      if (createdAt != null) 'CreatedAt': createdAt,
       if (deploymentArn != null) 'DeploymentArn': deploymentArn,
       if (deploymentId != null) 'DeploymentId': deploymentId,
+      if (deploymentType != null) 'DeploymentType': deploymentType.value,
+      if (groupArn != null) 'GroupArn': groupArn,
+    };
+  }
+}
+
+/// The type of deployment. When used for ''CreateDeployment'', only
+/// ''NewDeployment'' and ''Redeployment'' are valid.
+class DeploymentType {
+  static const newDeployment = DeploymentType._('NewDeployment');
+  static const redeployment = DeploymentType._('Redeployment');
+  static const resetDeployment = DeploymentType._('ResetDeployment');
+  static const forceResetDeployment = DeploymentType._('ForceResetDeployment');
+
+  final String value;
+
+  const DeploymentType._(this.value);
+
+  static const values = [
+    newDeployment,
+    redeployment,
+    resetDeployment,
+    forceResetDeployment
+  ];
+
+  static DeploymentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentType._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a bulk deployment. You cannot start a new bulk deployment
+/// while another one is still running or in a non-terminal state.
+class BulkDeployment {
+  /// The ARN of the bulk deployment.
+  final String? bulkDeploymentArn;
+
+  /// The ID of the bulk deployment.
+  final String? bulkDeploymentId;
+
+  /// The time, in ISO format, when the deployment was created.
+  final String? createdAt;
+
+  BulkDeployment({
+    this.bulkDeploymentArn,
+    this.bulkDeploymentId,
+    this.createdAt,
+  });
+
+  factory BulkDeployment.fromJson(Map<String, dynamic> json) {
+    return BulkDeployment(
+      bulkDeploymentArn: json['BulkDeploymentArn'] as String?,
+      bulkDeploymentId: json['BulkDeploymentId'] as String?,
+      createdAt: json['CreatedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bulkDeploymentArn = this.bulkDeploymentArn;
+    final bulkDeploymentId = this.bulkDeploymentId;
+    final createdAt = this.createdAt;
+    return {
+      if (bulkDeploymentArn != null) 'BulkDeploymentArn': bulkDeploymentArn,
+      if (bulkDeploymentId != null) 'BulkDeploymentId': bulkDeploymentId,
+      if (createdAt != null) 'CreatedAt': createdAt,
+    };
+  }
+}
+
+/// Information about an individual group deployment in a bulk deployment
+/// operation.
+class BulkDeploymentResult {
+  /// The time, in ISO format, when the deployment was created.
+  final String? createdAt;
+
+  /// The ARN of the group deployment.
+  final String? deploymentArn;
+
+  /// The ID of the group deployment.
+  final String? deploymentId;
+
+  /// The current status of the group deployment: ''InProgress'', ''Building'',
+  /// ''Success'', or ''Failure''.
+  final String? deploymentStatus;
+
+  /// The type of the deployment.
+  final DeploymentType? deploymentType;
+
+  /// Details about the error.
+  final List<ErrorDetail>? errorDetails;
+
+  /// The error message for a failed deployment
+  final String? errorMessage;
+
+  /// The ARN of the Greengrass group.
+  final String? groupArn;
+
+  BulkDeploymentResult({
+    this.createdAt,
+    this.deploymentArn,
+    this.deploymentId,
+    this.deploymentStatus,
+    this.deploymentType,
+    this.errorDetails,
+    this.errorMessage,
+    this.groupArn,
+  });
+
+  factory BulkDeploymentResult.fromJson(Map<String, dynamic> json) {
+    return BulkDeploymentResult(
+      createdAt: json['CreatedAt'] as String?,
+      deploymentArn: json['DeploymentArn'] as String?,
+      deploymentId: json['DeploymentId'] as String?,
+      deploymentStatus: json['DeploymentStatus'] as String?,
+      deploymentType:
+          (json['DeploymentType'] as String?)?.let(DeploymentType.fromString),
+      errorDetails: (json['ErrorDetails'] as List?)
+          ?.nonNulls
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errorMessage: json['ErrorMessage'] as String?,
+      groupArn: json['GroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final deploymentArn = this.deploymentArn;
+    final deploymentId = this.deploymentId;
+    final deploymentStatus = this.deploymentStatus;
+    final deploymentType = this.deploymentType;
+    final errorDetails = this.errorDetails;
+    final errorMessage = this.errorMessage;
+    final groupArn = this.groupArn;
+    return {
+      if (createdAt != null) 'CreatedAt': createdAt,
+      if (deploymentArn != null) 'DeploymentArn': deploymentArn,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+      if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
+      if (deploymentType != null) 'DeploymentType': deploymentType.value,
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (groupArn != null) 'GroupArn': groupArn,
+    };
+  }
+}
+
+/// Details about the error.
+class ErrorDetail {
+  /// A detailed error code.
+  final String? detailedErrorCode;
+
+  /// A detailed error message.
+  final String? detailedErrorMessage;
+
+  ErrorDetail({
+    this.detailedErrorCode,
+    this.detailedErrorMessage,
+  });
+
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      detailedErrorCode: json['DetailedErrorCode'] as String?,
+      detailedErrorMessage: json['DetailedErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detailedErrorCode = this.detailedErrorCode;
+    final detailedErrorMessage = this.detailedErrorMessage;
+    return {
+      if (detailedErrorCode != null) 'DetailedErrorCode': detailedErrorCode,
+      if (detailedErrorMessage != null)
+        'DetailedErrorMessage': detailedErrorMessage,
+    };
+  }
+}
+
+/// Runtime configuration for a thing.
+class RuntimeConfiguration {
+  /// Configuration for telemetry service.
+  final TelemetryConfiguration? telemetryConfiguration;
+
+  RuntimeConfiguration({
+    this.telemetryConfiguration,
+  });
+
+  factory RuntimeConfiguration.fromJson(Map<String, dynamic> json) {
+    return RuntimeConfiguration(
+      telemetryConfiguration: json['TelemetryConfiguration'] != null
+          ? TelemetryConfiguration.fromJson(
+              json['TelemetryConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final telemetryConfiguration = this.telemetryConfiguration;
+    return {
+      if (telemetryConfiguration != null)
+        'TelemetryConfiguration': telemetryConfiguration,
+    };
+  }
+}
+
+/// Configuration settings for running telemetry.
+class TelemetryConfiguration {
+  /// Configure telemetry to be on or off.
+  final Telemetry telemetry;
+
+  /// Synchronization status of the device reported configuration with the desired
+  /// configuration.
+  final ConfigurationSyncStatus? configurationSyncStatus;
+
+  TelemetryConfiguration({
+    required this.telemetry,
+    this.configurationSyncStatus,
+  });
+
+  factory TelemetryConfiguration.fromJson(Map<String, dynamic> json) {
+    return TelemetryConfiguration(
+      telemetry: Telemetry.fromString((json['Telemetry'] as String?) ?? ''),
+      configurationSyncStatus: (json['ConfigurationSyncStatus'] as String?)
+          ?.let(ConfigurationSyncStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final telemetry = this.telemetry;
+    final configurationSyncStatus = this.configurationSyncStatus;
+    return {
+      'Telemetry': telemetry.value,
+      if (configurationSyncStatus != null)
+        'ConfigurationSyncStatus': configurationSyncStatus.value,
+    };
+  }
+}
+
+class ConfigurationSyncStatus {
+  static const inSync = ConfigurationSyncStatus._('InSync');
+  static const outOfSync = ConfigurationSyncStatus._('OutOfSync');
+
+  final String value;
+
+  const ConfigurationSyncStatus._(this.value);
+
+  static const values = [inSync, outOfSync];
+
+  static ConfigurationSyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationSyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationSyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a subscription definition version.
+class SubscriptionDefinitionVersion {
+  /// A list of subscriptions.
+  final List<Subscription>? subscriptions;
+
+  SubscriptionDefinitionVersion({
+    this.subscriptions,
+  });
+
+  factory SubscriptionDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return SubscriptionDefinitionVersion(
+      subscriptions: (json['Subscriptions'] as List?)
+          ?.nonNulls
+          .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriptions = this.subscriptions;
+    return {
+      if (subscriptions != null) 'Subscriptions': subscriptions,
+    };
+  }
+}
+
+/// Information about a subscription.
+class Subscription {
+  /// A descriptive or arbitrary ID for the subscription. This value must be
+  /// unique within the subscription definition version. Max length is 128
+  /// characters with pattern ''[a-zA-Z0-9:_-]+''.
+  final String id;
+
+  /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a
+  /// connector ARN, 'cloud' (which represents the AWS IoT cloud), or
+  /// 'GGShadowService'.
+  final String source;
+
+  /// The MQTT topic used to route the message.
+  final String subject;
+
+  /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, a
+  /// connector ARN, 'cloud' (which represents the AWS IoT cloud), or
+  /// 'GGShadowService'.
+  final String target;
+
+  Subscription({
+    required this.id,
+    required this.source,
+    required this.subject,
+    required this.target,
+  });
+
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      id: (json['Id'] as String?) ?? '',
+      source: (json['Source'] as String?) ?? '',
+      subject: (json['Subject'] as String?) ?? '',
+      target: (json['Target'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final source = this.source;
+    final subject = this.subject;
+    final target = this.target;
+    return {
+      'Id': id,
+      'Source': source,
+      'Subject': subject,
+      'Target': target,
+    };
+  }
+}
+
+/// Information about a resource definition version.
+class ResourceDefinitionVersion {
+  /// A list of resources.
+  final List<Resource>? resources;
+
+  ResourceDefinitionVersion({
+    this.resources,
+  });
+
+  factory ResourceDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return ResourceDefinitionVersion(
+      resources: (json['Resources'] as List?)
+          ?.nonNulls
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resources = this.resources;
+    return {
+      if (resources != null) 'Resources': resources,
     };
   }
 }
@@ -7580,38 +6990,6 @@ class Resource {
       'Id': id,
       'Name': name,
       'ResourceDataContainer': resourceDataContainer,
-    };
-  }
-}
-
-/// A policy used by the function to access a resource.
-class ResourceAccessPolicy {
-  /// The ID of the resource. (This ID is assigned to the resource when you create
-  /// the resource definiton.)
-  final String resourceId;
-
-  /// The permissions that the Lambda function has to the resource. Can be one of
-  /// ''rw'' (read/write) or ''ro'' (read-only).
-  final Permission? permission;
-
-  ResourceAccessPolicy({
-    required this.resourceId,
-    this.permission,
-  });
-
-  factory ResourceAccessPolicy.fromJson(Map<String, dynamic> json) {
-    return ResourceAccessPolicy(
-      resourceId: (json['ResourceId'] as String?) ?? '',
-      permission: (json['Permission'] as String?)?.let(Permission.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceId = this.resourceId;
-    final permission = this.permission;
-    return {
-      'ResourceId': resourceId,
-      if (permission != null) 'Permission': permission.value,
     };
   }
 }
@@ -7704,89 +7082,79 @@ class ResourceDataContainer {
   }
 }
 
-/// Information about a resource definition version.
-class ResourceDefinitionVersion {
-  /// A list of resources.
-  final List<Resource>? resources;
+/// Attributes that define a local device resource.
+class LocalDeviceResourceData {
+  /// Group/owner related settings for local resources.
+  final GroupOwnerSetting? groupOwnerSetting;
 
-  ResourceDefinitionVersion({
-    this.resources,
+  /// The local absolute path of the device resource. The source path for a device
+  /// resource can refer only to a character device or block device under
+  /// ''/dev''.
+  final String? sourcePath;
+
+  LocalDeviceResourceData({
+    this.groupOwnerSetting,
+    this.sourcePath,
   });
 
-  factory ResourceDefinitionVersion.fromJson(Map<String, dynamic> json) {
-    return ResourceDefinitionVersion(
-      resources: (json['Resources'] as List?)
-          ?.nonNulls
-          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resources = this.resources;
-    return {
-      if (resources != null) 'Resources': resources,
-    };
-  }
-}
-
-/// The owner setting for downloaded machine learning resources.
-class ResourceDownloadOwnerSetting {
-  /// The group owner of the resource. This is the name of an existing Linux OS
-  /// group on the system or a GID. The group's permissions are added to the
-  /// Lambda process.
-  final String groupOwner;
-
-  /// The permissions that the group owner has to the resource. Valid values are
-  /// ''rw'' (read/write) or ''ro'' (read-only).
-  final Permission groupPermission;
-
-  ResourceDownloadOwnerSetting({
-    required this.groupOwner,
-    required this.groupPermission,
-  });
-
-  factory ResourceDownloadOwnerSetting.fromJson(Map<String, dynamic> json) {
-    return ResourceDownloadOwnerSetting(
-      groupOwner: (json['GroupOwner'] as String?) ?? '',
-      groupPermission:
-          Permission.fromString((json['GroupPermission'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupOwner = this.groupOwner;
-    final groupPermission = this.groupPermission;
-    return {
-      'GroupOwner': groupOwner,
-      'GroupPermission': groupPermission.value,
-    };
-  }
-}
-
-/// Runtime configuration for a thing.
-class RuntimeConfiguration {
-  /// Configuration for telemetry service.
-  final TelemetryConfiguration? telemetryConfiguration;
-
-  RuntimeConfiguration({
-    this.telemetryConfiguration,
-  });
-
-  factory RuntimeConfiguration.fromJson(Map<String, dynamic> json) {
-    return RuntimeConfiguration(
-      telemetryConfiguration: json['TelemetryConfiguration'] != null
-          ? TelemetryConfiguration.fromJson(
-              json['TelemetryConfiguration'] as Map<String, dynamic>)
+  factory LocalDeviceResourceData.fromJson(Map<String, dynamic> json) {
+    return LocalDeviceResourceData(
+      groupOwnerSetting: json['GroupOwnerSetting'] != null
+          ? GroupOwnerSetting.fromJson(
+              json['GroupOwnerSetting'] as Map<String, dynamic>)
           : null,
+      sourcePath: json['SourcePath'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final telemetryConfiguration = this.telemetryConfiguration;
+    final groupOwnerSetting = this.groupOwnerSetting;
+    final sourcePath = this.sourcePath;
     return {
-      if (telemetryConfiguration != null)
-        'TelemetryConfiguration': telemetryConfiguration,
+      if (groupOwnerSetting != null) 'GroupOwnerSetting': groupOwnerSetting,
+      if (sourcePath != null) 'SourcePath': sourcePath,
+    };
+  }
+}
+
+/// Attributes that define a local volume resource.
+class LocalVolumeResourceData {
+  /// The absolute local path of the resource inside the Lambda environment.
+  final String? destinationPath;
+
+  /// Allows you to configure additional group privileges for the Lambda process.
+  /// This field is optional.
+  final GroupOwnerSetting? groupOwnerSetting;
+
+  /// The local absolute path of the volume resource on the host. The source path
+  /// for a volume resource type cannot start with ''/sys''.
+  final String? sourcePath;
+
+  LocalVolumeResourceData({
+    this.destinationPath,
+    this.groupOwnerSetting,
+    this.sourcePath,
+  });
+
+  factory LocalVolumeResourceData.fromJson(Map<String, dynamic> json) {
+    return LocalVolumeResourceData(
+      destinationPath: json['DestinationPath'] as String?,
+      groupOwnerSetting: json['GroupOwnerSetting'] != null
+          ? GroupOwnerSetting.fromJson(
+              json['GroupOwnerSetting'] as Map<String, dynamic>)
+          : null,
+      sourcePath: json['SourcePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationPath = this.destinationPath;
+    final groupOwnerSetting = this.groupOwnerSetting;
+    final sourcePath = this.sourcePath;
+    return {
+      if (destinationPath != null) 'DestinationPath': destinationPath,
+      if (groupOwnerSetting != null) 'GroupOwnerSetting': groupOwnerSetting,
+      if (sourcePath != null) 'SourcePath': sourcePath,
     };
   }
 }
@@ -7913,6 +7281,1056 @@ class SecretsManagerSecretResourceData {
   }
 }
 
+/// The owner setting for downloaded machine learning resources.
+class ResourceDownloadOwnerSetting {
+  /// The group owner of the resource. This is the name of an existing Linux OS
+  /// group on the system or a GID. The group's permissions are added to the
+  /// Lambda process.
+  final String groupOwner;
+
+  /// The permissions that the group owner has to the resource. Valid values are
+  /// ''rw'' (read/write) or ''ro'' (read-only).
+  final Permission groupPermission;
+
+  ResourceDownloadOwnerSetting({
+    required this.groupOwner,
+    required this.groupPermission,
+  });
+
+  factory ResourceDownloadOwnerSetting.fromJson(Map<String, dynamic> json) {
+    return ResourceDownloadOwnerSetting(
+      groupOwner: (json['GroupOwner'] as String?) ?? '',
+      groupPermission:
+          Permission.fromString((json['GroupPermission'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupOwner = this.groupOwner;
+    final groupPermission = this.groupPermission;
+    return {
+      'GroupOwner': groupOwner,
+      'GroupPermission': groupPermission.value,
+    };
+  }
+}
+
+/// The type of permission a function has to access a resource.
+class Permission {
+  static const ro = Permission._('ro');
+  static const rw = Permission._('rw');
+
+  final String value;
+
+  const Permission._(this.value);
+
+  static const values = [ro, rw];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Group owner related settings for local resources.
+class GroupOwnerSetting {
+  /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group
+  /// owner of the resource to the Lambda process privileges. Thus the Lambda
+  /// process will have the file access permissions of the added Linux group.
+  final bool? autoAddGroupOwner;
+
+  /// The name of the Linux OS group whose privileges will be added to the Lambda
+  /// process. This field is optional.
+  final String? groupOwner;
+
+  GroupOwnerSetting({
+    this.autoAddGroupOwner,
+    this.groupOwner,
+  });
+
+  factory GroupOwnerSetting.fromJson(Map<String, dynamic> json) {
+    return GroupOwnerSetting(
+      autoAddGroupOwner: json['AutoAddGroupOwner'] as bool?,
+      groupOwner: json['GroupOwner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoAddGroupOwner = this.autoAddGroupOwner;
+    final groupOwner = this.groupOwner;
+    return {
+      if (autoAddGroupOwner != null) 'AutoAddGroupOwner': autoAddGroupOwner,
+      if (groupOwner != null) 'GroupOwner': groupOwner,
+    };
+  }
+}
+
+/// Information about a logger definition version.
+class LoggerDefinitionVersion {
+  /// A list of loggers.
+  final List<Logger>? loggers;
+
+  LoggerDefinitionVersion({
+    this.loggers,
+  });
+
+  factory LoggerDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return LoggerDefinitionVersion(
+      loggers: (json['Loggers'] as List?)
+          ?.nonNulls
+          .map((e) => Logger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggers = this.loggers;
+    return {
+      if (loggers != null) 'Loggers': loggers,
+    };
+  }
+}
+
+/// Information about a logger
+class Logger {
+  /// The component that will be subject to logging.
+  final LoggerComponent component;
+
+  /// A descriptive or arbitrary ID for the logger. This value must be unique
+  /// within the logger definition version. Max length is 128 characters with
+  /// pattern ''[a-zA-Z0-9:_-]+''.
+  final String id;
+
+  /// The level of the logs.
+  final LoggerLevel level;
+
+  /// The type of log output which will be used.
+  final LoggerType type;
+
+  /// The amount of file space, in KB, to use if the local file system is used for
+  /// logging purposes.
+  final int? space;
+
+  Logger({
+    required this.component,
+    required this.id,
+    required this.level,
+    required this.type,
+    this.space,
+  });
+
+  factory Logger.fromJson(Map<String, dynamic> json) {
+    return Logger(
+      component:
+          LoggerComponent.fromString((json['Component'] as String?) ?? ''),
+      id: (json['Id'] as String?) ?? '',
+      level: LoggerLevel.fromString((json['Level'] as String?) ?? ''),
+      type: LoggerType.fromString((json['Type'] as String?) ?? ''),
+      space: json['Space'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final component = this.component;
+    final id = this.id;
+    final level = this.level;
+    final type = this.type;
+    final space = this.space;
+    return {
+      'Component': component.value,
+      'Id': id,
+      'Level': level.value,
+      'Type': type.value,
+      if (space != null) 'Space': space,
+    };
+  }
+}
+
+class LoggerComponent {
+  static const greengrassSystem = LoggerComponent._('GreengrassSystem');
+  static const lambda = LoggerComponent._('Lambda');
+
+  final String value;
+
+  const LoggerComponent._(this.value);
+
+  static const values = [greengrassSystem, lambda];
+
+  static LoggerComponent fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LoggerComponent._(value));
+
+  @override
+  bool operator ==(other) => other is LoggerComponent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LoggerLevel {
+  static const debug = LoggerLevel._('DEBUG');
+  static const info = LoggerLevel._('INFO');
+  static const warn = LoggerLevel._('WARN');
+  static const error = LoggerLevel._('ERROR');
+  static const fatal = LoggerLevel._('FATAL');
+
+  final String value;
+
+  const LoggerLevel._(this.value);
+
+  static const values = [debug, info, warn, error, fatal];
+
+  static LoggerLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggerLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LoggerLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LoggerType {
+  static const fileSystem = LoggerType._('FileSystem');
+  static const awsCloudWatch = LoggerType._('AWSCloudWatch');
+
+  final String value;
+
+  const LoggerType._(this.value);
+
+  static const values = [fileSystem, awsCloudWatch];
+
+  static LoggerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggerType._(value));
+
+  @override
+  bool operator ==(other) => other is LoggerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a group version.
+class GroupVersion {
+  /// The ARN of the connector definition version for this group.
+  final String? connectorDefinitionVersionArn;
+
+  /// The ARN of the core definition version for this group.
+  final String? coreDefinitionVersionArn;
+
+  /// The ARN of the device definition version for this group.
+  final String? deviceDefinitionVersionArn;
+
+  /// The ARN of the function definition version for this group.
+  final String? functionDefinitionVersionArn;
+
+  /// The ARN of the logger definition version for this group.
+  final String? loggerDefinitionVersionArn;
+
+  /// The ARN of the resource definition version for this group.
+  final String? resourceDefinitionVersionArn;
+
+  /// The ARN of the subscription definition version for this group.
+  final String? subscriptionDefinitionVersionArn;
+
+  GroupVersion({
+    this.connectorDefinitionVersionArn,
+    this.coreDefinitionVersionArn,
+    this.deviceDefinitionVersionArn,
+    this.functionDefinitionVersionArn,
+    this.loggerDefinitionVersionArn,
+    this.resourceDefinitionVersionArn,
+    this.subscriptionDefinitionVersionArn,
+  });
+
+  factory GroupVersion.fromJson(Map<String, dynamic> json) {
+    return GroupVersion(
+      connectorDefinitionVersionArn:
+          json['ConnectorDefinitionVersionArn'] as String?,
+      coreDefinitionVersionArn: json['CoreDefinitionVersionArn'] as String?,
+      deviceDefinitionVersionArn: json['DeviceDefinitionVersionArn'] as String?,
+      functionDefinitionVersionArn:
+          json['FunctionDefinitionVersionArn'] as String?,
+      loggerDefinitionVersionArn: json['LoggerDefinitionVersionArn'] as String?,
+      resourceDefinitionVersionArn:
+          json['ResourceDefinitionVersionArn'] as String?,
+      subscriptionDefinitionVersionArn:
+          json['SubscriptionDefinitionVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorDefinitionVersionArn = this.connectorDefinitionVersionArn;
+    final coreDefinitionVersionArn = this.coreDefinitionVersionArn;
+    final deviceDefinitionVersionArn = this.deviceDefinitionVersionArn;
+    final functionDefinitionVersionArn = this.functionDefinitionVersionArn;
+    final loggerDefinitionVersionArn = this.loggerDefinitionVersionArn;
+    final resourceDefinitionVersionArn = this.resourceDefinitionVersionArn;
+    final subscriptionDefinitionVersionArn =
+        this.subscriptionDefinitionVersionArn;
+    return {
+      if (connectorDefinitionVersionArn != null)
+        'ConnectorDefinitionVersionArn': connectorDefinitionVersionArn,
+      if (coreDefinitionVersionArn != null)
+        'CoreDefinitionVersionArn': coreDefinitionVersionArn,
+      if (deviceDefinitionVersionArn != null)
+        'DeviceDefinitionVersionArn': deviceDefinitionVersionArn,
+      if (functionDefinitionVersionArn != null)
+        'FunctionDefinitionVersionArn': functionDefinitionVersionArn,
+      if (loggerDefinitionVersionArn != null)
+        'LoggerDefinitionVersionArn': loggerDefinitionVersionArn,
+      if (resourceDefinitionVersionArn != null)
+        'ResourceDefinitionVersionArn': resourceDefinitionVersionArn,
+      if (subscriptionDefinitionVersionArn != null)
+        'SubscriptionDefinitionVersionArn': subscriptionDefinitionVersionArn,
+    };
+  }
+}
+
+/// Information about a function definition version.
+class FunctionDefinitionVersion {
+  /// The default configuration that applies to all Lambda functions in this
+  /// function definition version. Individual Lambda functions can override these
+  /// settings.
+  final FunctionDefaultConfig? defaultConfig;
+
+  /// A list of Lambda functions in this function definition version.
+  final List<$Function>? functions;
+
+  FunctionDefinitionVersion({
+    this.defaultConfig,
+    this.functions,
+  });
+
+  factory FunctionDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return FunctionDefinitionVersion(
+      defaultConfig: json['DefaultConfig'] != null
+          ? FunctionDefaultConfig.fromJson(
+              json['DefaultConfig'] as Map<String, dynamic>)
+          : null,
+      functions: (json['Functions'] as List?)
+          ?.nonNulls
+          .map((e) => $Function.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultConfig = this.defaultConfig;
+    final functions = this.functions;
+    return {
+      if (defaultConfig != null) 'DefaultConfig': defaultConfig,
+      if (functions != null) 'Functions': functions,
+    };
+  }
+}
+
+/// The default configuration that applies to all Lambda functions in the group.
+/// Individual Lambda functions can override these settings.
+class FunctionDefaultConfig {
+  final FunctionDefaultExecutionConfig? execution;
+
+  FunctionDefaultConfig({
+    this.execution,
+  });
+
+  factory FunctionDefaultConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionDefaultConfig(
+      execution: json['Execution'] != null
+          ? FunctionDefaultExecutionConfig.fromJson(
+              json['Execution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final execution = this.execution;
+    return {
+      if (execution != null) 'Execution': execution,
+    };
+  }
+}
+
+/// Information about a Lambda function.
+class $Function {
+  /// A descriptive or arbitrary ID for the function. This value must be unique
+  /// within the function definition version. Max length is 128 characters with
+  /// pattern ''[a-zA-Z0-9:_-]+''.
+  final String id;
+
+  /// The ARN of the Lambda function.
+  final String? functionArn;
+
+  /// The configuration of the Lambda function.
+  final FunctionConfiguration? functionConfiguration;
+
+  $Function({
+    required this.id,
+    this.functionArn,
+    this.functionConfiguration,
+  });
+
+  factory $Function.fromJson(Map<String, dynamic> json) {
+    return $Function(
+      id: (json['Id'] as String?) ?? '',
+      functionArn: json['FunctionArn'] as String?,
+      functionConfiguration: json['FunctionConfiguration'] != null
+          ? FunctionConfiguration.fromJson(
+              json['FunctionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final functionArn = this.functionArn;
+    final functionConfiguration = this.functionConfiguration;
+    return {
+      'Id': id,
+      if (functionArn != null) 'FunctionArn': functionArn,
+      if (functionConfiguration != null)
+        'FunctionConfiguration': functionConfiguration,
+    };
+  }
+}
+
+/// The configuration of the Lambda function.
+class FunctionConfiguration {
+  /// The expected encoding type of the input payload for the function. The
+  /// default is ''json''.
+  final EncodingType? encodingType;
+
+  /// The environment configuration of the function.
+  final FunctionConfigurationEnvironment? environment;
+
+  /// The execution arguments.
+  final String? execArgs;
+
+  /// The name of the function executable.
+  final String? executable;
+
+  /// The Lambda runtime supported by Greengrass which is to be used instead of
+  /// the one specified in the Lambda function.
+  final String? functionRuntimeOverride;
+
+  /// The memory size, in KB, which the function requires. This setting is not
+  /// applicable and should be cleared when you run the Lambda function without
+  /// containerization.
+  final int? memorySize;
+
+  /// True if the function is pinned. Pinned means the function is long-lived and
+  /// starts when the core starts.
+  final bool? pinned;
+
+  /// The allowed function execution time, after which Lambda should terminate the
+  /// function. This timeout still applies to pinned Lambda functions for each
+  /// request.
+  final int? timeout;
+
+  FunctionConfiguration({
+    this.encodingType,
+    this.environment,
+    this.execArgs,
+    this.executable,
+    this.functionRuntimeOverride,
+    this.memorySize,
+    this.pinned,
+    this.timeout,
+  });
+
+  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
+    return FunctionConfiguration(
+      encodingType:
+          (json['EncodingType'] as String?)?.let(EncodingType.fromString),
+      environment: json['Environment'] != null
+          ? FunctionConfigurationEnvironment.fromJson(
+              json['Environment'] as Map<String, dynamic>)
+          : null,
+      execArgs: json['ExecArgs'] as String?,
+      executable: json['Executable'] as String?,
+      functionRuntimeOverride: json['FunctionRuntimeOverride'] as String?,
+      memorySize: json['MemorySize'] as int?,
+      pinned: json['Pinned'] as bool?,
+      timeout: json['Timeout'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encodingType = this.encodingType;
+    final environment = this.environment;
+    final execArgs = this.execArgs;
+    final executable = this.executable;
+    final functionRuntimeOverride = this.functionRuntimeOverride;
+    final memorySize = this.memorySize;
+    final pinned = this.pinned;
+    final timeout = this.timeout;
+    return {
+      if (encodingType != null) 'EncodingType': encodingType.value,
+      if (environment != null) 'Environment': environment,
+      if (execArgs != null) 'ExecArgs': execArgs,
+      if (executable != null) 'Executable': executable,
+      if (functionRuntimeOverride != null)
+        'FunctionRuntimeOverride': functionRuntimeOverride,
+      if (memorySize != null) 'MemorySize': memorySize,
+      if (pinned != null) 'Pinned': pinned,
+      if (timeout != null) 'Timeout': timeout,
+    };
+  }
+}
+
+class EncodingType {
+  static const binary = EncodingType._('binary');
+  static const json = EncodingType._('json');
+
+  final String value;
+
+  const EncodingType._(this.value);
+
+  static const values = [binary, json];
+
+  static EncodingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EncodingType._(value));
+
+  @override
+  bool operator ==(other) => other is EncodingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The environment configuration of the function.
+class FunctionConfigurationEnvironment {
+  /// If true, the Lambda function is allowed to access the host's /sys folder.
+  /// Use this when the Lambda function needs to read device information from
+  /// /sys. This setting applies only when you run the Lambda function in a
+  /// Greengrass container.
+  final bool? accessSysfs;
+
+  /// Configuration related to executing the Lambda function
+  final FunctionExecutionConfig? execution;
+
+  /// A list of the resources, with their permissions, to which the Lambda
+  /// function will be granted access. A Lambda function can have at most 10
+  /// resources. ResourceAccessPolicies apply only when you run the Lambda
+  /// function in a Greengrass container.
+  final List<ResourceAccessPolicy>? resourceAccessPolicies;
+
+  /// Environment variables for the Lambda function's configuration.
+  final Map<String, String>? variables;
+
+  FunctionConfigurationEnvironment({
+    this.accessSysfs,
+    this.execution,
+    this.resourceAccessPolicies,
+    this.variables,
+  });
+
+  factory FunctionConfigurationEnvironment.fromJson(Map<String, dynamic> json) {
+    return FunctionConfigurationEnvironment(
+      accessSysfs: json['AccessSysfs'] as bool?,
+      execution: json['Execution'] != null
+          ? FunctionExecutionConfig.fromJson(
+              json['Execution'] as Map<String, dynamic>)
+          : null,
+      resourceAccessPolicies: (json['ResourceAccessPolicies'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceAccessPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      variables: (json['Variables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessSysfs = this.accessSysfs;
+    final execution = this.execution;
+    final resourceAccessPolicies = this.resourceAccessPolicies;
+    final variables = this.variables;
+    return {
+      if (accessSysfs != null) 'AccessSysfs': accessSysfs,
+      if (execution != null) 'Execution': execution,
+      if (resourceAccessPolicies != null)
+        'ResourceAccessPolicies': resourceAccessPolicies,
+      if (variables != null) 'Variables': variables,
+    };
+  }
+}
+
+/// Configuration information that specifies how a Lambda function runs.
+class FunctionExecutionConfig {
+  final FunctionIsolationMode? isolationMode;
+  final FunctionRunAsConfig? runAs;
+
+  FunctionExecutionConfig({
+    this.isolationMode,
+    this.runAs,
+  });
+
+  factory FunctionExecutionConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionExecutionConfig(
+      isolationMode: (json['IsolationMode'] as String?)
+          ?.let(FunctionIsolationMode.fromString),
+      runAs: json['RunAs'] != null
+          ? FunctionRunAsConfig.fromJson(json['RunAs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isolationMode = this.isolationMode;
+    final runAs = this.runAs;
+    return {
+      if (isolationMode != null) 'IsolationMode': isolationMode.value,
+      if (runAs != null) 'RunAs': runAs,
+    };
+  }
+}
+
+/// A policy used by the function to access a resource.
+class ResourceAccessPolicy {
+  /// The ID of the resource. (This ID is assigned to the resource when you create
+  /// the resource definiton.)
+  final String resourceId;
+
+  /// The permissions that the Lambda function has to the resource. Can be one of
+  /// ''rw'' (read/write) or ''ro'' (read-only).
+  final Permission? permission;
+
+  ResourceAccessPolicy({
+    required this.resourceId,
+    this.permission,
+  });
+
+  factory ResourceAccessPolicy.fromJson(Map<String, dynamic> json) {
+    return ResourceAccessPolicy(
+      resourceId: (json['ResourceId'] as String?) ?? '',
+      permission: (json['Permission'] as String?)?.let(Permission.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final permission = this.permission;
+    return {
+      'ResourceId': resourceId,
+      if (permission != null) 'Permission': permission.value,
+    };
+  }
+}
+
+/// Specifies whether the Lambda function runs in a Greengrass container
+/// (default) or without containerization. Unless your scenario requires that
+/// you run without containerization, we recommend that you run in a Greengrass
+/// container. Omit this value to run the Lambda function with the default
+/// containerization for the group.
+class FunctionIsolationMode {
+  static const greengrassContainer =
+      FunctionIsolationMode._('GreengrassContainer');
+  static const noContainer = FunctionIsolationMode._('NoContainer');
+
+  final String value;
+
+  const FunctionIsolationMode._(this.value);
+
+  static const values = [greengrassContainer, noContainer];
+
+  static FunctionIsolationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FunctionIsolationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FunctionIsolationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the user and group whose permissions are used when running the
+/// Lambda function. You can specify one or both values to override the default
+/// values. We recommend that you avoid running as root unless absolutely
+/// necessary to minimize the risk of unintended changes or malicious attacks.
+/// To run as root, you must set ''IsolationMode'' to ''NoContainer'' and update
+/// config.json in ''greengrass-root/config'' to set
+/// ''allowFunctionsToRunAsRoot'' to ''yes''.
+class FunctionRunAsConfig {
+  /// The group ID whose permissions are used to run a Lambda function.
+  final int? gid;
+
+  /// The user ID whose permissions are used to run a Lambda function.
+  final int? uid;
+
+  FunctionRunAsConfig({
+    this.gid,
+    this.uid,
+  });
+
+  factory FunctionRunAsConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionRunAsConfig(
+      gid: json['Gid'] as int?,
+      uid: json['Uid'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gid = this.gid;
+    final uid = this.uid;
+    return {
+      if (gid != null) 'Gid': gid,
+      if (uid != null) 'Uid': uid,
+    };
+  }
+}
+
+/// Configuration information that specifies how a Lambda function runs.
+class FunctionDefaultExecutionConfig {
+  final FunctionIsolationMode? isolationMode;
+  final FunctionRunAsConfig? runAs;
+
+  FunctionDefaultExecutionConfig({
+    this.isolationMode,
+    this.runAs,
+  });
+
+  factory FunctionDefaultExecutionConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionDefaultExecutionConfig(
+      isolationMode: (json['IsolationMode'] as String?)
+          ?.let(FunctionIsolationMode.fromString),
+      runAs: json['RunAs'] != null
+          ? FunctionRunAsConfig.fromJson(json['RunAs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isolationMode = this.isolationMode;
+    final runAs = this.runAs;
+    return {
+      if (isolationMode != null) 'IsolationMode': isolationMode.value,
+      if (runAs != null) 'RunAs': runAs,
+    };
+  }
+}
+
+/// Information about a device definition version.
+class DeviceDefinitionVersion {
+  /// A list of devices in the definition version.
+  final List<Device>? devices;
+
+  DeviceDefinitionVersion({
+    this.devices,
+  });
+
+  factory DeviceDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return DeviceDefinitionVersion(
+      devices: (json['Devices'] as List?)
+          ?.nonNulls
+          .map((e) => Device.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devices = this.devices;
+    return {
+      if (devices != null) 'Devices': devices,
+    };
+  }
+}
+
+/// Information about a device.
+class Device {
+  /// The ARN of the certificate associated with the device.
+  final String certificateArn;
+
+  /// A descriptive or arbitrary ID for the device. This value must be unique
+  /// within the device definition version. Max length is 128 characters with
+  /// pattern ''[a-zA-Z0-9:_-]+''.
+  final String id;
+
+  /// The thing ARN of the device.
+  final String thingArn;
+
+  /// If true, the device's local shadow will be automatically synced with the
+  /// cloud.
+  final bool? syncShadow;
+
+  Device({
+    required this.certificateArn,
+    required this.id,
+    required this.thingArn,
+    this.syncShadow,
+  });
+
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      certificateArn: (json['CertificateArn'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      thingArn: (json['ThingArn'] as String?) ?? '',
+      syncShadow: json['SyncShadow'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final id = this.id;
+    final thingArn = this.thingArn;
+    final syncShadow = this.syncShadow;
+    return {
+      'CertificateArn': certificateArn,
+      'Id': id,
+      'ThingArn': thingArn,
+      if (syncShadow != null) 'SyncShadow': syncShadow,
+    };
+  }
+}
+
+/// Information about a core definition version.
+class CoreDefinitionVersion {
+  /// A list of cores in the core definition version.
+  final List<Core>? cores;
+
+  CoreDefinitionVersion({
+    this.cores,
+  });
+
+  factory CoreDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return CoreDefinitionVersion(
+      cores: (json['Cores'] as List?)
+          ?.nonNulls
+          .map((e) => Core.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cores = this.cores;
+    return {
+      if (cores != null) 'Cores': cores,
+    };
+  }
+}
+
+/// Information about a core.
+class Core {
+  /// The ARN of the certificate associated with the core.
+  final String certificateArn;
+
+  /// A descriptive or arbitrary ID for the core. This value must be unique within
+  /// the core definition version. Max length is 128 characters with pattern
+  /// ''[a-zA-Z0-9:_-]+''.
+  final String id;
+
+  /// The ARN of the thing which is the core.
+  final String thingArn;
+
+  /// If true, the core's local shadow is automatically synced with the cloud.
+  final bool? syncShadow;
+
+  Core({
+    required this.certificateArn,
+    required this.id,
+    required this.thingArn,
+    this.syncShadow,
+  });
+
+  factory Core.fromJson(Map<String, dynamic> json) {
+    return Core(
+      certificateArn: (json['CertificateArn'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      thingArn: (json['ThingArn'] as String?) ?? '',
+      syncShadow: json['SyncShadow'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final id = this.id;
+    final thingArn = this.thingArn;
+    final syncShadow = this.syncShadow;
+    return {
+      'CertificateArn': certificateArn,
+      'Id': id,
+      'ThingArn': thingArn,
+      if (syncShadow != null) 'SyncShadow': syncShadow,
+    };
+  }
+}
+
+/// Information about the connector definition version, which is a container for
+/// connectors.
+class ConnectorDefinitionVersion {
+  /// A list of references to connectors in this version, with their corresponding
+  /// configuration settings.
+  final List<Connector>? connectors;
+
+  ConnectorDefinitionVersion({
+    this.connectors,
+  });
+
+  factory ConnectorDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return ConnectorDefinitionVersion(
+      connectors: (json['Connectors'] as List?)
+          ?.nonNulls
+          .map((e) => Connector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectors = this.connectors;
+    return {
+      if (connectors != null) 'Connectors': connectors,
+    };
+  }
+}
+
+/// Information about a connector. Connectors run on the Greengrass core and
+/// contain built-in integration with local infrastructure, device protocols,
+/// AWS, and other cloud services.
+class Connector {
+  /// The ARN of the connector.
+  final String connectorArn;
+
+  /// A descriptive or arbitrary ID for the connector. This value must be unique
+  /// within the connector definition version. Max length is 128 characters with
+  /// pattern [a-zA-Z0-9:_-]+.
+  final String id;
+
+  /// The parameters or configuration that the connector uses.
+  final Map<String, String>? parameters;
+
+  Connector({
+    required this.connectorArn,
+    required this.id,
+    this.parameters,
+  });
+
+  factory Connector.fromJson(Map<String, dynamic> json) {
+    return Connector(
+      connectorArn: (json['ConnectorArn'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    final id = this.id;
+    final parameters = this.parameters;
+    return {
+      'ConnectorArn': connectorArn,
+      'Id': id,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// Relevant metrics on input records processed during bulk deployment.
+class BulkDeploymentMetrics {
+  /// The total number of records that returned a non-retryable error. For
+  /// example, this can occur if a group record from the input file uses an
+  /// invalid format or specifies a nonexistent group version, or if the execution
+  /// role doesn't grant permission to deploy a group or group version.
+  final int? invalidInputRecords;
+
+  /// The total number of group records from the input file that have been
+  /// processed so far, or attempted.
+  final int? recordsProcessed;
+
+  /// The total number of deployment attempts that returned a retryable error. For
+  /// example, a retry is triggered if the attempt to deploy a group returns a
+  /// throttling error. ''StartBulkDeployment'' retries a group deployment up to
+  /// five times.
+  final int? retryAttempts;
+
+  BulkDeploymentMetrics({
+    this.invalidInputRecords,
+    this.recordsProcessed,
+    this.retryAttempts,
+  });
+
+  factory BulkDeploymentMetrics.fromJson(Map<String, dynamic> json) {
+    return BulkDeploymentMetrics(
+      invalidInputRecords: json['InvalidInputRecords'] as int?,
+      recordsProcessed: json['RecordsProcessed'] as int?,
+      retryAttempts: json['RetryAttempts'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidInputRecords = this.invalidInputRecords;
+    final recordsProcessed = this.recordsProcessed;
+    final retryAttempts = this.retryAttempts;
+    return {
+      if (invalidInputRecords != null)
+        'InvalidInputRecords': invalidInputRecords,
+      if (recordsProcessed != null) 'RecordsProcessed': recordsProcessed,
+      if (retryAttempts != null) 'RetryAttempts': retryAttempts,
+    };
+  }
+}
+
+/// The current status of the bulk deployment.
+class BulkDeploymentStatus {
+  static const initializing = BulkDeploymentStatus._('Initializing');
+  static const running = BulkDeploymentStatus._('Running');
+  static const completed = BulkDeploymentStatus._('Completed');
+  static const stopping = BulkDeploymentStatus._('Stopping');
+  static const stopped = BulkDeploymentStatus._('Stopped');
+  static const failed = BulkDeploymentStatus._('Failed');
+
+  final String value;
+
+  const BulkDeploymentStatus._(this.value);
+
+  static const values = [
+    initializing,
+    running,
+    completed,
+    stopping,
+    stopped,
+    failed
+  ];
+
+  static BulkDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BulkDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BulkDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The piece of software on the Greengrass core that will be updated.
 class SoftwareToUpdate {
   static const core = SoftwareToUpdate._('core');
@@ -7936,196 +8354,6 @@ class SoftwareToUpdate {
 
   @override
   String toString() => value;
-}
-
-class StartBulkDeploymentResponse {
-  /// The ARN of the bulk deployment.
-  final String? bulkDeploymentArn;
-
-  /// The ID of the bulk deployment.
-  final String? bulkDeploymentId;
-
-  StartBulkDeploymentResponse({
-    this.bulkDeploymentArn,
-    this.bulkDeploymentId,
-  });
-
-  factory StartBulkDeploymentResponse.fromJson(Map<String, dynamic> json) {
-    return StartBulkDeploymentResponse(
-      bulkDeploymentArn: json['BulkDeploymentArn'] as String?,
-      bulkDeploymentId: json['BulkDeploymentId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bulkDeploymentArn = this.bulkDeploymentArn;
-    final bulkDeploymentId = this.bulkDeploymentId;
-    return {
-      if (bulkDeploymentArn != null) 'BulkDeploymentArn': bulkDeploymentArn,
-      if (bulkDeploymentId != null) 'BulkDeploymentId': bulkDeploymentId,
-    };
-  }
-}
-
-class StopBulkDeploymentResponse {
-  StopBulkDeploymentResponse();
-
-  factory StopBulkDeploymentResponse.fromJson(Map<String, dynamic> _) {
-    return StopBulkDeploymentResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about a subscription.
-class Subscription {
-  /// A descriptive or arbitrary ID for the subscription. This value must be
-  /// unique within the subscription definition version. Max length is 128
-  /// characters with pattern ''[a-zA-Z0-9:_-]+''.
-  final String id;
-
-  /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a
-  /// connector ARN, 'cloud' (which represents the AWS IoT cloud), or
-  /// 'GGShadowService'.
-  final String source;
-
-  /// The MQTT topic used to route the message.
-  final String subject;
-
-  /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, a
-  /// connector ARN, 'cloud' (which represents the AWS IoT cloud), or
-  /// 'GGShadowService'.
-  final String target;
-
-  Subscription({
-    required this.id,
-    required this.source,
-    required this.subject,
-    required this.target,
-  });
-
-  factory Subscription.fromJson(Map<String, dynamic> json) {
-    return Subscription(
-      id: (json['Id'] as String?) ?? '',
-      source: (json['Source'] as String?) ?? '',
-      subject: (json['Subject'] as String?) ?? '',
-      target: (json['Target'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final source = this.source;
-    final subject = this.subject;
-    final target = this.target;
-    return {
-      'Id': id,
-      'Source': source,
-      'Subject': subject,
-      'Target': target,
-    };
-  }
-}
-
-/// Information about a subscription definition version.
-class SubscriptionDefinitionVersion {
-  /// A list of subscriptions.
-  final List<Subscription>? subscriptions;
-
-  SubscriptionDefinitionVersion({
-    this.subscriptions,
-  });
-
-  factory SubscriptionDefinitionVersion.fromJson(Map<String, dynamic> json) {
-    return SubscriptionDefinitionVersion(
-      subscriptions: (json['Subscriptions'] as List?)
-          ?.nonNulls
-          .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final subscriptions = this.subscriptions;
-    return {
-      if (subscriptions != null) 'Subscriptions': subscriptions,
-    };
-  }
-}
-
-class Telemetry {
-  static const on = Telemetry._('On');
-  static const off = Telemetry._('Off');
-
-  final String value;
-
-  const Telemetry._(this.value);
-
-  static const values = [on, off];
-
-  static Telemetry fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Telemetry._(value));
-
-  @override
-  bool operator ==(other) => other is Telemetry && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration settings for running telemetry.
-class TelemetryConfiguration {
-  /// Configure telemetry to be on or off.
-  final Telemetry telemetry;
-
-  /// Synchronization status of the device reported configuration with the desired
-  /// configuration.
-  final ConfigurationSyncStatus? configurationSyncStatus;
-
-  TelemetryConfiguration({
-    required this.telemetry,
-    this.configurationSyncStatus,
-  });
-
-  factory TelemetryConfiguration.fromJson(Map<String, dynamic> json) {
-    return TelemetryConfiguration(
-      telemetry: Telemetry.fromString((json['Telemetry'] as String?) ?? ''),
-      configurationSyncStatus: (json['ConfigurationSyncStatus'] as String?)
-          ?.let(ConfigurationSyncStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final telemetry = this.telemetry;
-    final configurationSyncStatus = this.configurationSyncStatus;
-    return {
-      'Telemetry': telemetry.value,
-      if (configurationSyncStatus != null)
-        'ConfigurationSyncStatus': configurationSyncStatus.value,
-    };
-  }
-}
-
-/// Configuration settings for running telemetry.
-class TelemetryConfigurationUpdate {
-  /// Configure telemetry to be on or off.
-  final Telemetry telemetry;
-
-  TelemetryConfigurationUpdate({
-    required this.telemetry,
-  });
-
-  Map<String, dynamic> toJson() {
-    final telemetry = this.telemetry;
-    return {
-      'Telemetry': telemetry.value,
-    };
-  }
 }
 
 /// The minimum level of log statements that should be logged by the OTA Agent
@@ -8159,178 +8387,6 @@ class UpdateAgentLogLevel {
 
   @override
   String toString() => value;
-}
-
-class UpdateConnectivityInfoResponse {
-  /// A message about the connectivity info update request.
-  final String? message;
-
-  /// The new version of the connectivity info.
-  final String? version;
-
-  UpdateConnectivityInfoResponse({
-    this.message,
-    this.version,
-  });
-
-  factory UpdateConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateConnectivityInfoResponse(
-      message: json['message'] as String?,
-      version: json['Version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final version = this.version;
-    return {
-      if (message != null) 'message': message,
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-class UpdateConnectorDefinitionResponse {
-  UpdateConnectorDefinitionResponse();
-
-  factory UpdateConnectorDefinitionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateConnectorDefinitionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateCoreDefinitionResponse {
-  UpdateCoreDefinitionResponse();
-
-  factory UpdateCoreDefinitionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateCoreDefinitionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDeviceDefinitionResponse {
-  UpdateDeviceDefinitionResponse();
-
-  factory UpdateDeviceDefinitionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateDeviceDefinitionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateFunctionDefinitionResponse {
-  UpdateFunctionDefinitionResponse();
-
-  factory UpdateFunctionDefinitionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateFunctionDefinitionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateGroupCertificateConfigurationResponse {
-  /// The amount of time remaining before the certificate authority expires, in
-  /// milliseconds.
-  final String? certificateAuthorityExpiryInMilliseconds;
-
-  /// The amount of time remaining before the certificate expires, in
-  /// milliseconds.
-  final String? certificateExpiryInMilliseconds;
-
-  /// The ID of the group certificate configuration.
-  final String? groupId;
-
-  UpdateGroupCertificateConfigurationResponse({
-    this.certificateAuthorityExpiryInMilliseconds,
-    this.certificateExpiryInMilliseconds,
-    this.groupId,
-  });
-
-  factory UpdateGroupCertificateConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateGroupCertificateConfigurationResponse(
-      certificateAuthorityExpiryInMilliseconds:
-          json['CertificateAuthorityExpiryInMilliseconds'] as String?,
-      certificateExpiryInMilliseconds:
-          json['CertificateExpiryInMilliseconds'] as String?,
-      groupId: json['GroupId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateAuthorityExpiryInMilliseconds =
-        this.certificateAuthorityExpiryInMilliseconds;
-    final certificateExpiryInMilliseconds =
-        this.certificateExpiryInMilliseconds;
-    final groupId = this.groupId;
-    return {
-      if (certificateAuthorityExpiryInMilliseconds != null)
-        'CertificateAuthorityExpiryInMilliseconds':
-            certificateAuthorityExpiryInMilliseconds,
-      if (certificateExpiryInMilliseconds != null)
-        'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
-      if (groupId != null) 'GroupId': groupId,
-    };
-  }
-}
-
-class UpdateGroupResponse {
-  UpdateGroupResponse();
-
-  factory UpdateGroupResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateGroupResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateLoggerDefinitionResponse {
-  UpdateLoggerDefinitionResponse();
-
-  factory UpdateLoggerDefinitionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateLoggerDefinitionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateResourceDefinitionResponse {
-  UpdateResourceDefinitionResponse();
-
-  factory UpdateResourceDefinitionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateResourceDefinitionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateSubscriptionDefinitionResponse {
-  UpdateSubscriptionDefinitionResponse();
-
-  factory UpdateSubscriptionDefinitionResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateSubscriptionDefinitionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
 }
 
 /// The architecture of the cores which are the targets of an update.
@@ -8387,63 +8443,6 @@ class UpdateTargetsOperatingSystem {
 
   @override
   String toString() => value;
-}
-
-class UpdateThingRuntimeConfigurationResponse {
-  UpdateThingRuntimeConfigurationResponse();
-
-  factory UpdateThingRuntimeConfigurationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateThingRuntimeConfigurationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about a version.
-class VersionInformation {
-  /// The ARN of the version.
-  final String? arn;
-
-  /// The time, in milliseconds since the epoch, when the version was created.
-  final String? creationTimestamp;
-
-  /// The ID of the parent definition that the version is associated with.
-  final String? id;
-
-  /// The ID of the version.
-  final String? version;
-
-  VersionInformation({
-    this.arn,
-    this.creationTimestamp,
-    this.id,
-    this.version,
-  });
-
-  factory VersionInformation.fromJson(Map<String, dynamic> json) {
-    return VersionInformation(
-      arn: json['Arn'] as String?,
-      creationTimestamp: json['CreationTimestamp'] as String?,
-      id: json['Id'] as String?,
-      version: json['Version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTimestamp = this.creationTimestamp;
-    final id = this.id;
-    final version = this.version;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
-      if (id != null) 'Id': id,
-      if (version != null) 'Version': version,
-    };
-  }
 }
 
 class BadRequestException extends _s.GenericAwsException {

@@ -79,11 +79,19 @@ class DataPipeline {
   ///
   /// To activate a finished pipeline, modify the end date for the pipeline and
   /// then activate it.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ActivatePipeline
+  /// Content-Length: 39 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
+  /// "df-06372391ZG65EXAMPLE"} </request> <response> HTTP/1.1 200
+  /// x-amzn-RequestId: ee19d5bf-074e-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 2 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {} </response> </examples>
   ///
-  /// May throw [PipelineNotFoundException].
-  /// May throw [PipelineDeletedException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
+  /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -122,8 +130,8 @@ class DataPipeline {
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -153,6 +161,16 @@ class DataPipeline {
 
   /// Creates a new, empty pipeline. Use <a>PutPipelineDefinition</a> to
   /// populate the pipeline.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.CreatePipeline
+  /// Content-Length: 91 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"name":
+  /// "myPipeline", "uniqueId": "123456789", "description": "This is my first
+  /// pipeline"} </request> <response> HTTP/1.1 200 x-amzn-RequestId:
+  /// b16911ce-0774-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 40 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"pipelineId": "df-06372391ZG65EXAMPLE"} </response>
+  /// </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -220,10 +238,10 @@ class DataPipeline {
   /// the pipeline resumes from the last completed execution. Optionally, you
   /// can specify the date and time to resume the pipeline.
   ///
-  /// May throw [PipelineNotFoundException].
-  /// May throw [PipelineDeletedException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
+  /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -263,10 +281,19 @@ class DataPipeline {
   /// call <a>SetStatus</a> with the status set to <code>PAUSE</code> on
   /// individual components. Components that are paused by <a>SetStatus</a> can
   /// be resumed.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DeletePipeline
+  /// Content-Length: 50 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
+  /// "df-06372391ZG65EXAMPLE"} </request> <response> x-amzn-RequestId:
+  /// b7a88c81-0754-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 0 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT Unexpected response: 200, OK, undefined </response>
+  /// </examples>
   ///
-  /// May throw [PipelineNotFoundException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -292,11 +319,28 @@ class DataPipeline {
   /// Gets the object definitions for a set of objects associated with the
   /// pipeline. Object definitions are composed of a set of fields that define
   /// the properties of the object.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DescribeObjects
+  /// Content-Length: 98 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
+  /// "df-06372391ZG65EXAMPLE", "objectIds": ["Schedule"],
+  /// "evaluateExpressions": true} </request> <response> x-amzn-RequestId:
+  /// 4c18ea5d-0777-11e2-8a14-21bb8a1f50ef Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 1488 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"hasMoreResults": false, "pipelineObjects": [ {"fields": [
+  /// {"key": "startDateTime", "stringValue": "2012-12-12T00:00:00"}, {"key":
+  /// "parent", "refValue": "Default"}, {"key": "@sphere", "stringValue":
+  /// "COMPONENT"}, {"key": "type", "stringValue": "Schedule"}, {"key":
+  /// "period", "stringValue": "1 hour"}, {"key": "endDateTime", "stringValue":
+  /// "2012-12-21T18:00:00"}, {"key": "@version", "stringValue": "1"}, {"key":
+  /// "@status", "stringValue": "PENDING"}, {"key": "@pipelineId",
+  /// "stringValue": "df-06372391ZG65EXAMPLE"} ], "id": "Schedule", "name":
+  /// "Schedule"} ] } </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [objectIds] :
   /// The IDs of the pipeline objects that contain the definitions to be
@@ -353,11 +397,29 @@ class DataPipeline {
   ///
   /// To retrieve the full pipeline definition instead of metadata about the
   /// pipeline, call <a>GetPipelineDefinition</a>.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DescribePipelines
+  /// Content-Length: 70 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineIds":
+  /// ["df-08785951KAKJEXAMPLE"] } </request> <response> x-amzn-RequestId:
+  /// 02870eb7-0736-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 767 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"pipelineDescriptionList": [ {"description": "This is my
+  /// first pipeline", "fields": [ {"key": "@pipelineState", "stringValue":
+  /// "SCHEDULED"}, {"key": "description", "stringValue": "This is my first
+  /// pipeline"}, {"key": "name", "stringValue": "myPipeline"}, {"key":
+  /// "@creationTime", "stringValue": "2012-12-13T01:24:06"}, {"key": "@id",
+  /// "stringValue": "df-0937003356ZJEXAMPLE"}, {"key": "@sphere",
+  /// "stringValue": "PIPELINE"}, {"key": "@version", "stringValue": "1"},
+  /// {"key": "@userId", "stringValue": "924374875933"}, {"key": "@accountId",
+  /// "stringValue": "924374875933"}, {"key": "uniqueId", "stringValue":
+  /// "1234567890"} ], "name": "myPipeline", "pipelineId":
+  /// "df-0937003356ZJEXAMPLE"} ] } </response> </examples>
   ///
-  /// May throw [PipelineNotFoundException].
-  /// May throw [PipelineDeletedException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
+  /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineIds] :
   /// The IDs of the pipelines to describe. You can pass as many as 25
@@ -387,12 +449,23 @@ class DataPipeline {
   /// Task runners call <code>EvaluateExpression</code> to evaluate a string in
   /// the context of the specified object. For example, a task runner can
   /// evaluate SQL queries stored in Amazon S3.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.DescribePipelines
+  /// Content-Length: 164 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
+  /// "df-08785951KAKJEXAMPLE", "objectId": "Schedule", "expression": "Transform
+  /// started at #{startDateTime} and finished at #{endDateTime}"} </request>
+  /// <response> x-amzn-RequestId: 02870eb7-0736-11e2-af6f-6bc7a6be60d9
+  /// Content-Type: application/x-amz-json-1.1 Content-Length: 103 Date: Mon, 12
+  /// Nov 2012 17:50:53 GMT {"evaluatedExpression": "Transform started at
+  /// 2012-12-12T00:00:00 and finished at 2012-12-21T18:00:00"} </response>
+  /// </examples>
   ///
   /// May throw [InternalServiceError].
-  /// May throw [TaskNotFoundException].
   /// May throw [InvalidRequestException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
+  /// May throw [TaskNotFoundException].
   ///
   /// Parameter [expression] :
   /// The expression to evaluate.
@@ -430,11 +503,30 @@ class DataPipeline {
   /// Gets the definition of the specified pipeline. You can call
   /// <code>GetPipelineDefinition</code> to retrieve the pipeline definition
   /// that you provided using <a>PutPipelineDefinition</a>.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target:
+  /// DataPipeline.GetPipelineDefinition Content-Length: 40 Host:
+  /// datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52
+  /// GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE"}
+  /// </request> <response> x-amzn-RequestId:
+  /// e28309e5-0776-11e2-8a14-21bb8a1f50ef Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 890 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"pipelineObjects": [ {"fields": [ {"key": "workerGroup",
+  /// "stringValue": "workerGroup"} ], "id": "Default", "name": "Default"},
+  /// {"fields": [ {"key": "startDateTime", "stringValue":
+  /// "2012-09-25T17:00:00"}, {"key": "type", "stringValue": "Schedule"},
+  /// {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime",
+  /// "stringValue": "2012-09-25T18:00:00"} ], "id": "Schedule", "name":
+  /// "Schedule"}, {"fields": [ {"key": "schedule", "refValue": "Schedule"},
+  /// {"key": "command", "stringValue": "echo hello"}, {"key": "parent",
+  /// "refValue": "Default"}, {"key": "type", "stringValue":
+  /// "ShellCommandActivity"} ], "id": "SayHello", "name": "SayHello"} ] }
+  /// </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -469,6 +561,16 @@ class DataPipeline {
 
   /// Lists the pipeline identifiers for all active pipelines that you have
   /// permission to access.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ListPipelines
+  /// Content-Length: 14 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {}</request>
+  /// <response> Status: x-amzn-RequestId: b3104dc5-0734-11e2-af6f-6bc7a6be60d9
+  /// Content-Type: application/x-amz-json-1.1 Content-Length: 39 Date: Mon, 12
+  /// Nov 2012 17:50:53 GMT {"PipelineIdList": [ {"id":
+  /// "df-08785951KAKJEXAMPLE", "name": "MyPipeline"}, {"id":
+  /// "df-08662578ISYEXAMPLE", "name": "MySecondPipeline"} ] }</response>
+  /// </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -515,6 +617,34 @@ class DataPipeline {
   /// not call <code>PollForTask</code> again on the same
   /// <code>workerGroup</code> until it receives a response, and this can take
   /// up to 90 seconds.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.PollForTask
+  /// Content-Length: 59 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"workerGroup":
+  /// "MyworkerGroup", "hostname": "example.com"} </request> <response>
+  /// x-amzn-RequestId: 41c713d2-0775-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 39 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"taskObject": {"attemptId":
+  /// "@SayHello_2012-12-12T00:00:00_Attempt=1", "objects":
+  /// {"@SayHello_2012-12-12T00:00:00_Attempt=1": {"fields": [ {"key":
+  /// "@componentParent", "refValue": "SayHello"}, {"key":
+  /// "@scheduledStartTime", "stringValue": "2012-12-12T00:00:00"}, {"key":
+  /// "parent", "refValue": "SayHello"}, {"key": "@sphere", "stringValue":
+  /// "ATTEMPT"}, {"key": "workerGroup", "stringValue": "workerGroup"}, {"key":
+  /// "@instanceParent", "refValue": "@SayHello_2012-12-12T00:00:00"}, {"key":
+  /// "type", "stringValue": "ShellCommandActivity"}, {"key": "@status",
+  /// "stringValue": "WAITING_FOR_RUNNER"}, {"key": "@version", "stringValue":
+  /// "1"}, {"key": "schedule", "refValue": "Schedule"}, {"key":
+  /// "@actualStartTime", "stringValue": "2012-12-13T01:40:50"}, {"key":
+  /// "command", "stringValue": "echo hello"}, {"key": "@scheduledEndTime",
+  /// "stringValue": "2012-12-12T01:00:00"}, {"key": "@activeInstances",
+  /// "refValue": "@SayHello_2012-12-12T00:00:00"}, {"key": "@pipelineId",
+  /// "stringValue": "df-0937003356ZJEXAMPLE"} ], "id":
+  /// "@SayHello_2012-12-12T00:00:00_Attempt=1", "name":
+  /// "@SayHello_2012-12-12T00:00:00_Attempt=1"} }, "pipelineId":
+  /// "df-0937003356ZJEXAMPLE", "taskId":
+  /// "2xaM4wRs5zOsIH+g9U3oVHfAgAlbSqU6XduncB0HhZ3xMnmvfePZPn4dIbYXHyWyRK+cU15MqDHwdrvftx/4wv+sNS4w34vJfv7QA9aOoOazW28l1GYSb2ZRR0N0paiQp+d1MhSKo10hOTWOsVK5S5Lnx9Qm6omFgXHyIvZRIvTlrQMpr1xuUrflyGOfbFOGpOLpvPE172MYdqpZKnbSS4TcuqgQKSWV2833fEubI57DPOP7ghWa2TcYeSIv4pdLYG53fTuwfbnbdc98g2LNUQzSVhSnt7BoqyNwht2aQ6b/UHg9A80+KVpuXuqmz3m1MXwHFgxjdmuesXNOrrlGpeLCcRWD+aGo0RN1NqhQRzNAig8V4GlaPTQzMsRCljKqvrIyAoP3Tt2XEGsHkkQo12rEX8Z90957XX2qKRwhruwYzqGkSLWjINoLdAxUJdpRXRc5DJTrBd3D5mdzn7kY1l7NEh4kFHJDt3Cx4Z3Mk8MYCACyCk/CEyy9DwuPi66cLz0NBcgbCM5LKjTBOwo1m+am+pvM1kSposE9FPP1+RFGb8k6jQBTJx3TRz1yKilnGXQTZ5xvdOFpJrklIT0OXP1MG3+auM9FlJA+1dX90QoNJE5z7axmK//MOGXUdkqFe2kiDkorqjxwDvc0Js9pVKfKvAmW8YqUbmI9l0ERpWCXXnLVHNmPWz3jaPY+OBAmuJWDmxB/Z8p94aEDg4BVXQ7LvsKQ3DLYhaB7yJ390CJT+i0mm+EBqY60V6YikPSWDFrYQ/NPi2b1DgE19mX8zHqw8qprIl4yh1Ckx2Iige4En/N5ktOoIxnASxAw/TzcE2skxdw5KlHDF+UTj71m16CR/dIaKlXijlfNlNzUBo/bNSadCQn3G5NoO501wPKI:XO50TgDNyo8EXAMPLE/g==:1"}
+  /// } </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -581,11 +711,54 @@ class DataPipeline {
   /// Pipeline object definitions are passed to the
   /// <code>PutPipelineDefinition</code> action and returned by the
   /// <a>GetPipelineDefinition</a> action.
+  /// <examples> <example> <name>Example 1</name> <description> This example
+  /// sets an valid pipeline configuration and returns success. </description>
+  /// <request> POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1
+  /// X-Amz-Target: DataPipeline.PutPipelineDefinition Content-Length: 914 Host:
+  /// datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52
+  /// GMT Authorization: AuthParams {"pipelineId": "df-0937003356ZJEXAMPLE",
+  /// "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [
+  /// {"key": "workerGroup", "stringValue": "workerGroup"} ] }, {"id":
+  /// "Schedule", "name": "Schedule", "fields": [ {"key": "startDateTime",
+  /// "stringValue": "2012-12-12T00:00:00"}, {"key": "type", "stringValue":
+  /// "Schedule"}, {"key": "period", "stringValue": "1 hour"}, {"key":
+  /// "endDateTime", "stringValue": "2012-12-21T18:00:00"} ] }, {"id":
+  /// "SayHello", "name": "SayHello", "fields": [ {"key": "type", "stringValue":
+  /// "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"},
+  /// {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue":
+  /// "Schedule"} ] } ] } </request> <response> HTTP/1.1 200 x-amzn-RequestId:
+  /// f74afc14-0754-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"errored": false} </response> </example> <example>
+  /// <name>Example 2</name> <description> This example sets an invalid pipeline
+  /// configuration (the value for <code>workerGroup</code> is an empty string)
+  /// and returns an error message. </description> <request> POST / HTTP/1.1
+  /// Content-Type: application/x-amz-json-1.1 X-Amz-Target:
+  /// DataPipeline.PutPipelineDefinition Content-Length: 903 Host:
+  /// datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52
+  /// GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE",
+  /// "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [
+  /// {"key": "workerGroup", "stringValue": ""} ] }, {"id": "Schedule", "name":
+  /// "Schedule", "fields": [ {"key": "startDateTime", "stringValue":
+  /// "2012-09-25T17:00:00"}, {"key": "type", "stringValue": "Schedule"},
+  /// {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime",
+  /// "stringValue": "2012-09-25T18:00:00"} ] }, {"id": "SayHello", "name":
+  /// "SayHello", "fields": [ {"key": "type", "stringValue":
+  /// "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"},
+  /// {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue":
+  /// "Schedule"} ] } ] } </request> <response> HTTP/1.1 200 x-amzn-RequestId:
+  /// f74afc14-0754-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"__type":
+  /// "com.amazon.setl.webservice#InvalidRequestException", "message": "Pipeline
+  /// definition has errors: Could not save the pipeline definition due to FATAL
+  /// errors: [com.amazon.setl.webservice.ValidationError@108d7ea9] Please call
+  /// Validate to validate your pipeline"} </response> </example> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -628,11 +801,21 @@ class DataPipeline {
 
   /// Queries the specified pipeline for the names of objects that match the
   /// specified set of conditions.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.QueryObjects
+  /// Content-Length: 123 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
+  /// "df-06372391ZG65EXAMPLE", "query": {"selectors": [ ] }, "sphere":
+  /// "INSTANCE", "marker": "", "limit": 10} </request> <response>
+  /// x-amzn-RequestId: 14d704c1-0775-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 72 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"hasMoreResults": false, "ids":
+  /// ["@SayHello_1_2012-09-25T17:00:00"] } </response> </examples>
   ///
-  /// May throw [PipelineNotFoundException].
-  /// May throw [PipelineDeletedException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
+  /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -690,8 +873,8 @@ class DataPipeline {
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -731,12 +914,21 @@ class DataPipeline {
   /// Pipeline assumes that the task runner is unable to process the task and
   /// reassigns the task in a subsequent response to <a>PollForTask</a>. Task
   /// runners should call <code>ReportTaskProgress</code> every 60 seconds.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.ReportTaskProgress
+  /// Content-Length: 832 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"taskId":
+  /// "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE",
+  /// "fields": [ {"key": "percentComplete", "stringValue": "50"} ] } </request>
+  /// <response> x-amzn-RequestId: 640bd023-0775-11e2-af6f-6bc7a6be60d9
+  /// Content-Type: application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12
+  /// Nov 2012 17:50:53 GMT {"canceled": false} </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
-  /// May throw [TaskNotFoundException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
+  /// May throw [TaskNotFoundException].
   ///
   /// Parameter [taskId] :
   /// The ID of the task assigned to the task runner. This value is provided in
@@ -773,6 +965,15 @@ class DataPipeline {
   /// Runner is launched on a resource managed by AWS Data Pipeline, the web
   /// service can use this call to detect when the task runner application has
   /// failed and restart a new instance.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target:
+  /// DataPipeline.ReportTaskRunnerHeartbeat Content-Length: 84 Host:
+  /// datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52
+  /// GMT Authorization: AuthParams {"taskrunnerId": "1234567890",
+  /// "workerGroup": "wg-12345", "hostname": "example.com"} </request>
+  /// <response> Status: x-amzn-RequestId: b3104dc5-0734-11e2-af6f-6bc7a6be60d9
+  /// Content-Type: application/x-amz-json-1.1 Content-Length: 20 Date: Mon, 12
+  /// Nov 2012 17:50:53 GMT {"terminate": false} </response> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
@@ -824,11 +1025,21 @@ class DataPipeline {
   /// depends on the type of object (for example, DataNode or Activity). You
   /// cannot perform this operation on <code>FINISHED</code> pipelines and
   /// attempting to do so returns <code>InvalidRequestException</code>.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.SetStatus
+  /// Content-Length: 100 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"pipelineId":
+  /// "df-0634701J7KEXAMPLE", "objectIds": ["o-08600941GHJWMBR9E2"], "status":
+  /// "pause"} </request> <response> x-amzn-RequestId:
+  /// e83b8ab7-076a-11e2-af6f-6bc7a6be60d9 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 0 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT Unexpected response: 200, OK, undefined </response>
+  /// </examples>
   ///
-  /// May throw [PipelineNotFoundException].
-  /// May throw [PipelineDeletedException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
+  /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [objectIds] :
   /// The IDs of the objects. The corresponding objects can be either physical
@@ -871,12 +1082,21 @@ class DataPipeline {
   /// A task runner does not need to call <code>SetTaskStatus</code> for tasks
   /// that are canceled by the web service during a call to
   /// <a>ReportTaskProgress</a>.
+  /// <examples> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target: DataPipeline.SetTaskStatus
+  /// Content-Length: 847 Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date:
+  /// Mon, 12 Nov 2012 17:49:52 GMT Authorization: AuthParams {"taskId":
+  /// "aaGgHT4LuH0T0Y0oLrJRjas5qH0d8cDPADxqq3tn+zCWGELkCdV2JprLreXm1oxeP5EFZHFLJ69kjSsLYE0iYHYBYVGBrB+E/pYq7ANEEeGJFnSBMRiXZVA+8UJ3OzcInvXeinqBmBaKwii7hnnKb/AXjXiNTXyxgydX1KAyg1AxkwBYG4cfPYMZbuEbQJFJvv5C/2+GVXz1w94nKYTeUeepwUOFOuRLS6JVtZoYwpF56E+Yfk1IcGpFOvCZ01B4Bkuu7x3J+MD/j6kJgZLAgbCJQtI3eiW3kdGmX0p0I2BdY1ZsX6b4UiSvM3OMj6NEHJCJL4E0ZfitnhCoe24Kvjo6C2hFbZq+ei/HPgSXBQMSagkr4vS9c0ChzxH2+LNYvec6bY4kymkaZI1dvOzmpa0FcnGf5AjSK4GpsViZ/ujz6zxFv81qBXzjF0/4M1775rjV1VUdyKaixiA/sJiACNezqZqETidp8d24BDPRhGsj6pBCrnelqGFrk/gXEXUsJ+xwMifRC8UVwiKekpAvHUywVk7Ku4jH/n3i2VoLRP6FXwpUbelu34iiZ9czpXyLtyPKwxa87dlrnRVURwkcVjOt2Mcrcaqe+cbWHvNRhyrPkkdfSF3ac8/wfgVbXvLEB2k9mKc67aD9rvdc1PKX09Tk8BKklsMTpZ3TRCd4NzQlJKigMe8Jat9+1tKj4Ole5ZzW6uyTu2s2iFjEV8KXu4MaiRJyNKCdKeGhhZWY37Qk4NBK4Ppgu+C6Y41dpfOh288SLDEVx0/UySlqOEdhba7c6BiPp5r3hKj3mk9lFy5OYp1aoGLeeFmjXveTnPdf2gkWqXXg7AUbJ7jEs1F0lKZQg4szep2gcKyAJXgvXLfJJHcha8Lfb/Ee7wYmyOcAaRpDBoFNSbtoVXar46teIrpho+ZDvynUXvU0grHWGOk=:wn3SgymHZM99bEXAMPLE",
+  /// "taskStatus": "FINISHED"} </request> <response> x-amzn-RequestId:
+  /// 8c8deb53-0788-11e2-af9c-6bc7a6be6qr8 Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 0 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {} </response> </examples>
   ///
   /// May throw [InternalServiceError].
-  /// May throw [TaskNotFoundException].
   /// May throw [InvalidRequestException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
+  /// May throw [TaskNotFoundException].
   ///
   /// Parameter [taskId] :
   /// The ID of the task assigned to the task runner. This value is provided in
@@ -933,11 +1153,52 @@ class DataPipeline {
 
   /// Validates the specified pipeline definition to ensure that it is well
   /// formed and can be run without error.
+  /// <examples> <example> <name>Example 1</name> <description> This example
+  /// sets an valid pipeline configuration and returns success. </description>
+  /// <request> POST / HTTP/1.1 Content-Type: application/x-amz-json-1.1
+  /// X-Amz-Target: DataPipeline.ValidatePipelineDefinition Content-Length: 936
+  /// Host: datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012
+  /// 17:49:52 GMT Authorization: AuthParams {"pipelineId":
+  /// "df-06372391ZG65EXAMPLE", "pipelineObjects": [ {"id": "Default", "name":
+  /// "Default", "fields": [ {"key": "workerGroup", "stringValue":
+  /// "MyworkerGroup"} ] }, {"id": "Schedule", "name": "Schedule", "fields": [
+  /// {"key": "startDateTime", "stringValue": "2012-09-25T17:00:00"}, {"key":
+  /// "type", "stringValue": "Schedule"}, {"key": "period", "stringValue": "1
+  /// hour"}, {"key": "endDateTime", "stringValue": "2012-09-25T18:00:00"} ] },
+  /// {"id": "SayHello", "name": "SayHello", "fields": [ {"key": "type",
+  /// "stringValue": "ShellCommandActivity"}, {"key": "command", "stringValue":
+  /// "echo hello"}, {"key": "parent", "refValue": "Default"}, {"key":
+  /// "schedule", "refValue": "Schedule"} ] } ] } </request> <response>
+  /// x-amzn-RequestId: 92c9f347-0776-11e2-8a14-21bb8a1f50ef Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 18 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"errored": false} </response> </example> <example>
+  /// <name>Example 2</name> <description> This example sets an invalid pipeline
+  /// configuration and returns the associated set of validation errors.
+  /// </description> <request> POST / HTTP/1.1 Content-Type:
+  /// application/x-amz-json-1.1 X-Amz-Target:
+  /// DataPipeline.ValidatePipelineDefinition Content-Length: 903 Host:
+  /// datapipeline.us-east-1.amazonaws.com X-Amz-Date: Mon, 12 Nov 2012 17:49:52
+  /// GMT Authorization: AuthParams {"pipelineId": "df-06372391ZG65EXAMPLE",
+  /// "pipelineObjects": [ {"id": "Default", "name": "Default", "fields": [
+  /// {"key": "workerGroup", "stringValue": "MyworkerGroup"} ] }, {"id":
+  /// "Schedule", "name": "Schedule", "fields": [ {"key": "startDateTime",
+  /// "stringValue": "bad-time"}, {"key": "type", "stringValue": "Schedule"},
+  /// {"key": "period", "stringValue": "1 hour"}, {"key": "endDateTime",
+  /// "stringValue": "2012-09-25T18:00:00"} ] }, {"id": "SayHello", "name":
+  /// "SayHello", "fields": [ {"key": "type", "stringValue":
+  /// "ShellCommandActivity"}, {"key": "command", "stringValue": "echo hello"},
+  /// {"key": "parent", "refValue": "Default"}, {"key": "schedule", "refValue":
+  /// "Schedule"} ] } ] } </request> <response> x-amzn-RequestId:
+  /// 496a1f5a-0e6a-11e2-a61c-bd6312c92ddd Content-Type:
+  /// application/x-amz-json-1.1 Content-Length: 278 Date: Mon, 12 Nov 2012
+  /// 17:50:53 GMT {"errored": true, "validationErrors": [ {"errors":
+  /// ["INVALID_FIELD_VALUE: 'startDateTime' value must be a literal datetime
+  /// value."], "id": "Schedule"} ] } </response> </example> </examples>
   ///
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
-  /// May throw [PipelineNotFoundException].
   /// May throw [PipelineDeletedException].
+  /// May throw [PipelineNotFoundException].
   ///
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
@@ -1134,45 +1395,6 @@ class EvaluateExpressionOutput {
   }
 }
 
-/// A key-value pair that describes a property of a pipeline object. The value
-/// is specified as either a string value (<code>StringValue</code>) or a
-/// reference to another object (<code>RefValue</code>) but not as both.
-class Field {
-  /// The field identifier.
-  final String key;
-
-  /// The field value, expressed as the identifier of another object.
-  final String? refValue;
-
-  /// The field value, expressed as a String.
-  final String? stringValue;
-
-  Field({
-    required this.key,
-    this.refValue,
-    this.stringValue,
-  });
-
-  factory Field.fromJson(Map<String, dynamic> json) {
-    return Field(
-      key: (json['key'] as String?) ?? '',
-      refValue: json['refValue'] as String?,
-      stringValue: json['stringValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final refValue = this.refValue;
-    final stringValue = this.stringValue;
-    return {
-      'key': key,
-      if (refValue != null) 'refValue': refValue,
-      if (stringValue != null) 'stringValue': stringValue,
-    };
-  }
-}
-
 /// Contains the output of GetPipelineDefinition.
 class GetPipelineDefinitionOutput {
   /// The parameter objects used in the pipeline definition.
@@ -1219,41 +1441,6 @@ class GetPipelineDefinitionOutput {
   }
 }
 
-///
-/// Identity information for the EC2 instance that is hosting the task runner.
-/// You can get this value by calling a metadata URI from the EC2 instance. For
-/// more information, see <a
-/// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-instancedata.html">Instance
-/// Metadata</a> in the <i>Amazon Elastic Compute Cloud User Guide.</i> Passing
-/// in this value proves that your task runner is running on an EC2 instance,
-/// and ensures the proper AWS Data Pipeline service charges are applied to your
-/// pipeline.
-///
-class InstanceIdentity {
-  /// A description of an EC2 instance that is generated when the instance is
-  /// launched and exposed to the instance via the instance metadata service in
-  /// the form of a JSON representation of an object.
-  final String? document;
-
-  /// A signature which can be used to verify the accuracy and authenticity of the
-  /// information provided in the instance identity document.
-  final String? signature;
-
-  InstanceIdentity({
-    this.document,
-    this.signature,
-  });
-
-  Map<String, dynamic> toJson() {
-    final document = this.document;
-    final signature = this.signature;
-    return {
-      if (document != null) 'document': document,
-      if (signature != null) 'signature': signature,
-    };
-  }
-}
-
 /// Contains the output of ListPipelines.
 class ListPipelinesOutput {
   /// The pipeline identifiers. If you require additional information about the
@@ -1295,320 +1482,6 @@ class ListPipelinesOutput {
       'pipelineIdList': pipelineIdList,
       if (hasMoreResults != null) 'hasMoreResults': hasMoreResults,
       if (marker != null) 'marker': marker,
-    };
-  }
-}
-
-/// Contains a logical operation for comparing the value of a field with a
-/// specified value.
-class Operator {
-  /// The logical operation to be performed: equal (<code>EQ</code>), equal
-  /// reference (<code>REF_EQ</code>), less than or equal (<code>LE</code>),
-  /// greater than or equal (<code>GE</code>), or between (<code>BETWEEN</code>).
-  /// Equal reference (<code>REF_EQ</code>) can be used only with reference
-  /// fields. The other comparison types can be used only with String fields. The
-  /// comparison types you can use apply only to certain object fields, as
-  /// detailed below.
-  ///
-  /// The comparison operators EQ and REF_EQ act on the following fields:
-  ///
-  /// <ul>
-  /// <li>name</li>
-  /// <li>@sphere</li>
-  /// <li>parent</li>
-  /// <li>@componentParent</li>
-  /// <li>@instanceParent</li>
-  /// <li>@status</li>
-  /// <li>@scheduledStartTime</li>
-  /// <li>@scheduledEndTime</li>
-  /// <li>@actualStartTime</li>
-  /// <li>@actualEndTime</li>
-  /// </ul>
-  /// The comparison operators <code>GE</code>, <code>LE</code>, and
-  /// <code>BETWEEN</code> act on the following fields:
-  ///
-  /// <ul>
-  /// <li>@scheduledStartTime</li>
-  /// <li>@scheduledEndTime</li>
-  /// <li>@actualStartTime</li>
-  /// <li>@actualEndTime</li>
-  /// </ul>
-  /// Note that fields beginning with the at sign (@) are read-only and set by the
-  /// web service. When you name fields, you should choose names containing only
-  /// alpha-numeric values, as symbols may be reserved by AWS Data Pipeline.
-  /// User-defined fields that you add to a pipeline should prefix their name with
-  /// the string "my".
-  final OperatorType? type;
-
-  /// The value that the actual field value will be compared with.
-  final List<String>? values;
-
-  Operator({
-    this.type,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final values = this.values;
-    return {
-      if (type != null) 'type': type.value,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-class OperatorType {
-  static const eq = OperatorType._('EQ');
-  static const refEq = OperatorType._('REF_EQ');
-  static const le = OperatorType._('LE');
-  static const ge = OperatorType._('GE');
-  static const between = OperatorType._('BETWEEN');
-
-  final String value;
-
-  const OperatorType._(this.value);
-
-  static const values = [eq, refEq, le, ge, between];
-
-  static OperatorType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OperatorType._(value));
-
-  @override
-  bool operator ==(other) => other is OperatorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The attributes allowed or specified with a parameter object.
-class ParameterAttribute {
-  /// The field identifier.
-  final String key;
-
-  /// The field value, expressed as a String.
-  final String stringValue;
-
-  ParameterAttribute({
-    required this.key,
-    required this.stringValue,
-  });
-
-  factory ParameterAttribute.fromJson(Map<String, dynamic> json) {
-    return ParameterAttribute(
-      key: (json['key'] as String?) ?? '',
-      stringValue: (json['stringValue'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final stringValue = this.stringValue;
-    return {
-      'key': key,
-      'stringValue': stringValue,
-    };
-  }
-}
-
-/// Contains information about a parameter object.
-class ParameterObject {
-  /// The attributes of the parameter object.
-  final List<ParameterAttribute> attributes;
-
-  /// The ID of the parameter object.
-  final String id;
-
-  ParameterObject({
-    required this.attributes,
-    required this.id,
-  });
-
-  factory ParameterObject.fromJson(Map<String, dynamic> json) {
-    return ParameterObject(
-      attributes: ((json['attributes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ParameterAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: (json['id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final id = this.id;
-    return {
-      'attributes': attributes,
-      'id': id,
-    };
-  }
-}
-
-/// A value or list of parameter values.
-class ParameterValue {
-  /// The ID of the parameter value.
-  final String id;
-
-  /// The field value, expressed as a String.
-  final String stringValue;
-
-  ParameterValue({
-    required this.id,
-    required this.stringValue,
-  });
-
-  factory ParameterValue.fromJson(Map<String, dynamic> json) {
-    return ParameterValue(
-      id: (json['id'] as String?) ?? '',
-      stringValue: (json['stringValue'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final stringValue = this.stringValue;
-    return {
-      'id': id,
-      'stringValue': stringValue,
-    };
-  }
-}
-
-/// Contains pipeline metadata.
-class PipelineDescription {
-  /// A list of read-only fields that contain metadata about the pipeline:
-  /// @userId, @accountId, and @pipelineState.
-  final List<Field> fields;
-
-  /// The name of the pipeline.
-  final String name;
-
-  /// The pipeline identifier that was assigned by AWS Data Pipeline. This is a
-  /// string of the form <code>df-297EG78HU43EEXAMPLE</code>.
-  final String pipelineId;
-
-  /// Description of the pipeline.
-  final String? description;
-
-  /// A list of tags to associated with a pipeline. Tags let you control access to
-  /// pipelines. For more information, see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
-  /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
-  /// Guide</i>.
-  final List<Tag>? tags;
-
-  PipelineDescription({
-    required this.fields,
-    required this.name,
-    required this.pipelineId,
-    this.description,
-    this.tags,
-  });
-
-  factory PipelineDescription.fromJson(Map<String, dynamic> json) {
-    return PipelineDescription(
-      fields: ((json['fields'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Field.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: (json['name'] as String?) ?? '',
-      pipelineId: (json['pipelineId'] as String?) ?? '',
-      description: json['description'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fields = this.fields;
-    final name = this.name;
-    final pipelineId = this.pipelineId;
-    final description = this.description;
-    final tags = this.tags;
-    return {
-      'fields': fields,
-      'name': name,
-      'pipelineId': pipelineId,
-      if (description != null) 'description': description,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Contains the name and identifier of a pipeline.
-class PipelineIdName {
-  /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a
-  /// string of the form <code>df-297EG78HU43EEXAMPLE</code>.
-  final String? id;
-
-  /// The name of the pipeline.
-  final String? name;
-
-  PipelineIdName({
-    this.id,
-    this.name,
-  });
-
-  factory PipelineIdName.fromJson(Map<String, dynamic> json) {
-    return PipelineIdName(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Contains information about a pipeline object. This can be a logical,
-/// physical, or physical attempt pipeline object. The complete set of
-/// components of a pipeline defines the pipeline.
-class PipelineObject {
-  /// Key-value pairs that define the properties of the object.
-  final List<Field> fields;
-
-  /// The ID of the object.
-  final String id;
-
-  /// The name of the object.
-  final String name;
-
-  PipelineObject({
-    required this.fields,
-    required this.id,
-    required this.name,
-  });
-
-  factory PipelineObject.fromJson(Map<String, dynamic> json) {
-    return PipelineObject(
-      fields: ((json['fields'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Field.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fields = this.fields;
-    final id = this.id;
-    final name = this.name;
-    return {
-      'fields': fields,
-      'id': id,
-      'name': name,
     };
   }
 }
@@ -1685,24 +1558,6 @@ class PutPipelineDefinitionOutput {
       'errored': errored,
       if (validationErrors != null) 'validationErrors': validationErrors,
       if (validationWarnings != null) 'validationWarnings': validationWarnings,
-    };
-  }
-}
-
-/// Defines the query to run against an object.
-class Query {
-  /// List of selectors that define the query. An object must satisfy all of the
-  /// selectors to match the query.
-  final List<Selector>? selectors;
-
-  Query({
-    this.selectors,
-  });
-
-  Map<String, dynamic> toJson() {
-    final selectors = this.selectors;
-    return {
-      if (selectors != null) 'selectors': selectors,
     };
   }
 }
@@ -1807,6 +1662,346 @@ class ReportTaskRunnerHeartbeatOutput {
   }
 }
 
+/// Contains the output of SetTaskStatus.
+class SetTaskStatusOutput {
+  SetTaskStatusOutput();
+
+  factory SetTaskStatusOutput.fromJson(Map<String, dynamic> _) {
+    return SetTaskStatusOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Contains the output of ValidatePipelineDefinition.
+class ValidatePipelineDefinitionOutput {
+  /// Indicates whether there were validation errors.
+  final bool errored;
+
+  /// Any validation errors that were found.
+  final List<ValidationError>? validationErrors;
+
+  /// Any validation warnings that were found.
+  final List<ValidationWarning>? validationWarnings;
+
+  ValidatePipelineDefinitionOutput({
+    required this.errored,
+    this.validationErrors,
+    this.validationWarnings,
+  });
+
+  factory ValidatePipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
+    return ValidatePipelineDefinitionOutput(
+      errored: (json['errored'] as bool?) ?? false,
+      validationErrors: (json['validationErrors'] as List?)
+          ?.nonNulls
+          .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      validationWarnings: (json['validationWarnings'] as List?)
+          ?.nonNulls
+          .map((e) => ValidationWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errored = this.errored;
+    final validationErrors = this.validationErrors;
+    final validationWarnings = this.validationWarnings;
+    return {
+      'errored': errored,
+      if (validationErrors != null) 'validationErrors': validationErrors,
+      if (validationWarnings != null) 'validationWarnings': validationWarnings,
+    };
+  }
+}
+
+/// Defines a validation warning. Validation warnings do not prevent pipeline
+/// activation. The set of validation warnings that can be returned are defined
+/// by AWS Data Pipeline.
+class ValidationWarning {
+  /// The identifier of the object that contains the validation warning.
+  final String? id;
+
+  /// A description of the validation warning.
+  final List<String>? warnings;
+
+  ValidationWarning({
+    this.id,
+    this.warnings,
+  });
+
+  factory ValidationWarning.fromJson(Map<String, dynamic> json) {
+    return ValidationWarning(
+      id: json['id'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final warnings = this.warnings;
+    return {
+      if (id != null) 'id': id,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
+}
+
+/// Defines a validation error. Validation errors prevent pipeline activation.
+/// The set of validation errors that can be returned are defined by AWS Data
+/// Pipeline.
+class ValidationError {
+  /// A description of the validation error.
+  final List<String>? errors;
+
+  /// The identifier of the object that contains the validation error.
+  final String? id;
+
+  ValidationError({
+    this.errors,
+    this.id,
+  });
+
+  factory ValidationError.fromJson(Map<String, dynamic> json) {
+    return ValidationError(
+      errors:
+          (json['errors'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final id = this.id;
+    return {
+      if (errors != null) 'errors': errors,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// A value or list of parameter values.
+class ParameterValue {
+  /// The ID of the parameter value.
+  final String id;
+
+  /// The field value, expressed as a String.
+  final String stringValue;
+
+  ParameterValue({
+    required this.id,
+    required this.stringValue,
+  });
+
+  factory ParameterValue.fromJson(Map<String, dynamic> json) {
+    return ParameterValue(
+      id: (json['id'] as String?) ?? '',
+      stringValue: (json['stringValue'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final stringValue = this.stringValue;
+    return {
+      'id': id,
+      'stringValue': stringValue,
+    };
+  }
+}
+
+/// Contains information about a parameter object.
+class ParameterObject {
+  /// The attributes of the parameter object.
+  final List<ParameterAttribute> attributes;
+
+  /// The ID of the parameter object.
+  final String id;
+
+  ParameterObject({
+    required this.attributes,
+    required this.id,
+  });
+
+  factory ParameterObject.fromJson(Map<String, dynamic> json) {
+    return ParameterObject(
+      attributes: ((json['attributes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ParameterAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final id = this.id;
+    return {
+      'attributes': attributes,
+      'id': id,
+    };
+  }
+}
+
+/// The attributes allowed or specified with a parameter object.
+class ParameterAttribute {
+  /// The field identifier.
+  final String key;
+
+  /// The field value, expressed as a String.
+  final String stringValue;
+
+  ParameterAttribute({
+    required this.key,
+    required this.stringValue,
+  });
+
+  factory ParameterAttribute.fromJson(Map<String, dynamic> json) {
+    return ParameterAttribute(
+      key: (json['key'] as String?) ?? '',
+      stringValue: (json['stringValue'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final stringValue = this.stringValue;
+    return {
+      'key': key,
+      'stringValue': stringValue,
+    };
+  }
+}
+
+/// Contains information about a pipeline object. This can be a logical,
+/// physical, or physical attempt pipeline object. The complete set of
+/// components of a pipeline defines the pipeline.
+class PipelineObject {
+  /// Key-value pairs that define the properties of the object.
+  final List<Field> fields;
+
+  /// The ID of the object.
+  final String id;
+
+  /// The name of the object.
+  final String name;
+
+  PipelineObject({
+    required this.fields,
+    required this.id,
+    required this.name,
+  });
+
+  factory PipelineObject.fromJson(Map<String, dynamic> json) {
+    return PipelineObject(
+      fields: ((json['fields'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final id = this.id;
+    final name = this.name;
+    return {
+      'fields': fields,
+      'id': id,
+      'name': name,
+    };
+  }
+}
+
+/// A key-value pair that describes a property of a pipeline object. The value
+/// is specified as either a string value (<code>StringValue</code>) or a
+/// reference to another object (<code>RefValue</code>) but not as both.
+class Field {
+  /// The field identifier.
+  final String key;
+
+  /// The field value, expressed as the identifier of another object.
+  final String? refValue;
+
+  /// The field value, expressed as a String.
+  final String? stringValue;
+
+  Field({
+    required this.key,
+    this.refValue,
+    this.stringValue,
+  });
+
+  factory Field.fromJson(Map<String, dynamic> json) {
+    return Field(
+      key: (json['key'] as String?) ?? '',
+      refValue: json['refValue'] as String?,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final refValue = this.refValue;
+    final stringValue = this.stringValue;
+    return {
+      'key': key,
+      if (refValue != null) 'refValue': refValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
+}
+
+class TaskStatus {
+  static const finished = TaskStatus._('FINISHED');
+  static const failed = TaskStatus._('FAILED');
+  static const $false = TaskStatus._('FALSE');
+
+  final String value;
+
+  const TaskStatus._(this.value);
+
+  static const values = [finished, failed, $false];
+
+  static TaskStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TaskStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the query to run against an object.
+class Query {
+  /// List of selectors that define the query. An object must satisfy all of the
+  /// selectors to match the query.
+  final List<Selector>? selectors;
+
+  Query({
+    this.selectors,
+  });
+
+  Map<String, dynamic> toJson() {
+    final selectors = this.selectors;
+    return {
+      if (selectors != null) 'selectors': selectors,
+    };
+  }
+}
+
 /// A comparision that is used to determine whether a query should return this
 /// object.
 class Selector {
@@ -1832,59 +2027,89 @@ class Selector {
   }
 }
 
-/// Contains the output of SetTaskStatus.
-class SetTaskStatusOutput {
-  SetTaskStatusOutput();
+/// Contains a logical operation for comparing the value of a field with a
+/// specified value.
+class Operator {
+  /// The logical operation to be performed: equal (<code>EQ</code>), equal
+  /// reference (<code>REF_EQ</code>), less than or equal (<code>LE</code>),
+  /// greater than or equal (<code>GE</code>), or between (<code>BETWEEN</code>).
+  /// Equal reference (<code>REF_EQ</code>) can be used only with reference
+  /// fields. The other comparison types can be used only with String fields. The
+  /// comparison types you can use apply only to certain object fields, as
+  /// detailed below.
+  ///
+  /// The comparison operators EQ and REF_EQ act on the following fields:
+  ///
+  /// <ul>
+  /// <li>name</li>
+  /// <li>@sphere</li>
+  /// <li>parent</li>
+  /// <li>@componentParent</li>
+  /// <li>@instanceParent</li>
+  /// <li>@status</li>
+  /// <li>@scheduledStartTime</li>
+  /// <li>@scheduledEndTime</li>
+  /// <li>@actualStartTime</li>
+  /// <li>@actualEndTime</li>
+  /// </ul>
+  /// The comparison operators <code>GE</code>, <code>LE</code>, and
+  /// <code>BETWEEN</code> act on the following fields:
+  ///
+  /// <ul>
+  /// <li>@scheduledStartTime</li>
+  /// <li>@scheduledEndTime</li>
+  /// <li>@actualStartTime</li>
+  /// <li>@actualEndTime</li>
+  /// </ul>
+  /// Note that fields beginning with the at sign (@) are read-only and set by the
+  /// web service. When you name fields, you should choose names containing only
+  /// alpha-numeric values, as symbols may be reserved by AWS Data Pipeline.
+  /// User-defined fields that you add to a pipeline should prefix their name with
+  /// the string "my".
+  final OperatorType? type;
 
-  factory SetTaskStatusOutput.fromJson(Map<String, dynamic> _) {
-    return SetTaskStatusOutput();
-  }
+  /// The value that the actual field value will be compared with.
+  final List<String>? values;
+
+  Operator({
+    this.type,
+    this.values,
+  });
 
   Map<String, dynamic> toJson() {
-    return {};
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (type != null) 'type': type.value,
+      if (values != null) 'values': values,
+    };
   }
 }
 
-/// Tags are key/value pairs defined by a user and associated with a pipeline to
-/// control access. AWS Data Pipeline allows you to associate ten tags per
-/// pipeline. For more information, see <a
-/// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
-/// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
-/// Guide</i>.
-class Tag {
-  /// The key name of a tag defined by a user. For more information, see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
-  /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
-  /// Guide</i>.
-  final String key;
+class OperatorType {
+  static const eq = OperatorType._('EQ');
+  static const refEq = OperatorType._('REF_EQ');
+  static const le = OperatorType._('LE');
+  static const ge = OperatorType._('GE');
+  static const between = OperatorType._('BETWEEN');
 
-  /// The optional value portion of a tag defined by a user. For more information,
-  /// see <a
-  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
-  /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
-  /// Guide</i>.
   final String value;
 
-  Tag({
-    required this.key,
-    required this.value,
-  });
+  const OperatorType._(this.value);
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['key'] as String?) ?? '',
-      value: (json['value'] as String?) ?? '',
-    );
-  }
+  static const values = [eq, refEq, le, ge, between];
 
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
-    };
-  }
+  static OperatorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OperatorType._(value));
+
+  @override
+  bool operator ==(other) => other is OperatorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about a pipeline task that is assigned to a task
@@ -1936,137 +2161,173 @@ class TaskObject {
   }
 }
 
-class TaskStatus {
-  static const finished = TaskStatus._('FINISHED');
-  static const failed = TaskStatus._('FAILED');
-  static const $false = TaskStatus._('FALSE');
+///
+/// Identity information for the EC2 instance that is hosting the task runner.
+/// You can get this value by calling a metadata URI from the EC2 instance. For
+/// more information, see <a
+/// href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AESDG-chapter-instancedata.html">Instance
+/// Metadata</a> in the <i>Amazon Elastic Compute Cloud User Guide.</i> Passing
+/// in this value proves that your task runner is running on an EC2 instance,
+/// and ensures the proper AWS Data Pipeline service charges are applied to your
+/// pipeline.
+///
+class InstanceIdentity {
+  /// A description of an EC2 instance that is generated when the instance is
+  /// launched and exposed to the instance via the instance metadata service in
+  /// the form of a JSON representation of an object.
+  final String? document;
 
+  /// A signature which can be used to verify the accuracy and authenticity of the
+  /// information provided in the instance identity document.
+  final String? signature;
+
+  InstanceIdentity({
+    this.document,
+    this.signature,
+  });
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final signature = this.signature;
+    return {
+      if (document != null) 'document': document,
+      if (signature != null) 'signature': signature,
+    };
+  }
+}
+
+/// Contains the name and identifier of a pipeline.
+class PipelineIdName {
+  /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a
+  /// string of the form <code>df-297EG78HU43EEXAMPLE</code>.
+  final String? id;
+
+  /// The name of the pipeline.
+  final String? name;
+
+  PipelineIdName({
+    this.id,
+    this.name,
+  });
+
+  factory PipelineIdName.fromJson(Map<String, dynamic> json) {
+    return PipelineIdName(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Contains pipeline metadata.
+class PipelineDescription {
+  /// A list of read-only fields that contain metadata about the pipeline:
+  /// @userId, @accountId, and @pipelineState.
+  final List<Field> fields;
+
+  /// The name of the pipeline.
+  final String name;
+
+  /// The pipeline identifier that was assigned by AWS Data Pipeline. This is a
+  /// string of the form <code>df-297EG78HU43EEXAMPLE</code>.
+  final String pipelineId;
+
+  /// Description of the pipeline.
+  final String? description;
+
+  /// A list of tags to associated with a pipeline. Tags let you control access to
+  /// pipelines. For more information, see <a
+  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
+  /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
+  /// Guide</i>.
+  final List<Tag>? tags;
+
+  PipelineDescription({
+    required this.fields,
+    required this.name,
+    required this.pipelineId,
+    this.description,
+    this.tags,
+  });
+
+  factory PipelineDescription.fromJson(Map<String, dynamic> json) {
+    return PipelineDescription(
+      fields: ((json['fields'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: (json['name'] as String?) ?? '',
+      pipelineId: (json['pipelineId'] as String?) ?? '',
+      description: json['description'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final name = this.name;
+    final pipelineId = this.pipelineId;
+    final description = this.description;
+    final tags = this.tags;
+    return {
+      'fields': fields,
+      'name': name,
+      'pipelineId': pipelineId,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Tags are key/value pairs defined by a user and associated with a pipeline to
+/// control access. AWS Data Pipeline allows you to associate ten tags per
+/// pipeline. For more information, see <a
+/// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
+/// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
+/// Guide</i>.
+class Tag {
+  /// The key name of a tag defined by a user. For more information, see <a
+  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
+  /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
+  /// Guide</i>.
+  final String key;
+
+  /// The optional value portion of a tag defined by a user. For more information,
+  /// see <a
+  /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
+  /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
+  /// Guide</i>.
   final String value;
 
-  const TaskStatus._(this.value);
-
-  static const values = [finished, failed, $false];
-
-  static TaskStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TaskStatus._(value));
-
-  @override
-  bool operator ==(other) => other is TaskStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the output of ValidatePipelineDefinition.
-class ValidatePipelineDefinitionOutput {
-  /// Indicates whether there were validation errors.
-  final bool errored;
-
-  /// Any validation errors that were found.
-  final List<ValidationError>? validationErrors;
-
-  /// Any validation warnings that were found.
-  final List<ValidationWarning>? validationWarnings;
-
-  ValidatePipelineDefinitionOutput({
-    required this.errored,
-    this.validationErrors,
-    this.validationWarnings,
+  Tag({
+    required this.key,
+    required this.value,
   });
 
-  factory ValidatePipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
-    return ValidatePipelineDefinitionOutput(
-      errored: (json['errored'] as bool?) ?? false,
-      validationErrors: (json['validationErrors'] as List?)
-          ?.nonNulls
-          .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      validationWarnings: (json['validationWarnings'] as List?)
-          ?.nonNulls
-          .map((e) => ValidationWarning.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final errored = this.errored;
-    final validationErrors = this.validationErrors;
-    final validationWarnings = this.validationWarnings;
+    final key = this.key;
+    final value = this.value;
     return {
-      'errored': errored,
-      if (validationErrors != null) 'validationErrors': validationErrors,
-      if (validationWarnings != null) 'validationWarnings': validationWarnings,
-    };
-  }
-}
-
-/// Defines a validation error. Validation errors prevent pipeline activation.
-/// The set of validation errors that can be returned are defined by AWS Data
-/// Pipeline.
-class ValidationError {
-  /// A description of the validation error.
-  final List<String>? errors;
-
-  /// The identifier of the object that contains the validation error.
-  final String? id;
-
-  ValidationError({
-    this.errors,
-    this.id,
-  });
-
-  factory ValidationError.fromJson(Map<String, dynamic> json) {
-    return ValidationError(
-      errors:
-          (json['errors'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    final id = this.id;
-    return {
-      if (errors != null) 'errors': errors,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// Defines a validation warning. Validation warnings do not prevent pipeline
-/// activation. The set of validation warnings that can be returned are defined
-/// by AWS Data Pipeline.
-class ValidationWarning {
-  /// The identifier of the object that contains the validation warning.
-  final String? id;
-
-  /// A description of the validation warning.
-  final List<String>? warnings;
-
-  ValidationWarning({
-    this.id,
-    this.warnings,
-  });
-
-  factory ValidationWarning.fromJson(Map<String, dynamic> json) {
-    return ValidationWarning(
-      id: json['id'] as String?,
-      warnings: (json['warnings'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final warnings = this.warnings;
-    return {
-      if (id != null) 'id': id,
-      if (warnings != null) 'warnings': warnings,
+      'key': key,
+      'value': value,
     };
   }
 }

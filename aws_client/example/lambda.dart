@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:aws_client/lambda_2015_03_31.dart';
+import 'package:aws_client/lambda.dart';
 
 void main(List<String> args) async {
   final api = Lambda(region: 'us-west-1');

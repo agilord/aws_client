@@ -54,39 +54,39 @@ class Firehose {
     _protocol.close();
   }
 
-  /// Creates a Firehose delivery stream.
+  /// Creates a Firehose stream.
   ///
-  /// By default, you can create up to 50 delivery streams per Amazon Web
+  /// By default, you can create up to 5,000 Firehose streams per Amazon Web
   /// Services Region.
   ///
   /// This is an asynchronous operation that immediately returns. The initial
-  /// status of the delivery stream is <code>CREATING</code>. After the delivery
+  /// status of the Firehose stream is <code>CREATING</code>. After the Firehose
   /// stream is created, its status is <code>ACTIVE</code> and it now accepts
-  /// data. If the delivery stream creation fails, the status transitions to
+  /// data. If the Firehose stream creation fails, the status transitions to
   /// <code>CREATING_FAILED</code>. Attempts to send data to a delivery stream
   /// that is not in the <code>ACTIVE</code> state cause an exception. To check
-  /// the state of a delivery stream, use <a>DescribeDeliveryStream</a>.
+  /// the state of a Firehose stream, use <a>DescribeDeliveryStream</a>.
   ///
-  /// If the status of a delivery stream is <code>CREATING_FAILED</code>, this
+  /// If the status of a Firehose stream is <code>CREATING_FAILED</code>, this
   /// status doesn't change, and you can't invoke
   /// <code>CreateDeliveryStream</code> again on it. However, you can invoke the
   /// <a>DeleteDeliveryStream</a> operation to delete it.
   ///
-  /// A Firehose delivery stream can be configured to receive records directly
-  /// from providers using <a>PutRecord</a> or <a>PutRecordBatch</a>, or it can
-  /// be configured to use an existing Kinesis stream as its source. To specify
-  /// a Kinesis data stream as input, set the <code>DeliveryStreamType</code>
+  /// A Firehose stream can be configured to receive records directly from
+  /// providers using <a>PutRecord</a> or <a>PutRecordBatch</a>, or it can be
+  /// configured to use an existing Kinesis stream as its source. To specify a
+  /// Kinesis data stream as input, set the <code>DeliveryStreamType</code>
   /// parameter to <code>KinesisStreamAsSource</code>, and provide the Kinesis
   /// stream Amazon Resource Name (ARN) and role ARN in the
   /// <code>KinesisStreamSourceConfiguration</code> parameter.
   ///
-  /// To create a delivery stream with server-side encryption (SSE) enabled,
+  /// To create a Firehose stream with server-side encryption (SSE) enabled,
   /// include <a>DeliveryStreamEncryptionConfigurationInput</a> in your request.
   /// This is optional. You can also invoke <a>StartDeliveryStreamEncryption</a>
-  /// to turn on SSE for an existing delivery stream that doesn't have SSE
+  /// to turn on SSE for an existing Firehose stream that doesn't have SSE
   /// enabled.
   ///
-  /// A delivery stream is configured with a single destination, such as Amazon
+  /// A Firehose stream is configured with a single destination, such as Amazon
   /// Simple Storage Service (Amazon S3), Amazon Redshift, Amazon OpenSearch
   /// Service, Amazon OpenSearch Serverless, Splunk, and any custom HTTP
   /// endpoint or HTTP endpoints owned by or supported by third-party service
@@ -141,15 +141,15 @@ class Firehose {
   /// Developer Guide</i>.
   ///
   /// May throw [InvalidArgumentException].
+  /// May throw [InvalidKMSResourceException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
-  /// May throw [InvalidKMSResourceException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream. This name must be unique per Amazon Web
-  /// Services account in the same Amazon Web Services Region. If the delivery
+  /// The name of the Firehose stream. This name must be unique per Amazon Web
+  /// Services account in the same Amazon Web Services Region. If the Firehose
   /// streams are in different accounts or different Regions, you can have
-  /// multiple delivery streams with the same name.
+  /// multiple Firehose streams with the same name.
   ///
   /// Parameter [amazonOpenSearchServerlessDestinationConfiguration] :
   /// The destination in the Serverless offering for Amazon OpenSearch Service.
@@ -159,27 +159,38 @@ class Firehose {
   /// The destination in Amazon OpenSearch Service. You can specify only one
   /// destination.
   ///
+  /// Parameter [databaseSourceConfiguration] :
+  /// The top level object for configuring streams with database as a source.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  ///
   /// Parameter [deliveryStreamEncryptionConfigurationInput] :
   /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key
   /// needed for Server-Side Encryption (SSE).
   ///
   /// Parameter [deliveryStreamType] :
-  /// The delivery stream type. This parameter can be one of the following
+  /// The Firehose stream type. This parameter can be one of the following
   /// values:
   ///
   /// <ul>
   /// <li>
-  /// <code>DirectPut</code>: Provider applications access the delivery stream
+  /// <code>DirectPut</code>: Provider applications access the Firehose stream
   /// directly.
   /// </li>
   /// <li>
-  /// <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis
+  /// <code>KinesisStreamAsSource</code>: The Firehose stream uses a Kinesis
   /// data stream as a source.
   /// </li>
   /// </ul>
   ///
+  /// Parameter [directPutSourceConfiguration] :
+  /// The structure that configures parameters such as
+  /// <code>ThroughputHintInMBs</code> for a stream configured with Direct PUT
+  /// as a source.
+  ///
   /// Parameter [elasticsearchDestinationConfiguration] :
-  /// The destination in Amazon ES. You can specify only one destination.
+  /// The destination in Amazon OpenSearch Service. You can specify only one
+  /// destination.
   ///
   /// Parameter [extendedS3DestinationConfiguration] :
   /// The destination in Amazon S3. You can specify only one destination.
@@ -191,10 +202,8 @@ class Firehose {
   /// Parameter [icebergDestinationConfiguration] :
   /// Configure Apache Iceberg Tables destination.
   ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  ///
   /// Parameter [kinesisStreamSourceConfiguration] :
-  /// When a Kinesis data stream is used as the source for the delivery stream,
+  /// When a Kinesis data stream is used as the source for the Firehose stream,
   /// a <a>KinesisStreamSourceConfiguration</a> containing the Kinesis data
   /// stream Amazon Resource Name (ARN) and the role ARN for the source stream.
   ///
@@ -212,23 +221,23 @@ class Firehose {
   /// The destination in Splunk. You can specify only one destination.
   ///
   /// Parameter [tags] :
-  /// A set of tags to assign to the delivery stream. A tag is a key-value pair
+  /// A set of tags to assign to the Firehose stream. A tag is a key-value pair
   /// that you can define and assign to Amazon Web Services resources. Tags are
   /// metadata. For example, you can add friendly names and descriptions or
-  /// other types of information that can help you distinguish the delivery
+  /// other types of information that can help you distinguish the Firehose
   /// stream. For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
   /// Cost Allocation Tags</a> in the Amazon Web Services Billing and Cost
   /// Management User Guide.
   ///
-  /// You can specify up to 50 tags when creating a delivery stream.
+  /// You can specify up to 50 tags when creating a Firehose stream.
   ///
   /// If you specify tags in the <code>CreateDeliveryStream</code> action,
   /// Amazon Data Firehose performs an additional authorization on the
   /// <code>firehose:TagDeliveryStream</code> action to verify if users have
   /// permissions to create tags. If you do not provide this permission,
-  /// requests to create new Firehose delivery streams with IAM resource tags
-  /// will fail with an <code>AccessDeniedException</code> such as following.
+  /// requests to create new Firehose streams with IAM resource tags will fail
+  /// with an <code>AccessDeniedException</code> such as following.
   ///
   /// <b>AccessDeniedException</b>
   ///
@@ -246,9 +255,11 @@ class Firehose {
         amazonOpenSearchServerlessDestinationConfiguration,
     AmazonopensearchserviceDestinationConfiguration?
         amazonopensearchserviceDestinationConfiguration,
+    DatabaseSourceConfiguration? databaseSourceConfiguration,
     DeliveryStreamEncryptionConfigurationInput?
         deliveryStreamEncryptionConfigurationInput,
     DeliveryStreamType? deliveryStreamType,
+    DirectPutSourceConfiguration? directPutSourceConfiguration,
     ElasticsearchDestinationConfiguration?
         elasticsearchDestinationConfiguration,
     ExtendedS3DestinationConfiguration? extendedS3DestinationConfiguration,
@@ -280,11 +291,15 @@ class Firehose {
         if (amazonopensearchserviceDestinationConfiguration != null)
           'AmazonopensearchserviceDestinationConfiguration':
               amazonopensearchserviceDestinationConfiguration,
+        if (databaseSourceConfiguration != null)
+          'DatabaseSourceConfiguration': databaseSourceConfiguration,
         if (deliveryStreamEncryptionConfigurationInput != null)
           'DeliveryStreamEncryptionConfigurationInput':
               deliveryStreamEncryptionConfigurationInput,
         if (deliveryStreamType != null)
           'DeliveryStreamType': deliveryStreamType.value,
+        if (directPutSourceConfiguration != null)
+          'DirectPutSourceConfiguration': directPutSourceConfiguration,
         if (elasticsearchDestinationConfiguration != null)
           'ElasticsearchDestinationConfiguration':
               elasticsearchDestinationConfiguration,
@@ -316,23 +331,23 @@ class Firehose {
     return CreateDeliveryStreamOutput.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a delivery stream and its data.
+  /// Deletes a Firehose stream and its data.
   ///
-  /// You can delete a delivery stream only if it is in one of the following
+  /// You can delete a Firehose stream only if it is in one of the following
   /// states: <code>ACTIVE</code>, <code>DELETING</code>,
   /// <code>CREATING_FAILED</code>, or <code>DELETING_FAILED</code>. You can't
-  /// delete a delivery stream that is in the <code>CREATING</code> state. To
-  /// check the state of a delivery stream, use <a>DescribeDeliveryStream</a>.
+  /// delete a Firehose stream that is in the <code>CREATING</code> state. To
+  /// check the state of a Firehose stream, use <a>DescribeDeliveryStream</a>.
   ///
   /// DeleteDeliveryStream is an asynchronous API. When an API request to
-  /// DeleteDeliveryStream succeeds, the delivery stream is marked for deletion,
-  /// and it goes into the <code>DELETING</code> state.While the delivery stream
+  /// DeleteDeliveryStream succeeds, the Firehose stream is marked for deletion,
+  /// and it goes into the <code>DELETING</code> state.While the Firehose stream
   /// is in the <code>DELETING</code> state, the service might continue to
   /// accept records, but it doesn't make any guarantees with respect to
   /// delivering the data. Therefore, as a best practice, first stop any
-  /// applications that are sending records before you delete a delivery stream.
+  /// applications that are sending records before you delete a Firehose stream.
   ///
-  /// Removal of a delivery stream that is in the <code>DELETING</code> state is
+  /// Removal of a Firehose stream that is in the <code>DELETING</code> state is
   /// a low priority operation for the service. A stream may remain in the
   /// <code>DELETING</code> state for several minutes. Therefore, as a best
   /// practice, applications should not wait for streams in the
@@ -342,10 +357,10 @@ class Firehose {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream.
+  /// The name of the Firehose stream.
   ///
   /// Parameter [allowForceDelete] :
-  /// Set this to true if you want to delete the delivery stream even if
+  /// Set this to true if you want to delete the Firehose stream even if
   /// Firehose is unable to retire the grant for the CMK. Firehose might be
   /// unable to retire the grant due to a customer error, such as when the CMK
   /// or the grant are in an invalid state. If you force deletion, you can then
@@ -377,12 +392,12 @@ class Firehose {
     );
   }
 
-  /// Describes the specified delivery stream and its status. For example, after
-  /// your delivery stream is created, call <code>DescribeDeliveryStream</code>
-  /// to see whether the delivery stream is <code>ACTIVE</code> and therefore
+  /// Describes the specified Firehose stream and its status. For example, after
+  /// your Firehose stream is created, call <code>DescribeDeliveryStream</code>
+  /// to see whether the Firehose stream is <code>ACTIVE</code> and therefore
   /// ready for data to be sent to it.
   ///
-  /// If the status of a delivery stream is <code>CREATING_FAILED</code>, this
+  /// If the status of a Firehose stream is <code>CREATING_FAILED</code>, this
   /// status doesn't change, and you can't invoke <a>CreateDeliveryStream</a>
   /// again on it. However, you can invoke the <a>DeleteDeliveryStream</a>
   /// operation to delete it. If the status is <code>DELETING_FAILED</code>, you
@@ -392,15 +407,15 @@ class Firehose {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream.
+  /// The name of the Firehose stream.
   ///
   /// Parameter [exclusiveStartDestinationId] :
   /// The ID of the destination to start returning the destination information.
-  /// Firehose supports one destination per delivery stream.
+  /// Firehose supports one destination per Firehose stream.
   ///
   /// Parameter [limit] :
   /// The limit on the number of destinations to return. You can have one
-  /// destination per delivery stream.
+  /// destination per Firehose stream.
   Future<DescribeDeliveryStreamOutput> describeDeliveryStream({
     required String deliveryStreamName,
     String? exclusiveStartDestinationId,
@@ -433,42 +448,42 @@ class Firehose {
     return DescribeDeliveryStreamOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists your delivery streams in alphabetical order of their names.
+  /// Lists your Firehose streams in alphabetical order of their names.
   ///
-  /// The number of delivery streams might be too large to return using a single
+  /// The number of Firehose streams might be too large to return using a single
   /// call to <code>ListDeliveryStreams</code>. You can limit the number of
-  /// delivery streams returned, using the <code>Limit</code> parameter. To
+  /// Firehose streams returned, using the <code>Limit</code> parameter. To
   /// determine whether there are more delivery streams to list, check the value
   /// of <code>HasMoreDeliveryStreams</code> in the output. If there are more
-  /// delivery streams to list, you can request them by calling this operation
+  /// Firehose streams to list, you can request them by calling this operation
   /// again and setting the <code>ExclusiveStartDeliveryStreamName</code>
-  /// parameter to the name of the last delivery stream returned in the last
+  /// parameter to the name of the last Firehose stream returned in the last
   /// call.
   ///
   /// Parameter [deliveryStreamType] :
-  /// The delivery stream type. This can be one of the following values:
+  /// The Firehose stream type. This can be one of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <code>DirectPut</code>: Provider applications access the delivery stream
+  /// <code>DirectPut</code>: Provider applications access the Firehose stream
   /// directly.
   /// </li>
   /// <li>
-  /// <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis
+  /// <code>KinesisStreamAsSource</code>: The Firehose stream uses a Kinesis
   /// data stream as a source.
   /// </li>
   /// </ul>
-  /// This parameter is optional. If this parameter is omitted, delivery streams
+  /// This parameter is optional. If this parameter is omitted, Firehose streams
   /// of all types are returned.
   ///
   /// Parameter [exclusiveStartDeliveryStreamName] :
-  /// The list of delivery streams returned by this call to
-  /// <code>ListDeliveryStreams</code> will start with the delivery stream whose
+  /// The list of Firehose streams returned by this call to
+  /// <code>ListDeliveryStreams</code> will start with the Firehose stream whose
   /// name comes alphabetically immediately after the name you specify in
   /// <code>ExclusiveStartDeliveryStreamName</code>.
   ///
   /// Parameter [limit] :
-  /// The maximum number of delivery streams to list. The default value is 10.
+  /// The maximum number of Firehose streams to list. The default value is 10.
   Future<ListDeliveryStreamsOutput> listDeliveryStreams({
     DeliveryStreamType? deliveryStreamType,
     String? exclusiveStartDeliveryStreamName,
@@ -502,15 +517,15 @@ class Firehose {
     return ListDeliveryStreamsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists the tags for the specified delivery stream. This operation has a
+  /// Lists the tags for the specified Firehose stream. This operation has a
   /// limit of five transactions per second per account.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream whose tags you want to list.
+  /// The name of the Firehose stream whose tags you want to list.
   ///
   /// Parameter [exclusiveStartTagKey] :
   /// The key to use as the starting point for the list of tags. If you set this
@@ -519,7 +534,7 @@ class Firehose {
   ///
   /// Parameter [limit] :
   /// The number of tags to return. If this number is less than the total number
-  /// of tags associated with the delivery stream, <code>HasMoreTags</code> is
+  /// of tags associated with the Firehose stream, <code>HasMoreTags</code> is
   /// set to <code>true</code> in the response. To list additional tags, set
   /// <code>ExclusiveStartTagKey</code> to the last key in the response.
   Future<ListTagsForDeliveryStreamOutput> listTagsForDeliveryStream({
@@ -554,30 +569,36 @@ class Firehose {
     return ListTagsForDeliveryStreamOutput.fromJson(jsonResponse.body);
   }
 
-  /// Writes a single data record into an Amazon Firehose delivery stream. To
-  /// write multiple data records into a delivery stream, use
-  /// <a>PutRecordBatch</a>. Applications using these operations are referred to
-  /// as producers.
+  /// Writes a single data record into an Firehose stream. To write multiple
+  /// data records into a Firehose stream, use <a>PutRecordBatch</a>.
+  /// Applications using these operations are referred to as producers.
   ///
-  /// By default, each delivery stream can take in up to 2,000 transactions per
+  /// By default, each Firehose stream can take in up to 2,000 transactions per
   /// second, 5,000 records per second, or 5 MB per second. If you use
   /// <a>PutRecord</a> and <a>PutRecordBatch</a>, the limits are an aggregate
-  /// across these two operations for each delivery stream. For more information
+  /// across these two operations for each Firehose stream. For more information
   /// about limits and how to request an increase, see <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/limits.html">Amazon
   /// Firehose Limits</a>.
   ///
   /// Firehose accumulates and publishes a particular metric for a customer
   /// account in one minute intervals. It is possible that the bursts of
-  /// incoming bytes/records ingested to a delivery stream last only for a few
+  /// incoming bytes/records ingested to a Firehose stream last only for a few
   /// seconds. Due to this, the actual spikes in the traffic might not be fully
   /// visible in the customer's 1 minute CloudWatch metrics.
   ///
-  /// You must specify the name of the delivery stream and the data record when
+  /// You must specify the name of the Firehose stream and the data record when
   /// using <a>PutRecord</a>. The data record consists of a data blob that can
   /// be up to 1,000 KiB in size, and any kind of data. For example, it can be a
   /// segment from a log file, geographic location data, website clickstream
   /// data, and so on.
+  ///
+  /// For multi record de-aggregation, you can not put more than 500 records
+  /// even if the data blob length is less than 1000 KiB. If you include more
+  /// than 500 records, the request succeeds but the record de-aggregation
+  /// doesn't work as expected and transformation lambda is invoked with the
+  /// complete base64 encoded data blob instead of de-aggregated base64 decoded
+  /// records.
   ///
   /// Firehose buffers records before delivering them to the destination. To
   /// disambiguate the data blobs at the destination, a common solution is to
@@ -593,14 +614,14 @@ class Firehose {
   /// If the <code>PutRecord</code> operation throws a
   /// <code>ServiceUnavailableException</code>, the API is automatically
   /// reinvoked (retried) 3 times. If the exception persists, it is possible
-  /// that the throughput limits have been exceeded for the delivery stream.
+  /// that the throughput limits have been exceeded for the Firehose stream.
   ///
   /// Re-invoking the Put API operations (for example, PutRecord and
   /// PutRecordBatch) can result in data duplicates. For larger data assets,
   /// allow for a longer time out before retrying Put API operations.
   ///
   /// Data records sent to Firehose are stored for 24 hours from the time they
-  /// are added to a delivery stream as it tries to send the records to the
+  /// are added to a Firehose stream as it tries to send the records to the
   /// destination. If the destination is unreachable for more than 24 hours, the
   /// data is no longer available.
   /// <important>
@@ -609,14 +630,14 @@ class Firehose {
   /// encoding.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidKMSResourceException].
   /// May throw [InvalidSourceException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream.
+  /// The name of the Firehose stream.
   ///
   /// Parameter [record] :
   /// The record.
@@ -643,15 +664,15 @@ class Firehose {
     return PutRecordOutput.fromJson(jsonResponse.body);
   }
 
-  /// Writes multiple data records into a delivery stream in a single call,
+  /// Writes multiple data records into a Firehose stream in a single call,
   /// which can achieve higher throughput per producer than when writing single
-  /// records. To write single data records into a delivery stream, use
+  /// records. To write single data records into a Firehose stream, use
   /// <a>PutRecord</a>. Applications using these operations are referred to as
   /// producers.
   ///
   /// Firehose accumulates and publishes a particular metric for a customer
   /// account in one minute intervals. It is possible that the bursts of
-  /// incoming bytes/records ingested to a delivery stream last only for a few
+  /// incoming bytes/records ingested to a Firehose stream last only for a few
   /// seconds. Due to this, the actual spikes in the traffic might not be fully
   /// visible in the customer's 1 minute CloudWatch metrics.
   ///
@@ -663,11 +684,18 @@ class Firehose {
   /// in the request can be as large as 1,000 KB (before base64 encoding), up to
   /// a limit of 4 MB for the entire request. These limits cannot be changed.
   ///
-  /// You must specify the name of the delivery stream and the data record when
+  /// You must specify the name of the Firehose stream and the data record when
   /// using <a>PutRecord</a>. The data record consists of a data blob that can
   /// be up to 1,000 KB in size, and any kind of data. For example, it could be
   /// a segment from a log file, geographic location data, website clickstream
   /// data, and so on.
+  ///
+  /// For multi record de-aggregation, you can not put more than 500 records
+  /// even if the data blob length is less than 1000 KiB. If you include more
+  /// than 500 records, the request succeeds but the record de-aggregation
+  /// doesn't work as expected and transformation lambda is invoked with the
+  /// complete base64 encoded data blob instead of de-aggregated base64 decoded
+  /// records.
   ///
   /// Firehose buffers records before delivering them to the destination. To
   /// disambiguate the data blobs at the destination, a common solution is to
@@ -708,14 +736,14 @@ class Firehose {
   /// If <a>PutRecordBatch</a> throws <code>ServiceUnavailableException</code>,
   /// the API is automatically reinvoked (retried) 3 times. If the exception
   /// persists, it is possible that the throughput limits have been exceeded for
-  /// the delivery stream.
+  /// the Firehose stream.
   ///
   /// Re-invoking the Put API operations (for example, PutRecord and
   /// PutRecordBatch) can result in data duplicates. For larger data assets,
   /// allow for a longer time out before retrying Put API operations.
   ///
   /// Data records sent to Firehose are stored for 24 hours from the time they
-  /// are added to a delivery stream as it attempts to send the records to the
+  /// are added to a Firehose stream as it attempts to send the records to the
   /// destination. If the destination is unreachable for more than 24 hours, the
   /// data is no longer available.
   /// <important>
@@ -724,14 +752,14 @@ class Firehose {
   /// encoding.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidKMSResourceException].
   /// May throw [InvalidSourceException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream.
+  /// The name of the Firehose stream.
   ///
   /// Parameter [records] :
   /// One or more records.
@@ -758,26 +786,26 @@ class Firehose {
     return PutRecordBatchOutput.fromJson(jsonResponse.body);
   }
 
-  /// Enables server-side encryption (SSE) for the delivery stream.
+  /// Enables server-side encryption (SSE) for the Firehose stream.
   ///
   /// This operation is asynchronous. It returns immediately. When you invoke
   /// it, Firehose first sets the encryption status of the stream to
   /// <code>ENABLING</code>, and then to <code>ENABLED</code>. The encryption
-  /// status of a delivery stream is the <code>Status</code> property in
+  /// status of a Firehose stream is the <code>Status</code> property in
   /// <a>DeliveryStreamEncryptionConfiguration</a>. If the operation fails, the
   /// encryption status changes to <code>ENABLING_FAILED</code>. You can
-  /// continue to read and write data to your delivery stream while the
+  /// continue to read and write data to your Firehose stream while the
   /// encryption status is <code>ENABLING</code>, but the data is not encrypted.
   /// It can take up to 5 seconds after the encryption status changes to
-  /// <code>ENABLED</code> before all records written to the delivery stream are
+  /// <code>ENABLED</code> before all records written to the Firehose stream are
   /// encrypted. To find out whether a record or a batch of records was
   /// encrypted, check the response elements <a>PutRecordOutput$Encrypted</a>
   /// and <a>PutRecordBatchOutput$Encrypted</a>, respectively.
   ///
-  /// To check the encryption status of a delivery stream, use
+  /// To check the encryption status of a Firehose stream, use
   /// <a>DescribeDeliveryStream</a>.
   ///
-  /// Even if encryption is currently enabled for a delivery stream, you can
+  /// Even if encryption is currently enabled for a Firehose stream, you can
   /// still invoke this operation on it to change the ARN of the CMK or both its
   /// type and ARN. If you invoke this method to change the CMK, and the old CMK
   /// is of type <code>CUSTOMER_MANAGED_CMK</code>, Firehose schedules the grant
@@ -790,36 +818,36 @@ class Firehose {
   /// <code>CreateDeliveryStream</code> should not be called with session
   /// credentials that are more than 6 hours old.
   ///
-  /// If a delivery stream already has encryption enabled and then you invoke
+  /// If a Firehose stream already has encryption enabled and then you invoke
   /// this operation to change the ARN of the CMK or both its type and ARN and
   /// you get <code>ENABLING_FAILED</code>, this only means that the attempt to
   /// change the CMK failed. In this case, encryption remains enabled with the
   /// old CMK.
   ///
-  /// If the encryption status of your delivery stream is
+  /// If the encryption status of your Firehose stream is
   /// <code>ENABLING_FAILED</code>, you can invoke this operation again with a
   /// valid CMK. The CMK must be enabled and the key policy mustn't explicitly
   /// deny the permission for Firehose to invoke KMS encrypt and decrypt
   /// operations.
   ///
-  /// You can enable SSE for a delivery stream only if it's a delivery stream
+  /// You can enable SSE for a Firehose stream only if it's a Firehose stream
   /// that uses <code>DirectPut</code> as its source.
   ///
   /// The <code>StartDeliveryStreamEncryption</code> and
   /// <code>StopDeliveryStreamEncryption</code> operations have a combined limit
-  /// of 25 calls per delivery stream per 24 hours. For example, you reach the
+  /// of 25 calls per Firehose stream per 24 hours. For example, you reach the
   /// limit if you call <code>StartDeliveryStreamEncryption</code> 13 times and
-  /// <code>StopDeliveryStreamEncryption</code> 12 times for the same delivery
+  /// <code>StopDeliveryStreamEncryption</code> 12 times for the same Firehose
   /// stream in a 24-hour period.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidKMSResourceException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream for which you want to enable server-side
+  /// The name of the Firehose stream for which you want to enable server-side
   /// encryption (SSE).
   ///
   /// Parameter [deliveryStreamEncryptionConfigurationInput] :
@@ -849,7 +877,7 @@ class Firehose {
     );
   }
 
-  /// Disables server-side encryption (SSE) for the delivery stream.
+  /// Disables server-side encryption (SSE) for the Firehose stream.
   ///
   /// This operation is asynchronous. It returns immediately. When you invoke
   /// it, Firehose first sets the encryption status of the stream to
@@ -857,12 +885,12 @@ class Firehose {
   /// continue to read and write data to your stream while its status is
   /// <code>DISABLING</code>. It can take up to 5 seconds after the encryption
   /// status changes to <code>DISABLED</code> before all records written to the
-  /// delivery stream are no longer subject to encryption. To find out whether a
+  /// Firehose stream are no longer subject to encryption. To find out whether a
   /// record or a batch of records was encrypted, check the response elements
   /// <a>PutRecordOutput$Encrypted</a> and
   /// <a>PutRecordBatchOutput$Encrypted</a>, respectively.
   ///
-  /// To check the encryption state of a delivery stream, use
+  /// To check the encryption state of a Firehose stream, use
   /// <a>DescribeDeliveryStream</a>.
   ///
   /// If SSE is enabled using a customer managed CMK and then you invoke
@@ -872,18 +900,18 @@ class Firehose {
   ///
   /// The <code>StartDeliveryStreamEncryption</code> and
   /// <code>StopDeliveryStreamEncryption</code> operations have a combined limit
-  /// of 25 calls per delivery stream per 24 hours. For example, you reach the
+  /// of 25 calls per Firehose stream per 24 hours. For example, you reach the
   /// limit if you call <code>StartDeliveryStreamEncryption</code> 13 times and
-  /// <code>StopDeliveryStreamEncryption</code> 12 times for the same delivery
+  /// <code>StopDeliveryStreamEncryption</code> 12 times for the same Firehose
   /// stream in a 24-hour period.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream for which you want to disable server-side
+  /// The name of the Firehose stream for which you want to disable server-side
   /// encryption (SSE).
   Future<void> stopDeliveryStreamEncryption({
     required String deliveryStreamName,
@@ -904,28 +932,28 @@ class Firehose {
     );
   }
 
-  /// Adds or updates tags for the specified delivery stream. A tag is a
+  /// Adds or updates tags for the specified Firehose stream. A tag is a
   /// key-value pair that you can define and assign to Amazon Web Services
   /// resources. If you specify a tag that already exists, the tag value is
   /// replaced with the value that you specify in the request. Tags are
   /// metadata. For example, you can add friendly names and descriptions or
-  /// other types of information that can help you distinguish the delivery
+  /// other types of information that can help you distinguish the Firehose
   /// stream. For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
   /// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
   /// Management User Guide</i>.
   ///
-  /// Each delivery stream can have up to 50 tags.
+  /// Each Firehose stream can have up to 50 tags.
   ///
   /// This operation has a limit of five transactions per second per account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream to which you want to add the tags.
+  /// The name of the Firehose stream to which you want to add the tags.
   ///
   /// Parameter [tags] :
   /// A set of key-value pairs to use to create the tags.
@@ -950,20 +978,20 @@ class Firehose {
     );
   }
 
-  /// Removes tags from the specified delivery stream. Removed tags are deleted,
+  /// Removes tags from the specified Firehose stream. Removed tags are deleted,
   /// and you can't recover them after this operation successfully completes.
   ///
   /// If you specify a tag that doesn't exist, the operation ignores it.
   ///
   /// This operation has a limit of five transactions per second per account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream.
+  /// The name of the Firehose stream.
   ///
   /// Parameter [tagKeys] :
   /// A list of tag keys. Each corresponding tag is removed from the delivery
@@ -989,14 +1017,14 @@ class Firehose {
     );
   }
 
-  /// Updates the specified destination of the specified delivery stream.
+  /// Updates the specified destination of the specified Firehose stream.
   ///
   /// Use this operation to change the destination type (for example, to replace
   /// the Amazon S3 destination with Amazon Redshift) or change the parameters
   /// associated with a destination (for example, to change the bucket name of
   /// the Amazon S3 destination). The update might not occur immediately. The
-  /// target delivery stream remains active while the configurations are
-  /// updated, so data writes to the delivery stream can continue during this
+  /// target Firehose stream remains active while the configurations are
+  /// updated, so data writes to the Firehose stream can continue during this
   /// process. The updated configurations are usually effective within a few
   /// minutes.
   ///
@@ -1024,10 +1052,10 @@ class Firehose {
   /// <a>DescribeDeliveryStream</a>. Use the new version ID to set
   /// <code>CurrentDeliveryStreamVersionId</code> in the next call.
   ///
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidArgumentException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [currentDeliveryStreamVersionId] :
   /// Obtain this value from the <code>VersionId</code> result of
@@ -1039,7 +1067,7 @@ class Firehose {
   /// the new configuration.
   ///
   /// Parameter [deliveryStreamName] :
-  /// The name of the delivery stream.
+  /// The name of the Firehose stream.
   ///
   /// Parameter [destinationId] :
   /// The ID of the destination.
@@ -1052,7 +1080,7 @@ class Firehose {
   /// Describes an update for a destination in Amazon OpenSearch Service.
   ///
   /// Parameter [elasticsearchDestinationUpdate] :
-  /// Describes an update for a destination in Amazon ES.
+  /// Describes an update for a destination in Amazon OpenSearch Service.
   ///
   /// Parameter [extendedS3DestinationUpdate] :
   /// Describes an update for a destination in Amazon S3.
@@ -1062,8 +1090,6 @@ class Firehose {
   ///
   /// Parameter [icebergDestinationUpdate] :
   /// Describes an update for a destination in Apache Iceberg Tables.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
   ///
   /// Parameter [redshiftDestinationUpdate] :
   /// Describes an update for a destination in Amazon Redshift.
@@ -1134,223 +1160,964 @@ class Firehose {
   }
 }
 
-/// Describes the buffering to perform before delivering data to the Serverless
-/// offering for Amazon OpenSearch Service destination.
-class AmazonOpenSearchServerlessBufferingHints {
-  /// Buffer incoming data for the specified period of time, in seconds, before
-  /// delivering it to the destination. The default value is 300 (5 minutes).
-  final int? intervalInSeconds;
+class CreateDeliveryStreamOutput {
+  /// The ARN of the Firehose stream.
+  final String? deliveryStreamARN;
 
-  /// Buffer incoming data to the specified size, in MBs, before delivering it to
-  /// the destination. The default value is 5.
-  ///
-  /// We recommend setting this parameter to a value greater than the amount of
-  /// data you typically ingest into the delivery stream in 10 seconds. For
-  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
-  /// or higher.
-  final int? sizeInMBs;
-
-  AmazonOpenSearchServerlessBufferingHints({
-    this.intervalInSeconds,
-    this.sizeInMBs,
+  CreateDeliveryStreamOutput({
+    this.deliveryStreamARN,
   });
 
-  factory AmazonOpenSearchServerlessBufferingHints.fromJson(
-      Map<String, dynamic> json) {
-    return AmazonOpenSearchServerlessBufferingHints(
-      intervalInSeconds: json['IntervalInSeconds'] as int?,
-      sizeInMBs: json['SizeInMBs'] as int?,
+  factory CreateDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDeliveryStreamOutput(
+      deliveryStreamARN: json['DeliveryStreamARN'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final intervalInSeconds = this.intervalInSeconds;
-    final sizeInMBs = this.sizeInMBs;
+    final deliveryStreamARN = this.deliveryStreamARN;
     return {
-      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
-      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+      if (deliveryStreamARN != null) 'DeliveryStreamARN': deliveryStreamARN,
     };
   }
 }
 
-/// Describes the configuration of a destination in the Serverless offering for
-/// Amazon OpenSearch Service.
-class AmazonOpenSearchServerlessDestinationConfiguration {
-  /// The Serverless offering for Amazon OpenSearch Service index name.
-  final String indexName;
+class DeleteDeliveryStreamOutput {
+  DeleteDeliveryStreamOutput();
 
-  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
-  /// calling the Serverless offering for Amazon OpenSearch Service Configuration
-  /// API and for indexing documents.
-  final String roleARN;
-  final S3DestinationConfiguration s3Configuration;
+  factory DeleteDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteDeliveryStreamOutput();
+  }
 
-  /// The buffering options. If no value is specified, the default values for
-  /// AmazonopensearchserviceBufferingHints are used.
-  final AmazonOpenSearchServerlessBufferingHints? bufferingHints;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DescribeDeliveryStreamOutput {
+  /// Information about the Firehose stream.
+  final DeliveryStreamDescription deliveryStreamDescription;
+
+  DescribeDeliveryStreamOutput({
+    required this.deliveryStreamDescription,
+  });
+
+  factory DescribeDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeDeliveryStreamOutput(
+      deliveryStreamDescription: DeliveryStreamDescription.fromJson(
+          (json['DeliveryStreamDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamDescription = this.deliveryStreamDescription;
+    return {
+      'DeliveryStreamDescription': deliveryStreamDescription,
+    };
+  }
+}
+
+class ListDeliveryStreamsOutput {
+  /// The names of the Firehose streams.
+  final List<String> deliveryStreamNames;
+
+  /// Indicates whether there are more Firehose streams available to list.
+  final bool hasMoreDeliveryStreams;
+
+  ListDeliveryStreamsOutput({
+    required this.deliveryStreamNames,
+    required this.hasMoreDeliveryStreams,
+  });
+
+  factory ListDeliveryStreamsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeliveryStreamsOutput(
+      deliveryStreamNames: ((json['DeliveryStreamNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      hasMoreDeliveryStreams:
+          (json['HasMoreDeliveryStreams'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamNames = this.deliveryStreamNames;
+    final hasMoreDeliveryStreams = this.hasMoreDeliveryStreams;
+    return {
+      'DeliveryStreamNames': deliveryStreamNames,
+      'HasMoreDeliveryStreams': hasMoreDeliveryStreams,
+    };
+  }
+}
+
+class ListTagsForDeliveryStreamOutput {
+  /// If this is <code>true</code> in the response, more tags are available. To
+  /// list the remaining tags, set <code>ExclusiveStartTagKey</code> to the key of
+  /// the last tag returned and call <code>ListTagsForDeliveryStream</code> again.
+  final bool hasMoreTags;
+
+  /// A list of tags associated with <code>DeliveryStreamName</code>, starting
+  /// with the first tag after <code>ExclusiveStartTagKey</code> and up to the
+  /// specified <code>Limit</code>.
+  final List<Tag> tags;
+
+  ListTagsForDeliveryStreamOutput({
+    required this.hasMoreTags,
+    required this.tags,
+  });
+
+  factory ListTagsForDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForDeliveryStreamOutput(
+      hasMoreTags: (json['HasMoreTags'] as bool?) ?? false,
+      tags: ((json['Tags'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hasMoreTags = this.hasMoreTags;
+    final tags = this.tags;
+    return {
+      'HasMoreTags': hasMoreTags,
+      'Tags': tags,
+    };
+  }
+}
+
+class PutRecordOutput {
+  /// The ID of the record.
+  final String recordId;
+
+  /// Indicates whether server-side encryption (SSE) was enabled during this
+  /// operation.
+  final bool? encrypted;
+
+  PutRecordOutput({
+    required this.recordId,
+    this.encrypted,
+  });
+
+  factory PutRecordOutput.fromJson(Map<String, dynamic> json) {
+    return PutRecordOutput(
+      recordId: (json['RecordId'] as String?) ?? '',
+      encrypted: json['Encrypted'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordId = this.recordId;
+    final encrypted = this.encrypted;
+    return {
+      'RecordId': recordId,
+      if (encrypted != null) 'Encrypted': encrypted,
+    };
+  }
+}
+
+class PutRecordBatchOutput {
+  /// The number of records that might have failed processing. This number might
+  /// be greater than 0 even if the <a>PutRecordBatch</a> call succeeds. Check
+  /// <code>FailedPutCount</code> to determine whether there are records that you
+  /// need to resend.
+  final int failedPutCount;
+
+  /// The results array. For each record, the index of the response element is the
+  /// same as the index used in the request array.
+  final List<PutRecordBatchResponseEntry> requestResponses;
+
+  /// Indicates whether server-side encryption (SSE) was enabled during this
+  /// operation.
+  final bool? encrypted;
+
+  PutRecordBatchOutput({
+    required this.failedPutCount,
+    required this.requestResponses,
+    this.encrypted,
+  });
+
+  factory PutRecordBatchOutput.fromJson(Map<String, dynamic> json) {
+    return PutRecordBatchOutput(
+      failedPutCount: (json['FailedPutCount'] as int?) ?? 0,
+      requestResponses: ((json['RequestResponses'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              PutRecordBatchResponseEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encrypted: json['Encrypted'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedPutCount = this.failedPutCount;
+    final requestResponses = this.requestResponses;
+    final encrypted = this.encrypted;
+    return {
+      'FailedPutCount': failedPutCount,
+      'RequestResponses': requestResponses,
+      if (encrypted != null) 'Encrypted': encrypted,
+    };
+  }
+}
+
+class StartDeliveryStreamEncryptionOutput {
+  StartDeliveryStreamEncryptionOutput();
+
+  factory StartDeliveryStreamEncryptionOutput.fromJson(Map<String, dynamic> _) {
+    return StartDeliveryStreamEncryptionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StopDeliveryStreamEncryptionOutput {
+  StopDeliveryStreamEncryptionOutput();
+
+  factory StopDeliveryStreamEncryptionOutput.fromJson(Map<String, dynamic> _) {
+    return StopDeliveryStreamEncryptionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TagDeliveryStreamOutput {
+  TagDeliveryStreamOutput();
+
+  factory TagDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
+    return TagDeliveryStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagDeliveryStreamOutput {
+  UntagDeliveryStreamOutput();
+
+  factory UntagDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
+    return UntagDeliveryStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDestinationOutput {
+  UpdateDestinationOutput();
+
+  factory UpdateDestinationOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateDestinationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Describes an update for a destination in Amazon S3.
+class S3DestinationUpdate {
+  /// The ARN of the S3 bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String? bucketARN;
+
+  /// The buffering option. If no value is specified, <code>BufferingHints</code>
+  /// object default values are used.
+  final BufferingHints? bufferingHints;
+
+  /// The CloudWatch logging options for your Firehose stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
-  /// The endpoint to use when communicating with the collection in the Serverless
-  /// offering for Amazon OpenSearch Service.
-  final String? collectionEndpoint;
-  final ProcessingConfiguration? processingConfiguration;
+  /// The compression format. If no value is specified, the default is
+  /// <code>UNCOMPRESSED</code>.
+  ///
+  /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be
+  /// specified for Amazon Redshift destinations because they are not supported by
+  /// the Amazon Redshift <code>COPY</code> operation that reads from the S3
+  /// bucket.
+  final CompressionFormat? compressionFormat;
 
-  /// The retry behavior in case Firehose is unable to deliver documents to the
-  /// Serverless offering for Amazon OpenSearch Service. The default value is 300
-  /// (5 minutes).
-  final AmazonOpenSearchServerlessRetryOptions? retryOptions;
+  /// The encryption configuration. If no value is specified, the default is no
+  /// encryption.
+  final EncryptionConfiguration? encryptionConfiguration;
 
-  /// Defines how documents should be delivered to Amazon S3. When it is set to
-  /// FailedDocumentsOnly, Firehose writes any documents that could not be indexed
-  /// to the configured Amazon S3 destination, with
-  /// AmazonOpenSearchService-failed/ appended to the key prefix. When set to
-  /// AllDocuments, Firehose delivers all incoming records to Amazon S3, and also
-  /// writes failed documents with AmazonOpenSearchService-failed/ appended to the
-  /// prefix.
-  final AmazonOpenSearchServerlessS3BackupMode? s3BackupMode;
-  final VpcConfiguration? vpcConfiguration;
+  /// A prefix that Firehose evaluates and adds to failed records before writing
+  /// them to S3. This prefix appears immediately following the bucket name. For
+  /// information about how to specify this prefix, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+  /// Prefixes for Amazon S3 Objects</a>.
+  final String? errorOutputPrefix;
 
-  AmazonOpenSearchServerlessDestinationConfiguration({
-    required this.indexName,
-    required this.roleARN,
-    required this.s3Configuration,
+  /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
+  /// Amazon S3 files. You can also specify a custom prefix, as described in <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+  /// Prefixes for Amazon S3 Objects</a>.
+  final String? prefix;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String? roleARN;
+
+  S3DestinationUpdate({
+    this.bucketARN,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
-    this.collectionEndpoint,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.s3BackupMode,
-    this.vpcConfiguration,
+    this.compressionFormat,
+    this.encryptionConfiguration,
+    this.errorOutputPrefix,
+    this.prefix,
+    this.roleARN,
   });
 
   Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final roleARN = this.roleARN;
-    final s3Configuration = this.s3Configuration;
+    final bucketARN = this.bucketARN;
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final collectionEndpoint = this.collectionEndpoint;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final s3BackupMode = this.s3BackupMode;
-    final vpcConfiguration = this.vpcConfiguration;
+    final compressionFormat = this.compressionFormat;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final prefix = this.prefix;
+    final roleARN = this.roleARN;
     return {
-      'IndexName': indexName,
-      'RoleARN': roleARN,
-      'S3Configuration': s3Configuration,
+      if (bucketARN != null) 'BucketARN': bucketARN,
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (collectionEndpoint != null) 'CollectionEndpoint': collectionEndpoint,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.value,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
+      if (prefix != null) 'Prefix': prefix,
+      if (roleARN != null) 'RoleARN': roleARN,
     };
   }
 }
 
-/// The destination description in the Serverless offering for Amazon OpenSearch
-/// Service.
-class AmazonOpenSearchServerlessDestinationDescription {
-  /// The buffering options.
-  final AmazonOpenSearchServerlessBufferingHints? bufferingHints;
+/// Describes an update for a destination in Amazon S3.
+class ExtendedS3DestinationUpdate {
+  /// The ARN of the S3 bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String? bucketARN;
+
+  /// The buffering option.
+  final BufferingHints? bufferingHints;
+
+  /// The Amazon CloudWatch logging options for your Firehose stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
-  /// The endpoint to use when communicating with the collection in the Serverless
-  /// offering for Amazon OpenSearch Service.
-  final String? collectionEndpoint;
+  /// The compression format. If no value is specified, the default is
+  /// <code>UNCOMPRESSED</code>.
+  final CompressionFormat? compressionFormat;
 
-  /// The Serverless offering for Amazon OpenSearch Service index name.
-  final String? indexName;
+  /// The time zone you prefer. UTC is the default.
+  final String? customTimeZone;
+
+  /// The serializer, deserializer, and schema for converting data from the JSON
+  /// format to the Parquet or ORC format before writing it to Amazon S3.
+  final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
+
+  /// The configuration of the dynamic partitioning mechanism that creates smaller
+  /// data sets from the streaming data by partitioning it based on partition
+  /// keys. Currently, dynamic partitioning is only supported for Amazon S3
+  /// destinations.
+  final DynamicPartitioningConfiguration? dynamicPartitioningConfiguration;
+
+  /// The encryption configuration. If no value is specified, the default is no
+  /// encryption.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// A prefix that Firehose evaluates and adds to failed records before writing
+  /// them to S3. This prefix appears immediately following the bucket name. For
+  /// information about how to specify this prefix, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+  /// Prefixes for Amazon S3 Objects</a>.
+  final String? errorOutputPrefix;
+
+  /// Specify a file extension. It will override the default file extension
+  final String? fileExtension;
+
+  /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
+  /// Amazon S3 files. You can also specify a custom prefix, as described in <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+  /// Prefixes for Amazon S3 Objects</a>.
+  final String? prefix;
+
+  /// The data processing configuration.
   final ProcessingConfiguration? processingConfiguration;
 
-  /// The Serverless offering for Amazon OpenSearch Service retry options.
-  final AmazonOpenSearchServerlessRetryOptions? retryOptions;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? roleARN;
 
-  /// The Amazon S3 backup mode.
-  final AmazonOpenSearchServerlessS3BackupMode? s3BackupMode;
-  final S3DestinationDescription? s3DestinationDescription;
-  final VpcConfigurationDescription? vpcConfigurationDescription;
+  /// You can update a Firehose stream to enable Amazon S3 backup if it is
+  /// disabled. If backup is enabled, you can't update the Firehose stream to
+  /// disable it.
+  final S3BackupMode? s3BackupMode;
 
-  AmazonOpenSearchServerlessDestinationDescription({
+  /// The Amazon S3 destination for backup.
+  final S3DestinationUpdate? s3BackupUpdate;
+
+  ExtendedS3DestinationUpdate({
+    this.bucketARN,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
-    this.collectionEndpoint,
-    this.indexName,
+    this.compressionFormat,
+    this.customTimeZone,
+    this.dataFormatConversionConfiguration,
+    this.dynamicPartitioningConfiguration,
+    this.encryptionConfiguration,
+    this.errorOutputPrefix,
+    this.fileExtension,
+    this.prefix,
+    this.processingConfiguration,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3BackupUpdate,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final compressionFormat = this.compressionFormat;
+    final customTimeZone = this.customTimeZone;
+    final dataFormatConversionConfiguration =
+        this.dataFormatConversionConfiguration;
+    final dynamicPartitioningConfiguration =
+        this.dynamicPartitioningConfiguration;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final fileExtension = this.fileExtension;
+    final prefix = this.prefix;
+    final processingConfiguration = this.processingConfiguration;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3BackupUpdate = this.s3BackupUpdate;
+    return {
+      if (bucketARN != null) 'BucketARN': bucketARN,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.value,
+      if (customTimeZone != null) 'CustomTimeZone': customTimeZone,
+      if (dataFormatConversionConfiguration != null)
+        'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
+      if (dynamicPartitioningConfiguration != null)
+        'DynamicPartitioningConfiguration': dynamicPartitioningConfiguration,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
+      if (fileExtension != null) 'FileExtension': fileExtension,
+      if (prefix != null) 'Prefix': prefix,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
+    };
+  }
+}
+
+/// Describes an update for a destination in Amazon Redshift.
+class RedshiftDestinationUpdate {
+  /// The Amazon CloudWatch logging options for your Firehose stream.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The database connection string.
+  final String? clusterJDBCURL;
+
+  /// The <code>COPY</code> command.
+  final CopyCommand? copyCommand;
+
+  /// The user password.
+  final String? password;
+
+  /// The data processing configuration.
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
+  /// Redshift. Default value is 3600 (60 minutes).
+  final RedshiftRetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String? roleARN;
+
+  /// You can update a Firehose stream to enable Amazon S3 backup if it is
+  /// disabled. If backup is enabled, you can't update the Firehose stream to
+  /// disable it.
+  final RedshiftS3BackupMode? s3BackupMode;
+
+  /// The Amazon S3 destination for backup.
+  final S3DestinationUpdate? s3BackupUpdate;
+
+  /// The Amazon S3 destination.
+  ///
+  /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be
+  /// specified in <code>RedshiftDestinationUpdate.S3Update</code> because the
+  /// Amazon Redshift <code>COPY</code> operation that reads from the S3 bucket
+  /// doesn't support these compression formats.
+  final S3DestinationUpdate? s3Update;
+
+  /// The configuration that defines how you access secrets for Amazon Redshift.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  /// The name of the user.
+  final String? username;
+
+  RedshiftDestinationUpdate({
+    this.cloudWatchLoggingOptions,
+    this.clusterJDBCURL,
+    this.copyCommand,
+    this.password,
     this.processingConfiguration,
     this.retryOptions,
     this.roleARN,
     this.s3BackupMode,
-    this.s3DestinationDescription,
-    this.vpcConfigurationDescription,
+    this.s3BackupUpdate,
+    this.s3Update,
+    this.secretsManagerConfiguration,
+    this.username,
   });
 
-  factory AmazonOpenSearchServerlessDestinationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return AmazonOpenSearchServerlessDestinationDescription(
-      bufferingHints: json['BufferingHints'] != null
-          ? AmazonOpenSearchServerlessBufferingHints.fromJson(
-              json['BufferingHints'] as Map<String, dynamic>)
-          : null,
-      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
-          ? CloudWatchLoggingOptions.fromJson(
-              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
-          : null,
-      collectionEndpoint: json['CollectionEndpoint'] as String?,
-      indexName: json['IndexName'] as String?,
-      processingConfiguration: json['ProcessingConfiguration'] != null
-          ? ProcessingConfiguration.fromJson(
-              json['ProcessingConfiguration'] as Map<String, dynamic>)
-          : null,
-      retryOptions: json['RetryOptions'] != null
-          ? AmazonOpenSearchServerlessRetryOptions.fromJson(
-              json['RetryOptions'] as Map<String, dynamic>)
-          : null,
-      roleARN: json['RoleARN'] as String?,
-      s3BackupMode: (json['S3BackupMode'] as String?)
-          ?.let(AmazonOpenSearchServerlessS3BackupMode.fromString),
-      s3DestinationDescription: json['S3DestinationDescription'] != null
-          ? S3DestinationDescription.fromJson(
-              json['S3DestinationDescription'] as Map<String, dynamic>)
-          : null,
-      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
-          ? VpcConfigurationDescription.fromJson(
-              json['VpcConfigurationDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final collectionEndpoint = this.collectionEndpoint;
-    final indexName = this.indexName;
+    final clusterJDBCURL = this.clusterJDBCURL;
+    final copyCommand = this.copyCommand;
+    final password = this.password;
     final processingConfiguration = this.processingConfiguration;
     final retryOptions = this.retryOptions;
     final roleARN = this.roleARN;
     final s3BackupMode = this.s3BackupMode;
-    final s3DestinationDescription = this.s3DestinationDescription;
-    final vpcConfigurationDescription = this.vpcConfigurationDescription;
+    final s3BackupUpdate = this.s3BackupUpdate;
+    final s3Update = this.s3Update;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    final username = this.username;
     return {
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (collectionEndpoint != null) 'CollectionEndpoint': collectionEndpoint,
-      if (indexName != null) 'IndexName': indexName,
+      if (clusterJDBCURL != null) 'ClusterJDBCURL': clusterJDBCURL,
+      if (copyCommand != null) 'CopyCommand': copyCommand,
+      if (password != null) 'Password': password,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3DestinationDescription != null)
-        'S3DestinationDescription': s3DestinationDescription,
-      if (vpcConfigurationDescription != null)
-        'VpcConfigurationDescription': vpcConfigurationDescription,
+      if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
+      if (s3Update != null) 'S3Update': s3Update,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Describes an update for a destination in Amazon OpenSearch Service.
+class ElasticsearchDestinationUpdate {
+  /// The buffering options. If no value is specified,
+  /// <code>ElasticsearchBufferingHints</code> object default values are used.
+  final ElasticsearchBufferingHints? bufferingHints;
+
+  /// The CloudWatch logging options for your Firehose stream.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Specify either this
+  /// <code>ClusterEndpoint</code> or the <code>DomainARN</code> field.
+  final String? clusterEndpoint;
+
+  /// Indicates the method for setting up document ID. The supported methods are
+  /// Firehose generated document ID and OpenSearch Service generated document ID.
+  final DocumentIdOptions? documentIdOptions;
+
+  /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have
+  /// permissions for <code>DescribeDomain</code>, <code>DescribeDomains</code>,
+  /// and <code>DescribeDomainConfig</code> after assuming the IAM role specified
+  /// in <code>RoleARN</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  ///
+  /// Specify either <code>ClusterEndpoint</code> or <code>DomainARN</code>.
+  final String? domainARN;
+
+  /// The Elasticsearch index name.
+  final String? indexName;
+
+  /// The Elasticsearch index rotation period. Index rotation appends a timestamp
+  /// to <code>IndexName</code> to facilitate the expiration of old data. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-index-rotation">Index
+  /// Rotation for the Amazon OpenSearch Service Destination</a>. Default value is
+  /// <code>OneDay</code>.
+  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
+
+  /// The data processing configuration.
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
+  /// OpenSearch Service. The default value is 300 (5 minutes).
+  final ElasticsearchRetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
+  /// calling the Amazon OpenSearch Service Configuration API and for indexing
+  /// documents. For more information, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Grant
+  /// Firehose Access to an Amazon S3 Destination</a> and <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String? roleARN;
+
+  /// The Amazon S3 destination.
+  final S3DestinationUpdate? s3Update;
+
+  /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one
+  /// type per index. If you try to specify a new type for an existing index that
+  /// already has another type, Firehose returns an error during runtime.
+  ///
+  /// If you upgrade Elasticsearch from 6.x to 7.x and don’t update your Firehose
+  /// stream, Firehose still delivers data to Elasticsearch with the old index
+  /// name and type name. If you want to update your Firehose stream with a new
+  /// index name, provide an empty string for <code>TypeName</code>.
+  final String? typeName;
+
+  ElasticsearchDestinationUpdate({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.clusterEndpoint,
+    this.documentIdOptions,
+    this.domainARN,
+    this.indexName,
+    this.indexRotationPeriod,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3Update,
+    this.typeName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final documentIdOptions = this.documentIdOptions;
+    final domainARN = this.domainARN;
+    final indexName = this.indexName;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3Update = this.s3Update;
+    final typeName = this.typeName;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.value,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3Update != null) 'S3Update': s3Update,
+      if (typeName != null) 'TypeName': typeName,
+    };
+  }
+}
+
+/// Describes an update for a destination in Amazon OpenSearch Service.
+class AmazonopensearchserviceDestinationUpdate {
+  /// The buffering options. If no value is specified,
+  /// AmazonopensearchBufferingHints object default values are used.
+  final AmazonopensearchserviceBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Specify either this
+  /// ClusterEndpoint or the DomainARN field.
+  final String? clusterEndpoint;
+
+  /// Indicates the method for setting up document ID. The supported methods are
+  /// Firehose generated document ID and OpenSearch Service generated document ID.
+  final DocumentIdOptions? documentIdOptions;
+
+  /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have
+  /// permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig
+  /// after assuming the IAM role specified in RoleARN.
+  final String? domainARN;
+
+  /// The Amazon OpenSearch Service index name.
+  final String? indexName;
+
+  /// The Amazon OpenSearch Service index rotation period. Index rotation appends
+  /// a timestamp to IndexName to facilitate the expiration of old data.
+  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
+  /// OpenSearch Service. The default value is 300 (5 minutes).
+  final AmazonopensearchserviceRetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
+  /// calling the Amazon OpenSearch Service Configuration API and for indexing
+  /// documents.
+  final String? roleARN;
+  final S3DestinationUpdate? s3Update;
+
+  /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be
+  /// only one type per index. If you try to specify a new type for an existing
+  /// index that already has another type, Firehose returns an error during
+  /// runtime.
+  ///
+  /// If you upgrade Elasticsearch from 6.x to 7.x and don’t update your Firehose
+  /// stream, Firehose still delivers data to Elasticsearch with the old index
+  /// name and type name. If you want to update your Firehose stream with a new
+  /// index name, provide an empty string for TypeName.
+  final String? typeName;
+
+  AmazonopensearchserviceDestinationUpdate({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.clusterEndpoint,
+    this.documentIdOptions,
+    this.domainARN,
+    this.indexName,
+    this.indexRotationPeriod,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3Update,
+    this.typeName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final documentIdOptions = this.documentIdOptions;
+    final domainARN = this.domainARN;
+    final indexName = this.indexName;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3Update = this.s3Update;
+    final typeName = this.typeName;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.value,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3Update != null) 'S3Update': s3Update,
+      if (typeName != null) 'TypeName': typeName,
+    };
+  }
+}
+
+/// Describes an update for a destination in Splunk.
+class SplunkDestinationUpdate {
+  /// The buffering options. If no value is specified, the default values for
+  /// Splunk are used.
+  final SplunkBufferingHints? bufferingHints;
+
+  /// The Amazon CloudWatch logging options for your Firehose stream.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The amount of time that Firehose waits to receive an acknowledgment from
+  /// Splunk after it sends data. At the end of the timeout period, Firehose
+  /// either tries to send the data again or considers it an error, based on your
+  /// retry settings.
+  final int? hECAcknowledgmentTimeoutInSeconds;
+
+  /// The HTTP Event Collector (HEC) endpoint to which Firehose sends your data.
+  final String? hECEndpoint;
+
+  /// This type can be either "Raw" or "Event."
+  final HECEndpointType? hECEndpointType;
+
+  /// A GUID that you obtain from your Splunk cluster when you create a new HEC
+  /// endpoint.
+  final String? hECToken;
+
+  /// The data processing configuration.
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver data to Splunk or
+  /// if it doesn't receive an acknowledgment of receipt from Splunk.
+  final SplunkRetryOptions? retryOptions;
+
+  /// Specifies how you want Firehose to back up documents to Amazon S3. When set
+  /// to <code>FailedDocumentsOnly</code>, Firehose writes any data that could not
+  /// be indexed to the configured Amazon S3 destination. When set to
+  /// <code>AllEvents</code>, Firehose delivers all incoming records to Amazon S3,
+  /// and also writes failed documents to Amazon S3. The default value is
+  /// <code>FailedEventsOnly</code>.
+  ///
+  /// You can update this backup mode from <code>FailedEventsOnly</code> to
+  /// <code>AllEvents</code>. You can't update it from <code>AllEvents</code> to
+  /// <code>FailedEventsOnly</code>.
+  final SplunkS3BackupMode? s3BackupMode;
+
+  /// Your update to the configuration of the backup Amazon S3 location.
+  final S3DestinationUpdate? s3Update;
+
+  /// The configuration that defines how you access secrets for Splunk.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  SplunkDestinationUpdate({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.hECAcknowledgmentTimeoutInSeconds,
+    this.hECEndpoint,
+    this.hECEndpointType,
+    this.hECToken,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.s3Update,
+    this.secretsManagerConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final hECAcknowledgmentTimeoutInSeconds =
+        this.hECAcknowledgmentTimeoutInSeconds;
+    final hECEndpoint = this.hECEndpoint;
+    final hECEndpointType = this.hECEndpointType;
+    final hECToken = this.hECToken;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final s3Update = this.s3Update;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (hECAcknowledgmentTimeoutInSeconds != null)
+        'HECAcknowledgmentTimeoutInSeconds': hECAcknowledgmentTimeoutInSeconds,
+      if (hECEndpoint != null) 'HECEndpoint': hECEndpoint,
+      if (hECEndpointType != null) 'HECEndpointType': hECEndpointType.value,
+      if (hECToken != null) 'HECToken': hECToken,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3Update != null) 'S3Update': s3Update,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
+    };
+  }
+}
+
+/// Updates the specified HTTP endpoint destination.
+class HttpEndpointDestinationUpdate {
+  /// Describes buffering options that can be applied to the data before it is
+  /// delivered to the HTTPS endpoint destination. Firehose teats these options as
+  /// hints, and it might choose to use more optimal values. The
+  /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
+  /// optional. However, if specify a value for one of them, you must also provide
+  /// a value for the other.
+  final HttpEndpointBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// Describes the configuration of the HTTP endpoint destination.
+  final HttpEndpointConfiguration? endpointConfiguration;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The configuration of the request sent to the HTTP endpoint specified as the
+  /// destination.
+  final HttpEndpointRequestConfiguration? requestConfiguration;
+
+  /// Describes the retry behavior in case Firehose is unable to deliver data to
+  /// the specified HTTP endpoint destination, or if it doesn't receive a valid
+  /// acknowledgment of receipt from the specified HTTP endpoint destination.
+  final HttpEndpointRetryOptions? retryOptions;
+
+  /// Firehose uses this IAM role for all the permissions that the delivery stream
+  /// needs.
+  final String? roleARN;
+
+  /// Describes the S3 bucket backup options for the data that Kinesis Firehose
+  /// delivers to the HTTP endpoint destination. You can back up all documents
+  /// (<code>AllData</code>) or only the documents that Firehose could not deliver
+  /// to the specified HTTP endpoint destination (<code>FailedDataOnly</code>).
+  final HttpEndpointS3BackupMode? s3BackupMode;
+  final S3DestinationUpdate? s3Update;
+
+  /// The configuration that defines how you access secrets for HTTP Endpoint
+  /// destination.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  HttpEndpointDestinationUpdate({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.endpointConfiguration,
+    this.processingConfiguration,
+    this.requestConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3Update,
+    this.secretsManagerConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final endpointConfiguration = this.endpointConfiguration;
+    final processingConfiguration = this.processingConfiguration;
+    final requestConfiguration = this.requestConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3Update = this.s3Update;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (endpointConfiguration != null)
+        'EndpointConfiguration': endpointConfiguration,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (requestConfiguration != null)
+        'RequestConfiguration': requestConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3Update != null) 'S3Update': s3Update,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
   }
 }
@@ -1417,563 +2184,306 @@ class AmazonOpenSearchServerlessDestinationUpdate {
   }
 }
 
-/// Configures retry behavior in case Firehose is unable to deliver documents to
-/// the Serverless offering for Amazon OpenSearch Service.
-class AmazonOpenSearchServerlessRetryOptions {
-  /// After an initial failure to deliver to the Serverless offering for Amazon
-  /// OpenSearch Service, the total amount of time during which Firehose retries
-  /// delivery (including the first attempt). After this time has elapsed, the
-  /// failed documents are written to Amazon S3. Default value is 300 seconds (5
-  /// minutes). A value of 0 (zero) results in no retries.
-  final int? durationInSeconds;
+/// Update to configuration settings
+class SnowflakeDestinationUpdate {
+  /// URL for accessing your Snowflake account. This URL must include your <a
+  /// href="https://docs.snowflake.com/en/user-guide/admin-account-identifier">account
+  /// identifier</a>. Note that the protocol (https://) and port number are
+  /// optional.
+  final String? accountUrl;
 
-  AmazonOpenSearchServerlessRetryOptions({
-    this.durationInSeconds,
-  });
-
-  factory AmazonOpenSearchServerlessRetryOptions.fromJson(
-      Map<String, dynamic> json) {
-    return AmazonOpenSearchServerlessRetryOptions(
-      durationInSeconds: json['DurationInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
-    return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
-    };
-  }
-}
-
-class AmazonOpenSearchServerlessS3BackupMode {
-  static const failedDocumentsOnly =
-      AmazonOpenSearchServerlessS3BackupMode._('FailedDocumentsOnly');
-  static const allDocuments =
-      AmazonOpenSearchServerlessS3BackupMode._('AllDocuments');
-
-  final String value;
-
-  const AmazonOpenSearchServerlessS3BackupMode._(this.value);
-
-  static const values = [failedDocumentsOnly, allDocuments];
-
-  static AmazonOpenSearchServerlessS3BackupMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AmazonOpenSearchServerlessS3BackupMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AmazonOpenSearchServerlessS3BackupMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the buffering to perform before delivering data to the Amazon
-/// OpenSearch Service destination.
-class AmazonopensearchserviceBufferingHints {
-  /// Buffer incoming data for the specified period of time, in seconds, before
-  /// delivering it to the destination. The default value is 300 (5 minutes).
-  final int? intervalInSeconds;
-
-  /// Buffer incoming data to the specified size, in MBs, before delivering it to
-  /// the destination. The default value is 5.
-  ///
-  /// We recommend setting this parameter to a value greater than the amount of
-  /// data you typically ingest into the delivery stream in 10 seconds. For
-  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
-  /// or higher.
-  final int? sizeInMBs;
-
-  AmazonopensearchserviceBufferingHints({
-    this.intervalInSeconds,
-    this.sizeInMBs,
-  });
-
-  factory AmazonopensearchserviceBufferingHints.fromJson(
-      Map<String, dynamic> json) {
-    return AmazonopensearchserviceBufferingHints(
-      intervalInSeconds: json['IntervalInSeconds'] as int?,
-      sizeInMBs: json['SizeInMBs'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intervalInSeconds = this.intervalInSeconds;
-    final sizeInMBs = this.sizeInMBs;
-    return {
-      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
-      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
-    };
-  }
-}
-
-/// Describes the configuration of a destination in Amazon OpenSearch Service
-class AmazonopensearchserviceDestinationConfiguration {
-  /// The ElasticsearAmazon OpenSearch Service index name.
-  final String indexName;
-
-  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
-  /// calling the Amazon OpenSearch Service Configuration API and for indexing
-  /// documents.
-  final String roleARN;
-  final S3DestinationConfiguration s3Configuration;
-
-  /// The buffering options. If no value is specified, the default values for
-  /// AmazonopensearchserviceBufferingHints are used.
-  final AmazonopensearchserviceBufferingHints? bufferingHints;
+  /// Describes the buffering to perform before delivering data to the Snowflake
+  /// destination.
+  final SnowflakeBufferingHints? bufferingHints;
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
-  /// The endpoint to use when communicating with the cluster. Specify either this
-  /// ClusterEndpoint or the DomainARN field.
-  final String? clusterEndpoint;
+  /// The name of the content metadata column
+  final String? contentColumnName;
 
-  /// Indicates the method for setting up document ID. The supported methods are
-  /// Firehose generated document ID and OpenSearch Service generated document ID.
-  final DocumentIdOptions? documentIdOptions;
+  /// JSON keys mapped to table column names or choose to split the JSON payload
+  /// where content is mapped to a record content column and source metadata is
+  /// mapped to a record metadata column.
+  final SnowflakeDataLoadingOption? dataLoadingOption;
 
-  /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have
-  /// permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains,
-  /// and DescribeElasticsearchDomainConfig after assuming the role specified in
-  /// RoleARN.
-  final String? domainARN;
+  /// All data in Snowflake is maintained in databases.
+  final String? database;
 
-  /// The Amazon OpenSearch Service index rotation period. Index rotation appends
-  /// a timestamp to the IndexName to facilitate the expiration of old data.
-  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
+  /// Passphrase to decrypt the private key when the key is encrypted. For
+  /// information, see <a
+  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
+  /// Key Pair Authentication & Key Rotation</a>.
+  final String? keyPassphrase;
+
+  /// The name of the record metadata column
+  final String? metaDataColumnName;
+
+  /// The private key used to encrypt your Snowflake client. For information, see
+  /// <a
+  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
+  /// Key Pair Authentication & Key Rotation</a>.
+  final String? privateKey;
   final ProcessingConfiguration? processingConfiguration;
 
-  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
-  /// OpenSearch Service. The default value is 300 (5 minutes).
-  final AmazonopensearchserviceRetryOptions? retryOptions;
+  /// Specify how long Firehose retries sending data to the New Relic HTTP
+  /// endpoint. After sending data, Firehose first waits for an acknowledgment
+  /// from the HTTP endpoint. If an error occurs or the acknowledgment doesn’t
+  /// arrive within the acknowledgment timeout period, Firehose starts the retry
+  /// duration counter. It keeps retrying until the retry duration expires. After
+  /// that, Firehose considers it a data delivery failure and backs up the data to
+  /// your Amazon S3 bucket. Every time that Firehose sends data to the HTTP
+  /// endpoint (either the initial attempt or a retry), it restarts the
+  /// acknowledgement timeout counter and waits for an acknowledgement from the
+  /// HTTP endpoint. Even if the retry duration expires, Firehose still waits for
+  /// the acknowledgment until it receives it or the acknowledgement timeout
+  /// period is reached. If the acknowledgment times out, Firehose determines
+  /// whether there's time left in the retry counter. If there is time left, it
+  /// retries again and repeats the logic until it receives an acknowledgment or
+  /// determines that the retry time has expired. If you don't want Firehose to
+  /// retry sending data, set this value to 0.
+  final SnowflakeRetryOptions? retryOptions;
 
-  /// Defines how documents should be delivered to Amazon S3. When it is set to
-  /// FailedDocumentsOnly, Firehose writes any documents that could not be indexed
-  /// to the configured Amazon S3 destination, with
-  /// AmazonOpenSearchService-failed/ appended to the key prefix. When set to
-  /// AllDocuments, Firehose delivers all incoming records to Amazon S3, and also
-  /// writes failed documents with AmazonOpenSearchService-failed/ appended to the
-  /// prefix.
-  final AmazonopensearchserviceS3BackupMode? s3BackupMode;
-
-  /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be
-  /// only one type per index. If you try to specify a new type for an existing
-  /// index that already has another type, Firehose returns an error during run
-  /// time.
-  final String? typeName;
-  final VpcConfiguration? vpcConfiguration;
-
-  AmazonopensearchserviceDestinationConfiguration({
-    required this.indexName,
-    required this.roleARN,
-    required this.s3Configuration,
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.clusterEndpoint,
-    this.documentIdOptions,
-    this.domainARN,
-    this.indexRotationPeriod,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.s3BackupMode,
-    this.typeName,
-    this.vpcConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final roleARN = this.roleARN;
-    final s3Configuration = this.s3Configuration;
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final clusterEndpoint = this.clusterEndpoint;
-    final documentIdOptions = this.documentIdOptions;
-    final domainARN = this.domainARN;
-    final indexRotationPeriod = this.indexRotationPeriod;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final s3BackupMode = this.s3BackupMode;
-    final typeName = this.typeName;
-    final vpcConfiguration = this.vpcConfiguration;
-    return {
-      'IndexName': indexName,
-      'RoleARN': roleARN,
-      'S3Configuration': s3Configuration,
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
-      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
-      if (domainARN != null) 'DomainARN': domainARN,
-      if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.value,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (typeName != null) 'TypeName': typeName,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-    };
-  }
-}
-
-/// The destination description in Amazon OpenSearch Service.
-class AmazonopensearchserviceDestinationDescription {
-  /// The buffering options.
-  final AmazonopensearchserviceBufferingHints? bufferingHints;
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The endpoint to use when communicating with the cluster. Firehose uses
-  /// either this ClusterEndpoint or the DomainARN field to send data to Amazon
-  /// OpenSearch Service.
-  final String? clusterEndpoint;
-
-  /// Indicates the method for setting up document ID. The supported methods are
-  /// Firehose generated document ID and OpenSearch Service generated document ID.
-  final DocumentIdOptions? documentIdOptions;
-
-  /// The ARN of the Amazon OpenSearch Service domain.
-  final String? domainARN;
-
-  /// The Amazon OpenSearch Service index name.
-  final String? indexName;
-
-  /// The Amazon OpenSearch Service index rotation period
-  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The Amazon OpenSearch Service retry options.
-  final AmazonopensearchserviceRetryOptions? retryOptions;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+  /// The Amazon Resource Name (ARN) of the Snowflake role
   final String? roleARN;
 
-  /// The Amazon S3 backup mode.
-  final AmazonopensearchserviceS3BackupMode? s3BackupMode;
-  final S3DestinationDescription? s3DestinationDescription;
-
-  /// The Amazon OpenSearch Service type name. This applies to Elasticsearch 6.x
-  /// and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x,
-  /// there's no value for TypeName.
-  final String? typeName;
-  final VpcConfigurationDescription? vpcConfigurationDescription;
-
-  AmazonopensearchserviceDestinationDescription({
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.clusterEndpoint,
-    this.documentIdOptions,
-    this.domainARN,
-    this.indexName,
-    this.indexRotationPeriod,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.roleARN,
-    this.s3BackupMode,
-    this.s3DestinationDescription,
-    this.typeName,
-    this.vpcConfigurationDescription,
-  });
-
-  factory AmazonopensearchserviceDestinationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return AmazonopensearchserviceDestinationDescription(
-      bufferingHints: json['BufferingHints'] != null
-          ? AmazonopensearchserviceBufferingHints.fromJson(
-              json['BufferingHints'] as Map<String, dynamic>)
-          : null,
-      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
-          ? CloudWatchLoggingOptions.fromJson(
-              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
-          : null,
-      clusterEndpoint: json['ClusterEndpoint'] as String?,
-      documentIdOptions: json['DocumentIdOptions'] != null
-          ? DocumentIdOptions.fromJson(
-              json['DocumentIdOptions'] as Map<String, dynamic>)
-          : null,
-      domainARN: json['DomainARN'] as String?,
-      indexName: json['IndexName'] as String?,
-      indexRotationPeriod: (json['IndexRotationPeriod'] as String?)
-          ?.let(AmazonopensearchserviceIndexRotationPeriod.fromString),
-      processingConfiguration: json['ProcessingConfiguration'] != null
-          ? ProcessingConfiguration.fromJson(
-              json['ProcessingConfiguration'] as Map<String, dynamic>)
-          : null,
-      retryOptions: json['RetryOptions'] != null
-          ? AmazonopensearchserviceRetryOptions.fromJson(
-              json['RetryOptions'] as Map<String, dynamic>)
-          : null,
-      roleARN: json['RoleARN'] as String?,
-      s3BackupMode: (json['S3BackupMode'] as String?)
-          ?.let(AmazonopensearchserviceS3BackupMode.fromString),
-      s3DestinationDescription: json['S3DestinationDescription'] != null
-          ? S3DestinationDescription.fromJson(
-              json['S3DestinationDescription'] as Map<String, dynamic>)
-          : null,
-      typeName: json['TypeName'] as String?,
-      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
-          ? VpcConfigurationDescription.fromJson(
-              json['VpcConfigurationDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final clusterEndpoint = this.clusterEndpoint;
-    final documentIdOptions = this.documentIdOptions;
-    final domainARN = this.domainARN;
-    final indexName = this.indexName;
-    final indexRotationPeriod = this.indexRotationPeriod;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final roleARN = this.roleARN;
-    final s3BackupMode = this.s3BackupMode;
-    final s3DestinationDescription = this.s3DestinationDescription;
-    final typeName = this.typeName;
-    final vpcConfigurationDescription = this.vpcConfigurationDescription;
-    return {
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
-      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
-      if (domainARN != null) 'DomainARN': domainARN,
-      if (indexName != null) 'IndexName': indexName,
-      if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.value,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3DestinationDescription != null)
-        'S3DestinationDescription': s3DestinationDescription,
-      if (typeName != null) 'TypeName': typeName,
-      if (vpcConfigurationDescription != null)
-        'VpcConfigurationDescription': vpcConfigurationDescription,
-    };
-  }
-}
-
-/// Describes an update for a destination in Amazon OpenSearch Service.
-class AmazonopensearchserviceDestinationUpdate {
-  /// The buffering options. If no value is specified,
-  /// AmazonopensearchBufferingHints object default values are used.
-  final AmazonopensearchserviceBufferingHints? bufferingHints;
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The endpoint to use when communicating with the cluster. Specify either this
-  /// ClusterEndpoint or the DomainARN field.
-  final String? clusterEndpoint;
-
-  /// Indicates the method for setting up document ID. The supported methods are
-  /// Firehose generated document ID and OpenSearch Service generated document ID.
-  final DocumentIdOptions? documentIdOptions;
-
-  /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have
-  /// permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig
-  /// after assuming the IAM role specified in RoleARN.
-  final String? domainARN;
-
-  /// The Amazon OpenSearch Service index name.
-  final String? indexName;
-
-  /// The Amazon OpenSearch Service index rotation period. Index rotation appends
-  /// a timestamp to IndexName to facilitate the expiration of old data.
-  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
-  /// OpenSearch Service. The default value is 300 (5 minutes).
-  final AmazonopensearchserviceRetryOptions? retryOptions;
-
-  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
-  /// calling the Amazon OpenSearch Service Configuration API and for indexing
-  /// documents.
-  final String? roleARN;
+  /// Choose an S3 backup mode. Once you set the mode as <code>AllData</code>, you
+  /// can not change it to <code>FailedDataOnly</code>.
+  final SnowflakeS3BackupMode? s3BackupMode;
   final S3DestinationUpdate? s3Update;
 
-  /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be
-  /// only one type per index. If you try to specify a new type for an existing
-  /// index that already has another type, Firehose returns an error during
-  /// runtime.
-  ///
-  /// If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery
-  /// stream, Firehose still delivers data to Elasticsearch with the old index
-  /// name and type name. If you want to update your delivery stream with a new
-  /// index name, provide an empty string for TypeName.
-  final String? typeName;
+  /// Each database consists of one or more schemas, which are logical groupings
+  /// of database objects, such as tables and views
+  final String? schema;
 
-  AmazonopensearchserviceDestinationUpdate({
+  /// Describes the Secrets Manager configuration in Snowflake.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  /// Optionally configure a Snowflake role. Otherwise the default user role will
+  /// be used.
+  final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
+
+  /// All data in Snowflake is stored in database tables, logically structured as
+  /// collections of columns and rows.
+  final String? table;
+
+  /// User login name for the Snowflake account.
+  final String? user;
+
+  SnowflakeDestinationUpdate({
+    this.accountUrl,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
-    this.clusterEndpoint,
-    this.documentIdOptions,
-    this.domainARN,
-    this.indexName,
-    this.indexRotationPeriod,
+    this.contentColumnName,
+    this.dataLoadingOption,
+    this.database,
+    this.keyPassphrase,
+    this.metaDataColumnName,
+    this.privateKey,
     this.processingConfiguration,
     this.retryOptions,
     this.roleARN,
+    this.s3BackupMode,
     this.s3Update,
-    this.typeName,
+    this.schema,
+    this.secretsManagerConfiguration,
+    this.snowflakeRoleConfiguration,
+    this.table,
+    this.user,
   });
 
   Map<String, dynamic> toJson() {
+    final accountUrl = this.accountUrl;
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final clusterEndpoint = this.clusterEndpoint;
-    final documentIdOptions = this.documentIdOptions;
-    final domainARN = this.domainARN;
-    final indexName = this.indexName;
-    final indexRotationPeriod = this.indexRotationPeriod;
+    final contentColumnName = this.contentColumnName;
+    final dataLoadingOption = this.dataLoadingOption;
+    final database = this.database;
+    final keyPassphrase = this.keyPassphrase;
+    final metaDataColumnName = this.metaDataColumnName;
+    final privateKey = this.privateKey;
     final processingConfiguration = this.processingConfiguration;
     final retryOptions = this.retryOptions;
     final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
     final s3Update = this.s3Update;
-    final typeName = this.typeName;
+    final schema = this.schema;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    final snowflakeRoleConfiguration = this.snowflakeRoleConfiguration;
+    final table = this.table;
+    final user = this.user;
     return {
+      if (accountUrl != null) 'AccountUrl': accountUrl,
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
-      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
-      if (domainARN != null) 'DomainARN': domainARN,
-      if (indexName != null) 'IndexName': indexName,
-      if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.value,
+      if (contentColumnName != null) 'ContentColumnName': contentColumnName,
+      if (dataLoadingOption != null)
+        'DataLoadingOption': dataLoadingOption.value,
+      if (database != null) 'Database': database,
+      if (keyPassphrase != null) 'KeyPassphrase': keyPassphrase,
+      if (metaDataColumnName != null) 'MetaDataColumnName': metaDataColumnName,
+      if (privateKey != null) 'PrivateKey': privateKey,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
       if (s3Update != null) 'S3Update': s3Update,
-      if (typeName != null) 'TypeName': typeName,
+      if (schema != null) 'Schema': schema,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
+      if (snowflakeRoleConfiguration != null)
+        'SnowflakeRoleConfiguration': snowflakeRoleConfiguration,
+      if (table != null) 'Table': table,
+      if (user != null) 'User': user,
     };
   }
 }
 
-class AmazonopensearchserviceIndexRotationPeriod {
-  static const noRotation =
-      AmazonopensearchserviceIndexRotationPeriod._('NoRotation');
-  static const oneHour =
-      AmazonopensearchserviceIndexRotationPeriod._('OneHour');
-  static const oneDay = AmazonopensearchserviceIndexRotationPeriod._('OneDay');
-  static const oneWeek =
-      AmazonopensearchserviceIndexRotationPeriod._('OneWeek');
-  static const oneMonth =
-      AmazonopensearchserviceIndexRotationPeriod._('OneMonth');
+/// Describes an update for a destination in Apache Iceberg Tables.
+class IcebergDestinationUpdate {
+  /// Describes whether all incoming data for this delivery stream will be append
+  /// only (inserts only and not for updates and deletes) for Iceberg delivery.
+  /// This feature is only applicable for Apache Iceberg Tables.
+  ///
+  /// The default value is false. If you set this value to true, Firehose
+  /// automatically increases the throughput limit of a stream based on the
+  /// throttling levels of the stream. If you set this parameter to true for a
+  /// stream with updates and deletes, you will see out of order delivery.
+  final bool? appendOnly;
+  final BufferingHints? bufferingHints;
 
-  final String value;
+  /// Configuration describing where the destination Iceberg tables are persisted.
+  final CatalogConfiguration? catalogConfiguration;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
-  const AmazonopensearchserviceIndexRotationPeriod._(this.value);
+  /// Provides a list of <code>DestinationTableConfigurations</code> which
+  /// Firehose uses to deliver data to Apache Iceberg Tables. Firehose will write
+  /// data with insert if table specific configuration is not provided here.
+  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
+  final ProcessingConfiguration? processingConfiguration;
+  final RetryOptions? retryOptions;
 
-  static const values = [noRotation, oneHour, oneDay, oneWeek, oneMonth];
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
+  /// calling Apache Iceberg Tables.
+  final String? roleARN;
 
-  static AmazonopensearchserviceIndexRotationPeriod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AmazonopensearchserviceIndexRotationPeriod._(value));
+  /// Describes how Firehose will backup records. Currently,Firehose only supports
+  /// <code>FailedDataOnly</code>.
+  final IcebergS3BackupMode? s3BackupMode;
+  final S3DestinationConfiguration? s3Configuration;
 
-  @override
-  bool operator ==(other) =>
-      other is AmazonopensearchserviceIndexRotationPeriod &&
-      other.value == value;
+  /// The configuration to enable automatic schema evolution.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final SchemaEvolutionConfiguration? schemaEvolutionConfiguration;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The configuration to enable automatic table creation.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final TableCreationConfiguration? tableCreationConfiguration;
 
-  @override
-  String toString() => value;
-}
-
-/// Configures retry behavior in case Firehose is unable to deliver documents to
-/// Amazon OpenSearch Service.
-class AmazonopensearchserviceRetryOptions {
-  /// After an initial failure to deliver to Amazon OpenSearch Service, the total
-  /// amount of time during which Firehose retries delivery (including the first
-  /// attempt). After this time has elapsed, the failed documents are written to
-  /// Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero)
-  /// results in no retries.
-  final int? durationInSeconds;
-
-  AmazonopensearchserviceRetryOptions({
-    this.durationInSeconds,
+  IcebergDestinationUpdate({
+    this.appendOnly,
+    this.bufferingHints,
+    this.catalogConfiguration,
+    this.cloudWatchLoggingOptions,
+    this.destinationTableConfigurationList,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3Configuration,
+    this.schemaEvolutionConfiguration,
+    this.tableCreationConfiguration,
   });
 
-  factory AmazonopensearchserviceRetryOptions.fromJson(
-      Map<String, dynamic> json) {
-    return AmazonopensearchserviceRetryOptions(
-      durationInSeconds: json['DurationInSeconds'] as int?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
-    return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
-    };
-  }
-}
-
-class AmazonopensearchserviceS3BackupMode {
-  static const failedDocumentsOnly =
-      AmazonopensearchserviceS3BackupMode._('FailedDocumentsOnly');
-  static const allDocuments =
-      AmazonopensearchserviceS3BackupMode._('AllDocuments');
-
-  final String value;
-
-  const AmazonopensearchserviceS3BackupMode._(this.value);
-
-  static const values = [failedDocumentsOnly, allDocuments];
-
-  static AmazonopensearchserviceS3BackupMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AmazonopensearchserviceS3BackupMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AmazonopensearchserviceS3BackupMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The authentication configuration of the Amazon MSK cluster.
-class AuthenticationConfiguration {
-  /// The type of connectivity used to access the Amazon MSK cluster.
-  final Connectivity connectivity;
-
-  /// The ARN of the role used to access the Amazon MSK cluster.
-  final String roleARN;
-
-  AuthenticationConfiguration({
-    required this.connectivity,
-    required this.roleARN,
-  });
-
-  factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
-    return AuthenticationConfiguration(
-      connectivity:
-          Connectivity.fromString((json['Connectivity'] as String?) ?? ''),
-      roleARN: (json['RoleARN'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectivity = this.connectivity;
+    final appendOnly = this.appendOnly;
+    final bufferingHints = this.bufferingHints;
+    final catalogConfiguration = this.catalogConfiguration;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final destinationTableConfigurationList =
+        this.destinationTableConfigurationList;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
     final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3Configuration = this.s3Configuration;
+    final schemaEvolutionConfiguration = this.schemaEvolutionConfiguration;
+    final tableCreationConfiguration = this.tableCreationConfiguration;
     return {
-      'Connectivity': connectivity.value,
-      'RoleARN': roleARN,
+      if (appendOnly != null) 'AppendOnly': appendOnly,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (catalogConfiguration != null)
+        'CatalogConfiguration': catalogConfiguration,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (destinationTableConfigurationList != null)
+        'DestinationTableConfigurationList': destinationTableConfigurationList,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
+      if (schemaEvolutionConfiguration != null)
+        'SchemaEvolutionConfiguration': schemaEvolutionConfiguration,
+      if (tableCreationConfiguration != null)
+        'TableCreationConfiguration': tableCreationConfiguration,
+    };
+  }
+}
+
+/// The configuration to enable schema evolution.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class SchemaEvolutionConfiguration {
+  /// Specify whether you want to enable schema evolution.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final bool enabled;
+
+  SchemaEvolutionConfiguration({
+    required this.enabled,
+  });
+
+  factory SchemaEvolutionConfiguration.fromJson(Map<String, dynamic> json) {
+    return SchemaEvolutionConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      'Enabled': enabled,
+    };
+  }
+}
+
+/// The configuration to enable automatic table creation.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class TableCreationConfiguration {
+  /// Specify whether you want to enable automatic table creation.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final bool enabled;
+
+  TableCreationConfiguration({
+    required this.enabled,
+  });
+
+  factory TableCreationConfiguration.fromJson(Map<String, dynamic> json) {
+    return TableCreationConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      'Enabled': enabled,
     };
   }
 }
@@ -1997,7 +2507,7 @@ class BufferingHints {
   /// <code>IntervalInSeconds</code>, and vice versa.
   ///
   /// We recommend setting this parameter to a value greater than the amount of
-  /// data you typically ingest into the delivery stream in 10 seconds. For
+  /// data you typically ingest into the Firehose stream in 10 seconds. For
   /// example, if you typically ingest data at 1 MiB/sec, the value should be 10
   /// MiB or higher.
   final int? sizeInMBs;
@@ -2024,37 +2534,7 @@ class BufferingHints {
   }
 }
 
-/// Describes the containers where the destination Apache Iceberg Tables are
-/// persisted.
-///
-/// Amazon Data Firehose is in preview release and is subject to change.
-class CatalogConfiguration {
-  /// Specifies the Glue catalog ARN indentifier of the destination Apache Iceberg
-  /// Tables. You must specify the ARN in the format
-  /// <code>arn:aws:glue:region:account-id:catalog</code>.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final String? catalogARN;
-
-  CatalogConfiguration({
-    this.catalogARN,
-  });
-
-  factory CatalogConfiguration.fromJson(Map<String, dynamic> json) {
-    return CatalogConfiguration(
-      catalogARN: json['CatalogARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final catalogARN = this.catalogARN;
-    return {
-      if (catalogARN != null) 'CatalogARN': catalogARN,
-    };
-  }
-}
-
-/// Describes the Amazon CloudWatch logging options for your delivery stream.
+/// Describes the Amazon CloudWatch logging options for your Firehose stream.
 class CloudWatchLoggingOptions {
   /// Enables or disables CloudWatch logging.
   final bool? enabled;
@@ -2093,6 +2573,207 @@ class CloudWatchLoggingOptions {
   }
 }
 
+/// Describes a data processing configuration.
+class ProcessingConfiguration {
+  /// Enables or disables data processing.
+  final bool? enabled;
+
+  /// The data processors.
+  final List<Processor>? processors;
+
+  ProcessingConfiguration({
+    this.enabled,
+    this.processors,
+  });
+
+  factory ProcessingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProcessingConfiguration(
+      enabled: json['Enabled'] as bool?,
+      processors: (json['Processors'] as List?)
+          ?.nonNulls
+          .map((e) => Processor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final processors = this.processors;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (processors != null) 'Processors': processors,
+    };
+  }
+}
+
+class IcebergS3BackupMode {
+  static const failedDataOnly = IcebergS3BackupMode._('FailedDataOnly');
+  static const allData = IcebergS3BackupMode._('AllData');
+
+  final String value;
+
+  const IcebergS3BackupMode._(this.value);
+
+  static const values = [failedDataOnly, allData];
+
+  static IcebergS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IcebergS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IcebergS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The retry behavior in case Firehose is unable to deliver data to a
+/// destination.
+class RetryOptions {
+  /// The period of time during which Firehose retries to deliver data to the
+  /// specified destination.
+  final int? durationInSeconds;
+
+  RetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory RetryOptions.fromJson(Map<String, dynamic> json) {
+    return RetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
+/// Describes the containers where the destination Apache Iceberg Tables are
+/// persisted.
+class CatalogConfiguration {
+  /// Specifies the Glue catalog ARN identifier of the destination Apache Iceberg
+  /// Tables. You must specify the ARN in the format
+  /// <code>arn:aws:glue:region:account-id:catalog</code>.
+  final String? catalogARN;
+
+  /// The warehouse location for Apache Iceberg tables. You must configure this
+  /// when schema evolution and table creation is enabled.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String? warehouseLocation;
+
+  CatalogConfiguration({
+    this.catalogARN,
+    this.warehouseLocation,
+  });
+
+  factory CatalogConfiguration.fromJson(Map<String, dynamic> json) {
+    return CatalogConfiguration(
+      catalogARN: json['CatalogARN'] as String?,
+      warehouseLocation: json['WarehouseLocation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogARN = this.catalogARN;
+    final warehouseLocation = this.warehouseLocation;
+    return {
+      if (catalogARN != null) 'CatalogARN': catalogARN,
+      if (warehouseLocation != null) 'WarehouseLocation': warehouseLocation,
+    };
+  }
+}
+
+/// Describes the configuration of a destination in Amazon S3.
+class S3DestinationConfiguration {
+  /// The ARN of the S3 bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String bucketARN;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String roleARN;
+
+  /// The buffering option. If no value is specified, <code>BufferingHints</code>
+  /// object default values are used.
+  final BufferingHints? bufferingHints;
+
+  /// The CloudWatch logging options for your Firehose stream.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The compression format. If no value is specified, the default is
+  /// <code>UNCOMPRESSED</code>.
+  ///
+  /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be
+  /// specified for Amazon Redshift destinations because they are not supported by
+  /// the Amazon Redshift <code>COPY</code> operation that reads from the S3
+  /// bucket.
+  final CompressionFormat? compressionFormat;
+
+  /// The encryption configuration. If no value is specified, the default is no
+  /// encryption.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// A prefix that Firehose evaluates and adds to failed records before writing
+  /// them to S3. This prefix appears immediately following the bucket name. For
+  /// information about how to specify this prefix, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+  /// Prefixes for Amazon S3 Objects</a>.
+  final String? errorOutputPrefix;
+
+  /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
+  /// Amazon S3 files. You can also specify a custom prefix, as described in <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+  /// Prefixes for Amazon S3 Objects</a>.
+  final String? prefix;
+
+  S3DestinationConfiguration({
+    required this.bucketARN,
+    required this.roleARN,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.compressionFormat,
+    this.encryptionConfiguration,
+    this.errorOutputPrefix,
+    this.prefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final roleARN = this.roleARN;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final compressionFormat = this.compressionFormat;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final prefix = this.prefix;
+    return {
+      'BucketARN': bucketARN,
+      'RoleARN': roleARN,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.value,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+}
+
 class CompressionFormat {
   static const uncompressed = CompressionFormat._('UNCOMPRESSED');
   static const gzip = CompressionFormat._('GZIP');
@@ -2120,21 +2801,830 @@ class CompressionFormat {
   String toString() => value;
 }
 
-class Connectivity {
-  static const public = Connectivity._('PUBLIC');
-  static const private = Connectivity._('PRIVATE');
+/// Describes the encryption for a destination in Amazon S3.
+class EncryptionConfiguration {
+  /// The encryption key.
+  final KMSEncryptionConfig? kMSEncryptionConfig;
+
+  /// Specifically override existing encryption information to ensure that no
+  /// encryption is used.
+  final NoEncryptionConfig? noEncryptionConfig;
+
+  EncryptionConfiguration({
+    this.kMSEncryptionConfig,
+    this.noEncryptionConfig,
+  });
+
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      kMSEncryptionConfig: json['KMSEncryptionConfig'] != null
+          ? KMSEncryptionConfig.fromJson(
+              json['KMSEncryptionConfig'] as Map<String, dynamic>)
+          : null,
+      noEncryptionConfig: (json['NoEncryptionConfig'] as String?)
+          ?.let(NoEncryptionConfig.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kMSEncryptionConfig = this.kMSEncryptionConfig;
+    final noEncryptionConfig = this.noEncryptionConfig;
+    return {
+      if (kMSEncryptionConfig != null)
+        'KMSEncryptionConfig': kMSEncryptionConfig,
+      if (noEncryptionConfig != null)
+        'NoEncryptionConfig': noEncryptionConfig.value,
+    };
+  }
+}
+
+class NoEncryptionConfig {
+  static const noEncryption = NoEncryptionConfig._('NoEncryption');
 
   final String value;
 
-  const Connectivity._(this.value);
+  const NoEncryptionConfig._(this.value);
 
-  static const values = [public, private];
+  static const values = [noEncryption];
 
-  static Connectivity fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Connectivity._(value));
+  static NoEncryptionConfig fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NoEncryptionConfig._(value));
 
   @override
-  bool operator ==(other) => other is Connectivity && other.value == value;
+  bool operator ==(other) =>
+      other is NoEncryptionConfig && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an encryption key for a destination in Amazon S3.
+class KMSEncryptionConfig {
+  /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the
+  /// same Amazon Web Services Region as the destination Amazon S3 bucket. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String awsKMSKeyARN;
+
+  KMSEncryptionConfig({
+    required this.awsKMSKeyARN,
+  });
+
+  factory KMSEncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return KMSEncryptionConfig(
+      awsKMSKeyARN: (json['AWSKMSKeyARN'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsKMSKeyARN = this.awsKMSKeyARN;
+    return {
+      'AWSKMSKeyARN': awsKMSKeyARN,
+    };
+  }
+}
+
+/// Describes a data processor.
+/// <note>
+/// If you want to add a new line delimiter between records in objects that are
+/// delivered to Amazon S3, choose <code>AppendDelimiterToRecord</code> as a
+/// processor type. You don’t have to put a processor parameter when you select
+/// <code>AppendDelimiterToRecord</code>.
+/// </note>
+class Processor {
+  /// The type of processor.
+  final ProcessorType type;
+
+  /// The processor parameters.
+  final List<ProcessorParameter>? parameters;
+
+  Processor({
+    required this.type,
+    this.parameters,
+  });
+
+  factory Processor.fromJson(Map<String, dynamic> json) {
+    return Processor(
+      type: ProcessorType.fromString((json['Type'] as String?) ?? ''),
+      parameters: (json['Parameters'] as List?)
+          ?.nonNulls
+          .map((e) => ProcessorParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final parameters = this.parameters;
+    return {
+      'Type': type.value,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+class ProcessorType {
+  static const recordDeAggregation = ProcessorType._('RecordDeAggregation');
+  static const decompression = ProcessorType._('Decompression');
+  static const cloudWatchLogProcessing =
+      ProcessorType._('CloudWatchLogProcessing');
+  static const lambda = ProcessorType._('Lambda');
+  static const metadataExtraction = ProcessorType._('MetadataExtraction');
+  static const appendDelimiterToRecord =
+      ProcessorType._('AppendDelimiterToRecord');
+
+  final String value;
+
+  const ProcessorType._(this.value);
+
+  static const values = [
+    recordDeAggregation,
+    decompression,
+    cloudWatchLogProcessing,
+    lambda,
+    metadataExtraction,
+    appendDelimiterToRecord
+  ];
+
+  static ProcessorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessorType._(value));
+
+  @override
+  bool operator ==(other) => other is ProcessorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the processor parameter.
+class ProcessorParameter {
+  /// The name of the parameter. Currently the following default values are
+  /// supported: 3 for <code>NumberOfRetries</code> and 60 for the
+  /// <code>BufferIntervalInSeconds</code>. The <code>BufferSizeInMBs</code>
+  /// ranges between 0.2 MB and up to 3MB. The default buffering hint is 1MB for
+  /// all destinations, except Splunk. For Splunk, the default buffering hint is
+  /// 256 KB.
+  final ProcessorParameterName parameterName;
+
+  /// The parameter value.
+  final String parameterValue;
+
+  ProcessorParameter({
+    required this.parameterName,
+    required this.parameterValue,
+  });
+
+  factory ProcessorParameter.fromJson(Map<String, dynamic> json) {
+    return ProcessorParameter(
+      parameterName: ProcessorParameterName.fromString(
+          (json['ParameterName'] as String?) ?? ''),
+      parameterValue: (json['ParameterValue'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      'ParameterName': parameterName.value,
+      'ParameterValue': parameterValue,
+    };
+  }
+}
+
+class ProcessorParameterName {
+  static const lambdaArn = ProcessorParameterName._('LambdaArn');
+  static const numberOfRetries = ProcessorParameterName._('NumberOfRetries');
+  static const metadataExtractionQuery =
+      ProcessorParameterName._('MetadataExtractionQuery');
+  static const jsonParsingEngine =
+      ProcessorParameterName._('JsonParsingEngine');
+  static const roleArn = ProcessorParameterName._('RoleArn');
+  static const bufferSizeInMBs = ProcessorParameterName._('BufferSizeInMBs');
+  static const bufferIntervalInSeconds =
+      ProcessorParameterName._('BufferIntervalInSeconds');
+  static const subRecordType = ProcessorParameterName._('SubRecordType');
+  static const delimiter = ProcessorParameterName._('Delimiter');
+  static const compressionFormat =
+      ProcessorParameterName._('CompressionFormat');
+  static const dataMessageExtraction =
+      ProcessorParameterName._('DataMessageExtraction');
+
+  final String value;
+
+  const ProcessorParameterName._(this.value);
+
+  static const values = [
+    lambdaArn,
+    numberOfRetries,
+    metadataExtractionQuery,
+    jsonParsingEngine,
+    roleArn,
+    bufferSizeInMBs,
+    bufferIntervalInSeconds,
+    subRecordType,
+    delimiter,
+    compressionFormat,
+    dataMessageExtraction
+  ];
+
+  static ProcessorParameterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessorParameterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProcessorParameterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the configuration of a destination in Apache Iceberg Tables.
+class DestinationTableConfiguration {
+  /// The name of the Apache Iceberg database.
+  final String destinationDatabaseName;
+
+  /// Specifies the name of the Apache Iceberg Table.
+  final String destinationTableName;
+
+  /// The partition spec configuration for a table that is used by automatic table
+  /// creation.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final PartitionSpec? partitionSpec;
+
+  /// The table specific S3 error output prefix. All the errors that occurred
+  /// while delivering to this table will be prefixed with this value in S3
+  /// destination.
+  final String? s3ErrorOutputPrefix;
+
+  /// A list of unique keys for a given Apache Iceberg table. Firehose will use
+  /// these for running Create, Update, or Delete operations on the given Iceberg
+  /// table.
+  final List<String>? uniqueKeys;
+
+  DestinationTableConfiguration({
+    required this.destinationDatabaseName,
+    required this.destinationTableName,
+    this.partitionSpec,
+    this.s3ErrorOutputPrefix,
+    this.uniqueKeys,
+  });
+
+  factory DestinationTableConfiguration.fromJson(Map<String, dynamic> json) {
+    return DestinationTableConfiguration(
+      destinationDatabaseName:
+          (json['DestinationDatabaseName'] as String?) ?? '',
+      destinationTableName: (json['DestinationTableName'] as String?) ?? '',
+      partitionSpec: json['PartitionSpec'] != null
+          ? PartitionSpec.fromJson(
+              json['PartitionSpec'] as Map<String, dynamic>)
+          : null,
+      s3ErrorOutputPrefix: json['S3ErrorOutputPrefix'] as String?,
+      uniqueKeys: (json['UniqueKeys'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationDatabaseName = this.destinationDatabaseName;
+    final destinationTableName = this.destinationTableName;
+    final partitionSpec = this.partitionSpec;
+    final s3ErrorOutputPrefix = this.s3ErrorOutputPrefix;
+    final uniqueKeys = this.uniqueKeys;
+    return {
+      'DestinationDatabaseName': destinationDatabaseName,
+      'DestinationTableName': destinationTableName,
+      if (partitionSpec != null) 'PartitionSpec': partitionSpec,
+      if (s3ErrorOutputPrefix != null)
+        'S3ErrorOutputPrefix': s3ErrorOutputPrefix,
+      if (uniqueKeys != null) 'UniqueKeys': uniqueKeys,
+    };
+  }
+}
+
+/// Represents how to produce partition data for a table. Partition data is
+/// produced by transforming columns in a table. Each column transform is
+/// represented by a named <code>PartitionField</code>.
+///
+/// Here is an example of the schema in JSON.
+///
+/// <code>"partitionSpec": { "identity": [ {"sourceName": "column1"},
+/// {"sourceName": "column2"}, {"sourceName": "column3"} ] }</code>
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class PartitionSpec {
+  /// List of identity <a
+  /// href="https://iceberg.apache.org/spec/#partition-transforms">transforms</a>
+  /// that performs an identity transformation. The transform takes the source
+  /// value, and does not modify it. Result type is the source type.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<PartitionField>? identity;
+
+  PartitionSpec({
+    this.identity,
+  });
+
+  factory PartitionSpec.fromJson(Map<String, dynamic> json) {
+    return PartitionSpec(
+      identity: (json['Identity'] as List?)
+          ?.nonNulls
+          .map((e) => PartitionField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identity = this.identity;
+    return {
+      if (identity != null) 'Identity': identity,
+    };
+  }
+}
+
+/// Represents a single field in a <code>PartitionSpec</code>.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class PartitionField {
+  /// The column name to be configured in partition spec.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String sourceName;
+
+  PartitionField({
+    required this.sourceName,
+  });
+
+  factory PartitionField.fromJson(Map<String, dynamic> json) {
+    return PartitionField(
+      sourceName: (json['SourceName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceName = this.sourceName;
+    return {
+      'SourceName': sourceName,
+    };
+  }
+}
+
+/// Optionally configure a Snowflake role. Otherwise the default user role will
+/// be used.
+class SnowflakeRoleConfiguration {
+  /// Enable Snowflake role
+  final bool? enabled;
+
+  /// The Snowflake role you wish to configure
+  final String? snowflakeRole;
+
+  SnowflakeRoleConfiguration({
+    this.enabled,
+    this.snowflakeRole,
+  });
+
+  factory SnowflakeRoleConfiguration.fromJson(Map<String, dynamic> json) {
+    return SnowflakeRoleConfiguration(
+      enabled: json['Enabled'] as bool?,
+      snowflakeRole: json['SnowflakeRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final snowflakeRole = this.snowflakeRole;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (snowflakeRole != null) 'SnowflakeRole': snowflakeRole,
+    };
+  }
+}
+
+class SnowflakeDataLoadingOption {
+  static const jsonMapping = SnowflakeDataLoadingOption._('JSON_MAPPING');
+  static const variantContentMapping =
+      SnowflakeDataLoadingOption._('VARIANT_CONTENT_MAPPING');
+  static const variantContentAndMetadataMapping =
+      SnowflakeDataLoadingOption._('VARIANT_CONTENT_AND_METADATA_MAPPING');
+
+  final String value;
+
+  const SnowflakeDataLoadingOption._(this.value);
+
+  static const values = [
+    jsonMapping,
+    variantContentMapping,
+    variantContentAndMetadataMapping
+  ];
+
+  static SnowflakeDataLoadingOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SnowflakeDataLoadingOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnowflakeDataLoadingOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specify how long Firehose retries sending data to the New Relic HTTP
+/// endpoint. After sending data, Firehose first waits for an acknowledgment
+/// from the HTTP endpoint. If an error occurs or the acknowledgment doesn’t
+/// arrive within the acknowledgment timeout period, Firehose starts the retry
+/// duration counter. It keeps retrying until the retry duration expires. After
+/// that, Firehose considers it a data delivery failure and backs up the data to
+/// your Amazon S3 bucket. Every time that Firehose sends data to the HTTP
+/// endpoint (either the initial attempt or a retry), it restarts the
+/// acknowledgement timeout counter and waits for an acknowledgement from the
+/// HTTP endpoint. Even if the retry duration expires, Firehose still waits for
+/// the acknowledgment until it receives it or the acknowledgement timeout
+/// period is reached. If the acknowledgment times out, Firehose determines
+/// whether there's time left in the retry counter. If there is time left, it
+/// retries again and repeats the logic until it receives an acknowledgment or
+/// determines that the retry time has expired. If you don't want Firehose to
+/// retry sending data, set this value to 0.
+class SnowflakeRetryOptions {
+  /// the time period where Firehose will retry sending data to the chosen HTTP
+  /// endpoint.
+  final int? durationInSeconds;
+
+  SnowflakeRetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory SnowflakeRetryOptions.fromJson(Map<String, dynamic> json) {
+    return SnowflakeRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
+class SnowflakeS3BackupMode {
+  static const failedDataOnly = SnowflakeS3BackupMode._('FailedDataOnly');
+  static const allData = SnowflakeS3BackupMode._('AllData');
+
+  final String value;
+
+  const SnowflakeS3BackupMode._(this.value);
+
+  static const values = [failedDataOnly, allData];
+
+  static SnowflakeS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SnowflakeS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnowflakeS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure that defines how Firehose accesses the secret.
+class SecretsManagerConfiguration {
+  /// Specifies whether you want to use the secrets manager feature. When set as
+  /// <code>True</code> the secrets manager configuration overwrites the existing
+  /// secrets in the destination configuration. When it's set to
+  /// <code>False</code> Firehose falls back to the credentials in the destination
+  /// configuration.
+  final bool enabled;
+
+  /// Specifies the role that Firehose assumes when calling the Secrets Manager
+  /// API operation. When you provide the role, it overrides any destination
+  /// specific role defined in the destination configuration. If you do not
+  /// provide the then we use the destination specific role. This parameter is
+  /// required for Splunk.
+  final String? roleARN;
+
+  /// The ARN of the secret that stores your credentials. It must be in the same
+  /// region as the Firehose stream and the role. The secret ARN can reside in a
+  /// different account than the Firehose stream and role as Firehose supports
+  /// cross-account secret access. This parameter is required when <b>Enabled</b>
+  /// is set to <code>True</code>.
+  final String? secretARN;
+
+  SecretsManagerConfiguration({
+    required this.enabled,
+    this.roleARN,
+    this.secretARN,
+  });
+
+  factory SecretsManagerConfiguration.fromJson(Map<String, dynamic> json) {
+    return SecretsManagerConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      roleARN: json['RoleARN'] as String?,
+      secretARN: json['SecretARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final roleARN = this.roleARN;
+    final secretARN = this.secretARN;
+    return {
+      'Enabled': enabled,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (secretARN != null) 'SecretARN': secretARN,
+    };
+  }
+}
+
+/// Describes the buffering to perform before delivering data to the Snowflake
+/// destination. If you do not specify any value, Firehose uses the default
+/// values.
+class SnowflakeBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 0.
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 128.
+  final int? sizeInMBs;
+
+  SnowflakeBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory SnowflakeBufferingHints.fromJson(Map<String, dynamic> json) {
+    return SnowflakeBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
+/// Describes the buffering to perform before delivering data to the Serverless
+/// offering for Amazon OpenSearch Service destination.
+class AmazonOpenSearchServerlessBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 300 (5 minutes).
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 5.
+  ///
+  /// We recommend setting this parameter to a value greater than the amount of
+  /// data you typically ingest into the Firehose stream in 10 seconds. For
+  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
+  /// or higher.
+  final int? sizeInMBs;
+
+  AmazonOpenSearchServerlessBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory AmazonOpenSearchServerlessBufferingHints.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonOpenSearchServerlessBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
+/// Configures retry behavior in case Firehose is unable to deliver documents to
+/// the Serverless offering for Amazon OpenSearch Service.
+class AmazonOpenSearchServerlessRetryOptions {
+  /// After an initial failure to deliver to the Serverless offering for Amazon
+  /// OpenSearch Service, the total amount of time during which Firehose retries
+  /// delivery (including the first attempt). After this time has elapsed, the
+  /// failed documents are written to Amazon S3. Default value is 300 seconds (5
+  /// minutes). A value of 0 (zero) results in no retries.
+  final int? durationInSeconds;
+
+  AmazonOpenSearchServerlessRetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory AmazonOpenSearchServerlessRetryOptions.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonOpenSearchServerlessRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
+/// Describes the configuration of the HTTP endpoint to which Kinesis Firehose
+/// delivers data.
+class HttpEndpointConfiguration {
+  /// The URL of the HTTP endpoint selected as the destination.
+  /// <important>
+  /// If you choose an HTTP endpoint as your destination, review and follow the
+  /// instructions in the <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/httpdeliveryrequestresponse.html">Appendix
+  /// - HTTP Endpoint Delivery Request and Response Specifications</a>.
+  /// </important>
+  final String url;
+
+  /// The access key required for Kinesis Firehose to authenticate with the HTTP
+  /// endpoint selected as the destination.
+  final String? accessKey;
+
+  /// The name of the HTTP endpoint selected as the destination.
+  final String? name;
+
+  HttpEndpointConfiguration({
+    required this.url,
+    this.accessKey,
+    this.name,
+  });
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    final accessKey = this.accessKey;
+    final name = this.name;
+    return {
+      'Url': url,
+      if (accessKey != null) 'AccessKey': accessKey,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Describes the buffering options that can be applied before data is delivered
+/// to the HTTP endpoint destination. Firehose treats these options as hints,
+/// and it might choose to use more optimal values. The <code>SizeInMBs</code>
+/// and <code>IntervalInSeconds</code> parameters are optional. However, if
+/// specify a value for one of them, you must also provide a value for the
+/// other.
+class HttpEndpointBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 300 (5 minutes).
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 5.
+  ///
+  /// We recommend setting this parameter to a value greater than the amount of
+  /// data you typically ingest into the Firehose stream in 10 seconds. For
+  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
+  /// or higher.
+  final int? sizeInMBs;
+
+  HttpEndpointBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory HttpEndpointBufferingHints.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
+/// The configuration of the HTTP endpoint request.
+class HttpEndpointRequestConfiguration {
+  /// Describes the metadata sent to the HTTP endpoint destination.
+  final List<HttpEndpointCommonAttribute>? commonAttributes;
+
+  /// Firehose uses the content encoding to compress the body of a request before
+  /// sending the request to the destination. For more information, see <a
+  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding">Content-Encoding</a>
+  /// in MDN Web Docs, the official Mozilla documentation.
+  final ContentEncoding? contentEncoding;
+
+  HttpEndpointRequestConfiguration({
+    this.commonAttributes,
+    this.contentEncoding,
+  });
+
+  factory HttpEndpointRequestConfiguration.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointRequestConfiguration(
+      commonAttributes: (json['CommonAttributes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              HttpEndpointCommonAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      contentEncoding:
+          (json['ContentEncoding'] as String?)?.let(ContentEncoding.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commonAttributes = this.commonAttributes;
+    final contentEncoding = this.contentEncoding;
+    return {
+      if (commonAttributes != null) 'CommonAttributes': commonAttributes,
+      if (contentEncoding != null) 'ContentEncoding': contentEncoding.value,
+    };
+  }
+}
+
+/// Describes the retry behavior in case Firehose is unable to deliver data to
+/// the specified HTTP endpoint destination, or if it doesn't receive a valid
+/// acknowledgment of receipt from the specified HTTP endpoint destination.
+class HttpEndpointRetryOptions {
+  /// The total amount of time that Firehose spends on retries. This duration
+  /// starts after the initial attempt to send data to the custom destination via
+  /// HTTPS endpoint fails. It doesn't include the periods during which Firehose
+  /// waits for acknowledgment from the specified destination after each attempt.
+  final int? durationInSeconds;
+
+  HttpEndpointRetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory HttpEndpointRetryOptions.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
+class HttpEndpointS3BackupMode {
+  static const failedDataOnly = HttpEndpointS3BackupMode._('FailedDataOnly');
+  static const allData = HttpEndpointS3BackupMode._('AllData');
+
+  final String value;
+
+  const HttpEndpointS3BackupMode._(this.value);
+
+  static const values = [failedDataOnly, allData];
+
+  static HttpEndpointS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HttpEndpointS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HttpEndpointS3BackupMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2165,6 +3655,406 @@ class ContentEncoding {
 
   @override
   String toString() => value;
+}
+
+/// Describes the metadata that's delivered to the specified HTTP endpoint
+/// destination.
+class HttpEndpointCommonAttribute {
+  /// The name of the HTTP endpoint common attribute.
+  final String attributeName;
+
+  /// The value of the HTTP endpoint common attribute.
+  final String attributeValue;
+
+  HttpEndpointCommonAttribute({
+    required this.attributeName,
+    required this.attributeValue,
+  });
+
+  factory HttpEndpointCommonAttribute.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointCommonAttribute(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      attributeValue: (json['AttributeValue'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValue = this.attributeValue;
+    return {
+      'AttributeName': attributeName,
+      'AttributeValue': attributeValue,
+    };
+  }
+}
+
+class HECEndpointType {
+  static const raw = HECEndpointType._('Raw');
+  static const event = HECEndpointType._('Event');
+
+  final String value;
+
+  const HECEndpointType._(this.value);
+
+  static const values = [raw, event];
+
+  static HECEndpointType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HECEndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is HECEndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configures retry behavior in case Firehose is unable to deliver documents to
+/// Splunk, or if it doesn't receive an acknowledgment from Splunk.
+class SplunkRetryOptions {
+  /// The total amount of time that Firehose spends on retries. This duration
+  /// starts after the initial attempt to send data to Splunk fails. It doesn't
+  /// include the periods during which Firehose waits for acknowledgment from
+  /// Splunk after each attempt.
+  final int? durationInSeconds;
+
+  SplunkRetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory SplunkRetryOptions.fromJson(Map<String, dynamic> json) {
+    return SplunkRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
+class SplunkS3BackupMode {
+  static const failedEventsOnly = SplunkS3BackupMode._('FailedEventsOnly');
+  static const allEvents = SplunkS3BackupMode._('AllEvents');
+
+  final String value;
+
+  const SplunkS3BackupMode._(this.value);
+
+  static const values = [failedEventsOnly, allEvents];
+
+  static SplunkS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SplunkS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SplunkS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The buffering options. If no value is specified, the default values for
+/// Splunk are used.
+class SplunkBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 60 (1 minute).
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 5.
+  final int? sizeInMBs;
+
+  SplunkBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory SplunkBufferingHints.fromJson(Map<String, dynamic> json) {
+    return SplunkBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
+class AmazonopensearchserviceIndexRotationPeriod {
+  static const noRotation =
+      AmazonopensearchserviceIndexRotationPeriod._('NoRotation');
+  static const oneHour =
+      AmazonopensearchserviceIndexRotationPeriod._('OneHour');
+  static const oneDay = AmazonopensearchserviceIndexRotationPeriod._('OneDay');
+  static const oneWeek =
+      AmazonopensearchserviceIndexRotationPeriod._('OneWeek');
+  static const oneMonth =
+      AmazonopensearchserviceIndexRotationPeriod._('OneMonth');
+
+  final String value;
+
+  const AmazonopensearchserviceIndexRotationPeriod._(this.value);
+
+  static const values = [noRotation, oneHour, oneDay, oneWeek, oneMonth];
+
+  static AmazonopensearchserviceIndexRotationPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AmazonopensearchserviceIndexRotationPeriod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmazonopensearchserviceIndexRotationPeriod &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the buffering to perform before delivering data to the Amazon
+/// OpenSearch Service destination.
+class AmazonopensearchserviceBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 300 (5 minutes).
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 5.
+  ///
+  /// We recommend setting this parameter to a value greater than the amount of
+  /// data you typically ingest into the Firehose stream in 10 seconds. For
+  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
+  /// or higher.
+  final int? sizeInMBs;
+
+  AmazonopensearchserviceBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory AmazonopensearchserviceBufferingHints.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonopensearchserviceBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
+/// Configures retry behavior in case Firehose is unable to deliver documents to
+/// Amazon OpenSearch Service.
+class AmazonopensearchserviceRetryOptions {
+  /// After an initial failure to deliver to Amazon OpenSearch Service, the total
+  /// amount of time during which Firehose retries delivery (including the first
+  /// attempt). After this time has elapsed, the failed documents are written to
+  /// Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero)
+  /// results in no retries.
+  final int? durationInSeconds;
+
+  AmazonopensearchserviceRetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory AmazonopensearchserviceRetryOptions.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonopensearchserviceRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
+}
+
+/// Indicates the method for setting up document ID. The supported methods are
+/// Firehose generated document ID and OpenSearch Service generated document ID.
+///
+///
+class DocumentIdOptions {
+  /// When the <code>FIREHOSE_DEFAULT</code> option is chosen, Firehose generates
+  /// a unique document ID for each record based on a unique internal identifier.
+  /// The generated document ID is stable across multiple delivery attempts, which
+  /// helps prevent the same record from being indexed multiple times with
+  /// different document IDs.
+  ///
+  /// When the <code>NO_DOCUMENT_ID</code> option is chosen, Firehose does not
+  /// include any document IDs in the requests it sends to the Amazon OpenSearch
+  /// Service. This causes the Amazon OpenSearch Service domain to generate
+  /// document IDs. In case of multiple delivery attempts, this may cause the same
+  /// record to be indexed more than once with different document IDs. This option
+  /// enables write-heavy operations, such as the ingestion of logs and
+  /// observability data, to consume less resources in the Amazon OpenSearch
+  /// Service domain, resulting in improved performance.
+  final DefaultDocumentIdFormat defaultDocumentIdFormat;
+
+  DocumentIdOptions({
+    required this.defaultDocumentIdFormat,
+  });
+
+  factory DocumentIdOptions.fromJson(Map<String, dynamic> json) {
+    return DocumentIdOptions(
+      defaultDocumentIdFormat: DefaultDocumentIdFormat.fromString(
+          (json['DefaultDocumentIdFormat'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultDocumentIdFormat = this.defaultDocumentIdFormat;
+    return {
+      'DefaultDocumentIdFormat': defaultDocumentIdFormat.value,
+    };
+  }
+}
+
+class DefaultDocumentIdFormat {
+  static const firehoseDefault = DefaultDocumentIdFormat._('FIREHOSE_DEFAULT');
+  static const noDocumentId = DefaultDocumentIdFormat._('NO_DOCUMENT_ID');
+
+  final String value;
+
+  const DefaultDocumentIdFormat._(this.value);
+
+  static const values = [firehoseDefault, noDocumentId];
+
+  static DefaultDocumentIdFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DefaultDocumentIdFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultDocumentIdFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ElasticsearchIndexRotationPeriod {
+  static const noRotation = ElasticsearchIndexRotationPeriod._('NoRotation');
+  static const oneHour = ElasticsearchIndexRotationPeriod._('OneHour');
+  static const oneDay = ElasticsearchIndexRotationPeriod._('OneDay');
+  static const oneWeek = ElasticsearchIndexRotationPeriod._('OneWeek');
+  static const oneMonth = ElasticsearchIndexRotationPeriod._('OneMonth');
+
+  final String value;
+
+  const ElasticsearchIndexRotationPeriod._(this.value);
+
+  static const values = [noRotation, oneHour, oneDay, oneWeek, oneMonth];
+
+  static ElasticsearchIndexRotationPeriod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ElasticsearchIndexRotationPeriod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ElasticsearchIndexRotationPeriod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the buffering to perform before delivering data to the Amazon
+/// OpenSearch Service destination.
+class ElasticsearchBufferingHints {
+  /// Buffer incoming data for the specified period of time, in seconds, before
+  /// delivering it to the destination. The default value is 300 (5 minutes).
+  final int? intervalInSeconds;
+
+  /// Buffer incoming data to the specified size, in MBs, before delivering it to
+  /// the destination. The default value is 5.
+  ///
+  /// We recommend setting this parameter to a value greater than the amount of
+  /// data you typically ingest into the Firehose stream in 10 seconds. For
+  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
+  /// or higher.
+  final int? sizeInMBs;
+
+  ElasticsearchBufferingHints({
+    this.intervalInSeconds,
+    this.sizeInMBs,
+  });
+
+  factory ElasticsearchBufferingHints.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchBufferingHints(
+      intervalInSeconds: json['IntervalInSeconds'] as int?,
+      sizeInMBs: json['SizeInMBs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intervalInSeconds = this.intervalInSeconds;
+    final sizeInMBs = this.sizeInMBs;
+    return {
+      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
+      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+    };
+  }
+}
+
+/// Configures retry behavior in case Firehose is unable to deliver documents to
+/// Amazon OpenSearch Service.
+class ElasticsearchRetryOptions {
+  /// After an initial failure to deliver to Amazon OpenSearch Service, the total
+  /// amount of time during which Firehose retries delivery (including the first
+  /// attempt). After this time has elapsed, the failed documents are written to
+  /// Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero)
+  /// results in no retries.
+  final int? durationInSeconds;
+
+  ElasticsearchRetryOptions({
+    this.durationInSeconds,
+  });
+
+  factory ElasticsearchRetryOptions.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInSeconds = this.durationInSeconds;
+    return {
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+    };
+  }
 }
 
 /// Describes a <code>COPY</code> command for Amazon Redshift.
@@ -2228,26 +4118,80 @@ class CopyCommand {
   }
 }
 
-class CreateDeliveryStreamOutput {
-  /// The ARN of the delivery stream.
-  final String? deliveryStreamARN;
+/// Configures retry behavior in case Firehose is unable to deliver documents to
+/// Amazon Redshift.
+class RedshiftRetryOptions {
+  /// The length of time during which Firehose retries delivery after a failure,
+  /// starting from the initial request and including the first attempt. The
+  /// default value is 3600 seconds (60 minutes). Firehose does not retry if the
+  /// value of <code>DurationInSeconds</code> is 0 (zero) or if the first delivery
+  /// attempt takes longer than the current value.
+  final int? durationInSeconds;
 
-  CreateDeliveryStreamOutput({
-    this.deliveryStreamARN,
+  RedshiftRetryOptions({
+    this.durationInSeconds,
   });
 
-  factory CreateDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
-    return CreateDeliveryStreamOutput(
-      deliveryStreamARN: json['DeliveryStreamARN'] as String?,
+  factory RedshiftRetryOptions.fromJson(Map<String, dynamic> json) {
+    return RedshiftRetryOptions(
+      durationInSeconds: json['DurationInSeconds'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deliveryStreamARN = this.deliveryStreamARN;
+    final durationInSeconds = this.durationInSeconds;
     return {
-      if (deliveryStreamARN != null) 'DeliveryStreamARN': deliveryStreamARN,
+      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
     };
   }
+}
+
+class RedshiftS3BackupMode {
+  static const disabled = RedshiftS3BackupMode._('Disabled');
+  static const enabled = RedshiftS3BackupMode._('Enabled');
+
+  final String value;
+
+  const RedshiftS3BackupMode._(this.value);
+
+  static const values = [disabled, enabled];
+
+  static RedshiftS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RedshiftS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RedshiftS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class S3BackupMode {
+  static const disabled = S3BackupMode._('Disabled');
+  static const enabled = S3BackupMode._('Enabled');
+
+  final String value;
+
+  const S3BackupMode._(this.value);
+
+  static const values = [disabled, enabled];
+
+  static S3BackupMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3BackupMode._(value));
+
+  @override
+  bool operator ==(other) => other is S3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies that you want Firehose to convert data from the JSON format to the
@@ -2321,23 +4265,441 @@ class DataFormatConversionConfiguration {
   }
 }
 
-class DefaultDocumentIdFormat {
-  static const firehoseDefault = DefaultDocumentIdFormat._('FIREHOSE_DEFAULT');
-  static const noDocumentId = DefaultDocumentIdFormat._('NO_DOCUMENT_ID');
+/// The configuration of the dynamic partitioning mechanism that creates smaller
+/// data sets from the streaming data by partitioning it based on partition
+/// keys. Currently, dynamic partitioning is only supported for Amazon S3
+/// destinations.
+class DynamicPartitioningConfiguration {
+  /// Specifies that the dynamic partitioning is enabled for this Firehose stream.
+  final bool? enabled;
+
+  /// The retry behavior in case Firehose is unable to deliver data to an Amazon
+  /// S3 prefix.
+  final RetryOptions? retryOptions;
+
+  DynamicPartitioningConfiguration({
+    this.enabled,
+    this.retryOptions,
+  });
+
+  factory DynamicPartitioningConfiguration.fromJson(Map<String, dynamic> json) {
+    return DynamicPartitioningConfiguration(
+      enabled: json['Enabled'] as bool?,
+      retryOptions: json['RetryOptions'] != null
+          ? RetryOptions.fromJson(json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final retryOptions = this.retryOptions;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+    };
+  }
+}
+
+/// Specifies the schema to which you want Firehose to configure your data
+/// before it writes it to Amazon S3. This parameter is required if
+/// <code>Enabled</code> is set to true.
+class SchemaConfiguration {
+  /// The ID of the Amazon Web Services Glue Data Catalog. If you don't supply
+  /// this, the Amazon Web Services account ID is used by default.
+  final String? catalogId;
+
+  /// Specifies the name of the Amazon Web Services Glue database that contains
+  /// the schema for the output data.
+  /// <important>
+  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
+  /// invoking the <code>CreateDeliveryStream</code> API, then the
+  /// <code>DatabaseName</code> property is required and its value must be
+  /// specified.
+  /// </important>
+  final String? databaseName;
+
+  /// If you don't specify an Amazon Web Services Region, the default is the
+  /// current Region.
+  final String? region;
+
+  /// The role that Firehose can use to access Amazon Web Services Glue. This role
+  /// must be in the same account you use for Firehose. Cross-account roles aren't
+  /// allowed.
+  /// <important>
+  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
+  /// invoking the <code>CreateDeliveryStream</code> API, then the
+  /// <code>RoleARN</code> property is required and its value must be specified.
+  /// </important>
+  final String? roleARN;
+
+  /// Specifies the Amazon Web Services Glue table that contains the column
+  /// information that constitutes your data schema.
+  /// <important>
+  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
+  /// invoking the <code>CreateDeliveryStream</code> API, then the
+  /// <code>TableName</code> property is required and its value must be specified.
+  /// </important>
+  final String? tableName;
+
+  /// Specifies the table version for the output data schema. If you don't specify
+  /// this version ID, or if you set it to <code>LATEST</code>, Firehose uses the
+  /// most recent version. This means that any updates to the table are
+  /// automatically picked up.
+  final String? versionId;
+
+  SchemaConfiguration({
+    this.catalogId,
+    this.databaseName,
+    this.region,
+    this.roleARN,
+    this.tableName,
+    this.versionId,
+  });
+
+  factory SchemaConfiguration.fromJson(Map<String, dynamic> json) {
+    return SchemaConfiguration(
+      catalogId: json['CatalogId'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      region: json['Region'] as String?,
+      roleARN: json['RoleARN'] as String?,
+      tableName: json['TableName'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogId = this.catalogId;
+    final databaseName = this.databaseName;
+    final region = this.region;
+    final roleARN = this.roleARN;
+    final tableName = this.tableName;
+    final versionId = this.versionId;
+    return {
+      if (catalogId != null) 'CatalogId': catalogId,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (region != null) 'Region': region,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (tableName != null) 'TableName': tableName,
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
+}
+
+/// Specifies the deserializer you want to use to convert the format of the
+/// input data. This parameter is required if <code>Enabled</code> is set to
+/// true.
+class InputFormatConfiguration {
+  /// Specifies which deserializer to use. You can choose either the Apache Hive
+  /// JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects
+  /// the request.
+  final Deserializer? deserializer;
+
+  InputFormatConfiguration({
+    this.deserializer,
+  });
+
+  factory InputFormatConfiguration.fromJson(Map<String, dynamic> json) {
+    return InputFormatConfiguration(
+      deserializer: json['Deserializer'] != null
+          ? Deserializer.fromJson(json['Deserializer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deserializer = this.deserializer;
+    return {
+      if (deserializer != null) 'Deserializer': deserializer,
+    };
+  }
+}
+
+/// Specifies the serializer that you want Firehose to use to convert the format
+/// of your data before it writes it to Amazon S3. This parameter is required if
+/// <code>Enabled</code> is set to true.
+class OutputFormatConfiguration {
+  /// Specifies which serializer to use. You can choose either the ORC SerDe or
+  /// the Parquet SerDe. If both are non-null, the server rejects the request.
+  final Serializer? serializer;
+
+  OutputFormatConfiguration({
+    this.serializer,
+  });
+
+  factory OutputFormatConfiguration.fromJson(Map<String, dynamic> json) {
+    return OutputFormatConfiguration(
+      serializer: json['Serializer'] != null
+          ? Serializer.fromJson(json['Serializer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serializer = this.serializer;
+    return {
+      if (serializer != null) 'Serializer': serializer,
+    };
+  }
+}
+
+/// The serializer that you want Firehose to use to convert data to the target
+/// format before writing it to Amazon S3. Firehose supports two types of
+/// serializers: the ORC SerDe and the Parquet SerDe.
+class Serializer {
+  /// A serializer to use for converting data to the ORC format before storing it
+  /// in Amazon S3. For more information, see <a
+  /// href="https://orc.apache.org/docs/">Apache ORC</a>.
+  final OrcSerDe? orcSerDe;
+
+  /// A serializer to use for converting data to the Parquet format before storing
+  /// it in Amazon S3. For more information, see <a
+  /// href="https://parquet.apache.org/docs/contribution-guidelines/">Apache
+  /// Parquet</a>.
+  final ParquetSerDe? parquetSerDe;
+
+  Serializer({
+    this.orcSerDe,
+    this.parquetSerDe,
+  });
+
+  factory Serializer.fromJson(Map<String, dynamic> json) {
+    return Serializer(
+      orcSerDe: json['OrcSerDe'] != null
+          ? OrcSerDe.fromJson(json['OrcSerDe'] as Map<String, dynamic>)
+          : null,
+      parquetSerDe: json['ParquetSerDe'] != null
+          ? ParquetSerDe.fromJson(json['ParquetSerDe'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final orcSerDe = this.orcSerDe;
+    final parquetSerDe = this.parquetSerDe;
+    return {
+      if (orcSerDe != null) 'OrcSerDe': orcSerDe,
+      if (parquetSerDe != null) 'ParquetSerDe': parquetSerDe,
+    };
+  }
+}
+
+/// A serializer to use for converting data to the Parquet format before storing
+/// it in Amazon S3. For more information, see <a
+/// href="https://parquet.apache.org/docs/">Apache Parquet</a>.
+class ParquetSerDe {
+  /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
+  /// intend to copy the data from Amazon S3 to HDFS before querying. The default
+  /// is 256 MiB and the minimum is 64 MiB. Firehose uses this value for padding
+  /// calculations.
+  final int? blockSizeBytes;
+
+  /// The compression code to use over data blocks. The possible values are
+  /// <code>UNCOMPRESSED</code>, <code>SNAPPY</code>, and <code>GZIP</code>, with
+  /// the default being <code>SNAPPY</code>. Use <code>SNAPPY</code> for higher
+  /// decompression speed. Use <code>GZIP</code> if the compression ratio is more
+  /// important than speed.
+  final ParquetCompression? compression;
+
+  /// Indicates whether to enable dictionary compression.
+  final bool? enableDictionaryCompression;
+
+  /// The maximum amount of padding to apply. This is useful if you intend to copy
+  /// the data from Amazon S3 to HDFS before querying. The default is 0.
+  final int? maxPaddingBytes;
+
+  /// The Parquet page size. Column chunks are divided into pages. A page is
+  /// conceptually an indivisible unit (in terms of compression and encoding). The
+  /// minimum value is 64 KiB and the default is 1 MiB.
+  final int? pageSizeBytes;
+
+  /// Indicates the version of row format to output. The possible values are
+  /// <code>V1</code> and <code>V2</code>. The default is <code>V1</code>.
+  final ParquetWriterVersion? writerVersion;
+
+  ParquetSerDe({
+    this.blockSizeBytes,
+    this.compression,
+    this.enableDictionaryCompression,
+    this.maxPaddingBytes,
+    this.pageSizeBytes,
+    this.writerVersion,
+  });
+
+  factory ParquetSerDe.fromJson(Map<String, dynamic> json) {
+    return ParquetSerDe(
+      blockSizeBytes: json['BlockSizeBytes'] as int?,
+      compression:
+          (json['Compression'] as String?)?.let(ParquetCompression.fromString),
+      enableDictionaryCompression: json['EnableDictionaryCompression'] as bool?,
+      maxPaddingBytes: json['MaxPaddingBytes'] as int?,
+      pageSizeBytes: json['PageSizeBytes'] as int?,
+      writerVersion: (json['WriterVersion'] as String?)
+          ?.let(ParquetWriterVersion.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockSizeBytes = this.blockSizeBytes;
+    final compression = this.compression;
+    final enableDictionaryCompression = this.enableDictionaryCompression;
+    final maxPaddingBytes = this.maxPaddingBytes;
+    final pageSizeBytes = this.pageSizeBytes;
+    final writerVersion = this.writerVersion;
+    return {
+      if (blockSizeBytes != null) 'BlockSizeBytes': blockSizeBytes,
+      if (compression != null) 'Compression': compression.value,
+      if (enableDictionaryCompression != null)
+        'EnableDictionaryCompression': enableDictionaryCompression,
+      if (maxPaddingBytes != null) 'MaxPaddingBytes': maxPaddingBytes,
+      if (pageSizeBytes != null) 'PageSizeBytes': pageSizeBytes,
+      if (writerVersion != null) 'WriterVersion': writerVersion.value,
+    };
+  }
+}
+
+/// A serializer to use for converting data to the ORC format before storing it
+/// in Amazon S3. For more information, see <a
+/// href="https://orc.apache.org/docs/">Apache ORC</a>.
+class OrcSerDe {
+  /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
+  /// intend to copy the data from Amazon S3 to HDFS before querying. The default
+  /// is 256 MiB and the minimum is 64 MiB. Firehose uses this value for padding
+  /// calculations.
+  final int? blockSizeBytes;
+
+  /// The column names for which you want Firehose to create bloom filters. The
+  /// default is <code>null</code>.
+  final List<String>? bloomFilterColumns;
+
+  /// The Bloom filter false positive probability (FPP). The lower the FPP, the
+  /// bigger the Bloom filter. The default value is 0.05, the minimum is 0, and
+  /// the maximum is 1.
+  final double? bloomFilterFalsePositiveProbability;
+
+  /// The compression code to use over data blocks. The default is
+  /// <code>SNAPPY</code>.
+  final OrcCompression? compression;
+
+  /// Represents the fraction of the total number of non-null rows. To turn off
+  /// dictionary encoding, set this fraction to a number that is less than the
+  /// number of distinct keys in a dictionary. To always use dictionary encoding,
+  /// set this threshold to 1.
+  final double? dictionaryKeyThreshold;
+
+  /// Set this to <code>true</code> to indicate that you want stripes to be padded
+  /// to the HDFS block boundaries. This is useful if you intend to copy the data
+  /// from Amazon S3 to HDFS before querying. The default is <code>false</code>.
+  final bool? enablePadding;
+
+  /// The version of the file to write. The possible values are <code>V0_11</code>
+  /// and <code>V0_12</code>. The default is <code>V0_12</code>.
+  final OrcFormatVersion? formatVersion;
+
+  /// A number between 0 and 1 that defines the tolerance for block padding as a
+  /// decimal fraction of stripe size. The default value is 0.05, which means 5
+  /// percent of stripe size.
+  ///
+  /// For the default values of 64 MiB ORC stripes and 256 MiB HDFS blocks, the
+  /// default block padding tolerance of 5 percent reserves a maximum of 3.2 MiB
+  /// for padding within the 256 MiB block. In such a case, if the available size
+  /// within the block is more than 3.2 MiB, a new, smaller stripe is inserted to
+  /// fit within that space. This ensures that no stripe crosses block boundaries
+  /// and causes remote reads within a node-local task.
+  ///
+  /// Firehose ignores this parameter when <a>OrcSerDe$EnablePadding</a> is
+  /// <code>false</code>.
+  final double? paddingTolerance;
+
+  /// The number of rows between index entries. The default is 10,000 and the
+  /// minimum is 1,000.
+  final int? rowIndexStride;
+
+  /// The number of bytes in each stripe. The default is 64 MiB and the minimum is
+  /// 8 MiB.
+  final int? stripeSizeBytes;
+
+  OrcSerDe({
+    this.blockSizeBytes,
+    this.bloomFilterColumns,
+    this.bloomFilterFalsePositiveProbability,
+    this.compression,
+    this.dictionaryKeyThreshold,
+    this.enablePadding,
+    this.formatVersion,
+    this.paddingTolerance,
+    this.rowIndexStride,
+    this.stripeSizeBytes,
+  });
+
+  factory OrcSerDe.fromJson(Map<String, dynamic> json) {
+    return OrcSerDe(
+      blockSizeBytes: json['BlockSizeBytes'] as int?,
+      bloomFilterColumns: (json['BloomFilterColumns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      bloomFilterFalsePositiveProbability:
+          json['BloomFilterFalsePositiveProbability'] as double?,
+      compression:
+          (json['Compression'] as String?)?.let(OrcCompression.fromString),
+      dictionaryKeyThreshold: json['DictionaryKeyThreshold'] as double?,
+      enablePadding: json['EnablePadding'] as bool?,
+      formatVersion:
+          (json['FormatVersion'] as String?)?.let(OrcFormatVersion.fromString),
+      paddingTolerance: json['PaddingTolerance'] as double?,
+      rowIndexStride: json['RowIndexStride'] as int?,
+      stripeSizeBytes: json['StripeSizeBytes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockSizeBytes = this.blockSizeBytes;
+    final bloomFilterColumns = this.bloomFilterColumns;
+    final bloomFilterFalsePositiveProbability =
+        this.bloomFilterFalsePositiveProbability;
+    final compression = this.compression;
+    final dictionaryKeyThreshold = this.dictionaryKeyThreshold;
+    final enablePadding = this.enablePadding;
+    final formatVersion = this.formatVersion;
+    final paddingTolerance = this.paddingTolerance;
+    final rowIndexStride = this.rowIndexStride;
+    final stripeSizeBytes = this.stripeSizeBytes;
+    return {
+      if (blockSizeBytes != null) 'BlockSizeBytes': blockSizeBytes,
+      if (bloomFilterColumns != null) 'BloomFilterColumns': bloomFilterColumns,
+      if (bloomFilterFalsePositiveProbability != null)
+        'BloomFilterFalsePositiveProbability':
+            bloomFilterFalsePositiveProbability,
+      if (compression != null) 'Compression': compression.value,
+      if (dictionaryKeyThreshold != null)
+        'DictionaryKeyThreshold': dictionaryKeyThreshold,
+      if (enablePadding != null) 'EnablePadding': enablePadding,
+      if (formatVersion != null) 'FormatVersion': formatVersion.value,
+      if (paddingTolerance != null) 'PaddingTolerance': paddingTolerance,
+      if (rowIndexStride != null) 'RowIndexStride': rowIndexStride,
+      if (stripeSizeBytes != null) 'StripeSizeBytes': stripeSizeBytes,
+    };
+  }
+}
+
+class OrcCompression {
+  static const none = OrcCompression._('NONE');
+  static const zlib = OrcCompression._('ZLIB');
+  static const snappy = OrcCompression._('SNAPPY');
 
   final String value;
 
-  const DefaultDocumentIdFormat._(this.value);
+  const OrcCompression._(this.value);
 
-  static const values = [firehoseDefault, noDocumentId];
+  static const values = [none, zlib, snappy];
 
-  static DefaultDocumentIdFormat fromString(String value) =>
+  static OrcCompression fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => DefaultDocumentIdFormat._(value));
+          orElse: () => OrcCompression._(value));
 
   @override
-  bool operator ==(other) =>
-      other is DefaultDocumentIdFormat && other.value == value;
+  bool operator ==(other) => other is OrcCompression && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2346,44 +4708,454 @@ class DefaultDocumentIdFormat {
   String toString() => value;
 }
 
-class DeleteDeliveryStreamOutput {
-  DeleteDeliveryStreamOutput();
+class OrcFormatVersion {
+  static const v0_11 = OrcFormatVersion._('V0_11');
+  static const v0_12 = OrcFormatVersion._('V0_12');
 
-  factory DeleteDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteDeliveryStreamOutput();
+  final String value;
+
+  const OrcFormatVersion._(this.value);
+
+  static const values = [v0_11, v0_12];
+
+  static OrcFormatVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrcFormatVersion._(value));
+
+  @override
+  bool operator ==(other) => other is OrcFormatVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ParquetCompression {
+  static const uncompressed = ParquetCompression._('UNCOMPRESSED');
+  static const gzip = ParquetCompression._('GZIP');
+  static const snappy = ParquetCompression._('SNAPPY');
+
+  final String value;
+
+  const ParquetCompression._(this.value);
+
+  static const values = [uncompressed, gzip, snappy];
+
+  static ParquetCompression fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParquetCompression._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParquetCompression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ParquetWriterVersion {
+  static const v1 = ParquetWriterVersion._('V1');
+  static const v2 = ParquetWriterVersion._('V2');
+
+  final String value;
+
+  const ParquetWriterVersion._(this.value);
+
+  static const values = [v1, v2];
+
+  static ParquetWriterVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParquetWriterVersion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParquetWriterVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The deserializer you want Firehose to use for converting the input data from
+/// JSON. Firehose then serializes the data to its final format using the
+/// <a>Serializer</a>. Firehose supports two types of deserializers: the <a
+/// href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-JSON">Apache
+/// Hive JSON SerDe</a> and the <a
+/// href="https://github.com/rcongiu/Hive-JSON-Serde">OpenX JSON SerDe</a>.
+class Deserializer {
+  /// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing
+  /// data, which means converting it from the JSON format in preparation for
+  /// serializing it to the Parquet or ORC format. This is one of two
+  /// deserializers you can choose, depending on which one offers the
+  /// functionality you need. The other option is the OpenX SerDe.
+  final HiveJsonSerDe? hiveJsonSerDe;
+
+  /// The OpenX SerDe. Used by Firehose for deserializing data, which means
+  /// converting it from the JSON format in preparation for serializing it to the
+  /// Parquet or ORC format. This is one of two deserializers you can choose,
+  /// depending on which one offers the functionality you need. The other option
+  /// is the native Hive / HCatalog JsonSerDe.
+  final OpenXJsonSerDe? openXJsonSerDe;
+
+  Deserializer({
+    this.hiveJsonSerDe,
+    this.openXJsonSerDe,
+  });
+
+  factory Deserializer.fromJson(Map<String, dynamic> json) {
+    return Deserializer(
+      hiveJsonSerDe: json['HiveJsonSerDe'] != null
+          ? HiveJsonSerDe.fromJson(
+              json['HiveJsonSerDe'] as Map<String, dynamic>)
+          : null,
+      openXJsonSerDe: json['OpenXJsonSerDe'] != null
+          ? OpenXJsonSerDe.fromJson(
+              json['OpenXJsonSerDe'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final hiveJsonSerDe = this.hiveJsonSerDe;
+    final openXJsonSerDe = this.openXJsonSerDe;
+    return {
+      if (hiveJsonSerDe != null) 'HiveJsonSerDe': hiveJsonSerDe,
+      if (openXJsonSerDe != null) 'OpenXJsonSerDe': openXJsonSerDe,
+    };
   }
 }
 
-/// Contains information about a delivery stream.
+/// The OpenX SerDe. Used by Firehose for deserializing data, which means
+/// converting it from the JSON format in preparation for serializing it to the
+/// Parquet or ORC format. This is one of two deserializers you can choose,
+/// depending on which one offers the functionality you need. The other option
+/// is the native Hive / HCatalog JsonSerDe.
+class OpenXJsonSerDe {
+  /// When set to <code>true</code>, which is the default, Firehose converts JSON
+  /// keys to lowercase before deserializing them.
+  final bool? caseInsensitive;
+
+  /// Maps column names to JSON keys that aren't identical to the column names.
+  /// This is useful when the JSON contains keys that are Hive keywords. For
+  /// example, <code>timestamp</code> is a Hive keyword. If you have a JSON key
+  /// named <code>timestamp</code>, set this parameter to <code>{"ts":
+  /// "timestamp"}</code> to map this key to a column named <code>ts</code>.
+  final Map<String, String>? columnToJsonKeyMappings;
+
+  /// When set to <code>true</code>, specifies that the names of the keys include
+  /// dots and that you want Firehose to replace them with underscores. This is
+  /// useful because Apache Hive does not allow dots in column names. For example,
+  /// if the JSON contains a key whose name is "a.b", you can define the column
+  /// name to be "a_b" when using this option.
+  ///
+  /// The default is <code>false</code>.
+  final bool? convertDotsInJsonKeysToUnderscores;
+
+  OpenXJsonSerDe({
+    this.caseInsensitive,
+    this.columnToJsonKeyMappings,
+    this.convertDotsInJsonKeysToUnderscores,
+  });
+
+  factory OpenXJsonSerDe.fromJson(Map<String, dynamic> json) {
+    return OpenXJsonSerDe(
+      caseInsensitive: json['CaseInsensitive'] as bool?,
+      columnToJsonKeyMappings:
+          (json['ColumnToJsonKeyMappings'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      convertDotsInJsonKeysToUnderscores:
+          json['ConvertDotsInJsonKeysToUnderscores'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final caseInsensitive = this.caseInsensitive;
+    final columnToJsonKeyMappings = this.columnToJsonKeyMappings;
+    final convertDotsInJsonKeysToUnderscores =
+        this.convertDotsInJsonKeysToUnderscores;
+    return {
+      if (caseInsensitive != null) 'CaseInsensitive': caseInsensitive,
+      if (columnToJsonKeyMappings != null)
+        'ColumnToJsonKeyMappings': columnToJsonKeyMappings,
+      if (convertDotsInJsonKeysToUnderscores != null)
+        'ConvertDotsInJsonKeysToUnderscores':
+            convertDotsInJsonKeysToUnderscores,
+    };
+  }
+}
+
+/// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing
+/// data, which means converting it from the JSON format in preparation for
+/// serializing it to the Parquet or ORC format. This is one of two
+/// deserializers you can choose, depending on which one offers the
+/// functionality you need. The other option is the OpenX SerDe.
+class HiveJsonSerDe {
+  /// Indicates how you want Firehose to parse the date and timestamps that may be
+  /// present in your input data JSON. To specify these format strings, follow the
+  /// pattern syntax of JodaTime's DateTimeFormat format strings. For more
+  /// information, see <a
+  /// href="https://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Class
+  /// DateTimeFormat</a>. You can also use the special value <code>millis</code>
+  /// to parse timestamps in epoch milliseconds. If you don't specify a format,
+  /// Firehose uses <code>java.sql.Timestamp::valueOf</code> by default.
+  final List<String>? timestampFormats;
+
+  HiveJsonSerDe({
+    this.timestampFormats,
+  });
+
+  factory HiveJsonSerDe.fromJson(Map<String, dynamic> json) {
+    return HiveJsonSerDe(
+      timestampFormats: (json['TimestampFormats'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestampFormats = this.timestampFormats;
+    return {
+      if (timestampFormats != null) 'TimestampFormats': timestampFormats,
+    };
+  }
+}
+
+/// Metadata that you can assign to a Firehose stream, consisting of a key-value
+/// pair.
+class Tag {
+  /// A unique identifier for the tag. Maximum length: 128 characters. Valid
+  /// characters: Unicode letters, digits, white space, _ . / = + - % @
+  final String key;
+
+  /// An optional string, which you can use to describe or define the tag. Maximum
+  /// length: 256 characters. Valid characters: Unicode letters, digits, white
+  /// space, _ . / = + - % @
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Specifies the type and Amazon Resource Name (ARN) of the CMK to use for
+/// Server-Side Encryption (SSE).
+class DeliveryStreamEncryptionConfigurationInput {
+  /// Indicates the type of customer master key (CMK) to use for encryption. The
+  /// default setting is <code>Amazon Web Services_OWNED_CMK</code>. For more
+  /// information about CMKs, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">Customer
+  /// Master Keys (CMKs)</a>. When you invoke <a>CreateDeliveryStream</a> or
+  /// <a>StartDeliveryStreamEncryption</a> with <code>KeyType</code> set to
+  /// CUSTOMER_MANAGED_CMK, Firehose invokes the Amazon KMS operation <a
+  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html">CreateGrant</a>
+  /// to create a grant that allows the Firehose service to use the customer
+  /// managed CMK to perform encryption and decryption. Firehose manages that
+  /// grant.
+  ///
+  /// When you invoke <a>StartDeliveryStreamEncryption</a> to change the CMK for a
+  /// Firehose stream that is encrypted with a customer managed CMK, Firehose
+  /// schedules the grant it had on the old CMK for retirement.
+  ///
+  /// You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 Firehose
+  /// streams. If a <a>CreateDeliveryStream</a> or
+  /// <a>StartDeliveryStreamEncryption</a> operation exceeds this limit, Firehose
+  /// throws a <code>LimitExceededException</code>.
+  /// <important>
+  /// To encrypt your Firehose stream, use symmetric CMKs. Firehose doesn't
+  /// support asymmetric CMKs. For information about symmetric and asymmetric
+  /// CMKs, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html">About
+  /// Symmetric and Asymmetric CMKs</a> in the Amazon Web Services Key Management
+  /// Service developer guide.
+  /// </important>
+  final KeyType keyType;
+
+  /// If you set <code>KeyType</code> to <code>CUSTOMER_MANAGED_CMK</code>, you
+  /// must specify the Amazon Resource Name (ARN) of the CMK. If you set
+  /// <code>KeyType</code> to <code>Amazon Web Services_OWNED_CMK</code>, Firehose
+  /// uses a service-account CMK.
+  final String? keyARN;
+
+  DeliveryStreamEncryptionConfigurationInput({
+    required this.keyType,
+    this.keyARN,
+  });
+
+  Map<String, dynamic> toJson() {
+    final keyType = this.keyType;
+    final keyARN = this.keyARN;
+    return {
+      'KeyType': keyType.value,
+      if (keyARN != null) 'KeyARN': keyARN,
+    };
+  }
+}
+
+class KeyType {
+  static const awsOwnedCmk = KeyType._('AWS_OWNED_CMK');
+  static const customerManagedCmk = KeyType._('CUSTOMER_MANAGED_CMK');
+
+  final String value;
+
+  const KeyType._(this.value);
+
+  static const values = [awsOwnedCmk, customerManagedCmk];
+
+  static KeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
+
+  @override
+  bool operator ==(other) => other is KeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the result for an individual record from a <a>PutRecordBatch</a>
+/// request. If the record is successfully added to your Firehose stream, it
+/// receives a record ID. If the record fails to be added to your Firehose
+/// stream, the result includes an error code and an error message.
+class PutRecordBatchResponseEntry {
+  /// The error code for an individual record result.
+  final String? errorCode;
+
+  /// The error message for an individual record result.
+  final String? errorMessage;
+
+  /// The ID of the record.
+  final String? recordId;
+
+  PutRecordBatchResponseEntry({
+    this.errorCode,
+    this.errorMessage,
+    this.recordId,
+  });
+
+  factory PutRecordBatchResponseEntry.fromJson(Map<String, dynamic> json) {
+    return PutRecordBatchResponseEntry(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      recordId: json['RecordId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final recordId = this.recordId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (recordId != null) 'RecordId': recordId,
+    };
+  }
+}
+
+/// The unit of data in a Firehose stream.
+class Record {
+  /// The data blob, which is base64-encoded when the blob is serialized. The
+  /// maximum size of the data blob, before base64-encoding, is 1,000 KiB.
+  final Uint8List data;
+
+  Record({
+    required this.data,
+  });
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    return {
+      'Data': base64Encode(data),
+    };
+  }
+}
+
+class DeliveryStreamType {
+  static const directPut = DeliveryStreamType._('DirectPut');
+  static const kinesisStreamAsSource =
+      DeliveryStreamType._('KinesisStreamAsSource');
+  static const mSKAsSource = DeliveryStreamType._('MSKAsSource');
+  static const databaseAsSource = DeliveryStreamType._('DatabaseAsSource');
+
+  final String value;
+
+  const DeliveryStreamType._(this.value);
+
+  static const values = [
+    directPut,
+    kinesisStreamAsSource,
+    mSKAsSource,
+    databaseAsSource
+  ];
+
+  static DeliveryStreamType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliveryStreamType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryStreamType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a Firehose stream.
 class DeliveryStreamDescription {
-  /// The Amazon Resource Name (ARN) of the delivery stream. For more information,
+  /// The Amazon Resource Name (ARN) of the Firehose stream. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String deliveryStreamARN;
 
-  /// The name of the delivery stream.
+  /// The name of the Firehose stream.
   final String deliveryStreamName;
 
-  /// The status of the delivery stream. If the status of a delivery stream is
+  /// The status of the Firehose stream. If the status of a Firehose stream is
   /// <code>CREATING_FAILED</code>, this status doesn't change, and you can't
   /// invoke <code>CreateDeliveryStream</code> again on it. However, you can
   /// invoke the <a>DeleteDeliveryStream</a> operation to delete it.
   final DeliveryStreamStatus deliveryStreamStatus;
 
-  /// The delivery stream type. This can be one of the following values:
+  /// The Firehose stream type. This can be one of the following values:
   ///
   /// <ul>
   /// <li>
-  /// <code>DirectPut</code>: Provider applications access the delivery stream
+  /// <code>DirectPut</code>: Provider applications access the Firehose stream
   /// directly.
   /// </li>
   /// <li>
-  /// <code>KinesisStreamAsSource</code>: The delivery stream uses a Kinesis data
+  /// <code>KinesisStreamAsSource</code>: The Firehose stream uses a Kinesis data
   /// stream as a source.
   /// </li>
   /// </ul>
@@ -2395,16 +5167,16 @@ class DeliveryStreamDescription {
   /// Indicates whether there are more destinations available to list.
   final bool hasMoreDestinations;
 
-  /// Each time the destination is updated for a delivery stream, the version ID
+  /// Each time the destination is updated for a Firehose stream, the version ID
   /// is changed, and the current version ID is required when updating the
   /// destination. This is so that the service knows it is applying the changes to
   /// the correct version of the delivery stream.
   final String versionId;
 
-  /// The date and time that the delivery stream was created.
+  /// The date and time that the Firehose stream was created.
   final DateTime? createTimestamp;
 
-  /// Indicates the server-side encryption (SSE) status for the delivery stream.
+  /// Indicates the server-side encryption (SSE) status for the Firehose stream.
   final DeliveryStreamEncryptionConfiguration?
       deliveryStreamEncryptionConfiguration;
 
@@ -2414,7 +5186,7 @@ class DeliveryStreamDescription {
   /// <a>StopDeliveryStreamEncryption</a>.
   final FailureDescription? failureDescription;
 
-  /// The date and time that the delivery stream was last updated.
+  /// The date and time that the Firehose stream was last updated.
   final DateTime? lastUpdateTimestamp;
 
   /// If the <code>DeliveryStreamType</code> parameter is
@@ -2505,6 +5277,74 @@ class DeliveryStreamDescription {
   }
 }
 
+class DeliveryStreamStatus {
+  static const creating = DeliveryStreamStatus._('CREATING');
+  static const creatingFailed = DeliveryStreamStatus._('CREATING_FAILED');
+  static const deleting = DeliveryStreamStatus._('DELETING');
+  static const deletingFailed = DeliveryStreamStatus._('DELETING_FAILED');
+  static const active = DeliveryStreamStatus._('ACTIVE');
+
+  final String value;
+
+  const DeliveryStreamStatus._(this.value);
+
+  static const values = [
+    creating,
+    creatingFailed,
+    deleting,
+    deletingFailed,
+    active
+  ];
+
+  static DeliveryStreamStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliveryStreamStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryStreamStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides details in case one of the following operations fails due to an
+/// error related to KMS: <a>CreateDeliveryStream</a>,
+/// <a>DeleteDeliveryStream</a>, <a>StartDeliveryStreamEncryption</a>,
+/// <a>StopDeliveryStreamEncryption</a>.
+class FailureDescription {
+  /// A message providing details about the error that caused the failure.
+  final String details;
+
+  /// The type of error that caused the failure.
+  final DeliveryStreamFailureType type;
+
+  FailureDescription({
+    required this.details,
+    required this.type,
+  });
+
+  factory FailureDescription.fromJson(Map<String, dynamic> json) {
+    return FailureDescription(
+      details: (json['Details'] as String?) ?? '',
+      type:
+          DeliveryStreamFailureType.fromString((json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final type = this.type;
+    return {
+      'Details': details,
+      'Type': type.value,
+    };
+  }
+}
+
 /// Contains information about the server-side encryption (SSE) status for the
 /// delivery stream, the type customer master key (CMK) in use, if any, and the
 /// ARN of the CMK. You can get
@@ -2531,7 +5371,7 @@ class DeliveryStreamEncryptionConfiguration {
   /// Master Keys (CMKs)</a>.
   final KeyType? keyType;
 
-  /// This is the server-side encryption (SSE) status for the delivery stream. For
+  /// This is the server-side encryption (SSE) status for the Firehose stream. For
   /// a full description of the different values of this status, see
   /// <a>StartDeliveryStreamEncryption</a> and
   /// <a>StopDeliveryStreamEncryption</a>. If this status is
@@ -2574,298 +5414,73 @@ class DeliveryStreamEncryptionConfiguration {
   }
 }
 
-/// Specifies the type and Amazon Resource Name (ARN) of the CMK to use for
-/// Server-Side Encryption (SSE).
-class DeliveryStreamEncryptionConfigurationInput {
-  /// Indicates the type of customer master key (CMK) to use for encryption. The
-  /// default setting is <code>Amazon Web Services_OWNED_CMK</code>. For more
-  /// information about CMKs, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys">Customer
-  /// Master Keys (CMKs)</a>. When you invoke <a>CreateDeliveryStream</a> or
-  /// <a>StartDeliveryStreamEncryption</a> with <code>KeyType</code> set to
-  /// CUSTOMER_MANAGED_CMK, Firehose invokes the Amazon KMS operation <a
-  /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html">CreateGrant</a>
-  /// to create a grant that allows the Firehose service to use the customer
-  /// managed CMK to perform encryption and decryption. Firehose manages that
-  /// grant.
+/// Details about a Kinesis data stream used as the source for a Firehose
+/// stream.
+class SourceDescription {
+  /// Details about a database used as the source for a Firehose stream.
   ///
-  /// When you invoke <a>StartDeliveryStreamEncryption</a> to change the CMK for a
-  /// delivery stream that is encrypted with a customer managed CMK, Firehose
-  /// schedules the grant it had on the old CMK for retirement.
-  ///
-  /// You can use a CMK of type CUSTOMER_MANAGED_CMK to encrypt up to 500 delivery
-  /// streams. If a <a>CreateDeliveryStream</a> or
-  /// <a>StartDeliveryStreamEncryption</a> operation exceeds this limit, Firehose
-  /// throws a <code>LimitExceededException</code>.
-  /// <important>
-  /// To encrypt your delivery stream, use symmetric CMKs. Firehose doesn't
-  /// support asymmetric CMKs. For information about symmetric and asymmetric
-  /// CMKs, see <a
-  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symm-asymm-concepts.html">About
-  /// Symmetric and Asymmetric CMKs</a> in the Amazon Web Services Key Management
-  /// Service developer guide.
-  /// </important>
-  final KeyType keyType;
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseSourceDescription? databaseSourceDescription;
 
-  /// If you set <code>KeyType</code> to <code>CUSTOMER_MANAGED_CMK</code>, you
-  /// must specify the Amazon Resource Name (ARN) of the CMK. If you set
-  /// <code>KeyType</code> to <code>Amazon Web Services_OWNED_CMK</code>, Firehose
-  /// uses a service-account CMK.
-  final String? keyARN;
+  /// Details about Direct PUT used as the source for a Firehose stream.
+  final DirectPutSourceDescription? directPutSourceDescription;
 
-  DeliveryStreamEncryptionConfigurationInput({
-    required this.keyType,
-    this.keyARN,
+  /// The <a>KinesisStreamSourceDescription</a> value for the source Kinesis data
+  /// stream.
+  final KinesisStreamSourceDescription? kinesisStreamSourceDescription;
+
+  /// The configuration description for the Amazon MSK cluster to be used as the
+  /// source for a delivery stream.
+  final MSKSourceDescription? mSKSourceDescription;
+
+  SourceDescription({
+    this.databaseSourceDescription,
+    this.directPutSourceDescription,
+    this.kinesisStreamSourceDescription,
+    this.mSKSourceDescription,
   });
 
-  Map<String, dynamic> toJson() {
-    final keyType = this.keyType;
-    final keyARN = this.keyARN;
-    return {
-      'KeyType': keyType.value,
-      if (keyARN != null) 'KeyARN': keyARN,
-    };
-  }
-}
-
-class DeliveryStreamEncryptionStatus {
-  static const enabled = DeliveryStreamEncryptionStatus._('ENABLED');
-  static const enabling = DeliveryStreamEncryptionStatus._('ENABLING');
-  static const enablingFailed =
-      DeliveryStreamEncryptionStatus._('ENABLING_FAILED');
-  static const disabled = DeliveryStreamEncryptionStatus._('DISABLED');
-  static const disabling = DeliveryStreamEncryptionStatus._('DISABLING');
-  static const disablingFailed =
-      DeliveryStreamEncryptionStatus._('DISABLING_FAILED');
-
-  final String value;
-
-  const DeliveryStreamEncryptionStatus._(this.value);
-
-  static const values = [
-    enabled,
-    enabling,
-    enablingFailed,
-    disabled,
-    disabling,
-    disablingFailed
-  ];
-
-  static DeliveryStreamEncryptionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeliveryStreamEncryptionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeliveryStreamEncryptionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeliveryStreamFailureType {
-  static const retireKmsGrantFailed =
-      DeliveryStreamFailureType._('RETIRE_KMS_GRANT_FAILED');
-  static const createKmsGrantFailed =
-      DeliveryStreamFailureType._('CREATE_KMS_GRANT_FAILED');
-  static const kmsAccessDenied =
-      DeliveryStreamFailureType._('KMS_ACCESS_DENIED');
-  static const disabledKmsKey = DeliveryStreamFailureType._('DISABLED_KMS_KEY');
-  static const invalidKmsKey = DeliveryStreamFailureType._('INVALID_KMS_KEY');
-  static const kmsKeyNotFound =
-      DeliveryStreamFailureType._('KMS_KEY_NOT_FOUND');
-  static const kmsOptInRequired =
-      DeliveryStreamFailureType._('KMS_OPT_IN_REQUIRED');
-  static const createEniFailed =
-      DeliveryStreamFailureType._('CREATE_ENI_FAILED');
-  static const deleteEniFailed =
-      DeliveryStreamFailureType._('DELETE_ENI_FAILED');
-  static const subnetNotFound = DeliveryStreamFailureType._('SUBNET_NOT_FOUND');
-  static const securityGroupNotFound =
-      DeliveryStreamFailureType._('SECURITY_GROUP_NOT_FOUND');
-  static const eniAccessDenied =
-      DeliveryStreamFailureType._('ENI_ACCESS_DENIED');
-  static const subnetAccessDenied =
-      DeliveryStreamFailureType._('SUBNET_ACCESS_DENIED');
-  static const securityGroupAccessDenied =
-      DeliveryStreamFailureType._('SECURITY_GROUP_ACCESS_DENIED');
-  static const unknownError = DeliveryStreamFailureType._('UNKNOWN_ERROR');
-
-  final String value;
-
-  const DeliveryStreamFailureType._(this.value);
-
-  static const values = [
-    retireKmsGrantFailed,
-    createKmsGrantFailed,
-    kmsAccessDenied,
-    disabledKmsKey,
-    invalidKmsKey,
-    kmsKeyNotFound,
-    kmsOptInRequired,
-    createEniFailed,
-    deleteEniFailed,
-    subnetNotFound,
-    securityGroupNotFound,
-    eniAccessDenied,
-    subnetAccessDenied,
-    securityGroupAccessDenied,
-    unknownError
-  ];
-
-  static DeliveryStreamFailureType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeliveryStreamFailureType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeliveryStreamFailureType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeliveryStreamStatus {
-  static const creating = DeliveryStreamStatus._('CREATING');
-  static const creatingFailed = DeliveryStreamStatus._('CREATING_FAILED');
-  static const deleting = DeliveryStreamStatus._('DELETING');
-  static const deletingFailed = DeliveryStreamStatus._('DELETING_FAILED');
-  static const active = DeliveryStreamStatus._('ACTIVE');
-
-  final String value;
-
-  const DeliveryStreamStatus._(this.value);
-
-  static const values = [
-    creating,
-    creatingFailed,
-    deleting,
-    deletingFailed,
-    active
-  ];
-
-  static DeliveryStreamStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeliveryStreamStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeliveryStreamStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeliveryStreamType {
-  static const directPut = DeliveryStreamType._('DirectPut');
-  static const kinesisStreamAsSource =
-      DeliveryStreamType._('KinesisStreamAsSource');
-  static const mSKAsSource = DeliveryStreamType._('MSKAsSource');
-
-  final String value;
-
-  const DeliveryStreamType._(this.value);
-
-  static const values = [directPut, kinesisStreamAsSource, mSKAsSource];
-
-  static DeliveryStreamType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeliveryStreamType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeliveryStreamType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DescribeDeliveryStreamOutput {
-  /// Information about the delivery stream.
-  final DeliveryStreamDescription deliveryStreamDescription;
-
-  DescribeDeliveryStreamOutput({
-    required this.deliveryStreamDescription,
-  });
-
-  factory DescribeDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
-    return DescribeDeliveryStreamOutput(
-      deliveryStreamDescription: DeliveryStreamDescription.fromJson(
-          (json['DeliveryStreamDescription'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryStreamDescription = this.deliveryStreamDescription;
-    return {
-      'DeliveryStreamDescription': deliveryStreamDescription,
-    };
-  }
-}
-
-/// The deserializer you want Firehose to use for converting the input data from
-/// JSON. Firehose then serializes the data to its final format using the
-/// <a>Serializer</a>. Firehose supports two types of deserializers: the <a
-/// href="https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-JSON">Apache
-/// Hive JSON SerDe</a> and the <a
-/// href="https://github.com/rcongiu/Hive-JSON-Serde">OpenX JSON SerDe</a>.
-class Deserializer {
-  /// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing
-  /// data, which means converting it from the JSON format in preparation for
-  /// serializing it to the Parquet or ORC format. This is one of two
-  /// deserializers you can choose, depending on which one offers the
-  /// functionality you need. The other option is the OpenX SerDe.
-  final HiveJsonSerDe? hiveJsonSerDe;
-
-  /// The OpenX SerDe. Used by Firehose for deserializing data, which means
-  /// converting it from the JSON format in preparation for serializing it to the
-  /// Parquet or ORC format. This is one of two deserializers you can choose,
-  /// depending on which one offers the functionality you need. The other option
-  /// is the native Hive / HCatalog JsonSerDe.
-  final OpenXJsonSerDe? openXJsonSerDe;
-
-  Deserializer({
-    this.hiveJsonSerDe,
-    this.openXJsonSerDe,
-  });
-
-  factory Deserializer.fromJson(Map<String, dynamic> json) {
-    return Deserializer(
-      hiveJsonSerDe: json['HiveJsonSerDe'] != null
-          ? HiveJsonSerDe.fromJson(
-              json['HiveJsonSerDe'] as Map<String, dynamic>)
+  factory SourceDescription.fromJson(Map<String, dynamic> json) {
+    return SourceDescription(
+      databaseSourceDescription: json['DatabaseSourceDescription'] != null
+          ? DatabaseSourceDescription.fromJson(
+              json['DatabaseSourceDescription'] as Map<String, dynamic>)
           : null,
-      openXJsonSerDe: json['OpenXJsonSerDe'] != null
-          ? OpenXJsonSerDe.fromJson(
-              json['OpenXJsonSerDe'] as Map<String, dynamic>)
+      directPutSourceDescription: json['DirectPutSourceDescription'] != null
+          ? DirectPutSourceDescription.fromJson(
+              json['DirectPutSourceDescription'] as Map<String, dynamic>)
+          : null,
+      kinesisStreamSourceDescription: json['KinesisStreamSourceDescription'] !=
+              null
+          ? KinesisStreamSourceDescription.fromJson(
+              json['KinesisStreamSourceDescription'] as Map<String, dynamic>)
+          : null,
+      mSKSourceDescription: json['MSKSourceDescription'] != null
+          ? MSKSourceDescription.fromJson(
+              json['MSKSourceDescription'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final hiveJsonSerDe = this.hiveJsonSerDe;
-    final openXJsonSerDe = this.openXJsonSerDe;
+    final databaseSourceDescription = this.databaseSourceDescription;
+    final directPutSourceDescription = this.directPutSourceDescription;
+    final kinesisStreamSourceDescription = this.kinesisStreamSourceDescription;
+    final mSKSourceDescription = this.mSKSourceDescription;
     return {
-      if (hiveJsonSerDe != null) 'HiveJsonSerDe': hiveJsonSerDe,
-      if (openXJsonSerDe != null) 'OpenXJsonSerDe': openXJsonSerDe,
+      if (databaseSourceDescription != null)
+        'DatabaseSourceDescription': databaseSourceDescription,
+      if (directPutSourceDescription != null)
+        'DirectPutSourceDescription': directPutSourceDescription,
+      if (kinesisStreamSourceDescription != null)
+        'KinesisStreamSourceDescription': kinesisStreamSourceDescription,
+      if (mSKSourceDescription != null)
+        'MSKSourceDescription': mSKSourceDescription,
     };
   }
 }
 
-/// Describes the destination for a delivery stream.
+/// Describes the destination for a Firehose stream.
 class DestinationDescription {
   /// The ID of the destination.
   final String destinationId;
@@ -2878,7 +5493,7 @@ class DestinationDescription {
   final AmazonopensearchserviceDestinationDescription?
       amazonopensearchserviceDestinationDescription;
 
-  /// The destination in Amazon ES.
+  /// The destination in Amazon OpenSearch Service.
   final ElasticsearchDestinationDescription?
       elasticsearchDestinationDescription;
 
@@ -2889,8 +5504,6 @@ class DestinationDescription {
   final HttpEndpointDestinationDescription? httpEndpointDestinationDescription;
 
   /// Describes a destination in Apache Iceberg Tables.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
   final IcebergDestinationDescription? icebergDestinationDescription;
 
   /// The destination in Amazon Redshift.
@@ -3027,749 +5640,33 @@ class DestinationDescription {
   }
 }
 
-/// Describes the configuration of a destination in Apache Iceberg Tables.
-///
-/// Amazon Data Firehose is in preview release and is subject to change.
-class DestinationTableConfiguration {
-  /// The name of the Apache Iceberg database.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final String destinationDatabaseName;
-
-  /// Specifies the name of the Apache Iceberg Table.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final String destinationTableName;
-
-  /// The table specific S3 error output prefix. All the errors that occurred
-  /// while delivering to this table will be prefixed with this value in S3
-  /// destination.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final String? s3ErrorOutputPrefix;
-
-  /// A list of unique keys for a given Apache Iceberg table. Firehose will use
-  /// these for running Create/Update/Delete operations on the given Iceberg
-  /// table.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final List<String>? uniqueKeys;
-
-  DestinationTableConfiguration({
-    required this.destinationDatabaseName,
-    required this.destinationTableName,
-    this.s3ErrorOutputPrefix,
-    this.uniqueKeys,
-  });
-
-  factory DestinationTableConfiguration.fromJson(Map<String, dynamic> json) {
-    return DestinationTableConfiguration(
-      destinationDatabaseName:
-          (json['DestinationDatabaseName'] as String?) ?? '',
-      destinationTableName: (json['DestinationTableName'] as String?) ?? '',
-      s3ErrorOutputPrefix: json['S3ErrorOutputPrefix'] as String?,
-      uniqueKeys: (json['UniqueKeys'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationDatabaseName = this.destinationDatabaseName;
-    final destinationTableName = this.destinationTableName;
-    final s3ErrorOutputPrefix = this.s3ErrorOutputPrefix;
-    final uniqueKeys = this.uniqueKeys;
-    return {
-      'DestinationDatabaseName': destinationDatabaseName,
-      'DestinationTableName': destinationTableName,
-      if (s3ErrorOutputPrefix != null)
-        'S3ErrorOutputPrefix': s3ErrorOutputPrefix,
-      if (uniqueKeys != null) 'UniqueKeys': uniqueKeys,
-    };
-  }
-}
-
-/// Indicates the method for setting up document ID. The supported methods are
-/// Firehose generated document ID and OpenSearch Service generated document ID.
-/// <p/>
-class DocumentIdOptions {
-  /// When the <code>FIREHOSE_DEFAULT</code> option is chosen, Firehose generates
-  /// a unique document ID for each record based on a unique internal identifier.
-  /// The generated document ID is stable across multiple delivery attempts, which
-  /// helps prevent the same record from being indexed multiple times with
-  /// different document IDs.
-  ///
-  /// When the <code>NO_DOCUMENT_ID</code> option is chosen, Firehose does not
-  /// include any document IDs in the requests it sends to the Amazon OpenSearch
-  /// Service. This causes the Amazon OpenSearch Service domain to generate
-  /// document IDs. In case of multiple delivery attempts, this may cause the same
-  /// record to be indexed more than once with different document IDs. This option
-  /// enables write-heavy operations, such as the ingestion of logs and
-  /// observability data, to consume less resources in the Amazon OpenSearch
-  /// Service domain, resulting in improved performance.
-  final DefaultDocumentIdFormat defaultDocumentIdFormat;
-
-  DocumentIdOptions({
-    required this.defaultDocumentIdFormat,
-  });
-
-  factory DocumentIdOptions.fromJson(Map<String, dynamic> json) {
-    return DocumentIdOptions(
-      defaultDocumentIdFormat: DefaultDocumentIdFormat.fromString(
-          (json['DefaultDocumentIdFormat'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultDocumentIdFormat = this.defaultDocumentIdFormat;
-    return {
-      'DefaultDocumentIdFormat': defaultDocumentIdFormat.value,
-    };
-  }
-}
-
-/// The configuration of the dynamic partitioning mechanism that creates smaller
-/// data sets from the streaming data by partitioning it based on partition
-/// keys. Currently, dynamic partitioning is only supported for Amazon S3
-/// destinations.
-class DynamicPartitioningConfiguration {
-  /// Specifies that the dynamic partitioning is enabled for this Firehose
-  /// delivery stream.
-  final bool? enabled;
-
-  /// The retry behavior in case Firehose is unable to deliver data to an Amazon
-  /// S3 prefix.
-  final RetryOptions? retryOptions;
-
-  DynamicPartitioningConfiguration({
-    this.enabled,
-    this.retryOptions,
-  });
-
-  factory DynamicPartitioningConfiguration.fromJson(Map<String, dynamic> json) {
-    return DynamicPartitioningConfiguration(
-      enabled: json['Enabled'] as bool?,
-      retryOptions: json['RetryOptions'] != null
-          ? RetryOptions.fromJson(json['RetryOptions'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final retryOptions = this.retryOptions;
-    return {
-      if (enabled != null) 'Enabled': enabled,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-    };
-  }
-}
-
-/// Describes the buffering to perform before delivering data to the Amazon ES
-/// destination.
-class ElasticsearchBufferingHints {
-  /// Buffer incoming data for the specified period of time, in seconds, before
-  /// delivering it to the destination. The default value is 300 (5 minutes).
-  final int? intervalInSeconds;
-
-  /// Buffer incoming data to the specified size, in MBs, before delivering it to
-  /// the destination. The default value is 5.
-  ///
-  /// We recommend setting this parameter to a value greater than the amount of
-  /// data you typically ingest into the delivery stream in 10 seconds. For
-  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
-  /// or higher.
-  final int? sizeInMBs;
-
-  ElasticsearchBufferingHints({
-    this.intervalInSeconds,
-    this.sizeInMBs,
-  });
-
-  factory ElasticsearchBufferingHints.fromJson(Map<String, dynamic> json) {
-    return ElasticsearchBufferingHints(
-      intervalInSeconds: json['IntervalInSeconds'] as int?,
-      sizeInMBs: json['SizeInMBs'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intervalInSeconds = this.intervalInSeconds;
-    final sizeInMBs = this.sizeInMBs;
-    return {
-      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
-      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
-    };
-  }
-}
-
-/// Describes the configuration of a destination in Amazon ES.
-class ElasticsearchDestinationConfiguration {
-  /// The Elasticsearch index name.
-  final String indexName;
-
-  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
-  /// calling the Amazon ES Configuration API and for indexing documents. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Grant
-  /// Firehose Access to an Amazon S3 Destination</a> and <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String roleARN;
-
-  /// The configuration for the backup Amazon S3 location.
-  final S3DestinationConfiguration s3Configuration;
-
-  /// The buffering options. If no value is specified, the default values for
-  /// <code>ElasticsearchBufferingHints</code> are used.
-  final ElasticsearchBufferingHints? bufferingHints;
-
-  /// The Amazon CloudWatch logging options for your delivery stream.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The endpoint to use when communicating with the cluster. Specify either this
-  /// <code>ClusterEndpoint</code> or the <code>DomainARN</code> field.
-  final String? clusterEndpoint;
-
-  /// Indicates the method for setting up document ID. The supported methods are
-  /// Firehose generated document ID and OpenSearch Service generated document ID.
-  final DocumentIdOptions? documentIdOptions;
-
-  /// The ARN of the Amazon ES domain. The IAM role must have permissions
-  /// for <code>DescribeDomain</code>, <code>DescribeDomains</code>, and
-  /// <code>DescribeDomainConfig</code> after assuming the role specified in
-  /// <b>RoleARN</b>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  ///
-  /// Specify either <code>ClusterEndpoint</code> or <code>DomainARN</code>.
-  final String? domainARN;
-
-  /// The Elasticsearch index rotation period. Index rotation appends a timestamp
-  /// to the <code>IndexName</code> to facilitate the expiration of old data. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-index-rotation">Index
-  /// Rotation for the Amazon ES Destination</a>. The default value
-  /// is <code>OneDay</code>.
-  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
-
-  /// The data processing configuration.
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
-  /// ES. The default value is 300 (5 minutes).
-  final ElasticsearchRetryOptions? retryOptions;
-
-  /// Defines how documents should be delivered to Amazon S3. When it is set to
-  /// <code>FailedDocumentsOnly</code>, Firehose writes any documents that could
-  /// not be indexed to the configured Amazon S3 destination, with
-  /// <code>AmazonOpenSearchService-failed/</code> appended to the key prefix.
-  /// When set to <code>AllDocuments</code>, Firehose delivers all incoming
-  /// records to Amazon S3, and also writes failed documents with
-  /// <code>AmazonOpenSearchService-failed/</code> appended to the prefix. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-s3-backup">Amazon
-  /// S3 Backup for the Amazon ES Destination</a>. Default value is
-  /// <code>FailedDocumentsOnly</code>.
-  ///
-  /// You can't change this backup mode after you create the delivery stream.
-  final ElasticsearchS3BackupMode? s3BackupMode;
-
-  /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one
-  /// type per index. If you try to specify a new type for an existing index that
-  /// already has another type, Firehose returns an error during run time.
-  ///
-  /// For Elasticsearch 7.x, don't specify a <code>TypeName</code>.
-  final String? typeName;
-
-  /// The details of the VPC of the Amazon destination.
-  final VpcConfiguration? vpcConfiguration;
-
-  ElasticsearchDestinationConfiguration({
-    required this.indexName,
-    required this.roleARN,
-    required this.s3Configuration,
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.clusterEndpoint,
-    this.documentIdOptions,
-    this.domainARN,
-    this.indexRotationPeriod,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.s3BackupMode,
-    this.typeName,
-    this.vpcConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexName = this.indexName;
-    final roleARN = this.roleARN;
-    final s3Configuration = this.s3Configuration;
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final clusterEndpoint = this.clusterEndpoint;
-    final documentIdOptions = this.documentIdOptions;
-    final domainARN = this.domainARN;
-    final indexRotationPeriod = this.indexRotationPeriod;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final s3BackupMode = this.s3BackupMode;
-    final typeName = this.typeName;
-    final vpcConfiguration = this.vpcConfiguration;
-    return {
-      'IndexName': indexName,
-      'RoleARN': roleARN,
-      'S3Configuration': s3Configuration,
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
-      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
-      if (domainARN != null) 'DomainARN': domainARN,
-      if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.value,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (typeName != null) 'TypeName': typeName,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-    };
-  }
-}
-
-/// The destination description in Amazon ES.
-class ElasticsearchDestinationDescription {
-  /// The buffering options.
-  final ElasticsearchBufferingHints? bufferingHints;
-
-  /// The Amazon CloudWatch logging options.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The endpoint to use when communicating with the cluster. Firehose uses
-  /// either this <code>ClusterEndpoint</code> or the <code>DomainARN</code> field
-  /// to send data to Amazon ES.
-  final String? clusterEndpoint;
-
-  /// Indicates the method for setting up document ID. The supported methods are
-  /// Firehose generated document ID and OpenSearch Service generated document ID.
-  final DocumentIdOptions? documentIdOptions;
-
-  /// The ARN of the Amazon ES domain. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  ///
-  /// Firehose uses either <code>ClusterEndpoint</code> or <code>DomainARN</code>
-  /// to send data to Amazon ES.
-  final String? domainARN;
-
-  /// The Elasticsearch index name.
-  final String? indexName;
-
-  /// The Elasticsearch index rotation period
-  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
-
-  /// The data processing configuration.
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The Amazon ES retry options.
-  final ElasticsearchRetryOptions? retryOptions;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String? roleARN;
-
-  /// The Amazon S3 backup mode.
-  final ElasticsearchS3BackupMode? s3BackupMode;
-
-  /// The Amazon S3 destination.
-  final S3DestinationDescription? s3DestinationDescription;
-
-  /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower
-  /// versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value
-  /// for <code>TypeName</code>.
-  final String? typeName;
-
-  /// The details of the VPC of the Amazon OpenSearch or the Amazon OpenSearch
-  /// Serverless destination.
-  final VpcConfigurationDescription? vpcConfigurationDescription;
-
-  ElasticsearchDestinationDescription({
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.clusterEndpoint,
-    this.documentIdOptions,
-    this.domainARN,
-    this.indexName,
-    this.indexRotationPeriod,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.roleARN,
-    this.s3BackupMode,
-    this.s3DestinationDescription,
-    this.typeName,
-    this.vpcConfigurationDescription,
-  });
-
-  factory ElasticsearchDestinationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return ElasticsearchDestinationDescription(
-      bufferingHints: json['BufferingHints'] != null
-          ? ElasticsearchBufferingHints.fromJson(
-              json['BufferingHints'] as Map<String, dynamic>)
-          : null,
-      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
-          ? CloudWatchLoggingOptions.fromJson(
-              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
-          : null,
-      clusterEndpoint: json['ClusterEndpoint'] as String?,
-      documentIdOptions: json['DocumentIdOptions'] != null
-          ? DocumentIdOptions.fromJson(
-              json['DocumentIdOptions'] as Map<String, dynamic>)
-          : null,
-      domainARN: json['DomainARN'] as String?,
-      indexName: json['IndexName'] as String?,
-      indexRotationPeriod: (json['IndexRotationPeriod'] as String?)
-          ?.let(ElasticsearchIndexRotationPeriod.fromString),
-      processingConfiguration: json['ProcessingConfiguration'] != null
-          ? ProcessingConfiguration.fromJson(
-              json['ProcessingConfiguration'] as Map<String, dynamic>)
-          : null,
-      retryOptions: json['RetryOptions'] != null
-          ? ElasticsearchRetryOptions.fromJson(
-              json['RetryOptions'] as Map<String, dynamic>)
-          : null,
-      roleARN: json['RoleARN'] as String?,
-      s3BackupMode: (json['S3BackupMode'] as String?)
-          ?.let(ElasticsearchS3BackupMode.fromString),
-      s3DestinationDescription: json['S3DestinationDescription'] != null
-          ? S3DestinationDescription.fromJson(
-              json['S3DestinationDescription'] as Map<String, dynamic>)
-          : null,
-      typeName: json['TypeName'] as String?,
-      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
-          ? VpcConfigurationDescription.fromJson(
-              json['VpcConfigurationDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final clusterEndpoint = this.clusterEndpoint;
-    final documentIdOptions = this.documentIdOptions;
-    final domainARN = this.domainARN;
-    final indexName = this.indexName;
-    final indexRotationPeriod = this.indexRotationPeriod;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final roleARN = this.roleARN;
-    final s3BackupMode = this.s3BackupMode;
-    final s3DestinationDescription = this.s3DestinationDescription;
-    final typeName = this.typeName;
-    final vpcConfigurationDescription = this.vpcConfigurationDescription;
-    return {
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
-      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
-      if (domainARN != null) 'DomainARN': domainARN,
-      if (indexName != null) 'IndexName': indexName,
-      if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.value,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3DestinationDescription != null)
-        'S3DestinationDescription': s3DestinationDescription,
-      if (typeName != null) 'TypeName': typeName,
-      if (vpcConfigurationDescription != null)
-        'VpcConfigurationDescription': vpcConfigurationDescription,
-    };
-  }
-}
-
-/// Describes an update for a destination in Amazon ES.
-class ElasticsearchDestinationUpdate {
-  /// The buffering options. If no value is specified,
-  /// <code>ElasticsearchBufferingHints</code> object default values are used.
-  final ElasticsearchBufferingHints? bufferingHints;
-
-  /// The CloudWatch logging options for your delivery stream.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The endpoint to use when communicating with the cluster. Specify either this
-  /// <code>ClusterEndpoint</code> or the <code>DomainARN</code> field.
-  final String? clusterEndpoint;
-
-  /// Indicates the method for setting up document ID. The supported methods are
-  /// Firehose generated document ID and OpenSearch Service generated document ID.
-  final DocumentIdOptions? documentIdOptions;
-
-  /// The ARN of the Amazon ES domain. The IAM role must have permissions
-  /// for <code>DescribeDomain</code>, <code>DescribeDomains</code>, and
-  /// <code>DescribeDomainConfig</code> after assuming the IAM role specified in
-  /// <code>RoleARN</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  ///
-  /// Specify either <code>ClusterEndpoint</code> or <code>DomainARN</code>.
-  final String? domainARN;
-
-  /// The Elasticsearch index name.
-  final String? indexName;
-
-  /// The Elasticsearch index rotation period. Index rotation appends a timestamp
-  /// to <code>IndexName</code> to facilitate the expiration of old data. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-index-rotation">Index
-  /// Rotation for the Amazon ES Destination</a>. Default value
-  /// is <code>OneDay</code>.
-  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
-
-  /// The data processing configuration.
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
-  /// ES. The default value is 300 (5 minutes).
-  final ElasticsearchRetryOptions? retryOptions;
-
-  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
-  /// calling the Amazon ES Configuration API and for indexing documents. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Grant
-  /// Firehose Access to an Amazon S3 Destination</a> and <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String? roleARN;
-
-  /// The Amazon S3 destination.
-  final S3DestinationUpdate? s3Update;
-
-  /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one
-  /// type per index. If you try to specify a new type for an existing index that
-  /// already has another type, Firehose returns an error during runtime.
-  ///
-  /// If you upgrade Elasticsearch from 6.x to 7.x and don’t update your delivery
-  /// stream, Firehose still delivers data to Elasticsearch with the old index
-  /// name and type name. If you want to update your delivery stream with a new
-  /// index name, provide an empty string for <code>TypeName</code>.
-  final String? typeName;
-
-  ElasticsearchDestinationUpdate({
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.clusterEndpoint,
-    this.documentIdOptions,
-    this.domainARN,
-    this.indexName,
-    this.indexRotationPeriod,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.roleARN,
-    this.s3Update,
-    this.typeName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final clusterEndpoint = this.clusterEndpoint;
-    final documentIdOptions = this.documentIdOptions;
-    final domainARN = this.domainARN;
-    final indexName = this.indexName;
-    final indexRotationPeriod = this.indexRotationPeriod;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final roleARN = this.roleARN;
-    final s3Update = this.s3Update;
-    final typeName = this.typeName;
-    return {
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
-      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
-      if (domainARN != null) 'DomainARN': domainARN,
-      if (indexName != null) 'IndexName': indexName,
-      if (indexRotationPeriod != null)
-        'IndexRotationPeriod': indexRotationPeriod.value,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (s3Update != null) 'S3Update': s3Update,
-      if (typeName != null) 'TypeName': typeName,
-    };
-  }
-}
-
-class ElasticsearchIndexRotationPeriod {
-  static const noRotation = ElasticsearchIndexRotationPeriod._('NoRotation');
-  static const oneHour = ElasticsearchIndexRotationPeriod._('OneHour');
-  static const oneDay = ElasticsearchIndexRotationPeriod._('OneDay');
-  static const oneWeek = ElasticsearchIndexRotationPeriod._('OneWeek');
-  static const oneMonth = ElasticsearchIndexRotationPeriod._('OneMonth');
-
-  final String value;
-
-  const ElasticsearchIndexRotationPeriod._(this.value);
-
-  static const values = [noRotation, oneHour, oneDay, oneWeek, oneMonth];
-
-  static ElasticsearchIndexRotationPeriod fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ElasticsearchIndexRotationPeriod._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ElasticsearchIndexRotationPeriod && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configures retry behavior in case Firehose is unable to deliver documents to
-/// Amazon ES.
-class ElasticsearchRetryOptions {
-  /// After an initial failure to deliver to Amazon ES, the total amount of time
-  /// during which Firehose retries delivery (including the first attempt). After
-  /// this time has elapsed, the failed documents are written to Amazon S3.
-  /// Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no
-  /// retries.
-  final int? durationInSeconds;
-
-  ElasticsearchRetryOptions({
-    this.durationInSeconds,
-  });
-
-  factory ElasticsearchRetryOptions.fromJson(Map<String, dynamic> json) {
-    return ElasticsearchRetryOptions(
-      durationInSeconds: json['DurationInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
-    return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
-    };
-  }
-}
-
-class ElasticsearchS3BackupMode {
-  static const failedDocumentsOnly =
-      ElasticsearchS3BackupMode._('FailedDocumentsOnly');
-  static const allDocuments = ElasticsearchS3BackupMode._('AllDocuments');
-
-  final String value;
-
-  const ElasticsearchS3BackupMode._(this.value);
-
-  static const values = [failedDocumentsOnly, allDocuments];
-
-  static ElasticsearchS3BackupMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ElasticsearchS3BackupMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ElasticsearchS3BackupMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the encryption for a destination in Amazon S3.
-class EncryptionConfiguration {
-  /// The encryption key.
-  final KMSEncryptionConfig? kMSEncryptionConfig;
-
-  /// Specifically override existing encryption information to ensure that no
-  /// encryption is used.
-  final NoEncryptionConfig? noEncryptionConfig;
-
-  EncryptionConfiguration({
-    this.kMSEncryptionConfig,
-    this.noEncryptionConfig,
-  });
-
-  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
-    return EncryptionConfiguration(
-      kMSEncryptionConfig: json['KMSEncryptionConfig'] != null
-          ? KMSEncryptionConfig.fromJson(
-              json['KMSEncryptionConfig'] as Map<String, dynamic>)
-          : null,
-      noEncryptionConfig: (json['NoEncryptionConfig'] as String?)
-          ?.let(NoEncryptionConfig.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kMSEncryptionConfig = this.kMSEncryptionConfig;
-    final noEncryptionConfig = this.noEncryptionConfig;
-    return {
-      if (kMSEncryptionConfig != null)
-        'KMSEncryptionConfig': kMSEncryptionConfig,
-      if (noEncryptionConfig != null)
-        'NoEncryptionConfig': noEncryptionConfig.value,
-    };
-  }
-}
-
-/// Describes the configuration of a destination in Amazon S3.
-class ExtendedS3DestinationConfiguration {
+/// Describes a destination in Amazon S3.
+class S3DestinationDescription {
   /// The ARN of the S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String bucketARN;
 
+  /// The buffering option. If no value is specified, <code>BufferingHints</code>
+  /// object default values are used.
+  final BufferingHints bufferingHints;
+
+  /// The compression format. If no value is specified, the default is
+  /// <code>UNCOMPRESSED</code>.
+  final CompressionFormat compressionFormat;
+
+  /// The encryption configuration. If no value is specified, the default is no
+  /// encryption.
+  final EncryptionConfiguration encryptionConfiguration;
+
   /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
-  /// The buffering option.
-  final BufferingHints? bufferingHints;
-
-  /// The Amazon CloudWatch logging options for your delivery stream.
+  /// The Amazon CloudWatch logging options for your Firehose stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The compression format. If no value is specified, the default is
-  /// UNCOMPRESSED.
-  final CompressionFormat? compressionFormat;
-
-  /// The time zone you prefer. UTC is the default.
-  final String? customTimeZone;
-
-  /// The serializer, deserializer, and schema for converting data from the JSON
-  /// format to the Parquet or ORC format before writing it to Amazon S3.
-  final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
-
-  /// The configuration of the dynamic partitioning mechanism that creates smaller
-  /// data sets from the streaming data by partitioning it based on partition
-  /// keys. Currently, dynamic partitioning is only supported for Amazon S3
-  /// destinations.
-  final DynamicPartitioningConfiguration? dynamicPartitioningConfiguration;
-
-  /// The encryption configuration. If no value is specified, the default is no
-  /// encryption.
-  final EncryptionConfiguration? encryptionConfiguration;
 
   /// A prefix that Firehose evaluates and adds to failed records before writing
   /// them to S3. This prefix appears immediately following the bucket name. For
@@ -3778,85 +5675,63 @@ class ExtendedS3DestinationConfiguration {
   /// Prefixes for Amazon S3 Objects</a>.
   final String? errorOutputPrefix;
 
-  /// Specify a file extension. It will override the default file extension
-  final String? fileExtension;
-
   /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
   /// Amazon S3 files. You can also specify a custom prefix, as described in <a
   /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
   /// Prefixes for Amazon S3 Objects</a>.
   final String? prefix;
 
-  /// The data processing configuration.
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The configuration for backup in Amazon S3.
-  final S3DestinationConfiguration? s3BackupConfiguration;
-
-  /// The Amazon S3 backup mode. After you create a delivery stream, you can
-  /// update it to enable Amazon S3 backup if it is disabled. If backup is
-  /// enabled, you can't update the delivery stream to disable it.
-  final S3BackupMode? s3BackupMode;
-
-  ExtendedS3DestinationConfiguration({
+  S3DestinationDescription({
     required this.bucketARN,
+    required this.bufferingHints,
+    required this.compressionFormat,
+    required this.encryptionConfiguration,
     required this.roleARN,
-    this.bufferingHints,
     this.cloudWatchLoggingOptions,
-    this.compressionFormat,
-    this.customTimeZone,
-    this.dataFormatConversionConfiguration,
-    this.dynamicPartitioningConfiguration,
-    this.encryptionConfiguration,
     this.errorOutputPrefix,
-    this.fileExtension,
     this.prefix,
-    this.processingConfiguration,
-    this.s3BackupConfiguration,
-    this.s3BackupMode,
   });
+
+  factory S3DestinationDescription.fromJson(Map<String, dynamic> json) {
+    return S3DestinationDescription(
+      bucketARN: (json['BucketARN'] as String?) ?? '',
+      bufferingHints: BufferingHints.fromJson(
+          (json['BufferingHints'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      compressionFormat: CompressionFormat.fromString(
+          (json['CompressionFormat'] as String?) ?? ''),
+      encryptionConfiguration: EncryptionConfiguration.fromJson(
+          (json['EncryptionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleARN: (json['RoleARN'] as String?) ?? '',
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      errorOutputPrefix: json['ErrorOutputPrefix'] as String?,
+      prefix: json['Prefix'] as String?,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final bucketARN = this.bucketARN;
-    final roleARN = this.roleARN;
     final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final compressionFormat = this.compressionFormat;
-    final customTimeZone = this.customTimeZone;
-    final dataFormatConversionConfiguration =
-        this.dataFormatConversionConfiguration;
-    final dynamicPartitioningConfiguration =
-        this.dynamicPartitioningConfiguration;
     final encryptionConfiguration = this.encryptionConfiguration;
+    final roleARN = this.roleARN;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
     final errorOutputPrefix = this.errorOutputPrefix;
-    final fileExtension = this.fileExtension;
     final prefix = this.prefix;
-    final processingConfiguration = this.processingConfiguration;
-    final s3BackupConfiguration = this.s3BackupConfiguration;
-    final s3BackupMode = this.s3BackupMode;
     return {
       'BucketARN': bucketARN,
+      'BufferingHints': bufferingHints,
+      'CompressionFormat': compressionFormat.value,
+      'EncryptionConfiguration': encryptionConfiguration,
       'RoleARN': roleARN,
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.value,
-      if (customTimeZone != null) 'CustomTimeZone': customTimeZone,
-      if (dataFormatConversionConfiguration != null)
-        'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
-      if (dynamicPartitioningConfiguration != null)
-        'DynamicPartitioningConfiguration': dynamicPartitioningConfiguration,
-      if (encryptionConfiguration != null)
-        'EncryptionConfiguration': encryptionConfiguration,
       if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
-      if (fileExtension != null) 'FileExtension': fileExtension,
       if (prefix != null) 'Prefix': prefix,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (s3BackupConfiguration != null)
-        'S3BackupConfiguration': s3BackupConfiguration,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
     };
   }
 }
@@ -3885,7 +5760,7 @@ class ExtendedS3DestinationDescription {
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String roleARN;
 
-  /// The Amazon CloudWatch logging options for your delivery stream.
+  /// The Amazon CloudWatch logging options for your Firehose stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The time zone you prefer. UTC is the default.
@@ -4032,58 +5907,164 @@ class ExtendedS3DestinationDescription {
   }
 }
 
-/// Describes an update for a destination in Amazon S3.
-class ExtendedS3DestinationUpdate {
-  /// The ARN of the S3 bucket. For more information, see <a
+/// Describes a destination in Amazon Redshift.
+class RedshiftDestinationDescription {
+  /// The database connection string.
+  final String clusterJDBCURL;
+
+  /// The <code>COPY</code> command.
+  final CopyCommand copyCommand;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String? bucketARN;
+  final String roleARN;
 
-  /// The buffering option.
-  final BufferingHints? bufferingHints;
+  /// The Amazon S3 destination.
+  final S3DestinationDescription s3DestinationDescription;
 
-  /// The Amazon CloudWatch logging options for your delivery stream.
+  /// The Amazon CloudWatch logging options for your Firehose stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The compression format. If no value is specified, the default is
-  /// <code>UNCOMPRESSED</code>.
-  final CompressionFormat? compressionFormat;
-
-  /// The time zone you prefer. UTC is the default.
-  final String? customTimeZone;
-
-  /// The serializer, deserializer, and schema for converting data from the JSON
-  /// format to the Parquet or ORC format before writing it to Amazon S3.
-  final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
-
-  /// The configuration of the dynamic partitioning mechanism that creates smaller
-  /// data sets from the streaming data by partitioning it based on partition
-  /// keys. Currently, dynamic partitioning is only supported for Amazon S3
-  /// destinations.
-  final DynamicPartitioningConfiguration? dynamicPartitioningConfiguration;
-
-  /// The encryption configuration. If no value is specified, the default is no
-  /// encryption.
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// A prefix that Firehose evaluates and adds to failed records before writing
-  /// them to S3. This prefix appears immediately following the bucket name. For
-  /// information about how to specify this prefix, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
-  /// Prefixes for Amazon S3 Objects</a>.
-  final String? errorOutputPrefix;
-
-  /// Specify a file extension. It will override the default file extension
-  final String? fileExtension;
-
-  /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
-  /// Amazon S3 files. You can also specify a custom prefix, as described in <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
-  /// Prefixes for Amazon S3 Objects</a>.
-  final String? prefix;
 
   /// The data processing configuration.
   final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
+  /// Redshift. Default value is 3600 (60 minutes).
+  final RedshiftRetryOptions? retryOptions;
+
+  /// The configuration for backup in Amazon S3.
+  final S3DestinationDescription? s3BackupDescription;
+
+  /// The Amazon S3 backup mode.
+  final RedshiftS3BackupMode? s3BackupMode;
+
+  /// The configuration that defines how you access secrets for Amazon Redshift.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  /// The name of the user.
+  final String? username;
+
+  RedshiftDestinationDescription({
+    required this.clusterJDBCURL,
+    required this.copyCommand,
+    required this.roleARN,
+    required this.s3DestinationDescription,
+    this.cloudWatchLoggingOptions,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupDescription,
+    this.s3BackupMode,
+    this.secretsManagerConfiguration,
+    this.username,
+  });
+
+  factory RedshiftDestinationDescription.fromJson(Map<String, dynamic> json) {
+    return RedshiftDestinationDescription(
+      clusterJDBCURL: (json['ClusterJDBCURL'] as String?) ?? '',
+      copyCommand: CopyCommand.fromJson(
+          (json['CopyCommand'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      roleARN: (json['RoleARN'] as String?) ?? '',
+      s3DestinationDescription: S3DestinationDescription.fromJson(
+          (json['S3DestinationDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? RedshiftRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      s3BackupDescription: json['S3BackupDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3BackupDescription'] as Map<String, dynamic>)
+          : null,
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(RedshiftS3BackupMode.fromString),
+      secretsManagerConfiguration: json['SecretsManagerConfiguration'] != null
+          ? SecretsManagerConfiguration.fromJson(
+              json['SecretsManagerConfiguration'] as Map<String, dynamic>)
+          : null,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterJDBCURL = this.clusterJDBCURL;
+    final copyCommand = this.copyCommand;
+    final roleARN = this.roleARN;
+    final s3DestinationDescription = this.s3DestinationDescription;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupDescription = this.s3BackupDescription;
+    final s3BackupMode = this.s3BackupMode;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    final username = this.username;
+    return {
+      'ClusterJDBCURL': clusterJDBCURL,
+      'CopyCommand': copyCommand,
+      'RoleARN': roleARN,
+      'S3DestinationDescription': s3DestinationDescription,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupDescription != null)
+        'S3BackupDescription': s3BackupDescription,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// The destination description in Amazon OpenSearch Service.
+class ElasticsearchDestinationDescription {
+  /// The buffering options.
+  final ElasticsearchBufferingHints? bufferingHints;
+
+  /// The Amazon CloudWatch logging options.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Firehose uses
+  /// either this <code>ClusterEndpoint</code> or the <code>DomainARN</code> field
+  /// to send data to Amazon OpenSearch Service.
+  final String? clusterEndpoint;
+
+  /// Indicates the method for setting up document ID. The supported methods are
+  /// Firehose generated document ID and OpenSearch Service generated document ID.
+  final DocumentIdOptions? documentIdOptions;
+
+  /// The ARN of the Amazon OpenSearch Service domain. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  ///
+  /// Firehose uses either <code>ClusterEndpoint</code> or <code>DomainARN</code>
+  /// to send data to Amazon OpenSearch Service.
+  final String? domainARN;
+
+  /// The Elasticsearch index name.
+  final String? indexName;
+
+  /// The Elasticsearch index rotation period
+  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
+
+  /// The data processing configuration.
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The Amazon OpenSearch Service retry options.
+  final ElasticsearchRetryOptions? retryOptions;
 
   /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
   /// more information, see <a
@@ -4091,387 +6072,385 @@ class ExtendedS3DestinationUpdate {
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   final String? roleARN;
 
-  /// You can update a delivery stream to enable Amazon S3 backup if it is
-  /// disabled. If backup is enabled, you can't update the delivery stream to
-  /// disable it.
-  final S3BackupMode? s3BackupMode;
+  /// The Amazon S3 backup mode.
+  final ElasticsearchS3BackupMode? s3BackupMode;
 
-  /// The Amazon S3 destination for backup.
-  final S3DestinationUpdate? s3BackupUpdate;
+  /// The Amazon S3 destination.
+  final S3DestinationDescription? s3DestinationDescription;
 
-  ExtendedS3DestinationUpdate({
-    this.bucketARN,
+  /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower
+  /// versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value
+  /// for <code>TypeName</code>.
+  final String? typeName;
+
+  /// The details of the VPC of the Amazon OpenSearch or the Amazon OpenSearch
+  /// Serverless destination.
+  final VpcConfigurationDescription? vpcConfigurationDescription;
+
+  ElasticsearchDestinationDescription({
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
-    this.compressionFormat,
-    this.customTimeZone,
-    this.dataFormatConversionConfiguration,
-    this.dynamicPartitioningConfiguration,
-    this.encryptionConfiguration,
-    this.errorOutputPrefix,
-    this.fileExtension,
-    this.prefix,
+    this.clusterEndpoint,
+    this.documentIdOptions,
+    this.domainARN,
+    this.indexName,
+    this.indexRotationPeriod,
     this.processingConfiguration,
-    this.roleARN,
-    this.s3BackupMode,
-    this.s3BackupUpdate,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketARN = this.bucketARN;
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final compressionFormat = this.compressionFormat;
-    final customTimeZone = this.customTimeZone;
-    final dataFormatConversionConfiguration =
-        this.dataFormatConversionConfiguration;
-    final dynamicPartitioningConfiguration =
-        this.dynamicPartitioningConfiguration;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final errorOutputPrefix = this.errorOutputPrefix;
-    final fileExtension = this.fileExtension;
-    final prefix = this.prefix;
-    final processingConfiguration = this.processingConfiguration;
-    final roleARN = this.roleARN;
-    final s3BackupMode = this.s3BackupMode;
-    final s3BackupUpdate = this.s3BackupUpdate;
-    return {
-      if (bucketARN != null) 'BucketARN': bucketARN,
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.value,
-      if (customTimeZone != null) 'CustomTimeZone': customTimeZone,
-      if (dataFormatConversionConfiguration != null)
-        'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
-      if (dynamicPartitioningConfiguration != null)
-        'DynamicPartitioningConfiguration': dynamicPartitioningConfiguration,
-      if (encryptionConfiguration != null)
-        'EncryptionConfiguration': encryptionConfiguration,
-      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
-      if (fileExtension != null) 'FileExtension': fileExtension,
-      if (prefix != null) 'Prefix': prefix,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
-    };
-  }
-}
-
-/// Provides details in case one of the following operations fails due to an
-/// error related to KMS: <a>CreateDeliveryStream</a>,
-/// <a>DeleteDeliveryStream</a>, <a>StartDeliveryStreamEncryption</a>,
-/// <a>StopDeliveryStreamEncryption</a>.
-class FailureDescription {
-  /// A message providing details about the error that caused the failure.
-  final String details;
-
-  /// The type of error that caused the failure.
-  final DeliveryStreamFailureType type;
-
-  FailureDescription({
-    required this.details,
-    required this.type,
-  });
-
-  factory FailureDescription.fromJson(Map<String, dynamic> json) {
-    return FailureDescription(
-      details: (json['Details'] as String?) ?? '',
-      type:
-          DeliveryStreamFailureType.fromString((json['Type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final details = this.details;
-    final type = this.type;
-    return {
-      'Details': details,
-      'Type': type.value,
-    };
-  }
-}
-
-class HECEndpointType {
-  static const raw = HECEndpointType._('Raw');
-  static const event = HECEndpointType._('Event');
-
-  final String value;
-
-  const HECEndpointType._(this.value);
-
-  static const values = [raw, event];
-
-  static HECEndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HECEndpointType._(value));
-
-  @override
-  bool operator ==(other) => other is HECEndpointType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The native Hive / HCatalog JsonSerDe. Used by Firehose for deserializing
-/// data, which means converting it from the JSON format in preparation for
-/// serializing it to the Parquet or ORC format. This is one of two
-/// deserializers you can choose, depending on which one offers the
-/// functionality you need. The other option is the OpenX SerDe.
-class HiveJsonSerDe {
-  /// Indicates how you want Firehose to parse the date and timestamps that may be
-  /// present in your input data JSON. To specify these format strings, follow the
-  /// pattern syntax of JodaTime's DateTimeFormat format strings. For more
-  /// information, see <a
-  /// href="https://www.joda.org/joda-time/apidocs/org/joda/time/format/DateTimeFormat.html">Class
-  /// DateTimeFormat</a>. You can also use the special value <code>millis</code>
-  /// to parse timestamps in epoch milliseconds. If you don't specify a format,
-  /// Firehose uses <code>java.sql.Timestamp::valueOf</code> by default.
-  final List<String>? timestampFormats;
-
-  HiveJsonSerDe({
-    this.timestampFormats,
-  });
-
-  factory HiveJsonSerDe.fromJson(Map<String, dynamic> json) {
-    return HiveJsonSerDe(
-      timestampFormats: (json['TimestampFormats'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timestampFormats = this.timestampFormats;
-    return {
-      if (timestampFormats != null) 'TimestampFormats': timestampFormats,
-    };
-  }
-}
-
-/// Describes the buffering options that can be applied before data is delivered
-/// to the HTTP endpoint destination. Firehose treats these options as hints,
-/// and it might choose to use more optimal values. The <code>SizeInMBs</code>
-/// and <code>IntervalInSeconds</code> parameters are optional. However, if
-/// specify a value for one of them, you must also provide a value for the
-/// other.
-class HttpEndpointBufferingHints {
-  /// Buffer incoming data for the specified period of time, in seconds, before
-  /// delivering it to the destination. The default value is 300 (5 minutes).
-  final int? intervalInSeconds;
-
-  /// Buffer incoming data to the specified size, in MBs, before delivering it to
-  /// the destination. The default value is 5.
-  ///
-  /// We recommend setting this parameter to a value greater than the amount of
-  /// data you typically ingest into the delivery stream in 10 seconds. For
-  /// example, if you typically ingest data at 1 MB/sec, the value should be 10 MB
-  /// or higher.
-  final int? sizeInMBs;
-
-  HttpEndpointBufferingHints({
-    this.intervalInSeconds,
-    this.sizeInMBs,
-  });
-
-  factory HttpEndpointBufferingHints.fromJson(Map<String, dynamic> json) {
-    return HttpEndpointBufferingHints(
-      intervalInSeconds: json['IntervalInSeconds'] as int?,
-      sizeInMBs: json['SizeInMBs'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intervalInSeconds = this.intervalInSeconds;
-    final sizeInMBs = this.sizeInMBs;
-    return {
-      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
-      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
-    };
-  }
-}
-
-/// Describes the metadata that's delivered to the specified HTTP endpoint
-/// destination.
-class HttpEndpointCommonAttribute {
-  /// The name of the HTTP endpoint common attribute.
-  final String attributeName;
-
-  /// The value of the HTTP endpoint common attribute.
-  final String attributeValue;
-
-  HttpEndpointCommonAttribute({
-    required this.attributeName,
-    required this.attributeValue,
-  });
-
-  factory HttpEndpointCommonAttribute.fromJson(Map<String, dynamic> json) {
-    return HttpEndpointCommonAttribute(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      attributeValue: (json['AttributeValue'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final attributeValue = this.attributeValue;
-    return {
-      'AttributeName': attributeName,
-      'AttributeValue': attributeValue,
-    };
-  }
-}
-
-/// Describes the configuration of the HTTP endpoint to which Kinesis Firehose
-/// delivers data.
-class HttpEndpointConfiguration {
-  /// The URL of the HTTP endpoint selected as the destination.
-  /// <important>
-  /// If you choose an HTTP endpoint as your destination, review and follow the
-  /// instructions in the <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/httpdeliveryrequestresponse.html">Appendix
-  /// - HTTP Endpoint Delivery Request and Response Specifications</a>.
-  /// </important>
-  final String url;
-
-  /// The access key required for Kinesis Firehose to authenticate with the HTTP
-  /// endpoint selected as the destination.
-  final String? accessKey;
-
-  /// The name of the HTTP endpoint selected as the destination.
-  final String? name;
-
-  HttpEndpointConfiguration({
-    required this.url,
-    this.accessKey,
-    this.name,
-  });
-
-  Map<String, dynamic> toJson() {
-    final url = this.url;
-    final accessKey = this.accessKey;
-    final name = this.name;
-    return {
-      'Url': url,
-      if (accessKey != null) 'AccessKey': accessKey,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Describes the HTTP endpoint selected as the destination.
-class HttpEndpointDescription {
-  /// The name of the HTTP endpoint selected as the destination.
-  final String? name;
-
-  /// The URL of the HTTP endpoint selected as the destination.
-  final String? url;
-
-  HttpEndpointDescription({
-    this.name,
-    this.url,
-  });
-
-  factory HttpEndpointDescription.fromJson(Map<String, dynamic> json) {
-    return HttpEndpointDescription(
-      name: json['Name'] as String?,
-      url: json['Url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final url = this.url;
-    return {
-      if (name != null) 'Name': name,
-      if (url != null) 'Url': url,
-    };
-  }
-}
-
-/// Describes the configuration of the HTTP endpoint destination.
-class HttpEndpointDestinationConfiguration {
-  /// The configuration of the HTTP endpoint selected as the destination.
-  final HttpEndpointConfiguration endpointConfiguration;
-  final S3DestinationConfiguration s3Configuration;
-
-  /// The buffering options that can be used before data is delivered to the
-  /// specified destination. Firehose treats these options as hints, and it might
-  /// choose to use more optimal values. The <code>SizeInMBs</code> and
-  /// <code>IntervalInSeconds</code> parameters are optional. However, if you
-  /// specify a value for one of them, you must also provide a value for the
-  /// other.
-  final HttpEndpointBufferingHints? bufferingHints;
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The configuration of the request sent to the HTTP endpoint that is specified
-  /// as the destination.
-  final HttpEndpointRequestConfiguration? requestConfiguration;
-
-  /// Describes the retry behavior in case Firehose is unable to deliver data to
-  /// the specified HTTP endpoint destination, or if it doesn't receive a valid
-  /// acknowledgment of receipt from the specified HTTP endpoint destination.
-  final HttpEndpointRetryOptions? retryOptions;
-
-  /// Firehose uses this IAM role for all the permissions that the delivery stream
-  /// needs.
-  final String? roleARN;
-
-  /// Describes the S3 bucket backup options for the data that Firehose delivers
-  /// to the HTTP endpoint destination. You can back up all documents
-  /// (<code>AllData</code>) or only the documents that Firehose could not deliver
-  /// to the specified HTTP endpoint destination (<code>FailedDataOnly</code>).
-  final HttpEndpointS3BackupMode? s3BackupMode;
-
-  /// The configuration that defines how you access secrets for HTTP Endpoint
-  /// destination.
-  final SecretsManagerConfiguration? secretsManagerConfiguration;
-
-  HttpEndpointDestinationConfiguration({
-    required this.endpointConfiguration,
-    required this.s3Configuration,
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.processingConfiguration,
-    this.requestConfiguration,
     this.retryOptions,
     this.roleARN,
     this.s3BackupMode,
-    this.secretsManagerConfiguration,
+    this.s3DestinationDescription,
+    this.typeName,
+    this.vpcConfigurationDescription,
   });
 
+  factory ElasticsearchDestinationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return ElasticsearchDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? ElasticsearchBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      clusterEndpoint: json['ClusterEndpoint'] as String?,
+      documentIdOptions: json['DocumentIdOptions'] != null
+          ? DocumentIdOptions.fromJson(
+              json['DocumentIdOptions'] as Map<String, dynamic>)
+          : null,
+      domainARN: json['DomainARN'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexRotationPeriod: (json['IndexRotationPeriod'] as String?)
+          ?.let(ElasticsearchIndexRotationPeriod.fromString),
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? ElasticsearchRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(ElasticsearchS3BackupMode.fromString),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      typeName: json['TypeName'] as String?,
+      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
+          ? VpcConfigurationDescription.fromJson(
+              json['VpcConfigurationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final endpointConfiguration = this.endpointConfiguration;
-    final s3Configuration = this.s3Configuration;
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final documentIdOptions = this.documentIdOptions;
+    final domainARN = this.domainARN;
+    final indexName = this.indexName;
+    final indexRotationPeriod = this.indexRotationPeriod;
     final processingConfiguration = this.processingConfiguration;
-    final requestConfiguration = this.requestConfiguration;
     final retryOptions = this.retryOptions;
     final roleARN = this.roleARN;
     final s3BackupMode = this.s3BackupMode;
-    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    final s3DestinationDescription = this.s3DestinationDescription;
+    final typeName = this.typeName;
+    final vpcConfigurationDescription = this.vpcConfigurationDescription;
     return {
-      'EndpointConfiguration': endpointConfiguration,
-      'S3Configuration': s3Configuration,
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.value,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
-      if (requestConfiguration != null)
-        'RequestConfiguration': requestConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3DestinationDescription != null)
+        'S3DestinationDescription': s3DestinationDescription,
+      if (typeName != null) 'TypeName': typeName,
+      if (vpcConfigurationDescription != null)
+        'VpcConfigurationDescription': vpcConfigurationDescription,
+    };
+  }
+}
+
+/// The destination description in Amazon OpenSearch Service.
+class AmazonopensearchserviceDestinationDescription {
+  /// The buffering options.
+  final AmazonopensearchserviceBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Firehose uses
+  /// either this ClusterEndpoint or the DomainARN field to send data to Amazon
+  /// OpenSearch Service.
+  final String? clusterEndpoint;
+
+  /// Indicates the method for setting up document ID. The supported methods are
+  /// Firehose generated document ID and OpenSearch Service generated document ID.
+  final DocumentIdOptions? documentIdOptions;
+
+  /// The ARN of the Amazon OpenSearch Service domain.
+  final String? domainARN;
+
+  /// The Amazon OpenSearch Service index name.
+  final String? indexName;
+
+  /// The Amazon OpenSearch Service index rotation period
+  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The Amazon OpenSearch Service retry options.
+  final AmazonopensearchserviceRetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
+  final String? roleARN;
+
+  /// The Amazon S3 backup mode.
+  final AmazonopensearchserviceS3BackupMode? s3BackupMode;
+  final S3DestinationDescription? s3DestinationDescription;
+
+  /// The Amazon OpenSearch Service type name. This applies to Elasticsearch 6.x
+  /// and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x,
+  /// there's no value for TypeName.
+  final String? typeName;
+  final VpcConfigurationDescription? vpcConfigurationDescription;
+
+  AmazonopensearchserviceDestinationDescription({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.clusterEndpoint,
+    this.documentIdOptions,
+    this.domainARN,
+    this.indexName,
+    this.indexRotationPeriod,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3DestinationDescription,
+    this.typeName,
+    this.vpcConfigurationDescription,
+  });
+
+  factory AmazonopensearchserviceDestinationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonopensearchserviceDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? AmazonopensearchserviceBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      clusterEndpoint: json['ClusterEndpoint'] as String?,
+      documentIdOptions: json['DocumentIdOptions'] != null
+          ? DocumentIdOptions.fromJson(
+              json['DocumentIdOptions'] as Map<String, dynamic>)
+          : null,
+      domainARN: json['DomainARN'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexRotationPeriod: (json['IndexRotationPeriod'] as String?)
+          ?.let(AmazonopensearchserviceIndexRotationPeriod.fromString),
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? AmazonopensearchserviceRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(AmazonopensearchserviceS3BackupMode.fromString),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      typeName: json['TypeName'] as String?,
+      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
+          ? VpcConfigurationDescription.fromJson(
+              json['VpcConfigurationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final documentIdOptions = this.documentIdOptions;
+    final domainARN = this.domainARN;
+    final indexName = this.indexName;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3DestinationDescription = this.s3DestinationDescription;
+    final typeName = this.typeName;
+    final vpcConfigurationDescription = this.vpcConfigurationDescription;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.value,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3DestinationDescription != null)
+        'S3DestinationDescription': s3DestinationDescription,
+      if (typeName != null) 'TypeName': typeName,
+      if (vpcConfigurationDescription != null)
+        'VpcConfigurationDescription': vpcConfigurationDescription,
+    };
+  }
+}
+
+/// Describes a destination in Splunk.
+class SplunkDestinationDescription {
+  /// The buffering options. If no value is specified, the default values for
+  /// Splunk are used.
+  final SplunkBufferingHints? bufferingHints;
+
+  /// The Amazon CloudWatch logging options for your Firehose stream.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The amount of time that Firehose waits to receive an acknowledgment from
+  /// Splunk after it sends it data. At the end of the timeout period, Firehose
+  /// either tries to send the data again or considers it an error, based on your
+  /// retry settings.
+  final int? hECAcknowledgmentTimeoutInSeconds;
+
+  /// The HTTP Event Collector (HEC) endpoint to which Firehose sends your data.
+  final String? hECEndpoint;
+
+  /// This type can be either "Raw" or "Event."
+  final HECEndpointType? hECEndpointType;
+
+  /// A GUID you obtain from your Splunk cluster when you create a new HEC
+  /// endpoint.
+  final String? hECToken;
+
+  /// The data processing configuration.
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver data to Splunk or
+  /// if it doesn't receive an acknowledgment of receipt from Splunk.
+  final SplunkRetryOptions? retryOptions;
+
+  /// Defines how documents should be delivered to Amazon S3. When set to
+  /// <code>FailedDocumentsOnly</code>, Firehose writes any data that could not be
+  /// indexed to the configured Amazon S3 destination. When set to
+  /// <code>AllDocuments</code>, Firehose delivers all incoming records to Amazon
+  /// S3, and also writes failed documents to Amazon S3. Default value is
+  /// <code>FailedDocumentsOnly</code>.
+  final SplunkS3BackupMode? s3BackupMode;
+
+  /// The Amazon S3 destination.>
+  final S3DestinationDescription? s3DestinationDescription;
+
+  /// The configuration that defines how you access secrets for Splunk.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  SplunkDestinationDescription({
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.hECAcknowledgmentTimeoutInSeconds,
+    this.hECEndpoint,
+    this.hECEndpointType,
+    this.hECToken,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.s3DestinationDescription,
+    this.secretsManagerConfiguration,
+  });
+
+  factory SplunkDestinationDescription.fromJson(Map<String, dynamic> json) {
+    return SplunkDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? SplunkBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      hECAcknowledgmentTimeoutInSeconds:
+          json['HECAcknowledgmentTimeoutInSeconds'] as int?,
+      hECEndpoint: json['HECEndpoint'] as String?,
+      hECEndpointType:
+          (json['HECEndpointType'] as String?)?.let(HECEndpointType.fromString),
+      hECToken: json['HECToken'] as String?,
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? SplunkRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      s3BackupMode:
+          (json['S3BackupMode'] as String?)?.let(SplunkS3BackupMode.fromString),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      secretsManagerConfiguration: json['SecretsManagerConfiguration'] != null
+          ? SecretsManagerConfiguration.fromJson(
+              json['SecretsManagerConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final hECAcknowledgmentTimeoutInSeconds =
+        this.hECAcknowledgmentTimeoutInSeconds;
+    final hECEndpoint = this.hECEndpoint;
+    final hECEndpointType = this.hECEndpointType;
+    final hECToken = this.hECToken;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final s3DestinationDescription = this.s3DestinationDescription;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    return {
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (hECAcknowledgmentTimeoutInSeconds != null)
+        'HECAcknowledgmentTimeoutInSeconds': hECAcknowledgmentTimeoutInSeconds,
+      if (hECEndpoint != null) 'HECEndpoint': hECEndpoint,
+      if (hECEndpointType != null) 'HECEndpointType': hECEndpointType.value,
+      if (hECToken != null) 'HECToken': hECToken,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3DestinationDescription != null)
+        'S3DestinationDescription': s3DestinationDescription,
       if (secretsManagerConfiguration != null)
         'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
@@ -4603,2606 +6582,6 @@ class HttpEndpointDestinationDescription {
   }
 }
 
-/// Updates the specified HTTP endpoint destination.
-class HttpEndpointDestinationUpdate {
-  /// Describes buffering options that can be applied to the data before it is
-  /// delivered to the HTTPS endpoint destination. Firehose teats these options as
-  /// hints, and it might choose to use more optimal values. The
-  /// <code>SizeInMBs</code> and <code>IntervalInSeconds</code> parameters are
-  /// optional. However, if specify a value for one of them, you must also provide
-  /// a value for the other.
-  final HttpEndpointBufferingHints? bufferingHints;
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// Describes the configuration of the HTTP endpoint destination.
-  final HttpEndpointConfiguration? endpointConfiguration;
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The configuration of the request sent to the HTTP endpoint specified as the
-  /// destination.
-  final HttpEndpointRequestConfiguration? requestConfiguration;
-
-  /// Describes the retry behavior in case Firehose is unable to deliver data to
-  /// the specified HTTP endpoint destination, or if it doesn't receive a valid
-  /// acknowledgment of receipt from the specified HTTP endpoint destination.
-  final HttpEndpointRetryOptions? retryOptions;
-
-  /// Firehose uses this IAM role for all the permissions that the delivery stream
-  /// needs.
-  final String? roleARN;
-
-  /// Describes the S3 bucket backup options for the data that Kinesis Firehose
-  /// delivers to the HTTP endpoint destination. You can back up all documents
-  /// (<code>AllData</code>) or only the documents that Firehose could not deliver
-  /// to the specified HTTP endpoint destination (<code>FailedDataOnly</code>).
-  final HttpEndpointS3BackupMode? s3BackupMode;
-  final S3DestinationUpdate? s3Update;
-
-  /// The configuration that defines how you access secrets for HTTP Endpoint
-  /// destination.
-  final SecretsManagerConfiguration? secretsManagerConfiguration;
-
-  HttpEndpointDestinationUpdate({
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.endpointConfiguration,
-    this.processingConfiguration,
-    this.requestConfiguration,
-    this.retryOptions,
-    this.roleARN,
-    this.s3BackupMode,
-    this.s3Update,
-    this.secretsManagerConfiguration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final endpointConfiguration = this.endpointConfiguration;
-    final processingConfiguration = this.processingConfiguration;
-    final requestConfiguration = this.requestConfiguration;
-    final retryOptions = this.retryOptions;
-    final roleARN = this.roleARN;
-    final s3BackupMode = this.s3BackupMode;
-    final s3Update = this.s3Update;
-    final secretsManagerConfiguration = this.secretsManagerConfiguration;
-    return {
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (endpointConfiguration != null)
-        'EndpointConfiguration': endpointConfiguration,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (requestConfiguration != null)
-        'RequestConfiguration': requestConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3Update != null) 'S3Update': s3Update,
-      if (secretsManagerConfiguration != null)
-        'SecretsManagerConfiguration': secretsManagerConfiguration,
-    };
-  }
-}
-
-/// The configuration of the HTTP endpoint request.
-class HttpEndpointRequestConfiguration {
-  /// Describes the metadata sent to the HTTP endpoint destination.
-  final List<HttpEndpointCommonAttribute>? commonAttributes;
-
-  /// Firehose uses the content encoding to compress the body of a request before
-  /// sending the request to the destination. For more information, see <a
-  /// href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding">Content-Encoding</a>
-  /// in MDN Web Docs, the official Mozilla documentation.
-  final ContentEncoding? contentEncoding;
-
-  HttpEndpointRequestConfiguration({
-    this.commonAttributes,
-    this.contentEncoding,
-  });
-
-  factory HttpEndpointRequestConfiguration.fromJson(Map<String, dynamic> json) {
-    return HttpEndpointRequestConfiguration(
-      commonAttributes: (json['CommonAttributes'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              HttpEndpointCommonAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      contentEncoding:
-          (json['ContentEncoding'] as String?)?.let(ContentEncoding.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commonAttributes = this.commonAttributes;
-    final contentEncoding = this.contentEncoding;
-    return {
-      if (commonAttributes != null) 'CommonAttributes': commonAttributes,
-      if (contentEncoding != null) 'ContentEncoding': contentEncoding.value,
-    };
-  }
-}
-
-/// Describes the retry behavior in case Firehose is unable to deliver data to
-/// the specified HTTP endpoint destination, or if it doesn't receive a valid
-/// acknowledgment of receipt from the specified HTTP endpoint destination.
-class HttpEndpointRetryOptions {
-  /// The total amount of time that Firehose spends on retries. This duration
-  /// starts after the initial attempt to send data to the custom destination via
-  /// HTTPS endpoint fails. It doesn't include the periods during which Firehose
-  /// waits for acknowledgment from the specified destination after each attempt.
-  final int? durationInSeconds;
-
-  HttpEndpointRetryOptions({
-    this.durationInSeconds,
-  });
-
-  factory HttpEndpointRetryOptions.fromJson(Map<String, dynamic> json) {
-    return HttpEndpointRetryOptions(
-      durationInSeconds: json['DurationInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
-    return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
-    };
-  }
-}
-
-class HttpEndpointS3BackupMode {
-  static const failedDataOnly = HttpEndpointS3BackupMode._('FailedDataOnly');
-  static const allData = HttpEndpointS3BackupMode._('AllData');
-
-  final String value;
-
-  const HttpEndpointS3BackupMode._(this.value);
-
-  static const values = [failedDataOnly, allData];
-
-  static HttpEndpointS3BackupMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HttpEndpointS3BackupMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HttpEndpointS3BackupMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the destination configure settings for Apache Iceberg Table.
-///
-/// Amazon Data Firehose is in preview release and is subject to change.
-class IcebergDestinationConfiguration {
-  /// Configuration describing where the destination Apache Iceberg Tables are
-  /// persisted.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final CatalogConfiguration catalogConfiguration;
-
-  /// The Amazon Resource Name (ARN) of the Apache Iceberg tables role.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final String roleARN;
-  final S3DestinationConfiguration s3Configuration;
-  final BufferingHints? bufferingHints;
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// Provides a list of <code>DestinationTableConfigurations</code> which
-  /// Firehose uses to deliver data to Apache Iceberg tables.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
-  final ProcessingConfiguration? processingConfiguration;
-  final RetryOptions? retryOptions;
-
-  /// Describes how Firehose will backup records. Currently,Firehose only supports
-  /// <code>FailedDataOnly</code> for preview.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final IcebergS3BackupMode? s3BackupMode;
-
-  IcebergDestinationConfiguration({
-    required this.catalogConfiguration,
-    required this.roleARN,
-    required this.s3Configuration,
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.destinationTableConfigurationList,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.s3BackupMode,
-  });
-
-  Map<String, dynamic> toJson() {
-    final catalogConfiguration = this.catalogConfiguration;
-    final roleARN = this.roleARN;
-    final s3Configuration = this.s3Configuration;
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final destinationTableConfigurationList =
-        this.destinationTableConfigurationList;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final s3BackupMode = this.s3BackupMode;
-    return {
-      'CatalogConfiguration': catalogConfiguration,
-      'RoleARN': roleARN,
-      'S3Configuration': s3Configuration,
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (destinationTableConfigurationList != null)
-        'DestinationTableConfigurationList': destinationTableConfigurationList,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-    };
-  }
-}
-
-/// Describes a destination in Apache Iceberg Tables.
-///
-/// Amazon Data Firehose is in preview release and is subject to change.
-class IcebergDestinationDescription {
-  final BufferingHints? bufferingHints;
-
-  /// Configuration describing where the destination Iceberg tables are persisted.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final CatalogConfiguration? catalogConfiguration;
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// Provides a list of <code>DestinationTableConfigurations</code> which
-  /// Firehose uses to deliver data to Apache Iceberg tables.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
-  final ProcessingConfiguration? processingConfiguration;
-  final RetryOptions? retryOptions;
-
-  /// The Amazon Resource Name (ARN) of the Apache Iceberg Tables role.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final String? roleARN;
-
-  /// Describes how Firehose will backup records. Currently,Firehose only supports
-  /// <code>FailedDataOnly</code> for preview.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final IcebergS3BackupMode? s3BackupMode;
-  final S3DestinationDescription? s3DestinationDescription;
-
-  IcebergDestinationDescription({
-    this.bufferingHints,
-    this.catalogConfiguration,
-    this.cloudWatchLoggingOptions,
-    this.destinationTableConfigurationList,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.roleARN,
-    this.s3BackupMode,
-    this.s3DestinationDescription,
-  });
-
-  factory IcebergDestinationDescription.fromJson(Map<String, dynamic> json) {
-    return IcebergDestinationDescription(
-      bufferingHints: json['BufferingHints'] != null
-          ? BufferingHints.fromJson(
-              json['BufferingHints'] as Map<String, dynamic>)
-          : null,
-      catalogConfiguration: json['CatalogConfiguration'] != null
-          ? CatalogConfiguration.fromJson(
-              json['CatalogConfiguration'] as Map<String, dynamic>)
-          : null,
-      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
-          ? CloudWatchLoggingOptions.fromJson(
-              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
-          : null,
-      destinationTableConfigurationList:
-          (json['DestinationTableConfigurationList'] as List?)
-              ?.nonNulls
-              .map((e) => DestinationTableConfiguration.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      processingConfiguration: json['ProcessingConfiguration'] != null
-          ? ProcessingConfiguration.fromJson(
-              json['ProcessingConfiguration'] as Map<String, dynamic>)
-          : null,
-      retryOptions: json['RetryOptions'] != null
-          ? RetryOptions.fromJson(json['RetryOptions'] as Map<String, dynamic>)
-          : null,
-      roleARN: json['RoleARN'] as String?,
-      s3BackupMode: (json['S3BackupMode'] as String?)
-          ?.let(IcebergS3BackupMode.fromString),
-      s3DestinationDescription: json['S3DestinationDescription'] != null
-          ? S3DestinationDescription.fromJson(
-              json['S3DestinationDescription'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bufferingHints = this.bufferingHints;
-    final catalogConfiguration = this.catalogConfiguration;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final destinationTableConfigurationList =
-        this.destinationTableConfigurationList;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final roleARN = this.roleARN;
-    final s3BackupMode = this.s3BackupMode;
-    final s3DestinationDescription = this.s3DestinationDescription;
-    return {
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (catalogConfiguration != null)
-        'CatalogConfiguration': catalogConfiguration,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (destinationTableConfigurationList != null)
-        'DestinationTableConfigurationList': destinationTableConfigurationList,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3DestinationDescription != null)
-        'S3DestinationDescription': s3DestinationDescription,
-    };
-  }
-}
-
-/// Describes an update for a destination in Apache Iceberg Tables.
-///
-/// Amazon Data Firehose is in preview release and is subject to change.
-class IcebergDestinationUpdate {
-  final BufferingHints? bufferingHints;
-
-  /// Configuration describing where the destination Iceberg tables are persisted.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final CatalogConfiguration? catalogConfiguration;
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// Provides a list of <code>DestinationTableConfigurations</code> which
-  /// Firehose uses to deliver data to Apache Iceberg tables.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
-  final ProcessingConfiguration? processingConfiguration;
-  final RetryOptions? retryOptions;
-
-  /// The Amazon Resource Name (ARN) of the Apache Iceberg Tables role.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final String? roleARN;
-
-  /// Describes how Firehose will backup records. Currently,Firehose only supports
-  /// <code>FailedDataOnly</code> for preview.
-  ///
-  /// Amazon Data Firehose is in preview release and is subject to change.
-  final IcebergS3BackupMode? s3BackupMode;
-  final S3DestinationConfiguration? s3Configuration;
-
-  IcebergDestinationUpdate({
-    this.bufferingHints,
-    this.catalogConfiguration,
-    this.cloudWatchLoggingOptions,
-    this.destinationTableConfigurationList,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.roleARN,
-    this.s3BackupMode,
-    this.s3Configuration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bufferingHints = this.bufferingHints;
-    final catalogConfiguration = this.catalogConfiguration;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final destinationTableConfigurationList =
-        this.destinationTableConfigurationList;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final roleARN = this.roleARN;
-    final s3BackupMode = this.s3BackupMode;
-    final s3Configuration = this.s3Configuration;
-    return {
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (catalogConfiguration != null)
-        'CatalogConfiguration': catalogConfiguration,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (destinationTableConfigurationList != null)
-        'DestinationTableConfigurationList': destinationTableConfigurationList,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3Configuration != null) 'S3Configuration': s3Configuration,
-    };
-  }
-}
-
-class IcebergS3BackupMode {
-  static const failedDataOnly = IcebergS3BackupMode._('FailedDataOnly');
-  static const allData = IcebergS3BackupMode._('AllData');
-
-  final String value;
-
-  const IcebergS3BackupMode._(this.value);
-
-  static const values = [failedDataOnly, allData];
-
-  static IcebergS3BackupMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IcebergS3BackupMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IcebergS3BackupMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the deserializer you want to use to convert the format of the
-/// input data. This parameter is required if <code>Enabled</code> is set to
-/// true.
-class InputFormatConfiguration {
-  /// Specifies which deserializer to use. You can choose either the Apache Hive
-  /// JSON SerDe or the OpenX JSON SerDe. If both are non-null, the server rejects
-  /// the request.
-  final Deserializer? deserializer;
-
-  InputFormatConfiguration({
-    this.deserializer,
-  });
-
-  factory InputFormatConfiguration.fromJson(Map<String, dynamic> json) {
-    return InputFormatConfiguration(
-      deserializer: json['Deserializer'] != null
-          ? Deserializer.fromJson(json['Deserializer'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deserializer = this.deserializer;
-    return {
-      if (deserializer != null) 'Deserializer': deserializer,
-    };
-  }
-}
-
-/// Describes an encryption key for a destination in Amazon S3.
-class KMSEncryptionConfig {
-  /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the
-  /// same Amazon Web Services Region as the destination Amazon S3 bucket. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String awsKMSKeyARN;
-
-  KMSEncryptionConfig({
-    required this.awsKMSKeyARN,
-  });
-
-  factory KMSEncryptionConfig.fromJson(Map<String, dynamic> json) {
-    return KMSEncryptionConfig(
-      awsKMSKeyARN: (json['AWSKMSKeyARN'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsKMSKeyARN = this.awsKMSKeyARN;
-    return {
-      'AWSKMSKeyARN': awsKMSKeyARN,
-    };
-  }
-}
-
-class KeyType {
-  static const awsOwnedCmk = KeyType._('AWS_OWNED_CMK');
-  static const customerManagedCmk = KeyType._('CUSTOMER_MANAGED_CMK');
-
-  final String value;
-
-  const KeyType._(this.value);
-
-  static const values = [awsOwnedCmk, customerManagedCmk];
-
-  static KeyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KeyType._(value));
-
-  @override
-  bool operator ==(other) => other is KeyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The stream and role Amazon Resource Names (ARNs) for a Kinesis data stream
-/// used as the source for a delivery stream.
-class KinesisStreamSourceConfiguration {
-  /// The ARN of the source Kinesis data stream. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
-  /// Kinesis Data Streams ARN Format</a>.
-  final String kinesisStreamARN;
-
-  /// The ARN of the role that provides access to the source Kinesis data stream.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">Amazon
-  /// Web Services Identity and Access Management (IAM) ARN Format</a>.
-  final String roleARN;
-
-  KinesisStreamSourceConfiguration({
-    required this.kinesisStreamARN,
-    required this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final kinesisStreamARN = this.kinesisStreamARN;
-    final roleARN = this.roleARN;
-    return {
-      'KinesisStreamARN': kinesisStreamARN,
-      'RoleARN': roleARN,
-    };
-  }
-}
-
-/// Details about a Kinesis data stream used as the source for a Firehose
-/// delivery stream.
-class KinesisStreamSourceDescription {
-  /// Firehose starts retrieving records from the Kinesis data stream starting
-  /// with this timestamp.
-  final DateTime? deliveryStartTimestamp;
-
-  /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
-  /// Kinesis Data Streams ARN Format</a>.
-  final String? kinesisStreamARN;
-
-  /// The ARN of the role used by the source Kinesis data stream. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">Amazon
-  /// Web Services Identity and Access Management (IAM) ARN Format</a>.
-  final String? roleARN;
-
-  KinesisStreamSourceDescription({
-    this.deliveryStartTimestamp,
-    this.kinesisStreamARN,
-    this.roleARN,
-  });
-
-  factory KinesisStreamSourceDescription.fromJson(Map<String, dynamic> json) {
-    return KinesisStreamSourceDescription(
-      deliveryStartTimestamp: timeStampFromJson(json['DeliveryStartTimestamp']),
-      kinesisStreamARN: json['KinesisStreamARN'] as String?,
-      roleARN: json['RoleARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryStartTimestamp = this.deliveryStartTimestamp;
-    final kinesisStreamARN = this.kinesisStreamARN;
-    final roleARN = this.roleARN;
-    return {
-      if (deliveryStartTimestamp != null)
-        'DeliveryStartTimestamp': unixTimestampToJson(deliveryStartTimestamp),
-      if (kinesisStreamARN != null) 'KinesisStreamARN': kinesisStreamARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-class ListDeliveryStreamsOutput {
-  /// The names of the delivery streams.
-  final List<String> deliveryStreamNames;
-
-  /// Indicates whether there are more delivery streams available to list.
-  final bool hasMoreDeliveryStreams;
-
-  ListDeliveryStreamsOutput({
-    required this.deliveryStreamNames,
-    required this.hasMoreDeliveryStreams,
-  });
-
-  factory ListDeliveryStreamsOutput.fromJson(Map<String, dynamic> json) {
-    return ListDeliveryStreamsOutput(
-      deliveryStreamNames: ((json['DeliveryStreamNames'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      hasMoreDeliveryStreams:
-          (json['HasMoreDeliveryStreams'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryStreamNames = this.deliveryStreamNames;
-    final hasMoreDeliveryStreams = this.hasMoreDeliveryStreams;
-    return {
-      'DeliveryStreamNames': deliveryStreamNames,
-      'HasMoreDeliveryStreams': hasMoreDeliveryStreams,
-    };
-  }
-}
-
-class ListTagsForDeliveryStreamOutput {
-  /// If this is <code>true</code> in the response, more tags are available. To
-  /// list the remaining tags, set <code>ExclusiveStartTagKey</code> to the key of
-  /// the last tag returned and call <code>ListTagsForDeliveryStream</code> again.
-  final bool hasMoreTags;
-
-  /// A list of tags associated with <code>DeliveryStreamName</code>, starting
-  /// with the first tag after <code>ExclusiveStartTagKey</code> and up to the
-  /// specified <code>Limit</code>.
-  final List<Tag> tags;
-
-  ListTagsForDeliveryStreamOutput({
-    required this.hasMoreTags,
-    required this.tags,
-  });
-
-  factory ListTagsForDeliveryStreamOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForDeliveryStreamOutput(
-      hasMoreTags: (json['HasMoreTags'] as bool?) ?? false,
-      tags: ((json['Tags'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hasMoreTags = this.hasMoreTags;
-    final tags = this.tags;
-    return {
-      'HasMoreTags': hasMoreTags,
-      'Tags': tags,
-    };
-  }
-}
-
-/// The configuration for the Amazon MSK cluster to be used as the source for a
-/// delivery stream.
-class MSKSourceConfiguration {
-  /// The authentication configuration of the Amazon MSK cluster.
-  final AuthenticationConfiguration authenticationConfiguration;
-
-  /// The ARN of the Amazon MSK cluster.
-  final String mSKClusterARN;
-
-  /// The topic name within the Amazon MSK cluster.
-  final String topicName;
-
-  /// The start date and time in UTC for the offset position within your MSK topic
-  /// from where Firehose begins to read. By default, this is set to timestamp
-  /// when Firehose becomes Active.
-  ///
-  /// If you want to create a Firehose stream with Earliest start position from
-  /// SDK or CLI, you need to set the <code>ReadFromTimestamp</code> parameter to
-  /// Epoch (1970-01-01T00:00:00Z).
-  final DateTime? readFromTimestamp;
-
-  MSKSourceConfiguration({
-    required this.authenticationConfiguration,
-    required this.mSKClusterARN,
-    required this.topicName,
-    this.readFromTimestamp,
-  });
-
-  Map<String, dynamic> toJson() {
-    final authenticationConfiguration = this.authenticationConfiguration;
-    final mSKClusterARN = this.mSKClusterARN;
-    final topicName = this.topicName;
-    final readFromTimestamp = this.readFromTimestamp;
-    return {
-      'AuthenticationConfiguration': authenticationConfiguration,
-      'MSKClusterARN': mSKClusterARN,
-      'TopicName': topicName,
-      if (readFromTimestamp != null)
-        'ReadFromTimestamp': unixTimestampToJson(readFromTimestamp),
-    };
-  }
-}
-
-/// Details about the Amazon MSK cluster used as the source for a Firehose
-/// delivery stream.
-class MSKSourceDescription {
-  /// The authentication configuration of the Amazon MSK cluster.
-  final AuthenticationConfiguration? authenticationConfiguration;
-
-  /// Firehose starts retrieving records from the topic within the Amazon MSK
-  /// cluster starting with this timestamp.
-  final DateTime? deliveryStartTimestamp;
-
-  /// The ARN of the Amazon MSK cluster.
-  final String? mSKClusterARN;
-
-  /// The start date and time in UTC for the offset position within your MSK topic
-  /// from where Firehose begins to read. By default, this is set to timestamp
-  /// when Firehose becomes Active.
-  ///
-  /// If you want to create a Firehose stream with Earliest start position from
-  /// SDK or CLI, you need to set the <code>ReadFromTimestampUTC</code> parameter
-  /// to Epoch (1970-01-01T00:00:00Z).
-  final DateTime? readFromTimestamp;
-
-  /// The topic name within the Amazon MSK cluster.
-  final String? topicName;
-
-  MSKSourceDescription({
-    this.authenticationConfiguration,
-    this.deliveryStartTimestamp,
-    this.mSKClusterARN,
-    this.readFromTimestamp,
-    this.topicName,
-  });
-
-  factory MSKSourceDescription.fromJson(Map<String, dynamic> json) {
-    return MSKSourceDescription(
-      authenticationConfiguration: json['AuthenticationConfiguration'] != null
-          ? AuthenticationConfiguration.fromJson(
-              json['AuthenticationConfiguration'] as Map<String, dynamic>)
-          : null,
-      deliveryStartTimestamp: timeStampFromJson(json['DeliveryStartTimestamp']),
-      mSKClusterARN: json['MSKClusterARN'] as String?,
-      readFromTimestamp: timeStampFromJson(json['ReadFromTimestamp']),
-      topicName: json['TopicName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationConfiguration = this.authenticationConfiguration;
-    final deliveryStartTimestamp = this.deliveryStartTimestamp;
-    final mSKClusterARN = this.mSKClusterARN;
-    final readFromTimestamp = this.readFromTimestamp;
-    final topicName = this.topicName;
-    return {
-      if (authenticationConfiguration != null)
-        'AuthenticationConfiguration': authenticationConfiguration,
-      if (deliveryStartTimestamp != null)
-        'DeliveryStartTimestamp': unixTimestampToJson(deliveryStartTimestamp),
-      if (mSKClusterARN != null) 'MSKClusterARN': mSKClusterARN,
-      if (readFromTimestamp != null)
-        'ReadFromTimestamp': unixTimestampToJson(readFromTimestamp),
-      if (topicName != null) 'TopicName': topicName,
-    };
-  }
-}
-
-class NoEncryptionConfig {
-  static const noEncryption = NoEncryptionConfig._('NoEncryption');
-
-  final String value;
-
-  const NoEncryptionConfig._(this.value);
-
-  static const values = [noEncryption];
-
-  static NoEncryptionConfig fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NoEncryptionConfig._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NoEncryptionConfig && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The OpenX SerDe. Used by Firehose for deserializing data, which means
-/// converting it from the JSON format in preparation for serializing it to the
-/// Parquet or ORC format. This is one of two deserializers you can choose,
-/// depending on which one offers the functionality you need. The other option
-/// is the native Hive / HCatalog JsonSerDe.
-class OpenXJsonSerDe {
-  /// When set to <code>true</code>, which is the default, Firehose converts JSON
-  /// keys to lowercase before deserializing them.
-  final bool? caseInsensitive;
-
-  /// Maps column names to JSON keys that aren't identical to the column names.
-  /// This is useful when the JSON contains keys that are Hive keywords. For
-  /// example, <code>timestamp</code> is a Hive keyword. If you have a JSON key
-  /// named <code>timestamp</code>, set this parameter to <code>{"ts":
-  /// "timestamp"}</code> to map this key to a column named <code>ts</code>.
-  final Map<String, String>? columnToJsonKeyMappings;
-
-  /// When set to <code>true</code>, specifies that the names of the keys include
-  /// dots and that you want Firehose to replace them with underscores. This is
-  /// useful because Apache Hive does not allow dots in column names. For example,
-  /// if the JSON contains a key whose name is "a.b", you can define the column
-  /// name to be "a_b" when using this option.
-  ///
-  /// The default is <code>false</code>.
-  final bool? convertDotsInJsonKeysToUnderscores;
-
-  OpenXJsonSerDe({
-    this.caseInsensitive,
-    this.columnToJsonKeyMappings,
-    this.convertDotsInJsonKeysToUnderscores,
-  });
-
-  factory OpenXJsonSerDe.fromJson(Map<String, dynamic> json) {
-    return OpenXJsonSerDe(
-      caseInsensitive: json['CaseInsensitive'] as bool?,
-      columnToJsonKeyMappings:
-          (json['ColumnToJsonKeyMappings'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      convertDotsInJsonKeysToUnderscores:
-          json['ConvertDotsInJsonKeysToUnderscores'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final caseInsensitive = this.caseInsensitive;
-    final columnToJsonKeyMappings = this.columnToJsonKeyMappings;
-    final convertDotsInJsonKeysToUnderscores =
-        this.convertDotsInJsonKeysToUnderscores;
-    return {
-      if (caseInsensitive != null) 'CaseInsensitive': caseInsensitive,
-      if (columnToJsonKeyMappings != null)
-        'ColumnToJsonKeyMappings': columnToJsonKeyMappings,
-      if (convertDotsInJsonKeysToUnderscores != null)
-        'ConvertDotsInJsonKeysToUnderscores':
-            convertDotsInJsonKeysToUnderscores,
-    };
-  }
-}
-
-class OrcCompression {
-  static const none = OrcCompression._('NONE');
-  static const zlib = OrcCompression._('ZLIB');
-  static const snappy = OrcCompression._('SNAPPY');
-
-  final String value;
-
-  const OrcCompression._(this.value);
-
-  static const values = [none, zlib, snappy];
-
-  static OrcCompression fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrcCompression._(value));
-
-  @override
-  bool operator ==(other) => other is OrcCompression && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OrcFormatVersion {
-  static const v0_11 = OrcFormatVersion._('V0_11');
-  static const v0_12 = OrcFormatVersion._('V0_12');
-
-  final String value;
-
-  const OrcFormatVersion._(this.value);
-
-  static const values = [v0_11, v0_12];
-
-  static OrcFormatVersion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OrcFormatVersion._(value));
-
-  @override
-  bool operator ==(other) => other is OrcFormatVersion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A serializer to use for converting data to the ORC format before storing it
-/// in Amazon S3. For more information, see <a
-/// href="https://orc.apache.org/docs/">Apache ORC</a>.
-class OrcSerDe {
-  /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
-  /// intend to copy the data from Amazon S3 to HDFS before querying. The default
-  /// is 256 MiB and the minimum is 64 MiB. Firehose uses this value for padding
-  /// calculations.
-  final int? blockSizeBytes;
-
-  /// The column names for which you want Firehose to create bloom filters. The
-  /// default is <code>null</code>.
-  final List<String>? bloomFilterColumns;
-
-  /// The Bloom filter false positive probability (FPP). The lower the FPP, the
-  /// bigger the Bloom filter. The default value is 0.05, the minimum is 0, and
-  /// the maximum is 1.
-  final double? bloomFilterFalsePositiveProbability;
-
-  /// The compression code to use over data blocks. The default is
-  /// <code>SNAPPY</code>.
-  final OrcCompression? compression;
-
-  /// Represents the fraction of the total number of non-null rows. To turn off
-  /// dictionary encoding, set this fraction to a number that is less than the
-  /// number of distinct keys in a dictionary. To always use dictionary encoding,
-  /// set this threshold to 1.
-  final double? dictionaryKeyThreshold;
-
-  /// Set this to <code>true</code> to indicate that you want stripes to be padded
-  /// to the HDFS block boundaries. This is useful if you intend to copy the data
-  /// from Amazon S3 to HDFS before querying. The default is <code>false</code>.
-  final bool? enablePadding;
-
-  /// The version of the file to write. The possible values are <code>V0_11</code>
-  /// and <code>V0_12</code>. The default is <code>V0_12</code>.
-  final OrcFormatVersion? formatVersion;
-
-  /// A number between 0 and 1 that defines the tolerance for block padding as a
-  /// decimal fraction of stripe size. The default value is 0.05, which means 5
-  /// percent of stripe size.
-  ///
-  /// For the default values of 64 MiB ORC stripes and 256 MiB HDFS blocks, the
-  /// default block padding tolerance of 5 percent reserves a maximum of 3.2 MiB
-  /// for padding within the 256 MiB block. In such a case, if the available size
-  /// within the block is more than 3.2 MiB, a new, smaller stripe is inserted to
-  /// fit within that space. This ensures that no stripe crosses block boundaries
-  /// and causes remote reads within a node-local task.
-  ///
-  /// Firehose ignores this parameter when <a>OrcSerDe$EnablePadding</a> is
-  /// <code>false</code>.
-  final double? paddingTolerance;
-
-  /// The number of rows between index entries. The default is 10,000 and the
-  /// minimum is 1,000.
-  final int? rowIndexStride;
-
-  /// The number of bytes in each stripe. The default is 64 MiB and the minimum is
-  /// 8 MiB.
-  final int? stripeSizeBytes;
-
-  OrcSerDe({
-    this.blockSizeBytes,
-    this.bloomFilterColumns,
-    this.bloomFilterFalsePositiveProbability,
-    this.compression,
-    this.dictionaryKeyThreshold,
-    this.enablePadding,
-    this.formatVersion,
-    this.paddingTolerance,
-    this.rowIndexStride,
-    this.stripeSizeBytes,
-  });
-
-  factory OrcSerDe.fromJson(Map<String, dynamic> json) {
-    return OrcSerDe(
-      blockSizeBytes: json['BlockSizeBytes'] as int?,
-      bloomFilterColumns: (json['BloomFilterColumns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      bloomFilterFalsePositiveProbability:
-          json['BloomFilterFalsePositiveProbability'] as double?,
-      compression:
-          (json['Compression'] as String?)?.let(OrcCompression.fromString),
-      dictionaryKeyThreshold: json['DictionaryKeyThreshold'] as double?,
-      enablePadding: json['EnablePadding'] as bool?,
-      formatVersion:
-          (json['FormatVersion'] as String?)?.let(OrcFormatVersion.fromString),
-      paddingTolerance: json['PaddingTolerance'] as double?,
-      rowIndexStride: json['RowIndexStride'] as int?,
-      stripeSizeBytes: json['StripeSizeBytes'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blockSizeBytes = this.blockSizeBytes;
-    final bloomFilterColumns = this.bloomFilterColumns;
-    final bloomFilterFalsePositiveProbability =
-        this.bloomFilterFalsePositiveProbability;
-    final compression = this.compression;
-    final dictionaryKeyThreshold = this.dictionaryKeyThreshold;
-    final enablePadding = this.enablePadding;
-    final formatVersion = this.formatVersion;
-    final paddingTolerance = this.paddingTolerance;
-    final rowIndexStride = this.rowIndexStride;
-    final stripeSizeBytes = this.stripeSizeBytes;
-    return {
-      if (blockSizeBytes != null) 'BlockSizeBytes': blockSizeBytes,
-      if (bloomFilterColumns != null) 'BloomFilterColumns': bloomFilterColumns,
-      if (bloomFilterFalsePositiveProbability != null)
-        'BloomFilterFalsePositiveProbability':
-            bloomFilterFalsePositiveProbability,
-      if (compression != null) 'Compression': compression.value,
-      if (dictionaryKeyThreshold != null)
-        'DictionaryKeyThreshold': dictionaryKeyThreshold,
-      if (enablePadding != null) 'EnablePadding': enablePadding,
-      if (formatVersion != null) 'FormatVersion': formatVersion.value,
-      if (paddingTolerance != null) 'PaddingTolerance': paddingTolerance,
-      if (rowIndexStride != null) 'RowIndexStride': rowIndexStride,
-      if (stripeSizeBytes != null) 'StripeSizeBytes': stripeSizeBytes,
-    };
-  }
-}
-
-/// Specifies the serializer that you want Firehose to use to convert the format
-/// of your data before it writes it to Amazon S3. This parameter is required if
-/// <code>Enabled</code> is set to true.
-class OutputFormatConfiguration {
-  /// Specifies which serializer to use. You can choose either the ORC SerDe or
-  /// the Parquet SerDe. If both are non-null, the server rejects the request.
-  final Serializer? serializer;
-
-  OutputFormatConfiguration({
-    this.serializer,
-  });
-
-  factory OutputFormatConfiguration.fromJson(Map<String, dynamic> json) {
-    return OutputFormatConfiguration(
-      serializer: json['Serializer'] != null
-          ? Serializer.fromJson(json['Serializer'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serializer = this.serializer;
-    return {
-      if (serializer != null) 'Serializer': serializer,
-    };
-  }
-}
-
-class ParquetCompression {
-  static const uncompressed = ParquetCompression._('UNCOMPRESSED');
-  static const gzip = ParquetCompression._('GZIP');
-  static const snappy = ParquetCompression._('SNAPPY');
-
-  final String value;
-
-  const ParquetCompression._(this.value);
-
-  static const values = [uncompressed, gzip, snappy];
-
-  static ParquetCompression fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ParquetCompression._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ParquetCompression && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A serializer to use for converting data to the Parquet format before storing
-/// it in Amazon S3. For more information, see <a
-/// href="https://parquet.apache.org/docs/">Apache Parquet</a>.
-class ParquetSerDe {
-  /// The Hadoop Distributed File System (HDFS) block size. This is useful if you
-  /// intend to copy the data from Amazon S3 to HDFS before querying. The default
-  /// is 256 MiB and the minimum is 64 MiB. Firehose uses this value for padding
-  /// calculations.
-  final int? blockSizeBytes;
-
-  /// The compression code to use over data blocks. The possible values are
-  /// <code>UNCOMPRESSED</code>, <code>SNAPPY</code>, and <code>GZIP</code>, with
-  /// the default being <code>SNAPPY</code>. Use <code>SNAPPY</code> for higher
-  /// decompression speed. Use <code>GZIP</code> if the compression ratio is more
-  /// important than speed.
-  final ParquetCompression? compression;
-
-  /// Indicates whether to enable dictionary compression.
-  final bool? enableDictionaryCompression;
-
-  /// The maximum amount of padding to apply. This is useful if you intend to copy
-  /// the data from Amazon S3 to HDFS before querying. The default is 0.
-  final int? maxPaddingBytes;
-
-  /// The Parquet page size. Column chunks are divided into pages. A page is
-  /// conceptually an indivisible unit (in terms of compression and encoding). The
-  /// minimum value is 64 KiB and the default is 1 MiB.
-  final int? pageSizeBytes;
-
-  /// Indicates the version of row format to output. The possible values are
-  /// <code>V1</code> and <code>V2</code>. The default is <code>V1</code>.
-  final ParquetWriterVersion? writerVersion;
-
-  ParquetSerDe({
-    this.blockSizeBytes,
-    this.compression,
-    this.enableDictionaryCompression,
-    this.maxPaddingBytes,
-    this.pageSizeBytes,
-    this.writerVersion,
-  });
-
-  factory ParquetSerDe.fromJson(Map<String, dynamic> json) {
-    return ParquetSerDe(
-      blockSizeBytes: json['BlockSizeBytes'] as int?,
-      compression:
-          (json['Compression'] as String?)?.let(ParquetCompression.fromString),
-      enableDictionaryCompression: json['EnableDictionaryCompression'] as bool?,
-      maxPaddingBytes: json['MaxPaddingBytes'] as int?,
-      pageSizeBytes: json['PageSizeBytes'] as int?,
-      writerVersion: (json['WriterVersion'] as String?)
-          ?.let(ParquetWriterVersion.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blockSizeBytes = this.blockSizeBytes;
-    final compression = this.compression;
-    final enableDictionaryCompression = this.enableDictionaryCompression;
-    final maxPaddingBytes = this.maxPaddingBytes;
-    final pageSizeBytes = this.pageSizeBytes;
-    final writerVersion = this.writerVersion;
-    return {
-      if (blockSizeBytes != null) 'BlockSizeBytes': blockSizeBytes,
-      if (compression != null) 'Compression': compression.value,
-      if (enableDictionaryCompression != null)
-        'EnableDictionaryCompression': enableDictionaryCompression,
-      if (maxPaddingBytes != null) 'MaxPaddingBytes': maxPaddingBytes,
-      if (pageSizeBytes != null) 'PageSizeBytes': pageSizeBytes,
-      if (writerVersion != null) 'WriterVersion': writerVersion.value,
-    };
-  }
-}
-
-class ParquetWriterVersion {
-  static const v1 = ParquetWriterVersion._('V1');
-  static const v2 = ParquetWriterVersion._('V2');
-
-  final String value;
-
-  const ParquetWriterVersion._(this.value);
-
-  static const values = [v1, v2];
-
-  static ParquetWriterVersion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ParquetWriterVersion._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ParquetWriterVersion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a data processing configuration.
-class ProcessingConfiguration {
-  /// Enables or disables data processing.
-  final bool? enabled;
-
-  /// The data processors.
-  final List<Processor>? processors;
-
-  ProcessingConfiguration({
-    this.enabled,
-    this.processors,
-  });
-
-  factory ProcessingConfiguration.fromJson(Map<String, dynamic> json) {
-    return ProcessingConfiguration(
-      enabled: json['Enabled'] as bool?,
-      processors: (json['Processors'] as List?)
-          ?.nonNulls
-          .map((e) => Processor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final processors = this.processors;
-    return {
-      if (enabled != null) 'Enabled': enabled,
-      if (processors != null) 'Processors': processors,
-    };
-  }
-}
-
-/// Describes a data processor.
-/// <note>
-/// If you want to add a new line delimiter between records in objects that are
-/// delivered to Amazon S3, choose <code>AppendDelimiterToRecord</code> as a
-/// processor type. You don’t have to put a processor parameter when you select
-/// <code>AppendDelimiterToRecord</code>.
-/// </note>
-class Processor {
-  /// The type of processor.
-  final ProcessorType type;
-
-  /// The processor parameters.
-  final List<ProcessorParameter>? parameters;
-
-  Processor({
-    required this.type,
-    this.parameters,
-  });
-
-  factory Processor.fromJson(Map<String, dynamic> json) {
-    return Processor(
-      type: ProcessorType.fromString((json['Type'] as String?) ?? ''),
-      parameters: (json['Parameters'] as List?)
-          ?.nonNulls
-          .map((e) => ProcessorParameter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final parameters = this.parameters;
-    return {
-      'Type': type.value,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// Describes the processor parameter.
-class ProcessorParameter {
-  /// The name of the parameter. Currently the following default values are
-  /// supported: 3 for <code>NumberOfRetries</code> and 60 for the
-  /// <code>BufferIntervalInSeconds</code>. The <code>BufferSizeInMBs</code>
-  /// ranges between 0.2 MB and up to 3MB. The default buffering hint is 1MB for
-  /// all destinations, except Splunk. For Splunk, the default buffering hint is
-  /// 256 KB.
-  final ProcessorParameterName parameterName;
-
-  /// The parameter value.
-  final String parameterValue;
-
-  ProcessorParameter({
-    required this.parameterName,
-    required this.parameterValue,
-  });
-
-  factory ProcessorParameter.fromJson(Map<String, dynamic> json) {
-    return ProcessorParameter(
-      parameterName: ProcessorParameterName.fromString(
-          (json['ParameterName'] as String?) ?? ''),
-      parameterValue: (json['ParameterValue'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    return {
-      'ParameterName': parameterName.value,
-      'ParameterValue': parameterValue,
-    };
-  }
-}
-
-class ProcessorParameterName {
-  static const lambdaArn = ProcessorParameterName._('LambdaArn');
-  static const numberOfRetries = ProcessorParameterName._('NumberOfRetries');
-  static const metadataExtractionQuery =
-      ProcessorParameterName._('MetadataExtractionQuery');
-  static const jsonParsingEngine =
-      ProcessorParameterName._('JsonParsingEngine');
-  static const roleArn = ProcessorParameterName._('RoleArn');
-  static const bufferSizeInMBs = ProcessorParameterName._('BufferSizeInMBs');
-  static const bufferIntervalInSeconds =
-      ProcessorParameterName._('BufferIntervalInSeconds');
-  static const subRecordType = ProcessorParameterName._('SubRecordType');
-  static const delimiter = ProcessorParameterName._('Delimiter');
-  static const compressionFormat =
-      ProcessorParameterName._('CompressionFormat');
-  static const dataMessageExtraction =
-      ProcessorParameterName._('DataMessageExtraction');
-
-  final String value;
-
-  const ProcessorParameterName._(this.value);
-
-  static const values = [
-    lambdaArn,
-    numberOfRetries,
-    metadataExtractionQuery,
-    jsonParsingEngine,
-    roleArn,
-    bufferSizeInMBs,
-    bufferIntervalInSeconds,
-    subRecordType,
-    delimiter,
-    compressionFormat,
-    dataMessageExtraction
-  ];
-
-  static ProcessorParameterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProcessorParameterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProcessorParameterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProcessorType {
-  static const recordDeAggregation = ProcessorType._('RecordDeAggregation');
-  static const decompression = ProcessorType._('Decompression');
-  static const cloudWatchLogProcessing =
-      ProcessorType._('CloudWatchLogProcessing');
-  static const lambda = ProcessorType._('Lambda');
-  static const metadataExtraction = ProcessorType._('MetadataExtraction');
-  static const appendDelimiterToRecord =
-      ProcessorType._('AppendDelimiterToRecord');
-
-  final String value;
-
-  const ProcessorType._(this.value);
-
-  static const values = [
-    recordDeAggregation,
-    decompression,
-    cloudWatchLogProcessing,
-    lambda,
-    metadataExtraction,
-    appendDelimiterToRecord
-  ];
-
-  static ProcessorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProcessorType._(value));
-
-  @override
-  bool operator ==(other) => other is ProcessorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PutRecordBatchOutput {
-  /// The number of records that might have failed processing. This number might
-  /// be greater than 0 even if the <a>PutRecordBatch</a> call succeeds. Check
-  /// <code>FailedPutCount</code> to determine whether there are records that you
-  /// need to resend.
-  final int failedPutCount;
-
-  /// The results array. For each record, the index of the response element is the
-  /// same as the index used in the request array.
-  final List<PutRecordBatchResponseEntry> requestResponses;
-
-  /// Indicates whether server-side encryption (SSE) was enabled during this
-  /// operation.
-  final bool? encrypted;
-
-  PutRecordBatchOutput({
-    required this.failedPutCount,
-    required this.requestResponses,
-    this.encrypted,
-  });
-
-  factory PutRecordBatchOutput.fromJson(Map<String, dynamic> json) {
-    return PutRecordBatchOutput(
-      failedPutCount: (json['FailedPutCount'] as int?) ?? 0,
-      requestResponses: ((json['RequestResponses'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              PutRecordBatchResponseEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      encrypted: json['Encrypted'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failedPutCount = this.failedPutCount;
-    final requestResponses = this.requestResponses;
-    final encrypted = this.encrypted;
-    return {
-      'FailedPutCount': failedPutCount,
-      'RequestResponses': requestResponses,
-      if (encrypted != null) 'Encrypted': encrypted,
-    };
-  }
-}
-
-/// Contains the result for an individual record from a <a>PutRecordBatch</a>
-/// request. If the record is successfully added to your delivery stream, it
-/// receives a record ID. If the record fails to be added to your delivery
-/// stream, the result includes an error code and an error message.
-class PutRecordBatchResponseEntry {
-  /// The error code for an individual record result.
-  final String? errorCode;
-
-  /// The error message for an individual record result.
-  final String? errorMessage;
-
-  /// The ID of the record.
-  final String? recordId;
-
-  PutRecordBatchResponseEntry({
-    this.errorCode,
-    this.errorMessage,
-    this.recordId,
-  });
-
-  factory PutRecordBatchResponseEntry.fromJson(Map<String, dynamic> json) {
-    return PutRecordBatchResponseEntry(
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      recordId: json['RecordId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final recordId = this.recordId;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (recordId != null) 'RecordId': recordId,
-    };
-  }
-}
-
-class PutRecordOutput {
-  /// The ID of the record.
-  final String recordId;
-
-  /// Indicates whether server-side encryption (SSE) was enabled during this
-  /// operation.
-  final bool? encrypted;
-
-  PutRecordOutput({
-    required this.recordId,
-    this.encrypted,
-  });
-
-  factory PutRecordOutput.fromJson(Map<String, dynamic> json) {
-    return PutRecordOutput(
-      recordId: (json['RecordId'] as String?) ?? '',
-      encrypted: json['Encrypted'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recordId = this.recordId;
-    final encrypted = this.encrypted;
-    return {
-      'RecordId': recordId,
-      if (encrypted != null) 'Encrypted': encrypted,
-    };
-  }
-}
-
-/// The unit of data in a delivery stream.
-class Record {
-  /// The data blob, which is base64-encoded when the blob is serialized. The
-  /// maximum size of the data blob, before base64-encoding, is 1,000 KiB.
-  final Uint8List data;
-
-  Record({
-    required this.data,
-  });
-
-  Map<String, dynamic> toJson() {
-    final data = this.data;
-    return {
-      'Data': base64Encode(data),
-    };
-  }
-}
-
-/// Describes the configuration of a destination in Amazon Redshift.
-class RedshiftDestinationConfiguration {
-  /// The database connection string.
-  final String clusterJDBCURL;
-
-  /// The <code>COPY</code> command.
-  final CopyCommand copyCommand;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String roleARN;
-
-  /// The configuration for the intermediate Amazon S3 location from which Amazon
-  /// Redshift obtains data. Restrictions are described in the topic for
-  /// <a>CreateDeliveryStream</a>.
-  ///
-  /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be
-  /// specified in <code>RedshiftDestinationConfiguration.S3Configuration</code>
-  /// because the Amazon Redshift <code>COPY</code> operation that reads from the
-  /// S3 bucket doesn't support these compression formats.
-  final S3DestinationConfiguration s3Configuration;
-
-  /// The CloudWatch logging options for your delivery stream.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The user password.
-  final String? password;
-
-  /// The data processing configuration.
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
-  /// Redshift. Default value is 3600 (60 minutes).
-  final RedshiftRetryOptions? retryOptions;
-
-  /// The configuration for backup in Amazon S3.
-  final S3DestinationConfiguration? s3BackupConfiguration;
-
-  /// The Amazon S3 backup mode. After you create a delivery stream, you can
-  /// update it to enable Amazon S3 backup if it is disabled. If backup is
-  /// enabled, you can't update the delivery stream to disable it.
-  final RedshiftS3BackupMode? s3BackupMode;
-
-  /// The configuration that defines how you access secrets for Amazon Redshift.
-  final SecretsManagerConfiguration? secretsManagerConfiguration;
-
-  /// The name of the user.
-  final String? username;
-
-  RedshiftDestinationConfiguration({
-    required this.clusterJDBCURL,
-    required this.copyCommand,
-    required this.roleARN,
-    required this.s3Configuration,
-    this.cloudWatchLoggingOptions,
-    this.password,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.s3BackupConfiguration,
-    this.s3BackupMode,
-    this.secretsManagerConfiguration,
-    this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clusterJDBCURL = this.clusterJDBCURL;
-    final copyCommand = this.copyCommand;
-    final roleARN = this.roleARN;
-    final s3Configuration = this.s3Configuration;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final password = this.password;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final s3BackupConfiguration = this.s3BackupConfiguration;
-    final s3BackupMode = this.s3BackupMode;
-    final secretsManagerConfiguration = this.secretsManagerConfiguration;
-    final username = this.username;
-    return {
-      'ClusterJDBCURL': clusterJDBCURL,
-      'CopyCommand': copyCommand,
-      'RoleARN': roleARN,
-      'S3Configuration': s3Configuration,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (password != null) 'Password': password,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupConfiguration != null)
-        'S3BackupConfiguration': s3BackupConfiguration,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (secretsManagerConfiguration != null)
-        'SecretsManagerConfiguration': secretsManagerConfiguration,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Describes a destination in Amazon Redshift.
-class RedshiftDestinationDescription {
-  /// The database connection string.
-  final String clusterJDBCURL;
-
-  /// The <code>COPY</code> command.
-  final CopyCommand copyCommand;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String roleARN;
-
-  /// The Amazon S3 destination.
-  final S3DestinationDescription s3DestinationDescription;
-
-  /// The Amazon CloudWatch logging options for your delivery stream.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The data processing configuration.
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
-  /// Redshift. Default value is 3600 (60 minutes).
-  final RedshiftRetryOptions? retryOptions;
-
-  /// The configuration for backup in Amazon S3.
-  final S3DestinationDescription? s3BackupDescription;
-
-  /// The Amazon S3 backup mode.
-  final RedshiftS3BackupMode? s3BackupMode;
-
-  /// The configuration that defines how you access secrets for Amazon Redshift.
-  final SecretsManagerConfiguration? secretsManagerConfiguration;
-
-  /// The name of the user.
-  final String? username;
-
-  RedshiftDestinationDescription({
-    required this.clusterJDBCURL,
-    required this.copyCommand,
-    required this.roleARN,
-    required this.s3DestinationDescription,
-    this.cloudWatchLoggingOptions,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.s3BackupDescription,
-    this.s3BackupMode,
-    this.secretsManagerConfiguration,
-    this.username,
-  });
-
-  factory RedshiftDestinationDescription.fromJson(Map<String, dynamic> json) {
-    return RedshiftDestinationDescription(
-      clusterJDBCURL: (json['ClusterJDBCURL'] as String?) ?? '',
-      copyCommand: CopyCommand.fromJson(
-          (json['CopyCommand'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      roleARN: (json['RoleARN'] as String?) ?? '',
-      s3DestinationDescription: S3DestinationDescription.fromJson(
-          (json['S3DestinationDescription'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
-          ? CloudWatchLoggingOptions.fromJson(
-              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
-          : null,
-      processingConfiguration: json['ProcessingConfiguration'] != null
-          ? ProcessingConfiguration.fromJson(
-              json['ProcessingConfiguration'] as Map<String, dynamic>)
-          : null,
-      retryOptions: json['RetryOptions'] != null
-          ? RedshiftRetryOptions.fromJson(
-              json['RetryOptions'] as Map<String, dynamic>)
-          : null,
-      s3BackupDescription: json['S3BackupDescription'] != null
-          ? S3DestinationDescription.fromJson(
-              json['S3BackupDescription'] as Map<String, dynamic>)
-          : null,
-      s3BackupMode: (json['S3BackupMode'] as String?)
-          ?.let(RedshiftS3BackupMode.fromString),
-      secretsManagerConfiguration: json['SecretsManagerConfiguration'] != null
-          ? SecretsManagerConfiguration.fromJson(
-              json['SecretsManagerConfiguration'] as Map<String, dynamic>)
-          : null,
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterJDBCURL = this.clusterJDBCURL;
-    final copyCommand = this.copyCommand;
-    final roleARN = this.roleARN;
-    final s3DestinationDescription = this.s3DestinationDescription;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final s3BackupDescription = this.s3BackupDescription;
-    final s3BackupMode = this.s3BackupMode;
-    final secretsManagerConfiguration = this.secretsManagerConfiguration;
-    final username = this.username;
-    return {
-      'ClusterJDBCURL': clusterJDBCURL,
-      'CopyCommand': copyCommand,
-      'RoleARN': roleARN,
-      'S3DestinationDescription': s3DestinationDescription,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupDescription != null)
-        'S3BackupDescription': s3BackupDescription,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (secretsManagerConfiguration != null)
-        'SecretsManagerConfiguration': secretsManagerConfiguration,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Describes an update for a destination in Amazon Redshift.
-class RedshiftDestinationUpdate {
-  /// The Amazon CloudWatch logging options for your delivery stream.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The database connection string.
-  final String? clusterJDBCURL;
-
-  /// The <code>COPY</code> command.
-  final CopyCommand? copyCommand;
-
-  /// The user password.
-  final String? password;
-
-  /// The data processing configuration.
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
-  /// Redshift. Default value is 3600 (60 minutes).
-  final RedshiftRetryOptions? retryOptions;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String? roleARN;
-
-  /// You can update a delivery stream to enable Amazon S3 backup if it is
-  /// disabled. If backup is enabled, you can't update the delivery stream to
-  /// disable it.
-  final RedshiftS3BackupMode? s3BackupMode;
-
-  /// The Amazon S3 destination for backup.
-  final S3DestinationUpdate? s3BackupUpdate;
-
-  /// The Amazon S3 destination.
-  ///
-  /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be
-  /// specified in <code>RedshiftDestinationUpdate.S3Update</code> because the
-  /// Amazon Redshift <code>COPY</code> operation that reads from the S3 bucket
-  /// doesn't support these compression formats.
-  final S3DestinationUpdate? s3Update;
-
-  /// The configuration that defines how you access secrets for Amazon Redshift.
-  final SecretsManagerConfiguration? secretsManagerConfiguration;
-
-  /// The name of the user.
-  final String? username;
-
-  RedshiftDestinationUpdate({
-    this.cloudWatchLoggingOptions,
-    this.clusterJDBCURL,
-    this.copyCommand,
-    this.password,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.roleARN,
-    this.s3BackupMode,
-    this.s3BackupUpdate,
-    this.s3Update,
-    this.secretsManagerConfiguration,
-    this.username,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final clusterJDBCURL = this.clusterJDBCURL;
-    final copyCommand = this.copyCommand;
-    final password = this.password;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final roleARN = this.roleARN;
-    final s3BackupMode = this.s3BackupMode;
-    final s3BackupUpdate = this.s3BackupUpdate;
-    final s3Update = this.s3Update;
-    final secretsManagerConfiguration = this.secretsManagerConfiguration;
-    final username = this.username;
-    return {
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (clusterJDBCURL != null) 'ClusterJDBCURL': clusterJDBCURL,
-      if (copyCommand != null) 'CopyCommand': copyCommand,
-      if (password != null) 'Password': password,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3BackupUpdate != null) 'S3BackupUpdate': s3BackupUpdate,
-      if (s3Update != null) 'S3Update': s3Update,
-      if (secretsManagerConfiguration != null)
-        'SecretsManagerConfiguration': secretsManagerConfiguration,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Configures retry behavior in case Firehose is unable to deliver documents to
-/// Amazon Redshift.
-class RedshiftRetryOptions {
-  /// The length of time during which Firehose retries delivery after a failure,
-  /// starting from the initial request and including the first attempt. The
-  /// default value is 3600 seconds (60 minutes). Firehose does not retry if the
-  /// value of <code>DurationInSeconds</code> is 0 (zero) or if the first delivery
-  /// attempt takes longer than the current value.
-  final int? durationInSeconds;
-
-  RedshiftRetryOptions({
-    this.durationInSeconds,
-  });
-
-  factory RedshiftRetryOptions.fromJson(Map<String, dynamic> json) {
-    return RedshiftRetryOptions(
-      durationInSeconds: json['DurationInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
-    return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
-    };
-  }
-}
-
-class RedshiftS3BackupMode {
-  static const disabled = RedshiftS3BackupMode._('Disabled');
-  static const enabled = RedshiftS3BackupMode._('Enabled');
-
-  final String value;
-
-  const RedshiftS3BackupMode._(this.value);
-
-  static const values = [disabled, enabled];
-
-  static RedshiftS3BackupMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RedshiftS3BackupMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RedshiftS3BackupMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The retry behavior in case Firehose is unable to deliver data to an Amazon
-/// S3 prefix.
-class RetryOptions {
-  /// The period of time during which Firehose retries to deliver data to the
-  /// specified Amazon S3 prefix.
-  final int? durationInSeconds;
-
-  RetryOptions({
-    this.durationInSeconds,
-  });
-
-  factory RetryOptions.fromJson(Map<String, dynamic> json) {
-    return RetryOptions(
-      durationInSeconds: json['DurationInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
-    return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
-    };
-  }
-}
-
-class S3BackupMode {
-  static const disabled = S3BackupMode._('Disabled');
-  static const enabled = S3BackupMode._('Enabled');
-
-  final String value;
-
-  const S3BackupMode._(this.value);
-
-  static const values = [disabled, enabled];
-
-  static S3BackupMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => S3BackupMode._(value));
-
-  @override
-  bool operator ==(other) => other is S3BackupMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the configuration of a destination in Amazon S3.
-class S3DestinationConfiguration {
-  /// The ARN of the S3 bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String bucketARN;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String roleARN;
-
-  /// The buffering option. If no value is specified, <code>BufferingHints</code>
-  /// object default values are used.
-  final BufferingHints? bufferingHints;
-
-  /// The CloudWatch logging options for your delivery stream.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The compression format. If no value is specified, the default is
-  /// <code>UNCOMPRESSED</code>.
-  ///
-  /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be
-  /// specified for Amazon Redshift destinations because they are not supported by
-  /// the Amazon Redshift <code>COPY</code> operation that reads from the S3
-  /// bucket.
-  final CompressionFormat? compressionFormat;
-
-  /// The encryption configuration. If no value is specified, the default is no
-  /// encryption.
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// A prefix that Firehose evaluates and adds to failed records before writing
-  /// them to S3. This prefix appears immediately following the bucket name. For
-  /// information about how to specify this prefix, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
-  /// Prefixes for Amazon S3 Objects</a>.
-  final String? errorOutputPrefix;
-
-  /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
-  /// Amazon S3 files. You can also specify a custom prefix, as described in <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
-  /// Prefixes for Amazon S3 Objects</a>.
-  final String? prefix;
-
-  S3DestinationConfiguration({
-    required this.bucketARN,
-    required this.roleARN,
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.compressionFormat,
-    this.encryptionConfiguration,
-    this.errorOutputPrefix,
-    this.prefix,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketARN = this.bucketARN;
-    final roleARN = this.roleARN;
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final compressionFormat = this.compressionFormat;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final errorOutputPrefix = this.errorOutputPrefix;
-    final prefix = this.prefix;
-    return {
-      'BucketARN': bucketARN,
-      'RoleARN': roleARN,
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.value,
-      if (encryptionConfiguration != null)
-        'EncryptionConfiguration': encryptionConfiguration,
-      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
-      if (prefix != null) 'Prefix': prefix,
-    };
-  }
-}
-
-/// Describes a destination in Amazon S3.
-class S3DestinationDescription {
-  /// The ARN of the S3 bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String bucketARN;
-
-  /// The buffering option. If no value is specified, <code>BufferingHints</code>
-  /// object default values are used.
-  final BufferingHints bufferingHints;
-
-  /// The compression format. If no value is specified, the default is
-  /// <code>UNCOMPRESSED</code>.
-  final CompressionFormat compressionFormat;
-
-  /// The encryption configuration. If no value is specified, the default is no
-  /// encryption.
-  final EncryptionConfiguration encryptionConfiguration;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String roleARN;
-
-  /// The Amazon CloudWatch logging options for your delivery stream.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// A prefix that Firehose evaluates and adds to failed records before writing
-  /// them to S3. This prefix appears immediately following the bucket name. For
-  /// information about how to specify this prefix, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
-  /// Prefixes for Amazon S3 Objects</a>.
-  final String? errorOutputPrefix;
-
-  /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
-  /// Amazon S3 files. You can also specify a custom prefix, as described in <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
-  /// Prefixes for Amazon S3 Objects</a>.
-  final String? prefix;
-
-  S3DestinationDescription({
-    required this.bucketARN,
-    required this.bufferingHints,
-    required this.compressionFormat,
-    required this.encryptionConfiguration,
-    required this.roleARN,
-    this.cloudWatchLoggingOptions,
-    this.errorOutputPrefix,
-    this.prefix,
-  });
-
-  factory S3DestinationDescription.fromJson(Map<String, dynamic> json) {
-    return S3DestinationDescription(
-      bucketARN: (json['BucketARN'] as String?) ?? '',
-      bufferingHints: BufferingHints.fromJson(
-          (json['BufferingHints'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      compressionFormat: CompressionFormat.fromString(
-          (json['CompressionFormat'] as String?) ?? ''),
-      encryptionConfiguration: EncryptionConfiguration.fromJson(
-          (json['EncryptionConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      roleARN: (json['RoleARN'] as String?) ?? '',
-      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
-          ? CloudWatchLoggingOptions.fromJson(
-              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
-          : null,
-      errorOutputPrefix: json['ErrorOutputPrefix'] as String?,
-      prefix: json['Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketARN = this.bucketARN;
-    final bufferingHints = this.bufferingHints;
-    final compressionFormat = this.compressionFormat;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final roleARN = this.roleARN;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final errorOutputPrefix = this.errorOutputPrefix;
-    final prefix = this.prefix;
-    return {
-      'BucketARN': bucketARN,
-      'BufferingHints': bufferingHints,
-      'CompressionFormat': compressionFormat.value,
-      'EncryptionConfiguration': encryptionConfiguration,
-      'RoleARN': roleARN,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
-      if (prefix != null) 'Prefix': prefix,
-    };
-  }
-}
-
-/// Describes an update for a destination in Amazon S3.
-class S3DestinationUpdate {
-  /// The ARN of the S3 bucket. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String? bucketARN;
-
-  /// The buffering option. If no value is specified, <code>BufferingHints</code>
-  /// object default values are used.
-  final BufferingHints? bufferingHints;
-
-  /// The CloudWatch logging options for your delivery stream.
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The compression format. If no value is specified, the default is
-  /// <code>UNCOMPRESSED</code>.
-  ///
-  /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be
-  /// specified for Amazon Redshift destinations because they are not supported by
-  /// the Amazon Redshift <code>COPY</code> operation that reads from the S3
-  /// bucket.
-  final CompressionFormat? compressionFormat;
-
-  /// The encryption configuration. If no value is specified, the default is no
-  /// encryption.
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// A prefix that Firehose evaluates and adds to failed records before writing
-  /// them to S3. This prefix appears immediately following the bucket name. For
-  /// information about how to specify this prefix, see <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
-  /// Prefixes for Amazon S3 Objects</a>.
-  final String? errorOutputPrefix;
-
-  /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
-  /// Amazon S3 files. You can also specify a custom prefix, as described in <a
-  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
-  /// Prefixes for Amazon S3 Objects</a>.
-  final String? prefix;
-
-  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
-  final String? roleARN;
-
-  S3DestinationUpdate({
-    this.bucketARN,
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.compressionFormat,
-    this.encryptionConfiguration,
-    this.errorOutputPrefix,
-    this.prefix,
-    this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketARN = this.bucketARN;
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final compressionFormat = this.compressionFormat;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final errorOutputPrefix = this.errorOutputPrefix;
-    final prefix = this.prefix;
-    final roleARN = this.roleARN;
-    return {
-      if (bucketARN != null) 'BucketARN': bucketARN,
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (compressionFormat != null)
-        'CompressionFormat': compressionFormat.value,
-      if (encryptionConfiguration != null)
-        'EncryptionConfiguration': encryptionConfiguration,
-      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
-      if (prefix != null) 'Prefix': prefix,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-/// Specifies the schema to which you want Firehose to configure your data
-/// before it writes it to Amazon S3. This parameter is required if
-/// <code>Enabled</code> is set to true.
-class SchemaConfiguration {
-  /// The ID of the Amazon Web Services Glue Data Catalog. If you don't supply
-  /// this, the Amazon Web Services account ID is used by default.
-  final String? catalogId;
-
-  /// Specifies the name of the Amazon Web Services Glue database that contains
-  /// the schema for the output data.
-  /// <important>
-  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
-  /// invoking the <code>CreateDeliveryStream</code> API, then the
-  /// <code>DatabaseName</code> property is required and its value must be
-  /// specified.
-  /// </important>
-  final String? databaseName;
-
-  /// If you don't specify an Amazon Web Services Region, the default is the
-  /// current Region.
-  final String? region;
-
-  /// The role that Firehose can use to access Amazon Web Services Glue. This role
-  /// must be in the same account you use for Firehose. Cross-account roles aren't
-  /// allowed.
-  /// <important>
-  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
-  /// invoking the <code>CreateDeliveryStream</code> API, then the
-  /// <code>RoleARN</code> property is required and its value must be specified.
-  /// </important>
-  final String? roleARN;
-
-  /// Specifies the Amazon Web Services Glue table that contains the column
-  /// information that constitutes your data schema.
-  /// <important>
-  /// If the <code>SchemaConfiguration</code> request parameter is used as part of
-  /// invoking the <code>CreateDeliveryStream</code> API, then the
-  /// <code>TableName</code> property is required and its value must be specified.
-  /// </important>
-  final String? tableName;
-
-  /// Specifies the table version for the output data schema. If you don't specify
-  /// this version ID, or if you set it to <code>LATEST</code>, Firehose uses the
-  /// most recent version. This means that any updates to the table are
-  /// automatically picked up.
-  final String? versionId;
-
-  SchemaConfiguration({
-    this.catalogId,
-    this.databaseName,
-    this.region,
-    this.roleARN,
-    this.tableName,
-    this.versionId,
-  });
-
-  factory SchemaConfiguration.fromJson(Map<String, dynamic> json) {
-    return SchemaConfiguration(
-      catalogId: json['CatalogId'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      region: json['Region'] as String?,
-      roleARN: json['RoleARN'] as String?,
-      tableName: json['TableName'] as String?,
-      versionId: json['VersionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final catalogId = this.catalogId;
-    final databaseName = this.databaseName;
-    final region = this.region;
-    final roleARN = this.roleARN;
-    final tableName = this.tableName;
-    final versionId = this.versionId;
-    return {
-      if (catalogId != null) 'CatalogId': catalogId,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (region != null) 'Region': region,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (tableName != null) 'TableName': tableName,
-      if (versionId != null) 'VersionId': versionId,
-    };
-  }
-}
-
-/// The structure that defines how Firehose accesses the secret.
-class SecretsManagerConfiguration {
-  /// Specifies whether you want to use the the secrets manager feature. When set
-  /// as <code>True</code> the secrets manager configuration overwrites the
-  /// existing secrets in the destination configuration. When it's set to
-  /// <code>False</code> Firehose falls back to the credentials in the destination
-  /// configuration.
-  final bool enabled;
-
-  /// Specifies the role that Firehose assumes when calling the Secrets Manager
-  /// API operation. When you provide the role, it overrides any destination
-  /// specific role defined in the destination configuration. If you do not
-  /// provide the then we use the destination specific role. This parameter is
-  /// required for Splunk.
-  final String? roleARN;
-
-  /// The ARN of the secret that stores your credentials. It must be in the same
-  /// region as the Firehose stream and the role. The secret ARN can reside in a
-  /// different account than the delivery stream and role as Firehose supports
-  /// cross-account secret access. This parameter is required when <b>Enabled</b>
-  /// is set to <code>True</code>.
-  final String? secretARN;
-
-  SecretsManagerConfiguration({
-    required this.enabled,
-    this.roleARN,
-    this.secretARN,
-  });
-
-  factory SecretsManagerConfiguration.fromJson(Map<String, dynamic> json) {
-    return SecretsManagerConfiguration(
-      enabled: (json['Enabled'] as bool?) ?? false,
-      roleARN: json['RoleARN'] as String?,
-      secretARN: json['SecretARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final roleARN = this.roleARN;
-    final secretARN = this.secretARN;
-    return {
-      'Enabled': enabled,
-      if (roleARN != null) 'RoleARN': roleARN,
-      if (secretARN != null) 'SecretARN': secretARN,
-    };
-  }
-}
-
-/// The serializer that you want Firehose to use to convert data to the target
-/// format before writing it to Amazon S3. Firehose supports two types of
-/// serializers: the <a
-/// href="https://hive.apache.org/javadocs/r1.2.2/api/org/apache/hadoop/hive/ql/io/orc/OrcSerde.html">ORC
-/// SerDe</a> and the <a
-/// href="https://hive.apache.org/javadocs/r1.2.2/api/org/apache/hadoop/hive/ql/io/parquet/serde/ParquetHiveSerDe.html">Parquet
-/// SerDe</a>.
-class Serializer {
-  /// A serializer to use for converting data to the ORC format before storing it
-  /// in Amazon S3. For more information, see <a
-  /// href="https://orc.apache.org/docs/">Apache ORC</a>.
-  final OrcSerDe? orcSerDe;
-
-  /// A serializer to use for converting data to the Parquet format before storing
-  /// it in Amazon S3. For more information, see <a
-  /// href="https://parquet.apache.org/documentation/latest/">Apache Parquet</a>.
-  final ParquetSerDe? parquetSerDe;
-
-  Serializer({
-    this.orcSerDe,
-    this.parquetSerDe,
-  });
-
-  factory Serializer.fromJson(Map<String, dynamic> json) {
-    return Serializer(
-      orcSerDe: json['OrcSerDe'] != null
-          ? OrcSerDe.fromJson(json['OrcSerDe'] as Map<String, dynamic>)
-          : null,
-      parquetSerDe: json['ParquetSerDe'] != null
-          ? ParquetSerDe.fromJson(json['ParquetSerDe'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final orcSerDe = this.orcSerDe;
-    final parquetSerDe = this.parquetSerDe;
-    return {
-      if (orcSerDe != null) 'OrcSerDe': orcSerDe,
-      if (parquetSerDe != null) 'ParquetSerDe': parquetSerDe,
-    };
-  }
-}
-
-/// Describes the buffering to perform before delivering data to the Snowflake
-/// destination. If you do not specify any value, Firehose uses the default
-/// values.
-class SnowflakeBufferingHints {
-  /// Buffer incoming data for the specified period of time, in seconds, before
-  /// delivering it to the destination. The default value is 0.
-  final int? intervalInSeconds;
-
-  /// Buffer incoming data to the specified size, in MBs, before delivering it to
-  /// the destination. The default value is 1.
-  final int? sizeInMBs;
-
-  SnowflakeBufferingHints({
-    this.intervalInSeconds,
-    this.sizeInMBs,
-  });
-
-  factory SnowflakeBufferingHints.fromJson(Map<String, dynamic> json) {
-    return SnowflakeBufferingHints(
-      intervalInSeconds: json['IntervalInSeconds'] as int?,
-      sizeInMBs: json['SizeInMBs'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intervalInSeconds = this.intervalInSeconds;
-    final sizeInMBs = this.sizeInMBs;
-    return {
-      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
-      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
-    };
-  }
-}
-
-class SnowflakeDataLoadingOption {
-  static const jsonMapping = SnowflakeDataLoadingOption._('JSON_MAPPING');
-  static const variantContentMapping =
-      SnowflakeDataLoadingOption._('VARIANT_CONTENT_MAPPING');
-  static const variantContentAndMetadataMapping =
-      SnowflakeDataLoadingOption._('VARIANT_CONTENT_AND_METADATA_MAPPING');
-
-  final String value;
-
-  const SnowflakeDataLoadingOption._(this.value);
-
-  static const values = [
-    jsonMapping,
-    variantContentMapping,
-    variantContentAndMetadataMapping
-  ];
-
-  static SnowflakeDataLoadingOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SnowflakeDataLoadingOption._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SnowflakeDataLoadingOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configure Snowflake destination
-class SnowflakeDestinationConfiguration {
-  /// URL for accessing your Snowflake account. This URL must include your <a
-  /// href="https://docs.snowflake.com/en/user-guide/admin-account-identifier">account
-  /// identifier</a>. Note that the protocol (https://) and port number are
-  /// optional.
-  final String accountUrl;
-
-  /// All data in Snowflake is maintained in databases.
-  final String database;
-
-  /// The Amazon Resource Name (ARN) of the Snowflake role
-  final String roleARN;
-  final S3DestinationConfiguration s3Configuration;
-
-  /// Each database consists of one or more schemas, which are logical groupings
-  /// of database objects, such as tables and views
-  final String schema;
-
-  /// All data in Snowflake is stored in database tables, logically structured as
-  /// collections of columns and rows.
-  final String table;
-
-  /// Describes the buffering to perform before delivering data to the Snowflake
-  /// destination. If you do not specify any value, Firehose uses the default
-  /// values.
-  final SnowflakeBufferingHints? bufferingHints;
-  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The name of the record content column
-  final String? contentColumnName;
-
-  /// Choose to load JSON keys mapped to table column names or choose to split the
-  /// JSON payload where content is mapped to a record content column and source
-  /// metadata is mapped to a record metadata column.
-  final SnowflakeDataLoadingOption? dataLoadingOption;
-
-  /// Passphrase to decrypt the private key when the key is encrypted. For
-  /// information, see <a
-  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
-  /// Key Pair Authentication &amp; Key Rotation</a>.
-  final String? keyPassphrase;
-
-  /// The name of the record metadata column
-  final String? metaDataColumnName;
-
-  /// The private key used to encrypt your Snowflake client. For information, see
-  /// <a
-  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
-  /// Key Pair Authentication &amp; Key Rotation</a>.
-  final String? privateKey;
-  final ProcessingConfiguration? processingConfiguration;
-
-  /// The time period where Firehose will retry sending data to the chosen HTTP
-  /// endpoint.
-  final SnowflakeRetryOptions? retryOptions;
-
-  /// Choose an S3 backup mode
-  final SnowflakeS3BackupMode? s3BackupMode;
-
-  /// The configuration that defines how you access secrets for Snowflake.
-  final SecretsManagerConfiguration? secretsManagerConfiguration;
-
-  /// Optionally configure a Snowflake role. Otherwise the default user role will
-  /// be used.
-  final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
-
-  /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format
-  /// is com.amazonaws.vpce.[region].vpce-svc-&lt;[id]&gt;. For more information,
-  /// see <a
-  /// href="https://docs.snowflake.com/en/user-guide/admin-security-privatelink">Amazon
-  /// PrivateLink &amp; Snowflake</a>
-  final SnowflakeVpcConfiguration? snowflakeVpcConfiguration;
-
-  /// User login name for the Snowflake account.
-  final String? user;
-
-  SnowflakeDestinationConfiguration({
-    required this.accountUrl,
-    required this.database,
-    required this.roleARN,
-    required this.s3Configuration,
-    required this.schema,
-    required this.table,
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.contentColumnName,
-    this.dataLoadingOption,
-    this.keyPassphrase,
-    this.metaDataColumnName,
-    this.privateKey,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.s3BackupMode,
-    this.secretsManagerConfiguration,
-    this.snowflakeRoleConfiguration,
-    this.snowflakeVpcConfiguration,
-    this.user,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountUrl = this.accountUrl;
-    final database = this.database;
-    final roleARN = this.roleARN;
-    final s3Configuration = this.s3Configuration;
-    final schema = this.schema;
-    final table = this.table;
-    final bufferingHints = this.bufferingHints;
-    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final contentColumnName = this.contentColumnName;
-    final dataLoadingOption = this.dataLoadingOption;
-    final keyPassphrase = this.keyPassphrase;
-    final metaDataColumnName = this.metaDataColumnName;
-    final privateKey = this.privateKey;
-    final processingConfiguration = this.processingConfiguration;
-    final retryOptions = this.retryOptions;
-    final s3BackupMode = this.s3BackupMode;
-    final secretsManagerConfiguration = this.secretsManagerConfiguration;
-    final snowflakeRoleConfiguration = this.snowflakeRoleConfiguration;
-    final snowflakeVpcConfiguration = this.snowflakeVpcConfiguration;
-    final user = this.user;
-    return {
-      'AccountUrl': accountUrl,
-      'Database': database,
-      'RoleARN': roleARN,
-      'S3Configuration': s3Configuration,
-      'Schema': schema,
-      'Table': table,
-      if (bufferingHints != null) 'BufferingHints': bufferingHints,
-      if (cloudWatchLoggingOptions != null)
-        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (contentColumnName != null) 'ContentColumnName': contentColumnName,
-      if (dataLoadingOption != null)
-        'DataLoadingOption': dataLoadingOption.value,
-      if (keyPassphrase != null) 'KeyPassphrase': keyPassphrase,
-      if (metaDataColumnName != null) 'MetaDataColumnName': metaDataColumnName,
-      if (privateKey != null) 'PrivateKey': privateKey,
-      if (processingConfiguration != null)
-        'ProcessingConfiguration': processingConfiguration,
-      if (retryOptions != null) 'RetryOptions': retryOptions,
-      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (secretsManagerConfiguration != null)
-        'SecretsManagerConfiguration': secretsManagerConfiguration,
-      if (snowflakeRoleConfiguration != null)
-        'SnowflakeRoleConfiguration': snowflakeRoleConfiguration,
-      if (snowflakeVpcConfiguration != null)
-        'SnowflakeVpcConfiguration': snowflakeVpcConfiguration,
-      if (user != null) 'User': user,
-    };
-  }
-}
-
 /// Optional Snowflake destination description
 class SnowflakeDestinationDescription {
   /// URL for accessing your Snowflake account. This URL must include your <a
@@ -7255,10 +6634,9 @@ class SnowflakeDestinationDescription {
   final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
 
   /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format
-  /// is com.amazonaws.vpce.[region].vpce-svc-&lt;[id]&gt;. For more information,
-  /// see <a
+  /// is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see <a
   /// href="https://docs.snowflake.com/en/user-guide/admin-security-privatelink">Amazon
-  /// PrivateLink &amp; Snowflake</a>
+  /// PrivateLink & Snowflake</a>
   final SnowflakeVpcConfiguration? snowflakeVpcConfiguration;
 
   /// All data in Snowflake is stored in database tables, logically structured as
@@ -7387,247 +6765,273 @@ class SnowflakeDestinationDescription {
   }
 }
 
-/// Update to configuration settings
-class SnowflakeDestinationUpdate {
-  /// URL for accessing your Snowflake account. This URL must include your <a
-  /// href="https://docs.snowflake.com/en/user-guide/admin-account-identifier">account
-  /// identifier</a>. Note that the protocol (https://) and port number are
-  /// optional.
-  final String? accountUrl;
-
-  /// Describes the buffering to perform before delivering data to the Snowflake
-  /// destination.
-  final SnowflakeBufferingHints? bufferingHints;
+/// The destination description in the Serverless offering for Amazon OpenSearch
+/// Service.
+class AmazonOpenSearchServerlessDestinationDescription {
+  /// The buffering options.
+  final AmazonOpenSearchServerlessBufferingHints? bufferingHints;
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
-  /// The name of the content metadata column
-  final String? contentColumnName;
+  /// The endpoint to use when communicating with the collection in the Serverless
+  /// offering for Amazon OpenSearch Service.
+  final String? collectionEndpoint;
 
-  /// JSON keys mapped to table column names or choose to split the JSON payload
-  /// where content is mapped to a record content column and source metadata is
-  /// mapped to a record metadata column.
-  final SnowflakeDataLoadingOption? dataLoadingOption;
-
-  /// All data in Snowflake is maintained in databases.
-  final String? database;
-
-  /// Passphrase to decrypt the private key when the key is encrypted. For
-  /// information, see <a
-  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
-  /// Key Pair Authentication &amp; Key Rotation</a>.
-  final String? keyPassphrase;
-
-  /// The name of the record metadata column
-  final String? metaDataColumnName;
-
-  /// The private key used to encrypt your Snowflake client. For information, see
-  /// <a
-  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
-  /// Key Pair Authentication &amp; Key Rotation</a>.
-  final String? privateKey;
+  /// The Serverless offering for Amazon OpenSearch Service index name.
+  final String? indexName;
   final ProcessingConfiguration? processingConfiguration;
 
-  /// Specify how long Firehose retries sending data to the New Relic HTTP
-  /// endpoint. After sending data, Firehose first waits for an acknowledgment
-  /// from the HTTP endpoint. If an error occurs or the acknowledgment doesn’t
-  /// arrive within the acknowledgment timeout period, Firehose starts the retry
-  /// duration counter. It keeps retrying until the retry duration expires. After
-  /// that, Firehose considers it a data delivery failure and backs up the data to
-  /// your Amazon S3 bucket. Every time that Firehose sends data to the HTTP
-  /// endpoint (either the initial attempt or a retry), it restarts the
-  /// acknowledgement timeout counter and waits for an acknowledgement from the
-  /// HTTP endpoint. Even if the retry duration expires, Firehose still waits for
-  /// the acknowledgment until it receives it or the acknowledgement timeout
-  /// period is reached. If the acknowledgment times out, Firehose determines
-  /// whether there's time left in the retry counter. If there is time left, it
-  /// retries again and repeats the logic until it receives an acknowledgment or
-  /// determines that the retry time has expired. If you don't want Firehose to
-  /// retry sending data, set this value to 0.
-  final SnowflakeRetryOptions? retryOptions;
+  /// The Serverless offering for Amazon OpenSearch Service retry options.
+  final AmazonOpenSearchServerlessRetryOptions? retryOptions;
 
-  /// The Amazon Resource Name (ARN) of the Snowflake role
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
   final String? roleARN;
 
-  /// Choose an S3 backup mode
-  final SnowflakeS3BackupMode? s3BackupMode;
-  final S3DestinationUpdate? s3Update;
+  /// The Amazon S3 backup mode.
+  final AmazonOpenSearchServerlessS3BackupMode? s3BackupMode;
+  final S3DestinationDescription? s3DestinationDescription;
+  final VpcConfigurationDescription? vpcConfigurationDescription;
 
-  /// Each database consists of one or more schemas, which are logical groupings
-  /// of database objects, such as tables and views
-  final String? schema;
-
-  /// Describes the Secrets Manager configuration in Snowflake.
-  final SecretsManagerConfiguration? secretsManagerConfiguration;
-
-  /// Optionally configure a Snowflake role. Otherwise the default user role will
-  /// be used.
-  final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
-
-  /// All data in Snowflake is stored in database tables, logically structured as
-  /// collections of columns and rows.
-  final String? table;
-
-  /// User login name for the Snowflake account.
-  final String? user;
-
-  SnowflakeDestinationUpdate({
-    this.accountUrl,
+  AmazonOpenSearchServerlessDestinationDescription({
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
-    this.contentColumnName,
-    this.dataLoadingOption,
-    this.database,
-    this.keyPassphrase,
-    this.metaDataColumnName,
-    this.privateKey,
+    this.collectionEndpoint,
+    this.indexName,
     this.processingConfiguration,
     this.retryOptions,
     this.roleARN,
     this.s3BackupMode,
-    this.s3Update,
-    this.schema,
-    this.secretsManagerConfiguration,
-    this.snowflakeRoleConfiguration,
-    this.table,
-    this.user,
+    this.s3DestinationDescription,
+    this.vpcConfigurationDescription,
   });
 
+  factory AmazonOpenSearchServerlessDestinationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonOpenSearchServerlessDestinationDescription(
+      bufferingHints: json['BufferingHints'] != null
+          ? AmazonOpenSearchServerlessBufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      collectionEndpoint: json['CollectionEndpoint'] as String?,
+      indexName: json['IndexName'] as String?,
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? AmazonOpenSearchServerlessRetryOptions.fromJson(
+              json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(AmazonOpenSearchServerlessS3BackupMode.fromString),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
+          ? VpcConfigurationDescription.fromJson(
+              json['VpcConfigurationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final accountUrl = this.accountUrl;
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final contentColumnName = this.contentColumnName;
-    final dataLoadingOption = this.dataLoadingOption;
-    final database = this.database;
-    final keyPassphrase = this.keyPassphrase;
-    final metaDataColumnName = this.metaDataColumnName;
-    final privateKey = this.privateKey;
+    final collectionEndpoint = this.collectionEndpoint;
+    final indexName = this.indexName;
     final processingConfiguration = this.processingConfiguration;
     final retryOptions = this.retryOptions;
     final roleARN = this.roleARN;
     final s3BackupMode = this.s3BackupMode;
-    final s3Update = this.s3Update;
-    final schema = this.schema;
-    final secretsManagerConfiguration = this.secretsManagerConfiguration;
-    final snowflakeRoleConfiguration = this.snowflakeRoleConfiguration;
-    final table = this.table;
-    final user = this.user;
+    final s3DestinationDescription = this.s3DestinationDescription;
+    final vpcConfigurationDescription = this.vpcConfigurationDescription;
     return {
-      if (accountUrl != null) 'AccountUrl': accountUrl,
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (contentColumnName != null) 'ContentColumnName': contentColumnName,
-      if (dataLoadingOption != null)
-        'DataLoadingOption': dataLoadingOption.value,
-      if (database != null) 'Database': database,
-      if (keyPassphrase != null) 'KeyPassphrase': keyPassphrase,
-      if (metaDataColumnName != null) 'MetaDataColumnName': metaDataColumnName,
-      if (privateKey != null) 'PrivateKey': privateKey,
+      if (collectionEndpoint != null) 'CollectionEndpoint': collectionEndpoint,
+      if (indexName != null) 'IndexName': indexName,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (roleARN != null) 'RoleARN': roleARN,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3Update != null) 'S3Update': s3Update,
-      if (schema != null) 'Schema': schema,
-      if (secretsManagerConfiguration != null)
-        'SecretsManagerConfiguration': secretsManagerConfiguration,
-      if (snowflakeRoleConfiguration != null)
-        'SnowflakeRoleConfiguration': snowflakeRoleConfiguration,
-      if (table != null) 'Table': table,
-      if (user != null) 'User': user,
+      if (s3DestinationDescription != null)
+        'S3DestinationDescription': s3DestinationDescription,
+      if (vpcConfigurationDescription != null)
+        'VpcConfigurationDescription': vpcConfigurationDescription,
     };
   }
 }
 
-/// Specify how long Firehose retries sending data to the New Relic HTTP
-/// endpoint. After sending data, Firehose first waits for an acknowledgment
-/// from the HTTP endpoint. If an error occurs or the acknowledgment doesn’t
-/// arrive within the acknowledgment timeout period, Firehose starts the retry
-/// duration counter. It keeps retrying until the retry duration expires. After
-/// that, Firehose considers it a data delivery failure and backs up the data to
-/// your Amazon S3 bucket. Every time that Firehose sends data to the HTTP
-/// endpoint (either the initial attempt or a retry), it restarts the
-/// acknowledgement timeout counter and waits for an acknowledgement from the
-/// HTTP endpoint. Even if the retry duration expires, Firehose still waits for
-/// the acknowledgment until it receives it or the acknowledgement timeout
-/// period is reached. If the acknowledgment times out, Firehose determines
-/// whether there's time left in the retry counter. If there is time left, it
-/// retries again and repeats the logic until it receives an acknowledgment or
-/// determines that the retry time has expired. If you don't want Firehose to
-/// retry sending data, set this value to 0.
-class SnowflakeRetryOptions {
-  /// the time period where Firehose will retry sending data to the chosen HTTP
-  /// endpoint.
-  final int? durationInSeconds;
+/// Describes a destination in Apache Iceberg Tables.
+class IcebergDestinationDescription {
+  /// Describes whether all incoming data for this delivery stream will be append
+  /// only (inserts only and not for updates and deletes) for Iceberg delivery.
+  /// This feature is only applicable for Apache Iceberg Tables.
+  ///
+  /// The default value is false. If you set this value to true, Firehose
+  /// automatically increases the throughput limit of a stream based on the
+  /// throttling levels of the stream. If you set this parameter to true for a
+  /// stream with updates and deletes, you will see out of order delivery.
+  ///
+  ///
+  final bool? appendOnly;
+  final BufferingHints? bufferingHints;
 
-  SnowflakeRetryOptions({
-    this.durationInSeconds,
+  /// Configuration describing where the destination Iceberg tables are persisted.
+  final CatalogConfiguration? catalogConfiguration;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// Provides a list of <code>DestinationTableConfigurations</code> which
+  /// Firehose uses to deliver data to Apache Iceberg Tables. Firehose will write
+  /// data with insert if table specific configuration is not provided here.
+  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
+  final ProcessingConfiguration? processingConfiguration;
+  final RetryOptions? retryOptions;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
+  /// calling Apache Iceberg Tables.
+  final String? roleARN;
+
+  /// Describes how Firehose will backup records. Currently,Firehose only supports
+  /// <code>FailedDataOnly</code>.
+  final IcebergS3BackupMode? s3BackupMode;
+  final S3DestinationDescription? s3DestinationDescription;
+
+  /// The description of automatic schema evolution configuration.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final SchemaEvolutionConfiguration? schemaEvolutionConfiguration;
+
+  /// The description of table creation configuration.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final TableCreationConfiguration? tableCreationConfiguration;
+
+  IcebergDestinationDescription({
+    this.appendOnly,
+    this.bufferingHints,
+    this.catalogConfiguration,
+    this.cloudWatchLoggingOptions,
+    this.destinationTableConfigurationList,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.roleARN,
+    this.s3BackupMode,
+    this.s3DestinationDescription,
+    this.schemaEvolutionConfiguration,
+    this.tableCreationConfiguration,
   });
 
-  factory SnowflakeRetryOptions.fromJson(Map<String, dynamic> json) {
-    return SnowflakeRetryOptions(
-      durationInSeconds: json['DurationInSeconds'] as int?,
+  factory IcebergDestinationDescription.fromJson(Map<String, dynamic> json) {
+    return IcebergDestinationDescription(
+      appendOnly: json['AppendOnly'] as bool?,
+      bufferingHints: json['BufferingHints'] != null
+          ? BufferingHints.fromJson(
+              json['BufferingHints'] as Map<String, dynamic>)
+          : null,
+      catalogConfiguration: json['CatalogConfiguration'] != null
+          ? CatalogConfiguration.fromJson(
+              json['CatalogConfiguration'] as Map<String, dynamic>)
+          : null,
+      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
+          ? CloudWatchLoggingOptions.fromJson(
+              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
+          : null,
+      destinationTableConfigurationList:
+          (json['DestinationTableConfigurationList'] as List?)
+              ?.nonNulls
+              .map((e) => DestinationTableConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      processingConfiguration: json['ProcessingConfiguration'] != null
+          ? ProcessingConfiguration.fromJson(
+              json['ProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      retryOptions: json['RetryOptions'] != null
+          ? RetryOptions.fromJson(json['RetryOptions'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      s3BackupMode: (json['S3BackupMode'] as String?)
+          ?.let(IcebergS3BackupMode.fromString),
+      s3DestinationDescription: json['S3DestinationDescription'] != null
+          ? S3DestinationDescription.fromJson(
+              json['S3DestinationDescription'] as Map<String, dynamic>)
+          : null,
+      schemaEvolutionConfiguration: json['SchemaEvolutionConfiguration'] != null
+          ? SchemaEvolutionConfiguration.fromJson(
+              json['SchemaEvolutionConfiguration'] as Map<String, dynamic>)
+          : null,
+      tableCreationConfiguration: json['TableCreationConfiguration'] != null
+          ? TableCreationConfiguration.fromJson(
+              json['TableCreationConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
+    final appendOnly = this.appendOnly;
+    final bufferingHints = this.bufferingHints;
+    final catalogConfiguration = this.catalogConfiguration;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final destinationTableConfigurationList =
+        this.destinationTableConfigurationList;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
+    final s3BackupMode = this.s3BackupMode;
+    final s3DestinationDescription = this.s3DestinationDescription;
+    final schemaEvolutionConfiguration = this.schemaEvolutionConfiguration;
+    final tableCreationConfiguration = this.tableCreationConfiguration;
     return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+      if (appendOnly != null) 'AppendOnly': appendOnly,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (catalogConfiguration != null)
+        'CatalogConfiguration': catalogConfiguration,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (destinationTableConfigurationList != null)
+        'DestinationTableConfigurationList': destinationTableConfigurationList,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (s3DestinationDescription != null)
+        'S3DestinationDescription': s3DestinationDescription,
+      if (schemaEvolutionConfiguration != null)
+        'SchemaEvolutionConfiguration': schemaEvolutionConfiguration,
+      if (tableCreationConfiguration != null)
+        'TableCreationConfiguration': tableCreationConfiguration,
     };
   }
 }
 
-/// Optionally configure a Snowflake role. Otherwise the default user role will
-/// be used.
-class SnowflakeRoleConfiguration {
-  /// Enable Snowflake role
-  final bool? enabled;
-
-  /// The Snowflake role you wish to configure
-  final String? snowflakeRole;
-
-  SnowflakeRoleConfiguration({
-    this.enabled,
-    this.snowflakeRole,
-  });
-
-  factory SnowflakeRoleConfiguration.fromJson(Map<String, dynamic> json) {
-    return SnowflakeRoleConfiguration(
-      enabled: json['Enabled'] as bool?,
-      snowflakeRole: json['SnowflakeRole'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final snowflakeRole = this.snowflakeRole;
-    return {
-      if (enabled != null) 'Enabled': enabled,
-      if (snowflakeRole != null) 'SnowflakeRole': snowflakeRole,
-    };
-  }
-}
-
-class SnowflakeS3BackupMode {
-  static const failedDataOnly = SnowflakeS3BackupMode._('FailedDataOnly');
-  static const allData = SnowflakeS3BackupMode._('AllData');
+class AmazonOpenSearchServerlessS3BackupMode {
+  static const failedDocumentsOnly =
+      AmazonOpenSearchServerlessS3BackupMode._('FailedDocumentsOnly');
+  static const allDocuments =
+      AmazonOpenSearchServerlessS3BackupMode._('AllDocuments');
 
   final String value;
 
-  const SnowflakeS3BackupMode._(this.value);
+  const AmazonOpenSearchServerlessS3BackupMode._(this.value);
 
-  static const values = [failedDataOnly, allData];
+  static const values = [failedDocumentsOnly, allDocuments];
 
-  static SnowflakeS3BackupMode fromString(String value) =>
+  static AmazonOpenSearchServerlessS3BackupMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => SnowflakeS3BackupMode._(value));
+          orElse: () => AmazonOpenSearchServerlessS3BackupMode._(value));
 
   @override
   bool operator ==(other) =>
-      other is SnowflakeS3BackupMode && other.value == value;
+      other is AmazonOpenSearchServerlessS3BackupMode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7636,13 +7040,120 @@ class SnowflakeS3BackupMode {
   String toString() => value;
 }
 
+/// The details of the VPC of the Amazon OpenSearch Service destination.
+class VpcConfigurationDescription {
+  /// The ARN of the IAM role that the Firehose stream uses to create endpoints in
+  /// the destination VPC. You can use your existing Firehose delivery role or you
+  /// can specify a new role. In either case, make sure that the role trusts the
+  /// Firehose service principal and that it grants the following permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ec2:DescribeVpcs</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeVpcAttribute</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeSubnets</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeSecurityGroups</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeNetworkInterfaces</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateNetworkInterface</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:CreateNetworkInterfacePermission</code>
+  /// </li>
+  /// <li>
+  /// <code>ec2:DeleteNetworkInterface</code>
+  /// </li>
+  /// </ul>
+  /// If you revoke these permissions after you create the Firehose stream,
+  /// Firehose can't scale out by creating more ENIs when necessary. You might
+  /// therefore see a degradation in performance.
+  final String roleARN;
+
+  /// The IDs of the security groups that Firehose uses when it creates ENIs in
+  /// the VPC of the Amazon OpenSearch Service destination. You can use the same
+  /// security group that the Amazon ES domain uses or different ones. If you
+  /// specify different security groups, ensure that they allow outbound HTTPS
+  /// traffic to the Amazon OpenSearch Service domain's security group. Also
+  /// ensure that the Amazon OpenSearch Service domain's security group allows
+  /// HTTPS traffic from the security groups specified here. If you use the same
+  /// security group for both your Firehose stream and the Amazon OpenSearch
+  /// Service domain, make sure the security group inbound rule allows HTTPS
+  /// traffic. For more information about security group rules, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules">Security
+  /// group rules</a> in the Amazon VPC documentation.
+  final List<String> securityGroupIds;
+
+  /// The IDs of the subnets that Firehose uses to create ENIs in the VPC of the
+  /// Amazon OpenSearch Service destination. Make sure that the routing tables and
+  /// inbound and outbound rules allow traffic to flow from the subnets whose IDs
+  /// are specified here to the subnets that have the destination Amazon
+  /// OpenSearch Service endpoints. Firehose creates at least one ENI in each of
+  /// the subnets that are specified here. Do not delete or modify these ENIs.
+  ///
+  /// The number of ENIs that Firehose creates in the subnets specified here
+  /// scales up and down automatically based on throughput. To enable Firehose to
+  /// scale up the number of ENIs to match throughput, ensure that you have
+  /// sufficient quota. To help you calculate the quota you need, assume that
+  /// Firehose can create up to three ENIs for this Firehose stream for each of
+  /// the subnets specified here. For more information about ENI quota, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
+  /// Interfaces </a> in the Amazon VPC Quotas topic.
+  final List<String> subnetIds;
+
+  /// The ID of the Amazon OpenSearch Service destination's VPC.
+  final String vpcId;
+
+  VpcConfigurationDescription({
+    required this.roleARN,
+    required this.securityGroupIds,
+    required this.subnetIds,
+    required this.vpcId,
+  });
+
+  factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) {
+    return VpcConfigurationDescription(
+      roleARN: (json['RoleARN'] as String?) ?? '',
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcId: (json['VpcId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleARN = this.roleARN;
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    return {
+      'RoleARN': roleARN,
+      'SecurityGroupIds': securityGroupIds,
+      'SubnetIds': subnetIds,
+      'VpcId': vpcId,
+    };
+  }
+}
+
 /// Configure a Snowflake VPC
 class SnowflakeVpcConfiguration {
   /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format
-  /// is com.amazonaws.vpce.[region].vpce-svc-&lt;[id]&gt;. For more information,
-  /// see <a
+  /// is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see <a
   /// href="https://docs.snowflake.com/en/user-guide/admin-security-privatelink">Amazon
-  /// PrivateLink &amp; Snowflake</a>
+  /// PrivateLink & Snowflake</a>
   final String privateLinkVpceId;
 
   SnowflakeVpcConfiguration({
@@ -7663,77 +7174,1451 @@ class SnowflakeVpcConfiguration {
   }
 }
 
-/// Details about a Kinesis data stream used as the source for a Firehose
-/// delivery stream.
-class SourceDescription {
-  /// The <a>KinesisStreamSourceDescription</a> value for the source Kinesis data
-  /// stream.
-  final KinesisStreamSourceDescription? kinesisStreamSourceDescription;
+/// Describes the HTTP endpoint selected as the destination.
+class HttpEndpointDescription {
+  /// The name of the HTTP endpoint selected as the destination.
+  final String? name;
 
-  /// The configuration description for the Amazon MSK cluster to be used as the
-  /// source for a delivery stream.
-  final MSKSourceDescription? mSKSourceDescription;
+  /// The URL of the HTTP endpoint selected as the destination.
+  final String? url;
 
-  SourceDescription({
-    this.kinesisStreamSourceDescription,
-    this.mSKSourceDescription,
+  HttpEndpointDescription({
+    this.name,
+    this.url,
   });
 
-  factory SourceDescription.fromJson(Map<String, dynamic> json) {
-    return SourceDescription(
-      kinesisStreamSourceDescription: json['KinesisStreamSourceDescription'] !=
-              null
-          ? KinesisStreamSourceDescription.fromJson(
-              json['KinesisStreamSourceDescription'] as Map<String, dynamic>)
-          : null,
-      mSKSourceDescription: json['MSKSourceDescription'] != null
-          ? MSKSourceDescription.fromJson(
-              json['MSKSourceDescription'] as Map<String, dynamic>)
-          : null,
+  factory HttpEndpointDescription.fromJson(Map<String, dynamic> json) {
+    return HttpEndpointDescription(
+      name: json['Name'] as String?,
+      url: json['Url'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final kinesisStreamSourceDescription = this.kinesisStreamSourceDescription;
-    final mSKSourceDescription = this.mSKSourceDescription;
+    final name = this.name;
+    final url = this.url;
     return {
-      if (kinesisStreamSourceDescription != null)
-        'KinesisStreamSourceDescription': kinesisStreamSourceDescription,
-      if (mSKSourceDescription != null)
-        'MSKSourceDescription': mSKSourceDescription,
+      if (name != null) 'Name': name,
+      if (url != null) 'Url': url,
     };
   }
 }
 
-/// The buffering options. If no value is specified, the default values for
-/// Splunk are used.
-class SplunkBufferingHints {
-  /// Buffer incoming data for the specified period of time, in seconds, before
-  /// delivering it to the destination. The default value is 60 (1 minute).
-  final int? intervalInSeconds;
+class AmazonopensearchserviceS3BackupMode {
+  static const failedDocumentsOnly =
+      AmazonopensearchserviceS3BackupMode._('FailedDocumentsOnly');
+  static const allDocuments =
+      AmazonopensearchserviceS3BackupMode._('AllDocuments');
 
-  /// Buffer incoming data to the specified size, in MBs, before delivering it to
-  /// the destination. The default value is 5.
-  final int? sizeInMBs;
+  final String value;
 
-  SplunkBufferingHints({
-    this.intervalInSeconds,
-    this.sizeInMBs,
+  const AmazonopensearchserviceS3BackupMode._(this.value);
+
+  static const values = [failedDocumentsOnly, allDocuments];
+
+  static AmazonopensearchserviceS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AmazonopensearchserviceS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmazonopensearchserviceS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ElasticsearchS3BackupMode {
+  static const failedDocumentsOnly =
+      ElasticsearchS3BackupMode._('FailedDocumentsOnly');
+  static const allDocuments = ElasticsearchS3BackupMode._('AllDocuments');
+
+  final String value;
+
+  const ElasticsearchS3BackupMode._(this.value);
+
+  static const values = [failedDocumentsOnly, allDocuments];
+
+  static ElasticsearchS3BackupMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ElasticsearchS3BackupMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ElasticsearchS3BackupMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure that configures parameters such as
+/// <code>ThroughputHintInMBs</code> for a stream configured with Direct PUT as
+/// a source.
+class DirectPutSourceDescription {
+  /// The value that you configure for this parameter is for information purpose
+  /// only and does not affect Firehose delivery throughput limit. You can use the
+  /// <a
+  /// href="https://support.console.aws.amazon.com/support/home#/case/create%3FissueType=service-limit-increase%26limitType=kinesis-firehose-limits">Firehose
+  /// Limits form</a> to request a throughput limit increase.
+  final int? throughputHintInMBs;
+
+  DirectPutSourceDescription({
+    this.throughputHintInMBs,
   });
 
-  factory SplunkBufferingHints.fromJson(Map<String, dynamic> json) {
-    return SplunkBufferingHints(
-      intervalInSeconds: json['IntervalInSeconds'] as int?,
-      sizeInMBs: json['SizeInMBs'] as int?,
+  factory DirectPutSourceDescription.fromJson(Map<String, dynamic> json) {
+    return DirectPutSourceDescription(
+      throughputHintInMBs: json['ThroughputHintInMBs'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final intervalInSeconds = this.intervalInSeconds;
-    final sizeInMBs = this.sizeInMBs;
+    final throughputHintInMBs = this.throughputHintInMBs;
     return {
-      if (intervalInSeconds != null) 'IntervalInSeconds': intervalInSeconds,
-      if (sizeInMBs != null) 'SizeInMBs': sizeInMBs,
+      if (throughputHintInMBs != null)
+        'ThroughputHintInMBs': throughputHintInMBs,
+    };
+  }
+}
+
+/// Details about a Kinesis data stream used as the source for a Firehose
+/// stream.
+class KinesisStreamSourceDescription {
+  /// Firehose starts retrieving records from the Kinesis data stream starting
+  /// with this timestamp.
+  final DateTime? deliveryStartTimestamp;
+
+  /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
+  /// Kinesis Data Streams ARN Format</a>.
+  final String? kinesisStreamARN;
+
+  /// The ARN of the role used by the source Kinesis data stream. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">Amazon
+  /// Web Services Identity and Access Management (IAM) ARN Format</a>.
+  final String? roleARN;
+
+  KinesisStreamSourceDescription({
+    this.deliveryStartTimestamp,
+    this.kinesisStreamARN,
+    this.roleARN,
+  });
+
+  factory KinesisStreamSourceDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamSourceDescription(
+      deliveryStartTimestamp: timeStampFromJson(json['DeliveryStartTimestamp']),
+      kinesisStreamARN: json['KinesisStreamARN'] as String?,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStartTimestamp = this.deliveryStartTimestamp;
+    final kinesisStreamARN = this.kinesisStreamARN;
+    final roleARN = this.roleARN;
+    return {
+      if (deliveryStartTimestamp != null)
+        'DeliveryStartTimestamp': unixTimestampToJson(deliveryStartTimestamp),
+      if (kinesisStreamARN != null) 'KinesisStreamARN': kinesisStreamARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
+}
+
+/// Details about the Amazon MSK cluster used as the source for a Firehose
+/// stream.
+class MSKSourceDescription {
+  /// The authentication configuration of the Amazon MSK cluster.
+  final AuthenticationConfiguration? authenticationConfiguration;
+
+  /// Firehose starts retrieving records from the topic within the Amazon MSK
+  /// cluster starting with this timestamp.
+  final DateTime? deliveryStartTimestamp;
+
+  /// The ARN of the Amazon MSK cluster.
+  final String? mSKClusterARN;
+
+  /// The start date and time in UTC for the offset position within your MSK topic
+  /// from where Firehose begins to read. By default, this is set to timestamp
+  /// when Firehose becomes Active.
+  ///
+  /// If you want to create a Firehose stream with Earliest start position from
+  /// SDK or CLI, you need to set the <code>ReadFromTimestampUTC</code> parameter
+  /// to Epoch (1970-01-01T00:00:00Z).
+  final DateTime? readFromTimestamp;
+
+  /// The topic name within the Amazon MSK cluster.
+  final String? topicName;
+
+  MSKSourceDescription({
+    this.authenticationConfiguration,
+    this.deliveryStartTimestamp,
+    this.mSKClusterARN,
+    this.readFromTimestamp,
+    this.topicName,
+  });
+
+  factory MSKSourceDescription.fromJson(Map<String, dynamic> json) {
+    return MSKSourceDescription(
+      authenticationConfiguration: json['AuthenticationConfiguration'] != null
+          ? AuthenticationConfiguration.fromJson(
+              json['AuthenticationConfiguration'] as Map<String, dynamic>)
+          : null,
+      deliveryStartTimestamp: timeStampFromJson(json['DeliveryStartTimestamp']),
+      mSKClusterARN: json['MSKClusterARN'] as String?,
+      readFromTimestamp: timeStampFromJson(json['ReadFromTimestamp']),
+      topicName: json['TopicName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationConfiguration = this.authenticationConfiguration;
+    final deliveryStartTimestamp = this.deliveryStartTimestamp;
+    final mSKClusterARN = this.mSKClusterARN;
+    final readFromTimestamp = this.readFromTimestamp;
+    final topicName = this.topicName;
+    return {
+      if (authenticationConfiguration != null)
+        'AuthenticationConfiguration': authenticationConfiguration,
+      if (deliveryStartTimestamp != null)
+        'DeliveryStartTimestamp': unixTimestampToJson(deliveryStartTimestamp),
+      if (mSKClusterARN != null) 'MSKClusterARN': mSKClusterARN,
+      if (readFromTimestamp != null)
+        'ReadFromTimestamp': unixTimestampToJson(readFromTimestamp),
+      if (topicName != null) 'TopicName': topicName,
+    };
+  }
+}
+
+/// The top level object for database source description.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DatabaseSourceDescription {
+  /// The list of column patterns in source database endpoint for Firehose to read
+  /// from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseColumnList? columns;
+
+  /// The structure to configure the authentication methods for Firehose to
+  /// connect to source database endpoint.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseSourceAuthenticationConfiguration?
+      databaseSourceAuthenticationConfiguration;
+
+  /// The details of the VPC Endpoint Service which Firehose uses to create a
+  /// PrivateLink to the database.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseSourceVPCConfiguration? databaseSourceVPCConfiguration;
+
+  /// The list of database patterns in source database endpoint for Firehose to
+  /// read from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseList? databases;
+
+  /// The endpoint of the database server.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String? endpoint;
+
+  /// The port of the database. This can be one of the following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// 3306 for MySQL database type
+  /// </li>
+  /// <li>
+  /// 5432 for PostgreSQL database type
+  /// </li>
+  /// </ul>
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final int? port;
+
+  /// The mode to enable or disable SSL when Firehose connects to the database
+  /// endpoint.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final SSLMode? sSLMode;
+
+  /// The structure that describes the snapshot information of a table in source
+  /// database endpoint that Firehose reads.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<DatabaseSnapshotInfo>? snapshotInfo;
+
+  /// The fully qualified name of the table in source database endpoint that
+  /// Firehose uses to track snapshot progress.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String? snapshotWatermarkTable;
+
+  /// The optional list of table and column names used as unique key columns when
+  /// taking snapshot if the tables don’t have primary keys configured.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? surrogateKeys;
+
+  /// The list of table patterns in source database endpoint for Firehose to read
+  /// from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseTableList? tables;
+
+  /// The type of database engine. This can be one of the following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// MySQL
+  /// </li>
+  /// <li>
+  /// PostgreSQL
+  /// </li>
+  /// </ul>
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseType? type;
+
+  DatabaseSourceDescription({
+    this.columns,
+    this.databaseSourceAuthenticationConfiguration,
+    this.databaseSourceVPCConfiguration,
+    this.databases,
+    this.endpoint,
+    this.port,
+    this.sSLMode,
+    this.snapshotInfo,
+    this.snapshotWatermarkTable,
+    this.surrogateKeys,
+    this.tables,
+    this.type,
+  });
+
+  factory DatabaseSourceDescription.fromJson(Map<String, dynamic> json) {
+    return DatabaseSourceDescription(
+      columns: json['Columns'] != null
+          ? DatabaseColumnList.fromJson(json['Columns'] as Map<String, dynamic>)
+          : null,
+      databaseSourceAuthenticationConfiguration:
+          json['DatabaseSourceAuthenticationConfiguration'] != null
+              ? DatabaseSourceAuthenticationConfiguration.fromJson(
+                  json['DatabaseSourceAuthenticationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      databaseSourceVPCConfiguration: json['DatabaseSourceVPCConfiguration'] !=
+              null
+          ? DatabaseSourceVPCConfiguration.fromJson(
+              json['DatabaseSourceVPCConfiguration'] as Map<String, dynamic>)
+          : null,
+      databases: json['Databases'] != null
+          ? DatabaseList.fromJson(json['Databases'] as Map<String, dynamic>)
+          : null,
+      endpoint: json['Endpoint'] as String?,
+      port: json['Port'] as int?,
+      sSLMode: (json['SSLMode'] as String?)?.let(SSLMode.fromString),
+      snapshotInfo: (json['SnapshotInfo'] as List?)
+          ?.nonNulls
+          .map((e) => DatabaseSnapshotInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      snapshotWatermarkTable: json['SnapshotWatermarkTable'] as String?,
+      surrogateKeys: (json['SurrogateKeys'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      tables: json['Tables'] != null
+          ? DatabaseTableList.fromJson(json['Tables'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(DatabaseType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columns = this.columns;
+    final databaseSourceAuthenticationConfiguration =
+        this.databaseSourceAuthenticationConfiguration;
+    final databaseSourceVPCConfiguration = this.databaseSourceVPCConfiguration;
+    final databases = this.databases;
+    final endpoint = this.endpoint;
+    final port = this.port;
+    final sSLMode = this.sSLMode;
+    final snapshotInfo = this.snapshotInfo;
+    final snapshotWatermarkTable = this.snapshotWatermarkTable;
+    final surrogateKeys = this.surrogateKeys;
+    final tables = this.tables;
+    final type = this.type;
+    return {
+      if (columns != null) 'Columns': columns,
+      if (databaseSourceAuthenticationConfiguration != null)
+        'DatabaseSourceAuthenticationConfiguration':
+            databaseSourceAuthenticationConfiguration,
+      if (databaseSourceVPCConfiguration != null)
+        'DatabaseSourceVPCConfiguration': databaseSourceVPCConfiguration,
+      if (databases != null) 'Databases': databases,
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (port != null) 'Port': port,
+      if (sSLMode != null) 'SSLMode': sSLMode.value,
+      if (snapshotInfo != null) 'SnapshotInfo': snapshotInfo,
+      if (snapshotWatermarkTable != null)
+        'SnapshotWatermarkTable': snapshotWatermarkTable,
+      if (surrogateKeys != null) 'SurrogateKeys': surrogateKeys,
+      if (tables != null) 'Tables': tables,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class DatabaseType {
+  static const mySQL = DatabaseType._('MySQL');
+  static const postgreSQL = DatabaseType._('PostgreSQL');
+
+  final String value;
+
+  const DatabaseType._(this.value);
+
+  static const values = [mySQL, postgreSQL];
+
+  static DatabaseType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatabaseType._(value));
+
+  @override
+  bool operator ==(other) => other is DatabaseType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SSLMode {
+  static const disabled = SSLMode._('Disabled');
+  static const enabled = SSLMode._('Enabled');
+
+  final String value;
+
+  const SSLMode._(this.value);
+
+  static const values = [disabled, enabled];
+
+  static SSLMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SSLMode._(value));
+
+  @override
+  bool operator ==(other) => other is SSLMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure used to configure the list of database patterns in source
+/// database endpoint for Firehose to read from.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DatabaseList {
+  /// The list of database patterns in source database endpoint to be excluded for
+  /// Firehose to read from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? exclude;
+
+  /// The list of database patterns in source database endpoint to be included for
+  /// Firehose to read from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? include;
+
+  DatabaseList({
+    this.exclude,
+    this.include,
+  });
+
+  factory DatabaseList.fromJson(Map<String, dynamic> json) {
+    return DatabaseList(
+      exclude:
+          (json['Exclude'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      include:
+          (json['Include'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exclude = this.exclude;
+    final include = this.include;
+    return {
+      if (exclude != null) 'Exclude': exclude,
+      if (include != null) 'Include': include,
+    };
+  }
+}
+
+/// The structure used to configure the list of table patterns in source
+/// database endpoint for Firehose to read from.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DatabaseTableList {
+  /// The list of table patterns in source database endpoint to be excluded for
+  /// Firehose to read from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? exclude;
+
+  /// The list of table patterns in source database endpoint to be included for
+  /// Firehose to read from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? include;
+
+  DatabaseTableList({
+    this.exclude,
+    this.include,
+  });
+
+  factory DatabaseTableList.fromJson(Map<String, dynamic> json) {
+    return DatabaseTableList(
+      exclude:
+          (json['Exclude'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      include:
+          (json['Include'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exclude = this.exclude;
+    final include = this.include;
+    return {
+      if (exclude != null) 'Exclude': exclude,
+      if (include != null) 'Include': include,
+    };
+  }
+}
+
+/// The structure used to configure the list of column patterns in source
+/// database endpoint for Firehose to read from.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DatabaseColumnList {
+  /// The list of column patterns in source database to be excluded for Firehose
+  /// to read from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? exclude;
+
+  /// The list of column patterns in source database to be included for Firehose
+  /// to read from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? include;
+
+  DatabaseColumnList({
+    this.exclude,
+    this.include,
+  });
+
+  factory DatabaseColumnList.fromJson(Map<String, dynamic> json) {
+    return DatabaseColumnList(
+      exclude:
+          (json['Exclude'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      include:
+          (json['Include'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exclude = this.exclude;
+    final include = this.include;
+    return {
+      if (exclude != null) 'Exclude': exclude,
+      if (include != null) 'Include': include,
+    };
+  }
+}
+
+/// The structure to configure the authentication methods for Firehose to
+/// connect to source database endpoint.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DatabaseSourceAuthenticationConfiguration {
+  final SecretsManagerConfiguration secretsManagerConfiguration;
+
+  DatabaseSourceAuthenticationConfiguration({
+    required this.secretsManagerConfiguration,
+  });
+
+  factory DatabaseSourceAuthenticationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return DatabaseSourceAuthenticationConfiguration(
+      secretsManagerConfiguration: SecretsManagerConfiguration.fromJson(
+          (json['SecretsManagerConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    return {
+      'SecretsManagerConfiguration': secretsManagerConfiguration,
+    };
+  }
+}
+
+/// The structure for details of the VPC Endpoint Service which Firehose uses to
+/// create a PrivateLink to the database.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DatabaseSourceVPCConfiguration {
+  /// The VPC endpoint service name which Firehose uses to create a PrivateLink to
+  /// the database. The endpoint service must have the Firehose service principle
+  /// <code>firehose.amazonaws.com</code> as an allowed principal on the VPC
+  /// endpoint service. The VPC endpoint service name is a string that looks like
+  /// <code>com.amazonaws.vpce.<region>.<vpc-endpoint-service-id></code>.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String vpcEndpointServiceName;
+
+  DatabaseSourceVPCConfiguration({
+    required this.vpcEndpointServiceName,
+  });
+
+  factory DatabaseSourceVPCConfiguration.fromJson(Map<String, dynamic> json) {
+    return DatabaseSourceVPCConfiguration(
+      vpcEndpointServiceName: (json['VpcEndpointServiceName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpcEndpointServiceName = this.vpcEndpointServiceName;
+    return {
+      'VpcEndpointServiceName': vpcEndpointServiceName,
+    };
+  }
+}
+
+/// The structure that describes the snapshot information of a table in source
+/// database endpoint that Firehose reads.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DatabaseSnapshotInfo {
+  /// The identifier of the current snapshot of the table in source database
+  /// endpoint.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String id;
+
+  /// The timestamp when the current snapshot is taken on the table.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DateTime requestTimestamp;
+
+  /// The principal that sent the request to take the current snapshot on the
+  /// table.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final SnapshotRequestedBy requestedBy;
+
+  /// The status of the current snapshot of the table.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final SnapshotStatus status;
+
+  /// The fully qualified name of the table in source database endpoint that
+  /// Firehose reads.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String table;
+  final FailureDescription? failureDescription;
+
+  DatabaseSnapshotInfo({
+    required this.id,
+    required this.requestTimestamp,
+    required this.requestedBy,
+    required this.status,
+    required this.table,
+    this.failureDescription,
+  });
+
+  factory DatabaseSnapshotInfo.fromJson(Map<String, dynamic> json) {
+    return DatabaseSnapshotInfo(
+      id: (json['Id'] as String?) ?? '',
+      requestTimestamp:
+          nonNullableTimeStampFromJson(json['RequestTimestamp'] ?? 0),
+      requestedBy: SnapshotRequestedBy.fromString(
+          (json['RequestedBy'] as String?) ?? ''),
+      status: SnapshotStatus.fromString((json['Status'] as String?) ?? ''),
+      table: (json['Table'] as String?) ?? '',
+      failureDescription: json['FailureDescription'] != null
+          ? FailureDescription.fromJson(
+              json['FailureDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final requestTimestamp = this.requestTimestamp;
+    final requestedBy = this.requestedBy;
+    final status = this.status;
+    final table = this.table;
+    final failureDescription = this.failureDescription;
+    return {
+      'Id': id,
+      'RequestTimestamp': unixTimestampToJson(requestTimestamp),
+      'RequestedBy': requestedBy.value,
+      'Status': status.value,
+      'Table': table,
+      if (failureDescription != null) 'FailureDescription': failureDescription,
+    };
+  }
+}
+
+class SnapshotRequestedBy {
+  static const user = SnapshotRequestedBy._('USER');
+  static const firehose = SnapshotRequestedBy._('FIREHOSE');
+
+  final String value;
+
+  const SnapshotRequestedBy._(this.value);
+
+  static const values = [user, firehose];
+
+  static SnapshotRequestedBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SnapshotRequestedBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SnapshotRequestedBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SnapshotStatus {
+  static const inProgress = SnapshotStatus._('IN_PROGRESS');
+  static const complete = SnapshotStatus._('COMPLETE');
+  static const suspended = SnapshotStatus._('SUSPENDED');
+
+  final String value;
+
+  const SnapshotStatus._(this.value);
+
+  static const values = [inProgress, complete, suspended];
+
+  static SnapshotStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SnapshotStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The authentication configuration of the Amazon MSK cluster.
+class AuthenticationConfiguration {
+  /// The type of connectivity used to access the Amazon MSK cluster.
+  final Connectivity connectivity;
+
+  /// The ARN of the role used to access the Amazon MSK cluster.
+  final String roleARN;
+
+  AuthenticationConfiguration({
+    required this.connectivity,
+    required this.roleARN,
+  });
+
+  factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuthenticationConfiguration(
+      connectivity:
+          Connectivity.fromString((json['Connectivity'] as String?) ?? ''),
+      roleARN: (json['RoleARN'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectivity = this.connectivity;
+    final roleARN = this.roleARN;
+    return {
+      'Connectivity': connectivity.value,
+      'RoleARN': roleARN,
+    };
+  }
+}
+
+class Connectivity {
+  static const public = Connectivity._('PUBLIC');
+  static const private = Connectivity._('PRIVATE');
+
+  final String value;
+
+  const Connectivity._(this.value);
+
+  static const values = [public, private];
+
+  static Connectivity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Connectivity._(value));
+
+  @override
+  bool operator ==(other) => other is Connectivity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeliveryStreamEncryptionStatus {
+  static const enabled = DeliveryStreamEncryptionStatus._('ENABLED');
+  static const enabling = DeliveryStreamEncryptionStatus._('ENABLING');
+  static const enablingFailed =
+      DeliveryStreamEncryptionStatus._('ENABLING_FAILED');
+  static const disabled = DeliveryStreamEncryptionStatus._('DISABLED');
+  static const disabling = DeliveryStreamEncryptionStatus._('DISABLING');
+  static const disablingFailed =
+      DeliveryStreamEncryptionStatus._('DISABLING_FAILED');
+
+  final String value;
+
+  const DeliveryStreamEncryptionStatus._(this.value);
+
+  static const values = [
+    enabled,
+    enabling,
+    enablingFailed,
+    disabled,
+    disabling,
+    disablingFailed
+  ];
+
+  static DeliveryStreamEncryptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliveryStreamEncryptionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryStreamEncryptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeliveryStreamFailureType {
+  static const vpcEndpointServiceNameNotFound =
+      DeliveryStreamFailureType._('VPC_ENDPOINT_SERVICE_NAME_NOT_FOUND');
+  static const vpcInterfaceEndpointServiceAccessDenied =
+      DeliveryStreamFailureType._(
+          'VPC_INTERFACE_ENDPOINT_SERVICE_ACCESS_DENIED');
+  static const retireKmsGrantFailed =
+      DeliveryStreamFailureType._('RETIRE_KMS_GRANT_FAILED');
+  static const createKmsGrantFailed =
+      DeliveryStreamFailureType._('CREATE_KMS_GRANT_FAILED');
+  static const kmsAccessDenied =
+      DeliveryStreamFailureType._('KMS_ACCESS_DENIED');
+  static const disabledKmsKey = DeliveryStreamFailureType._('DISABLED_KMS_KEY');
+  static const invalidKmsKey = DeliveryStreamFailureType._('INVALID_KMS_KEY');
+  static const kmsKeyNotFound =
+      DeliveryStreamFailureType._('KMS_KEY_NOT_FOUND');
+  static const kmsOptInRequired =
+      DeliveryStreamFailureType._('KMS_OPT_IN_REQUIRED');
+  static const createEniFailed =
+      DeliveryStreamFailureType._('CREATE_ENI_FAILED');
+  static const deleteEniFailed =
+      DeliveryStreamFailureType._('DELETE_ENI_FAILED');
+  static const subnetNotFound = DeliveryStreamFailureType._('SUBNET_NOT_FOUND');
+  static const securityGroupNotFound =
+      DeliveryStreamFailureType._('SECURITY_GROUP_NOT_FOUND');
+  static const eniAccessDenied =
+      DeliveryStreamFailureType._('ENI_ACCESS_DENIED');
+  static const subnetAccessDenied =
+      DeliveryStreamFailureType._('SUBNET_ACCESS_DENIED');
+  static const securityGroupAccessDenied =
+      DeliveryStreamFailureType._('SECURITY_GROUP_ACCESS_DENIED');
+  static const unknownError = DeliveryStreamFailureType._('UNKNOWN_ERROR');
+
+  final String value;
+
+  const DeliveryStreamFailureType._(this.value);
+
+  static const values = [
+    vpcEndpointServiceNameNotFound,
+    vpcInterfaceEndpointServiceAccessDenied,
+    retireKmsGrantFailed,
+    createKmsGrantFailed,
+    kmsAccessDenied,
+    disabledKmsKey,
+    invalidKmsKey,
+    kmsKeyNotFound,
+    kmsOptInRequired,
+    createEniFailed,
+    deleteEniFailed,
+    subnetNotFound,
+    securityGroupNotFound,
+    eniAccessDenied,
+    subnetAccessDenied,
+    securityGroupAccessDenied,
+    unknownError
+  ];
+
+  static DeliveryStreamFailureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliveryStreamFailureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliveryStreamFailureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The structure that configures parameters such as
+/// <code>ThroughputHintInMBs</code> for a stream configured with Direct PUT as
+/// a source.
+class DirectPutSourceConfiguration {
+  /// The value that you configure for this parameter is for information purpose
+  /// only and does not affect Firehose delivery throughput limit. You can use the
+  /// <a
+  /// href="https://support.console.aws.amazon.com/support/home#/case/create%3FissueType=service-limit-increase%26limitType=kinesis-firehose-limits">Firehose
+  /// Limits form</a> to request a throughput limit increase.
+  final int throughputHintInMBs;
+
+  DirectPutSourceConfiguration({
+    required this.throughputHintInMBs,
+  });
+
+  Map<String, dynamic> toJson() {
+    final throughputHintInMBs = this.throughputHintInMBs;
+    return {
+      'ThroughputHintInMBs': throughputHintInMBs,
+    };
+  }
+}
+
+/// The stream and role Amazon Resource Names (ARNs) for a Kinesis data stream
+/// used as the source for a Firehose stream.
+class KinesisStreamSourceConfiguration {
+  /// The ARN of the source Kinesis data stream. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
+  /// Kinesis Data Streams ARN Format</a>.
+  final String kinesisStreamARN;
+
+  /// The ARN of the role that provides access to the source Kinesis data stream.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-iam">Amazon
+  /// Web Services Identity and Access Management (IAM) ARN Format</a>.
+  final String roleARN;
+
+  KinesisStreamSourceConfiguration({
+    required this.kinesisStreamARN,
+    required this.roleARN,
+  });
+
+  Map<String, dynamic> toJson() {
+    final kinesisStreamARN = this.kinesisStreamARN;
+    final roleARN = this.roleARN;
+    return {
+      'KinesisStreamARN': kinesisStreamARN,
+      'RoleARN': roleARN,
+    };
+  }
+}
+
+/// Describes the configuration of a destination in Amazon S3.
+class ExtendedS3DestinationConfiguration {
+  /// The ARN of the S3 bucket. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String bucketARN;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String roleARN;
+
+  /// The buffering option.
+  final BufferingHints? bufferingHints;
+
+  /// The Amazon CloudWatch logging options for your Firehose stream.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The compression format. If no value is specified, the default is
+  /// UNCOMPRESSED.
+  final CompressionFormat? compressionFormat;
+
+  /// The time zone you prefer. UTC is the default.
+  final String? customTimeZone;
+
+  /// The serializer, deserializer, and schema for converting data from the JSON
+  /// format to the Parquet or ORC format before writing it to Amazon S3.
+  final DataFormatConversionConfiguration? dataFormatConversionConfiguration;
+
+  /// The configuration of the dynamic partitioning mechanism that creates smaller
+  /// data sets from the streaming data by partitioning it based on partition
+  /// keys. Currently, dynamic partitioning is only supported for Amazon S3
+  /// destinations.
+  final DynamicPartitioningConfiguration? dynamicPartitioningConfiguration;
+
+  /// The encryption configuration. If no value is specified, the default is no
+  /// encryption.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// A prefix that Firehose evaluates and adds to failed records before writing
+  /// them to S3. This prefix appears immediately following the bucket name. For
+  /// information about how to specify this prefix, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+  /// Prefixes for Amazon S3 Objects</a>.
+  final String? errorOutputPrefix;
+
+  /// Specify a file extension. It will override the default file extension
+  final String? fileExtension;
+
+  /// The "YYYY/MM/DD/HH" time format prefix is automatically used for delivered
+  /// Amazon S3 files. You can also specify a custom prefix, as described in <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/s3-prefixes.html">Custom
+  /// Prefixes for Amazon S3 Objects</a>.
+  final String? prefix;
+
+  /// The data processing configuration.
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The configuration for backup in Amazon S3.
+  final S3DestinationConfiguration? s3BackupConfiguration;
+
+  /// The Amazon S3 backup mode. After you create a Firehose stream, you can
+  /// update it to enable Amazon S3 backup if it is disabled. If backup is
+  /// enabled, you can't update the Firehose stream to disable it.
+  final S3BackupMode? s3BackupMode;
+
+  ExtendedS3DestinationConfiguration({
+    required this.bucketARN,
+    required this.roleARN,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.compressionFormat,
+    this.customTimeZone,
+    this.dataFormatConversionConfiguration,
+    this.dynamicPartitioningConfiguration,
+    this.encryptionConfiguration,
+    this.errorOutputPrefix,
+    this.fileExtension,
+    this.prefix,
+    this.processingConfiguration,
+    this.s3BackupConfiguration,
+    this.s3BackupMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final roleARN = this.roleARN;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final compressionFormat = this.compressionFormat;
+    final customTimeZone = this.customTimeZone;
+    final dataFormatConversionConfiguration =
+        this.dataFormatConversionConfiguration;
+    final dynamicPartitioningConfiguration =
+        this.dynamicPartitioningConfiguration;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final errorOutputPrefix = this.errorOutputPrefix;
+    final fileExtension = this.fileExtension;
+    final prefix = this.prefix;
+    final processingConfiguration = this.processingConfiguration;
+    final s3BackupConfiguration = this.s3BackupConfiguration;
+    final s3BackupMode = this.s3BackupMode;
+    return {
+      'BucketARN': bucketARN,
+      'RoleARN': roleARN,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (compressionFormat != null)
+        'CompressionFormat': compressionFormat.value,
+      if (customTimeZone != null) 'CustomTimeZone': customTimeZone,
+      if (dataFormatConversionConfiguration != null)
+        'DataFormatConversionConfiguration': dataFormatConversionConfiguration,
+      if (dynamicPartitioningConfiguration != null)
+        'DynamicPartitioningConfiguration': dynamicPartitioningConfiguration,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (errorOutputPrefix != null) 'ErrorOutputPrefix': errorOutputPrefix,
+      if (fileExtension != null) 'FileExtension': fileExtension,
+      if (prefix != null) 'Prefix': prefix,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (s3BackupConfiguration != null)
+        'S3BackupConfiguration': s3BackupConfiguration,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+    };
+  }
+}
+
+/// Describes the configuration of a destination in Amazon Redshift.
+class RedshiftDestinationConfiguration {
+  /// The database connection string.
+  final String clusterJDBCURL;
+
+  /// The <code>COPY</code> command.
+  final CopyCommand copyCommand;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String roleARN;
+
+  /// The configuration for the intermediate Amazon S3 location from which Amazon
+  /// Redshift obtains data. Restrictions are described in the topic for
+  /// <a>CreateDeliveryStream</a>.
+  ///
+  /// The compression formats <code>SNAPPY</code> or <code>ZIP</code> cannot be
+  /// specified in <code>RedshiftDestinationConfiguration.S3Configuration</code>
+  /// because the Amazon Redshift <code>COPY</code> operation that reads from the
+  /// S3 bucket doesn't support these compression formats.
+  final S3DestinationConfiguration s3Configuration;
+
+  /// The CloudWatch logging options for your Firehose stream.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The user password.
+  final String? password;
+
+  /// The data processing configuration.
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
+  /// Redshift. Default value is 3600 (60 minutes).
+  final RedshiftRetryOptions? retryOptions;
+
+  /// The configuration for backup in Amazon S3.
+  final S3DestinationConfiguration? s3BackupConfiguration;
+
+  /// The Amazon S3 backup mode. After you create a Firehose stream, you can
+  /// update it to enable Amazon S3 backup if it is disabled. If backup is
+  /// enabled, you can't update the Firehose stream to disable it.
+  final RedshiftS3BackupMode? s3BackupMode;
+
+  /// The configuration that defines how you access secrets for Amazon Redshift.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  /// The name of the user.
+  final String? username;
+
+  RedshiftDestinationConfiguration({
+    required this.clusterJDBCURL,
+    required this.copyCommand,
+    required this.roleARN,
+    required this.s3Configuration,
+    this.cloudWatchLoggingOptions,
+    this.password,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupConfiguration,
+    this.s3BackupMode,
+    this.secretsManagerConfiguration,
+    this.username,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clusterJDBCURL = this.clusterJDBCURL;
+    final copyCommand = this.copyCommand;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final password = this.password;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupConfiguration = this.s3BackupConfiguration;
+    final s3BackupMode = this.s3BackupMode;
+    final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    final username = this.username;
+    return {
+      'ClusterJDBCURL': clusterJDBCURL,
+      'CopyCommand': copyCommand,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (password != null) 'Password': password,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupConfiguration != null)
+        'S3BackupConfiguration': s3BackupConfiguration,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (secretsManagerConfiguration != null)
+        'SecretsManagerConfiguration': secretsManagerConfiguration,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Describes the configuration of a destination in Amazon OpenSearch Service.
+class ElasticsearchDestinationConfiguration {
+  /// The Elasticsearch index name.
+  final String indexName;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
+  /// calling the Amazon OpenSearch Service Configuration API and for indexing
+  /// documents. For more information, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html#using-iam-s3">Grant
+  /// Firehose Access to an Amazon S3 Destination</a> and <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  final String roleARN;
+
+  /// The configuration for the backup Amazon S3 location.
+  final S3DestinationConfiguration s3Configuration;
+
+  /// The buffering options. If no value is specified, the default values for
+  /// <code>ElasticsearchBufferingHints</code> are used.
+  final ElasticsearchBufferingHints? bufferingHints;
+
+  /// The Amazon CloudWatch logging options for your Firehose stream.
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Specify either this
+  /// <code>ClusterEndpoint</code> or the <code>DomainARN</code> field.
+  final String? clusterEndpoint;
+
+  /// Indicates the method for setting up document ID. The supported methods are
+  /// Firehose generated document ID and OpenSearch Service generated document ID.
+  final DocumentIdOptions? documentIdOptions;
+
+  /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have
+  /// permissions for <code>DescribeDomain</code>, <code>DescribeDomains</code>,
+  /// and <code>DescribeDomainConfig</code> after assuming the role specified in
+  /// <b>RoleARN</b>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  ///
+  /// Specify either <code>ClusterEndpoint</code> or <code>DomainARN</code>.
+  final String? domainARN;
+
+  /// The Elasticsearch index rotation period. Index rotation appends a timestamp
+  /// to the <code>IndexName</code> to facilitate the expiration of old data. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-index-rotation">Index
+  /// Rotation for the Amazon OpenSearch Service Destination</a>. The default
+  /// value is <code>OneDay</code>.
+  final ElasticsearchIndexRotationPeriod? indexRotationPeriod;
+
+  /// The data processing configuration.
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
+  /// OpenSearch Service. The default value is 300 (5 minutes).
+  final ElasticsearchRetryOptions? retryOptions;
+
+  /// Defines how documents should be delivered to Amazon S3. When it is set to
+  /// <code>FailedDocumentsOnly</code>, Firehose writes any documents that could
+  /// not be indexed to the configured Amazon S3 destination, with
+  /// <code>AmazonOpenSearchService-failed/</code> appended to the key prefix.
+  /// When set to <code>AllDocuments</code>, Firehose delivers all incoming
+  /// records to Amazon S3, and also writes failed documents with
+  /// <code>AmazonOpenSearchService-failed/</code> appended to the prefix. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/dev/basic-deliver.html#es-s3-backup">Amazon
+  /// S3 Backup for the Amazon OpenSearch Service Destination</a>. Default value
+  /// is <code>FailedDocumentsOnly</code>.
+  ///
+  /// You can't change this backup mode after you create the Firehose stream.
+  final ElasticsearchS3BackupMode? s3BackupMode;
+
+  /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one
+  /// type per index. If you try to specify a new type for an existing index that
+  /// already has another type, Firehose returns an error during run time.
+  ///
+  /// For Elasticsearch 7.x, don't specify a <code>TypeName</code>.
+  final String? typeName;
+
+  /// The details of the VPC of the Amazon destination.
+  final VpcConfiguration? vpcConfiguration;
+
+  ElasticsearchDestinationConfiguration({
+    required this.indexName,
+    required this.roleARN,
+    required this.s3Configuration,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.clusterEndpoint,
+    this.documentIdOptions,
+    this.domainARN,
+    this.indexRotationPeriod,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.typeName,
+    this.vpcConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final documentIdOptions = this.documentIdOptions;
+    final domainARN = this.domainARN;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final typeName = this.typeName;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'IndexName': indexName,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.value,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (typeName != null) 'TypeName': typeName,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// Describes the configuration of a destination in Amazon OpenSearch Service
+class AmazonopensearchserviceDestinationConfiguration {
+  /// The ElasticsearAmazon OpenSearch Service index name.
+  final String indexName;
+
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
+  /// calling the Amazon OpenSearch Service Configuration API and for indexing
+  /// documents.
+  final String roleARN;
+  final S3DestinationConfiguration s3Configuration;
+
+  /// The buffering options. If no value is specified, the default values for
+  /// AmazonopensearchserviceBufferingHints are used.
+  final AmazonopensearchserviceBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The endpoint to use when communicating with the cluster. Specify either this
+  /// ClusterEndpoint or the DomainARN field.
+  final String? clusterEndpoint;
+
+  /// Indicates the method for setting up document ID. The supported methods are
+  /// Firehose generated document ID and OpenSearch Service generated document ID.
+  final DocumentIdOptions? documentIdOptions;
+
+  /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have
+  /// permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains,
+  /// and DescribeElasticsearchDomainConfig after assuming the role specified in
+  /// RoleARN.
+  final String? domainARN;
+
+  /// The Amazon OpenSearch Service index rotation period. Index rotation appends
+  /// a timestamp to the IndexName to facilitate the expiration of old data.
+  final AmazonopensearchserviceIndexRotationPeriod? indexRotationPeriod;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The retry behavior in case Firehose is unable to deliver documents to Amazon
+  /// OpenSearch Service. The default value is 300 (5 minutes).
+  final AmazonopensearchserviceRetryOptions? retryOptions;
+
+  /// Defines how documents should be delivered to Amazon S3. When it is set to
+  /// FailedDocumentsOnly, Firehose writes any documents that could not be indexed
+  /// to the configured Amazon S3 destination, with
+  /// AmazonOpenSearchService-failed/ appended to the key prefix. When set to
+  /// AllDocuments, Firehose delivers all incoming records to Amazon S3, and also
+  /// writes failed documents with AmazonOpenSearchService-failed/ appended to the
+  /// prefix.
+  final AmazonopensearchserviceS3BackupMode? s3BackupMode;
+
+  /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be
+  /// only one type per index. If you try to specify a new type for an existing
+  /// index that already has another type, Firehose returns an error during run
+  /// time.
+  final String? typeName;
+  final VpcConfiguration? vpcConfiguration;
+
+  AmazonopensearchserviceDestinationConfiguration({
+    required this.indexName,
+    required this.roleARN,
+    required this.s3Configuration,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.clusterEndpoint,
+    this.documentIdOptions,
+    this.domainARN,
+    this.indexRotationPeriod,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.typeName,
+    this.vpcConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final clusterEndpoint = this.clusterEndpoint;
+    final documentIdOptions = this.documentIdOptions;
+    final domainARN = this.domainARN;
+    final indexRotationPeriod = this.indexRotationPeriod;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final typeName = this.typeName;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'IndexName': indexName,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (clusterEndpoint != null) 'ClusterEndpoint': clusterEndpoint,
+      if (documentIdOptions != null) 'DocumentIdOptions': documentIdOptions,
+      if (domainARN != null) 'DomainARN': domainARN,
+      if (indexRotationPeriod != null)
+        'IndexRotationPeriod': indexRotationPeriod.value,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (typeName != null) 'TypeName': typeName,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
     };
   }
 }
@@ -7753,7 +8638,7 @@ class SplunkDestinationConfiguration {
   /// Splunk are used.
   final SplunkBufferingHints? bufferingHints;
 
-  /// The Amazon CloudWatch logging options for your delivery stream.
+  /// The Amazon CloudWatch logging options for your Firehose stream.
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
   /// The amount of time that Firehose waits to receive an acknowledgment from
@@ -7835,384 +8720,600 @@ class SplunkDestinationConfiguration {
   }
 }
 
-/// Describes a destination in Splunk.
-class SplunkDestinationDescription {
-  /// The buffering options. If no value is specified, the default values for
-  /// Splunk are used.
-  final SplunkBufferingHints? bufferingHints;
+/// Describes the configuration of the HTTP endpoint destination.
+class HttpEndpointDestinationConfiguration {
+  /// The configuration of the HTTP endpoint selected as the destination.
+  final HttpEndpointConfiguration endpointConfiguration;
+  final S3DestinationConfiguration s3Configuration;
 
-  /// The Amazon CloudWatch logging options for your delivery stream.
+  /// The buffering options that can be used before data is delivered to the
+  /// specified destination. Firehose treats these options as hints, and it might
+  /// choose to use more optimal values. The <code>SizeInMBs</code> and
+  /// <code>IntervalInSeconds</code> parameters are optional. However, if you
+  /// specify a value for one of them, you must also provide a value for the
+  /// other.
+  final HttpEndpointBufferingHints? bufferingHints;
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
-
-  /// The amount of time that Firehose waits to receive an acknowledgment from
-  /// Splunk after it sends it data. At the end of the timeout period, Firehose
-  /// either tries to send the data again or considers it an error, based on your
-  /// retry settings.
-  final int? hECAcknowledgmentTimeoutInSeconds;
-
-  /// The HTTP Event Collector (HEC) endpoint to which Firehose sends your data.
-  final String? hECEndpoint;
-
-  /// This type can be either "Raw" or "Event."
-  final HECEndpointType? hECEndpointType;
-
-  /// A GUID you obtain from your Splunk cluster when you create a new HEC
-  /// endpoint.
-  final String? hECToken;
-
-  /// The data processing configuration.
   final ProcessingConfiguration? processingConfiguration;
 
-  /// The retry behavior in case Firehose is unable to deliver data to Splunk or
-  /// if it doesn't receive an acknowledgment of receipt from Splunk.
-  final SplunkRetryOptions? retryOptions;
+  /// The configuration of the request sent to the HTTP endpoint that is specified
+  /// as the destination.
+  final HttpEndpointRequestConfiguration? requestConfiguration;
 
-  /// Defines how documents should be delivered to Amazon S3. When set to
-  /// <code>FailedDocumentsOnly</code>, Firehose writes any data that could not be
-  /// indexed to the configured Amazon S3 destination. When set to
-  /// <code>AllDocuments</code>, Firehose delivers all incoming records to Amazon
-  /// S3, and also writes failed documents to Amazon S3. Default value is
-  /// <code>FailedDocumentsOnly</code>.
-  final SplunkS3BackupMode? s3BackupMode;
+  /// Describes the retry behavior in case Firehose is unable to deliver data to
+  /// the specified HTTP endpoint destination, or if it doesn't receive a valid
+  /// acknowledgment of receipt from the specified HTTP endpoint destination.
+  final HttpEndpointRetryOptions? retryOptions;
 
-  /// The Amazon S3 destination.&gt;
-  final S3DestinationDescription? s3DestinationDescription;
+  /// Firehose uses this IAM role for all the permissions that the delivery stream
+  /// needs.
+  final String? roleARN;
 
-  /// The configuration that defines how you access secrets for Splunk.
+  /// Describes the S3 bucket backup options for the data that Firehose delivers
+  /// to the HTTP endpoint destination. You can back up all documents
+  /// (<code>AllData</code>) or only the documents that Firehose could not deliver
+  /// to the specified HTTP endpoint destination (<code>FailedDataOnly</code>).
+  final HttpEndpointS3BackupMode? s3BackupMode;
+
+  /// The configuration that defines how you access secrets for HTTP Endpoint
+  /// destination.
   final SecretsManagerConfiguration? secretsManagerConfiguration;
 
-  SplunkDestinationDescription({
+  HttpEndpointDestinationConfiguration({
+    required this.endpointConfiguration,
+    required this.s3Configuration,
     this.bufferingHints,
     this.cloudWatchLoggingOptions,
-    this.hECAcknowledgmentTimeoutInSeconds,
-    this.hECEndpoint,
-    this.hECEndpointType,
-    this.hECToken,
     this.processingConfiguration,
+    this.requestConfiguration,
     this.retryOptions,
+    this.roleARN,
     this.s3BackupMode,
-    this.s3DestinationDescription,
     this.secretsManagerConfiguration,
   });
 
-  factory SplunkDestinationDescription.fromJson(Map<String, dynamic> json) {
-    return SplunkDestinationDescription(
-      bufferingHints: json['BufferingHints'] != null
-          ? SplunkBufferingHints.fromJson(
-              json['BufferingHints'] as Map<String, dynamic>)
-          : null,
-      cloudWatchLoggingOptions: json['CloudWatchLoggingOptions'] != null
-          ? CloudWatchLoggingOptions.fromJson(
-              json['CloudWatchLoggingOptions'] as Map<String, dynamic>)
-          : null,
-      hECAcknowledgmentTimeoutInSeconds:
-          json['HECAcknowledgmentTimeoutInSeconds'] as int?,
-      hECEndpoint: json['HECEndpoint'] as String?,
-      hECEndpointType:
-          (json['HECEndpointType'] as String?)?.let(HECEndpointType.fromString),
-      hECToken: json['HECToken'] as String?,
-      processingConfiguration: json['ProcessingConfiguration'] != null
-          ? ProcessingConfiguration.fromJson(
-              json['ProcessingConfiguration'] as Map<String, dynamic>)
-          : null,
-      retryOptions: json['RetryOptions'] != null
-          ? SplunkRetryOptions.fromJson(
-              json['RetryOptions'] as Map<String, dynamic>)
-          : null,
-      s3BackupMode:
-          (json['S3BackupMode'] as String?)?.let(SplunkS3BackupMode.fromString),
-      s3DestinationDescription: json['S3DestinationDescription'] != null
-          ? S3DestinationDescription.fromJson(
-              json['S3DestinationDescription'] as Map<String, dynamic>)
-          : null,
-      secretsManagerConfiguration: json['SecretsManagerConfiguration'] != null
-          ? SecretsManagerConfiguration.fromJson(
-              json['SecretsManagerConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
+    final endpointConfiguration = this.endpointConfiguration;
+    final s3Configuration = this.s3Configuration;
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final hECAcknowledgmentTimeoutInSeconds =
-        this.hECAcknowledgmentTimeoutInSeconds;
-    final hECEndpoint = this.hECEndpoint;
-    final hECEndpointType = this.hECEndpointType;
-    final hECToken = this.hECToken;
     final processingConfiguration = this.processingConfiguration;
+    final requestConfiguration = this.requestConfiguration;
     final retryOptions = this.retryOptions;
+    final roleARN = this.roleARN;
     final s3BackupMode = this.s3BackupMode;
-    final s3DestinationDescription = this.s3DestinationDescription;
     final secretsManagerConfiguration = this.secretsManagerConfiguration;
     return {
+      'EndpointConfiguration': endpointConfiguration,
+      'S3Configuration': s3Configuration,
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (hECAcknowledgmentTimeoutInSeconds != null)
-        'HECAcknowledgmentTimeoutInSeconds': hECAcknowledgmentTimeoutInSeconds,
-      if (hECEndpoint != null) 'HECEndpoint': hECEndpoint,
-      if (hECEndpointType != null) 'HECEndpointType': hECEndpointType.value,
-      if (hECToken != null) 'HECToken': hECToken,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
+      if (requestConfiguration != null)
+        'RequestConfiguration': requestConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (roleARN != null) 'RoleARN': roleARN,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3DestinationDescription != null)
-        'S3DestinationDescription': s3DestinationDescription,
       if (secretsManagerConfiguration != null)
         'SecretsManagerConfiguration': secretsManagerConfiguration,
     };
   }
 }
 
-/// Describes an update for a destination in Splunk.
-class SplunkDestinationUpdate {
-  /// The buffering options. If no value is specified, the default values for
-  /// Splunk are used.
-  final SplunkBufferingHints? bufferingHints;
+/// Describes the configuration of a destination in the Serverless offering for
+/// Amazon OpenSearch Service.
+class AmazonOpenSearchServerlessDestinationConfiguration {
+  /// The Serverless offering for Amazon OpenSearch Service index name.
+  final String indexName;
 
-  /// The Amazon CloudWatch logging options for your delivery stream.
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
+  /// calling the Serverless offering for Amazon OpenSearch Service Configuration
+  /// API and for indexing documents.
+  final String roleARN;
+  final S3DestinationConfiguration s3Configuration;
+
+  /// The buffering options. If no value is specified, the default values for
+  /// AmazonopensearchserviceBufferingHints are used.
+  final AmazonOpenSearchServerlessBufferingHints? bufferingHints;
   final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
 
-  /// The amount of time that Firehose waits to receive an acknowledgment from
-  /// Splunk after it sends data. At the end of the timeout period, Firehose
-  /// either tries to send the data again or considers it an error, based on your
-  /// retry settings.
-  final int? hECAcknowledgmentTimeoutInSeconds;
-
-  /// The HTTP Event Collector (HEC) endpoint to which Firehose sends your data.
-  final String? hECEndpoint;
-
-  /// This type can be either "Raw" or "Event."
-  final HECEndpointType? hECEndpointType;
-
-  /// A GUID that you obtain from your Splunk cluster when you create a new HEC
-  /// endpoint.
-  final String? hECToken;
-
-  /// The data processing configuration.
+  /// The endpoint to use when communicating with the collection in the Serverless
+  /// offering for Amazon OpenSearch Service.
+  final String? collectionEndpoint;
   final ProcessingConfiguration? processingConfiguration;
 
-  /// The retry behavior in case Firehose is unable to deliver data to Splunk or
-  /// if it doesn't receive an acknowledgment of receipt from Splunk.
-  final SplunkRetryOptions? retryOptions;
+  /// The retry behavior in case Firehose is unable to deliver documents to the
+  /// Serverless offering for Amazon OpenSearch Service. The default value is 300
+  /// (5 minutes).
+  final AmazonOpenSearchServerlessRetryOptions? retryOptions;
 
-  /// Specifies how you want Firehose to back up documents to Amazon S3. When set
-  /// to <code>FailedDocumentsOnly</code>, Firehose writes any data that could not
-  /// be indexed to the configured Amazon S3 destination. When set to
-  /// <code>AllEvents</code>, Firehose delivers all incoming records to Amazon S3,
-  /// and also writes failed documents to Amazon S3. The default value is
-  /// <code>FailedEventsOnly</code>.
+  /// Defines how documents should be delivered to Amazon S3. When it is set to
+  /// FailedDocumentsOnly, Firehose writes any documents that could not be indexed
+  /// to the configured Amazon S3 destination, with
+  /// AmazonOpenSearchService-failed/ appended to the key prefix. When set to
+  /// AllDocuments, Firehose delivers all incoming records to Amazon S3, and also
+  /// writes failed documents with AmazonOpenSearchService-failed/ appended to the
+  /// prefix.
+  final AmazonOpenSearchServerlessS3BackupMode? s3BackupMode;
+  final VpcConfiguration? vpcConfiguration;
+
+  AmazonOpenSearchServerlessDestinationConfiguration({
+    required this.indexName,
+    required this.roleARN,
+    required this.s3Configuration,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.collectionEndpoint,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.vpcConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final collectionEndpoint = this.collectionEndpoint;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'IndexName': indexName,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (collectionEndpoint != null) 'CollectionEndpoint': collectionEndpoint,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// The configuration for the Amazon MSK cluster to be used as the source for a
+/// delivery stream.
+class MSKSourceConfiguration {
+  /// The authentication configuration of the Amazon MSK cluster.
+  final AuthenticationConfiguration authenticationConfiguration;
+
+  /// The ARN of the Amazon MSK cluster.
+  final String mSKClusterARN;
+
+  /// The topic name within the Amazon MSK cluster.
+  final String topicName;
+
+  /// The start date and time in UTC for the offset position within your MSK topic
+  /// from where Firehose begins to read. By default, this is set to timestamp
+  /// when Firehose becomes Active.
   ///
-  /// You can update this backup mode from <code>FailedEventsOnly</code> to
-  /// <code>AllEvents</code>. You can't update it from <code>AllEvents</code> to
-  /// <code>FailedEventsOnly</code>.
-  final SplunkS3BackupMode? s3BackupMode;
+  /// If you want to create a Firehose stream with Earliest start position from
+  /// SDK or CLI, you need to set the <code>ReadFromTimestamp</code> parameter to
+  /// Epoch (1970-01-01T00:00:00Z).
+  final DateTime? readFromTimestamp;
 
-  /// Your update to the configuration of the backup Amazon S3 location.
-  final S3DestinationUpdate? s3Update;
-
-  /// The configuration that defines how you access secrets for Splunk.
-  final SecretsManagerConfiguration? secretsManagerConfiguration;
-
-  SplunkDestinationUpdate({
-    this.bufferingHints,
-    this.cloudWatchLoggingOptions,
-    this.hECAcknowledgmentTimeoutInSeconds,
-    this.hECEndpoint,
-    this.hECEndpointType,
-    this.hECToken,
-    this.processingConfiguration,
-    this.retryOptions,
-    this.s3BackupMode,
-    this.s3Update,
-    this.secretsManagerConfiguration,
+  MSKSourceConfiguration({
+    required this.authenticationConfiguration,
+    required this.mSKClusterARN,
+    required this.topicName,
+    this.readFromTimestamp,
   });
 
   Map<String, dynamic> toJson() {
+    final authenticationConfiguration = this.authenticationConfiguration;
+    final mSKClusterARN = this.mSKClusterARN;
+    final topicName = this.topicName;
+    final readFromTimestamp = this.readFromTimestamp;
+    return {
+      'AuthenticationConfiguration': authenticationConfiguration,
+      'MSKClusterARN': mSKClusterARN,
+      'TopicName': topicName,
+      if (readFromTimestamp != null)
+        'ReadFromTimestamp': unixTimestampToJson(readFromTimestamp),
+    };
+  }
+}
+
+/// Configure Snowflake destination
+class SnowflakeDestinationConfiguration {
+  /// URL for accessing your Snowflake account. This URL must include your <a
+  /// href="https://docs.snowflake.com/en/user-guide/admin-account-identifier">account
+  /// identifier</a>. Note that the protocol (https://) and port number are
+  /// optional.
+  final String accountUrl;
+
+  /// All data in Snowflake is maintained in databases.
+  final String database;
+
+  /// The Amazon Resource Name (ARN) of the Snowflake role
+  final String roleARN;
+  final S3DestinationConfiguration s3Configuration;
+
+  /// Each database consists of one or more schemas, which are logical groupings
+  /// of database objects, such as tables and views
+  final String schema;
+
+  /// All data in Snowflake is stored in database tables, logically structured as
+  /// collections of columns and rows.
+  final String table;
+
+  /// Describes the buffering to perform before delivering data to the Snowflake
+  /// destination. If you do not specify any value, Firehose uses the default
+  /// values.
+  final SnowflakeBufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// The name of the record content column.
+  final String? contentColumnName;
+
+  /// Choose to load JSON keys mapped to table column names or choose to split the
+  /// JSON payload where content is mapped to a record content column and source
+  /// metadata is mapped to a record metadata column.
+  final SnowflakeDataLoadingOption? dataLoadingOption;
+
+  /// Passphrase to decrypt the private key when the key is encrypted. For
+  /// information, see <a
+  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
+  /// Key Pair Authentication & Key Rotation</a>.
+  final String? keyPassphrase;
+
+  /// Specify a column name in the table, where the metadata information has to be
+  /// loaded. When you enable this field, you will see the following column in the
+  /// snowflake table, which differs based on the source type.
+  ///
+  /// For Direct PUT as source
+  ///
+  /// <code>{ "firehoseDeliveryStreamName" : "streamname", "IngestionTime" :
+  /// "timestamp" }</code>
+  ///
+  /// For Kinesis Data Stream as source
+  ///
+  /// <code> "kinesisStreamName" : "streamname", "kinesisShardId" : "Id",
+  /// "kinesisPartitionKey" : "key", "kinesisSequenceNumber" : "1234",
+  /// "subsequenceNumber" : "2334", "IngestionTime" : "timestamp" }</code>
+  final String? metaDataColumnName;
+
+  /// The private key used to encrypt your Snowflake client. For information, see
+  /// <a
+  /// href="https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation">Using
+  /// Key Pair Authentication & Key Rotation</a>.
+  final String? privateKey;
+  final ProcessingConfiguration? processingConfiguration;
+
+  /// The time period where Firehose will retry sending data to the chosen HTTP
+  /// endpoint.
+  final SnowflakeRetryOptions? retryOptions;
+
+  /// Choose an S3 backup mode
+  final SnowflakeS3BackupMode? s3BackupMode;
+
+  /// The configuration that defines how you access secrets for Snowflake.
+  final SecretsManagerConfiguration? secretsManagerConfiguration;
+
+  /// Optionally configure a Snowflake role. Otherwise the default user role will
+  /// be used.
+  final SnowflakeRoleConfiguration? snowflakeRoleConfiguration;
+
+  /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format
+  /// is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see <a
+  /// href="https://docs.snowflake.com/en/user-guide/admin-security-privatelink">Amazon
+  /// PrivateLink & Snowflake</a>
+  final SnowflakeVpcConfiguration? snowflakeVpcConfiguration;
+
+  /// User login name for the Snowflake account.
+  final String? user;
+
+  SnowflakeDestinationConfiguration({
+    required this.accountUrl,
+    required this.database,
+    required this.roleARN,
+    required this.s3Configuration,
+    required this.schema,
+    required this.table,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.contentColumnName,
+    this.dataLoadingOption,
+    this.keyPassphrase,
+    this.metaDataColumnName,
+    this.privateKey,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.secretsManagerConfiguration,
+    this.snowflakeRoleConfiguration,
+    this.snowflakeVpcConfiguration,
+    this.user,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountUrl = this.accountUrl;
+    final database = this.database;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final schema = this.schema;
+    final table = this.table;
     final bufferingHints = this.bufferingHints;
     final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
-    final hECAcknowledgmentTimeoutInSeconds =
-        this.hECAcknowledgmentTimeoutInSeconds;
-    final hECEndpoint = this.hECEndpoint;
-    final hECEndpointType = this.hECEndpointType;
-    final hECToken = this.hECToken;
+    final contentColumnName = this.contentColumnName;
+    final dataLoadingOption = this.dataLoadingOption;
+    final keyPassphrase = this.keyPassphrase;
+    final metaDataColumnName = this.metaDataColumnName;
+    final privateKey = this.privateKey;
     final processingConfiguration = this.processingConfiguration;
     final retryOptions = this.retryOptions;
     final s3BackupMode = this.s3BackupMode;
-    final s3Update = this.s3Update;
     final secretsManagerConfiguration = this.secretsManagerConfiguration;
+    final snowflakeRoleConfiguration = this.snowflakeRoleConfiguration;
+    final snowflakeVpcConfiguration = this.snowflakeVpcConfiguration;
+    final user = this.user;
     return {
+      'AccountUrl': accountUrl,
+      'Database': database,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      'Schema': schema,
+      'Table': table,
       if (bufferingHints != null) 'BufferingHints': bufferingHints,
       if (cloudWatchLoggingOptions != null)
         'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
-      if (hECAcknowledgmentTimeoutInSeconds != null)
-        'HECAcknowledgmentTimeoutInSeconds': hECAcknowledgmentTimeoutInSeconds,
-      if (hECEndpoint != null) 'HECEndpoint': hECEndpoint,
-      if (hECEndpointType != null) 'HECEndpointType': hECEndpointType.value,
-      if (hECToken != null) 'HECToken': hECToken,
+      if (contentColumnName != null) 'ContentColumnName': contentColumnName,
+      if (dataLoadingOption != null)
+        'DataLoadingOption': dataLoadingOption.value,
+      if (keyPassphrase != null) 'KeyPassphrase': keyPassphrase,
+      if (metaDataColumnName != null) 'MetaDataColumnName': metaDataColumnName,
+      if (privateKey != null) 'PrivateKey': privateKey,
       if (processingConfiguration != null)
         'ProcessingConfiguration': processingConfiguration,
       if (retryOptions != null) 'RetryOptions': retryOptions,
       if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
-      if (s3Update != null) 'S3Update': s3Update,
       if (secretsManagerConfiguration != null)
         'SecretsManagerConfiguration': secretsManagerConfiguration,
+      if (snowflakeRoleConfiguration != null)
+        'SnowflakeRoleConfiguration': snowflakeRoleConfiguration,
+      if (snowflakeVpcConfiguration != null)
+        'SnowflakeVpcConfiguration': snowflakeVpcConfiguration,
+      if (user != null) 'User': user,
     };
   }
 }
 
-/// Configures retry behavior in case Firehose is unable to deliver documents to
-/// Splunk, or if it doesn't receive an acknowledgment from Splunk.
-class SplunkRetryOptions {
-  /// The total amount of time that Firehose spends on retries. This duration
-  /// starts after the initial attempt to send data to Splunk fails. It doesn't
-  /// include the periods during which Firehose waits for acknowledgment from
-  /// Splunk after each attempt.
-  final int? durationInSeconds;
+/// Specifies the destination configure settings for Apache Iceberg Table.
+class IcebergDestinationConfiguration {
+  /// Configuration describing where the destination Apache Iceberg Tables are
+  /// persisted.
+  final CatalogConfiguration catalogConfiguration;
 
-  SplunkRetryOptions({
-    this.durationInSeconds,
+  /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for
+  /// calling Apache Iceberg Tables.
+  final String roleARN;
+  final S3DestinationConfiguration s3Configuration;
+
+  /// Describes whether all incoming data for this delivery stream will be append
+  /// only (inserts only and not for updates and deletes) for Iceberg delivery.
+  /// This feature is only applicable for Apache Iceberg Tables.
+  ///
+  /// The default value is false. If you set this value to true, Firehose
+  /// automatically increases the throughput limit of a stream based on the
+  /// throttling levels of the stream. If you set this parameter to true for a
+  /// stream with updates and deletes, you will see out of order delivery.
+  final bool? appendOnly;
+  final BufferingHints? bufferingHints;
+  final CloudWatchLoggingOptions? cloudWatchLoggingOptions;
+
+  /// Provides a list of <code>DestinationTableConfigurations</code> which
+  /// Firehose uses to deliver data to Apache Iceberg Tables. Firehose will write
+  /// data with insert if table specific configuration is not provided here.
+  final List<DestinationTableConfiguration>? destinationTableConfigurationList;
+  final ProcessingConfiguration? processingConfiguration;
+  final RetryOptions? retryOptions;
+
+  /// Describes how Firehose will backup records. Currently,S3 backup only
+  /// supports <code>FailedDataOnly</code>.
+  final IcebergS3BackupMode? s3BackupMode;
+
+  /// The configuration to enable automatic schema evolution.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final SchemaEvolutionConfiguration? schemaEvolutionConfiguration;
+
+  /// The configuration to enable automatic table creation.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final TableCreationConfiguration? tableCreationConfiguration;
+
+  IcebergDestinationConfiguration({
+    required this.catalogConfiguration,
+    required this.roleARN,
+    required this.s3Configuration,
+    this.appendOnly,
+    this.bufferingHints,
+    this.cloudWatchLoggingOptions,
+    this.destinationTableConfigurationList,
+    this.processingConfiguration,
+    this.retryOptions,
+    this.s3BackupMode,
+    this.schemaEvolutionConfiguration,
+    this.tableCreationConfiguration,
   });
 
-  factory SplunkRetryOptions.fromJson(Map<String, dynamic> json) {
-    return SplunkRetryOptions(
-      durationInSeconds: json['DurationInSeconds'] as int?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final durationInSeconds = this.durationInSeconds;
+    final catalogConfiguration = this.catalogConfiguration;
+    final roleARN = this.roleARN;
+    final s3Configuration = this.s3Configuration;
+    final appendOnly = this.appendOnly;
+    final bufferingHints = this.bufferingHints;
+    final cloudWatchLoggingOptions = this.cloudWatchLoggingOptions;
+    final destinationTableConfigurationList =
+        this.destinationTableConfigurationList;
+    final processingConfiguration = this.processingConfiguration;
+    final retryOptions = this.retryOptions;
+    final s3BackupMode = this.s3BackupMode;
+    final schemaEvolutionConfiguration = this.schemaEvolutionConfiguration;
+    final tableCreationConfiguration = this.tableCreationConfiguration;
     return {
-      if (durationInSeconds != null) 'DurationInSeconds': durationInSeconds,
+      'CatalogConfiguration': catalogConfiguration,
+      'RoleARN': roleARN,
+      'S3Configuration': s3Configuration,
+      if (appendOnly != null) 'AppendOnly': appendOnly,
+      if (bufferingHints != null) 'BufferingHints': bufferingHints,
+      if (cloudWatchLoggingOptions != null)
+        'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
+      if (destinationTableConfigurationList != null)
+        'DestinationTableConfigurationList': destinationTableConfigurationList,
+      if (processingConfiguration != null)
+        'ProcessingConfiguration': processingConfiguration,
+      if (retryOptions != null) 'RetryOptions': retryOptions,
+      if (s3BackupMode != null) 'S3BackupMode': s3BackupMode.value,
+      if (schemaEvolutionConfiguration != null)
+        'SchemaEvolutionConfiguration': schemaEvolutionConfiguration,
+      if (tableCreationConfiguration != null)
+        'TableCreationConfiguration': tableCreationConfiguration,
     };
   }
 }
 
-class SplunkS3BackupMode {
-  static const failedEventsOnly = SplunkS3BackupMode._('FailedEventsOnly');
-  static const allEvents = SplunkS3BackupMode._('AllEvents');
+/// The top level object for configuring streams with database as a source.
+///
+/// Amazon Data Firehose is in preview release and is subject to change.
+class DatabaseSourceConfiguration {
+  /// The structure to configure the authentication methods for Firehose to
+  /// connect to source database endpoint.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseSourceAuthenticationConfiguration
+      databaseSourceAuthenticationConfiguration;
 
-  final String value;
+  /// The details of the VPC Endpoint Service which Firehose uses to create a
+  /// PrivateLink to the database.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseSourceVPCConfiguration databaseSourceVPCConfiguration;
 
-  const SplunkS3BackupMode._(this.value);
+  /// The list of database patterns in source database endpoint for Firehose to
+  /// read from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseList databases;
 
-  static const values = [failedEventsOnly, allEvents];
+  /// The endpoint of the database server.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String endpoint;
 
-  static SplunkS3BackupMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SplunkS3BackupMode._(value));
+  /// The port of the database. This can be one of the following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// 3306 for MySQL database type
+  /// </li>
+  /// <li>
+  /// 5432 for PostgreSQL database type
+  /// </li>
+  /// </ul>
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final int port;
 
-  @override
-  bool operator ==(other) =>
-      other is SplunkS3BackupMode && other.value == value;
+  /// The fully qualified name of the table in source database endpoint that
+  /// Firehose uses to track snapshot progress.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final String snapshotWatermarkTable;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The list of table patterns in source database endpoint for Firehose to read
+  /// from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseTableList tables;
 
-  @override
-  String toString() => value;
-}
+  /// The type of database engine. This can be one of the following values.
+  ///
+  /// <ul>
+  /// <li>
+  /// MySQL
+  /// </li>
+  /// <li>
+  /// PostgreSQL
+  /// </li>
+  /// </ul>
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseType type;
 
-class StartDeliveryStreamEncryptionOutput {
-  StartDeliveryStreamEncryptionOutput();
+  /// The list of column patterns in source database endpoint for Firehose to read
+  /// from.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final DatabaseColumnList? columns;
 
-  factory StartDeliveryStreamEncryptionOutput.fromJson(Map<String, dynamic> _) {
-    return StartDeliveryStreamEncryptionOutput();
-  }
+  /// The mode to enable or disable SSL when Firehose connects to the database
+  /// endpoint.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final SSLMode? sSLMode;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The optional list of table and column names used as unique key columns when
+  /// taking snapshot if the tables don’t have primary keys configured.
+  ///
+  /// Amazon Data Firehose is in preview release and is subject to change.
+  final List<String>? surrogateKeys;
 
-class StopDeliveryStreamEncryptionOutput {
-  StopDeliveryStreamEncryptionOutput();
-
-  factory StopDeliveryStreamEncryptionOutput.fromJson(Map<String, dynamic> _) {
-    return StopDeliveryStreamEncryptionOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Metadata that you can assign to a delivery stream, consisting of a key-value
-/// pair.
-class Tag {
-  /// A unique identifier for the tag. Maximum length: 128 characters. Valid
-  /// characters: Unicode letters, digits, white space, _ . / = + - % @
-  final String key;
-
-  /// An optional string, which you can use to describe or define the tag. Maximum
-  /// length: 256 characters. Valid characters: Unicode letters, digits, white
-  /// space, _ . / = + - % @
-  final String? value;
-
-  Tag({
-    required this.key,
-    this.value,
+  DatabaseSourceConfiguration({
+    required this.databaseSourceAuthenticationConfiguration,
+    required this.databaseSourceVPCConfiguration,
+    required this.databases,
+    required this.endpoint,
+    required this.port,
+    required this.snapshotWatermarkTable,
+    required this.tables,
+    required this.type,
+    this.columns,
+    this.sSLMode,
+    this.surrogateKeys,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: json['Value'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final databaseSourceAuthenticationConfiguration =
+        this.databaseSourceAuthenticationConfiguration;
+    final databaseSourceVPCConfiguration = this.databaseSourceVPCConfiguration;
+    final databases = this.databases;
+    final endpoint = this.endpoint;
+    final port = this.port;
+    final snapshotWatermarkTable = this.snapshotWatermarkTable;
+    final tables = this.tables;
+    final type = this.type;
+    final columns = this.columns;
+    final sSLMode = this.sSLMode;
+    final surrogateKeys = this.surrogateKeys;
     return {
-      'Key': key,
-      if (value != null) 'Value': value,
+      'DatabaseSourceAuthenticationConfiguration':
+          databaseSourceAuthenticationConfiguration,
+      'DatabaseSourceVPCConfiguration': databaseSourceVPCConfiguration,
+      'Databases': databases,
+      'Endpoint': endpoint,
+      'Port': port,
+      'SnapshotWatermarkTable': snapshotWatermarkTable,
+      'Tables': tables,
+      'Type': type.value,
+      if (columns != null) 'Columns': columns,
+      if (sSLMode != null) 'SSLMode': sSLMode.value,
+      if (surrogateKeys != null) 'SurrogateKeys': surrogateKeys,
     };
-  }
-}
-
-class TagDeliveryStreamOutput {
-  TagDeliveryStreamOutput();
-
-  factory TagDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
-    return TagDeliveryStreamOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagDeliveryStreamOutput {
-  UntagDeliveryStreamOutput();
-
-  factory UntagDeliveryStreamOutput.fromJson(Map<String, dynamic> _) {
-    return UntagDeliveryStreamOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDestinationOutput {
-  UpdateDestinationOutput();
-
-  factory UpdateDestinationOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateDestinationOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
 /// The details of the VPC of the Amazon OpenSearch or Amazon OpenSearch
 /// Serverless destination.
 class VpcConfiguration {
-  /// The ARN of the IAM role that you want the delivery stream to use to create
+  /// The ARN of the IAM role that you want the Firehose stream to use to create
   /// endpoints in the destination VPC. You can use your existing Firehose
   /// delivery role or you can specify a new role. In either case, make sure that
   /// the role trusts the Firehose service principal and that it grants the
@@ -8253,31 +9354,32 @@ class VpcConfiguration {
   final String roleARN;
 
   /// The IDs of the security groups that you want Firehose to use when it creates
-  /// ENIs in the VPC of the Amazon ES destination. You can use the same security
-  /// group that the Amazon ES domain uses or different ones. If you specify
-  /// different security groups here, ensure that they allow outbound HTTPS
-  /// traffic to the Amazon ES domain's security group. Also ensure that the
-  /// Amazon ES domain's security group allows HTTPS traffic from the security
-  /// groups specified here. If you use the same security group for both your
-  /// delivery stream and the Amazon ES domain, make sure the security group
-  /// inbound rule allows HTTPS traffic. For more information about security group
-  /// rules, see <a
+  /// ENIs in the VPC of the Amazon OpenSearch Service destination. You can use
+  /// the same security group that the Amazon OpenSearch Service domain uses or
+  /// different ones. If you specify different security groups here, ensure that
+  /// they allow outbound HTTPS traffic to the Amazon OpenSearch Service domain's
+  /// security group. Also ensure that the Amazon OpenSearch Service domain's
+  /// security group allows HTTPS traffic from the security groups specified here.
+  /// If you use the same security group for both your delivery stream and the
+  /// Amazon OpenSearch Service domain, make sure the security group inbound rule
+  /// allows HTTPS traffic. For more information about security group rules, see
+  /// <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules">Security
   /// group rules</a> in the Amazon VPC documentation.
   final List<String> securityGroupIds;
 
   /// The IDs of the subnets that you want Firehose to use to create ENIs in the
-  /// VPC of the Amazon ES destination. Make sure that the routing tables and
-  /// inbound and outbound rules allow traffic to flow from the subnets whose IDs
-  /// are specified here to the subnets that have the destination Amazon ES
-  /// endpoints. Firehose creates at least one ENI in each of the subnets that are
-  /// specified here. Do not delete or modify these ENIs.
+  /// VPC of the Amazon OpenSearch Service destination. Make sure that the routing
+  /// tables and inbound and outbound rules allow traffic to flow from the subnets
+  /// whose IDs are specified here to the subnets that have the destination Amazon
+  /// OpenSearch Service endpoints. Firehose creates at least one ENI in each of
+  /// the subnets that are specified here. Do not delete or modify these ENIs.
   ///
   /// The number of ENIs that Firehose creates in the subnets specified here
   /// scales up and down automatically based on throughput. To enable Firehose to
   /// scale up the number of ENIs to match throughput, ensure that you have
   /// sufficient quota. To help you calculate the quota you need, assume that
-  /// Firehose can create up to three ENIs for this delivery stream for each of
+  /// Firehose can create up to three ENIs for this Firehose stream for each of
   /// the subnets specified here. For more information about ENI quota, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
   /// Interfaces </a> in the Amazon VPC Quotas topic.
@@ -8297,113 +9399,6 @@ class VpcConfiguration {
       'RoleARN': roleARN,
       'SecurityGroupIds': securityGroupIds,
       'SubnetIds': subnetIds,
-    };
-  }
-}
-
-/// The details of the VPC of the Amazon ES destination.
-class VpcConfigurationDescription {
-  /// The ARN of the IAM role that the delivery stream uses to create endpoints in
-  /// the destination VPC. You can use your existing Firehose delivery role or you
-  /// can specify a new role. In either case, make sure that the role trusts the
-  /// Firehose service principal and that it grants the following permissions:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ec2:DescribeVpcs</code>
-  /// </li>
-  /// <li>
-  /// <code>ec2:DescribeVpcAttribute</code>
-  /// </li>
-  /// <li>
-  /// <code>ec2:DescribeSubnets</code>
-  /// </li>
-  /// <li>
-  /// <code>ec2:DescribeSecurityGroups</code>
-  /// </li>
-  /// <li>
-  /// <code>ec2:DescribeNetworkInterfaces</code>
-  /// </li>
-  /// <li>
-  /// <code>ec2:CreateNetworkInterface</code>
-  /// </li>
-  /// <li>
-  /// <code>ec2:CreateNetworkInterfacePermission</code>
-  /// </li>
-  /// <li>
-  /// <code>ec2:DeleteNetworkInterface</code>
-  /// </li>
-  /// </ul>
-  /// If you revoke these permissions after you create the delivery stream,
-  /// Firehose can't scale out by creating more ENIs when necessary. You might
-  /// therefore see a degradation in performance.
-  final String roleARN;
-
-  /// The IDs of the security groups that Firehose uses when it creates ENIs in
-  /// the VPC of the Amazon ES destination. You can use the same security group
-  /// that the Amazon ES domain uses or different ones. If you specify different
-  /// security groups, ensure that they allow outbound HTTPS traffic to the Amazon
-  /// ES domain's security group. Also ensure that the Amazon ES domain's security
-  /// group allows HTTPS traffic from the security groups specified here. If you
-  /// use the same security group for both your delivery stream and the Amazon ES
-  /// domain, make sure the security group inbound rule allows HTTPS traffic. For
-  /// more information about security group rules, see <a
-  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html#SecurityGroupRules">Security
-  /// group rules</a> in the Amazon VPC documentation.
-  final List<String> securityGroupIds;
-
-  /// The IDs of the subnets that Firehose uses to create ENIs in the VPC of the
-  /// Amazon ES destination. Make sure that the routing tables and inbound and
-  /// outbound rules allow traffic to flow from the subnets whose IDs are
-  /// specified here to the subnets that have the destination Amazon ES endpoints.
-  /// Firehose creates at least one ENI in each of the subnets that are specified
-  /// here. Do not delete or modify these ENIs.
-  ///
-  /// The number of ENIs that Firehose creates in the subnets specified here
-  /// scales up and down automatically based on throughput. To enable Firehose to
-  /// scale up the number of ENIs to match throughput, ensure that you have
-  /// sufficient quota. To help you calculate the quota you need, assume that
-  /// Firehose can create up to three ENIs for this delivery stream for each of
-  /// the subnets specified here. For more information about ENI quota, see <a
-  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-enis">Network
-  /// Interfaces </a> in the Amazon VPC Quotas topic.
-  final List<String> subnetIds;
-
-  /// The ID of the Amazon ES destination's VPC.
-  final String vpcId;
-
-  VpcConfigurationDescription({
-    required this.roleARN,
-    required this.securityGroupIds,
-    required this.subnetIds,
-    required this.vpcId,
-  });
-
-  factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) {
-    return VpcConfigurationDescription(
-      roleARN: (json['RoleARN'] as String?) ?? '',
-      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      vpcId: (json['VpcId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleARN = this.roleARN;
-    final securityGroupIds = this.securityGroupIds;
-    final subnetIds = this.subnetIds;
-    final vpcId = this.vpcId;
-    return {
-      'RoleARN': roleARN,
-      'SecurityGroupIds': securityGroupIds,
-      'SubnetIds': subnetIds,
-      'VpcId': vpcId,
     };
   }
 }

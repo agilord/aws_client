@@ -48,7 +48,7 @@ Api apiFromSmithy(SmithyModel model, {required String uid, String? serviceId}) {
     jsonVersion: jsonVersion,
     serviceFullName:
         service.traits.string(TraitIds.title) ?? sdkId ?? endpointPrefix,
-    serviceAbbreviation: sdkId,
+    serviceAbbreviation: _abbreviationFromSdkId(sdkId),
     serviceId: sdkId,
     signatureVersion: 'v4',
     signingName: (signingName != null && signingName != endpointPrefix)
@@ -142,6 +142,9 @@ String? _versionFromDocId(String? docId) {
   final match = RegExp(r'\d{4}-\d{2}-\d{2}$').firstMatch(docId);
   return match?.group(0);
 }
+
+String? _abbreviationFromSdkId(String? sdkId) => sdkId?.replaceFirstMapped(
+    RegExp(r'([A-Za-z])([Vv]\d+)$'), (m) => '${m[1]} ${m[2]}');
 
 Iterable<String> _memberTargets(SmithyShape shape) sync* {
   for (final ref in shape.members?.values ?? const <ShapeRef>[]) {

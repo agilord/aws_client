@@ -1,13 +1,13 @@
-import 'package:aws_client/scheduler_2021_06_30.dart';
-import 'package:aws_client/sns_2010_03_31.dart' show Sns;
+import 'package:aws_client/scheduler.dart';
+import 'package:aws_client/sns.dart' show Sns;
 import 'package:test/test.dart';
 
 import 'harness.dart';
 
 void main() {
-  late EventBridgeScheduler scheduler;
+  late Scheduler scheduler;
 
-  setUp(() => scheduler = localClient(EventBridgeScheduler.new));
+  setUp(() => scheduler = localClient(Scheduler.new));
   tearDown(() => scheduler.close());
 
   test('Scheduler (rest-json): create, get, list and delete a schedule',

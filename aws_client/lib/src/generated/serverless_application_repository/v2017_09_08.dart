@@ -21,53 +21,40 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// The AWS Serverless Application Repository makes it easy for developers and
-/// enterprises to quickly find
-/// and deploy serverless applications in the AWS Cloud. For more information
-/// about serverless applications,
-/// see Serverless Computing and Applications on the AWS website.
+/// enterprises to quickly find and deploy serverless applications in the AWS
+/// Cloud. For more information about serverless applications, see Serverless
+/// Computing and Applications on the AWS website.
 ///
 /// The AWS Serverless Application Repository is deeply integrated with the AWS
-/// Lambda console, so that developers of
-/// all levels can get started with serverless computing without needing to
-/// learn anything new. You can use category
-/// keywords to browse for applications such as web and mobile backends, data
-/// processing applications, or chatbots.
-/// You can also search for applications by name, publisher, or event source. To
-/// use an application, you simply choose it,
-/// configure any required fields, and deploy it with a few clicks.
+/// Lambda console, so that developers of all levels can get started with
+/// serverless computing without needing to learn anything new. You can use
+/// category keywords to browse for applications such as web and mobile
+/// backends, data processing applications, or chatbots. You can also search for
+/// applications by name, publisher, or event source. To use an application, you
+/// simply choose it, configure any required fields, and deploy it with a few
+/// clicks.
 ///
 /// You can also easily publish applications, sharing them publicly with the
-/// community at large, or privately
-/// within your team or across your organization. To publish a serverless
-/// application (or app), you can use the
+/// community at large, or privately within your team or across your
+/// organization. To publish a serverless application (or app), you can use the
 /// AWS Management Console, AWS Command Line Interface (AWS CLI), or AWS SDKs to
-/// upload the code. Along with the
-/// code, you upload a simple manifest file, also known as the AWS Serverless
-/// Application Model (AWS SAM) template.
-/// For more information about AWS SAM, see AWS Serverless Application Model
-/// (AWS SAM) on the AWS Labs
-/// GitHub repository.
+/// upload the code. Along with the code, you upload a simple manifest file,
+/// also known as the AWS Serverless Application Model (AWS SAM) template. For
+/// more information about AWS SAM, see AWS Serverless Application Model (AWS
+/// SAM) on the AWS Labs GitHub repository.
 ///
 /// The AWS Serverless Application Repository Developer Guide contains more
-/// information about the two developer
-/// experiences available:
+/// information about the two developer experiences available:
 ///
 /// <ul>
-///
 /// <li>
-///
 /// Consuming Applications – Browse for applications and view information about
-/// them, including
-/// source code and readme files. Also install, configure, and deploy
-/// applications of your choosing.
-///
+/// them, including source code and readme files. Also install, configure, and
+/// deploy applications of your choosing.
 ///
 /// Publishing Applications – Configure and upload applications to make them
-/// available to other
-/// developers, and publish new versions of applications.
-///
+/// available to other developers, and publish new versions of applications.
 /// </li>
-///
 /// </ul>
 class ServerlessApplicationRepository {
   final _s.RestJsonProtocol _protocol;
@@ -81,7 +68,6 @@ class ServerlessApplicationRepository {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'serverlessrepo',
-            signingName: 'serverlessrepo',
           ),
           region: region,
           credentials: credentials,
@@ -101,11 +87,11 @@ class ServerlessApplicationRepository {
   /// Creates an application, optionally including an AWS SAM file to create the
   /// first application version in the same call.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [author] :
   /// The name of the author publishing the app.
@@ -139,8 +125,8 @@ class ServerlessApplicationRepository {
   ///
   /// Parameter [licenseBody] :
   /// A local text file that contains the license of the app that matches the
-  /// spdxLicenseID value of your application.
-  /// The file has the format file://&lt;path>/&lt;filename>.
+  /// spdxLicenseID value of your application. The file has the format
+  /// file://&lt;path>/&lt;filename>.
   ///
   /// Maximum size 5 MB
   ///
@@ -158,8 +144,8 @@ class ServerlessApplicationRepository {
   ///
   /// Parameter [readmeBody] :
   /// A local text readme file in Markdown language that contains a more
-  /// detailed description of the application and how it works.
-  /// The file has the format file://&lt;path>/&lt;filename>.
+  /// detailed description of the application and how it works. The file has the
+  /// format file://&lt;path>/&lt;filename>.
   ///
   /// Maximum size 5 MB
   ///
@@ -178,9 +164,7 @@ class ServerlessApplicationRepository {
   /// Parameter [semanticVersion] :
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   ///
   /// Parameter [sourceCodeArchiveUrl] :
   /// A link to the S3 object that contains the ZIP archive of the source code
@@ -197,8 +181,8 @@ class ServerlessApplicationRepository {
   /// href="https://spdx.org/licenses/">https://spdx.org/licenses/</a>.
   ///
   /// Parameter [templateBody] :
-  /// The local raw packaged AWS SAM template file of your application.
-  /// The file has the format file://&lt;path>/&lt;filename>.
+  /// The local raw packaged AWS SAM template file of your application. The file
+  /// has the format file://&lt;path>/&lt;filename>.
   ///
   /// You can specify only one of templateBody and templateUrl; otherwise an
   /// error results.
@@ -255,11 +239,11 @@ class ServerlessApplicationRepository {
 
   /// Creates an application version.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -309,10 +293,10 @@ class ServerlessApplicationRepository {
 
   /// Creates an AWS CloudFormation change set for the given application.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -325,33 +309,26 @@ class ServerlessApplicationRepository {
   ///
   /// Parameter [capabilities] :
   /// A list of values that you must specify before you can deploy certain
-  /// applications.
-  /// Some applications might include resources that can affect permissions in
-  /// your AWS
-  /// account, for example, by creating new AWS Identity and Access Management
-  /// (IAM) users.
-  /// For those applications, you must explicitly acknowledge their capabilities
-  /// by
-  /// specifying this parameter.
+  /// applications. Some applications might include resources that can affect
+  /// permissions in your AWS account, for example, by creating new AWS Identity
+  /// and Access Management (IAM) users. For those applications, you must
+  /// explicitly acknowledge their capabilities by specifying this parameter.
   ///
   /// The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
   /// CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.
   ///
   /// The following resources require you to specify CAPABILITY_IAM or
-  /// CAPABILITY_NAMED_IAM:
-  /// <a
+  /// CAPABILITY_NAMED_IAM: <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">AWS::IAM::Group</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">AWS::IAM::InstanceProfile</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html">AWS::IAM::Policy</a>,
-  /// and
-  /// <a
+  /// and <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">AWS::IAM::Role</a>.
   /// If the application contains IAM resources, you can specify either
-  /// CAPABILITY_IAM
-  /// or CAPABILITY_NAMED_IAM. If the application contains IAM resources
-  /// with custom names, you must specify CAPABILITY_NAMED_IAM.
+  /// CAPABILITY_IAM or CAPABILITY_NAMED_IAM. If the application contains IAM
+  /// resources with custom names, you must specify CAPABILITY_NAMED_IAM.
   ///
   /// The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
   /// <a
@@ -364,20 +341,16 @@ class ServerlessApplicationRepository {
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html">AWS::S3::BucketPolicy</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html">AWS::SQS::QueuePolicy</a>,
-  /// and
-  /// <a
+  /// and <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html">AWS::SNS:TopicPolicy</a>.
   ///
   /// Applications that contain one or more nested applications require you to
-  /// specify
-  /// CAPABILITY_AUTO_EXPAND.
+  /// specify CAPABILITY_AUTO_EXPAND.
   ///
   /// If your application template contains any of the above resources, we
-  /// recommend that you review
-  /// all permissions associated with the application before deploying. If you
-  /// don't specify
-  /// this parameter for an application that requires capabilities, the call
-  /// will fail.
+  /// recommend that you review all permissions associated with the application
+  /// before deploying. If you don't specify this parameter for an application
+  /// that requires capabilities, the call will fail.
   ///
   /// Parameter [changeSetName] :
   /// This property corresponds to the parameter of the same name for the <i>AWS
@@ -421,9 +394,7 @@ class ServerlessApplicationRepository {
   /// Parameter [semanticVersion] :
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   ///
   /// Parameter [tags] :
   /// This property corresponds to the parameter of the same name for the <i>AWS
@@ -478,11 +449,11 @@ class ServerlessApplicationRepository {
 
   /// Creates an AWS CloudFormation template.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -490,9 +461,7 @@ class ServerlessApplicationRepository {
   /// Parameter [semanticVersion] :
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   Future<CreateCloudFormationTemplateResponse> createCloudFormationTemplate({
     required String applicationId,
     String? semanticVersion,
@@ -513,11 +482,11 @@ class ServerlessApplicationRepository {
   /// Deletes the specified application.
   ///
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -534,11 +503,11 @@ class ServerlessApplicationRepository {
 
   /// Gets the specified application.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -564,11 +533,11 @@ class ServerlessApplicationRepository {
 
   /// Retrieves the policy for the application.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -586,11 +555,11 @@ class ServerlessApplicationRepository {
 
   /// Gets the specified AWS CloudFormation template.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -616,11 +585,11 @@ class ServerlessApplicationRepository {
 
   /// Retrieves the list of applications nested in the containing application.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -661,13 +630,49 @@ class ServerlessApplicationRepository {
     return ListApplicationDependenciesResponse.fromJson(response);
   }
 
+  /// Lists applications owned by the requester.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [maxItems] :
+  /// The total number of items to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating.
+  Future<ListApplicationsResponse> listApplications({
+    int? maxItems,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxItems != null) 'maxItems': [maxItems.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/applications',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListApplicationsResponse.fromJson(response);
+  }
+
   /// Lists versions for the specified application.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -703,54 +708,16 @@ class ServerlessApplicationRepository {
     return ListApplicationVersionsResponse.fromJson(response);
   }
 
-  /// Lists applications owned by the requester.
-  ///
-  /// May throw [NotFoundException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  ///
-  /// Parameter [maxItems] :
-  /// The total number of items to return.
-  ///
-  /// Parameter [nextToken] :
-  /// A token to specify where to start paginating.
-  Future<ListApplicationsResponse> listApplications({
-    int? maxItems,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxItems',
-      maxItems,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (maxItems != null) 'maxItems': [maxItems.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/applications',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListApplicationsResponse.fromJson(response);
-  }
-
   /// Sets the permission policy for an application. For the list of actions
-  /// supported for this operation, see
-  /// <a
+  /// supported for this operation, see <a
   /// href="https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
-  /// Permissions</a>
-  /// .
+  /// Permissions</a> .
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -777,11 +744,11 @@ class ServerlessApplicationRepository {
   ///
   /// This operation can be called only from the organization's master account.
   ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -806,11 +773,11 @@ class ServerlessApplicationRepository {
   /// Updates the specified application.
   ///
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
@@ -874,214 +841,6 @@ class ServerlessApplicationRepository {
     );
     return UpdateApplicationResponse.fromJson(response);
   }
-}
-
-/// A nested application summary.
-class ApplicationDependencySummary {
-  /// The Amazon Resource Name (ARN) of the nested application.
-  final String applicationId;
-
-  /// The semantic version of the nested application.
-  final String semanticVersion;
-
-  ApplicationDependencySummary({
-    required this.applicationId,
-    required this.semanticVersion,
-  });
-
-  factory ApplicationDependencySummary.fromJson(Map<String, dynamic> json) {
-    return ApplicationDependencySummary(
-      applicationId: (json['applicationId'] as String?) ?? '',
-      semanticVersion: (json['semanticVersion'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationId = this.applicationId;
-    final semanticVersion = this.semanticVersion;
-    return {
-      'applicationId': applicationId,
-      'semanticVersion': semanticVersion,
-    };
-  }
-}
-
-/// Policy statement applied to the application.
-class ApplicationPolicyStatement {
-  /// For the list of actions supported for this operation, see <a
-  /// href="https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
-  /// Permissions</a>.
-  final List<String> actions;
-
-  /// An array of AWS account IDs, or * to make the application public.
-  final List<String> principals;
-
-  /// An array of PrinciplalOrgIDs, which corresponds to AWS IAM <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#principal-org-id">aws:PrincipalOrgID</a>
-  /// global condition key.
-  final List<String>? principalOrgIDs;
-
-  /// A unique ID for the statement.
-  final String? statementId;
-
-  ApplicationPolicyStatement({
-    required this.actions,
-    required this.principals,
-    this.principalOrgIDs,
-    this.statementId,
-  });
-
-  factory ApplicationPolicyStatement.fromJson(Map<String, dynamic> json) {
-    return ApplicationPolicyStatement(
-      actions: ((json['actions'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      principals: ((json['principals'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      principalOrgIDs: (json['principalOrgIDs'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      statementId: json['statementId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actions = this.actions;
-    final principals = this.principals;
-    final principalOrgIDs = this.principalOrgIDs;
-    final statementId = this.statementId;
-    return {
-      'actions': actions,
-      'principals': principals,
-      if (principalOrgIDs != null) 'principalOrgIDs': principalOrgIDs,
-      if (statementId != null) 'statementId': statementId,
-    };
-  }
-}
-
-/// Summary of details about the application.
-class ApplicationSummary {
-  /// The application Amazon Resource Name (ARN).
-  final String applicationId;
-
-  /// The name of the author publishing the app.
-  ///
-  /// Minimum length=1. Maximum length=127.
-  ///
-  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-  final String author;
-
-  /// The description of the application.
-  ///
-  /// Minimum length=1. Maximum length=256
-  final String description;
-
-  /// The name of the application.
-  ///
-  /// Minimum length=1. Maximum length=140
-  ///
-  /// Pattern: "[a-zA-Z0-9\\-]+";
-  final String name;
-
-  /// The date and time this resource was created.
-  final String? creationTime;
-
-  /// A URL with more information about the application, for example the location
-  /// of your GitHub repository for the application.
-  final String? homePageUrl;
-
-  /// Labels to improve discovery of apps in search results.
-  ///
-  /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
-  ///
-  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
-  final List<String>? labels;
-
-  /// A valid identifier from <a
-  /// href="https://spdx.org/licenses/">https://spdx.org/licenses/</a>.
-  final String? spdxLicenseId;
-
-  ApplicationSummary({
-    required this.applicationId,
-    required this.author,
-    required this.description,
-    required this.name,
-    this.creationTime,
-    this.homePageUrl,
-    this.labels,
-    this.spdxLicenseId,
-  });
-
-  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
-    return ApplicationSummary(
-      applicationId: (json['applicationId'] as String?) ?? '',
-      author: (json['author'] as String?) ?? '',
-      description: (json['description'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      creationTime: json['creationTime'] as String?,
-      homePageUrl: json['homePageUrl'] as String?,
-      labels:
-          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      spdxLicenseId: json['spdxLicenseId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationId = this.applicationId;
-    final author = this.author;
-    final description = this.description;
-    final name = this.name;
-    final creationTime = this.creationTime;
-    final homePageUrl = this.homePageUrl;
-    final labels = this.labels;
-    final spdxLicenseId = this.spdxLicenseId;
-    return {
-      'applicationId': applicationId,
-      'author': author,
-      'description': description,
-      'name': name,
-      if (creationTime != null) 'creationTime': creationTime,
-      if (homePageUrl != null) 'homePageUrl': homePageUrl,
-      if (labels != null) 'labels': labels,
-      if (spdxLicenseId != null) 'spdxLicenseId': spdxLicenseId,
-    };
-  }
-}
-
-/// Values that must be specified in order to deploy some applications.
-class Capability {
-  static const capabilityIam = Capability._('CAPABILITY_IAM');
-  static const capabilityNamedIam = Capability._('CAPABILITY_NAMED_IAM');
-  static const capabilityAutoExpand = Capability._('CAPABILITY_AUTO_EXPAND');
-  static const capabilityResourcePolicy =
-      Capability._('CAPABILITY_RESOURCE_POLICY');
-
-  final String value;
-
-  const Capability._(this.value);
-
-  static const values = [
-    capabilityIam,
-    capabilityNamedIam,
-    capabilityAutoExpand,
-    capabilityResourcePolicy
-  ];
-
-  static Capability fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Capability._(value));
-
-  @override
-  bool operator ==(other) => other is Capability && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateApplicationResponse {
@@ -1229,33 +988,26 @@ class CreateApplicationVersionResponse {
   final List<ParameterDefinition>? parameterDefinitions;
 
   /// A list of values that you must specify before you can deploy certain
-  /// applications.
-  /// Some applications might include resources that can affect permissions in
-  /// your AWS
-  /// account, for example, by creating new AWS Identity and Access Management
-  /// (IAM) users.
-  /// For those applications, you must explicitly acknowledge their capabilities
-  /// by
-  /// specifying this parameter.
+  /// applications. Some applications might include resources that can affect
+  /// permissions in your AWS account, for example, by creating new AWS Identity
+  /// and Access Management (IAM) users. For those applications, you must
+  /// explicitly acknowledge their capabilities by specifying this parameter.
   ///
   /// The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
   /// CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.
   ///
   /// The following resources require you to specify CAPABILITY_IAM or
-  /// CAPABILITY_NAMED_IAM:
-  /// <a
+  /// CAPABILITY_NAMED_IAM: <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">AWS::IAM::Group</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">AWS::IAM::InstanceProfile</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html">AWS::IAM::Policy</a>,
-  /// and
-  /// <a
+  /// and <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">AWS::IAM::Role</a>.
   /// If the application contains IAM resources, you can specify either
-  /// CAPABILITY_IAM
-  /// or CAPABILITY_NAMED_IAM. If the application contains IAM resources
-  /// with custom names, you must specify CAPABILITY_NAMED_IAM.
+  /// CAPABILITY_IAM or CAPABILITY_NAMED_IAM. If the application contains IAM
+  /// resources with custom names, you must specify CAPABILITY_NAMED_IAM.
   ///
   /// The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
   /// <a
@@ -1268,32 +1020,25 @@ class CreateApplicationVersionResponse {
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html">AWS::S3::BucketPolicy</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html">AWS::SQS::QueuePolicy</a>,
-  /// and
-  /// <a
+  /// and <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html">AWS::SNS::TopicPolicy</a>.
   ///
   /// Applications that contain one or more nested applications require you to
-  /// specify
-  /// CAPABILITY_AUTO_EXPAND.
+  /// specify CAPABILITY_AUTO_EXPAND.
   ///
   /// If your application template contains any of the above resources, we
-  /// recommend that you review
-  /// all permissions associated with the application before deploying. If you
-  /// don't specify
-  /// this parameter for an application that requires capabilities, the call will
-  /// fail.
+  /// recommend that you review all permissions associated with the application
+  /// before deploying. If you don't specify this parameter for an application
+  /// that requires capabilities, the call will fail.
   final List<Capability>? requiredCapabilities;
 
   /// Whether all of the AWS resources contained in this application are supported
-  /// in the region
-  /// in which it is being retrieved.
+  /// in the region in which it is being retrieved.
   final bool? resourcesSupported;
 
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   final String? semanticVersion;
 
   /// A link to the S3 object that contains the ZIP archive of the source code for
@@ -1382,9 +1127,7 @@ class CreateCloudFormationChangeSetResponse {
 
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   final String? semanticVersion;
 
   /// The unique ID of the stack.
@@ -1428,21 +1171,18 @@ class CreateCloudFormationTemplateResponse {
   /// The date and time this resource was created.
   final String? creationTime;
 
-  /// The date and time this template expires. Templates
-  /// expire 1 hour after creation.
+  /// The date and time this template expires. Templates expire 1 hour after
+  /// creation.
   final String? expirationTime;
 
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   final String? semanticVersion;
 
   /// Status of the template creation workflow.
   ///
   /// Possible values: PREPARING | ACTIVE | EXPIRED
-  ///
   final Status? status;
 
   /// The UUID returned by CreateCloudFormationTemplate.
@@ -1451,8 +1191,8 @@ class CreateCloudFormationTemplateResponse {
   /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
   final String? templateId;
 
-  /// A link to the template that can be used to deploy the application using
-  /// AWS CloudFormation.
+  /// A link to the template that can be used to deploy the application using AWS
+  /// CloudFormation.
   final String? templateUrl;
 
   CreateCloudFormationTemplateResponse({
@@ -1494,32 +1234,6 @@ class CreateCloudFormationTemplateResponse {
       if (status != null) 'status': status.value,
       if (templateId != null) 'templateId': templateId,
       if (templateUrl != null) 'templateUrl': templateUrl,
-    };
-  }
-}
-
-class GetApplicationPolicyResponse {
-  /// An array of policy statements applied to the application.
-  final List<ApplicationPolicyStatement>? statements;
-
-  GetApplicationPolicyResponse({
-    this.statements,
-  });
-
-  factory GetApplicationPolicyResponse.fromJson(Map<String, dynamic> json) {
-    return GetApplicationPolicyResponse(
-      statements: (json['statements'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ApplicationPolicyStatement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final statements = this.statements;
-    return {
-      if (statements != null) 'statements': statements,
     };
   }
 }
@@ -1658,6 +1372,32 @@ class GetApplicationResponse {
   }
 }
 
+class GetApplicationPolicyResponse {
+  /// An array of policy statements applied to the application.
+  final List<ApplicationPolicyStatement>? statements;
+
+  GetApplicationPolicyResponse({
+    this.statements,
+  });
+
+  factory GetApplicationPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetApplicationPolicyResponse(
+      statements: (json['statements'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ApplicationPolicyStatement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statements = this.statements;
+    return {
+      if (statements != null) 'statements': statements,
+    };
+  }
+}
+
 class GetCloudFormationTemplateResponse {
   /// The application Amazon Resource Name (ARN).
   final String? applicationId;
@@ -1665,21 +1405,18 @@ class GetCloudFormationTemplateResponse {
   /// The date and time this resource was created.
   final String? creationTime;
 
-  /// The date and time this template expires. Templates
-  /// expire 1 hour after creation.
+  /// The date and time this template expires. Templates expire 1 hour after
+  /// creation.
   final String? expirationTime;
 
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   final String? semanticVersion;
 
   /// Status of the template creation workflow.
   ///
   /// Possible values: PREPARING | ACTIVE | EXPIRED
-  ///
   final Status? status;
 
   /// The UUID returned by CreateCloudFormationTemplate.
@@ -1688,8 +1425,8 @@ class GetCloudFormationTemplateResponse {
   /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
   final String? templateId;
 
-  /// A link to the template that can be used to deploy the application using
-  /// AWS CloudFormation.
+  /// A link to the template that can be used to deploy the application using AWS
+  /// CloudFormation.
   final String? templateUrl;
 
   GetCloudFormationTemplateResponse({
@@ -1769,38 +1506,6 @@ class ListApplicationDependenciesResponse {
   }
 }
 
-class ListApplicationVersionsResponse {
-  /// The token to request the next page of results.
-  final String? nextToken;
-
-  /// An array of version summaries for the application.
-  final List<VersionSummary>? versions;
-
-  ListApplicationVersionsResponse({
-    this.nextToken,
-    this.versions,
-  });
-
-  factory ListApplicationVersionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListApplicationVersionsResponse(
-      nextToken: json['nextToken'] as String?,
-      versions: (json['versions'] as List?)
-          ?.nonNulls
-          .map((e) => VersionSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final versions = this.versions;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (versions != null) 'versions': versions,
-    };
-  }
-}
-
 class ListApplicationsResponse {
   /// An array of application summaries.
   final List<ApplicationSummary>? applications;
@@ -1833,203 +1538,34 @@ class ListApplicationsResponse {
   }
 }
 
-/// Parameters supported by the application.
-class ParameterDefinition {
-  /// The name of the parameter.
-  final String name;
+class ListApplicationVersionsResponse {
+  /// The token to request the next page of results.
+  final String? nextToken;
 
-  /// A list of AWS SAM resources that use this parameter.
-  final List<String> referencedByResources;
+  /// An array of version summaries for the application.
+  final List<VersionSummary>? versions;
 
-  /// A regular expression that represents the patterns to allow for String types.
-  final String? allowedPattern;
-
-  /// An array containing the list of values allowed for the parameter.
-  final List<String>? allowedValues;
-
-  /// A string that explains a constraint when the constraint is violated. For
-  /// example, without a constraint description,
-  /// a parameter that has an allowed pattern of [A-Za-z0-9]+ displays the
-  /// following error message when the user
-  /// specifies an invalid value:
-  ///
-  ///
-  /// Malformed input-Parameter MyParameter must match pattern [A-Za-z0-9]+
-  ///
-  ///
-  /// By adding a constraint description, such as "must contain only uppercase and
-  /// lowercase letters and numbers," you can display
-  /// the following customized error message:
-  ///
-  ///
-  /// Malformed input-Parameter MyParameter must contain only uppercase and
-  /// lowercase letters and numbers.
-  ///
-  final String? constraintDescription;
-
-  /// A value of the appropriate type for the template to use if no value is
-  /// specified when a stack is created.
-  /// If you define constraints for the parameter, you must specify a value that
-  /// adheres to those constraints.
-  final String? defaultValue;
-
-  /// A string of up to 4,000 characters that describes the parameter.
-  final String? description;
-
-  /// An integer value that determines the largest number of characters that you
-  /// want to allow for String types.
-  final int? maxLength;
-
-  /// A numeric value that determines the largest numeric value that you want to
-  /// allow for Number types.
-  final int? maxValue;
-
-  /// An integer value that determines the smallest number of characters that you
-  /// want to allow for String types.
-  final int? minLength;
-
-  /// A numeric value that determines the smallest numeric value that you want to
-  /// allow for Number types.
-  final int? minValue;
-
-  /// Whether to mask the parameter value whenever anyone makes a call that
-  /// describes the stack. If you set the
-  /// value to true, the parameter value is masked with asterisks (*****).
-  final bool? noEcho;
-
-  /// The type of the parameter.
-  ///
-  /// Valid values: String | Number | List&lt;Number> | CommaDelimitedList
-  ///
-  ///
-  ///
-  /// String: A literal string.
-  ///
-  /// For example, users can specify "MyUserName".
-  ///
-  ///
-  /// Number: An integer or float. AWS CloudFormation validates the parameter
-  /// value as a number. However, when you use the
-  /// parameter elsewhere in your template (for example, by using the Ref
-  /// intrinsic function), the parameter value becomes a string.
-  ///
-  /// For example, users might specify "8888".
-  ///
-  ///
-  /// List&lt;Number>: An array of integers or floats that are separated by
-  /// commas. AWS CloudFormation validates the parameter value as numbers.
-  /// However, when
-  /// you use the parameter elsewhere in your template (for example, by using the
-  /// Ref intrinsic function), the parameter value becomes a list of strings.
-  ///
-  /// For example, users might specify "80,20", and then Ref results in
-  /// ["80","20"].
-  ///
-  ///
-  /// CommaDelimitedList: An array of literal strings that are separated by
-  /// commas. The total number of strings should be one more than the total number
-  /// of commas.
-  /// Also, each member string is space-trimmed.
-  ///
-  /// For example, users might specify "test,dev,prod", and then Ref results in
-  /// ["test","dev","prod"].
-  final String? type;
-
-  ParameterDefinition({
-    required this.name,
-    required this.referencedByResources,
-    this.allowedPattern,
-    this.allowedValues,
-    this.constraintDescription,
-    this.defaultValue,
-    this.description,
-    this.maxLength,
-    this.maxValue,
-    this.minLength,
-    this.minValue,
-    this.noEcho,
-    this.type,
+  ListApplicationVersionsResponse({
+    this.nextToken,
+    this.versions,
   });
 
-  factory ParameterDefinition.fromJson(Map<String, dynamic> json) {
-    return ParameterDefinition(
-      name: (json['name'] as String?) ?? '',
-      referencedByResources:
-          ((json['referencedByResources'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
-      allowedPattern: json['allowedPattern'] as String?,
-      allowedValues: (json['allowedValues'] as List?)
+  factory ListApplicationVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationVersionsResponse(
+      nextToken: json['nextToken'] as String?,
+      versions: (json['versions'] as List?)
           ?.nonNulls
-          .map((e) => e as String)
+          .map((e) => VersionSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
-      constraintDescription: json['constraintDescription'] as String?,
-      defaultValue: json['defaultValue'] as String?,
-      description: json['description'] as String?,
-      maxLength: json['maxLength'] as int?,
-      maxValue: json['maxValue'] as int?,
-      minLength: json['minLength'] as int?,
-      minValue: json['minValue'] as int?,
-      noEcho: json['noEcho'] as bool?,
-      type: json['type'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final referencedByResources = this.referencedByResources;
-    final allowedPattern = this.allowedPattern;
-    final allowedValues = this.allowedValues;
-    final constraintDescription = this.constraintDescription;
-    final defaultValue = this.defaultValue;
-    final description = this.description;
-    final maxLength = this.maxLength;
-    final maxValue = this.maxValue;
-    final minLength = this.minLength;
-    final minValue = this.minValue;
-    final noEcho = this.noEcho;
-    final type = this.type;
+    final nextToken = this.nextToken;
+    final versions = this.versions;
     return {
-      'name': name,
-      'referencedByResources': referencedByResources,
-      if (allowedPattern != null) 'allowedPattern': allowedPattern,
-      if (allowedValues != null) 'allowedValues': allowedValues,
-      if (constraintDescription != null)
-        'constraintDescription': constraintDescription,
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (description != null) 'description': description,
-      if (maxLength != null) 'maxLength': maxLength,
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minLength != null) 'minLength': minLength,
-      if (minValue != null) 'minValue': minValue,
-      if (noEcho != null) 'noEcho': noEcho,
-      if (type != null) 'type': type,
-    };
-  }
-}
-
-/// Parameter value of the application.
-class ParameterValue {
-  /// The key associated with the parameter. If you don't specify a key and value
-  /// for a particular parameter, AWS CloudFormation
-  /// uses the default value that is specified in your template.
-  final String name;
-
-  /// The input value associated with the parameter.
-  final String value;
-
-  ParameterValue({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'name': name,
-      'value': value,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (versions != null) 'versions': versions,
     };
   }
 }
@@ -2056,126 +1592,6 @@ class PutApplicationPolicyResponse {
     final statements = this.statements;
     return {
       if (statements != null) 'statements': statements,
-    };
-  }
-}
-
-/// This property corresponds to the <i>AWS CloudFormation <a
-/// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
-/// </i> Data Type.
-class RollbackConfiguration {
-  /// This property corresponds to the content of the same name for the <i>AWS
-  /// CloudFormation <a
-  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
-  /// </i> Data Type.
-  final int? monitoringTimeInMinutes;
-
-  /// This property corresponds to the content of the same name for the <i>AWS
-  /// CloudFormation <a
-  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
-  /// </i> Data Type.
-  final List<RollbackTrigger>? rollbackTriggers;
-
-  RollbackConfiguration({
-    this.monitoringTimeInMinutes,
-    this.rollbackTriggers,
-  });
-
-  Map<String, dynamic> toJson() {
-    final monitoringTimeInMinutes = this.monitoringTimeInMinutes;
-    final rollbackTriggers = this.rollbackTriggers;
-    return {
-      if (monitoringTimeInMinutes != null)
-        'monitoringTimeInMinutes': monitoringTimeInMinutes,
-      if (rollbackTriggers != null) 'rollbackTriggers': rollbackTriggers,
-    };
-  }
-}
-
-/// This property corresponds to the <i>AWS CloudFormation <a
-/// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
-/// </i> Data Type.
-class RollbackTrigger {
-  /// This property corresponds to the content of the same name for the <i>AWS
-  /// CloudFormation <a
-  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
-  /// </i> Data Type.
-  final String arn;
-
-  /// This property corresponds to the content of the same name for the <i>AWS
-  /// CloudFormation <a
-  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
-  /// </i> Data Type.
-  final String type;
-
-  RollbackTrigger({
-    required this.arn,
-    required this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final type = this.type;
-    return {
-      'arn': arn,
-      'type': type,
-    };
-  }
-}
-
-class Status {
-  static const preparing = Status._('PREPARING');
-  static const active = Status._('ACTIVE');
-  static const expired = Status._('EXPIRED');
-
-  final String value;
-
-  const Status._(this.value);
-
-  static const values = [preparing, active, expired];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// This property corresponds to the <i>AWS CloudFormation <a
-/// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">Tag</a>
-/// </i> Data Type.
-class Tag {
-  /// This property corresponds to the content of the same name for the <i>AWS
-  /// CloudFormation <a
-  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">Tag</a>
-  /// </i> Data Type.
-  final String key;
-
-  /// This property corresponds to the content of the same name for the <i>AWS
-  /// CloudFormation <a
-  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">
-  /// Tag</a>
-  /// </i>
-  /// Data Type.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
     };
   }
 }
@@ -2326,33 +1742,26 @@ class Version {
   final List<ParameterDefinition> parameterDefinitions;
 
   /// A list of values that you must specify before you can deploy certain
-  /// applications.
-  /// Some applications might include resources that can affect permissions in
-  /// your AWS
-  /// account, for example, by creating new AWS Identity and Access Management
-  /// (IAM) users.
-  /// For those applications, you must explicitly acknowledge their capabilities
-  /// by
-  /// specifying this parameter.
+  /// applications. Some applications might include resources that can affect
+  /// permissions in your AWS account, for example, by creating new AWS Identity
+  /// and Access Management (IAM) users. For those applications, you must
+  /// explicitly acknowledge their capabilities by specifying this parameter.
   ///
   /// The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
   /// CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.
   ///
   /// The following resources require you to specify CAPABILITY_IAM or
-  /// CAPABILITY_NAMED_IAM:
-  /// <a
+  /// CAPABILITY_NAMED_IAM: <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html">AWS::IAM::Group</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html">AWS::IAM::InstanceProfile</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html">AWS::IAM::Policy</a>,
-  /// and
-  /// <a
+  /// and <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html">AWS::IAM::Role</a>.
   /// If the application contains IAM resources, you can specify either
-  /// CAPABILITY_IAM
-  /// or CAPABILITY_NAMED_IAM. If the application contains IAM resources
-  /// with custom names, you must specify CAPABILITY_NAMED_IAM.
+  /// CAPABILITY_IAM or CAPABILITY_NAMED_IAM. If the application contains IAM
+  /// resources with custom names, you must specify CAPABILITY_NAMED_IAM.
   ///
   /// The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
   /// <a
@@ -2365,32 +1774,25 @@ class Version {
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html">AWS::S3::BucketPolicy</a>,
   /// <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-policy.html">AWS::SQS::QueuePolicy</a>,
-  /// and
-  /// <a
+  /// and <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html">AWS::SNS::TopicPolicy</a>.
   ///
   /// Applications that contain one or more nested applications require you to
-  /// specify
-  /// CAPABILITY_AUTO_EXPAND.
+  /// specify CAPABILITY_AUTO_EXPAND.
   ///
   /// If your application template contains any of the above resources, we
-  /// recommend that you review
-  /// all permissions associated with the application before deploying. If you
-  /// don't specify
-  /// this parameter for an application that requires capabilities, the call will
-  /// fail.
+  /// recommend that you review all permissions associated with the application
+  /// before deploying. If you don't specify this parameter for an application
+  /// that requires capabilities, the call will fail.
   final List<Capability> requiredCapabilities;
 
   /// Whether all of the AWS resources contained in this application are supported
-  /// in the region
-  /// in which it is being retrieved.
+  /// in the region in which it is being retrieved.
   final bool resourcesSupported;
 
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   final String semanticVersion;
 
   /// A link to the packaged AWS SAM template of your application.
@@ -2465,6 +1867,259 @@ class Version {
   }
 }
 
+/// Values that must be specified in order to deploy some applications.
+class Capability {
+  static const capabilityIam = Capability._('CAPABILITY_IAM');
+  static const capabilityNamedIam = Capability._('CAPABILITY_NAMED_IAM');
+  static const capabilityAutoExpand = Capability._('CAPABILITY_AUTO_EXPAND');
+  static const capabilityResourcePolicy =
+      Capability._('CAPABILITY_RESOURCE_POLICY');
+
+  final String value;
+
+  const Capability._(this.value);
+
+  static const values = [
+    capabilityIam,
+    capabilityNamedIam,
+    capabilityAutoExpand,
+    capabilityResourcePolicy
+  ];
+
+  static Capability fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Capability._(value));
+
+  @override
+  bool operator ==(other) => other is Capability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Parameters supported by the application.
+class ParameterDefinition {
+  /// The name of the parameter.
+  final String name;
+
+  /// A list of AWS SAM resources that use this parameter.
+  final List<String> referencedByResources;
+
+  /// A regular expression that represents the patterns to allow for String types.
+  final String? allowedPattern;
+
+  /// An array containing the list of values allowed for the parameter.
+  final List<String>? allowedValues;
+
+  /// A string that explains a constraint when the constraint is violated. For
+  /// example, without a constraint description, a parameter that has an allowed
+  /// pattern of [A-Za-z0-9]+ displays the following error message when the user
+  /// specifies an invalid value:
+  ///
+  /// Malformed input-Parameter MyParameter must match pattern [A-Za-z0-9]+
+  ///
+  /// By adding a constraint description, such as "must contain only uppercase and
+  /// lowercase letters and numbers," you can display the following customized
+  /// error message:
+  ///
+  /// Malformed input-Parameter MyParameter must contain only uppercase and
+  /// lowercase letters and numbers.
+  final String? constraintDescription;
+
+  /// A value of the appropriate type for the template to use if no value is
+  /// specified when a stack is created. If you define constraints for the
+  /// parameter, you must specify a value that adheres to those constraints.
+  final String? defaultValue;
+
+  /// A string of up to 4,000 characters that describes the parameter.
+  final String? description;
+
+  /// An integer value that determines the largest number of characters that you
+  /// want to allow for String types.
+  final int? maxLength;
+
+  /// A numeric value that determines the largest numeric value that you want to
+  /// allow for Number types.
+  final int? maxValue;
+
+  /// An integer value that determines the smallest number of characters that you
+  /// want to allow for String types.
+  final int? minLength;
+
+  /// A numeric value that determines the smallest numeric value that you want to
+  /// allow for Number types.
+  final int? minValue;
+
+  /// Whether to mask the parameter value whenever anyone makes a call that
+  /// describes the stack. If you set the value to true, the parameter value is
+  /// masked with asterisks (*****).
+  final bool? noEcho;
+
+  /// The type of the parameter.
+  ///
+  /// Valid values: String | Number | List&lt;Number> | CommaDelimitedList
+  ///
+  /// String: A literal string.
+  ///
+  /// For example, users can specify "MyUserName".
+  ///
+  /// Number: An integer or float. AWS CloudFormation validates the parameter
+  /// value as a number. However, when you use the parameter elsewhere in your
+  /// template (for example, by using the Ref intrinsic function), the parameter
+  /// value becomes a string.
+  ///
+  /// For example, users might specify "8888".
+  ///
+  /// List&lt;Number>: An array of integers or floats that are separated by
+  /// commas. AWS CloudFormation validates the parameter value as numbers.
+  /// However, when you use the parameter elsewhere in your template (for example,
+  /// by using the Ref intrinsic function), the parameter value becomes a list of
+  /// strings.
+  ///
+  /// For example, users might specify "80,20", and then Ref results in
+  /// ["80","20"].
+  ///
+  /// CommaDelimitedList: An array of literal strings that are separated by
+  /// commas. The total number of strings should be one more than the total number
+  /// of commas. Also, each member string is space-trimmed.
+  ///
+  /// For example, users might specify "test,dev,prod", and then Ref results in
+  /// ["test","dev","prod"].
+  final String? type;
+
+  ParameterDefinition({
+    required this.name,
+    required this.referencedByResources,
+    this.allowedPattern,
+    this.allowedValues,
+    this.constraintDescription,
+    this.defaultValue,
+    this.description,
+    this.maxLength,
+    this.maxValue,
+    this.minLength,
+    this.minValue,
+    this.noEcho,
+    this.type,
+  });
+
+  factory ParameterDefinition.fromJson(Map<String, dynamic> json) {
+    return ParameterDefinition(
+      name: (json['name'] as String?) ?? '',
+      referencedByResources:
+          ((json['referencedByResources'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      allowedPattern: json['allowedPattern'] as String?,
+      allowedValues: (json['allowedValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      constraintDescription: json['constraintDescription'] as String?,
+      defaultValue: json['defaultValue'] as String?,
+      description: json['description'] as String?,
+      maxLength: json['maxLength'] as int?,
+      maxValue: json['maxValue'] as int?,
+      minLength: json['minLength'] as int?,
+      minValue: json['minValue'] as int?,
+      noEcho: json['noEcho'] as bool?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final referencedByResources = this.referencedByResources;
+    final allowedPattern = this.allowedPattern;
+    final allowedValues = this.allowedValues;
+    final constraintDescription = this.constraintDescription;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final maxLength = this.maxLength;
+    final maxValue = this.maxValue;
+    final minLength = this.minLength;
+    final minValue = this.minValue;
+    final noEcho = this.noEcho;
+    final type = this.type;
+    return {
+      'name': name,
+      'referencedByResources': referencedByResources,
+      if (allowedPattern != null) 'allowedPattern': allowedPattern,
+      if (allowedValues != null) 'allowedValues': allowedValues,
+      if (constraintDescription != null)
+        'constraintDescription': constraintDescription,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (description != null) 'description': description,
+      if (maxLength != null) 'maxLength': maxLength,
+      if (maxValue != null) 'maxValue': maxValue,
+      if (minLength != null) 'minLength': minLength,
+      if (minValue != null) 'minValue': minValue,
+      if (noEcho != null) 'noEcho': noEcho,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+/// Policy statement applied to the application.
+class ApplicationPolicyStatement {
+  /// For the list of actions supported for this operation, see <a
+  /// href="https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
+  /// Permissions</a>.
+  final List<String> actions;
+
+  /// An array of AWS account IDs, or * to make the application public.
+  final List<String> principals;
+
+  /// An array of PrinciplalOrgIDs, which corresponds to AWS IAM <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#principal-org-id">aws:PrincipalOrgID</a>
+  /// global condition key.
+  final List<String>? principalOrgIDs;
+
+  /// A unique ID for the statement.
+  final String? statementId;
+
+  ApplicationPolicyStatement({
+    required this.actions,
+    required this.principals,
+    this.principalOrgIDs,
+    this.statementId,
+  });
+
+  factory ApplicationPolicyStatement.fromJson(Map<String, dynamic> json) {
+    return ApplicationPolicyStatement(
+      actions: ((json['actions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principals: ((json['principals'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      principalOrgIDs: (json['principalOrgIDs'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      statementId: json['statementId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final principals = this.principals;
+    final principalOrgIDs = this.principalOrgIDs;
+    final statementId = this.statementId;
+    return {
+      'actions': actions,
+      'principals': principals,
+      if (principalOrgIDs != null) 'principalOrgIDs': principalOrgIDs,
+      if (statementId != null) 'statementId': statementId,
+    };
+  }
+}
+
 /// An application version summary.
 class VersionSummary {
   /// The application Amazon Resource Name (ARN).
@@ -2475,9 +2130,7 @@ class VersionSummary {
 
   /// The semantic version of the application:
   ///
-  ///
   /// <a href="https://semver.org/">https://semver.org/</a>
-  ///
   final String semanticVersion;
 
   /// A link to a public repository for the source code of your application, for
@@ -2510,6 +2163,268 @@ class VersionSummary {
       'creationTime': creationTime,
       'semanticVersion': semanticVersion,
       if (sourceCodeUrl != null) 'sourceCodeUrl': sourceCodeUrl,
+    };
+  }
+}
+
+/// Summary of details about the application.
+class ApplicationSummary {
+  /// The application Amazon Resource Name (ARN).
+  final String applicationId;
+
+  /// The name of the author publishing the app.
+  ///
+  /// Minimum length=1. Maximum length=127.
+  ///
+  /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
+  final String author;
+
+  /// The description of the application.
+  ///
+  /// Minimum length=1. Maximum length=256
+  final String description;
+
+  /// The name of the application.
+  ///
+  /// Minimum length=1. Maximum length=140
+  ///
+  /// Pattern: "[a-zA-Z0-9\\-]+";
+  final String name;
+
+  /// The date and time this resource was created.
+  final String? creationTime;
+
+  /// A URL with more information about the application, for example the location
+  /// of your GitHub repository for the application.
+  final String? homePageUrl;
+
+  /// Labels to improve discovery of apps in search results.
+  ///
+  /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
+  ///
+  /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
+  final List<String>? labels;
+
+  /// A valid identifier from <a
+  /// href="https://spdx.org/licenses/">https://spdx.org/licenses/</a>.
+  final String? spdxLicenseId;
+
+  ApplicationSummary({
+    required this.applicationId,
+    required this.author,
+    required this.description,
+    required this.name,
+    this.creationTime,
+    this.homePageUrl,
+    this.labels,
+    this.spdxLicenseId,
+  });
+
+  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationSummary(
+      applicationId: (json['applicationId'] as String?) ?? '',
+      author: (json['author'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      creationTime: json['creationTime'] as String?,
+      homePageUrl: json['homePageUrl'] as String?,
+      labels:
+          (json['labels'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      spdxLicenseId: json['spdxLicenseId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final author = this.author;
+    final description = this.description;
+    final name = this.name;
+    final creationTime = this.creationTime;
+    final homePageUrl = this.homePageUrl;
+    final labels = this.labels;
+    final spdxLicenseId = this.spdxLicenseId;
+    return {
+      'applicationId': applicationId,
+      'author': author,
+      'description': description,
+      'name': name,
+      if (creationTime != null) 'creationTime': creationTime,
+      if (homePageUrl != null) 'homePageUrl': homePageUrl,
+      if (labels != null) 'labels': labels,
+      if (spdxLicenseId != null) 'spdxLicenseId': spdxLicenseId,
+    };
+  }
+}
+
+/// A nested application summary.
+class ApplicationDependencySummary {
+  /// The Amazon Resource Name (ARN) of the nested application.
+  final String applicationId;
+
+  /// The semantic version of the nested application.
+  final String semanticVersion;
+
+  ApplicationDependencySummary({
+    required this.applicationId,
+    required this.semanticVersion,
+  });
+
+  factory ApplicationDependencySummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationDependencySummary(
+      applicationId: (json['applicationId'] as String?) ?? '',
+      semanticVersion: (json['semanticVersion'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final semanticVersion = this.semanticVersion;
+    return {
+      'applicationId': applicationId,
+      'semanticVersion': semanticVersion,
+    };
+  }
+}
+
+class Status {
+  static const preparing = Status._('PREPARING');
+  static const active = Status._('ACTIVE');
+  static const expired = Status._('EXPIRED');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [preparing, active, expired];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This property corresponds to the <i>AWS CloudFormation <a
+/// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
+/// </i> Data Type.
+class RollbackConfiguration {
+  /// This property corresponds to the content of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
+  /// </i> Data Type.
+  final int? monitoringTimeInMinutes;
+
+  /// This property corresponds to the content of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
+  /// </i> Data Type.
+  final List<RollbackTrigger>? rollbackTriggers;
+
+  RollbackConfiguration({
+    this.monitoringTimeInMinutes,
+    this.rollbackTriggers,
+  });
+
+  Map<String, dynamic> toJson() {
+    final monitoringTimeInMinutes = this.monitoringTimeInMinutes;
+    final rollbackTriggers = this.rollbackTriggers;
+    return {
+      if (monitoringTimeInMinutes != null)
+        'monitoringTimeInMinutes': monitoringTimeInMinutes,
+      if (rollbackTriggers != null) 'rollbackTriggers': rollbackTriggers,
+    };
+  }
+}
+
+/// This property corresponds to the <i>AWS CloudFormation <a
+/// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">Tag</a>
+/// </i> Data Type.
+class Tag {
+  /// This property corresponds to the content of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">Tag</a>
+  /// </i> Data Type.
+  final String key;
+
+  /// This property corresponds to the content of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">
+  /// Tag</a> </i> Data Type.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+/// This property corresponds to the <i>AWS CloudFormation <a
+/// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
+/// </i> Data Type.
+class RollbackTrigger {
+  /// This property corresponds to the content of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
+  /// </i> Data Type.
+  final String arn;
+
+  /// This property corresponds to the content of the same name for the <i>AWS
+  /// CloudFormation <a
+  /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
+  /// </i> Data Type.
+  final String type;
+
+  RollbackTrigger({
+    required this.arn,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final type = this.type;
+    return {
+      'arn': arn,
+      'type': type,
+    };
+  }
+}
+
+/// Parameter value of the application.
+class ParameterValue {
+  /// The key associated with the parameter. If you don't specify a key and value
+  /// for a particular parameter, AWS CloudFormation uses the default value that
+  /// is specified in your template.
+  final String name;
+
+  /// The input value associated with the parameter.
+  final String value;
+
+  ParameterValue({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
     };
   }
 }

@@ -35,8 +35,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// The Amazon AppIntegrations service enables you to configure and reuse
 /// connections to external applications.
 ///
-/// For information about how you can use external applications with Amazon
-/// Connect, see the following topics in the <i>Amazon Connect Administrator
+/// For information about how you can use external applications with Connect
+/// Customer, see the following topics in the <i>Connect Customer Administrator
 /// Guide</i>:
 ///
 /// <ul>
@@ -64,7 +64,6 @@ class AppIntegrations {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'app-integrations',
-            signingName: 'app-integrations',
           ),
           region: region,
           credentials: credentials,
@@ -83,12 +82,12 @@ class AppIntegrations {
 
   /// Creates and persists an Application resource.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ResourceQuotaExceededException].
-  /// May throw [DuplicateResourceException].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [applicationSourceConfig] :
@@ -100,6 +99,12 @@ class AppIntegrations {
   /// Parameter [namespace] :
   /// The namespace of the application.
   ///
+  /// Parameter [applicationConfig] :
+  /// The configuration settings for the application.
+  ///
+  /// Parameter [applicationType] :
+  /// The type of application.
+  ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. If not provided, the Amazon Web Services SDK
@@ -109,6 +114,16 @@ class AppIntegrations {
   ///
   /// Parameter [description] :
   /// The description of the application.
+  ///
+  /// Parameter [iframeConfig] :
+  /// The iframe configuration for the application.
+  ///
+  /// Parameter [initializationTimeout] :
+  /// The maximum time in milliseconds allowed to establish a connection with
+  /// the workspace.
+  ///
+  /// Parameter [isService] :
+  /// Indicates whether the application is a service.
   ///
   /// Parameter [permissions] :
   /// The configuration of events or requests that the application has access
@@ -127,19 +142,36 @@ class AppIntegrations {
     required ApplicationSourceConfig applicationSourceConfig,
     required String name,
     required String namespace,
+    ApplicationConfig? applicationConfig,
+    ApplicationType? applicationType,
     String? clientToken,
     String? description,
+    IframeConfig? iframeConfig,
+    int? initializationTimeout,
+    bool? isService,
     List<String>? permissions,
     List<Publication>? publications,
     List<Subscription>? subscriptions,
     Map<String, String>? tags,
   }) async {
+    _s.validateNumRange(
+      'initializationTimeout',
+      initializationTimeout,
+      1,
+      600000,
+    );
     final $payload = <String, dynamic>{
       'ApplicationSourceConfig': applicationSourceConfig,
       'Name': name,
       'Namespace': namespace,
+      if (applicationConfig != null) 'ApplicationConfig': applicationConfig,
+      if (applicationType != null) 'ApplicationType': applicationType.value,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
+      if (iframeConfig != null) 'IframeConfig': iframeConfig,
+      if (initializationTimeout != null)
+        'InitializationTimeout': initializationTimeout,
+      if (isService != null) 'IsService': isService,
       if (permissions != null) 'Permissions': permissions,
       if (publications != null) 'Publications': publications,
       if (subscriptions != null) 'Subscriptions': subscriptions,
@@ -162,12 +194,12 @@ class AppIntegrations {
   /// API.
   /// </note>
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ResourceQuotaExceededException].
-  /// May throw [DuplicateResourceException].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [kmsKey] :
   /// The KMS key ARN for the DataIntegration.
@@ -234,12 +266,12 @@ class AppIntegrations {
 
   /// Creates and persists a DataIntegrationAssociation resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [dataIntegrationIdentifier] :
   /// A unique identifier for the DataIntegration.
@@ -300,12 +332,12 @@ class AppIntegrations {
   /// account, only metadata that is persisted on the EventIntegration control
   /// plane.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ResourceQuotaExceededException].
-  /// May throw [DuplicateResourceException].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceQuotaExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [eventBridgeBus] :
   /// The EventBridge bus.
@@ -357,11 +389,11 @@ class AppIntegrations {
   /// Deletes the Application. Only Applications that don't have any Application
   /// Associations can be deleted.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the Application.
@@ -387,11 +419,11 @@ class AppIntegrations {
   /// API.
   /// </note>
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [dataIntegrationIdentifier] :
   /// A unique identifier for the DataIntegration.
@@ -410,11 +442,11 @@ class AppIntegrations {
   /// Deletes the specified existing event integration. If the event integration
   /// is associated with clients, the request is rejected.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
   /// The name of the event integration.
@@ -431,11 +463,11 @@ class AppIntegrations {
 
   /// Get an Application resource.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the Application.
@@ -460,11 +492,11 @@ class AppIntegrations {
   /// API.
   /// </note>
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [identifier] :
   /// A unique identifier.
@@ -482,11 +514,11 @@ class AppIntegrations {
 
   /// Returns information about the event integration.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
   /// The name of the event integration.
@@ -504,11 +536,11 @@ class AppIntegrations {
 
   /// Returns a paginated list of application associations for an application.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [applicationId] :
   /// A unique identifier for the Application.
@@ -547,10 +579,13 @@ class AppIntegrations {
 
   /// Lists applications in the account.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [applicationType] :
+  /// The type of application.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
@@ -559,6 +594,7 @@ class AppIntegrations {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListApplicationsResponse> listApplications({
+    ApplicationType? applicationType,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -569,6 +605,7 @@ class AppIntegrations {
       50,
     );
     final $query = <String, List<String>>{
+      if (applicationType != null) 'applicationType': [applicationType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -591,11 +628,11 @@ class AppIntegrations {
   /// API.
   /// </note>
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [dataIntegrationIdentifier] :
   /// A unique identifier for the DataIntegration.
@@ -642,10 +679,10 @@ class AppIntegrations {
   /// API.
   /// </note>
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
@@ -679,11 +716,11 @@ class AppIntegrations {
 
   /// Returns a paginated list of event integration associations in the account.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [eventIntegrationName] :
   /// The name of the event integration.
@@ -723,10 +760,10 @@ class AppIntegrations {
 
   /// Returns a paginated list of event integrations in the account.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return per page.
@@ -760,8 +797,8 @@ class AppIntegrations {
 
   /// Lists the tags for the specified resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -781,8 +818,8 @@ class AppIntegrations {
 
   /// Adds the specified tags to the specified resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -809,8 +846,8 @@ class AppIntegrations {
 
   /// Removes the specified tags from the specified resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -837,21 +874,37 @@ class AppIntegrations {
 
   /// Updates and persists an Application resource.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [UnsupportedOperationException].
   ///
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the Application.
   ///
+  /// Parameter [applicationConfig] :
+  /// The configuration settings for the application.
+  ///
   /// Parameter [applicationSourceConfig] :
   /// The configuration for where the application should be loaded from.
   ///
+  /// Parameter [applicationType] :
+  /// The type of application.
+  ///
   /// Parameter [description] :
   /// The description of the application.
+  ///
+  /// Parameter [iframeConfig] :
+  /// The iframe configuration for the application.
+  ///
+  /// Parameter [initializationTimeout] :
+  /// The maximum time in milliseconds allowed to establish a connection with
+  /// the workspace.
+  ///
+  /// Parameter [isService] :
+  /// Indicates whether the application is a service.
   ///
   /// Parameter [name] :
   /// The name of the application.
@@ -867,17 +920,34 @@ class AppIntegrations {
   /// The events that the application subscribes.
   Future<void> updateApplication({
     required String arn,
+    ApplicationConfig? applicationConfig,
     ApplicationSourceConfig? applicationSourceConfig,
+    ApplicationType? applicationType,
     String? description,
+    IframeConfig? iframeConfig,
+    int? initializationTimeout,
+    bool? isService,
     String? name,
     List<String>? permissions,
     List<Publication>? publications,
     List<Subscription>? subscriptions,
   }) async {
+    _s.validateNumRange(
+      'initializationTimeout',
+      initializationTimeout,
+      1,
+      600000,
+    );
     final $payload = <String, dynamic>{
+      if (applicationConfig != null) 'ApplicationConfig': applicationConfig,
       if (applicationSourceConfig != null)
         'ApplicationSourceConfig': applicationSourceConfig,
+      if (applicationType != null) 'ApplicationType': applicationType.value,
       if (description != null) 'Description': description,
+      if (iframeConfig != null) 'IframeConfig': iframeConfig,
+      if (initializationTimeout != null)
+        'InitializationTimeout': initializationTimeout,
+      if (isService != null) 'IsService': isService,
       if (name != null) 'Name': name,
       if (permissions != null) 'Permissions': permissions,
       if (publications != null) 'Publications': publications,
@@ -900,11 +970,11 @@ class AppIntegrations {
   /// API.
   /// </note>
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [identifier] :
   /// A unique identifier for the DataIntegration.
@@ -937,11 +1007,11 @@ class AppIntegrations {
   /// rerun the on-demand job.
   /// </note>
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [dataIntegrationAssociationIdentifier] :
   /// A unique identifier. of the DataIntegrationAssociation resource
@@ -970,11 +1040,11 @@ class AppIntegrations {
 
   /// Updates the description of an event integration.
   ///
-  /// May throw [InternalServiceError].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [name] :
   /// The name of the event integration.
@@ -994,130 +1064,6 @@ class AppIntegrations {
       requestUri: '/eventIntegrations/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
-  }
-}
-
-/// Summary information about the Application Association.
-class ApplicationAssociationSummary {
-  /// The Amazon Resource Name (ARN) of the Application.
-  final String? applicationArn;
-
-  /// The Amazon Resource Name (ARN) of the Application Association.
-  final String? applicationAssociationArn;
-
-  /// The identifier for the client that is associated with the Application
-  /// Association.
-  final String? clientId;
-
-  ApplicationAssociationSummary({
-    this.applicationArn,
-    this.applicationAssociationArn,
-    this.clientId,
-  });
-
-  factory ApplicationAssociationSummary.fromJson(Map<String, dynamic> json) {
-    return ApplicationAssociationSummary(
-      applicationArn: json['ApplicationArn'] as String?,
-      applicationAssociationArn: json['ApplicationAssociationArn'] as String?,
-      clientId: json['ClientId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationArn = this.applicationArn;
-    final applicationAssociationArn = this.applicationAssociationArn;
-    final clientId = this.clientId;
-    return {
-      if (applicationArn != null) 'ApplicationArn': applicationArn,
-      if (applicationAssociationArn != null)
-        'ApplicationAssociationArn': applicationAssociationArn,
-      if (clientId != null) 'ClientId': clientId,
-    };
-  }
-}
-
-/// The configuration for where the application should be loaded from.
-class ApplicationSourceConfig {
-  /// The external URL source for the application.
-  final ExternalUrlConfig? externalUrlConfig;
-
-  ApplicationSourceConfig({
-    this.externalUrlConfig,
-  });
-
-  factory ApplicationSourceConfig.fromJson(Map<String, dynamic> json) {
-    return ApplicationSourceConfig(
-      externalUrlConfig: json['ExternalUrlConfig'] != null
-          ? ExternalUrlConfig.fromJson(
-              json['ExternalUrlConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final externalUrlConfig = this.externalUrlConfig;
-    return {
-      if (externalUrlConfig != null) 'ExternalUrlConfig': externalUrlConfig,
-    };
-  }
-}
-
-/// Summary information about the Application.
-class ApplicationSummary {
-  /// The Amazon Resource Name (ARN) of the Application.
-  final String? arn;
-
-  /// The time when the application was created.
-  final DateTime? createdTime;
-
-  /// A unique identifier for the Application.
-  final String? id;
-
-  /// The time when the application was last modified.
-  final DateTime? lastModifiedTime;
-
-  /// The name of the application.
-  final String? name;
-
-  /// The namespace of the application.
-  final String? namespace;
-
-  ApplicationSummary({
-    this.arn,
-    this.createdTime,
-    this.id,
-    this.lastModifiedTime,
-    this.name,
-    this.namespace,
-  });
-
-  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
-    return ApplicationSummary(
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      id: json['Id'] as String?,
-      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
-      name: json['Name'] as String?,
-      namespace: json['Namespace'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final id = this.id;
-    final lastModifiedTime = this.lastModifiedTime;
-    final name = this.name;
-    final namespace = this.namespace;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (id != null) 'Id': id,
-      if (lastModifiedTime != null)
-        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
-      if (name != null) 'Name': name,
-      if (namespace != null) 'Namespace': namespace,
-    };
   }
 }
 
@@ -1146,38 +1092,6 @@ class CreateApplicationResponse {
     return {
       if (arn != null) 'Arn': arn,
       if (id != null) 'Id': id,
-    };
-  }
-}
-
-class CreateDataIntegrationAssociationResponse {
-  /// The Amazon Resource Name (ARN) for the DataIntegration.
-  final String? dataIntegrationArn;
-
-  /// A unique identifier. for the DataIntegrationAssociation.
-  final String? dataIntegrationAssociationId;
-
-  CreateDataIntegrationAssociationResponse({
-    this.dataIntegrationArn,
-    this.dataIntegrationAssociationId,
-  });
-
-  factory CreateDataIntegrationAssociationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateDataIntegrationAssociationResponse(
-      dataIntegrationArn: json['DataIntegrationArn'] as String?,
-      dataIntegrationAssociationId:
-          json['DataIntegrationAssociationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataIntegrationArn = this.dataIntegrationArn;
-    final dataIntegrationAssociationId = this.dataIntegrationAssociationId;
-    return {
-      if (dataIntegrationArn != null) 'DataIntegrationArn': dataIntegrationArn,
-      if (dataIntegrationAssociationId != null)
-        'DataIntegrationAssociationId': dataIntegrationAssociationId,
     };
   }
 }
@@ -1293,6 +1207,38 @@ class CreateDataIntegrationResponse {
   }
 }
 
+class CreateDataIntegrationAssociationResponse {
+  /// The Amazon Resource Name (ARN) for the DataIntegration.
+  final String? dataIntegrationArn;
+
+  /// A unique identifier. for the DataIntegrationAssociation.
+  final String? dataIntegrationAssociationId;
+
+  CreateDataIntegrationAssociationResponse({
+    this.dataIntegrationArn,
+    this.dataIntegrationAssociationId,
+  });
+
+  factory CreateDataIntegrationAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateDataIntegrationAssociationResponse(
+      dataIntegrationArn: json['DataIntegrationArn'] as String?,
+      dataIntegrationAssociationId:
+          json['DataIntegrationAssociationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataIntegrationArn = this.dataIntegrationArn;
+    final dataIntegrationAssociationId = this.dataIntegrationAssociationId;
+    return {
+      if (dataIntegrationArn != null) 'DataIntegrationArn': dataIntegrationArn,
+      if (dataIntegrationAssociationId != null)
+        'DataIntegrationAssociationId': dataIntegrationAssociationId,
+    };
+  }
+}
+
 class CreateEventIntegrationResponse {
   /// The Amazon Resource Name (ARN) of the event integration.
   final String? eventIntegrationArn;
@@ -1312,111 +1258,6 @@ class CreateEventIntegrationResponse {
     return {
       if (eventIntegrationArn != null)
         'EventIntegrationArn': eventIntegrationArn,
-    };
-  }
-}
-
-/// Summary information about the DataIntegration association.
-class DataIntegrationAssociationSummary {
-  /// The identifier for the client that is associated with the DataIntegration
-  /// association.
-  final String? clientId;
-
-  /// The Amazon Resource Name (ARN) of the DataIntegration.
-  final String? dataIntegrationArn;
-
-  /// The Amazon Resource Name (ARN) of the DataIntegration association.
-  final String? dataIntegrationAssociationArn;
-
-  /// The URI of the data destination.
-  final String? destinationURI;
-  final ExecutionConfiguration? executionConfiguration;
-
-  /// The execution status of the last job.
-  final LastExecutionStatus? lastExecutionStatus;
-
-  DataIntegrationAssociationSummary({
-    this.clientId,
-    this.dataIntegrationArn,
-    this.dataIntegrationAssociationArn,
-    this.destinationURI,
-    this.executionConfiguration,
-    this.lastExecutionStatus,
-  });
-
-  factory DataIntegrationAssociationSummary.fromJson(
-      Map<String, dynamic> json) {
-    return DataIntegrationAssociationSummary(
-      clientId: json['ClientId'] as String?,
-      dataIntegrationArn: json['DataIntegrationArn'] as String?,
-      dataIntegrationAssociationArn:
-          json['DataIntegrationAssociationArn'] as String?,
-      destinationURI: json['DestinationURI'] as String?,
-      executionConfiguration: json['ExecutionConfiguration'] != null
-          ? ExecutionConfiguration.fromJson(
-              json['ExecutionConfiguration'] as Map<String, dynamic>)
-          : null,
-      lastExecutionStatus: json['LastExecutionStatus'] != null
-          ? LastExecutionStatus.fromJson(
-              json['LastExecutionStatus'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientId = this.clientId;
-    final dataIntegrationArn = this.dataIntegrationArn;
-    final dataIntegrationAssociationArn = this.dataIntegrationAssociationArn;
-    final destinationURI = this.destinationURI;
-    final executionConfiguration = this.executionConfiguration;
-    final lastExecutionStatus = this.lastExecutionStatus;
-    return {
-      if (clientId != null) 'ClientId': clientId,
-      if (dataIntegrationArn != null) 'DataIntegrationArn': dataIntegrationArn,
-      if (dataIntegrationAssociationArn != null)
-        'DataIntegrationAssociationArn': dataIntegrationAssociationArn,
-      if (destinationURI != null) 'DestinationURI': destinationURI,
-      if (executionConfiguration != null)
-        'ExecutionConfiguration': executionConfiguration,
-      if (lastExecutionStatus != null)
-        'LastExecutionStatus': lastExecutionStatus,
-    };
-  }
-}
-
-/// Summary information about the DataIntegration.
-class DataIntegrationSummary {
-  /// The Amazon Resource Name (ARN) of the DataIntegration.
-  final String? arn;
-
-  /// The name of the DataIntegration.
-  final String? name;
-
-  /// The URI of the data source.
-  final String? sourceURI;
-
-  DataIntegrationSummary({
-    this.arn,
-    this.name,
-    this.sourceURI,
-  });
-
-  factory DataIntegrationSummary.fromJson(Map<String, dynamic> json) {
-    return DataIntegrationSummary(
-      arn: json['Arn'] as String?,
-      name: json['Name'] as String?,
-      sourceURI: json['SourceURI'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    final sourceURI = this.sourceURI;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (name != null) 'Name': name,
-      if (sourceURI != null) 'SourceURI': sourceURI,
     };
   }
 }
@@ -1457,320 +1298,15 @@ class DeleteEventIntegrationResponse {
   }
 }
 
-/// The event filter.
-class EventFilter {
-  /// The source of the events.
-  final String source;
-
-  EventFilter({
-    required this.source,
-  });
-
-  factory EventFilter.fromJson(Map<String, dynamic> json) {
-    return EventFilter(
-      source: (json['Source'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    return {
-      'Source': source,
-    };
-  }
-}
-
-/// The event integration.
-class EventIntegration {
-  /// The event integration description.
-  final String? description;
-
-  /// The Amazon EventBridge bus for the event integration.
-  final String? eventBridgeBus;
-
-  /// The event integration filter.
-  final EventFilter? eventFilter;
-
-  /// The Amazon Resource Name (ARN) of the event integration.
-  final String? eventIntegrationArn;
-
-  /// The name of the event integration.
-  final String? name;
-
-  /// The tags used to organize, track, or control access for this resource. For
-  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
-  final Map<String, String>? tags;
-
-  EventIntegration({
-    this.description,
-    this.eventBridgeBus,
-    this.eventFilter,
-    this.eventIntegrationArn,
-    this.name,
-    this.tags,
-  });
-
-  factory EventIntegration.fromJson(Map<String, dynamic> json) {
-    return EventIntegration(
-      description: json['Description'] as String?,
-      eventBridgeBus: json['EventBridgeBus'] as String?,
-      eventFilter: json['EventFilter'] != null
-          ? EventFilter.fromJson(json['EventFilter'] as Map<String, dynamic>)
-          : null,
-      eventIntegrationArn: json['EventIntegrationArn'] as String?,
-      name: json['Name'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final eventBridgeBus = this.eventBridgeBus;
-    final eventFilter = this.eventFilter;
-    final eventIntegrationArn = this.eventIntegrationArn;
-    final name = this.name;
-    final tags = this.tags;
-    return {
-      if (description != null) 'Description': description,
-      if (eventBridgeBus != null) 'EventBridgeBus': eventBridgeBus,
-      if (eventFilter != null) 'EventFilter': eventFilter,
-      if (eventIntegrationArn != null)
-        'EventIntegrationArn': eventIntegrationArn,
-      if (name != null) 'Name': name,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// The event integration association.
-class EventIntegrationAssociation {
-  /// The metadata associated with the client.
-  final Map<String, String>? clientAssociationMetadata;
-
-  /// The identifier for the client that is associated with the event integration.
-  final String? clientId;
-
-  /// The name of the EventBridge rule.
-  final String? eventBridgeRuleName;
-
-  /// The Amazon Resource Name (ARN) for the event integration association.
-  final String? eventIntegrationAssociationArn;
-
-  /// The identifier for the event integration association.
-  final String? eventIntegrationAssociationId;
-
-  /// The name of the event integration.
-  final String? eventIntegrationName;
-
-  EventIntegrationAssociation({
-    this.clientAssociationMetadata,
-    this.clientId,
-    this.eventBridgeRuleName,
-    this.eventIntegrationAssociationArn,
-    this.eventIntegrationAssociationId,
-    this.eventIntegrationName,
-  });
-
-  factory EventIntegrationAssociation.fromJson(Map<String, dynamic> json) {
-    return EventIntegrationAssociation(
-      clientAssociationMetadata:
-          (json['ClientAssociationMetadata'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      clientId: json['ClientId'] as String?,
-      eventBridgeRuleName: json['EventBridgeRuleName'] as String?,
-      eventIntegrationAssociationArn:
-          json['EventIntegrationAssociationArn'] as String?,
-      eventIntegrationAssociationId:
-          json['EventIntegrationAssociationId'] as String?,
-      eventIntegrationName: json['EventIntegrationName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientAssociationMetadata = this.clientAssociationMetadata;
-    final clientId = this.clientId;
-    final eventBridgeRuleName = this.eventBridgeRuleName;
-    final eventIntegrationAssociationArn = this.eventIntegrationAssociationArn;
-    final eventIntegrationAssociationId = this.eventIntegrationAssociationId;
-    final eventIntegrationName = this.eventIntegrationName;
-    return {
-      if (clientAssociationMetadata != null)
-        'ClientAssociationMetadata': clientAssociationMetadata,
-      if (clientId != null) 'ClientId': clientId,
-      if (eventBridgeRuleName != null)
-        'EventBridgeRuleName': eventBridgeRuleName,
-      if (eventIntegrationAssociationArn != null)
-        'EventIntegrationAssociationArn': eventIntegrationAssociationArn,
-      if (eventIntegrationAssociationId != null)
-        'EventIntegrationAssociationId': eventIntegrationAssociationId,
-      if (eventIntegrationName != null)
-        'EventIntegrationName': eventIntegrationName,
-    };
-  }
-}
-
-/// The configuration for how the files should be pulled from the source.
-class ExecutionConfiguration {
-  /// The mode for data import/export execution.
-  final ExecutionMode executionMode;
-  final OnDemandConfiguration? onDemandConfiguration;
-  final ScheduleConfiguration? scheduleConfiguration;
-
-  ExecutionConfiguration({
-    required this.executionMode,
-    this.onDemandConfiguration,
-    this.scheduleConfiguration,
-  });
-
-  factory ExecutionConfiguration.fromJson(Map<String, dynamic> json) {
-    return ExecutionConfiguration(
-      executionMode:
-          ExecutionMode.fromString((json['ExecutionMode'] as String?) ?? ''),
-      onDemandConfiguration: json['OnDemandConfiguration'] != null
-          ? OnDemandConfiguration.fromJson(
-              json['OnDemandConfiguration'] as Map<String, dynamic>)
-          : null,
-      scheduleConfiguration: json['ScheduleConfiguration'] != null
-          ? ScheduleConfiguration.fromJson(
-              json['ScheduleConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionMode = this.executionMode;
-    final onDemandConfiguration = this.onDemandConfiguration;
-    final scheduleConfiguration = this.scheduleConfiguration;
-    return {
-      'ExecutionMode': executionMode.value,
-      if (onDemandConfiguration != null)
-        'OnDemandConfiguration': onDemandConfiguration,
-      if (scheduleConfiguration != null)
-        'ScheduleConfiguration': scheduleConfiguration,
-    };
-  }
-}
-
-class ExecutionMode {
-  static const onDemand = ExecutionMode._('ON_DEMAND');
-  static const scheduled = ExecutionMode._('SCHEDULED');
-
-  final String value;
-
-  const ExecutionMode._(this.value);
-
-  static const values = [onDemand, scheduled];
-
-  static ExecutionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionMode._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutionMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExecutionStatus {
-  static const completed = ExecutionStatus._('COMPLETED');
-  static const inProgress = ExecutionStatus._('IN_PROGRESS');
-  static const failed = ExecutionStatus._('FAILED');
-
-  final String value;
-
-  const ExecutionStatus._(this.value);
-
-  static const values = [completed, inProgress, failed];
-
-  static ExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The external URL source for the application.
-class ExternalUrlConfig {
-  /// The URL to access the application.
-  final String accessUrl;
-
-  /// Additional URLs to allow list if different than the access URL.
-  final List<String>? approvedOrigins;
-
-  ExternalUrlConfig({
-    required this.accessUrl,
-    this.approvedOrigins,
-  });
-
-  factory ExternalUrlConfig.fromJson(Map<String, dynamic> json) {
-    return ExternalUrlConfig(
-      accessUrl: (json['AccessUrl'] as String?) ?? '',
-      approvedOrigins: (json['ApprovedOrigins'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessUrl = this.accessUrl;
-    final approvedOrigins = this.approvedOrigins;
-    return {
-      'AccessUrl': accessUrl,
-      if (approvedOrigins != null) 'ApprovedOrigins': approvedOrigins,
-    };
-  }
-}
-
-/// The configuration for what files should be pulled from the source.
-class FileConfiguration {
-  /// Identifiers for the source folders to pull all files from recursively.
-  final List<String> folders;
-
-  /// Restrictions for what files should be pulled from the source.
-  final Map<String, List<String>>? filters;
-
-  FileConfiguration({
-    required this.folders,
-    this.filters,
-  });
-
-  factory FileConfiguration.fromJson(Map<String, dynamic> json) {
-    return FileConfiguration(
-      folders: ((json['Folders'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      filters: (json['Filters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final folders = this.folders;
-    final filters = this.filters;
-    return {
-      'Folders': folders,
-      if (filters != null) 'Filters': filters,
-    };
-  }
-}
-
 class GetApplicationResponse {
+  /// The configuration settings for the application.
+  final ApplicationConfig? applicationConfig;
+
   /// The configuration for where the application should be loaded from.
   final ApplicationSourceConfig? applicationSourceConfig;
+
+  /// The type of application.
+  final ApplicationType? applicationType;
 
   /// The Amazon Resource Name (ARN) of the Application.
   final String? arn;
@@ -1783,6 +1319,16 @@ class GetApplicationResponse {
 
   /// A unique identifier for the Application.
   final String? id;
+
+  /// The iframe configuration for the application.
+  final IframeConfig? iframeConfig;
+
+  /// The maximum time in milliseconds allowed to establish a connection with the
+  /// workspace.
+  final int? initializationTimeout;
+
+  /// Indicates whether the application is a service.
+  final bool? isService;
 
   /// The last modified time of the Application.
   final DateTime? lastModifiedTime;
@@ -1807,11 +1353,16 @@ class GetApplicationResponse {
   final Map<String, String>? tags;
 
   GetApplicationResponse({
+    this.applicationConfig,
     this.applicationSourceConfig,
+    this.applicationType,
     this.arn,
     this.createdTime,
     this.description,
     this.id,
+    this.iframeConfig,
+    this.initializationTimeout,
+    this.isService,
     this.lastModifiedTime,
     this.name,
     this.namespace,
@@ -1823,14 +1374,25 @@ class GetApplicationResponse {
 
   factory GetApplicationResponse.fromJson(Map<String, dynamic> json) {
     return GetApplicationResponse(
+      applicationConfig: json['ApplicationConfig'] != null
+          ? ApplicationConfig.fromJson(
+              json['ApplicationConfig'] as Map<String, dynamic>)
+          : null,
       applicationSourceConfig: json['ApplicationSourceConfig'] != null
           ? ApplicationSourceConfig.fromJson(
               json['ApplicationSourceConfig'] as Map<String, dynamic>)
           : null,
+      applicationType:
+          (json['ApplicationType'] as String?)?.let(ApplicationType.fromString),
       arn: json['Arn'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
       description: json['Description'] as String?,
       id: json['Id'] as String?,
+      iframeConfig: json['IframeConfig'] != null
+          ? IframeConfig.fromJson(json['IframeConfig'] as Map<String, dynamic>)
+          : null,
+      initializationTimeout: json['InitializationTimeout'] as int?,
+      isService: json['IsService'] as bool?,
       lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
       name: json['Name'] as String?,
       namespace: json['Namespace'] as String?,
@@ -1852,11 +1414,16 @@ class GetApplicationResponse {
   }
 
   Map<String, dynamic> toJson() {
+    final applicationConfig = this.applicationConfig;
     final applicationSourceConfig = this.applicationSourceConfig;
+    final applicationType = this.applicationType;
     final arn = this.arn;
     final createdTime = this.createdTime;
     final description = this.description;
     final id = this.id;
+    final iframeConfig = this.iframeConfig;
+    final initializationTimeout = this.initializationTimeout;
+    final isService = this.isService;
     final lastModifiedTime = this.lastModifiedTime;
     final name = this.name;
     final namespace = this.namespace;
@@ -1865,12 +1432,18 @@ class GetApplicationResponse {
     final subscriptions = this.subscriptions;
     final tags = this.tags;
     return {
+      if (applicationConfig != null) 'ApplicationConfig': applicationConfig,
       if (applicationSourceConfig != null)
         'ApplicationSourceConfig': applicationSourceConfig,
+      if (applicationType != null) 'ApplicationType': applicationType.value,
       if (arn != null) 'Arn': arn,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
       if (description != null) 'Description': description,
       if (id != null) 'Id': id,
+      if (iframeConfig != null) 'IframeConfig': iframeConfig,
+      if (initializationTimeout != null)
+        'InitializationTimeout': initializationTimeout,
+      if (isService != null) 'IsService': isService,
       if (lastModifiedTime != null)
         'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
       if (name != null) 'Name': name,
@@ -2041,37 +1614,6 @@ class GetEventIntegrationResponse {
         'EventIntegrationArn': eventIntegrationArn,
       if (name != null) 'Name': name,
       if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// The execution status of the last job.
-class LastExecutionStatus {
-  /// The job status enum string.
-  final ExecutionStatus? executionStatus;
-
-  /// The status message of a job.
-  final String? statusMessage;
-
-  LastExecutionStatus({
-    this.executionStatus,
-    this.statusMessage,
-  });
-
-  factory LastExecutionStatus.fromJson(Map<String, dynamic> json) {
-    return LastExecutionStatus(
-      executionStatus:
-          (json['ExecutionStatus'] as String?)?.let(ExecutionStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionStatus = this.executionStatus;
-    final statusMessage = this.statusMessage;
-    return {
-      if (executionStatus != null) 'ExecutionStatus': executionStatus.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
@@ -2310,6 +1852,145 @@ class ListTagsForResourceResponse {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateApplicationResponse {
+  UpdateApplicationResponse();
+
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDataIntegrationResponse {
+  UpdateDataIntegrationResponse();
+
+  factory UpdateDataIntegrationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDataIntegrationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDataIntegrationAssociationResponse {
+  UpdateDataIntegrationAssociationResponse();
+
+  factory UpdateDataIntegrationAssociationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateDataIntegrationAssociationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateEventIntegrationResponse {
+  UpdateEventIntegrationResponse();
+
+  factory UpdateEventIntegrationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateEventIntegrationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The configuration for how the files should be pulled from the source.
+class ExecutionConfiguration {
+  /// The mode for data import/export execution.
+  final ExecutionMode executionMode;
+  final OnDemandConfiguration? onDemandConfiguration;
+  final ScheduleConfiguration? scheduleConfiguration;
+
+  ExecutionConfiguration({
+    required this.executionMode,
+    this.onDemandConfiguration,
+    this.scheduleConfiguration,
+  });
+
+  factory ExecutionConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExecutionConfiguration(
+      executionMode:
+          ExecutionMode.fromString((json['ExecutionMode'] as String?) ?? ''),
+      onDemandConfiguration: json['OnDemandConfiguration'] != null
+          ? OnDemandConfiguration.fromJson(
+              json['OnDemandConfiguration'] as Map<String, dynamic>)
+          : null,
+      scheduleConfiguration: json['ScheduleConfiguration'] != null
+          ? ScheduleConfiguration.fromJson(
+              json['ScheduleConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionMode = this.executionMode;
+    final onDemandConfiguration = this.onDemandConfiguration;
+    final scheduleConfiguration = this.scheduleConfiguration;
+    return {
+      'ExecutionMode': executionMode.value,
+      if (onDemandConfiguration != null)
+        'OnDemandConfiguration': onDemandConfiguration,
+      if (scheduleConfiguration != null)
+        'ScheduleConfiguration': scheduleConfiguration,
+    };
+  }
+}
+
+class ExecutionMode {
+  static const onDemand = ExecutionMode._('ON_DEMAND');
+  static const scheduled = ExecutionMode._('SCHEDULED');
+
+  final String value;
+
+  const ExecutionMode._(this.value);
+
+  static const values = [onDemand, scheduled];
+
+  static ExecutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionMode._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The start and end time for data pull from the source.
 class OnDemandConfiguration {
   /// The start time for data pull from the source as an Unix/epoch string in
@@ -2338,43 +2019,6 @@ class OnDemandConfiguration {
     return {
       'StartTime': startTime,
       if (endTime != null) 'EndTime': endTime,
-    };
-  }
-}
-
-/// The configuration of an event that the application publishes.
-class Publication {
-  /// The name of the publication.
-  final String event;
-
-  /// The JSON schema of the publication event.
-  final String schema;
-
-  /// The description of the publication.
-  final String? description;
-
-  Publication({
-    required this.event,
-    required this.schema,
-    this.description,
-  });
-
-  factory Publication.fromJson(Map<String, dynamic> json) {
-    return Publication(
-      event: (json['Event'] as String?) ?? '',
-      schema: (json['Schema'] as String?) ?? '',
-      description: json['Description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final event = this.event;
-    final schema = this.schema;
-    final description = this.description;
-    return {
-      'Event': event,
-      'Schema': schema,
-      if (description != null) 'Description': description,
     };
   }
 }
@@ -2417,6 +2061,202 @@ class ScheduleConfiguration {
   }
 }
 
+/// The configuration for where the application should be loaded from.
+class ApplicationSourceConfig {
+  /// The external URL source for the application.
+  final ExternalUrlConfig? externalUrlConfig;
+
+  ApplicationSourceConfig({
+    this.externalUrlConfig,
+  });
+
+  factory ApplicationSourceConfig.fromJson(Map<String, dynamic> json) {
+    return ApplicationSourceConfig(
+      externalUrlConfig: json['ExternalUrlConfig'] != null
+          ? ExternalUrlConfig.fromJson(
+              json['ExternalUrlConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalUrlConfig = this.externalUrlConfig;
+    return {
+      if (externalUrlConfig != null) 'ExternalUrlConfig': externalUrlConfig,
+    };
+  }
+}
+
+/// The configuration settings for the application.
+class ApplicationConfig {
+  /// The contact handling configuration for the application.
+  final ContactHandling? contactHandling;
+
+  ApplicationConfig({
+    this.contactHandling,
+  });
+
+  factory ApplicationConfig.fromJson(Map<String, dynamic> json) {
+    return ApplicationConfig(
+      contactHandling: json['ContactHandling'] != null
+          ? ContactHandling.fromJson(
+              json['ContactHandling'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactHandling = this.contactHandling;
+    return {
+      if (contactHandling != null) 'ContactHandling': contactHandling,
+    };
+  }
+}
+
+/// The iframe configuration for the application.
+class IframeConfig {
+  /// The list of features that are allowed in the iframe.
+  final List<String>? allow;
+
+  /// The list of sandbox attributes for the iframe.
+  final List<String>? sandbox;
+
+  IframeConfig({
+    this.allow,
+    this.sandbox,
+  });
+
+  factory IframeConfig.fromJson(Map<String, dynamic> json) {
+    return IframeConfig(
+      allow:
+          (json['Allow'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      sandbox:
+          (json['Sandbox'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allow = this.allow;
+    final sandbox = this.sandbox;
+    return {
+      if (allow != null) 'Allow': allow,
+      if (sandbox != null) 'Sandbox': sandbox,
+    };
+  }
+}
+
+/// <value>The type of application</value>
+class ApplicationType {
+  static const standard = ApplicationType._('STANDARD');
+  static const service = ApplicationType._('SERVICE');
+  static const mcpServer = ApplicationType._('MCP_SERVER');
+
+  final String value;
+
+  const ApplicationType._(this.value);
+
+  static const values = [standard, service, mcpServer];
+
+  static ApplicationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationType._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The contact handling configuration for the application.
+class ContactHandling {
+  /// Indicates whether the application refreshes for each contact or refreshes
+  /// only with each new browser session.
+  final ContactHandlingScope? scope;
+
+  ContactHandling({
+    this.scope,
+  });
+
+  factory ContactHandling.fromJson(Map<String, dynamic> json) {
+    return ContactHandling(
+      scope: (json['Scope'] as String?)?.let(ContactHandlingScope.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scope = this.scope;
+    return {
+      if (scope != null) 'Scope': scope.value,
+    };
+  }
+}
+
+class ContactHandlingScope {
+  static const crossContacts = ContactHandlingScope._('CROSS_CONTACTS');
+  static const perContact = ContactHandlingScope._('PER_CONTACT');
+
+  final String value;
+
+  const ContactHandlingScope._(this.value);
+
+  static const values = [crossContacts, perContact];
+
+  static ContactHandlingScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContactHandlingScope._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContactHandlingScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of an event that the application publishes.
+class Publication {
+  /// The name of the publication.
+  final String event;
+
+  /// The JSON schema of the publication event.
+  final String schema;
+
+  /// The description of the publication.
+  final String? description;
+
+  Publication({
+    required this.event,
+    required this.schema,
+    this.description,
+  });
+
+  factory Publication.fromJson(Map<String, dynamic> json) {
+    return Publication(
+      event: (json['Event'] as String?) ?? '',
+      schema: (json['Schema'] as String?) ?? '',
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final event = this.event;
+    final schema = this.schema;
+    final description = this.description;
+    return {
+      'Event': event,
+      'Schema': schema,
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
 /// The configuration of an event that the application subscribes.
 class Subscription {
   /// The name of the subscription.
@@ -2447,76 +2287,497 @@ class Subscription {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// The external URL source for the application.
+class ExternalUrlConfig {
+  /// The URL to access the application.
+  final String accessUrl;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// Additional URLs to allow list if different than the access URL.
+  final List<String>? approvedOrigins;
+
+  ExternalUrlConfig({
+    required this.accessUrl,
+    this.approvedOrigins,
+  });
+
+  factory ExternalUrlConfig.fromJson(Map<String, dynamic> json) {
+    return ExternalUrlConfig(
+      accessUrl: (json['AccessUrl'] as String?) ?? '',
+      approvedOrigins: (json['ApprovedOrigins'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final accessUrl = this.accessUrl;
+    final approvedOrigins = this.approvedOrigins;
+    return {
+      'AccessUrl': accessUrl,
+      if (approvedOrigins != null) 'ApprovedOrigins': approvedOrigins,
+    };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// The event integration.
+class EventIntegration {
+  /// The event integration description.
+  final String? description;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  /// The Amazon EventBridge bus for the event integration.
+  final String? eventBridgeBus;
+
+  /// The event integration filter.
+  final EventFilter? eventFilter;
+
+  /// The Amazon Resource Name (ARN) of the event integration.
+  final String? eventIntegrationArn;
+
+  /// The name of the event integration.
+  final String? name;
+
+  /// The tags used to organize, track, or control access for this resource. For
+  /// example, { "tags": {"key1":"value1", "key2":"value2"} }.
+  final Map<String, String>? tags;
+
+  EventIntegration({
+    this.description,
+    this.eventBridgeBus,
+    this.eventFilter,
+    this.eventIntegrationArn,
+    this.name,
+    this.tags,
+  });
+
+  factory EventIntegration.fromJson(Map<String, dynamic> json) {
+    return EventIntegration(
+      description: json['Description'] as String?,
+      eventBridgeBus: json['EventBridgeBus'] as String?,
+      eventFilter: json['EventFilter'] != null
+          ? EventFilter.fromJson(json['EventFilter'] as Map<String, dynamic>)
+          : null,
+      eventIntegrationArn: json['EventIntegrationArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final description = this.description;
+    final eventBridgeBus = this.eventBridgeBus;
+    final eventFilter = this.eventFilter;
+    final eventIntegrationArn = this.eventIntegrationArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (eventBridgeBus != null) 'EventBridgeBus': eventBridgeBus,
+      if (eventFilter != null) 'EventFilter': eventFilter,
+      if (eventIntegrationArn != null)
+        'EventIntegrationArn': eventIntegrationArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'Tags': tags,
+    };
   }
 }
 
-class UpdateApplicationResponse {
-  UpdateApplicationResponse();
+/// The event filter.
+class EventFilter {
+  /// The source of the events.
+  final String source;
 
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateApplicationResponse();
+  EventFilter({
+    required this.source,
+  });
+
+  factory EventFilter.fromJson(Map<String, dynamic> json) {
+    return EventFilter(
+      source: (json['Source'] as String?) ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final source = this.source;
+    return {
+      'Source': source,
+    };
   }
 }
 
-class UpdateDataIntegrationAssociationResponse {
-  UpdateDataIntegrationAssociationResponse();
+/// The event integration association.
+class EventIntegrationAssociation {
+  /// The metadata associated with the client.
+  final Map<String, String>? clientAssociationMetadata;
 
-  factory UpdateDataIntegrationAssociationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateDataIntegrationAssociationResponse();
+  /// The identifier for the client that is associated with the event integration.
+  final String? clientId;
+
+  /// The name of the EventBridge rule.
+  final String? eventBridgeRuleName;
+
+  /// The Amazon Resource Name (ARN) for the event integration association.
+  final String? eventIntegrationAssociationArn;
+
+  /// The identifier for the event integration association.
+  final String? eventIntegrationAssociationId;
+
+  /// The name of the event integration.
+  final String? eventIntegrationName;
+
+  EventIntegrationAssociation({
+    this.clientAssociationMetadata,
+    this.clientId,
+    this.eventBridgeRuleName,
+    this.eventIntegrationAssociationArn,
+    this.eventIntegrationAssociationId,
+    this.eventIntegrationName,
+  });
+
+  factory EventIntegrationAssociation.fromJson(Map<String, dynamic> json) {
+    return EventIntegrationAssociation(
+      clientAssociationMetadata:
+          (json['ClientAssociationMetadata'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      clientId: json['ClientId'] as String?,
+      eventBridgeRuleName: json['EventBridgeRuleName'] as String?,
+      eventIntegrationAssociationArn:
+          json['EventIntegrationAssociationArn'] as String?,
+      eventIntegrationAssociationId:
+          json['EventIntegrationAssociationId'] as String?,
+      eventIntegrationName: json['EventIntegrationName'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final clientAssociationMetadata = this.clientAssociationMetadata;
+    final clientId = this.clientId;
+    final eventBridgeRuleName = this.eventBridgeRuleName;
+    final eventIntegrationAssociationArn = this.eventIntegrationAssociationArn;
+    final eventIntegrationAssociationId = this.eventIntegrationAssociationId;
+    final eventIntegrationName = this.eventIntegrationName;
+    return {
+      if (clientAssociationMetadata != null)
+        'ClientAssociationMetadata': clientAssociationMetadata,
+      if (clientId != null) 'ClientId': clientId,
+      if (eventBridgeRuleName != null)
+        'EventBridgeRuleName': eventBridgeRuleName,
+      if (eventIntegrationAssociationArn != null)
+        'EventIntegrationAssociationArn': eventIntegrationAssociationArn,
+      if (eventIntegrationAssociationId != null)
+        'EventIntegrationAssociationId': eventIntegrationAssociationId,
+      if (eventIntegrationName != null)
+        'EventIntegrationName': eventIntegrationName,
+    };
   }
 }
 
-class UpdateDataIntegrationResponse {
-  UpdateDataIntegrationResponse();
+/// Summary information about the DataIntegration.
+class DataIntegrationSummary {
+  /// The Amazon Resource Name (ARN) of the DataIntegration.
+  final String? arn;
 
-  factory UpdateDataIntegrationResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateDataIntegrationResponse();
+  /// The name of the DataIntegration.
+  final String? name;
+
+  /// The URI of the data source.
+  final String? sourceURI;
+
+  DataIntegrationSummary({
+    this.arn,
+    this.name,
+    this.sourceURI,
+  });
+
+  factory DataIntegrationSummary.fromJson(Map<String, dynamic> json) {
+    return DataIntegrationSummary(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+      sourceURI: json['SourceURI'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final arn = this.arn;
+    final name = this.name;
+    final sourceURI = this.sourceURI;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+      if (sourceURI != null) 'SourceURI': sourceURI,
+    };
   }
 }
 
-class UpdateEventIntegrationResponse {
-  UpdateEventIntegrationResponse();
+/// Summary information about the DataIntegration association.
+class DataIntegrationAssociationSummary {
+  /// The identifier for the client that is associated with the DataIntegration
+  /// association.
+  final String? clientId;
 
-  factory UpdateEventIntegrationResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateEventIntegrationResponse();
+  /// The Amazon Resource Name (ARN) of the DataIntegration.
+  final String? dataIntegrationArn;
+
+  /// The Amazon Resource Name (ARN) of the DataIntegration association.
+  final String? dataIntegrationAssociationArn;
+
+  /// The URI of the data destination.
+  final String? destinationURI;
+  final ExecutionConfiguration? executionConfiguration;
+
+  /// The execution status of the last job.
+  final LastExecutionStatus? lastExecutionStatus;
+
+  DataIntegrationAssociationSummary({
+    this.clientId,
+    this.dataIntegrationArn,
+    this.dataIntegrationAssociationArn,
+    this.destinationURI,
+    this.executionConfiguration,
+    this.lastExecutionStatus,
+  });
+
+  factory DataIntegrationAssociationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return DataIntegrationAssociationSummary(
+      clientId: json['ClientId'] as String?,
+      dataIntegrationArn: json['DataIntegrationArn'] as String?,
+      dataIntegrationAssociationArn:
+          json['DataIntegrationAssociationArn'] as String?,
+      destinationURI: json['DestinationURI'] as String?,
+      executionConfiguration: json['ExecutionConfiguration'] != null
+          ? ExecutionConfiguration.fromJson(
+              json['ExecutionConfiguration'] as Map<String, dynamic>)
+          : null,
+      lastExecutionStatus: json['LastExecutionStatus'] != null
+          ? LastExecutionStatus.fromJson(
+              json['LastExecutionStatus'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final clientId = this.clientId;
+    final dataIntegrationArn = this.dataIntegrationArn;
+    final dataIntegrationAssociationArn = this.dataIntegrationAssociationArn;
+    final destinationURI = this.destinationURI;
+    final executionConfiguration = this.executionConfiguration;
+    final lastExecutionStatus = this.lastExecutionStatus;
+    return {
+      if (clientId != null) 'ClientId': clientId,
+      if (dataIntegrationArn != null) 'DataIntegrationArn': dataIntegrationArn,
+      if (dataIntegrationAssociationArn != null)
+        'DataIntegrationAssociationArn': dataIntegrationAssociationArn,
+      if (destinationURI != null) 'DestinationURI': destinationURI,
+      if (executionConfiguration != null)
+        'ExecutionConfiguration': executionConfiguration,
+      if (lastExecutionStatus != null)
+        'LastExecutionStatus': lastExecutionStatus,
+    };
+  }
+}
+
+/// The execution status of the last job.
+class LastExecutionStatus {
+  /// The job status enum string.
+  final ExecutionStatus? executionStatus;
+
+  /// The status message of a job.
+  final String? statusMessage;
+
+  LastExecutionStatus({
+    this.executionStatus,
+    this.statusMessage,
+  });
+
+  factory LastExecutionStatus.fromJson(Map<String, dynamic> json) {
+    return LastExecutionStatus(
+      executionStatus:
+          (json['ExecutionStatus'] as String?)?.let(ExecutionStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionStatus = this.executionStatus;
+    final statusMessage = this.statusMessage;
+    return {
+      if (executionStatus != null) 'ExecutionStatus': executionStatus.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class ExecutionStatus {
+  static const completed = ExecutionStatus._('COMPLETED');
+  static const inProgress = ExecutionStatus._('IN_PROGRESS');
+  static const failed = ExecutionStatus._('FAILED');
+
+  final String value;
+
+  const ExecutionStatus._(this.value);
+
+  static const values = [completed, inProgress, failed];
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information about the Application.
+class ApplicationSummary {
+  /// The type of application.
+  final ApplicationType? applicationType;
+
+  /// The Amazon Resource Name (ARN) of the Application.
+  final String? arn;
+
+  /// The time when the application was created.
+  final DateTime? createdTime;
+
+  /// A unique identifier for the Application.
+  final String? id;
+
+  /// Indicates whether the application is a service.
+  final bool? isService;
+
+  /// The time when the application was last modified.
+  final DateTime? lastModifiedTime;
+
+  /// The name of the application.
+  final String? name;
+
+  /// The namespace of the application.
+  final String? namespace;
+
+  ApplicationSummary({
+    this.applicationType,
+    this.arn,
+    this.createdTime,
+    this.id,
+    this.isService,
+    this.lastModifiedTime,
+    this.name,
+    this.namespace,
+  });
+
+  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationSummary(
+      applicationType:
+          (json['ApplicationType'] as String?)?.let(ApplicationType.fromString),
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      id: json['Id'] as String?,
+      isService: json['IsService'] as bool?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      name: json['Name'] as String?,
+      namespace: json['Namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationType = this.applicationType;
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final id = this.id;
+    final isService = this.isService;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final namespace = this.namespace;
+    return {
+      if (applicationType != null) 'ApplicationType': applicationType.value,
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (id != null) 'Id': id,
+      if (isService != null) 'IsService': isService,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (name != null) 'Name': name,
+      if (namespace != null) 'Namespace': namespace,
+    };
+  }
+}
+
+/// Summary information about the Application Association.
+class ApplicationAssociationSummary {
+  /// The Amazon Resource Name (ARN) of the Application.
+  final String? applicationArn;
+
+  /// The Amazon Resource Name (ARN) of the Application Association.
+  final String? applicationAssociationArn;
+
+  /// The identifier for the client that is associated with the Application
+  /// Association.
+  final String? clientId;
+
+  ApplicationAssociationSummary({
+    this.applicationArn,
+    this.applicationAssociationArn,
+    this.clientId,
+  });
+
+  factory ApplicationAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationAssociationSummary(
+      applicationArn: json['ApplicationArn'] as String?,
+      applicationAssociationArn: json['ApplicationAssociationArn'] as String?,
+      clientId: json['ClientId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final applicationAssociationArn = this.applicationAssociationArn;
+    final clientId = this.clientId;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (applicationAssociationArn != null)
+        'ApplicationAssociationArn': applicationAssociationArn,
+      if (clientId != null) 'ClientId': clientId,
+    };
+  }
+}
+
+/// The configuration for what files should be pulled from the source.
+class FileConfiguration {
+  /// Identifiers for the source folders to pull all files from recursively.
+  final List<String> folders;
+
+  /// Restrictions for what files should be pulled from the source.
+  final Map<String, List<String>>? filters;
+
+  FileConfiguration({
+    required this.folders,
+    this.filters,
+  });
+
+  factory FileConfiguration.fromJson(Map<String, dynamic> json) {
+    return FileConfiguration(
+      folders: ((json['Folders'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      filters: (json['Filters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, (e as List).nonNulls.map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final folders = this.folders;
+    final filters = this.filters;
+    return {
+      'Folders': folders,
+      if (filters != null) 'Filters': filters,
+    };
   }
 }
 

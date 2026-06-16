@@ -64,13 +64,13 @@ class Redshift {
   /// the configuration (term, payment type, or number of nodes) and no
   /// additional costs.
   ///
-  /// May throw [ReservedNodeNotFoundFault].
+  /// May throw [DependentServiceUnavailableFault].
   /// May throw [InvalidReservedNodeStateFault].
+  /// May throw [ReservedNodeAlreadyExistsFault].
   /// May throw [ReservedNodeAlreadyMigratedFault].
+  /// May throw [ReservedNodeNotFoundFault].
   /// May throw [ReservedNodeOfferingNotFoundFault].
   /// May throw [UnsupportedOperationFault].
-  /// May throw [DependentServiceUnavailableFault].
-  /// May throw [ReservedNodeAlreadyExistsFault].
   ///
   /// Parameter [reservedNodeId] :
   /// A string representing the node identifier of the DC1 Reserved Node to be
@@ -104,8 +104,8 @@ class Redshift {
   /// partner to push status updates for the specified database. To complete the
   /// integration, you also set up the integration on the partner website.
   ///
-  /// May throw [PartnerNotFoundFault].
   /// May throw [ClusterNotFoundFault].
+  /// May throw [PartnerNotFoundFault].
   /// May throw [UnauthorizedPartnerIntegrationFault].
   /// May throw [UnsupportedOperationFault].
   ///
@@ -222,10 +222,10 @@ class Redshift {
   /// with Security Groups</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// May throw [ClusterSecurityGroupNotFoundFault].
-  /// May throw [InvalidClusterSecurityGroupStateFault].
   /// May throw [AuthorizationAlreadyExistsFault].
   /// May throw [AuthorizationQuotaExceededFault].
+  /// May throw [ClusterSecurityGroupNotFoundFault].
+  /// May throw [InvalidClusterSecurityGroupStateFault].
   ///
   /// Parameter [clusterSecurityGroupName] :
   /// The name of the security group to which the ingress rule is added.
@@ -312,11 +312,11 @@ class Redshift {
   /// Grants access to a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [EndpointAuthorizationsPerClusterLimitExceededFault].
-  /// May throw [UnsupportedOperationFault].
   /// May throw [EndpointAuthorizationAlreadyExistsFault].
+  /// May throw [EndpointAuthorizationsPerClusterLimitExceededFault].
   /// May throw [InvalidAuthorizationStateFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [account] :
   /// The Amazon Web Services account ID to grant access to.
@@ -361,9 +361,9 @@ class Redshift {
   /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// May throw [ClusterSnapshotNotFoundFault].
   /// May throw [AuthorizationAlreadyExistsFault].
   /// May throw [AuthorizationQuotaExceededFault].
+  /// May throw [ClusterSnapshotNotFoundFault].
   /// May throw [DependentServiceRequestThrottlingFault].
   /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [LimitExceededFault].
@@ -455,8 +455,8 @@ class Redshift {
 
   /// Modifies the settings for a set of cluster snapshots.
   ///
-  /// May throw [InvalidRetentionPeriodFault].
   /// May throw [BatchModifyClusterSnapshotsLimitExceededFault].
+  /// May throw [InvalidRetentionPeriodFault].
   ///
   /// Parameter [snapshotIdentifierList] :
   /// A list of snapshot identifiers you want to modify.
@@ -506,8 +506,8 @@ class Redshift {
   /// Cancels a resize operation for a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [ResizeNotFoundFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [ResizeNotFoundFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
@@ -549,8 +549,8 @@ class Redshift {
   /// May throw [ClusterNotFoundFault].
   /// May throw [ClusterSnapshotAlreadyExistsFault].
   /// May throw [ClusterSnapshotNotFoundFault].
-  /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [ClusterSnapshotQuotaExceededFault].
+  /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [InvalidRetentionPeriodFault].
   ///
   /// Parameter [sourceSnapshotIdentifier] :
@@ -679,31 +679,58 @@ class Redshift {
   /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
+  /// VPC Block Public Access (BPA) enables you to block resources in VPCs and
+  /// subnets that you own in a Region from reaching or being reached from the
+  /// internet through internet gateways and egress-only internet gateways. If a
+  /// subnet group for a provisioned cluster is in an account with VPC BPA
+  /// turned on, the following capabilities are blocked:
+  ///
+  /// <ul>
+  /// <li>
+  /// Creating a public cluster
+  /// </li>
+  /// <li>
+  /// Restoring a public cluster
+  /// </li>
+  /// <li>
+  /// Modifying a private cluster to be public
+  /// </li>
+  /// <li>
+  /// Adding a subnet with VPC BPA turned on to the subnet group when there's at
+  /// least one public cluster within the group
+  /// </li>
+  /// </ul>
+  /// For more information about VPC BPA, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html">Block
+  /// public access to VPCs and subnets</a> in the <i>Amazon VPC User Guide</i>.
+  ///
   /// May throw [ClusterAlreadyExistsFault].
-  /// May throw [InsufficientClusterCapacityFault].
   /// May throw [ClusterParameterGroupNotFoundFault].
-  /// May throw [ClusterSecurityGroupNotFoundFault].
   /// May throw [ClusterQuotaExceededFault].
-  /// May throw [NumberOfNodesQuotaExceededFault].
-  /// May throw [NumberOfNodesPerClusterLimitExceededFault].
+  /// May throw [ClusterSecurityGroupNotFoundFault].
   /// May throw [ClusterSubnetGroupNotFoundFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [InvalidClusterSubnetGroupStateFault].
-  /// May throw [InvalidSubnet].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [DependentServiceUnavailableFault].
   /// May throw [HsmClientCertificateNotFoundFault].
   /// May throw [HsmConfigurationNotFoundFault].
-  /// May throw [InvalidElasticIpFault].
-  /// May throw [TagLimitExceededFault].
-  /// May throw [InvalidTagFault].
-  /// May throw [LimitExceededFault].
-  /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [InvalidClusterSubnetGroupStateFault].
   /// May throw [InvalidClusterTrackFault].
-  /// May throw [SnapshotScheduleNotFoundFault].
+  /// May throw [InvalidElasticIpFault].
   /// May throw [InvalidRetentionPeriodFault].
+  /// May throw [InvalidSubnet].
+  /// May throw [InvalidTagFault].
+  /// May throw [InvalidVPCNetworkStateFault].
   /// May throw [Ipv6CidrBlockNotFoundFault].
-  /// May throw [UnsupportedOperationFault].
+  /// May throw [LimitExceededFault].
+  /// May throw [NumberOfNodesPerClusterLimitExceededFault].
+  /// May throw [NumberOfNodesQuotaExceededFault].
   /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [SnapshotScheduleNotFoundFault].
+  /// May throw [TagLimitExceededFault].
+  /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// A unique identifier for the cluster. You use this identifier to refer to
@@ -766,8 +793,9 @@ class Redshift {
   /// Working with Clusters</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code> |
-  /// <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
+  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code>|
+  /// <code>rg.xlarge</code> | <code>rg.4xlarge</code> | <code>ra3.large</code>
+  /// | <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
   /// <code>ra3.16xlarge</code>
   ///
   /// Parameter [additionalInfo] :
@@ -796,7 +824,7 @@ class Redshift {
   /// disabled, you can still create manual snapshots when you want with
   /// <a>CreateClusterSnapshot</a>.
   ///
-  /// You can't disable automated snapshots for RA3 node types. Set the
+  /// You can't disable automated snapshots for RG or RA3 node types. Set the
   /// automated retention period from 1-35 days.
   ///
   /// Default: <code>1</code>
@@ -820,6 +848,25 @@ class Redshift {
   /// Parameter [availabilityZoneRelocation] :
   /// The option to enable relocation for an Amazon Redshift cluster between
   /// Availability Zones after the cluster is created.
+  ///
+  /// Parameter [catalogName] :
+  /// The name of the Glue data catalog that will be associated with the cluster
+  /// enabled with Amazon Redshift federated permissions.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain at least one lowercase letter.
+  /// </li>
+  /// <li>
+  /// Can only contain lowercase letters (a-z), numbers (0-9), underscores (_),
+  /// and hyphens (-).
+  /// </li>
+  /// </ul>
+  /// Pattern: <code>^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$</code>
+  ///
+  /// Example: <code>my-catalog_01</code>
   ///
   /// Parameter [clusterParameterGroupName] :
   /// The name of the parameter group to be associated with this cluster.
@@ -925,9 +972,11 @@ class Redshift {
   /// Management Guide.
   ///
   /// Parameter [encrypted] :
-  /// If <code>true</code>, the data in the cluster is encrypted at rest.
+  /// If <code>true</code>, the data in the cluster is encrypted at rest. If you
+  /// set the value on this parameter to <code>false</code>, the request will
+  /// fail.
   ///
-  /// Default: false
+  /// Default: true
   ///
   /// Parameter [enhancedVpcRouting] :
   /// An option that specifies whether to create the cluster with enhanced VPC
@@ -937,6 +986,12 @@ class Redshift {
   /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
   ///
   /// If this option is <code>true</code>, enhanced VPC routing is enabled.
+  ///
+  /// Default: false
+  ///
+  /// Parameter [extraComputeForAutomaticOptimization] :
+  /// If <code>true</code>, allocates additional compute resources for running
+  /// automatic optimization operations.
   ///
   /// Default: false
   ///
@@ -1059,10 +1114,10 @@ class Redshift {
   ///
   /// <ul>
   /// <li>
-  /// For clusters with ra3 nodes - Select a port within the ranges
+  /// For clusters with RG or RA3 nodes - Select a port within the ranges
   /// <code>5431-5455</code> or <code>8191-8215</code>. (If you have an existing
-  /// cluster with ra3 nodes, it isn't required that you change the port to
-  /// these ranges.)
+  /// cluster with RG or RA3 nodes, it isn't required that you change the port
+  /// to these ranges.)
   /// </li>
   /// <li>
   /// For clusters with dc2 nodes - Select a port within the range
@@ -1089,6 +1144,8 @@ class Redshift {
   /// Parameter [publiclyAccessible] :
   /// If <code>true</code>, the cluster can be accessed from a public network.
   ///
+  /// Default: false
+  ///
   /// Parameter [redshiftIdcApplicationArn] :
   /// The Amazon resource name (ARN) of the Amazon Redshift IAM Identity Center
   /// application.
@@ -1114,6 +1171,7 @@ class Redshift {
     int? automatedSnapshotRetentionPeriod,
     String? availabilityZone,
     bool? availabilityZoneRelocation,
+    String? catalogName,
     String? clusterParameterGroupName,
     List<String>? clusterSecurityGroups,
     String? clusterSubnetGroupName,
@@ -1124,6 +1182,7 @@ class Redshift {
     String? elasticIp,
     bool? encrypted,
     bool? enhancedVpcRouting,
+    bool? extraComputeForAutomaticOptimization,
     String? hsmClientCertificateIdentifier,
     String? hsmConfigurationIdentifier,
     List<String>? iamRoles,
@@ -1160,6 +1219,7 @@ class Redshift {
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (availabilityZoneRelocation != null)
         'AvailabilityZoneRelocation': availabilityZoneRelocation.toString(),
+      if (catalogName != null) 'CatalogName': catalogName,
       if (clusterParameterGroupName != null)
         'ClusterParameterGroupName': clusterParameterGroupName,
       if (clusterSecurityGroups != null)
@@ -1179,6 +1239,9 @@ class Redshift {
       if (encrypted != null) 'Encrypted': encrypted.toString(),
       if (enhancedVpcRouting != null)
         'EnhancedVpcRouting': enhancedVpcRouting.toString(),
+      if (extraComputeForAutomaticOptimization != null)
+        'ExtraComputeForAutomaticOptimization':
+            extraComputeForAutomaticOptimization.toString(),
       if (hsmClientCertificateIdentifier != null)
         'HsmClientCertificateIdentifier': hsmClientCertificateIdentifier,
       if (hsmConfigurationIdentifier != null)
@@ -1254,10 +1317,10 @@ class Redshift {
   /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// May throw [ClusterParameterGroupQuotaExceededFault].
   /// May throw [ClusterParameterGroupAlreadyExistsFault].
-  /// May throw [TagLimitExceededFault].
+  /// May throw [ClusterParameterGroupQuotaExceededFault].
   /// May throw [InvalidTagFault].
+  /// May throw [TagLimitExceededFault].
   ///
   /// Parameter [description] :
   /// A description of the parameter group.
@@ -1338,8 +1401,8 @@ class Redshift {
   ///
   /// May throw [ClusterSecurityGroupAlreadyExistsFault].
   /// May throw [ClusterSecurityGroupQuotaExceededFault].
-  /// May throw [TagLimitExceededFault].
   /// May throw [InvalidTagFault].
+  /// May throw [TagLimitExceededFault].
   ///
   /// Parameter [clusterSecurityGroupName] :
   /// The name for the security group. Amazon Redshift stores the value as a
@@ -1402,13 +1465,13 @@ class Redshift {
   /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// May throw [ClusterSnapshotAlreadyExistsFault].
-  /// May throw [InvalidClusterStateFault].
   /// May throw [ClusterNotFoundFault].
+  /// May throw [ClusterSnapshotAlreadyExistsFault].
   /// May throw [ClusterSnapshotQuotaExceededFault].
-  /// May throw [TagLimitExceededFault].
-  /// May throw [InvalidTagFault].
+  /// May throw [InvalidClusterStateFault].
   /// May throw [InvalidRetentionPeriodFault].
+  /// May throw [InvalidTagFault].
+  /// May throw [TagLimitExceededFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The cluster identifier for which you want a snapshot.
@@ -1490,11 +1553,11 @@ class Redshift {
   /// May throw [ClusterSubnetGroupAlreadyExistsFault].
   /// May throw [ClusterSubnetGroupQuotaExceededFault].
   /// May throw [ClusterSubnetQuotaExceededFault].
-  /// May throw [InvalidSubnet].
-  /// May throw [UnauthorizedOperation].
-  /// May throw [TagLimitExceededFault].
-  /// May throw [InvalidTagFault].
   /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [InvalidSubnet].
+  /// May throw [InvalidTagFault].
+  /// May throw [TagLimitExceededFault].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [clusterSubnetGroupName] :
   /// The name for the subnet group. Amazon Redshift stores the value as a
@@ -1563,9 +1626,9 @@ class Redshift {
   /// custom domain name, the cluster the custom domain is associated with, and
   /// the certificate Amazon Resource Name (ARN).
   ///
-  /// May throw [UnsupportedOperationFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [CustomCnameAssociationFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The cluster identifier that the custom domain is associated with.
@@ -1600,16 +1663,16 @@ class Redshift {
 
   /// Creates a Redshift-managed VPC endpoint.
   ///
-  /// May throw [ClusterNotFoundFault].
   /// May throw [AccessToClusterDeniedFault].
-  /// May throw [EndpointsPerClusterLimitExceededFault].
-  /// May throw [EndpointsPerAuthorizationLimitExceededFault].
-  /// May throw [InvalidClusterSecurityGroupStateFault].
+  /// May throw [ClusterNotFoundFault].
   /// May throw [ClusterSubnetGroupNotFoundFault].
   /// May throw [EndpointAlreadyExistsFault].
-  /// May throw [UnsupportedOperationFault].
+  /// May throw [EndpointsPerAuthorizationLimitExceededFault].
+  /// May throw [EndpointsPerClusterLimitExceededFault].
+  /// May throw [InvalidClusterSecurityGroupStateFault].
   /// May throw [InvalidClusterStateFault].
   /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [endpointName] :
   /// The Redshift-managed VPC endpoint name.
@@ -1690,16 +1753,16 @@ class Redshift {
   /// type if you specify a source ID.
   ///
   /// May throw [EventSubscriptionQuotaExceededFault].
-  /// May throw [SubscriptionAlreadyExistFault].
+  /// May throw [InvalidTagFault].
   /// May throw [SNSInvalidTopicFault].
   /// May throw [SNSNoAuthorizationFault].
   /// May throw [SNSTopicArnNotFoundFault].
-  /// May throw [SubscriptionEventIdNotFoundFault].
-  /// May throw [SubscriptionCategoryNotFoundFault].
-  /// May throw [SubscriptionSeverityNotFoundFault].
   /// May throw [SourceNotFoundFault].
+  /// May throw [SubscriptionAlreadyExistFault].
+  /// May throw [SubscriptionCategoryNotFoundFault].
+  /// May throw [SubscriptionEventIdNotFoundFault].
+  /// May throw [SubscriptionSeverityNotFoundFault].
   /// May throw [TagLimitExceededFault].
-  /// May throw [InvalidTagFault].
   ///
   /// Parameter [snsTopicArn] :
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic used to transmit
@@ -1829,8 +1892,8 @@ class Redshift {
   ///
   /// May throw [HsmClientCertificateAlreadyExistsFault].
   /// May throw [HsmClientCertificateQuotaExceededFault].
-  /// May throw [TagLimitExceededFault].
   /// May throw [InvalidTagFault].
+  /// May throw [TagLimitExceededFault].
   ///
   /// Parameter [hsmClientCertificateIdentifier] :
   /// The identifier to be assigned to the new HSM client certificate that the
@@ -1878,8 +1941,8 @@ class Redshift {
   ///
   /// May throw [HsmConfigurationAlreadyExistsFault].
   /// May throw [HsmConfigurationQuotaExceededFault].
-  /// May throw [TagLimitExceededFault].
   /// May throw [InvalidTagFault].
+  /// May throw [TagLimitExceededFault].
   ///
   /// Parameter [description] :
   /// A text description of the HSM configuration to be created.
@@ -1941,13 +2004,103 @@ class Redshift {
     return CreateHsmConfigurationResult.fromXml($result);
   }
 
+  /// Creates a zero-ETL integration or S3 event integration with Amazon
+  /// Redshift.
+  ///
+  /// May throw [IntegrationAlreadyExistsFault].
+  /// May throw [IntegrationConflictOperationFault].
+  /// May throw [IntegrationQuotaExceededFault].
+  /// May throw [IntegrationSourceNotFoundFault].
+  /// May throw [IntegrationTargetNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidTagFault].
+  /// May throw [TagLimitExceededFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [integrationName] :
+  /// The name of the integration.
+  ///
+  /// Parameter [sourceArn] :
+  /// The Amazon Resource Name (ARN) of the database to use as the source for
+  /// replication.
+  ///
+  /// Parameter [targetArn] :
+  /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to
+  /// use as the target for replication.
+  ///
+  /// Parameter [additionalEncryptionContext] :
+  /// An optional set of non-secret key–value pairs that contains additional
+  /// contextual information about the data. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// context</a> in the <i>Amazon Web Services Key Management Service Developer
+  /// Guide</i>.
+  ///
+  /// You can only include this parameter if you specify the
+  /// <code>KMSKeyId</code> parameter.
+  ///
+  /// Parameter [description] :
+  /// A description of the integration.
+  ///
+  /// Parameter [kMSKeyId] :
+  /// An Key Management Service (KMS) key identifier for the key to use to
+  /// encrypt the integration. If you don't specify an encryption key, the
+  /// default Amazon Web Services owned key is used.
+  ///
+  /// Parameter [tagList] :
+  /// A list of tags.
+  Future<Integration> createIntegration({
+    required String integrationName,
+    required String sourceArn,
+    required String targetArn,
+    Map<String, String>? additionalEncryptionContext,
+    String? description,
+    String? kMSKeyId,
+    List<Tag>? tagList,
+  }) async {
+    final $request = <String, String>{
+      'IntegrationName': integrationName,
+      'SourceArn': sourceArn,
+      'TargetArn': targetArn,
+      if (additionalEncryptionContext != null)
+        for (var e1 in additionalEncryptionContext.entries
+            .toList()
+            .asMap()
+            .entries) ...{
+          'AdditionalEncryptionContext.entry.${e1.key + 1}.key': e1.value.key,
+          'AdditionalEncryptionContext.entry.${e1.key + 1}.value':
+              e1.value.value,
+        },
+      if (description != null) 'Description': description,
+      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
+      if (tagList != null)
+        if (tagList.isEmpty)
+          'TagList': ''
+        else
+          for (var i1 = 0; i1 < tagList.length; i1++)
+            for (var e3 in tagList[i1].toQueryMap().entries)
+              'TagList.Tag.${i1 + 1}.${e3.key}': e3.value,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateIntegration',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'CreateIntegrationResult',
+    );
+    return Integration.fromXml($result);
+  }
+
   /// Creates an Amazon Redshift application for use with IAM Identity Center.
   ///
-  /// May throw [RedshiftIdcApplicationAlreadyExistsFault].
-  /// May throw [DependentServiceUnavailableFault].
-  /// May throw [UnsupportedOperationFault].
   /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [InvalidTagFault].
+  /// May throw [RedshiftIdcApplicationAlreadyExistsFault].
   /// May throw [RedshiftIdcApplicationQuotaExceededFault].
+  /// May throw [TagLimitExceededFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [iamRoleArn] :
   /// The IAM role ARN for the Amazon Redshift IAM Identity Center application
@@ -1965,6 +2118,11 @@ class Redshift {
   /// Parameter [redshiftIdcApplicationName] :
   /// The name of the Redshift application in IAM Identity Center.
   ///
+  /// Parameter [applicationType] :
+  /// The type of application being created. Valid values are <code>None</code>
+  /// or <code>Lakehouse</code>. Use <code>Lakehouse</code> to enable Amazon
+  /// Redshift federated permissions on cluster.
+  ///
   /// Parameter [authorizedTokenIssuerList] :
   /// The token issuer list for the Amazon Redshift IAM Identity Center
   /// application instance.
@@ -1977,20 +2135,32 @@ class Redshift {
   /// Parameter [serviceIntegrations] :
   /// A collection of service integrations for the Redshift IAM Identity Center
   /// application.
+  ///
+  /// Parameter [ssoTagKeys] :
+  /// A list of tags keys that Redshift Identity Center applications copy to IAM
+  /// Identity Center. For each input key, the tag corresponding to the
+  /// key-value pair is propagated.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags.
   Future<CreateRedshiftIdcApplicationResult> createRedshiftIdcApplication({
     required String iamRoleArn,
     required String idcDisplayName,
     required String idcInstanceArn,
     required String redshiftIdcApplicationName,
+    ApplicationType? applicationType,
     List<AuthorizedTokenIssuer>? authorizedTokenIssuerList,
     String? identityNamespace,
     List<ServiceIntegrationsUnion>? serviceIntegrations,
+    List<String>? ssoTagKeys,
+    List<Tag>? tags,
   }) async {
     final $request = <String, String>{
       'IamRoleArn': iamRoleArn,
       'IdcDisplayName': idcDisplayName,
       'IdcInstanceArn': idcInstanceArn,
       'RedshiftIdcApplicationName': redshiftIdcApplicationName,
+      if (applicationType != null) 'ApplicationType': applicationType.value,
       if (authorizedTokenIssuerList != null)
         if (authorizedTokenIssuerList.isEmpty)
           'AuthorizedTokenIssuerList': ''
@@ -2006,6 +2176,19 @@ class Redshift {
           for (var i1 = 0; i1 < serviceIntegrations.length; i1++)
             for (var e3 in serviceIntegrations[i1].toQueryMap().entries)
               'ServiceIntegrations.member.${i1 + 1}.${e3.key}': e3.value,
+      if (ssoTagKeys != null)
+        if (ssoTagKeys.isEmpty)
+          'SsoTagKeys': ''
+        else
+          for (var i1 = 0; i1 < ssoTagKeys.length; i1++)
+            'SsoTagKeys.TagKey.${i1 + 1}': ssoTagKeys[i1],
+      if (tags != null)
+        if (tags.isEmpty)
+          'Tags': ''
+        else
+          for (var i1 = 0; i1 < tags.length; i1++)
+            for (var e3 in tags[i1].toQueryMap().entries)
+              'Tags.Tag.${i1 + 1}.${e3.key}': e3.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -2024,11 +2207,11 @@ class Redshift {
   /// to run the <code>ResizeCluster</code> API operation.
   ///
   /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidScheduledActionFault].
+  /// May throw [InvalidScheduleFault].
   /// May throw [ScheduledActionAlreadyExistsFault].
   /// May throw [ScheduledActionQuotaExceededFault].
   /// May throw [ScheduledActionTypeUnsupportedFault].
-  /// May throw [InvalidScheduleFault].
-  /// May throw [InvalidScheduledActionFault].
   /// May throw [UnauthorizedOperation].
   /// May throw [UnsupportedOperationFault].
   ///
@@ -2110,12 +2293,12 @@ class Redshift {
   /// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster
   /// Management Guide</i>.
   ///
+  /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [InvalidTagFault].
+  /// May throw [LimitExceededFault].
   /// May throw [SnapshotCopyGrantAlreadyExistsFault].
   /// May throw [SnapshotCopyGrantQuotaExceededFault].
-  /// May throw [LimitExceededFault].
   /// May throw [TagLimitExceededFault].
-  /// May throw [InvalidTagFault].
-  /// May throw [DependentServiceRequestThrottlingFault].
   ///
   /// Parameter [snapshotCopyGrantName] :
   /// The name of the snapshot copy grant. This name must be unique in the
@@ -2179,18 +2362,18 @@ class Redshift {
   /// Create a snapshot schedule that can be associated to a cluster and which
   /// overrides the default system backup schedule.
   ///
-  /// May throw [SnapshotScheduleAlreadyExistsFault].
   /// May throw [InvalidScheduleFault].
+  /// May throw [InvalidTagFault].
+  /// May throw [ScheduleDefinitionTypeUnsupportedFault].
+  /// May throw [SnapshotScheduleAlreadyExistsFault].
   /// May throw [SnapshotScheduleQuotaExceededFault].
   /// May throw [TagLimitExceededFault].
-  /// May throw [ScheduleDefinitionTypeUnsupportedFault].
-  /// May throw [InvalidTagFault].
   ///
   /// Parameter [dryRun] :
-  /// <p/>
+  ///
   ///
   /// Parameter [nextInvocations] :
-  /// <p/>
+  ///
   ///
   /// Parameter [scheduleDefinitions] :
   /// The definition of the snapshot schedule. The definition is made up of
@@ -2255,10 +2438,10 @@ class Redshift {
   /// If you specify a key that already exists for the resource, the value for
   /// that key will be updated with the new value.
   ///
-  /// May throw [TagLimitExceededFault].
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [InvalidTagFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidTagFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [TagLimitExceededFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) to which you want to add the tag or tags.
@@ -2301,11 +2484,11 @@ class Redshift {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
-  /// May throw [LimitExceededFault].
-  /// May throw [UsageLimitAlreadyExistsFault].
   /// May throw [InvalidUsageLimitFault].
+  /// May throw [LimitExceededFault].
   /// May throw [TagLimitExceededFault].
   /// May throw [UnsupportedOperationFault].
+  /// May throw [UsageLimitAlreadyExistsFault].
   ///
   /// Parameter [amount] :
   /// The limit amount. If time-based, this amount is in minutes. If data-based,
@@ -2325,7 +2508,9 @@ class Redshift {
   /// <code>concurrency-scaling</code>, then <code>LimitType</code> must be
   /// <code>time</code>. If <code>FeatureType</code> is
   /// <code>cross-region-datasharing</code>, then <code>LimitType</code> must be
-  /// <code>data-scanned</code>.
+  /// <code>data-scanned</code>. If <code>FeatureType</code> is
+  /// <code>extra-compute-for-automatic-optimization</code>, then
+  /// <code>LimitType</code> must be <code>time</code>.
   ///
   /// Parameter [breachAction] :
   /// The action that Amazon Redshift takes when the limit is reached. The
@@ -2456,9 +2641,9 @@ class Redshift {
   /// Guide</i>.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
   /// May throw [ClusterSnapshotAlreadyExistsFault].
   /// May throw [ClusterSnapshotQuotaExceededFault].
+  /// May throw [InvalidClusterStateFault].
   /// May throw [InvalidRetentionPeriodFault].
   ///
   /// Parameter [clusterIdentifier] :
@@ -2551,8 +2736,8 @@ class Redshift {
   /// You cannot delete a parameter group if it is associated with a cluster.
   /// </note>
   ///
-  /// May throw [InvalidClusterParameterGroupStateFault].
   /// May throw [ClusterParameterGroupNotFoundFault].
+  /// May throw [InvalidClusterParameterGroupStateFault].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group to be deleted.
@@ -2593,8 +2778,8 @@ class Redshift {
   /// Redshift Cluster Security Groups</a> in the <i>Amazon Redshift Cluster
   /// Management Guide</i>.
   ///
-  /// May throw [InvalidClusterSecurityGroupStateFault].
   /// May throw [ClusterSecurityGroupNotFoundFault].
+  /// May throw [InvalidClusterSecurityGroupStateFault].
   ///
   /// Parameter [clusterSecurityGroupName] :
   /// The name of the cluster security group to be deleted.
@@ -2624,8 +2809,8 @@ class Redshift {
   /// charged. If other accounts are authorized to access the snapshot, you must
   /// revoke all of the authorizations before you can delete the snapshot.
   ///
-  /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [ClusterSnapshotNotFoundFault].
+  /// May throw [InvalidClusterSnapshotStateFault].
   ///
   /// Parameter [snapshotIdentifier] :
   /// The unique identifier of the manual snapshot to be deleted.
@@ -2664,9 +2849,9 @@ class Redshift {
 
   /// Deletes the specified cluster subnet group.
   ///
+  /// May throw [ClusterSubnetGroupNotFoundFault].
   /// May throw [InvalidClusterSubnetGroupStateFault].
   /// May throw [InvalidClusterSubnetStateFault].
-  /// May throw [ClusterSubnetGroupNotFoundFault].
   ///
   /// Parameter [clusterSubnetGroupName] :
   /// The name of the cluster subnet group name to be deleted.
@@ -2689,10 +2874,10 @@ class Redshift {
   /// Contains information about deleting a custom domain association for a
   /// cluster.
   ///
-  /// May throw [UnsupportedOperationFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [CustomCnameAssociationFault].
   /// May throw [CustomDomainAssociationNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster to delete a custom domain association for.
@@ -2720,10 +2905,10 @@ class Redshift {
   /// Deletes a Redshift-managed VPC endpoint.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidEndpointStateFault].
-  /// May throw [InvalidClusterSecurityGroupStateFault].
   /// May throw [EndpointNotFoundFault].
+  /// May throw [InvalidClusterSecurityGroupStateFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidEndpointStateFault].
   ///
   /// Parameter [endpointName] :
   /// The Redshift-managed VPC endpoint to delete.
@@ -2747,8 +2932,8 @@ class Redshift {
 
   /// Deletes an Amazon Redshift event notification subscription.
   ///
-  /// May throw [SubscriptionNotFoundFault].
   /// May throw [InvalidSubscriptionStateFault].
+  /// May throw [SubscriptionNotFoundFault].
   ///
   /// Parameter [subscriptionName] :
   /// The name of the Amazon Redshift event notification subscription to be
@@ -2771,8 +2956,8 @@ class Redshift {
 
   /// Deletes the specified HSM client certificate.
   ///
-  /// May throw [InvalidHsmClientCertificateStateFault].
   /// May throw [HsmClientCertificateNotFoundFault].
+  /// May throw [InvalidHsmClientCertificateStateFault].
   ///
   /// Parameter [hsmClientCertificateIdentifier] :
   /// The identifier of the HSM client certificate to be deleted.
@@ -2794,8 +2979,8 @@ class Redshift {
 
   /// Deletes the specified Amazon Redshift HSM configuration.
   ///
-  /// May throw [InvalidHsmConfigurationStateFault].
   /// May throw [HsmConfigurationNotFoundFault].
+  /// May throw [InvalidHsmConfigurationStateFault].
   ///
   /// Parameter [hsmConfigurationIdentifier] :
   /// The identifier of the Amazon Redshift HSM configuration to be deleted.
@@ -2815,11 +3000,39 @@ class Redshift {
     );
   }
 
+  /// Deletes a zero-ETL integration or S3 event integration with Amazon
+  /// Redshift.
+  ///
+  /// May throw [IntegrationConflictOperationFault].
+  /// May throw [IntegrationConflictStateFault].
+  /// May throw [IntegrationNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [integrationArn] :
+  /// The unique identifier of the integration to delete.
+  Future<Integration> deleteIntegration({
+    required String integrationArn,
+  }) async {
+    final $request = <String, String>{
+      'IntegrationArn': integrationArn,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteIntegration',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DeleteIntegrationResult',
+    );
+    return Integration.fromXml($result);
+  }
+
   /// Deletes a partner integration from a cluster. Data can still flow to the
   /// cluster until the integration is deleted at the partner's website.
   ///
-  /// May throw [PartnerNotFoundFault].
   /// May throw [ClusterNotFoundFault].
+  /// May throw [PartnerNotFoundFault].
   /// May throw [UnauthorizedPartnerIntegrationFault].
   /// May throw [UnsupportedOperationFault].
   ///
@@ -2860,10 +3073,10 @@ class Redshift {
 
   /// Deletes an Amazon Redshift IAM Identity Center application.
   ///
-  /// May throw [RedshiftIdcApplicationNotExistsFault].
-  /// May throw [DependentServiceUnavailableFault].
-  /// May throw [UnsupportedOperationFault].
   /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [redshiftIdcApplicationArn] :
   /// The ARN for a deleted Amazon Redshift IAM Identity Center application.
@@ -2979,8 +3192,8 @@ class Redshift {
   /// Deletes tags from a resource. You must provide the ARN of the resource
   /// from which you want to delete the tag or tags.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidTagFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) from which you want to remove the tag or
@@ -3013,8 +3226,8 @@ class Redshift {
 
   /// Deletes a usage limit from a cluster.
   ///
-  /// May throw [UsageLimitNotFoundFault].
   /// May throw [UnsupportedOperationFault].
+  /// May throw [UsageLimitNotFoundFault].
   ///
   /// Parameter [usageLimitId] :
   /// The identifier of the usage limit to delete.
@@ -3032,6 +3245,45 @@ class Redshift {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Deregisters a cluster or serverless namespace from the Amazon Web Services
+  /// Glue Data Catalog.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidNamespaceFault].
+  ///
+  /// Parameter [consumerIdentifiers] :
+  /// An array containing the ID of the consumer account that you want to
+  /// deregister the cluster or serverless namespace from.
+  ///
+  /// Parameter [namespaceIdentifier] :
+  /// The unique identifier of the cluster or serverless namespace that you want
+  /// to deregister.
+  Future<DeregisterNamespaceOutputMessage> deregisterNamespace({
+    required List<String> consumerIdentifiers,
+    required NamespaceIdentifierUnion namespaceIdentifier,
+  }) async {
+    final $request = <String, String>{
+      if (consumerIdentifiers.isEmpty)
+        'ConsumerIdentifiers': ''
+      else
+        for (var i1 = 0; i1 < consumerIdentifiers.length; i1++)
+          'ConsumerIdentifiers.member.${i1 + 1}': consumerIdentifiers[i1],
+      for (var e1 in namespaceIdentifier.toQueryMap().entries)
+        'NamespaceIdentifier.${e1.key}': e1.value,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeregisterNamespace',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DeregisterNamespaceResult',
+    );
+    return DeregisterNamespaceOutputMessage.fromXml($result);
   }
 
   /// Returns a list of attributes attached to an account
@@ -3319,6 +3571,108 @@ class Redshift {
     return ClusterParameterGroupDetails.fromXml($result);
   }
 
+  /// Returns properties of provisioned clusters including general cluster
+  /// properties, cluster database properties, maintenance and backup
+  /// properties, and security and access properties. This operation supports
+  /// pagination. For more information about managing clusters, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
+  /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management
+  /// Guide</i>.
+  ///
+  /// If you specify both tag keys and tag values in the same request, Amazon
+  /// Redshift returns all clusters that match any combination of the specified
+  /// keys and values. For example, if you have <code>owner</code> and
+  /// <code>environment</code> for tag keys, and <code>admin</code> and
+  /// <code>test</code> for tag values, all clusters that have any combination
+  /// of those values are returned.
+  ///
+  /// If both tag keys and values are omitted from the request, clusters are
+  /// returned regardless of whether they have tag keys or values associated
+  /// with them.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidTagFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The unique identifier of a cluster whose properties you are requesting.
+  /// This parameter is case sensitive.
+  ///
+  /// The default is that all clusters defined for an account are returned.
+  ///
+  /// Parameter [marker] :
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a <a>DescribeClusters</a> request
+  /// exceed the value specified in <code>MaxRecords</code>, Amazon Web Services
+  /// returns a value in the <code>Marker</code> field of the response. You can
+  /// retrieve the next set of response records by providing the returned marker
+  /// value in the <code>Marker</code> parameter and retrying the request.
+  ///
+  /// Constraints: You can specify either the <b>ClusterIdentifier</b> parameter
+  /// or the <b>Marker</b> parameter, but not both.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified
+  /// <code>MaxRecords</code> value, a value is returned in a
+  /// <code>marker</code> field of the response. You can retrieve the next set
+  /// of records by retrying the command with the returned marker value.
+  ///
+  /// Default: <code>100</code>
+  ///
+  /// Constraints: minimum 20, maximum 100.
+  ///
+  /// Parameter [tagKeys] :
+  /// A tag key or keys for which you want to return all matching clusters that
+  /// are associated with the specified key or keys. For example, suppose that
+  /// you have clusters that are tagged with keys called <code>owner</code> and
+  /// <code>environment</code>. If you specify both of these tag keys in the
+  /// request, Amazon Redshift returns a response with the clusters that have
+  /// either or both of these tag keys associated with them.
+  ///
+  /// Parameter [tagValues] :
+  /// A tag value or values for which you want to return all matching clusters
+  /// that are associated with the specified tag value or values. For example,
+  /// suppose that you have clusters that are tagged with values called
+  /// <code>admin</code> and <code>test</code>. If you specify both of these tag
+  /// values in the request, Amazon Redshift returns a response with the
+  /// clusters that have either or both of these tag values associated with
+  /// them.
+  Future<ClustersMessage> describeClusters({
+    String? clusterIdentifier,
+    String? marker,
+    int? maxRecords,
+    List<String>? tagKeys,
+    List<String>? tagValues,
+  }) async {
+    final $request = <String, String>{
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (tagKeys != null)
+        if (tagKeys.isEmpty)
+          'TagKeys': ''
+        else
+          for (var i1 = 0; i1 < tagKeys.length; i1++)
+            'TagKeys.TagKey.${i1 + 1}': tagKeys[i1],
+      if (tagValues != null)
+        if (tagValues.isEmpty)
+          'TagValues': ''
+        else
+          for (var i1 = 0; i1 < tagValues.length; i1++)
+            'TagValues.TagValue.${i1 + 1}': tagValues[i1],
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeClusters',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeClustersResult',
+    );
+    return ClustersMessage.fromXml($result);
+  }
+
   /// Returns information about Amazon Redshift security groups. If the name of
   /// a security group is specified, the response will contain only information
   /// about only that security group.
@@ -3529,7 +3883,7 @@ class Redshift {
   /// Valid Values: <code>automated</code> | <code>manual</code>
   ///
   /// Parameter [sortingEntities] :
-  /// <p/>
+  ///
   ///
   /// Parameter [startTime] :
   /// A value that requests only snapshots created at or after the specified
@@ -3827,108 +4181,6 @@ class Redshift {
     return ClusterVersionsMessage.fromXml($result);
   }
 
-  /// Returns properties of provisioned clusters including general cluster
-  /// properties, cluster database properties, maintenance and backup
-  /// properties, and security and access properties. This operation supports
-  /// pagination. For more information about managing clusters, go to <a
-  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html">Amazon
-  /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management
-  /// Guide</i>.
-  ///
-  /// If you specify both tag keys and tag values in the same request, Amazon
-  /// Redshift returns all clusters that match any combination of the specified
-  /// keys and values. For example, if you have <code>owner</code> and
-  /// <code>environment</code> for tag keys, and <code>admin</code> and
-  /// <code>test</code> for tag values, all clusters that have any combination
-  /// of those values are returned.
-  ///
-  /// If both tag keys and values are omitted from the request, clusters are
-  /// returned regardless of whether they have tag keys or values associated
-  /// with them.
-  ///
-  /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidTagFault].
-  ///
-  /// Parameter [clusterIdentifier] :
-  /// The unique identifier of a cluster whose properties you are requesting.
-  /// This parameter is case sensitive.
-  ///
-  /// The default is that all clusters defined for an account are returned.
-  ///
-  /// Parameter [marker] :
-  /// An optional parameter that specifies the starting point to return a set of
-  /// response records. When the results of a <a>DescribeClusters</a> request
-  /// exceed the value specified in <code>MaxRecords</code>, Amazon Web Services
-  /// returns a value in the <code>Marker</code> field of the response. You can
-  /// retrieve the next set of response records by providing the returned marker
-  /// value in the <code>Marker</code> parameter and retrying the request.
-  ///
-  /// Constraints: You can specify either the <b>ClusterIdentifier</b> parameter
-  /// or the <b>Marker</b> parameter, but not both.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of response records to return in each call. If the
-  /// number of remaining response records exceeds the specified
-  /// <code>MaxRecords</code> value, a value is returned in a
-  /// <code>marker</code> field of the response. You can retrieve the next set
-  /// of records by retrying the command with the returned marker value.
-  ///
-  /// Default: <code>100</code>
-  ///
-  /// Constraints: minimum 20, maximum 100.
-  ///
-  /// Parameter [tagKeys] :
-  /// A tag key or keys for which you want to return all matching clusters that
-  /// are associated with the specified key or keys. For example, suppose that
-  /// you have clusters that are tagged with keys called <code>owner</code> and
-  /// <code>environment</code>. If you specify both of these tag keys in the
-  /// request, Amazon Redshift returns a response with the clusters that have
-  /// either or both of these tag keys associated with them.
-  ///
-  /// Parameter [tagValues] :
-  /// A tag value or values for which you want to return all matching clusters
-  /// that are associated with the specified tag value or values. For example,
-  /// suppose that you have clusters that are tagged with values called
-  /// <code>admin</code> and <code>test</code>. If you specify both of these tag
-  /// values in the request, Amazon Redshift returns a response with the
-  /// clusters that have either or both of these tag values associated with
-  /// them.
-  Future<ClustersMessage> describeClusters({
-    String? clusterIdentifier,
-    String? marker,
-    int? maxRecords,
-    List<String>? tagKeys,
-    List<String>? tagValues,
-  }) async {
-    final $request = <String, String>{
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (marker != null) 'Marker': marker,
-      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
-      if (tagKeys != null)
-        if (tagKeys.isEmpty)
-          'TagKeys': ''
-        else
-          for (var i1 = 0; i1 < tagKeys.length; i1++)
-            'TagKeys.TagKey.${i1 + 1}': tagKeys[i1],
-      if (tagValues != null)
-        if (tagValues.isEmpty)
-          'TagValues': ''
-        else
-          for (var i1 = 0; i1 < tagValues.length; i1++)
-            'TagValues.TagValue.${i1 + 1}': tagValues[i1],
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeClusters',
-      version: '2012-12-01',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeClustersResult',
-    );
-    return ClustersMessage.fromXml($result);
-  }
-
   /// Contains information about custom domain associations for a cluster.
   ///
   /// May throw [CustomDomainAssociationNotFoundFault].
@@ -4177,8 +4429,8 @@ class Redshift {
   /// Describes a Redshift-managed VPC endpoint.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
   /// May throw [EndpointNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The cluster identifier associated with the described endpoint.
@@ -4317,100 +4569,6 @@ class Redshift {
     return EventCategoriesMessage.fromXml($result);
   }
 
-  /// Lists descriptions of all the Amazon Redshift event notification
-  /// subscriptions for a customer account. If you specify a subscription name,
-  /// lists the description for that subscription.
-  ///
-  /// If you specify both tag keys and tag values in the same request, Amazon
-  /// Redshift returns all event notification subscriptions that match any
-  /// combination of the specified keys and values. For example, if you have
-  /// <code>owner</code> and <code>environment</code> for tag keys, and
-  /// <code>admin</code> and <code>test</code> for tag values, all subscriptions
-  /// that have any combination of those values are returned.
-  ///
-  /// If both tag keys and values are omitted from the request, subscriptions
-  /// are returned regardless of whether they have tag keys or values associated
-  /// with them.
-  ///
-  /// May throw [SubscriptionNotFoundFault].
-  /// May throw [InvalidTagFault].
-  ///
-  /// Parameter [marker] :
-  /// An optional parameter that specifies the starting point to return a set of
-  /// response records. When the results of a DescribeEventSubscriptions request
-  /// exceed the value specified in <code>MaxRecords</code>, Amazon Web Services
-  /// returns a value in the <code>Marker</code> field of the response. You can
-  /// retrieve the next set of response records by providing the returned marker
-  /// value in the <code>Marker</code> parameter and retrying the request.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of response records to return in each call. If the
-  /// number of remaining response records exceeds the specified
-  /// <code>MaxRecords</code> value, a value is returned in a
-  /// <code>marker</code> field of the response. You can retrieve the next set
-  /// of records by retrying the command with the returned marker value.
-  ///
-  /// Default: <code>100</code>
-  ///
-  /// Constraints: minimum 20, maximum 100.
-  ///
-  /// Parameter [subscriptionName] :
-  /// The name of the Amazon Redshift event notification subscription to be
-  /// described.
-  ///
-  /// Parameter [tagKeys] :
-  /// A tag key or keys for which you want to return all matching event
-  /// notification subscriptions that are associated with the specified key or
-  /// keys. For example, suppose that you have subscriptions that are tagged
-  /// with keys called <code>owner</code> and <code>environment</code>. If you
-  /// specify both of these tag keys in the request, Amazon Redshift returns a
-  /// response with the subscriptions that have either or both of these tag keys
-  /// associated with them.
-  ///
-  /// Parameter [tagValues] :
-  /// A tag value or values for which you want to return all matching event
-  /// notification subscriptions that are associated with the specified tag
-  /// value or values. For example, suppose that you have subscriptions that are
-  /// tagged with values called <code>admin</code> and <code>test</code>. If you
-  /// specify both of these tag values in the request, Amazon Redshift returns a
-  /// response with the subscriptions that have either or both of these tag
-  /// values associated with them.
-  Future<EventSubscriptionsMessage> describeEventSubscriptions({
-    String? marker,
-    int? maxRecords,
-    String? subscriptionName,
-    List<String>? tagKeys,
-    List<String>? tagValues,
-  }) async {
-    final $request = <String, String>{
-      if (marker != null) 'Marker': marker,
-      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
-      if (subscriptionName != null) 'SubscriptionName': subscriptionName,
-      if (tagKeys != null)
-        if (tagKeys.isEmpty)
-          'TagKeys': ''
-        else
-          for (var i1 = 0; i1 < tagKeys.length; i1++)
-            'TagKeys.TagKey.${i1 + 1}': tagKeys[i1],
-      if (tagValues != null)
-        if (tagValues.isEmpty)
-          'TagValues': ''
-        else
-          for (var i1 = 0; i1 < tagValues.length; i1++)
-            'TagValues.TagValue.${i1 + 1}': tagValues[i1],
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeEventSubscriptions',
-      version: '2012-12-01',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeEventSubscriptionsResult',
-    );
-    return EventSubscriptionsMessage.fromXml($result);
-  }
-
   /// Returns events related to clusters, security groups, snapshots, and
   /// parameter groups for the past 14 days. Events specific to a particular
   /// cluster, security group, snapshot or parameter group can be obtained by
@@ -4542,6 +4700,100 @@ class Redshift {
       resultWrapper: 'DescribeEventsResult',
     );
     return EventsMessage.fromXml($result);
+  }
+
+  /// Lists descriptions of all the Amazon Redshift event notification
+  /// subscriptions for a customer account. If you specify a subscription name,
+  /// lists the description for that subscription.
+  ///
+  /// If you specify both tag keys and tag values in the same request, Amazon
+  /// Redshift returns all event notification subscriptions that match any
+  /// combination of the specified keys and values. For example, if you have
+  /// <code>owner</code> and <code>environment</code> for tag keys, and
+  /// <code>admin</code> and <code>test</code> for tag values, all subscriptions
+  /// that have any combination of those values are returned.
+  ///
+  /// If both tag keys and values are omitted from the request, subscriptions
+  /// are returned regardless of whether they have tag keys or values associated
+  /// with them.
+  ///
+  /// May throw [InvalidTagFault].
+  /// May throw [SubscriptionNotFoundFault].
+  ///
+  /// Parameter [marker] :
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a DescribeEventSubscriptions request
+  /// exceed the value specified in <code>MaxRecords</code>, Amazon Web Services
+  /// returns a value in the <code>Marker</code> field of the response. You can
+  /// retrieve the next set of response records by providing the returned marker
+  /// value in the <code>Marker</code> parameter and retrying the request.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified
+  /// <code>MaxRecords</code> value, a value is returned in a
+  /// <code>marker</code> field of the response. You can retrieve the next set
+  /// of records by retrying the command with the returned marker value.
+  ///
+  /// Default: <code>100</code>
+  ///
+  /// Constraints: minimum 20, maximum 100.
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the Amazon Redshift event notification subscription to be
+  /// described.
+  ///
+  /// Parameter [tagKeys] :
+  /// A tag key or keys for which you want to return all matching event
+  /// notification subscriptions that are associated with the specified key or
+  /// keys. For example, suppose that you have subscriptions that are tagged
+  /// with keys called <code>owner</code> and <code>environment</code>. If you
+  /// specify both of these tag keys in the request, Amazon Redshift returns a
+  /// response with the subscriptions that have either or both of these tag keys
+  /// associated with them.
+  ///
+  /// Parameter [tagValues] :
+  /// A tag value or values for which you want to return all matching event
+  /// notification subscriptions that are associated with the specified tag
+  /// value or values. For example, suppose that you have subscriptions that are
+  /// tagged with values called <code>admin</code> and <code>test</code>. If you
+  /// specify both of these tag values in the request, Amazon Redshift returns a
+  /// response with the subscriptions that have either or both of these tag
+  /// values associated with them.
+  Future<EventSubscriptionsMessage> describeEventSubscriptions({
+    String? marker,
+    int? maxRecords,
+    String? subscriptionName,
+    List<String>? tagKeys,
+    List<String>? tagValues,
+  }) async {
+    final $request = <String, String>{
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (subscriptionName != null) 'SubscriptionName': subscriptionName,
+      if (tagKeys != null)
+        if (tagKeys.isEmpty)
+          'TagKeys': ''
+        else
+          for (var i1 = 0; i1 < tagKeys.length; i1++)
+            'TagKeys.TagKey.${i1 + 1}': tagKeys[i1],
+      if (tagValues != null)
+        if (tagValues.isEmpty)
+          'TagValues': ''
+        else
+          for (var i1 = 0; i1 < tagValues.length; i1++)
+            'TagValues.TagValue.${i1 + 1}': tagValues[i1],
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeEventSubscriptions',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeEventSubscriptionsResult',
+    );
+    return EventSubscriptionsMessage.fromXml($result);
   }
 
   /// Returns information about the specified HSM client certificate. If no
@@ -4793,6 +5045,65 @@ class Redshift {
     return InboundIntegrationsMessage.fromXml($result);
   }
 
+  /// Describes one or more zero-ETL or S3 event integrations with Amazon
+  /// Redshift.
+  ///
+  /// May throw [IntegrationNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [filters] :
+  /// A filter that specifies one or more resources to return.
+  ///
+  /// Parameter [integrationArn] :
+  /// The unique identifier of the integration.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous
+  /// <code>DescribeIntegrations</code> request. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified
+  /// <code>MaxRecords</code> value, a value is returned in a
+  /// <code>marker</code> field of the response. You can retrieve the next set
+  /// of records by retrying the command with the returned marker value.
+  ///
+  /// Default: <code>100</code>
+  ///
+  /// Constraints: minimum 20, maximum 100.
+  Future<IntegrationsMessage> describeIntegrations({
+    List<DescribeIntegrationsFilter>? filters,
+    String? integrationArn,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final $request = <String, String>{
+      if (filters != null)
+        if (filters.isEmpty)
+          'Filters': ''
+        else
+          for (var i1 = 0; i1 < filters.length; i1++)
+            for (var e3 in filters[i1].toQueryMap().entries)
+              'Filters.DescribeIntegrationsFilter.${i1 + 1}.${e3.key}':
+                  e3.value,
+      if (integrationArn != null) 'IntegrationArn': integrationArn,
+      if (marker != null) 'Marker': marker,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeIntegrations',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeIntegrationsResult',
+    );
+    return IntegrationsMessage.fromXml($result);
+  }
+
   /// Describes whether information, such as queries and connection attempts, is
   /// being logged for the specified Amazon Redshift cluster.
   ///
@@ -4824,10 +5135,10 @@ class Redshift {
   /// Returns properties of possible node configurations such as node type,
   /// number of nodes, and disk usage for the specified action type.
   ///
+  /// May throw [AccessToSnapshotDeniedFault].
+  /// May throw [ClusterNotFoundFault].
   /// May throw [ClusterSnapshotNotFoundFault].
   /// May throw [InvalidClusterSnapshotStateFault].
-  /// May throw [ClusterNotFoundFault].
-  /// May throw [AccessToSnapshotDeniedFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [actionType] :
@@ -5031,10 +5342,10 @@ class Redshift {
 
   /// Lists the Amazon Redshift IAM Identity Center applications.
   ///
-  /// May throw [RedshiftIdcApplicationNotExistsFault].
-  /// May throw [DependentServiceUnavailableFault].
-  /// May throw [UnsupportedOperationFault].
   /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [marker] :
   /// A value that indicates the starting point for the next set of response
@@ -5081,8 +5392,8 @@ class Redshift {
   /// reserved-node exchange. Statuses include such values as in progress and
   /// requested.
   ///
-  /// May throw [ReservedNodeNotFoundFault].
   /// May throw [ReservedNodeExchangeNotFoundFault].
+  /// May throw [ReservedNodeNotFoundFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [marker] :
@@ -5144,9 +5455,9 @@ class Redshift {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
   /// Reserved Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
   ///
+  /// May throw [DependentServiceUnavailableFault].
   /// May throw [ReservedNodeOfferingNotFoundFault].
   /// May throw [UnsupportedOperationFault].
-  /// May throw [DependentServiceUnavailableFault].
   ///
   /// Parameter [marker] :
   /// An optional parameter that specifies the starting point to return a set of
@@ -5195,8 +5506,8 @@ class Redshift {
 
   /// Returns the descriptions of the reserved nodes.
   ///
-  /// May throw [ReservedNodeNotFoundFault].
   /// May throw [DependentServiceUnavailableFault].
+  /// May throw [ReservedNodeNotFoundFault].
   ///
   /// Parameter [marker] :
   /// An optional parameter that specifies the starting point to return a set of
@@ -5371,8 +5682,8 @@ class Redshift {
   /// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster
   /// Management Guide</i>.
   ///
-  /// May throw [SnapshotCopyGrantNotFoundFault].
   /// May throw [InvalidTagFault].
+  /// May throw [SnapshotCopyGrantNotFoundFault].
   ///
   /// Parameter [marker] :
   /// An optional parameter that specifies the starting point to return a set of
@@ -5544,8 +5855,8 @@ class Redshift {
   /// order. Otherwise <code>DescribeTableRestoreStatus</code> returns the
   /// status of the table specified by <code>TableRestoreRequestId</code>.
   ///
-  /// May throw [TableRestoreNotFoundFault].
   /// May throw [ClusterNotFoundFault].
+  /// May throw [TableRestoreNotFoundFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The Amazon Redshift cluster that the table is being restored to.
@@ -5623,8 +5934,8 @@ class Redshift {
   /// returned regardless of whether they have tag keys or values associated
   /// with them.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidTagFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [marker] :
   /// A value that indicates the starting point for the next set of response
@@ -5682,6 +5993,13 @@ class Redshift {
   /// <li>
   /// Snapshot copy grant
   /// </li>
+  /// <li>
+  /// Integration (zero-ETL integration or S3 event integration)
+  /// <note>
+  /// To describe the tags associated with an <code>integration</code>, don't
+  /// specify <code>ResourceType</code>, instead specify the
+  /// <code>ResourceName</code> of the integration.
+  /// </note> </li>
   /// </ul>
   /// For more information about Amazon Redshift resource types and constructing
   /// ARNs, go to <a
@@ -5893,8 +6211,8 @@ class Redshift {
   /// Redshift permission to the key in the destination region.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [SnapshotCopyAlreadyDisabledFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [SnapshotCopyAlreadyDisabledFault].
   /// May throw [UnauthorizedOperation].
   /// May throw [UnsupportedOperationFault].
   ///
@@ -5971,12 +6289,12 @@ class Redshift {
   /// Starts logging information, such as queries and connection attempts, for
   /// the specified Amazon Redshift cluster.
   ///
-  /// May throw [ClusterNotFoundFault].
   /// May throw [BucketNotFoundFault].
+  /// May throw [ClusterNotFoundFault].
   /// May throw [InsufficientS3BucketPolicyFault].
-  /// May throw [InvalidS3KeyPrefixFault].
-  /// May throw [InvalidS3BucketNameFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidS3BucketNameFault].
+  /// May throw [InvalidS3KeyPrefixFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
@@ -6010,35 +6328,11 @@ class Redshift {
   /// Parameter [s3KeyPrefix] :
   /// The prefix applied to the log file names.
   ///
-  /// Constraints:
-  ///
-  /// <ul>
-  /// <li>
-  /// Cannot exceed 512 characters
-  /// </li>
-  /// <li>
-  /// Cannot contain spaces( ), double quotes ("), single quotes ('), a
-  /// backslash (\), or control characters. The hexadecimal codes for invalid
-  /// characters are:
-  ///
-  /// <ul>
-  /// <li>
-  /// x00 to x20
-  /// </li>
-  /// <li>
-  /// x22
-  /// </li>
-  /// <li>
-  /// x27
-  /// </li>
-  /// <li>
-  /// x5c
-  /// </li>
-  /// <li>
-  /// x7f or larger
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
+  /// Valid characters are any letter from any language, any whitespace
+  /// character, any numeric character, and the following characters: underscore
+  /// (<code>_</code>), period (<code>.</code>), colon (<code>:</code>), slash
+  /// (<code>/</code>), equal (<code>=</code>), plus (<code>+</code>), backslash
+  /// (<code>\</code>), hyphen (<code>-</code>), at symbol (<code>@</code>).
   Future<LoggingStatus> enableLogging({
     required String clusterIdentifier,
     String? bucketName,
@@ -6074,17 +6368,17 @@ class Redshift {
   /// Enables the automatic copy of snapshots from one region to another region
   /// for a specified cluster.
   ///
-  /// May throw [IncompatibleOrderableOptions].
-  /// May throw [InvalidClusterStateFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [CopyToRegionDisabledFault].
-  /// May throw [SnapshotCopyAlreadyEnabledFault].
-  /// May throw [UnknownSnapshotCopyRegionFault].
-  /// May throw [UnauthorizedOperation].
-  /// May throw [SnapshotCopyGrantNotFoundFault].
-  /// May throw [LimitExceededFault].
   /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [IncompatibleOrderableOptions].
+  /// May throw [InvalidClusterStateFault].
   /// May throw [InvalidRetentionPeriodFault].
+  /// May throw [LimitExceededFault].
+  /// May throw [SnapshotCopyAlreadyEnabledFault].
+  /// May throw [SnapshotCopyGrantNotFoundFault].
+  /// May throw [UnauthorizedOperation].
+  /// May throw [UnknownSnapshotCopyRegionFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the source cluster to copy snapshots from.
@@ -6154,9 +6448,9 @@ class Redshift {
   /// another Availability Zone.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [UnsupportedOperationFault].
-  /// May throw [UnauthorizedOperation].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the cluster for which the primary compute unit
@@ -6424,19 +6718,98 @@ class Redshift {
     return ClusterExtendedCredentials.fromXml($result);
   }
 
+  /// Generates an encrypted authentication token that propagates the caller's
+  /// Amazon Web Services IAM Identity Center identity to Amazon Redshift
+  /// clusters. This API extracts the Amazon Web Services IAM Identity Center
+  /// identity from enhanced credentials and creates a secure token that Amazon
+  /// Redshift drivers can use for authentication.
+  ///
+  /// The token is encrypted using Key Management Service (KMS) and can only be
+  /// decrypted by the specified Amazon Redshift clusters. The token contains
+  /// the caller's Amazon Web Services IAM Identity Center identity information
+  /// and is valid for a limited time period.
+  ///
+  /// This API is exclusively for use with Amazon Web Services IAM Identity
+  /// Center enhanced credentials. If the caller is not using enhanced
+  /// credentials with embedded Amazon Web Services IAM Identity Center
+  /// identity, the API will return an error.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [RedshiftInvalidParameterFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [clusterIds] :
+  /// A list of cluster identifiers that the generated token can be used with.
+  /// The token will be scoped to only allow authentication to the specified
+  /// clusters.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ClusterIds</code> must contain at least 1 cluster identifier.
+  /// </li>
+  /// <li>
+  /// <code>ClusterIds</code> can hold a maximum of 20 cluster identifiers.
+  /// </li>
+  /// <li>
+  /// Cluster identifiers must be 1 to 63 characters in length.
+  /// </li>
+  /// <li>
+  /// The characters accepted for cluster identifiers are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Alphanumeric characters
+  /// </li>
+  /// <li>
+  /// Hyphens
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Cluster identifiers must start with a letter.
+  /// </li>
+  /// <li>
+  /// Cluster identifiers can't end with a hyphen or contain two consecutive
+  /// hyphens.
+  /// </li>
+  /// </ul>
+  Future<GetIdentityCenterAuthTokenResponse> getIdentityCenterAuthToken({
+    required List<String> clusterIds,
+  }) async {
+    final $request = <String, String>{
+      if (clusterIds.isEmpty)
+        'ClusterIds': ''
+      else
+        for (var i1 = 0; i1 < clusterIds.length; i1++)
+          'ClusterIds.ClusterIdentifier.${i1 + 1}': clusterIds[i1],
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'GetIdentityCenterAuthToken',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'GetIdentityCenterAuthTokenResult',
+    );
+    return GetIdentityCenterAuthTokenResponse.fromXml($result);
+  }
+
   /// Gets the configuration options for the reserved-node exchange. These
   /// options include information about the source reserved node and target
   /// reserved node offering. Details include the node type, the price, the node
   /// count, and the offering type.
   ///
-  /// May throw [ReservedNodeNotFoundFault].
-  /// May throw [InvalidReservedNodeStateFault].
-  /// May throw [ReservedNodeAlreadyMigratedFault].
-  /// May throw [ReservedNodeOfferingNotFoundFault].
-  /// May throw [UnsupportedOperationFault].
-  /// May throw [DependentServiceUnavailableFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [ClusterSnapshotNotFoundFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [InvalidReservedNodeStateFault].
+  /// May throw [ReservedNodeAlreadyMigratedFault].
+  /// May throw [ReservedNodeNotFoundFault].
+  /// May throw [ReservedNodeOfferingNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [actionType] :
   /// The action type of the reserved-node configuration. The action type can be
@@ -6496,12 +6869,12 @@ class Redshift {
   /// Returns an array of DC2 ReservedNodeOfferings that matches the payment
   /// type, term, and usage price of the given DC1 reserved node.
   ///
-  /// May throw [ReservedNodeNotFoundFault].
+  /// May throw [DependentServiceUnavailableFault].
   /// May throw [InvalidReservedNodeStateFault].
   /// May throw [ReservedNodeAlreadyMigratedFault].
+  /// May throw [ReservedNodeNotFoundFault].
   /// May throw [ReservedNodeOfferingNotFoundFault].
   /// May throw [UnsupportedOperationFault].
-  /// May throw [DependentServiceUnavailableFault].
   ///
   /// Parameter [reservedNodeId] :
   /// A string representing the node identifier for the DC1 Reserved Node to be
@@ -6539,8 +6912,8 @@ class Redshift {
 
   /// Get the resource policy for a specified resource.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidPolicyFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [resourceArn] :
@@ -6701,28 +7074,53 @@ class Redshift {
   /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// May throw [InvalidClusterStateFault].
-  /// May throw [InvalidClusterSecurityGroupStateFault].
+  /// VPC Block Public Access (BPA) enables you to block resources in VPCs and
+  /// subnets that you own in a Region from reaching or being reached from the
+  /// internet through internet gateways and egress-only internet gateways. If a
+  /// subnet group for a provisioned cluster is in an account with VPC BPA
+  /// turned on, the following capabilities are blocked:
+  ///
+  /// <ul>
+  /// <li>
+  /// Creating a public cluster
+  /// </li>
+  /// <li>
+  /// Restoring a public cluster
+  /// </li>
+  /// <li>
+  /// Modifying a private cluster to be public
+  /// </li>
+  /// <li>
+  /// Adding a subnet with VPC BPA turned on to the subnet group when there's at
+  /// least one public cluster within the group
+  /// </li>
+  /// </ul>
+  /// For more information about VPC BPA, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html">Block
+  /// public access to VPCs and subnets</a> in the <i>Amazon VPC User Guide</i>.
+  ///
+  /// May throw [ClusterAlreadyExistsFault].
   /// May throw [ClusterNotFoundFault].
-  /// May throw [NumberOfNodesQuotaExceededFault].
-  /// May throw [NumberOfNodesPerClusterLimitExceededFault].
-  /// May throw [ClusterSecurityGroupNotFoundFault].
   /// May throw [ClusterParameterGroupNotFoundFault].
-  /// May throw [InsufficientClusterCapacityFault].
-  /// May throw [UnsupportedOptionFault].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [ClusterSecurityGroupNotFoundFault].
+  /// May throw [CustomCnameAssociationFault].
+  /// May throw [DependentServiceRequestThrottlingFault].
   /// May throw [HsmClientCertificateNotFoundFault].
   /// May throw [HsmConfigurationNotFoundFault].
-  /// May throw [ClusterAlreadyExistsFault].
-  /// May throw [LimitExceededFault].
-  /// May throw [DependentServiceRequestThrottlingFault].
-  /// May throw [InvalidElasticIpFault].
-  /// May throw [TableLimitExceededFault].
+  /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [InvalidClusterSecurityGroupStateFault].
+  /// May throw [InvalidClusterStateFault].
   /// May throw [InvalidClusterTrackFault].
+  /// May throw [InvalidElasticIpFault].
   /// May throw [InvalidRetentionPeriodFault].
-  /// May throw [UnsupportedOperationFault].
-  /// May throw [CustomCnameAssociationFault].
   /// May throw [Ipv6CidrBlockNotFoundFault].
+  /// May throw [LimitExceededFault].
+  /// May throw [NumberOfNodesPerClusterLimitExceededFault].
+  /// May throw [NumberOfNodesQuotaExceededFault].
+  /// May throw [TableLimitExceededFault].
+  /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [UnsupportedOptionFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the cluster to be modified.
@@ -6745,7 +7143,7 @@ class Redshift {
   /// value, existing automated snapshots that fall outside of the new retention
   /// period will be immediately deleted.
   ///
-  /// You can't disable automated snapshots for RA3 node types. Set the
+  /// You can't disable automated snapshots for RG or RA3 node types. Set the
   /// automated retention period from 1-35 days.
   ///
   /// Default: Uses existing setting.
@@ -6844,6 +7242,12 @@ class Redshift {
   /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
   ///
   /// If this option is <code>true</code>, enhanced VPC routing is enabled.
+  ///
+  /// Default: false
+  ///
+  /// Parameter [extraComputeForAutomaticOptimization] :
+  /// If <code>true</code>, allocates additional compute resources for running
+  /// automatic optimization operations.
   ///
   /// Default: false
   ///
@@ -6970,8 +7374,9 @@ class Redshift {
   /// Clusters in Amazon Redshift</a> in the <i>Amazon Redshift Cluster
   /// Management Guide</i>.
   ///
-  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code> |
-  /// <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
+  /// Valid Values: <code>dc2.large</code> | <code>dc2.8xlarge</code>|
+  /// <code>rg.xlarge</code> | <code>rg.4xlarge</code> | <code>ra3.large</code>
+  /// | <code>ra3.xlplus</code> | <code>ra3.4xlarge</code> |
   /// <code>ra3.16xlarge</code>
   ///
   /// Parameter [numberOfNodes] :
@@ -6992,10 +7397,10 @@ class Redshift {
   ///
   /// <ul>
   /// <li>
-  /// For clusters with ra3 nodes - Select a port within the ranges
+  /// For clusters with RG or RA3 nodes - Select a port within the ranges
   /// <code>5431-5455</code> or <code>8191-8215</code>. (If you have an existing
-  /// cluster with ra3 nodes, it isn't required that you change the port to
-  /// these ranges.)
+  /// cluster with RG or RA3 nodes, it isn't required that you change the port
+  /// to these ranges.)
   /// </li>
   /// <li>
   /// For clusters with dc2 nodes - Select a port within the range
@@ -7026,6 +7431,8 @@ class Redshift {
   /// If <code>true</code>, the cluster can be accessed from a public network.
   /// Only clusters in VPCs can be set to be publicly available.
   ///
+  /// Default: false
+  ///
   /// Parameter [vpcSecurityGroupIds] :
   /// A list of virtual private cloud (VPC) security groups to be associated
   /// with the cluster. This change is asynchronously applied as soon as
@@ -7043,6 +7450,7 @@ class Redshift {
     String? elasticIp,
     bool? encrypted,
     bool? enhancedVpcRouting,
+    bool? extraComputeForAutomaticOptimization,
     String? hsmClientCertificateIdentifier,
     String? hsmConfigurationIdentifier,
     String? ipAddressType,
@@ -7086,6 +7494,9 @@ class Redshift {
       if (encrypted != null) 'Encrypted': encrypted.toString(),
       if (enhancedVpcRouting != null)
         'EnhancedVpcRouting': enhancedVpcRouting.toString(),
+      if (extraComputeForAutomaticOptimization != null)
+        'ExtraComputeForAutomaticOptimization':
+            extraComputeForAutomaticOptimization.toString(),
       if (hsmClientCertificateIdentifier != null)
         'HsmClientCertificateIdentifier': hsmClientCertificateIdentifier,
       if (hsmConfigurationIdentifier != null)
@@ -7177,8 +7588,8 @@ class Redshift {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html">Quotas
   /// and limits</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
   ///
-  /// May throw [InvalidClusterStateFault].
   /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the cluster for which you want to associate or
@@ -7242,7 +7653,7 @@ class Redshift {
   /// Parameter [deferMaintenanceDuration] :
   /// An integer indicating the duration of the maintenance window in days. If
   /// you specify a duration, you can't specify an end time. The duration must
-  /// be 45 days or less.
+  /// be 60 days or less.
   ///
   /// Parameter [deferMaintenanceEndTime] :
   /// A timestamp indicating end time for the deferred maintenance window. If
@@ -7341,8 +7752,8 @@ class Redshift {
   /// This exanmple modifies the manual retention period setting for a cluster
   /// snapshot.
   ///
-  /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [ClusterSnapshotNotFoundFault].
+  /// May throw [InvalidClusterSnapshotStateFault].
   /// May throw [InvalidRetentionPeriodFault].
   ///
   /// Parameter [snapshotIdentifier] :
@@ -7387,8 +7798,8 @@ class Redshift {
   /// Modifies a snapshot schedule for a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [SnapshotScheduleNotFoundFault].
   /// May throw [InvalidClusterSnapshotScheduleStateFault].
+  /// May throw [SnapshotScheduleNotFoundFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// A unique identifier for the cluster whose snapshot schedule you want to
@@ -7426,12 +7837,37 @@ class Redshift {
   /// subnets. The operation replaces the existing list of subnets with the new
   /// list of subnets.
   ///
+  /// VPC Block Public Access (BPA) enables you to block resources in VPCs and
+  /// subnets that you own in a Region from reaching or being reached from the
+  /// internet through internet gateways and egress-only internet gateways. If a
+  /// subnet group for a provisioned cluster is in an account with VPC BPA
+  /// turned on, the following capabilities are blocked:
+  ///
+  /// <ul>
+  /// <li>
+  /// Creating a public cluster
+  /// </li>
+  /// <li>
+  /// Restoring a public cluster
+  /// </li>
+  /// <li>
+  /// Modifying a private cluster to be public
+  /// </li>
+  /// <li>
+  /// Adding a subnet with VPC BPA turned on to the subnet group when there's at
+  /// least one public cluster within the group
+  /// </li>
+  /// </ul>
+  /// For more information about VPC BPA, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html">Block
+  /// public access to VPCs and subnets</a> in the <i>Amazon VPC User Guide</i>.
+  ///
   /// May throw [ClusterSubnetGroupNotFoundFault].
   /// May throw [ClusterSubnetQuotaExceededFault].
-  /// May throw [SubnetAlreadyInUse].
-  /// May throw [InvalidSubnet].
-  /// May throw [UnauthorizedOperation].
   /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [InvalidSubnet].
+  /// May throw [SubnetAlreadyInUse].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [clusterSubnetGroupName] :
   /// The name of the subnet group to be modified.
@@ -7470,10 +7906,10 @@ class Redshift {
 
   /// Contains information for changing a custom domain association.
   ///
-  /// May throw [UnsupportedOperationFault].
   /// May throw [ClusterNotFoundFault].
   /// May throw [CustomCnameAssociationFault].
   /// May throw [CustomDomainAssociationNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster to change a custom domain association for.
@@ -7508,11 +7944,11 @@ class Redshift {
 
   /// Modifies a Redshift-managed VPC endpoint.
   ///
-  /// May throw [InvalidClusterSecurityGroupStateFault].
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidEndpointStateFault].
   /// May throw [EndpointNotFoundFault].
+  /// May throw [InvalidClusterSecurityGroupStateFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidEndpointStateFault].
   /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [endpointName] :
@@ -7549,15 +7985,15 @@ class Redshift {
 
   /// Modifies an existing Amazon Redshift event notification subscription.
   ///
-  /// May throw [SubscriptionNotFoundFault].
+  /// May throw [InvalidSubscriptionStateFault].
   /// May throw [SNSInvalidTopicFault].
   /// May throw [SNSNoAuthorizationFault].
   /// May throw [SNSTopicArnNotFoundFault].
-  /// May throw [SubscriptionEventIdNotFoundFault].
-  /// May throw [SubscriptionCategoryNotFoundFault].
-  /// May throw [SubscriptionSeverityNotFoundFault].
   /// May throw [SourceNotFoundFault].
-  /// May throw [InvalidSubscriptionStateFault].
+  /// May throw [SubscriptionCategoryNotFoundFault].
+  /// May throw [SubscriptionEventIdNotFoundFault].
+  /// May throw [SubscriptionNotFoundFault].
+  /// May throw [SubscriptionSeverityNotFoundFault].
   ///
   /// Parameter [subscriptionName] :
   /// The name of the modified Amazon Redshift event notification subscription.
@@ -7642,12 +8078,138 @@ class Redshift {
     return ModifyEventSubscriptionResult.fromXml($result);
   }
 
+  /// Modifies a zero-ETL integration or S3 event integration with Amazon
+  /// Redshift.
+  ///
+  /// May throw [IntegrationAlreadyExistsFault].
+  /// May throw [IntegrationConflictOperationFault].
+  /// May throw [IntegrationConflictStateFault].
+  /// May throw [IntegrationNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [integrationArn] :
+  /// The unique identifier of the integration to modify.
+  ///
+  /// Parameter [description] :
+  /// A new description for the integration.
+  ///
+  /// Parameter [integrationName] :
+  /// A new name for the integration.
+  Future<Integration> modifyIntegration({
+    required String integrationArn,
+    String? description,
+    String? integrationName,
+  }) async {
+    final $request = <String, String>{
+      'IntegrationArn': integrationArn,
+      if (description != null) 'Description': description,
+      if (integrationName != null) 'IntegrationName': integrationName,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyIntegration',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ModifyIntegrationResult',
+    );
+    return Integration.fromXml($result);
+  }
+
+  /// Modifies the lakehouse configuration for a cluster. This operation allows
+  /// you to manage Amazon Redshift federated permissions and Amazon Web
+  /// Services IAM Identity Center trusted identity propagation.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The unique identifier of the cluster whose lakehouse configuration you
+  /// want to modify.
+  ///
+  /// Parameter [catalogName] :
+  /// The name of the Glue data catalog that will be associated with the cluster
+  /// enabled with Amazon Redshift federated permissions.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain at least one lowercase letter.
+  /// </li>
+  /// <li>
+  /// Can only contain lowercase letters (a-z), numbers (0-9), underscores (_),
+  /// and hyphens (-).
+  /// </li>
+  /// </ul>
+  /// Pattern: <code>^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$</code>
+  ///
+  /// Example: <code>my-catalog_01</code>
+  ///
+  /// Parameter [dryRun] :
+  /// A boolean value that, if <code>true</code>, validates the request without
+  /// actually modifying the lakehouse configuration. Use this to check for
+  /// errors before making changes.
+  ///
+  /// Parameter [lakehouseIdcApplicationArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Identity Center application used
+  /// for enabling Amazon Web Services IAM Identity Center trusted identity
+  /// propagation on a cluster enabled with Amazon Redshift federated
+  /// permissions.
+  ///
+  /// Parameter [lakehouseIdcRegistration] :
+  /// Modifies the Amazon Web Services IAM Identity Center trusted identity
+  /// propagation on a cluster enabled with Amazon Redshift federated
+  /// permissions. Valid values are <code>Associate</code> or
+  /// <code>Disassociate</code>.
+  ///
+  /// Parameter [lakehouseRegistration] :
+  /// Specifies whether to register or deregister the cluster with Amazon
+  /// Redshift federated permissions. Valid values are <code>Register</code> or
+  /// <code>Deregister</code>.
+  Future<LakehouseConfiguration> modifyLakehouseConfiguration({
+    required String clusterIdentifier,
+    String? catalogName,
+    bool? dryRun,
+    String? lakehouseIdcApplicationArn,
+    LakehouseIdcRegistration? lakehouseIdcRegistration,
+    LakehouseRegistration? lakehouseRegistration,
+  }) async {
+    final $request = <String, String>{
+      'ClusterIdentifier': clusterIdentifier,
+      if (catalogName != null) 'CatalogName': catalogName,
+      if (dryRun != null) 'DryRun': dryRun.toString(),
+      if (lakehouseIdcApplicationArn != null)
+        'LakehouseIdcApplicationArn': lakehouseIdcApplicationArn,
+      if (lakehouseIdcRegistration != null)
+        'LakehouseIdcRegistration': lakehouseIdcRegistration.value,
+      if (lakehouseRegistration != null)
+        'LakehouseRegistration': lakehouseRegistration.value,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyLakehouseConfiguration',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ModifyLakehouseConfigurationResult',
+    );
+    return LakehouseConfiguration.fromXml($result);
+  }
+
   /// Changes an existing Amazon Redshift IAM Identity Center application.
   ///
-  /// May throw [RedshiftIdcApplicationNotExistsFault].
-  /// May throw [DependentServiceUnavailableFault].
-  /// May throw [UnsupportedOperationFault].
   /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceUnavailableFault].
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [redshiftIdcApplicationArn] :
   /// The ARN for the Redshift application that integrates with IAM Identity
@@ -7716,10 +8278,10 @@ class Redshift {
   /// Modifies a scheduled action.
   ///
   /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidScheduledActionFault].
+  /// May throw [InvalidScheduleFault].
   /// May throw [ScheduledActionNotFoundFault].
   /// May throw [ScheduledActionTypeUnsupportedFault].
-  /// May throw [InvalidScheduleFault].
-  /// May throw [InvalidScheduledActionFault].
   /// May throw [UnauthorizedOperation].
   /// May throw [UnsupportedOperationFault].
   ///
@@ -7798,10 +8360,10 @@ class Redshift {
   /// manual snapshots have the new retention period.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [SnapshotCopyDisabledFault].
-  /// May throw [UnauthorizedOperation].
   /// May throw [InvalidClusterStateFault].
   /// May throw [InvalidRetentionPeriodFault].
+  /// May throw [SnapshotCopyDisabledFault].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier of the cluster for which you want to change the
@@ -7905,8 +8467,8 @@ class Redshift {
   /// period of a usage limit.
   ///
   /// May throw [InvalidUsageLimitFault].
-  /// May throw [UsageLimitNotFoundFault].
   /// May throw [UnsupportedOperationFault].
+  /// May throw [UsageLimitNotFoundFault].
   ///
   /// Parameter [usageLimitId] :
   /// The identifier of the usage limit to modify.
@@ -7977,8 +8539,8 @@ class Redshift {
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html">Purchasing
   /// Reserved Nodes</a> in the <i>Amazon Redshift Cluster Management Guide</i>.
   ///
-  /// May throw [ReservedNodeOfferingNotFoundFault].
   /// May throw [ReservedNodeAlreadyExistsFault].
+  /// May throw [ReservedNodeOfferingNotFoundFault].
   /// May throw [ReservedNodeQuotaExceededFault].
   /// May throw [UnsupportedOperationFault].
   ///
@@ -8011,9 +8573,9 @@ class Redshift {
 
   /// Updates the resource policy for a specified resource.
   ///
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [InvalidPolicyFault].
   /// May throw [ConflictPolicyUpdateFault].
+  /// May throw [InvalidPolicyFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [policy] :
@@ -8052,8 +8614,8 @@ class Redshift {
   /// Redshift Clusters</a> in the <i>Amazon Redshift Cluster Management
   /// Guide</i>.
   ///
-  /// May throw [InvalidClusterStateFault].
   /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The cluster identifier.
@@ -8073,6 +8635,45 @@ class Redshift {
       resultWrapper: 'RebootClusterResult',
     );
     return RebootClusterResult.fromXml($result);
+  }
+
+  /// Registers a cluster or serverless namespace to the Amazon Web Services
+  /// Glue Data Catalog.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidNamespaceFault].
+  ///
+  /// Parameter [consumerIdentifiers] :
+  /// An array containing the ID of the consumer account that you want to
+  /// register the namespace to.
+  ///
+  /// Parameter [namespaceIdentifier] :
+  /// The unique identifier of the cluster or serverless namespace that you want
+  /// to register.
+  Future<RegisterNamespaceOutputMessage> registerNamespace({
+    required List<String> consumerIdentifiers,
+    required NamespaceIdentifierUnion namespaceIdentifier,
+  }) async {
+    final $request = <String, String>{
+      if (consumerIdentifiers.isEmpty)
+        'ConsumerIdentifiers': ''
+      else
+        for (var i1 = 0; i1 < consumerIdentifiers.length; i1++)
+          'ConsumerIdentifiers.member.${i1 + 1}': consumerIdentifiers[i1],
+      for (var e1 in namespaceIdentifier.toQueryMap().entries)
+        'NamespaceIdentifier.${e1.key}': e1.value,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'RegisterNamespace',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'RegisterNamespaceResult',
+    );
+    return RegisterNamespaceOutputMessage.fromXml($result);
   }
 
   /// From a datashare consumer account, rejects the specified datashare.
@@ -8105,8 +8706,8 @@ class Redshift {
   /// <i>ResetAllParameters</i> parameter. For parameter changes to take effect
   /// you must reboot any associated clusters.
   ///
-  /// May throw [InvalidClusterParameterGroupStateFault].
   /// May throw [ClusterParameterGroupNotFoundFault].
+  /// May throw [InvalidClusterParameterGroupStateFault].
   ///
   /// Parameter [parameterGroupName] :
   /// The name of the cluster parameter group to be reset.
@@ -8171,6 +8772,15 @@ class Redshift {
   /// dc2.8xlarge
   /// </li>
   /// <li>
+  /// rg.xlarge
+  /// </li>
+  /// <li>
+  /// rg.4xlarge
+  /// </li>
+  /// <li>
+  /// ra3.large
+  /// </li>
+  /// <li>
   /// ra3.xlplus
   /// </li>
   /// <li>
@@ -8185,21 +8795,21 @@ class Redshift {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidClusterStateFault].
   /// May throw [ClusterNotFoundFault].
-  /// May throw [NumberOfNodesQuotaExceededFault].
-  /// May throw [NumberOfNodesPerClusterLimitExceededFault].
-  /// May throw [InsufficientClusterCapacityFault].
-  /// May throw [UnsupportedOptionFault].
-  /// May throw [UnsupportedOperationFault].
-  /// May throw [UnauthorizedOperation].
-  /// May throw [LimitExceededFault].
-  /// May throw [ReservedNodeNotFoundFault].
-  /// May throw [InvalidReservedNodeStateFault].
-  /// May throw [ReservedNodeAlreadyMigratedFault].
-  /// May throw [ReservedNodeOfferingNotFoundFault].
   /// May throw [DependentServiceUnavailableFault].
+  /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidReservedNodeStateFault].
+  /// May throw [LimitExceededFault].
+  /// May throw [NumberOfNodesPerClusterLimitExceededFault].
+  /// May throw [NumberOfNodesQuotaExceededFault].
   /// May throw [ReservedNodeAlreadyExistsFault].
+  /// May throw [ReservedNodeAlreadyMigratedFault].
+  /// May throw [ReservedNodeNotFoundFault].
+  /// May throw [ReservedNodeOfferingNotFoundFault].
+  /// May throw [UnauthorizedOperation].
+  /// May throw [UnsupportedOperationFault].
+  /// May throw [UnsupportedOptionFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The unique identifier for the cluster to resize.
@@ -8268,6 +8878,31 @@ class Redshift {
   /// If you restore a cluster into a VPC, you must provide a cluster subnet
   /// group where you want the cluster restored.
   ///
+  /// VPC Block Public Access (BPA) enables you to block resources in VPCs and
+  /// subnets that you own in a Region from reaching or being reached from the
+  /// internet through internet gateways and egress-only internet gateways. If a
+  /// subnet group for a provisioned cluster is in an account with VPC BPA
+  /// turned on, the following capabilities are blocked:
+  ///
+  /// <ul>
+  /// <li>
+  /// Creating a public cluster
+  /// </li>
+  /// <li>
+  /// Restoring a public cluster
+  /// </li>
+  /// <li>
+  /// Modifying a private cluster to be public
+  /// </li>
+  /// <li>
+  /// Adding a subnet with VPC BPA turned on to the subnet group when there's at
+  /// least one public cluster within the group
+  /// </li>
+  /// </ul>
+  /// For more information about VPC BPA, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html">Block
+  /// public access to VPCs and subnets</a> in the <i>Amazon VPC User Guide</i>.
+  ///
   /// For more information about working with snapshots, go to <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html">Amazon
   /// Redshift Snapshots</a> in the <i>Amazon Redshift Cluster Management
@@ -8275,37 +8910,39 @@ class Redshift {
   ///
   /// May throw [AccessToSnapshotDeniedFault].
   /// May throw [ClusterAlreadyExistsFault].
-  /// May throw [ClusterSnapshotNotFoundFault].
+  /// May throw [ClusterParameterGroupNotFoundFault].
   /// May throw [ClusterQuotaExceededFault].
-  /// May throw [InsufficientClusterCapacityFault].
-  /// May throw [InvalidClusterSnapshotStateFault].
-  /// May throw [InvalidRestoreFault].
-  /// May throw [NumberOfNodesQuotaExceededFault].
-  /// May throw [NumberOfNodesPerClusterLimitExceededFault].
-  /// May throw [InvalidVPCNetworkStateFault].
-  /// May throw [InvalidClusterSubnetGroupStateFault].
-  /// May throw [InvalidSubnet].
+  /// May throw [ClusterSecurityGroupNotFoundFault].
+  /// May throw [ClusterSnapshotNotFoundFault].
   /// May throw [ClusterSubnetGroupNotFoundFault].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [DependentServiceAccessDeniedFault].
+  /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [DependentServiceUnavailableFault].
   /// May throw [HsmClientCertificateNotFoundFault].
   /// May throw [HsmConfigurationNotFoundFault].
-  /// May throw [InvalidElasticIpFault].
-  /// May throw [ClusterParameterGroupNotFoundFault].
-  /// May throw [ClusterSecurityGroupNotFoundFault].
-  /// May throw [LimitExceededFault].
-  /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [InvalidClusterSnapshotStateFault].
+  /// May throw [InvalidClusterSubnetGroupStateFault].
   /// May throw [InvalidClusterTrackFault].
+  /// May throw [InvalidElasticIpFault].
+  /// May throw [InvalidReservedNodeStateFault].
+  /// May throw [InvalidRestoreFault].
+  /// May throw [InvalidSubnet].
+  /// May throw [InvalidTagFault].
+  /// May throw [InvalidVPCNetworkStateFault].
+  /// May throw [Ipv6CidrBlockNotFoundFault].
+  /// May throw [LimitExceededFault].
+  /// May throw [NumberOfNodesPerClusterLimitExceededFault].
+  /// May throw [NumberOfNodesQuotaExceededFault].
+  /// May throw [RedshiftIdcApplicationNotExistsFault].
+  /// May throw [ReservedNodeAlreadyExistsFault].
+  /// May throw [ReservedNodeAlreadyMigratedFault].
+  /// May throw [ReservedNodeNotFoundFault].
+  /// May throw [ReservedNodeOfferingNotFoundFault].
   /// May throw [SnapshotScheduleNotFoundFault].
   /// May throw [TagLimitExceededFault].
-  /// May throw [InvalidTagFault].
-  /// May throw [ReservedNodeNotFoundFault].
-  /// May throw [InvalidReservedNodeStateFault].
-  /// May throw [ReservedNodeAlreadyMigratedFault].
-  /// May throw [ReservedNodeOfferingNotFoundFault].
-  /// May throw [DependentServiceUnavailableFault].
-  /// May throw [ReservedNodeAlreadyExistsFault].
+  /// May throw [UnauthorizedOperation].
   /// May throw [UnsupportedOperationFault].
-  /// May throw [Ipv6CidrBlockNotFoundFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster that will be created from restoring the
@@ -8352,7 +8989,7 @@ class Redshift {
   /// disabled, you can still create manual snapshots when you want with
   /// <a>CreateClusterSnapshot</a>.
   ///
-  /// You can't disable automated snapshots for RA3 node types. Set the
+  /// You can't disable automated snapshots for RG or RA3 node types. Set the
   /// automated retention period from 1-35 days.
   ///
   /// Default: The value selected for the cluster from which the snapshot was
@@ -8370,6 +9007,25 @@ class Redshift {
   /// Parameter [availabilityZoneRelocation] :
   /// The option to enable relocation for an Amazon Redshift cluster between
   /// Availability Zones after the cluster is restored.
+  ///
+  /// Parameter [catalogName] :
+  /// The name of the Glue Data Catalog that will be associated with the cluster
+  /// enabled with Amazon Redshift federated permissions.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain at least one lowercase letter.
+  /// </li>
+  /// <li>
+  /// Can only contain lowercase letters (a-z), numbers (0-9), underscores (_),
+  /// and hyphens (-).
+  /// </li>
+  /// </ul>
+  /// Pattern: <code>^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$</code>
+  ///
+  /// Example: <code>my-catalog_01</code>
   ///
   /// Parameter [clusterParameterGroupName] :
   /// The name of the parameter group to be associated with this cluster.
@@ -8517,8 +9173,8 @@ class Redshift {
   /// Default: The same port as the original cluster.
   ///
   /// Valid values: For clusters with DC2 nodes, must be within the range
-  /// <code>1150</code>-<code>65535</code>. For clusters with ra3 nodes, must be
-  /// within the ranges <code>5431</code>-<code>5455</code> or
+  /// <code>1150</code>-<code>65535</code>. For clusters with RG or RA3 nodes,
+  /// must be within the ranges <code>5431</code>-<code>5455</code> or
   /// <code>8191</code>-<code>8215</code>.
   ///
   /// Parameter [preferredMaintenanceWindow] :
@@ -8538,6 +9194,14 @@ class Redshift {
   ///
   /// Parameter [publiclyAccessible] :
   /// If <code>true</code>, the cluster can be accessed from a public network.
+  ///
+  /// Default: false
+  ///
+  /// Parameter [redshiftIdcApplicationArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Identity Center application used
+  /// for enabling Amazon Web Services IAM Identity Center trusted identity
+  /// propagation on a cluster enabled with Amazon Redshift federated
+  /// permissions.
   ///
   /// Parameter [reservedNodeId] :
   /// The identifier of the target reserved node offering.
@@ -8581,6 +9245,7 @@ class Redshift {
     int? automatedSnapshotRetentionPeriod,
     String? availabilityZone,
     bool? availabilityZoneRelocation,
+    String? catalogName,
     String? clusterParameterGroupName,
     List<String>? clusterSecurityGroups,
     String? clusterSubnetGroupName,
@@ -8604,6 +9269,7 @@ class Redshift {
     int? port,
     String? preferredMaintenanceWindow,
     bool? publiclyAccessible,
+    String? redshiftIdcApplicationArn,
     String? reservedNodeId,
     String? snapshotArn,
     String? snapshotClusterIdentifier,
@@ -8625,6 +9291,7 @@ class Redshift {
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (availabilityZoneRelocation != null)
         'AvailabilityZoneRelocation': availabilityZoneRelocation.toString(),
+      if (catalogName != null) 'CatalogName': catalogName,
       if (clusterParameterGroupName != null)
         'ClusterParameterGroupName': clusterParameterGroupName,
       if (clusterSecurityGroups != null)
@@ -8671,6 +9338,8 @@ class Redshift {
         'PreferredMaintenanceWindow': preferredMaintenanceWindow,
       if (publiclyAccessible != null)
         'PubliclyAccessible': publiclyAccessible.toString(),
+      if (redshiftIdcApplicationArn != null)
+        'RedshiftIdcApplicationArn': redshiftIdcApplicationArn,
       if (reservedNodeId != null) 'ReservedNodeId': reservedNodeId,
       if (snapshotArn != null) 'SnapshotArn': snapshotArn,
       if (snapshotClusterIdentifier != null)
@@ -8719,12 +9388,12 @@ class Redshift {
   /// href="https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html#t_Sorting_data-interleaved">interleaved
   /// sort keys</a>.
   ///
+  /// May throw [ClusterNotFoundFault].
   /// May throw [ClusterSnapshotNotFoundFault].
   /// May throw [InProgressTableRestoreQuotaExceededFault].
   /// May throw [InvalidClusterSnapshotStateFault].
-  /// May throw [InvalidTableRestoreArgumentFault].
-  /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidTableRestoreArgumentFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
@@ -8799,8 +9468,8 @@ class Redshift {
   /// Resumes a paused cluster.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
   /// May throw [InsufficientClusterCapacityFault].
+  /// May throw [InvalidClusterStateFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
@@ -8831,8 +9500,8 @@ class Redshift {
   /// Redshift Cluster Security Groups</a> in the <i>Amazon Redshift Cluster
   /// Management Guide</i>.
   ///
-  /// May throw [ClusterSecurityGroupNotFoundFault].
   /// May throw [AuthorizationNotFoundFault].
+  /// May throw [ClusterSecurityGroupNotFoundFault].
   /// May throw [InvalidClusterSecurityGroupStateFault].
   ///
   /// Parameter [clusterSecurityGroupName] :
@@ -8889,12 +9558,12 @@ class Redshift {
   /// Revokes access to a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidEndpointStateFault].
-  /// May throw [InvalidClusterSecurityGroupStateFault].
-  /// May throw [EndpointNotFoundFault].
   /// May throw [EndpointAuthorizationNotFoundFault].
+  /// May throw [EndpointNotFoundFault].
   /// May throw [InvalidAuthorizationStateFault].
+  /// May throw [InvalidClusterSecurityGroupStateFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [InvalidEndpointStateFault].
   ///
   /// Parameter [account] :
   /// The Amazon Web Services account ID whose access is to be revoked.
@@ -8997,8 +9666,8 @@ class Redshift {
   /// Rotates the encryption keys for a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
-  /// May throw [InvalidClusterStateFault].
   /// May throw [DependentServiceRequestThrottlingFault].
+  /// May throw [InvalidClusterStateFault].
   /// May throw [UnsupportedOperationFault].
   ///
   /// Parameter [clusterIdentifier] :
@@ -9027,8 +9696,8 @@ class Redshift {
 
   /// Updates the status of a partner integration.
   ///
-  /// May throw [PartnerNotFoundFault].
   /// May throw [ClusterNotFoundFault].
+  /// May throw [PartnerNotFoundFault].
   /// May throw [UnauthorizedPartnerIntegrationFault].
   /// May throw [UnsupportedOperationFault].
   ///
@@ -9081,7 +9750,7 @@ class Redshift {
 }
 
 class AcceptReservedNodeExchangeOutputMessage {
-  /// <p/>
+  ///
   final ReservedNode? exchangedReservedNode;
 
   AcceptReservedNodeExchangeOutputMessage({
@@ -9104,336 +9773,101 @@ class AcceptReservedNodeExchangeOutputMessage {
   }
 }
 
-/// A name value pair that describes an aspect of an account.
-class AccountAttribute {
-  /// The name of the attribute.
-  final String? attributeName;
+class PartnerIntegrationOutputMessage {
+  /// The name of the database that receives data from the partner.
+  final String? databaseName;
 
-  /// A list of attribute values.
-  final List<AttributeValueTarget>? attributeValues;
+  /// The name of the partner that is authorized to send data.
+  final String? partnerName;
 
-  AccountAttribute({
-    this.attributeName,
-    this.attributeValues,
+  PartnerIntegrationOutputMessage({
+    this.databaseName,
+    this.partnerName,
   });
-  factory AccountAttribute.fromXml(_s.XmlElement elem) {
-    return AccountAttribute(
-      attributeName: _s.extractXmlStringValue(elem, 'AttributeName'),
-      attributeValues: _s.extractXmlChild(elem, 'AttributeValues')?.let(
-          (elem) => elem
-              .findElements('AttributeValueTarget')
-              .map(AttributeValueTarget.fromXml)
-              .toList()),
+  factory PartnerIntegrationOutputMessage.fromXml(_s.XmlElement elem) {
+    return PartnerIntegrationOutputMessage(
+      databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
+      partnerName: _s.extractXmlStringValue(elem, 'PartnerName'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final attributeValues = this.attributeValues;
+    final databaseName = this.databaseName;
+    final partnerName = this.partnerName;
     return {
-      if (attributeName != null) 'AttributeName': attributeName,
-      if (attributeValues != null) 'AttributeValues': attributeValues,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (partnerName != null) 'PartnerName': partnerName,
     };
   }
 }
 
-class AccountAttributeList {
-  /// A list of attributes assigned to an account.
-  final List<AccountAttribute>? accountAttributes;
+class DataShare {
+  /// A value that specifies whether the datashare can be shared to a publicly
+  /// accessible cluster.
+  final bool? allowPubliclyAccessibleConsumers;
 
-  AccountAttributeList({
-    this.accountAttributes,
+  /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
+  final String? dataShareArn;
+
+  /// A value that specifies when the datashare has an association between
+  /// producer and data consumers.
+  final List<DataShareAssociation>? dataShareAssociations;
+
+  /// The type of the datashare created by RegisterNamespace.
+  final DataShareType? dataShareType;
+
+  /// The identifier of a datashare to show its managing entity.
+  final String? managedBy;
+
+  /// The Amazon Resource Name (ARN) of the producer namespace.
+  final String? producerArn;
+
+  DataShare({
+    this.allowPubliclyAccessibleConsumers,
+    this.dataShareArn,
+    this.dataShareAssociations,
+    this.dataShareType,
+    this.managedBy,
+    this.producerArn,
   });
-  factory AccountAttributeList.fromXml(_s.XmlElement elem) {
-    return AccountAttributeList(
-      accountAttributes: _s.extractXmlChild(elem, 'AccountAttributes')?.let(
-          (elem) => elem
-              .findElements('AccountAttribute')
-              .map(AccountAttribute.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountAttributes = this.accountAttributes;
-    return {
-      if (accountAttributes != null) 'AccountAttributes': accountAttributes,
-    };
-  }
-}
-
-/// Describes an Amazon Web Services account authorized to restore a snapshot.
-class AccountWithRestoreAccess {
-  /// The identifier of an Amazon Web Services support account authorized to
-  /// restore a snapshot. For Amazon Web Services Support, the identifier is
-  /// <code>amazon-redshift-support</code>.
-  final String? accountAlias;
-
-  /// The identifier of an Amazon Web Services account authorized to restore a
-  /// snapshot.
-  final String? accountId;
-
-  AccountWithRestoreAccess({
-    this.accountAlias,
-    this.accountId,
-  });
-  factory AccountWithRestoreAccess.fromXml(_s.XmlElement elem) {
-    return AccountWithRestoreAccess(
-      accountAlias: _s.extractXmlStringValue(elem, 'AccountAlias'),
-      accountId: _s.extractXmlStringValue(elem, 'AccountId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountAlias = this.accountAlias;
-    final accountId = this.accountId;
-    return {
-      if (accountAlias != null) 'AccountAlias': accountAlias,
-      if (accountId != null) 'AccountId': accountId,
-    };
-  }
-}
-
-class ActionType {
-  static const restoreCluster = ActionType._('restore-cluster');
-  static const recommendNodeConfig = ActionType._('recommend-node-config');
-  static const resizeCluster = ActionType._('resize-cluster');
-
-  final String value;
-
-  const ActionType._(this.value);
-
-  static const values = [restoreCluster, recommendNodeConfig, resizeCluster];
-
-  static ActionType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
-
-  @override
-  bool operator ==(other) => other is ActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The operation that uses this structure is retired. Amazon Redshift
-/// automatically determines whether to use AQUA (Advanced Query Accelerator).
-class AquaConfiguration {
-  /// This field is retired. Amazon Redshift automatically determines whether to
-  /// use AQUA (Advanced Query Accelerator).
-  final AquaConfigurationStatus? aquaConfigurationStatus;
-
-  /// This field is retired. Amazon Redshift automatically determines whether to
-  /// use AQUA (Advanced Query Accelerator).
-  final AquaStatus? aquaStatus;
-
-  AquaConfiguration({
-    this.aquaConfigurationStatus,
-    this.aquaStatus,
-  });
-  factory AquaConfiguration.fromXml(_s.XmlElement elem) {
-    return AquaConfiguration(
-      aquaConfigurationStatus: _s
-          .extractXmlStringValue(elem, 'AquaConfigurationStatus')
-          ?.let(AquaConfigurationStatus.fromString),
-      aquaStatus: _s
-          .extractXmlStringValue(elem, 'AquaStatus')
-          ?.let(AquaStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aquaConfigurationStatus = this.aquaConfigurationStatus;
-    final aquaStatus = this.aquaStatus;
-    return {
-      if (aquaConfigurationStatus != null)
-        'AquaConfigurationStatus': aquaConfigurationStatus.value,
-      if (aquaStatus != null) 'AquaStatus': aquaStatus.value,
-    };
-  }
-}
-
-class AquaConfigurationStatus {
-  static const enabled = AquaConfigurationStatus._('enabled');
-  static const disabled = AquaConfigurationStatus._('disabled');
-  static const auto = AquaConfigurationStatus._('auto');
-
-  final String value;
-
-  const AquaConfigurationStatus._(this.value);
-
-  static const values = [enabled, disabled, auto];
-
-  static AquaConfigurationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AquaConfigurationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AquaConfigurationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AquaStatus {
-  static const enabled = AquaStatus._('enabled');
-  static const disabled = AquaStatus._('disabled');
-  static const applying = AquaStatus._('applying');
-
-  final String value;
-
-  const AquaStatus._(this.value);
-
-  static const values = [enabled, disabled, applying];
-
-  static AquaStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AquaStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AquaStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the custom domain name association.
-class Association {
-  /// A list of all associated clusters and domain names tied to a specific
-  /// certificate.
-  final List<CertificateAssociation>? certificateAssociations;
-
-  /// The Amazon Resource Name (ARN) for the certificate associated with the
-  /// custom domain.
-  final String? customDomainCertificateArn;
-
-  /// The expiration date for the certificate.
-  final DateTime? customDomainCertificateExpiryDate;
-
-  Association({
-    this.certificateAssociations,
-    this.customDomainCertificateArn,
-    this.customDomainCertificateExpiryDate,
-  });
-  factory Association.fromXml(_s.XmlElement elem) {
-    return Association(
-      certificateAssociations: _s
-          .extractXmlChild(elem, 'CertificateAssociations')
+  factory DataShare.fromXml(_s.XmlElement elem) {
+    return DataShare(
+      allowPubliclyAccessibleConsumers:
+          _s.extractXmlBoolValue(elem, 'AllowPubliclyAccessibleConsumers'),
+      dataShareArn: _s.extractXmlStringValue(elem, 'DataShareArn'),
+      dataShareAssociations: _s
+          .extractXmlChild(elem, 'DataShareAssociations')
           ?.let((elem) => elem
-              .findElements('CertificateAssociation')
-              .map(CertificateAssociation.fromXml)
+              .findElements('member')
+              .map(DataShareAssociation.fromXml)
               .toList()),
-      customDomainCertificateArn:
-          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
-      customDomainCertificateExpiryDate:
-          _s.extractXmlDateTimeValue(elem, 'CustomDomainCertificateExpiryDate'),
+      dataShareType: _s
+          .extractXmlStringValue(elem, 'DataShareType')
+          ?.let(DataShareType.fromString),
+      managedBy: _s.extractXmlStringValue(elem, 'ManagedBy'),
+      producerArn: _s.extractXmlStringValue(elem, 'ProducerArn'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final certificateAssociations = this.certificateAssociations;
-    final customDomainCertificateArn = this.customDomainCertificateArn;
-    final customDomainCertificateExpiryDate =
-        this.customDomainCertificateExpiryDate;
+    final allowPubliclyAccessibleConsumers =
+        this.allowPubliclyAccessibleConsumers;
+    final dataShareArn = this.dataShareArn;
+    final dataShareAssociations = this.dataShareAssociations;
+    final dataShareType = this.dataShareType;
+    final managedBy = this.managedBy;
+    final producerArn = this.producerArn;
     return {
-      if (certificateAssociations != null)
-        'CertificateAssociations': certificateAssociations,
-      if (customDomainCertificateArn != null)
-        'CustomDomainCertificateArn': customDomainCertificateArn,
-      if (customDomainCertificateExpiryDate != null)
-        'CustomDomainCertificateExpiryDate':
-            iso8601ToJson(customDomainCertificateExpiryDate),
+      if (allowPubliclyAccessibleConsumers != null)
+        'AllowPubliclyAccessibleConsumers': allowPubliclyAccessibleConsumers,
+      if (dataShareArn != null) 'DataShareArn': dataShareArn,
+      if (dataShareAssociations != null)
+        'DataShareAssociations': dataShareAssociations,
+      if (dataShareType != null) 'DataShareType': dataShareType.value,
+      if (managedBy != null) 'ManagedBy': managedBy,
+      if (producerArn != null) 'ProducerArn': producerArn,
     };
   }
-}
-
-/// Describes an attribute value.
-class AttributeValueTarget {
-  /// The value of the attribute.
-  final String? attributeValue;
-
-  AttributeValueTarget({
-    this.attributeValue,
-  });
-  factory AttributeValueTarget.fromXml(_s.XmlElement elem) {
-    return AttributeValueTarget(
-      attributeValue: _s.extractXmlStringValue(elem, 'AttributeValue'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeValue = this.attributeValue;
-    return {
-      if (attributeValue != null) 'AttributeValue': attributeValue,
-    };
-  }
-}
-
-/// Describes an authentication profile.
-class AuthenticationProfile {
-  /// The content of the authentication profile in JSON format. The maximum length
-  /// of the JSON string is determined by a quota for your account.
-  final String? authenticationProfileContent;
-
-  /// The name of the authentication profile.
-  final String? authenticationProfileName;
-
-  AuthenticationProfile({
-    this.authenticationProfileContent,
-    this.authenticationProfileName,
-  });
-  factory AuthenticationProfile.fromXml(_s.XmlElement elem) {
-    return AuthenticationProfile(
-      authenticationProfileContent:
-          _s.extractXmlStringValue(elem, 'AuthenticationProfileContent'),
-      authenticationProfileName:
-          _s.extractXmlStringValue(elem, 'AuthenticationProfileName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationProfileContent = this.authenticationProfileContent;
-    final authenticationProfileName = this.authenticationProfileName;
-    return {
-      if (authenticationProfileContent != null)
-        'AuthenticationProfileContent': authenticationProfileContent,
-      if (authenticationProfileName != null)
-        'AuthenticationProfileName': authenticationProfileName,
-    };
-  }
-}
-
-class AuthorizationStatus {
-  static const authorized = AuthorizationStatus._('Authorized');
-  static const revoking = AuthorizationStatus._('Revoking');
-
-  final String value;
-
-  const AuthorizationStatus._(this.value);
-
-  static const values = [authorized, revoking];
-
-  static AuthorizationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthorizationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthorizationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AuthorizeClusterSecurityGroupIngressResult {
@@ -9456,3337 +9890,6 @@ class AuthorizeClusterSecurityGroupIngressResult {
     return {
       if (clusterSecurityGroup != null)
         'ClusterSecurityGroup': clusterSecurityGroup,
-    };
-  }
-}
-
-class AuthorizeSnapshotAccessResult {
-  final Snapshot? snapshot;
-
-  AuthorizeSnapshotAccessResult({
-    this.snapshot,
-  });
-  factory AuthorizeSnapshotAccessResult.fromXml(_s.XmlElement elem) {
-    return AuthorizeSnapshotAccessResult(
-      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshot = this.snapshot;
-    return {
-      if (snapshot != null) 'Snapshot': snapshot,
-    };
-  }
-}
-
-/// The authorized token issuer for the Amazon Redshift IAM Identity Center
-/// application.
-class AuthorizedTokenIssuer {
-  /// The list of audiences for the authorized token issuer for integrating Amazon
-  /// Redshift with IDC Identity Center.
-  final List<String>? authorizedAudiencesList;
-
-  /// The ARN for the authorized token issuer for integrating Amazon Redshift with
-  /// IDC Identity Center.
-  final String? trustedTokenIssuerArn;
-
-  AuthorizedTokenIssuer({
-    this.authorizedAudiencesList,
-    this.trustedTokenIssuerArn,
-  });
-  factory AuthorizedTokenIssuer.fromXml(_s.XmlElement elem) {
-    return AuthorizedTokenIssuer(
-      authorizedAudiencesList: _s
-          .extractXmlChild(elem, 'AuthorizedAudiencesList')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      trustedTokenIssuerArn:
-          _s.extractXmlStringValue(elem, 'TrustedTokenIssuerArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizedAudiencesList = this.authorizedAudiencesList;
-    final trustedTokenIssuerArn = this.trustedTokenIssuerArn;
-    return {
-      if (authorizedAudiencesList != null)
-        'AuthorizedAudiencesList': authorizedAudiencesList,
-      if (trustedTokenIssuerArn != null)
-        'TrustedTokenIssuerArn': trustedTokenIssuerArn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final authorizedAudiencesList = this.authorizedAudiencesList;
-    final trustedTokenIssuerArn = this.trustedTokenIssuerArn;
-    return {
-      if (authorizedAudiencesList != null)
-        if (authorizedAudiencesList.isEmpty)
-          'AuthorizedAudiencesList': ''
-        else
-          for (var i1 = 0; i1 < authorizedAudiencesList.length; i1++)
-            'AuthorizedAudiencesList.member.${i1 + 1}':
-                authorizedAudiencesList[i1],
-      if (trustedTokenIssuerArn != null)
-        'TrustedTokenIssuerArn': trustedTokenIssuerArn,
-    };
-  }
-}
-
-/// Describes an availability zone.
-class AvailabilityZone {
-  /// The name of the availability zone.
-  final String? name;
-
-  /// <p/>
-  final List<SupportedPlatform>? supportedPlatforms;
-
-  AvailabilityZone({
-    this.name,
-    this.supportedPlatforms,
-  });
-  factory AvailabilityZone.fromXml(_s.XmlElement elem) {
-    return AvailabilityZone(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      supportedPlatforms: _s.extractXmlChild(elem, 'SupportedPlatforms')?.let(
-          (elem) => elem
-              .findElements('SupportedPlatform')
-              .map(SupportedPlatform.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final supportedPlatforms = this.supportedPlatforms;
-    return {
-      if (name != null) 'Name': name,
-      if (supportedPlatforms != null) 'SupportedPlatforms': supportedPlatforms,
-    };
-  }
-}
-
-class BatchDeleteClusterSnapshotsResult {
-  /// A list of any errors returned.
-  final List<SnapshotErrorMessage>? errors;
-
-  /// A list of the snapshot identifiers that were deleted.
-  final List<String>? resources;
-
-  BatchDeleteClusterSnapshotsResult({
-    this.errors,
-    this.resources,
-  });
-  factory BatchDeleteClusterSnapshotsResult.fromXml(_s.XmlElement elem) {
-    return BatchDeleteClusterSnapshotsResult(
-      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
-          .findElements('SnapshotErrorMessage')
-          .map(SnapshotErrorMessage.fromXml)
-          .toList()),
-      resources: _s
-          .extractXmlChild(elem, 'Resources')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'String')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    final resources = this.resources;
-    return {
-      if (errors != null) 'Errors': errors,
-      if (resources != null) 'Resources': resources,
-    };
-  }
-}
-
-class BatchModifyClusterSnapshotsOutputMessage {
-  /// A list of any errors returned.
-  final List<SnapshotErrorMessage>? errors;
-
-  /// A list of the snapshots that were modified.
-  final List<String>? resources;
-
-  BatchModifyClusterSnapshotsOutputMessage({
-    this.errors,
-    this.resources,
-  });
-  factory BatchModifyClusterSnapshotsOutputMessage.fromXml(_s.XmlElement elem) {
-    return BatchModifyClusterSnapshotsOutputMessage(
-      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
-          .findElements('SnapshotErrorMessage')
-          .map(SnapshotErrorMessage.fromXml)
-          .toList()),
-      resources: _s
-          .extractXmlChild(elem, 'Resources')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'String')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    final resources = this.resources;
-    return {
-      if (errors != null) 'Errors': errors,
-      if (resources != null) 'Resources': resources,
-    };
-  }
-}
-
-/// A cluster ID and custom domain name tied to a specific certificate. These
-/// are typically returned in a list.
-class CertificateAssociation {
-  /// The cluster identifier for the certificate association.
-  final String? clusterIdentifier;
-
-  /// The custom domain name for the certificate association.
-  final String? customDomainName;
-
-  CertificateAssociation({
-    this.clusterIdentifier,
-    this.customDomainName,
-  });
-  factory CertificateAssociation.fromXml(_s.XmlElement elem) {
-    return CertificateAssociation(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final customDomainName = this.customDomainName;
-    return {
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (customDomainName != null) 'CustomDomainName': customDomainName,
-    };
-  }
-}
-
-/// Describes a cluster.
-class Cluster {
-  /// A boolean value that, if <code>true</code>, indicates that major version
-  /// upgrades will be applied automatically to the cluster during the maintenance
-  /// window.
-  final bool? allowVersionUpgrade;
-
-  /// This field is retired. Amazon Redshift automatically determines whether to
-  /// use AQUA (Advanced Query Accelerator).
-  final AquaConfiguration? aquaConfiguration;
-
-  /// The number of days that automatic cluster snapshots are retained.
-  final int? automatedSnapshotRetentionPeriod;
-
-  /// The name of the Availability Zone in which the cluster is located.
-  final String? availabilityZone;
-
-  /// Describes the status of the Availability Zone relocation operation.
-  final String? availabilityZoneRelocationStatus;
-
-  /// The availability status of the cluster for queries. Possible values are the
-  /// following:
-  ///
-  /// <ul>
-  /// <li>
-  /// Available - The cluster is available for queries.
-  /// </li>
-  /// <li>
-  /// Unavailable - The cluster is not available for queries.
-  /// </li>
-  /// <li>
-  /// Maintenance - The cluster is intermittently available for queries due to
-  /// maintenance activities.
-  /// </li>
-  /// <li>
-  /// Modifying - The cluster is intermittently available for queries due to
-  /// changes that modify the cluster.
-  /// </li>
-  /// <li>
-  /// Failed - The cluster failed and is not available for queries.
-  /// </li>
-  /// </ul>
-  final String? clusterAvailabilityStatus;
-
-  /// The date and time that the cluster was created.
-  final DateTime? clusterCreateTime;
-
-  /// The unique identifier of the cluster.
-  final String? clusterIdentifier;
-
-  /// The namespace Amazon Resource Name (ARN) of the cluster.
-  final String? clusterNamespaceArn;
-
-  /// The nodes in the cluster.
-  final List<ClusterNode>? clusterNodes;
-
-  /// The list of cluster parameter groups that are associated with this cluster.
-  /// Each parameter group in the list is returned with its status.
-  final List<ClusterParameterGroupStatus>? clusterParameterGroups;
-
-  /// The public key for the cluster.
-  final String? clusterPublicKey;
-
-  /// The specific revision number of the database in the cluster.
-  final String? clusterRevisionNumber;
-
-  /// A list of cluster security group that are associated with the cluster. Each
-  /// security group is represented by an element that contains
-  /// <code>ClusterSecurityGroup.Name</code> and
-  /// <code>ClusterSecurityGroup.Status</code> subelements.
-  ///
-  /// Cluster security groups are used when the cluster is not created in an
-  /// Amazon Virtual Private Cloud (VPC). Clusters that are created in a VPC use
-  /// VPC security groups, which are listed by the <b>VpcSecurityGroups</b>
-  /// parameter.
-  final List<ClusterSecurityGroupMembership>? clusterSecurityGroups;
-
-  /// A value that returns the destination region and retention period that are
-  /// configured for cross-region snapshot copy.
-  final ClusterSnapshotCopyStatus? clusterSnapshotCopyStatus;
-
-  /// The current state of the cluster. Possible values are the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>available</code>
-  /// </li>
-  /// <li>
-  /// <code>available, prep-for-resize</code>
-  /// </li>
-  /// <li>
-  /// <code>available, resize-cleanup</code>
-  /// </li>
-  /// <li>
-  /// <code>cancelling-resize</code>
-  /// </li>
-  /// <li>
-  /// <code>creating</code>
-  /// </li>
-  /// <li>
-  /// <code>deleting</code>
-  /// </li>
-  /// <li>
-  /// <code>final-snapshot</code>
-  /// </li>
-  /// <li>
-  /// <code>hardware-failure</code>
-  /// </li>
-  /// <li>
-  /// <code>incompatible-hsm</code>
-  /// </li>
-  /// <li>
-  /// <code>incompatible-network</code>
-  /// </li>
-  /// <li>
-  /// <code>incompatible-parameters</code>
-  /// </li>
-  /// <li>
-  /// <code>incompatible-restore</code>
-  /// </li>
-  /// <li>
-  /// <code>modifying</code>
-  /// </li>
-  /// <li>
-  /// <code>paused</code>
-  /// </li>
-  /// <li>
-  /// <code>rebooting</code>
-  /// </li>
-  /// <li>
-  /// <code>renaming</code>
-  /// </li>
-  /// <li>
-  /// <code>resizing</code>
-  /// </li>
-  /// <li>
-  /// <code>rotating-keys</code>
-  /// </li>
-  /// <li>
-  /// <code>storage-full</code>
-  /// </li>
-  /// <li>
-  /// <code>updating-hsm</code>
-  /// </li>
-  /// </ul>
-  final String? clusterStatus;
-
-  /// The name of the subnet group that is associated with the cluster. This
-  /// parameter is valid only when the cluster is in a VPC.
-  final String? clusterSubnetGroupName;
-
-  /// The version ID of the Amazon Redshift engine that is running on the cluster.
-  final String? clusterVersion;
-
-  /// The certificate Amazon Resource Name (ARN) for the custom domain name.
-  final String? customDomainCertificateArn;
-
-  /// The expiration date for the certificate associated with the custom domain
-  /// name.
-  final DateTime? customDomainCertificateExpiryDate;
-
-  /// The custom domain name associated with the cluster.
-  final String? customDomainName;
-
-  /// The name of the initial database that was created when the cluster was
-  /// created. This same name is returned for the life of the cluster. If an
-  /// initial database was not specified, a database named <code>dev</code>dev was
-  /// created by default.
-  final String? dBName;
-
-  /// <p/>
-  final DataTransferProgress? dataTransferProgress;
-
-  /// The Amazon Resource Name (ARN) for the IAM role set as default for the
-  /// cluster.
-  final String? defaultIamRoleArn;
-
-  /// Describes a group of <code>DeferredMaintenanceWindow</code> objects.
-  final List<DeferredMaintenanceWindow>? deferredMaintenanceWindows;
-
-  /// The status of the elastic IP (EIP) address.
-  final ElasticIpStatus? elasticIpStatus;
-
-  /// The number of nodes that you can resize the cluster to with the elastic
-  /// resize method.
-  final String? elasticResizeNumberOfNodeOptions;
-
-  /// A boolean value that, if <code>true</code>, indicates that data in the
-  /// cluster is encrypted at rest.
-  final bool? encrypted;
-
-  /// The connection endpoint.
-  final Endpoint? endpoint;
-
-  /// An option that specifies whether to create the cluster with enhanced VPC
-  /// routing enabled. To create a cluster that uses enhanced VPC routing, the
-  /// cluster must be in a VPC. For more information, see <a
-  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
-  /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
-  ///
-  /// If this option is <code>true</code>, enhanced VPC routing is enabled.
-  ///
-  /// Default: false
-  final bool? enhancedVpcRouting;
-
-  /// The date and time when the next snapshot is expected to be taken for
-  /// clusters with a valid snapshot schedule and backups enabled.
-  final DateTime? expectedNextSnapshotScheduleTime;
-
-  /// The status of next expected snapshot for clusters having a valid snapshot
-  /// schedule and backups enabled. Possible values are the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// OnTrack - The next snapshot is expected to be taken on time.
-  /// </li>
-  /// <li>
-  /// Pending - The next snapshot is pending to be taken.
-  /// </li>
-  /// </ul>
-  final String? expectedNextSnapshotScheduleTimeStatus;
-
-  /// A value that reports whether the Amazon Redshift cluster has finished
-  /// applying any hardware security module (HSM) settings changes specified in a
-  /// modify cluster command.
-  ///
-  /// Values: active, applying
-  final HsmStatus? hsmStatus;
-
-  /// A list of Identity and Access Management (IAM) roles that can be used by the
-  /// cluster to access other Amazon Web Services services.
-  final List<ClusterIamRole>? iamRoles;
-
-  /// The IP address type for the cluster. Possible values are <code>ipv4</code>
-  /// and <code>dualstack</code>.
-  final String? ipAddressType;
-
-  /// The Key Management Service (KMS) key ID of the encryption key used to
-  /// encrypt data in the cluster.
-  final String? kmsKeyId;
-
-  /// The name of the maintenance track for the cluster.
-  final String? maintenanceTrackName;
-
-  /// The default number of days to retain a manual snapshot. If the value is -1,
-  /// the snapshot is retained indefinitely. This setting doesn't change the
-  /// retention period of existing snapshots.
-  ///
-  /// The value must be either -1 or an integer between 1 and 3,653.
-  final int? manualSnapshotRetentionPeriod;
-
-  /// The Amazon Resource Name (ARN) for the cluster's admin user credentials
-  /// secret.
-  final String? masterPasswordSecretArn;
-
-  /// The ID of the Key Management Service (KMS) key used to encrypt and store the
-  /// cluster's admin credentials secret.
-  final String? masterPasswordSecretKmsKeyId;
-
-  /// The admin user name for the cluster. This name is used to connect to the
-  /// database that is specified in the <b>DBName</b> parameter.
-  final String? masterUsername;
-
-  /// The status of a modify operation, if any, initiated for the cluster.
-  final String? modifyStatus;
-
-  /// A boolean value that, if true, indicates that the cluster is deployed in two
-  /// Availability Zones.
-  final String? multiAZ;
-
-  /// The secondary compute unit of a cluster, if Multi-AZ deployment is turned
-  /// on.
-  final SecondaryClusterInfo? multiAZSecondary;
-
-  /// The date and time in UTC when system maintenance can begin.
-  final DateTime? nextMaintenanceWindowStartTime;
-
-  /// The node type for the nodes in the cluster.
-  final String? nodeType;
-
-  /// The number of compute nodes in the cluster.
-  final int? numberOfNodes;
-
-  /// Cluster operations that are waiting to be started.
-  final List<String>? pendingActions;
-
-  /// A value that, if present, indicates that changes to the cluster are pending.
-  /// Specific pending changes are identified by subelements.
-  final PendingModifiedValues? pendingModifiedValues;
-
-  /// The weekly time range, in Universal Coordinated Time (UTC), during which
-  /// system maintenance can occur.
-  final String? preferredMaintenanceWindow;
-
-  /// A boolean value that, if <code>true</code>, indicates that the cluster can
-  /// be accessed from a public network.
-  final bool? publiclyAccessible;
-
-  /// The status of the reserved-node exchange request. Statuses include
-  /// in-progress and requested.
-  final ReservedNodeExchangeStatus? reservedNodeExchangeStatus;
-
-  /// Returns the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// AllowCancelResize: a boolean value indicating if the resize operation can be
-  /// cancelled.
-  /// </li>
-  /// <li>
-  /// ResizeType: Returns ClassicResize
-  /// </li>
-  /// </ul>
-  final ResizeInfo? resizeInfo;
-
-  /// A value that describes the status of a cluster restore action. This
-  /// parameter returns null if the cluster was not created by restoring a
-  /// snapshot.
-  final RestoreStatus? restoreStatus;
-
-  /// A unique identifier for the cluster snapshot schedule.
-  final String? snapshotScheduleIdentifier;
-
-  /// The current state of the cluster snapshot schedule.
-  final ScheduleState? snapshotScheduleState;
-
-  /// The list of tags for the cluster.
-  final List<Tag>? tags;
-
-  /// The total storage capacity of the cluster in megabytes.
-  final int? totalStorageCapacityInMegaBytes;
-
-  /// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
-  final String? vpcId;
-
-  /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are
-  /// associated with the cluster. This parameter is returned only if the cluster
-  /// is in a VPC.
-  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
-
-  Cluster({
-    this.allowVersionUpgrade,
-    this.aquaConfiguration,
-    this.automatedSnapshotRetentionPeriod,
-    this.availabilityZone,
-    this.availabilityZoneRelocationStatus,
-    this.clusterAvailabilityStatus,
-    this.clusterCreateTime,
-    this.clusterIdentifier,
-    this.clusterNamespaceArn,
-    this.clusterNodes,
-    this.clusterParameterGroups,
-    this.clusterPublicKey,
-    this.clusterRevisionNumber,
-    this.clusterSecurityGroups,
-    this.clusterSnapshotCopyStatus,
-    this.clusterStatus,
-    this.clusterSubnetGroupName,
-    this.clusterVersion,
-    this.customDomainCertificateArn,
-    this.customDomainCertificateExpiryDate,
-    this.customDomainName,
-    this.dBName,
-    this.dataTransferProgress,
-    this.defaultIamRoleArn,
-    this.deferredMaintenanceWindows,
-    this.elasticIpStatus,
-    this.elasticResizeNumberOfNodeOptions,
-    this.encrypted,
-    this.endpoint,
-    this.enhancedVpcRouting,
-    this.expectedNextSnapshotScheduleTime,
-    this.expectedNextSnapshotScheduleTimeStatus,
-    this.hsmStatus,
-    this.iamRoles,
-    this.ipAddressType,
-    this.kmsKeyId,
-    this.maintenanceTrackName,
-    this.manualSnapshotRetentionPeriod,
-    this.masterPasswordSecretArn,
-    this.masterPasswordSecretKmsKeyId,
-    this.masterUsername,
-    this.modifyStatus,
-    this.multiAZ,
-    this.multiAZSecondary,
-    this.nextMaintenanceWindowStartTime,
-    this.nodeType,
-    this.numberOfNodes,
-    this.pendingActions,
-    this.pendingModifiedValues,
-    this.preferredMaintenanceWindow,
-    this.publiclyAccessible,
-    this.reservedNodeExchangeStatus,
-    this.resizeInfo,
-    this.restoreStatus,
-    this.snapshotScheduleIdentifier,
-    this.snapshotScheduleState,
-    this.tags,
-    this.totalStorageCapacityInMegaBytes,
-    this.vpcId,
-    this.vpcSecurityGroups,
-  });
-  factory Cluster.fromXml(_s.XmlElement elem) {
-    return Cluster(
-      allowVersionUpgrade: _s.extractXmlBoolValue(elem, 'AllowVersionUpgrade'),
-      aquaConfiguration: _s
-          .extractXmlChild(elem, 'AquaConfiguration')
-          ?.let(AquaConfiguration.fromXml),
-      automatedSnapshotRetentionPeriod:
-          _s.extractXmlIntValue(elem, 'AutomatedSnapshotRetentionPeriod'),
-      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
-      availabilityZoneRelocationStatus:
-          _s.extractXmlStringValue(elem, 'AvailabilityZoneRelocationStatus'),
-      clusterAvailabilityStatus:
-          _s.extractXmlStringValue(elem, 'ClusterAvailabilityStatus'),
-      clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      clusterNamespaceArn:
-          _s.extractXmlStringValue(elem, 'ClusterNamespaceArn'),
-      clusterNodes: _s.extractXmlChild(elem, 'ClusterNodes')?.let((elem) =>
-          elem.findElements('member').map(ClusterNode.fromXml).toList()),
-      clusterParameterGroups: _s
-          .extractXmlChild(elem, 'ClusterParameterGroups')
-          ?.let((elem) => elem
-              .findElements('ClusterParameterGroup')
-              .map(ClusterParameterGroupStatus.fromXml)
-              .toList()),
-      clusterPublicKey: _s.extractXmlStringValue(elem, 'ClusterPublicKey'),
-      clusterRevisionNumber:
-          _s.extractXmlStringValue(elem, 'ClusterRevisionNumber'),
-      clusterSecurityGroups: _s
-          .extractXmlChild(elem, 'ClusterSecurityGroups')
-          ?.let((elem) => elem
-              .findElements('ClusterSecurityGroup')
-              .map(ClusterSecurityGroupMembership.fromXml)
-              .toList()),
-      clusterSnapshotCopyStatus: _s
-          .extractXmlChild(elem, 'ClusterSnapshotCopyStatus')
-          ?.let(ClusterSnapshotCopyStatus.fromXml),
-      clusterStatus: _s.extractXmlStringValue(elem, 'ClusterStatus'),
-      clusterSubnetGroupName:
-          _s.extractXmlStringValue(elem, 'ClusterSubnetGroupName'),
-      clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
-      customDomainCertificateArn:
-          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
-      customDomainCertificateExpiryDate:
-          _s.extractXmlDateTimeValue(elem, 'CustomDomainCertificateExpiryDate'),
-      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
-      dBName: _s.extractXmlStringValue(elem, 'DBName'),
-      dataTransferProgress: _s
-          .extractXmlChild(elem, 'DataTransferProgress')
-          ?.let(DataTransferProgress.fromXml),
-      defaultIamRoleArn: _s.extractXmlStringValue(elem, 'DefaultIamRoleArn'),
-      deferredMaintenanceWindows: _s
-          .extractXmlChild(elem, 'DeferredMaintenanceWindows')
-          ?.let((elem) => elem
-              .findElements('DeferredMaintenanceWindow')
-              .map(DeferredMaintenanceWindow.fromXml)
-              .toList()),
-      elasticIpStatus: _s
-          .extractXmlChild(elem, 'ElasticIpStatus')
-          ?.let(ElasticIpStatus.fromXml),
-      elasticResizeNumberOfNodeOptions:
-          _s.extractXmlStringValue(elem, 'ElasticResizeNumberOfNodeOptions'),
-      encrypted: _s.extractXmlBoolValue(elem, 'Encrypted'),
-      endpoint: _s.extractXmlChild(elem, 'Endpoint')?.let(Endpoint.fromXml),
-      enhancedVpcRouting: _s.extractXmlBoolValue(elem, 'EnhancedVpcRouting'),
-      expectedNextSnapshotScheduleTime:
-          _s.extractXmlDateTimeValue(elem, 'ExpectedNextSnapshotScheduleTime'),
-      expectedNextSnapshotScheduleTimeStatus: _s.extractXmlStringValue(
-          elem, 'ExpectedNextSnapshotScheduleTimeStatus'),
-      hsmStatus: _s.extractXmlChild(elem, 'HsmStatus')?.let(HsmStatus.fromXml),
-      iamRoles: _s.extractXmlChild(elem, 'IamRoles')?.let((elem) => elem
-          .findElements('ClusterIamRole')
-          .map(ClusterIamRole.fromXml)
-          .toList()),
-      ipAddressType: _s.extractXmlStringValue(elem, 'IpAddressType'),
-      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      maintenanceTrackName:
-          _s.extractXmlStringValue(elem, 'MaintenanceTrackName'),
-      manualSnapshotRetentionPeriod:
-          _s.extractXmlIntValue(elem, 'ManualSnapshotRetentionPeriod'),
-      masterPasswordSecretArn:
-          _s.extractXmlStringValue(elem, 'MasterPasswordSecretArn'),
-      masterPasswordSecretKmsKeyId:
-          _s.extractXmlStringValue(elem, 'MasterPasswordSecretKmsKeyId'),
-      masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
-      modifyStatus: _s.extractXmlStringValue(elem, 'ModifyStatus'),
-      multiAZ: _s.extractXmlStringValue(elem, 'MultiAZ'),
-      multiAZSecondary: _s
-          .extractXmlChild(elem, 'MultiAZSecondary')
-          ?.let(SecondaryClusterInfo.fromXml),
-      nextMaintenanceWindowStartTime:
-          _s.extractXmlDateTimeValue(elem, 'NextMaintenanceWindowStartTime'),
-      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
-      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
-      pendingActions: _s
-          .extractXmlChild(elem, 'PendingActions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      pendingModifiedValues: _s
-          .extractXmlChild(elem, 'PendingModifiedValues')
-          ?.let(PendingModifiedValues.fromXml),
-      preferredMaintenanceWindow:
-          _s.extractXmlStringValue(elem, 'PreferredMaintenanceWindow'),
-      publiclyAccessible: _s.extractXmlBoolValue(elem, 'PubliclyAccessible'),
-      reservedNodeExchangeStatus: _s
-          .extractXmlChild(elem, 'ReservedNodeExchangeStatus')
-          ?.let(ReservedNodeExchangeStatus.fromXml),
-      resizeInfo:
-          _s.extractXmlChild(elem, 'ResizeInfo')?.let(ResizeInfo.fromXml),
-      restoreStatus:
-          _s.extractXmlChild(elem, 'RestoreStatus')?.let(RestoreStatus.fromXml),
-      snapshotScheduleIdentifier:
-          _s.extractXmlStringValue(elem, 'SnapshotScheduleIdentifier'),
-      snapshotScheduleState: _s
-          .extractXmlStringValue(elem, 'SnapshotScheduleState')
-          ?.let(ScheduleState.fromString),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-      totalStorageCapacityInMegaBytes:
-          _s.extractXmlIntValue(elem, 'TotalStorageCapacityInMegaBytes'),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
-      vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
-          (elem) => elem
-              .findElements('VpcSecurityGroup')
-              .map(VpcSecurityGroupMembership.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowVersionUpgrade = this.allowVersionUpgrade;
-    final aquaConfiguration = this.aquaConfiguration;
-    final automatedSnapshotRetentionPeriod =
-        this.automatedSnapshotRetentionPeriod;
-    final availabilityZone = this.availabilityZone;
-    final availabilityZoneRelocationStatus =
-        this.availabilityZoneRelocationStatus;
-    final clusterAvailabilityStatus = this.clusterAvailabilityStatus;
-    final clusterCreateTime = this.clusterCreateTime;
-    final clusterIdentifier = this.clusterIdentifier;
-    final clusterNamespaceArn = this.clusterNamespaceArn;
-    final clusterNodes = this.clusterNodes;
-    final clusterParameterGroups = this.clusterParameterGroups;
-    final clusterPublicKey = this.clusterPublicKey;
-    final clusterRevisionNumber = this.clusterRevisionNumber;
-    final clusterSecurityGroups = this.clusterSecurityGroups;
-    final clusterSnapshotCopyStatus = this.clusterSnapshotCopyStatus;
-    final clusterStatus = this.clusterStatus;
-    final clusterSubnetGroupName = this.clusterSubnetGroupName;
-    final clusterVersion = this.clusterVersion;
-    final customDomainCertificateArn = this.customDomainCertificateArn;
-    final customDomainCertificateExpiryDate =
-        this.customDomainCertificateExpiryDate;
-    final customDomainName = this.customDomainName;
-    final dBName = this.dBName;
-    final dataTransferProgress = this.dataTransferProgress;
-    final defaultIamRoleArn = this.defaultIamRoleArn;
-    final deferredMaintenanceWindows = this.deferredMaintenanceWindows;
-    final elasticIpStatus = this.elasticIpStatus;
-    final elasticResizeNumberOfNodeOptions =
-        this.elasticResizeNumberOfNodeOptions;
-    final encrypted = this.encrypted;
-    final endpoint = this.endpoint;
-    final enhancedVpcRouting = this.enhancedVpcRouting;
-    final expectedNextSnapshotScheduleTime =
-        this.expectedNextSnapshotScheduleTime;
-    final expectedNextSnapshotScheduleTimeStatus =
-        this.expectedNextSnapshotScheduleTimeStatus;
-    final hsmStatus = this.hsmStatus;
-    final iamRoles = this.iamRoles;
-    final ipAddressType = this.ipAddressType;
-    final kmsKeyId = this.kmsKeyId;
-    final maintenanceTrackName = this.maintenanceTrackName;
-    final manualSnapshotRetentionPeriod = this.manualSnapshotRetentionPeriod;
-    final masterPasswordSecretArn = this.masterPasswordSecretArn;
-    final masterPasswordSecretKmsKeyId = this.masterPasswordSecretKmsKeyId;
-    final masterUsername = this.masterUsername;
-    final modifyStatus = this.modifyStatus;
-    final multiAZ = this.multiAZ;
-    final multiAZSecondary = this.multiAZSecondary;
-    final nextMaintenanceWindowStartTime = this.nextMaintenanceWindowStartTime;
-    final nodeType = this.nodeType;
-    final numberOfNodes = this.numberOfNodes;
-    final pendingActions = this.pendingActions;
-    final pendingModifiedValues = this.pendingModifiedValues;
-    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
-    final publiclyAccessible = this.publiclyAccessible;
-    final reservedNodeExchangeStatus = this.reservedNodeExchangeStatus;
-    final resizeInfo = this.resizeInfo;
-    final restoreStatus = this.restoreStatus;
-    final snapshotScheduleIdentifier = this.snapshotScheduleIdentifier;
-    final snapshotScheduleState = this.snapshotScheduleState;
-    final tags = this.tags;
-    final totalStorageCapacityInMegaBytes =
-        this.totalStorageCapacityInMegaBytes;
-    final vpcId = this.vpcId;
-    final vpcSecurityGroups = this.vpcSecurityGroups;
-    return {
-      if (allowVersionUpgrade != null)
-        'AllowVersionUpgrade': allowVersionUpgrade,
-      if (aquaConfiguration != null) 'AquaConfiguration': aquaConfiguration,
-      if (automatedSnapshotRetentionPeriod != null)
-        'AutomatedSnapshotRetentionPeriod': automatedSnapshotRetentionPeriod,
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (availabilityZoneRelocationStatus != null)
-        'AvailabilityZoneRelocationStatus': availabilityZoneRelocationStatus,
-      if (clusterAvailabilityStatus != null)
-        'ClusterAvailabilityStatus': clusterAvailabilityStatus,
-      if (clusterCreateTime != null)
-        'ClusterCreateTime': iso8601ToJson(clusterCreateTime),
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (clusterNamespaceArn != null)
-        'ClusterNamespaceArn': clusterNamespaceArn,
-      if (clusterNodes != null) 'ClusterNodes': clusterNodes,
-      if (clusterParameterGroups != null)
-        'ClusterParameterGroups': clusterParameterGroups,
-      if (clusterPublicKey != null) 'ClusterPublicKey': clusterPublicKey,
-      if (clusterRevisionNumber != null)
-        'ClusterRevisionNumber': clusterRevisionNumber,
-      if (clusterSecurityGroups != null)
-        'ClusterSecurityGroups': clusterSecurityGroups,
-      if (clusterSnapshotCopyStatus != null)
-        'ClusterSnapshotCopyStatus': clusterSnapshotCopyStatus,
-      if (clusterStatus != null) 'ClusterStatus': clusterStatus,
-      if (clusterSubnetGroupName != null)
-        'ClusterSubnetGroupName': clusterSubnetGroupName,
-      if (clusterVersion != null) 'ClusterVersion': clusterVersion,
-      if (customDomainCertificateArn != null)
-        'CustomDomainCertificateArn': customDomainCertificateArn,
-      if (customDomainCertificateExpiryDate != null)
-        'CustomDomainCertificateExpiryDate':
-            iso8601ToJson(customDomainCertificateExpiryDate),
-      if (customDomainName != null) 'CustomDomainName': customDomainName,
-      if (dBName != null) 'DBName': dBName,
-      if (dataTransferProgress != null)
-        'DataTransferProgress': dataTransferProgress,
-      if (defaultIamRoleArn != null) 'DefaultIamRoleArn': defaultIamRoleArn,
-      if (deferredMaintenanceWindows != null)
-        'DeferredMaintenanceWindows': deferredMaintenanceWindows,
-      if (elasticIpStatus != null) 'ElasticIpStatus': elasticIpStatus,
-      if (elasticResizeNumberOfNodeOptions != null)
-        'ElasticResizeNumberOfNodeOptions': elasticResizeNumberOfNodeOptions,
-      if (encrypted != null) 'Encrypted': encrypted,
-      if (endpoint != null) 'Endpoint': endpoint,
-      if (enhancedVpcRouting != null) 'EnhancedVpcRouting': enhancedVpcRouting,
-      if (expectedNextSnapshotScheduleTime != null)
-        'ExpectedNextSnapshotScheduleTime':
-            iso8601ToJson(expectedNextSnapshotScheduleTime),
-      if (expectedNextSnapshotScheduleTimeStatus != null)
-        'ExpectedNextSnapshotScheduleTimeStatus':
-            expectedNextSnapshotScheduleTimeStatus,
-      if (hsmStatus != null) 'HsmStatus': hsmStatus,
-      if (iamRoles != null) 'IamRoles': iamRoles,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (maintenanceTrackName != null)
-        'MaintenanceTrackName': maintenanceTrackName,
-      if (manualSnapshotRetentionPeriod != null)
-        'ManualSnapshotRetentionPeriod': manualSnapshotRetentionPeriod,
-      if (masterPasswordSecretArn != null)
-        'MasterPasswordSecretArn': masterPasswordSecretArn,
-      if (masterPasswordSecretKmsKeyId != null)
-        'MasterPasswordSecretKmsKeyId': masterPasswordSecretKmsKeyId,
-      if (masterUsername != null) 'MasterUsername': masterUsername,
-      if (modifyStatus != null) 'ModifyStatus': modifyStatus,
-      if (multiAZ != null) 'MultiAZ': multiAZ,
-      if (multiAZSecondary != null) 'MultiAZSecondary': multiAZSecondary,
-      if (nextMaintenanceWindowStartTime != null)
-        'NextMaintenanceWindowStartTime':
-            iso8601ToJson(nextMaintenanceWindowStartTime),
-      if (nodeType != null) 'NodeType': nodeType,
-      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
-      if (pendingActions != null) 'PendingActions': pendingActions,
-      if (pendingModifiedValues != null)
-        'PendingModifiedValues': pendingModifiedValues,
-      if (preferredMaintenanceWindow != null)
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
-      if (reservedNodeExchangeStatus != null)
-        'ReservedNodeExchangeStatus': reservedNodeExchangeStatus,
-      if (resizeInfo != null) 'ResizeInfo': resizeInfo,
-      if (restoreStatus != null) 'RestoreStatus': restoreStatus,
-      if (snapshotScheduleIdentifier != null)
-        'SnapshotScheduleIdentifier': snapshotScheduleIdentifier,
-      if (snapshotScheduleState != null)
-        'SnapshotScheduleState': snapshotScheduleState.value,
-      if (tags != null) 'Tags': tags,
-      if (totalStorageCapacityInMegaBytes != null)
-        'TotalStorageCapacityInMegaBytes': totalStorageCapacityInMegaBytes,
-      if (vpcId != null) 'VpcId': vpcId,
-      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
-    };
-  }
-}
-
-/// <p/>
-class ClusterAssociatedToSchedule {
-  /// <p/>
-  final String? clusterIdentifier;
-
-  /// <p/>
-  final ScheduleState? scheduleAssociationState;
-
-  ClusterAssociatedToSchedule({
-    this.clusterIdentifier,
-    this.scheduleAssociationState,
-  });
-  factory ClusterAssociatedToSchedule.fromXml(_s.XmlElement elem) {
-    return ClusterAssociatedToSchedule(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      scheduleAssociationState: _s
-          .extractXmlStringValue(elem, 'ScheduleAssociationState')
-          ?.let(ScheduleState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final scheduleAssociationState = this.scheduleAssociationState;
-    return {
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (scheduleAssociationState != null)
-        'ScheduleAssociationState': scheduleAssociationState.value,
-    };
-  }
-}
-
-/// Temporary credentials with authorization to log on to an Amazon Redshift
-/// database.
-class ClusterCredentials {
-  /// A temporary password that authorizes the user name returned by
-  /// <code>DbUser</code> to log on to the database <code>DbName</code>.
-  final String? dbPassword;
-
-  /// A database user name that is authorized to log on to the database
-  /// <code>DbName</code> using the password <code>DbPassword</code>. If the
-  /// specified DbUser exists in the database, the new user name has the same
-  /// database permissions as the the user named in DbUser. By default, the user
-  /// is added to PUBLIC. If the <code>DbGroups</code> parameter is specifed,
-  /// <code>DbUser</code> is added to the listed groups for any sessions created
-  /// using these credentials.
-  final String? dbUser;
-
-  /// The date and time the password in <code>DbPassword</code> expires.
-  final DateTime? expiration;
-
-  ClusterCredentials({
-    this.dbPassword,
-    this.dbUser,
-    this.expiration,
-  });
-  factory ClusterCredentials.fromXml(_s.XmlElement elem) {
-    return ClusterCredentials(
-      dbPassword: _s.extractXmlStringValue(elem, 'DbPassword'),
-      dbUser: _s.extractXmlStringValue(elem, 'DbUser'),
-      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dbPassword = this.dbPassword;
-    final dbUser = this.dbUser;
-    final expiration = this.expiration;
-    return {
-      if (dbPassword != null) 'DbPassword': dbPassword,
-      if (dbUser != null) 'DbUser': dbUser,
-      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
-    };
-  }
-}
-
-/// Describes a <code>ClusterDbRevision</code>.
-class ClusterDbRevision {
-  /// The unique identifier of the cluster.
-  final String? clusterIdentifier;
-
-  /// A string representing the current cluster version.
-  final String? currentDatabaseRevision;
-
-  /// The date on which the database revision was released.
-  final DateTime? databaseRevisionReleaseDate;
-
-  /// A list of <code>RevisionTarget</code> objects, where each object describes
-  /// the database revision that a cluster can be updated to.
-  final List<RevisionTarget>? revisionTargets;
-
-  ClusterDbRevision({
-    this.clusterIdentifier,
-    this.currentDatabaseRevision,
-    this.databaseRevisionReleaseDate,
-    this.revisionTargets,
-  });
-  factory ClusterDbRevision.fromXml(_s.XmlElement elem) {
-    return ClusterDbRevision(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      currentDatabaseRevision:
-          _s.extractXmlStringValue(elem, 'CurrentDatabaseRevision'),
-      databaseRevisionReleaseDate:
-          _s.extractXmlDateTimeValue(elem, 'DatabaseRevisionReleaseDate'),
-      revisionTargets: _s.extractXmlChild(elem, 'RevisionTargets')?.let(
-          (elem) => elem
-              .findElements('RevisionTarget')
-              .map(RevisionTarget.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final currentDatabaseRevision = this.currentDatabaseRevision;
-    final databaseRevisionReleaseDate = this.databaseRevisionReleaseDate;
-    final revisionTargets = this.revisionTargets;
-    return {
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (currentDatabaseRevision != null)
-        'CurrentDatabaseRevision': currentDatabaseRevision,
-      if (databaseRevisionReleaseDate != null)
-        'DatabaseRevisionReleaseDate':
-            iso8601ToJson(databaseRevisionReleaseDate),
-      if (revisionTargets != null) 'RevisionTargets': revisionTargets,
-    };
-  }
-}
-
-class ClusterDbRevisionsMessage {
-  /// A list of revisions.
-  final List<ClusterDbRevision>? clusterDbRevisions;
-
-  /// A string representing the starting point for the next set of revisions. If a
-  /// value is returned in a response, you can retrieve the next set of revisions
-  /// by providing the value in the <code>marker</code> parameter and retrying the
-  /// command. If the <code>marker</code> field is empty, all revisions have
-  /// already been returned.
-  final String? marker;
-
-  ClusterDbRevisionsMessage({
-    this.clusterDbRevisions,
-    this.marker,
-  });
-  factory ClusterDbRevisionsMessage.fromXml(_s.XmlElement elem) {
-    return ClusterDbRevisionsMessage(
-      clusterDbRevisions: _s.extractXmlChild(elem, 'ClusterDbRevisions')?.let(
-          (elem) => elem
-              .findElements('ClusterDbRevision')
-              .map(ClusterDbRevision.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterDbRevisions = this.clusterDbRevisions;
-    final marker = this.marker;
-    return {
-      if (clusterDbRevisions != null) 'ClusterDbRevisions': clusterDbRevisions,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class ClusterExtendedCredentials {
-  /// A temporary password that you provide when you connect to a database.
-  final String? dbPassword;
-
-  /// A database user name that you provide when you connect to a database. The
-  /// database user is mapped 1:1 to the source IAM identity.
-  final String? dbUser;
-
-  /// The time (UTC) when the temporary password expires. After this timestamp, a
-  /// log in with the temporary password fails.
-  final DateTime? expiration;
-
-  /// Reserved for future use.
-  final DateTime? nextRefreshTime;
-
-  ClusterExtendedCredentials({
-    this.dbPassword,
-    this.dbUser,
-    this.expiration,
-    this.nextRefreshTime,
-  });
-  factory ClusterExtendedCredentials.fromXml(_s.XmlElement elem) {
-    return ClusterExtendedCredentials(
-      dbPassword: _s.extractXmlStringValue(elem, 'DbPassword'),
-      dbUser: _s.extractXmlStringValue(elem, 'DbUser'),
-      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
-      nextRefreshTime: _s.extractXmlDateTimeValue(elem, 'NextRefreshTime'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dbPassword = this.dbPassword;
-    final dbUser = this.dbUser;
-    final expiration = this.expiration;
-    final nextRefreshTime = this.nextRefreshTime;
-    return {
-      if (dbPassword != null) 'DbPassword': dbPassword,
-      if (dbUser != null) 'DbUser': dbUser,
-      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
-      if (nextRefreshTime != null)
-        'NextRefreshTime': iso8601ToJson(nextRefreshTime),
-    };
-  }
-}
-
-/// An Identity and Access Management (IAM) role that can be used by the
-/// associated Amazon Redshift cluster to access other Amazon Web Services
-/// services.
-class ClusterIamRole {
-  /// A value that describes the status of the IAM role's association with an
-  /// Amazon Redshift cluster.
-  ///
-  /// The following are possible statuses and descriptions.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>in-sync</code>: The role is available for use by the cluster.
-  /// </li>
-  /// <li>
-  /// <code>adding</code>: The role is in the process of being associated with the
-  /// cluster.
-  /// </li>
-  /// <li>
-  /// <code>removing</code>: The role is in the process of being disassociated
-  /// with the cluster.
-  /// </li>
-  /// </ul>
-  final String? applyStatus;
-
-  /// The Amazon Resource Name (ARN) of the IAM role, for example,
-  /// <code>arn:aws:iam::123456789012:role/RedshiftCopyUnload</code>.
-  final String? iamRoleArn;
-
-  ClusterIamRole({
-    this.applyStatus,
-    this.iamRoleArn,
-  });
-  factory ClusterIamRole.fromXml(_s.XmlElement elem) {
-    return ClusterIamRole(
-      applyStatus: _s.extractXmlStringValue(elem, 'ApplyStatus'),
-      iamRoleArn: _s.extractXmlStringValue(elem, 'IamRoleArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applyStatus = this.applyStatus;
-    final iamRoleArn = this.iamRoleArn;
-    return {
-      if (applyStatus != null) 'ApplyStatus': applyStatus,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-    };
-  }
-}
-
-/// The identifier of a node in a cluster.
-class ClusterNode {
-  /// Whether the node is a leader node or a compute node.
-  final String? nodeRole;
-
-  /// The private IP address of a node within a cluster.
-  final String? privateIPAddress;
-
-  /// The public IP address of a node within a cluster.
-  final String? publicIPAddress;
-
-  ClusterNode({
-    this.nodeRole,
-    this.privateIPAddress,
-    this.publicIPAddress,
-  });
-  factory ClusterNode.fromXml(_s.XmlElement elem) {
-    return ClusterNode(
-      nodeRole: _s.extractXmlStringValue(elem, 'NodeRole'),
-      privateIPAddress: _s.extractXmlStringValue(elem, 'PrivateIPAddress'),
-      publicIPAddress: _s.extractXmlStringValue(elem, 'PublicIPAddress'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nodeRole = this.nodeRole;
-    final privateIPAddress = this.privateIPAddress;
-    final publicIPAddress = this.publicIPAddress;
-    return {
-      if (nodeRole != null) 'NodeRole': nodeRole,
-      if (privateIPAddress != null) 'PrivateIPAddress': privateIPAddress,
-      if (publicIPAddress != null) 'PublicIPAddress': publicIPAddress,
-    };
-  }
-}
-
-/// Describes a parameter group.
-class ClusterParameterGroup {
-  /// The description of the parameter group.
-  final String? description;
-
-  /// The name of the cluster parameter group family that this cluster parameter
-  /// group is compatible with.
-  final String? parameterGroupFamily;
-
-  /// The name of the cluster parameter group.
-  final String? parameterGroupName;
-
-  /// The list of tags for the cluster parameter group.
-  final List<Tag>? tags;
-
-  ClusterParameterGroup({
-    this.description,
-    this.parameterGroupFamily,
-    this.parameterGroupName,
-    this.tags,
-  });
-  factory ClusterParameterGroup.fromXml(_s.XmlElement elem) {
-    return ClusterParameterGroup(
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      parameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'ParameterGroupFamily'),
-      parameterGroupName: _s.extractXmlStringValue(elem, 'ParameterGroupName'),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final parameterGroupFamily = this.parameterGroupFamily;
-    final parameterGroupName = this.parameterGroupName;
-    final tags = this.tags;
-    return {
-      if (description != null) 'Description': description,
-      if (parameterGroupFamily != null)
-        'ParameterGroupFamily': parameterGroupFamily,
-      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Contains the output from the <a>DescribeClusterParameters</a> action.
-class ClusterParameterGroupDetails {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// A list of <a>Parameter</a> instances. Each instance lists the parameters of
-  /// one cluster parameter group.
-  final List<Parameter>? parameters;
-
-  ClusterParameterGroupDetails({
-    this.marker,
-    this.parameters,
-  });
-  factory ClusterParameterGroupDetails.fromXml(_s.XmlElement elem) {
-    return ClusterParameterGroupDetails(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
-          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final parameters = this.parameters;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// <p/>
-class ClusterParameterGroupNameMessage {
-  /// The name of the cluster parameter group.
-  final String? parameterGroupName;
-
-  /// The status of the parameter group. For example, if you made a change to a
-  /// parameter group name-value pair, then the change could be pending a reboot
-  /// of an associated cluster.
-  final String? parameterGroupStatus;
-
-  ClusterParameterGroupNameMessage({
-    this.parameterGroupName,
-    this.parameterGroupStatus,
-  });
-  factory ClusterParameterGroupNameMessage.fromXml(_s.XmlElement elem) {
-    return ClusterParameterGroupNameMessage(
-      parameterGroupName: _s.extractXmlStringValue(elem, 'ParameterGroupName'),
-      parameterGroupStatus:
-          _s.extractXmlStringValue(elem, 'ParameterGroupStatus'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final parameterGroupName = this.parameterGroupName;
-    final parameterGroupStatus = this.parameterGroupStatus;
-    return {
-      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
-      if (parameterGroupStatus != null)
-        'ParameterGroupStatus': parameterGroupStatus,
-    };
-  }
-}
-
-/// Describes the status of a parameter group.
-class ClusterParameterGroupStatus {
-  /// The list of parameter statuses.
-  ///
-  /// For more information about parameters and parameter groups, go to <a
-  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
-  /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management
-  /// Guide</i>.
-  final List<ClusterParameterStatus>? clusterParameterStatusList;
-
-  /// The status of parameter updates.
-  final String? parameterApplyStatus;
-
-  /// The name of the cluster parameter group.
-  final String? parameterGroupName;
-
-  ClusterParameterGroupStatus({
-    this.clusterParameterStatusList,
-    this.parameterApplyStatus,
-    this.parameterGroupName,
-  });
-  factory ClusterParameterGroupStatus.fromXml(_s.XmlElement elem) {
-    return ClusterParameterGroupStatus(
-      clusterParameterStatusList: _s
-          .extractXmlChild(elem, 'ClusterParameterStatusList')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(ClusterParameterStatus.fromXml)
-              .toList()),
-      parameterApplyStatus:
-          _s.extractXmlStringValue(elem, 'ParameterApplyStatus'),
-      parameterGroupName: _s.extractXmlStringValue(elem, 'ParameterGroupName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterParameterStatusList = this.clusterParameterStatusList;
-    final parameterApplyStatus = this.parameterApplyStatus;
-    final parameterGroupName = this.parameterGroupName;
-    return {
-      if (clusterParameterStatusList != null)
-        'ClusterParameterStatusList': clusterParameterStatusList,
-      if (parameterApplyStatus != null)
-        'ParameterApplyStatus': parameterApplyStatus,
-      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
-    };
-  }
-}
-
-/// Contains the output from the <a>DescribeClusterParameterGroups</a> action.
-class ClusterParameterGroupsMessage {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// A list of <a>ClusterParameterGroup</a> instances. Each instance describes
-  /// one cluster parameter group.
-  final List<ClusterParameterGroup>? parameterGroups;
-
-  ClusterParameterGroupsMessage({
-    this.marker,
-    this.parameterGroups,
-  });
-  factory ClusterParameterGroupsMessage.fromXml(_s.XmlElement elem) {
-    return ClusterParameterGroupsMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameterGroups: _s.extractXmlChild(elem, 'ParameterGroups')?.let(
-          (elem) => elem
-              .findElements('ClusterParameterGroup')
-              .map(ClusterParameterGroup.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final parameterGroups = this.parameterGroups;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (parameterGroups != null) 'ParameterGroups': parameterGroups,
-    };
-  }
-}
-
-/// Describes the status of a parameter group.
-class ClusterParameterStatus {
-  /// The error that prevented the parameter from being applied to the database.
-  final String? parameterApplyErrorDescription;
-
-  /// The status of the parameter that indicates whether the parameter is in sync
-  /// with the database, waiting for a cluster reboot, or encountered an error
-  /// when being applied.
-  ///
-  /// The following are possible statuses and descriptions.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>in-sync</code>: The parameter value is in sync with the database.
-  /// </li>
-  /// <li>
-  /// <code>pending-reboot</code>: The parameter value will be applied after the
-  /// cluster reboots.
-  /// </li>
-  /// <li>
-  /// <code>applying</code>: The parameter value is being applied to the database.
-  /// </li>
-  /// <li>
-  /// <code>invalid-parameter</code>: Cannot apply the parameter value because it
-  /// has an invalid value or syntax.
-  /// </li>
-  /// <li>
-  /// <code>apply-deferred</code>: The parameter contains static property changes.
-  /// The changes are deferred until the cluster reboots.
-  /// </li>
-  /// <li>
-  /// <code>apply-error</code>: Cannot connect to the cluster. The parameter
-  /// change will be applied after the cluster reboots.
-  /// </li>
-  /// <li>
-  /// <code>unknown-error</code>: Cannot apply the parameter change right now. The
-  /// change will be applied after the cluster reboots.
-  /// </li>
-  /// </ul>
-  final String? parameterApplyStatus;
-
-  /// The name of the parameter.
-  final String? parameterName;
-
-  ClusterParameterStatus({
-    this.parameterApplyErrorDescription,
-    this.parameterApplyStatus,
-    this.parameterName,
-  });
-  factory ClusterParameterStatus.fromXml(_s.XmlElement elem) {
-    return ClusterParameterStatus(
-      parameterApplyErrorDescription:
-          _s.extractXmlStringValue(elem, 'ParameterApplyErrorDescription'),
-      parameterApplyStatus:
-          _s.extractXmlStringValue(elem, 'ParameterApplyStatus'),
-      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final parameterApplyErrorDescription = this.parameterApplyErrorDescription;
-    final parameterApplyStatus = this.parameterApplyStatus;
-    final parameterName = this.parameterName;
-    return {
-      if (parameterApplyErrorDescription != null)
-        'ParameterApplyErrorDescription': parameterApplyErrorDescription,
-      if (parameterApplyStatus != null)
-        'ParameterApplyStatus': parameterApplyStatus,
-      if (parameterName != null) 'ParameterName': parameterName,
-    };
-  }
-}
-
-/// Describes a security group.
-class ClusterSecurityGroup {
-  /// The name of the cluster security group to which the operation was applied.
-  final String? clusterSecurityGroupName;
-
-  /// A description of the security group.
-  final String? description;
-
-  /// A list of EC2 security groups that are permitted to access clusters
-  /// associated with this cluster security group.
-  final List<EC2SecurityGroup>? eC2SecurityGroups;
-
-  /// A list of IP ranges (CIDR blocks) that are permitted to access clusters
-  /// associated with this cluster security group.
-  final List<IPRange>? iPRanges;
-
-  /// The list of tags for the cluster security group.
-  final List<Tag>? tags;
-
-  ClusterSecurityGroup({
-    this.clusterSecurityGroupName,
-    this.description,
-    this.eC2SecurityGroups,
-    this.iPRanges,
-    this.tags,
-  });
-  factory ClusterSecurityGroup.fromXml(_s.XmlElement elem) {
-    return ClusterSecurityGroup(
-      clusterSecurityGroupName:
-          _s.extractXmlStringValue(elem, 'ClusterSecurityGroupName'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      eC2SecurityGroups: _s.extractXmlChild(elem, 'EC2SecurityGroups')?.let(
-          (elem) => elem
-              .findElements('EC2SecurityGroup')
-              .map(EC2SecurityGroup.fromXml)
-              .toList()),
-      iPRanges: _s.extractXmlChild(elem, 'IPRanges')?.let(
-          (elem) => elem.findElements('IPRange').map(IPRange.fromXml).toList()),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterSecurityGroupName = this.clusterSecurityGroupName;
-    final description = this.description;
-    final eC2SecurityGroups = this.eC2SecurityGroups;
-    final iPRanges = this.iPRanges;
-    final tags = this.tags;
-    return {
-      if (clusterSecurityGroupName != null)
-        'ClusterSecurityGroupName': clusterSecurityGroupName,
-      if (description != null) 'Description': description,
-      if (eC2SecurityGroups != null) 'EC2SecurityGroups': eC2SecurityGroups,
-      if (iPRanges != null) 'IPRanges': iPRanges,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Describes a cluster security group.
-class ClusterSecurityGroupMembership {
-  /// The name of the cluster security group.
-  final String? clusterSecurityGroupName;
-
-  /// The status of the cluster security group.
-  final String? status;
-
-  ClusterSecurityGroupMembership({
-    this.clusterSecurityGroupName,
-    this.status,
-  });
-  factory ClusterSecurityGroupMembership.fromXml(_s.XmlElement elem) {
-    return ClusterSecurityGroupMembership(
-      clusterSecurityGroupName:
-          _s.extractXmlStringValue(elem, 'ClusterSecurityGroupName'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterSecurityGroupName = this.clusterSecurityGroupName;
-    final status = this.status;
-    return {
-      if (clusterSecurityGroupName != null)
-        'ClusterSecurityGroupName': clusterSecurityGroupName,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// <p/>
-class ClusterSecurityGroupMessage {
-  /// A list of <a>ClusterSecurityGroup</a> instances.
-  final List<ClusterSecurityGroup>? clusterSecurityGroups;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  ClusterSecurityGroupMessage({
-    this.clusterSecurityGroups,
-    this.marker,
-  });
-  factory ClusterSecurityGroupMessage.fromXml(_s.XmlElement elem) {
-    return ClusterSecurityGroupMessage(
-      clusterSecurityGroups: _s
-          .extractXmlChild(elem, 'ClusterSecurityGroups')
-          ?.let((elem) => elem
-              .findElements('ClusterSecurityGroup')
-              .map(ClusterSecurityGroup.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterSecurityGroups = this.clusterSecurityGroups;
-    final marker = this.marker;
-    return {
-      if (clusterSecurityGroups != null)
-        'ClusterSecurityGroups': clusterSecurityGroups,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Returns the destination region and retention period that are configured for
-/// cross-region snapshot copy.
-class ClusterSnapshotCopyStatus {
-  /// The destination region that snapshots are automatically copied to when
-  /// cross-region snapshot copy is enabled.
-  final String? destinationRegion;
-
-  /// The number of days that automated snapshots are retained in the destination
-  /// region after they are copied from a source region. If the value is -1, the
-  /// manual snapshot is retained indefinitely.
-  ///
-  /// The value must be either -1 or an integer between 1 and 3,653.
-  final int? manualSnapshotRetentionPeriod;
-
-  /// The number of days that automated snapshots are retained in the destination
-  /// region after they are copied from a source region.
-  final int? retentionPeriod;
-
-  /// The name of the snapshot copy grant.
-  final String? snapshotCopyGrantName;
-
-  ClusterSnapshotCopyStatus({
-    this.destinationRegion,
-    this.manualSnapshotRetentionPeriod,
-    this.retentionPeriod,
-    this.snapshotCopyGrantName,
-  });
-  factory ClusterSnapshotCopyStatus.fromXml(_s.XmlElement elem) {
-    return ClusterSnapshotCopyStatus(
-      destinationRegion: _s.extractXmlStringValue(elem, 'DestinationRegion'),
-      manualSnapshotRetentionPeriod:
-          _s.extractXmlIntValue(elem, 'ManualSnapshotRetentionPeriod'),
-      retentionPeriod: _s.extractXmlIntValue(elem, 'RetentionPeriod'),
-      snapshotCopyGrantName:
-          _s.extractXmlStringValue(elem, 'SnapshotCopyGrantName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationRegion = this.destinationRegion;
-    final manualSnapshotRetentionPeriod = this.manualSnapshotRetentionPeriod;
-    final retentionPeriod = this.retentionPeriod;
-    final snapshotCopyGrantName = this.snapshotCopyGrantName;
-    return {
-      if (destinationRegion != null) 'DestinationRegion': destinationRegion,
-      if (manualSnapshotRetentionPeriod != null)
-        'ManualSnapshotRetentionPeriod': manualSnapshotRetentionPeriod,
-      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
-      if (snapshotCopyGrantName != null)
-        'SnapshotCopyGrantName': snapshotCopyGrantName,
-    };
-  }
-}
-
-/// Describes a subnet group.
-class ClusterSubnetGroup {
-  /// The name of the cluster subnet group.
-  final String? clusterSubnetGroupName;
-
-  /// The description of the cluster subnet group.
-  final String? description;
-
-  /// The status of the cluster subnet group. Possible values are
-  /// <code>Complete</code>, <code>Incomplete</code> and <code>Invalid</code>.
-  final String? subnetGroupStatus;
-
-  /// A list of the VPC <a>Subnet</a> elements.
-  final List<Subnet>? subnets;
-
-  /// The IP address types supported by this cluster subnet group. Possible values
-  /// are <code>ipv4</code> and <code>dualstack</code>.
-  final List<String>? supportedClusterIpAddressTypes;
-
-  /// The list of tags for the cluster subnet group.
-  final List<Tag>? tags;
-
-  /// The VPC ID of the cluster subnet group.
-  final String? vpcId;
-
-  ClusterSubnetGroup({
-    this.clusterSubnetGroupName,
-    this.description,
-    this.subnetGroupStatus,
-    this.subnets,
-    this.supportedClusterIpAddressTypes,
-    this.tags,
-    this.vpcId,
-  });
-  factory ClusterSubnetGroup.fromXml(_s.XmlElement elem) {
-    return ClusterSubnetGroup(
-      clusterSubnetGroupName:
-          _s.extractXmlStringValue(elem, 'ClusterSubnetGroupName'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
-      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
-          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
-      supportedClusterIpAddressTypes: _s
-          .extractXmlChild(elem, 'SupportedClusterIpAddressTypes')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'item')),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterSubnetGroupName = this.clusterSubnetGroupName;
-    final description = this.description;
-    final subnetGroupStatus = this.subnetGroupStatus;
-    final subnets = this.subnets;
-    final supportedClusterIpAddressTypes = this.supportedClusterIpAddressTypes;
-    final tags = this.tags;
-    final vpcId = this.vpcId;
-    return {
-      if (clusterSubnetGroupName != null)
-        'ClusterSubnetGroupName': clusterSubnetGroupName,
-      if (description != null) 'Description': description,
-      if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
-      if (subnets != null) 'Subnets': subnets,
-      if (supportedClusterIpAddressTypes != null)
-        'SupportedClusterIpAddressTypes': supportedClusterIpAddressTypes,
-      if (tags != null) 'Tags': tags,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-/// Contains the output from the <a>DescribeClusterSubnetGroups</a> action.
-class ClusterSubnetGroupMessage {
-  /// A list of <a>ClusterSubnetGroup</a> instances.
-  final List<ClusterSubnetGroup>? clusterSubnetGroups;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  ClusterSubnetGroupMessage({
-    this.clusterSubnetGroups,
-    this.marker,
-  });
-  factory ClusterSubnetGroupMessage.fromXml(_s.XmlElement elem) {
-    return ClusterSubnetGroupMessage(
-      clusterSubnetGroups: _s.extractXmlChild(elem, 'ClusterSubnetGroups')?.let(
-          (elem) => elem
-              .findElements('ClusterSubnetGroup')
-              .map(ClusterSubnetGroup.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterSubnetGroups = this.clusterSubnetGroups;
-    final marker = this.marker;
-    return {
-      if (clusterSubnetGroups != null)
-        'ClusterSubnetGroups': clusterSubnetGroups,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Describes a cluster version, including the parameter group family and
-/// description of the version.
-class ClusterVersion {
-  /// The name of the cluster parameter group family for the cluster.
-  final String? clusterParameterGroupFamily;
-
-  /// The version number used by the cluster.
-  final String? clusterVersion;
-
-  /// The description of the cluster version.
-  final String? description;
-
-  ClusterVersion({
-    this.clusterParameterGroupFamily,
-    this.clusterVersion,
-    this.description,
-  });
-  factory ClusterVersion.fromXml(_s.XmlElement elem) {
-    return ClusterVersion(
-      clusterParameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'ClusterParameterGroupFamily'),
-      clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterParameterGroupFamily = this.clusterParameterGroupFamily;
-    final clusterVersion = this.clusterVersion;
-    final description = this.description;
-    return {
-      if (clusterParameterGroupFamily != null)
-        'ClusterParameterGroupFamily': clusterParameterGroupFamily,
-      if (clusterVersion != null) 'ClusterVersion': clusterVersion,
-      if (description != null) 'Description': description,
-    };
-  }
-}
-
-/// Contains the output from the <a>DescribeClusterVersions</a> action.
-class ClusterVersionsMessage {
-  /// A list of <code>Version</code> elements.
-  final List<ClusterVersion>? clusterVersions;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  ClusterVersionsMessage({
-    this.clusterVersions,
-    this.marker,
-  });
-  factory ClusterVersionsMessage.fromXml(_s.XmlElement elem) {
-    return ClusterVersionsMessage(
-      clusterVersions: _s.extractXmlChild(elem, 'ClusterVersions')?.let(
-          (elem) => elem
-              .findElements('ClusterVersion')
-              .map(ClusterVersion.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterVersions = this.clusterVersions;
-    final marker = this.marker;
-    return {
-      if (clusterVersions != null) 'ClusterVersions': clusterVersions,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Contains the output from the <a>DescribeClusters</a> action.
-class ClustersMessage {
-  /// A list of <code>Cluster</code> objects, where each object describes one
-  /// cluster.
-  final List<Cluster>? clusters;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  ClustersMessage({
-    this.clusters,
-    this.marker,
-  });
-  factory ClustersMessage.fromXml(_s.XmlElement elem) {
-    return ClustersMessage(
-      clusters: _s.extractXmlChild(elem, 'Clusters')?.let(
-          (elem) => elem.findElements('Cluster').map(Cluster.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusters = this.clusters;
-    final marker = this.marker;
-    return {
-      if (clusters != null) 'Clusters': clusters,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class CopyClusterSnapshotResult {
-  final Snapshot? snapshot;
-
-  CopyClusterSnapshotResult({
-    this.snapshot,
-  });
-  factory CopyClusterSnapshotResult.fromXml(_s.XmlElement elem) {
-    return CopyClusterSnapshotResult(
-      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshot = this.snapshot;
-    return {
-      if (snapshot != null) 'Snapshot': snapshot,
-    };
-  }
-}
-
-class CreateAuthenticationProfileResult {
-  /// The content of the authentication profile in JSON format.
-  final String? authenticationProfileContent;
-
-  /// The name of the authentication profile that was created.
-  final String? authenticationProfileName;
-
-  CreateAuthenticationProfileResult({
-    this.authenticationProfileContent,
-    this.authenticationProfileName,
-  });
-  factory CreateAuthenticationProfileResult.fromXml(_s.XmlElement elem) {
-    return CreateAuthenticationProfileResult(
-      authenticationProfileContent:
-          _s.extractXmlStringValue(elem, 'AuthenticationProfileContent'),
-      authenticationProfileName:
-          _s.extractXmlStringValue(elem, 'AuthenticationProfileName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationProfileContent = this.authenticationProfileContent;
-    final authenticationProfileName = this.authenticationProfileName;
-    return {
-      if (authenticationProfileContent != null)
-        'AuthenticationProfileContent': authenticationProfileContent,
-      if (authenticationProfileName != null)
-        'AuthenticationProfileName': authenticationProfileName,
-    };
-  }
-}
-
-class CreateClusterParameterGroupResult {
-  final ClusterParameterGroup? clusterParameterGroup;
-
-  CreateClusterParameterGroupResult({
-    this.clusterParameterGroup,
-  });
-  factory CreateClusterParameterGroupResult.fromXml(_s.XmlElement elem) {
-    return CreateClusterParameterGroupResult(
-      clusterParameterGroup: _s
-          .extractXmlChild(elem, 'ClusterParameterGroup')
-          ?.let(ClusterParameterGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterParameterGroup = this.clusterParameterGroup;
-    return {
-      if (clusterParameterGroup != null)
-        'ClusterParameterGroup': clusterParameterGroup,
-    };
-  }
-}
-
-class CreateClusterResult {
-  final Cluster? cluster;
-
-  CreateClusterResult({
-    this.cluster,
-  });
-  factory CreateClusterResult.fromXml(_s.XmlElement elem) {
-    return CreateClusterResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-class CreateClusterSecurityGroupResult {
-  final ClusterSecurityGroup? clusterSecurityGroup;
-
-  CreateClusterSecurityGroupResult({
-    this.clusterSecurityGroup,
-  });
-  factory CreateClusterSecurityGroupResult.fromXml(_s.XmlElement elem) {
-    return CreateClusterSecurityGroupResult(
-      clusterSecurityGroup: _s
-          .extractXmlChild(elem, 'ClusterSecurityGroup')
-          ?.let(ClusterSecurityGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterSecurityGroup = this.clusterSecurityGroup;
-    return {
-      if (clusterSecurityGroup != null)
-        'ClusterSecurityGroup': clusterSecurityGroup,
-    };
-  }
-}
-
-class CreateClusterSnapshotResult {
-  final Snapshot? snapshot;
-
-  CreateClusterSnapshotResult({
-    this.snapshot,
-  });
-  factory CreateClusterSnapshotResult.fromXml(_s.XmlElement elem) {
-    return CreateClusterSnapshotResult(
-      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshot = this.snapshot;
-    return {
-      if (snapshot != null) 'Snapshot': snapshot,
-    };
-  }
-}
-
-class CreateClusterSubnetGroupResult {
-  final ClusterSubnetGroup? clusterSubnetGroup;
-
-  CreateClusterSubnetGroupResult({
-    this.clusterSubnetGroup,
-  });
-  factory CreateClusterSubnetGroupResult.fromXml(_s.XmlElement elem) {
-    return CreateClusterSubnetGroupResult(
-      clusterSubnetGroup: _s
-          .extractXmlChild(elem, 'ClusterSubnetGroup')
-          ?.let(ClusterSubnetGroup.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterSubnetGroup = this.clusterSubnetGroup;
-    return {
-      if (clusterSubnetGroup != null) 'ClusterSubnetGroup': clusterSubnetGroup,
-    };
-  }
-}
-
-class CreateCustomDomainAssociationResult {
-  /// The identifier of the cluster that the custom domain is associated with.
-  final String? clusterIdentifier;
-
-  /// The expiration time for the certificate for the custom domain.
-  final String? customDomainCertExpiryTime;
-
-  /// The Amazon Resource Name (ARN) for the certificate associated with the
-  /// custom domain name.
-  final String? customDomainCertificateArn;
-
-  /// The custom domain name for the association result.
-  final String? customDomainName;
-
-  CreateCustomDomainAssociationResult({
-    this.clusterIdentifier,
-    this.customDomainCertExpiryTime,
-    this.customDomainCertificateArn,
-    this.customDomainName,
-  });
-  factory CreateCustomDomainAssociationResult.fromXml(_s.XmlElement elem) {
-    return CreateCustomDomainAssociationResult(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      customDomainCertExpiryTime:
-          _s.extractXmlStringValue(elem, 'CustomDomainCertExpiryTime'),
-      customDomainCertificateArn:
-          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
-      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final customDomainCertExpiryTime = this.customDomainCertExpiryTime;
-    final customDomainCertificateArn = this.customDomainCertificateArn;
-    final customDomainName = this.customDomainName;
-    return {
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (customDomainCertExpiryTime != null)
-        'CustomDomainCertExpiryTime': customDomainCertExpiryTime,
-      if (customDomainCertificateArn != null)
-        'CustomDomainCertificateArn': customDomainCertificateArn,
-      if (customDomainName != null) 'CustomDomainName': customDomainName,
-    };
-  }
-}
-
-class CreateEventSubscriptionResult {
-  final EventSubscription? eventSubscription;
-
-  CreateEventSubscriptionResult({
-    this.eventSubscription,
-  });
-  factory CreateEventSubscriptionResult.fromXml(_s.XmlElement elem) {
-    return CreateEventSubscriptionResult(
-      eventSubscription: _s
-          .extractXmlChild(elem, 'EventSubscription')
-          ?.let(EventSubscription.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventSubscription = this.eventSubscription;
-    return {
-      if (eventSubscription != null) 'EventSubscription': eventSubscription,
-    };
-  }
-}
-
-class CreateHsmClientCertificateResult {
-  final HsmClientCertificate? hsmClientCertificate;
-
-  CreateHsmClientCertificateResult({
-    this.hsmClientCertificate,
-  });
-  factory CreateHsmClientCertificateResult.fromXml(_s.XmlElement elem) {
-    return CreateHsmClientCertificateResult(
-      hsmClientCertificate: _s
-          .extractXmlChild(elem, 'HsmClientCertificate')
-          ?.let(HsmClientCertificate.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hsmClientCertificate = this.hsmClientCertificate;
-    return {
-      if (hsmClientCertificate != null)
-        'HsmClientCertificate': hsmClientCertificate,
-    };
-  }
-}
-
-class CreateHsmConfigurationResult {
-  final HsmConfiguration? hsmConfiguration;
-
-  CreateHsmConfigurationResult({
-    this.hsmConfiguration,
-  });
-  factory CreateHsmConfigurationResult.fromXml(_s.XmlElement elem) {
-    return CreateHsmConfigurationResult(
-      hsmConfiguration: _s
-          .extractXmlChild(elem, 'HsmConfiguration')
-          ?.let(HsmConfiguration.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hsmConfiguration = this.hsmConfiguration;
-    return {
-      if (hsmConfiguration != null) 'HsmConfiguration': hsmConfiguration,
-    };
-  }
-}
-
-class CreateRedshiftIdcApplicationResult {
-  final RedshiftIdcApplication? redshiftIdcApplication;
-
-  CreateRedshiftIdcApplicationResult({
-    this.redshiftIdcApplication,
-  });
-  factory CreateRedshiftIdcApplicationResult.fromXml(_s.XmlElement elem) {
-    return CreateRedshiftIdcApplicationResult(
-      redshiftIdcApplication: _s
-          .extractXmlChild(elem, 'RedshiftIdcApplication')
-          ?.let(RedshiftIdcApplication.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final redshiftIdcApplication = this.redshiftIdcApplication;
-    return {
-      if (redshiftIdcApplication != null)
-        'RedshiftIdcApplication': redshiftIdcApplication,
-    };
-  }
-}
-
-class CreateSnapshotCopyGrantResult {
-  final SnapshotCopyGrant? snapshotCopyGrant;
-
-  CreateSnapshotCopyGrantResult({
-    this.snapshotCopyGrant,
-  });
-  factory CreateSnapshotCopyGrantResult.fromXml(_s.XmlElement elem) {
-    return CreateSnapshotCopyGrantResult(
-      snapshotCopyGrant: _s
-          .extractXmlChild(elem, 'SnapshotCopyGrant')
-          ?.let(SnapshotCopyGrant.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshotCopyGrant = this.snapshotCopyGrant;
-    return {
-      if (snapshotCopyGrant != null) 'SnapshotCopyGrant': snapshotCopyGrant,
-    };
-  }
-}
-
-class CustomDomainAssociationsMessage {
-  /// The associations for the custom domain.
-  final List<Association>? associations;
-
-  /// The marker for the custom domain association.
-  final String? marker;
-
-  CustomDomainAssociationsMessage({
-    this.associations,
-    this.marker,
-  });
-  factory CustomDomainAssociationsMessage.fromXml(_s.XmlElement elem) {
-    return CustomDomainAssociationsMessage(
-      associations: _s.extractXmlChild(elem, 'Associations')?.let((elem) =>
-          elem.findElements('Association').map(Association.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associations = this.associations;
-    final marker = this.marker;
-    return {
-      if (associations != null) 'Associations': associations,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class CustomerStorageMessage {
-  /// The total amount of storage currently used for snapshots.
-  final double? totalBackupSizeInMegaBytes;
-
-  /// The total amount of storage currently provisioned.
-  final double? totalProvisionedStorageInMegaBytes;
-
-  CustomerStorageMessage({
-    this.totalBackupSizeInMegaBytes,
-    this.totalProvisionedStorageInMegaBytes,
-  });
-  factory CustomerStorageMessage.fromXml(_s.XmlElement elem) {
-    return CustomerStorageMessage(
-      totalBackupSizeInMegaBytes:
-          _s.extractXmlDoubleValue(elem, 'TotalBackupSizeInMegaBytes'),
-      totalProvisionedStorageInMegaBytes:
-          _s.extractXmlDoubleValue(elem, 'TotalProvisionedStorageInMegaBytes'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final totalBackupSizeInMegaBytes = this.totalBackupSizeInMegaBytes;
-    final totalProvisionedStorageInMegaBytes =
-        this.totalProvisionedStorageInMegaBytes;
-    return {
-      if (totalBackupSizeInMegaBytes != null)
-        'TotalBackupSizeInMegaBytes': totalBackupSizeInMegaBytes,
-      if (totalProvisionedStorageInMegaBytes != null)
-        'TotalProvisionedStorageInMegaBytes':
-            totalProvisionedStorageInMegaBytes,
-    };
-  }
-}
-
-class DataShare {
-  /// A value that specifies whether the datashare can be shared to a publicly
-  /// accessible cluster.
-  final bool? allowPubliclyAccessibleConsumers;
-
-  /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
-  final String? dataShareArn;
-
-  /// A value that specifies when the datashare has an association between
-  /// producer and data consumers.
-  final List<DataShareAssociation>? dataShareAssociations;
-
-  /// The identifier of a datashare to show its managing entity.
-  final String? managedBy;
-
-  /// The Amazon Resource Name (ARN) of the producer namespace.
-  final String? producerArn;
-
-  DataShare({
-    this.allowPubliclyAccessibleConsumers,
-    this.dataShareArn,
-    this.dataShareAssociations,
-    this.managedBy,
-    this.producerArn,
-  });
-  factory DataShare.fromXml(_s.XmlElement elem) {
-    return DataShare(
-      allowPubliclyAccessibleConsumers:
-          _s.extractXmlBoolValue(elem, 'AllowPubliclyAccessibleConsumers'),
-      dataShareArn: _s.extractXmlStringValue(elem, 'DataShareArn'),
-      dataShareAssociations: _s
-          .extractXmlChild(elem, 'DataShareAssociations')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(DataShareAssociation.fromXml)
-              .toList()),
-      managedBy: _s.extractXmlStringValue(elem, 'ManagedBy'),
-      producerArn: _s.extractXmlStringValue(elem, 'ProducerArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowPubliclyAccessibleConsumers =
-        this.allowPubliclyAccessibleConsumers;
-    final dataShareArn = this.dataShareArn;
-    final dataShareAssociations = this.dataShareAssociations;
-    final managedBy = this.managedBy;
-    final producerArn = this.producerArn;
-    return {
-      if (allowPubliclyAccessibleConsumers != null)
-        'AllowPubliclyAccessibleConsumers': allowPubliclyAccessibleConsumers,
-      if (dataShareArn != null) 'DataShareArn': dataShareArn,
-      if (dataShareAssociations != null)
-        'DataShareAssociations': dataShareAssociations,
-      if (managedBy != null) 'ManagedBy': managedBy,
-      if (producerArn != null) 'ProducerArn': producerArn,
-    };
-  }
-}
-
-/// The association of a datashare from a producer account with a data consumer.
-class DataShareAssociation {
-  /// Specifies whether write operations were allowed during data share
-  /// association.
-  final bool? consumerAcceptedWrites;
-
-  /// The name of the consumer accounts that have an association with a producer
-  /// datashare.
-  final String? consumerIdentifier;
-
-  /// The Amazon Web Services Region of the consumer accounts that have an
-  /// association with a producer datashare.
-  final String? consumerRegion;
-
-  /// The creation date of the datashare that is associated.
-  final DateTime? createdDate;
-
-  /// Specifies whether write operations were allowed during data share
-  /// authorization.
-  final bool? producerAllowedWrites;
-
-  /// The status of the datashare that is associated.
-  final DataShareStatus? status;
-
-  /// The status change data of the datashare that is associated.
-  final DateTime? statusChangeDate;
-
-  DataShareAssociation({
-    this.consumerAcceptedWrites,
-    this.consumerIdentifier,
-    this.consumerRegion,
-    this.createdDate,
-    this.producerAllowedWrites,
-    this.status,
-    this.statusChangeDate,
-  });
-  factory DataShareAssociation.fromXml(_s.XmlElement elem) {
-    return DataShareAssociation(
-      consumerAcceptedWrites:
-          _s.extractXmlBoolValue(elem, 'ConsumerAcceptedWrites'),
-      consumerIdentifier: _s.extractXmlStringValue(elem, 'ConsumerIdentifier'),
-      consumerRegion: _s.extractXmlStringValue(elem, 'ConsumerRegion'),
-      createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
-      producerAllowedWrites:
-          _s.extractXmlBoolValue(elem, 'ProducerAllowedWrites'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(DataShareStatus.fromString),
-      statusChangeDate: _s.extractXmlDateTimeValue(elem, 'StatusChangeDate'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final consumerAcceptedWrites = this.consumerAcceptedWrites;
-    final consumerIdentifier = this.consumerIdentifier;
-    final consumerRegion = this.consumerRegion;
-    final createdDate = this.createdDate;
-    final producerAllowedWrites = this.producerAllowedWrites;
-    final status = this.status;
-    final statusChangeDate = this.statusChangeDate;
-    return {
-      if (consumerAcceptedWrites != null)
-        'ConsumerAcceptedWrites': consumerAcceptedWrites,
-      if (consumerIdentifier != null) 'ConsumerIdentifier': consumerIdentifier,
-      if (consumerRegion != null) 'ConsumerRegion': consumerRegion,
-      if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
-      if (producerAllowedWrites != null)
-        'ProducerAllowedWrites': producerAllowedWrites,
-      if (status != null) 'Status': status.value,
-      if (statusChangeDate != null)
-        'StatusChangeDate': iso8601ToJson(statusChangeDate),
-    };
-  }
-}
-
-class DataShareStatus {
-  static const active = DataShareStatus._('ACTIVE');
-  static const pendingAuthorization =
-      DataShareStatus._('PENDING_AUTHORIZATION');
-  static const authorized = DataShareStatus._('AUTHORIZED');
-  static const deauthorized = DataShareStatus._('DEAUTHORIZED');
-  static const rejected = DataShareStatus._('REJECTED');
-  static const available = DataShareStatus._('AVAILABLE');
-
-  final String value;
-
-  const DataShareStatus._(this.value);
-
-  static const values = [
-    active,
-    pendingAuthorization,
-    authorized,
-    deauthorized,
-    rejected,
-    available
-  ];
-
-  static DataShareStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataShareStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DataShareStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DataShareStatusForConsumer {
-  static const active = DataShareStatusForConsumer._('ACTIVE');
-  static const available = DataShareStatusForConsumer._('AVAILABLE');
-
-  final String value;
-
-  const DataShareStatusForConsumer._(this.value);
-
-  static const values = [active, available];
-
-  static DataShareStatusForConsumer fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataShareStatusForConsumer._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DataShareStatusForConsumer && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DataShareStatusForProducer {
-  static const active = DataShareStatusForProducer._('ACTIVE');
-  static const authorized = DataShareStatusForProducer._('AUTHORIZED');
-  static const pendingAuthorization =
-      DataShareStatusForProducer._('PENDING_AUTHORIZATION');
-  static const deauthorized = DataShareStatusForProducer._('DEAUTHORIZED');
-  static const rejected = DataShareStatusForProducer._('REJECTED');
-
-  final String value;
-
-  const DataShareStatusForProducer._(this.value);
-
-  static const values = [
-    active,
-    authorized,
-    pendingAuthorization,
-    deauthorized,
-    rejected
-  ];
-
-  static DataShareStatusForProducer fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataShareStatusForProducer._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DataShareStatusForProducer && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the status of a cluster while it is in the process of resizing
-/// with an incremental resize.
-class DataTransferProgress {
-  /// Describes the data transfer rate in MB's per second.
-  final double? currentRateInMegaBytesPerSecond;
-
-  /// Describes the total amount of data that has been transfered in MB's.
-  final int? dataTransferredInMegaBytes;
-
-  /// Describes the number of seconds that have elapsed during the data transfer.
-  final int? elapsedTimeInSeconds;
-
-  /// Describes the estimated number of seconds remaining to complete the
-  /// transfer.
-  final int? estimatedTimeToCompletionInSeconds;
-
-  /// Describes the status of the cluster. While the transfer is in progress the
-  /// status is <code>transferringdata</code>.
-  final String? status;
-
-  /// Describes the total amount of data to be transfered in megabytes.
-  final int? totalDataInMegaBytes;
-
-  DataTransferProgress({
-    this.currentRateInMegaBytesPerSecond,
-    this.dataTransferredInMegaBytes,
-    this.elapsedTimeInSeconds,
-    this.estimatedTimeToCompletionInSeconds,
-    this.status,
-    this.totalDataInMegaBytes,
-  });
-  factory DataTransferProgress.fromXml(_s.XmlElement elem) {
-    return DataTransferProgress(
-      currentRateInMegaBytesPerSecond:
-          _s.extractXmlDoubleValue(elem, 'CurrentRateInMegaBytesPerSecond'),
-      dataTransferredInMegaBytes:
-          _s.extractXmlIntValue(elem, 'DataTransferredInMegaBytes'),
-      elapsedTimeInSeconds: _s.extractXmlIntValue(elem, 'ElapsedTimeInSeconds'),
-      estimatedTimeToCompletionInSeconds:
-          _s.extractXmlIntValue(elem, 'EstimatedTimeToCompletionInSeconds'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      totalDataInMegaBytes: _s.extractXmlIntValue(elem, 'TotalDataInMegaBytes'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentRateInMegaBytesPerSecond =
-        this.currentRateInMegaBytesPerSecond;
-    final dataTransferredInMegaBytes = this.dataTransferredInMegaBytes;
-    final elapsedTimeInSeconds = this.elapsedTimeInSeconds;
-    final estimatedTimeToCompletionInSeconds =
-        this.estimatedTimeToCompletionInSeconds;
-    final status = this.status;
-    final totalDataInMegaBytes = this.totalDataInMegaBytes;
-    return {
-      if (currentRateInMegaBytesPerSecond != null)
-        'CurrentRateInMegaBytesPerSecond': currentRateInMegaBytesPerSecond,
-      if (dataTransferredInMegaBytes != null)
-        'DataTransferredInMegaBytes': dataTransferredInMegaBytes,
-      if (elapsedTimeInSeconds != null)
-        'ElapsedTimeInSeconds': elapsedTimeInSeconds,
-      if (estimatedTimeToCompletionInSeconds != null)
-        'EstimatedTimeToCompletionInSeconds':
-            estimatedTimeToCompletionInSeconds,
-      if (status != null) 'Status': status,
-      if (totalDataInMegaBytes != null)
-        'TotalDataInMegaBytes': totalDataInMegaBytes,
-    };
-  }
-}
-
-/// Describes the default cluster parameters for a parameter group family.
-class DefaultClusterParameters {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// The name of the cluster parameter group family to which the engine default
-  /// parameters apply.
-  final String? parameterGroupFamily;
-
-  /// The list of cluster default parameters.
-  final List<Parameter>? parameters;
-
-  DefaultClusterParameters({
-    this.marker,
-    this.parameterGroupFamily,
-    this.parameters,
-  });
-  factory DefaultClusterParameters.fromXml(_s.XmlElement elem) {
-    return DefaultClusterParameters(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      parameterGroupFamily:
-          _s.extractXmlStringValue(elem, 'ParameterGroupFamily'),
-      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
-          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final parameterGroupFamily = this.parameterGroupFamily;
-    final parameters = this.parameters;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (parameterGroupFamily != null)
-        'ParameterGroupFamily': parameterGroupFamily,
-      if (parameters != null) 'Parameters': parameters,
-    };
-  }
-}
-
-/// Describes a deferred maintenance window
-class DeferredMaintenanceWindow {
-  /// A timestamp for the end of the time period when we defer maintenance.
-  final DateTime? deferMaintenanceEndTime;
-
-  /// A unique identifier for the maintenance window.
-  final String? deferMaintenanceIdentifier;
-
-  /// A timestamp for the beginning of the time period when we defer maintenance.
-  final DateTime? deferMaintenanceStartTime;
-
-  DeferredMaintenanceWindow({
-    this.deferMaintenanceEndTime,
-    this.deferMaintenanceIdentifier,
-    this.deferMaintenanceStartTime,
-  });
-  factory DeferredMaintenanceWindow.fromXml(_s.XmlElement elem) {
-    return DeferredMaintenanceWindow(
-      deferMaintenanceEndTime:
-          _s.extractXmlDateTimeValue(elem, 'DeferMaintenanceEndTime'),
-      deferMaintenanceIdentifier:
-          _s.extractXmlStringValue(elem, 'DeferMaintenanceIdentifier'),
-      deferMaintenanceStartTime:
-          _s.extractXmlDateTimeValue(elem, 'DeferMaintenanceStartTime'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deferMaintenanceEndTime = this.deferMaintenanceEndTime;
-    final deferMaintenanceIdentifier = this.deferMaintenanceIdentifier;
-    final deferMaintenanceStartTime = this.deferMaintenanceStartTime;
-    return {
-      if (deferMaintenanceEndTime != null)
-        'DeferMaintenanceEndTime': iso8601ToJson(deferMaintenanceEndTime),
-      if (deferMaintenanceIdentifier != null)
-        'DeferMaintenanceIdentifier': deferMaintenanceIdentifier,
-      if (deferMaintenanceStartTime != null)
-        'DeferMaintenanceStartTime': iso8601ToJson(deferMaintenanceStartTime),
-    };
-  }
-}
-
-class DeleteAuthenticationProfileResult {
-  /// The name of the authentication profile that was deleted.
-  final String? authenticationProfileName;
-
-  DeleteAuthenticationProfileResult({
-    this.authenticationProfileName,
-  });
-  factory DeleteAuthenticationProfileResult.fromXml(_s.XmlElement elem) {
-    return DeleteAuthenticationProfileResult(
-      authenticationProfileName:
-          _s.extractXmlStringValue(elem, 'AuthenticationProfileName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationProfileName = this.authenticationProfileName;
-    return {
-      if (authenticationProfileName != null)
-        'AuthenticationProfileName': authenticationProfileName,
-    };
-  }
-}
-
-class DeleteClusterResult {
-  final Cluster? cluster;
-
-  DeleteClusterResult({
-    this.cluster,
-  });
-  factory DeleteClusterResult.fromXml(_s.XmlElement elem) {
-    return DeleteClusterResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// <p/>
-class DeleteClusterSnapshotMessage {
-  /// The unique identifier of the manual snapshot to be deleted.
-  ///
-  /// Constraints: Must be the name of an existing snapshot that is in the
-  /// <code>available</code>, <code>failed</code>, or <code>cancelled</code>
-  /// state.
-  final String snapshotIdentifier;
-
-  /// The unique identifier of the cluster the snapshot was created from. This
-  /// parameter is required if your IAM user has a policy containing a snapshot
-  /// resource element that specifies anything other than * for the cluster name.
-  ///
-  /// Constraints: Must be the name of valid cluster.
-  final String? snapshotClusterIdentifier;
-
-  DeleteClusterSnapshotMessage({
-    required this.snapshotIdentifier,
-    this.snapshotClusterIdentifier,
-  });
-
-  Map<String, dynamic> toJson() {
-    final snapshotIdentifier = this.snapshotIdentifier;
-    final snapshotClusterIdentifier = this.snapshotClusterIdentifier;
-    return {
-      'SnapshotIdentifier': snapshotIdentifier,
-      if (snapshotClusterIdentifier != null)
-        'SnapshotClusterIdentifier': snapshotClusterIdentifier,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final snapshotIdentifier = this.snapshotIdentifier;
-    final snapshotClusterIdentifier = this.snapshotClusterIdentifier;
-    return {
-      'SnapshotIdentifier': snapshotIdentifier,
-      if (snapshotClusterIdentifier != null)
-        'SnapshotClusterIdentifier': snapshotClusterIdentifier,
-    };
-  }
-}
-
-class DeleteClusterSnapshotResult {
-  final Snapshot? snapshot;
-
-  DeleteClusterSnapshotResult({
-    this.snapshot,
-  });
-  factory DeleteClusterSnapshotResult.fromXml(_s.XmlElement elem) {
-    return DeleteClusterSnapshotResult(
-      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshot = this.snapshot;
-    return {
-      if (snapshot != null) 'Snapshot': snapshot,
-    };
-  }
-}
-
-class DescribeAuthenticationProfilesResult {
-  /// The list of authentication profiles.
-  final List<AuthenticationProfile>? authenticationProfiles;
-
-  DescribeAuthenticationProfilesResult({
-    this.authenticationProfiles,
-  });
-  factory DescribeAuthenticationProfilesResult.fromXml(_s.XmlElement elem) {
-    return DescribeAuthenticationProfilesResult(
-      authenticationProfiles: _s
-          .extractXmlChild(elem, 'AuthenticationProfiles')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(AuthenticationProfile.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationProfiles = this.authenticationProfiles;
-    return {
-      if (authenticationProfiles != null)
-        'AuthenticationProfiles': authenticationProfiles,
-    };
-  }
-}
-
-class DescribeDataSharesForConsumerResult {
-  /// Shows the results of datashares available for consumers.
-  final List<DataShare>? dataShares;
-
-  /// An optional parameter that specifies the starting point to return a set of
-  /// response records. When the results of a <a>DescribeDataSharesForConsumer</a>
-  /// request exceed the value specified in <code>MaxRecords</code>, Amazon Web
-  /// Services returns a value in the <code>Marker</code> field of the response.
-  /// You can retrieve the next set of response records by providing the returned
-  /// marker value in the <code>Marker</code> parameter and retrying the request.
-  final String? marker;
-
-  DescribeDataSharesForConsumerResult({
-    this.dataShares,
-    this.marker,
-  });
-  factory DescribeDataSharesForConsumerResult.fromXml(_s.XmlElement elem) {
-    return DescribeDataSharesForConsumerResult(
-      dataShares: _s.extractXmlChild(elem, 'DataShares')?.let((elem) =>
-          elem.findElements('member').map(DataShare.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataShares = this.dataShares;
-    final marker = this.marker;
-    return {
-      if (dataShares != null) 'DataShares': dataShares,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class DescribeDataSharesForProducerResult {
-  /// Shows the results of datashares available for producers.
-  final List<DataShare>? dataShares;
-
-  /// An optional parameter that specifies the starting point to return a set of
-  /// response records. When the results of a <a>DescribeDataSharesForProducer</a>
-  /// request exceed the value specified in <code>MaxRecords</code>, Amazon Web
-  /// Services returns a value in the <code>Marker</code> field of the response.
-  /// You can retrieve the next set of response records by providing the returned
-  /// marker value in the <code>Marker</code> parameter and retrying the request.
-  final String? marker;
-
-  DescribeDataSharesForProducerResult({
-    this.dataShares,
-    this.marker,
-  });
-  factory DescribeDataSharesForProducerResult.fromXml(_s.XmlElement elem) {
-    return DescribeDataSharesForProducerResult(
-      dataShares: _s.extractXmlChild(elem, 'DataShares')?.let((elem) =>
-          elem.findElements('member').map(DataShare.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataShares = this.dataShares;
-    final marker = this.marker;
-    return {
-      if (dataShares != null) 'DataShares': dataShares,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class DescribeDataSharesResult {
-  /// The results returned from describing datashares.
-  final List<DataShare>? dataShares;
-
-  /// An optional parameter that specifies the starting point to return a set of
-  /// response records. When the results of a <a>DescribeDataShares</a> request
-  /// exceed the value specified in <code>MaxRecords</code>, Amazon Web Services
-  /// returns a value in the <code>Marker</code> field of the response. You can
-  /// retrieve the next set of response records by providing the returned marker
-  /// value in the <code>Marker</code> parameter and retrying the request.
-  final String? marker;
-
-  DescribeDataSharesResult({
-    this.dataShares,
-    this.marker,
-  });
-  factory DescribeDataSharesResult.fromXml(_s.XmlElement elem) {
-    return DescribeDataSharesResult(
-      dataShares: _s.extractXmlChild(elem, 'DataShares')?.let((elem) =>
-          elem.findElements('member').map(DataShare.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataShares = this.dataShares;
-    final marker = this.marker;
-    return {
-      if (dataShares != null) 'DataShares': dataShares,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class DescribeDefaultClusterParametersResult {
-  final DefaultClusterParameters? defaultClusterParameters;
-
-  DescribeDefaultClusterParametersResult({
-    this.defaultClusterParameters,
-  });
-  factory DescribeDefaultClusterParametersResult.fromXml(_s.XmlElement elem) {
-    return DescribeDefaultClusterParametersResult(
-      defaultClusterParameters: _s
-          .extractXmlChild(elem, 'DefaultClusterParameters')
-          ?.let(DefaultClusterParameters.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultClusterParameters = this.defaultClusterParameters;
-    return {
-      if (defaultClusterParameters != null)
-        'DefaultClusterParameters': defaultClusterParameters,
-    };
-  }
-}
-
-class DescribePartnersOutputMessage {
-  /// A list of partner integrations.
-  final List<PartnerIntegrationInfo>? partnerIntegrationInfoList;
-
-  DescribePartnersOutputMessage({
-    this.partnerIntegrationInfoList,
-  });
-  factory DescribePartnersOutputMessage.fromXml(_s.XmlElement elem) {
-    return DescribePartnersOutputMessage(
-      partnerIntegrationInfoList: _s
-          .extractXmlChild(elem, 'PartnerIntegrationInfoList')
-          ?.let((elem) => elem
-              .findElements('PartnerIntegrationInfo')
-              .map(PartnerIntegrationInfo.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final partnerIntegrationInfoList = this.partnerIntegrationInfoList;
-    return {
-      if (partnerIntegrationInfoList != null)
-        'PartnerIntegrationInfoList': partnerIntegrationInfoList,
-    };
-  }
-}
-
-class DescribeRedshiftIdcApplicationsResult {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the Marker parameter and retrying the command. If the Marker field is
-  /// empty, all response records have been retrieved for the request.
-  final String? marker;
-
-  /// The list of Amazon Redshift IAM Identity Center applications.
-  final List<RedshiftIdcApplication>? redshiftIdcApplications;
-
-  DescribeRedshiftIdcApplicationsResult({
-    this.marker,
-    this.redshiftIdcApplications,
-  });
-  factory DescribeRedshiftIdcApplicationsResult.fromXml(_s.XmlElement elem) {
-    return DescribeRedshiftIdcApplicationsResult(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      redshiftIdcApplications: _s
-          .extractXmlChild(elem, 'RedshiftIdcApplications')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(RedshiftIdcApplication.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final redshiftIdcApplications = this.redshiftIdcApplications;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (redshiftIdcApplications != null)
-        'RedshiftIdcApplications': redshiftIdcApplications,
-    };
-  }
-}
-
-class DescribeReservedNodeExchangeStatusOutputMessage {
-  /// A pagination token provided by a previous
-  /// <code>DescribeReservedNodeExchangeStatus</code> request.
-  final String? marker;
-
-  /// The details of the reserved-node exchange request, including the status,
-  /// request time, source reserved-node identifier, and additional details.
-  final List<ReservedNodeExchangeStatus>? reservedNodeExchangeStatusDetails;
-
-  DescribeReservedNodeExchangeStatusOutputMessage({
-    this.marker,
-    this.reservedNodeExchangeStatusDetails,
-  });
-  factory DescribeReservedNodeExchangeStatusOutputMessage.fromXml(
-      _s.XmlElement elem) {
-    return DescribeReservedNodeExchangeStatusOutputMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      reservedNodeExchangeStatusDetails: _s
-          .extractXmlChild(elem, 'ReservedNodeExchangeStatusDetails')
-          ?.let((elem) => elem
-              .findElements('ReservedNodeExchangeStatus')
-              .map(ReservedNodeExchangeStatus.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final reservedNodeExchangeStatusDetails =
-        this.reservedNodeExchangeStatusDetails;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (reservedNodeExchangeStatusDetails != null)
-        'ReservedNodeExchangeStatusDetails': reservedNodeExchangeStatusDetails,
-    };
-  }
-}
-
-class DescribeSnapshotSchedulesOutputMessage {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>marker</code> parameter and retrying the command. If the
-  /// <code>marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// A list of SnapshotSchedules.
-  final List<SnapshotSchedule>? snapshotSchedules;
-
-  DescribeSnapshotSchedulesOutputMessage({
-    this.marker,
-    this.snapshotSchedules,
-  });
-  factory DescribeSnapshotSchedulesOutputMessage.fromXml(_s.XmlElement elem) {
-    return DescribeSnapshotSchedulesOutputMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      snapshotSchedules: _s.extractXmlChild(elem, 'SnapshotSchedules')?.let(
-          (elem) => elem
-              .findElements('SnapshotSchedule')
-              .map(SnapshotSchedule.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final snapshotSchedules = this.snapshotSchedules;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (snapshotSchedules != null) 'SnapshotSchedules': snapshotSchedules,
-    };
-  }
-}
-
-class DisableSnapshotCopyResult {
-  final Cluster? cluster;
-
-  DisableSnapshotCopyResult({
-    this.cluster,
-  });
-  factory DisableSnapshotCopyResult.fromXml(_s.XmlElement elem) {
-    return DisableSnapshotCopyResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// Describes an Amazon EC2 security group.
-class EC2SecurityGroup {
-  /// The name of the EC2 Security Group.
-  final String? eC2SecurityGroupName;
-
-  /// The Amazon Web Services account ID of the owner of the EC2 security group
-  /// specified in the <code>EC2SecurityGroupName</code> field.
-  final String? eC2SecurityGroupOwnerId;
-
-  /// The status of the EC2 security group.
-  final String? status;
-
-  /// The list of tags for the EC2 security group.
-  final List<Tag>? tags;
-
-  EC2SecurityGroup({
-    this.eC2SecurityGroupName,
-    this.eC2SecurityGroupOwnerId,
-    this.status,
-    this.tags,
-  });
-  factory EC2SecurityGroup.fromXml(_s.XmlElement elem) {
-    return EC2SecurityGroup(
-      eC2SecurityGroupName:
-          _s.extractXmlStringValue(elem, 'EC2SecurityGroupName'),
-      eC2SecurityGroupOwnerId:
-          _s.extractXmlStringValue(elem, 'EC2SecurityGroupOwnerId'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eC2SecurityGroupName = this.eC2SecurityGroupName;
-    final eC2SecurityGroupOwnerId = this.eC2SecurityGroupOwnerId;
-    final status = this.status;
-    final tags = this.tags;
-    return {
-      if (eC2SecurityGroupName != null)
-        'EC2SecurityGroupName': eC2SecurityGroupName,
-      if (eC2SecurityGroupOwnerId != null)
-        'EC2SecurityGroupOwnerId': eC2SecurityGroupOwnerId,
-      if (status != null) 'Status': status,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Describes the status of the elastic IP (EIP) address.
-class ElasticIpStatus {
-  /// The elastic IP (EIP) address for the cluster.
-  final String? elasticIp;
-
-  /// The status of the elastic IP (EIP) address.
-  final String? status;
-
-  ElasticIpStatus({
-    this.elasticIp,
-    this.status,
-  });
-  factory ElasticIpStatus.fromXml(_s.XmlElement elem) {
-    return ElasticIpStatus(
-      elasticIp: _s.extractXmlStringValue(elem, 'ElasticIp'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final elasticIp = this.elasticIp;
-    final status = this.status;
-    return {
-      if (elasticIp != null) 'ElasticIp': elasticIp,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-class EnableSnapshotCopyResult {
-  final Cluster? cluster;
-
-  EnableSnapshotCopyResult({
-    this.cluster,
-  });
-  factory EnableSnapshotCopyResult.fromXml(_s.XmlElement elem) {
-    return EnableSnapshotCopyResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// Describes a connection endpoint.
-class Endpoint {
-  /// The DNS address of the Cluster.
-  final String? address;
-
-  /// The port that the database engine is listening on.
-  final int? port;
-
-  /// Describes a connection endpoint.
-  final List<VpcEndpoint>? vpcEndpoints;
-
-  Endpoint({
-    this.address,
-    this.port,
-    this.vpcEndpoints,
-  });
-  factory Endpoint.fromXml(_s.XmlElement elem) {
-    return Endpoint(
-      address: _s.extractXmlStringValue(elem, 'Address'),
-      port: _s.extractXmlIntValue(elem, 'Port'),
-      vpcEndpoints: _s.extractXmlChild(elem, 'VpcEndpoints')?.let((elem) =>
-          elem.findElements('VpcEndpoint').map(VpcEndpoint.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final port = this.port;
-    final vpcEndpoints = this.vpcEndpoints;
-    return {
-      if (address != null) 'Address': address,
-      if (port != null) 'Port': port,
-      if (vpcEndpoints != null) 'VpcEndpoints': vpcEndpoints,
-    };
-  }
-}
-
-/// Describes a Redshift-managed VPC endpoint.
-class EndpointAccess {
-  /// The DNS address of the endpoint.
-  final String? address;
-
-  /// The cluster identifier of the cluster associated with the endpoint.
-  final String? clusterIdentifier;
-
-  /// The time (UTC) that the endpoint was created.
-  final DateTime? endpointCreateTime;
-
-  /// The name of the endpoint.
-  final String? endpointName;
-
-  /// The status of the endpoint.
-  final String? endpointStatus;
-
-  /// The port number on which the cluster accepts incoming connections.
-  final int? port;
-
-  /// The Amazon Web Services account ID of the owner of the cluster.
-  final String? resourceOwner;
-
-  /// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
-  final String? subnetGroupName;
-  final VpcEndpoint? vpcEndpoint;
-
-  /// The security groups associated with the endpoint.
-  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
-
-  EndpointAccess({
-    this.address,
-    this.clusterIdentifier,
-    this.endpointCreateTime,
-    this.endpointName,
-    this.endpointStatus,
-    this.port,
-    this.resourceOwner,
-    this.subnetGroupName,
-    this.vpcEndpoint,
-    this.vpcSecurityGroups,
-  });
-  factory EndpointAccess.fromXml(_s.XmlElement elem) {
-    return EndpointAccess(
-      address: _s.extractXmlStringValue(elem, 'Address'),
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      endpointCreateTime:
-          _s.extractXmlDateTimeValue(elem, 'EndpointCreateTime'),
-      endpointName: _s.extractXmlStringValue(elem, 'EndpointName'),
-      endpointStatus: _s.extractXmlStringValue(elem, 'EndpointStatus'),
-      port: _s.extractXmlIntValue(elem, 'Port'),
-      resourceOwner: _s.extractXmlStringValue(elem, 'ResourceOwner'),
-      subnetGroupName: _s.extractXmlStringValue(elem, 'SubnetGroupName'),
-      vpcEndpoint:
-          _s.extractXmlChild(elem, 'VpcEndpoint')?.let(VpcEndpoint.fromXml),
-      vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
-          (elem) => elem
-              .findElements('VpcSecurityGroup')
-              .map(VpcSecurityGroupMembership.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final clusterIdentifier = this.clusterIdentifier;
-    final endpointCreateTime = this.endpointCreateTime;
-    final endpointName = this.endpointName;
-    final endpointStatus = this.endpointStatus;
-    final port = this.port;
-    final resourceOwner = this.resourceOwner;
-    final subnetGroupName = this.subnetGroupName;
-    final vpcEndpoint = this.vpcEndpoint;
-    final vpcSecurityGroups = this.vpcSecurityGroups;
-    return {
-      if (address != null) 'Address': address,
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (endpointCreateTime != null)
-        'EndpointCreateTime': iso8601ToJson(endpointCreateTime),
-      if (endpointName != null) 'EndpointName': endpointName,
-      if (endpointStatus != null) 'EndpointStatus': endpointStatus,
-      if (port != null) 'Port': port,
-      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
-      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
-      if (vpcEndpoint != null) 'VpcEndpoint': vpcEndpoint,
-      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
-    };
-  }
-}
-
-class EndpointAccessList {
-  /// The list of endpoints with access to the cluster.
-  final List<EndpointAccess>? endpointAccessList;
-
-  /// An optional pagination token provided by a previous
-  /// <code>DescribeEndpointAccess</code> request. If this parameter is specified,
-  /// the response includes only records beyond the marker, up to the value
-  /// specified by the <code>MaxRecords</code> parameter.
-  final String? marker;
-
-  EndpointAccessList({
-    this.endpointAccessList,
-    this.marker,
-  });
-  factory EndpointAccessList.fromXml(_s.XmlElement elem) {
-    return EndpointAccessList(
-      endpointAccessList: _s.extractXmlChild(elem, 'EndpointAccessList')?.let(
-          (elem) =>
-              elem.findElements('member').map(EndpointAccess.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointAccessList = this.endpointAccessList;
-    final marker = this.marker;
-    return {
-      if (endpointAccessList != null) 'EndpointAccessList': endpointAccessList,
-      if (marker != null) 'Marker': marker,
     };
   }
 }
@@ -12875,1389 +9978,14 @@ class EndpointAuthorization {
   }
 }
 
-class EndpointAuthorizationList {
-  /// The authorizations to an endpoint.
-  final List<EndpointAuthorization>? endpointAuthorizationList;
-
-  /// An optional pagination token provided by a previous
-  /// <code>DescribeEndpointAuthorization</code> request. If this parameter is
-  /// specified, the response includes only records beyond the marker, up to the
-  /// value specified by the <code>MaxRecords</code> parameter.
-  final String? marker;
-
-  EndpointAuthorizationList({
-    this.endpointAuthorizationList,
-    this.marker,
-  });
-  factory EndpointAuthorizationList.fromXml(_s.XmlElement elem) {
-    return EndpointAuthorizationList(
-      endpointAuthorizationList: _s
-          .extractXmlChild(elem, 'EndpointAuthorizationList')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(EndpointAuthorization.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointAuthorizationList = this.endpointAuthorizationList;
-    final marker = this.marker;
-    return {
-      if (endpointAuthorizationList != null)
-        'EndpointAuthorizationList': endpointAuthorizationList,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Describes an event.
-class Event {
-  /// The date and time of the event.
-  final DateTime? date;
-
-  /// A list of the event categories.
-  ///
-  /// Values: Configuration, Management, Monitoring, Security, Pending
-  final List<String>? eventCategories;
-
-  /// The identifier of the event.
-  final String? eventId;
-
-  /// The text of this event.
-  final String? message;
-
-  /// The severity of the event.
-  ///
-  /// Values: ERROR, INFO
-  final String? severity;
-
-  /// The identifier for the source of the event.
-  final String? sourceIdentifier;
-
-  /// The source type for this event.
-  final SourceType? sourceType;
-
-  Event({
-    this.date,
-    this.eventCategories,
-    this.eventId,
-    this.message,
-    this.severity,
-    this.sourceIdentifier,
-    this.sourceType,
-  });
-  factory Event.fromXml(_s.XmlElement elem) {
-    return Event(
-      date: _s.extractXmlDateTimeValue(elem, 'Date'),
-      eventCategories: _s
-          .extractXmlChild(elem, 'EventCategories')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
-      eventId: _s.extractXmlStringValue(elem, 'EventId'),
-      message: _s.extractXmlStringValue(elem, 'Message'),
-      severity: _s.extractXmlStringValue(elem, 'Severity'),
-      sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
-      sourceType: _s
-          .extractXmlStringValue(elem, 'SourceType')
-          ?.let(SourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final eventCategories = this.eventCategories;
-    final eventId = this.eventId;
-    final message = this.message;
-    final severity = this.severity;
-    final sourceIdentifier = this.sourceIdentifier;
-    final sourceType = this.sourceType;
-    return {
-      if (date != null) 'Date': iso8601ToJson(date),
-      if (eventCategories != null) 'EventCategories': eventCategories,
-      if (eventId != null) 'EventId': eventId,
-      if (message != null) 'Message': message,
-      if (severity != null) 'Severity': severity,
-      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.value,
-    };
-  }
-}
-
-/// Describes event categories.
-class EventCategoriesMap {
-  /// The events in the event category.
-  final List<EventInfoMap>? events;
-
-  /// The source type, such as cluster or cluster-snapshot, that the returned
-  /// categories belong to.
-  final String? sourceType;
-
-  EventCategoriesMap({
-    this.events,
-    this.sourceType,
-  });
-  factory EventCategoriesMap.fromXml(_s.XmlElement elem) {
-    return EventCategoriesMap(
-      events: _s.extractXmlChild(elem, 'Events')?.let((elem) =>
-          elem.findElements('EventInfoMap').map(EventInfoMap.fromXml).toList()),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final sourceType = this.sourceType;
-    return {
-      if (events != null) 'Events': events,
-      if (sourceType != null) 'SourceType': sourceType,
-    };
-  }
-}
-
-/// <p/>
-class EventCategoriesMessage {
-  /// A list of event categories descriptions.
-  final List<EventCategoriesMap>? eventCategoriesMapList;
-
-  EventCategoriesMessage({
-    this.eventCategoriesMapList,
-  });
-  factory EventCategoriesMessage.fromXml(_s.XmlElement elem) {
-    return EventCategoriesMessage(
-      eventCategoriesMapList: _s
-          .extractXmlChild(elem, 'EventCategoriesMapList')
-          ?.let((elem) => elem
-              .findElements('EventCategoriesMap')
-              .map(EventCategoriesMap.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventCategoriesMapList = this.eventCategoriesMapList;
-    return {
-      if (eventCategoriesMapList != null)
-        'EventCategoriesMapList': eventCategoriesMapList,
-    };
-  }
-}
-
-/// Describes event information.
-class EventInfoMap {
-  /// The category of an Amazon Redshift event.
-  final List<String>? eventCategories;
-
-  /// The description of an Amazon Redshift event.
-  final String? eventDescription;
-
-  /// The identifier of an Amazon Redshift event.
-  final String? eventId;
-
-  /// The severity of the event.
-  ///
-  /// Values: ERROR, INFO
-  final String? severity;
-
-  EventInfoMap({
-    this.eventCategories,
-    this.eventDescription,
-    this.eventId,
-    this.severity,
-  });
-  factory EventInfoMap.fromXml(_s.XmlElement elem) {
-    return EventInfoMap(
-      eventCategories: _s
-          .extractXmlChild(elem, 'EventCategories')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
-      eventDescription: _s.extractXmlStringValue(elem, 'EventDescription'),
-      eventId: _s.extractXmlStringValue(elem, 'EventId'),
-      severity: _s.extractXmlStringValue(elem, 'Severity'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventCategories = this.eventCategories;
-    final eventDescription = this.eventDescription;
-    final eventId = this.eventId;
-    final severity = this.severity;
-    return {
-      if (eventCategories != null) 'EventCategories': eventCategories,
-      if (eventDescription != null) 'EventDescription': eventDescription,
-      if (eventId != null) 'EventId': eventId,
-      if (severity != null) 'Severity': severity,
-    };
-  }
-}
-
-/// Describes event subscriptions.
-class EventSubscription {
-  /// The name of the Amazon Redshift event notification subscription.
-  final String? custSubscriptionId;
-
-  /// The Amazon Web Services account associated with the Amazon Redshift event
-  /// notification subscription.
-  final String? customerAwsId;
-
-  /// A boolean value indicating whether the subscription is enabled;
-  /// <code>true</code> indicates that the subscription is enabled.
-  final bool? enabled;
-
-  /// The list of Amazon Redshift event categories specified in the event
-  /// notification subscription.
-  ///
-  /// Values: Configuration, Management, Monitoring, Security, Pending
-  final List<String>? eventCategoriesList;
-
-  /// The event severity specified in the Amazon Redshift event notification
-  /// subscription.
-  ///
-  /// Values: ERROR, INFO
-  final String? severity;
-
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic used by the event
-  /// notification subscription.
-  final String? snsTopicArn;
-
-  /// A list of the sources that publish events to the Amazon Redshift event
-  /// notification subscription.
-  final List<String>? sourceIdsList;
-
-  /// The source type of the events returned by the Amazon Redshift event
-  /// notification, such as cluster, cluster-snapshot, cluster-parameter-group,
-  /// cluster-security-group, or scheduled-action.
-  final String? sourceType;
-
-  /// The status of the Amazon Redshift event notification subscription.
-  ///
-  /// Constraints:
-  ///
-  /// <ul>
-  /// <li>
-  /// Can be one of the following: active | no-permission | topic-not-exist
-  /// </li>
-  /// <li>
-  /// The status "no-permission" indicates that Amazon Redshift no longer has
-  /// permission to post to the Amazon SNS topic. The status "topic-not-exist"
-  /// indicates that the topic was deleted after the subscription was created.
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  /// The date and time the Amazon Redshift event notification subscription was
-  /// created.
-  final DateTime? subscriptionCreationTime;
-
-  /// The list of tags for the event subscription.
-  final List<Tag>? tags;
-
-  EventSubscription({
-    this.custSubscriptionId,
-    this.customerAwsId,
-    this.enabled,
-    this.eventCategoriesList,
-    this.severity,
-    this.snsTopicArn,
-    this.sourceIdsList,
-    this.sourceType,
-    this.status,
-    this.subscriptionCreationTime,
-    this.tags,
-  });
-  factory EventSubscription.fromXml(_s.XmlElement elem) {
-    return EventSubscription(
-      custSubscriptionId: _s.extractXmlStringValue(elem, 'CustSubscriptionId'),
-      customerAwsId: _s.extractXmlStringValue(elem, 'CustomerAwsId'),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      eventCategoriesList: _s
-          .extractXmlChild(elem, 'EventCategoriesList')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
-      severity: _s.extractXmlStringValue(elem, 'Severity'),
-      snsTopicArn: _s.extractXmlStringValue(elem, 'SnsTopicArn'),
-      sourceIdsList: _s
-          .extractXmlChild(elem, 'SourceIdsList')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SourceId')),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      subscriptionCreationTime:
-          _s.extractXmlDateTimeValue(elem, 'SubscriptionCreationTime'),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final custSubscriptionId = this.custSubscriptionId;
-    final customerAwsId = this.customerAwsId;
-    final enabled = this.enabled;
-    final eventCategoriesList = this.eventCategoriesList;
-    final severity = this.severity;
-    final snsTopicArn = this.snsTopicArn;
-    final sourceIdsList = this.sourceIdsList;
-    final sourceType = this.sourceType;
-    final status = this.status;
-    final subscriptionCreationTime = this.subscriptionCreationTime;
-    final tags = this.tags;
-    return {
-      if (custSubscriptionId != null) 'CustSubscriptionId': custSubscriptionId,
-      if (customerAwsId != null) 'CustomerAwsId': customerAwsId,
-      if (enabled != null) 'Enabled': enabled,
-      if (eventCategoriesList != null)
-        'EventCategoriesList': eventCategoriesList,
-      if (severity != null) 'Severity': severity,
-      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-      if (sourceIdsList != null) 'SourceIdsList': sourceIdsList,
-      if (sourceType != null) 'SourceType': sourceType,
-      if (status != null) 'Status': status,
-      if (subscriptionCreationTime != null)
-        'SubscriptionCreationTime': iso8601ToJson(subscriptionCreationTime),
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// <p/>
-class EventSubscriptionsMessage {
-  /// A list of event subscriptions.
-  final List<EventSubscription>? eventSubscriptionsList;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  EventSubscriptionsMessage({
-    this.eventSubscriptionsList,
-    this.marker,
-  });
-  factory EventSubscriptionsMessage.fromXml(_s.XmlElement elem) {
-    return EventSubscriptionsMessage(
-      eventSubscriptionsList: _s
-          .extractXmlChild(elem, 'EventSubscriptionsList')
-          ?.let((elem) => elem
-              .findElements('EventSubscription')
-              .map(EventSubscription.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventSubscriptionsList = this.eventSubscriptionsList;
-    final marker = this.marker;
-    return {
-      if (eventSubscriptionsList != null)
-        'EventSubscriptionsList': eventSubscriptionsList,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// <p/>
-class EventsMessage {
-  /// A list of <code>Event</code> instances.
-  final List<Event>? events;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  EventsMessage({
-    this.events,
-    this.marker,
-  });
-  factory EventsMessage.fromXml(_s.XmlElement elem) {
-    return EventsMessage(
-      events: _s.extractXmlChild(elem, 'Events')?.let(
-          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final marker = this.marker;
-    return {
-      if (events != null) 'Events': events,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-class FailoverPrimaryComputeResult {
-  final Cluster? cluster;
-
-  FailoverPrimaryComputeResult({
-    this.cluster,
-  });
-  factory FailoverPrimaryComputeResult.fromXml(_s.XmlElement elem) {
-    return FailoverPrimaryComputeResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-class GetReservedNodeExchangeConfigurationOptionsOutputMessage {
-  /// A pagination token provided by a previous
-  /// <code>GetReservedNodeExchangeConfigurationOptions</code> request.
-  final String? marker;
-
-  /// the configuration options for the reserved-node exchange. These options
-  /// include information about the source reserved node and target reserved node.
-  /// Details include the node type, the price, the node count, and the offering
-  /// type.
-  final List<ReservedNodeConfigurationOption>?
-      reservedNodeConfigurationOptionList;
-
-  GetReservedNodeExchangeConfigurationOptionsOutputMessage({
-    this.marker,
-    this.reservedNodeConfigurationOptionList,
-  });
-  factory GetReservedNodeExchangeConfigurationOptionsOutputMessage.fromXml(
-      _s.XmlElement elem) {
-    return GetReservedNodeExchangeConfigurationOptionsOutputMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      reservedNodeConfigurationOptionList: _s
-          .extractXmlChild(elem, 'ReservedNodeConfigurationOptionList')
-          ?.let((elem) => elem
-              .findElements('ReservedNodeConfigurationOption')
-              .map(ReservedNodeConfigurationOption.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final reservedNodeConfigurationOptionList =
-        this.reservedNodeConfigurationOptionList;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (reservedNodeConfigurationOptionList != null)
-        'ReservedNodeConfigurationOptionList':
-            reservedNodeConfigurationOptionList,
-    };
-  }
-}
-
-class GetReservedNodeExchangeOfferingsOutputMessage {
-  /// An optional parameter that specifies the starting point for returning a set
-  /// of response records. When the results of a
-  /// <code>GetReservedNodeExchangeOfferings</code> request exceed the value
-  /// specified in MaxRecords, Amazon Redshift returns a value in the marker field
-  /// of the response. You can retrieve the next set of response records by
-  /// providing the returned marker value in the marker parameter and retrying the
-  /// request.
-  final String? marker;
-
-  /// Returns an array of <a>ReservedNodeOffering</a> objects.
-  final List<ReservedNodeOffering>? reservedNodeOfferings;
-
-  GetReservedNodeExchangeOfferingsOutputMessage({
-    this.marker,
-    this.reservedNodeOfferings,
-  });
-  factory GetReservedNodeExchangeOfferingsOutputMessage.fromXml(
-      _s.XmlElement elem) {
-    return GetReservedNodeExchangeOfferingsOutputMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      reservedNodeOfferings: _s
-          .extractXmlChild(elem, 'ReservedNodeOfferings')
-          ?.let((elem) => elem
-              .findElements('ReservedNodeOffering')
-              .map(ReservedNodeOffering.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final reservedNodeOfferings = this.reservedNodeOfferings;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (reservedNodeOfferings != null)
-        'ReservedNodeOfferings': reservedNodeOfferings,
-    };
-  }
-}
-
-class GetResourcePolicyResult {
-  /// The content of the resource policy.
-  final ResourcePolicy? resourcePolicy;
-
-  GetResourcePolicyResult({
-    this.resourcePolicy,
-  });
-  factory GetResourcePolicyResult.fromXml(_s.XmlElement elem) {
-    return GetResourcePolicyResult(
-      resourcePolicy: _s
-          .extractXmlChild(elem, 'ResourcePolicy')
-          ?.let(ResourcePolicy.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourcePolicy = this.resourcePolicy;
-    return {
-      if (resourcePolicy != null) 'ResourcePolicy': resourcePolicy,
-    };
-  }
-}
-
-/// Returns information about an HSM client certificate. The certificate is
-/// stored in a secure Hardware Storage Module (HSM), and used by the Amazon
-/// Redshift cluster to encrypt data files.
-class HsmClientCertificate {
-  /// The identifier of the HSM client certificate.
-  final String? hsmClientCertificateIdentifier;
-
-  /// The public key that the Amazon Redshift cluster will use to connect to the
-  /// HSM. You must register the public key in the HSM.
-  final String? hsmClientCertificatePublicKey;
-
-  /// The list of tags for the HSM client certificate.
-  final List<Tag>? tags;
-
-  HsmClientCertificate({
-    this.hsmClientCertificateIdentifier,
-    this.hsmClientCertificatePublicKey,
-    this.tags,
-  });
-  factory HsmClientCertificate.fromXml(_s.XmlElement elem) {
-    return HsmClientCertificate(
-      hsmClientCertificateIdentifier:
-          _s.extractXmlStringValue(elem, 'HsmClientCertificateIdentifier'),
-      hsmClientCertificatePublicKey:
-          _s.extractXmlStringValue(elem, 'HsmClientCertificatePublicKey'),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hsmClientCertificateIdentifier = this.hsmClientCertificateIdentifier;
-    final hsmClientCertificatePublicKey = this.hsmClientCertificatePublicKey;
-    final tags = this.tags;
-    return {
-      if (hsmClientCertificateIdentifier != null)
-        'HsmClientCertificateIdentifier': hsmClientCertificateIdentifier,
-      if (hsmClientCertificatePublicKey != null)
-        'HsmClientCertificatePublicKey': hsmClientCertificatePublicKey,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// <p/>
-class HsmClientCertificateMessage {
-  /// A list of the identifiers for one or more HSM client certificates used by
-  /// Amazon Redshift clusters to store and retrieve database encryption keys in
-  /// an HSM.
-  final List<HsmClientCertificate>? hsmClientCertificates;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  HsmClientCertificateMessage({
-    this.hsmClientCertificates,
-    this.marker,
-  });
-  factory HsmClientCertificateMessage.fromXml(_s.XmlElement elem) {
-    return HsmClientCertificateMessage(
-      hsmClientCertificates: _s
-          .extractXmlChild(elem, 'HsmClientCertificates')
-          ?.let((elem) => elem
-              .findElements('HsmClientCertificate')
-              .map(HsmClientCertificate.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hsmClientCertificates = this.hsmClientCertificates;
-    final marker = this.marker;
-    return {
-      if (hsmClientCertificates != null)
-        'HsmClientCertificates': hsmClientCertificates,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Returns information about an HSM configuration, which is an object that
-/// describes to Amazon Redshift clusters the information they require to
-/// connect to an HSM where they can store database encryption keys.
-class HsmConfiguration {
-  /// A text description of the HSM configuration.
-  final String? description;
-
-  /// The name of the Amazon Redshift HSM configuration.
-  final String? hsmConfigurationIdentifier;
-
-  /// The IP address that the Amazon Redshift cluster must use to access the HSM.
-  final String? hsmIpAddress;
-
-  /// The name of the partition in the HSM where the Amazon Redshift clusters will
-  /// store their database encryption keys.
-  final String? hsmPartitionName;
-
-  /// The list of tags for the HSM configuration.
-  final List<Tag>? tags;
-
-  HsmConfiguration({
-    this.description,
-    this.hsmConfigurationIdentifier,
-    this.hsmIpAddress,
-    this.hsmPartitionName,
-    this.tags,
-  });
-  factory HsmConfiguration.fromXml(_s.XmlElement elem) {
-    return HsmConfiguration(
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      hsmConfigurationIdentifier:
-          _s.extractXmlStringValue(elem, 'HsmConfigurationIdentifier'),
-      hsmIpAddress: _s.extractXmlStringValue(elem, 'HsmIpAddress'),
-      hsmPartitionName: _s.extractXmlStringValue(elem, 'HsmPartitionName'),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final hsmConfigurationIdentifier = this.hsmConfigurationIdentifier;
-    final hsmIpAddress = this.hsmIpAddress;
-    final hsmPartitionName = this.hsmPartitionName;
-    final tags = this.tags;
-    return {
-      if (description != null) 'Description': description,
-      if (hsmConfigurationIdentifier != null)
-        'HsmConfigurationIdentifier': hsmConfigurationIdentifier,
-      if (hsmIpAddress != null) 'HsmIpAddress': hsmIpAddress,
-      if (hsmPartitionName != null) 'HsmPartitionName': hsmPartitionName,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// <p/>
-class HsmConfigurationMessage {
-  /// A list of <code>HsmConfiguration</code> objects.
-  final List<HsmConfiguration>? hsmConfigurations;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  HsmConfigurationMessage({
-    this.hsmConfigurations,
-    this.marker,
-  });
-  factory HsmConfigurationMessage.fromXml(_s.XmlElement elem) {
-    return HsmConfigurationMessage(
-      hsmConfigurations: _s.extractXmlChild(elem, 'HsmConfigurations')?.let(
-          (elem) => elem
-              .findElements('HsmConfiguration')
-              .map(HsmConfiguration.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hsmConfigurations = this.hsmConfigurations;
-    final marker = this.marker;
-    return {
-      if (hsmConfigurations != null) 'HsmConfigurations': hsmConfigurations,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// Describes the status of changes to HSM settings.
-class HsmStatus {
-  /// Specifies the name of the HSM client certificate the Amazon Redshift cluster
-  /// uses to retrieve the data encryption keys stored in an HSM.
-  final String? hsmClientCertificateIdentifier;
-
-  /// Specifies the name of the HSM configuration that contains the information
-  /// the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
-  final String? hsmConfigurationIdentifier;
-
-  /// Reports whether the Amazon Redshift cluster has finished applying any HSM
-  /// settings changes specified in a modify cluster command.
-  ///
-  /// Values: active, applying
-  final String? status;
-
-  HsmStatus({
-    this.hsmClientCertificateIdentifier,
-    this.hsmConfigurationIdentifier,
-    this.status,
-  });
-  factory HsmStatus.fromXml(_s.XmlElement elem) {
-    return HsmStatus(
-      hsmClientCertificateIdentifier:
-          _s.extractXmlStringValue(elem, 'HsmClientCertificateIdentifier'),
-      hsmConfigurationIdentifier:
-          _s.extractXmlStringValue(elem, 'HsmConfigurationIdentifier'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hsmClientCertificateIdentifier = this.hsmClientCertificateIdentifier;
-    final hsmConfigurationIdentifier = this.hsmConfigurationIdentifier;
-    final status = this.status;
-    return {
-      if (hsmClientCertificateIdentifier != null)
-        'HsmClientCertificateIdentifier': hsmClientCertificateIdentifier,
-      if (hsmConfigurationIdentifier != null)
-        'HsmConfigurationIdentifier': hsmConfigurationIdentifier,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Describes an IP range used in a security group.
-class IPRange {
-  /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
-  final String? cidrip;
-
-  /// The status of the IP range, for example, "authorized".
-  final String? status;
-
-  /// The list of tags for the IP range.
-  final List<Tag>? tags;
-
-  IPRange({
-    this.cidrip,
-    this.status,
-    this.tags,
-  });
-  factory IPRange.fromXml(_s.XmlElement elem) {
-    return IPRange(
-      cidrip: _s.extractXmlStringValue(elem, 'CIDRIP'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidrip = this.cidrip;
-    final status = this.status;
-    final tags = this.tags;
-    return {
-      if (cidrip != null) 'CIDRIP': cidrip,
-      if (status != null) 'Status': status,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class ImpactRankingType {
-  static const high = ImpactRankingType._('HIGH');
-  static const medium = ImpactRankingType._('MEDIUM');
-  static const low = ImpactRankingType._('LOW');
-
-  final String value;
-
-  const ImpactRankingType._(this.value);
-
-  static const values = [high, medium, low];
-
-  static ImpactRankingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImpactRankingType._(value));
-
-  @override
-  bool operator ==(other) => other is ImpactRankingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The content of an inbound integration.
-class InboundIntegration {
-  /// The creation time of an inbound integration.
-  final DateTime? createTime;
-
-  /// The outstanding errors of an inbound integration. Each item is an
-  /// "IntegrationError". This is null if there is no error.
-  final List<IntegrationError>? errors;
-
-  /// The Amazon Resource Name (ARN) of an inbound integration.
-  final String? integrationArn;
-
-  /// The Amazon Resource Name (ARN) of the source of an inbound integration.
-  final String? sourceArn;
-
-  /// The status of an inbound integration.
-  final ZeroETLIntegrationStatus? status;
-
-  /// The Amazon Resource Name (ARN) of the target of an inbound integration.
-  final String? targetArn;
-
-  InboundIntegration({
-    this.createTime,
-    this.errors,
-    this.integrationArn,
-    this.sourceArn,
-    this.status,
-    this.targetArn,
-  });
-  factory InboundIntegration.fromXml(_s.XmlElement elem) {
-    return InboundIntegration(
-      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
-      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
-          .findElements('IntegrationError')
-          .map(IntegrationError.fromXml)
-          .toList()),
-      integrationArn: _s.extractXmlStringValue(elem, 'IntegrationArn'),
-      sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(ZeroETLIntegrationStatus.fromString),
-      targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createTime = this.createTime;
-    final errors = this.errors;
-    final integrationArn = this.integrationArn;
-    final sourceArn = this.sourceArn;
-    final status = this.status;
-    final targetArn = this.targetArn;
-    return {
-      if (createTime != null) 'CreateTime': iso8601ToJson(createTime),
-      if (errors != null) 'Errors': errors,
-      if (integrationArn != null) 'IntegrationArn': integrationArn,
-      if (sourceArn != null) 'SourceArn': sourceArn,
-      if (status != null) 'Status': status.value,
-      if (targetArn != null) 'TargetArn': targetArn,
-    };
-  }
-}
-
-class InboundIntegrationsMessage {
-  /// A list of <a>InboundIntegration</a> instances.
-  final List<InboundIntegration>? inboundIntegrations;
-
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  InboundIntegrationsMessage({
-    this.inboundIntegrations,
-    this.marker,
-  });
-  factory InboundIntegrationsMessage.fromXml(_s.XmlElement elem) {
-    return InboundIntegrationsMessage(
-      inboundIntegrations: _s.extractXmlChild(elem, 'InboundIntegrations')?.let(
-          (elem) => elem
-              .findElements('InboundIntegration')
-              .map(InboundIntegration.fromXml)
-              .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inboundIntegrations = this.inboundIntegrations;
-    final marker = this.marker;
-    return {
-      if (inboundIntegrations != null)
-        'InboundIntegrations': inboundIntegrations,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// The error of an inbound integration.
-class IntegrationError {
-  /// The error code of an inbound integration error.
-  final String errorCode;
-
-  /// The error message of an inbound integration error.
-  final String? errorMessage;
-
-  IntegrationError({
-    required this.errorCode,
-    this.errorMessage,
-  });
-  factory IntegrationError.fromXml(_s.XmlElement elem) {
-    return IntegrationError(
-      errorCode: _s.extractXmlStringValue(elem, 'ErrorCode')!,
-      errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
-/// The Lake Formation scope.
-class LakeFormationQuery {
-  /// Determines whether the query scope is enabled or disabled.
-  final ServiceAuthorization authorization;
-
-  LakeFormationQuery({
-    required this.authorization,
-  });
-  factory LakeFormationQuery.fromXml(_s.XmlElement elem) {
-    return LakeFormationQuery(
-      authorization: _s
-          .extractXmlStringValue(elem, 'Authorization')!
-          .let(ServiceAuthorization.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorization = this.authorization;
-    return {
-      'Authorization': authorization.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final authorization = this.authorization;
-    return {
-      'Authorization': authorization.value,
-    };
-  }
-}
-
-/// A list of scopes set up for Lake Formation integration.
-class LakeFormationScopeUnion {
-  /// The Lake Formation scope.
-  final LakeFormationQuery? lakeFormationQuery;
-
-  LakeFormationScopeUnion({
-    this.lakeFormationQuery,
-  });
-  factory LakeFormationScopeUnion.fromXml(_s.XmlElement elem) {
-    return LakeFormationScopeUnion(
-      lakeFormationQuery: _s
-          .extractXmlChild(elem, 'LakeFormationQuery')
-          ?.let(LakeFormationQuery.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lakeFormationQuery = this.lakeFormationQuery;
-    return {
-      if (lakeFormationQuery != null) 'LakeFormationQuery': lakeFormationQuery,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final lakeFormationQuery = this.lakeFormationQuery;
-    return {
-      if (lakeFormationQuery != null)
-        for (var e1 in lakeFormationQuery.toQueryMap().entries)
-          'LakeFormationQuery.${e1.key}': e1.value,
-    };
-  }
-}
-
-class ListRecommendationsResult {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the Marker parameter and retrying the command. If the Marker field is
-  /// empty, all response records have been retrieved for the request.
-  final String? marker;
-
-  /// The Advisor recommendations for action on the Amazon Redshift cluster.
-  final List<Recommendation>? recommendations;
-
-  ListRecommendationsResult({
-    this.marker,
-    this.recommendations,
-  });
-  factory ListRecommendationsResult.fromXml(_s.XmlElement elem) {
-    return ListRecommendationsResult(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      recommendations: _s.extractXmlChild(elem, 'Recommendations')?.let(
-          (elem) => elem
-              .findElements('Recommendation')
-              .map(Recommendation.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final recommendations = this.recommendations;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (recommendations != null) 'Recommendations': recommendations,
-    };
-  }
-}
-
-class LogDestinationType {
-  static const s3 = LogDestinationType._('s3');
-  static const cloudwatch = LogDestinationType._('cloudwatch');
-
-  final String value;
-
-  const LogDestinationType._(this.value);
-
-  static const values = [s3, cloudwatch];
-
-  static LogDestinationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LogDestinationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LogDestinationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the status of logging for a cluster.
-class LoggingStatus {
-  /// The name of the S3 bucket where the log files are stored.
-  final String? bucketName;
-
-  /// The message indicating that logs failed to be delivered.
-  final String? lastFailureMessage;
-
-  /// The last time when logs failed to be delivered.
-  final DateTime? lastFailureTime;
-
-  /// The last time that logs were delivered.
-  final DateTime? lastSuccessfulDeliveryTime;
-
-  /// The log destination type. An enum with possible values of <code>s3</code>
-  /// and <code>cloudwatch</code>.
-  final LogDestinationType? logDestinationType;
-
-  /// The collection of exported log types. Possible values are
-  /// <code>connectionlog</code>, <code>useractivitylog</code>, and
-  /// <code>userlog</code>.
-  final List<String>? logExports;
-
-  /// <code>true</code> if logging is on, <code>false</code> if logging is off.
-  final bool? loggingEnabled;
-
-  /// The prefix applied to the log file names.
-  final String? s3KeyPrefix;
-
-  LoggingStatus({
-    this.bucketName,
-    this.lastFailureMessage,
-    this.lastFailureTime,
-    this.lastSuccessfulDeliveryTime,
-    this.logDestinationType,
-    this.logExports,
-    this.loggingEnabled,
-    this.s3KeyPrefix,
-  });
-  factory LoggingStatus.fromXml(_s.XmlElement elem) {
-    return LoggingStatus(
-      bucketName: _s.extractXmlStringValue(elem, 'BucketName'),
-      lastFailureMessage: _s.extractXmlStringValue(elem, 'LastFailureMessage'),
-      lastFailureTime: _s.extractXmlDateTimeValue(elem, 'LastFailureTime'),
-      lastSuccessfulDeliveryTime:
-          _s.extractXmlDateTimeValue(elem, 'LastSuccessfulDeliveryTime'),
-      logDestinationType: _s
-          .extractXmlStringValue(elem, 'LogDestinationType')
-          ?.let(LogDestinationType.fromString),
-      logExports: _s
-          .extractXmlChild(elem, 'LogExports')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      loggingEnabled: _s.extractXmlBoolValue(elem, 'LoggingEnabled'),
-      s3KeyPrefix: _s.extractXmlStringValue(elem, 'S3KeyPrefix'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final lastFailureMessage = this.lastFailureMessage;
-    final lastFailureTime = this.lastFailureTime;
-    final lastSuccessfulDeliveryTime = this.lastSuccessfulDeliveryTime;
-    final logDestinationType = this.logDestinationType;
-    final logExports = this.logExports;
-    final loggingEnabled = this.loggingEnabled;
-    final s3KeyPrefix = this.s3KeyPrefix;
-    return {
-      if (bucketName != null) 'BucketName': bucketName,
-      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
-      if (lastFailureTime != null)
-        'LastFailureTime': iso8601ToJson(lastFailureTime),
-      if (lastSuccessfulDeliveryTime != null)
-        'LastSuccessfulDeliveryTime': iso8601ToJson(lastSuccessfulDeliveryTime),
-      if (logDestinationType != null)
-        'LogDestinationType': logDestinationType.value,
-      if (logExports != null) 'LogExports': logExports,
-      if (loggingEnabled != null) 'LoggingEnabled': loggingEnabled,
-      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
-    };
-  }
-}
-
-/// Defines a maintenance track that determines which Amazon Redshift version to
-/// apply during a maintenance window. If the value for
-/// <code>MaintenanceTrack</code> is <code>current</code>, the cluster is
-/// updated to the most recently certified maintenance release. If the value is
-/// <code>trailing</code>, the cluster is updated to the previously certified
-/// maintenance release.
-class MaintenanceTrack {
-  /// The version number for the cluster release.
-  final String? databaseVersion;
-
-  /// The name of the maintenance track. Possible values are <code>current</code>
-  /// and <code>trailing</code>.
-  final String? maintenanceTrackName;
-
-  /// An array of <a>UpdateTarget</a> objects to update with the maintenance
-  /// track.
-  final List<UpdateTarget>? updateTargets;
-
-  MaintenanceTrack({
-    this.databaseVersion,
-    this.maintenanceTrackName,
-    this.updateTargets,
-  });
-  factory MaintenanceTrack.fromXml(_s.XmlElement elem) {
-    return MaintenanceTrack(
-      databaseVersion: _s.extractXmlStringValue(elem, 'DatabaseVersion'),
-      maintenanceTrackName:
-          _s.extractXmlStringValue(elem, 'MaintenanceTrackName'),
-      updateTargets: _s.extractXmlChild(elem, 'UpdateTargets')?.let((elem) =>
-          elem.findElements('UpdateTarget').map(UpdateTarget.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseVersion = this.databaseVersion;
-    final maintenanceTrackName = this.maintenanceTrackName;
-    final updateTargets = this.updateTargets;
-    return {
-      if (databaseVersion != null) 'DatabaseVersion': databaseVersion,
-      if (maintenanceTrackName != null)
-        'MaintenanceTrackName': maintenanceTrackName,
-      if (updateTargets != null) 'UpdateTargets': updateTargets,
-    };
-  }
-}
-
-class Mode {
-  static const standard = Mode._('standard');
-  static const highPerformance = Mode._('high-performance');
-
-  final String value;
-
-  const Mode._(this.value);
-
-  static const values = [standard, highPerformance];
-
-  static Mode fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
-
-  @override
-  bool operator ==(other) => other is Mode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ModifyAquaOutputMessage {
-  /// This parameter is retired. Amazon Redshift automatically determines whether
-  /// to use AQUA (Advanced Query Accelerator).
-  final AquaConfiguration? aquaConfiguration;
-
-  ModifyAquaOutputMessage({
-    this.aquaConfiguration,
-  });
-  factory ModifyAquaOutputMessage.fromXml(_s.XmlElement elem) {
-    return ModifyAquaOutputMessage(
-      aquaConfiguration: _s
-          .extractXmlChild(elem, 'AquaConfiguration')
-          ?.let(AquaConfiguration.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aquaConfiguration = this.aquaConfiguration;
-    return {
-      if (aquaConfiguration != null) 'AquaConfiguration': aquaConfiguration,
-    };
-  }
-}
-
-class ModifyAuthenticationProfileResult {
-  /// The updated content of the authentication profile in JSON format.
-  final String? authenticationProfileContent;
-
-  /// The name of the authentication profile that was replaced.
-  final String? authenticationProfileName;
-
-  ModifyAuthenticationProfileResult({
-    this.authenticationProfileContent,
-    this.authenticationProfileName,
-  });
-  factory ModifyAuthenticationProfileResult.fromXml(_s.XmlElement elem) {
-    return ModifyAuthenticationProfileResult(
-      authenticationProfileContent:
-          _s.extractXmlStringValue(elem, 'AuthenticationProfileContent'),
-      authenticationProfileName:
-          _s.extractXmlStringValue(elem, 'AuthenticationProfileName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationProfileContent = this.authenticationProfileContent;
-    final authenticationProfileName = this.authenticationProfileName;
-    return {
-      if (authenticationProfileContent != null)
-        'AuthenticationProfileContent': authenticationProfileContent,
-      if (authenticationProfileName != null)
-        'AuthenticationProfileName': authenticationProfileName,
-    };
-  }
-}
-
-class ModifyClusterDbRevisionResult {
-  final Cluster? cluster;
-
-  ModifyClusterDbRevisionResult({
-    this.cluster,
-  });
-  factory ModifyClusterDbRevisionResult.fromXml(_s.XmlElement elem) {
-    return ModifyClusterDbRevisionResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-class ModifyClusterIamRolesResult {
-  final Cluster? cluster;
-
-  ModifyClusterIamRolesResult({
-    this.cluster,
-  });
-  factory ModifyClusterIamRolesResult.fromXml(_s.XmlElement elem) {
-    return ModifyClusterIamRolesResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-class ModifyClusterMaintenanceResult {
-  final Cluster? cluster;
-
-  ModifyClusterMaintenanceResult({
-    this.cluster,
-  });
-  factory ModifyClusterMaintenanceResult.fromXml(_s.XmlElement elem) {
-    return ModifyClusterMaintenanceResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-class ModifyClusterResult {
-  final Cluster? cluster;
-
-  ModifyClusterResult({
-    this.cluster,
-  });
-  factory ModifyClusterResult.fromXml(_s.XmlElement elem) {
-    return ModifyClusterResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-class ModifyClusterSnapshotResult {
+class AuthorizeSnapshotAccessResult {
   final Snapshot? snapshot;
 
-  ModifyClusterSnapshotResult({
+  AuthorizeSnapshotAccessResult({
     this.snapshot,
   });
-  factory ModifyClusterSnapshotResult.fromXml(_s.XmlElement elem) {
-    return ModifyClusterSnapshotResult(
+  factory AuthorizeSnapshotAccessResult.fromXml(_s.XmlElement elem) {
+    return AuthorizeSnapshotAccessResult(
       snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
     );
   }
@@ -14270,1987 +9998,68 @@ class ModifyClusterSnapshotResult {
   }
 }
 
-class ModifyClusterSubnetGroupResult {
-  final ClusterSubnetGroup? clusterSubnetGroup;
+class BatchDeleteClusterSnapshotsResult {
+  /// A list of any errors returned.
+  final List<SnapshotErrorMessage>? errors;
 
-  ModifyClusterSubnetGroupResult({
-    this.clusterSubnetGroup,
+  /// A list of the snapshot identifiers that were deleted.
+  final List<String>? resources;
+
+  BatchDeleteClusterSnapshotsResult({
+    this.errors,
+    this.resources,
   });
-  factory ModifyClusterSubnetGroupResult.fromXml(_s.XmlElement elem) {
-    return ModifyClusterSubnetGroupResult(
-      clusterSubnetGroup: _s
-          .extractXmlChild(elem, 'ClusterSubnetGroup')
-          ?.let(ClusterSubnetGroup.fromXml),
+  factory BatchDeleteClusterSnapshotsResult.fromXml(_s.XmlElement elem) {
+    return BatchDeleteClusterSnapshotsResult(
+      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
+          .findElements('SnapshotErrorMessage')
+          .map(SnapshotErrorMessage.fromXml)
+          .toList()),
+      resources: _s
+          .extractXmlChild(elem, 'Resources')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'String')),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final clusterSubnetGroup = this.clusterSubnetGroup;
+    final errors = this.errors;
+    final resources = this.resources;
     return {
-      if (clusterSubnetGroup != null) 'ClusterSubnetGroup': clusterSubnetGroup,
+      if (errors != null) 'Errors': errors,
+      if (resources != null) 'Resources': resources,
     };
   }
 }
 
-class ModifyCustomDomainAssociationResult {
-  /// The identifier of the cluster associated with the result for the changed
-  /// custom domain association.
-  final String? clusterIdentifier;
+class BatchModifyClusterSnapshotsOutputMessage {
+  /// A list of any errors returned.
+  final List<SnapshotErrorMessage>? errors;
 
-  /// The certificate expiration time associated with the result for the changed
-  /// custom domain association.
-  final String? customDomainCertExpiryTime;
+  /// A list of the snapshots that were modified.
+  final List<String>? resources;
 
-  /// The certificate Amazon Resource Name (ARN) associated with the result for
-  /// the changed custom domain association.
-  final String? customDomainCertificateArn;
-
-  /// The custom domain name associated with the result for the changed custom
-  /// domain association.
-  final String? customDomainName;
-
-  ModifyCustomDomainAssociationResult({
-    this.clusterIdentifier,
-    this.customDomainCertExpiryTime,
-    this.customDomainCertificateArn,
-    this.customDomainName,
+  BatchModifyClusterSnapshotsOutputMessage({
+    this.errors,
+    this.resources,
   });
-  factory ModifyCustomDomainAssociationResult.fromXml(_s.XmlElement elem) {
-    return ModifyCustomDomainAssociationResult(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      customDomainCertExpiryTime:
-          _s.extractXmlStringValue(elem, 'CustomDomainCertExpiryTime'),
-      customDomainCertificateArn:
-          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
-      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
+  factory BatchModifyClusterSnapshotsOutputMessage.fromXml(_s.XmlElement elem) {
+    return BatchModifyClusterSnapshotsOutputMessage(
+      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
+          .findElements('SnapshotErrorMessage')
+          .map(SnapshotErrorMessage.fromXml)
+          .toList()),
+      resources: _s
+          .extractXmlChild(elem, 'Resources')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'String')),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final customDomainCertExpiryTime = this.customDomainCertExpiryTime;
-    final customDomainCertificateArn = this.customDomainCertificateArn;
-    final customDomainName = this.customDomainName;
+    final errors = this.errors;
+    final resources = this.resources;
     return {
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (customDomainCertExpiryTime != null)
-        'CustomDomainCertExpiryTime': customDomainCertExpiryTime,
-      if (customDomainCertificateArn != null)
-        'CustomDomainCertificateArn': customDomainCertificateArn,
-      if (customDomainName != null) 'CustomDomainName': customDomainName,
-    };
-  }
-}
-
-class ModifyEventSubscriptionResult {
-  final EventSubscription? eventSubscription;
-
-  ModifyEventSubscriptionResult({
-    this.eventSubscription,
-  });
-  factory ModifyEventSubscriptionResult.fromXml(_s.XmlElement elem) {
-    return ModifyEventSubscriptionResult(
-      eventSubscription: _s
-          .extractXmlChild(elem, 'EventSubscription')
-          ?.let(EventSubscription.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventSubscription = this.eventSubscription;
-    return {
-      if (eventSubscription != null) 'EventSubscription': eventSubscription,
-    };
-  }
-}
-
-class ModifyRedshiftIdcApplicationResult {
-  final RedshiftIdcApplication? redshiftIdcApplication;
-
-  ModifyRedshiftIdcApplicationResult({
-    this.redshiftIdcApplication,
-  });
-  factory ModifyRedshiftIdcApplicationResult.fromXml(_s.XmlElement elem) {
-    return ModifyRedshiftIdcApplicationResult(
-      redshiftIdcApplication: _s
-          .extractXmlChild(elem, 'RedshiftIdcApplication')
-          ?.let(RedshiftIdcApplication.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final redshiftIdcApplication = this.redshiftIdcApplication;
-    return {
-      if (redshiftIdcApplication != null)
-        'RedshiftIdcApplication': redshiftIdcApplication,
-    };
-  }
-}
-
-class ModifySnapshotCopyRetentionPeriodResult {
-  final Cluster? cluster;
-
-  ModifySnapshotCopyRetentionPeriodResult({
-    this.cluster,
-  });
-  factory ModifySnapshotCopyRetentionPeriodResult.fromXml(_s.XmlElement elem) {
-    return ModifySnapshotCopyRetentionPeriodResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// Describes a network interface.
-class NetworkInterface {
-  /// The Availability Zone.
-  final String? availabilityZone;
-
-  /// The IPv6 address of the network interface within the subnet.
-  final String? ipv6Address;
-
-  /// The network interface identifier.
-  final String? networkInterfaceId;
-
-  /// The IPv4 address of the network interface within the subnet.
-  final String? privateIpAddress;
-
-  /// The subnet identifier.
-  final String? subnetId;
-
-  NetworkInterface({
-    this.availabilityZone,
-    this.ipv6Address,
-    this.networkInterfaceId,
-    this.privateIpAddress,
-    this.subnetId,
-  });
-  factory NetworkInterface.fromXml(_s.XmlElement elem) {
-    return NetworkInterface(
-      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
-      ipv6Address: _s.extractXmlStringValue(elem, 'Ipv6Address'),
-      networkInterfaceId: _s.extractXmlStringValue(elem, 'NetworkInterfaceId'),
-      privateIpAddress: _s.extractXmlStringValue(elem, 'PrivateIpAddress'),
-      subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZone = this.availabilityZone;
-    final ipv6Address = this.ipv6Address;
-    final networkInterfaceId = this.networkInterfaceId;
-    final privateIpAddress = this.privateIpAddress;
-    final subnetId = this.subnetId;
-    return {
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (ipv6Address != null) 'Ipv6Address': ipv6Address,
-      if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
-      if (privateIpAddress != null) 'PrivateIpAddress': privateIpAddress,
-      if (subnetId != null) 'SubnetId': subnetId,
-    };
-  }
-}
-
-/// A list of node configurations.
-class NodeConfigurationOption {
-  /// The estimated disk utilizaton percentage.
-  final double? estimatedDiskUtilizationPercent;
-
-  /// The category of the node configuration recommendation.
-  final Mode? mode;
-
-  /// The node type, such as, "ra3.4xlarge".
-  final String? nodeType;
-
-  /// The number of nodes.
-  final int? numberOfNodes;
-
-  NodeConfigurationOption({
-    this.estimatedDiskUtilizationPercent,
-    this.mode,
-    this.nodeType,
-    this.numberOfNodes,
-  });
-  factory NodeConfigurationOption.fromXml(_s.XmlElement elem) {
-    return NodeConfigurationOption(
-      estimatedDiskUtilizationPercent:
-          _s.extractXmlDoubleValue(elem, 'EstimatedDiskUtilizationPercent'),
-      mode: _s.extractXmlStringValue(elem, 'Mode')?.let(Mode.fromString),
-      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
-      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final estimatedDiskUtilizationPercent =
-        this.estimatedDiskUtilizationPercent;
-    final mode = this.mode;
-    final nodeType = this.nodeType;
-    final numberOfNodes = this.numberOfNodes;
-    return {
-      if (estimatedDiskUtilizationPercent != null)
-        'EstimatedDiskUtilizationPercent': estimatedDiskUtilizationPercent,
-      if (mode != null) 'Mode': mode.value,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
-    };
-  }
-}
-
-/// A set of elements to filter the returned node configurations.
-class NodeConfigurationOptionsFilter {
-  /// The name of the element to filter.
-  final NodeConfigurationOptionsFilterName? name;
-
-  /// The filter operator. If filter Name is NodeType only the 'in' operator is
-  /// supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and
-  /// 'ge'. Provide two values to evaluate for 'between'. Provide a list of values
-  /// for 'in'.
-  final OperatorType? operator;
-
-  /// List of values. Compare Name using Operator to Values. If filter Name is
-  /// NumberOfNodes, then values can range from 0 to 200. If filter Name is
-  /// EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For
-  /// example, filter NumberOfNodes (name) GT (operator) 3 (values).
-  final List<String>? values;
-
-  NodeConfigurationOptionsFilter({
-    this.name,
-    this.operator,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final operator = this.operator;
-    final values = this.values;
-    return {
-      if (name != null) 'Name': name.value,
-      if (operator != null) 'Operator': operator.value,
-      if (values != null) 'Value': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final operator = this.operator;
-    final values = this.values;
-    return {
-      if (name != null) 'Name': name.value,
-      if (operator != null) 'Operator': operator.value,
-      if (values != null)
-        if (values.isEmpty)
-          'Value': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            'Value.item.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-class NodeConfigurationOptionsFilterName {
-  static const nodeType = NodeConfigurationOptionsFilterName._('NodeType');
-  static const numberOfNodes =
-      NodeConfigurationOptionsFilterName._('NumberOfNodes');
-  static const estimatedDiskUtilizationPercent =
-      NodeConfigurationOptionsFilterName._('EstimatedDiskUtilizationPercent');
-  static const mode = NodeConfigurationOptionsFilterName._('Mode');
-
-  final String value;
-
-  const NodeConfigurationOptionsFilterName._(this.value);
-
-  static const values = [
-    nodeType,
-    numberOfNodes,
-    estimatedDiskUtilizationPercent,
-    mode
-  ];
-
-  static NodeConfigurationOptionsFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NodeConfigurationOptionsFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NodeConfigurationOptionsFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class NodeConfigurationOptionsMessage {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// A list of valid node configurations.
-  final List<NodeConfigurationOption>? nodeConfigurationOptionList;
-
-  NodeConfigurationOptionsMessage({
-    this.marker,
-    this.nodeConfigurationOptionList,
-  });
-  factory NodeConfigurationOptionsMessage.fromXml(_s.XmlElement elem) {
-    return NodeConfigurationOptionsMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      nodeConfigurationOptionList: _s
-          .extractXmlChild(elem, 'NodeConfigurationOptionList')
-          ?.let((elem) => elem
-              .findElements('NodeConfigurationOption')
-              .map(NodeConfigurationOption.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final nodeConfigurationOptionList = this.nodeConfigurationOptionList;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (nodeConfigurationOptionList != null)
-        'NodeConfigurationOptionList': nodeConfigurationOptionList,
-    };
-  }
-}
-
-class OperatorType {
-  static const eq = OperatorType._('eq');
-  static const lt = OperatorType._('lt');
-  static const gt = OperatorType._('gt');
-  static const le = OperatorType._('le');
-  static const ge = OperatorType._('ge');
-  static const $in = OperatorType._('in');
-  static const between = OperatorType._('between');
-
-  final String value;
-
-  const OperatorType._(this.value);
-
-  static const values = [eq, lt, gt, le, ge, $in, between];
-
-  static OperatorType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OperatorType._(value));
-
-  @override
-  bool operator ==(other) => other is OperatorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an orderable cluster option.
-class OrderableClusterOption {
-  /// A list of availability zones for the orderable cluster.
-  final List<AvailabilityZone>? availabilityZones;
-
-  /// The cluster type, for example <code>multi-node</code>.
-  final String? clusterType;
-
-  /// The version of the orderable cluster.
-  final String? clusterVersion;
-
-  /// The node type for the orderable cluster.
-  final String? nodeType;
-
-  OrderableClusterOption({
-    this.availabilityZones,
-    this.clusterType,
-    this.clusterVersion,
-    this.nodeType,
-  });
-  factory OrderableClusterOption.fromXml(_s.XmlElement elem) {
-    return OrderableClusterOption(
-      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
-          (elem) => elem
-              .findElements('AvailabilityZone')
-              .map(AvailabilityZone.fromXml)
-              .toList()),
-      clusterType: _s.extractXmlStringValue(elem, 'ClusterType'),
-      clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
-      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZones = this.availabilityZones;
-    final clusterType = this.clusterType;
-    final clusterVersion = this.clusterVersion;
-    final nodeType = this.nodeType;
-    return {
-      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-      if (clusterType != null) 'ClusterType': clusterType,
-      if (clusterVersion != null) 'ClusterVersion': clusterVersion,
-      if (nodeType != null) 'NodeType': nodeType,
-    };
-  }
-}
-
-/// Contains the output from the <a>DescribeOrderableClusterOptions</a> action.
-class OrderableClusterOptionsMessage {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// An <code>OrderableClusterOption</code> structure containing information
-  /// about orderable options for the cluster.
-  final List<OrderableClusterOption>? orderableClusterOptions;
-
-  OrderableClusterOptionsMessage({
-    this.marker,
-    this.orderableClusterOptions,
-  });
-  factory OrderableClusterOptionsMessage.fromXml(_s.XmlElement elem) {
-    return OrderableClusterOptionsMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      orderableClusterOptions: _s
-          .extractXmlChild(elem, 'OrderableClusterOptions')
-          ?.let((elem) => elem
-              .findElements('OrderableClusterOption')
-              .map(OrderableClusterOption.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final orderableClusterOptions = this.orderableClusterOptions;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (orderableClusterOptions != null)
-        'OrderableClusterOptions': orderableClusterOptions,
-    };
-  }
-}
-
-/// Describes a parameter in a cluster parameter group.
-class Parameter {
-  /// The valid range of values for the parameter.
-  final String? allowedValues;
-
-  /// Specifies how to apply the WLM configuration parameter. Some properties can
-  /// be applied dynamically, while other properties require that any associated
-  /// clusters be rebooted for the configuration changes to be applied. For more
-  /// information about parameters and parameter groups, go to <a
-  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
-  /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management
-  /// Guide</i>.
-  final ParameterApplyType? applyType;
-
-  /// The data type of the parameter.
-  final String? dataType;
-
-  /// A description of the parameter.
-  final String? description;
-
-  /// If <code>true</code>, the parameter can be modified. Some parameters have
-  /// security or operational implications that prevent them from being changed.
-  final bool? isModifiable;
-
-  /// The earliest engine version to which the parameter can apply.
-  final String? minimumEngineVersion;
-
-  /// The name of the parameter.
-  final String? parameterName;
-
-  /// The value of the parameter. If <code>ParameterName</code> is
-  /// <code>wlm_json_configuration</code>, then the maximum size of
-  /// <code>ParameterValue</code> is 8000 characters.
-  final String? parameterValue;
-
-  /// The source of the parameter value, such as "engine-default" or "user".
-  final String? source;
-
-  Parameter({
-    this.allowedValues,
-    this.applyType,
-    this.dataType,
-    this.description,
-    this.isModifiable,
-    this.minimumEngineVersion,
-    this.parameterName,
-    this.parameterValue,
-    this.source,
-  });
-  factory Parameter.fromXml(_s.XmlElement elem) {
-    return Parameter(
-      allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
-      applyType: _s
-          .extractXmlStringValue(elem, 'ApplyType')
-          ?.let(ParameterApplyType.fromString),
-      dataType: _s.extractXmlStringValue(elem, 'DataType'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
-      minimumEngineVersion:
-          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
-      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
-      parameterValue: _s.extractXmlStringValue(elem, 'ParameterValue'),
-      source: _s.extractXmlStringValue(elem, 'Source'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedValues = this.allowedValues;
-    final applyType = this.applyType;
-    final dataType = this.dataType;
-    final description = this.description;
-    final isModifiable = this.isModifiable;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    final source = this.source;
-    return {
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyType != null) 'ApplyType': applyType.value,
-      if (dataType != null) 'DataType': dataType,
-      if (description != null) 'Description': description,
-      if (isModifiable != null) 'IsModifiable': isModifiable,
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-      if (source != null) 'Source': source,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final allowedValues = this.allowedValues;
-    final applyType = this.applyType;
-    final dataType = this.dataType;
-    final description = this.description;
-    final isModifiable = this.isModifiable;
-    final minimumEngineVersion = this.minimumEngineVersion;
-    final parameterName = this.parameterName;
-    final parameterValue = this.parameterValue;
-    final source = this.source;
-    return {
-      if (allowedValues != null) 'AllowedValues': allowedValues,
-      if (applyType != null) 'ApplyType': applyType.value,
-      if (dataType != null) 'DataType': dataType,
-      if (description != null) 'Description': description,
-      if (isModifiable != null) 'IsModifiable': isModifiable.toString(),
-      if (minimumEngineVersion != null)
-        'MinimumEngineVersion': minimumEngineVersion,
-      if (parameterName != null) 'ParameterName': parameterName,
-      if (parameterValue != null) 'ParameterValue': parameterValue,
-      if (source != null) 'Source': source,
-    };
-  }
-}
-
-class ParameterApplyType {
-  static const static = ParameterApplyType._('static');
-  static const $dynamic = ParameterApplyType._('dynamic');
-
-  final String value;
-
-  const ParameterApplyType._(this.value);
-
-  static const values = [static, $dynamic];
-
-  static ParameterApplyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ParameterApplyType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ParameterApplyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a partner integration.
-class PartnerIntegrationInfo {
-  /// The date (UTC) that the partner integration was created.
-  final DateTime? createdAt;
-
-  /// The name of the database that receives data from a partner.
-  final String? databaseName;
-
-  /// The name of the partner.
-  final String? partnerName;
-
-  /// The partner integration status.
-  final PartnerIntegrationStatus? status;
-
-  /// The status message provided by the partner.
-  final String? statusMessage;
-
-  /// The date (UTC) that the partner integration status was last updated by the
-  /// partner.
-  final DateTime? updatedAt;
-
-  PartnerIntegrationInfo({
-    this.createdAt,
-    this.databaseName,
-    this.partnerName,
-    this.status,
-    this.statusMessage,
-    this.updatedAt,
-  });
-  factory PartnerIntegrationInfo.fromXml(_s.XmlElement elem) {
-    return PartnerIntegrationInfo(
-      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
-      databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
-      partnerName: _s.extractXmlStringValue(elem, 'PartnerName'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(PartnerIntegrationStatus.fromString),
-      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
-      updatedAt: _s.extractXmlDateTimeValue(elem, 'UpdatedAt'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final databaseName = this.databaseName;
-    final partnerName = this.partnerName;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (partnerName != null) 'PartnerName': partnerName,
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
-    };
-  }
-}
-
-class PartnerIntegrationOutputMessage {
-  /// The name of the database that receives data from the partner.
-  final String? databaseName;
-
-  /// The name of the partner that is authorized to send data.
-  final String? partnerName;
-
-  PartnerIntegrationOutputMessage({
-    this.databaseName,
-    this.partnerName,
-  });
-  factory PartnerIntegrationOutputMessage.fromXml(_s.XmlElement elem) {
-    return PartnerIntegrationOutputMessage(
-      databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
-      partnerName: _s.extractXmlStringValue(elem, 'PartnerName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final partnerName = this.partnerName;
-    return {
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (partnerName != null) 'PartnerName': partnerName,
-    };
-  }
-}
-
-class PartnerIntegrationStatus {
-  static const active = PartnerIntegrationStatus._('Active');
-  static const inactive = PartnerIntegrationStatus._('Inactive');
-  static const runtimeFailure = PartnerIntegrationStatus._('RuntimeFailure');
-  static const connectionFailure =
-      PartnerIntegrationStatus._('ConnectionFailure');
-
-  final String value;
-
-  const PartnerIntegrationStatus._(this.value);
-
-  static const values = [active, inactive, runtimeFailure, connectionFailure];
-
-  static PartnerIntegrationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PartnerIntegrationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PartnerIntegrationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a pause cluster operation. For example, a scheduled action to run
-/// the <code>PauseCluster</code> API operation.
-class PauseClusterMessage {
-  /// The identifier of the cluster to be paused.
-  final String clusterIdentifier;
-
-  PauseClusterMessage({
-    required this.clusterIdentifier,
-  });
-  factory PauseClusterMessage.fromXml(_s.XmlElement elem) {
-    return PauseClusterMessage(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    return {
-      'ClusterIdentifier': clusterIdentifier,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final clusterIdentifier = this.clusterIdentifier;
-    return {
-      'ClusterIdentifier': clusterIdentifier,
-    };
-  }
-}
-
-class PauseClusterResult {
-  final Cluster? cluster;
-
-  PauseClusterResult({
-    this.cluster,
-  });
-  factory PauseClusterResult.fromXml(_s.XmlElement elem) {
-    return PauseClusterResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// Describes cluster attributes that are in a pending state. A change to one or
-/// more the attributes was requested and is in progress or will be applied.
-class PendingModifiedValues {
-  /// The pending or in-progress change of the automated snapshot retention
-  /// period.
-  final int? automatedSnapshotRetentionPeriod;
-
-  /// The pending or in-progress change of the new identifier for the cluster.
-  final String? clusterIdentifier;
-
-  /// The pending or in-progress change of the cluster type.
-  final String? clusterType;
-
-  /// The pending or in-progress change of the service version.
-  final String? clusterVersion;
-
-  /// The encryption type for a cluster. Possible values are: KMS and None.
-  final String? encryptionType;
-
-  /// An option that specifies whether to create the cluster with enhanced VPC
-  /// routing enabled. To create a cluster that uses enhanced VPC routing, the
-  /// cluster must be in a VPC. For more information, see <a
-  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
-  /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
-  ///
-  /// If this option is <code>true</code>, enhanced VPC routing is enabled.
-  ///
-  /// Default: false
-  final bool? enhancedVpcRouting;
-
-  /// The name of the maintenance track that the cluster will change to during the
-  /// next maintenance window.
-  final String? maintenanceTrackName;
-
-  /// The pending or in-progress change of the admin user password for the
-  /// cluster.
-  final String? masterUserPassword;
-
-  /// The pending or in-progress change of the cluster's node type.
-  final String? nodeType;
-
-  /// The pending or in-progress change of the number of nodes in the cluster.
-  final int? numberOfNodes;
-
-  /// The pending or in-progress change of the ability to connect to the cluster
-  /// from the public network.
-  final bool? publiclyAccessible;
-
-  PendingModifiedValues({
-    this.automatedSnapshotRetentionPeriod,
-    this.clusterIdentifier,
-    this.clusterType,
-    this.clusterVersion,
-    this.encryptionType,
-    this.enhancedVpcRouting,
-    this.maintenanceTrackName,
-    this.masterUserPassword,
-    this.nodeType,
-    this.numberOfNodes,
-    this.publiclyAccessible,
-  });
-  factory PendingModifiedValues.fromXml(_s.XmlElement elem) {
-    return PendingModifiedValues(
-      automatedSnapshotRetentionPeriod:
-          _s.extractXmlIntValue(elem, 'AutomatedSnapshotRetentionPeriod'),
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      clusterType: _s.extractXmlStringValue(elem, 'ClusterType'),
-      clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
-      encryptionType: _s.extractXmlStringValue(elem, 'EncryptionType'),
-      enhancedVpcRouting: _s.extractXmlBoolValue(elem, 'EnhancedVpcRouting'),
-      maintenanceTrackName:
-          _s.extractXmlStringValue(elem, 'MaintenanceTrackName'),
-      masterUserPassword: _s.extractXmlStringValue(elem, 'MasterUserPassword'),
-      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
-      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
-      publiclyAccessible: _s.extractXmlBoolValue(elem, 'PubliclyAccessible'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final automatedSnapshotRetentionPeriod =
-        this.automatedSnapshotRetentionPeriod;
-    final clusterIdentifier = this.clusterIdentifier;
-    final clusterType = this.clusterType;
-    final clusterVersion = this.clusterVersion;
-    final encryptionType = this.encryptionType;
-    final enhancedVpcRouting = this.enhancedVpcRouting;
-    final maintenanceTrackName = this.maintenanceTrackName;
-    final masterUserPassword = this.masterUserPassword;
-    final nodeType = this.nodeType;
-    final numberOfNodes = this.numberOfNodes;
-    final publiclyAccessible = this.publiclyAccessible;
-    return {
-      if (automatedSnapshotRetentionPeriod != null)
-        'AutomatedSnapshotRetentionPeriod': automatedSnapshotRetentionPeriod,
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (clusterType != null) 'ClusterType': clusterType,
-      if (clusterVersion != null) 'ClusterVersion': clusterVersion,
-      if (encryptionType != null) 'EncryptionType': encryptionType,
-      if (enhancedVpcRouting != null) 'EnhancedVpcRouting': enhancedVpcRouting,
-      if (maintenanceTrackName != null)
-        'MaintenanceTrackName': maintenanceTrackName,
-      if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
-      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
-    };
-  }
-}
-
-class PurchaseReservedNodeOfferingResult {
-  final ReservedNode? reservedNode;
-
-  PurchaseReservedNodeOfferingResult({
-    this.reservedNode,
-  });
-  factory PurchaseReservedNodeOfferingResult.fromXml(_s.XmlElement elem) {
-    return PurchaseReservedNodeOfferingResult(
-      reservedNode:
-          _s.extractXmlChild(elem, 'ReservedNode')?.let(ReservedNode.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reservedNode = this.reservedNode;
-    return {
-      if (reservedNode != null) 'ReservedNode': reservedNode,
-    };
-  }
-}
-
-class PutResourcePolicyResult {
-  /// The content of the updated resource policy.
-  final ResourcePolicy? resourcePolicy;
-
-  PutResourcePolicyResult({
-    this.resourcePolicy,
-  });
-  factory PutResourcePolicyResult.fromXml(_s.XmlElement elem) {
-    return PutResourcePolicyResult(
-      resourcePolicy: _s
-          .extractXmlChild(elem, 'ResourcePolicy')
-          ?.let(ResourcePolicy.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourcePolicy = this.resourcePolicy;
-    return {
-      if (resourcePolicy != null) 'ResourcePolicy': resourcePolicy,
-    };
-  }
-}
-
-class RebootClusterResult {
-  final Cluster? cluster;
-
-  RebootClusterResult({
-    this.cluster,
-  });
-  factory RebootClusterResult.fromXml(_s.XmlElement elem) {
-    return RebootClusterResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// An Amazon Redshift Advisor recommended action on the Amazon Redshift
-/// cluster.
-class Recommendation {
-  /// The unique identifier of the cluster for which the recommendation is
-  /// returned.
-  final String? clusterIdentifier;
-
-  /// The date and time (UTC) that the recommendation was created.
-  final DateTime? createdAt;
-
-  /// The description of the recommendation.
-  final String? description;
-
-  /// A unique identifier of the Advisor recommendation.
-  final String? id;
-
-  /// The scale of the impact that the Advisor recommendation has to the
-  /// performance and cost of the cluster.
-  final ImpactRankingType? impactRanking;
-
-  /// The Amazon Redshift cluster namespace ARN for which the recommendations is
-  /// returned.
-  final String? namespaceArn;
-
-  /// The description of what was observed about your cluster.
-  final String? observation;
-
-  /// The description of the recommendation.
-  final String? recommendationText;
-
-  /// The type of Advisor recommendation.
-  final String? recommendationType;
-
-  /// List of Amazon Redshift recommended actions.
-  final List<RecommendedAction>? recommendedActions;
-
-  /// List of helpful links for more information about the Advisor recommendation.
-  final List<ReferenceLink>? referenceLinks;
-
-  /// The title of the recommendation.
-  final String? title;
-
-  Recommendation({
-    this.clusterIdentifier,
-    this.createdAt,
-    this.description,
-    this.id,
-    this.impactRanking,
-    this.namespaceArn,
-    this.observation,
-    this.recommendationText,
-    this.recommendationType,
-    this.recommendedActions,
-    this.referenceLinks,
-    this.title,
-  });
-  factory Recommendation.fromXml(_s.XmlElement elem) {
-    return Recommendation(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      impactRanking: _s
-          .extractXmlStringValue(elem, 'ImpactRanking')
-          ?.let(ImpactRankingType.fromString),
-      namespaceArn: _s.extractXmlStringValue(elem, 'NamespaceArn'),
-      observation: _s.extractXmlStringValue(elem, 'Observation'),
-      recommendationText: _s.extractXmlStringValue(elem, 'RecommendationText'),
-      recommendationType: _s.extractXmlStringValue(elem, 'RecommendationType'),
-      recommendedActions: _s.extractXmlChild(elem, 'RecommendedActions')?.let(
-          (elem) => elem
-              .findElements('RecommendedAction')
-              .map(RecommendedAction.fromXml)
-              .toList()),
-      referenceLinks: _s.extractXmlChild(elem, 'ReferenceLinks')?.let((elem) =>
-          elem
-              .findElements('ReferenceLink')
-              .map(ReferenceLink.fromXml)
-              .toList()),
-      title: _s.extractXmlStringValue(elem, 'Title'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final id = this.id;
-    final impactRanking = this.impactRanking;
-    final namespaceArn = this.namespaceArn;
-    final observation = this.observation;
-    final recommendationText = this.recommendationText;
-    final recommendationType = this.recommendationType;
-    final recommendedActions = this.recommendedActions;
-    final referenceLinks = this.referenceLinks;
-    final title = this.title;
-    return {
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (impactRanking != null) 'ImpactRanking': impactRanking.value,
-      if (namespaceArn != null) 'NamespaceArn': namespaceArn,
-      if (observation != null) 'Observation': observation,
-      if (recommendationText != null) 'RecommendationText': recommendationText,
-      if (recommendationType != null) 'RecommendationType': recommendationType,
-      if (recommendedActions != null) 'RecommendedActions': recommendedActions,
-      if (referenceLinks != null) 'ReferenceLinks': referenceLinks,
-      if (title != null) 'Title': title,
-    };
-  }
-}
-
-/// The recommended action from the Amazon Redshift Advisor recommendation.
-class RecommendedAction {
-  /// The command to run.
-  final String? command;
-
-  /// The database name to perform the action on. Only applicable if the type of
-  /// command is SQL.
-  final String? database;
-
-  /// The specific instruction about the command.
-  final String? text;
-
-  /// The type of command.
-  final RecommendedActionType? type;
-
-  RecommendedAction({
-    this.command,
-    this.database,
-    this.text,
-    this.type,
-  });
-  factory RecommendedAction.fromXml(_s.XmlElement elem) {
-    return RecommendedAction(
-      command: _s.extractXmlStringValue(elem, 'Command'),
-      database: _s.extractXmlStringValue(elem, 'Database'),
-      text: _s.extractXmlStringValue(elem, 'Text'),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(RecommendedActionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final command = this.command;
-    final database = this.database;
-    final text = this.text;
-    final type = this.type;
-    return {
-      if (command != null) 'Command': command,
-      if (database != null) 'Database': database,
-      if (text != null) 'Text': text,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class RecommendedActionType {
-  static const sql = RecommendedActionType._('SQL');
-  static const cli = RecommendedActionType._('CLI');
-
-  final String value;
-
-  const RecommendedActionType._(this.value);
-
-  static const values = [sql, cli];
-
-  static RecommendedActionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecommendedActionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecommendedActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a recurring charge.
-class RecurringCharge {
-  /// The amount charged per the period of time specified by the recurring charge
-  /// frequency.
-  final double? recurringChargeAmount;
-
-  /// The frequency at which the recurring charge amount is applied.
-  final String? recurringChargeFrequency;
-
-  RecurringCharge({
-    this.recurringChargeAmount,
-    this.recurringChargeFrequency,
-  });
-  factory RecurringCharge.fromXml(_s.XmlElement elem) {
-    return RecurringCharge(
-      recurringChargeAmount:
-          _s.extractXmlDoubleValue(elem, 'RecurringChargeAmount'),
-      recurringChargeFrequency:
-          _s.extractXmlStringValue(elem, 'RecurringChargeFrequency'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final recurringChargeAmount = this.recurringChargeAmount;
-    final recurringChargeFrequency = this.recurringChargeFrequency;
-    return {
-      if (recurringChargeAmount != null)
-        'RecurringChargeAmount': recurringChargeAmount,
-      if (recurringChargeFrequency != null)
-        'RecurringChargeFrequency': recurringChargeFrequency,
-    };
-  }
-}
-
-/// Contains properties for the Redshift IDC application.
-class RedshiftIdcApplication {
-  /// The authorized token issuer list for the Amazon Redshift IAM Identity Center
-  /// application.
-  final List<AuthorizedTokenIssuer>? authorizedTokenIssuerList;
-
-  /// The ARN for the Amazon Redshift IAM Identity Center application. It has the
-  /// required permissions to be assumed and invoke the IDC Identity Center API.
-  final String? iamRoleArn;
-
-  /// The display name for the Amazon Redshift IAM Identity Center application. It
-  /// appears on the console.
-  final String? idcDisplayName;
-
-  /// The ARN for the IAM Identity Center instance that Redshift integrates with.
-  final String? idcInstanceArn;
-
-  /// The ARN for the Amazon Redshift IAM Identity Center application.
-  final String? idcManagedApplicationArn;
-
-  /// The onboarding status for the Amazon Redshift IAM Identity Center
-  /// application.
-  final String? idcOnboardStatus;
-
-  /// The identity namespace for the Amazon Redshift IAM Identity Center
-  /// application. It determines which managed application verifies the connection
-  /// token.
-  final String? identityNamespace;
-
-  /// The ARN for the Redshift application that integrates with IAM Identity
-  /// Center.
-  final String? redshiftIdcApplicationArn;
-
-  /// The name of the Redshift application in IAM Identity Center.
-  final String? redshiftIdcApplicationName;
-
-  /// A list of service integrations for the Redshift IAM Identity Center
-  /// application.
-  final List<ServiceIntegrationsUnion>? serviceIntegrations;
-
-  RedshiftIdcApplication({
-    this.authorizedTokenIssuerList,
-    this.iamRoleArn,
-    this.idcDisplayName,
-    this.idcInstanceArn,
-    this.idcManagedApplicationArn,
-    this.idcOnboardStatus,
-    this.identityNamespace,
-    this.redshiftIdcApplicationArn,
-    this.redshiftIdcApplicationName,
-    this.serviceIntegrations,
-  });
-  factory RedshiftIdcApplication.fromXml(_s.XmlElement elem) {
-    return RedshiftIdcApplication(
-      authorizedTokenIssuerList: _s
-          .extractXmlChild(elem, 'AuthorizedTokenIssuerList')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(AuthorizedTokenIssuer.fromXml)
-              .toList()),
-      iamRoleArn: _s.extractXmlStringValue(elem, 'IamRoleArn'),
-      idcDisplayName: _s.extractXmlStringValue(elem, 'IdcDisplayName'),
-      idcInstanceArn: _s.extractXmlStringValue(elem, 'IdcInstanceArn'),
-      idcManagedApplicationArn:
-          _s.extractXmlStringValue(elem, 'IdcManagedApplicationArn'),
-      idcOnboardStatus: _s.extractXmlStringValue(elem, 'IdcOnboardStatus'),
-      identityNamespace: _s.extractXmlStringValue(elem, 'IdentityNamespace'),
-      redshiftIdcApplicationArn:
-          _s.extractXmlStringValue(elem, 'RedshiftIdcApplicationArn'),
-      redshiftIdcApplicationName:
-          _s.extractXmlStringValue(elem, 'RedshiftIdcApplicationName'),
-      serviceIntegrations: _s.extractXmlChild(elem, 'ServiceIntegrations')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(ServiceIntegrationsUnion.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizedTokenIssuerList = this.authorizedTokenIssuerList;
-    final iamRoleArn = this.iamRoleArn;
-    final idcDisplayName = this.idcDisplayName;
-    final idcInstanceArn = this.idcInstanceArn;
-    final idcManagedApplicationArn = this.idcManagedApplicationArn;
-    final idcOnboardStatus = this.idcOnboardStatus;
-    final identityNamespace = this.identityNamespace;
-    final redshiftIdcApplicationArn = this.redshiftIdcApplicationArn;
-    final redshiftIdcApplicationName = this.redshiftIdcApplicationName;
-    final serviceIntegrations = this.serviceIntegrations;
-    return {
-      if (authorizedTokenIssuerList != null)
-        'AuthorizedTokenIssuerList': authorizedTokenIssuerList,
-      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
-      if (idcDisplayName != null) 'IdcDisplayName': idcDisplayName,
-      if (idcInstanceArn != null) 'IdcInstanceArn': idcInstanceArn,
-      if (idcManagedApplicationArn != null)
-        'IdcManagedApplicationArn': idcManagedApplicationArn,
-      if (idcOnboardStatus != null) 'IdcOnboardStatus': idcOnboardStatus,
-      if (identityNamespace != null) 'IdentityNamespace': identityNamespace,
-      if (redshiftIdcApplicationArn != null)
-        'RedshiftIdcApplicationArn': redshiftIdcApplicationArn,
-      if (redshiftIdcApplicationName != null)
-        'RedshiftIdcApplicationName': redshiftIdcApplicationName,
-      if (serviceIntegrations != null)
-        'ServiceIntegrations': serviceIntegrations,
-    };
-  }
-}
-
-/// A link to an Amazon Redshift Advisor reference for more information about a
-/// recommendation.
-class ReferenceLink {
-  /// The URL address to find more information.
-  final String? link;
-
-  /// The hyperlink text that describes the link to more information.
-  final String? text;
-
-  ReferenceLink({
-    this.link,
-    this.text,
-  });
-  factory ReferenceLink.fromXml(_s.XmlElement elem) {
-    return ReferenceLink(
-      link: _s.extractXmlStringValue(elem, 'Link'),
-      text: _s.extractXmlStringValue(elem, 'Text'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final link = this.link;
-    final text = this.text;
-    return {
-      if (link != null) 'Link': link,
-      if (text != null) 'Text': text,
-    };
-  }
-}
-
-/// Describes a reserved node. You can call the
-/// <a>DescribeReservedNodeOfferings</a> API to obtain the available reserved
-/// node offerings.
-class ReservedNode {
-  /// The currency code for the reserved cluster.
-  final String? currencyCode;
-
-  /// The duration of the node reservation in seconds.
-  final int? duration;
-
-  /// The fixed cost Amazon Redshift charges you for this reserved node.
-  final double? fixedPrice;
-
-  /// The number of reserved compute nodes.
-  final int? nodeCount;
-
-  /// The node type of the reserved node.
-  final String? nodeType;
-
-  /// The anticipated utilization of the reserved node, as defined in the reserved
-  /// node offering.
-  final String? offeringType;
-
-  /// The recurring charges for the reserved node.
-  final List<RecurringCharge>? recurringCharges;
-
-  /// The unique identifier for the reservation.
-  final String? reservedNodeId;
-
-  /// The identifier for the reserved node offering.
-  final String? reservedNodeOfferingId;
-
-  /// <p/>
-  final ReservedNodeOfferingType? reservedNodeOfferingType;
-
-  /// The time the reservation started. You purchase a reserved node offering for
-  /// a duration. This is the start time of that duration.
-  final DateTime? startTime;
-
-  /// The state of the reserved compute node.
-  ///
-  /// Possible Values:
-  ///
-  /// <ul>
-  /// <li>
-  /// pending-payment-This reserved node has recently been purchased, and the sale
-  /// has been approved, but payment has not yet been confirmed.
-  /// </li>
-  /// <li>
-  /// active-This reserved node is owned by the caller and is available for use.
-  /// </li>
-  /// <li>
-  /// payment-failed-Payment failed for the purchase attempt.
-  /// </li>
-  /// <li>
-  /// retired-The reserved node is no longer available.
-  /// </li>
-  /// <li>
-  /// exchanging-The owner is exchanging the reserved node for another reserved
-  /// node.
-  /// </li>
-  /// </ul>
-  final String? state;
-
-  /// The hourly rate Amazon Redshift charges you for this reserved node.
-  final double? usagePrice;
-
-  ReservedNode({
-    this.currencyCode,
-    this.duration,
-    this.fixedPrice,
-    this.nodeCount,
-    this.nodeType,
-    this.offeringType,
-    this.recurringCharges,
-    this.reservedNodeId,
-    this.reservedNodeOfferingId,
-    this.reservedNodeOfferingType,
-    this.startTime,
-    this.state,
-    this.usagePrice,
-  });
-  factory ReservedNode.fromXml(_s.XmlElement elem) {
-    return ReservedNode(
-      currencyCode: _s.extractXmlStringValue(elem, 'CurrencyCode'),
-      duration: _s.extractXmlIntValue(elem, 'Duration'),
-      fixedPrice: _s.extractXmlDoubleValue(elem, 'FixedPrice'),
-      nodeCount: _s.extractXmlIntValue(elem, 'NodeCount'),
-      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
-      offeringType: _s.extractXmlStringValue(elem, 'OfferingType'),
-      recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
-          (elem) => elem
-              .findElements('RecurringCharge')
-              .map(RecurringCharge.fromXml)
-              .toList()),
-      reservedNodeId: _s.extractXmlStringValue(elem, 'ReservedNodeId'),
-      reservedNodeOfferingId:
-          _s.extractXmlStringValue(elem, 'ReservedNodeOfferingId'),
-      reservedNodeOfferingType: _s
-          .extractXmlStringValue(elem, 'ReservedNodeOfferingType')
-          ?.let(ReservedNodeOfferingType.fromString),
-      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
-      state: _s.extractXmlStringValue(elem, 'State'),
-      usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currencyCode = this.currencyCode;
-    final duration = this.duration;
-    final fixedPrice = this.fixedPrice;
-    final nodeCount = this.nodeCount;
-    final nodeType = this.nodeType;
-    final offeringType = this.offeringType;
-    final recurringCharges = this.recurringCharges;
-    final reservedNodeId = this.reservedNodeId;
-    final reservedNodeOfferingId = this.reservedNodeOfferingId;
-    final reservedNodeOfferingType = this.reservedNodeOfferingType;
-    final startTime = this.startTime;
-    final state = this.state;
-    final usagePrice = this.usagePrice;
-    return {
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (nodeCount != null) 'NodeCount': nodeCount,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (offeringType != null) 'OfferingType': offeringType,
-      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
-      if (reservedNodeId != null) 'ReservedNodeId': reservedNodeId,
-      if (reservedNodeOfferingId != null)
-        'ReservedNodeOfferingId': reservedNodeOfferingId,
-      if (reservedNodeOfferingType != null)
-        'ReservedNodeOfferingType': reservedNodeOfferingType.value,
-      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
-      if (state != null) 'State': state,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
-    };
-  }
-}
-
-/// Details for a reserved-node exchange. Examples include the node type for a
-/// reserved node, the price for a node, the node's state, and other details.
-class ReservedNodeConfigurationOption {
-  final ReservedNode? sourceReservedNode;
-
-  /// The target reserved-node count.
-  final int? targetReservedNodeCount;
-  final ReservedNodeOffering? targetReservedNodeOffering;
-
-  ReservedNodeConfigurationOption({
-    this.sourceReservedNode,
-    this.targetReservedNodeCount,
-    this.targetReservedNodeOffering,
-  });
-  factory ReservedNodeConfigurationOption.fromXml(_s.XmlElement elem) {
-    return ReservedNodeConfigurationOption(
-      sourceReservedNode: _s
-          .extractXmlChild(elem, 'SourceReservedNode')
-          ?.let(ReservedNode.fromXml),
-      targetReservedNodeCount:
-          _s.extractXmlIntValue(elem, 'TargetReservedNodeCount'),
-      targetReservedNodeOffering: _s
-          .extractXmlChild(elem, 'TargetReservedNodeOffering')
-          ?.let(ReservedNodeOffering.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sourceReservedNode = this.sourceReservedNode;
-    final targetReservedNodeCount = this.targetReservedNodeCount;
-    final targetReservedNodeOffering = this.targetReservedNodeOffering;
-    return {
-      if (sourceReservedNode != null) 'SourceReservedNode': sourceReservedNode,
-      if (targetReservedNodeCount != null)
-        'TargetReservedNodeCount': targetReservedNodeCount,
-      if (targetReservedNodeOffering != null)
-        'TargetReservedNodeOffering': targetReservedNodeOffering,
-    };
-  }
-}
-
-class ReservedNodeExchangeActionType {
-  static const restoreCluster =
-      ReservedNodeExchangeActionType._('restore-cluster');
-  static const resizeCluster =
-      ReservedNodeExchangeActionType._('resize-cluster');
-
-  final String value;
-
-  const ReservedNodeExchangeActionType._(this.value);
-
-  static const values = [restoreCluster, resizeCluster];
-
-  static ReservedNodeExchangeActionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReservedNodeExchangeActionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReservedNodeExchangeActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Reserved-node status details, such as the source reserved-node identifier,
-/// the target reserved-node identifier, the node type, the node count, and
-/// other details.
-class ReservedNodeExchangeStatus {
-  /// A date and time that indicate when the reserved-node exchange was requested.
-  final DateTime? requestTime;
-
-  /// The identifier of the reserved-node exchange request.
-  final String? reservedNodeExchangeRequestId;
-
-  /// The source reserved-node count in the cluster.
-  final int? sourceReservedNodeCount;
-
-  /// The identifier of the source reserved node.
-  final String? sourceReservedNodeId;
-
-  /// The source reserved-node type, for example ra3.4xlarge.
-  final String? sourceReservedNodeType;
-
-  /// The status of the reserved-node exchange request. Statuses include
-  /// in-progress and requested.
-  final ReservedNodeExchangeStatusType? status;
-
-  /// The count of target reserved nodes in the cluster.
-  final int? targetReservedNodeCount;
-
-  /// The identifier of the target reserved node offering.
-  final String? targetReservedNodeOfferingId;
-
-  /// The node type of the target reserved node, for example ra3.4xlarge.
-  final String? targetReservedNodeType;
-
-  ReservedNodeExchangeStatus({
-    this.requestTime,
-    this.reservedNodeExchangeRequestId,
-    this.sourceReservedNodeCount,
-    this.sourceReservedNodeId,
-    this.sourceReservedNodeType,
-    this.status,
-    this.targetReservedNodeCount,
-    this.targetReservedNodeOfferingId,
-    this.targetReservedNodeType,
-  });
-  factory ReservedNodeExchangeStatus.fromXml(_s.XmlElement elem) {
-    return ReservedNodeExchangeStatus(
-      requestTime: _s.extractXmlDateTimeValue(elem, 'RequestTime'),
-      reservedNodeExchangeRequestId:
-          _s.extractXmlStringValue(elem, 'ReservedNodeExchangeRequestId'),
-      sourceReservedNodeCount:
-          _s.extractXmlIntValue(elem, 'SourceReservedNodeCount'),
-      sourceReservedNodeId:
-          _s.extractXmlStringValue(elem, 'SourceReservedNodeId'),
-      sourceReservedNodeType:
-          _s.extractXmlStringValue(elem, 'SourceReservedNodeType'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(ReservedNodeExchangeStatusType.fromString),
-      targetReservedNodeCount:
-          _s.extractXmlIntValue(elem, 'TargetReservedNodeCount'),
-      targetReservedNodeOfferingId:
-          _s.extractXmlStringValue(elem, 'TargetReservedNodeOfferingId'),
-      targetReservedNodeType:
-          _s.extractXmlStringValue(elem, 'TargetReservedNodeType'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requestTime = this.requestTime;
-    final reservedNodeExchangeRequestId = this.reservedNodeExchangeRequestId;
-    final sourceReservedNodeCount = this.sourceReservedNodeCount;
-    final sourceReservedNodeId = this.sourceReservedNodeId;
-    final sourceReservedNodeType = this.sourceReservedNodeType;
-    final status = this.status;
-    final targetReservedNodeCount = this.targetReservedNodeCount;
-    final targetReservedNodeOfferingId = this.targetReservedNodeOfferingId;
-    final targetReservedNodeType = this.targetReservedNodeType;
-    return {
-      if (requestTime != null) 'RequestTime': iso8601ToJson(requestTime),
-      if (reservedNodeExchangeRequestId != null)
-        'ReservedNodeExchangeRequestId': reservedNodeExchangeRequestId,
-      if (sourceReservedNodeCount != null)
-        'SourceReservedNodeCount': sourceReservedNodeCount,
-      if (sourceReservedNodeId != null)
-        'SourceReservedNodeId': sourceReservedNodeId,
-      if (sourceReservedNodeType != null)
-        'SourceReservedNodeType': sourceReservedNodeType,
-      if (status != null) 'Status': status.value,
-      if (targetReservedNodeCount != null)
-        'TargetReservedNodeCount': targetReservedNodeCount,
-      if (targetReservedNodeOfferingId != null)
-        'TargetReservedNodeOfferingId': targetReservedNodeOfferingId,
-      if (targetReservedNodeType != null)
-        'TargetReservedNodeType': targetReservedNodeType,
-    };
-  }
-}
-
-class ReservedNodeExchangeStatusType {
-  static const requested = ReservedNodeExchangeStatusType._('REQUESTED');
-  static const pending = ReservedNodeExchangeStatusType._('PENDING');
-  static const inProgress = ReservedNodeExchangeStatusType._('IN_PROGRESS');
-  static const retrying = ReservedNodeExchangeStatusType._('RETRYING');
-  static const succeeded = ReservedNodeExchangeStatusType._('SUCCEEDED');
-  static const failed = ReservedNodeExchangeStatusType._('FAILED');
-
-  final String value;
-
-  const ReservedNodeExchangeStatusType._(this.value);
-
-  static const values = [
-    requested,
-    pending,
-    inProgress,
-    retrying,
-    succeeded,
-    failed
-  ];
-
-  static ReservedNodeExchangeStatusType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReservedNodeExchangeStatusType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReservedNodeExchangeStatusType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a reserved node offering.
-class ReservedNodeOffering {
-  /// The currency code for the compute nodes offering.
-  final String? currencyCode;
-
-  /// The duration, in seconds, for which the offering will reserve the node.
-  final int? duration;
-
-  /// The upfront fixed charge you will pay to purchase the specific reserved node
-  /// offering.
-  final double? fixedPrice;
-
-  /// The node type offered by the reserved node offering.
-  final String? nodeType;
-
-  /// The anticipated utilization of the reserved node, as defined in the reserved
-  /// node offering.
-  final String? offeringType;
-
-  /// The charge to your account regardless of whether you are creating any
-  /// clusters using the node offering. Recurring charges are only in effect for
-  /// heavy-utilization reserved nodes.
-  final List<RecurringCharge>? recurringCharges;
-
-  /// The offering identifier.
-  final String? reservedNodeOfferingId;
-
-  /// <p/>
-  final ReservedNodeOfferingType? reservedNodeOfferingType;
-
-  /// The rate you are charged for each hour the cluster that is using the
-  /// offering is running.
-  final double? usagePrice;
-
-  ReservedNodeOffering({
-    this.currencyCode,
-    this.duration,
-    this.fixedPrice,
-    this.nodeType,
-    this.offeringType,
-    this.recurringCharges,
-    this.reservedNodeOfferingId,
-    this.reservedNodeOfferingType,
-    this.usagePrice,
-  });
-  factory ReservedNodeOffering.fromXml(_s.XmlElement elem) {
-    return ReservedNodeOffering(
-      currencyCode: _s.extractXmlStringValue(elem, 'CurrencyCode'),
-      duration: _s.extractXmlIntValue(elem, 'Duration'),
-      fixedPrice: _s.extractXmlDoubleValue(elem, 'FixedPrice'),
-      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
-      offeringType: _s.extractXmlStringValue(elem, 'OfferingType'),
-      recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
-          (elem) => elem
-              .findElements('RecurringCharge')
-              .map(RecurringCharge.fromXml)
-              .toList()),
-      reservedNodeOfferingId:
-          _s.extractXmlStringValue(elem, 'ReservedNodeOfferingId'),
-      reservedNodeOfferingType: _s
-          .extractXmlStringValue(elem, 'ReservedNodeOfferingType')
-          ?.let(ReservedNodeOfferingType.fromString),
-      usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currencyCode = this.currencyCode;
-    final duration = this.duration;
-    final fixedPrice = this.fixedPrice;
-    final nodeType = this.nodeType;
-    final offeringType = this.offeringType;
-    final recurringCharges = this.recurringCharges;
-    final reservedNodeOfferingId = this.reservedNodeOfferingId;
-    final reservedNodeOfferingType = this.reservedNodeOfferingType;
-    final usagePrice = this.usagePrice;
-    return {
-      if (currencyCode != null) 'CurrencyCode': currencyCode,
-      if (duration != null) 'Duration': duration,
-      if (fixedPrice != null) 'FixedPrice': fixedPrice,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (offeringType != null) 'OfferingType': offeringType,
-      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
-      if (reservedNodeOfferingId != null)
-        'ReservedNodeOfferingId': reservedNodeOfferingId,
-      if (reservedNodeOfferingType != null)
-        'ReservedNodeOfferingType': reservedNodeOfferingType.value,
-      if (usagePrice != null) 'UsagePrice': usagePrice,
-    };
-  }
-}
-
-class ReservedNodeOfferingType {
-  static const regular = ReservedNodeOfferingType._('Regular');
-  static const upgradable = ReservedNodeOfferingType._('Upgradable');
-
-  final String value;
-
-  const ReservedNodeOfferingType._(this.value);
-
-  static const values = [regular, upgradable];
-
-  static ReservedNodeOfferingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReservedNodeOfferingType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReservedNodeOfferingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <p/>
-class ReservedNodeOfferingsMessage {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// A list of <code>ReservedNodeOffering</code> objects.
-  final List<ReservedNodeOffering>? reservedNodeOfferings;
-
-  ReservedNodeOfferingsMessage({
-    this.marker,
-    this.reservedNodeOfferings,
-  });
-  factory ReservedNodeOfferingsMessage.fromXml(_s.XmlElement elem) {
-    return ReservedNodeOfferingsMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      reservedNodeOfferings: _s
-          .extractXmlChild(elem, 'ReservedNodeOfferings')
-          ?.let((elem) => elem
-              .findElements('ReservedNodeOffering')
-              .map(ReservedNodeOffering.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final reservedNodeOfferings = this.reservedNodeOfferings;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (reservedNodeOfferings != null)
-        'ReservedNodeOfferings': reservedNodeOfferings,
-    };
-  }
-}
-
-/// <p/>
-class ReservedNodesMessage {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// The list of <code>ReservedNode</code> objects.
-  final List<ReservedNode>? reservedNodes;
-
-  ReservedNodesMessage({
-    this.marker,
-    this.reservedNodes,
-  });
-  factory ReservedNodesMessage.fromXml(_s.XmlElement elem) {
-    return ReservedNodesMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      reservedNodes: _s.extractXmlChild(elem, 'ReservedNodes')?.let((elem) =>
-          elem.findElements('ReservedNode').map(ReservedNode.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final reservedNodes = this.reservedNodes;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (reservedNodes != null) 'ReservedNodes': reservedNodes,
-    };
-  }
-}
-
-/// Describes a resize cluster operation. For example, a scheduled action to run
-/// the <code>ResizeCluster</code> API operation.
-class ResizeClusterMessage {
-  /// The unique identifier for the cluster to resize.
-  final String clusterIdentifier;
-
-  /// A boolean value indicating whether the resize operation is using the classic
-  /// resize process. If you don't provide this parameter or set the value to
-  /// <code>false</code>, the resize type is elastic.
-  final bool? classic;
-
-  /// The new cluster type for the specified cluster.
-  final String? clusterType;
-
-  /// The new node type for the nodes you are adding. If not specified, the
-  /// cluster's current node type is used.
-  final String? nodeType;
-
-  /// The new number of nodes for the cluster. If not specified, the cluster's
-  /// current number of nodes is used.
-  final int? numberOfNodes;
-
-  /// The identifier of the reserved node.
-  final String? reservedNodeId;
-
-  /// The identifier of the target reserved node offering.
-  final String? targetReservedNodeOfferingId;
-
-  ResizeClusterMessage({
-    required this.clusterIdentifier,
-    this.classic,
-    this.clusterType,
-    this.nodeType,
-    this.numberOfNodes,
-    this.reservedNodeId,
-    this.targetReservedNodeOfferingId,
-  });
-  factory ResizeClusterMessage.fromXml(_s.XmlElement elem) {
-    return ResizeClusterMessage(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
-      classic: _s.extractXmlBoolValue(elem, 'Classic'),
-      clusterType: _s.extractXmlStringValue(elem, 'ClusterType'),
-      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
-      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
-      reservedNodeId: _s.extractXmlStringValue(elem, 'ReservedNodeId'),
-      targetReservedNodeOfferingId:
-          _s.extractXmlStringValue(elem, 'TargetReservedNodeOfferingId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final classic = this.classic;
-    final clusterType = this.clusterType;
-    final nodeType = this.nodeType;
-    final numberOfNodes = this.numberOfNodes;
-    final reservedNodeId = this.reservedNodeId;
-    final targetReservedNodeOfferingId = this.targetReservedNodeOfferingId;
-    return {
-      'ClusterIdentifier': clusterIdentifier,
-      if (classic != null) 'Classic': classic,
-      if (clusterType != null) 'ClusterType': clusterType,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
-      if (reservedNodeId != null) 'ReservedNodeId': reservedNodeId,
-      if (targetReservedNodeOfferingId != null)
-        'TargetReservedNodeOfferingId': targetReservedNodeOfferingId,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final clusterIdentifier = this.clusterIdentifier;
-    final classic = this.classic;
-    final clusterType = this.clusterType;
-    final nodeType = this.nodeType;
-    final numberOfNodes = this.numberOfNodes;
-    final reservedNodeId = this.reservedNodeId;
-    final targetReservedNodeOfferingId = this.targetReservedNodeOfferingId;
-    return {
-      'ClusterIdentifier': clusterIdentifier,
-      if (classic != null) 'Classic': classic.toString(),
-      if (clusterType != null) 'ClusterType': clusterType,
-      if (nodeType != null) 'NodeType': nodeType,
-      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes.toString(),
-      if (reservedNodeId != null) 'ReservedNodeId': reservedNodeId,
-      if (targetReservedNodeOfferingId != null)
-        'TargetReservedNodeOfferingId': targetReservedNodeOfferingId,
-    };
-  }
-}
-
-class ResizeClusterResult {
-  final Cluster? cluster;
-
-  ResizeClusterResult({
-    this.cluster,
-  });
-  factory ResizeClusterResult.fromXml(_s.XmlElement elem) {
-    return ResizeClusterResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// Describes a resize operation.
-class ResizeInfo {
-  /// A boolean value indicating if the resize operation can be cancelled.
-  final bool? allowCancelResize;
-
-  /// Returns the value <code>ClassicResize</code>.
-  final String? resizeType;
-
-  ResizeInfo({
-    this.allowCancelResize,
-    this.resizeType,
-  });
-  factory ResizeInfo.fromXml(_s.XmlElement elem) {
-    return ResizeInfo(
-      allowCancelResize: _s.extractXmlBoolValue(elem, 'AllowCancelResize'),
-      resizeType: _s.extractXmlStringValue(elem, 'ResizeType'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowCancelResize = this.allowCancelResize;
-    final resizeType = this.resizeType;
-    return {
-      if (allowCancelResize != null) 'AllowCancelResize': allowCancelResize,
-      if (resizeType != null) 'ResizeType': resizeType,
+      if (errors != null) 'Errors': errors,
+      if (resources != null) 'Resources': resources,
     };
   }
 }
@@ -16437,43 +10246,66 @@ class ResizeProgressMessage {
   }
 }
 
-/// The policy that is attached to a resource.
-class ResourcePolicy {
-  /// The content of a resource policy.
-  final String? policy;
+class CopyClusterSnapshotResult {
+  final Snapshot? snapshot;
 
-  /// The resources that a policy is attached to.
-  final String? resourceArn;
-
-  ResourcePolicy({
-    this.policy,
-    this.resourceArn,
+  CopyClusterSnapshotResult({
+    this.snapshot,
   });
-  factory ResourcePolicy.fromXml(_s.XmlElement elem) {
-    return ResourcePolicy(
-      policy: _s.extractXmlStringValue(elem, 'Policy'),
-      resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
+  factory CopyClusterSnapshotResult.fromXml(_s.XmlElement elem) {
+    return CopyClusterSnapshotResult(
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    final resourceArn = this.resourceArn;
+    final snapshot = this.snapshot;
     return {
-      if (policy != null) 'Policy': policy,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (snapshot != null) 'Snapshot': snapshot,
     };
   }
 }
 
-class RestoreFromClusterSnapshotResult {
+class CreateAuthenticationProfileResult {
+  /// The content of the authentication profile in JSON format.
+  final String? authenticationProfileContent;
+
+  /// The name of the authentication profile that was created.
+  final String? authenticationProfileName;
+
+  CreateAuthenticationProfileResult({
+    this.authenticationProfileContent,
+    this.authenticationProfileName,
+  });
+  factory CreateAuthenticationProfileResult.fromXml(_s.XmlElement elem) {
+    return CreateAuthenticationProfileResult(
+      authenticationProfileContent:
+          _s.extractXmlStringValue(elem, 'AuthenticationProfileContent'),
+      authenticationProfileName:
+          _s.extractXmlStringValue(elem, 'AuthenticationProfileName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationProfileContent = this.authenticationProfileContent;
+    final authenticationProfileName = this.authenticationProfileName;
+    return {
+      if (authenticationProfileContent != null)
+        'AuthenticationProfileContent': authenticationProfileContent,
+      if (authenticationProfileName != null)
+        'AuthenticationProfileName': authenticationProfileName,
+    };
+  }
+}
+
+class CreateClusterResult {
   final Cluster? cluster;
 
-  RestoreFromClusterSnapshotResult({
+  CreateClusterResult({
     this.cluster,
   });
-  factory RestoreFromClusterSnapshotResult.fromXml(_s.XmlElement elem) {
-    return RestoreFromClusterSnapshotResult(
+  factory CreateClusterResult.fromXml(_s.XmlElement elem) {
+    return CreateClusterResult(
       cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
     );
   }
@@ -16486,206 +10318,37 @@ class RestoreFromClusterSnapshotResult {
   }
 }
 
-/// Describes the status of a cluster restore action. Returns null if the
-/// cluster was not created by restoring a snapshot.
-class RestoreStatus {
-  /// The number of megabytes per second being transferred from the backup
-  /// storage. Returns the average rate for a completed backup. This field is only
-  /// updated when you restore to DC2 node types.
-  final double? currentRestoreRateInMegaBytesPerSecond;
+class CreateClusterParameterGroupResult {
+  final ClusterParameterGroup? clusterParameterGroup;
 
-  /// The amount of time an in-progress restore has been running, or the amount of
-  /// time it took a completed restore to finish. This field is only updated when
-  /// you restore to DC2 node types.
-  final int? elapsedTimeInSeconds;
-
-  /// The estimate of the time remaining before the restore will complete. Returns
-  /// 0 for a completed restore. This field is only updated when you restore to
-  /// DC2 node types.
-  final int? estimatedTimeToCompletionInSeconds;
-
-  /// The number of megabytes that have been transferred from snapshot storage.
-  /// This field is only updated when you restore to DC2 node types.
-  final int? progressInMegaBytes;
-
-  /// The size of the set of snapshot data used to restore the cluster. This field
-  /// is only updated when you restore to DC2 node types.
-  final int? snapshotSizeInMegaBytes;
-
-  /// The status of the restore action. Returns starting, restoring, completed, or
-  /// failed.
-  final String? status;
-
-  RestoreStatus({
-    this.currentRestoreRateInMegaBytesPerSecond,
-    this.elapsedTimeInSeconds,
-    this.estimatedTimeToCompletionInSeconds,
-    this.progressInMegaBytes,
-    this.snapshotSizeInMegaBytes,
-    this.status,
+  CreateClusterParameterGroupResult({
+    this.clusterParameterGroup,
   });
-  factory RestoreStatus.fromXml(_s.XmlElement elem) {
-    return RestoreStatus(
-      currentRestoreRateInMegaBytesPerSecond: _s.extractXmlDoubleValue(
-          elem, 'CurrentRestoreRateInMegaBytesPerSecond'),
-      elapsedTimeInSeconds: _s.extractXmlIntValue(elem, 'ElapsedTimeInSeconds'),
-      estimatedTimeToCompletionInSeconds:
-          _s.extractXmlIntValue(elem, 'EstimatedTimeToCompletionInSeconds'),
-      progressInMegaBytes: _s.extractXmlIntValue(elem, 'ProgressInMegaBytes'),
-      snapshotSizeInMegaBytes:
-          _s.extractXmlIntValue(elem, 'SnapshotSizeInMegaBytes'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
+  factory CreateClusterParameterGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateClusterParameterGroupResult(
+      clusterParameterGroup: _s
+          .extractXmlChild(elem, 'ClusterParameterGroup')
+          ?.let(ClusterParameterGroup.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final currentRestoreRateInMegaBytesPerSecond =
-        this.currentRestoreRateInMegaBytesPerSecond;
-    final elapsedTimeInSeconds = this.elapsedTimeInSeconds;
-    final estimatedTimeToCompletionInSeconds =
-        this.estimatedTimeToCompletionInSeconds;
-    final progressInMegaBytes = this.progressInMegaBytes;
-    final snapshotSizeInMegaBytes = this.snapshotSizeInMegaBytes;
-    final status = this.status;
+    final clusterParameterGroup = this.clusterParameterGroup;
     return {
-      if (currentRestoreRateInMegaBytesPerSecond != null)
-        'CurrentRestoreRateInMegaBytesPerSecond':
-            currentRestoreRateInMegaBytesPerSecond,
-      if (elapsedTimeInSeconds != null)
-        'ElapsedTimeInSeconds': elapsedTimeInSeconds,
-      if (estimatedTimeToCompletionInSeconds != null)
-        'EstimatedTimeToCompletionInSeconds':
-            estimatedTimeToCompletionInSeconds,
-      if (progressInMegaBytes != null)
-        'ProgressInMegaBytes': progressInMegaBytes,
-      if (snapshotSizeInMegaBytes != null)
-        'SnapshotSizeInMegaBytes': snapshotSizeInMegaBytes,
-      if (status != null) 'Status': status,
+      if (clusterParameterGroup != null)
+        'ClusterParameterGroup': clusterParameterGroup,
     };
   }
 }
 
-class RestoreTableFromClusterSnapshotResult {
-  final TableRestoreStatus? tableRestoreStatus;
-
-  RestoreTableFromClusterSnapshotResult({
-    this.tableRestoreStatus,
-  });
-  factory RestoreTableFromClusterSnapshotResult.fromXml(_s.XmlElement elem) {
-    return RestoreTableFromClusterSnapshotResult(
-      tableRestoreStatus: _s
-          .extractXmlChild(elem, 'TableRestoreStatus')
-          ?.let(TableRestoreStatus.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tableRestoreStatus = this.tableRestoreStatus;
-    return {
-      if (tableRestoreStatus != null) 'TableRestoreStatus': tableRestoreStatus,
-    };
-  }
-}
-
-/// Describes a resume cluster operation. For example, a scheduled action to run
-/// the <code>ResumeCluster</code> API operation.
-class ResumeClusterMessage {
-  /// The identifier of the cluster to be resumed.
-  final String clusterIdentifier;
-
-  ResumeClusterMessage({
-    required this.clusterIdentifier,
-  });
-  factory ResumeClusterMessage.fromXml(_s.XmlElement elem) {
-    return ResumeClusterMessage(
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterIdentifier = this.clusterIdentifier;
-    return {
-      'ClusterIdentifier': clusterIdentifier,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final clusterIdentifier = this.clusterIdentifier;
-    return {
-      'ClusterIdentifier': clusterIdentifier,
-    };
-  }
-}
-
-class ResumeClusterResult {
-  final Cluster? cluster;
-
-  ResumeClusterResult({
-    this.cluster,
-  });
-  factory ResumeClusterResult.fromXml(_s.XmlElement elem) {
-    return ResumeClusterResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    return {
-      if (cluster != null) 'Cluster': cluster,
-    };
-  }
-}
-
-/// Describes a <code>RevisionTarget</code>.
-class RevisionTarget {
-  /// A unique string that identifies the version to update the cluster to. You
-  /// can use this value in <a>ModifyClusterDbRevision</a>.
-  final String? databaseRevision;
-
-  /// The date on which the database revision was released.
-  final DateTime? databaseRevisionReleaseDate;
-
-  /// A string that describes the changes and features that will be applied to the
-  /// cluster when it is updated to the corresponding <a>ClusterDbRevision</a>.
-  final String? description;
-
-  RevisionTarget({
-    this.databaseRevision,
-    this.databaseRevisionReleaseDate,
-    this.description,
-  });
-  factory RevisionTarget.fromXml(_s.XmlElement elem) {
-    return RevisionTarget(
-      databaseRevision: _s.extractXmlStringValue(elem, 'DatabaseRevision'),
-      databaseRevisionReleaseDate:
-          _s.extractXmlDateTimeValue(elem, 'DatabaseRevisionReleaseDate'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseRevision = this.databaseRevision;
-    final databaseRevisionReleaseDate = this.databaseRevisionReleaseDate;
-    final description = this.description;
-    return {
-      if (databaseRevision != null) 'DatabaseRevision': databaseRevision,
-      if (databaseRevisionReleaseDate != null)
-        'DatabaseRevisionReleaseDate':
-            iso8601ToJson(databaseRevisionReleaseDate),
-      if (description != null) 'Description': description,
-    };
-  }
-}
-
-class RevokeClusterSecurityGroupIngressResult {
+class CreateClusterSecurityGroupResult {
   final ClusterSecurityGroup? clusterSecurityGroup;
 
-  RevokeClusterSecurityGroupIngressResult({
+  CreateClusterSecurityGroupResult({
     this.clusterSecurityGroup,
   });
-  factory RevokeClusterSecurityGroupIngressResult.fromXml(_s.XmlElement elem) {
-    return RevokeClusterSecurityGroupIngressResult(
+  factory CreateClusterSecurityGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateClusterSecurityGroupResult(
       clusterSecurityGroup: _s
           .extractXmlChild(elem, 'ClusterSecurityGroup')
           ?.let(ClusterSecurityGroup.fromXml),
@@ -16701,14 +10364,14 @@ class RevokeClusterSecurityGroupIngressResult {
   }
 }
 
-class RevokeSnapshotAccessResult {
+class CreateClusterSnapshotResult {
   final Snapshot? snapshot;
 
-  RevokeSnapshotAccessResult({
+  CreateClusterSnapshotResult({
     this.snapshot,
   });
-  factory RevokeSnapshotAccessResult.fromXml(_s.XmlElement elem) {
-    return RevokeSnapshotAccessResult(
+  factory CreateClusterSnapshotResult.fromXml(_s.XmlElement elem) {
+    return CreateClusterSnapshotResult(
       snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
     );
   }
@@ -16721,49 +10384,369 @@ class RevokeSnapshotAccessResult {
   }
 }
 
-class RotateEncryptionKeyResult {
-  final Cluster? cluster;
+class CreateClusterSubnetGroupResult {
+  final ClusterSubnetGroup? clusterSubnetGroup;
 
-  RotateEncryptionKeyResult({
-    this.cluster,
+  CreateClusterSubnetGroupResult({
+    this.clusterSubnetGroup,
   });
-  factory RotateEncryptionKeyResult.fromXml(_s.XmlElement elem) {
-    return RotateEncryptionKeyResult(
-      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+  factory CreateClusterSubnetGroupResult.fromXml(_s.XmlElement elem) {
+    return CreateClusterSubnetGroupResult(
+      clusterSubnetGroup: _s
+          .extractXmlChild(elem, 'ClusterSubnetGroup')
+          ?.let(ClusterSubnetGroup.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
+    final clusterSubnetGroup = this.clusterSubnetGroup;
     return {
-      if (cluster != null) 'Cluster': cluster,
+      if (clusterSubnetGroup != null) 'ClusterSubnetGroup': clusterSubnetGroup,
     };
   }
 }
 
-class ScheduleState {
-  static const modifying = ScheduleState._('MODIFYING');
-  static const active = ScheduleState._('ACTIVE');
-  static const failed = ScheduleState._('FAILED');
+class CreateCustomDomainAssociationResult {
+  /// The identifier of the cluster that the custom domain is associated with.
+  final String? clusterIdentifier;
 
-  final String value;
+  /// The expiration time for the certificate for the custom domain.
+  final String? customDomainCertExpiryTime;
 
-  const ScheduleState._(this.value);
+  /// The Amazon Resource Name (ARN) for the certificate associated with the
+  /// custom domain name.
+  final String? customDomainCertificateArn;
 
-  static const values = [modifying, active, failed];
+  /// The custom domain name for the association result.
+  final String? customDomainName;
 
-  static ScheduleState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduleState._(value));
+  CreateCustomDomainAssociationResult({
+    this.clusterIdentifier,
+    this.customDomainCertExpiryTime,
+    this.customDomainCertificateArn,
+    this.customDomainName,
+  });
+  factory CreateCustomDomainAssociationResult.fromXml(_s.XmlElement elem) {
+    return CreateCustomDomainAssociationResult(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      customDomainCertExpiryTime:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertExpiryTime'),
+      customDomainCertificateArn:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
+      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
+    );
+  }
 
-  @override
-  bool operator ==(other) => other is ScheduleState && other.value == value;
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final customDomainCertExpiryTime = this.customDomainCertExpiryTime;
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainName = this.customDomainName;
+    return {
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (customDomainCertExpiryTime != null)
+        'CustomDomainCertExpiryTime': customDomainCertExpiryTime,
+      if (customDomainCertificateArn != null)
+        'CustomDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainName != null) 'CustomDomainName': customDomainName,
+    };
+  }
+}
 
-  @override
-  int get hashCode => value.hashCode;
+/// Describes a Redshift-managed VPC endpoint.
+class EndpointAccess {
+  /// The DNS address of the endpoint.
+  final String? address;
 
-  @override
-  String toString() => value;
+  /// The cluster identifier of the cluster associated with the endpoint.
+  final String? clusterIdentifier;
+
+  /// The time (UTC) that the endpoint was created.
+  final DateTime? endpointCreateTime;
+
+  /// The name of the endpoint.
+  final String? endpointName;
+
+  /// The status of the endpoint.
+  final String? endpointStatus;
+
+  /// The port number on which the cluster accepts incoming connections.
+  final int? port;
+
+  /// The Amazon Web Services account ID of the owner of the cluster.
+  final String? resourceOwner;
+
+  /// The subnet group name where Amazon Redshift chooses to deploy the endpoint.
+  final String? subnetGroupName;
+  final VpcEndpoint? vpcEndpoint;
+
+  /// The security groups associated with the endpoint.
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
+
+  EndpointAccess({
+    this.address,
+    this.clusterIdentifier,
+    this.endpointCreateTime,
+    this.endpointName,
+    this.endpointStatus,
+    this.port,
+    this.resourceOwner,
+    this.subnetGroupName,
+    this.vpcEndpoint,
+    this.vpcSecurityGroups,
+  });
+  factory EndpointAccess.fromXml(_s.XmlElement elem) {
+    return EndpointAccess(
+      address: _s.extractXmlStringValue(elem, 'Address'),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      endpointCreateTime:
+          _s.extractXmlDateTimeValue(elem, 'EndpointCreateTime'),
+      endpointName: _s.extractXmlStringValue(elem, 'EndpointName'),
+      endpointStatus: _s.extractXmlStringValue(elem, 'EndpointStatus'),
+      port: _s.extractXmlIntValue(elem, 'Port'),
+      resourceOwner: _s.extractXmlStringValue(elem, 'ResourceOwner'),
+      subnetGroupName: _s.extractXmlStringValue(elem, 'SubnetGroupName'),
+      vpcEndpoint:
+          _s.extractXmlChild(elem, 'VpcEndpoint')?.let(VpcEndpoint.fromXml),
+      vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
+          (elem) => elem
+              .findElements('VpcSecurityGroup')
+              .map(VpcSecurityGroupMembership.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final clusterIdentifier = this.clusterIdentifier;
+    final endpointCreateTime = this.endpointCreateTime;
+    final endpointName = this.endpointName;
+    final endpointStatus = this.endpointStatus;
+    final port = this.port;
+    final resourceOwner = this.resourceOwner;
+    final subnetGroupName = this.subnetGroupName;
+    final vpcEndpoint = this.vpcEndpoint;
+    final vpcSecurityGroups = this.vpcSecurityGroups;
+    return {
+      if (address != null) 'Address': address,
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (endpointCreateTime != null)
+        'EndpointCreateTime': iso8601ToJson(endpointCreateTime),
+      if (endpointName != null) 'EndpointName': endpointName,
+      if (endpointStatus != null) 'EndpointStatus': endpointStatus,
+      if (port != null) 'Port': port,
+      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
+      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
+      if (vpcEndpoint != null) 'VpcEndpoint': vpcEndpoint,
+      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
+    };
+  }
+}
+
+class CreateEventSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  CreateEventSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory CreateEventSubscriptionResult.fromXml(_s.XmlElement elem) {
+    return CreateEventSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let(EventSubscription.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscription = this.eventSubscription;
+    return {
+      if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
+}
+
+class CreateHsmClientCertificateResult {
+  final HsmClientCertificate? hsmClientCertificate;
+
+  CreateHsmClientCertificateResult({
+    this.hsmClientCertificate,
+  });
+  factory CreateHsmClientCertificateResult.fromXml(_s.XmlElement elem) {
+    return CreateHsmClientCertificateResult(
+      hsmClientCertificate: _s
+          .extractXmlChild(elem, 'HsmClientCertificate')
+          ?.let(HsmClientCertificate.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmClientCertificate = this.hsmClientCertificate;
+    return {
+      if (hsmClientCertificate != null)
+        'HsmClientCertificate': hsmClientCertificate,
+    };
+  }
+}
+
+class CreateHsmConfigurationResult {
+  final HsmConfiguration? hsmConfiguration;
+
+  CreateHsmConfigurationResult({
+    this.hsmConfiguration,
+  });
+  factory CreateHsmConfigurationResult.fromXml(_s.XmlElement elem) {
+    return CreateHsmConfigurationResult(
+      hsmConfiguration: _s
+          .extractXmlChild(elem, 'HsmConfiguration')
+          ?.let(HsmConfiguration.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmConfiguration = this.hsmConfiguration;
+    return {
+      if (hsmConfiguration != null) 'HsmConfiguration': hsmConfiguration,
+    };
+  }
+}
+
+class Integration {
+  /// The encryption context for the integration. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context">Encryption
+  /// context</a> in the <i>Amazon Web Services Key Management Service Developer
+  /// Guide</i>.
+  final Map<String, String>? additionalEncryptionContext;
+
+  /// The time (UTC) when the integration was created.
+  final DateTime? createTime;
+
+  /// The description of the integration.
+  final String? description;
+
+  /// Any errors associated with the integration.
+  final List<IntegrationError>? errors;
+
+  /// The Amazon Resource Name (ARN) of the integration.
+  final String? integrationArn;
+
+  /// The name of the integration.
+  final String? integrationName;
+
+  /// The Key Management Service (KMS) key identifier for the key used to encrypt
+  /// the integration.
+  final String? kMSKeyId;
+
+  /// The Amazon Resource Name (ARN) of the database used as the source for
+  /// replication.
+  final String? sourceArn;
+
+  /// The current status of the integration.
+  final ZeroETLIntegrationStatus? status;
+
+  /// The list of tags associated with the integration.
+  final List<Tag>? tags;
+
+  /// The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse to use
+  /// as the target for replication.
+  final String? targetArn;
+
+  Integration({
+    this.additionalEncryptionContext,
+    this.createTime,
+    this.description,
+    this.errors,
+    this.integrationArn,
+    this.integrationName,
+    this.kMSKeyId,
+    this.sourceArn,
+    this.status,
+    this.tags,
+    this.targetArn,
+  });
+  factory Integration.fromXml(_s.XmlElement elem) {
+    return Integration(
+      additionalEncryptionContext: Map.fromEntries(
+        elem
+                .getElement('AdditionalEncryptionContext')
+                ?.findElements('entry')
+                .map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
+      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
+          .findElements('IntegrationError')
+          .map(IntegrationError.fromXml)
+          .toList()),
+      integrationArn: _s.extractXmlStringValue(elem, 'IntegrationArn'),
+      integrationName: _s.extractXmlStringValue(elem, 'IntegrationName'),
+      kMSKeyId: _s.extractXmlStringValue(elem, 'KMSKeyId'),
+      sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ZeroETLIntegrationStatus.fromString),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+      targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalEncryptionContext = this.additionalEncryptionContext;
+    final createTime = this.createTime;
+    final description = this.description;
+    final errors = this.errors;
+    final integrationArn = this.integrationArn;
+    final integrationName = this.integrationName;
+    final kMSKeyId = this.kMSKeyId;
+    final sourceArn = this.sourceArn;
+    final status = this.status;
+    final tags = this.tags;
+    final targetArn = this.targetArn;
+    return {
+      if (additionalEncryptionContext != null)
+        'AdditionalEncryptionContext': additionalEncryptionContext,
+      if (createTime != null) 'CreateTime': iso8601ToJson(createTime),
+      if (description != null) 'Description': description,
+      if (errors != null) 'Errors': errors,
+      if (integrationArn != null) 'IntegrationArn': integrationArn,
+      if (integrationName != null) 'IntegrationName': integrationName,
+      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (status != null) 'Status': status.value,
+      if (tags != null) 'Tags': tags,
+      if (targetArn != null) 'TargetArn': targetArn,
+    };
+  }
+}
+
+class CreateRedshiftIdcApplicationResult {
+  final RedshiftIdcApplication? redshiftIdcApplication;
+
+  CreateRedshiftIdcApplicationResult({
+    this.redshiftIdcApplication,
+  });
+  factory CreateRedshiftIdcApplicationResult.fromXml(_s.XmlElement elem) {
+    return CreateRedshiftIdcApplicationResult(
+      redshiftIdcApplication: _s
+          .extractXmlChild(elem, 'RedshiftIdcApplication')
+          ?.let(RedshiftIdcApplication.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final redshiftIdcApplication = this.redshiftIdcApplication;
+    return {
+      if (redshiftIdcApplication != null)
+        'RedshiftIdcApplication': redshiftIdcApplication,
+    };
+  }
 }
 
 /// Describes a scheduled action. You can use a scheduled action to trigger some
@@ -16880,178 +10863,1536 @@ class ScheduledAction {
   }
 }
 
-/// A set of elements to filter the returned scheduled actions.
-class ScheduledActionFilter {
-  /// The type of element to filter.
-  final ScheduledActionFilterName name;
+class CreateSnapshotCopyGrantResult {
+  final SnapshotCopyGrant? snapshotCopyGrant;
 
-  /// List of values. Compare if the value (of type defined by <code>Name</code>)
-  /// equals an item in the list of scheduled actions.
-  final List<String> values;
-
-  ScheduledActionFilter({
-    required this.name,
-    required this.values,
+  CreateSnapshotCopyGrantResult({
+    this.snapshotCopyGrant,
   });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name.value,
-      'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name.value,
-      if (values.isEmpty)
-        'item': ''
-      else
-        for (var i1 = 0; i1 < values.length; i1++)
-          'item.item.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-class ScheduledActionFilterName {
-  static const clusterIdentifier =
-      ScheduledActionFilterName._('cluster-identifier');
-  static const iamRole = ScheduledActionFilterName._('iam-role');
-
-  final String value;
-
-  const ScheduledActionFilterName._(this.value);
-
-  static const values = [clusterIdentifier, iamRole];
-
-  static ScheduledActionFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduledActionFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScheduledActionFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ScheduledActionState {
-  static const active = ScheduledActionState._('ACTIVE');
-  static const disabled = ScheduledActionState._('DISABLED');
-
-  final String value;
-
-  const ScheduledActionState._(this.value);
-
-  static const values = [active, disabled];
-
-  static ScheduledActionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduledActionState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScheduledActionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The action type that specifies an Amazon Redshift API operation that is
-/// supported by the Amazon Redshift scheduler.
-class ScheduledActionType {
-  /// An action that runs a <code>PauseCluster</code> API operation.
-  final PauseClusterMessage? pauseCluster;
-
-  /// An action that runs a <code>ResizeCluster</code> API operation.
-  final ResizeClusterMessage? resizeCluster;
-
-  /// An action that runs a <code>ResumeCluster</code> API operation.
-  final ResumeClusterMessage? resumeCluster;
-
-  ScheduledActionType({
-    this.pauseCluster,
-    this.resizeCluster,
-    this.resumeCluster,
-  });
-  factory ScheduledActionType.fromXml(_s.XmlElement elem) {
-    return ScheduledActionType(
-      pauseCluster: _s
-          .extractXmlChild(elem, 'PauseCluster')
-          ?.let(PauseClusterMessage.fromXml),
-      resizeCluster: _s
-          .extractXmlChild(elem, 'ResizeCluster')
-          ?.let(ResizeClusterMessage.fromXml),
-      resumeCluster: _s
-          .extractXmlChild(elem, 'ResumeCluster')
-          ?.let(ResumeClusterMessage.fromXml),
+  factory CreateSnapshotCopyGrantResult.fromXml(_s.XmlElement elem) {
+    return CreateSnapshotCopyGrantResult(
+      snapshotCopyGrant: _s
+          .extractXmlChild(elem, 'SnapshotCopyGrant')
+          ?.let(SnapshotCopyGrant.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final pauseCluster = this.pauseCluster;
-    final resizeCluster = this.resizeCluster;
-    final resumeCluster = this.resumeCluster;
+    final snapshotCopyGrant = this.snapshotCopyGrant;
     return {
-      if (pauseCluster != null) 'PauseCluster': pauseCluster,
-      if (resizeCluster != null) 'ResizeCluster': resizeCluster,
-      if (resumeCluster != null) 'ResumeCluster': resumeCluster,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final pauseCluster = this.pauseCluster;
-    final resizeCluster = this.resizeCluster;
-    final resumeCluster = this.resumeCluster;
-    return {
-      if (pauseCluster != null)
-        for (var e1 in pauseCluster.toQueryMap().entries)
-          'PauseCluster.${e1.key}': e1.value,
-      if (resizeCluster != null)
-        for (var e1 in resizeCluster.toQueryMap().entries)
-          'ResizeCluster.${e1.key}': e1.value,
-      if (resumeCluster != null)
-        for (var e1 in resumeCluster.toQueryMap().entries)
-          'ResumeCluster.${e1.key}': e1.value,
+      if (snapshotCopyGrant != null) 'SnapshotCopyGrant': snapshotCopyGrant,
     };
   }
 }
 
-class ScheduledActionTypeValues {
-  static const resizeCluster = ScheduledActionTypeValues._('ResizeCluster');
-  static const pauseCluster = ScheduledActionTypeValues._('PauseCluster');
-  static const resumeCluster = ScheduledActionTypeValues._('ResumeCluster');
+/// Describes a snapshot schedule. You can set a regular interval for creating
+/// snapshots of a cluster. You can also schedule snapshots for specific dates.
+class SnapshotSchedule {
+  /// The number of clusters associated with the schedule.
+  final int? associatedClusterCount;
 
-  final String value;
+  /// A list of clusters associated with the schedule. A maximum of 100 clusters
+  /// is returned.
+  final List<ClusterAssociatedToSchedule>? associatedClusters;
 
-  const ScheduledActionTypeValues._(this.value);
+  ///
+  final List<DateTime>? nextInvocations;
 
-  static const values = [resizeCluster, pauseCluster, resumeCluster];
+  /// A list of ScheduleDefinitions.
+  final List<String>? scheduleDefinitions;
 
-  static ScheduledActionTypeValues fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduledActionTypeValues._(value));
+  /// The description of the schedule.
+  final String? scheduleDescription;
 
-  @override
-  bool operator ==(other) =>
-      other is ScheduledActionTypeValues && other.value == value;
+  /// A unique identifier for the schedule.
+  final String? scheduleIdentifier;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// An optional set of tags describing the schedule.
+  final List<Tag>? tags;
 
-  @override
-  String toString() => value;
+  SnapshotSchedule({
+    this.associatedClusterCount,
+    this.associatedClusters,
+    this.nextInvocations,
+    this.scheduleDefinitions,
+    this.scheduleDescription,
+    this.scheduleIdentifier,
+    this.tags,
+  });
+  factory SnapshotSchedule.fromXml(_s.XmlElement elem) {
+    return SnapshotSchedule(
+      associatedClusterCount:
+          _s.extractXmlIntValue(elem, 'AssociatedClusterCount'),
+      associatedClusters: _s.extractXmlChild(elem, 'AssociatedClusters')?.let(
+          (elem) => elem
+              .findElements('ClusterAssociatedToSchedule')
+              .map(ClusterAssociatedToSchedule.fromXml)
+              .toList()),
+      nextInvocations: _s.extractXmlChild(elem, 'NextInvocations')?.let(
+          (elem) => _s.extractXmlDateTimeListValues(elem, 'SnapshotTime')),
+      scheduleDefinitions: _s.extractXmlChild(elem, 'ScheduleDefinitions')?.let(
+          (elem) => _s.extractXmlStringListValues(elem, 'ScheduleDefinition')),
+      scheduleDescription:
+          _s.extractXmlStringValue(elem, 'ScheduleDescription'),
+      scheduleIdentifier: _s.extractXmlStringValue(elem, 'ScheduleIdentifier'),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedClusterCount = this.associatedClusterCount;
+    final associatedClusters = this.associatedClusters;
+    final nextInvocations = this.nextInvocations;
+    final scheduleDefinitions = this.scheduleDefinitions;
+    final scheduleDescription = this.scheduleDescription;
+    final scheduleIdentifier = this.scheduleIdentifier;
+    final tags = this.tags;
+    return {
+      if (associatedClusterCount != null)
+        'AssociatedClusterCount': associatedClusterCount,
+      if (associatedClusters != null) 'AssociatedClusters': associatedClusters,
+      if (nextInvocations != null)
+        'NextInvocations': nextInvocations.map(unixTimestampToJson).toList(),
+      if (scheduleDefinitions != null)
+        'ScheduleDefinitions': scheduleDefinitions,
+      if (scheduleDescription != null)
+        'ScheduleDescription': scheduleDescription,
+      if (scheduleIdentifier != null) 'ScheduleIdentifier': scheduleIdentifier,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Describes a usage limit object for a cluster.
+class UsageLimit {
+  /// The limit amount. If time-based, this amount is in minutes. If data-based,
+  /// this amount is in terabytes (TB).
+  final int? amount;
+
+  /// The action that Amazon Redshift takes when the limit is reached. Possible
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>log</b> - To log an event in a system table. The default is log.
+  /// </li>
+  /// <li>
+  /// <b>emit-metric</b> - To emit CloudWatch metrics.
+  /// </li>
+  /// <li>
+  /// <b>disable</b> - To disable the feature until the next usage period begins.
+  /// </li>
+  /// </ul>
+  final UsageLimitBreachAction? breachAction;
+
+  /// The identifier of the cluster with a usage limit.
+  final String? clusterIdentifier;
+
+  /// The Amazon Redshift feature to which the limit applies.
+  final UsageLimitFeatureType? featureType;
+
+  /// The type of limit. Depending on the feature type, this can be based on a
+  /// time duration or data size.
+  final UsageLimitLimitType? limitType;
+
+  /// The time period that the amount applies to. A <code>weekly</code> period
+  /// begins on Sunday. The default is <code>monthly</code>.
+  final UsageLimitPeriod? period;
+
+  /// A list of tag instances.
+  final List<Tag>? tags;
+
+  /// The identifier of the usage limit.
+  final String? usageLimitId;
+
+  UsageLimit({
+    this.amount,
+    this.breachAction,
+    this.clusterIdentifier,
+    this.featureType,
+    this.limitType,
+    this.period,
+    this.tags,
+    this.usageLimitId,
+  });
+  factory UsageLimit.fromXml(_s.XmlElement elem) {
+    return UsageLimit(
+      amount: _s.extractXmlIntValue(elem, 'Amount'),
+      breachAction: _s
+          .extractXmlStringValue(elem, 'BreachAction')
+          ?.let(UsageLimitBreachAction.fromString),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      featureType: _s
+          .extractXmlStringValue(elem, 'FeatureType')
+          ?.let(UsageLimitFeatureType.fromString),
+      limitType: _s
+          .extractXmlStringValue(elem, 'LimitType')
+          ?.let(UsageLimitLimitType.fromString),
+      period: _s
+          .extractXmlStringValue(elem, 'Period')
+          ?.let(UsageLimitPeriod.fromString),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+      usageLimitId: _s.extractXmlStringValue(elem, 'UsageLimitId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final breachAction = this.breachAction;
+    final clusterIdentifier = this.clusterIdentifier;
+    final featureType = this.featureType;
+    final limitType = this.limitType;
+    final period = this.period;
+    final tags = this.tags;
+    final usageLimitId = this.usageLimitId;
+    return {
+      if (amount != null) 'Amount': amount,
+      if (breachAction != null) 'BreachAction': breachAction.value,
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (featureType != null) 'FeatureType': featureType.value,
+      if (limitType != null) 'LimitType': limitType.value,
+      if (period != null) 'Period': period.value,
+      if (tags != null) 'Tags': tags,
+      if (usageLimitId != null) 'UsageLimitId': usageLimitId,
+    };
+  }
+}
+
+class DeleteAuthenticationProfileResult {
+  /// The name of the authentication profile that was deleted.
+  final String? authenticationProfileName;
+
+  DeleteAuthenticationProfileResult({
+    this.authenticationProfileName,
+  });
+  factory DeleteAuthenticationProfileResult.fromXml(_s.XmlElement elem) {
+    return DeleteAuthenticationProfileResult(
+      authenticationProfileName:
+          _s.extractXmlStringValue(elem, 'AuthenticationProfileName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationProfileName = this.authenticationProfileName;
+    return {
+      if (authenticationProfileName != null)
+        'AuthenticationProfileName': authenticationProfileName,
+    };
+  }
+}
+
+class DeleteClusterResult {
+  final Cluster? cluster;
+
+  DeleteClusterResult({
+    this.cluster,
+  });
+  factory DeleteClusterResult.fromXml(_s.XmlElement elem) {
+    return DeleteClusterResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+///
+class DeleteClusterSnapshotMessage {
+  /// The unique identifier of the manual snapshot to be deleted.
+  ///
+  /// Constraints: Must be the name of an existing snapshot that is in the
+  /// <code>available</code>, <code>failed</code>, or <code>cancelled</code>
+  /// state.
+  final String snapshotIdentifier;
+
+  /// The unique identifier of the cluster the snapshot was created from. This
+  /// parameter is required if your IAM user has a policy containing a snapshot
+  /// resource element that specifies anything other than * for the cluster name.
+  ///
+  /// Constraints: Must be the name of valid cluster.
+  final String? snapshotClusterIdentifier;
+
+  DeleteClusterSnapshotMessage({
+    required this.snapshotIdentifier,
+    this.snapshotClusterIdentifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final snapshotIdentifier = this.snapshotIdentifier;
+    final snapshotClusterIdentifier = this.snapshotClusterIdentifier;
+    return {
+      'SnapshotIdentifier': snapshotIdentifier,
+      if (snapshotClusterIdentifier != null)
+        'SnapshotClusterIdentifier': snapshotClusterIdentifier,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final snapshotIdentifier = this.snapshotIdentifier;
+    final snapshotClusterIdentifier = this.snapshotClusterIdentifier;
+    return {
+      'SnapshotIdentifier': snapshotIdentifier,
+      if (snapshotClusterIdentifier != null)
+        'SnapshotClusterIdentifier': snapshotClusterIdentifier,
+    };
+  }
+}
+
+class DeleteClusterSnapshotResult {
+  final Snapshot? snapshot;
+
+  DeleteClusterSnapshotResult({
+    this.snapshot,
+  });
+  factory DeleteClusterSnapshotResult.fromXml(_s.XmlElement elem) {
+    return DeleteClusterSnapshotResult(
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshot = this.snapshot;
+    return {
+      if (snapshot != null) 'Snapshot': snapshot,
+    };
+  }
+}
+
+class DeregisterNamespaceOutputMessage {
+  /// The registration status of the cluster or serverless namespace.
+  final NamespaceRegistrationStatus? status;
+
+  DeregisterNamespaceOutputMessage({
+    this.status,
+  });
+  factory DeregisterNamespaceOutputMessage.fromXml(_s.XmlElement elem) {
+    return DeregisterNamespaceOutputMessage(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(NamespaceRegistrationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class AccountAttributeList {
+  /// A list of attributes assigned to an account.
+  final List<AccountAttribute>? accountAttributes;
+
+  AccountAttributeList({
+    this.accountAttributes,
+  });
+  factory AccountAttributeList.fromXml(_s.XmlElement elem) {
+    return AccountAttributeList(
+      accountAttributes: _s.extractXmlChild(elem, 'AccountAttributes')?.let(
+          (elem) => elem
+              .findElements('AccountAttribute')
+              .map(AccountAttribute.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountAttributes = this.accountAttributes;
+    return {
+      if (accountAttributes != null) 'AccountAttributes': accountAttributes,
+    };
+  }
+}
+
+class DescribeAuthenticationProfilesResult {
+  /// The list of authentication profiles.
+  final List<AuthenticationProfile>? authenticationProfiles;
+
+  DescribeAuthenticationProfilesResult({
+    this.authenticationProfiles,
+  });
+  factory DescribeAuthenticationProfilesResult.fromXml(_s.XmlElement elem) {
+    return DescribeAuthenticationProfilesResult(
+      authenticationProfiles: _s
+          .extractXmlChild(elem, 'AuthenticationProfiles')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(AuthenticationProfile.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationProfiles = this.authenticationProfiles;
+    return {
+      if (authenticationProfiles != null)
+        'AuthenticationProfiles': authenticationProfiles,
+    };
+  }
+}
+
+class ClusterDbRevisionsMessage {
+  /// A list of revisions.
+  final List<ClusterDbRevision>? clusterDbRevisions;
+
+  /// A string representing the starting point for the next set of revisions. If a
+  /// value is returned in a response, you can retrieve the next set of revisions
+  /// by providing the value in the <code>marker</code> parameter and retrying the
+  /// command. If the <code>marker</code> field is empty, all revisions have
+  /// already been returned.
+  final String? marker;
+
+  ClusterDbRevisionsMessage({
+    this.clusterDbRevisions,
+    this.marker,
+  });
+  factory ClusterDbRevisionsMessage.fromXml(_s.XmlElement elem) {
+    return ClusterDbRevisionsMessage(
+      clusterDbRevisions: _s.extractXmlChild(elem, 'ClusterDbRevisions')?.let(
+          (elem) => elem
+              .findElements('ClusterDbRevision')
+              .map(ClusterDbRevision.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterDbRevisions = this.clusterDbRevisions;
+    final marker = this.marker;
+    return {
+      if (clusterDbRevisions != null) 'ClusterDbRevisions': clusterDbRevisions,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the output from the <a>DescribeClusterParameterGroups</a> action.
+class ClusterParameterGroupsMessage {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// A list of <a>ClusterParameterGroup</a> instances. Each instance describes
+  /// one cluster parameter group.
+  final List<ClusterParameterGroup>? parameterGroups;
+
+  ClusterParameterGroupsMessage({
+    this.marker,
+    this.parameterGroups,
+  });
+  factory ClusterParameterGroupsMessage.fromXml(_s.XmlElement elem) {
+    return ClusterParameterGroupsMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      parameterGroups: _s.extractXmlChild(elem, 'ParameterGroups')?.let(
+          (elem) => elem
+              .findElements('ClusterParameterGroup')
+              .map(ClusterParameterGroup.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final parameterGroups = this.parameterGroups;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (parameterGroups != null) 'ParameterGroups': parameterGroups,
+    };
+  }
+}
+
+/// Contains the output from the <a>DescribeClusterParameters</a> action.
+class ClusterParameterGroupDetails {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// A list of <a>Parameter</a> instances. Each instance lists the parameters of
+  /// one cluster parameter group.
+  final List<Parameter>? parameters;
+
+  ClusterParameterGroupDetails({
+    this.marker,
+    this.parameters,
+  });
+  factory ClusterParameterGroupDetails.fromXml(_s.XmlElement elem) {
+    return ClusterParameterGroupDetails(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final parameters = this.parameters;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
+}
+
+/// Contains the output from the <a>DescribeClusters</a> action.
+class ClustersMessage {
+  /// A list of <code>Cluster</code> objects, where each object describes one
+  /// cluster.
+  final List<Cluster>? clusters;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  ClustersMessage({
+    this.clusters,
+    this.marker,
+  });
+  factory ClustersMessage.fromXml(_s.XmlElement elem) {
+    return ClustersMessage(
+      clusters: _s.extractXmlChild(elem, 'Clusters')?.let(
+          (elem) => elem.findElements('Cluster').map(Cluster.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusters = this.clusters;
+    final marker = this.marker;
+    return {
+      if (clusters != null) 'Clusters': clusters,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+///
+class ClusterSecurityGroupMessage {
+  /// A list of <a>ClusterSecurityGroup</a> instances.
+  final List<ClusterSecurityGroup>? clusterSecurityGroups;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  ClusterSecurityGroupMessage({
+    this.clusterSecurityGroups,
+    this.marker,
+  });
+  factory ClusterSecurityGroupMessage.fromXml(_s.XmlElement elem) {
+    return ClusterSecurityGroupMessage(
+      clusterSecurityGroups: _s
+          .extractXmlChild(elem, 'ClusterSecurityGroups')
+          ?.let((elem) => elem
+              .findElements('ClusterSecurityGroup')
+              .map(ClusterSecurityGroup.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterSecurityGroups = this.clusterSecurityGroups;
+    final marker = this.marker;
+    return {
+      if (clusterSecurityGroups != null)
+        'ClusterSecurityGroups': clusterSecurityGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the output from the <a>DescribeClusterSnapshots</a> action.
+class SnapshotMessage {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// A list of <a>Snapshot</a> instances.
+  final List<Snapshot>? snapshots;
+
+  SnapshotMessage({
+    this.marker,
+    this.snapshots,
+  });
+  factory SnapshotMessage.fromXml(_s.XmlElement elem) {
+    return SnapshotMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      snapshots: _s.extractXmlChild(elem, 'Snapshots')?.let((elem) =>
+          elem.findElements('Snapshot').map(Snapshot.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final snapshots = this.snapshots;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (snapshots != null) 'Snapshots': snapshots,
+    };
+  }
+}
+
+/// Contains the output from the <a>DescribeClusterSubnetGroups</a> action.
+class ClusterSubnetGroupMessage {
+  /// A list of <a>ClusterSubnetGroup</a> instances.
+  final List<ClusterSubnetGroup>? clusterSubnetGroups;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  ClusterSubnetGroupMessage({
+    this.clusterSubnetGroups,
+    this.marker,
+  });
+  factory ClusterSubnetGroupMessage.fromXml(_s.XmlElement elem) {
+    return ClusterSubnetGroupMessage(
+      clusterSubnetGroups: _s.extractXmlChild(elem, 'ClusterSubnetGroups')?.let(
+          (elem) => elem
+              .findElements('ClusterSubnetGroup')
+              .map(ClusterSubnetGroup.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterSubnetGroups = this.clusterSubnetGroups;
+    final marker = this.marker;
+    return {
+      if (clusterSubnetGroups != null)
+        'ClusterSubnetGroups': clusterSubnetGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class TrackListMessage {
+  /// A list of maintenance tracks output by the
+  /// <code>DescribeClusterTracks</code> operation.
+  final List<MaintenanceTrack>? maintenanceTracks;
+
+  /// The starting point to return a set of response tracklist records. You can
+  /// retrieve the next set of response records by providing the returned marker
+  /// value in the <code>Marker</code> parameter and retrying the request.
+  final String? marker;
+
+  TrackListMessage({
+    this.maintenanceTracks,
+    this.marker,
+  });
+  factory TrackListMessage.fromXml(_s.XmlElement elem) {
+    return TrackListMessage(
+      maintenanceTracks: _s.extractXmlChild(elem, 'MaintenanceTracks')?.let(
+          (elem) => elem
+              .findElements('MaintenanceTrack')
+              .map(MaintenanceTrack.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maintenanceTracks = this.maintenanceTracks;
+    final marker = this.marker;
+    return {
+      if (maintenanceTracks != null) 'MaintenanceTracks': maintenanceTracks,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Contains the output from the <a>DescribeClusterVersions</a> action.
+class ClusterVersionsMessage {
+  /// A list of <code>Version</code> elements.
+  final List<ClusterVersion>? clusterVersions;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  ClusterVersionsMessage({
+    this.clusterVersions,
+    this.marker,
+  });
+  factory ClusterVersionsMessage.fromXml(_s.XmlElement elem) {
+    return ClusterVersionsMessage(
+      clusterVersions: _s.extractXmlChild(elem, 'ClusterVersions')?.let(
+          (elem) => elem
+              .findElements('ClusterVersion')
+              .map(ClusterVersion.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterVersions = this.clusterVersions;
+    final marker = this.marker;
+    return {
+      if (clusterVersions != null) 'ClusterVersions': clusterVersions,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class CustomDomainAssociationsMessage {
+  /// The associations for the custom domain.
+  final List<Association>? associations;
+
+  /// The marker for the custom domain association.
+  final String? marker;
+
+  CustomDomainAssociationsMessage({
+    this.associations,
+    this.marker,
+  });
+  factory CustomDomainAssociationsMessage.fromXml(_s.XmlElement elem) {
+    return CustomDomainAssociationsMessage(
+      associations: _s.extractXmlChild(elem, 'Associations')?.let((elem) =>
+          elem.findElements('Association').map(Association.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    final marker = this.marker;
+    return {
+      if (associations != null) 'Associations': associations,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeDataSharesResult {
+  /// The results returned from describing datashares.
+  final List<DataShare>? dataShares;
+
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a <a>DescribeDataShares</a> request
+  /// exceed the value specified in <code>MaxRecords</code>, Amazon Web Services
+  /// returns a value in the <code>Marker</code> field of the response. You can
+  /// retrieve the next set of response records by providing the returned marker
+  /// value in the <code>Marker</code> parameter and retrying the request.
+  final String? marker;
+
+  DescribeDataSharesResult({
+    this.dataShares,
+    this.marker,
+  });
+  factory DescribeDataSharesResult.fromXml(_s.XmlElement elem) {
+    return DescribeDataSharesResult(
+      dataShares: _s.extractXmlChild(elem, 'DataShares')?.let((elem) =>
+          elem.findElements('member').map(DataShare.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataShares = this.dataShares;
+    final marker = this.marker;
+    return {
+      if (dataShares != null) 'DataShares': dataShares,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeDataSharesForConsumerResult {
+  /// Shows the results of datashares available for consumers.
+  final List<DataShare>? dataShares;
+
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a <a>DescribeDataSharesForConsumer</a>
+  /// request exceed the value specified in <code>MaxRecords</code>, Amazon Web
+  /// Services returns a value in the <code>Marker</code> field of the response.
+  /// You can retrieve the next set of response records by providing the returned
+  /// marker value in the <code>Marker</code> parameter and retrying the request.
+  final String? marker;
+
+  DescribeDataSharesForConsumerResult({
+    this.dataShares,
+    this.marker,
+  });
+  factory DescribeDataSharesForConsumerResult.fromXml(_s.XmlElement elem) {
+    return DescribeDataSharesForConsumerResult(
+      dataShares: _s.extractXmlChild(elem, 'DataShares')?.let((elem) =>
+          elem.findElements('member').map(DataShare.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataShares = this.dataShares;
+    final marker = this.marker;
+    return {
+      if (dataShares != null) 'DataShares': dataShares,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeDataSharesForProducerResult {
+  /// Shows the results of datashares available for producers.
+  final List<DataShare>? dataShares;
+
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a <a>DescribeDataSharesForProducer</a>
+  /// request exceed the value specified in <code>MaxRecords</code>, Amazon Web
+  /// Services returns a value in the <code>Marker</code> field of the response.
+  /// You can retrieve the next set of response records by providing the returned
+  /// marker value in the <code>Marker</code> parameter and retrying the request.
+  final String? marker;
+
+  DescribeDataSharesForProducerResult({
+    this.dataShares,
+    this.marker,
+  });
+  factory DescribeDataSharesForProducerResult.fromXml(_s.XmlElement elem) {
+    return DescribeDataSharesForProducerResult(
+      dataShares: _s.extractXmlChild(elem, 'DataShares')?.let((elem) =>
+          elem.findElements('member').map(DataShare.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataShares = this.dataShares;
+    final marker = this.marker;
+    return {
+      if (dataShares != null) 'DataShares': dataShares,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeDefaultClusterParametersResult {
+  final DefaultClusterParameters? defaultClusterParameters;
+
+  DescribeDefaultClusterParametersResult({
+    this.defaultClusterParameters,
+  });
+  factory DescribeDefaultClusterParametersResult.fromXml(_s.XmlElement elem) {
+    return DescribeDefaultClusterParametersResult(
+      defaultClusterParameters: _s
+          .extractXmlChild(elem, 'DefaultClusterParameters')
+          ?.let(DefaultClusterParameters.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultClusterParameters = this.defaultClusterParameters;
+    return {
+      if (defaultClusterParameters != null)
+        'DefaultClusterParameters': defaultClusterParameters,
+    };
+  }
+}
+
+class EndpointAccessList {
+  /// The list of endpoints with access to the cluster.
+  final List<EndpointAccess>? endpointAccessList;
+
+  /// An optional pagination token provided by a previous
+  /// <code>DescribeEndpointAccess</code> request. If this parameter is specified,
+  /// the response includes only records beyond the marker, up to the value
+  /// specified by the <code>MaxRecords</code> parameter.
+  final String? marker;
+
+  EndpointAccessList({
+    this.endpointAccessList,
+    this.marker,
+  });
+  factory EndpointAccessList.fromXml(_s.XmlElement elem) {
+    return EndpointAccessList(
+      endpointAccessList: _s.extractXmlChild(elem, 'EndpointAccessList')?.let(
+          (elem) =>
+              elem.findElements('member').map(EndpointAccess.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointAccessList = this.endpointAccessList;
+    final marker = this.marker;
+    return {
+      if (endpointAccessList != null) 'EndpointAccessList': endpointAccessList,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class EndpointAuthorizationList {
+  /// The authorizations to an endpoint.
+  final List<EndpointAuthorization>? endpointAuthorizationList;
+
+  /// An optional pagination token provided by a previous
+  /// <code>DescribeEndpointAuthorization</code> request. If this parameter is
+  /// specified, the response includes only records beyond the marker, up to the
+  /// value specified by the <code>MaxRecords</code> parameter.
+  final String? marker;
+
+  EndpointAuthorizationList({
+    this.endpointAuthorizationList,
+    this.marker,
+  });
+  factory EndpointAuthorizationList.fromXml(_s.XmlElement elem) {
+    return EndpointAuthorizationList(
+      endpointAuthorizationList: _s
+          .extractXmlChild(elem, 'EndpointAuthorizationList')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(EndpointAuthorization.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointAuthorizationList = this.endpointAuthorizationList;
+    final marker = this.marker;
+    return {
+      if (endpointAuthorizationList != null)
+        'EndpointAuthorizationList': endpointAuthorizationList,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+///
+class EventCategoriesMessage {
+  /// A list of event categories descriptions.
+  final List<EventCategoriesMap>? eventCategoriesMapList;
+
+  EventCategoriesMessage({
+    this.eventCategoriesMapList,
+  });
+  factory EventCategoriesMessage.fromXml(_s.XmlElement elem) {
+    return EventCategoriesMessage(
+      eventCategoriesMapList: _s
+          .extractXmlChild(elem, 'EventCategoriesMapList')
+          ?.let((elem) => elem
+              .findElements('EventCategoriesMap')
+              .map(EventCategoriesMap.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventCategoriesMapList = this.eventCategoriesMapList;
+    return {
+      if (eventCategoriesMapList != null)
+        'EventCategoriesMapList': eventCategoriesMapList,
+    };
+  }
+}
+
+///
+class EventsMessage {
+  /// A list of <code>Event</code> instances.
+  final List<Event>? events;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  EventsMessage({
+    this.events,
+    this.marker,
+  });
+  factory EventsMessage.fromXml(_s.XmlElement elem) {
+    return EventsMessage(
+      events: _s.extractXmlChild(elem, 'Events')?.let(
+          (elem) => elem.findElements('Event').map(Event.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final marker = this.marker;
+    return {
+      if (events != null) 'Events': events,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+///
+class EventSubscriptionsMessage {
+  /// A list of event subscriptions.
+  final List<EventSubscription>? eventSubscriptionsList;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  EventSubscriptionsMessage({
+    this.eventSubscriptionsList,
+    this.marker,
+  });
+  factory EventSubscriptionsMessage.fromXml(_s.XmlElement elem) {
+    return EventSubscriptionsMessage(
+      eventSubscriptionsList: _s
+          .extractXmlChild(elem, 'EventSubscriptionsList')
+          ?.let((elem) => elem
+              .findElements('EventSubscription')
+              .map(EventSubscription.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscriptionsList = this.eventSubscriptionsList;
+    final marker = this.marker;
+    return {
+      if (eventSubscriptionsList != null)
+        'EventSubscriptionsList': eventSubscriptionsList,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+///
+class HsmClientCertificateMessage {
+  /// A list of the identifiers for one or more HSM client certificates used by
+  /// Amazon Redshift clusters to store and retrieve database encryption keys in
+  /// an HSM.
+  final List<HsmClientCertificate>? hsmClientCertificates;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  HsmClientCertificateMessage({
+    this.hsmClientCertificates,
+    this.marker,
+  });
+  factory HsmClientCertificateMessage.fromXml(_s.XmlElement elem) {
+    return HsmClientCertificateMessage(
+      hsmClientCertificates: _s
+          .extractXmlChild(elem, 'HsmClientCertificates')
+          ?.let((elem) => elem
+              .findElements('HsmClientCertificate')
+              .map(HsmClientCertificate.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmClientCertificates = this.hsmClientCertificates;
+    final marker = this.marker;
+    return {
+      if (hsmClientCertificates != null)
+        'HsmClientCertificates': hsmClientCertificates,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+///
+class HsmConfigurationMessage {
+  /// A list of <code>HsmConfiguration</code> objects.
+  final List<HsmConfiguration>? hsmConfigurations;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  HsmConfigurationMessage({
+    this.hsmConfigurations,
+    this.marker,
+  });
+  factory HsmConfigurationMessage.fromXml(_s.XmlElement elem) {
+    return HsmConfigurationMessage(
+      hsmConfigurations: _s.extractXmlChild(elem, 'HsmConfigurations')?.let(
+          (elem) => elem
+              .findElements('HsmConfiguration')
+              .map(HsmConfiguration.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmConfigurations = this.hsmConfigurations;
+    final marker = this.marker;
+    return {
+      if (hsmConfigurations != null) 'HsmConfigurations': hsmConfigurations,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class InboundIntegrationsMessage {
+  /// A list of <a>InboundIntegration</a> instances.
+  final List<InboundIntegration>? inboundIntegrations;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  InboundIntegrationsMessage({
+    this.inboundIntegrations,
+    this.marker,
+  });
+  factory InboundIntegrationsMessage.fromXml(_s.XmlElement elem) {
+    return InboundIntegrationsMessage(
+      inboundIntegrations: _s.extractXmlChild(elem, 'InboundIntegrations')?.let(
+          (elem) => elem
+              .findElements('InboundIntegration')
+              .map(InboundIntegration.fromXml)
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inboundIntegrations = this.inboundIntegrations;
+    final marker = this.marker;
+    return {
+      if (inboundIntegrations != null)
+        'InboundIntegrations': inboundIntegrations,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class IntegrationsMessage {
+  /// List of integrations that are described.
+  final List<Integration>? integrations;
+
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  IntegrationsMessage({
+    this.integrations,
+    this.marker,
+  });
+  factory IntegrationsMessage.fromXml(_s.XmlElement elem) {
+    return IntegrationsMessage(
+      integrations: _s.extractXmlChild(elem, 'Integrations')?.let((elem) =>
+          elem.findElements('Integration').map(Integration.fromXml).toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final integrations = this.integrations;
+    final marker = this.marker;
+    return {
+      if (integrations != null) 'Integrations': integrations,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+/// Describes the status of logging for a cluster.
+class LoggingStatus {
+  /// The name of the S3 bucket where the log files are stored.
+  final String? bucketName;
+
+  /// The message indicating that logs failed to be delivered.
+  final String? lastFailureMessage;
+
+  /// The last time when logs failed to be delivered.
+  final DateTime? lastFailureTime;
+
+  /// The last time that logs were delivered.
+  final DateTime? lastSuccessfulDeliveryTime;
+
+  /// The log destination type. An enum with possible values of <code>s3</code>
+  /// and <code>cloudwatch</code>.
+  final LogDestinationType? logDestinationType;
+
+  /// The collection of exported log types. Possible values are
+  /// <code>connectionlog</code>, <code>useractivitylog</code>, and
+  /// <code>userlog</code>.
+  final List<String>? logExports;
+
+  /// <code>true</code> if logging is on, <code>false</code> if logging is off.
+  final bool? loggingEnabled;
+
+  /// The prefix applied to the log file names.
+  final String? s3KeyPrefix;
+
+  LoggingStatus({
+    this.bucketName,
+    this.lastFailureMessage,
+    this.lastFailureTime,
+    this.lastSuccessfulDeliveryTime,
+    this.logDestinationType,
+    this.logExports,
+    this.loggingEnabled,
+    this.s3KeyPrefix,
+  });
+  factory LoggingStatus.fromXml(_s.XmlElement elem) {
+    return LoggingStatus(
+      bucketName: _s.extractXmlStringValue(elem, 'BucketName'),
+      lastFailureMessage: _s.extractXmlStringValue(elem, 'LastFailureMessage'),
+      lastFailureTime: _s.extractXmlDateTimeValue(elem, 'LastFailureTime'),
+      lastSuccessfulDeliveryTime:
+          _s.extractXmlDateTimeValue(elem, 'LastSuccessfulDeliveryTime'),
+      logDestinationType: _s
+          .extractXmlStringValue(elem, 'LogDestinationType')
+          ?.let(LogDestinationType.fromString),
+      logExports: _s
+          .extractXmlChild(elem, 'LogExports')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      loggingEnabled: _s.extractXmlBoolValue(elem, 'LoggingEnabled'),
+      s3KeyPrefix: _s.extractXmlStringValue(elem, 'S3KeyPrefix'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final lastFailureMessage = this.lastFailureMessage;
+    final lastFailureTime = this.lastFailureTime;
+    final lastSuccessfulDeliveryTime = this.lastSuccessfulDeliveryTime;
+    final logDestinationType = this.logDestinationType;
+    final logExports = this.logExports;
+    final loggingEnabled = this.loggingEnabled;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (lastFailureTime != null)
+        'LastFailureTime': iso8601ToJson(lastFailureTime),
+      if (lastSuccessfulDeliveryTime != null)
+        'LastSuccessfulDeliveryTime': iso8601ToJson(lastSuccessfulDeliveryTime),
+      if (logDestinationType != null)
+        'LogDestinationType': logDestinationType.value,
+      if (logExports != null) 'LogExports': logExports,
+      if (loggingEnabled != null) 'LoggingEnabled': loggingEnabled,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+    };
+  }
+}
+
+class NodeConfigurationOptionsMessage {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// A list of valid node configurations.
+  final List<NodeConfigurationOption>? nodeConfigurationOptionList;
+
+  NodeConfigurationOptionsMessage({
+    this.marker,
+    this.nodeConfigurationOptionList,
+  });
+  factory NodeConfigurationOptionsMessage.fromXml(_s.XmlElement elem) {
+    return NodeConfigurationOptionsMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      nodeConfigurationOptionList: _s
+          .extractXmlChild(elem, 'NodeConfigurationOptionList')
+          ?.let((elem) => elem
+              .findElements('NodeConfigurationOption')
+              .map(NodeConfigurationOption.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final nodeConfigurationOptionList = this.nodeConfigurationOptionList;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (nodeConfigurationOptionList != null)
+        'NodeConfigurationOptionList': nodeConfigurationOptionList,
+    };
+  }
+}
+
+/// Contains the output from the <a>DescribeOrderableClusterOptions</a> action.
+class OrderableClusterOptionsMessage {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// An <code>OrderableClusterOption</code> structure containing information
+  /// about orderable options for the cluster.
+  final List<OrderableClusterOption>? orderableClusterOptions;
+
+  OrderableClusterOptionsMessage({
+    this.marker,
+    this.orderableClusterOptions,
+  });
+  factory OrderableClusterOptionsMessage.fromXml(_s.XmlElement elem) {
+    return OrderableClusterOptionsMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      orderableClusterOptions: _s
+          .extractXmlChild(elem, 'OrderableClusterOptions')
+          ?.let((elem) => elem
+              .findElements('OrderableClusterOption')
+              .map(OrderableClusterOption.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final orderableClusterOptions = this.orderableClusterOptions;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (orderableClusterOptions != null)
+        'OrderableClusterOptions': orderableClusterOptions,
+    };
+  }
+}
+
+class DescribePartnersOutputMessage {
+  /// A list of partner integrations.
+  final List<PartnerIntegrationInfo>? partnerIntegrationInfoList;
+
+  DescribePartnersOutputMessage({
+    this.partnerIntegrationInfoList,
+  });
+  factory DescribePartnersOutputMessage.fromXml(_s.XmlElement elem) {
+    return DescribePartnersOutputMessage(
+      partnerIntegrationInfoList: _s
+          .extractXmlChild(elem, 'PartnerIntegrationInfoList')
+          ?.let((elem) => elem
+              .findElements('PartnerIntegrationInfo')
+              .map(PartnerIntegrationInfo.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final partnerIntegrationInfoList = this.partnerIntegrationInfoList;
+    return {
+      if (partnerIntegrationInfoList != null)
+        'PartnerIntegrationInfoList': partnerIntegrationInfoList,
+    };
+  }
+}
+
+class DescribeRedshiftIdcApplicationsResult {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the Marker parameter and retrying the command. If the Marker field is
+  /// empty, all response records have been retrieved for the request.
+  final String? marker;
+
+  /// The list of Amazon Redshift IAM Identity Center applications.
+  final List<RedshiftIdcApplication>? redshiftIdcApplications;
+
+  DescribeRedshiftIdcApplicationsResult({
+    this.marker,
+    this.redshiftIdcApplications,
+  });
+  factory DescribeRedshiftIdcApplicationsResult.fromXml(_s.XmlElement elem) {
+    return DescribeRedshiftIdcApplicationsResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      redshiftIdcApplications: _s
+          .extractXmlChild(elem, 'RedshiftIdcApplications')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(RedshiftIdcApplication.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final redshiftIdcApplications = this.redshiftIdcApplications;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (redshiftIdcApplications != null)
+        'RedshiftIdcApplications': redshiftIdcApplications,
+    };
+  }
+}
+
+class DescribeReservedNodeExchangeStatusOutputMessage {
+  /// A pagination token provided by a previous
+  /// <code>DescribeReservedNodeExchangeStatus</code> request.
+  final String? marker;
+
+  /// The details of the reserved-node exchange request, including the status,
+  /// request time, source reserved-node identifier, and additional details.
+  final List<ReservedNodeExchangeStatus>? reservedNodeExchangeStatusDetails;
+
+  DescribeReservedNodeExchangeStatusOutputMessage({
+    this.marker,
+    this.reservedNodeExchangeStatusDetails,
+  });
+  factory DescribeReservedNodeExchangeStatusOutputMessage.fromXml(
+      _s.XmlElement elem) {
+    return DescribeReservedNodeExchangeStatusOutputMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      reservedNodeExchangeStatusDetails: _s
+          .extractXmlChild(elem, 'ReservedNodeExchangeStatusDetails')
+          ?.let((elem) => elem
+              .findElements('ReservedNodeExchangeStatus')
+              .map(ReservedNodeExchangeStatus.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final reservedNodeExchangeStatusDetails =
+        this.reservedNodeExchangeStatusDetails;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (reservedNodeExchangeStatusDetails != null)
+        'ReservedNodeExchangeStatusDetails': reservedNodeExchangeStatusDetails,
+    };
+  }
+}
+
+///
+class ReservedNodeOfferingsMessage {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// A list of <code>ReservedNodeOffering</code> objects.
+  final List<ReservedNodeOffering>? reservedNodeOfferings;
+
+  ReservedNodeOfferingsMessage({
+    this.marker,
+    this.reservedNodeOfferings,
+  });
+  factory ReservedNodeOfferingsMessage.fromXml(_s.XmlElement elem) {
+    return ReservedNodeOfferingsMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      reservedNodeOfferings: _s
+          .extractXmlChild(elem, 'ReservedNodeOfferings')
+          ?.let((elem) => elem
+              .findElements('ReservedNodeOffering')
+              .map(ReservedNodeOffering.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final reservedNodeOfferings = this.reservedNodeOfferings;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (reservedNodeOfferings != null)
+        'ReservedNodeOfferings': reservedNodeOfferings,
+    };
+  }
+}
+
+///
+class ReservedNodesMessage {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// The list of <code>ReservedNode</code> objects.
+  final List<ReservedNode>? reservedNodes;
+
+  ReservedNodesMessage({
+    this.marker,
+    this.reservedNodes,
+  });
+  factory ReservedNodesMessage.fromXml(_s.XmlElement elem) {
+    return ReservedNodesMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      reservedNodes: _s.extractXmlChild(elem, 'ReservedNodes')?.let((elem) =>
+          elem.findElements('ReservedNode').map(ReservedNode.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final reservedNodes = this.reservedNodes;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (reservedNodes != null) 'ReservedNodes': reservedNodes,
+    };
+  }
 }
 
 class ScheduledActionsMessage {
@@ -17091,6 +12432,2710 @@ class ScheduledActionsMessage {
   }
 }
 
+///
+class SnapshotCopyGrantMessage {
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a
+  /// <code>DescribeSnapshotCopyGrant</code> request exceed the value specified in
+  /// <code>MaxRecords</code>, Amazon Web Services returns a value in the
+  /// <code>Marker</code> field of the response. You can retrieve the next set of
+  /// response records by providing the returned marker value in the
+  /// <code>Marker</code> parameter and retrying the request.
+  ///
+  /// Constraints: You can specify either the <b>SnapshotCopyGrantName</b>
+  /// parameter or the <b>Marker</b> parameter, but not both.
+  final String? marker;
+
+  /// The list of <code>SnapshotCopyGrant</code> objects.
+  final List<SnapshotCopyGrant>? snapshotCopyGrants;
+
+  SnapshotCopyGrantMessage({
+    this.marker,
+    this.snapshotCopyGrants,
+  });
+  factory SnapshotCopyGrantMessage.fromXml(_s.XmlElement elem) {
+    return SnapshotCopyGrantMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      snapshotCopyGrants: _s.extractXmlChild(elem, 'SnapshotCopyGrants')?.let(
+          (elem) => elem
+              .findElements('SnapshotCopyGrant')
+              .map(SnapshotCopyGrant.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final snapshotCopyGrants = this.snapshotCopyGrants;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (snapshotCopyGrants != null) 'SnapshotCopyGrants': snapshotCopyGrants,
+    };
+  }
+}
+
+class DescribeSnapshotSchedulesOutputMessage {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>marker</code> parameter and retrying the command. If the
+  /// <code>marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// A list of SnapshotSchedules.
+  final List<SnapshotSchedule>? snapshotSchedules;
+
+  DescribeSnapshotSchedulesOutputMessage({
+    this.marker,
+    this.snapshotSchedules,
+  });
+  factory DescribeSnapshotSchedulesOutputMessage.fromXml(_s.XmlElement elem) {
+    return DescribeSnapshotSchedulesOutputMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      snapshotSchedules: _s.extractXmlChild(elem, 'SnapshotSchedules')?.let(
+          (elem) => elem
+              .findElements('SnapshotSchedule')
+              .map(SnapshotSchedule.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final snapshotSchedules = this.snapshotSchedules;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (snapshotSchedules != null) 'SnapshotSchedules': snapshotSchedules,
+    };
+  }
+}
+
+class CustomerStorageMessage {
+  /// The total amount of storage currently used for snapshots.
+  final double? totalBackupSizeInMegaBytes;
+
+  /// The total amount of storage currently provisioned.
+  final double? totalProvisionedStorageInMegaBytes;
+
+  CustomerStorageMessage({
+    this.totalBackupSizeInMegaBytes,
+    this.totalProvisionedStorageInMegaBytes,
+  });
+  factory CustomerStorageMessage.fromXml(_s.XmlElement elem) {
+    return CustomerStorageMessage(
+      totalBackupSizeInMegaBytes:
+          _s.extractXmlDoubleValue(elem, 'TotalBackupSizeInMegaBytes'),
+      totalProvisionedStorageInMegaBytes:
+          _s.extractXmlDoubleValue(elem, 'TotalProvisionedStorageInMegaBytes'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final totalBackupSizeInMegaBytes = this.totalBackupSizeInMegaBytes;
+    final totalProvisionedStorageInMegaBytes =
+        this.totalProvisionedStorageInMegaBytes;
+    return {
+      if (totalBackupSizeInMegaBytes != null)
+        'TotalBackupSizeInMegaBytes': totalBackupSizeInMegaBytes,
+      if (totalProvisionedStorageInMegaBytes != null)
+        'TotalProvisionedStorageInMegaBytes':
+            totalProvisionedStorageInMegaBytes,
+    };
+  }
+}
+
+///
+class TableRestoreStatusMessage {
+  /// A pagination token that can be used in a subsequent
+  /// <a>DescribeTableRestoreStatus</a> request.
+  final String? marker;
+
+  /// A list of status details for one or more table restore requests.
+  final List<TableRestoreStatus>? tableRestoreStatusDetails;
+
+  TableRestoreStatusMessage({
+    this.marker,
+    this.tableRestoreStatusDetails,
+  });
+  factory TableRestoreStatusMessage.fromXml(_s.XmlElement elem) {
+    return TableRestoreStatusMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      tableRestoreStatusDetails: _s
+          .extractXmlChild(elem, 'TableRestoreStatusDetails')
+          ?.let((elem) => elem
+              .findElements('TableRestoreStatus')
+              .map(TableRestoreStatus.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final tableRestoreStatusDetails = this.tableRestoreStatusDetails;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (tableRestoreStatusDetails != null)
+        'TableRestoreStatusDetails': tableRestoreStatusDetails,
+    };
+  }
+}
+
+///
+class TaggedResourceListMessage {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// A list of tags with their associated resources.
+  final List<TaggedResource>? taggedResources;
+
+  TaggedResourceListMessage({
+    this.marker,
+    this.taggedResources,
+  });
+  factory TaggedResourceListMessage.fromXml(_s.XmlElement elem) {
+    return TaggedResourceListMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      taggedResources: _s.extractXmlChild(elem, 'TaggedResources')?.let(
+          (elem) => elem
+              .findElements('TaggedResource')
+              .map(TaggedResource.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final taggedResources = this.taggedResources;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (taggedResources != null) 'TaggedResources': taggedResources,
+    };
+  }
+}
+
+class UsageLimitList {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String? marker;
+
+  /// Contains the output from the <a>DescribeUsageLimits</a> action.
+  final List<UsageLimit>? usageLimits;
+
+  UsageLimitList({
+    this.marker,
+    this.usageLimits,
+  });
+  factory UsageLimitList.fromXml(_s.XmlElement elem) {
+    return UsageLimitList(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      usageLimits: _s.extractXmlChild(elem, 'UsageLimits')?.let((elem) =>
+          elem.findElements('member').map(UsageLimit.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final usageLimits = this.usageLimits;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (usageLimits != null) 'UsageLimits': usageLimits,
+    };
+  }
+}
+
+class DisableSnapshotCopyResult {
+  final Cluster? cluster;
+
+  DisableSnapshotCopyResult({
+    this.cluster,
+  });
+  factory DisableSnapshotCopyResult.fromXml(_s.XmlElement elem) {
+    return DisableSnapshotCopyResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class EnableSnapshotCopyResult {
+  final Cluster? cluster;
+
+  EnableSnapshotCopyResult({
+    this.cluster,
+  });
+  factory EnableSnapshotCopyResult.fromXml(_s.XmlElement elem) {
+    return EnableSnapshotCopyResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class FailoverPrimaryComputeResult {
+  final Cluster? cluster;
+
+  FailoverPrimaryComputeResult({
+    this.cluster,
+  });
+  factory FailoverPrimaryComputeResult.fromXml(_s.XmlElement elem) {
+    return FailoverPrimaryComputeResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+/// Temporary credentials with authorization to log on to an Amazon Redshift
+/// database.
+class ClusterCredentials {
+  /// A temporary password that authorizes the user name returned by
+  /// <code>DbUser</code> to log on to the database <code>DbName</code>.
+  final String? dbPassword;
+
+  /// A database user name that is authorized to log on to the database
+  /// <code>DbName</code> using the password <code>DbPassword</code>. If the
+  /// specified DbUser exists in the database, the new user name has the same
+  /// database permissions as the the user named in DbUser. By default, the user
+  /// is added to PUBLIC. If the <code>DbGroups</code> parameter is specifed,
+  /// <code>DbUser</code> is added to the listed groups for any sessions created
+  /// using these credentials.
+  final String? dbUser;
+
+  /// The date and time the password in <code>DbPassword</code> expires.
+  final DateTime? expiration;
+
+  ClusterCredentials({
+    this.dbPassword,
+    this.dbUser,
+    this.expiration,
+  });
+  factory ClusterCredentials.fromXml(_s.XmlElement elem) {
+    return ClusterCredentials(
+      dbPassword: _s.extractXmlStringValue(elem, 'DbPassword'),
+      dbUser: _s.extractXmlStringValue(elem, 'DbUser'),
+      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dbPassword = this.dbPassword;
+    final dbUser = this.dbUser;
+    final expiration = this.expiration;
+    return {
+      if (dbPassword != null) 'DbPassword': dbPassword,
+      if (dbUser != null) 'DbUser': dbUser,
+      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
+    };
+  }
+}
+
+class ClusterExtendedCredentials {
+  /// A temporary password that you provide when you connect to a database.
+  final String? dbPassword;
+
+  /// A database user name that you provide when you connect to a database. The
+  /// database user is mapped 1:1 to the source IAM identity.
+  final String? dbUser;
+
+  /// The time (UTC) when the temporary password expires. After this timestamp, a
+  /// log in with the temporary password fails.
+  final DateTime? expiration;
+
+  /// Reserved for future use.
+  final DateTime? nextRefreshTime;
+
+  ClusterExtendedCredentials({
+    this.dbPassword,
+    this.dbUser,
+    this.expiration,
+    this.nextRefreshTime,
+  });
+  factory ClusterExtendedCredentials.fromXml(_s.XmlElement elem) {
+    return ClusterExtendedCredentials(
+      dbPassword: _s.extractXmlStringValue(elem, 'DbPassword'),
+      dbUser: _s.extractXmlStringValue(elem, 'DbUser'),
+      expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
+      nextRefreshTime: _s.extractXmlDateTimeValue(elem, 'NextRefreshTime'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dbPassword = this.dbPassword;
+    final dbUser = this.dbUser;
+    final expiration = this.expiration;
+    final nextRefreshTime = this.nextRefreshTime;
+    return {
+      if (dbPassword != null) 'DbPassword': dbPassword,
+      if (dbUser != null) 'DbUser': dbUser,
+      if (expiration != null) 'Expiration': iso8601ToJson(expiration),
+      if (nextRefreshTime != null)
+        'NextRefreshTime': iso8601ToJson(nextRefreshTime),
+    };
+  }
+}
+
+/// The response from GetIdentityCenterAuthToken containing the encrypted
+/// authentication token and expiration time.
+class GetIdentityCenterAuthTokenResponse {
+  /// The time (UTC) when the token expires. After this timestamp, the token will
+  /// no longer be valid for authentication.
+  final DateTime? expirationTime;
+
+  /// The encrypted authentication token containing the caller's Amazon Web
+  /// Services IAM Identity Center identity information. This token is encrypted
+  /// using Key Management Service and can only be decrypted by the specified
+  /// Amazon Redshift clusters. Use this token with Amazon Redshift drivers to
+  /// authenticate using your Amazon Web Services IAM Identity Center identity.
+  final String? token;
+
+  GetIdentityCenterAuthTokenResponse({
+    this.expirationTime,
+    this.token,
+  });
+  factory GetIdentityCenterAuthTokenResponse.fromXml(_s.XmlElement elem) {
+    return GetIdentityCenterAuthTokenResponse(
+      expirationTime: _s.extractXmlDateTimeValue(elem, 'ExpirationTime'),
+      token: _s.extractXmlStringValue(elem, 'Token'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expirationTime = this.expirationTime;
+    final token = this.token;
+    return {
+      if (expirationTime != null)
+        'ExpirationTime': iso8601ToJson(expirationTime),
+      if (token != null) 'Token': token,
+    };
+  }
+}
+
+class GetReservedNodeExchangeConfigurationOptionsOutputMessage {
+  /// A pagination token provided by a previous
+  /// <code>GetReservedNodeExchangeConfigurationOptions</code> request.
+  final String? marker;
+
+  /// the configuration options for the reserved-node exchange. These options
+  /// include information about the source reserved node and target reserved node.
+  /// Details include the node type, the price, the node count, and the offering
+  /// type.
+  final List<ReservedNodeConfigurationOption>?
+      reservedNodeConfigurationOptionList;
+
+  GetReservedNodeExchangeConfigurationOptionsOutputMessage({
+    this.marker,
+    this.reservedNodeConfigurationOptionList,
+  });
+  factory GetReservedNodeExchangeConfigurationOptionsOutputMessage.fromXml(
+      _s.XmlElement elem) {
+    return GetReservedNodeExchangeConfigurationOptionsOutputMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      reservedNodeConfigurationOptionList: _s
+          .extractXmlChild(elem, 'ReservedNodeConfigurationOptionList')
+          ?.let((elem) => elem
+              .findElements('ReservedNodeConfigurationOption')
+              .map(ReservedNodeConfigurationOption.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final reservedNodeConfigurationOptionList =
+        this.reservedNodeConfigurationOptionList;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (reservedNodeConfigurationOptionList != null)
+        'ReservedNodeConfigurationOptionList':
+            reservedNodeConfigurationOptionList,
+    };
+  }
+}
+
+class GetReservedNodeExchangeOfferingsOutputMessage {
+  /// An optional parameter that specifies the starting point for returning a set
+  /// of response records. When the results of a
+  /// <code>GetReservedNodeExchangeOfferings</code> request exceed the value
+  /// specified in MaxRecords, Amazon Redshift returns a value in the marker field
+  /// of the response. You can retrieve the next set of response records by
+  /// providing the returned marker value in the marker parameter and retrying the
+  /// request.
+  final String? marker;
+
+  /// Returns an array of <a>ReservedNodeOffering</a> objects.
+  final List<ReservedNodeOffering>? reservedNodeOfferings;
+
+  GetReservedNodeExchangeOfferingsOutputMessage({
+    this.marker,
+    this.reservedNodeOfferings,
+  });
+  factory GetReservedNodeExchangeOfferingsOutputMessage.fromXml(
+      _s.XmlElement elem) {
+    return GetReservedNodeExchangeOfferingsOutputMessage(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      reservedNodeOfferings: _s
+          .extractXmlChild(elem, 'ReservedNodeOfferings')
+          ?.let((elem) => elem
+              .findElements('ReservedNodeOffering')
+              .map(ReservedNodeOffering.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final reservedNodeOfferings = this.reservedNodeOfferings;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (reservedNodeOfferings != null)
+        'ReservedNodeOfferings': reservedNodeOfferings,
+    };
+  }
+}
+
+class GetResourcePolicyResult {
+  /// The content of the resource policy.
+  final ResourcePolicy? resourcePolicy;
+
+  GetResourcePolicyResult({
+    this.resourcePolicy,
+  });
+  factory GetResourcePolicyResult.fromXml(_s.XmlElement elem) {
+    return GetResourcePolicyResult(
+      resourcePolicy: _s
+          .extractXmlChild(elem, 'ResourcePolicy')
+          ?.let(ResourcePolicy.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourcePolicy = this.resourcePolicy;
+    return {
+      if (resourcePolicy != null) 'ResourcePolicy': resourcePolicy,
+    };
+  }
+}
+
+class ListRecommendationsResult {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the Marker parameter and retrying the command. If the Marker field is
+  /// empty, all response records have been retrieved for the request.
+  final String? marker;
+
+  /// The Advisor recommendations for action on the Amazon Redshift cluster.
+  final List<Recommendation>? recommendations;
+
+  ListRecommendationsResult({
+    this.marker,
+    this.recommendations,
+  });
+  factory ListRecommendationsResult.fromXml(_s.XmlElement elem) {
+    return ListRecommendationsResult(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      recommendations: _s.extractXmlChild(elem, 'Recommendations')?.let(
+          (elem) => elem
+              .findElements('Recommendation')
+              .map(Recommendation.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final recommendations = this.recommendations;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (recommendations != null) 'Recommendations': recommendations,
+    };
+  }
+}
+
+class ModifyAquaOutputMessage {
+  /// This parameter is retired. Amazon Redshift automatically determines whether
+  /// to use AQUA (Advanced Query Accelerator).
+  final AquaConfiguration? aquaConfiguration;
+
+  ModifyAquaOutputMessage({
+    this.aquaConfiguration,
+  });
+  factory ModifyAquaOutputMessage.fromXml(_s.XmlElement elem) {
+    return ModifyAquaOutputMessage(
+      aquaConfiguration: _s
+          .extractXmlChild(elem, 'AquaConfiguration')
+          ?.let(AquaConfiguration.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aquaConfiguration = this.aquaConfiguration;
+    return {
+      if (aquaConfiguration != null) 'AquaConfiguration': aquaConfiguration,
+    };
+  }
+}
+
+class ModifyAuthenticationProfileResult {
+  /// The updated content of the authentication profile in JSON format.
+  final String? authenticationProfileContent;
+
+  /// The name of the authentication profile that was replaced.
+  final String? authenticationProfileName;
+
+  ModifyAuthenticationProfileResult({
+    this.authenticationProfileContent,
+    this.authenticationProfileName,
+  });
+  factory ModifyAuthenticationProfileResult.fromXml(_s.XmlElement elem) {
+    return ModifyAuthenticationProfileResult(
+      authenticationProfileContent:
+          _s.extractXmlStringValue(elem, 'AuthenticationProfileContent'),
+      authenticationProfileName:
+          _s.extractXmlStringValue(elem, 'AuthenticationProfileName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationProfileContent = this.authenticationProfileContent;
+    final authenticationProfileName = this.authenticationProfileName;
+    return {
+      if (authenticationProfileContent != null)
+        'AuthenticationProfileContent': authenticationProfileContent,
+      if (authenticationProfileName != null)
+        'AuthenticationProfileName': authenticationProfileName,
+    };
+  }
+}
+
+class ModifyClusterResult {
+  final Cluster? cluster;
+
+  ModifyClusterResult({
+    this.cluster,
+  });
+  factory ModifyClusterResult.fromXml(_s.XmlElement elem) {
+    return ModifyClusterResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class ModifyClusterDbRevisionResult {
+  final Cluster? cluster;
+
+  ModifyClusterDbRevisionResult({
+    this.cluster,
+  });
+  factory ModifyClusterDbRevisionResult.fromXml(_s.XmlElement elem) {
+    return ModifyClusterDbRevisionResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class ModifyClusterIamRolesResult {
+  final Cluster? cluster;
+
+  ModifyClusterIamRolesResult({
+    this.cluster,
+  });
+  factory ModifyClusterIamRolesResult.fromXml(_s.XmlElement elem) {
+    return ModifyClusterIamRolesResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class ModifyClusterMaintenanceResult {
+  final Cluster? cluster;
+
+  ModifyClusterMaintenanceResult({
+    this.cluster,
+  });
+  factory ModifyClusterMaintenanceResult.fromXml(_s.XmlElement elem) {
+    return ModifyClusterMaintenanceResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+///
+class ClusterParameterGroupNameMessage {
+  /// The name of the cluster parameter group.
+  final String? parameterGroupName;
+
+  /// The status of the parameter group. For example, if you made a change to a
+  /// parameter group name-value pair, then the change could be pending a reboot
+  /// of an associated cluster.
+  final String? parameterGroupStatus;
+
+  ClusterParameterGroupNameMessage({
+    this.parameterGroupName,
+    this.parameterGroupStatus,
+  });
+  factory ClusterParameterGroupNameMessage.fromXml(_s.XmlElement elem) {
+    return ClusterParameterGroupNameMessage(
+      parameterGroupName: _s.extractXmlStringValue(elem, 'ParameterGroupName'),
+      parameterGroupStatus:
+          _s.extractXmlStringValue(elem, 'ParameterGroupStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterGroupName = this.parameterGroupName;
+    final parameterGroupStatus = this.parameterGroupStatus;
+    return {
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+      if (parameterGroupStatus != null)
+        'ParameterGroupStatus': parameterGroupStatus,
+    };
+  }
+}
+
+class ModifyClusterSnapshotResult {
+  final Snapshot? snapshot;
+
+  ModifyClusterSnapshotResult({
+    this.snapshot,
+  });
+  factory ModifyClusterSnapshotResult.fromXml(_s.XmlElement elem) {
+    return ModifyClusterSnapshotResult(
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshot = this.snapshot;
+    return {
+      if (snapshot != null) 'Snapshot': snapshot,
+    };
+  }
+}
+
+class ModifyClusterSubnetGroupResult {
+  final ClusterSubnetGroup? clusterSubnetGroup;
+
+  ModifyClusterSubnetGroupResult({
+    this.clusterSubnetGroup,
+  });
+  factory ModifyClusterSubnetGroupResult.fromXml(_s.XmlElement elem) {
+    return ModifyClusterSubnetGroupResult(
+      clusterSubnetGroup: _s
+          .extractXmlChild(elem, 'ClusterSubnetGroup')
+          ?.let(ClusterSubnetGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterSubnetGroup = this.clusterSubnetGroup;
+    return {
+      if (clusterSubnetGroup != null) 'ClusterSubnetGroup': clusterSubnetGroup,
+    };
+  }
+}
+
+class ModifyCustomDomainAssociationResult {
+  /// The identifier of the cluster associated with the result for the changed
+  /// custom domain association.
+  final String? clusterIdentifier;
+
+  /// The certificate expiration time associated with the result for the changed
+  /// custom domain association.
+  final String? customDomainCertExpiryTime;
+
+  /// The certificate Amazon Resource Name (ARN) associated with the result for
+  /// the changed custom domain association.
+  final String? customDomainCertificateArn;
+
+  /// The custom domain name associated with the result for the changed custom
+  /// domain association.
+  final String? customDomainName;
+
+  ModifyCustomDomainAssociationResult({
+    this.clusterIdentifier,
+    this.customDomainCertExpiryTime,
+    this.customDomainCertificateArn,
+    this.customDomainName,
+  });
+  factory ModifyCustomDomainAssociationResult.fromXml(_s.XmlElement elem) {
+    return ModifyCustomDomainAssociationResult(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      customDomainCertExpiryTime:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertExpiryTime'),
+      customDomainCertificateArn:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
+      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final customDomainCertExpiryTime = this.customDomainCertExpiryTime;
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainName = this.customDomainName;
+    return {
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (customDomainCertExpiryTime != null)
+        'CustomDomainCertExpiryTime': customDomainCertExpiryTime,
+      if (customDomainCertificateArn != null)
+        'CustomDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainName != null) 'CustomDomainName': customDomainName,
+    };
+  }
+}
+
+class ModifyEventSubscriptionResult {
+  final EventSubscription? eventSubscription;
+
+  ModifyEventSubscriptionResult({
+    this.eventSubscription,
+  });
+  factory ModifyEventSubscriptionResult.fromXml(_s.XmlElement elem) {
+    return ModifyEventSubscriptionResult(
+      eventSubscription: _s
+          .extractXmlChild(elem, 'EventSubscription')
+          ?.let(EventSubscription.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscription = this.eventSubscription;
+    return {
+      if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
+}
+
+/// Contains configuration information for lakehouse integration, including the
+/// cluster identifier, catalog ARN, and registration status.
+class LakehouseConfiguration {
+  /// The Amazon Resource Name (ARN) of the Glue data catalog associated with the
+  /// lakehouse configuration.
+  final String? catalogArn;
+
+  /// The unique identifier of the cluster associated with this lakehouse
+  /// configuration.
+  final String? clusterIdentifier;
+
+  /// The Amazon Resource Name (ARN) of the IAM Identity Center application used
+  /// for enabling Amazon Web Services IAM Identity Center trusted identity
+  /// propagation on a cluster enabled with Amazon Redshift federated permissions.
+  final String? lakehouseIdcApplicationArn;
+
+  /// The current status of the lakehouse registration. Indicates whether the
+  /// cluster is successfully registered with the lakehouse.
+  final String? lakehouseRegistrationStatus;
+
+  LakehouseConfiguration({
+    this.catalogArn,
+    this.clusterIdentifier,
+    this.lakehouseIdcApplicationArn,
+    this.lakehouseRegistrationStatus,
+  });
+  factory LakehouseConfiguration.fromXml(_s.XmlElement elem) {
+    return LakehouseConfiguration(
+      catalogArn: _s.extractXmlStringValue(elem, 'CatalogArn'),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      lakehouseIdcApplicationArn:
+          _s.extractXmlStringValue(elem, 'LakehouseIdcApplicationArn'),
+      lakehouseRegistrationStatus:
+          _s.extractXmlStringValue(elem, 'LakehouseRegistrationStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogArn = this.catalogArn;
+    final clusterIdentifier = this.clusterIdentifier;
+    final lakehouseIdcApplicationArn = this.lakehouseIdcApplicationArn;
+    final lakehouseRegistrationStatus = this.lakehouseRegistrationStatus;
+    return {
+      if (catalogArn != null) 'CatalogArn': catalogArn,
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (lakehouseIdcApplicationArn != null)
+        'LakehouseIdcApplicationArn': lakehouseIdcApplicationArn,
+      if (lakehouseRegistrationStatus != null)
+        'LakehouseRegistrationStatus': lakehouseRegistrationStatus,
+    };
+  }
+}
+
+class ModifyRedshiftIdcApplicationResult {
+  final RedshiftIdcApplication? redshiftIdcApplication;
+
+  ModifyRedshiftIdcApplicationResult({
+    this.redshiftIdcApplication,
+  });
+  factory ModifyRedshiftIdcApplicationResult.fromXml(_s.XmlElement elem) {
+    return ModifyRedshiftIdcApplicationResult(
+      redshiftIdcApplication: _s
+          .extractXmlChild(elem, 'RedshiftIdcApplication')
+          ?.let(RedshiftIdcApplication.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final redshiftIdcApplication = this.redshiftIdcApplication;
+    return {
+      if (redshiftIdcApplication != null)
+        'RedshiftIdcApplication': redshiftIdcApplication,
+    };
+  }
+}
+
+class ModifySnapshotCopyRetentionPeriodResult {
+  final Cluster? cluster;
+
+  ModifySnapshotCopyRetentionPeriodResult({
+    this.cluster,
+  });
+  factory ModifySnapshotCopyRetentionPeriodResult.fromXml(_s.XmlElement elem) {
+    return ModifySnapshotCopyRetentionPeriodResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+/// Describes a pause cluster operation. For example, a scheduled action to run
+/// the <code>PauseCluster</code> API operation.
+class PauseClusterMessage {
+  /// The identifier of the cluster to be paused.
+  final String clusterIdentifier;
+
+  PauseClusterMessage({
+    required this.clusterIdentifier,
+  });
+  factory PauseClusterMessage.fromXml(_s.XmlElement elem) {
+    return PauseClusterMessage(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final clusterIdentifier = this.clusterIdentifier;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+    };
+  }
+}
+
+class PauseClusterResult {
+  final Cluster? cluster;
+
+  PauseClusterResult({
+    this.cluster,
+  });
+  factory PauseClusterResult.fromXml(_s.XmlElement elem) {
+    return PauseClusterResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class PurchaseReservedNodeOfferingResult {
+  final ReservedNode? reservedNode;
+
+  PurchaseReservedNodeOfferingResult({
+    this.reservedNode,
+  });
+  factory PurchaseReservedNodeOfferingResult.fromXml(_s.XmlElement elem) {
+    return PurchaseReservedNodeOfferingResult(
+      reservedNode:
+          _s.extractXmlChild(elem, 'ReservedNode')?.let(ReservedNode.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reservedNode = this.reservedNode;
+    return {
+      if (reservedNode != null) 'ReservedNode': reservedNode,
+    };
+  }
+}
+
+class PutResourcePolicyResult {
+  /// The content of the updated resource policy.
+  final ResourcePolicy? resourcePolicy;
+
+  PutResourcePolicyResult({
+    this.resourcePolicy,
+  });
+  factory PutResourcePolicyResult.fromXml(_s.XmlElement elem) {
+    return PutResourcePolicyResult(
+      resourcePolicy: _s
+          .extractXmlChild(elem, 'ResourcePolicy')
+          ?.let(ResourcePolicy.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourcePolicy = this.resourcePolicy;
+    return {
+      if (resourcePolicy != null) 'ResourcePolicy': resourcePolicy,
+    };
+  }
+}
+
+class RebootClusterResult {
+  final Cluster? cluster;
+
+  RebootClusterResult({
+    this.cluster,
+  });
+  factory RebootClusterResult.fromXml(_s.XmlElement elem) {
+    return RebootClusterResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class RegisterNamespaceOutputMessage {
+  /// The registration status of the cluster or serverless namespace.
+  final NamespaceRegistrationStatus? status;
+
+  RegisterNamespaceOutputMessage({
+    this.status,
+  });
+  factory RegisterNamespaceOutputMessage.fromXml(_s.XmlElement elem) {
+    return RegisterNamespaceOutputMessage(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(NamespaceRegistrationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Describes a resize cluster operation. For example, a scheduled action to run
+/// the <code>ResizeCluster</code> API operation.
+class ResizeClusterMessage {
+  /// The unique identifier for the cluster to resize.
+  final String clusterIdentifier;
+
+  /// A boolean value indicating whether the resize operation is using the classic
+  /// resize process. If you don't provide this parameter or set the value to
+  /// <code>false</code>, the resize type is elastic.
+  final bool? classic;
+
+  /// The new cluster type for the specified cluster.
+  final String? clusterType;
+
+  /// The new node type for the nodes you are adding. If not specified, the
+  /// cluster's current node type is used.
+  final String? nodeType;
+
+  /// The new number of nodes for the cluster. If not specified, the cluster's
+  /// current number of nodes is used.
+  final int? numberOfNodes;
+
+  /// The identifier of the reserved node.
+  final String? reservedNodeId;
+
+  /// The identifier of the target reserved node offering.
+  final String? targetReservedNodeOfferingId;
+
+  ResizeClusterMessage({
+    required this.clusterIdentifier,
+    this.classic,
+    this.clusterType,
+    this.nodeType,
+    this.numberOfNodes,
+    this.reservedNodeId,
+    this.targetReservedNodeOfferingId,
+  });
+  factory ResizeClusterMessage.fromXml(_s.XmlElement elem) {
+    return ResizeClusterMessage(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
+      classic: _s.extractXmlBoolValue(elem, 'Classic'),
+      clusterType: _s.extractXmlStringValue(elem, 'ClusterType'),
+      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
+      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
+      reservedNodeId: _s.extractXmlStringValue(elem, 'ReservedNodeId'),
+      targetReservedNodeOfferingId:
+          _s.extractXmlStringValue(elem, 'TargetReservedNodeOfferingId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final classic = this.classic;
+    final clusterType = this.clusterType;
+    final nodeType = this.nodeType;
+    final numberOfNodes = this.numberOfNodes;
+    final reservedNodeId = this.reservedNodeId;
+    final targetReservedNodeOfferingId = this.targetReservedNodeOfferingId;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+      if (classic != null) 'Classic': classic,
+      if (clusterType != null) 'ClusterType': clusterType,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
+      if (reservedNodeId != null) 'ReservedNodeId': reservedNodeId,
+      if (targetReservedNodeOfferingId != null)
+        'TargetReservedNodeOfferingId': targetReservedNodeOfferingId,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final classic = this.classic;
+    final clusterType = this.clusterType;
+    final nodeType = this.nodeType;
+    final numberOfNodes = this.numberOfNodes;
+    final reservedNodeId = this.reservedNodeId;
+    final targetReservedNodeOfferingId = this.targetReservedNodeOfferingId;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+      if (classic != null) 'Classic': classic.toString(),
+      if (clusterType != null) 'ClusterType': clusterType,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes.toString(),
+      if (reservedNodeId != null) 'ReservedNodeId': reservedNodeId,
+      if (targetReservedNodeOfferingId != null)
+        'TargetReservedNodeOfferingId': targetReservedNodeOfferingId,
+    };
+  }
+}
+
+class ResizeClusterResult {
+  final Cluster? cluster;
+
+  ResizeClusterResult({
+    this.cluster,
+  });
+  factory ResizeClusterResult.fromXml(_s.XmlElement elem) {
+    return ResizeClusterResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class RestoreFromClusterSnapshotResult {
+  final Cluster? cluster;
+
+  RestoreFromClusterSnapshotResult({
+    this.cluster,
+  });
+  factory RestoreFromClusterSnapshotResult.fromXml(_s.XmlElement elem) {
+    return RestoreFromClusterSnapshotResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class RestoreTableFromClusterSnapshotResult {
+  final TableRestoreStatus? tableRestoreStatus;
+
+  RestoreTableFromClusterSnapshotResult({
+    this.tableRestoreStatus,
+  });
+  factory RestoreTableFromClusterSnapshotResult.fromXml(_s.XmlElement elem) {
+    return RestoreTableFromClusterSnapshotResult(
+      tableRestoreStatus: _s
+          .extractXmlChild(elem, 'TableRestoreStatus')
+          ?.let(TableRestoreStatus.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableRestoreStatus = this.tableRestoreStatus;
+    return {
+      if (tableRestoreStatus != null) 'TableRestoreStatus': tableRestoreStatus,
+    };
+  }
+}
+
+/// Describes a resume cluster operation. For example, a scheduled action to run
+/// the <code>ResumeCluster</code> API operation.
+class ResumeClusterMessage {
+  /// The identifier of the cluster to be resumed.
+  final String clusterIdentifier;
+
+  ResumeClusterMessage({
+    required this.clusterIdentifier,
+  });
+  factory ResumeClusterMessage.fromXml(_s.XmlElement elem) {
+    return ResumeClusterMessage(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final clusterIdentifier = this.clusterIdentifier;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+    };
+  }
+}
+
+class ResumeClusterResult {
+  final Cluster? cluster;
+
+  ResumeClusterResult({
+    this.cluster,
+  });
+  factory ResumeClusterResult.fromXml(_s.XmlElement elem) {
+    return ResumeClusterResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class RevokeClusterSecurityGroupIngressResult {
+  final ClusterSecurityGroup? clusterSecurityGroup;
+
+  RevokeClusterSecurityGroupIngressResult({
+    this.clusterSecurityGroup,
+  });
+  factory RevokeClusterSecurityGroupIngressResult.fromXml(_s.XmlElement elem) {
+    return RevokeClusterSecurityGroupIngressResult(
+      clusterSecurityGroup: _s
+          .extractXmlChild(elem, 'ClusterSecurityGroup')
+          ?.let(ClusterSecurityGroup.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterSecurityGroup = this.clusterSecurityGroup;
+    return {
+      if (clusterSecurityGroup != null)
+        'ClusterSecurityGroup': clusterSecurityGroup,
+    };
+  }
+}
+
+class RevokeSnapshotAccessResult {
+  final Snapshot? snapshot;
+
+  RevokeSnapshotAccessResult({
+    this.snapshot,
+  });
+  factory RevokeSnapshotAccessResult.fromXml(_s.XmlElement elem) {
+    return RevokeSnapshotAccessResult(
+      snapshot: _s.extractXmlChild(elem, 'Snapshot')?.let(Snapshot.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshot = this.snapshot;
+    return {
+      if (snapshot != null) 'Snapshot': snapshot,
+    };
+  }
+}
+
+class RotateEncryptionKeyResult {
+  final Cluster? cluster;
+
+  RotateEncryptionKeyResult({
+    this.cluster,
+  });
+  factory RotateEncryptionKeyResult.fromXml(_s.XmlElement elem) {
+    return RotateEncryptionKeyResult(
+      cluster: _s.extractXmlChild(elem, 'Cluster')?.let(Cluster.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class PartnerIntegrationStatus {
+  static const active = PartnerIntegrationStatus._('Active');
+  static const inactive = PartnerIntegrationStatus._('Inactive');
+  static const runtimeFailure = PartnerIntegrationStatus._('RuntimeFailure');
+  static const connectionFailure =
+      PartnerIntegrationStatus._('ConnectionFailure');
+
+  final String value;
+
+  const PartnerIntegrationStatus._(this.value);
+
+  static const values = [active, inactive, runtimeFailure, connectionFailure];
+
+  static PartnerIntegrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PartnerIntegrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PartnerIntegrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a cluster.
+class Cluster {
+  /// A boolean value that, if <code>true</code>, indicates that major version
+  /// upgrades will be applied automatically to the cluster during the maintenance
+  /// window.
+  final bool? allowVersionUpgrade;
+
+  /// This field is retired. Amazon Redshift automatically determines whether to
+  /// use AQUA (Advanced Query Accelerator).
+  final AquaConfiguration? aquaConfiguration;
+
+  /// The number of days that automatic cluster snapshots are retained.
+  final int? automatedSnapshotRetentionPeriod;
+
+  /// The name of the Availability Zone in which the cluster is located.
+  final String? availabilityZone;
+
+  /// Describes the status of the Availability Zone relocation operation.
+  final String? availabilityZoneRelocationStatus;
+
+  /// The Amazon Resource Name (ARN) of the Glue data catalog associated with the
+  /// cluster enabled with Amazon Redshift federated permissions.
+  final String? catalogArn;
+
+  /// The availability status of the cluster for queries. Possible values are the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Available - The cluster is available for queries.
+  /// </li>
+  /// <li>
+  /// Unavailable - The cluster is not available for queries.
+  /// </li>
+  /// <li>
+  /// Maintenance - The cluster is intermittently available for queries due to
+  /// maintenance activities.
+  /// </li>
+  /// <li>
+  /// Modifying - The cluster is intermittently available for queries due to
+  /// changes that modify the cluster.
+  /// </li>
+  /// <li>
+  /// Failed - The cluster failed and is not available for queries.
+  /// </li>
+  /// </ul>
+  final String? clusterAvailabilityStatus;
+
+  /// The date and time that the cluster was created.
+  final DateTime? clusterCreateTime;
+
+  /// The unique identifier of the cluster.
+  final String? clusterIdentifier;
+
+  /// The namespace Amazon Resource Name (ARN) of the cluster.
+  final String? clusterNamespaceArn;
+
+  /// The nodes in the cluster.
+  final List<ClusterNode>? clusterNodes;
+
+  /// The list of cluster parameter groups that are associated with this cluster.
+  /// Each parameter group in the list is returned with its status.
+  final List<ClusterParameterGroupStatus>? clusterParameterGroups;
+
+  /// The public key for the cluster.
+  final String? clusterPublicKey;
+
+  /// The specific revision number of the database in the cluster.
+  final String? clusterRevisionNumber;
+
+  /// A list of cluster security group that are associated with the cluster. Each
+  /// security group is represented by an element that contains
+  /// <code>ClusterSecurityGroup.Name</code> and
+  /// <code>ClusterSecurityGroup.Status</code> subelements.
+  ///
+  /// Cluster security groups are used when the cluster is not created in an
+  /// Amazon Virtual Private Cloud (VPC). Clusters that are created in a VPC use
+  /// VPC security groups, which are listed by the <b>VpcSecurityGroups</b>
+  /// parameter.
+  final List<ClusterSecurityGroupMembership>? clusterSecurityGroups;
+
+  /// A value that returns the destination region and retention period that are
+  /// configured for cross-region snapshot copy.
+  final ClusterSnapshotCopyStatus? clusterSnapshotCopyStatus;
+
+  /// The current state of the cluster. Possible values are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>available</code>
+  /// </li>
+  /// <li>
+  /// <code>available, prep-for-resize</code>
+  /// </li>
+  /// <li>
+  /// <code>available, resize-cleanup</code>
+  /// </li>
+  /// <li>
+  /// <code>cancelling-resize</code>
+  /// </li>
+  /// <li>
+  /// <code>creating</code>
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>
+  /// </li>
+  /// <li>
+  /// <code>final-snapshot</code>
+  /// </li>
+  /// <li>
+  /// <code>hardware-failure</code>
+  /// </li>
+  /// <li>
+  /// <code>incompatible-hsm</code>
+  /// </li>
+  /// <li>
+  /// <code>incompatible-network</code>
+  /// </li>
+  /// <li>
+  /// <code>incompatible-parameters</code>
+  /// </li>
+  /// <li>
+  /// <code>incompatible-restore</code>
+  /// </li>
+  /// <li>
+  /// <code>modifying</code>
+  /// </li>
+  /// <li>
+  /// <code>paused</code>
+  /// </li>
+  /// <li>
+  /// <code>rebooting</code>
+  /// </li>
+  /// <li>
+  /// <code>renaming</code>
+  /// </li>
+  /// <li>
+  /// <code>resizing</code>
+  /// </li>
+  /// <li>
+  /// <code>rotating-keys</code>
+  /// </li>
+  /// <li>
+  /// <code>storage-full</code>
+  /// </li>
+  /// <li>
+  /// <code>updating-hsm</code>
+  /// </li>
+  /// </ul>
+  final String? clusterStatus;
+
+  /// The name of the subnet group that is associated with the cluster. This
+  /// parameter is valid only when the cluster is in a VPC.
+  final String? clusterSubnetGroupName;
+
+  /// The version ID of the Amazon Redshift engine that is running on the cluster.
+  final String? clusterVersion;
+
+  /// The certificate Amazon Resource Name (ARN) for the custom domain name.
+  final String? customDomainCertificateArn;
+
+  /// The expiration date for the certificate associated with the custom domain
+  /// name.
+  final DateTime? customDomainCertificateExpiryDate;
+
+  /// The custom domain name associated with the cluster.
+  final String? customDomainName;
+
+  /// The name of the initial database that was created when the cluster was
+  /// created. This same name is returned for the life of the cluster. If an
+  /// initial database was not specified, a database named <code>dev</code>dev was
+  /// created by default.
+  final String? dBName;
+
+  ///
+  final DataTransferProgress? dataTransferProgress;
+
+  /// The Amazon Resource Name (ARN) for the IAM role set as default for the
+  /// cluster.
+  final String? defaultIamRoleArn;
+
+  /// Describes a group of <code>DeferredMaintenanceWindow</code> objects.
+  final List<DeferredMaintenanceWindow>? deferredMaintenanceWindows;
+
+  /// The status of the elastic IP (EIP) address.
+  final ElasticIpStatus? elasticIpStatus;
+
+  /// The number of nodes that you can resize the cluster to with the elastic
+  /// resize method.
+  final String? elasticResizeNumberOfNodeOptions;
+
+  /// A boolean value that, if <code>true</code>, indicates that data in the
+  /// cluster is encrypted at rest.
+  final bool? encrypted;
+
+  /// The connection endpoint.
+  final Endpoint? endpoint;
+
+  /// An option that specifies whether to create the cluster with enhanced VPC
+  /// routing enabled. To create a cluster that uses enhanced VPC routing, the
+  /// cluster must be in a VPC. For more information, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
+  /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
+  ///
+  /// If this option is <code>true</code>, enhanced VPC routing is enabled.
+  ///
+  /// Default: false
+  final bool? enhancedVpcRouting;
+
+  /// The date and time when the next snapshot is expected to be taken for
+  /// clusters with a valid snapshot schedule and backups enabled.
+  final DateTime? expectedNextSnapshotScheduleTime;
+
+  /// The status of next expected snapshot for clusters having a valid snapshot
+  /// schedule and backups enabled. Possible values are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// OnTrack - The next snapshot is expected to be taken on time.
+  /// </li>
+  /// <li>
+  /// Pending - The next snapshot is pending to be taken.
+  /// </li>
+  /// </ul>
+  final String? expectedNextSnapshotScheduleTimeStatus;
+
+  /// A boolean value that, if <code>true</code>, indicates that the cluster
+  /// allocates additional compute resources to run automatic optimization
+  /// operations.
+  ///
+  /// Default: false
+  final String? extraComputeForAutomaticOptimization;
+
+  /// A value that reports whether the Amazon Redshift cluster has finished
+  /// applying any hardware security module (HSM) settings changes specified in a
+  /// modify cluster command.
+  ///
+  /// Values: active, applying
+  final HsmStatus? hsmStatus;
+
+  /// A list of Identity and Access Management (IAM) roles that can be used by the
+  /// cluster to access other Amazon Web Services services.
+  final List<ClusterIamRole>? iamRoles;
+
+  /// The IP address type for the cluster. Possible values are <code>ipv4</code>
+  /// and <code>dualstack</code>.
+  final String? ipAddressType;
+
+  /// The Key Management Service (KMS) key ID of the encryption key used to
+  /// encrypt data in the cluster.
+  final String? kmsKeyId;
+
+  /// The status of the lakehouse registration for the cluster. Indicates whether
+  /// the cluster is successfully registered with Amazon Redshift federated
+  /// permissions.
+  final String? lakehouseRegistrationStatus;
+
+  /// The name of the maintenance track for the cluster.
+  final String? maintenanceTrackName;
+
+  /// The default number of days to retain a manual snapshot. If the value is -1,
+  /// the snapshot is retained indefinitely. This setting doesn't change the
+  /// retention period of existing snapshots.
+  ///
+  /// The value must be either -1 or an integer between 1 and 3,653.
+  final int? manualSnapshotRetentionPeriod;
+
+  /// The Amazon Resource Name (ARN) for the cluster's admin user credentials
+  /// secret.
+  final String? masterPasswordSecretArn;
+
+  /// The ID of the Key Management Service (KMS) key used to encrypt and store the
+  /// cluster's admin credentials secret.
+  final String? masterPasswordSecretKmsKeyId;
+
+  /// The admin user name for the cluster. This name is used to connect to the
+  /// database that is specified in the <b>DBName</b> parameter.
+  final String? masterUsername;
+
+  /// The status of a modify operation, if any, initiated for the cluster.
+  final String? modifyStatus;
+
+  /// A boolean value that, if true, indicates that the cluster is deployed in two
+  /// Availability Zones.
+  final String? multiAZ;
+
+  /// The secondary compute unit of a cluster, if Multi-AZ deployment is turned
+  /// on.
+  final SecondaryClusterInfo? multiAZSecondary;
+
+  /// The date and time in UTC when system maintenance can begin.
+  final DateTime? nextMaintenanceWindowStartTime;
+
+  /// The node type for the nodes in the cluster.
+  final String? nodeType;
+
+  /// The number of compute nodes in the cluster.
+  final int? numberOfNodes;
+
+  /// Cluster operations that are waiting to be started.
+  final List<String>? pendingActions;
+
+  /// A value that, if present, indicates that changes to the cluster are pending.
+  /// Specific pending changes are identified by subelements.
+  final PendingModifiedValues? pendingModifiedValues;
+
+  /// The weekly time range, in Universal Coordinated Time (UTC), during which
+  /// system maintenance can occur.
+  final String? preferredMaintenanceWindow;
+
+  /// A boolean value that, if <code>true</code>, indicates that the cluster can
+  /// be accessed from a public network.
+  ///
+  /// Default: false
+  final bool? publiclyAccessible;
+
+  /// The status of the reserved-node exchange request. Statuses include
+  /// in-progress and requested.
+  final ReservedNodeExchangeStatus? reservedNodeExchangeStatus;
+
+  /// Returns the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// AllowCancelResize: a boolean value indicating if the resize operation can be
+  /// cancelled.
+  /// </li>
+  /// <li>
+  /// ResizeType: Returns ClassicResize
+  /// </li>
+  /// </ul>
+  final ResizeInfo? resizeInfo;
+
+  /// A value that describes the status of a cluster restore action. This
+  /// parameter returns null if the cluster was not created by restoring a
+  /// snapshot.
+  final RestoreStatus? restoreStatus;
+
+  /// A unique identifier for the cluster snapshot schedule.
+  final String? snapshotScheduleIdentifier;
+
+  /// The current state of the cluster snapshot schedule.
+  final ScheduleState? snapshotScheduleState;
+
+  /// The list of tags for the cluster.
+  final List<Tag>? tags;
+
+  /// The total storage capacity of the cluster in megabytes.
+  final int? totalStorageCapacityInMegaBytes;
+
+  /// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
+  final String? vpcId;
+
+  /// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that are
+  /// associated with the cluster. This parameter is returned only if the cluster
+  /// is in a VPC.
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
+
+  Cluster({
+    this.allowVersionUpgrade,
+    this.aquaConfiguration,
+    this.automatedSnapshotRetentionPeriod,
+    this.availabilityZone,
+    this.availabilityZoneRelocationStatus,
+    this.catalogArn,
+    this.clusterAvailabilityStatus,
+    this.clusterCreateTime,
+    this.clusterIdentifier,
+    this.clusterNamespaceArn,
+    this.clusterNodes,
+    this.clusterParameterGroups,
+    this.clusterPublicKey,
+    this.clusterRevisionNumber,
+    this.clusterSecurityGroups,
+    this.clusterSnapshotCopyStatus,
+    this.clusterStatus,
+    this.clusterSubnetGroupName,
+    this.clusterVersion,
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryDate,
+    this.customDomainName,
+    this.dBName,
+    this.dataTransferProgress,
+    this.defaultIamRoleArn,
+    this.deferredMaintenanceWindows,
+    this.elasticIpStatus,
+    this.elasticResizeNumberOfNodeOptions,
+    this.encrypted,
+    this.endpoint,
+    this.enhancedVpcRouting,
+    this.expectedNextSnapshotScheduleTime,
+    this.expectedNextSnapshotScheduleTimeStatus,
+    this.extraComputeForAutomaticOptimization,
+    this.hsmStatus,
+    this.iamRoles,
+    this.ipAddressType,
+    this.kmsKeyId,
+    this.lakehouseRegistrationStatus,
+    this.maintenanceTrackName,
+    this.manualSnapshotRetentionPeriod,
+    this.masterPasswordSecretArn,
+    this.masterPasswordSecretKmsKeyId,
+    this.masterUsername,
+    this.modifyStatus,
+    this.multiAZ,
+    this.multiAZSecondary,
+    this.nextMaintenanceWindowStartTime,
+    this.nodeType,
+    this.numberOfNodes,
+    this.pendingActions,
+    this.pendingModifiedValues,
+    this.preferredMaintenanceWindow,
+    this.publiclyAccessible,
+    this.reservedNodeExchangeStatus,
+    this.resizeInfo,
+    this.restoreStatus,
+    this.snapshotScheduleIdentifier,
+    this.snapshotScheduleState,
+    this.tags,
+    this.totalStorageCapacityInMegaBytes,
+    this.vpcId,
+    this.vpcSecurityGroups,
+  });
+  factory Cluster.fromXml(_s.XmlElement elem) {
+    return Cluster(
+      allowVersionUpgrade: _s.extractXmlBoolValue(elem, 'AllowVersionUpgrade'),
+      aquaConfiguration: _s
+          .extractXmlChild(elem, 'AquaConfiguration')
+          ?.let(AquaConfiguration.fromXml),
+      automatedSnapshotRetentionPeriod:
+          _s.extractXmlIntValue(elem, 'AutomatedSnapshotRetentionPeriod'),
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      availabilityZoneRelocationStatus:
+          _s.extractXmlStringValue(elem, 'AvailabilityZoneRelocationStatus'),
+      catalogArn: _s.extractXmlStringValue(elem, 'CatalogArn'),
+      clusterAvailabilityStatus:
+          _s.extractXmlStringValue(elem, 'ClusterAvailabilityStatus'),
+      clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      clusterNamespaceArn:
+          _s.extractXmlStringValue(elem, 'ClusterNamespaceArn'),
+      clusterNodes: _s.extractXmlChild(elem, 'ClusterNodes')?.let((elem) =>
+          elem.findElements('member').map(ClusterNode.fromXml).toList()),
+      clusterParameterGroups: _s
+          .extractXmlChild(elem, 'ClusterParameterGroups')
+          ?.let((elem) => elem
+              .findElements('ClusterParameterGroup')
+              .map(ClusterParameterGroupStatus.fromXml)
+              .toList()),
+      clusterPublicKey: _s.extractXmlStringValue(elem, 'ClusterPublicKey'),
+      clusterRevisionNumber:
+          _s.extractXmlStringValue(elem, 'ClusterRevisionNumber'),
+      clusterSecurityGroups: _s
+          .extractXmlChild(elem, 'ClusterSecurityGroups')
+          ?.let((elem) => elem
+              .findElements('ClusterSecurityGroup')
+              .map(ClusterSecurityGroupMembership.fromXml)
+              .toList()),
+      clusterSnapshotCopyStatus: _s
+          .extractXmlChild(elem, 'ClusterSnapshotCopyStatus')
+          ?.let(ClusterSnapshotCopyStatus.fromXml),
+      clusterStatus: _s.extractXmlStringValue(elem, 'ClusterStatus'),
+      clusterSubnetGroupName:
+          _s.extractXmlStringValue(elem, 'ClusterSubnetGroupName'),
+      clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
+      customDomainCertificateArn:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
+      customDomainCertificateExpiryDate:
+          _s.extractXmlDateTimeValue(elem, 'CustomDomainCertificateExpiryDate'),
+      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
+      dBName: _s.extractXmlStringValue(elem, 'DBName'),
+      dataTransferProgress: _s
+          .extractXmlChild(elem, 'DataTransferProgress')
+          ?.let(DataTransferProgress.fromXml),
+      defaultIamRoleArn: _s.extractXmlStringValue(elem, 'DefaultIamRoleArn'),
+      deferredMaintenanceWindows: _s
+          .extractXmlChild(elem, 'DeferredMaintenanceWindows')
+          ?.let((elem) => elem
+              .findElements('DeferredMaintenanceWindow')
+              .map(DeferredMaintenanceWindow.fromXml)
+              .toList()),
+      elasticIpStatus: _s
+          .extractXmlChild(elem, 'ElasticIpStatus')
+          ?.let(ElasticIpStatus.fromXml),
+      elasticResizeNumberOfNodeOptions:
+          _s.extractXmlStringValue(elem, 'ElasticResizeNumberOfNodeOptions'),
+      encrypted: _s.extractXmlBoolValue(elem, 'Encrypted'),
+      endpoint: _s.extractXmlChild(elem, 'Endpoint')?.let(Endpoint.fromXml),
+      enhancedVpcRouting: _s.extractXmlBoolValue(elem, 'EnhancedVpcRouting'),
+      expectedNextSnapshotScheduleTime:
+          _s.extractXmlDateTimeValue(elem, 'ExpectedNextSnapshotScheduleTime'),
+      expectedNextSnapshotScheduleTimeStatus: _s.extractXmlStringValue(
+          elem, 'ExpectedNextSnapshotScheduleTimeStatus'),
+      extraComputeForAutomaticOptimization: _s.extractXmlStringValue(
+          elem, 'ExtraComputeForAutomaticOptimization'),
+      hsmStatus: _s.extractXmlChild(elem, 'HsmStatus')?.let(HsmStatus.fromXml),
+      iamRoles: _s.extractXmlChild(elem, 'IamRoles')?.let((elem) => elem
+          .findElements('ClusterIamRole')
+          .map(ClusterIamRole.fromXml)
+          .toList()),
+      ipAddressType: _s.extractXmlStringValue(elem, 'IpAddressType'),
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      lakehouseRegistrationStatus:
+          _s.extractXmlStringValue(elem, 'LakehouseRegistrationStatus'),
+      maintenanceTrackName:
+          _s.extractXmlStringValue(elem, 'MaintenanceTrackName'),
+      manualSnapshotRetentionPeriod:
+          _s.extractXmlIntValue(elem, 'ManualSnapshotRetentionPeriod'),
+      masterPasswordSecretArn:
+          _s.extractXmlStringValue(elem, 'MasterPasswordSecretArn'),
+      masterPasswordSecretKmsKeyId:
+          _s.extractXmlStringValue(elem, 'MasterPasswordSecretKmsKeyId'),
+      masterUsername: _s.extractXmlStringValue(elem, 'MasterUsername'),
+      modifyStatus: _s.extractXmlStringValue(elem, 'ModifyStatus'),
+      multiAZ: _s.extractXmlStringValue(elem, 'MultiAZ'),
+      multiAZSecondary: _s
+          .extractXmlChild(elem, 'MultiAZSecondary')
+          ?.let(SecondaryClusterInfo.fromXml),
+      nextMaintenanceWindowStartTime:
+          _s.extractXmlDateTimeValue(elem, 'NextMaintenanceWindowStartTime'),
+      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
+      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
+      pendingActions: _s
+          .extractXmlChild(elem, 'PendingActions')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      pendingModifiedValues: _s
+          .extractXmlChild(elem, 'PendingModifiedValues')
+          ?.let(PendingModifiedValues.fromXml),
+      preferredMaintenanceWindow:
+          _s.extractXmlStringValue(elem, 'PreferredMaintenanceWindow'),
+      publiclyAccessible: _s.extractXmlBoolValue(elem, 'PubliclyAccessible'),
+      reservedNodeExchangeStatus: _s
+          .extractXmlChild(elem, 'ReservedNodeExchangeStatus')
+          ?.let(ReservedNodeExchangeStatus.fromXml),
+      resizeInfo:
+          _s.extractXmlChild(elem, 'ResizeInfo')?.let(ResizeInfo.fromXml),
+      restoreStatus:
+          _s.extractXmlChild(elem, 'RestoreStatus')?.let(RestoreStatus.fromXml),
+      snapshotScheduleIdentifier:
+          _s.extractXmlStringValue(elem, 'SnapshotScheduleIdentifier'),
+      snapshotScheduleState: _s
+          .extractXmlStringValue(elem, 'SnapshotScheduleState')
+          ?.let(ScheduleState.fromString),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+      totalStorageCapacityInMegaBytes:
+          _s.extractXmlIntValue(elem, 'TotalStorageCapacityInMegaBytes'),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+      vpcSecurityGroups: _s.extractXmlChild(elem, 'VpcSecurityGroups')?.let(
+          (elem) => elem
+              .findElements('VpcSecurityGroup')
+              .map(VpcSecurityGroupMembership.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowVersionUpgrade = this.allowVersionUpgrade;
+    final aquaConfiguration = this.aquaConfiguration;
+    final automatedSnapshotRetentionPeriod =
+        this.automatedSnapshotRetentionPeriod;
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneRelocationStatus =
+        this.availabilityZoneRelocationStatus;
+    final catalogArn = this.catalogArn;
+    final clusterAvailabilityStatus = this.clusterAvailabilityStatus;
+    final clusterCreateTime = this.clusterCreateTime;
+    final clusterIdentifier = this.clusterIdentifier;
+    final clusterNamespaceArn = this.clusterNamespaceArn;
+    final clusterNodes = this.clusterNodes;
+    final clusterParameterGroups = this.clusterParameterGroups;
+    final clusterPublicKey = this.clusterPublicKey;
+    final clusterRevisionNumber = this.clusterRevisionNumber;
+    final clusterSecurityGroups = this.clusterSecurityGroups;
+    final clusterSnapshotCopyStatus = this.clusterSnapshotCopyStatus;
+    final clusterStatus = this.clusterStatus;
+    final clusterSubnetGroupName = this.clusterSubnetGroupName;
+    final clusterVersion = this.clusterVersion;
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainCertificateExpiryDate =
+        this.customDomainCertificateExpiryDate;
+    final customDomainName = this.customDomainName;
+    final dBName = this.dBName;
+    final dataTransferProgress = this.dataTransferProgress;
+    final defaultIamRoleArn = this.defaultIamRoleArn;
+    final deferredMaintenanceWindows = this.deferredMaintenanceWindows;
+    final elasticIpStatus = this.elasticIpStatus;
+    final elasticResizeNumberOfNodeOptions =
+        this.elasticResizeNumberOfNodeOptions;
+    final encrypted = this.encrypted;
+    final endpoint = this.endpoint;
+    final enhancedVpcRouting = this.enhancedVpcRouting;
+    final expectedNextSnapshotScheduleTime =
+        this.expectedNextSnapshotScheduleTime;
+    final expectedNextSnapshotScheduleTimeStatus =
+        this.expectedNextSnapshotScheduleTimeStatus;
+    final extraComputeForAutomaticOptimization =
+        this.extraComputeForAutomaticOptimization;
+    final hsmStatus = this.hsmStatus;
+    final iamRoles = this.iamRoles;
+    final ipAddressType = this.ipAddressType;
+    final kmsKeyId = this.kmsKeyId;
+    final lakehouseRegistrationStatus = this.lakehouseRegistrationStatus;
+    final maintenanceTrackName = this.maintenanceTrackName;
+    final manualSnapshotRetentionPeriod = this.manualSnapshotRetentionPeriod;
+    final masterPasswordSecretArn = this.masterPasswordSecretArn;
+    final masterPasswordSecretKmsKeyId = this.masterPasswordSecretKmsKeyId;
+    final masterUsername = this.masterUsername;
+    final modifyStatus = this.modifyStatus;
+    final multiAZ = this.multiAZ;
+    final multiAZSecondary = this.multiAZSecondary;
+    final nextMaintenanceWindowStartTime = this.nextMaintenanceWindowStartTime;
+    final nodeType = this.nodeType;
+    final numberOfNodes = this.numberOfNodes;
+    final pendingActions = this.pendingActions;
+    final pendingModifiedValues = this.pendingModifiedValues;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final publiclyAccessible = this.publiclyAccessible;
+    final reservedNodeExchangeStatus = this.reservedNodeExchangeStatus;
+    final resizeInfo = this.resizeInfo;
+    final restoreStatus = this.restoreStatus;
+    final snapshotScheduleIdentifier = this.snapshotScheduleIdentifier;
+    final snapshotScheduleState = this.snapshotScheduleState;
+    final tags = this.tags;
+    final totalStorageCapacityInMegaBytes =
+        this.totalStorageCapacityInMegaBytes;
+    final vpcId = this.vpcId;
+    final vpcSecurityGroups = this.vpcSecurityGroups;
+    return {
+      if (allowVersionUpgrade != null)
+        'AllowVersionUpgrade': allowVersionUpgrade,
+      if (aquaConfiguration != null) 'AquaConfiguration': aquaConfiguration,
+      if (automatedSnapshotRetentionPeriod != null)
+        'AutomatedSnapshotRetentionPeriod': automatedSnapshotRetentionPeriod,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (availabilityZoneRelocationStatus != null)
+        'AvailabilityZoneRelocationStatus': availabilityZoneRelocationStatus,
+      if (catalogArn != null) 'CatalogArn': catalogArn,
+      if (clusterAvailabilityStatus != null)
+        'ClusterAvailabilityStatus': clusterAvailabilityStatus,
+      if (clusterCreateTime != null)
+        'ClusterCreateTime': iso8601ToJson(clusterCreateTime),
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (clusterNamespaceArn != null)
+        'ClusterNamespaceArn': clusterNamespaceArn,
+      if (clusterNodes != null) 'ClusterNodes': clusterNodes,
+      if (clusterParameterGroups != null)
+        'ClusterParameterGroups': clusterParameterGroups,
+      if (clusterPublicKey != null) 'ClusterPublicKey': clusterPublicKey,
+      if (clusterRevisionNumber != null)
+        'ClusterRevisionNumber': clusterRevisionNumber,
+      if (clusterSecurityGroups != null)
+        'ClusterSecurityGroups': clusterSecurityGroups,
+      if (clusterSnapshotCopyStatus != null)
+        'ClusterSnapshotCopyStatus': clusterSnapshotCopyStatus,
+      if (clusterStatus != null) 'ClusterStatus': clusterStatus,
+      if (clusterSubnetGroupName != null)
+        'ClusterSubnetGroupName': clusterSubnetGroupName,
+      if (clusterVersion != null) 'ClusterVersion': clusterVersion,
+      if (customDomainCertificateArn != null)
+        'CustomDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainCertificateExpiryDate != null)
+        'CustomDomainCertificateExpiryDate':
+            iso8601ToJson(customDomainCertificateExpiryDate),
+      if (customDomainName != null) 'CustomDomainName': customDomainName,
+      if (dBName != null) 'DBName': dBName,
+      if (dataTransferProgress != null)
+        'DataTransferProgress': dataTransferProgress,
+      if (defaultIamRoleArn != null) 'DefaultIamRoleArn': defaultIamRoleArn,
+      if (deferredMaintenanceWindows != null)
+        'DeferredMaintenanceWindows': deferredMaintenanceWindows,
+      if (elasticIpStatus != null) 'ElasticIpStatus': elasticIpStatus,
+      if (elasticResizeNumberOfNodeOptions != null)
+        'ElasticResizeNumberOfNodeOptions': elasticResizeNumberOfNodeOptions,
+      if (encrypted != null) 'Encrypted': encrypted,
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (enhancedVpcRouting != null) 'EnhancedVpcRouting': enhancedVpcRouting,
+      if (expectedNextSnapshotScheduleTime != null)
+        'ExpectedNextSnapshotScheduleTime':
+            iso8601ToJson(expectedNextSnapshotScheduleTime),
+      if (expectedNextSnapshotScheduleTimeStatus != null)
+        'ExpectedNextSnapshotScheduleTimeStatus':
+            expectedNextSnapshotScheduleTimeStatus,
+      if (extraComputeForAutomaticOptimization != null)
+        'ExtraComputeForAutomaticOptimization':
+            extraComputeForAutomaticOptimization,
+      if (hsmStatus != null) 'HsmStatus': hsmStatus,
+      if (iamRoles != null) 'IamRoles': iamRoles,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (lakehouseRegistrationStatus != null)
+        'LakehouseRegistrationStatus': lakehouseRegistrationStatus,
+      if (maintenanceTrackName != null)
+        'MaintenanceTrackName': maintenanceTrackName,
+      if (manualSnapshotRetentionPeriod != null)
+        'ManualSnapshotRetentionPeriod': manualSnapshotRetentionPeriod,
+      if (masterPasswordSecretArn != null)
+        'MasterPasswordSecretArn': masterPasswordSecretArn,
+      if (masterPasswordSecretKmsKeyId != null)
+        'MasterPasswordSecretKmsKeyId': masterPasswordSecretKmsKeyId,
+      if (masterUsername != null) 'MasterUsername': masterUsername,
+      if (modifyStatus != null) 'ModifyStatus': modifyStatus,
+      if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (multiAZSecondary != null) 'MultiAZSecondary': multiAZSecondary,
+      if (nextMaintenanceWindowStartTime != null)
+        'NextMaintenanceWindowStartTime':
+            iso8601ToJson(nextMaintenanceWindowStartTime),
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
+      if (pendingActions != null) 'PendingActions': pendingActions,
+      if (pendingModifiedValues != null)
+        'PendingModifiedValues': pendingModifiedValues,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
+      if (reservedNodeExchangeStatus != null)
+        'ReservedNodeExchangeStatus': reservedNodeExchangeStatus,
+      if (resizeInfo != null) 'ResizeInfo': resizeInfo,
+      if (restoreStatus != null) 'RestoreStatus': restoreStatus,
+      if (snapshotScheduleIdentifier != null)
+        'SnapshotScheduleIdentifier': snapshotScheduleIdentifier,
+      if (snapshotScheduleState != null)
+        'SnapshotScheduleState': snapshotScheduleState.value,
+      if (tags != null) 'Tags': tags,
+      if (totalStorageCapacityInMegaBytes != null)
+        'TotalStorageCapacityInMegaBytes': totalStorageCapacityInMegaBytes,
+      if (vpcId != null) 'VpcId': vpcId,
+      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
+    };
+  }
+}
+
+/// Describes a connection endpoint.
+class Endpoint {
+  /// The DNS address of the Cluster.
+  final String? address;
+
+  /// The port that the database engine is listening on.
+  final int? port;
+
+  /// Describes a connection endpoint.
+  final List<VpcEndpoint>? vpcEndpoints;
+
+  Endpoint({
+    this.address,
+    this.port,
+    this.vpcEndpoints,
+  });
+  factory Endpoint.fromXml(_s.XmlElement elem) {
+    return Endpoint(
+      address: _s.extractXmlStringValue(elem, 'Address'),
+      port: _s.extractXmlIntValue(elem, 'Port'),
+      vpcEndpoints: _s.extractXmlChild(elem, 'VpcEndpoints')?.let((elem) =>
+          elem.findElements('VpcEndpoint').map(VpcEndpoint.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final port = this.port;
+    final vpcEndpoints = this.vpcEndpoints;
+    return {
+      if (address != null) 'Address': address,
+      if (port != null) 'Port': port,
+      if (vpcEndpoints != null) 'VpcEndpoints': vpcEndpoints,
+    };
+  }
+}
+
+/// Describes cluster attributes that are in a pending state. A change to one or
+/// more the attributes was requested and is in progress or will be applied.
+class PendingModifiedValues {
+  /// The pending or in-progress change of the automated snapshot retention
+  /// period.
+  final int? automatedSnapshotRetentionPeriod;
+
+  /// The pending or in-progress change of the new identifier for the cluster.
+  final String? clusterIdentifier;
+
+  /// The pending or in-progress change of the cluster type.
+  final String? clusterType;
+
+  /// The pending or in-progress change of the service version.
+  final String? clusterVersion;
+
+  /// The encryption type for a cluster. Possible values are: KMS and None.
+  final String? encryptionType;
+
+  /// An option that specifies whether to create the cluster with enhanced VPC
+  /// routing enabled. To create a cluster that uses enhanced VPC routing, the
+  /// cluster must be in a VPC. For more information, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html">Enhanced
+  /// VPC Routing</a> in the Amazon Redshift Cluster Management Guide.
+  ///
+  /// If this option is <code>true</code>, enhanced VPC routing is enabled.
+  ///
+  /// Default: false
+  final bool? enhancedVpcRouting;
+
+  /// The name of the maintenance track that the cluster will change to during the
+  /// next maintenance window.
+  final String? maintenanceTrackName;
+
+  /// The pending or in-progress change of the admin user password for the
+  /// cluster.
+  final String? masterUserPassword;
+
+  /// The pending or in-progress change of the cluster's node type.
+  final String? nodeType;
+
+  /// The pending or in-progress change of the number of nodes in the cluster.
+  final int? numberOfNodes;
+
+  /// The pending or in-progress change of the ability to connect to the cluster
+  /// from the public network.
+  final bool? publiclyAccessible;
+
+  PendingModifiedValues({
+    this.automatedSnapshotRetentionPeriod,
+    this.clusterIdentifier,
+    this.clusterType,
+    this.clusterVersion,
+    this.encryptionType,
+    this.enhancedVpcRouting,
+    this.maintenanceTrackName,
+    this.masterUserPassword,
+    this.nodeType,
+    this.numberOfNodes,
+    this.publiclyAccessible,
+  });
+  factory PendingModifiedValues.fromXml(_s.XmlElement elem) {
+    return PendingModifiedValues(
+      automatedSnapshotRetentionPeriod:
+          _s.extractXmlIntValue(elem, 'AutomatedSnapshotRetentionPeriod'),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      clusterType: _s.extractXmlStringValue(elem, 'ClusterType'),
+      clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
+      encryptionType: _s.extractXmlStringValue(elem, 'EncryptionType'),
+      enhancedVpcRouting: _s.extractXmlBoolValue(elem, 'EnhancedVpcRouting'),
+      maintenanceTrackName:
+          _s.extractXmlStringValue(elem, 'MaintenanceTrackName'),
+      masterUserPassword: _s.extractXmlStringValue(elem, 'MasterUserPassword'),
+      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
+      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
+      publiclyAccessible: _s.extractXmlBoolValue(elem, 'PubliclyAccessible'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automatedSnapshotRetentionPeriod =
+        this.automatedSnapshotRetentionPeriod;
+    final clusterIdentifier = this.clusterIdentifier;
+    final clusterType = this.clusterType;
+    final clusterVersion = this.clusterVersion;
+    final encryptionType = this.encryptionType;
+    final enhancedVpcRouting = this.enhancedVpcRouting;
+    final maintenanceTrackName = this.maintenanceTrackName;
+    final masterUserPassword = this.masterUserPassword;
+    final nodeType = this.nodeType;
+    final numberOfNodes = this.numberOfNodes;
+    final publiclyAccessible = this.publiclyAccessible;
+    return {
+      if (automatedSnapshotRetentionPeriod != null)
+        'AutomatedSnapshotRetentionPeriod': automatedSnapshotRetentionPeriod,
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (clusterType != null) 'ClusterType': clusterType,
+      if (clusterVersion != null) 'ClusterVersion': clusterVersion,
+      if (encryptionType != null) 'EncryptionType': encryptionType,
+      if (enhancedVpcRouting != null) 'EnhancedVpcRouting': enhancedVpcRouting,
+      if (maintenanceTrackName != null)
+        'MaintenanceTrackName': maintenanceTrackName,
+      if (masterUserPassword != null) 'MasterUserPassword': masterUserPassword,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
+      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
+    };
+  }
+}
+
+/// Describes the status of a cluster restore action. Returns null if the
+/// cluster was not created by restoring a snapshot.
+class RestoreStatus {
+  /// The number of megabytes per second being transferred from the backup
+  /// storage. Returns the average rate for a completed backup. This field is only
+  /// updated when you restore to DC2 node types.
+  final double? currentRestoreRateInMegaBytesPerSecond;
+
+  /// The amount of time an in-progress restore has been running, or the amount of
+  /// time it took a completed restore to finish. This field is only updated when
+  /// you restore to DC2 node types.
+  final int? elapsedTimeInSeconds;
+
+  /// The estimate of the time remaining before the restore will complete. Returns
+  /// 0 for a completed restore. This field is only updated when you restore to
+  /// DC2 node types.
+  final int? estimatedTimeToCompletionInSeconds;
+
+  /// The number of megabytes that have been transferred from snapshot storage.
+  /// This field is only updated when you restore to DC2 node types.
+  final int? progressInMegaBytes;
+
+  /// The size of the set of snapshot data used to restore the cluster. This field
+  /// is only updated when you restore to DC2 node types.
+  final int? snapshotSizeInMegaBytes;
+
+  /// The status of the restore action. Returns starting, restoring, completed, or
+  /// failed.
+  final String? status;
+
+  RestoreStatus({
+    this.currentRestoreRateInMegaBytesPerSecond,
+    this.elapsedTimeInSeconds,
+    this.estimatedTimeToCompletionInSeconds,
+    this.progressInMegaBytes,
+    this.snapshotSizeInMegaBytes,
+    this.status,
+  });
+  factory RestoreStatus.fromXml(_s.XmlElement elem) {
+    return RestoreStatus(
+      currentRestoreRateInMegaBytesPerSecond: _s.extractXmlDoubleValue(
+          elem, 'CurrentRestoreRateInMegaBytesPerSecond'),
+      elapsedTimeInSeconds: _s.extractXmlIntValue(elem, 'ElapsedTimeInSeconds'),
+      estimatedTimeToCompletionInSeconds:
+          _s.extractXmlIntValue(elem, 'EstimatedTimeToCompletionInSeconds'),
+      progressInMegaBytes: _s.extractXmlIntValue(elem, 'ProgressInMegaBytes'),
+      snapshotSizeInMegaBytes:
+          _s.extractXmlIntValue(elem, 'SnapshotSizeInMegaBytes'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentRestoreRateInMegaBytesPerSecond =
+        this.currentRestoreRateInMegaBytesPerSecond;
+    final elapsedTimeInSeconds = this.elapsedTimeInSeconds;
+    final estimatedTimeToCompletionInSeconds =
+        this.estimatedTimeToCompletionInSeconds;
+    final progressInMegaBytes = this.progressInMegaBytes;
+    final snapshotSizeInMegaBytes = this.snapshotSizeInMegaBytes;
+    final status = this.status;
+    return {
+      if (currentRestoreRateInMegaBytesPerSecond != null)
+        'CurrentRestoreRateInMegaBytesPerSecond':
+            currentRestoreRateInMegaBytesPerSecond,
+      if (elapsedTimeInSeconds != null)
+        'ElapsedTimeInSeconds': elapsedTimeInSeconds,
+      if (estimatedTimeToCompletionInSeconds != null)
+        'EstimatedTimeToCompletionInSeconds':
+            estimatedTimeToCompletionInSeconds,
+      if (progressInMegaBytes != null)
+        'ProgressInMegaBytes': progressInMegaBytes,
+      if (snapshotSizeInMegaBytes != null)
+        'SnapshotSizeInMegaBytes': snapshotSizeInMegaBytes,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Describes the status of a cluster while it is in the process of resizing
+/// with an incremental resize.
+class DataTransferProgress {
+  /// Describes the data transfer rate in MB's per second.
+  final double? currentRateInMegaBytesPerSecond;
+
+  /// Describes the total amount of data that has been transfered in MB's.
+  final int? dataTransferredInMegaBytes;
+
+  /// Describes the number of seconds that have elapsed during the data transfer.
+  final int? elapsedTimeInSeconds;
+
+  /// Describes the estimated number of seconds remaining to complete the
+  /// transfer.
+  final int? estimatedTimeToCompletionInSeconds;
+
+  /// Describes the status of the cluster. While the transfer is in progress the
+  /// status is <code>transferringdata</code>.
+  final String? status;
+
+  /// Describes the total amount of data to be transfered in megabytes.
+  final int? totalDataInMegaBytes;
+
+  DataTransferProgress({
+    this.currentRateInMegaBytesPerSecond,
+    this.dataTransferredInMegaBytes,
+    this.elapsedTimeInSeconds,
+    this.estimatedTimeToCompletionInSeconds,
+    this.status,
+    this.totalDataInMegaBytes,
+  });
+  factory DataTransferProgress.fromXml(_s.XmlElement elem) {
+    return DataTransferProgress(
+      currentRateInMegaBytesPerSecond:
+          _s.extractXmlDoubleValue(elem, 'CurrentRateInMegaBytesPerSecond'),
+      dataTransferredInMegaBytes:
+          _s.extractXmlIntValue(elem, 'DataTransferredInMegaBytes'),
+      elapsedTimeInSeconds: _s.extractXmlIntValue(elem, 'ElapsedTimeInSeconds'),
+      estimatedTimeToCompletionInSeconds:
+          _s.extractXmlIntValue(elem, 'EstimatedTimeToCompletionInSeconds'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      totalDataInMegaBytes: _s.extractXmlIntValue(elem, 'TotalDataInMegaBytes'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentRateInMegaBytesPerSecond =
+        this.currentRateInMegaBytesPerSecond;
+    final dataTransferredInMegaBytes = this.dataTransferredInMegaBytes;
+    final elapsedTimeInSeconds = this.elapsedTimeInSeconds;
+    final estimatedTimeToCompletionInSeconds =
+        this.estimatedTimeToCompletionInSeconds;
+    final status = this.status;
+    final totalDataInMegaBytes = this.totalDataInMegaBytes;
+    return {
+      if (currentRateInMegaBytesPerSecond != null)
+        'CurrentRateInMegaBytesPerSecond': currentRateInMegaBytesPerSecond,
+      if (dataTransferredInMegaBytes != null)
+        'DataTransferredInMegaBytes': dataTransferredInMegaBytes,
+      if (elapsedTimeInSeconds != null)
+        'ElapsedTimeInSeconds': elapsedTimeInSeconds,
+      if (estimatedTimeToCompletionInSeconds != null)
+        'EstimatedTimeToCompletionInSeconds':
+            estimatedTimeToCompletionInSeconds,
+      if (status != null) 'Status': status,
+      if (totalDataInMegaBytes != null)
+        'TotalDataInMegaBytes': totalDataInMegaBytes,
+    };
+  }
+}
+
+/// Describes the status of changes to HSM settings.
+class HsmStatus {
+  /// Specifies the name of the HSM client certificate the Amazon Redshift cluster
+  /// uses to retrieve the data encryption keys stored in an HSM.
+  final String? hsmClientCertificateIdentifier;
+
+  /// Specifies the name of the HSM configuration that contains the information
+  /// the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
+  final String? hsmConfigurationIdentifier;
+
+  /// Reports whether the Amazon Redshift cluster has finished applying any HSM
+  /// settings changes specified in a modify cluster command.
+  ///
+  /// Values: active, applying
+  final String? status;
+
+  HsmStatus({
+    this.hsmClientCertificateIdentifier,
+    this.hsmConfigurationIdentifier,
+    this.status,
+  });
+  factory HsmStatus.fromXml(_s.XmlElement elem) {
+    return HsmStatus(
+      hsmClientCertificateIdentifier:
+          _s.extractXmlStringValue(elem, 'HsmClientCertificateIdentifier'),
+      hsmConfigurationIdentifier:
+          _s.extractXmlStringValue(elem, 'HsmConfigurationIdentifier'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmClientCertificateIdentifier = this.hsmClientCertificateIdentifier;
+    final hsmConfigurationIdentifier = this.hsmConfigurationIdentifier;
+    final status = this.status;
+    return {
+      if (hsmClientCertificateIdentifier != null)
+        'HsmClientCertificateIdentifier': hsmClientCertificateIdentifier,
+      if (hsmConfigurationIdentifier != null)
+        'HsmConfigurationIdentifier': hsmConfigurationIdentifier,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Returns the destination region and retention period that are configured for
+/// cross-region snapshot copy.
+class ClusterSnapshotCopyStatus {
+  /// The destination region that snapshots are automatically copied to when
+  /// cross-region snapshot copy is enabled.
+  final String? destinationRegion;
+
+  /// The number of days that automated snapshots are retained in the destination
+  /// region after they are copied from a source region. If the value is -1, the
+  /// manual snapshot is retained indefinitely.
+  ///
+  /// The value must be either -1 or an integer between 1 and 3,653.
+  final int? manualSnapshotRetentionPeriod;
+
+  /// The number of days that automated snapshots are retained in the destination
+  /// region after they are copied from a source region.
+  final int? retentionPeriod;
+
+  /// The name of the snapshot copy grant.
+  final String? snapshotCopyGrantName;
+
+  ClusterSnapshotCopyStatus({
+    this.destinationRegion,
+    this.manualSnapshotRetentionPeriod,
+    this.retentionPeriod,
+    this.snapshotCopyGrantName,
+  });
+  factory ClusterSnapshotCopyStatus.fromXml(_s.XmlElement elem) {
+    return ClusterSnapshotCopyStatus(
+      destinationRegion: _s.extractXmlStringValue(elem, 'DestinationRegion'),
+      manualSnapshotRetentionPeriod:
+          _s.extractXmlIntValue(elem, 'ManualSnapshotRetentionPeriod'),
+      retentionPeriod: _s.extractXmlIntValue(elem, 'RetentionPeriod'),
+      snapshotCopyGrantName:
+          _s.extractXmlStringValue(elem, 'SnapshotCopyGrantName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationRegion = this.destinationRegion;
+    final manualSnapshotRetentionPeriod = this.manualSnapshotRetentionPeriod;
+    final retentionPeriod = this.retentionPeriod;
+    final snapshotCopyGrantName = this.snapshotCopyGrantName;
+    return {
+      if (destinationRegion != null) 'DestinationRegion': destinationRegion,
+      if (manualSnapshotRetentionPeriod != null)
+        'ManualSnapshotRetentionPeriod': manualSnapshotRetentionPeriod,
+      if (retentionPeriod != null) 'RetentionPeriod': retentionPeriod,
+      if (snapshotCopyGrantName != null)
+        'SnapshotCopyGrantName': snapshotCopyGrantName,
+    };
+  }
+}
+
+/// Describes the status of the elastic IP (EIP) address.
+class ElasticIpStatus {
+  /// The elastic IP (EIP) address for the cluster.
+  final String? elasticIp;
+
+  /// The status of the elastic IP (EIP) address.
+  final String? status;
+
+  ElasticIpStatus({
+    this.elasticIp,
+    this.status,
+  });
+  factory ElasticIpStatus.fromXml(_s.XmlElement elem) {
+    return ElasticIpStatus(
+      elasticIp: _s.extractXmlStringValue(elem, 'ElasticIp'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elasticIp = this.elasticIp;
+    final status = this.status;
+    return {
+      if (elasticIp != null) 'ElasticIp': elasticIp,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+class ScheduleState {
+  static const modifying = ScheduleState._('MODIFYING');
+  static const active = ScheduleState._('ACTIVE');
+  static const failed = ScheduleState._('FAILED');
+
+  final String value;
+
+  const ScheduleState._(this.value);
+
+  static const values = [modifying, active, failed];
+
+  static ScheduleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduleState._(value));
+
+  @override
+  bool operator ==(other) => other is ScheduleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a resize operation.
+class ResizeInfo {
+  /// A boolean value indicating if the resize operation can be cancelled.
+  final bool? allowCancelResize;
+
+  /// Returns the value <code>ClassicResize</code>.
+  final String? resizeType;
+
+  ResizeInfo({
+    this.allowCancelResize,
+    this.resizeType,
+  });
+  factory ResizeInfo.fromXml(_s.XmlElement elem) {
+    return ResizeInfo(
+      allowCancelResize: _s.extractXmlBoolValue(elem, 'AllowCancelResize'),
+      resizeType: _s.extractXmlStringValue(elem, 'ResizeType'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowCancelResize = this.allowCancelResize;
+    final resizeType = this.resizeType;
+    return {
+      if (allowCancelResize != null) 'AllowCancelResize': allowCancelResize,
+      if (resizeType != null) 'ResizeType': resizeType,
+    };
+  }
+}
+
+/// The operation that uses this structure is retired. Amazon Redshift
+/// automatically determines whether to use AQUA (Advanced Query Accelerator).
+class AquaConfiguration {
+  /// This field is retired. Amazon Redshift automatically determines whether to
+  /// use AQUA (Advanced Query Accelerator).
+  final AquaConfigurationStatus? aquaConfigurationStatus;
+
+  /// This field is retired. Amazon Redshift automatically determines whether to
+  /// use AQUA (Advanced Query Accelerator).
+  final AquaStatus? aquaStatus;
+
+  AquaConfiguration({
+    this.aquaConfigurationStatus,
+    this.aquaStatus,
+  });
+  factory AquaConfiguration.fromXml(_s.XmlElement elem) {
+    return AquaConfiguration(
+      aquaConfigurationStatus: _s
+          .extractXmlStringValue(elem, 'AquaConfigurationStatus')
+          ?.let(AquaConfigurationStatus.fromString),
+      aquaStatus: _s
+          .extractXmlStringValue(elem, 'AquaStatus')
+          ?.let(AquaStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aquaConfigurationStatus = this.aquaConfigurationStatus;
+    final aquaStatus = this.aquaStatus;
+    return {
+      if (aquaConfigurationStatus != null)
+        'AquaConfigurationStatus': aquaConfigurationStatus.value,
+      if (aquaStatus != null) 'AquaStatus': aquaStatus.value,
+    };
+  }
+}
+
+/// Reserved-node status details, such as the source reserved-node identifier,
+/// the target reserved-node identifier, the node type, the node count, and
+/// other details.
+class ReservedNodeExchangeStatus {
+  /// A date and time that indicate when the reserved-node exchange was requested.
+  final DateTime? requestTime;
+
+  /// The identifier of the reserved-node exchange request.
+  final String? reservedNodeExchangeRequestId;
+
+  /// The source reserved-node count in the cluster.
+  final int? sourceReservedNodeCount;
+
+  /// The identifier of the source reserved node.
+  final String? sourceReservedNodeId;
+
+  /// The source reserved-node type, for example ra3.4xlarge.
+  final String? sourceReservedNodeType;
+
+  /// The status of the reserved-node exchange request. Statuses include
+  /// in-progress and requested.
+  final ReservedNodeExchangeStatusType? status;
+
+  /// The count of target reserved nodes in the cluster.
+  final int? targetReservedNodeCount;
+
+  /// The identifier of the target reserved node offering.
+  final String? targetReservedNodeOfferingId;
+
+  /// The node type of the target reserved node, for example ra3.4xlarge.
+  final String? targetReservedNodeType;
+
+  ReservedNodeExchangeStatus({
+    this.requestTime,
+    this.reservedNodeExchangeRequestId,
+    this.sourceReservedNodeCount,
+    this.sourceReservedNodeId,
+    this.sourceReservedNodeType,
+    this.status,
+    this.targetReservedNodeCount,
+    this.targetReservedNodeOfferingId,
+    this.targetReservedNodeType,
+  });
+  factory ReservedNodeExchangeStatus.fromXml(_s.XmlElement elem) {
+    return ReservedNodeExchangeStatus(
+      requestTime: _s.extractXmlDateTimeValue(elem, 'RequestTime'),
+      reservedNodeExchangeRequestId:
+          _s.extractXmlStringValue(elem, 'ReservedNodeExchangeRequestId'),
+      sourceReservedNodeCount:
+          _s.extractXmlIntValue(elem, 'SourceReservedNodeCount'),
+      sourceReservedNodeId:
+          _s.extractXmlStringValue(elem, 'SourceReservedNodeId'),
+      sourceReservedNodeType:
+          _s.extractXmlStringValue(elem, 'SourceReservedNodeType'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ReservedNodeExchangeStatusType.fromString),
+      targetReservedNodeCount:
+          _s.extractXmlIntValue(elem, 'TargetReservedNodeCount'),
+      targetReservedNodeOfferingId:
+          _s.extractXmlStringValue(elem, 'TargetReservedNodeOfferingId'),
+      targetReservedNodeType:
+          _s.extractXmlStringValue(elem, 'TargetReservedNodeType'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestTime = this.requestTime;
+    final reservedNodeExchangeRequestId = this.reservedNodeExchangeRequestId;
+    final sourceReservedNodeCount = this.sourceReservedNodeCount;
+    final sourceReservedNodeId = this.sourceReservedNodeId;
+    final sourceReservedNodeType = this.sourceReservedNodeType;
+    final status = this.status;
+    final targetReservedNodeCount = this.targetReservedNodeCount;
+    final targetReservedNodeOfferingId = this.targetReservedNodeOfferingId;
+    final targetReservedNodeType = this.targetReservedNodeType;
+    return {
+      if (requestTime != null) 'RequestTime': iso8601ToJson(requestTime),
+      if (reservedNodeExchangeRequestId != null)
+        'ReservedNodeExchangeRequestId': reservedNodeExchangeRequestId,
+      if (sourceReservedNodeCount != null)
+        'SourceReservedNodeCount': sourceReservedNodeCount,
+      if (sourceReservedNodeId != null)
+        'SourceReservedNodeId': sourceReservedNodeId,
+      if (sourceReservedNodeType != null)
+        'SourceReservedNodeType': sourceReservedNodeType,
+      if (status != null) 'Status': status.value,
+      if (targetReservedNodeCount != null)
+        'TargetReservedNodeCount': targetReservedNodeCount,
+      if (targetReservedNodeOfferingId != null)
+        'TargetReservedNodeOfferingId': targetReservedNodeOfferingId,
+      if (targetReservedNodeType != null)
+        'TargetReservedNodeType': targetReservedNodeType,
+    };
+  }
+}
+
 /// The AvailabilityZone and ClusterNodes information of the secondary compute
 /// unit.
 class SecondaryClusterInfo {
@@ -17123,23 +15168,34 @@ class SecondaryClusterInfo {
   }
 }
 
-class ServiceAuthorization {
-  static const enabled = ServiceAuthorization._('Enabled');
-  static const disabled = ServiceAuthorization._('Disabled');
+class ReservedNodeExchangeStatusType {
+  static const requested = ReservedNodeExchangeStatusType._('REQUESTED');
+  static const pending = ReservedNodeExchangeStatusType._('PENDING');
+  static const inProgress = ReservedNodeExchangeStatusType._('IN_PROGRESS');
+  static const retrying = ReservedNodeExchangeStatusType._('RETRYING');
+  static const succeeded = ReservedNodeExchangeStatusType._('SUCCEEDED');
+  static const failed = ReservedNodeExchangeStatusType._('FAILED');
 
   final String value;
 
-  const ServiceAuthorization._(this.value);
+  const ReservedNodeExchangeStatusType._(this.value);
 
-  static const values = [enabled, disabled];
+  static const values = [
+    requested,
+    pending,
+    inProgress,
+    retrying,
+    succeeded,
+    failed
+  ];
 
-  static ServiceAuthorization fromString(String value) =>
+  static ReservedNodeExchangeStatusType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceAuthorization._(value));
+          orElse: () => ReservedNodeExchangeStatusType._(value));
 
   @override
   bool operator ==(other) =>
-      other is ServiceAuthorization && other.value == value;
+      other is ReservedNodeExchangeStatusType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17148,41 +15204,492 @@ class ServiceAuthorization {
   String toString() => value;
 }
 
-/// A list of service integrations.
-class ServiceIntegrationsUnion {
-  /// A list of scopes set up for Lake Formation integration.
-  final List<LakeFormationScopeUnion>? lakeFormation;
+class AquaStatus {
+  static const enabled = AquaStatus._('enabled');
+  static const disabled = AquaStatus._('disabled');
+  static const applying = AquaStatus._('applying');
 
-  ServiceIntegrationsUnion({
-    this.lakeFormation,
+  final String value;
+
+  const AquaStatus._(this.value);
+
+  static const values = [enabled, disabled, applying];
+
+  static AquaStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AquaStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AquaStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AquaConfigurationStatus {
+  static const enabled = AquaConfigurationStatus._('enabled');
+  static const disabled = AquaConfigurationStatus._('disabled');
+  static const auto = AquaConfigurationStatus._('auto');
+
+  final String value;
+
+  const AquaConfigurationStatus._(this.value);
+
+  static const values = [enabled, disabled, auto];
+
+  static AquaConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AquaConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AquaConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a deferred maintenance window
+class DeferredMaintenanceWindow {
+  /// A timestamp for the end of the time period when we defer maintenance.
+  final DateTime? deferMaintenanceEndTime;
+
+  /// A unique identifier for the maintenance window.
+  final String? deferMaintenanceIdentifier;
+
+  /// A timestamp for the beginning of the time period when we defer maintenance.
+  final DateTime? deferMaintenanceStartTime;
+
+  DeferredMaintenanceWindow({
+    this.deferMaintenanceEndTime,
+    this.deferMaintenanceIdentifier,
+    this.deferMaintenanceStartTime,
   });
-  factory ServiceIntegrationsUnion.fromXml(_s.XmlElement elem) {
-    return ServiceIntegrationsUnion(
-      lakeFormation: _s.extractXmlChild(elem, 'LakeFormation')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map(LakeFormationScopeUnion.fromXml)
-              .toList()),
+  factory DeferredMaintenanceWindow.fromXml(_s.XmlElement elem) {
+    return DeferredMaintenanceWindow(
+      deferMaintenanceEndTime:
+          _s.extractXmlDateTimeValue(elem, 'DeferMaintenanceEndTime'),
+      deferMaintenanceIdentifier:
+          _s.extractXmlStringValue(elem, 'DeferMaintenanceIdentifier'),
+      deferMaintenanceStartTime:
+          _s.extractXmlDateTimeValue(elem, 'DeferMaintenanceStartTime'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lakeFormation = this.lakeFormation;
+    final deferMaintenanceEndTime = this.deferMaintenanceEndTime;
+    final deferMaintenanceIdentifier = this.deferMaintenanceIdentifier;
+    final deferMaintenanceStartTime = this.deferMaintenanceStartTime;
     return {
-      if (lakeFormation != null) 'LakeFormation': lakeFormation,
+      if (deferMaintenanceEndTime != null)
+        'DeferMaintenanceEndTime': iso8601ToJson(deferMaintenanceEndTime),
+      if (deferMaintenanceIdentifier != null)
+        'DeferMaintenanceIdentifier': deferMaintenanceIdentifier,
+      if (deferMaintenanceStartTime != null)
+        'DeferMaintenanceStartTime': iso8601ToJson(deferMaintenanceStartTime),
+    };
+  }
+}
+
+/// An Identity and Access Management (IAM) role that can be used by the
+/// associated Amazon Redshift cluster to access other Amazon Web Services
+/// services.
+class ClusterIamRole {
+  /// A value that describes the status of the IAM role's association with an
+  /// Amazon Redshift cluster.
+  ///
+  /// The following are possible statuses and descriptions.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>in-sync</code>: The role is available for use by the cluster.
+  /// </li>
+  /// <li>
+  /// <code>adding</code>: The role is in the process of being associated with the
+  /// cluster.
+  /// </li>
+  /// <li>
+  /// <code>removing</code>: The role is in the process of being disassociated
+  /// with the cluster.
+  /// </li>
+  /// </ul>
+  final String? applyStatus;
+
+  /// The Amazon Resource Name (ARN) of the IAM role, for example,
+  /// <code>arn:aws:iam::123456789012:role/RedshiftCopyUnload</code>.
+  final String? iamRoleArn;
+
+  ClusterIamRole({
+    this.applyStatus,
+    this.iamRoleArn,
+  });
+  factory ClusterIamRole.fromXml(_s.XmlElement elem) {
+    return ClusterIamRole(
+      applyStatus: _s.extractXmlStringValue(elem, 'ApplyStatus'),
+      iamRoleArn: _s.extractXmlStringValue(elem, 'IamRoleArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applyStatus = this.applyStatus;
+    final iamRoleArn = this.iamRoleArn;
+    return {
+      if (applyStatus != null) 'ApplyStatus': applyStatus,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+    };
+  }
+}
+
+/// A tag consisting of a name/value pair for a resource.
+class Tag {
+  /// The key, or name, for the resource tag.
+  final String? key;
+
+  /// The value for the resource tag.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final lakeFormation = this.lakeFormation;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (lakeFormation != null)
-        if (lakeFormation.isEmpty)
-          'LakeFormation': ''
-        else
-          for (var i1 = 0; i1 < lakeFormation.length; i1++)
-            for (var e3 in lakeFormation[i1].toQueryMap().entries)
-              'LakeFormation.member.${i1 + 1}.${e3.key}': e3.value,
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// The identifier of a node in a cluster.
+class ClusterNode {
+  /// Whether the node is a leader node or a compute node.
+  final String? nodeRole;
+
+  /// The private IP address of a node within a cluster.
+  final String? privateIPAddress;
+
+  /// The public IP address of a node within a cluster.
+  final String? publicIPAddress;
+
+  ClusterNode({
+    this.nodeRole,
+    this.privateIPAddress,
+    this.publicIPAddress,
+  });
+  factory ClusterNode.fromXml(_s.XmlElement elem) {
+    return ClusterNode(
+      nodeRole: _s.extractXmlStringValue(elem, 'NodeRole'),
+      privateIPAddress: _s.extractXmlStringValue(elem, 'PrivateIPAddress'),
+      publicIPAddress: _s.extractXmlStringValue(elem, 'PublicIPAddress'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeRole = this.nodeRole;
+    final privateIPAddress = this.privateIPAddress;
+    final publicIPAddress = this.publicIPAddress;
+    return {
+      if (nodeRole != null) 'NodeRole': nodeRole,
+      if (privateIPAddress != null) 'PrivateIPAddress': privateIPAddress,
+      if (publicIPAddress != null) 'PublicIPAddress': publicIPAddress,
+    };
+  }
+}
+
+/// Describes the status of a parameter group.
+class ClusterParameterGroupStatus {
+  /// The list of parameter statuses.
+  ///
+  /// For more information about parameters and parameter groups, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+  /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management
+  /// Guide</i>.
+  final List<ClusterParameterStatus>? clusterParameterStatusList;
+
+  /// The status of parameter updates.
+  final String? parameterApplyStatus;
+
+  /// The name of the cluster parameter group.
+  final String? parameterGroupName;
+
+  ClusterParameterGroupStatus({
+    this.clusterParameterStatusList,
+    this.parameterApplyStatus,
+    this.parameterGroupName,
+  });
+  factory ClusterParameterGroupStatus.fromXml(_s.XmlElement elem) {
+    return ClusterParameterGroupStatus(
+      clusterParameterStatusList: _s
+          .extractXmlChild(elem, 'ClusterParameterStatusList')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(ClusterParameterStatus.fromXml)
+              .toList()),
+      parameterApplyStatus:
+          _s.extractXmlStringValue(elem, 'ParameterApplyStatus'),
+      parameterGroupName: _s.extractXmlStringValue(elem, 'ParameterGroupName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterParameterStatusList = this.clusterParameterStatusList;
+    final parameterApplyStatus = this.parameterApplyStatus;
+    final parameterGroupName = this.parameterGroupName;
+    return {
+      if (clusterParameterStatusList != null)
+        'ClusterParameterStatusList': clusterParameterStatusList,
+      if (parameterApplyStatus != null)
+        'ParameterApplyStatus': parameterApplyStatus,
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+    };
+  }
+}
+
+/// Describes the status of a parameter group.
+class ClusterParameterStatus {
+  /// The error that prevented the parameter from being applied to the database.
+  final String? parameterApplyErrorDescription;
+
+  /// The status of the parameter that indicates whether the parameter is in sync
+  /// with the database, waiting for a cluster reboot, or encountered an error
+  /// when being applied.
+  ///
+  /// The following are possible statuses and descriptions.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>in-sync</code>: The parameter value is in sync with the database.
+  /// </li>
+  /// <li>
+  /// <code>pending-reboot</code>: The parameter value will be applied after the
+  /// cluster reboots.
+  /// </li>
+  /// <li>
+  /// <code>applying</code>: The parameter value is being applied to the database.
+  /// </li>
+  /// <li>
+  /// <code>invalid-parameter</code>: Cannot apply the parameter value because it
+  /// has an invalid value or syntax.
+  /// </li>
+  /// <li>
+  /// <code>apply-deferred</code>: The parameter contains static property changes.
+  /// The changes are deferred until the cluster reboots.
+  /// </li>
+  /// <li>
+  /// <code>apply-error</code>: Cannot connect to the cluster. The parameter
+  /// change will be applied after the cluster reboots.
+  /// </li>
+  /// <li>
+  /// <code>unknown-error</code>: Cannot apply the parameter change right now. The
+  /// change will be applied after the cluster reboots.
+  /// </li>
+  /// </ul>
+  final String? parameterApplyStatus;
+
+  /// The name of the parameter.
+  final String? parameterName;
+
+  ClusterParameterStatus({
+    this.parameterApplyErrorDescription,
+    this.parameterApplyStatus,
+    this.parameterName,
+  });
+  factory ClusterParameterStatus.fromXml(_s.XmlElement elem) {
+    return ClusterParameterStatus(
+      parameterApplyErrorDescription:
+          _s.extractXmlStringValue(elem, 'ParameterApplyErrorDescription'),
+      parameterApplyStatus:
+          _s.extractXmlStringValue(elem, 'ParameterApplyStatus'),
+      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterApplyErrorDescription = this.parameterApplyErrorDescription;
+    final parameterApplyStatus = this.parameterApplyStatus;
+    final parameterName = this.parameterName;
+    return {
+      if (parameterApplyErrorDescription != null)
+        'ParameterApplyErrorDescription': parameterApplyErrorDescription,
+      if (parameterApplyStatus != null)
+        'ParameterApplyStatus': parameterApplyStatus,
+      if (parameterName != null) 'ParameterName': parameterName,
+    };
+  }
+}
+
+/// Describes the members of a VPC security group.
+class VpcSecurityGroupMembership {
+  /// The status of the VPC security group.
+  final String? status;
+
+  /// The identifier of the VPC security group.
+  final String? vpcSecurityGroupId;
+
+  VpcSecurityGroupMembership({
+    this.status,
+    this.vpcSecurityGroupId,
+  });
+  factory VpcSecurityGroupMembership.fromXml(_s.XmlElement elem) {
+    return VpcSecurityGroupMembership(
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      vpcSecurityGroupId: _s.extractXmlStringValue(elem, 'VpcSecurityGroupId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final vpcSecurityGroupId = this.vpcSecurityGroupId;
+    return {
+      if (status != null) 'Status': status,
+      if (vpcSecurityGroupId != null) 'VpcSecurityGroupId': vpcSecurityGroupId,
+    };
+  }
+}
+
+/// Describes a cluster security group.
+class ClusterSecurityGroupMembership {
+  /// The name of the cluster security group.
+  final String? clusterSecurityGroupName;
+
+  /// The status of the cluster security group.
+  final String? status;
+
+  ClusterSecurityGroupMembership({
+    this.clusterSecurityGroupName,
+    this.status,
+  });
+  factory ClusterSecurityGroupMembership.fromXml(_s.XmlElement elem) {
+    return ClusterSecurityGroupMembership(
+      clusterSecurityGroupName:
+          _s.extractXmlStringValue(elem, 'ClusterSecurityGroupName'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterSecurityGroupName = this.clusterSecurityGroupName;
+    final status = this.status;
+    return {
+      if (clusterSecurityGroupName != null)
+        'ClusterSecurityGroupName': clusterSecurityGroupName,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The connection endpoint for connecting to an Amazon Redshift cluster through
+/// the proxy.
+class VpcEndpoint {
+  /// One or more network interfaces of the endpoint. Also known as an interface
+  /// endpoint.
+  final List<NetworkInterface>? networkInterfaces;
+
+  /// The connection endpoint ID for connecting an Amazon Redshift cluster through
+  /// the proxy.
+  final String? vpcEndpointId;
+
+  /// The VPC identifier that the endpoint is associated.
+  final String? vpcId;
+
+  VpcEndpoint({
+    this.networkInterfaces,
+    this.vpcEndpointId,
+    this.vpcId,
+  });
+  factory VpcEndpoint.fromXml(_s.XmlElement elem) {
+    return VpcEndpoint(
+      networkInterfaces: _s.extractXmlChild(elem, 'NetworkInterfaces')?.let(
+          (elem) => elem
+              .findElements('NetworkInterface')
+              .map(NetworkInterface.fromXml)
+              .toList()),
+      vpcEndpointId: _s.extractXmlStringValue(elem, 'VpcEndpointId'),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInterfaces = this.networkInterfaces;
+    final vpcEndpointId = this.vpcEndpointId;
+    final vpcId = this.vpcId;
+    return {
+      if (networkInterfaces != null) 'NetworkInterfaces': networkInterfaces,
+      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// Describes a network interface.
+class NetworkInterface {
+  /// The Availability Zone.
+  final String? availabilityZone;
+
+  /// The IPv6 address of the network interface within the subnet.
+  final String? ipv6Address;
+
+  /// The network interface identifier.
+  final String? networkInterfaceId;
+
+  /// The IPv4 address of the network interface within the subnet.
+  final String? privateIpAddress;
+
+  /// The subnet identifier.
+  final String? subnetId;
+
+  NetworkInterface({
+    this.availabilityZone,
+    this.ipv6Address,
+    this.networkInterfaceId,
+    this.privateIpAddress,
+    this.subnetId,
+  });
+  factory NetworkInterface.fromXml(_s.XmlElement elem) {
+    return NetworkInterface(
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      ipv6Address: _s.extractXmlStringValue(elem, 'Ipv6Address'),
+      networkInterfaceId: _s.extractXmlStringValue(elem, 'NetworkInterfaceId'),
+      privateIpAddress: _s.extractXmlStringValue(elem, 'PrivateIpAddress'),
+      subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final ipv6Address = this.ipv6Address;
+    final networkInterfaceId = this.networkInterfaceId;
+    final privateIpAddress = this.privateIpAddress;
+    final subnetId = this.subnetId;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (ipv6Address != null) 'Ipv6Address': ipv6Address,
+      if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
+      if (privateIpAddress != null) 'PrivateIpAddress': privateIpAddress,
+      if (subnetId != null) 'SubnetId': subnetId,
     };
   }
 }
@@ -17545,61 +16052,76 @@ class Snapshot {
   }
 }
 
-class SnapshotAttributeToSortBy {
-  static const sourceType = SnapshotAttributeToSortBy._('SOURCE_TYPE');
-  static const totalSize = SnapshotAttributeToSortBy._('TOTAL_SIZE');
-  static const createTime = SnapshotAttributeToSortBy._('CREATE_TIME');
+/// Describes an Amazon Web Services account authorized to restore a snapshot.
+class AccountWithRestoreAccess {
+  /// The identifier of an Amazon Web Services support account authorized to
+  /// restore a snapshot. For Amazon Web Services Support, the identifier is
+  /// <code>amazon-redshift-support</code>.
+  final String? accountAlias;
 
-  final String value;
+  /// The identifier of an Amazon Web Services account authorized to restore a
+  /// snapshot.
+  final String? accountId;
 
-  const SnapshotAttributeToSortBy._(this.value);
+  AccountWithRestoreAccess({
+    this.accountAlias,
+    this.accountId,
+  });
+  factory AccountWithRestoreAccess.fromXml(_s.XmlElement elem) {
+    return AccountWithRestoreAccess(
+      accountAlias: _s.extractXmlStringValue(elem, 'AccountAlias'),
+      accountId: _s.extractXmlStringValue(elem, 'AccountId'),
+    );
+  }
 
-  static const values = [sourceType, totalSize, createTime];
-
-  static SnapshotAttributeToSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SnapshotAttributeToSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SnapshotAttributeToSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final accountAlias = this.accountAlias;
+    final accountId = this.accountId;
+    return {
+      if (accountAlias != null) 'AccountAlias': accountAlias,
+      if (accountId != null) 'AccountId': accountId,
+    };
+  }
 }
 
-/// The snapshot copy grant that grants Amazon Redshift permission to encrypt
-/// copied snapshots with the specified encrypted symmetric key from Amazon Web
-/// Services KMS in the destination region.
-///
-/// For more information about managing snapshot copy grants, go to <a
-/// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
-/// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster
-/// Management Guide</i>.
-class SnapshotCopyGrant {
-  /// The unique identifier of the encrypted symmetric key in Amazon Web Services
-  /// KMS to which Amazon Redshift is granted permission.
-  final String? kmsKeyId;
+/// Describes a security group.
+class ClusterSecurityGroup {
+  /// The name of the cluster security group to which the operation was applied.
+  final String? clusterSecurityGroupName;
 
-  /// The name of the snapshot copy grant.
-  final String? snapshotCopyGrantName;
+  /// A description of the security group.
+  final String? description;
 
-  /// A list of tag instances.
+  /// A list of EC2 security groups that are permitted to access clusters
+  /// associated with this cluster security group.
+  final List<EC2SecurityGroup>? eC2SecurityGroups;
+
+  /// A list of IP ranges (CIDR blocks) that are permitted to access clusters
+  /// associated with this cluster security group.
+  final List<IPRange>? iPRanges;
+
+  /// The list of tags for the cluster security group.
   final List<Tag>? tags;
 
-  SnapshotCopyGrant({
-    this.kmsKeyId,
-    this.snapshotCopyGrantName,
+  ClusterSecurityGroup({
+    this.clusterSecurityGroupName,
+    this.description,
+    this.eC2SecurityGroups,
+    this.iPRanges,
     this.tags,
   });
-  factory SnapshotCopyGrant.fromXml(_s.XmlElement elem) {
-    return SnapshotCopyGrant(
-      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
-      snapshotCopyGrantName:
-          _s.extractXmlStringValue(elem, 'SnapshotCopyGrantName'),
+  factory ClusterSecurityGroup.fromXml(_s.XmlElement elem) {
+    return ClusterSecurityGroup(
+      clusterSecurityGroupName:
+          _s.extractXmlStringValue(elem, 'ClusterSecurityGroupName'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      eC2SecurityGroups: _s.extractXmlChild(elem, 'EC2SecurityGroups')?.let(
+          (elem) => elem
+              .findElements('EC2SecurityGroup')
+              .map(EC2SecurityGroup.fromXml)
+              .toList()),
+      iPRanges: _s.extractXmlChild(elem, 'IPRanges')?.let(
+          (elem) => elem.findElements('IPRange').map(IPRange.fromXml).toList()),
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -17607,190 +16129,42 @@ class SnapshotCopyGrant {
   }
 
   Map<String, dynamic> toJson() {
-    final kmsKeyId = this.kmsKeyId;
-    final snapshotCopyGrantName = this.snapshotCopyGrantName;
+    final clusterSecurityGroupName = this.clusterSecurityGroupName;
+    final description = this.description;
+    final eC2SecurityGroups = this.eC2SecurityGroups;
+    final iPRanges = this.iPRanges;
     final tags = this.tags;
     return {
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (snapshotCopyGrantName != null)
-        'SnapshotCopyGrantName': snapshotCopyGrantName,
+      if (clusterSecurityGroupName != null)
+        'ClusterSecurityGroupName': clusterSecurityGroupName,
+      if (description != null) 'Description': description,
+      if (eC2SecurityGroups != null) 'EC2SecurityGroups': eC2SecurityGroups,
+      if (iPRanges != null) 'IPRanges': iPRanges,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
-/// <p/>
-class SnapshotCopyGrantMessage {
-  /// An optional parameter that specifies the starting point to return a set of
-  /// response records. When the results of a
-  /// <code>DescribeSnapshotCopyGrant</code> request exceed the value specified in
-  /// <code>MaxRecords</code>, Amazon Web Services returns a value in the
-  /// <code>Marker</code> field of the response. You can retrieve the next set of
-  /// response records by providing the returned marker value in the
-  /// <code>Marker</code> parameter and retrying the request.
-  ///
-  /// Constraints: You can specify either the <b>SnapshotCopyGrantName</b>
-  /// parameter or the <b>Marker</b> parameter, but not both.
-  final String? marker;
+/// Describes an IP range used in a security group.
+class IPRange {
+  /// The IP range in Classless Inter-Domain Routing (CIDR) notation.
+  final String? cidrip;
 
-  /// The list of <code>SnapshotCopyGrant</code> objects.
-  final List<SnapshotCopyGrant>? snapshotCopyGrants;
+  /// The status of the IP range, for example, "authorized".
+  final String? status;
 
-  SnapshotCopyGrantMessage({
-    this.marker,
-    this.snapshotCopyGrants,
-  });
-  factory SnapshotCopyGrantMessage.fromXml(_s.XmlElement elem) {
-    return SnapshotCopyGrantMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      snapshotCopyGrants: _s.extractXmlChild(elem, 'SnapshotCopyGrants')?.let(
-          (elem) => elem
-              .findElements('SnapshotCopyGrant')
-              .map(SnapshotCopyGrant.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final snapshotCopyGrants = this.snapshotCopyGrants;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (snapshotCopyGrants != null) 'SnapshotCopyGrants': snapshotCopyGrants,
-    };
-  }
-}
-
-/// Describes the errors returned by a snapshot.
-class SnapshotErrorMessage {
-  /// The failure code for the error.
-  final String? failureCode;
-
-  /// The text message describing the error.
-  final String? failureReason;
-
-  /// A unique identifier for the cluster.
-  final String? snapshotClusterIdentifier;
-
-  /// A unique identifier for the snapshot returning the error.
-  final String? snapshotIdentifier;
-
-  SnapshotErrorMessage({
-    this.failureCode,
-    this.failureReason,
-    this.snapshotClusterIdentifier,
-    this.snapshotIdentifier,
-  });
-  factory SnapshotErrorMessage.fromXml(_s.XmlElement elem) {
-    return SnapshotErrorMessage(
-      failureCode: _s.extractXmlStringValue(elem, 'FailureCode'),
-      failureReason: _s.extractXmlStringValue(elem, 'FailureReason'),
-      snapshotClusterIdentifier:
-          _s.extractXmlStringValue(elem, 'SnapshotClusterIdentifier'),
-      snapshotIdentifier: _s.extractXmlStringValue(elem, 'SnapshotIdentifier'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureCode = this.failureCode;
-    final failureReason = this.failureReason;
-    final snapshotClusterIdentifier = this.snapshotClusterIdentifier;
-    final snapshotIdentifier = this.snapshotIdentifier;
-    return {
-      if (failureCode != null) 'FailureCode': failureCode,
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (snapshotClusterIdentifier != null)
-        'SnapshotClusterIdentifier': snapshotClusterIdentifier,
-      if (snapshotIdentifier != null) 'SnapshotIdentifier': snapshotIdentifier,
-    };
-  }
-}
-
-/// Contains the output from the <a>DescribeClusterSnapshots</a> action.
-class SnapshotMessage {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// A list of <a>Snapshot</a> instances.
-  final List<Snapshot>? snapshots;
-
-  SnapshotMessage({
-    this.marker,
-    this.snapshots,
-  });
-  factory SnapshotMessage.fromXml(_s.XmlElement elem) {
-    return SnapshotMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      snapshots: _s.extractXmlChild(elem, 'Snapshots')?.let((elem) =>
-          elem.findElements('Snapshot').map(Snapshot.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final snapshots = this.snapshots;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (snapshots != null) 'Snapshots': snapshots,
-    };
-  }
-}
-
-/// Describes a snapshot schedule. You can set a regular interval for creating
-/// snapshots of a cluster. You can also schedule snapshots for specific dates.
-class SnapshotSchedule {
-  /// The number of clusters associated with the schedule.
-  final int? associatedClusterCount;
-
-  /// A list of clusters associated with the schedule. A maximum of 100 clusters
-  /// is returned.
-  final List<ClusterAssociatedToSchedule>? associatedClusters;
-
-  /// <p/>
-  final List<DateTime>? nextInvocations;
-
-  /// A list of ScheduleDefinitions.
-  final List<String>? scheduleDefinitions;
-
-  /// The description of the schedule.
-  final String? scheduleDescription;
-
-  /// A unique identifier for the schedule.
-  final String? scheduleIdentifier;
-
-  /// An optional set of tags describing the schedule.
+  /// The list of tags for the IP range.
   final List<Tag>? tags;
 
-  SnapshotSchedule({
-    this.associatedClusterCount,
-    this.associatedClusters,
-    this.nextInvocations,
-    this.scheduleDefinitions,
-    this.scheduleDescription,
-    this.scheduleIdentifier,
+  IPRange({
+    this.cidrip,
+    this.status,
     this.tags,
   });
-  factory SnapshotSchedule.fromXml(_s.XmlElement elem) {
-    return SnapshotSchedule(
-      associatedClusterCount:
-          _s.extractXmlIntValue(elem, 'AssociatedClusterCount'),
-      associatedClusters: _s.extractXmlChild(elem, 'AssociatedClusters')?.let(
-          (elem) => elem
-              .findElements('ClusterAssociatedToSchedule')
-              .map(ClusterAssociatedToSchedule.fromXml)
-              .toList()),
-      nextInvocations: _s.extractXmlChild(elem, 'NextInvocations')?.let(
-          (elem) => _s.extractXmlDateTimeListValues(elem, 'SnapshotTime')),
-      scheduleDefinitions: _s.extractXmlChild(elem, 'ScheduleDefinitions')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'ScheduleDefinition')),
-      scheduleDescription:
-          _s.extractXmlStringValue(elem, 'ScheduleDescription'),
-      scheduleIdentifier: _s.extractXmlStringValue(elem, 'ScheduleIdentifier'),
+  factory IPRange.fromXml(_s.XmlElement elem) {
+    return IPRange(
+      cidrip: _s.extractXmlStringValue(elem, 'CIDRIP'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
       tags: _s
           .extractXmlChild(elem, 'Tags')
           ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
@@ -17798,195 +16172,63 @@ class SnapshotSchedule {
   }
 
   Map<String, dynamic> toJson() {
-    final associatedClusterCount = this.associatedClusterCount;
-    final associatedClusters = this.associatedClusters;
-    final nextInvocations = this.nextInvocations;
-    final scheduleDefinitions = this.scheduleDefinitions;
-    final scheduleDescription = this.scheduleDescription;
-    final scheduleIdentifier = this.scheduleIdentifier;
+    final cidrip = this.cidrip;
+    final status = this.status;
     final tags = this.tags;
     return {
-      if (associatedClusterCount != null)
-        'AssociatedClusterCount': associatedClusterCount,
-      if (associatedClusters != null) 'AssociatedClusters': associatedClusters,
-      if (nextInvocations != null)
-        'NextInvocations': nextInvocations.map(unixTimestampToJson).toList(),
-      if (scheduleDefinitions != null)
-        'ScheduleDefinitions': scheduleDefinitions,
-      if (scheduleDescription != null)
-        'ScheduleDescription': scheduleDescription,
-      if (scheduleIdentifier != null) 'ScheduleIdentifier': scheduleIdentifier,
+      if (cidrip != null) 'CIDRIP': cidrip,
+      if (status != null) 'Status': status,
       if (tags != null) 'Tags': tags,
     };
   }
 }
 
-/// Describes a sorting entity
-class SnapshotSortingEntity {
-  /// The category for sorting the snapshots.
-  final SnapshotAttributeToSortBy attribute;
+/// Describes an Amazon EC2 security group.
+class EC2SecurityGroup {
+  /// The name of the EC2 Security Group.
+  final String? eC2SecurityGroupName;
 
-  /// The order for listing the attributes.
-  final SortByOrder? sortOrder;
+  /// The Amazon Web Services account ID of the owner of the EC2 security group
+  /// specified in the <code>EC2SecurityGroupName</code> field.
+  final String? eC2SecurityGroupOwnerId;
 
-  SnapshotSortingEntity({
-    required this.attribute,
-    this.sortOrder,
+  /// The status of the EC2 security group.
+  final String? status;
+
+  /// The list of tags for the EC2 security group.
+  final List<Tag>? tags;
+
+  EC2SecurityGroup({
+    this.eC2SecurityGroupName,
+    this.eC2SecurityGroupOwnerId,
+    this.status,
+    this.tags,
   });
-
-  Map<String, dynamic> toJson() {
-    final attribute = this.attribute;
-    final sortOrder = this.sortOrder;
-    return {
-      'Attribute': attribute.value,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final attribute = this.attribute;
-    final sortOrder = this.sortOrder;
-    return {
-      'Attribute': attribute.value,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class SortByOrder {
-  static const asc = SortByOrder._('ASC');
-  static const desc = SortByOrder._('DESC');
-
-  final String value;
-
-  const SortByOrder._(this.value);
-
-  static const values = [asc, desc];
-
-  static SortByOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortByOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortByOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SourceType {
-  static const cluster = SourceType._('cluster');
-  static const clusterParameterGroup = SourceType._('cluster-parameter-group');
-  static const clusterSecurityGroup = SourceType._('cluster-security-group');
-  static const clusterSnapshot = SourceType._('cluster-snapshot');
-  static const scheduledAction = SourceType._('scheduled-action');
-
-  final String value;
-
-  const SourceType._(this.value);
-
-  static const values = [
-    cluster,
-    clusterParameterGroup,
-    clusterSecurityGroup,
-    clusterSnapshot,
-    scheduledAction
-  ];
-
-  static SourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
-
-  @override
-  bool operator ==(other) => other is SourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a subnet.
-class Subnet {
-  /// <p/>
-  final AvailabilityZone? subnetAvailabilityZone;
-
-  /// The identifier of the subnet.
-  final String? subnetIdentifier;
-
-  /// The status of the subnet.
-  final String? subnetStatus;
-
-  Subnet({
-    this.subnetAvailabilityZone,
-    this.subnetIdentifier,
-    this.subnetStatus,
-  });
-  factory Subnet.fromXml(_s.XmlElement elem) {
-    return Subnet(
-      subnetAvailabilityZone: _s
-          .extractXmlChild(elem, 'SubnetAvailabilityZone')
-          ?.let(AvailabilityZone.fromXml),
-      subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
-      subnetStatus: _s.extractXmlStringValue(elem, 'SubnetStatus'),
+  factory EC2SecurityGroup.fromXml(_s.XmlElement elem) {
+    return EC2SecurityGroup(
+      eC2SecurityGroupName:
+          _s.extractXmlStringValue(elem, 'EC2SecurityGroupName'),
+      eC2SecurityGroupOwnerId:
+          _s.extractXmlStringValue(elem, 'EC2SecurityGroupOwnerId'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final subnetAvailabilityZone = this.subnetAvailabilityZone;
-    final subnetIdentifier = this.subnetIdentifier;
-    final subnetStatus = this.subnetStatus;
+    final eC2SecurityGroupName = this.eC2SecurityGroupName;
+    final eC2SecurityGroupOwnerId = this.eC2SecurityGroupOwnerId;
+    final status = this.status;
+    final tags = this.tags;
     return {
-      if (subnetAvailabilityZone != null)
-        'SubnetAvailabilityZone': subnetAvailabilityZone,
-      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
-      if (subnetStatus != null) 'SubnetStatus': subnetStatus,
-    };
-  }
-}
-
-/// Describes the operations that are allowed on a maintenance track.
-class SupportedOperation {
-  /// A list of the supported operations.
-  final String? operationName;
-
-  SupportedOperation({
-    this.operationName,
-  });
-  factory SupportedOperation.fromXml(_s.XmlElement elem) {
-    return SupportedOperation(
-      operationName: _s.extractXmlStringValue(elem, 'OperationName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationName = this.operationName;
-    return {
-      if (operationName != null) 'OperationName': operationName,
-    };
-  }
-}
-
-/// A list of supported platforms for orderable clusters.
-class SupportedPlatform {
-  /// <p/>
-  final String? name;
-
-  SupportedPlatform({
-    this.name,
-  });
-  factory SupportedPlatform.fromXml(_s.XmlElement elem) {
-    return SupportedPlatform(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
+      if (eC2SecurityGroupName != null)
+        'EC2SecurityGroupName': eC2SecurityGroupName,
+      if (eC2SecurityGroupOwnerId != null)
+        'EC2SecurityGroupOwnerId': eC2SecurityGroupOwnerId,
+      if (status != null) 'Status': status,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -18117,42 +16359,6 @@ class TableRestoreStatus {
   }
 }
 
-/// <p/>
-class TableRestoreStatusMessage {
-  /// A pagination token that can be used in a subsequent
-  /// <a>DescribeTableRestoreStatus</a> request.
-  final String? marker;
-
-  /// A list of status details for one or more table restore requests.
-  final List<TableRestoreStatus>? tableRestoreStatusDetails;
-
-  TableRestoreStatusMessage({
-    this.marker,
-    this.tableRestoreStatusDetails,
-  });
-  factory TableRestoreStatusMessage.fromXml(_s.XmlElement elem) {
-    return TableRestoreStatusMessage(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      tableRestoreStatusDetails: _s
-          .extractXmlChild(elem, 'TableRestoreStatusDetails')
-          ?.let((elem) => elem
-              .findElements('TableRestoreStatus')
-              .map(TableRestoreStatus.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final tableRestoreStatusDetails = this.tableRestoreStatusDetails;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (tableRestoreStatusDetails != null)
-        'TableRestoreStatusDetails': tableRestoreStatusDetails,
-    };
-  }
-}
-
 class TableRestoreStatusType {
   static const pending = TableRestoreStatusType._('PENDING');
   static const inProgress = TableRestoreStatusType._('IN_PROGRESS');
@@ -18181,42 +16387,1896 @@ class TableRestoreStatusType {
   String toString() => value;
 }
 
-/// A tag consisting of a name/value pair for a resource.
-class Tag {
-  /// The key, or name, for the resource tag.
-  final String? key;
+/// Describes a parameter in a cluster parameter group.
+class Parameter {
+  /// The valid range of values for the parameter.
+  final String? allowedValues;
 
-  /// The value for the resource tag.
-  final String? value;
+  /// Specifies how to apply the WLM configuration parameter. Some properties can
+  /// be applied dynamically, while other properties require that any associated
+  /// clusters be rebooted for the configuration changes to be applied. For more
+  /// information about parameters and parameter groups, go to <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html">Amazon
+  /// Redshift Parameter Groups</a> in the <i>Amazon Redshift Cluster Management
+  /// Guide</i>.
+  final ParameterApplyType? applyType;
 
-  Tag({
-    this.key,
-    this.value,
+  /// The data type of the parameter.
+  final String? dataType;
+
+  /// A description of the parameter.
+  final String? description;
+
+  /// If <code>true</code>, the parameter can be modified. Some parameters have
+  /// security or operational implications that prevent them from being changed.
+  final bool? isModifiable;
+
+  /// The earliest engine version to which the parameter can apply.
+  final String? minimumEngineVersion;
+
+  /// The name of the parameter.
+  final String? parameterName;
+
+  /// The value of the parameter. If <code>ParameterName</code> is
+  /// <code>wlm_json_configuration</code>, then the maximum size of
+  /// <code>ParameterValue</code> is 8000 characters.
+  final String? parameterValue;
+
+  /// The source of the parameter value, such as "engine-default" or "user".
+  final String? source;
+
+  Parameter({
+    this.allowedValues,
+    this.applyType,
+    this.dataType,
+    this.description,
+    this.isModifiable,
+    this.minimumEngineVersion,
+    this.parameterName,
+    this.parameterValue,
+    this.source,
   });
-  factory Tag.fromXml(_s.XmlElement elem) {
-    return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+  factory Parameter.fromXml(_s.XmlElement elem) {
+    return Parameter(
+      allowedValues: _s.extractXmlStringValue(elem, 'AllowedValues'),
+      applyType: _s
+          .extractXmlStringValue(elem, 'ApplyType')
+          ?.let(ParameterApplyType.fromString),
+      dataType: _s.extractXmlStringValue(elem, 'DataType'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      isModifiable: _s.extractXmlBoolValue(elem, 'IsModifiable'),
+      minimumEngineVersion:
+          _s.extractXmlStringValue(elem, 'MinimumEngineVersion'),
+      parameterName: _s.extractXmlStringValue(elem, 'ParameterName'),
+      parameterValue: _s.extractXmlStringValue(elem, 'ParameterValue'),
+      source: _s.extractXmlStringValue(elem, 'Source'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final allowedValues = this.allowedValues;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyType != null) 'ApplyType': applyType.value,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable,
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final key = this.key;
-    final value = this.value;
+    final allowedValues = this.allowedValues;
+    final applyType = this.applyType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final minimumEngineVersion = this.minimumEngineVersion;
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (applyType != null) 'ApplyType': applyType.value,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable.toString(),
+      if (minimumEngineVersion != null)
+        'MinimumEngineVersion': minimumEngineVersion,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
     };
   }
+}
+
+class ParameterApplyType {
+  static const static = ParameterApplyType._('static');
+  static const $dynamic = ParameterApplyType._('dynamic');
+
+  final String value;
+
+  const ParameterApplyType._(this.value);
+
+  static const values = [static, $dynamic];
+
+  static ParameterApplyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParameterApplyType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParameterApplyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NamespaceRegistrationStatus {
+  static const registering = NamespaceRegistrationStatus._('Registering');
+  static const deregistering = NamespaceRegistrationStatus._('Deregistering');
+
+  final String value;
+
+  const NamespaceRegistrationStatus._(this.value);
+
+  static const values = [registering, deregistering];
+
+  static NamespaceRegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NamespaceRegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamespaceRegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Object to store union of values for a provisioned cluster or serverless
+/// namespace’s identifier.
+class NamespaceIdentifierUnion {
+  /// The identifier for a provisioned cluster.
+  final ProvisionedIdentifier? provisionedIdentifier;
+
+  /// The identifier for a serverless namespace.
+  final ServerlessIdentifier? serverlessIdentifier;
+
+  NamespaceIdentifierUnion({
+    this.provisionedIdentifier,
+    this.serverlessIdentifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final provisionedIdentifier = this.provisionedIdentifier;
+    final serverlessIdentifier = this.serverlessIdentifier;
+    return {
+      if (provisionedIdentifier != null)
+        'ProvisionedIdentifier': provisionedIdentifier,
+      if (serverlessIdentifier != null)
+        'ServerlessIdentifier': serverlessIdentifier,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final provisionedIdentifier = this.provisionedIdentifier;
+    final serverlessIdentifier = this.serverlessIdentifier;
+    return {
+      if (provisionedIdentifier != null)
+        for (var e1 in provisionedIdentifier.toQueryMap().entries)
+          'ProvisionedIdentifier.${e1.key}': e1.value,
+      if (serverlessIdentifier != null)
+        for (var e1 in serverlessIdentifier.toQueryMap().entries)
+          'ServerlessIdentifier.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// The identifier for a serverless namespace.
+class ServerlessIdentifier {
+  /// The unique identifier for the serverless namespace.
+  final String namespaceIdentifier;
+
+  /// The unique identifier for the workgroup associated with the serverless
+  /// namespace.
+  final String workgroupIdentifier;
+
+  ServerlessIdentifier({
+    required this.namespaceIdentifier,
+    required this.workgroupIdentifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final namespaceIdentifier = this.namespaceIdentifier;
+    final workgroupIdentifier = this.workgroupIdentifier;
+    return {
+      'NamespaceIdentifier': namespaceIdentifier,
+      'WorkgroupIdentifier': workgroupIdentifier,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final namespaceIdentifier = this.namespaceIdentifier;
+    final workgroupIdentifier = this.workgroupIdentifier;
+    return {
+      'NamespaceIdentifier': namespaceIdentifier,
+      'WorkgroupIdentifier': workgroupIdentifier,
+    };
+  }
+}
+
+/// The identifier for a provisioned cluster.
+class ProvisionedIdentifier {
+  /// The unique identifier for the provisioned cluster.
+  final String clusterIdentifier;
+
+  ProvisionedIdentifier({
+    required this.clusterIdentifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final clusterIdentifier = this.clusterIdentifier;
+    return {
+      'ClusterIdentifier': clusterIdentifier,
+    };
+  }
+}
+
+/// The policy that is attached to a resource.
+class ResourcePolicy {
+  /// The content of a resource policy.
+  final String? policy;
+
+  /// The resources that a policy is attached to.
+  final String? resourceArn;
+
+  ResourcePolicy({
+    this.policy,
+    this.resourceArn,
+  });
+  factory ResourcePolicy.fromXml(_s.XmlElement elem) {
+    return ResourcePolicy(
+      policy: _s.extractXmlStringValue(elem, 'Policy'),
+      resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    final resourceArn = this.resourceArn;
+    return {
+      if (policy != null) 'Policy': policy,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// Describes a reserved node. You can call the
+/// <a>DescribeReservedNodeOfferings</a> API to obtain the available reserved
+/// node offerings.
+class ReservedNode {
+  /// The currency code for the reserved cluster.
+  final String? currencyCode;
+
+  /// The duration of the node reservation in seconds.
+  final int? duration;
+
+  /// The fixed cost Amazon Redshift charges you for this reserved node.
+  final double? fixedPrice;
+
+  /// The number of reserved compute nodes.
+  final int? nodeCount;
+
+  /// The node type of the reserved node.
+  final String? nodeType;
+
+  /// The anticipated utilization of the reserved node, as defined in the reserved
+  /// node offering.
+  final String? offeringType;
+
+  /// The recurring charges for the reserved node.
+  final List<RecurringCharge>? recurringCharges;
+
+  /// The unique identifier for the reservation.
+  final String? reservedNodeId;
+
+  /// The identifier for the reserved node offering.
+  final String? reservedNodeOfferingId;
+
+  ///
+  final ReservedNodeOfferingType? reservedNodeOfferingType;
+
+  /// The time the reservation started. You purchase a reserved node offering for
+  /// a duration. This is the start time of that duration.
+  final DateTime? startTime;
+
+  /// The state of the reserved compute node.
+  ///
+  /// Possible Values:
+  ///
+  /// <ul>
+  /// <li>
+  /// pending-payment-This reserved node has recently been purchased, and the sale
+  /// has been approved, but payment has not yet been confirmed.
+  /// </li>
+  /// <li>
+  /// active-This reserved node is owned by the caller and is available for use.
+  /// </li>
+  /// <li>
+  /// payment-failed-Payment failed for the purchase attempt.
+  /// </li>
+  /// <li>
+  /// retired-The reserved node is no longer available.
+  /// </li>
+  /// <li>
+  /// exchanging-The owner is exchanging the reserved node for another reserved
+  /// node.
+  /// </li>
+  /// </ul>
+  final String? state;
+
+  /// The hourly rate Amazon Redshift charges you for this reserved node.
+  final double? usagePrice;
+
+  ReservedNode({
+    this.currencyCode,
+    this.duration,
+    this.fixedPrice,
+    this.nodeCount,
+    this.nodeType,
+    this.offeringType,
+    this.recurringCharges,
+    this.reservedNodeId,
+    this.reservedNodeOfferingId,
+    this.reservedNodeOfferingType,
+    this.startTime,
+    this.state,
+    this.usagePrice,
+  });
+  factory ReservedNode.fromXml(_s.XmlElement elem) {
+    return ReservedNode(
+      currencyCode: _s.extractXmlStringValue(elem, 'CurrencyCode'),
+      duration: _s.extractXmlIntValue(elem, 'Duration'),
+      fixedPrice: _s.extractXmlDoubleValue(elem, 'FixedPrice'),
+      nodeCount: _s.extractXmlIntValue(elem, 'NodeCount'),
+      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
+      offeringType: _s.extractXmlStringValue(elem, 'OfferingType'),
+      recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
+          (elem) => elem
+              .findElements('RecurringCharge')
+              .map(RecurringCharge.fromXml)
+              .toList()),
+      reservedNodeId: _s.extractXmlStringValue(elem, 'ReservedNodeId'),
+      reservedNodeOfferingId:
+          _s.extractXmlStringValue(elem, 'ReservedNodeOfferingId'),
+      reservedNodeOfferingType: _s
+          .extractXmlStringValue(elem, 'ReservedNodeOfferingType')
+          ?.let(ReservedNodeOfferingType.fromString),
+      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
+      state: _s.extractXmlStringValue(elem, 'State'),
+      usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final duration = this.duration;
+    final fixedPrice = this.fixedPrice;
+    final nodeCount = this.nodeCount;
+    final nodeType = this.nodeType;
+    final offeringType = this.offeringType;
+    final recurringCharges = this.recurringCharges;
+    final reservedNodeId = this.reservedNodeId;
+    final reservedNodeOfferingId = this.reservedNodeOfferingId;
+    final reservedNodeOfferingType = this.reservedNodeOfferingType;
+    final startTime = this.startTime;
+    final state = this.state;
+    final usagePrice = this.usagePrice;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (duration != null) 'Duration': duration,
+      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (nodeCount != null) 'NodeCount': nodeCount,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (offeringType != null) 'OfferingType': offeringType,
+      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
+      if (reservedNodeId != null) 'ReservedNodeId': reservedNodeId,
+      if (reservedNodeOfferingId != null)
+        'ReservedNodeOfferingId': reservedNodeOfferingId,
+      if (reservedNodeOfferingType != null)
+        'ReservedNodeOfferingType': reservedNodeOfferingType.value,
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
+      if (state != null) 'State': state,
+      if (usagePrice != null) 'UsagePrice': usagePrice,
+    };
+  }
+}
+
+class ReservedNodeOfferingType {
+  static const regular = ReservedNodeOfferingType._('Regular');
+  static const upgradable = ReservedNodeOfferingType._('Upgradable');
+
+  final String value;
+
+  const ReservedNodeOfferingType._(this.value);
+
+  static const values = [regular, upgradable];
+
+  static ReservedNodeOfferingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReservedNodeOfferingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReservedNodeOfferingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a recurring charge.
+class RecurringCharge {
+  /// The amount charged per the period of time specified by the recurring charge
+  /// frequency.
+  final double? recurringChargeAmount;
+
+  /// The frequency at which the recurring charge amount is applied.
+  final String? recurringChargeFrequency;
+
+  RecurringCharge({
+    this.recurringChargeAmount,
+    this.recurringChargeFrequency,
+  });
+  factory RecurringCharge.fromXml(_s.XmlElement elem) {
+    return RecurringCharge(
+      recurringChargeAmount:
+          _s.extractXmlDoubleValue(elem, 'RecurringChargeAmount'),
+      recurringChargeFrequency:
+          _s.extractXmlStringValue(elem, 'RecurringChargeFrequency'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recurringChargeAmount = this.recurringChargeAmount;
+    final recurringChargeFrequency = this.recurringChargeFrequency;
+    return {
+      if (recurringChargeAmount != null)
+        'RecurringChargeAmount': recurringChargeAmount,
+      if (recurringChargeFrequency != null)
+        'RecurringChargeFrequency': recurringChargeFrequency,
+    };
+  }
+}
+
+class UsageLimitBreachAction {
+  static const log = UsageLimitBreachAction._('log');
+  static const emitMetric = UsageLimitBreachAction._('emit-metric');
+  static const disable = UsageLimitBreachAction._('disable');
+
+  final String value;
+
+  const UsageLimitBreachAction._(this.value);
+
+  static const values = [log, emitMetric, disable];
+
+  static UsageLimitBreachAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UsageLimitBreachAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageLimitBreachAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The action type that specifies an Amazon Redshift API operation that is
+/// supported by the Amazon Redshift scheduler.
+class ScheduledActionType {
+  /// An action that runs a <code>PauseCluster</code> API operation.
+  final PauseClusterMessage? pauseCluster;
+
+  /// An action that runs a <code>ResizeCluster</code> API operation.
+  final ResizeClusterMessage? resizeCluster;
+
+  /// An action that runs a <code>ResumeCluster</code> API operation.
+  final ResumeClusterMessage? resumeCluster;
+
+  ScheduledActionType({
+    this.pauseCluster,
+    this.resizeCluster,
+    this.resumeCluster,
+  });
+  factory ScheduledActionType.fromXml(_s.XmlElement elem) {
+    return ScheduledActionType(
+      pauseCluster: _s
+          .extractXmlChild(elem, 'PauseCluster')
+          ?.let(PauseClusterMessage.fromXml),
+      resizeCluster: _s
+          .extractXmlChild(elem, 'ResizeCluster')
+          ?.let(ResizeClusterMessage.fromXml),
+      resumeCluster: _s
+          .extractXmlChild(elem, 'ResumeCluster')
+          ?.let(ResumeClusterMessage.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pauseCluster = this.pauseCluster;
+    final resizeCluster = this.resizeCluster;
+    final resumeCluster = this.resumeCluster;
+    return {
+      if (pauseCluster != null) 'PauseCluster': pauseCluster,
+      if (resizeCluster != null) 'ResizeCluster': resizeCluster,
+      if (resumeCluster != null) 'ResumeCluster': resumeCluster,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final pauseCluster = this.pauseCluster;
+    final resizeCluster = this.resizeCluster;
+    final resumeCluster = this.resumeCluster;
+    return {
+      if (pauseCluster != null)
+        for (var e1 in pauseCluster.toQueryMap().entries)
+          'PauseCluster.${e1.key}': e1.value,
+      if (resizeCluster != null)
+        for (var e1 in resizeCluster.toQueryMap().entries)
+          'ResizeCluster.${e1.key}': e1.value,
+      if (resumeCluster != null)
+        for (var e1 in resumeCluster.toQueryMap().entries)
+          'ResumeCluster.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// Contains properties for the Redshift IDC application.
+class RedshiftIdcApplication {
+  /// The type of application being created. Valid values are <code>None</code> or
+  /// <code>Lakehouse</code>. Use <code>Lakehouse</code> to enable Amazon Redshift
+  /// federated permissions on cluster.
+  final ApplicationType? applicationType;
+
+  /// The authorized token issuer list for the Amazon Redshift IAM Identity Center
+  /// application.
+  final List<AuthorizedTokenIssuer>? authorizedTokenIssuerList;
+
+  /// The ARN for the Amazon Redshift IAM Identity Center application. It has the
+  /// required permissions to be assumed and invoke the IDC Identity Center API.
+  final String? iamRoleArn;
+
+  /// The display name for the Amazon Redshift IAM Identity Center application. It
+  /// appears on the console.
+  final String? idcDisplayName;
+
+  /// The ARN for the IAM Identity Center instance that Redshift integrates with.
+  final String? idcInstanceArn;
+
+  /// The ARN for the Amazon Redshift IAM Identity Center application.
+  final String? idcManagedApplicationArn;
+
+  /// The onboarding status for the Amazon Redshift IAM Identity Center
+  /// application.
+  final String? idcOnboardStatus;
+
+  /// The identity namespace for the Amazon Redshift IAM Identity Center
+  /// application. It determines which managed application verifies the connection
+  /// token.
+  final String? identityNamespace;
+
+  /// The ARN for the Redshift application that integrates with IAM Identity
+  /// Center.
+  final String? redshiftIdcApplicationArn;
+
+  /// The name of the Redshift application in IAM Identity Center.
+  final String? redshiftIdcApplicationName;
+
+  /// A list of service integrations for the Redshift IAM Identity Center
+  /// application.
+  final List<ServiceIntegrationsUnion>? serviceIntegrations;
+
+  /// A list of tags keys that Redshift Identity Center applications copy to IAM
+  /// Identity Center. For each input key, the tag corresponding to the key-value
+  /// pair is propagated.
+  final List<String>? ssoTagKeys;
+
+  /// A list of tags.
+  final List<Tag>? tags;
+
+  RedshiftIdcApplication({
+    this.applicationType,
+    this.authorizedTokenIssuerList,
+    this.iamRoleArn,
+    this.idcDisplayName,
+    this.idcInstanceArn,
+    this.idcManagedApplicationArn,
+    this.idcOnboardStatus,
+    this.identityNamespace,
+    this.redshiftIdcApplicationArn,
+    this.redshiftIdcApplicationName,
+    this.serviceIntegrations,
+    this.ssoTagKeys,
+    this.tags,
+  });
+  factory RedshiftIdcApplication.fromXml(_s.XmlElement elem) {
+    return RedshiftIdcApplication(
+      applicationType: _s
+          .extractXmlStringValue(elem, 'ApplicationType')
+          ?.let(ApplicationType.fromString),
+      authorizedTokenIssuerList: _s
+          .extractXmlChild(elem, 'AuthorizedTokenIssuerList')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(AuthorizedTokenIssuer.fromXml)
+              .toList()),
+      iamRoleArn: _s.extractXmlStringValue(elem, 'IamRoleArn'),
+      idcDisplayName: _s.extractXmlStringValue(elem, 'IdcDisplayName'),
+      idcInstanceArn: _s.extractXmlStringValue(elem, 'IdcInstanceArn'),
+      idcManagedApplicationArn:
+          _s.extractXmlStringValue(elem, 'IdcManagedApplicationArn'),
+      idcOnboardStatus: _s.extractXmlStringValue(elem, 'IdcOnboardStatus'),
+      identityNamespace: _s.extractXmlStringValue(elem, 'IdentityNamespace'),
+      redshiftIdcApplicationArn:
+          _s.extractXmlStringValue(elem, 'RedshiftIdcApplicationArn'),
+      redshiftIdcApplicationName:
+          _s.extractXmlStringValue(elem, 'RedshiftIdcApplicationName'),
+      serviceIntegrations: _s.extractXmlChild(elem, 'ServiceIntegrations')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(ServiceIntegrationsUnion.fromXml)
+              .toList()),
+      ssoTagKeys: _s
+          .extractXmlChild(elem, 'SsoTagKeys')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'TagKey')),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationType = this.applicationType;
+    final authorizedTokenIssuerList = this.authorizedTokenIssuerList;
+    final iamRoleArn = this.iamRoleArn;
+    final idcDisplayName = this.idcDisplayName;
+    final idcInstanceArn = this.idcInstanceArn;
+    final idcManagedApplicationArn = this.idcManagedApplicationArn;
+    final idcOnboardStatus = this.idcOnboardStatus;
+    final identityNamespace = this.identityNamespace;
+    final redshiftIdcApplicationArn = this.redshiftIdcApplicationArn;
+    final redshiftIdcApplicationName = this.redshiftIdcApplicationName;
+    final serviceIntegrations = this.serviceIntegrations;
+    final ssoTagKeys = this.ssoTagKeys;
+    final tags = this.tags;
+    return {
+      if (applicationType != null) 'ApplicationType': applicationType.value,
+      if (authorizedTokenIssuerList != null)
+        'AuthorizedTokenIssuerList': authorizedTokenIssuerList,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (idcDisplayName != null) 'IdcDisplayName': idcDisplayName,
+      if (idcInstanceArn != null) 'IdcInstanceArn': idcInstanceArn,
+      if (idcManagedApplicationArn != null)
+        'IdcManagedApplicationArn': idcManagedApplicationArn,
+      if (idcOnboardStatus != null) 'IdcOnboardStatus': idcOnboardStatus,
+      if (identityNamespace != null) 'IdentityNamespace': identityNamespace,
+      if (redshiftIdcApplicationArn != null)
+        'RedshiftIdcApplicationArn': redshiftIdcApplicationArn,
+      if (redshiftIdcApplicationName != null)
+        'RedshiftIdcApplicationName': redshiftIdcApplicationName,
+      if (serviceIntegrations != null)
+        'ServiceIntegrations': serviceIntegrations,
+      if (ssoTagKeys != null) 'SsoTagKeys': ssoTagKeys,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ApplicationType {
+  static const none = ApplicationType._('None');
+  static const lakehouse = ApplicationType._('Lakehouse');
+
+  final String value;
+
+  const ApplicationType._(this.value);
+
+  static const values = [none, lakehouse];
+
+  static ApplicationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationType._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A list of service integrations.
+class ServiceIntegrationsUnion {
+  /// A list of scopes set up for Lake Formation integration.
+  final List<LakeFormationScopeUnion>? lakeFormation;
+
+  /// A list of scopes set up for Amazon Redshift integration.
+  final List<RedshiftScopeUnion>? redshift;
+
+  /// A list of scopes set up for S3 Access Grants integration.
+  final List<S3AccessGrantsScopeUnion>? s3AccessGrants;
+
+  ServiceIntegrationsUnion({
+    this.lakeFormation,
+    this.redshift,
+    this.s3AccessGrants,
+  });
+  factory ServiceIntegrationsUnion.fromXml(_s.XmlElement elem) {
+    return ServiceIntegrationsUnion(
+      lakeFormation: _s.extractXmlChild(elem, 'LakeFormation')?.let((elem) =>
+          elem
+              .findElements('member')
+              .map(LakeFormationScopeUnion.fromXml)
+              .toList()),
+      redshift: _s.extractXmlChild(elem, 'Redshift')?.let((elem) =>
+          elem.findElements('member').map(RedshiftScopeUnion.fromXml).toList()),
+      s3AccessGrants: _s.extractXmlChild(elem, 'S3AccessGrants')?.let((elem) =>
+          elem
+              .findElements('member')
+              .map(S3AccessGrantsScopeUnion.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lakeFormation = this.lakeFormation;
+    final redshift = this.redshift;
+    final s3AccessGrants = this.s3AccessGrants;
+    return {
+      if (lakeFormation != null) 'LakeFormation': lakeFormation,
+      if (redshift != null) 'Redshift': redshift,
+      if (s3AccessGrants != null) 'S3AccessGrants': s3AccessGrants,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final lakeFormation = this.lakeFormation;
+    final redshift = this.redshift;
+    final s3AccessGrants = this.s3AccessGrants;
+    return {
+      if (lakeFormation != null)
+        if (lakeFormation.isEmpty)
+          'LakeFormation': ''
+        else
+          for (var i1 = 0; i1 < lakeFormation.length; i1++)
+            for (var e3 in lakeFormation[i1].toQueryMap().entries)
+              'LakeFormation.member.${i1 + 1}.${e3.key}': e3.value,
+      if (redshift != null)
+        if (redshift.isEmpty)
+          'Redshift': ''
+        else
+          for (var i1 = 0; i1 < redshift.length; i1++)
+            for (var e3 in redshift[i1].toQueryMap().entries)
+              'Redshift.member.${i1 + 1}.${e3.key}': e3.value,
+      if (s3AccessGrants != null)
+        if (s3AccessGrants.isEmpty)
+          'S3AccessGrants': ''
+        else
+          for (var i1 = 0; i1 < s3AccessGrants.length; i1++)
+            for (var e3 in s3AccessGrants[i1].toQueryMap().entries)
+              'S3AccessGrants.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// A union structure that defines the scope of Amazon Redshift service
+/// integrations. Contains configuration for different integration types such as
+/// Amazon Redshift.
+class RedshiftScopeUnion {
+  /// The Amazon Redshift connect integration scope configuration. Defines
+  /// authorization settings for Amazon Redshift connect service integration.
+  final Connect? connect;
+
+  RedshiftScopeUnion({
+    this.connect,
+  });
+  factory RedshiftScopeUnion.fromXml(_s.XmlElement elem) {
+    return RedshiftScopeUnion(
+      connect: _s.extractXmlChild(elem, 'Connect')?.let(Connect.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connect = this.connect;
+    return {
+      if (connect != null) 'Connect': connect,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final connect = this.connect;
+    return {
+      if (connect != null)
+        for (var e1 in connect.toQueryMap().entries)
+          'Connect.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// A structure that defines the Amazon Redshift connect service integration
+/// scope.
+class Connect {
+  /// Determines whether the Amazon Redshift connect integration is enabled or
+  /// disabled for the application.
+  final ServiceAuthorization authorization;
+
+  Connect({
+    required this.authorization,
+  });
+  factory Connect.fromXml(_s.XmlElement elem) {
+    return Connect(
+      authorization: _s
+          .extractXmlStringValue(elem, 'Authorization')!
+          .let(ServiceAuthorization.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorization = this.authorization;
+    return {
+      'Authorization': authorization.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final authorization = this.authorization;
+    return {
+      'Authorization': authorization.value,
+    };
+  }
+}
+
+class ServiceAuthorization {
+  static const enabled = ServiceAuthorization._('Enabled');
+  static const disabled = ServiceAuthorization._('Disabled');
+
+  final String value;
+
+  const ServiceAuthorization._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ServiceAuthorization fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceAuthorization._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServiceAuthorization && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A list of scopes set up for S3 Access Grants integration.
+class S3AccessGrantsScopeUnion {
+  /// The S3 Access Grants scope.
+  final ReadWriteAccess? readWriteAccess;
+
+  S3AccessGrantsScopeUnion({
+    this.readWriteAccess,
+  });
+  factory S3AccessGrantsScopeUnion.fromXml(_s.XmlElement elem) {
+    return S3AccessGrantsScopeUnion(
+      readWriteAccess: _s
+          .extractXmlChild(elem, 'ReadWriteAccess')
+          ?.let(ReadWriteAccess.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readWriteAccess = this.readWriteAccess;
+    return {
+      if (readWriteAccess != null) 'ReadWriteAccess': readWriteAccess,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final readWriteAccess = this.readWriteAccess;
+    return {
+      if (readWriteAccess != null)
+        for (var e1 in readWriteAccess.toQueryMap().entries)
+          'ReadWriteAccess.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// The S3 Access Grants scope.
+class ReadWriteAccess {
+  /// Determines whether the read/write scope is enabled or disabled.
+  final ServiceAuthorization authorization;
+
+  ReadWriteAccess({
+    required this.authorization,
+  });
+  factory ReadWriteAccess.fromXml(_s.XmlElement elem) {
+    return ReadWriteAccess(
+      authorization: _s
+          .extractXmlStringValue(elem, 'Authorization')!
+          .let(ServiceAuthorization.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorization = this.authorization;
+    return {
+      'Authorization': authorization.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final authorization = this.authorization;
+    return {
+      'Authorization': authorization.value,
+    };
+  }
+}
+
+/// A list of scopes set up for Lake Formation integration.
+class LakeFormationScopeUnion {
+  /// The Lake Formation scope.
+  final LakeFormationQuery? lakeFormationQuery;
+
+  LakeFormationScopeUnion({
+    this.lakeFormationQuery,
+  });
+  factory LakeFormationScopeUnion.fromXml(_s.XmlElement elem) {
+    return LakeFormationScopeUnion(
+      lakeFormationQuery: _s
+          .extractXmlChild(elem, 'LakeFormationQuery')
+          ?.let(LakeFormationQuery.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lakeFormationQuery = this.lakeFormationQuery;
+    return {
+      if (lakeFormationQuery != null) 'LakeFormationQuery': lakeFormationQuery,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final lakeFormationQuery = this.lakeFormationQuery;
+    return {
+      if (lakeFormationQuery != null)
+        for (var e1 in lakeFormationQuery.toQueryMap().entries)
+          'LakeFormationQuery.${e1.key}': e1.value,
+    };
+  }
+}
+
+/// The Lake Formation scope.
+class LakeFormationQuery {
+  /// Determines whether the query scope is enabled or disabled.
+  final ServiceAuthorization authorization;
+
+  LakeFormationQuery({
+    required this.authorization,
+  });
+  factory LakeFormationQuery.fromXml(_s.XmlElement elem) {
+    return LakeFormationQuery(
+      authorization: _s
+          .extractXmlStringValue(elem, 'Authorization')!
+          .let(ServiceAuthorization.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorization = this.authorization;
+    return {
+      'Authorization': authorization.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final authorization = this.authorization;
+    return {
+      'Authorization': authorization.value,
+    };
+  }
+}
+
+/// The authorized token issuer for the Amazon Redshift IAM Identity Center
+/// application.
+class AuthorizedTokenIssuer {
+  /// The list of audiences for the authorized token issuer for integrating Amazon
+  /// Redshift with IDC Identity Center.
+  final List<String>? authorizedAudiencesList;
+
+  /// The ARN for the authorized token issuer for integrating Amazon Redshift with
+  /// IDC Identity Center.
+  final String? trustedTokenIssuerArn;
+
+  AuthorizedTokenIssuer({
+    this.authorizedAudiencesList,
+    this.trustedTokenIssuerArn,
+  });
+  factory AuthorizedTokenIssuer.fromXml(_s.XmlElement elem) {
+    return AuthorizedTokenIssuer(
+      authorizedAudiencesList: _s
+          .extractXmlChild(elem, 'AuthorizedAudiencesList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      trustedTokenIssuerArn:
+          _s.extractXmlStringValue(elem, 'TrustedTokenIssuerArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedAudiencesList = this.authorizedAudiencesList;
+    final trustedTokenIssuerArn = this.trustedTokenIssuerArn;
+    return {
+      if (authorizedAudiencesList != null)
+        'AuthorizedAudiencesList': authorizedAudiencesList,
+      if (trustedTokenIssuerArn != null)
+        'TrustedTokenIssuerArn': trustedTokenIssuerArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final authorizedAudiencesList = this.authorizedAudiencesList;
+    final trustedTokenIssuerArn = this.trustedTokenIssuerArn;
+    return {
+      if (authorizedAudiencesList != null)
+        if (authorizedAudiencesList.isEmpty)
+          'AuthorizedAudiencesList': ''
+        else
+          for (var i1 = 0; i1 < authorizedAudiencesList.length; i1++)
+            'AuthorizedAudiencesList.member.${i1 + 1}':
+                authorizedAudiencesList[i1],
+      if (trustedTokenIssuerArn != null)
+        'TrustedTokenIssuerArn': trustedTokenIssuerArn,
+    };
+  }
+}
+
+class LakehouseRegistration {
+  static const register = LakehouseRegistration._('Register');
+  static const deregister = LakehouseRegistration._('Deregister');
+
+  final String value;
+
+  const LakehouseRegistration._(this.value);
+
+  static const values = [register, deregister];
+
+  static LakehouseRegistration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LakehouseRegistration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LakehouseRegistration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LakehouseIdcRegistration {
+  static const associate = LakehouseIdcRegistration._('Associate');
+  static const disassociate = LakehouseIdcRegistration._('Disassociate');
+
+  final String value;
+
+  const LakehouseIdcRegistration._(this.value);
+
+  static const values = [associate, disassociate];
+
+  static LakehouseIdcRegistration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LakehouseIdcRegistration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LakehouseIdcRegistration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes event subscriptions.
+class EventSubscription {
+  /// The name of the Amazon Redshift event notification subscription.
+  final String? custSubscriptionId;
+
+  /// The Amazon Web Services account associated with the Amazon Redshift event
+  /// notification subscription.
+  final String? customerAwsId;
+
+  /// A boolean value indicating whether the subscription is enabled;
+  /// <code>true</code> indicates that the subscription is enabled.
+  final bool? enabled;
+
+  /// The list of Amazon Redshift event categories specified in the event
+  /// notification subscription.
+  ///
+  /// Values: Configuration, Management, Monitoring, Security, Pending
+  final List<String>? eventCategoriesList;
+
+  /// The event severity specified in the Amazon Redshift event notification
+  /// subscription.
+  ///
+  /// Values: ERROR, INFO
+  final String? severity;
+
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic used by the event
+  /// notification subscription.
+  final String? snsTopicArn;
+
+  /// A list of the sources that publish events to the Amazon Redshift event
+  /// notification subscription.
+  final List<String>? sourceIdsList;
+
+  /// The source type of the events returned by the Amazon Redshift event
+  /// notification, such as cluster, cluster-snapshot, cluster-parameter-group,
+  /// cluster-security-group, or scheduled-action.
+  final String? sourceType;
+
+  /// The status of the Amazon Redshift event notification subscription.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Can be one of the following: active | no-permission | topic-not-exist
+  /// </li>
+  /// <li>
+  /// The status "no-permission" indicates that Amazon Redshift no longer has
+  /// permission to post to the Amazon SNS topic. The status "topic-not-exist"
+  /// indicates that the topic was deleted after the subscription was created.
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The date and time the Amazon Redshift event notification subscription was
+  /// created.
+  final DateTime? subscriptionCreationTime;
+
+  /// The list of tags for the event subscription.
+  final List<Tag>? tags;
+
+  EventSubscription({
+    this.custSubscriptionId,
+    this.customerAwsId,
+    this.enabled,
+    this.eventCategoriesList,
+    this.severity,
+    this.snsTopicArn,
+    this.sourceIdsList,
+    this.sourceType,
+    this.status,
+    this.subscriptionCreationTime,
+    this.tags,
+  });
+  factory EventSubscription.fromXml(_s.XmlElement elem) {
+    return EventSubscription(
+      custSubscriptionId: _s.extractXmlStringValue(elem, 'CustSubscriptionId'),
+      customerAwsId: _s.extractXmlStringValue(elem, 'CustomerAwsId'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      eventCategoriesList: _s
+          .extractXmlChild(elem, 'EventCategoriesList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
+      severity: _s.extractXmlStringValue(elem, 'Severity'),
+      snsTopicArn: _s.extractXmlStringValue(elem, 'SnsTopicArn'),
+      sourceIdsList: _s
+          .extractXmlChild(elem, 'SourceIdsList')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SourceId')),
+      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      subscriptionCreationTime:
+          _s.extractXmlDateTimeValue(elem, 'SubscriptionCreationTime'),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final custSubscriptionId = this.custSubscriptionId;
+    final customerAwsId = this.customerAwsId;
+    final enabled = this.enabled;
+    final eventCategoriesList = this.eventCategoriesList;
+    final severity = this.severity;
+    final snsTopicArn = this.snsTopicArn;
+    final sourceIdsList = this.sourceIdsList;
+    final sourceType = this.sourceType;
+    final status = this.status;
+    final subscriptionCreationTime = this.subscriptionCreationTime;
+    final tags = this.tags;
+    return {
+      if (custSubscriptionId != null) 'CustSubscriptionId': custSubscriptionId,
+      if (customerAwsId != null) 'CustomerAwsId': customerAwsId,
+      if (enabled != null) 'Enabled': enabled,
+      if (eventCategoriesList != null)
+        'EventCategoriesList': eventCategoriesList,
+      if (severity != null) 'Severity': severity,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (sourceIdsList != null) 'SourceIdsList': sourceIdsList,
+      if (sourceType != null) 'SourceType': sourceType,
+      if (status != null) 'Status': status,
+      if (subscriptionCreationTime != null)
+        'SubscriptionCreationTime': iso8601ToJson(subscriptionCreationTime),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Describes a subnet group.
+class ClusterSubnetGroup {
+  /// The name of the cluster subnet group.
+  final String? clusterSubnetGroupName;
+
+  /// The description of the cluster subnet group.
+  final String? description;
+
+  /// The status of the cluster subnet group. Possible values are
+  /// <code>Complete</code>, <code>Incomplete</code> and <code>Invalid</code>.
+  final String? subnetGroupStatus;
+
+  /// A list of the VPC <a>Subnet</a> elements.
+  final List<Subnet>? subnets;
+
+  /// The IP address types supported by this cluster subnet group. Possible values
+  /// are <code>ipv4</code> and <code>dualstack</code>.
+  final List<String>? supportedClusterIpAddressTypes;
+
+  /// The list of tags for the cluster subnet group.
+  final List<Tag>? tags;
+
+  /// The VPC ID of the cluster subnet group.
+  final String? vpcId;
+
+  ClusterSubnetGroup({
+    this.clusterSubnetGroupName,
+    this.description,
+    this.subnetGroupStatus,
+    this.subnets,
+    this.supportedClusterIpAddressTypes,
+    this.tags,
+    this.vpcId,
+  });
+  factory ClusterSubnetGroup.fromXml(_s.XmlElement elem) {
+    return ClusterSubnetGroup(
+      clusterSubnetGroupName:
+          _s.extractXmlStringValue(elem, 'ClusterSubnetGroupName'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      subnetGroupStatus: _s.extractXmlStringValue(elem, 'SubnetGroupStatus'),
+      subnets: _s.extractXmlChild(elem, 'Subnets')?.let(
+          (elem) => elem.findElements('Subnet').map(Subnet.fromXml).toList()),
+      supportedClusterIpAddressTypes: _s
+          .extractXmlChild(elem, 'SupportedClusterIpAddressTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'item')),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterSubnetGroupName = this.clusterSubnetGroupName;
+    final description = this.description;
+    final subnetGroupStatus = this.subnetGroupStatus;
+    final subnets = this.subnets;
+    final supportedClusterIpAddressTypes = this.supportedClusterIpAddressTypes;
+    final tags = this.tags;
+    final vpcId = this.vpcId;
+    return {
+      if (clusterSubnetGroupName != null)
+        'ClusterSubnetGroupName': clusterSubnetGroupName,
+      if (description != null) 'Description': description,
+      if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
+      if (subnets != null) 'Subnets': subnets,
+      if (supportedClusterIpAddressTypes != null)
+        'SupportedClusterIpAddressTypes': supportedClusterIpAddressTypes,
+      if (tags != null) 'Tags': tags,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// Describes a subnet.
+class Subnet {
+  ///
+  final AvailabilityZone? subnetAvailabilityZone;
+
+  /// The identifier of the subnet.
+  final String? subnetIdentifier;
+
+  /// The status of the subnet.
+  final String? subnetStatus;
+
+  Subnet({
+    this.subnetAvailabilityZone,
+    this.subnetIdentifier,
+    this.subnetStatus,
+  });
+  factory Subnet.fromXml(_s.XmlElement elem) {
+    return Subnet(
+      subnetAvailabilityZone: _s
+          .extractXmlChild(elem, 'SubnetAvailabilityZone')
+          ?.let(AvailabilityZone.fromXml),
+      subnetIdentifier: _s.extractXmlStringValue(elem, 'SubnetIdentifier'),
+      subnetStatus: _s.extractXmlStringValue(elem, 'SubnetStatus'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetIdentifier = this.subnetIdentifier;
+    final subnetStatus = this.subnetStatus;
+    return {
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
+      if (subnetStatus != null) 'SubnetStatus': subnetStatus,
+    };
+  }
+}
+
+/// Describes an availability zone.
+class AvailabilityZone {
+  /// The name of the availability zone.
+  final String? name;
+
+  ///
+  final List<SupportedPlatform>? supportedPlatforms;
+
+  AvailabilityZone({
+    this.name,
+    this.supportedPlatforms,
+  });
+  factory AvailabilityZone.fromXml(_s.XmlElement elem) {
+    return AvailabilityZone(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      supportedPlatforms: _s.extractXmlChild(elem, 'SupportedPlatforms')?.let(
+          (elem) => elem
+              .findElements('SupportedPlatform')
+              .map(SupportedPlatform.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final supportedPlatforms = this.supportedPlatforms;
+    return {
+      if (name != null) 'Name': name,
+      if (supportedPlatforms != null) 'SupportedPlatforms': supportedPlatforms,
+    };
+  }
+}
+
+/// A list of supported platforms for orderable clusters.
+class SupportedPlatform {
+  ///
+  final String? name;
+
+  SupportedPlatform({
+    this.name,
+  });
+  factory SupportedPlatform.fromXml(_s.XmlElement elem) {
+    return SupportedPlatform(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// An Amazon Redshift Advisor recommended action on the Amazon Redshift
+/// cluster.
+class Recommendation {
+  /// The unique identifier of the cluster for which the recommendation is
+  /// returned.
+  final String? clusterIdentifier;
+
+  /// The date and time (UTC) that the recommendation was created.
+  final DateTime? createdAt;
+
+  /// The description of the recommendation.
+  final String? description;
+
+  /// A unique identifier of the Advisor recommendation.
+  final String? id;
+
+  /// The scale of the impact that the Advisor recommendation has to the
+  /// performance and cost of the cluster.
+  final ImpactRankingType? impactRanking;
+
+  /// The Amazon Redshift cluster namespace ARN for which the recommendations is
+  /// returned.
+  final String? namespaceArn;
+
+  /// The description of what was observed about your cluster.
+  final String? observation;
+
+  /// The description of the recommendation.
+  final String? recommendationText;
+
+  /// The type of Advisor recommendation.
+  final String? recommendationType;
+
+  /// List of Amazon Redshift recommended actions.
+  final List<RecommendedAction>? recommendedActions;
+
+  /// List of helpful links for more information about the Advisor recommendation.
+  final List<ReferenceLink>? referenceLinks;
+
+  /// The title of the recommendation.
+  final String? title;
+
+  Recommendation({
+    this.clusterIdentifier,
+    this.createdAt,
+    this.description,
+    this.id,
+    this.impactRanking,
+    this.namespaceArn,
+    this.observation,
+    this.recommendationText,
+    this.recommendationType,
+    this.recommendedActions,
+    this.referenceLinks,
+    this.title,
+  });
+  factory Recommendation.fromXml(_s.XmlElement elem) {
+    return Recommendation(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      id: _s.extractXmlStringValue(elem, 'Id'),
+      impactRanking: _s
+          .extractXmlStringValue(elem, 'ImpactRanking')
+          ?.let(ImpactRankingType.fromString),
+      namespaceArn: _s.extractXmlStringValue(elem, 'NamespaceArn'),
+      observation: _s.extractXmlStringValue(elem, 'Observation'),
+      recommendationText: _s.extractXmlStringValue(elem, 'RecommendationText'),
+      recommendationType: _s.extractXmlStringValue(elem, 'RecommendationType'),
+      recommendedActions: _s.extractXmlChild(elem, 'RecommendedActions')?.let(
+          (elem) => elem
+              .findElements('RecommendedAction')
+              .map(RecommendedAction.fromXml)
+              .toList()),
+      referenceLinks: _s.extractXmlChild(elem, 'ReferenceLinks')?.let((elem) =>
+          elem
+              .findElements('ReferenceLink')
+              .map(ReferenceLink.fromXml)
+              .toList()),
+      title: _s.extractXmlStringValue(elem, 'Title'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final id = this.id;
+    final impactRanking = this.impactRanking;
+    final namespaceArn = this.namespaceArn;
+    final observation = this.observation;
+    final recommendationText = this.recommendationText;
+    final recommendationType = this.recommendationType;
+    final recommendedActions = this.recommendedActions;
+    final referenceLinks = this.referenceLinks;
+    final title = this.title;
+    return {
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (impactRanking != null) 'ImpactRanking': impactRanking.value,
+      if (namespaceArn != null) 'NamespaceArn': namespaceArn,
+      if (observation != null) 'Observation': observation,
+      if (recommendationText != null) 'RecommendationText': recommendationText,
+      if (recommendationType != null) 'RecommendationType': recommendationType,
+      if (recommendedActions != null) 'RecommendedActions': recommendedActions,
+      if (referenceLinks != null) 'ReferenceLinks': referenceLinks,
+      if (title != null) 'Title': title,
+    };
+  }
+}
+
+class ImpactRankingType {
+  static const high = ImpactRankingType._('HIGH');
+  static const medium = ImpactRankingType._('MEDIUM');
+  static const low = ImpactRankingType._('LOW');
+
+  final String value;
+
+  const ImpactRankingType._(this.value);
+
+  static const values = [high, medium, low];
+
+  static ImpactRankingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImpactRankingType._(value));
+
+  @override
+  bool operator ==(other) => other is ImpactRankingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A link to an Amazon Redshift Advisor reference for more information about a
+/// recommendation.
+class ReferenceLink {
+  /// The URL address to find more information.
+  final String? link;
+
+  /// The hyperlink text that describes the link to more information.
+  final String? text;
+
+  ReferenceLink({
+    this.link,
+    this.text,
+  });
+  factory ReferenceLink.fromXml(_s.XmlElement elem) {
+    return ReferenceLink(
+      link: _s.extractXmlStringValue(elem, 'Link'),
+      text: _s.extractXmlStringValue(elem, 'Text'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final link = this.link;
+    final text = this.text;
+    return {
+      if (link != null) 'Link': link,
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// The recommended action from the Amazon Redshift Advisor recommendation.
+class RecommendedAction {
+  /// The command to run.
+  final String? command;
+
+  /// The database name to perform the action on. Only applicable if the type of
+  /// command is SQL.
+  final String? database;
+
+  /// The specific instruction about the command.
+  final String? text;
+
+  /// The type of command.
+  final RecommendedActionType? type;
+
+  RecommendedAction({
+    this.command,
+    this.database,
+    this.text,
+    this.type,
+  });
+  factory RecommendedAction.fromXml(_s.XmlElement elem) {
+    return RecommendedAction(
+      command: _s.extractXmlStringValue(elem, 'Command'),
+      database: _s.extractXmlStringValue(elem, 'Database'),
+      text: _s.extractXmlStringValue(elem, 'Text'),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(RecommendedActionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final database = this.database;
+    final text = this.text;
+    final type = this.type;
+    return {
+      if (command != null) 'Command': command,
+      if (database != null) 'Database': database,
+      if (text != null) 'Text': text,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class RecommendedActionType {
+  static const sql = RecommendedActionType._('SQL');
+  static const cli = RecommendedActionType._('CLI');
+
+  final String value;
+
+  const RecommendedActionType._(this.value);
+
+  static const values = [sql, cli];
+
+  static RecommendedActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecommendedActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecommendedActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a reserved node offering.
+class ReservedNodeOffering {
+  /// The currency code for the compute nodes offering.
+  final String? currencyCode;
+
+  /// The duration, in seconds, for which the offering will reserve the node.
+  final int? duration;
+
+  /// The upfront fixed charge you will pay to purchase the specific reserved node
+  /// offering.
+  final double? fixedPrice;
+
+  /// The node type offered by the reserved node offering.
+  final String? nodeType;
+
+  /// The anticipated utilization of the reserved node, as defined in the reserved
+  /// node offering.
+  final String? offeringType;
+
+  /// The charge to your account regardless of whether you are creating any
+  /// clusters using the node offering. Recurring charges are only in effect for
+  /// heavy-utilization reserved nodes.
+  final List<RecurringCharge>? recurringCharges;
+
+  /// The offering identifier.
+  final String? reservedNodeOfferingId;
+
+  ///
+  final ReservedNodeOfferingType? reservedNodeOfferingType;
+
+  /// The rate you are charged for each hour the cluster that is using the
+  /// offering is running.
+  final double? usagePrice;
+
+  ReservedNodeOffering({
+    this.currencyCode,
+    this.duration,
+    this.fixedPrice,
+    this.nodeType,
+    this.offeringType,
+    this.recurringCharges,
+    this.reservedNodeOfferingId,
+    this.reservedNodeOfferingType,
+    this.usagePrice,
+  });
+  factory ReservedNodeOffering.fromXml(_s.XmlElement elem) {
+    return ReservedNodeOffering(
+      currencyCode: _s.extractXmlStringValue(elem, 'CurrencyCode'),
+      duration: _s.extractXmlIntValue(elem, 'Duration'),
+      fixedPrice: _s.extractXmlDoubleValue(elem, 'FixedPrice'),
+      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
+      offeringType: _s.extractXmlStringValue(elem, 'OfferingType'),
+      recurringCharges: _s.extractXmlChild(elem, 'RecurringCharges')?.let(
+          (elem) => elem
+              .findElements('RecurringCharge')
+              .map(RecurringCharge.fromXml)
+              .toList()),
+      reservedNodeOfferingId:
+          _s.extractXmlStringValue(elem, 'ReservedNodeOfferingId'),
+      reservedNodeOfferingType: _s
+          .extractXmlStringValue(elem, 'ReservedNodeOfferingType')
+          ?.let(ReservedNodeOfferingType.fromString),
+      usagePrice: _s.extractXmlDoubleValue(elem, 'UsagePrice'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final duration = this.duration;
+    final fixedPrice = this.fixedPrice;
+    final nodeType = this.nodeType;
+    final offeringType = this.offeringType;
+    final recurringCharges = this.recurringCharges;
+    final reservedNodeOfferingId = this.reservedNodeOfferingId;
+    final reservedNodeOfferingType = this.reservedNodeOfferingType;
+    final usagePrice = this.usagePrice;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (duration != null) 'Duration': duration,
+      if (fixedPrice != null) 'FixedPrice': fixedPrice,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (offeringType != null) 'OfferingType': offeringType,
+      if (recurringCharges != null) 'RecurringCharges': recurringCharges,
+      if (reservedNodeOfferingId != null)
+        'ReservedNodeOfferingId': reservedNodeOfferingId,
+      if (reservedNodeOfferingType != null)
+        'ReservedNodeOfferingType': reservedNodeOfferingType.value,
+      if (usagePrice != null) 'UsagePrice': usagePrice,
+    };
+  }
+}
+
+/// Details for a reserved-node exchange. Examples include the node type for a
+/// reserved node, the price for a node, the node's state, and other details.
+class ReservedNodeConfigurationOption {
+  final ReservedNode? sourceReservedNode;
+
+  /// The target reserved-node count.
+  final int? targetReservedNodeCount;
+  final ReservedNodeOffering? targetReservedNodeOffering;
+
+  ReservedNodeConfigurationOption({
+    this.sourceReservedNode,
+    this.targetReservedNodeCount,
+    this.targetReservedNodeOffering,
+  });
+  factory ReservedNodeConfigurationOption.fromXml(_s.XmlElement elem) {
+    return ReservedNodeConfigurationOption(
+      sourceReservedNode: _s
+          .extractXmlChild(elem, 'SourceReservedNode')
+          ?.let(ReservedNode.fromXml),
+      targetReservedNodeCount:
+          _s.extractXmlIntValue(elem, 'TargetReservedNodeCount'),
+      targetReservedNodeOffering: _s
+          .extractXmlChild(elem, 'TargetReservedNodeOffering')
+          ?.let(ReservedNodeOffering.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceReservedNode = this.sourceReservedNode;
+    final targetReservedNodeCount = this.targetReservedNodeCount;
+    final targetReservedNodeOffering = this.targetReservedNodeOffering;
+    return {
+      if (sourceReservedNode != null) 'SourceReservedNode': sourceReservedNode,
+      if (targetReservedNodeCount != null)
+        'TargetReservedNodeCount': targetReservedNodeCount,
+      if (targetReservedNodeOffering != null)
+        'TargetReservedNodeOffering': targetReservedNodeOffering,
+    };
+  }
+}
+
+class ReservedNodeExchangeActionType {
+  static const restoreCluster =
+      ReservedNodeExchangeActionType._('restore-cluster');
+  static const resizeCluster =
+      ReservedNodeExchangeActionType._('resize-cluster');
+
+  final String value;
+
+  const ReservedNodeExchangeActionType._(this.value);
+
+  static const values = [restoreCluster, resizeCluster];
+
+  static ReservedNodeExchangeActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReservedNodeExchangeActionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReservedNodeExchangeActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LogDestinationType {
+  static const s3 = LogDestinationType._('s3');
+  static const cloudwatch = LogDestinationType._('cloudwatch');
+
+  final String value;
+
+  const LogDestinationType._(this.value);
+
+  static const values = [s3, cloudwatch];
+
+  static LogDestinationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LogDestinationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LogDestinationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UsageLimitFeatureType {
+  static const spectrum = UsageLimitFeatureType._('spectrum');
+  static const concurrencyScaling =
+      UsageLimitFeatureType._('concurrency-scaling');
+  static const crossRegionDatasharing =
+      UsageLimitFeatureType._('cross-region-datasharing');
+  static const extraComputeForAutomaticOptimization =
+      UsageLimitFeatureType._('extra-compute-for-automatic-optimization');
+
+  final String value;
+
+  const UsageLimitFeatureType._(this.value);
+
+  static const values = [
+    spectrum,
+    concurrencyScaling,
+    crossRegionDatasharing,
+    extraComputeForAutomaticOptimization
+  ];
+
+  static UsageLimitFeatureType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UsageLimitFeatureType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UsageLimitFeatureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A tag and its associated resource.
@@ -18292,8 +18352,936 @@ class TaggedResource {
   }
 }
 
-/// <p/>
-class TaggedResourceListMessage {
+/// The snapshot copy grant that grants Amazon Redshift permission to encrypt
+/// copied snapshots with the specified encrypted symmetric key from Amazon Web
+/// Services KMS in the destination region.
+///
+/// For more information about managing snapshot copy grants, go to <a
+/// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html">Amazon
+/// Redshift Database Encryption</a> in the <i>Amazon Redshift Cluster
+/// Management Guide</i>.
+class SnapshotCopyGrant {
+  /// The unique identifier of the encrypted symmetric key in Amazon Web Services
+  /// KMS to which Amazon Redshift is granted permission.
+  final String? kmsKeyId;
+
+  /// The name of the snapshot copy grant.
+  final String? snapshotCopyGrantName;
+
+  /// A list of tag instances.
+  final List<Tag>? tags;
+
+  SnapshotCopyGrant({
+    this.kmsKeyId,
+    this.snapshotCopyGrantName,
+    this.tags,
+  });
+  factory SnapshotCopyGrant.fromXml(_s.XmlElement elem) {
+    return SnapshotCopyGrant(
+      kmsKeyId: _s.extractXmlStringValue(elem, 'KmsKeyId'),
+      snapshotCopyGrantName:
+          _s.extractXmlStringValue(elem, 'SnapshotCopyGrantName'),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    final snapshotCopyGrantName = this.snapshotCopyGrantName;
+    final tags = this.tags;
+    return {
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (snapshotCopyGrantName != null)
+        'SnapshotCopyGrantName': snapshotCopyGrantName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ScheduledActionTypeValues {
+  static const resizeCluster = ScheduledActionTypeValues._('ResizeCluster');
+  static const pauseCluster = ScheduledActionTypeValues._('PauseCluster');
+  static const resumeCluster = ScheduledActionTypeValues._('ResumeCluster');
+
+  final String value;
+
+  const ScheduledActionTypeValues._(this.value);
+
+  static const values = [resizeCluster, pauseCluster, resumeCluster];
+
+  static ScheduledActionTypeValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduledActionTypeValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduledActionTypeValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A set of elements to filter the returned scheduled actions.
+class ScheduledActionFilter {
+  /// The type of element to filter.
+  final ScheduledActionFilterName name;
+
+  /// List of values. Compare if the value (of type defined by <code>Name</code>)
+  /// equals an item in the list of scheduled actions.
+  final List<String> values;
+
+  ScheduledActionFilter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      if (values.isEmpty)
+        'item': ''
+      else
+        for (var i1 = 0; i1 < values.length; i1++)
+          'item.item.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+class ScheduledActionFilterName {
+  static const clusterIdentifier =
+      ScheduledActionFilterName._('cluster-identifier');
+  static const iamRole = ScheduledActionFilterName._('iam-role');
+
+  final String value;
+
+  const ScheduledActionFilterName._(this.value);
+
+  static const values = [clusterIdentifier, iamRole];
+
+  static ScheduledActionFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduledActionFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduledActionFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a partner integration.
+class PartnerIntegrationInfo {
+  /// The date (UTC) that the partner integration was created.
+  final DateTime? createdAt;
+
+  /// The name of the database that receives data from a partner.
+  final String? databaseName;
+
+  /// The name of the partner.
+  final String? partnerName;
+
+  /// The partner integration status.
+  final PartnerIntegrationStatus? status;
+
+  /// The status message provided by the partner.
+  final String? statusMessage;
+
+  /// The date (UTC) that the partner integration status was last updated by the
+  /// partner.
+  final DateTime? updatedAt;
+
+  PartnerIntegrationInfo({
+    this.createdAt,
+    this.databaseName,
+    this.partnerName,
+    this.status,
+    this.statusMessage,
+    this.updatedAt,
+  });
+  factory PartnerIntegrationInfo.fromXml(_s.XmlElement elem) {
+    return PartnerIntegrationInfo(
+      createdAt: _s.extractXmlDateTimeValue(elem, 'CreatedAt'),
+      databaseName: _s.extractXmlStringValue(elem, 'DatabaseName'),
+      partnerName: _s.extractXmlStringValue(elem, 'PartnerName'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(PartnerIntegrationStatus.fromString),
+      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
+      updatedAt: _s.extractXmlDateTimeValue(elem, 'UpdatedAt'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final databaseName = this.databaseName;
+    final partnerName = this.partnerName;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': iso8601ToJson(createdAt),
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (partnerName != null) 'PartnerName': partnerName,
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (updatedAt != null) 'UpdatedAt': iso8601ToJson(updatedAt),
+    };
+  }
+}
+
+/// Describes an orderable cluster option.
+class OrderableClusterOption {
+  /// A list of availability zones for the orderable cluster.
+  final List<AvailabilityZone>? availabilityZones;
+
+  /// The cluster type, for example <code>multi-node</code>.
+  final String? clusterType;
+
+  /// The version of the orderable cluster.
+  final String? clusterVersion;
+
+  /// The node type for the orderable cluster.
+  final String? nodeType;
+
+  OrderableClusterOption({
+    this.availabilityZones,
+    this.clusterType,
+    this.clusterVersion,
+    this.nodeType,
+  });
+  factory OrderableClusterOption.fromXml(_s.XmlElement elem) {
+    return OrderableClusterOption(
+      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
+          (elem) => elem
+              .findElements('AvailabilityZone')
+              .map(AvailabilityZone.fromXml)
+              .toList()),
+      clusterType: _s.extractXmlStringValue(elem, 'ClusterType'),
+      clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
+      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final clusterType = this.clusterType;
+    final clusterVersion = this.clusterVersion;
+    final nodeType = this.nodeType;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (clusterType != null) 'ClusterType': clusterType,
+      if (clusterVersion != null) 'ClusterVersion': clusterVersion,
+      if (nodeType != null) 'NodeType': nodeType,
+    };
+  }
+}
+
+/// A list of node configurations.
+class NodeConfigurationOption {
+  /// The estimated disk utilizaton percentage.
+  final double? estimatedDiskUtilizationPercent;
+
+  /// The category of the node configuration recommendation.
+  final Mode? mode;
+
+  /// The node type, such as, "ra3.4xlarge".
+  final String? nodeType;
+
+  /// The number of nodes.
+  final int? numberOfNodes;
+
+  NodeConfigurationOption({
+    this.estimatedDiskUtilizationPercent,
+    this.mode,
+    this.nodeType,
+    this.numberOfNodes,
+  });
+  factory NodeConfigurationOption.fromXml(_s.XmlElement elem) {
+    return NodeConfigurationOption(
+      estimatedDiskUtilizationPercent:
+          _s.extractXmlDoubleValue(elem, 'EstimatedDiskUtilizationPercent'),
+      mode: _s.extractXmlStringValue(elem, 'Mode')?.let(Mode.fromString),
+      nodeType: _s.extractXmlStringValue(elem, 'NodeType'),
+      numberOfNodes: _s.extractXmlIntValue(elem, 'NumberOfNodes'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedDiskUtilizationPercent =
+        this.estimatedDiskUtilizationPercent;
+    final mode = this.mode;
+    final nodeType = this.nodeType;
+    final numberOfNodes = this.numberOfNodes;
+    return {
+      if (estimatedDiskUtilizationPercent != null)
+        'EstimatedDiskUtilizationPercent': estimatedDiskUtilizationPercent,
+      if (mode != null) 'Mode': mode.value,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (numberOfNodes != null) 'NumberOfNodes': numberOfNodes,
+    };
+  }
+}
+
+class Mode {
+  static const standard = Mode._('standard');
+  static const highPerformance = Mode._('high-performance');
+
+  final String value;
+
+  const Mode._(this.value);
+
+  static const values = [standard, highPerformance];
+
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
+
+  @override
+  bool operator ==(other) => other is Mode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ActionType {
+  static const restoreCluster = ActionType._('restore-cluster');
+  static const recommendNodeConfig = ActionType._('recommend-node-config');
+  static const resizeCluster = ActionType._('resize-cluster');
+
+  final String value;
+
+  const ActionType._(this.value);
+
+  static const values = [restoreCluster, recommendNodeConfig, resizeCluster];
+
+  static ActionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A set of elements to filter the returned node configurations.
+class NodeConfigurationOptionsFilter {
+  /// The name of the element to filter.
+  final NodeConfigurationOptionsFilterName? name;
+
+  /// The filter operator. If filter Name is NodeType only the 'in' operator is
+  /// supported. Provide one value to evaluate for 'eq', 'lt', 'le', 'gt', and
+  /// 'ge'. Provide two values to evaluate for 'between'. Provide a list of values
+  /// for 'in'.
+  final OperatorType? operator;
+
+  /// List of values. Compare Name using Operator to Values. If filter Name is
+  /// NumberOfNodes, then values can range from 0 to 200. If filter Name is
+  /// EstimatedDiskUtilizationPercent, then values can range from 0 to 100. For
+  /// example, filter NumberOfNodes (name) GT (operator) 3 (values).
+  final List<String>? values;
+
+  NodeConfigurationOptionsFilter({
+    this.name,
+    this.operator,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name.value,
+      if (operator != null) 'Operator': operator.value,
+      if (values != null) 'Value': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name.value,
+      if (operator != null) 'Operator': operator.value,
+      if (values != null)
+        if (values.isEmpty)
+          'Value': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            'Value.item.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+class NodeConfigurationOptionsFilterName {
+  static const nodeType = NodeConfigurationOptionsFilterName._('NodeType');
+  static const numberOfNodes =
+      NodeConfigurationOptionsFilterName._('NumberOfNodes');
+  static const estimatedDiskUtilizationPercent =
+      NodeConfigurationOptionsFilterName._('EstimatedDiskUtilizationPercent');
+  static const mode = NodeConfigurationOptionsFilterName._('Mode');
+
+  final String value;
+
+  const NodeConfigurationOptionsFilterName._(this.value);
+
+  static const values = [
+    nodeType,
+    numberOfNodes,
+    estimatedDiskUtilizationPercent,
+    mode
+  ];
+
+  static NodeConfigurationOptionsFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NodeConfigurationOptionsFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NodeConfigurationOptionsFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OperatorType {
+  static const eq = OperatorType._('eq');
+  static const lt = OperatorType._('lt');
+  static const gt = OperatorType._('gt');
+  static const le = OperatorType._('le');
+  static const ge = OperatorType._('ge');
+  static const $in = OperatorType._('in');
+  static const between = OperatorType._('between');
+
+  final String value;
+
+  const OperatorType._(this.value);
+
+  static const values = [eq, lt, gt, le, ge, $in, between];
+
+  static OperatorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OperatorType._(value));
+
+  @override
+  bool operator ==(other) => other is OperatorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A set of elements to filter the returned integrations.
+class DescribeIntegrationsFilter {
+  /// Specifies the type of integration filter.
+  final DescribeIntegrationsFilterName name;
+
+  /// Specifies the values to filter on.
+  final List<String> values;
+
+  DescribeIntegrationsFilter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      if (values.isEmpty)
+        'Value': ''
+      else
+        for (var i1 = 0; i1 < values.length; i1++)
+          'Value.Value.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+class DescribeIntegrationsFilterName {
+  static const integrationArn =
+      DescribeIntegrationsFilterName._('integration-arn');
+  static const sourceArn = DescribeIntegrationsFilterName._('source-arn');
+  static const sourceTypes = DescribeIntegrationsFilterName._('source-types');
+  static const status = DescribeIntegrationsFilterName._('status');
+
+  final String value;
+
+  const DescribeIntegrationsFilterName._(this.value);
+
+  static const values = [integrationArn, sourceArn, sourceTypes, status];
+
+  static DescribeIntegrationsFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DescribeIntegrationsFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescribeIntegrationsFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The content of an inbound integration.
+class InboundIntegration {
+  /// The creation time of an inbound integration.
+  final DateTime? createTime;
+
+  /// The outstanding errors of an inbound integration. Each item is an
+  /// "IntegrationError". This is null if there is no error.
+  final List<IntegrationError>? errors;
+
+  /// The Amazon Resource Name (ARN) of an inbound integration.
+  final String? integrationArn;
+
+  /// The Amazon Resource Name (ARN) of the source of an inbound integration.
+  final String? sourceArn;
+
+  /// The status of an inbound integration.
+  final ZeroETLIntegrationStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the target of an inbound integration.
+  final String? targetArn;
+
+  InboundIntegration({
+    this.createTime,
+    this.errors,
+    this.integrationArn,
+    this.sourceArn,
+    this.status,
+    this.targetArn,
+  });
+  factory InboundIntegration.fromXml(_s.XmlElement elem) {
+    return InboundIntegration(
+      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
+      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
+          .findElements('IntegrationError')
+          .map(IntegrationError.fromXml)
+          .toList()),
+      integrationArn: _s.extractXmlStringValue(elem, 'IntegrationArn'),
+      sourceArn: _s.extractXmlStringValue(elem, 'SourceArn'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(ZeroETLIntegrationStatus.fromString),
+      targetArn: _s.extractXmlStringValue(elem, 'TargetArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTime = this.createTime;
+    final errors = this.errors;
+    final integrationArn = this.integrationArn;
+    final sourceArn = this.sourceArn;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    return {
+      if (createTime != null) 'CreateTime': iso8601ToJson(createTime),
+      if (errors != null) 'Errors': errors,
+      if (integrationArn != null) 'IntegrationArn': integrationArn,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (status != null) 'Status': status.value,
+      if (targetArn != null) 'TargetArn': targetArn,
+    };
+  }
+}
+
+class ZeroETLIntegrationStatus {
+  static const creating = ZeroETLIntegrationStatus._('creating');
+  static const active = ZeroETLIntegrationStatus._('active');
+  static const modifying = ZeroETLIntegrationStatus._('modifying');
+  static const failed = ZeroETLIntegrationStatus._('failed');
+  static const deleting = ZeroETLIntegrationStatus._('deleting');
+  static const syncing = ZeroETLIntegrationStatus._('syncing');
+  static const needsAttention = ZeroETLIntegrationStatus._('needs_attention');
+
+  final String value;
+
+  const ZeroETLIntegrationStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    modifying,
+    failed,
+    deleting,
+    syncing,
+    needsAttention
+  ];
+
+  static ZeroETLIntegrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ZeroETLIntegrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ZeroETLIntegrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The error of an inbound integration.
+class IntegrationError {
+  /// The error code of an inbound integration error.
+  final String errorCode;
+
+  /// The error message of an inbound integration error.
+  final String? errorMessage;
+
+  IntegrationError({
+    required this.errorCode,
+    this.errorMessage,
+  });
+  factory IntegrationError.fromXml(_s.XmlElement elem) {
+    return IntegrationError(
+      errorCode: _s.extractXmlStringValue(elem, 'ErrorCode')!,
+      errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+/// Returns information about an HSM configuration, which is an object that
+/// describes to Amazon Redshift clusters the information they require to
+/// connect to an HSM where they can store database encryption keys.
+class HsmConfiguration {
+  /// A text description of the HSM configuration.
+  final String? description;
+
+  /// The name of the Amazon Redshift HSM configuration.
+  final String? hsmConfigurationIdentifier;
+
+  /// The IP address that the Amazon Redshift cluster must use to access the HSM.
+  final String? hsmIpAddress;
+
+  /// The name of the partition in the HSM where the Amazon Redshift clusters will
+  /// store their database encryption keys.
+  final String? hsmPartitionName;
+
+  /// The list of tags for the HSM configuration.
+  final List<Tag>? tags;
+
+  HsmConfiguration({
+    this.description,
+    this.hsmConfigurationIdentifier,
+    this.hsmIpAddress,
+    this.hsmPartitionName,
+    this.tags,
+  });
+  factory HsmConfiguration.fromXml(_s.XmlElement elem) {
+    return HsmConfiguration(
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      hsmConfigurationIdentifier:
+          _s.extractXmlStringValue(elem, 'HsmConfigurationIdentifier'),
+      hsmIpAddress: _s.extractXmlStringValue(elem, 'HsmIpAddress'),
+      hsmPartitionName: _s.extractXmlStringValue(elem, 'HsmPartitionName'),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final hsmConfigurationIdentifier = this.hsmConfigurationIdentifier;
+    final hsmIpAddress = this.hsmIpAddress;
+    final hsmPartitionName = this.hsmPartitionName;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (hsmConfigurationIdentifier != null)
+        'HsmConfigurationIdentifier': hsmConfigurationIdentifier,
+      if (hsmIpAddress != null) 'HsmIpAddress': hsmIpAddress,
+      if (hsmPartitionName != null) 'HsmPartitionName': hsmPartitionName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Returns information about an HSM client certificate. The certificate is
+/// stored in a secure Hardware Storage Module (HSM), and used by the Amazon
+/// Redshift cluster to encrypt data files.
+class HsmClientCertificate {
+  /// The identifier of the HSM client certificate.
+  final String? hsmClientCertificateIdentifier;
+
+  /// The public key that the Amazon Redshift cluster will use to connect to the
+  /// HSM. You must register the public key in the HSM.
+  final String? hsmClientCertificatePublicKey;
+
+  /// The list of tags for the HSM client certificate.
+  final List<Tag>? tags;
+
+  HsmClientCertificate({
+    this.hsmClientCertificateIdentifier,
+    this.hsmClientCertificatePublicKey,
+    this.tags,
+  });
+  factory HsmClientCertificate.fromXml(_s.XmlElement elem) {
+    return HsmClientCertificate(
+      hsmClientCertificateIdentifier:
+          _s.extractXmlStringValue(elem, 'HsmClientCertificateIdentifier'),
+      hsmClientCertificatePublicKey:
+          _s.extractXmlStringValue(elem, 'HsmClientCertificatePublicKey'),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmClientCertificateIdentifier = this.hsmClientCertificateIdentifier;
+    final hsmClientCertificatePublicKey = this.hsmClientCertificatePublicKey;
+    final tags = this.tags;
+    return {
+      if (hsmClientCertificateIdentifier != null)
+        'HsmClientCertificateIdentifier': hsmClientCertificateIdentifier,
+      if (hsmClientCertificatePublicKey != null)
+        'HsmClientCertificatePublicKey': hsmClientCertificatePublicKey,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Describes an event.
+class Event {
+  /// The date and time of the event.
+  final DateTime? date;
+
+  /// A list of the event categories.
+  ///
+  /// Values: Configuration, Management, Monitoring, Security, Pending
+  final List<String>? eventCategories;
+
+  /// The identifier of the event.
+  final String? eventId;
+
+  /// The text of this event.
+  final String? message;
+
+  /// The severity of the event.
+  ///
+  /// Values: ERROR, INFO
+  final String? severity;
+
+  /// The identifier for the source of the event.
+  final String? sourceIdentifier;
+
+  /// The source type for this event.
+  final SourceType? sourceType;
+
+  Event({
+    this.date,
+    this.eventCategories,
+    this.eventId,
+    this.message,
+    this.severity,
+    this.sourceIdentifier,
+    this.sourceType,
+  });
+  factory Event.fromXml(_s.XmlElement elem) {
+    return Event(
+      date: _s.extractXmlDateTimeValue(elem, 'Date'),
+      eventCategories: _s
+          .extractXmlChild(elem, 'EventCategories')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
+      eventId: _s.extractXmlStringValue(elem, 'EventId'),
+      message: _s.extractXmlStringValue(elem, 'Message'),
+      severity: _s.extractXmlStringValue(elem, 'Severity'),
+      sourceIdentifier: _s.extractXmlStringValue(elem, 'SourceIdentifier'),
+      sourceType: _s
+          .extractXmlStringValue(elem, 'SourceType')
+          ?.let(SourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final eventCategories = this.eventCategories;
+    final eventId = this.eventId;
+    final message = this.message;
+    final severity = this.severity;
+    final sourceIdentifier = this.sourceIdentifier;
+    final sourceType = this.sourceType;
+    return {
+      if (date != null) 'Date': iso8601ToJson(date),
+      if (eventCategories != null) 'EventCategories': eventCategories,
+      if (eventId != null) 'EventId': eventId,
+      if (message != null) 'Message': message,
+      if (severity != null) 'Severity': severity,
+      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
+      if (sourceType != null) 'SourceType': sourceType.value,
+    };
+  }
+}
+
+class SourceType {
+  static const cluster = SourceType._('cluster');
+  static const clusterParameterGroup = SourceType._('cluster-parameter-group');
+  static const clusterSecurityGroup = SourceType._('cluster-security-group');
+  static const clusterSnapshot = SourceType._('cluster-snapshot');
+  static const scheduledAction = SourceType._('scheduled-action');
+
+  final String value;
+
+  const SourceType._(this.value);
+
+  static const values = [
+    cluster,
+    clusterParameterGroup,
+    clusterSecurityGroup,
+    clusterSnapshot,
+    scheduledAction
+  ];
+
+  static SourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SourceType._(value));
+
+  @override
+  bool operator ==(other) => other is SourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes event categories.
+class EventCategoriesMap {
+  /// The events in the event category.
+  final List<EventInfoMap>? events;
+
+  /// The source type, such as cluster or cluster-snapshot, that the returned
+  /// categories belong to.
+  final String? sourceType;
+
+  EventCategoriesMap({
+    this.events,
+    this.sourceType,
+  });
+  factory EventCategoriesMap.fromXml(_s.XmlElement elem) {
+    return EventCategoriesMap(
+      events: _s.extractXmlChild(elem, 'Events')?.let((elem) =>
+          elem.findElements('EventInfoMap').map(EventInfoMap.fromXml).toList()),
+      sourceType: _s.extractXmlStringValue(elem, 'SourceType'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final sourceType = this.sourceType;
+    return {
+      if (events != null) 'Events': events,
+      if (sourceType != null) 'SourceType': sourceType,
+    };
+  }
+}
+
+/// Describes event information.
+class EventInfoMap {
+  /// The category of an Amazon Redshift event.
+  final List<String>? eventCategories;
+
+  /// The description of an Amazon Redshift event.
+  final String? eventDescription;
+
+  /// The identifier of an Amazon Redshift event.
+  final String? eventId;
+
+  /// The severity of the event.
+  ///
+  /// Values: ERROR, INFO
+  final String? severity;
+
+  EventInfoMap({
+    this.eventCategories,
+    this.eventDescription,
+    this.eventId,
+    this.severity,
+  });
+  factory EventInfoMap.fromXml(_s.XmlElement elem) {
+    return EventInfoMap(
+      eventCategories: _s
+          .extractXmlChild(elem, 'EventCategories')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'EventCategory')),
+      eventDescription: _s.extractXmlStringValue(elem, 'EventDescription'),
+      eventId: _s.extractXmlStringValue(elem, 'EventId'),
+      severity: _s.extractXmlStringValue(elem, 'Severity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventCategories = this.eventCategories;
+    final eventDescription = this.eventDescription;
+    final eventId = this.eventId;
+    final severity = this.severity;
+    return {
+      if (eventCategories != null) 'EventCategories': eventCategories,
+      if (eventDescription != null) 'EventDescription': eventDescription,
+      if (eventId != null) 'EventId': eventId,
+      if (severity != null) 'Severity': severity,
+    };
+  }
+}
+
+/// Describes the default cluster parameters for a parameter group family.
+class DefaultClusterParameters {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
   /// can retrieve the next set of records by providing this returned marker value
@@ -18302,65 +19290,262 @@ class TaggedResourceListMessage {
   /// for the request.
   final String? marker;
 
-  /// A list of tags with their associated resources.
-  final List<TaggedResource>? taggedResources;
+  /// The name of the cluster parameter group family to which the engine default
+  /// parameters apply.
+  final String? parameterGroupFamily;
 
-  TaggedResourceListMessage({
+  /// The list of cluster default parameters.
+  final List<Parameter>? parameters;
+
+  DefaultClusterParameters({
     this.marker,
-    this.taggedResources,
+    this.parameterGroupFamily,
+    this.parameters,
   });
-  factory TaggedResourceListMessage.fromXml(_s.XmlElement elem) {
-    return TaggedResourceListMessage(
+  factory DefaultClusterParameters.fromXml(_s.XmlElement elem) {
+    return DefaultClusterParameters(
       marker: _s.extractXmlStringValue(elem, 'Marker'),
-      taggedResources: _s.extractXmlChild(elem, 'TaggedResources')?.let(
-          (elem) => elem
-              .findElements('TaggedResource')
-              .map(TaggedResource.fromXml)
-              .toList()),
+      parameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'ParameterGroupFamily'),
+      parameters: _s.extractXmlChild(elem, 'Parameters')?.let((elem) =>
+          elem.findElements('Parameter').map(Parameter.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
     final marker = this.marker;
-    final taggedResources = this.taggedResources;
+    final parameterGroupFamily = this.parameterGroupFamily;
+    final parameters = this.parameters;
     return {
       if (marker != null) 'Marker': marker,
-      if (taggedResources != null) 'TaggedResources': taggedResources,
+      if (parameterGroupFamily != null)
+        'ParameterGroupFamily': parameterGroupFamily,
+      if (parameters != null) 'Parameters': parameters,
     };
   }
 }
 
-class TrackListMessage {
-  /// A list of maintenance tracks output by the
-  /// <code>DescribeClusterTracks</code> operation.
-  final List<MaintenanceTrack>? maintenanceTracks;
+class DataShareStatusForProducer {
+  static const active = DataShareStatusForProducer._('ACTIVE');
+  static const authorized = DataShareStatusForProducer._('AUTHORIZED');
+  static const pendingAuthorization =
+      DataShareStatusForProducer._('PENDING_AUTHORIZATION');
+  static const deauthorized = DataShareStatusForProducer._('DEAUTHORIZED');
+  static const rejected = DataShareStatusForProducer._('REJECTED');
 
-  /// The starting point to return a set of response tracklist records. You can
-  /// retrieve the next set of response records by providing the returned marker
-  /// value in the <code>Marker</code> parameter and retrying the request.
-  final String? marker;
+  final String value;
 
-  TrackListMessage({
-    this.maintenanceTracks,
-    this.marker,
+  const DataShareStatusForProducer._(this.value);
+
+  static const values = [
+    active,
+    authorized,
+    pendingAuthorization,
+    deauthorized,
+    rejected
+  ];
+
+  static DataShareStatusForProducer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataShareStatusForProducer._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataShareStatusForProducer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DataShareStatusForConsumer {
+  static const active = DataShareStatusForConsumer._('ACTIVE');
+  static const available = DataShareStatusForConsumer._('AVAILABLE');
+
+  final String value;
+
+  const DataShareStatusForConsumer._(this.value);
+
+  static const values = [active, available];
+
+  static DataShareStatusForConsumer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataShareStatusForConsumer._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataShareStatusForConsumer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the custom domain name association.
+class Association {
+  /// A list of all associated clusters and domain names tied to a specific
+  /// certificate.
+  final List<CertificateAssociation>? certificateAssociations;
+
+  /// The Amazon Resource Name (ARN) for the certificate associated with the
+  /// custom domain.
+  final String? customDomainCertificateArn;
+
+  /// The expiration date for the certificate.
+  final DateTime? customDomainCertificateExpiryDate;
+
+  Association({
+    this.certificateAssociations,
+    this.customDomainCertificateArn,
+    this.customDomainCertificateExpiryDate,
   });
-  factory TrackListMessage.fromXml(_s.XmlElement elem) {
-    return TrackListMessage(
-      maintenanceTracks: _s.extractXmlChild(elem, 'MaintenanceTracks')?.let(
-          (elem) => elem
-              .findElements('MaintenanceTrack')
-              .map(MaintenanceTrack.fromXml)
+  factory Association.fromXml(_s.XmlElement elem) {
+    return Association(
+      certificateAssociations: _s
+          .extractXmlChild(elem, 'CertificateAssociations')
+          ?.let((elem) => elem
+              .findElements('CertificateAssociation')
+              .map(CertificateAssociation.fromXml)
               .toList()),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      customDomainCertificateArn:
+          _s.extractXmlStringValue(elem, 'CustomDomainCertificateArn'),
+      customDomainCertificateExpiryDate:
+          _s.extractXmlDateTimeValue(elem, 'CustomDomainCertificateExpiryDate'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final maintenanceTracks = this.maintenanceTracks;
-    final marker = this.marker;
+    final certificateAssociations = this.certificateAssociations;
+    final customDomainCertificateArn = this.customDomainCertificateArn;
+    final customDomainCertificateExpiryDate =
+        this.customDomainCertificateExpiryDate;
     return {
-      if (maintenanceTracks != null) 'MaintenanceTracks': maintenanceTracks,
-      if (marker != null) 'Marker': marker,
+      if (certificateAssociations != null)
+        'CertificateAssociations': certificateAssociations,
+      if (customDomainCertificateArn != null)
+        'CustomDomainCertificateArn': customDomainCertificateArn,
+      if (customDomainCertificateExpiryDate != null)
+        'CustomDomainCertificateExpiryDate':
+            iso8601ToJson(customDomainCertificateExpiryDate),
+    };
+  }
+}
+
+/// A cluster ID and custom domain name tied to a specific certificate. These
+/// are typically returned in a list.
+class CertificateAssociation {
+  /// The cluster identifier for the certificate association.
+  final String? clusterIdentifier;
+
+  /// The custom domain name for the certificate association.
+  final String? customDomainName;
+
+  CertificateAssociation({
+    this.clusterIdentifier,
+    this.customDomainName,
+  });
+  factory CertificateAssociation.fromXml(_s.XmlElement elem) {
+    return CertificateAssociation(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      customDomainName: _s.extractXmlStringValue(elem, 'CustomDomainName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final customDomainName = this.customDomainName;
+    return {
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (customDomainName != null) 'CustomDomainName': customDomainName,
+    };
+  }
+}
+
+/// Describes a cluster version, including the parameter group family and
+/// description of the version.
+class ClusterVersion {
+  /// The name of the cluster parameter group family for the cluster.
+  final String? clusterParameterGroupFamily;
+
+  /// The version number used by the cluster.
+  final String? clusterVersion;
+
+  /// The description of the cluster version.
+  final String? description;
+
+  ClusterVersion({
+    this.clusterParameterGroupFamily,
+    this.clusterVersion,
+    this.description,
+  });
+  factory ClusterVersion.fromXml(_s.XmlElement elem) {
+    return ClusterVersion(
+      clusterParameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'ClusterParameterGroupFamily'),
+      clusterVersion: _s.extractXmlStringValue(elem, 'ClusterVersion'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterParameterGroupFamily = this.clusterParameterGroupFamily;
+    final clusterVersion = this.clusterVersion;
+    final description = this.description;
+    return {
+      if (clusterParameterGroupFamily != null)
+        'ClusterParameterGroupFamily': clusterParameterGroupFamily,
+      if (clusterVersion != null) 'ClusterVersion': clusterVersion,
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// Defines a maintenance track that determines which Amazon Redshift version to
+/// apply during a maintenance window. If the value for
+/// <code>MaintenanceTrack</code> is <code>current</code>, the cluster is
+/// updated to the most recently certified maintenance release. If the value is
+/// <code>trailing</code>, the cluster is updated to the previously certified
+/// maintenance release.
+class MaintenanceTrack {
+  /// The version number for the cluster release.
+  final String? databaseVersion;
+
+  /// The name of the maintenance track. Possible values are <code>current</code>
+  /// and <code>trailing</code>.
+  final String? maintenanceTrackName;
+
+  /// An array of <a>UpdateTarget</a> objects to update with the maintenance
+  /// track.
+  final List<UpdateTarget>? updateTargets;
+
+  MaintenanceTrack({
+    this.databaseVersion,
+    this.maintenanceTrackName,
+    this.updateTargets,
+  });
+  factory MaintenanceTrack.fromXml(_s.XmlElement elem) {
+    return MaintenanceTrack(
+      databaseVersion: _s.extractXmlStringValue(elem, 'DatabaseVersion'),
+      maintenanceTrackName:
+          _s.extractXmlStringValue(elem, 'MaintenanceTrackName'),
+      updateTargets: _s.extractXmlChild(elem, 'UpdateTargets')?.let((elem) =>
+          elem.findElements('UpdateTarget').map(UpdateTarget.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseVersion = this.databaseVersion;
+    final maintenanceTrackName = this.maintenanceTrackName;
+    final updateTargets = this.updateTargets;
+    return {
+      if (databaseVersion != null) 'DatabaseVersion': databaseVersion,
+      if (maintenanceTrackName != null)
+        'MaintenanceTrackName': maintenanceTrackName,
+      if (updateTargets != null) 'UpdateTargets': updateTargets,
     };
   }
 }
@@ -18408,121 +19593,78 @@ class UpdateTarget {
   }
 }
 
-/// Describes a usage limit object for a cluster.
-class UsageLimit {
-  /// The limit amount. If time-based, this amount is in minutes. If data-based,
-  /// this amount is in terabytes (TB).
-  final int? amount;
+/// Describes the operations that are allowed on a maintenance track.
+class SupportedOperation {
+  /// A list of the supported operations.
+  final String? operationName;
 
-  /// The action that Amazon Redshift takes when the limit is reached. Possible
-  /// values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>log</b> - To log an event in a system table. The default is log.
-  /// </li>
-  /// <li>
-  /// <b>emit-metric</b> - To emit CloudWatch metrics.
-  /// </li>
-  /// <li>
-  /// <b>disable</b> - To disable the feature until the next usage period begins.
-  /// </li>
-  /// </ul>
-  final UsageLimitBreachAction? breachAction;
-
-  /// The identifier of the cluster with a usage limit.
-  final String? clusterIdentifier;
-
-  /// The Amazon Redshift feature to which the limit applies.
-  final UsageLimitFeatureType? featureType;
-
-  /// The type of limit. Depending on the feature type, this can be based on a
-  /// time duration or data size.
-  final UsageLimitLimitType? limitType;
-
-  /// The time period that the amount applies to. A <code>weekly</code> period
-  /// begins on Sunday. The default is <code>monthly</code>.
-  final UsageLimitPeriod? period;
-
-  /// A list of tag instances.
-  final List<Tag>? tags;
-
-  /// The identifier of the usage limit.
-  final String? usageLimitId;
-
-  UsageLimit({
-    this.amount,
-    this.breachAction,
-    this.clusterIdentifier,
-    this.featureType,
-    this.limitType,
-    this.period,
-    this.tags,
-    this.usageLimitId,
+  SupportedOperation({
+    this.operationName,
   });
-  factory UsageLimit.fromXml(_s.XmlElement elem) {
-    return UsageLimit(
-      amount: _s.extractXmlIntValue(elem, 'Amount'),
-      breachAction: _s
-          .extractXmlStringValue(elem, 'BreachAction')
-          ?.let(UsageLimitBreachAction.fromString),
-      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
-      featureType: _s
-          .extractXmlStringValue(elem, 'FeatureType')
-          ?.let(UsageLimitFeatureType.fromString),
-      limitType: _s
-          .extractXmlStringValue(elem, 'LimitType')
-          ?.let(UsageLimitLimitType.fromString),
-      period: _s
-          .extractXmlStringValue(elem, 'Period')
-          ?.let(UsageLimitPeriod.fromString),
-      tags: _s
-          .extractXmlChild(elem, 'Tags')
-          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
-      usageLimitId: _s.extractXmlStringValue(elem, 'UsageLimitId'),
+  factory SupportedOperation.fromXml(_s.XmlElement elem) {
+    return SupportedOperation(
+      operationName: _s.extractXmlStringValue(elem, 'OperationName'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final amount = this.amount;
-    final breachAction = this.breachAction;
-    final clusterIdentifier = this.clusterIdentifier;
-    final featureType = this.featureType;
-    final limitType = this.limitType;
-    final period = this.period;
-    final tags = this.tags;
-    final usageLimitId = this.usageLimitId;
+    final operationName = this.operationName;
     return {
-      if (amount != null) 'Amount': amount,
-      if (breachAction != null) 'BreachAction': breachAction.value,
-      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
-      if (featureType != null) 'FeatureType': featureType.value,
-      if (limitType != null) 'LimitType': limitType.value,
-      if (period != null) 'Period': period.value,
-      if (tags != null) 'Tags': tags,
-      if (usageLimitId != null) 'UsageLimitId': usageLimitId,
+      if (operationName != null) 'OperationName': operationName,
     };
   }
 }
 
-class UsageLimitBreachAction {
-  static const log = UsageLimitBreachAction._('log');
-  static const emitMetric = UsageLimitBreachAction._('emit-metric');
-  static const disable = UsageLimitBreachAction._('disable');
+/// Describes a sorting entity
+class SnapshotSortingEntity {
+  /// The category for sorting the snapshots.
+  final SnapshotAttributeToSortBy attribute;
+
+  /// The order for listing the attributes.
+  final SortByOrder? sortOrder;
+
+  SnapshotSortingEntity({
+    required this.attribute,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final sortOrder = this.sortOrder;
+    return {
+      'Attribute': attribute.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final attribute = this.attribute;
+    final sortOrder = this.sortOrder;
+    return {
+      'Attribute': attribute.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+}
+
+class SnapshotAttributeToSortBy {
+  static const sourceType = SnapshotAttributeToSortBy._('SOURCE_TYPE');
+  static const totalSize = SnapshotAttributeToSortBy._('TOTAL_SIZE');
+  static const createTime = SnapshotAttributeToSortBy._('CREATE_TIME');
 
   final String value;
 
-  const UsageLimitBreachAction._(this.value);
+  const SnapshotAttributeToSortBy._(this.value);
 
-  static const values = [log, emitMetric, disable];
+  static const values = [sourceType, totalSize, createTime];
 
-  static UsageLimitBreachAction fromString(String value) =>
+  static SnapshotAttributeToSortBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => UsageLimitBreachAction._(value));
+          orElse: () => SnapshotAttributeToSortBy._(value));
 
   @override
   bool operator ==(other) =>
-      other is UsageLimitBreachAction && other.value == value;
+      other is SnapshotAttributeToSortBy && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -18531,32 +19673,258 @@ class UsageLimitBreachAction {
   String toString() => value;
 }
 
-class UsageLimitFeatureType {
-  static const spectrum = UsageLimitFeatureType._('spectrum');
-  static const concurrencyScaling =
-      UsageLimitFeatureType._('concurrency-scaling');
-  static const crossRegionDatasharing =
-      UsageLimitFeatureType._('cross-region-datasharing');
+class SortByOrder {
+  static const asc = SortByOrder._('ASC');
+  static const desc = SortByOrder._('DESC');
 
   final String value;
 
-  const UsageLimitFeatureType._(this.value);
+  const SortByOrder._(this.value);
 
-  static const values = [spectrum, concurrencyScaling, crossRegionDatasharing];
+  static const values = [asc, desc];
 
-  static UsageLimitFeatureType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UsageLimitFeatureType._(value));
+  static SortByOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortByOrder._(value));
 
   @override
-  bool operator ==(other) =>
-      other is UsageLimitFeatureType && other.value == value;
+  bool operator ==(other) => other is SortByOrder && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Describes a parameter group.
+class ClusterParameterGroup {
+  /// The description of the parameter group.
+  final String? description;
+
+  /// The name of the cluster parameter group family that this cluster parameter
+  /// group is compatible with.
+  final String? parameterGroupFamily;
+
+  /// The name of the cluster parameter group.
+  final String? parameterGroupName;
+
+  /// The list of tags for the cluster parameter group.
+  final List<Tag>? tags;
+
+  ClusterParameterGroup({
+    this.description,
+    this.parameterGroupFamily,
+    this.parameterGroupName,
+    this.tags,
+  });
+  factory ClusterParameterGroup.fromXml(_s.XmlElement elem) {
+    return ClusterParameterGroup(
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      parameterGroupFamily:
+          _s.extractXmlStringValue(elem, 'ParameterGroupFamily'),
+      parameterGroupName: _s.extractXmlStringValue(elem, 'ParameterGroupName'),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')
+          ?.let((elem) => elem.findElements('Tag').map(Tag.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final parameterGroupFamily = this.parameterGroupFamily;
+    final parameterGroupName = this.parameterGroupName;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (parameterGroupFamily != null)
+        'ParameterGroupFamily': parameterGroupFamily,
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Describes a <code>ClusterDbRevision</code>.
+class ClusterDbRevision {
+  /// The unique identifier of the cluster.
+  final String? clusterIdentifier;
+
+  /// A string representing the current cluster version.
+  final String? currentDatabaseRevision;
+
+  /// The date on which the database revision was released.
+  final DateTime? databaseRevisionReleaseDate;
+
+  /// A list of <code>RevisionTarget</code> objects, where each object describes
+  /// the database revision that a cluster can be updated to.
+  final List<RevisionTarget>? revisionTargets;
+
+  ClusterDbRevision({
+    this.clusterIdentifier,
+    this.currentDatabaseRevision,
+    this.databaseRevisionReleaseDate,
+    this.revisionTargets,
+  });
+  factory ClusterDbRevision.fromXml(_s.XmlElement elem) {
+    return ClusterDbRevision(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      currentDatabaseRevision:
+          _s.extractXmlStringValue(elem, 'CurrentDatabaseRevision'),
+      databaseRevisionReleaseDate:
+          _s.extractXmlDateTimeValue(elem, 'DatabaseRevisionReleaseDate'),
+      revisionTargets: _s.extractXmlChild(elem, 'RevisionTargets')?.let(
+          (elem) => elem
+              .findElements('RevisionTarget')
+              .map(RevisionTarget.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final currentDatabaseRevision = this.currentDatabaseRevision;
+    final databaseRevisionReleaseDate = this.databaseRevisionReleaseDate;
+    final revisionTargets = this.revisionTargets;
+    return {
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (currentDatabaseRevision != null)
+        'CurrentDatabaseRevision': currentDatabaseRevision,
+      if (databaseRevisionReleaseDate != null)
+        'DatabaseRevisionReleaseDate':
+            iso8601ToJson(databaseRevisionReleaseDate),
+      if (revisionTargets != null) 'RevisionTargets': revisionTargets,
+    };
+  }
+}
+
+/// Describes a <code>RevisionTarget</code>.
+class RevisionTarget {
+  /// A unique string that identifies the version to update the cluster to. You
+  /// can use this value in <a>ModifyClusterDbRevision</a>.
+  final String? databaseRevision;
+
+  /// The date on which the database revision was released.
+  final DateTime? databaseRevisionReleaseDate;
+
+  /// A string that describes the changes and features that will be applied to the
+  /// cluster when it is updated to the corresponding <a>ClusterDbRevision</a>.
+  final String? description;
+
+  RevisionTarget({
+    this.databaseRevision,
+    this.databaseRevisionReleaseDate,
+    this.description,
+  });
+  factory RevisionTarget.fromXml(_s.XmlElement elem) {
+    return RevisionTarget(
+      databaseRevision: _s.extractXmlStringValue(elem, 'DatabaseRevision'),
+      databaseRevisionReleaseDate:
+          _s.extractXmlDateTimeValue(elem, 'DatabaseRevisionReleaseDate'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseRevision = this.databaseRevision;
+    final databaseRevisionReleaseDate = this.databaseRevisionReleaseDate;
+    final description = this.description;
+    return {
+      if (databaseRevision != null) 'DatabaseRevision': databaseRevision,
+      if (databaseRevisionReleaseDate != null)
+        'DatabaseRevisionReleaseDate':
+            iso8601ToJson(databaseRevisionReleaseDate),
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// Describes an authentication profile.
+class AuthenticationProfile {
+  /// The content of the authentication profile in JSON format. The maximum length
+  /// of the JSON string is determined by a quota for your account.
+  final String? authenticationProfileContent;
+
+  /// The name of the authentication profile.
+  final String? authenticationProfileName;
+
+  AuthenticationProfile({
+    this.authenticationProfileContent,
+    this.authenticationProfileName,
+  });
+  factory AuthenticationProfile.fromXml(_s.XmlElement elem) {
+    return AuthenticationProfile(
+      authenticationProfileContent:
+          _s.extractXmlStringValue(elem, 'AuthenticationProfileContent'),
+      authenticationProfileName:
+          _s.extractXmlStringValue(elem, 'AuthenticationProfileName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationProfileContent = this.authenticationProfileContent;
+    final authenticationProfileName = this.authenticationProfileName;
+    return {
+      if (authenticationProfileContent != null)
+        'AuthenticationProfileContent': authenticationProfileContent,
+      if (authenticationProfileName != null)
+        'AuthenticationProfileName': authenticationProfileName,
+    };
+  }
+}
+
+/// A name value pair that describes an aspect of an account.
+class AccountAttribute {
+  /// The name of the attribute.
+  final String? attributeName;
+
+  /// A list of attribute values.
+  final List<AttributeValueTarget>? attributeValues;
+
+  AccountAttribute({
+    this.attributeName,
+    this.attributeValues,
+  });
+  factory AccountAttribute.fromXml(_s.XmlElement elem) {
+    return AccountAttribute(
+      attributeName: _s.extractXmlStringValue(elem, 'AttributeName'),
+      attributeValues: _s.extractXmlChild(elem, 'AttributeValues')?.let(
+          (elem) => elem
+              .findElements('AttributeValueTarget')
+              .map(AttributeValueTarget.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValues = this.attributeValues;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (attributeValues != null) 'AttributeValues': attributeValues,
+    };
+  }
+}
+
+/// Describes an attribute value.
+class AttributeValueTarget {
+  /// The value of the attribute.
+  final String? attributeValue;
+
+  AttributeValueTarget({
+    this.attributeValue,
+  });
+  factory AttributeValueTarget.fromXml(_s.XmlElement elem) {
+    return AttributeValueTarget(
+      attributeValue: _s.extractXmlStringValue(elem, 'AttributeValue'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeValue = this.attributeValue;
+    return {
+      if (attributeValue != null) 'AttributeValue': attributeValue,
+    };
+  }
 }
 
 class UsageLimitLimitType {
@@ -18584,40 +19952,6 @@ class UsageLimitLimitType {
   String toString() => value;
 }
 
-class UsageLimitList {
-  /// A value that indicates the starting point for the next set of response
-  /// records in a subsequent request. If a value is returned in a response, you
-  /// can retrieve the next set of records by providing this returned marker value
-  /// in the <code>Marker</code> parameter and retrying the command. If the
-  /// <code>Marker</code> field is empty, all response records have been retrieved
-  /// for the request.
-  final String? marker;
-
-  /// Contains the output from the <a>DescribeUsageLimits</a> action.
-  final List<UsageLimit>? usageLimits;
-
-  UsageLimitList({
-    this.marker,
-    this.usageLimits,
-  });
-  factory UsageLimitList.fromXml(_s.XmlElement elem) {
-    return UsageLimitList(
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      usageLimits: _s.extractXmlChild(elem, 'UsageLimits')?.let((elem) =>
-          elem.findElements('member').map(UsageLimit.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final usageLimits = this.usageLimits;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (usageLimits != null) 'UsageLimits': usageLimits,
-    };
-  }
-}
-
 class UsageLimitPeriod {
   static const daily = UsageLimitPeriod._('daily');
   static const weekly = UsageLimitPeriod._('weekly');
@@ -18643,108 +19977,259 @@ class UsageLimitPeriod {
   String toString() => value;
 }
 
-/// The connection endpoint for connecting to an Amazon Redshift cluster through
-/// the proxy.
-class VpcEndpoint {
-  /// One or more network interfaces of the endpoint. Also known as an interface
-  /// endpoint.
-  final List<NetworkInterface>? networkInterfaces;
+///
+class ClusterAssociatedToSchedule {
+  ///
+  final String? clusterIdentifier;
 
-  /// The connection endpoint ID for connecting an Amazon Redshift cluster through
-  /// the proxy.
-  final String? vpcEndpointId;
+  ///
+  final ScheduleState? scheduleAssociationState;
 
-  /// The VPC identifier that the endpoint is associated.
-  final String? vpcId;
-
-  VpcEndpoint({
-    this.networkInterfaces,
-    this.vpcEndpointId,
-    this.vpcId,
+  ClusterAssociatedToSchedule({
+    this.clusterIdentifier,
+    this.scheduleAssociationState,
   });
-  factory VpcEndpoint.fromXml(_s.XmlElement elem) {
-    return VpcEndpoint(
-      networkInterfaces: _s.extractXmlChild(elem, 'NetworkInterfaces')?.let(
-          (elem) => elem
-              .findElements('NetworkInterface')
-              .map(NetworkInterface.fromXml)
-              .toList()),
-      vpcEndpointId: _s.extractXmlStringValue(elem, 'VpcEndpointId'),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+  factory ClusterAssociatedToSchedule.fromXml(_s.XmlElement elem) {
+    return ClusterAssociatedToSchedule(
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      scheduleAssociationState: _s
+          .extractXmlStringValue(elem, 'ScheduleAssociationState')
+          ?.let(ScheduleState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final networkInterfaces = this.networkInterfaces;
-    final vpcEndpointId = this.vpcEndpointId;
-    final vpcId = this.vpcId;
+    final clusterIdentifier = this.clusterIdentifier;
+    final scheduleAssociationState = this.scheduleAssociationState;
     return {
-      if (networkInterfaces != null) 'NetworkInterfaces': networkInterfaces,
-      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
-      if (vpcId != null) 'VpcId': vpcId,
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (scheduleAssociationState != null)
+        'ScheduleAssociationState': scheduleAssociationState.value,
     };
   }
 }
 
-/// Describes the members of a VPC security group.
-class VpcSecurityGroupMembership {
-  /// The status of the VPC security group.
-  final String? status;
-
-  /// The identifier of the VPC security group.
-  final String? vpcSecurityGroupId;
-
-  VpcSecurityGroupMembership({
-    this.status,
-    this.vpcSecurityGroupId,
-  });
-  factory VpcSecurityGroupMembership.fromXml(_s.XmlElement elem) {
-    return VpcSecurityGroupMembership(
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      vpcSecurityGroupId: _s.extractXmlStringValue(elem, 'VpcSecurityGroupId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final vpcSecurityGroupId = this.vpcSecurityGroupId;
-    return {
-      if (status != null) 'Status': status,
-      if (vpcSecurityGroupId != null) 'VpcSecurityGroupId': vpcSecurityGroupId,
-    };
-  }
-}
-
-class ZeroETLIntegrationStatus {
-  static const creating = ZeroETLIntegrationStatus._('creating');
-  static const active = ZeroETLIntegrationStatus._('active');
-  static const modifying = ZeroETLIntegrationStatus._('modifying');
-  static const failed = ZeroETLIntegrationStatus._('failed');
-  static const deleting = ZeroETLIntegrationStatus._('deleting');
-  static const syncing = ZeroETLIntegrationStatus._('syncing');
-  static const needsAttention = ZeroETLIntegrationStatus._('needs_attention');
+class ScheduledActionState {
+  static const active = ScheduledActionState._('ACTIVE');
+  static const disabled = ScheduledActionState._('DISABLED');
 
   final String value;
 
-  const ZeroETLIntegrationStatus._(this.value);
+  const ScheduledActionState._(this.value);
 
-  static const values = [
-    creating,
-    active,
-    modifying,
-    failed,
-    deleting,
-    syncing,
-    needsAttention
-  ];
+  static const values = [active, disabled];
 
-  static ZeroETLIntegrationStatus fromString(String value) =>
+  static ScheduledActionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ZeroETLIntegrationStatus._(value));
+          orElse: () => ScheduledActionState._(value));
 
   @override
   bool operator ==(other) =>
-      other is ZeroETLIntegrationStatus && other.value == value;
+      other is ScheduledActionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the errors returned by a snapshot.
+class SnapshotErrorMessage {
+  /// The failure code for the error.
+  final String? failureCode;
+
+  /// The text message describing the error.
+  final String? failureReason;
+
+  /// A unique identifier for the cluster.
+  final String? snapshotClusterIdentifier;
+
+  /// A unique identifier for the snapshot returning the error.
+  final String? snapshotIdentifier;
+
+  SnapshotErrorMessage({
+    this.failureCode,
+    this.failureReason,
+    this.snapshotClusterIdentifier,
+    this.snapshotIdentifier,
+  });
+  factory SnapshotErrorMessage.fromXml(_s.XmlElement elem) {
+    return SnapshotErrorMessage(
+      failureCode: _s.extractXmlStringValue(elem, 'FailureCode'),
+      failureReason: _s.extractXmlStringValue(elem, 'FailureReason'),
+      snapshotClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'SnapshotClusterIdentifier'),
+      snapshotIdentifier: _s.extractXmlStringValue(elem, 'SnapshotIdentifier'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    final snapshotClusterIdentifier = this.snapshotClusterIdentifier;
+    final snapshotIdentifier = this.snapshotIdentifier;
+    return {
+      if (failureCode != null) 'FailureCode': failureCode,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (snapshotClusterIdentifier != null)
+        'SnapshotClusterIdentifier': snapshotClusterIdentifier,
+      if (snapshotIdentifier != null) 'SnapshotIdentifier': snapshotIdentifier,
+    };
+  }
+}
+
+class AuthorizationStatus {
+  static const authorized = AuthorizationStatus._('Authorized');
+  static const revoking = AuthorizationStatus._('Revoking');
+
+  final String value;
+
+  const AuthorizationStatus._(this.value);
+
+  static const values = [authorized, revoking];
+
+  static AuthorizationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthorizationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthorizationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DataShareType {
+  static const internal = DataShareType._('INTERNAL');
+
+  final String value;
+
+  const DataShareType._(this.value);
+
+  static const values = [internal];
+
+  static DataShareType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataShareType._(value));
+
+  @override
+  bool operator ==(other) => other is DataShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The association of a datashare from a producer account with a data consumer.
+class DataShareAssociation {
+  /// Specifies whether write operations were allowed during data share
+  /// association.
+  final bool? consumerAcceptedWrites;
+
+  /// The name of the consumer accounts that have an association with a producer
+  /// datashare.
+  final String? consumerIdentifier;
+
+  /// The Amazon Web Services Region of the consumer accounts that have an
+  /// association with a producer datashare.
+  final String? consumerRegion;
+
+  /// The creation date of the datashare that is associated.
+  final DateTime? createdDate;
+
+  /// Specifies whether write operations were allowed during data share
+  /// authorization.
+  final bool? producerAllowedWrites;
+
+  /// The status of the datashare that is associated.
+  final DataShareStatus? status;
+
+  /// The status change data of the datashare that is associated.
+  final DateTime? statusChangeDate;
+
+  DataShareAssociation({
+    this.consumerAcceptedWrites,
+    this.consumerIdentifier,
+    this.consumerRegion,
+    this.createdDate,
+    this.producerAllowedWrites,
+    this.status,
+    this.statusChangeDate,
+  });
+  factory DataShareAssociation.fromXml(_s.XmlElement elem) {
+    return DataShareAssociation(
+      consumerAcceptedWrites:
+          _s.extractXmlBoolValue(elem, 'ConsumerAcceptedWrites'),
+      consumerIdentifier: _s.extractXmlStringValue(elem, 'ConsumerIdentifier'),
+      consumerRegion: _s.extractXmlStringValue(elem, 'ConsumerRegion'),
+      createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
+      producerAllowedWrites:
+          _s.extractXmlBoolValue(elem, 'ProducerAllowedWrites'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(DataShareStatus.fromString),
+      statusChangeDate: _s.extractXmlDateTimeValue(elem, 'StatusChangeDate'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumerAcceptedWrites = this.consumerAcceptedWrites;
+    final consumerIdentifier = this.consumerIdentifier;
+    final consumerRegion = this.consumerRegion;
+    final createdDate = this.createdDate;
+    final producerAllowedWrites = this.producerAllowedWrites;
+    final status = this.status;
+    final statusChangeDate = this.statusChangeDate;
+    return {
+      if (consumerAcceptedWrites != null)
+        'ConsumerAcceptedWrites': consumerAcceptedWrites,
+      if (consumerIdentifier != null) 'ConsumerIdentifier': consumerIdentifier,
+      if (consumerRegion != null) 'ConsumerRegion': consumerRegion,
+      if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
+      if (producerAllowedWrites != null)
+        'ProducerAllowedWrites': producerAllowedWrites,
+      if (status != null) 'Status': status.value,
+      if (statusChangeDate != null)
+        'StatusChangeDate': iso8601ToJson(statusChangeDate),
+    };
+  }
+}
+
+class DataShareStatus {
+  static const active = DataShareStatus._('ACTIVE');
+  static const pendingAuthorization =
+      DataShareStatus._('PENDING_AUTHORIZATION');
+  static const authorized = DataShareStatus._('AUTHORIZED');
+  static const deauthorized = DataShareStatus._('DEAUTHORIZED');
+  static const rejected = DataShareStatus._('REJECTED');
+  static const available = DataShareStatus._('AVAILABLE');
+
+  final String value;
+
+  const DataShareStatus._(this.value);
+
+  static const values = [
+    active,
+    pendingAuthorization,
+    authorized,
+    deauthorized,
+    rejected,
+    available
+  ];
+
+  static DataShareStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataShareStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DataShareStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -19141,9 +20626,57 @@ class InsufficientS3BucketPolicyFault extends _s.GenericAwsException {
             message: message);
 }
 
+class IntegrationAlreadyExistsFault extends _s.GenericAwsException {
+  IntegrationAlreadyExistsFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IntegrationAlreadyExistsFault',
+            message: message);
+}
+
+class IntegrationConflictOperationFault extends _s.GenericAwsException {
+  IntegrationConflictOperationFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IntegrationConflictOperationFault',
+            message: message);
+}
+
+class IntegrationConflictStateFault extends _s.GenericAwsException {
+  IntegrationConflictStateFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IntegrationConflictStateFault',
+            message: message);
+}
+
 class IntegrationNotFoundFault extends _s.GenericAwsException {
   IntegrationNotFoundFault({String? type, String? message})
       : super(type: type, code: 'IntegrationNotFoundFault', message: message);
+}
+
+class IntegrationQuotaExceededFault extends _s.GenericAwsException {
+  IntegrationQuotaExceededFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IntegrationQuotaExceededFault',
+            message: message);
+}
+
+class IntegrationSourceNotFoundFault extends _s.GenericAwsException {
+  IntegrationSourceNotFoundFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IntegrationSourceNotFoundFault',
+            message: message);
+}
+
+class IntegrationTargetNotFoundFault extends _s.GenericAwsException {
+  IntegrationTargetNotFoundFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IntegrationTargetNotFoundFault',
+            message: message);
 }
 
 class InvalidAuthenticationProfileRequestFault extends _s.GenericAwsException {
@@ -19398,6 +20931,14 @@ class RedshiftIdcApplicationQuotaExceededFault extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'RedshiftIdcApplicationQuotaExceededFault',
+            message: message);
+}
+
+class RedshiftInvalidParameterFault extends _s.GenericAwsException {
+  RedshiftInvalidParameterFault({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RedshiftInvalidParameterFault',
             message: message);
 }
 
@@ -19799,8 +21340,20 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InsufficientClusterCapacityFault(type: type, message: message),
   'InsufficientS3BucketPolicyFault': (type, message) =>
       InsufficientS3BucketPolicyFault(type: type, message: message),
+  'IntegrationAlreadyExistsFault': (type, message) =>
+      IntegrationAlreadyExistsFault(type: type, message: message),
+  'IntegrationConflictOperationFault': (type, message) =>
+      IntegrationConflictOperationFault(type: type, message: message),
+  'IntegrationConflictStateFault': (type, message) =>
+      IntegrationConflictStateFault(type: type, message: message),
   'IntegrationNotFoundFault': (type, message) =>
       IntegrationNotFoundFault(type: type, message: message),
+  'IntegrationQuotaExceededFault': (type, message) =>
+      IntegrationQuotaExceededFault(type: type, message: message),
+  'IntegrationSourceNotFoundFault': (type, message) =>
+      IntegrationSourceNotFoundFault(type: type, message: message),
+  'IntegrationTargetNotFoundFault': (type, message) =>
+      IntegrationTargetNotFoundFault(type: type, message: message),
   'InvalidAuthenticationProfileRequestFault': (type, message) =>
       InvalidAuthenticationProfileRequestFault(type: type, message: message),
   'InvalidAuthorizationStateFault': (type, message) =>
@@ -19879,6 +21432,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       RedshiftIdcApplicationNotExistsFault(type: type, message: message),
   'RedshiftIdcApplicationQuotaExceededFault': (type, message) =>
       RedshiftIdcApplicationQuotaExceededFault(type: type, message: message),
+  'RedshiftInvalidParameterFault': (type, message) =>
+      RedshiftInvalidParameterFault(type: type, message: message),
   'ReservedNodeAlreadyExistsFault': (type, message) =>
       ReservedNodeAlreadyExistsFault(type: type, message: message),
   'ReservedNodeAlreadyMigratedFault': (type, message) =>

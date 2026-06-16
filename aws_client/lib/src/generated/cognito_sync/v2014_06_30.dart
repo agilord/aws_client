@@ -65,12 +65,12 @@ class CognitoSync {
   /// This API can only be called with developer credentials. You cannot call
   /// this API with the temporary user credentials provided by Cognito Identity.
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalErrorException].
-  /// May throw [DuplicateRequestException].
   /// May throw [AlreadyStreamedException].
+  /// May throw [DuplicateRequestException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [identityPoolId] :
   /// A name-spaced GUID (for example,
@@ -97,12 +97,12 @@ class CognitoSync {
   /// This API can be called with temporary user credentials provided by Cognito
   /// Identity or with developer credentials.
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
-  /// May throw [TooManyRequestsException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [datasetName] :
   /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9,
@@ -141,10 +141,10 @@ class CognitoSync {
   /// Identity or with developer credentials. You should use Cognito Identity
   /// credentials to make this API call.
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [datasetName] :
@@ -180,11 +180,32 @@ class CognitoSync {
   ///
   /// This API can only be called with developer credentials. You cannot call
   /// this API with the temporary user credentials provided by Cognito Identity.
+  /// <examples> <example> <name>DescribeIdentityPoolUsage</name>
+  /// <description>The following examples have been edited for
+  /// readability.</description> <request> POST / HTTP/1.1 CONTENT-TYPE:
+  /// application/json X-AMZN-REQUESTID: 8dc0e749-c8cd-48bd-8520-da6be00d528b
+  /// X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.DescribeIdentityPoolUsage
+  /// HOST: cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE:
+  /// 20141111T205737Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=<credential>,
+  /// SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#DescribeIdentityPoolUsage", "Service":
+  /// "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": {
+  /// "IdentityPoolId": "IDENTITY_POOL_ID" } } </request> <response> 1.1 200 OK
+  /// x-amzn-requestid: 8dc0e749-c8cd-48bd-8520-da6be00d528b content-type:
+  /// application/json content-length: 271 date: Tue, 11 Nov 2014 20:57:37 GMT {
+  /// "Output": { "__type":
+  /// "com.amazonaws.cognito.sync.model#DescribeIdentityPoolUsageResponse",
+  /// "IdentityPoolUsage": { "DataStorage": 0, "IdentityPoolId":
+  /// "IDENTITY_POOL_ID", "LastModifiedDate": 1.413231134115E9,
+  /// "SyncSessionsCount": null } }, "Version": "1.0" } </response> </example>
+  /// </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
@@ -208,11 +229,32 @@ class CognitoSync {
   ///
   /// This API can be called with temporary user credentials provided by Cognito
   /// Identity or with developer credentials.
+  /// <examples> <example> <name>DescribeIdentityUsage</name> <description>The
+  /// following examples have been edited for readability.</description>
+  /// <request> POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID:
+  /// 33f9b4e4-a177-4aad-a3bb-6edb7980b283 X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.DescribeIdentityUsage
+  /// HOST: cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE:
+  /// 20141111T215129Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=<credential>,
+  /// SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#DescribeIdentityUsage", "Service":
+  /// "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": {
+  /// "IdentityPoolId": "IDENTITY_POOL_ID", "IdentityId": "IDENTITY_ID" } }
+  /// </request> <response> 1.1 200 OK x-amzn-requestid:
+  /// 33f9b4e4-a177-4aad-a3bb-6edb7980b283 content-type: application/json
+  /// content-length: 318 date: Tue, 11 Nov 2014 21:51:29 GMT { "Output": {
+  /// "__type":
+  /// "com.amazonaws.cognito.sync.model#DescribeIdentityUsageResponse",
+  /// "IdentityUsage": { "DataStorage": 16, "DatasetCount": 1, "IdentityId":
+  /// "IDENTITY_ID", "IdentityPoolId": "IDENTITY_POOL_ID", "LastModifiedDate":
+  /// 1.412974081336E9 } }, "Version": "1.0" } </response> </example>
+  /// </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityId] :
@@ -243,10 +285,10 @@ class CognitoSync {
   /// This API can only be called with developer credentials. You cannot call
   /// this API with the temporary user credentials provided by Cognito Identity.
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [identityPoolId] :
   /// A name-spaced GUID (for example,
@@ -271,10 +313,10 @@ class CognitoSync {
   /// This API can only be called with developer credentials. You cannot call
   /// this API with the temporary user credentials provided by Cognito Identity.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
@@ -296,11 +338,31 @@ class CognitoSync {
   ///
   /// This API can only be called with developer credentials. You cannot call
   /// this API with the temporary user credentials provided by Cognito Identity.
+  /// <examples> <example> <name>GetIdentityPoolConfiguration</name>
+  /// <description>The following examples have been edited for
+  /// readability.</description> <request> POST / HTTP/1.1 CONTENT-TYPE:
+  /// application/json X-AMZN-REQUESTID: b1cfdd4b-f620-4fe4-be0f-02024a1d33da
+  /// X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.GetIdentityPoolConfiguration
+  /// HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T195722Z
+  /// AUTHORIZATION: AWS4-HMAC-SHA256 Credential=<credential>,
+  /// SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#GetIdentityPoolConfiguration",
+  /// "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+  /// "Input": { "IdentityPoolId": "ID_POOL_ID" } } </request> <response> 1.1
+  /// 200 OK x-amzn-requestid: b1cfdd4b-f620-4fe4-be0f-02024a1d33da date: Sat,
+  /// 04 Oct 2014 19:57:22 GMT content-type: application/json content-length:
+  /// 332 { "Output": { "__type":
+  /// "com.amazonaws.cognito.sync.model#GetIdentityPoolConfigurationResponse",
+  /// "IdentityPoolId": "ID_POOL_ID", "PushSync": { "ApplicationArns":
+  /// ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN" } }, "Version":
+  /// "1.0" } </response> </example> </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
@@ -327,10 +389,31 @@ class CognitoSync {
   /// ListDatasets can be called with temporary user credentials provided by
   /// Cognito Identity or with developer credentials. You should use the Cognito
   /// Identity credentials to make this API call.
+  /// <examples> <example> <name>ListDatasets</name> <description>The following
+  /// examples have been edited for readability.</description> <request> POST /
+  /// HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID:
+  /// 15225768-209f-4078-aaed-7494ace9f2db X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListDatasets HOST:
+  /// cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE: 20141111T215640Z
+  /// AUTHORIZATION: AWS4-HMAC-SHA256 Credential=<credential>,
+  /// SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#ListDatasets", "Service":
+  /// "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": {
+  /// "IdentityPoolId": "IDENTITY_POOL_ID", "IdentityId": "IDENTITY_ID",
+  /// "MaxResults": "3" } } </request> <response> 1.1 200 OK x-amzn-requestid:
+  /// 15225768-209f-4078-aaed-7494ace9f2db, 15225768-209f-4078-aaed-7494ace9f2db
+  /// content-type: application/json content-length: 355 date: Tue, 11 Nov 2014
+  /// 21:56:40 GMT { "Output": { "__type":
+  /// "com.amazonaws.cognito.sync.model#ListDatasetsResponse", "Count": 1,
+  /// "Datasets": [ { "CreationDate": 1.412974057151E9, "DataStorage": 16,
+  /// "DatasetName": "my_list", "IdentityId": "IDENTITY_ID", "LastModifiedBy":
+  /// "123456789012", "LastModifiedDate": 1.412974057244E9, "NumRecords": 1 }],
+  /// "NextToken": null }, "Version": "1.0" } </response> </example> </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityId] :
@@ -374,10 +457,33 @@ class CognitoSync {
   /// ListIdentityPoolUsage can only be called with developer credentials. You
   /// cannot make this API call with the temporary user credentials provided by
   /// Cognito Identity.
+  /// <examples> <example> <name>ListIdentityPoolUsage</name> <description>The
+  /// following examples have been edited for readability.</description>
+  /// <request> POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID:
+  /// 9be7c425-ef05-48c0-aef3-9f0ff2fe17d3 X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListIdentityPoolUsage
+  /// HOST: cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE:
+  /// 20141111T211414Z AUTHORIZATION: AWS4-HMAC-SHA256 Credential=<credential>,
+  /// SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#ListIdentityPoolUsage", "Service":
+  /// "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": {
+  /// "MaxResults": "2" } } </request> <response> 1.1 200 OK x-amzn-requestid:
+  /// 9be7c425-ef05-48c0-aef3-9f0ff2fe17d3 content-type: application/json
+  /// content-length: 519 date: Tue, 11 Nov 2014 21:14:14 GMT { "Output": {
+  /// "__type":
+  /// "com.amazonaws.cognito.sync.model#ListIdentityPoolUsageResponse", "Count":
+  /// 2, "IdentityPoolUsages": [ { "DataStorage": 0, "IdentityPoolId":
+  /// "IDENTITY_POOL_ID", "LastModifiedDate": 1.413836234607E9,
+  /// "SyncSessionsCount": null }, { "DataStorage": 0, "IdentityPoolId":
+  /// "IDENTITY_POOL_ID", "LastModifiedDate": 1.410892165601E9,
+  /// "SyncSessionsCount": null }], "MaxResults": 2, "NextToken":
+  /// "dXMtZWFzdC0xOjBjMWJhMDUyLWUwOTgtNDFmYS1hNzZlLWVhYTJjMTI1Zjg2MQ==" },
+  /// "Version": "1.0" } </response> </example> </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [maxResults] :
@@ -411,11 +517,32 @@ class CognitoSync {
   /// ListRecords can be called with temporary user credentials provided by
   /// Cognito Identity or with developer credentials. You should use Cognito
   /// Identity credentials to make this API call.
+  /// <examples> <example> <name>ListRecords</name> <description>The following
+  /// examples have been edited for readability.</description> <request> POST /
+  /// HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID:
+  /// b3d2e31e-d6b7-4612-8e84-c9ba288dab5d X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.ListRecords HOST:
+  /// cognito-sync.us-east-1.amazonaws.com:443 X-AMZ-DATE: 20141111T183230Z
+  /// AUTHORIZATION: AWS4-HMAC-SHA256 Credential=<credential>,
+  /// SignedHeaders=content-type;host;x-amz-date;x-amz-target;x-amzn-requestid,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#ListRecords", "Service":
+  /// "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": {
+  /// "IdentityPoolId": "IDENTITY_POOL_ID", "IdentityId": "IDENTITY_ID",
+  /// "DatasetName": "newDataSet" } } </request> <response> 1.1 200 OK
+  /// x-amzn-requestid: b3d2e31e-d6b7-4612-8e84-c9ba288dab5d content-type:
+  /// application/json content-length: 623 date: Tue, 11 Nov 2014 18:32:30 GMT {
+  /// "Output": { "__type":
+  /// "com.amazonaws.cognito.sync.model#ListRecordsResponse", "Count": 0,
+  /// "DatasetDeletedAfterRequestedSyncCount": false, "DatasetExists": false,
+  /// "DatasetSyncCount": 0, "LastModifiedBy": null, "MergedDatasetNames": null,
+  /// "NextToken": null, "Records": [], "SyncSessionToken": "SYNC_SESSION_TOKEN"
+  /// }, "Version": "1.0" } </response> </example> </examples>
   ///
+  /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
   /// May throw [NotAuthorizedException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
   ///
   /// Parameter [datasetName] :
   /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9,
@@ -472,12 +599,32 @@ class CognitoSync {
   ///
   /// This API can only be called with temporary credentials provided by Cognito
   /// Identity. You cannot call this API with developer credentials.
+  /// <examples> <example> <name>RegisterDevice</name> <description>The
+  /// following examples have been edited for readability.</description>
+  /// <request> POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID:
+  /// 368f9200-3eca-449e-93b3-7b9c08d8e185 X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.RegisterDevice
+  /// HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T194643Z
+  /// X-AMZ-SECURITY-TOKEN: <securitytoken> AUTHORIZATION: AWS4-HMAC-SHA256
+  /// Credential=<credential>,
+  /// SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#RegisterDevice", "Service":
+  /// "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": {
+  /// "IdentityPoolId": "ID_POOL_ID", "IdentityId": "IDENTITY_ID", "Platform":
+  /// "GCM", "Token": "PUSH_TOKEN" } } </request> <response> 1.1 200 OK
+  /// x-amzn-requestid: 368f9200-3eca-449e-93b3-7b9c08d8e185 date: Sat, 04 Oct
+  /// 2014 19:46:44 GMT content-type: application/json content-length: 145 {
+  /// "Output": { "__type":
+  /// "com.amazonaws.cognito.sync.model#RegisterDeviceResponse", "DeviceId":
+  /// "5cd28fbe-dd83-47ab-9f83-19093a5fb014" }, "Version": "1.0" } </response>
+  /// </example> </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
   /// May throw [InvalidConfigurationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityId] :
@@ -521,10 +668,10 @@ class CognitoSync {
   /// This API can only be called with developer credentials. You cannot call
   /// this API with the temporary user credentials provided by Cognito Identity.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
   /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [events] :
@@ -552,13 +699,34 @@ class CognitoSync {
   ///
   /// This API can only be called with developer credentials. You cannot call
   /// this API with the temporary user credentials provided by Cognito Identity.
+  /// <examples> <example> <name>SetIdentityPoolConfiguration</name>
+  /// <description>The following examples have been edited for
+  /// readability.</description> <request> POST / HTTP/1.1 CONTENT-TYPE:
+  /// application/json X-AMZN-REQUESTID: a46db021-f5dd-45d6-af5b-7069fa4a211b
+  /// X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SetIdentityPoolConfiguration
+  /// HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T200006Z
+  /// AUTHORIZATION: AWS4-HMAC-SHA256 Credential=<credential>,
+  /// SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#SetIdentityPoolConfiguration",
+  /// "Service": "com.amazonaws.cognito.sync.model#AWSCognitoSyncService",
+  /// "Input": { "IdentityPoolId": "ID_POOL_ID", "PushSync": {
+  /// "ApplicationArns": ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN"
+  /// } } } </request> <response> 1.1 200 OK x-amzn-requestid:
+  /// a46db021-f5dd-45d6-af5b-7069fa4a211b date: Sat, 04 Oct 2014 20:00:06 GMT
+  /// content-type: application/json content-length: 332 { "Output": { "__type":
+  /// "com.amazonaws.cognito.sync.model#SetIdentityPoolConfigurationResponse",
+  /// "IdentityPoolId": "ID_POOL_ID", "PushSync": { "ApplicationArns":
+  /// ["PLATFORMARN1", "PLATFORMARN2"], "RoleArn": "ROLEARN" } }, "Version":
+  /// "1.0" } </response> </example> </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalErrorException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [identityPoolId] :
   /// A name-spaced GUID (for example,
@@ -594,12 +762,31 @@ class CognitoSync {
   ///
   /// This API can only be called with temporary credentials provided by Cognito
   /// Identity. You cannot call this API with developer credentials.
+  /// <examples> <example> <name>SubscribeToDataset</name> <description>The
+  /// following examples have been edited for readability.</description>
+  /// <request> POST / HTTP/1.1 CONTENT-TYPE: application/json X-AMZN-REQUESTID:
+  /// 8b9932b7-201d-4418-a960-0a470e11de9f X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.SubscribeToDataset
+  /// HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T195350Z
+  /// X-AMZ-SECURITY-TOKEN: <securitytoken> AUTHORIZATION: AWS4-HMAC-SHA256
+  /// Credential=<credential>,
+  /// SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#SubscribeToDataset", "Service":
+  /// "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": {
+  /// "IdentityPoolId": "ID_POOL_ID", "IdentityId": "IDENTITY_ID",
+  /// "DatasetName": "Rufus", "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
+  /// } } </request> <response> 1.1 200 OK x-amzn-requestid:
+  /// 8b9932b7-201d-4418-a960-0a470e11de9f date: Sat, 04 Oct 2014 19:53:50 GMT
+  /// content-type: application/json content-length: 99 { "Output": { "__type":
+  /// "com.amazonaws.cognito.sync.model#SubscribeToDatasetResponse" },
+  /// "Version": "1.0" } </response> </example> </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
   /// May throw [InvalidConfigurationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [datasetName] :
@@ -635,12 +822,32 @@ class CognitoSync {
   ///
   /// This API can only be called with temporary credentials provided by Cognito
   /// Identity. You cannot call this API with developer credentials.
+  /// <examples> <example> <name>UnsubscribeFromDataset</name> <description>The
+  /// following examples have been edited for readability.</description>
+  /// <request> POST / HTTP/1.1 CONTENT-TYPE: application/json
+  /// X-AMZ-REQUESTSUPERTRACE: true X-AMZN-REQUESTID:
+  /// 676896d6-14ca-45b1-8029-6d36b10a077e X-AMZ-TARGET:
+  /// com.amazonaws.cognito.sync.model.AWSCognitoSyncService.UnsubscribeFromDataset
+  /// HOST: cognito-sync.us-east-1.amazonaws.com X-AMZ-DATE: 20141004T195446Z
+  /// X-AMZ-SECURITY-TOKEN: <securitytoken> AUTHORIZATION: AWS4-HMAC-SHA256
+  /// Credential=<credential>,
+  /// SignedHeaders=content-type;content-length;host;x-amz-date;x-amz-target,
+  /// Signature=<signature> { "Operation":
+  /// "com.amazonaws.cognito.sync.model#UnsubscribeFromDataset", "Service":
+  /// "com.amazonaws.cognito.sync.model#AWSCognitoSyncService", "Input": {
+  /// "IdentityPoolId": "ID_POOL_ID", "IdentityId": "IDENTITY_ID",
+  /// "DatasetName": "Rufus", "DeviceId": "5cd28fbe-dd83-47ab-9f83-19093a5fb014"
+  /// } } </request> <response> 1.1 200 OK x-amzn-requestid:
+  /// 676896d6-14ca-45b1-8029-6d36b10a077e date: Sat, 04 Oct 2014 19:54:46 GMT
+  /// content-type: application/json content-length: 103 { "Output": { "__type":
+  /// "com.amazonaws.cognito.sync.model#UnsubscribeFromDatasetResponse" },
+  /// "Version": "1.0" } </response> </example> </examples>
   ///
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
   /// May throw [InvalidConfigurationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [datasetName] :
@@ -690,15 +897,15 @@ class CognitoSync {
   /// This API can be called with temporary user credentials provided by Cognito
   /// Identity or with developer credentials.
   ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidLambdaFunctionOutputException].
   /// May throw [InvalidParameterException].
+  /// May throw [LambdaThrottledException].
   /// May throw [LimitExceededException].
   /// May throw [NotAuthorizedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceConflictException].
-  /// May throw [InvalidLambdaFunctionOutputException].
-  /// May throw [LambdaThrottledException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalErrorException].
   ///
   /// Parameter [datasetName] :
   /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9,
@@ -779,151 +986,6 @@ class BulkPublishResponse {
     final identityPoolId = this.identityPoolId;
     return {
       if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-    };
-  }
-}
-
-class BulkPublishStatus {
-  static const notStarted = BulkPublishStatus._('NOT_STARTED');
-  static const inProgress = BulkPublishStatus._('IN_PROGRESS');
-  static const failed = BulkPublishStatus._('FAILED');
-  static const succeeded = BulkPublishStatus._('SUCCEEDED');
-
-  final String value;
-
-  const BulkPublishStatus._(this.value);
-
-  static const values = [notStarted, inProgress, failed, succeeded];
-
-  static BulkPublishStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BulkPublishStatus._(value));
-
-  @override
-  bool operator ==(other) => other is BulkPublishStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration options for configure Cognito streams.
-class CognitoStreams {
-  /// The ARN of the role Amazon Cognito can assume in order to publish to the
-  /// stream. This role must grant access to Amazon Cognito (cognito-sync) to
-  /// invoke PutRecord on your Cognito stream.
-  final String? roleArn;
-
-  /// The name of the Cognito stream to receive updates. This stream must be in
-  /// the developers account and in the same region as the identity pool.
-  final String? streamName;
-
-  /// Status of the Cognito streams. Valid values are:
-  /// ENABLED - Streaming of updates to identity pool is enabled.
-  ///
-  /// DISABLED - Streaming of updates to identity pool is disabled. Bulk publish
-  /// will also fail if StreamingStatus is DISABLED.
-  final StreamingStatus? streamingStatus;
-
-  CognitoStreams({
-    this.roleArn,
-    this.streamName,
-    this.streamingStatus,
-  });
-
-  factory CognitoStreams.fromJson(Map<String, dynamic> json) {
-    return CognitoStreams(
-      roleArn: json['RoleArn'] as String?,
-      streamName: json['StreamName'] as String?,
-      streamingStatus:
-          (json['StreamingStatus'] as String?)?.let(StreamingStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final streamName = this.streamName;
-    final streamingStatus = this.streamingStatus;
-    return {
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (streamName != null) 'StreamName': streamName,
-      if (streamingStatus != null) 'StreamingStatus': streamingStatus.value,
-    };
-  }
-}
-
-/// A collection of data for an identity pool. An identity pool can have
-/// multiple datasets. A dataset is per identity and can be general or
-/// associated with a particular entity in an application (like a saved game).
-/// Datasets are automatically created if they don't exist. Data is synced by
-/// dataset, and a dataset can hold up to 1MB of key-value pairs.
-class Dataset {
-  /// Date on which the dataset was created.
-  final DateTime? creationDate;
-
-  /// Total size in bytes of the records in this dataset.
-  final int? dataStorage;
-
-  /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_'
-  /// (underscore), '-' (dash), and '.' (dot).
-  final String? datasetName;
-
-  /// A name-spaced GUID (for example,
-  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-  /// GUID generation is unique within a region.
-  final String? identityId;
-
-  /// The device that made the last change to this dataset.
-  final String? lastModifiedBy;
-
-  /// Date when the dataset was last modified.
-  final DateTime? lastModifiedDate;
-
-  /// Number of records in this dataset.
-  final int? numRecords;
-
-  Dataset({
-    this.creationDate,
-    this.dataStorage,
-    this.datasetName,
-    this.identityId,
-    this.lastModifiedBy,
-    this.lastModifiedDate,
-    this.numRecords,
-  });
-
-  factory Dataset.fromJson(Map<String, dynamic> json) {
-    return Dataset(
-      creationDate: timeStampFromJson(json['CreationDate']),
-      dataStorage: json['DataStorage'] as int?,
-      datasetName: json['DatasetName'] as String?,
-      identityId: json['IdentityId'] as String?,
-      lastModifiedBy: json['LastModifiedBy'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      numRecords: json['NumRecords'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final dataStorage = this.dataStorage;
-    final datasetName = this.datasetName;
-    final identityId = this.identityId;
-    final lastModifiedBy = this.lastModifiedBy;
-    final lastModifiedDate = this.lastModifiedDate;
-    final numRecords = this.numRecords;
-    return {
-      if (creationDate != null)
-        'CreationDate': unixTimestampToJson(creationDate),
-      if (dataStorage != null) 'DataStorage': dataStorage,
-      if (datasetName != null) 'DatasetName': datasetName,
-      if (identityId != null) 'IdentityId': identityId,
-      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (numRecords != null) 'NumRecords': numRecords,
     };
   }
 }
@@ -1176,109 +1238,6 @@ class GetIdentityPoolConfigurationResponse {
   }
 }
 
-/// Usage information for the identity pool.
-class IdentityPoolUsage {
-  /// Data storage information for the identity pool.
-  final int? dataStorage;
-
-  /// A name-spaced GUID (for example,
-  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-  /// GUID generation is unique within a region.
-  final String? identityPoolId;
-
-  /// Date on which the identity pool was last modified.
-  final DateTime? lastModifiedDate;
-
-  /// Number of sync sessions for the identity pool.
-  final int? syncSessionsCount;
-
-  IdentityPoolUsage({
-    this.dataStorage,
-    this.identityPoolId,
-    this.lastModifiedDate,
-    this.syncSessionsCount,
-  });
-
-  factory IdentityPoolUsage.fromJson(Map<String, dynamic> json) {
-    return IdentityPoolUsage(
-      dataStorage: json['DataStorage'] as int?,
-      identityPoolId: json['IdentityPoolId'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-      syncSessionsCount: json['SyncSessionsCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataStorage = this.dataStorage;
-    final identityPoolId = this.identityPoolId;
-    final lastModifiedDate = this.lastModifiedDate;
-    final syncSessionsCount = this.syncSessionsCount;
-    return {
-      if (dataStorage != null) 'DataStorage': dataStorage,
-      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (syncSessionsCount != null) 'SyncSessionsCount': syncSessionsCount,
-    };
-  }
-}
-
-/// Usage information for the identity.
-class IdentityUsage {
-  /// Total data storage for this identity.
-  final int? dataStorage;
-
-  /// Number of datasets for the identity.
-  final int? datasetCount;
-
-  /// A name-spaced GUID (for example,
-  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-  /// GUID generation is unique within a region.
-  final String? identityId;
-
-  /// A name-spaced GUID (for example,
-  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-  /// GUID generation is unique within a region.
-  final String? identityPoolId;
-
-  /// Date on which the identity was last modified.
-  final DateTime? lastModifiedDate;
-
-  IdentityUsage({
-    this.dataStorage,
-    this.datasetCount,
-    this.identityId,
-    this.identityPoolId,
-    this.lastModifiedDate,
-  });
-
-  factory IdentityUsage.fromJson(Map<String, dynamic> json) {
-    return IdentityUsage(
-      dataStorage: json['DataStorage'] as int?,
-      datasetCount: json['DatasetCount'] as int?,
-      identityId: json['IdentityId'] as String?,
-      identityPoolId: json['IdentityPoolId'] as String?,
-      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataStorage = this.dataStorage;
-    final datasetCount = this.datasetCount;
-    final identityId = this.identityId;
-    final identityPoolId = this.identityPoolId;
-    final lastModifiedDate = this.lastModifiedDate;
-    return {
-      if (dataStorage != null) 'DataStorage': dataStorage,
-      if (datasetCount != null) 'DatasetCount': datasetCount,
-      if (identityId != null) 'IdentityId': identityId,
-      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-      if (lastModifiedDate != null)
-        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
-    };
-  }
-}
-
 /// Returned for a successful ListDatasets request.
 class ListDatasetsResponse {
   /// Number of datasets returned.
@@ -1455,83 +1414,121 @@ class ListRecordsResponse {
   }
 }
 
-class Operation {
-  static const replace = Operation._('replace');
-  static const remove = Operation._('remove');
+/// Response to a RegisterDevice request.
+class RegisterDeviceResponse {
+  /// The unique ID generated for this device by Cognito.
+  final String? deviceId;
 
-  final String value;
-
-  const Operation._(this.value);
-
-  static const values = [replace, remove];
-
-  static Operation fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
-
-  @override
-  bool operator ==(other) => other is Operation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Platform {
-  static const apns = Platform._('APNS');
-  static const apnsSandbox = Platform._('APNS_SANDBOX');
-  static const gcm = Platform._('GCM');
-  static const adm = Platform._('ADM');
-
-  final String value;
-
-  const Platform._(this.value);
-
-  static const values = [apns, apnsSandbox, gcm, adm];
-
-  static Platform fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Platform._(value));
-
-  @override
-  bool operator ==(other) => other is Platform && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration options to be applied to the identity pool.
-class PushSync {
-  /// List of SNS platform application ARNs that could be used by clients.
-  final List<String>? applicationArns;
-
-  /// A role configured to allow Cognito to call SNS on behalf of the developer.
-  final String? roleArn;
-
-  PushSync({
-    this.applicationArns,
-    this.roleArn,
+  RegisterDeviceResponse({
+    this.deviceId,
   });
 
-  factory PushSync.fromJson(Map<String, dynamic> json) {
-    return PushSync(
-      applicationArns: (json['ApplicationArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      roleArn: json['RoleArn'] as String?,
+  factory RegisterDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterDeviceResponse(
+      deviceId: json['DeviceId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final applicationArns = this.applicationArns;
-    final roleArn = this.roleArn;
+    final deviceId = this.deviceId;
     return {
-      if (applicationArns != null) 'ApplicationArns': applicationArns,
-      if (roleArn != null) 'RoleArn': roleArn,
+      if (deviceId != null) 'DeviceId': deviceId,
+    };
+  }
+}
+
+/// The output for the SetIdentityPoolConfiguration operation
+class SetIdentityPoolConfigurationResponse {
+  /// Options to apply to this identity pool for Amazon Cognito streams.
+  final CognitoStreams? cognitoStreams;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  final String? identityPoolId;
+
+  /// Options to apply to this identity pool for push synchronization.
+  final PushSync? pushSync;
+
+  SetIdentityPoolConfigurationResponse({
+    this.cognitoStreams,
+    this.identityPoolId,
+    this.pushSync,
+  });
+
+  factory SetIdentityPoolConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SetIdentityPoolConfigurationResponse(
+      cognitoStreams: json['CognitoStreams'] != null
+          ? CognitoStreams.fromJson(
+              json['CognitoStreams'] as Map<String, dynamic>)
+          : null,
+      identityPoolId: json['IdentityPoolId'] as String?,
+      pushSync: json['PushSync'] != null
+          ? PushSync.fromJson(json['PushSync'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cognitoStreams = this.cognitoStreams;
+    final identityPoolId = this.identityPoolId;
+    final pushSync = this.pushSync;
+    return {
+      if (cognitoStreams != null) 'CognitoStreams': cognitoStreams,
+      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
+      if (pushSync != null) 'PushSync': pushSync,
+    };
+  }
+}
+
+/// Response to a SubscribeToDataset request.
+class SubscribeToDatasetResponse {
+  SubscribeToDatasetResponse();
+
+  factory SubscribeToDatasetResponse.fromJson(Map<String, dynamic> _) {
+    return SubscribeToDatasetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Response to an UnsubscribeFromDataset request.
+class UnsubscribeFromDatasetResponse {
+  UnsubscribeFromDatasetResponse();
+
+  factory UnsubscribeFromDatasetResponse.fromJson(Map<String, dynamic> _) {
+    return UnsubscribeFromDatasetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Returned for a successful UpdateRecordsRequest.
+class UpdateRecordsResponse {
+  /// A list of records that have been updated.
+  final List<Record>? records;
+
+  UpdateRecordsResponse({
+    this.records,
+  });
+
+  factory UpdateRecordsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRecordsResponse(
+      records: (json['Records'] as List?)
+          ?.nonNulls
+          .map((e) => Record.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final records = this.records;
+    return {
+      if (records != null) 'Records': records,
     };
   }
 }
@@ -1638,69 +1635,103 @@ class RecordPatch {
   }
 }
 
-/// Response to a RegisterDevice request.
-class RegisterDeviceResponse {
-  /// The unique ID generated for this device by Cognito.
-  final String? deviceId;
+class Operation {
+  static const replace = Operation._('replace');
+  static const remove = Operation._('remove');
 
-  RegisterDeviceResponse({
-    this.deviceId,
+  final String value;
+
+  const Operation._(this.value);
+
+  static const values = [replace, remove];
+
+  static Operation fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
+
+  @override
+  bool operator ==(other) => other is Operation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration options to be applied to the identity pool.
+class PushSync {
+  /// List of SNS platform application ARNs that could be used by clients.
+  final List<String>? applicationArns;
+
+  /// A role configured to allow Cognito to call SNS on behalf of the developer.
+  final String? roleArn;
+
+  PushSync({
+    this.applicationArns,
+    this.roleArn,
   });
 
-  factory RegisterDeviceResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterDeviceResponse(
-      deviceId: json['DeviceId'] as String?,
+  factory PushSync.fromJson(Map<String, dynamic> json) {
+    return PushSync(
+      applicationArns: (json['ApplicationArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      roleArn: json['RoleArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deviceId = this.deviceId;
+    final applicationArns = this.applicationArns;
+    final roleArn = this.roleArn;
     return {
-      if (deviceId != null) 'DeviceId': deviceId,
+      if (applicationArns != null) 'ApplicationArns': applicationArns,
+      if (roleArn != null) 'RoleArn': roleArn,
     };
   }
 }
 
-/// The output for the SetIdentityPoolConfiguration operation
-class SetIdentityPoolConfigurationResponse {
-  /// Options to apply to this identity pool for Amazon Cognito streams.
-  final CognitoStreams? cognitoStreams;
+/// Configuration options for configure Cognito streams.
+class CognitoStreams {
+  /// The ARN of the role Amazon Cognito can assume in order to publish to the
+  /// stream. This role must grant access to Amazon Cognito (cognito-sync) to
+  /// invoke PutRecord on your Cognito stream.
+  final String? roleArn;
 
-  /// A name-spaced GUID (for example,
-  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
-  final String? identityPoolId;
+  /// The name of the Cognito stream to receive updates. This stream must be in
+  /// the developers account and in the same region as the identity pool.
+  final String? streamName;
 
-  /// Options to apply to this identity pool for push synchronization.
-  final PushSync? pushSync;
+  /// Status of the Cognito streams. Valid values are:
+  /// ENABLED - Streaming of updates to identity pool is enabled.
+  ///
+  /// DISABLED - Streaming of updates to identity pool is disabled. Bulk publish
+  /// will also fail if StreamingStatus is DISABLED.
+  final StreamingStatus? streamingStatus;
 
-  SetIdentityPoolConfigurationResponse({
-    this.cognitoStreams,
-    this.identityPoolId,
-    this.pushSync,
+  CognitoStreams({
+    this.roleArn,
+    this.streamName,
+    this.streamingStatus,
   });
 
-  factory SetIdentityPoolConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return SetIdentityPoolConfigurationResponse(
-      cognitoStreams: json['CognitoStreams'] != null
-          ? CognitoStreams.fromJson(
-              json['CognitoStreams'] as Map<String, dynamic>)
-          : null,
-      identityPoolId: json['IdentityPoolId'] as String?,
-      pushSync: json['PushSync'] != null
-          ? PushSync.fromJson(json['PushSync'] as Map<String, dynamic>)
-          : null,
+  factory CognitoStreams.fromJson(Map<String, dynamic> json) {
+    return CognitoStreams(
+      roleArn: json['RoleArn'] as String?,
+      streamName: json['StreamName'] as String?,
+      streamingStatus:
+          (json['StreamingStatus'] as String?)?.let(StreamingStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cognitoStreams = this.cognitoStreams;
-    final identityPoolId = this.identityPoolId;
-    final pushSync = this.pushSync;
+    final roleArn = this.roleArn;
+    final streamName = this.streamName;
+    final streamingStatus = this.streamingStatus;
     return {
-      if (cognitoStreams != null) 'CognitoStreams': cognitoStreams,
-      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
-      if (pushSync != null) 'PushSync': pushSync,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (streamName != null) 'StreamName': streamName,
+      if (streamingStatus != null) 'StreamingStatus': streamingStatus.value,
     };
   }
 }
@@ -1729,54 +1760,230 @@ class StreamingStatus {
   String toString() => value;
 }
 
-/// Response to a SubscribeToDataset request.
-class SubscribeToDatasetResponse {
-  SubscribeToDatasetResponse();
+class Platform {
+  static const apns = Platform._('APNS');
+  static const apnsSandbox = Platform._('APNS_SANDBOX');
+  static const gcm = Platform._('GCM');
+  static const adm = Platform._('ADM');
 
-  factory SubscribeToDatasetResponse.fromJson(Map<String, dynamic> _) {
-    return SubscribeToDatasetResponse();
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
+  const Platform._(this.value);
+
+  static const values = [apns, apnsSandbox, gcm, adm];
+
+  static Platform fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Platform._(value));
+
+  @override
+  bool operator ==(other) => other is Platform && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// Response to an UnsubscribeFromDataset request.
-class UnsubscribeFromDatasetResponse {
-  UnsubscribeFromDatasetResponse();
+/// Usage information for the identity pool.
+class IdentityPoolUsage {
+  /// Data storage information for the identity pool.
+  final int? dataStorage;
 
-  factory UnsubscribeFromDatasetResponse.fromJson(Map<String, dynamic> _) {
-    return UnsubscribeFromDatasetResponse();
-  }
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  final String? identityPoolId;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// Date on which the identity pool was last modified.
+  final DateTime? lastModifiedDate;
 
-/// Returned for a successful UpdateRecordsRequest.
-class UpdateRecordsResponse {
-  /// A list of records that have been updated.
-  final List<Record>? records;
+  /// Number of sync sessions for the identity pool.
+  final int? syncSessionsCount;
 
-  UpdateRecordsResponse({
-    this.records,
+  IdentityPoolUsage({
+    this.dataStorage,
+    this.identityPoolId,
+    this.lastModifiedDate,
+    this.syncSessionsCount,
   });
 
-  factory UpdateRecordsResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRecordsResponse(
-      records: (json['Records'] as List?)
-          ?.nonNulls
-          .map((e) => Record.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory IdentityPoolUsage.fromJson(Map<String, dynamic> json) {
+    return IdentityPoolUsage(
+      dataStorage: json['DataStorage'] as int?,
+      identityPoolId: json['IdentityPoolId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      syncSessionsCount: json['SyncSessionsCount'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final records = this.records;
+    final dataStorage = this.dataStorage;
+    final identityPoolId = this.identityPoolId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final syncSessionsCount = this.syncSessionsCount;
     return {
-      if (records != null) 'Records': records,
+      if (dataStorage != null) 'DataStorage': dataStorage,
+      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (syncSessionsCount != null) 'SyncSessionsCount': syncSessionsCount,
+    };
+  }
+}
+
+/// A collection of data for an identity pool. An identity pool can have
+/// multiple datasets. A dataset is per identity and can be general or
+/// associated with a particular entity in an application (like a saved game).
+/// Datasets are automatically created if they don't exist. Data is synced by
+/// dataset, and a dataset can hold up to 1MB of key-value pairs.
+class Dataset {
+  /// Date on which the dataset was created.
+  final DateTime? creationDate;
+
+  /// Total size in bytes of the records in this dataset.
+  final int? dataStorage;
+
+  /// A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_'
+  /// (underscore), '-' (dash), and '.' (dot).
+  final String? datasetName;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  final String? identityId;
+
+  /// The device that made the last change to this dataset.
+  final String? lastModifiedBy;
+
+  /// Date when the dataset was last modified.
+  final DateTime? lastModifiedDate;
+
+  /// Number of records in this dataset.
+  final int? numRecords;
+
+  Dataset({
+    this.creationDate,
+    this.dataStorage,
+    this.datasetName,
+    this.identityId,
+    this.lastModifiedBy,
+    this.lastModifiedDate,
+    this.numRecords,
+  });
+
+  factory Dataset.fromJson(Map<String, dynamic> json) {
+    return Dataset(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      dataStorage: json['DataStorage'] as int?,
+      datasetName: json['DatasetName'] as String?,
+      identityId: json['IdentityId'] as String?,
+      lastModifiedBy: json['LastModifiedBy'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      numRecords: json['NumRecords'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final dataStorage = this.dataStorage;
+    final datasetName = this.datasetName;
+    final identityId = this.identityId;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedDate = this.lastModifiedDate;
+    final numRecords = this.numRecords;
+    return {
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (dataStorage != null) 'DataStorage': dataStorage,
+      if (datasetName != null) 'DatasetName': datasetName,
+      if (identityId != null) 'IdentityId': identityId,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (numRecords != null) 'NumRecords': numRecords,
+    };
+  }
+}
+
+class BulkPublishStatus {
+  static const notStarted = BulkPublishStatus._('NOT_STARTED');
+  static const inProgress = BulkPublishStatus._('IN_PROGRESS');
+  static const failed = BulkPublishStatus._('FAILED');
+  static const succeeded = BulkPublishStatus._('SUCCEEDED');
+
+  final String value;
+
+  const BulkPublishStatus._(this.value);
+
+  static const values = [notStarted, inProgress, failed, succeeded];
+
+  static BulkPublishStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BulkPublishStatus._(value));
+
+  @override
+  bool operator ==(other) => other is BulkPublishStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Usage information for the identity.
+class IdentityUsage {
+  /// Total data storage for this identity.
+  final int? dataStorage;
+
+  /// Number of datasets for the identity.
+  final int? datasetCount;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  final String? identityId;
+
+  /// A name-spaced GUID (for example,
+  /// us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito.
+  /// GUID generation is unique within a region.
+  final String? identityPoolId;
+
+  /// Date on which the identity was last modified.
+  final DateTime? lastModifiedDate;
+
+  IdentityUsage({
+    this.dataStorage,
+    this.datasetCount,
+    this.identityId,
+    this.identityPoolId,
+    this.lastModifiedDate,
+  });
+
+  factory IdentityUsage.fromJson(Map<String, dynamic> json) {
+    return IdentityUsage(
+      dataStorage: json['DataStorage'] as int?,
+      datasetCount: json['DatasetCount'] as int?,
+      identityId: json['IdentityId'] as String?,
+      identityPoolId: json['IdentityPoolId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataStorage = this.dataStorage;
+    final datasetCount = this.datasetCount;
+    final identityId = this.identityId;
+    final identityPoolId = this.identityPoolId;
+    final lastModifiedDate = this.lastModifiedDate;
+    return {
+      if (dataStorage != null) 'DataStorage': dataStorage,
+      if (datasetCount != null) 'DatasetCount': datasetCount,
+      if (identityId != null) 'IdentityId': identityId,
+      if (identityPoolId != null) 'IdentityPoolId': identityPoolId,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
     };
   }
 }

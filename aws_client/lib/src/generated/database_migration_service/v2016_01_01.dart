@@ -63,6 +63,7 @@ class DatabaseMigration {
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html">
   /// <code>Tag</code> </a> data type description.
   ///
+  /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [resourceArn] :
@@ -104,7 +105,7 @@ class DatabaseMigration {
   /// The pending maintenance action to apply to this resource.
   ///
   /// Valid values: <code>os-upgrade</code>, <code>system-update</code>,
-  /// <code>db-upgrade</code>
+  /// <code>db-upgrade</code>, <code>os-patch</code>
   ///
   /// Parameter [optInType] :
   /// A value that specifies the type of opt-in request, or undoes an opt-in
@@ -154,6 +155,15 @@ class DatabaseMigration {
     return ApplyPendingMaintenanceActionResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Starts the analysis of up to 20 source databases to recommend target
   /// engines for each source database. This is a batch version of <a
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartRecommendations.html">StartRecommendations</a>.
@@ -163,8 +173,8 @@ class DatabaseMigration {
   /// successful and unsuccessful actions, you should check for batch errors
   /// even when the call returns an HTTP status code of <code>200</code>.
   ///
-  /// May throw [InvalidResourceStateFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [data] :
@@ -192,6 +202,78 @@ class DatabaseMigration {
     return BatchStartRecommendationsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Cancels a single metadata model conversion operation that was started with
+  /// <code>StartMetadataModelConversion</code>.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [requestIdentifier] :
+  /// The identifier for the metadata model conversion operation to cancel. This
+  /// operation was initiated by StartMetadataModelConversion.
+  Future<CancelMetadataModelConversionResponse> cancelMetadataModelConversion({
+    required String migrationProjectIdentifier,
+    required String requestIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CancelMetadataModelConversion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'RequestIdentifier': requestIdentifier,
+      },
+    );
+
+    return CancelMetadataModelConversionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Cancels a single metadata model creation operation that was started with
+  /// <code>StartMetadataModelCreation</code>.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [requestIdentifier] :
+  /// The identifier for the metadata model creation operation to cancel. This
+  /// operation was initiated by <code>StartMetadataModelCreation</code>.
+  Future<CancelMetadataModelCreationResponse> cancelMetadataModelCreation({
+    required String migrationProjectIdentifier,
+    required String requestIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CancelMetadataModelCreation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'RequestIdentifier': requestIdentifier,
+      },
+    );
+
+    return CancelMetadataModelCreationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Cancels a single premigration assessment run.
   ///
   /// This operation prevents any individual assessments from running if they
@@ -199,8 +281,8 @@ class DatabaseMigration {
   /// assessments that are currently running.
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationTaskAssessmentRunArn] :
   /// Amazon Resource Name (ARN) of the premigration assessment run to be
@@ -228,19 +310,118 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
+  /// Creates a data migration using the provided settings.
+  ///
+  /// May throw [FailedDependencyFault].
+  /// May throw [InvalidOperationFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
+  ///
+  /// Parameter [dataMigrationType] :
+  /// Specifies if the data migration is full-load only, change data capture
+  /// (CDC) only, or full-load and CDC.
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// An identifier for the migration project.
+  ///
+  /// Parameter [serviceAccessRoleArn] :
+  /// The Amazon Resource Name (ARN) for the service access role that you want
+  /// to use to create the data migration.
+  ///
+  /// Parameter [dataMigrationName] :
+  /// A user-friendly name for the data migration. Data migration names have the
+  /// following constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must begin with a letter, and can only contain ASCII letters, digits, and
+  /// hyphens.
+  /// </li>
+  /// <li>
+  /// Can't end with a hyphen or contain two consecutive hyphens.
+  /// </li>
+  /// <li>
+  /// Length must be from 1 to 255 characters.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [enableCloudwatchLogs] :
+  /// Specifies whether to enable CloudWatch logs for the data migration.
+  ///
+  /// Parameter [numberOfJobs] :
+  /// The number of parallel jobs that trigger parallel threads to unload the
+  /// tables from the source, and then load them to the target.
+  ///
+  /// Parameter [selectionRules] :
+  /// An optional JSON string specifying what tables, views, and schemas to
+  /// include or exclude from the migration.
+  ///
+  /// Parameter [sourceDataSettings] :
+  /// Specifies information about the source data provider.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags to be assigned to the data migration.
+  ///
+  /// Parameter [targetDataSettings] :
+  /// Specifies information about the target data provider.
+  Future<CreateDataMigrationResponse> createDataMigration({
+    required MigrationTypeValue dataMigrationType,
+    required String migrationProjectIdentifier,
+    required String serviceAccessRoleArn,
+    String? dataMigrationName,
+    bool? enableCloudwatchLogs,
+    int? numberOfJobs,
+    String? selectionRules,
+    List<SourceDataSetting>? sourceDataSettings,
+    List<Tag>? tags,
+    List<TargetDataSetting>? targetDataSettings,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.CreateDataMigration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataMigrationType': dataMigrationType.value,
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+        if (dataMigrationName != null) 'DataMigrationName': dataMigrationName,
+        if (enableCloudwatchLogs != null)
+          'EnableCloudwatchLogs': enableCloudwatchLogs,
+        if (numberOfJobs != null) 'NumberOfJobs': numberOfJobs,
+        if (selectionRules != null) 'SelectionRules': selectionRules,
+        if (sourceDataSettings != null)
+          'SourceDataSettings': sourceDataSettings,
+        if (tags != null) 'Tags': tags,
+        if (targetDataSettings != null)
+          'TargetDataSettings': targetDataSettings,
+      },
+    );
+
+    return CreateDataMigrationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a data provider using the provided settings. A data provider
   /// stores a data store type and location information about your database.
   ///
-  /// May throw [ResourceQuotaExceededFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [FailedDependencyFault].
   /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [engine] :
   /// The type of database engine for the data provider. Valid values include
   /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
   /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
   /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
-  /// <code>mongodb</code>, and <code>docdb</code>. A value of
+  /// <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>,
+  /// <code>docdb</code>, and <code>sybase</code>. A value of
   /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
   ///
   /// Parameter [settings] :
@@ -254,12 +435,16 @@ class DatabaseMigration {
   ///
   /// Parameter [tags] :
   /// One or more tags to be assigned to the data provider.
+  ///
+  /// Parameter [virtual] :
+  /// Indicates whether the data provider is virtual.
   Future<CreateDataProviderResponse> createDataProvider({
     required String engine,
     required DataProviderSettings settings,
     String? dataProviderName,
     String? description,
     List<Tag>? tags,
+    bool? virtual,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -277,6 +462,7 @@ class DatabaseMigration {
         if (dataProviderName != null) 'DataProviderName': dataProviderName,
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
+        if (virtual != null) 'Virtual': virtual,
       },
     );
 
@@ -293,12 +479,12 @@ class DatabaseMigration {
   /// you specify the schema in the table-mapping rules of the DMS task.
   /// </note>
   ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
-  /// May throw [ResourceQuotaExceededFault].
-  /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceQuotaExceededFault].
   /// May throw [S3AccessDeniedFault].
   ///
   /// Parameter [endpointIdentifier] :
@@ -320,8 +506,11 @@ class DatabaseMigration {
   /// <code>"sybase"</code>, <code>"dynamodb"</code>, <code>"mongodb"</code>,
   /// <code>"kinesis"</code>, <code>"kafka"</code>,
   /// <code>"elasticsearch"</code>, <code>"docdb"</code>,
-  /// <code>"sqlserver"</code>, <code>"neptune"</code>, and
-  /// <code>"babelfish"</code>.
+  /// <code>"sqlserver"</code>, <code>"neptune"</code>,
+  /// <code>"babelfish"</code>, <code>redshift-serverless</code>,
+  /// <code>aurora-serverless</code>, <code>aurora-postgresql-serverless</code>,
+  /// <code>gcp-mysql</code>, <code>azure-sql-managed-instance</code>,
+  /// <code>redis</code>, <code>dms-transfer</code>.
   ///
   /// Parameter [certificateArn] :
   /// The Amazon Resource Name (ARN) for the certificate.
@@ -642,16 +831,16 @@ class DatabaseMigration {
   /// with Events and Notifications</a> in the <i>Database Migration Service
   /// User Guide.</i>
   ///
-  /// May throw [ResourceQuotaExceededFault].
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [ResourceAlreadyExistsFault].
-  /// May throw [SNSInvalidTopicFault].
-  /// May throw [SNSNoAuthorizationFault].
   /// May throw [KMSAccessDeniedFault].
   /// May throw [KMSDisabledFault].
   /// May throw [KMSInvalidStateFault].
   /// May throw [KMSNotFoundFault].
   /// May throw [KMSThrottlingFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [SNSInvalidTopicFault].
+  /// May throw [SNSNoAuthorizationFault].
   ///
   /// Parameter [snsTopicArn] :
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic created for event
@@ -726,13 +915,22 @@ class DatabaseMigration {
     return CreateEventSubscriptionResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Creates a Fleet Advisor collector using the specified parameters.
   ///
-  /// May throw [InvalidResourceStateFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceQuotaExceededFault].
   /// May throw [S3AccessDeniedFault].
   /// May throw [S3ResourceNotFoundFault].
-  /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [collectorName] :
   /// The name of your Fleet Advisor collector (for example,
@@ -778,13 +976,14 @@ class DatabaseMigration {
   /// Creates the instance profile using the specified parameters.
   ///
   /// May throw [AccessDeniedFault].
+  /// May throw [FailedDependencyFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [InvalidResourceStateFault].
-  /// May throw [KMSKeyNotAccessibleFault].
-  /// May throw [S3ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [availabilityZone] :
   /// The Availability Zone where the instance profile will be created. The
@@ -803,11 +1002,8 @@ class DatabaseMigration {
   /// connection parameters for the instance profile.
   ///
   /// If you don't specify a value for the <code>KmsKeyArn</code> parameter,
-  /// then DMS uses your default encryption key.
-  ///
-  /// KMS creates the default encryption key for your Amazon Web Services
-  /// account. Your Amazon Web Services account has a different default
-  /// encryption key for each Amazon Web Services Region.
+  /// then DMS uses an Amazon Web Services owned encryption key to encrypt your
+  /// resources.
   ///
   /// Parameter [networkType] :
   /// Specifies the network type for the instance profile. A value of
@@ -882,11 +1078,12 @@ class DatabaseMigration {
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateDataProvider.html">CreateDataProvider</a>.
   ///
   /// May throw [AccessDeniedFault].
+  /// May throw [FailedDependencyFault].
   /// May throw [ResourceAlreadyExistsFault].
-  /// May throw [ResourceQuotaExceededFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [instanceProfileIdentifier] :
   /// The identifier of the associated instance profile. Identifiers must begin
@@ -965,12 +1162,12 @@ class DatabaseMigration {
   /// the configuration inputs before you start the replication.
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceAlreadyExistsFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
-  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [InvalidSubnet].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [computeConfig] :
@@ -1105,15 +1302,15 @@ class DatabaseMigration {
   /// </note>
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceAlreadyExistsFault].
   /// May throw [InsufficientResourceCapacityFault].
-  /// May throw [ResourceQuotaExceededFault].
-  /// May throw [StorageQuotaExceededFault].
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [InvalidResourceStateFault].
   /// May throw [InvalidSubnet].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [StorageQuotaExceededFault].
   ///
   /// Parameter [replicationInstanceClass] :
   /// The compute and memory capacity of the replication instance as defined for
@@ -1177,6 +1374,10 @@ class DatabaseMigration {
   ///
   /// If an engine version number is not specified when a replication instance
   /// is created, the default is the latest engine version available.
+  ///
+  /// Parameter [kerberosAuthenticationSettings] :
+  /// Specifies the settings required for kerberos authentication when creating
+  /// the replication instance.
   ///
   /// Parameter [kmsKeyId] :
   /// An KMS key identifier that is used to encrypt the data on the replication
@@ -1250,6 +1451,7 @@ class DatabaseMigration {
     String? availabilityZone,
     String? dnsNameServers,
     String? engineVersion,
+    KerberosAuthenticationSettings? kerberosAuthenticationSettings,
     String? kmsKeyId,
     bool? multiAZ,
     String? networkType,
@@ -1279,6 +1481,8 @@ class DatabaseMigration {
         if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
         if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
         if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (kerberosAuthenticationSettings != null)
+          'KerberosAuthenticationSettings': kerberosAuthenticationSettings,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (multiAZ != null) 'MultiAZ': multiAZ,
         if (networkType != null) 'NetworkType': networkType,
@@ -1315,21 +1519,24 @@ class DatabaseMigration {
   /// your subnet group. Next, choose Delete from Actions.
   ///
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidSubnet].
+  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
-  /// May throw [InvalidSubnet].
   ///
   /// Parameter [replicationSubnetGroupDescription] :
   /// The description for the subnet group.
+  ///
+  /// Constraints: This parameter Must not contain non-printable control
+  /// characters.
   ///
   /// Parameter [replicationSubnetGroupIdentifier] :
   /// The name for the replication subnet group. This value is stored as a
   /// lowercase string.
   ///
   /// Constraints: Must contain no more than 255 alphanumeric characters,
-  /// periods, spaces, underscores, or hyphens. Must not be "default".
+  /// periods, underscores, or hyphens. Must not be "default".
   ///
   /// Example: <code>mySubnetgroup</code>
   ///
@@ -1369,9 +1576,9 @@ class DatabaseMigration {
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [migrationType] :
@@ -1530,8 +1737,8 @@ class DatabaseMigration {
 
   /// Deletes the specified certificate.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [certificateArn] :
   /// The Amazon Resource Name (ARN) of the certificate.
@@ -1559,8 +1766,8 @@ class DatabaseMigration {
   /// Deletes the connection between a replication instance and an endpoint.
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [endpointArn] :
   /// The Amazon Resource Name (ARN) string that uniquely identifies the
@@ -1591,6 +1798,35 @@ class DatabaseMigration {
     return DeleteConnectionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes the specified data migration.
+  ///
+  /// May throw [FailedDependencyFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [dataMigrationIdentifier] :
+  /// The identifier (name or ARN) of the data migration to delete.
+  Future<DeleteDataMigrationResponse> deleteDataMigration({
+    required String dataMigrationIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DeleteDataMigration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataMigrationIdentifier': dataMigrationIdentifier,
+      },
+    );
+
+    return DeleteDataMigrationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified data provider.
   /// <note>
   /// All migration projects associated with the data provider must be deleted
@@ -1598,8 +1834,9 @@ class DatabaseMigration {
   /// </note>
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [FailedDependencyFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [dataProviderIdentifier] :
   /// The identifier of the data provider to delete.
@@ -1628,10 +1865,11 @@ class DatabaseMigration {
   /// <note>
   /// All tasks associated with the endpoint must be deleted before you can
   /// delete the endpoint.
-  /// </note> <p/>
+  /// </note>
   ///
-  /// May throw [ResourceNotFoundFault].
+  ///
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [endpointArn] :
   /// The Amazon Resource Name (ARN) string that uniquely identifies the
@@ -1659,8 +1897,9 @@ class DatabaseMigration {
 
   /// Deletes an DMS event subscription.
   ///
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [subscriptionName] :
   /// The name of the DMS event notification subscription to be deleted.
@@ -1685,10 +1924,20 @@ class DatabaseMigration {
     return DeleteEventSubscriptionResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Deletes the specified Fleet Advisor collector.
   ///
-  /// May throw [InvalidResourceStateFault].
+  /// May throw [AccessDeniedFault].
   /// May throw [CollectorNotFoundFault].
+  /// May throw [InvalidResourceStateFault].
   ///
   /// Parameter [collectorReferencedId] :
   /// The reference ID of the Fleet Advisor collector to delete.
@@ -1711,10 +1960,20 @@ class DatabaseMigration {
     );
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Deletes the specified Fleet Advisor collector databases.
   ///
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [AccessDeniedFault].
   /// May throw [InvalidOperationFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [databaseIds] :
   /// The IDs of the Fleet Advisor collector databases to delete.
@@ -1746,8 +2005,9 @@ class DatabaseMigration {
   /// </note>
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [FailedDependencyFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [instanceProfileIdentifier] :
   /// The identifier of the instance profile to delete.
@@ -1778,8 +2038,9 @@ class DatabaseMigration {
   /// </note>
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [FailedDependencyFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The name or Amazon Resource Name (ARN) of the migration project to delete.
@@ -1811,8 +2072,8 @@ class DatabaseMigration {
   /// non-RUNNING and non-STARTING state.
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationConfigArn] :
   /// The replication config to delete.
@@ -1841,7 +2102,8 @@ class DatabaseMigration {
   /// <note>
   /// You must delete any migration tasks that are associated with the
   /// replication instance before you can delete it.
-  /// </note> <p/>
+  /// </note>
+  ///
   ///
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
@@ -1871,6 +2133,7 @@ class DatabaseMigration {
 
   /// Deletes a subnet group.
   ///
+  /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
   ///
@@ -1897,8 +2160,8 @@ class DatabaseMigration {
 
   /// Deletes the specified replication task.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name (ARN) of the replication task to be deleted.
@@ -1930,8 +2193,8 @@ class DatabaseMigration {
   /// about this assessment run that is stored in your Amazon S3 bucket.
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationTaskAssessmentRunArn] :
   /// Amazon Resource Name (ARN) of the premigration assessment run to be
@@ -2009,8 +2272,8 @@ class DatabaseMigration {
   /// assessment run for the task.
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [marker] :
   /// Optional pagination token provided by a previous request. If this
@@ -2026,6 +2289,10 @@ class DatabaseMigration {
   /// Parameter [migrationType] :
   /// Name of the migration type that each provided individual assessment must
   /// support.
+  ///
+  /// Parameter [replicationConfigArn] :
+  /// Amazon Resource Name (ARN) of a serverless replication on which you want
+  /// to base the default list of individual assessments.
   ///
   /// Parameter [replicationInstanceArn] :
   /// ARN of a replication instance on which you want to base the default list
@@ -2047,6 +2314,7 @@ class DatabaseMigration {
     String? marker,
     int? maxRecords,
     MigrationTypeValue? migrationType,
+    String? replicationConfigArn,
     String? replicationInstanceArn,
     String? replicationTaskArn,
     String? sourceEngineName,
@@ -2067,6 +2335,8 @@ class DatabaseMigration {
         if (marker != null) 'Marker': marker,
         if (maxRecords != null) 'MaxRecords': maxRecords,
         if (migrationType != null) 'MigrationType': migrationType.value,
+        if (replicationConfigArn != null)
+          'ReplicationConfigArn': replicationConfigArn,
         if (replicationInstanceArn != null)
           'ReplicationInstanceArn': replicationInstanceArn,
         if (replicationTaskArn != null)
@@ -2205,17 +2475,79 @@ class DatabaseMigration {
     return DescribeConversionConfigurationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns information about data migrations.
+  ///
+  /// May throw [FailedDependencyFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the data migrations.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Parameter [withoutSettings] :
+  /// An option to set to avoid returning information about settings. Use this
+  /// to reduce overhead when setting information is too large. To use this
+  /// option, choose <code>true</code>; otherwise, choose <code>false</code>
+  /// (the default).
+  ///
+  /// Parameter [withoutStatistics] :
+  /// An option to set to avoid returning information about statistics. Use this
+  /// to reduce overhead when statistics information is too large. To use this
+  /// option, choose <code>true</code>; otherwise, choose <code>false</code>
+  /// (the default).
+  Future<DescribeDataMigrationsResponse> describeDataMigrations({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    bool? withoutSettings,
+    bool? withoutStatistics,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeDataMigrations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (withoutSettings != null) 'WithoutSettings': withoutSettings,
+        if (withoutStatistics != null) 'WithoutStatistics': withoutStatistics,
+      },
+    );
+
+    return DescribeDataMigrationsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a paginated list of data providers for your account in the current
   /// region.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [FailedDependencyFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
   /// Filters applied to the data providers described in the form of key-value
   /// pairs.
   ///
-  /// Valid filter names: data-provider-identifier
+  /// Valid filter names and values: data-provider-identifier, data provider arn
+  /// or name
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -2256,6 +2588,56 @@ class DatabaseMigration {
     );
 
     return DescribeDataProvidersResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about the endpoints for your account in the current
+  /// region.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the endpoints.
+  ///
+  /// Valid filter names: endpoint-arn | endpoint-type | endpoint-id |
+  /// engine-name
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  Future<DescribeEndpointsResponse> describeEndpoints({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeEndpoints'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeEndpointsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the possible endpoint settings available when
@@ -2345,56 +2727,6 @@ class DatabaseMigration {
     return DescribeEndpointTypesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about the endpoints for your account in the current
-  /// region.
-  ///
-  /// May throw [ResourceNotFoundFault].
-  ///
-  /// Parameter [filters] :
-  /// Filters applied to the endpoints.
-  ///
-  /// Valid filter names: endpoint-arn | endpoint-type | endpoint-id |
-  /// engine-name
-  ///
-  /// Parameter [marker] :
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of records to include in the response. If more records
-  /// exist than the specified <code>MaxRecords</code> value, a pagination token
-  /// called a marker is included in the response so that the remaining results
-  /// can be retrieved.
-  ///
-  /// Default: 100
-  ///
-  /// Constraints: Minimum 20, maximum 100.
-  Future<DescribeEndpointsResponse> describeEndpoints({
-    List<Filter>? filters,
-    String? marker,
-    int? maxRecords,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AmazonDMSv20160101.DescribeEndpoints'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
-    );
-
-    return DescribeEndpointsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Returns information about the replication instance versions used in the
   /// project.
   ///
@@ -2466,66 +2798,6 @@ class DatabaseMigration {
     );
 
     return DescribeEventCategoriesResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Lists all the event subscriptions for a customer account. The description
-  /// of a subscription includes <code>SubscriptionName</code>,
-  /// <code>SNSTopicARN</code>, <code>CustomerID</code>,
-  /// <code>SourceType</code>, <code>SourceID</code>, <code>CreationTime</code>,
-  /// and <code>Status</code>.
-  ///
-  /// If you specify <code>SubscriptionName</code>, this action lists the
-  /// description for that subscription.
-  ///
-  /// May throw [ResourceNotFoundFault].
-  ///
-  /// Parameter [filters] :
-  /// Filters applied to event subscriptions.
-  ///
-  /// Valid filter names: event-subscription-arn | event-subscription-id
-  ///
-  /// Parameter [marker] :
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of records to include in the response. If more records
-  /// exist than the specified <code>MaxRecords</code> value, a pagination token
-  /// called a marker is included in the response so that the remaining results
-  /// can be retrieved.
-  ///
-  /// Default: 100
-  ///
-  /// Constraints: Minimum 20, maximum 100.
-  ///
-  /// Parameter [subscriptionName] :
-  /// The name of the DMS event subscription to be described.
-  Future<DescribeEventSubscriptionsResponse> describeEventSubscriptions({
-    List<Filter>? filters,
-    String? marker,
-    int? maxRecords,
-    String? subscriptionName,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AmazonDMSv20160101.DescribeEventSubscriptions'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-        if (subscriptionName != null) 'SubscriptionName': subscriptionName,
-      },
-    );
-
-    return DescribeEventSubscriptionsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists events for a given source identifier and source type. You can also
@@ -2609,6 +2881,67 @@ class DatabaseMigration {
     return DescribeEventsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all the event subscriptions for a customer account. The description
+  /// of a subscription includes <code>SubscriptionName</code>,
+  /// <code>SNSTopicARN</code>, <code>CustomerID</code>,
+  /// <code>SourceType</code>, <code>SourceID</code>, <code>CreationTime</code>,
+  /// and <code>Status</code>.
+  ///
+  /// If you specify <code>SubscriptionName</code>, this action lists the
+  /// description for that subscription.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to event subscriptions.
+  ///
+  /// Valid filter names: <code>event-subscription-arn</code> |
+  /// <code>event-subscription-id</code>
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  ///
+  /// Parameter [subscriptionName] :
+  /// The name of the DMS event subscription to be described.
+  Future<DescribeEventSubscriptionsResponse> describeEventSubscriptions({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? subscriptionName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeEventSubscriptions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (subscriptionName != null) 'SubscriptionName': subscriptionName,
+      },
+    );
+
+    return DescribeEventSubscriptionsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a paginated list of extension pack associations for the specified
   /// migration project. An extension pack is an add-on module that emulates
   /// functions present in a source database that are required when converting
@@ -2666,6 +2999,15 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Returns a list of the Fleet Advisor collectors in your account.
   ///
   /// May throw [InvalidResourceStateFault].
@@ -2720,6 +3062,15 @@ class DatabaseMigration {
     return DescribeFleetAdvisorCollectorsResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Returns a list of Fleet Advisor databases in your account.
   ///
   /// May throw [InvalidResourceStateFault].
@@ -2785,6 +3136,15 @@ class DatabaseMigration {
     return DescribeFleetAdvisorDatabasesResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Provides descriptions of large-scale assessment (LSA) analyses produced by
   /// your Fleet Advisor collectors.
   ///
@@ -2822,6 +3182,15 @@ class DatabaseMigration {
     return DescribeFleetAdvisorLsaAnalysisResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Provides descriptions of the schemas discovered by your Fleet Advisor
   /// collectors.
   ///
@@ -2841,6 +3210,15 @@ class DatabaseMigration {
   /// Name="schema-id",Values="50"</code>
   ///
   /// Parameter [maxRecords] :
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Sets the maximum number of records returned in the response.
   ///
   /// Parameter [nextToken] :
@@ -2876,6 +3254,15 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Returns a list of schemas detected by Fleet Advisor Collectors in your
   /// account.
   ///
@@ -2958,12 +3345,16 @@ class DatabaseMigration {
   /// Returns a paginated list of instance profiles for your account in the
   /// current region.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [FailedDependencyFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
   /// Filters applied to the instance profiles described in the form of
   /// key-value pairs.
+  ///
+  /// Valid filter names and values: instance-profile-identifier, instance
+  /// profile arn or name
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3004,6 +3395,51 @@ class DatabaseMigration {
     );
 
     return DescribeInstanceProfilesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets detailed information about the specified metadata model, including
+  /// its definition and corresponding converted objects in the target database
+  /// if applicable.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [origin] :
+  /// Specifies whether to retrieve metadata from the source or target tree.
+  /// Valid values: SOURCE | TARGET
+  ///
+  /// Parameter [selectionRules] :
+  /// The JSON string that specifies which metadata model to retrieve. Only one
+  /// selection rule with "rule-action": "explicit" can be provided. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html">Selection
+  /// Rules</a> in the DMS User Guide.
+  Future<DescribeMetadataModelResponse> describeMetadataModel({
+    required String migrationProjectIdentifier,
+    required OriginTypeValue origin,
+    required String selectionRules,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMetadataModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'Origin': origin.value,
+        'SelectionRules': selectionRules,
+      },
+    );
+
+    return DescribeMetadataModelResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns a paginated list of metadata model assessments for your account in
@@ -3062,6 +3498,64 @@ class DatabaseMigration {
     return DescribeMetadataModelAssessmentsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets a list of child metadata models for the specified metadata model in
+  /// the database hierarchy.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [origin] :
+  /// Specifies whether to retrieve metadata from the source or target tree.
+  /// Valid values: SOURCE | TARGET
+  ///
+  /// Parameter [selectionRules] :
+  /// The JSON string that specifies which metadata model's children to
+  /// retrieve. Only one selection rule with "rule-action": "explicit" can be
+  /// provided. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html">Selection
+  /// Rules</a> in the DMS User Guide.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that indicates where the next page
+  /// should start. If this parameter is specified, the response includes only
+  /// records beyond the marker, up to the value specified by MaxRecords.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of metadata model children to include in the response.
+  /// If more items exist than the specified MaxRecords value, a marker is
+  /// included in the response so that the remaining results can be retrieved.
+  Future<DescribeMetadataModelChildrenResponse> describeMetadataModelChildren({
+    required String migrationProjectIdentifier,
+    required OriginTypeValue origin,
+    required String selectionRules,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMetadataModelChildren'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'Origin': origin.value,
+        'SelectionRules': selectionRules,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeMetadataModelChildrenResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a paginated list of metadata model conversions for a migration
   /// project.
   ///
@@ -3116,6 +3610,58 @@ class DatabaseMigration {
     );
 
     return DescribeMetadataModelConversionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a paginated list of metadata model creation requests for a
+  /// migration project.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the metadata model creation requests described in the
+  /// form of key-value pairs. The supported filters are request-id and status.
+  ///
+  /// Parameter [marker] :
+  /// Specifies the unique pagination token that makes it possible to display
+  /// the next page of metadata model creation requests. If Marker is returned
+  /// by a previous response, there are more metadata model creation requests
+  /// available.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of metadata model creation requests to include in the
+  /// response. If more requests exist than the specified MaxRecords value, a
+  /// pagination token is provided in the response so that you can retrieve the
+  /// remaining results.
+  Future<DescribeMetadataModelCreationsResponse>
+      describeMetadataModelCreations({
+    required String migrationProjectIdentifier,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeMetadataModelCreations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeMetadataModelCreationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns a paginated list of metadata model exports.
@@ -3284,12 +3830,27 @@ class DatabaseMigration {
   /// Returns a paginated list of migration projects for your account in the
   /// current region.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [FailedDependencyFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
   /// Filters applied to the migration projects described in the form of
   /// key-value pairs.
+  ///
+  /// Valid filter names and values:
+  ///
+  /// <ul>
+  /// <li>
+  /// instance-profile-identifier, instance profile arn or name
+  /// </li>
+  /// <li>
+  /// data-provider-identifier, data provider arn or name
+  /// </li>
+  /// <li>
+  /// migration-project-identifier, migration project arn or name
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// Specifies the unique pagination token that makes it possible to display
@@ -3374,12 +3935,13 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
-  /// For internal use only
+  /// Returns a list of upcoming maintenance events for replication instances in
+  /// your account in the current Region.
   ///
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [filters] :
-  /// <p/>
+  ///
   ///
   /// Parameter [marker] :
   /// An optional pagination token provided by a previous request. If this
@@ -3428,15 +3990,26 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Returns a paginated list of limitations for recommendations of target
   /// Amazon Web Services engines.
   ///
-  /// May throw [InvalidResourceStateFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
   ///
   /// Parameter [filters] :
   /// Filters applied to the limitations described in the form of key-value
   /// pairs.
+  ///
+  /// Valid filter names: <code>database-id</code> | <code>engine-name</code>
   ///
   /// Parameter [maxRecords] :
   /// The maximum number of records to include in the response. If more records
@@ -3481,15 +4054,26 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Returns a paginated list of target engine recommendations for your source
   /// databases.
   ///
-  /// May throw [InvalidResourceStateFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
   ///
   /// Parameter [filters] :
   /// Filters applied to the target engine recommendations described in the form
   /// of key-value pairs.
+  ///
+  /// Valid filter names: <code>database-id</code> | <code>engine-name</code>
   ///
   /// Parameter [maxRecords] :
   /// The maximum number of records to include in the response. If more records
@@ -3604,55 +4188,6 @@ class DatabaseMigration {
     return DescribeReplicationConfigsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about the task logs for the specified task.
-  ///
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [InvalidResourceStateFault].
-  ///
-  /// Parameter [replicationInstanceArn] :
-  /// The Amazon Resource Name (ARN) of the replication instance.
-  ///
-  /// Parameter [marker] :
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of records to include in the response. If more records
-  /// exist than the specified <code>MaxRecords</code> value, a pagination token
-  /// called a marker is included in the response so that the remaining results
-  /// can be retrieved.
-  ///
-  /// Default: 100
-  ///
-  /// Constraints: Minimum 20, maximum 100.
-  Future<DescribeReplicationInstanceTaskLogsResponse>
-      describeReplicationInstanceTaskLogs({
-    required String replicationInstanceArn,
-    String? marker,
-    int? maxRecords,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplicationInstanceTaskLogs'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ReplicationInstanceArn': replicationInstanceArn,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
-    );
-
-    return DescribeReplicationInstanceTaskLogsResponse.fromJson(
-        jsonResponse.body);
-  }
-
   /// Returns information about replication instances for your account in the
   /// current region.
   ///
@@ -3701,6 +4236,101 @@ class DatabaseMigration {
     );
 
     return DescribeReplicationInstancesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about the task logs for the specified task.
+  ///
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [replicationInstanceArn] :
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  Future<DescribeReplicationInstanceTaskLogsResponse>
+      describeReplicationInstanceTaskLogs({
+    required String replicationInstanceArn,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplicationInstanceTaskLogs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ReplicationInstanceArn': replicationInstanceArn,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeReplicationInstanceTaskLogsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Provides details on replication progress by returning status information
+  /// for one or more provisioned DMS Serverless replications.
+  ///
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [filters] :
+  /// Filters applied to the replications.
+  ///
+  /// Valid filter names: <code>replication-config-arn</code> |
+  /// <code>replication-config-id</code>
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  Future<DescribeReplicationsResponse> describeReplications({
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplications'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeReplicationsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the replication subnet groups.
@@ -3755,8 +4385,8 @@ class DatabaseMigration {
   /// Returns table and schema statistics for one or more provisioned
   /// replications that use a given DMS Serverless replication configuration.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationConfigArn] :
   /// The replication config to describe.
@@ -4033,51 +4663,9 @@ class DatabaseMigration {
     return DescribeReplicationTasksResponse.fromJson(jsonResponse.body);
   }
 
-  /// Provides details on replication progress by returning status information
-  /// for one or more provisioned DMS Serverless replications.
-  ///
-  /// May throw [ResourceNotFoundFault].
-  ///
-  /// Parameter [filters] :
-  /// Filters applied to the replications.
-  ///
-  /// Parameter [marker] :
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of records to include in the response. If more records
-  /// exist than the specified <code>MaxRecords</code> value, a pagination token
-  /// called a marker is included in the response so that the remaining results
-  /// can be retrieved.
-  Future<DescribeReplicationsResponse> describeReplications({
-    List<Filter>? filters,
-    String? marker,
-    int? maxRecords,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AmazonDMSv20160101.DescribeReplications'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (filters != null) 'Filters': filters,
-        if (marker != null) 'Marker': marker,
-        if (maxRecords != null) 'MaxRecords': maxRecords,
-      },
-    );
-
-    return DescribeReplicationsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Returns information about the schema for the specified endpoint.
-  /// <p/>
+  ///
+  ///
   ///
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
@@ -4132,8 +4720,9 @@ class DatabaseMigration {
   /// time that DMS last updated the table statistics record for a table. It
   /// does not indicate the time of the last update to the table.
   ///
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name (ARN) of the replication task.
@@ -4233,10 +4822,48 @@ class DatabaseMigration {
     return ExportMetadataModelAssessmentResponse.fromJson(jsonResponse.body);
   }
 
+  /// Converts source selection rules into their target counterparts for schema
+  /// conversion operations.
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [selectionRules] :
+  /// The JSON string representing the source selection rules for conversion.
+  /// Selection rules must contain only supported metadata model types. For more
+  /// information, see Selection Rules in the DMS User Guide.
+  Future<GetTargetSelectionRulesResponse> getTargetSelectionRules({
+    required String migrationProjectIdentifier,
+    required String selectionRules,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.GetTargetSelectionRules'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'SelectionRules': selectionRules,
+      },
+    );
+
+    return GetTargetSelectionRulesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Uploads the specified certificate.
   ///
-  /// May throw [ResourceAlreadyExistsFault].
   /// May throw [InvalidCertificateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [certificateIdentifier] :
@@ -4255,12 +4882,23 @@ class DatabaseMigration {
   ///
   /// Example: <code>filebase64("${path.root}/rds-ca-2019-root.sso")</code>
   ///
+  /// Parameter [kmsKeyId] :
+  /// An KMS key identifier that is used to encrypt the certificate.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
+  /// DMS uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services
+  /// account. Your Amazon Web Services account has a different default
+  /// encryption key for each Amazon Web Services Region.
+  ///
   /// Parameter [tags] :
   /// The tags associated with the certificate.
   Future<ImportCertificateResponse> importCertificate({
     required String certificateIdentifier,
     String? certificatePem,
     Uint8List? certificateWallet,
+    String? kmsKeyId,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -4278,6 +4916,7 @@ class DatabaseMigration {
         if (certificatePem != null) 'CertificatePem': certificatePem,
         if (certificateWallet != null)
           'CertificateWallet': base64Encode(certificateWallet),
+        if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -4291,6 +4930,7 @@ class DatabaseMigration {
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html">
   /// <code>Tag</code> </a> data type description.
   ///
+  /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [resourceArn] :
@@ -4330,8 +4970,8 @@ class DatabaseMigration {
   /// Modifies the specified schema conversion configuration using the provided
   /// parameters.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [conversionConfiguration] :
   /// The new conversion configuration.
@@ -4361,6 +5001,82 @@ class DatabaseMigration {
     return ModifyConversionConfigurationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Modifies an existing DMS data migration.
+  ///
+  /// May throw [FailedDependencyFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [dataMigrationIdentifier] :
+  /// The identifier (name or ARN) of the data migration to modify.
+  ///
+  /// Parameter [dataMigrationName] :
+  /// The new name for the data migration.
+  ///
+  /// Parameter [dataMigrationType] :
+  /// The new migration type for the data migration.
+  ///
+  /// Parameter [enableCloudwatchLogs] :
+  /// Whether to enable Cloudwatch logs for the data migration.
+  ///
+  /// Parameter [numberOfJobs] :
+  /// The number of parallel jobs that trigger parallel threads to unload the
+  /// tables from the source, and then load them to the target.
+  ///
+  /// Parameter [selectionRules] :
+  /// A JSON-formatted string that defines what objects to include and exclude
+  /// from the migration.
+  ///
+  /// Parameter [serviceAccessRoleArn] :
+  /// The new service access role ARN for the data migration.
+  ///
+  /// Parameter [sourceDataSettings] :
+  /// The new information about the source data provider for the data migration.
+  ///
+  /// Parameter [targetDataSettings] :
+  /// The new information about the target data provider for the data migration.
+  Future<ModifyDataMigrationResponse> modifyDataMigration({
+    required String dataMigrationIdentifier,
+    String? dataMigrationName,
+    MigrationTypeValue? dataMigrationType,
+    bool? enableCloudwatchLogs,
+    int? numberOfJobs,
+    String? selectionRules,
+    String? serviceAccessRoleArn,
+    List<SourceDataSetting>? sourceDataSettings,
+    List<TargetDataSetting>? targetDataSettings,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.ModifyDataMigration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataMigrationIdentifier': dataMigrationIdentifier,
+        if (dataMigrationName != null) 'DataMigrationName': dataMigrationName,
+        if (dataMigrationType != null)
+          'DataMigrationType': dataMigrationType.value,
+        if (enableCloudwatchLogs != null)
+          'EnableCloudwatchLogs': enableCloudwatchLogs,
+        if (numberOfJobs != null) 'NumberOfJobs': numberOfJobs,
+        if (selectionRules != null) 'SelectionRules': selectionRules,
+        if (serviceAccessRoleArn != null)
+          'ServiceAccessRoleArn': serviceAccessRoleArn,
+        if (sourceDataSettings != null)
+          'SourceDataSettings': sourceDataSettings,
+        if (targetDataSettings != null)
+          'TargetDataSettings': targetDataSettings,
+      },
+    );
+
+    return ModifyDataMigrationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Modifies the specified data provider using the provided settings.
   /// <note>
   /// You must remove the data provider from all migration projects before you
@@ -4368,8 +5084,9 @@ class DatabaseMigration {
   /// </note>
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [FailedDependencyFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [dataProviderIdentifier] :
   /// The identifier of the data provider. Identifiers must begin with a letter
@@ -4387,7 +5104,8 @@ class DatabaseMigration {
   /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
   /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
   /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
-  /// <code>mongodb</code>, and <code>docdb</code>. A value of
+  /// <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>,
+  /// <code>docdb</code>, and <code>sybase</code>. A value of
   /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
   ///
   /// Parameter [exactSettings] :
@@ -4410,6 +5128,9 @@ class DatabaseMigration {
   ///
   /// Parameter [settings] :
   /// The settings in JSON format for a data provider.
+  ///
+  /// Parameter [virtual] :
+  /// Indicates whether the data provider is virtual.
   Future<ModifyDataProviderResponse> modifyDataProvider({
     required String dataProviderIdentifier,
     String? dataProviderName,
@@ -4417,6 +5138,7 @@ class DatabaseMigration {
     String? engine,
     bool? exactSettings,
     DataProviderSettings? settings,
+    bool? virtual,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4435,6 +5157,7 @@ class DatabaseMigration {
         if (engine != null) 'Engine': engine,
         if (exactSettings != null) 'ExactSettings': exactSettings,
         if (settings != null) 'Settings': settings,
+        if (virtual != null) 'Virtual': virtual,
       },
     );
 
@@ -4451,11 +5174,11 @@ class DatabaseMigration {
   /// you specify the schema in the table-mapping rules of the DMS task.
   /// </note>
   ///
-  /// May throw [InvalidResourceStateFault].
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [ResourceAlreadyExistsFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [endpointArn] :
   /// The Amazon Resource Name (ARN) string that uniquely identifies the
@@ -4780,15 +5503,16 @@ class DatabaseMigration {
 
   /// Modifies an existing DMS event notification subscription.
   ///
-  /// May throw [ResourceQuotaExceededFault].
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [SNSInvalidTopicFault].
-  /// May throw [SNSNoAuthorizationFault].
+  /// May throw [AccessDeniedFault].
   /// May throw [KMSAccessDeniedFault].
   /// May throw [KMSDisabledFault].
   /// May throw [KMSInvalidStateFault].
   /// May throw [KMSNotFoundFault].
   /// May throw [KMSThrottlingFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
+  /// May throw [SNSInvalidTopicFault].
+  /// May throw [SNSNoAuthorizationFault].
   ///
   /// Parameter [subscriptionName] :
   /// The name of the DMS event notification subscription to be modified.
@@ -4847,11 +5571,12 @@ class DatabaseMigration {
   /// </note>
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [FailedDependencyFault].
   /// May throw [InvalidResourceStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
-  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [instanceProfileIdentifier] :
   /// The identifier of the instance profile. Identifiers must begin with a
@@ -4872,11 +5597,8 @@ class DatabaseMigration {
   /// connection parameters for the instance profile.
   ///
   /// If you don't specify a value for the <code>KmsKeyArn</code> parameter,
-  /// then DMS uses your default encryption key.
-  ///
-  /// KMS creates the default encryption key for your Amazon Web Services
-  /// account. Your Amazon Web Services account has a different default
-  /// encryption key for each Amazon Web Services Region.
+  /// then DMS uses an Amazon Web Services owned encryption key to encrypt your
+  /// resources.
   ///
   /// Parameter [networkType] :
   /// Specifies the network type for the instance profile. A value of
@@ -4945,10 +5667,11 @@ class DatabaseMigration {
   /// </note>
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [FailedDependencyFault].
   /// May throw [InvalidResourceStateFault].
-  /// May throw [S3ResourceNotFoundFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The identifier of the migration project. Identifiers must begin with a
@@ -5036,11 +5759,11 @@ class DatabaseMigration {
   /// FAILED_PROVISION.
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [InvalidResourceStateFault].
   /// May throw [InvalidSubnet].
   /// May throw [KMSKeyNotAccessibleFault].
-  /// May throw [InvalidResourceStateFault].
+  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationConfigArn] :
   /// The Amazon Resource Name of the replication to modify.
@@ -5115,13 +5838,14 @@ class DatabaseMigration {
   /// in the request.
   ///
   /// Some settings are applied during the maintenance window.
-  /// <p/>
+  ///
+  ///
   ///
   /// May throw [AccessDeniedFault].
+  /// May throw [InsufficientResourceCapacityFault].
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [InsufficientResourceCapacityFault].
   /// May throw [StorageQuotaExceededFault].
   /// May throw [UpgradeDependencyFailureFault].
   ///
@@ -5171,6 +5895,10 @@ class DatabaseMigration {
   ///
   /// When modifying a major engine version of an instance, also set
   /// <code>AllowMajorVersionUpgrade</code> to <code>true</code>.
+  ///
+  /// Parameter [kerberosAuthenticationSettings] :
+  /// Specifies the settings required for kerberos authentication when modifying
+  /// a replication instance.
   ///
   /// Parameter [multiAZ] :
   /// Specifies whether the replication instance is a Multi-AZ deployment. You
@@ -5224,6 +5952,7 @@ class DatabaseMigration {
     bool? applyImmediately,
     bool? autoMinorVersionUpgrade,
     String? engineVersion,
+    KerberosAuthenticationSettings? kerberosAuthenticationSettings,
     bool? multiAZ,
     String? networkType,
     String? preferredMaintenanceWindow,
@@ -5250,6 +5979,8 @@ class DatabaseMigration {
         if (autoMinorVersionUpgrade != null)
           'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
         if (engineVersion != null) 'EngineVersion': engineVersion,
+        if (kerberosAuthenticationSettings != null)
+          'KerberosAuthenticationSettings': kerberosAuthenticationSettings,
         if (multiAZ != null) 'MultiAZ': multiAZ,
         if (networkType != null) 'NetworkType': networkType,
         if (preferredMaintenanceWindow != null)
@@ -5269,11 +6000,11 @@ class DatabaseMigration {
   /// Modifies the settings for the specified replication subnet group.
   ///
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidSubnet].
+  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
   /// May throw [ResourceNotFoundFault].
   /// May throw [ResourceQuotaExceededFault].
   /// May throw [SubnetAlreadyInUse].
-  /// May throw [ReplicationSubnetGroupDoesNotCoverEnoughAZs].
-  /// May throw [InvalidSubnet].
   ///
   /// Parameter [replicationSubnetGroupIdentifier] :
   /// The name of the replication instance subnet group.
@@ -5321,9 +6052,9 @@ class DatabaseMigration {
   /// Guide</i>.
   ///
   /// May throw [InvalidResourceStateFault].
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [ResourceAlreadyExistsFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name (ARN) of the replication task.
@@ -5450,8 +6181,8 @@ class DatabaseMigration {
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [replicationTaskArn] :
@@ -5485,8 +6216,8 @@ class DatabaseMigration {
   /// Reboots a replication instance. Rebooting results in a momentary outage,
   /// until the replication instance becomes available again.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationInstanceArn] :
   /// The Amazon Resource Name (ARN) of the replication instance.
@@ -5535,8 +6266,8 @@ class DatabaseMigration {
   /// operation by calling the DescribeRefreshSchemasStatus operation.
   ///
   /// May throw [InvalidResourceStateFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [ResourceQuotaExceededFault].
   ///
   /// Parameter [endpointArn] :
@@ -5575,8 +6306,8 @@ class DatabaseMigration {
   /// otherwise the service will throw an <code>InvalidResourceStateFault</code>
   /// exception.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationConfigArn] :
   /// The Amazon Resource Name of the replication config for which to reload
@@ -5621,8 +6352,8 @@ class DatabaseMigration {
   /// state, otherwise the service will throw an
   /// <code>InvalidResourceStateFault</code> exception.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name (ARN) of the replication task.
@@ -5670,6 +6401,7 @@ class DatabaseMigration {
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_Tag.html">
   /// <code>Tag</code> </a> data type description.
   ///
+  /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [resourceArn] :
@@ -5699,6 +6431,15 @@ class DatabaseMigration {
     );
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Runs large-scale assessment (LSA) analysis on every Fleet Advisor
   /// collector in your account.
   ///
@@ -5721,18 +6462,56 @@ class DatabaseMigration {
     return RunFleetAdvisorLsaAnalysisResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts the specified data migration.
+  ///
+  /// May throw [FailedDependencyFault].
+  /// May throw [InvalidOperationFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
+  ///
+  /// Parameter [dataMigrationIdentifier] :
+  /// The identifier (name or ARN) of the data migration to start.
+  ///
+  /// Parameter [startType] :
+  /// Specifies the start type for the data migration. Valid values include
+  /// <code>start-replication</code>, <code>reload-target</code>, and
+  /// <code>resume-processing</code>.
+  Future<StartDataMigrationResponse> startDataMigration({
+    required String dataMigrationIdentifier,
+    required StartReplicationMigrationTypeValue startType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartDataMigration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataMigrationIdentifier': dataMigrationIdentifier,
+        'StartType': startType.value,
+      },
+    );
+
+    return StartDataMigrationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Applies the extension pack to your target database. An extension pack is
   /// an add-on module that emulates functions present in a source database that
   /// are required when converting objects to the target database.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [S3ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
@@ -5765,12 +6544,12 @@ class DatabaseMigration {
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [S3ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
@@ -5805,12 +6584,12 @@ class DatabaseMigration {
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [S3ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
@@ -5840,17 +6619,70 @@ class DatabaseMigration {
     return StartMetadataModelConversionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates source metadata model of the given type with the specified
+  /// properties for schema conversion operations.
+  /// <note>
+  /// This action supports only these directions: from SQL Server to Aurora
+  /// PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
+  /// May throw [ResourceQuotaExceededFault].
+  ///
+  /// Parameter [metadataModelName] :
+  /// The name of the metadata model.
+  ///
+  /// Parameter [migrationProjectIdentifier] :
+  /// The migration project name or Amazon Resource Name (ARN).
+  ///
+  /// Parameter [properties] :
+  /// The properties of metadata model in JSON format. This object is a Union.
+  /// Only one member of this object can be specified or returned.
+  ///
+  /// Parameter [selectionRules] :
+  /// The JSON string that specifies the location where the metadata model will
+  /// be created. Selection rules must specify a single schema. For more
+  /// information, see Selection Rules in the DMS User Guide.
+  Future<StartMetadataModelCreationResponse> startMetadataModelCreation({
+    required String metadataModelName,
+    required String migrationProjectIdentifier,
+    required MetadataModelProperties properties,
+    required String selectionRules,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StartMetadataModelCreation'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MetadataModelName': metadataModelName,
+        'MigrationProjectIdentifier': migrationProjectIdentifier,
+        'Properties': properties,
+        'SelectionRules': selectionRules,
+      },
+    );
+
+    return StartMetadataModelCreationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Saves your converted code to a file as a SQL script, and stores this file
   /// on your Amazon S3 bucket.
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [S3ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
@@ -5895,12 +6727,12 @@ class DatabaseMigration {
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [S3ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
@@ -5947,12 +6779,12 @@ class DatabaseMigration {
   ///
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceAlreadyExistsFault].
   /// May throw [ResourceNotFoundFault].
-  /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [S3ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
+  /// May throw [S3ResourceNotFoundFault].
   ///
   /// Parameter [migrationProjectIdentifier] :
   /// The migration project name or Amazon Resource Name (ARN).
@@ -5993,14 +6825,23 @@ class DatabaseMigration {
     return StartMetadataModelImportResponse.fromJson(jsonResponse.body);
   }
 
+  /// <important>
+  /// End of support notice: On May 20, 2026, Amazon Web Services will end
+  /// support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026,
+  /// you will no longer be able to access the Amazon Web Services DMS Fleet
+  /// Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html">Amazon
+  /// Web Services DMS Fleet Advisor end of support</a>.
+  /// </important>
   /// Starts the analysis of your source database to provide recommendations of
   /// target engines.
   ///
   /// You can create recommendations for multiple source databases using <a
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_BatchStartRecommendations.html">BatchStartRecommendations</a>.
   ///
-  /// May throw [InvalidResourceStateFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [databaseId] :
@@ -6043,9 +6884,9 @@ class DatabaseMigration {
   /// server resources that DMS has provisioned for the DMS Serverless
   /// replication.
   ///
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [InvalidResourceStateFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationConfigArn] :
   /// The Amazon Resource Name of the replication for which to start
@@ -6053,6 +6894,24 @@ class DatabaseMigration {
   ///
   /// Parameter [startReplicationType] :
   /// The replication type.
+  ///
+  /// When the replication type is <code>full-load</code> or
+  /// <code>full-load-and-cdc</code>, the only valid value for the first run of
+  /// the replication is <code>start-replication</code>. This option will start
+  /// the replication.
+  ///
+  /// You can also use <a>ReloadTables</a> to reload specific tables that failed
+  /// during replication instead of restarting the replication.
+  ///
+  /// The <code>resume-processing</code> option isn't applicable for a full-load
+  /// replication, because you can't resume partially loaded tables during the
+  /// full load phase.
+  ///
+  /// For a <code>full-load-and-cdc</code> replication, DMS migrates table data,
+  /// and then applies data changes that occur on the source. To load all the
+  /// tables again, and start capturing source changes, use
+  /// <code>reload-target</code>. Otherwise use <code>resume-processing</code>,
+  /// to replicate the changes from the last stop position.
   ///
   /// Parameter [cdcStartPosition] :
   /// Indicates when you want a change data capture (CDC) operation to start.
@@ -6071,12 +6930,56 @@ class DatabaseMigration {
   /// Parameter [cdcStopPosition] :
   /// Indicates when you want a change data capture (CDC) operation to stop. The
   /// value can be either server time or commit time.
+  ///
+  /// Parameter [premigrationAssessmentSettings] :
+  /// User-defined settings for the premigration assessment. The possible values
+  /// are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ResultLocationFolder</code>: The folder within an Amazon S3 bucket
+  /// where you want DMS to store the results of this assessment run.
+  /// </li>
+  /// <li>
+  /// <code>ResultEncryptionMode</code>: The supported values are
+  /// <code>SSE_KMS</code> and <code>SSE_S3</code>. If these values are not
+  /// provided, then the files are not encrypted at rest. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys">Creating
+  /// Amazon Web Services KMS keys to encrypt Amazon S3 target objects</a>.
+  /// </li>
+  /// <li>
+  /// <code>ResultKmsKeyArn</code>: The ARN of a customer KMS encryption key
+  /// that you specify when you set <code>ResultEncryptionMode</code> to
+  /// <code>SSE_KMS</code>.
+  /// </li>
+  /// <li>
+  /// <code>IncludeOnly</code>: A space-separated list of names for specific
+  /// individual assessments that you want to include. These names come from the
+  /// default list of individual assessments that Database Migration Service
+  /// supports for the associated migration.
+  /// </li>
+  /// <li>
+  /// <code>Exclude</code>: A space-separated list of names for specific
+  /// individual assessments that you want to exclude. These names come from the
+  /// default list of individual assessments that Database Migration Service
+  /// supports for the associated migration.
+  /// </li>
+  /// <li>
+  /// <code>FailOnAssessmentFailure</code>: A configurable setting you can set
+  /// to <code>true</code> (the default setting) or <code>false</code>. Use this
+  /// setting to to stop the replication from starting automatically if the
+  /// assessment fails. This can help you evaluate the issue that is preventing
+  /// the replication from running successfully.
+  /// </li>
+  /// </ul>
   Future<StartReplicationResponse> startReplication({
     required String replicationConfigArn,
     required String startReplicationType,
     String? cdcStartPosition,
     DateTime? cdcStartTime,
     String? cdcStopPosition,
+    String? premigrationAssessmentSettings,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6095,6 +6998,8 @@ class DatabaseMigration {
         if (cdcStartTime != null)
           'CdcStartTime': unixTimestampToJson(cdcStartTime),
         if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
+        if (premigrationAssessmentSettings != null)
+          'PremigrationAssessmentSettings': premigrationAssessmentSettings,
       },
     );
 
@@ -6108,9 +7013,9 @@ class DatabaseMigration {
   /// with Migration Tasks </a> in the <i>Database Migration Service User
   /// Guide.</i>
   ///
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [InvalidResourceStateFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name (ARN) of the replication task to be started.
@@ -6118,23 +7023,34 @@ class DatabaseMigration {
   /// Parameter [startReplicationTaskType] :
   /// The type of replication task to start.
   ///
-  /// When the migration type is <code>full-load</code> or
-  /// <code>full-load-and-cdc</code>, the only valid value for the first run of
-  /// the task is <code>start-replication</code>. This option will start the
-  /// migration.
+  /// <code>start-replication</code> is the only valid action that can be used
+  /// for the first time a task with the migration type of
+  /// <code>full-load</code>full-load, <code>full-load-and-cdc</code> or
+  /// <code>cdc</code> is run. Any other action used for the first time on a
+  /// given task, such as <code>resume-processing</code> and reload-target will
+  /// result in data errors.
   ///
   /// You can also use <a>ReloadTables</a> to reload specific tables that failed
   /// during migration instead of restarting the task.
   ///
-  /// The <code>resume-processing</code> option isn't applicable for a full-load
-  /// task, because you can't resume partially loaded tables during the full
-  /// load phase.
+  /// For a <code>full-load</code> task, the resume-processing option will
+  /// reload any tables that were partially loaded or not yet loaded during the
+  /// full load phase.
   ///
   /// For a <code>full-load-and-cdc</code> task, DMS migrates table data, and
   /// then applies data changes that occur on the source. To load all the tables
   /// again, and start capturing source changes, use <code>reload-target</code>.
   /// Otherwise use <code>resume-processing</code>, to replicate the changes
   /// from the last stop position.
+  ///
+  /// For a <code>cdc</code> only task, to start from a specific position, you
+  /// must use start-replication and also specify the start position. Check the
+  /// source endpoint DMS documentation for any limitations. For example, not
+  /// all sources support starting from a time.
+  /// <note>
+  /// <code>resume-processing</code> is only available for previously executed
+  /// tasks.
+  /// </note>
   ///
   /// Parameter [cdcStartPosition] :
   /// Indicates when you want a change data capture (CDC) operation to start.
@@ -6263,17 +7179,17 @@ class DatabaseMigration {
   /// its individual assessments complete.
   ///
   /// May throw [AccessDeniedFault].
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
   /// May throw [KMSAccessDeniedFault].
   /// May throw [KMSDisabledFault].
   /// May throw [KMSFault].
   /// May throw [KMSInvalidStateFault].
-  /// May throw [KMSNotFoundFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [KMSNotFoundFault].
+  /// May throw [ResourceAlreadyExistsFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [S3AccessDeniedFault].
   /// May throw [S3ResourceNotFoundFault].
-  /// May throw [ResourceAlreadyExistsFault].
   ///
   /// Parameter [assessmentRunName] :
   /// Unique name to identify the assessment run.
@@ -6345,6 +7261,10 @@ class DatabaseMigration {
   /// Parameter [resultLocationFolder] :
   /// Folder within an Amazon S3 bucket where you want DMS to store the results
   /// of this assessment run.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags to be assigned to the premigration assessment run that
+  /// you want to start.
   Future<StartReplicationTaskAssessmentRunResponse>
       startReplicationTaskAssessmentRun({
     required String assessmentRunName,
@@ -6356,6 +7276,7 @@ class DatabaseMigration {
     String? resultEncryptionMode,
     String? resultKmsKeyArn,
     String? resultLocationFolder,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6379,6 +7300,7 @@ class DatabaseMigration {
         if (resultKmsKeyArn != null) 'ResultKmsKeyArn': resultKmsKeyArn,
         if (resultLocationFolder != null)
           'ResultLocationFolder': resultLocationFolder,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -6386,13 +7308,42 @@ class DatabaseMigration {
         jsonResponse.body);
   }
 
+  /// Stops the specified data migration.
+  ///
+  /// May throw [FailedDependencyFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
+  ///
+  /// Parameter [dataMigrationIdentifier] :
+  /// The identifier (name or ARN) of the data migration to stop.
+  Future<StopDataMigrationResponse> stopDataMigration({
+    required String dataMigrationIdentifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.StopDataMigration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataMigrationIdentifier': dataMigrationIdentifier,
+      },
+    );
+
+    return StopDataMigrationResponse.fromJson(jsonResponse.body);
+  }
+
   /// For a given DMS Serverless replication configuration, DMS stops any and
   /// all ongoing DMS Serverless replications. This command doesn't deprovision
   /// the stopped replications.
   ///
-  /// May throw [ResourceNotFoundFault].
-  /// May throw [InvalidResourceStateFault].
   /// May throw [AccessDeniedFault].
+  /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationConfigArn] :
   /// The Amazon Resource Name of the replication to stop.
@@ -6419,8 +7370,8 @@ class DatabaseMigration {
 
   /// Stops the replication task.
   ///
-  /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidResourceStateFault].
+  /// May throw [ResourceNotFoundFault].
   ///
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name(ARN) of the replication task to be stopped.
@@ -6447,11 +7398,11 @@ class DatabaseMigration {
 
   /// Tests the connection between the replication instance and the endpoint.
   ///
-  /// May throw [ResourceNotFoundFault].
+  /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
+  /// May throw [ResourceNotFoundFault].
   /// May throw [ResourceQuotaExceededFault].
-  /// May throw [AccessDeniedFault].
   ///
   /// Parameter [endpointArn] :
   /// The Amazon Resource Name (ARN) string that uniquely identifies the
@@ -6529,45 +7480,7 @@ class DatabaseMigration {
   }
 }
 
-/// Describes a quota for an Amazon Web Services account, for example the number
-/// of replication instances allowed.
-class AccountQuota {
-  /// The name of the DMS quota for this Amazon Web Services account.
-  final String? accountQuotaName;
-
-  /// The maximum allowed value for the quota.
-  final int? max;
-
-  /// The amount currently used toward the quota maximum.
-  final int? used;
-
-  AccountQuota({
-    this.accountQuotaName,
-    this.max,
-    this.used,
-  });
-
-  factory AccountQuota.fromJson(Map<String, dynamic> json) {
-    return AccountQuota(
-      accountQuotaName: json['AccountQuotaName'] as String?,
-      max: json['Max'] as int?,
-      used: json['Used'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountQuotaName = this.accountQuotaName;
-    final max = this.max;
-    final used = this.used;
-    return {
-      if (accountQuotaName != null) 'AccountQuotaName': accountQuotaName,
-      if (max != null) 'Max': max,
-      if (used != null) 'Used': used,
-    };
-  }
-}
-
-/// <p/>
+///
 class AddTagsToResourceResponse {
   AddTagsToResourceResponse();
 
@@ -6580,7 +7493,7 @@ class AddTagsToResourceResponse {
   }
 }
 
-/// <p/>
+///
 class ApplyPendingMaintenanceActionResponse {
   /// The DMS resource that the pending maintenance action will be applied to.
   final ResourcePendingMaintenanceActions? resourcePendingMaintenanceActions;
@@ -6607,150 +7520,6 @@ class ApplyPendingMaintenanceActionResponse {
     return {
       if (resourcePendingMaintenanceActions != null)
         'ResourcePendingMaintenanceActions': resourcePendingMaintenanceActions,
-    };
-  }
-}
-
-class AssessmentReportType {
-  static const pdf = AssessmentReportType._('pdf');
-  static const csv = AssessmentReportType._('csv');
-
-  final String value;
-
-  const AssessmentReportType._(this.value);
-
-  static const values = [pdf, csv];
-
-  static AssessmentReportType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssessmentReportType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AssessmentReportType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AuthMechanismValue {
-  static const $default = AuthMechanismValue._('default');
-  static const mongodbCr = AuthMechanismValue._('mongodb_cr');
-  static const scramSha_1 = AuthMechanismValue._('scram_sha_1');
-
-  final String value;
-
-  const AuthMechanismValue._(this.value);
-
-  static const values = [$default, mongodbCr, scramSha_1];
-
-  static AuthMechanismValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthMechanismValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthMechanismValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AuthTypeValue {
-  static const no = AuthTypeValue._('no');
-  static const password = AuthTypeValue._('password');
-
-  final String value;
-
-  const AuthTypeValue._(this.value);
-
-  static const values = [no, password];
-
-  static AuthTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthTypeValue._(value));
-
-  @override
-  bool operator ==(other) => other is AuthTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The name of an Availability Zone for use during database migration.
-/// <code>AvailabilityZone</code> is an optional parameter to the <a
-/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationInstance.html">
-/// <code>CreateReplicationInstance</code> </a> operation, and it’s value
-/// relates to the Amazon Web Services Region of an endpoint. For example, the
-/// availability zone of an endpoint in the us-east-1 region might be
-/// us-east-1a, us-east-1b, us-east-1c, or us-east-1d.
-class AvailabilityZone {
-  /// The name of the Availability Zone.
-  final String? name;
-
-  AvailabilityZone({
-    this.name,
-  });
-
-  factory AvailabilityZone.fromJson(Map<String, dynamic> json) {
-    return AvailabilityZone(
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Provides information about the errors that occurred during the analysis of
-/// the source database.
-class BatchStartRecommendationsErrorEntry {
-  /// The code of an error that occurred during the analysis of the source
-  /// database.
-  final String? code;
-
-  /// The identifier of the source database.
-  final String? databaseId;
-
-  /// The information about the error.
-  final String? message;
-
-  BatchStartRecommendationsErrorEntry({
-    this.code,
-    this.databaseId,
-    this.message,
-  });
-
-  factory BatchStartRecommendationsErrorEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchStartRecommendationsErrorEntry(
-      code: json['Code'] as String?,
-      databaseId: json['DatabaseId'] as String?,
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final databaseId = this.databaseId;
-    final message = this.message;
-    return {
-      if (code != null) 'Code': code,
-      if (databaseId != null) 'DatabaseId': databaseId,
-      if (message != null) 'Message': message,
     };
   }
 }
@@ -6782,7 +7551,57 @@ class BatchStartRecommendationsResponse {
   }
 }
 
-/// <p/>
+class CancelMetadataModelConversionResponse {
+  final SchemaConversionRequest? request;
+
+  CancelMetadataModelConversionResponse({
+    this.request,
+  });
+
+  factory CancelMetadataModelConversionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CancelMetadataModelConversionResponse(
+      request: json['Request'] != null
+          ? SchemaConversionRequest.fromJson(
+              json['Request'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final request = this.request;
+    return {
+      if (request != null) 'Request': request,
+    };
+  }
+}
+
+class CancelMetadataModelCreationResponse {
+  final SchemaConversionRequest? request;
+
+  CancelMetadataModelCreationResponse({
+    this.request,
+  });
+
+  factory CancelMetadataModelCreationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CancelMetadataModelCreationResponse(
+      request: json['Request'] != null
+          ? SchemaConversionRequest.fromJson(
+              json['Request'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final request = this.request;
+    return {
+      if (request != null) 'Request': request,
+    };
+  }
+}
+
+///
 class CancelReplicationTaskAssessmentRunResponse {
   /// The <code>ReplicationTaskAssessmentRun</code> object for the canceled
   /// assessment run.
@@ -6811,634 +7630,27 @@ class CancelReplicationTaskAssessmentRunResponse {
   }
 }
 
-class CannedAclForObjectsValue {
-  static const none = CannedAclForObjectsValue._('none');
-  static const private = CannedAclForObjectsValue._('private');
-  static const publicRead = CannedAclForObjectsValue._('public-read');
-  static const publicReadWrite =
-      CannedAclForObjectsValue._('public-read-write');
-  static const authenticatedRead =
-      CannedAclForObjectsValue._('authenticated-read');
-  static const awsExecRead = CannedAclForObjectsValue._('aws-exec-read');
-  static const bucketOwnerRead =
-      CannedAclForObjectsValue._('bucket-owner-read');
-  static const bucketOwnerFullControl =
-      CannedAclForObjectsValue._('bucket-owner-full-control');
+class CreateDataMigrationResponse {
+  /// Information about the created data migration.
+  final DataMigration? dataMigration;
 
-  final String value;
-
-  const CannedAclForObjectsValue._(this.value);
-
-  static const values = [
-    none,
-    private,
-    publicRead,
-    publicReadWrite,
-    authenticatedRead,
-    awsExecRead,
-    bucketOwnerRead,
-    bucketOwnerFullControl
-  ];
-
-  static CannedAclForObjectsValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CannedAclForObjectsValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CannedAclForObjectsValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The SSL certificate that can be used to encrypt connections between the
-/// endpoints and the replication instance.
-class Certificate {
-  /// The Amazon Resource Name (ARN) for the certificate.
-  final String? certificateArn;
-
-  /// The date that the certificate was created.
-  final DateTime? certificateCreationDate;
-
-  /// A customer-assigned name for the certificate. Identifiers must begin with a
-  /// letter and must contain only ASCII letters, digits, and hyphens. They can't
-  /// end with a hyphen or contain two consecutive hyphens.
-  final String? certificateIdentifier;
-
-  /// The owner of the certificate.
-  final String? certificateOwner;
-
-  /// The contents of a <code>.pem</code> file, which contains an X.509
-  /// certificate.
-  final String? certificatePem;
-
-  /// The location of an imported Oracle Wallet certificate for use with SSL.
-  /// Example: <code>filebase64("${path.root}/rds-ca-2019-root.sso")</code>
-  final Uint8List? certificateWallet;
-
-  /// The key length of the cryptographic algorithm being used.
-  final int? keyLength;
-
-  /// The signing algorithm for the certificate.
-  final String? signingAlgorithm;
-
-  /// The beginning date that the certificate is valid.
-  final DateTime? validFromDate;
-
-  /// The final date that the certificate is valid.
-  final DateTime? validToDate;
-
-  Certificate({
-    this.certificateArn,
-    this.certificateCreationDate,
-    this.certificateIdentifier,
-    this.certificateOwner,
-    this.certificatePem,
-    this.certificateWallet,
-    this.keyLength,
-    this.signingAlgorithm,
-    this.validFromDate,
-    this.validToDate,
+  CreateDataMigrationResponse({
+    this.dataMigration,
   });
 
-  factory Certificate.fromJson(Map<String, dynamic> json) {
-    return Certificate(
-      certificateArn: json['CertificateArn'] as String?,
-      certificateCreationDate:
-          timeStampFromJson(json['CertificateCreationDate']),
-      certificateIdentifier: json['CertificateIdentifier'] as String?,
-      certificateOwner: json['CertificateOwner'] as String?,
-      certificatePem: json['CertificatePem'] as String?,
-      certificateWallet:
-          _s.decodeNullableUint8List(json['CertificateWallet'] as String?),
-      keyLength: json['KeyLength'] as int?,
-      signingAlgorithm: json['SigningAlgorithm'] as String?,
-      validFromDate: timeStampFromJson(json['ValidFromDate']),
-      validToDate: timeStampFromJson(json['ValidToDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final certificateCreationDate = this.certificateCreationDate;
-    final certificateIdentifier = this.certificateIdentifier;
-    final certificateOwner = this.certificateOwner;
-    final certificatePem = this.certificatePem;
-    final certificateWallet = this.certificateWallet;
-    final keyLength = this.keyLength;
-    final signingAlgorithm = this.signingAlgorithm;
-    final validFromDate = this.validFromDate;
-    final validToDate = this.validToDate;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (certificateCreationDate != null)
-        'CertificateCreationDate': unixTimestampToJson(certificateCreationDate),
-      if (certificateIdentifier != null)
-        'CertificateIdentifier': certificateIdentifier,
-      if (certificateOwner != null) 'CertificateOwner': certificateOwner,
-      if (certificatePem != null) 'CertificatePem': certificatePem,
-      if (certificateWallet != null)
-        'CertificateWallet': base64Encode(certificateWallet),
-      if (keyLength != null) 'KeyLength': keyLength,
-      if (signingAlgorithm != null) 'SigningAlgorithm': signingAlgorithm,
-      if (validFromDate != null)
-        'ValidFromDate': unixTimestampToJson(validFromDate),
-      if (validToDate != null) 'ValidToDate': unixTimestampToJson(validToDate),
-    };
-  }
-}
-
-class CharLengthSemantics {
-  static const $default = CharLengthSemantics._('default');
-  static const char = CharLengthSemantics._('char');
-  static const byte = CharLengthSemantics._('byte');
-
-  final String value;
-
-  const CharLengthSemantics._(this.value);
-
-  static const values = [$default, char, byte];
-
-  static CharLengthSemantics fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CharLengthSemantics._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CharLengthSemantics && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the last Fleet Advisor collector health check.
-class CollectorHealthCheck {
-  /// The status of the Fleet Advisor collector.
-  final CollectorStatus? collectorStatus;
-
-  /// Whether the local collector can access its Amazon S3 bucket.
-  final bool? localCollectorS3Access;
-
-  /// Whether the role that you provided when creating the Fleet Advisor collector
-  /// has sufficient permissions to access the Fleet Advisor web collector.
-  final bool? webCollectorGrantedRoleBasedAccess;
-
-  /// Whether the web collector can access its Amazon S3 bucket.
-  final bool? webCollectorS3Access;
-
-  CollectorHealthCheck({
-    this.collectorStatus,
-    this.localCollectorS3Access,
-    this.webCollectorGrantedRoleBasedAccess,
-    this.webCollectorS3Access,
-  });
-
-  factory CollectorHealthCheck.fromJson(Map<String, dynamic> json) {
-    return CollectorHealthCheck(
-      collectorStatus:
-          (json['CollectorStatus'] as String?)?.let(CollectorStatus.fromString),
-      localCollectorS3Access: json['LocalCollectorS3Access'] as bool?,
-      webCollectorGrantedRoleBasedAccess:
-          json['WebCollectorGrantedRoleBasedAccess'] as bool?,
-      webCollectorS3Access: json['WebCollectorS3Access'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final collectorStatus = this.collectorStatus;
-    final localCollectorS3Access = this.localCollectorS3Access;
-    final webCollectorGrantedRoleBasedAccess =
-        this.webCollectorGrantedRoleBasedAccess;
-    final webCollectorS3Access = this.webCollectorS3Access;
-    return {
-      if (collectorStatus != null) 'CollectorStatus': collectorStatus.value,
-      if (localCollectorS3Access != null)
-        'LocalCollectorS3Access': localCollectorS3Access,
-      if (webCollectorGrantedRoleBasedAccess != null)
-        'WebCollectorGrantedRoleBasedAccess':
-            webCollectorGrantedRoleBasedAccess,
-      if (webCollectorS3Access != null)
-        'WebCollectorS3Access': webCollectorS3Access,
-    };
-  }
-}
-
-/// Describes a Fleet Advisor collector.
-class CollectorResponse {
-  final CollectorHealthCheck? collectorHealthCheck;
-
-  /// The name of the Fleet Advisor collector .
-  final String? collectorName;
-
-  /// The reference ID of the Fleet Advisor collector.
-  final String? collectorReferencedId;
-
-  /// The version of your Fleet Advisor collector, in semantic versioning format,
-  /// for example <code>1.0.2</code>
-  final String? collectorVersion;
-
-  /// The timestamp when you created the collector, in the following format:
-  /// <code>2022-01-24T19:04:02.596113Z</code>
-  final String? createdDate;
-
-  /// A summary description of the Fleet Advisor collector.
-  final String? description;
-  final InventoryData? inventoryData;
-
-  /// The timestamp of the last time the collector received data, in the following
-  /// format: <code>2022-01-24T19:04:02.596113Z</code>
-  final String? lastDataReceived;
-
-  /// The timestamp when DMS last modified the collector, in the following format:
-  /// <code>2022-01-24T19:04:02.596113Z</code>
-  final String? modifiedDate;
-
-  /// The timestamp when DMS registered the collector, in the following format:
-  /// <code>2022-01-24T19:04:02.596113Z</code>
-  final String? registeredDate;
-
-  /// The Amazon S3 bucket that the Fleet Advisor collector uses to store
-  /// inventory metadata.
-  final String? s3BucketName;
-
-  /// The IAM role that grants permissions to access the specified Amazon S3
-  /// bucket.
-  final String? serviceAccessRoleArn;
-
-  /// Whether the collector version is up to date.
-  final VersionStatus? versionStatus;
-
-  CollectorResponse({
-    this.collectorHealthCheck,
-    this.collectorName,
-    this.collectorReferencedId,
-    this.collectorVersion,
-    this.createdDate,
-    this.description,
-    this.inventoryData,
-    this.lastDataReceived,
-    this.modifiedDate,
-    this.registeredDate,
-    this.s3BucketName,
-    this.serviceAccessRoleArn,
-    this.versionStatus,
-  });
-
-  factory CollectorResponse.fromJson(Map<String, dynamic> json) {
-    return CollectorResponse(
-      collectorHealthCheck: json['CollectorHealthCheck'] != null
-          ? CollectorHealthCheck.fromJson(
-              json['CollectorHealthCheck'] as Map<String, dynamic>)
+  factory CreateDataMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDataMigrationResponse(
+      dataMigration: json['DataMigration'] != null
+          ? DataMigration.fromJson(
+              json['DataMigration'] as Map<String, dynamic>)
           : null,
-      collectorName: json['CollectorName'] as String?,
-      collectorReferencedId: json['CollectorReferencedId'] as String?,
-      collectorVersion: json['CollectorVersion'] as String?,
-      createdDate: json['CreatedDate'] as String?,
-      description: json['Description'] as String?,
-      inventoryData: json['InventoryData'] != null
-          ? InventoryData.fromJson(
-              json['InventoryData'] as Map<String, dynamic>)
-          : null,
-      lastDataReceived: json['LastDataReceived'] as String?,
-      modifiedDate: json['ModifiedDate'] as String?,
-      registeredDate: json['RegisteredDate'] as String?,
-      s3BucketName: json['S3BucketName'] as String?,
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
-      versionStatus:
-          (json['VersionStatus'] as String?)?.let(VersionStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final collectorHealthCheck = this.collectorHealthCheck;
-    final collectorName = this.collectorName;
-    final collectorReferencedId = this.collectorReferencedId;
-    final collectorVersion = this.collectorVersion;
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final inventoryData = this.inventoryData;
-    final lastDataReceived = this.lastDataReceived;
-    final modifiedDate = this.modifiedDate;
-    final registeredDate = this.registeredDate;
-    final s3BucketName = this.s3BucketName;
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    final versionStatus = this.versionStatus;
+    final dataMigration = this.dataMigration;
     return {
-      if (collectorHealthCheck != null)
-        'CollectorHealthCheck': collectorHealthCheck,
-      if (collectorName != null) 'CollectorName': collectorName,
-      if (collectorReferencedId != null)
-        'CollectorReferencedId': collectorReferencedId,
-      if (collectorVersion != null) 'CollectorVersion': collectorVersion,
-      if (createdDate != null) 'CreatedDate': createdDate,
-      if (description != null) 'Description': description,
-      if (inventoryData != null) 'InventoryData': inventoryData,
-      if (lastDataReceived != null) 'LastDataReceived': lastDataReceived,
-      if (modifiedDate != null) 'ModifiedDate': modifiedDate,
-      if (registeredDate != null) 'RegisteredDate': registeredDate,
-      if (s3BucketName != null) 'S3BucketName': s3BucketName,
-      if (serviceAccessRoleArn != null)
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-      if (versionStatus != null) 'VersionStatus': versionStatus.value,
-    };
-  }
-}
-
-/// Briefly describes a Fleet Advisor collector.
-class CollectorShortInfoResponse {
-  /// The name of the Fleet Advisor collector.
-  final String? collectorName;
-
-  /// The reference ID of the Fleet Advisor collector.
-  final String? collectorReferencedId;
-
-  CollectorShortInfoResponse({
-    this.collectorName,
-    this.collectorReferencedId,
-  });
-
-  factory CollectorShortInfoResponse.fromJson(Map<String, dynamic> json) {
-    return CollectorShortInfoResponse(
-      collectorName: json['CollectorName'] as String?,
-      collectorReferencedId: json['CollectorReferencedId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final collectorName = this.collectorName;
-    final collectorReferencedId = this.collectorReferencedId;
-    return {
-      if (collectorName != null) 'CollectorName': collectorName,
-      if (collectorReferencedId != null)
-        'CollectorReferencedId': collectorReferencedId,
-    };
-  }
-}
-
-class CollectorStatus {
-  static const unregistered = CollectorStatus._('UNREGISTERED');
-  static const active = CollectorStatus._('ACTIVE');
-
-  final String value;
-
-  const CollectorStatus._(this.value);
-
-  static const values = [unregistered, active];
-
-  static CollectorStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CollectorStatus._(value));
-
-  @override
-  bool operator ==(other) => other is CollectorStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CompressionTypeValue {
-  static const none = CompressionTypeValue._('none');
-  static const gzip = CompressionTypeValue._('gzip');
-
-  final String value;
-
-  const CompressionTypeValue._(this.value);
-
-  static const values = [none, gzip];
-
-  static CompressionTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CompressionTypeValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CompressionTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration parameters for provisioning an DMS Serverless replication.
-class ComputeConfig {
-  /// The Availability Zone where the DMS Serverless replication using this
-  /// configuration will run. The default value is a random, system-chosen
-  /// Availability Zone in the configuration's Amazon Web Services Region, for
-  /// example, <code>"us-west-2"</code>. You can't set this parameter if the
-  /// <code>MultiAZ</code> parameter is set to <code>true</code>.
-  final String? availabilityZone;
-
-  /// A list of custom DNS name servers supported for the DMS Serverless
-  /// replication to access your source or target database. This list overrides
-  /// the default name servers supported by the DMS Serverless replication. You
-  /// can specify a comma-separated list of internet addresses for up to four DNS
-  /// name servers. For example: <code>"1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"</code>
-  final String? dnsNameServers;
-
-  /// An Key Management Service (KMS) key Amazon Resource Name (ARN) that is used
-  /// to encrypt the data during DMS Serverless replication.
-  ///
-  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, DMS
-  /// uses your default encryption key.
-  ///
-  /// KMS creates the default encryption key for your Amazon Web Services account.
-  /// Your Amazon Web Services account has a different default encryption key for
-  /// each Amazon Web Services Region.
-  final String? kmsKeyId;
-
-  /// Specifies the maximum value of the DMS capacity units (DCUs) for which a
-  /// given DMS Serverless replication can be provisioned. A single DCU is 2GB of
-  /// RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values
-  /// includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum
-  /// value that you can specify for DMS Serverless is 384. The
-  /// <code>MaxCapacityUnits</code> parameter is the only DCU parameter you are
-  /// required to specify.
-  final int? maxCapacityUnits;
-
-  /// Specifies the minimum value of the DMS capacity units (DCUs) for which a
-  /// given DMS Serverless replication can be provisioned. A single DCU is 2GB of
-  /// RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values
-  /// includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU
-  /// value that you can specify for DMS Serverless is 1. You don't have to
-  /// specify a value for the <code>MinCapacityUnits</code> parameter. If you
-  /// don't set this value, DMS scans the current activity of available source
-  /// tables to identify an optimum setting for this parameter. If there is no
-  /// current source activity or DMS can't otherwise identify a more appropriate
-  /// value, it sets this parameter to the minimum DCU value allowed, 1.
-  final int? minCapacityUnits;
-
-  /// Specifies whether the DMS Serverless replication is a Multi-AZ deployment.
-  /// You can't set the <code>AvailabilityZone</code> parameter if the
-  /// <code>MultiAZ</code> parameter is set to <code>true</code>.
-  final bool? multiAZ;
-
-  /// The weekly time range during which system maintenance can occur for the DMS
-  /// Serverless replication, in Universal Coordinated Time (UTC). The format is
-  /// <code>ddd:hh24:mi-ddd:hh24:mi</code>.
-  ///
-  /// The default is a 30-minute window selected at random from an 8-hour block of
-  /// time per Amazon Web Services Region. This maintenance occurs on a random day
-  /// of the week. Valid values for days of the week include <code>Mon</code>,
-  /// <code>Tue</code>, <code>Wed</code>, <code>Thu</code>, <code>Fri</code>,
-  /// <code>Sat</code>, and <code>Sun</code>.
-  ///
-  /// Constraints include a minimum 30-minute window.
-  final String? preferredMaintenanceWindow;
-
-  /// Specifies a subnet group identifier to associate with the DMS Serverless
-  /// replication.
-  final String? replicationSubnetGroupId;
-
-  /// Specifies the virtual private cloud (VPC) security group to use with the DMS
-  /// Serverless replication. The VPC security group must work with the VPC
-  /// containing the replication.
-  final List<String>? vpcSecurityGroupIds;
-
-  ComputeConfig({
-    this.availabilityZone,
-    this.dnsNameServers,
-    this.kmsKeyId,
-    this.maxCapacityUnits,
-    this.minCapacityUnits,
-    this.multiAZ,
-    this.preferredMaintenanceWindow,
-    this.replicationSubnetGroupId,
-    this.vpcSecurityGroupIds,
-  });
-
-  factory ComputeConfig.fromJson(Map<String, dynamic> json) {
-    return ComputeConfig(
-      availabilityZone: json['AvailabilityZone'] as String?,
-      dnsNameServers: json['DnsNameServers'] as String?,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      maxCapacityUnits: json['MaxCapacityUnits'] as int?,
-      minCapacityUnits: json['MinCapacityUnits'] as int?,
-      multiAZ: json['MultiAZ'] as bool?,
-      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
-      replicationSubnetGroupId: json['ReplicationSubnetGroupId'] as String?,
-      vpcSecurityGroupIds: (json['VpcSecurityGroupIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZone = this.availabilityZone;
-    final dnsNameServers = this.dnsNameServers;
-    final kmsKeyId = this.kmsKeyId;
-    final maxCapacityUnits = this.maxCapacityUnits;
-    final minCapacityUnits = this.minCapacityUnits;
-    final multiAZ = this.multiAZ;
-    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
-    final replicationSubnetGroupId = this.replicationSubnetGroupId;
-    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
-    return {
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (maxCapacityUnits != null) 'MaxCapacityUnits': maxCapacityUnits,
-      if (minCapacityUnits != null) 'MinCapacityUnits': minCapacityUnits,
-      if (multiAZ != null) 'MultiAZ': multiAZ,
-      if (preferredMaintenanceWindow != null)
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-      if (replicationSubnetGroupId != null)
-        'ReplicationSubnetGroupId': replicationSubnetGroupId,
-      if (vpcSecurityGroupIds != null)
-        'VpcSecurityGroupIds': vpcSecurityGroupIds,
-    };
-  }
-}
-
-/// Status of the connection between an endpoint and a replication instance,
-/// including Amazon Resource Names (ARNs) and the last error message issued.
-class Connection {
-  /// The ARN string that uniquely identifies the endpoint.
-  final String? endpointArn;
-
-  /// The identifier of the endpoint. Identifiers must begin with a letter and
-  /// must contain only ASCII letters, digits, and hyphens. They can't end with a
-  /// hyphen or contain two consecutive hyphens.
-  final String? endpointIdentifier;
-
-  /// The error message when the connection last failed.
-  final String? lastFailureMessage;
-
-  /// The ARN of the replication instance.
-  final String? replicationInstanceArn;
-
-  /// The replication instance identifier. This parameter is stored as a lowercase
-  /// string.
-  final String? replicationInstanceIdentifier;
-
-  /// The connection status. This parameter can return one of the following
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>"successful"</code>
-  /// </li>
-  /// <li>
-  /// <code>"testing"</code>
-  /// </li>
-  /// <li>
-  /// <code>"failed"</code>
-  /// </li>
-  /// <li>
-  /// <code>"deleting"</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  Connection({
-    this.endpointArn,
-    this.endpointIdentifier,
-    this.lastFailureMessage,
-    this.replicationInstanceArn,
-    this.replicationInstanceIdentifier,
-    this.status,
-  });
-
-  factory Connection.fromJson(Map<String, dynamic> json) {
-    return Connection(
-      endpointArn: json['EndpointArn'] as String?,
-      endpointIdentifier: json['EndpointIdentifier'] as String?,
-      lastFailureMessage: json['LastFailureMessage'] as String?,
-      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
-      replicationInstanceIdentifier:
-          json['ReplicationInstanceIdentifier'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointArn = this.endpointArn;
-    final endpointIdentifier = this.endpointIdentifier;
-    final lastFailureMessage = this.lastFailureMessage;
-    final replicationInstanceArn = this.replicationInstanceArn;
-    final replicationInstanceIdentifier = this.replicationInstanceIdentifier;
-    final status = this.status;
-    return {
-      if (endpointArn != null) 'EndpointArn': endpointArn,
-      if (endpointIdentifier != null) 'EndpointIdentifier': endpointIdentifier,
-      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
-      if (replicationInstanceArn != null)
-        'ReplicationInstanceArn': replicationInstanceArn,
-      if (replicationInstanceIdentifier != null)
-        'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
-      if (status != null) 'Status': status,
+      if (dataMigration != null) 'DataMigration': dataMigration,
     };
   }
 }
@@ -7467,7 +7679,7 @@ class CreateDataProviderResponse {
   }
 }
 
-/// <p/>
+///
 class CreateEndpointResponse {
   /// The endpoint that was created.
   final Endpoint? endpoint;
@@ -7492,7 +7704,7 @@ class CreateEndpointResponse {
   }
 }
 
-/// <p/>
+///
 class CreateEventSubscriptionResponse {
   /// The event subscription that was created.
   final EventSubscription? eventSubscription;
@@ -7623,7 +7835,7 @@ class CreateMigrationProjectResponse {
   }
 }
 
-/// <p/>
+///
 class CreateReplicationConfigResponse {
   /// Configuration parameters returned from the DMS Serverless replication after
   /// it is created.
@@ -7650,7 +7862,7 @@ class CreateReplicationConfigResponse {
   }
 }
 
-/// <p/>
+///
 class CreateReplicationInstanceResponse {
   /// The replication instance that was created.
   final ReplicationInstance? replicationInstance;
@@ -7678,7 +7890,7 @@ class CreateReplicationInstanceResponse {
   }
 }
 
-/// <p/>
+///
 class CreateReplicationSubnetGroupResponse {
   /// The replication subnet group that was created.
   final ReplicationSubnetGroup? replicationSubnetGroup;
@@ -7706,7 +7918,7 @@ class CreateReplicationSubnetGroupResponse {
   }
 }
 
-/// <p/>
+///
 class CreateReplicationTaskResponse {
   /// The replication task that was created.
   final ReplicationTask? replicationTask;
@@ -7728,561 +7940,6 @@ class CreateReplicationTaskResponse {
     final replicationTask = this.replicationTask;
     return {
       if (replicationTask != null) 'ReplicationTask': replicationTask,
-    };
-  }
-}
-
-class DataFormatValue {
-  static const csv = DataFormatValue._('csv');
-  static const parquet = DataFormatValue._('parquet');
-
-  final String value;
-
-  const DataFormatValue._(this.value);
-
-  static const values = [csv, parquet];
-
-  static DataFormatValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataFormatValue._(value));
-
-  @override
-  bool operator ==(other) => other is DataFormatValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information that defines a data provider.
-class DataProvider {
-  /// The Amazon Resource Name (ARN) string that uniquely identifies the data
-  /// provider.
-  final String? dataProviderArn;
-
-  /// The time the data provider was created.
-  final DateTime? dataProviderCreationTime;
-
-  /// The name of the data provider.
-  final String? dataProviderName;
-
-  /// A description of the data provider. Descriptions can have up to 31
-  /// characters. A description can contain only ASCII letters, digits, and
-  /// hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive
-  /// hyphens, and can only begin with a letter.
-  final String? description;
-
-  /// The type of database engine for the data provider. Valid values include
-  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
-  /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
-  /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
-  /// <code>mongodb</code>, and <code>docdb</code>. A value of
-  /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
-  final String? engine;
-
-  /// The settings in JSON format for a data provider.
-  final DataProviderSettings? settings;
-
-  DataProvider({
-    this.dataProviderArn,
-    this.dataProviderCreationTime,
-    this.dataProviderName,
-    this.description,
-    this.engine,
-    this.settings,
-  });
-
-  factory DataProvider.fromJson(Map<String, dynamic> json) {
-    return DataProvider(
-      dataProviderArn: json['DataProviderArn'] as String?,
-      dataProviderCreationTime:
-          timeStampFromJson(json['DataProviderCreationTime']),
-      dataProviderName: json['DataProviderName'] as String?,
-      description: json['Description'] as String?,
-      engine: json['Engine'] as String?,
-      settings: json['Settings'] != null
-          ? DataProviderSettings.fromJson(
-              json['Settings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataProviderArn = this.dataProviderArn;
-    final dataProviderCreationTime = this.dataProviderCreationTime;
-    final dataProviderName = this.dataProviderName;
-    final description = this.description;
-    final engine = this.engine;
-    final settings = this.settings;
-    return {
-      if (dataProviderArn != null) 'DataProviderArn': dataProviderArn,
-      if (dataProviderCreationTime != null)
-        'DataProviderCreationTime': iso8601ToJson(dataProviderCreationTime),
-      if (dataProviderName != null) 'DataProviderName': dataProviderName,
-      if (description != null) 'Description': description,
-      if (engine != null) 'Engine': engine,
-      if (settings != null) 'Settings': settings,
-    };
-  }
-}
-
-/// Information about a data provider.
-class DataProviderDescriptor {
-  /// The Amazon Resource Name (ARN) of the data provider.
-  final String? dataProviderArn;
-
-  /// The user-friendly name of the data provider.
-  final String? dataProviderName;
-
-  /// The ARN of the role used to access Amazon Web Services Secrets Manager.
-  final String? secretsManagerAccessRoleArn;
-
-  /// The identifier of the Amazon Web Services Secrets Manager Secret used to
-  /// store access credentials for the data provider.
-  final String? secretsManagerSecretId;
-
-  DataProviderDescriptor({
-    this.dataProviderArn,
-    this.dataProviderName,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-  });
-
-  factory DataProviderDescriptor.fromJson(Map<String, dynamic> json) {
-    return DataProviderDescriptor(
-      dataProviderArn: json['DataProviderArn'] as String?,
-      dataProviderName: json['DataProviderName'] as String?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataProviderArn = this.dataProviderArn;
-    final dataProviderName = this.dataProviderName;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    return {
-      if (dataProviderArn != null) 'DataProviderArn': dataProviderArn,
-      if (dataProviderName != null) 'DataProviderName': dataProviderName,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-    };
-  }
-}
-
-/// Information about a data provider.
-class DataProviderDescriptorDefinition {
-  /// The name or Amazon Resource Name (ARN) of the data provider.
-  final String dataProviderIdentifier;
-
-  /// The ARN of the role used to access Amazon Web Services Secrets Manager.
-  final String? secretsManagerAccessRoleArn;
-
-  /// The identifier of the Amazon Web Services Secrets Manager Secret used to
-  /// store access credentials for the data provider.
-  final String? secretsManagerSecretId;
-
-  DataProviderDescriptorDefinition({
-    required this.dataProviderIdentifier,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dataProviderIdentifier = this.dataProviderIdentifier;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    return {
-      'DataProviderIdentifier': dataProviderIdentifier,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-    };
-  }
-}
-
-/// Provides information that defines a data provider.
-class DataProviderSettings {
-  final DocDbDataProviderSettings? docDbSettings;
-
-  /// Provides information that defines a MariaDB data provider.
-  final MariaDbDataProviderSettings? mariaDbSettings;
-  final MicrosoftSqlServerDataProviderSettings? microsoftSqlServerSettings;
-
-  /// Provides information that defines a MongoDB data provider.
-  final MongoDbDataProviderSettings? mongoDbSettings;
-  final MySqlDataProviderSettings? mySqlSettings;
-  final OracleDataProviderSettings? oracleSettings;
-  final PostgreSqlDataProviderSettings? postgreSqlSettings;
-  final RedshiftDataProviderSettings? redshiftSettings;
-
-  DataProviderSettings({
-    this.docDbSettings,
-    this.mariaDbSettings,
-    this.microsoftSqlServerSettings,
-    this.mongoDbSettings,
-    this.mySqlSettings,
-    this.oracleSettings,
-    this.postgreSqlSettings,
-    this.redshiftSettings,
-  });
-
-  factory DataProviderSettings.fromJson(Map<String, dynamic> json) {
-    return DataProviderSettings(
-      docDbSettings: json['DocDbSettings'] != null
-          ? DocDbDataProviderSettings.fromJson(
-              json['DocDbSettings'] as Map<String, dynamic>)
-          : null,
-      mariaDbSettings: json['MariaDbSettings'] != null
-          ? MariaDbDataProviderSettings.fromJson(
-              json['MariaDbSettings'] as Map<String, dynamic>)
-          : null,
-      microsoftSqlServerSettings: json['MicrosoftSqlServerSettings'] != null
-          ? MicrosoftSqlServerDataProviderSettings.fromJson(
-              json['MicrosoftSqlServerSettings'] as Map<String, dynamic>)
-          : null,
-      mongoDbSettings: json['MongoDbSettings'] != null
-          ? MongoDbDataProviderSettings.fromJson(
-              json['MongoDbSettings'] as Map<String, dynamic>)
-          : null,
-      mySqlSettings: json['MySqlSettings'] != null
-          ? MySqlDataProviderSettings.fromJson(
-              json['MySqlSettings'] as Map<String, dynamic>)
-          : null,
-      oracleSettings: json['OracleSettings'] != null
-          ? OracleDataProviderSettings.fromJson(
-              json['OracleSettings'] as Map<String, dynamic>)
-          : null,
-      postgreSqlSettings: json['PostgreSqlSettings'] != null
-          ? PostgreSqlDataProviderSettings.fromJson(
-              json['PostgreSqlSettings'] as Map<String, dynamic>)
-          : null,
-      redshiftSettings: json['RedshiftSettings'] != null
-          ? RedshiftDataProviderSettings.fromJson(
-              json['RedshiftSettings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final docDbSettings = this.docDbSettings;
-    final mariaDbSettings = this.mariaDbSettings;
-    final microsoftSqlServerSettings = this.microsoftSqlServerSettings;
-    final mongoDbSettings = this.mongoDbSettings;
-    final mySqlSettings = this.mySqlSettings;
-    final oracleSettings = this.oracleSettings;
-    final postgreSqlSettings = this.postgreSqlSettings;
-    final redshiftSettings = this.redshiftSettings;
-    return {
-      if (docDbSettings != null) 'DocDbSettings': docDbSettings,
-      if (mariaDbSettings != null) 'MariaDbSettings': mariaDbSettings,
-      if (microsoftSqlServerSettings != null)
-        'MicrosoftSqlServerSettings': microsoftSqlServerSettings,
-      if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
-      if (mySqlSettings != null) 'MySqlSettings': mySqlSettings,
-      if (oracleSettings != null) 'OracleSettings': oracleSettings,
-      if (postgreSqlSettings != null) 'PostgreSqlSettings': postgreSqlSettings,
-      if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
-    };
-  }
-}
-
-/// Describes an inventory database instance for a Fleet Advisor collector.
-class DatabaseInstanceSoftwareDetailsResponse {
-  /// The database engine of a database in a Fleet Advisor collector inventory,
-  /// for example <code>Microsoft SQL Server</code>.
-  final String? engine;
-
-  /// The database engine edition of a database in a Fleet Advisor collector
-  /// inventory, for example <code>Express</code>.
-  final String? engineEdition;
-
-  /// The database engine version of a database in a Fleet Advisor collector
-  /// inventory, for example <code>2019</code>.
-  final String? engineVersion;
-
-  /// The operating system architecture of the database.
-  final int? osArchitecture;
-
-  /// The service pack level of the database.
-  final String? servicePack;
-
-  /// The support level of the database, for example <code>Mainstream
-  /// support</code>.
-  final String? supportLevel;
-
-  /// Information about the database engine software, for example <code>Mainstream
-  /// support ends on November 14th, 2024</code>.
-  final String? tooltip;
-
-  DatabaseInstanceSoftwareDetailsResponse({
-    this.engine,
-    this.engineEdition,
-    this.engineVersion,
-    this.osArchitecture,
-    this.servicePack,
-    this.supportLevel,
-    this.tooltip,
-  });
-
-  factory DatabaseInstanceSoftwareDetailsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DatabaseInstanceSoftwareDetailsResponse(
-      engine: json['Engine'] as String?,
-      engineEdition: json['EngineEdition'] as String?,
-      engineVersion: json['EngineVersion'] as String?,
-      osArchitecture: json['OsArchitecture'] as int?,
-      servicePack: json['ServicePack'] as String?,
-      supportLevel: json['SupportLevel'] as String?,
-      tooltip: json['Tooltip'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final engine = this.engine;
-    final engineEdition = this.engineEdition;
-    final engineVersion = this.engineVersion;
-    final osArchitecture = this.osArchitecture;
-    final servicePack = this.servicePack;
-    final supportLevel = this.supportLevel;
-    final tooltip = this.tooltip;
-    return {
-      if (engine != null) 'Engine': engine,
-      if (engineEdition != null) 'EngineEdition': engineEdition,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (osArchitecture != null) 'OsArchitecture': osArchitecture,
-      if (servicePack != null) 'ServicePack': servicePack,
-      if (supportLevel != null) 'SupportLevel': supportLevel,
-      if (tooltip != null) 'Tooltip': tooltip,
-    };
-  }
-}
-
-class DatabaseMode {
-  static const $default = DatabaseMode._('default');
-  static const babelfish = DatabaseMode._('babelfish');
-
-  final String value;
-
-  const DatabaseMode._(this.value);
-
-  static const values = [$default, babelfish];
-
-  static DatabaseMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DatabaseMode._(value));
-
-  @override
-  bool operator ==(other) => other is DatabaseMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a database in a Fleet Advisor collector inventory.
-class DatabaseResponse {
-  /// A list of collectors associated with the database.
-  final List<CollectorShortInfoResponse>? collectors;
-
-  /// The ID of a database in a Fleet Advisor collector inventory.
-  final String? databaseId;
-
-  /// The name of a database in a Fleet Advisor collector inventory.
-  final String? databaseName;
-
-  /// The IP address of a database in a Fleet Advisor collector inventory.
-  final String? ipAddress;
-
-  /// The number of schemas in a Fleet Advisor collector inventory database.
-  final int? numberOfSchemas;
-
-  /// The server name of a database in a Fleet Advisor collector inventory.
-  final ServerShortInfoResponse? server;
-
-  /// The software details of a database in a Fleet Advisor collector inventory,
-  /// such as database engine and version.
-  final DatabaseInstanceSoftwareDetailsResponse? softwareDetails;
-
-  DatabaseResponse({
-    this.collectors,
-    this.databaseId,
-    this.databaseName,
-    this.ipAddress,
-    this.numberOfSchemas,
-    this.server,
-    this.softwareDetails,
-  });
-
-  factory DatabaseResponse.fromJson(Map<String, dynamic> json) {
-    return DatabaseResponse(
-      collectors: (json['Collectors'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CollectorShortInfoResponse.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      databaseId: json['DatabaseId'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      ipAddress: json['IpAddress'] as String?,
-      numberOfSchemas: json['NumberOfSchemas'] as int?,
-      server: json['Server'] != null
-          ? ServerShortInfoResponse.fromJson(
-              json['Server'] as Map<String, dynamic>)
-          : null,
-      softwareDetails: json['SoftwareDetails'] != null
-          ? DatabaseInstanceSoftwareDetailsResponse.fromJson(
-              json['SoftwareDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final collectors = this.collectors;
-    final databaseId = this.databaseId;
-    final databaseName = this.databaseName;
-    final ipAddress = this.ipAddress;
-    final numberOfSchemas = this.numberOfSchemas;
-    final server = this.server;
-    final softwareDetails = this.softwareDetails;
-    return {
-      if (collectors != null) 'Collectors': collectors,
-      if (databaseId != null) 'DatabaseId': databaseId,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (ipAddress != null) 'IpAddress': ipAddress,
-      if (numberOfSchemas != null) 'NumberOfSchemas': numberOfSchemas,
-      if (server != null) 'Server': server,
-      if (softwareDetails != null) 'SoftwareDetails': softwareDetails,
-    };
-  }
-}
-
-/// Describes a database in a Fleet Advisor collector inventory.
-class DatabaseShortInfoResponse {
-  /// The database engine of a database in a Fleet Advisor collector inventory,
-  /// for example <code>PostgreSQL</code>.
-  final String? databaseEngine;
-
-  /// The ID of a database in a Fleet Advisor collector inventory.
-  final String? databaseId;
-
-  /// The IP address of a database in a Fleet Advisor collector inventory.
-  final String? databaseIpAddress;
-
-  /// The name of a database in a Fleet Advisor collector inventory.
-  final String? databaseName;
-
-  DatabaseShortInfoResponse({
-    this.databaseEngine,
-    this.databaseId,
-    this.databaseIpAddress,
-    this.databaseName,
-  });
-
-  factory DatabaseShortInfoResponse.fromJson(Map<String, dynamic> json) {
-    return DatabaseShortInfoResponse(
-      databaseEngine: json['DatabaseEngine'] as String?,
-      databaseId: json['DatabaseId'] as String?,
-      databaseIpAddress: json['DatabaseIpAddress'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseEngine = this.databaseEngine;
-    final databaseId = this.databaseId;
-    final databaseIpAddress = this.databaseIpAddress;
-    final databaseName = this.databaseName;
-    return {
-      if (databaseEngine != null) 'DatabaseEngine': databaseEngine,
-      if (databaseId != null) 'DatabaseId': databaseId,
-      if (databaseIpAddress != null) 'DatabaseIpAddress': databaseIpAddress,
-      if (databaseName != null) 'DatabaseName': databaseName,
-    };
-  }
-}
-
-class DatePartitionDelimiterValue {
-  static const slash = DatePartitionDelimiterValue._('SLASH');
-  static const underscore = DatePartitionDelimiterValue._('UNDERSCORE');
-  static const dash = DatePartitionDelimiterValue._('DASH');
-  static const none = DatePartitionDelimiterValue._('NONE');
-
-  final String value;
-
-  const DatePartitionDelimiterValue._(this.value);
-
-  static const values = [slash, underscore, dash, none];
-
-  static DatePartitionDelimiterValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatePartitionDelimiterValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DatePartitionDelimiterValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DatePartitionSequenceValue {
-  static const yyyymmdd = DatePartitionSequenceValue._('YYYYMMDD');
-  static const yyyymmddhh = DatePartitionSequenceValue._('YYYYMMDDHH');
-  static const yyyymm = DatePartitionSequenceValue._('YYYYMM');
-  static const mmyyyydd = DatePartitionSequenceValue._('MMYYYYDD');
-  static const ddmmyyyy = DatePartitionSequenceValue._('DDMMYYYY');
-
-  final String value;
-
-  const DatePartitionSequenceValue._(this.value);
-
-  static const values = [yyyymmdd, yyyymmddhh, yyyymm, mmyyyydd, ddmmyyyy];
-
-  static DatePartitionSequenceValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatePartitionSequenceValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DatePartitionSequenceValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides error information about a schema conversion operation.
-class DefaultErrorDetails {
-  /// The error message.
-  final String? message;
-
-  DefaultErrorDetails({
-    this.message,
-  });
-
-  factory DefaultErrorDetails.fromJson(Map<String, dynamic> json) {
-    return DefaultErrorDetails(
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    return {
-      if (message != null) 'Message': message,
     };
   }
 }
@@ -8311,7 +7968,7 @@ class DeleteCertificateResponse {
   }
 }
 
-/// <p/>
+///
 class DeleteConnectionResponse {
   /// The connection that is being deleted.
   final Connection? connection;
@@ -8332,6 +7989,31 @@ class DeleteConnectionResponse {
     final connection = this.connection;
     return {
       if (connection != null) 'Connection': connection,
+    };
+  }
+}
+
+class DeleteDataMigrationResponse {
+  /// The deleted data migration.
+  final DataMigration? dataMigration;
+
+  DeleteDataMigrationResponse({
+    this.dataMigration,
+  });
+
+  factory DeleteDataMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDataMigrationResponse(
+      dataMigration: json['DataMigration'] != null
+          ? DataMigration.fromJson(
+              json['DataMigration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataMigration = this.dataMigration;
+    return {
+      if (dataMigration != null) 'DataMigration': dataMigration,
     };
   }
 }
@@ -8360,7 +8042,7 @@ class DeleteDataProviderResponse {
   }
 }
 
-/// <p/>
+///
 class DeleteEndpointResponse {
   /// The endpoint that was deleted.
   final Endpoint? endpoint;
@@ -8385,7 +8067,7 @@ class DeleteEndpointResponse {
   }
 }
 
-/// <p/>
+///
 class DeleteEventSubscriptionResponse {
   /// The event subscription that was deleted.
   final EventSubscription? eventSubscription;
@@ -8487,7 +8169,7 @@ class DeleteMigrationProjectResponse {
   }
 }
 
-/// <p/>
+///
 class DeleteReplicationConfigResponse {
   /// Configuration parameters returned for the DMS Serverless replication after
   /// it is deleted.
@@ -8514,7 +8196,7 @@ class DeleteReplicationConfigResponse {
   }
 }
 
-/// <p/>
+///
 class DeleteReplicationInstanceResponse {
   /// The replication instance that was deleted.
   final ReplicationInstance? replicationInstance;
@@ -8542,7 +8224,7 @@ class DeleteReplicationInstanceResponse {
   }
 }
 
-/// <p/>
+///
 class DeleteReplicationSubnetGroupResponse {
   DeleteReplicationSubnetGroupResponse();
 
@@ -8556,7 +8238,33 @@ class DeleteReplicationSubnetGroupResponse {
   }
 }
 
-/// <p/>
+///
+class DeleteReplicationTaskResponse {
+  /// The deleted replication task.
+  final ReplicationTask? replicationTask;
+
+  DeleteReplicationTaskResponse({
+    this.replicationTask,
+  });
+
+  factory DeleteReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
+}
+
+///
 class DeleteReplicationTaskAssessmentRunResponse {
   /// The <code>ReplicationTaskAssessmentRun</code> object for the deleted
   /// assessment run.
@@ -8585,33 +8293,7 @@ class DeleteReplicationTaskAssessmentRunResponse {
   }
 }
 
-/// <p/>
-class DeleteReplicationTaskResponse {
-  /// The deleted replication task.
-  final ReplicationTask? replicationTask;
-
-  DeleteReplicationTaskResponse({
-    this.replicationTask,
-  });
-
-  factory DeleteReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteReplicationTaskResponse(
-      replicationTask: json['ReplicationTask'] != null
-          ? ReplicationTask.fromJson(
-              json['ReplicationTask'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationTask = this.replicationTask;
-    return {
-      if (replicationTask != null) 'ReplicationTask': replicationTask,
-    };
-  }
-}
-
-/// <p/>
+///
 class DescribeAccountAttributesResponse {
   /// Account quota information.
   final List<AccountQuota>? accountQuotas;
@@ -8658,7 +8340,7 @@ class DescribeAccountAttributesResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeApplicableIndividualAssessmentsResponse {
   /// List of names for the individual assessments supported by the premigration
   /// assessment run that you start based on the specified request parameters. For
@@ -8735,7 +8417,7 @@ class DescribeCertificatesResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeConnectionsResponse {
   /// A description of the connections.
   final List<Connection>? connections;
@@ -8802,6 +8484,40 @@ class DescribeConversionConfigurationResponse {
   }
 }
 
+class DescribeDataMigrationsResponse {
+  /// Returns information about the data migrations used in the project.
+  final List<DataMigration>? dataMigrations;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DescribeDataMigrationsResponse({
+    this.dataMigrations,
+    this.marker,
+  });
+
+  factory DescribeDataMigrationsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDataMigrationsResponse(
+      dataMigrations: (json['DataMigrations'] as List?)
+          ?.nonNulls
+          .map((e) => DataMigration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataMigrations = this.dataMigrations;
+    final marker = this.marker;
+    return {
+      if (dataMigrations != null) 'DataMigrations': dataMigrations,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
 class DescribeDataProvidersResponse {
   /// A description of data providers.
   final List<DataProvider>? dataProviders;
@@ -8842,6 +8558,41 @@ class DescribeDataProvidersResponse {
   }
 }
 
+///
+class DescribeEndpointsResponse {
+  /// Endpoint description.
+  final List<Endpoint>? endpoints;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DescribeEndpointsResponse({
+    this.endpoints,
+    this.marker,
+  });
+
+  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointsResponse(
+      endpoints: (json['Endpoints'] as List?)
+          ?.nonNulls
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final marker = this.marker;
+    return {
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
 class DescribeEndpointSettingsResponse {
   /// Descriptions of the endpoint settings available for your source or target
   /// database engine.
@@ -8877,7 +8628,7 @@ class DescribeEndpointSettingsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeEndpointTypesResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -8909,41 +8660,6 @@ class DescribeEndpointTypesResponse {
       if (marker != null) 'Marker': marker,
       if (supportedEndpointTypes != null)
         'SupportedEndpointTypes': supportedEndpointTypes,
-    };
-  }
-}
-
-/// <p/>
-class DescribeEndpointsResponse {
-  /// Endpoint description.
-  final List<Endpoint>? endpoints;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  DescribeEndpointsResponse({
-    this.endpoints,
-    this.marker,
-  });
-
-  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeEndpointsResponse(
-      endpoints: (json['Endpoints'] as List?)
-          ?.nonNulls
-          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      marker: json['Marker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpoints = this.endpoints;
-    final marker = this.marker;
-    return {
-      if (endpoints != null) 'Endpoints': endpoints,
-      if (marker != null) 'Marker': marker,
     };
   }
 }
@@ -8983,7 +8699,7 @@ class DescribeEngineVersionsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeEventCategoriesResponse {
   /// A list of event categories.
   final List<EventCategoryGroup>? eventCategoryGroupList;
@@ -9010,7 +8726,42 @@ class DescribeEventCategoriesResponse {
   }
 }
 
-/// <p/>
+///
+class DescribeEventsResponse {
+  /// The events described.
+  final List<Event>? events;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DescribeEventsResponse({
+    this.events,
+    this.marker,
+  });
+
+  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventsResponse(
+      events: (json['Events'] as List?)
+          ?.nonNulls
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final marker = this.marker;
+    return {
+      if (events != null) 'Events': events,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+///
 class DescribeEventSubscriptionsResponse {
   /// A list of event subscriptions.
   final List<EventSubscription>? eventSubscriptionsList;
@@ -9042,41 +8793,6 @@ class DescribeEventSubscriptionsResponse {
     return {
       if (eventSubscriptionsList != null)
         'EventSubscriptionsList': eventSubscriptionsList,
-      if (marker != null) 'Marker': marker,
-    };
-  }
-}
-
-/// <p/>
-class DescribeEventsResponse {
-  /// The events described.
-  final List<Event>? events;
-
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  DescribeEventsResponse({
-    this.events,
-    this.marker,
-  });
-
-  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeEventsResponse(
-      events: (json['Events'] as List?)
-          ?.nonNulls
-          .map((e) => Event.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      marker: json['Marker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final marker = this.marker;
-    return {
-      if (events != null) 'Events': events,
       if (marker != null) 'Marker': marker,
     };
   }
@@ -9351,6 +9067,57 @@ class DescribeInstanceProfilesResponse {
   }
 }
 
+class DescribeMetadataModelResponse {
+  /// The SQL text of the metadata model. This field might not be populated for
+  /// some metadata models.
+  final String? definition;
+
+  /// The name of the metadata model.
+  final String? metadataModelName;
+
+  /// The type of the metadata model.
+  final String? metadataModelType;
+
+  /// A list of counterpart metadata models in the target. This field is populated
+  /// only when Origin is SOURCE and after the object has been converted by DMS
+  /// Schema Conversion.
+  final List<MetadataModelReference>? targetMetadataModels;
+
+  DescribeMetadataModelResponse({
+    this.definition,
+    this.metadataModelName,
+    this.metadataModelType,
+    this.targetMetadataModels,
+  });
+
+  factory DescribeMetadataModelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeMetadataModelResponse(
+      definition: json['Definition'] as String?,
+      metadataModelName: json['MetadataModelName'] as String?,
+      metadataModelType: json['MetadataModelType'] as String?,
+      targetMetadataModels: (json['TargetMetadataModels'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => MetadataModelReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final metadataModelName = this.metadataModelName;
+    final metadataModelType = this.metadataModelType;
+    final targetMetadataModels = this.targetMetadataModels;
+    return {
+      if (definition != null) 'Definition': definition,
+      if (metadataModelName != null) 'MetadataModelName': metadataModelName,
+      if (metadataModelType != null) 'MetadataModelType': metadataModelType,
+      if (targetMetadataModels != null)
+        'TargetMetadataModels': targetMetadataModels,
+    };
+  }
+}
+
 class DescribeMetadataModelAssessmentsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -9394,6 +9161,43 @@ class DescribeMetadataModelAssessmentsResponse {
   }
 }
 
+class DescribeMetadataModelChildrenResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of metadata model children. If a marker is returned, there are
+  /// more metadata model children available.
+  final String? marker;
+
+  /// A list of child metadata models.
+  final List<MetadataModelReference>? metadataModelChildren;
+
+  DescribeMetadataModelChildrenResponse({
+    this.marker,
+    this.metadataModelChildren,
+  });
+
+  factory DescribeMetadataModelChildrenResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMetadataModelChildrenResponse(
+      marker: json['Marker'] as String?,
+      metadataModelChildren: (json['MetadataModelChildren'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => MetadataModelReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final metadataModelChildren = this.metadataModelChildren;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (metadataModelChildren != null)
+        'MetadataModelChildren': metadataModelChildren,
+    };
+  }
+}
+
 class DescribeMetadataModelConversionsResponse {
   /// Specifies the unique pagination token that makes it possible to display the
   /// next page of results. If this parameter is specified, the response includes
@@ -9417,6 +9221,43 @@ class DescribeMetadataModelConversionsResponse {
   factory DescribeMetadataModelConversionsResponse.fromJson(
       Map<String, dynamic> json) {
     return DescribeMetadataModelConversionsResponse(
+      marker: json['Marker'] as String?,
+      requests: (json['Requests'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SchemaConversionRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final requests = this.requests;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (requests != null) 'Requests': requests,
+    };
+  }
+}
+
+class DescribeMetadataModelCreationsResponse {
+  /// Specifies the unique pagination token that makes it possible to display the
+  /// next page of metadata model creation requests. If Marker is returned, there
+  /// are more metadata model creation requests available.
+  final String? marker;
+
+  /// A list of metadata model creation requests. The ExportSqlDetails field will
+  /// never be populated for the DescribeMetadataModelCreations operation.
+  final List<SchemaConversionRequest>? requests;
+
+  DescribeMetadataModelCreationsResponse({
+    this.marker,
+    this.requests,
+  });
+
+  factory DescribeMetadataModelCreationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMetadataModelCreationsResponse(
       marker: json['Marker'] as String?,
       requests: (json['Requests'] as List?)
           ?.nonNulls
@@ -9603,7 +9444,7 @@ class DescribeMigrationProjectsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeOrderableReplicationInstancesResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9642,7 +9483,7 @@ class DescribeOrderableReplicationInstancesResponse {
   }
 }
 
-/// <p/>
+///
 class DescribePendingMaintenanceActionsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9755,7 +9596,7 @@ class DescribeRecommendationsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeRefreshSchemasStatusResponse {
   /// The status of the schema.
   final RefreshSchemasStatus? refreshSchemasStatus;
@@ -9783,7 +9624,7 @@ class DescribeRefreshSchemasStatusResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeReplicationConfigsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9816,6 +9657,43 @@ class DescribeReplicationConfigsResponse {
     return {
       if (marker != null) 'Marker': marker,
       if (replicationConfigs != null) 'ReplicationConfigs': replicationConfigs,
+    };
+  }
+}
+
+///
+class DescribeReplicationInstancesResponse {
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  /// The replication instances described.
+  final List<ReplicationInstance>? replicationInstances;
+
+  DescribeReplicationInstancesResponse({
+    this.marker,
+    this.replicationInstances,
+  });
+
+  factory DescribeReplicationInstancesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeReplicationInstancesResponse(
+      marker: json['Marker'] as String?,
+      replicationInstances: (json['ReplicationInstances'] as List?)
+          ?.nonNulls
+          .map((e) => ReplicationInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationInstances = this.replicationInstances;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationInstances != null)
+        'ReplicationInstances': replicationInstances,
     };
   }
 }
@@ -9867,44 +9745,42 @@ class DescribeReplicationInstanceTaskLogsResponse {
   }
 }
 
-/// <p/>
-class DescribeReplicationInstancesResponse {
+///
+class DescribeReplicationsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
   final String? marker;
 
-  /// The replication instances described.
-  final List<ReplicationInstance>? replicationInstances;
+  /// The replication descriptions.
+  final List<Replication>? replications;
 
-  DescribeReplicationInstancesResponse({
+  DescribeReplicationsResponse({
     this.marker,
-    this.replicationInstances,
+    this.replications,
   });
 
-  factory DescribeReplicationInstancesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeReplicationInstancesResponse(
+  factory DescribeReplicationsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeReplicationsResponse(
       marker: json['Marker'] as String?,
-      replicationInstances: (json['ReplicationInstances'] as List?)
+      replications: (json['Replications'] as List?)
           ?.nonNulls
-          .map((e) => ReplicationInstance.fromJson(e as Map<String, dynamic>))
+          .map((e) => Replication.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final marker = this.marker;
-    final replicationInstances = this.replicationInstances;
+    final replications = this.replications;
     return {
       if (marker != null) 'Marker': marker,
-      if (replicationInstances != null)
-        'ReplicationInstances': replicationInstances,
+      if (replications != null) 'Replications': replications,
     };
   }
 }
 
-/// <p/>
+///
 class DescribeReplicationSubnetGroupsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9942,7 +9818,7 @@ class DescribeReplicationSubnetGroupsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeReplicationTableStatisticsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -9988,7 +9864,7 @@ class DescribeReplicationTableStatisticsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeReplicationTaskAssessmentResultsResponse {
   /// - The Amazon S3 bucket where the task assessment report is located.
   final String? bucketName;
@@ -10035,7 +9911,7 @@ class DescribeReplicationTaskAssessmentResultsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeReplicationTaskAssessmentRunsResponse {
   /// A pagination token returned for you to pass to a subsequent request. If you
   /// pass this token as the <code>Marker</code> value in a subsequent request,
@@ -10076,7 +9952,7 @@ class DescribeReplicationTaskAssessmentRunsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeReplicationTaskIndividualAssessmentsResponse {
   /// A pagination token returned for you to pass to a subsequent request. If you
   /// pass this token as the <code>Marker</code> value in a subsequent request,
@@ -10119,7 +9995,7 @@ class DescribeReplicationTaskIndividualAssessmentsResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeReplicationTasksResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -10154,42 +10030,7 @@ class DescribeReplicationTasksResponse {
   }
 }
 
-/// <p/>
-class DescribeReplicationsResponse {
-  /// An optional pagination token provided by a previous request. If this
-  /// parameter is specified, the response includes only records beyond the
-  /// marker, up to the value specified by <code>MaxRecords</code>.
-  final String? marker;
-
-  /// The replication descriptions.
-  final List<Replication>? replications;
-
-  DescribeReplicationsResponse({
-    this.marker,
-    this.replications,
-  });
-
-  factory DescribeReplicationsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeReplicationsResponse(
-      marker: json['Marker'] as String?,
-      replications: (json['Replications'] as List?)
-          ?.nonNulls
-          .map((e) => Replication.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final replications = this.replications;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (replications != null) 'Replications': replications,
-    };
-  }
-}
-
-/// <p/>
+///
 class DescribeSchemasResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -10222,7 +10063,7 @@ class DescribeSchemasResponse {
   }
 }
 
-/// <p/>
+///
 class DescribeTableStatisticsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
@@ -10264,1224 +10105,6 @@ class DescribeTableStatisticsResponse {
   }
 }
 
-class DmsSslModeValue {
-  static const none = DmsSslModeValue._('none');
-  static const require = DmsSslModeValue._('require');
-  static const verifyCa = DmsSslModeValue._('verify-ca');
-  static const verifyFull = DmsSslModeValue._('verify-full');
-
-  final String value;
-
-  const DmsSslModeValue._(this.value);
-
-  static const values = [none, require, verifyCa, verifyFull];
-
-  static DmsSslModeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DmsSslModeValue._(value));
-
-  @override
-  bool operator ==(other) => other is DmsSslModeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The settings in JSON format for the DMS Transfer type source endpoint.
-class DmsTransferSettings {
-  /// The name of the S3 bucket to use.
-  final String? bucketName;
-
-  /// The Amazon Resource Name (ARN) used by the service access IAM role. The role
-  /// must allow the <code>iam:PassRole</code> action.
-  final String? serviceAccessRoleArn;
-
-  DmsTransferSettings({
-    this.bucketName,
-    this.serviceAccessRoleArn,
-  });
-
-  factory DmsTransferSettings.fromJson(Map<String, dynamic> json) {
-    return DmsTransferSettings(
-      bucketName: json['BucketName'] as String?,
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    return {
-      if (bucketName != null) 'BucketName': bucketName,
-      if (serviceAccessRoleArn != null)
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-    };
-  }
-}
-
-/// Provides information that defines a DocumentDB data provider.
-class DocDbDataProviderSettings {
-  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-  final String? certificateArn;
-
-  /// The database name on the DocumentDB data provider.
-  final String? databaseName;
-
-  /// The port value for the DocumentDB data provider.
-  final int? port;
-
-  /// The name of the source DocumentDB server.
-  final String? serverName;
-
-  /// The SSL mode used to connect to the DocumentDB data provider. The default
-  /// value is <code>none</code>.
-  final DmsSslModeValue? sslMode;
-
-  DocDbDataProviderSettings({
-    this.certificateArn,
-    this.databaseName,
-    this.port,
-    this.serverName,
-    this.sslMode,
-  });
-
-  factory DocDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
-    return DocDbDataProviderSettings(
-      certificateArn: json['CertificateArn'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      port: json['Port'] as int?,
-      serverName: json['ServerName'] as String?,
-      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final databaseName = this.databaseName;
-    final port = this.port;
-    final serverName = this.serverName;
-    final sslMode = this.sslMode;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (port != null) 'Port': port,
-      if (serverName != null) 'ServerName': serverName,
-      if (sslMode != null) 'SslMode': sslMode.value,
-    };
-  }
-}
-
-/// Provides information that defines a DocumentDB endpoint.
-class DocDbSettings {
-  /// The database name on the DocumentDB source endpoint.
-  final String? databaseName;
-
-  /// Indicates the number of documents to preview to determine the document
-  /// organization. Use this setting when <code>NestingLevel</code> is set to
-  /// <code>"one"</code>.
-  ///
-  /// Must be a positive value greater than <code>0</code>. Default value is
-  /// <code>1000</code>.
-  final int? docsToInvestigate;
-
-  /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
-  /// is set to <code>"none"</code>.
-  ///
-  /// Default value is <code>"false"</code>.
-  final bool? extractDocId;
-
-  /// The KMS key identifier that is used to encrypt the content on the
-  /// replication instance. If you don't specify a value for the
-  /// <code>KmsKeyId</code> parameter, then DMS uses your default encryption key.
-  /// KMS creates the default encryption key for your Amazon Web Services account.
-  /// Your Amazon Web Services account has a different default encryption key for
-  /// each Amazon Web Services Region.
-  final String? kmsKeyId;
-
-  /// Specifies either document or table mode.
-  ///
-  /// Default value is <code>"none"</code>. Specify <code>"none"</code> to use
-  /// document mode. Specify <code>"one"</code> to use table mode.
-  final NestingLevelValue? nestingLevel;
-
-  /// The password for the user account you use to access the DocumentDB source
-  /// endpoint.
-  final String? password;
-
-  /// The port value for the DocumentDB source endpoint.
-  final int? port;
-
-  /// If <code>true</code>, DMS replicates data to shard collections. DMS only
-  /// uses this setting if the target endpoint is a DocumentDB elastic cluster.
-  ///
-  /// When this setting is <code>true</code>, note the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// You must set <code>TargetTablePrepMode</code> to <code>nothing</code>.
-  /// </li>
-  /// <li>
-  /// DMS automatically sets <code>useUpdateLookup</code> to <code>false</code>.
-  /// </li>
-  /// </ul>
-  final bool? replicateShardCollections;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the DocumentDB endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the DocumentDB endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// The name of the server on the DocumentDB source endpoint.
-  final String? serverName;
-
-  /// If <code>true</code>, DMS retrieves the entire document from the DocumentDB
-  /// source during migration. This may cause a migration failure if the server
-  /// response exceeds bandwidth limits. To fetch only updates and deletes during
-  /// migration, set this parameter to <code>false</code>.
-  final bool? useUpdateLookUp;
-
-  /// The user name you use to access the DocumentDB source endpoint.
-  final String? username;
-
-  DocDbSettings({
-    this.databaseName,
-    this.docsToInvestigate,
-    this.extractDocId,
-    this.kmsKeyId,
-    this.nestingLevel,
-    this.password,
-    this.port,
-    this.replicateShardCollections,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.useUpdateLookUp,
-    this.username,
-  });
-
-  factory DocDbSettings.fromJson(Map<String, dynamic> json) {
-    return DocDbSettings(
-      databaseName: json['DatabaseName'] as String?,
-      docsToInvestigate: json['DocsToInvestigate'] as int?,
-      extractDocId: json['ExtractDocId'] as bool?,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      nestingLevel:
-          (json['NestingLevel'] as String?)?.let(NestingLevelValue.fromString),
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      replicateShardCollections: json['ReplicateShardCollections'] as bool?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      useUpdateLookUp: json['UseUpdateLookUp'] as bool?,
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final docsToInvestigate = this.docsToInvestigate;
-    final extractDocId = this.extractDocId;
-    final kmsKeyId = this.kmsKeyId;
-    final nestingLevel = this.nestingLevel;
-    final password = this.password;
-    final port = this.port;
-    final replicateShardCollections = this.replicateShardCollections;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final useUpdateLookUp = this.useUpdateLookUp;
-    final username = this.username;
-    return {
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (docsToInvestigate != null) 'DocsToInvestigate': docsToInvestigate,
-      if (extractDocId != null) 'ExtractDocId': extractDocId,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (nestingLevel != null) 'NestingLevel': nestingLevel.value,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (replicateShardCollections != null)
-        'ReplicateShardCollections': replicateShardCollections,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (useUpdateLookUp != null) 'UseUpdateLookUp': useUpdateLookUp,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Provides the Amazon Resource Name (ARN) of the Identity and Access
-/// Management (IAM) role used to define an Amazon DynamoDB target endpoint.
-class DynamoDbSettings {
-  /// The Amazon Resource Name (ARN) used by the service to access the IAM role.
-  /// The role must allow the <code>iam:PassRole</code> action.
-  final String serviceAccessRoleArn;
-
-  DynamoDbSettings({
-    required this.serviceAccessRoleArn,
-  });
-
-  factory DynamoDbSettings.fromJson(Map<String, dynamic> json) {
-    return DynamoDbSettings(
-      serviceAccessRoleArn: (json['ServiceAccessRoleArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    return {
-      'ServiceAccessRoleArn': serviceAccessRoleArn,
-    };
-  }
-}
-
-/// Provides information that defines an OpenSearch endpoint.
-class ElasticsearchSettings {
-  /// The endpoint for the OpenSearch cluster. DMS uses HTTPS if a transport
-  /// protocol (http/https) is not specified.
-  final String endpointUri;
-
-  /// The Amazon Resource Name (ARN) used by the service to access the IAM role.
-  /// The role must allow the <code>iam:PassRole</code> action.
-  final String serviceAccessRoleArn;
-
-  /// The maximum number of seconds for which DMS retries failed API requests to
-  /// the OpenSearch cluster.
-  final int? errorRetryDuration;
-
-  /// The maximum percentage of records that can fail to be written before a full
-  /// load operation stops.
-  ///
-  /// To avoid early failure, this counter is only effective after 1000 records
-  /// are transferred. OpenSearch also has the concept of error monitoring during
-  /// the last 10 minutes of an Observation Window. If transfer of all records
-  /// fail in the last 10 minutes, the full load operation stops.
-  final int? fullLoadErrorPercentage;
-
-  /// Set this option to <code>true</code> for DMS to migrate documentation using
-  /// the documentation type <code>_doc</code>. OpenSearch and an Elasticsearch
-  /// cluster only support the _doc documentation type in versions 7. x and later.
-  /// The default value is <code>false</code>.
-  final bool? useNewMappingType;
-
-  ElasticsearchSettings({
-    required this.endpointUri,
-    required this.serviceAccessRoleArn,
-    this.errorRetryDuration,
-    this.fullLoadErrorPercentage,
-    this.useNewMappingType,
-  });
-
-  factory ElasticsearchSettings.fromJson(Map<String, dynamic> json) {
-    return ElasticsearchSettings(
-      endpointUri: (json['EndpointUri'] as String?) ?? '',
-      serviceAccessRoleArn: (json['ServiceAccessRoleArn'] as String?) ?? '',
-      errorRetryDuration: json['ErrorRetryDuration'] as int?,
-      fullLoadErrorPercentage: json['FullLoadErrorPercentage'] as int?,
-      useNewMappingType: json['UseNewMappingType'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointUri = this.endpointUri;
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    final errorRetryDuration = this.errorRetryDuration;
-    final fullLoadErrorPercentage = this.fullLoadErrorPercentage;
-    final useNewMappingType = this.useNewMappingType;
-    return {
-      'EndpointUri': endpointUri,
-      'ServiceAccessRoleArn': serviceAccessRoleArn,
-      if (errorRetryDuration != null) 'ErrorRetryDuration': errorRetryDuration,
-      if (fullLoadErrorPercentage != null)
-        'FullLoadErrorPercentage': fullLoadErrorPercentage,
-      if (useNewMappingType != null) 'UseNewMappingType': useNewMappingType,
-    };
-  }
-}
-
-class EncodingTypeValue {
-  static const plain = EncodingTypeValue._('plain');
-  static const plainDictionary = EncodingTypeValue._('plain-dictionary');
-  static const rleDictionary = EncodingTypeValue._('rle-dictionary');
-
-  final String value;
-
-  const EncodingTypeValue._(this.value);
-
-  static const values = [plain, plainDictionary, rleDictionary];
-
-  static EncodingTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncodingTypeValue._(value));
-
-  @override
-  bool operator ==(other) => other is EncodingTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EncryptionModeValue {
-  static const sseS3 = EncryptionModeValue._('sse-s3');
-  static const sseKms = EncryptionModeValue._('sse-kms');
-
-  final String value;
-
-  const EncryptionModeValue._(this.value);
-
-  static const values = [sseS3, sseKms];
-
-  static EncryptionModeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionModeValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EncryptionModeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an endpoint of a database instance in response to operations such
-/// as the following:
-///
-/// <ul>
-/// <li>
-/// <code>CreateEndpoint</code>
-/// </li>
-/// <li>
-/// <code>DescribeEndpoint</code>
-/// </li>
-/// <li>
-/// <code>ModifyEndpoint</code>
-/// </li>
-/// </ul>
-class Endpoint {
-  /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
-  final String? certificateArn;
-
-  /// The name of the database at the endpoint.
-  final String? databaseName;
-
-  /// The settings for the DMS Transfer type source. For more information, see the
-  /// DmsTransferSettings structure.
-  final DmsTransferSettings? dmsTransferSettings;
-  final DocDbSettings? docDbSettings;
-
-  /// The settings for the DynamoDB target endpoint. For more information, see the
-  /// <code>DynamoDBSettings</code> structure.
-  final DynamoDbSettings? dynamoDbSettings;
-
-  /// The settings for the OpenSearch source endpoint. For more information, see
-  /// the <code>ElasticsearchSettings</code> structure.
-  final ElasticsearchSettings? elasticsearchSettings;
-
-  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-  final String? endpointArn;
-
-  /// The database endpoint identifier. Identifiers must begin with a letter and
-  /// must contain only ASCII letters, digits, and hyphens. They can't end with a
-  /// hyphen or contain two consecutive hyphens.
-  final String? endpointIdentifier;
-
-  /// The type of endpoint. Valid values are <code>source</code> and
-  /// <code>target</code>.
-  final ReplicationEndpointTypeValue? endpointType;
-
-  /// The expanded name for the engine name. For example, if the
-  /// <code>EngineName</code> parameter is "aurora", this value would be "Amazon
-  /// Aurora MySQL".
-  final String? engineDisplayName;
-
-  /// The database engine name. Valid values, depending on the EndpointType,
-  /// include <code>"mysql"</code>, <code>"oracle"</code>,
-  /// <code>"postgres"</code>, <code>"mariadb"</code>, <code>"aurora"</code>,
-  /// <code>"aurora-postgresql"</code>, <code>"redshift"</code>,
-  /// <code>"redshift-serverless"</code>, <code>"s3"</code>, <code>"db2"</code>,
-  /// <code>"db2-zos"</code>, <code>"azuredb"</code>, <code>"sybase"</code>,
-  /// <code>"dynamodb"</code>, <code>"mongodb"</code>, <code>"kinesis"</code>,
-  /// <code>"kafka"</code>, <code>"elasticsearch"</code>,
-  /// <code>"documentdb"</code>, <code>"sqlserver"</code>, <code>"neptune"</code>,
-  /// and <code>"babelfish"</code>.
-  final String? engineName;
-
-  /// Value returned by a call to CreateEndpoint that can be used for
-  /// cross-account validation. Use it on a subsequent call to CreateEndpoint to
-  /// create the endpoint with a cross-account.
-  final String? externalId;
-
-  /// The external table definition.
-  final String? externalTableDefinition;
-
-  /// Additional connection attributes used to connect to the endpoint.
-  final String? extraConnectionAttributes;
-
-  /// Settings in JSON format for the source GCP MySQL endpoint.
-  final GcpMySQLSettings? gcpMySQLSettings;
-
-  /// The settings for the IBM Db2 LUW source endpoint. For more information, see
-  /// the <code>IBMDb2Settings</code> structure.
-  final IBMDb2Settings? iBMDb2Settings;
-
-  /// The settings for the Apache Kafka target endpoint. For more information, see
-  /// the <code>KafkaSettings</code> structure.
-  final KafkaSettings? kafkaSettings;
-
-  /// The settings for the Amazon Kinesis target endpoint. For more information,
-  /// see the <code>KinesisSettings</code> structure.
-  final KinesisSettings? kinesisSettings;
-
-  /// An KMS key identifier that is used to encrypt the connection parameters for
-  /// the endpoint.
-  ///
-  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
-  /// DMS uses your default encryption key.
-  ///
-  /// KMS creates the default encryption key for your Amazon Web Services account.
-  /// Your Amazon Web Services account has a different default encryption key for
-  /// each Amazon Web Services Region.
-  final String? kmsKeyId;
-
-  /// The settings for the Microsoft SQL Server source and target endpoint. For
-  /// more information, see the <code>MicrosoftSQLServerSettings</code> structure.
-  final MicrosoftSQLServerSettings? microsoftSQLServerSettings;
-
-  /// The settings for the MongoDB source endpoint. For more information, see the
-  /// <code>MongoDbSettings</code> structure.
-  final MongoDbSettings? mongoDbSettings;
-
-  /// The settings for the MySQL source and target endpoint. For more information,
-  /// see the <code>MySQLSettings</code> structure.
-  final MySQLSettings? mySQLSettings;
-
-  /// The settings for the Amazon Neptune target endpoint. For more information,
-  /// see the <code>NeptuneSettings</code> structure.
-  final NeptuneSettings? neptuneSettings;
-
-  /// The settings for the Oracle source and target endpoint. For more
-  /// information, see the <code>OracleSettings</code> structure.
-  final OracleSettings? oracleSettings;
-
-  /// The port value used to access the endpoint.
-  final int? port;
-
-  /// The settings for the PostgreSQL source and target endpoint. For more
-  /// information, see the <code>PostgreSQLSettings</code> structure.
-  final PostgreSQLSettings? postgreSQLSettings;
-
-  /// The settings for the Redis target endpoint. For more information, see the
-  /// <code>RedisSettings</code> structure.
-  final RedisSettings? redisSettings;
-
-  /// Settings for the Amazon Redshift endpoint.
-  final RedshiftSettings? redshiftSettings;
-
-  /// The settings for the S3 target endpoint. For more information, see the
-  /// <code>S3Settings</code> structure.
-  final S3Settings? s3Settings;
-
-  /// The name of the server at the endpoint.
-  final String? serverName;
-
-  /// The Amazon Resource Name (ARN) used by the service to access the IAM role.
-  /// The role must allow the <code>iam:PassRole</code> action.
-  final String? serviceAccessRoleArn;
-
-  /// The SSL mode used to connect to the endpoint. The default value is
-  /// <code>none</code>.
-  final DmsSslModeValue? sslMode;
-
-  /// The status of the endpoint.
-  final String? status;
-
-  /// The settings for the SAP ASE source and target endpoint. For more
-  /// information, see the <code>SybaseSettings</code> structure.
-  final SybaseSettings? sybaseSettings;
-
-  /// The settings for the Amazon Timestream target endpoint. For more
-  /// information, see the <code>TimestreamSettings</code> structure.
-  final TimestreamSettings? timestreamSettings;
-
-  /// The user name used to connect to the endpoint.
-  final String? username;
-
-  Endpoint({
-    this.certificateArn,
-    this.databaseName,
-    this.dmsTransferSettings,
-    this.docDbSettings,
-    this.dynamoDbSettings,
-    this.elasticsearchSettings,
-    this.endpointArn,
-    this.endpointIdentifier,
-    this.endpointType,
-    this.engineDisplayName,
-    this.engineName,
-    this.externalId,
-    this.externalTableDefinition,
-    this.extraConnectionAttributes,
-    this.gcpMySQLSettings,
-    this.iBMDb2Settings,
-    this.kafkaSettings,
-    this.kinesisSettings,
-    this.kmsKeyId,
-    this.microsoftSQLServerSettings,
-    this.mongoDbSettings,
-    this.mySQLSettings,
-    this.neptuneSettings,
-    this.oracleSettings,
-    this.port,
-    this.postgreSQLSettings,
-    this.redisSettings,
-    this.redshiftSettings,
-    this.s3Settings,
-    this.serverName,
-    this.serviceAccessRoleArn,
-    this.sslMode,
-    this.status,
-    this.sybaseSettings,
-    this.timestreamSettings,
-    this.username,
-  });
-
-  factory Endpoint.fromJson(Map<String, dynamic> json) {
-    return Endpoint(
-      certificateArn: json['CertificateArn'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      dmsTransferSettings: json['DmsTransferSettings'] != null
-          ? DmsTransferSettings.fromJson(
-              json['DmsTransferSettings'] as Map<String, dynamic>)
-          : null,
-      docDbSettings: json['DocDbSettings'] != null
-          ? DocDbSettings.fromJson(
-              json['DocDbSettings'] as Map<String, dynamic>)
-          : null,
-      dynamoDbSettings: json['DynamoDbSettings'] != null
-          ? DynamoDbSettings.fromJson(
-              json['DynamoDbSettings'] as Map<String, dynamic>)
-          : null,
-      elasticsearchSettings: json['ElasticsearchSettings'] != null
-          ? ElasticsearchSettings.fromJson(
-              json['ElasticsearchSettings'] as Map<String, dynamic>)
-          : null,
-      endpointArn: json['EndpointArn'] as String?,
-      endpointIdentifier: json['EndpointIdentifier'] as String?,
-      endpointType: (json['EndpointType'] as String?)
-          ?.let(ReplicationEndpointTypeValue.fromString),
-      engineDisplayName: json['EngineDisplayName'] as String?,
-      engineName: json['EngineName'] as String?,
-      externalId: json['ExternalId'] as String?,
-      externalTableDefinition: json['ExternalTableDefinition'] as String?,
-      extraConnectionAttributes: json['ExtraConnectionAttributes'] as String?,
-      gcpMySQLSettings: json['GcpMySQLSettings'] != null
-          ? GcpMySQLSettings.fromJson(
-              json['GcpMySQLSettings'] as Map<String, dynamic>)
-          : null,
-      iBMDb2Settings: json['IBMDb2Settings'] != null
-          ? IBMDb2Settings.fromJson(
-              json['IBMDb2Settings'] as Map<String, dynamic>)
-          : null,
-      kafkaSettings: json['KafkaSettings'] != null
-          ? KafkaSettings.fromJson(
-              json['KafkaSettings'] as Map<String, dynamic>)
-          : null,
-      kinesisSettings: json['KinesisSettings'] != null
-          ? KinesisSettings.fromJson(
-              json['KinesisSettings'] as Map<String, dynamic>)
-          : null,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      microsoftSQLServerSettings: json['MicrosoftSQLServerSettings'] != null
-          ? MicrosoftSQLServerSettings.fromJson(
-              json['MicrosoftSQLServerSettings'] as Map<String, dynamic>)
-          : null,
-      mongoDbSettings: json['MongoDbSettings'] != null
-          ? MongoDbSettings.fromJson(
-              json['MongoDbSettings'] as Map<String, dynamic>)
-          : null,
-      mySQLSettings: json['MySQLSettings'] != null
-          ? MySQLSettings.fromJson(
-              json['MySQLSettings'] as Map<String, dynamic>)
-          : null,
-      neptuneSettings: json['NeptuneSettings'] != null
-          ? NeptuneSettings.fromJson(
-              json['NeptuneSettings'] as Map<String, dynamic>)
-          : null,
-      oracleSettings: json['OracleSettings'] != null
-          ? OracleSettings.fromJson(
-              json['OracleSettings'] as Map<String, dynamic>)
-          : null,
-      port: json['Port'] as int?,
-      postgreSQLSettings: json['PostgreSQLSettings'] != null
-          ? PostgreSQLSettings.fromJson(
-              json['PostgreSQLSettings'] as Map<String, dynamic>)
-          : null,
-      redisSettings: json['RedisSettings'] != null
-          ? RedisSettings.fromJson(
-              json['RedisSettings'] as Map<String, dynamic>)
-          : null,
-      redshiftSettings: json['RedshiftSettings'] != null
-          ? RedshiftSettings.fromJson(
-              json['RedshiftSettings'] as Map<String, dynamic>)
-          : null,
-      s3Settings: json['S3Settings'] != null
-          ? S3Settings.fromJson(json['S3Settings'] as Map<String, dynamic>)
-          : null,
-      serverName: json['ServerName'] as String?,
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
-      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
-      status: json['Status'] as String?,
-      sybaseSettings: json['SybaseSettings'] != null
-          ? SybaseSettings.fromJson(
-              json['SybaseSettings'] as Map<String, dynamic>)
-          : null,
-      timestreamSettings: json['TimestreamSettings'] != null
-          ? TimestreamSettings.fromJson(
-              json['TimestreamSettings'] as Map<String, dynamic>)
-          : null,
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final databaseName = this.databaseName;
-    final dmsTransferSettings = this.dmsTransferSettings;
-    final docDbSettings = this.docDbSettings;
-    final dynamoDbSettings = this.dynamoDbSettings;
-    final elasticsearchSettings = this.elasticsearchSettings;
-    final endpointArn = this.endpointArn;
-    final endpointIdentifier = this.endpointIdentifier;
-    final endpointType = this.endpointType;
-    final engineDisplayName = this.engineDisplayName;
-    final engineName = this.engineName;
-    final externalId = this.externalId;
-    final externalTableDefinition = this.externalTableDefinition;
-    final extraConnectionAttributes = this.extraConnectionAttributes;
-    final gcpMySQLSettings = this.gcpMySQLSettings;
-    final iBMDb2Settings = this.iBMDb2Settings;
-    final kafkaSettings = this.kafkaSettings;
-    final kinesisSettings = this.kinesisSettings;
-    final kmsKeyId = this.kmsKeyId;
-    final microsoftSQLServerSettings = this.microsoftSQLServerSettings;
-    final mongoDbSettings = this.mongoDbSettings;
-    final mySQLSettings = this.mySQLSettings;
-    final neptuneSettings = this.neptuneSettings;
-    final oracleSettings = this.oracleSettings;
-    final port = this.port;
-    final postgreSQLSettings = this.postgreSQLSettings;
-    final redisSettings = this.redisSettings;
-    final redshiftSettings = this.redshiftSettings;
-    final s3Settings = this.s3Settings;
-    final serverName = this.serverName;
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    final sslMode = this.sslMode;
-    final status = this.status;
-    final sybaseSettings = this.sybaseSettings;
-    final timestreamSettings = this.timestreamSettings;
-    final username = this.username;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (dmsTransferSettings != null)
-        'DmsTransferSettings': dmsTransferSettings,
-      if (docDbSettings != null) 'DocDbSettings': docDbSettings,
-      if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
-      if (elasticsearchSettings != null)
-        'ElasticsearchSettings': elasticsearchSettings,
-      if (endpointArn != null) 'EndpointArn': endpointArn,
-      if (endpointIdentifier != null) 'EndpointIdentifier': endpointIdentifier,
-      if (endpointType != null) 'EndpointType': endpointType.value,
-      if (engineDisplayName != null) 'EngineDisplayName': engineDisplayName,
-      if (engineName != null) 'EngineName': engineName,
-      if (externalId != null) 'ExternalId': externalId,
-      if (externalTableDefinition != null)
-        'ExternalTableDefinition': externalTableDefinition,
-      if (extraConnectionAttributes != null)
-        'ExtraConnectionAttributes': extraConnectionAttributes,
-      if (gcpMySQLSettings != null) 'GcpMySQLSettings': gcpMySQLSettings,
-      if (iBMDb2Settings != null) 'IBMDb2Settings': iBMDb2Settings,
-      if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
-      if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (microsoftSQLServerSettings != null)
-        'MicrosoftSQLServerSettings': microsoftSQLServerSettings,
-      if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
-      if (mySQLSettings != null) 'MySQLSettings': mySQLSettings,
-      if (neptuneSettings != null) 'NeptuneSettings': neptuneSettings,
-      if (oracleSettings != null) 'OracleSettings': oracleSettings,
-      if (port != null) 'Port': port,
-      if (postgreSQLSettings != null) 'PostgreSQLSettings': postgreSQLSettings,
-      if (redisSettings != null) 'RedisSettings': redisSettings,
-      if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
-      if (s3Settings != null) 'S3Settings': s3Settings,
-      if (serverName != null) 'ServerName': serverName,
-      if (serviceAccessRoleArn != null)
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-      if (sslMode != null) 'SslMode': sslMode.value,
-      if (status != null) 'Status': status,
-      if (sybaseSettings != null) 'SybaseSettings': sybaseSettings,
-      if (timestreamSettings != null) 'TimestreamSettings': timestreamSettings,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Endpoint settings.
-class EndpointSetting {
-  /// The relevance or validity of an endpoint setting for an engine name and its
-  /// endpoint type.
-  final String? applicability;
-
-  /// The default value of the endpoint setting if no value is specified using
-  /// <code>CreateEndpoint</code> or <code>ModifyEndpoint</code>.
-  final String? defaultValue;
-
-  /// Enumerated values to use for this endpoint.
-  final List<String>? enumValues;
-
-  /// The maximum value of an endpoint setting that is of type <code>int</code>.
-  final int? intValueMax;
-
-  /// The minimum value of an endpoint setting that is of type <code>int</code>.
-  final int? intValueMin;
-
-  /// The name that you want to give the endpoint settings.
-  final String? name;
-
-  /// A value that marks this endpoint setting as sensitive.
-  final bool? sensitive;
-
-  /// The type of endpoint. Valid values are <code>source</code> and
-  /// <code>target</code>.
-  final EndpointSettingTypeValue? type;
-
-  /// The unit of measure for this endpoint setting.
-  final String? units;
-
-  EndpointSetting({
-    this.applicability,
-    this.defaultValue,
-    this.enumValues,
-    this.intValueMax,
-    this.intValueMin,
-    this.name,
-    this.sensitive,
-    this.type,
-    this.units,
-  });
-
-  factory EndpointSetting.fromJson(Map<String, dynamic> json) {
-    return EndpointSetting(
-      applicability: json['Applicability'] as String?,
-      defaultValue: json['DefaultValue'] as String?,
-      enumValues: (json['EnumValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      intValueMax: json['IntValueMax'] as int?,
-      intValueMin: json['IntValueMin'] as int?,
-      name: json['Name'] as String?,
-      sensitive: json['Sensitive'] as bool?,
-      type: (json['Type'] as String?)?.let(EndpointSettingTypeValue.fromString),
-      units: json['Units'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicability = this.applicability;
-    final defaultValue = this.defaultValue;
-    final enumValues = this.enumValues;
-    final intValueMax = this.intValueMax;
-    final intValueMin = this.intValueMin;
-    final name = this.name;
-    final sensitive = this.sensitive;
-    final type = this.type;
-    final units = this.units;
-    return {
-      if (applicability != null) 'Applicability': applicability,
-      if (defaultValue != null) 'DefaultValue': defaultValue,
-      if (enumValues != null) 'EnumValues': enumValues,
-      if (intValueMax != null) 'IntValueMax': intValueMax,
-      if (intValueMin != null) 'IntValueMin': intValueMin,
-      if (name != null) 'Name': name,
-      if (sensitive != null) 'Sensitive': sensitive,
-      if (type != null) 'Type': type.value,
-      if (units != null) 'Units': units,
-    };
-  }
-}
-
-class EndpointSettingTypeValue {
-  static const string = EndpointSettingTypeValue._('string');
-  static const boolean = EndpointSettingTypeValue._('boolean');
-  static const integer = EndpointSettingTypeValue._('integer');
-  static const $enum = EndpointSettingTypeValue._('enum');
-
-  final String value;
-
-  const EndpointSettingTypeValue._(this.value);
-
-  static const values = [string, boolean, integer, $enum];
-
-  static EndpointSettingTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EndpointSettingTypeValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EndpointSettingTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information about a replication instance version.
-class EngineVersion {
-  /// The date when the replication instance will be automatically upgraded. This
-  /// setting only applies if the <code>auto-minor-version</code> setting is
-  /// enabled.
-  final DateTime? autoUpgradeDate;
-
-  /// The list of valid replication instance versions that you can upgrade to.
-  final List<String>? availableUpgrades;
-
-  /// The date when the replication instance version will be deprecated and can no
-  /// longer be requested.
-  final DateTime? deprecationDate;
-
-  /// The date when the replication instance will have a version upgrade forced.
-  final DateTime? forceUpgradeDate;
-
-  /// The date when the replication instance version became publicly available.
-  final DateTime? launchDate;
-
-  /// The lifecycle status of the replication instance version. Valid values are
-  /// <code>DEPRECATED</code>, <code>DEFAULT_VERSION</code>, and
-  /// <code>ACTIVE</code>.
-  final String? lifecycle;
-
-  /// The release status of the replication instance version.
-  final ReleaseStatusValues? releaseStatus;
-
-  /// The version number of the replication instance.
-  final String? version;
-
-  EngineVersion({
-    this.autoUpgradeDate,
-    this.availableUpgrades,
-    this.deprecationDate,
-    this.forceUpgradeDate,
-    this.launchDate,
-    this.lifecycle,
-    this.releaseStatus,
-    this.version,
-  });
-
-  factory EngineVersion.fromJson(Map<String, dynamic> json) {
-    return EngineVersion(
-      autoUpgradeDate: timeStampFromJson(json['AutoUpgradeDate']),
-      availableUpgrades: (json['AvailableUpgrades'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      deprecationDate: timeStampFromJson(json['DeprecationDate']),
-      forceUpgradeDate: timeStampFromJson(json['ForceUpgradeDate']),
-      launchDate: timeStampFromJson(json['LaunchDate']),
-      lifecycle: json['Lifecycle'] as String?,
-      releaseStatus: (json['ReleaseStatus'] as String?)
-          ?.let(ReleaseStatusValues.fromString),
-      version: json['Version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoUpgradeDate = this.autoUpgradeDate;
-    final availableUpgrades = this.availableUpgrades;
-    final deprecationDate = this.deprecationDate;
-    final forceUpgradeDate = this.forceUpgradeDate;
-    final launchDate = this.launchDate;
-    final lifecycle = this.lifecycle;
-    final releaseStatus = this.releaseStatus;
-    final version = this.version;
-    return {
-      if (autoUpgradeDate != null)
-        'AutoUpgradeDate': unixTimestampToJson(autoUpgradeDate),
-      if (availableUpgrades != null) 'AvailableUpgrades': availableUpgrades,
-      if (deprecationDate != null)
-        'DeprecationDate': unixTimestampToJson(deprecationDate),
-      if (forceUpgradeDate != null)
-        'ForceUpgradeDate': unixTimestampToJson(forceUpgradeDate),
-      if (launchDate != null) 'LaunchDate': unixTimestampToJson(launchDate),
-      if (lifecycle != null) 'Lifecycle': lifecycle,
-      if (releaseStatus != null) 'ReleaseStatus': releaseStatus.value,
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-/// Provides error information about a project.
-class ErrorDetails {
-  /// Error information about a project.
-  final DefaultErrorDetails? defaultErrorDetails;
-
-  ErrorDetails({
-    this.defaultErrorDetails,
-  });
-
-  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
-    return ErrorDetails(
-      defaultErrorDetails: json['defaultErrorDetails'] != null
-          ? DefaultErrorDetails.fromJson(
-              json['defaultErrorDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultErrorDetails = this.defaultErrorDetails;
-    return {
-      if (defaultErrorDetails != null)
-        'defaultErrorDetails': defaultErrorDetails,
-    };
-  }
-}
-
-/// Describes an identifiable significant activity that affects a replication
-/// instance or task. This object can provide the message, the available event
-/// categories, the date and source of the event, and the DMS resource type.
-class Event {
-  /// The date of the event.
-  final DateTime? date;
-
-  /// The event categories available for the specified source type.
-  final List<String>? eventCategories;
-
-  /// The event message.
-  final String? message;
-
-  /// The identifier of an event source.
-  final String? sourceIdentifier;
-
-  /// The type of DMS resource that generates events.
-  ///
-  /// Valid values: replication-instance | endpoint | replication-task
-  final SourceType? sourceType;
-
-  Event({
-    this.date,
-    this.eventCategories,
-    this.message,
-    this.sourceIdentifier,
-    this.sourceType,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-      date: timeStampFromJson(json['Date']),
-      eventCategories: (json['EventCategories'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      message: json['Message'] as String?,
-      sourceIdentifier: json['SourceIdentifier'] as String?,
-      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final date = this.date;
-    final eventCategories = this.eventCategories;
-    final message = this.message;
-    final sourceIdentifier = this.sourceIdentifier;
-    final sourceType = this.sourceType;
-    return {
-      if (date != null) 'Date': unixTimestampToJson(date),
-      if (eventCategories != null) 'EventCategories': eventCategories,
-      if (message != null) 'Message': message,
-      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-      if (sourceType != null) 'SourceType': sourceType.value,
-    };
-  }
-}
-
-/// Lists categories of events subscribed to, and generated by, the applicable
-/// DMS resource type. This data type appears in response to the <a
-/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_EventCategoryGroup.html">
-/// <code>DescribeEventCategories</code> </a> action.
-class EventCategoryGroup {
-  /// A list of event categories from a source type that you've chosen.
-  final List<String>? eventCategories;
-
-  /// The type of DMS resource that generates events.
-  ///
-  /// Valid values: replication-instance | replication-server | security-group |
-  /// replication-task
-  final String? sourceType;
-
-  EventCategoryGroup({
-    this.eventCategories,
-    this.sourceType,
-  });
-
-  factory EventCategoryGroup.fromJson(Map<String, dynamic> json) {
-    return EventCategoryGroup(
-      eventCategories: (json['EventCategories'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      sourceType: json['SourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventCategories = this.eventCategories;
-    final sourceType = this.sourceType;
-    return {
-      if (eventCategories != null) 'EventCategories': eventCategories,
-      if (sourceType != null) 'SourceType': sourceType,
-    };
-  }
-}
-
-/// Describes an event notification subscription created by the
-/// <code>CreateEventSubscription</code> operation.
-class EventSubscription {
-  /// The DMS event notification subscription Id.
-  final String? custSubscriptionId;
-
-  /// The Amazon Web Services customer account associated with the DMS event
-  /// notification subscription.
-  final String? customerAwsId;
-
-  /// Boolean value that indicates if the event subscription is enabled.
-  final bool? enabled;
-
-  /// A lists of event categories.
-  final List<String>? eventCategoriesList;
-
-  /// The topic ARN of the DMS event notification subscription.
-  final String? snsTopicArn;
-
-  /// A list of source Ids for the event subscription.
-  final List<String>? sourceIdsList;
-
-  /// The type of DMS resource that generates events.
-  ///
-  /// Valid values: replication-instance | replication-server | security-group |
-  /// replication-task
-  final String? sourceType;
-
-  /// The status of the DMS event notification subscription.
-  ///
-  /// Constraints:
-  ///
-  /// Can be one of the following: creating | modifying | deleting | active |
-  /// no-permission | topic-not-exist
-  ///
-  /// The status "no-permission" indicates that DMS no longer has permission to
-  /// post to the SNS topic. The status "topic-not-exist" indicates that the topic
-  /// was deleted after the subscription was created.
-  final String? status;
-
-  /// The time the DMS event notification subscription was created.
-  final String? subscriptionCreationTime;
-
-  EventSubscription({
-    this.custSubscriptionId,
-    this.customerAwsId,
-    this.enabled,
-    this.eventCategoriesList,
-    this.snsTopicArn,
-    this.sourceIdsList,
-    this.sourceType,
-    this.status,
-    this.subscriptionCreationTime,
-  });
-
-  factory EventSubscription.fromJson(Map<String, dynamic> json) {
-    return EventSubscription(
-      custSubscriptionId: json['CustSubscriptionId'] as String?,
-      customerAwsId: json['CustomerAwsId'] as String?,
-      enabled: json['Enabled'] as bool?,
-      eventCategoriesList: (json['EventCategoriesList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      snsTopicArn: json['SnsTopicArn'] as String?,
-      sourceIdsList: (json['SourceIdsList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      sourceType: json['SourceType'] as String?,
-      status: json['Status'] as String?,
-      subscriptionCreationTime: json['SubscriptionCreationTime'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final custSubscriptionId = this.custSubscriptionId;
-    final customerAwsId = this.customerAwsId;
-    final enabled = this.enabled;
-    final eventCategoriesList = this.eventCategoriesList;
-    final snsTopicArn = this.snsTopicArn;
-    final sourceIdsList = this.sourceIdsList;
-    final sourceType = this.sourceType;
-    final status = this.status;
-    final subscriptionCreationTime = this.subscriptionCreationTime;
-    return {
-      if (custSubscriptionId != null) 'CustSubscriptionId': custSubscriptionId,
-      if (customerAwsId != null) 'CustomerAwsId': customerAwsId,
-      if (enabled != null) 'Enabled': enabled,
-      if (eventCategoriesList != null)
-        'EventCategoriesList': eventCategoriesList,
-      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-      if (sourceIdsList != null) 'SourceIdsList': sourceIdsList,
-      if (sourceType != null) 'SourceType': sourceType,
-      if (status != null) 'Status': status,
-      if (subscriptionCreationTime != null)
-        'SubscriptionCreationTime': subscriptionCreationTime,
-    };
-  }
-}
-
 class ExportMetadataModelAssessmentResponse {
   /// The Amazon S3 details for an assessment exported in CSV format.
   final ExportMetadataModelAssessmentResultEntry? csvReport;
@@ -11518,517 +10141,25 @@ class ExportMetadataModelAssessmentResponse {
   }
 }
 
-/// Provides information about an exported metadata model assessment.
-class ExportMetadataModelAssessmentResultEntry {
-  /// The URL for the object containing the exported metadata model assessment.
-  final String? objectURL;
+class GetTargetSelectionRulesResponse {
+  /// The JSON string representing the counterpart selection rules in the target.
+  final String? targetSelectionRules;
 
-  /// The object key for the object containing the exported metadata model
-  /// assessment.
-  final String? s3ObjectKey;
-
-  ExportMetadataModelAssessmentResultEntry({
-    this.objectURL,
-    this.s3ObjectKey,
+  GetTargetSelectionRulesResponse({
+    this.targetSelectionRules,
   });
 
-  factory ExportMetadataModelAssessmentResultEntry.fromJson(
-      Map<String, dynamic> json) {
-    return ExportMetadataModelAssessmentResultEntry(
-      objectURL: json['ObjectURL'] as String?,
-      s3ObjectKey: json['S3ObjectKey'] as String?,
+  factory GetTargetSelectionRulesResponse.fromJson(Map<String, dynamic> json) {
+    return GetTargetSelectionRulesResponse(
+      targetSelectionRules: json['TargetSelectionRules'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final objectURL = this.objectURL;
-    final s3ObjectKey = this.s3ObjectKey;
+    final targetSelectionRules = this.targetSelectionRules;
     return {
-      if (objectURL != null) 'ObjectURL': objectURL,
-      if (s3ObjectKey != null) 'S3ObjectKey': s3ObjectKey,
-    };
-  }
-}
-
-/// Provides information about a metadata model assessment exported to SQL.
-class ExportSqlDetails {
-  /// The URL for the object containing the exported metadata model assessment.
-  final String? objectURL;
-
-  /// The Amazon S3 object key for the object containing the exported metadata
-  /// model assessment.
-  final String? s3ObjectKey;
-
-  ExportSqlDetails({
-    this.objectURL,
-    this.s3ObjectKey,
-  });
-
-  factory ExportSqlDetails.fromJson(Map<String, dynamic> json) {
-    return ExportSqlDetails(
-      objectURL: json['ObjectURL'] as String?,
-      s3ObjectKey: json['S3ObjectKey'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectURL = this.objectURL;
-    final s3ObjectKey = this.s3ObjectKey;
-    return {
-      if (objectURL != null) 'ObjectURL': objectURL,
-      if (s3ObjectKey != null) 'S3ObjectKey': s3ObjectKey,
-    };
-  }
-}
-
-/// Identifies the name and value of a filter object. This filter is used to
-/// limit the number and type of DMS objects that are returned for a particular
-/// <code>Describe*</code> call or similar operation. Filters are used as an
-/// optional parameter for certain API operations.
-class Filter {
-  /// The name of the filter as specified for a <code>Describe*</code> or similar
-  /// operation.
-  final String name;
-
-  /// The filter value, which can specify one or more values used to narrow the
-  /// returned results.
-  final List<String> values;
-
-  Filter({
-    required this.name,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      'Name': name,
-      'Values': values,
-    };
-  }
-}
-
-/// Describes a large-scale assessment (LSA) analysis run by a Fleet Advisor
-/// collector.
-class FleetAdvisorLsaAnalysisResponse {
-  /// The ID of an LSA analysis run by a Fleet Advisor collector.
-  final String? lsaAnalysisId;
-
-  /// The status of an LSA analysis run by a Fleet Advisor collector.
-  final String? status;
-
-  FleetAdvisorLsaAnalysisResponse({
-    this.lsaAnalysisId,
-    this.status,
-  });
-
-  factory FleetAdvisorLsaAnalysisResponse.fromJson(Map<String, dynamic> json) {
-    return FleetAdvisorLsaAnalysisResponse(
-      lsaAnalysisId: json['LsaAnalysisId'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lsaAnalysisId = this.lsaAnalysisId;
-    final status = this.status;
-    return {
-      if (lsaAnalysisId != null) 'LsaAnalysisId': lsaAnalysisId,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Describes a schema object in a Fleet Advisor collector inventory.
-class FleetAdvisorSchemaObjectResponse {
-  /// The number of lines of code in a schema object in a Fleet Advisor collector
-  /// inventory.
-  final int? codeLineCount;
-
-  /// The size level of the code in a schema object in a Fleet Advisor collector
-  /// inventory.
-  final int? codeSize;
-
-  /// The number of objects in a schema object in a Fleet Advisor collector
-  /// inventory.
-  final int? numberOfObjects;
-
-  /// The type of the schema object, as reported by the database engine. Examples
-  /// include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>function</code>
-  /// </li>
-  /// <li>
-  /// <code>trigger</code>
-  /// </li>
-  /// <li>
-  /// <code>SYSTEM_TABLE</code>
-  /// </li>
-  /// <li>
-  /// <code>QUEUE</code>
-  /// </li>
-  /// </ul>
-  final String? objectType;
-
-  /// The ID of a schema object in a Fleet Advisor collector inventory.
-  final String? schemaId;
-
-  FleetAdvisorSchemaObjectResponse({
-    this.codeLineCount,
-    this.codeSize,
-    this.numberOfObjects,
-    this.objectType,
-    this.schemaId,
-  });
-
-  factory FleetAdvisorSchemaObjectResponse.fromJson(Map<String, dynamic> json) {
-    return FleetAdvisorSchemaObjectResponse(
-      codeLineCount: json['CodeLineCount'] as int?,
-      codeSize: json['CodeSize'] as int?,
-      numberOfObjects: json['NumberOfObjects'] as int?,
-      objectType: json['ObjectType'] as String?,
-      schemaId: json['SchemaId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final codeLineCount = this.codeLineCount;
-    final codeSize = this.codeSize;
-    final numberOfObjects = this.numberOfObjects;
-    final objectType = this.objectType;
-    final schemaId = this.schemaId;
-    return {
-      if (codeLineCount != null) 'CodeLineCount': codeLineCount,
-      if (codeSize != null) 'CodeSize': codeSize,
-      if (numberOfObjects != null) 'NumberOfObjects': numberOfObjects,
-      if (objectType != null) 'ObjectType': objectType,
-      if (schemaId != null) 'SchemaId': schemaId,
-    };
-  }
-}
-
-/// Settings in JSON format for the source GCP MySQL endpoint.
-class GcpMySQLSettings {
-  /// Specifies a script to run immediately after DMS connects to the endpoint.
-  /// The migration task continues running regardless if the SQL statement
-  /// succeeds or fails.
-  ///
-  /// For this parameter, provide the code of the script itself, not the name of a
-  /// file containing the script.
-  final String? afterConnectScript;
-
-  /// Cleans and recreates table metadata information on the replication instance
-  /// when a mismatch occurs. For example, in a situation where running an alter
-  /// DDL on the table could result in different information about the table
-  /// cached in the replication instance.
-  final bool? cleanSourceMetadataOnMismatch;
-
-  /// Database name for the endpoint. For a MySQL source or target endpoint, don't
-  /// explicitly specify the database using the <code>DatabaseName</code> request
-  /// parameter on either the <code>CreateEndpoint</code> or
-  /// <code>ModifyEndpoint</code> API call. Specifying <code>DatabaseName</code>
-  /// when you create or modify a MySQL endpoint replicates all the task tables to
-  /// this single database. For MySQL endpoints, you specify the database only
-  /// when you specify the schema in the table-mapping rules of the DMS task.
-  final String? databaseName;
-
-  /// Specifies how often to check the binary log for new changes/events when the
-  /// database is idle. The default is five seconds.
-  ///
-  /// Example: <code>eventsPollInterval=5;</code>
-  ///
-  /// In the example, DMS checks for changes in the binary logs every five
-  /// seconds.
-  final int? eventsPollInterval;
-
-  /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
-  /// a MySQL-compatible database.
-  ///
-  /// Example: <code>maxFileSize=512</code>
-  final int? maxFileSize;
-
-  /// Improves performance when loading data into the MySQL-compatible target
-  /// database. Specifies how many threads to use to load the data into the
-  /// MySQL-compatible target database. Setting a large number of threads can have
-  /// an adverse effect on database performance, because a separate connection is
-  /// required for each thread. The default is one.
-  ///
-  /// Example: <code>parallelLoadThreads=1</code>
-  final int? parallelLoadThreads;
-
-  /// Endpoint connection password.
-  final String? password;
-
-  /// Endpoint TCP port.
-  final int? port;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret.</code> The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the MySQL endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the Database
-  /// Migration Service User Guide.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the MySQL endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// The MySQL host name.
-  final String? serverName;
-
-  /// Specifies the time zone for the source MySQL database.
-  ///
-  /// Example: <code>serverTimezone=US/Pacific;</code>
-  ///
-  /// Note: Do not enclose time zones in single quotes.
-  final String? serverTimezone;
-
-  /// Specifies where to migrate source tables on the target, either to a single
-  /// database or multiple databases.
-  ///
-  /// Example: <code>targetDbType=MULTIPLE_DATABASES</code>
-  final TargetDbType? targetDbType;
-
-  /// Endpoint connection user name.
-  final String? username;
-
-  GcpMySQLSettings({
-    this.afterConnectScript,
-    this.cleanSourceMetadataOnMismatch,
-    this.databaseName,
-    this.eventsPollInterval,
-    this.maxFileSize,
-    this.parallelLoadThreads,
-    this.password,
-    this.port,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.serverTimezone,
-    this.targetDbType,
-    this.username,
-  });
-
-  factory GcpMySQLSettings.fromJson(Map<String, dynamic> json) {
-    return GcpMySQLSettings(
-      afterConnectScript: json['AfterConnectScript'] as String?,
-      cleanSourceMetadataOnMismatch:
-          json['CleanSourceMetadataOnMismatch'] as bool?,
-      databaseName: json['DatabaseName'] as String?,
-      eventsPollInterval: json['EventsPollInterval'] as int?,
-      maxFileSize: json['MaxFileSize'] as int?,
-      parallelLoadThreads: json['ParallelLoadThreads'] as int?,
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      serverTimezone: json['ServerTimezone'] as String?,
-      targetDbType:
-          (json['TargetDbType'] as String?)?.let(TargetDbType.fromString),
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final afterConnectScript = this.afterConnectScript;
-    final cleanSourceMetadataOnMismatch = this.cleanSourceMetadataOnMismatch;
-    final databaseName = this.databaseName;
-    final eventsPollInterval = this.eventsPollInterval;
-    final maxFileSize = this.maxFileSize;
-    final parallelLoadThreads = this.parallelLoadThreads;
-    final password = this.password;
-    final port = this.port;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final serverTimezone = this.serverTimezone;
-    final targetDbType = this.targetDbType;
-    final username = this.username;
-    return {
-      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
-      if (cleanSourceMetadataOnMismatch != null)
-        'CleanSourceMetadataOnMismatch': cleanSourceMetadataOnMismatch,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (eventsPollInterval != null) 'EventsPollInterval': eventsPollInterval,
-      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
-      if (parallelLoadThreads != null)
-        'ParallelLoadThreads': parallelLoadThreads,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (serverTimezone != null) 'ServerTimezone': serverTimezone,
-      if (targetDbType != null) 'TargetDbType': targetDbType.value,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Provides information that defines an IBM Db2 LUW endpoint.
-class IBMDb2Settings {
-  /// For ongoing replication (CDC), use CurrentLSN to specify a log sequence
-  /// number (LSN) where you want the replication to start.
-  final String? currentLsn;
-
-  /// Database name for the endpoint.
-  final String? databaseName;
-
-  /// If true, DMS saves any .csv files to the Db2 LUW target that were used to
-  /// replicate data. DMS uses these files for analysis and troubleshooting.
-  ///
-  /// The default value is false.
-  final bool? keepCsvFiles;
-
-  /// The amount of time (in milliseconds) before DMS times out operations
-  /// performed by DMS on the Db2 target. The default value is 1200 (20 minutes).
-  final int? loadTimeout;
-
-  /// Specifies the maximum size (in KB) of .csv files used to transfer data to
-  /// Db2 LUW.
-  final int? maxFileSize;
-
-  /// Maximum number of bytes per read, as a NUMBER value. The default is 64 KB.
-  final int? maxKBytesPerRead;
-
-  /// Endpoint connection password.
-  final String? password;
-
-  /// Endpoint TCP port. The default value is 50000.
-  final int? port;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the Db2 LUW endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the Db2 LUW endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// Fully qualified domain name of the endpoint.
-  final String? serverName;
-
-  /// Enables ongoing replication (CDC) as a BOOLEAN value. The default is true.
-  final bool? setDataCaptureChanges;
-
-  /// Endpoint connection user name.
-  final String? username;
-
-  /// The size (in KB) of the in-memory file write buffer used when generating
-  /// .csv files on the local disk on the DMS replication instance. The default
-  /// value is 1024 (1 MB).
-  final int? writeBufferSize;
-
-  IBMDb2Settings({
-    this.currentLsn,
-    this.databaseName,
-    this.keepCsvFiles,
-    this.loadTimeout,
-    this.maxFileSize,
-    this.maxKBytesPerRead,
-    this.password,
-    this.port,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.setDataCaptureChanges,
-    this.username,
-    this.writeBufferSize,
-  });
-
-  factory IBMDb2Settings.fromJson(Map<String, dynamic> json) {
-    return IBMDb2Settings(
-      currentLsn: json['CurrentLsn'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      keepCsvFiles: json['KeepCsvFiles'] as bool?,
-      loadTimeout: json['LoadTimeout'] as int?,
-      maxFileSize: json['MaxFileSize'] as int?,
-      maxKBytesPerRead: json['MaxKBytesPerRead'] as int?,
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      setDataCaptureChanges: json['SetDataCaptureChanges'] as bool?,
-      username: json['Username'] as String?,
-      writeBufferSize: json['WriteBufferSize'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentLsn = this.currentLsn;
-    final databaseName = this.databaseName;
-    final keepCsvFiles = this.keepCsvFiles;
-    final loadTimeout = this.loadTimeout;
-    final maxFileSize = this.maxFileSize;
-    final maxKBytesPerRead = this.maxKBytesPerRead;
-    final password = this.password;
-    final port = this.port;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final setDataCaptureChanges = this.setDataCaptureChanges;
-    final username = this.username;
-    final writeBufferSize = this.writeBufferSize;
-    return {
-      if (currentLsn != null) 'CurrentLsn': currentLsn,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (keepCsvFiles != null) 'KeepCsvFiles': keepCsvFiles,
-      if (loadTimeout != null) 'LoadTimeout': loadTimeout,
-      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
-      if (maxKBytesPerRead != null) 'MaxKBytesPerRead': maxKBytesPerRead,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (setDataCaptureChanges != null)
-        'SetDataCaptureChanges': setDataCaptureChanges,
-      if (username != null) 'Username': username,
-      if (writeBufferSize != null) 'WriteBufferSize': writeBufferSize,
+      if (targetSelectionRules != null)
+        'TargetSelectionRules': targetSelectionRules,
     };
   }
 }
@@ -12057,654 +10188,7 @@ class ImportCertificateResponse {
   }
 }
 
-/// Provides information that defines an instance profile.
-class InstanceProfile {
-  /// The Availability Zone where the instance profile runs.
-  final String? availabilityZone;
-
-  /// A description of the instance profile. Descriptions can have up to 31
-  /// characters. A description can contain only ASCII letters, digits, and
-  /// hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive
-  /// hyphens, and can only begin with a letter.
-  final String? description;
-
-  /// The Amazon Resource Name (ARN) string that uniquely identifies the instance
-  /// profile.
-  final String? instanceProfileArn;
-
-  /// The time the instance profile was created.
-  final DateTime? instanceProfileCreationTime;
-
-  /// The user-friendly name for the instance profile.
-  final String? instanceProfileName;
-
-  /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
-  /// connection parameters for the instance profile.
-  ///
-  /// If you don't specify a value for the <code>KmsKeyArn</code> parameter, then
-  /// DMS uses your default encryption key.
-  ///
-  /// KMS creates the default encryption key for your Amazon Web Services account.
-  /// Your Amazon Web Services account has a different default encryption key for
-  /// each Amazon Web Services Region.
-  final String? kmsKeyArn;
-
-  /// Specifies the network type for the instance profile. A value of
-  /// <code>IPV4</code> represents an instance profile with IPv4 network type and
-  /// only supports IPv4 addressing. A value of <code>IPV6</code> represents an
-  /// instance profile with IPv6 network type and only supports IPv6 addressing. A
-  /// value of <code>DUAL</code> represents an instance profile with dual network
-  /// type that supports IPv4 and IPv6 addressing.
-  final String? networkType;
-
-  /// Specifies the accessibility options for the instance profile. A value of
-  /// <code>true</code> represents an instance profile with a public IP address. A
-  /// value of <code>false</code> represents an instance profile with a private IP
-  /// address. The default value is <code>true</code>.
-  final bool? publiclyAccessible;
-
-  /// The identifier of the subnet group that is associated with the instance
-  /// profile.
-  final String? subnetGroupIdentifier;
-
-  /// The VPC security groups that are used with the instance profile. The VPC
-  /// security group must work with the VPC containing the instance profile.
-  final List<String>? vpcSecurityGroups;
-
-  InstanceProfile({
-    this.availabilityZone,
-    this.description,
-    this.instanceProfileArn,
-    this.instanceProfileCreationTime,
-    this.instanceProfileName,
-    this.kmsKeyArn,
-    this.networkType,
-    this.publiclyAccessible,
-    this.subnetGroupIdentifier,
-    this.vpcSecurityGroups,
-  });
-
-  factory InstanceProfile.fromJson(Map<String, dynamic> json) {
-    return InstanceProfile(
-      availabilityZone: json['AvailabilityZone'] as String?,
-      description: json['Description'] as String?,
-      instanceProfileArn: json['InstanceProfileArn'] as String?,
-      instanceProfileCreationTime:
-          timeStampFromJson(json['InstanceProfileCreationTime']),
-      instanceProfileName: json['InstanceProfileName'] as String?,
-      kmsKeyArn: json['KmsKeyArn'] as String?,
-      networkType: json['NetworkType'] as String?,
-      publiclyAccessible: json['PubliclyAccessible'] as bool?,
-      subnetGroupIdentifier: json['SubnetGroupIdentifier'] as String?,
-      vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZone = this.availabilityZone;
-    final description = this.description;
-    final instanceProfileArn = this.instanceProfileArn;
-    final instanceProfileCreationTime = this.instanceProfileCreationTime;
-    final instanceProfileName = this.instanceProfileName;
-    final kmsKeyArn = this.kmsKeyArn;
-    final networkType = this.networkType;
-    final publiclyAccessible = this.publiclyAccessible;
-    final subnetGroupIdentifier = this.subnetGroupIdentifier;
-    final vpcSecurityGroups = this.vpcSecurityGroups;
-    return {
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (description != null) 'Description': description,
-      if (instanceProfileArn != null) 'InstanceProfileArn': instanceProfileArn,
-      if (instanceProfileCreationTime != null)
-        'InstanceProfileCreationTime':
-            iso8601ToJson(instanceProfileCreationTime),
-      if (instanceProfileName != null)
-        'InstanceProfileName': instanceProfileName,
-      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
-      if (networkType != null) 'NetworkType': networkType,
-      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
-      if (subnetGroupIdentifier != null)
-        'SubnetGroupIdentifier': subnetGroupIdentifier,
-      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
-    };
-  }
-}
-
-/// Describes a Fleet Advisor collector inventory.
-class InventoryData {
-  /// The number of databases in the Fleet Advisor collector inventory.
-  final int? numberOfDatabases;
-
-  /// The number of schemas in the Fleet Advisor collector inventory.
-  final int? numberOfSchemas;
-
-  InventoryData({
-    this.numberOfDatabases,
-    this.numberOfSchemas,
-  });
-
-  factory InventoryData.fromJson(Map<String, dynamic> json) {
-    return InventoryData(
-      numberOfDatabases: json['NumberOfDatabases'] as int?,
-      numberOfSchemas: json['NumberOfSchemas'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final numberOfDatabases = this.numberOfDatabases;
-    final numberOfSchemas = this.numberOfSchemas;
-    return {
-      if (numberOfDatabases != null) 'NumberOfDatabases': numberOfDatabases,
-      if (numberOfSchemas != null) 'NumberOfSchemas': numberOfSchemas,
-    };
-  }
-}
-
-class KafkaSaslMechanism {
-  static const scramSha_512 = KafkaSaslMechanism._('scram-sha-512');
-  static const plain = KafkaSaslMechanism._('plain');
-
-  final String value;
-
-  const KafkaSaslMechanism._(this.value);
-
-  static const values = [scramSha_512, plain];
-
-  static KafkaSaslMechanism fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KafkaSaslMechanism._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KafkaSaslMechanism && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class KafkaSecurityProtocol {
-  static const plaintext = KafkaSecurityProtocol._('plaintext');
-  static const sslAuthentication =
-      KafkaSecurityProtocol._('ssl-authentication');
-  static const sslEncryption = KafkaSecurityProtocol._('ssl-encryption');
-  static const saslSsl = KafkaSecurityProtocol._('sasl-ssl');
-
-  final String value;
-
-  const KafkaSecurityProtocol._(this.value);
-
-  static const values = [plaintext, sslAuthentication, sslEncryption, saslSsl];
-
-  static KafkaSecurityProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KafkaSecurityProtocol._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KafkaSecurityProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information that describes an Apache Kafka endpoint. This
-/// information includes the output format of records applied to the endpoint
-/// and details of transaction and control table data information.
-class KafkaSettings {
-  /// A comma-separated list of one or more broker locations in your Kafka cluster
-  /// that host your Kafka instance. Specify each broker location in the form
-  /// <code> <i>broker-hostname-or-ip</i>:<i>port</i> </code>. For example,
-  /// <code>"ec2-12-345-678-901.compute-1.amazonaws.com:2345"</code>. For more
-  /// information and examples of specifying a list of broker locations, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html">Using
-  /// Apache Kafka as a target for Database Migration Service</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  final String? broker;
-
-  /// Shows detailed control information for table definition, column definition,
-  /// and table and column changes in the Kafka message output. The default is
-  /// <code>false</code>.
-  final bool? includeControlDetails;
-
-  /// Include NULL and empty columns for records migrated to the endpoint. The
-  /// default is <code>false</code>.
-  final bool? includeNullAndEmpty;
-
-  /// Shows the partition value within the Kafka message output unless the
-  /// partition type is <code>schema-table-type</code>. The default is
-  /// <code>false</code>.
-  final bool? includePartitionValue;
-
-  /// Includes any data definition language (DDL) operations that change the table
-  /// in the control data, such as <code>rename-table</code>,
-  /// <code>drop-table</code>, <code>add-column</code>, <code>drop-column</code>,
-  /// and <code>rename-column</code>. The default is <code>false</code>.
-  final bool? includeTableAlterOperations;
-
-  /// Provides detailed transaction information from the source database. This
-  /// information includes a commit timestamp, a log position, and values for
-  /// <code>transaction_id</code>, previous <code>transaction_id</code>, and
-  /// <code>transaction_record_id</code> (the record offset within a transaction).
-  /// The default is <code>false</code>.
-  final bool? includeTransactionDetails;
-
-  /// The output format for the records created on the endpoint. The message
-  /// format is <code>JSON</code> (default) or <code>JSON_UNFORMATTED</code> (a
-  /// single line with no tab).
-  final MessageFormatValue? messageFormat;
-
-  /// The maximum size in bytes for records created on the endpoint The default is
-  /// 1,000,000.
-  final int? messageMaxBytes;
-
-  /// Set this optional parameter to <code>true</code> to avoid adding a '0x'
-  /// prefix to raw data in hexadecimal format. For example, by default, DMS adds
-  /// a '0x' prefix to the LOB column type in hexadecimal format moving from an
-  /// Oracle source to a Kafka target. Use the <code>NoHexPrefix</code> endpoint
-  /// setting to enable migration of RAW data type columns without adding the '0x'
-  /// prefix.
-  final bool? noHexPrefix;
-
-  /// Prefixes schema and table names to partition values, when the partition type
-  /// is <code>primary-key-type</code>. Doing this increases data distribution
-  /// among Kafka partitions. For example, suppose that a SysBench schema has
-  /// thousands of tables and each table has only limited range for a primary key.
-  /// In this case, the same primary key is sent from thousands of tables to the
-  /// same partition, which causes throttling. The default is <code>false</code>.
-  final bool? partitionIncludeSchemaTable;
-
-  /// For SASL/SSL authentication, DMS supports the <code>SCRAM-SHA-512</code>
-  /// mechanism by default. DMS versions 3.5.0 and later also support the
-  /// <code>PLAIN</code> mechanism. To use the <code>PLAIN</code> mechanism, set
-  /// this parameter to <code>PLAIN.</code>
-  final KafkaSaslMechanism? saslMechanism;
-
-  /// The secure password you created when you first set up your MSK cluster to
-  /// validate a client identity and make an encrypted connection between server
-  /// and client using SASL-SSL authentication.
-  final String? saslPassword;
-
-  /// The secure user name you created when you first set up your MSK cluster to
-  /// validate a client identity and make an encrypted connection between server
-  /// and client using SASL-SSL authentication.
-  final String? saslUsername;
-
-  /// Set secure connection to a Kafka target endpoint using Transport Layer
-  /// Security (TLS). Options include <code>ssl-encryption</code>,
-  /// <code>ssl-authentication</code>, and <code>sasl-ssl</code>.
-  /// <code>sasl-ssl</code> requires <code>SaslUsername</code> and
-  /// <code>SaslPassword</code>.
-  final KafkaSecurityProtocol? securityProtocol;
-
-  /// The Amazon Resource Name (ARN) for the private certificate authority (CA)
-  /// cert that DMS uses to securely connect to your Kafka target endpoint.
-  final String? sslCaCertificateArn;
-
-  /// The Amazon Resource Name (ARN) of the client certificate used to securely
-  /// connect to a Kafka target endpoint.
-  final String? sslClientCertificateArn;
-
-  /// The Amazon Resource Name (ARN) for the client private key used to securely
-  /// connect to a Kafka target endpoint.
-  final String? sslClientKeyArn;
-
-  /// The password for the client private key used to securely connect to a Kafka
-  /// target endpoint.
-  final String? sslClientKeyPassword;
-
-  /// Sets hostname verification for the certificate. This setting is supported in
-  /// DMS version 3.5.1 and later.
-  final KafkaSslEndpointIdentificationAlgorithm?
-      sslEndpointIdentificationAlgorithm;
-
-  /// The topic to which you migrate the data. If you don't specify a topic, DMS
-  /// specifies <code>"kafka-default-topic"</code> as the migration topic.
-  final String? topic;
-
-  KafkaSettings({
-    this.broker,
-    this.includeControlDetails,
-    this.includeNullAndEmpty,
-    this.includePartitionValue,
-    this.includeTableAlterOperations,
-    this.includeTransactionDetails,
-    this.messageFormat,
-    this.messageMaxBytes,
-    this.noHexPrefix,
-    this.partitionIncludeSchemaTable,
-    this.saslMechanism,
-    this.saslPassword,
-    this.saslUsername,
-    this.securityProtocol,
-    this.sslCaCertificateArn,
-    this.sslClientCertificateArn,
-    this.sslClientKeyArn,
-    this.sslClientKeyPassword,
-    this.sslEndpointIdentificationAlgorithm,
-    this.topic,
-  });
-
-  factory KafkaSettings.fromJson(Map<String, dynamic> json) {
-    return KafkaSettings(
-      broker: json['Broker'] as String?,
-      includeControlDetails: json['IncludeControlDetails'] as bool?,
-      includeNullAndEmpty: json['IncludeNullAndEmpty'] as bool?,
-      includePartitionValue: json['IncludePartitionValue'] as bool?,
-      includeTableAlterOperations: json['IncludeTableAlterOperations'] as bool?,
-      includeTransactionDetails: json['IncludeTransactionDetails'] as bool?,
-      messageFormat: (json['MessageFormat'] as String?)
-          ?.let(MessageFormatValue.fromString),
-      messageMaxBytes: json['MessageMaxBytes'] as int?,
-      noHexPrefix: json['NoHexPrefix'] as bool?,
-      partitionIncludeSchemaTable: json['PartitionIncludeSchemaTable'] as bool?,
-      saslMechanism: (json['SaslMechanism'] as String?)
-          ?.let(KafkaSaslMechanism.fromString),
-      saslPassword: json['SaslPassword'] as String?,
-      saslUsername: json['SaslUsername'] as String?,
-      securityProtocol: (json['SecurityProtocol'] as String?)
-          ?.let(KafkaSecurityProtocol.fromString),
-      sslCaCertificateArn: json['SslCaCertificateArn'] as String?,
-      sslClientCertificateArn: json['SslClientCertificateArn'] as String?,
-      sslClientKeyArn: json['SslClientKeyArn'] as String?,
-      sslClientKeyPassword: json['SslClientKeyPassword'] as String?,
-      sslEndpointIdentificationAlgorithm:
-          (json['SslEndpointIdentificationAlgorithm'] as String?)
-              ?.let(KafkaSslEndpointIdentificationAlgorithm.fromString),
-      topic: json['Topic'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final broker = this.broker;
-    final includeControlDetails = this.includeControlDetails;
-    final includeNullAndEmpty = this.includeNullAndEmpty;
-    final includePartitionValue = this.includePartitionValue;
-    final includeTableAlterOperations = this.includeTableAlterOperations;
-    final includeTransactionDetails = this.includeTransactionDetails;
-    final messageFormat = this.messageFormat;
-    final messageMaxBytes = this.messageMaxBytes;
-    final noHexPrefix = this.noHexPrefix;
-    final partitionIncludeSchemaTable = this.partitionIncludeSchemaTable;
-    final saslMechanism = this.saslMechanism;
-    final saslPassword = this.saslPassword;
-    final saslUsername = this.saslUsername;
-    final securityProtocol = this.securityProtocol;
-    final sslCaCertificateArn = this.sslCaCertificateArn;
-    final sslClientCertificateArn = this.sslClientCertificateArn;
-    final sslClientKeyArn = this.sslClientKeyArn;
-    final sslClientKeyPassword = this.sslClientKeyPassword;
-    final sslEndpointIdentificationAlgorithm =
-        this.sslEndpointIdentificationAlgorithm;
-    final topic = this.topic;
-    return {
-      if (broker != null) 'Broker': broker,
-      if (includeControlDetails != null)
-        'IncludeControlDetails': includeControlDetails,
-      if (includeNullAndEmpty != null)
-        'IncludeNullAndEmpty': includeNullAndEmpty,
-      if (includePartitionValue != null)
-        'IncludePartitionValue': includePartitionValue,
-      if (includeTableAlterOperations != null)
-        'IncludeTableAlterOperations': includeTableAlterOperations,
-      if (includeTransactionDetails != null)
-        'IncludeTransactionDetails': includeTransactionDetails,
-      if (messageFormat != null) 'MessageFormat': messageFormat.value,
-      if (messageMaxBytes != null) 'MessageMaxBytes': messageMaxBytes,
-      if (noHexPrefix != null) 'NoHexPrefix': noHexPrefix,
-      if (partitionIncludeSchemaTable != null)
-        'PartitionIncludeSchemaTable': partitionIncludeSchemaTable,
-      if (saslMechanism != null) 'SaslMechanism': saslMechanism.value,
-      if (saslPassword != null) 'SaslPassword': saslPassword,
-      if (saslUsername != null) 'SaslUsername': saslUsername,
-      if (securityProtocol != null) 'SecurityProtocol': securityProtocol.value,
-      if (sslCaCertificateArn != null)
-        'SslCaCertificateArn': sslCaCertificateArn,
-      if (sslClientCertificateArn != null)
-        'SslClientCertificateArn': sslClientCertificateArn,
-      if (sslClientKeyArn != null) 'SslClientKeyArn': sslClientKeyArn,
-      if (sslClientKeyPassword != null)
-        'SslClientKeyPassword': sslClientKeyPassword,
-      if (sslEndpointIdentificationAlgorithm != null)
-        'SslEndpointIdentificationAlgorithm':
-            sslEndpointIdentificationAlgorithm.value,
-      if (topic != null) 'Topic': topic,
-    };
-  }
-}
-
-class KafkaSslEndpointIdentificationAlgorithm {
-  static const none = KafkaSslEndpointIdentificationAlgorithm._('none');
-  static const https = KafkaSslEndpointIdentificationAlgorithm._('https');
-
-  final String value;
-
-  const KafkaSslEndpointIdentificationAlgorithm._(this.value);
-
-  static const values = [none, https];
-
-  static KafkaSslEndpointIdentificationAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KafkaSslEndpointIdentificationAlgorithm._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KafkaSslEndpointIdentificationAlgorithm && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information that describes an Amazon Kinesis Data Stream endpoint.
-/// This information includes the output format of records applied to the
-/// endpoint and details of transaction and control table data information.
-class KinesisSettings {
-  /// Shows detailed control information for table definition, column definition,
-  /// and table and column changes in the Kinesis message output. The default is
-  /// <code>false</code>.
-  final bool? includeControlDetails;
-
-  /// Include NULL and empty columns for records migrated to the endpoint. The
-  /// default is <code>false</code>.
-  final bool? includeNullAndEmpty;
-
-  /// Shows the partition value within the Kinesis message output, unless the
-  /// partition type is <code>schema-table-type</code>. The default is
-  /// <code>false</code>.
-  final bool? includePartitionValue;
-
-  /// Includes any data definition language (DDL) operations that change the table
-  /// in the control data, such as <code>rename-table</code>,
-  /// <code>drop-table</code>, <code>add-column</code>, <code>drop-column</code>,
-  /// and <code>rename-column</code>. The default is <code>false</code>.
-  final bool? includeTableAlterOperations;
-
-  /// Provides detailed transaction information from the source database. This
-  /// information includes a commit timestamp, a log position, and values for
-  /// <code>transaction_id</code>, previous <code>transaction_id</code>, and
-  /// <code>transaction_record_id</code> (the record offset within a transaction).
-  /// The default is <code>false</code>.
-  final bool? includeTransactionDetails;
-
-  /// The output format for the records created on the endpoint. The message
-  /// format is <code>JSON</code> (default) or <code>JSON_UNFORMATTED</code> (a
-  /// single line with no tab).
-  final MessageFormatValue? messageFormat;
-
-  /// Set this optional parameter to <code>true</code> to avoid adding a '0x'
-  /// prefix to raw data in hexadecimal format. For example, by default, DMS adds
-  /// a '0x' prefix to the LOB column type in hexadecimal format moving from an
-  /// Oracle source to an Amazon Kinesis target. Use the <code>NoHexPrefix</code>
-  /// endpoint setting to enable migration of RAW data type columns without adding
-  /// the '0x' prefix.
-  final bool? noHexPrefix;
-
-  /// Prefixes schema and table names to partition values, when the partition type
-  /// is <code>primary-key-type</code>. Doing this increases data distribution
-  /// among Kinesis shards. For example, suppose that a SysBench schema has
-  /// thousands of tables and each table has only limited range for a primary key.
-  /// In this case, the same primary key is sent from thousands of tables to the
-  /// same shard, which causes throttling. The default is <code>false</code>.
-  final bool? partitionIncludeSchemaTable;
-
-  /// The Amazon Resource Name (ARN) for the IAM role that DMS uses to write to
-  /// the Kinesis data stream. The role must allow the <code>iam:PassRole</code>
-  /// action.
-  final String? serviceAccessRoleArn;
-
-  /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
-  final String? streamArn;
-
-  KinesisSettings({
-    this.includeControlDetails,
-    this.includeNullAndEmpty,
-    this.includePartitionValue,
-    this.includeTableAlterOperations,
-    this.includeTransactionDetails,
-    this.messageFormat,
-    this.noHexPrefix,
-    this.partitionIncludeSchemaTable,
-    this.serviceAccessRoleArn,
-    this.streamArn,
-  });
-
-  factory KinesisSettings.fromJson(Map<String, dynamic> json) {
-    return KinesisSettings(
-      includeControlDetails: json['IncludeControlDetails'] as bool?,
-      includeNullAndEmpty: json['IncludeNullAndEmpty'] as bool?,
-      includePartitionValue: json['IncludePartitionValue'] as bool?,
-      includeTableAlterOperations: json['IncludeTableAlterOperations'] as bool?,
-      includeTransactionDetails: json['IncludeTransactionDetails'] as bool?,
-      messageFormat: (json['MessageFormat'] as String?)
-          ?.let(MessageFormatValue.fromString),
-      noHexPrefix: json['NoHexPrefix'] as bool?,
-      partitionIncludeSchemaTable: json['PartitionIncludeSchemaTable'] as bool?,
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
-      streamArn: json['StreamArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final includeControlDetails = this.includeControlDetails;
-    final includeNullAndEmpty = this.includeNullAndEmpty;
-    final includePartitionValue = this.includePartitionValue;
-    final includeTableAlterOperations = this.includeTableAlterOperations;
-    final includeTransactionDetails = this.includeTransactionDetails;
-    final messageFormat = this.messageFormat;
-    final noHexPrefix = this.noHexPrefix;
-    final partitionIncludeSchemaTable = this.partitionIncludeSchemaTable;
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    final streamArn = this.streamArn;
-    return {
-      if (includeControlDetails != null)
-        'IncludeControlDetails': includeControlDetails,
-      if (includeNullAndEmpty != null)
-        'IncludeNullAndEmpty': includeNullAndEmpty,
-      if (includePartitionValue != null)
-        'IncludePartitionValue': includePartitionValue,
-      if (includeTableAlterOperations != null)
-        'IncludeTableAlterOperations': includeTableAlterOperations,
-      if (includeTransactionDetails != null)
-        'IncludeTransactionDetails': includeTransactionDetails,
-      if (messageFormat != null) 'MessageFormat': messageFormat.value,
-      if (noHexPrefix != null) 'NoHexPrefix': noHexPrefix,
-      if (partitionIncludeSchemaTable != null)
-        'PartitionIncludeSchemaTable': partitionIncludeSchemaTable,
-      if (serviceAccessRoleArn != null)
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-      if (streamArn != null) 'StreamArn': streamArn,
-    };
-  }
-}
-
-/// Provides information about the limitations of target Amazon Web Services
-/// engines.
 ///
-/// Your source database might include features that the target Amazon Web
-/// Services engine doesn't support. Fleet Advisor lists these features as
-/// limitations. You should consider these limitations during database
-/// migration. For each limitation, Fleet Advisor recommends an action that you
-/// can take to address or avoid this limitation.
-class Limitation {
-  /// The identifier of the source database.
-  final String? databaseId;
-
-  /// A description of the limitation. Provides additional information about the
-  /// limitation, and includes recommended actions that you can take to address or
-  /// avoid this limitation.
-  final String? description;
-
-  /// The name of the target engine that Fleet Advisor should use in the target
-  /// engine recommendation. Valid values include <code>"rds-aurora-mysql"</code>,
-  /// <code>"rds-aurora-postgresql"</code>, <code>"rds-mysql"</code>,
-  /// <code>"rds-oracle"</code>, <code>"rds-sql-server"</code>, and
-  /// <code>"rds-postgresql"</code>.
-  final String? engineName;
-
-  /// The impact of the limitation. You can use this parameter to prioritize
-  /// limitations that you want to address. Valid values include
-  /// <code>"Blocker"</code>, <code>"High"</code>, <code>"Medium"</code>, and
-  /// <code>"Low"</code>.
-  final String? impact;
-
-  /// The name of the limitation. Describes unsupported database features,
-  /// migration action items, and other limitations.
-  final String? name;
-
-  /// The type of the limitation, such as action required, upgrade required, and
-  /// limited feature.
-  final String? type;
-
-  Limitation({
-    this.databaseId,
-    this.description,
-    this.engineName,
-    this.impact,
-    this.name,
-    this.type,
-  });
-
-  factory Limitation.fromJson(Map<String, dynamic> json) {
-    return Limitation(
-      databaseId: json['DatabaseId'] as String?,
-      description: json['Description'] as String?,
-      engineName: json['EngineName'] as String?,
-      impact: json['Impact'] as String?,
-      name: json['Name'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseId = this.databaseId;
-    final description = this.description;
-    final engineName = this.engineName;
-    final impact = this.impact;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (databaseId != null) 'DatabaseId': databaseId,
-      if (description != null) 'Description': description,
-      if (engineName != null) 'EngineName': engineName,
-      if (impact != null) 'Impact': impact,
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// <p/>
 class ListTagsForResourceResponse {
   /// A list of tags for the resource.
   final List<Tag>? tagList;
@@ -12730,501 +10214,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-class LongVarcharMappingType {
-  static const wstring = LongVarcharMappingType._('wstring');
-  static const clob = LongVarcharMappingType._('clob');
-  static const nclob = LongVarcharMappingType._('nclob');
-
-  final String value;
-
-  const LongVarcharMappingType._(this.value);
-
-  static const values = [wstring, clob, nclob];
-
-  static LongVarcharMappingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LongVarcharMappingType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LongVarcharMappingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information that defines a MariaDB data provider.
-class MariaDbDataProviderSettings {
-  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-  final String? certificateArn;
-
-  /// The port value for the MariaDB data provider
-  final int? port;
-
-  /// The name of the MariaDB server.
-  final String? serverName;
-
-  /// The SSL mode used to connect to the MariaDB data provider. The default value
-  /// is <code>none</code>.
-  final DmsSslModeValue? sslMode;
-
-  MariaDbDataProviderSettings({
-    this.certificateArn,
-    this.port,
-    this.serverName,
-    this.sslMode,
-  });
-
-  factory MariaDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
-    return MariaDbDataProviderSettings(
-      certificateArn: json['CertificateArn'] as String?,
-      port: json['Port'] as int?,
-      serverName: json['ServerName'] as String?,
-      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final port = this.port;
-    final serverName = this.serverName;
-    final sslMode = this.sslMode;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (port != null) 'Port': port,
-      if (serverName != null) 'ServerName': serverName,
-      if (sslMode != null) 'SslMode': sslMode.value,
-    };
-  }
-}
-
-class MessageFormatValue {
-  static const json = MessageFormatValue._('json');
-  static const jsonUnformatted = MessageFormatValue._('json-unformatted');
-
-  final String value;
-
-  const MessageFormatValue._(this.value);
-
-  static const values = [json, jsonUnformatted];
-
-  static MessageFormatValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MessageFormatValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MessageFormatValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information that defines a Microsoft SQL Server endpoint.
-class MicrosoftSQLServerSettings {
-  /// The maximum size of the packets (in bytes) used to transfer data using BCP.
-  final int? bcpPacketSize;
-
-  /// Specifies a file group for the DMS internal tables. When the replication
-  /// task starts, all the internal DMS control tables (awsdms_ apply_exception,
-  /// awsdms_apply, awsdms_changes) are created for the specified file group.
-  final String? controlTablesFileGroup;
-
-  /// Database name for the endpoint.
-  final String? databaseName;
-
-  /// Forces LOB lookup on inline LOB.
-  final bool? forceLobLookup;
-
-  /// Endpoint connection password.
-  final String? password;
-
-  /// Endpoint TCP port.
-  final int? port;
-
-  /// Cleans and recreates table metadata information on the replication instance
-  /// when a mismatch occurs. An example is a situation where running an alter DDL
-  /// statement on a table might result in different information about the table
-  /// cached in the replication instance.
-  final bool? querySingleAlwaysOnNode;
-
-  /// When this attribute is set to <code>Y</code>, DMS only reads changes from
-  /// transaction log backups and doesn't read from the active transaction log
-  /// file during ongoing replication. Setting this parameter to <code>Y</code>
-  /// enables you to control active transaction log file growth during full load
-  /// and ongoing replication tasks. However, it can add some source latency to
-  /// ongoing replication.
-  final bool? readBackupOnly;
-
-  /// Use this attribute to minimize the need to access the backup log and enable
-  /// DMS to prevent truncation using one of the following two methods.
-  ///
-  /// <i>Start transactions in the database:</i> This is the default method. When
-  /// this method is used, DMS prevents TLOG truncation by mimicking a transaction
-  /// in the database. As long as such a transaction is open, changes that appear
-  /// after the transaction started aren't truncated. If you need Microsoft
-  /// Replication to be enabled in your database, then you must choose this
-  /// method.
-  ///
-  /// <i>Exclusively use sp_repldone within a single task</i>: When this method is
-  /// used, DMS reads the changes and then uses sp_repldone to mark the TLOG
-  /// transactions as ready for truncation. Although this method doesn't involve
-  /// any transactional activities, it can only be used when Microsoft Replication
-  /// isn't running. Also, when using this method, only one DMS task can access
-  /// the database at any given time. Therefore, if you need to run parallel DMS
-  /// tasks against the same database, use the default method.
-  final SafeguardPolicy? safeguardPolicy;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the SQL Server endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the SQL Server endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// Fully qualified domain name of the endpoint. For an Amazon RDS SQL Server
-  /// instance, this is the output of <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html">DescribeDBInstances</a>,
-  /// in the <code> <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html">Endpoint</a>.Address</code>
-  /// field.
-  final String? serverName;
-
-  /// Indicates the mode used to fetch CDC data.
-  final TlogAccessMode? tlogAccessMode;
-
-  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to right-trim
-  /// data on CHAR and NCHAR data types during migration. Setting
-  /// <code>TrimSpaceInChar</code> does not left-trim data. The default value is
-  /// <code>true</code>.
-  final bool? trimSpaceInChar;
-
-  /// Use this to attribute to transfer data for full-load operations using BCP.
-  /// When the target table contains an identity column that does not exist in the
-  /// source table, you must disable the use BCP for loading table option.
-  final bool? useBcpFullLoad;
-
-  /// When this attribute is set to <code>Y</code>, DMS processes third-party
-  /// transaction log backups if they are created in native format.
-  final bool? useThirdPartyBackupDevice;
-
-  /// Endpoint connection user name.
-  final String? username;
-
-  MicrosoftSQLServerSettings({
-    this.bcpPacketSize,
-    this.controlTablesFileGroup,
-    this.databaseName,
-    this.forceLobLookup,
-    this.password,
-    this.port,
-    this.querySingleAlwaysOnNode,
-    this.readBackupOnly,
-    this.safeguardPolicy,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.tlogAccessMode,
-    this.trimSpaceInChar,
-    this.useBcpFullLoad,
-    this.useThirdPartyBackupDevice,
-    this.username,
-  });
-
-  factory MicrosoftSQLServerSettings.fromJson(Map<String, dynamic> json) {
-    return MicrosoftSQLServerSettings(
-      bcpPacketSize: json['BcpPacketSize'] as int?,
-      controlTablesFileGroup: json['ControlTablesFileGroup'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      forceLobLookup: json['ForceLobLookup'] as bool?,
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      querySingleAlwaysOnNode: json['QuerySingleAlwaysOnNode'] as bool?,
-      readBackupOnly: json['ReadBackupOnly'] as bool?,
-      safeguardPolicy:
-          (json['SafeguardPolicy'] as String?)?.let(SafeguardPolicy.fromString),
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      tlogAccessMode:
-          (json['TlogAccessMode'] as String?)?.let(TlogAccessMode.fromString),
-      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
-      useBcpFullLoad: json['UseBcpFullLoad'] as bool?,
-      useThirdPartyBackupDevice: json['UseThirdPartyBackupDevice'] as bool?,
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bcpPacketSize = this.bcpPacketSize;
-    final controlTablesFileGroup = this.controlTablesFileGroup;
-    final databaseName = this.databaseName;
-    final forceLobLookup = this.forceLobLookup;
-    final password = this.password;
-    final port = this.port;
-    final querySingleAlwaysOnNode = this.querySingleAlwaysOnNode;
-    final readBackupOnly = this.readBackupOnly;
-    final safeguardPolicy = this.safeguardPolicy;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final tlogAccessMode = this.tlogAccessMode;
-    final trimSpaceInChar = this.trimSpaceInChar;
-    final useBcpFullLoad = this.useBcpFullLoad;
-    final useThirdPartyBackupDevice = this.useThirdPartyBackupDevice;
-    final username = this.username;
-    return {
-      if (bcpPacketSize != null) 'BcpPacketSize': bcpPacketSize,
-      if (controlTablesFileGroup != null)
-        'ControlTablesFileGroup': controlTablesFileGroup,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (forceLobLookup != null) 'ForceLobLookup': forceLobLookup,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (querySingleAlwaysOnNode != null)
-        'QuerySingleAlwaysOnNode': querySingleAlwaysOnNode,
-      if (readBackupOnly != null) 'ReadBackupOnly': readBackupOnly,
-      if (safeguardPolicy != null) 'SafeguardPolicy': safeguardPolicy.value,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (tlogAccessMode != null) 'TlogAccessMode': tlogAccessMode.value,
-      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
-      if (useBcpFullLoad != null) 'UseBcpFullLoad': useBcpFullLoad,
-      if (useThirdPartyBackupDevice != null)
-        'UseThirdPartyBackupDevice': useThirdPartyBackupDevice,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Provides information that defines a Microsoft SQL Server data provider.
-class MicrosoftSqlServerDataProviderSettings {
-  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-  final String? certificateArn;
-
-  /// The database name on the Microsoft SQL Server data provider.
-  final String? databaseName;
-
-  /// The port value for the Microsoft SQL Server data provider.
-  final int? port;
-
-  /// The name of the Microsoft SQL Server server.
-  final String? serverName;
-
-  /// The SSL mode used to connect to the Microsoft SQL Server data provider. The
-  /// default value is <code>none</code>.
-  final DmsSslModeValue? sslMode;
-
-  MicrosoftSqlServerDataProviderSettings({
-    this.certificateArn,
-    this.databaseName,
-    this.port,
-    this.serverName,
-    this.sslMode,
-  });
-
-  factory MicrosoftSqlServerDataProviderSettings.fromJson(
-      Map<String, dynamic> json) {
-    return MicrosoftSqlServerDataProviderSettings(
-      certificateArn: json['CertificateArn'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      port: json['Port'] as int?,
-      serverName: json['ServerName'] as String?,
-      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final databaseName = this.databaseName;
-    final port = this.port;
-    final serverName = this.serverName;
-    final sslMode = this.sslMode;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (port != null) 'Port': port,
-      if (serverName != null) 'ServerName': serverName,
-      if (sslMode != null) 'SslMode': sslMode.value,
-    };
-  }
-}
-
-/// Provides information that defines a migration project.
-class MigrationProject {
-  /// A user-friendly description of the migration project.
-  final String? description;
-
-  /// The Amazon Resource Name (ARN) of the instance profile for your migration
-  /// project.
-  final String? instanceProfileArn;
-
-  /// The name of the associated instance profile.
-  final String? instanceProfileName;
-
-  /// The ARN string that uniquely identifies the migration project.
-  final String? migrationProjectArn;
-
-  /// The time when the migration project was created.
-  final DateTime? migrationProjectCreationTime;
-
-  /// The name of the migration project.
-  final String? migrationProjectName;
-
-  /// The schema conversion application attributes, including the Amazon S3 bucket
-  /// name and Amazon S3 role ARN.
-  final SCApplicationAttributes? schemaConversionApplicationAttributes;
-
-  /// Information about the source data provider, including the name or ARN, and
-  /// Secrets Manager parameters.
-  final List<DataProviderDescriptor>? sourceDataProviderDescriptors;
-
-  /// Information about the target data provider, including the name or ARN, and
-  /// Secrets Manager parameters.
-  final List<DataProviderDescriptor>? targetDataProviderDescriptors;
-
-  /// The settings in JSON format for migration rules. Migration rules make it
-  /// possible for you to change the object names according to the rules that you
-  /// specify. For example, you can change an object name to lowercase or
-  /// uppercase, add or remove a prefix or suffix, or rename objects.
-  final String? transformationRules;
-
-  MigrationProject({
-    this.description,
-    this.instanceProfileArn,
-    this.instanceProfileName,
-    this.migrationProjectArn,
-    this.migrationProjectCreationTime,
-    this.migrationProjectName,
-    this.schemaConversionApplicationAttributes,
-    this.sourceDataProviderDescriptors,
-    this.targetDataProviderDescriptors,
-    this.transformationRules,
-  });
-
-  factory MigrationProject.fromJson(Map<String, dynamic> json) {
-    return MigrationProject(
-      description: json['Description'] as String?,
-      instanceProfileArn: json['InstanceProfileArn'] as String?,
-      instanceProfileName: json['InstanceProfileName'] as String?,
-      migrationProjectArn: json['MigrationProjectArn'] as String?,
-      migrationProjectCreationTime:
-          timeStampFromJson(json['MigrationProjectCreationTime']),
-      migrationProjectName: json['MigrationProjectName'] as String?,
-      schemaConversionApplicationAttributes:
-          json['SchemaConversionApplicationAttributes'] != null
-              ? SCApplicationAttributes.fromJson(
-                  json['SchemaConversionApplicationAttributes']
-                      as Map<String, dynamic>)
-              : null,
-      sourceDataProviderDescriptors: (json['SourceDataProviderDescriptors']
-              as List?)
-          ?.nonNulls
-          .map(
-              (e) => DataProviderDescriptor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      targetDataProviderDescriptors: (json['TargetDataProviderDescriptors']
-              as List?)
-          ?.nonNulls
-          .map(
-              (e) => DataProviderDescriptor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      transformationRules: json['TransformationRules'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final instanceProfileArn = this.instanceProfileArn;
-    final instanceProfileName = this.instanceProfileName;
-    final migrationProjectArn = this.migrationProjectArn;
-    final migrationProjectCreationTime = this.migrationProjectCreationTime;
-    final migrationProjectName = this.migrationProjectName;
-    final schemaConversionApplicationAttributes =
-        this.schemaConversionApplicationAttributes;
-    final sourceDataProviderDescriptors = this.sourceDataProviderDescriptors;
-    final targetDataProviderDescriptors = this.targetDataProviderDescriptors;
-    final transformationRules = this.transformationRules;
-    return {
-      if (description != null) 'Description': description,
-      if (instanceProfileArn != null) 'InstanceProfileArn': instanceProfileArn,
-      if (instanceProfileName != null)
-        'InstanceProfileName': instanceProfileName,
-      if (migrationProjectArn != null)
-        'MigrationProjectArn': migrationProjectArn,
-      if (migrationProjectCreationTime != null)
-        'MigrationProjectCreationTime':
-            iso8601ToJson(migrationProjectCreationTime),
-      if (migrationProjectName != null)
-        'MigrationProjectName': migrationProjectName,
-      if (schemaConversionApplicationAttributes != null)
-        'SchemaConversionApplicationAttributes':
-            schemaConversionApplicationAttributes,
-      if (sourceDataProviderDescriptors != null)
-        'SourceDataProviderDescriptors': sourceDataProviderDescriptors,
-      if (targetDataProviderDescriptors != null)
-        'TargetDataProviderDescriptors': targetDataProviderDescriptors,
-      if (transformationRules != null)
-        'TransformationRules': transformationRules,
-    };
-  }
-}
-
-class MigrationTypeValue {
-  static const fullLoad = MigrationTypeValue._('full-load');
-  static const cdc = MigrationTypeValue._('cdc');
-  static const fullLoadAndCdc = MigrationTypeValue._('full-load-and-cdc');
-
-  final String value;
-
-  const MigrationTypeValue._(this.value);
-
-  static const values = [fullLoad, cdc, fullLoadAndCdc];
-
-  static MigrationTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MigrationTypeValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MigrationTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ModifyConversionConfigurationResponse {
   /// The name or Amazon Resource Name (ARN) of the modified configuration.
   final String? migrationProjectIdentifier;
@@ -13245,6 +10234,31 @@ class ModifyConversionConfigurationResponse {
     return {
       if (migrationProjectIdentifier != null)
         'MigrationProjectIdentifier': migrationProjectIdentifier,
+    };
+  }
+}
+
+class ModifyDataMigrationResponse {
+  /// Information about the modified data migration.
+  final DataMigration? dataMigration;
+
+  ModifyDataMigrationResponse({
+    this.dataMigration,
+  });
+
+  factory ModifyDataMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyDataMigrationResponse(
+      dataMigration: json['DataMigration'] != null
+          ? DataMigration.fromJson(
+              json['DataMigration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataMigration = this.dataMigration;
+    return {
+      if (dataMigration != null) 'DataMigration': dataMigration,
     };
   }
 }
@@ -13273,7 +10287,7 @@ class ModifyDataProviderResponse {
   }
 }
 
-/// <p/>
+///
 class ModifyEndpointResponse {
   /// The modified endpoint.
   final Endpoint? endpoint;
@@ -13298,7 +10312,7 @@ class ModifyEndpointResponse {
   }
 }
 
-/// <p/>
+///
 class ModifyEventSubscriptionResponse {
   /// The modified event subscription.
   final EventSubscription? eventSubscription;
@@ -13399,7 +10413,7 @@ class ModifyReplicationConfigResponse {
   }
 }
 
-/// <p/>
+///
 class ModifyReplicationInstanceResponse {
   /// The modified replication instance.
   final ReplicationInstance? replicationInstance;
@@ -13427,7 +10441,7 @@ class ModifyReplicationInstanceResponse {
   }
 }
 
-/// <p/>
+///
 class ModifyReplicationSubnetGroupResponse {
   /// The modified replication subnet group.
   final ReplicationSubnetGroup? replicationSubnetGroup;
@@ -13455,7 +10469,7 @@ class ModifyReplicationSubnetGroupResponse {
   }
 }
 
-/// <p/>
+///
 class ModifyReplicationTaskResponse {
   /// The replication task that was modified.
   final ReplicationTask? replicationTask;
@@ -13481,284 +10495,7 @@ class ModifyReplicationTaskResponse {
   }
 }
 
-/// Provides information that defines a MongoDB data provider.
-class MongoDbDataProviderSettings {
-  /// The authentication method for connecting to the data provider. Valid values
-  /// are DEFAULT, MONGODB_CR, or SCRAM_SHA_1.
-  final AuthMechanismValue? authMechanism;
-
-  /// The MongoDB database name. This setting isn't used when
-  /// <code>AuthType</code> is set to <code>"no"</code>.
-  ///
-  /// The default is <code>"admin"</code>.
-  final String? authSource;
-
-  /// The authentication type for the database connection. Valid values are
-  /// PASSWORD or NO.
-  final AuthTypeValue? authType;
-
-  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-  final String? certificateArn;
-
-  /// The database name on the MongoDB data provider.
-  final String? databaseName;
-
-  /// The port value for the MongoDB data provider.
-  final int? port;
-
-  /// The name of the MongoDB server.
-  final String? serverName;
-
-  /// The SSL mode used to connect to the MongoDB data provider. The default value
-  /// is <code>none</code>.
-  final DmsSslModeValue? sslMode;
-
-  MongoDbDataProviderSettings({
-    this.authMechanism,
-    this.authSource,
-    this.authType,
-    this.certificateArn,
-    this.databaseName,
-    this.port,
-    this.serverName,
-    this.sslMode,
-  });
-
-  factory MongoDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
-    return MongoDbDataProviderSettings(
-      authMechanism: (json['AuthMechanism'] as String?)
-          ?.let(AuthMechanismValue.fromString),
-      authSource: json['AuthSource'] as String?,
-      authType: (json['AuthType'] as String?)?.let(AuthTypeValue.fromString),
-      certificateArn: json['CertificateArn'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      port: json['Port'] as int?,
-      serverName: json['ServerName'] as String?,
-      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authMechanism = this.authMechanism;
-    final authSource = this.authSource;
-    final authType = this.authType;
-    final certificateArn = this.certificateArn;
-    final databaseName = this.databaseName;
-    final port = this.port;
-    final serverName = this.serverName;
-    final sslMode = this.sslMode;
-    return {
-      if (authMechanism != null) 'AuthMechanism': authMechanism.value,
-      if (authSource != null) 'AuthSource': authSource,
-      if (authType != null) 'AuthType': authType.value,
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (port != null) 'Port': port,
-      if (serverName != null) 'ServerName': serverName,
-      if (sslMode != null) 'SslMode': sslMode.value,
-    };
-  }
-}
-
-/// Provides information that defines a MongoDB endpoint.
-class MongoDbSettings {
-  /// The authentication mechanism you use to access the MongoDB source endpoint.
-  ///
-  /// For the default value, in MongoDB version 2.x, <code>"default"</code> is
-  /// <code>"mongodb_cr"</code>. For MongoDB version 3.x or later,
-  /// <code>"default"</code> is <code>"scram_sha_1"</code>. This setting isn't
-  /// used when <code>AuthType</code> is set to <code>"no"</code>.
-  final AuthMechanismValue? authMechanism;
-
-  /// The MongoDB database name. This setting isn't used when
-  /// <code>AuthType</code> is set to <code>"no"</code>.
-  ///
-  /// The default is <code>"admin"</code>.
-  final String? authSource;
-
-  /// The authentication type you use to access the MongoDB source endpoint.
-  ///
-  /// When when set to <code>"no"</code>, user name and password parameters are
-  /// not used and can be empty.
-  final AuthTypeValue? authType;
-
-  /// The database name on the MongoDB source endpoint.
-  final String? databaseName;
-
-  /// Indicates the number of documents to preview to determine the document
-  /// organization. Use this setting when <code>NestingLevel</code> is set to
-  /// <code>"one"</code>.
-  ///
-  /// Must be a positive value greater than <code>0</code>. Default value is
-  /// <code>1000</code>.
-  final String? docsToInvestigate;
-
-  /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
-  /// is set to <code>"none"</code>.
-  ///
-  /// Default value is <code>"false"</code>.
-  final String? extractDocId;
-
-  /// The KMS key identifier that is used to encrypt the content on the
-  /// replication instance. If you don't specify a value for the
-  /// <code>KmsKeyId</code> parameter, then DMS uses your default encryption key.
-  /// KMS creates the default encryption key for your Amazon Web Services account.
-  /// Your Amazon Web Services account has a different default encryption key for
-  /// each Amazon Web Services Region.
-  final String? kmsKeyId;
-
-  /// Specifies either document or table mode.
-  ///
-  /// Default value is <code>"none"</code>. Specify <code>"none"</code> to use
-  /// document mode. Specify <code>"one"</code> to use table mode.
-  final NestingLevelValue? nestingLevel;
-
-  /// The password for the user account you use to access the MongoDB source
-  /// endpoint.
-  final String? password;
-
-  /// The port value for the MongoDB source endpoint.
-  final int? port;
-
-  /// If <code>true</code>, DMS replicates data to shard collections. DMS only
-  /// uses this setting if the target endpoint is a DocumentDB elastic cluster.
-  ///
-  /// When this setting is <code>true</code>, note the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// You must set <code>TargetTablePrepMode</code> to <code>nothing</code>.
-  /// </li>
-  /// <li>
-  /// DMS automatically sets <code>useUpdateLookup</code> to <code>false</code>.
-  /// </li>
-  /// </ul>
-  final bool? replicateShardCollections;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the MongoDB endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the MongoDB endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// The name of the server on the MongoDB source endpoint. For MongoDB Atlas,
-  /// provide the server name for any of the servers in the replication set.
-  final String? serverName;
-
-  /// If <code>true</code>, DMS retrieves the entire document from the MongoDB
-  /// source during migration. This may cause a migration failure if the server
-  /// response exceeds bandwidth limits. To fetch only updates and deletes during
-  /// migration, set this parameter to <code>false</code>.
-  final bool? useUpdateLookUp;
-
-  /// The user name you use to access the MongoDB source endpoint.
-  final String? username;
-
-  MongoDbSettings({
-    this.authMechanism,
-    this.authSource,
-    this.authType,
-    this.databaseName,
-    this.docsToInvestigate,
-    this.extractDocId,
-    this.kmsKeyId,
-    this.nestingLevel,
-    this.password,
-    this.port,
-    this.replicateShardCollections,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.useUpdateLookUp,
-    this.username,
-  });
-
-  factory MongoDbSettings.fromJson(Map<String, dynamic> json) {
-    return MongoDbSettings(
-      authMechanism: (json['AuthMechanism'] as String?)
-          ?.let(AuthMechanismValue.fromString),
-      authSource: json['AuthSource'] as String?,
-      authType: (json['AuthType'] as String?)?.let(AuthTypeValue.fromString),
-      databaseName: json['DatabaseName'] as String?,
-      docsToInvestigate: json['DocsToInvestigate'] as String?,
-      extractDocId: json['ExtractDocId'] as String?,
-      kmsKeyId: json['KmsKeyId'] as String?,
-      nestingLevel:
-          (json['NestingLevel'] as String?)?.let(NestingLevelValue.fromString),
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      replicateShardCollections: json['ReplicateShardCollections'] as bool?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      useUpdateLookUp: json['UseUpdateLookUp'] as bool?,
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authMechanism = this.authMechanism;
-    final authSource = this.authSource;
-    final authType = this.authType;
-    final databaseName = this.databaseName;
-    final docsToInvestigate = this.docsToInvestigate;
-    final extractDocId = this.extractDocId;
-    final kmsKeyId = this.kmsKeyId;
-    final nestingLevel = this.nestingLevel;
-    final password = this.password;
-    final port = this.port;
-    final replicateShardCollections = this.replicateShardCollections;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final useUpdateLookUp = this.useUpdateLookUp;
-    final username = this.username;
-    return {
-      if (authMechanism != null) 'AuthMechanism': authMechanism.value,
-      if (authSource != null) 'AuthSource': authSource,
-      if (authType != null) 'AuthType': authType.value,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (docsToInvestigate != null) 'DocsToInvestigate': docsToInvestigate,
-      if (extractDocId != null) 'ExtractDocId': extractDocId,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (nestingLevel != null) 'NestingLevel': nestingLevel.value,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (replicateShardCollections != null)
-        'ReplicateShardCollections': replicateShardCollections,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (useUpdateLookUp != null) 'UseUpdateLookUp': useUpdateLookUp,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// <p/>
+///
 class MoveReplicationTaskResponse {
   /// The replication task that was moved.
   final ReplicationTask? replicationTask;
@@ -13780,1896 +10517,6 @@ class MoveReplicationTaskResponse {
     final replicationTask = this.replicationTask;
     return {
       if (replicationTask != null) 'ReplicationTask': replicationTask,
-    };
-  }
-}
-
-/// Provides information that defines a MySQL endpoint.
-class MySQLSettings {
-  /// Specifies a script to run immediately after DMS connects to the endpoint.
-  /// The migration task continues running regardless if the SQL statement
-  /// succeeds or fails.
-  ///
-  /// For this parameter, provide the code of the script itself, not the name of a
-  /// file containing the script.
-  final String? afterConnectScript;
-
-  /// Cleans and recreates table metadata information on the replication instance
-  /// when a mismatch occurs. For example, in a situation where running an alter
-  /// DDL on the table could result in different information about the table
-  /// cached in the replication instance.
-  final bool? cleanSourceMetadataOnMismatch;
-
-  /// Database name for the endpoint. For a MySQL source or target endpoint, don't
-  /// explicitly specify the database using the <code>DatabaseName</code> request
-  /// parameter on either the <code>CreateEndpoint</code> or
-  /// <code>ModifyEndpoint</code> API call. Specifying <code>DatabaseName</code>
-  /// when you create or modify a MySQL endpoint replicates all the task tables to
-  /// this single database. For MySQL endpoints, you specify the database only
-  /// when you specify the schema in the table-mapping rules of the DMS task.
-  final String? databaseName;
-
-  /// Specifies how often to check the binary log for new changes/events when the
-  /// database is idle. The default is five seconds.
-  ///
-  /// Example: <code>eventsPollInterval=5;</code>
-  ///
-  /// In the example, DMS checks for changes in the binary logs every five
-  /// seconds.
-  final int? eventsPollInterval;
-
-  /// Sets the client statement timeout (in seconds) for a MySQL source endpoint.
-  final int? executeTimeout;
-
-  /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
-  /// a MySQL-compatible database.
-  ///
-  /// Example: <code>maxFileSize=512</code>
-  final int? maxFileSize;
-
-  /// Improves performance when loading data into the MySQL-compatible target
-  /// database. Specifies how many threads to use to load the data into the
-  /// MySQL-compatible target database. Setting a large number of threads can have
-  /// an adverse effect on database performance, because a separate connection is
-  /// required for each thread. The default is one.
-  ///
-  /// Example: <code>parallelLoadThreads=1</code>
-  final int? parallelLoadThreads;
-
-  /// Endpoint connection password.
-  final String? password;
-
-  /// Endpoint TCP port.
-  final int? port;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the MySQL endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the MySQL endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// The host name of the endpoint database.
-  ///
-  /// For an Amazon RDS MySQL instance, this is the output of <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html">DescribeDBInstances</a>,
-  /// in the <code> <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html">Endpoint</a>.Address</code>
-  /// field.
-  ///
-  /// For an Aurora MySQL instance, this is the output of <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html">DescribeDBClusters</a>,
-  /// in the <code>Endpoint</code> field.
-  final String? serverName;
-
-  /// Specifies the time zone for the source MySQL database.
-  ///
-  /// Example: <code>serverTimezone=US/Pacific;</code>
-  ///
-  /// Note: Do not enclose time zones in single quotes.
-  final String? serverTimezone;
-
-  /// Specifies where to migrate source tables on the target, either to a single
-  /// database or multiple databases. If you specify
-  /// <code>SPECIFIC_DATABASE</code>, specify the database name using the
-  /// <code>DatabaseName</code> parameter of the <code>Endpoint</code> object.
-  ///
-  /// Example: <code>targetDbType=MULTIPLE_DATABASES</code>
-  final TargetDbType? targetDbType;
-
-  /// Endpoint connection user name.
-  final String? username;
-
-  MySQLSettings({
-    this.afterConnectScript,
-    this.cleanSourceMetadataOnMismatch,
-    this.databaseName,
-    this.eventsPollInterval,
-    this.executeTimeout,
-    this.maxFileSize,
-    this.parallelLoadThreads,
-    this.password,
-    this.port,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.serverTimezone,
-    this.targetDbType,
-    this.username,
-  });
-
-  factory MySQLSettings.fromJson(Map<String, dynamic> json) {
-    return MySQLSettings(
-      afterConnectScript: json['AfterConnectScript'] as String?,
-      cleanSourceMetadataOnMismatch:
-          json['CleanSourceMetadataOnMismatch'] as bool?,
-      databaseName: json['DatabaseName'] as String?,
-      eventsPollInterval: json['EventsPollInterval'] as int?,
-      executeTimeout: json['ExecuteTimeout'] as int?,
-      maxFileSize: json['MaxFileSize'] as int?,
-      parallelLoadThreads: json['ParallelLoadThreads'] as int?,
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      serverTimezone: json['ServerTimezone'] as String?,
-      targetDbType:
-          (json['TargetDbType'] as String?)?.let(TargetDbType.fromString),
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final afterConnectScript = this.afterConnectScript;
-    final cleanSourceMetadataOnMismatch = this.cleanSourceMetadataOnMismatch;
-    final databaseName = this.databaseName;
-    final eventsPollInterval = this.eventsPollInterval;
-    final executeTimeout = this.executeTimeout;
-    final maxFileSize = this.maxFileSize;
-    final parallelLoadThreads = this.parallelLoadThreads;
-    final password = this.password;
-    final port = this.port;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final serverTimezone = this.serverTimezone;
-    final targetDbType = this.targetDbType;
-    final username = this.username;
-    return {
-      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
-      if (cleanSourceMetadataOnMismatch != null)
-        'CleanSourceMetadataOnMismatch': cleanSourceMetadataOnMismatch,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (eventsPollInterval != null) 'EventsPollInterval': eventsPollInterval,
-      if (executeTimeout != null) 'ExecuteTimeout': executeTimeout,
-      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
-      if (parallelLoadThreads != null)
-        'ParallelLoadThreads': parallelLoadThreads,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (serverTimezone != null) 'ServerTimezone': serverTimezone,
-      if (targetDbType != null) 'TargetDbType': targetDbType.value,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Provides information that defines a MySQL data provider.
-class MySqlDataProviderSettings {
-  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-  final String? certificateArn;
-
-  /// The port value for the MySQL data provider.
-  final int? port;
-
-  /// The name of the MySQL server.
-  final String? serverName;
-
-  /// The SSL mode used to connect to the MySQL data provider. The default value
-  /// is <code>none</code>.
-  final DmsSslModeValue? sslMode;
-
-  MySqlDataProviderSettings({
-    this.certificateArn,
-    this.port,
-    this.serverName,
-    this.sslMode,
-  });
-
-  factory MySqlDataProviderSettings.fromJson(Map<String, dynamic> json) {
-    return MySqlDataProviderSettings(
-      certificateArn: json['CertificateArn'] as String?,
-      port: json['Port'] as int?,
-      serverName: json['ServerName'] as String?,
-      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final port = this.port;
-    final serverName = this.serverName;
-    final sslMode = this.sslMode;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (port != null) 'Port': port,
-      if (serverName != null) 'ServerName': serverName,
-      if (sslMode != null) 'SslMode': sslMode.value,
-    };
-  }
-}
-
-/// Provides information that defines an Amazon Neptune endpoint.
-class NeptuneSettings {
-  /// A folder path where you want DMS to store migrated graph data in the S3
-  /// bucket specified by <code>S3BucketName</code>
-  final String s3BucketFolder;
-
-  /// The name of the Amazon S3 bucket where DMS can temporarily store migrated
-  /// graph data in .csv files before bulk-loading it to the Neptune target
-  /// database. DMS maps the SQL source data to graph data before storing it in
-  /// these .csv files.
-  final String s3BucketName;
-
-  /// The number of milliseconds for DMS to wait to retry a bulk-load of migrated
-  /// graph data to the Neptune target database before raising an error. The
-  /// default is 250.
-  final int? errorRetryDuration;
-
-  /// If you want Identity and Access Management (IAM) authorization enabled for
-  /// this endpoint, set this parameter to <code>true</code>. Then attach the
-  /// appropriate IAM policy document to your service role specified by
-  /// <code>ServiceAccessRoleArn</code>. The default is <code>false</code>.
-  final bool? iamAuthEnabled;
-
-  /// The maximum size in kilobytes of migrated graph data stored in a .csv file
-  /// before DMS bulk-loads the data to the Neptune target database. The default
-  /// is 1,048,576 KB. If the bulk load is successful, DMS clears the bucket,
-  /// ready to store the next batch of migrated graph data.
-  final int? maxFileSize;
-
-  /// The number of times for DMS to retry a bulk load of migrated graph data to
-  /// the Neptune target database before raising an error. The default is 5.
-  final int? maxRetryCount;
-
-  /// The Amazon Resource Name (ARN) of the service role that you created for the
-  /// Neptune target endpoint. The role must allow the <code>iam:PassRole</code>
-  /// action. For more information, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.ServiceRole">Creating
-  /// an IAM Service Role for Accessing Amazon Neptune as a Target</a> in the
-  /// <i>Database Migration Service User Guide. </i>
-  final String? serviceAccessRoleArn;
-
-  NeptuneSettings({
-    required this.s3BucketFolder,
-    required this.s3BucketName,
-    this.errorRetryDuration,
-    this.iamAuthEnabled,
-    this.maxFileSize,
-    this.maxRetryCount,
-    this.serviceAccessRoleArn,
-  });
-
-  factory NeptuneSettings.fromJson(Map<String, dynamic> json) {
-    return NeptuneSettings(
-      s3BucketFolder: (json['S3BucketFolder'] as String?) ?? '',
-      s3BucketName: (json['S3BucketName'] as String?) ?? '',
-      errorRetryDuration: json['ErrorRetryDuration'] as int?,
-      iamAuthEnabled: json['IamAuthEnabled'] as bool?,
-      maxFileSize: json['MaxFileSize'] as int?,
-      maxRetryCount: json['MaxRetryCount'] as int?,
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3BucketFolder = this.s3BucketFolder;
-    final s3BucketName = this.s3BucketName;
-    final errorRetryDuration = this.errorRetryDuration;
-    final iamAuthEnabled = this.iamAuthEnabled;
-    final maxFileSize = this.maxFileSize;
-    final maxRetryCount = this.maxRetryCount;
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    return {
-      'S3BucketFolder': s3BucketFolder,
-      'S3BucketName': s3BucketName,
-      if (errorRetryDuration != null) 'ErrorRetryDuration': errorRetryDuration,
-      if (iamAuthEnabled != null) 'IamAuthEnabled': iamAuthEnabled,
-      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
-      if (maxRetryCount != null) 'MaxRetryCount': maxRetryCount,
-      if (serviceAccessRoleArn != null)
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-    };
-  }
-}
-
-class NestingLevelValue {
-  static const none = NestingLevelValue._('none');
-  static const one = NestingLevelValue._('one');
-
-  final String value;
-
-  const NestingLevelValue._(this.value);
-
-  static const values = [none, one];
-
-  static NestingLevelValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NestingLevelValue._(value));
-
-  @override
-  bool operator ==(other) => other is NestingLevelValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information that defines an Oracle data provider.
-class OracleDataProviderSettings {
-  /// The address of your Oracle Automatic Storage Management (ASM) server. You
-  /// can set this value from the <code>asm_server</code> value. You set
-  /// <code>asm_server</code> as part of the extra connection attribute string to
-  /// access an Oracle server with Binary Reader that uses ASM. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
-  /// for change data capture (CDC) on an Oracle source database</a>.
-  final String? asmServer;
-
-  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-  final String? certificateArn;
-
-  /// The database name on the Oracle data provider.
-  final String? databaseName;
-
-  /// The port value for the Oracle data provider.
-  final int? port;
-
-  /// The ARN of the IAM role that provides access to the secret in Secrets
-  /// Manager that contains the Oracle ASM connection details.
-  final String? secretsManagerOracleAsmAccessRoleArn;
-
-  /// The identifier of the secret in Secrets Manager that contains the Oracle ASM
-  /// connection details.
-  ///
-  /// Required only if your data provider uses the Oracle ASM server.
-  final String? secretsManagerOracleAsmSecretId;
-
-  /// The ARN of the IAM role that provides access to the secret in Secrets
-  /// Manager that contains the TDE password.
-  final String? secretsManagerSecurityDbEncryptionAccessRoleArn;
-
-  /// The identifier of the secret in Secrets Manager that contains the
-  /// transparent data encryption (TDE) password. DMS requires this password to
-  /// access Oracle redo logs encrypted by TDE using Binary Reader.
-  final String? secretsManagerSecurityDbEncryptionSecretId;
-
-  /// The name of the Oracle server.
-  final String? serverName;
-
-  /// The SSL mode used to connect to the Oracle data provider. The default value
-  /// is <code>none</code>.
-  final DmsSslModeValue? sslMode;
-
-  OracleDataProviderSettings({
-    this.asmServer,
-    this.certificateArn,
-    this.databaseName,
-    this.port,
-    this.secretsManagerOracleAsmAccessRoleArn,
-    this.secretsManagerOracleAsmSecretId,
-    this.secretsManagerSecurityDbEncryptionAccessRoleArn,
-    this.secretsManagerSecurityDbEncryptionSecretId,
-    this.serverName,
-    this.sslMode,
-  });
-
-  factory OracleDataProviderSettings.fromJson(Map<String, dynamic> json) {
-    return OracleDataProviderSettings(
-      asmServer: json['AsmServer'] as String?,
-      certificateArn: json['CertificateArn'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      port: json['Port'] as int?,
-      secretsManagerOracleAsmAccessRoleArn:
-          json['SecretsManagerOracleAsmAccessRoleArn'] as String?,
-      secretsManagerOracleAsmSecretId:
-          json['SecretsManagerOracleAsmSecretId'] as String?,
-      secretsManagerSecurityDbEncryptionAccessRoleArn:
-          json['SecretsManagerSecurityDbEncryptionAccessRoleArn'] as String?,
-      secretsManagerSecurityDbEncryptionSecretId:
-          json['SecretsManagerSecurityDbEncryptionSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final asmServer = this.asmServer;
-    final certificateArn = this.certificateArn;
-    final databaseName = this.databaseName;
-    final port = this.port;
-    final secretsManagerOracleAsmAccessRoleArn =
-        this.secretsManagerOracleAsmAccessRoleArn;
-    final secretsManagerOracleAsmSecretId =
-        this.secretsManagerOracleAsmSecretId;
-    final secretsManagerSecurityDbEncryptionAccessRoleArn =
-        this.secretsManagerSecurityDbEncryptionAccessRoleArn;
-    final secretsManagerSecurityDbEncryptionSecretId =
-        this.secretsManagerSecurityDbEncryptionSecretId;
-    final serverName = this.serverName;
-    final sslMode = this.sslMode;
-    return {
-      if (asmServer != null) 'AsmServer': asmServer,
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (port != null) 'Port': port,
-      if (secretsManagerOracleAsmAccessRoleArn != null)
-        'SecretsManagerOracleAsmAccessRoleArn':
-            secretsManagerOracleAsmAccessRoleArn,
-      if (secretsManagerOracleAsmSecretId != null)
-        'SecretsManagerOracleAsmSecretId': secretsManagerOracleAsmSecretId,
-      if (secretsManagerSecurityDbEncryptionAccessRoleArn != null)
-        'SecretsManagerSecurityDbEncryptionAccessRoleArn':
-            secretsManagerSecurityDbEncryptionAccessRoleArn,
-      if (secretsManagerSecurityDbEncryptionSecretId != null)
-        'SecretsManagerSecurityDbEncryptionSecretId':
-            secretsManagerSecurityDbEncryptionSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (sslMode != null) 'SslMode': sslMode.value,
-    };
-  }
-}
-
-/// Provides information that defines an Oracle endpoint.
-class OracleSettings {
-  /// Set this attribute to <code>false</code> in order to use the Binary Reader
-  /// to capture change data for an Amazon RDS for Oracle as the source. This
-  /// tells the DMS instance to not access redo logs through any specified path
-  /// prefix replacement using direct file access.
-  final bool? accessAlternateDirectly;
-
-  /// Set this attribute to set up table-level supplemental logging for the Oracle
-  /// database. This attribute enables PRIMARY KEY supplemental logging on all
-  /// tables selected for a migration task.
-  ///
-  /// If you use this option, you still need to enable database-level supplemental
-  /// logging.
-  final bool? addSupplementalLogging;
-
-  /// Set this attribute with <code>ArchivedLogDestId</code> in a primary/ standby
-  /// setup. This attribute is useful in the case of a switchover. In this case,
-  /// DMS needs to know which destination to get archive redo logs from to read
-  /// changes. This need arises because the previous primary instance is now a
-  /// standby instance after switchover.
-  ///
-  /// Although DMS supports the use of the Oracle <code>RESETLOGS</code> option to
-  /// open the database, never use <code>RESETLOGS</code> unless necessary. For
-  /// additional information about <code>RESETLOGS</code>, see <a
-  /// href="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-data-repair-concepts.html#GUID-1805CCF7-4AF2-482D-B65A-998192F89C2B">RMAN
-  /// Data Repair Concepts</a> in the <i>Oracle Database Backup and Recovery
-  /// User's Guide</i>.
-  final int? additionalArchivedLogDestId;
-
-  /// Set this attribute to <code>true</code> to enable replication of Oracle
-  /// tables containing columns that are nested tables or defined types.
-  final bool? allowSelectNestedTables;
-
-  /// Specifies the ID of the destination for the archived redo logs. This value
-  /// should be the same as a number in the dest_id column of the v$archived_log
-  /// view. If you work with an additional redo log destination, use the
-  /// <code>AdditionalArchivedLogDestId</code> option to specify the additional
-  /// destination ID. Doing this improves performance by ensuring that the correct
-  /// logs are accessed from the outset.
-  final int? archivedLogDestId;
-
-  /// When this field is set to <code>Y</code>, DMS only accesses the archived
-  /// redo logs. If the archived redo logs are stored on Automatic Storage
-  /// Management (ASM) only, the DMS user account needs to be granted ASM
-  /// privileges.
-  final bool? archivedLogsOnly;
-
-  /// For an Oracle source endpoint, your Oracle Automatic Storage Management
-  /// (ASM) password. You can set this value from the <code>
-  /// <i>asm_user_password</i> </code> value. You set this value as part of the
-  /// comma-separated value that you set to the <code>Password</code> request
-  /// parameter when you create the endpoint to access transaction logs using
-  /// Binary Reader. For more information, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
-  /// for change data capture (CDC) on an Oracle source database</a>.
-  final String? asmPassword;
-
-  /// For an Oracle source endpoint, your ASM server address. You can set this
-  /// value from the <code>asm_server</code> value. You set
-  /// <code>asm_server</code> as part of the extra connection attribute string to
-  /// access an Oracle server with Binary Reader that uses ASM. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
-  /// for change data capture (CDC) on an Oracle source database</a>.
-  final String? asmServer;
-
-  /// For an Oracle source endpoint, your ASM user name. You can set this value
-  /// from the <code>asm_user</code> value. You set <code>asm_user</code> as part
-  /// of the extra connection attribute string to access an Oracle server with
-  /// Binary Reader that uses ASM. For more information, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
-  /// for change data capture (CDC) on an Oracle source database</a>.
-  final String? asmUser;
-
-  /// Specifies whether the length of a character column is in bytes or in
-  /// characters. To indicate that the character column length is in characters,
-  /// set this attribute to <code>CHAR</code>. Otherwise, the character column
-  /// length is in bytes.
-  ///
-  /// Example: <code>charLengthSemantics=CHAR;</code>
-  final CharLengthSemantics? charLengthSemantics;
-
-  /// When true, converts timestamps with the <code>timezone</code> datatype to
-  /// their UTC value.
-  final bool? convertTimestampWithZoneToUTC;
-
-  /// Database name for the endpoint.
-  final String? databaseName;
-
-  /// When set to <code>true</code>, this attribute helps to increase the commit
-  /// rate on the Oracle target database by writing directly to tables and not
-  /// writing a trail to database logs.
-  final bool? directPathNoLog;
-
-  /// When set to <code>true</code>, this attribute specifies a parallel load when
-  /// <code>useDirectPathFullLoad</code> is set to <code>Y</code>. This attribute
-  /// also only applies when you use the DMS parallel load feature. Note that the
-  /// target table cannot have any constraints or indexes.
-  final bool? directPathParallelLoad;
-
-  /// Set this attribute to enable homogenous tablespace replication and create
-  /// existing tables or indexes under the same tablespace on the target.
-  final bool? enableHomogenousTablespace;
-
-  /// Specifies the IDs of one more destinations for one or more archived redo
-  /// logs. These IDs are the values of the <code>dest_id</code> column in the
-  /// <code>v$archived_log</code> view. Use this setting with the
-  /// <code>archivedLogDestId</code> extra connection attribute in a
-  /// primary-to-single setup or a primary-to-multiple-standby setup.
-  ///
-  /// This setting is useful in a switchover when you use an Oracle Data Guard
-  /// database as a source. In this case, DMS needs information about what
-  /// destination to get archive redo logs from to read changes. DMS needs this
-  /// because after the switchover the previous primary is a standby instance. For
-  /// example, in a primary-to-single standby setup you might apply the following
-  /// settings.
-  ///
-  /// <code>archivedLogDestId=1; ExtraArchivedLogDestIds=[2]</code>
-  ///
-  /// In a primary-to-multiple-standby setup, you might apply the following
-  /// settings.
-  ///
-  /// <code>archivedLogDestId=1; ExtraArchivedLogDestIds=[2,3,4]</code>
-  ///
-  /// Although DMS supports the use of the Oracle <code>RESETLOGS</code> option to
-  /// open the database, never use <code>RESETLOGS</code> unless it's necessary.
-  /// For more information about <code>RESETLOGS</code>, see <a
-  /// href="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-data-repair-concepts.html#GUID-1805CCF7-4AF2-482D-B65A-998192F89C2B">
-  /// RMAN Data Repair Concepts</a> in the <i>Oracle Database Backup and Recovery
-  /// User's Guide</i>.
-  final List<int>? extraArchivedLogDestIds;
-
-  /// When set to <code>true</code>, this attribute causes a task to fail if the
-  /// actual size of an LOB column is greater than the specified
-  /// <code>LobMaxSize</code>.
-  ///
-  /// If a task is set to limited LOB mode and this option is set to
-  /// <code>true</code>, the task fails instead of truncating the LOB data.
-  final bool? failTasksOnLobTruncation;
-
-  /// Specifies the number scale. You can select a scale up to 38, or you can
-  /// select FLOAT. By default, the NUMBER data type is converted to precision 38,
-  /// scale 10.
-  ///
-  /// Example: <code>numberDataTypeScale=12</code>
-  final int? numberDatatypeScale;
-
-  /// The timeframe in minutes to check for open transactions for a CDC-only task.
-  ///
-  /// You can specify an integer value between 0 (the default) and 240 (the
-  /// maximum).
-  /// <note>
-  /// This parameter is only valid in DMS version 3.5.0 and later. DMS supports a
-  /// window of up to 9.5 hours including the value for
-  /// <code>OpenTransactionWindow</code>.
-  /// </note>
-  final int? openTransactionWindow;
-
-  /// Set this string attribute to the required value in order to use the Binary
-  /// Reader to capture change data for an Amazon RDS for Oracle as the source.
-  /// This value specifies the default Oracle root used to access the redo logs.
-  final String? oraclePathPrefix;
-
-  /// Set this attribute to change the number of threads that DMS configures to
-  /// perform a change data capture (CDC) load using Oracle Automatic Storage
-  /// Management (ASM). You can specify an integer value between 2 (the default)
-  /// and 8 (the maximum). Use this attribute together with the
-  /// <code>readAheadBlocks</code> attribute.
-  final int? parallelAsmReadThreads;
-
-  /// Endpoint connection password.
-  final String? password;
-
-  /// Endpoint TCP port.
-  final int? port;
-
-  /// Set this attribute to change the number of read-ahead blocks that DMS
-  /// configures to perform a change data capture (CDC) load using Oracle
-  /// Automatic Storage Management (ASM). You can specify an integer value between
-  /// 1000 (the default) and 200,000 (the maximum).
-  final int? readAheadBlocks;
-
-  /// When set to <code>true</code>, this attribute supports tablespace
-  /// replication.
-  final bool? readTableSpaceName;
-
-  /// Set this attribute to true in order to use the Binary Reader to capture
-  /// change data for an Amazon RDS for Oracle as the source. This setting tells
-  /// DMS instance to replace the default Oracle root with the specified
-  /// <code>usePathPrefix</code> setting to access the redo logs.
-  final bool? replacePathPrefix;
-
-  /// Specifies the number of seconds that the system waits before resending a
-  /// query.
-  ///
-  /// Example: <code>retryInterval=6;</code>
-  final int? retryInterval;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the Oracle endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// Required only if your Oracle endpoint uses Automatic Storage Management
-  /// (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity
-  /// and grants the required permissions to access the
-  /// <code>SecretsManagerOracleAsmSecret</code>. This
-  /// <code>SecretsManagerOracleAsmSecret</code> has the secret value that allows
-  /// access to the Oracle ASM of the endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and
-  /// <code>SecretsManagerOracleAsmSecretId</code>. Or you can specify clear-text
-  /// values for <code>AsmUser</code>, <code>AsmPassword</code>, and
-  /// <code>AsmServerName</code>. You can't specify both. For more information on
-  /// creating this <code>SecretsManagerOracleAsmSecret</code> and the
-  /// <code>SecretsManagerOracleAsmAccessRoleArn</code> and
-  /// <code>SecretsManagerOracleAsmSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerOracleAsmAccessRoleArn;
-
-  /// Required only if your Oracle endpoint uses Automatic Storage Management
-  /// (ASM). The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerOracleAsmSecret</code> that contains the Oracle ASM
-  /// connection details for the Oracle endpoint.
-  final String? secretsManagerOracleAsmSecretId;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the Oracle endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// For an Oracle source endpoint, the transparent data encryption (TDE)
-  /// password required by AWM DMS to access Oracle redo logs encrypted by TDE
-  /// using Binary Reader. It is also the <code> <i>TDE_Password</i> </code> part
-  /// of the comma-separated value you set to the <code>Password</code> request
-  /// parameter when you create the endpoint. The
-  /// <code>SecurityDbEncryptian</code> setting is related to this
-  /// <code>SecurityDbEncryptionName</code> setting. For more information, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
-  /// Supported encryption methods for using Oracle as a source for DMS </a> in
-  /// the <i>Database Migration Service User Guide</i>.
-  final String? securityDbEncryption;
-
-  /// For an Oracle source endpoint, the name of a key used for the transparent
-  /// data encryption (TDE) of the columns and tablespaces in an Oracle source
-  /// database that is encrypted using TDE. The key value is the value of the
-  /// <code>SecurityDbEncryption</code> setting. For more information on setting
-  /// the key name value of <code>SecurityDbEncryptionName</code>, see the
-  /// information and example for setting the
-  /// <code>securityDbEncryptionName</code> extra connection attribute in <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
-  /// Supported encryption methods for using Oracle as a source for DMS </a> in
-  /// the <i>Database Migration Service User Guide</i>.
-  final String? securityDbEncryptionName;
-
-  /// Fully qualified domain name of the endpoint.
-  ///
-  /// For an Amazon RDS Oracle instance, this is the output of <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html">DescribeDBInstances</a>,
-  /// in the <code> <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html">Endpoint</a>.Address</code>
-  /// field.
-  final String? serverName;
-
-  /// Use this attribute to convert <code>SDO_GEOMETRY</code> to
-  /// <code>GEOJSON</code> format. By default, DMS calls the
-  /// <code>SDO2GEOJSON</code> custom function if present and accessible. Or you
-  /// can create your own custom function that mimics the operation of
-  /// <code>SDOGEOJSON</code> and set
-  /// <code>SpatialDataOptionToGeoJsonFunctionName</code> to call it instead.
-  final String? spatialDataOptionToGeoJsonFunctionName;
-
-  /// Use this attribute to specify a time in minutes for the delay in standby
-  /// sync. If the source is an Oracle Active Data Guard standby database, use
-  /// this attribute to specify the time lag between primary and standby
-  /// databases.
-  ///
-  /// In DMS, you can create an Oracle CDC task that uses an Active Data Guard
-  /// standby instance as a source for replicating ongoing changes. Doing this
-  /// eliminates the need to connect to an active database that might be in
-  /// production.
-  final int? standbyDelayTime;
-
-  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to trim data on
-  /// CHAR and NCHAR data types during migration. The default value is
-  /// <code>true</code>.
-  final bool? trimSpaceInChar;
-
-  /// Set this attribute to <code>true</code> in order to use the Binary Reader to
-  /// capture change data for an Amazon RDS for Oracle as the source. This tells
-  /// the DMS instance to use any specified prefix replacement to access all
-  /// online redo logs.
-  final bool? useAlternateFolderForOnline;
-
-  /// Set this attribute to Y to capture change data using the Binary Reader
-  /// utility. Set <code>UseLogminerReader</code> to N to set this attribute to Y.
-  /// To use Binary Reader with Amazon RDS for Oracle as the source, you set
-  /// additional attributes. For more information about using this setting with
-  /// Oracle Automatic Storage Management (ASM), see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC">
-  /// Using Oracle LogMiner or DMS Binary Reader for CDC</a>.
-  final bool? useBFile;
-
-  /// Set this attribute to Y to have DMS use a direct path full load. Specify
-  /// this value to use the direct path protocol in the Oracle Call Interface
-  /// (OCI). By using this OCI protocol, you can bulk-load Oracle target tables
-  /// during a full load.
-  final bool? useDirectPathFullLoad;
-
-  /// Set this attribute to Y to capture change data using the Oracle LogMiner
-  /// utility (the default). Set this attribute to N if you want to access the
-  /// redo logs as a binary file. When you set <code>UseLogminerReader</code> to
-  /// N, also set <code>UseBfile</code> to Y. For more information on this setting
-  /// and using Oracle ASM, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC">
-  /// Using Oracle LogMiner or DMS Binary Reader for CDC</a> in the <i>DMS User
-  /// Guide</i>.
-  final bool? useLogminerReader;
-
-  /// Set this string attribute to the required value in order to use the Binary
-  /// Reader to capture change data for an Amazon RDS for Oracle as the source.
-  /// This value specifies the path prefix used to replace the default Oracle root
-  /// to access the redo logs.
-  final String? usePathPrefix;
-
-  /// Endpoint connection user name.
-  final String? username;
-
-  OracleSettings({
-    this.accessAlternateDirectly,
-    this.addSupplementalLogging,
-    this.additionalArchivedLogDestId,
-    this.allowSelectNestedTables,
-    this.archivedLogDestId,
-    this.archivedLogsOnly,
-    this.asmPassword,
-    this.asmServer,
-    this.asmUser,
-    this.charLengthSemantics,
-    this.convertTimestampWithZoneToUTC,
-    this.databaseName,
-    this.directPathNoLog,
-    this.directPathParallelLoad,
-    this.enableHomogenousTablespace,
-    this.extraArchivedLogDestIds,
-    this.failTasksOnLobTruncation,
-    this.numberDatatypeScale,
-    this.openTransactionWindow,
-    this.oraclePathPrefix,
-    this.parallelAsmReadThreads,
-    this.password,
-    this.port,
-    this.readAheadBlocks,
-    this.readTableSpaceName,
-    this.replacePathPrefix,
-    this.retryInterval,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerOracleAsmAccessRoleArn,
-    this.secretsManagerOracleAsmSecretId,
-    this.secretsManagerSecretId,
-    this.securityDbEncryption,
-    this.securityDbEncryptionName,
-    this.serverName,
-    this.spatialDataOptionToGeoJsonFunctionName,
-    this.standbyDelayTime,
-    this.trimSpaceInChar,
-    this.useAlternateFolderForOnline,
-    this.useBFile,
-    this.useDirectPathFullLoad,
-    this.useLogminerReader,
-    this.usePathPrefix,
-    this.username,
-  });
-
-  factory OracleSettings.fromJson(Map<String, dynamic> json) {
-    return OracleSettings(
-      accessAlternateDirectly: json['AccessAlternateDirectly'] as bool?,
-      addSupplementalLogging: json['AddSupplementalLogging'] as bool?,
-      additionalArchivedLogDestId: json['AdditionalArchivedLogDestId'] as int?,
-      allowSelectNestedTables: json['AllowSelectNestedTables'] as bool?,
-      archivedLogDestId: json['ArchivedLogDestId'] as int?,
-      archivedLogsOnly: json['ArchivedLogsOnly'] as bool?,
-      asmPassword: json['AsmPassword'] as String?,
-      asmServer: json['AsmServer'] as String?,
-      asmUser: json['AsmUser'] as String?,
-      charLengthSemantics: (json['CharLengthSemantics'] as String?)
-          ?.let(CharLengthSemantics.fromString),
-      convertTimestampWithZoneToUTC:
-          json['ConvertTimestampWithZoneToUTC'] as bool?,
-      databaseName: json['DatabaseName'] as String?,
-      directPathNoLog: json['DirectPathNoLog'] as bool?,
-      directPathParallelLoad: json['DirectPathParallelLoad'] as bool?,
-      enableHomogenousTablespace: json['EnableHomogenousTablespace'] as bool?,
-      extraArchivedLogDestIds: (json['ExtraArchivedLogDestIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as int)
-          .toList(),
-      failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool?,
-      numberDatatypeScale: json['NumberDatatypeScale'] as int?,
-      openTransactionWindow: json['OpenTransactionWindow'] as int?,
-      oraclePathPrefix: json['OraclePathPrefix'] as String?,
-      parallelAsmReadThreads: json['ParallelAsmReadThreads'] as int?,
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      readAheadBlocks: json['ReadAheadBlocks'] as int?,
-      readTableSpaceName: json['ReadTableSpaceName'] as bool?,
-      replacePathPrefix: json['ReplacePathPrefix'] as bool?,
-      retryInterval: json['RetryInterval'] as int?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerOracleAsmAccessRoleArn:
-          json['SecretsManagerOracleAsmAccessRoleArn'] as String?,
-      secretsManagerOracleAsmSecretId:
-          json['SecretsManagerOracleAsmSecretId'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      securityDbEncryption: json['SecurityDbEncryption'] as String?,
-      securityDbEncryptionName: json['SecurityDbEncryptionName'] as String?,
-      serverName: json['ServerName'] as String?,
-      spatialDataOptionToGeoJsonFunctionName:
-          json['SpatialDataOptionToGeoJsonFunctionName'] as String?,
-      standbyDelayTime: json['StandbyDelayTime'] as int?,
-      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
-      useAlternateFolderForOnline: json['UseAlternateFolderForOnline'] as bool?,
-      useBFile: json['UseBFile'] as bool?,
-      useDirectPathFullLoad: json['UseDirectPathFullLoad'] as bool?,
-      useLogminerReader: json['UseLogminerReader'] as bool?,
-      usePathPrefix: json['UsePathPrefix'] as String?,
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessAlternateDirectly = this.accessAlternateDirectly;
-    final addSupplementalLogging = this.addSupplementalLogging;
-    final additionalArchivedLogDestId = this.additionalArchivedLogDestId;
-    final allowSelectNestedTables = this.allowSelectNestedTables;
-    final archivedLogDestId = this.archivedLogDestId;
-    final archivedLogsOnly = this.archivedLogsOnly;
-    final asmPassword = this.asmPassword;
-    final asmServer = this.asmServer;
-    final asmUser = this.asmUser;
-    final charLengthSemantics = this.charLengthSemantics;
-    final convertTimestampWithZoneToUTC = this.convertTimestampWithZoneToUTC;
-    final databaseName = this.databaseName;
-    final directPathNoLog = this.directPathNoLog;
-    final directPathParallelLoad = this.directPathParallelLoad;
-    final enableHomogenousTablespace = this.enableHomogenousTablespace;
-    final extraArchivedLogDestIds = this.extraArchivedLogDestIds;
-    final failTasksOnLobTruncation = this.failTasksOnLobTruncation;
-    final numberDatatypeScale = this.numberDatatypeScale;
-    final openTransactionWindow = this.openTransactionWindow;
-    final oraclePathPrefix = this.oraclePathPrefix;
-    final parallelAsmReadThreads = this.parallelAsmReadThreads;
-    final password = this.password;
-    final port = this.port;
-    final readAheadBlocks = this.readAheadBlocks;
-    final readTableSpaceName = this.readTableSpaceName;
-    final replacePathPrefix = this.replacePathPrefix;
-    final retryInterval = this.retryInterval;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerOracleAsmAccessRoleArn =
-        this.secretsManagerOracleAsmAccessRoleArn;
-    final secretsManagerOracleAsmSecretId =
-        this.secretsManagerOracleAsmSecretId;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final securityDbEncryption = this.securityDbEncryption;
-    final securityDbEncryptionName = this.securityDbEncryptionName;
-    final serverName = this.serverName;
-    final spatialDataOptionToGeoJsonFunctionName =
-        this.spatialDataOptionToGeoJsonFunctionName;
-    final standbyDelayTime = this.standbyDelayTime;
-    final trimSpaceInChar = this.trimSpaceInChar;
-    final useAlternateFolderForOnline = this.useAlternateFolderForOnline;
-    final useBFile = this.useBFile;
-    final useDirectPathFullLoad = this.useDirectPathFullLoad;
-    final useLogminerReader = this.useLogminerReader;
-    final usePathPrefix = this.usePathPrefix;
-    final username = this.username;
-    return {
-      if (accessAlternateDirectly != null)
-        'AccessAlternateDirectly': accessAlternateDirectly,
-      if (addSupplementalLogging != null)
-        'AddSupplementalLogging': addSupplementalLogging,
-      if (additionalArchivedLogDestId != null)
-        'AdditionalArchivedLogDestId': additionalArchivedLogDestId,
-      if (allowSelectNestedTables != null)
-        'AllowSelectNestedTables': allowSelectNestedTables,
-      if (archivedLogDestId != null) 'ArchivedLogDestId': archivedLogDestId,
-      if (archivedLogsOnly != null) 'ArchivedLogsOnly': archivedLogsOnly,
-      if (asmPassword != null) 'AsmPassword': asmPassword,
-      if (asmServer != null) 'AsmServer': asmServer,
-      if (asmUser != null) 'AsmUser': asmUser,
-      if (charLengthSemantics != null)
-        'CharLengthSemantics': charLengthSemantics.value,
-      if (convertTimestampWithZoneToUTC != null)
-        'ConvertTimestampWithZoneToUTC': convertTimestampWithZoneToUTC,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (directPathNoLog != null) 'DirectPathNoLog': directPathNoLog,
-      if (directPathParallelLoad != null)
-        'DirectPathParallelLoad': directPathParallelLoad,
-      if (enableHomogenousTablespace != null)
-        'EnableHomogenousTablespace': enableHomogenousTablespace,
-      if (extraArchivedLogDestIds != null)
-        'ExtraArchivedLogDestIds': extraArchivedLogDestIds,
-      if (failTasksOnLobTruncation != null)
-        'FailTasksOnLobTruncation': failTasksOnLobTruncation,
-      if (numberDatatypeScale != null)
-        'NumberDatatypeScale': numberDatatypeScale,
-      if (openTransactionWindow != null)
-        'OpenTransactionWindow': openTransactionWindow,
-      if (oraclePathPrefix != null) 'OraclePathPrefix': oraclePathPrefix,
-      if (parallelAsmReadThreads != null)
-        'ParallelAsmReadThreads': parallelAsmReadThreads,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (readAheadBlocks != null) 'ReadAheadBlocks': readAheadBlocks,
-      if (readTableSpaceName != null) 'ReadTableSpaceName': readTableSpaceName,
-      if (replacePathPrefix != null) 'ReplacePathPrefix': replacePathPrefix,
-      if (retryInterval != null) 'RetryInterval': retryInterval,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerOracleAsmAccessRoleArn != null)
-        'SecretsManagerOracleAsmAccessRoleArn':
-            secretsManagerOracleAsmAccessRoleArn,
-      if (secretsManagerOracleAsmSecretId != null)
-        'SecretsManagerOracleAsmSecretId': secretsManagerOracleAsmSecretId,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (securityDbEncryption != null)
-        'SecurityDbEncryption': securityDbEncryption,
-      if (securityDbEncryptionName != null)
-        'SecurityDbEncryptionName': securityDbEncryptionName,
-      if (serverName != null) 'ServerName': serverName,
-      if (spatialDataOptionToGeoJsonFunctionName != null)
-        'SpatialDataOptionToGeoJsonFunctionName':
-            spatialDataOptionToGeoJsonFunctionName,
-      if (standbyDelayTime != null) 'StandbyDelayTime': standbyDelayTime,
-      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
-      if (useAlternateFolderForOnline != null)
-        'UseAlternateFolderForOnline': useAlternateFolderForOnline,
-      if (useBFile != null) 'UseBFile': useBFile,
-      if (useDirectPathFullLoad != null)
-        'UseDirectPathFullLoad': useDirectPathFullLoad,
-      if (useLogminerReader != null) 'UseLogminerReader': useLogminerReader,
-      if (usePathPrefix != null) 'UsePathPrefix': usePathPrefix,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// In response to the <code>DescribeOrderableReplicationInstances</code>
-/// operation, this object describes an available replication instance. This
-/// description includes the replication instance's type, engine version, and
-/// allocated storage.
-class OrderableReplicationInstance {
-  /// List of Availability Zones for this replication instance.
-  final List<String>? availabilityZones;
-
-  /// The default amount of storage (in gigabytes) that is allocated for the
-  /// replication instance.
-  final int? defaultAllocatedStorage;
-
-  /// The version of the replication engine.
-  final String? engineVersion;
-
-  /// The amount of storage (in gigabytes) that is allocated for the replication
-  /// instance.
-  final int? includedAllocatedStorage;
-
-  /// The minimum amount of storage (in gigabytes) that can be allocated for the
-  /// replication instance.
-  final int? maxAllocatedStorage;
-
-  /// The minimum amount of storage (in gigabytes) that can be allocated for the
-  /// replication instance.
-  final int? minAllocatedStorage;
-
-  /// The value returned when the specified <code>EngineVersion</code> of the
-  /// replication instance is in Beta or test mode. This indicates some features
-  /// might not work as expected.
-  /// <note>
-  /// DMS supports the <code>ReleaseStatus</code> parameter in versions 3.1.4 and
-  /// later.
-  /// </note>
-  final ReleaseStatusValues? releaseStatus;
-
-  /// The compute and memory capacity of the replication instance as defined for
-  /// the specified replication instance class. For example to specify the
-  /// instance class dms.c4.large, set this parameter to
-  /// <code>"dms.c4.large"</code>.
-  ///
-  /// For more information on the settings and capacities for the available
-  /// replication instance classes, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
-  /// Selecting the right DMS replication instance for your migration</a>.
-  final String? replicationInstanceClass;
-
-  /// The type of storage used by the replication instance.
-  final String? storageType;
-
-  OrderableReplicationInstance({
-    this.availabilityZones,
-    this.defaultAllocatedStorage,
-    this.engineVersion,
-    this.includedAllocatedStorage,
-    this.maxAllocatedStorage,
-    this.minAllocatedStorage,
-    this.releaseStatus,
-    this.replicationInstanceClass,
-    this.storageType,
-  });
-
-  factory OrderableReplicationInstance.fromJson(Map<String, dynamic> json) {
-    return OrderableReplicationInstance(
-      availabilityZones: (json['AvailabilityZones'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      defaultAllocatedStorage: json['DefaultAllocatedStorage'] as int?,
-      engineVersion: json['EngineVersion'] as String?,
-      includedAllocatedStorage: json['IncludedAllocatedStorage'] as int?,
-      maxAllocatedStorage: json['MaxAllocatedStorage'] as int?,
-      minAllocatedStorage: json['MinAllocatedStorage'] as int?,
-      releaseStatus: (json['ReleaseStatus'] as String?)
-          ?.let(ReleaseStatusValues.fromString),
-      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
-      storageType: json['StorageType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityZones = this.availabilityZones;
-    final defaultAllocatedStorage = this.defaultAllocatedStorage;
-    final engineVersion = this.engineVersion;
-    final includedAllocatedStorage = this.includedAllocatedStorage;
-    final maxAllocatedStorage = this.maxAllocatedStorage;
-    final minAllocatedStorage = this.minAllocatedStorage;
-    final releaseStatus = this.releaseStatus;
-    final replicationInstanceClass = this.replicationInstanceClass;
-    final storageType = this.storageType;
-    return {
-      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-      if (defaultAllocatedStorage != null)
-        'DefaultAllocatedStorage': defaultAllocatedStorage,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (includedAllocatedStorage != null)
-        'IncludedAllocatedStorage': includedAllocatedStorage,
-      if (maxAllocatedStorage != null)
-        'MaxAllocatedStorage': maxAllocatedStorage,
-      if (minAllocatedStorage != null)
-        'MinAllocatedStorage': minAllocatedStorage,
-      if (releaseStatus != null) 'ReleaseStatus': releaseStatus.value,
-      if (replicationInstanceClass != null)
-        'ReplicationInstanceClass': replicationInstanceClass,
-      if (storageType != null) 'StorageType': storageType,
-    };
-  }
-}
-
-class OriginTypeValue {
-  static const source = OriginTypeValue._('SOURCE');
-  static const target = OriginTypeValue._('TARGET');
-
-  final String value;
-
-  const OriginTypeValue._(this.value);
-
-  static const values = [source, target];
-
-  static OriginTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OriginTypeValue._(value));
-
-  @override
-  bool operator ==(other) => other is OriginTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ParquetVersionValue {
-  static const parquet_1_0 = ParquetVersionValue._('parquet-1-0');
-  static const parquet_2_0 = ParquetVersionValue._('parquet-2-0');
-
-  final String value;
-
-  const ParquetVersionValue._(this.value);
-
-  static const values = [parquet_1_0, parquet_2_0];
-
-  static ParquetVersionValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ParquetVersionValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ParquetVersionValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a maintenance action pending for an DMS resource, including when
-/// and how it will be applied. This data type is a response element to the
-/// <code>DescribePendingMaintenanceActions</code> operation.
-class PendingMaintenanceAction {
-  /// The type of pending maintenance action that is available for the resource.
-  final String? action;
-
-  /// The date of the maintenance window when the action is to be applied. The
-  /// maintenance action is applied to the resource during its first maintenance
-  /// window after this date. If this date is specified, any
-  /// <code>next-maintenance</code> opt-in requests are ignored.
-  final DateTime? autoAppliedAfterDate;
-
-  /// The effective date when the pending maintenance action will be applied to
-  /// the resource. This date takes into account opt-in requests received from the
-  /// <code>ApplyPendingMaintenanceAction</code> API operation, and also the
-  /// <code>AutoAppliedAfterDate</code> and <code>ForcedApplyDate</code> parameter
-  /// values. This value is blank if an opt-in request has not been received and
-  /// nothing has been specified for <code>AutoAppliedAfterDate</code> or
-  /// <code>ForcedApplyDate</code>.
-  final DateTime? currentApplyDate;
-
-  /// A description providing more detail about the maintenance action.
-  final String? description;
-
-  /// The date when the maintenance action will be automatically applied. The
-  /// maintenance action is applied to the resource on this date regardless of the
-  /// maintenance window for the resource. If this date is specified, any
-  /// <code>immediate</code> opt-in requests are ignored.
-  final DateTime? forcedApplyDate;
-
-  /// The type of opt-in request that has been received for the resource.
-  final String? optInStatus;
-
-  PendingMaintenanceAction({
-    this.action,
-    this.autoAppliedAfterDate,
-    this.currentApplyDate,
-    this.description,
-    this.forcedApplyDate,
-    this.optInStatus,
-  });
-
-  factory PendingMaintenanceAction.fromJson(Map<String, dynamic> json) {
-    return PendingMaintenanceAction(
-      action: json['Action'] as String?,
-      autoAppliedAfterDate: timeStampFromJson(json['AutoAppliedAfterDate']),
-      currentApplyDate: timeStampFromJson(json['CurrentApplyDate']),
-      description: json['Description'] as String?,
-      forcedApplyDate: timeStampFromJson(json['ForcedApplyDate']),
-      optInStatus: json['OptInStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final autoAppliedAfterDate = this.autoAppliedAfterDate;
-    final currentApplyDate = this.currentApplyDate;
-    final description = this.description;
-    final forcedApplyDate = this.forcedApplyDate;
-    final optInStatus = this.optInStatus;
-    return {
-      if (action != null) 'Action': action,
-      if (autoAppliedAfterDate != null)
-        'AutoAppliedAfterDate': unixTimestampToJson(autoAppliedAfterDate),
-      if (currentApplyDate != null)
-        'CurrentApplyDate': unixTimestampToJson(currentApplyDate),
-      if (description != null) 'Description': description,
-      if (forcedApplyDate != null)
-        'ForcedApplyDate': unixTimestampToJson(forcedApplyDate),
-      if (optInStatus != null) 'OptInStatus': optInStatus,
-    };
-  }
-}
-
-class PluginNameValue {
-  static const noPreference = PluginNameValue._('no-preference');
-  static const testDecoding = PluginNameValue._('test-decoding');
-  static const pglogical = PluginNameValue._('pglogical');
-
-  final String value;
-
-  const PluginNameValue._(this.value);
-
-  static const values = [noPreference, testDecoding, pglogical];
-
-  static PluginNameValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PluginNameValue._(value));
-
-  @override
-  bool operator ==(other) => other is PluginNameValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information that defines a PostgreSQL endpoint.
-class PostgreSQLSettings {
-  /// For use with change data capture (CDC) only, this attribute has DMS bypass
-  /// foreign keys and user triggers to reduce the time it takes to bulk load
-  /// data.
-  ///
-  /// Example: <code>afterConnectScript=SET
-  /// session_replication_role='replica'</code>
-  final String? afterConnectScript;
-
-  /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
-  final String? babelfishDatabaseName;
-
-  /// To capture DDL events, DMS creates various artifacts in the PostgreSQL
-  /// database when the task starts. You can later remove these artifacts.
-  ///
-  /// If this value is set to <code>N</code>, you don't have to create tables or
-  /// triggers on the source database.
-  final bool? captureDdls;
-
-  /// Specifies the default behavior of the replication's handling of PostgreSQL-
-  /// compatible endpoints that require some additional configuration, such as
-  /// Babelfish endpoints.
-  final DatabaseMode? databaseMode;
-
-  /// Database name for the endpoint.
-  final String? databaseName;
-
-  /// The schema in which the operational DDL database artifacts are created.
-  ///
-  /// Example: <code>ddlArtifactsSchema=xyzddlschema;</code>
-  final String? ddlArtifactsSchema;
-
-  /// Sets the client statement timeout for the PostgreSQL instance, in seconds.
-  /// The default value is 60 seconds.
-  ///
-  /// Example: <code>executeTimeout=100;</code>
-  final int? executeTimeout;
-
-  /// When set to <code>true</code>, this value causes a task to fail if the
-  /// actual size of a LOB column is greater than the specified
-  /// <code>LobMaxSize</code>.
-  ///
-  /// If task is set to Limited LOB mode and this option is set to true, the task
-  /// fails instead of truncating the LOB data.
-  final bool? failTasksOnLobTruncation;
-
-  /// The write-ahead log (WAL) heartbeat feature mimics a dummy transaction. By
-  /// doing this, it prevents idle logical replication slots from holding onto old
-  /// WAL logs, which can result in storage full situations on the source. This
-  /// heartbeat keeps <code>restart_lsn</code> moving and prevents storage full
-  /// scenarios.
-  final bool? heartbeatEnable;
-
-  /// Sets the WAL heartbeat frequency (in minutes).
-  final int? heartbeatFrequency;
-
-  /// Sets the schema in which the heartbeat artifacts are created.
-  final String? heartbeatSchema;
-
-  /// When true, lets PostgreSQL migrate the boolean type as boolean. By default,
-  /// PostgreSQL migrates booleans as <code>varchar(5)</code>. You must set this
-  /// setting on both the source and target endpoints for it to take effect.
-  final bool? mapBooleanAsBoolean;
-
-  /// When true, DMS migrates JSONB values as CLOB.
-  final bool? mapJsonbAsClob;
-
-  /// When true, DMS migrates LONG values as VARCHAR.
-  final LongVarcharMappingType? mapLongVarcharAs;
-
-  /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
-  /// PostgreSQL.
-  ///
-  /// Example: <code>maxFileSize=512</code>
-  final int? maxFileSize;
-
-  /// Endpoint connection password.
-  final String? password;
-
-  /// Specifies the plugin to use to create a replication slot.
-  final PluginNameValue? pluginName;
-
-  /// Endpoint TCP port. The default is 5432.
-  final int? port;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the PostgreSQL endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the PostgreSQL endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// The host name of the endpoint database.
-  ///
-  /// For an Amazon RDS PostgreSQL instance, this is the output of <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html">DescribeDBInstances</a>,
-  /// in the <code> <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html">Endpoint</a>.Address</code>
-  /// field.
-  ///
-  /// For an Aurora PostgreSQL instance, this is the output of <a
-  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html">DescribeDBClusters</a>,
-  /// in the <code>Endpoint</code> field.
-  final String? serverName;
-
-  /// Sets the name of a previously created logical replication slot for a change
-  /// data capture (CDC) load of the PostgreSQL source instance.
-  ///
-  /// When used with the <code>CdcStartPosition</code> request parameter for the
-  /// DMS API , this attribute also makes it possible to use native CDC start
-  /// points. DMS verifies that the specified logical replication slot exists
-  /// before starting the CDC load task. It also verifies that the task was
-  /// created with a valid setting of <code>CdcStartPosition</code>. If the
-  /// specified slot doesn't exist or the task doesn't have a valid
-  /// <code>CdcStartPosition</code> setting, DMS raises an error.
-  ///
-  /// For more information about setting the <code>CdcStartPosition</code> request
-  /// parameter, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Task.CDC.html#CHAP_Task.CDC.StartPoint.Native">Determining
-  /// a CDC native start point</a> in the <i>Database Migration Service User
-  /// Guide</i>. For more information about using <code>CdcStartPosition</code>,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html">CreateReplicationTask</a>,
-  /// <a
-  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html">StartReplicationTask</a>,
-  /// and <a
-  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html">ModifyReplicationTask</a>.
-  final String? slotName;
-
-  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to trim data on
-  /// CHAR and NCHAR data types during migration. The default value is
-  /// <code>true</code>.
-  final bool? trimSpaceInChar;
-
-  /// Endpoint connection user name.
-  final String? username;
-
-  PostgreSQLSettings({
-    this.afterConnectScript,
-    this.babelfishDatabaseName,
-    this.captureDdls,
-    this.databaseMode,
-    this.databaseName,
-    this.ddlArtifactsSchema,
-    this.executeTimeout,
-    this.failTasksOnLobTruncation,
-    this.heartbeatEnable,
-    this.heartbeatFrequency,
-    this.heartbeatSchema,
-    this.mapBooleanAsBoolean,
-    this.mapJsonbAsClob,
-    this.mapLongVarcharAs,
-    this.maxFileSize,
-    this.password,
-    this.pluginName,
-    this.port,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.slotName,
-    this.trimSpaceInChar,
-    this.username,
-  });
-
-  factory PostgreSQLSettings.fromJson(Map<String, dynamic> json) {
-    return PostgreSQLSettings(
-      afterConnectScript: json['AfterConnectScript'] as String?,
-      babelfishDatabaseName: json['BabelfishDatabaseName'] as String?,
-      captureDdls: json['CaptureDdls'] as bool?,
-      databaseMode:
-          (json['DatabaseMode'] as String?)?.let(DatabaseMode.fromString),
-      databaseName: json['DatabaseName'] as String?,
-      ddlArtifactsSchema: json['DdlArtifactsSchema'] as String?,
-      executeTimeout: json['ExecuteTimeout'] as int?,
-      failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool?,
-      heartbeatEnable: json['HeartbeatEnable'] as bool?,
-      heartbeatFrequency: json['HeartbeatFrequency'] as int?,
-      heartbeatSchema: json['HeartbeatSchema'] as String?,
-      mapBooleanAsBoolean: json['MapBooleanAsBoolean'] as bool?,
-      mapJsonbAsClob: json['MapJsonbAsClob'] as bool?,
-      mapLongVarcharAs: (json['MapLongVarcharAs'] as String?)
-          ?.let(LongVarcharMappingType.fromString),
-      maxFileSize: json['MaxFileSize'] as int?,
-      password: json['Password'] as String?,
-      pluginName:
-          (json['PluginName'] as String?)?.let(PluginNameValue.fromString),
-      port: json['Port'] as int?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      slotName: json['SlotName'] as String?,
-      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
-      username: json['Username'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final afterConnectScript = this.afterConnectScript;
-    final babelfishDatabaseName = this.babelfishDatabaseName;
-    final captureDdls = this.captureDdls;
-    final databaseMode = this.databaseMode;
-    final databaseName = this.databaseName;
-    final ddlArtifactsSchema = this.ddlArtifactsSchema;
-    final executeTimeout = this.executeTimeout;
-    final failTasksOnLobTruncation = this.failTasksOnLobTruncation;
-    final heartbeatEnable = this.heartbeatEnable;
-    final heartbeatFrequency = this.heartbeatFrequency;
-    final heartbeatSchema = this.heartbeatSchema;
-    final mapBooleanAsBoolean = this.mapBooleanAsBoolean;
-    final mapJsonbAsClob = this.mapJsonbAsClob;
-    final mapLongVarcharAs = this.mapLongVarcharAs;
-    final maxFileSize = this.maxFileSize;
-    final password = this.password;
-    final pluginName = this.pluginName;
-    final port = this.port;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final slotName = this.slotName;
-    final trimSpaceInChar = this.trimSpaceInChar;
-    final username = this.username;
-    return {
-      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
-      if (babelfishDatabaseName != null)
-        'BabelfishDatabaseName': babelfishDatabaseName,
-      if (captureDdls != null) 'CaptureDdls': captureDdls,
-      if (databaseMode != null) 'DatabaseMode': databaseMode.value,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (ddlArtifactsSchema != null) 'DdlArtifactsSchema': ddlArtifactsSchema,
-      if (executeTimeout != null) 'ExecuteTimeout': executeTimeout,
-      if (failTasksOnLobTruncation != null)
-        'FailTasksOnLobTruncation': failTasksOnLobTruncation,
-      if (heartbeatEnable != null) 'HeartbeatEnable': heartbeatEnable,
-      if (heartbeatFrequency != null) 'HeartbeatFrequency': heartbeatFrequency,
-      if (heartbeatSchema != null) 'HeartbeatSchema': heartbeatSchema,
-      if (mapBooleanAsBoolean != null)
-        'MapBooleanAsBoolean': mapBooleanAsBoolean,
-      if (mapJsonbAsClob != null) 'MapJsonbAsClob': mapJsonbAsClob,
-      if (mapLongVarcharAs != null) 'MapLongVarcharAs': mapLongVarcharAs.value,
-      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
-      if (password != null) 'Password': password,
-      if (pluginName != null) 'PluginName': pluginName.value,
-      if (port != null) 'Port': port,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (slotName != null) 'SlotName': slotName,
-      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
-      if (username != null) 'Username': username,
-    };
-  }
-}
-
-/// Provides information that defines a PostgreSQL data provider.
-class PostgreSqlDataProviderSettings {
-  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-  final String? certificateArn;
-
-  /// The database name on the PostgreSQL data provider.
-  final String? databaseName;
-
-  /// The port value for the PostgreSQL data provider.
-  final int? port;
-
-  /// The name of the PostgreSQL server.
-  final String? serverName;
-
-  /// The SSL mode used to connect to the PostgreSQL data provider. The default
-  /// value is <code>none</code>.
-  final DmsSslModeValue? sslMode;
-
-  PostgreSqlDataProviderSettings({
-    this.certificateArn,
-    this.databaseName,
-    this.port,
-    this.serverName,
-    this.sslMode,
-  });
-
-  factory PostgreSqlDataProviderSettings.fromJson(Map<String, dynamic> json) {
-    return PostgreSqlDataProviderSettings(
-      certificateArn: json['CertificateArn'] as String?,
-      databaseName: json['DatabaseName'] as String?,
-      port: json['Port'] as int?,
-      serverName: json['ServerName'] as String?,
-      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final databaseName = this.databaseName;
-    final port = this.port;
-    final serverName = this.serverName;
-    final sslMode = this.sslMode;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (port != null) 'Port': port,
-      if (serverName != null) 'ServerName': serverName,
-      if (sslMode != null) 'SslMode': sslMode.value,
-    };
-  }
-}
-
-/// Information about provisioning resources for an DMS serverless replication.
-class ProvisionData {
-  /// The timestamp when provisioning became available.
-  final DateTime? dateNewProvisioningDataAvailable;
-
-  /// The timestamp when DMS provisioned replication resources.
-  final DateTime? dateProvisioned;
-
-  /// Whether the new provisioning is available to the replication.
-  final bool? isNewProvisioningAvailable;
-
-  /// The current provisioning state
-  final String? provisionState;
-
-  /// The number of capacity units the replication is using.
-  final int? provisionedCapacityUnits;
-
-  /// A message describing the reason that DMS provisioned new resources for the
-  /// serverless replication.
-  final String? reasonForNewProvisioningData;
-
-  ProvisionData({
-    this.dateNewProvisioningDataAvailable,
-    this.dateProvisioned,
-    this.isNewProvisioningAvailable,
-    this.provisionState,
-    this.provisionedCapacityUnits,
-    this.reasonForNewProvisioningData,
-  });
-
-  factory ProvisionData.fromJson(Map<String, dynamic> json) {
-    return ProvisionData(
-      dateNewProvisioningDataAvailable:
-          timeStampFromJson(json['DateNewProvisioningDataAvailable']),
-      dateProvisioned: timeStampFromJson(json['DateProvisioned']),
-      isNewProvisioningAvailable: json['IsNewProvisioningAvailable'] as bool?,
-      provisionState: json['ProvisionState'] as String?,
-      provisionedCapacityUnits: json['ProvisionedCapacityUnits'] as int?,
-      reasonForNewProvisioningData:
-          json['ReasonForNewProvisioningData'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dateNewProvisioningDataAvailable =
-        this.dateNewProvisioningDataAvailable;
-    final dateProvisioned = this.dateProvisioned;
-    final isNewProvisioningAvailable = this.isNewProvisioningAvailable;
-    final provisionState = this.provisionState;
-    final provisionedCapacityUnits = this.provisionedCapacityUnits;
-    final reasonForNewProvisioningData = this.reasonForNewProvisioningData;
-    return {
-      if (dateNewProvisioningDataAvailable != null)
-        'DateNewProvisioningDataAvailable':
-            unixTimestampToJson(dateNewProvisioningDataAvailable),
-      if (dateProvisioned != null)
-        'DateProvisioned': unixTimestampToJson(dateProvisioned),
-      if (isNewProvisioningAvailable != null)
-        'IsNewProvisioningAvailable': isNewProvisioningAvailable,
-      if (provisionState != null) 'ProvisionState': provisionState,
-      if (provisionedCapacityUnits != null)
-        'ProvisionedCapacityUnits': provisionedCapacityUnits,
-      if (reasonForNewProvisioningData != null)
-        'ReasonForNewProvisioningData': reasonForNewProvisioningData,
-    };
-  }
-}
-
-/// Provides information that describes the configuration of the recommended
-/// target engine on Amazon RDS.
-class RdsConfiguration {
-  /// Describes the deployment option for the recommended Amazon RDS DB instance.
-  /// The deployment options include Multi-AZ and Single-AZ deployments. Valid
-  /// values include <code>"MULTI_AZ"</code> and <code>"SINGLE_AZ"</code>.
-  final String? deploymentOption;
-
-  /// Describes the recommended target Amazon RDS engine edition.
-  final String? engineEdition;
-
-  /// Describes the recommended target Amazon RDS engine version.
-  final String? engineVersion;
-
-  /// Describes the memory on the recommended Amazon RDS DB instance that meets
-  /// your requirements.
-  final double? instanceMemory;
-
-  /// Describes the recommended target Amazon RDS instance type.
-  final String? instanceType;
-
-  /// Describes the number of virtual CPUs (vCPU) on the recommended Amazon RDS DB
-  /// instance that meets your requirements.
-  final double? instanceVcpu;
-
-  /// Describes the number of I/O operations completed each second (IOPS) on the
-  /// recommended Amazon RDS DB instance that meets your requirements.
-  final int? storageIops;
-
-  /// Describes the storage size of the recommended Amazon RDS DB instance that
-  /// meets your requirements.
-  final int? storageSize;
-
-  /// Describes the storage type of the recommended Amazon RDS DB instance that
-  /// meets your requirements.
-  ///
-  /// Amazon RDS provides three storage types: General Purpose SSD (also known as
-  /// gp2 and gp3), Provisioned IOPS SSD (also known as io1), and magnetic (also
-  /// known as standard).
-  final String? storageType;
-
-  RdsConfiguration({
-    this.deploymentOption,
-    this.engineEdition,
-    this.engineVersion,
-    this.instanceMemory,
-    this.instanceType,
-    this.instanceVcpu,
-    this.storageIops,
-    this.storageSize,
-    this.storageType,
-  });
-
-  factory RdsConfiguration.fromJson(Map<String, dynamic> json) {
-    return RdsConfiguration(
-      deploymentOption: json['DeploymentOption'] as String?,
-      engineEdition: json['EngineEdition'] as String?,
-      engineVersion: json['EngineVersion'] as String?,
-      instanceMemory: json['InstanceMemory'] as double?,
-      instanceType: json['InstanceType'] as String?,
-      instanceVcpu: json['InstanceVcpu'] as double?,
-      storageIops: json['StorageIops'] as int?,
-      storageSize: json['StorageSize'] as int?,
-      storageType: json['StorageType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentOption = this.deploymentOption;
-    final engineEdition = this.engineEdition;
-    final engineVersion = this.engineVersion;
-    final instanceMemory = this.instanceMemory;
-    final instanceType = this.instanceType;
-    final instanceVcpu = this.instanceVcpu;
-    final storageIops = this.storageIops;
-    final storageSize = this.storageSize;
-    final storageType = this.storageType;
-    return {
-      if (deploymentOption != null) 'DeploymentOption': deploymentOption,
-      if (engineEdition != null) 'EngineEdition': engineEdition,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (instanceMemory != null) 'InstanceMemory': instanceMemory,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (instanceVcpu != null) 'InstanceVcpu': instanceVcpu,
-      if (storageIops != null) 'StorageIops': storageIops,
-      if (storageSize != null) 'StorageSize': storageSize,
-      if (storageType != null) 'StorageType': storageType,
-    };
-  }
-}
-
-/// Provides information that describes a recommendation of a target engine on
-/// Amazon RDS.
-class RdsRecommendation {
-  /// Supplemental information about the requirements to the recommended target
-  /// database on Amazon RDS.
-  final RdsRequirements? requirementsToTarget;
-
-  /// Supplemental information about the configuration of the recommended target
-  /// database on Amazon RDS.
-  final RdsConfiguration? targetConfiguration;
-
-  RdsRecommendation({
-    this.requirementsToTarget,
-    this.targetConfiguration,
-  });
-
-  factory RdsRecommendation.fromJson(Map<String, dynamic> json) {
-    return RdsRecommendation(
-      requirementsToTarget: json['RequirementsToTarget'] != null
-          ? RdsRequirements.fromJson(
-              json['RequirementsToTarget'] as Map<String, dynamic>)
-          : null,
-      targetConfiguration: json['TargetConfiguration'] != null
-          ? RdsConfiguration.fromJson(
-              json['TargetConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requirementsToTarget = this.requirementsToTarget;
-    final targetConfiguration = this.targetConfiguration;
-    return {
-      if (requirementsToTarget != null)
-        'RequirementsToTarget': requirementsToTarget,
-      if (targetConfiguration != null)
-        'TargetConfiguration': targetConfiguration,
-    };
-  }
-}
-
-/// Provides information that describes the requirements to the target engine on
-/// Amazon RDS.
-class RdsRequirements {
-  /// The required deployment option for the Amazon RDS DB instance. Valid values
-  /// include <code>"MULTI_AZ"</code> for Multi-AZ deployments and
-  /// <code>"SINGLE_AZ"</code> for Single-AZ deployments.
-  final String? deploymentOption;
-
-  /// The required target Amazon RDS engine edition.
-  final String? engineEdition;
-
-  /// The required target Amazon RDS engine version.
-  final String? engineVersion;
-
-  /// The required memory on the Amazon RDS DB instance.
-  final double? instanceMemory;
-
-  /// The required number of virtual CPUs (vCPU) on the Amazon RDS DB instance.
-  final double? instanceVcpu;
-
-  /// The required number of I/O operations completed each second (IOPS) on your
-  /// Amazon RDS DB instance.
-  final int? storageIops;
-
-  /// The required Amazon RDS DB instance storage size.
-  final int? storageSize;
-
-  RdsRequirements({
-    this.deploymentOption,
-    this.engineEdition,
-    this.engineVersion,
-    this.instanceMemory,
-    this.instanceVcpu,
-    this.storageIops,
-    this.storageSize,
-  });
-
-  factory RdsRequirements.fromJson(Map<String, dynamic> json) {
-    return RdsRequirements(
-      deploymentOption: json['DeploymentOption'] as String?,
-      engineEdition: json['EngineEdition'] as String?,
-      engineVersion: json['EngineVersion'] as String?,
-      instanceMemory: json['InstanceMemory'] as double?,
-      instanceVcpu: json['InstanceVcpu'] as double?,
-      storageIops: json['StorageIops'] as int?,
-      storageSize: json['StorageSize'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deploymentOption = this.deploymentOption;
-    final engineEdition = this.engineEdition;
-    final engineVersion = this.engineVersion;
-    final instanceMemory = this.instanceMemory;
-    final instanceVcpu = this.instanceVcpu;
-    final storageIops = this.storageIops;
-    final storageSize = this.storageSize;
-    return {
-      if (deploymentOption != null) 'DeploymentOption': deploymentOption,
-      if (engineEdition != null) 'EngineEdition': engineEdition,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (instanceMemory != null) 'InstanceMemory': instanceMemory,
-      if (instanceVcpu != null) 'InstanceVcpu': instanceVcpu,
-      if (storageIops != null) 'StorageIops': storageIops,
-      if (storageSize != null) 'StorageSize': storageSize,
     };
   }
 }
@@ -15701,668 +10548,7 @@ class RebootReplicationInstanceResponse {
   }
 }
 
-/// Provides information that describes a recommendation of a target engine.
 ///
-/// A <i>recommendation</i> is a set of possible Amazon Web Services target
-/// engines that you can choose to migrate your source on-premises database. In
-/// this set, Fleet Advisor suggests a single target engine as the right sized
-/// migration destination. To determine this rightsized migration destination,
-/// Fleet Advisor uses the inventory metadata and metrics from data collector.
-/// You can use recommendations before the start of migration to save costs and
-/// reduce risks.
-///
-/// With recommendations, you can explore different target options and compare
-/// metrics, so you can make an informed decision when you choose the migration
-/// target.
-class Recommendation {
-  /// The date when Fleet Advisor created the target engine recommendation.
-  final String? createdDate;
-
-  /// The recommendation of a target engine for the specified source database.
-  final RecommendationData? data;
-
-  /// The identifier of the source database for which Fleet Advisor provided this
-  /// recommendation.
-  final String? databaseId;
-
-  /// The name of the target engine. Valid values include
-  /// <code>"rds-aurora-mysql"</code>, <code>"rds-aurora-postgresql"</code>,
-  /// <code>"rds-mysql"</code>, <code>"rds-oracle"</code>,
-  /// <code>"rds-sql-server"</code>, and <code>"rds-postgresql"</code>.
-  final String? engineName;
-
-  /// Indicates that this target is the rightsized migration destination.
-  final bool? preferred;
-
-  /// The settings in JSON format for the preferred target engine parameters.
-  /// These parameters include capacity, resource utilization, and the usage type
-  /// (production, development, or testing).
-  final RecommendationSettings? settings;
-
-  /// The status of the target engine recommendation. Valid values include
-  /// <code>"alternate"</code>, <code>"in-progress"</code>,
-  /// <code>"not-viable"</code>, and <code>"recommended"</code>.
-  final String? status;
-
-  Recommendation({
-    this.createdDate,
-    this.data,
-    this.databaseId,
-    this.engineName,
-    this.preferred,
-    this.settings,
-    this.status,
-  });
-
-  factory Recommendation.fromJson(Map<String, dynamic> json) {
-    return Recommendation(
-      createdDate: json['CreatedDate'] as String?,
-      data: json['Data'] != null
-          ? RecommendationData.fromJson(json['Data'] as Map<String, dynamic>)
-          : null,
-      databaseId: json['DatabaseId'] as String?,
-      engineName: json['EngineName'] as String?,
-      preferred: json['Preferred'] as bool?,
-      settings: json['Settings'] != null
-          ? RecommendationSettings.fromJson(
-              json['Settings'] as Map<String, dynamic>)
-          : null,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final data = this.data;
-    final databaseId = this.databaseId;
-    final engineName = this.engineName;
-    final preferred = this.preferred;
-    final settings = this.settings;
-    final status = this.status;
-    return {
-      if (createdDate != null) 'CreatedDate': createdDate,
-      if (data != null) 'Data': data,
-      if (databaseId != null) 'DatabaseId': databaseId,
-      if (engineName != null) 'EngineName': engineName,
-      if (preferred != null) 'Preferred': preferred,
-      if (settings != null) 'Settings': settings,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// Provides information about the target engine for the specified source
-/// database.
-class RecommendationData {
-  /// The recommendation of a target Amazon RDS database engine.
-  final RdsRecommendation? rdsEngine;
-
-  RecommendationData({
-    this.rdsEngine,
-  });
-
-  factory RecommendationData.fromJson(Map<String, dynamic> json) {
-    return RecommendationData(
-      rdsEngine: json['RdsEngine'] != null
-          ? RdsRecommendation.fromJson(
-              json['RdsEngine'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rdsEngine = this.rdsEngine;
-    return {
-      if (rdsEngine != null) 'RdsEngine': rdsEngine,
-    };
-  }
-}
-
-/// Provides information about the required target engine settings.
-class RecommendationSettings {
-  /// The size of your target instance. Fleet Advisor calculates this value based
-  /// on your data collection type, such as total capacity and resource
-  /// utilization. Valid values include <code>"total-capacity"</code> and
-  /// <code>"utilization"</code>.
-  final String instanceSizingType;
-
-  /// The deployment option for your target engine. For production databases,
-  /// Fleet Advisor chooses Multi-AZ deployment. For development or test
-  /// databases, Fleet Advisor chooses Single-AZ deployment. Valid values include
-  /// <code>"development"</code> and <code>"production"</code>.
-  final String workloadType;
-
-  RecommendationSettings({
-    required this.instanceSizingType,
-    required this.workloadType,
-  });
-
-  factory RecommendationSettings.fromJson(Map<String, dynamic> json) {
-    return RecommendationSettings(
-      instanceSizingType: (json['InstanceSizingType'] as String?) ?? '',
-      workloadType: (json['WorkloadType'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceSizingType = this.instanceSizingType;
-    final workloadType = this.workloadType;
-    return {
-      'InstanceSizingType': instanceSizingType,
-      'WorkloadType': workloadType,
-    };
-  }
-}
-
-class RedisAuthTypeValue {
-  static const none = RedisAuthTypeValue._('none');
-  static const authRole = RedisAuthTypeValue._('auth-role');
-  static const authToken = RedisAuthTypeValue._('auth-token');
-
-  final String value;
-
-  const RedisAuthTypeValue._(this.value);
-
-  static const values = [none, authRole, authToken];
-
-  static RedisAuthTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RedisAuthTypeValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RedisAuthTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information that defines a Redis target endpoint.
-class RedisSettings {
-  /// Transmission Control Protocol (TCP) port for the endpoint.
-  final int port;
-
-  /// Fully qualified domain name of the endpoint.
-  final String serverName;
-
-  /// The password provided with the <code>auth-role</code> and
-  /// <code>auth-token</code> options of the <code>AuthType</code> setting for a
-  /// Redis target endpoint.
-  final String? authPassword;
-
-  /// The type of authentication to perform when connecting to a Redis target.
-  /// Options include <code>none</code>, <code>auth-token</code>, and
-  /// <code>auth-role</code>. The <code>auth-token</code> option requires an
-  /// <code>AuthPassword</code> value to be provided. The <code>auth-role</code>
-  /// option requires <code>AuthUserName</code> and <code>AuthPassword</code>
-  /// values to be provided.
-  final RedisAuthTypeValue? authType;
-
-  /// The user name provided with the <code>auth-role</code> option of the
-  /// <code>AuthType</code> setting for a Redis target endpoint.
-  final String? authUserName;
-
-  /// The Amazon Resource Name (ARN) for the certificate authority (CA) that DMS
-  /// uses to connect to your Redis target endpoint.
-  final String? sslCaCertificateArn;
-
-  /// The connection to a Redis target endpoint using Transport Layer Security
-  /// (TLS). Valid values include <code>plaintext</code> and
-  /// <code>ssl-encryption</code>. The default is <code>ssl-encryption</code>. The
-  /// <code>ssl-encryption</code> option makes an encrypted connection.
-  /// Optionally, you can identify an Amazon Resource Name (ARN) for an SSL
-  /// certificate authority (CA) using the <code>SslCaCertificateArn
-  /// </code>setting. If an ARN isn't given for a CA, DMS uses the Amazon root CA.
-  ///
-  /// The <code>plaintext</code> option doesn't provide Transport Layer Security
-  /// (TLS) encryption for traffic between endpoint and database.
-  final SslSecurityProtocolValue? sslSecurityProtocol;
-
-  RedisSettings({
-    required this.port,
-    required this.serverName,
-    this.authPassword,
-    this.authType,
-    this.authUserName,
-    this.sslCaCertificateArn,
-    this.sslSecurityProtocol,
-  });
-
-  factory RedisSettings.fromJson(Map<String, dynamic> json) {
-    return RedisSettings(
-      port: (json['Port'] as int?) ?? 0,
-      serverName: (json['ServerName'] as String?) ?? '',
-      authPassword: json['AuthPassword'] as String?,
-      authType:
-          (json['AuthType'] as String?)?.let(RedisAuthTypeValue.fromString),
-      authUserName: json['AuthUserName'] as String?,
-      sslCaCertificateArn: json['SslCaCertificateArn'] as String?,
-      sslSecurityProtocol: (json['SslSecurityProtocol'] as String?)
-          ?.let(SslSecurityProtocolValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final port = this.port;
-    final serverName = this.serverName;
-    final authPassword = this.authPassword;
-    final authType = this.authType;
-    final authUserName = this.authUserName;
-    final sslCaCertificateArn = this.sslCaCertificateArn;
-    final sslSecurityProtocol = this.sslSecurityProtocol;
-    return {
-      'Port': port,
-      'ServerName': serverName,
-      if (authPassword != null) 'AuthPassword': authPassword,
-      if (authType != null) 'AuthType': authType.value,
-      if (authUserName != null) 'AuthUserName': authUserName,
-      if (sslCaCertificateArn != null)
-        'SslCaCertificateArn': sslCaCertificateArn,
-      if (sslSecurityProtocol != null)
-        'SslSecurityProtocol': sslSecurityProtocol.value,
-    };
-  }
-}
-
-/// Provides information that defines an Amazon Redshift data provider.
-class RedshiftDataProviderSettings {
-  /// The database name on the Amazon Redshift data provider.
-  final String? databaseName;
-
-  /// The port value for the Amazon Redshift data provider.
-  final int? port;
-
-  /// The name of the Amazon Redshift server.
-  final String? serverName;
-
-  RedshiftDataProviderSettings({
-    this.databaseName,
-    this.port,
-    this.serverName,
-  });
-
-  factory RedshiftDataProviderSettings.fromJson(Map<String, dynamic> json) {
-    return RedshiftDataProviderSettings(
-      databaseName: json['DatabaseName'] as String?,
-      port: json['Port'] as int?,
-      serverName: json['ServerName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final port = this.port;
-    final serverName = this.serverName;
-    return {
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (port != null) 'Port': port,
-      if (serverName != null) 'ServerName': serverName,
-    };
-  }
-}
-
-/// Provides information that defines an Amazon Redshift endpoint.
-class RedshiftSettings {
-  /// A value that indicates to allow any date format, including invalid formats
-  /// such as 00/00/00 00:00:00, to be loaded without generating an error. You can
-  /// choose <code>true</code> or <code>false</code> (the default).
-  ///
-  /// This parameter applies only to TIMESTAMP and DATE columns. Always use
-  /// ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data
-  /// doesn't match the DATEFORMAT specification, Amazon Redshift inserts a NULL
-  /// value into that field.
-  final bool? acceptAnyDate;
-
-  /// Code to run after connecting. This parameter should contain the code itself,
-  /// not the name of a file containing the code.
-  final String? afterConnectScript;
-
-  /// An S3 folder where the comma-separated-value (.csv) files are stored before
-  /// being uploaded to the target Redshift cluster.
-  ///
-  /// For full load mode, DMS converts source records into .csv files and loads
-  /// them to the <i>BucketFolder/TableID</i> path. DMS uses the Redshift
-  /// <code>COPY</code> command to upload the .csv files to the target table. The
-  /// files are deleted once the <code>COPY</code> operation has finished. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html">COPY</a>
-  /// in the <i>Amazon Redshift Database Developer Guide</i>.
-  ///
-  /// For change-data-capture (CDC) mode, DMS creates a <i>NetChanges</i> table,
-  /// and loads the .csv files to this <i>BucketFolder/NetChangesTableID</i> path.
-  final String? bucketFolder;
-
-  /// The name of the intermediate S3 bucket used to store .csv files before
-  /// uploading data to Redshift.
-  final String? bucketName;
-
-  /// If Amazon Redshift is configured to support case sensitive schema names, set
-  /// <code>CaseSensitiveNames</code> to <code>true</code>. The default is
-  /// <code>false</code>.
-  final bool? caseSensitiveNames;
-
-  /// If you set <code>CompUpdate</code> to <code>true</code> Amazon Redshift
-  /// applies automatic compression if the table is empty. This applies even if
-  /// the table columns already have encodings other than <code>RAW</code>. If you
-  /// set <code>CompUpdate</code> to <code>false</code>, automatic compression is
-  /// disabled and existing column encodings aren't changed. The default is
-  /// <code>true</code>.
-  final bool? compUpdate;
-
-  /// A value that sets the amount of time to wait (in milliseconds) before timing
-  /// out, beginning from when you initially establish a connection.
-  final int? connectionTimeout;
-
-  /// The name of the Amazon Redshift data warehouse (service) that you are
-  /// working with.
-  final String? databaseName;
-
-  /// The date format that you are using. Valid values are <code>auto</code>
-  /// (case-sensitive), your date format string enclosed in quotes, or NULL. If
-  /// this parameter is left unset (NULL), it defaults to a format of
-  /// 'YYYY-MM-DD'. Using <code>auto</code> recognizes most strings, even some
-  /// that aren't supported when you use a date format string.
-  ///
-  /// If your date and time values use formats different from each other, set this
-  /// to <code>auto</code>.
-  final String? dateFormat;
-
-  /// A value that specifies whether DMS should migrate empty CHAR and VARCHAR
-  /// fields as NULL. A value of <code>true</code> sets empty CHAR and VARCHAR
-  /// fields to null. The default is <code>false</code>.
-  final bool? emptyAsNull;
-
-  /// The type of server-side encryption that you want to use for your data. This
-  /// encryption type is part of the endpoint settings or the extra connections
-  /// attributes for Amazon S3. You can choose either <code>SSE_S3</code> (the
-  /// default) or <code>SSE_KMS</code>.
-  /// <note>
-  /// For the <code>ModifyEndpoint</code> operation, you can change the existing
-  /// value of the <code>EncryptionMode</code> parameter from <code>SSE_KMS</code>
-  /// to <code>SSE_S3</code>. But you can’t change the existing value from
-  /// <code>SSE_S3</code> to <code>SSE_KMS</code>.
-  /// </note>
-  /// To use <code>SSE_S3</code>, create an Identity and Access Management (IAM)
-  /// role with a policy that allows <code>"arn:aws:s3:::*"</code> to use the
-  /// following actions: <code>"s3:PutObject", "s3:ListBucket"</code>
-  final EncryptionModeValue? encryptionMode;
-
-  /// This setting is only valid for a full-load migration task. Set
-  /// <code>ExplicitIds</code> to <code>true</code> to have tables with
-  /// <code>IDENTITY</code> columns override their auto-generated values with
-  /// explicit values loaded from the source data files used to populate the
-  /// tables. The default is <code>false</code>.
-  final bool? explicitIds;
-
-  /// The number of threads used to upload a single file. This parameter accepts a
-  /// value from 1 through 64. It defaults to 10.
-  ///
-  /// The number of parallel streams used to upload a single .csv file to an S3
-  /// bucket using S3 Multipart Upload. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html">Multipart
-  /// upload overview</a>.
-  ///
-  /// <code>FileTransferUploadStreams</code> accepts a value from 1 through 64. It
-  /// defaults to 10.
-  final int? fileTransferUploadStreams;
-
-  /// The amount of time to wait (in milliseconds) before timing out of operations
-  /// performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT,
-  /// DELETE, and UPDATE.
-  final int? loadTimeout;
-
-  /// When true, lets Redshift migrate the boolean type as boolean. By default,
-  /// Redshift migrates booleans as <code>varchar(1)</code>. You must set this
-  /// setting on both the source and target endpoints for it to take effect.
-  final bool? mapBooleanAsBoolean;
-
-  /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket
-  /// and transfer data to Amazon Redshift. It defaults to 1048576KB (1 GB).
-  final int? maxFileSize;
-
-  /// The password for the user named in the <code>username</code> property.
-  final String? password;
-
-  /// The port number for Amazon Redshift. The default value is 5439.
-  final int? port;
-
-  /// A value that specifies to remove surrounding quotation marks from strings in
-  /// the incoming data. All characters within the quotation marks, including
-  /// delimiters, are retained. Choose <code>true</code> to remove quotation
-  /// marks. The default is <code>false</code>.
-  final bool? removeQuotes;
-
-  /// A value that specifies to replaces the invalid characters specified in
-  /// <code>ReplaceInvalidChars</code>, substituting the specified characters
-  /// instead. The default is <code>"?"</code>.
-  final String? replaceChars;
-
-  /// A list of characters that you want to replace. Use with
-  /// <code>ReplaceChars</code>.
-  final String? replaceInvalidChars;
-
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the Amazon Redshift endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
-
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the Amazon Redshift endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
-
-  /// The name of the Amazon Redshift cluster you are using.
-  final String? serverName;
-
-  /// The KMS key ID. If you are using <code>SSE_KMS</code> for the
-  /// <code>EncryptionMode</code>, provide this key ID. The key that you use needs
-  /// an attached policy that enables IAM user permissions and allows use of the
-  /// key.
-  final String? serverSideEncryptionKmsKeyId;
-
-  /// The Amazon Resource Name (ARN) of the IAM role that has access to the Amazon
-  /// Redshift service. The role must allow the <code>iam:PassRole</code> action.
-  final String? serviceAccessRoleArn;
-
-  /// The time format that you want to use. Valid values are <code>auto</code>
-  /// (case-sensitive), <code>'timeformat_string'</code>,
-  /// <code>'epochsecs'</code>, or <code>'epochmillisecs'</code>. It defaults to
-  /// 10. Using <code>auto</code> recognizes most strings, even some that aren't
-  /// supported when you use a time format string.
-  ///
-  /// If your date and time values use formats different from each other, set this
-  /// parameter to <code>auto</code>.
-  final String? timeFormat;
-
-  /// A value that specifies to remove the trailing white space characters from a
-  /// VARCHAR string. This parameter applies only to columns with a VARCHAR data
-  /// type. Choose <code>true</code> to remove unneeded white space. The default
-  /// is <code>false</code>.
-  final bool? trimBlanks;
-
-  /// A value that specifies to truncate data in columns to the appropriate number
-  /// of characters, so that the data fits in the column. This parameter applies
-  /// only to columns with a VARCHAR or CHAR data type, and rows with a size of 4
-  /// MB or less. Choose <code>true</code> to truncate data. The default is
-  /// <code>false</code>.
-  final bool? truncateColumns;
-
-  /// An Amazon Redshift user name for a registered user.
-  final String? username;
-
-  /// The size (in KB) of the in-memory file write buffer used when generating
-  /// .csv files on the local disk at the DMS replication instance. The default
-  /// value is 1000 (buffer size is 1000KB).
-  final int? writeBufferSize;
-
-  RedshiftSettings({
-    this.acceptAnyDate,
-    this.afterConnectScript,
-    this.bucketFolder,
-    this.bucketName,
-    this.caseSensitiveNames,
-    this.compUpdate,
-    this.connectionTimeout,
-    this.databaseName,
-    this.dateFormat,
-    this.emptyAsNull,
-    this.encryptionMode,
-    this.explicitIds,
-    this.fileTransferUploadStreams,
-    this.loadTimeout,
-    this.mapBooleanAsBoolean,
-    this.maxFileSize,
-    this.password,
-    this.port,
-    this.removeQuotes,
-    this.replaceChars,
-    this.replaceInvalidChars,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.serverSideEncryptionKmsKeyId,
-    this.serviceAccessRoleArn,
-    this.timeFormat,
-    this.trimBlanks,
-    this.truncateColumns,
-    this.username,
-    this.writeBufferSize,
-  });
-
-  factory RedshiftSettings.fromJson(Map<String, dynamic> json) {
-    return RedshiftSettings(
-      acceptAnyDate: json['AcceptAnyDate'] as bool?,
-      afterConnectScript: json['AfterConnectScript'] as String?,
-      bucketFolder: json['BucketFolder'] as String?,
-      bucketName: json['BucketName'] as String?,
-      caseSensitiveNames: json['CaseSensitiveNames'] as bool?,
-      compUpdate: json['CompUpdate'] as bool?,
-      connectionTimeout: json['ConnectionTimeout'] as int?,
-      databaseName: json['DatabaseName'] as String?,
-      dateFormat: json['DateFormat'] as String?,
-      emptyAsNull: json['EmptyAsNull'] as bool?,
-      encryptionMode: (json['EncryptionMode'] as String?)
-          ?.let(EncryptionModeValue.fromString),
-      explicitIds: json['ExplicitIds'] as bool?,
-      fileTransferUploadStreams: json['FileTransferUploadStreams'] as int?,
-      loadTimeout: json['LoadTimeout'] as int?,
-      mapBooleanAsBoolean: json['MapBooleanAsBoolean'] as bool?,
-      maxFileSize: json['MaxFileSize'] as int?,
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      removeQuotes: json['RemoveQuotes'] as bool?,
-      replaceChars: json['ReplaceChars'] as String?,
-      replaceInvalidChars: json['ReplaceInvalidChars'] as String?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      serverSideEncryptionKmsKeyId:
-          json['ServerSideEncryptionKmsKeyId'] as String?,
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
-      timeFormat: json['TimeFormat'] as String?,
-      trimBlanks: json['TrimBlanks'] as bool?,
-      truncateColumns: json['TruncateColumns'] as bool?,
-      username: json['Username'] as String?,
-      writeBufferSize: json['WriteBufferSize'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final acceptAnyDate = this.acceptAnyDate;
-    final afterConnectScript = this.afterConnectScript;
-    final bucketFolder = this.bucketFolder;
-    final bucketName = this.bucketName;
-    final caseSensitiveNames = this.caseSensitiveNames;
-    final compUpdate = this.compUpdate;
-    final connectionTimeout = this.connectionTimeout;
-    final databaseName = this.databaseName;
-    final dateFormat = this.dateFormat;
-    final emptyAsNull = this.emptyAsNull;
-    final encryptionMode = this.encryptionMode;
-    final explicitIds = this.explicitIds;
-    final fileTransferUploadStreams = this.fileTransferUploadStreams;
-    final loadTimeout = this.loadTimeout;
-    final mapBooleanAsBoolean = this.mapBooleanAsBoolean;
-    final maxFileSize = this.maxFileSize;
-    final password = this.password;
-    final port = this.port;
-    final removeQuotes = this.removeQuotes;
-    final replaceChars = this.replaceChars;
-    final replaceInvalidChars = this.replaceInvalidChars;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final serverSideEncryptionKmsKeyId = this.serverSideEncryptionKmsKeyId;
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    final timeFormat = this.timeFormat;
-    final trimBlanks = this.trimBlanks;
-    final truncateColumns = this.truncateColumns;
-    final username = this.username;
-    final writeBufferSize = this.writeBufferSize;
-    return {
-      if (acceptAnyDate != null) 'AcceptAnyDate': acceptAnyDate,
-      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
-      if (bucketFolder != null) 'BucketFolder': bucketFolder,
-      if (bucketName != null) 'BucketName': bucketName,
-      if (caseSensitiveNames != null) 'CaseSensitiveNames': caseSensitiveNames,
-      if (compUpdate != null) 'CompUpdate': compUpdate,
-      if (connectionTimeout != null) 'ConnectionTimeout': connectionTimeout,
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (dateFormat != null) 'DateFormat': dateFormat,
-      if (emptyAsNull != null) 'EmptyAsNull': emptyAsNull,
-      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
-      if (explicitIds != null) 'ExplicitIds': explicitIds,
-      if (fileTransferUploadStreams != null)
-        'FileTransferUploadStreams': fileTransferUploadStreams,
-      if (loadTimeout != null) 'LoadTimeout': loadTimeout,
-      if (mapBooleanAsBoolean != null)
-        'MapBooleanAsBoolean': mapBooleanAsBoolean,
-      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (removeQuotes != null) 'RemoveQuotes': removeQuotes,
-      if (replaceChars != null) 'ReplaceChars': replaceChars,
-      if (replaceInvalidChars != null)
-        'ReplaceInvalidChars': replaceInvalidChars,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (serverSideEncryptionKmsKeyId != null)
-        'ServerSideEncryptionKmsKeyId': serverSideEncryptionKmsKeyId,
-      if (serviceAccessRoleArn != null)
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-      if (timeFormat != null) 'TimeFormat': timeFormat,
-      if (trimBlanks != null) 'TrimBlanks': trimBlanks,
-      if (truncateColumns != null) 'TruncateColumns': truncateColumns,
-      if (username != null) 'Username': username,
-      if (writeBufferSize != null) 'WriteBufferSize': writeBufferSize,
-    };
-  }
-}
-
-/// <p/>
 class RefreshSchemasResponse {
   /// The status of the refreshed schema.
   final RefreshSchemasStatus? refreshSchemasStatus;
@@ -16389,137 +10575,7 @@ class RefreshSchemasResponse {
   }
 }
 
-/// Provides information that describes status of a schema at an endpoint
-/// specified by the <code>DescribeRefreshSchemaStatus</code> operation.
-class RefreshSchemasStatus {
-  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-  final String? endpointArn;
-
-  /// The last failure message for the schema.
-  final String? lastFailureMessage;
-
-  /// The date the schema was last refreshed.
-  final DateTime? lastRefreshDate;
-
-  /// The Amazon Resource Name (ARN) of the replication instance.
-  final String? replicationInstanceArn;
-
-  /// The status of the schema.
-  final RefreshSchemasStatusTypeValue? status;
-
-  RefreshSchemasStatus({
-    this.endpointArn,
-    this.lastFailureMessage,
-    this.lastRefreshDate,
-    this.replicationInstanceArn,
-    this.status,
-  });
-
-  factory RefreshSchemasStatus.fromJson(Map<String, dynamic> json) {
-    return RefreshSchemasStatus(
-      endpointArn: json['EndpointArn'] as String?,
-      lastFailureMessage: json['LastFailureMessage'] as String?,
-      lastRefreshDate: timeStampFromJson(json['LastRefreshDate']),
-      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(RefreshSchemasStatusTypeValue.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpointArn = this.endpointArn;
-    final lastFailureMessage = this.lastFailureMessage;
-    final lastRefreshDate = this.lastRefreshDate;
-    final replicationInstanceArn = this.replicationInstanceArn;
-    final status = this.status;
-    return {
-      if (endpointArn != null) 'EndpointArn': endpointArn,
-      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
-      if (lastRefreshDate != null)
-        'LastRefreshDate': unixTimestampToJson(lastRefreshDate),
-      if (replicationInstanceArn != null)
-        'ReplicationInstanceArn': replicationInstanceArn,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class RefreshSchemasStatusTypeValue {
-  static const successful = RefreshSchemasStatusTypeValue._('successful');
-  static const failed = RefreshSchemasStatusTypeValue._('failed');
-  static const refreshing = RefreshSchemasStatusTypeValue._('refreshing');
-
-  final String value;
-
-  const RefreshSchemasStatusTypeValue._(this.value);
-
-  static const values = [successful, failed, refreshing];
-
-  static RefreshSchemasStatusTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RefreshSchemasStatusTypeValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RefreshSchemasStatusTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ReleaseStatusValues {
-  static const beta = ReleaseStatusValues._('beta');
-  static const prod = ReleaseStatusValues._('prod');
-
-  final String value;
-
-  const ReleaseStatusValues._(this.value);
-
-  static const values = [beta, prod];
-
-  static ReleaseStatusValues fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReleaseStatusValues._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReleaseStatusValues && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ReloadOptionValue {
-  static const dataReload = ReloadOptionValue._('data-reload');
-  static const validateOnly = ReloadOptionValue._('validate-only');
-
-  final String value;
-
-  const ReloadOptionValue._(this.value);
-
-  static const values = [dataReload, validateOnly];
-
-  static ReloadOptionValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReloadOptionValue._(value));
-
-  @override
-  bool operator ==(other) => other is ReloadOptionValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <p/>
+///
 class ReloadReplicationTablesResponse {
   /// The Amazon Resource Name of the replication config for which to reload
   /// tables.
@@ -16566,7 +10622,7 @@ class ReloadTablesResponse {
   }
 }
 
-/// <p/>
+///
 class RemoveTagsFromResourceResponse {
   RemoveTagsFromResourceResponse();
 
@@ -16579,989 +10635,529 @@ class RemoveTagsFromResourceResponse {
   }
 }
 
-/// Provides information that describes a serverless replication created by the
-/// <code>CreateReplication</code> operation.
-class Replication {
-  /// Indicates the start time for a change data capture (CDC) operation. Use
-  /// either <code>CdcStartTime</code> or <code>CdcStartPosition</code> to specify
-  /// when you want a CDC operation to start. Specifying both values results in an
-  /// error.
-  final String? cdcStartPosition;
+class RunFleetAdvisorLsaAnalysisResponse {
+  /// The ID of the LSA analysis run.
+  final String? lsaAnalysisId;
 
-  /// Indicates the start time for a change data capture (CDC) operation. Use
-  /// either <code>CdcStartTime</code> or <code>CdcStartPosition</code> to specify
-  /// when you want a CDC operation to start. Specifying both values results in an
-  /// error.
-  final DateTime? cdcStartTime;
-
-  /// Indicates when you want a change data capture (CDC) operation to stop. The
-  /// value can be either server time or commit time.
-  final String? cdcStopPosition;
-
-  /// Error and other information about why a serverless replication failed.
-  final List<String>? failureMessages;
-
-  /// Information about provisioning resources for an DMS serverless replication.
-  final ProvisionData? provisionData;
-
-  /// Indicates the last checkpoint that occurred during a change data capture
-  /// (CDC) operation. You can provide this value to the
-  /// <code>CdcStartPosition</code> parameter to start a CDC operation that begins
-  /// at that checkpoint.
-  final String? recoveryCheckpoint;
-
-  /// The Amazon Resource Name for the <code>ReplicationConfig</code> associated
-  /// with the replication.
-  final String? replicationConfigArn;
-
-  /// The identifier for the <code>ReplicationConfig</code> associated with the
-  /// replication.
-  final String? replicationConfigIdentifier;
-
-  /// The time the serverless replication was created.
-  final DateTime? replicationCreateTime;
-
-  /// The timestamp when DMS will deprovision the replication.
-  final DateTime? replicationDeprovisionTime;
-
-  /// The timestamp when replication was last stopped.
-  final DateTime? replicationLastStopTime;
-
-  /// This object provides a collection of statistics about a serverless
-  /// replication.
-  final ReplicationStats? replicationStats;
-
-  /// The type of the serverless replication.
-  final MigrationTypeValue? replicationType;
-
-  /// The time the serverless replication was updated.
-  final DateTime? replicationUpdateTime;
-
-  /// The Amazon Resource Name for an existing <code>Endpoint</code> the
-  /// serverless replication uses for its data source.
-  final String? sourceEndpointArn;
-
-  /// The replication type.
-  final String? startReplicationType;
-
-  /// The current status of the serverless replication.
+  /// The status of the LSA analysis, for example <code>COMPLETED</code>.
   final String? status;
 
-  /// The reason the replication task was stopped. This response parameter can
-  /// return one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>"Stop Reason NORMAL"</code>
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason RECOVERABLE_ERROR"</code>
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason FATAL_ERROR"</code>
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason FULL_LOAD_ONLY_FINISHED"</code>
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason STOPPED_AFTER_FULL_LOAD"</code> – Full load completed,
-  /// with cached changes not applied
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason STOPPED_AFTER_CACHED_EVENTS"</code> – Full load
-  /// completed, with cached changes applied
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"</code>
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason STOPPED_AFTER_DDL_APPLY"</code> – User-defined stop task
-  /// after DDL applied
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason STOPPED_DUE_TO_LOW_MEMORY"</code>
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason STOPPED_DUE_TO_LOW_DISK"</code>
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason STOPPED_AT_SERVER_TIME"</code> – User-defined server time
-  /// for stopping task
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason STOPPED_AT_COMMIT_TIME"</code> – User-defined commit time
-  /// for stopping task
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason RECONFIGURATION_RESTART"</code>
-  /// </li>
-  /// <li>
-  /// <code>"Stop Reason RECYCLE_TASK"</code>
-  /// </li>
-  /// </ul>
-  final String? stopReason;
-
-  /// The Amazon Resource Name for an existing <code>Endpoint</code> the
-  /// serverless replication uses for its data target.
-  final String? targetEndpointArn;
-
-  Replication({
-    this.cdcStartPosition,
-    this.cdcStartTime,
-    this.cdcStopPosition,
-    this.failureMessages,
-    this.provisionData,
-    this.recoveryCheckpoint,
-    this.replicationConfigArn,
-    this.replicationConfigIdentifier,
-    this.replicationCreateTime,
-    this.replicationDeprovisionTime,
-    this.replicationLastStopTime,
-    this.replicationStats,
-    this.replicationType,
-    this.replicationUpdateTime,
-    this.sourceEndpointArn,
-    this.startReplicationType,
+  RunFleetAdvisorLsaAnalysisResponse({
+    this.lsaAnalysisId,
     this.status,
-    this.stopReason,
-    this.targetEndpointArn,
   });
 
-  factory Replication.fromJson(Map<String, dynamic> json) {
-    return Replication(
-      cdcStartPosition: json['CdcStartPosition'] as String?,
-      cdcStartTime: timeStampFromJson(json['CdcStartTime']),
-      cdcStopPosition: json['CdcStopPosition'] as String?,
-      failureMessages: (json['FailureMessages'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      provisionData: json['ProvisionData'] != null
-          ? ProvisionData.fromJson(
-              json['ProvisionData'] as Map<String, dynamic>)
-          : null,
-      recoveryCheckpoint: json['RecoveryCheckpoint'] as String?,
-      replicationConfigArn: json['ReplicationConfigArn'] as String?,
-      replicationConfigIdentifier:
-          json['ReplicationConfigIdentifier'] as String?,
-      replicationCreateTime: timeStampFromJson(json['ReplicationCreateTime']),
-      replicationDeprovisionTime:
-          timeStampFromJson(json['ReplicationDeprovisionTime']),
-      replicationLastStopTime:
-          timeStampFromJson(json['ReplicationLastStopTime']),
-      replicationStats: json['ReplicationStats'] != null
-          ? ReplicationStats.fromJson(
-              json['ReplicationStats'] as Map<String, dynamic>)
-          : null,
-      replicationType: (json['ReplicationType'] as String?)
-          ?.let(MigrationTypeValue.fromString),
-      replicationUpdateTime: timeStampFromJson(json['ReplicationUpdateTime']),
-      sourceEndpointArn: json['SourceEndpointArn'] as String?,
-      startReplicationType: json['StartReplicationType'] as String?,
+  factory RunFleetAdvisorLsaAnalysisResponse.fromJson(
+      Map<String, dynamic> json) {
+    return RunFleetAdvisorLsaAnalysisResponse(
+      lsaAnalysisId: json['LsaAnalysisId'] as String?,
       status: json['Status'] as String?,
-      stopReason: json['StopReason'] as String?,
-      targetEndpointArn: json['TargetEndpointArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cdcStartPosition = this.cdcStartPosition;
-    final cdcStartTime = this.cdcStartTime;
-    final cdcStopPosition = this.cdcStopPosition;
-    final failureMessages = this.failureMessages;
-    final provisionData = this.provisionData;
-    final recoveryCheckpoint = this.recoveryCheckpoint;
-    final replicationConfigArn = this.replicationConfigArn;
-    final replicationConfigIdentifier = this.replicationConfigIdentifier;
-    final replicationCreateTime = this.replicationCreateTime;
-    final replicationDeprovisionTime = this.replicationDeprovisionTime;
-    final replicationLastStopTime = this.replicationLastStopTime;
-    final replicationStats = this.replicationStats;
-    final replicationType = this.replicationType;
-    final replicationUpdateTime = this.replicationUpdateTime;
-    final sourceEndpointArn = this.sourceEndpointArn;
-    final startReplicationType = this.startReplicationType;
+    final lsaAnalysisId = this.lsaAnalysisId;
     final status = this.status;
-    final stopReason = this.stopReason;
-    final targetEndpointArn = this.targetEndpointArn;
     return {
-      if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
-      if (cdcStartTime != null)
-        'CdcStartTime': unixTimestampToJson(cdcStartTime),
-      if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
-      if (failureMessages != null) 'FailureMessages': failureMessages,
-      if (provisionData != null) 'ProvisionData': provisionData,
-      if (recoveryCheckpoint != null) 'RecoveryCheckpoint': recoveryCheckpoint,
-      if (replicationConfigArn != null)
-        'ReplicationConfigArn': replicationConfigArn,
-      if (replicationConfigIdentifier != null)
-        'ReplicationConfigIdentifier': replicationConfigIdentifier,
-      if (replicationCreateTime != null)
-        'ReplicationCreateTime': unixTimestampToJson(replicationCreateTime),
-      if (replicationDeprovisionTime != null)
-        'ReplicationDeprovisionTime':
-            unixTimestampToJson(replicationDeprovisionTime),
-      if (replicationLastStopTime != null)
-        'ReplicationLastStopTime': unixTimestampToJson(replicationLastStopTime),
-      if (replicationStats != null) 'ReplicationStats': replicationStats,
-      if (replicationType != null) 'ReplicationType': replicationType.value,
-      if (replicationUpdateTime != null)
-        'ReplicationUpdateTime': unixTimestampToJson(replicationUpdateTime),
-      if (sourceEndpointArn != null) 'SourceEndpointArn': sourceEndpointArn,
-      if (startReplicationType != null)
-        'StartReplicationType': startReplicationType,
+      if (lsaAnalysisId != null) 'LsaAnalysisId': lsaAnalysisId,
       if (status != null) 'Status': status,
-      if (stopReason != null) 'StopReason': stopReason,
-      if (targetEndpointArn != null) 'TargetEndpointArn': targetEndpointArn,
     };
   }
 }
 
-/// This object provides configuration information about a serverless
-/// replication.
-class ReplicationConfig {
-  /// Configuration parameters for provisioning an DMS serverless replication.
-  final ComputeConfig? computeConfig;
+class StartDataMigrationResponse {
+  /// The data migration that DMS started.
+  final DataMigration? dataMigration;
 
-  /// The Amazon Resource Name (ARN) of this DMS Serverless replication
-  /// configuration.
-  final String? replicationConfigArn;
-
-  /// The time the serverless replication config was created.
-  final DateTime? replicationConfigCreateTime;
-
-  /// The identifier for the <code>ReplicationConfig</code> associated with the
-  /// replication.
-  final String? replicationConfigIdentifier;
-
-  /// The time the serverless replication config was updated.
-  final DateTime? replicationConfigUpdateTime;
-
-  /// Configuration parameters for an DMS serverless replication.
-  final String? replicationSettings;
-
-  /// The type of the replication.
-  final MigrationTypeValue? replicationType;
-
-  /// The Amazon Resource Name (ARN) of the source endpoint for this DMS
-  /// serverless replication configuration.
-  final String? sourceEndpointArn;
-
-  /// Additional parameters for an DMS serverless replication.
-  final String? supplementalSettings;
-
-  /// Table mappings specified in the replication.
-  final String? tableMappings;
-
-  /// The Amazon Resource Name (ARN) of the target endpoint for this DMS
-  /// serverless replication configuration.
-  final String? targetEndpointArn;
-
-  ReplicationConfig({
-    this.computeConfig,
-    this.replicationConfigArn,
-    this.replicationConfigCreateTime,
-    this.replicationConfigIdentifier,
-    this.replicationConfigUpdateTime,
-    this.replicationSettings,
-    this.replicationType,
-    this.sourceEndpointArn,
-    this.supplementalSettings,
-    this.tableMappings,
-    this.targetEndpointArn,
+  StartDataMigrationResponse({
+    this.dataMigration,
   });
 
-  factory ReplicationConfig.fromJson(Map<String, dynamic> json) {
-    return ReplicationConfig(
-      computeConfig: json['ComputeConfig'] != null
-          ? ComputeConfig.fromJson(
-              json['ComputeConfig'] as Map<String, dynamic>)
+  factory StartDataMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return StartDataMigrationResponse(
+      dataMigration: json['DataMigration'] != null
+          ? DataMigration.fromJson(
+              json['DataMigration'] as Map<String, dynamic>)
           : null,
-      replicationConfigArn: json['ReplicationConfigArn'] as String?,
-      replicationConfigCreateTime:
-          timeStampFromJson(json['ReplicationConfigCreateTime']),
-      replicationConfigIdentifier:
-          json['ReplicationConfigIdentifier'] as String?,
-      replicationConfigUpdateTime:
-          timeStampFromJson(json['ReplicationConfigUpdateTime']),
-      replicationSettings: json['ReplicationSettings'] as String?,
-      replicationType: (json['ReplicationType'] as String?)
-          ?.let(MigrationTypeValue.fromString),
-      sourceEndpointArn: json['SourceEndpointArn'] as String?,
-      supplementalSettings: json['SupplementalSettings'] as String?,
-      tableMappings: json['TableMappings'] as String?,
-      targetEndpointArn: json['TargetEndpointArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final computeConfig = this.computeConfig;
-    final replicationConfigArn = this.replicationConfigArn;
-    final replicationConfigCreateTime = this.replicationConfigCreateTime;
-    final replicationConfigIdentifier = this.replicationConfigIdentifier;
-    final replicationConfigUpdateTime = this.replicationConfigUpdateTime;
-    final replicationSettings = this.replicationSettings;
-    final replicationType = this.replicationType;
-    final sourceEndpointArn = this.sourceEndpointArn;
-    final supplementalSettings = this.supplementalSettings;
-    final tableMappings = this.tableMappings;
-    final targetEndpointArn = this.targetEndpointArn;
+    final dataMigration = this.dataMigration;
     return {
-      if (computeConfig != null) 'ComputeConfig': computeConfig,
-      if (replicationConfigArn != null)
-        'ReplicationConfigArn': replicationConfigArn,
-      if (replicationConfigCreateTime != null)
-        'ReplicationConfigCreateTime':
-            unixTimestampToJson(replicationConfigCreateTime),
-      if (replicationConfigIdentifier != null)
-        'ReplicationConfigIdentifier': replicationConfigIdentifier,
-      if (replicationConfigUpdateTime != null)
-        'ReplicationConfigUpdateTime':
-            unixTimestampToJson(replicationConfigUpdateTime),
-      if (replicationSettings != null)
-        'ReplicationSettings': replicationSettings,
-      if (replicationType != null) 'ReplicationType': replicationType.value,
-      if (sourceEndpointArn != null) 'SourceEndpointArn': sourceEndpointArn,
-      if (supplementalSettings != null)
-        'SupplementalSettings': supplementalSettings,
-      if (tableMappings != null) 'TableMappings': tableMappings,
-      if (targetEndpointArn != null) 'TargetEndpointArn': targetEndpointArn,
+      if (dataMigration != null) 'DataMigration': dataMigration,
     };
   }
 }
 
-class ReplicationEndpointTypeValue {
-  static const source = ReplicationEndpointTypeValue._('source');
-  static const target = ReplicationEndpointTypeValue._('target');
+class StartExtensionPackAssociationResponse {
+  /// The identifier for the request operation.
+  final String? requestIdentifier;
 
-  final String value;
+  StartExtensionPackAssociationResponse({
+    this.requestIdentifier,
+  });
 
-  const ReplicationEndpointTypeValue._(this.value);
+  factory StartExtensionPackAssociationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartExtensionPackAssociationResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
 
-  static const values = [source, target];
-
-  static ReplicationEndpointTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReplicationEndpointTypeValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReplicationEndpointTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
 }
 
-/// Provides information that defines a replication instance.
-class ReplicationInstance {
-  /// The amount of storage (in gigabytes) that is allocated for the replication
-  /// instance.
-  final int? allocatedStorage;
+class StartMetadataModelAssessmentResponse {
+  /// The identifier for the assessment operation.
+  final String? requestIdentifier;
 
-  /// Boolean value indicating if minor version upgrades will be automatically
-  /// applied to the instance.
-  final bool? autoMinorVersionUpgrade;
+  StartMetadataModelAssessmentResponse({
+    this.requestIdentifier,
+  });
 
-  /// The Availability Zone for the instance.
-  final String? availabilityZone;
+  factory StartMetadataModelAssessmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelAssessmentResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
 
-  /// The DNS name servers supported for the replication instance to access your
-  /// on-premise source or target database.
-  final String? dnsNameServers;
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
 
-  /// The engine version number of the replication instance.
-  ///
-  /// If an engine version number is not specified when a replication instance is
-  /// created, the default is the latest engine version available.
-  ///
-  /// When modifying a major engine version of an instance, also set
-  /// <code>AllowMajorVersionUpgrade</code> to <code>true</code>.
-  final String? engineVersion;
+class StartMetadataModelConversionResponse {
+  /// The identifier for the conversion operation.
+  final String? requestIdentifier;
 
-  /// The expiration date of the free replication instance that is part of the
-  /// Free DMS program.
-  final DateTime? freeUntil;
+  StartMetadataModelConversionResponse({
+    this.requestIdentifier,
+  });
 
-  /// The time the replication instance was created.
-  final DateTime? instanceCreateTime;
+  factory StartMetadataModelConversionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelConversionResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
 
-  /// An KMS key identifier that is used to encrypt the data on the replication
-  /// instance.
-  ///
-  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
-  /// DMS uses your default encryption key.
-  ///
-  /// KMS creates the default encryption key for your Amazon Web Services account.
-  /// Your Amazon Web Services account has a different default encryption key for
-  /// each Amazon Web Services Region.
-  final String? kmsKeyId;
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
 
-  /// Specifies whether the replication instance is a Multi-AZ deployment. You
-  /// can't set the <code>AvailabilityZone</code> parameter if the Multi-AZ
-  /// parameter is set to <code>true</code>.
-  final bool? multiAZ;
+class StartMetadataModelCreationResponse {
+  /// The identifier for the metadata model creation operation.
+  final String? requestIdentifier;
 
-  /// The type of IP address protocol used by a replication instance, such as IPv4
-  /// only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is
-  /// not yet supported.
-  final String? networkType;
+  StartMetadataModelCreationResponse({
+    this.requestIdentifier,
+  });
 
-  /// The pending modification values.
-  final ReplicationPendingModifiedValues? pendingModifiedValues;
+  factory StartMetadataModelCreationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelCreationResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
 
-  /// The maintenance window times for the replication instance. Any pending
-  /// upgrades to the replication instance are performed during this time.
-  final String? preferredMaintenanceWindow;
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
 
-  /// Specifies the accessibility options for the replication instance. A value of
-  /// <code>true</code> represents an instance with a public IP address. A value
-  /// of <code>false</code> represents an instance with a private IP address. The
-  /// default value is <code>true</code>.
-  final bool? publiclyAccessible;
+class StartMetadataModelExportAsScriptResponse {
+  /// The identifier for the export operation.
+  final String? requestIdentifier;
 
-  /// The Amazon Resource Name (ARN) of the replication instance.
+  StartMetadataModelExportAsScriptResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartMetadataModelExportAsScriptResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelExportAsScriptResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+class StartMetadataModelExportToTargetResponse {
+  /// The identifier for the export operation.
+  final String? requestIdentifier;
+
+  StartMetadataModelExportToTargetResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartMetadataModelExportToTargetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartMetadataModelExportToTargetResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+class StartMetadataModelImportResponse {
+  /// The identifier for the import operation.
+  final String? requestIdentifier;
+
+  StartMetadataModelImportResponse({
+    this.requestIdentifier,
+  });
+
+  factory StartMetadataModelImportResponse.fromJson(Map<String, dynamic> json) {
+    return StartMetadataModelImportResponse(
+      requestIdentifier: json['RequestIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestIdentifier = this.requestIdentifier;
+    return {
+      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+    };
+  }
+}
+
+///
+class StartReplicationResponse {
+  /// The replication that DMS started.
+  final Replication? replication;
+
+  StartReplicationResponse({
+    this.replication,
+  });
+
+  factory StartReplicationResponse.fromJson(Map<String, dynamic> json) {
+    return StartReplicationResponse(
+      replication: json['Replication'] != null
+          ? Replication.fromJson(json['Replication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replication = this.replication;
+    return {
+      if (replication != null) 'Replication': replication,
+    };
+  }
+}
+
+///
+class StartReplicationTaskResponse {
+  /// The replication task started.
+  final ReplicationTask? replicationTask;
+
+  StartReplicationTaskResponse({
+    this.replicationTask,
+  });
+
+  factory StartReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
+}
+
+///
+class StartReplicationTaskAssessmentResponse {
+  /// The assessed replication task.
+  final ReplicationTask? replicationTask;
+
+  StartReplicationTaskAssessmentResponse({
+    this.replicationTask,
+  });
+
+  factory StartReplicationTaskAssessmentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartReplicationTaskAssessmentResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
+}
+
+///
+class StartReplicationTaskAssessmentRunResponse {
+  /// The premigration assessment run that was started.
+  final ReplicationTaskAssessmentRun? replicationTaskAssessmentRun;
+
+  StartReplicationTaskAssessmentRunResponse({
+    this.replicationTaskAssessmentRun,
+  });
+
+  factory StartReplicationTaskAssessmentRunResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartReplicationTaskAssessmentRunResponse(
+      replicationTaskAssessmentRun: json['ReplicationTaskAssessmentRun'] != null
+          ? ReplicationTaskAssessmentRun.fromJson(
+              json['ReplicationTaskAssessmentRun'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTaskAssessmentRun = this.replicationTaskAssessmentRun;
+    return {
+      if (replicationTaskAssessmentRun != null)
+        'ReplicationTaskAssessmentRun': replicationTaskAssessmentRun,
+    };
+  }
+}
+
+class StopDataMigrationResponse {
+  /// The data migration that DMS stopped.
+  final DataMigration? dataMigration;
+
+  StopDataMigrationResponse({
+    this.dataMigration,
+  });
+
+  factory StopDataMigrationResponse.fromJson(Map<String, dynamic> json) {
+    return StopDataMigrationResponse(
+      dataMigration: json['DataMigration'] != null
+          ? DataMigration.fromJson(
+              json['DataMigration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataMigration = this.dataMigration;
+    return {
+      if (dataMigration != null) 'DataMigration': dataMigration,
+    };
+  }
+}
+
+class StopReplicationResponse {
+  /// The replication that DMS stopped.
+  final Replication? replication;
+
+  StopReplicationResponse({
+    this.replication,
+  });
+
+  factory StopReplicationResponse.fromJson(Map<String, dynamic> json) {
+    return StopReplicationResponse(
+      replication: json['Replication'] != null
+          ? Replication.fromJson(json['Replication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replication = this.replication;
+    return {
+      if (replication != null) 'Replication': replication,
+    };
+  }
+}
+
+///
+class StopReplicationTaskResponse {
+  /// The replication task stopped.
+  final ReplicationTask? replicationTask;
+
+  StopReplicationTaskResponse({
+    this.replicationTask,
+  });
+
+  factory StopReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StopReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
+}
+
+///
+class TestConnectionResponse {
+  /// The connection tested.
+  final Connection? connection;
+
+  TestConnectionResponse({
+    this.connection,
+  });
+
+  factory TestConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return TestConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
+}
+
+///
+class UpdateSubscriptionsToEventBridgeResponse {
+  /// A string that indicates how many event subscriptions were migrated and how
+  /// many remain to be migrated.
+  final String? result;
+
+  UpdateSubscriptionsToEventBridgeResponse({
+    this.result,
+  });
+
+  factory UpdateSubscriptionsToEventBridgeResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSubscriptionsToEventBridgeResponse(
+      result: json['Result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final result = this.result;
+    return {
+      if (result != null) 'Result': result,
+    };
+  }
+}
+
+/// Status of the connection between an endpoint and a replication instance,
+/// including Amazon Resource Names (ARNs) and the last error message issued.
+class Connection {
+  /// The ARN string that uniquely identifies the endpoint.
+  final String? endpointArn;
+
+  /// The identifier of the endpoint. Identifiers must begin with a letter and
+  /// must contain only ASCII letters, digits, and hyphens. They can't end with a
+  /// hyphen or contain two consecutive hyphens.
+  final String? endpointIdentifier;
+
+  /// The error message when the connection last failed.
+  final String? lastFailureMessage;
+
+  /// The ARN of the replication instance.
   final String? replicationInstanceArn;
 
-  /// The compute and memory capacity of the replication instance as defined for
-  /// the specified replication instance class. It is a required parameter,
-  /// although a default value is pre-selected in the DMS console.
-  ///
-  /// For more information on the settings and capacities for the available
-  /// replication instance classes, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
-  /// Selecting the right DMS replication instance for your migration</a>.
-  final String? replicationInstanceClass;
-
-  /// The replication instance identifier is a required parameter. This parameter
-  /// is stored as a lowercase string.
-  ///
-  /// Constraints:
-  ///
-  /// <ul>
-  /// <li>
-  /// Must contain 1-63 alphanumeric characters or hyphens.
-  /// </li>
-  /// <li>
-  /// First character must be a letter.
-  /// </li>
-  /// <li>
-  /// Cannot end with a hyphen or contain two consecutive hyphens.
-  /// </li>
-  /// </ul>
-  /// Example: <code>myrepinstance</code>
+  /// The replication instance identifier. This parameter is stored as a lowercase
+  /// string.
   final String? replicationInstanceIdentifier;
 
-  /// One or more IPv6 addresses for the replication instance.
-  final List<String>? replicationInstanceIpv6Addresses;
-
-  /// The private IP address of the replication instance.
-  final String? replicationInstancePrivateIpAddress;
-
-  /// One or more private IP addresses for the replication instance.
-  final List<String>? replicationInstancePrivateIpAddresses;
-
-  /// The public IP address of the replication instance.
-  final String? replicationInstancePublicIpAddress;
-
-  /// One or more public IP addresses for the replication instance.
-  final List<String>? replicationInstancePublicIpAddresses;
-
-  /// The status of the replication instance. The possible return values include:
+  /// The connection status. This parameter can return one of the following
+  /// values:
   ///
   /// <ul>
   /// <li>
-  /// <code>"available"</code>
+  /// <code>"successful"</code>
   /// </li>
   /// <li>
-  /// <code>"creating"</code>
-  /// </li>
-  /// <li>
-  /// <code>"deleted"</code>
-  /// </li>
-  /// <li>
-  /// <code>"deleting"</code>
+  /// <code>"testing"</code>
   /// </li>
   /// <li>
   /// <code>"failed"</code>
   /// </li>
   /// <li>
-  /// <code>"modifying"</code>
-  /// </li>
-  /// <li>
-  /// <code>"upgrading"</code>
-  /// </li>
-  /// <li>
-  /// <code>"rebooting"</code>
-  /// </li>
-  /// <li>
-  /// <code>"resetting-master-credentials"</code>
-  /// </li>
-  /// <li>
-  /// <code>"storage-full"</code>
-  /// </li>
-  /// <li>
-  /// <code>"incompatible-credentials"</code>
-  /// </li>
-  /// <li>
-  /// <code>"incompatible-network"</code>
-  /// </li>
-  /// <li>
-  /// <code>"maintenance"</code>
+  /// <code>"deleting"</code>
   /// </li>
   /// </ul>
-  final String? replicationInstanceStatus;
+  final String? status;
 
-  /// The subnet group for the replication instance.
-  final ReplicationSubnetGroup? replicationSubnetGroup;
-
-  /// The Availability Zone of the standby replication instance in a Multi-AZ
-  /// deployment.
-  final String? secondaryAvailabilityZone;
-
-  /// The VPC security group for the instance.
-  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
-
-  ReplicationInstance({
-    this.allocatedStorage,
-    this.autoMinorVersionUpgrade,
-    this.availabilityZone,
-    this.dnsNameServers,
-    this.engineVersion,
-    this.freeUntil,
-    this.instanceCreateTime,
-    this.kmsKeyId,
-    this.multiAZ,
-    this.networkType,
-    this.pendingModifiedValues,
-    this.preferredMaintenanceWindow,
-    this.publiclyAccessible,
+  Connection({
+    this.endpointArn,
+    this.endpointIdentifier,
+    this.lastFailureMessage,
     this.replicationInstanceArn,
-    this.replicationInstanceClass,
     this.replicationInstanceIdentifier,
-    this.replicationInstanceIpv6Addresses,
-    this.replicationInstancePrivateIpAddress,
-    this.replicationInstancePrivateIpAddresses,
-    this.replicationInstancePublicIpAddress,
-    this.replicationInstancePublicIpAddresses,
-    this.replicationInstanceStatus,
-    this.replicationSubnetGroup,
-    this.secondaryAvailabilityZone,
-    this.vpcSecurityGroups,
+    this.status,
   });
 
-  factory ReplicationInstance.fromJson(Map<String, dynamic> json) {
-    return ReplicationInstance(
-      allocatedStorage: json['AllocatedStorage'] as int?,
-      autoMinorVersionUpgrade: json['AutoMinorVersionUpgrade'] as bool?,
-      availabilityZone: json['AvailabilityZone'] as String?,
-      dnsNameServers: json['DnsNameServers'] as String?,
-      engineVersion: json['EngineVersion'] as String?,
-      freeUntil: timeStampFromJson(json['FreeUntil']),
-      instanceCreateTime: timeStampFromJson(json['InstanceCreateTime']),
-      kmsKeyId: json['KmsKeyId'] as String?,
-      multiAZ: json['MultiAZ'] as bool?,
-      networkType: json['NetworkType'] as String?,
-      pendingModifiedValues: json['PendingModifiedValues'] != null
-          ? ReplicationPendingModifiedValues.fromJson(
-              json['PendingModifiedValues'] as Map<String, dynamic>)
-          : null,
-      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
-      publiclyAccessible: json['PubliclyAccessible'] as bool?,
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      endpointArn: json['EndpointArn'] as String?,
+      endpointIdentifier: json['EndpointIdentifier'] as String?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
       replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
-      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
       replicationInstanceIdentifier:
           json['ReplicationInstanceIdentifier'] as String?,
-      replicationInstanceIpv6Addresses:
-          (json['ReplicationInstanceIpv6Addresses'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      replicationInstancePrivateIpAddress:
-          json['ReplicationInstancePrivateIpAddress'] as String?,
-      replicationInstancePrivateIpAddresses:
-          (json['ReplicationInstancePrivateIpAddresses'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      replicationInstancePublicIpAddress:
-          json['ReplicationInstancePublicIpAddress'] as String?,
-      replicationInstancePublicIpAddresses:
-          (json['ReplicationInstancePublicIpAddresses'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      replicationInstanceStatus: json['ReplicationInstanceStatus'] as String?,
-      replicationSubnetGroup: json['ReplicationSubnetGroup'] != null
-          ? ReplicationSubnetGroup.fromJson(
-              json['ReplicationSubnetGroup'] as Map<String, dynamic>)
-          : null,
-      secondaryAvailabilityZone: json['SecondaryAvailabilityZone'] as String?,
-      vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              VpcSecurityGroupMembership.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      status: json['Status'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final allocatedStorage = this.allocatedStorage;
-    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
-    final availabilityZone = this.availabilityZone;
-    final dnsNameServers = this.dnsNameServers;
-    final engineVersion = this.engineVersion;
-    final freeUntil = this.freeUntil;
-    final instanceCreateTime = this.instanceCreateTime;
-    final kmsKeyId = this.kmsKeyId;
-    final multiAZ = this.multiAZ;
-    final networkType = this.networkType;
-    final pendingModifiedValues = this.pendingModifiedValues;
-    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
-    final publiclyAccessible = this.publiclyAccessible;
+    final endpointArn = this.endpointArn;
+    final endpointIdentifier = this.endpointIdentifier;
+    final lastFailureMessage = this.lastFailureMessage;
     final replicationInstanceArn = this.replicationInstanceArn;
-    final replicationInstanceClass = this.replicationInstanceClass;
     final replicationInstanceIdentifier = this.replicationInstanceIdentifier;
-    final replicationInstanceIpv6Addresses =
-        this.replicationInstanceIpv6Addresses;
-    final replicationInstancePrivateIpAddress =
-        this.replicationInstancePrivateIpAddress;
-    final replicationInstancePrivateIpAddresses =
-        this.replicationInstancePrivateIpAddresses;
-    final replicationInstancePublicIpAddress =
-        this.replicationInstancePublicIpAddress;
-    final replicationInstancePublicIpAddresses =
-        this.replicationInstancePublicIpAddresses;
-    final replicationInstanceStatus = this.replicationInstanceStatus;
-    final replicationSubnetGroup = this.replicationSubnetGroup;
-    final secondaryAvailabilityZone = this.secondaryAvailabilityZone;
-    final vpcSecurityGroups = this.vpcSecurityGroups;
+    final status = this.status;
     return {
-      if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
-      if (autoMinorVersionUpgrade != null)
-        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
-      if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (freeUntil != null) 'FreeUntil': unixTimestampToJson(freeUntil),
-      if (instanceCreateTime != null)
-        'InstanceCreateTime': unixTimestampToJson(instanceCreateTime),
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (multiAZ != null) 'MultiAZ': multiAZ,
-      if (networkType != null) 'NetworkType': networkType,
-      if (pendingModifiedValues != null)
-        'PendingModifiedValues': pendingModifiedValues,
-      if (preferredMaintenanceWindow != null)
-        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
-      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+      if (endpointIdentifier != null) 'EndpointIdentifier': endpointIdentifier,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
       if (replicationInstanceArn != null)
         'ReplicationInstanceArn': replicationInstanceArn,
-      if (replicationInstanceClass != null)
-        'ReplicationInstanceClass': replicationInstanceClass,
       if (replicationInstanceIdentifier != null)
         'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
-      if (replicationInstanceIpv6Addresses != null)
-        'ReplicationInstanceIpv6Addresses': replicationInstanceIpv6Addresses,
-      if (replicationInstancePrivateIpAddress != null)
-        'ReplicationInstancePrivateIpAddress':
-            replicationInstancePrivateIpAddress,
-      if (replicationInstancePrivateIpAddresses != null)
-        'ReplicationInstancePrivateIpAddresses':
-            replicationInstancePrivateIpAddresses,
-      if (replicationInstancePublicIpAddress != null)
-        'ReplicationInstancePublicIpAddress':
-            replicationInstancePublicIpAddress,
-      if (replicationInstancePublicIpAddresses != null)
-        'ReplicationInstancePublicIpAddresses':
-            replicationInstancePublicIpAddresses,
-      if (replicationInstanceStatus != null)
-        'ReplicationInstanceStatus': replicationInstanceStatus,
-      if (replicationSubnetGroup != null)
-        'ReplicationSubnetGroup': replicationSubnetGroup,
-      if (secondaryAvailabilityZone != null)
-        'SecondaryAvailabilityZone': secondaryAvailabilityZone,
-      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
-    };
-  }
-}
-
-/// Contains metadata for a replication instance task log.
-class ReplicationInstanceTaskLog {
-  /// The size, in bytes, of the replication task log.
-  final int? replicationInstanceTaskLogSize;
-
-  /// The Amazon Resource Name (ARN) of the replication task.
-  final String? replicationTaskArn;
-
-  /// The name of the replication task.
-  final String? replicationTaskName;
-
-  ReplicationInstanceTaskLog({
-    this.replicationInstanceTaskLogSize,
-    this.replicationTaskArn,
-    this.replicationTaskName,
-  });
-
-  factory ReplicationInstanceTaskLog.fromJson(Map<String, dynamic> json) {
-    return ReplicationInstanceTaskLog(
-      replicationInstanceTaskLogSize:
-          json['ReplicationInstanceTaskLogSize'] as int?,
-      replicationTaskArn: json['ReplicationTaskArn'] as String?,
-      replicationTaskName: json['ReplicationTaskName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationInstanceTaskLogSize = this.replicationInstanceTaskLogSize;
-    final replicationTaskArn = this.replicationTaskArn;
-    final replicationTaskName = this.replicationTaskName;
-    return {
-      if (replicationInstanceTaskLogSize != null)
-        'ReplicationInstanceTaskLogSize': replicationInstanceTaskLogSize,
-      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
-      if (replicationTaskName != null)
-        'ReplicationTaskName': replicationTaskName,
-    };
-  }
-}
-
-/// Provides information about the values of pending modifications to a
-/// replication instance. This data type is an object of the <a
-/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ReplicationInstance.html">
-/// <code>ReplicationInstance</code> </a> user-defined data type.
-class ReplicationPendingModifiedValues {
-  /// The amount of storage (in gigabytes) that is allocated for the replication
-  /// instance.
-  final int? allocatedStorage;
-
-  /// The engine version number of the replication instance.
-  final String? engineVersion;
-
-  /// Specifies whether the replication instance is a Multi-AZ deployment. You
-  /// can't set the <code>AvailabilityZone</code> parameter if the Multi-AZ
-  /// parameter is set to <code>true</code>.
-  final bool? multiAZ;
-
-  /// The type of IP address protocol used by a replication instance, such as IPv4
-  /// only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is
-  /// not yet supported.
-  final String? networkType;
-
-  /// The compute and memory capacity of the replication instance as defined for
-  /// the specified replication instance class.
-  ///
-  /// For more information on the settings and capacities for the available
-  /// replication instance classes, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
-  /// Selecting the right DMS replication instance for your migration</a>.
-  final String? replicationInstanceClass;
-
-  ReplicationPendingModifiedValues({
-    this.allocatedStorage,
-    this.engineVersion,
-    this.multiAZ,
-    this.networkType,
-    this.replicationInstanceClass,
-  });
-
-  factory ReplicationPendingModifiedValues.fromJson(Map<String, dynamic> json) {
-    return ReplicationPendingModifiedValues(
-      allocatedStorage: json['AllocatedStorage'] as int?,
-      engineVersion: json['EngineVersion'] as String?,
-      multiAZ: json['MultiAZ'] as bool?,
-      networkType: json['NetworkType'] as String?,
-      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allocatedStorage = this.allocatedStorage;
-    final engineVersion = this.engineVersion;
-    final multiAZ = this.multiAZ;
-    final networkType = this.networkType;
-    final replicationInstanceClass = this.replicationInstanceClass;
-    return {
-      if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (multiAZ != null) 'MultiAZ': multiAZ,
-      if (networkType != null) 'NetworkType': networkType,
-      if (replicationInstanceClass != null)
-        'ReplicationInstanceClass': replicationInstanceClass,
-    };
-  }
-}
-
-/// This object provides a collection of statistics about a serverless
-/// replication.
-class ReplicationStats {
-  /// The elapsed time of the replication, in milliseconds.
-  final int? elapsedTimeMillis;
-
-  /// The date the replication was started either with a fresh start or a target
-  /// reload.
-  final DateTime? freshStartDate;
-
-  /// The date the replication full load was finished.
-  final DateTime? fullLoadFinishDate;
-
-  /// The percent complete for the full load serverless replication.
-  final int? fullLoadProgressPercent;
-
-  /// The date the replication full load was started.
-  final DateTime? fullLoadStartDate;
-
-  /// The date the replication is scheduled to start.
-  final DateTime? startDate;
-
-  /// The date the replication was stopped.
-  final DateTime? stopDate;
-
-  /// The number of errors that have occured for this replication.
-  final int? tablesErrored;
-
-  /// The number of tables loaded for this replication.
-  final int? tablesLoaded;
-
-  /// The number of tables currently loading for this replication.
-  final int? tablesLoading;
-
-  /// The number of tables queued for this replication.
-  final int? tablesQueued;
-
-  ReplicationStats({
-    this.elapsedTimeMillis,
-    this.freshStartDate,
-    this.fullLoadFinishDate,
-    this.fullLoadProgressPercent,
-    this.fullLoadStartDate,
-    this.startDate,
-    this.stopDate,
-    this.tablesErrored,
-    this.tablesLoaded,
-    this.tablesLoading,
-    this.tablesQueued,
-  });
-
-  factory ReplicationStats.fromJson(Map<String, dynamic> json) {
-    return ReplicationStats(
-      elapsedTimeMillis: json['ElapsedTimeMillis'] as int?,
-      freshStartDate: timeStampFromJson(json['FreshStartDate']),
-      fullLoadFinishDate: timeStampFromJson(json['FullLoadFinishDate']),
-      fullLoadProgressPercent: json['FullLoadProgressPercent'] as int?,
-      fullLoadStartDate: timeStampFromJson(json['FullLoadStartDate']),
-      startDate: timeStampFromJson(json['StartDate']),
-      stopDate: timeStampFromJson(json['StopDate']),
-      tablesErrored: json['TablesErrored'] as int?,
-      tablesLoaded: json['TablesLoaded'] as int?,
-      tablesLoading: json['TablesLoading'] as int?,
-      tablesQueued: json['TablesQueued'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final elapsedTimeMillis = this.elapsedTimeMillis;
-    final freshStartDate = this.freshStartDate;
-    final fullLoadFinishDate = this.fullLoadFinishDate;
-    final fullLoadProgressPercent = this.fullLoadProgressPercent;
-    final fullLoadStartDate = this.fullLoadStartDate;
-    final startDate = this.startDate;
-    final stopDate = this.stopDate;
-    final tablesErrored = this.tablesErrored;
-    final tablesLoaded = this.tablesLoaded;
-    final tablesLoading = this.tablesLoading;
-    final tablesQueued = this.tablesQueued;
-    return {
-      if (elapsedTimeMillis != null) 'ElapsedTimeMillis': elapsedTimeMillis,
-      if (freshStartDate != null)
-        'FreshStartDate': unixTimestampToJson(freshStartDate),
-      if (fullLoadFinishDate != null)
-        'FullLoadFinishDate': unixTimestampToJson(fullLoadFinishDate),
-      if (fullLoadProgressPercent != null)
-        'FullLoadProgressPercent': fullLoadProgressPercent,
-      if (fullLoadStartDate != null)
-        'FullLoadStartDate': unixTimestampToJson(fullLoadStartDate),
-      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
-      if (stopDate != null) 'StopDate': unixTimestampToJson(stopDate),
-      if (tablesErrored != null) 'TablesErrored': tablesErrored,
-      if (tablesLoaded != null) 'TablesLoaded': tablesLoaded,
-      if (tablesLoading != null) 'TablesLoading': tablesLoading,
-      if (tablesQueued != null) 'TablesQueued': tablesQueued,
-    };
-  }
-}
-
-/// Describes a subnet group in response to a request by the
-/// <code>DescribeReplicationSubnetGroups</code> operation.
-class ReplicationSubnetGroup {
-  /// A description for the replication subnet group.
-  final String? replicationSubnetGroupDescription;
-
-  /// The identifier of the replication instance subnet group.
-  final String? replicationSubnetGroupIdentifier;
-
-  /// The status of the subnet group.
-  final String? subnetGroupStatus;
-
-  /// The subnets that are in the subnet group.
-  final List<Subnet>? subnets;
-
-  /// The IP addressing protocol supported by the subnet group. This is used by a
-  /// replication instance with values such as IPv4 only or Dual-stack that
-  /// supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
-  final List<String>? supportedNetworkTypes;
-
-  /// The ID of the VPC.
-  final String? vpcId;
-
-  ReplicationSubnetGroup({
-    this.replicationSubnetGroupDescription,
-    this.replicationSubnetGroupIdentifier,
-    this.subnetGroupStatus,
-    this.subnets,
-    this.supportedNetworkTypes,
-    this.vpcId,
-  });
-
-  factory ReplicationSubnetGroup.fromJson(Map<String, dynamic> json) {
-    return ReplicationSubnetGroup(
-      replicationSubnetGroupDescription:
-          json['ReplicationSubnetGroupDescription'] as String?,
-      replicationSubnetGroupIdentifier:
-          json['ReplicationSubnetGroupIdentifier'] as String?,
-      subnetGroupStatus: json['SubnetGroupStatus'] as String?,
-      subnets: (json['Subnets'] as List?)
-          ?.nonNulls
-          .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      supportedNetworkTypes: (json['SupportedNetworkTypes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      vpcId: json['VpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationSubnetGroupDescription =
-        this.replicationSubnetGroupDescription;
-    final replicationSubnetGroupIdentifier =
-        this.replicationSubnetGroupIdentifier;
-    final subnetGroupStatus = this.subnetGroupStatus;
-    final subnets = this.subnets;
-    final supportedNetworkTypes = this.supportedNetworkTypes;
-    final vpcId = this.vpcId;
-    return {
-      if (replicationSubnetGroupDescription != null)
-        'ReplicationSubnetGroupDescription': replicationSubnetGroupDescription,
-      if (replicationSubnetGroupIdentifier != null)
-        'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
-      if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
-      if (subnets != null) 'Subnets': subnets,
-      if (supportedNetworkTypes != null)
-        'SupportedNetworkTypes': supportedNetworkTypes,
-      if (vpcId != null) 'VpcId': vpcId,
+      if (status != null) 'Status': status,
     };
   }
 }
@@ -17745,7 +11341,8 @@ class ReplicationTask {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Stop Reason NORMAL"</code>
+  /// <code>"Stop Reason NORMAL"</code> – The task completed successfully with no
+  /// additional information returned.
   /// </li>
   /// <li>
   /// <code>"Stop Reason RECOVERABLE_ERROR"</code>
@@ -17754,7 +11351,9 @@ class ReplicationTask {
   /// <code>"Stop Reason FATAL_ERROR"</code>
   /// </li>
   /// <li>
-  /// <code>"Stop Reason FULL_LOAD_ONLY_FINISHED"</code>
+  /// <code>"Stop Reason FULL_LOAD_ONLY_FINISHED"</code> – The task completed the
+  /// full load phase. DMS applied cached changes if you set
+  /// <code>StopTaskCachedChangesApplied</code> to <code>true</code>.
   /// </li>
   /// <li>
   /// <code>"Stop Reason STOPPED_AFTER_FULL_LOAD"</code> – Full load completed,
@@ -17920,379 +11519,30 @@ class ReplicationTask {
   }
 }
 
-/// The task assessment report in JSON format.
-class ReplicationTaskAssessmentResult {
-  /// The task assessment results in JSON format.
-  ///
-  /// The response object only contains this field if you provide
-  /// <a>DescribeReplicationTaskAssessmentResultsMessage$ReplicationTaskArn</a> in
-  /// the request.
-  final String? assessmentResults;
+class MigrationTypeValue {
+  static const fullLoad = MigrationTypeValue._('full-load');
+  static const cdc = MigrationTypeValue._('cdc');
+  static const fullLoadAndCdc = MigrationTypeValue._('full-load-and-cdc');
 
-  /// The file containing the results of the task assessment.
-  final String? assessmentResultsFile;
+  final String value;
 
-  /// The status of the task assessment.
-  final String? assessmentStatus;
+  const MigrationTypeValue._(this.value);
 
-  /// The Amazon Resource Name (ARN) of the replication task.
-  final String? replicationTaskArn;
+  static const values = [fullLoad, cdc, fullLoadAndCdc];
 
-  /// The replication task identifier of the task on which the task assessment was
-  /// run.
-  final String? replicationTaskIdentifier;
+  static MigrationTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MigrationTypeValue._(value));
 
-  /// The date the task assessment was completed.
-  final DateTime? replicationTaskLastAssessmentDate;
+  @override
+  bool operator ==(other) =>
+      other is MigrationTypeValue && other.value == value;
 
-  /// The URL of the S3 object containing the task assessment results.
-  ///
-  /// The response object only contains this field if you provide
-  /// <a>DescribeReplicationTaskAssessmentResultsMessage$ReplicationTaskArn</a> in
-  /// the request.
-  final String? s3ObjectUrl;
+  @override
+  int get hashCode => value.hashCode;
 
-  ReplicationTaskAssessmentResult({
-    this.assessmentResults,
-    this.assessmentResultsFile,
-    this.assessmentStatus,
-    this.replicationTaskArn,
-    this.replicationTaskIdentifier,
-    this.replicationTaskLastAssessmentDate,
-    this.s3ObjectUrl,
-  });
-
-  factory ReplicationTaskAssessmentResult.fromJson(Map<String, dynamic> json) {
-    return ReplicationTaskAssessmentResult(
-      assessmentResults: json['AssessmentResults'] as String?,
-      assessmentResultsFile: json['AssessmentResultsFile'] as String?,
-      assessmentStatus: json['AssessmentStatus'] as String?,
-      replicationTaskArn: json['ReplicationTaskArn'] as String?,
-      replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String?,
-      replicationTaskLastAssessmentDate:
-          timeStampFromJson(json['ReplicationTaskLastAssessmentDate']),
-      s3ObjectUrl: json['S3ObjectUrl'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentResults = this.assessmentResults;
-    final assessmentResultsFile = this.assessmentResultsFile;
-    final assessmentStatus = this.assessmentStatus;
-    final replicationTaskArn = this.replicationTaskArn;
-    final replicationTaskIdentifier = this.replicationTaskIdentifier;
-    final replicationTaskLastAssessmentDate =
-        this.replicationTaskLastAssessmentDate;
-    final s3ObjectUrl = this.s3ObjectUrl;
-    return {
-      if (assessmentResults != null) 'AssessmentResults': assessmentResults,
-      if (assessmentResultsFile != null)
-        'AssessmentResultsFile': assessmentResultsFile,
-      if (assessmentStatus != null) 'AssessmentStatus': assessmentStatus,
-      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
-      if (replicationTaskIdentifier != null)
-        'ReplicationTaskIdentifier': replicationTaskIdentifier,
-      if (replicationTaskLastAssessmentDate != null)
-        'ReplicationTaskLastAssessmentDate':
-            unixTimestampToJson(replicationTaskLastAssessmentDate),
-      if (s3ObjectUrl != null) 'S3ObjectUrl': s3ObjectUrl,
-    };
-  }
-}
-
-/// Provides information that describes a premigration assessment run that you
-/// have started using the <code>StartReplicationTaskAssessmentRun</code>
-/// operation.
-///
-/// Some of the information appears based on other operations that can return
-/// the <code>ReplicationTaskAssessmentRun</code> object.
-class ReplicationTaskAssessmentRun {
-  /// Indication of the completion progress for the individual assessments
-  /// specified to run.
-  final ReplicationTaskAssessmentRunProgress? assessmentProgress;
-
-  /// Unique name of the assessment run.
-  final String? assessmentRunName;
-
-  /// Last message generated by an individual assessment failure.
-  final String? lastFailureMessage;
-
-  /// ARN of the migration task associated with this premigration assessment run.
-  final String? replicationTaskArn;
-
-  /// Amazon Resource Name (ARN) of this assessment run.
-  final String? replicationTaskAssessmentRunArn;
-
-  /// Date on which the assessment run was created using the
-  /// <code>StartReplicationTaskAssessmentRun</code> operation.
-  final DateTime? replicationTaskAssessmentRunCreationDate;
-
-  /// Encryption mode used to encrypt the assessment run results.
-  final String? resultEncryptionMode;
-
-  /// ARN of the KMS encryption key used to encrypt the assessment run results.
-  final String? resultKmsKeyArn;
-
-  /// Amazon S3 bucket where DMS stores the results of this assessment run.
-  final String? resultLocationBucket;
-
-  /// Folder in an Amazon S3 bucket where DMS stores the results of this
-  /// assessment run.
-  final String? resultLocationFolder;
-
-  /// ARN of the service role used to start the assessment run using the
-  /// <code>StartReplicationTaskAssessmentRun</code> operation. The role must
-  /// allow the <code>iam:PassRole</code> action.
-  final String? serviceAccessRoleArn;
-
-  /// Assessment run status.
-  ///
-  /// This status can have one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>"cancelling"</code> – The assessment run was canceled by the
-  /// <code>CancelReplicationTaskAssessmentRun</code> operation.
-  /// </li>
-  /// <li>
-  /// <code>"deleting"</code> – The assessment run was deleted by the
-  /// <code>DeleteReplicationTaskAssessmentRun</code> operation.
-  /// </li>
-  /// <li>
-  /// <code>"failed"</code> – At least one individual assessment completed with a
-  /// <code>failed</code> status.
-  /// </li>
-  /// <li>
-  /// <code>"error-provisioning"</code> – An internal error occurred while
-  /// resources were provisioned (during <code>provisioning</code> status).
-  /// </li>
-  /// <li>
-  /// <code>"error-executing"</code> – An internal error occurred while individual
-  /// assessments ran (during <code>running</code> status).
-  /// </li>
-  /// <li>
-  /// <code>"invalid state"</code> – The assessment run is in an unknown state.
-  /// </li>
-  /// <li>
-  /// <code>"passed"</code> – All individual assessments have completed, and none
-  /// has a <code>failed</code> status.
-  /// </li>
-  /// <li>
-  /// <code>"provisioning"</code> – Resources required to run individual
-  /// assessments are being provisioned.
-  /// </li>
-  /// <li>
-  /// <code>"running"</code> – Individual assessments are being run.
-  /// </li>
-  /// <li>
-  /// <code>"starting"</code> – The assessment run is starting, but resources are
-  /// not yet being provisioned for individual assessments.
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  ReplicationTaskAssessmentRun({
-    this.assessmentProgress,
-    this.assessmentRunName,
-    this.lastFailureMessage,
-    this.replicationTaskArn,
-    this.replicationTaskAssessmentRunArn,
-    this.replicationTaskAssessmentRunCreationDate,
-    this.resultEncryptionMode,
-    this.resultKmsKeyArn,
-    this.resultLocationBucket,
-    this.resultLocationFolder,
-    this.serviceAccessRoleArn,
-    this.status,
-  });
-
-  factory ReplicationTaskAssessmentRun.fromJson(Map<String, dynamic> json) {
-    return ReplicationTaskAssessmentRun(
-      assessmentProgress: json['AssessmentProgress'] != null
-          ? ReplicationTaskAssessmentRunProgress.fromJson(
-              json['AssessmentProgress'] as Map<String, dynamic>)
-          : null,
-      assessmentRunName: json['AssessmentRunName'] as String?,
-      lastFailureMessage: json['LastFailureMessage'] as String?,
-      replicationTaskArn: json['ReplicationTaskArn'] as String?,
-      replicationTaskAssessmentRunArn:
-          json['ReplicationTaskAssessmentRunArn'] as String?,
-      replicationTaskAssessmentRunCreationDate:
-          timeStampFromJson(json['ReplicationTaskAssessmentRunCreationDate']),
-      resultEncryptionMode: json['ResultEncryptionMode'] as String?,
-      resultKmsKeyArn: json['ResultKmsKeyArn'] as String?,
-      resultLocationBucket: json['ResultLocationBucket'] as String?,
-      resultLocationFolder: json['ResultLocationFolder'] as String?,
-      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assessmentProgress = this.assessmentProgress;
-    final assessmentRunName = this.assessmentRunName;
-    final lastFailureMessage = this.lastFailureMessage;
-    final replicationTaskArn = this.replicationTaskArn;
-    final replicationTaskAssessmentRunArn =
-        this.replicationTaskAssessmentRunArn;
-    final replicationTaskAssessmentRunCreationDate =
-        this.replicationTaskAssessmentRunCreationDate;
-    final resultEncryptionMode = this.resultEncryptionMode;
-    final resultKmsKeyArn = this.resultKmsKeyArn;
-    final resultLocationBucket = this.resultLocationBucket;
-    final resultLocationFolder = this.resultLocationFolder;
-    final serviceAccessRoleArn = this.serviceAccessRoleArn;
-    final status = this.status;
-    return {
-      if (assessmentProgress != null) 'AssessmentProgress': assessmentProgress,
-      if (assessmentRunName != null) 'AssessmentRunName': assessmentRunName,
-      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
-      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
-      if (replicationTaskAssessmentRunArn != null)
-        'ReplicationTaskAssessmentRunArn': replicationTaskAssessmentRunArn,
-      if (replicationTaskAssessmentRunCreationDate != null)
-        'ReplicationTaskAssessmentRunCreationDate':
-            unixTimestampToJson(replicationTaskAssessmentRunCreationDate),
-      if (resultEncryptionMode != null)
-        'ResultEncryptionMode': resultEncryptionMode,
-      if (resultKmsKeyArn != null) 'ResultKmsKeyArn': resultKmsKeyArn,
-      if (resultLocationBucket != null)
-        'ResultLocationBucket': resultLocationBucket,
-      if (resultLocationFolder != null)
-        'ResultLocationFolder': resultLocationFolder,
-      if (serviceAccessRoleArn != null)
-        'ServiceAccessRoleArn': serviceAccessRoleArn,
-      if (status != null) 'Status': status,
-    };
-  }
-}
-
-/// The progress values reported by the <code>AssessmentProgress</code> response
-/// element.
-class ReplicationTaskAssessmentRunProgress {
-  /// The number of individual assessments that have completed, successfully or
-  /// not.
-  final int? individualAssessmentCompletedCount;
-
-  /// The number of individual assessments that are specified to run.
-  final int? individualAssessmentCount;
-
-  ReplicationTaskAssessmentRunProgress({
-    this.individualAssessmentCompletedCount,
-    this.individualAssessmentCount,
-  });
-
-  factory ReplicationTaskAssessmentRunProgress.fromJson(
-      Map<String, dynamic> json) {
-    return ReplicationTaskAssessmentRunProgress(
-      individualAssessmentCompletedCount:
-          json['IndividualAssessmentCompletedCount'] as int?,
-      individualAssessmentCount: json['IndividualAssessmentCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final individualAssessmentCompletedCount =
-        this.individualAssessmentCompletedCount;
-    final individualAssessmentCount = this.individualAssessmentCount;
-    return {
-      if (individualAssessmentCompletedCount != null)
-        'IndividualAssessmentCompletedCount':
-            individualAssessmentCompletedCount,
-      if (individualAssessmentCount != null)
-        'IndividualAssessmentCount': individualAssessmentCount,
-    };
-  }
-}
-
-/// Provides information that describes an individual assessment from a
-/// premigration assessment run.
-class ReplicationTaskIndividualAssessment {
-  /// Name of this individual assessment.
-  final String? individualAssessmentName;
-
-  /// ARN of the premigration assessment run that is created to run this
-  /// individual assessment.
-  final String? replicationTaskAssessmentRunArn;
-
-  /// Amazon Resource Name (ARN) of this individual assessment.
-  final String? replicationTaskIndividualAssessmentArn;
-
-  /// Date when this individual assessment was started as part of running the
-  /// <code>StartReplicationTaskAssessmentRun</code> operation.
-  final DateTime? replicationTaskIndividualAssessmentStartDate;
-
-  /// Individual assessment status.
-  ///
-  /// This status can have one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>"cancelled"</code>
-  /// </li>
-  /// <li>
-  /// <code>"error"</code>
-  /// </li>
-  /// <li>
-  /// <code>"failed"</code>
-  /// </li>
-  /// <li>
-  /// <code>"passed"</code>
-  /// </li>
-  /// <li>
-  /// <code>"pending"</code>
-  /// </li>
-  /// <li>
-  /// <code>"running"</code>
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  ReplicationTaskIndividualAssessment({
-    this.individualAssessmentName,
-    this.replicationTaskAssessmentRunArn,
-    this.replicationTaskIndividualAssessmentArn,
-    this.replicationTaskIndividualAssessmentStartDate,
-    this.status,
-  });
-
-  factory ReplicationTaskIndividualAssessment.fromJson(
-      Map<String, dynamic> json) {
-    return ReplicationTaskIndividualAssessment(
-      individualAssessmentName: json['IndividualAssessmentName'] as String?,
-      replicationTaskAssessmentRunArn:
-          json['ReplicationTaskAssessmentRunArn'] as String?,
-      replicationTaskIndividualAssessmentArn:
-          json['ReplicationTaskIndividualAssessmentArn'] as String?,
-      replicationTaskIndividualAssessmentStartDate: timeStampFromJson(
-          json['ReplicationTaskIndividualAssessmentStartDate']),
-      status: json['Status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final individualAssessmentName = this.individualAssessmentName;
-    final replicationTaskAssessmentRunArn =
-        this.replicationTaskAssessmentRunArn;
-    final replicationTaskIndividualAssessmentArn =
-        this.replicationTaskIndividualAssessmentArn;
-    final replicationTaskIndividualAssessmentStartDate =
-        this.replicationTaskIndividualAssessmentStartDate;
-    final status = this.status;
-    return {
-      if (individualAssessmentName != null)
-        'IndividualAssessmentName': individualAssessmentName,
-      if (replicationTaskAssessmentRunArn != null)
-        'ReplicationTaskAssessmentRunArn': replicationTaskAssessmentRunArn,
-      if (replicationTaskIndividualAssessmentArn != null)
-        'ReplicationTaskIndividualAssessmentArn':
-            replicationTaskIndividualAssessmentArn,
-      if (replicationTaskIndividualAssessmentStartDate != null)
-        'ReplicationTaskIndividualAssessmentStartDate':
-            unixTimestampToJson(replicationTaskIndividualAssessmentStartDate),
-      if (status != null) 'Status': status,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
 /// In response to a request by the <code>DescribeReplicationTasks</code>
@@ -18397,74 +11647,3440 @@ class ReplicationTaskStats {
   }
 }
 
-/// Identifies an DMS resource and any pending actions for it.
-class ResourcePendingMaintenanceActions {
-  /// Detailed information about the pending maintenance action.
-  final List<PendingMaintenanceAction>? pendingMaintenanceActionDetails;
+/// Provides information that describes a serverless replication created by the
+/// <code>CreateReplication</code> operation.
+class Replication {
+  /// Indicates the start time for a change data capture (CDC) operation. Use
+  /// either <code>CdcStartTime</code> or <code>CdcStartPosition</code> to specify
+  /// when you want a CDC operation to start. Specifying both values results in an
+  /// error.
+  final String? cdcStartPosition;
 
-  /// The Amazon Resource Name (ARN) of the DMS resource that the pending
-  /// maintenance action applies to. For information about creating an ARN, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Introduction.AWS.ARN.html">
-  /// Constructing an Amazon Resource Name (ARN) for DMS</a> in the DMS
-  /// documentation.
-  final String? resourceIdentifier;
+  /// Indicates the start time for a change data capture (CDC) operation. Use
+  /// either <code>CdcStartTime</code> or <code>CdcStartPosition</code> to specify
+  /// when you want a CDC operation to start. Specifying both values results in an
+  /// error.
+  final DateTime? cdcStartTime;
 
-  ResourcePendingMaintenanceActions({
-    this.pendingMaintenanceActionDetails,
-    this.resourceIdentifier,
+  /// Indicates when you want a change data capture (CDC) operation to stop. The
+  /// value can be either server time or commit time.
+  final String? cdcStopPosition;
+
+  /// Error and other information about why a serverless replication failed.
+  final List<String>? failureMessages;
+
+  /// Indicates whether the serverless replication is read-only. When set to
+  /// <code>true</code>, this replication is managed by DMS as part of a zero-ETL
+  /// integration and cannot be modified or deleted directly. You can only modify
+  /// or delete read-only replications through their associated zero-ETL
+  /// integration.
+  final bool? isReadOnly;
+
+  /// The status output of premigration assessment in describe-replications.
+  final List<PremigrationAssessmentStatus>? premigrationAssessmentStatuses;
+
+  /// Information about provisioning resources for an DMS serverless replication.
+  final ProvisionData? provisionData;
+
+  /// Indicates the last checkpoint that occurred during a change data capture
+  /// (CDC) operation. You can provide this value to the
+  /// <code>CdcStartPosition</code> parameter to start a CDC operation that begins
+  /// at that checkpoint.
+  final String? recoveryCheckpoint;
+
+  /// The Amazon Resource Name for the <code>ReplicationConfig</code> associated
+  /// with the replication.
+  final String? replicationConfigArn;
+
+  /// The identifier for the <code>ReplicationConfig</code> associated with the
+  /// replication.
+  final String? replicationConfigIdentifier;
+
+  /// The time the serverless replication was created.
+  final DateTime? replicationCreateTime;
+
+  /// The timestamp when DMS will deprovision the replication.
+  final DateTime? replicationDeprovisionTime;
+
+  /// The timestamp when replication was last stopped.
+  final DateTime? replicationLastStopTime;
+
+  /// This object provides a collection of statistics about a serverless
+  /// replication.
+  final ReplicationStats? replicationStats;
+
+  /// The type of the serverless replication.
+  final MigrationTypeValue? replicationType;
+
+  /// The time the serverless replication was updated.
+  final DateTime? replicationUpdateTime;
+
+  /// The Amazon Resource Name for an existing <code>Endpoint</code> the
+  /// serverless replication uses for its data source.
+  final String? sourceEndpointArn;
+
+  /// The type of replication to start.
+  final String? startReplicationType;
+
+  /// The current status of the serverless replication.
+  final String? status;
+
+  /// The reason the replication task was stopped. This response parameter can
+  /// return one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"Stop Reason NORMAL"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason RECOVERABLE_ERROR"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason FATAL_ERROR"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason FULL_LOAD_ONLY_FINISHED"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_FULL_LOAD"</code> – Full load completed,
+  /// with cached changes not applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_CACHED_EVENTS"</code> – Full load
+  /// completed, with cached changes applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AFTER_DDL_APPLY"</code> – User-defined stop task
+  /// after DDL applied
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_DUE_TO_LOW_MEMORY"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_DUE_TO_LOW_DISK"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AT_SERVER_TIME"</code> – User-defined server time
+  /// for stopping task
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason STOPPED_AT_COMMIT_TIME"</code> – User-defined commit time
+  /// for stopping task
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason RECONFIGURATION_RESTART"</code>
+  /// </li>
+  /// <li>
+  /// <code>"Stop Reason RECYCLE_TASK"</code>
+  /// </li>
+  /// </ul>
+  final String? stopReason;
+
+  /// The Amazon Resource Name for an existing <code>Endpoint</code> the
+  /// serverless replication uses for its data target.
+  final String? targetEndpointArn;
+
+  Replication({
+    this.cdcStartPosition,
+    this.cdcStartTime,
+    this.cdcStopPosition,
+    this.failureMessages,
+    this.isReadOnly,
+    this.premigrationAssessmentStatuses,
+    this.provisionData,
+    this.recoveryCheckpoint,
+    this.replicationConfigArn,
+    this.replicationConfigIdentifier,
+    this.replicationCreateTime,
+    this.replicationDeprovisionTime,
+    this.replicationLastStopTime,
+    this.replicationStats,
+    this.replicationType,
+    this.replicationUpdateTime,
+    this.sourceEndpointArn,
+    this.startReplicationType,
+    this.status,
+    this.stopReason,
+    this.targetEndpointArn,
   });
 
-  factory ResourcePendingMaintenanceActions.fromJson(
-      Map<String, dynamic> json) {
-    return ResourcePendingMaintenanceActions(
-      pendingMaintenanceActionDetails:
-          (json['PendingMaintenanceActionDetails'] as List?)
-              ?.nonNulls
-              .map((e) =>
-                  PendingMaintenanceAction.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      resourceIdentifier: json['ResourceIdentifier'] as String?,
+  factory Replication.fromJson(Map<String, dynamic> json) {
+    return Replication(
+      cdcStartPosition: json['CdcStartPosition'] as String?,
+      cdcStartTime: timeStampFromJson(json['CdcStartTime']),
+      cdcStopPosition: json['CdcStopPosition'] as String?,
+      failureMessages: (json['FailureMessages'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      isReadOnly: json['IsReadOnly'] as bool?,
+      premigrationAssessmentStatuses: (json['PremigrationAssessmentStatuses']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              PremigrationAssessmentStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      provisionData: json['ProvisionData'] != null
+          ? ProvisionData.fromJson(
+              json['ProvisionData'] as Map<String, dynamic>)
+          : null,
+      recoveryCheckpoint: json['RecoveryCheckpoint'] as String?,
+      replicationConfigArn: json['ReplicationConfigArn'] as String?,
+      replicationConfigIdentifier:
+          json['ReplicationConfigIdentifier'] as String?,
+      replicationCreateTime: timeStampFromJson(json['ReplicationCreateTime']),
+      replicationDeprovisionTime:
+          timeStampFromJson(json['ReplicationDeprovisionTime']),
+      replicationLastStopTime:
+          timeStampFromJson(json['ReplicationLastStopTime']),
+      replicationStats: json['ReplicationStats'] != null
+          ? ReplicationStats.fromJson(
+              json['ReplicationStats'] as Map<String, dynamic>)
+          : null,
+      replicationType: (json['ReplicationType'] as String?)
+          ?.let(MigrationTypeValue.fromString),
+      replicationUpdateTime: timeStampFromJson(json['ReplicationUpdateTime']),
+      sourceEndpointArn: json['SourceEndpointArn'] as String?,
+      startReplicationType: json['StartReplicationType'] as String?,
+      status: json['Status'] as String?,
+      stopReason: json['StopReason'] as String?,
+      targetEndpointArn: json['TargetEndpointArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final pendingMaintenanceActionDetails =
-        this.pendingMaintenanceActionDetails;
-    final resourceIdentifier = this.resourceIdentifier;
+    final cdcStartPosition = this.cdcStartPosition;
+    final cdcStartTime = this.cdcStartTime;
+    final cdcStopPosition = this.cdcStopPosition;
+    final failureMessages = this.failureMessages;
+    final isReadOnly = this.isReadOnly;
+    final premigrationAssessmentStatuses = this.premigrationAssessmentStatuses;
+    final provisionData = this.provisionData;
+    final recoveryCheckpoint = this.recoveryCheckpoint;
+    final replicationConfigArn = this.replicationConfigArn;
+    final replicationConfigIdentifier = this.replicationConfigIdentifier;
+    final replicationCreateTime = this.replicationCreateTime;
+    final replicationDeprovisionTime = this.replicationDeprovisionTime;
+    final replicationLastStopTime = this.replicationLastStopTime;
+    final replicationStats = this.replicationStats;
+    final replicationType = this.replicationType;
+    final replicationUpdateTime = this.replicationUpdateTime;
+    final sourceEndpointArn = this.sourceEndpointArn;
+    final startReplicationType = this.startReplicationType;
+    final status = this.status;
+    final stopReason = this.stopReason;
+    final targetEndpointArn = this.targetEndpointArn;
     return {
-      if (pendingMaintenanceActionDetails != null)
-        'PendingMaintenanceActionDetails': pendingMaintenanceActionDetails,
-      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+      if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
+      if (cdcStartTime != null)
+        'CdcStartTime': unixTimestampToJson(cdcStartTime),
+      if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
+      if (failureMessages != null) 'FailureMessages': failureMessages,
+      if (isReadOnly != null) 'IsReadOnly': isReadOnly,
+      if (premigrationAssessmentStatuses != null)
+        'PremigrationAssessmentStatuses': premigrationAssessmentStatuses,
+      if (provisionData != null) 'ProvisionData': provisionData,
+      if (recoveryCheckpoint != null) 'RecoveryCheckpoint': recoveryCheckpoint,
+      if (replicationConfigArn != null)
+        'ReplicationConfigArn': replicationConfigArn,
+      if (replicationConfigIdentifier != null)
+        'ReplicationConfigIdentifier': replicationConfigIdentifier,
+      if (replicationCreateTime != null)
+        'ReplicationCreateTime': unixTimestampToJson(replicationCreateTime),
+      if (replicationDeprovisionTime != null)
+        'ReplicationDeprovisionTime':
+            unixTimestampToJson(replicationDeprovisionTime),
+      if (replicationLastStopTime != null)
+        'ReplicationLastStopTime': unixTimestampToJson(replicationLastStopTime),
+      if (replicationStats != null) 'ReplicationStats': replicationStats,
+      if (replicationType != null) 'ReplicationType': replicationType.value,
+      if (replicationUpdateTime != null)
+        'ReplicationUpdateTime': unixTimestampToJson(replicationUpdateTime),
+      if (sourceEndpointArn != null) 'SourceEndpointArn': sourceEndpointArn,
+      if (startReplicationType != null)
+        'StartReplicationType': startReplicationType,
+      if (status != null) 'Status': status,
+      if (stopReason != null) 'StopReason': stopReason,
+      if (targetEndpointArn != null) 'TargetEndpointArn': targetEndpointArn,
     };
   }
 }
 
-class RunFleetAdvisorLsaAnalysisResponse {
-  /// The ID of the LSA analysis run.
-  final String? lsaAnalysisId;
+/// Information about provisioning resources for an DMS serverless replication.
+class ProvisionData {
+  /// The timestamp when provisioning became available.
+  final DateTime? dateNewProvisioningDataAvailable;
 
-  /// The status of the LSA analysis, for example <code>COMPLETED</code>.
+  /// The timestamp when DMS provisioned replication resources.
+  final DateTime? dateProvisioned;
+
+  /// Whether the new provisioning is available to the replication.
+  final bool? isNewProvisioningAvailable;
+
+  /// The current provisioning state
+  final String? provisionState;
+
+  /// The number of capacity units the replication is using.
+  final int? provisionedCapacityUnits;
+
+  /// A message describing the reason that DMS provisioned new resources for the
+  /// serverless replication.
+  final String? reasonForNewProvisioningData;
+
+  ProvisionData({
+    this.dateNewProvisioningDataAvailable,
+    this.dateProvisioned,
+    this.isNewProvisioningAvailable,
+    this.provisionState,
+    this.provisionedCapacityUnits,
+    this.reasonForNewProvisioningData,
+  });
+
+  factory ProvisionData.fromJson(Map<String, dynamic> json) {
+    return ProvisionData(
+      dateNewProvisioningDataAvailable:
+          timeStampFromJson(json['DateNewProvisioningDataAvailable']),
+      dateProvisioned: timeStampFromJson(json['DateProvisioned']),
+      isNewProvisioningAvailable: json['IsNewProvisioningAvailable'] as bool?,
+      provisionState: json['ProvisionState'] as String?,
+      provisionedCapacityUnits: json['ProvisionedCapacityUnits'] as int?,
+      reasonForNewProvisioningData:
+          json['ReasonForNewProvisioningData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dateNewProvisioningDataAvailable =
+        this.dateNewProvisioningDataAvailable;
+    final dateProvisioned = this.dateProvisioned;
+    final isNewProvisioningAvailable = this.isNewProvisioningAvailable;
+    final provisionState = this.provisionState;
+    final provisionedCapacityUnits = this.provisionedCapacityUnits;
+    final reasonForNewProvisioningData = this.reasonForNewProvisioningData;
+    return {
+      if (dateNewProvisioningDataAvailable != null)
+        'DateNewProvisioningDataAvailable':
+            unixTimestampToJson(dateNewProvisioningDataAvailable),
+      if (dateProvisioned != null)
+        'DateProvisioned': unixTimestampToJson(dateProvisioned),
+      if (isNewProvisioningAvailable != null)
+        'IsNewProvisioningAvailable': isNewProvisioningAvailable,
+      if (provisionState != null) 'ProvisionState': provisionState,
+      if (provisionedCapacityUnits != null)
+        'ProvisionedCapacityUnits': provisionedCapacityUnits,
+      if (reasonForNewProvisioningData != null)
+        'ReasonForNewProvisioningData': reasonForNewProvisioningData,
+    };
+  }
+}
+
+/// This object provides a collection of statistics about a serverless
+/// replication.
+class ReplicationStats {
+  /// The elapsed time of the replication, in milliseconds.
+  final int? elapsedTimeMillis;
+
+  /// The date the replication was started either with a fresh start or a target
+  /// reload.
+  final DateTime? freshStartDate;
+
+  /// The date the replication full load was finished.
+  final DateTime? fullLoadFinishDate;
+
+  /// The percent complete for the full load serverless replication.
+  final int? fullLoadProgressPercent;
+
+  /// The date the replication full load was started.
+  final DateTime? fullLoadStartDate;
+
+  /// The date the replication is scheduled to start.
+  final DateTime? startDate;
+
+  /// The date the replication was stopped.
+  final DateTime? stopDate;
+
+  /// The number of errors that have occured for this replication.
+  final int? tablesErrored;
+
+  /// The number of tables loaded for this replication.
+  final int? tablesLoaded;
+
+  /// The number of tables currently loading for this replication.
+  final int? tablesLoading;
+
+  /// The number of tables queued for this replication.
+  final int? tablesQueued;
+
+  ReplicationStats({
+    this.elapsedTimeMillis,
+    this.freshStartDate,
+    this.fullLoadFinishDate,
+    this.fullLoadProgressPercent,
+    this.fullLoadStartDate,
+    this.startDate,
+    this.stopDate,
+    this.tablesErrored,
+    this.tablesLoaded,
+    this.tablesLoading,
+    this.tablesQueued,
+  });
+
+  factory ReplicationStats.fromJson(Map<String, dynamic> json) {
+    return ReplicationStats(
+      elapsedTimeMillis: json['ElapsedTimeMillis'] as int?,
+      freshStartDate: timeStampFromJson(json['FreshStartDate']),
+      fullLoadFinishDate: timeStampFromJson(json['FullLoadFinishDate']),
+      fullLoadProgressPercent: json['FullLoadProgressPercent'] as int?,
+      fullLoadStartDate: timeStampFromJson(json['FullLoadStartDate']),
+      startDate: timeStampFromJson(json['StartDate']),
+      stopDate: timeStampFromJson(json['StopDate']),
+      tablesErrored: json['TablesErrored'] as int?,
+      tablesLoaded: json['TablesLoaded'] as int?,
+      tablesLoading: json['TablesLoading'] as int?,
+      tablesQueued: json['TablesQueued'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elapsedTimeMillis = this.elapsedTimeMillis;
+    final freshStartDate = this.freshStartDate;
+    final fullLoadFinishDate = this.fullLoadFinishDate;
+    final fullLoadProgressPercent = this.fullLoadProgressPercent;
+    final fullLoadStartDate = this.fullLoadStartDate;
+    final startDate = this.startDate;
+    final stopDate = this.stopDate;
+    final tablesErrored = this.tablesErrored;
+    final tablesLoaded = this.tablesLoaded;
+    final tablesLoading = this.tablesLoading;
+    final tablesQueued = this.tablesQueued;
+    return {
+      if (elapsedTimeMillis != null) 'ElapsedTimeMillis': elapsedTimeMillis,
+      if (freshStartDate != null)
+        'FreshStartDate': unixTimestampToJson(freshStartDate),
+      if (fullLoadFinishDate != null)
+        'FullLoadFinishDate': unixTimestampToJson(fullLoadFinishDate),
+      if (fullLoadProgressPercent != null)
+        'FullLoadProgressPercent': fullLoadProgressPercent,
+      if (fullLoadStartDate != null)
+        'FullLoadStartDate': unixTimestampToJson(fullLoadStartDate),
+      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+      if (stopDate != null) 'StopDate': unixTimestampToJson(stopDate),
+      if (tablesErrored != null) 'TablesErrored': tablesErrored,
+      if (tablesLoaded != null) 'TablesLoaded': tablesLoaded,
+      if (tablesLoading != null) 'TablesLoading': tablesLoading,
+      if (tablesQueued != null) 'TablesQueued': tablesQueued,
+    };
+  }
+}
+
+/// The results returned in <code>describe-replications</code> to display the
+/// results of the premigration assessment from the replication configuration.
+class PremigrationAssessmentStatus {
+  final ReplicationTaskAssessmentRunProgress? assessmentProgress;
+
+  /// A configurable setting you can set to <code>true</code> (the defualt
+  /// setting) or <code>false</code>. Use this setting to to stop the replication
+  /// from starting automatically if the assessment fails. This can help you
+  /// evaluate the issue that is preventing the replication from running
+  /// successfully.
+  final bool? failOnAssessmentFailure;
+
+  /// The last message generated by an individual assessment failure.
+  final String? lastFailureMessage;
+
+  /// The Amazon Resource Name (ARN) of this assessment run.
+  final String? premigrationAssessmentRunArn;
+
+  /// The date which the assessment run was created.
+  final DateTime? premigrationAssessmentRunCreationDate;
+
+  /// The supported values are <code>SSE_KMS</code> and <code>SSE_S3</code>. If
+  /// these values are not provided, then the files are not encrypted at rest. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys">Creating
+  /// Amazon Web Services KMS keys to encrypt Amazon S3 target objects</a>.
+  final String? resultEncryptionMode;
+
+  /// The ARN of a custom KMS encryption key that you specify when you set
+  /// <code>ResultEncryptionMode</code> to <code>SSE_KMS</code>.
+  final String? resultKmsKeyArn;
+
+  /// The Amazon S3 bucket that Database Migration Service Serverless created to
+  /// store the results of this assessment run.
+  final String? resultLocationBucket;
+
+  /// The folder within an Amazon S3 bucket where you want Database Migration
+  /// Service to store the results of this assessment run.
+  final String? resultLocationFolder;
+  final ReplicationTaskAssessmentRunResultStatistic? resultStatistic;
+
+  /// This describes the assessment run status. The status can be one of the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>cancelling</code>: The assessment run was canceled.
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>: The assessment run was deleted.
+  /// </li>
+  /// <li>
+  /// <code>failed</code>: At least one individual assessment completed with a
+  /// failed status.
+  /// </li>
+  /// <li>
+  /// <code>error-provisioning</code>: An internal error occurred while resources
+  /// were provisioned (during the <code>provisioning</code> status).
+  /// </li>
+  /// <li>
+  /// <code>error-executing</code> An internal error occurred while individual
+  /// assessments ran (during the <code>running</code> status).
+  /// </li>
+  /// <li>
+  /// <code>invalid state</code>: The assessment run is in an unknown state.
+  /// </li>
+  /// <li>
+  /// <code>passed</code>: All individual assessments have completed and none have
+  /// a failed status.
+  /// </li>
+  /// <li>
+  /// <code>provisioning</code>: The resources required to run individual
+  /// assessments are being provisioned.
+  /// </li>
+  /// <li>
+  /// <code>running</code>: Individual assessments are being run.
+  /// </li>
+  /// <li>
+  /// <code>starting</code>: The assessment run is starting, but resources are not
+  /// yet being provisioned for individual assessments.
+  /// </li>
+  /// <li>
+  /// <code>warning</code>: At least one individual assessment completed with a
+  /// warning status.
+  /// </li>
+  /// </ul>
   final String? status;
 
-  RunFleetAdvisorLsaAnalysisResponse({
-    this.lsaAnalysisId,
+  PremigrationAssessmentStatus({
+    this.assessmentProgress,
+    this.failOnAssessmentFailure,
+    this.lastFailureMessage,
+    this.premigrationAssessmentRunArn,
+    this.premigrationAssessmentRunCreationDate,
+    this.resultEncryptionMode,
+    this.resultKmsKeyArn,
+    this.resultLocationBucket,
+    this.resultLocationFolder,
+    this.resultStatistic,
     this.status,
   });
 
-  factory RunFleetAdvisorLsaAnalysisResponse.fromJson(
-      Map<String, dynamic> json) {
-    return RunFleetAdvisorLsaAnalysisResponse(
-      lsaAnalysisId: json['LsaAnalysisId'] as String?,
+  factory PremigrationAssessmentStatus.fromJson(Map<String, dynamic> json) {
+    return PremigrationAssessmentStatus(
+      assessmentProgress: json['AssessmentProgress'] != null
+          ? ReplicationTaskAssessmentRunProgress.fromJson(
+              json['AssessmentProgress'] as Map<String, dynamic>)
+          : null,
+      failOnAssessmentFailure: json['FailOnAssessmentFailure'] as bool?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      premigrationAssessmentRunArn:
+          json['PremigrationAssessmentRunArn'] as String?,
+      premigrationAssessmentRunCreationDate:
+          timeStampFromJson(json['PremigrationAssessmentRunCreationDate']),
+      resultEncryptionMode: json['ResultEncryptionMode'] as String?,
+      resultKmsKeyArn: json['ResultKmsKeyArn'] as String?,
+      resultLocationBucket: json['ResultLocationBucket'] as String?,
+      resultLocationFolder: json['ResultLocationFolder'] as String?,
+      resultStatistic: json['ResultStatistic'] != null
+          ? ReplicationTaskAssessmentRunResultStatistic.fromJson(
+              json['ResultStatistic'] as Map<String, dynamic>)
+          : null,
       status: json['Status'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lsaAnalysisId = this.lsaAnalysisId;
+    final assessmentProgress = this.assessmentProgress;
+    final failOnAssessmentFailure = this.failOnAssessmentFailure;
+    final lastFailureMessage = this.lastFailureMessage;
+    final premigrationAssessmentRunArn = this.premigrationAssessmentRunArn;
+    final premigrationAssessmentRunCreationDate =
+        this.premigrationAssessmentRunCreationDate;
+    final resultEncryptionMode = this.resultEncryptionMode;
+    final resultKmsKeyArn = this.resultKmsKeyArn;
+    final resultLocationBucket = this.resultLocationBucket;
+    final resultLocationFolder = this.resultLocationFolder;
+    final resultStatistic = this.resultStatistic;
     final status = this.status;
     return {
-      if (lsaAnalysisId != null) 'LsaAnalysisId': lsaAnalysisId,
+      if (assessmentProgress != null) 'AssessmentProgress': assessmentProgress,
+      if (failOnAssessmentFailure != null)
+        'FailOnAssessmentFailure': failOnAssessmentFailure,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (premigrationAssessmentRunArn != null)
+        'PremigrationAssessmentRunArn': premigrationAssessmentRunArn,
+      if (premigrationAssessmentRunCreationDate != null)
+        'PremigrationAssessmentRunCreationDate':
+            unixTimestampToJson(premigrationAssessmentRunCreationDate),
+      if (resultEncryptionMode != null)
+        'ResultEncryptionMode': resultEncryptionMode,
+      if (resultKmsKeyArn != null) 'ResultKmsKeyArn': resultKmsKeyArn,
+      if (resultLocationBucket != null)
+        'ResultLocationBucket': resultLocationBucket,
+      if (resultLocationFolder != null)
+        'ResultLocationFolder': resultLocationFolder,
+      if (resultStatistic != null) 'ResultStatistic': resultStatistic,
       if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The progress values reported by the <code>AssessmentProgress</code> response
+/// element.
+class ReplicationTaskAssessmentRunProgress {
+  /// The number of individual assessments that have completed, successfully or
+  /// not.
+  final int? individualAssessmentCompletedCount;
+
+  /// The number of individual assessments that are specified to run.
+  final int? individualAssessmentCount;
+
+  ReplicationTaskAssessmentRunProgress({
+    this.individualAssessmentCompletedCount,
+    this.individualAssessmentCount,
+  });
+
+  factory ReplicationTaskAssessmentRunProgress.fromJson(
+      Map<String, dynamic> json) {
+    return ReplicationTaskAssessmentRunProgress(
+      individualAssessmentCompletedCount:
+          json['IndividualAssessmentCompletedCount'] as int?,
+      individualAssessmentCount: json['IndividualAssessmentCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final individualAssessmentCompletedCount =
+        this.individualAssessmentCompletedCount;
+    final individualAssessmentCount = this.individualAssessmentCount;
+    return {
+      if (individualAssessmentCompletedCount != null)
+        'IndividualAssessmentCompletedCount':
+            individualAssessmentCompletedCount,
+      if (individualAssessmentCount != null)
+        'IndividualAssessmentCount': individualAssessmentCount,
+    };
+  }
+}
+
+/// The object containing the result statistics for a completed assessment run.
+class ReplicationTaskAssessmentRunResultStatistic {
+  /// The number of individual assessments that were cancelled during the
+  /// assessment run.
+  final int? cancelled;
+
+  /// The number of individual assessments that encountered a critical error and
+  /// could not complete properly.
+  final int? error;
+
+  /// The number of individual assessments that failed to meet the criteria
+  /// defined in the assessment run.
+  final int? failed;
+
+  /// The number of individual assessments that successfully passed all checks in
+  /// the assessment run.
+  final int? passed;
+
+  /// The number of individual assessments that were skipped during the assessment
+  /// run.
+  final int? skipped;
+
+  /// Indicates that the recent completed AssessmentRun triggered a warning.
+  final int? warning;
+
+  ReplicationTaskAssessmentRunResultStatistic({
+    this.cancelled,
+    this.error,
+    this.failed,
+    this.passed,
+    this.skipped,
+    this.warning,
+  });
+
+  factory ReplicationTaskAssessmentRunResultStatistic.fromJson(
+      Map<String, dynamic> json) {
+    return ReplicationTaskAssessmentRunResultStatistic(
+      cancelled: json['Cancelled'] as int?,
+      error: json['Error'] as int?,
+      failed: json['Failed'] as int?,
+      passed: json['Passed'] as int?,
+      skipped: json['Skipped'] as int?,
+      warning: json['Warning'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancelled = this.cancelled;
+    final error = this.error;
+    final failed = this.failed;
+    final passed = this.passed;
+    final skipped = this.skipped;
+    final warning = this.warning;
+    return {
+      if (cancelled != null) 'Cancelled': cancelled,
+      if (error != null) 'Error': error,
+      if (failed != null) 'Failed': failed,
+      if (passed != null) 'Passed': passed,
+      if (skipped != null) 'Skipped': skipped,
+      if (warning != null) 'Warning': warning,
+    };
+  }
+}
+
+/// This object provides information about a DMS data migration.
+class DataMigration {
+  /// The Amazon Resource Name (ARN) that identifies this replication.
+  final String? dataMigrationArn;
+
+  /// The CIDR blocks of the endpoints for the data migration.
+  final List<String>? dataMigrationCidrBlocks;
+
+  /// The UTC time when DMS created the data migration.
+  final DateTime? dataMigrationCreateTime;
+
+  /// The UTC time when data migration ended.
+  final DateTime? dataMigrationEndTime;
+
+  /// The user-friendly name for the data migration.
+  final String? dataMigrationName;
+
+  /// Specifies CloudWatch settings and selection rules for the data migration.
+  final DataMigrationSettings? dataMigrationSettings;
+
+  /// The UTC time when DMS started the data migration.
+  final DateTime? dataMigrationStartTime;
+
+  /// Provides information about the data migration's run, including start and
+  /// stop time, latency, and data migration progress.
+  final DataMigrationStatistics? dataMigrationStatistics;
+
+  /// The current status of the data migration.
+  final String? dataMigrationStatus;
+
+  /// Specifies whether the data migration is full-load only, change data capture
+  /// (CDC) only, or full-load and CDC.
+  final MigrationTypeValue? dataMigrationType;
+
+  /// Information about the data migration's most recent error or failure.
+  final String? lastFailureMessage;
+
+  /// The Amazon Resource Name (ARN) of the data migration's associated migration
+  /// project.
+  final String? migrationProjectArn;
+
+  /// The IP addresses of the endpoints for the data migration.
+  final List<String>? publicIpAddresses;
+
+  /// The IAM role that the data migration uses to access Amazon Web Services
+  /// resources.
+  final String? serviceAccessRoleArn;
+
+  /// Specifies information about the data migration's source data provider.
+  final List<SourceDataSetting>? sourceDataSettings;
+
+  /// The reason the data migration last stopped.
+  final String? stopReason;
+
+  /// Specifies information about the data migration's target data provider.
+  final List<TargetDataSetting>? targetDataSettings;
+
+  DataMigration({
+    this.dataMigrationArn,
+    this.dataMigrationCidrBlocks,
+    this.dataMigrationCreateTime,
+    this.dataMigrationEndTime,
+    this.dataMigrationName,
+    this.dataMigrationSettings,
+    this.dataMigrationStartTime,
+    this.dataMigrationStatistics,
+    this.dataMigrationStatus,
+    this.dataMigrationType,
+    this.lastFailureMessage,
+    this.migrationProjectArn,
+    this.publicIpAddresses,
+    this.serviceAccessRoleArn,
+    this.sourceDataSettings,
+    this.stopReason,
+    this.targetDataSettings,
+  });
+
+  factory DataMigration.fromJson(Map<String, dynamic> json) {
+    return DataMigration(
+      dataMigrationArn: json['DataMigrationArn'] as String?,
+      dataMigrationCidrBlocks: (json['DataMigrationCidrBlocks'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      dataMigrationCreateTime:
+          timeStampFromJson(json['DataMigrationCreateTime']),
+      dataMigrationEndTime: timeStampFromJson(json['DataMigrationEndTime']),
+      dataMigrationName: json['DataMigrationName'] as String?,
+      dataMigrationSettings: json['DataMigrationSettings'] != null
+          ? DataMigrationSettings.fromJson(
+              json['DataMigrationSettings'] as Map<String, dynamic>)
+          : null,
+      dataMigrationStartTime: timeStampFromJson(json['DataMigrationStartTime']),
+      dataMigrationStatistics: json['DataMigrationStatistics'] != null
+          ? DataMigrationStatistics.fromJson(
+              json['DataMigrationStatistics'] as Map<String, dynamic>)
+          : null,
+      dataMigrationStatus: json['DataMigrationStatus'] as String?,
+      dataMigrationType: (json['DataMigrationType'] as String?)
+          ?.let(MigrationTypeValue.fromString),
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      migrationProjectArn: json['MigrationProjectArn'] as String?,
+      publicIpAddresses: (json['PublicIpAddresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      sourceDataSettings: (json['SourceDataSettings'] as List?)
+          ?.nonNulls
+          .map((e) => SourceDataSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stopReason: json['StopReason'] as String?,
+      targetDataSettings: (json['TargetDataSettings'] as List?)
+          ?.nonNulls
+          .map((e) => TargetDataSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataMigrationArn = this.dataMigrationArn;
+    final dataMigrationCidrBlocks = this.dataMigrationCidrBlocks;
+    final dataMigrationCreateTime = this.dataMigrationCreateTime;
+    final dataMigrationEndTime = this.dataMigrationEndTime;
+    final dataMigrationName = this.dataMigrationName;
+    final dataMigrationSettings = this.dataMigrationSettings;
+    final dataMigrationStartTime = this.dataMigrationStartTime;
+    final dataMigrationStatistics = this.dataMigrationStatistics;
+    final dataMigrationStatus = this.dataMigrationStatus;
+    final dataMigrationType = this.dataMigrationType;
+    final lastFailureMessage = this.lastFailureMessage;
+    final migrationProjectArn = this.migrationProjectArn;
+    final publicIpAddresses = this.publicIpAddresses;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final sourceDataSettings = this.sourceDataSettings;
+    final stopReason = this.stopReason;
+    final targetDataSettings = this.targetDataSettings;
+    return {
+      if (dataMigrationArn != null) 'DataMigrationArn': dataMigrationArn,
+      if (dataMigrationCidrBlocks != null)
+        'DataMigrationCidrBlocks': dataMigrationCidrBlocks,
+      if (dataMigrationCreateTime != null)
+        'DataMigrationCreateTime': iso8601ToJson(dataMigrationCreateTime),
+      if (dataMigrationEndTime != null)
+        'DataMigrationEndTime': iso8601ToJson(dataMigrationEndTime),
+      if (dataMigrationName != null) 'DataMigrationName': dataMigrationName,
+      if (dataMigrationSettings != null)
+        'DataMigrationSettings': dataMigrationSettings,
+      if (dataMigrationStartTime != null)
+        'DataMigrationStartTime': iso8601ToJson(dataMigrationStartTime),
+      if (dataMigrationStatistics != null)
+        'DataMigrationStatistics': dataMigrationStatistics,
+      if (dataMigrationStatus != null)
+        'DataMigrationStatus': dataMigrationStatus,
+      if (dataMigrationType != null)
+        'DataMigrationType': dataMigrationType.value,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (migrationProjectArn != null)
+        'MigrationProjectArn': migrationProjectArn,
+      if (publicIpAddresses != null) 'PublicIpAddresses': publicIpAddresses,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (sourceDataSettings != null) 'SourceDataSettings': sourceDataSettings,
+      if (stopReason != null) 'StopReason': stopReason,
+      if (targetDataSettings != null) 'TargetDataSettings': targetDataSettings,
+    };
+  }
+}
+
+/// Options for configuring a data migration, including whether to enable
+/// CloudWatch logs, and the selection rules to use to include or exclude
+/// database objects from the migration.
+class DataMigrationSettings {
+  /// Whether to enable CloudWatch logging for the data migration.
+  final bool? cloudwatchLogsEnabled;
+
+  /// The number of parallel jobs that trigger parallel threads to unload the
+  /// tables from the source, and then load them to the target.
+  final int? numberOfJobs;
+
+  /// A JSON-formatted string that defines what objects to include and exclude
+  /// from the migration.
+  final String? selectionRules;
+
+  DataMigrationSettings({
+    this.cloudwatchLogsEnabled,
+    this.numberOfJobs,
+    this.selectionRules,
+  });
+
+  factory DataMigrationSettings.fromJson(Map<String, dynamic> json) {
+    return DataMigrationSettings(
+      cloudwatchLogsEnabled: json['CloudwatchLogsEnabled'] as bool?,
+      numberOfJobs: json['NumberOfJobs'] as int?,
+      selectionRules: json['SelectionRules'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudwatchLogsEnabled = this.cloudwatchLogsEnabled;
+    final numberOfJobs = this.numberOfJobs;
+    final selectionRules = this.selectionRules;
+    return {
+      if (cloudwatchLogsEnabled != null)
+        'CloudwatchLogsEnabled': cloudwatchLogsEnabled,
+      if (numberOfJobs != null) 'NumberOfJobs': numberOfJobs,
+      if (selectionRules != null) 'SelectionRules': selectionRules,
+    };
+  }
+}
+
+/// Information about the data migration run, including start and stop time,
+/// latency, and migration progress.
+class DataMigrationStatistics {
+  /// The current latency of the change data capture (CDC) operation.
+  final int? cDCLatency;
+
+  /// The elapsed duration of the data migration run.
+  final int? elapsedTimeMillis;
+
+  /// The data migration's progress in the full-load migration phase.
+  final int? fullLoadPercentage;
+
+  /// The time when the migration started.
+  final DateTime? startTime;
+
+  /// The time when the migration stopped or failed.
+  final DateTime? stopTime;
+
+  /// The number of tables that DMS failed to process.
+  final int? tablesErrored;
+
+  /// The number of tables loaded in the current data migration run.
+  final int? tablesLoaded;
+
+  /// The data migration's table loading progress.
+  final int? tablesLoading;
+
+  /// The number of tables that are waiting for processing.
+  final int? tablesQueued;
+
+  DataMigrationStatistics({
+    this.cDCLatency,
+    this.elapsedTimeMillis,
+    this.fullLoadPercentage,
+    this.startTime,
+    this.stopTime,
+    this.tablesErrored,
+    this.tablesLoaded,
+    this.tablesLoading,
+    this.tablesQueued,
+  });
+
+  factory DataMigrationStatistics.fromJson(Map<String, dynamic> json) {
+    return DataMigrationStatistics(
+      cDCLatency: json['CDCLatency'] as int?,
+      elapsedTimeMillis: json['ElapsedTimeMillis'] as int?,
+      fullLoadPercentage: json['FullLoadPercentage'] as int?,
+      startTime: timeStampFromJson(json['StartTime']),
+      stopTime: timeStampFromJson(json['StopTime']),
+      tablesErrored: json['TablesErrored'] as int?,
+      tablesLoaded: json['TablesLoaded'] as int?,
+      tablesLoading: json['TablesLoading'] as int?,
+      tablesQueued: json['TablesQueued'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cDCLatency = this.cDCLatency;
+    final elapsedTimeMillis = this.elapsedTimeMillis;
+    final fullLoadPercentage = this.fullLoadPercentage;
+    final startTime = this.startTime;
+    final stopTime = this.stopTime;
+    final tablesErrored = this.tablesErrored;
+    final tablesLoaded = this.tablesLoaded;
+    final tablesLoading = this.tablesLoading;
+    final tablesQueued = this.tablesQueued;
+    return {
+      if (cDCLatency != null) 'CDCLatency': cDCLatency,
+      if (elapsedTimeMillis != null) 'ElapsedTimeMillis': elapsedTimeMillis,
+      if (fullLoadPercentage != null) 'FullLoadPercentage': fullLoadPercentage,
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
+      if (stopTime != null) 'StopTime': iso8601ToJson(stopTime),
+      if (tablesErrored != null) 'TablesErrored': tablesErrored,
+      if (tablesLoaded != null) 'TablesLoaded': tablesLoaded,
+      if (tablesLoading != null) 'TablesLoading': tablesLoading,
+      if (tablesQueued != null) 'TablesQueued': tablesQueued,
+    };
+  }
+}
+
+/// Defines settings for a target data provider for a data migration.
+class TargetDataSetting {
+  /// This setting determines how DMS handles the target tables before starting a
+  /// data migration, either by leaving them untouched, dropping and recreating
+  /// them, or truncating the existing data in the target tables.
+  final TablePreparationMode? tablePreparationMode;
+
+  TargetDataSetting({
+    this.tablePreparationMode,
+  });
+
+  factory TargetDataSetting.fromJson(Map<String, dynamic> json) {
+    return TargetDataSetting(
+      tablePreparationMode: (json['TablePreparationMode'] as String?)
+          ?.let(TablePreparationMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tablePreparationMode = this.tablePreparationMode;
+    return {
+      if (tablePreparationMode != null)
+        'TablePreparationMode': tablePreparationMode.value,
+    };
+  }
+}
+
+class TablePreparationMode {
+  static const doNothing = TablePreparationMode._('do-nothing');
+  static const truncate = TablePreparationMode._('truncate');
+  static const dropTablesOnTarget =
+      TablePreparationMode._('drop-tables-on-target');
+
+  final String value;
+
+  const TablePreparationMode._(this.value);
+
+  static const values = [doNothing, truncate, dropTablesOnTarget];
+
+  static TablePreparationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TablePreparationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TablePreparationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines settings for a source data provider for a data migration.
+class SourceDataSetting {
+  /// The change data capture (CDC) start position for the source data provider.
+  final String? cDCStartPosition;
+
+  /// The change data capture (CDC) start time for the source data provider.
+  final DateTime? cDCStartTime;
+
+  /// The change data capture (CDC) stop time for the source data provider.
+  final DateTime? cDCStopTime;
+
+  /// The name of the replication slot on the source data provider. This attribute
+  /// is only valid for a PostgreSQL or Aurora PostgreSQL source.
+  final String? slotName;
+
+  SourceDataSetting({
+    this.cDCStartPosition,
+    this.cDCStartTime,
+    this.cDCStopTime,
+    this.slotName,
+  });
+
+  factory SourceDataSetting.fromJson(Map<String, dynamic> json) {
+    return SourceDataSetting(
+      cDCStartPosition: json['CDCStartPosition'] as String?,
+      cDCStartTime: timeStampFromJson(json['CDCStartTime']),
+      cDCStopTime: timeStampFromJson(json['CDCStopTime']),
+      slotName: json['SlotName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cDCStartPosition = this.cDCStartPosition;
+    final cDCStartTime = this.cDCStartTime;
+    final cDCStopTime = this.cDCStopTime;
+    final slotName = this.slotName;
+    return {
+      if (cDCStartPosition != null) 'CDCStartPosition': cDCStartPosition,
+      if (cDCStartTime != null) 'CDCStartTime': iso8601ToJson(cDCStartTime),
+      if (cDCStopTime != null) 'CDCStopTime': iso8601ToJson(cDCStopTime),
+      if (slotName != null) 'SlotName': slotName,
+    };
+  }
+}
+
+/// Provides information that describes a premigration assessment run that you
+/// have started using the <code>StartReplicationTaskAssessmentRun</code>
+/// operation.
+///
+/// Some of the information appears based on other operations that can return
+/// the <code>ReplicationTaskAssessmentRun</code> object.
+class ReplicationTaskAssessmentRun {
+  /// Indication of the completion progress for the individual assessments
+  /// specified to run.
+  final ReplicationTaskAssessmentRunProgress? assessmentProgress;
+
+  /// Unique name of the assessment run.
+  final String? assessmentRunName;
+
+  /// Indicates that the following PreflightAssessmentRun is the latest for the
+  /// ReplicationTask. The status is either true or false.
+  final bool? isLatestTaskAssessmentRun;
+
+  /// Last message generated by an individual assessment failure.
+  final String? lastFailureMessage;
+
+  /// ARN of the migration task associated with this premigration assessment run.
+  final String? replicationTaskArn;
+
+  /// Amazon Resource Name (ARN) of this assessment run.
+  final String? replicationTaskAssessmentRunArn;
+
+  /// Date on which the assessment run was created using the
+  /// <code>StartReplicationTaskAssessmentRun</code> operation.
+  final DateTime? replicationTaskAssessmentRunCreationDate;
+
+  /// Encryption mode used to encrypt the assessment run results.
+  final String? resultEncryptionMode;
+
+  /// ARN of the KMS encryption key used to encrypt the assessment run results.
+  final String? resultKmsKeyArn;
+
+  /// Amazon S3 bucket where DMS stores the results of this assessment run.
+  final String? resultLocationBucket;
+
+  /// Folder in an Amazon S3 bucket where DMS stores the results of this
+  /// assessment run.
+  final String? resultLocationFolder;
+
+  /// Result statistics for a completed assessment run, showing aggregated
+  /// statistics of IndividualAssessments for how many assessments were passed,
+  /// failed, or encountered issues such as errors or warnings.
+  final ReplicationTaskAssessmentRunResultStatistic? resultStatistic;
+
+  /// ARN of the service role used to start the assessment run using the
+  /// <code>StartReplicationTaskAssessmentRun</code> operation. The role must
+  /// allow the <code>iam:PassRole</code> action.
+  final String? serviceAccessRoleArn;
+
+  /// Assessment run status.
+  ///
+  /// This status can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"cancelling"</code> – The assessment run was canceled by the
+  /// <code>CancelReplicationTaskAssessmentRun</code> operation.
+  /// </li>
+  /// <li>
+  /// <code>"deleting"</code> – The assessment run was deleted by the
+  /// <code>DeleteReplicationTaskAssessmentRun</code> operation.
+  /// </li>
+  /// <li>
+  /// <code>"failed"</code> – At least one individual assessment completed with a
+  /// <code>failed</code> status.
+  /// </li>
+  /// <li>
+  /// <code>"error-provisioning"</code> – An internal error occurred while
+  /// resources were provisioned (during <code>provisioning</code> status).
+  /// </li>
+  /// <li>
+  /// <code>"error-executing"</code> – An internal error occurred while individual
+  /// assessments ran (during <code>running</code> status).
+  /// </li>
+  /// <li>
+  /// <code>"invalid state"</code> – The assessment run is in an unknown state.
+  /// </li>
+  /// <li>
+  /// <code>"passed"</code> – All individual assessments have completed, and none
+  /// has a <code>failed</code> status.
+  /// </li>
+  /// <li>
+  /// <code>"provisioning"</code> – Resources required to run individual
+  /// assessments are being provisioned.
+  /// </li>
+  /// <li>
+  /// <code>"running"</code> – Individual assessments are being run.
+  /// </li>
+  /// <li>
+  /// <code>"starting"</code> – The assessment run is starting, but resources are
+  /// not yet being provisioned for individual assessments.
+  /// </li>
+  /// <li>
+  /// <code>"warning"</code> – At least one individual assessment completed with a
+  /// <code>warning</code> status or all individual assessments were skipped
+  /// (completed with a <code>skipped</code> status).
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  ReplicationTaskAssessmentRun({
+    this.assessmentProgress,
+    this.assessmentRunName,
+    this.isLatestTaskAssessmentRun,
+    this.lastFailureMessage,
+    this.replicationTaskArn,
+    this.replicationTaskAssessmentRunArn,
+    this.replicationTaskAssessmentRunCreationDate,
+    this.resultEncryptionMode,
+    this.resultKmsKeyArn,
+    this.resultLocationBucket,
+    this.resultLocationFolder,
+    this.resultStatistic,
+    this.serviceAccessRoleArn,
+    this.status,
+  });
+
+  factory ReplicationTaskAssessmentRun.fromJson(Map<String, dynamic> json) {
+    return ReplicationTaskAssessmentRun(
+      assessmentProgress: json['AssessmentProgress'] != null
+          ? ReplicationTaskAssessmentRunProgress.fromJson(
+              json['AssessmentProgress'] as Map<String, dynamic>)
+          : null,
+      assessmentRunName: json['AssessmentRunName'] as String?,
+      isLatestTaskAssessmentRun: json['IsLatestTaskAssessmentRun'] as bool?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+      replicationTaskAssessmentRunArn:
+          json['ReplicationTaskAssessmentRunArn'] as String?,
+      replicationTaskAssessmentRunCreationDate:
+          timeStampFromJson(json['ReplicationTaskAssessmentRunCreationDate']),
+      resultEncryptionMode: json['ResultEncryptionMode'] as String?,
+      resultKmsKeyArn: json['ResultKmsKeyArn'] as String?,
+      resultLocationBucket: json['ResultLocationBucket'] as String?,
+      resultLocationFolder: json['ResultLocationFolder'] as String?,
+      resultStatistic: json['ResultStatistic'] != null
+          ? ReplicationTaskAssessmentRunResultStatistic.fromJson(
+              json['ResultStatistic'] as Map<String, dynamic>)
+          : null,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentProgress = this.assessmentProgress;
+    final assessmentRunName = this.assessmentRunName;
+    final isLatestTaskAssessmentRun = this.isLatestTaskAssessmentRun;
+    final lastFailureMessage = this.lastFailureMessage;
+    final replicationTaskArn = this.replicationTaskArn;
+    final replicationTaskAssessmentRunArn =
+        this.replicationTaskAssessmentRunArn;
+    final replicationTaskAssessmentRunCreationDate =
+        this.replicationTaskAssessmentRunCreationDate;
+    final resultEncryptionMode = this.resultEncryptionMode;
+    final resultKmsKeyArn = this.resultKmsKeyArn;
+    final resultLocationBucket = this.resultLocationBucket;
+    final resultLocationFolder = this.resultLocationFolder;
+    final resultStatistic = this.resultStatistic;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final status = this.status;
+    return {
+      if (assessmentProgress != null) 'AssessmentProgress': assessmentProgress,
+      if (assessmentRunName != null) 'AssessmentRunName': assessmentRunName,
+      if (isLatestTaskAssessmentRun != null)
+        'IsLatestTaskAssessmentRun': isLatestTaskAssessmentRun,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+      if (replicationTaskAssessmentRunArn != null)
+        'ReplicationTaskAssessmentRunArn': replicationTaskAssessmentRunArn,
+      if (replicationTaskAssessmentRunCreationDate != null)
+        'ReplicationTaskAssessmentRunCreationDate':
+            unixTimestampToJson(replicationTaskAssessmentRunCreationDate),
+      if (resultEncryptionMode != null)
+        'ResultEncryptionMode': resultEncryptionMode,
+      if (resultKmsKeyArn != null) 'ResultKmsKeyArn': resultKmsKeyArn,
+      if (resultLocationBucket != null)
+        'ResultLocationBucket': resultLocationBucket,
+      if (resultLocationFolder != null)
+        'ResultLocationFolder': resultLocationFolder,
+      if (resultStatistic != null) 'ResultStatistic': resultStatistic,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// A user-defined key-value pair that describes metadata added to an DMS
+/// resource and that is used by operations such as the following:
+///
+/// <ul>
+/// <li>
+/// <code>AddTagsToResource</code>
+/// </li>
+/// <li>
+/// <code>ListTagsForResource</code>
+/// </li>
+/// <li>
+/// <code>RemoveTagsFromResource</code>
+/// </li>
+/// </ul>
+class Tag {
+  /// A key is the required name of the tag. The string value can be 1-128 Unicode
+  /// characters in length and can't be prefixed with "aws:" or "dms:". The string
+  /// can only contain only the set of Unicode letters, digits, white-space, '_',
+  /// '.', '/', '=', '+', '-' (Java regular expressions:
+  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  final String? key;
+
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the resource
+  /// for which the tag is created.
+  final String? resourceArn;
+
+  /// A value is the optional value of the tag. The string value can be 1-256
+  /// Unicode characters in length and can't be prefixed with "aws:" or "dms:".
+  /// The string can only contain only the set of Unicode letters, digits,
+  /// white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions:
+  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+  final String? value;
+
+  Tag({
+    this.key,
+    this.resourceArn,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final resourceArn = this.resourceArn;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class StartReplicationTaskTypeValue {
+  static const startReplication =
+      StartReplicationTaskTypeValue._('start-replication');
+  static const resumeProcessing =
+      StartReplicationTaskTypeValue._('resume-processing');
+  static const reloadTarget = StartReplicationTaskTypeValue._('reload-target');
+
+  final String value;
+
+  const StartReplicationTaskTypeValue._(this.value);
+
+  static const values = [startReplication, resumeProcessing, reloadTarget];
+
+  static StartReplicationTaskTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StartReplicationTaskTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartReplicationTaskTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about the required target engine settings.
+class RecommendationSettings {
+  /// The size of your target instance. Fleet Advisor calculates this value based
+  /// on your data collection type, such as total capacity and resource
+  /// utilization. Valid values include <code>"total-capacity"</code> and
+  /// <code>"utilization"</code>.
+  final String instanceSizingType;
+
+  /// The deployment option for your target engine. For production databases,
+  /// Fleet Advisor chooses Multi-AZ deployment. For development or test
+  /// databases, Fleet Advisor chooses Single-AZ deployment. Valid values include
+  /// <code>"development"</code> and <code>"production"</code>.
+  final String workloadType;
+
+  RecommendationSettings({
+    required this.instanceSizingType,
+    required this.workloadType,
+  });
+
+  factory RecommendationSettings.fromJson(Map<String, dynamic> json) {
+    return RecommendationSettings(
+      instanceSizingType: (json['InstanceSizingType'] as String?) ?? '',
+      workloadType: (json['WorkloadType'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceSizingType = this.instanceSizingType;
+    final workloadType = this.workloadType;
+    return {
+      'InstanceSizingType': instanceSizingType,
+      'WorkloadType': workloadType,
+    };
+  }
+}
+
+class OriginTypeValue {
+  static const source = OriginTypeValue._('SOURCE');
+  static const target = OriginTypeValue._('TARGET');
+
+  final String value;
+
+  const OriginTypeValue._(this.value);
+
+  static const values = [source, target];
+
+  static OriginTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OriginTypeValue._(value));
+
+  @override
+  bool operator ==(other) => other is OriginTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The properties of metadata model in JSON format. This object is a Union.
+/// Only one member of this object can be specified or returned.
+class MetadataModelProperties {
+  /// The properties of the statement.
+  final StatementProperties? statementProperties;
+
+  MetadataModelProperties({
+    this.statementProperties,
+  });
+
+  Map<String, dynamic> toJson() {
+    final statementProperties = this.statementProperties;
+    return {
+      if (statementProperties != null)
+        'StatementProperties': statementProperties,
+    };
+  }
+}
+
+/// The properties of the statement for metadata model creation.
+class StatementProperties {
+  /// The SQL text of the statement.
+  final String definition;
+
+  StatementProperties({
+    required this.definition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    return {
+      'Definition': definition,
+    };
+  }
+}
+
+class StartReplicationMigrationTypeValue {
+  static const reloadTarget =
+      StartReplicationMigrationTypeValue._('reload-target');
+  static const resumeProcessing =
+      StartReplicationMigrationTypeValue._('resume-processing');
+  static const startReplication =
+      StartReplicationMigrationTypeValue._('start-replication');
+
+  final String value;
+
+  const StartReplicationMigrationTypeValue._(this.value);
+
+  static const values = [reloadTarget, resumeProcessing, startReplication];
+
+  static StartReplicationMigrationTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StartReplicationMigrationTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartReplicationMigrationTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReloadOptionValue {
+  static const dataReload = ReloadOptionValue._('data-reload');
+  static const validateOnly = ReloadOptionValue._('validate-only');
+
+  final String value;
+
+  const ReloadOptionValue._(this.value);
+
+  static const values = [dataReload, validateOnly];
+
+  static ReloadOptionValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReloadOptionValue._(value));
+
+  @override
+  bool operator ==(other) => other is ReloadOptionValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the name of the schema and table to be reloaded.
+class TableToReload {
+  /// The schema name of the table to be reloaded.
+  final String schemaName;
+
+  /// The table name of the table to be reloaded.
+  final String tableName;
+
+  TableToReload({
+    required this.schemaName,
+    required this.tableName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final schemaName = this.schemaName;
+    final tableName = this.tableName;
+    return {
+      'SchemaName': schemaName,
+      'TableName': tableName,
+    };
+  }
+}
+
+/// Provides information that describes status of a schema at an endpoint
+/// specified by the <code>DescribeRefreshSchemaStatus</code> operation.
+class RefreshSchemasStatus {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  final String? endpointArn;
+
+  /// The last failure message for the schema.
+  final String? lastFailureMessage;
+
+  /// The date the schema was last refreshed.
+  final DateTime? lastRefreshDate;
+
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  final String? replicationInstanceArn;
+
+  /// The status of the schema.
+  final RefreshSchemasStatusTypeValue? status;
+
+  RefreshSchemasStatus({
+    this.endpointArn,
+    this.lastFailureMessage,
+    this.lastRefreshDate,
+    this.replicationInstanceArn,
+    this.status,
+  });
+
+  factory RefreshSchemasStatus.fromJson(Map<String, dynamic> json) {
+    return RefreshSchemasStatus(
+      endpointArn: json['EndpointArn'] as String?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      lastRefreshDate: timeStampFromJson(json['LastRefreshDate']),
+      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(RefreshSchemasStatusTypeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointArn = this.endpointArn;
+    final lastFailureMessage = this.lastFailureMessage;
+    final lastRefreshDate = this.lastRefreshDate;
+    final replicationInstanceArn = this.replicationInstanceArn;
+    final status = this.status;
+    return {
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (lastRefreshDate != null)
+        'LastRefreshDate': unixTimestampToJson(lastRefreshDate),
+      if (replicationInstanceArn != null)
+        'ReplicationInstanceArn': replicationInstanceArn,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class RefreshSchemasStatusTypeValue {
+  static const successful = RefreshSchemasStatusTypeValue._('successful');
+  static const failed = RefreshSchemasStatusTypeValue._('failed');
+  static const refreshing = RefreshSchemasStatusTypeValue._('refreshing');
+
+  final String value;
+
+  const RefreshSchemasStatusTypeValue._(this.value);
+
+  static const values = [successful, failed, refreshing];
+
+  static RefreshSchemasStatusTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RefreshSchemasStatusTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RefreshSchemasStatusTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information that defines a replication instance.
+class ReplicationInstance {
+  /// The amount of storage (in gigabytes) that is allocated for the replication
+  /// instance.
+  final int? allocatedStorage;
+
+  /// Boolean value indicating if minor version upgrades will be automatically
+  /// applied to the instance.
+  final bool? autoMinorVersionUpgrade;
+
+  /// The Availability Zone for the instance.
+  final String? availabilityZone;
+
+  /// The DNS name servers supported for the replication instance to access your
+  /// on-premise source or target database.
+  final String? dnsNameServers;
+
+  /// The engine version number of the replication instance.
+  ///
+  /// If an engine version number is not specified when a replication instance is
+  /// created, the default is the latest engine version available.
+  ///
+  /// When modifying a major engine version of an instance, also set
+  /// <code>AllowMajorVersionUpgrade</code> to <code>true</code>.
+  final String? engineVersion;
+
+  /// The expiration date of the free replication instance that is part of the
+  /// Free DMS program.
+  final DateTime? freeUntil;
+
+  /// The time the replication instance was created.
+  final DateTime? instanceCreateTime;
+
+  /// Specifies the settings required for kerberos authentication when replicating
+  /// an instance.
+  final KerberosAuthenticationSettings? kerberosAuthenticationSettings;
+
+  /// An KMS key identifier that is used to encrypt the data on the replication
+  /// instance.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
+  /// DMS uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services account.
+  /// Your Amazon Web Services account has a different default encryption key for
+  /// each Amazon Web Services Region.
+  final String? kmsKeyId;
+
+  /// Specifies whether the replication instance is a Multi-AZ deployment. You
+  /// can't set the <code>AvailabilityZone</code> parameter if the Multi-AZ
+  /// parameter is set to <code>true</code>.
+  final bool? multiAZ;
+
+  /// The type of IP address protocol used by a replication instance, such as IPv4
+  /// only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is
+  /// not yet supported.
+  final String? networkType;
+
+  /// The pending modification values.
+  final ReplicationPendingModifiedValues? pendingModifiedValues;
+
+  /// The maintenance window times for the replication instance. Any pending
+  /// upgrades to the replication instance are performed during this time.
+  final String? preferredMaintenanceWindow;
+
+  /// Specifies the accessibility options for the replication instance. A value of
+  /// <code>true</code> represents an instance with a public IP address. A value
+  /// of <code>false</code> represents an instance with a private IP address. The
+  /// default value is <code>true</code>.
+  final bool? publiclyAccessible;
+
+  /// The Amazon Resource Name (ARN) of the replication instance.
+  final String? replicationInstanceArn;
+
+  /// The compute and memory capacity of the replication instance as defined for
+  /// the specified replication instance class. It is a required parameter,
+  /// although a default value is pre-selected in the DMS console.
+  ///
+  /// For more information on the settings and capacities for the available
+  /// replication instance classes, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
+  /// Selecting the right DMS replication instance for your migration</a>.
+  final String? replicationInstanceClass;
+
+  /// The replication instance identifier is a required parameter. This parameter
+  /// is stored as a lowercase string.
+  ///
+  /// Constraints:
+  ///
+  /// <ul>
+  /// <li>
+  /// Must contain 1-63 alphanumeric characters or hyphens.
+  /// </li>
+  /// <li>
+  /// First character must be a letter.
+  /// </li>
+  /// <li>
+  /// Cannot end with a hyphen or contain two consecutive hyphens.
+  /// </li>
+  /// </ul>
+  /// Example: <code>myrepinstance</code>
+  final String? replicationInstanceIdentifier;
+
+  /// One or more IPv6 addresses for the replication instance.
+  final List<String>? replicationInstanceIpv6Addresses;
+
+  /// The private IP address of the replication instance.
+  final String? replicationInstancePrivateIpAddress;
+
+  /// One or more private IP addresses for the replication instance.
+  final List<String>? replicationInstancePrivateIpAddresses;
+
+  /// The public IP address of the replication instance.
+  final String? replicationInstancePublicIpAddress;
+
+  /// One or more public IP addresses for the replication instance.
+  final List<String>? replicationInstancePublicIpAddresses;
+
+  /// The status of the replication instance. The possible return values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"available"</code>
+  /// </li>
+  /// <li>
+  /// <code>"creating"</code>
+  /// </li>
+  /// <li>
+  /// <code>"deleted"</code>
+  /// </li>
+  /// <li>
+  /// <code>"deleting"</code>
+  /// </li>
+  /// <li>
+  /// <code>"failed"</code>
+  /// </li>
+  /// <li>
+  /// <code>"modifying"</code>
+  /// </li>
+  /// <li>
+  /// <code>"upgrading"</code>
+  /// </li>
+  /// <li>
+  /// <code>"rebooting"</code>
+  /// </li>
+  /// <li>
+  /// <code>"resetting-master-credentials"</code>
+  /// </li>
+  /// <li>
+  /// <code>"storage-full"</code>
+  /// </li>
+  /// <li>
+  /// <code>"incompatible-credentials"</code>
+  /// </li>
+  /// <li>
+  /// <code>"incompatible-network"</code>
+  /// </li>
+  /// <li>
+  /// <code>"maintenance"</code>
+  /// </li>
+  /// </ul>
+  final String? replicationInstanceStatus;
+
+  /// The subnet group for the replication instance.
+  final ReplicationSubnetGroup? replicationSubnetGroup;
+
+  /// The Availability Zone of the standby replication instance in a Multi-AZ
+  /// deployment.
+  final String? secondaryAvailabilityZone;
+
+  /// The VPC security group for the instance.
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
+
+  ReplicationInstance({
+    this.allocatedStorage,
+    this.autoMinorVersionUpgrade,
+    this.availabilityZone,
+    this.dnsNameServers,
+    this.engineVersion,
+    this.freeUntil,
+    this.instanceCreateTime,
+    this.kerberosAuthenticationSettings,
+    this.kmsKeyId,
+    this.multiAZ,
+    this.networkType,
+    this.pendingModifiedValues,
+    this.preferredMaintenanceWindow,
+    this.publiclyAccessible,
+    this.replicationInstanceArn,
+    this.replicationInstanceClass,
+    this.replicationInstanceIdentifier,
+    this.replicationInstanceIpv6Addresses,
+    this.replicationInstancePrivateIpAddress,
+    this.replicationInstancePrivateIpAddresses,
+    this.replicationInstancePublicIpAddress,
+    this.replicationInstancePublicIpAddresses,
+    this.replicationInstanceStatus,
+    this.replicationSubnetGroup,
+    this.secondaryAvailabilityZone,
+    this.vpcSecurityGroups,
+  });
+
+  factory ReplicationInstance.fromJson(Map<String, dynamic> json) {
+    return ReplicationInstance(
+      allocatedStorage: json['AllocatedStorage'] as int?,
+      autoMinorVersionUpgrade: json['AutoMinorVersionUpgrade'] as bool?,
+      availabilityZone: json['AvailabilityZone'] as String?,
+      dnsNameServers: json['DnsNameServers'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      freeUntil: timeStampFromJson(json['FreeUntil']),
+      instanceCreateTime: timeStampFromJson(json['InstanceCreateTime']),
+      kerberosAuthenticationSettings: json['KerberosAuthenticationSettings'] !=
+              null
+          ? KerberosAuthenticationSettings.fromJson(
+              json['KerberosAuthenticationSettings'] as Map<String, dynamic>)
+          : null,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      multiAZ: json['MultiAZ'] as bool?,
+      networkType: json['NetworkType'] as String?,
+      pendingModifiedValues: json['PendingModifiedValues'] != null
+          ? ReplicationPendingModifiedValues.fromJson(
+              json['PendingModifiedValues'] as Map<String, dynamic>)
+          : null,
+      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
+      publiclyAccessible: json['PubliclyAccessible'] as bool?,
+      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
+      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
+      replicationInstanceIdentifier:
+          json['ReplicationInstanceIdentifier'] as String?,
+      replicationInstanceIpv6Addresses:
+          (json['ReplicationInstanceIpv6Addresses'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      replicationInstancePrivateIpAddress:
+          json['ReplicationInstancePrivateIpAddress'] as String?,
+      replicationInstancePrivateIpAddresses:
+          (json['ReplicationInstancePrivateIpAddresses'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      replicationInstancePublicIpAddress:
+          json['ReplicationInstancePublicIpAddress'] as String?,
+      replicationInstancePublicIpAddresses:
+          (json['ReplicationInstancePublicIpAddresses'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      replicationInstanceStatus: json['ReplicationInstanceStatus'] as String?,
+      replicationSubnetGroup: json['ReplicationSubnetGroup'] != null
+          ? ReplicationSubnetGroup.fromJson(
+              json['ReplicationSubnetGroup'] as Map<String, dynamic>)
+          : null,
+      secondaryAvailabilityZone: json['SecondaryAvailabilityZone'] as String?,
+      vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              VpcSecurityGroupMembership.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedStorage = this.allocatedStorage;
+    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
+    final availabilityZone = this.availabilityZone;
+    final dnsNameServers = this.dnsNameServers;
+    final engineVersion = this.engineVersion;
+    final freeUntil = this.freeUntil;
+    final instanceCreateTime = this.instanceCreateTime;
+    final kerberosAuthenticationSettings = this.kerberosAuthenticationSettings;
+    final kmsKeyId = this.kmsKeyId;
+    final multiAZ = this.multiAZ;
+    final networkType = this.networkType;
+    final pendingModifiedValues = this.pendingModifiedValues;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final publiclyAccessible = this.publiclyAccessible;
+    final replicationInstanceArn = this.replicationInstanceArn;
+    final replicationInstanceClass = this.replicationInstanceClass;
+    final replicationInstanceIdentifier = this.replicationInstanceIdentifier;
+    final replicationInstanceIpv6Addresses =
+        this.replicationInstanceIpv6Addresses;
+    final replicationInstancePrivateIpAddress =
+        this.replicationInstancePrivateIpAddress;
+    final replicationInstancePrivateIpAddresses =
+        this.replicationInstancePrivateIpAddresses;
+    final replicationInstancePublicIpAddress =
+        this.replicationInstancePublicIpAddress;
+    final replicationInstancePublicIpAddresses =
+        this.replicationInstancePublicIpAddresses;
+    final replicationInstanceStatus = this.replicationInstanceStatus;
+    final replicationSubnetGroup = this.replicationSubnetGroup;
+    final secondaryAvailabilityZone = this.secondaryAvailabilityZone;
+    final vpcSecurityGroups = this.vpcSecurityGroups;
+    return {
+      if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (freeUntil != null) 'FreeUntil': unixTimestampToJson(freeUntil),
+      if (instanceCreateTime != null)
+        'InstanceCreateTime': unixTimestampToJson(instanceCreateTime),
+      if (kerberosAuthenticationSettings != null)
+        'KerberosAuthenticationSettings': kerberosAuthenticationSettings,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (networkType != null) 'NetworkType': networkType,
+      if (pendingModifiedValues != null)
+        'PendingModifiedValues': pendingModifiedValues,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
+      if (replicationInstanceArn != null)
+        'ReplicationInstanceArn': replicationInstanceArn,
+      if (replicationInstanceClass != null)
+        'ReplicationInstanceClass': replicationInstanceClass,
+      if (replicationInstanceIdentifier != null)
+        'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
+      if (replicationInstanceIpv6Addresses != null)
+        'ReplicationInstanceIpv6Addresses': replicationInstanceIpv6Addresses,
+      if (replicationInstancePrivateIpAddress != null)
+        'ReplicationInstancePrivateIpAddress':
+            replicationInstancePrivateIpAddress,
+      if (replicationInstancePrivateIpAddresses != null)
+        'ReplicationInstancePrivateIpAddresses':
+            replicationInstancePrivateIpAddresses,
+      if (replicationInstancePublicIpAddress != null)
+        'ReplicationInstancePublicIpAddress':
+            replicationInstancePublicIpAddress,
+      if (replicationInstancePublicIpAddresses != null)
+        'ReplicationInstancePublicIpAddresses':
+            replicationInstancePublicIpAddresses,
+      if (replicationInstanceStatus != null)
+        'ReplicationInstanceStatus': replicationInstanceStatus,
+      if (replicationSubnetGroup != null)
+        'ReplicationSubnetGroup': replicationSubnetGroup,
+      if (secondaryAvailabilityZone != null)
+        'SecondaryAvailabilityZone': secondaryAvailabilityZone,
+      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
+    };
+  }
+}
+
+/// Describes a subnet group in response to a request by the
+/// <code>DescribeReplicationSubnetGroups</code> operation.
+class ReplicationSubnetGroup {
+  /// Indicates whether the replication subnet group is read-only. When set to
+  /// <code>true</code>, this subnet group is managed by DMS as part of a zero-ETL
+  /// integration and cannot be modified or deleted directly. You can only modify
+  /// or delete read-only subnet groups through their associated zero-ETL
+  /// integration.
+  final bool? isReadOnly;
+
+  /// A description for the replication subnet group.
+  final String? replicationSubnetGroupDescription;
+
+  /// The identifier of the replication instance subnet group.
+  final String? replicationSubnetGroupIdentifier;
+
+  /// The status of the subnet group.
+  final String? subnetGroupStatus;
+
+  /// The subnets that are in the subnet group.
+  final List<Subnet>? subnets;
+
+  /// The IP addressing protocol supported by the subnet group. This is used by a
+  /// replication instance with values such as IPv4 only or Dual-stack that
+  /// supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
+  final List<String>? supportedNetworkTypes;
+
+  /// The ID of the VPC.
+  final String? vpcId;
+
+  ReplicationSubnetGroup({
+    this.isReadOnly,
+    this.replicationSubnetGroupDescription,
+    this.replicationSubnetGroupIdentifier,
+    this.subnetGroupStatus,
+    this.subnets,
+    this.supportedNetworkTypes,
+    this.vpcId,
+  });
+
+  factory ReplicationSubnetGroup.fromJson(Map<String, dynamic> json) {
+    return ReplicationSubnetGroup(
+      isReadOnly: json['IsReadOnly'] as bool?,
+      replicationSubnetGroupDescription:
+          json['ReplicationSubnetGroupDescription'] as String?,
+      replicationSubnetGroupIdentifier:
+          json['ReplicationSubnetGroupIdentifier'] as String?,
+      subnetGroupStatus: json['SubnetGroupStatus'] as String?,
+      subnets: (json['Subnets'] as List?)
+          ?.nonNulls
+          .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedNetworkTypes: (json['SupportedNetworkTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isReadOnly = this.isReadOnly;
+    final replicationSubnetGroupDescription =
+        this.replicationSubnetGroupDescription;
+    final replicationSubnetGroupIdentifier =
+        this.replicationSubnetGroupIdentifier;
+    final subnetGroupStatus = this.subnetGroupStatus;
+    final subnets = this.subnets;
+    final supportedNetworkTypes = this.supportedNetworkTypes;
+    final vpcId = this.vpcId;
+    return {
+      if (isReadOnly != null) 'IsReadOnly': isReadOnly,
+      if (replicationSubnetGroupDescription != null)
+        'ReplicationSubnetGroupDescription': replicationSubnetGroupDescription,
+      if (replicationSubnetGroupIdentifier != null)
+        'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
+      if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
+      if (subnets != null) 'Subnets': subnets,
+      if (supportedNetworkTypes != null)
+        'SupportedNetworkTypes': supportedNetworkTypes,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// Provides information about the values of pending modifications to a
+/// replication instance. This data type is an object of the <a
+/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ReplicationInstance.html">
+/// <code>ReplicationInstance</code> </a> user-defined data type.
+class ReplicationPendingModifiedValues {
+  /// The amount of storage (in gigabytes) that is allocated for the replication
+  /// instance.
+  final int? allocatedStorage;
+
+  /// The engine version number of the replication instance.
+  final String? engineVersion;
+
+  /// Specifies whether the replication instance is a Multi-AZ deployment. You
+  /// can't set the <code>AvailabilityZone</code> parameter if the Multi-AZ
+  /// parameter is set to <code>true</code>.
+  final bool? multiAZ;
+
+  /// The type of IP address protocol used by a replication instance, such as IPv4
+  /// only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is
+  /// not yet supported.
+  final String? networkType;
+
+  /// The compute and memory capacity of the replication instance as defined for
+  /// the specified replication instance class.
+  ///
+  /// For more information on the settings and capacities for the available
+  /// replication instance classes, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
+  /// Selecting the right DMS replication instance for your migration</a>.
+  final String? replicationInstanceClass;
+
+  ReplicationPendingModifiedValues({
+    this.allocatedStorage,
+    this.engineVersion,
+    this.multiAZ,
+    this.networkType,
+    this.replicationInstanceClass,
+  });
+
+  factory ReplicationPendingModifiedValues.fromJson(Map<String, dynamic> json) {
+    return ReplicationPendingModifiedValues(
+      allocatedStorage: json['AllocatedStorage'] as int?,
+      engineVersion: json['EngineVersion'] as String?,
+      multiAZ: json['MultiAZ'] as bool?,
+      networkType: json['NetworkType'] as String?,
+      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedStorage = this.allocatedStorage;
+    final engineVersion = this.engineVersion;
+    final multiAZ = this.multiAZ;
+    final networkType = this.networkType;
+    final replicationInstanceClass = this.replicationInstanceClass;
+    return {
+      if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (networkType != null) 'NetworkType': networkType,
+      if (replicationInstanceClass != null)
+        'ReplicationInstanceClass': replicationInstanceClass,
+    };
+  }
+}
+
+/// Specifies the settings required for kerberos authentication when creating
+/// the replication instance.
+class KerberosAuthenticationSettings {
+  /// Specifies the Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  /// Web Services DMS access to the secret containing key cache file for the
+  /// kerberos authentication.
+  final String? keyCacheSecretIamArn;
+
+  /// Specifies the ID of the secret that stores the key cache file required for
+  /// kerberos authentication.
+  final String? keyCacheSecretId;
+
+  /// Specifies the contents of krb5 configuration file required for kerberos
+  /// authentication.
+  final String? krb5FileContents;
+
+  KerberosAuthenticationSettings({
+    this.keyCacheSecretIamArn,
+    this.keyCacheSecretId,
+    this.krb5FileContents,
+  });
+
+  factory KerberosAuthenticationSettings.fromJson(Map<String, dynamic> json) {
+    return KerberosAuthenticationSettings(
+      keyCacheSecretIamArn: json['KeyCacheSecretIamArn'] as String?,
+      keyCacheSecretId: json['KeyCacheSecretId'] as String?,
+      krb5FileContents: json['Krb5FileContents'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyCacheSecretIamArn = this.keyCacheSecretIamArn;
+    final keyCacheSecretId = this.keyCacheSecretId;
+    final krb5FileContents = this.krb5FileContents;
+    return {
+      if (keyCacheSecretIamArn != null)
+        'KeyCacheSecretIamArn': keyCacheSecretIamArn,
+      if (keyCacheSecretId != null) 'KeyCacheSecretId': keyCacheSecretId,
+      if (krb5FileContents != null) 'Krb5FileContents': krb5FileContents,
+    };
+  }
+}
+
+/// In response to a request by the <code>DescribeReplicationSubnetGroups</code>
+/// operation, this object identifies a subnet by its given Availability Zone,
+/// subnet identifier, and status.
+class Subnet {
+  /// The Availability Zone of the subnet.
+  final AvailabilityZone? subnetAvailabilityZone;
+
+  /// The subnet identifier.
+  final String? subnetIdentifier;
+
+  /// The status of the subnet.
+  final String? subnetStatus;
+
+  Subnet({
+    this.subnetAvailabilityZone,
+    this.subnetIdentifier,
+    this.subnetStatus,
+  });
+
+  factory Subnet.fromJson(Map<String, dynamic> json) {
+    return Subnet(
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] != null
+          ? AvailabilityZone.fromJson(
+              json['SubnetAvailabilityZone'] as Map<String, dynamic>)
+          : null,
+      subnetIdentifier: json['SubnetIdentifier'] as String?,
+      subnetStatus: json['SubnetStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetIdentifier = this.subnetIdentifier;
+    final subnetStatus = this.subnetStatus;
+    return {
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
+      if (subnetStatus != null) 'SubnetStatus': subnetStatus,
+    };
+  }
+}
+
+/// The name of an Availability Zone for use during database migration.
+/// <code>AvailabilityZone</code> is an optional parameter to the <a
+/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationInstance.html">
+/// <code>CreateReplicationInstance</code> </a> operation, and it’s value
+/// relates to the Amazon Web Services Region of an endpoint. For example, the
+/// availability zone of an endpoint in the us-east-1 region might be
+/// us-east-1a, us-east-1b, us-east-1c, or us-east-1d.
+class AvailabilityZone {
+  /// The name of the Availability Zone.
+  final String? name;
+
+  AvailabilityZone({
+    this.name,
+  });
+
+  factory AvailabilityZone.fromJson(Map<String, dynamic> json) {
+    return AvailabilityZone(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Describes the status of a security group associated with the virtual private
+/// cloud (VPC) hosting your replication and DB instances.
+class VpcSecurityGroupMembership {
+  /// The status of the VPC security group.
+  final String? status;
+
+  /// The VPC security group ID.
+  final String? vpcSecurityGroupId;
+
+  VpcSecurityGroupMembership({
+    this.status,
+    this.vpcSecurityGroupId,
+  });
+
+  factory VpcSecurityGroupMembership.fromJson(Map<String, dynamic> json) {
+    return VpcSecurityGroupMembership(
+      status: json['Status'] as String?,
+      vpcSecurityGroupId: json['VpcSecurityGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final vpcSecurityGroupId = this.vpcSecurityGroupId;
+    return {
+      if (status != null) 'Status': status,
+      if (vpcSecurityGroupId != null) 'VpcSecurityGroupId': vpcSecurityGroupId,
+    };
+  }
+}
+
+/// This object provides configuration information about a serverless
+/// replication.
+class ReplicationConfig {
+  /// Configuration parameters for provisioning an DMS serverless replication.
+  final ComputeConfig? computeConfig;
+
+  /// Indicates whether the replication configuration is read-only. When set to
+  /// <code>true</code>, this replication configuration is managed by DMS as part
+  /// of a zero-ETL integration and cannot be modified or deleted directly. You
+  /// can only modify or delete read-only replication configurations through their
+  /// associated zero-ETL integration.
+  final bool? isReadOnly;
+
+  /// The Amazon Resource Name (ARN) of this DMS Serverless replication
+  /// configuration.
+  final String? replicationConfigArn;
+
+  /// The time the serverless replication config was created.
+  final DateTime? replicationConfigCreateTime;
+
+  /// The identifier for the <code>ReplicationConfig</code> associated with the
+  /// replication.
+  final String? replicationConfigIdentifier;
+
+  /// The time the serverless replication config was updated.
+  final DateTime? replicationConfigUpdateTime;
+
+  /// Configuration parameters for an DMS serverless replication.
+  final String? replicationSettings;
+
+  /// The type of the replication.
+  final MigrationTypeValue? replicationType;
+
+  /// The Amazon Resource Name (ARN) of the source endpoint for this DMS
+  /// serverless replication configuration.
+  final String? sourceEndpointArn;
+
+  /// Additional parameters for an DMS serverless replication.
+  final String? supplementalSettings;
+
+  /// Table mappings specified in the replication.
+  final String? tableMappings;
+
+  /// The Amazon Resource Name (ARN) of the target endpoint for this DMS
+  /// serverless replication configuration.
+  final String? targetEndpointArn;
+
+  ReplicationConfig({
+    this.computeConfig,
+    this.isReadOnly,
+    this.replicationConfigArn,
+    this.replicationConfigCreateTime,
+    this.replicationConfigIdentifier,
+    this.replicationConfigUpdateTime,
+    this.replicationSettings,
+    this.replicationType,
+    this.sourceEndpointArn,
+    this.supplementalSettings,
+    this.tableMappings,
+    this.targetEndpointArn,
+  });
+
+  factory ReplicationConfig.fromJson(Map<String, dynamic> json) {
+    return ReplicationConfig(
+      computeConfig: json['ComputeConfig'] != null
+          ? ComputeConfig.fromJson(
+              json['ComputeConfig'] as Map<String, dynamic>)
+          : null,
+      isReadOnly: json['IsReadOnly'] as bool?,
+      replicationConfigArn: json['ReplicationConfigArn'] as String?,
+      replicationConfigCreateTime:
+          timeStampFromJson(json['ReplicationConfigCreateTime']),
+      replicationConfigIdentifier:
+          json['ReplicationConfigIdentifier'] as String?,
+      replicationConfigUpdateTime:
+          timeStampFromJson(json['ReplicationConfigUpdateTime']),
+      replicationSettings: json['ReplicationSettings'] as String?,
+      replicationType: (json['ReplicationType'] as String?)
+          ?.let(MigrationTypeValue.fromString),
+      sourceEndpointArn: json['SourceEndpointArn'] as String?,
+      supplementalSettings: json['SupplementalSettings'] as String?,
+      tableMappings: json['TableMappings'] as String?,
+      targetEndpointArn: json['TargetEndpointArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeConfig = this.computeConfig;
+    final isReadOnly = this.isReadOnly;
+    final replicationConfigArn = this.replicationConfigArn;
+    final replicationConfigCreateTime = this.replicationConfigCreateTime;
+    final replicationConfigIdentifier = this.replicationConfigIdentifier;
+    final replicationConfigUpdateTime = this.replicationConfigUpdateTime;
+    final replicationSettings = this.replicationSettings;
+    final replicationType = this.replicationType;
+    final sourceEndpointArn = this.sourceEndpointArn;
+    final supplementalSettings = this.supplementalSettings;
+    final tableMappings = this.tableMappings;
+    final targetEndpointArn = this.targetEndpointArn;
+    return {
+      if (computeConfig != null) 'ComputeConfig': computeConfig,
+      if (isReadOnly != null) 'IsReadOnly': isReadOnly,
+      if (replicationConfigArn != null)
+        'ReplicationConfigArn': replicationConfigArn,
+      if (replicationConfigCreateTime != null)
+        'ReplicationConfigCreateTime':
+            unixTimestampToJson(replicationConfigCreateTime),
+      if (replicationConfigIdentifier != null)
+        'ReplicationConfigIdentifier': replicationConfigIdentifier,
+      if (replicationConfigUpdateTime != null)
+        'ReplicationConfigUpdateTime':
+            unixTimestampToJson(replicationConfigUpdateTime),
+      if (replicationSettings != null)
+        'ReplicationSettings': replicationSettings,
+      if (replicationType != null) 'ReplicationType': replicationType.value,
+      if (sourceEndpointArn != null) 'SourceEndpointArn': sourceEndpointArn,
+      if (supplementalSettings != null)
+        'SupplementalSettings': supplementalSettings,
+      if (tableMappings != null) 'TableMappings': tableMappings,
+      if (targetEndpointArn != null) 'TargetEndpointArn': targetEndpointArn,
+    };
+  }
+}
+
+/// Configuration parameters for provisioning an DMS Serverless replication.
+class ComputeConfig {
+  /// The Availability Zone where the DMS Serverless replication using this
+  /// configuration will run. The default value is a random, system-chosen
+  /// Availability Zone in the configuration's Amazon Web Services Region, for
+  /// example, <code>"us-west-2"</code>. You can't set this parameter if the
+  /// <code>MultiAZ</code> parameter is set to <code>true</code>.
+  final String? availabilityZone;
+
+  /// A list of custom DNS name servers supported for the DMS Serverless
+  /// replication to access your source or target database. This list overrides
+  /// the default name servers supported by the DMS Serverless replication. You
+  /// can specify a comma-separated list of internet addresses for up to four DNS
+  /// name servers. For example: <code>"1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"</code>
+  final String? dnsNameServers;
+
+  /// An Key Management Service (KMS) key Amazon Resource Name (ARN) that is used
+  /// to encrypt the data during DMS Serverless replication.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, DMS
+  /// uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services account.
+  /// Your Amazon Web Services account has a different default encryption key for
+  /// each Amazon Web Services Region.
+  final String? kmsKeyId;
+
+  /// Specifies the maximum value of the DMS capacity units (DCUs) for which a
+  /// given DMS Serverless replication can be provisioned. A single DCU is 2GB of
+  /// RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values
+  /// includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum
+  /// value that you can specify for DMS Serverless is 384. The
+  /// <code>MaxCapacityUnits</code> parameter is the only DCU parameter you are
+  /// required to specify.
+  final int? maxCapacityUnits;
+
+  /// Specifies the minimum value of the DMS capacity units (DCUs) for which a
+  /// given DMS Serverless replication can be provisioned. A single DCU is 2GB of
+  /// RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values
+  /// includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU
+  /// value that you can specify for DMS Serverless is 1. If you don't set this
+  /// value, DMS sets this parameter to the minimum DCU value allowed, 1. If there
+  /// is no current source activity, DMS scales down your replication until it
+  /// reaches the value specified in <code>MinCapacityUnits</code>.
+  final int? minCapacityUnits;
+
+  /// Specifies whether the DMS Serverless replication is a Multi-AZ deployment.
+  /// You can't set the <code>AvailabilityZone</code> parameter if the
+  /// <code>MultiAZ</code> parameter is set to <code>true</code>.
+  final bool? multiAZ;
+
+  /// The weekly time range during which system maintenance can occur for the DMS
+  /// Serverless replication, in Universal Coordinated Time (UTC). The format is
+  /// <code>ddd:hh24:mi-ddd:hh24:mi</code>.
+  ///
+  /// The default is a 30-minute window selected at random from an 8-hour block of
+  /// time per Amazon Web Services Region. This maintenance occurs on a random day
+  /// of the week. Valid values for days of the week include <code>Mon</code>,
+  /// <code>Tue</code>, <code>Wed</code>, <code>Thu</code>, <code>Fri</code>,
+  /// <code>Sat</code>, and <code>Sun</code>.
+  ///
+  /// Constraints include a minimum 30-minute window.
+  final String? preferredMaintenanceWindow;
+
+  /// Specifies a subnet group identifier to associate with the DMS Serverless
+  /// replication.
+  final String? replicationSubnetGroupId;
+
+  /// Specifies the virtual private cloud (VPC) security group to use with the DMS
+  /// Serverless replication. The VPC security group must work with the VPC
+  /// containing the replication.
+  final List<String>? vpcSecurityGroupIds;
+
+  ComputeConfig({
+    this.availabilityZone,
+    this.dnsNameServers,
+    this.kmsKeyId,
+    this.maxCapacityUnits,
+    this.minCapacityUnits,
+    this.multiAZ,
+    this.preferredMaintenanceWindow,
+    this.replicationSubnetGroupId,
+    this.vpcSecurityGroupIds,
+  });
+
+  factory ComputeConfig.fromJson(Map<String, dynamic> json) {
+    return ComputeConfig(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      dnsNameServers: json['DnsNameServers'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      maxCapacityUnits: json['MaxCapacityUnits'] as int?,
+      minCapacityUnits: json['MinCapacityUnits'] as int?,
+      multiAZ: json['MultiAZ'] as bool?,
+      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
+      replicationSubnetGroupId: json['ReplicationSubnetGroupId'] as String?,
+      vpcSecurityGroupIds: (json['VpcSecurityGroupIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final dnsNameServers = this.dnsNameServers;
+    final kmsKeyId = this.kmsKeyId;
+    final maxCapacityUnits = this.maxCapacityUnits;
+    final minCapacityUnits = this.minCapacityUnits;
+    final multiAZ = this.multiAZ;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final replicationSubnetGroupId = this.replicationSubnetGroupId;
+    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (maxCapacityUnits != null) 'MaxCapacityUnits': maxCapacityUnits,
+      if (minCapacityUnits != null) 'MinCapacityUnits': minCapacityUnits,
+      if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (replicationSubnetGroupId != null)
+        'ReplicationSubnetGroupId': replicationSubnetGroupId,
+      if (vpcSecurityGroupIds != null)
+        'VpcSecurityGroupIds': vpcSecurityGroupIds,
+    };
+  }
+}
+
+/// Provides information that defines a migration project.
+class MigrationProject {
+  /// A user-friendly description of the migration project.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of the instance profile for your migration
+  /// project.
+  final String? instanceProfileArn;
+
+  /// The name of the associated instance profile.
+  final String? instanceProfileName;
+
+  /// The ARN string that uniquely identifies the migration project.
+  final String? migrationProjectArn;
+
+  /// The time when the migration project was created.
+  final DateTime? migrationProjectCreationTime;
+
+  /// The name of the migration project.
+  final String? migrationProjectName;
+
+  /// The schema conversion application attributes, including the Amazon S3 bucket
+  /// name and Amazon S3 role ARN.
+  final SCApplicationAttributes? schemaConversionApplicationAttributes;
+
+  /// Information about the source data provider, including the name or ARN, and
+  /// Secrets Manager parameters.
+  final List<DataProviderDescriptor>? sourceDataProviderDescriptors;
+
+  /// Information about the target data provider, including the name or ARN, and
+  /// Secrets Manager parameters.
+  final List<DataProviderDescriptor>? targetDataProviderDescriptors;
+
+  /// The settings in JSON format for migration rules. Migration rules make it
+  /// possible for you to change the object names according to the rules that you
+  /// specify. For example, you can change an object name to lowercase or
+  /// uppercase, add or remove a prefix or suffix, or rename objects.
+  final String? transformationRules;
+
+  MigrationProject({
+    this.description,
+    this.instanceProfileArn,
+    this.instanceProfileName,
+    this.migrationProjectArn,
+    this.migrationProjectCreationTime,
+    this.migrationProjectName,
+    this.schemaConversionApplicationAttributes,
+    this.sourceDataProviderDescriptors,
+    this.targetDataProviderDescriptors,
+    this.transformationRules,
+  });
+
+  factory MigrationProject.fromJson(Map<String, dynamic> json) {
+    return MigrationProject(
+      description: json['Description'] as String?,
+      instanceProfileArn: json['InstanceProfileArn'] as String?,
+      instanceProfileName: json['InstanceProfileName'] as String?,
+      migrationProjectArn: json['MigrationProjectArn'] as String?,
+      migrationProjectCreationTime:
+          timeStampFromJson(json['MigrationProjectCreationTime']),
+      migrationProjectName: json['MigrationProjectName'] as String?,
+      schemaConversionApplicationAttributes:
+          json['SchemaConversionApplicationAttributes'] != null
+              ? SCApplicationAttributes.fromJson(
+                  json['SchemaConversionApplicationAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      sourceDataProviderDescriptors: (json['SourceDataProviderDescriptors']
+              as List?)
+          ?.nonNulls
+          .map(
+              (e) => DataProviderDescriptor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetDataProviderDescriptors: (json['TargetDataProviderDescriptors']
+              as List?)
+          ?.nonNulls
+          .map(
+              (e) => DataProviderDescriptor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      transformationRules: json['TransformationRules'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final instanceProfileArn = this.instanceProfileArn;
+    final instanceProfileName = this.instanceProfileName;
+    final migrationProjectArn = this.migrationProjectArn;
+    final migrationProjectCreationTime = this.migrationProjectCreationTime;
+    final migrationProjectName = this.migrationProjectName;
+    final schemaConversionApplicationAttributes =
+        this.schemaConversionApplicationAttributes;
+    final sourceDataProviderDescriptors = this.sourceDataProviderDescriptors;
+    final targetDataProviderDescriptors = this.targetDataProviderDescriptors;
+    final transformationRules = this.transformationRules;
+    return {
+      if (description != null) 'Description': description,
+      if (instanceProfileArn != null) 'InstanceProfileArn': instanceProfileArn,
+      if (instanceProfileName != null)
+        'InstanceProfileName': instanceProfileName,
+      if (migrationProjectArn != null)
+        'MigrationProjectArn': migrationProjectArn,
+      if (migrationProjectCreationTime != null)
+        'MigrationProjectCreationTime':
+            iso8601ToJson(migrationProjectCreationTime),
+      if (migrationProjectName != null)
+        'MigrationProjectName': migrationProjectName,
+      if (schemaConversionApplicationAttributes != null)
+        'SchemaConversionApplicationAttributes':
+            schemaConversionApplicationAttributes,
+      if (sourceDataProviderDescriptors != null)
+        'SourceDataProviderDescriptors': sourceDataProviderDescriptors,
+      if (targetDataProviderDescriptors != null)
+        'TargetDataProviderDescriptors': targetDataProviderDescriptors,
+      if (transformationRules != null)
+        'TransformationRules': transformationRules,
+    };
+  }
+}
+
+/// Provides information that defines a schema conversion application.
+class SCApplicationAttributes {
+  /// The path for the Amazon S3 bucket that the application uses for exporting
+  /// assessment reports.
+  final String? s3BucketPath;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3BucketRoleArn;
+
+  SCApplicationAttributes({
+    this.s3BucketPath,
+    this.s3BucketRoleArn,
+  });
+
+  factory SCApplicationAttributes.fromJson(Map<String, dynamic> json) {
+    return SCApplicationAttributes(
+      s3BucketPath: json['S3BucketPath'] as String?,
+      s3BucketRoleArn: json['S3BucketRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketPath = this.s3BucketPath;
+    final s3BucketRoleArn = this.s3BucketRoleArn;
+    return {
+      if (s3BucketPath != null) 'S3BucketPath': s3BucketPath,
+      if (s3BucketRoleArn != null) 'S3BucketRoleArn': s3BucketRoleArn,
+    };
+  }
+}
+
+/// Information about a data provider.
+class DataProviderDescriptor {
+  /// The Amazon Resource Name (ARN) of the data provider.
+  final String? dataProviderArn;
+
+  /// The user-friendly name of the data provider.
+  final String? dataProviderName;
+
+  /// The ARN of the role used to access Amazon Web Services Secrets Manager.
+  final String? secretsManagerAccessRoleArn;
+
+  /// The identifier of the Amazon Web Services Secrets Manager Secret used to
+  /// store access credentials for the data provider.
+  final String? secretsManagerSecretId;
+
+  DataProviderDescriptor({
+    this.dataProviderArn,
+    this.dataProviderName,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+  });
+
+  factory DataProviderDescriptor.fromJson(Map<String, dynamic> json) {
+    return DataProviderDescriptor(
+      dataProviderArn: json['DataProviderArn'] as String?,
+      dataProviderName: json['DataProviderName'] as String?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataProviderArn = this.dataProviderArn;
+    final dataProviderName = this.dataProviderName;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    return {
+      if (dataProviderArn != null) 'DataProviderArn': dataProviderArn,
+      if (dataProviderName != null) 'DataProviderName': dataProviderName,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+    };
+  }
+}
+
+/// Information about a data provider.
+class DataProviderDescriptorDefinition {
+  /// The name or Amazon Resource Name (ARN) of the data provider.
+  final String dataProviderIdentifier;
+
+  /// The ARN of the role used to access Amazon Web Services Secrets Manager.
+  final String? secretsManagerAccessRoleArn;
+
+  /// The identifier of the Amazon Web Services Secrets Manager Secret used to
+  /// store access credentials for the data provider.
+  final String? secretsManagerSecretId;
+
+  DataProviderDescriptorDefinition({
+    required this.dataProviderIdentifier,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataProviderIdentifier = this.dataProviderIdentifier;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    return {
+      'DataProviderIdentifier': dataProviderIdentifier,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+    };
+  }
+}
+
+/// Provides information that defines an instance profile.
+class InstanceProfile {
+  /// The Availability Zone where the instance profile runs.
+  final String? availabilityZone;
+
+  /// A description of the instance profile. Descriptions can have up to 31
+  /// characters. A description can contain only ASCII letters, digits, and
+  /// hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive
+  /// hyphens, and can only begin with a letter.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the instance
+  /// profile.
+  final String? instanceProfileArn;
+
+  /// The time the instance profile was created.
+  final DateTime? instanceProfileCreationTime;
+
+  /// The user-friendly name for the instance profile.
+  final String? instanceProfileName;
+
+  /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
+  /// connection parameters for the instance profile.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyArn</code> parameter, then
+  /// DMS uses an Amazon Web Services owned encryption key to encrypt your
+  /// resources.
+  final String? kmsKeyArn;
+
+  /// Specifies the network type for the instance profile. A value of
+  /// <code>IPV4</code> represents an instance profile with IPv4 network type and
+  /// only supports IPv4 addressing. A value of <code>IPV6</code> represents an
+  /// instance profile with IPv6 network type and only supports IPv6 addressing. A
+  /// value of <code>DUAL</code> represents an instance profile with dual network
+  /// type that supports IPv4 and IPv6 addressing.
+  final String? networkType;
+
+  /// Specifies the accessibility options for the instance profile. A value of
+  /// <code>true</code> represents an instance profile with a public IP address. A
+  /// value of <code>false</code> represents an instance profile with a private IP
+  /// address. The default value is <code>true</code>.
+  final bool? publiclyAccessible;
+
+  /// The identifier of the subnet group that is associated with the instance
+  /// profile.
+  final String? subnetGroupIdentifier;
+
+  /// The VPC security groups that are used with the instance profile. The VPC
+  /// security group must work with the VPC containing the instance profile.
+  final List<String>? vpcSecurityGroups;
+
+  InstanceProfile({
+    this.availabilityZone,
+    this.description,
+    this.instanceProfileArn,
+    this.instanceProfileCreationTime,
+    this.instanceProfileName,
+    this.kmsKeyArn,
+    this.networkType,
+    this.publiclyAccessible,
+    this.subnetGroupIdentifier,
+    this.vpcSecurityGroups,
+  });
+
+  factory InstanceProfile.fromJson(Map<String, dynamic> json) {
+    return InstanceProfile(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      description: json['Description'] as String?,
+      instanceProfileArn: json['InstanceProfileArn'] as String?,
+      instanceProfileCreationTime:
+          timeStampFromJson(json['InstanceProfileCreationTime']),
+      instanceProfileName: json['InstanceProfileName'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      networkType: json['NetworkType'] as String?,
+      publiclyAccessible: json['PubliclyAccessible'] as bool?,
+      subnetGroupIdentifier: json['SubnetGroupIdentifier'] as String?,
+      vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final description = this.description;
+    final instanceProfileArn = this.instanceProfileArn;
+    final instanceProfileCreationTime = this.instanceProfileCreationTime;
+    final instanceProfileName = this.instanceProfileName;
+    final kmsKeyArn = this.kmsKeyArn;
+    final networkType = this.networkType;
+    final publiclyAccessible = this.publiclyAccessible;
+    final subnetGroupIdentifier = this.subnetGroupIdentifier;
+    final vpcSecurityGroups = this.vpcSecurityGroups;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (description != null) 'Description': description,
+      if (instanceProfileArn != null) 'InstanceProfileArn': instanceProfileArn,
+      if (instanceProfileCreationTime != null)
+        'InstanceProfileCreationTime':
+            iso8601ToJson(instanceProfileCreationTime),
+      if (instanceProfileName != null)
+        'InstanceProfileName': instanceProfileName,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (networkType != null) 'NetworkType': networkType,
+      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
+      if (subnetGroupIdentifier != null)
+        'SubnetGroupIdentifier': subnetGroupIdentifier,
+      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
+    };
+  }
+}
+
+/// Describes an event notification subscription created by the
+/// <code>CreateEventSubscription</code> operation.
+class EventSubscription {
+  /// The DMS event notification subscription Id.
+  final String? custSubscriptionId;
+
+  /// The Amazon Web Services customer account associated with the DMS event
+  /// notification subscription.
+  final String? customerAwsId;
+
+  /// Boolean value that indicates if the event subscription is enabled.
+  final bool? enabled;
+
+  /// A lists of event categories.
+  final List<String>? eventCategoriesList;
+
+  /// The topic ARN of the DMS event notification subscription.
+  final String? snsTopicArn;
+
+  /// A list of source Ids for the event subscription.
+  final List<String>? sourceIdsList;
+
+  /// The type of DMS resource that generates events.
+  ///
+  /// Valid values: replication-instance | replication-server | security-group |
+  /// replication-task
+  final String? sourceType;
+
+  /// The status of the DMS event notification subscription.
+  ///
+  /// Constraints:
+  ///
+  /// Can be one of the following: creating | modifying | deleting | active |
+  /// no-permission | topic-not-exist
+  ///
+  /// The status "no-permission" indicates that DMS no longer has permission to
+  /// post to the SNS topic. The status "topic-not-exist" indicates that the topic
+  /// was deleted after the subscription was created.
+  final String? status;
+
+  /// The time the DMS event notification subscription was created.
+  final String? subscriptionCreationTime;
+
+  EventSubscription({
+    this.custSubscriptionId,
+    this.customerAwsId,
+    this.enabled,
+    this.eventCategoriesList,
+    this.snsTopicArn,
+    this.sourceIdsList,
+    this.sourceType,
+    this.status,
+    this.subscriptionCreationTime,
+  });
+
+  factory EventSubscription.fromJson(Map<String, dynamic> json) {
+    return EventSubscription(
+      custSubscriptionId: json['CustSubscriptionId'] as String?,
+      customerAwsId: json['CustomerAwsId'] as String?,
+      enabled: json['Enabled'] as bool?,
+      eventCategoriesList: (json['EventCategoriesList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      snsTopicArn: json['SnsTopicArn'] as String?,
+      sourceIdsList: (json['SourceIdsList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      sourceType: json['SourceType'] as String?,
+      status: json['Status'] as String?,
+      subscriptionCreationTime: json['SubscriptionCreationTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final custSubscriptionId = this.custSubscriptionId;
+    final customerAwsId = this.customerAwsId;
+    final enabled = this.enabled;
+    final eventCategoriesList = this.eventCategoriesList;
+    final snsTopicArn = this.snsTopicArn;
+    final sourceIdsList = this.sourceIdsList;
+    final sourceType = this.sourceType;
+    final status = this.status;
+    final subscriptionCreationTime = this.subscriptionCreationTime;
+    return {
+      if (custSubscriptionId != null) 'CustSubscriptionId': custSubscriptionId,
+      if (customerAwsId != null) 'CustomerAwsId': customerAwsId,
+      if (enabled != null) 'Enabled': enabled,
+      if (eventCategoriesList != null)
+        'EventCategoriesList': eventCategoriesList,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (sourceIdsList != null) 'SourceIdsList': sourceIdsList,
+      if (sourceType != null) 'SourceType': sourceType,
+      if (status != null) 'Status': status,
+      if (subscriptionCreationTime != null)
+        'SubscriptionCreationTime': subscriptionCreationTime,
+    };
+  }
+}
+
+/// Describes an endpoint of a database instance in response to operations such
+/// as the following:
+///
+/// <ul>
+/// <li>
+/// <code>CreateEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DescribeEndpoint</code>
+/// </li>
+/// <li>
+/// <code>ModifyEndpoint</code>
+/// </li>
+/// </ul>
+class Endpoint {
+  /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
+  final String? certificateArn;
+
+  /// The name of the database at the endpoint.
+  final String? databaseName;
+
+  /// The settings for the DMS Transfer type source. For more information, see the
+  /// DmsTransferSettings structure.
+  final DmsTransferSettings? dmsTransferSettings;
+  final DocDbSettings? docDbSettings;
+
+  /// The settings for the DynamoDB target endpoint. For more information, see the
+  /// <code>DynamoDBSettings</code> structure.
+  final DynamoDbSettings? dynamoDbSettings;
+
+  /// The settings for the OpenSearch source endpoint. For more information, see
+  /// the <code>ElasticsearchSettings</code> structure.
+  final ElasticsearchSettings? elasticsearchSettings;
+
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
+  final String? endpointArn;
+
+  /// The database endpoint identifier. Identifiers must begin with a letter and
+  /// must contain only ASCII letters, digits, and hyphens. They can't end with a
+  /// hyphen or contain two consecutive hyphens.
+  final String? endpointIdentifier;
+
+  /// The type of endpoint. Valid values are <code>source</code> and
+  /// <code>target</code>.
+  final ReplicationEndpointTypeValue? endpointType;
+
+  /// The expanded name for the engine name. For example, if the
+  /// <code>EngineName</code> parameter is "aurora", this value would be "Amazon
+  /// Aurora MySQL".
+  final String? engineDisplayName;
+
+  /// The database engine name. Valid values, depending on the EndpointType,
+  /// include <code>"mysql"</code>, <code>"oracle"</code>,
+  /// <code>"postgres"</code>, <code>"mariadb"</code>, <code>"aurora"</code>,
+  /// <code>"aurora-postgresql"</code>, <code>"redshift"</code>,
+  /// <code>"redshift-serverless"</code>, <code>"s3"</code>, <code>"db2"</code>,
+  /// <code>"db2-zos"</code>, <code>"azuredb"</code>, <code>"sybase"</code>,
+  /// <code>"dynamodb"</code>, <code>"mongodb"</code>, <code>"kinesis"</code>,
+  /// <code>"kafka"</code>, <code>"elasticsearch"</code>,
+  /// <code>"documentdb"</code>, <code>"sqlserver"</code>, <code>"neptune"</code>,
+  /// and <code>"babelfish"</code>.
+  final String? engineName;
+
+  /// Value returned by a call to CreateEndpoint that can be used for
+  /// cross-account validation. Use it on a subsequent call to CreateEndpoint to
+  /// create the endpoint with a cross-account.
+  final String? externalId;
+
+  /// The external table definition.
+  final String? externalTableDefinition;
+
+  /// Additional connection attributes used to connect to the endpoint.
+  final String? extraConnectionAttributes;
+
+  /// Settings in JSON format for the source GCP MySQL endpoint.
+  final GcpMySQLSettings? gcpMySQLSettings;
+
+  /// The settings for the IBM Db2 LUW source endpoint. For more information, see
+  /// the <code>IBMDb2Settings</code> structure.
+  final IBMDb2Settings? iBMDb2Settings;
+
+  /// Indicates whether the endpoint is read-only. When set to <code>true</code>,
+  /// this endpoint is managed by DMS as part of a zero-ETL integration and cannot
+  /// be modified or deleted directly. You can only modify or delete read-only
+  /// endpoints through their associated zero-ETL integration.
+  final bool? isReadOnly;
+
+  /// The settings for the Apache Kafka target endpoint. For more information, see
+  /// the <code>KafkaSettings</code> structure.
+  final KafkaSettings? kafkaSettings;
+
+  /// The settings for the Amazon Kinesis target endpoint. For more information,
+  /// see the <code>KinesisSettings</code> structure.
+  final KinesisSettings? kinesisSettings;
+
+  /// An KMS key identifier that is used to encrypt the connection parameters for
+  /// the endpoint.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
+  /// DMS uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services account.
+  /// Your Amazon Web Services account has a different default encryption key for
+  /// each Amazon Web Services Region.
+  final String? kmsKeyId;
+
+  /// Settings in JSON format for the target Lakehouse endpoint. This parameter
+  /// applies to endpoints that are automatically created by DMS for a Lakehouse
+  /// data warehouse as part of a zero-ETL integration.
+  final LakehouseSettings? lakehouseSettings;
+
+  /// The settings for the Microsoft SQL Server source and target endpoint. For
+  /// more information, see the <code>MicrosoftSQLServerSettings</code> structure.
+  final MicrosoftSQLServerSettings? microsoftSQLServerSettings;
+
+  /// The settings for the MongoDB source endpoint. For more information, see the
+  /// <code>MongoDbSettings</code> structure.
+  final MongoDbSettings? mongoDbSettings;
+
+  /// The settings for the MySQL source and target endpoint. For more information,
+  /// see the <code>MySQLSettings</code> structure.
+  final MySQLSettings? mySQLSettings;
+
+  /// The settings for the Amazon Neptune target endpoint. For more information,
+  /// see the <code>NeptuneSettings</code> structure.
+  final NeptuneSettings? neptuneSettings;
+
+  /// The settings for the Oracle source and target endpoint. For more
+  /// information, see the <code>OracleSettings</code> structure.
+  final OracleSettings? oracleSettings;
+
+  /// The port value used to access the endpoint.
+  final int? port;
+
+  /// The settings for the PostgreSQL source and target endpoint. For more
+  /// information, see the <code>PostgreSQLSettings</code> structure.
+  final PostgreSQLSettings? postgreSQLSettings;
+
+  /// The settings for the Redis target endpoint. For more information, see the
+  /// <code>RedisSettings</code> structure.
+  final RedisSettings? redisSettings;
+
+  /// Settings for the Amazon Redshift endpoint.
+  final RedshiftSettings? redshiftSettings;
+
+  /// The settings for the S3 target endpoint. For more information, see the
+  /// <code>S3Settings</code> structure.
+  final S3Settings? s3Settings;
+
+  /// The name of the server at the endpoint.
+  final String? serverName;
+
+  /// The Amazon Resource Name (ARN) used by the service to access the IAM role.
+  /// The role must allow the <code>iam:PassRole</code> action.
+  final String? serviceAccessRoleArn;
+
+  /// The SSL mode used to connect to the endpoint. The default value is
+  /// <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  /// The status of the endpoint.
+  final String? status;
+
+  /// The settings for the SAP ASE source and target endpoint. For more
+  /// information, see the <code>SybaseSettings</code> structure.
+  final SybaseSettings? sybaseSettings;
+
+  /// The settings for the Amazon Timestream target endpoint. For more
+  /// information, see the <code>TimestreamSettings</code> structure.
+  final TimestreamSettings? timestreamSettings;
+
+  /// The user name used to connect to the endpoint.
+  final String? username;
+
+  Endpoint({
+    this.certificateArn,
+    this.databaseName,
+    this.dmsTransferSettings,
+    this.docDbSettings,
+    this.dynamoDbSettings,
+    this.elasticsearchSettings,
+    this.endpointArn,
+    this.endpointIdentifier,
+    this.endpointType,
+    this.engineDisplayName,
+    this.engineName,
+    this.externalId,
+    this.externalTableDefinition,
+    this.extraConnectionAttributes,
+    this.gcpMySQLSettings,
+    this.iBMDb2Settings,
+    this.isReadOnly,
+    this.kafkaSettings,
+    this.kinesisSettings,
+    this.kmsKeyId,
+    this.lakehouseSettings,
+    this.microsoftSQLServerSettings,
+    this.mongoDbSettings,
+    this.mySQLSettings,
+    this.neptuneSettings,
+    this.oracleSettings,
+    this.port,
+    this.postgreSQLSettings,
+    this.redisSettings,
+    this.redshiftSettings,
+    this.s3Settings,
+    this.serverName,
+    this.serviceAccessRoleArn,
+    this.sslMode,
+    this.status,
+    this.sybaseSettings,
+    this.timestreamSettings,
+    this.username,
+  });
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      dmsTransferSettings: json['DmsTransferSettings'] != null
+          ? DmsTransferSettings.fromJson(
+              json['DmsTransferSettings'] as Map<String, dynamic>)
+          : null,
+      docDbSettings: json['DocDbSettings'] != null
+          ? DocDbSettings.fromJson(
+              json['DocDbSettings'] as Map<String, dynamic>)
+          : null,
+      dynamoDbSettings: json['DynamoDbSettings'] != null
+          ? DynamoDbSettings.fromJson(
+              json['DynamoDbSettings'] as Map<String, dynamic>)
+          : null,
+      elasticsearchSettings: json['ElasticsearchSettings'] != null
+          ? ElasticsearchSettings.fromJson(
+              json['ElasticsearchSettings'] as Map<String, dynamic>)
+          : null,
+      endpointArn: json['EndpointArn'] as String?,
+      endpointIdentifier: json['EndpointIdentifier'] as String?,
+      endpointType: (json['EndpointType'] as String?)
+          ?.let(ReplicationEndpointTypeValue.fromString),
+      engineDisplayName: json['EngineDisplayName'] as String?,
+      engineName: json['EngineName'] as String?,
+      externalId: json['ExternalId'] as String?,
+      externalTableDefinition: json['ExternalTableDefinition'] as String?,
+      extraConnectionAttributes: json['ExtraConnectionAttributes'] as String?,
+      gcpMySQLSettings: json['GcpMySQLSettings'] != null
+          ? GcpMySQLSettings.fromJson(
+              json['GcpMySQLSettings'] as Map<String, dynamic>)
+          : null,
+      iBMDb2Settings: json['IBMDb2Settings'] != null
+          ? IBMDb2Settings.fromJson(
+              json['IBMDb2Settings'] as Map<String, dynamic>)
+          : null,
+      isReadOnly: json['IsReadOnly'] as bool?,
+      kafkaSettings: json['KafkaSettings'] != null
+          ? KafkaSettings.fromJson(
+              json['KafkaSettings'] as Map<String, dynamic>)
+          : null,
+      kinesisSettings: json['KinesisSettings'] != null
+          ? KinesisSettings.fromJson(
+              json['KinesisSettings'] as Map<String, dynamic>)
+          : null,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      lakehouseSettings: json['LakehouseSettings'] != null
+          ? LakehouseSettings.fromJson(
+              json['LakehouseSettings'] as Map<String, dynamic>)
+          : null,
+      microsoftSQLServerSettings: json['MicrosoftSQLServerSettings'] != null
+          ? MicrosoftSQLServerSettings.fromJson(
+              json['MicrosoftSQLServerSettings'] as Map<String, dynamic>)
+          : null,
+      mongoDbSettings: json['MongoDbSettings'] != null
+          ? MongoDbSettings.fromJson(
+              json['MongoDbSettings'] as Map<String, dynamic>)
+          : null,
+      mySQLSettings: json['MySQLSettings'] != null
+          ? MySQLSettings.fromJson(
+              json['MySQLSettings'] as Map<String, dynamic>)
+          : null,
+      neptuneSettings: json['NeptuneSettings'] != null
+          ? NeptuneSettings.fromJson(
+              json['NeptuneSettings'] as Map<String, dynamic>)
+          : null,
+      oracleSettings: json['OracleSettings'] != null
+          ? OracleSettings.fromJson(
+              json['OracleSettings'] as Map<String, dynamic>)
+          : null,
+      port: json['Port'] as int?,
+      postgreSQLSettings: json['PostgreSQLSettings'] != null
+          ? PostgreSQLSettings.fromJson(
+              json['PostgreSQLSettings'] as Map<String, dynamic>)
+          : null,
+      redisSettings: json['RedisSettings'] != null
+          ? RedisSettings.fromJson(
+              json['RedisSettings'] as Map<String, dynamic>)
+          : null,
+      redshiftSettings: json['RedshiftSettings'] != null
+          ? RedshiftSettings.fromJson(
+              json['RedshiftSettings'] as Map<String, dynamic>)
+          : null,
+      s3Settings: json['S3Settings'] != null
+          ? S3Settings.fromJson(json['S3Settings'] as Map<String, dynamic>)
+          : null,
+      serverName: json['ServerName'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+      status: json['Status'] as String?,
+      sybaseSettings: json['SybaseSettings'] != null
+          ? SybaseSettings.fromJson(
+              json['SybaseSettings'] as Map<String, dynamic>)
+          : null,
+      timestreamSettings: json['TimestreamSettings'] != null
+          ? TimestreamSettings.fromJson(
+              json['TimestreamSettings'] as Map<String, dynamic>)
+          : null,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final dmsTransferSettings = this.dmsTransferSettings;
+    final docDbSettings = this.docDbSettings;
+    final dynamoDbSettings = this.dynamoDbSettings;
+    final elasticsearchSettings = this.elasticsearchSettings;
+    final endpointArn = this.endpointArn;
+    final endpointIdentifier = this.endpointIdentifier;
+    final endpointType = this.endpointType;
+    final engineDisplayName = this.engineDisplayName;
+    final engineName = this.engineName;
+    final externalId = this.externalId;
+    final externalTableDefinition = this.externalTableDefinition;
+    final extraConnectionAttributes = this.extraConnectionAttributes;
+    final gcpMySQLSettings = this.gcpMySQLSettings;
+    final iBMDb2Settings = this.iBMDb2Settings;
+    final isReadOnly = this.isReadOnly;
+    final kafkaSettings = this.kafkaSettings;
+    final kinesisSettings = this.kinesisSettings;
+    final kmsKeyId = this.kmsKeyId;
+    final lakehouseSettings = this.lakehouseSettings;
+    final microsoftSQLServerSettings = this.microsoftSQLServerSettings;
+    final mongoDbSettings = this.mongoDbSettings;
+    final mySQLSettings = this.mySQLSettings;
+    final neptuneSettings = this.neptuneSettings;
+    final oracleSettings = this.oracleSettings;
+    final port = this.port;
+    final postgreSQLSettings = this.postgreSQLSettings;
+    final redisSettings = this.redisSettings;
+    final redshiftSettings = this.redshiftSettings;
+    final s3Settings = this.s3Settings;
+    final serverName = this.serverName;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final sslMode = this.sslMode;
+    final status = this.status;
+    final sybaseSettings = this.sybaseSettings;
+    final timestreamSettings = this.timestreamSettings;
+    final username = this.username;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (dmsTransferSettings != null)
+        'DmsTransferSettings': dmsTransferSettings,
+      if (docDbSettings != null) 'DocDbSettings': docDbSettings,
+      if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
+      if (elasticsearchSettings != null)
+        'ElasticsearchSettings': elasticsearchSettings,
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+      if (endpointIdentifier != null) 'EndpointIdentifier': endpointIdentifier,
+      if (endpointType != null) 'EndpointType': endpointType.value,
+      if (engineDisplayName != null) 'EngineDisplayName': engineDisplayName,
+      if (engineName != null) 'EngineName': engineName,
+      if (externalId != null) 'ExternalId': externalId,
+      if (externalTableDefinition != null)
+        'ExternalTableDefinition': externalTableDefinition,
+      if (extraConnectionAttributes != null)
+        'ExtraConnectionAttributes': extraConnectionAttributes,
+      if (gcpMySQLSettings != null) 'GcpMySQLSettings': gcpMySQLSettings,
+      if (iBMDb2Settings != null) 'IBMDb2Settings': iBMDb2Settings,
+      if (isReadOnly != null) 'IsReadOnly': isReadOnly,
+      if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
+      if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (lakehouseSettings != null) 'LakehouseSettings': lakehouseSettings,
+      if (microsoftSQLServerSettings != null)
+        'MicrosoftSQLServerSettings': microsoftSQLServerSettings,
+      if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
+      if (mySQLSettings != null) 'MySQLSettings': mySQLSettings,
+      if (neptuneSettings != null) 'NeptuneSettings': neptuneSettings,
+      if (oracleSettings != null) 'OracleSettings': oracleSettings,
+      if (port != null) 'Port': port,
+      if (postgreSQLSettings != null) 'PostgreSQLSettings': postgreSQLSettings,
+      if (redisSettings != null) 'RedisSettings': redisSettings,
+      if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
+      if (s3Settings != null) 'S3Settings': s3Settings,
+      if (serverName != null) 'ServerName': serverName,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (sslMode != null) 'SslMode': sslMode.value,
+      if (status != null) 'Status': status,
+      if (sybaseSettings != null) 'SybaseSettings': sybaseSettings,
+      if (timestreamSettings != null) 'TimestreamSettings': timestreamSettings,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+class ReplicationEndpointTypeValue {
+  static const source = ReplicationEndpointTypeValue._('source');
+  static const target = ReplicationEndpointTypeValue._('target');
+
+  final String value;
+
+  const ReplicationEndpointTypeValue._(this.value);
+
+  static const values = [source, target];
+
+  static ReplicationEndpointTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationEndpointTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationEndpointTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DmsSslModeValue {
+  static const none = DmsSslModeValue._('none');
+  static const require = DmsSslModeValue._('require');
+  static const verifyCa = DmsSslModeValue._('verify-ca');
+  static const verifyFull = DmsSslModeValue._('verify-full');
+
+  final String value;
+
+  const DmsSslModeValue._(this.value);
+
+  static const values = [none, require, verifyCa, verifyFull];
+
+  static DmsSslModeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DmsSslModeValue._(value));
+
+  @override
+  bool operator ==(other) => other is DmsSslModeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the Amazon Resource Name (ARN) of the Identity and Access
+/// Management (IAM) role used to define an Amazon DynamoDB target endpoint.
+class DynamoDbSettings {
+  /// The Amazon Resource Name (ARN) used by the service to access the IAM role.
+  /// The role must allow the <code>iam:PassRole</code> action.
+  final String serviceAccessRoleArn;
+
+  DynamoDbSettings({
+    required this.serviceAccessRoleArn,
+  });
+
+  factory DynamoDbSettings.fromJson(Map<String, dynamic> json) {
+    return DynamoDbSettings(
+      serviceAccessRoleArn: (json['ServiceAccessRoleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    return {
+      'ServiceAccessRoleArn': serviceAccessRoleArn,
     };
   }
 }
@@ -18702,12 +15318,12 @@ class S3Settings {
   /// to convert the current UTC time into a specified time zone. The conversion
   /// occurs when a date partition folder is created and a CDC filename is
   /// generated. The time zone format is Area/Location. Use this parameter when
-  /// <code>DatePartitionedEnabled</code> is set to <code>true</code>, as shown in
-  /// the following example.
+  /// <code>DatePartitionedEnabled</code> is set to true, as shown in the
+  /// following example:
   ///
   /// <code>s3-settings='{"DatePartitionEnabled": true, "DatePartitionSequence":
   /// "YYYYMMDDHH", "DatePartitionDelimiter": "SLASH",
-  /// "DatePartitionTimezone":"<i>Asia/Seoul</i>", "BucketName":
+  /// "DatePartitionTimezone":"Asia/Seoul", "BucketName":
   /// "dms-nattarat-test"}'</code>
   final String? datePartitionTimezone;
 
@@ -19196,35 +15812,3298 @@ class S3Settings {
   }
 }
 
-/// Provides information that defines a schema conversion application.
-class SCApplicationAttributes {
-  /// The path for the Amazon S3 bucket that the application uses for exporting
-  /// assessment reports.
-  final String? s3BucketPath;
+/// The settings in JSON format for the DMS Transfer type source endpoint.
+class DmsTransferSettings {
+  /// The name of the S3 bucket to use.
+  final String? bucketName;
 
-  /// The ARN for the role the application uses to access its Amazon S3 bucket.
-  final String? s3BucketRoleArn;
+  /// The Amazon Resource Name (ARN) used by the service access IAM role. The role
+  /// must allow the <code>iam:PassRole</code> action.
+  final String? serviceAccessRoleArn;
 
-  SCApplicationAttributes({
-    this.s3BucketPath,
-    this.s3BucketRoleArn,
+  DmsTransferSettings({
+    this.bucketName,
+    this.serviceAccessRoleArn,
   });
 
-  factory SCApplicationAttributes.fromJson(Map<String, dynamic> json) {
-    return SCApplicationAttributes(
-      s3BucketPath: json['S3BucketPath'] as String?,
-      s3BucketRoleArn: json['S3BucketRoleArn'] as String?,
+  factory DmsTransferSettings.fromJson(Map<String, dynamic> json) {
+    return DmsTransferSettings(
+      bucketName: json['BucketName'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final s3BucketPath = this.s3BucketPath;
-    final s3BucketRoleArn = this.s3BucketRoleArn;
+    final bucketName = this.bucketName;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
     return {
-      if (s3BucketPath != null) 'S3BucketPath': s3BucketPath,
-      if (s3BucketRoleArn != null) 'S3BucketRoleArn': s3BucketRoleArn,
+      if (bucketName != null) 'BucketName': bucketName,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
     };
   }
+}
+
+/// Provides information that defines a MongoDB endpoint.
+class MongoDbSettings {
+  /// The authentication mechanism you use to access the MongoDB source endpoint.
+  ///
+  /// For the default value, in MongoDB version 2.x, <code>"default"</code> is
+  /// <code>"mongodb_cr"</code>. For MongoDB version 3.x or later,
+  /// <code>"default"</code> is <code>"scram_sha_1"</code>. This setting isn't
+  /// used when <code>AuthType</code> is set to <code>"no"</code>.
+  final AuthMechanismValue? authMechanism;
+
+  /// The MongoDB database name. This setting isn't used when
+  /// <code>AuthType</code> is set to <code>"no"</code>.
+  ///
+  /// The default is <code>"admin"</code>.
+  final String? authSource;
+
+  /// The authentication type you use to access the MongoDB source endpoint.
+  ///
+  /// When when set to <code>"no"</code>, user name and password parameters are
+  /// not used and can be empty.
+  final AuthTypeValue? authType;
+
+  /// The database name on the MongoDB source endpoint.
+  final String? databaseName;
+
+  /// Indicates the number of documents to preview to determine the document
+  /// organization. Use this setting when <code>NestingLevel</code> is set to
+  /// <code>"one"</code>.
+  ///
+  /// Must be a positive value greater than <code>0</code>. Default value is
+  /// <code>1000</code>.
+  final String? docsToInvestigate;
+
+  /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
+  /// is set to <code>"none"</code>.
+  ///
+  /// Default value is <code>"false"</code>.
+  final String? extractDocId;
+
+  /// The KMS key identifier that is used to encrypt the content on the
+  /// replication instance. If you don't specify a value for the
+  /// <code>KmsKeyId</code> parameter, then DMS uses your default encryption key.
+  /// KMS creates the default encryption key for your Amazon Web Services account.
+  /// Your Amazon Web Services account has a different default encryption key for
+  /// each Amazon Web Services Region.
+  final String? kmsKeyId;
+
+  /// Specifies either document or table mode.
+  ///
+  /// Default value is <code>"none"</code>. Specify <code>"none"</code> to use
+  /// document mode. Specify <code>"one"</code> to use table mode.
+  final NestingLevelValue? nestingLevel;
+
+  /// The password for the user account you use to access the MongoDB source
+  /// endpoint.
+  final String? password;
+
+  /// The port value for the MongoDB source endpoint.
+  final int? port;
+
+  /// If <code>true</code>, DMS replicates data to shard collections. DMS only
+  /// uses this setting if the target endpoint is a DocumentDB elastic cluster.
+  ///
+  /// When this setting is <code>true</code>, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// You must set <code>TargetTablePrepMode</code> to <code>nothing</code>.
+  /// </li>
+  /// <li>
+  /// DMS automatically sets <code>useUpdateLookup</code> to <code>false</code>.
+  /// </li>
+  /// </ul>
+  final bool? replicateShardCollections;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the MongoDB endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the MongoDB endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// The name of the server on the MongoDB source endpoint. For MongoDB Atlas,
+  /// provide the server name for any of the servers in the replication set.
+  final String? serverName;
+
+  /// If <code>true</code>, DMS retrieves the entire document from the MongoDB
+  /// source during migration. This may cause a migration failure if the server
+  /// response exceeds bandwidth limits. To fetch only updates and deletes during
+  /// migration, set this parameter to <code>false</code>.
+  final bool? useUpdateLookUp;
+
+  /// The user name you use to access the MongoDB source endpoint.
+  final String? username;
+
+  MongoDbSettings({
+    this.authMechanism,
+    this.authSource,
+    this.authType,
+    this.databaseName,
+    this.docsToInvestigate,
+    this.extractDocId,
+    this.kmsKeyId,
+    this.nestingLevel,
+    this.password,
+    this.port,
+    this.replicateShardCollections,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.useUpdateLookUp,
+    this.username,
+  });
+
+  factory MongoDbSettings.fromJson(Map<String, dynamic> json) {
+    return MongoDbSettings(
+      authMechanism: (json['AuthMechanism'] as String?)
+          ?.let(AuthMechanismValue.fromString),
+      authSource: json['AuthSource'] as String?,
+      authType: (json['AuthType'] as String?)?.let(AuthTypeValue.fromString),
+      databaseName: json['DatabaseName'] as String?,
+      docsToInvestigate: json['DocsToInvestigate'] as String?,
+      extractDocId: json['ExtractDocId'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      nestingLevel:
+          (json['NestingLevel'] as String?)?.let(NestingLevelValue.fromString),
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      replicateShardCollections: json['ReplicateShardCollections'] as bool?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      useUpdateLookUp: json['UseUpdateLookUp'] as bool?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authMechanism = this.authMechanism;
+    final authSource = this.authSource;
+    final authType = this.authType;
+    final databaseName = this.databaseName;
+    final docsToInvestigate = this.docsToInvestigate;
+    final extractDocId = this.extractDocId;
+    final kmsKeyId = this.kmsKeyId;
+    final nestingLevel = this.nestingLevel;
+    final password = this.password;
+    final port = this.port;
+    final replicateShardCollections = this.replicateShardCollections;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final useUpdateLookUp = this.useUpdateLookUp;
+    final username = this.username;
+    return {
+      if (authMechanism != null) 'AuthMechanism': authMechanism.value,
+      if (authSource != null) 'AuthSource': authSource,
+      if (authType != null) 'AuthType': authType.value,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (docsToInvestigate != null) 'DocsToInvestigate': docsToInvestigate,
+      if (extractDocId != null) 'ExtractDocId': extractDocId,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (nestingLevel != null) 'NestingLevel': nestingLevel.value,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (replicateShardCollections != null)
+        'ReplicateShardCollections': replicateShardCollections,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (useUpdateLookUp != null) 'UseUpdateLookUp': useUpdateLookUp,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that describes an Amazon Kinesis Data Stream endpoint.
+/// This information includes the output format of records applied to the
+/// endpoint and details of transaction and control table data information.
+class KinesisSettings {
+  /// Shows detailed control information for table definition, column definition,
+  /// and table and column changes in the Kinesis message output. The default is
+  /// <code>false</code>.
+  final bool? includeControlDetails;
+
+  /// Include NULL and empty columns for records migrated to the endpoint. The
+  /// default is <code>false</code>.
+  final bool? includeNullAndEmpty;
+
+  /// Shows the partition value within the Kinesis message output, unless the
+  /// partition type is <code>schema-table-type</code>. The default is
+  /// <code>false</code>.
+  final bool? includePartitionValue;
+
+  /// Includes any data definition language (DDL) operations that change the table
+  /// in the control data, such as <code>rename-table</code>,
+  /// <code>drop-table</code>, <code>add-column</code>, <code>drop-column</code>,
+  /// and <code>rename-column</code>. The default is <code>false</code>.
+  final bool? includeTableAlterOperations;
+
+  /// Provides detailed transaction information from the source database. This
+  /// information includes a commit timestamp, a log position, and values for
+  /// <code>transaction_id</code>, previous <code>transaction_id</code>, and
+  /// <code>transaction_record_id</code> (the record offset within a transaction).
+  /// The default is <code>false</code>.
+  final bool? includeTransactionDetails;
+
+  /// The output format for the records created on the endpoint. The message
+  /// format is <code>JSON</code> (default) or <code>JSON_UNFORMATTED</code> (a
+  /// single line with no tab).
+  final MessageFormatValue? messageFormat;
+
+  /// Set this optional parameter to <code>true</code> to avoid adding a '0x'
+  /// prefix to raw data in hexadecimal format. For example, by default, DMS adds
+  /// a '0x' prefix to the LOB column type in hexadecimal format moving from an
+  /// Oracle source to an Amazon Kinesis target. Use the <code>NoHexPrefix</code>
+  /// endpoint setting to enable migration of RAW data type columns without adding
+  /// the '0x' prefix.
+  final bool? noHexPrefix;
+
+  /// Prefixes schema and table names to partition values, when the partition type
+  /// is <code>primary-key-type</code>. Doing this increases data distribution
+  /// among Kinesis shards. For example, suppose that a SysBench schema has
+  /// thousands of tables and each table has only limited range for a primary key.
+  /// In this case, the same primary key is sent from thousands of tables to the
+  /// same shard, which causes throttling. The default is <code>false</code>.
+  final bool? partitionIncludeSchemaTable;
+
+  /// The Amazon Resource Name (ARN) for the IAM role that DMS uses to write to
+  /// the Kinesis data stream. The role must allow the <code>iam:PassRole</code>
+  /// action.
+  final String? serviceAccessRoleArn;
+
+  /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
+  final String? streamArn;
+
+  /// Specifies using the large integer value with Kinesis.
+  final bool? useLargeIntegerValue;
+
+  KinesisSettings({
+    this.includeControlDetails,
+    this.includeNullAndEmpty,
+    this.includePartitionValue,
+    this.includeTableAlterOperations,
+    this.includeTransactionDetails,
+    this.messageFormat,
+    this.noHexPrefix,
+    this.partitionIncludeSchemaTable,
+    this.serviceAccessRoleArn,
+    this.streamArn,
+    this.useLargeIntegerValue,
+  });
+
+  factory KinesisSettings.fromJson(Map<String, dynamic> json) {
+    return KinesisSettings(
+      includeControlDetails: json['IncludeControlDetails'] as bool?,
+      includeNullAndEmpty: json['IncludeNullAndEmpty'] as bool?,
+      includePartitionValue: json['IncludePartitionValue'] as bool?,
+      includeTableAlterOperations: json['IncludeTableAlterOperations'] as bool?,
+      includeTransactionDetails: json['IncludeTransactionDetails'] as bool?,
+      messageFormat: (json['MessageFormat'] as String?)
+          ?.let(MessageFormatValue.fromString),
+      noHexPrefix: json['NoHexPrefix'] as bool?,
+      partitionIncludeSchemaTable: json['PartitionIncludeSchemaTable'] as bool?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      streamArn: json['StreamArn'] as String?,
+      useLargeIntegerValue: json['UseLargeIntegerValue'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeControlDetails = this.includeControlDetails;
+    final includeNullAndEmpty = this.includeNullAndEmpty;
+    final includePartitionValue = this.includePartitionValue;
+    final includeTableAlterOperations = this.includeTableAlterOperations;
+    final includeTransactionDetails = this.includeTransactionDetails;
+    final messageFormat = this.messageFormat;
+    final noHexPrefix = this.noHexPrefix;
+    final partitionIncludeSchemaTable = this.partitionIncludeSchemaTable;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final streamArn = this.streamArn;
+    final useLargeIntegerValue = this.useLargeIntegerValue;
+    return {
+      if (includeControlDetails != null)
+        'IncludeControlDetails': includeControlDetails,
+      if (includeNullAndEmpty != null)
+        'IncludeNullAndEmpty': includeNullAndEmpty,
+      if (includePartitionValue != null)
+        'IncludePartitionValue': includePartitionValue,
+      if (includeTableAlterOperations != null)
+        'IncludeTableAlterOperations': includeTableAlterOperations,
+      if (includeTransactionDetails != null)
+        'IncludeTransactionDetails': includeTransactionDetails,
+      if (messageFormat != null) 'MessageFormat': messageFormat.value,
+      if (noHexPrefix != null) 'NoHexPrefix': noHexPrefix,
+      if (partitionIncludeSchemaTable != null)
+        'PartitionIncludeSchemaTable': partitionIncludeSchemaTable,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (streamArn != null) 'StreamArn': streamArn,
+      if (useLargeIntegerValue != null)
+        'UseLargeIntegerValue': useLargeIntegerValue,
+    };
+  }
+}
+
+/// Provides information that describes an Apache Kafka endpoint. This
+/// information includes the output format of records applied to the endpoint
+/// and details of transaction and control table data information.
+class KafkaSettings {
+  /// A comma-separated list of one or more broker locations in your Kafka cluster
+  /// that host your Kafka instance. Specify each broker location in the form
+  /// <code> <i>broker-hostname-or-ip</i>:<i>port</i> </code>. For example,
+  /// <code>"ec2-12-345-678-901.compute-1.amazonaws.com:2345"</code>. For more
+  /// information and examples of specifying a list of broker locations, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html">Using
+  /// Apache Kafka as a target for Database Migration Service</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  final String? broker;
+
+  /// Shows detailed control information for table definition, column definition,
+  /// and table and column changes in the Kafka message output. The default is
+  /// <code>false</code>.
+  final bool? includeControlDetails;
+
+  /// Include NULL and empty columns for records migrated to the endpoint. The
+  /// default is <code>false</code>.
+  final bool? includeNullAndEmpty;
+
+  /// Shows the partition value within the Kafka message output unless the
+  /// partition type is <code>schema-table-type</code>. The default is
+  /// <code>false</code>.
+  final bool? includePartitionValue;
+
+  /// Includes any data definition language (DDL) operations that change the table
+  /// in the control data, such as <code>rename-table</code>,
+  /// <code>drop-table</code>, <code>add-column</code>, <code>drop-column</code>,
+  /// and <code>rename-column</code>. The default is <code>false</code>.
+  final bool? includeTableAlterOperations;
+
+  /// Provides detailed transaction information from the source database. This
+  /// information includes a commit timestamp, a log position, and values for
+  /// <code>transaction_id</code>, previous <code>transaction_id</code>, and
+  /// <code>transaction_record_id</code> (the record offset within a transaction).
+  /// The default is <code>false</code>.
+  final bool? includeTransactionDetails;
+
+  /// The output format for the records created on the endpoint. The message
+  /// format is <code>JSON</code> (default) or <code>JSON_UNFORMATTED</code> (a
+  /// single line with no tab).
+  final MessageFormatValue? messageFormat;
+
+  /// The maximum size in bytes for records created on the endpoint The default is
+  /// 1,000,000.
+  final int? messageMaxBytes;
+
+  /// Set this optional parameter to <code>true</code> to avoid adding a '0x'
+  /// prefix to raw data in hexadecimal format. For example, by default, DMS adds
+  /// a '0x' prefix to the LOB column type in hexadecimal format moving from an
+  /// Oracle source to a Kafka target. Use the <code>NoHexPrefix</code> endpoint
+  /// setting to enable migration of RAW data type columns without adding the '0x'
+  /// prefix.
+  final bool? noHexPrefix;
+
+  /// Prefixes schema and table names to partition values, when the partition type
+  /// is <code>primary-key-type</code>. Doing this increases data distribution
+  /// among Kafka partitions. For example, suppose that a SysBench schema has
+  /// thousands of tables and each table has only limited range for a primary key.
+  /// In this case, the same primary key is sent from thousands of tables to the
+  /// same partition, which causes throttling. The default is <code>false</code>.
+  final bool? partitionIncludeSchemaTable;
+
+  /// For SASL/SSL authentication, DMS supports the <code>SCRAM-SHA-512</code>
+  /// mechanism by default. DMS versions 3.5.0 and later also support the
+  /// <code>PLAIN</code> mechanism. To use the <code>PLAIN</code> mechanism, set
+  /// this parameter to <code>PLAIN.</code>
+  final KafkaSaslMechanism? saslMechanism;
+
+  /// The secure password you created when you first set up your MSK cluster to
+  /// validate a client identity and make an encrypted connection between server
+  /// and client using SASL-SSL authentication.
+  final String? saslPassword;
+
+  /// The secure user name you created when you first set up your MSK cluster to
+  /// validate a client identity and make an encrypted connection between server
+  /// and client using SASL-SSL authentication.
+  final String? saslUsername;
+
+  /// Set secure connection to a Kafka target endpoint using Transport Layer
+  /// Security (TLS). Options include <code>ssl-encryption</code>,
+  /// <code>ssl-authentication</code>, and <code>sasl-ssl</code>.
+  /// <code>sasl-ssl</code> requires <code>SaslUsername</code> and
+  /// <code>SaslPassword</code>.
+  final KafkaSecurityProtocol? securityProtocol;
+
+  /// The Amazon Resource Name (ARN) for the private certificate authority (CA)
+  /// cert that DMS uses to securely connect to your Kafka target endpoint.
+  final String? sslCaCertificateArn;
+
+  /// The Amazon Resource Name (ARN) of the client certificate used to securely
+  /// connect to a Kafka target endpoint.
+  final String? sslClientCertificateArn;
+
+  /// The Amazon Resource Name (ARN) for the client private key used to securely
+  /// connect to a Kafka target endpoint.
+  final String? sslClientKeyArn;
+
+  /// The password for the client private key used to securely connect to a Kafka
+  /// target endpoint.
+  final String? sslClientKeyPassword;
+
+  /// Sets hostname verification for the certificate. This setting is supported in
+  /// DMS version 3.5.1 and later.
+  final KafkaSslEndpointIdentificationAlgorithm?
+      sslEndpointIdentificationAlgorithm;
+
+  /// The topic to which you migrate the data. If you don't specify a topic, DMS
+  /// specifies <code>"kafka-default-topic"</code> as the migration topic.
+  final String? topic;
+
+  /// Specifies using the large integer value with Kafka.
+  final bool? useLargeIntegerValue;
+
+  KafkaSettings({
+    this.broker,
+    this.includeControlDetails,
+    this.includeNullAndEmpty,
+    this.includePartitionValue,
+    this.includeTableAlterOperations,
+    this.includeTransactionDetails,
+    this.messageFormat,
+    this.messageMaxBytes,
+    this.noHexPrefix,
+    this.partitionIncludeSchemaTable,
+    this.saslMechanism,
+    this.saslPassword,
+    this.saslUsername,
+    this.securityProtocol,
+    this.sslCaCertificateArn,
+    this.sslClientCertificateArn,
+    this.sslClientKeyArn,
+    this.sslClientKeyPassword,
+    this.sslEndpointIdentificationAlgorithm,
+    this.topic,
+    this.useLargeIntegerValue,
+  });
+
+  factory KafkaSettings.fromJson(Map<String, dynamic> json) {
+    return KafkaSettings(
+      broker: json['Broker'] as String?,
+      includeControlDetails: json['IncludeControlDetails'] as bool?,
+      includeNullAndEmpty: json['IncludeNullAndEmpty'] as bool?,
+      includePartitionValue: json['IncludePartitionValue'] as bool?,
+      includeTableAlterOperations: json['IncludeTableAlterOperations'] as bool?,
+      includeTransactionDetails: json['IncludeTransactionDetails'] as bool?,
+      messageFormat: (json['MessageFormat'] as String?)
+          ?.let(MessageFormatValue.fromString),
+      messageMaxBytes: json['MessageMaxBytes'] as int?,
+      noHexPrefix: json['NoHexPrefix'] as bool?,
+      partitionIncludeSchemaTable: json['PartitionIncludeSchemaTable'] as bool?,
+      saslMechanism: (json['SaslMechanism'] as String?)
+          ?.let(KafkaSaslMechanism.fromString),
+      saslPassword: json['SaslPassword'] as String?,
+      saslUsername: json['SaslUsername'] as String?,
+      securityProtocol: (json['SecurityProtocol'] as String?)
+          ?.let(KafkaSecurityProtocol.fromString),
+      sslCaCertificateArn: json['SslCaCertificateArn'] as String?,
+      sslClientCertificateArn: json['SslClientCertificateArn'] as String?,
+      sslClientKeyArn: json['SslClientKeyArn'] as String?,
+      sslClientKeyPassword: json['SslClientKeyPassword'] as String?,
+      sslEndpointIdentificationAlgorithm:
+          (json['SslEndpointIdentificationAlgorithm'] as String?)
+              ?.let(KafkaSslEndpointIdentificationAlgorithm.fromString),
+      topic: json['Topic'] as String?,
+      useLargeIntegerValue: json['UseLargeIntegerValue'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final broker = this.broker;
+    final includeControlDetails = this.includeControlDetails;
+    final includeNullAndEmpty = this.includeNullAndEmpty;
+    final includePartitionValue = this.includePartitionValue;
+    final includeTableAlterOperations = this.includeTableAlterOperations;
+    final includeTransactionDetails = this.includeTransactionDetails;
+    final messageFormat = this.messageFormat;
+    final messageMaxBytes = this.messageMaxBytes;
+    final noHexPrefix = this.noHexPrefix;
+    final partitionIncludeSchemaTable = this.partitionIncludeSchemaTable;
+    final saslMechanism = this.saslMechanism;
+    final saslPassword = this.saslPassword;
+    final saslUsername = this.saslUsername;
+    final securityProtocol = this.securityProtocol;
+    final sslCaCertificateArn = this.sslCaCertificateArn;
+    final sslClientCertificateArn = this.sslClientCertificateArn;
+    final sslClientKeyArn = this.sslClientKeyArn;
+    final sslClientKeyPassword = this.sslClientKeyPassword;
+    final sslEndpointIdentificationAlgorithm =
+        this.sslEndpointIdentificationAlgorithm;
+    final topic = this.topic;
+    final useLargeIntegerValue = this.useLargeIntegerValue;
+    return {
+      if (broker != null) 'Broker': broker,
+      if (includeControlDetails != null)
+        'IncludeControlDetails': includeControlDetails,
+      if (includeNullAndEmpty != null)
+        'IncludeNullAndEmpty': includeNullAndEmpty,
+      if (includePartitionValue != null)
+        'IncludePartitionValue': includePartitionValue,
+      if (includeTableAlterOperations != null)
+        'IncludeTableAlterOperations': includeTableAlterOperations,
+      if (includeTransactionDetails != null)
+        'IncludeTransactionDetails': includeTransactionDetails,
+      if (messageFormat != null) 'MessageFormat': messageFormat.value,
+      if (messageMaxBytes != null) 'MessageMaxBytes': messageMaxBytes,
+      if (noHexPrefix != null) 'NoHexPrefix': noHexPrefix,
+      if (partitionIncludeSchemaTable != null)
+        'PartitionIncludeSchemaTable': partitionIncludeSchemaTable,
+      if (saslMechanism != null) 'SaslMechanism': saslMechanism.value,
+      if (saslPassword != null) 'SaslPassword': saslPassword,
+      if (saslUsername != null) 'SaslUsername': saslUsername,
+      if (securityProtocol != null) 'SecurityProtocol': securityProtocol.value,
+      if (sslCaCertificateArn != null)
+        'SslCaCertificateArn': sslCaCertificateArn,
+      if (sslClientCertificateArn != null)
+        'SslClientCertificateArn': sslClientCertificateArn,
+      if (sslClientKeyArn != null) 'SslClientKeyArn': sslClientKeyArn,
+      if (sslClientKeyPassword != null)
+        'SslClientKeyPassword': sslClientKeyPassword,
+      if (sslEndpointIdentificationAlgorithm != null)
+        'SslEndpointIdentificationAlgorithm':
+            sslEndpointIdentificationAlgorithm.value,
+      if (topic != null) 'Topic': topic,
+      if (useLargeIntegerValue != null)
+        'UseLargeIntegerValue': useLargeIntegerValue,
+    };
+  }
+}
+
+/// Provides information that defines an OpenSearch endpoint.
+class ElasticsearchSettings {
+  /// The endpoint for the OpenSearch cluster. DMS uses HTTPS if a transport
+  /// protocol (http/https) is not specified.
+  final String endpointUri;
+
+  /// The Amazon Resource Name (ARN) used by the service to access the IAM role.
+  /// The role must allow the <code>iam:PassRole</code> action.
+  final String serviceAccessRoleArn;
+
+  /// The maximum number of seconds for which DMS retries failed API requests to
+  /// the OpenSearch cluster.
+  final int? errorRetryDuration;
+
+  /// The maximum percentage of records that can fail to be written before a full
+  /// load operation stops.
+  ///
+  /// To avoid early failure, this counter is only effective after 1000 records
+  /// are transferred. OpenSearch also has the concept of error monitoring during
+  /// the last 10 minutes of an Observation Window. If transfer of all records
+  /// fail in the last 10 minutes, the full load operation stops.
+  final int? fullLoadErrorPercentage;
+
+  /// Set this option to <code>true</code> for DMS to migrate documentation using
+  /// the documentation type <code>_doc</code>. OpenSearch and an Elasticsearch
+  /// cluster only support the _doc documentation type in versions 7. x and later.
+  /// The default value is <code>false</code>.
+  final bool? useNewMappingType;
+
+  ElasticsearchSettings({
+    required this.endpointUri,
+    required this.serviceAccessRoleArn,
+    this.errorRetryDuration,
+    this.fullLoadErrorPercentage,
+    this.useNewMappingType,
+  });
+
+  factory ElasticsearchSettings.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchSettings(
+      endpointUri: (json['EndpointUri'] as String?) ?? '',
+      serviceAccessRoleArn: (json['ServiceAccessRoleArn'] as String?) ?? '',
+      errorRetryDuration: json['ErrorRetryDuration'] as int?,
+      fullLoadErrorPercentage: json['FullLoadErrorPercentage'] as int?,
+      useNewMappingType: json['UseNewMappingType'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointUri = this.endpointUri;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final errorRetryDuration = this.errorRetryDuration;
+    final fullLoadErrorPercentage = this.fullLoadErrorPercentage;
+    final useNewMappingType = this.useNewMappingType;
+    return {
+      'EndpointUri': endpointUri,
+      'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (errorRetryDuration != null) 'ErrorRetryDuration': errorRetryDuration,
+      if (fullLoadErrorPercentage != null)
+        'FullLoadErrorPercentage': fullLoadErrorPercentage,
+      if (useNewMappingType != null) 'UseNewMappingType': useNewMappingType,
+    };
+  }
+}
+
+/// Provides information that defines an Amazon Neptune endpoint.
+class NeptuneSettings {
+  /// A folder path where you want DMS to store migrated graph data in the S3
+  /// bucket specified by <code>S3BucketName</code>
+  final String s3BucketFolder;
+
+  /// The name of the Amazon S3 bucket where DMS can temporarily store migrated
+  /// graph data in .csv files before bulk-loading it to the Neptune target
+  /// database. DMS maps the SQL source data to graph data before storing it in
+  /// these .csv files.
+  final String s3BucketName;
+
+  /// The number of milliseconds for DMS to wait to retry a bulk-load of migrated
+  /// graph data to the Neptune target database before raising an error. The
+  /// default is 250.
+  final int? errorRetryDuration;
+
+  /// If you want Identity and Access Management (IAM) authorization enabled for
+  /// this endpoint, set this parameter to <code>true</code>. Then attach the
+  /// appropriate IAM policy document to your service role specified by
+  /// <code>ServiceAccessRoleArn</code>. The default is <code>false</code>.
+  final bool? iamAuthEnabled;
+
+  /// The maximum size in kilobytes of migrated graph data stored in a .csv file
+  /// before DMS bulk-loads the data to the Neptune target database. The default
+  /// is 1,048,576 KB. If the bulk load is successful, DMS clears the bucket,
+  /// ready to store the next batch of migrated graph data.
+  final int? maxFileSize;
+
+  /// The number of times for DMS to retry a bulk load of migrated graph data to
+  /// the Neptune target database before raising an error. The default is 5.
+  final int? maxRetryCount;
+
+  /// The Amazon Resource Name (ARN) of the service role that you created for the
+  /// Neptune target endpoint. The role must allow the <code>iam:PassRole</code>
+  /// action. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.ServiceRole">Creating
+  /// an IAM Service Role for Accessing Amazon Neptune as a Target</a> in the
+  /// <i>Database Migration Service User Guide. </i>
+  final String? serviceAccessRoleArn;
+
+  NeptuneSettings({
+    required this.s3BucketFolder,
+    required this.s3BucketName,
+    this.errorRetryDuration,
+    this.iamAuthEnabled,
+    this.maxFileSize,
+    this.maxRetryCount,
+    this.serviceAccessRoleArn,
+  });
+
+  factory NeptuneSettings.fromJson(Map<String, dynamic> json) {
+    return NeptuneSettings(
+      s3BucketFolder: (json['S3BucketFolder'] as String?) ?? '',
+      s3BucketName: (json['S3BucketName'] as String?) ?? '',
+      errorRetryDuration: json['ErrorRetryDuration'] as int?,
+      iamAuthEnabled: json['IamAuthEnabled'] as bool?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      maxRetryCount: json['MaxRetryCount'] as int?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketFolder = this.s3BucketFolder;
+    final s3BucketName = this.s3BucketName;
+    final errorRetryDuration = this.errorRetryDuration;
+    final iamAuthEnabled = this.iamAuthEnabled;
+    final maxFileSize = this.maxFileSize;
+    final maxRetryCount = this.maxRetryCount;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    return {
+      'S3BucketFolder': s3BucketFolder,
+      'S3BucketName': s3BucketName,
+      if (errorRetryDuration != null) 'ErrorRetryDuration': errorRetryDuration,
+      if (iamAuthEnabled != null) 'IamAuthEnabled': iamAuthEnabled,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (maxRetryCount != null) 'MaxRetryCount': maxRetryCount,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+    };
+  }
+}
+
+/// Provides information that defines an Amazon Redshift endpoint.
+class RedshiftSettings {
+  /// A value that indicates to allow any date format, including invalid formats
+  /// such as 00/00/00 00:00:00, to be loaded without generating an error. You can
+  /// choose <code>true</code> or <code>false</code> (the default).
+  ///
+  /// This parameter applies only to TIMESTAMP and DATE columns. Always use
+  /// ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data
+  /// doesn't match the DATEFORMAT specification, Amazon Redshift inserts a NULL
+  /// value into that field.
+  final bool? acceptAnyDate;
+
+  /// Code to run after connecting. This parameter should contain the code itself,
+  /// not the name of a file containing the code.
+  final String? afterConnectScript;
+
+  /// An S3 folder where the comma-separated-value (.csv) files are stored before
+  /// being uploaded to the target Redshift cluster.
+  ///
+  /// For full load mode, DMS converts source records into .csv files and loads
+  /// them to the <i>BucketFolder/TableID</i> path. DMS uses the Redshift
+  /// <code>COPY</code> command to upload the .csv files to the target table. The
+  /// files are deleted once the <code>COPY</code> operation has finished. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/dg/r_COPY.html">COPY</a>
+  /// in the <i>Amazon Redshift Database Developer Guide</i>.
+  ///
+  /// For change-data-capture (CDC) mode, DMS creates a <i>NetChanges</i> table,
+  /// and loads the .csv files to this <i>BucketFolder/NetChangesTableID</i> path.
+  final String? bucketFolder;
+
+  /// The name of the intermediate S3 bucket used to store .csv files before
+  /// uploading data to Redshift.
+  final String? bucketName;
+
+  /// If Amazon Redshift is configured to support case sensitive schema names, set
+  /// <code>CaseSensitiveNames</code> to <code>true</code>. The default is
+  /// <code>false</code>.
+  final bool? caseSensitiveNames;
+
+  /// If you set <code>CompUpdate</code> to <code>true</code> Amazon Redshift
+  /// applies automatic compression if the table is empty. This applies even if
+  /// the table columns already have encodings other than <code>RAW</code>. If you
+  /// set <code>CompUpdate</code> to <code>false</code>, automatic compression is
+  /// disabled and existing column encodings aren't changed. The default is
+  /// <code>true</code>.
+  final bool? compUpdate;
+
+  /// A value that sets the amount of time to wait (in milliseconds) before timing
+  /// out, beginning from when you initially establish a connection.
+  final int? connectionTimeout;
+
+  /// The name of the Amazon Redshift data warehouse (service) that you are
+  /// working with.
+  final String? databaseName;
+
+  /// The date format that you are using. Valid values are <code>auto</code>
+  /// (case-sensitive), your date format string enclosed in quotes, or NULL. If
+  /// this parameter is left unset (NULL), it defaults to a format of
+  /// 'YYYY-MM-DD'. Using <code>auto</code> recognizes most strings, even some
+  /// that aren't supported when you use a date format string.
+  ///
+  /// If your date and time values use formats different from each other, set this
+  /// to <code>auto</code>.
+  final String? dateFormat;
+
+  /// A value that specifies whether DMS should migrate empty CHAR and VARCHAR
+  /// fields as NULL. A value of <code>true</code> sets empty CHAR and VARCHAR
+  /// fields to null. The default is <code>false</code>.
+  final bool? emptyAsNull;
+
+  /// The type of server-side encryption that you want to use for your data. This
+  /// encryption type is part of the endpoint settings or the extra connections
+  /// attributes for Amazon S3. You can choose either <code>SSE_S3</code> (the
+  /// default) or <code>SSE_KMS</code>.
+  /// <note>
+  /// For the <code>ModifyEndpoint</code> operation, you can change the existing
+  /// value of the <code>EncryptionMode</code> parameter from <code>SSE_KMS</code>
+  /// to <code>SSE_S3</code>. But you can’t change the existing value from
+  /// <code>SSE_S3</code> to <code>SSE_KMS</code>.
+  /// </note>
+  /// To use <code>SSE_S3</code>, create an Identity and Access Management (IAM)
+  /// role with a policy that allows <code>"arn:aws:s3:::*"</code> to use the
+  /// following actions: <code>"s3:PutObject", "s3:ListBucket"</code>
+  final EncryptionModeValue? encryptionMode;
+
+  /// This setting is only valid for a full-load migration task. Set
+  /// <code>ExplicitIds</code> to <code>true</code> to have tables with
+  /// <code>IDENTITY</code> columns override their auto-generated values with
+  /// explicit values loaded from the source data files used to populate the
+  /// tables. The default is <code>false</code>.
+  final bool? explicitIds;
+
+  /// The number of threads used to upload a single file. This parameter accepts a
+  /// value from 1 through 64. It defaults to 10.
+  ///
+  /// The number of parallel streams used to upload a single .csv file to an S3
+  /// bucket using S3 Multipart Upload. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html">Multipart
+  /// upload overview</a>.
+  ///
+  /// <code>FileTransferUploadStreams</code> accepts a value from 1 through 64. It
+  /// defaults to 10.
+  final int? fileTransferUploadStreams;
+
+  /// The amount of time to wait (in seconds) before timing out of operations
+  /// performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT,
+  /// DELETE, and UPDATE.
+  final int? loadTimeout;
+
+  /// When true, lets Redshift migrate the boolean type as boolean. By default,
+  /// Redshift migrates booleans as <code>varchar(1)</code>. You must set this
+  /// setting on both the source and target endpoints for it to take effect.
+  final bool? mapBooleanAsBoolean;
+
+  /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket
+  /// and transfer data to Amazon Redshift. It defaults to 1048576KB (1 GB).
+  final int? maxFileSize;
+
+  /// The password for the user named in the <code>username</code> property.
+  final String? password;
+
+  /// The port number for Amazon Redshift. The default value is 5439.
+  final int? port;
+
+  /// A value that specifies to remove surrounding quotation marks from strings in
+  /// the incoming data. All characters within the quotation marks, including
+  /// delimiters, are retained. Choose <code>true</code> to remove quotation
+  /// marks. The default is <code>false</code>.
+  final bool? removeQuotes;
+
+  /// A value that specifies to replaces the invalid characters specified in
+  /// <code>ReplaceInvalidChars</code>, substituting the specified characters
+  /// instead. The default is <code>"?"</code>.
+  final String? replaceChars;
+
+  /// A list of characters that you want to replace. Use with
+  /// <code>ReplaceChars</code>.
+  final String? replaceInvalidChars;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the Amazon Redshift endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the Amazon Redshift endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// The name of the Amazon Redshift cluster you are using.
+  final String? serverName;
+
+  /// The KMS key ID. If you are using <code>SSE_KMS</code> for the
+  /// <code>EncryptionMode</code>, provide this key ID. The key that you use needs
+  /// an attached policy that enables IAM user permissions and allows use of the
+  /// key.
+  final String? serverSideEncryptionKmsKeyId;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that has access to the Amazon
+  /// Redshift service. The role must allow the <code>iam:PassRole</code> action.
+  final String? serviceAccessRoleArn;
+
+  /// The time format that you want to use. Valid values are <code>auto</code>
+  /// (case-sensitive), <code>'timeformat_string'</code>,
+  /// <code>'epochsecs'</code>, or <code>'epochmillisecs'</code>. It defaults to
+  /// 10. Using <code>auto</code> recognizes most strings, even some that aren't
+  /// supported when you use a time format string.
+  ///
+  /// If your date and time values use formats different from each other, set this
+  /// parameter to <code>auto</code>.
+  final String? timeFormat;
+
+  /// A value that specifies to remove the trailing white space characters from a
+  /// VARCHAR string. This parameter applies only to columns with a VARCHAR data
+  /// type. Choose <code>true</code> to remove unneeded white space. The default
+  /// is <code>false</code>.
+  final bool? trimBlanks;
+
+  /// A value that specifies to truncate data in columns to the appropriate number
+  /// of characters, so that the data fits in the column. This parameter applies
+  /// only to columns with a VARCHAR or CHAR data type, and rows with a size of 4
+  /// MB or less. Choose <code>true</code> to truncate data. The default is
+  /// <code>false</code>.
+  final bool? truncateColumns;
+
+  /// An Amazon Redshift user name for a registered user.
+  final String? username;
+
+  /// The size (in KB) of the in-memory file write buffer used when generating
+  /// .csv files on the local disk at the DMS replication instance. The default
+  /// value is 1000 (buffer size is 1000KB).
+  final int? writeBufferSize;
+
+  RedshiftSettings({
+    this.acceptAnyDate,
+    this.afterConnectScript,
+    this.bucketFolder,
+    this.bucketName,
+    this.caseSensitiveNames,
+    this.compUpdate,
+    this.connectionTimeout,
+    this.databaseName,
+    this.dateFormat,
+    this.emptyAsNull,
+    this.encryptionMode,
+    this.explicitIds,
+    this.fileTransferUploadStreams,
+    this.loadTimeout,
+    this.mapBooleanAsBoolean,
+    this.maxFileSize,
+    this.password,
+    this.port,
+    this.removeQuotes,
+    this.replaceChars,
+    this.replaceInvalidChars,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.serverSideEncryptionKmsKeyId,
+    this.serviceAccessRoleArn,
+    this.timeFormat,
+    this.trimBlanks,
+    this.truncateColumns,
+    this.username,
+    this.writeBufferSize,
+  });
+
+  factory RedshiftSettings.fromJson(Map<String, dynamic> json) {
+    return RedshiftSettings(
+      acceptAnyDate: json['AcceptAnyDate'] as bool?,
+      afterConnectScript: json['AfterConnectScript'] as String?,
+      bucketFolder: json['BucketFolder'] as String?,
+      bucketName: json['BucketName'] as String?,
+      caseSensitiveNames: json['CaseSensitiveNames'] as bool?,
+      compUpdate: json['CompUpdate'] as bool?,
+      connectionTimeout: json['ConnectionTimeout'] as int?,
+      databaseName: json['DatabaseName'] as String?,
+      dateFormat: json['DateFormat'] as String?,
+      emptyAsNull: json['EmptyAsNull'] as bool?,
+      encryptionMode: (json['EncryptionMode'] as String?)
+          ?.let(EncryptionModeValue.fromString),
+      explicitIds: json['ExplicitIds'] as bool?,
+      fileTransferUploadStreams: json['FileTransferUploadStreams'] as int?,
+      loadTimeout: json['LoadTimeout'] as int?,
+      mapBooleanAsBoolean: json['MapBooleanAsBoolean'] as bool?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      removeQuotes: json['RemoveQuotes'] as bool?,
+      replaceChars: json['ReplaceChars'] as String?,
+      replaceInvalidChars: json['ReplaceInvalidChars'] as String?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      serverSideEncryptionKmsKeyId:
+          json['ServerSideEncryptionKmsKeyId'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      timeFormat: json['TimeFormat'] as String?,
+      trimBlanks: json['TrimBlanks'] as bool?,
+      truncateColumns: json['TruncateColumns'] as bool?,
+      username: json['Username'] as String?,
+      writeBufferSize: json['WriteBufferSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptAnyDate = this.acceptAnyDate;
+    final afterConnectScript = this.afterConnectScript;
+    final bucketFolder = this.bucketFolder;
+    final bucketName = this.bucketName;
+    final caseSensitiveNames = this.caseSensitiveNames;
+    final compUpdate = this.compUpdate;
+    final connectionTimeout = this.connectionTimeout;
+    final databaseName = this.databaseName;
+    final dateFormat = this.dateFormat;
+    final emptyAsNull = this.emptyAsNull;
+    final encryptionMode = this.encryptionMode;
+    final explicitIds = this.explicitIds;
+    final fileTransferUploadStreams = this.fileTransferUploadStreams;
+    final loadTimeout = this.loadTimeout;
+    final mapBooleanAsBoolean = this.mapBooleanAsBoolean;
+    final maxFileSize = this.maxFileSize;
+    final password = this.password;
+    final port = this.port;
+    final removeQuotes = this.removeQuotes;
+    final replaceChars = this.replaceChars;
+    final replaceInvalidChars = this.replaceInvalidChars;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final serverSideEncryptionKmsKeyId = this.serverSideEncryptionKmsKeyId;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final timeFormat = this.timeFormat;
+    final trimBlanks = this.trimBlanks;
+    final truncateColumns = this.truncateColumns;
+    final username = this.username;
+    final writeBufferSize = this.writeBufferSize;
+    return {
+      if (acceptAnyDate != null) 'AcceptAnyDate': acceptAnyDate,
+      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
+      if (bucketFolder != null) 'BucketFolder': bucketFolder,
+      if (bucketName != null) 'BucketName': bucketName,
+      if (caseSensitiveNames != null) 'CaseSensitiveNames': caseSensitiveNames,
+      if (compUpdate != null) 'CompUpdate': compUpdate,
+      if (connectionTimeout != null) 'ConnectionTimeout': connectionTimeout,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (dateFormat != null) 'DateFormat': dateFormat,
+      if (emptyAsNull != null) 'EmptyAsNull': emptyAsNull,
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.value,
+      if (explicitIds != null) 'ExplicitIds': explicitIds,
+      if (fileTransferUploadStreams != null)
+        'FileTransferUploadStreams': fileTransferUploadStreams,
+      if (loadTimeout != null) 'LoadTimeout': loadTimeout,
+      if (mapBooleanAsBoolean != null)
+        'MapBooleanAsBoolean': mapBooleanAsBoolean,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (removeQuotes != null) 'RemoveQuotes': removeQuotes,
+      if (replaceChars != null) 'ReplaceChars': replaceChars,
+      if (replaceInvalidChars != null)
+        'ReplaceInvalidChars': replaceInvalidChars,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (serverSideEncryptionKmsKeyId != null)
+        'ServerSideEncryptionKmsKeyId': serverSideEncryptionKmsKeyId,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (timeFormat != null) 'TimeFormat': timeFormat,
+      if (trimBlanks != null) 'TrimBlanks': trimBlanks,
+      if (truncateColumns != null) 'TruncateColumns': truncateColumns,
+      if (username != null) 'Username': username,
+      if (writeBufferSize != null) 'WriteBufferSize': writeBufferSize,
+    };
+  }
+}
+
+/// Provides information that defines a PostgreSQL endpoint.
+class PostgreSQLSettings {
+  /// For use with change data capture (CDC) only, this attribute has DMS bypass
+  /// foreign keys and user triggers to reduce the time it takes to bulk load
+  /// data.
+  ///
+  /// Example: <code>afterConnectScript=SET
+  /// session_replication_role='replica'</code>
+  final String? afterConnectScript;
+
+  /// This attribute allows you to specify the authentication method as "iam
+  /// auth".
+  final PostgreSQLAuthenticationMethod? authenticationMethod;
+
+  /// The Babelfish for Aurora PostgreSQL database name for the endpoint.
+  final String? babelfishDatabaseName;
+
+  /// To capture DDL events, DMS creates various artifacts in the PostgreSQL
+  /// database when the task starts. You can later remove these artifacts.
+  ///
+  /// The default value is <code>true</code>.
+  ///
+  /// If this value is set to <code>N</code>, you don't have to create tables or
+  /// triggers on the source database.
+  final bool? captureDdls;
+
+  /// Specifies the default behavior of the replication's handling of PostgreSQL-
+  /// compatible endpoints that require some additional configuration, such as
+  /// Babelfish endpoints.
+  final DatabaseMode? databaseMode;
+
+  /// Database name for the endpoint.
+  final String? databaseName;
+
+  /// The schema in which the operational DDL database artifacts are created.
+  ///
+  /// The default value is <code>public</code>.
+  ///
+  /// Example: <code>ddlArtifactsSchema=xyzddlschema;</code>
+  final String? ddlArtifactsSchema;
+
+  /// Disables the Unicode source filter with PostgreSQL, for values passed into
+  /// the Selection rule filter on Source Endpoint column values. By default DMS
+  /// performs source filter comparisons using a Unicode string which can cause
+  /// look ups to ignore the indexes in the text columns and slow down migrations.
+  ///
+  /// Unicode support should only be disabled when using a selection rule filter
+  /// is on a text column in the Source database that is indexed.
+  final bool? disableUnicodeSourceFilter;
+
+  /// Sets the client statement timeout for the PostgreSQL instance, in seconds.
+  /// The default value is 60 seconds.
+  ///
+  /// Example: <code>executeTimeout=100;</code>
+  final int? executeTimeout;
+
+  /// When set to <code>true</code>, this value causes a task to fail if the
+  /// actual size of a LOB column is greater than the specified
+  /// <code>LobMaxSize</code>.
+  ///
+  /// The default value is <code>false</code>.
+  ///
+  /// If task is set to Limited LOB mode and this option is set to true, the task
+  /// fails instead of truncating the LOB data.
+  final bool? failTasksOnLobTruncation;
+
+  /// The write-ahead log (WAL) heartbeat feature mimics a dummy transaction. By
+  /// doing this, it prevents idle logical replication slots from holding onto old
+  /// WAL logs, which can result in storage full situations on the source. This
+  /// heartbeat keeps <code>restart_lsn</code> moving and prevents storage full
+  /// scenarios.
+  ///
+  /// The default value is <code>false</code>.
+  final bool? heartbeatEnable;
+
+  /// Sets the WAL heartbeat frequency (in minutes).
+  ///
+  /// The default value is 5 minutes.
+  final int? heartbeatFrequency;
+
+  /// Sets the schema in which the heartbeat artifacts are created.
+  ///
+  /// The default value is <code>public</code>.
+  final String? heartbeatSchema;
+
+  /// When true, lets PostgreSQL migrate the boolean type as boolean. By default,
+  /// PostgreSQL migrates booleans as <code>varchar(5)</code>. You must set this
+  /// setting on both the source and target endpoints for it to take effect.
+  ///
+  /// The default value is <code>false</code>.
+  final bool? mapBooleanAsBoolean;
+
+  /// When true, DMS migrates JSONB values as CLOB.
+  ///
+  /// The default value is <code>false</code>.
+  final bool? mapJsonbAsClob;
+
+  /// Sets what datatype to map LONG values as.
+  ///
+  /// The default value is <code>wstring</code>.
+  final LongVarcharMappingType? mapLongVarcharAs;
+
+  /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
+  /// PostgreSQL.
+  ///
+  /// The default value is 32,768 KB (32 MB).
+  ///
+  /// Example: <code>maxFileSize=512</code>
+  final int? maxFileSize;
+
+  /// Endpoint connection password.
+  final String? password;
+
+  /// Specifies the plugin to use to create a replication slot.
+  ///
+  /// The default value is <code>pglogical</code>.
+  final PluginNameValue? pluginName;
+
+  /// Endpoint TCP port. The default is 5432.
+  final int? port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the PostgreSQL endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the PostgreSQL endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// The host name of the endpoint database.
+  ///
+  /// For an Amazon RDS PostgreSQL instance, this is the output of <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html">DescribeDBInstances</a>,
+  /// in the <code> <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html">Endpoint</a>.Address</code>
+  /// field.
+  ///
+  /// For an Aurora PostgreSQL instance, this is the output of <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html">DescribeDBClusters</a>,
+  /// in the <code>Endpoint</code> field.
+  final String? serverName;
+
+  /// The IAM role arn you can use to authenticate the connection to your
+  /// endpoint. Ensure to include <code>iam:PassRole</code> and
+  /// <code>rds-db:connect</code> actions in permission policy.
+  final String? serviceAccessRoleArn;
+
+  /// Sets the name of a previously created logical replication slot for a change
+  /// data capture (CDC) load of the PostgreSQL source instance.
+  ///
+  /// When used with the <code>CdcStartPosition</code> request parameter for the
+  /// DMS API , this attribute also makes it possible to use native CDC start
+  /// points. DMS verifies that the specified logical replication slot exists
+  /// before starting the CDC load task. It also verifies that the task was
+  /// created with a valid setting of <code>CdcStartPosition</code>. If the
+  /// specified slot doesn't exist or the task doesn't have a valid
+  /// <code>CdcStartPosition</code> setting, DMS raises an error.
+  ///
+  /// For more information about setting the <code>CdcStartPosition</code> request
+  /// parameter, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Task.CDC.html#CHAP_Task.CDC.StartPoint.Native">Determining
+  /// a CDC native start point</a> in the <i>Database Migration Service User
+  /// Guide</i>. For more information about using <code>CdcStartPosition</code>,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html">CreateReplicationTask</a>,
+  /// <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html">StartReplicationTask</a>,
+  /// and <a
+  /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html">ModifyReplicationTask</a>.
+  final String? slotName;
+
+  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to trim data on
+  /// CHAR and NCHAR data types during migration. The default value is
+  /// <code>true</code>.
+  final bool? trimSpaceInChar;
+
+  /// Endpoint connection user name.
+  final String? username;
+
+  PostgreSQLSettings({
+    this.afterConnectScript,
+    this.authenticationMethod,
+    this.babelfishDatabaseName,
+    this.captureDdls,
+    this.databaseMode,
+    this.databaseName,
+    this.ddlArtifactsSchema,
+    this.disableUnicodeSourceFilter,
+    this.executeTimeout,
+    this.failTasksOnLobTruncation,
+    this.heartbeatEnable,
+    this.heartbeatFrequency,
+    this.heartbeatSchema,
+    this.mapBooleanAsBoolean,
+    this.mapJsonbAsClob,
+    this.mapLongVarcharAs,
+    this.maxFileSize,
+    this.password,
+    this.pluginName,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.serviceAccessRoleArn,
+    this.slotName,
+    this.trimSpaceInChar,
+    this.username,
+  });
+
+  factory PostgreSQLSettings.fromJson(Map<String, dynamic> json) {
+    return PostgreSQLSettings(
+      afterConnectScript: json['AfterConnectScript'] as String?,
+      authenticationMethod: (json['AuthenticationMethod'] as String?)
+          ?.let(PostgreSQLAuthenticationMethod.fromString),
+      babelfishDatabaseName: json['BabelfishDatabaseName'] as String?,
+      captureDdls: json['CaptureDdls'] as bool?,
+      databaseMode:
+          (json['DatabaseMode'] as String?)?.let(DatabaseMode.fromString),
+      databaseName: json['DatabaseName'] as String?,
+      ddlArtifactsSchema: json['DdlArtifactsSchema'] as String?,
+      disableUnicodeSourceFilter: json['DisableUnicodeSourceFilter'] as bool?,
+      executeTimeout: json['ExecuteTimeout'] as int?,
+      failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool?,
+      heartbeatEnable: json['HeartbeatEnable'] as bool?,
+      heartbeatFrequency: json['HeartbeatFrequency'] as int?,
+      heartbeatSchema: json['HeartbeatSchema'] as String?,
+      mapBooleanAsBoolean: json['MapBooleanAsBoolean'] as bool?,
+      mapJsonbAsClob: json['MapJsonbAsClob'] as bool?,
+      mapLongVarcharAs: (json['MapLongVarcharAs'] as String?)
+          ?.let(LongVarcharMappingType.fromString),
+      maxFileSize: json['MaxFileSize'] as int?,
+      password: json['Password'] as String?,
+      pluginName:
+          (json['PluginName'] as String?)?.let(PluginNameValue.fromString),
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      slotName: json['SlotName'] as String?,
+      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterConnectScript = this.afterConnectScript;
+    final authenticationMethod = this.authenticationMethod;
+    final babelfishDatabaseName = this.babelfishDatabaseName;
+    final captureDdls = this.captureDdls;
+    final databaseMode = this.databaseMode;
+    final databaseName = this.databaseName;
+    final ddlArtifactsSchema = this.ddlArtifactsSchema;
+    final disableUnicodeSourceFilter = this.disableUnicodeSourceFilter;
+    final executeTimeout = this.executeTimeout;
+    final failTasksOnLobTruncation = this.failTasksOnLobTruncation;
+    final heartbeatEnable = this.heartbeatEnable;
+    final heartbeatFrequency = this.heartbeatFrequency;
+    final heartbeatSchema = this.heartbeatSchema;
+    final mapBooleanAsBoolean = this.mapBooleanAsBoolean;
+    final mapJsonbAsClob = this.mapJsonbAsClob;
+    final mapLongVarcharAs = this.mapLongVarcharAs;
+    final maxFileSize = this.maxFileSize;
+    final password = this.password;
+    final pluginName = this.pluginName;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final slotName = this.slotName;
+    final trimSpaceInChar = this.trimSpaceInChar;
+    final username = this.username;
+    return {
+      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
+      if (authenticationMethod != null)
+        'AuthenticationMethod': authenticationMethod.value,
+      if (babelfishDatabaseName != null)
+        'BabelfishDatabaseName': babelfishDatabaseName,
+      if (captureDdls != null) 'CaptureDdls': captureDdls,
+      if (databaseMode != null) 'DatabaseMode': databaseMode.value,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (ddlArtifactsSchema != null) 'DdlArtifactsSchema': ddlArtifactsSchema,
+      if (disableUnicodeSourceFilter != null)
+        'DisableUnicodeSourceFilter': disableUnicodeSourceFilter,
+      if (executeTimeout != null) 'ExecuteTimeout': executeTimeout,
+      if (failTasksOnLobTruncation != null)
+        'FailTasksOnLobTruncation': failTasksOnLobTruncation,
+      if (heartbeatEnable != null) 'HeartbeatEnable': heartbeatEnable,
+      if (heartbeatFrequency != null) 'HeartbeatFrequency': heartbeatFrequency,
+      if (heartbeatSchema != null) 'HeartbeatSchema': heartbeatSchema,
+      if (mapBooleanAsBoolean != null)
+        'MapBooleanAsBoolean': mapBooleanAsBoolean,
+      if (mapJsonbAsClob != null) 'MapJsonbAsClob': mapJsonbAsClob,
+      if (mapLongVarcharAs != null) 'MapLongVarcharAs': mapLongVarcharAs.value,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (password != null) 'Password': password,
+      if (pluginName != null) 'PluginName': pluginName.value,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (slotName != null) 'SlotName': slotName,
+      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that defines a MySQL endpoint.
+class MySQLSettings {
+  /// Specifies a script to run immediately after DMS connects to the endpoint.
+  /// The migration task continues running regardless if the SQL statement
+  /// succeeds or fails.
+  ///
+  /// For this parameter, provide the code of the script itself, not the name of a
+  /// file containing the script.
+  final String? afterConnectScript;
+
+  /// This attribute allows you to specify the authentication method as "iam
+  /// auth".
+  final MySQLAuthenticationMethod? authenticationMethod;
+
+  /// Cleans and recreates table metadata information on the replication instance
+  /// when a mismatch occurs. For example, in a situation where running an alter
+  /// DDL on the table could result in different information about the table
+  /// cached in the replication instance.
+  final bool? cleanSourceMetadataOnMismatch;
+
+  /// Database name for the endpoint. For a MySQL source or target endpoint, don't
+  /// explicitly specify the database using the <code>DatabaseName</code> request
+  /// parameter on either the <code>CreateEndpoint</code> or
+  /// <code>ModifyEndpoint</code> API call. Specifying <code>DatabaseName</code>
+  /// when you create or modify a MySQL endpoint replicates all the task tables to
+  /// this single database. For MySQL endpoints, you specify the database only
+  /// when you specify the schema in the table-mapping rules of the DMS task.
+  final String? databaseName;
+
+  /// Specifies how often to check the binary log for new changes/events when the
+  /// database is idle. The default is five seconds.
+  ///
+  /// Example: <code>eventsPollInterval=5;</code>
+  ///
+  /// In the example, DMS checks for changes in the binary logs every five
+  /// seconds.
+  final int? eventsPollInterval;
+
+  /// Sets the client statement timeout (in seconds) for a MySQL source endpoint.
+  final int? executeTimeout;
+
+  /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
+  /// a MySQL-compatible database.
+  ///
+  /// Example: <code>maxFileSize=512</code>
+  final int? maxFileSize;
+
+  /// Improves performance when loading data into the MySQL-compatible target
+  /// database. Specifies how many threads to use to load the data into the
+  /// MySQL-compatible target database. Setting a large number of threads can have
+  /// an adverse effect on database performance, because a separate connection is
+  /// required for each thread. The default is one.
+  ///
+  /// Example: <code>parallelLoadThreads=1</code>
+  final int? parallelLoadThreads;
+
+  /// Endpoint connection password.
+  final String? password;
+
+  /// Endpoint TCP port.
+  final int? port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the MySQL endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the MySQL endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// The host name of the endpoint database.
+  ///
+  /// For an Amazon RDS MySQL instance, this is the output of <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html">DescribeDBInstances</a>,
+  /// in the <code> <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html">Endpoint</a>.Address</code>
+  /// field.
+  ///
+  /// For an Aurora MySQL instance, this is the output of <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html">DescribeDBClusters</a>,
+  /// in the <code>Endpoint</code> field.
+  final String? serverName;
+
+  /// Specifies the time zone for the source MySQL database.
+  ///
+  /// Example: <code>serverTimezone=US/Pacific;</code>
+  ///
+  /// Note: Do not enclose time zones in single quotes.
+  final String? serverTimezone;
+
+  /// The IAM role you can use to authenticate when connecting to your endpoint.
+  /// Ensure to include <code>iam:PassRole</code> and <code>rds-db:connect</code>
+  /// actions in permission policy.
+  final String? serviceAccessRoleArn;
+
+  /// Specifies where to migrate source tables on the target, either to a single
+  /// database or multiple databases. If you specify
+  /// <code>SPECIFIC_DATABASE</code>, specify the database name using the
+  /// <code>DatabaseName</code> parameter of the <code>Endpoint</code> object.
+  ///
+  /// Example: <code>targetDbType=MULTIPLE_DATABASES</code>
+  final TargetDbType? targetDbType;
+
+  /// Endpoint connection user name.
+  final String? username;
+
+  MySQLSettings({
+    this.afterConnectScript,
+    this.authenticationMethod,
+    this.cleanSourceMetadataOnMismatch,
+    this.databaseName,
+    this.eventsPollInterval,
+    this.executeTimeout,
+    this.maxFileSize,
+    this.parallelLoadThreads,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.serverTimezone,
+    this.serviceAccessRoleArn,
+    this.targetDbType,
+    this.username,
+  });
+
+  factory MySQLSettings.fromJson(Map<String, dynamic> json) {
+    return MySQLSettings(
+      afterConnectScript: json['AfterConnectScript'] as String?,
+      authenticationMethod: (json['AuthenticationMethod'] as String?)
+          ?.let(MySQLAuthenticationMethod.fromString),
+      cleanSourceMetadataOnMismatch:
+          json['CleanSourceMetadataOnMismatch'] as bool?,
+      databaseName: json['DatabaseName'] as String?,
+      eventsPollInterval: json['EventsPollInterval'] as int?,
+      executeTimeout: json['ExecuteTimeout'] as int?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      parallelLoadThreads: json['ParallelLoadThreads'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      serverTimezone: json['ServerTimezone'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      targetDbType:
+          (json['TargetDbType'] as String?)?.let(TargetDbType.fromString),
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterConnectScript = this.afterConnectScript;
+    final authenticationMethod = this.authenticationMethod;
+    final cleanSourceMetadataOnMismatch = this.cleanSourceMetadataOnMismatch;
+    final databaseName = this.databaseName;
+    final eventsPollInterval = this.eventsPollInterval;
+    final executeTimeout = this.executeTimeout;
+    final maxFileSize = this.maxFileSize;
+    final parallelLoadThreads = this.parallelLoadThreads;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final serverTimezone = this.serverTimezone;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final targetDbType = this.targetDbType;
+    final username = this.username;
+    return {
+      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
+      if (authenticationMethod != null)
+        'AuthenticationMethod': authenticationMethod.value,
+      if (cleanSourceMetadataOnMismatch != null)
+        'CleanSourceMetadataOnMismatch': cleanSourceMetadataOnMismatch,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (eventsPollInterval != null) 'EventsPollInterval': eventsPollInterval,
+      if (executeTimeout != null) 'ExecuteTimeout': executeTimeout,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (parallelLoadThreads != null)
+        'ParallelLoadThreads': parallelLoadThreads,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (serverTimezone != null) 'ServerTimezone': serverTimezone,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (targetDbType != null) 'TargetDbType': targetDbType.value,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that defines an Oracle endpoint.
+class OracleSettings {
+  /// Set this attribute to <code>false</code> in order to use the Binary Reader
+  /// to capture change data for an Amazon RDS for Oracle as the source. This
+  /// tells the DMS instance to not access redo logs through any specified path
+  /// prefix replacement using direct file access.
+  final bool? accessAlternateDirectly;
+
+  /// Set this attribute to set up table-level supplemental logging for the Oracle
+  /// database. This attribute enables PRIMARY KEY supplemental logging on all
+  /// tables selected for a migration task.
+  ///
+  /// If you use this option, you still need to enable database-level supplemental
+  /// logging.
+  final bool? addSupplementalLogging;
+
+  /// Set this attribute with <code>ArchivedLogDestId</code> in a primary/ standby
+  /// setup. This attribute is useful in the case of a switchover. In this case,
+  /// DMS needs to know which destination to get archive redo logs from to read
+  /// changes. This need arises because the previous primary instance is now a
+  /// standby instance after switchover.
+  ///
+  /// Although DMS supports the use of the Oracle <code>RESETLOGS</code> option to
+  /// open the database, never use <code>RESETLOGS</code> unless necessary. For
+  /// additional information about <code>RESETLOGS</code>, see <a
+  /// href="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-data-repair-concepts.html#GUID-1805CCF7-4AF2-482D-B65A-998192F89C2B">RMAN
+  /// Data Repair Concepts</a> in the <i>Oracle Database Backup and Recovery
+  /// User's Guide</i>.
+  final int? additionalArchivedLogDestId;
+
+  /// Set this attribute to <code>true</code> to enable replication of Oracle
+  /// tables containing columns that are nested tables or defined types.
+  final bool? allowSelectNestedTables;
+
+  /// Specifies the ID of the destination for the archived redo logs. This value
+  /// should be the same as a number in the dest_id column of the v$archived_log
+  /// view. If you work with an additional redo log destination, use the
+  /// <code>AdditionalArchivedLogDestId</code> option to specify the additional
+  /// destination ID. Doing this improves performance by ensuring that the correct
+  /// logs are accessed from the outset.
+  final int? archivedLogDestId;
+
+  /// When this field is set to <code>True</code>, DMS only accesses the archived
+  /// redo logs. If the archived redo logs are stored on Automatic Storage
+  /// Management (ASM) only, the DMS user account needs to be granted ASM
+  /// privileges.
+  final bool? archivedLogsOnly;
+
+  /// For an Oracle source endpoint, your Oracle Automatic Storage Management
+  /// (ASM) password. You can set this value from the <code>
+  /// <i>asm_user_password</i> </code> value. You set this value as part of the
+  /// comma-separated value that you set to the <code>Password</code> request
+  /// parameter when you create the endpoint to access transaction logs using
+  /// Binary Reader. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
+  /// for change data capture (CDC) on an Oracle source database</a>.
+  final String? asmPassword;
+
+  /// For an Oracle source endpoint, your ASM server address. You can set this
+  /// value from the <code>asm_server</code> value. You set
+  /// <code>asm_server</code> as part of the extra connection attribute string to
+  /// access an Oracle server with Binary Reader that uses ASM. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
+  /// for change data capture (CDC) on an Oracle source database</a>.
+  final String? asmServer;
+
+  /// For an Oracle source endpoint, your ASM user name. You can set this value
+  /// from the <code>asm_user</code> value. You set <code>asm_user</code> as part
+  /// of the extra connection attribute string to access an Oracle server with
+  /// Binary Reader that uses ASM. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
+  /// for change data capture (CDC) on an Oracle source database</a>.
+  final String? asmUser;
+
+  /// Specifies the authentication method to be used with Oracle.
+  final OracleAuthenticationMethod? authenticationMethod;
+
+  /// Specifies whether the length of a character column is in bytes or in
+  /// characters. To indicate that the character column length is in characters,
+  /// set this attribute to <code>CHAR</code>. Otherwise, the character column
+  /// length is in bytes.
+  ///
+  /// Example: <code>charLengthSemantics=CHAR;</code>
+  final CharLengthSemantics? charLengthSemantics;
+
+  /// When true, converts timestamps with the <code>timezone</code> datatype to
+  /// their UTC value.
+  final bool? convertTimestampWithZoneToUTC;
+
+  /// Database name for the endpoint.
+  final String? databaseName;
+
+  /// When set to <code>true</code>, this attribute helps to increase the commit
+  /// rate on the Oracle target database by writing directly to tables and not
+  /// writing a trail to database logs.
+  final bool? directPathNoLog;
+
+  /// When set to <code>true</code>, this attribute specifies a parallel load when
+  /// <code>useDirectPathFullLoad</code> is set to <code>Y</code>. This attribute
+  /// also only applies when you use the DMS parallel load feature. Note that the
+  /// target table cannot have any constraints or indexes.
+  final bool? directPathParallelLoad;
+
+  /// Set this attribute to enable homogenous tablespace replication and create
+  /// existing tables or indexes under the same tablespace on the target.
+  final bool? enableHomogenousTablespace;
+
+  /// Specifies the IDs of one more destinations for one or more archived redo
+  /// logs. These IDs are the values of the <code>dest_id</code> column in the
+  /// <code>v$archived_log</code> view. Use this setting with the
+  /// <code>archivedLogDestId</code> extra connection attribute in a
+  /// primary-to-single setup or a primary-to-multiple-standby setup.
+  ///
+  /// This setting is useful in a switchover when you use an Oracle Data Guard
+  /// database as a source. In this case, DMS needs information about what
+  /// destination to get archive redo logs from to read changes. DMS needs this
+  /// because after the switchover the previous primary is a standby instance. For
+  /// example, in a primary-to-single standby setup you might apply the following
+  /// settings.
+  ///
+  /// <code>archivedLogDestId=1; ExtraArchivedLogDestIds=[2]</code>
+  ///
+  /// In a primary-to-multiple-standby setup, you might apply the following
+  /// settings.
+  ///
+  /// <code>archivedLogDestId=1; ExtraArchivedLogDestIds=[2,3,4]</code>
+  ///
+  /// Although DMS supports the use of the Oracle <code>RESETLOGS</code> option to
+  /// open the database, never use <code>RESETLOGS</code> unless it's necessary.
+  /// For more information about <code>RESETLOGS</code>, see <a
+  /// href="https://docs.oracle.com/en/database/oracle/oracle-database/19/bradv/rman-data-repair-concepts.html#GUID-1805CCF7-4AF2-482D-B65A-998192F89C2B">
+  /// RMAN Data Repair Concepts</a> in the <i>Oracle Database Backup and Recovery
+  /// User's Guide</i>.
+  final List<int>? extraArchivedLogDestIds;
+
+  /// When set to <code>true</code>, this attribute causes a task to fail if the
+  /// actual size of an LOB column is greater than the specified
+  /// <code>LobMaxSize</code>.
+  ///
+  /// If a task is set to limited LOB mode and this option is set to
+  /// <code>true</code>, the task fails instead of truncating the LOB data.
+  final bool? failTasksOnLobTruncation;
+
+  /// Specifies the number scale. You can select a scale up to 38, or you can
+  /// select FLOAT. By default, the NUMBER data type is converted to precision 38,
+  /// scale 10.
+  ///
+  /// Example: <code>numberDataTypeScale=12</code>
+  final int? numberDatatypeScale;
+
+  /// The timeframe in minutes to check for open transactions for a CDC-only task.
+  ///
+  /// You can specify an integer value between 0 (the default) and 240 (the
+  /// maximum).
+  /// <note>
+  /// This parameter is only valid in DMS version 3.5.0 and later.
+  /// </note>
+  final int? openTransactionWindow;
+
+  /// Set this string attribute to the required value in order to use the Binary
+  /// Reader to capture change data for an Amazon RDS for Oracle as the source.
+  /// This value specifies the default Oracle root used to access the redo logs.
+  final String? oraclePathPrefix;
+
+  /// Set this attribute to change the number of threads that DMS configures to
+  /// perform a change data capture (CDC) load using Oracle Automatic Storage
+  /// Management (ASM). You can specify an integer value between 2 (the default)
+  /// and 8 (the maximum). Use this attribute together with the
+  /// <code>readAheadBlocks</code> attribute.
+  final int? parallelAsmReadThreads;
+
+  /// Endpoint connection password.
+  final String? password;
+
+  /// Endpoint TCP port.
+  final int? port;
+
+  /// Set this attribute to change the number of read-ahead blocks that DMS
+  /// configures to perform a change data capture (CDC) load using Oracle
+  /// Automatic Storage Management (ASM). You can specify an integer value between
+  /// 1000 (the default) and 200,000 (the maximum).
+  final int? readAheadBlocks;
+
+  /// When set to <code>true</code>, this attribute supports tablespace
+  /// replication.
+  final bool? readTableSpaceName;
+
+  /// Set this attribute to true in order to use the Binary Reader to capture
+  /// change data for an Amazon RDS for Oracle as the source. This setting tells
+  /// DMS instance to replace the default Oracle root with the specified
+  /// <code>usePathPrefix</code> setting to access the redo logs.
+  final bool? replacePathPrefix;
+
+  /// Specifies the number of seconds that the system waits before resending a
+  /// query.
+  ///
+  /// Example: <code>retryInterval=6;</code>
+  final int? retryInterval;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the Oracle endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// Required only if your Oracle endpoint uses Automatic Storage Management
+  /// (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity
+  /// and grants the required permissions to access the
+  /// <code>SecretsManagerOracleAsmSecret</code>. This
+  /// <code>SecretsManagerOracleAsmSecret</code> has the secret value that allows
+  /// access to the Oracle ASM of the endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and
+  /// <code>SecretsManagerOracleAsmSecretId</code>. Or you can specify clear-text
+  /// values for <code>AsmUser</code>, <code>AsmPassword</code>, and
+  /// <code>AsmServerName</code>. You can't specify both. For more information on
+  /// creating this <code>SecretsManagerOracleAsmSecret</code> and the
+  /// <code>SecretsManagerOracleAsmAccessRoleArn</code> and
+  /// <code>SecretsManagerOracleAsmSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerOracleAsmAccessRoleArn;
+
+  /// Required only if your Oracle endpoint uses Automatic Storage Management
+  /// (ASM). The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerOracleAsmSecret</code> that contains the Oracle ASM
+  /// connection details for the Oracle endpoint.
+  final String? secretsManagerOracleAsmSecretId;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the Oracle endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// For an Oracle source endpoint, the transparent data encryption (TDE)
+  /// password required by AWM DMS to access Oracle redo logs encrypted by TDE
+  /// using Binary Reader. It is also the <code> <i>TDE_Password</i> </code> part
+  /// of the comma-separated value you set to the <code>Password</code> request
+  /// parameter when you create the endpoint. The
+  /// <code>SecurityDbEncryptian</code> setting is related to this
+  /// <code>SecurityDbEncryptionName</code> setting. For more information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
+  /// Supported encryption methods for using Oracle as a source for DMS </a> in
+  /// the <i>Database Migration Service User Guide</i>.
+  final String? securityDbEncryption;
+
+  /// For an Oracle source endpoint, the name of a key used for the transparent
+  /// data encryption (TDE) of the columns and tablespaces in an Oracle source
+  /// database that is encrypted using TDE. The key value is the value of the
+  /// <code>SecurityDbEncryption</code> setting. For more information on setting
+  /// the key name value of <code>SecurityDbEncryptionName</code>, see the
+  /// information and example for setting the
+  /// <code>securityDbEncryptionName</code> extra connection attribute in <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
+  /// Supported encryption methods for using Oracle as a source for DMS </a> in
+  /// the <i>Database Migration Service User Guide</i>.
+  final String? securityDbEncryptionName;
+
+  /// Fully qualified domain name of the endpoint.
+  ///
+  /// For an Amazon RDS Oracle instance, this is the output of <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html">DescribeDBInstances</a>,
+  /// in the <code> <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html">Endpoint</a>.Address</code>
+  /// field.
+  final String? serverName;
+
+  /// Use this attribute to convert <code>SDO_GEOMETRY</code> to
+  /// <code>GEOJSON</code> format. By default, DMS calls the
+  /// <code>SDO2GEOJSON</code> custom function if present and accessible. Or you
+  /// can create your own custom function that mimics the operation of
+  /// <code>SDOGEOJSON</code> and set
+  /// <code>SpatialDataOptionToGeoJsonFunctionName</code> to call it instead.
+  final String? spatialDataOptionToGeoJsonFunctionName;
+
+  /// Use this attribute to specify a time in minutes for the delay in standby
+  /// sync. If the source is an Oracle Active Data Guard standby database, use
+  /// this attribute to specify the time lag between primary and standby
+  /// databases.
+  ///
+  /// In DMS, you can create an Oracle CDC task that uses an Active Data Guard
+  /// standby instance as a source for replicating ongoing changes. Doing this
+  /// eliminates the need to connect to an active database that might be in
+  /// production.
+  final int? standbyDelayTime;
+
+  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to trim data on
+  /// CHAR and NCHAR data types during migration. The default value is
+  /// <code>true</code>.
+  final bool? trimSpaceInChar;
+
+  /// Set this attribute to <code>true</code> in order to use the Binary Reader to
+  /// capture change data for an Amazon RDS for Oracle as the source. This tells
+  /// the DMS instance to use any specified prefix replacement to access all
+  /// online redo logs.
+  final bool? useAlternateFolderForOnline;
+
+  /// Set this attribute to True to capture change data using the Binary Reader
+  /// utility. Set <code>UseLogminerReader</code> to False to set this attribute
+  /// to True. To use Binary Reader with Amazon RDS for Oracle as the source, you
+  /// set additional attributes. For more information about using this setting
+  /// with Oracle Automatic Storage Management (ASM), see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC">
+  /// Using Oracle LogMiner or DMS Binary Reader for CDC</a>.
+  final bool? useBFile;
+
+  /// Set this attribute to True to have DMS use a direct path full load. Specify
+  /// this value to use the direct path protocol in the Oracle Call Interface
+  /// (OCI). By using this OCI protocol, you can bulk-load Oracle target tables
+  /// during a full load.
+  final bool? useDirectPathFullLoad;
+
+  /// Set this attribute to True to capture change data using the Oracle LogMiner
+  /// utility (the default). Set this attribute to False if you want to access the
+  /// redo logs as a binary file. When you set <code>UseLogminerReader</code> to
+  /// False, also set <code>UseBfile</code> to True. For more information on this
+  /// setting and using Oracle ASM, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC">
+  /// Using Oracle LogMiner or DMS Binary Reader for CDC</a> in the <i>DMS User
+  /// Guide</i>.
+  final bool? useLogminerReader;
+
+  /// Set this string attribute to the required value in order to use the Binary
+  /// Reader to capture change data for an Amazon RDS for Oracle as the source.
+  /// This value specifies the path prefix used to replace the default Oracle root
+  /// to access the redo logs.
+  final String? usePathPrefix;
+
+  /// Endpoint connection user name.
+  final String? username;
+
+  OracleSettings({
+    this.accessAlternateDirectly,
+    this.addSupplementalLogging,
+    this.additionalArchivedLogDestId,
+    this.allowSelectNestedTables,
+    this.archivedLogDestId,
+    this.archivedLogsOnly,
+    this.asmPassword,
+    this.asmServer,
+    this.asmUser,
+    this.authenticationMethod,
+    this.charLengthSemantics,
+    this.convertTimestampWithZoneToUTC,
+    this.databaseName,
+    this.directPathNoLog,
+    this.directPathParallelLoad,
+    this.enableHomogenousTablespace,
+    this.extraArchivedLogDestIds,
+    this.failTasksOnLobTruncation,
+    this.numberDatatypeScale,
+    this.openTransactionWindow,
+    this.oraclePathPrefix,
+    this.parallelAsmReadThreads,
+    this.password,
+    this.port,
+    this.readAheadBlocks,
+    this.readTableSpaceName,
+    this.replacePathPrefix,
+    this.retryInterval,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerOracleAsmAccessRoleArn,
+    this.secretsManagerOracleAsmSecretId,
+    this.secretsManagerSecretId,
+    this.securityDbEncryption,
+    this.securityDbEncryptionName,
+    this.serverName,
+    this.spatialDataOptionToGeoJsonFunctionName,
+    this.standbyDelayTime,
+    this.trimSpaceInChar,
+    this.useAlternateFolderForOnline,
+    this.useBFile,
+    this.useDirectPathFullLoad,
+    this.useLogminerReader,
+    this.usePathPrefix,
+    this.username,
+  });
+
+  factory OracleSettings.fromJson(Map<String, dynamic> json) {
+    return OracleSettings(
+      accessAlternateDirectly: json['AccessAlternateDirectly'] as bool?,
+      addSupplementalLogging: json['AddSupplementalLogging'] as bool?,
+      additionalArchivedLogDestId: json['AdditionalArchivedLogDestId'] as int?,
+      allowSelectNestedTables: json['AllowSelectNestedTables'] as bool?,
+      archivedLogDestId: json['ArchivedLogDestId'] as int?,
+      archivedLogsOnly: json['ArchivedLogsOnly'] as bool?,
+      asmPassword: json['AsmPassword'] as String?,
+      asmServer: json['AsmServer'] as String?,
+      asmUser: json['AsmUser'] as String?,
+      authenticationMethod: (json['AuthenticationMethod'] as String?)
+          ?.let(OracleAuthenticationMethod.fromString),
+      charLengthSemantics: (json['CharLengthSemantics'] as String?)
+          ?.let(CharLengthSemantics.fromString),
+      convertTimestampWithZoneToUTC:
+          json['ConvertTimestampWithZoneToUTC'] as bool?,
+      databaseName: json['DatabaseName'] as String?,
+      directPathNoLog: json['DirectPathNoLog'] as bool?,
+      directPathParallelLoad: json['DirectPathParallelLoad'] as bool?,
+      enableHomogenousTablespace: json['EnableHomogenousTablespace'] as bool?,
+      extraArchivedLogDestIds: (json['ExtraArchivedLogDestIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as int)
+          .toList(),
+      failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool?,
+      numberDatatypeScale: json['NumberDatatypeScale'] as int?,
+      openTransactionWindow: json['OpenTransactionWindow'] as int?,
+      oraclePathPrefix: json['OraclePathPrefix'] as String?,
+      parallelAsmReadThreads: json['ParallelAsmReadThreads'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      readAheadBlocks: json['ReadAheadBlocks'] as int?,
+      readTableSpaceName: json['ReadTableSpaceName'] as bool?,
+      replacePathPrefix: json['ReplacePathPrefix'] as bool?,
+      retryInterval: json['RetryInterval'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerOracleAsmAccessRoleArn:
+          json['SecretsManagerOracleAsmAccessRoleArn'] as String?,
+      secretsManagerOracleAsmSecretId:
+          json['SecretsManagerOracleAsmSecretId'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      securityDbEncryption: json['SecurityDbEncryption'] as String?,
+      securityDbEncryptionName: json['SecurityDbEncryptionName'] as String?,
+      serverName: json['ServerName'] as String?,
+      spatialDataOptionToGeoJsonFunctionName:
+          json['SpatialDataOptionToGeoJsonFunctionName'] as String?,
+      standbyDelayTime: json['StandbyDelayTime'] as int?,
+      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
+      useAlternateFolderForOnline: json['UseAlternateFolderForOnline'] as bool?,
+      useBFile: json['UseBFile'] as bool?,
+      useDirectPathFullLoad: json['UseDirectPathFullLoad'] as bool?,
+      useLogminerReader: json['UseLogminerReader'] as bool?,
+      usePathPrefix: json['UsePathPrefix'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessAlternateDirectly = this.accessAlternateDirectly;
+    final addSupplementalLogging = this.addSupplementalLogging;
+    final additionalArchivedLogDestId = this.additionalArchivedLogDestId;
+    final allowSelectNestedTables = this.allowSelectNestedTables;
+    final archivedLogDestId = this.archivedLogDestId;
+    final archivedLogsOnly = this.archivedLogsOnly;
+    final asmPassword = this.asmPassword;
+    final asmServer = this.asmServer;
+    final asmUser = this.asmUser;
+    final authenticationMethod = this.authenticationMethod;
+    final charLengthSemantics = this.charLengthSemantics;
+    final convertTimestampWithZoneToUTC = this.convertTimestampWithZoneToUTC;
+    final databaseName = this.databaseName;
+    final directPathNoLog = this.directPathNoLog;
+    final directPathParallelLoad = this.directPathParallelLoad;
+    final enableHomogenousTablespace = this.enableHomogenousTablespace;
+    final extraArchivedLogDestIds = this.extraArchivedLogDestIds;
+    final failTasksOnLobTruncation = this.failTasksOnLobTruncation;
+    final numberDatatypeScale = this.numberDatatypeScale;
+    final openTransactionWindow = this.openTransactionWindow;
+    final oraclePathPrefix = this.oraclePathPrefix;
+    final parallelAsmReadThreads = this.parallelAsmReadThreads;
+    final password = this.password;
+    final port = this.port;
+    final readAheadBlocks = this.readAheadBlocks;
+    final readTableSpaceName = this.readTableSpaceName;
+    final replacePathPrefix = this.replacePathPrefix;
+    final retryInterval = this.retryInterval;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerOracleAsmAccessRoleArn =
+        this.secretsManagerOracleAsmAccessRoleArn;
+    final secretsManagerOracleAsmSecretId =
+        this.secretsManagerOracleAsmSecretId;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final securityDbEncryption = this.securityDbEncryption;
+    final securityDbEncryptionName = this.securityDbEncryptionName;
+    final serverName = this.serverName;
+    final spatialDataOptionToGeoJsonFunctionName =
+        this.spatialDataOptionToGeoJsonFunctionName;
+    final standbyDelayTime = this.standbyDelayTime;
+    final trimSpaceInChar = this.trimSpaceInChar;
+    final useAlternateFolderForOnline = this.useAlternateFolderForOnline;
+    final useBFile = this.useBFile;
+    final useDirectPathFullLoad = this.useDirectPathFullLoad;
+    final useLogminerReader = this.useLogminerReader;
+    final usePathPrefix = this.usePathPrefix;
+    final username = this.username;
+    return {
+      if (accessAlternateDirectly != null)
+        'AccessAlternateDirectly': accessAlternateDirectly,
+      if (addSupplementalLogging != null)
+        'AddSupplementalLogging': addSupplementalLogging,
+      if (additionalArchivedLogDestId != null)
+        'AdditionalArchivedLogDestId': additionalArchivedLogDestId,
+      if (allowSelectNestedTables != null)
+        'AllowSelectNestedTables': allowSelectNestedTables,
+      if (archivedLogDestId != null) 'ArchivedLogDestId': archivedLogDestId,
+      if (archivedLogsOnly != null) 'ArchivedLogsOnly': archivedLogsOnly,
+      if (asmPassword != null) 'AsmPassword': asmPassword,
+      if (asmServer != null) 'AsmServer': asmServer,
+      if (asmUser != null) 'AsmUser': asmUser,
+      if (authenticationMethod != null)
+        'AuthenticationMethod': authenticationMethod.value,
+      if (charLengthSemantics != null)
+        'CharLengthSemantics': charLengthSemantics.value,
+      if (convertTimestampWithZoneToUTC != null)
+        'ConvertTimestampWithZoneToUTC': convertTimestampWithZoneToUTC,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (directPathNoLog != null) 'DirectPathNoLog': directPathNoLog,
+      if (directPathParallelLoad != null)
+        'DirectPathParallelLoad': directPathParallelLoad,
+      if (enableHomogenousTablespace != null)
+        'EnableHomogenousTablespace': enableHomogenousTablespace,
+      if (extraArchivedLogDestIds != null)
+        'ExtraArchivedLogDestIds': extraArchivedLogDestIds,
+      if (failTasksOnLobTruncation != null)
+        'FailTasksOnLobTruncation': failTasksOnLobTruncation,
+      if (numberDatatypeScale != null)
+        'NumberDatatypeScale': numberDatatypeScale,
+      if (openTransactionWindow != null)
+        'OpenTransactionWindow': openTransactionWindow,
+      if (oraclePathPrefix != null) 'OraclePathPrefix': oraclePathPrefix,
+      if (parallelAsmReadThreads != null)
+        'ParallelAsmReadThreads': parallelAsmReadThreads,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (readAheadBlocks != null) 'ReadAheadBlocks': readAheadBlocks,
+      if (readTableSpaceName != null) 'ReadTableSpaceName': readTableSpaceName,
+      if (replacePathPrefix != null) 'ReplacePathPrefix': replacePathPrefix,
+      if (retryInterval != null) 'RetryInterval': retryInterval,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerOracleAsmAccessRoleArn != null)
+        'SecretsManagerOracleAsmAccessRoleArn':
+            secretsManagerOracleAsmAccessRoleArn,
+      if (secretsManagerOracleAsmSecretId != null)
+        'SecretsManagerOracleAsmSecretId': secretsManagerOracleAsmSecretId,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (securityDbEncryption != null)
+        'SecurityDbEncryption': securityDbEncryption,
+      if (securityDbEncryptionName != null)
+        'SecurityDbEncryptionName': securityDbEncryptionName,
+      if (serverName != null) 'ServerName': serverName,
+      if (spatialDataOptionToGeoJsonFunctionName != null)
+        'SpatialDataOptionToGeoJsonFunctionName':
+            spatialDataOptionToGeoJsonFunctionName,
+      if (standbyDelayTime != null) 'StandbyDelayTime': standbyDelayTime,
+      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
+      if (useAlternateFolderForOnline != null)
+        'UseAlternateFolderForOnline': useAlternateFolderForOnline,
+      if (useBFile != null) 'UseBFile': useBFile,
+      if (useDirectPathFullLoad != null)
+        'UseDirectPathFullLoad': useDirectPathFullLoad,
+      if (useLogminerReader != null) 'UseLogminerReader': useLogminerReader,
+      if (usePathPrefix != null) 'UsePathPrefix': usePathPrefix,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that defines a SAP ASE endpoint.
+class SybaseSettings {
+  /// Database name for the endpoint.
+  final String? databaseName;
+
+  /// Endpoint connection password.
+  final String? password;
+
+  /// Endpoint TCP port. The default is 5000.
+  final int? port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the SAP ASE endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the SAP SAE endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// Fully qualified domain name of the endpoint.
+  final String? serverName;
+
+  /// Endpoint connection user name.
+  final String? username;
+
+  SybaseSettings({
+    this.databaseName,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.username,
+  });
+
+  factory SybaseSettings.fromJson(Map<String, dynamic> json) {
+    return SybaseSettings(
+      databaseName: json['DatabaseName'] as String?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final username = this.username;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that defines a Microsoft SQL Server endpoint.
+class MicrosoftSQLServerSettings {
+  /// Specifies the authentication method to be used with Microsoft SQL Server.
+  final SqlServerAuthenticationMethod? authenticationMethod;
+
+  /// The maximum size of the packets (in bytes) used to transfer data using BCP.
+  final int? bcpPacketSize;
+
+  /// Specifies a file group for the DMS internal tables. When the replication
+  /// task starts, all the internal DMS control tables (awsdms_ apply_exception,
+  /// awsdms_apply, awsdms_changes) are created for the specified file group.
+  final String? controlTablesFileGroup;
+
+  /// Database name for the endpoint.
+  final String? databaseName;
+
+  /// Forces LOB lookup on inline LOB.
+  final bool? forceLobLookup;
+
+  /// Endpoint connection password.
+  final String? password;
+
+  /// Endpoint TCP port.
+  final int? port;
+
+  /// Cleans and recreates table metadata information on the replication instance
+  /// when a mismatch occurs. An example is a situation where running an alter DDL
+  /// statement on a table might result in different information about the table
+  /// cached in the replication instance.
+  final bool? querySingleAlwaysOnNode;
+
+  /// When this attribute is set to <code>Y</code>, DMS only reads changes from
+  /// transaction log backups and doesn't read from the active transaction log
+  /// file during ongoing replication. Setting this parameter to <code>Y</code>
+  /// enables you to control active transaction log file growth during full load
+  /// and ongoing replication tasks. However, it can add some source latency to
+  /// ongoing replication.
+  final bool? readBackupOnly;
+
+  /// Use this attribute to minimize the need to access the backup log and enable
+  /// DMS to prevent truncation using one of the following two methods.
+  ///
+  /// <i>Start transactions in the database:</i> This is the default method. When
+  /// this method is used, DMS prevents TLOG truncation by mimicking a transaction
+  /// in the database. As long as such a transaction is open, changes that appear
+  /// after the transaction started aren't truncated. If you need Microsoft
+  /// Replication to be enabled in your database, then you must choose this
+  /// method.
+  ///
+  /// <i>Exclusively use sp_repldone within a single task</i>: When this method is
+  /// used, DMS reads the changes and then uses sp_repldone to mark the TLOG
+  /// transactions as ready for truncation. Although this method doesn't involve
+  /// any transactional activities, it can only be used when Microsoft Replication
+  /// isn't running. Also, when using this method, only one DMS task can access
+  /// the database at any given time. Therefore, if you need to run parallel DMS
+  /// tasks against the same database, use the default method.
+  final SafeguardPolicy? safeguardPolicy;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the SQL Server endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the SQL Server endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// Fully qualified domain name of the endpoint. For an Amazon RDS SQL Server
+  /// instance, this is the output of <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html">DescribeDBInstances</a>,
+  /// in the <code> <a
+  /// href="https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_Endpoint.html">Endpoint</a>.Address</code>
+  /// field.
+  final String? serverName;
+
+  /// Indicates the mode used to fetch CDC data.
+  final TlogAccessMode? tlogAccessMode;
+
+  /// Use the <code>TrimSpaceInChar</code> source endpoint setting to right-trim
+  /// data on CHAR and NCHAR data types during migration. Setting
+  /// <code>TrimSpaceInChar</code> does not left-trim data. The default value is
+  /// <code>true</code>.
+  final bool? trimSpaceInChar;
+
+  /// Use this to attribute to transfer data for full-load operations using BCP.
+  /// When the target table contains an identity column that does not exist in the
+  /// source table, you must disable the use BCP for loading table option.
+  final bool? useBcpFullLoad;
+
+  /// When this attribute is set to <code>Y</code>, DMS processes third-party
+  /// transaction log backups if they are created in native format.
+  final bool? useThirdPartyBackupDevice;
+
+  /// Endpoint connection user name.
+  final String? username;
+
+  MicrosoftSQLServerSettings({
+    this.authenticationMethod,
+    this.bcpPacketSize,
+    this.controlTablesFileGroup,
+    this.databaseName,
+    this.forceLobLookup,
+    this.password,
+    this.port,
+    this.querySingleAlwaysOnNode,
+    this.readBackupOnly,
+    this.safeguardPolicy,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.tlogAccessMode,
+    this.trimSpaceInChar,
+    this.useBcpFullLoad,
+    this.useThirdPartyBackupDevice,
+    this.username,
+  });
+
+  factory MicrosoftSQLServerSettings.fromJson(Map<String, dynamic> json) {
+    return MicrosoftSQLServerSettings(
+      authenticationMethod: (json['AuthenticationMethod'] as String?)
+          ?.let(SqlServerAuthenticationMethod.fromString),
+      bcpPacketSize: json['BcpPacketSize'] as int?,
+      controlTablesFileGroup: json['ControlTablesFileGroup'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      forceLobLookup: json['ForceLobLookup'] as bool?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      querySingleAlwaysOnNode: json['QuerySingleAlwaysOnNode'] as bool?,
+      readBackupOnly: json['ReadBackupOnly'] as bool?,
+      safeguardPolicy:
+          (json['SafeguardPolicy'] as String?)?.let(SafeguardPolicy.fromString),
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      tlogAccessMode:
+          (json['TlogAccessMode'] as String?)?.let(TlogAccessMode.fromString),
+      trimSpaceInChar: json['TrimSpaceInChar'] as bool?,
+      useBcpFullLoad: json['UseBcpFullLoad'] as bool?,
+      useThirdPartyBackupDevice: json['UseThirdPartyBackupDevice'] as bool?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationMethod = this.authenticationMethod;
+    final bcpPacketSize = this.bcpPacketSize;
+    final controlTablesFileGroup = this.controlTablesFileGroup;
+    final databaseName = this.databaseName;
+    final forceLobLookup = this.forceLobLookup;
+    final password = this.password;
+    final port = this.port;
+    final querySingleAlwaysOnNode = this.querySingleAlwaysOnNode;
+    final readBackupOnly = this.readBackupOnly;
+    final safeguardPolicy = this.safeguardPolicy;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final tlogAccessMode = this.tlogAccessMode;
+    final trimSpaceInChar = this.trimSpaceInChar;
+    final useBcpFullLoad = this.useBcpFullLoad;
+    final useThirdPartyBackupDevice = this.useThirdPartyBackupDevice;
+    final username = this.username;
+    return {
+      if (authenticationMethod != null)
+        'AuthenticationMethod': authenticationMethod.value,
+      if (bcpPacketSize != null) 'BcpPacketSize': bcpPacketSize,
+      if (controlTablesFileGroup != null)
+        'ControlTablesFileGroup': controlTablesFileGroup,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (forceLobLookup != null) 'ForceLobLookup': forceLobLookup,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (querySingleAlwaysOnNode != null)
+        'QuerySingleAlwaysOnNode': querySingleAlwaysOnNode,
+      if (readBackupOnly != null) 'ReadBackupOnly': readBackupOnly,
+      if (safeguardPolicy != null) 'SafeguardPolicy': safeguardPolicy.value,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (tlogAccessMode != null) 'TlogAccessMode': tlogAccessMode.value,
+      if (trimSpaceInChar != null) 'TrimSpaceInChar': trimSpaceInChar,
+      if (useBcpFullLoad != null) 'UseBcpFullLoad': useBcpFullLoad,
+      if (useThirdPartyBackupDevice != null)
+        'UseThirdPartyBackupDevice': useThirdPartyBackupDevice,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that defines an IBM Db2 LUW endpoint.
+class IBMDb2Settings {
+  /// For ongoing replication (CDC), use CurrentLSN to specify a log sequence
+  /// number (LSN) where you want the replication to start.
+  final String? currentLsn;
+
+  /// Database name for the endpoint.
+  final String? databaseName;
+
+  /// If true, DMS saves any .csv files to the Db2 LUW target that were used to
+  /// replicate data. DMS uses these files for analysis and troubleshooting.
+  ///
+  /// The default value is false.
+  final bool? keepCsvFiles;
+
+  /// The amount of time (in milliseconds) before DMS times out operations
+  /// performed by DMS on the Db2 target. The default value is 1200 (20 minutes).
+  final int? loadTimeout;
+
+  /// Specifies the maximum size (in KB) of .csv files used to transfer data to
+  /// Db2 LUW.
+  final int? maxFileSize;
+
+  /// Maximum number of bytes per read, as a NUMBER value. The default is 64 KB.
+  final int? maxKBytesPerRead;
+
+  /// Endpoint connection password.
+  final String? password;
+
+  /// Endpoint TCP port. The default value is 50000.
+  final int? port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the Db2 LUW endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the Db2 LUW endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// Fully qualified domain name of the endpoint.
+  final String? serverName;
+
+  /// Enables ongoing replication (CDC) as a BOOLEAN value. The default is true.
+  final bool? setDataCaptureChanges;
+
+  /// Endpoint connection user name.
+  final String? username;
+
+  /// The size (in KB) of the in-memory file write buffer used when generating
+  /// .csv files on the local disk on the DMS replication instance. The default
+  /// value is 1024 (1 MB).
+  final int? writeBufferSize;
+
+  IBMDb2Settings({
+    this.currentLsn,
+    this.databaseName,
+    this.keepCsvFiles,
+    this.loadTimeout,
+    this.maxFileSize,
+    this.maxKBytesPerRead,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.setDataCaptureChanges,
+    this.username,
+    this.writeBufferSize,
+  });
+
+  factory IBMDb2Settings.fromJson(Map<String, dynamic> json) {
+    return IBMDb2Settings(
+      currentLsn: json['CurrentLsn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      keepCsvFiles: json['KeepCsvFiles'] as bool?,
+      loadTimeout: json['LoadTimeout'] as int?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      maxKBytesPerRead: json['MaxKBytesPerRead'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      setDataCaptureChanges: json['SetDataCaptureChanges'] as bool?,
+      username: json['Username'] as String?,
+      writeBufferSize: json['WriteBufferSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentLsn = this.currentLsn;
+    final databaseName = this.databaseName;
+    final keepCsvFiles = this.keepCsvFiles;
+    final loadTimeout = this.loadTimeout;
+    final maxFileSize = this.maxFileSize;
+    final maxKBytesPerRead = this.maxKBytesPerRead;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final setDataCaptureChanges = this.setDataCaptureChanges;
+    final username = this.username;
+    final writeBufferSize = this.writeBufferSize;
+    return {
+      if (currentLsn != null) 'CurrentLsn': currentLsn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (keepCsvFiles != null) 'KeepCsvFiles': keepCsvFiles,
+      if (loadTimeout != null) 'LoadTimeout': loadTimeout,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (maxKBytesPerRead != null) 'MaxKBytesPerRead': maxKBytesPerRead,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (setDataCaptureChanges != null)
+        'SetDataCaptureChanges': setDataCaptureChanges,
+      if (username != null) 'Username': username,
+      if (writeBufferSize != null) 'WriteBufferSize': writeBufferSize,
+    };
+  }
+}
+
+/// Provides information that defines a DocumentDB endpoint.
+class DocDbSettings {
+  /// The database name on the DocumentDB source endpoint.
+  final String? databaseName;
+
+  /// Indicates the number of documents to preview to determine the document
+  /// organization. Use this setting when <code>NestingLevel</code> is set to
+  /// <code>"one"</code>.
+  ///
+  /// Must be a positive value greater than <code>0</code>. Default value is
+  /// <code>1000</code>.
+  final int? docsToInvestigate;
+
+  /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
+  /// is set to <code>"none"</code>.
+  ///
+  /// Default value is <code>"false"</code>.
+  final bool? extractDocId;
+
+  /// The KMS key identifier that is used to encrypt the content on the
+  /// replication instance. If you don't specify a value for the
+  /// <code>KmsKeyId</code> parameter, then DMS uses your default encryption key.
+  /// KMS creates the default encryption key for your Amazon Web Services account.
+  /// Your Amazon Web Services account has a different default encryption key for
+  /// each Amazon Web Services Region.
+  final String? kmsKeyId;
+
+  /// Specifies either document or table mode.
+  ///
+  /// Default value is <code>"none"</code>. Specify <code>"none"</code> to use
+  /// document mode. Specify <code>"one"</code> to use table mode.
+  final NestingLevelValue? nestingLevel;
+
+  /// The password for the user account you use to access the DocumentDB source
+  /// endpoint.
+  final String? password;
+
+  /// The port value for the DocumentDB source endpoint.
+  final int? port;
+
+  /// If <code>true</code>, DMS replicates data to shard collections. DMS only
+  /// uses this setting if the target endpoint is a DocumentDB elastic cluster.
+  ///
+  /// When this setting is <code>true</code>, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// You must set <code>TargetTablePrepMode</code> to <code>nothing</code>.
+  /// </li>
+  /// <li>
+  /// DMS automatically sets <code>useUpdateLookup</code> to <code>false</code>.
+  /// </li>
+  /// </ul>
+  final bool? replicateShardCollections;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret</code>. The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the DocumentDB endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the
+  /// <i>Database Migration Service User Guide</i>.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the DocumentDB endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// The name of the server on the DocumentDB source endpoint.
+  final String? serverName;
+
+  /// If <code>true</code>, DMS retrieves the entire document from the DocumentDB
+  /// source during migration. This may cause a migration failure if the server
+  /// response exceeds bandwidth limits. To fetch only updates and deletes during
+  /// migration, set this parameter to <code>false</code>.
+  final bool? useUpdateLookUp;
+
+  /// The user name you use to access the DocumentDB source endpoint.
+  final String? username;
+
+  DocDbSettings({
+    this.databaseName,
+    this.docsToInvestigate,
+    this.extractDocId,
+    this.kmsKeyId,
+    this.nestingLevel,
+    this.password,
+    this.port,
+    this.replicateShardCollections,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.useUpdateLookUp,
+    this.username,
+  });
+
+  factory DocDbSettings.fromJson(Map<String, dynamic> json) {
+    return DocDbSettings(
+      databaseName: json['DatabaseName'] as String?,
+      docsToInvestigate: json['DocsToInvestigate'] as int?,
+      extractDocId: json['ExtractDocId'] as bool?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      nestingLevel:
+          (json['NestingLevel'] as String?)?.let(NestingLevelValue.fromString),
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      replicateShardCollections: json['ReplicateShardCollections'] as bool?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      useUpdateLookUp: json['UseUpdateLookUp'] as bool?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final docsToInvestigate = this.docsToInvestigate;
+    final extractDocId = this.extractDocId;
+    final kmsKeyId = this.kmsKeyId;
+    final nestingLevel = this.nestingLevel;
+    final password = this.password;
+    final port = this.port;
+    final replicateShardCollections = this.replicateShardCollections;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final useUpdateLookUp = this.useUpdateLookUp;
+    final username = this.username;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (docsToInvestigate != null) 'DocsToInvestigate': docsToInvestigate,
+      if (extractDocId != null) 'ExtractDocId': extractDocId,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (nestingLevel != null) 'NestingLevel': nestingLevel.value,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (replicateShardCollections != null)
+        'ReplicateShardCollections': replicateShardCollections,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (useUpdateLookUp != null) 'UseUpdateLookUp': useUpdateLookUp,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that defines a Redis target endpoint.
+class RedisSettings {
+  /// Transmission Control Protocol (TCP) port for the endpoint.
+  final int port;
+
+  /// Fully qualified domain name of the endpoint.
+  final String serverName;
+
+  /// The password provided with the <code>auth-role</code> and
+  /// <code>auth-token</code> options of the <code>AuthType</code> setting for a
+  /// Redis target endpoint.
+  final String? authPassword;
+
+  /// The type of authentication to perform when connecting to a Redis target.
+  /// Options include <code>none</code>, <code>auth-token</code>, and
+  /// <code>auth-role</code>. The <code>auth-token</code> option requires an
+  /// <code>AuthPassword</code> value to be provided. The <code>auth-role</code>
+  /// option requires <code>AuthUserName</code> and <code>AuthPassword</code>
+  /// values to be provided.
+  final RedisAuthTypeValue? authType;
+
+  /// The user name provided with the <code>auth-role</code> option of the
+  /// <code>AuthType</code> setting for a Redis target endpoint.
+  final String? authUserName;
+
+  /// The Amazon Resource Name (ARN) for the certificate authority (CA) that DMS
+  /// uses to connect to your Redis target endpoint.
+  final String? sslCaCertificateArn;
+
+  /// The connection to a Redis target endpoint using Transport Layer Security
+  /// (TLS). Valid values include <code>plaintext</code> and
+  /// <code>ssl-encryption</code>. The default is <code>ssl-encryption</code>. The
+  /// <code>ssl-encryption</code> option makes an encrypted connection.
+  /// Optionally, you can identify an Amazon Resource Name (ARN) for an SSL
+  /// certificate authority (CA) using the <code>SslCaCertificateArn
+  /// </code>setting. If an ARN isn't given for a CA, DMS uses the Amazon root CA.
+  ///
+  /// The <code>plaintext</code> option doesn't provide Transport Layer Security
+  /// (TLS) encryption for traffic between endpoint and database.
+  final SslSecurityProtocolValue? sslSecurityProtocol;
+
+  RedisSettings({
+    required this.port,
+    required this.serverName,
+    this.authPassword,
+    this.authType,
+    this.authUserName,
+    this.sslCaCertificateArn,
+    this.sslSecurityProtocol,
+  });
+
+  factory RedisSettings.fromJson(Map<String, dynamic> json) {
+    return RedisSettings(
+      port: (json['Port'] as int?) ?? 0,
+      serverName: (json['ServerName'] as String?) ?? '',
+      authPassword: json['AuthPassword'] as String?,
+      authType:
+          (json['AuthType'] as String?)?.let(RedisAuthTypeValue.fromString),
+      authUserName: json['AuthUserName'] as String?,
+      sslCaCertificateArn: json['SslCaCertificateArn'] as String?,
+      sslSecurityProtocol: (json['SslSecurityProtocol'] as String?)
+          ?.let(SslSecurityProtocolValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final serverName = this.serverName;
+    final authPassword = this.authPassword;
+    final authType = this.authType;
+    final authUserName = this.authUserName;
+    final sslCaCertificateArn = this.sslCaCertificateArn;
+    final sslSecurityProtocol = this.sslSecurityProtocol;
+    return {
+      'Port': port,
+      'ServerName': serverName,
+      if (authPassword != null) 'AuthPassword': authPassword,
+      if (authType != null) 'AuthType': authType.value,
+      if (authUserName != null) 'AuthUserName': authUserName,
+      if (sslCaCertificateArn != null)
+        'SslCaCertificateArn': sslCaCertificateArn,
+      if (sslSecurityProtocol != null)
+        'SslSecurityProtocol': sslSecurityProtocol.value,
+    };
+  }
+}
+
+/// Settings in JSON format for the source GCP MySQL endpoint.
+class GcpMySQLSettings {
+  /// Specifies a script to run immediately after DMS connects to the endpoint.
+  /// The migration task continues running regardless if the SQL statement
+  /// succeeds or fails.
+  ///
+  /// For this parameter, provide the code of the script itself, not the name of a
+  /// file containing the script.
+  final String? afterConnectScript;
+
+  /// Cleans and recreates table metadata information on the replication instance
+  /// when a mismatch occurs. For example, in a situation where running an alter
+  /// DDL on the table could result in different information about the table
+  /// cached in the replication instance.
+  final bool? cleanSourceMetadataOnMismatch;
+
+  /// Database name for the endpoint. For a MySQL source or target endpoint, don't
+  /// explicitly specify the database using the <code>DatabaseName</code> request
+  /// parameter on either the <code>CreateEndpoint</code> or
+  /// <code>ModifyEndpoint</code> API call. Specifying <code>DatabaseName</code>
+  /// when you create or modify a MySQL endpoint replicates all the task tables to
+  /// this single database. For MySQL endpoints, you specify the database only
+  /// when you specify the schema in the table-mapping rules of the DMS task.
+  final String? databaseName;
+
+  /// Specifies how often to check the binary log for new changes/events when the
+  /// database is idle. The default is five seconds.
+  ///
+  /// Example: <code>eventsPollInterval=5;</code>
+  ///
+  /// In the example, DMS checks for changes in the binary logs every five
+  /// seconds.
+  final int? eventsPollInterval;
+
+  /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
+  /// a MySQL-compatible database.
+  ///
+  /// Example: <code>maxFileSize=512</code>
+  final int? maxFileSize;
+
+  /// Improves performance when loading data into the MySQL-compatible target
+  /// database. Specifies how many threads to use to load the data into the
+  /// MySQL-compatible target database. Setting a large number of threads can have
+  /// an adverse effect on database performance, because a separate connection is
+  /// required for each thread. The default is one.
+  ///
+  /// Example: <code>parallelLoadThreads=1</code>
+  final int? parallelLoadThreads;
+
+  /// Endpoint connection password.
+  final String? password;
+
+  /// Endpoint TCP port.
+  final int? port;
+
+  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
+  /// the trusted entity and grants the required permissions to access the value
+  /// in <code>SecretsManagerSecret.</code> The role must allow the
+  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
+  /// value of the Amazon Web Services Secrets Manager secret that allows access
+  /// to the MySQL endpoint.
+  /// <note>
+  /// You can specify one of two sets of values for these permissions. You can
+  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
+  /// Or you can specify clear-text values for <code>UserName</code>,
+  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
+  /// can't specify both. For more information on creating this
+  /// <code>SecretsManagerSecret</code> and the
+  /// <code>SecretsManagerAccessRoleArn</code> and
+  /// <code>SecretsManagerSecretId</code> required to access it, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
+  /// secrets to access Database Migration Service resources</a> in the Database
+  /// Migration Service User Guide.
+  /// </note>
+  final String? secretsManagerAccessRoleArn;
+
+  /// The full ARN, partial ARN, or friendly name of the
+  /// <code>SecretsManagerSecret</code> that contains the MySQL endpoint
+  /// connection details.
+  final String? secretsManagerSecretId;
+
+  /// The MySQL host name.
+  final String? serverName;
+
+  /// Specifies the time zone for the source MySQL database.
+  ///
+  /// Example: <code>serverTimezone=US/Pacific;</code>
+  ///
+  /// Note: Do not enclose time zones in single quotes.
+  final String? serverTimezone;
+
+  /// Specifies where to migrate source tables on the target, either to a single
+  /// database or multiple databases.
+  ///
+  /// Example: <code>targetDbType=MULTIPLE_DATABASES</code>
+  final TargetDbType? targetDbType;
+
+  /// Endpoint connection user name.
+  final String? username;
+
+  GcpMySQLSettings({
+    this.afterConnectScript,
+    this.cleanSourceMetadataOnMismatch,
+    this.databaseName,
+    this.eventsPollInterval,
+    this.maxFileSize,
+    this.parallelLoadThreads,
+    this.password,
+    this.port,
+    this.secretsManagerAccessRoleArn,
+    this.secretsManagerSecretId,
+    this.serverName,
+    this.serverTimezone,
+    this.targetDbType,
+    this.username,
+  });
+
+  factory GcpMySQLSettings.fromJson(Map<String, dynamic> json) {
+    return GcpMySQLSettings(
+      afterConnectScript: json['AfterConnectScript'] as String?,
+      cleanSourceMetadataOnMismatch:
+          json['CleanSourceMetadataOnMismatch'] as bool?,
+      databaseName: json['DatabaseName'] as String?,
+      eventsPollInterval: json['EventsPollInterval'] as int?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      parallelLoadThreads: json['ParallelLoadThreads'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      serverTimezone: json['ServerTimezone'] as String?,
+      targetDbType:
+          (json['TargetDbType'] as String?)?.let(TargetDbType.fromString),
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterConnectScript = this.afterConnectScript;
+    final cleanSourceMetadataOnMismatch = this.cleanSourceMetadataOnMismatch;
+    final databaseName = this.databaseName;
+    final eventsPollInterval = this.eventsPollInterval;
+    final maxFileSize = this.maxFileSize;
+    final parallelLoadThreads = this.parallelLoadThreads;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final serverTimezone = this.serverTimezone;
+    final targetDbType = this.targetDbType;
+    final username = this.username;
+    return {
+      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
+      if (cleanSourceMetadataOnMismatch != null)
+        'CleanSourceMetadataOnMismatch': cleanSourceMetadataOnMismatch,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (eventsPollInterval != null) 'EventsPollInterval': eventsPollInterval,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (parallelLoadThreads != null)
+        'ParallelLoadThreads': parallelLoadThreads,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (serverTimezone != null) 'ServerTimezone': serverTimezone,
+      if (targetDbType != null) 'TargetDbType': targetDbType.value,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Provides information that defines an Amazon Timestream endpoint.
+class TimestreamSettings {
+  /// Database name for the endpoint.
+  final String databaseName;
+
+  /// Set this attribute to specify the default magnetic duration applied to the
+  /// Amazon Timestream tables in days. This is the number of days that records
+  /// remain in magnetic store before being discarded. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html">Storage</a>
+  /// in the <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/">Amazon
+  /// Timestream Developer Guide</a>.
+  final int magneticDuration;
+
+  /// Set this attribute to specify the length of time to store all of the tables
+  /// in memory that are migrated into Amazon Timestream from the source database.
+  /// Time is measured in units of hours. When Timestream data comes in, it first
+  /// resides in memory for the specified duration, which allows quick access to
+  /// it.
+  final int memoryDuration;
+
+  /// Set this attribute to <code>true</code> to specify that DMS only applies
+  /// inserts and updates, and not deletes. Amazon Timestream does not allow
+  /// deleting records, so if this value is <code>false</code>, DMS nulls out the
+  /// corresponding record in the Timestream database rather than deleting it.
+  final bool? cdcInsertsAndUpdates;
+
+  /// Set this attribute to <code>true</code> to enable memory store writes. When
+  /// this value is <code>false</code>, DMS does not write records that are older
+  /// in days than the value specified in <code>MagneticDuration</code>, because
+  /// Amazon Timestream does not allow memory writes by default. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html">Storage</a>
+  /// in the <a
+  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/">Amazon
+  /// Timestream Developer Guide</a>.
+  final bool? enableMagneticStoreWrites;
+
+  TimestreamSettings({
+    required this.databaseName,
+    required this.magneticDuration,
+    required this.memoryDuration,
+    this.cdcInsertsAndUpdates,
+    this.enableMagneticStoreWrites,
+  });
+
+  factory TimestreamSettings.fromJson(Map<String, dynamic> json) {
+    return TimestreamSettings(
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      magneticDuration: (json['MagneticDuration'] as int?) ?? 0,
+      memoryDuration: (json['MemoryDuration'] as int?) ?? 0,
+      cdcInsertsAndUpdates: json['CdcInsertsAndUpdates'] as bool?,
+      enableMagneticStoreWrites: json['EnableMagneticStoreWrites'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final magneticDuration = this.magneticDuration;
+    final memoryDuration = this.memoryDuration;
+    final cdcInsertsAndUpdates = this.cdcInsertsAndUpdates;
+    final enableMagneticStoreWrites = this.enableMagneticStoreWrites;
+    return {
+      'DatabaseName': databaseName,
+      'MagneticDuration': magneticDuration,
+      'MemoryDuration': memoryDuration,
+      if (cdcInsertsAndUpdates != null)
+        'CdcInsertsAndUpdates': cdcInsertsAndUpdates,
+      if (enableMagneticStoreWrites != null)
+        'EnableMagneticStoreWrites': enableMagneticStoreWrites,
+    };
+  }
+}
+
+/// Provides information that defines a Lakehouse endpoint. This endpoint type
+/// is used for zero-ETL integrations with Lakehouse data warehouses.
+class LakehouseSettings {
+  /// The Amazon Resource Name (ARN) of the Lakehouse resource that serves as the
+  /// target for this endpoint.
+  final String arn;
+
+  LakehouseSettings({
+    required this.arn,
+  });
+
+  factory LakehouseSettings.fromJson(Map<String, dynamic> json) {
+    return LakehouseSettings(
+      arn: (json['Arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'Arn': arn,
+    };
+  }
+}
+
+class TargetDbType {
+  static const specificDatabase = TargetDbType._('specific-database');
+  static const multipleDatabases = TargetDbType._('multiple-databases');
+
+  final String value;
+
+  const TargetDbType._(this.value);
+
+  static const values = [specificDatabase, multipleDatabases];
+
+  static TargetDbType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetDbType._(value));
+
+  @override
+  bool operator ==(other) => other is TargetDbType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SslSecurityProtocolValue {
+  static const plaintext = SslSecurityProtocolValue._('plaintext');
+  static const sslEncryption = SslSecurityProtocolValue._('ssl-encryption');
+
+  final String value;
+
+  const SslSecurityProtocolValue._(this.value);
+
+  static const values = [plaintext, sslEncryption];
+
+  static SslSecurityProtocolValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SslSecurityProtocolValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SslSecurityProtocolValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RedisAuthTypeValue {
+  static const none = RedisAuthTypeValue._('none');
+  static const authRole = RedisAuthTypeValue._('auth-role');
+  static const authToken = RedisAuthTypeValue._('auth-token');
+
+  final String value;
+
+  const RedisAuthTypeValue._(this.value);
+
+  static const values = [none, authRole, authToken];
+
+  static RedisAuthTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RedisAuthTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RedisAuthTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NestingLevelValue {
+  static const none = NestingLevelValue._('none');
+  static const one = NestingLevelValue._('one');
+
+  final String value;
+
+  const NestingLevelValue._(this.value);
+
+  static const values = [none, one];
+
+  static NestingLevelValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NestingLevelValue._(value));
+
+  @override
+  bool operator ==(other) => other is NestingLevelValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SafeguardPolicy {
@@ -19259,6 +19138,2944 @@ class SafeguardPolicy {
   String toString() => value;
 }
 
+class TlogAccessMode {
+  static const backupOnly = TlogAccessMode._('BackupOnly');
+  static const preferBackup = TlogAccessMode._('PreferBackup');
+  static const preferTlog = TlogAccessMode._('PreferTlog');
+  static const tlogOnly = TlogAccessMode._('TlogOnly');
+
+  final String value;
+
+  const TlogAccessMode._(this.value);
+
+  static const values = [backupOnly, preferBackup, preferTlog, tlogOnly];
+
+  static TlogAccessMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TlogAccessMode._(value));
+
+  @override
+  bool operator ==(other) => other is TlogAccessMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SqlServerAuthenticationMethod {
+  static const password = SqlServerAuthenticationMethod._('password');
+  static const kerberos = SqlServerAuthenticationMethod._('kerberos');
+
+  final String value;
+
+  const SqlServerAuthenticationMethod._(this.value);
+
+  static const values = [password, kerberos];
+
+  static SqlServerAuthenticationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SqlServerAuthenticationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SqlServerAuthenticationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CharLengthSemantics {
+  static const $default = CharLengthSemantics._('default');
+  static const char = CharLengthSemantics._('char');
+  static const byte = CharLengthSemantics._('byte');
+
+  final String value;
+
+  const CharLengthSemantics._(this.value);
+
+  static const values = [$default, char, byte];
+
+  static CharLengthSemantics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CharLengthSemantics._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CharLengthSemantics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OracleAuthenticationMethod {
+  static const password = OracleAuthenticationMethod._('password');
+  static const kerberos = OracleAuthenticationMethod._('kerberos');
+
+  final String value;
+
+  const OracleAuthenticationMethod._(this.value);
+
+  static const values = [password, kerberos];
+
+  static OracleAuthenticationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OracleAuthenticationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OracleAuthenticationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MySQLAuthenticationMethod {
+  static const password = MySQLAuthenticationMethod._('password');
+  static const iam = MySQLAuthenticationMethod._('iam');
+
+  final String value;
+
+  const MySQLAuthenticationMethod._(this.value);
+
+  static const values = [password, iam];
+
+  static MySQLAuthenticationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MySQLAuthenticationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MySQLAuthenticationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PluginNameValue {
+  static const noPreference = PluginNameValue._('no-preference');
+  static const testDecoding = PluginNameValue._('test-decoding');
+  static const pglogical = PluginNameValue._('pglogical');
+
+  final String value;
+
+  const PluginNameValue._(this.value);
+
+  static const values = [noPreference, testDecoding, pglogical];
+
+  static PluginNameValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PluginNameValue._(value));
+
+  @override
+  bool operator ==(other) => other is PluginNameValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LongVarcharMappingType {
+  static const wstring = LongVarcharMappingType._('wstring');
+  static const clob = LongVarcharMappingType._('clob');
+  static const nclob = LongVarcharMappingType._('nclob');
+
+  final String value;
+
+  const LongVarcharMappingType._(this.value);
+
+  static const values = [wstring, clob, nclob];
+
+  static LongVarcharMappingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LongVarcharMappingType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LongVarcharMappingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DatabaseMode {
+  static const $default = DatabaseMode._('default');
+  static const babelfish = DatabaseMode._('babelfish');
+
+  final String value;
+
+  const DatabaseMode._(this.value);
+
+  static const values = [$default, babelfish];
+
+  static DatabaseMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatabaseMode._(value));
+
+  @override
+  bool operator ==(other) => other is DatabaseMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PostgreSQLAuthenticationMethod {
+  static const password = PostgreSQLAuthenticationMethod._('password');
+  static const iam = PostgreSQLAuthenticationMethod._('iam');
+
+  final String value;
+
+  const PostgreSQLAuthenticationMethod._(this.value);
+
+  static const values = [password, iam];
+
+  static PostgreSQLAuthenticationMethod fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PostgreSQLAuthenticationMethod._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PostgreSQLAuthenticationMethod && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EncryptionModeValue {
+  static const sseS3 = EncryptionModeValue._('sse-s3');
+  static const sseKms = EncryptionModeValue._('sse-kms');
+
+  final String value;
+
+  const EncryptionModeValue._(this.value);
+
+  static const values = [sseS3, sseKms];
+
+  static EncryptionModeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionModeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EncryptionModeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MessageFormatValue {
+  static const json = MessageFormatValue._('json');
+  static const jsonUnformatted = MessageFormatValue._('json-unformatted');
+
+  final String value;
+
+  const MessageFormatValue._(this.value);
+
+  static const values = [json, jsonUnformatted];
+
+  static MessageFormatValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MessageFormatValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MessageFormatValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KafkaSecurityProtocol {
+  static const plaintext = KafkaSecurityProtocol._('plaintext');
+  static const sslAuthentication =
+      KafkaSecurityProtocol._('ssl-authentication');
+  static const sslEncryption = KafkaSecurityProtocol._('ssl-encryption');
+  static const saslSsl = KafkaSecurityProtocol._('sasl-ssl');
+
+  final String value;
+
+  const KafkaSecurityProtocol._(this.value);
+
+  static const values = [plaintext, sslAuthentication, sslEncryption, saslSsl];
+
+  static KafkaSecurityProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KafkaSecurityProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaSecurityProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KafkaSaslMechanism {
+  static const scramSha_512 = KafkaSaslMechanism._('scram-sha-512');
+  static const plain = KafkaSaslMechanism._('plain');
+
+  final String value;
+
+  const KafkaSaslMechanism._(this.value);
+
+  static const values = [scramSha_512, plain];
+
+  static KafkaSaslMechanism fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KafkaSaslMechanism._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaSaslMechanism && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KafkaSslEndpointIdentificationAlgorithm {
+  static const none = KafkaSslEndpointIdentificationAlgorithm._('none');
+  static const https = KafkaSslEndpointIdentificationAlgorithm._('https');
+
+  final String value;
+
+  const KafkaSslEndpointIdentificationAlgorithm._(this.value);
+
+  static const values = [none, https];
+
+  static KafkaSslEndpointIdentificationAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KafkaSslEndpointIdentificationAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaSslEndpointIdentificationAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AuthTypeValue {
+  static const no = AuthTypeValue._('no');
+  static const password = AuthTypeValue._('password');
+
+  final String value;
+
+  const AuthTypeValue._(this.value);
+
+  static const values = [no, password];
+
+  static AuthTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthTypeValue._(value));
+
+  @override
+  bool operator ==(other) => other is AuthTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AuthMechanismValue {
+  static const $default = AuthMechanismValue._('default');
+  static const mongodbCr = AuthMechanismValue._('mongodb_cr');
+  static const scramSha_1 = AuthMechanismValue._('scram_sha_1');
+
+  final String value;
+
+  const AuthMechanismValue._(this.value);
+
+  static const values = [$default, mongodbCr, scramSha_1];
+
+  static AuthMechanismValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthMechanismValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthMechanismValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CompressionTypeValue {
+  static const none = CompressionTypeValue._('none');
+  static const gzip = CompressionTypeValue._('gzip');
+
+  final String value;
+
+  const CompressionTypeValue._(this.value);
+
+  static const values = [none, gzip];
+
+  static CompressionTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CompressionTypeValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CompressionTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DataFormatValue {
+  static const csv = DataFormatValue._('csv');
+  static const parquet = DataFormatValue._('parquet');
+
+  final String value;
+
+  const DataFormatValue._(this.value);
+
+  static const values = [csv, parquet];
+
+  static DataFormatValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataFormatValue._(value));
+
+  @override
+  bool operator ==(other) => other is DataFormatValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EncodingTypeValue {
+  static const plain = EncodingTypeValue._('plain');
+  static const plainDictionary = EncodingTypeValue._('plain-dictionary');
+  static const rleDictionary = EncodingTypeValue._('rle-dictionary');
+
+  final String value;
+
+  const EncodingTypeValue._(this.value);
+
+  static const values = [plain, plainDictionary, rleDictionary];
+
+  static EncodingTypeValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncodingTypeValue._(value));
+
+  @override
+  bool operator ==(other) => other is EncodingTypeValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ParquetVersionValue {
+  static const parquet_1_0 = ParquetVersionValue._('parquet-1-0');
+  static const parquet_2_0 = ParquetVersionValue._('parquet-2-0');
+
+  final String value;
+
+  const ParquetVersionValue._(this.value);
+
+  static const values = [parquet_1_0, parquet_2_0];
+
+  static ParquetVersionValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParquetVersionValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParquetVersionValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DatePartitionSequenceValue {
+  static const yyyymmdd = DatePartitionSequenceValue._('YYYYMMDD');
+  static const yyyymmddhh = DatePartitionSequenceValue._('YYYYMMDDHH');
+  static const yyyymm = DatePartitionSequenceValue._('YYYYMM');
+  static const mmyyyydd = DatePartitionSequenceValue._('MMYYYYDD');
+  static const ddmmyyyy = DatePartitionSequenceValue._('DDMMYYYY');
+
+  final String value;
+
+  const DatePartitionSequenceValue._(this.value);
+
+  static const values = [yyyymmdd, yyyymmddhh, yyyymm, mmyyyydd, ddmmyyyy];
+
+  static DatePartitionSequenceValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatePartitionSequenceValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatePartitionSequenceValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DatePartitionDelimiterValue {
+  static const slash = DatePartitionDelimiterValue._('SLASH');
+  static const underscore = DatePartitionDelimiterValue._('UNDERSCORE');
+  static const dash = DatePartitionDelimiterValue._('DASH');
+  static const none = DatePartitionDelimiterValue._('NONE');
+
+  final String value;
+
+  const DatePartitionDelimiterValue._(this.value);
+
+  static const values = [slash, underscore, dash, none];
+
+  static DatePartitionDelimiterValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatePartitionDelimiterValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatePartitionDelimiterValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CannedAclForObjectsValue {
+  static const none = CannedAclForObjectsValue._('none');
+  static const private = CannedAclForObjectsValue._('private');
+  static const publicRead = CannedAclForObjectsValue._('public-read');
+  static const publicReadWrite =
+      CannedAclForObjectsValue._('public-read-write');
+  static const authenticatedRead =
+      CannedAclForObjectsValue._('authenticated-read');
+  static const awsExecRead = CannedAclForObjectsValue._('aws-exec-read');
+  static const bucketOwnerRead =
+      CannedAclForObjectsValue._('bucket-owner-read');
+  static const bucketOwnerFullControl =
+      CannedAclForObjectsValue._('bucket-owner-full-control');
+
+  final String value;
+
+  const CannedAclForObjectsValue._(this.value);
+
+  static const values = [
+    none,
+    private,
+    publicRead,
+    publicReadWrite,
+    authenticatedRead,
+    awsExecRead,
+    bucketOwnerRead,
+    bucketOwnerFullControl
+  ];
+
+  static CannedAclForObjectsValue fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CannedAclForObjectsValue._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CannedAclForObjectsValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information that defines a data provider.
+class DataProvider {
+  /// The Amazon Resource Name (ARN) string that uniquely identifies the data
+  /// provider.
+  final String? dataProviderArn;
+
+  /// The time the data provider was created.
+  final DateTime? dataProviderCreationTime;
+
+  /// The name of the data provider.
+  final String? dataProviderName;
+
+  /// A description of the data provider. Descriptions can have up to 31
+  /// characters. A description can contain only ASCII letters, digits, and
+  /// hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive
+  /// hyphens, and can only begin with a letter.
+  final String? description;
+
+  /// The type of database engine for the data provider. Valid values include
+  /// <code>"aurora"</code>, <code>"aurora-postgresql"</code>,
+  /// <code>"mysql"</code>, <code>"oracle"</code>, <code>"postgres"</code>,
+  /// <code>"sqlserver"</code>, <code>redshift</code>, <code>mariadb</code>,
+  /// <code>mongodb</code>, <code>db2</code>, <code>db2-zos</code>,
+  /// <code>docdb</code>, and <code>sybase</code>. A value of
+  /// <code>"aurora"</code> represents Amazon Aurora MySQL-Compatible Edition.
+  final String? engine;
+
+  /// The settings in JSON format for a data provider.
+  final DataProviderSettings? settings;
+
+  /// Indicates whether the data provider is virtual.
+  final bool? virtual;
+
+  DataProvider({
+    this.dataProviderArn,
+    this.dataProviderCreationTime,
+    this.dataProviderName,
+    this.description,
+    this.engine,
+    this.settings,
+    this.virtual,
+  });
+
+  factory DataProvider.fromJson(Map<String, dynamic> json) {
+    return DataProvider(
+      dataProviderArn: json['DataProviderArn'] as String?,
+      dataProviderCreationTime:
+          timeStampFromJson(json['DataProviderCreationTime']),
+      dataProviderName: json['DataProviderName'] as String?,
+      description: json['Description'] as String?,
+      engine: json['Engine'] as String?,
+      settings: json['Settings'] != null
+          ? DataProviderSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      virtual: json['Virtual'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataProviderArn = this.dataProviderArn;
+    final dataProviderCreationTime = this.dataProviderCreationTime;
+    final dataProviderName = this.dataProviderName;
+    final description = this.description;
+    final engine = this.engine;
+    final settings = this.settings;
+    final virtual = this.virtual;
+    return {
+      if (dataProviderArn != null) 'DataProviderArn': dataProviderArn,
+      if (dataProviderCreationTime != null)
+        'DataProviderCreationTime': iso8601ToJson(dataProviderCreationTime),
+      if (dataProviderName != null) 'DataProviderName': dataProviderName,
+      if (description != null) 'Description': description,
+      if (engine != null) 'Engine': engine,
+      if (settings != null) 'Settings': settings,
+      if (virtual != null) 'Virtual': virtual,
+    };
+  }
+}
+
+/// Provides information that defines a data provider.
+class DataProviderSettings {
+  final DocDbDataProviderSettings? docDbSettings;
+
+  /// Provides information that defines an IBM DB2 LUW data provider.
+  final IbmDb2LuwDataProviderSettings? ibmDb2LuwSettings;
+
+  /// Provides information that defines an IBM DB2 for z/OS data provider.
+  final IbmDb2zOsDataProviderSettings? ibmDb2zOsSettings;
+
+  /// Provides information that defines a MariaDB data provider.
+  final MariaDbDataProviderSettings? mariaDbSettings;
+  final MicrosoftSqlServerDataProviderSettings? microsoftSqlServerSettings;
+
+  /// Provides information that defines a MongoDB data provider.
+  final MongoDbDataProviderSettings? mongoDbSettings;
+  final MySqlDataProviderSettings? mySqlSettings;
+  final OracleDataProviderSettings? oracleSettings;
+  final PostgreSqlDataProviderSettings? postgreSqlSettings;
+  final RedshiftDataProviderSettings? redshiftSettings;
+  final SybaseAseDataProviderSettings? sybaseAseSettings;
+
+  DataProviderSettings({
+    this.docDbSettings,
+    this.ibmDb2LuwSettings,
+    this.ibmDb2zOsSettings,
+    this.mariaDbSettings,
+    this.microsoftSqlServerSettings,
+    this.mongoDbSettings,
+    this.mySqlSettings,
+    this.oracleSettings,
+    this.postgreSqlSettings,
+    this.redshiftSettings,
+    this.sybaseAseSettings,
+  });
+
+  factory DataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return DataProviderSettings(
+      docDbSettings: json['DocDbSettings'] != null
+          ? DocDbDataProviderSettings.fromJson(
+              json['DocDbSettings'] as Map<String, dynamic>)
+          : null,
+      ibmDb2LuwSettings: json['IbmDb2LuwSettings'] != null
+          ? IbmDb2LuwDataProviderSettings.fromJson(
+              json['IbmDb2LuwSettings'] as Map<String, dynamic>)
+          : null,
+      ibmDb2zOsSettings: json['IbmDb2zOsSettings'] != null
+          ? IbmDb2zOsDataProviderSettings.fromJson(
+              json['IbmDb2zOsSettings'] as Map<String, dynamic>)
+          : null,
+      mariaDbSettings: json['MariaDbSettings'] != null
+          ? MariaDbDataProviderSettings.fromJson(
+              json['MariaDbSettings'] as Map<String, dynamic>)
+          : null,
+      microsoftSqlServerSettings: json['MicrosoftSqlServerSettings'] != null
+          ? MicrosoftSqlServerDataProviderSettings.fromJson(
+              json['MicrosoftSqlServerSettings'] as Map<String, dynamic>)
+          : null,
+      mongoDbSettings: json['MongoDbSettings'] != null
+          ? MongoDbDataProviderSettings.fromJson(
+              json['MongoDbSettings'] as Map<String, dynamic>)
+          : null,
+      mySqlSettings: json['MySqlSettings'] != null
+          ? MySqlDataProviderSettings.fromJson(
+              json['MySqlSettings'] as Map<String, dynamic>)
+          : null,
+      oracleSettings: json['OracleSettings'] != null
+          ? OracleDataProviderSettings.fromJson(
+              json['OracleSettings'] as Map<String, dynamic>)
+          : null,
+      postgreSqlSettings: json['PostgreSqlSettings'] != null
+          ? PostgreSqlDataProviderSettings.fromJson(
+              json['PostgreSqlSettings'] as Map<String, dynamic>)
+          : null,
+      redshiftSettings: json['RedshiftSettings'] != null
+          ? RedshiftDataProviderSettings.fromJson(
+              json['RedshiftSettings'] as Map<String, dynamic>)
+          : null,
+      sybaseAseSettings: json['SybaseAseSettings'] != null
+          ? SybaseAseDataProviderSettings.fromJson(
+              json['SybaseAseSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final docDbSettings = this.docDbSettings;
+    final ibmDb2LuwSettings = this.ibmDb2LuwSettings;
+    final ibmDb2zOsSettings = this.ibmDb2zOsSettings;
+    final mariaDbSettings = this.mariaDbSettings;
+    final microsoftSqlServerSettings = this.microsoftSqlServerSettings;
+    final mongoDbSettings = this.mongoDbSettings;
+    final mySqlSettings = this.mySqlSettings;
+    final oracleSettings = this.oracleSettings;
+    final postgreSqlSettings = this.postgreSqlSettings;
+    final redshiftSettings = this.redshiftSettings;
+    final sybaseAseSettings = this.sybaseAseSettings;
+    return {
+      if (docDbSettings != null) 'DocDbSettings': docDbSettings,
+      if (ibmDb2LuwSettings != null) 'IbmDb2LuwSettings': ibmDb2LuwSettings,
+      if (ibmDb2zOsSettings != null) 'IbmDb2zOsSettings': ibmDb2zOsSettings,
+      if (mariaDbSettings != null) 'MariaDbSettings': mariaDbSettings,
+      if (microsoftSqlServerSettings != null)
+        'MicrosoftSqlServerSettings': microsoftSqlServerSettings,
+      if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
+      if (mySqlSettings != null) 'MySqlSettings': mySqlSettings,
+      if (oracleSettings != null) 'OracleSettings': oracleSettings,
+      if (postgreSqlSettings != null) 'PostgreSqlSettings': postgreSqlSettings,
+      if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
+      if (sybaseAseSettings != null) 'SybaseAseSettings': sybaseAseSettings,
+    };
+  }
+}
+
+/// Provides information that defines an Amazon Redshift data provider.
+class RedshiftDataProviderSettings {
+  /// The database name on the Amazon Redshift data provider.
+  final String? databaseName;
+
+  /// The port value for the Amazon Redshift data provider.
+  final int? port;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3AccessRoleArn;
+
+  /// The path for the Amazon S3 bucket that the application uses for accessing
+  /// the user-defined schema.
+  final String? s3Path;
+
+  /// The name of the Amazon Redshift server.
+  final String? serverName;
+
+  RedshiftDataProviderSettings({
+    this.databaseName,
+    this.port,
+    this.s3AccessRoleArn,
+    this.s3Path,
+    this.serverName,
+  });
+
+  factory RedshiftDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return RedshiftDataProviderSettings(
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      s3AccessRoleArn: json['S3AccessRoleArn'] as String?,
+      s3Path: json['S3Path'] as String?,
+      serverName: json['ServerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final s3AccessRoleArn = this.s3AccessRoleArn;
+    final s3Path = this.s3Path;
+    final serverName = this.serverName;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (s3AccessRoleArn != null) 'S3AccessRoleArn': s3AccessRoleArn,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (serverName != null) 'ServerName': serverName,
+    };
+  }
+}
+
+/// Provides information that defines a PostgreSQL data provider.
+class PostgreSqlDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the PostgreSQL data provider.
+  final String? databaseName;
+
+  /// The port value for the PostgreSQL data provider.
+  final int? port;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3AccessRoleArn;
+
+  /// The path for the Amazon S3 bucket that the application uses for accessing
+  /// the user-defined schema.
+  final String? s3Path;
+
+  /// The name of the PostgreSQL server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the PostgreSQL data provider. The default
+  /// value is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  PostgreSqlDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.s3AccessRoleArn,
+    this.s3Path,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory PostgreSqlDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return PostgreSqlDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      s3AccessRoleArn: json['S3AccessRoleArn'] as String?,
+      s3Path: json['S3Path'] as String?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final s3AccessRoleArn = this.s3AccessRoleArn;
+    final s3Path = this.s3Path;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (s3AccessRoleArn != null) 'S3AccessRoleArn': s3AccessRoleArn,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information that defines a MySQL data provider.
+class MySqlDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The port value for the MySQL data provider.
+  final int? port;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3AccessRoleArn;
+
+  /// The path for the Amazon S3 bucket that the application uses for accessing
+  /// the user-defined schema.
+  final String? s3Path;
+
+  /// The name of the MySQL server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the MySQL data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  MySqlDataProviderSettings({
+    this.certificateArn,
+    this.port,
+    this.s3AccessRoleArn,
+    this.s3Path,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory MySqlDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return MySqlDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      port: json['Port'] as int?,
+      s3AccessRoleArn: json['S3AccessRoleArn'] as String?,
+      s3Path: json['S3Path'] as String?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final port = this.port;
+    final s3AccessRoleArn = this.s3AccessRoleArn;
+    final s3Path = this.s3Path;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (port != null) 'Port': port,
+      if (s3AccessRoleArn != null) 'S3AccessRoleArn': s3AccessRoleArn,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information that defines an Oracle data provider.
+class OracleDataProviderSettings {
+  /// The address of your Oracle Automatic Storage Management (ASM) server. You
+  /// can set this value from the <code>asm_server</code> value. You set
+  /// <code>asm_server</code> as part of the extra connection attribute string to
+  /// access an Oracle server with Binary Reader that uses ASM. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
+  /// for change data capture (CDC) on an Oracle source database</a>.
+  final String? asmServer;
+
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the Oracle data provider.
+  final String? databaseName;
+
+  /// The port value for the Oracle data provider.
+  final int? port;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3AccessRoleArn;
+
+  /// The path for the Amazon S3 bucket that the application uses for accessing
+  /// the user-defined schema.
+  final String? s3Path;
+
+  /// The ARN of the IAM role that provides access to the secret in Secrets
+  /// Manager that contains the Oracle ASM connection details.
+  final String? secretsManagerOracleAsmAccessRoleArn;
+
+  /// The identifier of the secret in Secrets Manager that contains the Oracle ASM
+  /// connection details.
+  ///
+  /// Required only if your data provider uses the Oracle ASM server.
+  final String? secretsManagerOracleAsmSecretId;
+
+  /// The ARN of the IAM role that provides access to the secret in Secrets
+  /// Manager that contains the TDE password.
+  final String? secretsManagerSecurityDbEncryptionAccessRoleArn;
+
+  /// The identifier of the secret in Secrets Manager that contains the
+  /// transparent data encryption (TDE) password. DMS requires this password to
+  /// access Oracle redo logs encrypted by TDE using Binary Reader.
+  final String? secretsManagerSecurityDbEncryptionSecretId;
+
+  /// The name of the Oracle server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the Oracle data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  OracleDataProviderSettings({
+    this.asmServer,
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.s3AccessRoleArn,
+    this.s3Path,
+    this.secretsManagerOracleAsmAccessRoleArn,
+    this.secretsManagerOracleAsmSecretId,
+    this.secretsManagerSecurityDbEncryptionAccessRoleArn,
+    this.secretsManagerSecurityDbEncryptionSecretId,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory OracleDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return OracleDataProviderSettings(
+      asmServer: json['AsmServer'] as String?,
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      s3AccessRoleArn: json['S3AccessRoleArn'] as String?,
+      s3Path: json['S3Path'] as String?,
+      secretsManagerOracleAsmAccessRoleArn:
+          json['SecretsManagerOracleAsmAccessRoleArn'] as String?,
+      secretsManagerOracleAsmSecretId:
+          json['SecretsManagerOracleAsmSecretId'] as String?,
+      secretsManagerSecurityDbEncryptionAccessRoleArn:
+          json['SecretsManagerSecurityDbEncryptionAccessRoleArn'] as String?,
+      secretsManagerSecurityDbEncryptionSecretId:
+          json['SecretsManagerSecurityDbEncryptionSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asmServer = this.asmServer;
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final s3AccessRoleArn = this.s3AccessRoleArn;
+    final s3Path = this.s3Path;
+    final secretsManagerOracleAsmAccessRoleArn =
+        this.secretsManagerOracleAsmAccessRoleArn;
+    final secretsManagerOracleAsmSecretId =
+        this.secretsManagerOracleAsmSecretId;
+    final secretsManagerSecurityDbEncryptionAccessRoleArn =
+        this.secretsManagerSecurityDbEncryptionAccessRoleArn;
+    final secretsManagerSecurityDbEncryptionSecretId =
+        this.secretsManagerSecurityDbEncryptionSecretId;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (asmServer != null) 'AsmServer': asmServer,
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (s3AccessRoleArn != null) 'S3AccessRoleArn': s3AccessRoleArn,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (secretsManagerOracleAsmAccessRoleArn != null)
+        'SecretsManagerOracleAsmAccessRoleArn':
+            secretsManagerOracleAsmAccessRoleArn,
+      if (secretsManagerOracleAsmSecretId != null)
+        'SecretsManagerOracleAsmSecretId': secretsManagerOracleAsmSecretId,
+      if (secretsManagerSecurityDbEncryptionAccessRoleArn != null)
+        'SecretsManagerSecurityDbEncryptionAccessRoleArn':
+            secretsManagerSecurityDbEncryptionAccessRoleArn,
+      if (secretsManagerSecurityDbEncryptionSecretId != null)
+        'SecretsManagerSecurityDbEncryptionSecretId':
+            secretsManagerSecurityDbEncryptionSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information that defines an SAP ASE data provider.
+class SybaseAseDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the SAP ASE data provider.
+  final String? databaseName;
+
+  /// Specifies whether to encrypt the password when connecting to the Sybase ASE
+  /// database. When set to true, the connection password is encrypted during
+  /// transmission. Default is true.
+  final bool? encryptPassword;
+
+  /// The port value for the SAP ASE data provider.
+  final int? port;
+
+  /// The name of the SAP ASE server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the SAP ASE data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  SybaseAseDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.encryptPassword,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory SybaseAseDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return SybaseAseDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      encryptPassword: json['EncryptPassword'] as bool?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final encryptPassword = this.encryptPassword;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (encryptPassword != null) 'EncryptPassword': encryptPassword,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information that defines a Microsoft SQL Server data provider.
+class MicrosoftSqlServerDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the Microsoft SQL Server data provider.
+  final String? databaseName;
+
+  /// The port value for the Microsoft SQL Server data provider.
+  final int? port;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3AccessRoleArn;
+
+  /// The path for the Amazon S3 bucket that the application uses for accessing
+  /// the user-defined schema.
+  final String? s3Path;
+
+  /// The name of the Microsoft SQL Server server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the Microsoft SQL Server data provider. The
+  /// default value is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  MicrosoftSqlServerDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.s3AccessRoleArn,
+    this.s3Path,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory MicrosoftSqlServerDataProviderSettings.fromJson(
+      Map<String, dynamic> json) {
+    return MicrosoftSqlServerDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      s3AccessRoleArn: json['S3AccessRoleArn'] as String?,
+      s3Path: json['S3Path'] as String?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final s3AccessRoleArn = this.s3AccessRoleArn;
+    final s3Path = this.s3Path;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (s3AccessRoleArn != null) 'S3AccessRoleArn': s3AccessRoleArn,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information that defines a DocumentDB data provider.
+class DocDbDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the DocumentDB data provider.
+  final String? databaseName;
+
+  /// The port value for the DocumentDB data provider.
+  final int? port;
+
+  /// The name of the source DocumentDB server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the DocumentDB data provider. The default
+  /// value is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  DocDbDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory DocDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return DocDbDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information that defines a MariaDB data provider.
+class MariaDbDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The port value for the MariaDB data provider
+  final int? port;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3AccessRoleArn;
+
+  /// The path for the Amazon S3 bucket that the application uses for accessing
+  /// the user-defined schema.
+  final String? s3Path;
+
+  /// The name of the MariaDB server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the MariaDB data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  MariaDbDataProviderSettings({
+    this.certificateArn,
+    this.port,
+    this.s3AccessRoleArn,
+    this.s3Path,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory MariaDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return MariaDbDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      port: json['Port'] as int?,
+      s3AccessRoleArn: json['S3AccessRoleArn'] as String?,
+      s3Path: json['S3Path'] as String?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final port = this.port;
+    final s3AccessRoleArn = this.s3AccessRoleArn;
+    final s3Path = this.s3Path;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (port != null) 'Port': port,
+      if (s3AccessRoleArn != null) 'S3AccessRoleArn': s3AccessRoleArn,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information about an IBM DB2 LUW data provider.
+class IbmDb2LuwDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the DB2 LUW data provider.
+  final String? databaseName;
+
+  /// The encryption algorithm used for securing the connection to the IBM DB2 LUW
+  /// database server. You can provide an integer value corresponding to a
+  /// specific encryption algorithm, or leave this parameter empty to use the
+  /// default behavior.
+  final int? encryptionAlgorithm;
+
+  /// The port value for the DB2 LUW data provider.
+  final int? port;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3AccessRoleArn;
+
+  /// The path for the Amazon S3 bucket that the application uses for accessing
+  /// the user-defined schema.
+  final String? s3Path;
+
+  /// The security mechanism used for authenticating the connection to the IBM DB2
+  /// LUW database server. You can provide an integer value corresponding to a
+  /// specific security mechanism, or leave this parameter empty to use the
+  /// default behavior.
+  final int? securityMechanism;
+
+  /// The name of the DB2 LUW server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the DB2 LUW data provider. The default value
+  /// is <code>none</code>. Valid Values: <code>none</code> and
+  /// <code>verify-ca</code>.
+  final DmsSslModeValue? sslMode;
+
+  IbmDb2LuwDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.encryptionAlgorithm,
+    this.port,
+    this.s3AccessRoleArn,
+    this.s3Path,
+    this.securityMechanism,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory IbmDb2LuwDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return IbmDb2LuwDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      encryptionAlgorithm: json['EncryptionAlgorithm'] as int?,
+      port: json['Port'] as int?,
+      s3AccessRoleArn: json['S3AccessRoleArn'] as String?,
+      s3Path: json['S3Path'] as String?,
+      securityMechanism: json['SecurityMechanism'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final encryptionAlgorithm = this.encryptionAlgorithm;
+    final port = this.port;
+    final s3AccessRoleArn = this.s3AccessRoleArn;
+    final s3Path = this.s3Path;
+    final securityMechanism = this.securityMechanism;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (encryptionAlgorithm != null)
+        'EncryptionAlgorithm': encryptionAlgorithm,
+      if (port != null) 'Port': port,
+      if (s3AccessRoleArn != null) 'S3AccessRoleArn': s3AccessRoleArn,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (securityMechanism != null) 'SecurityMechanism': securityMechanism,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information about an IBM DB2 for z/OS data provider.
+class IbmDb2zOsDataProviderSettings {
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the DB2 for z/OS data provider.
+  final String? databaseName;
+
+  /// The port value for the DB2 for z/OS data provider.
+  final int? port;
+
+  /// The ARN for the role the application uses to access its Amazon S3 bucket.
+  final String? s3AccessRoleArn;
+
+  /// The path for the Amazon S3 bucket that the application uses for accessing
+  /// the user-defined schema.
+  final String? s3Path;
+
+  /// The name of the DB2 for z/OS server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the DB2 for z/OS data provider. The default
+  /// value is <code>none</code>. Valid Values: <code>none</code> and
+  /// <code>verify-ca</code>.
+  final DmsSslModeValue? sslMode;
+
+  IbmDb2zOsDataProviderSettings({
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.s3AccessRoleArn,
+    this.s3Path,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory IbmDb2zOsDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return IbmDb2zOsDataProviderSettings(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      s3AccessRoleArn: json['S3AccessRoleArn'] as String?,
+      s3Path: json['S3Path'] as String?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final s3AccessRoleArn = this.s3AccessRoleArn;
+    final s3Path = this.s3Path;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (s3AccessRoleArn != null) 'S3AccessRoleArn': s3AccessRoleArn,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// Provides information that defines a MongoDB data provider.
+class MongoDbDataProviderSettings {
+  /// The authentication method for connecting to the data provider. Valid values
+  /// are DEFAULT, MONGODB_CR, or SCRAM_SHA_1.
+  final AuthMechanismValue? authMechanism;
+
+  /// The MongoDB database name. This setting isn't used when
+  /// <code>AuthType</code> is set to <code>"no"</code>.
+  ///
+  /// The default is <code>"admin"</code>.
+  final String? authSource;
+
+  /// The authentication type for the database connection. Valid values are
+  /// PASSWORD or NO.
+  final AuthTypeValue? authType;
+
+  /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+  final String? certificateArn;
+
+  /// The database name on the MongoDB data provider.
+  final String? databaseName;
+
+  /// The port value for the MongoDB data provider.
+  final int? port;
+
+  /// The name of the MongoDB server.
+  final String? serverName;
+
+  /// The SSL mode used to connect to the MongoDB data provider. The default value
+  /// is <code>none</code>.
+  final DmsSslModeValue? sslMode;
+
+  MongoDbDataProviderSettings({
+    this.authMechanism,
+    this.authSource,
+    this.authType,
+    this.certificateArn,
+    this.databaseName,
+    this.port,
+    this.serverName,
+    this.sslMode,
+  });
+
+  factory MongoDbDataProviderSettings.fromJson(Map<String, dynamic> json) {
+    return MongoDbDataProviderSettings(
+      authMechanism: (json['AuthMechanism'] as String?)
+          ?.let(AuthMechanismValue.fromString),
+      authSource: json['AuthSource'] as String?,
+      authType: (json['AuthType'] as String?)?.let(AuthTypeValue.fromString),
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      port: json['Port'] as int?,
+      serverName: json['ServerName'] as String?,
+      sslMode: (json['SslMode'] as String?)?.let(DmsSslModeValue.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authMechanism = this.authMechanism;
+    final authSource = this.authSource;
+    final authType = this.authType;
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final port = this.port;
+    final serverName = this.serverName;
+    final sslMode = this.sslMode;
+    return {
+      if (authMechanism != null) 'AuthMechanism': authMechanism.value,
+      if (authSource != null) 'AuthSource': authSource,
+      if (authType != null) 'AuthType': authType.value,
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (port != null) 'Port': port,
+      if (serverName != null) 'ServerName': serverName,
+      if (sslMode != null) 'SslMode': sslMode.value,
+    };
+  }
+}
+
+/// The SSL certificate that can be used to encrypt connections between the
+/// endpoints and the replication instance.
+class Certificate {
+  /// The Amazon Resource Name (ARN) for the certificate.
+  final String? certificateArn;
+
+  /// The date that the certificate was created.
+  final DateTime? certificateCreationDate;
+
+  /// A customer-assigned name for the certificate. Identifiers must begin with a
+  /// letter and must contain only ASCII letters, digits, and hyphens. They can't
+  /// end with a hyphen or contain two consecutive hyphens.
+  final String? certificateIdentifier;
+
+  /// The owner of the certificate.
+  final String? certificateOwner;
+
+  /// The contents of a <code>.pem</code> file, which contains an X.509
+  /// certificate.
+  final String? certificatePem;
+
+  /// The location of an imported Oracle Wallet certificate for use with SSL.
+  /// Example: <code>filebase64("${path.root}/rds-ca-2019-root.sso")</code>
+  final Uint8List? certificateWallet;
+
+  /// The key length of the cryptographic algorithm being used.
+  final int? keyLength;
+
+  /// An KMS key identifier that is used to encrypt the certificate.
+  ///
+  /// If you don't specify a value for the <code>KmsKeyId</code> parameter, then
+  /// DMS uses your default encryption key.
+  ///
+  /// KMS creates the default encryption key for your Amazon Web Services account.
+  /// Your Amazon Web Services account has a different default encryption key for
+  /// each Amazon Web Services Region.
+  final String? kmsKeyId;
+
+  /// The signing algorithm for the certificate.
+  final String? signingAlgorithm;
+
+  /// The beginning date that the certificate is valid.
+  final DateTime? validFromDate;
+
+  /// The final date that the certificate is valid.
+  final DateTime? validToDate;
+
+  Certificate({
+    this.certificateArn,
+    this.certificateCreationDate,
+    this.certificateIdentifier,
+    this.certificateOwner,
+    this.certificatePem,
+    this.certificateWallet,
+    this.keyLength,
+    this.kmsKeyId,
+    this.signingAlgorithm,
+    this.validFromDate,
+    this.validToDate,
+  });
+
+  factory Certificate.fromJson(Map<String, dynamic> json) {
+    return Certificate(
+      certificateArn: json['CertificateArn'] as String?,
+      certificateCreationDate:
+          timeStampFromJson(json['CertificateCreationDate']),
+      certificateIdentifier: json['CertificateIdentifier'] as String?,
+      certificateOwner: json['CertificateOwner'] as String?,
+      certificatePem: json['CertificatePem'] as String?,
+      certificateWallet:
+          _s.decodeNullableUint8List(json['CertificateWallet'] as String?),
+      keyLength: json['KeyLength'] as int?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      signingAlgorithm: json['SigningAlgorithm'] as String?,
+      validFromDate: timeStampFromJson(json['ValidFromDate']),
+      validToDate: timeStampFromJson(json['ValidToDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateCreationDate = this.certificateCreationDate;
+    final certificateIdentifier = this.certificateIdentifier;
+    final certificateOwner = this.certificateOwner;
+    final certificatePem = this.certificatePem;
+    final certificateWallet = this.certificateWallet;
+    final keyLength = this.keyLength;
+    final kmsKeyId = this.kmsKeyId;
+    final signingAlgorithm = this.signingAlgorithm;
+    final validFromDate = this.validFromDate;
+    final validToDate = this.validToDate;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (certificateCreationDate != null)
+        'CertificateCreationDate': unixTimestampToJson(certificateCreationDate),
+      if (certificateIdentifier != null)
+        'CertificateIdentifier': certificateIdentifier,
+      if (certificateOwner != null) 'CertificateOwner': certificateOwner,
+      if (certificatePem != null) 'CertificatePem': certificatePem,
+      if (certificateWallet != null)
+        'CertificateWallet': base64Encode(certificateWallet),
+      if (keyLength != null) 'KeyLength': keyLength,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (signingAlgorithm != null) 'SigningAlgorithm': signingAlgorithm,
+      if (validFromDate != null)
+        'ValidFromDate': unixTimestampToJson(validFromDate),
+      if (validToDate != null) 'ValidToDate': unixTimestampToJson(validToDate),
+    };
+  }
+}
+
+/// Provides information about an exported metadata model assessment.
+class ExportMetadataModelAssessmentResultEntry {
+  /// The URL for the object containing the exported metadata model assessment.
+  final String? objectURL;
+
+  /// The object key for the object containing the exported metadata model
+  /// assessment.
+  final String? s3ObjectKey;
+
+  ExportMetadataModelAssessmentResultEntry({
+    this.objectURL,
+    this.s3ObjectKey,
+  });
+
+  factory ExportMetadataModelAssessmentResultEntry.fromJson(
+      Map<String, dynamic> json) {
+    return ExportMetadataModelAssessmentResultEntry(
+      objectURL: json['ObjectURL'] as String?,
+      s3ObjectKey: json['S3ObjectKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectURL = this.objectURL;
+    final s3ObjectKey = this.s3ObjectKey;
+    return {
+      if (objectURL != null) 'ObjectURL': objectURL,
+      if (s3ObjectKey != null) 'S3ObjectKey': s3ObjectKey,
+    };
+  }
+}
+
+class AssessmentReportType {
+  static const pdf = AssessmentReportType._('pdf');
+  static const csv = AssessmentReportType._('csv');
+
+  final String value;
+
+  const AssessmentReportType._(this.value);
+
+  static const values = [pdf, csv];
+
+  static AssessmentReportType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssessmentReportType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssessmentReportType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a collection of table statistics in response to a request by the
+/// <code>DescribeTableStatistics</code> operation.
+class TableStatistics {
+  /// The number of data definition language (DDL) statements used to build and
+  /// modify the structure of your tables applied on the target.
+  final int? appliedDdls;
+
+  /// The number of delete actions applied on a target table.
+  final int? appliedDeletes;
+
+  /// The number of insert actions applied on a target table.
+  final int? appliedInserts;
+
+  /// The number of update actions applied on a target table.
+  final int? appliedUpdates;
+
+  /// The data definition language (DDL) used to build and modify the structure of
+  /// your tables.
+  final int? ddls;
+
+  /// The number of delete actions performed on a table.
+  final int? deletes;
+
+  /// The number of rows that failed conditional checks during the full load
+  /// operation (valid only for migrations where DynamoDB is the target).
+  final int? fullLoadCondtnlChkFailedRows;
+
+  /// The time when the full load operation completed.
+  final DateTime? fullLoadEndTime;
+
+  /// The number of rows that failed to load during the full load operation (valid
+  /// only for migrations where DynamoDB is the target).
+  final int? fullLoadErrorRows;
+
+  /// A value that indicates if the table was reloaded (<code>true</code>) or
+  /// loaded as part of a new full load operation (<code>false</code>).
+  final bool? fullLoadReloaded;
+
+  /// The number of rows added during the full load operation.
+  final int? fullLoadRows;
+
+  /// The time when the full load operation started.
+  final DateTime? fullLoadStartTime;
+
+  /// The number of insert actions performed on a table.
+  final int? inserts;
+
+  /// The last time a table was updated.
+  final DateTime? lastUpdateTime;
+
+  /// Calculates the percentage of failed validations that were successfully
+  /// resynced to the system.
+  final double? resyncProgress;
+
+  /// Records the total number of mismatched data rows where the system attempted
+  /// to apply fixes in the target database.
+  final int? resyncRowsAttempted;
+
+  /// Records the total number of mismatched data rows where fix attempts failed
+  /// in the target database.
+  final int? resyncRowsFailed;
+
+  /// Records the total number of mismatched data rows where fixes were
+  /// successfully applied in the target database.
+  final int? resyncRowsSucceeded;
+
+  /// Records the current state of table resynchronization in the migration task.
+  ///
+  /// This parameter can have the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// Not enabled – Resync is not enabled for the table in the migration task.
+  /// </li>
+  /// <li>
+  /// Pending – The tables are waiting for resync.
+  /// </li>
+  /// <li>
+  /// In progress – Resync in progress for some records in the table.
+  /// </li>
+  /// <li>
+  /// No primary key – The table could not be resynced because it has no primary
+  /// key.
+  /// </li>
+  /// <li>
+  /// Last resync at: <code>date/time</code> – Resync session is finished at time.
+  /// Time provided in UTC format.
+  /// </li>
+  /// </ul>
+  final String? resyncState;
+
+  /// The schema name.
+  final String? schemaName;
+
+  /// The name of the table.
+  final String? tableName;
+
+  /// The state of the tables described.
+  ///
+  /// Valid states: Table does not exist | Before load | Full load | Table
+  /// completed | Table cancelled | Table error | Table is being reloaded
+  final String? tableState;
+
+  /// The number of update actions performed on a table.
+  final int? updates;
+
+  /// The number of records that failed validation.
+  final int? validationFailedRecords;
+
+  /// The number of records that have yet to be validated.
+  final int? validationPendingRecords;
+
+  /// The validation state of the table.
+  ///
+  /// This parameter can have the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// Not enabled – Validation isn't enabled for the table in the migration task.
+  /// </li>
+  /// <li>
+  /// Pending records – Some records in the table are waiting for validation.
+  /// </li>
+  /// <li>
+  /// Mismatched records – Some records in the table don't match between the
+  /// source and target.
+  /// </li>
+  /// <li>
+  /// Suspended records – Some records in the table couldn't be validated.
+  /// </li>
+  /// <li>
+  /// No primary key –The table couldn't be validated because it has no primary
+  /// key.
+  /// </li>
+  /// <li>
+  /// Table error – The table wasn't validated because it's in an error state and
+  /// some data wasn't migrated.
+  /// </li>
+  /// <li>
+  /// Validated – All rows in the table are validated. If the table is updated,
+  /// the status can change from Validated.
+  /// </li>
+  /// <li>
+  /// Error – The table couldn't be validated because of an unexpected error.
+  /// </li>
+  /// <li>
+  /// Pending validation – The table is waiting validation.
+  /// </li>
+  /// <li>
+  /// Preparing table – Preparing the table enabled in the migration task for
+  /// validation.
+  /// </li>
+  /// <li>
+  /// Pending revalidation – All rows in the table are pending validation after
+  /// the table was updated.
+  /// </li>
+  /// </ul>
+  final String? validationState;
+
+  /// Additional details about the state of validation.
+  final String? validationStateDetails;
+
+  /// The number of records that couldn't be validated.
+  final int? validationSuspendedRecords;
+
+  TableStatistics({
+    this.appliedDdls,
+    this.appliedDeletes,
+    this.appliedInserts,
+    this.appliedUpdates,
+    this.ddls,
+    this.deletes,
+    this.fullLoadCondtnlChkFailedRows,
+    this.fullLoadEndTime,
+    this.fullLoadErrorRows,
+    this.fullLoadReloaded,
+    this.fullLoadRows,
+    this.fullLoadStartTime,
+    this.inserts,
+    this.lastUpdateTime,
+    this.resyncProgress,
+    this.resyncRowsAttempted,
+    this.resyncRowsFailed,
+    this.resyncRowsSucceeded,
+    this.resyncState,
+    this.schemaName,
+    this.tableName,
+    this.tableState,
+    this.updates,
+    this.validationFailedRecords,
+    this.validationPendingRecords,
+    this.validationState,
+    this.validationStateDetails,
+    this.validationSuspendedRecords,
+  });
+
+  factory TableStatistics.fromJson(Map<String, dynamic> json) {
+    return TableStatistics(
+      appliedDdls: json['AppliedDdls'] as int?,
+      appliedDeletes: json['AppliedDeletes'] as int?,
+      appliedInserts: json['AppliedInserts'] as int?,
+      appliedUpdates: json['AppliedUpdates'] as int?,
+      ddls: json['Ddls'] as int?,
+      deletes: json['Deletes'] as int?,
+      fullLoadCondtnlChkFailedRows:
+          json['FullLoadCondtnlChkFailedRows'] as int?,
+      fullLoadEndTime: timeStampFromJson(json['FullLoadEndTime']),
+      fullLoadErrorRows: json['FullLoadErrorRows'] as int?,
+      fullLoadReloaded: json['FullLoadReloaded'] as bool?,
+      fullLoadRows: json['FullLoadRows'] as int?,
+      fullLoadStartTime: timeStampFromJson(json['FullLoadStartTime']),
+      inserts: json['Inserts'] as int?,
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      resyncProgress: json['ResyncProgress'] as double?,
+      resyncRowsAttempted: json['ResyncRowsAttempted'] as int?,
+      resyncRowsFailed: json['ResyncRowsFailed'] as int?,
+      resyncRowsSucceeded: json['ResyncRowsSucceeded'] as int?,
+      resyncState: json['ResyncState'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      tableName: json['TableName'] as String?,
+      tableState: json['TableState'] as String?,
+      updates: json['Updates'] as int?,
+      validationFailedRecords: json['ValidationFailedRecords'] as int?,
+      validationPendingRecords: json['ValidationPendingRecords'] as int?,
+      validationState: json['ValidationState'] as String?,
+      validationStateDetails: json['ValidationStateDetails'] as String?,
+      validationSuspendedRecords: json['ValidationSuspendedRecords'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appliedDdls = this.appliedDdls;
+    final appliedDeletes = this.appliedDeletes;
+    final appliedInserts = this.appliedInserts;
+    final appliedUpdates = this.appliedUpdates;
+    final ddls = this.ddls;
+    final deletes = this.deletes;
+    final fullLoadCondtnlChkFailedRows = this.fullLoadCondtnlChkFailedRows;
+    final fullLoadEndTime = this.fullLoadEndTime;
+    final fullLoadErrorRows = this.fullLoadErrorRows;
+    final fullLoadReloaded = this.fullLoadReloaded;
+    final fullLoadRows = this.fullLoadRows;
+    final fullLoadStartTime = this.fullLoadStartTime;
+    final inserts = this.inserts;
+    final lastUpdateTime = this.lastUpdateTime;
+    final resyncProgress = this.resyncProgress;
+    final resyncRowsAttempted = this.resyncRowsAttempted;
+    final resyncRowsFailed = this.resyncRowsFailed;
+    final resyncRowsSucceeded = this.resyncRowsSucceeded;
+    final resyncState = this.resyncState;
+    final schemaName = this.schemaName;
+    final tableName = this.tableName;
+    final tableState = this.tableState;
+    final updates = this.updates;
+    final validationFailedRecords = this.validationFailedRecords;
+    final validationPendingRecords = this.validationPendingRecords;
+    final validationState = this.validationState;
+    final validationStateDetails = this.validationStateDetails;
+    final validationSuspendedRecords = this.validationSuspendedRecords;
+    return {
+      if (appliedDdls != null) 'AppliedDdls': appliedDdls,
+      if (appliedDeletes != null) 'AppliedDeletes': appliedDeletes,
+      if (appliedInserts != null) 'AppliedInserts': appliedInserts,
+      if (appliedUpdates != null) 'AppliedUpdates': appliedUpdates,
+      if (ddls != null) 'Ddls': ddls,
+      if (deletes != null) 'Deletes': deletes,
+      if (fullLoadCondtnlChkFailedRows != null)
+        'FullLoadCondtnlChkFailedRows': fullLoadCondtnlChkFailedRows,
+      if (fullLoadEndTime != null)
+        'FullLoadEndTime': unixTimestampToJson(fullLoadEndTime),
+      if (fullLoadErrorRows != null) 'FullLoadErrorRows': fullLoadErrorRows,
+      if (fullLoadReloaded != null) 'FullLoadReloaded': fullLoadReloaded,
+      if (fullLoadRows != null) 'FullLoadRows': fullLoadRows,
+      if (fullLoadStartTime != null)
+        'FullLoadStartTime': unixTimestampToJson(fullLoadStartTime),
+      if (inserts != null) 'Inserts': inserts,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (resyncProgress != null) 'ResyncProgress': resyncProgress,
+      if (resyncRowsAttempted != null)
+        'ResyncRowsAttempted': resyncRowsAttempted,
+      if (resyncRowsFailed != null) 'ResyncRowsFailed': resyncRowsFailed,
+      if (resyncRowsSucceeded != null)
+        'ResyncRowsSucceeded': resyncRowsSucceeded,
+      if (resyncState != null) 'ResyncState': resyncState,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (tableName != null) 'TableName': tableName,
+      if (tableState != null) 'TableState': tableState,
+      if (updates != null) 'Updates': updates,
+      if (validationFailedRecords != null)
+        'ValidationFailedRecords': validationFailedRecords,
+      if (validationPendingRecords != null)
+        'ValidationPendingRecords': validationPendingRecords,
+      if (validationState != null) 'ValidationState': validationState,
+      if (validationStateDetails != null)
+        'ValidationStateDetails': validationStateDetails,
+      if (validationSuspendedRecords != null)
+        'ValidationSuspendedRecords': validationSuspendedRecords,
+    };
+  }
+}
+
+/// Identifies the name and value of a filter object. This filter is used to
+/// limit the number and type of DMS objects that are returned for a particular
+/// <code>Describe*</code> call or similar operation. Filters are used as an
+/// optional parameter for certain API operations.
+class Filter {
+  /// The name of the filter as specified for a <code>Describe*</code> or similar
+  /// operation.
+  final String name;
+
+  /// The filter value, which can specify one or more values used to narrow the
+  /// returned results.
+  final List<String> values;
+
+  Filter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
+}
+
+/// Provides information that describes an individual assessment from a
+/// premigration assessment run.
+class ReplicationTaskIndividualAssessment {
+  /// Name of this individual assessment.
+  final String? individualAssessmentName;
+
+  /// ARN of the premigration assessment run that is created to run this
+  /// individual assessment.
+  final String? replicationTaskAssessmentRunArn;
+
+  /// Amazon Resource Name (ARN) of this individual assessment.
+  final String? replicationTaskIndividualAssessmentArn;
+
+  /// Date when this individual assessment was started as part of running the
+  /// <code>StartReplicationTaskAssessmentRun</code> operation.
+  final DateTime? replicationTaskIndividualAssessmentStartDate;
+
+  /// Individual assessment status.
+  ///
+  /// This status can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"cancelled"</code>
+  /// </li>
+  /// <li>
+  /// <code>"error"</code>
+  /// </li>
+  /// <li>
+  /// <code>"failed"</code>
+  /// </li>
+  /// <li>
+  /// <code>"passed"</code>
+  /// </li>
+  /// <li>
+  /// <code>"pending"</code>
+  /// </li>
+  /// <li>
+  /// <code>"skipped"</code>
+  /// </li>
+  /// <li>
+  /// <code>"running"</code>
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  ReplicationTaskIndividualAssessment({
+    this.individualAssessmentName,
+    this.replicationTaskAssessmentRunArn,
+    this.replicationTaskIndividualAssessmentArn,
+    this.replicationTaskIndividualAssessmentStartDate,
+    this.status,
+  });
+
+  factory ReplicationTaskIndividualAssessment.fromJson(
+      Map<String, dynamic> json) {
+    return ReplicationTaskIndividualAssessment(
+      individualAssessmentName: json['IndividualAssessmentName'] as String?,
+      replicationTaskAssessmentRunArn:
+          json['ReplicationTaskAssessmentRunArn'] as String?,
+      replicationTaskIndividualAssessmentArn:
+          json['ReplicationTaskIndividualAssessmentArn'] as String?,
+      replicationTaskIndividualAssessmentStartDate: timeStampFromJson(
+          json['ReplicationTaskIndividualAssessmentStartDate']),
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final individualAssessmentName = this.individualAssessmentName;
+    final replicationTaskAssessmentRunArn =
+        this.replicationTaskAssessmentRunArn;
+    final replicationTaskIndividualAssessmentArn =
+        this.replicationTaskIndividualAssessmentArn;
+    final replicationTaskIndividualAssessmentStartDate =
+        this.replicationTaskIndividualAssessmentStartDate;
+    final status = this.status;
+    return {
+      if (individualAssessmentName != null)
+        'IndividualAssessmentName': individualAssessmentName,
+      if (replicationTaskAssessmentRunArn != null)
+        'ReplicationTaskAssessmentRunArn': replicationTaskAssessmentRunArn,
+      if (replicationTaskIndividualAssessmentArn != null)
+        'ReplicationTaskIndividualAssessmentArn':
+            replicationTaskIndividualAssessmentArn,
+      if (replicationTaskIndividualAssessmentStartDate != null)
+        'ReplicationTaskIndividualAssessmentStartDate':
+            unixTimestampToJson(replicationTaskIndividualAssessmentStartDate),
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// The task assessment report in JSON format.
+class ReplicationTaskAssessmentResult {
+  /// The task assessment results in JSON format.
+  ///
+  /// The response object only contains this field if you provide
+  /// <a>DescribeReplicationTaskAssessmentResultsMessage$ReplicationTaskArn</a> in
+  /// the request.
+  final String? assessmentResults;
+
+  /// The file containing the results of the task assessment.
+  final String? assessmentResultsFile;
+
+  /// The status of the task assessment.
+  final String? assessmentStatus;
+
+  /// The Amazon Resource Name (ARN) of the replication task.
+  final String? replicationTaskArn;
+
+  /// The replication task identifier of the task on which the task assessment was
+  /// run.
+  final String? replicationTaskIdentifier;
+
+  /// The date the task assessment was completed.
+  final DateTime? replicationTaskLastAssessmentDate;
+
+  /// The URL of the S3 object containing the task assessment results.
+  ///
+  /// The response object only contains this field if you provide
+  /// <a>DescribeReplicationTaskAssessmentResultsMessage$ReplicationTaskArn</a> in
+  /// the request.
+  final String? s3ObjectUrl;
+
+  ReplicationTaskAssessmentResult({
+    this.assessmentResults,
+    this.assessmentResultsFile,
+    this.assessmentStatus,
+    this.replicationTaskArn,
+    this.replicationTaskIdentifier,
+    this.replicationTaskLastAssessmentDate,
+    this.s3ObjectUrl,
+  });
+
+  factory ReplicationTaskAssessmentResult.fromJson(Map<String, dynamic> json) {
+    return ReplicationTaskAssessmentResult(
+      assessmentResults: json['AssessmentResults'] as String?,
+      assessmentResultsFile: json['AssessmentResultsFile'] as String?,
+      assessmentStatus: json['AssessmentStatus'] as String?,
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+      replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String?,
+      replicationTaskLastAssessmentDate:
+          timeStampFromJson(json['ReplicationTaskLastAssessmentDate']),
+      s3ObjectUrl: json['S3ObjectUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentResults = this.assessmentResults;
+    final assessmentResultsFile = this.assessmentResultsFile;
+    final assessmentStatus = this.assessmentStatus;
+    final replicationTaskArn = this.replicationTaskArn;
+    final replicationTaskIdentifier = this.replicationTaskIdentifier;
+    final replicationTaskLastAssessmentDate =
+        this.replicationTaskLastAssessmentDate;
+    final s3ObjectUrl = this.s3ObjectUrl;
+    return {
+      if (assessmentResults != null) 'AssessmentResults': assessmentResults,
+      if (assessmentResultsFile != null)
+        'AssessmentResultsFile': assessmentResultsFile,
+      if (assessmentStatus != null) 'AssessmentStatus': assessmentStatus,
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+      if (replicationTaskIdentifier != null)
+        'ReplicationTaskIdentifier': replicationTaskIdentifier,
+      if (replicationTaskLastAssessmentDate != null)
+        'ReplicationTaskLastAssessmentDate':
+            unixTimestampToJson(replicationTaskLastAssessmentDate),
+      if (s3ObjectUrl != null) 'S3ObjectUrl': s3ObjectUrl,
+    };
+  }
+}
+
+/// Contains metadata for a replication instance task log.
+class ReplicationInstanceTaskLog {
+  /// The size, in bytes, of the replication task log.
+  final int? replicationInstanceTaskLogSize;
+
+  /// The Amazon Resource Name (ARN) of the replication task.
+  final String? replicationTaskArn;
+
+  /// The name of the replication task.
+  final String? replicationTaskName;
+
+  ReplicationInstanceTaskLog({
+    this.replicationInstanceTaskLogSize,
+    this.replicationTaskArn,
+    this.replicationTaskName,
+  });
+
+  factory ReplicationInstanceTaskLog.fromJson(Map<String, dynamic> json) {
+    return ReplicationInstanceTaskLog(
+      replicationInstanceTaskLogSize:
+          json['ReplicationInstanceTaskLogSize'] as int?,
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+      replicationTaskName: json['ReplicationTaskName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationInstanceTaskLogSize = this.replicationInstanceTaskLogSize;
+    final replicationTaskArn = this.replicationTaskArn;
+    final replicationTaskName = this.replicationTaskName;
+    return {
+      if (replicationInstanceTaskLogSize != null)
+        'ReplicationInstanceTaskLogSize': replicationInstanceTaskLogSize,
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+      if (replicationTaskName != null)
+        'ReplicationTaskName': replicationTaskName,
+    };
+  }
+}
+
+/// Provides information that describes a recommendation of a target engine.
+///
+/// A <i>recommendation</i> is a set of possible Amazon Web Services target
+/// engines that you can choose to migrate your source on-premises database. In
+/// this set, Fleet Advisor suggests a single target engine as the right sized
+/// migration destination. To determine this rightsized migration destination,
+/// Fleet Advisor uses the inventory metadata and metrics from data collector.
+/// You can use recommendations before the start of migration to save costs and
+/// reduce risks.
+///
+/// With recommendations, you can explore different target options and compare
+/// metrics, so you can make an informed decision when you choose the migration
+/// target.
+class Recommendation {
+  /// The date when Fleet Advisor created the target engine recommendation.
+  final String? createdDate;
+
+  /// The recommendation of a target engine for the specified source database.
+  final RecommendationData? data;
+
+  /// The identifier of the source database for which Fleet Advisor provided this
+  /// recommendation.
+  final String? databaseId;
+
+  /// The name of the target engine. Valid values include
+  /// <code>"rds-aurora-mysql"</code>, <code>"rds-aurora-postgresql"</code>,
+  /// <code>"rds-mysql"</code>, <code>"rds-oracle"</code>,
+  /// <code>"rds-sql-server"</code>, and <code>"rds-postgresql"</code>.
+  final String? engineName;
+
+  /// Indicates that this target is the rightsized migration destination.
+  final bool? preferred;
+
+  /// The settings in JSON format for the preferred target engine parameters.
+  /// These parameters include capacity, resource utilization, and the usage type
+  /// (production, development, or testing).
+  final RecommendationSettings? settings;
+
+  /// The status of the target engine recommendation. Valid values include
+  /// <code>"alternate"</code>, <code>"in-progress"</code>,
+  /// <code>"not-viable"</code>, and <code>"recommended"</code>.
+  final String? status;
+
+  Recommendation({
+    this.createdDate,
+    this.data,
+    this.databaseId,
+    this.engineName,
+    this.preferred,
+    this.settings,
+    this.status,
+  });
+
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
+    return Recommendation(
+      createdDate: json['CreatedDate'] as String?,
+      data: json['Data'] != null
+          ? RecommendationData.fromJson(json['Data'] as Map<String, dynamic>)
+          : null,
+      databaseId: json['DatabaseId'] as String?,
+      engineName: json['EngineName'] as String?,
+      preferred: json['Preferred'] as bool?,
+      settings: json['Settings'] != null
+          ? RecommendationSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final data = this.data;
+    final databaseId = this.databaseId;
+    final engineName = this.engineName;
+    final preferred = this.preferred;
+    final settings = this.settings;
+    final status = this.status;
+    return {
+      if (createdDate != null) 'CreatedDate': createdDate,
+      if (data != null) 'Data': data,
+      if (databaseId != null) 'DatabaseId': databaseId,
+      if (engineName != null) 'EngineName': engineName,
+      if (preferred != null) 'Preferred': preferred,
+      if (settings != null) 'Settings': settings,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Provides information about the target engine for the specified source
+/// database.
+class RecommendationData {
+  /// The recommendation of a target Amazon RDS database engine.
+  final RdsRecommendation? rdsEngine;
+
+  RecommendationData({
+    this.rdsEngine,
+  });
+
+  factory RecommendationData.fromJson(Map<String, dynamic> json) {
+    return RecommendationData(
+      rdsEngine: json['RdsEngine'] != null
+          ? RdsRecommendation.fromJson(
+              json['RdsEngine'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rdsEngine = this.rdsEngine;
+    return {
+      if (rdsEngine != null) 'RdsEngine': rdsEngine,
+    };
+  }
+}
+
+/// Provides information that describes a recommendation of a target engine on
+/// Amazon RDS.
+class RdsRecommendation {
+  /// Supplemental information about the requirements to the recommended target
+  /// database on Amazon RDS.
+  final RdsRequirements? requirementsToTarget;
+
+  /// Supplemental information about the configuration of the recommended target
+  /// database on Amazon RDS.
+  final RdsConfiguration? targetConfiguration;
+
+  RdsRecommendation({
+    this.requirementsToTarget,
+    this.targetConfiguration,
+  });
+
+  factory RdsRecommendation.fromJson(Map<String, dynamic> json) {
+    return RdsRecommendation(
+      requirementsToTarget: json['RequirementsToTarget'] != null
+          ? RdsRequirements.fromJson(
+              json['RequirementsToTarget'] as Map<String, dynamic>)
+          : null,
+      targetConfiguration: json['TargetConfiguration'] != null
+          ? RdsConfiguration.fromJson(
+              json['TargetConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requirementsToTarget = this.requirementsToTarget;
+    final targetConfiguration = this.targetConfiguration;
+    return {
+      if (requirementsToTarget != null)
+        'RequirementsToTarget': requirementsToTarget,
+      if (targetConfiguration != null)
+        'TargetConfiguration': targetConfiguration,
+    };
+  }
+}
+
+/// Provides information that describes the requirements to the target engine on
+/// Amazon RDS.
+class RdsRequirements {
+  /// The required deployment option for the Amazon RDS DB instance. Valid values
+  /// include <code>"MULTI_AZ"</code> for Multi-AZ deployments and
+  /// <code>"SINGLE_AZ"</code> for Single-AZ deployments.
+  final String? deploymentOption;
+
+  /// The required target Amazon RDS engine edition.
+  final String? engineEdition;
+
+  /// The required target Amazon RDS engine version.
+  final String? engineVersion;
+
+  /// The required memory on the Amazon RDS DB instance.
+  final double? instanceMemory;
+
+  /// The required number of virtual CPUs (vCPU) on the Amazon RDS DB instance.
+  final double? instanceVcpu;
+
+  /// The required number of I/O operations completed each second (IOPS) on your
+  /// Amazon RDS DB instance.
+  final int? storageIops;
+
+  /// The required Amazon RDS DB instance storage size.
+  final int? storageSize;
+
+  RdsRequirements({
+    this.deploymentOption,
+    this.engineEdition,
+    this.engineVersion,
+    this.instanceMemory,
+    this.instanceVcpu,
+    this.storageIops,
+    this.storageSize,
+  });
+
+  factory RdsRequirements.fromJson(Map<String, dynamic> json) {
+    return RdsRequirements(
+      deploymentOption: json['DeploymentOption'] as String?,
+      engineEdition: json['EngineEdition'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      instanceMemory: json['InstanceMemory'] as double?,
+      instanceVcpu: json['InstanceVcpu'] as double?,
+      storageIops: json['StorageIops'] as int?,
+      storageSize: json['StorageSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentOption = this.deploymentOption;
+    final engineEdition = this.engineEdition;
+    final engineVersion = this.engineVersion;
+    final instanceMemory = this.instanceMemory;
+    final instanceVcpu = this.instanceVcpu;
+    final storageIops = this.storageIops;
+    final storageSize = this.storageSize;
+    return {
+      if (deploymentOption != null) 'DeploymentOption': deploymentOption,
+      if (engineEdition != null) 'EngineEdition': engineEdition,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (instanceMemory != null) 'InstanceMemory': instanceMemory,
+      if (instanceVcpu != null) 'InstanceVcpu': instanceVcpu,
+      if (storageIops != null) 'StorageIops': storageIops,
+      if (storageSize != null) 'StorageSize': storageSize,
+    };
+  }
+}
+
+/// Provides information that describes the configuration of the recommended
+/// target engine on Amazon RDS.
+class RdsConfiguration {
+  /// Describes the deployment option for the recommended Amazon RDS DB instance.
+  /// The deployment options include Multi-AZ and Single-AZ deployments. Valid
+  /// values include <code>"MULTI_AZ"</code> and <code>"SINGLE_AZ"</code>.
+  final String? deploymentOption;
+
+  /// Describes the recommended target Amazon RDS engine edition.
+  final String? engineEdition;
+
+  /// Describes the recommended target Amazon RDS engine version.
+  final String? engineVersion;
+
+  /// Describes the memory on the recommended Amazon RDS DB instance that meets
+  /// your requirements.
+  final double? instanceMemory;
+
+  /// Describes the recommended target Amazon RDS instance type.
+  final String? instanceType;
+
+  /// Describes the number of virtual CPUs (vCPU) on the recommended Amazon RDS DB
+  /// instance that meets your requirements.
+  final double? instanceVcpu;
+
+  /// Describes the number of I/O operations completed each second (IOPS) on the
+  /// recommended Amazon RDS DB instance that meets your requirements.
+  final int? storageIops;
+
+  /// Describes the storage size of the recommended Amazon RDS DB instance that
+  /// meets your requirements.
+  final int? storageSize;
+
+  /// Describes the storage type of the recommended Amazon RDS DB instance that
+  /// meets your requirements.
+  ///
+  /// Amazon RDS provides three storage types: General Purpose SSD (also known as
+  /// gp2 and gp3), Provisioned IOPS SSD (also known as io1), and magnetic (also
+  /// known as standard).
+  final String? storageType;
+
+  RdsConfiguration({
+    this.deploymentOption,
+    this.engineEdition,
+    this.engineVersion,
+    this.instanceMemory,
+    this.instanceType,
+    this.instanceVcpu,
+    this.storageIops,
+    this.storageSize,
+    this.storageType,
+  });
+
+  factory RdsConfiguration.fromJson(Map<String, dynamic> json) {
+    return RdsConfiguration(
+      deploymentOption: json['DeploymentOption'] as String?,
+      engineEdition: json['EngineEdition'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      instanceMemory: json['InstanceMemory'] as double?,
+      instanceType: json['InstanceType'] as String?,
+      instanceVcpu: json['InstanceVcpu'] as double?,
+      storageIops: json['StorageIops'] as int?,
+      storageSize: json['StorageSize'] as int?,
+      storageType: json['StorageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentOption = this.deploymentOption;
+    final engineEdition = this.engineEdition;
+    final engineVersion = this.engineVersion;
+    final instanceMemory = this.instanceMemory;
+    final instanceType = this.instanceType;
+    final instanceVcpu = this.instanceVcpu;
+    final storageIops = this.storageIops;
+    final storageSize = this.storageSize;
+    final storageType = this.storageType;
+    return {
+      if (deploymentOption != null) 'DeploymentOption': deploymentOption,
+      if (engineEdition != null) 'EngineEdition': engineEdition,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (instanceMemory != null) 'InstanceMemory': instanceMemory,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (instanceVcpu != null) 'InstanceVcpu': instanceVcpu,
+      if (storageIops != null) 'StorageIops': storageIops,
+      if (storageSize != null) 'StorageSize': storageSize,
+      if (storageType != null) 'StorageType': storageType,
+    };
+  }
+}
+
+/// Provides information about the limitations of target Amazon Web Services
+/// engines.
+///
+/// Your source database might include features that the target Amazon Web
+/// Services engine doesn't support. Fleet Advisor lists these features as
+/// limitations. You should consider these limitations during database
+/// migration. For each limitation, Fleet Advisor recommends an action that you
+/// can take to address or avoid this limitation.
+class Limitation {
+  /// The identifier of the source database.
+  final String? databaseId;
+
+  /// A description of the limitation. Provides additional information about the
+  /// limitation, and includes recommended actions that you can take to address or
+  /// avoid this limitation.
+  final String? description;
+
+  /// The name of the target engine that Fleet Advisor should use in the target
+  /// engine recommendation. Valid values include <code>"rds-aurora-mysql"</code>,
+  /// <code>"rds-aurora-postgresql"</code>, <code>"rds-mysql"</code>,
+  /// <code>"rds-oracle"</code>, <code>"rds-sql-server"</code>, and
+  /// <code>"rds-postgresql"</code>.
+  final String? engineName;
+
+  /// The impact of the limitation. You can use this parameter to prioritize
+  /// limitations that you want to address. Valid values include
+  /// <code>"Blocker"</code>, <code>"High"</code>, <code>"Medium"</code>, and
+  /// <code>"Low"</code>.
+  final String? impact;
+
+  /// The name of the limitation. Describes unsupported database features,
+  /// migration action items, and other limitations.
+  final String? name;
+
+  /// The type of the limitation, such as action required, upgrade required, and
+  /// limited feature.
+  final String? type;
+
+  Limitation({
+    this.databaseId,
+    this.description,
+    this.engineName,
+    this.impact,
+    this.name,
+    this.type,
+  });
+
+  factory Limitation.fromJson(Map<String, dynamic> json) {
+    return Limitation(
+      databaseId: json['DatabaseId'] as String?,
+      description: json['Description'] as String?,
+      engineName: json['EngineName'] as String?,
+      impact: json['Impact'] as String?,
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseId = this.databaseId;
+    final description = this.description;
+    final engineName = this.engineName;
+    final impact = this.impact;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (databaseId != null) 'DatabaseId': databaseId,
+      if (description != null) 'Description': description,
+      if (engineName != null) 'EngineName': engineName,
+      if (impact != null) 'Impact': impact,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Identifies an DMS resource and any pending actions for it.
+class ResourcePendingMaintenanceActions {
+  /// Detailed information about the pending maintenance action.
+  final List<PendingMaintenanceAction>? pendingMaintenanceActionDetails;
+
+  /// The Amazon Resource Name (ARN) of the DMS resource that the pending
+  /// maintenance action applies to. For information about creating an ARN, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Introduction.AWS.ARN.html">
+  /// Constructing an Amazon Resource Name (ARN) for DMS</a> in the DMS
+  /// documentation.
+  final String? resourceIdentifier;
+
+  ResourcePendingMaintenanceActions({
+    this.pendingMaintenanceActionDetails,
+    this.resourceIdentifier,
+  });
+
+  factory ResourcePendingMaintenanceActions.fromJson(
+      Map<String, dynamic> json) {
+    return ResourcePendingMaintenanceActions(
+      pendingMaintenanceActionDetails:
+          (json['PendingMaintenanceActionDetails'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  PendingMaintenanceAction.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      resourceIdentifier: json['ResourceIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pendingMaintenanceActionDetails =
+        this.pendingMaintenanceActionDetails;
+    final resourceIdentifier = this.resourceIdentifier;
+    return {
+      if (pendingMaintenanceActionDetails != null)
+        'PendingMaintenanceActionDetails': pendingMaintenanceActionDetails,
+      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+    };
+  }
+}
+
+/// Describes a maintenance action pending for an DMS resource, including when
+/// and how it will be applied. This data type is a response element to the
+/// <code>DescribePendingMaintenanceActions</code> operation.
+class PendingMaintenanceAction {
+  /// The type of pending maintenance action that is available for the resource.
+  final String? action;
+
+  /// The date of the maintenance window when the action is to be applied. The
+  /// maintenance action is applied to the resource during its first maintenance
+  /// window after this date. If this date is specified, any
+  /// <code>next-maintenance</code> opt-in requests are ignored.
+  final DateTime? autoAppliedAfterDate;
+
+  /// The effective date when the pending maintenance action will be applied to
+  /// the resource. This date takes into account opt-in requests received from the
+  /// <code>ApplyPendingMaintenanceAction</code> API operation, and also the
+  /// <code>AutoAppliedAfterDate</code> and <code>ForcedApplyDate</code> parameter
+  /// values. This value is blank if an opt-in request has not been received and
+  /// nothing has been specified for <code>AutoAppliedAfterDate</code> or
+  /// <code>ForcedApplyDate</code>.
+  final DateTime? currentApplyDate;
+
+  /// A description providing more detail about the maintenance action.
+  final String? description;
+
+  /// The date when the maintenance action will be automatically applied. The
+  /// maintenance action is applied to the resource on this date regardless of the
+  /// maintenance window for the resource. If this date is specified, any
+  /// <code>immediate</code> opt-in requests are ignored.
+  final DateTime? forcedApplyDate;
+
+  /// The type of opt-in request that has been received for the resource.
+  final String? optInStatus;
+
+  PendingMaintenanceAction({
+    this.action,
+    this.autoAppliedAfterDate,
+    this.currentApplyDate,
+    this.description,
+    this.forcedApplyDate,
+    this.optInStatus,
+  });
+
+  factory PendingMaintenanceAction.fromJson(Map<String, dynamic> json) {
+    return PendingMaintenanceAction(
+      action: json['Action'] as String?,
+      autoAppliedAfterDate: timeStampFromJson(json['AutoAppliedAfterDate']),
+      currentApplyDate: timeStampFromJson(json['CurrentApplyDate']),
+      description: json['Description'] as String?,
+      forcedApplyDate: timeStampFromJson(json['ForcedApplyDate']),
+      optInStatus: json['OptInStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final autoAppliedAfterDate = this.autoAppliedAfterDate;
+    final currentApplyDate = this.currentApplyDate;
+    final description = this.description;
+    final forcedApplyDate = this.forcedApplyDate;
+    final optInStatus = this.optInStatus;
+    return {
+      if (action != null) 'Action': action,
+      if (autoAppliedAfterDate != null)
+        'AutoAppliedAfterDate': unixTimestampToJson(autoAppliedAfterDate),
+      if (currentApplyDate != null)
+        'CurrentApplyDate': unixTimestampToJson(currentApplyDate),
+      if (description != null) 'Description': description,
+      if (forcedApplyDate != null)
+        'ForcedApplyDate': unixTimestampToJson(forcedApplyDate),
+      if (optInStatus != null) 'OptInStatus': optInStatus,
+    };
+  }
+}
+
+/// In response to the <code>DescribeOrderableReplicationInstances</code>
+/// operation, this object describes an available replication instance. This
+/// description includes the replication instance's type, engine version, and
+/// allocated storage.
+class OrderableReplicationInstance {
+  /// List of Availability Zones for this replication instance.
+  final List<String>? availabilityZones;
+
+  /// The default amount of storage (in gigabytes) that is allocated for the
+  /// replication instance.
+  final int? defaultAllocatedStorage;
+
+  /// The version of the replication engine.
+  final String? engineVersion;
+
+  /// The amount of storage (in gigabytes) that is allocated for the replication
+  /// instance.
+  final int? includedAllocatedStorage;
+
+  /// The minimum amount of storage (in gigabytes) that can be allocated for the
+  /// replication instance.
+  final int? maxAllocatedStorage;
+
+  /// The minimum amount of storage (in gigabytes) that can be allocated for the
+  /// replication instance.
+  final int? minAllocatedStorage;
+
+  /// The value returned when the specified <code>EngineVersion</code> of the
+  /// replication instance is in Beta or test mode. This indicates some features
+  /// might not work as expected.
+  /// <note>
+  /// DMS supports the <code>ReleaseStatus</code> parameter in versions 3.1.4 and
+  /// later.
+  /// </note>
+  final ReleaseStatusValues? releaseStatus;
+
+  /// The compute and memory capacity of the replication instance as defined for
+  /// the specified replication instance class. For example to specify the
+  /// instance class dms.c4.large, set this parameter to
+  /// <code>"dms.c4.large"</code>.
+  ///
+  /// For more information on the settings and capacities for the available
+  /// replication instance classes, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
+  /// Selecting the right DMS replication instance for your migration</a>.
+  final String? replicationInstanceClass;
+
+  /// The type of storage used by the replication instance.
+  final String? storageType;
+
+  OrderableReplicationInstance({
+    this.availabilityZones,
+    this.defaultAllocatedStorage,
+    this.engineVersion,
+    this.includedAllocatedStorage,
+    this.maxAllocatedStorage,
+    this.minAllocatedStorage,
+    this.releaseStatus,
+    this.replicationInstanceClass,
+    this.storageType,
+  });
+
+  factory OrderableReplicationInstance.fromJson(Map<String, dynamic> json) {
+    return OrderableReplicationInstance(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      defaultAllocatedStorage: json['DefaultAllocatedStorage'] as int?,
+      engineVersion: json['EngineVersion'] as String?,
+      includedAllocatedStorage: json['IncludedAllocatedStorage'] as int?,
+      maxAllocatedStorage: json['MaxAllocatedStorage'] as int?,
+      minAllocatedStorage: json['MinAllocatedStorage'] as int?,
+      releaseStatus: (json['ReleaseStatus'] as String?)
+          ?.let(ReleaseStatusValues.fromString),
+      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
+      storageType: json['StorageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final defaultAllocatedStorage = this.defaultAllocatedStorage;
+    final engineVersion = this.engineVersion;
+    final includedAllocatedStorage = this.includedAllocatedStorage;
+    final maxAllocatedStorage = this.maxAllocatedStorage;
+    final minAllocatedStorage = this.minAllocatedStorage;
+    final releaseStatus = this.releaseStatus;
+    final replicationInstanceClass = this.replicationInstanceClass;
+    final storageType = this.storageType;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (defaultAllocatedStorage != null)
+        'DefaultAllocatedStorage': defaultAllocatedStorage,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (includedAllocatedStorage != null)
+        'IncludedAllocatedStorage': includedAllocatedStorage,
+      if (maxAllocatedStorage != null)
+        'MaxAllocatedStorage': maxAllocatedStorage,
+      if (minAllocatedStorage != null)
+        'MinAllocatedStorage': minAllocatedStorage,
+      if (releaseStatus != null) 'ReleaseStatus': releaseStatus.value,
+      if (replicationInstanceClass != null)
+        'ReplicationInstanceClass': replicationInstanceClass,
+      if (storageType != null) 'StorageType': storageType,
+    };
+  }
+}
+
+class ReleaseStatusValues {
+  static const beta = ReleaseStatusValues._('beta');
+  static const prod = ReleaseStatusValues._('prod');
+
+  final String value;
+
+  const ReleaseStatusValues._(this.value);
+
+  static const values = [beta, prod];
+
+  static ReleaseStatusValues fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReleaseStatusValues._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReleaseStatusValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Provides information about a schema conversion action.
 class SchemaConversionRequest {
   final ErrorDetails? error;
@@ -19266,6 +22083,7 @@ class SchemaConversionRequest {
 
   /// The migration project ARN.
   final String? migrationProjectArn;
+  final Progress? progress;
 
   /// The identifier for the schema conversion action.
   final String? requestIdentifier;
@@ -19277,6 +22095,7 @@ class SchemaConversionRequest {
     this.error,
     this.exportSqlDetails,
     this.migrationProjectArn,
+    this.progress,
     this.requestIdentifier,
     this.status,
   });
@@ -19291,6 +22110,9 @@ class SchemaConversionRequest {
               json['ExportSqlDetails'] as Map<String, dynamic>)
           : null,
       migrationProjectArn: json['MigrationProjectArn'] as String?,
+      progress: json['Progress'] != null
+          ? Progress.fromJson(json['Progress'] as Map<String, dynamic>)
+          : null,
       requestIdentifier: json['RequestIdentifier'] as String?,
       status: json['Status'] as String?,
     );
@@ -19300,6 +22122,7 @@ class SchemaConversionRequest {
     final error = this.error;
     final exportSqlDetails = this.exportSqlDetails;
     final migrationProjectArn = this.migrationProjectArn;
+    final progress = this.progress;
     final requestIdentifier = this.requestIdentifier;
     final status = this.status;
     return {
@@ -19307,8 +22130,236 @@ class SchemaConversionRequest {
       if (exportSqlDetails != null) 'ExportSqlDetails': exportSqlDetails,
       if (migrationProjectArn != null)
         'MigrationProjectArn': migrationProjectArn,
+      if (progress != null) 'Progress': progress,
       if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
       if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Provides error information about a project.
+class ErrorDetails {
+  /// Error information about a project.
+  final DefaultErrorDetails? defaultErrorDetails;
+
+  ErrorDetails({
+    this.defaultErrorDetails,
+  });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      defaultErrorDetails: json['defaultErrorDetails'] != null
+          ? DefaultErrorDetails.fromJson(
+              json['defaultErrorDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultErrorDetails = this.defaultErrorDetails;
+    return {
+      if (defaultErrorDetails != null)
+        'defaultErrorDetails': defaultErrorDetails,
+    };
+  }
+}
+
+/// Provides information about a metadata model assessment exported to SQL.
+class ExportSqlDetails {
+  /// The URL for the object containing the exported metadata model assessment.
+  final String? objectURL;
+
+  /// The Amazon S3 object key for the object containing the exported metadata
+  /// model assessment.
+  final String? s3ObjectKey;
+
+  ExportSqlDetails({
+    this.objectURL,
+    this.s3ObjectKey,
+  });
+
+  factory ExportSqlDetails.fromJson(Map<String, dynamic> json) {
+    return ExportSqlDetails(
+      objectURL: json['ObjectURL'] as String?,
+      s3ObjectKey: json['S3ObjectKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectURL = this.objectURL;
+    final s3ObjectKey = this.s3ObjectKey;
+    return {
+      if (objectURL != null) 'ObjectURL': objectURL,
+      if (s3ObjectKey != null) 'S3ObjectKey': s3ObjectKey,
+    };
+  }
+}
+
+/// Provides information about the progress of the schema conversion operation.
+class Progress {
+  /// The name of the database object that the schema conversion operation
+  /// currently uses.
+  final ProcessedObject? processedObject;
+
+  /// The percent complete for the current step of the schema conversion
+  /// operation.
+  final double? progressPercent;
+
+  /// The step of the schema conversion operation. This parameter can store one of
+  /// the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IN_PROGRESS</code> – The operation is running.
+  /// </li>
+  /// <li>
+  /// <code>LOADING_METADATA</code> – Loads metadata from the source database.
+  /// </li>
+  /// <li>
+  /// <code>COUNTING_OBJECTS</code> – Determines the number of objects involved in
+  /// the operation.
+  /// </li>
+  /// <li>
+  /// <code>ANALYZING</code> – Analyzes the source database objects.
+  /// </li>
+  /// <li>
+  /// <code>CONVERTING</code> – Converts the source database objects to a format
+  /// compatible with the target database.
+  /// </li>
+  /// <li>
+  /// <code>APPLYING</code> – Applies the converted code to the target database.
+  /// </li>
+  /// <li>
+  /// <code>FINISHED</code> – The operation completed successfully.
+  /// </li>
+  /// </ul>
+  final String? progressStep;
+
+  /// The number of objects in this schema conversion operation.
+  final int? totalObjects;
+
+  Progress({
+    this.processedObject,
+    this.progressPercent,
+    this.progressStep,
+    this.totalObjects,
+  });
+
+  factory Progress.fromJson(Map<String, dynamic> json) {
+    return Progress(
+      processedObject: json['ProcessedObject'] != null
+          ? ProcessedObject.fromJson(
+              json['ProcessedObject'] as Map<String, dynamic>)
+          : null,
+      progressPercent: json['ProgressPercent'] as double?,
+      progressStep: json['ProgressStep'] as String?,
+      totalObjects: json['TotalObjects'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final processedObject = this.processedObject;
+    final progressPercent = this.progressPercent;
+    final progressStep = this.progressStep;
+    final totalObjects = this.totalObjects;
+    return {
+      if (processedObject != null) 'ProcessedObject': processedObject,
+      if (progressPercent != null) 'ProgressPercent': progressPercent,
+      if (progressStep != null) 'ProgressStep': progressStep,
+      if (totalObjects != null) 'TotalObjects': totalObjects,
+    };
+  }
+}
+
+/// The database object that the schema conversion operation currently uses.
+class ProcessedObject {
+  /// The type of the data provider. This parameter can store one of the following
+  /// values: <code>"SOURCE"</code> or <code>"TARGET"</code>.
+  final String? endpointType;
+
+  /// The name of the database object.
+  final String? name;
+
+  /// The type of the database object. For example, a table, view, procedure, and
+  /// so on.
+  final String? type;
+
+  ProcessedObject({
+    this.endpointType,
+    this.name,
+    this.type,
+  });
+
+  factory ProcessedObject.fromJson(Map<String, dynamic> json) {
+    return ProcessedObject(
+      endpointType: json['EndpointType'] as String?,
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointType = this.endpointType;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (endpointType != null) 'EndpointType': endpointType,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Provides error information about a schema conversion operation.
+class DefaultErrorDetails {
+  /// The error message.
+  final String? message;
+
+  DefaultErrorDetails({
+    this.message,
+  });
+
+  factory DefaultErrorDetails.fromJson(Map<String, dynamic> json) {
+    return DefaultErrorDetails(
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// A reference to a metadata model, including its name and selection rules for
+/// location identification.
+class MetadataModelReference {
+  /// The name of the metadata model.
+  final String? metadataModelName;
+
+  /// The JSON string representing metadata model location.
+  final String? selectionRules;
+
+  MetadataModelReference({
+    this.metadataModelName,
+    this.selectionRules,
+  });
+
+  factory MetadataModelReference.fromJson(Map<String, dynamic> json) {
+    return MetadataModelReference(
+      metadataModelName: json['MetadataModelName'] as String?,
+      selectionRules: json['SelectionRules'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadataModelName = this.metadataModelName;
+    final selectionRules = this.selectionRules;
+    return {
+      if (metadataModelName != null) 'MetadataModelName': metadataModelName,
+      if (selectionRules != null) 'SelectionRules': selectionRules,
     };
   }
 }
@@ -19403,6 +22454,88 @@ class SchemaResponse {
   }
 }
 
+/// Describes a server in a Fleet Advisor collector inventory.
+class ServerShortInfoResponse {
+  /// The IP address of a server in a Fleet Advisor collector inventory.
+  final String? ipAddress;
+
+  /// The ID of a server in a Fleet Advisor collector inventory.
+  final String? serverId;
+
+  /// The name address of a server in a Fleet Advisor collector inventory.
+  final String? serverName;
+
+  ServerShortInfoResponse({
+    this.ipAddress,
+    this.serverId,
+    this.serverName,
+  });
+
+  factory ServerShortInfoResponse.fromJson(Map<String, dynamic> json) {
+    return ServerShortInfoResponse(
+      ipAddress: json['IpAddress'] as String?,
+      serverId: json['ServerId'] as String?,
+      serverName: json['ServerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipAddress = this.ipAddress;
+    final serverId = this.serverId;
+    final serverName = this.serverName;
+    return {
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (serverId != null) 'ServerId': serverId,
+      if (serverName != null) 'ServerName': serverName,
+    };
+  }
+}
+
+/// Describes a database in a Fleet Advisor collector inventory.
+class DatabaseShortInfoResponse {
+  /// The database engine of a database in a Fleet Advisor collector inventory,
+  /// for example <code>PostgreSQL</code>.
+  final String? databaseEngine;
+
+  /// The ID of a database in a Fleet Advisor collector inventory.
+  final String? databaseId;
+
+  /// The IP address of a database in a Fleet Advisor collector inventory.
+  final String? databaseIpAddress;
+
+  /// The name of a database in a Fleet Advisor collector inventory.
+  final String? databaseName;
+
+  DatabaseShortInfoResponse({
+    this.databaseEngine,
+    this.databaseId,
+    this.databaseIpAddress,
+    this.databaseName,
+  });
+
+  factory DatabaseShortInfoResponse.fromJson(Map<String, dynamic> json) {
+    return DatabaseShortInfoResponse(
+      databaseEngine: json['DatabaseEngine'] as String?,
+      databaseId: json['DatabaseId'] as String?,
+      databaseIpAddress: json['DatabaseIpAddress'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseEngine = this.databaseEngine;
+    final databaseId = this.databaseId;
+    final databaseIpAddress = this.databaseIpAddress;
+    final databaseName = this.databaseName;
+    return {
+      if (databaseEngine != null) 'DatabaseEngine': databaseEngine,
+      if (databaseId != null) 'DatabaseId': databaseId,
+      if (databaseIpAddress != null) 'DatabaseIpAddress': databaseIpAddress,
+      if (databaseName != null) 'DatabaseName': databaseName,
+    };
+  }
+}
+
 /// Describes a schema in a Fleet Advisor collector inventory.
 class SchemaShortInfoResponse {
   /// The ID of a database in a Fleet Advisor collector inventory.
@@ -19454,39 +22587,591 @@ class SchemaShortInfoResponse {
   }
 }
 
-/// Describes a server in a Fleet Advisor collector inventory.
-class ServerShortInfoResponse {
-  /// The IP address of a server in a Fleet Advisor collector inventory.
-  final String? ipAddress;
+/// Describes a schema object in a Fleet Advisor collector inventory.
+class FleetAdvisorSchemaObjectResponse {
+  /// The number of lines of code in a schema object in a Fleet Advisor collector
+  /// inventory.
+  final int? codeLineCount;
 
-  /// The ID of a server in a Fleet Advisor collector inventory.
-  final String? serverId;
+  /// The size level of the code in a schema object in a Fleet Advisor collector
+  /// inventory.
+  final int? codeSize;
 
-  /// The name address of a server in a Fleet Advisor collector inventory.
-  final String? serverName;
+  /// The number of objects in a schema object in a Fleet Advisor collector
+  /// inventory.
+  final int? numberOfObjects;
 
-  ServerShortInfoResponse({
-    this.ipAddress,
-    this.serverId,
-    this.serverName,
+  /// The type of the schema object, as reported by the database engine. Examples
+  /// include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>function</code>
+  /// </li>
+  /// <li>
+  /// <code>trigger</code>
+  /// </li>
+  /// <li>
+  /// <code>SYSTEM_TABLE</code>
+  /// </li>
+  /// <li>
+  /// <code>QUEUE</code>
+  /// </li>
+  /// </ul>
+  final String? objectType;
+
+  /// The ID of a schema object in a Fleet Advisor collector inventory.
+  final String? schemaId;
+
+  FleetAdvisorSchemaObjectResponse({
+    this.codeLineCount,
+    this.codeSize,
+    this.numberOfObjects,
+    this.objectType,
+    this.schemaId,
   });
 
-  factory ServerShortInfoResponse.fromJson(Map<String, dynamic> json) {
-    return ServerShortInfoResponse(
-      ipAddress: json['IpAddress'] as String?,
-      serverId: json['ServerId'] as String?,
-      serverName: json['ServerName'] as String?,
+  factory FleetAdvisorSchemaObjectResponse.fromJson(Map<String, dynamic> json) {
+    return FleetAdvisorSchemaObjectResponse(
+      codeLineCount: json['CodeLineCount'] as int?,
+      codeSize: json['CodeSize'] as int?,
+      numberOfObjects: json['NumberOfObjects'] as int?,
+      objectType: json['ObjectType'] as String?,
+      schemaId: json['SchemaId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final ipAddress = this.ipAddress;
-    final serverId = this.serverId;
-    final serverName = this.serverName;
+    final codeLineCount = this.codeLineCount;
+    final codeSize = this.codeSize;
+    final numberOfObjects = this.numberOfObjects;
+    final objectType = this.objectType;
+    final schemaId = this.schemaId;
     return {
+      if (codeLineCount != null) 'CodeLineCount': codeLineCount,
+      if (codeSize != null) 'CodeSize': codeSize,
+      if (numberOfObjects != null) 'NumberOfObjects': numberOfObjects,
+      if (objectType != null) 'ObjectType': objectType,
+      if (schemaId != null) 'SchemaId': schemaId,
+    };
+  }
+}
+
+/// Describes a large-scale assessment (LSA) analysis run by a Fleet Advisor
+/// collector.
+class FleetAdvisorLsaAnalysisResponse {
+  /// The ID of an LSA analysis run by a Fleet Advisor collector.
+  final String? lsaAnalysisId;
+
+  /// The status of an LSA analysis run by a Fleet Advisor collector.
+  final String? status;
+
+  FleetAdvisorLsaAnalysisResponse({
+    this.lsaAnalysisId,
+    this.status,
+  });
+
+  factory FleetAdvisorLsaAnalysisResponse.fromJson(Map<String, dynamic> json) {
+    return FleetAdvisorLsaAnalysisResponse(
+      lsaAnalysisId: json['LsaAnalysisId'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lsaAnalysisId = this.lsaAnalysisId;
+    final status = this.status;
+    return {
+      if (lsaAnalysisId != null) 'LsaAnalysisId': lsaAnalysisId,
+      if (status != null) 'Status': status,
+    };
+  }
+}
+
+/// Describes a database in a Fleet Advisor collector inventory.
+class DatabaseResponse {
+  /// A list of collectors associated with the database.
+  final List<CollectorShortInfoResponse>? collectors;
+
+  /// The ID of a database in a Fleet Advisor collector inventory.
+  final String? databaseId;
+
+  /// The name of a database in a Fleet Advisor collector inventory.
+  final String? databaseName;
+
+  /// The IP address of a database in a Fleet Advisor collector inventory.
+  final String? ipAddress;
+
+  /// The number of schemas in a Fleet Advisor collector inventory database.
+  final int? numberOfSchemas;
+
+  /// The server name of a database in a Fleet Advisor collector inventory.
+  final ServerShortInfoResponse? server;
+
+  /// The software details of a database in a Fleet Advisor collector inventory,
+  /// such as database engine and version.
+  final DatabaseInstanceSoftwareDetailsResponse? softwareDetails;
+
+  DatabaseResponse({
+    this.collectors,
+    this.databaseId,
+    this.databaseName,
+    this.ipAddress,
+    this.numberOfSchemas,
+    this.server,
+    this.softwareDetails,
+  });
+
+  factory DatabaseResponse.fromJson(Map<String, dynamic> json) {
+    return DatabaseResponse(
+      collectors: (json['Collectors'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CollectorShortInfoResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      databaseId: json['DatabaseId'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      ipAddress: json['IpAddress'] as String?,
+      numberOfSchemas: json['NumberOfSchemas'] as int?,
+      server: json['Server'] != null
+          ? ServerShortInfoResponse.fromJson(
+              json['Server'] as Map<String, dynamic>)
+          : null,
+      softwareDetails: json['SoftwareDetails'] != null
+          ? DatabaseInstanceSoftwareDetailsResponse.fromJson(
+              json['SoftwareDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectors = this.collectors;
+    final databaseId = this.databaseId;
+    final databaseName = this.databaseName;
+    final ipAddress = this.ipAddress;
+    final numberOfSchemas = this.numberOfSchemas;
+    final server = this.server;
+    final softwareDetails = this.softwareDetails;
+    return {
+      if (collectors != null) 'Collectors': collectors,
+      if (databaseId != null) 'DatabaseId': databaseId,
+      if (databaseName != null) 'DatabaseName': databaseName,
       if (ipAddress != null) 'IpAddress': ipAddress,
-      if (serverId != null) 'ServerId': serverId,
-      if (serverName != null) 'ServerName': serverName,
+      if (numberOfSchemas != null) 'NumberOfSchemas': numberOfSchemas,
+      if (server != null) 'Server': server,
+      if (softwareDetails != null) 'SoftwareDetails': softwareDetails,
+    };
+  }
+}
+
+/// Describes an inventory database instance for a Fleet Advisor collector.
+class DatabaseInstanceSoftwareDetailsResponse {
+  /// The database engine of a database in a Fleet Advisor collector inventory,
+  /// for example <code>Microsoft SQL Server</code>.
+  final String? engine;
+
+  /// The database engine edition of a database in a Fleet Advisor collector
+  /// inventory, for example <code>Express</code>.
+  final String? engineEdition;
+
+  /// The database engine version of a database in a Fleet Advisor collector
+  /// inventory, for example <code>2019</code>.
+  final String? engineVersion;
+
+  /// The operating system architecture of the database.
+  final int? osArchitecture;
+
+  /// The service pack level of the database.
+  final String? servicePack;
+
+  /// The support level of the database, for example <code>Mainstream
+  /// support</code>.
+  final String? supportLevel;
+
+  /// Information about the database engine software, for example <code>Mainstream
+  /// support ends on November 14th, 2024</code>.
+  final String? tooltip;
+
+  DatabaseInstanceSoftwareDetailsResponse({
+    this.engine,
+    this.engineEdition,
+    this.engineVersion,
+    this.osArchitecture,
+    this.servicePack,
+    this.supportLevel,
+    this.tooltip,
+  });
+
+  factory DatabaseInstanceSoftwareDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DatabaseInstanceSoftwareDetailsResponse(
+      engine: json['Engine'] as String?,
+      engineEdition: json['EngineEdition'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      osArchitecture: json['OsArchitecture'] as int?,
+      servicePack: json['ServicePack'] as String?,
+      supportLevel: json['SupportLevel'] as String?,
+      tooltip: json['Tooltip'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engine = this.engine;
+    final engineEdition = this.engineEdition;
+    final engineVersion = this.engineVersion;
+    final osArchitecture = this.osArchitecture;
+    final servicePack = this.servicePack;
+    final supportLevel = this.supportLevel;
+    final tooltip = this.tooltip;
+    return {
+      if (engine != null) 'Engine': engine,
+      if (engineEdition != null) 'EngineEdition': engineEdition,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (osArchitecture != null) 'OsArchitecture': osArchitecture,
+      if (servicePack != null) 'ServicePack': servicePack,
+      if (supportLevel != null) 'SupportLevel': supportLevel,
+      if (tooltip != null) 'Tooltip': tooltip,
+    };
+  }
+}
+
+/// Briefly describes a Fleet Advisor collector.
+class CollectorShortInfoResponse {
+  /// The name of the Fleet Advisor collector.
+  final String? collectorName;
+
+  /// The reference ID of the Fleet Advisor collector.
+  final String? collectorReferencedId;
+
+  CollectorShortInfoResponse({
+    this.collectorName,
+    this.collectorReferencedId,
+  });
+
+  factory CollectorShortInfoResponse.fromJson(Map<String, dynamic> json) {
+    return CollectorShortInfoResponse(
+      collectorName: json['CollectorName'] as String?,
+      collectorReferencedId: json['CollectorReferencedId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectorName = this.collectorName;
+    final collectorReferencedId = this.collectorReferencedId;
+    return {
+      if (collectorName != null) 'CollectorName': collectorName,
+      if (collectorReferencedId != null)
+        'CollectorReferencedId': collectorReferencedId,
+    };
+  }
+}
+
+/// Describes a Fleet Advisor collector.
+class CollectorResponse {
+  final CollectorHealthCheck? collectorHealthCheck;
+
+  /// The name of the Fleet Advisor collector .
+  final String? collectorName;
+
+  /// The reference ID of the Fleet Advisor collector.
+  final String? collectorReferencedId;
+
+  /// The version of your Fleet Advisor collector, in semantic versioning format,
+  /// for example <code>1.0.2</code>
+  final String? collectorVersion;
+
+  /// The timestamp when you created the collector, in the following format:
+  /// <code>2022-01-24T19:04:02.596113Z</code>
+  final String? createdDate;
+
+  /// A summary description of the Fleet Advisor collector.
+  final String? description;
+  final InventoryData? inventoryData;
+
+  /// The timestamp of the last time the collector received data, in the following
+  /// format: <code>2022-01-24T19:04:02.596113Z</code>
+  final String? lastDataReceived;
+
+  /// The timestamp when DMS last modified the collector, in the following format:
+  /// <code>2022-01-24T19:04:02.596113Z</code>
+  final String? modifiedDate;
+
+  /// The timestamp when DMS registered the collector, in the following format:
+  /// <code>2022-01-24T19:04:02.596113Z</code>
+  final String? registeredDate;
+
+  /// The Amazon S3 bucket that the Fleet Advisor collector uses to store
+  /// inventory metadata.
+  final String? s3BucketName;
+
+  /// The IAM role that grants permissions to access the specified Amazon S3
+  /// bucket.
+  final String? serviceAccessRoleArn;
+
+  /// Whether the collector version is up to date.
+  final VersionStatus? versionStatus;
+
+  CollectorResponse({
+    this.collectorHealthCheck,
+    this.collectorName,
+    this.collectorReferencedId,
+    this.collectorVersion,
+    this.createdDate,
+    this.description,
+    this.inventoryData,
+    this.lastDataReceived,
+    this.modifiedDate,
+    this.registeredDate,
+    this.s3BucketName,
+    this.serviceAccessRoleArn,
+    this.versionStatus,
+  });
+
+  factory CollectorResponse.fromJson(Map<String, dynamic> json) {
+    return CollectorResponse(
+      collectorHealthCheck: json['CollectorHealthCheck'] != null
+          ? CollectorHealthCheck.fromJson(
+              json['CollectorHealthCheck'] as Map<String, dynamic>)
+          : null,
+      collectorName: json['CollectorName'] as String?,
+      collectorReferencedId: json['CollectorReferencedId'] as String?,
+      collectorVersion: json['CollectorVersion'] as String?,
+      createdDate: json['CreatedDate'] as String?,
+      description: json['Description'] as String?,
+      inventoryData: json['InventoryData'] != null
+          ? InventoryData.fromJson(
+              json['InventoryData'] as Map<String, dynamic>)
+          : null,
+      lastDataReceived: json['LastDataReceived'] as String?,
+      modifiedDate: json['ModifiedDate'] as String?,
+      registeredDate: json['RegisteredDate'] as String?,
+      s3BucketName: json['S3BucketName'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      versionStatus:
+          (json['VersionStatus'] as String?)?.let(VersionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectorHealthCheck = this.collectorHealthCheck;
+    final collectorName = this.collectorName;
+    final collectorReferencedId = this.collectorReferencedId;
+    final collectorVersion = this.collectorVersion;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final inventoryData = this.inventoryData;
+    final lastDataReceived = this.lastDataReceived;
+    final modifiedDate = this.modifiedDate;
+    final registeredDate = this.registeredDate;
+    final s3BucketName = this.s3BucketName;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final versionStatus = this.versionStatus;
+    return {
+      if (collectorHealthCheck != null)
+        'CollectorHealthCheck': collectorHealthCheck,
+      if (collectorName != null) 'CollectorName': collectorName,
+      if (collectorReferencedId != null)
+        'CollectorReferencedId': collectorReferencedId,
+      if (collectorVersion != null) 'CollectorVersion': collectorVersion,
+      if (createdDate != null) 'CreatedDate': createdDate,
+      if (description != null) 'Description': description,
+      if (inventoryData != null) 'InventoryData': inventoryData,
+      if (lastDataReceived != null) 'LastDataReceived': lastDataReceived,
+      if (modifiedDate != null) 'ModifiedDate': modifiedDate,
+      if (registeredDate != null) 'RegisteredDate': registeredDate,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (versionStatus != null) 'VersionStatus': versionStatus.value,
+    };
+  }
+}
+
+class VersionStatus {
+  static const upToDate = VersionStatus._('UP_TO_DATE');
+  static const outdated = VersionStatus._('OUTDATED');
+  static const unsupported = VersionStatus._('UNSUPPORTED');
+
+  final String value;
+
+  const VersionStatus._(this.value);
+
+  static const values = [upToDate, outdated, unsupported];
+
+  static VersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VersionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is VersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the last Fleet Advisor collector health check.
+class CollectorHealthCheck {
+  /// The status of the Fleet Advisor collector.
+  final CollectorStatus? collectorStatus;
+
+  /// Whether the local collector can access its Amazon S3 bucket.
+  final bool? localCollectorS3Access;
+
+  /// Whether the role that you provided when creating the Fleet Advisor collector
+  /// has sufficient permissions to access the Fleet Advisor web collector.
+  final bool? webCollectorGrantedRoleBasedAccess;
+
+  /// Whether the web collector can access its Amazon S3 bucket.
+  final bool? webCollectorS3Access;
+
+  CollectorHealthCheck({
+    this.collectorStatus,
+    this.localCollectorS3Access,
+    this.webCollectorGrantedRoleBasedAccess,
+    this.webCollectorS3Access,
+  });
+
+  factory CollectorHealthCheck.fromJson(Map<String, dynamic> json) {
+    return CollectorHealthCheck(
+      collectorStatus:
+          (json['CollectorStatus'] as String?)?.let(CollectorStatus.fromString),
+      localCollectorS3Access: json['LocalCollectorS3Access'] as bool?,
+      webCollectorGrantedRoleBasedAccess:
+          json['WebCollectorGrantedRoleBasedAccess'] as bool?,
+      webCollectorS3Access: json['WebCollectorS3Access'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final collectorStatus = this.collectorStatus;
+    final localCollectorS3Access = this.localCollectorS3Access;
+    final webCollectorGrantedRoleBasedAccess =
+        this.webCollectorGrantedRoleBasedAccess;
+    final webCollectorS3Access = this.webCollectorS3Access;
+    return {
+      if (collectorStatus != null) 'CollectorStatus': collectorStatus.value,
+      if (localCollectorS3Access != null)
+        'LocalCollectorS3Access': localCollectorS3Access,
+      if (webCollectorGrantedRoleBasedAccess != null)
+        'WebCollectorGrantedRoleBasedAccess':
+            webCollectorGrantedRoleBasedAccess,
+      if (webCollectorS3Access != null)
+        'WebCollectorS3Access': webCollectorS3Access,
+    };
+  }
+}
+
+/// Describes a Fleet Advisor collector inventory.
+class InventoryData {
+  /// The number of databases in the Fleet Advisor collector inventory.
+  final int? numberOfDatabases;
+
+  /// The number of schemas in the Fleet Advisor collector inventory.
+  final int? numberOfSchemas;
+
+  InventoryData({
+    this.numberOfDatabases,
+    this.numberOfSchemas,
+  });
+
+  factory InventoryData.fromJson(Map<String, dynamic> json) {
+    return InventoryData(
+      numberOfDatabases: json['NumberOfDatabases'] as int?,
+      numberOfSchemas: json['NumberOfSchemas'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfDatabases = this.numberOfDatabases;
+    final numberOfSchemas = this.numberOfSchemas;
+    return {
+      if (numberOfDatabases != null) 'NumberOfDatabases': numberOfDatabases,
+      if (numberOfSchemas != null) 'NumberOfSchemas': numberOfSchemas,
+    };
+  }
+}
+
+class CollectorStatus {
+  static const unregistered = CollectorStatus._('UNREGISTERED');
+  static const active = CollectorStatus._('ACTIVE');
+
+  final String value;
+
+  const CollectorStatus._(this.value);
+
+  static const values = [unregistered, active];
+
+  static CollectorStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CollectorStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CollectorStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an identifiable significant activity that affects a replication
+/// instance or task. This object can provide the message, the available event
+/// categories, the date and source of the event, and the DMS resource type.
+class Event {
+  /// The date of the event.
+  final DateTime? date;
+
+  /// The event categories available for the specified source type.
+  final List<String>? eventCategories;
+
+  /// The event message.
+  final String? message;
+
+  /// The identifier of an event source.
+  final String? sourceIdentifier;
+
+  /// The type of DMS resource that generates events.
+  ///
+  /// Valid values: replication-instance | endpoint | replication-task
+  final SourceType? sourceType;
+
+  Event({
+    this.date,
+    this.eventCategories,
+    this.message,
+    this.sourceIdentifier,
+    this.sourceType,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      date: timeStampFromJson(json['Date']),
+      eventCategories: (json['EventCategories'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      message: json['Message'] as String?,
+      sourceIdentifier: json['SourceIdentifier'] as String?,
+      sourceType: (json['SourceType'] as String?)?.let(SourceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final eventCategories = this.eventCategories;
+    final message = this.message;
+    final sourceIdentifier = this.sourceIdentifier;
+    final sourceType = this.sourceType;
+    return {
+      if (date != null) 'Date': unixTimestampToJson(date),
+      if (eventCategories != null) 'EventCategories': eventCategories,
+      if (message != null) 'Message': message,
+      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
+      if (sourceType != null) 'SourceType': sourceType.value,
     };
   }
 }
@@ -19513,415 +23198,125 @@ class SourceType {
   String toString() => value;
 }
 
-class SslSecurityProtocolValue {
-  static const plaintext = SslSecurityProtocolValue._('plaintext');
-  static const sslEncryption = SslSecurityProtocolValue._('ssl-encryption');
+/// Lists categories of events subscribed to, and generated by, the applicable
+/// DMS resource type. This data type appears in response to the <a
+/// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_EventCategoryGroup.html">
+/// <code>DescribeEventCategories</code> </a> action.
+class EventCategoryGroup {
+  /// A list of event categories from a source type that you've chosen.
+  final List<String>? eventCategories;
 
-  final String value;
+  /// The type of DMS resource that generates events.
+  ///
+  /// Valid values: replication-instance | replication-server | security-group |
+  /// replication-task
+  final String? sourceType;
 
-  const SslSecurityProtocolValue._(this.value);
-
-  static const values = [plaintext, sslEncryption];
-
-  static SslSecurityProtocolValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SslSecurityProtocolValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SslSecurityProtocolValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartExtensionPackAssociationResponse {
-  /// The identifier for the request operation.
-  final String? requestIdentifier;
-
-  StartExtensionPackAssociationResponse({
-    this.requestIdentifier,
+  EventCategoryGroup({
+    this.eventCategories,
+    this.sourceType,
   });
 
-  factory StartExtensionPackAssociationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartExtensionPackAssociationResponse(
-      requestIdentifier: json['RequestIdentifier'] as String?,
+  factory EventCategoryGroup.fromJson(Map<String, dynamic> json) {
+    return EventCategoryGroup(
+      eventCategories: (json['EventCategories'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      sourceType: json['SourceType'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final requestIdentifier = this.requestIdentifier;
+    final eventCategories = this.eventCategories;
+    final sourceType = this.sourceType;
     return {
-      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
+      if (eventCategories != null) 'EventCategories': eventCategories,
+      if (sourceType != null) 'SourceType': sourceType,
     };
   }
 }
 
-class StartMetadataModelAssessmentResponse {
-  /// The identifier for the assessment operation.
-  final String? requestIdentifier;
+/// Provides information about a replication instance version.
+class EngineVersion {
+  /// The date when the replication instance will be automatically upgraded. This
+  /// setting only applies if the <code>auto-minor-version</code> setting is
+  /// enabled.
+  final DateTime? autoUpgradeDate;
 
-  StartMetadataModelAssessmentResponse({
-    this.requestIdentifier,
+  /// The list of valid replication instance versions that you can upgrade to.
+  final List<String>? availableUpgrades;
+
+  /// The date when the replication instance version will be deprecated and can no
+  /// longer be requested.
+  final DateTime? deprecationDate;
+
+  /// The date when the replication instance will have a version upgrade forced.
+  final DateTime? forceUpgradeDate;
+
+  /// The date when the replication instance version became publicly available.
+  final DateTime? launchDate;
+
+  /// The lifecycle status of the replication instance version. Valid values are
+  /// <code>DEPRECATED</code>, <code>DEFAULT_VERSION</code>, and
+  /// <code>ACTIVE</code>.
+  final String? lifecycle;
+
+  /// The release status of the replication instance version.
+  final ReleaseStatusValues? releaseStatus;
+
+  /// The version number of the replication instance.
+  final String? version;
+
+  EngineVersion({
+    this.autoUpgradeDate,
+    this.availableUpgrades,
+    this.deprecationDate,
+    this.forceUpgradeDate,
+    this.launchDate,
+    this.lifecycle,
+    this.releaseStatus,
+    this.version,
   });
 
-  factory StartMetadataModelAssessmentResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartMetadataModelAssessmentResponse(
-      requestIdentifier: json['RequestIdentifier'] as String?,
+  factory EngineVersion.fromJson(Map<String, dynamic> json) {
+    return EngineVersion(
+      autoUpgradeDate: timeStampFromJson(json['AutoUpgradeDate']),
+      availableUpgrades: (json['AvailableUpgrades'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      deprecationDate: timeStampFromJson(json['DeprecationDate']),
+      forceUpgradeDate: timeStampFromJson(json['ForceUpgradeDate']),
+      launchDate: timeStampFromJson(json['LaunchDate']),
+      lifecycle: json['Lifecycle'] as String?,
+      releaseStatus: (json['ReleaseStatus'] as String?)
+          ?.let(ReleaseStatusValues.fromString),
+      version: json['Version'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final requestIdentifier = this.requestIdentifier;
+    final autoUpgradeDate = this.autoUpgradeDate;
+    final availableUpgrades = this.availableUpgrades;
+    final deprecationDate = this.deprecationDate;
+    final forceUpgradeDate = this.forceUpgradeDate;
+    final launchDate = this.launchDate;
+    final lifecycle = this.lifecycle;
+    final releaseStatus = this.releaseStatus;
+    final version = this.version;
     return {
-      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
-    };
-  }
-}
-
-class StartMetadataModelConversionResponse {
-  /// The identifier for the conversion operation.
-  final String? requestIdentifier;
-
-  StartMetadataModelConversionResponse({
-    this.requestIdentifier,
-  });
-
-  factory StartMetadataModelConversionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartMetadataModelConversionResponse(
-      requestIdentifier: json['RequestIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requestIdentifier = this.requestIdentifier;
-    return {
-      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
-    };
-  }
-}
-
-class StartMetadataModelExportAsScriptResponse {
-  /// The identifier for the export operation.
-  final String? requestIdentifier;
-
-  StartMetadataModelExportAsScriptResponse({
-    this.requestIdentifier,
-  });
-
-  factory StartMetadataModelExportAsScriptResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartMetadataModelExportAsScriptResponse(
-      requestIdentifier: json['RequestIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requestIdentifier = this.requestIdentifier;
-    return {
-      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
-    };
-  }
-}
-
-class StartMetadataModelExportToTargetResponse {
-  /// The identifier for the export operation.
-  final String? requestIdentifier;
-
-  StartMetadataModelExportToTargetResponse({
-    this.requestIdentifier,
-  });
-
-  factory StartMetadataModelExportToTargetResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartMetadataModelExportToTargetResponse(
-      requestIdentifier: json['RequestIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requestIdentifier = this.requestIdentifier;
-    return {
-      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
-    };
-  }
-}
-
-class StartMetadataModelImportResponse {
-  /// The identifier for the import operation.
-  final String? requestIdentifier;
-
-  StartMetadataModelImportResponse({
-    this.requestIdentifier,
-  });
-
-  factory StartMetadataModelImportResponse.fromJson(Map<String, dynamic> json) {
-    return StartMetadataModelImportResponse(
-      requestIdentifier: json['RequestIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final requestIdentifier = this.requestIdentifier;
-    return {
-      if (requestIdentifier != null) 'RequestIdentifier': requestIdentifier,
-    };
-  }
-}
-
-/// Provides information about the source database to analyze and provide target
-/// recommendations according to the specified requirements.
-class StartRecommendationsRequestEntry {
-  /// The identifier of the source database.
-  final String databaseId;
-
-  /// The required target engine settings.
-  final RecommendationSettings settings;
-
-  StartRecommendationsRequestEntry({
-    required this.databaseId,
-    required this.settings,
-  });
-
-  Map<String, dynamic> toJson() {
-    final databaseId = this.databaseId;
-    final settings = this.settings;
-    return {
-      'DatabaseId': databaseId,
-      'Settings': settings,
-    };
-  }
-}
-
-/// <p/>
-class StartReplicationResponse {
-  /// The replication that DMS started.
-  final Replication? replication;
-
-  StartReplicationResponse({
-    this.replication,
-  });
-
-  factory StartReplicationResponse.fromJson(Map<String, dynamic> json) {
-    return StartReplicationResponse(
-      replication: json['Replication'] != null
-          ? Replication.fromJson(json['Replication'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replication = this.replication;
-    return {
-      if (replication != null) 'Replication': replication,
-    };
-  }
-}
-
-/// <p/>
-class StartReplicationTaskAssessmentResponse {
-  /// The assessed replication task.
-  final ReplicationTask? replicationTask;
-
-  StartReplicationTaskAssessmentResponse({
-    this.replicationTask,
-  });
-
-  factory StartReplicationTaskAssessmentResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartReplicationTaskAssessmentResponse(
-      replicationTask: json['ReplicationTask'] != null
-          ? ReplicationTask.fromJson(
-              json['ReplicationTask'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationTask = this.replicationTask;
-    return {
-      if (replicationTask != null) 'ReplicationTask': replicationTask,
-    };
-  }
-}
-
-/// <p/>
-class StartReplicationTaskAssessmentRunResponse {
-  /// The premigration assessment run that was started.
-  final ReplicationTaskAssessmentRun? replicationTaskAssessmentRun;
-
-  StartReplicationTaskAssessmentRunResponse({
-    this.replicationTaskAssessmentRun,
-  });
-
-  factory StartReplicationTaskAssessmentRunResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartReplicationTaskAssessmentRunResponse(
-      replicationTaskAssessmentRun: json['ReplicationTaskAssessmentRun'] != null
-          ? ReplicationTaskAssessmentRun.fromJson(
-              json['ReplicationTaskAssessmentRun'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationTaskAssessmentRun = this.replicationTaskAssessmentRun;
-    return {
-      if (replicationTaskAssessmentRun != null)
-        'ReplicationTaskAssessmentRun': replicationTaskAssessmentRun,
-    };
-  }
-}
-
-/// <p/>
-class StartReplicationTaskResponse {
-  /// The replication task started.
-  final ReplicationTask? replicationTask;
-
-  StartReplicationTaskResponse({
-    this.replicationTask,
-  });
-
-  factory StartReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
-    return StartReplicationTaskResponse(
-      replicationTask: json['ReplicationTask'] != null
-          ? ReplicationTask.fromJson(
-              json['ReplicationTask'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationTask = this.replicationTask;
-    return {
-      if (replicationTask != null) 'ReplicationTask': replicationTask,
-    };
-  }
-}
-
-class StartReplicationTaskTypeValue {
-  static const startReplication =
-      StartReplicationTaskTypeValue._('start-replication');
-  static const resumeProcessing =
-      StartReplicationTaskTypeValue._('resume-processing');
-  static const reloadTarget = StartReplicationTaskTypeValue._('reload-target');
-
-  final String value;
-
-  const StartReplicationTaskTypeValue._(this.value);
-
-  static const values = [startReplication, resumeProcessing, reloadTarget];
-
-  static StartReplicationTaskTypeValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StartReplicationTaskTypeValue._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StartReplicationTaskTypeValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StopReplicationResponse {
-  /// The replication that DMS stopped.
-  final Replication? replication;
-
-  StopReplicationResponse({
-    this.replication,
-  });
-
-  factory StopReplicationResponse.fromJson(Map<String, dynamic> json) {
-    return StopReplicationResponse(
-      replication: json['Replication'] != null
-          ? Replication.fromJson(json['Replication'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replication = this.replication;
-    return {
-      if (replication != null) 'Replication': replication,
-    };
-  }
-}
-
-/// <p/>
-class StopReplicationTaskResponse {
-  /// The replication task stopped.
-  final ReplicationTask? replicationTask;
-
-  StopReplicationTaskResponse({
-    this.replicationTask,
-  });
-
-  factory StopReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
-    return StopReplicationTaskResponse(
-      replicationTask: json['ReplicationTask'] != null
-          ? ReplicationTask.fromJson(
-              json['ReplicationTask'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final replicationTask = this.replicationTask;
-    return {
-      if (replicationTask != null) 'ReplicationTask': replicationTask,
-    };
-  }
-}
-
-/// In response to a request by the <code>DescribeReplicationSubnetGroups</code>
-/// operation, this object identifies a subnet by its given Availability Zone,
-/// subnet identifier, and status.
-class Subnet {
-  /// The Availability Zone of the subnet.
-  final AvailabilityZone? subnetAvailabilityZone;
-
-  /// The subnet identifier.
-  final String? subnetIdentifier;
-
-  /// The status of the subnet.
-  final String? subnetStatus;
-
-  Subnet({
-    this.subnetAvailabilityZone,
-    this.subnetIdentifier,
-    this.subnetStatus,
-  });
-
-  factory Subnet.fromJson(Map<String, dynamic> json) {
-    return Subnet(
-      subnetAvailabilityZone: json['SubnetAvailabilityZone'] != null
-          ? AvailabilityZone.fromJson(
-              json['SubnetAvailabilityZone'] as Map<String, dynamic>)
-          : null,
-      subnetIdentifier: json['SubnetIdentifier'] as String?,
-      subnetStatus: json['SubnetStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final subnetAvailabilityZone = this.subnetAvailabilityZone;
-    final subnetIdentifier = this.subnetIdentifier;
-    final subnetStatus = this.subnetStatus;
-    return {
-      if (subnetAvailabilityZone != null)
-        'SubnetAvailabilityZone': subnetAvailabilityZone,
-      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
-      if (subnetStatus != null) 'SubnetStatus': subnetStatus,
+      if (autoUpgradeDate != null)
+        'AutoUpgradeDate': unixTimestampToJson(autoUpgradeDate),
+      if (availableUpgrades != null) 'AvailableUpgrades': availableUpgrades,
+      if (deprecationDate != null)
+        'DeprecationDate': unixTimestampToJson(deprecationDate),
+      if (forceUpgradeDate != null)
+        'ForceUpgradeDate': unixTimestampToJson(forceUpgradeDate),
+      if (launchDate != null) 'LaunchDate': unixTimestampToJson(launchDate),
+      if (lifecycle != null) 'Lifecycle': lifecycle,
+      if (releaseStatus != null) 'ReleaseStatus': releaseStatus.value,
+      if (version != null) 'Version': version,
     };
   }
 }
@@ -19999,556 +23394,110 @@ class SupportedEndpointType {
   }
 }
 
-/// Provides information that defines a SAP ASE endpoint.
-class SybaseSettings {
-  /// Database name for the endpoint.
-  final String? databaseName;
+/// Endpoint settings.
+class EndpointSetting {
+  /// The relevance or validity of an endpoint setting for an engine name and its
+  /// endpoint type.
+  final String? applicability;
 
-  /// Endpoint connection password.
-  final String? password;
+  /// The default value of the endpoint setting if no value is specified using
+  /// <code>CreateEndpoint</code> or <code>ModifyEndpoint</code>.
+  final String? defaultValue;
 
-  /// Endpoint TCP port. The default is 5000.
-  final int? port;
+  /// Enumerated values to use for this endpoint.
+  final List<String>? enumValues;
 
-  /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as
-  /// the trusted entity and grants the required permissions to access the value
-  /// in <code>SecretsManagerSecret</code>. The role must allow the
-  /// <code>iam:PassRole</code> action. <code>SecretsManagerSecret</code> has the
-  /// value of the Amazon Web Services Secrets Manager secret that allows access
-  /// to the SAP ASE endpoint.
-  /// <note>
-  /// You can specify one of two sets of values for these permissions. You can
-  /// specify the values for this setting and <code>SecretsManagerSecretId</code>.
-  /// Or you can specify clear-text values for <code>UserName</code>,
-  /// <code>Password</code>, <code>ServerName</code>, and <code>Port</code>. You
-  /// can't specify both. For more information on creating this
-  /// <code>SecretsManagerSecret</code> and the
-  /// <code>SecretsManagerAccessRoleArn</code> and
-  /// <code>SecretsManagerSecretId</code> required to access it, see <a
-  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager">Using
-  /// secrets to access Database Migration Service resources</a> in the
-  /// <i>Database Migration Service User Guide</i>.
-  /// </note>
-  final String? secretsManagerAccessRoleArn;
+  /// The maximum value of an endpoint setting that is of type <code>int</code>.
+  final int? intValueMax;
 
-  /// The full ARN, partial ARN, or friendly name of the
-  /// <code>SecretsManagerSecret</code> that contains the SAP SAE endpoint
-  /// connection details.
-  final String? secretsManagerSecretId;
+  /// The minimum value of an endpoint setting that is of type <code>int</code>.
+  final int? intValueMin;
 
-  /// Fully qualified domain name of the endpoint.
-  final String? serverName;
+  /// The name that you want to give the endpoint settings.
+  final String? name;
 
-  /// Endpoint connection user name.
-  final String? username;
+  /// A value that marks this endpoint setting as sensitive.
+  final bool? sensitive;
 
-  SybaseSettings({
-    this.databaseName,
-    this.password,
-    this.port,
-    this.secretsManagerAccessRoleArn,
-    this.secretsManagerSecretId,
-    this.serverName,
-    this.username,
+  /// The type of endpoint. Valid values are <code>source</code> and
+  /// <code>target</code>.
+  final EndpointSettingTypeValue? type;
+
+  /// The unit of measure for this endpoint setting.
+  final String? units;
+
+  EndpointSetting({
+    this.applicability,
+    this.defaultValue,
+    this.enumValues,
+    this.intValueMax,
+    this.intValueMin,
+    this.name,
+    this.sensitive,
+    this.type,
+    this.units,
   });
 
-  factory SybaseSettings.fromJson(Map<String, dynamic> json) {
-    return SybaseSettings(
-      databaseName: json['DatabaseName'] as String?,
-      password: json['Password'] as String?,
-      port: json['Port'] as int?,
-      secretsManagerAccessRoleArn:
-          json['SecretsManagerAccessRoleArn'] as String?,
-      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
-      serverName: json['ServerName'] as String?,
-      username: json['Username'] as String?,
+  factory EndpointSetting.fromJson(Map<String, dynamic> json) {
+    return EndpointSetting(
+      applicability: json['Applicability'] as String?,
+      defaultValue: json['DefaultValue'] as String?,
+      enumValues: (json['EnumValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      intValueMax: json['IntValueMax'] as int?,
+      intValueMin: json['IntValueMin'] as int?,
+      name: json['Name'] as String?,
+      sensitive: json['Sensitive'] as bool?,
+      type: (json['Type'] as String?)?.let(EndpointSettingTypeValue.fromString),
+      units: json['Units'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final password = this.password;
-    final port = this.port;
-    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
-    final secretsManagerSecretId = this.secretsManagerSecretId;
-    final serverName = this.serverName;
-    final username = this.username;
+    final applicability = this.applicability;
+    final defaultValue = this.defaultValue;
+    final enumValues = this.enumValues;
+    final intValueMax = this.intValueMax;
+    final intValueMin = this.intValueMin;
+    final name = this.name;
+    final sensitive = this.sensitive;
+    final type = this.type;
+    final units = this.units;
     return {
-      if (databaseName != null) 'DatabaseName': databaseName,
-      if (password != null) 'Password': password,
-      if (port != null) 'Port': port,
-      if (secretsManagerAccessRoleArn != null)
-        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
-      if (secretsManagerSecretId != null)
-        'SecretsManagerSecretId': secretsManagerSecretId,
-      if (serverName != null) 'ServerName': serverName,
-      if (username != null) 'Username': username,
+      if (applicability != null) 'Applicability': applicability,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (enumValues != null) 'EnumValues': enumValues,
+      if (intValueMax != null) 'IntValueMax': intValueMax,
+      if (intValueMin != null) 'IntValueMin': intValueMin,
+      if (name != null) 'Name': name,
+      if (sensitive != null) 'Sensitive': sensitive,
+      if (type != null) 'Type': type.value,
+      if (units != null) 'Units': units,
     };
   }
 }
 
-/// Provides a collection of table statistics in response to a request by the
-/// <code>DescribeTableStatistics</code> operation.
-class TableStatistics {
-  /// The number of data definition language (DDL) statements used to build and
-  /// modify the structure of your tables applied on the target.
-  final int? appliedDdls;
-
-  /// The number of delete actions applied on a target table.
-  final int? appliedDeletes;
-
-  /// The number of insert actions applied on a target table.
-  final int? appliedInserts;
-
-  /// The number of update actions applied on a target table.
-  final int? appliedUpdates;
-
-  /// The data definition language (DDL) used to build and modify the structure of
-  /// your tables.
-  final int? ddls;
-
-  /// The number of delete actions performed on a table.
-  final int? deletes;
-
-  /// The number of rows that failed conditional checks during the full load
-  /// operation (valid only for migrations where DynamoDB is the target).
-  final int? fullLoadCondtnlChkFailedRows;
-
-  /// The time when the full load operation completed.
-  final DateTime? fullLoadEndTime;
-
-  /// The number of rows that failed to load during the full load operation (valid
-  /// only for migrations where DynamoDB is the target).
-  final int? fullLoadErrorRows;
-
-  /// A value that indicates if the table was reloaded (<code>true</code>) or
-  /// loaded as part of a new full load operation (<code>false</code>).
-  final bool? fullLoadReloaded;
-
-  /// The number of rows added during the full load operation.
-  final int? fullLoadRows;
-
-  /// The time when the full load operation started.
-  final DateTime? fullLoadStartTime;
-
-  /// The number of insert actions performed on a table.
-  final int? inserts;
-
-  /// The last time a table was updated.
-  final DateTime? lastUpdateTime;
-
-  /// The schema name.
-  final String? schemaName;
-
-  /// The name of the table.
-  final String? tableName;
-
-  /// The state of the tables described.
-  ///
-  /// Valid states: Table does not exist | Before load | Full load | Table
-  /// completed | Table cancelled | Table error | Table is being reloaded
-  final String? tableState;
-
-  /// The number of update actions performed on a table.
-  final int? updates;
-
-  /// The number of records that failed validation.
-  final int? validationFailedRecords;
-
-  /// The number of records that have yet to be validated.
-  final int? validationPendingRecords;
-
-  /// The validation state of the table.
-  ///
-  /// This parameter can have the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// Not enabled – Validation isn't enabled for the table in the migration task.
-  /// </li>
-  /// <li>
-  /// Pending records – Some records in the table are waiting for validation.
-  /// </li>
-  /// <li>
-  /// Mismatched records – Some records in the table don't match between the
-  /// source and target.
-  /// </li>
-  /// <li>
-  /// Suspended records – Some records in the table couldn't be validated.
-  /// </li>
-  /// <li>
-  /// No primary key –The table couldn't be validated because it has no primary
-  /// key.
-  /// </li>
-  /// <li>
-  /// Table error – The table wasn't validated because it's in an error state and
-  /// some data wasn't migrated.
-  /// </li>
-  /// <li>
-  /// Validated – All rows in the table are validated. If the table is updated,
-  /// the status can change from Validated.
-  /// </li>
-  /// <li>
-  /// Error – The table couldn't be validated because of an unexpected error.
-  /// </li>
-  /// <li>
-  /// Pending validation – The table is waiting validation.
-  /// </li>
-  /// <li>
-  /// Preparing table – Preparing the table enabled in the migration task for
-  /// validation.
-  /// </li>
-  /// <li>
-  /// Pending revalidation – All rows in the table are pending validation after
-  /// the table was updated.
-  /// </li>
-  /// </ul>
-  final String? validationState;
-
-  /// Additional details about the state of validation.
-  final String? validationStateDetails;
-
-  /// The number of records that couldn't be validated.
-  final int? validationSuspendedRecords;
-
-  TableStatistics({
-    this.appliedDdls,
-    this.appliedDeletes,
-    this.appliedInserts,
-    this.appliedUpdates,
-    this.ddls,
-    this.deletes,
-    this.fullLoadCondtnlChkFailedRows,
-    this.fullLoadEndTime,
-    this.fullLoadErrorRows,
-    this.fullLoadReloaded,
-    this.fullLoadRows,
-    this.fullLoadStartTime,
-    this.inserts,
-    this.lastUpdateTime,
-    this.schemaName,
-    this.tableName,
-    this.tableState,
-    this.updates,
-    this.validationFailedRecords,
-    this.validationPendingRecords,
-    this.validationState,
-    this.validationStateDetails,
-    this.validationSuspendedRecords,
-  });
-
-  factory TableStatistics.fromJson(Map<String, dynamic> json) {
-    return TableStatistics(
-      appliedDdls: json['AppliedDdls'] as int?,
-      appliedDeletes: json['AppliedDeletes'] as int?,
-      appliedInserts: json['AppliedInserts'] as int?,
-      appliedUpdates: json['AppliedUpdates'] as int?,
-      ddls: json['Ddls'] as int?,
-      deletes: json['Deletes'] as int?,
-      fullLoadCondtnlChkFailedRows:
-          json['FullLoadCondtnlChkFailedRows'] as int?,
-      fullLoadEndTime: timeStampFromJson(json['FullLoadEndTime']),
-      fullLoadErrorRows: json['FullLoadErrorRows'] as int?,
-      fullLoadReloaded: json['FullLoadReloaded'] as bool?,
-      fullLoadRows: json['FullLoadRows'] as int?,
-      fullLoadStartTime: timeStampFromJson(json['FullLoadStartTime']),
-      inserts: json['Inserts'] as int?,
-      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
-      schemaName: json['SchemaName'] as String?,
-      tableName: json['TableName'] as String?,
-      tableState: json['TableState'] as String?,
-      updates: json['Updates'] as int?,
-      validationFailedRecords: json['ValidationFailedRecords'] as int?,
-      validationPendingRecords: json['ValidationPendingRecords'] as int?,
-      validationState: json['ValidationState'] as String?,
-      validationStateDetails: json['ValidationStateDetails'] as String?,
-      validationSuspendedRecords: json['ValidationSuspendedRecords'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appliedDdls = this.appliedDdls;
-    final appliedDeletes = this.appliedDeletes;
-    final appliedInserts = this.appliedInserts;
-    final appliedUpdates = this.appliedUpdates;
-    final ddls = this.ddls;
-    final deletes = this.deletes;
-    final fullLoadCondtnlChkFailedRows = this.fullLoadCondtnlChkFailedRows;
-    final fullLoadEndTime = this.fullLoadEndTime;
-    final fullLoadErrorRows = this.fullLoadErrorRows;
-    final fullLoadReloaded = this.fullLoadReloaded;
-    final fullLoadRows = this.fullLoadRows;
-    final fullLoadStartTime = this.fullLoadStartTime;
-    final inserts = this.inserts;
-    final lastUpdateTime = this.lastUpdateTime;
-    final schemaName = this.schemaName;
-    final tableName = this.tableName;
-    final tableState = this.tableState;
-    final updates = this.updates;
-    final validationFailedRecords = this.validationFailedRecords;
-    final validationPendingRecords = this.validationPendingRecords;
-    final validationState = this.validationState;
-    final validationStateDetails = this.validationStateDetails;
-    final validationSuspendedRecords = this.validationSuspendedRecords;
-    return {
-      if (appliedDdls != null) 'AppliedDdls': appliedDdls,
-      if (appliedDeletes != null) 'AppliedDeletes': appliedDeletes,
-      if (appliedInserts != null) 'AppliedInserts': appliedInserts,
-      if (appliedUpdates != null) 'AppliedUpdates': appliedUpdates,
-      if (ddls != null) 'Ddls': ddls,
-      if (deletes != null) 'Deletes': deletes,
-      if (fullLoadCondtnlChkFailedRows != null)
-        'FullLoadCondtnlChkFailedRows': fullLoadCondtnlChkFailedRows,
-      if (fullLoadEndTime != null)
-        'FullLoadEndTime': unixTimestampToJson(fullLoadEndTime),
-      if (fullLoadErrorRows != null) 'FullLoadErrorRows': fullLoadErrorRows,
-      if (fullLoadReloaded != null) 'FullLoadReloaded': fullLoadReloaded,
-      if (fullLoadRows != null) 'FullLoadRows': fullLoadRows,
-      if (fullLoadStartTime != null)
-        'FullLoadStartTime': unixTimestampToJson(fullLoadStartTime),
-      if (inserts != null) 'Inserts': inserts,
-      if (lastUpdateTime != null)
-        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
-      if (schemaName != null) 'SchemaName': schemaName,
-      if (tableName != null) 'TableName': tableName,
-      if (tableState != null) 'TableState': tableState,
-      if (updates != null) 'Updates': updates,
-      if (validationFailedRecords != null)
-        'ValidationFailedRecords': validationFailedRecords,
-      if (validationPendingRecords != null)
-        'ValidationPendingRecords': validationPendingRecords,
-      if (validationState != null) 'ValidationState': validationState,
-      if (validationStateDetails != null)
-        'ValidationStateDetails': validationStateDetails,
-      if (validationSuspendedRecords != null)
-        'ValidationSuspendedRecords': validationSuspendedRecords,
-    };
-  }
-}
-
-/// Provides the name of the schema and table to be reloaded.
-class TableToReload {
-  /// The schema name of the table to be reloaded.
-  final String schemaName;
-
-  /// The table name of the table to be reloaded.
-  final String tableName;
-
-  TableToReload({
-    required this.schemaName,
-    required this.tableName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final schemaName = this.schemaName;
-    final tableName = this.tableName;
-    return {
-      'SchemaName': schemaName,
-      'TableName': tableName,
-    };
-  }
-}
-
-/// A user-defined key-value pair that describes metadata added to an DMS
-/// resource and that is used by operations such as the following:
-///
-/// <ul>
-/// <li>
-/// <code>AddTagsToResource</code>
-/// </li>
-/// <li>
-/// <code>ListTagsForResource</code>
-/// </li>
-/// <li>
-/// <code>RemoveTagsFromResource</code>
-/// </li>
-/// </ul>
-class Tag {
-  /// A key is the required name of the tag. The string value can be 1-128 Unicode
-  /// characters in length and can't be prefixed with "aws:" or "dms:". The string
-  /// can only contain only the set of Unicode letters, digits, white-space, '_',
-  /// '.', '/', '=', '+', '-' (Java regular expressions:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-  final String? key;
-
-  /// The Amazon Resource Name (ARN) string that uniquely identifies the resource
-  /// for which the tag is created.
-  final String? resourceArn;
-
-  /// A value is the optional value of the tag. The string value can be 1-256
-  /// Unicode characters in length and can't be prefixed with "aws:" or "dms:".
-  /// The string can only contain only the set of Unicode letters, digits,
-  /// white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions:
-  /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-  final String? value;
-
-  Tag({
-    this.key,
-    this.resourceArn,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final resourceArn = this.resourceArn;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class TargetDbType {
-  static const specificDatabase = TargetDbType._('specific-database');
-  static const multipleDatabases = TargetDbType._('multiple-databases');
+class EndpointSettingTypeValue {
+  static const string = EndpointSettingTypeValue._('string');
+  static const boolean = EndpointSettingTypeValue._('boolean');
+  static const integer = EndpointSettingTypeValue._('integer');
+  static const $enum = EndpointSettingTypeValue._('enum');
 
   final String value;
 
-  const TargetDbType._(this.value);
+  const EndpointSettingTypeValue._(this.value);
 
-  static const values = [specificDatabase, multipleDatabases];
+  static const values = [string, boolean, integer, $enum];
 
-  static TargetDbType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TargetDbType._(value));
-
-  @override
-  bool operator ==(other) => other is TargetDbType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// <p/>
-class TestConnectionResponse {
-  /// The connection tested.
-  final Connection? connection;
-
-  TestConnectionResponse({
-    this.connection,
-  });
-
-  factory TestConnectionResponse.fromJson(Map<String, dynamic> json) {
-    return TestConnectionResponse(
-      connection: json['Connection'] != null
-          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connection = this.connection;
-    return {
-      if (connection != null) 'Connection': connection,
-    };
-  }
-}
-
-/// Provides information that defines an Amazon Timestream endpoint.
-class TimestreamSettings {
-  /// Database name for the endpoint.
-  final String databaseName;
-
-  /// Set this attribute to specify the default magnetic duration applied to the
-  /// Amazon Timestream tables in days. This is the number of days that records
-  /// remain in magnetic store before being discarded. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html">Storage</a>
-  /// in the <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/">Amazon
-  /// Timestream Developer Guide</a>.
-  final int magneticDuration;
-
-  /// Set this attribute to specify the length of time to store all of the tables
-  /// in memory that are migrated into Amazon Timestream from the source database.
-  /// Time is measured in units of hours. When Timestream data comes in, it first
-  /// resides in memory for the specified duration, which allows quick access to
-  /// it.
-  final int memoryDuration;
-
-  /// Set this attribute to <code>true</code> to specify that DMS only applies
-  /// inserts and updates, and not deletes. Amazon Timestream does not allow
-  /// deleting records, so if this value is <code>false</code>, DMS nulls out the
-  /// corresponding record in the Timestream database rather than deleting it.
-  final bool? cdcInsertsAndUpdates;
-
-  /// Set this attribute to <code>true</code> to enable memory store writes. When
-  /// this value is <code>false</code>, DMS does not write records that are older
-  /// in days than the value specified in <code>MagneticDuration</code>, because
-  /// Amazon Timestream does not allow memory writes by default. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html">Storage</a>
-  /// in the <a
-  /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/">Amazon
-  /// Timestream Developer Guide</a>.
-  final bool? enableMagneticStoreWrites;
-
-  TimestreamSettings({
-    required this.databaseName,
-    required this.magneticDuration,
-    required this.memoryDuration,
-    this.cdcInsertsAndUpdates,
-    this.enableMagneticStoreWrites,
-  });
-
-  factory TimestreamSettings.fromJson(Map<String, dynamic> json) {
-    return TimestreamSettings(
-      databaseName: (json['DatabaseName'] as String?) ?? '',
-      magneticDuration: (json['MagneticDuration'] as int?) ?? 0,
-      memoryDuration: (json['MemoryDuration'] as int?) ?? 0,
-      cdcInsertsAndUpdates: json['CdcInsertsAndUpdates'] as bool?,
-      enableMagneticStoreWrites: json['EnableMagneticStoreWrites'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseName = this.databaseName;
-    final magneticDuration = this.magneticDuration;
-    final memoryDuration = this.memoryDuration;
-    final cdcInsertsAndUpdates = this.cdcInsertsAndUpdates;
-    final enableMagneticStoreWrites = this.enableMagneticStoreWrites;
-    return {
-      'DatabaseName': databaseName,
-      'MagneticDuration': magneticDuration,
-      'MemoryDuration': memoryDuration,
-      if (cdcInsertsAndUpdates != null)
-        'CdcInsertsAndUpdates': cdcInsertsAndUpdates,
-      if (enableMagneticStoreWrites != null)
-        'EnableMagneticStoreWrites': enableMagneticStoreWrites,
-    };
-  }
-}
-
-class TlogAccessMode {
-  static const backupOnly = TlogAccessMode._('BackupOnly');
-  static const preferBackup = TlogAccessMode._('PreferBackup');
-  static const preferTlog = TlogAccessMode._('PreferTlog');
-  static const tlogOnly = TlogAccessMode._('TlogOnly');
-
-  final String value;
-
-  const TlogAccessMode._(this.value);
-
-  static const values = [backupOnly, preferBackup, preferTlog, tlogOnly];
-
-  static TlogAccessMode fromString(String value) =>
+  static EndpointSettingTypeValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TlogAccessMode._(value));
+          orElse: () => EndpointSettingTypeValue._(value));
 
   @override
-  bool operator ==(other) => other is TlogAccessMode && other.value == value;
+  bool operator ==(other) =>
+      other is EndpointSettingTypeValue && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -20557,83 +23506,104 @@ class TlogAccessMode {
   String toString() => value;
 }
 
-/// <p/>
-class UpdateSubscriptionsToEventBridgeResponse {
-  /// A string that indicates how many event subscriptions were migrated and how
-  /// many remain to be migrated.
-  final String? result;
+/// Describes a quota for an Amazon Web Services account, for example the number
+/// of replication instances allowed.
+class AccountQuota {
+  /// The name of the DMS quota for this Amazon Web Services account.
+  final String? accountQuotaName;
 
-  UpdateSubscriptionsToEventBridgeResponse({
-    this.result,
+  /// The maximum allowed value for the quota.
+  final int? max;
+
+  /// The amount currently used toward the quota maximum.
+  final int? used;
+
+  AccountQuota({
+    this.accountQuotaName,
+    this.max,
+    this.used,
   });
 
-  factory UpdateSubscriptionsToEventBridgeResponse.fromJson(
+  factory AccountQuota.fromJson(Map<String, dynamic> json) {
+    return AccountQuota(
+      accountQuotaName: json['AccountQuotaName'] as String?,
+      max: json['Max'] as int?,
+      used: json['Used'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountQuotaName = this.accountQuotaName;
+    final max = this.max;
+    final used = this.used;
+    return {
+      if (accountQuotaName != null) 'AccountQuotaName': accountQuotaName,
+      if (max != null) 'Max': max,
+      if (used != null) 'Used': used,
+    };
+  }
+}
+
+/// Provides information about the errors that occurred during the analysis of
+/// the source database.
+class BatchStartRecommendationsErrorEntry {
+  /// The code of an error that occurred during the analysis of the source
+  /// database.
+  final String? code;
+
+  /// The identifier of the source database.
+  final String? databaseId;
+
+  /// The information about the error.
+  final String? message;
+
+  BatchStartRecommendationsErrorEntry({
+    this.code,
+    this.databaseId,
+    this.message,
+  });
+
+  factory BatchStartRecommendationsErrorEntry.fromJson(
       Map<String, dynamic> json) {
-    return UpdateSubscriptionsToEventBridgeResponse(
-      result: json['Result'] as String?,
+    return BatchStartRecommendationsErrorEntry(
+      code: json['Code'] as String?,
+      databaseId: json['DatabaseId'] as String?,
+      message: json['Message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final result = this.result;
+    final code = this.code;
+    final databaseId = this.databaseId;
+    final message = this.message;
     return {
-      if (result != null) 'Result': result,
+      if (code != null) 'Code': code,
+      if (databaseId != null) 'DatabaseId': databaseId,
+      if (message != null) 'Message': message,
     };
   }
 }
 
-class VersionStatus {
-  static const upToDate = VersionStatus._('UP_TO_DATE');
-  static const outdated = VersionStatus._('OUTDATED');
-  static const unsupported = VersionStatus._('UNSUPPORTED');
+/// Provides information about the source database to analyze and provide target
+/// recommendations according to the specified requirements.
+class StartRecommendationsRequestEntry {
+  /// The identifier of the source database.
+  final String databaseId;
 
-  final String value;
+  /// The required target engine settings.
+  final RecommendationSettings settings;
 
-  const VersionStatus._(this.value);
-
-  static const values = [upToDate, outdated, unsupported];
-
-  static VersionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VersionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is VersionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the status of a security group associated with the virtual private
-/// cloud (VPC) hosting your replication and DB instances.
-class VpcSecurityGroupMembership {
-  /// The status of the VPC security group.
-  final String? status;
-
-  /// The VPC security group ID.
-  final String? vpcSecurityGroupId;
-
-  VpcSecurityGroupMembership({
-    this.status,
-    this.vpcSecurityGroupId,
+  StartRecommendationsRequestEntry({
+    required this.databaseId,
+    required this.settings,
   });
 
-  factory VpcSecurityGroupMembership.fromJson(Map<String, dynamic> json) {
-    return VpcSecurityGroupMembership(
-      status: json['Status'] as String?,
-      vpcSecurityGroupId: json['VpcSecurityGroupId'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final status = this.status;
-    final vpcSecurityGroupId = this.vpcSecurityGroupId;
+    final databaseId = this.databaseId;
+    final settings = this.settings;
     return {
-      if (status != null) 'Status': status,
-      if (vpcSecurityGroupId != null) 'VpcSecurityGroupId': vpcSecurityGroupId,
+      'DatabaseId': databaseId,
+      'Settings': settings,
     };
   }
 }
@@ -20646,6 +23616,11 @@ class AccessDeniedFault extends _s.GenericAwsException {
 class CollectorNotFoundFault extends _s.GenericAwsException {
   CollectorNotFoundFault({String? type, String? message})
       : super(type: type, code: 'CollectorNotFoundFault', message: message);
+}
+
+class FailedDependencyFault extends _s.GenericAwsException {
+  FailedDependencyFault({String? type, String? message})
+      : super(type: type, code: 'FailedDependencyFault', message: message);
 }
 
 class InsufficientResourceCapacityFault extends _s.GenericAwsException {
@@ -20778,6 +23753,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedFault(type: type, message: message),
   'CollectorNotFoundFault': (type, message) =>
       CollectorNotFoundFault(type: type, message: message),
+  'FailedDependencyFault': (type, message) =>
+      FailedDependencyFault(type: type, message: message),
   'InsufficientResourceCapacityFault': (type, message) =>
       InsufficientResourceCapacityFault(type: type, message: message),
   'InvalidCertificateFault': (type, message) =>

@@ -61,9 +61,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// these APIs, see <a
 /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-api-references.html">Use
 /// APIs in Amazon A2I</a> in the Amazon SageMaker Developer Guide.
-class AugmentedAIRuntime {
+class SageMakerA2iRuntime {
   final _s.RestJsonProtocol _protocol;
-  AugmentedAIRuntime({
+  SageMakerA2iRuntime({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -95,10 +95,10 @@ class AugmentedAIRuntime {
   /// If the human loop was deleted, this operation will return a
   /// <code>ResourceNotFoundException</code>.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [humanLoopName] :
   /// The name of the human loop that you want to delete.
@@ -117,10 +117,10 @@ class AugmentedAIRuntime {
   /// deleted, this operation will return a
   /// <code>ResourceNotFoundException</code> error.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [humanLoopName] :
   /// The name of the human loop that you want information about.
@@ -139,10 +139,10 @@ class AugmentedAIRuntime {
   /// Returns information about human loops, given the specified parameters. If
   /// a human loop was deleted, it will not be included.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [flowDefinitionArn] :
   /// The Amazon Resource Name (ARN) of a flow definition.
@@ -204,11 +204,11 @@ class AugmentedAIRuntime {
   /// Starts a human loop, provided that at least one activation condition is
   /// met.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [flowDefinitionArn] :
   /// The Amazon Resource Name (ARN) of the flow definition associated with this
@@ -247,10 +247,10 @@ class AugmentedAIRuntime {
 
   /// Stops the specified human loop.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [humanLoopName] :
   /// The name of the human loop that you want to stop.
@@ -267,34 +267,6 @@ class AugmentedAIRuntime {
       exceptionFnMap: _exceptionFns,
     );
   }
-}
-
-class ContentClassifier {
-  static const freeOfPersonallyIdentifiableInformation =
-      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
-  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
-
-  final String value;
-
-  const ContentClassifier._(this.value);
-
-  static const values = [
-    freeOfPersonallyIdentifiableInformation,
-    freeOfAdultContent
-  ];
-
-  static ContentClassifier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentClassifier._(value));
-
-  @override
-  bool operator ==(other) => other is ContentClassifier && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DeleteHumanLoopResponse {
@@ -390,6 +362,90 @@ class DescribeHumanLoopResponse {
   }
 }
 
+class ListHumanLoopsResponse {
+  /// An array of objects that contain information about the human loops.
+  final List<HumanLoopSummary> humanLoopSummaries;
+
+  /// A token to display the next page of results.
+  final String? nextToken;
+
+  ListHumanLoopsResponse({
+    required this.humanLoopSummaries,
+    this.nextToken,
+  });
+
+  factory ListHumanLoopsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHumanLoopsResponse(
+      humanLoopSummaries: ((json['HumanLoopSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HumanLoopSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final humanLoopSummaries = this.humanLoopSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'HumanLoopSummaries': humanLoopSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class StartHumanLoopResponse {
+  /// The Amazon Resource Name (ARN) of the human loop.
+  final String? humanLoopArn;
+
+  StartHumanLoopResponse({
+    this.humanLoopArn,
+  });
+
+  factory StartHumanLoopResponse.fromJson(Map<String, dynamic> json) {
+    return StartHumanLoopResponse(
+      humanLoopArn: json['HumanLoopArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final humanLoopArn = this.humanLoopArn;
+    return {
+      if (humanLoopArn != null) 'HumanLoopArn': humanLoopArn,
+    };
+  }
+}
+
+class StopHumanLoopResponse {
+  StopHumanLoopResponse();
+
+  factory StopHumanLoopResponse.fromJson(Map<String, dynamic> _) {
+    return StopHumanLoopResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An object containing the human loop input in JSON format.
+class HumanLoopInput {
+  /// Serialized input from the human loop. The input must be a string
+  /// representation of a file in JSON format.
+  final String inputContent;
+
+  HumanLoopInput({
+    required this.inputContent,
+  });
+
+  Map<String, dynamic> toJson() {
+    final inputContent = this.inputContent;
+    return {
+      'InputContent': inputContent,
+    };
+  }
+}
+
 /// Attributes of the data specified by the customer. Use these to describe the
 /// data to be labeled.
 class HumanLoopDataAttributes {
@@ -412,67 +468,26 @@ class HumanLoopDataAttributes {
   }
 }
 
-/// An object containing the human loop input in JSON format.
-class HumanLoopInput {
-  /// Serialized input from the human loop. The input must be a string
-  /// representation of a file in JSON format.
-  final String inputContent;
-
-  HumanLoopInput({
-    required this.inputContent,
-  });
-
-  Map<String, dynamic> toJson() {
-    final inputContent = this.inputContent;
-    return {
-      'InputContent': inputContent,
-    };
-  }
-}
-
-/// Information about where the human output will be stored.
-class HumanLoopOutput {
-  /// The location of the Amazon S3 object where Amazon Augmented AI stores your
-  /// human loop output.
-  final String outputS3Uri;
-
-  HumanLoopOutput({
-    required this.outputS3Uri,
-  });
-
-  factory HumanLoopOutput.fromJson(Map<String, dynamic> json) {
-    return HumanLoopOutput(
-      outputS3Uri: (json['OutputS3Uri'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final outputS3Uri = this.outputS3Uri;
-    return {
-      'OutputS3Uri': outputS3Uri,
-    };
-  }
-}
-
-class HumanLoopStatus {
-  static const inProgress = HumanLoopStatus._('InProgress');
-  static const failed = HumanLoopStatus._('Failed');
-  static const completed = HumanLoopStatus._('Completed');
-  static const stopped = HumanLoopStatus._('Stopped');
-  static const stopping = HumanLoopStatus._('Stopping');
+class ContentClassifier {
+  static const freeOfPersonallyIdentifiableInformation =
+      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
+  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
 
   final String value;
 
-  const HumanLoopStatus._(this.value);
+  const ContentClassifier._(this.value);
 
-  static const values = [inProgress, failed, completed, stopped, stopping];
+  static const values = [
+    freeOfPersonallyIdentifiableInformation,
+    freeOfAdultContent
+  ];
 
-  static HumanLoopStatus fromString(String value) =>
+  static ContentClassifier fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => HumanLoopStatus._(value));
+          orElse: () => ContentClassifier._(value));
 
   @override
-  bool operator ==(other) => other is HumanLoopStatus && other.value == value;
+  bool operator ==(other) => other is ContentClassifier && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -535,36 +550,31 @@ class HumanLoopSummary {
   }
 }
 
-class ListHumanLoopsResponse {
-  /// An array of objects that contain information about the human loops.
-  final List<HumanLoopSummary> humanLoopSummaries;
+class HumanLoopStatus {
+  static const inProgress = HumanLoopStatus._('InProgress');
+  static const failed = HumanLoopStatus._('Failed');
+  static const completed = HumanLoopStatus._('Completed');
+  static const stopped = HumanLoopStatus._('Stopped');
+  static const stopping = HumanLoopStatus._('Stopping');
 
-  /// A token to display the next page of results.
-  final String? nextToken;
+  final String value;
 
-  ListHumanLoopsResponse({
-    required this.humanLoopSummaries,
-    this.nextToken,
-  });
+  const HumanLoopStatus._(this.value);
 
-  factory ListHumanLoopsResponse.fromJson(Map<String, dynamic> json) {
-    return ListHumanLoopsResponse(
-      humanLoopSummaries: ((json['HumanLoopSummaries'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => HumanLoopSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
+  static const values = [inProgress, failed, completed, stopped, stopping];
 
-  Map<String, dynamic> toJson() {
-    final humanLoopSummaries = this.humanLoopSummaries;
-    final nextToken = this.nextToken;
-    return {
-      'HumanLoopSummaries': humanLoopSummaries,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
+  static HumanLoopStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HumanLoopStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HumanLoopStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class SortOrder {
@@ -590,37 +600,27 @@ class SortOrder {
   String toString() => value;
 }
 
-class StartHumanLoopResponse {
-  /// The Amazon Resource Name (ARN) of the human loop.
-  final String? humanLoopArn;
+/// Information about where the human output will be stored.
+class HumanLoopOutput {
+  /// The location of the Amazon S3 object where Amazon Augmented AI stores your
+  /// human loop output.
+  final String outputS3Uri;
 
-  StartHumanLoopResponse({
-    this.humanLoopArn,
+  HumanLoopOutput({
+    required this.outputS3Uri,
   });
 
-  factory StartHumanLoopResponse.fromJson(Map<String, dynamic> json) {
-    return StartHumanLoopResponse(
-      humanLoopArn: json['HumanLoopArn'] as String?,
+  factory HumanLoopOutput.fromJson(Map<String, dynamic> json) {
+    return HumanLoopOutput(
+      outputS3Uri: (json['OutputS3Uri'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final humanLoopArn = this.humanLoopArn;
+    final outputS3Uri = this.outputS3Uri;
     return {
-      if (humanLoopArn != null) 'HumanLoopArn': humanLoopArn,
+      'OutputS3Uri': outputS3Uri,
     };
-  }
-}
-
-class StopHumanLoopResponse {
-  StopHumanLoopResponse();
-
-  factory StopHumanLoopResponse.fromJson(Map<String, dynamic> _) {
-    return StopHumanLoopResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 

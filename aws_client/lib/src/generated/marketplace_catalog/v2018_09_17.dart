@@ -21,8 +21,8 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Catalog API actions allow you to manage your entities through list,
-/// describe, and update capabilities. An entity can be a product or an offer on
-/// AWS Marketplace.
+/// describe, and update capabilities. An <i>entity</i> can be a product or an
+/// offer on AWS Marketplace.
 ///
 /// You can automate your entity update process by integrating the AWS
 /// Marketplace Catalog API with your AWS Marketplace product build or
@@ -88,12 +88,12 @@ class MarketplaceCatalog {
   /// completing your change request. You can describe a change during the
   /// 60-day request history retention period for API calls.
   ///
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [catalog] :
   /// Required. The catalog related to the request. Fixed value:
@@ -123,11 +123,11 @@ class MarketplaceCatalog {
   /// Deletes a resource-based policy on an entity that is identified by its
   /// resource ARN.
   ///
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the entity resource that is associated
@@ -149,11 +149,11 @@ class MarketplaceCatalog {
 
   /// Provides information about a given change set.
   ///
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [catalog] :
   /// Required. The catalog related to the request. Fixed value:
@@ -182,12 +182,12 @@ class MarketplaceCatalog {
 
   /// Returns the metadata and content of the entity.
   ///
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotSupportedException].
+  /// May throw [InternalServiceException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceNotSupportedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [catalog] :
   /// Required. The catalog related to the request. Fixed value:
@@ -216,11 +216,11 @@ class MarketplaceCatalog {
   /// Gets a resource-based policy of an entity that is identified by its
   /// resource ARN.
   ///
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the entity resource that is associated
@@ -250,10 +250,10 @@ class MarketplaceCatalog {
   /// You can describe a change during the 60-day request history retention
   /// period for API calls.
   ///
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [catalog] :
   /// The catalog related to the request. Fixed value:
@@ -305,11 +305,11 @@ class MarketplaceCatalog {
 
   /// Provides the list of entities of a given type.
   ///
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [catalog] :
   /// The catalog related to the request. Fixed value:
@@ -321,7 +321,8 @@ class MarketplaceCatalog {
   /// <code>DataProduct</code>, <code>SaaSProduct</code>,
   /// <code>ProcurementPolicy</code>, <code>Experience</code>,
   /// <code>Audience</code>, <code>BrandingSettings</code>, <code>Offer</code>,
-  /// <code>Seller</code>, <code>ResaleAuthorization</code>.
+  /// <code>OfferSet</code>, <code>Seller</code>,
+  /// <code>ResaleAuthorization</code>, <code>Solution</code>.
   ///
   /// Parameter [entityTypeFilters] :
   /// A Union object containing filter shapes for all <code>EntityType</code>s.
@@ -401,11 +402,11 @@ class MarketplaceCatalog {
   /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">change
   /// set</a>).
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// Required. The Amazon Resource Name (ARN) associated with the resource you
@@ -428,11 +429,11 @@ class MarketplaceCatalog {
   /// Attaches a resource-based policy to an entity. Examples of an entity
   /// include: <code>AmiProduct</code> and <code>ContainerProduct</code>.
   ///
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [policy] :
   /// The policy document to set; formatted in JSON.
@@ -482,13 +483,19 @@ class MarketplaceCatalog {
   /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products">Working
   /// with container products</a>.
   ///
-  /// May throw [InternalServiceException].
+  /// To download "DetailsDocument" shapes, see <a
+  /// href="https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python">Python</a>
+  /// and <a
+  /// href="https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main">Java</a>
+  /// shapes on GitHub.
+  ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
   /// May throw [ResourceInUseException].
-  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [catalog] :
   /// The catalog related to the request. Fixed value:
@@ -546,11 +553,11 @@ class MarketplaceCatalog {
   /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">change
   /// set</a>).
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// Required. The Amazon Resource Name (ARN) associated with the resource you
@@ -581,11 +588,11 @@ class MarketplaceCatalog {
   /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">change
   /// set</a>).
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// Required. The Amazon Resource Name (ARN) associated with the resource you
@@ -609,255 +616,6 @@ class MarketplaceCatalog {
       exceptionFnMap: _exceptionFns,
     );
   }
-}
-
-/// Object that allows filtering on entity id of an AMI product.
-class AmiProductEntityIdFilter {
-  /// A string array of unique entity id values to be filtered on.
-  final List<String>? valueList;
-
-  AmiProductEntityIdFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-    };
-  }
-}
-
-/// Object containing all the filter fields for AMI products. Client can add
-/// only one wildcard filter and a maximum of 8 filters in a single
-/// <code>ListEntities</code> request.
-class AmiProductFilters {
-  /// Unique identifier for the AMI product.
-  final AmiProductEntityIdFilter? entityId;
-
-  /// The last date on which the AMI product was modified.
-  final AmiProductLastModifiedDateFilter? lastModifiedDate;
-
-  /// The title of the AMI product.
-  final AmiProductTitleFilter? productTitle;
-
-  /// The visibility of the AMI product.
-  final AmiProductVisibilityFilter? visibility;
-
-  AmiProductFilters({
-    this.entityId,
-    this.lastModifiedDate,
-    this.productTitle,
-    this.visibility,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    final lastModifiedDate = this.lastModifiedDate;
-    final productTitle = this.productTitle;
-    final visibility = this.visibility;
-    return {
-      if (entityId != null) 'EntityId': entityId,
-      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
-      if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility,
-    };
-  }
-}
-
-/// Object that allows filtering based on the last modified date of AMI
-/// products.
-class AmiProductLastModifiedDateFilter {
-  /// Dates between which the AMI product was last modified.
-  final AmiProductLastModifiedDateFilterDateRange? dateRange;
-
-  AmiProductLastModifiedDateFilter({
-    this.dateRange,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
-    return {
-      if (dateRange != null) 'DateRange': dateRange,
-    };
-  }
-}
-
-/// Object that contains date range of the last modified date to be filtered on.
-/// You can optionally provide a <code>BeforeValue</code> and/or
-/// <code>AfterValue</code>. Both are inclusive.
-class AmiProductLastModifiedDateFilterDateRange {
-  /// Date after which the AMI product was last modified.
-  final String? afterValue;
-
-  /// Date before which the AMI product was last modified.
-  final String? beforeValue;
-
-  AmiProductLastModifiedDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
-    return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
-    };
-  }
-}
-
-/// Objects that allows sorting on AMI products based on certain fields and
-/// sorting order.
-class AmiProductSort {
-  /// Field to sort the AMI products by.
-  final AmiProductSortBy? sortBy;
-
-  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
-  /// The default value is <code>DESCENDING</code>.
-  final SortOrder? sortOrder;
-
-  AmiProductSort({
-    this.sortBy,
-    this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
-    return {
-      if (sortBy != null) 'SortBy': sortBy.value,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class AmiProductSortBy {
-  static const entityId = AmiProductSortBy._('EntityId');
-  static const lastModifiedDate = AmiProductSortBy._('LastModifiedDate');
-  static const productTitle = AmiProductSortBy._('ProductTitle');
-  static const visibility = AmiProductSortBy._('Visibility');
-
-  final String value;
-
-  const AmiProductSortBy._(this.value);
-
-  static const values = [entityId, lastModifiedDate, productTitle, visibility];
-
-  static AmiProductSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AmiProductSortBy._(value));
-
-  @override
-  bool operator ==(other) => other is AmiProductSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Object that contains summarized information about an AMI product.
-class AmiProductSummary {
-  /// The title of the AMI product.
-  final String? productTitle;
-
-  /// The lifecycle of the AMI product.
-  final AmiProductVisibilityString? visibility;
-
-  AmiProductSummary({
-    this.productTitle,
-    this.visibility,
-  });
-
-  factory AmiProductSummary.fromJson(Map<String, dynamic> json) {
-    return AmiProductSummary(
-      productTitle: json['ProductTitle'] as String?,
-      visibility: (json['Visibility'] as String?)
-          ?.let(AmiProductVisibilityString.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final productTitle = this.productTitle;
-    final visibility = this.visibility;
-    return {
-      if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility.value,
-    };
-  }
-}
-
-/// Object that allows filtering on product title.
-class AmiProductTitleFilter {
-  /// A string array of unique product title values to be filtered on.
-  final List<String>? valueList;
-
-  /// A string that will be the <code>wildCard</code> input for product tile
-  /// filter. It matches the provided value as a substring in the actual value.
-  final String? wildCardValue;
-
-  AmiProductTitleFilter({
-    this.valueList,
-    this.wildCardValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    final wildCardValue = this.wildCardValue;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-      if (wildCardValue != null) 'WildCardValue': wildCardValue,
-    };
-  }
-}
-
-/// Object that allows filtering on the visibility of the product in the AWS
-/// Marketplace.
-class AmiProductVisibilityFilter {
-  /// A string array of unique visibility values to be filtered on.
-  final List<AmiProductVisibilityString>? valueList;
-
-  AmiProductVisibilityFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null)
-        'ValueList': valueList.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class AmiProductVisibilityString {
-  static const limited = AmiProductVisibilityString._('Limited');
-  static const public = AmiProductVisibilityString._('Public');
-  static const restricted = AmiProductVisibilityString._('Restricted');
-  static const draft = AmiProductVisibilityString._('Draft');
-
-  final String value;
-
-  const AmiProductVisibilityString._(this.value);
-
-  static const values = [limited, public, restricted, draft];
-
-  static AmiProductVisibilityString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AmiProductVisibilityString._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AmiProductVisibilityString && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class BatchDescribeEntitiesResponse {
@@ -893,36 +651,6 @@ class BatchDescribeEntitiesResponse {
   }
 }
 
-/// An object that contains an error code and error message.
-class BatchDescribeErrorDetail {
-  /// The error code returned.
-  final String? errorCode;
-
-  /// The error message returned.
-  final String? errorMessage;
-
-  BatchDescribeErrorDetail({
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory BatchDescribeErrorDetail.fromJson(Map<String, dynamic> json) {
-    return BatchDescribeErrorDetail(
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
 class CancelChangeSetResponse {
   /// The ARN associated with the change set referenced in this request.
   final String? changeSetArn;
@@ -950,752 +678,6 @@ class CancelChangeSetResponse {
       if (changeSetId != null) 'ChangeSetId': changeSetId,
     };
   }
-}
-
-/// An object that contains the <code>ChangeType</code>, <code>Details</code>,
-/// and <code>Entity</code>.
-class Change {
-  /// Change types are single string values that describe your intention for the
-  /// change. Each change type is unique for each <code>EntityType</code> provided
-  /// in the change's scope. For more information about change types available for
-  /// single-AMI products, see <a
-  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products">Working
-  /// with single-AMI products</a>. Also, for more information about change types
-  /// available for container-based products, see <a
-  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products">Working
-  /// with container products</a>.
-  final String changeType;
-
-  /// The entity to be changed.
-  final Entity entity;
-
-  /// Optional name for the change.
-  final String? changeName;
-
-  /// This object contains details specific to the change type of the requested
-  /// change. For more information about change types available for single-AMI
-  /// products, see <a
-  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products">Working
-  /// with single-AMI products</a>. Also, for more information about change types
-  /// available for container-based products, see <a
-  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products">Working
-  /// with container products</a>.
-  final String? details;
-
-  /// Alternative field that accepts a JSON value instead of a string for
-  /// <code>ChangeType</code> details. You can use either <code>Details</code> or
-  /// <code>DetailsDocument</code>, but not both.
-  final JsonDocumentType? detailsDocument;
-
-  /// The tags associated with the change.
-  final List<Tag>? entityTags;
-
-  Change({
-    required this.changeType,
-    required this.entity,
-    this.changeName,
-    this.details,
-    this.detailsDocument,
-    this.entityTags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final changeType = this.changeType;
-    final entity = this.entity;
-    final changeName = this.changeName;
-    final details = this.details;
-    final detailsDocument = this.detailsDocument;
-    final entityTags = this.entityTags;
-    return {
-      'ChangeType': changeType,
-      'Entity': entity,
-      if (changeName != null) 'ChangeName': changeName,
-      if (details != null) 'Details': details,
-      if (detailsDocument != null) 'DetailsDocument': detailsDocument,
-      if (entityTags != null) 'EntityTags': entityTags,
-    };
-  }
-}
-
-/// A summary of a change set returned in a list of change sets when the
-/// <code>ListChangeSets</code> action is called.
-class ChangeSetSummaryListItem {
-  /// The ARN associated with the unique identifier for the change set referenced
-  /// in this request.
-  final String? changeSetArn;
-
-  /// The unique identifier for a change set.
-  final String? changeSetId;
-
-  /// The non-unique name for the change set.
-  final String? changeSetName;
-
-  /// The time, in ISO 8601 format (2018-02-27T13:45:22Z), when the change set was
-  /// finished.
-  final String? endTime;
-
-  /// This object is a list of entity IDs (string) that are a part of a change
-  /// set. The entity ID list is a maximum of 20 entities. It must contain at
-  /// least one entity.
-  final List<String>? entityIdList;
-
-  /// Returned if the change set is in <code>FAILED</code> status. Can be either
-  /// <code>CLIENT_ERROR</code>, which means that there are issues with the
-  /// request (see the <code>ErrorDetailList</code> of
-  /// <code>DescribeChangeSet</code>), or <code>SERVER_FAULT</code>, which means
-  /// that there is a problem in the system, and you should retry your request.
-  final FailureCode? failureCode;
-
-  /// The time, in ISO 8601 format (2018-02-27T13:45:22Z), when the change set was
-  /// started.
-  final String? startTime;
-
-  /// The current status of the change set.
-  final ChangeStatus? status;
-
-  ChangeSetSummaryListItem({
-    this.changeSetArn,
-    this.changeSetId,
-    this.changeSetName,
-    this.endTime,
-    this.entityIdList,
-    this.failureCode,
-    this.startTime,
-    this.status,
-  });
-
-  factory ChangeSetSummaryListItem.fromJson(Map<String, dynamic> json) {
-    return ChangeSetSummaryListItem(
-      changeSetArn: json['ChangeSetArn'] as String?,
-      changeSetId: json['ChangeSetId'] as String?,
-      changeSetName: json['ChangeSetName'] as String?,
-      endTime: json['EndTime'] as String?,
-      entityIdList: (json['EntityIdList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      failureCode:
-          (json['FailureCode'] as String?)?.let(FailureCode.fromString),
-      startTime: json['StartTime'] as String?,
-      status: (json['Status'] as String?)?.let(ChangeStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeSetArn = this.changeSetArn;
-    final changeSetId = this.changeSetId;
-    final changeSetName = this.changeSetName;
-    final endTime = this.endTime;
-    final entityIdList = this.entityIdList;
-    final failureCode = this.failureCode;
-    final startTime = this.startTime;
-    final status = this.status;
-    return {
-      if (changeSetArn != null) 'ChangeSetArn': changeSetArn,
-      if (changeSetId != null) 'ChangeSetId': changeSetId,
-      if (changeSetName != null) 'ChangeSetName': changeSetName,
-      if (endTime != null) 'EndTime': endTime,
-      if (entityIdList != null) 'EntityIdList': entityIdList,
-      if (failureCode != null) 'FailureCode': failureCode.value,
-      if (startTime != null) 'StartTime': startTime,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class ChangeStatus {
-  static const preparing = ChangeStatus._('PREPARING');
-  static const applying = ChangeStatus._('APPLYING');
-  static const succeeded = ChangeStatus._('SUCCEEDED');
-  static const cancelled = ChangeStatus._('CANCELLED');
-  static const failed = ChangeStatus._('FAILED');
-
-  final String value;
-
-  const ChangeStatus._(this.value);
-
-  static const values = [preparing, applying, succeeded, cancelled, failed];
-
-  static ChangeStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// This object is a container for common summary information about the change.
-/// The summary doesn't contain the whole change structure.
-class ChangeSummary {
-  /// Optional name for the change.
-  final String? changeName;
-
-  /// The type of the change.
-  final String? changeType;
-
-  /// This object contains details specific to the change type of the requested
-  /// change.
-  final String? details;
-
-  /// The JSON value of the details specific to the change type of the requested
-  /// change.
-  final JsonDocumentType? detailsDocument;
-
-  /// The entity to be changed.
-  final Entity? entity;
-
-  /// An array of <code>ErrorDetail</code> objects associated with the change.
-  final List<ErrorDetail>? errorDetailList;
-
-  ChangeSummary({
-    this.changeName,
-    this.changeType,
-    this.details,
-    this.detailsDocument,
-    this.entity,
-    this.errorDetailList,
-  });
-
-  factory ChangeSummary.fromJson(Map<String, dynamic> json) {
-    return ChangeSummary(
-      changeName: json['ChangeName'] as String?,
-      changeType: json['ChangeType'] as String?,
-      details: json['Details'] as String?,
-      detailsDocument: json['DetailsDocument'] != null
-          ? JsonDocumentType.fromJson(
-              json['DetailsDocument'] as Map<String, dynamic>)
-          : null,
-      entity: json['Entity'] != null
-          ? Entity.fromJson(json['Entity'] as Map<String, dynamic>)
-          : null,
-      errorDetailList: (json['ErrorDetailList'] as List?)
-          ?.nonNulls
-          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeName = this.changeName;
-    final changeType = this.changeType;
-    final details = this.details;
-    final detailsDocument = this.detailsDocument;
-    final entity = this.entity;
-    final errorDetailList = this.errorDetailList;
-    return {
-      if (changeName != null) 'ChangeName': changeName,
-      if (changeType != null) 'ChangeType': changeType,
-      if (details != null) 'Details': details,
-      if (detailsDocument != null) 'DetailsDocument': detailsDocument,
-      if (entity != null) 'Entity': entity,
-      if (errorDetailList != null) 'ErrorDetailList': errorDetailList,
-    };
-  }
-}
-
-/// Object that allows filtering on entity id of a container product.
-class ContainerProductEntityIdFilter {
-  /// A string array of unique entity id values to be filtered on.
-  final List<String>? valueList;
-
-  ContainerProductEntityIdFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-    };
-  }
-}
-
-/// Object containing all the filter fields for container products. Client can
-/// add only one wildcard filter and a maximum of 8 filters in a single
-/// <code>ListEntities</code> request.
-class ContainerProductFilters {
-  /// Unique identifier for the container product.
-  final ContainerProductEntityIdFilter? entityId;
-
-  /// The last date on which the container product was modified.
-  final ContainerProductLastModifiedDateFilter? lastModifiedDate;
-
-  /// The title of the container product.
-  final ContainerProductTitleFilter? productTitle;
-
-  /// The visibility of the container product.
-  final ContainerProductVisibilityFilter? visibility;
-
-  ContainerProductFilters({
-    this.entityId,
-    this.lastModifiedDate,
-    this.productTitle,
-    this.visibility,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    final lastModifiedDate = this.lastModifiedDate;
-    final productTitle = this.productTitle;
-    final visibility = this.visibility;
-    return {
-      if (entityId != null) 'EntityId': entityId,
-      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
-      if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility,
-    };
-  }
-}
-
-/// Object that allows filtering based on the last modified date of container
-/// products.
-class ContainerProductLastModifiedDateFilter {
-  /// Dates between which the container product was last modified.
-  final ContainerProductLastModifiedDateFilterDateRange? dateRange;
-
-  ContainerProductLastModifiedDateFilter({
-    this.dateRange,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
-    return {
-      if (dateRange != null) 'DateRange': dateRange,
-    };
-  }
-}
-
-/// Object that contains date range of the last modified date to be filtered on.
-/// You can optionally provide a <code>BeforeValue</code> and/or
-/// <code>AfterValue</code>. Both are inclusive.
-class ContainerProductLastModifiedDateFilterDateRange {
-  /// Date after which the container product was last modified.
-  final String? afterValue;
-
-  /// Date before which the container product was last modified.
-  final String? beforeValue;
-
-  ContainerProductLastModifiedDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
-    return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
-    };
-  }
-}
-
-/// Objects that allows sorting on container products based on certain fields
-/// and sorting order.
-class ContainerProductSort {
-  /// Field to sort the container products by.
-  final ContainerProductSortBy? sortBy;
-
-  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
-  /// The default value is <code>DESCENDING</code>.
-  final SortOrder? sortOrder;
-
-  ContainerProductSort({
-    this.sortBy,
-    this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
-    return {
-      if (sortBy != null) 'SortBy': sortBy.value,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class ContainerProductSortBy {
-  static const entityId = ContainerProductSortBy._('EntityId');
-  static const lastModifiedDate = ContainerProductSortBy._('LastModifiedDate');
-  static const productTitle = ContainerProductSortBy._('ProductTitle');
-  static const visibility = ContainerProductSortBy._('Visibility');
-
-  final String value;
-
-  const ContainerProductSortBy._(this.value);
-
-  static const values = [entityId, lastModifiedDate, productTitle, visibility];
-
-  static ContainerProductSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContainerProductSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContainerProductSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Object that contains summarized information about a container product.
-class ContainerProductSummary {
-  /// The title of the container product.
-  final String? productTitle;
-
-  /// The lifecycle of the product.
-  final ContainerProductVisibilityString? visibility;
-
-  ContainerProductSummary({
-    this.productTitle,
-    this.visibility,
-  });
-
-  factory ContainerProductSummary.fromJson(Map<String, dynamic> json) {
-    return ContainerProductSummary(
-      productTitle: json['ProductTitle'] as String?,
-      visibility: (json['Visibility'] as String?)
-          ?.let(ContainerProductVisibilityString.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final productTitle = this.productTitle;
-    final visibility = this.visibility;
-    return {
-      if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility.value,
-    };
-  }
-}
-
-/// Object that allows filtering on product title.
-class ContainerProductTitleFilter {
-  /// A string array of unique product title values to be filtered on.
-  final List<String>? valueList;
-
-  /// A string that will be the <code>wildCard</code> input for product tile
-  /// filter. It matches the provided value as a substring in the actual value.
-  final String? wildCardValue;
-
-  ContainerProductTitleFilter({
-    this.valueList,
-    this.wildCardValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    final wildCardValue = this.wildCardValue;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-      if (wildCardValue != null) 'WildCardValue': wildCardValue,
-    };
-  }
-}
-
-/// Object that allows filtering on the visibility of the product in the AWS
-/// Marketplace.
-class ContainerProductVisibilityFilter {
-  /// A string array of unique visibility values to be filtered on.
-  final List<ContainerProductVisibilityString>? valueList;
-
-  ContainerProductVisibilityFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null)
-        'ValueList': valueList.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class ContainerProductVisibilityString {
-  static const limited = ContainerProductVisibilityString._('Limited');
-  static const public = ContainerProductVisibilityString._('Public');
-  static const restricted = ContainerProductVisibilityString._('Restricted');
-  static const draft = ContainerProductVisibilityString._('Draft');
-
-  final String value;
-
-  const ContainerProductVisibilityString._(this.value);
-
-  static const values = [limited, public, restricted, draft];
-
-  static ContainerProductVisibilityString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContainerProductVisibilityString._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContainerProductVisibilityString && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Object that allows filtering on entity id of a data product.
-class DataProductEntityIdFilter {
-  /// A string array of unique entity id values to be filtered on.
-  final List<String>? valueList;
-
-  DataProductEntityIdFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-    };
-  }
-}
-
-/// Object containing all the filter fields for data products. Client can add
-/// only one wildcard filter and a maximum of 8 filters in a single
-/// <code>ListEntities</code> request.
-class DataProductFilters {
-  /// Unique identifier for the data product.
-  final DataProductEntityIdFilter? entityId;
-
-  /// The last date on which the data product was modified.
-  final DataProductLastModifiedDateFilter? lastModifiedDate;
-
-  /// The title of the data product.
-  final DataProductTitleFilter? productTitle;
-
-  /// The visibility of the data product.
-  final DataProductVisibilityFilter? visibility;
-
-  DataProductFilters({
-    this.entityId,
-    this.lastModifiedDate,
-    this.productTitle,
-    this.visibility,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    final lastModifiedDate = this.lastModifiedDate;
-    final productTitle = this.productTitle;
-    final visibility = this.visibility;
-    return {
-      if (entityId != null) 'EntityId': entityId,
-      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
-      if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility,
-    };
-  }
-}
-
-/// Object that allows filtering based on the last modified date of data
-/// products.
-class DataProductLastModifiedDateFilter {
-  /// Dates between which the data product was last modified.
-  final DataProductLastModifiedDateFilterDateRange? dateRange;
-
-  DataProductLastModifiedDateFilter({
-    this.dateRange,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
-    return {
-      if (dateRange != null) 'DateRange': dateRange,
-    };
-  }
-}
-
-/// Object that contains date range of the last modified date to be filtered on.
-/// You can optionally provide a <code>BeforeValue</code> and/or
-/// <code>AfterValue</code>. Both are inclusive.
-class DataProductLastModifiedDateFilterDateRange {
-  /// Date after which the data product was last modified.
-  final String? afterValue;
-
-  /// Date before which the data product was last modified.
-  final String? beforeValue;
-
-  DataProductLastModifiedDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
-    return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
-    };
-  }
-}
-
-/// Objects that allows sorting on data products based on certain fields and
-/// sorting order.
-class DataProductSort {
-  /// Field to sort the data products by.
-  final DataProductSortBy? sortBy;
-
-  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
-  /// The default value is <code>DESCENDING</code>.
-  final SortOrder? sortOrder;
-
-  DataProductSort({
-    this.sortBy,
-    this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
-    return {
-      if (sortBy != null) 'SortBy': sortBy.value,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class DataProductSortBy {
-  static const entityId = DataProductSortBy._('EntityId');
-  static const productTitle = DataProductSortBy._('ProductTitle');
-  static const visibility = DataProductSortBy._('Visibility');
-  static const lastModifiedDate = DataProductSortBy._('LastModifiedDate');
-
-  final String value;
-
-  const DataProductSortBy._(this.value);
-
-  static const values = [entityId, productTitle, visibility, lastModifiedDate];
-
-  static DataProductSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataProductSortBy._(value));
-
-  @override
-  bool operator ==(other) => other is DataProductSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Object that contains summarized information about a data product.
-class DataProductSummary {
-  /// The title of the data product.
-  final String? productTitle;
-
-  /// The lifecycle of the data product.
-  final DataProductVisibilityString? visibility;
-
-  DataProductSummary({
-    this.productTitle,
-    this.visibility,
-  });
-
-  factory DataProductSummary.fromJson(Map<String, dynamic> json) {
-    return DataProductSummary(
-      productTitle: json['ProductTitle'] as String?,
-      visibility: (json['Visibility'] as String?)
-          ?.let(DataProductVisibilityString.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final productTitle = this.productTitle;
-    final visibility = this.visibility;
-    return {
-      if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility.value,
-    };
-  }
-}
-
-/// Object that allows filtering on product title.
-class DataProductTitleFilter {
-  /// A string array of unique product title values to be filtered on.
-  final List<String>? valueList;
-
-  /// A string that will be the <code>wildCard</code> input for product tile
-  /// filter. It matches the provided value as a substring in the actual value.
-  final String? wildCardValue;
-
-  DataProductTitleFilter({
-    this.valueList,
-    this.wildCardValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    final wildCardValue = this.wildCardValue;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-      if (wildCardValue != null) 'WildCardValue': wildCardValue,
-    };
-  }
-}
-
-/// Object that allows filtering on the visibility of the product in the AWS
-/// Marketplace.
-class DataProductVisibilityFilter {
-  /// A string array of unique visibility values to be filtered on.
-  final List<DataProductVisibilityString>? valueList;
-
-  DataProductVisibilityFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null)
-        'ValueList': valueList.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class DataProductVisibilityString {
-  static const limited = DataProductVisibilityString._('Limited');
-  static const public = DataProductVisibilityString._('Public');
-  static const restricted = DataProductVisibilityString._('Restricted');
-  static const unavailable = DataProductVisibilityString._('Unavailable');
-  static const draft = DataProductVisibilityString._('Draft');
-
-  final String value;
-
-  const DataProductVisibilityString._(this.value);
-
-  static const values = [limited, public, restricted, unavailable, draft];
-
-  static DataProductVisibilityString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataProductVisibilityString._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DataProductVisibilityString && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DeleteResourcePolicyResponse {
@@ -1816,7 +798,13 @@ class DescribeEntityResponse {
   final String? details;
 
   /// The JSON value of the details specific to the entity.
-  final JsonDocumentType? detailsDocument;
+  ///
+  /// To download "DetailsDocument" shapes, see the <a
+  /// href="https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python">Python</a>
+  /// and <a
+  /// href="https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main">Java</a>
+  /// shapes on GitHub.
+  final Object? detailsDocument;
 
   /// The ARN associated to the unique identifier for the entity referenced in
   /// this request.
@@ -1846,10 +834,7 @@ class DescribeEntityResponse {
   factory DescribeEntityResponse.fromJson(Map<String, dynamic> json) {
     return DescribeEntityResponse(
       details: json['Details'] as String?,
-      detailsDocument: json['DetailsDocument'] != null
-          ? JsonDocumentType.fromJson(
-              json['DetailsDocument'] as Map<String, dynamic>)
-          : null,
+      detailsDocument: json['DetailsDocument'],
       entityArn: json['EntityArn'] as String?,
       entityIdentifier: json['EntityIdentifier'] as String?,
       entityType: json['EntityType'] as String?,
@@ -1875,457 +860,6 @@ class DescribeEntityResponse {
   }
 }
 
-/// An entity contains data that describes your product, its supported features,
-/// and how it can be used or launched by your customer.
-class Entity {
-  /// The type of entity.
-  final String type;
-
-  /// The identifier for the entity.
-  final String? identifier;
-
-  Entity({
-    required this.type,
-    this.identifier,
-  });
-
-  factory Entity.fromJson(Map<String, dynamic> json) {
-    return Entity(
-      type: (json['Type'] as String?) ?? '',
-      identifier: json['Identifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final identifier = this.identifier;
-    return {
-      'Type': type,
-      if (identifier != null) 'Identifier': identifier,
-    };
-  }
-}
-
-/// An object that contains metadata and details about the entity.
-class EntityDetail {
-  /// An object that contains all the details of the entity.
-  final JsonDocumentType? detailsDocument;
-
-  /// The Amazon Resource Name (ARN) of the entity.
-  final String? entityArn;
-
-  /// The ID of the entity, in the format of <code>EntityId@RevisionId</code>.
-  final String? entityIdentifier;
-
-  /// The entity type of the entity, in the format of
-  /// <code>EntityType@Version</code>.
-  final String? entityType;
-
-  /// The last time the entity was modified.
-  final String? lastModifiedDate;
-
-  EntityDetail({
-    this.detailsDocument,
-    this.entityArn,
-    this.entityIdentifier,
-    this.entityType,
-    this.lastModifiedDate,
-  });
-
-  factory EntityDetail.fromJson(Map<String, dynamic> json) {
-    return EntityDetail(
-      detailsDocument: json['DetailsDocument'] != null
-          ? JsonDocumentType.fromJson(
-              json['DetailsDocument'] as Map<String, dynamic>)
-          : null,
-      entityArn: json['EntityArn'] as String?,
-      entityIdentifier: json['EntityIdentifier'] as String?,
-      entityType: json['EntityType'] as String?,
-      lastModifiedDate: json['LastModifiedDate'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detailsDocument = this.detailsDocument;
-    final entityArn = this.entityArn;
-    final entityIdentifier = this.entityIdentifier;
-    final entityType = this.entityType;
-    final lastModifiedDate = this.lastModifiedDate;
-    return {
-      if (detailsDocument != null) 'DetailsDocument': detailsDocument,
-      if (entityArn != null) 'EntityArn': entityArn,
-      if (entityIdentifier != null) 'EntityIdentifier': entityIdentifier,
-      if (entityType != null) 'EntityType': entityType,
-      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
-    };
-  }
-}
-
-/// An object that contains entity ID and the catalog in which the entity is
-/// present.
-class EntityRequest {
-  /// The name of the catalog the entity is present in. The only value at this
-  /// time is <code>AWSMarketplace</code>.
-  final String catalog;
-
-  /// The ID of the entity.
-  final String entityId;
-
-  EntityRequest({
-    required this.catalog,
-    required this.entityId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final catalog = this.catalog;
-    final entityId = this.entityId;
-    return {
-      'Catalog': catalog,
-      'EntityId': entityId,
-    };
-  }
-}
-
-/// This object is a container for common summary information about the entity.
-/// The summary doesn't contain the whole entity structure, but it does contain
-/// information common across all entities.
-class EntitySummary {
-  /// An object that contains summary information about the AMI product.
-  final AmiProductSummary? amiProductSummary;
-
-  /// An object that contains summary information about the container product.
-  final ContainerProductSummary? containerProductSummary;
-
-  /// An object that contains summary information about the data product.
-  final DataProductSummary? dataProductSummary;
-
-  /// The ARN associated with the unique identifier for the entity.
-  final String? entityArn;
-
-  /// The unique identifier for the entity.
-  final String? entityId;
-
-  /// The type of the entity.
-  final String? entityType;
-
-  /// The last time the entity was published, using ISO 8601 format
-  /// (2018-02-27T13:45:22Z).
-  final String? lastModifiedDate;
-
-  /// The name for the entity. This value is not unique. It is defined by the
-  /// seller.
-  final String? name;
-
-  /// An object that contains summary information about the offer.
-  final OfferSummary? offerSummary;
-
-  /// An object that contains summary information about the Resale Authorization.
-  final ResaleAuthorizationSummary? resaleAuthorizationSummary;
-
-  /// An object that contains summary information about the SaaS product.
-  final SaaSProductSummary? saaSProductSummary;
-
-  /// The visibility status of the entity to buyers. This value can be
-  /// <code>Public</code> (everyone can view the entity), <code>Limited</code>
-  /// (the entity is visible to limited accounts only), or <code>Restricted</code>
-  /// (the entity was published and then unpublished and only existing buyers can
-  /// view it).
-  final String? visibility;
-
-  EntitySummary({
-    this.amiProductSummary,
-    this.containerProductSummary,
-    this.dataProductSummary,
-    this.entityArn,
-    this.entityId,
-    this.entityType,
-    this.lastModifiedDate,
-    this.name,
-    this.offerSummary,
-    this.resaleAuthorizationSummary,
-    this.saaSProductSummary,
-    this.visibility,
-  });
-
-  factory EntitySummary.fromJson(Map<String, dynamic> json) {
-    return EntitySummary(
-      amiProductSummary: json['AmiProductSummary'] != null
-          ? AmiProductSummary.fromJson(
-              json['AmiProductSummary'] as Map<String, dynamic>)
-          : null,
-      containerProductSummary: json['ContainerProductSummary'] != null
-          ? ContainerProductSummary.fromJson(
-              json['ContainerProductSummary'] as Map<String, dynamic>)
-          : null,
-      dataProductSummary: json['DataProductSummary'] != null
-          ? DataProductSummary.fromJson(
-              json['DataProductSummary'] as Map<String, dynamic>)
-          : null,
-      entityArn: json['EntityArn'] as String?,
-      entityId: json['EntityId'] as String?,
-      entityType: json['EntityType'] as String?,
-      lastModifiedDate: json['LastModifiedDate'] as String?,
-      name: json['Name'] as String?,
-      offerSummary: json['OfferSummary'] != null
-          ? OfferSummary.fromJson(json['OfferSummary'] as Map<String, dynamic>)
-          : null,
-      resaleAuthorizationSummary: json['ResaleAuthorizationSummary'] != null
-          ? ResaleAuthorizationSummary.fromJson(
-              json['ResaleAuthorizationSummary'] as Map<String, dynamic>)
-          : null,
-      saaSProductSummary: json['SaaSProductSummary'] != null
-          ? SaaSProductSummary.fromJson(
-              json['SaaSProductSummary'] as Map<String, dynamic>)
-          : null,
-      visibility: json['Visibility'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final amiProductSummary = this.amiProductSummary;
-    final containerProductSummary = this.containerProductSummary;
-    final dataProductSummary = this.dataProductSummary;
-    final entityArn = this.entityArn;
-    final entityId = this.entityId;
-    final entityType = this.entityType;
-    final lastModifiedDate = this.lastModifiedDate;
-    final name = this.name;
-    final offerSummary = this.offerSummary;
-    final resaleAuthorizationSummary = this.resaleAuthorizationSummary;
-    final saaSProductSummary = this.saaSProductSummary;
-    final visibility = this.visibility;
-    return {
-      if (amiProductSummary != null) 'AmiProductSummary': amiProductSummary,
-      if (containerProductSummary != null)
-        'ContainerProductSummary': containerProductSummary,
-      if (dataProductSummary != null) 'DataProductSummary': dataProductSummary,
-      if (entityArn != null) 'EntityArn': entityArn,
-      if (entityId != null) 'EntityId': entityId,
-      if (entityType != null) 'EntityType': entityType,
-      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
-      if (name != null) 'Name': name,
-      if (offerSummary != null) 'OfferSummary': offerSummary,
-      if (resaleAuthorizationSummary != null)
-        'ResaleAuthorizationSummary': resaleAuthorizationSummary,
-      if (saaSProductSummary != null) 'SaaSProductSummary': saaSProductSummary,
-      if (visibility != null) 'Visibility': visibility,
-    };
-  }
-}
-
-/// Object containing all the filter fields per entity type.
-class EntityTypeFilters {
-  /// A filter for AMI products.
-  final AmiProductFilters? amiProductFilters;
-
-  /// A filter for container products.
-  final ContainerProductFilters? containerProductFilters;
-
-  /// A filter for data products.
-  final DataProductFilters? dataProductFilters;
-
-  /// A filter for offers.
-  final OfferFilters? offerFilters;
-
-  /// A filter for Resale Authorizations.
-  final ResaleAuthorizationFilters? resaleAuthorizationFilters;
-
-  /// A filter for SaaS products.
-  final SaaSProductFilters? saaSProductFilters;
-
-  EntityTypeFilters({
-    this.amiProductFilters,
-    this.containerProductFilters,
-    this.dataProductFilters,
-    this.offerFilters,
-    this.resaleAuthorizationFilters,
-    this.saaSProductFilters,
-  });
-
-  Map<String, dynamic> toJson() {
-    final amiProductFilters = this.amiProductFilters;
-    final containerProductFilters = this.containerProductFilters;
-    final dataProductFilters = this.dataProductFilters;
-    final offerFilters = this.offerFilters;
-    final resaleAuthorizationFilters = this.resaleAuthorizationFilters;
-    final saaSProductFilters = this.saaSProductFilters;
-    return {
-      if (amiProductFilters != null) 'AmiProductFilters': amiProductFilters,
-      if (containerProductFilters != null)
-        'ContainerProductFilters': containerProductFilters,
-      if (dataProductFilters != null) 'DataProductFilters': dataProductFilters,
-      if (offerFilters != null) 'OfferFilters': offerFilters,
-      if (resaleAuthorizationFilters != null)
-        'ResaleAuthorizationFilters': resaleAuthorizationFilters,
-      if (saaSProductFilters != null) 'SaaSProductFilters': saaSProductFilters,
-    };
-  }
-}
-
-/// Object containing all the sort fields per entity type.
-class EntityTypeSort {
-  /// A sort for AMI products.
-  final AmiProductSort? amiProductSort;
-
-  /// A sort for container products.
-  final ContainerProductSort? containerProductSort;
-
-  /// A sort for data products.
-  final DataProductSort? dataProductSort;
-
-  /// A sort for offers.
-  final OfferSort? offerSort;
-
-  /// A sort for Resale Authorizations.
-  final ResaleAuthorizationSort? resaleAuthorizationSort;
-
-  /// A sort for SaaS products.
-  final SaaSProductSort? saaSProductSort;
-
-  EntityTypeSort({
-    this.amiProductSort,
-    this.containerProductSort,
-    this.dataProductSort,
-    this.offerSort,
-    this.resaleAuthorizationSort,
-    this.saaSProductSort,
-  });
-
-  Map<String, dynamic> toJson() {
-    final amiProductSort = this.amiProductSort;
-    final containerProductSort = this.containerProductSort;
-    final dataProductSort = this.dataProductSort;
-    final offerSort = this.offerSort;
-    final resaleAuthorizationSort = this.resaleAuthorizationSort;
-    final saaSProductSort = this.saaSProductSort;
-    return {
-      if (amiProductSort != null) 'AmiProductSort': amiProductSort,
-      if (containerProductSort != null)
-        'ContainerProductSort': containerProductSort,
-      if (dataProductSort != null) 'DataProductSort': dataProductSort,
-      if (offerSort != null) 'OfferSort': offerSort,
-      if (resaleAuthorizationSort != null)
-        'ResaleAuthorizationSort': resaleAuthorizationSort,
-      if (saaSProductSort != null) 'SaaSProductSort': saaSProductSort,
-    };
-  }
-}
-
-/// Details about the error.
-class ErrorDetail {
-  /// The error code that identifies the type of error.
-  final String? errorCode;
-
-  /// The message for the error.
-  final String? errorMessage;
-
-  ErrorDetail({
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
-    return ErrorDetail(
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
-class FailureCode {
-  static const clientError = FailureCode._('CLIENT_ERROR');
-  static const serverFault = FailureCode._('SERVER_FAULT');
-
-  final String value;
-
-  const FailureCode._(this.value);
-
-  static const values = [clientError, serverFault];
-
-  static FailureCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FailureCode._(value));
-
-  @override
-  bool operator ==(other) => other is FailureCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A filter object, used to optionally filter results from calls to the
-/// <code>ListEntities</code> and <code>ListChangeSets</code> actions.
-class Filter {
-  /// For <code>ListEntities</code>, the supported value for this is an
-  /// <code>EntityId</code>.
-  ///
-  /// For <code>ListChangeSets</code>, the supported values are as follows:
-  final String? name;
-
-  /// <code>ListEntities</code> - This is a list of unique <code>EntityId</code>s.
-  ///
-  /// <code>ListChangeSets</code> - The supported filter names and associated
-  /// <code>ValueList</code>s is as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ChangeSetName</code> - The supported <code>ValueList</code> is a list
-  /// of non-unique <code>ChangeSetName</code>s. These are defined when you call
-  /// the <code>StartChangeSet</code> action.
-  /// </li>
-  /// <li>
-  /// <code>Status</code> - The supported <code>ValueList</code> is a list of
-  /// statuses for all change set requests.
-  /// </li>
-  /// <li>
-  /// <code>EntityId</code> - The supported <code>ValueList</code> is a list of
-  /// unique <code>EntityId</code>s.
-  /// </li>
-  /// <li>
-  /// <code>BeforeStartTime</code> - The supported <code>ValueList</code> is a
-  /// list of all change sets that started before the filter value.
-  /// </li>
-  /// <li>
-  /// <code>AfterStartTime</code> - The supported <code>ValueList</code> is a list
-  /// of all change sets that started after the filter value.
-  /// </li>
-  /// <li>
-  /// <code>BeforeEndTime</code> - The supported <code>ValueList</code> is a list
-  /// of all change sets that ended before the filter value.
-  /// </li>
-  /// <li>
-  /// <code>AfterEndTime</code> - The supported <code>ValueList</code> is a list
-  /// of all change sets that ended after the filter value.
-  /// </li>
-  /// </ul>
-  final List<String>? valueList;
-
-  Filter({
-    this.name,
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final valueList = this.valueList;
-    return {
-      if (name != null) 'Name': name,
-      if (valueList != null) 'ValueList': valueList,
-    };
-  }
-}
-
 class GetResourcePolicyResponse {
   /// The policy document to set; formatted in JSON.
   final String? policy;
@@ -2345,41 +879,6 @@ class GetResourcePolicyResponse {
     return {
       if (policy != null) 'Policy': policy,
     };
-  }
-}
-
-class Intent {
-  static const validate = Intent._('VALIDATE');
-  static const apply = Intent._('APPLY');
-
-  final String value;
-
-  const Intent._(this.value);
-
-  static const values = [validate, apply];
-
-  static Intent fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Intent._(value));
-
-  @override
-  bool operator ==(other) => other is Intent && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JsonDocumentType {
-  JsonDocumentType();
-
-  factory JsonDocumentType.fromJson(Map<String, dynamic> _) {
-    return JsonDocumentType();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -2483,129 +982,531 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Allows filtering on the <code>AvailabilityEndDate</code> of an offer.
-class OfferAvailabilityEndDateFilter {
-  /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer with
-  /// date range as input.
-  final OfferAvailabilityEndDateFilterDateRange? dateRange;
+class PutResourcePolicyResponse {
+  PutResourcePolicyResponse();
 
-  OfferAvailabilityEndDateFilter({
-    this.dateRange,
-  });
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return PutResourcePolicyResponse();
+  }
 
   Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
+    return {};
+  }
+}
+
+class StartChangeSetResponse {
+  /// The ARN associated to the unique identifier generated for the request.
+  final String? changeSetArn;
+
+  /// Unique identifier generated for the request.
+  final String? changeSetId;
+
+  StartChangeSetResponse({
+    this.changeSetArn,
+    this.changeSetId,
+  });
+
+  factory StartChangeSetResponse.fromJson(Map<String, dynamic> json) {
+    return StartChangeSetResponse(
+      changeSetArn: json['ChangeSetArn'] as String?,
+      changeSetId: json['ChangeSetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeSetArn = this.changeSetArn;
+    final changeSetId = this.changeSetId;
     return {
-      if (dateRange != null) 'DateRange': dateRange,
+      if (changeSetArn != null) 'ChangeSetArn': changeSetArn,
+      if (changeSetId != null) 'ChangeSetId': changeSetId,
     };
   }
 }
 
-/// Allows filtering on the <code>AvailabilityEndDate</code> of an offer with
-/// date range as input.
-class OfferAvailabilityEndDateFilterDateRange {
-  /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer after a
-  /// date.
-  final String? afterValue;
+class TagResourceResponse {
+  TagResourceResponse();
 
-  /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer before
-  /// a date.
-  final String? beforeValue;
-
-  OfferAvailabilityEndDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
-  });
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
 
   Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A list of objects specifying each key name and value.
+class Tag {
+  /// The key associated with the tag.
+  final String key;
+
+  /// The value associated with the tag.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
     return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
+      'Key': key,
+      'Value': value,
     };
   }
 }
 
-/// Allows filtering on the <code>BuyerAccounts</code> of an offer.
-class OfferBuyerAccountsFilter {
-  /// Allows filtering on the <code>BuyerAccounts</code> of an offer with wild
-  /// card input.
-  final String? wildCardValue;
+class Intent {
+  static const validate = Intent._('VALIDATE');
+  static const apply = Intent._('APPLY');
 
-  OfferBuyerAccountsFilter({
-    this.wildCardValue,
+  final String value;
+
+  const Intent._(this.value);
+
+  static const values = [validate, apply];
+
+  static Intent fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Intent._(value));
+
+  @override
+  bool operator ==(other) => other is Intent && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains the <code>ChangeType</code>, <code>Details</code>,
+/// and <code>Entity</code>.
+class Change {
+  /// Change types are single string values that describe your intention for the
+  /// change. Each change type is unique for each <code>EntityType</code> provided
+  /// in the change's scope. For more information about change types available for
+  /// single-AMI products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products">Working
+  /// with single-AMI products</a>. Also, for more information about change types
+  /// available for container-based products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products">Working
+  /// with container products</a>.
+  final String changeType;
+
+  /// The entity to be changed.
+  final Entity entity;
+
+  /// Optional name for the change.
+  final String? changeName;
+
+  /// This object contains details specific to the change type of the requested
+  /// change. For more information about change types available for single-AMI
+  /// products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products">Working
+  /// with single-AMI products</a>. Also, for more information about change types
+  /// available for container-based products, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products">Working
+  /// with container products</a>.
+  final String? details;
+
+  /// Alternative field that accepts a JSON value instead of a string for
+  /// <code>ChangeType</code> details. You can use either <code>Details</code> or
+  /// <code>DetailsDocument</code>, but not both.
+  ///
+  /// To download the "DetailsDocument" shapes, see the <a
+  /// href="https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python">Python</a>
+  /// and <a
+  /// href="https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main">Java</a>
+  /// shapes on GitHub.
+  final Object? detailsDocument;
+
+  /// The tags associated with the change.
+  final List<Tag>? entityTags;
+
+  Change({
+    required this.changeType,
+    required this.entity,
+    this.changeName,
+    this.details,
+    this.detailsDocument,
+    this.entityTags,
   });
 
   Map<String, dynamic> toJson() {
-    final wildCardValue = this.wildCardValue;
+    final changeType = this.changeType;
+    final entity = this.entity;
+    final changeName = this.changeName;
+    final details = this.details;
+    final detailsDocument = this.detailsDocument;
+    final entityTags = this.entityTags;
     return {
-      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+      'ChangeType': changeType,
+      'Entity': entity,
+      if (changeName != null) 'ChangeName': changeName,
+      if (details != null) 'Details': details,
+      if (detailsDocument != null) 'DetailsDocument': detailsDocument,
+      if (entityTags != null) 'EntityTags': entityTags,
     };
   }
 }
 
-/// Allows filtering on the entity id of an offer.
-class OfferEntityIdFilter {
-  /// Allows filtering on entity id of an offer with list input.
-  final List<String>? valueList;
+/// An entity contains data that describes your product, its supported features,
+/// and how it can be used or launched by your customer.
+class Entity {
+  /// The type of entity.
+  final String type;
 
-  OfferEntityIdFilter({
-    this.valueList,
+  /// The identifier for the entity.
+  final String? identifier;
+
+  Entity({
+    required this.type,
+    this.identifier,
   });
 
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    return Entity(
+      type: (json['Type'] as String?) ?? '',
+      identifier: json['Identifier'] as String?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
+    final type = this.type;
+    final identifier = this.identifier;
     return {
-      if (valueList != null) 'ValueList': valueList,
+      'Type': type,
+      if (identifier != null) 'Identifier': identifier,
     };
   }
 }
 
-/// Object containing all the filter fields for offers entity. Client can add
-/// only one wildcard filter and a maximum of 8 filters in a single
-/// <code>ListEntities</code> request.
-class OfferFilters {
-  /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer.
-  final OfferAvailabilityEndDateFilter? availabilityEndDate;
+/// This object is a container for common summary information about the entity.
+/// The summary doesn't contain the whole entity structure, but it does contain
+/// information common across all entities.
+class EntitySummary {
+  /// An object that contains summary information about the AMI product.
+  final AmiProductSummary? amiProductSummary;
 
-  /// Allows filtering on the <code>BuyerAccounts</code> of an offer.
-  final OfferBuyerAccountsFilter? buyerAccounts;
+  /// An object that contains summary information about the container product.
+  final ContainerProductSummary? containerProductSummary;
 
-  /// Allows filtering on <code>EntityId</code> of an offer.
-  final OfferEntityIdFilter? entityId;
+  /// An object that contains summary information about the data product.
+  final DataProductSummary? dataProductSummary;
 
-  /// Allows filtering on the <code>LastModifiedDate</code> of an offer.
-  final OfferLastModifiedDateFilter? lastModifiedDate;
+  /// The ARN associated with the unique identifier for the entity.
+  final String? entityArn;
 
-  /// Allows filtering on the <code>Name</code> of an offer.
-  final OfferNameFilter? name;
+  /// The unique identifier for the entity.
+  final String? entityId;
 
-  /// Allows filtering on the <code>ProductId</code> of an offer.
-  final OfferProductIdFilter? productId;
+  /// The type of the entity.
+  final String? entityType;
 
-  /// Allows filtering on the <code>ReleaseDate</code> of an offer.
-  final OfferReleaseDateFilter? releaseDate;
+  /// The last time the entity was published, using ISO 8601 format
+  /// (2018-02-27T13:45:22Z).
+  final String? lastModifiedDate;
+  final MachineLearningProductSummary? machineLearningProductSummary;
 
-  /// Allows filtering on the <code>ResaleAuthorizationId</code> of an offer.
-  /// <note>
-  /// Not all offers have a <code>ResaleAuthorizationId</code>. The response will
-  /// only include offers for which you have permissions.
-  /// </note>
-  final OfferResaleAuthorizationIdFilter? resaleAuthorizationId;
+  /// The name for the entity. This value is not unique. It is defined by the
+  /// seller.
+  final String? name;
 
-  /// Allows filtering on the <code>State</code> of an offer.
-  final OfferStateFilter? state;
+  /// An object that contains summary information about the offer set.
+  final OfferSetSummary? offerSetSummary;
 
-  /// Allows filtering on the <code>Targeting</code> of an offer.
-  final OfferTargetingFilter? targeting;
+  /// An object that contains summary information about the offer.
+  final OfferSummary? offerSummary;
 
-  OfferFilters({
+  /// An object that contains summary information about the Resale Authorization.
+  final ResaleAuthorizationSummary? resaleAuthorizationSummary;
+
+  /// An object that contains summary information about the SaaS product.
+  final SaaSProductSummary? saaSProductSummary;
+
+  /// The visibility status of the entity to buyers. This value can be
+  /// <code>Public</code> (everyone can view the entity), <code>Limited</code>
+  /// (the entity is visible to limited accounts only), or <code>Restricted</code>
+  /// (the entity was published and then unpublished and only existing buyers can
+  /// view it).
+  final String? visibility;
+
+  EntitySummary({
+    this.amiProductSummary,
+    this.containerProductSummary,
+    this.dataProductSummary,
+    this.entityArn,
+    this.entityId,
+    this.entityType,
+    this.lastModifiedDate,
+    this.machineLearningProductSummary,
+    this.name,
+    this.offerSetSummary,
+    this.offerSummary,
+    this.resaleAuthorizationSummary,
+    this.saaSProductSummary,
+    this.visibility,
+  });
+
+  factory EntitySummary.fromJson(Map<String, dynamic> json) {
+    return EntitySummary(
+      amiProductSummary: json['AmiProductSummary'] != null
+          ? AmiProductSummary.fromJson(
+              json['AmiProductSummary'] as Map<String, dynamic>)
+          : null,
+      containerProductSummary: json['ContainerProductSummary'] != null
+          ? ContainerProductSummary.fromJson(
+              json['ContainerProductSummary'] as Map<String, dynamic>)
+          : null,
+      dataProductSummary: json['DataProductSummary'] != null
+          ? DataProductSummary.fromJson(
+              json['DataProductSummary'] as Map<String, dynamic>)
+          : null,
+      entityArn: json['EntityArn'] as String?,
+      entityId: json['EntityId'] as String?,
+      entityType: json['EntityType'] as String?,
+      lastModifiedDate: json['LastModifiedDate'] as String?,
+      machineLearningProductSummary:
+          json['MachineLearningProductSummary'] != null
+              ? MachineLearningProductSummary.fromJson(
+                  json['MachineLearningProductSummary'] as Map<String, dynamic>)
+              : null,
+      name: json['Name'] as String?,
+      offerSetSummary: json['OfferSetSummary'] != null
+          ? OfferSetSummary.fromJson(
+              json['OfferSetSummary'] as Map<String, dynamic>)
+          : null,
+      offerSummary: json['OfferSummary'] != null
+          ? OfferSummary.fromJson(json['OfferSummary'] as Map<String, dynamic>)
+          : null,
+      resaleAuthorizationSummary: json['ResaleAuthorizationSummary'] != null
+          ? ResaleAuthorizationSummary.fromJson(
+              json['ResaleAuthorizationSummary'] as Map<String, dynamic>)
+          : null,
+      saaSProductSummary: json['SaaSProductSummary'] != null
+          ? SaaSProductSummary.fromJson(
+              json['SaaSProductSummary'] as Map<String, dynamic>)
+          : null,
+      visibility: json['Visibility'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amiProductSummary = this.amiProductSummary;
+    final containerProductSummary = this.containerProductSummary;
+    final dataProductSummary = this.dataProductSummary;
+    final entityArn = this.entityArn;
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    final lastModifiedDate = this.lastModifiedDate;
+    final machineLearningProductSummary = this.machineLearningProductSummary;
+    final name = this.name;
+    final offerSetSummary = this.offerSetSummary;
+    final offerSummary = this.offerSummary;
+    final resaleAuthorizationSummary = this.resaleAuthorizationSummary;
+    final saaSProductSummary = this.saaSProductSummary;
+    final visibility = this.visibility;
+    return {
+      if (amiProductSummary != null) 'AmiProductSummary': amiProductSummary,
+      if (containerProductSummary != null)
+        'ContainerProductSummary': containerProductSummary,
+      if (dataProductSummary != null) 'DataProductSummary': dataProductSummary,
+      if (entityArn != null) 'EntityArn': entityArn,
+      if (entityId != null) 'EntityId': entityId,
+      if (entityType != null) 'EntityType': entityType,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (machineLearningProductSummary != null)
+        'MachineLearningProductSummary': machineLearningProductSummary,
+      if (name != null) 'Name': name,
+      if (offerSetSummary != null) 'OfferSetSummary': offerSetSummary,
+      if (offerSummary != null) 'OfferSummary': offerSummary,
+      if (resaleAuthorizationSummary != null)
+        'ResaleAuthorizationSummary': resaleAuthorizationSummary,
+      if (saaSProductSummary != null) 'SaaSProductSummary': saaSProductSummary,
+      if (visibility != null) 'Visibility': visibility,
+    };
+  }
+}
+
+/// Object that contains summarized information about an AMI product.
+class AmiProductSummary {
+  /// The title of the AMI product.
+  final String? productTitle;
+
+  /// The lifecycle of the AMI product.
+  final AmiProductVisibilityString? visibility;
+
+  AmiProductSummary({
+    this.productTitle,
+    this.visibility,
+  });
+
+  factory AmiProductSummary.fromJson(Map<String, dynamic> json) {
+    return AmiProductSummary(
+      productTitle: json['ProductTitle'] as String?,
+      visibility: (json['Visibility'] as String?)
+          ?.let(AmiProductVisibilityString.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility.value,
+    };
+  }
+}
+
+/// Object that contains summarized information about a container product.
+class ContainerProductSummary {
+  /// The title of the container product.
+  final String? productTitle;
+
+  /// The lifecycle of the product.
+  final ContainerProductVisibilityString? visibility;
+
+  ContainerProductSummary({
+    this.productTitle,
+    this.visibility,
+  });
+
+  factory ContainerProductSummary.fromJson(Map<String, dynamic> json) {
+    return ContainerProductSummary(
+      productTitle: json['ProductTitle'] as String?,
+      visibility: (json['Visibility'] as String?)
+          ?.let(ContainerProductVisibilityString.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility.value,
+    };
+  }
+}
+
+/// Object that contains summarized information about a data product.
+class DataProductSummary {
+  /// The title of the data product.
+  final String? productTitle;
+
+  /// The lifecycle of the data product.
+  final DataProductVisibilityString? visibility;
+
+  DataProductSummary({
+    this.productTitle,
+    this.visibility,
+  });
+
+  factory DataProductSummary.fromJson(Map<String, dynamic> json) {
+    return DataProductSummary(
+      productTitle: json['ProductTitle'] as String?,
+      visibility: (json['Visibility'] as String?)
+          ?.let(DataProductVisibilityString.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility.value,
+    };
+  }
+}
+
+/// Object that contains summarized information about a SaaS product.
+class SaaSProductSummary {
+  /// The title of the SaaS product.
+  final String? productTitle;
+
+  /// The lifecycle of the SaaS product.
+  final SaaSProductVisibilityString? visibility;
+
+  SaaSProductSummary({
+    this.productTitle,
+    this.visibility,
+  });
+
+  factory SaaSProductSummary.fromJson(Map<String, dynamic> json) {
+    return SaaSProductSummary(
+      productTitle: json['ProductTitle'] as String?,
+      visibility: (json['Visibility'] as String?)
+          ?.let(SaaSProductVisibilityString.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility.value,
+    };
+  }
+}
+
+/// Summarized information about an offer.
+class OfferSummary {
+  /// The availability end date of the offer.
+  final String? availabilityEndDate;
+
+  /// The buyer accounts in the offer.
+  final List<String>? buyerAccounts;
+
+  /// The name of the offer.
+  final String? name;
+
+  /// The offer set ID of the offer.
+  final String? offerSetId;
+
+  /// The product ID of the offer.
+  final String? productId;
+
+  /// The release date of the offer.
+  final String? releaseDate;
+
+  /// The ResaleAuthorizationId of the offer.
+  final String? resaleAuthorizationId;
+
+  /// The status of the offer.
+  final OfferStateString? state;
+
+  /// The targeting in the offer.
+  final List<OfferTargetingString>? targeting;
+
+  OfferSummary({
     this.availabilityEndDate,
     this.buyerAccounts,
-    this.entityId,
-    this.lastModifiedDate,
     this.name,
+    this.offerSetId,
     this.productId,
     this.releaseDate,
     this.resaleAuthorizationId,
@@ -2613,12 +1514,31 @@ class OfferFilters {
     this.targeting,
   });
 
+  factory OfferSummary.fromJson(Map<String, dynamic> json) {
+    return OfferSummary(
+      availabilityEndDate: json['AvailabilityEndDate'] as String?,
+      buyerAccounts: (json['BuyerAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      offerSetId: json['OfferSetId'] as String?,
+      productId: json['ProductId'] as String?,
+      releaseDate: json['ReleaseDate'] as String?,
+      resaleAuthorizationId: json['ResaleAuthorizationId'] as String?,
+      state: (json['State'] as String?)?.let(OfferStateString.fromString),
+      targeting: (json['Targeting'] as List?)
+          ?.nonNulls
+          .map((e) => OfferTargetingString.fromString((e as String)))
+          .toList(),
+    );
+  }
+
   Map<String, dynamic> toJson() {
     final availabilityEndDate = this.availabilityEndDate;
     final buyerAccounts = this.buyerAccounts;
-    final entityId = this.entityId;
-    final lastModifiedDate = this.lastModifiedDate;
     final name = this.name;
+    final offerSetId = this.offerSetId;
     final productId = this.productId;
     final releaseDate = this.releaseDate;
     final resaleAuthorizationId = this.resaleAuthorizationId;
@@ -2628,224 +1548,221 @@ class OfferFilters {
       if (availabilityEndDate != null)
         'AvailabilityEndDate': availabilityEndDate,
       if (buyerAccounts != null) 'BuyerAccounts': buyerAccounts,
-      if (entityId != null) 'EntityId': entityId,
-      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
       if (name != null) 'Name': name,
+      if (offerSetId != null) 'OfferSetId': offerSetId,
       if (productId != null) 'ProductId': productId,
       if (releaseDate != null) 'ReleaseDate': releaseDate,
       if (resaleAuthorizationId != null)
         'ResaleAuthorizationId': resaleAuthorizationId,
-      if (state != null) 'State': state,
-      if (targeting != null) 'Targeting': targeting,
+      if (state != null) 'State': state.value,
+      if (targeting != null)
+        'Targeting': targeting.map((e) => e.value).toList(),
     };
   }
 }
 
-/// Allows filtering on the <code>LastModifiedDate</code> of an offer.
-class OfferLastModifiedDateFilter {
-  /// Allows filtering on the <code>LastModifiedDate</code> of an offer with date
-  /// range as input.
-  final OfferLastModifiedDateFilterDateRange? dateRange;
+/// Summarized information about a Resale Authorization.
+class ResaleAuthorizationSummary {
+  /// The availability end date of the ResaleAuthorization.
+  final String? availabilityEndDate;
 
-  OfferLastModifiedDateFilter({
-    this.dateRange,
+  /// The created date of the ResaleAuthorization.
+  final String? createdDate;
+
+  /// The manufacturer account ID of the ResaleAuthorization.
+  final String? manufacturerAccountId;
+
+  /// The manufacturer legal name of the ResaleAuthorization.
+  final String? manufacturerLegalName;
+
+  /// The name of the ResaleAuthorization.
+  final String? name;
+
+  /// The offer extended status of the ResaleAuthorization
+  final String? offerExtendedStatus;
+
+  /// The product ID of the ResaleAuthorization.
+  final String? productId;
+
+  /// The product name of the ResaleAuthorization.
+  final String? productName;
+
+  /// The reseller account ID of the ResaleAuthorization.
+  final String? resellerAccountID;
+
+  /// The reseller legal name of the ResaleAuthorization
+  final String? resellerLegalName;
+
+  /// The status of the ResaleAuthorization.
+  final ResaleAuthorizationStatusString? status;
+
+  ResaleAuthorizationSummary({
+    this.availabilityEndDate,
+    this.createdDate,
+    this.manufacturerAccountId,
+    this.manufacturerLegalName,
+    this.name,
+    this.offerExtendedStatus,
+    this.productId,
+    this.productName,
+    this.resellerAccountID,
+    this.resellerLegalName,
+    this.status,
   });
 
+  factory ResaleAuthorizationSummary.fromJson(Map<String, dynamic> json) {
+    return ResaleAuthorizationSummary(
+      availabilityEndDate: json['AvailabilityEndDate'] as String?,
+      createdDate: json['CreatedDate'] as String?,
+      manufacturerAccountId: json['ManufacturerAccountId'] as String?,
+      manufacturerLegalName: json['ManufacturerLegalName'] as String?,
+      name: json['Name'] as String?,
+      offerExtendedStatus: json['OfferExtendedStatus'] as String?,
+      productId: json['ProductId'] as String?,
+      productName: json['ProductName'] as String?,
+      resellerAccountID: json['ResellerAccountID'] as String?,
+      resellerLegalName: json['ResellerLegalName'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(ResaleAuthorizationStatusString.fromString),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
+    final availabilityEndDate = this.availabilityEndDate;
+    final createdDate = this.createdDate;
+    final manufacturerAccountId = this.manufacturerAccountId;
+    final manufacturerLegalName = this.manufacturerLegalName;
+    final name = this.name;
+    final offerExtendedStatus = this.offerExtendedStatus;
+    final productId = this.productId;
+    final productName = this.productName;
+    final resellerAccountID = this.resellerAccountID;
+    final resellerLegalName = this.resellerLegalName;
+    final status = this.status;
     return {
-      if (dateRange != null) 'DateRange': dateRange,
+      if (availabilityEndDate != null)
+        'AvailabilityEndDate': availabilityEndDate,
+      if (createdDate != null) 'CreatedDate': createdDate,
+      if (manufacturerAccountId != null)
+        'ManufacturerAccountId': manufacturerAccountId,
+      if (manufacturerLegalName != null)
+        'ManufacturerLegalName': manufacturerLegalName,
+      if (name != null) 'Name': name,
+      if (offerExtendedStatus != null)
+        'OfferExtendedStatus': offerExtendedStatus,
+      if (productId != null) 'ProductId': productId,
+      if (productName != null) 'ProductName': productName,
+      if (resellerAccountID != null) 'ResellerAccountID': resellerAccountID,
+      if (resellerLegalName != null) 'ResellerLegalName': resellerLegalName,
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
-/// Allows filtering on the <code>LastModifiedDate</code> of an offer with date
-/// range as input.
-class OfferLastModifiedDateFilterDateRange {
-  /// Allows filtering on the <code>LastModifiedDate</code> of an offer after a
-  /// date.
-  final String? afterValue;
+/// A summary of a machine learning product.
+class MachineLearningProductSummary {
+  /// The title of the machine learning product.
+  final String? productTitle;
 
-  /// Allows filtering on the <code>LastModifiedDate</code> of an offer before a
-  /// date.
-  final String? beforeValue;
+  /// The visibility status of the machine learning product. Valid values are
+  /// <code>Limited</code>, <code>Public</code>, <code>Restricted</code>, and
+  /// <code>Draft</code>.
+  final MachineLearningProductVisibilityString? visibility;
 
-  OfferLastModifiedDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
+  MachineLearningProductSummary({
+    this.productTitle,
+    this.visibility,
   });
 
+  factory MachineLearningProductSummary.fromJson(Map<String, dynamic> json) {
+    return MachineLearningProductSummary(
+      productTitle: json['ProductTitle'] as String?,
+      visibility: (json['Visibility'] as String?)
+          ?.let(MachineLearningProductVisibilityString.fromString),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
     return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
 
-/// Allows filtering on the <code>Name</code> of an offer.
-class OfferNameFilter {
-  /// Allows filtering on the <code>Name</code> of an offer with list input.
-  final List<String>? valueList;
+/// Summarized information about an offer set.
+class OfferSetSummary {
+  /// The list of offer IDs associated with the offer set.
+  final List<String>? associatedOfferIds;
 
-  /// Allows filtering on the <code>Name</code> of an offer with wild card input.
-  final String? wildCardValue;
+  /// The name of the offer set.
+  final String? name;
 
-  OfferNameFilter({
-    this.valueList,
-    this.wildCardValue,
+  /// The release date of the offer set.
+  final String? releaseDate;
+
+  /// The solution ID associated with the offer set.
+  final String? solutionId;
+
+  /// The state of the offer set.
+  final OfferSetStateString? state;
+
+  OfferSetSummary({
+    this.associatedOfferIds,
+    this.name,
+    this.releaseDate,
+    this.solutionId,
+    this.state,
   });
 
+  factory OfferSetSummary.fromJson(Map<String, dynamic> json) {
+    return OfferSetSummary(
+      associatedOfferIds: (json['AssociatedOfferIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      releaseDate: json['ReleaseDate'] as String?,
+      solutionId: json['SolutionId'] as String?,
+      state: (json['State'] as String?)?.let(OfferSetStateString.fromString),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    final wildCardValue = this.wildCardValue;
+    final associatedOfferIds = this.associatedOfferIds;
+    final name = this.name;
+    final releaseDate = this.releaseDate;
+    final solutionId = this.solutionId;
+    final state = this.state;
     return {
-      if (valueList != null) 'ValueList': valueList,
-      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+      if (associatedOfferIds != null) 'AssociatedOfferIds': associatedOfferIds,
+      if (name != null) 'Name': name,
+      if (releaseDate != null) 'ReleaseDate': releaseDate,
+      if (solutionId != null) 'SolutionId': solutionId,
+      if (state != null) 'State': state.value,
     };
   }
 }
 
-/// Allows filtering on the <code>ProductId</code> of an offer.
-class OfferProductIdFilter {
-  /// Allows filtering on the <code>ProductId</code> of an offer with list input.
-  final List<String>? valueList;
-
-  OfferProductIdFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-    };
-  }
-}
-
-/// Allows filtering on the <code>ReleaseDate</code> of an offer.
-class OfferReleaseDateFilter {
-  /// Allows filtering on the <code>ReleaseDate</code> of an offer with date range
-  /// as input.
-  final OfferReleaseDateFilterDateRange? dateRange;
-
-  OfferReleaseDateFilter({
-    this.dateRange,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
-    return {
-      if (dateRange != null) 'DateRange': dateRange,
-    };
-  }
-}
-
-/// Allows filtering on the <code>ReleaseDate</code> of an offer with date range
-/// as input.
-class OfferReleaseDateFilterDateRange {
-  /// Allows filtering on the <code>ReleaseDate</code> of offers after a date.
-  final String? afterValue;
-
-  /// Allows filtering on the <code>ReleaseDate</code> of offers before a date.
-  final String? beforeValue;
-
-  OfferReleaseDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
-    return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
-    };
-  }
-}
-
-/// Allows filtering on the <code>ResaleAuthorizationId</code> of an offer.
-/// <note>
-/// Not all offers have a <code>ResaleAuthorizationId</code>. The response will
-/// only include offers for which you have permissions.
-/// </note>
-class OfferResaleAuthorizationIdFilter {
-  /// Allows filtering on the <code>ResaleAuthorizationId</code> of an offer with
-  /// list input.
-  final List<String>? valueList;
-
-  OfferResaleAuthorizationIdFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-    };
-  }
-}
-
-/// Allows to sort offers.
-class OfferSort {
-  /// Allows to sort offers.
-  final OfferSortBy? sortBy;
-
-  /// Allows to sort offers.
-  final SortOrder? sortOrder;
-
-  OfferSort({
-    this.sortBy,
-    this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
-    return {
-      if (sortBy != null) 'SortBy': sortBy.value,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class OfferSortBy {
-  static const entityId = OfferSortBy._('EntityId');
-  static const name = OfferSortBy._('Name');
-  static const productId = OfferSortBy._('ProductId');
-  static const resaleAuthorizationId = OfferSortBy._('ResaleAuthorizationId');
-  static const releaseDate = OfferSortBy._('ReleaseDate');
-  static const availabilityEndDate = OfferSortBy._('AvailabilityEndDate');
-  static const buyerAccounts = OfferSortBy._('BuyerAccounts');
-  static const state = OfferSortBy._('State');
-  static const targeting = OfferSortBy._('Targeting');
-  static const lastModifiedDate = OfferSortBy._('LastModifiedDate');
+class OfferSetStateString {
+  static const draft = OfferSetStateString._('Draft');
+  static const released = OfferSetStateString._('Released');
 
   final String value;
 
-  const OfferSortBy._(this.value);
+  const OfferSetStateString._(this.value);
 
-  static const values = [
-    entityId,
-    name,
-    productId,
-    resaleAuthorizationId,
-    releaseDate,
-    availabilityEndDate,
-    buyerAccounts,
-    state,
-    targeting,
-    lastModifiedDate
-  ];
+  static const values = [draft, released];
 
-  static OfferSortBy fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OfferSortBy._(value));
+  static OfferSetStateString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferSetStateString._(value));
 
   @override
-  bool operator ==(other) => other is OfferSortBy && other.value == value;
+  bool operator ==(other) =>
+      other is OfferSetStateString && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2854,22 +1771,75 @@ class OfferSortBy {
   String toString() => value;
 }
 
-/// Allows filtering on the <code>State</code> of an offer.
-class OfferStateFilter {
-  /// Allows filtering on the <code>State</code> of an offer with list input.
-  final List<OfferStateString>? valueList;
+/// The visibility status of a machine learning product. Valid values are:
+///
+/// <ul>
+/// <li>
+/// <code>Limited</code> - The product is available to a limited set of buyers.
+/// </li>
+/// <li>
+/// <code>Public</code> - The product is publicly available to all buyers.
+/// </li>
+/// <li>
+/// <code>Restricted</code> - The product has restricted availability.
+/// </li>
+/// <li>
+/// <code>Draft</code> - The product is in draft state and not yet available to
+/// buyers.
+/// </li>
+/// </ul>
+class MachineLearningProductVisibilityString {
+  static const limited = MachineLearningProductVisibilityString._('Limited');
+  static const public = MachineLearningProductVisibilityString._('Public');
+  static const restricted =
+      MachineLearningProductVisibilityString._('Restricted');
+  static const draft = MachineLearningProductVisibilityString._('Draft');
 
-  OfferStateFilter({
-    this.valueList,
-  });
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null)
-        'ValueList': valueList.map((e) => e.value).toList(),
-    };
-  }
+  const MachineLearningProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, draft];
+
+  static MachineLearningProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MachineLearningProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MachineLearningProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResaleAuthorizationStatusString {
+  static const draft = ResaleAuthorizationStatusString._('Draft');
+  static const active = ResaleAuthorizationStatusString._('Active');
+  static const restricted = ResaleAuthorizationStatusString._('Restricted');
+
+  final String value;
+
+  const ResaleAuthorizationStatusString._(this.value);
+
+  static const values = [draft, active, restricted];
+
+  static ResaleAuthorizationStatusString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResaleAuthorizationStatusString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResaleAuthorizationStatusString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class OfferStateString {
@@ -2894,105 +1864,6 @@ class OfferStateString {
 
   @override
   String toString() => value;
-}
-
-/// Summarized information about an offer.
-class OfferSummary {
-  /// The availability end date of the offer.
-  final String? availabilityEndDate;
-
-  /// The buyer accounts in the offer.
-  final List<String>? buyerAccounts;
-
-  /// The name of the offer.
-  final String? name;
-
-  /// The product ID of the offer.
-  final String? productId;
-
-  /// The release date of the offer.
-  final String? releaseDate;
-
-  /// The ResaleAuthorizationId of the offer.
-  final String? resaleAuthorizationId;
-
-  /// The status of the offer.
-  final OfferStateString? state;
-
-  /// The targeting in the offer.
-  final List<OfferTargetingString>? targeting;
-
-  OfferSummary({
-    this.availabilityEndDate,
-    this.buyerAccounts,
-    this.name,
-    this.productId,
-    this.releaseDate,
-    this.resaleAuthorizationId,
-    this.state,
-    this.targeting,
-  });
-
-  factory OfferSummary.fromJson(Map<String, dynamic> json) {
-    return OfferSummary(
-      availabilityEndDate: json['AvailabilityEndDate'] as String?,
-      buyerAccounts: (json['BuyerAccounts'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      name: json['Name'] as String?,
-      productId: json['ProductId'] as String?,
-      releaseDate: json['ReleaseDate'] as String?,
-      resaleAuthorizationId: json['ResaleAuthorizationId'] as String?,
-      state: (json['State'] as String?)?.let(OfferStateString.fromString),
-      targeting: (json['Targeting'] as List?)
-          ?.nonNulls
-          .map((e) => OfferTargetingString.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availabilityEndDate = this.availabilityEndDate;
-    final buyerAccounts = this.buyerAccounts;
-    final name = this.name;
-    final productId = this.productId;
-    final releaseDate = this.releaseDate;
-    final resaleAuthorizationId = this.resaleAuthorizationId;
-    final state = this.state;
-    final targeting = this.targeting;
-    return {
-      if (availabilityEndDate != null)
-        'AvailabilityEndDate': availabilityEndDate,
-      if (buyerAccounts != null) 'BuyerAccounts': buyerAccounts,
-      if (name != null) 'Name': name,
-      if (productId != null) 'ProductId': productId,
-      if (releaseDate != null) 'ReleaseDate': releaseDate,
-      if (resaleAuthorizationId != null)
-        'ResaleAuthorizationId': resaleAuthorizationId,
-      if (state != null) 'State': state.value,
-      if (targeting != null)
-        'Targeting': targeting.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Allows filtering on the <code>Targeting</code> of an offer.
-class OfferTargetingFilter {
-  /// Allows filtering on the <code>Targeting</code> of an offer with list input.
-  final List<OfferTargetingString>? valueList;
-
-  OfferTargetingFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null)
-        'ValueList': valueList.map((e) => e.value).toList(),
-    };
-  }
 }
 
 class OfferTargetingString {
@@ -3028,6 +1899,146 @@ class OfferTargetingString {
   String toString() => value;
 }
 
+class SaaSProductVisibilityString {
+  static const limited = SaaSProductVisibilityString._('Limited');
+  static const public = SaaSProductVisibilityString._('Public');
+  static const restricted = SaaSProductVisibilityString._('Restricted');
+  static const draft = SaaSProductVisibilityString._('Draft');
+
+  final String value;
+
+  const SaaSProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, draft];
+
+  static SaaSProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SaaSProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SaaSProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DataProductVisibilityString {
+  static const limited = DataProductVisibilityString._('Limited');
+  static const public = DataProductVisibilityString._('Public');
+  static const restricted = DataProductVisibilityString._('Restricted');
+  static const unavailable = DataProductVisibilityString._('Unavailable');
+  static const draft = DataProductVisibilityString._('Draft');
+
+  final String value;
+
+  const DataProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, unavailable, draft];
+
+  static DataProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ContainerProductVisibilityString {
+  static const limited = ContainerProductVisibilityString._('Limited');
+  static const public = ContainerProductVisibilityString._('Public');
+  static const restricted = ContainerProductVisibilityString._('Restricted');
+  static const draft = ContainerProductVisibilityString._('Draft');
+
+  final String value;
+
+  const ContainerProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, draft];
+
+  static ContainerProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AmiProductVisibilityString {
+  static const limited = AmiProductVisibilityString._('Limited');
+  static const public = AmiProductVisibilityString._('Public');
+  static const restricted = AmiProductVisibilityString._('Restricted');
+  static const draft = AmiProductVisibilityString._('Draft');
+
+  final String value;
+
+  const AmiProductVisibilityString._(this.value);
+
+  static const values = [limited, public, restricted, draft];
+
+  static AmiProductVisibilityString fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AmiProductVisibilityString._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AmiProductVisibilityString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains two attributes, <code>SortBy</code> and
+/// <code>SortOrder</code>.
+class Sort {
+  /// For <code>ListEntities</code>, supported attributes include
+  /// <code>LastModifiedDate</code> (default) and <code>EntityId</code>. In
+  /// addition to <code>LastModifiedDate</code> and <code>EntityId</code>, each
+  /// <code>EntityType</code> might support additional fields.
+  ///
+  /// For <code>ListChangeSets</code>, supported attributes include
+  /// <code>StartTime</code> and <code>EndTime</code>.
+  final String? sortBy;
+
+  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
+  /// The default value is <code>DESCENDING</code>.
+  final SortOrder? sortOrder;
+
+  Sort({
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'SortBy': sortBy,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+}
+
 class OwnershipType {
   static const self = OwnershipType._('SELF');
   static const shared = OwnershipType._('SHARED');
@@ -3052,135 +2063,858 @@ class OwnershipType {
   String toString() => value;
 }
 
-class PutResourcePolicyResponse {
-  PutResourcePolicyResponse();
+/// Object containing all the filter fields per entity type.
+class EntityTypeFilters {
+  /// A filter for AMI products.
+  final AmiProductFilters? amiProductFilters;
 
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
-    return PutResourcePolicyResponse();
-  }
+  /// A filter for container products.
+  final ContainerProductFilters? containerProductFilters;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// A filter for data products.
+  final DataProductFilters? dataProductFilters;
+  final MachineLearningProductFilters? machineLearningProductFilters;
 
-/// Allows filtering on <code>AvailabilityEndDate</code> of a
-/// ResaleAuthorization.
-class ResaleAuthorizationAvailabilityEndDateFilter {
-  /// Allows filtering on <code>AvailabilityEndDate</code> of a
-  /// ResaleAuthorization with date range as input
-  final ResaleAuthorizationAvailabilityEndDateFilterDateRange? dateRange;
+  /// A filter for offers.
+  final OfferFilters? offerFilters;
 
-  /// Allows filtering on <code>AvailabilityEndDate</code> of a
-  /// ResaleAuthorization with date value as input.
-  final List<String>? valueList;
+  /// A filter for offer sets.
+  final OfferSetFilters? offerSetFilters;
 
-  ResaleAuthorizationAvailabilityEndDateFilter({
-    this.dateRange,
-    this.valueList,
+  /// A filter for Resale Authorizations.
+  final ResaleAuthorizationFilters? resaleAuthorizationFilters;
+
+  /// A filter for SaaS products.
+  final SaaSProductFilters? saaSProductFilters;
+
+  EntityTypeFilters({
+    this.amiProductFilters,
+    this.containerProductFilters,
+    this.dataProductFilters,
+    this.machineLearningProductFilters,
+    this.offerFilters,
+    this.offerSetFilters,
+    this.resaleAuthorizationFilters,
+    this.saaSProductFilters,
   });
 
   Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
-    final valueList = this.valueList;
+    final amiProductFilters = this.amiProductFilters;
+    final containerProductFilters = this.containerProductFilters;
+    final dataProductFilters = this.dataProductFilters;
+    final machineLearningProductFilters = this.machineLearningProductFilters;
+    final offerFilters = this.offerFilters;
+    final offerSetFilters = this.offerSetFilters;
+    final resaleAuthorizationFilters = this.resaleAuthorizationFilters;
+    final saaSProductFilters = this.saaSProductFilters;
     return {
-      if (dateRange != null) 'DateRange': dateRange,
-      if (valueList != null) 'ValueList': valueList,
+      if (amiProductFilters != null) 'AmiProductFilters': amiProductFilters,
+      if (containerProductFilters != null)
+        'ContainerProductFilters': containerProductFilters,
+      if (dataProductFilters != null) 'DataProductFilters': dataProductFilters,
+      if (machineLearningProductFilters != null)
+        'MachineLearningProductFilters': machineLearningProductFilters,
+      if (offerFilters != null) 'OfferFilters': offerFilters,
+      if (offerSetFilters != null) 'OfferSetFilters': offerSetFilters,
+      if (resaleAuthorizationFilters != null)
+        'ResaleAuthorizationFilters': resaleAuthorizationFilters,
+      if (saaSProductFilters != null) 'SaaSProductFilters': saaSProductFilters,
     };
   }
 }
 
-/// Allows filtering on <code>AvailabilityEndDate</code> of a
-/// ResaleAuthorization with date range as input.
-class ResaleAuthorizationAvailabilityEndDateFilterDateRange {
-  /// Allows filtering on <code>AvailabilityEndDate</code> of a
-  /// ResaleAuthorization after a date.
-  final String? afterValue;
+/// Object containing all the sort fields per entity type.
+class EntityTypeSort {
+  /// A sort for AMI products.
+  final AmiProductSort? amiProductSort;
 
-  /// Allows filtering on <code>AvailabilityEndDate</code> of a
-  /// ResaleAuthorization before a date.
-  final String? beforeValue;
+  /// A sort for container products.
+  final ContainerProductSort? containerProductSort;
 
-  ResaleAuthorizationAvailabilityEndDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
+  /// A sort for data products.
+  final DataProductSort? dataProductSort;
+  final MachineLearningProductSort? machineLearningProductSort;
+
+  /// A sort for offer sets.
+  final OfferSetSort? offerSetSort;
+
+  /// A sort for offers.
+  final OfferSort? offerSort;
+
+  /// A sort for Resale Authorizations.
+  final ResaleAuthorizationSort? resaleAuthorizationSort;
+
+  /// A sort for SaaS products.
+  final SaaSProductSort? saaSProductSort;
+
+  EntityTypeSort({
+    this.amiProductSort,
+    this.containerProductSort,
+    this.dataProductSort,
+    this.machineLearningProductSort,
+    this.offerSetSort,
+    this.offerSort,
+    this.resaleAuthorizationSort,
+    this.saaSProductSort,
   });
 
   Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
+    final amiProductSort = this.amiProductSort;
+    final containerProductSort = this.containerProductSort;
+    final dataProductSort = this.dataProductSort;
+    final machineLearningProductSort = this.machineLearningProductSort;
+    final offerSetSort = this.offerSetSort;
+    final offerSort = this.offerSort;
+    final resaleAuthorizationSort = this.resaleAuthorizationSort;
+    final saaSProductSort = this.saaSProductSort;
     return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
+      if (amiProductSort != null) 'AmiProductSort': amiProductSort,
+      if (containerProductSort != null)
+        'ContainerProductSort': containerProductSort,
+      if (dataProductSort != null) 'DataProductSort': dataProductSort,
+      if (machineLearningProductSort != null)
+        'MachineLearningProductSort': machineLearningProductSort,
+      if (offerSetSort != null) 'OfferSetSort': offerSetSort,
+      if (offerSort != null) 'OfferSort': offerSort,
+      if (resaleAuthorizationSort != null)
+        'ResaleAuthorizationSort': resaleAuthorizationSort,
+      if (saaSProductSort != null) 'SaaSProductSort': saaSProductSort,
     };
   }
 }
 
-/// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization.
-class ResaleAuthorizationCreatedDateFilter {
-  /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization with
-  /// date range as input.
-  final ResaleAuthorizationCreatedDateFilterDateRange? dateRange;
+/// Objects that allows sorting on data products based on certain fields and
+/// sorting order.
+class DataProductSort {
+  /// Field to sort the data products by.
+  final DataProductSortBy? sortBy;
 
-  /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization with
-  /// date value as input.
-  final List<String>? valueList;
+  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
+  /// The default value is <code>DESCENDING</code>.
+  final SortOrder? sortOrder;
 
-  ResaleAuthorizationCreatedDateFilter({
-    this.dateRange,
-    this.valueList,
+  DataProductSort({
+    this.sortBy,
+    this.sortOrder,
   });
 
   Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
-    final valueList = this.valueList;
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
     return {
-      if (dateRange != null) 'DateRange': dateRange,
-      if (valueList != null) 'ValueList': valueList,
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
-/// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization with
-/// date range as input.
-class ResaleAuthorizationCreatedDateFilterDateRange {
-  /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization after
-  /// a date.
-  final String? afterValue;
+/// Objects that allows sorting on SaaS products based on certain fields and
+/// sorting order.
+class SaaSProductSort {
+  /// Field to sort the SaaS products by.
+  final SaaSProductSortBy? sortBy;
 
-  /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization before
-  /// a date.
-  final String? beforeValue;
+  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
+  /// The default value is <code>DESCENDING</code>.
+  final SortOrder? sortOrder;
 
-  ResaleAuthorizationCreatedDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
+  SaaSProductSort({
+    this.sortBy,
+    this.sortOrder,
   });
 
   Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
     return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
     };
   }
 }
 
-/// Allows filtering on <code>EntityId</code> of a ResaleAuthorization.
-class ResaleAuthorizationEntityIdFilter {
-  /// Allows filtering on <code>EntityId</code> of a ResaleAuthorization with list
-  /// input.
-  final List<String>? valueList;
+/// Objects that allows sorting on AMI products based on certain fields and
+/// sorting order.
+class AmiProductSort {
+  /// Field to sort the AMI products by.
+  final AmiProductSortBy? sortBy;
 
-  ResaleAuthorizationEntityIdFilter({
-    this.valueList,
+  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
+  /// The default value is <code>DESCENDING</code>.
+  final SortOrder? sortOrder;
+
+  AmiProductSort({
+    this.sortBy,
+    this.sortOrder,
   });
 
   Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
     return {
-      if (valueList != null) 'ValueList': valueList,
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// Allows to sort offers.
+class OfferSort {
+  /// Allows to sort offers.
+  final OfferSortBy? sortBy;
+
+  /// Allows to sort offers.
+  final SortOrder? sortOrder;
+
+  OfferSort({
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// Objects that allows sorting on container products based on certain fields
+/// and sorting order.
+class ContainerProductSort {
+  /// Field to sort the container products by.
+  final ContainerProductSortBy? sortBy;
+
+  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
+  /// The default value is <code>DESCENDING</code>.
+  final SortOrder? sortOrder;
+
+  ContainerProductSort({
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// Allows to sort ResaleAuthorization.
+class ResaleAuthorizationSort {
+  /// Allows to sort ResaleAuthorization.
+  final ResaleAuthorizationSortBy? sortBy;
+
+  /// Allows to sort ResaleAuthorization.
+  final SortOrder? sortOrder;
+
+  ResaleAuthorizationSort({
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// The sort options for machine learning products.
+class MachineLearningProductSort {
+  /// The field to sort by. Valid values: <code>EntityId</code>,
+  /// <code>LastModifiedDate</code>, <code>ProductTitle</code>, and
+  /// <code>Visibility</code>.
+  final MachineLearningProductSortBy? sortBy;
+
+  /// The sort order. Valid values are <code>ASC</code> (ascending) and
+  /// <code>DESC</code> (descending).
+  final SortOrder? sortOrder;
+
+  MachineLearningProductSort({
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// Allows to sort offer sets.
+class OfferSetSort {
+  /// Allows to sort offer sets.
+  final OfferSetSortBy? sortBy;
+
+  /// Allows to sort offer sets.
+  final SortOrder? sortOrder;
+
+  OfferSetSort({
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'SortBy': sortBy.value,
+      if (sortOrder != null) 'SortOrder': sortOrder.value,
+    };
+  }
+}
+
+class OfferSetSortBy {
+  static const name = OfferSetSortBy._('Name');
+  static const state = OfferSetSortBy._('State');
+  static const releaseDate = OfferSetSortBy._('ReleaseDate');
+  static const solutionId = OfferSetSortBy._('SolutionId');
+  static const entityId = OfferSetSortBy._('EntityId');
+  static const lastModifiedDate = OfferSetSortBy._('LastModifiedDate');
+
+  final String value;
+
+  const OfferSetSortBy._(this.value);
+
+  static const values = [
+    name,
+    state,
+    releaseDate,
+    solutionId,
+    entityId,
+    lastModifiedDate
+  ];
+
+  static OfferSetSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferSetSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is OfferSetSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The fields that you can sort machine learning products by.
+class MachineLearningProductSortBy {
+  static const entityId = MachineLearningProductSortBy._('EntityId');
+  static const lastModifiedDate =
+      MachineLearningProductSortBy._('LastModifiedDate');
+  static const productTitle = MachineLearningProductSortBy._('ProductTitle');
+  static const visibility = MachineLearningProductSortBy._('Visibility');
+
+  final String value;
+
+  const MachineLearningProductSortBy._(this.value);
+
+  static const values = [entityId, lastModifiedDate, productTitle, visibility];
+
+  static MachineLearningProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MachineLearningProductSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MachineLearningProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResaleAuthorizationSortBy {
+  static const entityId = ResaleAuthorizationSortBy._('EntityId');
+  static const name = ResaleAuthorizationSortBy._('Name');
+  static const productId = ResaleAuthorizationSortBy._('ProductId');
+  static const productName = ResaleAuthorizationSortBy._('ProductName');
+  static const manufacturerAccountId =
+      ResaleAuthorizationSortBy._('ManufacturerAccountId');
+  static const manufacturerLegalName =
+      ResaleAuthorizationSortBy._('ManufacturerLegalName');
+  static const resellerAccountID =
+      ResaleAuthorizationSortBy._('ResellerAccountID');
+  static const resellerLegalName =
+      ResaleAuthorizationSortBy._('ResellerLegalName');
+  static const status = ResaleAuthorizationSortBy._('Status');
+  static const offerExtendedStatus =
+      ResaleAuthorizationSortBy._('OfferExtendedStatus');
+  static const createdDate = ResaleAuthorizationSortBy._('CreatedDate');
+  static const availabilityEndDate =
+      ResaleAuthorizationSortBy._('AvailabilityEndDate');
+  static const lastModifiedDate =
+      ResaleAuthorizationSortBy._('LastModifiedDate');
+
+  final String value;
+
+  const ResaleAuthorizationSortBy._(this.value);
+
+  static const values = [
+    entityId,
+    name,
+    productId,
+    productName,
+    manufacturerAccountId,
+    manufacturerLegalName,
+    resellerAccountID,
+    resellerLegalName,
+    status,
+    offerExtendedStatus,
+    createdDate,
+    availabilityEndDate,
+    lastModifiedDate
+  ];
+
+  static ResaleAuthorizationSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResaleAuthorizationSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResaleAuthorizationSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ContainerProductSortBy {
+  static const entityId = ContainerProductSortBy._('EntityId');
+  static const lastModifiedDate = ContainerProductSortBy._('LastModifiedDate');
+  static const productTitle = ContainerProductSortBy._('ProductTitle');
+  static const visibility = ContainerProductSortBy._('Visibility');
+  static const compatibleAWSServices =
+      ContainerProductSortBy._('CompatibleAWSServices');
+
+  final String value;
+
+  const ContainerProductSortBy._(this.value);
+
+  static const values = [
+    entityId,
+    lastModifiedDate,
+    productTitle,
+    visibility,
+    compatibleAWSServices
+  ];
+
+  static ContainerProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerProductSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OfferSortBy {
+  static const entityId = OfferSortBy._('EntityId');
+  static const name = OfferSortBy._('Name');
+  static const productId = OfferSortBy._('ProductId');
+  static const resaleAuthorizationId = OfferSortBy._('ResaleAuthorizationId');
+  static const releaseDate = OfferSortBy._('ReleaseDate');
+  static const availabilityEndDate = OfferSortBy._('AvailabilityEndDate');
+  static const buyerAccounts = OfferSortBy._('BuyerAccounts');
+  static const state = OfferSortBy._('State');
+  static const targeting = OfferSortBy._('Targeting');
+  static const lastModifiedDate = OfferSortBy._('LastModifiedDate');
+  static const offerSetId = OfferSortBy._('OfferSetId');
+
+  final String value;
+
+  const OfferSortBy._(this.value);
+
+  static const values = [
+    entityId,
+    name,
+    productId,
+    resaleAuthorizationId,
+    releaseDate,
+    availabilityEndDate,
+    buyerAccounts,
+    state,
+    targeting,
+    lastModifiedDate,
+    offerSetId
+  ];
+
+  static OfferSortBy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OfferSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is OfferSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AmiProductSortBy {
+  static const entityId = AmiProductSortBy._('EntityId');
+  static const lastModifiedDate = AmiProductSortBy._('LastModifiedDate');
+  static const productTitle = AmiProductSortBy._('ProductTitle');
+  static const visibility = AmiProductSortBy._('Visibility');
+
+  final String value;
+
+  const AmiProductSortBy._(this.value);
+
+  static const values = [entityId, lastModifiedDate, productTitle, visibility];
+
+  static AmiProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AmiProductSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is AmiProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SaaSProductSortBy {
+  static const entityId = SaaSProductSortBy._('EntityId');
+  static const productTitle = SaaSProductSortBy._('ProductTitle');
+  static const visibility = SaaSProductSortBy._('Visibility');
+  static const lastModifiedDate = SaaSProductSortBy._('LastModifiedDate');
+  static const deliveryOptionTypes = SaaSProductSortBy._('DeliveryOptionTypes');
+
+  final String value;
+
+  const SaaSProductSortBy._(this.value);
+
+  static const values = [
+    entityId,
+    productTitle,
+    visibility,
+    lastModifiedDate,
+    deliveryOptionTypes
+  ];
+
+  static SaaSProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SaaSProductSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is SaaSProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DataProductSortBy {
+  static const entityId = DataProductSortBy._('EntityId');
+  static const productTitle = DataProductSortBy._('ProductTitle');
+  static const visibility = DataProductSortBy._('Visibility');
+  static const lastModifiedDate = DataProductSortBy._('LastModifiedDate');
+
+  final String value;
+
+  const DataProductSortBy._(this.value);
+
+  static const values = [entityId, productTitle, visibility, lastModifiedDate];
+
+  static DataProductSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataProductSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is DataProductSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Object containing all the filter fields for data products. Client can add
+/// only one wildcard filter and a maximum of 8 filters in a single
+/// <code>ListEntities</code> request.
+class DataProductFilters {
+  /// Unique identifier for the data product.
+  final DataProductEntityIdFilter? entityId;
+
+  /// The last date on which the data product was modified.
+  final DataProductLastModifiedDateFilter? lastModifiedDate;
+
+  /// The title of the data product.
+  final DataProductTitleFilter? productTitle;
+
+  /// The visibility of the data product.
+  final DataProductVisibilityFilter? visibility;
+
+  DataProductFilters({
+    this.entityId,
+    this.lastModifiedDate,
+    this.productTitle,
+    this.visibility,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (entityId != null) 'EntityId': entityId,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility,
+    };
+  }
+}
+
+/// Object containing all the filter fields for SaaS products. Client can add
+/// only one wildcard filter and a maximum of 8 filters in a single
+/// <code>ListEntities</code> request.
+class SaaSProductFilters {
+  /// Unique identifier for the SaaS product.
+  final SaaSProductEntityIdFilter? entityId;
+
+  /// The last date on which the SaaS product was modified.
+  final SaaSProductLastModifiedDateFilter? lastModifiedDate;
+
+  /// The title of the SaaS product.
+  final SaaSProductTitleFilter? productTitle;
+
+  /// The visibility of the SaaS product.
+  final SaaSProductVisibilityFilter? visibility;
+
+  SaaSProductFilters({
+    this.entityId,
+    this.lastModifiedDate,
+    this.productTitle,
+    this.visibility,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (entityId != null) 'EntityId': entityId,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility,
+    };
+  }
+}
+
+/// Object containing all the filter fields for AMI products. Client can add
+/// only one wildcard filter and a maximum of 8 filters in a single
+/// <code>ListEntities</code> request.
+class AmiProductFilters {
+  /// Unique identifier for the AMI product.
+  final AmiProductEntityIdFilter? entityId;
+
+  /// The last date on which the AMI product was modified.
+  final AmiProductLastModifiedDateFilter? lastModifiedDate;
+
+  /// The title of the AMI product.
+  final AmiProductTitleFilter? productTitle;
+
+  /// The visibility of the AMI product.
+  final AmiProductVisibilityFilter? visibility;
+
+  AmiProductFilters({
+    this.entityId,
+    this.lastModifiedDate,
+    this.productTitle,
+    this.visibility,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (entityId != null) 'EntityId': entityId,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility,
+    };
+  }
+}
+
+/// Object containing all the filter fields for offers entity. Client can add
+/// only one wildcard filter and a maximum of 8 filters in a single
+/// <code>ListEntities</code> request.
+class OfferFilters {
+  /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer.
+  final OfferAvailabilityEndDateFilter? availabilityEndDate;
+
+  /// Allows filtering on the <code>BuyerAccounts</code> of an offer.
+  final OfferBuyerAccountsFilter? buyerAccounts;
+
+  /// Allows filtering on <code>EntityId</code> of an offer.
+  final OfferEntityIdFilter? entityId;
+
+  /// Allows filtering on the <code>LastModifiedDate</code> of an offer.
+  final OfferLastModifiedDateFilter? lastModifiedDate;
+
+  /// Allows filtering on the <code>Name</code> of an offer.
+  final OfferNameFilter? name;
+
+  /// Allows filtering on the <code>OfferSetId</code> of an offer.
+  final OfferSetIdFilter? offerSetId;
+
+  /// Allows filtering on the <code>ProductId</code> of an offer.
+  final OfferProductIdFilter? productId;
+
+  /// Allows filtering on the <code>ReleaseDate</code> of an offer.
+  final OfferReleaseDateFilter? releaseDate;
+
+  /// Allows filtering on the <code>ResaleAuthorizationId</code> of an offer.
+  /// <note>
+  /// Not all offers have a <code>ResaleAuthorizationId</code>. The response will
+  /// only include offers for which you have permissions.
+  /// </note>
+  final OfferResaleAuthorizationIdFilter? resaleAuthorizationId;
+
+  /// Allows filtering on the <code>State</code> of an offer.
+  final OfferStateFilter? state;
+
+  /// Allows filtering on the <code>Targeting</code> of an offer.
+  final OfferTargetingFilter? targeting;
+
+  OfferFilters({
+    this.availabilityEndDate,
+    this.buyerAccounts,
+    this.entityId,
+    this.lastModifiedDate,
+    this.name,
+    this.offerSetId,
+    this.productId,
+    this.releaseDate,
+    this.resaleAuthorizationId,
+    this.state,
+    this.targeting,
+  });
+
+  Map<String, dynamic> toJson() {
+    final availabilityEndDate = this.availabilityEndDate;
+    final buyerAccounts = this.buyerAccounts;
+    final entityId = this.entityId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final offerSetId = this.offerSetId;
+    final productId = this.productId;
+    final releaseDate = this.releaseDate;
+    final resaleAuthorizationId = this.resaleAuthorizationId;
+    final state = this.state;
+    final targeting = this.targeting;
+    return {
+      if (availabilityEndDate != null)
+        'AvailabilityEndDate': availabilityEndDate,
+      if (buyerAccounts != null) 'BuyerAccounts': buyerAccounts,
+      if (entityId != null) 'EntityId': entityId,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (name != null) 'Name': name,
+      if (offerSetId != null) 'OfferSetId': offerSetId,
+      if (productId != null) 'ProductId': productId,
+      if (releaseDate != null) 'ReleaseDate': releaseDate,
+      if (resaleAuthorizationId != null)
+        'ResaleAuthorizationId': resaleAuthorizationId,
+      if (state != null) 'State': state,
+      if (targeting != null) 'Targeting': targeting,
+    };
+  }
+}
+
+/// Object containing all the filter fields for container products. Client can
+/// add only one wildcard filter and a maximum of 8 filters in a single
+/// <code>ListEntities</code> request.
+class ContainerProductFilters {
+  /// Unique identifier for the container product.
+  final ContainerProductEntityIdFilter? entityId;
+
+  /// The last date on which the container product was modified.
+  final ContainerProductLastModifiedDateFilter? lastModifiedDate;
+
+  /// The title of the container product.
+  final ContainerProductTitleFilter? productTitle;
+
+  /// The visibility of the container product.
+  final ContainerProductVisibilityFilter? visibility;
+
+  ContainerProductFilters({
+    this.entityId,
+    this.lastModifiedDate,
+    this.productTitle,
+    this.visibility,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (entityId != null) 'EntityId': entityId,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility,
     };
   }
 }
@@ -3287,14 +3021,157 @@ class ResaleAuthorizationFilters {
   }
 }
 
-/// Allows filtering on the <code>LastModifiedDate</code> of a
-/// ResaleAuthorization.
-class ResaleAuthorizationLastModifiedDateFilter {
-  /// Allows filtering on the <code>LastModifiedDate</code> of a
-  /// ResaleAuthorization with date range as input.
-  final ResaleAuthorizationLastModifiedDateFilterDateRange? dateRange;
+/// The filters that you can use with the ListEntities operation to filter
+/// machine learning products. You can filter by <code>EntityId</code>,
+/// <code>astModifiedDate</code>, <code>ProductTitle</code>, and
+/// <code>Visibility</code>.
+class MachineLearningProductFilters {
+  /// Filter machine learning products by their entity IDs.
+  final MachineLearningProductEntityIdFilter? entityId;
 
-  ResaleAuthorizationLastModifiedDateFilter({
+  /// Filter machine learning products by their last modified date.
+  final MachineLearningProductLastModifiedDateFilter? lastModifiedDate;
+
+  /// Filter machine learning products by their product titles.
+  final MachineLearningProductTitleFilter? productTitle;
+
+  /// Filter machine learning products by their visibility status.
+  final MachineLearningProductVisibilityFilter? visibility;
+
+  MachineLearningProductFilters({
+    this.entityId,
+    this.lastModifiedDate,
+    this.productTitle,
+    this.visibility,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final productTitle = this.productTitle;
+    final visibility = this.visibility;
+    return {
+      if (entityId != null) 'EntityId': entityId,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (productTitle != null) 'ProductTitle': productTitle,
+      if (visibility != null) 'Visibility': visibility,
+    };
+  }
+}
+
+/// Object containing all the filter fields for offer sets entity. Client can
+/// add a maximum of 8 filters in a single <code>ListEntities</code> request.
+class OfferSetFilters {
+  /// Allows filtering on the <code>AssociatedOfferIds</code> of an offer set.
+  final OfferSetAssociatedOfferIdsFilter? associatedOfferIds;
+
+  /// Allows filtering on <code>EntityId</code> of an offer set.
+  final OfferSetEntityIdFilter? entityId;
+
+  /// Allows filtering on the <code>LastModifiedDate</code> of an offer set.
+  final OfferSetLastModifiedDateFilter? lastModifiedDate;
+
+  /// Allows filtering on the <code>Name</code> of an offer set.
+  final OfferSetNameFilter? name;
+
+  /// Allows filtering on the <code>ReleaseDate</code> of an offer set.
+  final OfferSetReleaseDateFilter? releaseDate;
+
+  /// Allows filtering on the <code>SolutionId</code> of an offer set.
+  final OfferSetSolutionIdFilter? solutionId;
+
+  /// Allows filtering on the <code>State</code> of an offer set.
+  final OfferSetStateFilter? state;
+
+  OfferSetFilters({
+    this.associatedOfferIds,
+    this.entityId,
+    this.lastModifiedDate,
+    this.name,
+    this.releaseDate,
+    this.solutionId,
+    this.state,
+  });
+
+  Map<String, dynamic> toJson() {
+    final associatedOfferIds = this.associatedOfferIds;
+    final entityId = this.entityId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final releaseDate = this.releaseDate;
+    final solutionId = this.solutionId;
+    final state = this.state;
+    return {
+      if (associatedOfferIds != null) 'AssociatedOfferIds': associatedOfferIds,
+      if (entityId != null) 'EntityId': entityId,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (name != null) 'Name': name,
+      if (releaseDate != null) 'ReleaseDate': releaseDate,
+      if (solutionId != null) 'SolutionId': solutionId,
+      if (state != null) 'State': state,
+    };
+  }
+}
+
+/// Allows filtering on the entity id of an offer set.
+class OfferSetEntityIdFilter {
+  /// Allows filtering on entity id of an offer set with list input.
+  final List<String>? valueList;
+
+  OfferSetEntityIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>Name</code> of an offer set.
+class OfferSetNameFilter {
+  /// Allows filtering on the <code>Name</code> of an offer set with list input.
+  final List<String>? valueList;
+
+  OfferSetNameFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>State</code> of an offer set.
+class OfferSetStateFilter {
+  /// Allows filtering on the <code>State</code> of an offer set with list input.
+  final List<OfferSetStateString>? valueList;
+
+  OfferSetStateFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Allows filtering on the <code>ReleaseDate</code> of an offer set.
+class OfferSetReleaseDateFilter {
+  /// Allows filtering on the <code>ReleaseDate</code> of an offer set with date
+  /// range as input.
+  final OfferSetReleaseDateFilterDateRange? dateRange;
+
+  OfferSetReleaseDateFilter({
     this.dateRange,
   });
 
@@ -3306,18 +3183,72 @@ class ResaleAuthorizationLastModifiedDateFilter {
   }
 }
 
-/// Allows filtering on the <code>LastModifiedDate</code> of a
-/// ResaleAuthorization with date range as input.
-class ResaleAuthorizationLastModifiedDateFilterDateRange {
-  /// Allows filtering on the <code>LastModifiedDate</code> of a
-  /// ResaleAuthorization after a date.
+/// Allows filtering on the <code>AssociatedOfferIds</code> of an offer set.
+class OfferSetAssociatedOfferIdsFilter {
+  /// Allows filtering on the <code>AssociatedOfferIds</code> of an offer set with
+  /// list input.
+  final List<String>? valueList;
+
+  OfferSetAssociatedOfferIdsFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>SolutionId</code> of an offer set.
+class OfferSetSolutionIdFilter {
+  /// Allows filtering on the <code>SolutionId</code> of an offer set with list
+  /// input.
+  final List<String>? valueList;
+
+  OfferSetSolutionIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>LastModifiedDate</code> of an offer set.
+class OfferSetLastModifiedDateFilter {
+  /// Allows filtering on the <code>LastModifiedDate</code> of an offer set with
+  /// date range as input.
+  final OfferSetLastModifiedDateFilterDateRange? dateRange;
+
+  OfferSetLastModifiedDateFilter({
+    this.dateRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// Allows filtering on the <code>LastModifiedDate</code> of an offer set with
+/// date range as input.
+class OfferSetLastModifiedDateFilterDateRange {
+  /// Allows filtering on the <code>LastModifiedDate</code> of an offer set after
+  /// a date.
   final String? afterValue;
 
-  /// Allows filtering on the <code>LastModifiedDate</code> of a
-  /// ResaleAuthorization before a date.
+  /// Allows filtering on the <code>LastModifiedDate</code> of an offer set before
+  /// a date.
   final String? beforeValue;
 
-  ResaleAuthorizationLastModifiedDateFilterDateRange({
+  OfferSetLastModifiedDateFilterDateRange({
     this.afterValue,
     this.beforeValue,
   });
@@ -3328,6 +3259,255 @@ class ResaleAuthorizationLastModifiedDateFilterDateRange {
     return {
       if (afterValue != null) 'AfterValue': afterValue,
       if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Allows filtering on the <code>ReleaseDate</code> of an offer set with date
+/// range as input.
+class OfferSetReleaseDateFilterDateRange {
+  /// Allows filtering on the <code>ReleaseDate</code> of offer set after a date.
+  final String? afterValue;
+
+  /// Allows filtering on the <code>ReleaseDate</code> of offer set before a date.
+  final String? beforeValue;
+
+  OfferSetReleaseDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// The filter for machine learning product entity IDs.
+class MachineLearningProductEntityIdFilter {
+  /// A list of entity IDs to filter by. The operation returns machine learning
+  /// products with entity IDs that match the values in this list.
+  final List<String>? valueList;
+
+  MachineLearningProductEntityIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// The filter for machine learning product last modified date.
+class MachineLearningProductLastModifiedDateFilter {
+  /// A date range to filter by. The operation returns machine learning products
+  /// with last modified dates that fall within this range.
+  final MachineLearningProductLastModifiedDateFilterDateRange? dateRange;
+
+  MachineLearningProductLastModifiedDateFilter({
+    this.dateRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// The filter for machine learning product titles.
+class MachineLearningProductTitleFilter {
+  /// A list of product titles to filter by. The operation returns machine
+  /// learning products with titles that exactly match the values in this list.
+  final List<String>? valueList;
+
+  /// A wildcard value to filter product titles. The operation returns machine
+  /// learning products with titles that match this wildcard pattern.
+  final String? wildCardValue;
+
+  MachineLearningProductTitleFilter({
+    this.valueList,
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
+/// The filter for machine learning product visibility status.
+class MachineLearningProductVisibilityFilter {
+  /// A list of visibility values to filter by. The operation returns machine
+  /// learning products with visibility status that match the values in this list.
+  final List<MachineLearningProductVisibilityString>? valueList;
+
+  MachineLearningProductVisibilityFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// A date range for filtering machine learning products by their last modified
+/// date.
+class MachineLearningProductLastModifiedDateFilterDateRange {
+  /// The start date (inclusive) of the date range. The operation returns machine
+  /// learning products with last modified dates on or after this date.
+  final String? afterValue;
+
+  /// The end date (inclusive) of the date range. The operation returns machine
+  /// learning products with last modified dates on or before this date.
+  final String? beforeValue;
+
+  MachineLearningProductLastModifiedDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Allows filtering on <code>EntityId</code> of a ResaleAuthorization.
+class ResaleAuthorizationEntityIdFilter {
+  /// Allows filtering on <code>EntityId</code> of a ResaleAuthorization with list
+  /// input.
+  final List<String>? valueList;
+
+  ResaleAuthorizationEntityIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>Name</code> of a ResaleAuthorization.
+class ResaleAuthorizationNameFilter {
+  /// Allows filtering on the <code>Name</code> of a ResaleAuthorization with list
+  /// input.
+  final List<String>? valueList;
+
+  /// Allows filtering on the <code>Name</code> of a ResaleAuthorization with wild
+  /// card input.
+  final String? wildCardValue;
+
+  ResaleAuthorizationNameFilter({
+    this.valueList,
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
+/// Allows filtering on the <code>ProductId</code> of a ResaleAuthorization.
+class ResaleAuthorizationProductIdFilter {
+  /// Allows filtering on the <code>ProductId</code> of a ResaleAuthorization with
+  /// list input.
+  final List<String>? valueList;
+
+  /// Allows filtering on the <code>ProductId</code> of a ResaleAuthorization with
+  /// wild card input.
+  final String? wildCardValue;
+
+  ResaleAuthorizationProductIdFilter({
+    this.valueList,
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
+/// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization.
+class ResaleAuthorizationCreatedDateFilter {
+  /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization with
+  /// date range as input.
+  final ResaleAuthorizationCreatedDateFilterDateRange? dateRange;
+
+  /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization with
+  /// date value as input.
+  final List<String>? valueList;
+
+  ResaleAuthorizationCreatedDateFilter({
+    this.dateRange,
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    final valueList = this.valueList;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on <code>AvailabilityEndDate</code> of a
+/// ResaleAuthorization.
+class ResaleAuthorizationAvailabilityEndDateFilter {
+  /// Allows filtering on <code>AvailabilityEndDate</code> of a
+  /// ResaleAuthorization with date range as input
+  final ResaleAuthorizationAvailabilityEndDateFilterDateRange? dateRange;
+
+  /// Allows filtering on <code>AvailabilityEndDate</code> of a
+  /// ResaleAuthorization with date value as input.
+  final List<String>? valueList;
+
+  ResaleAuthorizationAvailabilityEndDateFilter({
+    this.dateRange,
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    final valueList = this.valueList;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+      if (valueList != null) 'ValueList': valueList,
     };
   }
 }
@@ -3358,6 +3538,31 @@ class ResaleAuthorizationManufacturerAccountIdFilter {
   }
 }
 
+/// Allows filtering on the <code>ProductName</code> of a ResaleAuthorization.
+class ResaleAuthorizationProductNameFilter {
+  /// Allows filtering on the <code>ProductName</code> of a ResaleAuthorization
+  /// with list input.
+  final List<String>? valueList;
+
+  /// Allows filtering on the <code>ProductName</code> of a ResaleAuthorization
+  /// with wild card input.
+  final String? wildCardValue;
+
+  ResaleAuthorizationProductNameFilter({
+    this.valueList,
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
 /// Allows filtering on the <code>ManufacturerLegalName</code> of a
 /// ResaleAuthorization.
 class ResaleAuthorizationManufacturerLegalNameFilter {
@@ -3370,100 +3575,6 @@ class ResaleAuthorizationManufacturerLegalNameFilter {
   final String? wildCardValue;
 
   ResaleAuthorizationManufacturerLegalNameFilter({
-    this.valueList,
-    this.wildCardValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    final wildCardValue = this.wildCardValue;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-      if (wildCardValue != null) 'WildCardValue': wildCardValue,
-    };
-  }
-}
-
-/// Allows filtering on the <code>Name</code> of a ResaleAuthorization.
-class ResaleAuthorizationNameFilter {
-  /// Allows filtering on the <code>Name</code> of a ResaleAuthorization with list
-  /// input.
-  final List<String>? valueList;
-
-  /// Allows filtering on the <code>Name</code> of a ResaleAuthorization with wild
-  /// card input.
-  final String? wildCardValue;
-
-  ResaleAuthorizationNameFilter({
-    this.valueList,
-    this.wildCardValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    final wildCardValue = this.wildCardValue;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-      if (wildCardValue != null) 'WildCardValue': wildCardValue,
-    };
-  }
-}
-
-/// Allows filtering on the <code>OfferExtendedStatus</code> of a
-/// ResaleAuthorization.
-class ResaleAuthorizationOfferExtendedStatusFilter {
-  /// Allows filtering on the <code>OfferExtendedStatus</code> of a
-  /// ResaleAuthorization with list input.
-  final List<String>? valueList;
-
-  ResaleAuthorizationOfferExtendedStatusFilter({
-    this.valueList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-    };
-  }
-}
-
-/// Allows filtering on the <code>ProductId</code> of a ResaleAuthorization.
-class ResaleAuthorizationProductIdFilter {
-  /// Allows filtering on the <code>ProductId</code> of a ResaleAuthorization with
-  /// list input.
-  final List<String>? valueList;
-
-  /// Allows filtering on the <code>ProductId</code> of a ResaleAuthorization with
-  /// wild card input.
-  final String? wildCardValue;
-
-  ResaleAuthorizationProductIdFilter({
-    this.valueList,
-    this.wildCardValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final valueList = this.valueList;
-    final wildCardValue = this.wildCardValue;
-    return {
-      if (valueList != null) 'ValueList': valueList,
-      if (wildCardValue != null) 'WildCardValue': wildCardValue,
-    };
-  }
-}
-
-/// Allows filtering on the <code>ProductName</code> of a ResaleAuthorization.
-class ResaleAuthorizationProductNameFilter {
-  /// Allows filtering on the <code>ProductName</code> of a ResaleAuthorization
-  /// with list input.
-  final List<String>? valueList;
-
-  /// Allows filtering on the <code>ProductName</code> of a ResaleAuthorization
-  /// with wild card input.
-  final String? wildCardValue;
-
-  ResaleAuthorizationProductNameFilter({
     this.valueList,
     this.wildCardValue,
   });
@@ -3529,86 +3640,6 @@ class ResaleAuthorizationResellerLegalNameFilter {
   }
 }
 
-/// Allows to sort ResaleAuthorization.
-class ResaleAuthorizationSort {
-  /// Allows to sort ResaleAuthorization.
-  final ResaleAuthorizationSortBy? sortBy;
-
-  /// Allows to sort ResaleAuthorization.
-  final SortOrder? sortOrder;
-
-  ResaleAuthorizationSort({
-    this.sortBy,
-    this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
-    return {
-      if (sortBy != null) 'SortBy': sortBy.value,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class ResaleAuthorizationSortBy {
-  static const entityId = ResaleAuthorizationSortBy._('EntityId');
-  static const name = ResaleAuthorizationSortBy._('Name');
-  static const productId = ResaleAuthorizationSortBy._('ProductId');
-  static const productName = ResaleAuthorizationSortBy._('ProductName');
-  static const manufacturerAccountId =
-      ResaleAuthorizationSortBy._('ManufacturerAccountId');
-  static const manufacturerLegalName =
-      ResaleAuthorizationSortBy._('ManufacturerLegalName');
-  static const resellerAccountID =
-      ResaleAuthorizationSortBy._('ResellerAccountID');
-  static const resellerLegalName =
-      ResaleAuthorizationSortBy._('ResellerLegalName');
-  static const status = ResaleAuthorizationSortBy._('Status');
-  static const offerExtendedStatus =
-      ResaleAuthorizationSortBy._('OfferExtendedStatus');
-  static const createdDate = ResaleAuthorizationSortBy._('CreatedDate');
-  static const availabilityEndDate =
-      ResaleAuthorizationSortBy._('AvailabilityEndDate');
-  static const lastModifiedDate =
-      ResaleAuthorizationSortBy._('LastModifiedDate');
-
-  final String value;
-
-  const ResaleAuthorizationSortBy._(this.value);
-
-  static const values = [
-    entityId,
-    name,
-    productId,
-    productName,
-    manufacturerAccountId,
-    manufacturerLegalName,
-    resellerAccountID,
-    resellerLegalName,
-    status,
-    offerExtendedStatus,
-    createdDate,
-    availabilityEndDate,
-    lastModifiedDate
-  ];
-
-  static ResaleAuthorizationSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResaleAuthorizationSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResaleAuthorizationSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Allows filtering on the <code>Status</code> of a ResaleAuthorization.
 class ResaleAuthorizationStatusFilter {
   /// Allows filtering on the <code>Status</code> of a ResaleAuthorization with
@@ -3628,126 +3659,604 @@ class ResaleAuthorizationStatusFilter {
   }
 }
 
-class ResaleAuthorizationStatusString {
-  static const draft = ResaleAuthorizationStatusString._('Draft');
-  static const active = ResaleAuthorizationStatusString._('Active');
-  static const restricted = ResaleAuthorizationStatusString._('Restricted');
+/// Allows filtering on the <code>OfferExtendedStatus</code> of a
+/// ResaleAuthorization.
+class ResaleAuthorizationOfferExtendedStatusFilter {
+  /// Allows filtering on the <code>OfferExtendedStatus</code> of a
+  /// ResaleAuthorization with list input.
+  final List<String>? valueList;
 
-  final String value;
-
-  const ResaleAuthorizationStatusString._(this.value);
-
-  static const values = [draft, active, restricted];
-
-  static ResaleAuthorizationStatusString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResaleAuthorizationStatusString._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResaleAuthorizationStatusString && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summarized information about a Resale Authorization.
-class ResaleAuthorizationSummary {
-  /// The availability end date of the ResaleAuthorization.
-  final String? availabilityEndDate;
-
-  /// The created date of the ResaleAuthorization.
-  final String? createdDate;
-
-  /// The manufacturer account ID of the ResaleAuthorization.
-  final String? manufacturerAccountId;
-
-  /// The manufacturer legal name of the ResaleAuthorization.
-  final String? manufacturerLegalName;
-
-  /// The name of the ResaleAuthorization.
-  final String? name;
-
-  /// The offer extended status of the ResaleAuthorization
-  final String? offerExtendedStatus;
-
-  /// The product ID of the ResaleAuthorization.
-  final String? productId;
-
-  /// The product name of the ResaleAuthorization.
-  final String? productName;
-
-  /// The reseller account ID of the ResaleAuthorization.
-  final String? resellerAccountID;
-
-  /// The reseller legal name of the ResaleAuthorization
-  final String? resellerLegalName;
-
-  /// The status of the ResaleAuthorization.
-  final ResaleAuthorizationStatusString? status;
-
-  ResaleAuthorizationSummary({
-    this.availabilityEndDate,
-    this.createdDate,
-    this.manufacturerAccountId,
-    this.manufacturerLegalName,
-    this.name,
-    this.offerExtendedStatus,
-    this.productId,
-    this.productName,
-    this.resellerAccountID,
-    this.resellerLegalName,
-    this.status,
+  ResaleAuthorizationOfferExtendedStatusFilter({
+    this.valueList,
   });
 
-  factory ResaleAuthorizationSummary.fromJson(Map<String, dynamic> json) {
-    return ResaleAuthorizationSummary(
-      availabilityEndDate: json['AvailabilityEndDate'] as String?,
-      createdDate: json['CreatedDate'] as String?,
-      manufacturerAccountId: json['ManufacturerAccountId'] as String?,
-      manufacturerLegalName: json['ManufacturerLegalName'] as String?,
-      name: json['Name'] as String?,
-      offerExtendedStatus: json['OfferExtendedStatus'] as String?,
-      productId: json['ProductId'] as String?,
-      productName: json['ProductName'] as String?,
-      resellerAccountID: json['ResellerAccountID'] as String?,
-      resellerLegalName: json['ResellerLegalName'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(ResaleAuthorizationStatusString.fromString),
-    );
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
   }
+}
+
+/// Allows filtering on the <code>LastModifiedDate</code> of a
+/// ResaleAuthorization.
+class ResaleAuthorizationLastModifiedDateFilter {
+  /// Allows filtering on the <code>LastModifiedDate</code> of a
+  /// ResaleAuthorization with date range as input.
+  final ResaleAuthorizationLastModifiedDateFilterDateRange? dateRange;
+
+  ResaleAuthorizationLastModifiedDateFilter({
+    this.dateRange,
+  });
 
   Map<String, dynamic> toJson() {
-    final availabilityEndDate = this.availabilityEndDate;
-    final createdDate = this.createdDate;
-    final manufacturerAccountId = this.manufacturerAccountId;
-    final manufacturerLegalName = this.manufacturerLegalName;
-    final name = this.name;
-    final offerExtendedStatus = this.offerExtendedStatus;
-    final productId = this.productId;
-    final productName = this.productName;
-    final resellerAccountID = this.resellerAccountID;
-    final resellerLegalName = this.resellerLegalName;
-    final status = this.status;
+    final dateRange = this.dateRange;
     return {
-      if (availabilityEndDate != null)
-        'AvailabilityEndDate': availabilityEndDate,
-      if (createdDate != null) 'CreatedDate': createdDate,
-      if (manufacturerAccountId != null)
-        'ManufacturerAccountId': manufacturerAccountId,
-      if (manufacturerLegalName != null)
-        'ManufacturerLegalName': manufacturerLegalName,
-      if (name != null) 'Name': name,
-      if (offerExtendedStatus != null)
-        'OfferExtendedStatus': offerExtendedStatus,
-      if (productId != null) 'ProductId': productId,
-      if (productName != null) 'ProductName': productName,
-      if (resellerAccountID != null) 'ResellerAccountID': resellerAccountID,
-      if (resellerLegalName != null) 'ResellerLegalName': resellerLegalName,
-      if (status != null) 'Status': status.value,
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// Allows filtering on the <code>LastModifiedDate</code> of a
+/// ResaleAuthorization with date range as input.
+class ResaleAuthorizationLastModifiedDateFilterDateRange {
+  /// Allows filtering on the <code>LastModifiedDate</code> of a
+  /// ResaleAuthorization after a date.
+  final String? afterValue;
+
+  /// Allows filtering on the <code>LastModifiedDate</code> of a
+  /// ResaleAuthorization before a date.
+  final String? beforeValue;
+
+  ResaleAuthorizationLastModifiedDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Allows filtering on <code>AvailabilityEndDate</code> of a
+/// ResaleAuthorization with date range as input.
+class ResaleAuthorizationAvailabilityEndDateFilterDateRange {
+  /// Allows filtering on <code>AvailabilityEndDate</code> of a
+  /// ResaleAuthorization after a date.
+  final String? afterValue;
+
+  /// Allows filtering on <code>AvailabilityEndDate</code> of a
+  /// ResaleAuthorization before a date.
+  final String? beforeValue;
+
+  ResaleAuthorizationAvailabilityEndDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization with
+/// date range as input.
+class ResaleAuthorizationCreatedDateFilterDateRange {
+  /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization after
+  /// a date.
+  final String? afterValue;
+
+  /// Allows filtering on <code>CreatedDate</code> of a ResaleAuthorization before
+  /// a date.
+  final String? beforeValue;
+
+  ResaleAuthorizationCreatedDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Object that allows filtering on entity id of a container product.
+class ContainerProductEntityIdFilter {
+  /// A string array of unique entity id values to be filtered on.
+  final List<String>? valueList;
+
+  ContainerProductEntityIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Object that allows filtering based on the last modified date of container
+/// products.
+class ContainerProductLastModifiedDateFilter {
+  /// Dates between which the container product was last modified.
+  final ContainerProductLastModifiedDateFilterDateRange? dateRange;
+
+  ContainerProductLastModifiedDateFilter({
+    this.dateRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// Object that allows filtering on product title.
+class ContainerProductTitleFilter {
+  /// A string array of unique product title values to be filtered on.
+  final List<String>? valueList;
+
+  /// A string that will be the <code>wildCard</code> input for product tile
+  /// filter. It matches the provided value as a substring in the actual value.
+  final String? wildCardValue;
+
+  ContainerProductTitleFilter({
+    this.valueList,
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
+/// Object that allows filtering on the visibility of the product in the AWS
+/// Marketplace.
+class ContainerProductVisibilityFilter {
+  /// A string array of unique visibility values to be filtered on.
+  final List<ContainerProductVisibilityString>? valueList;
+
+  ContainerProductVisibilityFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Object that contains date range of the last modified date to be filtered on.
+/// You can optionally provide a <code>BeforeValue</code> and/or
+/// <code>AfterValue</code>. Both are inclusive.
+class ContainerProductLastModifiedDateFilterDateRange {
+  /// Date after which the container product was last modified.
+  final String? afterValue;
+
+  /// Date before which the container product was last modified.
+  final String? beforeValue;
+
+  ContainerProductLastModifiedDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Allows filtering on the entity id of an offer.
+class OfferEntityIdFilter {
+  /// Allows filtering on entity id of an offer with list input.
+  final List<String>? valueList;
+
+  OfferEntityIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>Name</code> of an offer.
+class OfferNameFilter {
+  /// Allows filtering on the <code>Name</code> of an offer with list input.
+  final List<String>? valueList;
+
+  /// Allows filtering on the <code>Name</code> of an offer with wild card input.
+  final String? wildCardValue;
+
+  OfferNameFilter({
+    this.valueList,
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
+/// Allows filtering on the <code>ProductId</code> of an offer.
+class OfferProductIdFilter {
+  /// Allows filtering on the <code>ProductId</code> of an offer with list input.
+  final List<String>? valueList;
+
+  OfferProductIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>ResaleAuthorizationId</code> of an offer.
+/// <note>
+/// Not all offers have a <code>ResaleAuthorizationId</code>. The response will
+/// only include offers for which you have permissions.
+/// </note>
+class OfferResaleAuthorizationIdFilter {
+  /// Allows filtering on the <code>ResaleAuthorizationId</code> of an offer with
+  /// list input.
+  final List<String>? valueList;
+
+  OfferResaleAuthorizationIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>ReleaseDate</code> of an offer.
+class OfferReleaseDateFilter {
+  /// Allows filtering on the <code>ReleaseDate</code> of an offer with date range
+  /// as input.
+  final OfferReleaseDateFilterDateRange? dateRange;
+
+  OfferReleaseDateFilter({
+    this.dateRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// Allows filtering on the <code>AvailabilityEndDate</code> of an offer.
+class OfferAvailabilityEndDateFilter {
+  /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer with
+  /// date range as input.
+  final OfferAvailabilityEndDateFilterDateRange? dateRange;
+
+  OfferAvailabilityEndDateFilter({
+    this.dateRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// Allows filtering on the <code>BuyerAccounts</code> of an offer.
+class OfferBuyerAccountsFilter {
+  /// Allows filtering on the <code>BuyerAccounts</code> of an offer with wild
+  /// card input.
+  final String? wildCardValue;
+
+  OfferBuyerAccountsFilter({
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
+/// Allows filtering on the <code>State</code> of an offer.
+class OfferStateFilter {
+  /// Allows filtering on the <code>State</code> of an offer with list input.
+  final List<OfferStateString>? valueList;
+
+  OfferStateFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Allows filtering on the <code>Targeting</code> of an offer.
+class OfferTargetingFilter {
+  /// Allows filtering on the <code>Targeting</code> of an offer with list input.
+  final List<OfferTargetingString>? valueList;
+
+  OfferTargetingFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Allows filtering on the <code>LastModifiedDate</code> of an offer.
+class OfferLastModifiedDateFilter {
+  /// Allows filtering on the <code>LastModifiedDate</code> of an offer with date
+  /// range as input.
+  final OfferLastModifiedDateFilterDateRange? dateRange;
+
+  OfferLastModifiedDateFilter({
+    this.dateRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// Allows filtering on the <code>OfferSetId</code> of an offer.
+class OfferSetIdFilter {
+  /// Allows filtering on the <code>OfferSetId</code> of an offer.
+  final List<String>? valueList;
+
+  OfferSetIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Allows filtering on the <code>LastModifiedDate</code> of an offer with date
+/// range as input.
+class OfferLastModifiedDateFilterDateRange {
+  /// Allows filtering on the <code>LastModifiedDate</code> of an offer after a
+  /// date.
+  final String? afterValue;
+
+  /// Allows filtering on the <code>LastModifiedDate</code> of an offer before a
+  /// date.
+  final String? beforeValue;
+
+  OfferLastModifiedDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Allows filtering on the <code>AvailabilityEndDate</code> of an offer with
+/// date range as input.
+class OfferAvailabilityEndDateFilterDateRange {
+  /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer after a
+  /// date.
+  final String? afterValue;
+
+  /// Allows filtering on the <code>AvailabilityEndDate</code> of an offer before
+  /// a date.
+  final String? beforeValue;
+
+  OfferAvailabilityEndDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Allows filtering on the <code>ReleaseDate</code> of an offer with date range
+/// as input.
+class OfferReleaseDateFilterDateRange {
+  /// Allows filtering on the <code>ReleaseDate</code> of offers after a date.
+  final String? afterValue;
+
+  /// Allows filtering on the <code>ReleaseDate</code> of offers before a date.
+  final String? beforeValue;
+
+  OfferReleaseDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Object that allows filtering on entity id of an AMI product.
+class AmiProductEntityIdFilter {
+  /// A string array of unique entity id values to be filtered on.
+  final List<String>? valueList;
+
+  AmiProductEntityIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Object that allows filtering based on the last modified date of AMI
+/// products.
+class AmiProductLastModifiedDateFilter {
+  /// Dates between which the AMI product was last modified.
+  final AmiProductLastModifiedDateFilterDateRange? dateRange;
+
+  AmiProductLastModifiedDateFilter({
+    this.dateRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// Object that allows filtering on product title.
+class AmiProductTitleFilter {
+  /// A string array of unique product title values to be filtered on.
+  final List<String>? valueList;
+
+  /// A string that will be the <code>wildCard</code> input for product tile
+  /// filter. It matches the provided value as a substring in the actual value.
+  final String? wildCardValue;
+
+  AmiProductTitleFilter({
+    this.valueList,
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
+/// Object that allows filtering on the visibility of the product in the AWS
+/// Marketplace.
+class AmiProductVisibilityFilter {
+  /// A string array of unique visibility values to be filtered on.
+  final List<AmiProductVisibilityString>? valueList;
+
+  AmiProductVisibilityFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Object that contains date range of the last modified date to be filtered on.
+/// You can optionally provide a <code>BeforeValue</code> and/or
+/// <code>AfterValue</code>. Both are inclusive.
+class AmiProductLastModifiedDateFilterDateRange {
+  /// Date after which the AMI product was last modified.
+  final String? afterValue;
+
+  /// Date before which the AMI product was last modified.
+  final String? beforeValue;
+
+  AmiProductLastModifiedDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
     };
   }
 }
@@ -3765,168 +4274,6 @@ class SaaSProductEntityIdFilter {
     final valueList = this.valueList;
     return {
       if (valueList != null) 'ValueList': valueList,
-    };
-  }
-}
-
-/// Object containing all the filter fields for SaaS products. Client can add
-/// only one wildcard filter and a maximum of 8 filters in a single
-/// <code>ListEntities</code> request.
-class SaaSProductFilters {
-  /// Unique identifier for the SaaS product.
-  final SaaSProductEntityIdFilter? entityId;
-
-  /// The last date on which the SaaS product was modified.
-  final SaaSProductLastModifiedDateFilter? lastModifiedDate;
-
-  /// The title of the SaaS product.
-  final SaaSProductTitleFilter? productTitle;
-
-  /// The visibility of the SaaS product.
-  final SaaSProductVisibilityFilter? visibility;
-
-  SaaSProductFilters({
-    this.entityId,
-    this.lastModifiedDate,
-    this.productTitle,
-    this.visibility,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    final lastModifiedDate = this.lastModifiedDate;
-    final productTitle = this.productTitle;
-    final visibility = this.visibility;
-    return {
-      if (entityId != null) 'EntityId': entityId,
-      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
-      if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility,
-    };
-  }
-}
-
-/// Object that allows filtering based on the last modified date of SaaS
-/// products
-class SaaSProductLastModifiedDateFilter {
-  /// Dates between which the SaaS product was last modified.
-  final SaaSProductLastModifiedDateFilterDateRange? dateRange;
-
-  SaaSProductLastModifiedDateFilter({
-    this.dateRange,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dateRange = this.dateRange;
-    return {
-      if (dateRange != null) 'DateRange': dateRange,
-    };
-  }
-}
-
-/// Object that contains date range of the last modified date to be filtered on.
-/// You can optionally provide a <code>BeforeValue</code> and/or
-/// <code>AfterValue</code>. Both are inclusive.
-class SaaSProductLastModifiedDateFilterDateRange {
-  /// Date after which the SaaS product was last modified.
-  final String? afterValue;
-
-  /// Date before which the SaaS product was last modified.
-  final String? beforeValue;
-
-  SaaSProductLastModifiedDateFilterDateRange({
-    this.afterValue,
-    this.beforeValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final afterValue = this.afterValue;
-    final beforeValue = this.beforeValue;
-    return {
-      if (afterValue != null) 'AfterValue': afterValue,
-      if (beforeValue != null) 'BeforeValue': beforeValue,
-    };
-  }
-}
-
-/// Objects that allows sorting on SaaS products based on certain fields and
-/// sorting order.
-class SaaSProductSort {
-  /// Field to sort the SaaS products by.
-  final SaaSProductSortBy? sortBy;
-
-  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
-  /// The default value is <code>DESCENDING</code>.
-  final SortOrder? sortOrder;
-
-  SaaSProductSort({
-    this.sortBy,
-    this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
-    return {
-      if (sortBy != null) 'SortBy': sortBy.value,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
-    };
-  }
-}
-
-class SaaSProductSortBy {
-  static const entityId = SaaSProductSortBy._('EntityId');
-  static const productTitle = SaaSProductSortBy._('ProductTitle');
-  static const visibility = SaaSProductSortBy._('Visibility');
-  static const lastModifiedDate = SaaSProductSortBy._('LastModifiedDate');
-
-  final String value;
-
-  const SaaSProductSortBy._(this.value);
-
-  static const values = [entityId, productTitle, visibility, lastModifiedDate];
-
-  static SaaSProductSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SaaSProductSortBy._(value));
-
-  @override
-  bool operator ==(other) => other is SaaSProductSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Object that contains summarized information about a SaaS product.
-class SaaSProductSummary {
-  /// The title of the SaaS product.
-  final String? productTitle;
-
-  /// The lifecycle of the SaaS product.
-  final SaaSProductVisibilityString? visibility;
-
-  SaaSProductSummary({
-    this.productTitle,
-    this.visibility,
-  });
-
-  factory SaaSProductSummary.fromJson(Map<String, dynamic> json) {
-    return SaaSProductSummary(
-      productTitle: json['ProductTitle'] as String?,
-      visibility: (json['Visibility'] as String?)
-          ?.let(SaaSProductVisibilityString.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final productTitle = this.productTitle;
-    final visibility = this.visibility;
-    return {
-      if (productTitle != null) 'ProductTitle': productTitle,
-      if (visibility != null) 'Visibility': visibility.value,
     };
   }
 }
@@ -3974,167 +4321,555 @@ class SaaSProductVisibilityFilter {
   }
 }
 
-class SaaSProductVisibilityString {
-  static const limited = SaaSProductVisibilityString._('Limited');
-  static const public = SaaSProductVisibilityString._('Public');
-  static const restricted = SaaSProductVisibilityString._('Restricted');
-  static const draft = SaaSProductVisibilityString._('Draft');
+/// Object that allows filtering based on the last modified date of SaaS
+/// products
+class SaaSProductLastModifiedDateFilter {
+  /// Dates between which the SaaS product was last modified.
+  final SaaSProductLastModifiedDateFilterDateRange? dateRange;
 
-  final String value;
-
-  const SaaSProductVisibilityString._(this.value);
-
-  static const values = [limited, public, restricted, draft];
-
-  static SaaSProductVisibilityString fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SaaSProductVisibilityString._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SaaSProductVisibilityString && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains two attributes, <code>SortBy</code> and
-/// <code>SortOrder</code>.
-class Sort {
-  /// For <code>ListEntities</code>, supported attributes include
-  /// <code>LastModifiedDate</code> (default) and <code>EntityId</code>. In
-  /// addition to <code>LastModifiedDate</code> and <code>EntityId</code>, each
-  /// <code>EntityType</code> might support additional fields.
-  ///
-  /// For <code>ListChangeSets</code>, supported attributes include
-  /// <code>StartTime</code> and <code>EndTime</code>.
-  final String? sortBy;
-
-  /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
-  /// The default value is <code>DESCENDING</code>.
-  final SortOrder? sortOrder;
-
-  Sort({
-    this.sortBy,
-    this.sortOrder,
+  SaaSProductLastModifiedDateFilter({
+    this.dateRange,
   });
 
   Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
+    final dateRange = this.dateRange;
     return {
-      if (sortBy != null) 'SortBy': sortBy,
-      if (sortOrder != null) 'SortOrder': sortOrder.value,
+      if (dateRange != null) 'DateRange': dateRange,
     };
   }
 }
 
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
+/// Object that contains date range of the last modified date to be filtered on.
+/// You can optionally provide a <code>BeforeValue</code> and/or
+/// <code>AfterValue</code>. Both are inclusive.
+class SaaSProductLastModifiedDateFilterDateRange {
+  /// Date after which the SaaS product was last modified.
+  final String? afterValue;
 
-  final String value;
+  /// Date before which the SaaS product was last modified.
+  final String? beforeValue;
 
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartChangeSetResponse {
-  /// The ARN associated to the unique identifier generated for the request.
-  final String? changeSetArn;
-
-  /// Unique identifier generated for the request.
-  final String? changeSetId;
-
-  StartChangeSetResponse({
-    this.changeSetArn,
-    this.changeSetId,
+  SaaSProductLastModifiedDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
   });
 
-  factory StartChangeSetResponse.fromJson(Map<String, dynamic> json) {
-    return StartChangeSetResponse(
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// Object that allows filtering on entity id of a data product.
+class DataProductEntityIdFilter {
+  /// A string array of unique entity id values to be filtered on.
+  final List<String>? valueList;
+
+  DataProductEntityIdFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// Object that allows filtering on product title.
+class DataProductTitleFilter {
+  /// A string array of unique product title values to be filtered on.
+  final List<String>? valueList;
+
+  /// A string that will be the <code>wildCard</code> input for product tile
+  /// filter. It matches the provided value as a substring in the actual value.
+  final String? wildCardValue;
+
+  DataProductTitleFilter({
+    this.valueList,
+    this.wildCardValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    final wildCardValue = this.wildCardValue;
+    return {
+      if (valueList != null) 'ValueList': valueList,
+      if (wildCardValue != null) 'WildCardValue': wildCardValue,
+    };
+  }
+}
+
+/// Object that allows filtering on the visibility of the product in the AWS
+/// Marketplace.
+class DataProductVisibilityFilter {
+  /// A string array of unique visibility values to be filtered on.
+  final List<DataProductVisibilityString>? valueList;
+
+  DataProductVisibilityFilter({
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final valueList = this.valueList;
+    return {
+      if (valueList != null)
+        'ValueList': valueList.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Object that allows filtering based on the last modified date of data
+/// products.
+class DataProductLastModifiedDateFilter {
+  /// Dates between which the data product was last modified.
+  final DataProductLastModifiedDateFilterDateRange? dateRange;
+
+  DataProductLastModifiedDateFilter({
+    this.dateRange,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dateRange = this.dateRange;
+    return {
+      if (dateRange != null) 'DateRange': dateRange,
+    };
+  }
+}
+
+/// Object that contains date range of the last modified date to be filtered on.
+/// You can optionally provide a <code>BeforeValue</code> and/or
+/// <code>AfterValue</code>. Both are inclusive.
+class DataProductLastModifiedDateFilterDateRange {
+  /// Date after which the data product was last modified.
+  final String? afterValue;
+
+  /// Date before which the data product was last modified.
+  final String? beforeValue;
+
+  DataProductLastModifiedDateFilterDateRange({
+    this.afterValue,
+    this.beforeValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final afterValue = this.afterValue;
+    final beforeValue = this.beforeValue;
+    return {
+      if (afterValue != null) 'AfterValue': afterValue,
+      if (beforeValue != null) 'BeforeValue': beforeValue,
+    };
+  }
+}
+
+/// A filter object, used to optionally filter results from calls to the
+/// <code>ListEntities</code> and <code>ListChangeSets</code> actions.
+class Filter {
+  /// For <code>ListEntities</code>, the supported value for this is an
+  /// <code>EntityId</code>.
+  ///
+  /// For <code>ListChangeSets</code>, the supported values are as follows:
+  final String? name;
+
+  /// <code>ListEntities</code> - This is a list of unique <code>EntityId</code>s.
+  ///
+  /// <code>ListChangeSets</code> - The supported filter names and associated
+  /// <code>ValueList</code>s is as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ChangeSetName</code> - The supported <code>ValueList</code> is a list
+  /// of non-unique <code>ChangeSetName</code>s. These are defined when you call
+  /// the <code>StartChangeSet</code> action.
+  /// </li>
+  /// <li>
+  /// <code>Status</code> - The supported <code>ValueList</code> is a list of
+  /// statuses for all change set requests.
+  /// </li>
+  /// <li>
+  /// <code>EntityId</code> - The supported <code>ValueList</code> is a list of
+  /// unique <code>EntityId</code>s.
+  /// </li>
+  /// <li>
+  /// <code>BeforeStartTime</code> - The supported <code>ValueList</code> is a
+  /// list of all change sets that started before the filter value.
+  /// </li>
+  /// <li>
+  /// <code>AfterStartTime</code> - The supported <code>ValueList</code> is a list
+  /// of all change sets that started after the filter value.
+  /// </li>
+  /// <li>
+  /// <code>BeforeEndTime</code> - The supported <code>ValueList</code> is a list
+  /// of all change sets that ended before the filter value.
+  /// </li>
+  /// <li>
+  /// <code>AfterEndTime</code> - The supported <code>ValueList</code> is a list
+  /// of all change sets that ended after the filter value.
+  /// </li>
+  /// </ul>
+  final List<String>? valueList;
+
+  Filter({
+    this.name,
+    this.valueList,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final valueList = this.valueList;
+    return {
+      if (name != null) 'Name': name,
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
+}
+
+/// A summary of a change set returned in a list of change sets when the
+/// <code>ListChangeSets</code> action is called.
+class ChangeSetSummaryListItem {
+  /// The ARN associated with the unique identifier for the change set referenced
+  /// in this request.
+  final String? changeSetArn;
+
+  /// The unique identifier for a change set.
+  final String? changeSetId;
+
+  /// The non-unique name for the change set.
+  final String? changeSetName;
+
+  /// The time, in ISO 8601 format (2018-02-27T13:45:22Z), when the change set was
+  /// finished.
+  final String? endTime;
+
+  /// This object is a list of entity IDs (string) that are a part of a change
+  /// set. The entity ID list is a maximum of 20 entities. It must contain at
+  /// least one entity.
+  final List<String>? entityIdList;
+
+  /// Returned if the change set is in <code>FAILED</code> status. Can be either
+  /// <code>CLIENT_ERROR</code>, which means that there are issues with the
+  /// request (see the <code>ErrorDetailList</code> of
+  /// <code>DescribeChangeSet</code>), or <code>SERVER_FAULT</code>, which means
+  /// that there is a problem in the system, and you should retry your request.
+  final FailureCode? failureCode;
+
+  /// The time, in ISO 8601 format (2018-02-27T13:45:22Z), when the change set was
+  /// started.
+  final String? startTime;
+
+  /// The current status of the change set.
+  final ChangeStatus? status;
+
+  ChangeSetSummaryListItem({
+    this.changeSetArn,
+    this.changeSetId,
+    this.changeSetName,
+    this.endTime,
+    this.entityIdList,
+    this.failureCode,
+    this.startTime,
+    this.status,
+  });
+
+  factory ChangeSetSummaryListItem.fromJson(Map<String, dynamic> json) {
+    return ChangeSetSummaryListItem(
       changeSetArn: json['ChangeSetArn'] as String?,
       changeSetId: json['ChangeSetId'] as String?,
+      changeSetName: json['ChangeSetName'] as String?,
+      endTime: json['EndTime'] as String?,
+      entityIdList: (json['EntityIdList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      failureCode:
+          (json['FailureCode'] as String?)?.let(FailureCode.fromString),
+      startTime: json['StartTime'] as String?,
+      status: (json['Status'] as String?)?.let(ChangeStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final changeSetArn = this.changeSetArn;
     final changeSetId = this.changeSetId;
+    final changeSetName = this.changeSetName;
+    final endTime = this.endTime;
+    final entityIdList = this.entityIdList;
+    final failureCode = this.failureCode;
+    final startTime = this.startTime;
+    final status = this.status;
     return {
       if (changeSetArn != null) 'ChangeSetArn': changeSetArn,
       if (changeSetId != null) 'ChangeSetId': changeSetId,
+      if (changeSetName != null) 'ChangeSetName': changeSetName,
+      if (endTime != null) 'EndTime': endTime,
+      if (entityIdList != null) 'EntityIdList': entityIdList,
+      if (failureCode != null) 'FailureCode': failureCode.value,
+      if (startTime != null) 'StartTime': startTime,
+      if (status != null) 'Status': status.value,
     };
   }
 }
 
-/// A list of objects specifying each key name and value.
-class Tag {
-  /// The key associated with the tag.
-  final String key;
+class ChangeStatus {
+  static const preparing = ChangeStatus._('PREPARING');
+  static const applying = ChangeStatus._('APPLYING');
+  static const succeeded = ChangeStatus._('SUCCEEDED');
+  static const cancelled = ChangeStatus._('CANCELLED');
+  static const failed = ChangeStatus._('FAILED');
 
-  /// The value associated with the tag.
   final String value;
 
-  Tag({
-    required this.key,
-    required this.value,
+  const ChangeStatus._(this.value);
+
+  static const values = [preparing, applying, succeeded, cancelled, failed];
+
+  static ChangeStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChangeStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FailureCode {
+  static const clientError = FailureCode._('CLIENT_ERROR');
+  static const serverFault = FailureCode._('SERVER_FAULT');
+
+  final String value;
+
+  const FailureCode._(this.value);
+
+  static const values = [clientError, serverFault];
+
+  static FailureCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is FailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This object is a container for common summary information about the change.
+/// The summary doesn't contain the whole change structure.
+class ChangeSummary {
+  /// Optional name for the change.
+  final String? changeName;
+
+  /// The type of the change.
+  final String? changeType;
+
+  /// This object contains details specific to the change type of the requested
+  /// change.
+  final String? details;
+
+  /// The JSON value of the details specific to the change type of the requested
+  /// change.
+  ///
+  /// To download the "DetailsDocument" shapes, see the <a
+  /// href="https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-python">Python</a>
+  /// and <a
+  /// href="https://github.com/awslabs/aws-marketplace-catalog-api-shapes-for-java/tree/main">Java</a>
+  /// shapes on GitHub.
+  final Object? detailsDocument;
+
+  /// The entity to be changed.
+  final Entity? entity;
+
+  /// An array of <code>ErrorDetail</code> objects associated with the change.
+  final List<ErrorDetail>? errorDetailList;
+
+  ChangeSummary({
+    this.changeName,
+    this.changeType,
+    this.details,
+    this.detailsDocument,
+    this.entity,
+    this.errorDetailList,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
+  factory ChangeSummary.fromJson(Map<String, dynamic> json) {
+    return ChangeSummary(
+      changeName: json['ChangeName'] as String?,
+      changeType: json['ChangeType'] as String?,
+      details: json['Details'] as String?,
+      detailsDocument: json['DetailsDocument'],
+      entity: json['Entity'] != null
+          ? Entity.fromJson(json['Entity'] as Map<String, dynamic>)
+          : null,
+      errorDetailList: (json['ErrorDetailList'] as List?)
+          ?.nonNulls
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final changeName = this.changeName;
+    final changeType = this.changeType;
+    final details = this.details;
+    final detailsDocument = this.detailsDocument;
+    final entity = this.entity;
+    final errorDetailList = this.errorDetailList;
     return {
-      'Key': key,
-      'Value': value,
+      if (changeName != null) 'ChangeName': changeName,
+      if (changeType != null) 'ChangeType': changeType,
+      if (details != null) 'Details': details,
+      if (detailsDocument != null) 'DetailsDocument': detailsDocument,
+      if (entity != null) 'Entity': entity,
+      if (errorDetailList != null) 'ErrorDetailList': errorDetailList,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Details about the error.
+class ErrorDetail {
+  /// The error code that identifies the type of error.
+  final String? errorCode;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// The message for the error.
+  final String? errorMessage;
+
+  ErrorDetail({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// An object that contains an error code and error message.
+class BatchDescribeErrorDetail {
+  /// The error code returned.
+  final String? errorCode;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  /// The error message returned.
+  final String? errorMessage;
+
+  BatchDescribeErrorDetail({
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory BatchDescribeErrorDetail.fromJson(Map<String, dynamic> json) {
+    return BatchDescribeErrorDetail(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+/// An object that contains metadata and details about the entity.
+class EntityDetail {
+  /// An object that contains all the details of the entity.
+  final Object? detailsDocument;
+
+  /// The Amazon Resource Name (ARN) of the entity.
+  final String? entityArn;
+
+  /// The ID of the entity, in the format of <code>EntityId@RevisionId</code>.
+  final String? entityIdentifier;
+
+  /// The entity type of the entity, in the format of
+  /// <code>EntityType@Version</code>.
+  final String? entityType;
+
+  /// The last time the entity was modified.
+  final String? lastModifiedDate;
+
+  EntityDetail({
+    this.detailsDocument,
+    this.entityArn,
+    this.entityIdentifier,
+    this.entityType,
+    this.lastModifiedDate,
+  });
+
+  factory EntityDetail.fromJson(Map<String, dynamic> json) {
+    return EntityDetail(
+      detailsDocument: json['DetailsDocument'],
+      entityArn: json['EntityArn'] as String?,
+      entityIdentifier: json['EntityIdentifier'] as String?,
+      entityType: json['EntityType'] as String?,
+      lastModifiedDate: json['LastModifiedDate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detailsDocument = this.detailsDocument;
+    final entityArn = this.entityArn;
+    final entityIdentifier = this.entityIdentifier;
+    final entityType = this.entityType;
+    final lastModifiedDate = this.lastModifiedDate;
+    return {
+      if (detailsDocument != null) 'DetailsDocument': detailsDocument,
+      if (entityArn != null) 'EntityArn': entityArn,
+      if (entityIdentifier != null) 'EntityIdentifier': entityIdentifier,
+      if (entityType != null) 'EntityType': entityType,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+    };
+  }
+}
+
+/// An object that contains entity ID and the catalog in which the entity is
+/// present.
+class EntityRequest {
+  /// The name of the catalog the entity is present in. The only value at this
+  /// time is <code>AWSMarketplace</code>.
+  final String catalog;
+
+  /// The ID of the entity.
+  final String entityId;
+
+  EntityRequest({
+    required this.catalog,
+    required this.entityId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final catalog = this.catalog;
+    final entityId = this.entityId;
+    return {
+      'Catalog': catalog,
+      'EntityId': entityId,
+    };
   }
 }
 

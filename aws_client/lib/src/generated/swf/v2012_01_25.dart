@@ -102,8 +102,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain containing the workflow executions to count.
@@ -240,8 +240,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain containing the workflow executions to count.
@@ -338,8 +338,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain that contains the task list.
@@ -403,8 +403,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain that contains the task list.
@@ -480,9 +480,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [TypeNotDeprecatedFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TypeNotDeprecatedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [activityType] :
   /// The activity type to delete.
@@ -556,9 +556,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [TypeNotDeprecatedFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TypeNotDeprecatedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain in which the workflow type is registered.
@@ -629,9 +629,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [TypeDeprecatedFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TypeDeprecatedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [activityType] :
   /// The activity type to deprecate.
@@ -696,9 +696,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [DomainDeprecatedFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [name] :
   /// The name of the domain to deprecate.
@@ -768,9 +768,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [TypeDeprecatedFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TypeDeprecatedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain in which the workflow type is registered.
@@ -840,8 +840,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [activityType] :
   /// The activity type to get information about. Activity types are identified
@@ -903,8 +903,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [name] :
   /// The name of the domain to describe.
@@ -962,8 +962,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain containing the workflow execution.
@@ -1035,8 +1035,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain in which this workflow type is registered.
@@ -1100,8 +1100,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain containing the workflow execution.
@@ -1317,8 +1317,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain that contains the workflow executions to list.
@@ -1588,8 +1588,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain that contains the workflow executions to list.
@@ -1687,9 +1687,9 @@ class Swf {
 
   /// List tags for a given domain.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [LimitExceededFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
@@ -1857,9 +1857,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [OperationNotPermittedFault].
   /// May throw [LimitExceededFault].
+  /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain that contains the task lists being polled.
@@ -1958,9 +1958,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [OperationNotPermittedFault].
   /// May throw [LimitExceededFault].
+  /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain containing the task lists to poll.
@@ -2117,8 +2117,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [taskToken] :
   /// The <code>taskToken</code> of the <a>ActivityTask</a>.
@@ -2202,10 +2202,10 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [TypeAlreadyExistsFault].
   /// May throw [LimitExceededFault].
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TypeAlreadyExistsFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain in which this activity is to be registered.
@@ -2481,10 +2481,10 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [TypeAlreadyExistsFault].
   /// May throw [LimitExceededFault].
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TypeAlreadyExistsFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain in which to register the workflow type.
@@ -2674,8 +2674,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain containing the workflow execution to cancel.
@@ -2755,8 +2755,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [taskToken] :
   /// The <code>taskToken</code> of the <a>ActivityTask</a>.
@@ -2836,8 +2836,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [taskToken] :
   /// The <code>taskToken</code> of the <a>ActivityTask</a>.
@@ -2913,8 +2913,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [taskToken] :
   /// The <code>taskToken</code> of the <a>ActivityTask</a>.
@@ -2975,8 +2975,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [taskToken] :
   /// The <code>taskToken</code> from the <a>DecisionTask</a>.
@@ -3080,8 +3080,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain containing the workflow execution to signal.
@@ -3193,12 +3193,12 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [TypeDeprecatedFault].
-  /// May throw [WorkflowExecutionAlreadyStartedFault].
+  /// May throw [DefaultUndefinedFault].
   /// May throw [LimitExceededFault].
   /// May throw [OperationNotPermittedFault].
-  /// May throw [DefaultUndefinedFault].
+  /// May throw [TypeDeprecatedFault].
+  /// May throw [UnknownResourceFault].
+  /// May throw [WorkflowExecutionAlreadyStartedFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain in which the workflow execution is created.
@@ -3388,10 +3388,10 @@ class Swf {
   /// Amazon SWF supports a maximum of 50 tags per resource.
   /// </note>
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [TooManyTagsFault].
   /// May throw [LimitExceededFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TooManyTagsFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
@@ -3466,8 +3466,8 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The domain of the workflow execution to terminate.
@@ -3587,9 +3587,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [TypeAlreadyExistsFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TypeAlreadyExistsFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [activityType] :
   /// The activity type to undeprecate.
@@ -3651,9 +3651,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [DomainAlreadyExistsFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [name] :
   /// The name of the domain of the deprecated workflow type.
@@ -3721,9 +3721,9 @@ class Swf {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   ///
-  /// May throw [UnknownResourceFault].
-  /// May throw [TypeAlreadyExistsFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [TypeAlreadyExistsFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [domain] :
   /// The name of the domain of the deprecated workflow type.
@@ -3753,9 +3753,9 @@ class Swf {
 
   /// Remove a tag from a Amazon SWF domain.
   ///
-  /// May throw [UnknownResourceFault].
   /// May throw [LimitExceededFault].
   /// May throw [OperationNotPermittedFault].
+  /// May throw [UnknownResourceFault].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
@@ -3781,6 +3781,495 @@ class Swf {
         'tagKeys': tagKeys,
       },
     );
+  }
+}
+
+/// Contains the count of workflow executions returned from
+/// <a>CountOpenWorkflowExecutions</a> or <a>CountClosedWorkflowExecutions</a>
+class WorkflowExecutionCount {
+  /// The number of workflow executions.
+  final int count;
+
+  /// If set to true, indicates that the actual count was more than the maximum
+  /// supported by this API and the count returned is the truncated value.
+  final bool? truncated;
+
+  WorkflowExecutionCount({
+    required this.count,
+    this.truncated,
+  });
+
+  factory WorkflowExecutionCount.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionCount(
+      count: (json['count'] as int?) ?? 0,
+      truncated: json['truncated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final truncated = this.truncated;
+    return {
+      'count': count,
+      if (truncated != null) 'truncated': truncated,
+    };
+  }
+}
+
+/// Contains the count of tasks in a task list.
+class PendingTaskCount {
+  /// The number of tasks in the task list.
+  final int count;
+
+  /// If set to true, indicates that the actual count was more than the maximum
+  /// supported by this API and the count returned is the truncated value.
+  final bool? truncated;
+
+  PendingTaskCount({
+    required this.count,
+    this.truncated,
+  });
+
+  factory PendingTaskCount.fromJson(Map<String, dynamic> json) {
+    return PendingTaskCount(
+      count: (json['count'] as int?) ?? 0,
+      truncated: json['truncated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final truncated = this.truncated;
+    return {
+      'count': count,
+      if (truncated != null) 'truncated': truncated,
+    };
+  }
+}
+
+/// Detailed information about an activity type.
+class ActivityTypeDetail {
+  /// The configuration settings registered with the activity type.
+  final ActivityTypeConfiguration configuration;
+
+  /// General information about the activity type.
+  ///
+  /// The status of activity type (returned in the ActivityTypeInfo structure) can
+  /// be one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REGISTERED</code> – The type is registered and available. Workers
+  /// supporting this type should be running.
+  /// </li>
+  /// <li>
+  /// <code>DEPRECATED</code> – The type was deprecated using
+  /// <a>DeprecateActivityType</a>, but is still in use. You should keep workers
+  /// supporting this type running. You cannot create new tasks of this type.
+  /// </li>
+  /// </ul>
+  final ActivityTypeInfo typeInfo;
+
+  ActivityTypeDetail({
+    required this.configuration,
+    required this.typeInfo,
+  });
+
+  factory ActivityTypeDetail.fromJson(Map<String, dynamic> json) {
+    return ActivityTypeDetail(
+      configuration: ActivityTypeConfiguration.fromJson(
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      typeInfo: ActivityTypeInfo.fromJson(
+          (json['typeInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final typeInfo = this.typeInfo;
+    return {
+      'configuration': configuration,
+      'typeInfo': typeInfo,
+    };
+  }
+}
+
+/// Contains details of a domain.
+class DomainDetail {
+  /// The domain configuration. Currently, this includes only the domain's
+  /// retention period.
+  final DomainConfiguration configuration;
+
+  /// The basic information about a domain, such as its name, status, and
+  /// description.
+  final DomainInfo domainInfo;
+
+  DomainDetail({
+    required this.configuration,
+    required this.domainInfo,
+  });
+
+  factory DomainDetail.fromJson(Map<String, dynamic> json) {
+    return DomainDetail(
+      configuration: DomainConfiguration.fromJson(
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      domainInfo: DomainInfo.fromJson(
+          (json['domainInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final domainInfo = this.domainInfo;
+    return {
+      'configuration': configuration,
+      'domainInfo': domainInfo,
+    };
+  }
+}
+
+/// Contains details about a workflow execution.
+class WorkflowExecutionDetail {
+  /// The configuration settings for this workflow execution including timeout
+  /// values, tasklist etc.
+  final WorkflowExecutionConfiguration executionConfiguration;
+
+  /// Information about the workflow execution.
+  final WorkflowExecutionInfo executionInfo;
+
+  /// The number of tasks for this workflow execution. This includes open and
+  /// closed tasks of all types.
+  final WorkflowExecutionOpenCounts openCounts;
+
+  /// The time when the last activity task was scheduled for this workflow
+  /// execution. You can use this information to determine if the workflow has not
+  /// made progress for an unusually long period of time and might require a
+  /// corrective action.
+  final DateTime? latestActivityTaskTimestamp;
+
+  /// The latest executionContext provided by the decider for this workflow
+  /// execution. A decider can provide an executionContext (a free-form string)
+  /// when closing a decision task using <a>RespondDecisionTaskCompleted</a>.
+  final String? latestExecutionContext;
+
+  WorkflowExecutionDetail({
+    required this.executionConfiguration,
+    required this.executionInfo,
+    required this.openCounts,
+    this.latestActivityTaskTimestamp,
+    this.latestExecutionContext,
+  });
+
+  factory WorkflowExecutionDetail.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionDetail(
+      executionConfiguration: WorkflowExecutionConfiguration.fromJson(
+          (json['executionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      executionInfo: WorkflowExecutionInfo.fromJson(
+          (json['executionInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      openCounts: WorkflowExecutionOpenCounts.fromJson(
+          (json['openCounts'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      latestActivityTaskTimestamp:
+          timeStampFromJson(json['latestActivityTaskTimestamp']),
+      latestExecutionContext: json['latestExecutionContext'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionConfiguration = this.executionConfiguration;
+    final executionInfo = this.executionInfo;
+    final openCounts = this.openCounts;
+    final latestActivityTaskTimestamp = this.latestActivityTaskTimestamp;
+    final latestExecutionContext = this.latestExecutionContext;
+    return {
+      'executionConfiguration': executionConfiguration,
+      'executionInfo': executionInfo,
+      'openCounts': openCounts,
+      if (latestActivityTaskTimestamp != null)
+        'latestActivityTaskTimestamp':
+            unixTimestampToJson(latestActivityTaskTimestamp),
+      if (latestExecutionContext != null)
+        'latestExecutionContext': latestExecutionContext,
+    };
+  }
+}
+
+/// Contains details about a workflow type.
+class WorkflowTypeDetail {
+  /// Configuration settings of the workflow type registered through
+  /// <a>RegisterWorkflowType</a>
+  final WorkflowTypeConfiguration configuration;
+
+  /// General information about the workflow type.
+  ///
+  /// The status of the workflow type (returned in the WorkflowTypeInfo structure)
+  /// can be one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REGISTERED</code> – The type is registered and available. Workers
+  /// supporting this type should be running.
+  /// </li>
+  /// <li>
+  /// <code>DEPRECATED</code> – The type was deprecated using
+  /// <a>DeprecateWorkflowType</a>, but is still in use. You should keep workers
+  /// supporting this type running. You cannot create new workflow executions of
+  /// this type.
+  /// </li>
+  /// </ul>
+  final WorkflowTypeInfo typeInfo;
+
+  WorkflowTypeDetail({
+    required this.configuration,
+    required this.typeInfo,
+  });
+
+  factory WorkflowTypeDetail.fromJson(Map<String, dynamic> json) {
+    return WorkflowTypeDetail(
+      configuration: WorkflowTypeConfiguration.fromJson(
+          (json['configuration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      typeInfo: WorkflowTypeInfo.fromJson(
+          (json['typeInfo'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final typeInfo = this.typeInfo;
+    return {
+      'configuration': configuration,
+      'typeInfo': typeInfo,
+    };
+  }
+}
+
+/// Paginated representation of a workflow history for a workflow execution.
+/// This is the up to date, complete and authoritative record of the events
+/// related to all tasks and events in the life of the workflow execution.
+class History {
+  /// The list of history events.
+  final List<HistoryEvent> events;
+
+  /// If a <code>NextPageToken</code> was returned by a previous call, there are
+  /// more results available. To retrieve the next page of results, make the call
+  /// again using the returned token in <code>nextPageToken</code>. Keep all other
+  /// arguments unchanged.
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  final String? nextPageToken;
+
+  History({
+    required this.events,
+    this.nextPageToken,
+  });
+
+  factory History.fromJson(Map<String, dynamic> json) {
+    return History(
+      events: ((json['events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'events': events,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
+}
+
+/// Contains a paginated list of activity type information structures.
+class ActivityTypeInfos {
+  /// List of activity type information.
+  final List<ActivityTypeInfo> typeInfos;
+
+  /// If a <code>NextPageToken</code> was returned by a previous call, there are
+  /// more results available. To retrieve the next page of results, make the call
+  /// again using the returned token in <code>nextPageToken</code>. Keep all other
+  /// arguments unchanged.
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  final String? nextPageToken;
+
+  ActivityTypeInfos({
+    required this.typeInfos,
+    this.nextPageToken,
+  });
+
+  factory ActivityTypeInfos.fromJson(Map<String, dynamic> json) {
+    return ActivityTypeInfos(
+      typeInfos: ((json['typeInfos'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ActivityTypeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final typeInfos = this.typeInfos;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'typeInfos': typeInfos,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
+}
+
+/// Contains a paginated list of information about workflow executions.
+class WorkflowExecutionInfos {
+  /// The list of workflow information structures.
+  final List<WorkflowExecutionInfo> executionInfos;
+
+  /// If a <code>NextPageToken</code> was returned by a previous call, there are
+  /// more results available. To retrieve the next page of results, make the call
+  /// again using the returned token in <code>nextPageToken</code>. Keep all other
+  /// arguments unchanged.
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  final String? nextPageToken;
+
+  WorkflowExecutionInfos({
+    required this.executionInfos,
+    this.nextPageToken,
+  });
+
+  factory WorkflowExecutionInfos.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionInfos(
+      executionInfos: ((json['executionInfos'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => WorkflowExecutionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionInfos = this.executionInfos;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'executionInfos': executionInfos,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
+}
+
+/// Contains a paginated collection of DomainInfo structures.
+class DomainInfos {
+  /// A list of DomainInfo structures.
+  final List<DomainInfo> domainInfos;
+
+  /// If a <code>NextPageToken</code> was returned by a previous call, there are
+  /// more results available. To retrieve the next page of results, make the call
+  /// again using the returned token in <code>nextPageToken</code>. Keep all other
+  /// arguments unchanged.
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  final String? nextPageToken;
+
+  DomainInfos({
+    required this.domainInfos,
+    this.nextPageToken,
+  });
+
+  factory DomainInfos.fromJson(Map<String, dynamic> json) {
+    return DomainInfos(
+      domainInfos: ((json['domainInfos'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainInfos = this.domainInfos;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'domainInfos': domainInfos,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
+}
+
+class ListTagsForResourceOutput {
+  /// An array of tags associated with the domain.
+  final List<ResourceTag>? tags;
+
+  ListTagsForResourceOutput({
+    this.tags,
+  });
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Contains a paginated list of information structures about workflow types.
+class WorkflowTypeInfos {
+  /// The list of workflow type information.
+  final List<WorkflowTypeInfo> typeInfos;
+
+  /// If a <code>NextPageToken</code> was returned by a previous call, there are
+  /// more results available. To retrieve the next page of results, make the call
+  /// again using the returned token in <code>nextPageToken</code>. Keep all other
+  /// arguments unchanged.
+  ///
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  final String? nextPageToken;
+
+  WorkflowTypeInfos({
+    required this.typeInfos,
+    this.nextPageToken,
+  });
+
+  factory WorkflowTypeInfos.fromJson(Map<String, dynamic> json) {
+    return WorkflowTypeInfos(
+      typeInfos: ((json['typeInfos'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => WorkflowTypeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final typeInfos = this.typeInfos;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'typeInfos': typeInfos,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
   }
 }
 
@@ -3851,342 +4340,89 @@ class ActivityTask {
   }
 }
 
-/// Provides the details of the <code>ActivityTaskCancelRequested</code> event.
-class ActivityTaskCancelRequestedEventAttributes {
-  /// The unique ID of the task.
-  final String activityId;
+/// A structure that represents a decision task. Decision tasks are sent to
+/// deciders in order for them to make decisions.
+class DecisionTask {
+  /// A paginated list of history events of the workflow execution. The decider
+  /// uses this during the processing of the decision task.
+  final List<HistoryEvent> events;
 
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>RequestCancelActivityTask</code>
-  /// decision for this cancellation request. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int decisionTaskCompletedEventId;
-
-  ActivityTaskCancelRequestedEventAttributes({
-    required this.activityId,
-    required this.decisionTaskCompletedEventId,
-  });
-
-  factory ActivityTaskCancelRequestedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ActivityTaskCancelRequestedEventAttributes(
-      activityId: (json['activityId'] as String?) ?? '',
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activityId = this.activityId;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    return {
-      'activityId': activityId,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-    };
-  }
-}
-
-/// Provides the details of the <code>ActivityTaskCanceled</code> event.
-class ActivityTaskCanceledEventAttributes {
-  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
-  /// when this activity task was scheduled. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int scheduledEventId;
-
-  /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
-  /// activity task was started. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
+  /// The ID of the <code>DecisionTaskStarted</code> event recorded in the
+  /// history.
   final int startedEventId;
 
-  /// Details of the cancellation.
-  final String? details;
+  /// The opaque string used as a handle on the task. This token is used by
+  /// workers to communicate progress and response information back to the system
+  /// about the task.
+  final String taskToken;
 
-  /// If set, contains the ID of the last <code>ActivityTaskCancelRequested</code>
-  /// event recorded for this activity task. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int? latestCancelRequestedEventId;
+  /// The workflow execution for which this decision task was created.
+  final WorkflowExecution workflowExecution;
 
-  ActivityTaskCanceledEventAttributes({
-    required this.scheduledEventId,
-    required this.startedEventId,
-    this.details,
-    this.latestCancelRequestedEventId,
-  });
+  /// The type of the workflow execution for which this decision task was created.
+  final WorkflowType workflowType;
 
-  factory ActivityTaskCanceledEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ActivityTaskCanceledEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      details: json['details'] as String?,
-      latestCancelRequestedEventId:
-          json['latestCancelRequestedEventId'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    final startedEventId = this.startedEventId;
-    final details = this.details;
-    final latestCancelRequestedEventId = this.latestCancelRequestedEventId;
-    return {
-      'scheduledEventId': scheduledEventId,
-      'startedEventId': startedEventId,
-      if (details != null) 'details': details,
-      if (latestCancelRequestedEventId != null)
-        'latestCancelRequestedEventId': latestCancelRequestedEventId,
-    };
-  }
-}
-
-/// Provides the details of the <code>ActivityTaskCompleted</code> event.
-class ActivityTaskCompletedEventAttributes {
-  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
-  /// when this activity task was scheduled. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int scheduledEventId;
-
-  /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
-  /// activity task was started. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int startedEventId;
-
-  /// The results of the activity task.
-  final String? result;
-
-  ActivityTaskCompletedEventAttributes({
-    required this.scheduledEventId,
-    required this.startedEventId,
-    this.result,
-  });
-
-  factory ActivityTaskCompletedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ActivityTaskCompletedEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      result: json['result'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    final startedEventId = this.startedEventId;
-    final result = this.result;
-    return {
-      'scheduledEventId': scheduledEventId,
-      'startedEventId': startedEventId,
-      if (result != null) 'result': result,
-    };
-  }
-}
-
-/// Provides the details of the <code>ActivityTaskFailed</code> event.
-class ActivityTaskFailedEventAttributes {
-  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
-  /// when this activity task was scheduled. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int scheduledEventId;
-
-  /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
-  /// activity task was started. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int startedEventId;
-
-  /// The details of the failure.
-  final String? details;
-
-  /// The reason provided for the failure.
-  final String? reason;
-
-  ActivityTaskFailedEventAttributes({
-    required this.scheduledEventId,
-    required this.startedEventId,
-    this.details,
-    this.reason,
-  });
-
-  factory ActivityTaskFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ActivityTaskFailedEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      details: json['details'] as String?,
-      reason: json['reason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    final startedEventId = this.startedEventId;
-    final details = this.details;
-    final reason = this.reason;
-    return {
-      'scheduledEventId': scheduledEventId,
-      'startedEventId': startedEventId,
-      if (details != null) 'details': details,
-      if (reason != null) 'reason': reason,
-    };
-  }
-}
-
-/// Provides the details of the <code>ActivityTaskScheduled</code> event.
-class ActivityTaskScheduledEventAttributes {
-  /// The unique ID of the activity task.
-  final String activityId;
-
-  /// The type of the activity task.
-  final ActivityType activityType;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision that resulted in the scheduling of this activity task. This
-  /// information can be useful for diagnosing problems by tracing back the chain
-  /// of events leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  /// The task list in which the activity task has been scheduled.
-  final TaskList taskList;
-
-  /// Data attached to the event that can be used by the decider in subsequent
-  /// workflow tasks. This data isn't sent to the activity.
-  final String? control;
-
-  /// The maximum time before which the worker processing this task must report
-  /// progress by calling <a>RecordActivityTaskHeartbeat</a>. If the timeout is
-  /// exceeded, the activity task is automatically timed out. If the worker
-  /// subsequently attempts to record a heartbeat or return a result, it is
-  /// ignored.
-  final String? heartbeatTimeout;
-
-  /// The input provided to the activity task.
-  final String? input;
-
-  /// The maximum amount of time for this activity task.
-  final String? scheduleToCloseTimeout;
-
-  /// The maximum amount of time the activity task can wait to be assigned to a
-  /// worker.
-  final String? scheduleToStartTimeout;
-
-  /// The maximum amount of time a worker may take to process the activity task.
-  final String? startToCloseTimeout;
-
-  /// The priority to assign to the scheduled activity task. If set, this
-  /// overrides any default priority value that was assigned when the activity
-  /// type was registered.
+  /// If a <code>NextPageToken</code> was returned by a previous call, there are
+  /// more results available. To retrieve the next page of results, make the call
+  /// again using the returned token in <code>nextPageToken</code>. Keep all other
+  /// arguments unchanged.
   ///
-  /// Valid values are integers that range from Java's
-  /// <code>Integer.MIN_VALUE</code> (-2147483648) to
-  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
-  /// priority.
-  ///
-  /// For more information about setting task priority, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
-  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  final String? taskPriority;
+  /// The configured <code>maximumPageSize</code> determines how many results can
+  /// be returned in a single call.
+  final String? nextPageToken;
 
-  ActivityTaskScheduledEventAttributes({
-    required this.activityId,
-    required this.activityType,
-    required this.decisionTaskCompletedEventId,
-    required this.taskList,
-    this.control,
-    this.heartbeatTimeout,
-    this.input,
-    this.scheduleToCloseTimeout,
-    this.scheduleToStartTimeout,
-    this.startToCloseTimeout,
-    this.taskPriority,
+  /// The ID of the DecisionTaskStarted event of the previous decision task of
+  /// this workflow execution that was processed by the decider. This can be used
+  /// to determine the events in the history new since the last decision task
+  /// received by the decider.
+  final int? previousStartedEventId;
+
+  DecisionTask({
+    required this.events,
+    required this.startedEventId,
+    required this.taskToken,
+    required this.workflowExecution,
+    required this.workflowType,
+    this.nextPageToken,
+    this.previousStartedEventId,
   });
 
-  factory ActivityTaskScheduledEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ActivityTaskScheduledEventAttributes(
-      activityId: (json['activityId'] as String?) ?? '',
-      activityType: ActivityType.fromJson(
-          (json['activityType'] as Map<String, dynamic>?) ??
+  factory DecisionTask.fromJson(Map<String, dynamic> json) {
+    return DecisionTask(
+      events: ((json['events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      taskToken: (json['taskToken'] as String?) ?? '',
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      control: json['control'] as String?,
-      heartbeatTimeout: json['heartbeatTimeout'] as String?,
-      input: json['input'] as String?,
-      scheduleToCloseTimeout: json['scheduleToCloseTimeout'] as String?,
-      scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
-      startToCloseTimeout: json['startToCloseTimeout'] as String?,
-      taskPriority: json['taskPriority'] as String?,
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nextPageToken: json['nextPageToken'] as String?,
+      previousStartedEventId: json['previousStartedEventId'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final activityId = this.activityId;
-    final activityType = this.activityType;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final taskList = this.taskList;
-    final control = this.control;
-    final heartbeatTimeout = this.heartbeatTimeout;
-    final input = this.input;
-    final scheduleToCloseTimeout = this.scheduleToCloseTimeout;
-    final scheduleToStartTimeout = this.scheduleToStartTimeout;
-    final startToCloseTimeout = this.startToCloseTimeout;
-    final taskPriority = this.taskPriority;
+    final events = this.events;
+    final startedEventId = this.startedEventId;
+    final taskToken = this.taskToken;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    final nextPageToken = this.nextPageToken;
+    final previousStartedEventId = this.previousStartedEventId;
     return {
-      'activityId': activityId,
-      'activityType': activityType,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'taskList': taskList,
-      if (control != null) 'control': control,
-      if (heartbeatTimeout != null) 'heartbeatTimeout': heartbeatTimeout,
-      if (input != null) 'input': input,
-      if (scheduleToCloseTimeout != null)
-        'scheduleToCloseTimeout': scheduleToCloseTimeout,
-      if (scheduleToStartTimeout != null)
-        'scheduleToStartTimeout': scheduleToStartTimeout,
-      if (startToCloseTimeout != null)
-        'startToCloseTimeout': startToCloseTimeout,
-      if (taskPriority != null) 'taskPriority': taskPriority,
-    };
-  }
-}
-
-/// Provides the details of the <code>ActivityTaskStarted</code> event.
-class ActivityTaskStartedEventAttributes {
-  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
-  /// when this activity task was scheduled. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int scheduledEventId;
-
-  /// Identity of the worker that was assigned this task. This aids diagnostics
-  /// when problems arise. The form of this identity is user defined.
-  final String? identity;
-
-  ActivityTaskStartedEventAttributes({
-    required this.scheduledEventId,
-    this.identity,
-  });
-
-  factory ActivityTaskStartedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ActivityTaskStartedEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-      identity: json['identity'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    final identity = this.identity;
-    return {
-      'scheduledEventId': scheduledEventId,
-      if (identity != null) 'identity': identity,
+      'events': events,
+      'startedEventId': startedEventId,
+      'taskToken': taskToken,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+      if (previousStartedEventId != null)
+        'previousStartedEventId': previousStartedEventId,
     };
   }
 }
@@ -4214,88 +4450,67 @@ class ActivityTaskStatus {
   }
 }
 
-/// Provides the details of the <code>ActivityTaskTimedOut</code> event.
-class ActivityTaskTimedOutEventAttributes {
-  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
-  /// when this activity task was scheduled. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int scheduledEventId;
+/// Specifies the <code>runId</code> of a workflow execution.
+class Run {
+  /// The <code>runId</code> of a workflow execution. This ID is generated by the
+  /// service and can be used to uniquely identify the workflow execution within a
+  /// domain.
+  final String? runId;
 
-  /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
-  /// activity task was started. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int startedEventId;
-
-  /// The type of the timeout that caused this event.
-  final ActivityTaskTimeoutType timeoutType;
-
-  /// Contains the content of the <code>details</code> parameter for the last call
-  /// made by the activity to <code>RecordActivityTaskHeartbeat</code>.
-  final String? details;
-
-  ActivityTaskTimedOutEventAttributes({
-    required this.scheduledEventId,
-    required this.startedEventId,
-    required this.timeoutType,
-    this.details,
+  Run({
+    this.runId,
   });
 
-  factory ActivityTaskTimedOutEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ActivityTaskTimedOutEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      timeoutType: ActivityTaskTimeoutType.fromString(
-          (json['timeoutType'] as String?) ?? ''),
-      details: json['details'] as String?,
+  factory Run.fromJson(Map<String, dynamic> json) {
+    return Run(
+      runId: json['runId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    final startedEventId = this.startedEventId;
-    final timeoutType = this.timeoutType;
-    final details = this.details;
+    final runId = this.runId;
     return {
-      'scheduledEventId': scheduledEventId,
-      'startedEventId': startedEventId,
-      'timeoutType': timeoutType.value,
-      if (details != null) 'details': details,
+      if (runId != null) 'runId': runId,
     };
   }
 }
 
-class ActivityTaskTimeoutType {
-  static const startToClose = ActivityTaskTimeoutType._('START_TO_CLOSE');
-  static const scheduleToStart = ActivityTaskTimeoutType._('SCHEDULE_TO_START');
-  static const scheduleToClose = ActivityTaskTimeoutType._('SCHEDULE_TO_CLOSE');
-  static const heartbeat = ActivityTaskTimeoutType._('HEARTBEAT');
+/// Represents a workflow type.
+class WorkflowType {
+  /// The name of the workflow type.
+  /// <note>
+  /// The combination of workflow type name and version must be unique with in a
+  /// domain.
+  /// </note>
+  final String name;
 
-  final String value;
+  /// The version of the workflow type.
+  /// <note>
+  /// The combination of workflow type name and version must be unique with in a
+  /// domain.
+  /// </note>
+  final String version;
 
-  const ActivityTaskTimeoutType._(this.value);
+  WorkflowType({
+    required this.name,
+    required this.version,
+  });
 
-  static const values = [
-    startToClose,
-    scheduleToStart,
-    scheduleToClose,
-    heartbeat
-  ];
+  factory WorkflowType.fromJson(Map<String, dynamic> json) {
+    return WorkflowType(
+      name: (json['name'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
+    );
+  }
 
-  static ActivityTaskTimeoutType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ActivityTaskTimeoutType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ActivityTaskTimeoutType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      'name': name,
+      'version': version,
+    };
+  }
 }
 
 /// Represents an activity type.
@@ -4336,504 +4551,6 @@ class ActivityType {
   }
 }
 
-/// Configuration settings registered with the activity type.
-class ActivityTypeConfiguration {
-  /// The default maximum time, in seconds, before which a worker processing a
-  /// task must report progress by calling <a>RecordActivityTaskHeartbeat</a>.
-  ///
-  /// You can specify this value only when <i>registering</i> an activity type.
-  /// The registered default value can be overridden when you schedule a task
-  /// through the <code>ScheduleActivityTask</code> <a>Decision</a>. If the
-  /// activity worker subsequently attempts to record a heartbeat or returns a
-  /// result, the activity worker receives an <code>UnknownResource</code> fault.
-  /// In this case, Amazon SWF no longer considers the activity task to be valid;
-  /// the activity worker should clean up the activity task.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? defaultTaskHeartbeatTimeout;
-
-  /// The default task list specified for this activity type at registration. This
-  /// default is used if a task list isn't provided when a task is scheduled
-  /// through the <code>ScheduleActivityTask</code> <a>Decision</a>. You can
-  /// override the default registered task list when scheduling a task through the
-  /// <code>ScheduleActivityTask</code> <a>Decision</a>.
-  final TaskList? defaultTaskList;
-
-  /// The default task priority for tasks of this activity type, specified at
-  /// registration. If not set, then <code>0</code> is used as the default
-  /// priority. This default can be overridden when scheduling an activity task.
-  ///
-  /// Valid values are integers that range from Java's
-  /// <code>Integer.MIN_VALUE</code> (-2147483648) to
-  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
-  /// priority.
-  ///
-  /// For more information about setting task priority, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
-  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  final String? defaultTaskPriority;
-
-  /// The default maximum duration, specified when registering the activity type,
-  /// for tasks of this activity type. You can override this default when
-  /// scheduling a task through the <code>ScheduleActivityTask</code>
-  /// <a>Decision</a>.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? defaultTaskScheduleToCloseTimeout;
-
-  /// The default maximum duration, specified when registering the activity type,
-  /// that a task of an activity type can wait before being assigned to a worker.
-  /// You can override this default when scheduling a task through the
-  /// <code>ScheduleActivityTask</code> <a>Decision</a>.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? defaultTaskScheduleToStartTimeout;
-
-  /// The default maximum duration for tasks of an activity type specified when
-  /// registering the activity type. You can override this default when scheduling
-  /// a task through the <code>ScheduleActivityTask</code> <a>Decision</a>.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? defaultTaskStartToCloseTimeout;
-
-  ActivityTypeConfiguration({
-    this.defaultTaskHeartbeatTimeout,
-    this.defaultTaskList,
-    this.defaultTaskPriority,
-    this.defaultTaskScheduleToCloseTimeout,
-    this.defaultTaskScheduleToStartTimeout,
-    this.defaultTaskStartToCloseTimeout,
-  });
-
-  factory ActivityTypeConfiguration.fromJson(Map<String, dynamic> json) {
-    return ActivityTypeConfiguration(
-      defaultTaskHeartbeatTimeout:
-          json['defaultTaskHeartbeatTimeout'] as String?,
-      defaultTaskList: json['defaultTaskList'] != null
-          ? TaskList.fromJson(json['defaultTaskList'] as Map<String, dynamic>)
-          : null,
-      defaultTaskPriority: json['defaultTaskPriority'] as String?,
-      defaultTaskScheduleToCloseTimeout:
-          json['defaultTaskScheduleToCloseTimeout'] as String?,
-      defaultTaskScheduleToStartTimeout:
-          json['defaultTaskScheduleToStartTimeout'] as String?,
-      defaultTaskStartToCloseTimeout:
-          json['defaultTaskStartToCloseTimeout'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultTaskHeartbeatTimeout = this.defaultTaskHeartbeatTimeout;
-    final defaultTaskList = this.defaultTaskList;
-    final defaultTaskPriority = this.defaultTaskPriority;
-    final defaultTaskScheduleToCloseTimeout =
-        this.defaultTaskScheduleToCloseTimeout;
-    final defaultTaskScheduleToStartTimeout =
-        this.defaultTaskScheduleToStartTimeout;
-    final defaultTaskStartToCloseTimeout = this.defaultTaskStartToCloseTimeout;
-    return {
-      if (defaultTaskHeartbeatTimeout != null)
-        'defaultTaskHeartbeatTimeout': defaultTaskHeartbeatTimeout,
-      if (defaultTaskList != null) 'defaultTaskList': defaultTaskList,
-      if (defaultTaskPriority != null)
-        'defaultTaskPriority': defaultTaskPriority,
-      if (defaultTaskScheduleToCloseTimeout != null)
-        'defaultTaskScheduleToCloseTimeout': defaultTaskScheduleToCloseTimeout,
-      if (defaultTaskScheduleToStartTimeout != null)
-        'defaultTaskScheduleToStartTimeout': defaultTaskScheduleToStartTimeout,
-      if (defaultTaskStartToCloseTimeout != null)
-        'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
-    };
-  }
-}
-
-/// Detailed information about an activity type.
-class ActivityTypeDetail {
-  /// The configuration settings registered with the activity type.
-  final ActivityTypeConfiguration configuration;
-
-  /// General information about the activity type.
-  ///
-  /// The status of activity type (returned in the ActivityTypeInfo structure) can
-  /// be one of the following.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>REGISTERED</code> – The type is registered and available. Workers
-  /// supporting this type should be running.
-  /// </li>
-  /// <li>
-  /// <code>DEPRECATED</code> – The type was deprecated using
-  /// <a>DeprecateActivityType</a>, but is still in use. You should keep workers
-  /// supporting this type running. You cannot create new tasks of this type.
-  /// </li>
-  /// </ul>
-  final ActivityTypeInfo typeInfo;
-
-  ActivityTypeDetail({
-    required this.configuration,
-    required this.typeInfo,
-  });
-
-  factory ActivityTypeDetail.fromJson(Map<String, dynamic> json) {
-    return ActivityTypeDetail(
-      configuration: ActivityTypeConfiguration.fromJson(
-          (json['configuration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      typeInfo: ActivityTypeInfo.fromJson(
-          (json['typeInfo'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configuration = this.configuration;
-    final typeInfo = this.typeInfo;
-    return {
-      'configuration': configuration,
-      'typeInfo': typeInfo,
-    };
-  }
-}
-
-/// Detailed information about an activity type.
-class ActivityTypeInfo {
-  /// The <a>ActivityType</a> type structure representing the activity type.
-  final ActivityType activityType;
-
-  /// The date and time this activity type was created through
-  /// <a>RegisterActivityType</a>.
-  final DateTime creationDate;
-
-  /// The current status of the activity type.
-  final RegistrationStatus status;
-
-  /// If DEPRECATED, the date and time <a>DeprecateActivityType</a> was called.
-  final DateTime? deprecationDate;
-
-  /// The description of the activity type provided in
-  /// <a>RegisterActivityType</a>.
-  final String? description;
-
-  ActivityTypeInfo({
-    required this.activityType,
-    required this.creationDate,
-    required this.status,
-    this.deprecationDate,
-    this.description,
-  });
-
-  factory ActivityTypeInfo.fromJson(Map<String, dynamic> json) {
-    return ActivityTypeInfo(
-      activityType: ActivityType.fromJson(
-          (json['activityType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
-      deprecationDate: timeStampFromJson(json['deprecationDate']),
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activityType = this.activityType;
-    final creationDate = this.creationDate;
-    final status = this.status;
-    final deprecationDate = this.deprecationDate;
-    final description = this.description;
-    return {
-      'activityType': activityType,
-      'creationDate': unixTimestampToJson(creationDate),
-      'status': status.value,
-      if (deprecationDate != null)
-        'deprecationDate': unixTimestampToJson(deprecationDate),
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-/// Contains a paginated list of activity type information structures.
-class ActivityTypeInfos {
-  /// List of activity type information.
-  final List<ActivityTypeInfo> typeInfos;
-
-  /// If a <code>NextPageToken</code> was returned by a previous call, there are
-  /// more results available. To retrieve the next page of results, make the call
-  /// again using the returned token in <code>nextPageToken</code>. Keep all other
-  /// arguments unchanged.
-  ///
-  /// The configured <code>maximumPageSize</code> determines how many results can
-  /// be returned in a single call.
-  final String? nextPageToken;
-
-  ActivityTypeInfos({
-    required this.typeInfos,
-    this.nextPageToken,
-  });
-
-  factory ActivityTypeInfos.fromJson(Map<String, dynamic> json) {
-    return ActivityTypeInfos(
-      typeInfos: ((json['typeInfos'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ActivityTypeInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextPageToken: json['nextPageToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final typeInfos = this.typeInfos;
-    final nextPageToken = this.nextPageToken;
-    return {
-      'typeInfos': typeInfos,
-      if (nextPageToken != null) 'nextPageToken': nextPageToken,
-    };
-  }
-}
-
-/// Provides the details of the <code>CancelTimer</code> decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// You cannot use an IAM policy to constrain this action's parameters.
-/// </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class CancelTimerDecisionAttributes {
-  /// The unique ID of the timer to cancel.
-  final String timerId;
-
-  CancelTimerDecisionAttributes({
-    required this.timerId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final timerId = this.timerId;
-    return {
-      'timerId': timerId,
-    };
-  }
-}
-
-class CancelTimerFailedCause {
-  static const timerIdUnknown = CancelTimerFailedCause._('TIMER_ID_UNKNOWN');
-  static const operationNotPermitted =
-      CancelTimerFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const CancelTimerFailedCause._(this.value);
-
-  static const values = [timerIdUnknown, operationNotPermitted];
-
-  static CancelTimerFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CancelTimerFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CancelTimerFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>CancelTimerFailed</code> event.
-class CancelTimerFailedEventAttributes {
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final CancelTimerFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>CancelTimer</code> decision to
-  /// cancel this timer. This information can be useful for diagnosing problems by
-  /// tracing back the chain of events leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  /// The timerId provided in the <code>CancelTimer</code> decision that failed.
-  final String timerId;
-
-  CancelTimerFailedEventAttributes({
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-    required this.timerId,
-  });
-
-  factory CancelTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
-    return CancelTimerFailedEventAttributes(
-      cause:
-          CancelTimerFailedCause.fromString((json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      timerId: (json['timerId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final timerId = this.timerId;
-    return {
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'timerId': timerId,
-    };
-  }
-}
-
-/// Provides the details of the <code>CancelWorkflowExecution</code> decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// You cannot use an IAM policy to constrain this action's parameters.
-/// </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class CancelWorkflowExecutionDecisionAttributes {
-  /// Details of the cancellation.
-  final String? details;
-
-  CancelWorkflowExecutionDecisionAttributes({
-    this.details,
-  });
-
-  Map<String, dynamic> toJson() {
-    final details = this.details;
-    return {
-      if (details != null) 'details': details,
-    };
-  }
-}
-
-class CancelWorkflowExecutionFailedCause {
-  static const unhandledDecision =
-      CancelWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
-  static const operationNotPermitted =
-      CancelWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const CancelWorkflowExecutionFailedCause._(this.value);
-
-  static const values = [unhandledDecision, operationNotPermitted];
-
-  static CancelWorkflowExecutionFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CancelWorkflowExecutionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CancelWorkflowExecutionFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>CancelWorkflowExecutionFailed</code>
-/// event.
-class CancelWorkflowExecutionFailedEventAttributes {
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final CancelWorkflowExecutionFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>CancelWorkflowExecution</code>
-  /// decision for this cancellation request. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int decisionTaskCompletedEventId;
-
-  CancelWorkflowExecutionFailedEventAttributes({
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-  });
-
-  factory CancelWorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return CancelWorkflowExecutionFailedEventAttributes(
-      cause: CancelWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    return {
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-    };
-  }
-}
-
 class ChildPolicy {
   static const terminate = ChildPolicy._('TERMINATE');
   static const requestCancel = ChildPolicy._('REQUEST_CANCEL');
@@ -4858,820 +4575,59 @@ class ChildPolicy {
   String toString() => value;
 }
 
-/// Provide details of the <code>ChildWorkflowExecutionCanceled</code> event.
-class ChildWorkflowExecutionCanceledEventAttributes {
-  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> to start this child workflow execution. This information can
-  /// be useful for diagnosing problems by tracing back the chain of events
-  /// leading up to this event.
-  final int initiatedEventId;
-
-  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
-  /// this child workflow execution was started. This information can be useful
-  /// for diagnosing problems by tracing back the chain of events leading up to
-  /// this event.
-  final int startedEventId;
-
-  /// The child workflow execution that was canceled.
-  final WorkflowExecution workflowExecution;
-
-  /// The type of the child workflow execution.
-  final WorkflowType workflowType;
-
-  /// Details of the cancellation (if provided).
-  final String? details;
-
-  ChildWorkflowExecutionCanceledEventAttributes({
-    required this.initiatedEventId,
-    required this.startedEventId,
-    required this.workflowExecution,
-    required this.workflowType,
-    this.details,
-  });
-
-  factory ChildWorkflowExecutionCanceledEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ChildWorkflowExecutionCanceledEventAttributes(
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      details: json['details'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final initiatedEventId = this.initiatedEventId;
-    final startedEventId = this.startedEventId;
-    final workflowExecution = this.workflowExecution;
-    final workflowType = this.workflowType;
-    final details = this.details;
-    return {
-      'initiatedEventId': initiatedEventId,
-      'startedEventId': startedEventId,
-      'workflowExecution': workflowExecution,
-      'workflowType': workflowType,
-      if (details != null) 'details': details,
-    };
-  }
-}
-
-/// Provides the details of the <code>ChildWorkflowExecutionCompleted</code>
-/// event.
-class ChildWorkflowExecutionCompletedEventAttributes {
-  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> to start this child workflow execution. This information can
-  /// be useful for diagnosing problems by tracing back the chain of events
-  /// leading up to this event.
-  final int initiatedEventId;
-
-  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
-  /// this child workflow execution was started. This information can be useful
-  /// for diagnosing problems by tracing back the chain of events leading up to
-  /// this event.
-  final int startedEventId;
-
-  /// The child workflow execution that was completed.
-  final WorkflowExecution workflowExecution;
-
-  /// The type of the child workflow execution.
-  final WorkflowType workflowType;
-
-  /// The result of the child workflow execution.
-  final String? result;
-
-  ChildWorkflowExecutionCompletedEventAttributes({
-    required this.initiatedEventId,
-    required this.startedEventId,
-    required this.workflowExecution,
-    required this.workflowType,
-    this.result,
-  });
-
-  factory ChildWorkflowExecutionCompletedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ChildWorkflowExecutionCompletedEventAttributes(
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      result: json['result'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final initiatedEventId = this.initiatedEventId;
-    final startedEventId = this.startedEventId;
-    final workflowExecution = this.workflowExecution;
-    final workflowType = this.workflowType;
-    final result = this.result;
-    return {
-      'initiatedEventId': initiatedEventId,
-      'startedEventId': startedEventId,
-      'workflowExecution': workflowExecution,
-      'workflowType': workflowType,
-      if (result != null) 'result': result,
-    };
-  }
-}
-
-/// Provides the details of the <code>ChildWorkflowExecutionFailed</code> event.
-class ChildWorkflowExecutionFailedEventAttributes {
-  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> to start this child workflow execution. This information can
-  /// be useful for diagnosing problems by tracing back the chain of events
-  /// leading up to this event.
-  final int initiatedEventId;
-
-  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
-  /// this child workflow execution was started. This information can be useful
-  /// for diagnosing problems by tracing back the chain of events leading up to
-  /// this event.
-  final int startedEventId;
-
-  /// The child workflow execution that failed.
-  final WorkflowExecution workflowExecution;
-
-  /// The type of the child workflow execution.
-  final WorkflowType workflowType;
-
-  /// The details of the failure (if provided).
-  final String? details;
-
-  /// The reason for the failure (if provided).
-  final String? reason;
-
-  ChildWorkflowExecutionFailedEventAttributes({
-    required this.initiatedEventId,
-    required this.startedEventId,
-    required this.workflowExecution,
-    required this.workflowType,
-    this.details,
-    this.reason,
-  });
-
-  factory ChildWorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ChildWorkflowExecutionFailedEventAttributes(
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      details: json['details'] as String?,
-      reason: json['reason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final initiatedEventId = this.initiatedEventId;
-    final startedEventId = this.startedEventId;
-    final workflowExecution = this.workflowExecution;
-    final workflowType = this.workflowType;
-    final details = this.details;
-    final reason = this.reason;
-    return {
-      'initiatedEventId': initiatedEventId,
-      'startedEventId': startedEventId,
-      'workflowExecution': workflowExecution,
-      'workflowType': workflowType,
-      if (details != null) 'details': details,
-      if (reason != null) 'reason': reason,
-    };
-  }
-}
-
-/// Provides the details of the <code>ChildWorkflowExecutionStarted</code>
-/// event.
-class ChildWorkflowExecutionStartedEventAttributes {
-  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> to start this child workflow execution. This information can
-  /// be useful for diagnosing problems by tracing back the chain of events
-  /// leading up to this event.
-  final int initiatedEventId;
-
-  /// The child workflow execution that was started.
-  final WorkflowExecution workflowExecution;
-
-  /// The type of the child workflow execution.
-  final WorkflowType workflowType;
-
-  ChildWorkflowExecutionStartedEventAttributes({
-    required this.initiatedEventId,
-    required this.workflowExecution,
-    required this.workflowType,
-  });
-
-  factory ChildWorkflowExecutionStartedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ChildWorkflowExecutionStartedEventAttributes(
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final initiatedEventId = this.initiatedEventId;
-    final workflowExecution = this.workflowExecution;
-    final workflowType = this.workflowType;
-    return {
-      'initiatedEventId': initiatedEventId,
-      'workflowExecution': workflowExecution,
-      'workflowType': workflowType,
-    };
-  }
-}
-
-/// Provides the details of the <code>ChildWorkflowExecutionTerminated</code>
-/// event.
-class ChildWorkflowExecutionTerminatedEventAttributes {
-  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> to start this child workflow execution. This information can
-  /// be useful for diagnosing problems by tracing back the chain of events
-  /// leading up to this event.
-  final int initiatedEventId;
-
-  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
-  /// this child workflow execution was started. This information can be useful
-  /// for diagnosing problems by tracing back the chain of events leading up to
-  /// this event.
-  final int startedEventId;
-
-  /// The child workflow execution that was terminated.
-  final WorkflowExecution workflowExecution;
-
-  /// The type of the child workflow execution.
-  final WorkflowType workflowType;
-
-  ChildWorkflowExecutionTerminatedEventAttributes({
-    required this.initiatedEventId,
-    required this.startedEventId,
-    required this.workflowExecution,
-    required this.workflowType,
-  });
-
-  factory ChildWorkflowExecutionTerminatedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ChildWorkflowExecutionTerminatedEventAttributes(
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final initiatedEventId = this.initiatedEventId;
-    final startedEventId = this.startedEventId;
-    final workflowExecution = this.workflowExecution;
-    final workflowType = this.workflowType;
-    return {
-      'initiatedEventId': initiatedEventId,
-      'startedEventId': startedEventId,
-      'workflowExecution': workflowExecution,
-      'workflowType': workflowType,
-    };
-  }
-}
-
-/// Provides the details of the <code>ChildWorkflowExecutionTimedOut</code>
-/// event.
-class ChildWorkflowExecutionTimedOutEventAttributes {
-  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> to start this child workflow execution. This information can
-  /// be useful for diagnosing problems by tracing back the chain of events
-  /// leading up to this event.
-  final int initiatedEventId;
-
-  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
-  /// this child workflow execution was started. This information can be useful
-  /// for diagnosing problems by tracing back the chain of events leading up to
-  /// this event.
-  final int startedEventId;
-
-  /// The type of the timeout that caused the child workflow execution to time
-  /// out.
-  final WorkflowExecutionTimeoutType timeoutType;
-
-  /// The child workflow execution that timed out.
-  final WorkflowExecution workflowExecution;
-
-  /// The type of the child workflow execution.
-  final WorkflowType workflowType;
-
-  ChildWorkflowExecutionTimedOutEventAttributes({
-    required this.initiatedEventId,
-    required this.startedEventId,
-    required this.timeoutType,
-    required this.workflowExecution,
-    required this.workflowType,
-  });
-
-  factory ChildWorkflowExecutionTimedOutEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ChildWorkflowExecutionTimedOutEventAttributes(
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      timeoutType: WorkflowExecutionTimeoutType.fromString(
-          (json['timeoutType'] as String?) ?? ''),
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final initiatedEventId = this.initiatedEventId;
-    final startedEventId = this.startedEventId;
-    final timeoutType = this.timeoutType;
-    final workflowExecution = this.workflowExecution;
-    final workflowType = this.workflowType;
-    return {
-      'initiatedEventId': initiatedEventId,
-      'startedEventId': startedEventId,
-      'timeoutType': timeoutType.value,
-      'workflowExecution': workflowExecution,
-      'workflowType': workflowType,
-    };
-  }
-}
-
-class CloseStatus {
-  static const completed = CloseStatus._('COMPLETED');
-  static const failed = CloseStatus._('FAILED');
-  static const canceled = CloseStatus._('CANCELED');
-  static const terminated = CloseStatus._('TERMINATED');
-  static const continuedAsNew = CloseStatus._('CONTINUED_AS_NEW');
-  static const timedOut = CloseStatus._('TIMED_OUT');
-
-  final String value;
-
-  const CloseStatus._(this.value);
-
-  static const values = [
-    completed,
-    failed,
-    canceled,
-    terminated,
-    continuedAsNew,
-    timedOut
-  ];
-
-  static CloseStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => CloseStatus._(value));
-
-  @override
-  bool operator ==(other) => other is CloseStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Used to filter the closed workflow executions in visibility APIs by their
-/// close status.
-class CloseStatusFilter {
-  /// The close status that must match the close status of an execution for it to
-  /// meet the criteria of this filter.
-  final CloseStatus status;
-
-  CloseStatusFilter({
-    required this.status,
-  });
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      'status': status.value,
-    };
-  }
-}
-
-/// Provides the details of the <code>CompleteWorkflowExecution</code> decision.
+/// Tags are key-value pairs that can be associated with Amazon SWF state
+/// machines and activities.
 ///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// You cannot use an IAM policy to constrain this action's parameters.
-/// </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class CompleteWorkflowExecutionDecisionAttributes {
-  /// The result of the workflow execution. The form of the result is
-  /// implementation defined.
-  final String? result;
+/// Tags may only contain unicode letters, digits, whitespace, or these symbols:
+/// <code>_ . : / = + - @</code>.
+class ResourceTag {
+  /// The key of a tag.
+  final String key;
 
-  CompleteWorkflowExecutionDecisionAttributes({
-    this.result,
+  /// The value of a tag.
+  final String? value;
+
+  ResourceTag({
+    required this.key,
+    this.value,
   });
 
-  Map<String, dynamic> toJson() {
-    final result = this.result;
-    return {
-      if (result != null) 'result': result,
-    };
-  }
-}
-
-class CompleteWorkflowExecutionFailedCause {
-  static const unhandledDecision =
-      CompleteWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
-  static const operationNotPermitted =
-      CompleteWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const CompleteWorkflowExecutionFailedCause._(this.value);
-
-  static const values = [unhandledDecision, operationNotPermitted];
-
-  static CompleteWorkflowExecutionFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CompleteWorkflowExecutionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CompleteWorkflowExecutionFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>CompleteWorkflowExecutionFailed</code>
-/// event.
-class CompleteWorkflowExecutionFailedEventAttributes {
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final CompleteWorkflowExecutionFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>CompleteWorkflowExecution</code>
-  /// decision to complete this execution. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int decisionTaskCompletedEventId;
-
-  CompleteWorkflowExecutionFailedEventAttributes({
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-  });
-
-  factory CompleteWorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return CompleteWorkflowExecutionFailedEventAttributes(
-      cause: CompleteWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      key: (json['key'] as String?) ?? '',
+      value: json['value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final key = this.key;
+    final value = this.value;
     return {
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'key': key,
+      if (value != null) 'value': value,
     };
   }
 }
 
-/// Provides the details of the <code>ContinueAsNewWorkflowExecution</code>
-/// decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// Constrain the following parameters by using a <code>Condition</code> element
-/// with the appropriate keys.
-///
-/// <ul>
-/// <li>
-/// <code>tag</code> – A tag used to identify the workflow execution
-/// </li>
-/// <li>
-/// <code>taskList</code> – String constraint. The key is
-/// <code>swf:taskList.name</code>.
-/// </li>
-/// <li>
-/// <code>workflowType.version</code> – String constraint. The key is
-/// <code>swf:workflowType.version</code>.
-/// </li>
-/// </ul> </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class ContinueAsNewWorkflowExecutionDecisionAttributes {
-  /// If set, specifies the policy to use for the child workflow executions of the
-  /// new execution if it is terminated by calling the
-  /// <a>TerminateWorkflowExecution</a> action explicitly or due to an expired
-  /// timeout. This policy overrides the default child policy specified when
-  /// registering the workflow type using <a>RegisterWorkflowType</a>.
-  ///
-  /// The supported child policies are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TERMINATE</code> – The child executions are terminated.
-  /// </li>
-  /// <li>
-  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
-  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
-  /// event in its history. It is up to the decider to take appropriate actions
-  /// when it receives an execution history with this event.
-  /// </li>
-  /// <li>
-  /// <code>ABANDON</code> – No action is taken. The child executions continue to
-  /// run.
-  /// </li>
-  /// </ul> <note>
-  /// A child policy for this workflow execution must be specified either as a
-  /// default for the workflow type or through this parameter. If neither this
-  /// parameter is set nor a default child policy was specified at registration
-  /// time then a fault is returned.
-  /// </note>
-  final ChildPolicy? childPolicy;
+/// Represents a task list.
+class TaskList {
+  /// The name of the task list.
+  final String name;
 
-  /// If set, specifies the total duration for this workflow execution. This
-  /// overrides the <code>defaultExecutionStartToCloseTimeout</code> specified
-  /// when registering the workflow type.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  /// <note>
-  /// An execution start-to-close timeout for this workflow execution must be
-  /// specified either as a default for the workflow type or through this field.
-  /// If neither this field is set nor a default execution start-to-close timeout
-  /// was specified at registration time then a fault is returned.
-  /// </note>
-  final String? executionStartToCloseTimeout;
-
-  /// The input provided to the new workflow execution.
-  final String? input;
-
-  /// The IAM role to attach to the new (continued) execution.
-  final String? lambdaRole;
-
-  /// The list of tags to associate with the new workflow execution. A maximum of
-  /// 5 tags can be specified. You can list workflow executions with a specific
-  /// tag by calling <a>ListOpenWorkflowExecutions</a> or
-  /// <a>ListClosedWorkflowExecutions</a> and specifying a <a>TagFilter</a>.
-  final List<String>? tagList;
-
-  /// The task list to use for the decisions of the new (continued) workflow
-  /// execution.
-  final TaskList? taskList;
-
-  /// The task priority that, if set, specifies the priority for the decision
-  /// tasks for this workflow execution. This overrides the defaultTaskPriority
-  /// specified when registering the workflow type. Valid values are integers that
-  /// range from Java's <code>Integer.MIN_VALUE</code> (-2147483648) to
-  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
-  /// priority.
-  ///
-  /// For more information about setting task priority, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
-  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  final String? taskPriority;
-
-  /// Specifies the maximum duration of decision tasks for the new workflow
-  /// execution. This parameter overrides the
-  /// <code>defaultTaskStartToCloseTimout</code> specified when registering the
-  /// workflow type using <a>RegisterWorkflowType</a>.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  /// <note>
-  /// A task start-to-close timeout for the new workflow execution must be
-  /// specified either as a default for the workflow type or through this
-  /// parameter. If neither this parameter is set nor a default task
-  /// start-to-close timeout was specified at registration time then a fault is
-  /// returned.
-  /// </note>
-  final String? taskStartToCloseTimeout;
-
-  /// The version of the workflow to start.
-  final String? workflowTypeVersion;
-
-  ContinueAsNewWorkflowExecutionDecisionAttributes({
-    this.childPolicy,
-    this.executionStartToCloseTimeout,
-    this.input,
-    this.lambdaRole,
-    this.tagList,
-    this.taskList,
-    this.taskPriority,
-    this.taskStartToCloseTimeout,
-    this.workflowTypeVersion,
+  TaskList({
+    required this.name,
   });
 
-  Map<String, dynamic> toJson() {
-    final childPolicy = this.childPolicy;
-    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
-    final input = this.input;
-    final lambdaRole = this.lambdaRole;
-    final tagList = this.tagList;
-    final taskList = this.taskList;
-    final taskPriority = this.taskPriority;
-    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
-    final workflowTypeVersion = this.workflowTypeVersion;
-    return {
-      if (childPolicy != null) 'childPolicy': childPolicy.value,
-      if (executionStartToCloseTimeout != null)
-        'executionStartToCloseTimeout': executionStartToCloseTimeout,
-      if (input != null) 'input': input,
-      if (lambdaRole != null) 'lambdaRole': lambdaRole,
-      if (tagList != null) 'tagList': tagList,
-      if (taskList != null) 'taskList': taskList,
-      if (taskPriority != null) 'taskPriority': taskPriority,
-      if (taskStartToCloseTimeout != null)
-        'taskStartToCloseTimeout': taskStartToCloseTimeout,
-      if (workflowTypeVersion != null)
-        'workflowTypeVersion': workflowTypeVersion,
-    };
-  }
-}
-
-class ContinueAsNewWorkflowExecutionFailedCause {
-  static const unhandledDecision =
-      ContinueAsNewWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
-  static const workflowTypeDeprecated =
-      ContinueAsNewWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DEPRECATED');
-  static const workflowTypeDoesNotExist =
-      ContinueAsNewWorkflowExecutionFailedCause._(
-          'WORKFLOW_TYPE_DOES_NOT_EXIST');
-  static const defaultExecutionStartToCloseTimeoutUndefined =
-      ContinueAsNewWorkflowExecutionFailedCause._(
-          'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED');
-  static const defaultTaskStartToCloseTimeoutUndefined =
-      ContinueAsNewWorkflowExecutionFailedCause._(
-          'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED');
-  static const defaultTaskListUndefined =
-      ContinueAsNewWorkflowExecutionFailedCause._(
-          'DEFAULT_TASK_LIST_UNDEFINED');
-  static const defaultChildPolicyUndefined =
-      ContinueAsNewWorkflowExecutionFailedCause._(
-          'DEFAULT_CHILD_POLICY_UNDEFINED');
-  static const continueAsNewWorkflowExecutionRateExceeded =
-      ContinueAsNewWorkflowExecutionFailedCause._(
-          'CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED');
-  static const operationNotPermitted =
-      ContinueAsNewWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const ContinueAsNewWorkflowExecutionFailedCause._(this.value);
-
-  static const values = [
-    unhandledDecision,
-    workflowTypeDeprecated,
-    workflowTypeDoesNotExist,
-    defaultExecutionStartToCloseTimeoutUndefined,
-    defaultTaskStartToCloseTimeoutUndefined,
-    defaultTaskListUndefined,
-    defaultChildPolicyUndefined,
-    continueAsNewWorkflowExecutionRateExceeded,
-    operationNotPermitted
-  ];
-
-  static ContinueAsNewWorkflowExecutionFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContinueAsNewWorkflowExecutionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContinueAsNewWorkflowExecutionFailedCause &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the
-/// <code>ContinueAsNewWorkflowExecutionFailed</code> event.
-class ContinueAsNewWorkflowExecutionFailedEventAttributes {
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final ContinueAsNewWorkflowExecutionFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the
-  /// <code>ContinueAsNewWorkflowExecution</code> decision that started this
-  /// execution. This information can be useful for diagnosing problems by tracing
-  /// back the chain of events leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  ContinueAsNewWorkflowExecutionFailedEventAttributes({
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-  });
-
-  factory ContinueAsNewWorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ContinueAsNewWorkflowExecutionFailedEventAttributes(
-      cause: ContinueAsNewWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+  factory TaskList.fromJson(Map<String, dynamic> json) {
+    return TaskList(
+      name: (json['name'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final name = this.name;
     return {
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'name': name,
     };
   }
 }
@@ -6055,319 +5011,6 @@ class Decision {
   }
 }
 
-/// A structure that represents a decision task. Decision tasks are sent to
-/// deciders in order for them to make decisions.
-class DecisionTask {
-  /// A paginated list of history events of the workflow execution. The decider
-  /// uses this during the processing of the decision task.
-  final List<HistoryEvent> events;
-
-  /// The ID of the <code>DecisionTaskStarted</code> event recorded in the
-  /// history.
-  final int startedEventId;
-
-  /// The opaque string used as a handle on the task. This token is used by
-  /// workers to communicate progress and response information back to the system
-  /// about the task.
-  final String taskToken;
-
-  /// The workflow execution for which this decision task was created.
-  final WorkflowExecution workflowExecution;
-
-  /// The type of the workflow execution for which this decision task was created.
-  final WorkflowType workflowType;
-
-  /// If a <code>NextPageToken</code> was returned by a previous call, there are
-  /// more results available. To retrieve the next page of results, make the call
-  /// again using the returned token in <code>nextPageToken</code>. Keep all other
-  /// arguments unchanged.
-  ///
-  /// The configured <code>maximumPageSize</code> determines how many results can
-  /// be returned in a single call.
-  final String? nextPageToken;
-
-  /// The ID of the DecisionTaskStarted event of the previous decision task of
-  /// this workflow execution that was processed by the decider. This can be used
-  /// to determine the events in the history new since the last decision task
-  /// received by the decider.
-  final int? previousStartedEventId;
-
-  DecisionTask({
-    required this.events,
-    required this.startedEventId,
-    required this.taskToken,
-    required this.workflowExecution,
-    required this.workflowType,
-    this.nextPageToken,
-    this.previousStartedEventId,
-  });
-
-  factory DecisionTask.fromJson(Map<String, dynamic> json) {
-    return DecisionTask(
-      events: ((json['events'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      taskToken: (json['taskToken'] as String?) ?? '',
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      nextPageToken: json['nextPageToken'] as String?,
-      previousStartedEventId: json['previousStartedEventId'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final startedEventId = this.startedEventId;
-    final taskToken = this.taskToken;
-    final workflowExecution = this.workflowExecution;
-    final workflowType = this.workflowType;
-    final nextPageToken = this.nextPageToken;
-    final previousStartedEventId = this.previousStartedEventId;
-    return {
-      'events': events,
-      'startedEventId': startedEventId,
-      'taskToken': taskToken,
-      'workflowExecution': workflowExecution,
-      'workflowType': workflowType,
-      if (nextPageToken != null) 'nextPageToken': nextPageToken,
-      if (previousStartedEventId != null)
-        'previousStartedEventId': previousStartedEventId,
-    };
-  }
-}
-
-/// Provides the details of the <code>DecisionTaskCompleted</code> event.
-class DecisionTaskCompletedEventAttributes {
-  /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
-  /// when this decision task was scheduled. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int scheduledEventId;
-
-  /// The ID of the <code>DecisionTaskStarted</code> event recorded when this
-  /// decision task was started. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int startedEventId;
-
-  /// User defined context for the workflow execution.
-  final String? executionContext;
-  final TaskList? taskList;
-
-  /// The maximum amount of time the decision task can wait to be assigned to a
-  /// worker.
-  final String? taskListScheduleToStartTimeout;
-
-  DecisionTaskCompletedEventAttributes({
-    required this.scheduledEventId,
-    required this.startedEventId,
-    this.executionContext,
-    this.taskList,
-    this.taskListScheduleToStartTimeout,
-  });
-
-  factory DecisionTaskCompletedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return DecisionTaskCompletedEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      executionContext: json['executionContext'] as String?,
-      taskList: json['taskList'] != null
-          ? TaskList.fromJson(json['taskList'] as Map<String, dynamic>)
-          : null,
-      taskListScheduleToStartTimeout:
-          json['taskListScheduleToStartTimeout'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    final startedEventId = this.startedEventId;
-    final executionContext = this.executionContext;
-    final taskList = this.taskList;
-    final taskListScheduleToStartTimeout = this.taskListScheduleToStartTimeout;
-    return {
-      'scheduledEventId': scheduledEventId,
-      'startedEventId': startedEventId,
-      if (executionContext != null) 'executionContext': executionContext,
-      if (taskList != null) 'taskList': taskList,
-      if (taskListScheduleToStartTimeout != null)
-        'taskListScheduleToStartTimeout': taskListScheduleToStartTimeout,
-    };
-  }
-}
-
-/// Provides details about the <code>DecisionTaskScheduled</code> event.
-class DecisionTaskScheduledEventAttributes {
-  /// The name of the task list in which the decision task was scheduled.
-  final TaskList taskList;
-
-  /// The maximum amount of time the decision task can wait to be assigned to a
-  /// worker.
-  final String? scheduleToStartTimeout;
-
-  /// The maximum duration for this decision task. The task is considered timed
-  /// out if it doesn't completed within this duration.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? startToCloseTimeout;
-
-  /// A task priority that, if set, specifies the priority for this decision task.
-  /// Valid values are integers that range from Java's
-  /// <code>Integer.MIN_VALUE</code> (-2147483648) to
-  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
-  /// priority.
-  ///
-  /// For more information about setting task priority, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
-  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  final String? taskPriority;
-
-  DecisionTaskScheduledEventAttributes({
-    required this.taskList,
-    this.scheduleToStartTimeout,
-    this.startToCloseTimeout,
-    this.taskPriority,
-  });
-
-  factory DecisionTaskScheduledEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return DecisionTaskScheduledEventAttributes(
-      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
-      startToCloseTimeout: json['startToCloseTimeout'] as String?,
-      taskPriority: json['taskPriority'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final taskList = this.taskList;
-    final scheduleToStartTimeout = this.scheduleToStartTimeout;
-    final startToCloseTimeout = this.startToCloseTimeout;
-    final taskPriority = this.taskPriority;
-    return {
-      'taskList': taskList,
-      if (scheduleToStartTimeout != null)
-        'scheduleToStartTimeout': scheduleToStartTimeout,
-      if (startToCloseTimeout != null)
-        'startToCloseTimeout': startToCloseTimeout,
-      if (taskPriority != null) 'taskPriority': taskPriority,
-    };
-  }
-}
-
-/// Provides the details of the <code>DecisionTaskStarted</code> event.
-class DecisionTaskStartedEventAttributes {
-  /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
-  /// when this decision task was scheduled. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int scheduledEventId;
-
-  /// Identity of the decider making the request. This enables diagnostic tracing
-  /// when problems arise. The form of this identity is user defined.
-  final String? identity;
-
-  DecisionTaskStartedEventAttributes({
-    required this.scheduledEventId,
-    this.identity,
-  });
-
-  factory DecisionTaskStartedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return DecisionTaskStartedEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-      identity: json['identity'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    final identity = this.identity;
-    return {
-      'scheduledEventId': scheduledEventId,
-      if (identity != null) 'identity': identity,
-    };
-  }
-}
-
-/// Provides the details of the <code>DecisionTaskTimedOut</code> event.
-class DecisionTaskTimedOutEventAttributes {
-  /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
-  /// when this decision task was scheduled. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int scheduledEventId;
-
-  /// The ID of the <code>DecisionTaskStarted</code> event recorded when this
-  /// decision task was started. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int startedEventId;
-
-  /// The type of timeout that expired before the decision task could be
-  /// completed.
-  final DecisionTaskTimeoutType timeoutType;
-
-  DecisionTaskTimedOutEventAttributes({
-    required this.scheduledEventId,
-    required this.startedEventId,
-    required this.timeoutType,
-  });
-
-  factory DecisionTaskTimedOutEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return DecisionTaskTimedOutEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      timeoutType: DecisionTaskTimeoutType.fromString(
-          (json['timeoutType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    final startedEventId = this.startedEventId;
-    final timeoutType = this.timeoutType;
-    return {
-      'scheduledEventId': scheduledEventId,
-      'startedEventId': startedEventId,
-      'timeoutType': timeoutType.value,
-    };
-  }
-}
-
-class DecisionTaskTimeoutType {
-  static const startToClose = DecisionTaskTimeoutType._('START_TO_CLOSE');
-  static const scheduleToStart = DecisionTaskTimeoutType._('SCHEDULE_TO_START');
-
-  final String value;
-
-  const DecisionTaskTimeoutType._(this.value);
-
-  static const values = [startToClose, scheduleToStart];
-
-  static DecisionTaskTimeoutType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DecisionTaskTimeoutType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DecisionTaskTimeoutType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DecisionType {
   static const scheduleActivityTask = DecisionType._('ScheduleActivityTask');
   static const requestCancelActivityTask =
@@ -6424,448 +5067,275 @@ class DecisionType {
   String toString() => value;
 }
 
-/// Contains the configuration settings of a domain.
-class DomainConfiguration {
-  /// The retention period for workflow executions in this domain.
-  final String workflowExecutionRetentionPeriodInDays;
-
-  DomainConfiguration({
-    required this.workflowExecutionRetentionPeriodInDays,
-  });
-
-  factory DomainConfiguration.fromJson(Map<String, dynamic> json) {
-    return DomainConfiguration(
-      workflowExecutionRetentionPeriodInDays:
-          (json['workflowExecutionRetentionPeriodInDays'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final workflowExecutionRetentionPeriodInDays =
-        this.workflowExecutionRetentionPeriodInDays;
-    return {
-      'workflowExecutionRetentionPeriodInDays':
-          workflowExecutionRetentionPeriodInDays,
-    };
-  }
-}
-
-/// Contains details of a domain.
-class DomainDetail {
-  /// The domain configuration. Currently, this includes only the domain's
-  /// retention period.
-  final DomainConfiguration configuration;
-
-  /// The basic information about a domain, such as its name, status, and
-  /// description.
-  final DomainInfo domainInfo;
-
-  DomainDetail({
-    required this.configuration,
-    required this.domainInfo,
-  });
-
-  factory DomainDetail.fromJson(Map<String, dynamic> json) {
-    return DomainDetail(
-      configuration: DomainConfiguration.fromJson(
-          (json['configuration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      domainInfo: DomainInfo.fromJson(
-          (json['domainInfo'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configuration = this.configuration;
-    final domainInfo = this.domainInfo;
-    return {
-      'configuration': configuration,
-      'domainInfo': domainInfo,
-    };
-  }
-}
-
-/// Contains general information about a domain.
-class DomainInfo {
-  /// The name of the domain. This name is unique within the account.
-  final String name;
-
-  /// The status of the domain:
+/// Provides the details of the <code>ScheduleActivityTask</code> decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// Constrain the following parameters by using a <code>Condition</code> element
+/// with the appropriate keys.
+///
+/// <ul>
+/// <li>
+/// <code>activityType.name</code> – String constraint. The key is
+/// <code>swf:activityType.name</code>.
+/// </li>
+/// <li>
+/// <code>activityType.version</code> – String constraint. The key is
+/// <code>swf:activityType.version</code>.
+/// </li>
+/// <li>
+/// <code>taskList</code> – String constraint. The key is
+/// <code>swf:taskList.name</code>.
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class ScheduleActivityTaskDecisionAttributes {
+  /// The <code>activityId</code> of the activity task.
   ///
-  /// <ul>
-  /// <li>
-  /// <code>REGISTERED</code> – The domain is properly registered and available.
-  /// You can use this domain for registering types and creating new workflow
-  /// executions.
-  /// </li>
-  /// <li>
-  /// <code>DEPRECATED</code> – The domain was deprecated using
-  /// <a>DeprecateDomain</a>, but is still in use. You should not create new
-  /// workflow executions in this domain.
-  /// </li>
-  /// </ul>
-  final RegistrationStatus status;
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
+  /// it must <i>not</i> be the literal string <code>arn</code>.
+  final String activityId;
 
-  /// The ARN of the domain.
-  final String? arn;
+  /// The type of the activity task to schedule.
+  final ActivityType activityType;
 
-  /// The description of the domain provided through <a>RegisterDomain</a>.
-  final String? description;
+  /// Data attached to the event that can be used by the decider in subsequent
+  /// workflow tasks. This data isn't sent to the activity.
+  final String? control;
 
-  DomainInfo({
-    required this.name,
-    required this.status,
-    this.arn,
-    this.description,
-  });
-
-  factory DomainInfo.fromJson(Map<String, dynamic> json) {
-    return DomainInfo(
-      name: (json['name'] as String?) ?? '',
-      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final status = this.status;
-    final arn = this.arn;
-    final description = this.description;
-    return {
-      'name': name,
-      'status': status.value,
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-/// Contains a paginated collection of DomainInfo structures.
-class DomainInfos {
-  /// A list of DomainInfo structures.
-  final List<DomainInfo> domainInfos;
-
-  /// If a <code>NextPageToken</code> was returned by a previous call, there are
-  /// more results available. To retrieve the next page of results, make the call
-  /// again using the returned token in <code>nextPageToken</code>. Keep all other
-  /// arguments unchanged.
+  /// If set, specifies the maximum time before which a worker processing a task
+  /// of this type must report progress by calling
+  /// <a>RecordActivityTaskHeartbeat</a>. If the timeout is exceeded, the activity
+  /// task is automatically timed out. If the worker subsequently attempts to
+  /// record a heartbeat or returns a result, it is ignored. This overrides the
+  /// default heartbeat timeout specified when registering the activity type using
+  /// <a>RegisterActivityType</a>.
   ///
-  /// The configured <code>maximumPageSize</code> determines how many results can
-  /// be returned in a single call.
-  final String? nextPageToken;
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? heartbeatTimeout;
 
-  DomainInfos({
-    required this.domainInfos,
-    this.nextPageToken,
+  /// The input provided to the activity task.
+  final String? input;
+
+  /// The maximum duration for this activity task.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  /// <note>
+  /// A schedule-to-close timeout for this activity task must be specified either
+  /// as a default for the activity type or through this field. If neither this
+  /// field is set nor a default schedule-to-close timeout was specified at
+  /// registration time then a fault is returned.
+  /// </note>
+  final String? scheduleToCloseTimeout;
+
+  /// If set, specifies the maximum duration the activity task can wait to be
+  /// assigned to a worker. This overrides the default schedule-to-start timeout
+  /// specified when registering the activity type using
+  /// <a>RegisterActivityType</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  /// <note>
+  /// A schedule-to-start timeout for this activity task must be specified either
+  /// as a default for the activity type or through this field. If neither this
+  /// field is set nor a default schedule-to-start timeout was specified at
+  /// registration time then a fault is returned.
+  /// </note>
+  final String? scheduleToStartTimeout;
+
+  /// If set, specifies the maximum duration a worker may take to process this
+  /// activity task. This overrides the default start-to-close timeout specified
+  /// when registering the activity type using <a>RegisterActivityType</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  /// <note>
+  /// A start-to-close timeout for this activity task must be specified either as
+  /// a default for the activity type or through this field. If neither this field
+  /// is set nor a default start-to-close timeout was specified at registration
+  /// time then a fault is returned.
+  /// </note>
+  final String? startToCloseTimeout;
+
+  /// If set, specifies the name of the task list in which to schedule the
+  /// activity task. If not specified, the <code>defaultTaskList</code> registered
+  /// with the activity type is used.
+  /// <note>
+  /// A task list for this activity task must be specified either as a default for
+  /// the activity type or through this field. If neither this field is set nor a
+  /// default task list was specified at registration time then a fault is
+  /// returned.
+  /// </note>
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
+  /// it must <i>not</i> be the literal string <code>arn</code>.
+  final TaskList? taskList;
+
+  /// If set, specifies the priority with which the activity task is to be
+  /// assigned to a worker. This overrides the defaultTaskPriority specified when
+  /// registering the activity type using <a>RegisterActivityType</a>. Valid
+  /// values are integers that range from Java's <code>Integer.MIN_VALUE</code>
+  /// (-2147483648) to <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers
+  /// indicate higher priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  final String? taskPriority;
+
+  ScheduleActivityTaskDecisionAttributes({
+    required this.activityId,
+    required this.activityType,
+    this.control,
+    this.heartbeatTimeout,
+    this.input,
+    this.scheduleToCloseTimeout,
+    this.scheduleToStartTimeout,
+    this.startToCloseTimeout,
+    this.taskList,
+    this.taskPriority,
   });
 
-  factory DomainInfos.fromJson(Map<String, dynamic> json) {
-    return DomainInfos(
-      domainInfos: ((json['domainInfos'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextPageToken: json['nextPageToken'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final domainInfos = this.domainInfos;
-    final nextPageToken = this.nextPageToken;
+    final activityId = this.activityId;
+    final activityType = this.activityType;
+    final control = this.control;
+    final heartbeatTimeout = this.heartbeatTimeout;
+    final input = this.input;
+    final scheduleToCloseTimeout = this.scheduleToCloseTimeout;
+    final scheduleToStartTimeout = this.scheduleToStartTimeout;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    final taskList = this.taskList;
+    final taskPriority = this.taskPriority;
     return {
-      'domainInfos': domainInfos,
-      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+      'activityId': activityId,
+      'activityType': activityType,
+      if (control != null) 'control': control,
+      if (heartbeatTimeout != null) 'heartbeatTimeout': heartbeatTimeout,
+      if (input != null) 'input': input,
+      if (scheduleToCloseTimeout != null)
+        'scheduleToCloseTimeout': scheduleToCloseTimeout,
+      if (scheduleToStartTimeout != null)
+        'scheduleToStartTimeout': scheduleToStartTimeout,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+      if (taskList != null) 'taskList': taskList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
     };
   }
 }
 
-class EventType {
-  static const workflowExecutionStarted =
-      EventType._('WorkflowExecutionStarted');
-  static const workflowExecutionCancelRequested =
-      EventType._('WorkflowExecutionCancelRequested');
-  static const workflowExecutionCompleted =
-      EventType._('WorkflowExecutionCompleted');
-  static const completeWorkflowExecutionFailed =
-      EventType._('CompleteWorkflowExecutionFailed');
-  static const workflowExecutionFailed = EventType._('WorkflowExecutionFailed');
-  static const failWorkflowExecutionFailed =
-      EventType._('FailWorkflowExecutionFailed');
-  static const workflowExecutionTimedOut =
-      EventType._('WorkflowExecutionTimedOut');
-  static const workflowExecutionCanceled =
-      EventType._('WorkflowExecutionCanceled');
-  static const cancelWorkflowExecutionFailed =
-      EventType._('CancelWorkflowExecutionFailed');
-  static const workflowExecutionContinuedAsNew =
-      EventType._('WorkflowExecutionContinuedAsNew');
-  static const continueAsNewWorkflowExecutionFailed =
-      EventType._('ContinueAsNewWorkflowExecutionFailed');
-  static const workflowExecutionTerminated =
-      EventType._('WorkflowExecutionTerminated');
-  static const decisionTaskScheduled = EventType._('DecisionTaskScheduled');
-  static const decisionTaskStarted = EventType._('DecisionTaskStarted');
-  static const decisionTaskCompleted = EventType._('DecisionTaskCompleted');
-  static const decisionTaskTimedOut = EventType._('DecisionTaskTimedOut');
-  static const activityTaskScheduled = EventType._('ActivityTaskScheduled');
-  static const scheduleActivityTaskFailed =
-      EventType._('ScheduleActivityTaskFailed');
-  static const activityTaskStarted = EventType._('ActivityTaskStarted');
-  static const activityTaskCompleted = EventType._('ActivityTaskCompleted');
-  static const activityTaskFailed = EventType._('ActivityTaskFailed');
-  static const activityTaskTimedOut = EventType._('ActivityTaskTimedOut');
-  static const activityTaskCanceled = EventType._('ActivityTaskCanceled');
-  static const activityTaskCancelRequested =
-      EventType._('ActivityTaskCancelRequested');
-  static const requestCancelActivityTaskFailed =
-      EventType._('RequestCancelActivityTaskFailed');
-  static const workflowExecutionSignaled =
-      EventType._('WorkflowExecutionSignaled');
-  static const markerRecorded = EventType._('MarkerRecorded');
-  static const recordMarkerFailed = EventType._('RecordMarkerFailed');
-  static const timerStarted = EventType._('TimerStarted');
-  static const startTimerFailed = EventType._('StartTimerFailed');
-  static const timerFired = EventType._('TimerFired');
-  static const timerCanceled = EventType._('TimerCanceled');
-  static const cancelTimerFailed = EventType._('CancelTimerFailed');
-  static const startChildWorkflowExecutionInitiated =
-      EventType._('StartChildWorkflowExecutionInitiated');
-  static const startChildWorkflowExecutionFailed =
-      EventType._('StartChildWorkflowExecutionFailed');
-  static const childWorkflowExecutionStarted =
-      EventType._('ChildWorkflowExecutionStarted');
-  static const childWorkflowExecutionCompleted =
-      EventType._('ChildWorkflowExecutionCompleted');
-  static const childWorkflowExecutionFailed =
-      EventType._('ChildWorkflowExecutionFailed');
-  static const childWorkflowExecutionTimedOut =
-      EventType._('ChildWorkflowExecutionTimedOut');
-  static const childWorkflowExecutionCanceled =
-      EventType._('ChildWorkflowExecutionCanceled');
-  static const childWorkflowExecutionTerminated =
-      EventType._('ChildWorkflowExecutionTerminated');
-  static const signalExternalWorkflowExecutionInitiated =
-      EventType._('SignalExternalWorkflowExecutionInitiated');
-  static const signalExternalWorkflowExecutionFailed =
-      EventType._('SignalExternalWorkflowExecutionFailed');
-  static const externalWorkflowExecutionSignaled =
-      EventType._('ExternalWorkflowExecutionSignaled');
-  static const requestCancelExternalWorkflowExecutionInitiated =
-      EventType._('RequestCancelExternalWorkflowExecutionInitiated');
-  static const requestCancelExternalWorkflowExecutionFailed =
-      EventType._('RequestCancelExternalWorkflowExecutionFailed');
-  static const externalWorkflowExecutionCancelRequested =
-      EventType._('ExternalWorkflowExecutionCancelRequested');
-  static const lambdaFunctionScheduled = EventType._('LambdaFunctionScheduled');
-  static const lambdaFunctionStarted = EventType._('LambdaFunctionStarted');
-  static const lambdaFunctionCompleted = EventType._('LambdaFunctionCompleted');
-  static const lambdaFunctionFailed = EventType._('LambdaFunctionFailed');
-  static const lambdaFunctionTimedOut = EventType._('LambdaFunctionTimedOut');
-  static const scheduleLambdaFunctionFailed =
-      EventType._('ScheduleLambdaFunctionFailed');
-  static const startLambdaFunctionFailed =
-      EventType._('StartLambdaFunctionFailed');
+/// Provides the details of the <code>RequestCancelActivityTask</code> decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// You cannot use an IAM policy to constrain this action's parameters.
+/// </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class RequestCancelActivityTaskDecisionAttributes {
+  /// The <code>activityId</code> of the activity task to be canceled.
+  final String activityId;
 
-  final String value;
-
-  const EventType._(this.value);
-
-  static const values = [
-    workflowExecutionStarted,
-    workflowExecutionCancelRequested,
-    workflowExecutionCompleted,
-    completeWorkflowExecutionFailed,
-    workflowExecutionFailed,
-    failWorkflowExecutionFailed,
-    workflowExecutionTimedOut,
-    workflowExecutionCanceled,
-    cancelWorkflowExecutionFailed,
-    workflowExecutionContinuedAsNew,
-    continueAsNewWorkflowExecutionFailed,
-    workflowExecutionTerminated,
-    decisionTaskScheduled,
-    decisionTaskStarted,
-    decisionTaskCompleted,
-    decisionTaskTimedOut,
-    activityTaskScheduled,
-    scheduleActivityTaskFailed,
-    activityTaskStarted,
-    activityTaskCompleted,
-    activityTaskFailed,
-    activityTaskTimedOut,
-    activityTaskCanceled,
-    activityTaskCancelRequested,
-    requestCancelActivityTaskFailed,
-    workflowExecutionSignaled,
-    markerRecorded,
-    recordMarkerFailed,
-    timerStarted,
-    startTimerFailed,
-    timerFired,
-    timerCanceled,
-    cancelTimerFailed,
-    startChildWorkflowExecutionInitiated,
-    startChildWorkflowExecutionFailed,
-    childWorkflowExecutionStarted,
-    childWorkflowExecutionCompleted,
-    childWorkflowExecutionFailed,
-    childWorkflowExecutionTimedOut,
-    childWorkflowExecutionCanceled,
-    childWorkflowExecutionTerminated,
-    signalExternalWorkflowExecutionInitiated,
-    signalExternalWorkflowExecutionFailed,
-    externalWorkflowExecutionSignaled,
-    requestCancelExternalWorkflowExecutionInitiated,
-    requestCancelExternalWorkflowExecutionFailed,
-    externalWorkflowExecutionCancelRequested,
-    lambdaFunctionScheduled,
-    lambdaFunctionStarted,
-    lambdaFunctionCompleted,
-    lambdaFunctionFailed,
-    lambdaFunctionTimedOut,
-    scheduleLambdaFunctionFailed,
-    startLambdaFunctionFailed
-  ];
-
-  static EventType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
-
-  @override
-  bool operator ==(other) => other is EventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExecutionStatus {
-  static const open = ExecutionStatus._('OPEN');
-  static const closed = ExecutionStatus._('CLOSED');
-
-  final String value;
-
-  const ExecutionStatus._(this.value);
-
-  static const values = [open, closed];
-
-  static ExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Used to filter the workflow executions in visibility APIs by various
-/// time-based rules. Each parameter, if specified, defines a rule that must be
-/// satisfied by each returned query result. The parameter values are in the <a
-/// href="https://en.wikipedia.org/wiki/Unix_time">Unix Time format</a>. For
-/// example: <code>"oldestDate": 1325376070.</code>
-class ExecutionTimeFilter {
-  /// Specifies the oldest start or close date and time to return.
-  final DateTime oldestDate;
-
-  /// Specifies the latest start or close date and time to return.
-  final DateTime? latestDate;
-
-  ExecutionTimeFilter({
-    required this.oldestDate,
-    this.latestDate,
+  RequestCancelActivityTaskDecisionAttributes({
+    required this.activityId,
   });
 
   Map<String, dynamic> toJson() {
-    final oldestDate = this.oldestDate;
-    final latestDate = this.latestDate;
+    final activityId = this.activityId;
     return {
-      'oldestDate': unixTimestampToJson(oldestDate),
-      if (latestDate != null) 'latestDate': unixTimestampToJson(latestDate),
+      'activityId': activityId,
     };
   }
 }
 
-/// Provides the details of the
-/// <code>ExternalWorkflowExecutionCancelRequested</code> event.
-class ExternalWorkflowExecutionCancelRequestedEventAttributes {
-  /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
-  /// event corresponding to the
-  /// <code>RequestCancelExternalWorkflowExecution</code> decision to cancel this
-  /// external workflow execution. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int initiatedEventId;
+/// Provides the details of the <code>CompleteWorkflowExecution</code> decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// You cannot use an IAM policy to constrain this action's parameters.
+/// </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class CompleteWorkflowExecutionDecisionAttributes {
+  /// The result of the workflow execution. The form of the result is
+  /// implementation defined.
+  final String? result;
 
-  /// The external workflow execution to which the cancellation request was
-  /// delivered.
-  final WorkflowExecution workflowExecution;
-
-  ExternalWorkflowExecutionCancelRequestedEventAttributes({
-    required this.initiatedEventId,
-    required this.workflowExecution,
+  CompleteWorkflowExecutionDecisionAttributes({
+    this.result,
   });
 
-  factory ExternalWorkflowExecutionCancelRequestedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ExternalWorkflowExecutionCancelRequestedEventAttributes(
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final initiatedEventId = this.initiatedEventId;
-    final workflowExecution = this.workflowExecution;
+    final result = this.result;
     return {
-      'initiatedEventId': initiatedEventId,
-      'workflowExecution': workflowExecution,
-    };
-  }
-}
-
-/// Provides the details of the <code>ExternalWorkflowExecutionSignaled</code>
-/// event.
-class ExternalWorkflowExecutionSignaledEventAttributes {
-  /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>SignalExternalWorkflowExecution</code> decision
-  /// to request this signal. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int initiatedEventId;
-
-  /// The external workflow execution that the signal was delivered to.
-  final WorkflowExecution workflowExecution;
-
-  ExternalWorkflowExecutionSignaledEventAttributes({
-    required this.initiatedEventId,
-    required this.workflowExecution,
-  });
-
-  factory ExternalWorkflowExecutionSignaledEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ExternalWorkflowExecutionSignaledEventAttributes(
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      workflowExecution: WorkflowExecution.fromJson(
-          (json['workflowExecution'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final initiatedEventId = this.initiatedEventId;
-    final workflowExecution = this.workflowExecution;
-    return {
-      'initiatedEventId': initiatedEventId,
-      'workflowExecution': workflowExecution,
+      if (result != null) 'result': result,
     };
   }
 }
@@ -6920,116 +5390,796 @@ class FailWorkflowExecutionDecisionAttributes {
   }
 }
 
-class FailWorkflowExecutionFailedCause {
-  static const unhandledDecision =
-      FailWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
-  static const operationNotPermitted =
-      FailWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
+/// Provides the details of the <code>CancelWorkflowExecution</code> decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// You cannot use an IAM policy to constrain this action's parameters.
+/// </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class CancelWorkflowExecutionDecisionAttributes {
+  /// Details of the cancellation.
+  final String? details;
 
-  final String value;
-
-  const FailWorkflowExecutionFailedCause._(this.value);
-
-  static const values = [unhandledDecision, operationNotPermitted];
-
-  static FailWorkflowExecutionFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FailWorkflowExecutionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FailWorkflowExecutionFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>FailWorkflowExecutionFailed</code> event.
-class FailWorkflowExecutionFailedEventAttributes {
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final FailWorkflowExecutionFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>FailWorkflowExecution</code>
-  /// decision to fail this execution. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int decisionTaskCompletedEventId;
-
-  FailWorkflowExecutionFailedEventAttributes({
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
+  CancelWorkflowExecutionDecisionAttributes({
+    this.details,
   });
 
-  factory FailWorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return FailWorkflowExecutionFailedEventAttributes(
-      cause: FailWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final details = this.details;
     return {
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      if (details != null) 'details': details,
     };
   }
 }
 
-/// Paginated representation of a workflow history for a workflow execution.
-/// This is the up to date, complete and authoritative record of the events
-/// related to all tasks and events in the life of the workflow execution.
-class History {
-  /// The list of history events.
-  final List<HistoryEvent> events;
-
-  /// If a <code>NextPageToken</code> was returned by a previous call, there are
-  /// more results available. To retrieve the next page of results, make the call
-  /// again using the returned token in <code>nextPageToken</code>. Keep all other
-  /// arguments unchanged.
+/// Provides the details of the <code>ContinueAsNewWorkflowExecution</code>
+/// decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// Constrain the following parameters by using a <code>Condition</code> element
+/// with the appropriate keys.
+///
+/// <ul>
+/// <li>
+/// <code>tag</code> – A tag used to identify the workflow execution
+/// </li>
+/// <li>
+/// <code>taskList</code> – String constraint. The key is
+/// <code>swf:taskList.name</code>.
+/// </li>
+/// <li>
+/// <code>workflowType.version</code> – String constraint. The key is
+/// <code>swf:workflowType.version</code>.
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class ContinueAsNewWorkflowExecutionDecisionAttributes {
+  /// If set, specifies the policy to use for the child workflow executions of the
+  /// new execution if it is terminated by calling the
+  /// <a>TerminateWorkflowExecution</a> action explicitly or due to an expired
+  /// timeout. This policy overrides the default child policy specified when
+  /// registering the workflow type using <a>RegisterWorkflowType</a>.
   ///
-  /// The configured <code>maximumPageSize</code> determines how many results can
-  /// be returned in a single call.
-  final String? nextPageToken;
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul> <note>
+  /// A child policy for this workflow execution must be specified either as a
+  /// default for the workflow type or through this parameter. If neither this
+  /// parameter is set nor a default child policy was specified at registration
+  /// time then a fault is returned.
+  /// </note>
+  final ChildPolicy? childPolicy;
 
-  History({
-    required this.events,
-    this.nextPageToken,
+  /// If set, specifies the total duration for this workflow execution. This
+  /// overrides the <code>defaultExecutionStartToCloseTimeout</code> specified
+  /// when registering the workflow type.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  /// <note>
+  /// An execution start-to-close timeout for this workflow execution must be
+  /// specified either as a default for the workflow type or through this field.
+  /// If neither this field is set nor a default execution start-to-close timeout
+  /// was specified at registration time then a fault is returned.
+  /// </note>
+  final String? executionStartToCloseTimeout;
+
+  /// The input provided to the new workflow execution.
+  final String? input;
+
+  /// The IAM role to attach to the new (continued) execution.
+  final String? lambdaRole;
+
+  /// The list of tags to associate with the new workflow execution. A maximum of
+  /// 5 tags can be specified. You can list workflow executions with a specific
+  /// tag by calling <a>ListOpenWorkflowExecutions</a> or
+  /// <a>ListClosedWorkflowExecutions</a> and specifying a <a>TagFilter</a>.
+  final List<String>? tagList;
+
+  /// The task list to use for the decisions of the new (continued) workflow
+  /// execution.
+  final TaskList? taskList;
+
+  /// The task priority that, if set, specifies the priority for the decision
+  /// tasks for this workflow execution. This overrides the defaultTaskPriority
+  /// specified when registering the workflow type. Valid values are integers that
+  /// range from Java's <code>Integer.MIN_VALUE</code> (-2147483648) to
+  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
+  /// priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  final String? taskPriority;
+
+  /// Specifies the maximum duration of decision tasks for the new workflow
+  /// execution. This parameter overrides the
+  /// <code>defaultTaskStartToCloseTimout</code> specified when registering the
+  /// workflow type using <a>RegisterWorkflowType</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  /// <note>
+  /// A task start-to-close timeout for the new workflow execution must be
+  /// specified either as a default for the workflow type or through this
+  /// parameter. If neither this parameter is set nor a default task
+  /// start-to-close timeout was specified at registration time then a fault is
+  /// returned.
+  /// </note>
+  final String? taskStartToCloseTimeout;
+
+  /// The version of the workflow to start.
+  final String? workflowTypeVersion;
+
+  ContinueAsNewWorkflowExecutionDecisionAttributes({
+    this.childPolicy,
+    this.executionStartToCloseTimeout,
+    this.input,
+    this.lambdaRole,
+    this.tagList,
+    this.taskList,
+    this.taskPriority,
+    this.taskStartToCloseTimeout,
+    this.workflowTypeVersion,
   });
 
-  factory History.fromJson(Map<String, dynamic> json) {
-    return History(
-      events: ((json['events'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextPageToken: json['nextPageToken'] as String?,
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final tagList = this.tagList;
+    final taskList = this.taskList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    final workflowTypeVersion = this.workflowTypeVersion;
+    return {
+      if (childPolicy != null) 'childPolicy': childPolicy.value,
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (tagList != null) 'tagList': tagList,
+      if (taskList != null) 'taskList': taskList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+      if (workflowTypeVersion != null)
+        'workflowTypeVersion': workflowTypeVersion,
+    };
+  }
+}
+
+/// Provides the details of the <code>RecordMarker</code> decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// You cannot use an IAM policy to constrain this action's parameters.
+/// </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class RecordMarkerDecisionAttributes {
+  /// The name of the marker.
+  final String markerName;
+
+  /// The details of the marker.
+  final String? details;
+
+  RecordMarkerDecisionAttributes({
+    required this.markerName,
+    this.details,
+  });
+
+  Map<String, dynamic> toJson() {
+    final markerName = this.markerName;
+    final details = this.details;
+    return {
+      'markerName': markerName,
+      if (details != null) 'details': details,
+    };
+  }
+}
+
+/// Provides the details of the <code>StartTimer</code> decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// You cannot use an IAM policy to constrain this action's parameters.
+/// </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class StartTimerDecisionAttributes {
+  /// The duration to wait before firing the timer.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>.
+  final String startToFireTimeout;
+
+  /// The unique ID of the timer.
+  ///
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
+  /// it must <i>not</i> be the literal string <code>arn</code>.
+  final String timerId;
+
+  /// The data attached to the event that can be used by the decider in subsequent
+  /// workflow tasks.
+  final String? control;
+
+  StartTimerDecisionAttributes({
+    required this.startToFireTimeout,
+    required this.timerId,
+    this.control,
+  });
+
+  Map<String, dynamic> toJson() {
+    final startToFireTimeout = this.startToFireTimeout;
+    final timerId = this.timerId;
+    final control = this.control;
+    return {
+      'startToFireTimeout': startToFireTimeout,
+      'timerId': timerId,
+      if (control != null) 'control': control,
+    };
+  }
+}
+
+/// Provides the details of the <code>CancelTimer</code> decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// You cannot use an IAM policy to constrain this action's parameters.
+/// </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class CancelTimerDecisionAttributes {
+  /// The unique ID of the timer to cancel.
+  final String timerId;
+
+  CancelTimerDecisionAttributes({
+    required this.timerId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final timerId = this.timerId;
+    return {
+      'timerId': timerId,
+    };
+  }
+}
+
+/// Provides the details of the <code>SignalExternalWorkflowExecution</code>
+/// decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// You cannot use an IAM policy to constrain this action's parameters.
+/// </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class SignalExternalWorkflowExecutionDecisionAttributes {
+  /// The name of the signal.The target workflow execution uses the signal name
+  /// and input to process the signal.
+  final String signalName;
+
+  /// The <code>workflowId</code> of the workflow execution to be signaled.
+  final String workflowId;
+
+  /// The data attached to the event that can be used by the decider in subsequent
+  /// decision tasks.
+  final String? control;
+
+  /// The input data to be provided with the signal. The target workflow execution
+  /// uses the signal name and input data to process the signal.
+  final String? input;
+
+  /// The <code>runId</code> of the workflow execution to be signaled.
+  final String? runId;
+
+  SignalExternalWorkflowExecutionDecisionAttributes({
+    required this.signalName,
+    required this.workflowId,
+    this.control,
+    this.input,
+    this.runId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final signalName = this.signalName;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final input = this.input;
+    final runId = this.runId;
+    return {
+      'signalName': signalName,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (input != null) 'input': input,
+      if (runId != null) 'runId': runId,
+    };
+  }
+}
+
+/// Provides the details of the
+/// <code>RequestCancelExternalWorkflowExecution</code> decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// You cannot use an IAM policy to constrain this action's parameters.
+/// </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class RequestCancelExternalWorkflowExecutionDecisionAttributes {
+  /// The <code>workflowId</code> of the external workflow execution to cancel.
+  final String workflowId;
+
+  /// The data attached to the event that can be used by the decider in subsequent
+  /// workflow tasks.
+  final String? control;
+
+  /// The <code>runId</code> of the external workflow execution to cancel.
+  final String? runId;
+
+  RequestCancelExternalWorkflowExecutionDecisionAttributes({
+    required this.workflowId,
+    this.control,
+    this.runId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final runId = this.runId;
+    return {
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (runId != null) 'runId': runId,
+    };
+  }
+}
+
+/// Provides the details of the <code>StartChildWorkflowExecution</code>
+/// decision.
+///
+/// <b>Access Control</b>
+///
+/// You can use IAM policies to control this decision's access to Amazon SWF
+/// resources as follows:
+///
+/// <ul>
+/// <li>
+/// Use a <code>Resource</code> element with the domain name to limit the action
+/// to only specified domains.
+/// </li>
+/// <li>
+/// Use an <code>Action</code> element to allow or deny permission to call this
+/// action.
+/// </li>
+/// <li>
+/// Constrain the following parameters by using a <code>Condition</code> element
+/// with the appropriate keys.
+///
+/// <ul>
+/// <li>
+/// <code>tagList.member.N</code> – The key is "swf:tagList.N" where N is the
+/// tag number from 0 to 4, inclusive.
+/// </li>
+/// <li>
+/// <code>taskList</code> – String constraint. The key is
+/// <code>swf:taskList.name</code>.
+/// </li>
+/// <li>
+/// <code>workflowType.name</code> – String constraint. The key is
+/// <code>swf:workflowType.name</code>.
+/// </li>
+/// <li>
+/// <code>workflowType.version</code> – String constraint. The key is
+/// <code>swf:workflowType.version</code>.
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// If the caller doesn't have sufficient permissions to invoke the action, or
+/// the parameter values fall outside the specified constraints, the action
+/// fails. The associated event attribute's <code>cause</code> parameter is set
+/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
+/// policies, see <a
+/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+/// Developer Guide</i>.
+class StartChildWorkflowExecutionDecisionAttributes {
+  /// The <code>workflowId</code> of the workflow execution.
+  ///
+  /// The specified string must not contain a <code>:</code> (colon),
+  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
+  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
+  /// it must <i>not</i> be the literal string <code>arn</code>.
+  final String workflowId;
+
+  /// The type of the workflow execution to be started.
+  final WorkflowType workflowType;
+
+  /// If set, specifies the policy to use for the child workflow executions if the
+  /// workflow execution being started is terminated by calling the
+  /// <a>TerminateWorkflowExecution</a> action explicitly or due to an expired
+  /// timeout. This policy overrides the default child policy specified when
+  /// registering the workflow type using <a>RegisterWorkflowType</a>.
+  ///
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul> <note>
+  /// A child policy for this workflow execution must be specified either as a
+  /// default for the workflow type or through this parameter. If neither this
+  /// parameter is set nor a default child policy was specified at registration
+  /// time then a fault is returned.
+  /// </note>
+  final ChildPolicy? childPolicy;
+
+  /// The data attached to the event that can be used by the decider in subsequent
+  /// workflow tasks. This data isn't sent to the child workflow execution.
+  final String? control;
+
+  /// The total duration for this workflow execution. This overrides the
+  /// defaultExecutionStartToCloseTimeout specified when registering the workflow
+  /// type.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  /// <note>
+  /// An execution start-to-close timeout for this workflow execution must be
+  /// specified either as a default for the workflow type or through this
+  /// parameter. If neither this parameter is set nor a default execution
+  /// start-to-close timeout was specified at registration time then a fault is
+  /// returned.
+  /// </note>
+  final String? executionStartToCloseTimeout;
+
+  /// The input to be provided to the workflow execution.
+  final String? input;
+
+  /// The IAM role attached to the child workflow execution.
+  final String? lambdaRole;
+
+  /// The list of tags to associate with the child workflow execution. A maximum
+  /// of 5 tags can be specified. You can list workflow executions with a specific
+  /// tag by calling <a>ListOpenWorkflowExecutions</a> or
+  /// <a>ListClosedWorkflowExecutions</a> and specifying a <a>TagFilter</a>.
+  final List<String>? tagList;
+
+  /// The name of the task list to be used for decision tasks of the child
+  /// workflow execution.
+  /// <note>
+  /// A task list for this workflow execution must be specified either as a
+  /// default for the workflow type or through this parameter. If neither this
+  /// parameter is set nor a default task list was specified at registration time
+  /// then a fault is returned.
+  /// </note>
+  /// The specified string must not start or end with whitespace. It must not
+  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
+  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
+  /// <code>\u007f-\u009f</code>). Also, it must <i>not</i> be the literal string
+  /// <code>arn</code>.
+  final TaskList? taskList;
+
+  /// A task priority that, if set, specifies the priority for a decision task of
+  /// this workflow execution. This overrides the defaultTaskPriority specified
+  /// when registering the workflow type. Valid values are integers that range
+  /// from Java's <code>Integer.MIN_VALUE</code> (-2147483648) to
+  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
+  /// priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  final String? taskPriority;
+
+  /// Specifies the maximum duration of decision tasks for this workflow
+  /// execution. This parameter overrides the
+  /// <code>defaultTaskStartToCloseTimout</code> specified when registering the
+  /// workflow type using <a>RegisterWorkflowType</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  /// <note>
+  /// A task start-to-close timeout for this workflow execution must be specified
+  /// either as a default for the workflow type or through this parameter. If
+  /// neither this parameter is set nor a default task start-to-close timeout was
+  /// specified at registration time then a fault is returned.
+  /// </note>
+  final String? taskStartToCloseTimeout;
+
+  StartChildWorkflowExecutionDecisionAttributes({
+    required this.workflowId,
+    required this.workflowType,
+    this.childPolicy,
+    this.control,
+    this.executionStartToCloseTimeout,
+    this.input,
+    this.lambdaRole,
+    this.tagList,
+    this.taskList,
+    this.taskPriority,
+    this.taskStartToCloseTimeout,
+  });
+
+  Map<String, dynamic> toJson() {
+    final workflowId = this.workflowId;
+    final workflowType = this.workflowType;
+    final childPolicy = this.childPolicy;
+    final control = this.control;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final tagList = this.tagList;
+    final taskList = this.taskList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    return {
+      'workflowId': workflowId,
+      'workflowType': workflowType,
+      if (childPolicy != null) 'childPolicy': childPolicy.value,
+      if (control != null) 'control': control,
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (tagList != null) 'tagList': tagList,
+      if (taskList != null) 'taskList': taskList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+    };
+  }
+}
+
+/// Decision attributes specified in
+/// <code>scheduleLambdaFunctionDecisionAttributes</code> within the list of
+/// decisions <code>decisions</code> passed to
+/// <a>RespondDecisionTaskCompleted</a>.
+class ScheduleLambdaFunctionDecisionAttributes {
+  /// A string that identifies the Lambda function execution in the event history.
+  final String id;
+
+  /// The name, or ARN, of the Lambda function to schedule.
+  final String name;
+
+  /// The data attached to the event that the decider can use in subsequent
+  /// workflow tasks. This data isn't sent to the Lambda task.
+  final String? control;
+
+  /// The optional input data to be supplied to the Lambda function.
+  final String? input;
+
+  /// The timeout value, in seconds, after which the Lambda function is considered
+  /// to be failed once it has started. This can be any integer from 1-900
+  /// (1s-15m).
+  ///
+  /// If no value is supplied, then a default value of 900s is assumed.
+  final String? startToCloseTimeout;
+
+  ScheduleLambdaFunctionDecisionAttributes({
+    required this.id,
+    required this.name,
+    this.control,
+    this.input,
+    this.startToCloseTimeout,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final control = this.control;
+    final input = this.input;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    return {
+      'id': id,
+      'name': name,
+      if (control != null) 'control': control,
+      if (input != null) 'input': input,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+    };
+  }
+}
+
+/// Represents a workflow execution.
+class WorkflowExecution {
+  /// A system-generated unique identifier for the workflow execution.
+  final String runId;
+
+  /// The user defined identifier associated with the workflow execution.
+  final String workflowId;
+
+  WorkflowExecution({
+    required this.runId,
+    required this.workflowId,
+  });
+
+  factory WorkflowExecution.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecution(
+      runId: (json['runId'] as String?) ?? '',
+      workflowId: (json['workflowId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final events = this.events;
-    final nextPageToken = this.nextPageToken;
+    final runId = this.runId;
+    final workflowId = this.workflowId;
     return {
-      'events': events,
-      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+      'runId': runId,
+      'workflowId': workflowId,
     };
   }
 }
@@ -8222,31 +7372,1314 @@ class HistoryEvent {
   }
 }
 
-/// Provides the details of the <code>LambdaFunctionCompleted</code> event. It
-/// isn't set for other event types.
-class LambdaFunctionCompletedEventAttributes {
-  /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
-  /// when this Lambda task was scheduled. To help diagnose issues, use this
-  /// information to trace back the chain of events leading up to this event.
-  final int scheduledEventId;
+class EventType {
+  static const workflowExecutionStarted =
+      EventType._('WorkflowExecutionStarted');
+  static const workflowExecutionCancelRequested =
+      EventType._('WorkflowExecutionCancelRequested');
+  static const workflowExecutionCompleted =
+      EventType._('WorkflowExecutionCompleted');
+  static const completeWorkflowExecutionFailed =
+      EventType._('CompleteWorkflowExecutionFailed');
+  static const workflowExecutionFailed = EventType._('WorkflowExecutionFailed');
+  static const failWorkflowExecutionFailed =
+      EventType._('FailWorkflowExecutionFailed');
+  static const workflowExecutionTimedOut =
+      EventType._('WorkflowExecutionTimedOut');
+  static const workflowExecutionCanceled =
+      EventType._('WorkflowExecutionCanceled');
+  static const cancelWorkflowExecutionFailed =
+      EventType._('CancelWorkflowExecutionFailed');
+  static const workflowExecutionContinuedAsNew =
+      EventType._('WorkflowExecutionContinuedAsNew');
+  static const continueAsNewWorkflowExecutionFailed =
+      EventType._('ContinueAsNewWorkflowExecutionFailed');
+  static const workflowExecutionTerminated =
+      EventType._('WorkflowExecutionTerminated');
+  static const decisionTaskScheduled = EventType._('DecisionTaskScheduled');
+  static const decisionTaskStarted = EventType._('DecisionTaskStarted');
+  static const decisionTaskCompleted = EventType._('DecisionTaskCompleted');
+  static const decisionTaskTimedOut = EventType._('DecisionTaskTimedOut');
+  static const activityTaskScheduled = EventType._('ActivityTaskScheduled');
+  static const scheduleActivityTaskFailed =
+      EventType._('ScheduleActivityTaskFailed');
+  static const activityTaskStarted = EventType._('ActivityTaskStarted');
+  static const activityTaskCompleted = EventType._('ActivityTaskCompleted');
+  static const activityTaskFailed = EventType._('ActivityTaskFailed');
+  static const activityTaskTimedOut = EventType._('ActivityTaskTimedOut');
+  static const activityTaskCanceled = EventType._('ActivityTaskCanceled');
+  static const activityTaskCancelRequested =
+      EventType._('ActivityTaskCancelRequested');
+  static const requestCancelActivityTaskFailed =
+      EventType._('RequestCancelActivityTaskFailed');
+  static const workflowExecutionSignaled =
+      EventType._('WorkflowExecutionSignaled');
+  static const markerRecorded = EventType._('MarkerRecorded');
+  static const recordMarkerFailed = EventType._('RecordMarkerFailed');
+  static const timerStarted = EventType._('TimerStarted');
+  static const startTimerFailed = EventType._('StartTimerFailed');
+  static const timerFired = EventType._('TimerFired');
+  static const timerCanceled = EventType._('TimerCanceled');
+  static const cancelTimerFailed = EventType._('CancelTimerFailed');
+  static const startChildWorkflowExecutionInitiated =
+      EventType._('StartChildWorkflowExecutionInitiated');
+  static const startChildWorkflowExecutionFailed =
+      EventType._('StartChildWorkflowExecutionFailed');
+  static const childWorkflowExecutionStarted =
+      EventType._('ChildWorkflowExecutionStarted');
+  static const childWorkflowExecutionCompleted =
+      EventType._('ChildWorkflowExecutionCompleted');
+  static const childWorkflowExecutionFailed =
+      EventType._('ChildWorkflowExecutionFailed');
+  static const childWorkflowExecutionTimedOut =
+      EventType._('ChildWorkflowExecutionTimedOut');
+  static const childWorkflowExecutionCanceled =
+      EventType._('ChildWorkflowExecutionCanceled');
+  static const childWorkflowExecutionTerminated =
+      EventType._('ChildWorkflowExecutionTerminated');
+  static const signalExternalWorkflowExecutionInitiated =
+      EventType._('SignalExternalWorkflowExecutionInitiated');
+  static const signalExternalWorkflowExecutionFailed =
+      EventType._('SignalExternalWorkflowExecutionFailed');
+  static const externalWorkflowExecutionSignaled =
+      EventType._('ExternalWorkflowExecutionSignaled');
+  static const requestCancelExternalWorkflowExecutionInitiated =
+      EventType._('RequestCancelExternalWorkflowExecutionInitiated');
+  static const requestCancelExternalWorkflowExecutionFailed =
+      EventType._('RequestCancelExternalWorkflowExecutionFailed');
+  static const externalWorkflowExecutionCancelRequested =
+      EventType._('ExternalWorkflowExecutionCancelRequested');
+  static const lambdaFunctionScheduled = EventType._('LambdaFunctionScheduled');
+  static const lambdaFunctionStarted = EventType._('LambdaFunctionStarted');
+  static const lambdaFunctionCompleted = EventType._('LambdaFunctionCompleted');
+  static const lambdaFunctionFailed = EventType._('LambdaFunctionFailed');
+  static const lambdaFunctionTimedOut = EventType._('LambdaFunctionTimedOut');
+  static const scheduleLambdaFunctionFailed =
+      EventType._('ScheduleLambdaFunctionFailed');
+  static const startLambdaFunctionFailed =
+      EventType._('StartLambdaFunctionFailed');
 
-  /// The ID of the <code>LambdaFunctionStarted</code> event recorded when this
-  /// activity task started. To help diagnose issues, use this information to
-  /// trace back the chain of events leading up to this event.
-  final int startedEventId;
+  final String value;
 
-  /// The results of the Lambda task.
+  const EventType._(this.value);
+
+  static const values = [
+    workflowExecutionStarted,
+    workflowExecutionCancelRequested,
+    workflowExecutionCompleted,
+    completeWorkflowExecutionFailed,
+    workflowExecutionFailed,
+    failWorkflowExecutionFailed,
+    workflowExecutionTimedOut,
+    workflowExecutionCanceled,
+    cancelWorkflowExecutionFailed,
+    workflowExecutionContinuedAsNew,
+    continueAsNewWorkflowExecutionFailed,
+    workflowExecutionTerminated,
+    decisionTaskScheduled,
+    decisionTaskStarted,
+    decisionTaskCompleted,
+    decisionTaskTimedOut,
+    activityTaskScheduled,
+    scheduleActivityTaskFailed,
+    activityTaskStarted,
+    activityTaskCompleted,
+    activityTaskFailed,
+    activityTaskTimedOut,
+    activityTaskCanceled,
+    activityTaskCancelRequested,
+    requestCancelActivityTaskFailed,
+    workflowExecutionSignaled,
+    markerRecorded,
+    recordMarkerFailed,
+    timerStarted,
+    startTimerFailed,
+    timerFired,
+    timerCanceled,
+    cancelTimerFailed,
+    startChildWorkflowExecutionInitiated,
+    startChildWorkflowExecutionFailed,
+    childWorkflowExecutionStarted,
+    childWorkflowExecutionCompleted,
+    childWorkflowExecutionFailed,
+    childWorkflowExecutionTimedOut,
+    childWorkflowExecutionCanceled,
+    childWorkflowExecutionTerminated,
+    signalExternalWorkflowExecutionInitiated,
+    signalExternalWorkflowExecutionFailed,
+    externalWorkflowExecutionSignaled,
+    requestCancelExternalWorkflowExecutionInitiated,
+    requestCancelExternalWorkflowExecutionFailed,
+    externalWorkflowExecutionCancelRequested,
+    lambdaFunctionScheduled,
+    lambdaFunctionStarted,
+    lambdaFunctionCompleted,
+    lambdaFunctionFailed,
+    lambdaFunctionTimedOut,
+    scheduleLambdaFunctionFailed,
+    startLambdaFunctionFailed
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides details of <code>WorkflowExecutionStarted</code> event.
+class WorkflowExecutionStartedEventAttributes {
+  /// The policy to use for the child workflow executions if this workflow
+  /// execution is terminated, by calling the <a>TerminateWorkflowExecution</a>
+  /// action explicitly or due to an expired timeout.
+  ///
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul>
+  final ChildPolicy childPolicy;
+
+  /// The name of the task list for scheduling the decision tasks for this
+  /// workflow execution.
+  final TaskList taskList;
+
+  /// The workflow type of this execution.
+  final WorkflowType workflowType;
+
+  /// If this workflow execution was started due to a
+  /// <code>ContinueAsNewWorkflowExecution</code> decision, then it contains the
+  /// <code>runId</code> of the previous workflow execution that was closed and
+  /// continued as this execution.
+  final String? continuedExecutionRunId;
+
+  /// The maximum duration for this workflow execution.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? executionStartToCloseTimeout;
+
+  /// The input provided to the workflow execution.
+  final String? input;
+
+  /// The IAM role attached to the workflow execution.
+  final String? lambdaRole;
+
+  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> to start this workflow execution. The source event with this
+  /// ID can be found in the history of the source workflow execution. This
+  /// information can be useful for diagnosing problems by tracing back the chain
+  /// of events leading up to this event.
+  final int? parentInitiatedEventId;
+
+  /// The source workflow execution that started this workflow execution. The
+  /// member isn't set if the workflow execution was not started by a workflow.
+  final WorkflowExecution? parentWorkflowExecution;
+
+  /// The list of tags associated with this workflow execution. An execution can
+  /// have up to 5 tags.
+  final List<String>? tagList;
+
+  /// The priority of the decision tasks in the workflow execution.
+  final String? taskPriority;
+
+  /// The maximum duration of decision tasks for this workflow type.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? taskStartToCloseTimeout;
+
+  WorkflowExecutionStartedEventAttributes({
+    required this.childPolicy,
+    required this.taskList,
+    required this.workflowType,
+    this.continuedExecutionRunId,
+    this.executionStartToCloseTimeout,
+    this.input,
+    this.lambdaRole,
+    this.parentInitiatedEventId,
+    this.parentWorkflowExecution,
+    this.tagList,
+    this.taskPriority,
+    this.taskStartToCloseTimeout,
+  });
+
+  factory WorkflowExecutionStartedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionStartedEventAttributes(
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      continuedExecutionRunId: json['continuedExecutionRunId'] as String?,
+      executionStartToCloseTimeout:
+          json['executionStartToCloseTimeout'] as String?,
+      input: json['input'] as String?,
+      lambdaRole: json['lambdaRole'] as String?,
+      parentInitiatedEventId: json['parentInitiatedEventId'] as int?,
+      parentWorkflowExecution: json['parentWorkflowExecution'] != null
+          ? WorkflowExecution.fromJson(
+              json['parentWorkflowExecution'] as Map<String, dynamic>)
+          : null,
+      tagList:
+          (json['tagList'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      taskPriority: json['taskPriority'] as String?,
+      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final taskList = this.taskList;
+    final workflowType = this.workflowType;
+    final continuedExecutionRunId = this.continuedExecutionRunId;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final parentInitiatedEventId = this.parentInitiatedEventId;
+    final parentWorkflowExecution = this.parentWorkflowExecution;
+    final tagList = this.tagList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    return {
+      'childPolicy': childPolicy.value,
+      'taskList': taskList,
+      'workflowType': workflowType,
+      if (continuedExecutionRunId != null)
+        'continuedExecutionRunId': continuedExecutionRunId,
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (parentInitiatedEventId != null)
+        'parentInitiatedEventId': parentInitiatedEventId,
+      if (parentWorkflowExecution != null)
+        'parentWorkflowExecution': parentWorkflowExecution,
+      if (tagList != null) 'tagList': tagList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+    };
+  }
+}
+
+/// Provides the details of the <code>WorkflowExecutionCompleted</code> event.
+class WorkflowExecutionCompletedEventAttributes {
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>CompleteWorkflowExecution</code>
+  /// decision to complete this execution. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int decisionTaskCompletedEventId;
+
+  /// The result produced by the workflow execution upon successful completion.
   final String? result;
 
-  LambdaFunctionCompletedEventAttributes({
+  WorkflowExecutionCompletedEventAttributes({
+    required this.decisionTaskCompletedEventId,
+    this.result,
+  });
+
+  factory WorkflowExecutionCompletedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionCompletedEventAttributes(
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      result: json['result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final result = this.result;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      if (result != null) 'result': result,
+    };
+  }
+}
+
+/// Provides the details of the <code>CompleteWorkflowExecutionFailed</code>
+/// event.
+class CompleteWorkflowExecutionFailedEventAttributes {
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final CompleteWorkflowExecutionFailedCause cause;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>CompleteWorkflowExecution</code>
+  /// decision to complete this execution. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int decisionTaskCompletedEventId;
+
+  CompleteWorkflowExecutionFailedEventAttributes({
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+  });
+
+  factory CompleteWorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return CompleteWorkflowExecutionFailedEventAttributes(
+      cause: CompleteWorkflowExecutionFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
+}
+
+/// Provides the details of the <code>WorkflowExecutionFailed</code> event.
+class WorkflowExecutionFailedEventAttributes {
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>FailWorkflowExecution</code>
+  /// decision to fail this execution. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int decisionTaskCompletedEventId;
+
+  /// The details of the failure.
+  final String? details;
+
+  /// The descriptive reason provided for the failure.
+  final String? reason;
+
+  WorkflowExecutionFailedEventAttributes({
+    required this.decisionTaskCompletedEventId,
+    this.details,
+    this.reason,
+  });
+
+  factory WorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionFailedEventAttributes(
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+/// Provides the details of the <code>FailWorkflowExecutionFailed</code> event.
+class FailWorkflowExecutionFailedEventAttributes {
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final FailWorkflowExecutionFailedCause cause;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>FailWorkflowExecution</code>
+  /// decision to fail this execution. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int decisionTaskCompletedEventId;
+
+  FailWorkflowExecutionFailedEventAttributes({
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+  });
+
+  factory FailWorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return FailWorkflowExecutionFailedEventAttributes(
+      cause: FailWorkflowExecutionFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
+}
+
+/// Provides the details of the <code>WorkflowExecutionTimedOut</code> event.
+class WorkflowExecutionTimedOutEventAttributes {
+  /// The policy used for the child workflow executions of this workflow
+  /// execution.
+  ///
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul>
+  final ChildPolicy childPolicy;
+
+  /// The type of timeout that caused this event.
+  final WorkflowExecutionTimeoutType timeoutType;
+
+  WorkflowExecutionTimedOutEventAttributes({
+    required this.childPolicy,
+    required this.timeoutType,
+  });
+
+  factory WorkflowExecutionTimedOutEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionTimedOutEventAttributes(
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
+      timeoutType: WorkflowExecutionTimeoutType.fromString(
+          (json['timeoutType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final timeoutType = this.timeoutType;
+    return {
+      'childPolicy': childPolicy.value,
+      'timeoutType': timeoutType.value,
+    };
+  }
+}
+
+/// Provides the details of the <code>WorkflowExecutionCanceled</code> event.
+class WorkflowExecutionCanceledEventAttributes {
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>CancelWorkflowExecution</code>
+  /// decision for this cancellation request. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int decisionTaskCompletedEventId;
+
+  /// The details of the cancellation.
+  final String? details;
+
+  WorkflowExecutionCanceledEventAttributes({
+    required this.decisionTaskCompletedEventId,
+    this.details,
+  });
+
+  factory WorkflowExecutionCanceledEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionCanceledEventAttributes(
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final details = this.details;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      if (details != null) 'details': details,
+    };
+  }
+}
+
+/// Provides the details of the <code>CancelWorkflowExecutionFailed</code>
+/// event.
+class CancelWorkflowExecutionFailedEventAttributes {
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final CancelWorkflowExecutionFailedCause cause;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>CancelWorkflowExecution</code>
+  /// decision for this cancellation request. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int decisionTaskCompletedEventId;
+
+  CancelWorkflowExecutionFailedEventAttributes({
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+  });
+
+  factory CancelWorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return CancelWorkflowExecutionFailedEventAttributes(
+      cause: CancelWorkflowExecutionFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
+}
+
+/// Provides the details of the <code>WorkflowExecutionContinuedAsNew</code>
+/// event.
+class WorkflowExecutionContinuedAsNewEventAttributes {
+  /// The policy to use for the child workflow executions of the new execution if
+  /// it is terminated by calling the <a>TerminateWorkflowExecution</a> action
+  /// explicitly or due to an expired timeout.
+  ///
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul>
+  final ChildPolicy childPolicy;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the
+  /// <code>ContinueAsNewWorkflowExecution</code> decision that started this
+  /// execution. This information can be useful for diagnosing problems by tracing
+  /// back the chain of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  /// The <code>runId</code> of the new workflow execution.
+  final String newExecutionRunId;
+
+  /// The task list to use for the decisions of the new (continued) workflow
+  /// execution.
+  final TaskList taskList;
+
+  /// The workflow type of this execution.
+  final WorkflowType workflowType;
+
+  /// The total duration allowed for the new workflow execution.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? executionStartToCloseTimeout;
+
+  /// The input provided to the new workflow execution.
+  final String? input;
+
+  /// The IAM role to attach to the new (continued) workflow execution.
+  final String? lambdaRole;
+
+  /// The list of tags associated with the new workflow execution.
+  final List<String>? tagList;
+
+  /// The priority of the task to use for the decisions of the new (continued)
+  /// workflow execution.
+  final String? taskPriority;
+
+  /// The maximum duration of decision tasks for the new workflow execution.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? taskStartToCloseTimeout;
+
+  WorkflowExecutionContinuedAsNewEventAttributes({
+    required this.childPolicy,
+    required this.decisionTaskCompletedEventId,
+    required this.newExecutionRunId,
+    required this.taskList,
+    required this.workflowType,
+    this.executionStartToCloseTimeout,
+    this.input,
+    this.lambdaRole,
+    this.tagList,
+    this.taskPriority,
+    this.taskStartToCloseTimeout,
+  });
+
+  factory WorkflowExecutionContinuedAsNewEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionContinuedAsNewEventAttributes(
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      newExecutionRunId: (json['newExecutionRunId'] as String?) ?? '',
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      executionStartToCloseTimeout:
+          json['executionStartToCloseTimeout'] as String?,
+      input: json['input'] as String?,
+      lambdaRole: json['lambdaRole'] as String?,
+      tagList:
+          (json['tagList'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      taskPriority: json['taskPriority'] as String?,
+      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final newExecutionRunId = this.newExecutionRunId;
+    final taskList = this.taskList;
+    final workflowType = this.workflowType;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final tagList = this.tagList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    return {
+      'childPolicy': childPolicy.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'newExecutionRunId': newExecutionRunId,
+      'taskList': taskList,
+      'workflowType': workflowType,
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (tagList != null) 'tagList': tagList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+    };
+  }
+}
+
+/// Provides the details of the
+/// <code>ContinueAsNewWorkflowExecutionFailed</code> event.
+class ContinueAsNewWorkflowExecutionFailedEventAttributes {
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final ContinueAsNewWorkflowExecutionFailedCause cause;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the
+  /// <code>ContinueAsNewWorkflowExecution</code> decision that started this
+  /// execution. This information can be useful for diagnosing problems by tracing
+  /// back the chain of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  ContinueAsNewWorkflowExecutionFailedEventAttributes({
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+  });
+
+  factory ContinueAsNewWorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ContinueAsNewWorkflowExecutionFailedEventAttributes(
+      cause: ContinueAsNewWorkflowExecutionFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
+}
+
+/// Provides the details of the <code>WorkflowExecutionTerminated</code> event.
+class WorkflowExecutionTerminatedEventAttributes {
+  /// The policy used for the child workflow executions of this workflow
+  /// execution.
+  ///
+  /// The supported child policies are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TERMINATE</code> – The child executions are terminated.
+  /// </li>
+  /// <li>
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
+  /// </li>
+  /// </ul>
+  final ChildPolicy childPolicy;
+
+  /// If set, indicates that the workflow execution was automatically terminated,
+  /// and specifies the cause. This happens if the parent workflow execution times
+  /// out or is terminated and the child policy is set to terminate child
+  /// executions.
+  final WorkflowExecutionTerminatedCause? cause;
+
+  /// The details provided for the termination.
+  final String? details;
+
+  /// The reason provided for the termination.
+  final String? reason;
+
+  WorkflowExecutionTerminatedEventAttributes({
+    required this.childPolicy,
+    this.cause,
+    this.details,
+    this.reason,
+  });
+
+  factory WorkflowExecutionTerminatedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionTerminatedEventAttributes(
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
+      cause: (json['cause'] as String?)
+          ?.let(WorkflowExecutionTerminatedCause.fromString),
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final cause = this.cause;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'childPolicy': childPolicy.value,
+      if (cause != null) 'cause': cause.value,
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+/// Provides the details of the <code>WorkflowExecutionCancelRequested</code>
+/// event.
+class WorkflowExecutionCancelRequestedEventAttributes {
+  /// If set, indicates that the request to cancel the workflow execution was
+  /// automatically generated, and specifies the cause. This happens if the parent
+  /// workflow execution times out or is terminated, and the child policy is set
+  /// to cancel child executions.
+  final WorkflowExecutionCancelRequestedCause? cause;
+
+  /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
+  /// event corresponding to the
+  /// <code>RequestCancelExternalWorkflowExecution</code> decision to cancel this
+  /// workflow execution.The source event with this ID can be found in the history
+  /// of the source workflow execution. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int? externalInitiatedEventId;
+
+  /// The external workflow execution for which the cancellation was requested.
+  final WorkflowExecution? externalWorkflowExecution;
+
+  WorkflowExecutionCancelRequestedEventAttributes({
+    this.cause,
+    this.externalInitiatedEventId,
+    this.externalWorkflowExecution,
+  });
+
+  factory WorkflowExecutionCancelRequestedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionCancelRequestedEventAttributes(
+      cause: (json['cause'] as String?)
+          ?.let(WorkflowExecutionCancelRequestedCause.fromString),
+      externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
+      externalWorkflowExecution: json['externalWorkflowExecution'] != null
+          ? WorkflowExecution.fromJson(
+              json['externalWorkflowExecution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final externalInitiatedEventId = this.externalInitiatedEventId;
+    final externalWorkflowExecution = this.externalWorkflowExecution;
+    return {
+      if (cause != null) 'cause': cause.value,
+      if (externalInitiatedEventId != null)
+        'externalInitiatedEventId': externalInitiatedEventId,
+      if (externalWorkflowExecution != null)
+        'externalWorkflowExecution': externalWorkflowExecution,
+    };
+  }
+}
+
+/// Provides details about the <code>DecisionTaskScheduled</code> event.
+class DecisionTaskScheduledEventAttributes {
+  /// The name of the task list in which the decision task was scheduled.
+  final TaskList taskList;
+
+  /// The maximum amount of time the decision task can wait to be assigned to a
+  /// worker.
+  final String? scheduleToStartTimeout;
+
+  /// The maximum duration for this decision task. The task is considered timed
+  /// out if it doesn't completed within this duration.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? startToCloseTimeout;
+
+  /// A task priority that, if set, specifies the priority for this decision task.
+  /// Valid values are integers that range from Java's
+  /// <code>Integer.MIN_VALUE</code> (-2147483648) to
+  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
+  /// priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  final String? taskPriority;
+
+  DecisionTaskScheduledEventAttributes({
+    required this.taskList,
+    this.scheduleToStartTimeout,
+    this.startToCloseTimeout,
+    this.taskPriority,
+  });
+
+  factory DecisionTaskScheduledEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return DecisionTaskScheduledEventAttributes(
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
+      startToCloseTimeout: json['startToCloseTimeout'] as String?,
+      taskPriority: json['taskPriority'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskList = this.taskList;
+    final scheduleToStartTimeout = this.scheduleToStartTimeout;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    final taskPriority = this.taskPriority;
+    return {
+      'taskList': taskList,
+      if (scheduleToStartTimeout != null)
+        'scheduleToStartTimeout': scheduleToStartTimeout,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+    };
+  }
+}
+
+/// Provides the details of the <code>DecisionTaskStarted</code> event.
+class DecisionTaskStartedEventAttributes {
+  /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
+  /// when this decision task was scheduled. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int scheduledEventId;
+
+  /// Identity of the decider making the request. This enables diagnostic tracing
+  /// when problems arise. The form of this identity is user defined.
+  final String? identity;
+
+  DecisionTaskStartedEventAttributes({
+    required this.scheduledEventId,
+    this.identity,
+  });
+
+  factory DecisionTaskStartedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return DecisionTaskStartedEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      identity: json['identity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final identity = this.identity;
+    return {
+      'scheduledEventId': scheduledEventId,
+      if (identity != null) 'identity': identity,
+    };
+  }
+}
+
+/// Provides the details of the <code>DecisionTaskCompleted</code> event.
+class DecisionTaskCompletedEventAttributes {
+  /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
+  /// when this decision task was scheduled. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int scheduledEventId;
+
+  /// The ID of the <code>DecisionTaskStarted</code> event recorded when this
+  /// decision task was started. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
+  final int startedEventId;
+
+  /// User defined context for the workflow execution.
+  final String? executionContext;
+  final TaskList? taskList;
+
+  /// The maximum amount of time the decision task can wait to be assigned to a
+  /// worker.
+  final String? taskListScheduleToStartTimeout;
+
+  DecisionTaskCompletedEventAttributes({
+    required this.scheduledEventId,
+    required this.startedEventId,
+    this.executionContext,
+    this.taskList,
+    this.taskListScheduleToStartTimeout,
+  });
+
+  factory DecisionTaskCompletedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return DecisionTaskCompletedEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      executionContext: json['executionContext'] as String?,
+      taskList: json['taskList'] != null
+          ? TaskList.fromJson(json['taskList'] as Map<String, dynamic>)
+          : null,
+      taskListScheduleToStartTimeout:
+          json['taskListScheduleToStartTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final executionContext = this.executionContext;
+    final taskList = this.taskList;
+    final taskListScheduleToStartTimeout = this.taskListScheduleToStartTimeout;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (executionContext != null) 'executionContext': executionContext,
+      if (taskList != null) 'taskList': taskList,
+      if (taskListScheduleToStartTimeout != null)
+        'taskListScheduleToStartTimeout': taskListScheduleToStartTimeout,
+    };
+  }
+}
+
+/// Provides the details of the <code>DecisionTaskTimedOut</code> event.
+class DecisionTaskTimedOutEventAttributes {
+  /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
+  /// when this decision task was scheduled. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int scheduledEventId;
+
+  /// The ID of the <code>DecisionTaskStarted</code> event recorded when this
+  /// decision task was started. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
+  final int startedEventId;
+
+  /// The type of timeout that expired before the decision task could be
+  /// completed.
+  final DecisionTaskTimeoutType timeoutType;
+
+  DecisionTaskTimedOutEventAttributes({
+    required this.scheduledEventId,
+    required this.startedEventId,
+    required this.timeoutType,
+  });
+
+  factory DecisionTaskTimedOutEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return DecisionTaskTimedOutEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      timeoutType: DecisionTaskTimeoutType.fromString(
+          (json['timeoutType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final timeoutType = this.timeoutType;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      'timeoutType': timeoutType.value,
+    };
+  }
+}
+
+/// Provides the details of the <code>ActivityTaskScheduled</code> event.
+class ActivityTaskScheduledEventAttributes {
+  /// The unique ID of the activity task.
+  final String activityId;
+
+  /// The type of the activity task.
+  final ActivityType activityType;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision that resulted in the scheduling of this activity task. This
+  /// information can be useful for diagnosing problems by tracing back the chain
+  /// of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  /// The task list in which the activity task has been scheduled.
+  final TaskList taskList;
+
+  /// Data attached to the event that can be used by the decider in subsequent
+  /// workflow tasks. This data isn't sent to the activity.
+  final String? control;
+
+  /// The maximum time before which the worker processing this task must report
+  /// progress by calling <a>RecordActivityTaskHeartbeat</a>. If the timeout is
+  /// exceeded, the activity task is automatically timed out. If the worker
+  /// subsequently attempts to record a heartbeat or return a result, it is
+  /// ignored.
+  final String? heartbeatTimeout;
+
+  /// The input provided to the activity task.
+  final String? input;
+
+  /// The maximum amount of time for this activity task.
+  final String? scheduleToCloseTimeout;
+
+  /// The maximum amount of time the activity task can wait to be assigned to a
+  /// worker.
+  final String? scheduleToStartTimeout;
+
+  /// The maximum amount of time a worker may take to process the activity task.
+  final String? startToCloseTimeout;
+
+  /// The priority to assign to the scheduled activity task. If set, this
+  /// overrides any default priority value that was assigned when the activity
+  /// type was registered.
+  ///
+  /// Valid values are integers that range from Java's
+  /// <code>Integer.MIN_VALUE</code> (-2147483648) to
+  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
+  /// priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  final String? taskPriority;
+
+  ActivityTaskScheduledEventAttributes({
+    required this.activityId,
+    required this.activityType,
+    required this.decisionTaskCompletedEventId,
+    required this.taskList,
+    this.control,
+    this.heartbeatTimeout,
+    this.input,
+    this.scheduleToCloseTimeout,
+    this.scheduleToStartTimeout,
+    this.startToCloseTimeout,
+    this.taskPriority,
+  });
+
+  factory ActivityTaskScheduledEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ActivityTaskScheduledEventAttributes(
+      activityId: (json['activityId'] as String?) ?? '',
+      activityType: ActivityType.fromJson(
+          (json['activityType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      control: json['control'] as String?,
+      heartbeatTimeout: json['heartbeatTimeout'] as String?,
+      input: json['input'] as String?,
+      scheduleToCloseTimeout: json['scheduleToCloseTimeout'] as String?,
+      scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
+      startToCloseTimeout: json['startToCloseTimeout'] as String?,
+      taskPriority: json['taskPriority'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final activityType = this.activityType;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final taskList = this.taskList;
+    final control = this.control;
+    final heartbeatTimeout = this.heartbeatTimeout;
+    final input = this.input;
+    final scheduleToCloseTimeout = this.scheduleToCloseTimeout;
+    final scheduleToStartTimeout = this.scheduleToStartTimeout;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    final taskPriority = this.taskPriority;
+    return {
+      'activityId': activityId,
+      'activityType': activityType,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'taskList': taskList,
+      if (control != null) 'control': control,
+      if (heartbeatTimeout != null) 'heartbeatTimeout': heartbeatTimeout,
+      if (input != null) 'input': input,
+      if (scheduleToCloseTimeout != null)
+        'scheduleToCloseTimeout': scheduleToCloseTimeout,
+      if (scheduleToStartTimeout != null)
+        'scheduleToStartTimeout': scheduleToStartTimeout,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+    };
+  }
+}
+
+/// Provides the details of the <code>ActivityTaskStarted</code> event.
+class ActivityTaskStartedEventAttributes {
+  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
+  /// when this activity task was scheduled. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int scheduledEventId;
+
+  /// Identity of the worker that was assigned this task. This aids diagnostics
+  /// when problems arise. The form of this identity is user defined.
+  final String? identity;
+
+  ActivityTaskStartedEventAttributes({
+    required this.scheduledEventId,
+    this.identity,
+  });
+
+  factory ActivityTaskStartedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ActivityTaskStartedEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      identity: json['identity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final identity = this.identity;
+    return {
+      'scheduledEventId': scheduledEventId,
+      if (identity != null) 'identity': identity,
+    };
+  }
+}
+
+/// Provides the details of the <code>ActivityTaskCompleted</code> event.
+class ActivityTaskCompletedEventAttributes {
+  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
+  /// when this activity task was scheduled. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int scheduledEventId;
+
+  /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
+  /// activity task was started. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
+  final int startedEventId;
+
+  /// The results of the activity task.
+  final String? result;
+
+  ActivityTaskCompletedEventAttributes({
     required this.scheduledEventId,
     required this.startedEventId,
     this.result,
   });
 
-  factory LambdaFunctionCompletedEventAttributes.fromJson(
+  factory ActivityTaskCompletedEventAttributes.fromJson(
       Map<String, dynamic> json) {
-    return LambdaFunctionCompletedEventAttributes(
+    return ActivityTaskCompletedEventAttributes(
       scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
       startedEventId: (json['startedEventId'] as int?) ?? 0,
       result: json['result'] as String?,
@@ -8265,17 +8698,17 @@ class LambdaFunctionCompletedEventAttributes {
   }
 }
 
-/// Provides the details of the <code>LambdaFunctionFailed</code> event. It
-/// isn't set for other event types.
-class LambdaFunctionFailedEventAttributes {
-  /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
-  /// when this activity task was scheduled. To help diagnose issues, use this
-  /// information to trace back the chain of events leading up to this event.
+/// Provides the details of the <code>ActivityTaskFailed</code> event.
+class ActivityTaskFailedEventAttributes {
+  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
+  /// when this activity task was scheduled. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
   final int scheduledEventId;
 
-  /// The ID of the <code>LambdaFunctionStarted</code> event recorded when this
-  /// activity task started. To help diagnose issues, use this information to
-  /// trace back the chain of events leading up to this event.
+  /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
+  /// activity task was started. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
   final int startedEventId;
 
   /// The details of the failure.
@@ -8284,16 +8717,16 @@ class LambdaFunctionFailedEventAttributes {
   /// The reason provided for the failure.
   final String? reason;
 
-  LambdaFunctionFailedEventAttributes({
+  ActivityTaskFailedEventAttributes({
     required this.scheduledEventId,
     required this.startedEventId,
     this.details,
     this.reason,
   });
 
-  factory LambdaFunctionFailedEventAttributes.fromJson(
+  factory ActivityTaskFailedEventAttributes.fromJson(
       Map<String, dynamic> json) {
-    return LambdaFunctionFailedEventAttributes(
+    return ActivityTaskFailedEventAttributes(
       scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
       startedEventId: (json['startedEventId'] as int?) ?? 0,
       details: json['details'] as String?,
@@ -8315,127 +8748,41 @@ class LambdaFunctionFailedEventAttributes {
   }
 }
 
-/// Provides the details of the <code>LambdaFunctionScheduled</code> event. It
-/// isn't set for other event types.
-class LambdaFunctionScheduledEventAttributes {
-  /// The ID of the <code>LambdaFunctionCompleted</code> event corresponding to
-  /// the decision that resulted in scheduling this activity task. To help
-  /// diagnose issues, use this information to trace back the chain of events
-  /// leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  /// The unique ID of the Lambda task.
-  final String id;
-
-  /// The name of the Lambda function.
-  final String name;
-
-  /// Data attached to the event that the decider can use in subsequent workflow
-  /// tasks. This data isn't sent to the Lambda task.
-  final String? control;
-
-  /// The input provided to the Lambda task.
-  final String? input;
-
-  /// The maximum amount of time a worker can take to process the Lambda task.
-  final String? startToCloseTimeout;
-
-  LambdaFunctionScheduledEventAttributes({
-    required this.decisionTaskCompletedEventId,
-    required this.id,
-    required this.name,
-    this.control,
-    this.input,
-    this.startToCloseTimeout,
-  });
-
-  factory LambdaFunctionScheduledEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return LambdaFunctionScheduledEventAttributes(
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      control: json['control'] as String?,
-      input: json['input'] as String?,
-      startToCloseTimeout: json['startToCloseTimeout'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final id = this.id;
-    final name = this.name;
-    final control = this.control;
-    final input = this.input;
-    final startToCloseTimeout = this.startToCloseTimeout;
-    return {
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'id': id,
-      'name': name,
-      if (control != null) 'control': control,
-      if (input != null) 'input': input,
-      if (startToCloseTimeout != null)
-        'startToCloseTimeout': startToCloseTimeout,
-    };
-  }
-}
-
-/// Provides the details of the <code>LambdaFunctionStarted</code> event. It
-/// isn't set for other event types.
-class LambdaFunctionStartedEventAttributes {
-  /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
-  /// when this activity task was scheduled. To help diagnose issues, use this
-  /// information to trace back the chain of events leading up to this event.
+/// Provides the details of the <code>ActivityTaskTimedOut</code> event.
+class ActivityTaskTimedOutEventAttributes {
+  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
+  /// when this activity task was scheduled. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
   final int scheduledEventId;
 
-  LambdaFunctionStartedEventAttributes({
-    required this.scheduledEventId,
-  });
-
-  factory LambdaFunctionStartedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return LambdaFunctionStartedEventAttributes(
-      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledEventId = this.scheduledEventId;
-    return {
-      'scheduledEventId': scheduledEventId,
-    };
-  }
-}
-
-/// Provides details of the <code>LambdaFunctionTimedOut</code> event.
-class LambdaFunctionTimedOutEventAttributes {
-  /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
-  /// when this activity task was scheduled. To help diagnose issues, use this
-  /// information to trace back the chain of events leading up to this event.
-  final int scheduledEventId;
-
-  /// The ID of the <code>ActivityTaskStarted</code> event that was recorded when
-  /// this activity task started. To help diagnose issues, use this information to
-  /// trace back the chain of events leading up to this event.
+  /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
+  /// activity task was started. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
   final int startedEventId;
 
   /// The type of the timeout that caused this event.
-  final LambdaFunctionTimeoutType? timeoutType;
+  final ActivityTaskTimeoutType timeoutType;
 
-  LambdaFunctionTimedOutEventAttributes({
+  /// Contains the content of the <code>details</code> parameter for the last call
+  /// made by the activity to <code>RecordActivityTaskHeartbeat</code>.
+  final String? details;
+
+  ActivityTaskTimedOutEventAttributes({
     required this.scheduledEventId,
     required this.startedEventId,
-    this.timeoutType,
+    required this.timeoutType,
+    this.details,
   });
 
-  factory LambdaFunctionTimedOutEventAttributes.fromJson(
+  factory ActivityTaskTimedOutEventAttributes.fromJson(
       Map<String, dynamic> json) {
-    return LambdaFunctionTimedOutEventAttributes(
+    return ActivityTaskTimedOutEventAttributes(
       scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
       startedEventId: (json['startedEventId'] as int?) ?? 0,
-      timeoutType: (json['timeoutType'] as String?)
-          ?.let(LambdaFunctionTimeoutType.fromString),
+      timeoutType: ActivityTaskTimeoutType.fromString(
+          (json['timeoutType'] as String?) ?? ''),
+      details: json['details'] as String?,
     );
   }
 
@@ -8443,59 +8790,162 @@ class LambdaFunctionTimedOutEventAttributes {
     final scheduledEventId = this.scheduledEventId;
     final startedEventId = this.startedEventId;
     final timeoutType = this.timeoutType;
+    final details = this.details;
     return {
       'scheduledEventId': scheduledEventId,
       'startedEventId': startedEventId,
-      if (timeoutType != null) 'timeoutType': timeoutType.value,
+      'timeoutType': timeoutType.value,
+      if (details != null) 'details': details,
     };
   }
 }
 
-class LambdaFunctionTimeoutType {
-  static const startToClose = LambdaFunctionTimeoutType._('START_TO_CLOSE');
+/// Provides the details of the <code>ActivityTaskCanceled</code> event.
+class ActivityTaskCanceledEventAttributes {
+  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
+  /// when this activity task was scheduled. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int scheduledEventId;
 
-  final String value;
+  /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
+  /// activity task was started. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
+  final int startedEventId;
 
-  const LambdaFunctionTimeoutType._(this.value);
+  /// Details of the cancellation.
+  final String? details;
 
-  static const values = [startToClose];
+  /// If set, contains the ID of the last <code>ActivityTaskCancelRequested</code>
+  /// event recorded for this activity task. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int? latestCancelRequestedEventId;
 
-  static LambdaFunctionTimeoutType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LambdaFunctionTimeoutType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LambdaFunctionTimeoutType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListTagsForResourceOutput {
-  /// An array of tags associated with the domain.
-  final List<ResourceTag>? tags;
-
-  ListTagsForResourceOutput({
-    this.tags,
+  ActivityTaskCanceledEventAttributes({
+    required this.scheduledEventId,
+    required this.startedEventId,
+    this.details,
+    this.latestCancelRequestedEventId,
   });
 
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceOutput(
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory ActivityTaskCanceledEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ActivityTaskCanceledEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      details: json['details'] as String?,
+      latestCancelRequestedEventId:
+          json['latestCancelRequestedEventId'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final tags = this.tags;
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final details = this.details;
+    final latestCancelRequestedEventId = this.latestCancelRequestedEventId;
     return {
-      if (tags != null) 'tags': tags,
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (details != null) 'details': details,
+      if (latestCancelRequestedEventId != null)
+        'latestCancelRequestedEventId': latestCancelRequestedEventId,
+    };
+  }
+}
+
+/// Provides the details of the <code>ActivityTaskCancelRequested</code> event.
+class ActivityTaskCancelRequestedEventAttributes {
+  /// The unique ID of the task.
+  final String activityId;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>RequestCancelActivityTask</code>
+  /// decision for this cancellation request. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int decisionTaskCompletedEventId;
+
+  ActivityTaskCancelRequestedEventAttributes({
+    required this.activityId,
+    required this.decisionTaskCompletedEventId,
+  });
+
+  factory ActivityTaskCancelRequestedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ActivityTaskCancelRequestedEventAttributes(
+      activityId: (json['activityId'] as String?) ?? '',
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'activityId': activityId,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
+}
+
+/// Provides the details of the <code>WorkflowExecutionSignaled</code> event.
+class WorkflowExecutionSignaledEventAttributes {
+  /// The name of the signal received. The decider can use the signal name and
+  /// inputs to determine how to the process the signal.
+  final String signalName;
+
+  /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>SignalExternalWorkflow</code> decision to signal
+  /// this workflow execution.The source event with this ID can be found in the
+  /// history of the source workflow execution. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event. This field is set only if the signal was initiated by another
+  /// workflow execution.
+  final int? externalInitiatedEventId;
+
+  /// The workflow execution that sent the signal. This is set only of the signal
+  /// was sent by another workflow execution.
+  final WorkflowExecution? externalWorkflowExecution;
+
+  /// The inputs provided with the signal. The decider can use the signal name and
+  /// inputs to determine how to process the signal.
+  final String? input;
+
+  WorkflowExecutionSignaledEventAttributes({
+    required this.signalName,
+    this.externalInitiatedEventId,
+    this.externalWorkflowExecution,
+    this.input,
+  });
+
+  factory WorkflowExecutionSignaledEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return WorkflowExecutionSignaledEventAttributes(
+      signalName: (json['signalName'] as String?) ?? '',
+      externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
+      externalWorkflowExecution: json['externalWorkflowExecution'] != null
+          ? WorkflowExecution.fromJson(
+              json['externalWorkflowExecution'] as Map<String, dynamic>)
+          : null,
+      input: json['input'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signalName = this.signalName;
+    final externalInitiatedEventId = this.externalInitiatedEventId;
+    final externalWorkflowExecution = this.externalWorkflowExecution;
+    final input = this.input;
+    return {
+      'signalName': signalName,
+      if (externalInitiatedEventId != null)
+        'externalInitiatedEventId': externalInitiatedEventId,
+      if (externalWorkflowExecution != null)
+        'externalWorkflowExecution': externalWorkflowExecution,
+      if (input != null) 'input': input,
     };
   }
 }
@@ -8539,112 +8989,6 @@ class MarkerRecordedEventAttributes {
       if (details != null) 'details': details,
     };
   }
-}
-
-/// Contains the count of tasks in a task list.
-class PendingTaskCount {
-  /// The number of tasks in the task list.
-  final int count;
-
-  /// If set to true, indicates that the actual count was more than the maximum
-  /// supported by this API and the count returned is the truncated value.
-  final bool? truncated;
-
-  PendingTaskCount({
-    required this.count,
-    this.truncated,
-  });
-
-  factory PendingTaskCount.fromJson(Map<String, dynamic> json) {
-    return PendingTaskCount(
-      count: (json['count'] as int?) ?? 0,
-      truncated: json['truncated'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final count = this.count;
-    final truncated = this.truncated;
-    return {
-      'count': count,
-      if (truncated != null) 'truncated': truncated,
-    };
-  }
-}
-
-/// Provides the details of the <code>RecordMarker</code> decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// You cannot use an IAM policy to constrain this action's parameters.
-/// </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class RecordMarkerDecisionAttributes {
-  /// The name of the marker.
-  final String markerName;
-
-  /// The details of the marker.
-  final String? details;
-
-  RecordMarkerDecisionAttributes({
-    required this.markerName,
-    this.details,
-  });
-
-  Map<String, dynamic> toJson() {
-    final markerName = this.markerName;
-    final details = this.details;
-    return {
-      'markerName': markerName,
-      if (details != null) 'details': details,
-    };
-  }
-}
-
-class RecordMarkerFailedCause {
-  static const operationNotPermitted =
-      RecordMarkerFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const RecordMarkerFailedCause._(this.value);
-
-  static const values = [operationNotPermitted];
-
-  static RecordMarkerFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecordMarkerFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecordMarkerFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Provides the details of the <code>RecordMarkerFailed</code> event.
@@ -8699,1510 +9043,129 @@ class RecordMarkerFailedEventAttributes {
   }
 }
 
-class RegistrationStatus {
-  static const registered = RegistrationStatus._('REGISTERED');
-  static const deprecated = RegistrationStatus._('DEPRECATED');
-
-  final String value;
-
-  const RegistrationStatus._(this.value);
-
-  static const values = [registered, deprecated];
-
-  static RegistrationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RegistrationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RegistrationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>RequestCancelActivityTask</code> decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// You cannot use an IAM policy to constrain this action's parameters.
-/// </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class RequestCancelActivityTaskDecisionAttributes {
-  /// The <code>activityId</code> of the activity task to be canceled.
-  final String activityId;
-
-  RequestCancelActivityTaskDecisionAttributes({
-    required this.activityId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final activityId = this.activityId;
-    return {
-      'activityId': activityId,
-    };
-  }
-}
-
-class RequestCancelActivityTaskFailedCause {
-  static const activityIdUnknown =
-      RequestCancelActivityTaskFailedCause._('ACTIVITY_ID_UNKNOWN');
-  static const operationNotPermitted =
-      RequestCancelActivityTaskFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const RequestCancelActivityTaskFailedCause._(this.value);
-
-  static const values = [activityIdUnknown, operationNotPermitted];
-
-  static RequestCancelActivityTaskFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RequestCancelActivityTaskFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RequestCancelActivityTaskFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>RequestCancelActivityTaskFailed</code>
-/// event.
-class RequestCancelActivityTaskFailedEventAttributes {
-  /// The activityId provided in the <code>RequestCancelActivityTask</code>
-  /// decision that failed.
-  final String activityId;
-
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final RequestCancelActivityTaskFailedCause cause;
-
+/// Provides the details of the <code>TimerStarted</code> event.
+class TimerStartedEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>RequestCancelActivityTask</code>
-  /// decision for this cancellation request. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int decisionTaskCompletedEventId;
-
-  RequestCancelActivityTaskFailedEventAttributes({
-    required this.activityId,
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-  });
-
-  factory RequestCancelActivityTaskFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return RequestCancelActivityTaskFailedEventAttributes(
-      activityId: (json['activityId'] as String?) ?? '',
-      cause: RequestCancelActivityTaskFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activityId = this.activityId;
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    return {
-      'activityId': activityId,
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-    };
-  }
-}
-
-/// Provides the details of the
-/// <code>RequestCancelExternalWorkflowExecution</code> decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// You cannot use an IAM policy to constrain this action's parameters.
-/// </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class RequestCancelExternalWorkflowExecutionDecisionAttributes {
-  /// The <code>workflowId</code> of the external workflow execution to cancel.
-  final String workflowId;
-
-  /// The data attached to the event that can be used by the decider in subsequent
-  /// workflow tasks.
-  final String? control;
-
-  /// The <code>runId</code> of the external workflow execution to cancel.
-  final String? runId;
-
-  RequestCancelExternalWorkflowExecutionDecisionAttributes({
-    required this.workflowId,
-    this.control,
-    this.runId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final workflowId = this.workflowId;
-    final control = this.control;
-    final runId = this.runId;
-    return {
-      'workflowId': workflowId,
-      if (control != null) 'control': control,
-      if (runId != null) 'runId': runId,
-    };
-  }
-}
-
-class RequestCancelExternalWorkflowExecutionFailedCause {
-  static const unknownExternalWorkflowExecution =
-      RequestCancelExternalWorkflowExecutionFailedCause._(
-          'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION');
-  static const requestCancelExternalWorkflowExecutionRateExceeded =
-      RequestCancelExternalWorkflowExecutionFailedCause._(
-          'REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED');
-  static const operationNotPermitted =
-      RequestCancelExternalWorkflowExecutionFailedCause._(
-          'OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const RequestCancelExternalWorkflowExecutionFailedCause._(this.value);
-
-  static const values = [
-    unknownExternalWorkflowExecution,
-    requestCancelExternalWorkflowExecutionRateExceeded,
-    operationNotPermitted
-  ];
-
-  static RequestCancelExternalWorkflowExecutionFailedCause fromString(
-          String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              RequestCancelExternalWorkflowExecutionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RequestCancelExternalWorkflowExecutionFailedCause &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the
-/// <code>RequestCancelExternalWorkflowExecutionFailed</code> event.
-class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final RequestCancelExternalWorkflowExecutionFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the
-  /// <code>RequestCancelExternalWorkflowExecution</code> decision for this
-  /// cancellation request. This information can be useful for diagnosing problems
-  /// by tracing back the chain of events leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
-  /// event corresponding to the
-  /// <code>RequestCancelExternalWorkflowExecution</code> decision to cancel this
-  /// external workflow execution. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int initiatedEventId;
-
-  /// The <code>workflowId</code> of the external workflow to which the cancel
-  /// request was to be delivered.
-  final String workflowId;
-
-  /// The data attached to the event that the decider can use in subsequent
-  /// workflow tasks. This data isn't sent to the workflow execution.
-  final String? control;
-
-  /// The <code>runId</code> of the external workflow execution.
-  final String? runId;
-
-  RequestCancelExternalWorkflowExecutionFailedEventAttributes({
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-    required this.initiatedEventId,
-    required this.workflowId,
-    this.control,
-    this.runId,
-  });
-
-  factory RequestCancelExternalWorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return RequestCancelExternalWorkflowExecutionFailedEventAttributes(
-      cause: RequestCancelExternalWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      workflowId: (json['workflowId'] as String?) ?? '',
-      control: json['control'] as String?,
-      runId: json['runId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final initiatedEventId = this.initiatedEventId;
-    final workflowId = this.workflowId;
-    final control = this.control;
-    final runId = this.runId;
-    return {
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'initiatedEventId': initiatedEventId,
-      'workflowId': workflowId,
-      if (control != null) 'control': control,
-      if (runId != null) 'runId': runId,
-    };
-  }
-}
-
-/// Provides the details of the
-/// <code>RequestCancelExternalWorkflowExecutionInitiated</code> event.
-class RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the
-  /// <code>RequestCancelExternalWorkflowExecution</code> decision for this
-  /// cancellation request. This information can be useful for diagnosing problems
-  /// by tracing back the chain of events leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  /// The <code>workflowId</code> of the external workflow execution to be
-  /// canceled.
-  final String workflowId;
-
-  /// Data attached to the event that can be used by the decider in subsequent
-  /// workflow tasks.
-  final String? control;
-
-  /// The <code>runId</code> of the external workflow execution to be canceled.
-  final String? runId;
-
-  RequestCancelExternalWorkflowExecutionInitiatedEventAttributes({
-    required this.decisionTaskCompletedEventId,
-    required this.workflowId,
-    this.control,
-    this.runId,
-  });
-
-  factory RequestCancelExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return RequestCancelExternalWorkflowExecutionInitiatedEventAttributes(
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      workflowId: (json['workflowId'] as String?) ?? '',
-      control: json['control'] as String?,
-      runId: json['runId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final workflowId = this.workflowId;
-    final control = this.control;
-    final runId = this.runId;
-    return {
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'workflowId': workflowId,
-      if (control != null) 'control': control,
-      if (runId != null) 'runId': runId,
-    };
-  }
-}
-
-/// Tags are key-value pairs that can be associated with Amazon SWF state
-/// machines and activities.
-///
-/// Tags may only contain unicode letters, digits, whitespace, or these symbols:
-/// <code>_ . : / = + - @</code>.
-class ResourceTag {
-  /// The key of a tag.
-  final String key;
-
-  /// The value of a tag.
-  final String? value;
-
-  ResourceTag({
-    required this.key,
-    this.value,
-  });
-
-  factory ResourceTag.fromJson(Map<String, dynamic> json) {
-    return ResourceTag(
-      key: (json['key'] as String?) ?? '',
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// Specifies the <code>runId</code> of a workflow execution.
-class Run {
-  /// The <code>runId</code> of a workflow execution. This ID is generated by the
-  /// service and can be used to uniquely identify the workflow execution within a
-  /// domain.
-  final String? runId;
-
-  Run({
-    this.runId,
-  });
-
-  factory Run.fromJson(Map<String, dynamic> json) {
-    return Run(
-      runId: json['runId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final runId = this.runId;
-    return {
-      if (runId != null) 'runId': runId,
-    };
-  }
-}
-
-/// Provides the details of the <code>ScheduleActivityTask</code> decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// Constrain the following parameters by using a <code>Condition</code> element
-/// with the appropriate keys.
-///
-/// <ul>
-/// <li>
-/// <code>activityType.name</code> – String constraint. The key is
-/// <code>swf:activityType.name</code>.
-/// </li>
-/// <li>
-/// <code>activityType.version</code> – String constraint. The key is
-/// <code>swf:activityType.version</code>.
-/// </li>
-/// <li>
-/// <code>taskList</code> – String constraint. The key is
-/// <code>swf:taskList.name</code>.
-/// </li>
-/// </ul> </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class ScheduleActivityTaskDecisionAttributes {
-  /// The <code>activityId</code> of the activity task.
-  ///
-  /// The specified string must not contain a <code>:</code> (colon),
-  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
-  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
-  /// it must <i>not</i> be the literal string <code>arn</code>.
-  final String activityId;
-
-  /// The type of the activity task to schedule.
-  final ActivityType activityType;
-
-  /// Data attached to the event that can be used by the decider in subsequent
-  /// workflow tasks. This data isn't sent to the activity.
-  final String? control;
-
-  /// If set, specifies the maximum time before which a worker processing a task
-  /// of this type must report progress by calling
-  /// <a>RecordActivityTaskHeartbeat</a>. If the timeout is exceeded, the activity
-  /// task is automatically timed out. If the worker subsequently attempts to
-  /// record a heartbeat or returns a result, it is ignored. This overrides the
-  /// default heartbeat timeout specified when registering the activity type using
-  /// <a>RegisterActivityType</a>.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? heartbeatTimeout;
-
-  /// The input provided to the activity task.
-  final String? input;
-
-  /// The maximum duration for this activity task.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  /// <note>
-  /// A schedule-to-close timeout for this activity task must be specified either
-  /// as a default for the activity type or through this field. If neither this
-  /// field is set nor a default schedule-to-close timeout was specified at
-  /// registration time then a fault is returned.
-  /// </note>
-  final String? scheduleToCloseTimeout;
-
-  /// If set, specifies the maximum duration the activity task can wait to be
-  /// assigned to a worker. This overrides the default schedule-to-start timeout
-  /// specified when registering the activity type using
-  /// <a>RegisterActivityType</a>.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  /// <note>
-  /// A schedule-to-start timeout for this activity task must be specified either
-  /// as a default for the activity type or through this field. If neither this
-  /// field is set nor a default schedule-to-start timeout was specified at
-  /// registration time then a fault is returned.
-  /// </note>
-  final String? scheduleToStartTimeout;
-
-  /// If set, specifies the maximum duration a worker may take to process this
-  /// activity task. This overrides the default start-to-close timeout specified
-  /// when registering the activity type using <a>RegisterActivityType</a>.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  /// <note>
-  /// A start-to-close timeout for this activity task must be specified either as
-  /// a default for the activity type or through this field. If neither this field
-  /// is set nor a default start-to-close timeout was specified at registration
-  /// time then a fault is returned.
-  /// </note>
-  final String? startToCloseTimeout;
-
-  /// If set, specifies the name of the task list in which to schedule the
-  /// activity task. If not specified, the <code>defaultTaskList</code> registered
-  /// with the activity type is used.
-  /// <note>
-  /// A task list for this activity task must be specified either as a default for
-  /// the activity type or through this field. If neither this field is set nor a
-  /// default task list was specified at registration time then a fault is
-  /// returned.
-  /// </note>
-  /// The specified string must not contain a <code>:</code> (colon),
-  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
-  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
-  /// it must <i>not</i> be the literal string <code>arn</code>.
-  final TaskList? taskList;
-
-  /// If set, specifies the priority with which the activity task is to be
-  /// assigned to a worker. This overrides the defaultTaskPriority specified when
-  /// registering the activity type using <a>RegisterActivityType</a>. Valid
-  /// values are integers that range from Java's <code>Integer.MIN_VALUE</code>
-  /// (-2147483648) to <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers
-  /// indicate higher priority.
-  ///
-  /// For more information about setting task priority, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
-  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  final String? taskPriority;
-
-  ScheduleActivityTaskDecisionAttributes({
-    required this.activityId,
-    required this.activityType,
-    this.control,
-    this.heartbeatTimeout,
-    this.input,
-    this.scheduleToCloseTimeout,
-    this.scheduleToStartTimeout,
-    this.startToCloseTimeout,
-    this.taskList,
-    this.taskPriority,
-  });
-
-  Map<String, dynamic> toJson() {
-    final activityId = this.activityId;
-    final activityType = this.activityType;
-    final control = this.control;
-    final heartbeatTimeout = this.heartbeatTimeout;
-    final input = this.input;
-    final scheduleToCloseTimeout = this.scheduleToCloseTimeout;
-    final scheduleToStartTimeout = this.scheduleToStartTimeout;
-    final startToCloseTimeout = this.startToCloseTimeout;
-    final taskList = this.taskList;
-    final taskPriority = this.taskPriority;
-    return {
-      'activityId': activityId,
-      'activityType': activityType,
-      if (control != null) 'control': control,
-      if (heartbeatTimeout != null) 'heartbeatTimeout': heartbeatTimeout,
-      if (input != null) 'input': input,
-      if (scheduleToCloseTimeout != null)
-        'scheduleToCloseTimeout': scheduleToCloseTimeout,
-      if (scheduleToStartTimeout != null)
-        'scheduleToStartTimeout': scheduleToStartTimeout,
-      if (startToCloseTimeout != null)
-        'startToCloseTimeout': startToCloseTimeout,
-      if (taskList != null) 'taskList': taskList,
-      if (taskPriority != null) 'taskPriority': taskPriority,
-    };
-  }
-}
-
-class ScheduleActivityTaskFailedCause {
-  static const activityTypeDeprecated =
-      ScheduleActivityTaskFailedCause._('ACTIVITY_TYPE_DEPRECATED');
-  static const activityTypeDoesNotExist =
-      ScheduleActivityTaskFailedCause._('ACTIVITY_TYPE_DOES_NOT_EXIST');
-  static const activityIdAlreadyInUse =
-      ScheduleActivityTaskFailedCause._('ACTIVITY_ID_ALREADY_IN_USE');
-  static const openActivitiesLimitExceeded =
-      ScheduleActivityTaskFailedCause._('OPEN_ACTIVITIES_LIMIT_EXCEEDED');
-  static const activityCreationRateExceeded =
-      ScheduleActivityTaskFailedCause._('ACTIVITY_CREATION_RATE_EXCEEDED');
-  static const defaultScheduleToCloseTimeoutUndefined =
-      ScheduleActivityTaskFailedCause._(
-          'DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED');
-  static const defaultTaskListUndefined =
-      ScheduleActivityTaskFailedCause._('DEFAULT_TASK_LIST_UNDEFINED');
-  static const defaultScheduleToStartTimeoutUndefined =
-      ScheduleActivityTaskFailedCause._(
-          'DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED');
-  static const defaultStartToCloseTimeoutUndefined =
-      ScheduleActivityTaskFailedCause._(
-          'DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED');
-  static const defaultHeartbeatTimeoutUndefined =
-      ScheduleActivityTaskFailedCause._('DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED');
-  static const operationNotPermitted =
-      ScheduleActivityTaskFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const ScheduleActivityTaskFailedCause._(this.value);
-
-  static const values = [
-    activityTypeDeprecated,
-    activityTypeDoesNotExist,
-    activityIdAlreadyInUse,
-    openActivitiesLimitExceeded,
-    activityCreationRateExceeded,
-    defaultScheduleToCloseTimeoutUndefined,
-    defaultTaskListUndefined,
-    defaultScheduleToStartTimeoutUndefined,
-    defaultStartToCloseTimeoutUndefined,
-    defaultHeartbeatTimeoutUndefined,
-    operationNotPermitted
-  ];
-
-  static ScheduleActivityTaskFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduleActivityTaskFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScheduleActivityTaskFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>ScheduleActivityTaskFailed</code> event.
-class ScheduleActivityTaskFailedEventAttributes {
-  /// The activityId provided in the <code>ScheduleActivityTask</code> decision
-  /// that failed.
-  final String activityId;
-
-  /// The activity type provided in the <code>ScheduleActivityTask</code> decision
-  /// that failed.
-  final ActivityType activityType;
-
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final ScheduleActivityTaskFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision that resulted in the scheduling of this activity task. This
-  /// information can be useful for diagnosing problems by tracing back the chain
-  /// of events leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  ScheduleActivityTaskFailedEventAttributes({
-    required this.activityId,
-    required this.activityType,
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-  });
-
-  factory ScheduleActivityTaskFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ScheduleActivityTaskFailedEventAttributes(
-      activityId: (json['activityId'] as String?) ?? '',
-      activityType: ActivityType.fromJson(
-          (json['activityType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      cause: ScheduleActivityTaskFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activityId = this.activityId;
-    final activityType = this.activityType;
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    return {
-      'activityId': activityId,
-      'activityType': activityType,
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-    };
-  }
-}
-
-/// Decision attributes specified in
-/// <code>scheduleLambdaFunctionDecisionAttributes</code> within the list of
-/// decisions <code>decisions</code> passed to
-/// <a>RespondDecisionTaskCompleted</a>.
-class ScheduleLambdaFunctionDecisionAttributes {
-  /// A string that identifies the Lambda function execution in the event history.
-  final String id;
-
-  /// The name, or ARN, of the Lambda function to schedule.
-  final String name;
-
-  /// The data attached to the event that the decider can use in subsequent
-  /// workflow tasks. This data isn't sent to the Lambda task.
-  final String? control;
-
-  /// The optional input data to be supplied to the Lambda function.
-  final String? input;
-
-  /// The timeout value, in seconds, after which the Lambda function is considered
-  /// to be failed once it has started. This can be any integer from 1-900
-  /// (1s-15m).
-  ///
-  /// If no value is supplied, then a default value of 900s is assumed.
-  final String? startToCloseTimeout;
-
-  ScheduleLambdaFunctionDecisionAttributes({
-    required this.id,
-    required this.name,
-    this.control,
-    this.input,
-    this.startToCloseTimeout,
-  });
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final control = this.control;
-    final input = this.input;
-    final startToCloseTimeout = this.startToCloseTimeout;
-    return {
-      'id': id,
-      'name': name,
-      if (control != null) 'control': control,
-      if (input != null) 'input': input,
-      if (startToCloseTimeout != null)
-        'startToCloseTimeout': startToCloseTimeout,
-    };
-  }
-}
-
-class ScheduleLambdaFunctionFailedCause {
-  static const idAlreadyInUse =
-      ScheduleLambdaFunctionFailedCause._('ID_ALREADY_IN_USE');
-  static const openLambdaFunctionsLimitExceeded =
-      ScheduleLambdaFunctionFailedCause._(
-          'OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED');
-  static const lambdaFunctionCreationRateExceeded =
-      ScheduleLambdaFunctionFailedCause._(
-          'LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED');
-  static const lambdaServiceNotAvailableInRegion =
-      ScheduleLambdaFunctionFailedCause._(
-          'LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION');
-
-  final String value;
-
-  const ScheduleLambdaFunctionFailedCause._(this.value);
-
-  static const values = [
-    idAlreadyInUse,
-    openLambdaFunctionsLimitExceeded,
-    lambdaFunctionCreationRateExceeded,
-    lambdaServiceNotAvailableInRegion
-  ];
-
-  static ScheduleLambdaFunctionFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScheduleLambdaFunctionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScheduleLambdaFunctionFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>ScheduleLambdaFunctionFailed</code> event.
-/// It isn't set for other event types.
-class ScheduleLambdaFunctionFailedEventAttributes {
-  /// The cause of the failure. To help diagnose issues, use this information to
-  /// trace back the chain of events leading up to this event.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final ScheduleLambdaFunctionFailedCause cause;
-
-  /// The ID of the <code>LambdaFunctionCompleted</code> event corresponding to
-  /// the decision that resulted in scheduling this Lambda task. To help diagnose
-  /// issues, use this information to trace back the chain of events leading up to
-  /// this event.
-  final int decisionTaskCompletedEventId;
-
-  /// The ID provided in the <code>ScheduleLambdaFunction</code> decision that
-  /// failed.
-  final String id;
-
-  /// The name of the Lambda function.
-  final String name;
-
-  ScheduleLambdaFunctionFailedEventAttributes({
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-    required this.id,
-    required this.name,
-  });
-
-  factory ScheduleLambdaFunctionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return ScheduleLambdaFunctionFailedEventAttributes(
-      cause: ScheduleLambdaFunctionFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final id = this.id;
-    final name = this.name;
-    return {
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'id': id,
-      'name': name,
-    };
-  }
-}
-
-/// Provides the details of the <code>SignalExternalWorkflowExecution</code>
-/// decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// You cannot use an IAM policy to constrain this action's parameters.
-/// </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class SignalExternalWorkflowExecutionDecisionAttributes {
-  /// The name of the signal.The target workflow execution uses the signal name
-  /// and input to process the signal.
-  final String signalName;
-
-  /// The <code>workflowId</code> of the workflow execution to be signaled.
-  final String workflowId;
-
-  /// The data attached to the event that can be used by the decider in subsequent
-  /// decision tasks.
-  final String? control;
-
-  /// The input data to be provided with the signal. The target workflow execution
-  /// uses the signal name and input data to process the signal.
-  final String? input;
-
-  /// The <code>runId</code> of the workflow execution to be signaled.
-  final String? runId;
-
-  SignalExternalWorkflowExecutionDecisionAttributes({
-    required this.signalName,
-    required this.workflowId,
-    this.control,
-    this.input,
-    this.runId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final signalName = this.signalName;
-    final workflowId = this.workflowId;
-    final control = this.control;
-    final input = this.input;
-    final runId = this.runId;
-    return {
-      'signalName': signalName,
-      'workflowId': workflowId,
-      if (control != null) 'control': control,
-      if (input != null) 'input': input,
-      if (runId != null) 'runId': runId,
-    };
-  }
-}
-
-class SignalExternalWorkflowExecutionFailedCause {
-  static const unknownExternalWorkflowExecution =
-      SignalExternalWorkflowExecutionFailedCause._(
-          'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION');
-  static const signalExternalWorkflowExecutionRateExceeded =
-      SignalExternalWorkflowExecutionFailedCause._(
-          'SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED');
-  static const operationNotPermitted =
-      SignalExternalWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const SignalExternalWorkflowExecutionFailedCause._(this.value);
-
-  static const values = [
-    unknownExternalWorkflowExecution,
-    signalExternalWorkflowExecutionRateExceeded,
-    operationNotPermitted
-  ];
-
-  static SignalExternalWorkflowExecutionFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SignalExternalWorkflowExecutionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SignalExternalWorkflowExecutionFailedCause &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the
-/// <code>SignalExternalWorkflowExecutionFailed</code> event.
-class SignalExternalWorkflowExecutionFailedEventAttributes {
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because it lacked sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final SignalExternalWorkflowExecutionFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the
-  /// <code>SignalExternalWorkflowExecution</code> decision for this signal. This
-  /// information can be useful for diagnosing problems by tracing back the chain
-  /// of events leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>SignalExternalWorkflowExecution</code> decision
-  /// to request this signal. This information can be useful for diagnosing
-  /// problems by tracing back the chain of events leading up to this event.
-  final int initiatedEventId;
-
-  /// The <code>workflowId</code> of the external workflow execution that the
-  /// signal was being delivered to.
-  final String workflowId;
-
-  /// The data attached to the event that the decider can use in subsequent
-  /// workflow tasks. This data isn't sent to the workflow execution.
-  final String? control;
-
-  /// The <code>runId</code> of the external workflow execution that the signal
-  /// was being delivered to.
-  final String? runId;
-
-  SignalExternalWorkflowExecutionFailedEventAttributes({
-    required this.cause,
-    required this.decisionTaskCompletedEventId,
-    required this.initiatedEventId,
-    required this.workflowId,
-    this.control,
-    this.runId,
-  });
-
-  factory SignalExternalWorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return SignalExternalWorkflowExecutionFailedEventAttributes(
-      cause: SignalExternalWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      workflowId: (json['workflowId'] as String?) ?? '',
-      control: json['control'] as String?,
-      runId: json['runId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final initiatedEventId = this.initiatedEventId;
-    final workflowId = this.workflowId;
-    final control = this.control;
-    final runId = this.runId;
-    return {
-      'cause': cause.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'initiatedEventId': initiatedEventId,
-      'workflowId': workflowId,
-      if (control != null) 'control': control,
-      if (runId != null) 'runId': runId,
-    };
-  }
-}
-
-/// Provides the details of the
-/// <code>SignalExternalWorkflowExecutionInitiated</code> event.
-class SignalExternalWorkflowExecutionInitiatedEventAttributes {
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the
-  /// <code>SignalExternalWorkflowExecution</code> decision for this signal. This
-  /// information can be useful for diagnosing problems by tracing back the chain
-  /// of events leading up to this event.
-  final int decisionTaskCompletedEventId;
-
-  /// The name of the signal.
-  final String signalName;
-
-  /// The <code>workflowId</code> of the external workflow execution.
-  final String workflowId;
-
-  /// Data attached to the event that can be used by the decider in subsequent
-  /// decision tasks.
-  final String? control;
-
-  /// The input provided to the signal.
-  final String? input;
-
-  /// The <code>runId</code> of the external workflow execution to send the signal
-  /// to.
-  final String? runId;
-
-  SignalExternalWorkflowExecutionInitiatedEventAttributes({
-    required this.decisionTaskCompletedEventId,
-    required this.signalName,
-    required this.workflowId,
-    this.control,
-    this.input,
-    this.runId,
-  });
-
-  factory SignalExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return SignalExternalWorkflowExecutionInitiatedEventAttributes(
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      signalName: (json['signalName'] as String?) ?? '',
-      workflowId: (json['workflowId'] as String?) ?? '',
-      control: json['control'] as String?,
-      input: json['input'] as String?,
-      runId: json['runId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final signalName = this.signalName;
-    final workflowId = this.workflowId;
-    final control = this.control;
-    final input = this.input;
-    final runId = this.runId;
-    return {
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'signalName': signalName,
-      'workflowId': workflowId,
-      if (control != null) 'control': control,
-      if (input != null) 'input': input,
-      if (runId != null) 'runId': runId,
-    };
-  }
-}
-
-/// Provides the details of the <code>StartChildWorkflowExecution</code>
-/// decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// Constrain the following parameters by using a <code>Condition</code> element
-/// with the appropriate keys.
-///
-/// <ul>
-/// <li>
-/// <code>tagList.member.N</code> – The key is "swf:tagList.N" where N is the
-/// tag number from 0 to 4, inclusive.
-/// </li>
-/// <li>
-/// <code>taskList</code> – String constraint. The key is
-/// <code>swf:taskList.name</code>.
-/// </li>
-/// <li>
-/// <code>workflowType.name</code> – String constraint. The key is
-/// <code>swf:workflowType.name</code>.
-/// </li>
-/// <li>
-/// <code>workflowType.version</code> – String constraint. The key is
-/// <code>swf:workflowType.version</code>.
-/// </li>
-/// </ul> </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class StartChildWorkflowExecutionDecisionAttributes {
-  /// The <code>workflowId</code> of the workflow execution.
-  ///
-  /// The specified string must not contain a <code>:</code> (colon),
-  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
-  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
-  /// it must <i>not</i> be the literal string <code>arn</code>.
-  final String workflowId;
-
-  /// The type of the workflow execution to be started.
-  final WorkflowType workflowType;
-
-  /// If set, specifies the policy to use for the child workflow executions if the
-  /// workflow execution being started is terminated by calling the
-  /// <a>TerminateWorkflowExecution</a> action explicitly or due to an expired
-  /// timeout. This policy overrides the default child policy specified when
-  /// registering the workflow type using <a>RegisterWorkflowType</a>.
-  ///
-  /// The supported child policies are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TERMINATE</code> – The child executions are terminated.
-  /// </li>
-  /// <li>
-  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
-  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
-  /// event in its history. It is up to the decider to take appropriate actions
-  /// when it receives an execution history with this event.
-  /// </li>
-  /// <li>
-  /// <code>ABANDON</code> – No action is taken. The child executions continue to
-  /// run.
-  /// </li>
-  /// </ul> <note>
-  /// A child policy for this workflow execution must be specified either as a
-  /// default for the workflow type or through this parameter. If neither this
-  /// parameter is set nor a default child policy was specified at registration
-  /// time then a fault is returned.
-  /// </note>
-  final ChildPolicy? childPolicy;
-
-  /// The data attached to the event that can be used by the decider in subsequent
-  /// workflow tasks. This data isn't sent to the child workflow execution.
-  final String? control;
-
-  /// The total duration for this workflow execution. This overrides the
-  /// defaultExecutionStartToCloseTimeout specified when registering the workflow
-  /// type.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  /// <note>
-  /// An execution start-to-close timeout for this workflow execution must be
-  /// specified either as a default for the workflow type or through this
-  /// parameter. If neither this parameter is set nor a default execution
-  /// start-to-close timeout was specified at registration time then a fault is
-  /// returned.
-  /// </note>
-  final String? executionStartToCloseTimeout;
-
-  /// The input to be provided to the workflow execution.
-  final String? input;
-
-  /// The IAM role attached to the child workflow execution.
-  final String? lambdaRole;
-
-  /// The list of tags to associate with the child workflow execution. A maximum
-  /// of 5 tags can be specified. You can list workflow executions with a specific
-  /// tag by calling <a>ListOpenWorkflowExecutions</a> or
-  /// <a>ListClosedWorkflowExecutions</a> and specifying a <a>TagFilter</a>.
-  final List<String>? tagList;
-
-  /// The name of the task list to be used for decision tasks of the child
-  /// workflow execution.
-  /// <note>
-  /// A task list for this workflow execution must be specified either as a
-  /// default for the workflow type or through this parameter. If neither this
-  /// parameter is set nor a default task list was specified at registration time
-  /// then a fault is returned.
-  /// </note>
-  /// The specified string must not start or end with whitespace. It must not
-  /// contain a <code>:</code> (colon), <code>/</code> (slash), <code>|</code>
-  /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
-  /// <code>\u007f-\u009f</code>). Also, it must <i>not</i> be the literal string
-  /// <code>arn</code>.
-  final TaskList? taskList;
-
-  /// A task priority that, if set, specifies the priority for a decision task of
-  /// this workflow execution. This overrides the defaultTaskPriority specified
-  /// when registering the workflow type. Valid values are integers that range
-  /// from Java's <code>Integer.MIN_VALUE</code> (-2147483648) to
-  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
-  /// priority.
-  ///
-  /// For more information about setting task priority, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
-  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  final String? taskPriority;
-
-  /// Specifies the maximum duration of decision tasks for this workflow
-  /// execution. This parameter overrides the
-  /// <code>defaultTaskStartToCloseTimout</code> specified when registering the
-  /// workflow type using <a>RegisterWorkflowType</a>.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  /// <note>
-  /// A task start-to-close timeout for this workflow execution must be specified
-  /// either as a default for the workflow type or through this parameter. If
-  /// neither this parameter is set nor a default task start-to-close timeout was
-  /// specified at registration time then a fault is returned.
-  /// </note>
-  final String? taskStartToCloseTimeout;
-
-  StartChildWorkflowExecutionDecisionAttributes({
-    required this.workflowId,
-    required this.workflowType,
-    this.childPolicy,
-    this.control,
-    this.executionStartToCloseTimeout,
-    this.input,
-    this.lambdaRole,
-    this.tagList,
-    this.taskList,
-    this.taskPriority,
-    this.taskStartToCloseTimeout,
-  });
-
-  Map<String, dynamic> toJson() {
-    final workflowId = this.workflowId;
-    final workflowType = this.workflowType;
-    final childPolicy = this.childPolicy;
-    final control = this.control;
-    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
-    final input = this.input;
-    final lambdaRole = this.lambdaRole;
-    final tagList = this.tagList;
-    final taskList = this.taskList;
-    final taskPriority = this.taskPriority;
-    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
-    return {
-      'workflowId': workflowId,
-      'workflowType': workflowType,
-      if (childPolicy != null) 'childPolicy': childPolicy.value,
-      if (control != null) 'control': control,
-      if (executionStartToCloseTimeout != null)
-        'executionStartToCloseTimeout': executionStartToCloseTimeout,
-      if (input != null) 'input': input,
-      if (lambdaRole != null) 'lambdaRole': lambdaRole,
-      if (tagList != null) 'tagList': tagList,
-      if (taskList != null) 'taskList': taskList,
-      if (taskPriority != null) 'taskPriority': taskPriority,
-      if (taskStartToCloseTimeout != null)
-        'taskStartToCloseTimeout': taskStartToCloseTimeout,
-    };
-  }
-}
-
-class StartChildWorkflowExecutionFailedCause {
-  static const workflowTypeDoesNotExist =
-      StartChildWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DOES_NOT_EXIST');
-  static const workflowTypeDeprecated =
-      StartChildWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DEPRECATED');
-  static const openChildrenLimitExceeded =
-      StartChildWorkflowExecutionFailedCause._('OPEN_CHILDREN_LIMIT_EXCEEDED');
-  static const openWorkflowsLimitExceeded =
-      StartChildWorkflowExecutionFailedCause._('OPEN_WORKFLOWS_LIMIT_EXCEEDED');
-  static const childCreationRateExceeded =
-      StartChildWorkflowExecutionFailedCause._('CHILD_CREATION_RATE_EXCEEDED');
-  static const workflowAlreadyRunning =
-      StartChildWorkflowExecutionFailedCause._('WORKFLOW_ALREADY_RUNNING');
-  static const defaultExecutionStartToCloseTimeoutUndefined =
-      StartChildWorkflowExecutionFailedCause._(
-          'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED');
-  static const defaultTaskListUndefined =
-      StartChildWorkflowExecutionFailedCause._('DEFAULT_TASK_LIST_UNDEFINED');
-  static const defaultTaskStartToCloseTimeoutUndefined =
-      StartChildWorkflowExecutionFailedCause._(
-          'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED');
-  static const defaultChildPolicyUndefined =
-      StartChildWorkflowExecutionFailedCause._(
-          'DEFAULT_CHILD_POLICY_UNDEFINED');
-  static const operationNotPermitted =
-      StartChildWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
-
-  final String value;
-
-  const StartChildWorkflowExecutionFailedCause._(this.value);
-
-  static const values = [
-    workflowTypeDoesNotExist,
-    workflowTypeDeprecated,
-    openChildrenLimitExceeded,
-    openWorkflowsLimitExceeded,
-    childCreationRateExceeded,
-    workflowAlreadyRunning,
-    defaultExecutionStartToCloseTimeoutUndefined,
-    defaultTaskListUndefined,
-    defaultTaskStartToCloseTimeoutUndefined,
-    defaultChildPolicyUndefined,
-    operationNotPermitted
-  ];
-
-  static StartChildWorkflowExecutionFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StartChildWorkflowExecutionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StartChildWorkflowExecutionFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>StartChildWorkflowExecutionFailed</code>
-/// event.
-class StartChildWorkflowExecutionFailedEventAttributes {
-  /// The cause of the failure. This information is generated by the system and
-  /// can be useful for diagnostic purposes.
-  /// <note>
-  /// When <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision fails because it lacks sufficient permissions. For details and
-  /// example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">
-  /// Using IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-  /// Developer Guide</i>.
-  /// </note>
-  final StartChildWorkflowExecutionFailedCause cause;
-
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> to request this child workflow execution. This information
-  /// can be useful for diagnosing problems by tracing back the chain of events.
-  final int decisionTaskCompletedEventId;
-
-  /// When the <code>cause</code> is <code>WORKFLOW_ALREADY_RUNNING</code>,
-  /// <code>initiatedEventId</code> is the ID of the
-  /// <code>StartChildWorkflowExecutionInitiated</code> event that corresponds to
-  /// the <code>StartChildWorkflowExecution</code> <a>Decision</a> to start the
-  /// workflow execution. You can use this information to diagnose problems by
+  /// decision task that resulted in the <code>StartTimer</code> decision for this
+  /// activity task. This information can be useful for diagnosing problems by
   /// tracing back the chain of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  /// The duration of time after which the timer fires.
   ///
-  /// When the <code>cause</code> isn't <code>WORKFLOW_ALREADY_RUNNING</code>,
-  /// <code>initiatedEventId</code> is set to <code>0</code> because the
-  /// <code>StartChildWorkflowExecutionInitiated</code> event doesn't exist.
-  final int initiatedEventId;
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>.
+  final String startToFireTimeout;
 
-  /// The <code>workflowId</code> of the child workflow execution.
-  final String workflowId;
+  /// The unique ID of the timer that was started.
+  final String timerId;
 
-  /// The workflow type provided in the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> that failed.
-  final WorkflowType workflowType;
-
-  /// The data attached to the event that the decider can use in subsequent
-  /// workflow tasks. This data isn't sent to the child workflow execution.
+  /// Data attached to the event that can be used by the decider in subsequent
+  /// workflow tasks.
   final String? control;
 
-  StartChildWorkflowExecutionFailedEventAttributes({
-    required this.cause,
+  TimerStartedEventAttributes({
     required this.decisionTaskCompletedEventId,
-    required this.initiatedEventId,
-    required this.workflowId,
-    required this.workflowType,
+    required this.startToFireTimeout,
+    required this.timerId,
     this.control,
   });
 
-  factory StartChildWorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return StartChildWorkflowExecutionFailedEventAttributes(
-      cause: StartChildWorkflowExecutionFailedCause.fromString(
-          (json['cause'] as String?) ?? ''),
+  factory TimerStartedEventAttributes.fromJson(Map<String, dynamic> json) {
+    return TimerStartedEventAttributes(
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
-      workflowId: (json['workflowId'] as String?) ?? '',
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+      startToFireTimeout: (json['startToFireTimeout'] as String?) ?? '',
+      timerId: (json['timerId'] as String?) ?? '',
       control: json['control'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cause = this.cause;
     final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final initiatedEventId = this.initiatedEventId;
-    final workflowId = this.workflowId;
-    final workflowType = this.workflowType;
+    final startToFireTimeout = this.startToFireTimeout;
+    final timerId = this.timerId;
     final control = this.control;
     return {
-      'cause': cause.value,
       'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'initiatedEventId': initiatedEventId,
-      'workflowId': workflowId,
-      'workflowType': workflowType,
+      'startToFireTimeout': startToFireTimeout,
+      'timerId': timerId,
       if (control != null) 'control': control,
+    };
+  }
+}
+
+/// Provides the details of the <code>TimerFired</code> event.
+class TimerFiredEventAttributes {
+  /// The ID of the <code>TimerStarted</code> event that was recorded when this
+  /// timer was started. This information can be useful for diagnosing problems by
+  /// tracing back the chain of events leading up to this event.
+  final int startedEventId;
+
+  /// The unique ID of the timer that fired.
+  final String timerId;
+
+  TimerFiredEventAttributes({
+    required this.startedEventId,
+    required this.timerId,
+  });
+
+  factory TimerFiredEventAttributes.fromJson(Map<String, dynamic> json) {
+    return TimerFiredEventAttributes(
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      timerId: (json['timerId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startedEventId = this.startedEventId;
+    final timerId = this.timerId;
+    return {
+      'startedEventId': startedEventId,
+      'timerId': timerId,
+    };
+  }
+}
+
+/// Provides the details of the <code>TimerCanceled</code> event.
+class TimerCanceledEventAttributes {
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>CancelTimer</code> decision to
+  /// cancel this timer. This information can be useful for diagnosing problems by
+  /// tracing back the chain of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  /// The ID of the <code>TimerStarted</code> event that was recorded when this
+  /// timer was started. This information can be useful for diagnosing problems by
+  /// tracing back the chain of events leading up to this event.
+  final int startedEventId;
+
+  /// The unique ID of the timer that was canceled.
+  final String timerId;
+
+  TimerCanceledEventAttributes({
+    required this.decisionTaskCompletedEventId,
+    required this.startedEventId,
+    required this.timerId,
+  });
+
+  factory TimerCanceledEventAttributes.fromJson(Map<String, dynamic> json) {
+    return TimerCanceledEventAttributes(
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      timerId: (json['timerId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final startedEventId = this.startedEventId;
+    final timerId = this.timerId;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'startedEventId': startedEventId,
+      'timerId': timerId,
     };
   }
 }
@@ -10360,180 +9323,847 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
   }
 }
 
-class StartLambdaFunctionFailedCause {
-  static const assumeRoleFailed =
-      StartLambdaFunctionFailedCause._('ASSUME_ROLE_FAILED');
+/// Provides the details of the <code>ChildWorkflowExecutionStarted</code>
+/// event.
+class ChildWorkflowExecutionStartedEventAttributes {
+  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> to start this child workflow execution. This information can
+  /// be useful for diagnosing problems by tracing back the chain of events
+  /// leading up to this event.
+  final int initiatedEventId;
 
-  final String value;
+  /// The child workflow execution that was started.
+  final WorkflowExecution workflowExecution;
 
-  const StartLambdaFunctionFailedCause._(this.value);
+  /// The type of the child workflow execution.
+  final WorkflowType workflowType;
 
-  static const values = [assumeRoleFailed];
-
-  static StartLambdaFunctionFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StartLambdaFunctionFailedCause._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StartLambdaFunctionFailedCause && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the details of the <code>StartLambdaFunctionFailed</code> event. It
-/// isn't set for other event types.
-class StartLambdaFunctionFailedEventAttributes {
-  /// The cause of the failure. To help diagnose issues, use this information to
-  /// trace back the chain of events leading up to this event.
-  /// <note>
-  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
-  /// decision failed because the IAM role attached to the execution lacked
-  /// sufficient permissions. For details and example IAM policies, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html">Lambda
-  /// Tasks</a> in the <i>Amazon SWF Developer Guide</i>.
-  /// </note>
-  final StartLambdaFunctionFailedCause? cause;
-
-  /// A description that can help diagnose the cause of the fault.
-  final String? message;
-
-  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
-  /// when this activity task was scheduled. To help diagnose issues, use this
-  /// information to trace back the chain of events leading up to this event.
-  final int? scheduledEventId;
-
-  StartLambdaFunctionFailedEventAttributes({
-    this.cause,
-    this.message,
-    this.scheduledEventId,
+  ChildWorkflowExecutionStartedEventAttributes({
+    required this.initiatedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
   });
 
-  factory StartLambdaFunctionFailedEventAttributes.fromJson(
+  factory ChildWorkflowExecutionStartedEventAttributes.fromJson(
       Map<String, dynamic> json) {
-    return StartLambdaFunctionFailedEventAttributes(
-      cause: (json['cause'] as String?)
-          ?.let(StartLambdaFunctionFailedCause.fromString),
-      message: json['message'] as String?,
-      scheduledEventId: json['scheduledEventId'] as int?,
+    return ChildWorkflowExecutionStartedEventAttributes(
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+    };
+  }
+}
+
+/// Provides the details of the <code>ChildWorkflowExecutionCompleted</code>
+/// event.
+class ChildWorkflowExecutionCompletedEventAttributes {
+  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> to start this child workflow execution. This information can
+  /// be useful for diagnosing problems by tracing back the chain of events
+  /// leading up to this event.
+  final int initiatedEventId;
+
+  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
+  /// this child workflow execution was started. This information can be useful
+  /// for diagnosing problems by tracing back the chain of events leading up to
+  /// this event.
+  final int startedEventId;
+
+  /// The child workflow execution that was completed.
+  final WorkflowExecution workflowExecution;
+
+  /// The type of the child workflow execution.
+  final WorkflowType workflowType;
+
+  /// The result of the child workflow execution.
+  final String? result;
+
+  ChildWorkflowExecutionCompletedEventAttributes({
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
+    this.result,
+  });
+
+  factory ChildWorkflowExecutionCompletedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionCompletedEventAttributes(
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      result: json['result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    final result = this.result;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+      if (result != null) 'result': result,
+    };
+  }
+}
+
+/// Provides the details of the <code>ChildWorkflowExecutionFailed</code> event.
+class ChildWorkflowExecutionFailedEventAttributes {
+  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> to start this child workflow execution. This information can
+  /// be useful for diagnosing problems by tracing back the chain of events
+  /// leading up to this event.
+  final int initiatedEventId;
+
+  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
+  /// this child workflow execution was started. This information can be useful
+  /// for diagnosing problems by tracing back the chain of events leading up to
+  /// this event.
+  final int startedEventId;
+
+  /// The child workflow execution that failed.
+  final WorkflowExecution workflowExecution;
+
+  /// The type of the child workflow execution.
+  final WorkflowType workflowType;
+
+  /// The details of the failure (if provided).
+  final String? details;
+
+  /// The reason for the failure (if provided).
+  final String? reason;
+
+  ChildWorkflowExecutionFailedEventAttributes({
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
+    this.details,
+    this.reason,
+  });
+
+  factory ChildWorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionFailedEventAttributes(
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+/// Provides the details of the <code>ChildWorkflowExecutionTimedOut</code>
+/// event.
+class ChildWorkflowExecutionTimedOutEventAttributes {
+  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> to start this child workflow execution. This information can
+  /// be useful for diagnosing problems by tracing back the chain of events
+  /// leading up to this event.
+  final int initiatedEventId;
+
+  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
+  /// this child workflow execution was started. This information can be useful
+  /// for diagnosing problems by tracing back the chain of events leading up to
+  /// this event.
+  final int startedEventId;
+
+  /// The type of the timeout that caused the child workflow execution to time
+  /// out.
+  final WorkflowExecutionTimeoutType timeoutType;
+
+  /// The child workflow execution that timed out.
+  final WorkflowExecution workflowExecution;
+
+  /// The type of the child workflow execution.
+  final WorkflowType workflowType;
+
+  ChildWorkflowExecutionTimedOutEventAttributes({
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.timeoutType,
+    required this.workflowExecution,
+    required this.workflowType,
+  });
+
+  factory ChildWorkflowExecutionTimedOutEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionTimedOutEventAttributes(
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      timeoutType: WorkflowExecutionTimeoutType.fromString(
+          (json['timeoutType'] as String?) ?? ''),
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final timeoutType = this.timeoutType;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'timeoutType': timeoutType.value,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+    };
+  }
+}
+
+/// Provide details of the <code>ChildWorkflowExecutionCanceled</code> event.
+class ChildWorkflowExecutionCanceledEventAttributes {
+  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> to start this child workflow execution. This information can
+  /// be useful for diagnosing problems by tracing back the chain of events
+  /// leading up to this event.
+  final int initiatedEventId;
+
+  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
+  /// this child workflow execution was started. This information can be useful
+  /// for diagnosing problems by tracing back the chain of events leading up to
+  /// this event.
+  final int startedEventId;
+
+  /// The child workflow execution that was canceled.
+  final WorkflowExecution workflowExecution;
+
+  /// The type of the child workflow execution.
+  final WorkflowType workflowType;
+
+  /// Details of the cancellation (if provided).
+  final String? details;
+
+  ChildWorkflowExecutionCanceledEventAttributes({
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
+    this.details,
+  });
+
+  factory ChildWorkflowExecutionCanceledEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionCanceledEventAttributes(
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    final details = this.details;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+      if (details != null) 'details': details,
+    };
+  }
+}
+
+/// Provides the details of the <code>ChildWorkflowExecutionTerminated</code>
+/// event.
+class ChildWorkflowExecutionTerminatedEventAttributes {
+  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> to start this child workflow execution. This information can
+  /// be useful for diagnosing problems by tracing back the chain of events
+  /// leading up to this event.
+  final int initiatedEventId;
+
+  /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
+  /// this child workflow execution was started. This information can be useful
+  /// for diagnosing problems by tracing back the chain of events leading up to
+  /// this event.
+  final int startedEventId;
+
+  /// The child workflow execution that was terminated.
+  final WorkflowExecution workflowExecution;
+
+  /// The type of the child workflow execution.
+  final WorkflowType workflowType;
+
+  ChildWorkflowExecutionTerminatedEventAttributes({
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
+  });
+
+  factory ChildWorkflowExecutionTerminatedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionTerminatedEventAttributes(
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+    };
+  }
+}
+
+/// Provides the details of the
+/// <code>SignalExternalWorkflowExecutionInitiated</code> event.
+class SignalExternalWorkflowExecutionInitiatedEventAttributes {
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the
+  /// <code>SignalExternalWorkflowExecution</code> decision for this signal. This
+  /// information can be useful for diagnosing problems by tracing back the chain
+  /// of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  /// The name of the signal.
+  final String signalName;
+
+  /// The <code>workflowId</code> of the external workflow execution.
+  final String workflowId;
+
+  /// Data attached to the event that can be used by the decider in subsequent
+  /// decision tasks.
+  final String? control;
+
+  /// The input provided to the signal.
+  final String? input;
+
+  /// The <code>runId</code> of the external workflow execution to send the signal
+  /// to.
+  final String? runId;
+
+  SignalExternalWorkflowExecutionInitiatedEventAttributes({
+    required this.decisionTaskCompletedEventId,
+    required this.signalName,
+    required this.workflowId,
+    this.control,
+    this.input,
+    this.runId,
+  });
+
+  factory SignalExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return SignalExternalWorkflowExecutionInitiatedEventAttributes(
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      signalName: (json['signalName'] as String?) ?? '',
+      workflowId: (json['workflowId'] as String?) ?? '',
+      control: json['control'] as String?,
+      input: json['input'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final signalName = this.signalName;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final input = this.input;
+    final runId = this.runId;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'signalName': signalName,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (input != null) 'input': input,
+      if (runId != null) 'runId': runId,
+    };
+  }
+}
+
+/// Provides the details of the <code>ExternalWorkflowExecutionSignaled</code>
+/// event.
+class ExternalWorkflowExecutionSignaledEventAttributes {
+  /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>SignalExternalWorkflowExecution</code> decision
+  /// to request this signal. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
+  final int initiatedEventId;
+
+  /// The external workflow execution that the signal was delivered to.
+  final WorkflowExecution workflowExecution;
+
+  ExternalWorkflowExecutionSignaledEventAttributes({
+    required this.initiatedEventId,
+    required this.workflowExecution,
+  });
+
+  factory ExternalWorkflowExecutionSignaledEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ExternalWorkflowExecutionSignaledEventAttributes(
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final workflowExecution = this.workflowExecution;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'workflowExecution': workflowExecution,
+    };
+  }
+}
+
+/// Provides the details of the
+/// <code>SignalExternalWorkflowExecutionFailed</code> event.
+class SignalExternalWorkflowExecutionFailedEventAttributes {
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final SignalExternalWorkflowExecutionFailedCause cause;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the
+  /// <code>SignalExternalWorkflowExecution</code> decision for this signal. This
+  /// information can be useful for diagnosing problems by tracing back the chain
+  /// of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
+  /// corresponding to the <code>SignalExternalWorkflowExecution</code> decision
+  /// to request this signal. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
+  final int initiatedEventId;
+
+  /// The <code>workflowId</code> of the external workflow execution that the
+  /// signal was being delivered to.
+  final String workflowId;
+
+  /// The data attached to the event that the decider can use in subsequent
+  /// workflow tasks. This data isn't sent to the workflow execution.
+  final String? control;
+
+  /// The <code>runId</code> of the external workflow execution that the signal
+  /// was being delivered to.
+  final String? runId;
+
+  SignalExternalWorkflowExecutionFailedEventAttributes({
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.initiatedEventId,
+    required this.workflowId,
+    this.control,
+    this.runId,
+  });
+
+  factory SignalExternalWorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return SignalExternalWorkflowExecutionFailedEventAttributes(
+      cause: SignalExternalWorkflowExecutionFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowId: (json['workflowId'] as String?) ?? '',
+      control: json['control'] as String?,
+      runId: json['runId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final cause = this.cause;
-    final message = this.message;
-    final scheduledEventId = this.scheduledEventId;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final initiatedEventId = this.initiatedEventId;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final runId = this.runId;
     return {
-      if (cause != null) 'cause': cause.value,
-      if (message != null) 'message': message,
-      if (scheduledEventId != null) 'scheduledEventId': scheduledEventId,
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'initiatedEventId': initiatedEventId,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (runId != null) 'runId': runId,
     };
   }
 }
 
-/// Provides the details of the <code>StartTimer</code> decision.
-///
-/// <b>Access Control</b>
-///
-/// You can use IAM policies to control this decision's access to Amazon SWF
-/// resources as follows:
-///
-/// <ul>
-/// <li>
-/// Use a <code>Resource</code> element with the domain name to limit the action
-/// to only specified domains.
-/// </li>
-/// <li>
-/// Use an <code>Action</code> element to allow or deny permission to call this
-/// action.
-/// </li>
-/// <li>
-/// You cannot use an IAM policy to constrain this action's parameters.
-/// </li>
-/// </ul>
-/// If the caller doesn't have sufficient permissions to invoke the action, or
-/// the parameter values fall outside the specified constraints, the action
-/// fails. The associated event attribute's <code>cause</code> parameter is set
-/// to <code>OPERATION_NOT_PERMITTED</code>. For details and example IAM
-/// policies, see <a
-/// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
-/// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
-/// Developer Guide</i>.
-class StartTimerDecisionAttributes {
-  /// The duration to wait before firing the timer.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>.
-  final String startToFireTimeout;
+/// Provides the details of the
+/// <code>ExternalWorkflowExecutionCancelRequested</code> event.
+class ExternalWorkflowExecutionCancelRequestedEventAttributes {
+  /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
+  /// event corresponding to the
+  /// <code>RequestCancelExternalWorkflowExecution</code> decision to cancel this
+  /// external workflow execution. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
+  final int initiatedEventId;
 
-  /// The unique ID of the timer.
-  ///
-  /// The specified string must not contain a <code>:</code> (colon),
-  /// <code>/</code> (slash), <code>|</code> (vertical bar), or any control
-  /// characters (<code>\u0000-\u001f</code> | <code>\u007f-\u009f</code>). Also,
-  /// it must <i>not</i> be the literal string <code>arn</code>.
-  final String timerId;
+  /// The external workflow execution to which the cancellation request was
+  /// delivered.
+  final WorkflowExecution workflowExecution;
 
-  /// The data attached to the event that can be used by the decider in subsequent
+  ExternalWorkflowExecutionCancelRequestedEventAttributes({
+    required this.initiatedEventId,
+    required this.workflowExecution,
+  });
+
+  factory ExternalWorkflowExecutionCancelRequestedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ExternalWorkflowExecutionCancelRequestedEventAttributes(
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowExecution: WorkflowExecution.fromJson(
+          (json['workflowExecution'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final workflowExecution = this.workflowExecution;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'workflowExecution': workflowExecution,
+    };
+  }
+}
+
+/// Provides the details of the
+/// <code>RequestCancelExternalWorkflowExecutionInitiated</code> event.
+class RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the
+  /// <code>RequestCancelExternalWorkflowExecution</code> decision for this
+  /// cancellation request. This information can be useful for diagnosing problems
+  /// by tracing back the chain of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  /// The <code>workflowId</code> of the external workflow execution to be
+  /// canceled.
+  final String workflowId;
+
+  /// Data attached to the event that can be used by the decider in subsequent
   /// workflow tasks.
   final String? control;
 
-  StartTimerDecisionAttributes({
-    required this.startToFireTimeout,
-    required this.timerId,
+  /// The <code>runId</code> of the external workflow execution to be canceled.
+  final String? runId;
+
+  RequestCancelExternalWorkflowExecutionInitiatedEventAttributes({
+    required this.decisionTaskCompletedEventId,
+    required this.workflowId,
     this.control,
+    this.runId,
   });
 
+  factory RequestCancelExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return RequestCancelExternalWorkflowExecutionInitiatedEventAttributes(
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      workflowId: (json['workflowId'] as String?) ?? '',
+      control: json['control'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final startToFireTimeout = this.startToFireTimeout;
-    final timerId = this.timerId;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final workflowId = this.workflowId;
     final control = this.control;
+    final runId = this.runId;
     return {
-      'startToFireTimeout': startToFireTimeout,
-      'timerId': timerId,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'workflowId': workflowId,
       if (control != null) 'control': control,
+      if (runId != null) 'runId': runId,
     };
   }
 }
 
-class StartTimerFailedCause {
-  static const timerIdAlreadyInUse =
-      StartTimerFailedCause._('TIMER_ID_ALREADY_IN_USE');
-  static const openTimersLimitExceeded =
-      StartTimerFailedCause._('OPEN_TIMERS_LIMIT_EXCEEDED');
-  static const timerCreationRateExceeded =
-      StartTimerFailedCause._('TIMER_CREATION_RATE_EXCEEDED');
-  static const operationNotPermitted =
-      StartTimerFailedCause._('OPERATION_NOT_PERMITTED');
+/// Provides the details of the
+/// <code>RequestCancelExternalWorkflowExecutionFailed</code> event.
+class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final RequestCancelExternalWorkflowExecutionFailedCause cause;
 
-  final String value;
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the
+  /// <code>RequestCancelExternalWorkflowExecution</code> decision for this
+  /// cancellation request. This information can be useful for diagnosing problems
+  /// by tracing back the chain of events leading up to this event.
+  final int decisionTaskCompletedEventId;
 
-  const StartTimerFailedCause._(this.value);
+  /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
+  /// event corresponding to the
+  /// <code>RequestCancelExternalWorkflowExecution</code> decision to cancel this
+  /// external workflow execution. This information can be useful for diagnosing
+  /// problems by tracing back the chain of events leading up to this event.
+  final int initiatedEventId;
 
-  static const values = [
-    timerIdAlreadyInUse,
-    openTimersLimitExceeded,
-    timerCreationRateExceeded,
-    operationNotPermitted
-  ];
+  /// The <code>workflowId</code> of the external workflow to which the cancel
+  /// request was to be delivered.
+  final String workflowId;
 
-  static StartTimerFailedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StartTimerFailedCause._(value));
+  /// The data attached to the event that the decider can use in subsequent
+  /// workflow tasks. This data isn't sent to the workflow execution.
+  final String? control;
 
-  @override
-  bool operator ==(other) =>
-      other is StartTimerFailedCause && other.value == value;
+  /// The <code>runId</code> of the external workflow execution.
+  final String? runId;
 
-  @override
-  int get hashCode => value.hashCode;
+  RequestCancelExternalWorkflowExecutionFailedEventAttributes({
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.initiatedEventId,
+    required this.workflowId,
+    this.control,
+    this.runId,
+  });
 
-  @override
-  String toString() => value;
+  factory RequestCancelExternalWorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return RequestCancelExternalWorkflowExecutionFailedEventAttributes(
+      cause: RequestCancelExternalWorkflowExecutionFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowId: (json['workflowId'] as String?) ?? '',
+      control: json['control'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final initiatedEventId = this.initiatedEventId;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final runId = this.runId;
+    return {
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'initiatedEventId': initiatedEventId,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (runId != null) 'runId': runId,
+    };
+  }
+}
+
+/// Provides the details of the <code>ScheduleActivityTaskFailed</code> event.
+class ScheduleActivityTaskFailedEventAttributes {
+  /// The activityId provided in the <code>ScheduleActivityTask</code> decision
+  /// that failed.
+  final String activityId;
+
+  /// The activity type provided in the <code>ScheduleActivityTask</code> decision
+  /// that failed.
+  final ActivityType activityType;
+
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final ScheduleActivityTaskFailedCause cause;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision that resulted in the scheduling of this activity task. This
+  /// information can be useful for diagnosing problems by tracing back the chain
+  /// of events leading up to this event.
+  final int decisionTaskCompletedEventId;
+
+  ScheduleActivityTaskFailedEventAttributes({
+    required this.activityId,
+    required this.activityType,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+  });
+
+  factory ScheduleActivityTaskFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ScheduleActivityTaskFailedEventAttributes(
+      activityId: (json['activityId'] as String?) ?? '',
+      activityType: ActivityType.fromJson(
+          (json['activityType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      cause: ScheduleActivityTaskFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final activityType = this.activityType;
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'activityId': activityId,
+      'activityType': activityType,
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
+}
+
+/// Provides the details of the <code>RequestCancelActivityTaskFailed</code>
+/// event.
+class RequestCancelActivityTaskFailedEventAttributes {
+  /// The activityId provided in the <code>RequestCancelActivityTask</code>
+  /// decision that failed.
+  final String activityId;
+
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final RequestCancelActivityTaskFailedCause cause;
+
+  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
+  /// decision task that resulted in the <code>RequestCancelActivityTask</code>
+  /// decision for this cancellation request. This information can be useful for
+  /// diagnosing problems by tracing back the chain of events leading up to this
+  /// event.
+  final int decisionTaskCompletedEventId;
+
+  RequestCancelActivityTaskFailedEventAttributes({
+    required this.activityId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+  });
+
+  factory RequestCancelActivityTaskFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return RequestCancelActivityTaskFailedEventAttributes(
+      activityId: (json['activityId'] as String?) ?? '',
+      cause: RequestCancelActivityTaskFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'activityId': activityId,
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
 }
 
 /// Provides the details of the <code>StartTimerFailed</code> event.
@@ -10586,205 +10216,960 @@ class StartTimerFailedEventAttributes {
   }
 }
 
-/// Used to filter the workflow executions in visibility APIs based on a tag.
-class TagFilter {
-  /// Specifies the tag that must be associated with the execution for it to meet
-  /// the filter criteria.
-  ///
-  /// Tags may only contain unicode letters, digits, whitespace, or these symbols:
-  /// <code>_ . : / = + - @</code>.
-  final String tag;
+/// Provides the details of the <code>CancelTimerFailed</code> event.
+class CancelTimerFailedEventAttributes {
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final CancelTimerFailedCause cause;
 
-  TagFilter({
-    required this.tag,
-  });
-
-  Map<String, dynamic> toJson() {
-    final tag = this.tag;
-    return {
-      'tag': tag,
-    };
-  }
-}
-
-/// Represents a task list.
-class TaskList {
-  /// The name of the task list.
-  final String name;
-
-  TaskList({
-    required this.name,
-  });
-
-  factory TaskList.fromJson(Map<String, dynamic> json) {
-    return TaskList(
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    return {
-      'name': name,
-    };
-  }
-}
-
-/// Provides the details of the <code>TimerCanceled</code> event.
-class TimerCanceledEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>CancelTimer</code> decision to
   /// cancel this timer. This information can be useful for diagnosing problems by
   /// tracing back the chain of events leading up to this event.
   final int decisionTaskCompletedEventId;
 
-  /// The ID of the <code>TimerStarted</code> event that was recorded when this
-  /// timer was started. This information can be useful for diagnosing problems by
-  /// tracing back the chain of events leading up to this event.
-  final int startedEventId;
-
-  /// The unique ID of the timer that was canceled.
+  /// The timerId provided in the <code>CancelTimer</code> decision that failed.
   final String timerId;
 
-  TimerCanceledEventAttributes({
+  CancelTimerFailedEventAttributes({
+    required this.cause,
     required this.decisionTaskCompletedEventId,
-    required this.startedEventId,
     required this.timerId,
   });
 
-  factory TimerCanceledEventAttributes.fromJson(Map<String, dynamic> json) {
-    return TimerCanceledEventAttributes(
+  factory CancelTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
+    return CancelTimerFailedEventAttributes(
+      cause:
+          CancelTimerFailedCause.fromString((json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
       timerId: (json['timerId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
+    final cause = this.cause;
     final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final startedEventId = this.startedEventId;
     final timerId = this.timerId;
     return {
+      'cause': cause.value,
       'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'startedEventId': startedEventId,
       'timerId': timerId,
     };
   }
 }
 
-/// Provides the details of the <code>TimerFired</code> event.
-class TimerFiredEventAttributes {
-  /// The ID of the <code>TimerStarted</code> event that was recorded when this
-  /// timer was started. This information can be useful for diagnosing problems by
-  /// tracing back the chain of events leading up to this event.
-  final int startedEventId;
+/// Provides the details of the <code>StartChildWorkflowExecutionFailed</code>
+/// event.
+class StartChildWorkflowExecutionFailedEventAttributes {
+  /// The cause of the failure. This information is generated by the system and
+  /// can be useful for diagnostic purposes.
+  /// <note>
+  /// When <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision fails because it lacks sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">
+  /// Using IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final StartChildWorkflowExecutionFailedCause cause;
 
-  /// The unique ID of the timer that fired.
-  final String timerId;
-
-  TimerFiredEventAttributes({
-    required this.startedEventId,
-    required this.timerId,
-  });
-
-  factory TimerFiredEventAttributes.fromJson(Map<String, dynamic> json) {
-    return TimerFiredEventAttributes(
-      startedEventId: (json['startedEventId'] as int?) ?? 0,
-      timerId: (json['timerId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final startedEventId = this.startedEventId;
-    final timerId = this.timerId;
-    return {
-      'startedEventId': startedEventId,
-      'timerId': timerId,
-    };
-  }
-}
-
-/// Provides the details of the <code>TimerStarted</code> event.
-class TimerStartedEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>StartTimer</code> decision for this
-  /// activity task. This information can be useful for diagnosing problems by
-  /// tracing back the chain of events leading up to this event.
+  /// decision task that resulted in the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> to request this child workflow execution. This information
+  /// can be useful for diagnosing problems by tracing back the chain of events.
   final int decisionTaskCompletedEventId;
 
-  /// The duration of time after which the timer fires.
+  /// When the <code>cause</code> is <code>WORKFLOW_ALREADY_RUNNING</code>,
+  /// <code>initiatedEventId</code> is the ID of the
+  /// <code>StartChildWorkflowExecutionInitiated</code> event that corresponds to
+  /// the <code>StartChildWorkflowExecution</code> <a>Decision</a> to start the
+  /// workflow execution. You can use this information to diagnose problems by
+  /// tracing back the chain of events leading up to this event.
   ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>.
-  final String startToFireTimeout;
+  /// When the <code>cause</code> isn't <code>WORKFLOW_ALREADY_RUNNING</code>,
+  /// <code>initiatedEventId</code> is set to <code>0</code> because the
+  /// <code>StartChildWorkflowExecutionInitiated</code> event doesn't exist.
+  final int initiatedEventId;
 
-  /// The unique ID of the timer that was started.
-  final String timerId;
+  /// The <code>workflowId</code> of the child workflow execution.
+  final String workflowId;
 
-  /// Data attached to the event that can be used by the decider in subsequent
-  /// workflow tasks.
+  /// The workflow type provided in the <code>StartChildWorkflowExecution</code>
+  /// <a>Decision</a> that failed.
+  final WorkflowType workflowType;
+
+  /// The data attached to the event that the decider can use in subsequent
+  /// workflow tasks. This data isn't sent to the child workflow execution.
   final String? control;
 
-  TimerStartedEventAttributes({
+  StartChildWorkflowExecutionFailedEventAttributes({
+    required this.cause,
     required this.decisionTaskCompletedEventId,
-    required this.startToFireTimeout,
-    required this.timerId,
+    required this.initiatedEventId,
+    required this.workflowId,
+    required this.workflowType,
     this.control,
   });
 
-  factory TimerStartedEventAttributes.fromJson(Map<String, dynamic> json) {
-    return TimerStartedEventAttributes(
+  factory StartChildWorkflowExecutionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return StartChildWorkflowExecutionFailedEventAttributes(
+      cause: StartChildWorkflowExecutionFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
       decisionTaskCompletedEventId:
           (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      startToFireTimeout: (json['startToFireTimeout'] as String?) ?? '',
-      timerId: (json['timerId'] as String?) ?? '',
+      initiatedEventId: (json['initiatedEventId'] as int?) ?? 0,
+      workflowId: (json['workflowId'] as String?) ?? '',
+      workflowType: WorkflowType.fromJson(
+          (json['workflowType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       control: json['control'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final cause = this.cause;
     final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final startToFireTimeout = this.startToFireTimeout;
-    final timerId = this.timerId;
+    final initiatedEventId = this.initiatedEventId;
+    final workflowId = this.workflowId;
+    final workflowType = this.workflowType;
     final control = this.control;
     return {
+      'cause': cause.value,
       'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'startToFireTimeout': startToFireTimeout,
-      'timerId': timerId,
+      'initiatedEventId': initiatedEventId,
+      'workflowId': workflowId,
+      'workflowType': workflowType,
       if (control != null) 'control': control,
     };
   }
 }
 
-/// Represents a workflow execution.
-class WorkflowExecution {
-  /// A system-generated unique identifier for the workflow execution.
-  final String runId;
+/// Provides the details of the <code>LambdaFunctionScheduled</code> event. It
+/// isn't set for other event types.
+class LambdaFunctionScheduledEventAttributes {
+  /// The ID of the <code>LambdaFunctionCompleted</code> event corresponding to
+  /// the decision that resulted in scheduling this activity task. To help
+  /// diagnose issues, use this information to trace back the chain of events
+  /// leading up to this event.
+  final int decisionTaskCompletedEventId;
 
-  /// The user defined identifier associated with the workflow execution.
-  final String workflowId;
+  /// The unique ID of the Lambda task.
+  final String id;
 
-  WorkflowExecution({
-    required this.runId,
-    required this.workflowId,
+  /// The name of the Lambda function.
+  final String name;
+
+  /// Data attached to the event that the decider can use in subsequent workflow
+  /// tasks. This data isn't sent to the Lambda task.
+  final String? control;
+
+  /// The input provided to the Lambda task.
+  final String? input;
+
+  /// The maximum amount of time a worker can take to process the Lambda task.
+  final String? startToCloseTimeout;
+
+  LambdaFunctionScheduledEventAttributes({
+    required this.decisionTaskCompletedEventId,
+    required this.id,
+    required this.name,
+    this.control,
+    this.input,
+    this.startToCloseTimeout,
   });
 
-  factory WorkflowExecution.fromJson(Map<String, dynamic> json) {
-    return WorkflowExecution(
-      runId: (json['runId'] as String?) ?? '',
-      workflowId: (json['workflowId'] as String?) ?? '',
+  factory LambdaFunctionScheduledEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionScheduledEventAttributes(
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      control: json['control'] as String?,
+      input: json['input'] as String?,
+      startToCloseTimeout: json['startToCloseTimeout'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final runId = this.runId;
-    final workflowId = this.workflowId;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final id = this.id;
+    final name = this.name;
+    final control = this.control;
+    final input = this.input;
+    final startToCloseTimeout = this.startToCloseTimeout;
     return {
-      'runId': runId,
-      'workflowId': workflowId,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'id': id,
+      'name': name,
+      if (control != null) 'control': control,
+      if (input != null) 'input': input,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
     };
   }
+}
+
+/// Provides the details of the <code>LambdaFunctionStarted</code> event. It
+/// isn't set for other event types.
+class LambdaFunctionStartedEventAttributes {
+  /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
+  /// when this activity task was scheduled. To help diagnose issues, use this
+  /// information to trace back the chain of events leading up to this event.
+  final int scheduledEventId;
+
+  LambdaFunctionStartedEventAttributes({
+    required this.scheduledEventId,
+  });
+
+  factory LambdaFunctionStartedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionStartedEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    return {
+      'scheduledEventId': scheduledEventId,
+    };
+  }
+}
+
+/// Provides the details of the <code>LambdaFunctionCompleted</code> event. It
+/// isn't set for other event types.
+class LambdaFunctionCompletedEventAttributes {
+  /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
+  /// when this Lambda task was scheduled. To help diagnose issues, use this
+  /// information to trace back the chain of events leading up to this event.
+  final int scheduledEventId;
+
+  /// The ID of the <code>LambdaFunctionStarted</code> event recorded when this
+  /// activity task started. To help diagnose issues, use this information to
+  /// trace back the chain of events leading up to this event.
+  final int startedEventId;
+
+  /// The results of the Lambda task.
+  final String? result;
+
+  LambdaFunctionCompletedEventAttributes({
+    required this.scheduledEventId,
+    required this.startedEventId,
+    this.result,
+  });
+
+  factory LambdaFunctionCompletedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionCompletedEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      result: json['result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final result = this.result;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (result != null) 'result': result,
+    };
+  }
+}
+
+/// Provides the details of the <code>LambdaFunctionFailed</code> event. It
+/// isn't set for other event types.
+class LambdaFunctionFailedEventAttributes {
+  /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
+  /// when this activity task was scheduled. To help diagnose issues, use this
+  /// information to trace back the chain of events leading up to this event.
+  final int scheduledEventId;
+
+  /// The ID of the <code>LambdaFunctionStarted</code> event recorded when this
+  /// activity task started. To help diagnose issues, use this information to
+  /// trace back the chain of events leading up to this event.
+  final int startedEventId;
+
+  /// The details of the failure.
+  final String? details;
+
+  /// The reason provided for the failure.
+  final String? reason;
+
+  LambdaFunctionFailedEventAttributes({
+    required this.scheduledEventId,
+    required this.startedEventId,
+    this.details,
+    this.reason,
+  });
+
+  factory LambdaFunctionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionFailedEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
+}
+
+/// Provides details of the <code>LambdaFunctionTimedOut</code> event.
+class LambdaFunctionTimedOutEventAttributes {
+  /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
+  /// when this activity task was scheduled. To help diagnose issues, use this
+  /// information to trace back the chain of events leading up to this event.
+  final int scheduledEventId;
+
+  /// The ID of the <code>ActivityTaskStarted</code> event that was recorded when
+  /// this activity task started. To help diagnose issues, use this information to
+  /// trace back the chain of events leading up to this event.
+  final int startedEventId;
+
+  /// The type of the timeout that caused this event.
+  final LambdaFunctionTimeoutType? timeoutType;
+
+  LambdaFunctionTimedOutEventAttributes({
+    required this.scheduledEventId,
+    required this.startedEventId,
+    this.timeoutType,
+  });
+
+  factory LambdaFunctionTimedOutEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionTimedOutEventAttributes(
+      scheduledEventId: (json['scheduledEventId'] as int?) ?? 0,
+      startedEventId: (json['startedEventId'] as int?) ?? 0,
+      timeoutType: (json['timeoutType'] as String?)
+          ?.let(LambdaFunctionTimeoutType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final timeoutType = this.timeoutType;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (timeoutType != null) 'timeoutType': timeoutType.value,
+    };
+  }
+}
+
+/// Provides the details of the <code>ScheduleLambdaFunctionFailed</code> event.
+/// It isn't set for other event types.
+class ScheduleLambdaFunctionFailedEventAttributes {
+  /// The cause of the failure. To help diagnose issues, use this information to
+  /// trace back the chain of events leading up to this event.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because it lacked sufficient permissions. For details and
+  /// example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
+  /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
+  /// Developer Guide</i>.
+  /// </note>
+  final ScheduleLambdaFunctionFailedCause cause;
+
+  /// The ID of the <code>LambdaFunctionCompleted</code> event corresponding to
+  /// the decision that resulted in scheduling this Lambda task. To help diagnose
+  /// issues, use this information to trace back the chain of events leading up to
+  /// this event.
+  final int decisionTaskCompletedEventId;
+
+  /// The ID provided in the <code>ScheduleLambdaFunction</code> decision that
+  /// failed.
+  final String id;
+
+  /// The name of the Lambda function.
+  final String name;
+
+  ScheduleLambdaFunctionFailedEventAttributes({
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.id,
+    required this.name,
+  });
+
+  factory ScheduleLambdaFunctionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ScheduleLambdaFunctionFailedEventAttributes(
+      cause: ScheduleLambdaFunctionFailedCause.fromString(
+          (json['cause'] as String?) ?? ''),
+      decisionTaskCompletedEventId:
+          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final id = this.id;
+    final name = this.name;
+    return {
+      'cause': cause.value,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'id': id,
+      'name': name,
+    };
+  }
+}
+
+/// Provides the details of the <code>StartLambdaFunctionFailed</code> event. It
+/// isn't set for other event types.
+class StartLambdaFunctionFailedEventAttributes {
+  /// The cause of the failure. To help diagnose issues, use this information to
+  /// trace back the chain of events leading up to this event.
+  /// <note>
+  /// If <code>cause</code> is set to <code>OPERATION_NOT_PERMITTED</code>, the
+  /// decision failed because the IAM role attached to the execution lacked
+  /// sufficient permissions. For details and example IAM policies, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html">Lambda
+  /// Tasks</a> in the <i>Amazon SWF Developer Guide</i>.
+  /// </note>
+  final StartLambdaFunctionFailedCause? cause;
+
+  /// A description that can help diagnose the cause of the fault.
+  final String? message;
+
+  /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
+  /// when this activity task was scheduled. To help diagnose issues, use this
+  /// information to trace back the chain of events leading up to this event.
+  final int? scheduledEventId;
+
+  StartLambdaFunctionFailedEventAttributes({
+    this.cause,
+    this.message,
+    this.scheduledEventId,
+  });
+
+  factory StartLambdaFunctionFailedEventAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return StartLambdaFunctionFailedEventAttributes(
+      cause: (json['cause'] as String?)
+          ?.let(StartLambdaFunctionFailedCause.fromString),
+      message: json['message'] as String?,
+      scheduledEventId: json['scheduledEventId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final message = this.message;
+    final scheduledEventId = this.scheduledEventId;
+    return {
+      if (cause != null) 'cause': cause.value,
+      if (message != null) 'message': message,
+      if (scheduledEventId != null) 'scheduledEventId': scheduledEventId,
+    };
+  }
+}
+
+class StartLambdaFunctionFailedCause {
+  static const assumeRoleFailed =
+      StartLambdaFunctionFailedCause._('ASSUME_ROLE_FAILED');
+
+  final String value;
+
+  const StartLambdaFunctionFailedCause._(this.value);
+
+  static const values = [assumeRoleFailed];
+
+  static StartLambdaFunctionFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StartLambdaFunctionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartLambdaFunctionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ScheduleLambdaFunctionFailedCause {
+  static const idAlreadyInUse =
+      ScheduleLambdaFunctionFailedCause._('ID_ALREADY_IN_USE');
+  static const openLambdaFunctionsLimitExceeded =
+      ScheduleLambdaFunctionFailedCause._(
+          'OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED');
+  static const lambdaFunctionCreationRateExceeded =
+      ScheduleLambdaFunctionFailedCause._(
+          'LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED');
+  static const lambdaServiceNotAvailableInRegion =
+      ScheduleLambdaFunctionFailedCause._(
+          'LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION');
+
+  final String value;
+
+  const ScheduleLambdaFunctionFailedCause._(this.value);
+
+  static const values = [
+    idAlreadyInUse,
+    openLambdaFunctionsLimitExceeded,
+    lambdaFunctionCreationRateExceeded,
+    lambdaServiceNotAvailableInRegion
+  ];
+
+  static ScheduleLambdaFunctionFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduleLambdaFunctionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduleLambdaFunctionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LambdaFunctionTimeoutType {
+  static const startToClose = LambdaFunctionTimeoutType._('START_TO_CLOSE');
+
+  final String value;
+
+  const LambdaFunctionTimeoutType._(this.value);
+
+  static const values = [startToClose];
+
+  static LambdaFunctionTimeoutType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LambdaFunctionTimeoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LambdaFunctionTimeoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StartChildWorkflowExecutionFailedCause {
+  static const workflowTypeDoesNotExist =
+      StartChildWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DOES_NOT_EXIST');
+  static const workflowTypeDeprecated =
+      StartChildWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DEPRECATED');
+  static const openChildrenLimitExceeded =
+      StartChildWorkflowExecutionFailedCause._('OPEN_CHILDREN_LIMIT_EXCEEDED');
+  static const openWorkflowsLimitExceeded =
+      StartChildWorkflowExecutionFailedCause._('OPEN_WORKFLOWS_LIMIT_EXCEEDED');
+  static const childCreationRateExceeded =
+      StartChildWorkflowExecutionFailedCause._('CHILD_CREATION_RATE_EXCEEDED');
+  static const workflowAlreadyRunning =
+      StartChildWorkflowExecutionFailedCause._('WORKFLOW_ALREADY_RUNNING');
+  static const defaultExecutionStartToCloseTimeoutUndefined =
+      StartChildWorkflowExecutionFailedCause._(
+          'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultTaskListUndefined =
+      StartChildWorkflowExecutionFailedCause._('DEFAULT_TASK_LIST_UNDEFINED');
+  static const defaultTaskStartToCloseTimeoutUndefined =
+      StartChildWorkflowExecutionFailedCause._(
+          'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultChildPolicyUndefined =
+      StartChildWorkflowExecutionFailedCause._(
+          'DEFAULT_CHILD_POLICY_UNDEFINED');
+  static const operationNotPermitted =
+      StartChildWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
+
+  final String value;
+
+  const StartChildWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [
+    workflowTypeDoesNotExist,
+    workflowTypeDeprecated,
+    openChildrenLimitExceeded,
+    openWorkflowsLimitExceeded,
+    childCreationRateExceeded,
+    workflowAlreadyRunning,
+    defaultExecutionStartToCloseTimeoutUndefined,
+    defaultTaskListUndefined,
+    defaultTaskStartToCloseTimeoutUndefined,
+    defaultChildPolicyUndefined,
+    operationNotPermitted
+  ];
+
+  static StartChildWorkflowExecutionFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StartChildWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartChildWorkflowExecutionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CancelTimerFailedCause {
+  static const timerIdUnknown = CancelTimerFailedCause._('TIMER_ID_UNKNOWN');
+  static const operationNotPermitted =
+      CancelTimerFailedCause._('OPERATION_NOT_PERMITTED');
+
+  final String value;
+
+  const CancelTimerFailedCause._(this.value);
+
+  static const values = [timerIdUnknown, operationNotPermitted];
+
+  static CancelTimerFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CancelTimerFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancelTimerFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StartTimerFailedCause {
+  static const timerIdAlreadyInUse =
+      StartTimerFailedCause._('TIMER_ID_ALREADY_IN_USE');
+  static const openTimersLimitExceeded =
+      StartTimerFailedCause._('OPEN_TIMERS_LIMIT_EXCEEDED');
+  static const timerCreationRateExceeded =
+      StartTimerFailedCause._('TIMER_CREATION_RATE_EXCEEDED');
+  static const operationNotPermitted =
+      StartTimerFailedCause._('OPERATION_NOT_PERMITTED');
+
+  final String value;
+
+  const StartTimerFailedCause._(this.value);
+
+  static const values = [
+    timerIdAlreadyInUse,
+    openTimersLimitExceeded,
+    timerCreationRateExceeded,
+    operationNotPermitted
+  ];
+
+  static StartTimerFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StartTimerFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StartTimerFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RequestCancelActivityTaskFailedCause {
+  static const activityIdUnknown =
+      RequestCancelActivityTaskFailedCause._('ACTIVITY_ID_UNKNOWN');
+  static const operationNotPermitted =
+      RequestCancelActivityTaskFailedCause._('OPERATION_NOT_PERMITTED');
+
+  final String value;
+
+  const RequestCancelActivityTaskFailedCause._(this.value);
+
+  static const values = [activityIdUnknown, operationNotPermitted];
+
+  static RequestCancelActivityTaskFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RequestCancelActivityTaskFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequestCancelActivityTaskFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ScheduleActivityTaskFailedCause {
+  static const activityTypeDeprecated =
+      ScheduleActivityTaskFailedCause._('ACTIVITY_TYPE_DEPRECATED');
+  static const activityTypeDoesNotExist =
+      ScheduleActivityTaskFailedCause._('ACTIVITY_TYPE_DOES_NOT_EXIST');
+  static const activityIdAlreadyInUse =
+      ScheduleActivityTaskFailedCause._('ACTIVITY_ID_ALREADY_IN_USE');
+  static const openActivitiesLimitExceeded =
+      ScheduleActivityTaskFailedCause._('OPEN_ACTIVITIES_LIMIT_EXCEEDED');
+  static const activityCreationRateExceeded =
+      ScheduleActivityTaskFailedCause._('ACTIVITY_CREATION_RATE_EXCEEDED');
+  static const defaultScheduleToCloseTimeoutUndefined =
+      ScheduleActivityTaskFailedCause._(
+          'DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultTaskListUndefined =
+      ScheduleActivityTaskFailedCause._('DEFAULT_TASK_LIST_UNDEFINED');
+  static const defaultScheduleToStartTimeoutUndefined =
+      ScheduleActivityTaskFailedCause._(
+          'DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED');
+  static const defaultStartToCloseTimeoutUndefined =
+      ScheduleActivityTaskFailedCause._(
+          'DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultHeartbeatTimeoutUndefined =
+      ScheduleActivityTaskFailedCause._('DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED');
+  static const operationNotPermitted =
+      ScheduleActivityTaskFailedCause._('OPERATION_NOT_PERMITTED');
+
+  final String value;
+
+  const ScheduleActivityTaskFailedCause._(this.value);
+
+  static const values = [
+    activityTypeDeprecated,
+    activityTypeDoesNotExist,
+    activityIdAlreadyInUse,
+    openActivitiesLimitExceeded,
+    activityCreationRateExceeded,
+    defaultScheduleToCloseTimeoutUndefined,
+    defaultTaskListUndefined,
+    defaultScheduleToStartTimeoutUndefined,
+    defaultStartToCloseTimeoutUndefined,
+    defaultHeartbeatTimeoutUndefined,
+    operationNotPermitted
+  ];
+
+  static ScheduleActivityTaskFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScheduleActivityTaskFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScheduleActivityTaskFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RequestCancelExternalWorkflowExecutionFailedCause {
+  static const unknownExternalWorkflowExecution =
+      RequestCancelExternalWorkflowExecutionFailedCause._(
+          'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION');
+  static const requestCancelExternalWorkflowExecutionRateExceeded =
+      RequestCancelExternalWorkflowExecutionFailedCause._(
+          'REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED');
+  static const operationNotPermitted =
+      RequestCancelExternalWorkflowExecutionFailedCause._(
+          'OPERATION_NOT_PERMITTED');
+
+  final String value;
+
+  const RequestCancelExternalWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [
+    unknownExternalWorkflowExecution,
+    requestCancelExternalWorkflowExecutionRateExceeded,
+    operationNotPermitted
+  ];
+
+  static RequestCancelExternalWorkflowExecutionFailedCause fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              RequestCancelExternalWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequestCancelExternalWorkflowExecutionFailedCause &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SignalExternalWorkflowExecutionFailedCause {
+  static const unknownExternalWorkflowExecution =
+      SignalExternalWorkflowExecutionFailedCause._(
+          'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION');
+  static const signalExternalWorkflowExecutionRateExceeded =
+      SignalExternalWorkflowExecutionFailedCause._(
+          'SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED');
+  static const operationNotPermitted =
+      SignalExternalWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
+
+  final String value;
+
+  const SignalExternalWorkflowExecutionFailedCause._(this.value);
+
+  static const values = [
+    unknownExternalWorkflowExecution,
+    signalExternalWorkflowExecutionRateExceeded,
+    operationNotPermitted
+  ];
+
+  static SignalExternalWorkflowExecutionFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SignalExternalWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SignalExternalWorkflowExecutionFailedCause &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class WorkflowExecutionTimeoutType {
+  static const startToClose = WorkflowExecutionTimeoutType._('START_TO_CLOSE');
+
+  final String value;
+
+  const WorkflowExecutionTimeoutType._(this.value);
+
+  static const values = [startToClose];
+
+  static WorkflowExecutionTimeoutType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkflowExecutionTimeoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is WorkflowExecutionTimeoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RecordMarkerFailedCause {
+  static const operationNotPermitted =
+      RecordMarkerFailedCause._('OPERATION_NOT_PERMITTED');
+
+  final String value;
+
+  const RecordMarkerFailedCause._(this.value);
+
+  static const values = [operationNotPermitted];
+
+  static RecordMarkerFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordMarkerFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordMarkerFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ActivityTaskTimeoutType {
+  static const startToClose = ActivityTaskTimeoutType._('START_TO_CLOSE');
+  static const scheduleToStart = ActivityTaskTimeoutType._('SCHEDULE_TO_START');
+  static const scheduleToClose = ActivityTaskTimeoutType._('SCHEDULE_TO_CLOSE');
+  static const heartbeat = ActivityTaskTimeoutType._('HEARTBEAT');
+
+  final String value;
+
+  const ActivityTaskTimeoutType._(this.value);
+
+  static const values = [
+    startToClose,
+    scheduleToStart,
+    scheduleToClose,
+    heartbeat
+  ];
+
+  static ActivityTaskTimeoutType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActivityTaskTimeoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActivityTaskTimeoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DecisionTaskTimeoutType {
+  static const startToClose = DecisionTaskTimeoutType._('START_TO_CLOSE');
+  static const scheduleToStart = DecisionTaskTimeoutType._('SCHEDULE_TO_START');
+
+  final String value;
+
+  const DecisionTaskTimeoutType._(this.value);
+
+  static const values = [startToClose, scheduleToStart];
+
+  static DecisionTaskTimeoutType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DecisionTaskTimeoutType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DecisionTaskTimeoutType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class WorkflowExecutionCancelRequestedCause {
@@ -10812,506 +11197,326 @@ class WorkflowExecutionCancelRequestedCause {
   String toString() => value;
 }
 
-/// Provides the details of the <code>WorkflowExecutionCancelRequested</code>
-/// event.
-class WorkflowExecutionCancelRequestedEventAttributes {
-  /// If set, indicates that the request to cancel the workflow execution was
-  /// automatically generated, and specifies the cause. This happens if the parent
-  /// workflow execution times out or is terminated, and the child policy is set
-  /// to cancel child executions.
-  final WorkflowExecutionCancelRequestedCause? cause;
+class WorkflowExecutionTerminatedCause {
+  static const childPolicyApplied =
+      WorkflowExecutionTerminatedCause._('CHILD_POLICY_APPLIED');
+  static const eventLimitExceeded =
+      WorkflowExecutionTerminatedCause._('EVENT_LIMIT_EXCEEDED');
+  static const operatorInitiated =
+      WorkflowExecutionTerminatedCause._('OPERATOR_INITIATED');
 
-  /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
-  /// event corresponding to the
-  /// <code>RequestCancelExternalWorkflowExecution</code> decision to cancel this
-  /// workflow execution.The source event with this ID can be found in the history
-  /// of the source workflow execution. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int? externalInitiatedEventId;
+  final String value;
 
-  /// The external workflow execution for which the cancellation was requested.
-  final WorkflowExecution? externalWorkflowExecution;
+  const WorkflowExecutionTerminatedCause._(this.value);
 
-  WorkflowExecutionCancelRequestedEventAttributes({
-    this.cause,
-    this.externalInitiatedEventId,
-    this.externalWorkflowExecution,
-  });
+  static const values = [
+    childPolicyApplied,
+    eventLimitExceeded,
+    operatorInitiated
+  ];
 
-  factory WorkflowExecutionCancelRequestedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionCancelRequestedEventAttributes(
-      cause: (json['cause'] as String?)
-          ?.let(WorkflowExecutionCancelRequestedCause.fromString),
-      externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
-      externalWorkflowExecution: json['externalWorkflowExecution'] != null
-          ? WorkflowExecution.fromJson(
-              json['externalWorkflowExecution'] as Map<String, dynamic>)
-          : null,
-    );
-  }
+  static WorkflowExecutionTerminatedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WorkflowExecutionTerminatedCause._(value));
 
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final externalInitiatedEventId = this.externalInitiatedEventId;
-    final externalWorkflowExecution = this.externalWorkflowExecution;
-    return {
-      if (cause != null) 'cause': cause.value,
-      if (externalInitiatedEventId != null)
-        'externalInitiatedEventId': externalInitiatedEventId,
-      if (externalWorkflowExecution != null)
-        'externalWorkflowExecution': externalWorkflowExecution,
-    };
-  }
+  @override
+  bool operator ==(other) =>
+      other is WorkflowExecutionTerminatedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// Provides the details of the <code>WorkflowExecutionCanceled</code> event.
-class WorkflowExecutionCanceledEventAttributes {
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>CancelWorkflowExecution</code>
-  /// decision for this cancellation request. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int decisionTaskCompletedEventId;
+class ContinueAsNewWorkflowExecutionFailedCause {
+  static const unhandledDecision =
+      ContinueAsNewWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
+  static const workflowTypeDeprecated =
+      ContinueAsNewWorkflowExecutionFailedCause._('WORKFLOW_TYPE_DEPRECATED');
+  static const workflowTypeDoesNotExist =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'WORKFLOW_TYPE_DOES_NOT_EXIST');
+  static const defaultExecutionStartToCloseTimeoutUndefined =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultTaskStartToCloseTimeoutUndefined =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED');
+  static const defaultTaskListUndefined =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'DEFAULT_TASK_LIST_UNDEFINED');
+  static const defaultChildPolicyUndefined =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'DEFAULT_CHILD_POLICY_UNDEFINED');
+  static const continueAsNewWorkflowExecutionRateExceeded =
+      ContinueAsNewWorkflowExecutionFailedCause._(
+          'CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED');
+  static const operationNotPermitted =
+      ContinueAsNewWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
-  /// The details of the cancellation.
-  final String? details;
+  final String value;
 
-  WorkflowExecutionCanceledEventAttributes({
-    required this.decisionTaskCompletedEventId,
-    this.details,
-  });
+  const ContinueAsNewWorkflowExecutionFailedCause._(this.value);
 
-  factory WorkflowExecutionCanceledEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionCanceledEventAttributes(
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      details: json['details'] as String?,
-    );
-  }
+  static const values = [
+    unhandledDecision,
+    workflowTypeDeprecated,
+    workflowTypeDoesNotExist,
+    defaultExecutionStartToCloseTimeoutUndefined,
+    defaultTaskStartToCloseTimeoutUndefined,
+    defaultTaskListUndefined,
+    defaultChildPolicyUndefined,
+    continueAsNewWorkflowExecutionRateExceeded,
+    operationNotPermitted
+  ];
 
-  Map<String, dynamic> toJson() {
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final details = this.details;
-    return {
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      if (details != null) 'details': details,
-    };
-  }
+  static ContinueAsNewWorkflowExecutionFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContinueAsNewWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContinueAsNewWorkflowExecutionFailedCause &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// Provides the details of the <code>WorkflowExecutionCompleted</code> event.
-class WorkflowExecutionCompletedEventAttributes {
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>CompleteWorkflowExecution</code>
-  /// decision to complete this execution. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int decisionTaskCompletedEventId;
+class CancelWorkflowExecutionFailedCause {
+  static const unhandledDecision =
+      CancelWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
+  static const operationNotPermitted =
+      CancelWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
-  /// The result produced by the workflow execution upon successful completion.
-  final String? result;
+  final String value;
 
-  WorkflowExecutionCompletedEventAttributes({
-    required this.decisionTaskCompletedEventId,
-    this.result,
-  });
+  const CancelWorkflowExecutionFailedCause._(this.value);
 
-  factory WorkflowExecutionCompletedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionCompletedEventAttributes(
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      result: json['result'] as String?,
-    );
-  }
+  static const values = [unhandledDecision, operationNotPermitted];
 
-  Map<String, dynamic> toJson() {
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final result = this.result;
-    return {
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      if (result != null) 'result': result,
-    };
-  }
+  static CancelWorkflowExecutionFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CancelWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CancelWorkflowExecutionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// The configuration settings for a workflow execution including timeout
-/// values, tasklist etc. These configuration settings are determined from the
-/// defaults specified when registering the workflow type and those specified
-/// when starting the workflow execution.
-class WorkflowExecutionConfiguration {
-  /// The policy to use for the child workflow executions if this workflow
-  /// execution is terminated, by calling the <a>TerminateWorkflowExecution</a>
-  /// action explicitly or due to an expired timeout.
-  ///
-  /// The supported child policies are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TERMINATE</code> – The child executions are terminated.
-  /// </li>
-  /// <li>
-  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
-  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
-  /// event in its history. It is up to the decider to take appropriate actions
-  /// when it receives an execution history with this event.
-  /// </li>
-  /// <li>
-  /// <code>ABANDON</code> – No action is taken. The child executions continue to
-  /// run.
-  /// </li>
-  /// </ul>
-  final ChildPolicy childPolicy;
+class FailWorkflowExecutionFailedCause {
+  static const unhandledDecision =
+      FailWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
+  static const operationNotPermitted =
+      FailWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
-  /// The total duration for this workflow execution.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String executionStartToCloseTimeout;
+  final String value;
 
-  /// The task list used for the decision tasks generated for this workflow
-  /// execution.
-  final TaskList taskList;
+  const FailWorkflowExecutionFailedCause._(this.value);
 
-  /// The maximum duration allowed for decision tasks for this workflow execution.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String taskStartToCloseTimeout;
+  static const values = [unhandledDecision, operationNotPermitted];
 
-  /// The IAM role attached to the child workflow execution.
-  final String? lambdaRole;
+  static FailWorkflowExecutionFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FailWorkflowExecutionFailedCause._(value));
 
-  /// The priority assigned to decision tasks for this workflow execution. Valid
-  /// values are integers that range from Java's <code>Integer.MIN_VALUE</code>
-  /// (-2147483648) to <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers
-  /// indicate higher priority.
-  ///
-  /// For more information about setting task priority, see <a
-  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
-  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  final String? taskPriority;
+  @override
+  bool operator ==(other) =>
+      other is FailWorkflowExecutionFailedCause && other.value == value;
 
-  WorkflowExecutionConfiguration({
-    required this.childPolicy,
-    required this.executionStartToCloseTimeout,
-    required this.taskList,
-    required this.taskStartToCloseTimeout,
-    this.lambdaRole,
-    this.taskPriority,
-  });
+  @override
+  int get hashCode => value.hashCode;
 
-  factory WorkflowExecutionConfiguration.fromJson(Map<String, dynamic> json) {
-    return WorkflowExecutionConfiguration(
-      childPolicy:
-          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
-      executionStartToCloseTimeout:
-          (json['executionStartToCloseTimeout'] as String?) ?? '',
-      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      taskStartToCloseTimeout:
-          (json['taskStartToCloseTimeout'] as String?) ?? '',
-      lambdaRole: json['lambdaRole'] as String?,
-      taskPriority: json['taskPriority'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final childPolicy = this.childPolicy;
-    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
-    final taskList = this.taskList;
-    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
-    final lambdaRole = this.lambdaRole;
-    final taskPriority = this.taskPriority;
-    return {
-      'childPolicy': childPolicy.value,
-      'executionStartToCloseTimeout': executionStartToCloseTimeout,
-      'taskList': taskList,
-      'taskStartToCloseTimeout': taskStartToCloseTimeout,
-      if (lambdaRole != null) 'lambdaRole': lambdaRole,
-      if (taskPriority != null) 'taskPriority': taskPriority,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
-/// Provides the details of the <code>WorkflowExecutionContinuedAsNew</code>
-/// event.
-class WorkflowExecutionContinuedAsNewEventAttributes {
-  /// The policy to use for the child workflow executions of the new execution if
-  /// it is terminated by calling the <a>TerminateWorkflowExecution</a> action
-  /// explicitly or due to an expired timeout.
-  ///
-  /// The supported child policies are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TERMINATE</code> – The child executions are terminated.
-  /// </li>
-  /// <li>
-  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
-  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
-  /// event in its history. It is up to the decider to take appropriate actions
-  /// when it receives an execution history with this event.
-  /// </li>
-  /// <li>
-  /// <code>ABANDON</code> – No action is taken. The child executions continue to
-  /// run.
-  /// </li>
-  /// </ul>
-  final ChildPolicy childPolicy;
+class CompleteWorkflowExecutionFailedCause {
+  static const unhandledDecision =
+      CompleteWorkflowExecutionFailedCause._('UNHANDLED_DECISION');
+  static const operationNotPermitted =
+      CompleteWorkflowExecutionFailedCause._('OPERATION_NOT_PERMITTED');
 
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the
-  /// <code>ContinueAsNewWorkflowExecution</code> decision that started this
-  /// execution. This information can be useful for diagnosing problems by tracing
-  /// back the chain of events leading up to this event.
-  final int decisionTaskCompletedEventId;
+  final String value;
 
-  /// The <code>runId</code> of the new workflow execution.
-  final String newExecutionRunId;
+  const CompleteWorkflowExecutionFailedCause._(this.value);
 
-  /// The task list to use for the decisions of the new (continued) workflow
-  /// execution.
-  final TaskList taskList;
+  static const values = [unhandledDecision, operationNotPermitted];
 
-  /// The workflow type of this execution.
+  static CompleteWorkflowExecutionFailedCause fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CompleteWorkflowExecutionFailedCause._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CompleteWorkflowExecutionFailedCause && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a workflow type.
+class WorkflowTypeInfo {
+  /// The date when this type was registered.
+  final DateTime creationDate;
+
+  /// The current status of the workflow type.
+  final RegistrationStatus status;
+
+  /// The workflow type this information is about.
   final WorkflowType workflowType;
 
-  /// The total duration allowed for the new workflow execution.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? executionStartToCloseTimeout;
+  /// If the type is in deprecated state, then it is set to the date when the type
+  /// was deprecated.
+  final DateTime? deprecationDate;
 
-  /// The input provided to the new workflow execution.
-  final String? input;
+  /// The description of the type registered through <a>RegisterWorkflowType</a>.
+  final String? description;
 
-  /// The IAM role to attach to the new (continued) workflow execution.
-  final String? lambdaRole;
-
-  /// The list of tags associated with the new workflow execution.
-  final List<String>? tagList;
-
-  /// The priority of the task to use for the decisions of the new (continued)
-  /// workflow execution.
-  final String? taskPriority;
-
-  /// The maximum duration of decision tasks for the new workflow execution.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? taskStartToCloseTimeout;
-
-  WorkflowExecutionContinuedAsNewEventAttributes({
-    required this.childPolicy,
-    required this.decisionTaskCompletedEventId,
-    required this.newExecutionRunId,
-    required this.taskList,
+  WorkflowTypeInfo({
+    required this.creationDate,
+    required this.status,
     required this.workflowType,
-    this.executionStartToCloseTimeout,
-    this.input,
-    this.lambdaRole,
-    this.tagList,
-    this.taskPriority,
-    this.taskStartToCloseTimeout,
+    this.deprecationDate,
+    this.description,
   });
 
-  factory WorkflowExecutionContinuedAsNewEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionContinuedAsNewEventAttributes(
-      childPolicy:
-          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      newExecutionRunId: (json['newExecutionRunId'] as String?) ?? '',
-      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
+  factory WorkflowTypeInfo.fromJson(Map<String, dynamic> json) {
+    return WorkflowTypeInfo(
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
       workflowType: WorkflowType.fromJson(
           (json['workflowType'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      executionStartToCloseTimeout:
-          json['executionStartToCloseTimeout'] as String?,
-      input: json['input'] as String?,
-      lambdaRole: json['lambdaRole'] as String?,
-      tagList:
-          (json['tagList'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      taskPriority: json['taskPriority'] as String?,
-      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
+      deprecationDate: timeStampFromJson(json['deprecationDate']),
+      description: json['description'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final childPolicy = this.childPolicy;
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final newExecutionRunId = this.newExecutionRunId;
-    final taskList = this.taskList;
+    final creationDate = this.creationDate;
+    final status = this.status;
     final workflowType = this.workflowType;
-    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
-    final input = this.input;
-    final lambdaRole = this.lambdaRole;
-    final tagList = this.tagList;
-    final taskPriority = this.taskPriority;
-    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    final deprecationDate = this.deprecationDate;
+    final description = this.description;
     return {
-      'childPolicy': childPolicy.value,
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      'newExecutionRunId': newExecutionRunId,
-      'taskList': taskList,
+      'creationDate': unixTimestampToJson(creationDate),
+      'status': status.value,
       'workflowType': workflowType,
-      if (executionStartToCloseTimeout != null)
-        'executionStartToCloseTimeout': executionStartToCloseTimeout,
-      if (input != null) 'input': input,
-      if (lambdaRole != null) 'lambdaRole': lambdaRole,
-      if (tagList != null) 'tagList': tagList,
-      if (taskPriority != null) 'taskPriority': taskPriority,
-      if (taskStartToCloseTimeout != null)
-        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+      if (deprecationDate != null)
+        'deprecationDate': unixTimestampToJson(deprecationDate),
+      if (description != null) 'description': description,
     };
   }
 }
 
-/// Contains the count of workflow executions returned from
-/// <a>CountOpenWorkflowExecutions</a> or <a>CountClosedWorkflowExecutions</a>
-class WorkflowExecutionCount {
-  /// The number of workflow executions.
-  final int count;
+class RegistrationStatus {
+  static const registered = RegistrationStatus._('REGISTERED');
+  static const deprecated = RegistrationStatus._('DEPRECATED');
 
-  /// If set to true, indicates that the actual count was more than the maximum
-  /// supported by this API and the count returned is the truncated value.
-  final bool? truncated;
+  final String value;
 
-  WorkflowExecutionCount({
-    required this.count,
-    this.truncated,
+  const RegistrationStatus._(this.value);
+
+  static const values = [registered, deprecated];
+
+  static RegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Used to filter the workflow executions in visibility APIs by various
+/// time-based rules. Each parameter, if specified, defines a rule that must be
+/// satisfied by each returned query result. The parameter values are in the <a
+/// href="https://en.wikipedia.org/wiki/Unix_time">Unix Time format</a>. For
+/// example: <code>"oldestDate": 1325376070.</code>
+class ExecutionTimeFilter {
+  /// Specifies the oldest start or close date and time to return.
+  final DateTime oldestDate;
+
+  /// Specifies the latest start or close date and time to return.
+  final DateTime? latestDate;
+
+  ExecutionTimeFilter({
+    required this.oldestDate,
+    this.latestDate,
   });
 
-  factory WorkflowExecutionCount.fromJson(Map<String, dynamic> json) {
-    return WorkflowExecutionCount(
-      count: (json['count'] as int?) ?? 0,
-      truncated: json['truncated'] as bool?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final count = this.count;
-    final truncated = this.truncated;
+    final oldestDate = this.oldestDate;
+    final latestDate = this.latestDate;
     return {
-      'count': count,
-      if (truncated != null) 'truncated': truncated,
+      'oldestDate': unixTimestampToJson(oldestDate),
+      if (latestDate != null) 'latestDate': unixTimestampToJson(latestDate),
     };
   }
 }
 
-/// Contains details about a workflow execution.
-class WorkflowExecutionDetail {
-  /// The configuration settings for this workflow execution including timeout
-  /// values, tasklist etc.
-  final WorkflowExecutionConfiguration executionConfiguration;
+/// Used to filter workflow execution query results by type. Each parameter, if
+/// specified, defines a rule that must be satisfied by each returned result.
+class WorkflowTypeFilter {
+  /// Name of the workflow type.
+  final String name;
 
-  /// Information about the workflow execution.
-  final WorkflowExecutionInfo executionInfo;
+  /// Version of the workflow type.
+  final String? version;
 
-  /// The number of tasks for this workflow execution. This includes open and
-  /// closed tasks of all types.
-  final WorkflowExecutionOpenCounts openCounts;
-
-  /// The time when the last activity task was scheduled for this workflow
-  /// execution. You can use this information to determine if the workflow has not
-  /// made progress for an unusually long period of time and might require a
-  /// corrective action.
-  final DateTime? latestActivityTaskTimestamp;
-
-  /// The latest executionContext provided by the decider for this workflow
-  /// execution. A decider can provide an executionContext (a free-form string)
-  /// when closing a decision task using <a>RespondDecisionTaskCompleted</a>.
-  final String? latestExecutionContext;
-
-  WorkflowExecutionDetail({
-    required this.executionConfiguration,
-    required this.executionInfo,
-    required this.openCounts,
-    this.latestActivityTaskTimestamp,
-    this.latestExecutionContext,
+  WorkflowTypeFilter({
+    required this.name,
+    this.version,
   });
 
-  factory WorkflowExecutionDetail.fromJson(Map<String, dynamic> json) {
-    return WorkflowExecutionDetail(
-      executionConfiguration: WorkflowExecutionConfiguration.fromJson(
-          (json['executionConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      executionInfo: WorkflowExecutionInfo.fromJson(
-          (json['executionInfo'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      openCounts: WorkflowExecutionOpenCounts.fromJson(
-          (json['openCounts'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      latestActivityTaskTimestamp:
-          timeStampFromJson(json['latestActivityTaskTimestamp']),
-      latestExecutionContext: json['latestExecutionContext'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final executionConfiguration = this.executionConfiguration;
-    final executionInfo = this.executionInfo;
-    final openCounts = this.openCounts;
-    final latestActivityTaskTimestamp = this.latestActivityTaskTimestamp;
-    final latestExecutionContext = this.latestExecutionContext;
+    final name = this.name;
+    final version = this.version;
     return {
-      'executionConfiguration': executionConfiguration,
-      'executionInfo': executionInfo,
-      'openCounts': openCounts,
-      if (latestActivityTaskTimestamp != null)
-        'latestActivityTaskTimestamp':
-            unixTimestampToJson(latestActivityTaskTimestamp),
-      if (latestExecutionContext != null)
-        'latestExecutionContext': latestExecutionContext,
+      'name': name,
+      if (version != null) 'version': version,
     };
   }
 }
 
-/// Provides the details of the <code>WorkflowExecutionFailed</code> event.
-class WorkflowExecutionFailedEventAttributes {
-  /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
-  /// decision task that resulted in the <code>FailWorkflowExecution</code>
-  /// decision to fail this execution. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event.
-  final int decisionTaskCompletedEventId;
+/// Used to filter the workflow executions in visibility APIs based on a tag.
+class TagFilter {
+  /// Specifies the tag that must be associated with the execution for it to meet
+  /// the filter criteria.
+  ///
+  /// Tags may only contain unicode letters, digits, whitespace, or these symbols:
+  /// <code>_ . : / = + - @</code>.
+  final String tag;
 
-  /// The details of the failure.
-  final String? details;
-
-  /// The descriptive reason provided for the failure.
-  final String? reason;
-
-  WorkflowExecutionFailedEventAttributes({
-    required this.decisionTaskCompletedEventId,
-    this.details,
-    this.reason,
+  TagFilter({
+    required this.tag,
   });
 
-  factory WorkflowExecutionFailedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionFailedEventAttributes(
-      decisionTaskCompletedEventId:
-          (json['decisionTaskCompletedEventId'] as int?) ?? 0,
-      details: json['details'] as String?,
-      reason: json['reason'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
-    final details = this.details;
-    final reason = this.reason;
+    final tag = this.tag;
     return {
-      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
-      if (details != null) 'details': details,
-      if (reason != null) 'reason': reason,
+      'tag': tag,
     };
   }
 }
@@ -11330,6 +11535,63 @@ class WorkflowExecutionFilter {
     final workflowId = this.workflowId;
     return {
       'workflowId': workflowId,
+    };
+  }
+}
+
+/// Contains general information about a domain.
+class DomainInfo {
+  /// The name of the domain. This name is unique within the account.
+  final String name;
+
+  /// The status of the domain:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REGISTERED</code> – The domain is properly registered and available.
+  /// You can use this domain for registering types and creating new workflow
+  /// executions.
+  /// </li>
+  /// <li>
+  /// <code>DEPRECATED</code> – The domain was deprecated using
+  /// <a>DeprecateDomain</a>, but is still in use. You should not create new
+  /// workflow executions in this domain.
+  /// </li>
+  /// </ul>
+  final RegistrationStatus status;
+
+  /// The ARN of the domain.
+  final String? arn;
+
+  /// The description of the domain provided through <a>RegisterDomain</a>.
+  final String? description;
+
+  DomainInfo({
+    required this.name,
+    required this.status,
+    this.arn,
+    this.description,
+  });
+
+  factory DomainInfo.fromJson(Map<String, dynamic> json) {
+    return DomainInfo(
+      name: (json['name'] as String?) ?? '',
+      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final status = this.status;
+    final arn = this.arn;
+    final description = this.description;
+    return {
+      'name': name,
+      'status': status.value,
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
     };
   }
 }
@@ -11453,337 +11715,56 @@ class WorkflowExecutionInfo {
   }
 }
 
-/// Contains a paginated list of information about workflow executions.
-class WorkflowExecutionInfos {
-  /// The list of workflow information structures.
-  final List<WorkflowExecutionInfo> executionInfos;
-
-  /// If a <code>NextPageToken</code> was returned by a previous call, there are
-  /// more results available. To retrieve the next page of results, make the call
-  /// again using the returned token in <code>nextPageToken</code>. Keep all other
-  /// arguments unchanged.
-  ///
-  /// The configured <code>maximumPageSize</code> determines how many results can
-  /// be returned in a single call.
-  final String? nextPageToken;
-
-  WorkflowExecutionInfos({
-    required this.executionInfos,
-    this.nextPageToken,
-  });
-
-  factory WorkflowExecutionInfos.fromJson(Map<String, dynamic> json) {
-    return WorkflowExecutionInfos(
-      executionInfos: ((json['executionInfos'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => WorkflowExecutionInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextPageToken: json['nextPageToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionInfos = this.executionInfos;
-    final nextPageToken = this.nextPageToken;
-    return {
-      'executionInfos': executionInfos,
-      if (nextPageToken != null) 'nextPageToken': nextPageToken,
-    };
-  }
-}
-
-/// Contains the counts of open tasks, child workflow executions and timers for
-/// a workflow execution.
-class WorkflowExecutionOpenCounts {
-  /// The count of activity tasks whose status is <code>OPEN</code>.
-  final int openActivityTasks;
-
-  /// The count of child workflow executions whose status is <code>OPEN</code>.
-  final int openChildWorkflowExecutions;
-
-  /// The count of decision tasks whose status is OPEN. A workflow execution can
-  /// have at most one open decision task.
-  final int openDecisionTasks;
-
-  /// The count of timers started by this workflow execution that have not fired
-  /// yet.
-  final int openTimers;
-
-  /// The count of Lambda tasks whose status is <code>OPEN</code>.
-  final int? openLambdaFunctions;
-
-  WorkflowExecutionOpenCounts({
-    required this.openActivityTasks,
-    required this.openChildWorkflowExecutions,
-    required this.openDecisionTasks,
-    required this.openTimers,
-    this.openLambdaFunctions,
-  });
-
-  factory WorkflowExecutionOpenCounts.fromJson(Map<String, dynamic> json) {
-    return WorkflowExecutionOpenCounts(
-      openActivityTasks: (json['openActivityTasks'] as int?) ?? 0,
-      openChildWorkflowExecutions:
-          (json['openChildWorkflowExecutions'] as int?) ?? 0,
-      openDecisionTasks: (json['openDecisionTasks'] as int?) ?? 0,
-      openTimers: (json['openTimers'] as int?) ?? 0,
-      openLambdaFunctions: json['openLambdaFunctions'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final openActivityTasks = this.openActivityTasks;
-    final openChildWorkflowExecutions = this.openChildWorkflowExecutions;
-    final openDecisionTasks = this.openDecisionTasks;
-    final openTimers = this.openTimers;
-    final openLambdaFunctions = this.openLambdaFunctions;
-    return {
-      'openActivityTasks': openActivityTasks,
-      'openChildWorkflowExecutions': openChildWorkflowExecutions,
-      'openDecisionTasks': openDecisionTasks,
-      'openTimers': openTimers,
-      if (openLambdaFunctions != null)
-        'openLambdaFunctions': openLambdaFunctions,
-    };
-  }
-}
-
-/// Provides the details of the <code>WorkflowExecutionSignaled</code> event.
-class WorkflowExecutionSignaledEventAttributes {
-  /// The name of the signal received. The decider can use the signal name and
-  /// inputs to determine how to the process the signal.
-  final String signalName;
-
-  /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>SignalExternalWorkflow</code> decision to signal
-  /// this workflow execution.The source event with this ID can be found in the
-  /// history of the source workflow execution. This information can be useful for
-  /// diagnosing problems by tracing back the chain of events leading up to this
-  /// event. This field is set only if the signal was initiated by another
-  /// workflow execution.
-  final int? externalInitiatedEventId;
-
-  /// The workflow execution that sent the signal. This is set only of the signal
-  /// was sent by another workflow execution.
-  final WorkflowExecution? externalWorkflowExecution;
-
-  /// The inputs provided with the signal. The decider can use the signal name and
-  /// inputs to determine how to process the signal.
-  final String? input;
-
-  WorkflowExecutionSignaledEventAttributes({
-    required this.signalName,
-    this.externalInitiatedEventId,
-    this.externalWorkflowExecution,
-    this.input,
-  });
-
-  factory WorkflowExecutionSignaledEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionSignaledEventAttributes(
-      signalName: (json['signalName'] as String?) ?? '',
-      externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
-      externalWorkflowExecution: json['externalWorkflowExecution'] != null
-          ? WorkflowExecution.fromJson(
-              json['externalWorkflowExecution'] as Map<String, dynamic>)
-          : null,
-      input: json['input'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final signalName = this.signalName;
-    final externalInitiatedEventId = this.externalInitiatedEventId;
-    final externalWorkflowExecution = this.externalWorkflowExecution;
-    final input = this.input;
-    return {
-      'signalName': signalName,
-      if (externalInitiatedEventId != null)
-        'externalInitiatedEventId': externalInitiatedEventId,
-      if (externalWorkflowExecution != null)
-        'externalWorkflowExecution': externalWorkflowExecution,
-      if (input != null) 'input': input,
-    };
-  }
-}
-
-/// Provides details of <code>WorkflowExecutionStarted</code> event.
-class WorkflowExecutionStartedEventAttributes {
-  /// The policy to use for the child workflow executions if this workflow
-  /// execution is terminated, by calling the <a>TerminateWorkflowExecution</a>
-  /// action explicitly or due to an expired timeout.
-  ///
-  /// The supported child policies are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TERMINATE</code> – The child executions are terminated.
-  /// </li>
-  /// <li>
-  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
-  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
-  /// event in its history. It is up to the decider to take appropriate actions
-  /// when it receives an execution history with this event.
-  /// </li>
-  /// <li>
-  /// <code>ABANDON</code> – No action is taken. The child executions continue to
-  /// run.
-  /// </li>
-  /// </ul>
-  final ChildPolicy childPolicy;
-
-  /// The name of the task list for scheduling the decision tasks for this
-  /// workflow execution.
-  final TaskList taskList;
-
-  /// The workflow type of this execution.
-  final WorkflowType workflowType;
-
-  /// If this workflow execution was started due to a
-  /// <code>ContinueAsNewWorkflowExecution</code> decision, then it contains the
-  /// <code>runId</code> of the previous workflow execution that was closed and
-  /// continued as this execution.
-  final String? continuedExecutionRunId;
-
-  /// The maximum duration for this workflow execution.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? executionStartToCloseTimeout;
-
-  /// The input provided to the workflow execution.
-  final String? input;
-
-  /// The IAM role attached to the workflow execution.
-  final String? lambdaRole;
-
-  /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
-  /// corresponding to the <code>StartChildWorkflowExecution</code>
-  /// <a>Decision</a> to start this workflow execution. The source event with this
-  /// ID can be found in the history of the source workflow execution. This
-  /// information can be useful for diagnosing problems by tracing back the chain
-  /// of events leading up to this event.
-  final int? parentInitiatedEventId;
-
-  /// The source workflow execution that started this workflow execution. The
-  /// member isn't set if the workflow execution was not started by a workflow.
-  final WorkflowExecution? parentWorkflowExecution;
-
-  /// The list of tags associated with this workflow execution. An execution can
-  /// have up to 5 tags.
-  final List<String>? tagList;
-
-  /// The priority of the decision tasks in the workflow execution.
-  final String? taskPriority;
-
-  /// The maximum duration of decision tasks for this workflow type.
-  ///
-  /// The duration is specified in seconds, an integer greater than or equal to
-  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  final String? taskStartToCloseTimeout;
-
-  WorkflowExecutionStartedEventAttributes({
-    required this.childPolicy,
-    required this.taskList,
-    required this.workflowType,
-    this.continuedExecutionRunId,
-    this.executionStartToCloseTimeout,
-    this.input,
-    this.lambdaRole,
-    this.parentInitiatedEventId,
-    this.parentWorkflowExecution,
-    this.tagList,
-    this.taskPriority,
-    this.taskStartToCloseTimeout,
-  });
-
-  factory WorkflowExecutionStartedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionStartedEventAttributes(
-      childPolicy:
-          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
-      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      continuedExecutionRunId: json['continuedExecutionRunId'] as String?,
-      executionStartToCloseTimeout:
-          json['executionStartToCloseTimeout'] as String?,
-      input: json['input'] as String?,
-      lambdaRole: json['lambdaRole'] as String?,
-      parentInitiatedEventId: json['parentInitiatedEventId'] as int?,
-      parentWorkflowExecution: json['parentWorkflowExecution'] != null
-          ? WorkflowExecution.fromJson(
-              json['parentWorkflowExecution'] as Map<String, dynamic>)
-          : null,
-      tagList:
-          (json['tagList'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      taskPriority: json['taskPriority'] as String?,
-      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final childPolicy = this.childPolicy;
-    final taskList = this.taskList;
-    final workflowType = this.workflowType;
-    final continuedExecutionRunId = this.continuedExecutionRunId;
-    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
-    final input = this.input;
-    final lambdaRole = this.lambdaRole;
-    final parentInitiatedEventId = this.parentInitiatedEventId;
-    final parentWorkflowExecution = this.parentWorkflowExecution;
-    final tagList = this.tagList;
-    final taskPriority = this.taskPriority;
-    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
-    return {
-      'childPolicy': childPolicy.value,
-      'taskList': taskList,
-      'workflowType': workflowType,
-      if (continuedExecutionRunId != null)
-        'continuedExecutionRunId': continuedExecutionRunId,
-      if (executionStartToCloseTimeout != null)
-        'executionStartToCloseTimeout': executionStartToCloseTimeout,
-      if (input != null) 'input': input,
-      if (lambdaRole != null) 'lambdaRole': lambdaRole,
-      if (parentInitiatedEventId != null)
-        'parentInitiatedEventId': parentInitiatedEventId,
-      if (parentWorkflowExecution != null)
-        'parentWorkflowExecution': parentWorkflowExecution,
-      if (tagList != null) 'tagList': tagList,
-      if (taskPriority != null) 'taskPriority': taskPriority,
-      if (taskStartToCloseTimeout != null)
-        'taskStartToCloseTimeout': taskStartToCloseTimeout,
-    };
-  }
-}
-
-class WorkflowExecutionTerminatedCause {
-  static const childPolicyApplied =
-      WorkflowExecutionTerminatedCause._('CHILD_POLICY_APPLIED');
-  static const eventLimitExceeded =
-      WorkflowExecutionTerminatedCause._('EVENT_LIMIT_EXCEEDED');
-  static const operatorInitiated =
-      WorkflowExecutionTerminatedCause._('OPERATOR_INITIATED');
+class ExecutionStatus {
+  static const open = ExecutionStatus._('OPEN');
+  static const closed = ExecutionStatus._('CLOSED');
 
   final String value;
 
-  const WorkflowExecutionTerminatedCause._(this.value);
+  const ExecutionStatus._(this.value);
+
+  static const values = [open, closed];
+
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CloseStatus {
+  static const completed = CloseStatus._('COMPLETED');
+  static const failed = CloseStatus._('FAILED');
+  static const canceled = CloseStatus._('CANCELED');
+  static const terminated = CloseStatus._('TERMINATED');
+  static const continuedAsNew = CloseStatus._('CONTINUED_AS_NEW');
+  static const timedOut = CloseStatus._('TIMED_OUT');
+
+  final String value;
+
+  const CloseStatus._(this.value);
 
   static const values = [
-    childPolicyApplied,
-    eventLimitExceeded,
-    operatorInitiated
+    completed,
+    failed,
+    canceled,
+    terminated,
+    continuedAsNew,
+    timedOut
   ];
 
-  static WorkflowExecutionTerminatedCause fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WorkflowExecutionTerminatedCause._(value));
+  static CloseStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CloseStatus._(value));
 
   @override
-  bool operator ==(other) =>
-      other is WorkflowExecutionTerminatedCause && other.value == value;
+  bool operator ==(other) => other is CloseStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -11792,185 +11773,77 @@ class WorkflowExecutionTerminatedCause {
   String toString() => value;
 }
 
-/// Provides the details of the <code>WorkflowExecutionTerminated</code> event.
-class WorkflowExecutionTerminatedEventAttributes {
-  /// The policy used for the child workflow executions of this workflow
-  /// execution.
-  ///
-  /// The supported child policies are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TERMINATE</code> – The child executions are terminated.
-  /// </li>
-  /// <li>
-  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
-  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
-  /// event in its history. It is up to the decider to take appropriate actions
-  /// when it receives an execution history with this event.
-  /// </li>
-  /// <li>
-  /// <code>ABANDON</code> – No action is taken. The child executions continue to
-  /// run.
-  /// </li>
-  /// </ul>
-  final ChildPolicy childPolicy;
+/// Used to filter the closed workflow executions in visibility APIs by their
+/// close status.
+class CloseStatusFilter {
+  /// The close status that must match the close status of an execution for it to
+  /// meet the criteria of this filter.
+  final CloseStatus status;
 
-  /// If set, indicates that the workflow execution was automatically terminated,
-  /// and specifies the cause. This happens if the parent workflow execution times
-  /// out or is terminated and the child policy is set to terminate child
-  /// executions.
-  final WorkflowExecutionTerminatedCause? cause;
-
-  /// The details provided for the termination.
-  final String? details;
-
-  /// The reason provided for the termination.
-  final String? reason;
-
-  WorkflowExecutionTerminatedEventAttributes({
-    required this.childPolicy,
-    this.cause,
-    this.details,
-    this.reason,
+  CloseStatusFilter({
+    required this.status,
   });
 
-  factory WorkflowExecutionTerminatedEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionTerminatedEventAttributes(
-      childPolicy:
-          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
-      cause: (json['cause'] as String?)
-          ?.let(WorkflowExecutionTerminatedCause.fromString),
-      details: json['details'] as String?,
-      reason: json['reason'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final childPolicy = this.childPolicy;
-    final cause = this.cause;
-    final details = this.details;
-    final reason = this.reason;
+    final status = this.status;
     return {
-      'childPolicy': childPolicy.value,
-      if (cause != null) 'cause': cause.value,
-      if (details != null) 'details': details,
-      if (reason != null) 'reason': reason,
+      'status': status.value,
     };
   }
 }
 
-/// Provides the details of the <code>WorkflowExecutionTimedOut</code> event.
-class WorkflowExecutionTimedOutEventAttributes {
-  /// The policy used for the child workflow executions of this workflow
-  /// execution.
-  ///
-  /// The supported child policies are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>TERMINATE</code> – The child executions are terminated.
-  /// </li>
-  /// <li>
-  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
-  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
-  /// event in its history. It is up to the decider to take appropriate actions
-  /// when it receives an execution history with this event.
-  /// </li>
-  /// <li>
-  /// <code>ABANDON</code> – No action is taken. The child executions continue to
-  /// run.
-  /// </li>
-  /// </ul>
-  final ChildPolicy childPolicy;
+/// Detailed information about an activity type.
+class ActivityTypeInfo {
+  /// The <a>ActivityType</a> type structure representing the activity type.
+  final ActivityType activityType;
 
-  /// The type of timeout that caused this event.
-  final WorkflowExecutionTimeoutType timeoutType;
+  /// The date and time this activity type was created through
+  /// <a>RegisterActivityType</a>.
+  final DateTime creationDate;
 
-  WorkflowExecutionTimedOutEventAttributes({
-    required this.childPolicy,
-    required this.timeoutType,
+  /// The current status of the activity type.
+  final RegistrationStatus status;
+
+  /// If DEPRECATED, the date and time <a>DeprecateActivityType</a> was called.
+  final DateTime? deprecationDate;
+
+  /// The description of the activity type provided in
+  /// <a>RegisterActivityType</a>.
+  final String? description;
+
+  ActivityTypeInfo({
+    required this.activityType,
+    required this.creationDate,
+    required this.status,
+    this.deprecationDate,
+    this.description,
   });
 
-  factory WorkflowExecutionTimedOutEventAttributes.fromJson(
-      Map<String, dynamic> json) {
-    return WorkflowExecutionTimedOutEventAttributes(
-      childPolicy:
-          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
-      timeoutType: WorkflowExecutionTimeoutType.fromString(
-          (json['timeoutType'] as String?) ?? ''),
+  factory ActivityTypeInfo.fromJson(Map<String, dynamic> json) {
+    return ActivityTypeInfo(
+      activityType: ActivityType.fromJson(
+          (json['activityType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
+      deprecationDate: timeStampFromJson(json['deprecationDate']),
+      description: json['description'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final childPolicy = this.childPolicy;
-    final timeoutType = this.timeoutType;
+    final activityType = this.activityType;
+    final creationDate = this.creationDate;
+    final status = this.status;
+    final deprecationDate = this.deprecationDate;
+    final description = this.description;
     return {
-      'childPolicy': childPolicy.value,
-      'timeoutType': timeoutType.value,
-    };
-  }
-}
-
-class WorkflowExecutionTimeoutType {
-  static const startToClose = WorkflowExecutionTimeoutType._('START_TO_CLOSE');
-
-  final String value;
-
-  const WorkflowExecutionTimeoutType._(this.value);
-
-  static const values = [startToClose];
-
-  static WorkflowExecutionTimeoutType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WorkflowExecutionTimeoutType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is WorkflowExecutionTimeoutType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a workflow type.
-class WorkflowType {
-  /// The name of the workflow type.
-  /// <note>
-  /// The combination of workflow type name and version must be unique with in a
-  /// domain.
-  /// </note>
-  final String name;
-
-  /// The version of the workflow type.
-  /// <note>
-  /// The combination of workflow type name and version must be unique with in a
-  /// domain.
-  /// </note>
-  final String version;
-
-  WorkflowType({
-    required this.name,
-    required this.version,
-  });
-
-  factory WorkflowType.fromJson(Map<String, dynamic> json) {
-    return WorkflowType(
-      name: (json['name'] as String?) ?? '',
-      version: (json['version'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final version = this.version;
-    return {
-      'name': name,
-      'version': version,
+      'activityType': activityType,
+      'creationDate': unixTimestampToJson(creationDate),
+      'status': status.value,
+      if (deprecationDate != null)
+        'deprecationDate': unixTimestampToJson(deprecationDate),
+      if (description != null) 'description': description,
     };
   }
 }
@@ -12107,171 +11980,298 @@ class WorkflowTypeConfiguration {
   }
 }
 
-/// Contains details about a workflow type.
-class WorkflowTypeDetail {
-  /// Configuration settings of the workflow type registered through
-  /// <a>RegisterWorkflowType</a>
-  final WorkflowTypeConfiguration configuration;
-
-  /// General information about the workflow type.
+/// The configuration settings for a workflow execution including timeout
+/// values, tasklist etc. These configuration settings are determined from the
+/// defaults specified when registering the workflow type and those specified
+/// when starting the workflow execution.
+class WorkflowExecutionConfiguration {
+  /// The policy to use for the child workflow executions if this workflow
+  /// execution is terminated, by calling the <a>TerminateWorkflowExecution</a>
+  /// action explicitly or due to an expired timeout.
   ///
-  /// The status of the workflow type (returned in the WorkflowTypeInfo structure)
-  /// can be one of the following.
+  /// The supported child policies are:
   ///
   /// <ul>
   /// <li>
-  /// <code>REGISTERED</code> – The type is registered and available. Workers
-  /// supporting this type should be running.
+  /// <code>TERMINATE</code> – The child executions are terminated.
   /// </li>
   /// <li>
-  /// <code>DEPRECATED</code> – The type was deprecated using
-  /// <a>DeprecateWorkflowType</a>, but is still in use. You should keep workers
-  /// supporting this type running. You cannot create new workflow executions of
-  /// this type.
+  /// <code>REQUEST_CANCEL</code> – A request to cancel is attempted for each
+  /// child execution by recording a <code>WorkflowExecutionCancelRequested</code>
+  /// event in its history. It is up to the decider to take appropriate actions
+  /// when it receives an execution history with this event.
+  /// </li>
+  /// <li>
+  /// <code>ABANDON</code> – No action is taken. The child executions continue to
+  /// run.
   /// </li>
   /// </ul>
-  final WorkflowTypeInfo typeInfo;
+  final ChildPolicy childPolicy;
 
-  WorkflowTypeDetail({
-    required this.configuration,
-    required this.typeInfo,
-  });
-
-  factory WorkflowTypeDetail.fromJson(Map<String, dynamic> json) {
-    return WorkflowTypeDetail(
-      configuration: WorkflowTypeConfiguration.fromJson(
-          (json['configuration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      typeInfo: WorkflowTypeInfo.fromJson(
-          (json['typeInfo'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configuration = this.configuration;
-    final typeInfo = this.typeInfo;
-    return {
-      'configuration': configuration,
-      'typeInfo': typeInfo,
-    };
-  }
-}
-
-/// Used to filter workflow execution query results by type. Each parameter, if
-/// specified, defines a rule that must be satisfied by each returned result.
-class WorkflowTypeFilter {
-  /// Name of the workflow type.
-  final String name;
-
-  /// Version of the workflow type.
-  final String? version;
-
-  WorkflowTypeFilter({
-    required this.name,
-    this.version,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final version = this.version;
-    return {
-      'name': name,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Contains information about a workflow type.
-class WorkflowTypeInfo {
-  /// The date when this type was registered.
-  final DateTime creationDate;
-
-  /// The current status of the workflow type.
-  final RegistrationStatus status;
-
-  /// The workflow type this information is about.
-  final WorkflowType workflowType;
-
-  /// If the type is in deprecated state, then it is set to the date when the type
-  /// was deprecated.
-  final DateTime? deprecationDate;
-
-  /// The description of the type registered through <a>RegisterWorkflowType</a>.
-  final String? description;
-
-  WorkflowTypeInfo({
-    required this.creationDate,
-    required this.status,
-    required this.workflowType,
-    this.deprecationDate,
-    this.description,
-  });
-
-  factory WorkflowTypeInfo.fromJson(Map<String, dynamic> json) {
-    return WorkflowTypeInfo(
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      status: RegistrationStatus.fromString((json['status'] as String?) ?? ''),
-      workflowType: WorkflowType.fromJson(
-          (json['workflowType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      deprecationDate: timeStampFromJson(json['deprecationDate']),
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final status = this.status;
-    final workflowType = this.workflowType;
-    final deprecationDate = this.deprecationDate;
-    final description = this.description;
-    return {
-      'creationDate': unixTimestampToJson(creationDate),
-      'status': status.value,
-      'workflowType': workflowType,
-      if (deprecationDate != null)
-        'deprecationDate': unixTimestampToJson(deprecationDate),
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-/// Contains a paginated list of information structures about workflow types.
-class WorkflowTypeInfos {
-  /// The list of workflow type information.
-  final List<WorkflowTypeInfo> typeInfos;
-
-  /// If a <code>NextPageToken</code> was returned by a previous call, there are
-  /// more results available. To retrieve the next page of results, make the call
-  /// again using the returned token in <code>nextPageToken</code>. Keep all other
-  /// arguments unchanged.
+  /// The total duration for this workflow execution.
   ///
-  /// The configured <code>maximumPageSize</code> determines how many results can
-  /// be returned in a single call.
-  final String? nextPageToken;
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String executionStartToCloseTimeout;
 
-  WorkflowTypeInfos({
-    required this.typeInfos,
-    this.nextPageToken,
+  /// The task list used for the decision tasks generated for this workflow
+  /// execution.
+  final TaskList taskList;
+
+  /// The maximum duration allowed for decision tasks for this workflow execution.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String taskStartToCloseTimeout;
+
+  /// The IAM role attached to the child workflow execution.
+  final String? lambdaRole;
+
+  /// The priority assigned to decision tasks for this workflow execution. Valid
+  /// values are integers that range from Java's <code>Integer.MIN_VALUE</code>
+  /// (-2147483648) to <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers
+  /// indicate higher priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  final String? taskPriority;
+
+  WorkflowExecutionConfiguration({
+    required this.childPolicy,
+    required this.executionStartToCloseTimeout,
+    required this.taskList,
+    required this.taskStartToCloseTimeout,
+    this.lambdaRole,
+    this.taskPriority,
   });
 
-  factory WorkflowTypeInfos.fromJson(Map<String, dynamic> json) {
-    return WorkflowTypeInfos(
-      typeInfos: ((json['typeInfos'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => WorkflowTypeInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextPageToken: json['nextPageToken'] as String?,
+  factory WorkflowExecutionConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionConfiguration(
+      childPolicy:
+          ChildPolicy.fromString((json['childPolicy'] as String?) ?? ''),
+      executionStartToCloseTimeout:
+          (json['executionStartToCloseTimeout'] as String?) ?? '',
+      taskList: TaskList.fromJson((json['taskList'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      taskStartToCloseTimeout:
+          (json['taskStartToCloseTimeout'] as String?) ?? '',
+      lambdaRole: json['lambdaRole'] as String?,
+      taskPriority: json['taskPriority'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final typeInfos = this.typeInfos;
-    final nextPageToken = this.nextPageToken;
+    final childPolicy = this.childPolicy;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final taskList = this.taskList;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    final lambdaRole = this.lambdaRole;
+    final taskPriority = this.taskPriority;
     return {
-      'typeInfos': typeInfos,
-      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+      'childPolicy': childPolicy.value,
+      'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      'taskList': taskList,
+      'taskStartToCloseTimeout': taskStartToCloseTimeout,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+    };
+  }
+}
+
+/// Contains the counts of open tasks, child workflow executions and timers for
+/// a workflow execution.
+class WorkflowExecutionOpenCounts {
+  /// The count of activity tasks whose status is <code>OPEN</code>.
+  final int openActivityTasks;
+
+  /// The count of child workflow executions whose status is <code>OPEN</code>.
+  final int openChildWorkflowExecutions;
+
+  /// The count of decision tasks whose status is OPEN. A workflow execution can
+  /// have at most one open decision task.
+  final int openDecisionTasks;
+
+  /// The count of timers started by this workflow execution that have not fired
+  /// yet.
+  final int openTimers;
+
+  /// The count of Lambda tasks whose status is <code>OPEN</code>.
+  final int? openLambdaFunctions;
+
+  WorkflowExecutionOpenCounts({
+    required this.openActivityTasks,
+    required this.openChildWorkflowExecutions,
+    required this.openDecisionTasks,
+    required this.openTimers,
+    this.openLambdaFunctions,
+  });
+
+  factory WorkflowExecutionOpenCounts.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionOpenCounts(
+      openActivityTasks: (json['openActivityTasks'] as int?) ?? 0,
+      openChildWorkflowExecutions:
+          (json['openChildWorkflowExecutions'] as int?) ?? 0,
+      openDecisionTasks: (json['openDecisionTasks'] as int?) ?? 0,
+      openTimers: (json['openTimers'] as int?) ?? 0,
+      openLambdaFunctions: json['openLambdaFunctions'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openActivityTasks = this.openActivityTasks;
+    final openChildWorkflowExecutions = this.openChildWorkflowExecutions;
+    final openDecisionTasks = this.openDecisionTasks;
+    final openTimers = this.openTimers;
+    final openLambdaFunctions = this.openLambdaFunctions;
+    return {
+      'openActivityTasks': openActivityTasks,
+      'openChildWorkflowExecutions': openChildWorkflowExecutions,
+      'openDecisionTasks': openDecisionTasks,
+      'openTimers': openTimers,
+      if (openLambdaFunctions != null)
+        'openLambdaFunctions': openLambdaFunctions,
+    };
+  }
+}
+
+/// Contains the configuration settings of a domain.
+class DomainConfiguration {
+  /// The retention period for workflow executions in this domain.
+  final String workflowExecutionRetentionPeriodInDays;
+
+  DomainConfiguration({
+    required this.workflowExecutionRetentionPeriodInDays,
+  });
+
+  factory DomainConfiguration.fromJson(Map<String, dynamic> json) {
+    return DomainConfiguration(
+      workflowExecutionRetentionPeriodInDays:
+          (json['workflowExecutionRetentionPeriodInDays'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflowExecutionRetentionPeriodInDays =
+        this.workflowExecutionRetentionPeriodInDays;
+    return {
+      'workflowExecutionRetentionPeriodInDays':
+          workflowExecutionRetentionPeriodInDays,
+    };
+  }
+}
+
+/// Configuration settings registered with the activity type.
+class ActivityTypeConfiguration {
+  /// The default maximum time, in seconds, before which a worker processing a
+  /// task must report progress by calling <a>RecordActivityTaskHeartbeat</a>.
+  ///
+  /// You can specify this value only when <i>registering</i> an activity type.
+  /// The registered default value can be overridden when you schedule a task
+  /// through the <code>ScheduleActivityTask</code> <a>Decision</a>. If the
+  /// activity worker subsequently attempts to record a heartbeat or returns a
+  /// result, the activity worker receives an <code>UnknownResource</code> fault.
+  /// In this case, Amazon SWF no longer considers the activity task to be valid;
+  /// the activity worker should clean up the activity task.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? defaultTaskHeartbeatTimeout;
+
+  /// The default task list specified for this activity type at registration. This
+  /// default is used if a task list isn't provided when a task is scheduled
+  /// through the <code>ScheduleActivityTask</code> <a>Decision</a>. You can
+  /// override the default registered task list when scheduling a task through the
+  /// <code>ScheduleActivityTask</code> <a>Decision</a>.
+  final TaskList? defaultTaskList;
+
+  /// The default task priority for tasks of this activity type, specified at
+  /// registration. If not set, then <code>0</code> is used as the default
+  /// priority. This default can be overridden when scheduling an activity task.
+  ///
+  /// Valid values are integers that range from Java's
+  /// <code>Integer.MIN_VALUE</code> (-2147483648) to
+  /// <code>Integer.MAX_VALUE</code> (2147483647). Higher numbers indicate higher
+  /// priority.
+  ///
+  /// For more information about setting task priority, see <a
+  /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
+  /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
+  final String? defaultTaskPriority;
+
+  /// The default maximum duration, specified when registering the activity type,
+  /// for tasks of this activity type. You can override this default when
+  /// scheduling a task through the <code>ScheduleActivityTask</code>
+  /// <a>Decision</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? defaultTaskScheduleToCloseTimeout;
+
+  /// The default maximum duration, specified when registering the activity type,
+  /// that a task of an activity type can wait before being assigned to a worker.
+  /// You can override this default when scheduling a task through the
+  /// <code>ScheduleActivityTask</code> <a>Decision</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? defaultTaskScheduleToStartTimeout;
+
+  /// The default maximum duration for tasks of an activity type specified when
+  /// registering the activity type. You can override this default when scheduling
+  /// a task through the <code>ScheduleActivityTask</code> <a>Decision</a>.
+  ///
+  /// The duration is specified in seconds, an integer greater than or equal to
+  /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
+  final String? defaultTaskStartToCloseTimeout;
+
+  ActivityTypeConfiguration({
+    this.defaultTaskHeartbeatTimeout,
+    this.defaultTaskList,
+    this.defaultTaskPriority,
+    this.defaultTaskScheduleToCloseTimeout,
+    this.defaultTaskScheduleToStartTimeout,
+    this.defaultTaskStartToCloseTimeout,
+  });
+
+  factory ActivityTypeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ActivityTypeConfiguration(
+      defaultTaskHeartbeatTimeout:
+          json['defaultTaskHeartbeatTimeout'] as String?,
+      defaultTaskList: json['defaultTaskList'] != null
+          ? TaskList.fromJson(json['defaultTaskList'] as Map<String, dynamic>)
+          : null,
+      defaultTaskPriority: json['defaultTaskPriority'] as String?,
+      defaultTaskScheduleToCloseTimeout:
+          json['defaultTaskScheduleToCloseTimeout'] as String?,
+      defaultTaskScheduleToStartTimeout:
+          json['defaultTaskScheduleToStartTimeout'] as String?,
+      defaultTaskStartToCloseTimeout:
+          json['defaultTaskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultTaskHeartbeatTimeout = this.defaultTaskHeartbeatTimeout;
+    final defaultTaskList = this.defaultTaskList;
+    final defaultTaskPriority = this.defaultTaskPriority;
+    final defaultTaskScheduleToCloseTimeout =
+        this.defaultTaskScheduleToCloseTimeout;
+    final defaultTaskScheduleToStartTimeout =
+        this.defaultTaskScheduleToStartTimeout;
+    final defaultTaskStartToCloseTimeout = this.defaultTaskStartToCloseTimeout;
+    return {
+      if (defaultTaskHeartbeatTimeout != null)
+        'defaultTaskHeartbeatTimeout': defaultTaskHeartbeatTimeout,
+      if (defaultTaskList != null) 'defaultTaskList': defaultTaskList,
+      if (defaultTaskPriority != null)
+        'defaultTaskPriority': defaultTaskPriority,
+      if (defaultTaskScheduleToCloseTimeout != null)
+        'defaultTaskScheduleToCloseTimeout': defaultTaskScheduleToCloseTimeout,
+      if (defaultTaskScheduleToStartTimeout != null)
+        'defaultTaskScheduleToStartTimeout': defaultTaskScheduleToStartTimeout,
+      if (defaultTaskStartToCloseTimeout != null)
+        'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
     };
   }
 }

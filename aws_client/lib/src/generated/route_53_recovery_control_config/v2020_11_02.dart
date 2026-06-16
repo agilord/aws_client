@@ -34,7 +34,6 @@ class Route53RecoveryControlConfig {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'route53-recovery-control-config',
-            signingName: 'route53-recovery-control-config',
           ),
           region: region,
           credentials: credentials,
@@ -58,13 +57,13 @@ class Route53RecoveryControlConfig {
   /// supported Amazon Web Services Region) that you can use with API calls to
   /// the cluster data plane.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
   /// The name of the cluster.
@@ -74,16 +73,22 @@ class Route53RecoveryControlConfig {
   /// idempotent API request with an action, specify a client token in the
   /// request.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the cluster. NetworkType can be one of the following:
+  /// IPV4, DUALSTACK.
+  ///
   /// Parameter [tags] :
   /// The tags associated with the cluster.
   Future<CreateClusterResponse> createCluster({
     required String clusterName,
     String? clientToken,
+    NetworkType? networkType,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'ClusterName': clusterName,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (networkType != null) 'NetworkType': networkType.value,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -102,13 +107,13 @@ class Route53RecoveryControlConfig {
   /// transaction, for example, to fail over an Availability Zone or Amazon Web
   /// Services Region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The Amazon Resource Name (ARN) of the cluster for the control panel.
@@ -153,13 +158,13 @@ class Route53RecoveryControlConfig {
   /// To get or update the routing control state, see the Recovery Cluster (data
   /// plane) API actions for Amazon Route 53 Application Recovery Controller.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The Amazon Resource Name (ARN) of the cluster that includes the routing
@@ -219,8 +224,8 @@ class Route53RecoveryControlConfig {
   /// rules</a> in the Amazon Route 53 Application Recovery Controller Developer
   /// Guide.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [assertionRule] :
   /// The assertion rule requested.
@@ -258,12 +263,12 @@ class Route53RecoveryControlConfig {
 
   /// Delete a cluster.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The Amazon Resource Name (ARN) of the cluster that you're deleting.
@@ -280,12 +285,12 @@ class Route53RecoveryControlConfig {
 
   /// Deletes a control panel.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlPanelArn] :
   /// The Amazon Resource Name (ARN) of the control panel.
@@ -302,12 +307,12 @@ class Route53RecoveryControlConfig {
 
   /// Deletes a routing control.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [routingControlArn] :
   /// The Amazon Resource Name (ARN) of the routing control that you're
@@ -326,9 +331,9 @@ class Route53RecoveryControlConfig {
   /// Deletes a safety rule.
   /// /&gt;
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [safetyRuleArn] :
   /// The ARN of the safety rule.
@@ -346,12 +351,12 @@ class Route53RecoveryControlConfig {
   /// Display the details about a cluster. The response includes the cluster
   /// name, endpoints, status, and Amazon Resource Name (ARN).
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The Amazon Resource Name (ARN) of the cluster.
@@ -369,12 +374,12 @@ class Route53RecoveryControlConfig {
 
   /// Displays details about a control panel.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlPanelArn] :
   /// The Amazon Resource Name (ARN) of the control panel.
@@ -397,12 +402,12 @@ class Route53RecoveryControlConfig {
   /// To get or update the routing control state, see the Recovery Cluster (data
   /// plane) API actions for Amazon Route 53 Application Recovery Controller.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [routingControlArn] :
   /// The Amazon Resource Name (ARN) of the routing control.
@@ -420,8 +425,8 @@ class Route53RecoveryControlConfig {
 
   /// Returns information about a safety rule.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [safetyRuleArn] :
   /// The ARN of the safety rule.
@@ -439,8 +444,8 @@ class Route53RecoveryControlConfig {
 
   /// Get information about the resource policy for a cluster.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -459,9 +464,9 @@ class Route53RecoveryControlConfig {
   /// Returns an array of all Amazon Route 53 health checks associated with a
   /// specific routing control.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [routingControlArn] :
   /// The Amazon Resource Name (ARN) of the routing control.
@@ -500,11 +505,11 @@ class Route53RecoveryControlConfig {
 
   /// Returns an array of all the clusters in an account.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The number of objects that you want to return with this call.
@@ -537,11 +542,11 @@ class Route53RecoveryControlConfig {
 
   /// Returns an array of control panels in an account or in a cluster.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [clusterArn] :
   /// The Amazon Resource Name (ARN) of a cluster.
@@ -583,11 +588,11 @@ class Route53RecoveryControlConfig {
   /// state to the state of an Amazon Route 53 health check, which can be used
   /// to control routing.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [controlPanelArn] :
   /// The Amazon Resource Name (ARN) of the control panel.
@@ -626,11 +631,11 @@ class Route53RecoveryControlConfig {
   /// List the safety rules (the assertion rules and gating rules) that you've
   /// defined for the routing controls in a control panel.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [controlPanelArn] :
   /// The Amazon Resource Name (ARN) of the control panel.
@@ -668,9 +673,9 @@ class Route53RecoveryControlConfig {
 
   /// Lists the tags for a resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the resource that's tagged.
@@ -688,9 +693,9 @@ class Route53RecoveryControlConfig {
 
   /// Adds a tag to a resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the resource that's tagged.
@@ -714,9 +719,9 @@ class Route53RecoveryControlConfig {
 
   /// Removes a tag from a resource.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the resource that's tagged.
@@ -739,15 +744,48 @@ class Route53RecoveryControlConfig {
     );
   }
 
+  /// Updates an existing cluster. You can only update the network type of a
+  /// cluster.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [clusterArn] :
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  /// Parameter [networkType] :
+  /// The network type of the cluster. NetworkType can be one of the following:
+  /// IPV4, DUALSTACK.
+  Future<UpdateClusterResponse> updateCluster({
+    required String clusterArn,
+    required NetworkType networkType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ClusterArn': clusterArn,
+      'NetworkType': networkType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/cluster',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateClusterResponse.fromJson(response);
+  }
+
   /// Updates a control panel. The only update you can make to a control panel
   /// is to change the name of the control panel.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlPanelArn] :
   /// The Amazon Resource Name (ARN) of the control panel.
@@ -776,12 +814,12 @@ class Route53RecoveryControlConfig {
   /// Cluster (data plane) API actions for Amazon Route 53 Application Recovery
   /// Controller.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [routingControlArn] :
   /// The Amazon Resource Name (ARN) of the routing control.
@@ -809,9 +847,9 @@ class Route53RecoveryControlConfig {
   /// update the name and the waiting period for a safety rule. To make other
   /// updates, delete the safety rule and create a new one.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [assertionRuleUpdate] :
   /// The assertion rule to update.
@@ -834,307 +872,6 @@ class Route53RecoveryControlConfig {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSafetyRuleResponse.fromJson(response);
-  }
-}
-
-/// An assertion rule enforces that, when you change a routing control state,
-/// that the criteria that you set in the rule configuration is met. Otherwise,
-/// the change to the routing control is not accepted. For example, the criteria
-/// might be that at least one routing control state is On after the transaction
-/// so that traffic continues to flow to at least one cell for the application.
-/// This ensures that you avoid a fail-open scenario.
-class AssertionRule {
-  /// The routing controls that are part of transactions that are evaluated to
-  /// determine if a request to change a routing control state is allowed. For
-  /// example, you might include three routing controls, one for each of three
-  /// Amazon Web Services Regions.
-  final List<String> assertedControls;
-
-  /// The Amazon Resource Name (ARN) of the control panel.
-  final String controlPanelArn;
-
-  /// Name of the assertion rule. You can use any non-white space character in the
-  /// name.
-  final String name;
-
-  /// The criteria that you set for specific assertion routing controls
-  /// (AssertedControls) that designate how many routing control states must be ON
-  /// as the result of a transaction. For example, if you have three assertion
-  /// routing controls, you might specify ATLEAST 2 for your rule configuration.
-  /// This means that at least two assertion routing control states must be ON, so
-  /// that at least two Amazon Web Services Regions have traffic flowing to them.
-  final RuleConfig ruleConfig;
-
-  /// The Amazon Resource Name (ARN) of the assertion rule.
-  final String safetyRuleArn;
-
-  /// The deployment status of an assertion rule. Status can be one of the
-  /// following: PENDING, DEPLOYED, PENDING_DELETION.
-  final Status status;
-
-  /// An evaluation period, in milliseconds (ms), during which any request against
-  /// the target routing controls will fail. This helps prevent "flapping" of
-  /// state. The wait period is 5000 ms by default, but you can choose a custom
-  /// value.
-  final int waitPeriodMs;
-
-  /// The Amazon Web Services account ID of the assertion rule owner.
-  final String? owner;
-
-  AssertionRule({
-    required this.assertedControls,
-    required this.controlPanelArn,
-    required this.name,
-    required this.ruleConfig,
-    required this.safetyRuleArn,
-    required this.status,
-    required this.waitPeriodMs,
-    this.owner,
-  });
-
-  factory AssertionRule.fromJson(Map<String, dynamic> json) {
-    return AssertionRule(
-      assertedControls: ((json['AssertedControls'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      controlPanelArn: (json['ControlPanelArn'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      ruleConfig: RuleConfig.fromJson(
-          (json['RuleConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      safetyRuleArn: (json['SafetyRuleArn'] as String?) ?? '',
-      status: Status.fromString((json['Status'] as String?) ?? ''),
-      waitPeriodMs: (json['WaitPeriodMs'] as int?) ?? 0,
-      owner: json['Owner'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assertedControls = this.assertedControls;
-    final controlPanelArn = this.controlPanelArn;
-    final name = this.name;
-    final ruleConfig = this.ruleConfig;
-    final safetyRuleArn = this.safetyRuleArn;
-    final status = this.status;
-    final waitPeriodMs = this.waitPeriodMs;
-    final owner = this.owner;
-    return {
-      'AssertedControls': assertedControls,
-      'ControlPanelArn': controlPanelArn,
-      'Name': name,
-      'RuleConfig': ruleConfig,
-      'SafetyRuleArn': safetyRuleArn,
-      'Status': status.value,
-      'WaitPeriodMs': waitPeriodMs,
-      if (owner != null) 'Owner': owner,
-    };
-  }
-}
-
-/// An update to an assertion rule. You can update the name or the evaluation
-/// period (wait period). If you don't specify one of the items to update, the
-/// item is unchanged.
-class AssertionRuleUpdate {
-  /// The name of the assertion rule. You can use any non-white space character in
-  /// the name.
-  final String name;
-
-  /// The Amazon Resource Name (ARN) of the assertion rule.
-  final String safetyRuleArn;
-
-  /// An evaluation period, in milliseconds (ms), during which any request against
-  /// the target routing controls will fail. This helps prevent "flapping" of
-  /// state. The wait period is 5000 ms by default, but you can choose a custom
-  /// value.
-  final int waitPeriodMs;
-
-  AssertionRuleUpdate({
-    required this.name,
-    required this.safetyRuleArn,
-    required this.waitPeriodMs,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final safetyRuleArn = this.safetyRuleArn;
-    final waitPeriodMs = this.waitPeriodMs;
-    return {
-      'Name': name,
-      'SafetyRuleArn': safetyRuleArn,
-      'WaitPeriodMs': waitPeriodMs,
-    };
-  }
-}
-
-/// A set of five redundant Regional endpoints against which you can execute API
-/// calls to update or get the state of routing controls. You can host multiple
-/// control panels and routing controls on one cluster.
-class Cluster {
-  /// The Amazon Resource Name (ARN) of the cluster.
-  final String? clusterArn;
-
-  /// Endpoints for a cluster. Specify one of these endpoints when you want to set
-  /// or retrieve a routing control state in the cluster.
-  ///
-  /// To get or update the routing control state, see the Amazon Route 53
-  /// Application Recovery Controller Routing Control Actions.
-  final List<ClusterEndpoint>? clusterEndpoints;
-
-  /// The name of the cluster.
-  final String? name;
-
-  /// The Amazon Web Services account ID of the cluster owner.
-  final String? owner;
-
-  /// Deployment status of a resource. Status can be one of the following:
-  /// PENDING, DEPLOYED, PENDING_DELETION.
-  final Status? status;
-
-  Cluster({
-    this.clusterArn,
-    this.clusterEndpoints,
-    this.name,
-    this.owner,
-    this.status,
-  });
-
-  factory Cluster.fromJson(Map<String, dynamic> json) {
-    return Cluster(
-      clusterArn: json['ClusterArn'] as String?,
-      clusterEndpoints: (json['ClusterEndpoints'] as List?)
-          ?.nonNulls
-          .map((e) => ClusterEndpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      name: json['Name'] as String?,
-      owner: json['Owner'] as String?,
-      status: (json['Status'] as String?)?.let(Status.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterArn = this.clusterArn;
-    final clusterEndpoints = this.clusterEndpoints;
-    final name = this.name;
-    final owner = this.owner;
-    final status = this.status;
-    return {
-      if (clusterArn != null) 'ClusterArn': clusterArn,
-      if (clusterEndpoints != null) 'ClusterEndpoints': clusterEndpoints,
-      if (name != null) 'Name': name,
-      if (owner != null) 'Owner': owner,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// A cluster endpoint. Specify an endpoint when you want to set or retrieve a
-/// routing control state in the cluster.
-class ClusterEndpoint {
-  /// A cluster endpoint. Specify an endpoint and Amazon Web Services Region when
-  /// you want to set or retrieve a routing control state in the cluster.
-  ///
-  /// To get or update the routing control state, see the Amazon Route 53
-  /// Application Recovery Controller Routing Control Actions.
-  final String? endpoint;
-
-  /// The Amazon Web Services Region for a cluster endpoint.
-  final String? region;
-
-  ClusterEndpoint({
-    this.endpoint,
-    this.region,
-  });
-
-  factory ClusterEndpoint.fromJson(Map<String, dynamic> json) {
-    return ClusterEndpoint(
-      endpoint: json['Endpoint'] as String?,
-      region: json['Region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpoint = this.endpoint;
-    final region = this.region;
-    return {
-      if (endpoint != null) 'Endpoint': endpoint,
-      if (region != null) 'Region': region,
-    };
-  }
-}
-
-/// A control panel represents a group of routing controls that can be changed
-/// together in a single transaction.
-class ControlPanel {
-  /// The Amazon Resource Name (ARN) of the cluster that includes the control
-  /// panel.
-  final String? clusterArn;
-
-  /// The Amazon Resource Name (ARN) of the control panel.
-  final String? controlPanelArn;
-
-  /// A flag that Amazon Route 53 Application Recovery Controller sets to true to
-  /// designate the default control panel for a cluster. When you create a
-  /// cluster, Amazon Route 53 Application Recovery Controller creates a control
-  /// panel, and sets this flag for that control panel. If you create a control
-  /// panel yourself, this flag is set to false.
-  final bool? defaultControlPanel;
-
-  /// The name of the control panel. You can use any non-white space character in
-  /// the name.
-  final String? name;
-
-  /// The Amazon Web Services account ID of the control panel owner.
-  final String? owner;
-
-  /// The number of routing controls in the control panel.
-  final int? routingControlCount;
-
-  /// The deployment status of control panel. Status can be one of the following:
-  /// PENDING, DEPLOYED, PENDING_DELETION.
-  final Status? status;
-
-  ControlPanel({
-    this.clusterArn,
-    this.controlPanelArn,
-    this.defaultControlPanel,
-    this.name,
-    this.owner,
-    this.routingControlCount,
-    this.status,
-  });
-
-  factory ControlPanel.fromJson(Map<String, dynamic> json) {
-    return ControlPanel(
-      clusterArn: json['ClusterArn'] as String?,
-      controlPanelArn: json['ControlPanelArn'] as String?,
-      defaultControlPanel: json['DefaultControlPanel'] as bool?,
-      name: json['Name'] as String?,
-      owner: json['Owner'] as String?,
-      routingControlCount: json['RoutingControlCount'] as int?,
-      status: (json['Status'] as String?)?.let(Status.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterArn = this.clusterArn;
-    final controlPanelArn = this.controlPanelArn;
-    final defaultControlPanel = this.defaultControlPanel;
-    final name = this.name;
-    final owner = this.owner;
-    final routingControlCount = this.routingControlCount;
-    final status = this.status;
-    return {
-      if (clusterArn != null) 'ClusterArn': clusterArn,
-      if (controlPanelArn != null) 'ControlPanelArn': controlPanelArn,
-      if (defaultControlPanel != null)
-        'DefaultControlPanel': defaultControlPanel,
-      if (name != null) 'Name': name,
-      if (owner != null) 'Owner': owner,
-      if (routingControlCount != null)
-        'RoutingControlCount': routingControlCount,
-      if (status != null) 'Status': status.value,
-    };
   }
 }
 
@@ -1400,152 +1137,6 @@ class DescribeSafetyRuleResponse {
   }
 }
 
-/// A gating rule verifies that a gating routing control or set of gating
-/// routing controls, evaluates as true, based on a rule configuration that you
-/// specify, which allows a set of routing control state changes to complete.
-///
-/// For example, if you specify one gating routing control and you set the Type
-/// in the rule configuration to OR, that indicates that you must set the gating
-/// routing control to On for the rule to evaluate as true; that is, for the
-/// gating control "switch" to be "On". When you do that, then you can update
-/// the routing control states for the target routing controls that you specify
-/// in the gating rule.
-class GatingRule {
-  /// The Amazon Resource Name (ARN) of the control panel.
-  final String controlPanelArn;
-
-  /// An array of gating routing control Amazon Resource Names (ARNs). For a
-  /// simple "on/off" switch, specify the ARN for one routing control. The gating
-  /// routing controls are evaluated by the rule configuration that you specify to
-  /// determine if the target routing control states can be changed.
-  final List<String> gatingControls;
-
-  /// The name for the gating rule. You can use any non-white space character in
-  /// the name.
-  final String name;
-
-  /// The criteria that you set for gating routing controls that designate how
-  /// many of the routing control states must be ON to allow you to update target
-  /// routing control states.
-  final RuleConfig ruleConfig;
-
-  /// The Amazon Resource Name (ARN) of the gating rule.
-  final String safetyRuleArn;
-
-  /// The deployment status of a gating rule. Status can be one of the following:
-  /// PENDING, DEPLOYED, PENDING_DELETION.
-  final Status status;
-
-  /// An array of target routing control Amazon Resource Names (ARNs) for which
-  /// the states can only be updated if the rule configuration that you specify
-  /// evaluates to true for the gating routing control. As a simple example, if
-  /// you have a single gating control, it acts as an overall "on/off" switch for
-  /// a set of target routing controls. You can use this to manually override
-  /// automated failover, for example.
-  final List<String> targetControls;
-
-  /// An evaluation period, in milliseconds (ms), during which any request against
-  /// the target routing controls will fail. This helps prevent "flapping" of
-  /// state. The wait period is 5000 ms by default, but you can choose a custom
-  /// value.
-  final int waitPeriodMs;
-
-  /// The Amazon Web Services account ID of the gating rule owner.
-  final String? owner;
-
-  GatingRule({
-    required this.controlPanelArn,
-    required this.gatingControls,
-    required this.name,
-    required this.ruleConfig,
-    required this.safetyRuleArn,
-    required this.status,
-    required this.targetControls,
-    required this.waitPeriodMs,
-    this.owner,
-  });
-
-  factory GatingRule.fromJson(Map<String, dynamic> json) {
-    return GatingRule(
-      controlPanelArn: (json['ControlPanelArn'] as String?) ?? '',
-      gatingControls: ((json['GatingControls'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      name: (json['Name'] as String?) ?? '',
-      ruleConfig: RuleConfig.fromJson(
-          (json['RuleConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      safetyRuleArn: (json['SafetyRuleArn'] as String?) ?? '',
-      status: Status.fromString((json['Status'] as String?) ?? ''),
-      targetControls: ((json['TargetControls'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      waitPeriodMs: (json['WaitPeriodMs'] as int?) ?? 0,
-      owner: json['Owner'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final controlPanelArn = this.controlPanelArn;
-    final gatingControls = this.gatingControls;
-    final name = this.name;
-    final ruleConfig = this.ruleConfig;
-    final safetyRuleArn = this.safetyRuleArn;
-    final status = this.status;
-    final targetControls = this.targetControls;
-    final waitPeriodMs = this.waitPeriodMs;
-    final owner = this.owner;
-    return {
-      'ControlPanelArn': controlPanelArn,
-      'GatingControls': gatingControls,
-      'Name': name,
-      'RuleConfig': ruleConfig,
-      'SafetyRuleArn': safetyRuleArn,
-      'Status': status.value,
-      'TargetControls': targetControls,
-      'WaitPeriodMs': waitPeriodMs,
-      if (owner != null) 'Owner': owner,
-    };
-  }
-}
-
-/// Update to a gating rule. You can update the name or the evaluation period
-/// (wait period). If you don't specify one of the items to update, the item is
-/// unchanged.
-class GatingRuleUpdate {
-  /// The name for the gating rule. You can use any non-white space character in
-  /// the name.
-  final String name;
-
-  /// The Amazon Resource Name (ARN) of the gating rule.
-  final String safetyRuleArn;
-
-  /// An evaluation period, in milliseconds (ms), during which any request against
-  /// the target routing controls will fail. This helps prevent "flapping" of
-  /// state. The wait period is 5000 ms by default, but you can choose a custom
-  /// value.
-  final int waitPeriodMs;
-
-  GatingRuleUpdate({
-    required this.name,
-    required this.safetyRuleArn,
-    required this.waitPeriodMs,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final safetyRuleArn = this.safetyRuleArn;
-    final waitPeriodMs = this.waitPeriodMs;
-    return {
-      'Name': name,
-      'SafetyRuleArn': safetyRuleArn,
-      'WaitPeriodMs': waitPeriodMs,
-    };
-  }
-}
-
 class GetResourcePolicyResponse {
   /// The resource policy.
   final String? policy;
@@ -1752,6 +1343,833 @@ class ListTagsForResourceResponse {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateClusterResponse {
+  /// The cluster that was updated.
+  final Cluster? cluster;
+
+  UpdateClusterResponse({
+    this.cluster,
+  });
+
+  factory UpdateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateClusterResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
+}
+
+class UpdateControlPanelResponse {
+  /// The control panel to update.
+  final ControlPanel? controlPanel;
+
+  UpdateControlPanelResponse({
+    this.controlPanel,
+  });
+
+  factory UpdateControlPanelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateControlPanelResponse(
+      controlPanel: json['ControlPanel'] != null
+          ? ControlPanel.fromJson(json['ControlPanel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlPanel = this.controlPanel;
+    return {
+      if (controlPanel != null) 'ControlPanel': controlPanel,
+    };
+  }
+}
+
+class UpdateRoutingControlResponse {
+  /// The routing control that was updated.
+  final RoutingControl? routingControl;
+
+  UpdateRoutingControlResponse({
+    this.routingControl,
+  });
+
+  factory UpdateRoutingControlResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRoutingControlResponse(
+      routingControl: json['RoutingControl'] != null
+          ? RoutingControl.fromJson(
+              json['RoutingControl'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final routingControl = this.routingControl;
+    return {
+      if (routingControl != null) 'RoutingControl': routingControl,
+    };
+  }
+}
+
+class UpdateSafetyRuleResponse {
+  /// The assertion rule updated.
+  final AssertionRule? assertionRule;
+
+  /// The gating rule updated.
+  final GatingRule? gatingRule;
+
+  UpdateSafetyRuleResponse({
+    this.assertionRule,
+    this.gatingRule,
+  });
+
+  factory UpdateSafetyRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSafetyRuleResponse(
+      assertionRule: json['AssertionRule'] != null
+          ? AssertionRule.fromJson(
+              json['AssertionRule'] as Map<String, dynamic>)
+          : null,
+      gatingRule: json['GatingRule'] != null
+          ? GatingRule.fromJson(json['GatingRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assertionRule = this.assertionRule;
+    final gatingRule = this.gatingRule;
+    return {
+      if (assertionRule != null) 'AssertionRule': assertionRule,
+      if (gatingRule != null) 'GatingRule': gatingRule,
+    };
+  }
+}
+
+/// An assertion rule enforces that, when you change a routing control state,
+/// that the criteria that you set in the rule configuration is met. Otherwise,
+/// the change to the routing control is not accepted. For example, the criteria
+/// might be that at least one routing control state is On after the transaction
+/// so that traffic continues to flow to at least one cell for the application.
+/// This ensures that you avoid a fail-open scenario.
+class AssertionRule {
+  /// The routing controls that are part of transactions that are evaluated to
+  /// determine if a request to change a routing control state is allowed. For
+  /// example, you might include three routing controls, one for each of three
+  /// Amazon Web Services Regions.
+  final List<String> assertedControls;
+
+  /// The Amazon Resource Name (ARN) of the control panel.
+  final String controlPanelArn;
+
+  /// Name of the assertion rule. You can use any non-white space character in the
+  /// name.
+  final String name;
+
+  /// The criteria that you set for specific assertion routing controls
+  /// (AssertedControls) that designate how many routing control states must be ON
+  /// as the result of a transaction. For example, if you have three assertion
+  /// routing controls, you might specify ATLEAST 2 for your rule configuration.
+  /// This means that at least two assertion routing control states must be ON, so
+  /// that at least two Amazon Web Services Regions have traffic flowing to them.
+  final RuleConfig ruleConfig;
+
+  /// The Amazon Resource Name (ARN) of the assertion rule.
+  final String safetyRuleArn;
+
+  /// The deployment status of an assertion rule. Status can be one of the
+  /// following: PENDING, DEPLOYED, PENDING_DELETION.
+  final Status status;
+
+  /// An evaluation period, in milliseconds (ms), during which any request against
+  /// the target routing controls will fail. This helps prevent "flapping" of
+  /// state. The wait period is 5000 ms by default, but you can choose a custom
+  /// value.
+  final int waitPeriodMs;
+
+  /// The Amazon Web Services account ID of the assertion rule owner.
+  final String? owner;
+
+  AssertionRule({
+    required this.assertedControls,
+    required this.controlPanelArn,
+    required this.name,
+    required this.ruleConfig,
+    required this.safetyRuleArn,
+    required this.status,
+    required this.waitPeriodMs,
+    this.owner,
+  });
+
+  factory AssertionRule.fromJson(Map<String, dynamic> json) {
+    return AssertionRule(
+      assertedControls: ((json['AssertedControls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      controlPanelArn: (json['ControlPanelArn'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      ruleConfig: RuleConfig.fromJson(
+          (json['RuleConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      safetyRuleArn: (json['SafetyRuleArn'] as String?) ?? '',
+      status: Status.fromString((json['Status'] as String?) ?? ''),
+      waitPeriodMs: (json['WaitPeriodMs'] as int?) ?? 0,
+      owner: json['Owner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assertedControls = this.assertedControls;
+    final controlPanelArn = this.controlPanelArn;
+    final name = this.name;
+    final ruleConfig = this.ruleConfig;
+    final safetyRuleArn = this.safetyRuleArn;
+    final status = this.status;
+    final waitPeriodMs = this.waitPeriodMs;
+    final owner = this.owner;
+    return {
+      'AssertedControls': assertedControls,
+      'ControlPanelArn': controlPanelArn,
+      'Name': name,
+      'RuleConfig': ruleConfig,
+      'SafetyRuleArn': safetyRuleArn,
+      'Status': status.value,
+      'WaitPeriodMs': waitPeriodMs,
+      if (owner != null) 'Owner': owner,
+    };
+  }
+}
+
+/// A gating rule verifies that a gating routing control or set of gating
+/// routing controls, evaluates as true, based on a rule configuration that you
+/// specify, which allows a set of routing control state changes to complete.
+///
+/// For example, if you specify one gating routing control and you set the Type
+/// in the rule configuration to OR, that indicates that you must set the gating
+/// routing control to On for the rule to evaluate as true; that is, for the
+/// gating control "switch" to be "On". When you do that, then you can update
+/// the routing control states for the target routing controls that you specify
+/// in the gating rule.
+class GatingRule {
+  /// The Amazon Resource Name (ARN) of the control panel.
+  final String controlPanelArn;
+
+  /// An array of gating routing control Amazon Resource Names (ARNs). For a
+  /// simple "on/off" switch, specify the ARN for one routing control. The gating
+  /// routing controls are evaluated by the rule configuration that you specify to
+  /// determine if the target routing control states can be changed.
+  final List<String> gatingControls;
+
+  /// The name for the gating rule. You can use any non-white space character in
+  /// the name.
+  final String name;
+
+  /// The criteria that you set for gating routing controls that designate how
+  /// many of the routing control states must be ON to allow you to update target
+  /// routing control states.
+  final RuleConfig ruleConfig;
+
+  /// The Amazon Resource Name (ARN) of the gating rule.
+  final String safetyRuleArn;
+
+  /// The deployment status of a gating rule. Status can be one of the following:
+  /// PENDING, DEPLOYED, PENDING_DELETION.
+  final Status status;
+
+  /// An array of target routing control Amazon Resource Names (ARNs) for which
+  /// the states can only be updated if the rule configuration that you specify
+  /// evaluates to true for the gating routing control. As a simple example, if
+  /// you have a single gating control, it acts as an overall "on/off" switch for
+  /// a set of target routing controls. You can use this to manually override
+  /// automated failover, for example.
+  final List<String> targetControls;
+
+  /// An evaluation period, in milliseconds (ms), during which any request against
+  /// the target routing controls will fail. This helps prevent "flapping" of
+  /// state. The wait period is 5000 ms by default, but you can choose a custom
+  /// value.
+  final int waitPeriodMs;
+
+  /// The Amazon Web Services account ID of the gating rule owner.
+  final String? owner;
+
+  GatingRule({
+    required this.controlPanelArn,
+    required this.gatingControls,
+    required this.name,
+    required this.ruleConfig,
+    required this.safetyRuleArn,
+    required this.status,
+    required this.targetControls,
+    required this.waitPeriodMs,
+    this.owner,
+  });
+
+  factory GatingRule.fromJson(Map<String, dynamic> json) {
+    return GatingRule(
+      controlPanelArn: (json['ControlPanelArn'] as String?) ?? '',
+      gatingControls: ((json['GatingControls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      ruleConfig: RuleConfig.fromJson(
+          (json['RuleConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      safetyRuleArn: (json['SafetyRuleArn'] as String?) ?? '',
+      status: Status.fromString((json['Status'] as String?) ?? ''),
+      targetControls: ((json['TargetControls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      waitPeriodMs: (json['WaitPeriodMs'] as int?) ?? 0,
+      owner: json['Owner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlPanelArn = this.controlPanelArn;
+    final gatingControls = this.gatingControls;
+    final name = this.name;
+    final ruleConfig = this.ruleConfig;
+    final safetyRuleArn = this.safetyRuleArn;
+    final status = this.status;
+    final targetControls = this.targetControls;
+    final waitPeriodMs = this.waitPeriodMs;
+    final owner = this.owner;
+    return {
+      'ControlPanelArn': controlPanelArn,
+      'GatingControls': gatingControls,
+      'Name': name,
+      'RuleConfig': ruleConfig,
+      'SafetyRuleArn': safetyRuleArn,
+      'Status': status.value,
+      'TargetControls': targetControls,
+      'WaitPeriodMs': waitPeriodMs,
+      if (owner != null) 'Owner': owner,
+    };
+  }
+}
+
+/// The rule configuration for an assertion rule. That is, the criteria that you
+/// set for specific assertion controls (routing controls) that specify how many
+/// control states must be ON after a transaction completes.
+class RuleConfig {
+  /// Logical negation of the rule. If the rule would usually evaluate true, it's
+  /// evaluated as false, and vice versa.
+  final bool inverted;
+
+  /// The value of N, when you specify an ATLEAST rule type. That is, Threshold is
+  /// the number of controls that must be set when you specify an ATLEAST type.
+  final int threshold;
+
+  /// A rule can be one of the following: ATLEAST, AND, or OR.
+  final RuleType type;
+
+  RuleConfig({
+    required this.inverted,
+    required this.threshold,
+    required this.type,
+  });
+
+  factory RuleConfig.fromJson(Map<String, dynamic> json) {
+    return RuleConfig(
+      inverted: (json['Inverted'] as bool?) ?? false,
+      threshold: (json['Threshold'] as int?) ?? 0,
+      type: RuleType.fromString((json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inverted = this.inverted;
+    final threshold = this.threshold;
+    final type = this.type;
+    return {
+      'Inverted': inverted,
+      'Threshold': threshold,
+      'Type': type.value,
+    };
+  }
+}
+
+/// The deployment status of a resource. Status can be one of the following:
+///
+/// PENDING: Amazon Route 53 Application Recovery Controller is creating the
+/// resource.
+///
+/// DEPLOYED: The resource is deployed and ready to use.
+///
+/// PENDING_DELETION: Amazon Route 53 Application Recovery Controller is
+/// deleting the resource.
+class Status {
+  static const pending = Status._('PENDING');
+  static const deployed = Status._('DEPLOYED');
+  static const pendingDeletion = Status._('PENDING_DELETION');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [pending, deployed, pendingDeletion];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An enumerated type that determines how the evaluated rules are processed.
+/// RuleType can be one of the following:
+///
+/// ATLEAST - At least N routing controls must be set. You specify N as the
+/// Threshold in the rule configuration.
+///
+/// AND - All routing controls must be set. This is a shortcut for "At least N,"
+/// where N is the total number of controls in the rule.
+///
+/// OR - Any control must be set. This is a shortcut for "At least N," where N
+/// is 1.
+class RuleType {
+  static const atleast = RuleType._('ATLEAST');
+  static const and = RuleType._('AND');
+  static const or = RuleType._('OR');
+
+  final String value;
+
+  const RuleType._(this.value);
+
+  static const values = [atleast, and, or];
+
+  static RuleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleType._(value));
+
+  @override
+  bool operator ==(other) => other is RuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An update to an assertion rule. You can update the name or the evaluation
+/// period (wait period). If you don't specify one of the items to update, the
+/// item is unchanged.
+class AssertionRuleUpdate {
+  /// The name of the assertion rule. You can use any non-white space character in
+  /// the name.
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the assertion rule.
+  final String safetyRuleArn;
+
+  /// An evaluation period, in milliseconds (ms), during which any request against
+  /// the target routing controls will fail. This helps prevent "flapping" of
+  /// state. The wait period is 5000 ms by default, but you can choose a custom
+  /// value.
+  final int waitPeriodMs;
+
+  AssertionRuleUpdate({
+    required this.name,
+    required this.safetyRuleArn,
+    required this.waitPeriodMs,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final safetyRuleArn = this.safetyRuleArn;
+    final waitPeriodMs = this.waitPeriodMs;
+    return {
+      'Name': name,
+      'SafetyRuleArn': safetyRuleArn,
+      'WaitPeriodMs': waitPeriodMs,
+    };
+  }
+}
+
+/// Update to a gating rule. You can update the name or the evaluation period
+/// (wait period). If you don't specify one of the items to update, the item is
+/// unchanged.
+class GatingRuleUpdate {
+  /// The name for the gating rule. You can use any non-white space character in
+  /// the name.
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the gating rule.
+  final String safetyRuleArn;
+
+  /// An evaluation period, in milliseconds (ms), during which any request against
+  /// the target routing controls will fail. This helps prevent "flapping" of
+  /// state. The wait period is 5000 ms by default, but you can choose a custom
+  /// value.
+  final int waitPeriodMs;
+
+  GatingRuleUpdate({
+    required this.name,
+    required this.safetyRuleArn,
+    required this.waitPeriodMs,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final safetyRuleArn = this.safetyRuleArn;
+    final waitPeriodMs = this.waitPeriodMs;
+    return {
+      'Name': name,
+      'SafetyRuleArn': safetyRuleArn,
+      'WaitPeriodMs': waitPeriodMs,
+    };
+  }
+}
+
+/// A routing control has one of two states: ON and OFF. You can map the routing
+/// control state to the state of an Amazon Route 53 health check, which can be
+/// used to control traffic routing.
+class RoutingControl {
+  /// The Amazon Resource Name (ARN) of the control panel that includes the
+  /// routing control.
+  final String? controlPanelArn;
+
+  /// The name of the routing control.
+  final String? name;
+
+  /// The Amazon Web Services account ID of the routing control owner.
+  final String? owner;
+
+  /// The Amazon Resource Name (ARN) of the routing control.
+  final String? routingControlArn;
+
+  /// The deployment status of a routing control. Status can be one of the
+  /// following: PENDING, DEPLOYED, PENDING_DELETION.
+  final Status? status;
+
+  RoutingControl({
+    this.controlPanelArn,
+    this.name,
+    this.owner,
+    this.routingControlArn,
+    this.status,
+  });
+
+  factory RoutingControl.fromJson(Map<String, dynamic> json) {
+    return RoutingControl(
+      controlPanelArn: json['ControlPanelArn'] as String?,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      routingControlArn: json['RoutingControlArn'] as String?,
+      status: (json['Status'] as String?)?.let(Status.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlPanelArn = this.controlPanelArn;
+    final name = this.name;
+    final owner = this.owner;
+    final routingControlArn = this.routingControlArn;
+    final status = this.status;
+    return {
+      if (controlPanelArn != null) 'ControlPanelArn': controlPanelArn,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (routingControlArn != null) 'RoutingControlArn': routingControlArn,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// A control panel represents a group of routing controls that can be changed
+/// together in a single transaction.
+class ControlPanel {
+  /// The Amazon Resource Name (ARN) of the cluster that includes the control
+  /// panel.
+  final String? clusterArn;
+
+  /// The Amazon Resource Name (ARN) of the control panel.
+  final String? controlPanelArn;
+
+  /// A flag that Amazon Route 53 Application Recovery Controller sets to true to
+  /// designate the default control panel for a cluster. When you create a
+  /// cluster, Amazon Route 53 Application Recovery Controller creates a control
+  /// panel, and sets this flag for that control panel. If you create a control
+  /// panel yourself, this flag is set to false.
+  final bool? defaultControlPanel;
+
+  /// The name of the control panel. You can use any non-white space character in
+  /// the name.
+  final String? name;
+
+  /// The Amazon Web Services account ID of the control panel owner.
+  final String? owner;
+
+  /// The number of routing controls in the control panel.
+  final int? routingControlCount;
+
+  /// The deployment status of control panel. Status can be one of the following:
+  /// PENDING, DEPLOYED, PENDING_DELETION.
+  final Status? status;
+
+  ControlPanel({
+    this.clusterArn,
+    this.controlPanelArn,
+    this.defaultControlPanel,
+    this.name,
+    this.owner,
+    this.routingControlCount,
+    this.status,
+  });
+
+  factory ControlPanel.fromJson(Map<String, dynamic> json) {
+    return ControlPanel(
+      clusterArn: json['ClusterArn'] as String?,
+      controlPanelArn: json['ControlPanelArn'] as String?,
+      defaultControlPanel: json['DefaultControlPanel'] as bool?,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      routingControlCount: json['RoutingControlCount'] as int?,
+      status: (json['Status'] as String?)?.let(Status.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final controlPanelArn = this.controlPanelArn;
+    final defaultControlPanel = this.defaultControlPanel;
+    final name = this.name;
+    final owner = this.owner;
+    final routingControlCount = this.routingControlCount;
+    final status = this.status;
+    return {
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (controlPanelArn != null) 'ControlPanelArn': controlPanelArn,
+      if (defaultControlPanel != null)
+        'DefaultControlPanel': defaultControlPanel,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (routingControlCount != null)
+        'RoutingControlCount': routingControlCount,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// A set of five redundant Regional endpoints against which you can execute API
+/// calls to update or get the state of routing controls. You can host multiple
+/// control panels and routing controls on one cluster.
+class Cluster {
+  /// The Amazon Resource Name (ARN) of the cluster.
+  final String? clusterArn;
+
+  /// Endpoints for a cluster. Specify one of these endpoints when you want to set
+  /// or retrieve a routing control state in the cluster.
+  ///
+  /// To get or update the routing control state, see the Amazon Route 53
+  /// Application Recovery Controller Routing Control Actions.
+  final List<ClusterEndpoint>? clusterEndpoints;
+
+  /// The name of the cluster.
+  final String? name;
+
+  /// The network type of the cluster. NetworkType can be one of the following:
+  /// IPV4, DUALSTACK.
+  final NetworkType? networkType;
+
+  /// The Amazon Web Services account ID of the cluster owner.
+  final String? owner;
+
+  /// Deployment status of a resource. Status can be one of the following:
+  /// PENDING, DEPLOYED, PENDING_DELETION.
+  final Status? status;
+
+  Cluster({
+    this.clusterArn,
+    this.clusterEndpoints,
+    this.name,
+    this.networkType,
+    this.owner,
+    this.status,
+  });
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      clusterArn: json['ClusterArn'] as String?,
+      clusterEndpoints: (json['ClusterEndpoints'] as List?)
+          ?.nonNulls
+          .map((e) => ClusterEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      networkType:
+          (json['NetworkType'] as String?)?.let(NetworkType.fromString),
+      owner: json['Owner'] as String?,
+      status: (json['Status'] as String?)?.let(Status.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterEndpoints = this.clusterEndpoints;
+    final name = this.name;
+    final networkType = this.networkType;
+    final owner = this.owner;
+    final status = this.status;
+    return {
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (clusterEndpoints != null) 'ClusterEndpoints': clusterEndpoints,
+      if (name != null) 'Name': name,
+      if (networkType != null) 'NetworkType': networkType.value,
+      if (owner != null) 'Owner': owner,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// The network type of a cluster. NetworkType can be one of the following:
+///
+/// IPV4: Cluster endpoints support IPv4 only.
+///
+/// DUALSTACK: Cluster endpoints support both IPv4 and IPv6.
+class NetworkType {
+  static const ipv4 = NetworkType._('IPV4');
+  static const dualstack = NetworkType._('DUALSTACK');
+
+  final String value;
+
+  const NetworkType._(this.value);
+
+  static const values = [ipv4, dualstack];
+
+  static NetworkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A cluster endpoint. Specify an endpoint when you want to set or retrieve a
+/// routing control state in the cluster.
+class ClusterEndpoint {
+  /// A cluster endpoint. Specify an endpoint and Amazon Web Services Region when
+  /// you want to set or retrieve a routing control state in the cluster.
+  ///
+  /// To get or update the routing control state, see the Amazon Route 53
+  /// Application Recovery Controller Routing Control Actions.
+  final String? endpoint;
+
+  /// The Amazon Web Services Region for a cluster endpoint.
+  final String? region;
+
+  ClusterEndpoint({
+    this.endpoint,
+    this.region,
+  });
+
+  factory ClusterEndpoint.fromJson(Map<String, dynamic> json) {
+    return ClusterEndpoint(
+      endpoint: json['Endpoint'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    final region = this.region;
+    return {
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
+/// A safety rule. A safety rule can be an assertion rule or a gating rule.
+class Rule {
+  /// An assertion rule enforces that, when a routing control state is changed,
+  /// the criteria set by the rule configuration is met. Otherwise, the change to
+  /// the routing control state is not accepted. For example, the criteria might
+  /// be that at least one routing control state is On after the transaction so
+  /// that traffic continues to flow to at least one cell for the application.
+  /// This ensures that you avoid a fail-open scenario.
+  final AssertionRule? assertion;
+
+  /// A gating rule verifies that a gating routing control or set of gating
+  /// routing controls, evaluates as true, based on a rule configuration that you
+  /// specify, which allows a set of routing control state changes to complete.
+  ///
+  /// For example, if you specify one gating routing control and you set the Type
+  /// in the rule configuration to OR, that indicates that you must set the gating
+  /// routing control to On for the rule to evaluate as true; that is, for the
+  /// gating control "switch" to be "On". When you do that, then you can update
+  /// the routing control states for the target routing controls that you specify
+  /// in the gating rule.
+  final GatingRule? gating;
+
+  Rule({
+    this.assertion,
+    this.gating,
+  });
+
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      assertion: json['ASSERTION'] != null
+          ? AssertionRule.fromJson(json['ASSERTION'] as Map<String, dynamic>)
+          : null,
+      gating: json['GATING'] != null
+          ? GatingRule.fromJson(json['GATING'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assertion = this.assertion;
+    final gating = this.gating;
+    return {
+      if (assertion != null) 'ASSERTION': assertion,
+      if (gating != null) 'GATING': gating,
+    };
+  }
+}
+
 /// A new assertion rule for a control panel.
 class NewAssertionRule {
   /// The routing controls that are part of transactions that are evaluated to
@@ -1863,325 +2281,6 @@ class NewGatingRule {
       'RuleConfig': ruleConfig,
       'TargetControls': targetControls,
       'WaitPeriodMs': waitPeriodMs,
-    };
-  }
-}
-
-/// A routing control has one of two states: ON and OFF. You can map the routing
-/// control state to the state of an Amazon Route 53 health check, which can be
-/// used to control traffic routing.
-class RoutingControl {
-  /// The Amazon Resource Name (ARN) of the control panel that includes the
-  /// routing control.
-  final String? controlPanelArn;
-
-  /// The name of the routing control.
-  final String? name;
-
-  /// The Amazon Web Services account ID of the routing control owner.
-  final String? owner;
-
-  /// The Amazon Resource Name (ARN) of the routing control.
-  final String? routingControlArn;
-
-  /// The deployment status of a routing control. Status can be one of the
-  /// following: PENDING, DEPLOYED, PENDING_DELETION.
-  final Status? status;
-
-  RoutingControl({
-    this.controlPanelArn,
-    this.name,
-    this.owner,
-    this.routingControlArn,
-    this.status,
-  });
-
-  factory RoutingControl.fromJson(Map<String, dynamic> json) {
-    return RoutingControl(
-      controlPanelArn: json['ControlPanelArn'] as String?,
-      name: json['Name'] as String?,
-      owner: json['Owner'] as String?,
-      routingControlArn: json['RoutingControlArn'] as String?,
-      status: (json['Status'] as String?)?.let(Status.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final controlPanelArn = this.controlPanelArn;
-    final name = this.name;
-    final owner = this.owner;
-    final routingControlArn = this.routingControlArn;
-    final status = this.status;
-    return {
-      if (controlPanelArn != null) 'ControlPanelArn': controlPanelArn,
-      if (name != null) 'Name': name,
-      if (owner != null) 'Owner': owner,
-      if (routingControlArn != null) 'RoutingControlArn': routingControlArn,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// A safety rule. A safety rule can be an assertion rule or a gating rule.
-class Rule {
-  /// An assertion rule enforces that, when a routing control state is changed,
-  /// the criteria set by the rule configuration is met. Otherwise, the change to
-  /// the routing control state is not accepted. For example, the criteria might
-  /// be that at least one routing control state is On after the transaction so
-  /// that traffic continues to flow to at least one cell for the application.
-  /// This ensures that you avoid a fail-open scenario.
-  final AssertionRule? assertion;
-
-  /// A gating rule verifies that a gating routing control or set of gating
-  /// routing controls, evaluates as true, based on a rule configuration that you
-  /// specify, which allows a set of routing control state changes to complete.
-  ///
-  /// For example, if you specify one gating routing control and you set the Type
-  /// in the rule configuration to OR, that indicates that you must set the gating
-  /// routing control to On for the rule to evaluate as true; that is, for the
-  /// gating control "switch" to be "On". When you do that, then you can update
-  /// the routing control states for the target routing controls that you specify
-  /// in the gating rule.
-  final GatingRule? gating;
-
-  Rule({
-    this.assertion,
-    this.gating,
-  });
-
-  factory Rule.fromJson(Map<String, dynamic> json) {
-    return Rule(
-      assertion: json['ASSERTION'] != null
-          ? AssertionRule.fromJson(json['ASSERTION'] as Map<String, dynamic>)
-          : null,
-      gating: json['GATING'] != null
-          ? GatingRule.fromJson(json['GATING'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assertion = this.assertion;
-    final gating = this.gating;
-    return {
-      if (assertion != null) 'ASSERTION': assertion,
-      if (gating != null) 'GATING': gating,
-    };
-  }
-}
-
-/// The rule configuration for an assertion rule. That is, the criteria that you
-/// set for specific assertion controls (routing controls) that specify how many
-/// control states must be ON after a transaction completes.
-class RuleConfig {
-  /// Logical negation of the rule. If the rule would usually evaluate true, it's
-  /// evaluated as false, and vice versa.
-  final bool inverted;
-
-  /// The value of N, when you specify an ATLEAST rule type. That is, Threshold is
-  /// the number of controls that must be set when you specify an ATLEAST type.
-  final int threshold;
-
-  /// A rule can be one of the following: ATLEAST, AND, or OR.
-  final RuleType type;
-
-  RuleConfig({
-    required this.inverted,
-    required this.threshold,
-    required this.type,
-  });
-
-  factory RuleConfig.fromJson(Map<String, dynamic> json) {
-    return RuleConfig(
-      inverted: (json['Inverted'] as bool?) ?? false,
-      threshold: (json['Threshold'] as int?) ?? 0,
-      type: RuleType.fromString((json['Type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inverted = this.inverted;
-    final threshold = this.threshold;
-    final type = this.type;
-    return {
-      'Inverted': inverted,
-      'Threshold': threshold,
-      'Type': type.value,
-    };
-  }
-}
-
-/// An enumerated type that determines how the evaluated rules are processed.
-/// RuleType can be one of the following:
-///
-/// ATLEAST - At least N routing controls must be set. You specify N as the
-/// Threshold in the rule configuration.
-///
-/// AND - All routing controls must be set. This is a shortcut for "At least N,"
-/// where N is the total number of controls in the rule.
-///
-/// OR - Any control must be set. This is a shortcut for "At least N," where N
-/// is 1.
-class RuleType {
-  static const atleast = RuleType._('ATLEAST');
-  static const and = RuleType._('AND');
-  static const or = RuleType._('OR');
-
-  final String value;
-
-  const RuleType._(this.value);
-
-  static const values = [atleast, and, or];
-
-  static RuleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RuleType._(value));
-
-  @override
-  bool operator ==(other) => other is RuleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The deployment status of a resource. Status can be one of the following:
-///
-/// PENDING: Amazon Route 53 Application Recovery Controller is creating the
-/// resource.
-///
-/// DEPLOYED: The resource is deployed and ready to use.
-///
-/// PENDING_DELETION: Amazon Route 53 Application Recovery Controller is
-/// deleting the resource.
-class Status {
-  static const pending = Status._('PENDING');
-  static const deployed = Status._('DEPLOYED');
-  static const pendingDeletion = Status._('PENDING_DELETION');
-
-  final String value;
-
-  const Status._(this.value);
-
-  static const values = [pending, deployed, pendingDeletion];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateControlPanelResponse {
-  /// The control panel to update.
-  final ControlPanel? controlPanel;
-
-  UpdateControlPanelResponse({
-    this.controlPanel,
-  });
-
-  factory UpdateControlPanelResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateControlPanelResponse(
-      controlPanel: json['ControlPanel'] != null
-          ? ControlPanel.fromJson(json['ControlPanel'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final controlPanel = this.controlPanel;
-    return {
-      if (controlPanel != null) 'ControlPanel': controlPanel,
-    };
-  }
-}
-
-class UpdateRoutingControlResponse {
-  /// The routing control that was updated.
-  final RoutingControl? routingControl;
-
-  UpdateRoutingControlResponse({
-    this.routingControl,
-  });
-
-  factory UpdateRoutingControlResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateRoutingControlResponse(
-      routingControl: json['RoutingControl'] != null
-          ? RoutingControl.fromJson(
-              json['RoutingControl'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final routingControl = this.routingControl;
-    return {
-      if (routingControl != null) 'RoutingControl': routingControl,
-    };
-  }
-}
-
-class UpdateSafetyRuleResponse {
-  /// The assertion rule updated.
-  final AssertionRule? assertionRule;
-
-  /// The gating rule updated.
-  final GatingRule? gatingRule;
-
-  UpdateSafetyRuleResponse({
-    this.assertionRule,
-    this.gatingRule,
-  });
-
-  factory UpdateSafetyRuleResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateSafetyRuleResponse(
-      assertionRule: json['AssertionRule'] != null
-          ? AssertionRule.fromJson(
-              json['AssertionRule'] as Map<String, dynamic>)
-          : null,
-      gatingRule: json['GatingRule'] != null
-          ? GatingRule.fromJson(json['GatingRule'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assertionRule = this.assertionRule;
-    final gatingRule = this.gatingRule;
-    return {
-      if (assertionRule != null) 'AssertionRule': assertionRule,
-      if (gatingRule != null) 'GatingRule': gatingRule,
     };
   }
 }

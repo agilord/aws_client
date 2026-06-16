@@ -41,7 +41,6 @@ class CloudDirectory {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'clouddirectory',
-            signingName: 'clouddirectory',
           ),
           region: region,
           credentials: credentials,
@@ -61,15 +60,15 @@ class CloudDirectory {
   /// Adds a new <a>Facet</a> to an object. An object can have more than one
   /// facet applied on it.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -113,15 +112,15 @@ class CloudDirectory {
   /// <a>Directory</a> with the same name and version as that of the published
   /// schema.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [SchemaAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidAttachmentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [SchemaAlreadyExistsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -161,18 +160,17 @@ class CloudDirectory {
   /// Using <code>ObjectIdentifier</code>
   /// </li> </ol>
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LinkNameAlreadyInUseException].
-  /// May throw [InvalidAttachmentException].
-  /// May throw [ValidationException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidAttachmentException].
+  /// May throw [LimitExceededException].
+  /// May throw [LinkNameAlreadyInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [childReference] :
   /// The child object reference to be attached to the object.
@@ -213,15 +211,15 @@ class CloudDirectory {
   /// Attaches a policy object to a regular object. An object can have a limited
   /// number of attached policies.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [NotPolicyException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -257,18 +255,18 @@ class CloudDirectory {
 
   /// Attaches the specified object to the specified index.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [InvalidAttachmentException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LinkNameAlreadyInUseException].
   /// May throw [IndexedAttributeMissingException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidAttachmentException].
+  /// May throw [LimitExceededException].
+  /// May throw [LinkNameAlreadyInUseException].
   /// May throw [NotIndexException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) of the directory where the object and index
@@ -306,17 +304,16 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidAttachmentException].
-  /// May throw [ValidationException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidAttachmentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attributes] :
   /// A set of attributes that are associated with the typed link.
@@ -361,13 +358,13 @@ class CloudDirectory {
 
   /// Performs all the read operations in a batch.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -406,14 +403,14 @@ class CloudDirectory {
   /// Performs all the write operations in a batch. Either all the operations
   /// succeed or none.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BatchWriteException].
+  /// May throw [DirectoryNotEnabledException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [DirectoryNotEnabledException].
-  /// May throw [BatchWriteException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -449,14 +446,14 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html">Managed
   /// Schema</a> in the <i>Amazon Cloud Directory Developer Guide</i>.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryAlreadyExistsException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the <a>Directory</a>. Should be unique per account, per
@@ -488,16 +485,16 @@ class CloudDirectory {
   /// Creates a new <a>Facet</a> in a schema. Facet creation is allowed only in
   /// development or applied schemas.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetAlreadyExistsException].
+  /// May throw [FacetValidationException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidRuleException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetAlreadyExistsException].
-  /// May throw [InvalidRuleException].
-  /// May throw [FacetValidationException].
   ///
   /// Parameter [name] :
   /// The name of the <a>Facet</a>, which is unique for a given schema.
@@ -570,17 +567,17 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.html">Indexing
   /// and search</a> for more information.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [LinkNameAlreadyInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
   /// May throw [UnsupportedIndexTypeException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory where the index should be created.
@@ -630,17 +627,17 @@ class CloudDirectory {
   /// use this API call to create a policy object, if the facet from which you
   /// create the object is a policy facet.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [LinkNameAlreadyInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
   /// May throw [UnsupportedIndexTypeException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -708,14 +705,13 @@ class CloudDirectory {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
+  /// May throw [RetryableConflictException].
   /// May throw [SchemaAlreadyExistsException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name that is associated with the schema. This is unique to each
@@ -739,16 +735,16 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetAlreadyExistsException].
+  /// May throw [FacetValidationException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidRuleException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetAlreadyExistsException].
-  /// May throw [InvalidRuleException].
-  /// May throw [FacetValidationException].
   ///
   /// Parameter [facet] :
   /// <a>Facet</a> structure that is associated with the typed link facet.
@@ -779,15 +775,15 @@ class CloudDirectory {
   /// directory cannot be undone. Exercise extreme caution when deleting
   /// directories.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [DirectoryNotDisabledException].
-  /// May throw [InternalServiceException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryDeletedException].
-  /// May throw [RetryableConflictException].
+  /// May throw [DirectoryNotDisabledException].
+  /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory to delete.
@@ -811,15 +807,15 @@ class CloudDirectory {
   /// associated with the facet will be deleted. Only development schema facets
   /// are allowed deletion.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetInUseException].
+  /// May throw [FacetNotFoundException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetNotFoundException].
-  /// May throw [FacetInUseException].
   ///
   /// Parameter [name] :
   /// The name of the facet to delete.
@@ -853,15 +849,15 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html">Amazon
   /// Cloud Directory Limits</a>.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [ObjectNotDetachedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -892,14 +888,14 @@ class CloudDirectory {
   /// Deletes a given schema. Schemas in a development and published state can
   /// only be deleted.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
   /// May throw [StillContainsLinksException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [schemaArn] :
   /// The Amazon Resource Name (ARN) of the development schema. For more
@@ -924,14 +920,14 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetNotFoundException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetNotFoundException].
   ///
   /// Parameter [name] :
   /// The unique name of the typed link facet.
@@ -960,16 +956,16 @@ class CloudDirectory {
 
   /// Detaches the specified object from the specified index.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ObjectAlreadyDetachedException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [NotIndexException].
+  /// May throw [ObjectAlreadyDetachedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) of the directory the index and object exist
@@ -1005,15 +1001,15 @@ class CloudDirectory {
   /// Detaches a given object from the parent object. The object that is to be
   /// detached from the parent is specified by the link name.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [NotNodeException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -1050,15 +1046,15 @@ class CloudDirectory {
 
   /// Detaches a policy from an object.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [NotPolicyException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -1096,15 +1092,15 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) of the directory where you want to detach
@@ -1135,14 +1131,14 @@ class CloudDirectory {
   /// written to. Only enabled directories can be disabled. Disabled directories
   /// may be reenabled.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [DirectoryDeletedException].
   /// May throw [InternalServiceException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [RetryableConflictException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory to disable.
@@ -1165,14 +1161,14 @@ class CloudDirectory {
   /// Enables the specified directory. Only disabled directories can be enabled.
   /// Once enabled, the directory can then be read and written to.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [DirectoryDeletedException].
   /// May throw [InternalServiceException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [RetryableConflictException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory to enable.
@@ -1195,13 +1191,13 @@ class CloudDirectory {
   /// Returns current applied schema version ARN, including the minor version in
   /// use.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [schemaArn] :
   /// The ARN of the applied schema.
@@ -1222,12 +1218,12 @@ class CloudDirectory {
 
   /// Retrieves metadata about a directory.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory.
@@ -1251,14 +1247,14 @@ class CloudDirectory {
   /// <a>Rule</a>s, or <code>ObjectType</code>. You can call this on all kinds
   /// of schema facets -- published, development, or applied.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetNotFoundException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the facet to retrieve.
@@ -1288,15 +1284,15 @@ class CloudDirectory {
 
   /// Retrieves attributes that are associated with a typed link.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attributeNames] :
   /// A list of attribute names whose values will be retrieved.
@@ -1338,15 +1334,15 @@ class CloudDirectory {
 
   /// Retrieves attributes within a facet that are associated with an object.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attributeNames] :
   /// List of attribute names whose values will be retrieved.
@@ -1393,14 +1389,14 @@ class CloudDirectory {
 
   /// Retrieves metadata about an object.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory being retrieved.
@@ -1437,13 +1433,12 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json">JSON
   /// Schema Format</a> for more information.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
   ///
   /// Parameter [schemaArn] :
@@ -1469,15 +1464,15 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetNotFoundException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [FacetNotFoundException].
   ///
   /// Parameter [name] :
   /// The unique name of the typed link facet.
@@ -1508,14 +1503,14 @@ class CloudDirectory {
   /// Lists schema major versions applied to a directory. If
   /// <code>SchemaArn</code> is provided, lists the minor version.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory you are listing.
@@ -1558,14 +1553,14 @@ class CloudDirectory {
 
   /// Lists indices attached to the specified object.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory.
@@ -1617,14 +1612,14 @@ class CloudDirectory {
   /// Retrieves each Amazon Resource Name (ARN) of schemas in the development
   /// state.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to retrieve.
@@ -1656,13 +1651,13 @@ class CloudDirectory {
 
   /// Lists directories created within an account.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to retrieve.
@@ -1700,15 +1695,15 @@ class CloudDirectory {
 
   /// Retrieves attributes attached to the facet.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetNotFoundException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetNotFoundException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [name] :
   /// The name of the facet whose attributes will be retrieved.
@@ -1753,14 +1748,14 @@ class CloudDirectory {
 
   /// Retrieves the names of facets that exist in a schema.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [schemaArn] :
   /// The Amazon Resource Name (ARN) to retrieve facet names from.
@@ -1804,16 +1799,16 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) of the directory where you want to list the
@@ -1879,17 +1874,17 @@ class CloudDirectory {
 
   /// Lists objects attached to the specified index.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [FacetValidationException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
+  /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [NotIndexException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory that the index exists in.
@@ -1951,12 +1946,12 @@ class CloudDirectory {
   /// version ARN is provided as SchemaArn, the minor version revisions in that
   /// family are listed instead.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to retrieve.
@@ -1994,16 +1989,16 @@ class CloudDirectory {
 
   /// Lists all attributes that are associated with an object.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -2066,16 +2061,16 @@ class CloudDirectory {
   /// Returns a paginated list of child objects that are associated with a given
   /// object.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [NotNodeException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -2144,15 +2139,15 @@ class CloudDirectory {
   /// are deleted or moved. Paths not leading to the directory root are ignored
   /// from the target object.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory to which the parent path applies.
@@ -2199,16 +2194,16 @@ class CloudDirectory {
   /// Lists parent objects that are associated with a given object in pagination
   /// fashion.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [CannotListParentOfRootException].
+  /// May throw [DirectoryNotEnabledException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [CannotListParentOfRootException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -2273,15 +2268,15 @@ class CloudDirectory {
 
   /// Returns policies attached to an object in pagination fashion.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -2341,16 +2336,16 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) of the directory where you want to list the
@@ -2417,16 +2412,16 @@ class CloudDirectory {
   /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy
   /// is attached.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidNextTokenException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [NotPolicyException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -2484,14 +2479,14 @@ class CloudDirectory {
   /// version ARN is provided as <code>SchemaArn</code>, the minor version
   /// revisions in that family are listed instead.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to retrieve.
@@ -2531,14 +2526,14 @@ class CloudDirectory {
   /// directories with a limit of 50 tags per directory. All 50 tags are
   /// returned for a given directory with this API call.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidTaggingRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidTaggingRequestException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported
@@ -2582,15 +2577,15 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetNotFoundException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetNotFoundException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [name] :
   /// The unique name of the typed link facet.
@@ -2639,14 +2634,14 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [schemaArn] :
   /// The Amazon Resource Name (ARN) that is associated with the schema. For
@@ -2695,15 +2690,15 @@ class CloudDirectory {
   /// <a
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The Amazon Resource Name (ARN) that is associated with the
@@ -2751,14 +2746,14 @@ class CloudDirectory {
   /// Publishes a development schema with a major version and a recommended
   /// minor version.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
   /// May throw [SchemaAlreadyPublishedException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [developmentSchemaArn] :
   /// The Amazon Resource Name (ARN) that is associated with the development
@@ -2805,14 +2800,14 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json">JSON
   /// Schema Format</a> for more information.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidRuleException].
+  /// May throw [InvalidSchemaDocException].
+  /// May throw [LimitExceededException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidSchemaDocException].
-  /// May throw [InvalidRuleException].
   ///
   /// Parameter [document] :
   /// The replacement JSON schema.
@@ -2841,15 +2836,15 @@ class CloudDirectory {
 
   /// Removes the specified facet from the specified object.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN of the directory in which the object resides.
@@ -2882,14 +2877,14 @@ class CloudDirectory {
 
   /// An API operation for adding tags to a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidTaggingRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidTaggingRequestException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported
@@ -2915,14 +2910,14 @@ class CloudDirectory {
 
   /// An API operation for removing tags from a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidTaggingRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidTaggingRequestException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource. Tagging is only supported
@@ -2961,17 +2956,17 @@ class CloudDirectory {
   /// <code>ObjectTypes</code>.
   /// </li> </ol>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetNotFoundException].
+  /// May throw [FacetValidationException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidFacetUpdateException].
+  /// May throw [InvalidRuleException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidFacetUpdateException].
-  /// May throw [FacetValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetNotFoundException].
-  /// May throw [InvalidRuleException].
   ///
   /// Parameter [name] :
   /// The name of the facet.
@@ -3015,15 +3010,15 @@ class CloudDirectory {
   /// contribute to the typed link’s identity, as defined by its
   /// <code>IdentityAttributeOrder</code>.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attributeUpdates] :
   /// The attributes update structure.
@@ -3061,16 +3056,16 @@ class CloudDirectory {
 
   /// Updates a given object's attributes.
   ///
-  /// May throw [InternalServiceException].
-  /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
   /// May throw [AccessDeniedException].
   /// May throw [DirectoryNotEnabledException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LinkNameAlreadyInUseException].
   /// May throw [FacetValidationException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [LinkNameAlreadyInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [attributeUpdates] :
   /// The attributes update structure.
@@ -3107,13 +3102,13 @@ class CloudDirectory {
   /// Updates the schema name with a new name. Only development schema names can
   /// be updated.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the schema.
@@ -3145,17 +3140,17 @@ class CloudDirectory {
   /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
   /// Links</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [FacetNotFoundException].
+  /// May throw [FacetValidationException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
+  /// May throw [InvalidFacetUpdateException].
+  /// May throw [InvalidRuleException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [RetryableConflictException].
   /// May throw [ValidationException].
-  /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
-  /// May throw [FacetValidationException].
-  /// May throw [InvalidFacetUpdateException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [FacetNotFoundException].
-  /// May throw [InvalidRuleException].
   ///
   /// Parameter [attributeUpdates] :
   /// Attributes update structure.
@@ -3210,15 +3205,15 @@ class CloudDirectory {
   /// given directory per call. To upgrade multiple directories from one schema,
   /// you would need to call this API on each directory.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [IncompatibleSchemaException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [IncompatibleSchemaException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidAttachmentException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
   /// May throw [SchemaAlreadyExistsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [directoryArn] :
   /// The ARN for the directory to which the upgraded schema will be applied.
@@ -3253,15 +3248,15 @@ class CloudDirectory {
   /// Upgrades a published schema under a new minor version revision using the
   /// current contents of <code>DevelopmentSchemaArn</code>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [IncompatibleSchemaException].
   /// May throw [InternalServiceException].
   /// May throw [InvalidArnException].
-  /// May throw [RetryableConflictException].
-  /// May throw [ValidationException].
-  /// May throw [IncompatibleSchemaException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidAttachmentException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [RetryableConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [developmentSchemaArn] :
   /// The ARN of the development schema with the changes used for the upgrade.
@@ -3429,1882 +3424,6 @@ class AttachTypedLinkResponse {
   }
 }
 
-/// A unique identifier for an attribute.
-class AttributeKey {
-  /// The name of the facet that the attribute exists within.
-  final String facetName;
-
-  /// The name of the attribute.
-  final String name;
-
-  /// The Amazon Resource Name (ARN) of the schema that contains the facet and
-  /// attribute.
-  final String schemaArn;
-
-  AttributeKey({
-    required this.facetName,
-    required this.name,
-    required this.schemaArn,
-  });
-
-  factory AttributeKey.fromJson(Map<String, dynamic> json) {
-    return AttributeKey(
-      facetName: (json['FacetName'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      schemaArn: (json['SchemaArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final facetName = this.facetName;
-    final name = this.name;
-    final schemaArn = this.schemaArn;
-    return {
-      'FacetName': facetName,
-      'Name': name,
-      'SchemaArn': schemaArn,
-    };
-  }
-}
-
-/// The combination of an attribute key and an attribute value.
-class AttributeKeyAndValue {
-  /// The key of the attribute.
-  final AttributeKey key;
-
-  /// The value of the attribute.
-  final TypedAttributeValue value;
-
-  AttributeKeyAndValue({
-    required this.key,
-    required this.value,
-  });
-
-  factory AttributeKeyAndValue.fromJson(Map<String, dynamic> json) {
-    return AttributeKeyAndValue(
-      key: AttributeKey.fromJson(
-          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      value: TypedAttributeValue.fromJson(
-          (json['Value'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// Identifies the attribute name and value for a typed link.
-class AttributeNameAndValue {
-  /// The attribute name of the typed link.
-  final String attributeName;
-
-  /// The value for the typed link.
-  final TypedAttributeValue value;
-
-  AttributeNameAndValue({
-    required this.attributeName,
-    required this.value,
-  });
-
-  factory AttributeNameAndValue.fromJson(Map<String, dynamic> json) {
-    return AttributeNameAndValue(
-      attributeName: (json['AttributeName'] as String?) ?? '',
-      value: TypedAttributeValue.fromJson(
-          (json['Value'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final value = this.value;
-    return {
-      'AttributeName': attributeName,
-      'Value': value,
-    };
-  }
-}
-
-/// Represents the output of a batch add facet to object operation.
-class BatchAddFacetToObject {
-  /// The attributes to set on the object.
-  final List<AttributeKeyAndValue> objectAttributeList;
-
-  /// A reference to the object being mutated.
-  final ObjectReference objectReference;
-
-  /// Represents the facet being added to the object.
-  final SchemaFacet schemaFacet;
-
-  BatchAddFacetToObject({
-    required this.objectAttributeList,
-    required this.objectReference,
-    required this.schemaFacet,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectAttributeList = this.objectAttributeList;
-    final objectReference = this.objectReference;
-    final schemaFacet = this.schemaFacet;
-    return {
-      'ObjectAttributeList': objectAttributeList,
-      'ObjectReference': objectReference,
-      'SchemaFacet': schemaFacet,
-    };
-  }
-}
-
-/// The result of a batch add facet to object operation.
-class BatchAddFacetToObjectResponse {
-  BatchAddFacetToObjectResponse();
-
-  factory BatchAddFacetToObjectResponse.fromJson(Map<String, dynamic> _) {
-    return BatchAddFacetToObjectResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Represents the output of an <a>AttachObject</a> operation.
-class BatchAttachObject {
-  /// The child object reference that is to be attached to the object.
-  final ObjectReference childReference;
-
-  /// The name of the link.
-  final String linkName;
-
-  /// The parent object reference.
-  final ObjectReference parentReference;
-
-  BatchAttachObject({
-    required this.childReference,
-    required this.linkName,
-    required this.parentReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final childReference = this.childReference;
-    final linkName = this.linkName;
-    final parentReference = this.parentReference;
-    return {
-      'ChildReference': childReference,
-      'LinkName': linkName,
-      'ParentReference': parentReference,
-    };
-  }
-}
-
-/// Represents the output batch <a>AttachObject</a> response operation.
-class BatchAttachObjectResponse {
-  /// The <code>ObjectIdentifier</code> of the object that has been attached.
-  final String? attachedObjectIdentifier;
-
-  BatchAttachObjectResponse({
-    this.attachedObjectIdentifier,
-  });
-
-  factory BatchAttachObjectResponse.fromJson(Map<String, dynamic> json) {
-    return BatchAttachObjectResponse(
-      attachedObjectIdentifier: json['attachedObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachedObjectIdentifier = this.attachedObjectIdentifier;
-    return {
-      if (attachedObjectIdentifier != null)
-        'attachedObjectIdentifier': attachedObjectIdentifier,
-    };
-  }
-}
-
-/// Attaches a policy object to a regular object inside a <a>BatchRead</a>
-/// operation. For more information, see <a>AttachPolicy</a> and
-/// <a>BatchReadRequest$Operations</a>.
-class BatchAttachPolicy {
-  /// The reference that identifies the object to which the policy will be
-  /// attached.
-  final ObjectReference objectReference;
-
-  /// The reference that is associated with the policy object.
-  final ObjectReference policyReference;
-
-  BatchAttachPolicy({
-    required this.objectReference,
-    required this.policyReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final policyReference = this.policyReference;
-    return {
-      'ObjectReference': objectReference,
-      'PolicyReference': policyReference,
-    };
-  }
-}
-
-/// Represents the output of an <a>AttachPolicy</a> response operation.
-class BatchAttachPolicyResponse {
-  BatchAttachPolicyResponse();
-
-  factory BatchAttachPolicyResponse.fromJson(Map<String, dynamic> _) {
-    return BatchAttachPolicyResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Attaches the specified object to the specified index inside a
-/// <a>BatchRead</a> operation. For more information, see <a>AttachToIndex</a>
-/// and <a>BatchReadRequest$Operations</a>.
-class BatchAttachToIndex {
-  /// A reference to the index that you are attaching the object to.
-  final ObjectReference indexReference;
-
-  /// A reference to the object that you are attaching to the index.
-  final ObjectReference targetReference;
-
-  BatchAttachToIndex({
-    required this.indexReference,
-    required this.targetReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexReference = this.indexReference;
-    final targetReference = this.targetReference;
-    return {
-      'IndexReference': indexReference,
-      'TargetReference': targetReference,
-    };
-  }
-}
-
-/// Represents the output of a <a>AttachToIndex</a> response operation.
-class BatchAttachToIndexResponse {
-  /// The <code>ObjectIdentifier</code> of the object that was attached to the
-  /// index.
-  final String? attachedObjectIdentifier;
-
-  BatchAttachToIndexResponse({
-    this.attachedObjectIdentifier,
-  });
-
-  factory BatchAttachToIndexResponse.fromJson(Map<String, dynamic> json) {
-    return BatchAttachToIndexResponse(
-      attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachedObjectIdentifier = this.attachedObjectIdentifier;
-    return {
-      if (attachedObjectIdentifier != null)
-        'AttachedObjectIdentifier': attachedObjectIdentifier,
-    };
-  }
-}
-
-/// Attaches a typed link to a specified source and target object inside a
-/// <a>BatchRead</a> operation. For more information, see <a>AttachTypedLink</a>
-/// and <a>BatchReadRequest$Operations</a>.
-class BatchAttachTypedLink {
-  /// A set of attributes that are associated with the typed link.
-  final List<AttributeNameAndValue> attributes;
-
-  /// Identifies the source object that the typed link will attach to.
-  final ObjectReference sourceObjectReference;
-
-  /// Identifies the target object that the typed link will attach to.
-  final ObjectReference targetObjectReference;
-
-  /// Identifies the typed link facet that is associated with the typed link.
-  final TypedLinkSchemaAndFacetName typedLinkFacet;
-
-  BatchAttachTypedLink({
-    required this.attributes,
-    required this.sourceObjectReference,
-    required this.targetObjectReference,
-    required this.typedLinkFacet,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final sourceObjectReference = this.sourceObjectReference;
-    final targetObjectReference = this.targetObjectReference;
-    final typedLinkFacet = this.typedLinkFacet;
-    return {
-      'Attributes': attributes,
-      'SourceObjectReference': sourceObjectReference,
-      'TargetObjectReference': targetObjectReference,
-      'TypedLinkFacet': typedLinkFacet,
-    };
-  }
-}
-
-/// Represents the output of a <a>AttachTypedLink</a> response operation.
-class BatchAttachTypedLinkResponse {
-  /// Returns a typed link specifier as output.
-  final TypedLinkSpecifier? typedLinkSpecifier;
-
-  BatchAttachTypedLinkResponse({
-    this.typedLinkSpecifier,
-  });
-
-  factory BatchAttachTypedLinkResponse.fromJson(Map<String, dynamic> json) {
-    return BatchAttachTypedLinkResponse(
-      typedLinkSpecifier: json['TypedLinkSpecifier'] != null
-          ? TypedLinkSpecifier.fromJson(
-              json['TypedLinkSpecifier'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final typedLinkSpecifier = this.typedLinkSpecifier;
-    return {
-      if (typedLinkSpecifier != null) 'TypedLinkSpecifier': typedLinkSpecifier,
-    };
-  }
-}
-
-/// Creates an index object inside of a <a>BatchRead</a> operation. For more
-/// information, see <a>CreateIndex</a> and <a>BatchReadRequest$Operations</a>.
-class BatchCreateIndex {
-  /// Indicates whether the attribute that is being indexed has unique values or
-  /// not.
-  final bool isUnique;
-
-  /// Specifies the attributes that should be indexed on. Currently only a single
-  /// attribute is supported.
-  final List<AttributeKey> orderedIndexedAttributeList;
-
-  /// The batch reference name. See <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html">Transaction
-  /// Support</a> for more information.
-  final String? batchReferenceName;
-
-  /// The name of the link between the parent object and the index object.
-  final String? linkName;
-
-  /// A reference to the parent object that contains the index object.
-  final ObjectReference? parentReference;
-
-  BatchCreateIndex({
-    required this.isUnique,
-    required this.orderedIndexedAttributeList,
-    this.batchReferenceName,
-    this.linkName,
-    this.parentReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final isUnique = this.isUnique;
-    final orderedIndexedAttributeList = this.orderedIndexedAttributeList;
-    final batchReferenceName = this.batchReferenceName;
-    final linkName = this.linkName;
-    final parentReference = this.parentReference;
-    return {
-      'IsUnique': isUnique,
-      'OrderedIndexedAttributeList': orderedIndexedAttributeList,
-      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
-      if (linkName != null) 'LinkName': linkName,
-      if (parentReference != null) 'ParentReference': parentReference,
-    };
-  }
-}
-
-/// Represents the output of a <a>CreateIndex</a> response operation.
-class BatchCreateIndexResponse {
-  /// The <code>ObjectIdentifier</code> of the index created by this operation.
-  final String? objectIdentifier;
-
-  BatchCreateIndexResponse({
-    this.objectIdentifier,
-  });
-
-  factory BatchCreateIndexResponse.fromJson(Map<String, dynamic> json) {
-    return BatchCreateIndexResponse(
-      objectIdentifier: json['ObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectIdentifier = this.objectIdentifier;
-    return {
-      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
-    };
-  }
-}
-
-/// Represents the output of a <a>CreateObject</a> operation.
-class BatchCreateObject {
-  /// An attribute map, which contains an attribute ARN as the key and attribute
-  /// value as the map value.
-  final List<AttributeKeyAndValue> objectAttributeList;
-
-  /// A list of <code>FacetArns</code> that will be associated with the object.
-  /// For more information, see <a>arns</a>.
-  final List<SchemaFacet> schemaFacet;
-
-  /// The batch reference name. See <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html">Transaction
-  /// Support</a> for more information.
-  final String? batchReferenceName;
-
-  /// The name of the link.
-  final String? linkName;
-
-  /// If specified, the parent reference to which this object will be attached.
-  final ObjectReference? parentReference;
-
-  BatchCreateObject({
-    required this.objectAttributeList,
-    required this.schemaFacet,
-    this.batchReferenceName,
-    this.linkName,
-    this.parentReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectAttributeList = this.objectAttributeList;
-    final schemaFacet = this.schemaFacet;
-    final batchReferenceName = this.batchReferenceName;
-    final linkName = this.linkName;
-    final parentReference = this.parentReference;
-    return {
-      'ObjectAttributeList': objectAttributeList,
-      'SchemaFacet': schemaFacet,
-      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
-      if (linkName != null) 'LinkName': linkName,
-      if (parentReference != null) 'ParentReference': parentReference,
-    };
-  }
-}
-
-/// Represents the output of a <a>CreateObject</a> response operation.
-class BatchCreateObjectResponse {
-  /// The ID that is associated with the object.
-  final String? objectIdentifier;
-
-  BatchCreateObjectResponse({
-    this.objectIdentifier,
-  });
-
-  factory BatchCreateObjectResponse.fromJson(Map<String, dynamic> json) {
-    return BatchCreateObjectResponse(
-      objectIdentifier: json['ObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectIdentifier = this.objectIdentifier;
-    return {
-      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
-    };
-  }
-}
-
-/// Represents the output of a <a>DeleteObject</a> operation.
-class BatchDeleteObject {
-  /// The reference that identifies the object.
-  final ObjectReference objectReference;
-
-  BatchDeleteObject({
-    required this.objectReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    return {
-      'ObjectReference': objectReference,
-    };
-  }
-}
-
-/// Represents the output of a <a>DeleteObject</a> response operation.
-class BatchDeleteObjectResponse {
-  BatchDeleteObjectResponse();
-
-  factory BatchDeleteObjectResponse.fromJson(Map<String, dynamic> _) {
-    return BatchDeleteObjectResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Detaches the specified object from the specified index inside a
-/// <a>BatchRead</a> operation. For more information, see <a>DetachFromIndex</a>
-/// and <a>BatchReadRequest$Operations</a>.
-class BatchDetachFromIndex {
-  /// A reference to the index object.
-  final ObjectReference indexReference;
-
-  /// A reference to the object being detached from the index.
-  final ObjectReference targetReference;
-
-  BatchDetachFromIndex({
-    required this.indexReference,
-    required this.targetReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexReference = this.indexReference;
-    final targetReference = this.targetReference;
-    return {
-      'IndexReference': indexReference,
-      'TargetReference': targetReference,
-    };
-  }
-}
-
-/// Represents the output of a <a>DetachFromIndex</a> response operation.
-class BatchDetachFromIndexResponse {
-  /// The <code>ObjectIdentifier</code> of the object that was detached from the
-  /// index.
-  final String? detachedObjectIdentifier;
-
-  BatchDetachFromIndexResponse({
-    this.detachedObjectIdentifier,
-  });
-
-  factory BatchDetachFromIndexResponse.fromJson(Map<String, dynamic> json) {
-    return BatchDetachFromIndexResponse(
-      detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detachedObjectIdentifier = this.detachedObjectIdentifier;
-    return {
-      if (detachedObjectIdentifier != null)
-        'DetachedObjectIdentifier': detachedObjectIdentifier,
-    };
-  }
-}
-
-/// Represents the output of a <a>DetachObject</a> operation.
-class BatchDetachObject {
-  /// The name of the link.
-  final String linkName;
-
-  /// Parent reference from which the object with the specified link name is
-  /// detached.
-  final ObjectReference parentReference;
-
-  /// The batch reference name. See <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html">Transaction
-  /// Support</a> for more information.
-  final String? batchReferenceName;
-
-  BatchDetachObject({
-    required this.linkName,
-    required this.parentReference,
-    this.batchReferenceName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final linkName = this.linkName;
-    final parentReference = this.parentReference;
-    final batchReferenceName = this.batchReferenceName;
-    return {
-      'LinkName': linkName,
-      'ParentReference': parentReference,
-      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
-    };
-  }
-}
-
-/// Represents the output of a <a>DetachObject</a> response operation.
-class BatchDetachObjectResponse {
-  /// The <code>ObjectIdentifier</code> of the detached object.
-  final String? detachedObjectIdentifier;
-
-  BatchDetachObjectResponse({
-    this.detachedObjectIdentifier,
-  });
-
-  factory BatchDetachObjectResponse.fromJson(Map<String, dynamic> json) {
-    return BatchDetachObjectResponse(
-      detachedObjectIdentifier: json['detachedObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detachedObjectIdentifier = this.detachedObjectIdentifier;
-    return {
-      if (detachedObjectIdentifier != null)
-        'detachedObjectIdentifier': detachedObjectIdentifier,
-    };
-  }
-}
-
-/// Detaches the specified policy from the specified directory inside a
-/// <a>BatchWrite</a> operation. For more information, see <a>DetachPolicy</a>
-/// and <a>BatchWriteRequest$Operations</a>.
-class BatchDetachPolicy {
-  /// Reference that identifies the object whose policy object will be detached.
-  final ObjectReference objectReference;
-
-  /// Reference that identifies the policy object.
-  final ObjectReference policyReference;
-
-  BatchDetachPolicy({
-    required this.objectReference,
-    required this.policyReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final policyReference = this.policyReference;
-    return {
-      'ObjectReference': objectReference,
-      'PolicyReference': policyReference,
-    };
-  }
-}
-
-/// Represents the output of a <a>DetachPolicy</a> response operation.
-class BatchDetachPolicyResponse {
-  BatchDetachPolicyResponse();
-
-  factory BatchDetachPolicyResponse.fromJson(Map<String, dynamic> _) {
-    return BatchDetachPolicyResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Detaches a typed link from a specified source and target object inside a
-/// <a>BatchRead</a> operation. For more information, see <a>DetachTypedLink</a>
-/// and <a>BatchReadRequest$Operations</a>.
-class BatchDetachTypedLink {
-  /// Used to accept a typed link specifier as input.
-  final TypedLinkSpecifier typedLinkSpecifier;
-
-  BatchDetachTypedLink({
-    required this.typedLinkSpecifier,
-  });
-
-  Map<String, dynamic> toJson() {
-    final typedLinkSpecifier = this.typedLinkSpecifier;
-    return {
-      'TypedLinkSpecifier': typedLinkSpecifier,
-    };
-  }
-}
-
-/// Represents the output of a <a>DetachTypedLink</a> response operation.
-class BatchDetachTypedLinkResponse {
-  BatchDetachTypedLinkResponse();
-
-  factory BatchDetachTypedLinkResponse.fromJson(Map<String, dynamic> _) {
-    return BatchDetachTypedLinkResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Retrieves attributes that are associated with a typed link inside a
-/// <a>BatchRead</a> operation. For more information, see
-/// <a>GetLinkAttributes</a> and <a>BatchReadRequest$Operations</a>.
-class BatchGetLinkAttributes {
-  /// A list of attribute names whose values will be retrieved.
-  final List<String> attributeNames;
-
-  /// Allows a typed link specifier to be accepted as input.
-  final TypedLinkSpecifier typedLinkSpecifier;
-
-  BatchGetLinkAttributes({
-    required this.attributeNames,
-    required this.typedLinkSpecifier,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeNames = this.attributeNames;
-    final typedLinkSpecifier = this.typedLinkSpecifier;
-    return {
-      'AttributeNames': attributeNames,
-      'TypedLinkSpecifier': typedLinkSpecifier,
-    };
-  }
-}
-
-/// Represents the output of a <a>GetLinkAttributes</a> response operation.
-class BatchGetLinkAttributesResponse {
-  /// The attributes that are associated with the typed link.
-  final List<AttributeKeyAndValue>? attributes;
-
-  BatchGetLinkAttributesResponse({
-    this.attributes,
-  });
-
-  factory BatchGetLinkAttributesResponse.fromJson(Map<String, dynamic> json) {
-    return BatchGetLinkAttributesResponse(
-      attributes: (json['Attributes'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-    };
-  }
-}
-
-/// Retrieves attributes within a facet that are associated with an object
-/// inside an <a>BatchRead</a> operation. For more information, see
-/// <a>GetObjectAttributes</a> and <a>BatchReadRequest$Operations</a>.
-class BatchGetObjectAttributes {
-  /// List of attribute names whose values will be retrieved.
-  final List<String> attributeNames;
-
-  /// Reference that identifies the object whose attributes will be retrieved.
-  final ObjectReference objectReference;
-
-  /// Identifier for the facet whose attributes will be retrieved. See
-  /// <a>SchemaFacet</a> for details.
-  final SchemaFacet schemaFacet;
-
-  BatchGetObjectAttributes({
-    required this.attributeNames,
-    required this.objectReference,
-    required this.schemaFacet,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeNames = this.attributeNames;
-    final objectReference = this.objectReference;
-    final schemaFacet = this.schemaFacet;
-    return {
-      'AttributeNames': attributeNames,
-      'ObjectReference': objectReference,
-      'SchemaFacet': schemaFacet,
-    };
-  }
-}
-
-/// Represents the output of a <a>GetObjectAttributes</a> response operation.
-class BatchGetObjectAttributesResponse {
-  /// The attribute values that are associated with an object.
-  final List<AttributeKeyAndValue>? attributes;
-
-  BatchGetObjectAttributesResponse({
-    this.attributes,
-  });
-
-  factory BatchGetObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
-    return BatchGetObjectAttributesResponse(
-      attributes: (json['Attributes'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-    };
-  }
-}
-
-/// Retrieves metadata about an object inside a <a>BatchRead</a> operation. For
-/// more information, see <a>GetObjectInformation</a> and
-/// <a>BatchReadRequest$Operations</a>.
-class BatchGetObjectInformation {
-  /// A reference to the object.
-  final ObjectReference objectReference;
-
-  BatchGetObjectInformation({
-    required this.objectReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    return {
-      'ObjectReference': objectReference,
-    };
-  }
-}
-
-/// Represents the output of a <a>GetObjectInformation</a> response operation.
-class BatchGetObjectInformationResponse {
-  /// The <code>ObjectIdentifier</code> of the specified object.
-  final String? objectIdentifier;
-
-  /// The facets attached to the specified object.
-  final List<SchemaFacet>? schemaFacets;
-
-  BatchGetObjectInformationResponse({
-    this.objectIdentifier,
-    this.schemaFacets,
-  });
-
-  factory BatchGetObjectInformationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetObjectInformationResponse(
-      objectIdentifier: json['ObjectIdentifier'] as String?,
-      schemaFacets: (json['SchemaFacets'] as List?)
-          ?.nonNulls
-          .map((e) => SchemaFacet.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectIdentifier = this.objectIdentifier;
-    final schemaFacets = this.schemaFacets;
-    return {
-      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
-      if (schemaFacets != null) 'SchemaFacets': schemaFacets,
-    };
-  }
-}
-
-/// Lists indices attached to an object inside a <a>BatchRead</a> operation. For
-/// more information, see <a>ListAttachedIndices</a> and
-/// <a>BatchReadRequest$Operations</a>.
-class BatchListAttachedIndices {
-  /// A reference to the object that has indices attached.
-  final ObjectReference targetReference;
-
-  /// The maximum number of results to retrieve.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListAttachedIndices({
-    required this.targetReference,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final targetReference = this.targetReference;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'TargetReference': targetReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListAttachedIndices</a> response operation.
-class BatchListAttachedIndicesResponse {
-  /// The indices attached to the specified object.
-  final List<IndexAttachment>? indexAttachments;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListAttachedIndicesResponse({
-    this.indexAttachments,
-    this.nextToken,
-  });
-
-  factory BatchListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) {
-    return BatchListAttachedIndicesResponse(
-      indexAttachments: (json['IndexAttachments'] as List?)
-          ?.nonNulls
-          .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexAttachments = this.indexAttachments;
-    final nextToken = this.nextToken;
-    return {
-      if (indexAttachments != null) 'IndexAttachments': indexAttachments,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
-/// information for an object inside a <a>BatchRead</a> operation. For more
-/// information, see <a>ListIncomingTypedLinks</a> and
-/// <a>BatchReadRequest$Operations</a>.
-class BatchListIncomingTypedLinks {
-  /// The reference that identifies the object whose attributes will be listed.
-  final ObjectReference objectReference;
-
-  /// Provides range filters for multiple attributes. When providing ranges to
-  /// typed link selection, any inexact ranges must be specified at the end. Any
-  /// attributes that do not have a range specified are presumed to match the
-  /// entire range.
-  final List<TypedLinkAttributeRange>? filterAttributeRanges;
-
-  /// Filters are interpreted in the order of the attributes on the typed link
-  /// facet, not the order in which they are supplied to any API calls.
-  final TypedLinkSchemaAndFacetName? filterTypedLink;
-
-  /// The maximum number of results to retrieve.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListIncomingTypedLinks({
-    required this.objectReference,
-    this.filterAttributeRanges,
-    this.filterTypedLink,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final filterAttributeRanges = this.filterAttributeRanges;
-    final filterTypedLink = this.filterTypedLink;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'ObjectReference': objectReference,
-      if (filterAttributeRanges != null)
-        'FilterAttributeRanges': filterAttributeRanges,
-      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListIncomingTypedLinks</a> response operation.
-class BatchListIncomingTypedLinksResponse {
-  /// Returns one or more typed link specifiers as output.
-  final List<TypedLinkSpecifier>? linkSpecifiers;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListIncomingTypedLinksResponse({
-    this.linkSpecifiers,
-    this.nextToken,
-  });
-
-  factory BatchListIncomingTypedLinksResponse.fromJson(
-      Map<String, dynamic> json) {
-    return BatchListIncomingTypedLinksResponse(
-      linkSpecifiers: (json['LinkSpecifiers'] as List?)
-          ?.nonNulls
-          .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final linkSpecifiers = this.linkSpecifiers;
-    final nextToken = this.nextToken;
-    return {
-      if (linkSpecifiers != null) 'LinkSpecifiers': linkSpecifiers,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Lists objects attached to the specified index inside a <a>BatchRead</a>
-/// operation. For more information, see <a>ListIndex</a> and
-/// <a>BatchReadRequest$Operations</a>.
-class BatchListIndex {
-  /// The reference to the index to list.
-  final ObjectReference indexReference;
-
-  /// The maximum number of results to retrieve.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  /// Specifies the ranges of indexed values that you want to query.
-  final List<ObjectAttributeRange>? rangesOnIndexedValues;
-
-  BatchListIndex({
-    required this.indexReference,
-    this.maxResults,
-    this.nextToken,
-    this.rangesOnIndexedValues,
-  });
-
-  Map<String, dynamic> toJson() {
-    final indexReference = this.indexReference;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    final rangesOnIndexedValues = this.rangesOnIndexedValues;
-    return {
-      'IndexReference': indexReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (rangesOnIndexedValues != null)
-        'RangesOnIndexedValues': rangesOnIndexedValues,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListIndex</a> response operation.
-class BatchListIndexResponse {
-  /// The objects and indexed values attached to the index.
-  final List<IndexAttachment>? indexAttachments;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListIndexResponse({
-    this.indexAttachments,
-    this.nextToken,
-  });
-
-  factory BatchListIndexResponse.fromJson(Map<String, dynamic> json) {
-    return BatchListIndexResponse(
-      indexAttachments: (json['IndexAttachments'] as List?)
-          ?.nonNulls
-          .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexAttachments = this.indexAttachments;
-    final nextToken = this.nextToken;
-    return {
-      if (indexAttachments != null) 'IndexAttachments': indexAttachments,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListObjectAttributes</a> operation.
-class BatchListObjectAttributes {
-  /// Reference of the object whose attributes need to be listed.
-  final ObjectReference objectReference;
-
-  /// Used to filter the list of object attributes that are associated with a
-  /// certain facet.
-  final SchemaFacet? facetFilter;
-
-  /// The maximum number of items to be retrieved in a single call. This is an
-  /// approximate number.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListObjectAttributes({
-    required this.objectReference,
-    this.facetFilter,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final facetFilter = this.facetFilter;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'ObjectReference': objectReference,
-      if (facetFilter != null) 'FacetFilter': facetFilter,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListObjectAttributes</a> response operation.
-class BatchListObjectAttributesResponse {
-  /// The attributes map that is associated with the object.
-  /// <code>AttributeArn</code> is the key; attribute value is the value.
-  final List<AttributeKeyAndValue>? attributes;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListObjectAttributesResponse({
-    this.attributes,
-    this.nextToken,
-  });
-
-  factory BatchListObjectAttributesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return BatchListObjectAttributesResponse(
-      attributes: (json['Attributes'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final nextToken = this.nextToken;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListObjectChildren</a> operation.
-class BatchListObjectChildren {
-  /// Reference of the object for which child objects are being listed.
-  final ObjectReference objectReference;
-
-  /// Maximum number of items to be retrieved in a single call. This is an
-  /// approximate number.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListObjectChildren({
-    required this.objectReference,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListObjectChildren</a> response operation.
-class BatchListObjectChildrenResponse {
-  /// The children structure, which is a map with the key as the
-  /// <code>LinkName</code> and <code>ObjectIdentifier</code> as the value.
-  final Map<String, String>? children;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListObjectChildrenResponse({
-    this.children,
-    this.nextToken,
-  });
-
-  factory BatchListObjectChildrenResponse.fromJson(Map<String, dynamic> json) {
-    return BatchListObjectChildrenResponse(
-      children: (json['Children'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final children = this.children;
-    final nextToken = this.nextToken;
-    return {
-      if (children != null) 'Children': children,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Retrieves all available parent paths for any object type such as node, leaf
-/// node, policy node, and index node objects inside a <a>BatchRead</a>
-/// operation. For more information, see <a>ListObjectParentPaths</a> and
-/// <a>BatchReadRequest$Operations</a>.
-class BatchListObjectParentPaths {
-  /// The reference that identifies the object whose attributes will be listed.
-  final ObjectReference objectReference;
-
-  /// The maximum number of results to retrieve.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListObjectParentPaths({
-    required this.objectReference,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListObjectParentPaths</a> response operation.
-class BatchListObjectParentPathsResponse {
-  /// The pagination token.
-  final String? nextToken;
-
-  /// Returns the path to the <code>ObjectIdentifiers</code> that are associated
-  /// with the directory.
-  final List<PathToObjectIdentifiers>? pathToObjectIdentifiersList;
-
-  BatchListObjectParentPathsResponse({
-    this.nextToken,
-    this.pathToObjectIdentifiersList,
-  });
-
-  factory BatchListObjectParentPathsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return BatchListObjectParentPathsResponse(
-      nextToken: json['NextToken'] as String?,
-      pathToObjectIdentifiersList:
-          (json['PathToObjectIdentifiersList'] as List?)
-              ?.nonNulls
-              .map((e) =>
-                  PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final pathToObjectIdentifiersList = this.pathToObjectIdentifiersList;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (pathToObjectIdentifiersList != null)
-        'PathToObjectIdentifiersList': pathToObjectIdentifiersList,
-    };
-  }
-}
-
-/// Lists parent objects that are associated with a given object in pagination
-/// fashion.
-class BatchListObjectParents {
-  final ObjectReference objectReference;
-
-  /// The maximum number of items to be retrieved in a single call. This is an
-  /// approximate number.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListObjectParents({
-    required this.objectReference,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListObjectParents</a> response operation.
-class BatchListObjectParentsResponse {
-  /// The pagination token.
-  final String? nextToken;
-
-  /// Returns a list of parent reference and LinkName Tuples.
-  final List<ObjectIdentifierAndLinkNameTuple>? parentLinks;
-
-  BatchListObjectParentsResponse({
-    this.nextToken,
-    this.parentLinks,
-  });
-
-  factory BatchListObjectParentsResponse.fromJson(Map<String, dynamic> json) {
-    return BatchListObjectParentsResponse(
-      nextToken: json['NextToken'] as String?,
-      parentLinks: (json['ParentLinks'] as List?)
-          ?.nonNulls
-          .map((e) => ObjectIdentifierAndLinkNameTuple.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final parentLinks = this.parentLinks;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (parentLinks != null) 'ParentLinks': parentLinks,
-    };
-  }
-}
-
-/// Returns policies attached to an object in pagination fashion inside a
-/// <a>BatchRead</a> operation. For more information, see
-/// <a>ListObjectPolicies</a> and <a>BatchReadRequest$Operations</a>.
-class BatchListObjectPolicies {
-  /// The reference that identifies the object whose attributes will be listed.
-  final ObjectReference objectReference;
-
-  /// The maximum number of results to retrieve.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListObjectPolicies({
-    required this.objectReference,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListObjectPolicies</a> response operation.
-class BatchListObjectPoliciesResponse {
-  /// A list of policy <code>ObjectIdentifiers</code>, that are attached to the
-  /// object.
-  final List<String>? attachedPolicyIds;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListObjectPoliciesResponse({
-    this.attachedPolicyIds,
-    this.nextToken,
-  });
-
-  factory BatchListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) {
-    return BatchListObjectPoliciesResponse(
-      attachedPolicyIds: (json['AttachedPolicyIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachedPolicyIds = this.attachedPolicyIds;
-    final nextToken = this.nextToken;
-    return {
-      if (attachedPolicyIds != null) 'AttachedPolicyIds': attachedPolicyIds,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
-/// information for an object inside a <a>BatchRead</a> operation. For more
-/// information, see <a>ListOutgoingTypedLinks</a> and
-/// <a>BatchReadRequest$Operations</a>.
-class BatchListOutgoingTypedLinks {
-  /// The reference that identifies the object whose attributes will be listed.
-  final ObjectReference objectReference;
-
-  /// Provides range filters for multiple attributes. When providing ranges to
-  /// typed link selection, any inexact ranges must be specified at the end. Any
-  /// attributes that do not have a range specified are presumed to match the
-  /// entire range.
-  final List<TypedLinkAttributeRange>? filterAttributeRanges;
-
-  /// Filters are interpreted in the order of the attributes defined on the typed
-  /// link facet, not the order they are supplied to any API calls.
-  final TypedLinkSchemaAndFacetName? filterTypedLink;
-
-  /// The maximum number of results to retrieve.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListOutgoingTypedLinks({
-    required this.objectReference,
-    this.filterAttributeRanges,
-    this.filterTypedLink,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final filterAttributeRanges = this.filterAttributeRanges;
-    final filterTypedLink = this.filterTypedLink;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'ObjectReference': objectReference,
-      if (filterAttributeRanges != null)
-        'FilterAttributeRanges': filterAttributeRanges,
-      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListOutgoingTypedLinks</a> response operation.
-class BatchListOutgoingTypedLinksResponse {
-  /// The pagination token.
-  final String? nextToken;
-
-  /// Returns a typed link specifier as output.
-  final List<TypedLinkSpecifier>? typedLinkSpecifiers;
-
-  BatchListOutgoingTypedLinksResponse({
-    this.nextToken,
-    this.typedLinkSpecifiers,
-  });
-
-  factory BatchListOutgoingTypedLinksResponse.fromJson(
-      Map<String, dynamic> json) {
-    return BatchListOutgoingTypedLinksResponse(
-      nextToken: json['NextToken'] as String?,
-      typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List?)
-          ?.nonNulls
-          .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final typedLinkSpecifiers = this.typedLinkSpecifiers;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (typedLinkSpecifiers != null)
-        'TypedLinkSpecifiers': typedLinkSpecifiers,
-    };
-  }
-}
-
-/// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
-/// attached inside a <a>BatchRead</a> operation. For more information, see
-/// <a>ListPolicyAttachments</a> and <a>BatchReadRequest$Operations</a>.
-class BatchListPolicyAttachments {
-  /// The reference that identifies the policy object.
-  final ObjectReference policyReference;
-
-  /// The maximum number of results to retrieve.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchListPolicyAttachments({
-    required this.policyReference,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final policyReference = this.policyReference;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'PolicyReference': policyReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>ListPolicyAttachments</a> response operation.
-class BatchListPolicyAttachmentsResponse {
-  /// The pagination token.
-  final String? nextToken;
-
-  /// A list of <code>ObjectIdentifiers</code> to which the policy is attached.
-  final List<String>? objectIdentifiers;
-
-  BatchListPolicyAttachmentsResponse({
-    this.nextToken,
-    this.objectIdentifiers,
-  });
-
-  factory BatchListPolicyAttachmentsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return BatchListPolicyAttachmentsResponse(
-      nextToken: json['NextToken'] as String?,
-      objectIdentifiers: (json['ObjectIdentifiers'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final objectIdentifiers = this.objectIdentifiers;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (objectIdentifiers != null) 'ObjectIdentifiers': objectIdentifiers,
-    };
-  }
-}
-
-/// Lists all policies from the root of the Directory to the object specified
-/// inside a <a>BatchRead</a> operation. For more information, see
-/// <a>LookupPolicy</a> and <a>BatchReadRequest$Operations</a>.
-class BatchLookupPolicy {
-  /// Reference that identifies the object whose policies will be looked up.
-  final ObjectReference objectReference;
-
-  /// The maximum number of results to retrieve.
-  final int? maxResults;
-
-  /// The pagination token.
-  final String? nextToken;
-
-  BatchLookupPolicy({
-    required this.objectReference,
-    this.maxResults,
-    this.nextToken,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final maxResults = this.maxResults;
-    final nextToken = this.nextToken;
-    return {
-      'ObjectReference': objectReference,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Represents the output of a <a>LookupPolicy</a> response operation.
-class BatchLookupPolicyResponse {
-  /// The pagination token.
-  final String? nextToken;
-
-  /// Provides list of path to policies. Policies contain <code>PolicyId</code>,
-  /// <code>ObjectIdentifier</code>, and <code>PolicyType</code>. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
-  final List<PolicyToPath>? policyToPathList;
-
-  BatchLookupPolicyResponse({
-    this.nextToken,
-    this.policyToPathList,
-  });
-
-  factory BatchLookupPolicyResponse.fromJson(Map<String, dynamic> json) {
-    return BatchLookupPolicyResponse(
-      nextToken: json['NextToken'] as String?,
-      policyToPathList: (json['PolicyToPathList'] as List?)
-          ?.nonNulls
-          .map((e) => PolicyToPath.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final policyToPathList = this.policyToPathList;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (policyToPathList != null) 'PolicyToPathList': policyToPathList,
-    };
-  }
-}
-
-/// The batch read exception structure, which contains the exception type and
-/// message.
-class BatchReadException {
-  /// An exception message that is associated with the failure.
-  final String? message;
-
-  /// A type of exception, such as <code>InvalidArnException</code>.
-  final BatchReadExceptionType? type;
-
-  BatchReadException({
-    this.message,
-    this.type,
-  });
-
-  factory BatchReadException.fromJson(Map<String, dynamic> json) {
-    return BatchReadException(
-      message: json['Message'] as String?,
-      type: (json['Type'] as String?)?.let(BatchReadExceptionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final message = this.message;
-    final type = this.type;
-    return {
-      if (message != null) 'Message': message,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class BatchReadExceptionType {
-  static const validationException =
-      BatchReadExceptionType._('ValidationException');
-  static const invalidArnException =
-      BatchReadExceptionType._('InvalidArnException');
-  static const resourceNotFoundException =
-      BatchReadExceptionType._('ResourceNotFoundException');
-  static const invalidNextTokenException =
-      BatchReadExceptionType._('InvalidNextTokenException');
-  static const accessDeniedException =
-      BatchReadExceptionType._('AccessDeniedException');
-  static const notNodeException = BatchReadExceptionType._('NotNodeException');
-  static const facetValidationException =
-      BatchReadExceptionType._('FacetValidationException');
-  static const cannotListParentOfRootException =
-      BatchReadExceptionType._('CannotListParentOfRootException');
-  static const notIndexException =
-      BatchReadExceptionType._('NotIndexException');
-  static const notPolicyException =
-      BatchReadExceptionType._('NotPolicyException');
-  static const directoryNotEnabledException =
-      BatchReadExceptionType._('DirectoryNotEnabledException');
-  static const limitExceededException =
-      BatchReadExceptionType._('LimitExceededException');
-  static const internalServiceException =
-      BatchReadExceptionType._('InternalServiceException');
-
-  final String value;
-
-  const BatchReadExceptionType._(this.value);
-
-  static const values = [
-    validationException,
-    invalidArnException,
-    resourceNotFoundException,
-    invalidNextTokenException,
-    accessDeniedException,
-    notNodeException,
-    facetValidationException,
-    cannotListParentOfRootException,
-    notIndexException,
-    notPolicyException,
-    directoryNotEnabledException,
-    limitExceededException,
-    internalServiceException
-  ];
-
-  static BatchReadExceptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchReadExceptionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchReadExceptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the output of a <code>BatchRead</code> operation.
-class BatchReadOperation {
-  /// Retrieves attributes that are associated with a typed link.
-  final BatchGetLinkAttributes? getLinkAttributes;
-
-  /// Retrieves attributes within a facet that are associated with an object.
-  final BatchGetObjectAttributes? getObjectAttributes;
-
-  /// Retrieves metadata about an object.
-  final BatchGetObjectInformation? getObjectInformation;
-
-  /// Lists indices attached to an object.
-  final BatchListAttachedIndices? listAttachedIndices;
-
-  /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
-  /// information for an object. It also supports filtering by typed link facet
-  /// and identity attributes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
-  /// Links</a>.
-  final BatchListIncomingTypedLinks? listIncomingTypedLinks;
-
-  /// Lists objects attached to the specified index.
-  final BatchListIndex? listIndex;
-
-  /// Lists all attributes that are associated with an object.
-  final BatchListObjectAttributes? listObjectAttributes;
-
-  /// Returns a paginated list of child objects that are associated with a given
-  /// object.
-  final BatchListObjectChildren? listObjectChildren;
-
-  /// Retrieves all available parent paths for any object type such as node, leaf
-  /// node, policy node, and index node objects. For more information about
-  /// objects, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory
-  /// Structure</a>.
-  final BatchListObjectParentPaths? listObjectParentPaths;
-
-  /// Lists parent objects that are associated with a given object in pagination
-  /// fashion.
-  final BatchListObjectParents? listObjectParents;
-
-  /// Returns policies attached to an object in pagination fashion.
-  final BatchListObjectPolicies? listObjectPolicies;
-
-  /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
-  /// information for an object. It also supports filtering by typed link facet
-  /// and identity attributes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
-  /// Links</a>.
-  final BatchListOutgoingTypedLinks? listOutgoingTypedLinks;
-
-  /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
-  /// attached.
-  final BatchListPolicyAttachments? listPolicyAttachments;
-
-  /// Lists all policies from the root of the <a>Directory</a> to the object
-  /// specified. If there are no policies present, an empty list is returned. If
-  /// policies are present, and if some objects don't have the policies attached,
-  /// it returns the <code>ObjectIdentifier</code> for such objects. If policies
-  /// are present, it returns <code>ObjectIdentifier</code>,
-  /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to
-  /// the root from the target object are ignored. For more information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
-  final BatchLookupPolicy? lookupPolicy;
-
-  BatchReadOperation({
-    this.getLinkAttributes,
-    this.getObjectAttributes,
-    this.getObjectInformation,
-    this.listAttachedIndices,
-    this.listIncomingTypedLinks,
-    this.listIndex,
-    this.listObjectAttributes,
-    this.listObjectChildren,
-    this.listObjectParentPaths,
-    this.listObjectParents,
-    this.listObjectPolicies,
-    this.listOutgoingTypedLinks,
-    this.listPolicyAttachments,
-    this.lookupPolicy,
-  });
-
-  Map<String, dynamic> toJson() {
-    final getLinkAttributes = this.getLinkAttributes;
-    final getObjectAttributes = this.getObjectAttributes;
-    final getObjectInformation = this.getObjectInformation;
-    final listAttachedIndices = this.listAttachedIndices;
-    final listIncomingTypedLinks = this.listIncomingTypedLinks;
-    final listIndex = this.listIndex;
-    final listObjectAttributes = this.listObjectAttributes;
-    final listObjectChildren = this.listObjectChildren;
-    final listObjectParentPaths = this.listObjectParentPaths;
-    final listObjectParents = this.listObjectParents;
-    final listObjectPolicies = this.listObjectPolicies;
-    final listOutgoingTypedLinks = this.listOutgoingTypedLinks;
-    final listPolicyAttachments = this.listPolicyAttachments;
-    final lookupPolicy = this.lookupPolicy;
-    return {
-      if (getLinkAttributes != null) 'GetLinkAttributes': getLinkAttributes,
-      if (getObjectAttributes != null)
-        'GetObjectAttributes': getObjectAttributes,
-      if (getObjectInformation != null)
-        'GetObjectInformation': getObjectInformation,
-      if (listAttachedIndices != null)
-        'ListAttachedIndices': listAttachedIndices,
-      if (listIncomingTypedLinks != null)
-        'ListIncomingTypedLinks': listIncomingTypedLinks,
-      if (listIndex != null) 'ListIndex': listIndex,
-      if (listObjectAttributes != null)
-        'ListObjectAttributes': listObjectAttributes,
-      if (listObjectChildren != null) 'ListObjectChildren': listObjectChildren,
-      if (listObjectParentPaths != null)
-        'ListObjectParentPaths': listObjectParentPaths,
-      if (listObjectParents != null) 'ListObjectParents': listObjectParents,
-      if (listObjectPolicies != null) 'ListObjectPolicies': listObjectPolicies,
-      if (listOutgoingTypedLinks != null)
-        'ListOutgoingTypedLinks': listOutgoingTypedLinks,
-      if (listPolicyAttachments != null)
-        'ListPolicyAttachments': listPolicyAttachments,
-      if (lookupPolicy != null) 'LookupPolicy': lookupPolicy,
-    };
-  }
-}
-
-/// Represents the output of a <code>BatchRead</code> response operation.
-class BatchReadOperationResponse {
-  /// Identifies which operation in a batch has failed.
-  final BatchReadException? exceptionResponse;
-
-  /// Identifies which operation in a batch has succeeded.
-  final BatchReadSuccessfulResponse? successfulResponse;
-
-  BatchReadOperationResponse({
-    this.exceptionResponse,
-    this.successfulResponse,
-  });
-
-  factory BatchReadOperationResponse.fromJson(Map<String, dynamic> json) {
-    return BatchReadOperationResponse(
-      exceptionResponse: json['ExceptionResponse'] != null
-          ? BatchReadException.fromJson(
-              json['ExceptionResponse'] as Map<String, dynamic>)
-          : null,
-      successfulResponse: json['SuccessfulResponse'] != null
-          ? BatchReadSuccessfulResponse.fromJson(
-              json['SuccessfulResponse'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exceptionResponse = this.exceptionResponse;
-    final successfulResponse = this.successfulResponse;
-    return {
-      if (exceptionResponse != null) 'ExceptionResponse': exceptionResponse,
-      if (successfulResponse != null) 'SuccessfulResponse': successfulResponse,
-    };
-  }
-}
-
 class BatchReadResponse {
   /// A list of all the responses for each batch read.
   final List<BatchReadOperationResponse>? responses;
@@ -5327,605 +3446,6 @@ class BatchReadResponse {
     final responses = this.responses;
     return {
       if (responses != null) 'Responses': responses,
-    };
-  }
-}
-
-/// Represents the output of a <code>BatchRead</code> success response
-/// operation.
-class BatchReadSuccessfulResponse {
-  /// The list of attributes to retrieve from the typed link.
-  final BatchGetLinkAttributesResponse? getLinkAttributes;
-
-  /// Retrieves attributes within a facet that are associated with an object.
-  final BatchGetObjectAttributesResponse? getObjectAttributes;
-
-  /// Retrieves metadata about an object.
-  final BatchGetObjectInformationResponse? getObjectInformation;
-
-  /// Lists indices attached to an object.
-  final BatchListAttachedIndicesResponse? listAttachedIndices;
-
-  /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
-  /// information for an object. It also supports filtering by typed link facet
-  /// and identity attributes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
-  /// Links</a>.
-  final BatchListIncomingTypedLinksResponse? listIncomingTypedLinks;
-
-  /// Lists objects attached to the specified index.
-  final BatchListIndexResponse? listIndex;
-
-  /// Lists all attributes that are associated with an object.
-  final BatchListObjectAttributesResponse? listObjectAttributes;
-
-  /// Returns a paginated list of child objects that are associated with a given
-  /// object.
-  final BatchListObjectChildrenResponse? listObjectChildren;
-
-  /// Retrieves all available parent paths for any object type such as node, leaf
-  /// node, policy node, and index node objects. For more information about
-  /// objects, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory
-  /// Structure</a>.
-  final BatchListObjectParentPathsResponse? listObjectParentPaths;
-
-  /// The list of parent objects to retrieve.
-  final BatchListObjectParentsResponse? listObjectParents;
-
-  /// Returns policies attached to an object in pagination fashion.
-  final BatchListObjectPoliciesResponse? listObjectPolicies;
-
-  /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
-  /// information for an object. It also supports filtering by typed link facet
-  /// and identity attributes. For more information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
-  /// Links</a>.
-  final BatchListOutgoingTypedLinksResponse? listOutgoingTypedLinks;
-
-  /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
-  /// attached.
-  final BatchListPolicyAttachmentsResponse? listPolicyAttachments;
-
-  /// Lists all policies from the root of the <a>Directory</a> to the object
-  /// specified. If there are no policies present, an empty list is returned. If
-  /// policies are present, and if some objects don't have the policies attached,
-  /// it returns the <code>ObjectIdentifier</code> for such objects. If policies
-  /// are present, it returns <code>ObjectIdentifier</code>,
-  /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to
-  /// the root from the target object are ignored. For more information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
-  final BatchLookupPolicyResponse? lookupPolicy;
-
-  BatchReadSuccessfulResponse({
-    this.getLinkAttributes,
-    this.getObjectAttributes,
-    this.getObjectInformation,
-    this.listAttachedIndices,
-    this.listIncomingTypedLinks,
-    this.listIndex,
-    this.listObjectAttributes,
-    this.listObjectChildren,
-    this.listObjectParentPaths,
-    this.listObjectParents,
-    this.listObjectPolicies,
-    this.listOutgoingTypedLinks,
-    this.listPolicyAttachments,
-    this.lookupPolicy,
-  });
-
-  factory BatchReadSuccessfulResponse.fromJson(Map<String, dynamic> json) {
-    return BatchReadSuccessfulResponse(
-      getLinkAttributes: json['GetLinkAttributes'] != null
-          ? BatchGetLinkAttributesResponse.fromJson(
-              json['GetLinkAttributes'] as Map<String, dynamic>)
-          : null,
-      getObjectAttributes: json['GetObjectAttributes'] != null
-          ? BatchGetObjectAttributesResponse.fromJson(
-              json['GetObjectAttributes'] as Map<String, dynamic>)
-          : null,
-      getObjectInformation: json['GetObjectInformation'] != null
-          ? BatchGetObjectInformationResponse.fromJson(
-              json['GetObjectInformation'] as Map<String, dynamic>)
-          : null,
-      listAttachedIndices: json['ListAttachedIndices'] != null
-          ? BatchListAttachedIndicesResponse.fromJson(
-              json['ListAttachedIndices'] as Map<String, dynamic>)
-          : null,
-      listIncomingTypedLinks: json['ListIncomingTypedLinks'] != null
-          ? BatchListIncomingTypedLinksResponse.fromJson(
-              json['ListIncomingTypedLinks'] as Map<String, dynamic>)
-          : null,
-      listIndex: json['ListIndex'] != null
-          ? BatchListIndexResponse.fromJson(
-              json['ListIndex'] as Map<String, dynamic>)
-          : null,
-      listObjectAttributes: json['ListObjectAttributes'] != null
-          ? BatchListObjectAttributesResponse.fromJson(
-              json['ListObjectAttributes'] as Map<String, dynamic>)
-          : null,
-      listObjectChildren: json['ListObjectChildren'] != null
-          ? BatchListObjectChildrenResponse.fromJson(
-              json['ListObjectChildren'] as Map<String, dynamic>)
-          : null,
-      listObjectParentPaths: json['ListObjectParentPaths'] != null
-          ? BatchListObjectParentPathsResponse.fromJson(
-              json['ListObjectParentPaths'] as Map<String, dynamic>)
-          : null,
-      listObjectParents: json['ListObjectParents'] != null
-          ? BatchListObjectParentsResponse.fromJson(
-              json['ListObjectParents'] as Map<String, dynamic>)
-          : null,
-      listObjectPolicies: json['ListObjectPolicies'] != null
-          ? BatchListObjectPoliciesResponse.fromJson(
-              json['ListObjectPolicies'] as Map<String, dynamic>)
-          : null,
-      listOutgoingTypedLinks: json['ListOutgoingTypedLinks'] != null
-          ? BatchListOutgoingTypedLinksResponse.fromJson(
-              json['ListOutgoingTypedLinks'] as Map<String, dynamic>)
-          : null,
-      listPolicyAttachments: json['ListPolicyAttachments'] != null
-          ? BatchListPolicyAttachmentsResponse.fromJson(
-              json['ListPolicyAttachments'] as Map<String, dynamic>)
-          : null,
-      lookupPolicy: json['LookupPolicy'] != null
-          ? BatchLookupPolicyResponse.fromJson(
-              json['LookupPolicy'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final getLinkAttributes = this.getLinkAttributes;
-    final getObjectAttributes = this.getObjectAttributes;
-    final getObjectInformation = this.getObjectInformation;
-    final listAttachedIndices = this.listAttachedIndices;
-    final listIncomingTypedLinks = this.listIncomingTypedLinks;
-    final listIndex = this.listIndex;
-    final listObjectAttributes = this.listObjectAttributes;
-    final listObjectChildren = this.listObjectChildren;
-    final listObjectParentPaths = this.listObjectParentPaths;
-    final listObjectParents = this.listObjectParents;
-    final listObjectPolicies = this.listObjectPolicies;
-    final listOutgoingTypedLinks = this.listOutgoingTypedLinks;
-    final listPolicyAttachments = this.listPolicyAttachments;
-    final lookupPolicy = this.lookupPolicy;
-    return {
-      if (getLinkAttributes != null) 'GetLinkAttributes': getLinkAttributes,
-      if (getObjectAttributes != null)
-        'GetObjectAttributes': getObjectAttributes,
-      if (getObjectInformation != null)
-        'GetObjectInformation': getObjectInformation,
-      if (listAttachedIndices != null)
-        'ListAttachedIndices': listAttachedIndices,
-      if (listIncomingTypedLinks != null)
-        'ListIncomingTypedLinks': listIncomingTypedLinks,
-      if (listIndex != null) 'ListIndex': listIndex,
-      if (listObjectAttributes != null)
-        'ListObjectAttributes': listObjectAttributes,
-      if (listObjectChildren != null) 'ListObjectChildren': listObjectChildren,
-      if (listObjectParentPaths != null)
-        'ListObjectParentPaths': listObjectParentPaths,
-      if (listObjectParents != null) 'ListObjectParents': listObjectParents,
-      if (listObjectPolicies != null) 'ListObjectPolicies': listObjectPolicies,
-      if (listOutgoingTypedLinks != null)
-        'ListOutgoingTypedLinks': listOutgoingTypedLinks,
-      if (listPolicyAttachments != null)
-        'ListPolicyAttachments': listPolicyAttachments,
-      if (lookupPolicy != null) 'LookupPolicy': lookupPolicy,
-    };
-  }
-}
-
-/// A batch operation to remove a facet from an object.
-class BatchRemoveFacetFromObject {
-  /// A reference to the object whose facet will be removed.
-  final ObjectReference objectReference;
-
-  /// The facet to remove from the object.
-  final SchemaFacet schemaFacet;
-
-  BatchRemoveFacetFromObject({
-    required this.objectReference,
-    required this.schemaFacet,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectReference = this.objectReference;
-    final schemaFacet = this.schemaFacet;
-    return {
-      'ObjectReference': objectReference,
-      'SchemaFacet': schemaFacet,
-    };
-  }
-}
-
-/// An empty result that represents success.
-class BatchRemoveFacetFromObjectResponse {
-  BatchRemoveFacetFromObjectResponse();
-
-  factory BatchRemoveFacetFromObjectResponse.fromJson(Map<String, dynamic> _) {
-    return BatchRemoveFacetFromObjectResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Updates a given typed link’s attributes inside a <a>BatchRead</a> operation.
-/// Attributes to be updated must not contribute to the typed link’s identity,
-/// as defined by its <code>IdentityAttributeOrder</code>. For more information,
-/// see <a>UpdateLinkAttributes</a> and <a>BatchReadRequest$Operations</a>.
-class BatchUpdateLinkAttributes {
-  /// The attributes update structure.
-  final List<LinkAttributeUpdate> attributeUpdates;
-
-  /// Allows a typed link specifier to be accepted as input.
-  final TypedLinkSpecifier typedLinkSpecifier;
-
-  BatchUpdateLinkAttributes({
-    required this.attributeUpdates,
-    required this.typedLinkSpecifier,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeUpdates = this.attributeUpdates;
-    final typedLinkSpecifier = this.typedLinkSpecifier;
-    return {
-      'AttributeUpdates': attributeUpdates,
-      'TypedLinkSpecifier': typedLinkSpecifier,
-    };
-  }
-}
-
-/// Represents the output of a <a>UpdateLinkAttributes</a> response operation.
-class BatchUpdateLinkAttributesResponse {
-  BatchUpdateLinkAttributesResponse();
-
-  factory BatchUpdateLinkAttributesResponse.fromJson(Map<String, dynamic> _) {
-    return BatchUpdateLinkAttributesResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Represents the output of a <code>BatchUpdate</code> operation.
-class BatchUpdateObjectAttributes {
-  /// Attributes update structure.
-  final List<ObjectAttributeUpdate> attributeUpdates;
-
-  /// Reference that identifies the object.
-  final ObjectReference objectReference;
-
-  BatchUpdateObjectAttributes({
-    required this.attributeUpdates,
-    required this.objectReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeUpdates = this.attributeUpdates;
-    final objectReference = this.objectReference;
-    return {
-      'AttributeUpdates': attributeUpdates,
-      'ObjectReference': objectReference,
-    };
-  }
-}
-
-/// Represents the output of a <code>BatchUpdate</code> response operation.
-class BatchUpdateObjectAttributesResponse {
-  /// ID that is associated with the object.
-  final String? objectIdentifier;
-
-  BatchUpdateObjectAttributesResponse({
-    this.objectIdentifier,
-  });
-
-  factory BatchUpdateObjectAttributesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return BatchUpdateObjectAttributesResponse(
-      objectIdentifier: json['ObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectIdentifier = this.objectIdentifier;
-    return {
-      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
-    };
-  }
-}
-
-/// Represents the output of a <code>BatchWrite</code> operation.
-class BatchWriteOperation {
-  /// A batch operation that adds a facet to an object.
-  final BatchAddFacetToObject? addFacetToObject;
-
-  /// Attaches an object to a <a>Directory</a>.
-  final BatchAttachObject? attachObject;
-
-  /// Attaches a policy object to a regular object. An object can have a limited
-  /// number of attached policies.
-  final BatchAttachPolicy? attachPolicy;
-
-  /// Attaches the specified object to the specified index.
-  final BatchAttachToIndex? attachToIndex;
-
-  /// Attaches a typed link to a specified source and target object. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
-  /// Links</a>.
-  final BatchAttachTypedLink? attachTypedLink;
-
-  /// Creates an index object. See <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.htm">Indexing
-  /// and search</a> for more information.
-  final BatchCreateIndex? createIndex;
-
-  /// Creates an object.
-  final BatchCreateObject? createObject;
-
-  /// Deletes an object in a <a>Directory</a>.
-  final BatchDeleteObject? deleteObject;
-
-  /// Detaches the specified object from the specified index.
-  final BatchDetachFromIndex? detachFromIndex;
-
-  /// Detaches an object from a <a>Directory</a>.
-  final BatchDetachObject? detachObject;
-
-  /// Detaches a policy from a <a>Directory</a>.
-  final BatchDetachPolicy? detachPolicy;
-
-  /// Detaches a typed link from a specified source and target object. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
-  /// Links</a>.
-  final BatchDetachTypedLink? detachTypedLink;
-
-  /// A batch operation that removes a facet from an object.
-  final BatchRemoveFacetFromObject? removeFacetFromObject;
-
-  /// Updates a given object's attributes.
-  final BatchUpdateLinkAttributes? updateLinkAttributes;
-
-  /// Updates a given object's attributes.
-  final BatchUpdateObjectAttributes? updateObjectAttributes;
-
-  BatchWriteOperation({
-    this.addFacetToObject,
-    this.attachObject,
-    this.attachPolicy,
-    this.attachToIndex,
-    this.attachTypedLink,
-    this.createIndex,
-    this.createObject,
-    this.deleteObject,
-    this.detachFromIndex,
-    this.detachObject,
-    this.detachPolicy,
-    this.detachTypedLink,
-    this.removeFacetFromObject,
-    this.updateLinkAttributes,
-    this.updateObjectAttributes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final addFacetToObject = this.addFacetToObject;
-    final attachObject = this.attachObject;
-    final attachPolicy = this.attachPolicy;
-    final attachToIndex = this.attachToIndex;
-    final attachTypedLink = this.attachTypedLink;
-    final createIndex = this.createIndex;
-    final createObject = this.createObject;
-    final deleteObject = this.deleteObject;
-    final detachFromIndex = this.detachFromIndex;
-    final detachObject = this.detachObject;
-    final detachPolicy = this.detachPolicy;
-    final detachTypedLink = this.detachTypedLink;
-    final removeFacetFromObject = this.removeFacetFromObject;
-    final updateLinkAttributes = this.updateLinkAttributes;
-    final updateObjectAttributes = this.updateObjectAttributes;
-    return {
-      if (addFacetToObject != null) 'AddFacetToObject': addFacetToObject,
-      if (attachObject != null) 'AttachObject': attachObject,
-      if (attachPolicy != null) 'AttachPolicy': attachPolicy,
-      if (attachToIndex != null) 'AttachToIndex': attachToIndex,
-      if (attachTypedLink != null) 'AttachTypedLink': attachTypedLink,
-      if (createIndex != null) 'CreateIndex': createIndex,
-      if (createObject != null) 'CreateObject': createObject,
-      if (deleteObject != null) 'DeleteObject': deleteObject,
-      if (detachFromIndex != null) 'DetachFromIndex': detachFromIndex,
-      if (detachObject != null) 'DetachObject': detachObject,
-      if (detachPolicy != null) 'DetachPolicy': detachPolicy,
-      if (detachTypedLink != null) 'DetachTypedLink': detachTypedLink,
-      if (removeFacetFromObject != null)
-        'RemoveFacetFromObject': removeFacetFromObject,
-      if (updateLinkAttributes != null)
-        'UpdateLinkAttributes': updateLinkAttributes,
-      if (updateObjectAttributes != null)
-        'UpdateObjectAttributes': updateObjectAttributes,
-    };
-  }
-}
-
-/// Represents the output of a <code>BatchWrite</code> response operation.
-class BatchWriteOperationResponse {
-  /// The result of an add facet to object batch operation.
-  final BatchAddFacetToObjectResponse? addFacetToObject;
-
-  /// Attaches an object to a <a>Directory</a>.
-  final BatchAttachObjectResponse? attachObject;
-
-  /// Attaches a policy object to a regular object. An object can have a limited
-  /// number of attached policies.
-  final BatchAttachPolicyResponse? attachPolicy;
-
-  /// Attaches the specified object to the specified index.
-  final BatchAttachToIndexResponse? attachToIndex;
-
-  /// Attaches a typed link to a specified source and target object. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
-  /// Links</a>.
-  final BatchAttachTypedLinkResponse? attachTypedLink;
-
-  /// Creates an index object. See <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.htm">Indexing
-  /// and search</a> for more information.
-  final BatchCreateIndexResponse? createIndex;
-
-  /// Creates an object in a <a>Directory</a>.
-  final BatchCreateObjectResponse? createObject;
-
-  /// Deletes an object in a <a>Directory</a>.
-  final BatchDeleteObjectResponse? deleteObject;
-
-  /// Detaches the specified object from the specified index.
-  final BatchDetachFromIndexResponse? detachFromIndex;
-
-  /// Detaches an object from a <a>Directory</a>.
-  final BatchDetachObjectResponse? detachObject;
-
-  /// Detaches a policy from a <a>Directory</a>.
-  final BatchDetachPolicyResponse? detachPolicy;
-
-  /// Detaches a typed link from a specified source and target object. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
-  /// Links</a>.
-  final BatchDetachTypedLinkResponse? detachTypedLink;
-
-  /// The result of a batch remove facet from object operation.
-  final BatchRemoveFacetFromObjectResponse? removeFacetFromObject;
-
-  /// Represents the output of a <code>BatchWrite</code> response operation.
-  final BatchUpdateLinkAttributesResponse? updateLinkAttributes;
-
-  /// Updates a given object’s attributes.
-  final BatchUpdateObjectAttributesResponse? updateObjectAttributes;
-
-  BatchWriteOperationResponse({
-    this.addFacetToObject,
-    this.attachObject,
-    this.attachPolicy,
-    this.attachToIndex,
-    this.attachTypedLink,
-    this.createIndex,
-    this.createObject,
-    this.deleteObject,
-    this.detachFromIndex,
-    this.detachObject,
-    this.detachPolicy,
-    this.detachTypedLink,
-    this.removeFacetFromObject,
-    this.updateLinkAttributes,
-    this.updateObjectAttributes,
-  });
-
-  factory BatchWriteOperationResponse.fromJson(Map<String, dynamic> json) {
-    return BatchWriteOperationResponse(
-      addFacetToObject: json['AddFacetToObject'] != null
-          ? BatchAddFacetToObjectResponse.fromJson(
-              json['AddFacetToObject'] as Map<String, dynamic>)
-          : null,
-      attachObject: json['AttachObject'] != null
-          ? BatchAttachObjectResponse.fromJson(
-              json['AttachObject'] as Map<String, dynamic>)
-          : null,
-      attachPolicy: json['AttachPolicy'] != null
-          ? BatchAttachPolicyResponse.fromJson(
-              json['AttachPolicy'] as Map<String, dynamic>)
-          : null,
-      attachToIndex: json['AttachToIndex'] != null
-          ? BatchAttachToIndexResponse.fromJson(
-              json['AttachToIndex'] as Map<String, dynamic>)
-          : null,
-      attachTypedLink: json['AttachTypedLink'] != null
-          ? BatchAttachTypedLinkResponse.fromJson(
-              json['AttachTypedLink'] as Map<String, dynamic>)
-          : null,
-      createIndex: json['CreateIndex'] != null
-          ? BatchCreateIndexResponse.fromJson(
-              json['CreateIndex'] as Map<String, dynamic>)
-          : null,
-      createObject: json['CreateObject'] != null
-          ? BatchCreateObjectResponse.fromJson(
-              json['CreateObject'] as Map<String, dynamic>)
-          : null,
-      deleteObject: json['DeleteObject'] != null
-          ? BatchDeleteObjectResponse.fromJson(
-              json['DeleteObject'] as Map<String, dynamic>)
-          : null,
-      detachFromIndex: json['DetachFromIndex'] != null
-          ? BatchDetachFromIndexResponse.fromJson(
-              json['DetachFromIndex'] as Map<String, dynamic>)
-          : null,
-      detachObject: json['DetachObject'] != null
-          ? BatchDetachObjectResponse.fromJson(
-              json['DetachObject'] as Map<String, dynamic>)
-          : null,
-      detachPolicy: json['DetachPolicy'] != null
-          ? BatchDetachPolicyResponse.fromJson(
-              json['DetachPolicy'] as Map<String, dynamic>)
-          : null,
-      detachTypedLink: json['DetachTypedLink'] != null
-          ? BatchDetachTypedLinkResponse.fromJson(
-              json['DetachTypedLink'] as Map<String, dynamic>)
-          : null,
-      removeFacetFromObject: json['RemoveFacetFromObject'] != null
-          ? BatchRemoveFacetFromObjectResponse.fromJson(
-              json['RemoveFacetFromObject'] as Map<String, dynamic>)
-          : null,
-      updateLinkAttributes: json['UpdateLinkAttributes'] != null
-          ? BatchUpdateLinkAttributesResponse.fromJson(
-              json['UpdateLinkAttributes'] as Map<String, dynamic>)
-          : null,
-      updateObjectAttributes: json['UpdateObjectAttributes'] != null
-          ? BatchUpdateObjectAttributesResponse.fromJson(
-              json['UpdateObjectAttributes'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final addFacetToObject = this.addFacetToObject;
-    final attachObject = this.attachObject;
-    final attachPolicy = this.attachPolicy;
-    final attachToIndex = this.attachToIndex;
-    final attachTypedLink = this.attachTypedLink;
-    final createIndex = this.createIndex;
-    final createObject = this.createObject;
-    final deleteObject = this.deleteObject;
-    final detachFromIndex = this.detachFromIndex;
-    final detachObject = this.detachObject;
-    final detachPolicy = this.detachPolicy;
-    final detachTypedLink = this.detachTypedLink;
-    final removeFacetFromObject = this.removeFacetFromObject;
-    final updateLinkAttributes = this.updateLinkAttributes;
-    final updateObjectAttributes = this.updateObjectAttributes;
-    return {
-      if (addFacetToObject != null) 'AddFacetToObject': addFacetToObject,
-      if (attachObject != null) 'AttachObject': attachObject,
-      if (attachPolicy != null) 'AttachPolicy': attachPolicy,
-      if (attachToIndex != null) 'AttachToIndex': attachToIndex,
-      if (attachTypedLink != null) 'AttachTypedLink': attachTypedLink,
-      if (createIndex != null) 'CreateIndex': createIndex,
-      if (createObject != null) 'CreateObject': createObject,
-      if (deleteObject != null) 'DeleteObject': deleteObject,
-      if (detachFromIndex != null) 'DetachFromIndex': detachFromIndex,
-      if (detachObject != null) 'DetachObject': detachObject,
-      if (detachPolicy != null) 'DetachPolicy': detachPolicy,
-      if (detachTypedLink != null) 'DetachTypedLink': detachTypedLink,
-      if (removeFacetFromObject != null)
-        'RemoveFacetFromObject': removeFacetFromObject,
-      if (updateLinkAttributes != null)
-        'UpdateLinkAttributes': updateLinkAttributes,
-      if (updateObjectAttributes != null)
-        'UpdateObjectAttributes': updateObjectAttributes,
     };
   }
 }
@@ -5954,30 +3474,6 @@ class BatchWriteResponse {
       if (responses != null) 'Responses': responses,
     };
   }
-}
-
-class ConsistencyLevel {
-  static const serializable = ConsistencyLevel._('SERIALIZABLE');
-  static const eventual = ConsistencyLevel._('EVENTUAL');
-
-  final String value;
-
-  const ConsistencyLevel._(this.value);
-
-  static const values = [serializable, eventual];
-
-  static ConsistencyLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConsistencyLevel._(value));
-
-  @override
-  bool operator ==(other) => other is ConsistencyLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateDirectoryResponse {
@@ -6257,78 +3753,6 @@ class DetachPolicyResponse {
   }
 }
 
-/// Directory structure that includes the directory name and directory ARN.
-class Directory {
-  /// The date and time when the directory was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) that is associated with the directory. For
-  /// more information, see <a>arns</a>.
-  final String? directoryArn;
-
-  /// The name of the directory.
-  final String? name;
-
-  /// The state of the directory. Can be either <code>Enabled</code>,
-  /// <code>Disabled</code>, or <code>Deleted</code>.
-  final DirectoryState? state;
-
-  Directory({
-    this.creationDateTime,
-    this.directoryArn,
-    this.name,
-    this.state,
-  });
-
-  factory Directory.fromJson(Map<String, dynamic> json) {
-    return Directory(
-      creationDateTime: timeStampFromJson(json['CreationDateTime']),
-      directoryArn: json['DirectoryArn'] as String?,
-      name: json['Name'] as String?,
-      state: (json['State'] as String?)?.let(DirectoryState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final directoryArn = this.directoryArn;
-    final name = this.name;
-    final state = this.state;
-    return {
-      if (creationDateTime != null)
-        'CreationDateTime': unixTimestampToJson(creationDateTime),
-      if (directoryArn != null) 'DirectoryArn': directoryArn,
-      if (name != null) 'Name': name,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-class DirectoryState {
-  static const enabled = DirectoryState._('ENABLED');
-  static const disabled = DirectoryState._('DISABLED');
-  static const deleted = DirectoryState._('DELETED');
-
-  final String value;
-
-  const DirectoryState._(this.value);
-
-  static const values = [enabled, disabled, deleted];
-
-  static DirectoryState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DirectoryState._(value));
-
-  @override
-  bool operator ==(other) => other is DirectoryState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DisableDirectoryResponse {
   /// The ARN of the directory that has been disabled.
   final String directoryArn;
@@ -6371,269 +3795,6 @@ class EnableDirectoryResponse {
       'DirectoryArn': directoryArn,
     };
   }
-}
-
-/// A structure that contains <code>Name</code>, <code>ARN</code>,
-/// <code>Attributes</code>, <code> <a>Rule</a>s</code>, and
-/// <code>ObjectTypes</code>. See <a
-/// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_whatarefacets.html">Facets</a>
-/// for more information.
-class Facet {
-  /// There are two different styles that you can define on any given facet,
-  /// <code>Static</code> and <code>Dynamic</code>. For static facets, all
-  /// attributes must be defined in the schema. For dynamic facets, attributes can
-  /// be defined during data plane operations.
-  final FacetStyle? facetStyle;
-
-  /// The name of the <a>Facet</a>.
-  final String? name;
-
-  /// The object type that is associated with the facet. See
-  /// <a>CreateFacetRequest$ObjectType</a> for more details.
-  final ObjectType? objectType;
-
-  Facet({
-    this.facetStyle,
-    this.name,
-    this.objectType,
-  });
-
-  factory Facet.fromJson(Map<String, dynamic> json) {
-    return Facet(
-      facetStyle: (json['FacetStyle'] as String?)?.let(FacetStyle.fromString),
-      name: json['Name'] as String?,
-      objectType: (json['ObjectType'] as String?)?.let(ObjectType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final facetStyle = this.facetStyle;
-    final name = this.name;
-    final objectType = this.objectType;
-    return {
-      if (facetStyle != null) 'FacetStyle': facetStyle.value,
-      if (name != null) 'Name': name,
-      if (objectType != null) 'ObjectType': objectType.value,
-    };
-  }
-}
-
-/// An attribute that is associated with the <a>Facet</a>.
-class FacetAttribute {
-  /// The name of the facet attribute.
-  final String name;
-
-  /// A facet attribute consists of either a definition or a reference. This
-  /// structure contains the attribute definition. See <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
-  /// References</a> for more information.
-  final FacetAttributeDefinition? attributeDefinition;
-
-  /// An attribute reference that is associated with the attribute. See <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
-  /// References</a> for more information.
-  final FacetAttributeReference? attributeReference;
-
-  /// The required behavior of the <code>FacetAttribute</code>.
-  final RequiredAttributeBehavior? requiredBehavior;
-
-  FacetAttribute({
-    required this.name,
-    this.attributeDefinition,
-    this.attributeReference,
-    this.requiredBehavior,
-  });
-
-  factory FacetAttribute.fromJson(Map<String, dynamic> json) {
-    return FacetAttribute(
-      name: (json['Name'] as String?) ?? '',
-      attributeDefinition: json['AttributeDefinition'] != null
-          ? FacetAttributeDefinition.fromJson(
-              json['AttributeDefinition'] as Map<String, dynamic>)
-          : null,
-      attributeReference: json['AttributeReference'] != null
-          ? FacetAttributeReference.fromJson(
-              json['AttributeReference'] as Map<String, dynamic>)
-          : null,
-      requiredBehavior: (json['RequiredBehavior'] as String?)
-          ?.let(RequiredAttributeBehavior.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final attributeDefinition = this.attributeDefinition;
-    final attributeReference = this.attributeReference;
-    final requiredBehavior = this.requiredBehavior;
-    return {
-      'Name': name,
-      if (attributeDefinition != null)
-        'AttributeDefinition': attributeDefinition,
-      if (attributeReference != null) 'AttributeReference': attributeReference,
-      if (requiredBehavior != null) 'RequiredBehavior': requiredBehavior.value,
-    };
-  }
-}
-
-/// A facet attribute definition. See <a
-/// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
-/// References</a> for more information.
-class FacetAttributeDefinition {
-  /// The type of the attribute.
-  final FacetAttributeType type;
-
-  /// The default value of the attribute (if configured).
-  final TypedAttributeValue? defaultValue;
-
-  /// Whether the attribute is mutable or not.
-  final bool? isImmutable;
-
-  /// Validation rules attached to the attribute definition.
-  final Map<String, Rule>? rules;
-
-  FacetAttributeDefinition({
-    required this.type,
-    this.defaultValue,
-    this.isImmutable,
-    this.rules,
-  });
-
-  factory FacetAttributeDefinition.fromJson(Map<String, dynamic> json) {
-    return FacetAttributeDefinition(
-      type: FacetAttributeType.fromString((json['Type'] as String?) ?? ''),
-      defaultValue: json['DefaultValue'] != null
-          ? TypedAttributeValue.fromJson(
-              json['DefaultValue'] as Map<String, dynamic>)
-          : null,
-      isImmutable: json['IsImmutable'] as bool?,
-      rules: (json['Rules'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k, Rule.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final defaultValue = this.defaultValue;
-    final isImmutable = this.isImmutable;
-    final rules = this.rules;
-    return {
-      'Type': type.value,
-      if (defaultValue != null) 'DefaultValue': defaultValue,
-      if (isImmutable != null) 'IsImmutable': isImmutable,
-      if (rules != null) 'Rules': rules,
-    };
-  }
-}
-
-/// The facet attribute reference that specifies the attribute definition that
-/// contains the attribute facet name and attribute name.
-class FacetAttributeReference {
-  /// The target attribute name that is associated with the facet reference. See
-  /// <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
-  /// References</a> for more information.
-  final String targetAttributeName;
-
-  /// The target facet name that is associated with the facet reference. See <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
-  /// References</a> for more information.
-  final String targetFacetName;
-
-  FacetAttributeReference({
-    required this.targetAttributeName,
-    required this.targetFacetName,
-  });
-
-  factory FacetAttributeReference.fromJson(Map<String, dynamic> json) {
-    return FacetAttributeReference(
-      targetAttributeName: (json['TargetAttributeName'] as String?) ?? '',
-      targetFacetName: (json['TargetFacetName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetAttributeName = this.targetAttributeName;
-    final targetFacetName = this.targetFacetName;
-    return {
-      'TargetAttributeName': targetAttributeName,
-      'TargetFacetName': targetFacetName,
-    };
-  }
-}
-
-class FacetAttributeType {
-  static const string = FacetAttributeType._('STRING');
-  static const binary = FacetAttributeType._('BINARY');
-  static const boolean = FacetAttributeType._('BOOLEAN');
-  static const number = FacetAttributeType._('NUMBER');
-  static const datetime = FacetAttributeType._('DATETIME');
-  static const variant = FacetAttributeType._('VARIANT');
-
-  final String value;
-
-  const FacetAttributeType._(this.value);
-
-  static const values = [string, binary, boolean, number, datetime, variant];
-
-  static FacetAttributeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FacetAttributeType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FacetAttributeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that contains information used to update an attribute.
-class FacetAttributeUpdate {
-  /// The action to perform when updating the attribute.
-  final UpdateActionType? action;
-
-  /// The attribute to update.
-  final FacetAttribute? attribute;
-
-  FacetAttributeUpdate({
-    this.action,
-    this.attribute,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final attribute = this.attribute;
-    return {
-      if (action != null) 'Action': action.value,
-      if (attribute != null) 'Attribute': attribute,
-    };
-  }
-}
-
-class FacetStyle {
-  static const static = FacetStyle._('STATIC');
-  static const $dynamic = FacetStyle._('DYNAMIC');
-
-  final String value;
-
-  const FacetStyle._(this.value);
-
-  static const values = [static, $dynamic];
-
-  static FacetStyle fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FacetStyle._(value));
-
-  @override
-  bool operator ==(other) => other is FacetStyle && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetAppliedSchemaVersionResponse {
@@ -6852,93 +4013,6 @@ class GetTypedLinkFacetInformationResponse {
     return {
       if (identityAttributeOrder != null)
         'IdentityAttributeOrder': identityAttributeOrder,
-    };
-  }
-}
-
-/// Represents an index and an attached object.
-class IndexAttachment {
-  /// The indexed attribute values.
-  final List<AttributeKeyAndValue>? indexedAttributes;
-
-  /// In response to <a>ListIndex</a>, the <code>ObjectIdentifier</code> of the
-  /// object attached to the index. In response to <a>ListAttachedIndices</a>, the
-  /// <code>ObjectIdentifier</code> of the index attached to the object. This
-  /// field will always contain the <code>ObjectIdentifier</code> of the object on
-  /// the opposite side of the attachment specified in the query.
-  final String? objectIdentifier;
-
-  IndexAttachment({
-    this.indexedAttributes,
-    this.objectIdentifier,
-  });
-
-  factory IndexAttachment.fromJson(Map<String, dynamic> json) {
-    return IndexAttachment(
-      indexedAttributes: (json['IndexedAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      objectIdentifier: json['ObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexedAttributes = this.indexedAttributes;
-    final objectIdentifier = this.objectIdentifier;
-    return {
-      if (indexedAttributes != null) 'IndexedAttributes': indexedAttributes,
-      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
-    };
-  }
-}
-
-/// The action to take on a typed link attribute value. Updates are only
-/// supported for attributes which don’t contribute to link identity.
-class LinkAttributeAction {
-  /// A type that can be either <code>UPDATE_OR_CREATE</code> or
-  /// <code>DELETE</code>.
-  final UpdateActionType? attributeActionType;
-
-  /// The value that you want to update to.
-  final TypedAttributeValue? attributeUpdateValue;
-
-  LinkAttributeAction({
-    this.attributeActionType,
-    this.attributeUpdateValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeActionType = this.attributeActionType;
-    final attributeUpdateValue = this.attributeUpdateValue;
-    return {
-      if (attributeActionType != null)
-        'AttributeActionType': attributeActionType.value,
-      if (attributeUpdateValue != null)
-        'AttributeUpdateValue': attributeUpdateValue,
-    };
-  }
-}
-
-/// Structure that contains attribute update information.
-class LinkAttributeUpdate {
-  /// The action to perform as part of the attribute update.
-  final LinkAttributeAction? attributeAction;
-
-  /// The key of the attribute being updated.
-  final AttributeKey? attributeKey;
-
-  LinkAttributeUpdate({
-    this.attributeAction,
-    this.attributeKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeAction = this.attributeAction;
-    final attributeKey = this.attributeKey;
-    return {
-      if (attributeAction != null) 'AttributeAction': attributeAction,
-      if (attributeKey != null) 'AttributeKey': attributeKey,
     };
   }
 }
@@ -7639,291 +4713,6 @@ class LookupPolicyResponse {
   }
 }
 
-/// The action to take on the object attribute.
-class ObjectAttributeAction {
-  /// A type that can be either <code>Update</code> or <code>Delete</code>.
-  final UpdateActionType? objectAttributeActionType;
-
-  /// The value that you want to update to.
-  final TypedAttributeValue? objectAttributeUpdateValue;
-
-  ObjectAttributeAction({
-    this.objectAttributeActionType,
-    this.objectAttributeUpdateValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectAttributeActionType = this.objectAttributeActionType;
-    final objectAttributeUpdateValue = this.objectAttributeUpdateValue;
-    return {
-      if (objectAttributeActionType != null)
-        'ObjectAttributeActionType': objectAttributeActionType.value,
-      if (objectAttributeUpdateValue != null)
-        'ObjectAttributeUpdateValue': objectAttributeUpdateValue,
-    };
-  }
-}
-
-/// A range of attributes.
-class ObjectAttributeRange {
-  /// The key of the attribute that the attribute range covers.
-  final AttributeKey? attributeKey;
-
-  /// The range of attribute values being selected.
-  final TypedAttributeValueRange? range;
-
-  ObjectAttributeRange({
-    this.attributeKey,
-    this.range,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeKey = this.attributeKey;
-    final range = this.range;
-    return {
-      if (attributeKey != null) 'AttributeKey': attributeKey,
-      if (range != null) 'Range': range,
-    };
-  }
-}
-
-/// Structure that contains attribute update information.
-class ObjectAttributeUpdate {
-  /// The action to perform as part of the attribute update.
-  final ObjectAttributeAction? objectAttributeAction;
-
-  /// The key of the attribute being updated.
-  final AttributeKey? objectAttributeKey;
-
-  ObjectAttributeUpdate({
-    this.objectAttributeAction,
-    this.objectAttributeKey,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectAttributeAction = this.objectAttributeAction;
-    final objectAttributeKey = this.objectAttributeKey;
-    return {
-      if (objectAttributeAction != null)
-        'ObjectAttributeAction': objectAttributeAction,
-      if (objectAttributeKey != null) 'ObjectAttributeKey': objectAttributeKey,
-    };
-  }
-}
-
-/// A pair of ObjectIdentifier and LinkName.
-class ObjectIdentifierAndLinkNameTuple {
-  /// The name of the link between the parent and the child object.
-  final String? linkName;
-
-  /// The ID that is associated with the object.
-  final String? objectIdentifier;
-
-  ObjectIdentifierAndLinkNameTuple({
-    this.linkName,
-    this.objectIdentifier,
-  });
-
-  factory ObjectIdentifierAndLinkNameTuple.fromJson(Map<String, dynamic> json) {
-    return ObjectIdentifierAndLinkNameTuple(
-      linkName: json['LinkName'] as String?,
-      objectIdentifier: json['ObjectIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final linkName = this.linkName;
-    final objectIdentifier = this.objectIdentifier;
-    return {
-      if (linkName != null) 'LinkName': linkName,
-      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
-    };
-  }
-}
-
-/// The reference that identifies an object.
-class ObjectReference {
-  /// A path selector supports easy selection of an object by the parent/child
-  /// links leading to it from the directory root. Use the link names from each
-  /// parent/child link to construct the path. Path selectors start with a slash
-  /// (/) and link names are separated by slashes. For more information about
-  /// paths, see <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_access_objects.html">Access
-  /// Objects</a>. You can identify an object in one of the following ways:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>$ObjectIdentifier</i> - An object identifier is an opaque string provided
-  /// by Amazon Cloud Directory. When creating objects, the system will provide
-  /// you with the identifier of the created object. An object’s identifier is
-  /// immutable and no two objects will ever share the same object identifier. To
-  /// identify an object with ObjectIdentifier, the ObjectIdentifier must be
-  /// wrapped in double quotes.
-  /// </li>
-  /// <li>
-  /// <i>/some/path</i> - Identifies the object based on path
-  /// </li>
-  /// <li>
-  /// <i>#SomeBatchReference</i> - Identifies the object in a batch call
-  /// </li>
-  /// </ul>
-  final String? selector;
-
-  ObjectReference({
-    this.selector,
-  });
-
-  factory ObjectReference.fromJson(Map<String, dynamic> json) {
-    return ObjectReference(
-      selector: json['Selector'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final selector = this.selector;
-    return {
-      if (selector != null) 'Selector': selector,
-    };
-  }
-}
-
-class ObjectType {
-  static const node = ObjectType._('NODE');
-  static const leafNode = ObjectType._('LEAF_NODE');
-  static const policy = ObjectType._('POLICY');
-  static const $index = ObjectType._('INDEX');
-
-  final String value;
-
-  const ObjectType._(this.value);
-
-  static const values = [node, leafNode, policy, $index];
-
-  static ObjectType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ObjectType._(value));
-
-  @override
-  bool operator ==(other) => other is ObjectType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns the path to the <code>ObjectIdentifiers</code> that is associated
-/// with the directory.
-class PathToObjectIdentifiers {
-  /// Lists <code>ObjectIdentifiers</code> starting from directory root to the
-  /// object in the request.
-  final List<String>? objectIdentifiers;
-
-  /// The path that is used to identify the object starting from directory root.
-  final String? path;
-
-  PathToObjectIdentifiers({
-    this.objectIdentifiers,
-    this.path,
-  });
-
-  factory PathToObjectIdentifiers.fromJson(Map<String, dynamic> json) {
-    return PathToObjectIdentifiers(
-      objectIdentifiers: (json['ObjectIdentifiers'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      path: json['Path'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectIdentifiers = this.objectIdentifiers;
-    final path = this.path;
-    return {
-      if (objectIdentifiers != null) 'ObjectIdentifiers': objectIdentifiers,
-      if (path != null) 'Path': path,
-    };
-  }
-}
-
-/// Contains the <code>PolicyType</code>, <code>PolicyId</code>, and the
-/// <code>ObjectIdentifier</code> to which it is attached. For more information,
-/// see <a
-/// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
-class PolicyAttachment {
-  /// The <code>ObjectIdentifier</code> that is associated with
-  /// <code>PolicyAttachment</code>.
-  final String? objectIdentifier;
-
-  /// The ID of <code>PolicyAttachment</code>.
-  final String? policyId;
-
-  /// The type of policy that can be associated with
-  /// <code>PolicyAttachment</code>.
-  final String? policyType;
-
-  PolicyAttachment({
-    this.objectIdentifier,
-    this.policyId,
-    this.policyType,
-  });
-
-  factory PolicyAttachment.fromJson(Map<String, dynamic> json) {
-    return PolicyAttachment(
-      objectIdentifier: json['ObjectIdentifier'] as String?,
-      policyId: json['PolicyId'] as String?,
-      policyType: json['PolicyType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectIdentifier = this.objectIdentifier;
-    final policyId = this.policyId;
-    final policyType = this.policyType;
-    return {
-      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
-      if (policyId != null) 'PolicyId': policyId,
-      if (policyType != null) 'PolicyType': policyType,
-    };
-  }
-}
-
-/// Used when a regular object exists in a <a>Directory</a> and you want to find
-/// all of the policies that are associated with that object and the parent to
-/// that object.
-class PolicyToPath {
-  /// The path that is referenced from the root.
-  final String? path;
-
-  /// List of policy objects.
-  final List<PolicyAttachment>? policies;
-
-  PolicyToPath({
-    this.path,
-    this.policies,
-  });
-
-  factory PolicyToPath.fromJson(Map<String, dynamic> json) {
-    return PolicyToPath(
-      path: json['Path'] as String?,
-      policies: (json['Policies'] as List?)
-          ?.nonNulls
-          .map((e) => PolicyAttachment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    final policies = this.policies;
-    return {
-      if (path != null) 'Path': path,
-      if (policies != null) 'Policies': policies,
-    };
-  }
-}
-
 class PublishSchemaResponse {
   /// The ARN that is associated with the published schema. For more information,
   /// see <a>arns</a>.
@@ -7969,39 +4758,6 @@ class PutSchemaFromJsonResponse {
   }
 }
 
-class RangeMode {
-  static const first = RangeMode._('FIRST');
-  static const last = RangeMode._('LAST');
-  static const lastBeforeMissingValues =
-      RangeMode._('LAST_BEFORE_MISSING_VALUES');
-  static const inclusive = RangeMode._('INCLUSIVE');
-  static const exclusive = RangeMode._('EXCLUSIVE');
-
-  final String value;
-
-  const RangeMode._(this.value);
-
-  static const values = [
-    first,
-    last,
-    lastBeforeMissingValues,
-    inclusive,
-    exclusive
-  ];
-
-  static RangeMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RangeMode._(value));
-
-  @override
-  bool operator ==(other) => other is RangeMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class RemoveFacetFromObjectResponse {
   RemoveFacetFromObjectResponse();
 
@@ -8011,157 +4767,6 @@ class RemoveFacetFromObjectResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-class RequiredAttributeBehavior {
-  static const requiredAlways = RequiredAttributeBehavior._('REQUIRED_ALWAYS');
-  static const notRequired = RequiredAttributeBehavior._('NOT_REQUIRED');
-
-  final String value;
-
-  const RequiredAttributeBehavior._(this.value);
-
-  static const values = [requiredAlways, notRequired];
-
-  static RequiredAttributeBehavior fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RequiredAttributeBehavior._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RequiredAttributeBehavior && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains an Amazon Resource Name (ARN) and parameters that are associated
-/// with the rule.
-class Rule {
-  /// The minimum and maximum parameters that are associated with the rule.
-  final Map<String, String>? parameters;
-
-  /// The type of attribute validation rule.
-  final RuleType? type;
-
-  Rule({
-    this.parameters,
-    this.type,
-  });
-
-  factory Rule.fromJson(Map<String, dynamic> json) {
-    return Rule(
-      parameters: (json['Parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['Type'] as String?)?.let(RuleType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final parameters = this.parameters;
-    final type = this.type;
-    return {
-      if (parameters != null) 'Parameters': parameters,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class RuleType {
-  static const binaryLength = RuleType._('BINARY_LENGTH');
-  static const numberComparison = RuleType._('NUMBER_COMPARISON');
-  static const stringFromSet = RuleType._('STRING_FROM_SET');
-  static const stringLength = RuleType._('STRING_LENGTH');
-
-  final String value;
-
-  const RuleType._(this.value);
-
-  static const values = [
-    binaryLength,
-    numberComparison,
-    stringFromSet,
-    stringLength
-  ];
-
-  static RuleType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RuleType._(value));
-
-  @override
-  bool operator ==(other) => other is RuleType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A facet.
-class SchemaFacet {
-  /// The name of the facet. If this value is set, SchemaArn must also be set.
-  final String? facetName;
-
-  /// The ARN of the schema that contains the facet with no minor component. See
-  /// <a>arns</a> and <a
-  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_inplaceschemaupgrade.html">In-Place
-  /// Schema Upgrade</a> for a description of when to provide minor versions. If
-  /// this value is set, FacetName must also be set.
-  final String? schemaArn;
-
-  SchemaFacet({
-    this.facetName,
-    this.schemaArn,
-  });
-
-  factory SchemaFacet.fromJson(Map<String, dynamic> json) {
-    return SchemaFacet(
-      facetName: json['FacetName'] as String?,
-      schemaArn: json['SchemaArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final facetName = this.facetName;
-    final schemaArn = this.schemaArn;
-    return {
-      if (facetName != null) 'FacetName': facetName,
-      if (schemaArn != null) 'SchemaArn': schemaArn,
-    };
-  }
-}
-
-/// The tag structure that contains a tag key and value.
-class Tag {
-  /// The key that is associated with the tag.
-  final String? key;
-
-  /// The value that is associated with the tag.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
   }
 }
 
@@ -8177,335 +4782,6 @@ class TagResourceResponse {
   }
 }
 
-/// Represents the data for a typed attribute. You can set one, and only one, of
-/// the elements. Each attribute in an item is a name-value pair. Attributes
-/// have a single value.
-class TypedAttributeValue {
-  /// A binary data value.
-  final Uint8List? binaryValue;
-
-  /// A Boolean data value.
-  final bool? booleanValue;
-
-  /// A date and time value.
-  final DateTime? datetimeValue;
-
-  /// A number data value.
-  final String? numberValue;
-
-  /// A string data value.
-  final String? stringValue;
-
-  TypedAttributeValue({
-    this.binaryValue,
-    this.booleanValue,
-    this.datetimeValue,
-    this.numberValue,
-    this.stringValue,
-  });
-
-  factory TypedAttributeValue.fromJson(Map<String, dynamic> json) {
-    return TypedAttributeValue(
-      binaryValue: _s.decodeNullableUint8List(json['BinaryValue'] as String?),
-      booleanValue: json['BooleanValue'] as bool?,
-      datetimeValue: timeStampFromJson(json['DatetimeValue']),
-      numberValue: json['NumberValue'] as String?,
-      stringValue: json['StringValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final binaryValue = this.binaryValue;
-    final booleanValue = this.booleanValue;
-    final datetimeValue = this.datetimeValue;
-    final numberValue = this.numberValue;
-    final stringValue = this.stringValue;
-    return {
-      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
-      if (booleanValue != null) 'BooleanValue': booleanValue,
-      if (datetimeValue != null)
-        'DatetimeValue': unixTimestampToJson(datetimeValue),
-      if (numberValue != null) 'NumberValue': numberValue,
-      if (stringValue != null) 'StringValue': stringValue,
-    };
-  }
-}
-
-/// A range of attribute values. For more information, see <a
-/// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_range_filters.html">Range
-/// Filters</a>.
-class TypedAttributeValueRange {
-  /// The inclusive or exclusive range end.
-  final RangeMode endMode;
-
-  /// The inclusive or exclusive range start.
-  final RangeMode startMode;
-
-  /// The attribute value to terminate the range at.
-  final TypedAttributeValue? endValue;
-
-  /// The value to start the range at.
-  final TypedAttributeValue? startValue;
-
-  TypedAttributeValueRange({
-    required this.endMode,
-    required this.startMode,
-    this.endValue,
-    this.startValue,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endMode = this.endMode;
-    final startMode = this.startMode;
-    final endValue = this.endValue;
-    final startValue = this.startValue;
-    return {
-      'EndMode': endMode.value,
-      'StartMode': startMode.value,
-      if (endValue != null) 'EndValue': endValue,
-      if (startValue != null) 'StartValue': startValue,
-    };
-  }
-}
-
-/// A typed link attribute definition.
-class TypedLinkAttributeDefinition {
-  /// The unique name of the typed link attribute.
-  final String name;
-
-  /// The required behavior of the <code>TypedLinkAttributeDefinition</code>.
-  final RequiredAttributeBehavior requiredBehavior;
-
-  /// The type of the attribute.
-  final FacetAttributeType type;
-
-  /// The default value of the attribute (if configured).
-  final TypedAttributeValue? defaultValue;
-
-  /// Whether the attribute is mutable or not.
-  final bool? isImmutable;
-
-  /// Validation rules that are attached to the attribute definition.
-  final Map<String, Rule>? rules;
-
-  TypedLinkAttributeDefinition({
-    required this.name,
-    required this.requiredBehavior,
-    required this.type,
-    this.defaultValue,
-    this.isImmutable,
-    this.rules,
-  });
-
-  factory TypedLinkAttributeDefinition.fromJson(Map<String, dynamic> json) {
-    return TypedLinkAttributeDefinition(
-      name: (json['Name'] as String?) ?? '',
-      requiredBehavior: RequiredAttributeBehavior.fromString(
-          (json['RequiredBehavior'] as String?) ?? ''),
-      type: FacetAttributeType.fromString((json['Type'] as String?) ?? ''),
-      defaultValue: json['DefaultValue'] != null
-          ? TypedAttributeValue.fromJson(
-              json['DefaultValue'] as Map<String, dynamic>)
-          : null,
-      isImmutable: json['IsImmutable'] as bool?,
-      rules: (json['Rules'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(k, Rule.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final requiredBehavior = this.requiredBehavior;
-    final type = this.type;
-    final defaultValue = this.defaultValue;
-    final isImmutable = this.isImmutable;
-    final rules = this.rules;
-    return {
-      'Name': name,
-      'RequiredBehavior': requiredBehavior.value,
-      'Type': type.value,
-      if (defaultValue != null) 'DefaultValue': defaultValue,
-      if (isImmutable != null) 'IsImmutable': isImmutable,
-      if (rules != null) 'Rules': rules,
-    };
-  }
-}
-
-/// Identifies the range of attributes that are used by a specified filter.
-class TypedLinkAttributeRange {
-  /// The range of attribute values that are being selected.
-  final TypedAttributeValueRange range;
-
-  /// The unique name of the typed link attribute.
-  final String? attributeName;
-
-  TypedLinkAttributeRange({
-    required this.range,
-    this.attributeName,
-  });
-
-  Map<String, dynamic> toJson() {
-    final range = this.range;
-    final attributeName = this.attributeName;
-    return {
-      'Range': range,
-      if (attributeName != null) 'AttributeName': attributeName,
-    };
-  }
-}
-
-/// Defines the typed links structure and its attributes. To create a typed link
-/// facet, use the <a>CreateTypedLinkFacet</a> API.
-class TypedLinkFacet {
-  /// A set of key-value pairs associated with the typed link. Typed link
-  /// attributes are used when you have data values that are related to the link
-  /// itself, and not to one of the two objects being linked. Identity attributes
-  /// also serve to distinguish the link from others of the same type between the
-  /// same objects.
-  final List<TypedLinkAttributeDefinition> attributes;
-
-  /// The set of attributes that distinguish links made from this facet from each
-  /// other, in the order of significance. Listing typed links can filter on the
-  /// values of these attributes. See <a>ListOutgoingTypedLinks</a> and
-  /// <a>ListIncomingTypedLinks</a> for details.
-  final List<String> identityAttributeOrder;
-
-  /// The unique name of the typed link facet.
-  final String name;
-
-  TypedLinkFacet({
-    required this.attributes,
-    required this.identityAttributeOrder,
-    required this.name,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final identityAttributeOrder = this.identityAttributeOrder;
-    final name = this.name;
-    return {
-      'Attributes': attributes,
-      'IdentityAttributeOrder': identityAttributeOrder,
-      'Name': name,
-    };
-  }
-}
-
-/// A typed link facet attribute update.
-class TypedLinkFacetAttributeUpdate {
-  /// The action to perform when updating the attribute.
-  final UpdateActionType action;
-
-  /// The attribute to update.
-  final TypedLinkAttributeDefinition attribute;
-
-  TypedLinkFacetAttributeUpdate({
-    required this.action,
-    required this.attribute,
-  });
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final attribute = this.attribute;
-    return {
-      'Action': action.value,
-      'Attribute': attribute,
-    };
-  }
-}
-
-/// Identifies the schema Amazon Resource Name (ARN) and facet name for the
-/// typed link.
-class TypedLinkSchemaAndFacetName {
-  /// The Amazon Resource Name (ARN) that is associated with the schema. For more
-  /// information, see <a>arns</a>.
-  final String schemaArn;
-
-  /// The unique name of the typed link facet.
-  final String typedLinkName;
-
-  TypedLinkSchemaAndFacetName({
-    required this.schemaArn,
-    required this.typedLinkName,
-  });
-
-  factory TypedLinkSchemaAndFacetName.fromJson(Map<String, dynamic> json) {
-    return TypedLinkSchemaAndFacetName(
-      schemaArn: (json['SchemaArn'] as String?) ?? '',
-      typedLinkName: (json['TypedLinkName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final schemaArn = this.schemaArn;
-    final typedLinkName = this.typedLinkName;
-    return {
-      'SchemaArn': schemaArn,
-      'TypedLinkName': typedLinkName,
-    };
-  }
-}
-
-/// Contains all the information that is used to uniquely identify a typed link.
-/// The parameters discussed in this topic are used to uniquely specify the
-/// typed link being operated on. The <a>AttachTypedLink</a> API returns a typed
-/// link specifier while the <a>DetachTypedLink</a> API accepts one as input.
-/// Similarly, the <a>ListIncomingTypedLinks</a> and
-/// <a>ListOutgoingTypedLinks</a> API operations provide typed link specifiers
-/// as output. You can also construct a typed link specifier from scratch.
-class TypedLinkSpecifier {
-  /// Identifies the attribute value to update.
-  final List<AttributeNameAndValue> identityAttributeValues;
-
-  /// Identifies the source object that the typed link will attach to.
-  final ObjectReference sourceObjectReference;
-
-  /// Identifies the target object that the typed link will attach to.
-  final ObjectReference targetObjectReference;
-
-  /// Identifies the typed link facet that is associated with the typed link.
-  final TypedLinkSchemaAndFacetName typedLinkFacet;
-
-  TypedLinkSpecifier({
-    required this.identityAttributeValues,
-    required this.sourceObjectReference,
-    required this.targetObjectReference,
-    required this.typedLinkFacet,
-  });
-
-  factory TypedLinkSpecifier.fromJson(Map<String, dynamic> json) {
-    return TypedLinkSpecifier(
-      identityAttributeValues: ((json['IdentityAttributeValues'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => AttributeNameAndValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      sourceObjectReference: ObjectReference.fromJson(
-          (json['SourceObjectReference'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      targetObjectReference: ObjectReference.fromJson(
-          (json['TargetObjectReference'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      typedLinkFacet: TypedLinkSchemaAndFacetName.fromJson(
-          (json['TypedLinkFacet'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityAttributeValues = this.identityAttributeValues;
-    final sourceObjectReference = this.sourceObjectReference;
-    final targetObjectReference = this.targetObjectReference;
-    final typedLinkFacet = this.typedLinkFacet;
-    return {
-      'IdentityAttributeValues': identityAttributeValues,
-      'SourceObjectReference': sourceObjectReference,
-      'TargetObjectReference': targetObjectReference,
-      'TypedLinkFacet': typedLinkFacet,
-    };
-  }
-}
-
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -8516,30 +4792,6 @@ class UntagResourceResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-class UpdateActionType {
-  static const createOrUpdate = UpdateActionType._('CREATE_OR_UPDATE');
-  static const delete = UpdateActionType._('DELETE');
-
-  final String value;
-
-  const UpdateActionType._(this.value);
-
-  static const values = [createOrUpdate, delete];
-
-  static UpdateActionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UpdateActionType._(value));
-
-  @override
-  bool operator ==(other) => other is UpdateActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class UpdateFacetResponse {
@@ -8670,6 +4922,3749 @@ class UpgradePublishedSchemaResponse {
     final upgradedSchemaArn = this.upgradedSchemaArn;
     return {
       if (upgradedSchemaArn != null) 'UpgradedSchemaArn': upgradedSchemaArn,
+    };
+  }
+}
+
+/// A typed link facet attribute update.
+class TypedLinkFacetAttributeUpdate {
+  /// The action to perform when updating the attribute.
+  final UpdateActionType action;
+
+  /// The attribute to update.
+  final TypedLinkAttributeDefinition attribute;
+
+  TypedLinkFacetAttributeUpdate({
+    required this.action,
+    required this.attribute,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final attribute = this.attribute;
+    return {
+      'Action': action.value,
+      'Attribute': attribute,
+    };
+  }
+}
+
+/// A typed link attribute definition.
+class TypedLinkAttributeDefinition {
+  /// The unique name of the typed link attribute.
+  final String name;
+
+  /// The required behavior of the <code>TypedLinkAttributeDefinition</code>.
+  final RequiredAttributeBehavior requiredBehavior;
+
+  /// The type of the attribute.
+  final FacetAttributeType type;
+
+  /// The default value of the attribute (if configured).
+  final TypedAttributeValue? defaultValue;
+
+  /// Whether the attribute is mutable or not.
+  final bool? isImmutable;
+
+  /// Validation rules that are attached to the attribute definition.
+  final Map<String, Rule>? rules;
+
+  TypedLinkAttributeDefinition({
+    required this.name,
+    required this.requiredBehavior,
+    required this.type,
+    this.defaultValue,
+    this.isImmutable,
+    this.rules,
+  });
+
+  factory TypedLinkAttributeDefinition.fromJson(Map<String, dynamic> json) {
+    return TypedLinkAttributeDefinition(
+      name: (json['Name'] as String?) ?? '',
+      requiredBehavior: RequiredAttributeBehavior.fromString(
+          (json['RequiredBehavior'] as String?) ?? ''),
+      type: FacetAttributeType.fromString((json['Type'] as String?) ?? ''),
+      defaultValue: json['DefaultValue'] != null
+          ? TypedAttributeValue.fromJson(
+              json['DefaultValue'] as Map<String, dynamic>)
+          : null,
+      isImmutable: json['IsImmutable'] as bool?,
+      rules: (json['Rules'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Rule.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final requiredBehavior = this.requiredBehavior;
+    final type = this.type;
+    final defaultValue = this.defaultValue;
+    final isImmutable = this.isImmutable;
+    final rules = this.rules;
+    return {
+      'Name': name,
+      'RequiredBehavior': requiredBehavior.value,
+      'Type': type.value,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (isImmutable != null) 'IsImmutable': isImmutable,
+      if (rules != null) 'Rules': rules,
+    };
+  }
+}
+
+class UpdateActionType {
+  static const createOrUpdate = UpdateActionType._('CREATE_OR_UPDATE');
+  static const delete = UpdateActionType._('DELETE');
+
+  final String value;
+
+  const UpdateActionType._(this.value);
+
+  static const values = [createOrUpdate, delete];
+
+  static UpdateActionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateActionType._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FacetAttributeType {
+  static const string = FacetAttributeType._('STRING');
+  static const binary = FacetAttributeType._('BINARY');
+  static const boolean = FacetAttributeType._('BOOLEAN');
+  static const number = FacetAttributeType._('NUMBER');
+  static const datetime = FacetAttributeType._('DATETIME');
+  static const variant = FacetAttributeType._('VARIANT');
+
+  final String value;
+
+  const FacetAttributeType._(this.value);
+
+  static const values = [string, binary, boolean, number, datetime, variant];
+
+  static FacetAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FacetAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FacetAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the data for a typed attribute. You can set one, and only one, of
+/// the elements. Each attribute in an item is a name-value pair. Attributes
+/// have a single value.
+class TypedAttributeValue {
+  /// A binary data value.
+  final Uint8List? binaryValue;
+
+  /// A Boolean data value.
+  final bool? booleanValue;
+
+  /// A date and time value.
+  final DateTime? datetimeValue;
+
+  /// A number data value.
+  final String? numberValue;
+
+  /// A string data value.
+  final String? stringValue;
+
+  TypedAttributeValue({
+    this.binaryValue,
+    this.booleanValue,
+    this.datetimeValue,
+    this.numberValue,
+    this.stringValue,
+  });
+
+  factory TypedAttributeValue.fromJson(Map<String, dynamic> json) {
+    return TypedAttributeValue(
+      binaryValue: _s.decodeNullableUint8List(json['BinaryValue'] as String?),
+      booleanValue: json['BooleanValue'] as bool?,
+      datetimeValue: timeStampFromJson(json['DatetimeValue']),
+      numberValue: json['NumberValue'] as String?,
+      stringValue: json['StringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final binaryValue = this.binaryValue;
+    final booleanValue = this.booleanValue;
+    final datetimeValue = this.datetimeValue;
+    final numberValue = this.numberValue;
+    final stringValue = this.stringValue;
+    return {
+      if (binaryValue != null) 'BinaryValue': base64Encode(binaryValue),
+      if (booleanValue != null) 'BooleanValue': booleanValue,
+      if (datetimeValue != null)
+        'DatetimeValue': unixTimestampToJson(datetimeValue),
+      if (numberValue != null) 'NumberValue': numberValue,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
+}
+
+class RequiredAttributeBehavior {
+  static const requiredAlways = RequiredAttributeBehavior._('REQUIRED_ALWAYS');
+  static const notRequired = RequiredAttributeBehavior._('NOT_REQUIRED');
+
+  final String value;
+
+  const RequiredAttributeBehavior._(this.value);
+
+  static const values = [requiredAlways, notRequired];
+
+  static RequiredAttributeBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RequiredAttributeBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RequiredAttributeBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains an Amazon Resource Name (ARN) and parameters that are associated
+/// with the rule.
+class Rule {
+  /// The minimum and maximum parameters that are associated with the rule.
+  final Map<String, String>? parameters;
+
+  /// The type of attribute validation rule.
+  final RuleType? type;
+
+  Rule({
+    this.parameters,
+    this.type,
+  });
+
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['Type'] as String?)?.let(RuleType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameters = this.parameters;
+    final type = this.type;
+    return {
+      if (parameters != null) 'Parameters': parameters,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class RuleType {
+  static const binaryLength = RuleType._('BINARY_LENGTH');
+  static const numberComparison = RuleType._('NUMBER_COMPARISON');
+  static const stringFromSet = RuleType._('STRING_FROM_SET');
+  static const stringLength = RuleType._('STRING_LENGTH');
+
+  final String value;
+
+  const RuleType._(this.value);
+
+  static const values = [
+    binaryLength,
+    numberComparison,
+    stringFromSet,
+    stringLength
+  ];
+
+  static RuleType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RuleType._(value));
+
+  @override
+  bool operator ==(other) => other is RuleType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The reference that identifies an object.
+class ObjectReference {
+  /// A path selector supports easy selection of an object by the parent/child
+  /// links leading to it from the directory root. Use the link names from each
+  /// parent/child link to construct the path. Path selectors start with a slash
+  /// (/) and link names are separated by slashes. For more information about
+  /// paths, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_access_objects.html">Access
+  /// Objects</a>. You can identify an object in one of the following ways:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>$ObjectIdentifier</i> - An object identifier is an opaque string provided
+  /// by Amazon Cloud Directory. When creating objects, the system will provide
+  /// you with the identifier of the created object. An object’s identifier is
+  /// immutable and no two objects will ever share the same object identifier. To
+  /// identify an object with ObjectIdentifier, the ObjectIdentifier must be
+  /// wrapped in double quotes.
+  /// </li>
+  /// <li>
+  /// <i>/some/path</i> - Identifies the object based on path
+  /// </li>
+  /// <li>
+  /// <i>#SomeBatchReference</i> - Identifies the object in a batch call
+  /// </li>
+  /// </ul>
+  final String? selector;
+
+  ObjectReference({
+    this.selector,
+  });
+
+  factory ObjectReference.fromJson(Map<String, dynamic> json) {
+    return ObjectReference(
+      selector: json['Selector'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selector = this.selector;
+    return {
+      if (selector != null) 'Selector': selector,
+    };
+  }
+}
+
+/// Structure that contains attribute update information.
+class ObjectAttributeUpdate {
+  /// The action to perform as part of the attribute update.
+  final ObjectAttributeAction? objectAttributeAction;
+
+  /// The key of the attribute being updated.
+  final AttributeKey? objectAttributeKey;
+
+  ObjectAttributeUpdate({
+    this.objectAttributeAction,
+    this.objectAttributeKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectAttributeAction = this.objectAttributeAction;
+    final objectAttributeKey = this.objectAttributeKey;
+    return {
+      if (objectAttributeAction != null)
+        'ObjectAttributeAction': objectAttributeAction,
+      if (objectAttributeKey != null) 'ObjectAttributeKey': objectAttributeKey,
+    };
+  }
+}
+
+/// A unique identifier for an attribute.
+class AttributeKey {
+  /// The name of the facet that the attribute exists within.
+  final String facetName;
+
+  /// The name of the attribute.
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the schema that contains the facet and
+  /// attribute.
+  final String schemaArn;
+
+  AttributeKey({
+    required this.facetName,
+    required this.name,
+    required this.schemaArn,
+  });
+
+  factory AttributeKey.fromJson(Map<String, dynamic> json) {
+    return AttributeKey(
+      facetName: (json['FacetName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      schemaArn: (json['SchemaArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final facetName = this.facetName;
+    final name = this.name;
+    final schemaArn = this.schemaArn;
+    return {
+      'FacetName': facetName,
+      'Name': name,
+      'SchemaArn': schemaArn,
+    };
+  }
+}
+
+/// The action to take on the object attribute.
+class ObjectAttributeAction {
+  /// A type that can be either <code>Update</code> or <code>Delete</code>.
+  final UpdateActionType? objectAttributeActionType;
+
+  /// The value that you want to update to.
+  final TypedAttributeValue? objectAttributeUpdateValue;
+
+  ObjectAttributeAction({
+    this.objectAttributeActionType,
+    this.objectAttributeUpdateValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectAttributeActionType = this.objectAttributeActionType;
+    final objectAttributeUpdateValue = this.objectAttributeUpdateValue;
+    return {
+      if (objectAttributeActionType != null)
+        'ObjectAttributeActionType': objectAttributeActionType.value,
+      if (objectAttributeUpdateValue != null)
+        'ObjectAttributeUpdateValue': objectAttributeUpdateValue,
+    };
+  }
+}
+
+/// Contains all the information that is used to uniquely identify a typed link.
+/// The parameters discussed in this topic are used to uniquely specify the
+/// typed link being operated on. The <a>AttachTypedLink</a> API returns a typed
+/// link specifier while the <a>DetachTypedLink</a> API accepts one as input.
+/// Similarly, the <a>ListIncomingTypedLinks</a> and
+/// <a>ListOutgoingTypedLinks</a> API operations provide typed link specifiers
+/// as output. You can also construct a typed link specifier from scratch.
+class TypedLinkSpecifier {
+  /// Identifies the attribute value to update.
+  final List<AttributeNameAndValue> identityAttributeValues;
+
+  /// Identifies the source object that the typed link will attach to.
+  final ObjectReference sourceObjectReference;
+
+  /// Identifies the target object that the typed link will attach to.
+  final ObjectReference targetObjectReference;
+
+  /// Identifies the typed link facet that is associated with the typed link.
+  final TypedLinkSchemaAndFacetName typedLinkFacet;
+
+  TypedLinkSpecifier({
+    required this.identityAttributeValues,
+    required this.sourceObjectReference,
+    required this.targetObjectReference,
+    required this.typedLinkFacet,
+  });
+
+  factory TypedLinkSpecifier.fromJson(Map<String, dynamic> json) {
+    return TypedLinkSpecifier(
+      identityAttributeValues: ((json['IdentityAttributeValues'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => AttributeNameAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourceObjectReference: ObjectReference.fromJson(
+          (json['SourceObjectReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetObjectReference: ObjectReference.fromJson(
+          (json['TargetObjectReference'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      typedLinkFacet: TypedLinkSchemaAndFacetName.fromJson(
+          (json['TypedLinkFacet'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityAttributeValues = this.identityAttributeValues;
+    final sourceObjectReference = this.sourceObjectReference;
+    final targetObjectReference = this.targetObjectReference;
+    final typedLinkFacet = this.typedLinkFacet;
+    return {
+      'IdentityAttributeValues': identityAttributeValues,
+      'SourceObjectReference': sourceObjectReference,
+      'TargetObjectReference': targetObjectReference,
+      'TypedLinkFacet': typedLinkFacet,
+    };
+  }
+}
+
+/// Structure that contains attribute update information.
+class LinkAttributeUpdate {
+  /// The action to perform as part of the attribute update.
+  final LinkAttributeAction? attributeAction;
+
+  /// The key of the attribute being updated.
+  final AttributeKey? attributeKey;
+
+  LinkAttributeUpdate({
+    this.attributeAction,
+    this.attributeKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeAction = this.attributeAction;
+    final attributeKey = this.attributeKey;
+    return {
+      if (attributeAction != null) 'AttributeAction': attributeAction,
+      if (attributeKey != null) 'AttributeKey': attributeKey,
+    };
+  }
+}
+
+/// The action to take on a typed link attribute value. Updates are only
+/// supported for attributes which don’t contribute to link identity.
+class LinkAttributeAction {
+  /// A type that can be either <code>UPDATE_OR_CREATE</code> or
+  /// <code>DELETE</code>.
+  final UpdateActionType? attributeActionType;
+
+  /// The value that you want to update to.
+  final TypedAttributeValue? attributeUpdateValue;
+
+  LinkAttributeAction({
+    this.attributeActionType,
+    this.attributeUpdateValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeActionType = this.attributeActionType;
+    final attributeUpdateValue = this.attributeUpdateValue;
+    return {
+      if (attributeActionType != null)
+        'AttributeActionType': attributeActionType.value,
+      if (attributeUpdateValue != null)
+        'AttributeUpdateValue': attributeUpdateValue,
+    };
+  }
+}
+
+/// Identifies the schema Amazon Resource Name (ARN) and facet name for the
+/// typed link.
+class TypedLinkSchemaAndFacetName {
+  /// The Amazon Resource Name (ARN) that is associated with the schema. For more
+  /// information, see <a>arns</a>.
+  final String schemaArn;
+
+  /// The unique name of the typed link facet.
+  final String typedLinkName;
+
+  TypedLinkSchemaAndFacetName({
+    required this.schemaArn,
+    required this.typedLinkName,
+  });
+
+  factory TypedLinkSchemaAndFacetName.fromJson(Map<String, dynamic> json) {
+    return TypedLinkSchemaAndFacetName(
+      schemaArn: (json['SchemaArn'] as String?) ?? '',
+      typedLinkName: (json['TypedLinkName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schemaArn = this.schemaArn;
+    final typedLinkName = this.typedLinkName;
+    return {
+      'SchemaArn': schemaArn,
+      'TypedLinkName': typedLinkName,
+    };
+  }
+}
+
+/// Identifies the attribute name and value for a typed link.
+class AttributeNameAndValue {
+  /// The attribute name of the typed link.
+  final String attributeName;
+
+  /// The value for the typed link.
+  final TypedAttributeValue value;
+
+  AttributeNameAndValue({
+    required this.attributeName,
+    required this.value,
+  });
+
+  factory AttributeNameAndValue.fromJson(Map<String, dynamic> json) {
+    return AttributeNameAndValue(
+      attributeName: (json['AttributeName'] as String?) ?? '',
+      value: TypedAttributeValue.fromJson(
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final value = this.value;
+    return {
+      'AttributeName': attributeName,
+      'Value': value,
+    };
+  }
+}
+
+class ObjectType {
+  static const node = ObjectType._('NODE');
+  static const leafNode = ObjectType._('LEAF_NODE');
+  static const policy = ObjectType._('POLICY');
+  static const $index = ObjectType._('INDEX');
+
+  final String value;
+
+  const ObjectType._(this.value);
+
+  static const values = [node, leafNode, policy, $index];
+
+  static ObjectType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ObjectType._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains information used to update an attribute.
+class FacetAttributeUpdate {
+  /// The action to perform when updating the attribute.
+  final UpdateActionType? action;
+
+  /// The attribute to update.
+  final FacetAttribute? attribute;
+
+  FacetAttributeUpdate({
+    this.action,
+    this.attribute,
+  });
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final attribute = this.attribute;
+    return {
+      if (action != null) 'Action': action.value,
+      if (attribute != null) 'Attribute': attribute,
+    };
+  }
+}
+
+/// An attribute that is associated with the <a>Facet</a>.
+class FacetAttribute {
+  /// The name of the facet attribute.
+  final String name;
+
+  /// A facet attribute consists of either a definition or a reference. This
+  /// structure contains the attribute definition. See <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
+  /// References</a> for more information.
+  final FacetAttributeDefinition? attributeDefinition;
+
+  /// An attribute reference that is associated with the attribute. See <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
+  /// References</a> for more information.
+  final FacetAttributeReference? attributeReference;
+
+  /// The required behavior of the <code>FacetAttribute</code>.
+  final RequiredAttributeBehavior? requiredBehavior;
+
+  FacetAttribute({
+    required this.name,
+    this.attributeDefinition,
+    this.attributeReference,
+    this.requiredBehavior,
+  });
+
+  factory FacetAttribute.fromJson(Map<String, dynamic> json) {
+    return FacetAttribute(
+      name: (json['Name'] as String?) ?? '',
+      attributeDefinition: json['AttributeDefinition'] != null
+          ? FacetAttributeDefinition.fromJson(
+              json['AttributeDefinition'] as Map<String, dynamic>)
+          : null,
+      attributeReference: json['AttributeReference'] != null
+          ? FacetAttributeReference.fromJson(
+              json['AttributeReference'] as Map<String, dynamic>)
+          : null,
+      requiredBehavior: (json['RequiredBehavior'] as String?)
+          ?.let(RequiredAttributeBehavior.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final attributeDefinition = this.attributeDefinition;
+    final attributeReference = this.attributeReference;
+    final requiredBehavior = this.requiredBehavior;
+    return {
+      'Name': name,
+      if (attributeDefinition != null)
+        'AttributeDefinition': attributeDefinition,
+      if (attributeReference != null) 'AttributeReference': attributeReference,
+      if (requiredBehavior != null) 'RequiredBehavior': requiredBehavior.value,
+    };
+  }
+}
+
+/// A facet attribute definition. See <a
+/// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
+/// References</a> for more information.
+class FacetAttributeDefinition {
+  /// The type of the attribute.
+  final FacetAttributeType type;
+
+  /// The default value of the attribute (if configured).
+  final TypedAttributeValue? defaultValue;
+
+  /// Whether the attribute is mutable or not.
+  final bool? isImmutable;
+
+  /// Validation rules attached to the attribute definition.
+  final Map<String, Rule>? rules;
+
+  FacetAttributeDefinition({
+    required this.type,
+    this.defaultValue,
+    this.isImmutable,
+    this.rules,
+  });
+
+  factory FacetAttributeDefinition.fromJson(Map<String, dynamic> json) {
+    return FacetAttributeDefinition(
+      type: FacetAttributeType.fromString((json['Type'] as String?) ?? ''),
+      defaultValue: json['DefaultValue'] != null
+          ? TypedAttributeValue.fromJson(
+              json['DefaultValue'] as Map<String, dynamic>)
+          : null,
+      isImmutable: json['IsImmutable'] as bool?,
+      rules: (json['Rules'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Rule.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final defaultValue = this.defaultValue;
+    final isImmutable = this.isImmutable;
+    final rules = this.rules;
+    return {
+      'Type': type.value,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (isImmutable != null) 'IsImmutable': isImmutable,
+      if (rules != null) 'Rules': rules,
+    };
+  }
+}
+
+/// The facet attribute reference that specifies the attribute definition that
+/// contains the attribute facet name and attribute name.
+class FacetAttributeReference {
+  /// The target attribute name that is associated with the facet reference. See
+  /// <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
+  /// References</a> for more information.
+  final String targetAttributeName;
+
+  /// The target facet name that is associated with the facet reference. See <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_attributereferences.html">Attribute
+  /// References</a> for more information.
+  final String targetFacetName;
+
+  FacetAttributeReference({
+    required this.targetAttributeName,
+    required this.targetFacetName,
+  });
+
+  factory FacetAttributeReference.fromJson(Map<String, dynamic> json) {
+    return FacetAttributeReference(
+      targetAttributeName: (json['TargetAttributeName'] as String?) ?? '',
+      targetFacetName: (json['TargetFacetName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetAttributeName = this.targetAttributeName;
+    final targetFacetName = this.targetFacetName;
+    return {
+      'TargetAttributeName': targetAttributeName,
+      'TargetFacetName': targetFacetName,
+    };
+  }
+}
+
+/// The tag structure that contains a tag key and value.
+class Tag {
+  /// The key that is associated with the tag.
+  final String? key;
+
+  /// The value that is associated with the tag.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// A facet.
+class SchemaFacet {
+  /// The name of the facet. If this value is set, SchemaArn must also be set.
+  final String? facetName;
+
+  /// The ARN of the schema that contains the facet with no minor component. See
+  /// <a>arns</a> and <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_inplaceschemaupgrade.html">In-Place
+  /// Schema Upgrade</a> for a description of when to provide minor versions. If
+  /// this value is set, FacetName must also be set.
+  final String? schemaArn;
+
+  SchemaFacet({
+    this.facetName,
+    this.schemaArn,
+  });
+
+  factory SchemaFacet.fromJson(Map<String, dynamic> json) {
+    return SchemaFacet(
+      facetName: json['FacetName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final facetName = this.facetName;
+    final schemaArn = this.schemaArn;
+    return {
+      if (facetName != null) 'FacetName': facetName,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+    };
+  }
+}
+
+/// Used when a regular object exists in a <a>Directory</a> and you want to find
+/// all of the policies that are associated with that object and the parent to
+/// that object.
+class PolicyToPath {
+  /// The path that is referenced from the root.
+  final String? path;
+
+  /// List of policy objects.
+  final List<PolicyAttachment>? policies;
+
+  PolicyToPath({
+    this.path,
+    this.policies,
+  });
+
+  factory PolicyToPath.fromJson(Map<String, dynamic> json) {
+    return PolicyToPath(
+      path: json['Path'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.nonNulls
+          .map((e) => PolicyAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final policies = this.policies;
+    return {
+      if (path != null) 'Path': path,
+      if (policies != null) 'Policies': policies,
+    };
+  }
+}
+
+/// Contains the <code>PolicyType</code>, <code>PolicyId</code>, and the
+/// <code>ObjectIdentifier</code> to which it is attached. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
+class PolicyAttachment {
+  /// The <code>ObjectIdentifier</code> that is associated with
+  /// <code>PolicyAttachment</code>.
+  final String? objectIdentifier;
+
+  /// The ID of <code>PolicyAttachment</code>.
+  final String? policyId;
+
+  /// The type of policy that can be associated with
+  /// <code>PolicyAttachment</code>.
+  final String? policyType;
+
+  PolicyAttachment({
+    this.objectIdentifier,
+    this.policyId,
+    this.policyType,
+  });
+
+  factory PolicyAttachment.fromJson(Map<String, dynamic> json) {
+    return PolicyAttachment(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+      policyId: json['PolicyId'] as String?,
+      policyType: json['PolicyType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectIdentifier = this.objectIdentifier;
+    final policyId = this.policyId;
+    final policyType = this.policyType;
+    return {
+      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
+      if (policyId != null) 'PolicyId': policyId,
+      if (policyType != null) 'PolicyType': policyType,
+    };
+  }
+}
+
+class ConsistencyLevel {
+  static const serializable = ConsistencyLevel._('SERIALIZABLE');
+  static const eventual = ConsistencyLevel._('EVENTUAL');
+
+  final String value;
+
+  const ConsistencyLevel._(this.value);
+
+  static const values = [serializable, eventual];
+
+  static ConsistencyLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConsistencyLevel._(value));
+
+  @override
+  bool operator ==(other) => other is ConsistencyLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies the range of attributes that are used by a specified filter.
+class TypedLinkAttributeRange {
+  /// The range of attribute values that are being selected.
+  final TypedAttributeValueRange range;
+
+  /// The unique name of the typed link attribute.
+  final String? attributeName;
+
+  TypedLinkAttributeRange({
+    required this.range,
+    this.attributeName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final range = this.range;
+    final attributeName = this.attributeName;
+    return {
+      'Range': range,
+      if (attributeName != null) 'AttributeName': attributeName,
+    };
+  }
+}
+
+/// A range of attribute values. For more information, see <a
+/// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_range_filters.html">Range
+/// Filters</a>.
+class TypedAttributeValueRange {
+  /// The inclusive or exclusive range end.
+  final RangeMode endMode;
+
+  /// The inclusive or exclusive range start.
+  final RangeMode startMode;
+
+  /// The attribute value to terminate the range at.
+  final TypedAttributeValue? endValue;
+
+  /// The value to start the range at.
+  final TypedAttributeValue? startValue;
+
+  TypedAttributeValueRange({
+    required this.endMode,
+    required this.startMode,
+    this.endValue,
+    this.startValue,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endMode = this.endMode;
+    final startMode = this.startMode;
+    final endValue = this.endValue;
+    final startValue = this.startValue;
+    return {
+      'EndMode': endMode.value,
+      'StartMode': startMode.value,
+      if (endValue != null) 'EndValue': endValue,
+      if (startValue != null) 'StartValue': startValue,
+    };
+  }
+}
+
+class RangeMode {
+  static const first = RangeMode._('FIRST');
+  static const last = RangeMode._('LAST');
+  static const lastBeforeMissingValues =
+      RangeMode._('LAST_BEFORE_MISSING_VALUES');
+  static const inclusive = RangeMode._('INCLUSIVE');
+  static const exclusive = RangeMode._('EXCLUSIVE');
+
+  final String value;
+
+  const RangeMode._(this.value);
+
+  static const values = [
+    first,
+    last,
+    lastBeforeMissingValues,
+    inclusive,
+    exclusive
+  ];
+
+  static RangeMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RangeMode._(value));
+
+  @override
+  bool operator ==(other) => other is RangeMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A pair of ObjectIdentifier and LinkName.
+class ObjectIdentifierAndLinkNameTuple {
+  /// The name of the link between the parent and the child object.
+  final String? linkName;
+
+  /// The ID that is associated with the object.
+  final String? objectIdentifier;
+
+  ObjectIdentifierAndLinkNameTuple({
+    this.linkName,
+    this.objectIdentifier,
+  });
+
+  factory ObjectIdentifierAndLinkNameTuple.fromJson(Map<String, dynamic> json) {
+    return ObjectIdentifierAndLinkNameTuple(
+      linkName: json['LinkName'] as String?,
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linkName = this.linkName;
+    final objectIdentifier = this.objectIdentifier;
+    return {
+      if (linkName != null) 'LinkName': linkName,
+      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
+    };
+  }
+}
+
+/// Returns the path to the <code>ObjectIdentifiers</code> that is associated
+/// with the directory.
+class PathToObjectIdentifiers {
+  /// Lists <code>ObjectIdentifiers</code> starting from directory root to the
+  /// object in the request.
+  final List<String>? objectIdentifiers;
+
+  /// The path that is used to identify the object starting from directory root.
+  final String? path;
+
+  PathToObjectIdentifiers({
+    this.objectIdentifiers,
+    this.path,
+  });
+
+  factory PathToObjectIdentifiers.fromJson(Map<String, dynamic> json) {
+    return PathToObjectIdentifiers(
+      objectIdentifiers: (json['ObjectIdentifiers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      path: json['Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectIdentifiers = this.objectIdentifiers;
+    final path = this.path;
+    return {
+      if (objectIdentifiers != null) 'ObjectIdentifiers': objectIdentifiers,
+      if (path != null) 'Path': path,
+    };
+  }
+}
+
+/// The combination of an attribute key and an attribute value.
+class AttributeKeyAndValue {
+  /// The key of the attribute.
+  final AttributeKey key;
+
+  /// The value of the attribute.
+  final TypedAttributeValue value;
+
+  AttributeKeyAndValue({
+    required this.key,
+    required this.value,
+  });
+
+  factory AttributeKeyAndValue.fromJson(Map<String, dynamic> json) {
+    return AttributeKeyAndValue(
+      key: AttributeKey.fromJson(
+          (json['Key'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      value: TypedAttributeValue.fromJson(
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Represents an index and an attached object.
+class IndexAttachment {
+  /// The indexed attribute values.
+  final List<AttributeKeyAndValue>? indexedAttributes;
+
+  /// In response to <a>ListIndex</a>, the <code>ObjectIdentifier</code> of the
+  /// object attached to the index. In response to <a>ListAttachedIndices</a>, the
+  /// <code>ObjectIdentifier</code> of the index attached to the object. This
+  /// field will always contain the <code>ObjectIdentifier</code> of the object on
+  /// the opposite side of the attachment specified in the query.
+  final String? objectIdentifier;
+
+  IndexAttachment({
+    this.indexedAttributes,
+    this.objectIdentifier,
+  });
+
+  factory IndexAttachment.fromJson(Map<String, dynamic> json) {
+    return IndexAttachment(
+      indexedAttributes: (json['IndexedAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexedAttributes = this.indexedAttributes;
+    final objectIdentifier = this.objectIdentifier;
+    return {
+      if (indexedAttributes != null) 'IndexedAttributes': indexedAttributes,
+      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
+    };
+  }
+}
+
+/// A range of attributes.
+class ObjectAttributeRange {
+  /// The key of the attribute that the attribute range covers.
+  final AttributeKey? attributeKey;
+
+  /// The range of attribute values being selected.
+  final TypedAttributeValueRange? range;
+
+  ObjectAttributeRange({
+    this.attributeKey,
+    this.range,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeKey = this.attributeKey;
+    final range = this.range;
+    return {
+      if (attributeKey != null) 'AttributeKey': attributeKey,
+      if (range != null) 'Range': range,
+    };
+  }
+}
+
+/// Directory structure that includes the directory name and directory ARN.
+class Directory {
+  /// The date and time when the directory was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) that is associated with the directory. For
+  /// more information, see <a>arns</a>.
+  final String? directoryArn;
+
+  /// The name of the directory.
+  final String? name;
+
+  /// The state of the directory. Can be either <code>Enabled</code>,
+  /// <code>Disabled</code>, or <code>Deleted</code>.
+  final DirectoryState? state;
+
+  Directory({
+    this.creationDateTime,
+    this.directoryArn,
+    this.name,
+    this.state,
+  });
+
+  factory Directory.fromJson(Map<String, dynamic> json) {
+    return Directory(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      directoryArn: json['DirectoryArn'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.let(DirectoryState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final directoryArn = this.directoryArn;
+    final name = this.name;
+    final state = this.state;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (directoryArn != null) 'DirectoryArn': directoryArn,
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class DirectoryState {
+  static const enabled = DirectoryState._('ENABLED');
+  static const disabled = DirectoryState._('DISABLED');
+  static const deleted = DirectoryState._('DELETED');
+
+  final String value;
+
+  const DirectoryState._(this.value);
+
+  static const values = [enabled, disabled, deleted];
+
+  static DirectoryState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DirectoryState._(value));
+
+  @override
+  bool operator ==(other) => other is DirectoryState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains <code>Name</code>, <code>ARN</code>,
+/// <code>Attributes</code>, <code> <a>Rule</a>s</code>, and
+/// <code>ObjectTypes</code>. See <a
+/// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_whatarefacets.html">Facets</a>
+/// for more information.
+class Facet {
+  /// There are two different styles that you can define on any given facet,
+  /// <code>Static</code> and <code>Dynamic</code>. For static facets, all
+  /// attributes must be defined in the schema. For dynamic facets, attributes can
+  /// be defined during data plane operations.
+  final FacetStyle? facetStyle;
+
+  /// The name of the <a>Facet</a>.
+  final String? name;
+
+  /// The object type that is associated with the facet. See
+  /// <a>CreateFacetRequest$ObjectType</a> for more details.
+  final ObjectType? objectType;
+
+  Facet({
+    this.facetStyle,
+    this.name,
+    this.objectType,
+  });
+
+  factory Facet.fromJson(Map<String, dynamic> json) {
+    return Facet(
+      facetStyle: (json['FacetStyle'] as String?)?.let(FacetStyle.fromString),
+      name: json['Name'] as String?,
+      objectType: (json['ObjectType'] as String?)?.let(ObjectType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final facetStyle = this.facetStyle;
+    final name = this.name;
+    final objectType = this.objectType;
+    return {
+      if (facetStyle != null) 'FacetStyle': facetStyle.value,
+      if (name != null) 'Name': name,
+      if (objectType != null) 'ObjectType': objectType.value,
+    };
+  }
+}
+
+class FacetStyle {
+  static const static = FacetStyle._('STATIC');
+  static const $dynamic = FacetStyle._('DYNAMIC');
+
+  final String value;
+
+  const FacetStyle._(this.value);
+
+  static const values = [static, $dynamic];
+
+  static FacetStyle fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FacetStyle._(value));
+
+  @override
+  bool operator ==(other) => other is FacetStyle && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the typed links structure and its attributes. To create a typed link
+/// facet, use the <a>CreateTypedLinkFacet</a> API.
+class TypedLinkFacet {
+  /// A set of key-value pairs associated with the typed link. Typed link
+  /// attributes are used when you have data values that are related to the link
+  /// itself, and not to one of the two objects being linked. Identity attributes
+  /// also serve to distinguish the link from others of the same type between the
+  /// same objects.
+  final List<TypedLinkAttributeDefinition> attributes;
+
+  /// The set of attributes that distinguish links made from this facet from each
+  /// other, in the order of significance. Listing typed links can filter on the
+  /// values of these attributes. See <a>ListOutgoingTypedLinks</a> and
+  /// <a>ListIncomingTypedLinks</a> for details.
+  final List<String> identityAttributeOrder;
+
+  /// The unique name of the typed link facet.
+  final String name;
+
+  TypedLinkFacet({
+    required this.attributes,
+    required this.identityAttributeOrder,
+    required this.name,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final identityAttributeOrder = this.identityAttributeOrder;
+    final name = this.name;
+    return {
+      'Attributes': attributes,
+      'IdentityAttributeOrder': identityAttributeOrder,
+      'Name': name,
+    };
+  }
+}
+
+/// Represents the output of a <code>BatchWrite</code> response operation.
+class BatchWriteOperationResponse {
+  /// The result of an add facet to object batch operation.
+  final BatchAddFacetToObjectResponse? addFacetToObject;
+
+  /// Attaches an object to a <a>Directory</a>.
+  final BatchAttachObjectResponse? attachObject;
+
+  /// Attaches a policy object to a regular object. An object can have a limited
+  /// number of attached policies.
+  final BatchAttachPolicyResponse? attachPolicy;
+
+  /// Attaches the specified object to the specified index.
+  final BatchAttachToIndexResponse? attachToIndex;
+
+  /// Attaches a typed link to a specified source and target object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  final BatchAttachTypedLinkResponse? attachTypedLink;
+
+  /// Creates an index object. See <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.htm">Indexing
+  /// and search</a> for more information.
+  final BatchCreateIndexResponse? createIndex;
+
+  /// Creates an object in a <a>Directory</a>.
+  final BatchCreateObjectResponse? createObject;
+
+  /// Deletes an object in a <a>Directory</a>.
+  final BatchDeleteObjectResponse? deleteObject;
+
+  /// Detaches the specified object from the specified index.
+  final BatchDetachFromIndexResponse? detachFromIndex;
+
+  /// Detaches an object from a <a>Directory</a>.
+  final BatchDetachObjectResponse? detachObject;
+
+  /// Detaches a policy from a <a>Directory</a>.
+  final BatchDetachPolicyResponse? detachPolicy;
+
+  /// Detaches a typed link from a specified source and target object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  final BatchDetachTypedLinkResponse? detachTypedLink;
+
+  /// The result of a batch remove facet from object operation.
+  final BatchRemoveFacetFromObjectResponse? removeFacetFromObject;
+
+  /// Represents the output of a <code>BatchWrite</code> response operation.
+  final BatchUpdateLinkAttributesResponse? updateLinkAttributes;
+
+  /// Updates a given object’s attributes.
+  final BatchUpdateObjectAttributesResponse? updateObjectAttributes;
+
+  BatchWriteOperationResponse({
+    this.addFacetToObject,
+    this.attachObject,
+    this.attachPolicy,
+    this.attachToIndex,
+    this.attachTypedLink,
+    this.createIndex,
+    this.createObject,
+    this.deleteObject,
+    this.detachFromIndex,
+    this.detachObject,
+    this.detachPolicy,
+    this.detachTypedLink,
+    this.removeFacetFromObject,
+    this.updateLinkAttributes,
+    this.updateObjectAttributes,
+  });
+
+  factory BatchWriteOperationResponse.fromJson(Map<String, dynamic> json) {
+    return BatchWriteOperationResponse(
+      addFacetToObject: json['AddFacetToObject'] != null
+          ? BatchAddFacetToObjectResponse.fromJson(
+              json['AddFacetToObject'] as Map<String, dynamic>)
+          : null,
+      attachObject: json['AttachObject'] != null
+          ? BatchAttachObjectResponse.fromJson(
+              json['AttachObject'] as Map<String, dynamic>)
+          : null,
+      attachPolicy: json['AttachPolicy'] != null
+          ? BatchAttachPolicyResponse.fromJson(
+              json['AttachPolicy'] as Map<String, dynamic>)
+          : null,
+      attachToIndex: json['AttachToIndex'] != null
+          ? BatchAttachToIndexResponse.fromJson(
+              json['AttachToIndex'] as Map<String, dynamic>)
+          : null,
+      attachTypedLink: json['AttachTypedLink'] != null
+          ? BatchAttachTypedLinkResponse.fromJson(
+              json['AttachTypedLink'] as Map<String, dynamic>)
+          : null,
+      createIndex: json['CreateIndex'] != null
+          ? BatchCreateIndexResponse.fromJson(
+              json['CreateIndex'] as Map<String, dynamic>)
+          : null,
+      createObject: json['CreateObject'] != null
+          ? BatchCreateObjectResponse.fromJson(
+              json['CreateObject'] as Map<String, dynamic>)
+          : null,
+      deleteObject: json['DeleteObject'] != null
+          ? BatchDeleteObjectResponse.fromJson(
+              json['DeleteObject'] as Map<String, dynamic>)
+          : null,
+      detachFromIndex: json['DetachFromIndex'] != null
+          ? BatchDetachFromIndexResponse.fromJson(
+              json['DetachFromIndex'] as Map<String, dynamic>)
+          : null,
+      detachObject: json['DetachObject'] != null
+          ? BatchDetachObjectResponse.fromJson(
+              json['DetachObject'] as Map<String, dynamic>)
+          : null,
+      detachPolicy: json['DetachPolicy'] != null
+          ? BatchDetachPolicyResponse.fromJson(
+              json['DetachPolicy'] as Map<String, dynamic>)
+          : null,
+      detachTypedLink: json['DetachTypedLink'] != null
+          ? BatchDetachTypedLinkResponse.fromJson(
+              json['DetachTypedLink'] as Map<String, dynamic>)
+          : null,
+      removeFacetFromObject: json['RemoveFacetFromObject'] != null
+          ? BatchRemoveFacetFromObjectResponse.fromJson(
+              json['RemoveFacetFromObject'] as Map<String, dynamic>)
+          : null,
+      updateLinkAttributes: json['UpdateLinkAttributes'] != null
+          ? BatchUpdateLinkAttributesResponse.fromJson(
+              json['UpdateLinkAttributes'] as Map<String, dynamic>)
+          : null,
+      updateObjectAttributes: json['UpdateObjectAttributes'] != null
+          ? BatchUpdateObjectAttributesResponse.fromJson(
+              json['UpdateObjectAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addFacetToObject = this.addFacetToObject;
+    final attachObject = this.attachObject;
+    final attachPolicy = this.attachPolicy;
+    final attachToIndex = this.attachToIndex;
+    final attachTypedLink = this.attachTypedLink;
+    final createIndex = this.createIndex;
+    final createObject = this.createObject;
+    final deleteObject = this.deleteObject;
+    final detachFromIndex = this.detachFromIndex;
+    final detachObject = this.detachObject;
+    final detachPolicy = this.detachPolicy;
+    final detachTypedLink = this.detachTypedLink;
+    final removeFacetFromObject = this.removeFacetFromObject;
+    final updateLinkAttributes = this.updateLinkAttributes;
+    final updateObjectAttributes = this.updateObjectAttributes;
+    return {
+      if (addFacetToObject != null) 'AddFacetToObject': addFacetToObject,
+      if (attachObject != null) 'AttachObject': attachObject,
+      if (attachPolicy != null) 'AttachPolicy': attachPolicy,
+      if (attachToIndex != null) 'AttachToIndex': attachToIndex,
+      if (attachTypedLink != null) 'AttachTypedLink': attachTypedLink,
+      if (createIndex != null) 'CreateIndex': createIndex,
+      if (createObject != null) 'CreateObject': createObject,
+      if (deleteObject != null) 'DeleteObject': deleteObject,
+      if (detachFromIndex != null) 'DetachFromIndex': detachFromIndex,
+      if (detachObject != null) 'DetachObject': detachObject,
+      if (detachPolicy != null) 'DetachPolicy': detachPolicy,
+      if (detachTypedLink != null) 'DetachTypedLink': detachTypedLink,
+      if (removeFacetFromObject != null)
+        'RemoveFacetFromObject': removeFacetFromObject,
+      if (updateLinkAttributes != null)
+        'UpdateLinkAttributes': updateLinkAttributes,
+      if (updateObjectAttributes != null)
+        'UpdateObjectAttributes': updateObjectAttributes,
+    };
+  }
+}
+
+/// Represents the output of a <a>CreateObject</a> response operation.
+class BatchCreateObjectResponse {
+  /// The ID that is associated with the object.
+  final String? objectIdentifier;
+
+  BatchCreateObjectResponse({
+    this.objectIdentifier,
+  });
+
+  factory BatchCreateObjectResponse.fromJson(Map<String, dynamic> json) {
+    return BatchCreateObjectResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectIdentifier = this.objectIdentifier;
+    return {
+      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
+    };
+  }
+}
+
+/// Represents the output batch <a>AttachObject</a> response operation.
+class BatchAttachObjectResponse {
+  /// The <code>ObjectIdentifier</code> of the object that has been attached.
+  final String? attachedObjectIdentifier;
+
+  BatchAttachObjectResponse({
+    this.attachedObjectIdentifier,
+  });
+
+  factory BatchAttachObjectResponse.fromJson(Map<String, dynamic> json) {
+    return BatchAttachObjectResponse(
+      attachedObjectIdentifier: json['attachedObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedObjectIdentifier = this.attachedObjectIdentifier;
+    return {
+      if (attachedObjectIdentifier != null)
+        'attachedObjectIdentifier': attachedObjectIdentifier,
+    };
+  }
+}
+
+/// Represents the output of a <a>DetachObject</a> response operation.
+class BatchDetachObjectResponse {
+  /// The <code>ObjectIdentifier</code> of the detached object.
+  final String? detachedObjectIdentifier;
+
+  BatchDetachObjectResponse({
+    this.detachedObjectIdentifier,
+  });
+
+  factory BatchDetachObjectResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDetachObjectResponse(
+      detachedObjectIdentifier: json['detachedObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detachedObjectIdentifier = this.detachedObjectIdentifier;
+    return {
+      if (detachedObjectIdentifier != null)
+        'detachedObjectIdentifier': detachedObjectIdentifier,
+    };
+  }
+}
+
+/// Represents the output of a <code>BatchUpdate</code> response operation.
+class BatchUpdateObjectAttributesResponse {
+  /// ID that is associated with the object.
+  final String? objectIdentifier;
+
+  BatchUpdateObjectAttributesResponse({
+    this.objectIdentifier,
+  });
+
+  factory BatchUpdateObjectAttributesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchUpdateObjectAttributesResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectIdentifier = this.objectIdentifier;
+    return {
+      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
+    };
+  }
+}
+
+/// Represents the output of a <a>DeleteObject</a> response operation.
+class BatchDeleteObjectResponse {
+  BatchDeleteObjectResponse();
+
+  factory BatchDeleteObjectResponse.fromJson(Map<String, dynamic> _) {
+    return BatchDeleteObjectResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The result of a batch add facet to object operation.
+class BatchAddFacetToObjectResponse {
+  BatchAddFacetToObjectResponse();
+
+  factory BatchAddFacetToObjectResponse.fromJson(Map<String, dynamic> _) {
+    return BatchAddFacetToObjectResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An empty result that represents success.
+class BatchRemoveFacetFromObjectResponse {
+  BatchRemoveFacetFromObjectResponse();
+
+  factory BatchRemoveFacetFromObjectResponse.fromJson(Map<String, dynamic> _) {
+    return BatchRemoveFacetFromObjectResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Represents the output of an <a>AttachPolicy</a> response operation.
+class BatchAttachPolicyResponse {
+  BatchAttachPolicyResponse();
+
+  factory BatchAttachPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return BatchAttachPolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Represents the output of a <a>DetachPolicy</a> response operation.
+class BatchDetachPolicyResponse {
+  BatchDetachPolicyResponse();
+
+  factory BatchDetachPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return BatchDetachPolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Represents the output of a <a>CreateIndex</a> response operation.
+class BatchCreateIndexResponse {
+  /// The <code>ObjectIdentifier</code> of the index created by this operation.
+  final String? objectIdentifier;
+
+  BatchCreateIndexResponse({
+    this.objectIdentifier,
+  });
+
+  factory BatchCreateIndexResponse.fromJson(Map<String, dynamic> json) {
+    return BatchCreateIndexResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectIdentifier = this.objectIdentifier;
+    return {
+      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
+    };
+  }
+}
+
+/// Represents the output of a <a>AttachToIndex</a> response operation.
+class BatchAttachToIndexResponse {
+  /// The <code>ObjectIdentifier</code> of the object that was attached to the
+  /// index.
+  final String? attachedObjectIdentifier;
+
+  BatchAttachToIndexResponse({
+    this.attachedObjectIdentifier,
+  });
+
+  factory BatchAttachToIndexResponse.fromJson(Map<String, dynamic> json) {
+    return BatchAttachToIndexResponse(
+      attachedObjectIdentifier: json['AttachedObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedObjectIdentifier = this.attachedObjectIdentifier;
+    return {
+      if (attachedObjectIdentifier != null)
+        'AttachedObjectIdentifier': attachedObjectIdentifier,
+    };
+  }
+}
+
+/// Represents the output of a <a>DetachFromIndex</a> response operation.
+class BatchDetachFromIndexResponse {
+  /// The <code>ObjectIdentifier</code> of the object that was detached from the
+  /// index.
+  final String? detachedObjectIdentifier;
+
+  BatchDetachFromIndexResponse({
+    this.detachedObjectIdentifier,
+  });
+
+  factory BatchDetachFromIndexResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDetachFromIndexResponse(
+      detachedObjectIdentifier: json['DetachedObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detachedObjectIdentifier = this.detachedObjectIdentifier;
+    return {
+      if (detachedObjectIdentifier != null)
+        'DetachedObjectIdentifier': detachedObjectIdentifier,
+    };
+  }
+}
+
+/// Represents the output of a <a>AttachTypedLink</a> response operation.
+class BatchAttachTypedLinkResponse {
+  /// Returns a typed link specifier as output.
+  final TypedLinkSpecifier? typedLinkSpecifier;
+
+  BatchAttachTypedLinkResponse({
+    this.typedLinkSpecifier,
+  });
+
+  factory BatchAttachTypedLinkResponse.fromJson(Map<String, dynamic> json) {
+    return BatchAttachTypedLinkResponse(
+      typedLinkSpecifier: json['TypedLinkSpecifier'] != null
+          ? TypedLinkSpecifier.fromJson(
+              json['TypedLinkSpecifier'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final typedLinkSpecifier = this.typedLinkSpecifier;
+    return {
+      if (typedLinkSpecifier != null) 'TypedLinkSpecifier': typedLinkSpecifier,
+    };
+  }
+}
+
+/// Represents the output of a <a>DetachTypedLink</a> response operation.
+class BatchDetachTypedLinkResponse {
+  BatchDetachTypedLinkResponse();
+
+  factory BatchDetachTypedLinkResponse.fromJson(Map<String, dynamic> _) {
+    return BatchDetachTypedLinkResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Represents the output of a <a>UpdateLinkAttributes</a> response operation.
+class BatchUpdateLinkAttributesResponse {
+  BatchUpdateLinkAttributesResponse();
+
+  factory BatchUpdateLinkAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return BatchUpdateLinkAttributesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Represents the output of a <code>BatchWrite</code> operation.
+class BatchWriteOperation {
+  /// A batch operation that adds a facet to an object.
+  final BatchAddFacetToObject? addFacetToObject;
+
+  /// Attaches an object to a <a>Directory</a>.
+  final BatchAttachObject? attachObject;
+
+  /// Attaches a policy object to a regular object. An object can have a limited
+  /// number of attached policies.
+  final BatchAttachPolicy? attachPolicy;
+
+  /// Attaches the specified object to the specified index.
+  final BatchAttachToIndex? attachToIndex;
+
+  /// Attaches a typed link to a specified source and target object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  final BatchAttachTypedLink? attachTypedLink;
+
+  /// Creates an index object. See <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.htm">Indexing
+  /// and search</a> for more information.
+  final BatchCreateIndex? createIndex;
+
+  /// Creates an object.
+  final BatchCreateObject? createObject;
+
+  /// Deletes an object in a <a>Directory</a>.
+  final BatchDeleteObject? deleteObject;
+
+  /// Detaches the specified object from the specified index.
+  final BatchDetachFromIndex? detachFromIndex;
+
+  /// Detaches an object from a <a>Directory</a>.
+  final BatchDetachObject? detachObject;
+
+  /// Detaches a policy from a <a>Directory</a>.
+  final BatchDetachPolicy? detachPolicy;
+
+  /// Detaches a typed link from a specified source and target object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  final BatchDetachTypedLink? detachTypedLink;
+
+  /// A batch operation that removes a facet from an object.
+  final BatchRemoveFacetFromObject? removeFacetFromObject;
+
+  /// Updates a given object's attributes.
+  final BatchUpdateLinkAttributes? updateLinkAttributes;
+
+  /// Updates a given object's attributes.
+  final BatchUpdateObjectAttributes? updateObjectAttributes;
+
+  BatchWriteOperation({
+    this.addFacetToObject,
+    this.attachObject,
+    this.attachPolicy,
+    this.attachToIndex,
+    this.attachTypedLink,
+    this.createIndex,
+    this.createObject,
+    this.deleteObject,
+    this.detachFromIndex,
+    this.detachObject,
+    this.detachPolicy,
+    this.detachTypedLink,
+    this.removeFacetFromObject,
+    this.updateLinkAttributes,
+    this.updateObjectAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final addFacetToObject = this.addFacetToObject;
+    final attachObject = this.attachObject;
+    final attachPolicy = this.attachPolicy;
+    final attachToIndex = this.attachToIndex;
+    final attachTypedLink = this.attachTypedLink;
+    final createIndex = this.createIndex;
+    final createObject = this.createObject;
+    final deleteObject = this.deleteObject;
+    final detachFromIndex = this.detachFromIndex;
+    final detachObject = this.detachObject;
+    final detachPolicy = this.detachPolicy;
+    final detachTypedLink = this.detachTypedLink;
+    final removeFacetFromObject = this.removeFacetFromObject;
+    final updateLinkAttributes = this.updateLinkAttributes;
+    final updateObjectAttributes = this.updateObjectAttributes;
+    return {
+      if (addFacetToObject != null) 'AddFacetToObject': addFacetToObject,
+      if (attachObject != null) 'AttachObject': attachObject,
+      if (attachPolicy != null) 'AttachPolicy': attachPolicy,
+      if (attachToIndex != null) 'AttachToIndex': attachToIndex,
+      if (attachTypedLink != null) 'AttachTypedLink': attachTypedLink,
+      if (createIndex != null) 'CreateIndex': createIndex,
+      if (createObject != null) 'CreateObject': createObject,
+      if (deleteObject != null) 'DeleteObject': deleteObject,
+      if (detachFromIndex != null) 'DetachFromIndex': detachFromIndex,
+      if (detachObject != null) 'DetachObject': detachObject,
+      if (detachPolicy != null) 'DetachPolicy': detachPolicy,
+      if (detachTypedLink != null) 'DetachTypedLink': detachTypedLink,
+      if (removeFacetFromObject != null)
+        'RemoveFacetFromObject': removeFacetFromObject,
+      if (updateLinkAttributes != null)
+        'UpdateLinkAttributes': updateLinkAttributes,
+      if (updateObjectAttributes != null)
+        'UpdateObjectAttributes': updateObjectAttributes,
+    };
+  }
+}
+
+/// Represents the output of a <a>CreateObject</a> operation.
+class BatchCreateObject {
+  /// An attribute map, which contains an attribute ARN as the key and attribute
+  /// value as the map value.
+  final List<AttributeKeyAndValue> objectAttributeList;
+
+  /// A list of <code>FacetArns</code> that will be associated with the object.
+  /// For more information, see <a>arns</a>.
+  final List<SchemaFacet> schemaFacet;
+
+  /// The batch reference name. See <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html">Transaction
+  /// Support</a> for more information.
+  final String? batchReferenceName;
+
+  /// The name of the link.
+  final String? linkName;
+
+  /// If specified, the parent reference to which this object will be attached.
+  final ObjectReference? parentReference;
+
+  BatchCreateObject({
+    required this.objectAttributeList,
+    required this.schemaFacet,
+    this.batchReferenceName,
+    this.linkName,
+    this.parentReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectAttributeList = this.objectAttributeList;
+    final schemaFacet = this.schemaFacet;
+    final batchReferenceName = this.batchReferenceName;
+    final linkName = this.linkName;
+    final parentReference = this.parentReference;
+    return {
+      'ObjectAttributeList': objectAttributeList,
+      'SchemaFacet': schemaFacet,
+      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
+      if (linkName != null) 'LinkName': linkName,
+      if (parentReference != null) 'ParentReference': parentReference,
+    };
+  }
+}
+
+/// Represents the output of an <a>AttachObject</a> operation.
+class BatchAttachObject {
+  /// The child object reference that is to be attached to the object.
+  final ObjectReference childReference;
+
+  /// The name of the link.
+  final String linkName;
+
+  /// The parent object reference.
+  final ObjectReference parentReference;
+
+  BatchAttachObject({
+    required this.childReference,
+    required this.linkName,
+    required this.parentReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final childReference = this.childReference;
+    final linkName = this.linkName;
+    final parentReference = this.parentReference;
+    return {
+      'ChildReference': childReference,
+      'LinkName': linkName,
+      'ParentReference': parentReference,
+    };
+  }
+}
+
+/// Represents the output of a <a>DetachObject</a> operation.
+class BatchDetachObject {
+  /// The name of the link.
+  final String linkName;
+
+  /// Parent reference from which the object with the specified link name is
+  /// detached.
+  final ObjectReference parentReference;
+
+  /// The batch reference name. See <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html">Transaction
+  /// Support</a> for more information.
+  final String? batchReferenceName;
+
+  BatchDetachObject({
+    required this.linkName,
+    required this.parentReference,
+    this.batchReferenceName,
+  });
+
+  Map<String, dynamic> toJson() {
+    final linkName = this.linkName;
+    final parentReference = this.parentReference;
+    final batchReferenceName = this.batchReferenceName;
+    return {
+      'LinkName': linkName,
+      'ParentReference': parentReference,
+      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
+    };
+  }
+}
+
+/// Represents the output of a <code>BatchUpdate</code> operation.
+class BatchUpdateObjectAttributes {
+  /// Attributes update structure.
+  final List<ObjectAttributeUpdate> attributeUpdates;
+
+  /// Reference that identifies the object.
+  final ObjectReference objectReference;
+
+  BatchUpdateObjectAttributes({
+    required this.attributeUpdates,
+    required this.objectReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeUpdates = this.attributeUpdates;
+    final objectReference = this.objectReference;
+    return {
+      'AttributeUpdates': attributeUpdates,
+      'ObjectReference': objectReference,
+    };
+  }
+}
+
+/// Represents the output of a <a>DeleteObject</a> operation.
+class BatchDeleteObject {
+  /// The reference that identifies the object.
+  final ObjectReference objectReference;
+
+  BatchDeleteObject({
+    required this.objectReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    return {
+      'ObjectReference': objectReference,
+    };
+  }
+}
+
+/// Represents the output of a batch add facet to object operation.
+class BatchAddFacetToObject {
+  /// The attributes to set on the object.
+  final List<AttributeKeyAndValue> objectAttributeList;
+
+  /// A reference to the object being mutated.
+  final ObjectReference objectReference;
+
+  /// Represents the facet being added to the object.
+  final SchemaFacet schemaFacet;
+
+  BatchAddFacetToObject({
+    required this.objectAttributeList,
+    required this.objectReference,
+    required this.schemaFacet,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectAttributeList = this.objectAttributeList;
+    final objectReference = this.objectReference;
+    final schemaFacet = this.schemaFacet;
+    return {
+      'ObjectAttributeList': objectAttributeList,
+      'ObjectReference': objectReference,
+      'SchemaFacet': schemaFacet,
+    };
+  }
+}
+
+/// A batch operation to remove a facet from an object.
+class BatchRemoveFacetFromObject {
+  /// A reference to the object whose facet will be removed.
+  final ObjectReference objectReference;
+
+  /// The facet to remove from the object.
+  final SchemaFacet schemaFacet;
+
+  BatchRemoveFacetFromObject({
+    required this.objectReference,
+    required this.schemaFacet,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final schemaFacet = this.schemaFacet;
+    return {
+      'ObjectReference': objectReference,
+      'SchemaFacet': schemaFacet,
+    };
+  }
+}
+
+/// Attaches a policy object to a regular object inside a <a>BatchRead</a>
+/// operation. For more information, see <a>AttachPolicy</a> and
+/// <a>BatchReadRequest$Operations</a>.
+class BatchAttachPolicy {
+  /// The reference that identifies the object to which the policy will be
+  /// attached.
+  final ObjectReference objectReference;
+
+  /// The reference that is associated with the policy object.
+  final ObjectReference policyReference;
+
+  BatchAttachPolicy({
+    required this.objectReference,
+    required this.policyReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final policyReference = this.policyReference;
+    return {
+      'ObjectReference': objectReference,
+      'PolicyReference': policyReference,
+    };
+  }
+}
+
+/// Detaches the specified policy from the specified directory inside a
+/// <a>BatchWrite</a> operation. For more information, see <a>DetachPolicy</a>
+/// and <a>BatchWriteRequest$Operations</a>.
+class BatchDetachPolicy {
+  /// Reference that identifies the object whose policy object will be detached.
+  final ObjectReference objectReference;
+
+  /// Reference that identifies the policy object.
+  final ObjectReference policyReference;
+
+  BatchDetachPolicy({
+    required this.objectReference,
+    required this.policyReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final policyReference = this.policyReference;
+    return {
+      'ObjectReference': objectReference,
+      'PolicyReference': policyReference,
+    };
+  }
+}
+
+/// Creates an index object inside of a <a>BatchRead</a> operation. For more
+/// information, see <a>CreateIndex</a> and <a>BatchReadRequest$Operations</a>.
+class BatchCreateIndex {
+  /// Indicates whether the attribute that is being indexed has unique values or
+  /// not.
+  final bool isUnique;
+
+  /// Specifies the attributes that should be indexed on. Currently only a single
+  /// attribute is supported.
+  final List<AttributeKey> orderedIndexedAttributeList;
+
+  /// The batch reference name. See <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/transaction_support.html">Transaction
+  /// Support</a> for more information.
+  final String? batchReferenceName;
+
+  /// The name of the link between the parent object and the index object.
+  final String? linkName;
+
+  /// A reference to the parent object that contains the index object.
+  final ObjectReference? parentReference;
+
+  BatchCreateIndex({
+    required this.isUnique,
+    required this.orderedIndexedAttributeList,
+    this.batchReferenceName,
+    this.linkName,
+    this.parentReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final isUnique = this.isUnique;
+    final orderedIndexedAttributeList = this.orderedIndexedAttributeList;
+    final batchReferenceName = this.batchReferenceName;
+    final linkName = this.linkName;
+    final parentReference = this.parentReference;
+    return {
+      'IsUnique': isUnique,
+      'OrderedIndexedAttributeList': orderedIndexedAttributeList,
+      if (batchReferenceName != null) 'BatchReferenceName': batchReferenceName,
+      if (linkName != null) 'LinkName': linkName,
+      if (parentReference != null) 'ParentReference': parentReference,
+    };
+  }
+}
+
+/// Attaches the specified object to the specified index inside a
+/// <a>BatchRead</a> operation. For more information, see <a>AttachToIndex</a>
+/// and <a>BatchReadRequest$Operations</a>.
+class BatchAttachToIndex {
+  /// A reference to the index that you are attaching the object to.
+  final ObjectReference indexReference;
+
+  /// A reference to the object that you are attaching to the index.
+  final ObjectReference targetReference;
+
+  BatchAttachToIndex({
+    required this.indexReference,
+    required this.targetReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexReference = this.indexReference;
+    final targetReference = this.targetReference;
+    return {
+      'IndexReference': indexReference,
+      'TargetReference': targetReference,
+    };
+  }
+}
+
+/// Detaches the specified object from the specified index inside a
+/// <a>BatchRead</a> operation. For more information, see <a>DetachFromIndex</a>
+/// and <a>BatchReadRequest$Operations</a>.
+class BatchDetachFromIndex {
+  /// A reference to the index object.
+  final ObjectReference indexReference;
+
+  /// A reference to the object being detached from the index.
+  final ObjectReference targetReference;
+
+  BatchDetachFromIndex({
+    required this.indexReference,
+    required this.targetReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexReference = this.indexReference;
+    final targetReference = this.targetReference;
+    return {
+      'IndexReference': indexReference,
+      'TargetReference': targetReference,
+    };
+  }
+}
+
+/// Attaches a typed link to a specified source and target object inside a
+/// <a>BatchRead</a> operation. For more information, see <a>AttachTypedLink</a>
+/// and <a>BatchReadRequest$Operations</a>.
+class BatchAttachTypedLink {
+  /// A set of attributes that are associated with the typed link.
+  final List<AttributeNameAndValue> attributes;
+
+  /// Identifies the source object that the typed link will attach to.
+  final ObjectReference sourceObjectReference;
+
+  /// Identifies the target object that the typed link will attach to.
+  final ObjectReference targetObjectReference;
+
+  /// Identifies the typed link facet that is associated with the typed link.
+  final TypedLinkSchemaAndFacetName typedLinkFacet;
+
+  BatchAttachTypedLink({
+    required this.attributes,
+    required this.sourceObjectReference,
+    required this.targetObjectReference,
+    required this.typedLinkFacet,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final sourceObjectReference = this.sourceObjectReference;
+    final targetObjectReference = this.targetObjectReference;
+    final typedLinkFacet = this.typedLinkFacet;
+    return {
+      'Attributes': attributes,
+      'SourceObjectReference': sourceObjectReference,
+      'TargetObjectReference': targetObjectReference,
+      'TypedLinkFacet': typedLinkFacet,
+    };
+  }
+}
+
+/// Detaches a typed link from a specified source and target object inside a
+/// <a>BatchRead</a> operation. For more information, see <a>DetachTypedLink</a>
+/// and <a>BatchReadRequest$Operations</a>.
+class BatchDetachTypedLink {
+  /// Used to accept a typed link specifier as input.
+  final TypedLinkSpecifier typedLinkSpecifier;
+
+  BatchDetachTypedLink({
+    required this.typedLinkSpecifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final typedLinkSpecifier = this.typedLinkSpecifier;
+    return {
+      'TypedLinkSpecifier': typedLinkSpecifier,
+    };
+  }
+}
+
+/// Updates a given typed link’s attributes inside a <a>BatchRead</a> operation.
+/// Attributes to be updated must not contribute to the typed link’s identity,
+/// as defined by its <code>IdentityAttributeOrder</code>. For more information,
+/// see <a>UpdateLinkAttributes</a> and <a>BatchReadRequest$Operations</a>.
+class BatchUpdateLinkAttributes {
+  /// The attributes update structure.
+  final List<LinkAttributeUpdate> attributeUpdates;
+
+  /// Allows a typed link specifier to be accepted as input.
+  final TypedLinkSpecifier typedLinkSpecifier;
+
+  BatchUpdateLinkAttributes({
+    required this.attributeUpdates,
+    required this.typedLinkSpecifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeUpdates = this.attributeUpdates;
+    final typedLinkSpecifier = this.typedLinkSpecifier;
+    return {
+      'AttributeUpdates': attributeUpdates,
+      'TypedLinkSpecifier': typedLinkSpecifier,
+    };
+  }
+}
+
+/// Represents the output of a <code>BatchRead</code> response operation.
+class BatchReadOperationResponse {
+  /// Identifies which operation in a batch has failed.
+  final BatchReadException? exceptionResponse;
+
+  /// Identifies which operation in a batch has succeeded.
+  final BatchReadSuccessfulResponse? successfulResponse;
+
+  BatchReadOperationResponse({
+    this.exceptionResponse,
+    this.successfulResponse,
+  });
+
+  factory BatchReadOperationResponse.fromJson(Map<String, dynamic> json) {
+    return BatchReadOperationResponse(
+      exceptionResponse: json['ExceptionResponse'] != null
+          ? BatchReadException.fromJson(
+              json['ExceptionResponse'] as Map<String, dynamic>)
+          : null,
+      successfulResponse: json['SuccessfulResponse'] != null
+          ? BatchReadSuccessfulResponse.fromJson(
+              json['SuccessfulResponse'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exceptionResponse = this.exceptionResponse;
+    final successfulResponse = this.successfulResponse;
+    return {
+      if (exceptionResponse != null) 'ExceptionResponse': exceptionResponse,
+      if (successfulResponse != null) 'SuccessfulResponse': successfulResponse,
+    };
+  }
+}
+
+/// Represents the output of a <code>BatchRead</code> success response
+/// operation.
+class BatchReadSuccessfulResponse {
+  /// The list of attributes to retrieve from the typed link.
+  final BatchGetLinkAttributesResponse? getLinkAttributes;
+
+  /// Retrieves attributes within a facet that are associated with an object.
+  final BatchGetObjectAttributesResponse? getObjectAttributes;
+
+  /// Retrieves metadata about an object.
+  final BatchGetObjectInformationResponse? getObjectInformation;
+
+  /// Lists indices attached to an object.
+  final BatchListAttachedIndicesResponse? listAttachedIndices;
+
+  /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
+  /// information for an object. It also supports filtering by typed link facet
+  /// and identity attributes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  final BatchListIncomingTypedLinksResponse? listIncomingTypedLinks;
+
+  /// Lists objects attached to the specified index.
+  final BatchListIndexResponse? listIndex;
+
+  /// Lists all attributes that are associated with an object.
+  final BatchListObjectAttributesResponse? listObjectAttributes;
+
+  /// Returns a paginated list of child objects that are associated with a given
+  /// object.
+  final BatchListObjectChildrenResponse? listObjectChildren;
+
+  /// Retrieves all available parent paths for any object type such as node, leaf
+  /// node, policy node, and index node objects. For more information about
+  /// objects, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory
+  /// Structure</a>.
+  final BatchListObjectParentPathsResponse? listObjectParentPaths;
+
+  /// The list of parent objects to retrieve.
+  final BatchListObjectParentsResponse? listObjectParents;
+
+  /// Returns policies attached to an object in pagination fashion.
+  final BatchListObjectPoliciesResponse? listObjectPolicies;
+
+  /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
+  /// information for an object. It also supports filtering by typed link facet
+  /// and identity attributes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  final BatchListOutgoingTypedLinksResponse? listOutgoingTypedLinks;
+
+  /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
+  /// attached.
+  final BatchListPolicyAttachmentsResponse? listPolicyAttachments;
+
+  /// Lists all policies from the root of the <a>Directory</a> to the object
+  /// specified. If there are no policies present, an empty list is returned. If
+  /// policies are present, and if some objects don't have the policies attached,
+  /// it returns the <code>ObjectIdentifier</code> for such objects. If policies
+  /// are present, it returns <code>ObjectIdentifier</code>,
+  /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to
+  /// the root from the target object are ignored. For more information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
+  final BatchLookupPolicyResponse? lookupPolicy;
+
+  BatchReadSuccessfulResponse({
+    this.getLinkAttributes,
+    this.getObjectAttributes,
+    this.getObjectInformation,
+    this.listAttachedIndices,
+    this.listIncomingTypedLinks,
+    this.listIndex,
+    this.listObjectAttributes,
+    this.listObjectChildren,
+    this.listObjectParentPaths,
+    this.listObjectParents,
+    this.listObjectPolicies,
+    this.listOutgoingTypedLinks,
+    this.listPolicyAttachments,
+    this.lookupPolicy,
+  });
+
+  factory BatchReadSuccessfulResponse.fromJson(Map<String, dynamic> json) {
+    return BatchReadSuccessfulResponse(
+      getLinkAttributes: json['GetLinkAttributes'] != null
+          ? BatchGetLinkAttributesResponse.fromJson(
+              json['GetLinkAttributes'] as Map<String, dynamic>)
+          : null,
+      getObjectAttributes: json['GetObjectAttributes'] != null
+          ? BatchGetObjectAttributesResponse.fromJson(
+              json['GetObjectAttributes'] as Map<String, dynamic>)
+          : null,
+      getObjectInformation: json['GetObjectInformation'] != null
+          ? BatchGetObjectInformationResponse.fromJson(
+              json['GetObjectInformation'] as Map<String, dynamic>)
+          : null,
+      listAttachedIndices: json['ListAttachedIndices'] != null
+          ? BatchListAttachedIndicesResponse.fromJson(
+              json['ListAttachedIndices'] as Map<String, dynamic>)
+          : null,
+      listIncomingTypedLinks: json['ListIncomingTypedLinks'] != null
+          ? BatchListIncomingTypedLinksResponse.fromJson(
+              json['ListIncomingTypedLinks'] as Map<String, dynamic>)
+          : null,
+      listIndex: json['ListIndex'] != null
+          ? BatchListIndexResponse.fromJson(
+              json['ListIndex'] as Map<String, dynamic>)
+          : null,
+      listObjectAttributes: json['ListObjectAttributes'] != null
+          ? BatchListObjectAttributesResponse.fromJson(
+              json['ListObjectAttributes'] as Map<String, dynamic>)
+          : null,
+      listObjectChildren: json['ListObjectChildren'] != null
+          ? BatchListObjectChildrenResponse.fromJson(
+              json['ListObjectChildren'] as Map<String, dynamic>)
+          : null,
+      listObjectParentPaths: json['ListObjectParentPaths'] != null
+          ? BatchListObjectParentPathsResponse.fromJson(
+              json['ListObjectParentPaths'] as Map<String, dynamic>)
+          : null,
+      listObjectParents: json['ListObjectParents'] != null
+          ? BatchListObjectParentsResponse.fromJson(
+              json['ListObjectParents'] as Map<String, dynamic>)
+          : null,
+      listObjectPolicies: json['ListObjectPolicies'] != null
+          ? BatchListObjectPoliciesResponse.fromJson(
+              json['ListObjectPolicies'] as Map<String, dynamic>)
+          : null,
+      listOutgoingTypedLinks: json['ListOutgoingTypedLinks'] != null
+          ? BatchListOutgoingTypedLinksResponse.fromJson(
+              json['ListOutgoingTypedLinks'] as Map<String, dynamic>)
+          : null,
+      listPolicyAttachments: json['ListPolicyAttachments'] != null
+          ? BatchListPolicyAttachmentsResponse.fromJson(
+              json['ListPolicyAttachments'] as Map<String, dynamic>)
+          : null,
+      lookupPolicy: json['LookupPolicy'] != null
+          ? BatchLookupPolicyResponse.fromJson(
+              json['LookupPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final getLinkAttributes = this.getLinkAttributes;
+    final getObjectAttributes = this.getObjectAttributes;
+    final getObjectInformation = this.getObjectInformation;
+    final listAttachedIndices = this.listAttachedIndices;
+    final listIncomingTypedLinks = this.listIncomingTypedLinks;
+    final listIndex = this.listIndex;
+    final listObjectAttributes = this.listObjectAttributes;
+    final listObjectChildren = this.listObjectChildren;
+    final listObjectParentPaths = this.listObjectParentPaths;
+    final listObjectParents = this.listObjectParents;
+    final listObjectPolicies = this.listObjectPolicies;
+    final listOutgoingTypedLinks = this.listOutgoingTypedLinks;
+    final listPolicyAttachments = this.listPolicyAttachments;
+    final lookupPolicy = this.lookupPolicy;
+    return {
+      if (getLinkAttributes != null) 'GetLinkAttributes': getLinkAttributes,
+      if (getObjectAttributes != null)
+        'GetObjectAttributes': getObjectAttributes,
+      if (getObjectInformation != null)
+        'GetObjectInformation': getObjectInformation,
+      if (listAttachedIndices != null)
+        'ListAttachedIndices': listAttachedIndices,
+      if (listIncomingTypedLinks != null)
+        'ListIncomingTypedLinks': listIncomingTypedLinks,
+      if (listIndex != null) 'ListIndex': listIndex,
+      if (listObjectAttributes != null)
+        'ListObjectAttributes': listObjectAttributes,
+      if (listObjectChildren != null) 'ListObjectChildren': listObjectChildren,
+      if (listObjectParentPaths != null)
+        'ListObjectParentPaths': listObjectParentPaths,
+      if (listObjectParents != null) 'ListObjectParents': listObjectParents,
+      if (listObjectPolicies != null) 'ListObjectPolicies': listObjectPolicies,
+      if (listOutgoingTypedLinks != null)
+        'ListOutgoingTypedLinks': listOutgoingTypedLinks,
+      if (listPolicyAttachments != null)
+        'ListPolicyAttachments': listPolicyAttachments,
+      if (lookupPolicy != null) 'LookupPolicy': lookupPolicy,
+    };
+  }
+}
+
+/// The batch read exception structure, which contains the exception type and
+/// message.
+class BatchReadException {
+  /// An exception message that is associated with the failure.
+  final String? message;
+
+  /// A type of exception, such as <code>InvalidArnException</code>.
+  final BatchReadExceptionType? type;
+
+  BatchReadException({
+    this.message,
+    this.type,
+  });
+
+  factory BatchReadException.fromJson(Map<String, dynamic> json) {
+    return BatchReadException(
+      message: json['Message'] as String?,
+      type: (json['Type'] as String?)?.let(BatchReadExceptionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final type = this.type;
+    return {
+      if (message != null) 'Message': message,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class BatchReadExceptionType {
+  static const validationException =
+      BatchReadExceptionType._('ValidationException');
+  static const invalidArnException =
+      BatchReadExceptionType._('InvalidArnException');
+  static const resourceNotFoundException =
+      BatchReadExceptionType._('ResourceNotFoundException');
+  static const invalidNextTokenException =
+      BatchReadExceptionType._('InvalidNextTokenException');
+  static const accessDeniedException =
+      BatchReadExceptionType._('AccessDeniedException');
+  static const notNodeException = BatchReadExceptionType._('NotNodeException');
+  static const facetValidationException =
+      BatchReadExceptionType._('FacetValidationException');
+  static const cannotListParentOfRootException =
+      BatchReadExceptionType._('CannotListParentOfRootException');
+  static const notIndexException =
+      BatchReadExceptionType._('NotIndexException');
+  static const notPolicyException =
+      BatchReadExceptionType._('NotPolicyException');
+  static const directoryNotEnabledException =
+      BatchReadExceptionType._('DirectoryNotEnabledException');
+  static const limitExceededException =
+      BatchReadExceptionType._('LimitExceededException');
+  static const internalServiceException =
+      BatchReadExceptionType._('InternalServiceException');
+
+  final String value;
+
+  const BatchReadExceptionType._(this.value);
+
+  static const values = [
+    validationException,
+    invalidArnException,
+    resourceNotFoundException,
+    invalidNextTokenException,
+    accessDeniedException,
+    notNodeException,
+    facetValidationException,
+    cannotListParentOfRootException,
+    notIndexException,
+    notPolicyException,
+    directoryNotEnabledException,
+    limitExceededException,
+    internalServiceException
+  ];
+
+  static BatchReadExceptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchReadExceptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchReadExceptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the output of a <a>ListObjectAttributes</a> response operation.
+class BatchListObjectAttributesResponse {
+  /// The attributes map that is associated with the object.
+  /// <code>AttributeArn</code> is the key; attribute value is the value.
+  final List<AttributeKeyAndValue>? attributes;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListObjectAttributesResponse({
+    this.attributes,
+    this.nextToken,
+  });
+
+  factory BatchListObjectAttributesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchListObjectAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final nextToken = this.nextToken;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListObjectChildren</a> response operation.
+class BatchListObjectChildrenResponse {
+  /// The children structure, which is a map with the key as the
+  /// <code>LinkName</code> and <code>ObjectIdentifier</code> as the value.
+  final Map<String, String>? children;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListObjectChildrenResponse({
+    this.children,
+    this.nextToken,
+  });
+
+  factory BatchListObjectChildrenResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListObjectChildrenResponse(
+      children: (json['Children'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final children = this.children;
+    final nextToken = this.nextToken;
+    return {
+      if (children != null) 'Children': children,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <a>GetObjectInformation</a> response operation.
+class BatchGetObjectInformationResponse {
+  /// The <code>ObjectIdentifier</code> of the specified object.
+  final String? objectIdentifier;
+
+  /// The facets attached to the specified object.
+  final List<SchemaFacet>? schemaFacets;
+
+  BatchGetObjectInformationResponse({
+    this.objectIdentifier,
+    this.schemaFacets,
+  });
+
+  factory BatchGetObjectInformationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetObjectInformationResponse(
+      objectIdentifier: json['ObjectIdentifier'] as String?,
+      schemaFacets: (json['SchemaFacets'] as List?)
+          ?.nonNulls
+          .map((e) => SchemaFacet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectIdentifier = this.objectIdentifier;
+    final schemaFacets = this.schemaFacets;
+    return {
+      if (objectIdentifier != null) 'ObjectIdentifier': objectIdentifier,
+      if (schemaFacets != null) 'SchemaFacets': schemaFacets,
+    };
+  }
+}
+
+/// Represents the output of a <a>GetObjectAttributes</a> response operation.
+class BatchGetObjectAttributesResponse {
+  /// The attribute values that are associated with an object.
+  final List<AttributeKeyAndValue>? attributes;
+
+  BatchGetObjectAttributesResponse({
+    this.attributes,
+  });
+
+  factory BatchGetObjectAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetObjectAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListAttachedIndices</a> response operation.
+class BatchListAttachedIndicesResponse {
+  /// The indices attached to the specified object.
+  final List<IndexAttachment>? indexAttachments;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListAttachedIndicesResponse({
+    this.indexAttachments,
+    this.nextToken,
+  });
+
+  factory BatchListAttachedIndicesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListAttachedIndicesResponse(
+      indexAttachments: (json['IndexAttachments'] as List?)
+          ?.nonNulls
+          .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexAttachments = this.indexAttachments;
+    final nextToken = this.nextToken;
+    return {
+      if (indexAttachments != null) 'IndexAttachments': indexAttachments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListObjectParentPaths</a> response operation.
+class BatchListObjectParentPathsResponse {
+  /// The pagination token.
+  final String? nextToken;
+
+  /// Returns the path to the <code>ObjectIdentifiers</code> that are associated
+  /// with the directory.
+  final List<PathToObjectIdentifiers>? pathToObjectIdentifiersList;
+
+  BatchListObjectParentPathsResponse({
+    this.nextToken,
+    this.pathToObjectIdentifiersList,
+  });
+
+  factory BatchListObjectParentPathsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchListObjectParentPathsResponse(
+      nextToken: json['NextToken'] as String?,
+      pathToObjectIdentifiersList:
+          (json['PathToObjectIdentifiersList'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  PathToObjectIdentifiers.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final pathToObjectIdentifiersList = this.pathToObjectIdentifiersList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (pathToObjectIdentifiersList != null)
+        'PathToObjectIdentifiersList': pathToObjectIdentifiersList,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListObjectPolicies</a> response operation.
+class BatchListObjectPoliciesResponse {
+  /// A list of policy <code>ObjectIdentifiers</code>, that are attached to the
+  /// object.
+  final List<String>? attachedPolicyIds;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListObjectPoliciesResponse({
+    this.attachedPolicyIds,
+    this.nextToken,
+  });
+
+  factory BatchListObjectPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListObjectPoliciesResponse(
+      attachedPolicyIds: (json['AttachedPolicyIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedPolicyIds = this.attachedPolicyIds;
+    final nextToken = this.nextToken;
+    return {
+      if (attachedPolicyIds != null) 'AttachedPolicyIds': attachedPolicyIds,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListPolicyAttachments</a> response operation.
+class BatchListPolicyAttachmentsResponse {
+  /// The pagination token.
+  final String? nextToken;
+
+  /// A list of <code>ObjectIdentifiers</code> to which the policy is attached.
+  final List<String>? objectIdentifiers;
+
+  BatchListPolicyAttachmentsResponse({
+    this.nextToken,
+    this.objectIdentifiers,
+  });
+
+  factory BatchListPolicyAttachmentsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchListPolicyAttachmentsResponse(
+      nextToken: json['NextToken'] as String?,
+      objectIdentifiers: (json['ObjectIdentifiers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final objectIdentifiers = this.objectIdentifiers;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (objectIdentifiers != null) 'ObjectIdentifiers': objectIdentifiers,
+    };
+  }
+}
+
+/// Represents the output of a <a>LookupPolicy</a> response operation.
+class BatchLookupPolicyResponse {
+  /// The pagination token.
+  final String? nextToken;
+
+  /// Provides list of path to policies. Policies contain <code>PolicyId</code>,
+  /// <code>ObjectIdentifier</code>, and <code>PolicyType</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
+  final List<PolicyToPath>? policyToPathList;
+
+  BatchLookupPolicyResponse({
+    this.nextToken,
+    this.policyToPathList,
+  });
+
+  factory BatchLookupPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return BatchLookupPolicyResponse(
+      nextToken: json['NextToken'] as String?,
+      policyToPathList: (json['PolicyToPathList'] as List?)
+          ?.nonNulls
+          .map((e) => PolicyToPath.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final policyToPathList = this.policyToPathList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (policyToPathList != null) 'PolicyToPathList': policyToPathList,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListIndex</a> response operation.
+class BatchListIndexResponse {
+  /// The objects and indexed values attached to the index.
+  final List<IndexAttachment>? indexAttachments;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListIndexResponse({
+    this.indexAttachments,
+    this.nextToken,
+  });
+
+  factory BatchListIndexResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListIndexResponse(
+      indexAttachments: (json['IndexAttachments'] as List?)
+          ?.nonNulls
+          .map((e) => IndexAttachment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexAttachments = this.indexAttachments;
+    final nextToken = this.nextToken;
+    return {
+      if (indexAttachments != null) 'IndexAttachments': indexAttachments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListOutgoingTypedLinks</a> response operation.
+class BatchListOutgoingTypedLinksResponse {
+  /// The pagination token.
+  final String? nextToken;
+
+  /// Returns a typed link specifier as output.
+  final List<TypedLinkSpecifier>? typedLinkSpecifiers;
+
+  BatchListOutgoingTypedLinksResponse({
+    this.nextToken,
+    this.typedLinkSpecifiers,
+  });
+
+  factory BatchListOutgoingTypedLinksResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchListOutgoingTypedLinksResponse(
+      nextToken: json['NextToken'] as String?,
+      typedLinkSpecifiers: (json['TypedLinkSpecifiers'] as List?)
+          ?.nonNulls
+          .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final typedLinkSpecifiers = this.typedLinkSpecifiers;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (typedLinkSpecifiers != null)
+        'TypedLinkSpecifiers': typedLinkSpecifiers,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListIncomingTypedLinks</a> response operation.
+class BatchListIncomingTypedLinksResponse {
+  /// Returns one or more typed link specifiers as output.
+  final List<TypedLinkSpecifier>? linkSpecifiers;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListIncomingTypedLinksResponse({
+    this.linkSpecifiers,
+    this.nextToken,
+  });
+
+  factory BatchListIncomingTypedLinksResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchListIncomingTypedLinksResponse(
+      linkSpecifiers: (json['LinkSpecifiers'] as List?)
+          ?.nonNulls
+          .map((e) => TypedLinkSpecifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linkSpecifiers = this.linkSpecifiers;
+    final nextToken = this.nextToken;
+    return {
+      if (linkSpecifiers != null) 'LinkSpecifiers': linkSpecifiers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <a>GetLinkAttributes</a> response operation.
+class BatchGetLinkAttributesResponse {
+  /// The attributes that are associated with the typed link.
+  final List<AttributeKeyAndValue>? attributes;
+
+  BatchGetLinkAttributesResponse({
+    this.attributes,
+  });
+
+  factory BatchGetLinkAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetLinkAttributesResponse(
+      attributes: (json['Attributes'] as List?)
+          ?.nonNulls
+          .map((e) => AttributeKeyAndValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListObjectParents</a> response operation.
+class BatchListObjectParentsResponse {
+  /// The pagination token.
+  final String? nextToken;
+
+  /// Returns a list of parent reference and LinkName Tuples.
+  final List<ObjectIdentifierAndLinkNameTuple>? parentLinks;
+
+  BatchListObjectParentsResponse({
+    this.nextToken,
+    this.parentLinks,
+  });
+
+  factory BatchListObjectParentsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchListObjectParentsResponse(
+      nextToken: json['NextToken'] as String?,
+      parentLinks: (json['ParentLinks'] as List?)
+          ?.nonNulls
+          .map((e) => ObjectIdentifierAndLinkNameTuple.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parentLinks = this.parentLinks;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parentLinks != null) 'ParentLinks': parentLinks,
+    };
+  }
+}
+
+/// Represents the output of a <code>BatchRead</code> operation.
+class BatchReadOperation {
+  /// Retrieves attributes that are associated with a typed link.
+  final BatchGetLinkAttributes? getLinkAttributes;
+
+  /// Retrieves attributes within a facet that are associated with an object.
+  final BatchGetObjectAttributes? getObjectAttributes;
+
+  /// Retrieves metadata about an object.
+  final BatchGetObjectInformation? getObjectInformation;
+
+  /// Lists indices attached to an object.
+  final BatchListAttachedIndices? listAttachedIndices;
+
+  /// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
+  /// information for an object. It also supports filtering by typed link facet
+  /// and identity attributes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  final BatchListIncomingTypedLinks? listIncomingTypedLinks;
+
+  /// Lists objects attached to the specified index.
+  final BatchListIndex? listIndex;
+
+  /// Lists all attributes that are associated with an object.
+  final BatchListObjectAttributes? listObjectAttributes;
+
+  /// Returns a paginated list of child objects that are associated with a given
+  /// object.
+  final BatchListObjectChildren? listObjectChildren;
+
+  /// Retrieves all available parent paths for any object type such as node, leaf
+  /// node, policy node, and index node objects. For more information about
+  /// objects, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html">Directory
+  /// Structure</a>.
+  final BatchListObjectParentPaths? listObjectParentPaths;
+
+  /// Lists parent objects that are associated with a given object in pagination
+  /// fashion.
+  final BatchListObjectParents? listObjectParents;
+
+  /// Returns policies attached to an object in pagination fashion.
+  final BatchListObjectPolicies? listObjectPolicies;
+
+  /// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
+  /// information for an object. It also supports filtering by typed link facet
+  /// and identity attributes. For more information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink">Typed
+  /// Links</a>.
+  final BatchListOutgoingTypedLinks? listOutgoingTypedLinks;
+
+  /// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
+  /// attached.
+  final BatchListPolicyAttachments? listPolicyAttachments;
+
+  /// Lists all policies from the root of the <a>Directory</a> to the object
+  /// specified. If there are no policies present, an empty list is returned. If
+  /// policies are present, and if some objects don't have the policies attached,
+  /// it returns the <code>ObjectIdentifier</code> for such objects. If policies
+  /// are present, it returns <code>ObjectIdentifier</code>,
+  /// <code>policyId</code>, and <code>policyType</code>. Paths that don't lead to
+  /// the root from the target object are ignored. For more information, see <a
+  /// href="https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies">Policies</a>.
+  final BatchLookupPolicy? lookupPolicy;
+
+  BatchReadOperation({
+    this.getLinkAttributes,
+    this.getObjectAttributes,
+    this.getObjectInformation,
+    this.listAttachedIndices,
+    this.listIncomingTypedLinks,
+    this.listIndex,
+    this.listObjectAttributes,
+    this.listObjectChildren,
+    this.listObjectParentPaths,
+    this.listObjectParents,
+    this.listObjectPolicies,
+    this.listOutgoingTypedLinks,
+    this.listPolicyAttachments,
+    this.lookupPolicy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final getLinkAttributes = this.getLinkAttributes;
+    final getObjectAttributes = this.getObjectAttributes;
+    final getObjectInformation = this.getObjectInformation;
+    final listAttachedIndices = this.listAttachedIndices;
+    final listIncomingTypedLinks = this.listIncomingTypedLinks;
+    final listIndex = this.listIndex;
+    final listObjectAttributes = this.listObjectAttributes;
+    final listObjectChildren = this.listObjectChildren;
+    final listObjectParentPaths = this.listObjectParentPaths;
+    final listObjectParents = this.listObjectParents;
+    final listObjectPolicies = this.listObjectPolicies;
+    final listOutgoingTypedLinks = this.listOutgoingTypedLinks;
+    final listPolicyAttachments = this.listPolicyAttachments;
+    final lookupPolicy = this.lookupPolicy;
+    return {
+      if (getLinkAttributes != null) 'GetLinkAttributes': getLinkAttributes,
+      if (getObjectAttributes != null)
+        'GetObjectAttributes': getObjectAttributes,
+      if (getObjectInformation != null)
+        'GetObjectInformation': getObjectInformation,
+      if (listAttachedIndices != null)
+        'ListAttachedIndices': listAttachedIndices,
+      if (listIncomingTypedLinks != null)
+        'ListIncomingTypedLinks': listIncomingTypedLinks,
+      if (listIndex != null) 'ListIndex': listIndex,
+      if (listObjectAttributes != null)
+        'ListObjectAttributes': listObjectAttributes,
+      if (listObjectChildren != null) 'ListObjectChildren': listObjectChildren,
+      if (listObjectParentPaths != null)
+        'ListObjectParentPaths': listObjectParentPaths,
+      if (listObjectParents != null) 'ListObjectParents': listObjectParents,
+      if (listObjectPolicies != null) 'ListObjectPolicies': listObjectPolicies,
+      if (listOutgoingTypedLinks != null)
+        'ListOutgoingTypedLinks': listOutgoingTypedLinks,
+      if (listPolicyAttachments != null)
+        'ListPolicyAttachments': listPolicyAttachments,
+      if (lookupPolicy != null) 'LookupPolicy': lookupPolicy,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListObjectAttributes</a> operation.
+class BatchListObjectAttributes {
+  /// Reference of the object whose attributes need to be listed.
+  final ObjectReference objectReference;
+
+  /// Used to filter the list of object attributes that are associated with a
+  /// certain facet.
+  final SchemaFacet? facetFilter;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListObjectAttributes({
+    required this.objectReference,
+    this.facetFilter,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final facetFilter = this.facetFilter;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (facetFilter != null) 'FacetFilter': facetFilter,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Represents the output of a <a>ListObjectChildren</a> operation.
+class BatchListObjectChildren {
+  /// Reference of the object for which child objects are being listed.
+  final ObjectReference objectReference;
+
+  /// Maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListObjectChildren({
+    required this.objectReference,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Lists indices attached to an object inside a <a>BatchRead</a> operation. For
+/// more information, see <a>ListAttachedIndices</a> and
+/// <a>BatchReadRequest$Operations</a>.
+class BatchListAttachedIndices {
+  /// A reference to the object that has indices attached.
+  final ObjectReference targetReference;
+
+  /// The maximum number of results to retrieve.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListAttachedIndices({
+    required this.targetReference,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final targetReference = this.targetReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'TargetReference': targetReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Retrieves all available parent paths for any object type such as node, leaf
+/// node, policy node, and index node objects inside a <a>BatchRead</a>
+/// operation. For more information, see <a>ListObjectParentPaths</a> and
+/// <a>BatchReadRequest$Operations</a>.
+class BatchListObjectParentPaths {
+  /// The reference that identifies the object whose attributes will be listed.
+  final ObjectReference objectReference;
+
+  /// The maximum number of results to retrieve.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListObjectParentPaths({
+    required this.objectReference,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Retrieves metadata about an object inside a <a>BatchRead</a> operation. For
+/// more information, see <a>GetObjectInformation</a> and
+/// <a>BatchReadRequest$Operations</a>.
+class BatchGetObjectInformation {
+  /// A reference to the object.
+  final ObjectReference objectReference;
+
+  BatchGetObjectInformation({
+    required this.objectReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    return {
+      'ObjectReference': objectReference,
+    };
+  }
+}
+
+/// Retrieves attributes within a facet that are associated with an object
+/// inside an <a>BatchRead</a> operation. For more information, see
+/// <a>GetObjectAttributes</a> and <a>BatchReadRequest$Operations</a>.
+class BatchGetObjectAttributes {
+  /// List of attribute names whose values will be retrieved.
+  final List<String> attributeNames;
+
+  /// Reference that identifies the object whose attributes will be retrieved.
+  final ObjectReference objectReference;
+
+  /// Identifier for the facet whose attributes will be retrieved. See
+  /// <a>SchemaFacet</a> for details.
+  final SchemaFacet schemaFacet;
+
+  BatchGetObjectAttributes({
+    required this.attributeNames,
+    required this.objectReference,
+    required this.schemaFacet,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeNames = this.attributeNames;
+    final objectReference = this.objectReference;
+    final schemaFacet = this.schemaFacet;
+    return {
+      'AttributeNames': attributeNames,
+      'ObjectReference': objectReference,
+      'SchemaFacet': schemaFacet,
+    };
+  }
+}
+
+/// Lists parent objects that are associated with a given object in pagination
+/// fashion.
+class BatchListObjectParents {
+  final ObjectReference objectReference;
+
+  /// The maximum number of items to be retrieved in a single call. This is an
+  /// approximate number.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListObjectParents({
+    required this.objectReference,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Returns policies attached to an object in pagination fashion inside a
+/// <a>BatchRead</a> operation. For more information, see
+/// <a>ListObjectPolicies</a> and <a>BatchReadRequest$Operations</a>.
+class BatchListObjectPolicies {
+  /// The reference that identifies the object whose attributes will be listed.
+  final ObjectReference objectReference;
+
+  /// The maximum number of results to retrieve.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListObjectPolicies({
+    required this.objectReference,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Returns all of the <code>ObjectIdentifiers</code> to which a given policy is
+/// attached inside a <a>BatchRead</a> operation. For more information, see
+/// <a>ListPolicyAttachments</a> and <a>BatchReadRequest$Operations</a>.
+class BatchListPolicyAttachments {
+  /// The reference that identifies the policy object.
+  final ObjectReference policyReference;
+
+  /// The maximum number of results to retrieve.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListPolicyAttachments({
+    required this.policyReference,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final policyReference = this.policyReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'PolicyReference': policyReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Lists all policies from the root of the Directory to the object specified
+/// inside a <a>BatchRead</a> operation. For more information, see
+/// <a>LookupPolicy</a> and <a>BatchReadRequest$Operations</a>.
+class BatchLookupPolicy {
+  /// Reference that identifies the object whose policies will be looked up.
+  final ObjectReference objectReference;
+
+  /// The maximum number of results to retrieve.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchLookupPolicy({
+    required this.objectReference,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Lists objects attached to the specified index inside a <a>BatchRead</a>
+/// operation. For more information, see <a>ListIndex</a> and
+/// <a>BatchReadRequest$Operations</a>.
+class BatchListIndex {
+  /// The reference to the index to list.
+  final ObjectReference indexReference;
+
+  /// The maximum number of results to retrieve.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  /// Specifies the ranges of indexed values that you want to query.
+  final List<ObjectAttributeRange>? rangesOnIndexedValues;
+
+  BatchListIndex({
+    required this.indexReference,
+    this.maxResults,
+    this.nextToken,
+    this.rangesOnIndexedValues,
+  });
+
+  Map<String, dynamic> toJson() {
+    final indexReference = this.indexReference;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    final rangesOnIndexedValues = this.rangesOnIndexedValues;
+    return {
+      'IndexReference': indexReference,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (rangesOnIndexedValues != null)
+        'RangesOnIndexedValues': rangesOnIndexedValues,
+    };
+  }
+}
+
+/// Returns a paginated list of all the outgoing <a>TypedLinkSpecifier</a>
+/// information for an object inside a <a>BatchRead</a> operation. For more
+/// information, see <a>ListOutgoingTypedLinks</a> and
+/// <a>BatchReadRequest$Operations</a>.
+class BatchListOutgoingTypedLinks {
+  /// The reference that identifies the object whose attributes will be listed.
+  final ObjectReference objectReference;
+
+  /// Provides range filters for multiple attributes. When providing ranges to
+  /// typed link selection, any inexact ranges must be specified at the end. Any
+  /// attributes that do not have a range specified are presumed to match the
+  /// entire range.
+  final List<TypedLinkAttributeRange>? filterAttributeRanges;
+
+  /// Filters are interpreted in the order of the attributes defined on the typed
+  /// link facet, not the order they are supplied to any API calls.
+  final TypedLinkSchemaAndFacetName? filterTypedLink;
+
+  /// The maximum number of results to retrieve.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListOutgoingTypedLinks({
+    required this.objectReference,
+    this.filterAttributeRanges,
+    this.filterTypedLink,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final filterAttributeRanges = this.filterAttributeRanges;
+    final filterTypedLink = this.filterTypedLink;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (filterAttributeRanges != null)
+        'FilterAttributeRanges': filterAttributeRanges,
+      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Returns a paginated list of all the incoming <a>TypedLinkSpecifier</a>
+/// information for an object inside a <a>BatchRead</a> operation. For more
+/// information, see <a>ListIncomingTypedLinks</a> and
+/// <a>BatchReadRequest$Operations</a>.
+class BatchListIncomingTypedLinks {
+  /// The reference that identifies the object whose attributes will be listed.
+  final ObjectReference objectReference;
+
+  /// Provides range filters for multiple attributes. When providing ranges to
+  /// typed link selection, any inexact ranges must be specified at the end. Any
+  /// attributes that do not have a range specified are presumed to match the
+  /// entire range.
+  final List<TypedLinkAttributeRange>? filterAttributeRanges;
+
+  /// Filters are interpreted in the order of the attributes on the typed link
+  /// facet, not the order in which they are supplied to any API calls.
+  final TypedLinkSchemaAndFacetName? filterTypedLink;
+
+  /// The maximum number of results to retrieve.
+  final int? maxResults;
+
+  /// The pagination token.
+  final String? nextToken;
+
+  BatchListIncomingTypedLinks({
+    required this.objectReference,
+    this.filterAttributeRanges,
+    this.filterTypedLink,
+    this.maxResults,
+    this.nextToken,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectReference = this.objectReference;
+    final filterAttributeRanges = this.filterAttributeRanges;
+    final filterTypedLink = this.filterTypedLink;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      'ObjectReference': objectReference,
+      if (filterAttributeRanges != null)
+        'FilterAttributeRanges': filterAttributeRanges,
+      if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Retrieves attributes that are associated with a typed link inside a
+/// <a>BatchRead</a> operation. For more information, see
+/// <a>GetLinkAttributes</a> and <a>BatchReadRequest$Operations</a>.
+class BatchGetLinkAttributes {
+  /// A list of attribute names whose values will be retrieved.
+  final List<String> attributeNames;
+
+  /// Allows a typed link specifier to be accepted as input.
+  final TypedLinkSpecifier typedLinkSpecifier;
+
+  BatchGetLinkAttributes({
+    required this.attributeNames,
+    required this.typedLinkSpecifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributeNames = this.attributeNames;
+    final typedLinkSpecifier = this.typedLinkSpecifier;
+    return {
+      'AttributeNames': attributeNames,
+      'TypedLinkSpecifier': typedLinkSpecifier,
     };
   }
 }

@@ -45,11 +45,19 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// <li>
 /// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_GetControlOperation.html">GetControlOperation</a>
+/// </li>
+/// <li>
+/// <a
 /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListControlOperations.html">ListControlOperations</a>
 /// </li>
 /// <li>
 /// <a
 /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ListEnabledControls.html">ListEnabledControls</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/controltower/latest/APIReference/API_ResetEnabledControl.html">ResetEnabledControl</a>
 /// </li>
 /// <li>
 /// <a
@@ -391,7 +399,6 @@ class ControlTower {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'controltower',
-            signingName: 'controltower',
           ),
           region: region,
           credentials: credentials,
@@ -408,107 +415,6 @@ class ControlTower {
     _protocol.close();
   }
 
-  /// Creates a new landing zone. This API call starts an asynchronous operation
-  /// that creates and configures a landing zone, based on the parameters
-  /// specified in the manifest JSON file.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [manifest] :
-  /// The manifest JSON file is a text file that describes your Amazon Web
-  /// Services resources. For examples, review <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch">Launch
-  /// your landing zone</a>.
-  ///
-  /// Parameter [version] :
-  /// The landing zone version, for example, 3.0.
-  ///
-  /// Parameter [tags] :
-  /// Tags to be applied to the landing zone.
-  Future<CreateLandingZoneOutput> createLandingZone({
-    required Manifest manifest,
-    required String version,
-    Map<String, String>? tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'manifest': manifest,
-      'version': version,
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/create-landingzone',
-      exceptionFnMap: _exceptionFns,
-    );
-    return CreateLandingZoneOutput.fromJson(response);
-  }
-
-  /// Decommissions a landing zone. This API call starts an asynchronous
-  /// operation that deletes Amazon Web Services Control Tower resources
-  /// deployed in accounts managed by Amazon Web Services Control Tower.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [landingZoneIdentifier] :
-  /// The unique identifier of the landing zone.
-  Future<DeleteLandingZoneOutput> deleteLandingZone({
-    required String landingZoneIdentifier,
-  }) async {
-    final $payload = <String, dynamic>{
-      'landingZoneIdentifier': landingZoneIdentifier,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/delete-landingzone',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DeleteLandingZoneOutput.fromJson(response);
-  }
-
-  /// Disable an <code>EnabledBaseline</code> resource on the specified Target.
-  /// This API starts an asynchronous operation to remove all resources deployed
-  /// as part of the baseline enablement. The resource will vary depending on
-  /// the enabled baseline. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [enabledBaselineIdentifier] :
-  /// Identifier of the <code>EnabledBaseline</code> resource to be deactivated,
-  /// in ARN format.
-  Future<DisableBaselineOutput> disableBaseline({
-    required String enabledBaselineIdentifier,
-  }) async {
-    final $payload = <String, dynamic>{
-      'enabledBaselineIdentifier': enabledBaselineIdentifier,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/disable-baseline',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DisableBaselineOutput.fromJson(response);
-  }
-
   /// This API call turns off a control. It starts an asynchronous operation
   /// that deletes Amazon Web Services resources on the specified organizational
   /// unit and the accounts it contains. The resources will vary according to
@@ -516,13 +422,13 @@ class ControlTower {
   /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
   /// <i>Controls Reference Guide</i> </a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlIdentifier] :
   /// The ARN of the control. Only <b>Strongly recommended</b> and
@@ -532,18 +438,25 @@ class ControlTower {
   /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html">the
   /// overview page</a>.
   ///
+  /// Parameter [enabledControlIdentifier] :
+  /// The ARN of the enabled control to be disabled, which uniquely identifies
+  /// the control instance on the target organizational unit.
+  ///
   /// Parameter [targetIdentifier] :
   /// The ARN of the organizational unit. For information on how to find the
   /// <code>targetIdentifier</code>, see <a
   /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html">the
   /// overview page</a>.
   Future<DisableControlOutput> disableControl({
-    required String controlIdentifier,
-    required String targetIdentifier,
+    String? controlIdentifier,
+    String? enabledControlIdentifier,
+    String? targetIdentifier,
   }) async {
     final $payload = <String, dynamic>{
-      'controlIdentifier': controlIdentifier,
-      'targetIdentifier': targetIdentifier,
+      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
+      if (enabledControlIdentifier != null)
+        'enabledControlIdentifier': enabledControlIdentifier,
+      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -554,19 +467,192 @@ class ControlTower {
     return DisableControlOutput.fromJson(response);
   }
 
+  /// Returns the details of an asynchronous baseline operation, as initiated by
+  /// any of these APIs: <code>EnableBaseline</code>,
+  /// <code>DisableBaseline</code>, <code>UpdateEnabledBaseline</code>,
+  /// <code>ResetEnabledBaseline</code>. A status message is displayed in case
+  /// of operation failure. For usage examples, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
+  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [operationIdentifier] :
+  /// The operation ID returned from mutating asynchronous APIs (Enable,
+  /// Disable, Update, Reset).
+  Future<GetBaselineOperationOutput> getBaselineOperation({
+    required String operationIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'operationIdentifier': operationIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-baseline-operation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBaselineOperationOutput.fromJson(response);
+  }
+
+  /// Retrieve details about an existing <code>Baseline</code> resource by
+  /// specifying its identifier. For usage examples, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
+  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [baselineIdentifier] :
+  /// The ARN of the <code>Baseline</code> resource to be retrieved.
+  Future<GetBaselineOutput> getBaseline({
+    required String baselineIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'baselineIdentifier': baselineIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-baseline',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBaselineOutput.fromJson(response);
+  }
+
+  /// Returns a summary list of all available baselines. For usage examples, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
+  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be shown.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token.
+  Future<ListBaselinesOutput> listBaselines({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      4,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-baselines',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListBaselinesOutput.fromJson(response);
+  }
+
+  /// Returns the status of a particular <code>EnableControl</code> or
+  /// <code>DisableControl</code> operation. Displays a message in case of
+  /// error. Details for an operation are available for 90 days. For usage
+  /// examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [operationIdentifier] :
+  /// The ID of the asynchronous operation, which is used to track status. The
+  /// operation is available for 90 days.
+  Future<GetControlOperationOutput> getControlOperation({
+    required String operationIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'operationIdentifier': operationIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-control-operation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetControlOperationOutput.fromJson(response);
+  }
+
+  /// Provides a list of operations in progress or queued. For usage examples,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html#list-control-operations-api-examples">ListControlOperation
+  /// examples</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filter] :
+  /// An input filter for the <code>ListControlOperations</code> API that lets
+  /// you select the types of control operations to view.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be shown.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token.
+  Future<ListControlOperationsOutput> listControlOperations({
+    ControlOperationFilter? filter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (filter != null) 'filter': filter,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-control-operations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListControlOperationsOutput.fromJson(response);
+  }
+
   /// Enable (apply) a <code>Baseline</code> to a Target. This API starts an
   /// asynchronous operation to deploy resources specified by the
   /// <code>Baseline</code> to the specified Target. For usage examples, see <a
   /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
   /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [baselineIdentifier] :
   /// The ARN of the baseline to be enabled.
@@ -608,6 +694,193 @@ class ControlTower {
     return EnableBaselineOutput.fromJson(response);
   }
 
+  /// Retrieve details of an <code>EnabledBaseline</code> resource by specifying
+  /// its identifier.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [enabledBaselineIdentifier] :
+  /// Identifier of the <code>EnabledBaseline</code> resource to be retrieved,
+  /// in ARN format.
+  Future<GetEnabledBaselineOutput> getEnabledBaseline({
+    required String enabledBaselineIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'enabledBaselineIdentifier': enabledBaselineIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-enabled-baseline',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEnabledBaselineOutput.fromJson(response);
+  }
+
+  /// Updates an <code>EnabledBaseline</code> resource's applied parameters or
+  /// version. For usage examples, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
+  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [baselineVersion] :
+  /// Specifies the new <code>Baseline</code> version, to which the
+  /// <code>EnabledBaseline</code> should be updated.
+  ///
+  /// Parameter [enabledBaselineIdentifier] :
+  /// Specifies the <code>EnabledBaseline</code> resource to be updated.
+  ///
+  /// Parameter [parameters] :
+  /// Parameters to apply when making an update.
+  Future<UpdateEnabledBaselineOutput> updateEnabledBaseline({
+    required String baselineVersion,
+    required String enabledBaselineIdentifier,
+    List<EnabledBaselineParameter>? parameters,
+  }) async {
+    final $payload = <String, dynamic>{
+      'baselineVersion': baselineVersion,
+      'enabledBaselineIdentifier': enabledBaselineIdentifier,
+      if (parameters != null) 'parameters': parameters,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/update-enabled-baseline',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateEnabledBaselineOutput.fromJson(response);
+  }
+
+  /// Disable an <code>EnabledBaseline</code> resource on the specified Target.
+  /// This API starts an asynchronous operation to remove all resources deployed
+  /// as part of the baseline enablement. The resource will vary depending on
+  /// the enabled baseline. For usage examples, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
+  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [enabledBaselineIdentifier] :
+  /// Identifier of the <code>EnabledBaseline</code> resource to be deactivated,
+  /// in ARN format.
+  Future<DisableBaselineOutput> disableBaseline({
+    required String enabledBaselineIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'enabledBaselineIdentifier': enabledBaselineIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/disable-baseline',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DisableBaselineOutput.fromJson(response);
+  }
+
+  /// Returns a list of summaries describing <code>EnabledBaseline</code>
+  /// resources. You can filter the list by the corresponding
+  /// <code>Baseline</code> or <code>Target</code> of the
+  /// <code>EnabledBaseline</code> resources. For usage examples, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
+  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filter] :
+  /// A filter applied on the <code>ListEnabledBaseline</code> operation.
+  /// Allowed filters are <code>baselineIdentifiers</code> and
+  /// <code>targetIdentifiers</code>. The filter can be applied for either, or
+  /// both.
+  ///
+  /// Parameter [includeChildren] :
+  /// A value that can be set to include the child enabled baselines in
+  /// responses. The default value is false.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be shown.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token.
+  Future<ListEnabledBaselinesOutput> listEnabledBaselines({
+    EnabledBaselineFilter? filter,
+    bool? includeChildren,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      if (filter != null) 'filter': filter,
+      if (includeChildren != null) 'includeChildren': includeChildren,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-enabled-baselines',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEnabledBaselinesOutput.fromJson(response);
+  }
+
+  /// Re-enables an <code>EnabledBaseline</code> resource. For example, this API
+  /// can re-apply the existing <code>Baseline</code> after a new member account
+  /// is moved to the target OU. For usage examples, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
+  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [enabledBaselineIdentifier] :
+  /// Specifies the ID of the <code>EnabledBaseline</code> resource to be
+  /// re-enabled, in ARN format.
+  Future<ResetEnabledBaselineOutput> resetEnabledBaseline({
+    required String enabledBaselineIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'enabledBaselineIdentifier': enabledBaselineIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/reset-enabled-baseline',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ResetEnabledBaselineOutput.fromJson(response);
+  }
+
   /// This API call activates a control. It starts an asynchronous operation
   /// that creates Amazon Web Services resources on the specified organizational
   /// unit and the accounts it contains. The resources created will vary
@@ -615,13 +888,13 @@ class ControlTower {
   /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
   /// <i>Controls Reference Guide</i> </a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlIdentifier] :
   /// The ARN of the control. Only <b>Strongly recommended</b> and
@@ -664,133 +937,15 @@ class ControlTower {
     return EnableControlOutput.fromJson(response);
   }
 
-  /// Retrieve details about an existing <code>Baseline</code> resource by
-  /// specifying its identifier. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [baselineIdentifier] :
-  /// The ARN of the <code>Baseline</code> resource to be retrieved.
-  Future<GetBaselineOutput> getBaseline({
-    required String baselineIdentifier,
-  }) async {
-    final $payload = <String, dynamic>{
-      'baselineIdentifier': baselineIdentifier,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/get-baseline',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetBaselineOutput.fromJson(response);
-  }
-
-  /// Returns the details of an asynchronous baseline operation, as initiated by
-  /// any of these APIs: <code>EnableBaseline</code>,
-  /// <code>DisableBaseline</code>, <code>UpdateEnabledBaseline</code>,
-  /// <code>ResetEnabledBaseline</code>. A status message is displayed in case
-  /// of operation failure. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [operationIdentifier] :
-  /// The operation ID returned from mutating asynchronous APIs (Enable,
-  /// Disable, Update, Reset).
-  Future<GetBaselineOperationOutput> getBaselineOperation({
-    required String operationIdentifier,
-  }) async {
-    final $payload = <String, dynamic>{
-      'operationIdentifier': operationIdentifier,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/get-baseline-operation',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetBaselineOperationOutput.fromJson(response);
-  }
-
-  /// Returns the status of a particular <code>EnableControl</code> or
-  /// <code>DisableControl</code> operation. Displays a message in case of
-  /// error. Details for an operation are available for 90 days. For usage
-  /// examples, see the <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
-  /// <i>Controls Reference Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [operationIdentifier] :
-  /// The ID of the asynchronous operation, which is used to track status. The
-  /// operation is available for 90 days.
-  Future<GetControlOperationOutput> getControlOperation({
-    required String operationIdentifier,
-  }) async {
-    final $payload = <String, dynamic>{
-      'operationIdentifier': operationIdentifier,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/get-control-operation',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetControlOperationOutput.fromJson(response);
-  }
-
-  /// Retrieve details of an <code>EnabledBaseline</code> resource by specifying
-  /// its identifier.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [enabledBaselineIdentifier] :
-  /// Identifier of the <code>EnabledBaseline</code> resource to be retrieved,
-  /// in ARN format.
-  Future<GetEnabledBaselineOutput> getEnabledBaseline({
-    required String enabledBaselineIdentifier,
-  }) async {
-    final $payload = <String, dynamic>{
-      'enabledBaselineIdentifier': enabledBaselineIdentifier,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/get-enabled-baseline',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetEnabledBaselineOutput.fromJson(response);
-  }
-
   /// Retrieves details about an enabled control. For usage examples, see the <a
   /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
   /// <i>Controls Reference Guide</i> </a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [enabledControlIdentifier] :
   /// The <code>controlIdentifier</code> of the enabled control.
@@ -809,40 +964,154 @@ class ControlTower {
     return GetEnabledControlOutput.fromJson(response);
   }
 
-  /// Returns details about the landing zone. Displays a message in case of
-  /// error.
+  /// Updates the configuration of an already enabled control.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
+  /// If the enabled control shows an <code>EnablementStatus</code> of
+  /// SUCCEEDED, supply parameters that are different from the currently
+  /// configured parameters. Otherwise, Amazon Web Services Control Tower will
+  /// not accept the request.
+  ///
+  /// If the enabled control shows an <code>EnablementStatus</code> of FAILED,
+  /// Amazon Web Services Control Tower updates the control to match any valid
+  /// parameters that you supply.
+  ///
+  /// If the <code>DriftSummary</code> status for the control shows as
+  /// <code>DRIFTED</code>, you cannot call this API. Instead, you can update
+  /// the control by calling the <code>ResetEnabledControl</code> API.
+  /// Alternatively, you can call <code>DisableControl</code> and then call
+  /// <code>EnableControl</code> again. Also, you can run an extending
+  /// governance operation to repair drift. For usage examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
+  ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
-  /// Parameter [landingZoneIdentifier] :
-  /// The unique identifier of the landing zone.
-  Future<GetLandingZoneOutput> getLandingZone({
-    required String landingZoneIdentifier,
+  /// Parameter [enabledControlIdentifier] :
+  /// The ARN of the enabled control that will be updated.
+  ///
+  /// Parameter [parameters] :
+  /// A key/value pair, where <code>Key</code> is of type <code>String</code>
+  /// and <code>Value</code> is of type <code>Document</code>.
+  Future<UpdateEnabledControlOutput> updateEnabledControl({
+    required String enabledControlIdentifier,
+    required List<EnabledControlParameter> parameters,
   }) async {
     final $payload = <String, dynamic>{
-      'landingZoneIdentifier': landingZoneIdentifier,
+      'enabledControlIdentifier': enabledControlIdentifier,
+      'parameters': parameters,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/get-landingzone',
+      requestUri: '/update-enabled-control',
       exceptionFnMap: _exceptionFns,
     );
-    return GetLandingZoneOutput.fromJson(response);
+    return UpdateEnabledControlOutput.fromJson(response);
+  }
+
+  /// Lists the controls enabled by Amazon Web Services Control Tower on the
+  /// specified organizational unit and the accounts it contains. For usage
+  /// examples, see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filter] :
+  /// An input filter for the <code>ListEnabledControls</code> API that lets you
+  /// select the types of control operations to view.
+  ///
+  /// Parameter [includeChildren] :
+  /// A boolean value that determines whether to include enabled controls from
+  /// child organizational units in the response.
+  ///
+  /// Parameter [maxResults] :
+  /// How many results to return per API call.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to continue the list from a previous API call with the same
+  /// parameters.
+  ///
+  /// Parameter [targetIdentifier] :
+  /// The ARN of the organizational unit. For information on how to find the
+  /// <code>targetIdentifier</code>, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html">the
+  /// overview page</a>.
+  Future<ListEnabledControlsOutput> listEnabledControls({
+    EnabledControlFilter? filter,
+    bool? includeChildren,
+    int? maxResults,
+    String? nextToken,
+    String? targetIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final $payload = <String, dynamic>{
+      if (filter != null) 'filter': filter,
+      if (includeChildren != null) 'includeChildren': includeChildren,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/list-enabled-controls',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEnabledControlsOutput.fromJson(response);
+  }
+
+  /// Resets an enabled control. Does not work for controls implemented with
+  /// SCPs.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [enabledControlIdentifier] :
+  /// The ARN of the enabled control to be reset.
+  Future<ResetEnabledControlOutput> resetEnabledControl({
+    required String enabledControlIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'enabledControlIdentifier': enabledControlIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/reset-enabled-control',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ResetEnabledControlOutput.fromJson(response);
   }
 
   /// Returns the status of the specified landing zone operation. Details for an
   /// operation are available for 90 days.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [operationIdentifier] :
   /// A unique identifier assigned to a landing zone operation.
@@ -861,198 +1130,13 @@ class ControlTower {
     return GetLandingZoneOperationOutput.fromJson(response);
   }
 
-  /// Returns a summary list of all available baselines. For usage examples, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to be shown.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token.
-  Future<ListBaselinesOutput> listBaselines({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      4,
-      100,
-    );
-    final $payload = <String, dynamic>{
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/list-baselines',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListBaselinesOutput.fromJson(response);
-  }
-
-  /// Provides a list of operations in progress or queued. For usage examples,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html#list-control-operations-api-examples">ListControlOperation
-  /// examples</a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [filter] :
-  /// An input filter for the <code>ListControlOperations</code> API that lets
-  /// you select the types of control operations to view.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to be shown.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token.
-  Future<ListControlOperationsOutput> listControlOperations({
-    ControlOperationFilter? filter,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $payload = <String, dynamic>{
-      if (filter != null) 'filter': filter,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/list-control-operations',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListControlOperationsOutput.fromJson(response);
-  }
-
-  /// Returns a list of summaries describing <code>EnabledBaseline</code>
-  /// resources. You can filter the list by the corresponding
-  /// <code>Baseline</code> or <code>Target</code> of the
-  /// <code>EnabledBaseline</code> resources. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [filter] :
-  /// A filter applied on the <code>ListEnabledBaseline</code> operation.
-  /// Allowed filters are <code>baselineIdentifiers</code> and
-  /// <code>targetIdentifiers</code>. The filter can be applied for either, or
-  /// both.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to be shown.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token.
-  Future<ListEnabledBaselinesOutput> listEnabledBaselines({
-    EnabledBaselineFilter? filter,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      5,
-      100,
-    );
-    final $payload = <String, dynamic>{
-      if (filter != null) 'filter': filter,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/list-enabled-baselines',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListEnabledBaselinesOutput.fromJson(response);
-  }
-
-  /// Lists the controls enabled by Amazon Web Services Control Tower on the
-  /// specified organizational unit and the accounts it contains. For usage
-  /// examples, see the <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
-  /// <i>Controls Reference Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [filter] :
-  /// An input filter for the <code>ListEnabledControls</code> API that lets you
-  /// select the types of control operations to view.
-  ///
-  /// Parameter [maxResults] :
-  /// How many results to return per API call.
-  ///
-  /// Parameter [nextToken] :
-  /// The token to continue the list from a previous API call with the same
-  /// parameters.
-  ///
-  /// Parameter [targetIdentifier] :
-  /// The ARN of the organizational unit. For information on how to find the
-  /// <code>targetIdentifier</code>, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html">the
-  /// overview page</a>.
-  Future<ListEnabledControlsOutput> listEnabledControls({
-    EnabledControlFilter? filter,
-    int? maxResults,
-    String? nextToken,
-    String? targetIdentifier,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      200,
-    );
-    final $payload = <String, dynamic>{
-      if (filter != null) 'filter': filter,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/list-enabled-controls',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListEnabledControlsOutput.fromJson(response);
-  }
-
   /// Lists all landing zone operations from the past 90 days. Results are
   /// sorted by time, with the most recent operation first.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filter] :
   /// An input filter for the <code>ListLandingZoneOperations</code> API that
@@ -1089,16 +1173,174 @@ class ControlTower {
     return ListLandingZoneOperationsOutput.fromJson(response);
   }
 
+  /// Creates a new landing zone. This API call starts an asynchronous operation
+  /// that creates and configures a landing zone, based on the parameters
+  /// specified in the manifest JSON file.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [version] :
+  /// The landing zone version, for example, 3.0.
+  ///
+  /// Parameter [manifest] :
+  /// The manifest JSON file is a text file that describes your Amazon Web
+  /// Services resources. For examples, review <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch">Launch
+  /// your landing zone</a>.
+  ///
+  /// Parameter [remediationTypes] :
+  /// Specifies the types of remediation actions to apply when creating the
+  /// landing zone, such as automatic drift correction or compliance
+  /// enforcement.
+  ///
+  /// Parameter [tags] :
+  /// Tags to be applied to the landing zone.
+  Future<CreateLandingZoneOutput> createLandingZone({
+    required String version,
+    Object? manifest,
+    List<RemediationType>? remediationTypes,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'version': version,
+      if (manifest != null) 'manifest': manifest,
+      if (remediationTypes != null)
+        'remediationTypes': remediationTypes.map((e) => e.value).toList(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/create-landingzone',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateLandingZoneOutput.fromJson(response);
+  }
+
+  /// Returns details about the landing zone. Displays a message in case of
+  /// error.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [landingZoneIdentifier] :
+  /// The unique identifier of the landing zone.
+  Future<GetLandingZoneOutput> getLandingZone({
+    required String landingZoneIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'landingZoneIdentifier': landingZoneIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/get-landingzone',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetLandingZoneOutput.fromJson(response);
+  }
+
+  /// This API call updates the landing zone. It starts an asynchronous
+  /// operation that updates the landing zone based on the new landing zone
+  /// version, or on the changed parameters specified in the updated manifest
+  /// file.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [landingZoneIdentifier] :
+  /// The unique identifier of the landing zone.
+  ///
+  /// Parameter [version] :
+  /// The landing zone version, for example, 3.2.
+  ///
+  /// Parameter [manifest] :
+  /// The manifest file (JSON) is a text file that describes your Amazon Web
+  /// Services resources. For an example, review <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch">Launch
+  /// your landing zone</a>. The example manifest file contains each of the
+  /// available parameters. The schema for the landing zone's JSON manifest file
+  /// is not published, by design.
+  ///
+  /// Parameter [remediationTypes] :
+  /// Specifies the types of remediation actions to apply when updating the
+  /// landing zone configuration.
+  Future<UpdateLandingZoneOutput> updateLandingZone({
+    required String landingZoneIdentifier,
+    required String version,
+    Object? manifest,
+    List<RemediationType>? remediationTypes,
+  }) async {
+    final $payload = <String, dynamic>{
+      'landingZoneIdentifier': landingZoneIdentifier,
+      'version': version,
+      if (manifest != null) 'manifest': manifest,
+      if (remediationTypes != null)
+        'remediationTypes': remediationTypes.map((e) => e.value).toList(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/update-landingzone',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateLandingZoneOutput.fromJson(response);
+  }
+
+  /// Decommissions a landing zone. This API call starts an asynchronous
+  /// operation that deletes Amazon Web Services Control Tower resources
+  /// deployed in accounts managed by Amazon Web Services Control Tower.
+  ///
+  /// Decommissioning a landing zone is a process with significant consequences,
+  /// and it cannot be undone. We strongly recommend that you perform this
+  /// decommissioning process only if you intend to stop using your landing
+  /// zone.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [landingZoneIdentifier] :
+  /// The unique identifier of the landing zone.
+  Future<DeleteLandingZoneOutput> deleteLandingZone({
+    required String landingZoneIdentifier,
+  }) async {
+    final $payload = <String, dynamic>{
+      'landingZoneIdentifier': landingZoneIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/delete-landingzone',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteLandingZoneOutput.fromJson(response);
+  }
+
   /// Returns the landing zone ARN for the landing zone deployed in your managed
   /// account. This API also creates an ARN for existing accounts that do not
   /// yet have a landing zone ARN.
   ///
   /// Returns one landing zone ARN.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of returned landing zone ARNs, which is one.
@@ -1129,61 +1371,6 @@ class ControlTower {
     return ListLandingZonesOutput.fromJson(response);
   }
 
-  /// Returns a list of tags associated with the resource. For usage examples,
-  /// see the <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
-  /// <i>Controls Reference Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The ARN of the resource.
-  Future<ListTagsForResourceOutput> listTagsForResource({
-    required String resourceArn,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListTagsForResourceOutput.fromJson(response);
-  }
-
-  /// Re-enables an <code>EnabledBaseline</code> resource. For example, this API
-  /// can re-apply the existing <code>Baseline</code> after a new member account
-  /// is moved to the target OU. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [enabledBaselineIdentifier] :
-  /// Specifies the ID of the <code>EnabledBaseline</code> resource to be
-  /// re-enabled, in ARN format.
-  Future<ResetEnabledBaselineOutput> resetEnabledBaseline({
-    required String enabledBaselineIdentifier,
-  }) async {
-    final $payload = <String, dynamic>{
-      'enabledBaselineIdentifier': enabledBaselineIdentifier,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/reset-enabled-baseline',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ResetEnabledBaselineOutput.fromJson(response);
-  }
-
   /// This API call resets a landing zone. It starts an asynchronous operation
   /// that resets the landing zone to the parameters specified in the original
   /// configuration, which you specified in the manifest file. Nothing in the
@@ -1191,12 +1378,12 @@ class ControlTower {
   /// reset process, by default. This API is not the same as a rollback of a
   /// landing zone version, which is not a supported operation.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [landingZoneIdentifier] :
   /// The unique identifier of the landing zone.
@@ -1215,13 +1402,36 @@ class ControlTower {
     return ResetLandingZoneOutput.fromJson(response);
   }
 
+  /// Returns a list of tags associated with the resource. For usage examples,
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
+  /// <i>Controls Reference Guide</i> </a>.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The ARN of the resource.
+  Future<ListTagsForResourceOutput> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceOutput.fromJson(response);
+  }
+
   /// Applies tags to a resource. For usage examples, see the <a
   /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
   /// <i>Controls Reference Guide</i> </a>.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource to be tagged.
@@ -1247,9 +1457,9 @@ class ControlTower {
   /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
   /// <i>Controls Reference Guide</i> </a>.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource.
@@ -1270,651 +1480,6 @@ class ControlTower {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-  }
-
-  /// Updates an <code>EnabledBaseline</code> resource's applied parameters or
-  /// version. For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html">
-  /// <i>the Amazon Web Services Control Tower User Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [baselineVersion] :
-  /// Specifies the new <code>Baseline</code> version, to which the
-  /// <code>EnabledBaseline</code> should be updated.
-  ///
-  /// Parameter [enabledBaselineIdentifier] :
-  /// Specifies the <code>EnabledBaseline</code> resource to be updated.
-  ///
-  /// Parameter [parameters] :
-  /// Parameters to apply when making an update.
-  Future<UpdateEnabledBaselineOutput> updateEnabledBaseline({
-    required String baselineVersion,
-    required String enabledBaselineIdentifier,
-    List<EnabledBaselineParameter>? parameters,
-  }) async {
-    final $payload = <String, dynamic>{
-      'baselineVersion': baselineVersion,
-      'enabledBaselineIdentifier': enabledBaselineIdentifier,
-      if (parameters != null) 'parameters': parameters,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/update-enabled-baseline',
-      exceptionFnMap: _exceptionFns,
-    );
-    return UpdateEnabledBaselineOutput.fromJson(response);
-  }
-
-  /// Updates the configuration of an already enabled control.
-  ///
-  /// If the enabled control shows an <code>EnablementStatus</code> of
-  /// SUCCEEDED, supply parameters that are different from the currently
-  /// configured parameters. Otherwise, Amazon Web Services Control Tower will
-  /// not accept the request.
-  ///
-  /// If the enabled control shows an <code>EnablementStatus</code> of FAILED,
-  /// Amazon Web Services Control Tower updates the control to match any valid
-  /// parameters that you supply.
-  ///
-  /// If the <code>DriftSummary</code> status for the control shows as DRIFTED,
-  /// you cannot call this API. Instead, you can update the control by calling
-  /// <code>DisableControl</code> and again calling <code>EnableControl</code>,
-  /// or you can run an extending governance operation. For usage examples, see
-  /// the <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html">
-  /// <i>Controls Reference Guide</i> </a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [enabledControlIdentifier] :
-  /// The ARN of the enabled control that will be updated.
-  ///
-  /// Parameter [parameters] :
-  /// A key/value pair, where <code>Key</code> is of type <code>String</code>
-  /// and <code>Value</code> is of type <code>Document</code>.
-  Future<UpdateEnabledControlOutput> updateEnabledControl({
-    required String enabledControlIdentifier,
-    required List<EnabledControlParameter> parameters,
-  }) async {
-    final $payload = <String, dynamic>{
-      'enabledControlIdentifier': enabledControlIdentifier,
-      'parameters': parameters,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/update-enabled-control',
-      exceptionFnMap: _exceptionFns,
-    );
-    return UpdateEnabledControlOutput.fromJson(response);
-  }
-
-  /// This API call updates the landing zone. It starts an asynchronous
-  /// operation that updates the landing zone based on the new landing zone
-  /// version, or on the changed parameters specified in the updated manifest
-  /// file.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [landingZoneIdentifier] :
-  /// The unique identifier of the landing zone.
-  ///
-  /// Parameter [manifest] :
-  /// The manifest file (JSON) is a text file that describes your Amazon Web
-  /// Services resources. For an example, review <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch">Launch
-  /// your landing zone</a>. The example manifest file contains each of the
-  /// available parameters. The schema for the landing zone's JSON manifest file
-  /// is not published, by design.
-  ///
-  /// Parameter [version] :
-  /// The landing zone version, for example, 3.2.
-  Future<UpdateLandingZoneOutput> updateLandingZone({
-    required String landingZoneIdentifier,
-    required Manifest manifest,
-    required String version,
-  }) async {
-    final $payload = <String, dynamic>{
-      'landingZoneIdentifier': landingZoneIdentifier,
-      'manifest': manifest,
-      'version': version,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/update-landingzone',
-      exceptionFnMap: _exceptionFns,
-    );
-    return UpdateLandingZoneOutput.fromJson(response);
-  }
-}
-
-/// An object of shape <code>BaselineOperation</code>, returning details about
-/// the specified <code>Baseline</code> operation ID.
-class BaselineOperation {
-  /// The end time of the operation (if applicable), in ISO 8601 format.
-  final DateTime? endTime;
-
-  /// The identifier of the specified operation.
-  final String? operationIdentifier;
-
-  /// An enumerated type (<code>enum</code>) with possible values of
-  /// <code>ENABLE_BASELINE</code>, <code>DISABLE_BASELINE</code>,
-  /// <code>UPDATE_ENABLED_BASELINE</code>, or
-  /// <code>RESET_ENABLED_BASELINE</code>.
-  final BaselineOperationType? operationType;
-
-  /// The start time of the operation, in ISO 8601 format.
-  final DateTime? startTime;
-
-  /// An enumerated type (<code>enum</code>) with possible values of
-  /// <code>SUCCEEDED</code>, <code>FAILED</code>, or <code>IN_PROGRESS</code>.
-  final BaselineOperationStatus? status;
-
-  /// A status message that gives more information about the operation's status,
-  /// if applicable.
-  final String? statusMessage;
-
-  BaselineOperation({
-    this.endTime,
-    this.operationIdentifier,
-    this.operationType,
-    this.startTime,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory BaselineOperation.fromJson(Map<String, dynamic> json) {
-    return BaselineOperation(
-      endTime: timeStampFromJson(json['endTime']),
-      operationIdentifier: json['operationIdentifier'] as String?,
-      operationType: (json['operationType'] as String?)
-          ?.let(BaselineOperationType.fromString),
-      startTime: timeStampFromJson(json['startTime']),
-      status:
-          (json['status'] as String?)?.let(BaselineOperationStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final operationIdentifier = this.operationIdentifier;
-    final operationType = this.operationType;
-    final startTime = this.startTime;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (endTime != null) 'endTime': iso8601ToJson(endTime),
-      if (operationIdentifier != null)
-        'operationIdentifier': operationIdentifier,
-      if (operationType != null) 'operationType': operationType.value,
-      if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-    };
-  }
-}
-
-class BaselineOperationStatus {
-  static const succeeded = BaselineOperationStatus._('SUCCEEDED');
-  static const failed = BaselineOperationStatus._('FAILED');
-  static const inProgress = BaselineOperationStatus._('IN_PROGRESS');
-
-  final String value;
-
-  const BaselineOperationStatus._(this.value);
-
-  static const values = [succeeded, failed, inProgress];
-
-  static BaselineOperationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BaselineOperationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BaselineOperationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class BaselineOperationType {
-  static const enableBaseline = BaselineOperationType._('ENABLE_BASELINE');
-  static const disableBaseline = BaselineOperationType._('DISABLE_BASELINE');
-  static const updateEnabledBaseline =
-      BaselineOperationType._('UPDATE_ENABLED_BASELINE');
-  static const resetEnabledBaseline =
-      BaselineOperationType._('RESET_ENABLED_BASELINE');
-
-  final String value;
-
-  const BaselineOperationType._(this.value);
-
-  static const values = [
-    enableBaseline,
-    disableBaseline,
-    updateEnabledBaseline,
-    resetEnabledBaseline
-  ];
-
-  static BaselineOperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BaselineOperationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BaselineOperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns a summary of information about a <code>Baseline</code> object.
-class BaselineSummary {
-  /// The full ARN of a Baseline.
-  final String arn;
-
-  /// The human-readable name of a Baseline.
-  final String name;
-
-  /// A summary description of a Baseline.
-  final String? description;
-
-  BaselineSummary({
-    required this.arn,
-    required this.name,
-    this.description,
-  });
-
-  factory BaselineSummary.fromJson(Map<String, dynamic> json) {
-    return BaselineSummary(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    final description = this.description;
-    return {
-      'arn': arn,
-      'name': name,
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-/// An operation performed by the control.
-class ControlOperation {
-  /// The <code>controlIdentifier</code> of the control for the operation.
-  final String? controlIdentifier;
-
-  /// The <code>controlIdentifier</code> of the enabled control.
-  final String? enabledControlIdentifier;
-
-  /// The time that the operation finished.
-  final DateTime? endTime;
-
-  /// The identifier of the specified operation.
-  final String? operationIdentifier;
-
-  /// One of <code>ENABLE_CONTROL</code> or <code>DISABLE_CONTROL</code>.
-  final ControlOperationType? operationType;
-
-  /// The time that the operation began.
-  final DateTime? startTime;
-
-  /// One of <code>IN_PROGRESS</code>, <code>SUCEEDED</code>, or
-  /// <code>FAILED</code>.
-  final ControlOperationStatus? status;
-
-  /// If the operation result is <code>FAILED</code>, this string contains a
-  /// message explaining why the operation failed.
-  final String? statusMessage;
-
-  /// The target upon which the control operation is working.
-  final String? targetIdentifier;
-
-  ControlOperation({
-    this.controlIdentifier,
-    this.enabledControlIdentifier,
-    this.endTime,
-    this.operationIdentifier,
-    this.operationType,
-    this.startTime,
-    this.status,
-    this.statusMessage,
-    this.targetIdentifier,
-  });
-
-  factory ControlOperation.fromJson(Map<String, dynamic> json) {
-    return ControlOperation(
-      controlIdentifier: json['controlIdentifier'] as String?,
-      enabledControlIdentifier: json['enabledControlIdentifier'] as String?,
-      endTime: timeStampFromJson(json['endTime']),
-      operationIdentifier: json['operationIdentifier'] as String?,
-      operationType: (json['operationType'] as String?)
-          ?.let(ControlOperationType.fromString),
-      startTime: timeStampFromJson(json['startTime']),
-      status:
-          (json['status'] as String?)?.let(ControlOperationStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-      targetIdentifier: json['targetIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final controlIdentifier = this.controlIdentifier;
-    final enabledControlIdentifier = this.enabledControlIdentifier;
-    final endTime = this.endTime;
-    final operationIdentifier = this.operationIdentifier;
-    final operationType = this.operationType;
-    final startTime = this.startTime;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final targetIdentifier = this.targetIdentifier;
-    return {
-      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
-      if (enabledControlIdentifier != null)
-        'enabledControlIdentifier': enabledControlIdentifier,
-      if (endTime != null) 'endTime': iso8601ToJson(endTime),
-      if (operationIdentifier != null)
-        'operationIdentifier': operationIdentifier,
-      if (operationType != null) 'operationType': operationType.value,
-      if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
-    };
-  }
-}
-
-/// A filter object that lets you call <code>ListControlOperations</code> with a
-/// specific filter.
-class ControlOperationFilter {
-  /// The set of <code>controlIdentifier</code> returned by the filter.
-  final List<String>? controlIdentifiers;
-
-  /// The set of <code>ControlOperation</code> objects returned by the filter.
-  final List<ControlOperationType>? controlOperationTypes;
-
-  /// The set <code>controlIdentifier</code> of enabled controls selected by the
-  /// filter.
-  final List<String>? enabledControlIdentifiers;
-
-  /// Lists the status of control operations.
-  final List<ControlOperationStatus>? statuses;
-
-  /// The set of <code>targetIdentifier</code> objects returned by the filter.
-  final List<String>? targetIdentifiers;
-
-  ControlOperationFilter({
-    this.controlIdentifiers,
-    this.controlOperationTypes,
-    this.enabledControlIdentifiers,
-    this.statuses,
-    this.targetIdentifiers,
-  });
-
-  Map<String, dynamic> toJson() {
-    final controlIdentifiers = this.controlIdentifiers;
-    final controlOperationTypes = this.controlOperationTypes;
-    final enabledControlIdentifiers = this.enabledControlIdentifiers;
-    final statuses = this.statuses;
-    final targetIdentifiers = this.targetIdentifiers;
-    return {
-      if (controlIdentifiers != null) 'controlIdentifiers': controlIdentifiers,
-      if (controlOperationTypes != null)
-        'controlOperationTypes':
-            controlOperationTypes.map((e) => e.value).toList(),
-      if (enabledControlIdentifiers != null)
-        'enabledControlIdentifiers': enabledControlIdentifiers,
-      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
-      if (targetIdentifiers != null) 'targetIdentifiers': targetIdentifiers,
-    };
-  }
-}
-
-class ControlOperationStatus {
-  static const succeeded = ControlOperationStatus._('SUCCEEDED');
-  static const failed = ControlOperationStatus._('FAILED');
-  static const inProgress = ControlOperationStatus._('IN_PROGRESS');
-
-  final String value;
-
-  const ControlOperationStatus._(this.value);
-
-  static const values = [succeeded, failed, inProgress];
-
-  static ControlOperationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ControlOperationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ControlOperationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A summary of information about the specified control operation.
-class ControlOperationSummary {
-  /// The <code>controlIdentifier</code> of a control.
-  final String? controlIdentifier;
-
-  /// The <code>controlIdentifier</code> of an enabled control.
-  final String? enabledControlIdentifier;
-
-  /// The time at which the control operation was completed.
-  final DateTime? endTime;
-
-  /// The unique identifier of a control operation.
-  final String? operationIdentifier;
-
-  /// The type of operation.
-  final ControlOperationType? operationType;
-
-  /// The time at which a control operation began.
-  final DateTime? startTime;
-
-  /// The status of the specified control operation.
-  final ControlOperationStatus? status;
-
-  /// A speficic message displayed as part of the control status.
-  final String? statusMessage;
-
-  /// The unique identifier of the target of a control operation.
-  final String? targetIdentifier;
-
-  ControlOperationSummary({
-    this.controlIdentifier,
-    this.enabledControlIdentifier,
-    this.endTime,
-    this.operationIdentifier,
-    this.operationType,
-    this.startTime,
-    this.status,
-    this.statusMessage,
-    this.targetIdentifier,
-  });
-
-  factory ControlOperationSummary.fromJson(Map<String, dynamic> json) {
-    return ControlOperationSummary(
-      controlIdentifier: json['controlIdentifier'] as String?,
-      enabledControlIdentifier: json['enabledControlIdentifier'] as String?,
-      endTime: timeStampFromJson(json['endTime']),
-      operationIdentifier: json['operationIdentifier'] as String?,
-      operationType: (json['operationType'] as String?)
-          ?.let(ControlOperationType.fromString),
-      startTime: timeStampFromJson(json['startTime']),
-      status:
-          (json['status'] as String?)?.let(ControlOperationStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-      targetIdentifier: json['targetIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final controlIdentifier = this.controlIdentifier;
-    final enabledControlIdentifier = this.enabledControlIdentifier;
-    final endTime = this.endTime;
-    final operationIdentifier = this.operationIdentifier;
-    final operationType = this.operationType;
-    final startTime = this.startTime;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final targetIdentifier = this.targetIdentifier;
-    return {
-      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
-      if (enabledControlIdentifier != null)
-        'enabledControlIdentifier': enabledControlIdentifier,
-      if (endTime != null) 'endTime': iso8601ToJson(endTime),
-      if (operationIdentifier != null)
-        'operationIdentifier': operationIdentifier,
-      if (operationType != null) 'operationType': operationType.value,
-      if (startTime != null) 'startTime': iso8601ToJson(startTime),
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
-    };
-  }
-}
-
-class ControlOperationType {
-  static const enableControl = ControlOperationType._('ENABLE_CONTROL');
-  static const disableControl = ControlOperationType._('DISABLE_CONTROL');
-  static const updateEnabledControl =
-      ControlOperationType._('UPDATE_ENABLED_CONTROL');
-
-  final String value;
-
-  const ControlOperationType._(this.value);
-
-  static const values = [enableControl, disableControl, updateEnabledControl];
-
-  static ControlOperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ControlOperationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ControlOperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CreateLandingZoneOutput {
-  /// The ARN of the landing zone resource.
-  final String arn;
-
-  /// A unique identifier assigned to a <code>CreateLandingZone</code> operation.
-  /// You can use this identifier as an input of
-  /// <code>GetLandingZoneOperation</code> to check the operation's status.
-  final String operationIdentifier;
-
-  CreateLandingZoneOutput({
-    required this.arn,
-    required this.operationIdentifier,
-  });
-
-  factory CreateLandingZoneOutput.fromJson(Map<String, dynamic> json) {
-    return CreateLandingZoneOutput(
-      arn: (json['arn'] as String?) ?? '',
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final operationIdentifier = this.operationIdentifier;
-    return {
-      'arn': arn,
-      'operationIdentifier': operationIdentifier,
-    };
-  }
-}
-
-class DeleteLandingZoneOutput {
-  /// &gt;A unique identifier assigned to a <code>DeleteLandingZone</code>
-  /// operation. You can use this identifier as an input parameter of
-  /// <code>GetLandingZoneOperation</code> to check the operation's status.
-  final String operationIdentifier;
-
-  DeleteLandingZoneOutput({
-    required this.operationIdentifier,
-  });
-
-  factory DeleteLandingZoneOutput.fromJson(Map<String, dynamic> json) {
-    return DeleteLandingZoneOutput(
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
-    return {
-      'operationIdentifier': operationIdentifier,
-    };
-  }
-}
-
-class DisableBaselineOutput {
-  /// The ID (in UUID format) of the asynchronous <code>DisableBaseline</code>
-  /// operation. This <code>operationIdentifier</code> is used to track status
-  /// through calls to the <code>GetBaselineOperation</code> API.
-  final String operationIdentifier;
-
-  DisableBaselineOutput({
-    required this.operationIdentifier,
-  });
-
-  factory DisableBaselineOutput.fromJson(Map<String, dynamic> json) {
-    return DisableBaselineOutput(
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
-    return {
-      'operationIdentifier': operationIdentifier,
-    };
   }
 }
 
@@ -1937,671 +1502,6 @@ class DisableControlOutput {
     final operationIdentifier = this.operationIdentifier;
     return {
       'operationIdentifier': operationIdentifier,
-    };
-  }
-}
-
-class Document {
-  Document();
-
-  factory Document.fromJson(Map<String, dynamic> _) {
-    return Document();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DriftStatus {
-  static const drifted = DriftStatus._('DRIFTED');
-  static const inSync = DriftStatus._('IN_SYNC');
-  static const notChecking = DriftStatus._('NOT_CHECKING');
-  static const unknown = DriftStatus._('UNKNOWN');
-
-  final String value;
-
-  const DriftStatus._(this.value);
-
-  static const values = [drifted, inSync, notChecking, unknown];
-
-  static DriftStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DriftStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DriftStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The drift summary of the enabled control.
-///
-/// Amazon Web Services Control Tower expects the enabled control configuration
-/// to include all supported and governed Regions. If the enabled control
-/// differs from the expected configuration, it is defined to be in a state of
-/// drift. You can repair this drift by resetting the enabled control.
-class DriftStatusSummary {
-  /// The drift status of the enabled control.
-  ///
-  /// Valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>DRIFTED</code>: The <code>enabledControl</code> deployed in this
-  /// configuration doesn’t match the configuration that Amazon Web Services
-  /// Control Tower expected.
-  /// </li>
-  /// <li>
-  /// <code>IN_SYNC</code>: The <code>enabledControl</code> deployed in this
-  /// configuration matches the configuration that Amazon Web Services Control
-  /// Tower expected.
-  /// </li>
-  /// <li>
-  /// <code>NOT_CHECKING</code>: Amazon Web Services Control Tower does not check
-  /// drift for this enabled control. Drift is not supported for the control type.
-  /// </li>
-  /// <li>
-  /// <code>UNKNOWN</code>: Amazon Web Services Control Tower is not able to check
-  /// the drift status for the enabled control.
-  /// </li>
-  /// </ul>
-  final DriftStatus? driftStatus;
-
-  DriftStatusSummary({
-    this.driftStatus,
-  });
-
-  factory DriftStatusSummary.fromJson(Map<String, dynamic> json) {
-    return DriftStatusSummary(
-      driftStatus:
-          (json['driftStatus'] as String?)?.let(DriftStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final driftStatus = this.driftStatus;
-    return {
-      if (driftStatus != null) 'driftStatus': driftStatus.value,
-    };
-  }
-}
-
-class EnableBaselineOutput {
-  /// The ARN of the <code>EnabledBaseline</code> resource.
-  final String arn;
-
-  /// The ID (in UUID format) of the asynchronous <code>EnableBaseline</code>
-  /// operation. This <code>operationIdentifier</code> is used to track status
-  /// through calls to the <code>GetBaselineOperation</code> API.
-  final String operationIdentifier;
-
-  EnableBaselineOutput({
-    required this.arn,
-    required this.operationIdentifier,
-  });
-
-  factory EnableBaselineOutput.fromJson(Map<String, dynamic> json) {
-    return EnableBaselineOutput(
-      arn: (json['arn'] as String?) ?? '',
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final operationIdentifier = this.operationIdentifier;
-    return {
-      'arn': arn,
-      'operationIdentifier': operationIdentifier,
-    };
-  }
-}
-
-class EnableControlOutput {
-  /// The ID of the asynchronous operation, which is used to track status. The
-  /// operation is available for 90 days.
-  final String operationIdentifier;
-
-  /// The ARN of the <code>EnabledControl</code> resource.
-  final String? arn;
-
-  EnableControlOutput({
-    required this.operationIdentifier,
-    this.arn,
-  });
-
-  factory EnableControlOutput.fromJson(Map<String, dynamic> json) {
-    return EnableControlOutput(
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
-      arn: json['arn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
-    final arn = this.arn;
-    return {
-      'operationIdentifier': operationIdentifier,
-      if (arn != null) 'arn': arn,
-    };
-  }
-}
-
-/// Details of the <code>EnabledBaseline</code> resource.
-class EnabledBaselineDetails {
-  /// The ARN of the <code>EnabledBaseline</code> resource.
-  final String arn;
-
-  /// The specific <code>Baseline</code> enabled as part of the
-  /// <code>EnabledBaseline</code> resource.
-  final String baselineIdentifier;
-  final EnablementStatusSummary statusSummary;
-
-  /// The target on which to enable the <code>Baseline</code>.
-  final String targetIdentifier;
-
-  /// The enabled version of the <code>Baseline</code>.
-  final String? baselineVersion;
-
-  /// Shows the parameters that are applied when enabling this
-  /// <code>Baseline</code>.
-  final List<EnabledBaselineParameterSummary>? parameters;
-
-  EnabledBaselineDetails({
-    required this.arn,
-    required this.baselineIdentifier,
-    required this.statusSummary,
-    required this.targetIdentifier,
-    this.baselineVersion,
-    this.parameters,
-  });
-
-  factory EnabledBaselineDetails.fromJson(Map<String, dynamic> json) {
-    return EnabledBaselineDetails(
-      arn: (json['arn'] as String?) ?? '',
-      baselineIdentifier: (json['baselineIdentifier'] as String?) ?? '',
-      statusSummary: EnablementStatusSummary.fromJson(
-          (json['statusSummary'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      targetIdentifier: (json['targetIdentifier'] as String?) ?? '',
-      baselineVersion: json['baselineVersion'] as String?,
-      parameters: (json['parameters'] as List?)
-          ?.nonNulls
-          .map((e) => EnabledBaselineParameterSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final baselineIdentifier = this.baselineIdentifier;
-    final statusSummary = this.statusSummary;
-    final targetIdentifier = this.targetIdentifier;
-    final baselineVersion = this.baselineVersion;
-    final parameters = this.parameters;
-    return {
-      'arn': arn,
-      'baselineIdentifier': baselineIdentifier,
-      'statusSummary': statusSummary,
-      'targetIdentifier': targetIdentifier,
-      if (baselineVersion != null) 'baselineVersion': baselineVersion,
-      if (parameters != null) 'parameters': parameters,
-    };
-  }
-}
-
-/// A filter applied on the <code>ListEnabledBaseline</code> operation. Allowed
-/// filters are <code>baselineIdentifiers</code> and
-/// <code>targetIdentifiers</code>. The filter can be applied for either, or
-/// both.
-class EnabledBaselineFilter {
-  /// Identifiers for the <code>Baseline</code> objects returned as part of the
-  /// filter operation.
-  final List<String>? baselineIdentifiers;
-
-  /// Identifiers for the targets of the <code>Baseline</code> filter operation.
-  final List<String>? targetIdentifiers;
-
-  EnabledBaselineFilter({
-    this.baselineIdentifiers,
-    this.targetIdentifiers,
-  });
-
-  Map<String, dynamic> toJson() {
-    final baselineIdentifiers = this.baselineIdentifiers;
-    final targetIdentifiers = this.targetIdentifiers;
-    return {
-      if (baselineIdentifiers != null)
-        'baselineIdentifiers': baselineIdentifiers,
-      if (targetIdentifiers != null) 'targetIdentifiers': targetIdentifiers,
-    };
-  }
-}
-
-/// A key-value parameter to an <code>EnabledBaseline</code> resource.
-class EnabledBaselineParameter {
-  /// A string denoting the parameter key.
-  final String key;
-
-  /// A low-level <code>Document</code> object of any type (for example, a Java
-  /// Object).
-  final EnabledBaselineParameterDocument value;
-
-  EnabledBaselineParameter({
-    required this.key,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
-    };
-  }
-}
-
-class EnabledBaselineParameterDocument {
-  EnabledBaselineParameterDocument();
-
-  factory EnabledBaselineParameterDocument.fromJson(Map<String, dynamic> _) {
-    return EnabledBaselineParameterDocument();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Summary of an applied parameter to an <code>EnabledBaseline</code> resource.
-class EnabledBaselineParameterSummary {
-  /// A string denoting the parameter key.
-  final String key;
-
-  /// A low-level document object of any type (for example, a Java Object).
-  final EnabledBaselineParameterDocument value;
-
-  EnabledBaselineParameterSummary({
-    required this.key,
-    required this.value,
-  });
-
-  factory EnabledBaselineParameterSummary.fromJson(Map<String, dynamic> json) {
-    return EnabledBaselineParameterSummary(
-      key: (json['key'] as String?) ?? '',
-      value: EnabledBaselineParameterDocument.fromJson(
-          (json['value'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
-    };
-  }
-}
-
-/// Returns a summary of information about an <code>EnabledBaseline</code>
-/// object.
-class EnabledBaselineSummary {
-  /// The ARN of the <code>EnabledBaseline</code> resource
-  final String arn;
-
-  /// The specific baseline that is enabled as part of the
-  /// <code>EnabledBaseline</code> resource.
-  final String baselineIdentifier;
-  final EnablementStatusSummary statusSummary;
-
-  /// The target upon which the baseline is enabled.
-  final String targetIdentifier;
-
-  /// The enabled version of the baseline.
-  final String? baselineVersion;
-
-  EnabledBaselineSummary({
-    required this.arn,
-    required this.baselineIdentifier,
-    required this.statusSummary,
-    required this.targetIdentifier,
-    this.baselineVersion,
-  });
-
-  factory EnabledBaselineSummary.fromJson(Map<String, dynamic> json) {
-    return EnabledBaselineSummary(
-      arn: (json['arn'] as String?) ?? '',
-      baselineIdentifier: (json['baselineIdentifier'] as String?) ?? '',
-      statusSummary: EnablementStatusSummary.fromJson(
-          (json['statusSummary'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      targetIdentifier: (json['targetIdentifier'] as String?) ?? '',
-      baselineVersion: json['baselineVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final baselineIdentifier = this.baselineIdentifier;
-    final statusSummary = this.statusSummary;
-    final targetIdentifier = this.targetIdentifier;
-    final baselineVersion = this.baselineVersion;
-    return {
-      'arn': arn,
-      'baselineIdentifier': baselineIdentifier,
-      'statusSummary': statusSummary,
-      'targetIdentifier': targetIdentifier,
-      if (baselineVersion != null) 'baselineVersion': baselineVersion,
-    };
-  }
-}
-
-/// Information about the enabled control.
-class EnabledControlDetails {
-  /// The ARN of the enabled control.
-  final String? arn;
-
-  /// The control identifier of the enabled control. For information on how to
-  /// find the <code>controlIdentifier</code>, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html">the
-  /// overview page</a>.
-  final String? controlIdentifier;
-
-  /// The drift status of the enabled control.
-  final DriftStatusSummary? driftStatusSummary;
-
-  /// Array of <code>EnabledControlParameter</code> objects.
-  final List<EnabledControlParameterSummary>? parameters;
-
-  /// The deployment summary of the enabled control.
-  final EnablementStatusSummary? statusSummary;
-
-  /// The ARN of the organizational unit. For information on how to find the
-  /// <code>targetIdentifier</code>, see <a
-  /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html">the
-  /// overview page</a>.
-  final String? targetIdentifier;
-
-  /// Target Amazon Web Services Regions for the enabled control.
-  final List<Region>? targetRegions;
-
-  EnabledControlDetails({
-    this.arn,
-    this.controlIdentifier,
-    this.driftStatusSummary,
-    this.parameters,
-    this.statusSummary,
-    this.targetIdentifier,
-    this.targetRegions,
-  });
-
-  factory EnabledControlDetails.fromJson(Map<String, dynamic> json) {
-    return EnabledControlDetails(
-      arn: json['arn'] as String?,
-      controlIdentifier: json['controlIdentifier'] as String?,
-      driftStatusSummary: json['driftStatusSummary'] != null
-          ? DriftStatusSummary.fromJson(
-              json['driftStatusSummary'] as Map<String, dynamic>)
-          : null,
-      parameters: (json['parameters'] as List?)
-          ?.nonNulls
-          .map((e) => EnabledControlParameterSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      statusSummary: json['statusSummary'] != null
-          ? EnablementStatusSummary.fromJson(
-              json['statusSummary'] as Map<String, dynamic>)
-          : null,
-      targetIdentifier: json['targetIdentifier'] as String?,
-      targetRegions: (json['targetRegions'] as List?)
-          ?.nonNulls
-          .map((e) => Region.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final controlIdentifier = this.controlIdentifier;
-    final driftStatusSummary = this.driftStatusSummary;
-    final parameters = this.parameters;
-    final statusSummary = this.statusSummary;
-    final targetIdentifier = this.targetIdentifier;
-    final targetRegions = this.targetRegions;
-    return {
-      if (arn != null) 'arn': arn,
-      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
-      if (driftStatusSummary != null) 'driftStatusSummary': driftStatusSummary,
-      if (parameters != null) 'parameters': parameters,
-      if (statusSummary != null) 'statusSummary': statusSummary,
-      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
-      if (targetRegions != null) 'targetRegions': targetRegions,
-    };
-  }
-}
-
-/// A structure that returns a set of control identifiers, the control status
-/// for each control in the set, and the drift status for each control in the
-/// set.
-class EnabledControlFilter {
-  /// The set of <code>controlIdentifier</code> returned by the filter.
-  final List<String>? controlIdentifiers;
-
-  /// A list of <code>DriftStatus</code> items.
-  final List<DriftStatus>? driftStatuses;
-
-  /// A list of <code>EnablementStatus</code> items.
-  final List<EnablementStatus>? statuses;
-
-  EnabledControlFilter({
-    this.controlIdentifiers,
-    this.driftStatuses,
-    this.statuses,
-  });
-
-  Map<String, dynamic> toJson() {
-    final controlIdentifiers = this.controlIdentifiers;
-    final driftStatuses = this.driftStatuses;
-    final statuses = this.statuses;
-    return {
-      if (controlIdentifiers != null) 'controlIdentifiers': controlIdentifiers,
-      if (driftStatuses != null)
-        'driftStatuses': driftStatuses.map((e) => e.value).toList(),
-      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// A key/value pair, where <code>Key</code> is of type <code>String</code> and
-/// <code>Value</code> is of type <code>Document</code>.
-class EnabledControlParameter {
-  /// The key of a key/value pair.
-  final String key;
-
-  /// The value of a key/value pair.
-  final Document value;
-
-  EnabledControlParameter({
-    required this.key,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
-    };
-  }
-}
-
-/// Returns a summary of information about the parameters of an enabled control.
-class EnabledControlParameterSummary {
-  /// The key of a key/value pair.
-  final String key;
-
-  /// The value of a key/value pair.
-  final Document value;
-
-  EnabledControlParameterSummary({
-    required this.key,
-    required this.value,
-  });
-
-  factory EnabledControlParameterSummary.fromJson(Map<String, dynamic> json) {
-    return EnabledControlParameterSummary(
-      key: (json['key'] as String?) ?? '',
-      value: Document.fromJson((json['value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
-    };
-  }
-}
-
-/// Returns a summary of information about an enabled control.
-class EnabledControlSummary {
-  /// The ARN of the enabled control.
-  final String? arn;
-
-  /// The <code>controlIdentifier</code> of the enabled control.
-  final String? controlIdentifier;
-
-  /// The drift status of the enabled control.
-  final DriftStatusSummary? driftStatusSummary;
-
-  /// A short description of the status of the enabled control.
-  final EnablementStatusSummary? statusSummary;
-
-  /// The ARN of the organizational unit.
-  final String? targetIdentifier;
-
-  EnabledControlSummary({
-    this.arn,
-    this.controlIdentifier,
-    this.driftStatusSummary,
-    this.statusSummary,
-    this.targetIdentifier,
-  });
-
-  factory EnabledControlSummary.fromJson(Map<String, dynamic> json) {
-    return EnabledControlSummary(
-      arn: json['arn'] as String?,
-      controlIdentifier: json['controlIdentifier'] as String?,
-      driftStatusSummary: json['driftStatusSummary'] != null
-          ? DriftStatusSummary.fromJson(
-              json['driftStatusSummary'] as Map<String, dynamic>)
-          : null,
-      statusSummary: json['statusSummary'] != null
-          ? EnablementStatusSummary.fromJson(
-              json['statusSummary'] as Map<String, dynamic>)
-          : null,
-      targetIdentifier: json['targetIdentifier'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final controlIdentifier = this.controlIdentifier;
-    final driftStatusSummary = this.driftStatusSummary;
-    final statusSummary = this.statusSummary;
-    final targetIdentifier = this.targetIdentifier;
-    return {
-      if (arn != null) 'arn': arn,
-      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
-      if (driftStatusSummary != null) 'driftStatusSummary': driftStatusSummary,
-      if (statusSummary != null) 'statusSummary': statusSummary,
-      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
-    };
-  }
-}
-
-class EnablementStatus {
-  static const succeeded = EnablementStatus._('SUCCEEDED');
-  static const failed = EnablementStatus._('FAILED');
-  static const underChange = EnablementStatus._('UNDER_CHANGE');
-
-  final String value;
-
-  const EnablementStatus._(this.value);
-
-  static const values = [succeeded, failed, underChange];
-
-  static EnablementStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EnablementStatus._(value));
-
-  @override
-  bool operator ==(other) => other is EnablementStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The deployment summary of an <code>EnabledControl</code> or
-/// <code>EnabledBaseline</code> resource.
-class EnablementStatusSummary {
-  /// The last operation identifier for the enabled resource.
-  final String? lastOperationIdentifier;
-
-  /// The deployment status of the enabled resource.
-  ///
-  /// Valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>SUCCEEDED</code>: The <code>EnabledControl</code> or
-  /// <code>EnabledBaseline</code> configuration was deployed successfully.
-  /// </li>
-  /// <li>
-  /// <code>UNDER_CHANGE</code>: The <code>EnabledControl</code> or
-  /// <code>EnabledBaseline</code> configuration is changing.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code>: The <code>EnabledControl</code> or
-  /// <code>EnabledBaseline</code> configuration failed to deploy.
-  /// </li>
-  /// </ul>
-  final EnablementStatus? status;
-
-  EnablementStatusSummary({
-    this.lastOperationIdentifier,
-    this.status,
-  });
-
-  factory EnablementStatusSummary.fromJson(Map<String, dynamic> json) {
-    return EnablementStatusSummary(
-      lastOperationIdentifier: json['lastOperationIdentifier'] as String?,
-      status: (json['status'] as String?)?.let(EnablementStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastOperationIdentifier = this.lastOperationIdentifier;
-    final status = this.status;
-    return {
-      if (lastOperationIdentifier != null)
-        'lastOperationIdentifier': lastOperationIdentifier,
-      if (status != null) 'status': status.value,
     };
   }
 }
@@ -2667,6 +1567,38 @@ class GetBaselineOutput {
   }
 }
 
+class ListBaselinesOutput {
+  /// A list of <code>Baseline</code> object details.
+  final List<BaselineSummary> baselines;
+
+  /// A pagination token.
+  final String? nextToken;
+
+  ListBaselinesOutput({
+    required this.baselines,
+    this.nextToken,
+  });
+
+  factory ListBaselinesOutput.fromJson(Map<String, dynamic> json) {
+    return ListBaselinesOutput(
+      baselines: ((json['baselines'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BaselineSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselines = this.baselines;
+    final nextToken = this.nextToken;
+    return {
+      'baselines': baselines,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class GetControlOperationOutput {
   /// An operation performed by the control.
   final ControlOperation controlOperation;
@@ -2687,6 +1619,70 @@ class GetControlOperationOutput {
     final controlOperation = this.controlOperation;
     return {
       'controlOperation': controlOperation,
+    };
+  }
+}
+
+class ListControlOperationsOutput {
+  /// Returns a list of output from control operations.
+  final List<ControlOperationSummary> controlOperations;
+
+  /// A pagination token.
+  final String? nextToken;
+
+  ListControlOperationsOutput({
+    required this.controlOperations,
+    this.nextToken,
+  });
+
+  factory ListControlOperationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListControlOperationsOutput(
+      controlOperations: ((json['controlOperations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              ControlOperationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlOperations = this.controlOperations;
+    final nextToken = this.nextToken;
+    return {
+      'controlOperations': controlOperations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class EnableBaselineOutput {
+  /// The ARN of the <code>EnabledBaseline</code> resource.
+  final String arn;
+
+  /// The ID (in UUID format) of the asynchronous <code>EnableBaseline</code>
+  /// operation. This <code>operationIdentifier</code> is used to track status
+  /// through calls to the <code>GetBaselineOperation</code> API.
+  final String operationIdentifier;
+
+  EnableBaselineOutput({
+    required this.arn,
+    required this.operationIdentifier,
+  });
+
+  factory EnableBaselineOutput.fromJson(Map<String, dynamic> json) {
+    return EnableBaselineOutput(
+      arn: (json['arn'] as String?) ?? '',
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'arn': arn,
+      'operationIdentifier': operationIdentifier,
     };
   }
 }
@@ -2717,6 +1713,143 @@ class GetEnabledBaselineOutput {
   }
 }
 
+class UpdateEnabledBaselineOutput {
+  /// The ID (in UUID format) of the asynchronous
+  /// <code>UpdateEnabledBaseline</code> operation. This
+  /// <code>operationIdentifier</code> is used to track status through calls to
+  /// the <code>GetBaselineOperation</code> API.
+  final String operationIdentifier;
+
+  UpdateEnabledBaselineOutput({
+    required this.operationIdentifier,
+  });
+
+  factory UpdateEnabledBaselineOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateEnabledBaselineOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'operationIdentifier': operationIdentifier,
+    };
+  }
+}
+
+class DisableBaselineOutput {
+  /// The ID (in UUID format) of the asynchronous <code>DisableBaseline</code>
+  /// operation. This <code>operationIdentifier</code> is used to track status
+  /// through calls to the <code>GetBaselineOperation</code> API.
+  final String operationIdentifier;
+
+  DisableBaselineOutput({
+    required this.operationIdentifier,
+  });
+
+  factory DisableBaselineOutput.fromJson(Map<String, dynamic> json) {
+    return DisableBaselineOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'operationIdentifier': operationIdentifier,
+    };
+  }
+}
+
+class ListEnabledBaselinesOutput {
+  /// Retuens a list of summaries of <code>EnabledBaseline</code> resources.
+  final List<EnabledBaselineSummary> enabledBaselines;
+
+  /// A pagination token.
+  final String? nextToken;
+
+  ListEnabledBaselinesOutput({
+    required this.enabledBaselines,
+    this.nextToken,
+  });
+
+  factory ListEnabledBaselinesOutput.fromJson(Map<String, dynamic> json) {
+    return ListEnabledBaselinesOutput(
+      enabledBaselines: ((json['enabledBaselines'] as List?) ?? const [])
+          .nonNulls
+          .map(
+              (e) => EnabledBaselineSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledBaselines = this.enabledBaselines;
+    final nextToken = this.nextToken;
+    return {
+      'enabledBaselines': enabledBaselines,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ResetEnabledBaselineOutput {
+  /// The ID (in UUID format) of the asynchronous
+  /// <code>ResetEnabledBaseline</code> operation. This
+  /// <code>operationIdentifier</code> is used to track status through calls to
+  /// the <code>GetBaselineOperation</code> API.
+  final String operationIdentifier;
+
+  ResetEnabledBaselineOutput({
+    required this.operationIdentifier,
+  });
+
+  factory ResetEnabledBaselineOutput.fromJson(Map<String, dynamic> json) {
+    return ResetEnabledBaselineOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'operationIdentifier': operationIdentifier,
+    };
+  }
+}
+
+class EnableControlOutput {
+  /// The ID of the asynchronous operation, which is used to track status. The
+  /// operation is available for 90 days.
+  final String operationIdentifier;
+
+  /// The ARN of the <code>EnabledControl</code> resource.
+  final String? arn;
+
+  EnableControlOutput({
+    required this.operationIdentifier,
+    this.arn,
+  });
+
+  factory EnableControlOutput.fromJson(Map<String, dynamic> json) {
+    return EnableControlOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+      arn: json['arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    final arn = this.arn;
+    return {
+      'operationIdentifier': operationIdentifier,
+      if (arn != null) 'arn': arn,
+    };
+  }
+}
+
 class GetEnabledControlOutput {
   /// Information about the enabled control.
   final EnabledControlDetails enabledControlDetails;
@@ -2737,6 +1870,86 @@ class GetEnabledControlOutput {
     final enabledControlDetails = this.enabledControlDetails;
     return {
       'enabledControlDetails': enabledControlDetails,
+    };
+  }
+}
+
+class UpdateEnabledControlOutput {
+  /// The operation identifier for this <code>UpdateEnabledControl</code>
+  /// operation.
+  final String operationIdentifier;
+
+  UpdateEnabledControlOutput({
+    required this.operationIdentifier,
+  });
+
+  factory UpdateEnabledControlOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateEnabledControlOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'operationIdentifier': operationIdentifier,
+    };
+  }
+}
+
+class ListEnabledControlsOutput {
+  /// Lists the controls enabled by Amazon Web Services Control Tower on the
+  /// specified organizational unit and the accounts it contains.
+  final List<EnabledControlSummary> enabledControls;
+
+  /// Retrieves the next page of results. If the string is empty, the response is
+  /// the end of the results.
+  final String? nextToken;
+
+  ListEnabledControlsOutput({
+    required this.enabledControls,
+    this.nextToken,
+  });
+
+  factory ListEnabledControlsOutput.fromJson(Map<String, dynamic> json) {
+    return ListEnabledControlsOutput(
+      enabledControls: ((json['enabledControls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EnabledControlSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledControls = this.enabledControls;
+    final nextToken = this.nextToken;
+    return {
+      'enabledControls': enabledControls,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ResetEnabledControlOutput {
+  /// The operation identifier for this <code>ResetEnabledControl</code>
+  /// operation.
+  final String operationIdentifier;
+
+  ResetEnabledControlOutput({
+    required this.operationIdentifier,
+  });
+
+  factory ResetEnabledControlOutput.fromJson(Map<String, dynamic> json) {
+    return ResetEnabledControlOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'operationIdentifier': operationIdentifier,
     };
   }
 }
@@ -2765,6 +1978,72 @@ class GetLandingZoneOperationOutput {
   }
 }
 
+class ListLandingZoneOperationsOutput {
+  /// Lists landing zone operations.
+  final List<LandingZoneOperationSummary> landingZoneOperations;
+
+  /// Retrieves the next page of results. If the string is empty, the response is
+  /// the end of the results.
+  final String? nextToken;
+
+  ListLandingZoneOperationsOutput({
+    required this.landingZoneOperations,
+    this.nextToken,
+  });
+
+  factory ListLandingZoneOperationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListLandingZoneOperationsOutput(
+      landingZoneOperations: ((json['landingZoneOperations'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              LandingZoneOperationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final landingZoneOperations = this.landingZoneOperations;
+    final nextToken = this.nextToken;
+    return {
+      'landingZoneOperations': landingZoneOperations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreateLandingZoneOutput {
+  /// The ARN of the landing zone resource.
+  final String arn;
+
+  /// A unique identifier assigned to a <code>CreateLandingZone</code> operation.
+  /// You can use this identifier as an input of
+  /// <code>GetLandingZoneOperation</code> to check the operation's status.
+  final String operationIdentifier;
+
+  CreateLandingZoneOutput({
+    required this.arn,
+    required this.operationIdentifier,
+  });
+
+  factory CreateLandingZoneOutput.fromJson(Map<String, dynamic> json) {
+    return CreateLandingZoneOutput(
+      arn: (json['arn'] as String?) ?? '',
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'arn': arn,
+      'operationIdentifier': operationIdentifier,
+    };
+  }
+}
+
 class GetLandingZoneOutput {
   /// Information about the landing zone.
   final LandingZoneDetail landingZone;
@@ -2789,11 +2068,210 @@ class GetLandingZoneOutput {
   }
 }
 
+class UpdateLandingZoneOutput {
+  /// A unique identifier assigned to a <code>UpdateLandingZone</code> operation.
+  /// You can use this identifier as an input of
+  /// <code>GetLandingZoneOperation</code> to check the operation's status.
+  final String operationIdentifier;
+
+  UpdateLandingZoneOutput({
+    required this.operationIdentifier,
+  });
+
+  factory UpdateLandingZoneOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateLandingZoneOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'operationIdentifier': operationIdentifier,
+    };
+  }
+}
+
+class DeleteLandingZoneOutput {
+  /// &gt;A unique identifier assigned to a <code>DeleteLandingZone</code>
+  /// operation. You can use this identifier as an input parameter of
+  /// <code>GetLandingZoneOperation</code> to check the operation's status.
+  final String operationIdentifier;
+
+  DeleteLandingZoneOutput({
+    required this.operationIdentifier,
+  });
+
+  factory DeleteLandingZoneOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteLandingZoneOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'operationIdentifier': operationIdentifier,
+    };
+  }
+}
+
+class ListLandingZonesOutput {
+  /// The ARN of the landing zone.
+  final List<LandingZoneSummary> landingZones;
+
+  /// Retrieves the next page of results. If the string is empty, the response is
+  /// the end of the results.
+  final String? nextToken;
+
+  ListLandingZonesOutput({
+    required this.landingZones,
+    this.nextToken,
+  });
+
+  factory ListLandingZonesOutput.fromJson(Map<String, dynamic> json) {
+    return ListLandingZonesOutput(
+      landingZones: ((json['landingZones'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => LandingZoneSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final landingZones = this.landingZones;
+    final nextToken = this.nextToken;
+    return {
+      'landingZones': landingZones,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ResetLandingZoneOutput {
+  /// A unique identifier assigned to a <code>ResetLandingZone</code> operation.
+  /// You can use this identifier as an input parameter of
+  /// <code>GetLandingZoneOperation</code> to check the operation's status.
+  final String operationIdentifier;
+
+  ResetLandingZoneOutput({
+    required this.operationIdentifier,
+  });
+
+  factory ResetLandingZoneOutput.fromJson(Map<String, dynamic> json) {
+    return ResetLandingZoneOutput(
+      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    return {
+      'operationIdentifier': operationIdentifier,
+    };
+  }
+}
+
+class ListTagsForResourceOutput {
+  /// A list of tags, as <code>key:value</code> strings.
+  final Map<String, String> tags;
+
+  ListTagsForResourceOutput({
+    required this.tags,
+  });
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      'tags': tags,
+    };
+  }
+}
+
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Returns a summary of information about a landing zone.
+class LandingZoneSummary {
+  /// The ARN of the landing zone.
+  final String? arn;
+
+  LandingZoneSummary({
+    this.arn,
+  });
+
+  factory LandingZoneSummary.fromJson(Map<String, dynamic> json) {
+    return LandingZoneSummary(
+      arn: json['arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'arn': arn,
+    };
+  }
+}
+
+class RemediationType {
+  static const inheritanceDrift = RemediationType._('INHERITANCE_DRIFT');
+
+  final String value;
+
+  const RemediationType._(this.value);
+
+  static const values = [inheritanceDrift];
+
+  static RemediationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RemediationType._(value));
+
+  @override
+  bool operator ==(other) => other is RemediationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about the landing zone.
 class LandingZoneDetail {
   /// The landing zone manifest JSON text file that specifies the landing zone
   /// configurations.
-  final Manifest manifest;
+  final Object manifest;
 
   /// The landing zone's current deployed version.
   final String version;
@@ -2807,6 +2285,10 @@ class LandingZoneDetail {
   /// The latest available version of the landing zone.
   final String? latestAvailableVersion;
 
+  /// The types of remediation actions configured for the landing zone, such as
+  /// automatic drift correction or compliance enforcement.
+  final List<RemediationType>? remediationTypes;
+
   /// The landing zone deployment status. One of <code>ACTIVE</code>,
   /// <code>PROCESSING</code>, <code>FAILED</code>.
   final LandingZoneStatus? status;
@@ -2817,13 +2299,13 @@ class LandingZoneDetail {
     this.arn,
     this.driftStatus,
     this.latestAvailableVersion,
+    this.remediationTypes,
     this.status,
   });
 
   factory LandingZoneDetail.fromJson(Map<String, dynamic> json) {
     return LandingZoneDetail(
-      manifest: Manifest.fromJson((json['manifest'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
+      manifest: json['manifest'] as Object,
       version: (json['version'] as String?) ?? '',
       arn: json['arn'] as String?,
       driftStatus: json['driftStatus'] != null
@@ -2831,6 +2313,10 @@ class LandingZoneDetail {
               json['driftStatus'] as Map<String, dynamic>)
           : null,
       latestAvailableVersion: json['latestAvailableVersion'] as String?,
+      remediationTypes: (json['remediationTypes'] as List?)
+          ?.nonNulls
+          .map((e) => RemediationType.fromString((e as String)))
+          .toList(),
       status: (json['status'] as String?)?.let(LandingZoneStatus.fromString),
     );
   }
@@ -2841,6 +2327,7 @@ class LandingZoneDetail {
     final arn = this.arn;
     final driftStatus = this.driftStatus;
     final latestAvailableVersion = this.latestAvailableVersion;
+    final remediationTypes = this.remediationTypes;
     final status = this.status;
     return {
       'manifest': manifest,
@@ -2849,28 +2336,30 @@ class LandingZoneDetail {
       if (driftStatus != null) 'driftStatus': driftStatus,
       if (latestAvailableVersion != null)
         'latestAvailableVersion': latestAvailableVersion,
+      if (remediationTypes != null)
+        'remediationTypes': remediationTypes.map((e) => e.value).toList(),
       if (status != null) 'status': status.value,
     };
   }
 }
 
-class LandingZoneDriftStatus {
-  static const drifted = LandingZoneDriftStatus._('DRIFTED');
-  static const inSync = LandingZoneDriftStatus._('IN_SYNC');
+class LandingZoneStatus {
+  static const active = LandingZoneStatus._('ACTIVE');
+  static const processing = LandingZoneStatus._('PROCESSING');
+  static const failed = LandingZoneStatus._('FAILED');
 
   final String value;
 
-  const LandingZoneDriftStatus._(this.value);
+  const LandingZoneStatus._(this.value);
 
-  static const values = [drifted, inSync];
+  static const values = [active, processing, failed];
 
-  static LandingZoneDriftStatus fromString(String value) =>
+  static LandingZoneStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => LandingZoneDriftStatus._(value));
+          orElse: () => LandingZoneStatus._(value));
 
   @override
-  bool operator ==(other) =>
-      other is LandingZoneDriftStatus && other.value == value;
+  bool operator ==(other) => other is LandingZoneStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2916,6 +2405,148 @@ class LandingZoneDriftStatusSummary {
     final status = this.status;
     return {
       if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class LandingZoneDriftStatus {
+  static const drifted = LandingZoneDriftStatus._('DRIFTED');
+  static const inSync = LandingZoneDriftStatus._('IN_SYNC');
+
+  final String value;
+
+  const LandingZoneDriftStatus._(this.value);
+
+  static const values = [drifted, inSync];
+
+  static LandingZoneDriftStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LandingZoneDriftStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LandingZoneDriftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns a summary of information about a landing zone operation.
+class LandingZoneOperationSummary {
+  /// The <code>operationIdentifier</code> of the landing zone operation.
+  final String? operationIdentifier;
+
+  /// The type of the landing zone operation.
+  final LandingZoneOperationType? operationType;
+
+  /// The status of the landing zone operation.
+  final LandingZoneOperationStatus? status;
+
+  LandingZoneOperationSummary({
+    this.operationIdentifier,
+    this.operationType,
+    this.status,
+  });
+
+  factory LandingZoneOperationSummary.fromJson(Map<String, dynamic> json) {
+    return LandingZoneOperationSummary(
+      operationIdentifier: json['operationIdentifier'] as String?,
+      operationType: (json['operationType'] as String?)
+          ?.let(LandingZoneOperationType.fromString),
+      status: (json['status'] as String?)
+          ?.let(LandingZoneOperationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationIdentifier = this.operationIdentifier;
+    final operationType = this.operationType;
+    final status = this.status;
+    return {
+      if (operationIdentifier != null)
+        'operationIdentifier': operationIdentifier,
+      if (operationType != null) 'operationType': operationType.value,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class LandingZoneOperationType {
+  static const delete = LandingZoneOperationType._('DELETE');
+  static const create = LandingZoneOperationType._('CREATE');
+  static const update = LandingZoneOperationType._('UPDATE');
+  static const reset = LandingZoneOperationType._('RESET');
+
+  final String value;
+
+  const LandingZoneOperationType._(this.value);
+
+  static const values = [delete, create, update, reset];
+
+  static LandingZoneOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LandingZoneOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LandingZoneOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LandingZoneOperationStatus {
+  static const succeeded = LandingZoneOperationStatus._('SUCCEEDED');
+  static const failed = LandingZoneOperationStatus._('FAILED');
+  static const inProgress = LandingZoneOperationStatus._('IN_PROGRESS');
+
+  final String value;
+
+  const LandingZoneOperationStatus._(this.value);
+
+  static const values = [succeeded, failed, inProgress];
+
+  static LandingZoneOperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LandingZoneOperationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LandingZoneOperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter object that lets you call <code>ListLandingZoneOperations</code>
+/// with a specific filter.
+class LandingZoneOperationFilter {
+  /// The statuses of the set of landing zone operations selected by the filter.
+  final List<LandingZoneOperationStatus>? statuses;
+
+  /// The set of landing zone operation types selected by the filter.
+  final List<LandingZoneOperationType>? types;
+
+  LandingZoneOperationFilter({
+    this.statuses,
+    this.types,
+  });
+
+  Map<String, dynamic> toJson() {
+    final statuses = this.statuses;
+    final types = this.types;
+    return {
+      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
+      if (types != null) 'types': types.map((e) => e.value).toList(),
     };
   }
 }
@@ -3011,404 +2642,523 @@ class LandingZoneOperationDetail {
   }
 }
 
-/// A filter object that lets you call <code>ListLandingZoneOperations</code>
-/// with a specific filter.
-class LandingZoneOperationFilter {
-  /// The statuses of the set of landing zone operations selected by the filter.
-  final List<LandingZoneOperationStatus>? statuses;
-
-  /// The set of landing zone operation types selected by the filter.
-  final List<LandingZoneOperationType>? types;
-
-  LandingZoneOperationFilter({
-    this.statuses,
-    this.types,
-  });
-
-  Map<String, dynamic> toJson() {
-    final statuses = this.statuses;
-    final types = this.types;
-    return {
-      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
-      if (types != null) 'types': types.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class LandingZoneOperationStatus {
-  static const succeeded = LandingZoneOperationStatus._('SUCCEEDED');
-  static const failed = LandingZoneOperationStatus._('FAILED');
-  static const inProgress = LandingZoneOperationStatus._('IN_PROGRESS');
-
-  final String value;
-
-  const LandingZoneOperationStatus._(this.value);
-
-  static const values = [succeeded, failed, inProgress];
-
-  static LandingZoneOperationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LandingZoneOperationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LandingZoneOperationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns a summary of information about a landing zone operation.
-class LandingZoneOperationSummary {
-  /// The <code>operationIdentifier</code> of the landing zone operation.
-  final String? operationIdentifier;
-
-  /// The type of the landing zone operation.
-  final LandingZoneOperationType? operationType;
-
-  /// The status of the landing zone operation.
-  final LandingZoneOperationStatus? status;
-
-  LandingZoneOperationSummary({
-    this.operationIdentifier,
-    this.operationType,
-    this.status,
-  });
-
-  factory LandingZoneOperationSummary.fromJson(Map<String, dynamic> json) {
-    return LandingZoneOperationSummary(
-      operationIdentifier: json['operationIdentifier'] as String?,
-      operationType: (json['operationType'] as String?)
-          ?.let(LandingZoneOperationType.fromString),
-      status: (json['status'] as String?)
-          ?.let(LandingZoneOperationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
-    final operationType = this.operationType;
-    final status = this.status;
-    return {
-      if (operationIdentifier != null)
-        'operationIdentifier': operationIdentifier,
-      if (operationType != null) 'operationType': operationType.value,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class LandingZoneOperationType {
-  static const delete = LandingZoneOperationType._('DELETE');
-  static const create = LandingZoneOperationType._('CREATE');
-  static const update = LandingZoneOperationType._('UPDATE');
-  static const reset = LandingZoneOperationType._('RESET');
-
-  final String value;
-
-  const LandingZoneOperationType._(this.value);
-
-  static const values = [delete, create, update, reset];
-
-  static LandingZoneOperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LandingZoneOperationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LandingZoneOperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LandingZoneStatus {
-  static const active = LandingZoneStatus._('ACTIVE');
-  static const processing = LandingZoneStatus._('PROCESSING');
-  static const failed = LandingZoneStatus._('FAILED');
-
-  final String value;
-
-  const LandingZoneStatus._(this.value);
-
-  static const values = [active, processing, failed];
-
-  static LandingZoneStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LandingZoneStatus._(value));
-
-  @override
-  bool operator ==(other) => other is LandingZoneStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns a summary of information about a landing zone.
-class LandingZoneSummary {
-  /// The ARN of the landing zone.
+/// Returns a summary of information about an enabled control.
+class EnabledControlSummary {
+  /// The ARN of the enabled control.
   final String? arn;
 
-  LandingZoneSummary({
+  /// The <code>controlIdentifier</code> of the enabled control.
+  final String? controlIdentifier;
+
+  /// The drift status of the enabled control.
+  final DriftStatusSummary? driftStatusSummary;
+
+  /// The ARN of the parent enabled control from which this control inherits its
+  /// configuration, if applicable.
+  final String? parentIdentifier;
+
+  /// A short description of the status of the enabled control.
+  final EnablementStatusSummary? statusSummary;
+
+  /// The ARN of the organizational unit.
+  final String? targetIdentifier;
+
+  EnabledControlSummary({
     this.arn,
+    this.controlIdentifier,
+    this.driftStatusSummary,
+    this.parentIdentifier,
+    this.statusSummary,
+    this.targetIdentifier,
   });
 
-  factory LandingZoneSummary.fromJson(Map<String, dynamic> json) {
-    return LandingZoneSummary(
+  factory EnabledControlSummary.fromJson(Map<String, dynamic> json) {
+    return EnabledControlSummary(
       arn: json['arn'] as String?,
+      controlIdentifier: json['controlIdentifier'] as String?,
+      driftStatusSummary: json['driftStatusSummary'] != null
+          ? DriftStatusSummary.fromJson(
+              json['driftStatusSummary'] as Map<String, dynamic>)
+          : null,
+      parentIdentifier: json['parentIdentifier'] as String?,
+      statusSummary: json['statusSummary'] != null
+          ? EnablementStatusSummary.fromJson(
+              json['statusSummary'] as Map<String, dynamic>)
+          : null,
+      targetIdentifier: json['targetIdentifier'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
+    final controlIdentifier = this.controlIdentifier;
+    final driftStatusSummary = this.driftStatusSummary;
+    final parentIdentifier = this.parentIdentifier;
+    final statusSummary = this.statusSummary;
+    final targetIdentifier = this.targetIdentifier;
     return {
       if (arn != null) 'arn': arn,
+      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
+      if (driftStatusSummary != null) 'driftStatusSummary': driftStatusSummary,
+      if (parentIdentifier != null) 'parentIdentifier': parentIdentifier,
+      if (statusSummary != null) 'statusSummary': statusSummary,
+      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
     };
   }
 }
 
-class ListBaselinesOutput {
-  /// A list of <code>Baseline</code> object details.
-  final List<BaselineSummary> baselines;
+/// The deployment summary of an <code>EnabledControl</code> or
+/// <code>EnabledBaseline</code> resource.
+class EnablementStatusSummary {
+  /// The last operation identifier for the enabled resource.
+  final String? lastOperationIdentifier;
 
-  /// A pagination token.
-  final String? nextToken;
+  /// The deployment status of the enabled resource.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SUCCEEDED</code>: The <code>EnabledControl</code> or
+  /// <code>EnabledBaseline</code> configuration was deployed successfully.
+  /// </li>
+  /// <li>
+  /// <code>UNDER_CHANGE</code>: The <code>EnabledControl</code> or
+  /// <code>EnabledBaseline</code> configuration is changing.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code>: The <code>EnabledControl</code> or
+  /// <code>EnabledBaseline</code> configuration failed to deploy.
+  /// </li>
+  /// </ul>
+  final EnablementStatus? status;
 
-  ListBaselinesOutput({
-    required this.baselines,
-    this.nextToken,
+  EnablementStatusSummary({
+    this.lastOperationIdentifier,
+    this.status,
   });
 
-  factory ListBaselinesOutput.fromJson(Map<String, dynamic> json) {
-    return ListBaselinesOutput(
-      baselines: ((json['baselines'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => BaselineSummary.fromJson(e as Map<String, dynamic>))
+  factory EnablementStatusSummary.fromJson(Map<String, dynamic> json) {
+    return EnablementStatusSummary(
+      lastOperationIdentifier: json['lastOperationIdentifier'] as String?,
+      status: (json['status'] as String?)?.let(EnablementStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastOperationIdentifier = this.lastOperationIdentifier;
+    final status = this.status;
+    return {
+      if (lastOperationIdentifier != null)
+        'lastOperationIdentifier': lastOperationIdentifier,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// The drift summary of the enabled control.
+///
+/// Amazon Web Services Control Tower expects the enabled control configuration
+/// to include all supported and governed Regions. If the enabled control
+/// differs from the expected configuration, it is defined to be in a state of
+/// drift. You can repair this drift by resetting the enabled control.
+class DriftStatusSummary {
+  /// The drift status of the enabled control.
+  ///
+  /// Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DRIFTED</code>: The <code>enabledControl</code> deployed in this
+  /// configuration doesn’t match the configuration that Amazon Web Services
+  /// Control Tower expected.
+  /// </li>
+  /// <li>
+  /// <code>IN_SYNC</code>: The <code>enabledControl</code> deployed in this
+  /// configuration matches the configuration that Amazon Web Services Control
+  /// Tower expected.
+  /// </li>
+  /// <li>
+  /// <code>NOT_CHECKING</code>: Amazon Web Services Control Tower does not check
+  /// drift for this enabled control. Drift is not supported for the control type.
+  /// </li>
+  /// <li>
+  /// <code>UNKNOWN</code>: Amazon Web Services Control Tower is not able to check
+  /// the drift status for the enabled control.
+  /// </li>
+  /// </ul>
+  final DriftStatus? driftStatus;
+
+  /// An object that categorizes the different types of drift detected for the
+  /// enabled control.
+  final EnabledControlDriftTypes? types;
+
+  DriftStatusSummary({
+    this.driftStatus,
+    this.types,
+  });
+
+  factory DriftStatusSummary.fromJson(Map<String, dynamic> json) {
+    return DriftStatusSummary(
+      driftStatus:
+          (json['driftStatus'] as String?)?.let(DriftStatus.fromString),
+      types: json['types'] != null
+          ? EnabledControlDriftTypes.fromJson(
+              json['types'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final driftStatus = this.driftStatus;
+    final types = this.types;
+    return {
+      if (driftStatus != null) 'driftStatus': driftStatus.value,
+      if (types != null) 'types': types,
+    };
+  }
+}
+
+class DriftStatus {
+  static const drifted = DriftStatus._('DRIFTED');
+  static const inSync = DriftStatus._('IN_SYNC');
+  static const notChecking = DriftStatus._('NOT_CHECKING');
+  static const unknown = DriftStatus._('UNKNOWN');
+
+  final String value;
+
+  const DriftStatus._(this.value);
+
+  static const values = [drifted, inSync, notChecking, unknown];
+
+  static DriftStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DriftStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DriftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the various categories of drift that can occur for an enabled
+/// control resource.
+class EnabledControlDriftTypes {
+  /// Indicates drift related to inheritance configuration between parent and
+  /// child controls.
+  final EnabledControlInheritanceDrift? inheritance;
+
+  /// Indicates drift related to the underlying Amazon Web Services resources
+  /// managed by the control.
+  final EnabledControlResourceDrift? resource;
+
+  EnabledControlDriftTypes({
+    this.inheritance,
+    this.resource,
+  });
+
+  factory EnabledControlDriftTypes.fromJson(Map<String, dynamic> json) {
+    return EnabledControlDriftTypes(
+      inheritance: json['inheritance'] != null
+          ? EnabledControlInheritanceDrift.fromJson(
+              json['inheritance'] as Map<String, dynamic>)
+          : null,
+      resource: json['resource'] != null
+          ? EnabledControlResourceDrift.fromJson(
+              json['resource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inheritance = this.inheritance;
+    final resource = this.resource;
+    return {
+      if (inheritance != null) 'inheritance': inheritance,
+      if (resource != null) 'resource': resource,
+    };
+  }
+}
+
+/// Represents drift information related to control inheritance between
+/// organizational units.
+class EnabledControlInheritanceDrift {
+  /// The status of inheritance drift for the enabled control, indicating whether
+  /// inheritance configuration matches expectations.
+  final DriftStatus? status;
+
+  EnabledControlInheritanceDrift({
+    this.status,
+  });
+
+  factory EnabledControlInheritanceDrift.fromJson(Map<String, dynamic> json) {
+    return EnabledControlInheritanceDrift(
+      status: (json['status'] as String?)?.let(DriftStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// Represents drift information related to the underlying Amazon Web Services
+/// resources managed by the control.
+class EnabledControlResourceDrift {
+  /// The status of resource drift for the enabled control, indicating whether the
+  /// underlying resources match the expected configuration.
+  final DriftStatus? status;
+
+  EnabledControlResourceDrift({
+    this.status,
+  });
+
+  factory EnabledControlResourceDrift.fromJson(Map<String, dynamic> json) {
+    return EnabledControlResourceDrift(
+      status: (json['status'] as String?)?.let(DriftStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class EnablementStatus {
+  static const succeeded = EnablementStatus._('SUCCEEDED');
+  static const failed = EnablementStatus._('FAILED');
+  static const underChange = EnablementStatus._('UNDER_CHANGE');
+
+  final String value;
+
+  const EnablementStatus._(this.value);
+
+  static const values = [succeeded, failed, underChange];
+
+  static EnablementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnablementStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnablementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that returns a set of control identifiers, the control status
+/// for each control in the set, and the drift status for each control in the
+/// set.
+class EnabledControlFilter {
+  /// The set of <code>controlIdentifier</code> returned by the filter.
+  final List<String>? controlIdentifiers;
+
+  /// A list of <code>DriftStatus</code> items.
+  final List<DriftStatus>? driftStatuses;
+
+  /// Filters enabled controls by their inheritance drift status, allowing you to
+  /// find controls with specific inheritance-related drift conditions.
+  final List<DriftStatus>? inheritanceDriftStatuses;
+
+  /// Filters enabled controls by their parent control identifiers, allowing you
+  /// to find child controls of specific parent controls.
+  final List<String>? parentIdentifiers;
+
+  /// Filters enabled controls by their resource drift status, allowing you to
+  /// find controls with specific resource-related drift conditions.
+  final List<DriftStatus>? resourceDriftStatuses;
+
+  /// A list of <code>EnablementStatus</code> items.
+  final List<EnablementStatus>? statuses;
+
+  EnabledControlFilter({
+    this.controlIdentifiers,
+    this.driftStatuses,
+    this.inheritanceDriftStatuses,
+    this.parentIdentifiers,
+    this.resourceDriftStatuses,
+    this.statuses,
+  });
+
+  Map<String, dynamic> toJson() {
+    final controlIdentifiers = this.controlIdentifiers;
+    final driftStatuses = this.driftStatuses;
+    final inheritanceDriftStatuses = this.inheritanceDriftStatuses;
+    final parentIdentifiers = this.parentIdentifiers;
+    final resourceDriftStatuses = this.resourceDriftStatuses;
+    final statuses = this.statuses;
+    return {
+      if (controlIdentifiers != null) 'controlIdentifiers': controlIdentifiers,
+      if (driftStatuses != null)
+        'driftStatuses': driftStatuses.map((e) => e.value).toList(),
+      if (inheritanceDriftStatuses != null)
+        'inheritanceDriftStatuses':
+            inheritanceDriftStatuses.map((e) => e.value).toList(),
+      if (parentIdentifiers != null) 'parentIdentifiers': parentIdentifiers,
+      if (resourceDriftStatuses != null)
+        'resourceDriftStatuses':
+            resourceDriftStatuses.map((e) => e.value).toList(),
+      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// A key/value pair, where <code>Key</code> is of type <code>String</code> and
+/// <code>Value</code> is of type <code>Document</code>.
+class EnabledControlParameter {
+  /// The key of a key/value pair.
+  final String key;
+
+  /// The value of a key/value pair.
+  final Document value;
+
+  EnabledControlParameter({
+    required this.key,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+/// Information about the enabled control.
+class EnabledControlDetails {
+  /// The ARN of the enabled control.
+  final String? arn;
+
+  /// The control identifier of the enabled control. For information on how to
+  /// find the <code>controlIdentifier</code>, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html">the
+  /// overview page</a>.
+  final String? controlIdentifier;
+
+  /// The drift status of the enabled control.
+  final DriftStatusSummary? driftStatusSummary;
+
+  /// Array of <code>EnabledControlParameter</code> objects.
+  final List<EnabledControlParameterSummary>? parameters;
+
+  /// The ARN of the parent enabled control from which this control inherits its
+  /// configuration, if applicable.
+  final String? parentIdentifier;
+
+  /// The deployment summary of the enabled control.
+  final EnablementStatusSummary? statusSummary;
+
+  /// The ARN of the organizational unit. For information on how to find the
+  /// <code>targetIdentifier</code>, see <a
+  /// href="https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html">the
+  /// overview page</a>.
+  final String? targetIdentifier;
+
+  /// Target Amazon Web Services Regions for the enabled control.
+  final List<Region>? targetRegions;
+
+  EnabledControlDetails({
+    this.arn,
+    this.controlIdentifier,
+    this.driftStatusSummary,
+    this.parameters,
+    this.parentIdentifier,
+    this.statusSummary,
+    this.targetIdentifier,
+    this.targetRegions,
+  });
+
+  factory EnabledControlDetails.fromJson(Map<String, dynamic> json) {
+    return EnabledControlDetails(
+      arn: json['arn'] as String?,
+      controlIdentifier: json['controlIdentifier'] as String?,
+      driftStatusSummary: json['driftStatusSummary'] != null
+          ? DriftStatusSummary.fromJson(
+              json['driftStatusSummary'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['parameters'] as List?)
+          ?.nonNulls
+          .map((e) => EnabledControlParameterSummary.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final baselines = this.baselines;
-    final nextToken = this.nextToken;
-    return {
-      'baselines': baselines,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListControlOperationsOutput {
-  /// Returns a list of output from control operations.
-  final List<ControlOperationSummary> controlOperations;
-
-  /// A pagination token.
-  final String? nextToken;
-
-  ListControlOperationsOutput({
-    required this.controlOperations,
-    this.nextToken,
-  });
-
-  factory ListControlOperationsOutput.fromJson(Map<String, dynamic> json) {
-    return ListControlOperationsOutput(
-      controlOperations: ((json['controlOperations'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              ControlOperationSummary.fromJson(e as Map<String, dynamic>))
+      parentIdentifier: json['parentIdentifier'] as String?,
+      statusSummary: json['statusSummary'] != null
+          ? EnablementStatusSummary.fromJson(
+              json['statusSummary'] as Map<String, dynamic>)
+          : null,
+      targetIdentifier: json['targetIdentifier'] as String?,
+      targetRegions: (json['targetRegions'] as List?)
+          ?.nonNulls
+          .map((e) => Region.fromJson(e as Map<String, dynamic>))
           .toList(),
-      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final controlOperations = this.controlOperations;
-    final nextToken = this.nextToken;
+    final arn = this.arn;
+    final controlIdentifier = this.controlIdentifier;
+    final driftStatusSummary = this.driftStatusSummary;
+    final parameters = this.parameters;
+    final parentIdentifier = this.parentIdentifier;
+    final statusSummary = this.statusSummary;
+    final targetIdentifier = this.targetIdentifier;
+    final targetRegions = this.targetRegions;
     return {
-      'controlOperations': controlOperations,
-      if (nextToken != null) 'nextToken': nextToken,
+      if (arn != null) 'arn': arn,
+      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
+      if (driftStatusSummary != null) 'driftStatusSummary': driftStatusSummary,
+      if (parameters != null) 'parameters': parameters,
+      if (parentIdentifier != null) 'parentIdentifier': parentIdentifier,
+      if (statusSummary != null) 'statusSummary': statusSummary,
+      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
+      if (targetRegions != null) 'targetRegions': targetRegions,
     };
   }
 }
 
-class ListEnabledBaselinesOutput {
-  /// Retuens a list of summaries of <code>EnabledBaseline</code> resources.
-  final List<EnabledBaselineSummary> enabledBaselines;
+/// Returns a summary of information about the parameters of an enabled control.
+class EnabledControlParameterSummary {
+  /// The key of a key/value pair.
+  final String key;
 
-  /// A pagination token.
-  final String? nextToken;
+  /// The value of a key/value pair.
+  final Document value;
 
-  ListEnabledBaselinesOutput({
-    required this.enabledBaselines,
-    this.nextToken,
+  EnabledControlParameterSummary({
+    required this.key,
+    required this.value,
   });
 
-  factory ListEnabledBaselinesOutput.fromJson(Map<String, dynamic> json) {
-    return ListEnabledBaselinesOutput(
-      enabledBaselines: ((json['enabledBaselines'] as List?) ?? const [])
-          .nonNulls
-          .map(
-              (e) => EnabledBaselineSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
+  factory EnabledControlParameterSummary.fromJson(Map<String, dynamic> json) {
+    return EnabledControlParameterSummary(
+      key: (json['key'] as String?) ?? '',
+      value: Document.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final enabledBaselines = this.enabledBaselines;
-    final nextToken = this.nextToken;
+    final key = this.key;
+    final value = this.value;
     return {
-      'enabledBaselines': enabledBaselines,
-      if (nextToken != null) 'nextToken': nextToken,
+      'key': key,
+      'value': value,
     };
-  }
-}
-
-class ListEnabledControlsOutput {
-  /// Lists the controls enabled by Amazon Web Services Control Tower on the
-  /// specified organizational unit and the accounts it contains.
-  final List<EnabledControlSummary> enabledControls;
-
-  /// Retrieves the next page of results. If the string is empty, the response is
-  /// the end of the results.
-  final String? nextToken;
-
-  ListEnabledControlsOutput({
-    required this.enabledControls,
-    this.nextToken,
-  });
-
-  factory ListEnabledControlsOutput.fromJson(Map<String, dynamic> json) {
-    return ListEnabledControlsOutput(
-      enabledControls: ((json['enabledControls'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EnabledControlSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabledControls = this.enabledControls;
-    final nextToken = this.nextToken;
-    return {
-      'enabledControls': enabledControls,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListLandingZoneOperationsOutput {
-  /// Lists landing zone operations.
-  final List<LandingZoneOperationSummary> landingZoneOperations;
-
-  /// Retrieves the next page of results. If the string is empty, the response is
-  /// the end of the results.
-  final String? nextToken;
-
-  ListLandingZoneOperationsOutput({
-    required this.landingZoneOperations,
-    this.nextToken,
-  });
-
-  factory ListLandingZoneOperationsOutput.fromJson(Map<String, dynamic> json) {
-    return ListLandingZoneOperationsOutput(
-      landingZoneOperations: ((json['landingZoneOperations'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) =>
-              LandingZoneOperationSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final landingZoneOperations = this.landingZoneOperations;
-    final nextToken = this.nextToken;
-    return {
-      'landingZoneOperations': landingZoneOperations,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListLandingZonesOutput {
-  /// The ARN of the landing zone.
-  final List<LandingZoneSummary> landingZones;
-
-  /// Retrieves the next page of results. If the string is empty, the response is
-  /// the end of the results.
-  final String? nextToken;
-
-  ListLandingZonesOutput({
-    required this.landingZones,
-    this.nextToken,
-  });
-
-  factory ListLandingZonesOutput.fromJson(Map<String, dynamic> json) {
-    return ListLandingZonesOutput(
-      landingZones: ((json['landingZones'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => LandingZoneSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final landingZones = this.landingZones;
-    final nextToken = this.nextToken;
-    return {
-      'landingZones': landingZones,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceOutput {
-  /// A list of tags, as <code>key:value</code> strings.
-  final Map<String, String> tags;
-
-  ListTagsForResourceOutput({
-    required this.tags,
-  });
-
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceOutput(
-      tags:
-          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
-              .map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      'tags': tags,
-    };
-  }
-}
-
-class Manifest {
-  Manifest();
-
-  factory Manifest.fromJson(Map<String, dynamic> _) {
-    return Manifest();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -3442,148 +3192,856 @@ class Region {
   }
 }
 
-class ResetEnabledBaselineOutput {
-  /// The ID (in UUID format) of the asynchronous
-  /// <code>ResetEnabledBaseline</code> operation. This
-  /// <code>operationIdentifier</code> is used to track status through calls to
-  /// the <code>GetBaselineOperation</code> API.
-  final String operationIdentifier;
+/// Returns a summary of information about an <code>EnabledBaseline</code>
+/// object.
+class EnabledBaselineSummary {
+  /// The ARN of the <code>EnabledBaseline</code> resource
+  final String arn;
 
-  ResetEnabledBaselineOutput({
-    required this.operationIdentifier,
+  /// The specific baseline that is enabled as part of the
+  /// <code>EnabledBaseline</code> resource.
+  final String baselineIdentifier;
+  final EnablementStatusSummary statusSummary;
+
+  /// The target upon which the baseline is enabled.
+  final String targetIdentifier;
+
+  /// The enabled version of the baseline.
+  final String? baselineVersion;
+
+  /// The drift status of the enabled baseline.
+  final EnabledBaselineDriftStatusSummary? driftStatusSummary;
+
+  /// An ARN that represents an object returned by
+  /// <code>ListEnabledBaseline</code>, to describe an enabled baseline.
+  final String? parentIdentifier;
+
+  EnabledBaselineSummary({
+    required this.arn,
+    required this.baselineIdentifier,
+    required this.statusSummary,
+    required this.targetIdentifier,
+    this.baselineVersion,
+    this.driftStatusSummary,
+    this.parentIdentifier,
   });
 
-  factory ResetEnabledBaselineOutput.fromJson(Map<String, dynamic> json) {
-    return ResetEnabledBaselineOutput(
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+  factory EnabledBaselineSummary.fromJson(Map<String, dynamic> json) {
+    return EnabledBaselineSummary(
+      arn: (json['arn'] as String?) ?? '',
+      baselineIdentifier: (json['baselineIdentifier'] as String?) ?? '',
+      statusSummary: EnablementStatusSummary.fromJson(
+          (json['statusSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetIdentifier: (json['targetIdentifier'] as String?) ?? '',
+      baselineVersion: json['baselineVersion'] as String?,
+      driftStatusSummary: json['driftStatusSummary'] != null
+          ? EnabledBaselineDriftStatusSummary.fromJson(
+              json['driftStatusSummary'] as Map<String, dynamic>)
+          : null,
+      parentIdentifier: json['parentIdentifier'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
+    final arn = this.arn;
+    final baselineIdentifier = this.baselineIdentifier;
+    final statusSummary = this.statusSummary;
+    final targetIdentifier = this.targetIdentifier;
+    final baselineVersion = this.baselineVersion;
+    final driftStatusSummary = this.driftStatusSummary;
+    final parentIdentifier = this.parentIdentifier;
     return {
-      'operationIdentifier': operationIdentifier,
+      'arn': arn,
+      'baselineIdentifier': baselineIdentifier,
+      'statusSummary': statusSummary,
+      'targetIdentifier': targetIdentifier,
+      if (baselineVersion != null) 'baselineVersion': baselineVersion,
+      if (driftStatusSummary != null) 'driftStatusSummary': driftStatusSummary,
+      if (parentIdentifier != null) 'parentIdentifier': parentIdentifier,
     };
   }
 }
 
-class ResetLandingZoneOutput {
-  /// A unique identifier assigned to a <code>ResetLandingZone</code> operation.
-  /// You can use this identifier as an input parameter of
-  /// <code>GetLandingZoneOperation</code> to check the operation's status.
-  final String operationIdentifier;
+/// The drift summary of the enabled baseline. Amazon Web Services Control Tower
+/// reports inheritance drift when an enabled baseline configuration of a member
+/// account is different than the configuration that applies to the OU. Amazon
+/// Web Services Control Tower reports this type of drift for a parent or child
+/// enabled baseline. One way to repair this drift by resetting the parent
+/// enabled baseline, on the OU.
+///
+/// For example, you may see this type of drift if you move accounts between
+/// OUs, but the accounts are not yet (re-)enrolled.
+class EnabledBaselineDriftStatusSummary {
+  /// The types of drift that can be detected for an enabled baseline. Amazon Web
+  /// Services Control Tower detects inheritance drift on enabled baselines that
+  /// apply at the OU level.
+  final EnabledBaselineDriftTypes? types;
 
-  ResetLandingZoneOutput({
-    required this.operationIdentifier,
+  EnabledBaselineDriftStatusSummary({
+    this.types,
   });
 
-  factory ResetLandingZoneOutput.fromJson(Map<String, dynamic> json) {
-    return ResetLandingZoneOutput(
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
+  factory EnabledBaselineDriftStatusSummary.fromJson(
+      Map<String, dynamic> json) {
+    return EnabledBaselineDriftStatusSummary(
+      types: json['types'] != null
+          ? EnabledBaselineDriftTypes.fromJson(
+              json['types'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
+    final types = this.types;
     return {
-      'operationIdentifier': operationIdentifier,
+      if (types != null) 'types': types,
     };
   }
 }
 
-class TagResourceOutput {
-  TagResourceOutput();
+/// The types of drift that can be detected for an enabled baseline.
+///
+/// <ul>
+/// <li>
+/// Amazon Web Services Control Tower detects inheritance drift on the enabled
+/// baselines that target OUs: <code>AWSControlTowerBaseline</code> and
+/// <code>BackupBaseline</code>.
+/// </li>
+/// <li>
+/// Amazon Web Services Control Tower does not detect drift on the baselines
+/// that apply to your landing zone: <code>IdentityCenterBaseline</code>,
+/// <code>AuditBaseline</code>, <code>LogArchiveBaseline</code>,
+/// <code>BackupCentralVaultBaseline</code>, or
+/// <code>BackupAdminBaseline</code>. For more information, see <a
+/// href="https://docs.aws.amazon.com/controltower/latest/userguide/types-of-baselines.html">Types
+/// of baselines</a>.
+/// </li>
+/// </ul>
+/// Baselines enabled on an OU are inherited by its member accounts as child
+/// <code>EnabledBaseline</code> resources. The baseline on the OU serves as the
+/// parent <code>EnabledBaseline</code>, which governs the configuration of each
+/// child <code>EnabledBaseline</code>.
+///
+/// If the baseline configuration of a member account in an OU does not match
+/// the configuration of the parent OU, the parent and child baseline is in a
+/// state of inheritance drift. This drift could occur in the
+/// <code>AWSControlTowerBaseline</code> or the <code>BackupBaseline</code>
+/// related to that account.
+class EnabledBaselineDriftTypes {
+  /// At least one account within the target OU does not match the baseline
+  /// configuration defined on that OU. An account is in inheritance drift when it
+  /// does not match the configuration of a parent OU, possibly a new parent OU,
+  /// if the account is moved.
+  final EnabledBaselineInheritanceDrift? inheritance;
 
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
+  EnabledBaselineDriftTypes({
+    this.inheritance,
+  });
+
+  factory EnabledBaselineDriftTypes.fromJson(Map<String, dynamic> json) {
+    return EnabledBaselineDriftTypes(
+      inheritance: json['inheritance'] != null
+          ? EnabledBaselineInheritanceDrift.fromJson(
+              json['inheritance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inheritance = this.inheritance;
+    return {
+      if (inheritance != null) 'inheritance': inheritance,
+    };
+  }
+}
+
+/// The inheritance drift summary for the enabled baseline. Inheritance drift
+/// occurs when any accounts in the target OU do not match the baseline
+/// configuration defined on that OU.
+class EnabledBaselineInheritanceDrift {
+  /// The inheritance drift status for enabled baselines.
+  final EnabledBaselineDriftStatus? status;
+
+  EnabledBaselineInheritanceDrift({
+    this.status,
+  });
+
+  factory EnabledBaselineInheritanceDrift.fromJson(Map<String, dynamic> json) {
+    return EnabledBaselineInheritanceDrift(
+      status: (json['status'] as String?)
+          ?.let(EnabledBaselineDriftStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class EnabledBaselineDriftStatus {
+  static const inSync = EnabledBaselineDriftStatus._('IN_SYNC');
+  static const drifted = EnabledBaselineDriftStatus._('DRIFTED');
+
+  final String value;
+
+  const EnabledBaselineDriftStatus._(this.value);
+
+  static const values = [inSync, drifted];
+
+  static EnabledBaselineDriftStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnabledBaselineDriftStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnabledBaselineDriftStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter applied on the <code>ListEnabledBaseline</code> operation. Allowed
+/// filters are <code>baselineIdentifiers</code> and
+/// <code>targetIdentifiers</code>. The filter can be applied for either, or
+/// both.
+class EnabledBaselineFilter {
+  /// Identifiers for the <code>Baseline</code> objects returned as part of the
+  /// filter operation.
+  final List<String>? baselineIdentifiers;
+
+  /// A list of <code>EnabledBaselineDriftStatus</code> items for enabled
+  /// baselines.
+  final List<EnabledBaselineDriftStatus>? inheritanceDriftStatuses;
+
+  /// An optional filter that sets up a list of <code>parentIdentifiers</code> to
+  /// filter the results of the <code>ListEnabledBaseline</code> output.
+  final List<String>? parentIdentifiers;
+
+  /// A list of <code>EnablementStatus</code> items.
+  final List<EnablementStatus>? statuses;
+
+  /// Identifiers for the targets of the <code>Baseline</code> filter operation.
+  final List<String>? targetIdentifiers;
+
+  EnabledBaselineFilter({
+    this.baselineIdentifiers,
+    this.inheritanceDriftStatuses,
+    this.parentIdentifiers,
+    this.statuses,
+    this.targetIdentifiers,
+  });
+
+  Map<String, dynamic> toJson() {
+    final baselineIdentifiers = this.baselineIdentifiers;
+    final inheritanceDriftStatuses = this.inheritanceDriftStatuses;
+    final parentIdentifiers = this.parentIdentifiers;
+    final statuses = this.statuses;
+    final targetIdentifiers = this.targetIdentifiers;
+    return {
+      if (baselineIdentifiers != null)
+        'baselineIdentifiers': baselineIdentifiers,
+      if (inheritanceDriftStatuses != null)
+        'inheritanceDriftStatuses':
+            inheritanceDriftStatuses.map((e) => e.value).toList(),
+      if (parentIdentifiers != null) 'parentIdentifiers': parentIdentifiers,
+      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
+      if (targetIdentifiers != null) 'targetIdentifiers': targetIdentifiers,
+    };
+  }
+}
+
+/// A key-value parameter to an <code>EnabledBaseline</code> resource.
+class EnabledBaselineParameter {
+  /// A string denoting the parameter key.
+  final String key;
+
+  /// A low-level <code>Document</code> object of any type (for example, a Java
+  /// Object).
+  final Object value;
+
+  EnabledBaselineParameter({
+    required this.key,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+/// Details of the <code>EnabledBaseline</code> resource.
+class EnabledBaselineDetails {
+  /// The ARN of the <code>EnabledBaseline</code> resource.
+  final String arn;
+
+  /// The specific <code>Baseline</code> enabled as part of the
+  /// <code>EnabledBaseline</code> resource.
+  final String baselineIdentifier;
+  final EnablementStatusSummary statusSummary;
+
+  /// The target on which to enable the <code>Baseline</code>.
+  final String targetIdentifier;
+
+  /// The enabled version of the <code>Baseline</code>.
+  final String? baselineVersion;
+
+  /// The drift status of the enabled baseline.
+  final EnabledBaselineDriftStatusSummary? driftStatusSummary;
+
+  /// Shows the parameters that are applied when enabling this
+  /// <code>Baseline</code>.
+  final List<EnabledBaselineParameterSummary>? parameters;
+
+  /// An ARN that represents the parent <code>EnabledBaseline</code> at the
+  /// Organizational Unit (OU) level, from which the child
+  /// <code>EnabledBaseline</code> inherits its configuration. The value is
+  /// returned by <code>GetEnabledBaseline</code>.
+  final String? parentIdentifier;
+
+  EnabledBaselineDetails({
+    required this.arn,
+    required this.baselineIdentifier,
+    required this.statusSummary,
+    required this.targetIdentifier,
+    this.baselineVersion,
+    this.driftStatusSummary,
+    this.parameters,
+    this.parentIdentifier,
+  });
+
+  factory EnabledBaselineDetails.fromJson(Map<String, dynamic> json) {
+    return EnabledBaselineDetails(
+      arn: (json['arn'] as String?) ?? '',
+      baselineIdentifier: (json['baselineIdentifier'] as String?) ?? '',
+      statusSummary: EnablementStatusSummary.fromJson(
+          (json['statusSummary'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetIdentifier: (json['targetIdentifier'] as String?) ?? '',
+      baselineVersion: json['baselineVersion'] as String?,
+      driftStatusSummary: json['driftStatusSummary'] != null
+          ? EnabledBaselineDriftStatusSummary.fromJson(
+              json['driftStatusSummary'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['parameters'] as List?)
+          ?.nonNulls
+          .map((e) => EnabledBaselineParameterSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      parentIdentifier: json['parentIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final baselineIdentifier = this.baselineIdentifier;
+    final statusSummary = this.statusSummary;
+    final targetIdentifier = this.targetIdentifier;
+    final baselineVersion = this.baselineVersion;
+    final driftStatusSummary = this.driftStatusSummary;
+    final parameters = this.parameters;
+    final parentIdentifier = this.parentIdentifier;
+    return {
+      'arn': arn,
+      'baselineIdentifier': baselineIdentifier,
+      'statusSummary': statusSummary,
+      'targetIdentifier': targetIdentifier,
+      if (baselineVersion != null) 'baselineVersion': baselineVersion,
+      if (driftStatusSummary != null) 'driftStatusSummary': driftStatusSummary,
+      if (parameters != null) 'parameters': parameters,
+      if (parentIdentifier != null) 'parentIdentifier': parentIdentifier,
+    };
+  }
+}
+
+/// Summary of an applied parameter to an <code>EnabledBaseline</code> resource.
+class EnabledBaselineParameterSummary {
+  /// A string denoting the parameter key.
+  final String key;
+
+  /// A low-level document object of any type (for example, a Java Object).
+  final Object value;
+
+  EnabledBaselineParameterSummary({
+    required this.key,
+    required this.value,
+  });
+
+  factory EnabledBaselineParameterSummary.fromJson(Map<String, dynamic> json) {
+    return EnabledBaselineParameterSummary(
+      key: (json['key'] as String?) ?? '',
+      value: json['value'] as Object,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+/// A summary of information about the specified control operation.
+class ControlOperationSummary {
+  /// The <code>controlIdentifier</code> of a control.
+  final String? controlIdentifier;
+
+  /// The <code>controlIdentifier</code> of an enabled control.
+  final String? enabledControlIdentifier;
+
+  /// The time at which the control operation was completed.
+  final DateTime? endTime;
+
+  /// The unique identifier of a control operation.
+  final String? operationIdentifier;
+
+  /// The type of operation.
+  final ControlOperationType? operationType;
+
+  /// The time at which a control operation began.
+  final DateTime? startTime;
+
+  /// The status of the specified control operation.
+  final ControlOperationStatus? status;
+
+  /// A speficic message displayed as part of the control status.
+  final String? statusMessage;
+
+  /// The unique identifier of the target of a control operation.
+  final String? targetIdentifier;
+
+  ControlOperationSummary({
+    this.controlIdentifier,
+    this.enabledControlIdentifier,
+    this.endTime,
+    this.operationIdentifier,
+    this.operationType,
+    this.startTime,
+    this.status,
+    this.statusMessage,
+    this.targetIdentifier,
+  });
+
+  factory ControlOperationSummary.fromJson(Map<String, dynamic> json) {
+    return ControlOperationSummary(
+      controlIdentifier: json['controlIdentifier'] as String?,
+      enabledControlIdentifier: json['enabledControlIdentifier'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      operationIdentifier: json['operationIdentifier'] as String?,
+      operationType: (json['operationType'] as String?)
+          ?.let(ControlOperationType.fromString),
+      startTime: timeStampFromJson(json['startTime']),
+      status:
+          (json['status'] as String?)?.let(ControlOperationStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+      targetIdentifier: json['targetIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlIdentifier = this.controlIdentifier;
+    final enabledControlIdentifier = this.enabledControlIdentifier;
+    final endTime = this.endTime;
+    final operationIdentifier = this.operationIdentifier;
+    final operationType = this.operationType;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final targetIdentifier = this.targetIdentifier;
+    return {
+      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
+      if (enabledControlIdentifier != null)
+        'enabledControlIdentifier': enabledControlIdentifier,
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (operationIdentifier != null)
+        'operationIdentifier': operationIdentifier,
+      if (operationType != null) 'operationType': operationType.value,
+      if (startTime != null) 'startTime': iso8601ToJson(startTime),
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
+    };
+  }
+}
+
+class ControlOperationType {
+  static const enableControl = ControlOperationType._('ENABLE_CONTROL');
+  static const disableControl = ControlOperationType._('DISABLE_CONTROL');
+  static const updateEnabledControl =
+      ControlOperationType._('UPDATE_ENABLED_CONTROL');
+  static const resetEnabledControl =
+      ControlOperationType._('RESET_ENABLED_CONTROL');
+
+  final String value;
+
+  const ControlOperationType._(this.value);
+
+  static const values = [
+    enableControl,
+    disableControl,
+    updateEnabledControl,
+    resetEnabledControl
+  ];
+
+  static ControlOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ControlOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ControlOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ControlOperationStatus {
+  static const succeeded = ControlOperationStatus._('SUCCEEDED');
+  static const failed = ControlOperationStatus._('FAILED');
+  static const inProgress = ControlOperationStatus._('IN_PROGRESS');
+
+  final String value;
+
+  const ControlOperationStatus._(this.value);
+
+  static const values = [succeeded, failed, inProgress];
+
+  static ControlOperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ControlOperationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ControlOperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter object that lets you call <code>ListControlOperations</code> with a
+/// specific filter.
+class ControlOperationFilter {
+  /// The set of <code>controlIdentifier</code> returned by the filter.
+  final List<String>? controlIdentifiers;
+
+  /// The set of <code>ControlOperation</code> objects returned by the filter.
+  final List<ControlOperationType>? controlOperationTypes;
+
+  /// The set <code>controlIdentifier</code> of enabled controls selected by the
+  /// filter.
+  final List<String>? enabledControlIdentifiers;
+
+  /// Lists the status of control operations.
+  final List<ControlOperationStatus>? statuses;
+
+  /// The set of <code>targetIdentifier</code> objects returned by the filter.
+  final List<String>? targetIdentifiers;
+
+  ControlOperationFilter({
+    this.controlIdentifiers,
+    this.controlOperationTypes,
+    this.enabledControlIdentifiers,
+    this.statuses,
+    this.targetIdentifiers,
+  });
+
+  Map<String, dynamic> toJson() {
+    final controlIdentifiers = this.controlIdentifiers;
+    final controlOperationTypes = this.controlOperationTypes;
+    final enabledControlIdentifiers = this.enabledControlIdentifiers;
+    final statuses = this.statuses;
+    final targetIdentifiers = this.targetIdentifiers;
+    return {
+      if (controlIdentifiers != null) 'controlIdentifiers': controlIdentifiers,
+      if (controlOperationTypes != null)
+        'controlOperationTypes':
+            controlOperationTypes.map((e) => e.value).toList(),
+      if (enabledControlIdentifiers != null)
+        'enabledControlIdentifiers': enabledControlIdentifiers,
+      if (statuses != null) 'statuses': statuses.map((e) => e.value).toList(),
+      if (targetIdentifiers != null) 'targetIdentifiers': targetIdentifiers,
+    };
+  }
+}
+
+/// An operation performed by the control.
+class ControlOperation {
+  /// The <code>controlIdentifier</code> of the control for the operation.
+  final String? controlIdentifier;
+
+  /// The <code>controlIdentifier</code> of the enabled control.
+  final String? enabledControlIdentifier;
+
+  /// The time that the operation finished.
+  final DateTime? endTime;
+
+  /// The identifier of the specified operation.
+  final String? operationIdentifier;
+
+  /// One of <code>ENABLE_CONTROL</code> or <code>DISABLE_CONTROL</code>.
+  final ControlOperationType? operationType;
+
+  /// The time that the operation began.
+  final DateTime? startTime;
+
+  /// One of <code>IN_PROGRESS</code>, <code>SUCEEDED</code>, or
+  /// <code>FAILED</code>.
+  final ControlOperationStatus? status;
+
+  /// If the operation result is <code>FAILED</code>, this string contains a
+  /// message explaining why the operation failed.
+  final String? statusMessage;
+
+  /// The target upon which the control operation is working.
+  final String? targetIdentifier;
+
+  ControlOperation({
+    this.controlIdentifier,
+    this.enabledControlIdentifier,
+    this.endTime,
+    this.operationIdentifier,
+    this.operationType,
+    this.startTime,
+    this.status,
+    this.statusMessage,
+    this.targetIdentifier,
+  });
+
+  factory ControlOperation.fromJson(Map<String, dynamic> json) {
+    return ControlOperation(
+      controlIdentifier: json['controlIdentifier'] as String?,
+      enabledControlIdentifier: json['enabledControlIdentifier'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      operationIdentifier: json['operationIdentifier'] as String?,
+      operationType: (json['operationType'] as String?)
+          ?.let(ControlOperationType.fromString),
+      startTime: timeStampFromJson(json['startTime']),
+      status:
+          (json['status'] as String?)?.let(ControlOperationStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+      targetIdentifier: json['targetIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final controlIdentifier = this.controlIdentifier;
+    final enabledControlIdentifier = this.enabledControlIdentifier;
+    final endTime = this.endTime;
+    final operationIdentifier = this.operationIdentifier;
+    final operationType = this.operationType;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final targetIdentifier = this.targetIdentifier;
+    return {
+      if (controlIdentifier != null) 'controlIdentifier': controlIdentifier,
+      if (enabledControlIdentifier != null)
+        'enabledControlIdentifier': enabledControlIdentifier,
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (operationIdentifier != null)
+        'operationIdentifier': operationIdentifier,
+      if (operationType != null) 'operationType': operationType.value,
+      if (startTime != null) 'startTime': iso8601ToJson(startTime),
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (targetIdentifier != null) 'targetIdentifier': targetIdentifier,
+    };
+  }
+}
+
+/// Returns a summary of information about a <code>Baseline</code> object.
+class BaselineSummary {
+  /// The full ARN of a Baseline.
+  final String arn;
+
+  /// The human-readable name of a Baseline.
+  final String name;
+
+  /// A summary description of a Baseline.
+  final String? description;
+
+  BaselineSummary({
+    required this.arn,
+    required this.name,
+    this.description,
+  });
+
+  factory BaselineSummary.fromJson(Map<String, dynamic> json) {
+    return BaselineSummary(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'name': name,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// An object of shape <code>BaselineOperation</code>, returning details about
+/// the specified <code>Baseline</code> operation ID.
+class BaselineOperation {
+  /// The end time of the operation (if applicable), in ISO 8601 format.
+  final DateTime? endTime;
+
+  /// The identifier of the specified operation.
+  final String? operationIdentifier;
+
+  /// An enumerated type (<code>enum</code>) with possible values of
+  /// <code>ENABLE_BASELINE</code>, <code>DISABLE_BASELINE</code>,
+  /// <code>UPDATE_ENABLED_BASELINE</code>, or
+  /// <code>RESET_ENABLED_BASELINE</code>.
+  final BaselineOperationType? operationType;
+
+  /// The start time of the operation, in ISO 8601 format.
+  final DateTime? startTime;
+
+  /// An enumerated type (<code>enum</code>) with possible values of
+  /// <code>SUCCEEDED</code>, <code>FAILED</code>, or <code>IN_PROGRESS</code>.
+  final BaselineOperationStatus? status;
+
+  /// A status message that gives more information about the operation's status,
+  /// if applicable.
+  final String? statusMessage;
+
+  BaselineOperation({
+    this.endTime,
+    this.operationIdentifier,
+    this.operationType,
+    this.startTime,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory BaselineOperation.fromJson(Map<String, dynamic> json) {
+    return BaselineOperation(
+      endTime: timeStampFromJson(json['endTime']),
+      operationIdentifier: json['operationIdentifier'] as String?,
+      operationType: (json['operationType'] as String?)
+          ?.let(BaselineOperationType.fromString),
+      startTime: timeStampFromJson(json['startTime']),
+      status:
+          (json['status'] as String?)?.let(BaselineOperationStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final operationIdentifier = this.operationIdentifier;
+    final operationType = this.operationType;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (operationIdentifier != null)
+        'operationIdentifier': operationIdentifier,
+      if (operationType != null) 'operationType': operationType.value,
+      if (startTime != null) 'startTime': iso8601ToJson(startTime),
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
+}
+
+class BaselineOperationType {
+  static const enableBaseline = BaselineOperationType._('ENABLE_BASELINE');
+  static const disableBaseline = BaselineOperationType._('DISABLE_BASELINE');
+  static const updateEnabledBaseline =
+      BaselineOperationType._('UPDATE_ENABLED_BASELINE');
+  static const resetEnabledBaseline =
+      BaselineOperationType._('RESET_ENABLED_BASELINE');
+
+  final String value;
+
+  const BaselineOperationType._(this.value);
+
+  static const values = [
+    enableBaseline,
+    disableBaseline,
+    updateEnabledBaseline,
+    resetEnabledBaseline
+  ];
+
+  static BaselineOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BaselineOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BaselineOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BaselineOperationStatus {
+  static const succeeded = BaselineOperationStatus._('SUCCEEDED');
+  static const failed = BaselineOperationStatus._('FAILED');
+  static const inProgress = BaselineOperationStatus._('IN_PROGRESS');
+
+  final String value;
+
+  const BaselineOperationStatus._(this.value);
+
+  static const values = [succeeded, failed, inProgress];
+
+  static BaselineOperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BaselineOperationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BaselineOperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Document {
+  Document();
+
+  factory Document.fromJson(Map<String, dynamic> _) {
+    return Document();
   }
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateEnabledBaselineOutput {
-  /// The ID (in UUID format) of the asynchronous
-  /// <code>UpdateEnabledBaseline</code> operation. This
-  /// <code>operationIdentifier</code> is used to track status through calls to
-  /// the <code>GetBaselineOperation</code> API.
-  final String operationIdentifier;
-
-  UpdateEnabledBaselineOutput({
-    required this.operationIdentifier,
-  });
-
-  factory UpdateEnabledBaselineOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateEnabledBaselineOutput(
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
-    return {
-      'operationIdentifier': operationIdentifier,
-    };
-  }
-}
-
-class UpdateEnabledControlOutput {
-  /// The operation identifier for this <code>UpdateEnabledControl</code>
-  /// operation.
-  final String operationIdentifier;
-
-  UpdateEnabledControlOutput({
-    required this.operationIdentifier,
-  });
-
-  factory UpdateEnabledControlOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateEnabledControlOutput(
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
-    return {
-      'operationIdentifier': operationIdentifier,
-    };
-  }
-}
-
-class UpdateLandingZoneOutput {
-  /// A unique identifier assigned to a <code>UpdateLandingZone</code> operation.
-  /// You can use this identifier as an input of
-  /// <code>GetLandingZoneOperation</code> to check the operation's status.
-  final String operationIdentifier;
-
-  UpdateLandingZoneOutput({
-    required this.operationIdentifier,
-  });
-
-  factory UpdateLandingZoneOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateLandingZoneOutput(
-      operationIdentifier: (json['operationIdentifier'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationIdentifier = this.operationIdentifier;
-    return {
-      'operationIdentifier': operationIdentifier,
-    };
   }
 }
 

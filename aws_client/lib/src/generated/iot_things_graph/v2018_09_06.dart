@@ -38,7 +38,6 @@ class IoTThingsGraph {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'iotthingsgraph',
-            signingName: 'iotthingsgraph',
           ),
           region: region,
           credentials: credentials,
@@ -60,9 +59,9 @@ class IoTThingsGraph {
   /// A thing can be associated with only one device at a time. If you associate
   /// a thing with a new device id, its previous association will be removed.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [entityId] :
@@ -78,7 +77,6 @@ class IoTThingsGraph {
   /// Parameter [namespaceVersion] :
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
-  @Deprecated('since: 2022-08-30')
   Future<void> associateEntityToThing({
     required String entityId,
     required String thingName,
@@ -108,11 +106,11 @@ class IoTThingsGraph {
   /// validated against the entities in the latest version of the user's
   /// namespace unless another namespace version is specified in the request.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [definition] :
   /// The workflow <code>DefinitionDocument</code>.
@@ -121,7 +119,6 @@ class IoTThingsGraph {
   /// The namespace version in which the workflow is to be created.
   ///
   /// If no value is specified, the latest version is used by default.
-  @Deprecated('since: 2022-08-30')
   Future<CreateFlowTemplateResponse> createFlowTemplate({
     required DefinitionDocument definition,
     int? compatibleNamespaceVersion,
@@ -169,11 +166,11 @@ class IoTThingsGraph {
   /// If the definition document doesn't specify a version of the user's
   /// namespace, the latest version will be used by default.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [target] :
   /// The target type of the deployment. Valid values are
@@ -200,7 +197,6 @@ class IoTThingsGraph {
   /// Parameter [tags] :
   /// Metadata, consisting of key-value pairs, that can be used to categorize
   /// your system instances.
-  @Deprecated('since: 2022-08-30')
   Future<CreateSystemInstanceResponse> createSystemInstance({
     required DefinitionDocument definition,
     required DeploymentTarget target,
@@ -241,10 +237,10 @@ class IoTThingsGraph {
   /// latest version of the user's namespace unless another namespace version is
   /// specified in the request.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [definition] :
   /// The <code>DefinitionDocument</code> used to create the system.
@@ -253,7 +249,6 @@ class IoTThingsGraph {
   /// The namespace version in which the system is to be created.
   ///
   /// If no value is specified, the latest version is used by default.
-  @Deprecated('since: 2022-08-30')
   Future<CreateSystemTemplateResponse> createSystemTemplate({
     required DefinitionDocument definition,
     int? compatibleNamespaceVersion,
@@ -283,10 +278,10 @@ class IoTThingsGraph {
   /// the workflow will continue to run (since they use a snapshot of the
   /// workflow taken at the time of deployment).
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceInUseException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the workflow to be deleted.
@@ -294,7 +289,6 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
-  @Deprecated('since: 2022-08-30')
   Future<void> deleteFlowTemplate({
     required String id,
   }) async {
@@ -321,7 +315,6 @@ class IoTThingsGraph {
   ///
   /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  @Deprecated('since: 2022-08-30')
   Future<DeleteNamespaceResponse> deleteNamespace() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -344,14 +337,13 @@ class IoTThingsGraph {
   /// Users can create a new system instance that has the same ID as a deleted
   /// system instance.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceInUseException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the system instance to be deleted.
-  @Deprecated('since: 2022-08-30')
   Future<void> deleteSystemInstance({
     String? id,
   }) async {
@@ -376,10 +368,10 @@ class IoTThingsGraph {
   /// work because they use a snapshot of the system that is taken when it is
   /// deployed.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceInUseException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the system to be deleted.
@@ -387,7 +379,6 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
-  @Deprecated('since: 2022-08-30')
   Future<void> deleteSystemTemplate({
     required String id,
   }) async {
@@ -428,11 +419,11 @@ class IoTThingsGraph {
   /// href="https://docs.aws.amazon.com/thingsgraph/latest/ug/iot-tg-greengrass.html">AWS
   /// IoT Things Graph and AWS IoT Greengrass</a>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the system instance. This value is returned by the
@@ -441,7 +432,6 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
-  @Deprecated('since: 2022-08-30')
   Future<DeploySystemInstanceResponse> deploySystemInstance({
     String? id,
   }) async {
@@ -467,10 +457,10 @@ class IoTThingsGraph {
   /// deletion. Deprecated flows can't be deployed, but existing deployments
   /// will continue to run.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the workflow to be deleted.
@@ -478,7 +468,6 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
-  @Deprecated('since: 2022-08-30')
   Future<void> deprecateFlowTemplate({
     required String id,
   }) async {
@@ -500,10 +489,10 @@ class IoTThingsGraph {
 
   /// Deprecates the specified system.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the system to delete.
@@ -511,7 +500,6 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
-  @Deprecated('since: 2022-08-30')
   Future<void> deprecateSystemTemplate({
     required String id,
   }) async {
@@ -534,15 +522,14 @@ class IoTThingsGraph {
   /// Gets the latest version of the user's namespace and the public version
   /// that it is tracking.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [namespaceName] :
   /// The name of the user's namespace. Set this to <code>aws</code> to get the
   /// public namespace.
-  @Deprecated('since: 2022-08-30')
   Future<DescribeNamespaceResponse> describeNamespace({
     String? namespaceName,
   }) async {
@@ -568,9 +555,9 @@ class IoTThingsGraph {
   /// the type of the entity that you need to dissociate because only one entity
   /// of a particular type can be associated with a thing.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [entityType] :
@@ -578,7 +565,6 @@ class IoTThingsGraph {
   ///
   /// Parameter [thingName] :
   /// The name of the thing to disassociate.
-  @Deprecated('since: 2022-08-30')
   Future<void> dissociateEntityFromThing({
     required EntityType entityType,
     required String thingName,
@@ -635,10 +621,10 @@ class IoTThingsGraph {
   /// This action doesn't return definitions for systems, flows, and
   /// deployments.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [ids] :
   /// An array of entity IDs.
@@ -650,7 +636,6 @@ class IoTThingsGraph {
   /// Parameter [namespaceVersion] :
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
-  @Deprecated('since: 2022-08-30')
   Future<GetEntitiesResponse> getEntities({
     required List<String> ids,
     int? namespaceVersion,
@@ -677,10 +662,10 @@ class IoTThingsGraph {
   /// Gets the latest version of the <code>DefinitionDocument</code> and
   /// <code>FlowTemplateSummary</code> for the specified workflow.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the workflow.
@@ -691,7 +676,6 @@ class IoTThingsGraph {
   ///
   /// Parameter [revisionNumber] :
   /// The number of the workflow revision to retrieve.
-  @Deprecated('since: 2022-08-30')
   Future<GetFlowTemplateResponse> getFlowTemplate({
     required String id,
     int? revisionNumber,
@@ -720,10 +704,10 @@ class IoTThingsGraph {
   /// revisions that occurred before the deprecation. This action won't work for
   /// workflows that have been deleted.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the workflow.
@@ -738,7 +722,6 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('since: 2022-08-30')
   Future<GetFlowTemplateRevisionsResponse> getFlowTemplateRevisions({
     required String id,
     int? maxResults,
@@ -772,10 +755,9 @@ class IoTThingsGraph {
 
   /// Gets the status of a namespace deletion task.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
-  @Deprecated('since: 2022-08-30')
   Future<GetNamespaceDeletionStatusResponse>
       getNamespaceDeletionStatus() async {
     final headers = <String, String>{
@@ -795,10 +777,10 @@ class IoTThingsGraph {
 
   /// Gets a system instance.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the system deployment instance. This value is returned by
@@ -807,7 +789,6 @@ class IoTThingsGraph {
   /// The ID should be in the following format.
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
-  @Deprecated('since: 2022-08-30')
   Future<GetSystemInstanceResponse> getSystemInstance({
     required String id,
   }) async {
@@ -831,10 +812,10 @@ class IoTThingsGraph {
 
   /// Gets a system.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the system to get. This ID must be in the user's namespace.
@@ -845,7 +826,6 @@ class IoTThingsGraph {
   ///
   /// Parameter [revisionNumber] :
   /// The number that specifies the revision of the system to get.
-  @Deprecated('since: 2022-08-30')
   Future<GetSystemTemplateResponse> getSystemTemplate({
     required String id,
     int? revisionNumber,
@@ -874,10 +854,10 @@ class IoTThingsGraph {
   /// will return the revisions that occurred before its deprecation. This
   /// action won't work with systems that have been deleted.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the system template.
@@ -892,7 +872,6 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('since: 2022-08-30')
   Future<GetSystemTemplateRevisionsResponse> getSystemTemplateRevisions({
     required String id,
     int? maxResults,
@@ -926,15 +905,14 @@ class IoTThingsGraph {
 
   /// Gets the status of the specified upload.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [uploadId] :
   /// The ID of the upload. This value is returned by the
   /// <code>UploadEntityDefinitions</code> action.
-  @Deprecated('since: 2022-08-30')
   Future<GetUploadStatusResponse> getUploadStatus({
     required String uploadId,
   }) async {
@@ -959,10 +937,10 @@ class IoTThingsGraph {
   /// Returns a list of objects that contain information about events in a flow
   /// execution.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [flowExecutionId] :
   /// The ID of the flow execution.
@@ -973,7 +951,6 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('since: 2022-08-30')
   Future<ListFlowExecutionMessagesResponse> listFlowExecutionMessages({
     required String flowExecutionId,
     int? maxResults,
@@ -1007,10 +984,10 @@ class IoTThingsGraph {
 
   /// Lists all tags on an AWS IoT Things Graph resource.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource whose tags are to be
@@ -1021,7 +998,6 @@ class IoTThingsGraph {
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results to return.
-  @Deprecated('since: 2022-08-30')
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
     int? maxResults,
@@ -1056,8 +1032,8 @@ class IoTThingsGraph {
   /// Searches for entities of the specified type. You can search for entities
   /// in your namespace and the public namespace that you're tracking.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [entityTypes] :
@@ -1083,7 +1059,6 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('since: 2022-08-30')
   Future<SearchEntitiesResponse> searchEntities({
     required List<EntityType> entityTypes,
     List<EntityFilter>? filters,
@@ -1121,10 +1096,10 @@ class IoTThingsGraph {
 
   /// Searches for AWS IoT Things Graph workflow execution instances.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [systemInstanceId] :
   /// The ID of the system instance that contains the flow.
@@ -1144,7 +1119,6 @@ class IoTThingsGraph {
   ///
   /// Parameter [startTime] :
   /// The date and time of the earliest flow execution to return.
-  @Deprecated('since: 2022-08-30')
   Future<SearchFlowExecutionsResponse> searchFlowExecutions({
     required String systemInstanceId,
     DateTime? endTime,
@@ -1184,9 +1158,9 @@ class IoTThingsGraph {
 
   /// Searches for summary information about workflows.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [filters] :
   /// An array of objects that limit the result set. The only valid filter is
@@ -1198,7 +1172,6 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('since: 2022-08-30')
   Future<SearchFlowTemplatesResponse> searchFlowTemplates({
     List<FlowTemplateFilter>? filters,
     int? maxResults,
@@ -1232,9 +1205,9 @@ class IoTThingsGraph {
 
   /// Searches for system instances in the user's account.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [filters] :
   /// Optional filter to apply to the search. Valid filters are
@@ -1250,7 +1223,6 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('since: 2022-08-30')
   Future<SearchSystemInstancesResponse> searchSystemInstances({
     List<SystemInstanceFilter>? filters,
     int? maxResults,
@@ -1286,9 +1258,9 @@ class IoTThingsGraph {
   /// can filter by the ID of a workflow to return only systems that use the
   /// specified workflow.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [filters] :
   /// An array of filters that limit the result set. The only valid filter is
@@ -1300,7 +1272,6 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('since: 2022-08-30')
   Future<SearchSystemTemplatesResponse> searchSystemTemplates({
     List<SystemTemplateFilter>? filters,
     int? maxResults,
@@ -1343,9 +1314,9 @@ class IoTThingsGraph {
   /// This action searches for exact matches and doesn't perform partial text
   /// matching.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [entityId] :
@@ -1365,7 +1336,6 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
-  @Deprecated('since: 2022-08-30')
   Future<SearchThingsResponse> searchThings({
     required String entityId,
     int? maxResults,
@@ -1401,17 +1371,16 @@ class IoTThingsGraph {
 
   /// Creates a tag for the specified resource.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource whose tags are returned.
   ///
   /// Parameter [tags] :
-  /// A list of tags to add to the resource.&gt;
-  @Deprecated('since: 2022-08-30')
+  /// A list of tags to add to the resource.>
   Future<void> tagResource({
     required String resourceArn,
     required List<Tag> tags,
@@ -1435,15 +1404,14 @@ class IoTThingsGraph {
 
   /// Removes a system instance from its target (Cloud or Greengrass).
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [id] :
   /// The ID of the system instance to remove from its target.
-  @Deprecated('since: 2022-08-30')
   Future<UndeploySystemInstanceResponse> undeploySystemInstance({
     String? id,
   }) async {
@@ -1467,10 +1435,10 @@ class IoTThingsGraph {
 
   /// Removes a tag from the specified resource.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource whose tags are to be
@@ -1485,7 +1453,6 @@ class IoTThingsGraph {
   /// tool environments, see <a
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json">Using
   /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
-  @Deprecated('since: 2022-08-30')
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
@@ -1513,10 +1480,10 @@ class IoTThingsGraph {
   /// new workflow with a different ID), and update the copy. The workflow can
   /// contain only entities in the specified namespace.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [definition] :
   /// The <code>DefinitionDocument</code> that contains the updated workflow
@@ -1535,7 +1502,6 @@ class IoTThingsGraph {
   /// If no value is specified, the latest version is used by default. Use the
   /// <code>GetFlowTemplateRevisions</code> if you want to find earlier
   /// revisions of the flow to update.
-  @Deprecated('since: 2022-08-30')
   Future<UpdateFlowTemplateResponse> updateFlowTemplate({
     required DefinitionDocument definition,
     required String id,
@@ -1566,10 +1532,10 @@ class IoTThingsGraph {
   /// updating a workflow. Any deployment that uses the system will see the
   /// changes in the system when it is redeployed.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   ///
   /// Parameter [definition] :
   /// The <code>DefinitionDocument</code> that contains the updated system
@@ -1587,7 +1553,6 @@ class IoTThingsGraph {
   /// user's namespace.
   ///
   /// If no value is specified, the latest version is used by default.
-  @Deprecated('since: 2022-08-30')
   Future<UpdateSystemTemplateResponse> updateSystemTemplate({
     required DefinitionDocument definition,
     required String id,
@@ -1642,8 +1607,8 @@ class IoTThingsGraph {
   /// <code>Action</code>, <code>Event</code>, <code>Property</code>,
   /// <code>Mapping</code>, <code>Enum</code>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [deprecateExistingEntities] :
@@ -1658,7 +1623,6 @@ class IoTThingsGraph {
   /// A Boolean that specifies whether to synchronize with the latest version of
   /// the public namespace. If set to <code>true</code>, the upload will create
   /// a new namespace version.
-  @Deprecated('since: 2022-08-30')
   Future<UploadEntityDefinitionsResponse> uploadEntityDefinitions({
     bool? deprecateExistingEntities,
     DefinitionDocument? document,
@@ -1774,62 +1738,6 @@ class CreateSystemTemplateResponse {
   }
 }
 
-/// A document that defines an entity.
-class DefinitionDocument {
-  /// The language used to define the entity. <code>GRAPHQL</code> is the only
-  /// valid value.
-  final DefinitionLanguage language;
-
-  /// The GraphQL text that defines the entity.
-  final String text;
-
-  DefinitionDocument({
-    required this.language,
-    required this.text,
-  });
-
-  factory DefinitionDocument.fromJson(Map<String, dynamic> json) {
-    return DefinitionDocument(
-      language:
-          DefinitionLanguage.fromString((json['language'] as String?) ?? ''),
-      text: (json['text'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final language = this.language;
-    final text = this.text;
-    return {
-      'language': language.value,
-      'text': text,
-    };
-  }
-}
-
-class DefinitionLanguage {
-  static const graphql = DefinitionLanguage._('GRAPHQL');
-
-  final String value;
-
-  const DefinitionLanguage._(this.value);
-
-  static const values = [graphql];
-
-  static DefinitionLanguage fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DefinitionLanguage._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DefinitionLanguage && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeleteFlowTemplateResponse {
   DeleteFlowTemplateResponse();
 
@@ -1895,37 +1803,6 @@ class DeleteSystemTemplateResponse {
   }
 }
 
-/// An object that contains the ID and revision number of a workflow or system
-/// that is part of a deployment.
-class DependencyRevision {
-  /// The ID of the workflow or system.
-  final String? id;
-
-  /// The revision number of the workflow or system.
-  final int? revisionNumber;
-
-  DependencyRevision({
-    this.id,
-    this.revisionNumber,
-  });
-
-  factory DependencyRevision.fromJson(Map<String, dynamic> json) {
-    return DependencyRevision(
-      id: json['id'] as String?,
-      revisionNumber: json['revisionNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final revisionNumber = this.revisionNumber;
-    return {
-      if (id != null) 'id': id,
-      if (revisionNumber != null) 'revisionNumber': revisionNumber,
-    };
-  }
-}
-
 class DeploySystemInstanceResponse {
   /// An object that contains summary information about a system instance that was
   /// deployed.
@@ -1957,30 +1834,6 @@ class DeploySystemInstanceResponse {
         'greengrassDeploymentId': greengrassDeploymentId,
     };
   }
-}
-
-class DeploymentTarget {
-  static const greengrass = DeploymentTarget._('GREENGRASS');
-  static const cloud = DeploymentTarget._('CLOUD');
-
-  final String value;
-
-  const DeploymentTarget._(this.value);
-
-  static const values = [greengrass, cloud];
-
-  static DeploymentTarget fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeploymentTarget._(value));
-
-  @override
-  bool operator ==(other) => other is DeploymentTarget && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DeprecateFlowTemplateResponse {
@@ -2069,492 +1922,6 @@ class DissociateEntityFromThingResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Describes the properties of an entity.
-class EntityDescription {
-  /// The entity ARN.
-  final String? arn;
-
-  /// The time at which the entity was created.
-  final DateTime? createdAt;
-
-  /// The definition document of the entity.
-  final DefinitionDocument? definition;
-
-  /// The entity ID.
-  final String? id;
-
-  /// The entity type.
-  final EntityType? type;
-
-  EntityDescription({
-    this.arn,
-    this.createdAt,
-    this.definition,
-    this.id,
-    this.type,
-  });
-
-  factory EntityDescription.fromJson(Map<String, dynamic> json) {
-    return EntityDescription(
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      definition: json['definition'] != null
-          ? DefinitionDocument.fromJson(
-              json['definition'] as Map<String, dynamic>)
-          : null,
-      id: json['id'] as String?,
-      type: (json['type'] as String?)?.let(EntityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final definition = this.definition;
-    final id = this.id;
-    final type = this.type;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (definition != null) 'definition': definition,
-      if (id != null) 'id': id,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// An object that filters an entity search. Multiple filters function as OR
-/// criteria in the search. For example a search that includes a
-/// <code>NAMESPACE</code> and a <code>REFERENCED_ENTITY_ID</code> filter
-/// searches for entities in the specified namespace that use the entity
-/// specified by the value of <code>REFERENCED_ENTITY_ID</code>.
-class EntityFilter {
-  /// The name of the entity search filter field.
-  /// <code>REFERENCED_ENTITY_ID</code> filters on entities that are used by the
-  /// entity in the result set. For example, you can filter on the ID of a
-  /// property that is used in a state.
-  final EntityFilterName? name;
-
-  /// An array of string values for the search filter field. Multiple values
-  /// function as AND criteria in the search.
-  final List<String>? value;
-
-  EntityFilter({
-    this.name,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (name != null) 'name': name.value,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class EntityFilterName {
-  static const name = EntityFilterName._('NAME');
-  static const namespace = EntityFilterName._('NAMESPACE');
-  static const semanticTypePath = EntityFilterName._('SEMANTIC_TYPE_PATH');
-  static const referencedEntityId = EntityFilterName._('REFERENCED_ENTITY_ID');
-
-  final String value;
-
-  const EntityFilterName._(this.value);
-
-  static const values = [name, namespace, semanticTypePath, referencedEntityId];
-
-  static EntityFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EntityFilterName._(value));
-
-  @override
-  bool operator ==(other) => other is EntityFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EntityType {
-  static const device = EntityType._('DEVICE');
-  static const service = EntityType._('SERVICE');
-  static const deviceModel = EntityType._('DEVICE_MODEL');
-  static const capability = EntityType._('CAPABILITY');
-  static const state = EntityType._('STATE');
-  static const action = EntityType._('ACTION');
-  static const event = EntityType._('EVENT');
-  static const property = EntityType._('PROPERTY');
-  static const mapping = EntityType._('MAPPING');
-  static const $enum = EntityType._('ENUM');
-
-  final String value;
-
-  const EntityType._(this.value);
-
-  static const values = [
-    device,
-    service,
-    deviceModel,
-    capability,
-    state,
-    action,
-    event,
-    property,
-    mapping,
-    $enum
-  ];
-
-  static EntityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
-
-  @override
-  bool operator ==(other) => other is EntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class FlowExecutionEventType {
-  static const executionStarted = FlowExecutionEventType._('EXECUTION_STARTED');
-  static const executionFailed = FlowExecutionEventType._('EXECUTION_FAILED');
-  static const executionAborted = FlowExecutionEventType._('EXECUTION_ABORTED');
-  static const executionSucceeded =
-      FlowExecutionEventType._('EXECUTION_SUCCEEDED');
-  static const stepStarted = FlowExecutionEventType._('STEP_STARTED');
-  static const stepFailed = FlowExecutionEventType._('STEP_FAILED');
-  static const stepSucceeded = FlowExecutionEventType._('STEP_SUCCEEDED');
-  static const activityScheduled =
-      FlowExecutionEventType._('ACTIVITY_SCHEDULED');
-  static const activityStarted = FlowExecutionEventType._('ACTIVITY_STARTED');
-  static const activityFailed = FlowExecutionEventType._('ACTIVITY_FAILED');
-  static const activitySucceeded =
-      FlowExecutionEventType._('ACTIVITY_SUCCEEDED');
-  static const startFlowExecutionTask =
-      FlowExecutionEventType._('START_FLOW_EXECUTION_TASK');
-  static const scheduleNextReadyStepsTask =
-      FlowExecutionEventType._('SCHEDULE_NEXT_READY_STEPS_TASK');
-  static const thingActionTask = FlowExecutionEventType._('THING_ACTION_TASK');
-  static const thingActionTaskFailed =
-      FlowExecutionEventType._('THING_ACTION_TASK_FAILED');
-  static const thingActionTaskSucceeded =
-      FlowExecutionEventType._('THING_ACTION_TASK_SUCCEEDED');
-  static const acknowledgeTaskMessage =
-      FlowExecutionEventType._('ACKNOWLEDGE_TASK_MESSAGE');
-
-  final String value;
-
-  const FlowExecutionEventType._(this.value);
-
-  static const values = [
-    executionStarted,
-    executionFailed,
-    executionAborted,
-    executionSucceeded,
-    stepStarted,
-    stepFailed,
-    stepSucceeded,
-    activityScheduled,
-    activityStarted,
-    activityFailed,
-    activitySucceeded,
-    startFlowExecutionTask,
-    scheduleNextReadyStepsTask,
-    thingActionTask,
-    thingActionTaskFailed,
-    thingActionTaskSucceeded,
-    acknowledgeTaskMessage
-  ];
-
-  static FlowExecutionEventType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FlowExecutionEventType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FlowExecutionEventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about a flow event.
-class FlowExecutionMessage {
-  /// The type of flow event .
-  final FlowExecutionEventType? eventType;
-
-  /// The unique identifier of the message.
-  final String? messageId;
-
-  /// A string containing information about the flow event.
-  final String? payload;
-
-  /// The date and time when the message was last updated.
-  final DateTime? timestamp;
-
-  FlowExecutionMessage({
-    this.eventType,
-    this.messageId,
-    this.payload,
-    this.timestamp,
-  });
-
-  factory FlowExecutionMessage.fromJson(Map<String, dynamic> json) {
-    return FlowExecutionMessage(
-      eventType: (json['eventType'] as String?)
-          ?.let(FlowExecutionEventType.fromString),
-      messageId: json['messageId'] as String?,
-      payload: json['payload'] as String?,
-      timestamp: timeStampFromJson(json['timestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventType = this.eventType;
-    final messageId = this.messageId;
-    final payload = this.payload;
-    final timestamp = this.timestamp;
-    return {
-      if (eventType != null) 'eventType': eventType.value,
-      if (messageId != null) 'messageId': messageId,
-      if (payload != null) 'payload': payload,
-      if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
-    };
-  }
-}
-
-class FlowExecutionStatus {
-  static const running = FlowExecutionStatus._('RUNNING');
-  static const aborted = FlowExecutionStatus._('ABORTED');
-  static const succeeded = FlowExecutionStatus._('SUCCEEDED');
-  static const failed = FlowExecutionStatus._('FAILED');
-
-  final String value;
-
-  const FlowExecutionStatus._(this.value);
-
-  static const values = [running, aborted, succeeded, failed];
-
-  static FlowExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FlowExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FlowExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains summary information about a flow execution.
-class FlowExecutionSummary {
-  /// The date and time when the flow execution summary was created.
-  final DateTime? createdAt;
-
-  /// The ID of the flow execution.
-  final String? flowExecutionId;
-
-  /// The ID of the flow.
-  final String? flowTemplateId;
-
-  /// The current status of the flow execution.
-  final FlowExecutionStatus? status;
-
-  /// The ID of the system instance that contains the flow.
-  final String? systemInstanceId;
-
-  /// The date and time when the flow execution summary was last updated.
-  final DateTime? updatedAt;
-
-  FlowExecutionSummary({
-    this.createdAt,
-    this.flowExecutionId,
-    this.flowTemplateId,
-    this.status,
-    this.systemInstanceId,
-    this.updatedAt,
-  });
-
-  factory FlowExecutionSummary.fromJson(Map<String, dynamic> json) {
-    return FlowExecutionSummary(
-      createdAt: timeStampFromJson(json['createdAt']),
-      flowExecutionId: json['flowExecutionId'] as String?,
-      flowTemplateId: json['flowTemplateId'] as String?,
-      status: (json['status'] as String?)?.let(FlowExecutionStatus.fromString),
-      systemInstanceId: json['systemInstanceId'] as String?,
-      updatedAt: timeStampFromJson(json['updatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final flowExecutionId = this.flowExecutionId;
-    final flowTemplateId = this.flowTemplateId;
-    final status = this.status;
-    final systemInstanceId = this.systemInstanceId;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (flowExecutionId != null) 'flowExecutionId': flowExecutionId,
-      if (flowTemplateId != null) 'flowTemplateId': flowTemplateId,
-      if (status != null) 'status': status.value,
-      if (systemInstanceId != null) 'systemInstanceId': systemInstanceId,
-      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// An object that contains a workflow's definition and summary information.
-class FlowTemplateDescription {
-  /// A workflow's definition document.
-  final DefinitionDocument? definition;
-
-  /// An object that contains summary information about a workflow.
-  final FlowTemplateSummary? summary;
-
-  /// The version of the user's namespace against which the workflow was
-  /// validated. Use this value in your system instance.
-  final int? validatedNamespaceVersion;
-
-  FlowTemplateDescription({
-    this.definition,
-    this.summary,
-    this.validatedNamespaceVersion,
-  });
-
-  factory FlowTemplateDescription.fromJson(Map<String, dynamic> json) {
-    return FlowTemplateDescription(
-      definition: json['definition'] != null
-          ? DefinitionDocument.fromJson(
-              json['definition'] as Map<String, dynamic>)
-          : null,
-      summary: json['summary'] != null
-          ? FlowTemplateSummary.fromJson(
-              json['summary'] as Map<String, dynamic>)
-          : null,
-      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definition = this.definition;
-    final summary = this.summary;
-    final validatedNamespaceVersion = this.validatedNamespaceVersion;
-    return {
-      if (definition != null) 'definition': definition,
-      if (summary != null) 'summary': summary,
-      if (validatedNamespaceVersion != null)
-        'validatedNamespaceVersion': validatedNamespaceVersion,
-    };
-  }
-}
-
-/// An object that filters a workflow search.
-class FlowTemplateFilter {
-  /// The name of the search filter field.
-  final FlowTemplateFilterName name;
-
-  /// An array of string values for the search filter field. Multiple values
-  /// function as AND criteria in the search.
-  final List<String> value;
-
-  FlowTemplateFilter({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'name': name.value,
-      'value': value,
-    };
-  }
-}
-
-class FlowTemplateFilterName {
-  static const deviceModelId = FlowTemplateFilterName._('DEVICE_MODEL_ID');
-
-  final String value;
-
-  const FlowTemplateFilterName._(this.value);
-
-  static const values = [deviceModelId];
-
-  static FlowTemplateFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FlowTemplateFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FlowTemplateFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains summary information about a workflow.
-class FlowTemplateSummary {
-  /// The ARN of the workflow.
-  final String? arn;
-
-  /// The date when the workflow was created.
-  final DateTime? createdAt;
-
-  /// The ID of the workflow.
-  final String? id;
-
-  /// The revision number of the workflow.
-  final int? revisionNumber;
-
-  FlowTemplateSummary({
-    this.arn,
-    this.createdAt,
-    this.id,
-    this.revisionNumber,
-  });
-
-  factory FlowTemplateSummary.fromJson(Map<String, dynamic> json) {
-    return FlowTemplateSummary(
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      id: json['id'] as String?,
-      revisionNumber: json['revisionNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final id = this.id;
-    final revisionNumber = this.revisionNumber;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (id != null) 'id': id,
-      if (revisionNumber != null) 'revisionNumber': revisionNumber,
-    };
   }
 }
 
@@ -2916,88 +2283,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// An object that specifies whether cloud metrics are collected in a deployment
-/// and, if so, what role is used to collect metrics.
-class MetricsConfiguration {
-  /// A Boolean that specifies whether cloud metrics are collected.
-  final bool? cloudMetricEnabled;
-
-  /// The ARN of the role that is used to collect cloud metrics.
-  final String? metricRuleRoleArn;
-
-  MetricsConfiguration({
-    this.cloudMetricEnabled,
-    this.metricRuleRoleArn,
-  });
-
-  factory MetricsConfiguration.fromJson(Map<String, dynamic> json) {
-    return MetricsConfiguration(
-      cloudMetricEnabled: json['cloudMetricEnabled'] as bool?,
-      metricRuleRoleArn: json['metricRuleRoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudMetricEnabled = this.cloudMetricEnabled;
-    final metricRuleRoleArn = this.metricRuleRoleArn;
-    return {
-      if (cloudMetricEnabled != null) 'cloudMetricEnabled': cloudMetricEnabled,
-      if (metricRuleRoleArn != null) 'metricRuleRoleArn': metricRuleRoleArn,
-    };
-  }
-}
-
-class NamespaceDeletionStatus {
-  static const inProgress = NamespaceDeletionStatus._('IN_PROGRESS');
-  static const succeeded = NamespaceDeletionStatus._('SUCCEEDED');
-  static const failed = NamespaceDeletionStatus._('FAILED');
-
-  final String value;
-
-  const NamespaceDeletionStatus._(this.value);
-
-  static const values = [inProgress, succeeded, failed];
-
-  static NamespaceDeletionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NamespaceDeletionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NamespaceDeletionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class NamespaceDeletionStatusErrorCodes {
-  static const validationFailed =
-      NamespaceDeletionStatusErrorCodes._('VALIDATION_FAILED');
-
-  final String value;
-
-  const NamespaceDeletionStatusErrorCodes._(this.value);
-
-  static const values = [validationFailed];
-
-  static NamespaceDeletionStatusErrorCodes fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NamespaceDeletionStatusErrorCodes._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NamespaceDeletionStatusErrorCodes && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class SearchEntitiesResponse {
   /// An array of descriptions for each entity returned in the search result.
   final List<EntityDescription>? descriptions;
@@ -3200,444 +2485,6 @@ class SearchThingsResponse {
   }
 }
 
-class SystemInstanceDeploymentStatus {
-  static const notDeployed = SystemInstanceDeploymentStatus._('NOT_DEPLOYED');
-  static const bootstrap = SystemInstanceDeploymentStatus._('BOOTSTRAP');
-  static const deployInProgress =
-      SystemInstanceDeploymentStatus._('DEPLOY_IN_PROGRESS');
-  static const deployedInTarget =
-      SystemInstanceDeploymentStatus._('DEPLOYED_IN_TARGET');
-  static const undeployInProgress =
-      SystemInstanceDeploymentStatus._('UNDEPLOY_IN_PROGRESS');
-  static const failed = SystemInstanceDeploymentStatus._('FAILED');
-  static const pendingDelete =
-      SystemInstanceDeploymentStatus._('PENDING_DELETE');
-  static const deletedInTarget =
-      SystemInstanceDeploymentStatus._('DELETED_IN_TARGET');
-
-  final String value;
-
-  const SystemInstanceDeploymentStatus._(this.value);
-
-  static const values = [
-    notDeployed,
-    bootstrap,
-    deployInProgress,
-    deployedInTarget,
-    undeployInProgress,
-    failed,
-    pendingDelete,
-    deletedInTarget
-  ];
-
-  static SystemInstanceDeploymentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SystemInstanceDeploymentStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SystemInstanceDeploymentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains a system instance definition and summary
-/// information.
-class SystemInstanceDescription {
-  final DefinitionDocument? definition;
-
-  /// The AWS Identity and Access Management (IAM) role that AWS IoT Things Graph
-  /// assumes during flow execution in a cloud deployment. This role must have
-  /// read and write permissionss to AWS Lambda and AWS IoT and to any other AWS
-  /// services that the flow uses.
-  final String? flowActionsRoleArn;
-  final MetricsConfiguration? metricsConfiguration;
-
-  /// The Amazon Simple Storage Service bucket where information about a system
-  /// instance is stored.
-  final String? s3BucketName;
-
-  /// An object that contains summary information about a system instance.
-  final SystemInstanceSummary? summary;
-
-  /// A list of objects that contain all of the IDs and revision numbers of
-  /// workflows and systems that are used in a system instance.
-  final List<DependencyRevision>? validatedDependencyRevisions;
-
-  /// The version of the user's namespace against which the system instance was
-  /// validated.
-  final int? validatedNamespaceVersion;
-
-  SystemInstanceDescription({
-    this.definition,
-    this.flowActionsRoleArn,
-    this.metricsConfiguration,
-    this.s3BucketName,
-    this.summary,
-    this.validatedDependencyRevisions,
-    this.validatedNamespaceVersion,
-  });
-
-  factory SystemInstanceDescription.fromJson(Map<String, dynamic> json) {
-    return SystemInstanceDescription(
-      definition: json['definition'] != null
-          ? DefinitionDocument.fromJson(
-              json['definition'] as Map<String, dynamic>)
-          : null,
-      flowActionsRoleArn: json['flowActionsRoleArn'] as String?,
-      metricsConfiguration: json['metricsConfiguration'] != null
-          ? MetricsConfiguration.fromJson(
-              json['metricsConfiguration'] as Map<String, dynamic>)
-          : null,
-      s3BucketName: json['s3BucketName'] as String?,
-      summary: json['summary'] != null
-          ? SystemInstanceSummary.fromJson(
-              json['summary'] as Map<String, dynamic>)
-          : null,
-      validatedDependencyRevisions: (json['validatedDependencyRevisions']
-              as List?)
-          ?.nonNulls
-          .map((e) => DependencyRevision.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definition = this.definition;
-    final flowActionsRoleArn = this.flowActionsRoleArn;
-    final metricsConfiguration = this.metricsConfiguration;
-    final s3BucketName = this.s3BucketName;
-    final summary = this.summary;
-    final validatedDependencyRevisions = this.validatedDependencyRevisions;
-    final validatedNamespaceVersion = this.validatedNamespaceVersion;
-    return {
-      if (definition != null) 'definition': definition,
-      if (flowActionsRoleArn != null) 'flowActionsRoleArn': flowActionsRoleArn,
-      if (metricsConfiguration != null)
-        'metricsConfiguration': metricsConfiguration,
-      if (s3BucketName != null) 's3BucketName': s3BucketName,
-      if (summary != null) 'summary': summary,
-      if (validatedDependencyRevisions != null)
-        'validatedDependencyRevisions': validatedDependencyRevisions,
-      if (validatedNamespaceVersion != null)
-        'validatedNamespaceVersion': validatedNamespaceVersion,
-    };
-  }
-}
-
-/// An object that filters a system instance search. Multiple filters function
-/// as OR criteria in the search. For example a search that includes a
-/// GREENGRASS_GROUP_NAME and a STATUS filter searches for system instances in
-/// the specified Greengrass group that have the specified status.
-class SystemInstanceFilter {
-  /// The name of the search filter field.
-  final SystemInstanceFilterName? name;
-
-  /// An array of string values for the search filter field. Multiple values
-  /// function as AND criteria in the search.
-  final List<String>? value;
-
-  SystemInstanceFilter({
-    this.name,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (name != null) 'name': name.value,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class SystemInstanceFilterName {
-  static const systemTemplateId =
-      SystemInstanceFilterName._('SYSTEM_TEMPLATE_ID');
-  static const status = SystemInstanceFilterName._('STATUS');
-  static const greengrassGroupName =
-      SystemInstanceFilterName._('GREENGRASS_GROUP_NAME');
-
-  final String value;
-
-  const SystemInstanceFilterName._(this.value);
-
-  static const values = [systemTemplateId, status, greengrassGroupName];
-
-  static SystemInstanceFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SystemInstanceFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SystemInstanceFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains summary information about a system instance.
-class SystemInstanceSummary {
-  /// The ARN of the system instance.
-  final String? arn;
-
-  /// The date when the system instance was created.
-  final DateTime? createdAt;
-
-  /// The ID of the Greengrass group where the system instance is deployed.
-  final String? greengrassGroupId;
-
-  /// The ID of the Greengrass group where the system instance is deployed.
-  final String? greengrassGroupName;
-
-  /// The version of the Greengrass group where the system instance is deployed.
-  final String? greengrassGroupVersionId;
-
-  /// The ID of the system instance.
-  final String? id;
-
-  /// The status of the system instance.
-  final SystemInstanceDeploymentStatus? status;
-
-  /// The target of the system instance.
-  final DeploymentTarget? target;
-
-  /// The date and time when the system instance was last updated.
-  final DateTime? updatedAt;
-
-  SystemInstanceSummary({
-    this.arn,
-    this.createdAt,
-    this.greengrassGroupId,
-    this.greengrassGroupName,
-    this.greengrassGroupVersionId,
-    this.id,
-    this.status,
-    this.target,
-    this.updatedAt,
-  });
-
-  factory SystemInstanceSummary.fromJson(Map<String, dynamic> json) {
-    return SystemInstanceSummary(
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      greengrassGroupId: json['greengrassGroupId'] as String?,
-      greengrassGroupName: json['greengrassGroupName'] as String?,
-      greengrassGroupVersionId: json['greengrassGroupVersionId'] as String?,
-      id: json['id'] as String?,
-      status: (json['status'] as String?)
-          ?.let(SystemInstanceDeploymentStatus.fromString),
-      target: (json['target'] as String?)?.let(DeploymentTarget.fromString),
-      updatedAt: timeStampFromJson(json['updatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final greengrassGroupId = this.greengrassGroupId;
-    final greengrassGroupName = this.greengrassGroupName;
-    final greengrassGroupVersionId = this.greengrassGroupVersionId;
-    final id = this.id;
-    final status = this.status;
-    final target = this.target;
-    final updatedAt = this.updatedAt;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (greengrassGroupId != null) 'greengrassGroupId': greengrassGroupId,
-      if (greengrassGroupName != null)
-        'greengrassGroupName': greengrassGroupName,
-      if (greengrassGroupVersionId != null)
-        'greengrassGroupVersionId': greengrassGroupVersionId,
-      if (id != null) 'id': id,
-      if (status != null) 'status': status.value,
-      if (target != null) 'target': target.value,
-      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// An object that contains a system's definition document and summary
-/// information.
-class SystemTemplateDescription {
-  /// The definition document of a system.
-  final DefinitionDocument? definition;
-
-  /// An object that contains summary information about a system.
-  final SystemTemplateSummary? summary;
-
-  /// The namespace version against which the system was validated. Use this value
-  /// in your system instance.
-  final int? validatedNamespaceVersion;
-
-  SystemTemplateDescription({
-    this.definition,
-    this.summary,
-    this.validatedNamespaceVersion,
-  });
-
-  factory SystemTemplateDescription.fromJson(Map<String, dynamic> json) {
-    return SystemTemplateDescription(
-      definition: json['definition'] != null
-          ? DefinitionDocument.fromJson(
-              json['definition'] as Map<String, dynamic>)
-          : null,
-      summary: json['summary'] != null
-          ? SystemTemplateSummary.fromJson(
-              json['summary'] as Map<String, dynamic>)
-          : null,
-      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definition = this.definition;
-    final summary = this.summary;
-    final validatedNamespaceVersion = this.validatedNamespaceVersion;
-    return {
-      if (definition != null) 'definition': definition,
-      if (summary != null) 'summary': summary,
-      if (validatedNamespaceVersion != null)
-        'validatedNamespaceVersion': validatedNamespaceVersion,
-    };
-  }
-}
-
-/// An object that filters a system search.
-class SystemTemplateFilter {
-  /// The name of the system search filter field.
-  final SystemTemplateFilterName name;
-
-  /// An array of string values for the search filter field. Multiple values
-  /// function as AND criteria in the search.
-  final List<String> value;
-
-  SystemTemplateFilter({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'name': name.value,
-      'value': value,
-    };
-  }
-}
-
-class SystemTemplateFilterName {
-  static const flowTemplateId = SystemTemplateFilterName._('FLOW_TEMPLATE_ID');
-
-  final String value;
-
-  const SystemTemplateFilterName._(this.value);
-
-  static const values = [flowTemplateId];
-
-  static SystemTemplateFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SystemTemplateFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SystemTemplateFilterName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about a system.
-class SystemTemplateSummary {
-  /// The ARN of the system.
-  final String? arn;
-
-  /// The date when the system was created.
-  final DateTime? createdAt;
-
-  /// The ID of the system.
-  final String? id;
-
-  /// The revision number of the system.
-  final int? revisionNumber;
-
-  SystemTemplateSummary({
-    this.arn,
-    this.createdAt,
-    this.id,
-    this.revisionNumber,
-  });
-
-  factory SystemTemplateSummary.fromJson(Map<String, dynamic> json) {
-    return SystemTemplateSummary(
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      id: json['id'] as String?,
-      revisionNumber: json['revisionNumber'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final id = this.id;
-    final revisionNumber = this.revisionNumber;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (id != null) 'id': id,
-      if (revisionNumber != null) 'revisionNumber': revisionNumber,
-    };
-  }
-}
-
-/// Metadata assigned to an AWS IoT Things Graph resource consisting of a
-/// key-value pair.
-class Tag {
-  /// The required name of the tag. The string value can be from 1 to 128 Unicode
-  /// characters in length.
-  final String key;
-
-  /// The optional value of the tag. The string value can be from 1 to 256 Unicode
-  /// characters in length.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['key'] as String?) ?? '',
-      value: (json['value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      'value': value,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -3647,36 +2494,6 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// An AWS IoT thing.
-class Thing {
-  /// The ARN of the thing.
-  final String? thingArn;
-
-  /// The name of the thing.
-  final String? thingName;
-
-  Thing({
-    this.thingArn,
-    this.thingName,
-  });
-
-  factory Thing.fromJson(Map<String, dynamic> json) {
-    return Thing(
-      thingArn: json['thingArn'] as String?,
-      thingName: json['thingName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final thingArn = this.thingArn;
-    final thingName = this.thingName;
-    return {
-      if (thingArn != null) 'thingArn': thingArn,
-      if (thingName != null) 'thingName': thingName,
-    };
   }
 }
 
@@ -3791,6 +2608,864 @@ class UploadEntityDefinitionsResponse {
   }
 }
 
+/// A document that defines an entity.
+class DefinitionDocument {
+  /// The language used to define the entity. <code>GRAPHQL</code> is the only
+  /// valid value.
+  final DefinitionLanguage language;
+
+  /// The GraphQL text that defines the entity.
+  final String text;
+
+  DefinitionDocument({
+    required this.language,
+    required this.text,
+  });
+
+  factory DefinitionDocument.fromJson(Map<String, dynamic> json) {
+    return DefinitionDocument(
+      language:
+          DefinitionLanguage.fromString((json['language'] as String?) ?? ''),
+      text: (json['text'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final language = this.language;
+    final text = this.text;
+    return {
+      'language': language.value,
+      'text': text,
+    };
+  }
+}
+
+class DefinitionLanguage {
+  static const graphql = DefinitionLanguage._('GRAPHQL');
+
+  final String value;
+
+  const DefinitionLanguage._(this.value);
+
+  static const values = [graphql];
+
+  static DefinitionLanguage fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DefinitionLanguage._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefinitionLanguage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains information about a system.
+class SystemTemplateSummary {
+  /// The ARN of the system.
+  final String? arn;
+
+  /// The date when the system was created.
+  final DateTime? createdAt;
+
+  /// The ID of the system.
+  final String? id;
+
+  /// The revision number of the system.
+  final int? revisionNumber;
+
+  SystemTemplateSummary({
+    this.arn,
+    this.createdAt,
+    this.id,
+    this.revisionNumber,
+  });
+
+  factory SystemTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return SystemTemplateSummary(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      revisionNumber: json['revisionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final revisionNumber = this.revisionNumber;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (id != null) 'id': id,
+      if (revisionNumber != null) 'revisionNumber': revisionNumber,
+    };
+  }
+}
+
+/// An object that contains summary information about a workflow.
+class FlowTemplateSummary {
+  /// The ARN of the workflow.
+  final String? arn;
+
+  /// The date when the workflow was created.
+  final DateTime? createdAt;
+
+  /// The ID of the workflow.
+  final String? id;
+
+  /// The revision number of the workflow.
+  final int? revisionNumber;
+
+  FlowTemplateSummary({
+    this.arn,
+    this.createdAt,
+    this.id,
+    this.revisionNumber,
+  });
+
+  factory FlowTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return FlowTemplateSummary(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      revisionNumber: json['revisionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final revisionNumber = this.revisionNumber;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (id != null) 'id': id,
+      if (revisionNumber != null) 'revisionNumber': revisionNumber,
+    };
+  }
+}
+
+/// An object that contains summary information about a system instance.
+class SystemInstanceSummary {
+  /// The ARN of the system instance.
+  final String? arn;
+
+  /// The date when the system instance was created.
+  final DateTime? createdAt;
+
+  /// The ID of the Greengrass group where the system instance is deployed.
+  final String? greengrassGroupId;
+
+  /// The ID of the Greengrass group where the system instance is deployed.
+  final String? greengrassGroupName;
+
+  /// The version of the Greengrass group where the system instance is deployed.
+  final String? greengrassGroupVersionId;
+
+  /// The ID of the system instance.
+  final String? id;
+
+  /// The status of the system instance.
+  final SystemInstanceDeploymentStatus? status;
+
+  /// The target of the system instance.
+  final DeploymentTarget? target;
+
+  /// The date and time when the system instance was last updated.
+  final DateTime? updatedAt;
+
+  SystemInstanceSummary({
+    this.arn,
+    this.createdAt,
+    this.greengrassGroupId,
+    this.greengrassGroupName,
+    this.greengrassGroupVersionId,
+    this.id,
+    this.status,
+    this.target,
+    this.updatedAt,
+  });
+
+  factory SystemInstanceSummary.fromJson(Map<String, dynamic> json) {
+    return SystemInstanceSummary(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      greengrassGroupId: json['greengrassGroupId'] as String?,
+      greengrassGroupName: json['greengrassGroupName'] as String?,
+      greengrassGroupVersionId: json['greengrassGroupVersionId'] as String?,
+      id: json['id'] as String?,
+      status: (json['status'] as String?)
+          ?.let(SystemInstanceDeploymentStatus.fromString),
+      target: (json['target'] as String?)?.let(DeploymentTarget.fromString),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final greengrassGroupId = this.greengrassGroupId;
+    final greengrassGroupName = this.greengrassGroupName;
+    final greengrassGroupVersionId = this.greengrassGroupVersionId;
+    final id = this.id;
+    final status = this.status;
+    final target = this.target;
+    final updatedAt = this.updatedAt;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (greengrassGroupId != null) 'greengrassGroupId': greengrassGroupId,
+      if (greengrassGroupName != null)
+        'greengrassGroupName': greengrassGroupName,
+      if (greengrassGroupVersionId != null)
+        'greengrassGroupVersionId': greengrassGroupVersionId,
+      if (id != null) 'id': id,
+      if (status != null) 'status': status.value,
+      if (target != null) 'target': target.value,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class SystemInstanceDeploymentStatus {
+  static const notDeployed = SystemInstanceDeploymentStatus._('NOT_DEPLOYED');
+  static const bootstrap = SystemInstanceDeploymentStatus._('BOOTSTRAP');
+  static const deployInProgress =
+      SystemInstanceDeploymentStatus._('DEPLOY_IN_PROGRESS');
+  static const deployedInTarget =
+      SystemInstanceDeploymentStatus._('DEPLOYED_IN_TARGET');
+  static const undeployInProgress =
+      SystemInstanceDeploymentStatus._('UNDEPLOY_IN_PROGRESS');
+  static const failed = SystemInstanceDeploymentStatus._('FAILED');
+  static const pendingDelete =
+      SystemInstanceDeploymentStatus._('PENDING_DELETE');
+  static const deletedInTarget =
+      SystemInstanceDeploymentStatus._('DELETED_IN_TARGET');
+
+  final String value;
+
+  const SystemInstanceDeploymentStatus._(this.value);
+
+  static const values = [
+    notDeployed,
+    bootstrap,
+    deployInProgress,
+    deployedInTarget,
+    undeployInProgress,
+    failed,
+    pendingDelete,
+    deletedInTarget
+  ];
+
+  static SystemInstanceDeploymentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SystemInstanceDeploymentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SystemInstanceDeploymentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeploymentTarget {
+  static const greengrass = DeploymentTarget._('GREENGRASS');
+  static const cloud = DeploymentTarget._('CLOUD');
+
+  final String value;
+
+  const DeploymentTarget._(this.value);
+
+  static const values = [greengrass, cloud];
+
+  static DeploymentTarget fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeploymentTarget._(value));
+
+  @override
+  bool operator ==(other) => other is DeploymentTarget && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Metadata assigned to an AWS IoT Things Graph resource consisting of a
+/// key-value pair.
+class Tag {
+  /// The required name of the tag. The string value can be from 1 to 128 Unicode
+  /// characters in length.
+  final String key;
+
+  /// The optional value of the tag. The string value can be from 1 to 256 Unicode
+  /// characters in length.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['key'] as String?) ?? '',
+      value: (json['value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
+}
+
+/// An AWS IoT thing.
+class Thing {
+  /// The ARN of the thing.
+  final String? thingArn;
+
+  /// The name of the thing.
+  final String? thingName;
+
+  Thing({
+    this.thingArn,
+    this.thingName,
+  });
+
+  factory Thing.fromJson(Map<String, dynamic> json) {
+    return Thing(
+      thingArn: json['thingArn'] as String?,
+      thingName: json['thingName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingArn = this.thingArn;
+    final thingName = this.thingName;
+    return {
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingName != null) 'thingName': thingName,
+    };
+  }
+}
+
+/// An object that filters a system search.
+class SystemTemplateFilter {
+  /// The name of the system search filter field.
+  final SystemTemplateFilterName name;
+
+  /// An array of string values for the search filter field. Multiple values
+  /// function as AND criteria in the search.
+  final List<String> value;
+
+  SystemTemplateFilter({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name.value,
+      'value': value,
+    };
+  }
+}
+
+class SystemTemplateFilterName {
+  static const flowTemplateId = SystemTemplateFilterName._('FLOW_TEMPLATE_ID');
+
+  final String value;
+
+  const SystemTemplateFilterName._(this.value);
+
+  static const values = [flowTemplateId];
+
+  static SystemTemplateFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SystemTemplateFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SystemTemplateFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that filters a system instance search. Multiple filters function
+/// as OR criteria in the search. For example a search that includes a
+/// GREENGRASS_GROUP_NAME and a STATUS filter searches for system instances in
+/// the specified Greengrass group that have the specified status.
+class SystemInstanceFilter {
+  /// The name of the search filter field.
+  final SystemInstanceFilterName? name;
+
+  /// An array of string values for the search filter field. Multiple values
+  /// function as AND criteria in the search.
+  final List<String>? value;
+
+  SystemInstanceFilter({
+    this.name,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class SystemInstanceFilterName {
+  static const systemTemplateId =
+      SystemInstanceFilterName._('SYSTEM_TEMPLATE_ID');
+  static const status = SystemInstanceFilterName._('STATUS');
+  static const greengrassGroupName =
+      SystemInstanceFilterName._('GREENGRASS_GROUP_NAME');
+
+  final String value;
+
+  const SystemInstanceFilterName._(this.value);
+
+  static const values = [systemTemplateId, status, greengrassGroupName];
+
+  static SystemInstanceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SystemInstanceFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SystemInstanceFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that filters a workflow search.
+class FlowTemplateFilter {
+  /// The name of the search filter field.
+  final FlowTemplateFilterName name;
+
+  /// An array of string values for the search filter field. Multiple values
+  /// function as AND criteria in the search.
+  final List<String> value;
+
+  FlowTemplateFilter({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name.value,
+      'value': value,
+    };
+  }
+}
+
+class FlowTemplateFilterName {
+  static const deviceModelId = FlowTemplateFilterName._('DEVICE_MODEL_ID');
+
+  final String value;
+
+  const FlowTemplateFilterName._(this.value);
+
+  static const values = [deviceModelId];
+
+  static FlowTemplateFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowTemplateFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowTemplateFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains summary information about a flow execution.
+class FlowExecutionSummary {
+  /// The date and time when the flow execution summary was created.
+  final DateTime? createdAt;
+
+  /// The ID of the flow execution.
+  final String? flowExecutionId;
+
+  /// The ID of the flow.
+  final String? flowTemplateId;
+
+  /// The current status of the flow execution.
+  final FlowExecutionStatus? status;
+
+  /// The ID of the system instance that contains the flow.
+  final String? systemInstanceId;
+
+  /// The date and time when the flow execution summary was last updated.
+  final DateTime? updatedAt;
+
+  FlowExecutionSummary({
+    this.createdAt,
+    this.flowExecutionId,
+    this.flowTemplateId,
+    this.status,
+    this.systemInstanceId,
+    this.updatedAt,
+  });
+
+  factory FlowExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return FlowExecutionSummary(
+      createdAt: timeStampFromJson(json['createdAt']),
+      flowExecutionId: json['flowExecutionId'] as String?,
+      flowTemplateId: json['flowTemplateId'] as String?,
+      status: (json['status'] as String?)?.let(FlowExecutionStatus.fromString),
+      systemInstanceId: json['systemInstanceId'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final flowExecutionId = this.flowExecutionId;
+    final flowTemplateId = this.flowTemplateId;
+    final status = this.status;
+    final systemInstanceId = this.systemInstanceId;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (flowExecutionId != null) 'flowExecutionId': flowExecutionId,
+      if (flowTemplateId != null) 'flowTemplateId': flowTemplateId,
+      if (status != null) 'status': status.value,
+      if (systemInstanceId != null) 'systemInstanceId': systemInstanceId,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class FlowExecutionStatus {
+  static const running = FlowExecutionStatus._('RUNNING');
+  static const aborted = FlowExecutionStatus._('ABORTED');
+  static const succeeded = FlowExecutionStatus._('SUCCEEDED');
+  static const failed = FlowExecutionStatus._('FAILED');
+
+  final String value;
+
+  const FlowExecutionStatus._(this.value);
+
+  static const values = [running, aborted, succeeded, failed];
+
+  static FlowExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the properties of an entity.
+class EntityDescription {
+  /// The entity ARN.
+  final String? arn;
+
+  /// The time at which the entity was created.
+  final DateTime? createdAt;
+
+  /// The definition document of the entity.
+  final DefinitionDocument? definition;
+
+  /// The entity ID.
+  final String? id;
+
+  /// The entity type.
+  final EntityType? type;
+
+  EntityDescription({
+    this.arn,
+    this.createdAt,
+    this.definition,
+    this.id,
+    this.type,
+  });
+
+  factory EntityDescription.fromJson(Map<String, dynamic> json) {
+    return EntityDescription(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      definition: json['definition'] != null
+          ? DefinitionDocument.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      type: (json['type'] as String?)?.let(EntityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final definition = this.definition;
+    final id = this.id;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (definition != null) 'definition': definition,
+      if (id != null) 'id': id,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class EntityType {
+  static const device = EntityType._('DEVICE');
+  static const service = EntityType._('SERVICE');
+  static const deviceModel = EntityType._('DEVICE_MODEL');
+  static const capability = EntityType._('CAPABILITY');
+  static const state = EntityType._('STATE');
+  static const action = EntityType._('ACTION');
+  static const event = EntityType._('EVENT');
+  static const property = EntityType._('PROPERTY');
+  static const mapping = EntityType._('MAPPING');
+  static const $enum = EntityType._('ENUM');
+
+  final String value;
+
+  const EntityType._(this.value);
+
+  static const values = [
+    device,
+    service,
+    deviceModel,
+    capability,
+    state,
+    action,
+    event,
+    property,
+    mapping,
+    $enum
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that filters an entity search. Multiple filters function as OR
+/// criteria in the search. For example a search that includes a
+/// <code>NAMESPACE</code> and a <code>REFERENCED_ENTITY_ID</code> filter
+/// searches for entities in the specified namespace that use the entity
+/// specified by the value of <code>REFERENCED_ENTITY_ID</code>.
+class EntityFilter {
+  /// The name of the entity search filter field.
+  /// <code>REFERENCED_ENTITY_ID</code> filters on entities that are used by the
+  /// entity in the result set. For example, you can filter on the ID of a
+  /// property that is used in a state.
+  final EntityFilterName? name;
+
+  /// An array of string values for the search filter field. Multiple values
+  /// function as AND criteria in the search.
+  final List<String>? value;
+
+  EntityFilter({
+    this.name,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class EntityFilterName {
+  static const name = EntityFilterName._('NAME');
+  static const namespace = EntityFilterName._('NAMESPACE');
+  static const semanticTypePath = EntityFilterName._('SEMANTIC_TYPE_PATH');
+  static const referencedEntityId = EntityFilterName._('REFERENCED_ENTITY_ID');
+
+  final String value;
+
+  const EntityFilterName._(this.value);
+
+  static const values = [name, namespace, semanticTypePath, referencedEntityId];
+
+  static EntityFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EntityFilterName._(value));
+
+  @override
+  bool operator ==(other) => other is EntityFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains information about a flow event.
+class FlowExecutionMessage {
+  /// The type of flow event .
+  final FlowExecutionEventType? eventType;
+
+  /// The unique identifier of the message.
+  final String? messageId;
+
+  /// A string containing information about the flow event.
+  final String? payload;
+
+  /// The date and time when the message was last updated.
+  final DateTime? timestamp;
+
+  FlowExecutionMessage({
+    this.eventType,
+    this.messageId,
+    this.payload,
+    this.timestamp,
+  });
+
+  factory FlowExecutionMessage.fromJson(Map<String, dynamic> json) {
+    return FlowExecutionMessage(
+      eventType: (json['eventType'] as String?)
+          ?.let(FlowExecutionEventType.fromString),
+      messageId: json['messageId'] as String?,
+      payload: json['payload'] as String?,
+      timestamp: timeStampFromJson(json['timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final messageId = this.messageId;
+    final payload = this.payload;
+    final timestamp = this.timestamp;
+    return {
+      if (eventType != null) 'eventType': eventType.value,
+      if (messageId != null) 'messageId': messageId,
+      if (payload != null) 'payload': payload,
+      if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+class FlowExecutionEventType {
+  static const executionStarted = FlowExecutionEventType._('EXECUTION_STARTED');
+  static const executionFailed = FlowExecutionEventType._('EXECUTION_FAILED');
+  static const executionAborted = FlowExecutionEventType._('EXECUTION_ABORTED');
+  static const executionSucceeded =
+      FlowExecutionEventType._('EXECUTION_SUCCEEDED');
+  static const stepStarted = FlowExecutionEventType._('STEP_STARTED');
+  static const stepFailed = FlowExecutionEventType._('STEP_FAILED');
+  static const stepSucceeded = FlowExecutionEventType._('STEP_SUCCEEDED');
+  static const activityScheduled =
+      FlowExecutionEventType._('ACTIVITY_SCHEDULED');
+  static const activityStarted = FlowExecutionEventType._('ACTIVITY_STARTED');
+  static const activityFailed = FlowExecutionEventType._('ACTIVITY_FAILED');
+  static const activitySucceeded =
+      FlowExecutionEventType._('ACTIVITY_SUCCEEDED');
+  static const startFlowExecutionTask =
+      FlowExecutionEventType._('START_FLOW_EXECUTION_TASK');
+  static const scheduleNextReadyStepsTask =
+      FlowExecutionEventType._('SCHEDULE_NEXT_READY_STEPS_TASK');
+  static const thingActionTask = FlowExecutionEventType._('THING_ACTION_TASK');
+  static const thingActionTaskFailed =
+      FlowExecutionEventType._('THING_ACTION_TASK_FAILED');
+  static const thingActionTaskSucceeded =
+      FlowExecutionEventType._('THING_ACTION_TASK_SUCCEEDED');
+  static const acknowledgeTaskMessage =
+      FlowExecutionEventType._('ACKNOWLEDGE_TASK_MESSAGE');
+
+  final String value;
+
+  const FlowExecutionEventType._(this.value);
+
+  static const values = [
+    executionStarted,
+    executionFailed,
+    executionAborted,
+    executionSucceeded,
+    stepStarted,
+    stepFailed,
+    stepSucceeded,
+    activityScheduled,
+    activityStarted,
+    activityFailed,
+    activitySucceeded,
+    startFlowExecutionTask,
+    scheduleNextReadyStepsTask,
+    thingActionTask,
+    thingActionTaskFailed,
+    thingActionTaskSucceeded,
+    acknowledgeTaskMessage
+  ];
+
+  static FlowExecutionEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FlowExecutionEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FlowExecutionEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class UploadStatus {
   static const inProgress = UploadStatus._('IN_PROGRESS');
   static const succeeded = UploadStatus._('SUCCEEDED');
@@ -3813,6 +3488,295 @@ class UploadStatus {
 
   @override
   String toString() => value;
+}
+
+/// An object that contains a system's definition document and summary
+/// information.
+class SystemTemplateDescription {
+  /// The definition document of a system.
+  final DefinitionDocument? definition;
+
+  /// An object that contains summary information about a system.
+  final SystemTemplateSummary? summary;
+
+  /// The namespace version against which the system was validated. Use this value
+  /// in your system instance.
+  final int? validatedNamespaceVersion;
+
+  SystemTemplateDescription({
+    this.definition,
+    this.summary,
+    this.validatedNamespaceVersion,
+  });
+
+  factory SystemTemplateDescription.fromJson(Map<String, dynamic> json) {
+    return SystemTemplateDescription(
+      definition: json['definition'] != null
+          ? DefinitionDocument.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      summary: json['summary'] != null
+          ? SystemTemplateSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final summary = this.summary;
+    final validatedNamespaceVersion = this.validatedNamespaceVersion;
+    return {
+      if (definition != null) 'definition': definition,
+      if (summary != null) 'summary': summary,
+      if (validatedNamespaceVersion != null)
+        'validatedNamespaceVersion': validatedNamespaceVersion,
+    };
+  }
+}
+
+/// An object that contains a system instance definition and summary
+/// information.
+class SystemInstanceDescription {
+  final DefinitionDocument? definition;
+
+  /// The AWS Identity and Access Management (IAM) role that AWS IoT Things Graph
+  /// assumes during flow execution in a cloud deployment. This role must have
+  /// read and write permissionss to AWS Lambda and AWS IoT and to any other AWS
+  /// services that the flow uses.
+  final String? flowActionsRoleArn;
+  final MetricsConfiguration? metricsConfiguration;
+
+  /// The Amazon Simple Storage Service bucket where information about a system
+  /// instance is stored.
+  final String? s3BucketName;
+
+  /// An object that contains summary information about a system instance.
+  final SystemInstanceSummary? summary;
+
+  /// A list of objects that contain all of the IDs and revision numbers of
+  /// workflows and systems that are used in a system instance.
+  final List<DependencyRevision>? validatedDependencyRevisions;
+
+  /// The version of the user's namespace against which the system instance was
+  /// validated.
+  final int? validatedNamespaceVersion;
+
+  SystemInstanceDescription({
+    this.definition,
+    this.flowActionsRoleArn,
+    this.metricsConfiguration,
+    this.s3BucketName,
+    this.summary,
+    this.validatedDependencyRevisions,
+    this.validatedNamespaceVersion,
+  });
+
+  factory SystemInstanceDescription.fromJson(Map<String, dynamic> json) {
+    return SystemInstanceDescription(
+      definition: json['definition'] != null
+          ? DefinitionDocument.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      flowActionsRoleArn: json['flowActionsRoleArn'] as String?,
+      metricsConfiguration: json['metricsConfiguration'] != null
+          ? MetricsConfiguration.fromJson(
+              json['metricsConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3BucketName: json['s3BucketName'] as String?,
+      summary: json['summary'] != null
+          ? SystemInstanceSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+      validatedDependencyRevisions: (json['validatedDependencyRevisions']
+              as List?)
+          ?.nonNulls
+          .map((e) => DependencyRevision.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final flowActionsRoleArn = this.flowActionsRoleArn;
+    final metricsConfiguration = this.metricsConfiguration;
+    final s3BucketName = this.s3BucketName;
+    final summary = this.summary;
+    final validatedDependencyRevisions = this.validatedDependencyRevisions;
+    final validatedNamespaceVersion = this.validatedNamespaceVersion;
+    return {
+      if (definition != null) 'definition': definition,
+      if (flowActionsRoleArn != null) 'flowActionsRoleArn': flowActionsRoleArn,
+      if (metricsConfiguration != null)
+        'metricsConfiguration': metricsConfiguration,
+      if (s3BucketName != null) 's3BucketName': s3BucketName,
+      if (summary != null) 'summary': summary,
+      if (validatedDependencyRevisions != null)
+        'validatedDependencyRevisions': validatedDependencyRevisions,
+      if (validatedNamespaceVersion != null)
+        'validatedNamespaceVersion': validatedNamespaceVersion,
+    };
+  }
+}
+
+/// An object that specifies whether cloud metrics are collected in a deployment
+/// and, if so, what role is used to collect metrics.
+class MetricsConfiguration {
+  /// A Boolean that specifies whether cloud metrics are collected.
+  final bool? cloudMetricEnabled;
+
+  /// The ARN of the role that is used to collect cloud metrics.
+  final String? metricRuleRoleArn;
+
+  MetricsConfiguration({
+    this.cloudMetricEnabled,
+    this.metricRuleRoleArn,
+  });
+
+  factory MetricsConfiguration.fromJson(Map<String, dynamic> json) {
+    return MetricsConfiguration(
+      cloudMetricEnabled: json['cloudMetricEnabled'] as bool?,
+      metricRuleRoleArn: json['metricRuleRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudMetricEnabled = this.cloudMetricEnabled;
+    final metricRuleRoleArn = this.metricRuleRoleArn;
+    return {
+      if (cloudMetricEnabled != null) 'cloudMetricEnabled': cloudMetricEnabled,
+      if (metricRuleRoleArn != null) 'metricRuleRoleArn': metricRuleRoleArn,
+    };
+  }
+}
+
+/// An object that contains the ID and revision number of a workflow or system
+/// that is part of a deployment.
+class DependencyRevision {
+  /// The ID of the workflow or system.
+  final String? id;
+
+  /// The revision number of the workflow or system.
+  final int? revisionNumber;
+
+  DependencyRevision({
+    this.id,
+    this.revisionNumber,
+  });
+
+  factory DependencyRevision.fromJson(Map<String, dynamic> json) {
+    return DependencyRevision(
+      id: json['id'] as String?,
+      revisionNumber: json['revisionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final revisionNumber = this.revisionNumber;
+    return {
+      if (id != null) 'id': id,
+      if (revisionNumber != null) 'revisionNumber': revisionNumber,
+    };
+  }
+}
+
+class NamespaceDeletionStatus {
+  static const inProgress = NamespaceDeletionStatus._('IN_PROGRESS');
+  static const succeeded = NamespaceDeletionStatus._('SUCCEEDED');
+  static const failed = NamespaceDeletionStatus._('FAILED');
+
+  final String value;
+
+  const NamespaceDeletionStatus._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
+
+  static NamespaceDeletionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NamespaceDeletionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamespaceDeletionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NamespaceDeletionStatusErrorCodes {
+  static const validationFailed =
+      NamespaceDeletionStatusErrorCodes._('VALIDATION_FAILED');
+
+  final String value;
+
+  const NamespaceDeletionStatusErrorCodes._(this.value);
+
+  static const values = [validationFailed];
+
+  static NamespaceDeletionStatusErrorCodes fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NamespaceDeletionStatusErrorCodes._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamespaceDeletionStatusErrorCodes && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains a workflow's definition and summary information.
+class FlowTemplateDescription {
+  /// A workflow's definition document.
+  final DefinitionDocument? definition;
+
+  /// An object that contains summary information about a workflow.
+  final FlowTemplateSummary? summary;
+
+  /// The version of the user's namespace against which the workflow was
+  /// validated. Use this value in your system instance.
+  final int? validatedNamespaceVersion;
+
+  FlowTemplateDescription({
+    this.definition,
+    this.summary,
+    this.validatedNamespaceVersion,
+  });
+
+  factory FlowTemplateDescription.fromJson(Map<String, dynamic> json) {
+    return FlowTemplateDescription(
+      definition: json['definition'] != null
+          ? DefinitionDocument.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      summary: json['summary'] != null
+          ? FlowTemplateSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final summary = this.summary;
+    final validatedNamespaceVersion = this.validatedNamespaceVersion;
+    return {
+      if (definition != null) 'definition': definition,
+      if (summary != null) 'summary': summary,
+      if (validatedNamespaceVersion != null)
+        'validatedNamespaceVersion': validatedNamespaceVersion,
+    };
+  }
 }
 
 class InternalFailureException extends _s.GenericAwsException {

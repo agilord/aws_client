@@ -57,10 +57,10 @@ class ApplicationDiscovery {
   /// Associates one or more configuration items with an application.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [applicationConfigurationId] :
   /// The configuration ID of an application with which items are to be
@@ -136,10 +136,10 @@ class ApplicationDiscovery {
   /// deleted.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [importTaskIds] :
   /// The IDs for the import tasks that you want to delete.
@@ -173,19 +173,23 @@ class ApplicationDiscovery {
   /// Creates an application with the given name and description.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [name] :
-  /// Name of the application to be created.
+  /// The name of the application to be created.
   ///
   /// Parameter [description] :
-  /// Description of the application to be created.
+  /// The description of the application to be created.
+  ///
+  /// Parameter [wave] :
+  /// The name of the migration wave of the application to be created.
   Future<CreateApplicationResponse> createApplication({
     required String name,
     String? description,
+    String? wave,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -200,6 +204,7 @@ class ApplicationDiscovery {
       payload: {
         'name': name,
         if (description != null) 'description': description,
+        if (wave != null) 'wave': wave,
       },
     );
 
@@ -214,11 +219,11 @@ class ApplicationDiscovery {
   /// </important>
   ///
   /// May throw [AuthorizationErrorException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [configurationIds] :
   /// A list of configuration items that you want to tag.
@@ -254,10 +259,10 @@ class ApplicationDiscovery {
   /// items.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [configurationIds] :
   /// Configuration ID of an application to be deleted.
@@ -284,11 +289,11 @@ class ApplicationDiscovery {
   /// This API accepts a list of multiple configuration items.
   ///
   /// May throw [AuthorizationErrorException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [configurationIds] :
   /// A list of configuration items with tags that you want to delete.
@@ -325,10 +330,10 @@ class ApplicationDiscovery {
   /// <code>DescribeAgents</code> as is without passing any parameters.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [agentIds] :
   /// The agent or the collector IDs for which you want information. If you
@@ -382,9 +387,9 @@ class ApplicationDiscovery {
   /// about a configuration deletion task.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [taskId] :
   /// The ID of the task to delete.
@@ -443,10 +448,10 @@ class ApplicationDiscovery {
   /// </note>
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [configurationIds] :
   /// One or more configuration IDs.
@@ -476,12 +481,12 @@ class ApplicationDiscovery {
   /// as is without passing any parameters.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
-  /// May throw [ServerInternalErrorException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServerInternalErrorException].
   ///
   /// Parameter [exportIds] :
   /// The unique IDs assigned to the exports.
@@ -528,11 +533,11 @@ class ApplicationDiscovery {
   /// instead.
   ///
   /// May throw [AuthorizationErrorException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [exportIds] :
   /// A list of continuous export IDs to search for.
@@ -543,7 +548,6 @@ class ApplicationDiscovery {
   ///
   /// Parameter [nextToken] :
   /// The token from the previous call to describe-export-tasks.
-  @Deprecated('Deprecated')
   Future<DescribeExportConfigurationsResponse> describeExportConfigurations({
     List<String>? exportIds,
     int? maxResults,
@@ -574,10 +578,10 @@ class ApplicationDiscovery {
   /// of up to 100 export tasks.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [exportIds] :
   /// One or more unique identifiers used to query the status of an export
@@ -639,10 +643,10 @@ class ApplicationDiscovery {
   /// more.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [filters] :
   /// An array of name-value pairs that you provide to filter the results for
@@ -708,11 +712,11 @@ class ApplicationDiscovery {
   /// parameters.
   ///
   /// May throw [AuthorizationErrorException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [filters] :
   /// You can filter the list using a <i>key</i>-<i>value</i> format. You can
@@ -754,10 +758,10 @@ class ApplicationDiscovery {
   /// Disassociates one or more configuration items from an application.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [applicationConfigurationId] :
   /// Configuration ID of an application from which each item is disassociated.
@@ -796,12 +800,11 @@ class ApplicationDiscovery {
   /// configuration exports in six hours.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
-  /// May throw [ServerInternalErrorException].
   /// May throw [OperationNotPermittedException].
-  /// May throw [HomeRegionNotSetException].
-  @Deprecated('Deprecated')
+  /// May throw [ServerInternalErrorException].
   Future<ExportConfigurationsResponse> exportConfigurations() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -824,10 +827,10 @@ class ApplicationDiscovery {
   /// command prompt as shown in the example.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   Future<GetDiscoverySummaryResponse> getDiscoverySummary() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -849,11 +852,11 @@ class ApplicationDiscovery {
   /// filtering may be applied to refine search results.
   ///
   /// May throw [AuthorizationErrorException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [configurationType] :
   /// A valid configuration identified by Application Discovery Service.
@@ -920,10 +923,10 @@ class ApplicationDiscovery {
   /// server.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [configurationId] :
   /// Configuration ID of the server for which neighbors are being listed.
@@ -980,12 +983,13 @@ class ApplicationDiscovery {
   /// deletion task to remove the configurationItems. Returns a unique deletion
   /// task identifier.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [AuthorizationErrorException].
-  /// May throw [ServerInternalErrorException].
   /// May throw [HomeRegionNotSetException].
-  /// May throw [OperationNotPermittedException].
+  /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ServerInternalErrorException].
   ///
   /// Parameter [configurationIds] :
   /// The list of configuration IDs that will be deleted by the task.
@@ -1020,14 +1024,14 @@ class ApplicationDiscovery {
 
   /// Start the continuous flow of agent's discovered data into Amazon Athena.
   ///
-  /// May throw [ConflictErrorException].
   /// May throw [AuthorizationErrorException].
+  /// May throw [ConflictErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
-  /// May throw [ServerInternalErrorException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceInUseException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServerInternalErrorException].
   Future<StartContinuousExportResponse> startContinuousExport() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1047,10 +1051,10 @@ class ApplicationDiscovery {
   /// Instructs the specified agents to start collecting data.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [agentIds] :
   /// The IDs of the agents from which to start collecting data. If you send a
@@ -1114,11 +1118,11 @@ class ApplicationDiscovery {
   /// recommendation.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
-  /// May throw [ServerInternalErrorException].
   /// May throw [OperationNotPermittedException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServerInternalErrorException].
   ///
   /// Parameter [endTime] :
   /// The end timestamp for exported data from the single Application Discovery
@@ -1219,12 +1223,12 @@ class ApplicationDiscovery {
   /// Services Application Discovery Service User Guide</i>.
   /// </note>
   ///
-  /// May throw [ResourceInUseException].
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceInUseException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [importUrl] :
   /// The URL for your import file that you've uploaded to Amazon S3.
@@ -1276,13 +1280,13 @@ class ApplicationDiscovery {
   /// Stop the continuous flow of agent's discovered data into Amazon Athena.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
-  /// May throw [ServerInternalErrorException].
   /// May throw [OperationNotPermittedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServerInternalErrorException].
   ///
   /// Parameter [exportId] :
   /// The unique ID assigned to this export.
@@ -1310,10 +1314,10 @@ class ApplicationDiscovery {
   /// Instructs the specified agents to stop collecting data.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [agentIds] :
   /// The IDs of the agents from which to stop collecting data.
@@ -1342,10 +1346,10 @@ class ApplicationDiscovery {
   /// Updates metadata about an application.
   ///
   /// May throw [AuthorizationErrorException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ServerInternalErrorException].
-  /// May throw [HomeRegionNotSetException].
   ///
   /// Parameter [configurationId] :
   /// Configuration ID of the application to be updated.
@@ -1355,10 +1359,14 @@ class ApplicationDiscovery {
   ///
   /// Parameter [name] :
   /// New name of the application to be updated.
+  ///
+  /// Parameter [wave] :
+  /// The new migration wave of the application that you want to update.
   Future<void> updateApplication({
     required String configurationId,
     String? description,
     String? name,
+    String? wave,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1374,8 +1382,836 @@ class ApplicationDiscovery {
         'configurationId': configurationId,
         if (description != null) 'description': description,
         if (name != null) 'name': name,
+        if (wave != null) 'wave': wave,
       },
     );
+  }
+}
+
+class AssociateConfigurationItemsToApplicationResponse {
+  AssociateConfigurationItemsToApplicationResponse();
+
+  factory AssociateConfigurationItemsToApplicationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return AssociateConfigurationItemsToApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class BatchDeleteAgentsResponse {
+  /// A list of agent IDs that failed to delete during the deletion task, each
+  /// paired with an error message.
+  final List<BatchDeleteAgentError>? errors;
+
+  BatchDeleteAgentsResponse({
+    this.errors,
+  });
+
+  factory BatchDeleteAgentsResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteAgentsResponse(
+      errors: (json['errors'] as List?)
+          ?.nonNulls
+          .map((e) => BatchDeleteAgentError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'errors': errors,
+    };
+  }
+}
+
+class BatchDeleteImportDataResponse {
+  /// Error messages returned for each import task that you deleted as a response
+  /// for this command.
+  final List<BatchDeleteImportDataError>? errors;
+
+  BatchDeleteImportDataResponse({
+    this.errors,
+  });
+
+  factory BatchDeleteImportDataResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteImportDataResponse(
+      errors: (json['errors'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              BatchDeleteImportDataError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'errors': errors,
+    };
+  }
+}
+
+class CreateApplicationResponse {
+  /// The configuration ID of an application to be created.
+  final String? configurationId;
+
+  CreateApplicationResponse({
+    this.configurationId,
+  });
+
+  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationResponse(
+      configurationId: json['configurationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationId = this.configurationId;
+    return {
+      if (configurationId != null) 'configurationId': configurationId,
+    };
+  }
+}
+
+class CreateTagsResponse {
+  CreateTagsResponse();
+
+  factory CreateTagsResponse.fromJson(Map<String, dynamic> _) {
+    return CreateTagsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteApplicationsResponse {
+  DeleteApplicationsResponse();
+
+  factory DeleteApplicationsResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteTagsResponse {
+  DeleteTagsResponse();
+
+  factory DeleteTagsResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTagsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DescribeAgentsResponse {
+  /// Lists agents or the collector by ID or lists all agents/collectors
+  /// associated with your user, if you did not specify an agent/collector ID. The
+  /// output includes agent/collector IDs, IP addresses, media access control
+  /// (MAC) addresses, agent/collector health, host name where the agent/collector
+  /// resides, and the version number of each agent/collector.
+  final List<AgentInfo>? agentsInfo;
+
+  /// Token to retrieve the next set of results. For example, if you specified 100
+  /// IDs for <code>DescribeAgentsRequest$agentIds</code> but set
+  /// <code>DescribeAgentsRequest$maxResults</code> to 10, you received a set of
+  /// 10 results along with this token. Use this token in the next query to
+  /// retrieve the next set of 10.
+  final String? nextToken;
+
+  DescribeAgentsResponse({
+    this.agentsInfo,
+    this.nextToken,
+  });
+
+  factory DescribeAgentsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAgentsResponse(
+      agentsInfo: (json['agentsInfo'] as List?)
+          ?.nonNulls
+          .map((e) => AgentInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentsInfo = this.agentsInfo;
+    final nextToken = this.nextToken;
+    return {
+      if (agentsInfo != null) 'agentsInfo': agentsInfo,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeBatchDeleteConfigurationTaskResponse {
+  /// The <code>BatchDeleteConfigurationTask</code> that represents the deletion
+  /// task being executed.
+  final BatchDeleteConfigurationTask? task;
+
+  DescribeBatchDeleteConfigurationTaskResponse({
+    this.task,
+  });
+
+  factory DescribeBatchDeleteConfigurationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeBatchDeleteConfigurationTaskResponse(
+      task: json['task'] != null
+          ? BatchDeleteConfigurationTask.fromJson(
+              json['task'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final task = this.task;
+    return {
+      if (task != null) 'task': task,
+    };
+  }
+}
+
+class DescribeConfigurationsResponse {
+  /// A key in the response map. The value is an array of data.
+  final List<Map<String, String>>? configurations;
+
+  DescribeConfigurationsResponse({
+    this.configurations,
+  });
+
+  factory DescribeConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConfigurationsResponse(
+      configurations: (json['configurations'] as List?)
+          ?.nonNulls
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurations = this.configurations;
+    return {
+      if (configurations != null) 'configurations': configurations,
+    };
+  }
+}
+
+class DescribeContinuousExportsResponse {
+  /// A list of continuous export descriptions.
+  final List<ContinuousExportDescription>? descriptions;
+
+  /// The token from the previous call to <code>DescribeExportTasks</code>.
+  final String? nextToken;
+
+  DescribeContinuousExportsResponse({
+    this.descriptions,
+    this.nextToken,
+  });
+
+  factory DescribeContinuousExportsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeContinuousExportsResponse(
+      descriptions: (json['descriptions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ContinuousExportDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final descriptions = this.descriptions;
+    final nextToken = this.nextToken;
+    return {
+      if (descriptions != null) 'descriptions': descriptions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeExportConfigurationsResponse {
+  ///
+  final List<ExportInfo>? exportsInfo;
+
+  /// The token from the previous call to describe-export-tasks.
+  final String? nextToken;
+
+  DescribeExportConfigurationsResponse({
+    this.exportsInfo,
+    this.nextToken,
+  });
+
+  factory DescribeExportConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeExportConfigurationsResponse(
+      exportsInfo: (json['exportsInfo'] as List?)
+          ?.nonNulls
+          .map((e) => ExportInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportsInfo = this.exportsInfo;
+    final nextToken = this.nextToken;
+    return {
+      if (exportsInfo != null) 'exportsInfo': exportsInfo,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeExportTasksResponse {
+  /// Contains one or more sets of export request details. When the status of a
+  /// request is <code>SUCCEEDED</code>, the response includes a URL for an Amazon
+  /// S3 bucket where you can view the data in a CSV file.
+  final List<ExportInfo>? exportsInfo;
+
+  /// The <code>nextToken</code> value to include in a future
+  /// <code>DescribeExportTasks</code> request. When the results of a
+  /// <code>DescribeExportTasks</code> request exceed <code>maxResults</code>,
+  /// this value can be used to retrieve the next page of results. This value is
+  /// null when there are no more results to return.
+  final String? nextToken;
+
+  DescribeExportTasksResponse({
+    this.exportsInfo,
+    this.nextToken,
+  });
+
+  factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeExportTasksResponse(
+      exportsInfo: (json['exportsInfo'] as List?)
+          ?.nonNulls
+          .map((e) => ExportInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportsInfo = this.exportsInfo;
+    final nextToken = this.nextToken;
+    return {
+      if (exportsInfo != null) 'exportsInfo': exportsInfo,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeImportTasksResponse {
+  /// The token to request the next page of results.
+  final String? nextToken;
+
+  /// A returned array of import tasks that match any applied filters, up to the
+  /// specified number of maximum results.
+  final List<ImportTask>? tasks;
+
+  DescribeImportTasksResponse({
+    this.nextToken,
+    this.tasks,
+  });
+
+  factory DescribeImportTasksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeImportTasksResponse(
+      nextToken: json['nextToken'] as String?,
+      tasks: (json['tasks'] as List?)
+          ?.nonNulls
+          .map((e) => ImportTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tasks = this.tasks;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tasks != null) 'tasks': tasks,
+    };
+  }
+}
+
+class DescribeTagsResponse {
+  /// The call returns a token. Use this token to get the next set of results.
+  final String? nextToken;
+
+  /// Depending on the input, this is a list of configuration items tagged with a
+  /// specific tag, or a list of tags for a specific configuration item.
+  final List<ConfigurationTag>? tags;
+
+  DescribeTagsResponse({
+    this.nextToken,
+    this.tags,
+  });
+
+  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTagsResponse(
+      nextToken: json['nextToken'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => ConfigurationTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class DisassociateConfigurationItemsFromApplicationResponse {
+  DisassociateConfigurationItemsFromApplicationResponse();
+
+  factory DisassociateConfigurationItemsFromApplicationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateConfigurationItemsFromApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ExportConfigurationsResponse {
+  /// A unique identifier that you can use to query the export status.
+  final String? exportId;
+
+  ExportConfigurationsResponse({
+    this.exportId,
+  });
+
+  factory ExportConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ExportConfigurationsResponse(
+      exportId: json['exportId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportId = this.exportId;
+    return {
+      if (exportId != null) 'exportId': exportId,
+    };
+  }
+}
+
+class GetDiscoverySummaryResponse {
+  /// Details about discovered agents, including agent status and health.
+  final CustomerAgentInfo? agentSummary;
+
+  /// Details about Agentless Collector collectors, including status.
+  final CustomerAgentlessCollectorInfo? agentlessCollectorSummary;
+
+  /// The number of applications discovered.
+  final int? applications;
+
+  /// Details about discovered connectors, including connector status and health.
+  final CustomerConnectorInfo? connectorSummary;
+
+  /// Details about Migration Evaluator collectors, including collector status and
+  /// health.
+  final CustomerMeCollectorInfo? meCollectorSummary;
+
+  /// The number of servers discovered.
+  final int? servers;
+
+  /// The number of servers mapped to applications.
+  final int? serversMappedToApplications;
+
+  /// The number of servers mapped to tags.
+  final int? serversMappedtoTags;
+
+  GetDiscoverySummaryResponse({
+    this.agentSummary,
+    this.agentlessCollectorSummary,
+    this.applications,
+    this.connectorSummary,
+    this.meCollectorSummary,
+    this.servers,
+    this.serversMappedToApplications,
+    this.serversMappedtoTags,
+  });
+
+  factory GetDiscoverySummaryResponse.fromJson(Map<String, dynamic> json) {
+    return GetDiscoverySummaryResponse(
+      agentSummary: json['agentSummary'] != null
+          ? CustomerAgentInfo.fromJson(
+              json['agentSummary'] as Map<String, dynamic>)
+          : null,
+      agentlessCollectorSummary: json['agentlessCollectorSummary'] != null
+          ? CustomerAgentlessCollectorInfo.fromJson(
+              json['agentlessCollectorSummary'] as Map<String, dynamic>)
+          : null,
+      applications: json['applications'] as int?,
+      connectorSummary: json['connectorSummary'] != null
+          ? CustomerConnectorInfo.fromJson(
+              json['connectorSummary'] as Map<String, dynamic>)
+          : null,
+      meCollectorSummary: json['meCollectorSummary'] != null
+          ? CustomerMeCollectorInfo.fromJson(
+              json['meCollectorSummary'] as Map<String, dynamic>)
+          : null,
+      servers: json['servers'] as int?,
+      serversMappedToApplications: json['serversMappedToApplications'] as int?,
+      serversMappedtoTags: json['serversMappedtoTags'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentSummary = this.agentSummary;
+    final agentlessCollectorSummary = this.agentlessCollectorSummary;
+    final applications = this.applications;
+    final connectorSummary = this.connectorSummary;
+    final meCollectorSummary = this.meCollectorSummary;
+    final servers = this.servers;
+    final serversMappedToApplications = this.serversMappedToApplications;
+    final serversMappedtoTags = this.serversMappedtoTags;
+    return {
+      if (agentSummary != null) 'agentSummary': agentSummary,
+      if (agentlessCollectorSummary != null)
+        'agentlessCollectorSummary': agentlessCollectorSummary,
+      if (applications != null) 'applications': applications,
+      if (connectorSummary != null) 'connectorSummary': connectorSummary,
+      if (meCollectorSummary != null) 'meCollectorSummary': meCollectorSummary,
+      if (servers != null) 'servers': servers,
+      if (serversMappedToApplications != null)
+        'serversMappedToApplications': serversMappedToApplications,
+      if (serversMappedtoTags != null)
+        'serversMappedtoTags': serversMappedtoTags,
+    };
+  }
+}
+
+class ListConfigurationsResponse {
+  /// Returns configuration details, including the configuration ID, attribute
+  /// names, and attribute values.
+  final List<Map<String, String>>? configurations;
+
+  /// Token to retrieve the next set of results. For example, if your call to
+  /// ListConfigurations returned 100 items, but you set
+  /// <code>ListConfigurationsRequest$maxResults</code> to 10, you received a set
+  /// of 10 results along with this token. Use this token in the next query to
+  /// retrieve the next set of 10.
+  final String? nextToken;
+
+  ListConfigurationsResponse({
+    this.configurations,
+    this.nextToken,
+  });
+
+  factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationsResponse(
+      configurations: (json['configurations'] as List?)
+          ?.nonNulls
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurations = this.configurations;
+    final nextToken = this.nextToken;
+    return {
+      if (configurations != null) 'configurations': configurations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListServerNeighborsResponse {
+  /// List of distinct servers that are one hop away from the given server.
+  final List<NeighborConnectionDetail> neighbors;
+
+  /// Count of distinct servers that are one hop away from the given server.
+  final int? knownDependencyCount;
+
+  /// Token to retrieve the next set of results. For example, if you specified 100
+  /// IDs for <code>ListServerNeighborsRequest$neighborConfigurationIds</code> but
+  /// set <code>ListServerNeighborsRequest$maxResults</code> to 10, you received a
+  /// set of 10 results along with this token. Use this token in the next query to
+  /// retrieve the next set of 10.
+  final String? nextToken;
+
+  ListServerNeighborsResponse({
+    required this.neighbors,
+    this.knownDependencyCount,
+    this.nextToken,
+  });
+
+  factory ListServerNeighborsResponse.fromJson(Map<String, dynamic> json) {
+    return ListServerNeighborsResponse(
+      neighbors: ((json['neighbors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              NeighborConnectionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      knownDependencyCount: json['knownDependencyCount'] as int?,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final neighbors = this.neighbors;
+    final knownDependencyCount = this.knownDependencyCount;
+    final nextToken = this.nextToken;
+    return {
+      'neighbors': neighbors,
+      if (knownDependencyCount != null)
+        'knownDependencyCount': knownDependencyCount,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class StartBatchDeleteConfigurationTaskResponse {
+  /// The unique identifier associated with the newly started deletion task.
+  final String? taskId;
+
+  StartBatchDeleteConfigurationTaskResponse({
+    this.taskId,
+  });
+
+  factory StartBatchDeleteConfigurationTaskResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartBatchDeleteConfigurationTaskResponse(
+      taskId: json['taskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskId = this.taskId;
+    return {
+      if (taskId != null) 'taskId': taskId,
+    };
+  }
+}
+
+class StartContinuousExportResponse {
+  /// The type of data collector used to gather this data (currently only offered
+  /// for AGENT).
+  final DataSource? dataSource;
+
+  /// The unique ID assigned to this export.
+  final String? exportId;
+
+  /// The name of the s3 bucket where the export data parquet files are stored.
+  final String? s3Bucket;
+
+  /// A dictionary which describes how the data is stored.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>databaseName</code> - the name of the Glue database used to store the
+  /// schema.
+  /// </li>
+  /// </ul>
+  final Map<String, String>? schemaStorageConfig;
+
+  /// The timestamp representing when the continuous export was started.
+  final DateTime? startTime;
+
+  StartContinuousExportResponse({
+    this.dataSource,
+    this.exportId,
+    this.s3Bucket,
+    this.schemaStorageConfig,
+    this.startTime,
+  });
+
+  factory StartContinuousExportResponse.fromJson(Map<String, dynamic> json) {
+    return StartContinuousExportResponse(
+      dataSource: (json['dataSource'] as String?)?.let(DataSource.fromString),
+      exportId: json['exportId'] as String?,
+      s3Bucket: json['s3Bucket'] as String?,
+      schemaStorageConfig:
+          (json['schemaStorageConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      startTime: timeStampFromJson(json['startTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final exportId = this.exportId;
+    final s3Bucket = this.s3Bucket;
+    final schemaStorageConfig = this.schemaStorageConfig;
+    final startTime = this.startTime;
+    return {
+      if (dataSource != null) 'dataSource': dataSource.value,
+      if (exportId != null) 'exportId': exportId,
+      if (s3Bucket != null) 's3Bucket': s3Bucket,
+      if (schemaStorageConfig != null)
+        'schemaStorageConfig': schemaStorageConfig,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+class StartDataCollectionByAgentIdsResponse {
+  /// Information about agents that were instructed to start collecting data.
+  /// Information includes the agent ID, a description of the operation performed,
+  /// and whether the agent configuration was updated.
+  final List<AgentConfigurationStatus>? agentsConfigurationStatus;
+
+  StartDataCollectionByAgentIdsResponse({
+    this.agentsConfigurationStatus,
+  });
+
+  factory StartDataCollectionByAgentIdsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartDataCollectionByAgentIdsResponse(
+      agentsConfigurationStatus: (json['agentsConfigurationStatus'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AgentConfigurationStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentsConfigurationStatus = this.agentsConfigurationStatus;
+    return {
+      if (agentsConfigurationStatus != null)
+        'agentsConfigurationStatus': agentsConfigurationStatus,
+    };
+  }
+}
+
+class StartExportTaskResponse {
+  /// A unique identifier used to query the status of an export request.
+  final String? exportId;
+
+  StartExportTaskResponse({
+    this.exportId,
+  });
+
+  factory StartExportTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartExportTaskResponse(
+      exportId: json['exportId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportId = this.exportId;
+    return {
+      if (exportId != null) 'exportId': exportId,
+    };
+  }
+}
+
+class StartImportTaskResponse {
+  /// An array of information related to the import task request including status
+  /// information, times, IDs, the Amazon S3 Object URL for the import file, and
+  /// more.
+  final ImportTask? task;
+
+  StartImportTaskResponse({
+    this.task,
+  });
+
+  factory StartImportTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartImportTaskResponse(
+      task: json['task'] != null
+          ? ImportTask.fromJson(json['task'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final task = this.task;
+    return {
+      if (task != null) 'task': task,
+    };
+  }
+}
+
+class StopContinuousExportResponse {
+  /// Timestamp that represents when this continuous export started collecting
+  /// data.
+  final DateTime? startTime;
+
+  /// Timestamp that represents when this continuous export was stopped.
+  final DateTime? stopTime;
+
+  StopContinuousExportResponse({
+    this.startTime,
+    this.stopTime,
+  });
+
+  factory StopContinuousExportResponse.fromJson(Map<String, dynamic> json) {
+    return StopContinuousExportResponse(
+      startTime: timeStampFromJson(json['startTime']),
+      stopTime: timeStampFromJson(json['stopTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startTime = this.startTime;
+    final stopTime = this.stopTime;
+    return {
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (stopTime != null) 'stopTime': unixTimestampToJson(stopTime),
+    };
+  }
+}
+
+class StopDataCollectionByAgentIdsResponse {
+  /// Information about the agents that were instructed to stop collecting data.
+  /// Information includes the agent ID, a description of the operation performed,
+  /// and whether the agent configuration was updated.
+  final List<AgentConfigurationStatus>? agentsConfigurationStatus;
+
+  StopDataCollectionByAgentIdsResponse({
+    this.agentsConfigurationStatus,
+  });
+
+  factory StopDataCollectionByAgentIdsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StopDataCollectionByAgentIdsResponse(
+      agentsConfigurationStatus: (json['agentsConfigurationStatus'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AgentConfigurationStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agentsConfigurationStatus = this.agentsConfigurationStatus;
+    return {
+      if (agentsConfigurationStatus != null)
+        'agentsConfigurationStatus': agentsConfigurationStatus,
+    };
+  }
+}
+
+class UpdateApplicationResponse {
+  UpdateApplicationResponse();
+
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -1421,433 +2257,204 @@ class AgentConfigurationStatus {
   }
 }
 
-/// Information about agents associated with the user’s Amazon Web Services
-/// account. Information includes agent IDs, IP addresses, media access control
-/// (MAC) addresses, agent or collector status, hostname where the agent
-/// resides, and agent version for each agent.
-class AgentInfo {
-  /// The agent or collector ID.
-  final String? agentId;
+/// An array of information related to the import task request that includes
+/// status information, times, IDs, the Amazon S3 Object URL for the import
+/// file, and more.
+class ImportTask {
+  /// The total number of application records in the import file that failed to be
+  /// imported.
+  final int? applicationImportFailure;
 
-  /// Network details about the host where the agent or collector resides.
-  final List<AgentNetworkInfo>? agentNetworkInfoList;
+  /// The total number of application records in the import file that were
+  /// successfully imported.
+  final int? applicationImportSuccess;
 
-  /// Type of agent.
-  final String? agentType;
+  /// A unique token used to prevent the same import request from occurring more
+  /// than once. If you didn't provide a token, a token was automatically
+  /// generated when the import task request was sent.
+  final String? clientRequestToken;
 
-  /// Status of the collection process for an agent.
-  final String? collectionStatus;
+  /// A link to a compressed archive folder (in the ZIP format) that contains an
+  /// error log and a file of failed records. You can use these two files to
+  /// quickly identify records that failed, why they failed, and correct those
+  /// records. Afterward, you can upload the corrected file to your Amazon S3
+  /// bucket and create another import task request.
+  ///
+  /// This field also includes authorization information so you can confirm the
+  /// authenticity of the compressed archive before you download it.
+  ///
+  /// If some records failed to be imported we recommend that you correct the
+  /// records in the failed entries file and then imports that failed entries
+  /// file. This prevents you from having to correct and update the larger
+  /// original file and attempt importing it again.
+  final String? errorsAndFailedEntriesZip;
 
-  /// The ID of the connector.
-  final String? connectorId;
+  /// The type of file detected by the import task.
+  final FileClassification? fileClassification;
 
-  /// The health of the agent.
-  final AgentStatus? health;
+  /// The time that the import task request finished, presented in the Unix time
+  /// stamp format.
+  final DateTime? importCompletionTime;
 
-  /// The name of the host where the agent or collector resides. The host can be a
-  /// server or virtual machine.
-  final String? hostName;
+  /// The time that the import task request was deleted, presented in the Unix
+  /// time stamp format.
+  final DateTime? importDeletedTime;
 
-  /// Time since agent health was reported.
-  final String? lastHealthPingTime;
+  /// The time that the import task request was made, presented in the Unix time
+  /// stamp format.
+  final DateTime? importRequestTime;
 
-  /// Agent's first registration timestamp in UTC.
-  final String? registeredTime;
-
-  /// The agent or collector version.
-  final String? version;
-
-  AgentInfo({
-    this.agentId,
-    this.agentNetworkInfoList,
-    this.agentType,
-    this.collectionStatus,
-    this.connectorId,
-    this.health,
-    this.hostName,
-    this.lastHealthPingTime,
-    this.registeredTime,
-    this.version,
-  });
-
-  factory AgentInfo.fromJson(Map<String, dynamic> json) {
-    return AgentInfo(
-      agentId: json['agentId'] as String?,
-      agentNetworkInfoList: (json['agentNetworkInfoList'] as List?)
-          ?.nonNulls
-          .map((e) => AgentNetworkInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      agentType: json['agentType'] as String?,
-      collectionStatus: json['collectionStatus'] as String?,
-      connectorId: json['connectorId'] as String?,
-      health: (json['health'] as String?)?.let(AgentStatus.fromString),
-      hostName: json['hostName'] as String?,
-      lastHealthPingTime: json['lastHealthPingTime'] as String?,
-      registeredTime: json['registeredTime'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentId = this.agentId;
-    final agentNetworkInfoList = this.agentNetworkInfoList;
-    final agentType = this.agentType;
-    final collectionStatus = this.collectionStatus;
-    final connectorId = this.connectorId;
-    final health = this.health;
-    final hostName = this.hostName;
-    final lastHealthPingTime = this.lastHealthPingTime;
-    final registeredTime = this.registeredTime;
-    final version = this.version;
-    return {
-      if (agentId != null) 'agentId': agentId,
-      if (agentNetworkInfoList != null)
-        'agentNetworkInfoList': agentNetworkInfoList,
-      if (agentType != null) 'agentType': agentType,
-      if (collectionStatus != null) 'collectionStatus': collectionStatus,
-      if (connectorId != null) 'connectorId': connectorId,
-      if (health != null) 'health': health.value,
-      if (hostName != null) 'hostName': hostName,
-      if (lastHealthPingTime != null) 'lastHealthPingTime': lastHealthPingTime,
-      if (registeredTime != null) 'registeredTime': registeredTime,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-/// Network details about the host where the agent/collector resides.
-class AgentNetworkInfo {
-  /// The IP address for the host where the agent/collector resides.
-  final String? ipAddress;
-
-  /// The MAC address for the host where the agent/collector resides.
-  final String? macAddress;
-
-  AgentNetworkInfo({
-    this.ipAddress,
-    this.macAddress,
-  });
-
-  factory AgentNetworkInfo.fromJson(Map<String, dynamic> json) {
-    return AgentNetworkInfo(
-      ipAddress: json['ipAddress'] as String?,
-      macAddress: json['macAddress'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ipAddress = this.ipAddress;
-    final macAddress = this.macAddress;
-    return {
-      if (ipAddress != null) 'ipAddress': ipAddress,
-      if (macAddress != null) 'macAddress': macAddress,
-    };
-  }
-}
-
-class AgentStatus {
-  static const healthy = AgentStatus._('HEALTHY');
-  static const unhealthy = AgentStatus._('UNHEALTHY');
-  static const running = AgentStatus._('RUNNING');
-  static const unknown = AgentStatus._('UNKNOWN');
-  static const blacklisted = AgentStatus._('BLACKLISTED');
-  static const shutdown = AgentStatus._('SHUTDOWN');
-
-  final String value;
-
-  const AgentStatus._(this.value);
-
-  static const values = [
-    healthy,
-    unhealthy,
-    running,
-    unknown,
-    blacklisted,
-    shutdown
-  ];
-
-  static AgentStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AgentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AssociateConfigurationItemsToApplicationResponse {
-  AssociateConfigurationItemsToApplicationResponse();
-
-  factory AssociateConfigurationItemsToApplicationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return AssociateConfigurationItemsToApplicationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An object representing the agent or data collector that failed to delete,
-/// each containing agentId, errorMessage, and errorCode.
-class BatchDeleteAgentError {
-  /// The ID of the agent or data collector to delete.
-  final String agentId;
-
-  /// The type of error that occurred for the delete failed agent. Valid status
-  /// are: AGENT_IN_USE | NOT_FOUND | INTERNAL_SERVER_ERROR.
-  final DeleteAgentErrorCode errorCode;
-
-  /// The description of the error that occurred for the delete failed agent.
-  final String errorMessage;
-
-  BatchDeleteAgentError({
-    required this.agentId,
-    required this.errorCode,
-    required this.errorMessage,
-  });
-
-  factory BatchDeleteAgentError.fromJson(Map<String, dynamic> json) {
-    return BatchDeleteAgentError(
-      agentId: (json['agentId'] as String?) ?? '',
-      errorCode:
-          DeleteAgentErrorCode.fromString((json['errorCode'] as String?) ?? ''),
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentId = this.agentId;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      'agentId': agentId,
-      'errorCode': errorCode.value,
-      'errorMessage': errorMessage,
-    };
-  }
-}
-
-class BatchDeleteAgentsResponse {
-  /// A list of agent IDs that failed to delete during the deletion task, each
-  /// paired with an error message.
-  final List<BatchDeleteAgentError>? errors;
-
-  BatchDeleteAgentsResponse({
-    this.errors,
-  });
-
-  factory BatchDeleteAgentsResponse.fromJson(Map<String, dynamic> json) {
-    return BatchDeleteAgentsResponse(
-      errors: (json['errors'] as List?)
-          ?.nonNulls
-          .map((e) => BatchDeleteAgentError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    return {
-      if (errors != null) 'errors': errors,
-    };
-  }
-}
-
-/// A metadata object that represents the deletion task being executed.
-class BatchDeleteConfigurationTask {
-  /// The type of configuration item to delete. Supported types are: SERVER.
-  final DeletionConfigurationItemType? configurationType;
-
-  /// The list of configuration IDs that were successfully deleted by the deletion
-  /// task.
-  final List<String>? deletedConfigurations;
-
-  /// A list of configuration IDs that produced warnings regarding their deletion,
-  /// paired with a warning message.
-  final List<DeletionWarning>? deletionWarnings;
-
-  /// An epoch seconds timestamp (UTC) of when the deletion task was completed or
-  /// failed.
-  final DateTime? endTime;
-
-  /// A list of configuration IDs that failed to delete during the deletion task,
-  /// each paired with an error message.
-  final List<FailedConfiguration>? failedConfigurations;
-
-  /// The list of configuration IDs that were originally requested to be deleted
-  /// by the deletion task.
-  final List<String>? requestedConfigurations;
-
-  /// An epoch seconds timestamp (UTC) of when the deletion task was started.
-  final DateTime? startTime;
-
-  /// The current execution status of the deletion task. Valid status are:
-  /// INITIALIZING | VALIDATING | DELETING | COMPLETED | FAILED.
-  final BatchDeleteConfigurationTaskStatus? status;
-
-  /// The deletion task's unique identifier.
-  final String? taskId;
-
-  BatchDeleteConfigurationTask({
-    this.configurationType,
-    this.deletedConfigurations,
-    this.deletionWarnings,
-    this.endTime,
-    this.failedConfigurations,
-    this.requestedConfigurations,
-    this.startTime,
-    this.status,
-    this.taskId,
-  });
-
-  factory BatchDeleteConfigurationTask.fromJson(Map<String, dynamic> json) {
-    return BatchDeleteConfigurationTask(
-      configurationType: (json['configurationType'] as String?)
-          ?.let(DeletionConfigurationItemType.fromString),
-      deletedConfigurations: (json['deletedConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      deletionWarnings: (json['deletionWarnings'] as List?)
-          ?.nonNulls
-          .map((e) => DeletionWarning.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      endTime: timeStampFromJson(json['endTime']),
-      failedConfigurations: (json['failedConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => FailedConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      requestedConfigurations: (json['requestedConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)
-          ?.let(BatchDeleteConfigurationTaskStatus.fromString),
-      taskId: json['taskId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configurationType = this.configurationType;
-    final deletedConfigurations = this.deletedConfigurations;
-    final deletionWarnings = this.deletionWarnings;
-    final endTime = this.endTime;
-    final failedConfigurations = this.failedConfigurations;
-    final requestedConfigurations = this.requestedConfigurations;
-    final startTime = this.startTime;
-    final status = this.status;
-    final taskId = this.taskId;
-    return {
-      if (configurationType != null)
-        'configurationType': configurationType.value,
-      if (deletedConfigurations != null)
-        'deletedConfigurations': deletedConfigurations,
-      if (deletionWarnings != null) 'deletionWarnings': deletionWarnings,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (failedConfigurations != null)
-        'failedConfigurations': failedConfigurations,
-      if (requestedConfigurations != null)
-        'requestedConfigurations': requestedConfigurations,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.value,
-      if (taskId != null) 'taskId': taskId,
-    };
-  }
-}
-
-class BatchDeleteConfigurationTaskStatus {
-  static const initializing =
-      BatchDeleteConfigurationTaskStatus._('INITIALIZING');
-  static const validating = BatchDeleteConfigurationTaskStatus._('VALIDATING');
-  static const deleting = BatchDeleteConfigurationTaskStatus._('DELETING');
-  static const completed = BatchDeleteConfigurationTaskStatus._('COMPLETED');
-  static const failed = BatchDeleteConfigurationTaskStatus._('FAILED');
-
-  final String value;
-
-  const BatchDeleteConfigurationTaskStatus._(this.value);
-
-  static const values = [initializing, validating, deleting, completed, failed];
-
-  static BatchDeleteConfigurationTaskStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchDeleteConfigurationTaskStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchDeleteConfigurationTaskStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Error messages returned for each import task that you deleted as a response
-/// for this command.
-class BatchDeleteImportDataError {
-  /// The type of error that occurred for a specific import task.
-  final BatchDeleteImportDataErrorCode? errorCode;
-
-  /// The description of the error that occurred for a specific import task.
-  final String? errorDescription;
-
-  /// The unique import ID associated with the error that occurred.
+  /// The unique ID for a specific import task. These IDs aren't globally unique,
+  /// but they are unique within an Amazon Web Services account.
   final String? importTaskId;
 
-  BatchDeleteImportDataError({
-    this.errorCode,
-    this.errorDescription,
+  /// The URL for your import file that you've uploaded to Amazon S3.
+  final String? importUrl;
+
+  /// A descriptive name for an import task. You can use this name to filter
+  /// future requests related to this import task, such as identifying
+  /// applications and servers that were included in this import task. We
+  /// recommend that you use a meaningful name for each import task.
+  final String? name;
+
+  /// The total number of server records in the import file that failed to be
+  /// imported.
+  final int? serverImportFailure;
+
+  /// The total number of server records in the import file that were successfully
+  /// imported.
+  final int? serverImportSuccess;
+
+  /// The status of the import task. An import can have the status of
+  /// <code>IMPORT_COMPLETE</code> and still have some records fail to import from
+  /// the overall request. More information can be found in the downloadable
+  /// archive defined in the <code>errorsAndFailedEntriesZip</code> field, or in
+  /// the Migration Hub management console.
+  final ImportStatus? status;
+
+  ImportTask({
+    this.applicationImportFailure,
+    this.applicationImportSuccess,
+    this.clientRequestToken,
+    this.errorsAndFailedEntriesZip,
+    this.fileClassification,
+    this.importCompletionTime,
+    this.importDeletedTime,
+    this.importRequestTime,
     this.importTaskId,
+    this.importUrl,
+    this.name,
+    this.serverImportFailure,
+    this.serverImportSuccess,
+    this.status,
   });
 
-  factory BatchDeleteImportDataError.fromJson(Map<String, dynamic> json) {
-    return BatchDeleteImportDataError(
-      errorCode: (json['errorCode'] as String?)
-          ?.let(BatchDeleteImportDataErrorCode.fromString),
-      errorDescription: json['errorDescription'] as String?,
+  factory ImportTask.fromJson(Map<String, dynamic> json) {
+    return ImportTask(
+      applicationImportFailure: json['applicationImportFailure'] as int?,
+      applicationImportSuccess: json['applicationImportSuccess'] as int?,
+      clientRequestToken: json['clientRequestToken'] as String?,
+      errorsAndFailedEntriesZip: json['errorsAndFailedEntriesZip'] as String?,
+      fileClassification: (json['fileClassification'] as String?)
+          ?.let(FileClassification.fromString),
+      importCompletionTime: timeStampFromJson(json['importCompletionTime']),
+      importDeletedTime: timeStampFromJson(json['importDeletedTime']),
+      importRequestTime: timeStampFromJson(json['importRequestTime']),
       importTaskId: json['importTaskId'] as String?,
+      importUrl: json['importUrl'] as String?,
+      name: json['name'] as String?,
+      serverImportFailure: json['serverImportFailure'] as int?,
+      serverImportSuccess: json['serverImportSuccess'] as int?,
+      status: (json['status'] as String?)?.let(ImportStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorDescription = this.errorDescription;
+    final applicationImportFailure = this.applicationImportFailure;
+    final applicationImportSuccess = this.applicationImportSuccess;
+    final clientRequestToken = this.clientRequestToken;
+    final errorsAndFailedEntriesZip = this.errorsAndFailedEntriesZip;
+    final fileClassification = this.fileClassification;
+    final importCompletionTime = this.importCompletionTime;
+    final importDeletedTime = this.importDeletedTime;
+    final importRequestTime = this.importRequestTime;
     final importTaskId = this.importTaskId;
+    final importUrl = this.importUrl;
+    final name = this.name;
+    final serverImportFailure = this.serverImportFailure;
+    final serverImportSuccess = this.serverImportSuccess;
+    final status = this.status;
     return {
-      if (errorCode != null) 'errorCode': errorCode.value,
-      if (errorDescription != null) 'errorDescription': errorDescription,
+      if (applicationImportFailure != null)
+        'applicationImportFailure': applicationImportFailure,
+      if (applicationImportSuccess != null)
+        'applicationImportSuccess': applicationImportSuccess,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (errorsAndFailedEntriesZip != null)
+        'errorsAndFailedEntriesZip': errorsAndFailedEntriesZip,
+      if (fileClassification != null)
+        'fileClassification': fileClassification.value,
+      if (importCompletionTime != null)
+        'importCompletionTime': unixTimestampToJson(importCompletionTime),
+      if (importDeletedTime != null)
+        'importDeletedTime': unixTimestampToJson(importDeletedTime),
+      if (importRequestTime != null)
+        'importRequestTime': unixTimestampToJson(importRequestTime),
       if (importTaskId != null) 'importTaskId': importTaskId,
+      if (importUrl != null) 'importUrl': importUrl,
+      if (name != null) 'name': name,
+      if (serverImportFailure != null)
+        'serverImportFailure': serverImportFailure,
+      if (serverImportSuccess != null)
+        'serverImportSuccess': serverImportSuccess,
+      if (status != null) 'status': status.value,
     };
   }
 }
 
-class BatchDeleteImportDataErrorCode {
-  static const notFound = BatchDeleteImportDataErrorCode._('NOT_FOUND');
-  static const internalServerError =
-      BatchDeleteImportDataErrorCode._('INTERNAL_SERVER_ERROR');
-  static const overLimit = BatchDeleteImportDataErrorCode._('OVER_LIMIT');
+class ImportStatus {
+  static const importInProgress = ImportStatus._('IMPORT_IN_PROGRESS');
+  static const importComplete = ImportStatus._('IMPORT_COMPLETE');
+  static const importCompleteWithErrors =
+      ImportStatus._('IMPORT_COMPLETE_WITH_ERRORS');
+  static const importFailed = ImportStatus._('IMPORT_FAILED');
+  static const importFailedServerLimitExceeded =
+      ImportStatus._('IMPORT_FAILED_SERVER_LIMIT_EXCEEDED');
+  static const importFailedRecordLimitExceeded =
+      ImportStatus._('IMPORT_FAILED_RECORD_LIMIT_EXCEEDED');
+  static const importFailedUnsupportedFileType =
+      ImportStatus._('IMPORT_FAILED_UNSUPPORTED_FILE_TYPE');
+  static const deleteInProgress = ImportStatus._('DELETE_IN_PROGRESS');
+  static const deleteComplete = ImportStatus._('DELETE_COMPLETE');
+  static const deleteFailed = ImportStatus._('DELETE_FAILED');
+  static const deleteFailedLimitExceeded =
+      ImportStatus._('DELETE_FAILED_LIMIT_EXCEEDED');
+  static const internalError = ImportStatus._('INTERNAL_ERROR');
 
   final String value;
 
-  const BatchDeleteImportDataErrorCode._(this.value);
+  const ImportStatus._(this.value);
 
-  static const values = [notFound, internalServerError, overLimit];
+  static const values = [
+    importInProgress,
+    importComplete,
+    importCompleteWithErrors,
+    importFailed,
+    importFailedServerLimitExceeded,
+    importFailedRecordLimitExceeded,
+    importFailedUnsupportedFileType,
+    deleteInProgress,
+    deleteComplete,
+    deleteFailed,
+    deleteFailedLimitExceeded,
+    internalError
+  ];
 
-  static BatchDeleteImportDataErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchDeleteImportDataErrorCode._(value));
+  static ImportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
 
   @override
-  bool operator ==(other) =>
-      other is BatchDeleteImportDataErrorCode && other.value == value;
+  bool operator ==(other) => other is ImportStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1856,29 +2463,432 @@ class BatchDeleteImportDataErrorCode {
   String toString() => value;
 }
 
-class BatchDeleteImportDataResponse {
-  /// Error messages returned for each import task that you deleted as a response
-  /// for this command.
-  final List<BatchDeleteImportDataError>? errors;
+class FileClassification {
+  static const modelizeitExport = FileClassification._('MODELIZEIT_EXPORT');
+  static const rvtoolsExport = FileClassification._('RVTOOLS_EXPORT');
+  static const vmwareNsxExport = FileClassification._('VMWARE_NSX_EXPORT');
+  static const importTemplate = FileClassification._('IMPORT_TEMPLATE');
 
-  BatchDeleteImportDataResponse({
-    this.errors,
+  final String value;
+
+  const FileClassification._(this.value);
+
+  static const values = [
+    modelizeitExport,
+    rvtoolsExport,
+    vmwareNsxExport,
+    importTemplate
+  ];
+
+  static FileClassification fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FileClassification._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FileClassification && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Indicates the type of data that is being exported. Only one
+/// <code>ExportPreferences</code> can be enabled for a <a
+/// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html">StartExportTask</a>
+/// action.
+class ExportPreferences {
+  /// If enabled, exported data includes EC2 instance type matches for on-premises
+  /// servers discovered through Amazon Web Services Application Discovery
+  /// Service.
+  final Ec2RecommendationsExportPreferences? ec2RecommendationsPreferences;
+
+  ExportPreferences({
+    this.ec2RecommendationsPreferences,
   });
 
-  factory BatchDeleteImportDataResponse.fromJson(Map<String, dynamic> json) {
-    return BatchDeleteImportDataResponse(
-      errors: (json['errors'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              BatchDeleteImportDataError.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  Map<String, dynamic> toJson() {
+    final ec2RecommendationsPreferences = this.ec2RecommendationsPreferences;
+    return {
+      if (ec2RecommendationsPreferences != null)
+        'ec2RecommendationsPreferences': ec2RecommendationsPreferences,
+    };
+  }
+}
+
+/// Indicates that the exported data must include EC2 instance type matches for
+/// on-premises servers that are discovered through Amazon Web Services
+/// Application Discovery Service.
+class Ec2RecommendationsExportPreferences {
+  /// The recommended EC2 instance type that matches the CPU usage metric of
+  /// server performance data.
+  final UsageMetricBasis? cpuPerformanceMetricBasis;
+
+  /// If set to true, the export <a
+  /// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html#API_StartExportTask_RequestSyntax">preferences</a>
+  /// is set to <code>Ec2RecommendationsExportPreferences</code>.
+  final bool? enabled;
+
+  /// An array of instance types to exclude from recommendations.
+  final List<String>? excludedInstanceTypes;
+
+  /// The target Amazon Web Services Region for the recommendations. You can use
+  /// any of the Region codes available for the chosen service, as listed in <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Amazon Web
+  /// Services service endpoints</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? preferredRegion;
+
+  /// The recommended EC2 instance type that matches the Memory usage metric of
+  /// server performance data.
+  final UsageMetricBasis? ramPerformanceMetricBasis;
+
+  /// The contract type for a reserved instance. If blank, we assume an On-Demand
+  /// instance is preferred.
+  final ReservedInstanceOptions? reservedInstanceOptions;
+
+  /// The target tenancy to use for your recommended EC2 instances.
+  final Tenancy? tenancy;
+
+  Ec2RecommendationsExportPreferences({
+    this.cpuPerformanceMetricBasis,
+    this.enabled,
+    this.excludedInstanceTypes,
+    this.preferredRegion,
+    this.ramPerformanceMetricBasis,
+    this.reservedInstanceOptions,
+    this.tenancy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cpuPerformanceMetricBasis = this.cpuPerformanceMetricBasis;
+    final enabled = this.enabled;
+    final excludedInstanceTypes = this.excludedInstanceTypes;
+    final preferredRegion = this.preferredRegion;
+    final ramPerformanceMetricBasis = this.ramPerformanceMetricBasis;
+    final reservedInstanceOptions = this.reservedInstanceOptions;
+    final tenancy = this.tenancy;
+    return {
+      if (cpuPerformanceMetricBasis != null)
+        'cpuPerformanceMetricBasis': cpuPerformanceMetricBasis,
+      if (enabled != null) 'enabled': enabled,
+      if (excludedInstanceTypes != null)
+        'excludedInstanceTypes': excludedInstanceTypes,
+      if (preferredRegion != null) 'preferredRegion': preferredRegion,
+      if (ramPerformanceMetricBasis != null)
+        'ramPerformanceMetricBasis': ramPerformanceMetricBasis,
+      if (reservedInstanceOptions != null)
+        'reservedInstanceOptions': reservedInstanceOptions,
+      if (tenancy != null) 'tenancy': tenancy.value,
+    };
+  }
+}
+
+/// Specifies the performance metrics to use for the server that is used for
+/// recommendations.
+class UsageMetricBasis {
+  /// A utilization metric that is used by the recommendations.
+  final String? name;
+
+  /// Specifies the percentage of the specified utilization metric that is used by
+  /// the recommendations.
+  final double? percentageAdjust;
+
+  UsageMetricBasis({
+    this.name,
+    this.percentageAdjust,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final percentageAdjust = this.percentageAdjust;
+    return {
+      if (name != null) 'name': name,
+      if (percentageAdjust != null) 'percentageAdjust': percentageAdjust,
+    };
+  }
+}
+
+class Tenancy {
+  static const dedicated = Tenancy._('DEDICATED');
+  static const shared = Tenancy._('SHARED');
+
+  final String value;
+
+  const Tenancy._(this.value);
+
+  static const values = [dedicated, shared];
+
+  static Tenancy fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Tenancy._(value));
+
+  @override
+  bool operator ==(other) => other is Tenancy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Used to provide Reserved Instance preferences for the recommendation.
+class ReservedInstanceOptions {
+  /// The flexibility to change the instance types needed for your Reserved
+  /// Instance.
+  final OfferingClass offeringClass;
+
+  /// The payment plan to use for your Reserved Instance.
+  final PurchasingOption purchasingOption;
+
+  /// The preferred duration of the Reserved Instance term.
+  final TermLength termLength;
+
+  ReservedInstanceOptions({
+    required this.offeringClass,
+    required this.purchasingOption,
+    required this.termLength,
+  });
+
+  Map<String, dynamic> toJson() {
+    final offeringClass = this.offeringClass;
+    final purchasingOption = this.purchasingOption;
+    final termLength = this.termLength;
+    return {
+      'offeringClass': offeringClass.value,
+      'purchasingOption': purchasingOption.value,
+      'termLength': termLength.value,
+    };
+  }
+}
+
+class PurchasingOption {
+  static const allUpfront = PurchasingOption._('ALL_UPFRONT');
+  static const partialUpfront = PurchasingOption._('PARTIAL_UPFRONT');
+  static const noUpfront = PurchasingOption._('NO_UPFRONT');
+
+  final String value;
+
+  const PurchasingOption._(this.value);
+
+  static const values = [allUpfront, partialUpfront, noUpfront];
+
+  static PurchasingOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PurchasingOption._(value));
+
+  @override
+  bool operator ==(other) => other is PurchasingOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OfferingClass {
+  static const standard = OfferingClass._('STANDARD');
+  static const convertible = OfferingClass._('CONVERTIBLE');
+
+  final String value;
+
+  const OfferingClass._(this.value);
+
+  static const values = [standard, convertible];
+
+  static OfferingClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OfferingClass._(value));
+
+  @override
+  bool operator ==(other) => other is OfferingClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TermLength {
+  static const oneYear = TermLength._('ONE_YEAR');
+  static const threeYear = TermLength._('THREE_YEAR');
+
+  final String value;
+
+  const TermLength._(this.value);
+
+  static const values = [oneYear, threeYear];
+
+  static TermLength fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TermLength._(value));
+
+  @override
+  bool operator ==(other) => other is TermLength && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Used to select which agent's data is to be exported. A single agent ID may
+/// be selected for export using the <a
+/// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html">StartExportTask</a>
+/// action.
+class ExportFilter {
+  /// Supported condition: <code>EQUALS</code>
+  final String condition;
+
+  /// A single <code>ExportFilter</code> name. Supported filters:
+  /// <code>agentIds</code>.
+  final String name;
+
+  /// A single agent ID for a Discovery Agent. An agent ID can be found using the
+  /// <a
+  /// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeAgents.html">DescribeAgents</a>
+  /// action. Typically an ADS agent ID is in the form
+  /// <code>o-0123456789abcdef0</code>.
+  final List<String> values;
+
+  ExportFilter({
+    required this.condition,
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final name = this.name;
+    final values = this.values;
+    return {
+      'condition': condition,
+      'name': name,
+      'values': values,
+    };
+  }
+}
+
+class ExportDataFormat {
+  static const csv = ExportDataFormat._('CSV');
+
+  final String value;
+
+  const ExportDataFormat._(this.value);
+
+  static const values = [csv];
+
+  static ExportDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExportDataFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ExportDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DataSource {
+  static const agent = DataSource._('AGENT');
+
+  final String value;
+
+  const DataSource._(this.value);
+
+  static const values = [agent];
+
+  static DataSource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataSource._(value));
+
+  @override
+  bool operator ==(other) => other is DataSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeletionConfigurationItemType {
+  static const server = DeletionConfigurationItemType._('SERVER');
+
+  final String value;
+
+  const DeletionConfigurationItemType._(this.value);
+
+  static const values = [server];
+
+  static DeletionConfigurationItemType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeletionConfigurationItemType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeletionConfigurationItemType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details about neighboring servers.
+class NeighborConnectionDetail {
+  /// The number of open network connections with the neighboring server.
+  final int connectionsCount;
+
+  /// The ID of the server that accepted the network connection.
+  final String destinationServerId;
+
+  /// The ID of the server that opened the network connection.
+  final String sourceServerId;
+
+  /// The destination network port for the connection.
+  final int? destinationPort;
+
+  /// The network protocol used for the connection.
+  final String? transportProtocol;
+
+  NeighborConnectionDetail({
+    required this.connectionsCount,
+    required this.destinationServerId,
+    required this.sourceServerId,
+    this.destinationPort,
+    this.transportProtocol,
+  });
+
+  factory NeighborConnectionDetail.fromJson(Map<String, dynamic> json) {
+    return NeighborConnectionDetail(
+      connectionsCount: (json['connectionsCount'] as int?) ?? 0,
+      destinationServerId: (json['destinationServerId'] as String?) ?? '',
+      sourceServerId: (json['sourceServerId'] as String?) ?? '',
+      destinationPort: json['destinationPort'] as int?,
+      transportProtocol: json['transportProtocol'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final errors = this.errors;
+    final connectionsCount = this.connectionsCount;
+    final destinationServerId = this.destinationServerId;
+    final sourceServerId = this.sourceServerId;
+    final destinationPort = this.destinationPort;
+    final transportProtocol = this.transportProtocol;
     return {
-      if (errors != null) 'errors': errors,
+      'connectionsCount': connectionsCount,
+      'destinationServerId': destinationServerId,
+      'sourceServerId': sourceServerId,
+      if (destinationPort != null) 'destinationPort': destinationPort,
+      if (transportProtocol != null) 'transportProtocol': transportProtocol,
     };
   }
 }
@@ -1908,6 +2918,362 @@ class ConfigurationItemType {
 
   @override
   String toString() => value;
+}
+
+/// A field and direction for ordered output.
+class OrderByElement {
+  /// The field on which to order.
+  final String fieldName;
+
+  /// Ordering direction.
+  final OrderString? sortOrder;
+
+  OrderByElement({
+    required this.fieldName,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final sortOrder = this.sortOrder;
+    return {
+      'fieldName': fieldName,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
+    };
+  }
+}
+
+class OrderString {
+  static const asc = OrderString._('ASC');
+  static const desc = OrderString._('DESC');
+
+  final String value;
+
+  const OrderString._(this.value);
+
+  static const values = [asc, desc];
+
+  static OrderString fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderString._(value));
+
+  @override
+  bool operator ==(other) => other is OrderString && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A filter that can use conditional operators.
+///
+/// For more information about filters, see <a
+/// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html">Querying
+/// Discovered Configuration Items</a> in the <i>Amazon Web Services Application
+/// Discovery Service User Guide</i>.
+class Filter {
+  /// A conditional operator. The following operators are valid: EQUALS,
+  /// NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the
+  /// system utilizes all filters as though concatenated by <i>AND</i>. If you
+  /// specify multiple values for a particular filter, the system differentiates
+  /// the values using <i>OR</i>. Calling either <i>DescribeConfigurations</i> or
+  /// <i>ListConfigurations</i> returns attributes of matching configuration
+  /// items.
+  final String condition;
+
+  /// The name of the filter.
+  final String name;
+
+  /// A string value on which to filter. For example, if you choose the
+  /// <code>destinationServer.osVersion</code> filter name, you could specify
+  /// <code>Ubuntu</code> for the value.
+  final List<String> values;
+
+  Filter({
+    required this.condition,
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final name = this.name;
+    final values = this.values;
+    return {
+      'condition': condition,
+      'name': name,
+      'values': values,
+    };
+  }
+}
+
+/// Inventory data for installed discovery agents.
+class CustomerAgentInfo {
+  /// Number of active discovery agents.
+  final int activeAgents;
+
+  /// Number of blacklisted discovery agents.
+  final int blackListedAgents;
+
+  /// Number of healthy discovery agents
+  final int healthyAgents;
+
+  /// Number of discovery agents with status SHUTDOWN.
+  final int shutdownAgents;
+
+  /// Total number of discovery agents.
+  final int totalAgents;
+
+  /// Number of unhealthy discovery agents.
+  final int unhealthyAgents;
+
+  /// Number of unknown discovery agents.
+  final int unknownAgents;
+
+  CustomerAgentInfo({
+    required this.activeAgents,
+    required this.blackListedAgents,
+    required this.healthyAgents,
+    required this.shutdownAgents,
+    required this.totalAgents,
+    required this.unhealthyAgents,
+    required this.unknownAgents,
+  });
+
+  factory CustomerAgentInfo.fromJson(Map<String, dynamic> json) {
+    return CustomerAgentInfo(
+      activeAgents: (json['activeAgents'] as int?) ?? 0,
+      blackListedAgents: (json['blackListedAgents'] as int?) ?? 0,
+      healthyAgents: (json['healthyAgents'] as int?) ?? 0,
+      shutdownAgents: (json['shutdownAgents'] as int?) ?? 0,
+      totalAgents: (json['totalAgents'] as int?) ?? 0,
+      unhealthyAgents: (json['unhealthyAgents'] as int?) ?? 0,
+      unknownAgents: (json['unknownAgents'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeAgents = this.activeAgents;
+    final blackListedAgents = this.blackListedAgents;
+    final healthyAgents = this.healthyAgents;
+    final shutdownAgents = this.shutdownAgents;
+    final totalAgents = this.totalAgents;
+    final unhealthyAgents = this.unhealthyAgents;
+    final unknownAgents = this.unknownAgents;
+    return {
+      'activeAgents': activeAgents,
+      'blackListedAgents': blackListedAgents,
+      'healthyAgents': healthyAgents,
+      'shutdownAgents': shutdownAgents,
+      'totalAgents': totalAgents,
+      'unhealthyAgents': unhealthyAgents,
+      'unknownAgents': unknownAgents,
+    };
+  }
+}
+
+/// Inventory data for installed discovery connectors.
+class CustomerConnectorInfo {
+  /// Number of active discovery connectors.
+  final int activeConnectors;
+
+  /// Number of blacklisted discovery connectors.
+  final int blackListedConnectors;
+
+  /// Number of healthy discovery connectors.
+  final int healthyConnectors;
+
+  /// Number of discovery connectors with status SHUTDOWN,
+  final int shutdownConnectors;
+
+  /// Total number of discovery connectors.
+  final int totalConnectors;
+
+  /// Number of unhealthy discovery connectors.
+  final int unhealthyConnectors;
+
+  /// Number of unknown discovery connectors.
+  final int unknownConnectors;
+
+  CustomerConnectorInfo({
+    required this.activeConnectors,
+    required this.blackListedConnectors,
+    required this.healthyConnectors,
+    required this.shutdownConnectors,
+    required this.totalConnectors,
+    required this.unhealthyConnectors,
+    required this.unknownConnectors,
+  });
+
+  factory CustomerConnectorInfo.fromJson(Map<String, dynamic> json) {
+    return CustomerConnectorInfo(
+      activeConnectors: (json['activeConnectors'] as int?) ?? 0,
+      blackListedConnectors: (json['blackListedConnectors'] as int?) ?? 0,
+      healthyConnectors: (json['healthyConnectors'] as int?) ?? 0,
+      shutdownConnectors: (json['shutdownConnectors'] as int?) ?? 0,
+      totalConnectors: (json['totalConnectors'] as int?) ?? 0,
+      unhealthyConnectors: (json['unhealthyConnectors'] as int?) ?? 0,
+      unknownConnectors: (json['unknownConnectors'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeConnectors = this.activeConnectors;
+    final blackListedConnectors = this.blackListedConnectors;
+    final healthyConnectors = this.healthyConnectors;
+    final shutdownConnectors = this.shutdownConnectors;
+    final totalConnectors = this.totalConnectors;
+    final unhealthyConnectors = this.unhealthyConnectors;
+    final unknownConnectors = this.unknownConnectors;
+    return {
+      'activeConnectors': activeConnectors,
+      'blackListedConnectors': blackListedConnectors,
+      'healthyConnectors': healthyConnectors,
+      'shutdownConnectors': shutdownConnectors,
+      'totalConnectors': totalConnectors,
+      'unhealthyConnectors': unhealthyConnectors,
+      'unknownConnectors': unknownConnectors,
+    };
+  }
+}
+
+/// The inventory data for installed Migration Evaluator collectors.
+class CustomerMeCollectorInfo {
+  /// The number of active Migration Evaluator collectors.
+  final int activeMeCollectors;
+
+  /// The number of deny-listed Migration Evaluator collectors.
+  final int denyListedMeCollectors;
+
+  /// The number of healthy Migration Evaluator collectors.
+  final int healthyMeCollectors;
+
+  /// The number of Migration Evaluator collectors with <code>SHUTDOWN</code>
+  /// status.
+  final int shutdownMeCollectors;
+
+  /// The total number of Migration Evaluator collectors.
+  final int totalMeCollectors;
+
+  /// The number of unhealthy Migration Evaluator collectors.
+  final int unhealthyMeCollectors;
+
+  /// The number of unknown Migration Evaluator collectors.
+  final int unknownMeCollectors;
+
+  CustomerMeCollectorInfo({
+    required this.activeMeCollectors,
+    required this.denyListedMeCollectors,
+    required this.healthyMeCollectors,
+    required this.shutdownMeCollectors,
+    required this.totalMeCollectors,
+    required this.unhealthyMeCollectors,
+    required this.unknownMeCollectors,
+  });
+
+  factory CustomerMeCollectorInfo.fromJson(Map<String, dynamic> json) {
+    return CustomerMeCollectorInfo(
+      activeMeCollectors: (json['activeMeCollectors'] as int?) ?? 0,
+      denyListedMeCollectors: (json['denyListedMeCollectors'] as int?) ?? 0,
+      healthyMeCollectors: (json['healthyMeCollectors'] as int?) ?? 0,
+      shutdownMeCollectors: (json['shutdownMeCollectors'] as int?) ?? 0,
+      totalMeCollectors: (json['totalMeCollectors'] as int?) ?? 0,
+      unhealthyMeCollectors: (json['unhealthyMeCollectors'] as int?) ?? 0,
+      unknownMeCollectors: (json['unknownMeCollectors'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeMeCollectors = this.activeMeCollectors;
+    final denyListedMeCollectors = this.denyListedMeCollectors;
+    final healthyMeCollectors = this.healthyMeCollectors;
+    final shutdownMeCollectors = this.shutdownMeCollectors;
+    final totalMeCollectors = this.totalMeCollectors;
+    final unhealthyMeCollectors = this.unhealthyMeCollectors;
+    final unknownMeCollectors = this.unknownMeCollectors;
+    return {
+      'activeMeCollectors': activeMeCollectors,
+      'denyListedMeCollectors': denyListedMeCollectors,
+      'healthyMeCollectors': healthyMeCollectors,
+      'shutdownMeCollectors': shutdownMeCollectors,
+      'totalMeCollectors': totalMeCollectors,
+      'unhealthyMeCollectors': unhealthyMeCollectors,
+      'unknownMeCollectors': unknownMeCollectors,
+    };
+  }
+}
+
+/// The inventory data for installed Agentless Collector collectors.
+class CustomerAgentlessCollectorInfo {
+  /// The number of active Agentless Collector collectors.
+  final int activeAgentlessCollectors;
+
+  /// The number of deny-listed Agentless Collector collectors.
+  final int denyListedAgentlessCollectors;
+
+  /// The number of healthy Agentless Collector collectors.
+  final int healthyAgentlessCollectors;
+
+  /// The number of Agentless Collector collectors with <code>SHUTDOWN</code>
+  /// status.
+  final int shutdownAgentlessCollectors;
+
+  /// The total number of Agentless Collector collectors.
+  final int totalAgentlessCollectors;
+
+  /// The number of unhealthy Agentless Collector collectors.
+  final int unhealthyAgentlessCollectors;
+
+  /// The number of unknown Agentless Collector collectors.
+  final int unknownAgentlessCollectors;
+
+  CustomerAgentlessCollectorInfo({
+    required this.activeAgentlessCollectors,
+    required this.denyListedAgentlessCollectors,
+    required this.healthyAgentlessCollectors,
+    required this.shutdownAgentlessCollectors,
+    required this.totalAgentlessCollectors,
+    required this.unhealthyAgentlessCollectors,
+    required this.unknownAgentlessCollectors,
+  });
+
+  factory CustomerAgentlessCollectorInfo.fromJson(Map<String, dynamic> json) {
+    return CustomerAgentlessCollectorInfo(
+      activeAgentlessCollectors:
+          (json['activeAgentlessCollectors'] as int?) ?? 0,
+      denyListedAgentlessCollectors:
+          (json['denyListedAgentlessCollectors'] as int?) ?? 0,
+      healthyAgentlessCollectors:
+          (json['healthyAgentlessCollectors'] as int?) ?? 0,
+      shutdownAgentlessCollectors:
+          (json['shutdownAgentlessCollectors'] as int?) ?? 0,
+      totalAgentlessCollectors: (json['totalAgentlessCollectors'] as int?) ?? 0,
+      unhealthyAgentlessCollectors:
+          (json['unhealthyAgentlessCollectors'] as int?) ?? 0,
+      unknownAgentlessCollectors:
+          (json['unknownAgentlessCollectors'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeAgentlessCollectors = this.activeAgentlessCollectors;
+    final denyListedAgentlessCollectors = this.denyListedAgentlessCollectors;
+    final healthyAgentlessCollectors = this.healthyAgentlessCollectors;
+    final shutdownAgentlessCollectors = this.shutdownAgentlessCollectors;
+    final totalAgentlessCollectors = this.totalAgentlessCollectors;
+    final unhealthyAgentlessCollectors = this.unhealthyAgentlessCollectors;
+    final unknownAgentlessCollectors = this.unknownAgentlessCollectors;
+    return {
+      'activeAgentlessCollectors': activeAgentlessCollectors,
+      'denyListedAgentlessCollectors': denyListedAgentlessCollectors,
+      'healthyAgentlessCollectors': healthyAgentlessCollectors,
+      'shutdownAgentlessCollectors': shutdownAgentlessCollectors,
+      'totalAgentlessCollectors': totalAgentlessCollectors,
+      'unhealthyAgentlessCollectors': unhealthyAgentlessCollectors,
+      'unknownAgentlessCollectors': unknownAgentlessCollectors,
+    };
+  }
 }
 
 /// Tags for a configuration item. Tags are metadata that help you categorize IT
@@ -1966,6 +3332,198 @@ class ConfigurationTag {
       if (value != null) 'value': value,
     };
   }
+}
+
+/// The tag filter. Valid names are: <code>tagKey</code>, <code>tagValue</code>,
+/// <code>configurationId</code>.
+class TagFilter {
+  /// A name of the tag filter.
+  final String name;
+
+  /// Values for the tag filter.
+  final List<String> values;
+
+  TagFilter({
+    required this.name,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'name': name,
+      'values': values,
+    };
+  }
+}
+
+/// A name-values pair of elements you can use to filter the results when
+/// querying your import tasks. Currently, wildcards are not supported for
+/// filters.
+/// <note>
+/// When filtering by import status, all other filter values are ignored.
+/// </note>
+class ImportTaskFilter {
+  /// The name, status, or import task ID for a specific import task.
+  final ImportTaskFilterName? name;
+
+  /// An array of strings that you can provide to match against a specific name,
+  /// status, or import task ID to filter the results for your import task
+  /// queries.
+  final List<String>? values;
+
+  ImportTaskFilter({
+    this.name,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.value,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+class ImportTaskFilterName {
+  static const importTaskId = ImportTaskFilterName._('IMPORT_TASK_ID');
+  static const status = ImportTaskFilterName._('STATUS');
+  static const name = ImportTaskFilterName._('NAME');
+  static const fileClassification =
+      ImportTaskFilterName._('FILE_CLASSIFICATION');
+
+  final String value;
+
+  const ImportTaskFilterName._(this.value);
+
+  static const values = [importTaskId, status, name, fileClassification];
+
+  static ImportTaskFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImportTaskFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImportTaskFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information regarding the export status of discovered data. The value is an
+/// array of objects.
+class ExportInfo {
+  /// A unique identifier used to query an export.
+  final String exportId;
+
+  /// The time that the data export was initiated.
+  final DateTime exportRequestTime;
+
+  /// The status of the data export job.
+  final ExportStatus exportStatus;
+
+  /// A status message provided for API callers.
+  final String statusMessage;
+
+  /// A URL for an Amazon S3 bucket where you can review the exported data. The
+  /// URL is displayed only if the export succeeded.
+  final String? configurationsDownloadUrl;
+
+  /// If true, the export of agent information exceeded the size limit for a
+  /// single export and the exported data is incomplete for the requested time
+  /// range. To address this, select a smaller time range for the export by using
+  /// <code>startDate</code> and <code>endDate</code>.
+  final bool? isTruncated;
+
+  /// The <code>endTime</code> used in the <code>StartExportTask</code> request.
+  /// If no <code>endTime</code> was requested, this result does not appear in
+  /// <code>ExportInfo</code>.
+  final DateTime? requestedEndTime;
+
+  /// The value of <code>startTime</code> parameter in the
+  /// <code>StartExportTask</code> request. If no <code>startTime</code> was
+  /// requested, this result does not appear in <code>ExportInfo</code>.
+  final DateTime? requestedStartTime;
+
+  ExportInfo({
+    required this.exportId,
+    required this.exportRequestTime,
+    required this.exportStatus,
+    required this.statusMessage,
+    this.configurationsDownloadUrl,
+    this.isTruncated,
+    this.requestedEndTime,
+    this.requestedStartTime,
+  });
+
+  factory ExportInfo.fromJson(Map<String, dynamic> json) {
+    return ExportInfo(
+      exportId: (json['exportId'] as String?) ?? '',
+      exportRequestTime:
+          nonNullableTimeStampFromJson(json['exportRequestTime'] ?? 0),
+      exportStatus:
+          ExportStatus.fromString((json['exportStatus'] as String?) ?? ''),
+      statusMessage: (json['statusMessage'] as String?) ?? '',
+      configurationsDownloadUrl: json['configurationsDownloadUrl'] as String?,
+      isTruncated: json['isTruncated'] as bool?,
+      requestedEndTime: timeStampFromJson(json['requestedEndTime']),
+      requestedStartTime: timeStampFromJson(json['requestedStartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportId = this.exportId;
+    final exportRequestTime = this.exportRequestTime;
+    final exportStatus = this.exportStatus;
+    final statusMessage = this.statusMessage;
+    final configurationsDownloadUrl = this.configurationsDownloadUrl;
+    final isTruncated = this.isTruncated;
+    final requestedEndTime = this.requestedEndTime;
+    final requestedStartTime = this.requestedStartTime;
+    return {
+      'exportId': exportId,
+      'exportRequestTime': unixTimestampToJson(exportRequestTime),
+      'exportStatus': exportStatus.value,
+      'statusMessage': statusMessage,
+      if (configurationsDownloadUrl != null)
+        'configurationsDownloadUrl': configurationsDownloadUrl,
+      if (isTruncated != null) 'isTruncated': isTruncated,
+      if (requestedEndTime != null)
+        'requestedEndTime': unixTimestampToJson(requestedEndTime),
+      if (requestedStartTime != null)
+        'requestedStartTime': unixTimestampToJson(requestedStartTime),
+    };
+  }
+}
+
+class ExportStatus {
+  static const failed = ExportStatus._('FAILED');
+  static const succeeded = ExportStatus._('SUCCEEDED');
+  static const inProgress = ExportStatus._('IN_PROGRESS');
+
+  final String value;
+
+  const ExportStatus._(this.value);
+
+  static const values = [failed, succeeded, inProgress];
+
+  static ExportStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A list of continuous export descriptions.
@@ -2210,425 +3768,130 @@ class ContinuousExportStatus {
   String toString() => value;
 }
 
-class CreateApplicationResponse {
-  /// Configuration ID of an application to be created.
-  final String? configurationId;
+/// A metadata object that represents the deletion task being executed.
+class BatchDeleteConfigurationTask {
+  /// The type of configuration item to delete. Supported types are: SERVER.
+  final DeletionConfigurationItemType? configurationType;
 
-  CreateApplicationResponse({
-    this.configurationId,
+  /// The list of configuration IDs that were successfully deleted by the deletion
+  /// task.
+  final List<String>? deletedConfigurations;
+
+  /// A list of configuration IDs that produced warnings regarding their deletion,
+  /// paired with a warning message.
+  final List<DeletionWarning>? deletionWarnings;
+
+  /// An epoch seconds timestamp (UTC) of when the deletion task was completed or
+  /// failed.
+  final DateTime? endTime;
+
+  /// A list of configuration IDs that failed to delete during the deletion task,
+  /// each paired with an error message.
+  final List<FailedConfiguration>? failedConfigurations;
+
+  /// The list of configuration IDs that were originally requested to be deleted
+  /// by the deletion task.
+  final List<String>? requestedConfigurations;
+
+  /// An epoch seconds timestamp (UTC) of when the deletion task was started.
+  final DateTime? startTime;
+
+  /// The current execution status of the deletion task. Valid status are:
+  /// INITIALIZING | VALIDATING | DELETING | COMPLETED | FAILED.
+  final BatchDeleteConfigurationTaskStatus? status;
+
+  /// The deletion task's unique identifier.
+  final String? taskId;
+
+  BatchDeleteConfigurationTask({
+    this.configurationType,
+    this.deletedConfigurations,
+    this.deletionWarnings,
+    this.endTime,
+    this.failedConfigurations,
+    this.requestedConfigurations,
+    this.startTime,
+    this.status,
+    this.taskId,
   });
 
-  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
-    return CreateApplicationResponse(
-      configurationId: json['configurationId'] as String?,
+  factory BatchDeleteConfigurationTask.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteConfigurationTask(
+      configurationType: (json['configurationType'] as String?)
+          ?.let(DeletionConfigurationItemType.fromString),
+      deletedConfigurations: (json['deletedConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      deletionWarnings: (json['deletionWarnings'] as List?)
+          ?.nonNulls
+          .map((e) => DeletionWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endTime: timeStampFromJson(json['endTime']),
+      failedConfigurations: (json['failedConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => FailedConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestedConfigurations: (json['requestedConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)
+          ?.let(BatchDeleteConfigurationTaskStatus.fromString),
+      taskId: json['taskId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final configurationId = this.configurationId;
+    final configurationType = this.configurationType;
+    final deletedConfigurations = this.deletedConfigurations;
+    final deletionWarnings = this.deletionWarnings;
+    final endTime = this.endTime;
+    final failedConfigurations = this.failedConfigurations;
+    final requestedConfigurations = this.requestedConfigurations;
+    final startTime = this.startTime;
+    final status = this.status;
+    final taskId = this.taskId;
     return {
-      if (configurationId != null) 'configurationId': configurationId,
+      if (configurationType != null)
+        'configurationType': configurationType.value,
+      if (deletedConfigurations != null)
+        'deletedConfigurations': deletedConfigurations,
+      if (deletionWarnings != null) 'deletionWarnings': deletionWarnings,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (failedConfigurations != null)
+        'failedConfigurations': failedConfigurations,
+      if (requestedConfigurations != null)
+        'requestedConfigurations': requestedConfigurations,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.value,
+      if (taskId != null) 'taskId': taskId,
     };
   }
 }
 
-class CreateTagsResponse {
-  CreateTagsResponse();
-
-  factory CreateTagsResponse.fromJson(Map<String, dynamic> _) {
-    return CreateTagsResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Inventory data for installed discovery agents.
-class CustomerAgentInfo {
-  /// Number of active discovery agents.
-  final int activeAgents;
-
-  /// Number of blacklisted discovery agents.
-  final int blackListedAgents;
-
-  /// Number of healthy discovery agents
-  final int healthyAgents;
-
-  /// Number of discovery agents with status SHUTDOWN.
-  final int shutdownAgents;
-
-  /// Total number of discovery agents.
-  final int totalAgents;
-
-  /// Number of unhealthy discovery agents.
-  final int unhealthyAgents;
-
-  /// Number of unknown discovery agents.
-  final int unknownAgents;
-
-  CustomerAgentInfo({
-    required this.activeAgents,
-    required this.blackListedAgents,
-    required this.healthyAgents,
-    required this.shutdownAgents,
-    required this.totalAgents,
-    required this.unhealthyAgents,
-    required this.unknownAgents,
-  });
-
-  factory CustomerAgentInfo.fromJson(Map<String, dynamic> json) {
-    return CustomerAgentInfo(
-      activeAgents: (json['activeAgents'] as int?) ?? 0,
-      blackListedAgents: (json['blackListedAgents'] as int?) ?? 0,
-      healthyAgents: (json['healthyAgents'] as int?) ?? 0,
-      shutdownAgents: (json['shutdownAgents'] as int?) ?? 0,
-      totalAgents: (json['totalAgents'] as int?) ?? 0,
-      unhealthyAgents: (json['unhealthyAgents'] as int?) ?? 0,
-      unknownAgents: (json['unknownAgents'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeAgents = this.activeAgents;
-    final blackListedAgents = this.blackListedAgents;
-    final healthyAgents = this.healthyAgents;
-    final shutdownAgents = this.shutdownAgents;
-    final totalAgents = this.totalAgents;
-    final unhealthyAgents = this.unhealthyAgents;
-    final unknownAgents = this.unknownAgents;
-    return {
-      'activeAgents': activeAgents,
-      'blackListedAgents': blackListedAgents,
-      'healthyAgents': healthyAgents,
-      'shutdownAgents': shutdownAgents,
-      'totalAgents': totalAgents,
-      'unhealthyAgents': unhealthyAgents,
-      'unknownAgents': unknownAgents,
-    };
-  }
-}
-
-/// The inventory data for installed Agentless Collector collectors.
-class CustomerAgentlessCollectorInfo {
-  /// The number of active Agentless Collector collectors.
-  final int activeAgentlessCollectors;
-
-  /// The number of deny-listed Agentless Collector collectors.
-  final int denyListedAgentlessCollectors;
-
-  /// The number of healthy Agentless Collector collectors.
-  final int healthyAgentlessCollectors;
-
-  /// The number of Agentless Collector collectors with <code>SHUTDOWN</code>
-  /// status.
-  final int shutdownAgentlessCollectors;
-
-  /// The total number of Agentless Collector collectors.
-  final int totalAgentlessCollectors;
-
-  /// The number of unhealthy Agentless Collector collectors.
-  final int unhealthyAgentlessCollectors;
-
-  /// The number of unknown Agentless Collector collectors.
-  final int unknownAgentlessCollectors;
-
-  CustomerAgentlessCollectorInfo({
-    required this.activeAgentlessCollectors,
-    required this.denyListedAgentlessCollectors,
-    required this.healthyAgentlessCollectors,
-    required this.shutdownAgentlessCollectors,
-    required this.totalAgentlessCollectors,
-    required this.unhealthyAgentlessCollectors,
-    required this.unknownAgentlessCollectors,
-  });
-
-  factory CustomerAgentlessCollectorInfo.fromJson(Map<String, dynamic> json) {
-    return CustomerAgentlessCollectorInfo(
-      activeAgentlessCollectors:
-          (json['activeAgentlessCollectors'] as int?) ?? 0,
-      denyListedAgentlessCollectors:
-          (json['denyListedAgentlessCollectors'] as int?) ?? 0,
-      healthyAgentlessCollectors:
-          (json['healthyAgentlessCollectors'] as int?) ?? 0,
-      shutdownAgentlessCollectors:
-          (json['shutdownAgentlessCollectors'] as int?) ?? 0,
-      totalAgentlessCollectors: (json['totalAgentlessCollectors'] as int?) ?? 0,
-      unhealthyAgentlessCollectors:
-          (json['unhealthyAgentlessCollectors'] as int?) ?? 0,
-      unknownAgentlessCollectors:
-          (json['unknownAgentlessCollectors'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeAgentlessCollectors = this.activeAgentlessCollectors;
-    final denyListedAgentlessCollectors = this.denyListedAgentlessCollectors;
-    final healthyAgentlessCollectors = this.healthyAgentlessCollectors;
-    final shutdownAgentlessCollectors = this.shutdownAgentlessCollectors;
-    final totalAgentlessCollectors = this.totalAgentlessCollectors;
-    final unhealthyAgentlessCollectors = this.unhealthyAgentlessCollectors;
-    final unknownAgentlessCollectors = this.unknownAgentlessCollectors;
-    return {
-      'activeAgentlessCollectors': activeAgentlessCollectors,
-      'denyListedAgentlessCollectors': denyListedAgentlessCollectors,
-      'healthyAgentlessCollectors': healthyAgentlessCollectors,
-      'shutdownAgentlessCollectors': shutdownAgentlessCollectors,
-      'totalAgentlessCollectors': totalAgentlessCollectors,
-      'unhealthyAgentlessCollectors': unhealthyAgentlessCollectors,
-      'unknownAgentlessCollectors': unknownAgentlessCollectors,
-    };
-  }
-}
-
-/// Inventory data for installed discovery connectors.
-class CustomerConnectorInfo {
-  /// Number of active discovery connectors.
-  final int activeConnectors;
-
-  /// Number of blacklisted discovery connectors.
-  final int blackListedConnectors;
-
-  /// Number of healthy discovery connectors.
-  final int healthyConnectors;
-
-  /// Number of discovery connectors with status SHUTDOWN,
-  final int shutdownConnectors;
-
-  /// Total number of discovery connectors.
-  final int totalConnectors;
-
-  /// Number of unhealthy discovery connectors.
-  final int unhealthyConnectors;
-
-  /// Number of unknown discovery connectors.
-  final int unknownConnectors;
-
-  CustomerConnectorInfo({
-    required this.activeConnectors,
-    required this.blackListedConnectors,
-    required this.healthyConnectors,
-    required this.shutdownConnectors,
-    required this.totalConnectors,
-    required this.unhealthyConnectors,
-    required this.unknownConnectors,
-  });
-
-  factory CustomerConnectorInfo.fromJson(Map<String, dynamic> json) {
-    return CustomerConnectorInfo(
-      activeConnectors: (json['activeConnectors'] as int?) ?? 0,
-      blackListedConnectors: (json['blackListedConnectors'] as int?) ?? 0,
-      healthyConnectors: (json['healthyConnectors'] as int?) ?? 0,
-      shutdownConnectors: (json['shutdownConnectors'] as int?) ?? 0,
-      totalConnectors: (json['totalConnectors'] as int?) ?? 0,
-      unhealthyConnectors: (json['unhealthyConnectors'] as int?) ?? 0,
-      unknownConnectors: (json['unknownConnectors'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeConnectors = this.activeConnectors;
-    final blackListedConnectors = this.blackListedConnectors;
-    final healthyConnectors = this.healthyConnectors;
-    final shutdownConnectors = this.shutdownConnectors;
-    final totalConnectors = this.totalConnectors;
-    final unhealthyConnectors = this.unhealthyConnectors;
-    final unknownConnectors = this.unknownConnectors;
-    return {
-      'activeConnectors': activeConnectors,
-      'blackListedConnectors': blackListedConnectors,
-      'healthyConnectors': healthyConnectors,
-      'shutdownConnectors': shutdownConnectors,
-      'totalConnectors': totalConnectors,
-      'unhealthyConnectors': unhealthyConnectors,
-      'unknownConnectors': unknownConnectors,
-    };
-  }
-}
-
-/// The inventory data for installed Migration Evaluator collectors.
-class CustomerMeCollectorInfo {
-  /// The number of active Migration Evaluator collectors.
-  final int activeMeCollectors;
-
-  /// The number of deny-listed Migration Evaluator collectors.
-  final int denyListedMeCollectors;
-
-  /// The number of healthy Migration Evaluator collectors.
-  final int healthyMeCollectors;
-
-  /// The number of Migration Evaluator collectors with <code>SHUTDOWN</code>
-  /// status.
-  final int shutdownMeCollectors;
-
-  /// The total number of Migration Evaluator collectors.
-  final int totalMeCollectors;
-
-  /// The number of unhealthy Migration Evaluator collectors.
-  final int unhealthyMeCollectors;
-
-  /// The number of unknown Migration Evaluator collectors.
-  final int unknownMeCollectors;
-
-  CustomerMeCollectorInfo({
-    required this.activeMeCollectors,
-    required this.denyListedMeCollectors,
-    required this.healthyMeCollectors,
-    required this.shutdownMeCollectors,
-    required this.totalMeCollectors,
-    required this.unhealthyMeCollectors,
-    required this.unknownMeCollectors,
-  });
-
-  factory CustomerMeCollectorInfo.fromJson(Map<String, dynamic> json) {
-    return CustomerMeCollectorInfo(
-      activeMeCollectors: (json['activeMeCollectors'] as int?) ?? 0,
-      denyListedMeCollectors: (json['denyListedMeCollectors'] as int?) ?? 0,
-      healthyMeCollectors: (json['healthyMeCollectors'] as int?) ?? 0,
-      shutdownMeCollectors: (json['shutdownMeCollectors'] as int?) ?? 0,
-      totalMeCollectors: (json['totalMeCollectors'] as int?) ?? 0,
-      unhealthyMeCollectors: (json['unhealthyMeCollectors'] as int?) ?? 0,
-      unknownMeCollectors: (json['unknownMeCollectors'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeMeCollectors = this.activeMeCollectors;
-    final denyListedMeCollectors = this.denyListedMeCollectors;
-    final healthyMeCollectors = this.healthyMeCollectors;
-    final shutdownMeCollectors = this.shutdownMeCollectors;
-    final totalMeCollectors = this.totalMeCollectors;
-    final unhealthyMeCollectors = this.unhealthyMeCollectors;
-    final unknownMeCollectors = this.unknownMeCollectors;
-    return {
-      'activeMeCollectors': activeMeCollectors,
-      'denyListedMeCollectors': denyListedMeCollectors,
-      'healthyMeCollectors': healthyMeCollectors,
-      'shutdownMeCollectors': shutdownMeCollectors,
-      'totalMeCollectors': totalMeCollectors,
-      'unhealthyMeCollectors': unhealthyMeCollectors,
-      'unknownMeCollectors': unknownMeCollectors,
-    };
-  }
-}
-
-class DataSource {
-  static const agent = DataSource._('AGENT');
+class BatchDeleteConfigurationTaskStatus {
+  static const initializing =
+      BatchDeleteConfigurationTaskStatus._('INITIALIZING');
+  static const validating = BatchDeleteConfigurationTaskStatus._('VALIDATING');
+  static const deleting = BatchDeleteConfigurationTaskStatus._('DELETING');
+  static const completed = BatchDeleteConfigurationTaskStatus._('COMPLETED');
+  static const failed = BatchDeleteConfigurationTaskStatus._('FAILED');
 
   final String value;
 
-  const DataSource._(this.value);
+  const BatchDeleteConfigurationTaskStatus._(this.value);
 
-  static const values = [agent];
+  static const values = [initializing, validating, deleting, completed, failed];
 
-  static DataSource fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DataSource._(value));
-
-  @override
-  bool operator ==(other) => other is DataSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object representing the agent or data collector to be deleted along with
-/// the optional configurations for error handling.
-class DeleteAgent {
-  /// The ID of the agent or data collector to delete.
-  final String agentId;
-
-  /// Optional flag used to force delete an agent or data collector. It is needed
-  /// to delete any agent in HEALTHY/UNHEALTHY/RUNNING status. Note that deleting
-  /// an agent that is actively reporting health causes it to be re-registered
-  /// with a different agent ID after data collector re-connects with Amazon Web
-  /// Services.
-  final bool? force;
-
-  DeleteAgent({
-    required this.agentId,
-    this.force,
-  });
-
-  Map<String, dynamic> toJson() {
-    final agentId = this.agentId;
-    final force = this.force;
-    return {
-      'agentId': agentId,
-      if (force != null) 'force': force,
-    };
-  }
-}
-
-class DeleteAgentErrorCode {
-  static const notFound = DeleteAgentErrorCode._('NOT_FOUND');
-  static const internalServerError =
-      DeleteAgentErrorCode._('INTERNAL_SERVER_ERROR');
-  static const agentInUse = DeleteAgentErrorCode._('AGENT_IN_USE');
-
-  final String value;
-
-  const DeleteAgentErrorCode._(this.value);
-
-  static const values = [notFound, internalServerError, agentInUse];
-
-  static DeleteAgentErrorCode fromString(String value) =>
+  static BatchDeleteConfigurationTaskStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => DeleteAgentErrorCode._(value));
+          orElse: () => BatchDeleteConfigurationTaskStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is DeleteAgentErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeleteApplicationsResponse {
-  DeleteApplicationsResponse();
-
-  factory DeleteApplicationsResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteApplicationsResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteTagsResponse {
-  DeleteTagsResponse();
-
-  factory DeleteTagsResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteTagsResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeletionConfigurationItemType {
-  static const server = DeletionConfigurationItemType._('SERVER');
-
-  final String value;
-
-  const DeletionConfigurationItemType._(this.value);
-
-  static const values = [server];
-
-  static DeletionConfigurationItemType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeletionConfigurationItemType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeletionConfigurationItemType && other.value == value;
+      other is BatchDeleteConfigurationTaskStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2675,566 +3938,6 @@ class DeletionWarning {
   }
 }
 
-class DescribeAgentsResponse {
-  /// Lists agents or the collector by ID or lists all agents/collectors
-  /// associated with your user, if you did not specify an agent/collector ID. The
-  /// output includes agent/collector IDs, IP addresses, media access control
-  /// (MAC) addresses, agent/collector health, host name where the agent/collector
-  /// resides, and the version number of each agent/collector.
-  final List<AgentInfo>? agentsInfo;
-
-  /// Token to retrieve the next set of results. For example, if you specified 100
-  /// IDs for <code>DescribeAgentsRequest$agentIds</code> but set
-  /// <code>DescribeAgentsRequest$maxResults</code> to 10, you received a set of
-  /// 10 results along with this token. Use this token in the next query to
-  /// retrieve the next set of 10.
-  final String? nextToken;
-
-  DescribeAgentsResponse({
-    this.agentsInfo,
-    this.nextToken,
-  });
-
-  factory DescribeAgentsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAgentsResponse(
-      agentsInfo: (json['agentsInfo'] as List?)
-          ?.nonNulls
-          .map((e) => AgentInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentsInfo = this.agentsInfo;
-    final nextToken = this.nextToken;
-    return {
-      if (agentsInfo != null) 'agentsInfo': agentsInfo,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeBatchDeleteConfigurationTaskResponse {
-  /// The <code>BatchDeleteConfigurationTask</code> that represents the deletion
-  /// task being executed.
-  final BatchDeleteConfigurationTask? task;
-
-  DescribeBatchDeleteConfigurationTaskResponse({
-    this.task,
-  });
-
-  factory DescribeBatchDeleteConfigurationTaskResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeBatchDeleteConfigurationTaskResponse(
-      task: json['task'] != null
-          ? BatchDeleteConfigurationTask.fromJson(
-              json['task'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final task = this.task;
-    return {
-      if (task != null) 'task': task,
-    };
-  }
-}
-
-class DescribeConfigurationsResponse {
-  /// A key in the response map. The value is an array of data.
-  final List<Map<String, String>>? configurations;
-
-  DescribeConfigurationsResponse({
-    this.configurations,
-  });
-
-  factory DescribeConfigurationsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeConfigurationsResponse(
-      configurations: (json['configurations'] as List?)
-          ?.nonNulls
-          .map((e) => (e as Map<String, dynamic>)
-              .map((k, e) => MapEntry(k, e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configurations = this.configurations;
-    return {
-      if (configurations != null) 'configurations': configurations,
-    };
-  }
-}
-
-class DescribeContinuousExportsResponse {
-  /// A list of continuous export descriptions.
-  final List<ContinuousExportDescription>? descriptions;
-
-  /// The token from the previous call to <code>DescribeExportTasks</code>.
-  final String? nextToken;
-
-  DescribeContinuousExportsResponse({
-    this.descriptions,
-    this.nextToken,
-  });
-
-  factory DescribeContinuousExportsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeContinuousExportsResponse(
-      descriptions: (json['descriptions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ContinuousExportDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final descriptions = this.descriptions;
-    final nextToken = this.nextToken;
-    return {
-      if (descriptions != null) 'descriptions': descriptions,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeExportConfigurationsResponse {
-  /// <p/>
-  final List<ExportInfo>? exportsInfo;
-
-  /// The token from the previous call to describe-export-tasks.
-  final String? nextToken;
-
-  DescribeExportConfigurationsResponse({
-    this.exportsInfo,
-    this.nextToken,
-  });
-
-  factory DescribeExportConfigurationsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeExportConfigurationsResponse(
-      exportsInfo: (json['exportsInfo'] as List?)
-          ?.nonNulls
-          .map((e) => ExportInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportsInfo = this.exportsInfo;
-    final nextToken = this.nextToken;
-    return {
-      if (exportsInfo != null) 'exportsInfo': exportsInfo,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeExportTasksResponse {
-  /// Contains one or more sets of export request details. When the status of a
-  /// request is <code>SUCCEEDED</code>, the response includes a URL for an Amazon
-  /// S3 bucket where you can view the data in a CSV file.
-  final List<ExportInfo>? exportsInfo;
-
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>DescribeExportTasks</code> request. When the results of a
-  /// <code>DescribeExportTasks</code> request exceed <code>maxResults</code>,
-  /// this value can be used to retrieve the next page of results. This value is
-  /// null when there are no more results to return.
-  final String? nextToken;
-
-  DescribeExportTasksResponse({
-    this.exportsInfo,
-    this.nextToken,
-  });
-
-  factory DescribeExportTasksResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeExportTasksResponse(
-      exportsInfo: (json['exportsInfo'] as List?)
-          ?.nonNulls
-          .map((e) => ExportInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportsInfo = this.exportsInfo;
-    final nextToken = this.nextToken;
-    return {
-      if (exportsInfo != null) 'exportsInfo': exportsInfo,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeImportTasksResponse {
-  /// The token to request the next page of results.
-  final String? nextToken;
-
-  /// A returned array of import tasks that match any applied filters, up to the
-  /// specified number of maximum results.
-  final List<ImportTask>? tasks;
-
-  DescribeImportTasksResponse({
-    this.nextToken,
-    this.tasks,
-  });
-
-  factory DescribeImportTasksResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeImportTasksResponse(
-      nextToken: json['nextToken'] as String?,
-      tasks: (json['tasks'] as List?)
-          ?.nonNulls
-          .map((e) => ImportTask.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final tasks = this.tasks;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (tasks != null) 'tasks': tasks,
-    };
-  }
-}
-
-class DescribeTagsResponse {
-  /// The call returns a token. Use this token to get the next set of results.
-  final String? nextToken;
-
-  /// Depending on the input, this is a list of configuration items tagged with a
-  /// specific tag, or a list of tags for a specific configuration item.
-  final List<ConfigurationTag>? tags;
-
-  DescribeTagsResponse({
-    this.nextToken,
-    this.tags,
-  });
-
-  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeTagsResponse(
-      nextToken: json['nextToken'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => ConfigurationTag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final tags = this.tags;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class DisassociateConfigurationItemsFromApplicationResponse {
-  DisassociateConfigurationItemsFromApplicationResponse();
-
-  factory DisassociateConfigurationItemsFromApplicationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return DisassociateConfigurationItemsFromApplicationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Indicates that the exported data must include EC2 instance type matches for
-/// on-premises servers that are discovered through Amazon Web Services
-/// Application Discovery Service.
-class Ec2RecommendationsExportPreferences {
-  /// The recommended EC2 instance type that matches the CPU usage metric of
-  /// server performance data.
-  final UsageMetricBasis? cpuPerformanceMetricBasis;
-
-  /// If set to true, the export <a
-  /// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html#API_StartExportTask_RequestSyntax">preferences</a>
-  /// is set to <code>Ec2RecommendationsExportPreferences</code>.
-  final bool? enabled;
-
-  /// An array of instance types to exclude from recommendations.
-  final List<String>? excludedInstanceTypes;
-
-  /// The target Amazon Web Services Region for the recommendations. You can use
-  /// any of the Region codes available for the chosen service, as listed in <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Amazon Web
-  /// Services service endpoints</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  final String? preferredRegion;
-
-  /// The recommended EC2 instance type that matches the Memory usage metric of
-  /// server performance data.
-  final UsageMetricBasis? ramPerformanceMetricBasis;
-
-  /// The contract type for a reserved instance. If blank, we assume an On-Demand
-  /// instance is preferred.
-  final ReservedInstanceOptions? reservedInstanceOptions;
-
-  /// The target tenancy to use for your recommended EC2 instances.
-  final Tenancy? tenancy;
-
-  Ec2RecommendationsExportPreferences({
-    this.cpuPerformanceMetricBasis,
-    this.enabled,
-    this.excludedInstanceTypes,
-    this.preferredRegion,
-    this.ramPerformanceMetricBasis,
-    this.reservedInstanceOptions,
-    this.tenancy,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cpuPerformanceMetricBasis = this.cpuPerformanceMetricBasis;
-    final enabled = this.enabled;
-    final excludedInstanceTypes = this.excludedInstanceTypes;
-    final preferredRegion = this.preferredRegion;
-    final ramPerformanceMetricBasis = this.ramPerformanceMetricBasis;
-    final reservedInstanceOptions = this.reservedInstanceOptions;
-    final tenancy = this.tenancy;
-    return {
-      if (cpuPerformanceMetricBasis != null)
-        'cpuPerformanceMetricBasis': cpuPerformanceMetricBasis,
-      if (enabled != null) 'enabled': enabled,
-      if (excludedInstanceTypes != null)
-        'excludedInstanceTypes': excludedInstanceTypes,
-      if (preferredRegion != null) 'preferredRegion': preferredRegion,
-      if (ramPerformanceMetricBasis != null)
-        'ramPerformanceMetricBasis': ramPerformanceMetricBasis,
-      if (reservedInstanceOptions != null)
-        'reservedInstanceOptions': reservedInstanceOptions,
-      if (tenancy != null) 'tenancy': tenancy.value,
-    };
-  }
-}
-
-class ExportConfigurationsResponse {
-  /// A unique identifier that you can use to query the export status.
-  final String? exportId;
-
-  ExportConfigurationsResponse({
-    this.exportId,
-  });
-
-  factory ExportConfigurationsResponse.fromJson(Map<String, dynamic> json) {
-    return ExportConfigurationsResponse(
-      exportId: json['exportId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportId = this.exportId;
-    return {
-      if (exportId != null) 'exportId': exportId,
-    };
-  }
-}
-
-class ExportDataFormat {
-  static const csv = ExportDataFormat._('CSV');
-
-  final String value;
-
-  const ExportDataFormat._(this.value);
-
-  static const values = [csv];
-
-  static ExportDataFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExportDataFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ExportDataFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Used to select which agent's data is to be exported. A single agent ID may
-/// be selected for export using the <a
-/// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html">StartExportTask</a>
-/// action.
-class ExportFilter {
-  /// Supported condition: <code>EQUALS</code>
-  final String condition;
-
-  /// A single <code>ExportFilter</code> name. Supported filters:
-  /// <code>agentIds</code>.
-  final String name;
-
-  /// A single agent ID for a Discovery Agent. An agent ID can be found using the
-  /// <a
-  /// href="http://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeAgents.html">DescribeAgents</a>
-  /// action. Typically an ADS agent ID is in the form
-  /// <code>o-0123456789abcdef0</code>.
-  final List<String> values;
-
-  ExportFilter({
-    required this.condition,
-    required this.name,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final condition = this.condition;
-    final name = this.name;
-    final values = this.values;
-    return {
-      'condition': condition,
-      'name': name,
-      'values': values,
-    };
-  }
-}
-
-/// Information regarding the export status of discovered data. The value is an
-/// array of objects.
-class ExportInfo {
-  /// A unique identifier used to query an export.
-  final String exportId;
-
-  /// The time that the data export was initiated.
-  final DateTime exportRequestTime;
-
-  /// The status of the data export job.
-  final ExportStatus exportStatus;
-
-  /// A status message provided for API callers.
-  final String statusMessage;
-
-  /// A URL for an Amazon S3 bucket where you can review the exported data. The
-  /// URL is displayed only if the export succeeded.
-  final String? configurationsDownloadUrl;
-
-  /// If true, the export of agent information exceeded the size limit for a
-  /// single export and the exported data is incomplete for the requested time
-  /// range. To address this, select a smaller time range for the export by using
-  /// <code>startDate</code> and <code>endDate</code>.
-  final bool? isTruncated;
-
-  /// The <code>endTime</code> used in the <code>StartExportTask</code> request.
-  /// If no <code>endTime</code> was requested, this result does not appear in
-  /// <code>ExportInfo</code>.
-  final DateTime? requestedEndTime;
-
-  /// The value of <code>startTime</code> parameter in the
-  /// <code>StartExportTask</code> request. If no <code>startTime</code> was
-  /// requested, this result does not appear in <code>ExportInfo</code>.
-  final DateTime? requestedStartTime;
-
-  ExportInfo({
-    required this.exportId,
-    required this.exportRequestTime,
-    required this.exportStatus,
-    required this.statusMessage,
-    this.configurationsDownloadUrl,
-    this.isTruncated,
-    this.requestedEndTime,
-    this.requestedStartTime,
-  });
-
-  factory ExportInfo.fromJson(Map<String, dynamic> json) {
-    return ExportInfo(
-      exportId: (json['exportId'] as String?) ?? '',
-      exportRequestTime:
-          nonNullableTimeStampFromJson(json['exportRequestTime'] ?? 0),
-      exportStatus:
-          ExportStatus.fromString((json['exportStatus'] as String?) ?? ''),
-      statusMessage: (json['statusMessage'] as String?) ?? '',
-      configurationsDownloadUrl: json['configurationsDownloadUrl'] as String?,
-      isTruncated: json['isTruncated'] as bool?,
-      requestedEndTime: timeStampFromJson(json['requestedEndTime']),
-      requestedStartTime: timeStampFromJson(json['requestedStartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportId = this.exportId;
-    final exportRequestTime = this.exportRequestTime;
-    final exportStatus = this.exportStatus;
-    final statusMessage = this.statusMessage;
-    final configurationsDownloadUrl = this.configurationsDownloadUrl;
-    final isTruncated = this.isTruncated;
-    final requestedEndTime = this.requestedEndTime;
-    final requestedStartTime = this.requestedStartTime;
-    return {
-      'exportId': exportId,
-      'exportRequestTime': unixTimestampToJson(exportRequestTime),
-      'exportStatus': exportStatus.value,
-      'statusMessage': statusMessage,
-      if (configurationsDownloadUrl != null)
-        'configurationsDownloadUrl': configurationsDownloadUrl,
-      if (isTruncated != null) 'isTruncated': isTruncated,
-      if (requestedEndTime != null)
-        'requestedEndTime': unixTimestampToJson(requestedEndTime),
-      if (requestedStartTime != null)
-        'requestedStartTime': unixTimestampToJson(requestedStartTime),
-    };
-  }
-}
-
-/// Indicates the type of data that is being exported. Only one
-/// <code>ExportPreferences</code> can be enabled for a <a
-/// href="https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_StartExportTask.html">StartExportTask</a>
-/// action.
-class ExportPreferences {
-  /// If enabled, exported data includes EC2 instance type matches for on-premises
-  /// servers discovered through Amazon Web Services Application Discovery
-  /// Service.
-  final Ec2RecommendationsExportPreferences? ec2RecommendationsPreferences;
-
-  ExportPreferences({
-    this.ec2RecommendationsPreferences,
-  });
-
-  Map<String, dynamic> toJson() {
-    final ec2RecommendationsPreferences = this.ec2RecommendationsPreferences;
-    return {
-      if (ec2RecommendationsPreferences != null)
-        'ec2RecommendationsPreferences': ec2RecommendationsPreferences,
-    };
-  }
-}
-
-class ExportStatus {
-  static const failed = ExportStatus._('FAILED');
-  static const succeeded = ExportStatus._('SUCCEEDED');
-  static const inProgress = ExportStatus._('IN_PROGRESS');
-
-  final String value;
-
-  const ExportStatus._(this.value);
-
-  static const values = [failed, succeeded, inProgress];
-
-  static ExportStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ExportStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// A configuration ID paired with an error message.
 class FailedConfiguration {
   /// The unique identifier of the configuration the failed to delete.
@@ -3273,377 +3976,126 @@ class FailedConfiguration {
   }
 }
 
-/// A filter that can use conditional operators.
-///
-/// For more information about filters, see <a
-/// href="https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html">Querying
-/// Discovered Configuration Items</a> in the <i>Amazon Web Services Application
-/// Discovery Service User Guide</i>.
-class Filter {
-  /// A conditional operator. The following operators are valid: EQUALS,
-  /// NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the
-  /// system utilizes all filters as though concatenated by <i>AND</i>. If you
-  /// specify multiple values for a particular filter, the system differentiates
-  /// the values using <i>OR</i>. Calling either <i>DescribeConfigurations</i> or
-  /// <i>ListConfigurations</i> returns attributes of matching configuration
-  /// items.
-  final String condition;
+/// Information about agents associated with the user’s Amazon Web Services
+/// account. Information includes agent IDs, IP addresses, media access control
+/// (MAC) addresses, agent or collector status, hostname where the agent
+/// resides, and agent version for each agent.
+class AgentInfo {
+  /// The agent or collector ID.
+  final String? agentId;
 
-  /// The name of the filter.
-  final String name;
+  /// Network details about the host where the agent or collector resides.
+  final List<AgentNetworkInfo>? agentNetworkInfoList;
 
-  /// A string value on which to filter. For example, if you choose the
-  /// <code>destinationServer.osVersion</code> filter name, you could specify
-  /// <code>Ubuntu</code> for the value.
-  final List<String> values;
+  /// Type of agent.
+  final String? agentType;
 
-  Filter({
-    required this.condition,
-    required this.name,
-    required this.values,
+  /// Status of the collection process for an agent.
+  final String? collectionStatus;
+
+  /// The ID of the connector.
+  final String? connectorId;
+
+  /// The health of the agent.
+  final AgentStatus? health;
+
+  /// The name of the host where the agent or collector resides. The host can be a
+  /// server or virtual machine.
+  final String? hostName;
+
+  /// Time since agent health was reported.
+  final String? lastHealthPingTime;
+
+  /// Agent's first registration timestamp in UTC.
+  final String? registeredTime;
+
+  /// The agent or collector version.
+  final String? version;
+
+  AgentInfo({
+    this.agentId,
+    this.agentNetworkInfoList,
+    this.agentType,
+    this.collectionStatus,
+    this.connectorId,
+    this.health,
+    this.hostName,
+    this.lastHealthPingTime,
+    this.registeredTime,
+    this.version,
   });
 
-  Map<String, dynamic> toJson() {
-    final condition = this.condition;
-    final name = this.name;
-    final values = this.values;
-    return {
-      'condition': condition,
-      'name': name,
-      'values': values,
-    };
-  }
-}
-
-class GetDiscoverySummaryResponse {
-  /// Details about discovered agents, including agent status and health.
-  final CustomerAgentInfo? agentSummary;
-
-  /// Details about Agentless Collector collectors, including status.
-  final CustomerAgentlessCollectorInfo? agentlessCollectorSummary;
-
-  /// The number of applications discovered.
-  final int? applications;
-
-  /// Details about discovered connectors, including connector status and health.
-  final CustomerConnectorInfo? connectorSummary;
-
-  /// Details about Migration Evaluator collectors, including collector status and
-  /// health.
-  final CustomerMeCollectorInfo? meCollectorSummary;
-
-  /// The number of servers discovered.
-  final int? servers;
-
-  /// The number of servers mapped to applications.
-  final int? serversMappedToApplications;
-
-  /// The number of servers mapped to tags.
-  final int? serversMappedtoTags;
-
-  GetDiscoverySummaryResponse({
-    this.agentSummary,
-    this.agentlessCollectorSummary,
-    this.applications,
-    this.connectorSummary,
-    this.meCollectorSummary,
-    this.servers,
-    this.serversMappedToApplications,
-    this.serversMappedtoTags,
-  });
-
-  factory GetDiscoverySummaryResponse.fromJson(Map<String, dynamic> json) {
-    return GetDiscoverySummaryResponse(
-      agentSummary: json['agentSummary'] != null
-          ? CustomerAgentInfo.fromJson(
-              json['agentSummary'] as Map<String, dynamic>)
-          : null,
-      agentlessCollectorSummary: json['agentlessCollectorSummary'] != null
-          ? CustomerAgentlessCollectorInfo.fromJson(
-              json['agentlessCollectorSummary'] as Map<String, dynamic>)
-          : null,
-      applications: json['applications'] as int?,
-      connectorSummary: json['connectorSummary'] != null
-          ? CustomerConnectorInfo.fromJson(
-              json['connectorSummary'] as Map<String, dynamic>)
-          : null,
-      meCollectorSummary: json['meCollectorSummary'] != null
-          ? CustomerMeCollectorInfo.fromJson(
-              json['meCollectorSummary'] as Map<String, dynamic>)
-          : null,
-      servers: json['servers'] as int?,
-      serversMappedToApplications: json['serversMappedToApplications'] as int?,
-      serversMappedtoTags: json['serversMappedtoTags'] as int?,
+  factory AgentInfo.fromJson(Map<String, dynamic> json) {
+    return AgentInfo(
+      agentId: json['agentId'] as String?,
+      agentNetworkInfoList: (json['agentNetworkInfoList'] as List?)
+          ?.nonNulls
+          .map((e) => AgentNetworkInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      agentType: json['agentType'] as String?,
+      collectionStatus: json['collectionStatus'] as String?,
+      connectorId: json['connectorId'] as String?,
+      health: (json['health'] as String?)?.let(AgentStatus.fromString),
+      hostName: json['hostName'] as String?,
+      lastHealthPingTime: json['lastHealthPingTime'] as String?,
+      registeredTime: json['registeredTime'] as String?,
+      version: json['version'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final agentSummary = this.agentSummary;
-    final agentlessCollectorSummary = this.agentlessCollectorSummary;
-    final applications = this.applications;
-    final connectorSummary = this.connectorSummary;
-    final meCollectorSummary = this.meCollectorSummary;
-    final servers = this.servers;
-    final serversMappedToApplications = this.serversMappedToApplications;
-    final serversMappedtoTags = this.serversMappedtoTags;
+    final agentId = this.agentId;
+    final agentNetworkInfoList = this.agentNetworkInfoList;
+    final agentType = this.agentType;
+    final collectionStatus = this.collectionStatus;
+    final connectorId = this.connectorId;
+    final health = this.health;
+    final hostName = this.hostName;
+    final lastHealthPingTime = this.lastHealthPingTime;
+    final registeredTime = this.registeredTime;
+    final version = this.version;
     return {
-      if (agentSummary != null) 'agentSummary': agentSummary,
-      if (agentlessCollectorSummary != null)
-        'agentlessCollectorSummary': agentlessCollectorSummary,
-      if (applications != null) 'applications': applications,
-      if (connectorSummary != null) 'connectorSummary': connectorSummary,
-      if (meCollectorSummary != null) 'meCollectorSummary': meCollectorSummary,
-      if (servers != null) 'servers': servers,
-      if (serversMappedToApplications != null)
-        'serversMappedToApplications': serversMappedToApplications,
-      if (serversMappedtoTags != null)
-        'serversMappedtoTags': serversMappedtoTags,
+      if (agentId != null) 'agentId': agentId,
+      if (agentNetworkInfoList != null)
+        'agentNetworkInfoList': agentNetworkInfoList,
+      if (agentType != null) 'agentType': agentType,
+      if (collectionStatus != null) 'collectionStatus': collectionStatus,
+      if (connectorId != null) 'connectorId': connectorId,
+      if (health != null) 'health': health.value,
+      if (hostName != null) 'hostName': hostName,
+      if (lastHealthPingTime != null) 'lastHealthPingTime': lastHealthPingTime,
+      if (registeredTime != null) 'registeredTime': registeredTime,
+      if (version != null) 'version': version,
     };
   }
 }
 
-class ImportStatus {
-  static const importInProgress = ImportStatus._('IMPORT_IN_PROGRESS');
-  static const importComplete = ImportStatus._('IMPORT_COMPLETE');
-  static const importCompleteWithErrors =
-      ImportStatus._('IMPORT_COMPLETE_WITH_ERRORS');
-  static const importFailed = ImportStatus._('IMPORT_FAILED');
-  static const importFailedServerLimitExceeded =
-      ImportStatus._('IMPORT_FAILED_SERVER_LIMIT_EXCEEDED');
-  static const importFailedRecordLimitExceeded =
-      ImportStatus._('IMPORT_FAILED_RECORD_LIMIT_EXCEEDED');
-  static const deleteInProgress = ImportStatus._('DELETE_IN_PROGRESS');
-  static const deleteComplete = ImportStatus._('DELETE_COMPLETE');
-  static const deleteFailed = ImportStatus._('DELETE_FAILED');
-  static const deleteFailedLimitExceeded =
-      ImportStatus._('DELETE_FAILED_LIMIT_EXCEEDED');
-  static const internalError = ImportStatus._('INTERNAL_ERROR');
+class AgentStatus {
+  static const healthy = AgentStatus._('HEALTHY');
+  static const unhealthy = AgentStatus._('UNHEALTHY');
+  static const running = AgentStatus._('RUNNING');
+  static const unknown = AgentStatus._('UNKNOWN');
+  static const blacklisted = AgentStatus._('BLACKLISTED');
+  static const shutdown = AgentStatus._('SHUTDOWN');
 
   final String value;
 
-  const ImportStatus._(this.value);
+  const AgentStatus._(this.value);
 
   static const values = [
-    importInProgress,
-    importComplete,
-    importCompleteWithErrors,
-    importFailed,
-    importFailedServerLimitExceeded,
-    importFailedRecordLimitExceeded,
-    deleteInProgress,
-    deleteComplete,
-    deleteFailed,
-    deleteFailedLimitExceeded,
-    internalError
+    healthy,
+    unhealthy,
+    running,
+    unknown,
+    blacklisted,
+    shutdown
   ];
 
-  static ImportStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ImportStatus._(value));
+  static AgentStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AgentStatus._(value));
 
   @override
-  bool operator ==(other) => other is ImportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An array of information related to the import task request that includes
-/// status information, times, IDs, the Amazon S3 Object URL for the import
-/// file, and more.
-class ImportTask {
-  /// The total number of application records in the import file that failed to be
-  /// imported.
-  final int? applicationImportFailure;
-
-  /// The total number of application records in the import file that were
-  /// successfully imported.
-  final int? applicationImportSuccess;
-
-  /// A unique token used to prevent the same import request from occurring more
-  /// than once. If you didn't provide a token, a token was automatically
-  /// generated when the import task request was sent.
-  final String? clientRequestToken;
-
-  /// A link to a compressed archive folder (in the ZIP format) that contains an
-  /// error log and a file of failed records. You can use these two files to
-  /// quickly identify records that failed, why they failed, and correct those
-  /// records. Afterward, you can upload the corrected file to your Amazon S3
-  /// bucket and create another import task request.
-  ///
-  /// This field also includes authorization information so you can confirm the
-  /// authenticity of the compressed archive before you download it.
-  ///
-  /// If some records failed to be imported we recommend that you correct the
-  /// records in the failed entries file and then imports that failed entries
-  /// file. This prevents you from having to correct and update the larger
-  /// original file and attempt importing it again.
-  final String? errorsAndFailedEntriesZip;
-
-  /// The time that the import task request finished, presented in the Unix time
-  /// stamp format.
-  final DateTime? importCompletionTime;
-
-  /// The time that the import task request was deleted, presented in the Unix
-  /// time stamp format.
-  final DateTime? importDeletedTime;
-
-  /// The time that the import task request was made, presented in the Unix time
-  /// stamp format.
-  final DateTime? importRequestTime;
-
-  /// The unique ID for a specific import task. These IDs aren't globally unique,
-  /// but they are unique within an Amazon Web Services account.
-  final String? importTaskId;
-
-  /// The URL for your import file that you've uploaded to Amazon S3.
-  final String? importUrl;
-
-  /// A descriptive name for an import task. You can use this name to filter
-  /// future requests related to this import task, such as identifying
-  /// applications and servers that were included in this import task. We
-  /// recommend that you use a meaningful name for each import task.
-  final String? name;
-
-  /// The total number of server records in the import file that failed to be
-  /// imported.
-  final int? serverImportFailure;
-
-  /// The total number of server records in the import file that were successfully
-  /// imported.
-  final int? serverImportSuccess;
-
-  /// The status of the import task. An import can have the status of
-  /// <code>IMPORT_COMPLETE</code> and still have some records fail to import from
-  /// the overall request. More information can be found in the downloadable
-  /// archive defined in the <code>errorsAndFailedEntriesZip</code> field, or in
-  /// the Migration Hub management console.
-  final ImportStatus? status;
-
-  ImportTask({
-    this.applicationImportFailure,
-    this.applicationImportSuccess,
-    this.clientRequestToken,
-    this.errorsAndFailedEntriesZip,
-    this.importCompletionTime,
-    this.importDeletedTime,
-    this.importRequestTime,
-    this.importTaskId,
-    this.importUrl,
-    this.name,
-    this.serverImportFailure,
-    this.serverImportSuccess,
-    this.status,
-  });
-
-  factory ImportTask.fromJson(Map<String, dynamic> json) {
-    return ImportTask(
-      applicationImportFailure: json['applicationImportFailure'] as int?,
-      applicationImportSuccess: json['applicationImportSuccess'] as int?,
-      clientRequestToken: json['clientRequestToken'] as String?,
-      errorsAndFailedEntriesZip: json['errorsAndFailedEntriesZip'] as String?,
-      importCompletionTime: timeStampFromJson(json['importCompletionTime']),
-      importDeletedTime: timeStampFromJson(json['importDeletedTime']),
-      importRequestTime: timeStampFromJson(json['importRequestTime']),
-      importTaskId: json['importTaskId'] as String?,
-      importUrl: json['importUrl'] as String?,
-      name: json['name'] as String?,
-      serverImportFailure: json['serverImportFailure'] as int?,
-      serverImportSuccess: json['serverImportSuccess'] as int?,
-      status: (json['status'] as String?)?.let(ImportStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationImportFailure = this.applicationImportFailure;
-    final applicationImportSuccess = this.applicationImportSuccess;
-    final clientRequestToken = this.clientRequestToken;
-    final errorsAndFailedEntriesZip = this.errorsAndFailedEntriesZip;
-    final importCompletionTime = this.importCompletionTime;
-    final importDeletedTime = this.importDeletedTime;
-    final importRequestTime = this.importRequestTime;
-    final importTaskId = this.importTaskId;
-    final importUrl = this.importUrl;
-    final name = this.name;
-    final serverImportFailure = this.serverImportFailure;
-    final serverImportSuccess = this.serverImportSuccess;
-    final status = this.status;
-    return {
-      if (applicationImportFailure != null)
-        'applicationImportFailure': applicationImportFailure,
-      if (applicationImportSuccess != null)
-        'applicationImportSuccess': applicationImportSuccess,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (errorsAndFailedEntriesZip != null)
-        'errorsAndFailedEntriesZip': errorsAndFailedEntriesZip,
-      if (importCompletionTime != null)
-        'importCompletionTime': unixTimestampToJson(importCompletionTime),
-      if (importDeletedTime != null)
-        'importDeletedTime': unixTimestampToJson(importDeletedTime),
-      if (importRequestTime != null)
-        'importRequestTime': unixTimestampToJson(importRequestTime),
-      if (importTaskId != null) 'importTaskId': importTaskId,
-      if (importUrl != null) 'importUrl': importUrl,
-      if (name != null) 'name': name,
-      if (serverImportFailure != null)
-        'serverImportFailure': serverImportFailure,
-      if (serverImportSuccess != null)
-        'serverImportSuccess': serverImportSuccess,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// A name-values pair of elements you can use to filter the results when
-/// querying your import tasks. Currently, wildcards are not supported for
-/// filters.
-/// <note>
-/// When filtering by import status, all other filter values are ignored.
-/// </note>
-class ImportTaskFilter {
-  /// The name, status, or import task ID for a specific import task.
-  final ImportTaskFilterName? name;
-
-  /// An array of strings that you can provide to match against a specific name,
-  /// status, or import task ID to filter the results for your import task
-  /// queries.
-  final List<String>? values;
-
-  ImportTaskFilter({
-    this.name,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      if (name != null) 'name': name.value,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-class ImportTaskFilterName {
-  static const importTaskId = ImportTaskFilterName._('IMPORT_TASK_ID');
-  static const status = ImportTaskFilterName._('STATUS');
-  static const name = ImportTaskFilterName._('NAME');
-
-  final String value;
-
-  const ImportTaskFilterName._(this.value);
-
-  static const values = [importTaskId, status, name];
-
-  static ImportTaskFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImportTaskFilterName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ImportTaskFilterName && other.value == value;
+  bool operator ==(other) => other is AgentStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3652,460 +4104,32 @@ class ImportTaskFilterName {
   String toString() => value;
 }
 
-class ListConfigurationsResponse {
-  /// Returns configuration details, including the configuration ID, attribute
-  /// names, and attribute values.
-  final List<Map<String, String>>? configurations;
+/// Network details about the host where the agent/collector resides.
+class AgentNetworkInfo {
+  /// The IP address for the host where the agent/collector resides.
+  final String? ipAddress;
 
-  /// Token to retrieve the next set of results. For example, if your call to
-  /// ListConfigurations returned 100 items, but you set
-  /// <code>ListConfigurationsRequest$maxResults</code> to 10, you received a set
-  /// of 10 results along with this token. Use this token in the next query to
-  /// retrieve the next set of 10.
-  final String? nextToken;
+  /// The MAC address for the host where the agent/collector resides.
+  final String? macAddress;
 
-  ListConfigurationsResponse({
-    this.configurations,
-    this.nextToken,
+  AgentNetworkInfo({
+    this.ipAddress,
+    this.macAddress,
   });
 
-  factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) {
-    return ListConfigurationsResponse(
-      configurations: (json['configurations'] as List?)
-          ?.nonNulls
-          .map((e) => (e as Map<String, dynamic>)
-              .map((k, e) => MapEntry(k, e as String)))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
+  factory AgentNetworkInfo.fromJson(Map<String, dynamic> json) {
+    return AgentNetworkInfo(
+      ipAddress: json['ipAddress'] as String?,
+      macAddress: json['macAddress'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final configurations = this.configurations;
-    final nextToken = this.nextToken;
+    final ipAddress = this.ipAddress;
+    final macAddress = this.macAddress;
     return {
-      if (configurations != null) 'configurations': configurations,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListServerNeighborsResponse {
-  /// List of distinct servers that are one hop away from the given server.
-  final List<NeighborConnectionDetail> neighbors;
-
-  /// Count of distinct servers that are one hop away from the given server.
-  final int? knownDependencyCount;
-
-  /// Token to retrieve the next set of results. For example, if you specified 100
-  /// IDs for <code>ListServerNeighborsRequest$neighborConfigurationIds</code> but
-  /// set <code>ListServerNeighborsRequest$maxResults</code> to 10, you received a
-  /// set of 10 results along with this token. Use this token in the next query to
-  /// retrieve the next set of 10.
-  final String? nextToken;
-
-  ListServerNeighborsResponse({
-    required this.neighbors,
-    this.knownDependencyCount,
-    this.nextToken,
-  });
-
-  factory ListServerNeighborsResponse.fromJson(Map<String, dynamic> json) {
-    return ListServerNeighborsResponse(
-      neighbors: ((json['neighbors'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              NeighborConnectionDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      knownDependencyCount: json['knownDependencyCount'] as int?,
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final neighbors = this.neighbors;
-    final knownDependencyCount = this.knownDependencyCount;
-    final nextToken = this.nextToken;
-    return {
-      'neighbors': neighbors,
-      if (knownDependencyCount != null)
-        'knownDependencyCount': knownDependencyCount,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Details about neighboring servers.
-class NeighborConnectionDetail {
-  /// The number of open network connections with the neighboring server.
-  final int connectionsCount;
-
-  /// The ID of the server that accepted the network connection.
-  final String destinationServerId;
-
-  /// The ID of the server that opened the network connection.
-  final String sourceServerId;
-
-  /// The destination network port for the connection.
-  final int? destinationPort;
-
-  /// The network protocol used for the connection.
-  final String? transportProtocol;
-
-  NeighborConnectionDetail({
-    required this.connectionsCount,
-    required this.destinationServerId,
-    required this.sourceServerId,
-    this.destinationPort,
-    this.transportProtocol,
-  });
-
-  factory NeighborConnectionDetail.fromJson(Map<String, dynamic> json) {
-    return NeighborConnectionDetail(
-      connectionsCount: (json['connectionsCount'] as int?) ?? 0,
-      destinationServerId: (json['destinationServerId'] as String?) ?? '',
-      sourceServerId: (json['sourceServerId'] as String?) ?? '',
-      destinationPort: json['destinationPort'] as int?,
-      transportProtocol: json['transportProtocol'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionsCount = this.connectionsCount;
-    final destinationServerId = this.destinationServerId;
-    final sourceServerId = this.sourceServerId;
-    final destinationPort = this.destinationPort;
-    final transportProtocol = this.transportProtocol;
-    return {
-      'connectionsCount': connectionsCount,
-      'destinationServerId': destinationServerId,
-      'sourceServerId': sourceServerId,
-      if (destinationPort != null) 'destinationPort': destinationPort,
-      if (transportProtocol != null) 'transportProtocol': transportProtocol,
-    };
-  }
-}
-
-class OfferingClass {
-  static const standard = OfferingClass._('STANDARD');
-  static const convertible = OfferingClass._('CONVERTIBLE');
-
-  final String value;
-
-  const OfferingClass._(this.value);
-
-  static const values = [standard, convertible];
-
-  static OfferingClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OfferingClass._(value));
-
-  @override
-  bool operator ==(other) => other is OfferingClass && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A field and direction for ordered output.
-class OrderByElement {
-  /// The field on which to order.
-  final String fieldName;
-
-  /// Ordering direction.
-  final OrderString? sortOrder;
-
-  OrderByElement({
-    required this.fieldName,
-    this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fieldName = this.fieldName;
-    final sortOrder = this.sortOrder;
-    return {
-      'fieldName': fieldName,
-      if (sortOrder != null) 'sortOrder': sortOrder.value,
-    };
-  }
-}
-
-class PurchasingOption {
-  static const allUpfront = PurchasingOption._('ALL_UPFRONT');
-  static const partialUpfront = PurchasingOption._('PARTIAL_UPFRONT');
-  static const noUpfront = PurchasingOption._('NO_UPFRONT');
-
-  final String value;
-
-  const PurchasingOption._(this.value);
-
-  static const values = [allUpfront, partialUpfront, noUpfront];
-
-  static PurchasingOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PurchasingOption._(value));
-
-  @override
-  bool operator ==(other) => other is PurchasingOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Used to provide Reserved Instance preferences for the recommendation.
-class ReservedInstanceOptions {
-  /// The flexibility to change the instance types needed for your Reserved
-  /// Instance.
-  final OfferingClass offeringClass;
-
-  /// The payment plan to use for your Reserved Instance.
-  final PurchasingOption purchasingOption;
-
-  /// The preferred duration of the Reserved Instance term.
-  final TermLength termLength;
-
-  ReservedInstanceOptions({
-    required this.offeringClass,
-    required this.purchasingOption,
-    required this.termLength,
-  });
-
-  Map<String, dynamic> toJson() {
-    final offeringClass = this.offeringClass;
-    final purchasingOption = this.purchasingOption;
-    final termLength = this.termLength;
-    return {
-      'offeringClass': offeringClass.value,
-      'purchasingOption': purchasingOption.value,
-      'termLength': termLength.value,
-    };
-  }
-}
-
-class StartBatchDeleteConfigurationTaskResponse {
-  /// The unique identifier associated with the newly started deletion task.
-  final String? taskId;
-
-  StartBatchDeleteConfigurationTaskResponse({
-    this.taskId,
-  });
-
-  factory StartBatchDeleteConfigurationTaskResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartBatchDeleteConfigurationTaskResponse(
-      taskId: json['taskId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final taskId = this.taskId;
-    return {
-      if (taskId != null) 'taskId': taskId,
-    };
-  }
-}
-
-class StartContinuousExportResponse {
-  /// The type of data collector used to gather this data (currently only offered
-  /// for AGENT).
-  final DataSource? dataSource;
-
-  /// The unique ID assigned to this export.
-  final String? exportId;
-
-  /// The name of the s3 bucket where the export data parquet files are stored.
-  final String? s3Bucket;
-
-  /// A dictionary which describes how the data is stored.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>databaseName</code> - the name of the Glue database used to store the
-  /// schema.
-  /// </li>
-  /// </ul>
-  final Map<String, String>? schemaStorageConfig;
-
-  /// The timestamp representing when the continuous export was started.
-  final DateTime? startTime;
-
-  StartContinuousExportResponse({
-    this.dataSource,
-    this.exportId,
-    this.s3Bucket,
-    this.schemaStorageConfig,
-    this.startTime,
-  });
-
-  factory StartContinuousExportResponse.fromJson(Map<String, dynamic> json) {
-    return StartContinuousExportResponse(
-      dataSource: (json['dataSource'] as String?)?.let(DataSource.fromString),
-      exportId: json['exportId'] as String?,
-      s3Bucket: json['s3Bucket'] as String?,
-      schemaStorageConfig:
-          (json['schemaStorageConfig'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      startTime: timeStampFromJson(json['startTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSource = this.dataSource;
-    final exportId = this.exportId;
-    final s3Bucket = this.s3Bucket;
-    final schemaStorageConfig = this.schemaStorageConfig;
-    final startTime = this.startTime;
-    return {
-      if (dataSource != null) 'dataSource': dataSource.value,
-      if (exportId != null) 'exportId': exportId,
-      if (s3Bucket != null) 's3Bucket': s3Bucket,
-      if (schemaStorageConfig != null)
-        'schemaStorageConfig': schemaStorageConfig,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
-class StartDataCollectionByAgentIdsResponse {
-  /// Information about agents that were instructed to start collecting data.
-  /// Information includes the agent ID, a description of the operation performed,
-  /// and whether the agent configuration was updated.
-  final List<AgentConfigurationStatus>? agentsConfigurationStatus;
-
-  StartDataCollectionByAgentIdsResponse({
-    this.agentsConfigurationStatus,
-  });
-
-  factory StartDataCollectionByAgentIdsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartDataCollectionByAgentIdsResponse(
-      agentsConfigurationStatus: (json['agentsConfigurationStatus'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AgentConfigurationStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentsConfigurationStatus = this.agentsConfigurationStatus;
-    return {
-      if (agentsConfigurationStatus != null)
-        'agentsConfigurationStatus': agentsConfigurationStatus,
-    };
-  }
-}
-
-class StartExportTaskResponse {
-  /// A unique identifier used to query the status of an export request.
-  final String? exportId;
-
-  StartExportTaskResponse({
-    this.exportId,
-  });
-
-  factory StartExportTaskResponse.fromJson(Map<String, dynamic> json) {
-    return StartExportTaskResponse(
-      exportId: json['exportId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exportId = this.exportId;
-    return {
-      if (exportId != null) 'exportId': exportId,
-    };
-  }
-}
-
-class StartImportTaskResponse {
-  /// An array of information related to the import task request including status
-  /// information, times, IDs, the Amazon S3 Object URL for the import file, and
-  /// more.
-  final ImportTask? task;
-
-  StartImportTaskResponse({
-    this.task,
-  });
-
-  factory StartImportTaskResponse.fromJson(Map<String, dynamic> json) {
-    return StartImportTaskResponse(
-      task: json['task'] != null
-          ? ImportTask.fromJson(json['task'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final task = this.task;
-    return {
-      if (task != null) 'task': task,
-    };
-  }
-}
-
-class StopContinuousExportResponse {
-  /// Timestamp that represents when this continuous export started collecting
-  /// data.
-  final DateTime? startTime;
-
-  /// Timestamp that represents when this continuous export was stopped.
-  final DateTime? stopTime;
-
-  StopContinuousExportResponse({
-    this.startTime,
-    this.stopTime,
-  });
-
-  factory StopContinuousExportResponse.fromJson(Map<String, dynamic> json) {
-    return StopContinuousExportResponse(
-      startTime: timeStampFromJson(json['startTime']),
-      stopTime: timeStampFromJson(json['stopTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final startTime = this.startTime;
-    final stopTime = this.stopTime;
-    return {
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (stopTime != null) 'stopTime': unixTimestampToJson(stopTime),
-    };
-  }
-}
-
-class StopDataCollectionByAgentIdsResponse {
-  /// Information about the agents that were instructed to stop collecting data.
-  /// Information includes the agent ID, a description of the operation performed,
-  /// and whether the agent configuration was updated.
-  final List<AgentConfigurationStatus>? agentsConfigurationStatus;
-
-  StopDataCollectionByAgentIdsResponse({
-    this.agentsConfigurationStatus,
-  });
-
-  factory StopDataCollectionByAgentIdsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StopDataCollectionByAgentIdsResponse(
-      agentsConfigurationStatus: (json['agentsConfigurationStatus'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AgentConfigurationStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentsConfigurationStatus = this.agentsConfigurationStatus;
-    return {
-      if (agentsConfigurationStatus != null)
-        'agentsConfigurationStatus': agentsConfigurationStatus,
+      if (ipAddress != null) 'ipAddress': ipAddress,
+      if (macAddress != null) 'macAddress': macAddress,
     };
   }
 }
@@ -4136,45 +4160,64 @@ class Tag {
   }
 }
 
-/// The tag filter. Valid names are: <code>tagKey</code>, <code>tagValue</code>,
-/// <code>configurationId</code>.
-class TagFilter {
-  /// A name of the tag filter.
-  final String name;
+/// Error messages returned for each import task that you deleted as a response
+/// for this command.
+class BatchDeleteImportDataError {
+  /// The type of error that occurred for a specific import task.
+  final BatchDeleteImportDataErrorCode? errorCode;
 
-  /// Values for the tag filter.
-  final List<String> values;
+  /// The description of the error that occurred for a specific import task.
+  final String? errorDescription;
 
-  TagFilter({
-    required this.name,
-    required this.values,
+  /// The unique import ID associated with the error that occurred.
+  final String? importTaskId;
+
+  BatchDeleteImportDataError({
+    this.errorCode,
+    this.errorDescription,
+    this.importTaskId,
   });
 
+  factory BatchDeleteImportDataError.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteImportDataError(
+      errorCode: (json['errorCode'] as String?)
+          ?.let(BatchDeleteImportDataErrorCode.fromString),
+      errorDescription: json['errorDescription'] as String?,
+      importTaskId: json['importTaskId'] as String?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
+    final errorCode = this.errorCode;
+    final errorDescription = this.errorDescription;
+    final importTaskId = this.importTaskId;
     return {
-      'name': name,
-      'values': values,
+      if (errorCode != null) 'errorCode': errorCode.value,
+      if (errorDescription != null) 'errorDescription': errorDescription,
+      if (importTaskId != null) 'importTaskId': importTaskId,
     };
   }
 }
 
-class Tenancy {
-  static const dedicated = Tenancy._('DEDICATED');
-  static const shared = Tenancy._('SHARED');
+class BatchDeleteImportDataErrorCode {
+  static const notFound = BatchDeleteImportDataErrorCode._('NOT_FOUND');
+  static const internalServerError =
+      BatchDeleteImportDataErrorCode._('INTERNAL_SERVER_ERROR');
+  static const overLimit = BatchDeleteImportDataErrorCode._('OVER_LIMIT');
 
   final String value;
 
-  const Tenancy._(this.value);
+  const BatchDeleteImportDataErrorCode._(this.value);
 
-  static const values = [dedicated, shared];
+  static const values = [notFound, internalServerError, overLimit];
 
-  static Tenancy fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Tenancy._(value));
+  static BatchDeleteImportDataErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchDeleteImportDataErrorCode._(value));
 
   @override
-  bool operator ==(other) => other is Tenancy && other.value == value;
+  bool operator ==(other) =>
+      other is BatchDeleteImportDataErrorCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4183,87 +4226,99 @@ class Tenancy {
   String toString() => value;
 }
 
-class TermLength {
-  static const oneYear = TermLength._('ONE_YEAR');
-  static const threeYear = TermLength._('THREE_YEAR');
+/// An object representing the agent or data collector that failed to delete,
+/// each containing agentId, errorMessage, and errorCode.
+class BatchDeleteAgentError {
+  /// The ID of the agent or data collector to delete.
+  final String agentId;
 
-  final String value;
+  /// The type of error that occurred for the delete failed agent. Valid status
+  /// are: AGENT_IN_USE | NOT_FOUND | INTERNAL_SERVER_ERROR.
+  final DeleteAgentErrorCode errorCode;
 
-  const TermLength._(this.value);
+  /// The description of the error that occurred for the delete failed agent.
+  final String errorMessage;
 
-  static const values = [oneYear, threeYear];
-
-  static TermLength fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TermLength._(value));
-
-  @override
-  bool operator ==(other) => other is TermLength && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UpdateApplicationResponse {
-  UpdateApplicationResponse();
-
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateApplicationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Specifies the performance metrics to use for the server that is used for
-/// recommendations.
-class UsageMetricBasis {
-  /// A utilization metric that is used by the recommendations.
-  final String? name;
-
-  /// Specifies the percentage of the specified utilization metric that is used by
-  /// the recommendations.
-  final double? percentageAdjust;
-
-  UsageMetricBasis({
-    this.name,
-    this.percentageAdjust,
+  BatchDeleteAgentError({
+    required this.agentId,
+    required this.errorCode,
+    required this.errorMessage,
   });
 
+  factory BatchDeleteAgentError.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteAgentError(
+      agentId: (json['agentId'] as String?) ?? '',
+      errorCode:
+          DeleteAgentErrorCode.fromString((json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final percentageAdjust = this.percentageAdjust;
+    final agentId = this.agentId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
     return {
-      if (name != null) 'name': name,
-      if (percentageAdjust != null) 'percentageAdjust': percentageAdjust,
+      'agentId': agentId,
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
     };
   }
 }
 
-class OrderString {
-  static const asc = OrderString._('ASC');
-  static const desc = OrderString._('DESC');
+class DeleteAgentErrorCode {
+  static const notFound = DeleteAgentErrorCode._('NOT_FOUND');
+  static const internalServerError =
+      DeleteAgentErrorCode._('INTERNAL_SERVER_ERROR');
+  static const agentInUse = DeleteAgentErrorCode._('AGENT_IN_USE');
 
   final String value;
 
-  const OrderString._(this.value);
+  const DeleteAgentErrorCode._(this.value);
 
-  static const values = [asc, desc];
+  static const values = [notFound, internalServerError, agentInUse];
 
-  static OrderString fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OrderString._(value));
+  static DeleteAgentErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeleteAgentErrorCode._(value));
 
   @override
-  bool operator ==(other) => other is OrderString && other.value == value;
+  bool operator ==(other) =>
+      other is DeleteAgentErrorCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// An object representing the agent or data collector to be deleted along with
+/// the optional configurations for error handling.
+class DeleteAgent {
+  /// The ID of the agent or data collector to delete.
+  final String agentId;
+
+  /// Optional flag used to force delete an agent or data collector. It is needed
+  /// to delete any agent in HEALTHY/UNHEALTHY/RUNNING status. Note that deleting
+  /// an agent that is actively reporting health causes it to be re-registered
+  /// with a different agent ID after data collector re-connects with Amazon Web
+  /// Services.
+  final bool? force;
+
+  DeleteAgent({
+    required this.agentId,
+    this.force,
+  });
+
+  Map<String, dynamic> toJson() {
+    final agentId = this.agentId;
+    final force = this.force;
+    return {
+      'agentId': agentId,
+      if (force != null) 'force': force,
+    };
+  }
 }
 
 class AuthorizationErrorException extends _s.GenericAwsException {

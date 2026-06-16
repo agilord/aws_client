@@ -53,7 +53,6 @@ class DevOpsGuru {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'devops-guru',
-            signingName: 'devops-guru',
           ),
           region: region,
           credentials: credentials,
@@ -119,9 +118,9 @@ class DevOpsGuru {
   /// recommendations.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -791,8 +790,8 @@ class DevOpsGuru {
   /// Returns the list of all log groups that are being monitored and tagged by
   /// DevOps Guru.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -1258,79 +1257,6 @@ class DevOpsGuru {
   }
 }
 
-/// Returns the number of open reactive insights, the number of open proactive
-/// insights, and the number of metrics analyzed in your Amazon Web Services
-/// account. Use these numbers to gauge the health of operations in your Amazon
-/// Web Services account.
-class AccountHealth {
-  /// The ID of the Amazon Web Services account.
-  final String? accountId;
-
-  /// Information about the health of the Amazon Web Services resources in your
-  /// account, including the number of open proactive, open reactive insights, and
-  /// the Mean Time to Recover (MTTR) of closed insights.
-  final AccountInsightHealth? insight;
-
-  AccountHealth({
-    this.accountId,
-    this.insight,
-  });
-
-  factory AccountHealth.fromJson(Map<String, dynamic> json) {
-    return AccountHealth(
-      accountId: json['AccountId'] as String?,
-      insight: json['Insight'] != null
-          ? AccountInsightHealth.fromJson(
-              json['Insight'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final insight = this.insight;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (insight != null) 'Insight': insight,
-    };
-  }
-}
-
-/// Information about the number of open reactive and proactive insights that
-/// can be used to gauge the health of your system.
-class AccountInsightHealth {
-  /// An integer that specifies the number of open proactive insights in your
-  /// Amazon Web Services account.
-  final int? openProactiveInsights;
-
-  /// An integer that specifies the number of open reactive insights in your
-  /// Amazon Web Services account.
-  final int? openReactiveInsights;
-
-  AccountInsightHealth({
-    this.openProactiveInsights,
-    this.openReactiveInsights,
-  });
-
-  factory AccountInsightHealth.fromJson(Map<String, dynamic> json) {
-    return AccountInsightHealth(
-      openProactiveInsights: json['OpenProactiveInsights'] as int?,
-      openReactiveInsights: json['OpenReactiveInsights'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final openProactiveInsights = this.openProactiveInsights;
-    final openReactiveInsights = this.openReactiveInsights;
-    return {
-      if (openProactiveInsights != null)
-        'OpenProactiveInsights': openProactiveInsights,
-      if (openReactiveInsights != null)
-        'OpenReactiveInsights': openReactiveInsights,
-    };
-  }
-}
-
 class AddNotificationChannelResponse {
   /// The ID of the added notification channel.
   final String id;
@@ -1349,874 +1275,6 @@ class AddNotificationChannelResponse {
     final id = this.id;
     return {
       'Id': id,
-    };
-  }
-}
-
-/// Information about your account's integration with Amazon CodeGuru Profiler.
-/// This returns whether DevOps Guru is configured to consume recommendations
-/// generated from Amazon CodeGuru Profiler.
-class AmazonCodeGuruProfilerIntegration {
-  /// The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is
-  /// enabled to consume recommendations that are generated from Amazon CodeGuru
-  /// Profiler.
-  final EventSourceOptInStatus? status;
-
-  AmazonCodeGuruProfilerIntegration({
-    this.status,
-  });
-
-  factory AmazonCodeGuruProfilerIntegration.fromJson(
-      Map<String, dynamic> json) {
-    return AmazonCodeGuruProfilerIntegration(
-      status:
-          (json['Status'] as String?)?.let(EventSourceOptInStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// An Amazon CloudWatch log group that contains log anomalies and is used to
-/// generate an insight.
-class AnomalousLogGroup {
-  /// The time the anomalous log events stopped.
-  final DateTime? impactEndTime;
-
-  /// The time the anomalous log events began. The impact start time indicates the
-  /// time of the first log anomaly event that occurs.
-  final DateTime? impactStartTime;
-
-  /// The log anomalies in the log group. Each log anomaly displayed represents a
-  /// cluster of similar anomalous log events.
-  final List<LogAnomalyShowcase>? logAnomalyShowcases;
-
-  /// The name of the CloudWatch log group.
-  final String? logGroupName;
-
-  /// The number of log lines that were scanned for anomalous log events.
-  final int? numberOfLogLinesScanned;
-
-  AnomalousLogGroup({
-    this.impactEndTime,
-    this.impactStartTime,
-    this.logAnomalyShowcases,
-    this.logGroupName,
-    this.numberOfLogLinesScanned,
-  });
-
-  factory AnomalousLogGroup.fromJson(Map<String, dynamic> json) {
-    return AnomalousLogGroup(
-      impactEndTime: timeStampFromJson(json['ImpactEndTime']),
-      impactStartTime: timeStampFromJson(json['ImpactStartTime']),
-      logAnomalyShowcases: (json['LogAnomalyShowcases'] as List?)
-          ?.nonNulls
-          .map((e) => LogAnomalyShowcase.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      logGroupName: json['LogGroupName'] as String?,
-      numberOfLogLinesScanned: json['NumberOfLogLinesScanned'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final impactEndTime = this.impactEndTime;
-    final impactStartTime = this.impactStartTime;
-    final logAnomalyShowcases = this.logAnomalyShowcases;
-    final logGroupName = this.logGroupName;
-    final numberOfLogLinesScanned = this.numberOfLogLinesScanned;
-    return {
-      if (impactEndTime != null)
-        'ImpactEndTime': unixTimestampToJson(impactEndTime),
-      if (impactStartTime != null)
-        'ImpactStartTime': unixTimestampToJson(impactStartTime),
-      if (logAnomalyShowcases != null)
-        'LogAnomalyShowcases': logAnomalyShowcases,
-      if (logGroupName != null) 'LogGroupName': logGroupName,
-      if (numberOfLogLinesScanned != null)
-        'NumberOfLogLinesScanned': numberOfLogLinesScanned,
-    };
-  }
-}
-
-/// A time range that specifies when DevOps Guru opens and then closes an
-/// anomaly. This is different from <code>AnomalyTimeRange</code>, which
-/// specifies the time range when DevOps Guru actually observes the anomalous
-/// behavior.
-class AnomalyReportedTimeRange {
-  /// The time when an anomaly is opened.
-  final DateTime openTime;
-
-  /// The time when an anomaly is closed.
-  final DateTime? closeTime;
-
-  AnomalyReportedTimeRange({
-    required this.openTime,
-    this.closeTime,
-  });
-
-  factory AnomalyReportedTimeRange.fromJson(Map<String, dynamic> json) {
-    return AnomalyReportedTimeRange(
-      openTime: nonNullableTimeStampFromJson(json['OpenTime'] ?? 0),
-      closeTime: timeStampFromJson(json['CloseTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final openTime = this.openTime;
-    final closeTime = this.closeTime;
-    return {
-      'OpenTime': unixTimestampToJson(openTime),
-      if (closeTime != null) 'CloseTime': unixTimestampToJson(closeTime),
-    };
-  }
-}
-
-/// The Amazon Web Services resources in which DevOps Guru detected unusual
-/// behavior that resulted in the generation of an anomaly. When DevOps Guru
-/// detects multiple related anomalies, it creates and insight with details
-/// about the anomalous behavior and suggestions about how to correct the
-/// problem.
-class AnomalyResource {
-  /// The name of the Amazon Web Services resource.
-  final String? name;
-
-  /// The type of the Amazon Web Services resource.
-  final String? type;
-
-  AnomalyResource({
-    this.name,
-    this.type,
-  });
-
-  factory AnomalyResource.fromJson(Map<String, dynamic> json) {
-    return AnomalyResource(
-      name: json['Name'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-class AnomalySeverity {
-  static const low = AnomalySeverity._('LOW');
-  static const medium = AnomalySeverity._('MEDIUM');
-  static const high = AnomalySeverity._('HIGH');
-
-  final String value;
-
-  const AnomalySeverity._(this.value);
-
-  static const values = [low, medium, high];
-
-  static AnomalySeverity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AnomalySeverity._(value));
-
-  @override
-  bool operator ==(other) => other is AnomalySeverity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about the source of the anomalous operational data that triggered
-/// the anomaly.
-class AnomalySourceDetails {
-  /// An array of <code>CloudWatchMetricsDetail</code> objects that contain
-  /// information about analyzed CloudWatch metrics that show anomalous behavior.
-  final List<CloudWatchMetricsDetail>? cloudWatchMetrics;
-
-  /// An array of <code>PerformanceInsightsMetricsDetail</code> objects that
-  /// contain information about analyzed Performance Insights metrics that show
-  /// anomalous behavior.
-  final List<PerformanceInsightsMetricsDetail>? performanceInsightsMetrics;
-
-  AnomalySourceDetails({
-    this.cloudWatchMetrics,
-    this.performanceInsightsMetrics,
-  });
-
-  factory AnomalySourceDetails.fromJson(Map<String, dynamic> json) {
-    return AnomalySourceDetails(
-      cloudWatchMetrics: (json['CloudWatchMetrics'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CloudWatchMetricsDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      performanceInsightsMetrics: (json['PerformanceInsightsMetrics'] as List?)
-          ?.nonNulls
-          .map((e) => PerformanceInsightsMetricsDetail.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchMetrics = this.cloudWatchMetrics;
-    final performanceInsightsMetrics = this.performanceInsightsMetrics;
-    return {
-      if (cloudWatchMetrics != null) 'CloudWatchMetrics': cloudWatchMetrics,
-      if (performanceInsightsMetrics != null)
-        'PerformanceInsightsMetrics': performanceInsightsMetrics,
-    };
-  }
-}
-
-/// Metadata about the detection source that generates proactive anomalies. The
-/// anomaly is detected using analysis of the metric data&#x2028; over a period
-/// of time
-class AnomalySourceMetadata {
-  /// The source of the anomaly.
-  final String? source;
-
-  /// The name of the anomaly's resource.
-  final String? sourceResourceName;
-
-  /// The anomaly's resource type.
-  final String? sourceResourceType;
-
-  AnomalySourceMetadata({
-    this.source,
-    this.sourceResourceName,
-    this.sourceResourceType,
-  });
-
-  factory AnomalySourceMetadata.fromJson(Map<String, dynamic> json) {
-    return AnomalySourceMetadata(
-      source: json['Source'] as String?,
-      sourceResourceName: json['SourceResourceName'] as String?,
-      sourceResourceType: json['SourceResourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    final sourceResourceName = this.sourceResourceName;
-    final sourceResourceType = this.sourceResourceType;
-    return {
-      if (source != null) 'Source': source,
-      if (sourceResourceName != null) 'SourceResourceName': sourceResourceName,
-      if (sourceResourceType != null) 'SourceResourceType': sourceResourceType,
-    };
-  }
-}
-
-class AnomalyStatus {
-  static const ongoing = AnomalyStatus._('ONGOING');
-  static const closed = AnomalyStatus._('CLOSED');
-
-  final String value;
-
-  const AnomalyStatus._(this.value);
-
-  static const values = [ongoing, closed];
-
-  static AnomalyStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AnomalyStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AnomalyStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A time range that specifies when the observed unusual behavior in an anomaly
-/// started and ended. This is different from
-/// <code>AnomalyReportedTimeRange</code>, which specifies the time range when
-/// DevOps Guru opens and then closes an anomaly.
-class AnomalyTimeRange {
-  /// The time when the anomalous behavior started.
-  final DateTime startTime;
-
-  /// The time when the anomalous behavior ended.
-  final DateTime? endTime;
-
-  AnomalyTimeRange({
-    required this.startTime,
-    this.endTime,
-  });
-
-  factory AnomalyTimeRange.fromJson(Map<String, dynamic> json) {
-    return AnomalyTimeRange(
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
-      endTime: timeStampFromJson(json['EndTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final startTime = this.startTime;
-    final endTime = this.endTime;
-    return {
-      'StartTime': unixTimestampToJson(startTime),
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-    };
-  }
-}
-
-class AnomalyType {
-  static const causal = AnomalyType._('CAUSAL');
-  static const contextual = AnomalyType._('CONTEXTUAL');
-
-  final String value;
-
-  const AnomalyType._(this.value);
-
-  static const values = [causal, contextual];
-
-  static AnomalyType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AnomalyType._(value));
-
-  @override
-  bool operator ==(other) => other is AnomalyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about Amazon Web Services CloudFormation stacks. You can use up
-/// to 500 stacks to specify which Amazon Web Services resources in your account
-/// to analyze. For more information, see <a
-/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
-/// in the <i>Amazon Web Services CloudFormation User Guide</i>.
-class CloudFormationCollection {
-  /// An array of CloudFormation stack names.
-  final List<String>? stackNames;
-
-  CloudFormationCollection({
-    this.stackNames,
-  });
-
-  factory CloudFormationCollection.fromJson(Map<String, dynamic> json) {
-    return CloudFormationCollection(
-      stackNames: (json['StackNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stackNames = this.stackNames;
-    return {
-      if (stackNames != null) 'StackNames': stackNames,
-    };
-  }
-}
-
-/// Information about Amazon Web Services CloudFormation stacks. You can use up
-/// to 500 stacks to specify which Amazon Web Services resources in your account
-/// to analyze. For more information, see <a
-/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
-/// in the <i>Amazon Web Services CloudFormation User Guide</i>.
-class CloudFormationCollectionFilter {
-  /// An array of CloudFormation stack names.
-  final List<String>? stackNames;
-
-  CloudFormationCollectionFilter({
-    this.stackNames,
-  });
-
-  factory CloudFormationCollectionFilter.fromJson(Map<String, dynamic> json) {
-    return CloudFormationCollectionFilter(
-      stackNames: (json['StackNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stackNames = this.stackNames;
-    return {
-      if (stackNames != null) 'StackNames': stackNames,
-    };
-  }
-}
-
-/// Information about an Amazon Web Services CloudFormation stack used to create
-/// a monthly cost estimate for DevOps Guru to analyze Amazon Web Services
-/// resources. The maximum number of stacks you can specify for a cost estimate
-/// is one. The estimate created is for the cost to analyze the Amazon Web
-/// Services resources defined by the stack. For more information, see <a
-/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
-/// in the <i>Amazon Web Services CloudFormation User Guide</i>.
-class CloudFormationCostEstimationResourceCollectionFilter {
-  /// An array of CloudFormation stack names. Its size is fixed at 1 item.
-  final List<String>? stackNames;
-
-  CloudFormationCostEstimationResourceCollectionFilter({
-    this.stackNames,
-  });
-
-  factory CloudFormationCostEstimationResourceCollectionFilter.fromJson(
-      Map<String, dynamic> json) {
-    return CloudFormationCostEstimationResourceCollectionFilter(
-      stackNames: (json['StackNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stackNames = this.stackNames;
-    return {
-      if (stackNames != null) 'StackNames': stackNames,
-    };
-  }
-}
-
-/// Information about the health of Amazon Web Services resources in your
-/// account that are specified by an Amazon Web Services CloudFormation stack.
-class CloudFormationHealth {
-  /// Number of resources that DevOps Guru is monitoring in your account that are
-  /// specified by an Amazon Web Services CloudFormation stack.
-  final int? analyzedResourceCount;
-
-  /// Information about the health of the Amazon Web Services resources in your
-  /// account that are specified by an Amazon Web Services CloudFormation stack,
-  /// including the number of open proactive, open reactive insights, and the Mean
-  /// Time to Recover (MTTR) of closed insights.
-  final InsightHealth? insight;
-
-  /// The name of the CloudFormation stack.
-  final String? stackName;
-
-  CloudFormationHealth({
-    this.analyzedResourceCount,
-    this.insight,
-    this.stackName,
-  });
-
-  factory CloudFormationHealth.fromJson(Map<String, dynamic> json) {
-    return CloudFormationHealth(
-      analyzedResourceCount: json['AnalyzedResourceCount'] as int?,
-      insight: json['Insight'] != null
-          ? InsightHealth.fromJson(json['Insight'] as Map<String, dynamic>)
-          : null,
-      stackName: json['StackName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final analyzedResourceCount = this.analyzedResourceCount;
-    final insight = this.insight;
-    final stackName = this.stackName;
-    return {
-      if (analyzedResourceCount != null)
-        'AnalyzedResourceCount': analyzedResourceCount,
-      if (insight != null) 'Insight': insight,
-      if (stackName != null) 'StackName': stackName,
-    };
-  }
-}
-
-class CloudWatchMetricDataStatusCode {
-  static const complete = CloudWatchMetricDataStatusCode._('Complete');
-  static const internalError =
-      CloudWatchMetricDataStatusCode._('InternalError');
-  static const partialData = CloudWatchMetricDataStatusCode._('PartialData');
-
-  final String value;
-
-  const CloudWatchMetricDataStatusCode._(this.value);
-
-  static const values = [complete, internalError, partialData];
-
-  static CloudWatchMetricDataStatusCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CloudWatchMetricDataStatusCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CloudWatchMetricDataStatusCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the analyzed metrics that displayed anomalous
-/// behavior.
-class CloudWatchMetricsDataSummary {
-  /// This is an enum of the status showing whether the metric value pair list has
-  /// partial or complete data, or if there was an error.
-  final CloudWatchMetricDataStatusCode? statusCode;
-
-  /// This is a list of Amazon CloudWatch metric values at given timestamp.
-  final List<TimestampMetricValuePair>? timestampMetricValuePairList;
-
-  CloudWatchMetricsDataSummary({
-    this.statusCode,
-    this.timestampMetricValuePairList,
-  });
-
-  factory CloudWatchMetricsDataSummary.fromJson(Map<String, dynamic> json) {
-    return CloudWatchMetricsDataSummary(
-      statusCode: (json['StatusCode'] as String?)
-          ?.let(CloudWatchMetricDataStatusCode.fromString),
-      timestampMetricValuePairList:
-          (json['TimestampMetricValuePairList'] as List?)
-              ?.nonNulls
-              .map((e) =>
-                  TimestampMetricValuePair.fromJson(e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final statusCode = this.statusCode;
-    final timestampMetricValuePairList = this.timestampMetricValuePairList;
-    return {
-      if (statusCode != null) 'StatusCode': statusCode.value,
-      if (timestampMetricValuePairList != null)
-        'TimestampMetricValuePairList': timestampMetricValuePairList,
-    };
-  }
-}
-
-/// Information about an Amazon CloudWatch metric.
-class CloudWatchMetricsDetail {
-  /// An array of CloudWatch dimensions associated with
-  final List<CloudWatchMetricsDimension>? dimensions;
-
-  /// This object returns anomaly metric data.
-  final CloudWatchMetricsDataSummary? metricDataSummary;
-
-  /// The name of the CloudWatch metric.
-  final String? metricName;
-
-  /// The namespace of the CloudWatch metric. A namespace is a container for
-  /// CloudWatch metrics.
-  final String? namespace;
-
-  /// The length of time associated with the CloudWatch metric in number of
-  /// seconds.
-  final int? period;
-
-  /// The type of statistic associated with the CloudWatch metric. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic">Statistics</a>
-  /// in the <i>Amazon CloudWatch User Guide</i>.
-  final CloudWatchMetricsStat? stat;
-
-  /// The unit of measure used for the CloudWatch metric. For example,
-  /// <code>Bytes</code>, <code>Seconds</code>, <code>Count</code>, and
-  /// <code>Percent</code>.
-  final String? unit;
-
-  CloudWatchMetricsDetail({
-    this.dimensions,
-    this.metricDataSummary,
-    this.metricName,
-    this.namespace,
-    this.period,
-    this.stat,
-    this.unit,
-  });
-
-  factory CloudWatchMetricsDetail.fromJson(Map<String, dynamic> json) {
-    return CloudWatchMetricsDetail(
-      dimensions: (json['Dimensions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CloudWatchMetricsDimension.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      metricDataSummary: json['MetricDataSummary'] != null
-          ? CloudWatchMetricsDataSummary.fromJson(
-              json['MetricDataSummary'] as Map<String, dynamic>)
-          : null,
-      metricName: json['MetricName'] as String?,
-      namespace: json['Namespace'] as String?,
-      period: json['Period'] as int?,
-      stat: (json['Stat'] as String?)?.let(CloudWatchMetricsStat.fromString),
-      unit: json['Unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensions = this.dimensions;
-    final metricDataSummary = this.metricDataSummary;
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    final period = this.period;
-    final stat = this.stat;
-    final unit = this.unit;
-    return {
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (metricDataSummary != null) 'MetricDataSummary': metricDataSummary,
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-      if (period != null) 'Period': period,
-      if (stat != null) 'Stat': stat.value,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-}
-
-/// The dimension of an Amazon CloudWatch metric that is used when DevOps Guru
-/// analyzes the resources in your account for operational problems and
-/// anomalous behavior. A dimension is a name/value pair that is part of the
-/// identity of a metric. A metric can have up to 10 dimensions. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Dimension">Dimensions</a>
-/// in the <i>Amazon CloudWatch User Guide</i>.
-class CloudWatchMetricsDimension {
-  /// The name of the CloudWatch dimension.
-  final String? name;
-
-  /// The value of the CloudWatch dimension.
-  final String? value;
-
-  CloudWatchMetricsDimension({
-    this.name,
-    this.value,
-  });
-
-  factory CloudWatchMetricsDimension.fromJson(Map<String, dynamic> json) {
-    return CloudWatchMetricsDimension(
-      name: json['Name'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (name != null) 'Name': name,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class CloudWatchMetricsStat {
-  static const sum = CloudWatchMetricsStat._('Sum');
-  static const average = CloudWatchMetricsStat._('Average');
-  static const sampleCount = CloudWatchMetricsStat._('SampleCount');
-  static const minimum = CloudWatchMetricsStat._('Minimum');
-  static const maximum = CloudWatchMetricsStat._('Maximum');
-  static const p99 = CloudWatchMetricsStat._('p99');
-  static const p90 = CloudWatchMetricsStat._('p90');
-  static const p50 = CloudWatchMetricsStat._('p50');
-
-  final String value;
-
-  const CloudWatchMetricsStat._(this.value);
-
-  static const values = [
-    sum,
-    average,
-    sampleCount,
-    minimum,
-    maximum,
-    p99,
-    p90,
-    p50
-  ];
-
-  static CloudWatchMetricsStat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CloudWatchMetricsStat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CloudWatchMetricsStat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a filter used to specify which Amazon Web Services
-/// resources are analyzed to create a monthly DevOps Guru cost estimate. For
-/// more information, see <a
-/// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html">Estimate
-/// your Amazon DevOps Guru costs</a> and <a
-/// href="http://aws.amazon.com/devops-guru/pricing/">Amazon DevOps Guru
-/// pricing</a>.
-class CostEstimationResourceCollectionFilter {
-  /// An object that specifies the CloudFormation stack that defines the Amazon
-  /// Web Services resources used to create a monthly estimate for DevOps Guru.
-  final CloudFormationCostEstimationResourceCollectionFilter? cloudFormation;
-
-  /// The Amazon Web Services tags used to filter the resource collection that is
-  /// used for a cost estimate.
-  ///
-  /// Tags help you identify and organize your Amazon Web Services resources. Many
-  /// Amazon Web Services services support tagging, so you can assign the same tag
-  /// to resources from different services to indicate that the resources are
-  /// related. For example, you can assign the same tag to an Amazon DynamoDB
-  /// table resource that you assign to an Lambda function. For more information
-  /// about using tags, see the <a
-  /// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
-  /// best practices</a> whitepaper.
-  ///
-  /// Each Amazon Web Services tag has two parts.
-  ///
-  /// <ul>
-  /// <li>
-  /// A tag <i>key</i> (for example, <code>CostCenter</code>,
-  /// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
-  /// <i>keys</i> are case-sensitive.
-  /// </li>
-  /// <li>
-  /// An optional field known as a tag <i>value</i> (for example,
-  /// <code>111122223333</code>, <code>Production</code>, or a team name).
-  /// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
-  /// <i>keys</i>, tag <i>values</i> are case-sensitive.
-  /// </li>
-  /// </ul>
-  /// Together these are known as <i>key</i>-<i>value</i> pairs.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final List<TagCostEstimationResourceCollectionFilter>? tags;
-
-  CostEstimationResourceCollectionFilter({
-    this.cloudFormation,
-    this.tags,
-  });
-
-  factory CostEstimationResourceCollectionFilter.fromJson(
-      Map<String, dynamic> json) {
-    return CostEstimationResourceCollectionFilter(
-      cloudFormation: json['CloudFormation'] != null
-          ? CloudFormationCostEstimationResourceCollectionFilter.fromJson(
-              json['CloudFormation'] as Map<String, dynamic>)
-          : null,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => TagCostEstimationResourceCollectionFilter.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudFormation = this.cloudFormation;
-    final tags = this.tags;
-    return {
-      if (cloudFormation != null) 'CloudFormation': cloudFormation,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class CostEstimationServiceResourceState {
-  static const active = CostEstimationServiceResourceState._('ACTIVE');
-  static const inactive = CostEstimationServiceResourceState._('INACTIVE');
-
-  final String value;
-
-  const CostEstimationServiceResourceState._(this.value);
-
-  static const values = [active, inactive];
-
-  static CostEstimationServiceResourceState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostEstimationServiceResourceState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostEstimationServiceResourceState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CostEstimationStatus {
-  static const ongoing = CostEstimationStatus._('ONGOING');
-  static const completed = CostEstimationStatus._('COMPLETED');
-
-  final String value;
-
-  const CostEstimationStatus._(this.value);
-
-  static const values = [ongoing, completed];
-
-  static CostEstimationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CostEstimationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CostEstimationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The time range of a cost estimation.
-class CostEstimationTimeRange {
-  /// The end time of the cost estimation.
-  final DateTime? endTime;
-
-  /// The start time of the cost estimation.
-  final DateTime? startTime;
-
-  CostEstimationTimeRange({
-    this.endTime,
-    this.startTime,
-  });
-
-  factory CostEstimationTimeRange.fromJson(Map<String, dynamic> json) {
-    return CostEstimationTimeRange(
-      endTime: timeStampFromJson(json['EndTime']),
-      startTime: timeStampFromJson(json['StartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    return {
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
@@ -2762,287 +1820,6 @@ class DescribeServiceIntegrationResponse {
   }
 }
 
-/// A range of time that specifies when anomalous behavior in an anomaly or
-/// insight ended.
-class EndTimeRange {
-  /// The earliest end time in the time range.
-  final DateTime? fromTime;
-
-  /// The latest end time in the time range.
-  final DateTime? toTime;
-
-  EndTimeRange({
-    this.fromTime,
-    this.toTime,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fromTime = this.fromTime;
-    final toTime = this.toTime;
-    return {
-      if (fromTime != null) 'FromTime': unixTimestampToJson(fromTime),
-      if (toTime != null) 'ToTime': unixTimestampToJson(toTime),
-    };
-  }
-}
-
-/// An Amazon Web Services resource event. Amazon Web Services resource events
-/// and metrics are analyzed by DevOps Guru to find anomalous behavior and
-/// provide recommendations to improve your operational solutions.
-class Event {
-  /// The source, <code>AWS_CLOUD_TRAIL</code> or <code>AWS_CODE_DEPLOY</code>,
-  /// where DevOps Guru analysis found the event.
-  final EventDataSource? dataSource;
-
-  /// The class of the event. The class specifies what the event is related to,
-  /// such as an infrastructure change, a deployment, or a schema change.
-  final EventClass? eventClass;
-
-  /// The Amazon Web Services source that emitted the event.
-  final String? eventSource;
-
-  /// The ID of the event.
-  final String? id;
-
-  /// The name of the event.
-  final String? name;
-  final ResourceCollection? resourceCollection;
-
-  /// An <code>EventResource</code> object that contains information about the
-  /// resource that emitted the event.
-  final List<EventResource>? resources;
-
-  /// A <code>Timestamp</code> that specifies the time the event occurred.
-  final DateTime? time;
-
-  Event({
-    this.dataSource,
-    this.eventClass,
-    this.eventSource,
-    this.id,
-    this.name,
-    this.resourceCollection,
-    this.resources,
-    this.time,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-      dataSource:
-          (json['DataSource'] as String?)?.let(EventDataSource.fromString),
-      eventClass: (json['EventClass'] as String?)?.let(EventClass.fromString),
-      eventSource: json['EventSource'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      resourceCollection: json['ResourceCollection'] != null
-          ? ResourceCollection.fromJson(
-              json['ResourceCollection'] as Map<String, dynamic>)
-          : null,
-      resources: (json['Resources'] as List?)
-          ?.nonNulls
-          .map((e) => EventResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      time: timeStampFromJson(json['Time']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSource = this.dataSource;
-    final eventClass = this.eventClass;
-    final eventSource = this.eventSource;
-    final id = this.id;
-    final name = this.name;
-    final resourceCollection = this.resourceCollection;
-    final resources = this.resources;
-    final time = this.time;
-    return {
-      if (dataSource != null) 'DataSource': dataSource.value,
-      if (eventClass != null) 'EventClass': eventClass.value,
-      if (eventSource != null) 'EventSource': eventSource,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (resources != null) 'Resources': resources,
-      if (time != null) 'Time': unixTimestampToJson(time),
-    };
-  }
-}
-
-class EventClass {
-  static const infrastructure = EventClass._('INFRASTRUCTURE');
-  static const deployment = EventClass._('DEPLOYMENT');
-  static const securityChange = EventClass._('SECURITY_CHANGE');
-  static const configChange = EventClass._('CONFIG_CHANGE');
-  static const schemaChange = EventClass._('SCHEMA_CHANGE');
-
-  final String value;
-
-  const EventClass._(this.value);
-
-  static const values = [
-    infrastructure,
-    deployment,
-    securityChange,
-    configChange,
-    schemaChange
-  ];
-
-  static EventClass fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EventClass._(value));
-
-  @override
-  bool operator ==(other) => other is EventClass && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EventDataSource {
-  static const awsCloudTrail = EventDataSource._('AWS_CLOUD_TRAIL');
-  static const awsCodeDeploy = EventDataSource._('AWS_CODE_DEPLOY');
-
-  final String value;
-
-  const EventDataSource._(this.value);
-
-  static const values = [awsCloudTrail, awsCodeDeploy];
-
-  static EventDataSource fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventDataSource._(value));
-
-  @override
-  bool operator ==(other) => other is EventDataSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The Amazon Web Services resource that emitted an event. Amazon Web Services
-/// resource events and metrics are analyzed by DevOps Guru to find anomalous
-/// behavior and provide recommendations to improve your operational solutions.
-class EventResource {
-  /// The Amazon Resource Name (ARN) of the resource that emitted an event.
-  final String? arn;
-
-  /// The name of the resource that emitted an event.
-  final String? name;
-
-  /// The type of resource that emitted an event.
-  final String? type;
-
-  EventResource({
-    this.arn,
-    this.name,
-    this.type,
-  });
-
-  factory EventResource.fromJson(Map<String, dynamic> json) {
-    return EventResource(
-      arn: json['Arn'] as String?,
-      name: json['Name'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-class EventSourceOptInStatus {
-  static const enabled = EventSourceOptInStatus._('ENABLED');
-  static const disabled = EventSourceOptInStatus._('DISABLED');
-
-  final String value;
-
-  const EventSourceOptInStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static EventSourceOptInStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EventSourceOptInStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EventSourceOptInStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the integration of DevOps Guru as consumer with another
-/// AWS service, such as AWS CodeGuru Profiler via EventBridge.
-class EventSourcesConfig {
-  /// Information about whether DevOps Guru is configured to consume
-  /// recommendations which are generated from AWS CodeGuru Profiler.
-  final AmazonCodeGuruProfilerIntegration? amazonCodeGuruProfiler;
-
-  EventSourcesConfig({
-    this.amazonCodeGuruProfiler,
-  });
-
-  factory EventSourcesConfig.fromJson(Map<String, dynamic> json) {
-    return EventSourcesConfig(
-      amazonCodeGuruProfiler: json['AmazonCodeGuruProfiler'] != null
-          ? AmazonCodeGuruProfilerIntegration.fromJson(
-              json['AmazonCodeGuruProfiler'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final amazonCodeGuruProfiler = this.amazonCodeGuruProfiler;
-    return {
-      if (amazonCodeGuruProfiler != null)
-        'AmazonCodeGuruProfiler': amazonCodeGuruProfiler,
-    };
-  }
-}
-
-/// The time range during which an Amazon Web Services event occurred. Amazon
-/// Web Services resource events and metrics are analyzed by DevOps Guru to find
-/// anomalous behavior and provide recommendations to improve your operational
-/// solutions.
-class EventTimeRange {
-  /// The time when the event started.
-  final DateTime fromTime;
-
-  /// The time when the event ended.
-  final DateTime toTime;
-
-  EventTimeRange({
-    required this.fromTime,
-    required this.toTime,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fromTime = this.fromTime;
-    final toTime = this.toTime;
-    return {
-      'FromTime': unixTimestampToJson(fromTime),
-      'ToTime': unixTimestampToJson(toTime),
-    };
-  }
-}
-
 class GetCostEstimationResponse {
   /// An array of <code>ResourceCost</code> objects that each contains details
   /// about the monthly cost estimate to analyze one of your Amazon Web Services
@@ -3156,346 +1933,6 @@ class GetResourceCollectionResponse {
   }
 }
 
-/// Information about insight feedback received from a customer.
-class InsightFeedback {
-  /// The feedback provided by the customer.
-  final InsightFeedbackOption? feedback;
-
-  /// The insight feedback ID.
-  final String? id;
-
-  InsightFeedback({
-    this.feedback,
-    this.id,
-  });
-
-  factory InsightFeedback.fromJson(Map<String, dynamic> json) {
-    return InsightFeedback(
-      feedback:
-          (json['Feedback'] as String?)?.let(InsightFeedbackOption.fromString),
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final feedback = this.feedback;
-    final id = this.id;
-    return {
-      if (feedback != null) 'Feedback': feedback.value,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-class InsightFeedbackOption {
-  static const validCollection = InsightFeedbackOption._('VALID_COLLECTION');
-  static const recommendationUseful =
-      InsightFeedbackOption._('RECOMMENDATION_USEFUL');
-  static const alertTooSensitive =
-      InsightFeedbackOption._('ALERT_TOO_SENSITIVE');
-  static const dataNoisyAnomaly = InsightFeedbackOption._('DATA_NOISY_ANOMALY');
-  static const dataIncorrect = InsightFeedbackOption._('DATA_INCORRECT');
-
-  final String value;
-
-  const InsightFeedbackOption._(this.value);
-
-  static const values = [
-    validCollection,
-    recommendationUseful,
-    alertTooSensitive,
-    dataNoisyAnomaly,
-    dataIncorrect
-  ];
-
-  static InsightFeedbackOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InsightFeedbackOption._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InsightFeedbackOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the number of open reactive and proactive insights that
-/// can be used to gauge the health of your system.
-class InsightHealth {
-  /// The Meant Time to Recover (MTTR) for the insight.
-  final int? meanTimeToRecoverInMilliseconds;
-
-  /// The number of open proactive insights.
-  final int? openProactiveInsights;
-
-  /// The number of open reactive insights.
-  final int? openReactiveInsights;
-
-  InsightHealth({
-    this.meanTimeToRecoverInMilliseconds,
-    this.openProactiveInsights,
-    this.openReactiveInsights,
-  });
-
-  factory InsightHealth.fromJson(Map<String, dynamic> json) {
-    return InsightHealth(
-      meanTimeToRecoverInMilliseconds:
-          json['MeanTimeToRecoverInMilliseconds'] as int?,
-      openProactiveInsights: json['OpenProactiveInsights'] as int?,
-      openReactiveInsights: json['OpenReactiveInsights'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final meanTimeToRecoverInMilliseconds =
-        this.meanTimeToRecoverInMilliseconds;
-    final openProactiveInsights = this.openProactiveInsights;
-    final openReactiveInsights = this.openReactiveInsights;
-    return {
-      if (meanTimeToRecoverInMilliseconds != null)
-        'MeanTimeToRecoverInMilliseconds': meanTimeToRecoverInMilliseconds,
-      if (openProactiveInsights != null)
-        'OpenProactiveInsights': openProactiveInsights,
-      if (openReactiveInsights != null)
-        'OpenReactiveInsights': openReactiveInsights,
-    };
-  }
-}
-
-class InsightSeverity {
-  static const low = InsightSeverity._('LOW');
-  static const medium = InsightSeverity._('MEDIUM');
-  static const high = InsightSeverity._('HIGH');
-
-  final String value;
-
-  const InsightSeverity._(this.value);
-
-  static const values = [low, medium, high];
-
-  static InsightSeverity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InsightSeverity._(value));
-
-  @override
-  bool operator ==(other) => other is InsightSeverity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class InsightStatus {
-  static const ongoing = InsightStatus._('ONGOING');
-  static const closed = InsightStatus._('CLOSED');
-
-  final String value;
-
-  const InsightStatus._(this.value);
-
-  static const values = [ongoing, closed];
-
-  static InsightStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InsightStatus._(value));
-
-  @override
-  bool operator ==(other) => other is InsightStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A time ranged that specifies when the observed behavior in an insight
-/// started and ended.
-class InsightTimeRange {
-  /// The time when the behavior described in an insight started.
-  final DateTime startTime;
-
-  /// The time when the behavior described in an insight ended.
-  final DateTime? endTime;
-
-  InsightTimeRange({
-    required this.startTime,
-    this.endTime,
-  });
-
-  factory InsightTimeRange.fromJson(Map<String, dynamic> json) {
-    return InsightTimeRange(
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
-      endTime: timeStampFromJson(json['EndTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final startTime = this.startTime;
-    final endTime = this.endTime;
-    return {
-      'StartTime': unixTimestampToJson(startTime),
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-    };
-  }
-}
-
-class InsightType {
-  static const reactive = InsightType._('REACTIVE');
-  static const proactive = InsightType._('PROACTIVE');
-
-  final String value;
-
-  const InsightType._(this.value);
-
-  static const values = [reactive, proactive];
-
-  static InsightType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => InsightType._(value));
-
-  @override
-  bool operator ==(other) => other is InsightType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the KMS encryption used with DevOps Guru.
-class KMSServerSideEncryptionIntegration {
-  /// Describes the specified KMS key.
-  ///
-  /// To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN.
-  /// When using an alias name, prefix it with "alias/". If you specify a
-  /// predefined Amazon Web Services alias (an Amazon Web Services alias with no
-  /// key ID), Amazon Web Services KMS associates the alias with an Amazon Web
-  /// Services managed key and returns its KeyId and Arn in the response. To
-  /// specify a KMS key in a different Amazon Web Services account, you must use
-  /// the key ARN or alias ARN.
-  ///
-  /// For example:
-  ///
-  /// Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-  ///
-  /// Key ARN:
-  /// arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-  ///
-  /// Alias name: alias/ExampleAlias
-  ///
-  /// Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
-  final String? kMSKeyId;
-
-  /// Specifies if DevOps Guru is enabled for customer managed keys.
-  final OptInStatus? optInStatus;
-
-  /// The type of KMS key used. Customer managed keys are the KMS keys that you
-  /// create. Amazon Web Services owned keys are keys that are owned and managed
-  /// by DevOps Guru.
-  final ServerSideEncryptionType? type;
-
-  KMSServerSideEncryptionIntegration({
-    this.kMSKeyId,
-    this.optInStatus,
-    this.type,
-  });
-
-  factory KMSServerSideEncryptionIntegration.fromJson(
-      Map<String, dynamic> json) {
-    return KMSServerSideEncryptionIntegration(
-      kMSKeyId: json['KMSKeyId'] as String?,
-      optInStatus:
-          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
-      type: (json['Type'] as String?)?.let(ServerSideEncryptionType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kMSKeyId = this.kMSKeyId;
-    final optInStatus = this.optInStatus;
-    final type = this.type;
-    return {
-      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
-      if (optInStatus != null) 'OptInStatus': optInStatus.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Information about whether DevOps Guru is configured to encrypt server-side
-/// data using KMS.
-class KMSServerSideEncryptionIntegrationConfig {
-  /// Describes the specified KMS key.
-  ///
-  /// To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN.
-  /// When using an alias name, prefix it with "alias/". If you specify a
-  /// predefined Amazon Web Services alias (an Amazon Web Services alias with no
-  /// key ID), Amazon Web Services KMS associates the alias with an Amazon Web
-  /// Services managed key and returns its KeyId and Arn in the response. To
-  /// specify a KMS key in a different Amazon Web Services account, you must use
-  /// the key ARN or alias ARN.
-  ///
-  /// For example:
-  ///
-  /// Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-  ///
-  /// Key ARN:
-  /// arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-  ///
-  /// Alias name: alias/ExampleAlias
-  ///
-  /// Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
-  final String? kMSKeyId;
-
-  /// Specifies if DevOps Guru is enabled for KMS integration.
-  final OptInStatus? optInStatus;
-
-  /// The type of KMS key used. Customer managed keys are the KMS keys that you
-  /// create. Amazon Web Services owned keys are keys that are owned and managed
-  /// by DevOps Guru.
-  final ServerSideEncryptionType? type;
-
-  KMSServerSideEncryptionIntegrationConfig({
-    this.kMSKeyId,
-    this.optInStatus,
-    this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final kMSKeyId = this.kMSKeyId;
-    final optInStatus = this.optInStatus;
-    final type = this.type;
-    return {
-      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
-      if (optInStatus != null) 'OptInStatus': optInStatus.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Specifies one or more service names that are used to list anomalies.
-class ListAnomaliesForInsightFilters {
-  final ServiceCollection? serviceCollection;
-
-  ListAnomaliesForInsightFilters({
-    this.serviceCollection,
-  });
-
-  Map<String, dynamic> toJson() {
-    final serviceCollection = this.serviceCollection;
-    return {
-      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-    };
-  }
-}
-
 class ListAnomaliesForInsightResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If there are no more pages, this value is null.
@@ -3583,55 +2020,6 @@ class ListAnomalousLogGroupsResponse {
   }
 }
 
-/// Filters you can use to specify which events are returned when
-/// <code>ListEvents</code> is called.
-class ListEventsFilters {
-  /// The source, <code>AWS_CLOUD_TRAIL</code> or <code>AWS_CODE_DEPLOY</code>, of
-  /// the events you want returned.
-  final EventDataSource? dataSource;
-
-  /// The class of the events you want to filter for, such as an infrastructure
-  /// change, a deployment, or a schema change.
-  final EventClass? eventClass;
-
-  /// The Amazon Web Services source that emitted the events you want to filter
-  /// for.
-  final String? eventSource;
-
-  /// A time range during which you want the filtered events to have occurred.
-  final EventTimeRange? eventTimeRange;
-
-  /// An ID of an insight that is related to the events you want to filter for.
-  final String? insightId;
-  final ResourceCollection? resourceCollection;
-
-  ListEventsFilters({
-    this.dataSource,
-    this.eventClass,
-    this.eventSource,
-    this.eventTimeRange,
-    this.insightId,
-    this.resourceCollection,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dataSource = this.dataSource;
-    final eventClass = this.eventClass;
-    final eventSource = this.eventSource;
-    final eventTimeRange = this.eventTimeRange;
-    final insightId = this.insightId;
-    final resourceCollection = this.resourceCollection;
-    return {
-      if (dataSource != null) 'DataSource': dataSource.value,
-      if (eventClass != null) 'EventClass': eventClass.value,
-      if (eventSource != null) 'EventSource': eventSource,
-      if (eventTimeRange != null) 'EventTimeRange': eventTimeRange,
-      if (insightId != null) 'InsightId': insightId,
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-    };
-  }
-}
-
 class ListEventsResponse {
   /// A list of the requested events.
   final List<Event> events;
@@ -3661,74 +2049,6 @@ class ListEventsResponse {
     return {
       'Events': events,
       if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Used to filter for insights that have any status.
-class ListInsightsAnyStatusFilter {
-  /// A time range used to specify when the behavior of the filtered insights
-  /// started.
-  final StartTimeRange startTimeRange;
-
-  /// Use to filter for either <code>REACTIVE</code> or <code>PROACTIVE</code>
-  /// insights.
-  final InsightType type;
-
-  ListInsightsAnyStatusFilter({
-    required this.startTimeRange,
-    required this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final startTimeRange = this.startTimeRange;
-    final type = this.type;
-    return {
-      'StartTimeRange': startTimeRange,
-      'Type': type.value,
-    };
-  }
-}
-
-/// Used to filter for insights that have the status <code>CLOSED</code>.
-class ListInsightsClosedStatusFilter {
-  /// A time range used to specify when the behavior of the filtered insights
-  /// ended.
-  final EndTimeRange endTimeRange;
-
-  /// Use to filter for either <code>REACTIVE</code> or <code>PROACTIVE</code>
-  /// insights.
-  final InsightType type;
-
-  ListInsightsClosedStatusFilter({
-    required this.endTimeRange,
-    required this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endTimeRange = this.endTimeRange;
-    final type = this.type;
-    return {
-      'EndTimeRange': endTimeRange,
-      'Type': type.value,
-    };
-  }
-}
-
-/// Used to filter for insights that have the status <code>ONGOING</code>.
-class ListInsightsOngoingStatusFilter {
-  /// Use to filter for either <code>REACTIVE</code> or <code>PROACTIVE</code>
-  /// insights.
-  final InsightType type;
-
-  ListInsightsOngoingStatusFilter({
-    required this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    return {
-      'Type': type.value,
     };
   }
 }
@@ -3774,63 +2094,6 @@ class ListInsightsResponse {
       if (nextToken != null) 'NextToken': nextToken,
       if (proactiveInsights != null) 'ProactiveInsights': proactiveInsights,
       if (reactiveInsights != null) 'ReactiveInsights': reactiveInsights,
-    };
-  }
-}
-
-/// A filter used by <code>ListInsights</code> to specify which insights to
-/// return.
-class ListInsightsStatusFilter {
-  /// A <code>ListInsightsAnyStatusFilter</code> that specifies insights of any
-  /// status that are either <code>REACTIVE</code> or <code>PROACTIVE</code>.
-  final ListInsightsAnyStatusFilter? any;
-
-  /// A <code>ListInsightsClosedStatusFilter</code> that specifies closed insights
-  /// that are either <code>REACTIVE</code> or <code>PROACTIVE</code>.
-  final ListInsightsClosedStatusFilter? closed;
-
-  /// A <code>ListInsightsAnyStatusFilter</code> that specifies ongoing insights
-  /// that are either <code>REACTIVE</code> or <code>PROACTIVE</code>.
-  final ListInsightsOngoingStatusFilter? ongoing;
-
-  ListInsightsStatusFilter({
-    this.any,
-    this.closed,
-    this.ongoing,
-  });
-
-  Map<String, dynamic> toJson() {
-    final any = this.any;
-    final closed = this.closed;
-    final ongoing = this.ongoing;
-    return {
-      if (any != null) 'Any': any,
-      if (closed != null) 'Closed': closed,
-      if (ongoing != null) 'Ongoing': ongoing,
-    };
-  }
-}
-
-/// Filters to determine which monitored resources you want to retrieve. You can
-/// filter by resource type or resource permission status.
-class ListMonitoredResourcesFilters {
-  /// The permission status of a resource.
-  final ResourcePermission resourcePermission;
-
-  /// The type of resource that you wish to retrieve, such as log groups.
-  final List<ResourceTypeFilter> resourceTypeFilters;
-
-  ListMonitoredResourcesFilters({
-    required this.resourcePermission,
-    required this.resourceTypeFilters,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourcePermission = this.resourcePermission;
-    final resourceTypeFilters = this.resourceTypeFilters;
-    return {
-      'ResourcePermission': resourcePermission.value,
-      'ResourceTypeFilters': resourceTypeFilters.map((e) => e.value).toList(),
     };
   }
 }
@@ -3986,6 +2249,1852 @@ class ListRecommendationsResponse {
   }
 }
 
+class PutFeedbackResponse {
+  PutFeedbackResponse();
+
+  factory PutFeedbackResponse.fromJson(Map<String, dynamic> _) {
+    return PutFeedbackResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RemoveNotificationChannelResponse {
+  RemoveNotificationChannelResponse();
+
+  factory RemoveNotificationChannelResponse.fromJson(Map<String, dynamic> _) {
+    return RemoveNotificationChannelResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class SearchInsightsResponse {
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If there are no more pages, this value is null.
+  final String? nextToken;
+
+  /// The returned proactive insights.
+  final List<ProactiveInsightSummary>? proactiveInsights;
+
+  /// The returned reactive insights.
+  final List<ReactiveInsightSummary>? reactiveInsights;
+
+  SearchInsightsResponse({
+    this.nextToken,
+    this.proactiveInsights,
+    this.reactiveInsights,
+  });
+
+  factory SearchInsightsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchInsightsResponse(
+      nextToken: json['NextToken'] as String?,
+      proactiveInsights: (json['ProactiveInsights'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProactiveInsightSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reactiveInsights: (json['ReactiveInsights'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ReactiveInsightSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final proactiveInsights = this.proactiveInsights;
+    final reactiveInsights = this.reactiveInsights;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (proactiveInsights != null) 'ProactiveInsights': proactiveInsights,
+      if (reactiveInsights != null) 'ReactiveInsights': reactiveInsights,
+    };
+  }
+}
+
+class SearchOrganizationInsightsResponse {
+  /// The pagination token to use to retrieve the next page of results for this
+  /// operation. If there are no more pages, this value is null.
+  final String? nextToken;
+
+  /// An integer that specifies the number of open proactive insights in your
+  /// Amazon Web Services account.
+  final List<ProactiveInsightSummary>? proactiveInsights;
+
+  /// An integer that specifies the number of open reactive insights in your
+  /// Amazon Web Services account.
+  final List<ReactiveInsightSummary>? reactiveInsights;
+
+  SearchOrganizationInsightsResponse({
+    this.nextToken,
+    this.proactiveInsights,
+    this.reactiveInsights,
+  });
+
+  factory SearchOrganizationInsightsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SearchOrganizationInsightsResponse(
+      nextToken: json['NextToken'] as String?,
+      proactiveInsights: (json['ProactiveInsights'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProactiveInsightSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reactiveInsights: (json['ReactiveInsights'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ReactiveInsightSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final proactiveInsights = this.proactiveInsights;
+    final reactiveInsights = this.reactiveInsights;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (proactiveInsights != null) 'ProactiveInsights': proactiveInsights,
+      if (reactiveInsights != null) 'ReactiveInsights': reactiveInsights,
+    };
+  }
+}
+
+class StartCostEstimationResponse {
+  StartCostEstimationResponse();
+
+  factory StartCostEstimationResponse.fromJson(Map<String, dynamic> _) {
+    return StartCostEstimationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateEventSourcesConfigResponse {
+  UpdateEventSourcesConfigResponse();
+
+  factory UpdateEventSourcesConfigResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateEventSourcesConfigResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateResourceCollectionResponse {
+  UpdateResourceCollectionResponse();
+
+  factory UpdateResourceCollectionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateResourceCollectionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateServiceIntegrationResponse {
+  UpdateServiceIntegrationResponse();
+
+  factory UpdateServiceIntegrationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateServiceIntegrationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Information about updating the integration status of an Amazon Web Services
+/// service, such as Amazon Web Services Systems Manager, with DevOps Guru.
+class UpdateServiceIntegrationConfig {
+  /// Information about whether DevOps Guru is configured to encrypt server-side
+  /// data using KMS.
+  final KMSServerSideEncryptionIntegrationConfig? kMSServerSideEncryption;
+
+  /// Information about whether DevOps Guru is configured to perform log anomaly
+  /// detection on Amazon CloudWatch log groups.
+  final LogsAnomalyDetectionIntegrationConfig? logsAnomalyDetection;
+  final OpsCenterIntegrationConfig? opsCenter;
+
+  UpdateServiceIntegrationConfig({
+    this.kMSServerSideEncryption,
+    this.logsAnomalyDetection,
+    this.opsCenter,
+  });
+
+  Map<String, dynamic> toJson() {
+    final kMSServerSideEncryption = this.kMSServerSideEncryption;
+    final logsAnomalyDetection = this.logsAnomalyDetection;
+    final opsCenter = this.opsCenter;
+    return {
+      if (kMSServerSideEncryption != null)
+        'KMSServerSideEncryption': kMSServerSideEncryption,
+      if (logsAnomalyDetection != null)
+        'LogsAnomalyDetection': logsAnomalyDetection,
+      if (opsCenter != null) 'OpsCenter': opsCenter,
+    };
+  }
+}
+
+/// Information about whether DevOps Guru is configured to create an OpsItem in
+/// Amazon Web Services Systems Manager OpsCenter for each created insight. You
+/// can use this to update the configuration.
+class OpsCenterIntegrationConfig {
+  /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
+  /// Manager OpsItem for each created insight.
+  final OptInStatus? optInStatus;
+
+  OpsCenterIntegrationConfig({
+    this.optInStatus,
+  });
+
+  Map<String, dynamic> toJson() {
+    final optInStatus = this.optInStatus;
+    return {
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+    };
+  }
+}
+
+/// Information about the integration of DevOps Guru with CloudWatch log groups
+/// for log anomaly detection. You can use this to update the configuration.
+class LogsAnomalyDetectionIntegrationConfig {
+  /// Specifies if DevOps Guru is configured to perform log anomaly detection on
+  /// CloudWatch log groups.
+  final OptInStatus? optInStatus;
+
+  LogsAnomalyDetectionIntegrationConfig({
+    this.optInStatus,
+  });
+
+  Map<String, dynamic> toJson() {
+    final optInStatus = this.optInStatus;
+    return {
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+    };
+  }
+}
+
+/// Information about whether DevOps Guru is configured to encrypt server-side
+/// data using KMS.
+class KMSServerSideEncryptionIntegrationConfig {
+  /// Describes the specified KMS key.
+  ///
+  /// To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN.
+  /// When using an alias name, prefix it with "alias/". If you specify a
+  /// predefined Amazon Web Services alias (an Amazon Web Services alias with no
+  /// key ID), Amazon Web Services KMS associates the alias with an Amazon Web
+  /// Services managed key and returns its KeyId and Arn in the response. To
+  /// specify a KMS key in a different Amazon Web Services account, you must use
+  /// the key ARN or alias ARN.
+  ///
+  /// For example:
+  ///
+  /// Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+  ///
+  /// Key ARN:
+  /// arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+  ///
+  /// Alias name: alias/ExampleAlias
+  ///
+  /// Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+  final String? kMSKeyId;
+
+  /// Specifies if DevOps Guru is enabled for KMS integration.
+  final OptInStatus? optInStatus;
+
+  /// The type of KMS key used. Customer managed keys are the KMS keys that you
+  /// create. Amazon Web Services owned keys are keys that are owned and managed
+  /// by DevOps Guru.
+  final ServerSideEncryptionType? type;
+
+  KMSServerSideEncryptionIntegrationConfig({
+    this.kMSKeyId,
+    this.optInStatus,
+    this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final kMSKeyId = this.kMSKeyId;
+    final optInStatus = this.optInStatus;
+    final type = this.type;
+    return {
+      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
+/// Manager OpsItem for each created insight.
+class OptInStatus {
+  static const enabled = OptInStatus._('ENABLED');
+  static const disabled = OptInStatus._('DISABLED');
+
+  final String value;
+
+  const OptInStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static OptInStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OptInStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OptInStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ServerSideEncryptionType {
+  static const customerManagedKey =
+      ServerSideEncryptionType._('CUSTOMER_MANAGED_KEY');
+  static const awsOwnedKmsKey = ServerSideEncryptionType._('AWS_OWNED_KMS_KEY');
+
+  final String value;
+
+  const ServerSideEncryptionType._(this.value);
+
+  static const values = [customerManagedKey, awsOwnedKmsKey];
+
+  static ServerSideEncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServerSideEncryptionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ServerSideEncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UpdateResourceCollectionAction {
+  static const add = UpdateResourceCollectionAction._('ADD');
+  static const remove = UpdateResourceCollectionAction._('REMOVE');
+
+  final String value;
+
+  const UpdateResourceCollectionAction._(this.value);
+
+  static const values = [add, remove];
+
+  static UpdateResourceCollectionAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateResourceCollectionAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateResourceCollectionAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information used to update a collection of Amazon Web Services
+/// resources.
+class UpdateResourceCollectionFilter {
+  /// A collection of Amazon Web Services CloudFormation stacks. You can specify
+  /// up to 500 Amazon Web Services CloudFormation stacks.
+  final UpdateCloudFormationCollectionFilter? cloudFormation;
+
+  /// The updated Amazon Web Services tags used to filter the resources in the
+  /// resource collection.
+  ///
+  /// Tags help you identify and organize your Amazon Web Services resources. Many
+  /// Amazon Web Services services support tagging, so you can assign the same tag
+  /// to resources from different services to indicate that the resources are
+  /// related. For example, you can assign the same tag to an Amazon DynamoDB
+  /// table resource that you assign to an Lambda function. For more information
+  /// about using tags, see the <a
+  /// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
+  /// best practices</a> whitepaper.
+  ///
+  /// Each Amazon Web Services tag has two parts.
+  ///
+  /// <ul>
+  /// <li>
+  /// A tag <i>key</i> (for example, <code>CostCenter</code>,
+  /// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
+  /// <i>keys</i> are case-sensitive.
+  /// </li>
+  /// <li>
+  /// An optional field known as a tag <i>value</i> (for example,
+  /// <code>111122223333</code>, <code>Production</code>, or a team name).
+  /// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
+  /// <i>keys</i>, tag <i>values</i> are case-sensitive.
+  /// </li>
+  /// </ul>
+  /// Together these are known as <i>key</i>-<i>value</i> pairs.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final List<UpdateTagCollectionFilter>? tags;
+
+  UpdateResourceCollectionFilter({
+    this.cloudFormation,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloudFormation = this.cloudFormation;
+    final tags = this.tags;
+    return {
+      if (cloudFormation != null) 'CloudFormation': cloudFormation,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Contains the names of Amazon Web Services CloudFormation stacks used to
+/// update a collection of stacks. You can specify up to 500 Amazon Web Services
+/// CloudFormation stacks.
+class UpdateCloudFormationCollectionFilter {
+  /// An array of the names of the Amazon Web Services CloudFormation stacks to
+  /// update. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+  final List<String>? stackNames;
+
+  UpdateCloudFormationCollectionFilter({
+    this.stackNames,
+  });
+
+  Map<String, dynamic> toJson() {
+    final stackNames = this.stackNames;
+    return {
+      if (stackNames != null) 'StackNames': stackNames,
+    };
+  }
+}
+
+/// A new collection of Amazon Web Services resources that are defined by an
+/// Amazon Web Services tag or tag <i>key</i>/<i>value</i> pair.
+class UpdateTagCollectionFilter {
+  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
+  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
+  /// resources in your account and Region tagged with this <i>key</i> make up
+  /// your DevOps Guru application and analysis boundary.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final String appBoundaryKey;
+
+  /// The values in an Amazon Web Services tag collection.
+  ///
+  /// The tag's <i>value</i> is an optional field used to associate a string with
+  /// the tag <i>key</i> (for example, <code>111122223333</code>,
+  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
+  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
+  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
+  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
+  final List<String> tagValues;
+
+  UpdateTagCollectionFilter({
+    required this.appBoundaryKey,
+    required this.tagValues,
+  });
+
+  Map<String, dynamic> toJson() {
+    final appBoundaryKey = this.appBoundaryKey;
+    final tagValues = this.tagValues;
+    return {
+      'AppBoundaryKey': appBoundaryKey,
+      'TagValues': tagValues,
+    };
+  }
+}
+
+/// Information about the integration of DevOps Guru as consumer with another
+/// AWS service, such as AWS CodeGuru Profiler via EventBridge.
+class EventSourcesConfig {
+  /// Information about whether DevOps Guru is configured to consume
+  /// recommendations which are generated from AWS CodeGuru Profiler.
+  final AmazonCodeGuruProfilerIntegration? amazonCodeGuruProfiler;
+
+  EventSourcesConfig({
+    this.amazonCodeGuruProfiler,
+  });
+
+  factory EventSourcesConfig.fromJson(Map<String, dynamic> json) {
+    return EventSourcesConfig(
+      amazonCodeGuruProfiler: json['AmazonCodeGuruProfiler'] != null
+          ? AmazonCodeGuruProfilerIntegration.fromJson(
+              json['AmazonCodeGuruProfiler'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amazonCodeGuruProfiler = this.amazonCodeGuruProfiler;
+    return {
+      if (amazonCodeGuruProfiler != null)
+        'AmazonCodeGuruProfiler': amazonCodeGuruProfiler,
+    };
+  }
+}
+
+/// Information about your account's integration with Amazon CodeGuru Profiler.
+/// This returns whether DevOps Guru is configured to consume recommendations
+/// generated from Amazon CodeGuru Profiler.
+class AmazonCodeGuruProfilerIntegration {
+  /// The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is
+  /// enabled to consume recommendations that are generated from Amazon CodeGuru
+  /// Profiler.
+  final EventSourceOptInStatus? status;
+
+  AmazonCodeGuruProfilerIntegration({
+    this.status,
+  });
+
+  factory AmazonCodeGuruProfilerIntegration.fromJson(
+      Map<String, dynamic> json) {
+    return AmazonCodeGuruProfilerIntegration(
+      status:
+          (json['Status'] as String?)?.let(EventSourceOptInStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class EventSourceOptInStatus {
+  static const enabled = EventSourceOptInStatus._('ENABLED');
+  static const disabled = EventSourceOptInStatus._('DISABLED');
+
+  final String value;
+
+  const EventSourceOptInStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static EventSourceOptInStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventSourceOptInStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EventSourceOptInStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a filter used to specify which Amazon Web Services
+/// resources are analyzed to create a monthly DevOps Guru cost estimate. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html">Estimate
+/// your Amazon DevOps Guru costs</a> and <a
+/// href="http://aws.amazon.com/devops-guru/pricing/">Amazon DevOps Guru
+/// pricing</a>.
+class CostEstimationResourceCollectionFilter {
+  /// An object that specifies the CloudFormation stack that defines the Amazon
+  /// Web Services resources used to create a monthly estimate for DevOps Guru.
+  final CloudFormationCostEstimationResourceCollectionFilter? cloudFormation;
+
+  /// The Amazon Web Services tags used to filter the resource collection that is
+  /// used for a cost estimate.
+  ///
+  /// Tags help you identify and organize your Amazon Web Services resources. Many
+  /// Amazon Web Services services support tagging, so you can assign the same tag
+  /// to resources from different services to indicate that the resources are
+  /// related. For example, you can assign the same tag to an Amazon DynamoDB
+  /// table resource that you assign to an Lambda function. For more information
+  /// about using tags, see the <a
+  /// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
+  /// best practices</a> whitepaper.
+  ///
+  /// Each Amazon Web Services tag has two parts.
+  ///
+  /// <ul>
+  /// <li>
+  /// A tag <i>key</i> (for example, <code>CostCenter</code>,
+  /// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
+  /// <i>keys</i> are case-sensitive.
+  /// </li>
+  /// <li>
+  /// An optional field known as a tag <i>value</i> (for example,
+  /// <code>111122223333</code>, <code>Production</code>, or a team name).
+  /// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
+  /// <i>keys</i>, tag <i>values</i> are case-sensitive.
+  /// </li>
+  /// </ul>
+  /// Together these are known as <i>key</i>-<i>value</i> pairs.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final List<TagCostEstimationResourceCollectionFilter>? tags;
+
+  CostEstimationResourceCollectionFilter({
+    this.cloudFormation,
+    this.tags,
+  });
+
+  factory CostEstimationResourceCollectionFilter.fromJson(
+      Map<String, dynamic> json) {
+    return CostEstimationResourceCollectionFilter(
+      cloudFormation: json['CloudFormation'] != null
+          ? CloudFormationCostEstimationResourceCollectionFilter.fromJson(
+              json['CloudFormation'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => TagCostEstimationResourceCollectionFilter.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFormation = this.cloudFormation;
+    final tags = this.tags;
+    return {
+      if (cloudFormation != null) 'CloudFormation': cloudFormation,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Information about an Amazon Web Services CloudFormation stack used to create
+/// a monthly cost estimate for DevOps Guru to analyze Amazon Web Services
+/// resources. The maximum number of stacks you can specify for a cost estimate
+/// is one. The estimate created is for the cost to analyze the Amazon Web
+/// Services resources defined by the stack. For more information, see <a
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
+/// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+class CloudFormationCostEstimationResourceCollectionFilter {
+  /// An array of CloudFormation stack names. Its size is fixed at 1 item.
+  final List<String>? stackNames;
+
+  CloudFormationCostEstimationResourceCollectionFilter({
+    this.stackNames,
+  });
+
+  factory CloudFormationCostEstimationResourceCollectionFilter.fromJson(
+      Map<String, dynamic> json) {
+    return CloudFormationCostEstimationResourceCollectionFilter(
+      stackNames: (json['StackNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackNames = this.stackNames;
+    return {
+      if (stackNames != null) 'StackNames': stackNames,
+    };
+  }
+}
+
+/// Information about a collection of Amazon Web Services resources that are
+/// identified by an Amazon Web Services tag. This collection of resources is
+/// used to create a monthly cost estimate for DevOps Guru to analyze Amazon Web
+/// Services resources. The maximum number of tags you can specify for a cost
+/// estimate is one. The estimate created is for the cost to analyze the Amazon
+/// Web Services resources defined by the tag. For more information, see <a
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
+/// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+class TagCostEstimationResourceCollectionFilter {
+  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
+  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
+  /// resources in your account and Region tagged with this <i>key</i> make up
+  /// your DevOps Guru application and analysis boundary.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final String appBoundaryKey;
+
+  /// The values in an Amazon Web Services tag collection.
+  ///
+  /// The tag's <i>value</i> is an optional field used to associate a string with
+  /// the tag <i>key</i> (for example, <code>111122223333</code>,
+  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
+  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
+  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
+  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
+  final List<String> tagValues;
+
+  TagCostEstimationResourceCollectionFilter({
+    required this.appBoundaryKey,
+    required this.tagValues,
+  });
+
+  factory TagCostEstimationResourceCollectionFilter.fromJson(
+      Map<String, dynamic> json) {
+    return TagCostEstimationResourceCollectionFilter(
+      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appBoundaryKey = this.appBoundaryKey;
+    final tagValues = this.tagValues;
+    return {
+      'AppBoundaryKey': appBoundaryKey,
+      'TagValues': tagValues,
+    };
+  }
+}
+
+/// Information about a reactive insight. This object is returned by
+/// <code>DescribeInsight.</code>
+class ReactiveInsightSummary {
+  /// The Amazon Resource Names (ARNs) of the Amazon Web Services resources that
+  /// generated this insight.
+  final List<String>? associatedResourceArns;
+
+  /// The ID of a reactive summary.
+  final String? id;
+  final InsightTimeRange? insightTimeRange;
+
+  /// The name of a reactive insight.
+  final String? name;
+  final ResourceCollection? resourceCollection;
+
+  /// A collection of the names of Amazon Web Services services.
+  final ServiceCollection? serviceCollection;
+
+  /// The severity of the insight. For more information, see <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
+  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
+  final InsightSeverity? severity;
+
+  /// The status of a reactive insight.
+  final InsightStatus? status;
+
+  ReactiveInsightSummary({
+    this.associatedResourceArns,
+    this.id,
+    this.insightTimeRange,
+    this.name,
+    this.resourceCollection,
+    this.serviceCollection,
+    this.severity,
+    this.status,
+  });
+
+  factory ReactiveInsightSummary.fromJson(Map<String, dynamic> json) {
+    return ReactiveInsightSummary(
+      associatedResourceArns: (json['AssociatedResourceArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      id: json['Id'] as String?,
+      insightTimeRange: json['InsightTimeRange'] != null
+          ? InsightTimeRange.fromJson(
+              json['InsightTimeRange'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      resourceCollection: json['ResourceCollection'] != null
+          ? ResourceCollection.fromJson(
+              json['ResourceCollection'] as Map<String, dynamic>)
+          : null,
+      serviceCollection: json['ServiceCollection'] != null
+          ? ServiceCollection.fromJson(
+              json['ServiceCollection'] as Map<String, dynamic>)
+          : null,
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedResourceArns = this.associatedResourceArns;
+    final id = this.id;
+    final insightTimeRange = this.insightTimeRange;
+    final name = this.name;
+    final resourceCollection = this.resourceCollection;
+    final serviceCollection = this.serviceCollection;
+    final severity = this.severity;
+    final status = this.status;
+    return {
+      if (associatedResourceArns != null)
+        'AssociatedResourceArns': associatedResourceArns,
+      if (id != null) 'Id': id,
+      if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
+      if (name != null) 'Name': name,
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class InsightSeverity {
+  static const low = InsightSeverity._('LOW');
+  static const medium = InsightSeverity._('MEDIUM');
+  static const high = InsightSeverity._('HIGH');
+
+  final String value;
+
+  const InsightSeverity._(this.value);
+
+  static const values = [low, medium, high];
+
+  static InsightSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightSeverity._(value));
+
+  @override
+  bool operator ==(other) => other is InsightSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InsightStatus {
+  static const ongoing = InsightStatus._('ONGOING');
+  static const closed = InsightStatus._('CLOSED');
+
+  final String value;
+
+  const InsightStatus._(this.value);
+
+  static const values = [ongoing, closed];
+
+  static InsightStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InsightStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A time ranged that specifies when the observed behavior in an insight
+/// started and ended.
+class InsightTimeRange {
+  /// The time when the behavior described in an insight started.
+  final DateTime startTime;
+
+  /// The time when the behavior described in an insight ended.
+  final DateTime? endTime;
+
+  InsightTimeRange({
+    required this.startTime,
+    this.endTime,
+  });
+
+  factory InsightTimeRange.fromJson(Map<String, dynamic> json) {
+    return InsightTimeRange(
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+      endTime: timeStampFromJson(json['EndTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startTime = this.startTime;
+    final endTime = this.endTime;
+    return {
+      'StartTime': unixTimestampToJson(startTime),
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+    };
+  }
+}
+
+/// A collection of Amazon Web Services resources supported by DevOps Guru. The
+/// two types of Amazon Web Services resource collections supported are Amazon
+/// Web Services CloudFormation stacks and Amazon Web Services resources that
+/// contain the same Amazon Web Services tag. DevOps Guru can be configured to
+/// analyze the Amazon Web Services resources that are defined in the stacks or
+/// that are tagged using the same tag <i>key</i>. You can specify up to 500
+/// Amazon Web Services CloudFormation stacks.
+class ResourceCollection {
+  /// An array of the names of Amazon Web Services CloudFormation stacks. The
+  /// stacks define Amazon Web Services resources that DevOps Guru analyzes. You
+  /// can specify up to 500 Amazon Web Services CloudFormation stacks.
+  final CloudFormationCollection? cloudFormation;
+
+  /// The Amazon Web Services tags that are used by resources in the resource
+  /// collection.
+  ///
+  /// Tags help you identify and organize your Amazon Web Services resources. Many
+  /// Amazon Web Services services support tagging, so you can assign the same tag
+  /// to resources from different services to indicate that the resources are
+  /// related. For example, you can assign the same tag to an Amazon DynamoDB
+  /// table resource that you assign to an Lambda function. For more information
+  /// about using tags, see the <a
+  /// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
+  /// best practices</a> whitepaper.
+  ///
+  /// Each Amazon Web Services tag has two parts.
+  ///
+  /// <ul>
+  /// <li>
+  /// A tag <i>key</i> (for example, <code>CostCenter</code>,
+  /// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
+  /// <i>keys</i> are case-sensitive.
+  /// </li>
+  /// <li>
+  /// An optional field known as a tag <i>value</i> (for example,
+  /// <code>111122223333</code>, <code>Production</code>, or a team name).
+  /// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
+  /// <i>keys</i>, tag <i>values</i> are case-sensitive.
+  /// </li>
+  /// </ul>
+  /// Together these are known as <i>key</i>-<i>value</i> pairs.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final List<TagCollection>? tags;
+
+  ResourceCollection({
+    this.cloudFormation,
+    this.tags,
+  });
+
+  factory ResourceCollection.fromJson(Map<String, dynamic> json) {
+    return ResourceCollection(
+      cloudFormation: json['CloudFormation'] != null
+          ? CloudFormationCollection.fromJson(
+              json['CloudFormation'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => TagCollection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFormation = this.cloudFormation;
+    final tags = this.tags;
+    return {
+      if (cloudFormation != null) 'CloudFormation': cloudFormation,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A collection of the names of Amazon Web Services services.
+class ServiceCollection {
+  /// An array of strings that each specifies the name of an Amazon Web Services
+  /// service.
+  final List<ServiceName>? serviceNames;
+
+  ServiceCollection({
+    this.serviceNames,
+  });
+
+  factory ServiceCollection.fromJson(Map<String, dynamic> json) {
+    return ServiceCollection(
+      serviceNames: (json['ServiceNames'] as List?)
+          ?.nonNulls
+          .map((e) => ServiceName.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceNames = this.serviceNames;
+    return {
+      if (serviceNames != null)
+        'ServiceNames': serviceNames.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class ServiceName {
+  static const apiGateway = ServiceName._('API_GATEWAY');
+  static const applicationElb = ServiceName._('APPLICATION_ELB');
+  static const autoScalingGroup = ServiceName._('AUTO_SCALING_GROUP');
+  static const cloudFront = ServiceName._('CLOUD_FRONT');
+  static const dynamoDb = ServiceName._('DYNAMO_DB');
+  static const ec2 = ServiceName._('EC2');
+  static const ecs = ServiceName._('ECS');
+  static const eks = ServiceName._('EKS');
+  static const elasticBeanstalk = ServiceName._('ELASTIC_BEANSTALK');
+  static const elastiCache = ServiceName._('ELASTI_CACHE');
+  static const elb = ServiceName._('ELB');
+  static const es = ServiceName._('ES');
+  static const kinesis = ServiceName._('KINESIS');
+  static const lambda = ServiceName._('LAMBDA');
+  static const natGateway = ServiceName._('NAT_GATEWAY');
+  static const networkElb = ServiceName._('NETWORK_ELB');
+  static const rds = ServiceName._('RDS');
+  static const redshift = ServiceName._('REDSHIFT');
+  static const route_53 = ServiceName._('ROUTE_53');
+  static const s3 = ServiceName._('S3');
+  static const sageMaker = ServiceName._('SAGE_MAKER');
+  static const sns = ServiceName._('SNS');
+  static const sqs = ServiceName._('SQS');
+  static const stepFunctions = ServiceName._('STEP_FUNCTIONS');
+  static const swf = ServiceName._('SWF');
+
+  final String value;
+
+  const ServiceName._(this.value);
+
+  static const values = [
+    apiGateway,
+    applicationElb,
+    autoScalingGroup,
+    cloudFront,
+    dynamoDb,
+    ec2,
+    ecs,
+    eks,
+    elasticBeanstalk,
+    elastiCache,
+    elb,
+    es,
+    kinesis,
+    lambda,
+    natGateway,
+    networkElb,
+    rds,
+    redshift,
+    route_53,
+    s3,
+    sageMaker,
+    sns,
+    sqs,
+    stepFunctions,
+    swf
+  ];
+
+  static ServiceName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceName._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about Amazon Web Services CloudFormation stacks. You can use up
+/// to 500 stacks to specify which Amazon Web Services resources in your account
+/// to analyze. For more information, see <a
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
+/// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+class CloudFormationCollection {
+  /// An array of CloudFormation stack names.
+  final List<String>? stackNames;
+
+  CloudFormationCollection({
+    this.stackNames,
+  });
+
+  factory CloudFormationCollection.fromJson(Map<String, dynamic> json) {
+    return CloudFormationCollection(
+      stackNames: (json['StackNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackNames = this.stackNames;
+    return {
+      if (stackNames != null) 'StackNames': stackNames,
+    };
+  }
+}
+
+/// A collection of Amazon Web Services tags.
+///
+/// Tags help you identify and organize your Amazon Web Services resources. Many
+/// Amazon Web Services services support tagging, so you can assign the same tag
+/// to resources from different services to indicate that the resources are
+/// related. For example, you can assign the same tag to an Amazon DynamoDB
+/// table resource that you assign to an Lambda function. For more information
+/// about using tags, see the <a
+/// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
+/// best practices</a> whitepaper.
+///
+/// Each Amazon Web Services tag has two parts.
+///
+/// <ul>
+/// <li>
+/// A tag <i>key</i> (for example, <code>CostCenter</code>,
+/// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
+/// <i>keys</i> are case-sensitive.
+/// </li>
+/// <li>
+/// An optional field known as a tag <i>value</i> (for example,
+/// <code>111122223333</code>, <code>Production</code>, or a team name).
+/// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
+/// <i>keys</i>, tag <i>values</i> are case-sensitive.
+/// </li>
+/// </ul>
+/// Together these are known as <i>key</i>-<i>value</i> pairs.
+/// <important>
+/// The string used for a <i>key</i> in a tag that you use to define your
+/// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+/// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+/// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+/// case of characters in the <i>key</i> can be whatever you choose. After you
+/// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+/// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+/// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+/// Possible <i>key</i>/<i>value</i> pairs in your application might be
+/// <code>Devops-Guru-production-application/RDS</code> or
+/// <code>Devops-Guru-production-application/containers</code>.
+/// </important>
+class TagCollection {
+  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
+  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
+  /// resources in your account and Region tagged with this <i>key</i> make up
+  /// your DevOps Guru application and analysis boundary.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final String appBoundaryKey;
+
+  /// The values in an Amazon Web Services tag collection.
+  ///
+  /// The tag's <i>value</i> is an optional field used to associate a string with
+  /// the tag <i>key</i> (for example, <code>111122223333</code>,
+  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
+  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
+  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
+  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
+  final List<String> tagValues;
+
+  TagCollection({
+    required this.appBoundaryKey,
+    required this.tagValues,
+  });
+
+  factory TagCollection.fromJson(Map<String, dynamic> json) {
+    return TagCollection(
+      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appBoundaryKey = this.appBoundaryKey;
+    final tagValues = this.tagValues;
+    return {
+      'AppBoundaryKey': appBoundaryKey,
+      'TagValues': tagValues,
+    };
+  }
+}
+
+/// Details about a proactive insight. This object is returned by
+/// <code>DescribeInsight.</code>
+class ProactiveInsightSummary {
+  /// The Amazon Resource Names (ARNs) of the Amazon Web Services resources that
+  /// generated this insight.
+  final List<String>? associatedResourceArns;
+
+  /// The ID of the proactive insight.
+  final String? id;
+  final InsightTimeRange? insightTimeRange;
+
+  /// The name of the proactive insight.
+  final String? name;
+  final PredictionTimeRange? predictionTimeRange;
+  final ResourceCollection? resourceCollection;
+
+  /// A collection of the names of Amazon Web Services services.
+  final ServiceCollection? serviceCollection;
+
+  /// The severity of the insight. For more information, see <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
+  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
+  final InsightSeverity? severity;
+
+  /// The status of the proactive insight.
+  final InsightStatus? status;
+
+  ProactiveInsightSummary({
+    this.associatedResourceArns,
+    this.id,
+    this.insightTimeRange,
+    this.name,
+    this.predictionTimeRange,
+    this.resourceCollection,
+    this.serviceCollection,
+    this.severity,
+    this.status,
+  });
+
+  factory ProactiveInsightSummary.fromJson(Map<String, dynamic> json) {
+    return ProactiveInsightSummary(
+      associatedResourceArns: (json['AssociatedResourceArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      id: json['Id'] as String?,
+      insightTimeRange: json['InsightTimeRange'] != null
+          ? InsightTimeRange.fromJson(
+              json['InsightTimeRange'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      predictionTimeRange: json['PredictionTimeRange'] != null
+          ? PredictionTimeRange.fromJson(
+              json['PredictionTimeRange'] as Map<String, dynamic>)
+          : null,
+      resourceCollection: json['ResourceCollection'] != null
+          ? ResourceCollection.fromJson(
+              json['ResourceCollection'] as Map<String, dynamic>)
+          : null,
+      serviceCollection: json['ServiceCollection'] != null
+          ? ServiceCollection.fromJson(
+              json['ServiceCollection'] as Map<String, dynamic>)
+          : null,
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedResourceArns = this.associatedResourceArns;
+    final id = this.id;
+    final insightTimeRange = this.insightTimeRange;
+    final name = this.name;
+    final predictionTimeRange = this.predictionTimeRange;
+    final resourceCollection = this.resourceCollection;
+    final serviceCollection = this.serviceCollection;
+    final severity = this.severity;
+    final status = this.status;
+    return {
+      if (associatedResourceArns != null)
+        'AssociatedResourceArns': associatedResourceArns,
+      if (id != null) 'Id': id,
+      if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
+      if (name != null) 'Name': name,
+      if (predictionTimeRange != null)
+        'PredictionTimeRange': predictionTimeRange,
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// The time range during which anomalous behavior in a proactive anomaly or an
+/// insight is expected to occur.
+class PredictionTimeRange {
+  /// The time range during which a metric limit is expected to be exceeded. This
+  /// applies to proactive insights only.
+  final DateTime startTime;
+
+  /// The time when the behavior in a proactive insight is expected to end.
+  final DateTime? endTime;
+
+  PredictionTimeRange({
+    required this.startTime,
+    this.endTime,
+  });
+
+  factory PredictionTimeRange.fromJson(Map<String, dynamic> json) {
+    return PredictionTimeRange(
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+      endTime: timeStampFromJson(json['EndTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startTime = this.startTime;
+    final endTime = this.endTime;
+    return {
+      'StartTime': unixTimestampToJson(startTime),
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+    };
+  }
+}
+
+/// A time range used to specify when the behavior of an insight or anomaly
+/// started.
+class StartTimeRange {
+  /// The start time of the time range.
+  final DateTime? fromTime;
+
+  /// The end time of the time range.
+  final DateTime? toTime;
+
+  StartTimeRange({
+    this.fromTime,
+    this.toTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fromTime = this.fromTime;
+    final toTime = this.toTime;
+    return {
+      if (fromTime != null) 'FromTime': unixTimestampToJson(fromTime),
+      if (toTime != null) 'ToTime': unixTimestampToJson(toTime),
+    };
+  }
+}
+
+/// Filters you can use to specify which events are returned when
+/// <code>ListEvents</code> is called.
+class SearchOrganizationInsightsFilters {
+  final ResourceCollection? resourceCollection;
+  final ServiceCollection? serviceCollection;
+
+  /// An array of severity values used to search for insights.
+  final List<InsightSeverity>? severities;
+
+  /// An array of status values used to search for insights.
+  final List<InsightStatus>? statuses;
+
+  SearchOrganizationInsightsFilters({
+    this.resourceCollection,
+    this.serviceCollection,
+    this.severities,
+    this.statuses,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceCollection = this.resourceCollection;
+    final serviceCollection = this.serviceCollection;
+    final severities = this.severities;
+    final statuses = this.statuses;
+    return {
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
+      if (severities != null)
+        'Severities': severities.map((e) => e.value).toList(),
+      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class InsightType {
+  static const reactive = InsightType._('REACTIVE');
+  static const proactive = InsightType._('PROACTIVE');
+
+  final String value;
+
+  const InsightType._(this.value);
+
+  static const values = [reactive, proactive];
+
+  static InsightType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => InsightType._(value));
+
+  @override
+  bool operator ==(other) => other is InsightType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies values used to filter responses when searching for insights. You
+/// can use a <code>ResourceCollection</code>, <code>ServiceCollection</code>,
+/// array of severities, and an array of status values. Each filter type
+/// contains one or more values to search for. If you specify multiple filter
+/// types, the filter types are joined with an <code>AND</code>, and the request
+/// returns only results that match all of the specified filters.
+class SearchInsightsFilters {
+  final ResourceCollection? resourceCollection;
+
+  /// A collection of the names of Amazon Web Services services.
+  final ServiceCollection? serviceCollection;
+
+  /// An array of severity values used to search for insights.
+  final List<InsightSeverity>? severities;
+
+  /// An array of status values used to search for insights.
+  final List<InsightStatus>? statuses;
+
+  SearchInsightsFilters({
+    this.resourceCollection,
+    this.serviceCollection,
+    this.severities,
+    this.statuses,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceCollection = this.resourceCollection;
+    final serviceCollection = this.serviceCollection;
+    final severities = this.severities;
+    final statuses = this.statuses;
+    return {
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
+      if (severities != null)
+        'Severities': severities.map((e) => e.value).toList(),
+      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Information about insight feedback received from a customer.
+class InsightFeedback {
+  /// The feedback provided by the customer.
+  final InsightFeedbackOption? feedback;
+
+  /// The insight feedback ID.
+  final String? id;
+
+  InsightFeedback({
+    this.feedback,
+    this.id,
+  });
+
+  factory InsightFeedback.fromJson(Map<String, dynamic> json) {
+    return InsightFeedback(
+      feedback:
+          (json['Feedback'] as String?)?.let(InsightFeedbackOption.fromString),
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final feedback = this.feedback;
+    final id = this.id;
+    return {
+      if (feedback != null) 'Feedback': feedback.value,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+class InsightFeedbackOption {
+  static const validCollection = InsightFeedbackOption._('VALID_COLLECTION');
+  static const recommendationUseful =
+      InsightFeedbackOption._('RECOMMENDATION_USEFUL');
+  static const alertTooSensitive =
+      InsightFeedbackOption._('ALERT_TOO_SENSITIVE');
+  static const dataNoisyAnomaly = InsightFeedbackOption._('DATA_NOISY_ANOMALY');
+  static const dataIncorrect = InsightFeedbackOption._('DATA_INCORRECT');
+
+  final String value;
+
+  const InsightFeedbackOption._(this.value);
+
+  static const values = [
+    validCollection,
+    recommendationUseful,
+    alertTooSensitive,
+    dataNoisyAnomaly,
+    dataIncorrect
+  ];
+
+  static InsightFeedbackOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InsightFeedbackOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InsightFeedbackOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Recommendation information to help you remediate detected anomalous behavior
+/// that generated an insight.
+class Recommendation {
+  /// The category type of the recommendation.
+  final String? category;
+
+  /// A description of the problem.
+  final String? description;
+
+  /// A hyperlink to information to help you address the problem.
+  final String? link;
+
+  /// The name of the recommendation.
+  final String? name;
+
+  /// The reason DevOps Guru flagged the anomalous behavior as a problem.
+  final String? reason;
+
+  /// Anomalies that are related to the problem. Use these Anomalies to learn more
+  /// about what's happening and to help address the issue.
+  final List<RecommendationRelatedAnomaly>? relatedAnomalies;
+
+  /// Events that are related to the problem. Use these events to learn more about
+  /// what's happening and to help address the issue.
+  final List<RecommendationRelatedEvent>? relatedEvents;
+
+  Recommendation({
+    this.category,
+    this.description,
+    this.link,
+    this.name,
+    this.reason,
+    this.relatedAnomalies,
+    this.relatedEvents,
+  });
+
+  factory Recommendation.fromJson(Map<String, dynamic> json) {
+    return Recommendation(
+      category: json['Category'] as String?,
+      description: json['Description'] as String?,
+      link: json['Link'] as String?,
+      name: json['Name'] as String?,
+      reason: json['Reason'] as String?,
+      relatedAnomalies: (json['RelatedAnomalies'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              RecommendationRelatedAnomaly.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      relatedEvents: (json['RelatedEvents'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              RecommendationRelatedEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final description = this.description;
+    final link = this.link;
+    final name = this.name;
+    final reason = this.reason;
+    final relatedAnomalies = this.relatedAnomalies;
+    final relatedEvents = this.relatedEvents;
+    return {
+      if (category != null) 'Category': category,
+      if (description != null) 'Description': description,
+      if (link != null) 'Link': link,
+      if (name != null) 'Name': name,
+      if (reason != null) 'Reason': reason,
+      if (relatedAnomalies != null) 'RelatedAnomalies': relatedAnomalies,
+      if (relatedEvents != null) 'RelatedEvents': relatedEvents,
+    };
+  }
+}
+
+/// Information about an anomaly that is related to a recommendation.
+class RecommendationRelatedAnomaly {
+  /// The ID of an anomaly that generated the insight with this recommendation.
+  final String? anomalyId;
+
+  /// An array of objects that represent resources in which DevOps Guru detected
+  /// anomalous behavior. Each object contains the name and type of the resource.
+  final List<RecommendationRelatedAnomalyResource>? resources;
+
+  /// Information about where the anomalous behavior related the recommendation
+  /// was found. For example, details in Amazon CloudWatch metrics.
+  final List<RecommendationRelatedAnomalySourceDetail>? sourceDetails;
+
+  RecommendationRelatedAnomaly({
+    this.anomalyId,
+    this.resources,
+    this.sourceDetails,
+  });
+
+  factory RecommendationRelatedAnomaly.fromJson(Map<String, dynamic> json) {
+    return RecommendationRelatedAnomaly(
+      anomalyId: json['AnomalyId'] as String?,
+      resources: (json['Resources'] as List?)
+          ?.nonNulls
+          .map((e) => RecommendationRelatedAnomalyResource.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      sourceDetails: (json['SourceDetails'] as List?)
+          ?.nonNulls
+          .map((e) => RecommendationRelatedAnomalySourceDetail.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyId = this.anomalyId;
+    final resources = this.resources;
+    final sourceDetails = this.sourceDetails;
+    return {
+      if (anomalyId != null) 'AnomalyId': anomalyId,
+      if (resources != null) 'Resources': resources,
+      if (sourceDetails != null) 'SourceDetails': sourceDetails,
+    };
+  }
+}
+
+/// Contains an array of
+/// <code>RecommendationRelatedCloudWatchMetricsSourceDetail</code> objects that
+/// contain the name and namespace of an Amazon CloudWatch metric.
+class RecommendationRelatedAnomalySourceDetail {
+  /// An array of <code>CloudWatchMetricsDetail</code> objects that contains
+  /// information about the analyzed metrics that displayed anomalous behavior.
+  final List<RecommendationRelatedCloudWatchMetricsSourceDetail>?
+      cloudWatchMetrics;
+
+  RecommendationRelatedAnomalySourceDetail({
+    this.cloudWatchMetrics,
+  });
+
+  factory RecommendationRelatedAnomalySourceDetail.fromJson(
+      Map<String, dynamic> json) {
+    return RecommendationRelatedAnomalySourceDetail(
+      cloudWatchMetrics: (json['CloudWatchMetrics'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              RecommendationRelatedCloudWatchMetricsSourceDetail.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchMetrics = this.cloudWatchMetrics;
+    return {
+      if (cloudWatchMetrics != null) 'CloudWatchMetrics': cloudWatchMetrics,
+    };
+  }
+}
+
+/// Information about an Amazon CloudWatch metric that is analyzed by DevOps
+/// Guru. It is one of many analyzed metrics that are used to generate insights.
+class RecommendationRelatedCloudWatchMetricsSourceDetail {
+  /// The name of the CloudWatch metric.
+  final String? metricName;
+
+  /// The namespace of the CloudWatch metric. A namespace is a container for
+  /// CloudWatch metrics.
+  final String? namespace;
+
+  RecommendationRelatedCloudWatchMetricsSourceDetail({
+    this.metricName,
+    this.namespace,
+  });
+
+  factory RecommendationRelatedCloudWatchMetricsSourceDetail.fromJson(
+      Map<String, dynamic> json) {
+    return RecommendationRelatedCloudWatchMetricsSourceDetail(
+      metricName: json['MetricName'] as String?,
+      namespace: json['Namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    return {
+      if (metricName != null) 'MetricName': metricName,
+      if (namespace != null) 'Namespace': namespace,
+    };
+  }
+}
+
+/// Information about a resource in which DevOps Guru detected anomalous
+/// behavior.
+class RecommendationRelatedAnomalyResource {
+  /// The name of the resource.
+  final String? name;
+
+  /// The type of the resource. Resource types take the same form that is used by
+  /// Amazon Web Services CloudFormation resource type identifiers,
+  /// <code>service-provider::service-name::data-type-name</code>. For example,
+  /// <code>AWS::RDS::DBCluster</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
+  /// Web Services resource and property types reference</a> in the <i>Amazon Web
+  /// Services CloudFormation User Guide</i>.
+  final String? type;
+
+  RecommendationRelatedAnomalyResource({
+    this.name,
+    this.type,
+  });
+
+  factory RecommendationRelatedAnomalyResource.fromJson(
+      Map<String, dynamic> json) {
+    return RecommendationRelatedAnomalyResource(
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Information about an event that is related to a recommendation.
+class RecommendationRelatedEvent {
+  /// The name of the event. This corresponds to the <code>Name</code> field in an
+  /// <code>Event</code> object.
+  final String? name;
+
+  /// A <code>ResourceCollection</code> object that contains arrays of the names
+  /// of Amazon Web Services CloudFormation stacks. You can specify up to 500
+  /// Amazon Web Services CloudFormation stacks.
+  final List<RecommendationRelatedEventResource>? resources;
+
+  RecommendationRelatedEvent({
+    this.name,
+    this.resources,
+  });
+
+  factory RecommendationRelatedEvent.fromJson(Map<String, dynamic> json) {
+    return RecommendationRelatedEvent(
+      name: json['Name'] as String?,
+      resources: (json['Resources'] as List?)
+          ?.nonNulls
+          .map((e) => RecommendationRelatedEventResource.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final resources = this.resources;
+    return {
+      if (name != null) 'Name': name,
+      if (resources != null) 'Resources': resources,
+    };
+  }
+}
+
+/// Information about an Amazon Web Services resource that emitted and event
+/// that is related to a recommendation in an insight.
+class RecommendationRelatedEventResource {
+  /// The name of the resource that emitted the event. This corresponds to the
+  /// <code>Name</code> field in an <code>EventResource</code> object.
+  final String? name;
+
+  /// The type of the resource that emitted the event. This corresponds to the
+  /// <code>Type</code> field in an <code>EventResource</code> object.
+  final String? type;
+
+  RecommendationRelatedEventResource({
+    this.name,
+    this.type,
+  });
+
+  factory RecommendationRelatedEventResource.fromJson(
+      Map<String, dynamic> json) {
+    return RecommendationRelatedEventResource(
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
 class Locale {
   static const deDe = Locale._('DE_DE');
   static const enUs = Locale._('EN_US');
@@ -4030,241 +4139,312 @@ class Locale {
   String toString() => value;
 }
 
-/// Information about an anomalous log event found within a log group.
-class LogAnomalyClass {
-  /// The explanation for why the log event is considered an anomaly.
-  final String? explanation;
+/// Information about a reactive insight. This object is returned by
+/// <code>DescribeInsight</code>.
+class ReactiveOrganizationInsightSummary {
+  /// The ID of the Amazon Web Services account.
+  final String? accountId;
 
-  /// The token where the anomaly was detected. This may refer to an exception or
-  /// another location, or it may be blank for log anomalies such as format
-  /// anomalies.
-  final String? logAnomalyToken;
+  /// The ID of the insight summary.
+  final String? id;
+  final InsightTimeRange? insightTimeRange;
 
-  /// The type of log anomaly that has been detected.
-  final LogAnomalyType? logAnomalyType;
+  /// The name of the insight summary.
+  final String? name;
 
-  /// The ID of the log event.
-  final String? logEventId;
-
-  /// The time of the first occurrence of the anomalous log event.
-  final DateTime? logEventTimestamp;
-
-  /// The name of the Amazon CloudWatch log stream that the anomalous log event
-  /// belongs to. A log stream is a sequence of log events that share the same
-  /// source.
-  final String? logStreamName;
-
-  /// The number of log lines where this anomalous log event occurs.
-  final int? numberOfLogLinesOccurrences;
-
-  LogAnomalyClass({
-    this.explanation,
-    this.logAnomalyToken,
-    this.logAnomalyType,
-    this.logEventId,
-    this.logEventTimestamp,
-    this.logStreamName,
-    this.numberOfLogLinesOccurrences,
-  });
-
-  factory LogAnomalyClass.fromJson(Map<String, dynamic> json) {
-    return LogAnomalyClass(
-      explanation: json['Explanation'] as String?,
-      logAnomalyToken: json['LogAnomalyToken'] as String?,
-      logAnomalyType:
-          (json['LogAnomalyType'] as String?)?.let(LogAnomalyType.fromString),
-      logEventId: json['LogEventId'] as String?,
-      logEventTimestamp: timeStampFromJson(json['LogEventTimestamp']),
-      logStreamName: json['LogStreamName'] as String?,
-      numberOfLogLinesOccurrences: json['NumberOfLogLinesOccurrences'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final explanation = this.explanation;
-    final logAnomalyToken = this.logAnomalyToken;
-    final logAnomalyType = this.logAnomalyType;
-    final logEventId = this.logEventId;
-    final logEventTimestamp = this.logEventTimestamp;
-    final logStreamName = this.logStreamName;
-    final numberOfLogLinesOccurrences = this.numberOfLogLinesOccurrences;
-    return {
-      if (explanation != null) 'Explanation': explanation,
-      if (logAnomalyToken != null) 'LogAnomalyToken': logAnomalyToken,
-      if (logAnomalyType != null) 'LogAnomalyType': logAnomalyType.value,
-      if (logEventId != null) 'LogEventId': logEventId,
-      if (logEventTimestamp != null)
-        'LogEventTimestamp': unixTimestampToJson(logEventTimestamp),
-      if (logStreamName != null) 'LogStreamName': logStreamName,
-      if (numberOfLogLinesOccurrences != null)
-        'NumberOfLogLinesOccurrences': numberOfLogLinesOccurrences,
-    };
-  }
-}
-
-/// A cluster of similar anomalous log events found within a log group.
-class LogAnomalyShowcase {
-  /// A list of anomalous log events that may be related.
-  final List<LogAnomalyClass>? logAnomalyClasses;
-
-  LogAnomalyShowcase({
-    this.logAnomalyClasses,
-  });
-
-  factory LogAnomalyShowcase.fromJson(Map<String, dynamic> json) {
-    return LogAnomalyShowcase(
-      logAnomalyClasses: (json['LogAnomalyClasses'] as List?)
-          ?.nonNulls
-          .map((e) => LogAnomalyClass.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logAnomalyClasses = this.logAnomalyClasses;
-    return {
-      if (logAnomalyClasses != null) 'LogAnomalyClasses': logAnomalyClasses,
-    };
-  }
-}
-
-class LogAnomalyType {
-  static const keyword = LogAnomalyType._('KEYWORD');
-  static const keywordToken = LogAnomalyType._('KEYWORD_TOKEN');
-  static const format = LogAnomalyType._('FORMAT');
-  static const httpCode = LogAnomalyType._('HTTP_CODE');
-  static const blockFormat = LogAnomalyType._('BLOCK_FORMAT');
-  static const numericalPoint = LogAnomalyType._('NUMERICAL_POINT');
-  static const numericalNan = LogAnomalyType._('NUMERICAL_NAN');
-  static const newFieldName = LogAnomalyType._('NEW_FIELD_NAME');
-
-  final String value;
-
-  const LogAnomalyType._(this.value);
-
-  static const values = [
-    keyword,
-    keywordToken,
-    format,
-    httpCode,
-    blockFormat,
-    numericalPoint,
-    numericalNan,
-    newFieldName
-  ];
-
-  static LogAnomalyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LogAnomalyType._(value));
-
-  @override
-  bool operator ==(other) => other is LogAnomalyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the integration of DevOps Guru with CloudWatch log groups
-/// for log anomaly detection.
-class LogsAnomalyDetectionIntegration {
-  /// Specifies if DevOps Guru is configured to perform log anomaly detection on
-  /// CloudWatch log groups.
-  final OptInStatus? optInStatus;
-
-  LogsAnomalyDetectionIntegration({
-    this.optInStatus,
-  });
-
-  factory LogsAnomalyDetectionIntegration.fromJson(Map<String, dynamic> json) {
-    return LogsAnomalyDetectionIntegration(
-      optInStatus:
-          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final optInStatus = this.optInStatus;
-    return {
-      if (optInStatus != null) 'OptInStatus': optInStatus.value,
-    };
-  }
-}
-
-/// Information about the integration of DevOps Guru with CloudWatch log groups
-/// for log anomaly detection. You can use this to update the configuration.
-class LogsAnomalyDetectionIntegrationConfig {
-  /// Specifies if DevOps Guru is configured to perform log anomaly detection on
-  /// CloudWatch log groups.
-  final OptInStatus? optInStatus;
-
-  LogsAnomalyDetectionIntegrationConfig({
-    this.optInStatus,
-  });
-
-  Map<String, dynamic> toJson() {
-    final optInStatus = this.optInStatus;
-    return {
-      if (optInStatus != null) 'OptInStatus': optInStatus.value,
-    };
-  }
-}
-
-/// Information about the resource that is being monitored, including the name
-/// of the resource, the type of resource, and whether or not permission is
-/// given to DevOps Guru to access that resource.
-class MonitoredResourceIdentifier {
-  /// The time at which DevOps Guru last updated this resource.
-  final DateTime? lastUpdated;
-
-  /// The name of the resource being monitored.
-  final String? monitoredResourceName;
+  /// The ID of the organizational unit.
+  final String? organizationalUnitId;
   final ResourceCollection? resourceCollection;
+  final ServiceCollection? serviceCollection;
 
-  /// The permission status of a resource.
-  final ResourcePermission? resourcePermission;
+  /// An array of severity values used to search for insights. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
+  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
+  final InsightSeverity? severity;
 
-  /// The type of resource being monitored.
-  final String? type;
+  /// An array of status values used to search for insights.
+  final InsightStatus? status;
 
-  MonitoredResourceIdentifier({
-    this.lastUpdated,
-    this.monitoredResourceName,
+  ReactiveOrganizationInsightSummary({
+    this.accountId,
+    this.id,
+    this.insightTimeRange,
+    this.name,
+    this.organizationalUnitId,
     this.resourceCollection,
-    this.resourcePermission,
-    this.type,
+    this.serviceCollection,
+    this.severity,
+    this.status,
   });
 
-  factory MonitoredResourceIdentifier.fromJson(Map<String, dynamic> json) {
-    return MonitoredResourceIdentifier(
-      lastUpdated: timeStampFromJson(json['LastUpdated']),
-      monitoredResourceName: json['MonitoredResourceName'] as String?,
+  factory ReactiveOrganizationInsightSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ReactiveOrganizationInsightSummary(
+      accountId: json['AccountId'] as String?,
+      id: json['Id'] as String?,
+      insightTimeRange: json['InsightTimeRange'] != null
+          ? InsightTimeRange.fromJson(
+              json['InsightTimeRange'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      organizationalUnitId: json['OrganizationalUnitId'] as String?,
       resourceCollection: json['ResourceCollection'] != null
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      resourcePermission: (json['ResourcePermission'] as String?)
-          ?.let(ResourcePermission.fromString),
-      type: json['Type'] as String?,
+      serviceCollection: json['ServiceCollection'] != null
+          ? ServiceCollection.fromJson(
+              json['ServiceCollection'] as Map<String, dynamic>)
+          : null,
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lastUpdated = this.lastUpdated;
-    final monitoredResourceName = this.monitoredResourceName;
+    final accountId = this.accountId;
+    final id = this.id;
+    final insightTimeRange = this.insightTimeRange;
+    final name = this.name;
+    final organizationalUnitId = this.organizationalUnitId;
     final resourceCollection = this.resourceCollection;
-    final resourcePermission = this.resourcePermission;
+    final serviceCollection = this.serviceCollection;
+    final severity = this.severity;
+    final status = this.status;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (id != null) 'Id': id,
+      if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
+      if (name != null) 'Name': name,
+      if (organizationalUnitId != null)
+        'OrganizationalUnitId': organizationalUnitId,
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Details about a proactive insight. This object is returned by
+/// <code>DescribeInsight</code>.
+class ProactiveOrganizationInsightSummary {
+  /// The ID of the Amazon Web Services account.
+  final String? accountId;
+
+  /// The ID of the insight summary.
+  final String? id;
+  final InsightTimeRange? insightTimeRange;
+
+  /// The name of the insight summary.
+  final String? name;
+
+  /// The ID of the organizational unit.
+  final String? organizationalUnitId;
+  final PredictionTimeRange? predictionTimeRange;
+  final ResourceCollection? resourceCollection;
+  final ServiceCollection? serviceCollection;
+
+  /// An array of severity values used to search for insights. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
+  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
+  final InsightSeverity? severity;
+
+  /// An array of status values used to search for insights.
+  final InsightStatus? status;
+
+  ProactiveOrganizationInsightSummary({
+    this.accountId,
+    this.id,
+    this.insightTimeRange,
+    this.name,
+    this.organizationalUnitId,
+    this.predictionTimeRange,
+    this.resourceCollection,
+    this.serviceCollection,
+    this.severity,
+    this.status,
+  });
+
+  factory ProactiveOrganizationInsightSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ProactiveOrganizationInsightSummary(
+      accountId: json['AccountId'] as String?,
+      id: json['Id'] as String?,
+      insightTimeRange: json['InsightTimeRange'] != null
+          ? InsightTimeRange.fromJson(
+              json['InsightTimeRange'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      organizationalUnitId: json['OrganizationalUnitId'] as String?,
+      predictionTimeRange: json['PredictionTimeRange'] != null
+          ? PredictionTimeRange.fromJson(
+              json['PredictionTimeRange'] as Map<String, dynamic>)
+          : null,
+      resourceCollection: json['ResourceCollection'] != null
+          ? ResourceCollection.fromJson(
+              json['ResourceCollection'] as Map<String, dynamic>)
+          : null,
+      serviceCollection: json['ServiceCollection'] != null
+          ? ServiceCollection.fromJson(
+              json['ServiceCollection'] as Map<String, dynamic>)
+          : null,
+      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final id = this.id;
+    final insightTimeRange = this.insightTimeRange;
+    final name = this.name;
+    final organizationalUnitId = this.organizationalUnitId;
+    final predictionTimeRange = this.predictionTimeRange;
+    final resourceCollection = this.resourceCollection;
+    final serviceCollection = this.serviceCollection;
+    final severity = this.severity;
+    final status = this.status;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (id != null) 'Id': id,
+      if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
+      if (name != null) 'Name': name,
+      if (organizationalUnitId != null)
+        'OrganizationalUnitId': organizationalUnitId,
+      if (predictionTimeRange != null)
+        'PredictionTimeRange': predictionTimeRange,
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
+      if (severity != null) 'Severity': severity.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// A filter used by <code>ListInsights</code> to specify which insights to
+/// return.
+class ListInsightsStatusFilter {
+  /// A <code>ListInsightsAnyStatusFilter</code> that specifies insights of any
+  /// status that are either <code>REACTIVE</code> or <code>PROACTIVE</code>.
+  final ListInsightsAnyStatusFilter? any;
+
+  /// A <code>ListInsightsClosedStatusFilter</code> that specifies closed insights
+  /// that are either <code>REACTIVE</code> or <code>PROACTIVE</code>.
+  final ListInsightsClosedStatusFilter? closed;
+
+  /// A <code>ListInsightsAnyStatusFilter</code> that specifies ongoing insights
+  /// that are either <code>REACTIVE</code> or <code>PROACTIVE</code>.
+  final ListInsightsOngoingStatusFilter? ongoing;
+
+  ListInsightsStatusFilter({
+    this.any,
+    this.closed,
+    this.ongoing,
+  });
+
+  Map<String, dynamic> toJson() {
+    final any = this.any;
+    final closed = this.closed;
+    final ongoing = this.ongoing;
+    return {
+      if (any != null) 'Any': any,
+      if (closed != null) 'Closed': closed,
+      if (ongoing != null) 'Ongoing': ongoing,
+    };
+  }
+}
+
+/// Used to filter for insights that have the status <code>ONGOING</code>.
+class ListInsightsOngoingStatusFilter {
+  /// Use to filter for either <code>REACTIVE</code> or <code>PROACTIVE</code>
+  /// insights.
+  final InsightType type;
+
+  ListInsightsOngoingStatusFilter({
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
     final type = this.type;
     return {
-      if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
-      if (monitoredResourceName != null)
-        'MonitoredResourceName': monitoredResourceName,
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (resourcePermission != null)
-        'ResourcePermission': resourcePermission.value,
-      if (type != null) 'Type': type,
+      'Type': type.value,
+    };
+  }
+}
+
+/// Used to filter for insights that have the status <code>CLOSED</code>.
+class ListInsightsClosedStatusFilter {
+  /// A time range used to specify when the behavior of the filtered insights
+  /// ended.
+  final EndTimeRange endTimeRange;
+
+  /// Use to filter for either <code>REACTIVE</code> or <code>PROACTIVE</code>
+  /// insights.
+  final InsightType type;
+
+  ListInsightsClosedStatusFilter({
+    required this.endTimeRange,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final endTimeRange = this.endTimeRange;
+    final type = this.type;
+    return {
+      'EndTimeRange': endTimeRange,
+      'Type': type.value,
+    };
+  }
+}
+
+/// Used to filter for insights that have any status.
+class ListInsightsAnyStatusFilter {
+  /// A time range used to specify when the behavior of the filtered insights
+  /// started.
+  final StartTimeRange startTimeRange;
+
+  /// Use to filter for either <code>REACTIVE</code> or <code>PROACTIVE</code>
+  /// insights.
+  final InsightType type;
+
+  ListInsightsAnyStatusFilter({
+    required this.startTimeRange,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final startTimeRange = this.startTimeRange;
+    final type = this.type;
+    return {
+      'StartTimeRange': startTimeRange,
+      'Type': type.value,
+    };
+  }
+}
+
+/// A range of time that specifies when anomalous behavior in an anomaly or
+/// insight ended.
+class EndTimeRange {
+  /// The earliest end time in the time range.
+  final DateTime? fromTime;
+
+  /// The latest end time in the time range.
+  final DateTime? toTime;
+
+  EndTimeRange({
+    this.fromTime,
+    this.toTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fromTime = this.fromTime;
+    final toTime = this.toTime;
+    return {
+      if (fromTime != null) 'FromTime': unixTimestampToJson(fromTime),
+      if (toTime != null) 'ToTime': unixTimestampToJson(toTime),
     };
   }
 }
@@ -4373,6 +4553,45 @@ class NotificationChannelConfig {
   }
 }
 
+/// Contains the Amazon Resource Name (ARN) of an Amazon Simple Notification
+/// Service topic.
+///
+/// If you use an Amazon SNS topic in another account, you must attach a policy
+/// to it that grants DevOps Guru permission to send it notifications. DevOps
+/// Guru adds the required policy on your behalf to send notifications using
+/// Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html">Permissions
+/// for Amazon SNS topics</a>.
+///
+/// If you use an Amazon SNS topic that is encrypted by an Amazon Web Services
+/// Key Management Service customer-managed key (CMK), then you must add
+/// permissions to the CMK. For more information, see <a
+/// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html">Permissions
+/// for Amazon Web Services KMS–encrypted Amazon SNS topics</a>.
+class SnsChannelConfig {
+  /// The Amazon Resource Name (ARN) of an Amazon Simple Notification Service
+  /// topic.
+  final String? topicArn;
+
+  SnsChannelConfig({
+    this.topicArn,
+  });
+
+  factory SnsChannelConfig.fromJson(Map<String, dynamic> json) {
+    return SnsChannelConfig(
+      topicArn: json['TopicArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    return {
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
+}
+
 /// The filter configurations for the Amazon SNS notification topic you use with
 /// DevOps Guru. You can choose to specify which events or message types to
 /// receive notifications for. You can also choose to specify which severity
@@ -4457,103 +4676,1376 @@ class NotificationMessageType {
   String toString() => value;
 }
 
-/// Information about whether DevOps Guru is configured to create an OpsItem in
-/// Amazon Web Services Systems Manager OpsCenter for each created insight.
-class OpsCenterIntegration {
-  /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
-  /// Manager OpsItem for each created insight.
-  final OptInStatus? optInStatus;
+/// Information about the resource that is being monitored, including the name
+/// of the resource, the type of resource, and whether or not permission is
+/// given to DevOps Guru to access that resource.
+class MonitoredResourceIdentifier {
+  /// The time at which DevOps Guru last updated this resource.
+  final DateTime? lastUpdated;
 
-  OpsCenterIntegration({
-    this.optInStatus,
+  /// The name of the resource being monitored.
+  final String? monitoredResourceName;
+  final ResourceCollection? resourceCollection;
+
+  /// The permission status of a resource.
+  final ResourcePermission? resourcePermission;
+
+  /// The type of resource being monitored.
+  final String? type;
+
+  MonitoredResourceIdentifier({
+    this.lastUpdated,
+    this.monitoredResourceName,
+    this.resourceCollection,
+    this.resourcePermission,
+    this.type,
   });
 
-  factory OpsCenterIntegration.fromJson(Map<String, dynamic> json) {
-    return OpsCenterIntegration(
-      optInStatus:
-          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
+  factory MonitoredResourceIdentifier.fromJson(Map<String, dynamic> json) {
+    return MonitoredResourceIdentifier(
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      monitoredResourceName: json['MonitoredResourceName'] as String?,
+      resourceCollection: json['ResourceCollection'] != null
+          ? ResourceCollection.fromJson(
+              json['ResourceCollection'] as Map<String, dynamic>)
+          : null,
+      resourcePermission: (json['ResourcePermission'] as String?)
+          ?.let(ResourcePermission.fromString),
+      type: json['Type'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final optInStatus = this.optInStatus;
+    final lastUpdated = this.lastUpdated;
+    final monitoredResourceName = this.monitoredResourceName;
+    final resourceCollection = this.resourceCollection;
+    final resourcePermission = this.resourcePermission;
+    final type = this.type;
     return {
-      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+      if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
+      if (monitoredResourceName != null)
+        'MonitoredResourceName': monitoredResourceName,
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (resourcePermission != null)
+        'ResourcePermission': resourcePermission.value,
+      if (type != null) 'Type': type,
     };
   }
 }
 
-/// Information about whether DevOps Guru is configured to create an OpsItem in
-/// Amazon Web Services Systems Manager OpsCenter for each created insight. You
-/// can use this to update the configuration.
-class OpsCenterIntegrationConfig {
-  /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
-  /// Manager OpsItem for each created insight.
-  final OptInStatus? optInStatus;
-
-  OpsCenterIntegrationConfig({
-    this.optInStatus,
-  });
-
-  Map<String, dynamic> toJson() {
-    final optInStatus = this.optInStatus;
-    return {
-      if (optInStatus != null) 'OptInStatus': optInStatus.value,
-    };
-  }
-}
-
-/// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
-/// Manager OpsItem for each created insight.
-class OptInStatus {
-  static const enabled = OptInStatus._('ENABLED');
-  static const disabled = OptInStatus._('DISABLED');
+class ResourcePermission {
+  static const fullPermission = ResourcePermission._('FULL_PERMISSION');
+  static const missingPermission = ResourcePermission._('MISSING_PERMISSION');
 
   final String value;
 
-  const OptInStatus._(this.value);
+  const ResourcePermission._(this.value);
 
-  static const values = [enabled, disabled];
+  static const values = [fullPermission, missingPermission];
 
-  static OptInStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OptInStatus._(value));
-
-  @override
-  bool operator ==(other) => other is OptInStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OrganizationResourceCollectionType {
-  static const awsCloudFormation =
-      OrganizationResourceCollectionType._('AWS_CLOUD_FORMATION');
-  static const awsService = OrganizationResourceCollectionType._('AWS_SERVICE');
-  static const awsAccount = OrganizationResourceCollectionType._('AWS_ACCOUNT');
-  static const awsTags = OrganizationResourceCollectionType._('AWS_TAGS');
-
-  final String value;
-
-  const OrganizationResourceCollectionType._(this.value);
-
-  static const values = [awsCloudFormation, awsService, awsAccount, awsTags];
-
-  static OrganizationResourceCollectionType fromString(String value) =>
+  static ResourcePermission fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => OrganizationResourceCollectionType._(value));
+          orElse: () => ResourcePermission._(value));
 
   @override
   bool operator ==(other) =>
-      other is OrganizationResourceCollectionType && other.value == value;
+      other is ResourcePermission && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Filters to determine which monitored resources you want to retrieve. You can
+/// filter by resource type or resource permission status.
+class ListMonitoredResourcesFilters {
+  /// The permission status of a resource.
+  final ResourcePermission resourcePermission;
+
+  /// The type of resource that you wish to retrieve, such as log groups.
+  final List<ResourceTypeFilter> resourceTypeFilters;
+
+  ListMonitoredResourcesFilters({
+    required this.resourcePermission,
+    required this.resourceTypeFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourcePermission = this.resourcePermission;
+    final resourceTypeFilters = this.resourceTypeFilters;
+    return {
+      'ResourcePermission': resourcePermission.value,
+      'ResourceTypeFilters': resourceTypeFilters.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class ResourceTypeFilter {
+  static const logGroups = ResourceTypeFilter._('LOG_GROUPS');
+  static const cloudfrontDistribution =
+      ResourceTypeFilter._('CLOUDFRONT_DISTRIBUTION');
+  static const dynamodbTable = ResourceTypeFilter._('DYNAMODB_TABLE');
+  static const ec2NatGateway = ResourceTypeFilter._('EC2_NAT_GATEWAY');
+  static const ecsCluster = ResourceTypeFilter._('ECS_CLUSTER');
+  static const ecsService = ResourceTypeFilter._('ECS_SERVICE');
+  static const eksCluster = ResourceTypeFilter._('EKS_CLUSTER');
+  static const elasticBeanstalkEnvironment =
+      ResourceTypeFilter._('ELASTIC_BEANSTALK_ENVIRONMENT');
+  static const elasticLoadBalancerLoadBalancer =
+      ResourceTypeFilter._('ELASTIC_LOAD_BALANCER_LOAD_BALANCER');
+  static const elasticLoadBalancingV2LoadBalancer =
+      ResourceTypeFilter._('ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER');
+  static const elasticLoadBalancingV2TargetGroup =
+      ResourceTypeFilter._('ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP');
+  static const elasticacheCacheCluster =
+      ResourceTypeFilter._('ELASTICACHE_CACHE_CLUSTER');
+  static const elasticsearchDomain =
+      ResourceTypeFilter._('ELASTICSEARCH_DOMAIN');
+  static const kinesisStream = ResourceTypeFilter._('KINESIS_STREAM');
+  static const lambdaFunction = ResourceTypeFilter._('LAMBDA_FUNCTION');
+  static const openSearchServiceDomain =
+      ResourceTypeFilter._('OPEN_SEARCH_SERVICE_DOMAIN');
+  static const rdsDbInstance = ResourceTypeFilter._('RDS_DB_INSTANCE');
+  static const rdsDbCluster = ResourceTypeFilter._('RDS_DB_CLUSTER');
+  static const redshiftCluster = ResourceTypeFilter._('REDSHIFT_CLUSTER');
+  static const route53HostedZone = ResourceTypeFilter._('ROUTE53_HOSTED_ZONE');
+  static const route53HealthCheck =
+      ResourceTypeFilter._('ROUTE53_HEALTH_CHECK');
+  static const s3Bucket = ResourceTypeFilter._('S3_BUCKET');
+  static const sagemakerEndpoint = ResourceTypeFilter._('SAGEMAKER_ENDPOINT');
+  static const snsTopic = ResourceTypeFilter._('SNS_TOPIC');
+  static const sqsQueue = ResourceTypeFilter._('SQS_QUEUE');
+  static const stepFunctionsActivity =
+      ResourceTypeFilter._('STEP_FUNCTIONS_ACTIVITY');
+  static const stepFunctionsStateMachine =
+      ResourceTypeFilter._('STEP_FUNCTIONS_STATE_MACHINE');
+
+  final String value;
+
+  const ResourceTypeFilter._(this.value);
+
+  static const values = [
+    logGroups,
+    cloudfrontDistribution,
+    dynamodbTable,
+    ec2NatGateway,
+    ecsCluster,
+    ecsService,
+    eksCluster,
+    elasticBeanstalkEnvironment,
+    elasticLoadBalancerLoadBalancer,
+    elasticLoadBalancingV2LoadBalancer,
+    elasticLoadBalancingV2TargetGroup,
+    elasticacheCacheCluster,
+    elasticsearchDomain,
+    kinesisStream,
+    lambdaFunction,
+    openSearchServiceDomain,
+    rdsDbInstance,
+    rdsDbCluster,
+    redshiftCluster,
+    route53HostedZone,
+    route53HealthCheck,
+    s3Bucket,
+    sagemakerEndpoint,
+    snsTopic,
+    sqsQueue,
+    stepFunctionsActivity,
+    stepFunctionsStateMachine
+  ];
+
+  static ResourceTypeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceTypeFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceTypeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An Amazon Web Services resource event. Amazon Web Services resource events
+/// and metrics are analyzed by DevOps Guru to find anomalous behavior and
+/// provide recommendations to improve your operational solutions.
+class Event {
+  /// The source, <code>AWS_CLOUD_TRAIL</code> or <code>AWS_CODE_DEPLOY</code>,
+  /// where DevOps Guru analysis found the event.
+  final EventDataSource? dataSource;
+
+  /// The class of the event. The class specifies what the event is related to,
+  /// such as an infrastructure change, a deployment, or a schema change.
+  final EventClass? eventClass;
+
+  /// The Amazon Web Services source that emitted the event.
+  final String? eventSource;
+
+  /// The ID of the event.
+  final String? id;
+
+  /// The name of the event.
+  final String? name;
+  final ResourceCollection? resourceCollection;
+
+  /// An <code>EventResource</code> object that contains information about the
+  /// resource that emitted the event.
+  final List<EventResource>? resources;
+
+  /// A <code>Timestamp</code> that specifies the time the event occurred.
+  final DateTime? time;
+
+  Event({
+    this.dataSource,
+    this.eventClass,
+    this.eventSource,
+    this.id,
+    this.name,
+    this.resourceCollection,
+    this.resources,
+    this.time,
+  });
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      dataSource:
+          (json['DataSource'] as String?)?.let(EventDataSource.fromString),
+      eventClass: (json['EventClass'] as String?)?.let(EventClass.fromString),
+      eventSource: json['EventSource'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      resourceCollection: json['ResourceCollection'] != null
+          ? ResourceCollection.fromJson(
+              json['ResourceCollection'] as Map<String, dynamic>)
+          : null,
+      resources: (json['Resources'] as List?)
+          ?.nonNulls
+          .map((e) => EventResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      time: timeStampFromJson(json['Time']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final eventClass = this.eventClass;
+    final eventSource = this.eventSource;
+    final id = this.id;
+    final name = this.name;
+    final resourceCollection = this.resourceCollection;
+    final resources = this.resources;
+    final time = this.time;
+    return {
+      if (dataSource != null) 'DataSource': dataSource.value,
+      if (eventClass != null) 'EventClass': eventClass.value,
+      if (eventSource != null) 'EventSource': eventSource,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (resources != null) 'Resources': resources,
+      if (time != null) 'Time': unixTimestampToJson(time),
+    };
+  }
+}
+
+class EventDataSource {
+  static const awsCloudTrail = EventDataSource._('AWS_CLOUD_TRAIL');
+  static const awsCodeDeploy = EventDataSource._('AWS_CODE_DEPLOY');
+
+  final String value;
+
+  const EventDataSource._(this.value);
+
+  static const values = [awsCloudTrail, awsCodeDeploy];
+
+  static EventDataSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EventDataSource._(value));
+
+  @override
+  bool operator ==(other) => other is EventDataSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EventClass {
+  static const infrastructure = EventClass._('INFRASTRUCTURE');
+  static const deployment = EventClass._('DEPLOYMENT');
+  static const securityChange = EventClass._('SECURITY_CHANGE');
+  static const configChange = EventClass._('CONFIG_CHANGE');
+  static const schemaChange = EventClass._('SCHEMA_CHANGE');
+
+  final String value;
+
+  const EventClass._(this.value);
+
+  static const values = [
+    infrastructure,
+    deployment,
+    securityChange,
+    configChange,
+    schemaChange
+  ];
+
+  static EventClass fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventClass._(value));
+
+  @override
+  bool operator ==(other) => other is EventClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Amazon Web Services resource that emitted an event. Amazon Web Services
+/// resource events and metrics are analyzed by DevOps Guru to find anomalous
+/// behavior and provide recommendations to improve your operational solutions.
+class EventResource {
+  /// The Amazon Resource Name (ARN) of the resource that emitted an event.
+  final String? arn;
+
+  /// The name of the resource that emitted an event.
+  final String? name;
+
+  /// The type of resource that emitted an event.
+  final String? type;
+
+  EventResource({
+    this.arn,
+    this.name,
+    this.type,
+  });
+
+  factory EventResource.fromJson(Map<String, dynamic> json) {
+    return EventResource(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Filters you can use to specify which events are returned when
+/// <code>ListEvents</code> is called.
+class ListEventsFilters {
+  /// The source, <code>AWS_CLOUD_TRAIL</code> or <code>AWS_CODE_DEPLOY</code>, of
+  /// the events you want returned.
+  final EventDataSource? dataSource;
+
+  /// The class of the events you want to filter for, such as an infrastructure
+  /// change, a deployment, or a schema change.
+  final EventClass? eventClass;
+
+  /// The Amazon Web Services source that emitted the events you want to filter
+  /// for.
+  final String? eventSource;
+
+  /// A time range during which you want the filtered events to have occurred.
+  final EventTimeRange? eventTimeRange;
+
+  /// An ID of an insight that is related to the events you want to filter for.
+  final String? insightId;
+  final ResourceCollection? resourceCollection;
+
+  ListEventsFilters({
+    this.dataSource,
+    this.eventClass,
+    this.eventSource,
+    this.eventTimeRange,
+    this.insightId,
+    this.resourceCollection,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final eventClass = this.eventClass;
+    final eventSource = this.eventSource;
+    final eventTimeRange = this.eventTimeRange;
+    final insightId = this.insightId;
+    final resourceCollection = this.resourceCollection;
+    return {
+      if (dataSource != null) 'DataSource': dataSource.value,
+      if (eventClass != null) 'EventClass': eventClass.value,
+      if (eventSource != null) 'EventSource': eventSource,
+      if (eventTimeRange != null) 'EventTimeRange': eventTimeRange,
+      if (insightId != null) 'InsightId': insightId,
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+    };
+  }
+}
+
+/// The time range during which an Amazon Web Services event occurred. Amazon
+/// Web Services resource events and metrics are analyzed by DevOps Guru to find
+/// anomalous behavior and provide recommendations to improve your operational
+/// solutions.
+class EventTimeRange {
+  /// The time when the event started.
+  final DateTime fromTime;
+
+  /// The time when the event ended.
+  final DateTime toTime;
+
+  EventTimeRange({
+    required this.fromTime,
+    required this.toTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fromTime = this.fromTime;
+    final toTime = this.toTime;
+    return {
+      'FromTime': unixTimestampToJson(fromTime),
+      'ToTime': unixTimestampToJson(toTime),
+    };
+  }
+}
+
+/// An Amazon CloudWatch log group that contains log anomalies and is used to
+/// generate an insight.
+class AnomalousLogGroup {
+  /// The time the anomalous log events stopped.
+  final DateTime? impactEndTime;
+
+  /// The time the anomalous log events began. The impact start time indicates the
+  /// time of the first log anomaly event that occurs.
+  final DateTime? impactStartTime;
+
+  /// The log anomalies in the log group. Each log anomaly displayed represents a
+  /// cluster of similar anomalous log events.
+  final List<LogAnomalyShowcase>? logAnomalyShowcases;
+
+  /// The name of the CloudWatch log group.
+  final String? logGroupName;
+
+  /// The number of log lines that were scanned for anomalous log events.
+  final int? numberOfLogLinesScanned;
+
+  AnomalousLogGroup({
+    this.impactEndTime,
+    this.impactStartTime,
+    this.logAnomalyShowcases,
+    this.logGroupName,
+    this.numberOfLogLinesScanned,
+  });
+
+  factory AnomalousLogGroup.fromJson(Map<String, dynamic> json) {
+    return AnomalousLogGroup(
+      impactEndTime: timeStampFromJson(json['ImpactEndTime']),
+      impactStartTime: timeStampFromJson(json['ImpactStartTime']),
+      logAnomalyShowcases: (json['LogAnomalyShowcases'] as List?)
+          ?.nonNulls
+          .map((e) => LogAnomalyShowcase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      logGroupName: json['LogGroupName'] as String?,
+      numberOfLogLinesScanned: json['NumberOfLogLinesScanned'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final impactEndTime = this.impactEndTime;
+    final impactStartTime = this.impactStartTime;
+    final logAnomalyShowcases = this.logAnomalyShowcases;
+    final logGroupName = this.logGroupName;
+    final numberOfLogLinesScanned = this.numberOfLogLinesScanned;
+    return {
+      if (impactEndTime != null)
+        'ImpactEndTime': unixTimestampToJson(impactEndTime),
+      if (impactStartTime != null)
+        'ImpactStartTime': unixTimestampToJson(impactStartTime),
+      if (logAnomalyShowcases != null)
+        'LogAnomalyShowcases': logAnomalyShowcases,
+      if (logGroupName != null) 'LogGroupName': logGroupName,
+      if (numberOfLogLinesScanned != null)
+        'NumberOfLogLinesScanned': numberOfLogLinesScanned,
+    };
+  }
+}
+
+/// A cluster of similar anomalous log events found within a log group.
+class LogAnomalyShowcase {
+  /// A list of anomalous log events that may be related.
+  final List<LogAnomalyClass>? logAnomalyClasses;
+
+  LogAnomalyShowcase({
+    this.logAnomalyClasses,
+  });
+
+  factory LogAnomalyShowcase.fromJson(Map<String, dynamic> json) {
+    return LogAnomalyShowcase(
+      logAnomalyClasses: (json['LogAnomalyClasses'] as List?)
+          ?.nonNulls
+          .map((e) => LogAnomalyClass.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logAnomalyClasses = this.logAnomalyClasses;
+    return {
+      if (logAnomalyClasses != null) 'LogAnomalyClasses': logAnomalyClasses,
+    };
+  }
+}
+
+/// Information about an anomalous log event found within a log group.
+class LogAnomalyClass {
+  /// The explanation for why the log event is considered an anomaly.
+  final String? explanation;
+
+  /// The token where the anomaly was detected. This may refer to an exception or
+  /// another location, or it may be blank for log anomalies such as format
+  /// anomalies.
+  final String? logAnomalyToken;
+
+  /// The type of log anomaly that has been detected.
+  final LogAnomalyType? logAnomalyType;
+
+  /// The ID of the log event.
+  final String? logEventId;
+
+  /// The time of the first occurrence of the anomalous log event.
+  final DateTime? logEventTimestamp;
+
+  /// The name of the Amazon CloudWatch log stream that the anomalous log event
+  /// belongs to. A log stream is a sequence of log events that share the same
+  /// source.
+  final String? logStreamName;
+
+  /// The number of log lines where this anomalous log event occurs.
+  final int? numberOfLogLinesOccurrences;
+
+  LogAnomalyClass({
+    this.explanation,
+    this.logAnomalyToken,
+    this.logAnomalyType,
+    this.logEventId,
+    this.logEventTimestamp,
+    this.logStreamName,
+    this.numberOfLogLinesOccurrences,
+  });
+
+  factory LogAnomalyClass.fromJson(Map<String, dynamic> json) {
+    return LogAnomalyClass(
+      explanation: json['Explanation'] as String?,
+      logAnomalyToken: json['LogAnomalyToken'] as String?,
+      logAnomalyType:
+          (json['LogAnomalyType'] as String?)?.let(LogAnomalyType.fromString),
+      logEventId: json['LogEventId'] as String?,
+      logEventTimestamp: timeStampFromJson(json['LogEventTimestamp']),
+      logStreamName: json['LogStreamName'] as String?,
+      numberOfLogLinesOccurrences: json['NumberOfLogLinesOccurrences'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final explanation = this.explanation;
+    final logAnomalyToken = this.logAnomalyToken;
+    final logAnomalyType = this.logAnomalyType;
+    final logEventId = this.logEventId;
+    final logEventTimestamp = this.logEventTimestamp;
+    final logStreamName = this.logStreamName;
+    final numberOfLogLinesOccurrences = this.numberOfLogLinesOccurrences;
+    return {
+      if (explanation != null) 'Explanation': explanation,
+      if (logAnomalyToken != null) 'LogAnomalyToken': logAnomalyToken,
+      if (logAnomalyType != null) 'LogAnomalyType': logAnomalyType.value,
+      if (logEventId != null) 'LogEventId': logEventId,
+      if (logEventTimestamp != null)
+        'LogEventTimestamp': unixTimestampToJson(logEventTimestamp),
+      if (logStreamName != null) 'LogStreamName': logStreamName,
+      if (numberOfLogLinesOccurrences != null)
+        'NumberOfLogLinesOccurrences': numberOfLogLinesOccurrences,
+    };
+  }
+}
+
+class LogAnomalyType {
+  static const keyword = LogAnomalyType._('KEYWORD');
+  static const keywordToken = LogAnomalyType._('KEYWORD_TOKEN');
+  static const format = LogAnomalyType._('FORMAT');
+  static const httpCode = LogAnomalyType._('HTTP_CODE');
+  static const blockFormat = LogAnomalyType._('BLOCK_FORMAT');
+  static const numericalPoint = LogAnomalyType._('NUMERICAL_POINT');
+  static const numericalNan = LogAnomalyType._('NUMERICAL_NAN');
+  static const newFieldName = LogAnomalyType._('NEW_FIELD_NAME');
+
+  final String value;
+
+  const LogAnomalyType._(this.value);
+
+  static const values = [
+    keyword,
+    keywordToken,
+    format,
+    httpCode,
+    blockFormat,
+    numericalPoint,
+    numericalNan,
+    newFieldName
+  ];
+
+  static LogAnomalyType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LogAnomalyType._(value));
+
+  @override
+  bool operator ==(other) => other is LogAnomalyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details about a reactive anomaly. This object is returned by
+/// <code>DescribeAnomaly.</code>
+class ReactiveAnomalySummary {
+  /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
+  /// range between when the anomaly is opened and the time when it is closed.
+  final AnomalyReportedTimeRange? anomalyReportedTimeRange;
+
+  /// The Amazon Web Services resources in which anomalous behavior was detected
+  /// by DevOps Guru.
+  final List<AnomalyResource>? anomalyResources;
+  final AnomalyTimeRange? anomalyTimeRange;
+
+  /// The ID of the insight that contains this anomaly. An insight is composed of
+  /// related anomalies.
+  final String? associatedInsightId;
+
+  /// The ID of the causal anomaly that is associated with this reactive anomaly.
+  /// The ID of a `CAUSAL` anomaly is always `NULL`.
+  final String? causalAnomalyId;
+
+  /// A description of the reactive anomaly.
+  final String? description;
+
+  /// The ID of the reactive anomaly.
+  final String? id;
+
+  /// The name of the reactive anomaly.
+  final String? name;
+  final ResourceCollection? resourceCollection;
+
+  /// The severity of the anomaly. The severity of anomalies that generate an
+  /// insight determine that insight's severity. For more information, see <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
+  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
+  final AnomalySeverity? severity;
+
+  /// Details about the source of the analyzed operational data that triggered the
+  /// anomaly. The one supported source is Amazon CloudWatch metrics.
+  final AnomalySourceDetails? sourceDetails;
+
+  /// The status of the reactive anomaly.
+  final AnomalyStatus? status;
+
+  /// The type of the reactive anomaly. It can be one of the following types.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CAUSAL</code> - the anomaly can cause a new insight.
+  /// </li>
+  /// <li>
+  /// <code>CONTEXTUAL</code> - the anomaly contains additional information about
+  /// an insight or its causal anomaly.
+  /// </li>
+  /// </ul>
+  final AnomalyType? type;
+
+  ReactiveAnomalySummary({
+    this.anomalyReportedTimeRange,
+    this.anomalyResources,
+    this.anomalyTimeRange,
+    this.associatedInsightId,
+    this.causalAnomalyId,
+    this.description,
+    this.id,
+    this.name,
+    this.resourceCollection,
+    this.severity,
+    this.sourceDetails,
+    this.status,
+    this.type,
+  });
+
+  factory ReactiveAnomalySummary.fromJson(Map<String, dynamic> json) {
+    return ReactiveAnomalySummary(
+      anomalyReportedTimeRange: json['AnomalyReportedTimeRange'] != null
+          ? AnomalyReportedTimeRange.fromJson(
+              json['AnomalyReportedTimeRange'] as Map<String, dynamic>)
+          : null,
+      anomalyResources: (json['AnomalyResources'] as List?)
+          ?.nonNulls
+          .map((e) => AnomalyResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      anomalyTimeRange: json['AnomalyTimeRange'] != null
+          ? AnomalyTimeRange.fromJson(
+              json['AnomalyTimeRange'] as Map<String, dynamic>)
+          : null,
+      associatedInsightId: json['AssociatedInsightId'] as String?,
+      causalAnomalyId: json['CausalAnomalyId'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      resourceCollection: json['ResourceCollection'] != null
+          ? ResourceCollection.fromJson(
+              json['ResourceCollection'] as Map<String, dynamic>)
+          : null,
+      severity: (json['Severity'] as String?)?.let(AnomalySeverity.fromString),
+      sourceDetails: json['SourceDetails'] != null
+          ? AnomalySourceDetails.fromJson(
+              json['SourceDetails'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.let(AnomalyStatus.fromString),
+      type: (json['Type'] as String?)?.let(AnomalyType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyReportedTimeRange = this.anomalyReportedTimeRange;
+    final anomalyResources = this.anomalyResources;
+    final anomalyTimeRange = this.anomalyTimeRange;
+    final associatedInsightId = this.associatedInsightId;
+    final causalAnomalyId = this.causalAnomalyId;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final resourceCollection = this.resourceCollection;
+    final severity = this.severity;
+    final sourceDetails = this.sourceDetails;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (anomalyReportedTimeRange != null)
+        'AnomalyReportedTimeRange': anomalyReportedTimeRange,
+      if (anomalyResources != null) 'AnomalyResources': anomalyResources,
+      if (anomalyTimeRange != null) 'AnomalyTimeRange': anomalyTimeRange,
+      if (associatedInsightId != null)
+        'AssociatedInsightId': associatedInsightId,
+      if (causalAnomalyId != null) 'CausalAnomalyId': causalAnomalyId,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
+      if (severity != null) 'Severity': severity.value,
+      if (sourceDetails != null) 'SourceDetails': sourceDetails,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class AnomalySeverity {
+  static const low = AnomalySeverity._('LOW');
+  static const medium = AnomalySeverity._('MEDIUM');
+  static const high = AnomalySeverity._('HIGH');
+
+  final String value;
+
+  const AnomalySeverity._(this.value);
+
+  static const values = [low, medium, high];
+
+  static AnomalySeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnomalySeverity._(value));
+
+  @override
+  bool operator ==(other) => other is AnomalySeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AnomalyStatus {
+  static const ongoing = AnomalyStatus._('ONGOING');
+  static const closed = AnomalyStatus._('CLOSED');
+
+  final String value;
+
+  const AnomalyStatus._(this.value);
+
+  static const values = [ongoing, closed];
+
+  static AnomalyStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnomalyStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AnomalyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A time range that specifies when the observed unusual behavior in an anomaly
+/// started and ended. This is different from
+/// <code>AnomalyReportedTimeRange</code>, which specifies the time range when
+/// DevOps Guru opens and then closes an anomaly.
+class AnomalyTimeRange {
+  /// The time when the anomalous behavior started.
+  final DateTime startTime;
+
+  /// The time when the anomalous behavior ended.
+  final DateTime? endTime;
+
+  AnomalyTimeRange({
+    required this.startTime,
+    this.endTime,
+  });
+
+  factory AnomalyTimeRange.fromJson(Map<String, dynamic> json) {
+    return AnomalyTimeRange(
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+      endTime: timeStampFromJson(json['EndTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startTime = this.startTime;
+    final endTime = this.endTime;
+    return {
+      'StartTime': unixTimestampToJson(startTime),
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+    };
+  }
+}
+
+/// A time range that specifies when DevOps Guru opens and then closes an
+/// anomaly. This is different from <code>AnomalyTimeRange</code>, which
+/// specifies the time range when DevOps Guru actually observes the anomalous
+/// behavior.
+class AnomalyReportedTimeRange {
+  /// The time when an anomaly is opened.
+  final DateTime openTime;
+
+  /// The time when an anomaly is closed.
+  final DateTime? closeTime;
+
+  AnomalyReportedTimeRange({
+    required this.openTime,
+    this.closeTime,
+  });
+
+  factory AnomalyReportedTimeRange.fromJson(Map<String, dynamic> json) {
+    return AnomalyReportedTimeRange(
+      openTime: nonNullableTimeStampFromJson(json['OpenTime'] ?? 0),
+      closeTime: timeStampFromJson(json['CloseTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openTime = this.openTime;
+    final closeTime = this.closeTime;
+    return {
+      'OpenTime': unixTimestampToJson(openTime),
+      if (closeTime != null) 'CloseTime': unixTimestampToJson(closeTime),
+    };
+  }
+}
+
+/// Details about the source of the anomalous operational data that triggered
+/// the anomaly.
+class AnomalySourceDetails {
+  /// An array of <code>CloudWatchMetricsDetail</code> objects that contain
+  /// information about analyzed CloudWatch metrics that show anomalous behavior.
+  final List<CloudWatchMetricsDetail>? cloudWatchMetrics;
+
+  /// An array of <code>PerformanceInsightsMetricsDetail</code> objects that
+  /// contain information about analyzed Performance Insights metrics that show
+  /// anomalous behavior.
+  final List<PerformanceInsightsMetricsDetail>? performanceInsightsMetrics;
+
+  AnomalySourceDetails({
+    this.cloudWatchMetrics,
+    this.performanceInsightsMetrics,
+  });
+
+  factory AnomalySourceDetails.fromJson(Map<String, dynamic> json) {
+    return AnomalySourceDetails(
+      cloudWatchMetrics: (json['CloudWatchMetrics'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CloudWatchMetricsDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      performanceInsightsMetrics: (json['PerformanceInsightsMetrics'] as List?)
+          ?.nonNulls
+          .map((e) => PerformanceInsightsMetricsDetail.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchMetrics = this.cloudWatchMetrics;
+    final performanceInsightsMetrics = this.performanceInsightsMetrics;
+    return {
+      if (cloudWatchMetrics != null) 'CloudWatchMetrics': cloudWatchMetrics,
+      if (performanceInsightsMetrics != null)
+        'PerformanceInsightsMetrics': performanceInsightsMetrics,
+    };
+  }
+}
+
+class AnomalyType {
+  static const causal = AnomalyType._('CAUSAL');
+  static const contextual = AnomalyType._('CONTEXTUAL');
+
+  final String value;
+
+  const AnomalyType._(this.value);
+
+  static const values = [causal, contextual];
+
+  static AnomalyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AnomalyType._(value));
+
+  @override
+  bool operator ==(other) => other is AnomalyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Amazon Web Services resources in which DevOps Guru detected unusual
+/// behavior that resulted in the generation of an anomaly. When DevOps Guru
+/// detects multiple related anomalies, it creates and insight with details
+/// about the anomalous behavior and suggestions about how to correct the
+/// problem.
+class AnomalyResource {
+  /// The name of the Amazon Web Services resource.
+  final String? name;
+
+  /// The type of the Amazon Web Services resource.
+  final String? type;
+
+  AnomalyResource({
+    this.name,
+    this.type,
+  });
+
+  factory AnomalyResource.fromJson(Map<String, dynamic> json) {
+    return AnomalyResource(
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Details about Performance Insights metrics.
+///
+/// Amazon RDS Performance Insights enables you to monitor and explore different
+/// dimensions of database load based on data captured from a running DB
+/// instance. DB load is measured as average active sessions. Performance
+/// Insights provides the data to API consumers as a two-dimensional time-series
+/// dataset. The time dimension provides DB load data for each time point in the
+/// queried time range. Each time point decomposes overall load in relation to
+/// the requested dimensions, measured at that time point. Examples include SQL,
+/// Wait event, User, and Host.
+///
+/// <ul>
+/// <li>
+/// To learn more about Performance Insights and Amazon Aurora DB instances, go
+/// to the <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights.html">
+/// Amazon Aurora User Guide</a>.
+/// </li>
+/// <li>
+/// To learn more about Performance Insights and Amazon RDS DB instances, go to
+/// the <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">
+/// Amazon RDS User Guide</a>.
+/// </li>
+/// </ul>
+class PerformanceInsightsMetricsDetail {
+  /// The name used for a specific Performance Insights metric.
+  final String? metricDisplayName;
+
+  /// A single query to be processed for the metric. For more information, see
+  /// <code> <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_PerformanceInsightsMetricQuery.html">PerformanceInsightsMetricQuery</a>
+  /// </code>.
+  final PerformanceInsightsMetricQuery? metricQuery;
+
+  /// For more information, see <code> <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_PerformanceInsightsReferenceData.html">PerformanceInsightsReferenceData</a>
+  /// </code>.
+  final List<PerformanceInsightsReferenceData>? referenceData;
+
+  /// The metric statistics during the anomalous period detected by DevOps Guru;
+  final List<PerformanceInsightsStat>? statsAtAnomaly;
+
+  /// Typical metric statistics that are not considered anomalous. When DevOps
+  /// Guru analyzes metrics, it compares them to <code>StatsAtBaseline</code> to
+  /// help determine if they are anomalous.
+  final List<PerformanceInsightsStat>? statsAtBaseline;
+
+  /// The unit of measure for a metric. For example, a session or a process.
+  final String? unit;
+
+  PerformanceInsightsMetricsDetail({
+    this.metricDisplayName,
+    this.metricQuery,
+    this.referenceData,
+    this.statsAtAnomaly,
+    this.statsAtBaseline,
+    this.unit,
+  });
+
+  factory PerformanceInsightsMetricsDetail.fromJson(Map<String, dynamic> json) {
+    return PerformanceInsightsMetricsDetail(
+      metricDisplayName: json['MetricDisplayName'] as String?,
+      metricQuery: json['MetricQuery'] != null
+          ? PerformanceInsightsMetricQuery.fromJson(
+              json['MetricQuery'] as Map<String, dynamic>)
+          : null,
+      referenceData: (json['ReferenceData'] as List?)
+          ?.nonNulls
+          .map((e) => PerformanceInsightsReferenceData.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      statsAtAnomaly: (json['StatsAtAnomaly'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              PerformanceInsightsStat.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statsAtBaseline: (json['StatsAtBaseline'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              PerformanceInsightsStat.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDisplayName = this.metricDisplayName;
+    final metricQuery = this.metricQuery;
+    final referenceData = this.referenceData;
+    final statsAtAnomaly = this.statsAtAnomaly;
+    final statsAtBaseline = this.statsAtBaseline;
+    final unit = this.unit;
+    return {
+      if (metricDisplayName != null) 'MetricDisplayName': metricDisplayName,
+      if (metricQuery != null) 'MetricQuery': metricQuery,
+      if (referenceData != null) 'ReferenceData': referenceData,
+      if (statsAtAnomaly != null) 'StatsAtAnomaly': statsAtAnomaly,
+      if (statsAtBaseline != null) 'StatsAtBaseline': statsAtBaseline,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+/// A single query to be processed. Use these parameters to query the
+/// Performance Insights <code>GetResourceMetrics</code> API to retrieve the
+/// metrics for an anomaly. For more information, see <code> <a
+/// href="https://docs.aws.amazon.com/performance-insights/latest/APIReference/API_GetResourceMetrics.html">GetResourceMetrics</a>
+/// </code> in the <i>Amazon RDS Performance Insights API Reference</i>.
+///
+/// Amazon RDS Performance Insights enables you to monitor and explore different
+/// dimensions of database load based on data captured from a running DB
+/// instance. DB load is measured as average active sessions. Performance
+/// Insights provides the data to API consumers as a two-dimensional time-series
+/// dataset. The time dimension provides DB load data for each time point in the
+/// queried time range. Each time point decomposes overall load in relation to
+/// the requested dimensions, measured at that time point. Examples include SQL,
+/// Wait event, User, and Host.
+///
+/// <ul>
+/// <li>
+/// To learn more about Performance Insights and Amazon Aurora DB instances, go
+/// to the <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights.html">
+/// Amazon Aurora User Guide</a>.
+/// </li>
+/// <li>
+/// To learn more about Performance Insights and Amazon RDS DB instances, go to
+/// the <a
+/// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">
+/// Amazon RDS User Guide</a>.
+/// </li>
+/// </ul>
+class PerformanceInsightsMetricQuery {
+  /// One or more filters to apply to a Performance Insights
+  /// <code>GetResourceMetrics</code> API query. Restrictions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Any number of filters by the same dimension, as specified in the
+  /// <code>GroupBy</code> parameter.
+  /// </li>
+  /// <li>
+  /// A single filter for any other dimension in this dimension group.
+  /// </li>
+  /// </ul>
+  final Map<String, String>? filter;
+
+  /// The specification for how to aggregate the data points from a Performance
+  /// Insights <code>GetResourceMetrics</code> API query. The Performance Insights
+  /// query returns all of the dimensions within that group, unless you provide
+  /// the names of specific dimensions within that group. You can also request
+  /// that Performance Insights return a limited number of values for a dimension.
+  final PerformanceInsightsMetricDimensionGroup? groupBy;
+
+  /// The name of the meteric used used when querying an Performance Insights
+  /// <code>GetResourceMetrics</code> API for anomaly metrics.
+  ///
+  /// Valid values for <code>Metric</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>db.load.avg</code> - a scaled representation of the number of active
+  /// sessions for the database engine.
+  /// </li>
+  /// <li>
+  /// <code>db.sampledload.avg</code> - the raw number of active sessions for the
+  /// database engine.
+  /// </li>
+  /// </ul>
+  /// If the number of active sessions is less than an internal Performance
+  /// Insights threshold, <code>db.load.avg</code> and
+  /// <code>db.sampledload.avg</code> are the same value. If the number of active
+  /// sessions is greater than the internal threshold, Performance Insights
+  /// samples the active sessions, with <code>db.load.avg</code> showing the
+  /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
+  /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
+  /// use cases, you can query <code>db.load.avg</code> only.
+  final String? metric;
+
+  PerformanceInsightsMetricQuery({
+    this.filter,
+    this.groupBy,
+    this.metric,
+  });
+
+  factory PerformanceInsightsMetricQuery.fromJson(Map<String, dynamic> json) {
+    return PerformanceInsightsMetricQuery(
+      filter: (json['Filter'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      groupBy: json['GroupBy'] != null
+          ? PerformanceInsightsMetricDimensionGroup.fromJson(
+              json['GroupBy'] as Map<String, dynamic>)
+          : null,
+      metric: json['Metric'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    final groupBy = this.groupBy;
+    final metric = this.metric;
+    return {
+      if (filter != null) 'Filter': filter,
+      if (groupBy != null) 'GroupBy': groupBy,
+      if (metric != null) 'Metric': metric,
+    };
+  }
+}
+
+/// A statistic in a Performance Insights collection.
+class PerformanceInsightsStat {
+  /// The statistic type.
+  final String? type;
+
+  /// The value of the statistic.
+  final double? value;
+
+  PerformanceInsightsStat({
+    this.type,
+    this.value,
+  });
+
+  factory PerformanceInsightsStat.fromJson(Map<String, dynamic> json) {
+    return PerformanceInsightsStat(
+      type: json['Type'] as String?,
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Reference data used to evaluate Performance Insights to determine if its
+/// performance is anomalous or not.
+class PerformanceInsightsReferenceData {
+  /// The specific reference values used to evaluate the Performance Insights. For
+  /// more information, see <code> <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_PerformanceInsightsReferenceComparisonValues.html">PerformanceInsightsReferenceComparisonValues</a>
+  /// </code>.
+  final PerformanceInsightsReferenceComparisonValues? comparisonValues;
+
+  /// The name of the reference data.
+  final String? name;
+
+  PerformanceInsightsReferenceData({
+    this.comparisonValues,
+    this.name,
+  });
+
+  factory PerformanceInsightsReferenceData.fromJson(Map<String, dynamic> json) {
+    return PerformanceInsightsReferenceData(
+      comparisonValues: json['ComparisonValues'] != null
+          ? PerformanceInsightsReferenceComparisonValues.fromJson(
+              json['ComparisonValues'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonValues = this.comparisonValues;
+    final name = this.name;
+    return {
+      if (comparisonValues != null) 'ComparisonValues': comparisonValues,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Reference scalar values and other metrics that DevOps Guru displays on a
+/// graph in its console along with the actual metrics it analyzed. Compare
+/// these reference values to your actual metrics to help you understand
+/// anomalous behavior that DevOps Guru detected.
+class PerformanceInsightsReferenceComparisonValues {
+  /// A metric that DevOps Guru compares to actual metric values. This reference
+  /// metric is used to determine if an actual metric should be considered
+  /// anomalous.
+  final PerformanceInsightsReferenceMetric? referenceMetric;
+
+  /// A scalar value DevOps Guru for a metric that DevOps Guru compares to actual
+  /// metric values. This reference value is used to determine if an actual metric
+  /// value should be considered anomalous.
+  final PerformanceInsightsReferenceScalar? referenceScalar;
+
+  PerformanceInsightsReferenceComparisonValues({
+    this.referenceMetric,
+    this.referenceScalar,
+  });
+
+  factory PerformanceInsightsReferenceComparisonValues.fromJson(
+      Map<String, dynamic> json) {
+    return PerformanceInsightsReferenceComparisonValues(
+      referenceMetric: json['ReferenceMetric'] != null
+          ? PerformanceInsightsReferenceMetric.fromJson(
+              json['ReferenceMetric'] as Map<String, dynamic>)
+          : null,
+      referenceScalar: json['ReferenceScalar'] != null
+          ? PerformanceInsightsReferenceScalar.fromJson(
+              json['ReferenceScalar'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final referenceMetric = this.referenceMetric;
+    final referenceScalar = this.referenceScalar;
+    return {
+      if (referenceMetric != null) 'ReferenceMetric': referenceMetric,
+      if (referenceScalar != null) 'ReferenceScalar': referenceScalar,
+    };
+  }
+}
+
+/// A reference value to compare Performance Insights metrics against to
+/// determine if the metrics demonstrate anomalous behavior.
+class PerformanceInsightsReferenceScalar {
+  /// The reference value.
+  final double? value;
+
+  PerformanceInsightsReferenceScalar({
+    this.value,
+  });
+
+  factory PerformanceInsightsReferenceScalar.fromJson(
+      Map<String, dynamic> json) {
+    return PerformanceInsightsReferenceScalar(
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about a reference metric used to evaluate Performance Insights.
+class PerformanceInsightsReferenceMetric {
+  /// A query to be processed on the metric.
+  final PerformanceInsightsMetricQuery? metricQuery;
+
+  PerformanceInsightsReferenceMetric({
+    this.metricQuery,
+  });
+
+  factory PerformanceInsightsReferenceMetric.fromJson(
+      Map<String, dynamic> json) {
+    return PerformanceInsightsReferenceMetric(
+      metricQuery: json['MetricQuery'] != null
+          ? PerformanceInsightsMetricQuery.fromJson(
+              json['MetricQuery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricQuery = this.metricQuery;
+    return {
+      if (metricQuery != null) 'MetricQuery': metricQuery,
+    };
+  }
 }
 
 /// A logical grouping of Performance Insights metrics for a related subject
@@ -4736,549 +6228,253 @@ class PerformanceInsightsMetricDimensionGroup {
   }
 }
 
-/// A single query to be processed. Use these parameters to query the
-/// Performance Insights <code>GetResourceMetrics</code> API to retrieve the
-/// metrics for an anomaly. For more information, see <code> <a
-/// href="https://docs.aws.amazon.com/performance-insights/latest/APIReference/API_GetResourceMetrics.html">GetResourceMetrics</a>
-/// </code> in the <i>Amazon RDS Performance Insights API Reference</i>.
-///
-/// Amazon RDS Performance Insights enables you to monitor and explore different
-/// dimensions of database load based on data captured from a running DB
-/// instance. DB load is measured as average active sessions. Performance
-/// Insights provides the data to API consumers as a two-dimensional time-series
-/// dataset. The time dimension provides DB load data for each time point in the
-/// queried time range. Each time point decomposes overall load in relation to
-/// the requested dimensions, measured at that time point. Examples include SQL,
-/// Wait event, User, and Host.
-///
-/// <ul>
-/// <li>
-/// To learn more about Performance Insights and Amazon Aurora DB instances, go
-/// to the <a
-/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights.html">
-/// Amazon Aurora User Guide</a>.
-/// </li>
-/// <li>
-/// To learn more about Performance Insights and Amazon RDS DB instances, go to
-/// the <a
-/// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">
-/// Amazon RDS User Guide</a>.
-/// </li>
-/// </ul>
-class PerformanceInsightsMetricQuery {
-  /// One or more filters to apply to a Performance Insights
-  /// <code>GetResourceMetrics</code> API query. Restrictions:
-  ///
-  /// <ul>
-  /// <li>
-  /// Any number of filters by the same dimension, as specified in the
-  /// <code>GroupBy</code> parameter.
-  /// </li>
-  /// <li>
-  /// A single filter for any other dimension in this dimension group.
-  /// </li>
-  /// </ul>
-  final Map<String, String>? filter;
+/// Information about an Amazon CloudWatch metric.
+class CloudWatchMetricsDetail {
+  /// An array of CloudWatch dimensions associated with
+  final List<CloudWatchMetricsDimension>? dimensions;
 
-  /// The specification for how to aggregate the data points from a Performance
-  /// Insights <code>GetResourceMetrics</code> API query. The Performance Insights
-  /// query returns all of the dimensions within that group, unless you provide
-  /// the names of specific dimensions within that group. You can also request
-  /// that Performance Insights return a limited number of values for a dimension.
-  final PerformanceInsightsMetricDimensionGroup? groupBy;
+  /// This object returns anomaly metric data.
+  final CloudWatchMetricsDataSummary? metricDataSummary;
 
-  /// The name of the meteric used used when querying an Performance Insights
-  /// <code>GetResourceMetrics</code> API for anomaly metrics.
-  ///
-  /// Valid values for <code>Metric</code> are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>db.load.avg</code> - a scaled representation of the number of active
-  /// sessions for the database engine.
-  /// </li>
-  /// <li>
-  /// <code>db.sampledload.avg</code> - the raw number of active sessions for the
-  /// database engine.
-  /// </li>
-  /// </ul>
-  /// If the number of active sessions is less than an internal Performance
-  /// Insights threshold, <code>db.load.avg</code> and
-  /// <code>db.sampledload.avg</code> are the same value. If the number of active
-  /// sessions is greater than the internal threshold, Performance Insights
-  /// samples the active sessions, with <code>db.load.avg</code> showing the
-  /// scaled values, <code>db.sampledload.avg</code> showing the raw values, and
-  /// <code>db.sampledload.avg</code> less than <code>db.load.avg</code>. For most
-  /// use cases, you can query <code>db.load.avg</code> only.
-  final String? metric;
+  /// The name of the CloudWatch metric.
+  final String? metricName;
 
-  PerformanceInsightsMetricQuery({
-    this.filter,
-    this.groupBy,
-    this.metric,
-  });
+  /// The namespace of the CloudWatch metric. A namespace is a container for
+  /// CloudWatch metrics.
+  final String? namespace;
 
-  factory PerformanceInsightsMetricQuery.fromJson(Map<String, dynamic> json) {
-    return PerformanceInsightsMetricQuery(
-      filter: (json['Filter'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      groupBy: json['GroupBy'] != null
-          ? PerformanceInsightsMetricDimensionGroup.fromJson(
-              json['GroupBy'] as Map<String, dynamic>)
-          : null,
-      metric: json['Metric'] as String?,
-    );
-  }
+  /// The length of time associated with the CloudWatch metric in number of
+  /// seconds.
+  final int? period;
 
-  Map<String, dynamic> toJson() {
-    final filter = this.filter;
-    final groupBy = this.groupBy;
-    final metric = this.metric;
-    return {
-      if (filter != null) 'Filter': filter,
-      if (groupBy != null) 'GroupBy': groupBy,
-      if (metric != null) 'Metric': metric,
-    };
-  }
-}
+  /// The type of statistic associated with the CloudWatch metric. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic">Statistics</a>
+  /// in the <i>Amazon CloudWatch User Guide</i>.
+  final CloudWatchMetricsStat? stat;
 
-/// Details about Performance Insights metrics.
-///
-/// Amazon RDS Performance Insights enables you to monitor and explore different
-/// dimensions of database load based on data captured from a running DB
-/// instance. DB load is measured as average active sessions. Performance
-/// Insights provides the data to API consumers as a two-dimensional time-series
-/// dataset. The time dimension provides DB load data for each time point in the
-/// queried time range. Each time point decomposes overall load in relation to
-/// the requested dimensions, measured at that time point. Examples include SQL,
-/// Wait event, User, and Host.
-///
-/// <ul>
-/// <li>
-/// To learn more about Performance Insights and Amazon Aurora DB instances, go
-/// to the <a
-/// href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights.html">
-/// Amazon Aurora User Guide</a>.
-/// </li>
-/// <li>
-/// To learn more about Performance Insights and Amazon RDS DB instances, go to
-/// the <a
-/// href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html">
-/// Amazon RDS User Guide</a>.
-/// </li>
-/// </ul>
-class PerformanceInsightsMetricsDetail {
-  /// The name used for a specific Performance Insights metric.
-  final String? metricDisplayName;
-
-  /// A single query to be processed for the metric. For more information, see
-  /// <code> <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_PerformanceInsightsMetricQuery.html">PerformanceInsightsMetricQuery</a>
-  /// </code>.
-  final PerformanceInsightsMetricQuery? metricQuery;
-
-  /// For more information, see <code> <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_PerformanceInsightsReferenceData.html">PerformanceInsightsReferenceData</a>
-  /// </code>.
-  final List<PerformanceInsightsReferenceData>? referenceData;
-
-  /// The metric statistics during the anomalous period detected by DevOps Guru;
-  final List<PerformanceInsightsStat>? statsAtAnomaly;
-
-  /// Typical metric statistics that are not considered anomalous. When DevOps
-  /// Guru analyzes metrics, it compares them to <code>StatsAtBaseline</code> to
-  /// help determine if they are anomalous.
-  final List<PerformanceInsightsStat>? statsAtBaseline;
-
-  /// The unit of measure for a metric. For example, a session or a process.
+  /// The unit of measure used for the CloudWatch metric. For example,
+  /// <code>Bytes</code>, <code>Seconds</code>, <code>Count</code>, and
+  /// <code>Percent</code>.
   final String? unit;
 
-  PerformanceInsightsMetricsDetail({
-    this.metricDisplayName,
-    this.metricQuery,
-    this.referenceData,
-    this.statsAtAnomaly,
-    this.statsAtBaseline,
+  CloudWatchMetricsDetail({
+    this.dimensions,
+    this.metricDataSummary,
+    this.metricName,
+    this.namespace,
+    this.period,
+    this.stat,
     this.unit,
   });
 
-  factory PerformanceInsightsMetricsDetail.fromJson(Map<String, dynamic> json) {
-    return PerformanceInsightsMetricsDetail(
-      metricDisplayName: json['MetricDisplayName'] as String?,
-      metricQuery: json['MetricQuery'] != null
-          ? PerformanceInsightsMetricQuery.fromJson(
-              json['MetricQuery'] as Map<String, dynamic>)
+  factory CloudWatchMetricsDetail.fromJson(Map<String, dynamic> json) {
+    return CloudWatchMetricsDetail(
+      dimensions: (json['Dimensions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CloudWatchMetricsDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metricDataSummary: json['MetricDataSummary'] != null
+          ? CloudWatchMetricsDataSummary.fromJson(
+              json['MetricDataSummary'] as Map<String, dynamic>)
           : null,
-      referenceData: (json['ReferenceData'] as List?)
-          ?.nonNulls
-          .map((e) => PerformanceInsightsReferenceData.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      statsAtAnomaly: (json['StatsAtAnomaly'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              PerformanceInsightsStat.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      statsAtBaseline: (json['StatsAtBaseline'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              PerformanceInsightsStat.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      metricName: json['MetricName'] as String?,
+      namespace: json['Namespace'] as String?,
+      period: json['Period'] as int?,
+      stat: (json['Stat'] as String?)?.let(CloudWatchMetricsStat.fromString),
       unit: json['Unit'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final metricDisplayName = this.metricDisplayName;
-    final metricQuery = this.metricQuery;
-    final referenceData = this.referenceData;
-    final statsAtAnomaly = this.statsAtAnomaly;
-    final statsAtBaseline = this.statsAtBaseline;
+    final dimensions = this.dimensions;
+    final metricDataSummary = this.metricDataSummary;
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final period = this.period;
+    final stat = this.stat;
     final unit = this.unit;
     return {
-      if (metricDisplayName != null) 'MetricDisplayName': metricDisplayName,
-      if (metricQuery != null) 'MetricQuery': metricQuery,
-      if (referenceData != null) 'ReferenceData': referenceData,
-      if (statsAtAnomaly != null) 'StatsAtAnomaly': statsAtAnomaly,
-      if (statsAtBaseline != null) 'StatsAtBaseline': statsAtBaseline,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (metricDataSummary != null) 'MetricDataSummary': metricDataSummary,
+      if (metricName != null) 'MetricName': metricName,
+      if (namespace != null) 'Namespace': namespace,
+      if (period != null) 'Period': period,
+      if (stat != null) 'Stat': stat.value,
       if (unit != null) 'Unit': unit,
     };
   }
 }
 
-/// Reference scalar values and other metrics that DevOps Guru displays on a
-/// graph in its console along with the actual metrics it analyzed. Compare
-/// these reference values to your actual metrics to help you understand
-/// anomalous behavior that DevOps Guru detected.
-class PerformanceInsightsReferenceComparisonValues {
-  /// A metric that DevOps Guru compares to actual metric values. This reference
-  /// metric is used to determine if an actual metric should be considered
-  /// anomalous.
-  final PerformanceInsightsReferenceMetric? referenceMetric;
+class CloudWatchMetricsStat {
+  static const sum = CloudWatchMetricsStat._('Sum');
+  static const average = CloudWatchMetricsStat._('Average');
+  static const sampleCount = CloudWatchMetricsStat._('SampleCount');
+  static const minimum = CloudWatchMetricsStat._('Minimum');
+  static const maximum = CloudWatchMetricsStat._('Maximum');
+  static const p99 = CloudWatchMetricsStat._('p99');
+  static const p90 = CloudWatchMetricsStat._('p90');
+  static const p50 = CloudWatchMetricsStat._('p50');
 
-  /// A scalar value DevOps Guru for a metric that DevOps Guru compares to actual
-  /// metric values. This reference value is used to determine if an actual metric
-  /// value should be considered anomalous.
-  final PerformanceInsightsReferenceScalar? referenceScalar;
+  final String value;
 
-  PerformanceInsightsReferenceComparisonValues({
-    this.referenceMetric,
-    this.referenceScalar,
+  const CloudWatchMetricsStat._(this.value);
+
+  static const values = [
+    sum,
+    average,
+    sampleCount,
+    minimum,
+    maximum,
+    p99,
+    p90,
+    p50
+  ];
+
+  static CloudWatchMetricsStat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudWatchMetricsStat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchMetricsStat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the analyzed metrics that displayed anomalous
+/// behavior.
+class CloudWatchMetricsDataSummary {
+  /// This is an enum of the status showing whether the metric value pair list has
+  /// partial or complete data, or if there was an error.
+  final CloudWatchMetricDataStatusCode? statusCode;
+
+  /// This is a list of Amazon CloudWatch metric values at given timestamp.
+  final List<TimestampMetricValuePair>? timestampMetricValuePairList;
+
+  CloudWatchMetricsDataSummary({
+    this.statusCode,
+    this.timestampMetricValuePairList,
   });
 
-  factory PerformanceInsightsReferenceComparisonValues.fromJson(
-      Map<String, dynamic> json) {
-    return PerformanceInsightsReferenceComparisonValues(
-      referenceMetric: json['ReferenceMetric'] != null
-          ? PerformanceInsightsReferenceMetric.fromJson(
-              json['ReferenceMetric'] as Map<String, dynamic>)
-          : null,
-      referenceScalar: json['ReferenceScalar'] != null
-          ? PerformanceInsightsReferenceScalar.fromJson(
-              json['ReferenceScalar'] as Map<String, dynamic>)
-          : null,
+  factory CloudWatchMetricsDataSummary.fromJson(Map<String, dynamic> json) {
+    return CloudWatchMetricsDataSummary(
+      statusCode: (json['StatusCode'] as String?)
+          ?.let(CloudWatchMetricDataStatusCode.fromString),
+      timestampMetricValuePairList:
+          (json['TimestampMetricValuePairList'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  TimestampMetricValuePair.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final referenceMetric = this.referenceMetric;
-    final referenceScalar = this.referenceScalar;
+    final statusCode = this.statusCode;
+    final timestampMetricValuePairList = this.timestampMetricValuePairList;
     return {
-      if (referenceMetric != null) 'ReferenceMetric': referenceMetric,
-      if (referenceScalar != null) 'ReferenceScalar': referenceScalar,
+      if (statusCode != null) 'StatusCode': statusCode.value,
+      if (timestampMetricValuePairList != null)
+        'TimestampMetricValuePairList': timestampMetricValuePairList,
     };
   }
 }
 
-/// Reference data used to evaluate Performance Insights to determine if its
-/// performance is anomalous or not.
-class PerformanceInsightsReferenceData {
-  /// The specific reference values used to evaluate the Performance Insights. For
-  /// more information, see <code> <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_PerformanceInsightsReferenceComparisonValues.html">PerformanceInsightsReferenceComparisonValues</a>
-  /// </code>.
-  final PerformanceInsightsReferenceComparisonValues? comparisonValues;
+class CloudWatchMetricDataStatusCode {
+  static const complete = CloudWatchMetricDataStatusCode._('Complete');
+  static const internalError =
+      CloudWatchMetricDataStatusCode._('InternalError');
+  static const partialData = CloudWatchMetricDataStatusCode._('PartialData');
 
-  /// The name of the reference data.
+  final String value;
+
+  const CloudWatchMetricDataStatusCode._(this.value);
+
+  static const values = [complete, internalError, partialData];
+
+  static CloudWatchMetricDataStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudWatchMetricDataStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudWatchMetricDataStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A pair that contains metric values at the respective timestamp.
+class TimestampMetricValuePair {
+  /// Value of the anomalous metric data point at respective Timestamp.
+  final double? metricValue;
+
+  /// A <code>Timestamp</code> that specifies the time the event occurred.
+  final DateTime? timestamp;
+
+  TimestampMetricValuePair({
+    this.metricValue,
+    this.timestamp,
+  });
+
+  factory TimestampMetricValuePair.fromJson(Map<String, dynamic> json) {
+    return TimestampMetricValuePair(
+      metricValue: json['MetricValue'] as double?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricValue = this.metricValue;
+    final timestamp = this.timestamp;
+    return {
+      if (metricValue != null) 'MetricValue': metricValue,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+/// The dimension of an Amazon CloudWatch metric that is used when DevOps Guru
+/// analyzes the resources in your account for operational problems and
+/// anomalous behavior. A dimension is a name/value pair that is part of the
+/// identity of a metric. A metric can have up to 10 dimensions. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Dimension">Dimensions</a>
+/// in the <i>Amazon CloudWatch User Guide</i>.
+class CloudWatchMetricsDimension {
+  /// The name of the CloudWatch dimension.
   final String? name;
 
-  PerformanceInsightsReferenceData({
-    this.comparisonValues,
+  /// The value of the CloudWatch dimension.
+  final String? value;
+
+  CloudWatchMetricsDimension({
     this.name,
+    this.value,
   });
 
-  factory PerformanceInsightsReferenceData.fromJson(Map<String, dynamic> json) {
-    return PerformanceInsightsReferenceData(
-      comparisonValues: json['ComparisonValues'] != null
-          ? PerformanceInsightsReferenceComparisonValues.fromJson(
-              json['ComparisonValues'] as Map<String, dynamic>)
-          : null,
+  factory CloudWatchMetricsDimension.fromJson(Map<String, dynamic> json) {
+    return CloudWatchMetricsDimension(
       name: json['Name'] as String?,
+      value: json['Value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final comparisonValues = this.comparisonValues;
     final name = this.name;
+    final value = this.value;
     return {
-      if (comparisonValues != null) 'ComparisonValues': comparisonValues,
       if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Information about a reference metric used to evaluate Performance Insights.
-class PerformanceInsightsReferenceMetric {
-  /// A query to be processed on the metric.
-  final PerformanceInsightsMetricQuery? metricQuery;
-
-  PerformanceInsightsReferenceMetric({
-    this.metricQuery,
-  });
-
-  factory PerformanceInsightsReferenceMetric.fromJson(
-      Map<String, dynamic> json) {
-    return PerformanceInsightsReferenceMetric(
-      metricQuery: json['MetricQuery'] != null
-          ? PerformanceInsightsMetricQuery.fromJson(
-              json['MetricQuery'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricQuery = this.metricQuery;
-    return {
-      if (metricQuery != null) 'MetricQuery': metricQuery,
-    };
-  }
-}
-
-/// A reference value to compare Performance Insights metrics against to
-/// determine if the metrics demonstrate anomalous behavior.
-class PerformanceInsightsReferenceScalar {
-  /// The reference value.
-  final double? value;
-
-  PerformanceInsightsReferenceScalar({
-    this.value,
-  });
-
-  factory PerformanceInsightsReferenceScalar.fromJson(
-      Map<String, dynamic> json) {
-    return PerformanceInsightsReferenceScalar(
-      value: json['Value'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final value = this.value;
-    return {
       if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// A statistic in a Performance Insights collection.
-class PerformanceInsightsStat {
-  /// The statistic type.
-  final String? type;
-
-  /// The value of the statistic.
-  final double? value;
-
-  PerformanceInsightsStat({
-    this.type,
-    this.value,
-  });
-
-  factory PerformanceInsightsStat.fromJson(Map<String, dynamic> json) {
-    return PerformanceInsightsStat(
-      type: json['Type'] as String?,
-      value: json['Value'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (type != null) 'Type': type,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// The time range during which anomalous behavior in a proactive anomaly or an
-/// insight is expected to occur.
-class PredictionTimeRange {
-  /// The time range during which a metric limit is expected to be exceeded. This
-  /// applies to proactive insights only.
-  final DateTime startTime;
-
-  /// The time when the behavior in a proactive insight is expected to end.
-  final DateTime? endTime;
-
-  PredictionTimeRange({
-    required this.startTime,
-    this.endTime,
-  });
-
-  factory PredictionTimeRange.fromJson(Map<String, dynamic> json) {
-    return PredictionTimeRange(
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
-      endTime: timeStampFromJson(json['EndTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final startTime = this.startTime;
-    final endTime = this.endTime;
-    return {
-      'StartTime': unixTimestampToJson(startTime),
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-    };
-  }
-}
-
-/// Information about an anomaly. This object is returned by
-/// <code>ListAnomalies</code>.
-class ProactiveAnomaly {
-  /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
-  /// range between when the anomaly is opened and the time when it is closed.
-  final AnomalyReportedTimeRange? anomalyReportedTimeRange;
-
-  /// Information about a resource in which DevOps Guru detected anomalous
-  /// behavior.
-  final List<AnomalyResource>? anomalyResources;
-  final AnomalyTimeRange? anomalyTimeRange;
-
-  /// The ID of the insight that contains this anomaly. An insight is composed of
-  /// related anomalies.
-  final String? associatedInsightId;
-
-  /// A description of the proactive anomaly.
-  final String? description;
-
-  /// The ID of a proactive anomaly.
-  final String? id;
-
-  /// A threshold that was exceeded by behavior in analyzed resources. Exceeding
-  /// this threshold is related to the anomalous behavior that generated this
-  /// anomaly.
-  final double? limit;
-  final PredictionTimeRange? predictionTimeRange;
-  final ResourceCollection? resourceCollection;
-
-  /// The severity of the anomaly. The severity of anomalies that generate an
-  /// insight determine that insight's severity. For more information, see <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
-  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
-  final AnomalySeverity? severity;
-
-  /// Details about the source of the analyzed operational data that triggered the
-  /// anomaly. The one supported source is Amazon CloudWatch metrics.
-  final AnomalySourceDetails? sourceDetails;
-
-  /// The metadata for the anomaly.
-  final AnomalySourceMetadata? sourceMetadata;
-
-  /// The status of a proactive anomaly.
-  final AnomalyStatus? status;
-
-  /// The time of the anomaly's most recent update.
-  final DateTime? updateTime;
-
-  ProactiveAnomaly({
-    this.anomalyReportedTimeRange,
-    this.anomalyResources,
-    this.anomalyTimeRange,
-    this.associatedInsightId,
-    this.description,
-    this.id,
-    this.limit,
-    this.predictionTimeRange,
-    this.resourceCollection,
-    this.severity,
-    this.sourceDetails,
-    this.sourceMetadata,
-    this.status,
-    this.updateTime,
-  });
-
-  factory ProactiveAnomaly.fromJson(Map<String, dynamic> json) {
-    return ProactiveAnomaly(
-      anomalyReportedTimeRange: json['AnomalyReportedTimeRange'] != null
-          ? AnomalyReportedTimeRange.fromJson(
-              json['AnomalyReportedTimeRange'] as Map<String, dynamic>)
-          : null,
-      anomalyResources: (json['AnomalyResources'] as List?)
-          ?.nonNulls
-          .map((e) => AnomalyResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      anomalyTimeRange: json['AnomalyTimeRange'] != null
-          ? AnomalyTimeRange.fromJson(
-              json['AnomalyTimeRange'] as Map<String, dynamic>)
-          : null,
-      associatedInsightId: json['AssociatedInsightId'] as String?,
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      limit: json['Limit'] as double?,
-      predictionTimeRange: json['PredictionTimeRange'] != null
-          ? PredictionTimeRange.fromJson(
-              json['PredictionTimeRange'] as Map<String, dynamic>)
-          : null,
-      resourceCollection: json['ResourceCollection'] != null
-          ? ResourceCollection.fromJson(
-              json['ResourceCollection'] as Map<String, dynamic>)
-          : null,
-      severity: (json['Severity'] as String?)?.let(AnomalySeverity.fromString),
-      sourceDetails: json['SourceDetails'] != null
-          ? AnomalySourceDetails.fromJson(
-              json['SourceDetails'] as Map<String, dynamic>)
-          : null,
-      sourceMetadata: json['SourceMetadata'] != null
-          ? AnomalySourceMetadata.fromJson(
-              json['SourceMetadata'] as Map<String, dynamic>)
-          : null,
-      status: (json['Status'] as String?)?.let(AnomalyStatus.fromString),
-      updateTime: timeStampFromJson(json['UpdateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final anomalyReportedTimeRange = this.anomalyReportedTimeRange;
-    final anomalyResources = this.anomalyResources;
-    final anomalyTimeRange = this.anomalyTimeRange;
-    final associatedInsightId = this.associatedInsightId;
-    final description = this.description;
-    final id = this.id;
-    final limit = this.limit;
-    final predictionTimeRange = this.predictionTimeRange;
-    final resourceCollection = this.resourceCollection;
-    final severity = this.severity;
-    final sourceDetails = this.sourceDetails;
-    final sourceMetadata = this.sourceMetadata;
-    final status = this.status;
-    final updateTime = this.updateTime;
-    return {
-      if (anomalyReportedTimeRange != null)
-        'AnomalyReportedTimeRange': anomalyReportedTimeRange,
-      if (anomalyResources != null) 'AnomalyResources': anomalyResources,
-      if (anomalyTimeRange != null) 'AnomalyTimeRange': anomalyTimeRange,
-      if (associatedInsightId != null)
-        'AssociatedInsightId': associatedInsightId,
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (limit != null) 'Limit': limit,
-      if (predictionTimeRange != null)
-        'PredictionTimeRange': predictionTimeRange,
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.value,
-      if (sourceDetails != null) 'SourceDetails': sourceDetails,
-      if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
-      if (status != null) 'Status': status.value,
-      if (updateTime != null) 'UpdateTime': unixTimestampToJson(updateTime),
     };
   }
 }
@@ -5425,6 +6621,910 @@ class ProactiveAnomalySummary {
   }
 }
 
+/// Metadata about the detection source that generates proactive anomalies. The
+/// anomaly is detected using analysis of the metric data over a period of time
+class AnomalySourceMetadata {
+  /// The source of the anomaly.
+  final String? source;
+
+  /// The name of the anomaly's resource.
+  final String? sourceResourceName;
+
+  /// The anomaly's resource type.
+  final String? sourceResourceType;
+
+  AnomalySourceMetadata({
+    this.source,
+    this.sourceResourceName,
+    this.sourceResourceType,
+  });
+
+  factory AnomalySourceMetadata.fromJson(Map<String, dynamic> json) {
+    return AnomalySourceMetadata(
+      source: json['Source'] as String?,
+      sourceResourceName: json['SourceResourceName'] as String?,
+      sourceResourceType: json['SourceResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final sourceResourceName = this.sourceResourceName;
+    final sourceResourceType = this.sourceResourceType;
+    return {
+      if (source != null) 'Source': source,
+      if (sourceResourceName != null) 'SourceResourceName': sourceResourceName,
+      if (sourceResourceType != null) 'SourceResourceType': sourceResourceType,
+    };
+  }
+}
+
+/// Specifies one or more service names that are used to list anomalies.
+class ListAnomaliesForInsightFilters {
+  final ServiceCollection? serviceCollection;
+
+  ListAnomaliesForInsightFilters({
+    this.serviceCollection,
+  });
+
+  Map<String, dynamic> toJson() {
+    final serviceCollection = this.serviceCollection;
+    return {
+      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
+    };
+  }
+}
+
+/// Information about a filter used to specify which Amazon Web Services
+/// resources are analyzed for anomalous behavior by DevOps Guru.
+class ResourceCollectionFilter {
+  /// Information about Amazon Web Services CloudFormation stacks. You can use up
+  /// to 500 stacks to specify which Amazon Web Services resources in your account
+  /// to analyze. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
+  /// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+  final CloudFormationCollectionFilter? cloudFormation;
+
+  /// The Amazon Web Services tags used to filter the resources in the resource
+  /// collection.
+  ///
+  /// Tags help you identify and organize your Amazon Web Services resources. Many
+  /// Amazon Web Services services support tagging, so you can assign the same tag
+  /// to resources from different services to indicate that the resources are
+  /// related. For example, you can assign the same tag to an Amazon DynamoDB
+  /// table resource that you assign to an Lambda function. For more information
+  /// about using tags, see the <a
+  /// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
+  /// best practices</a> whitepaper.
+  ///
+  /// Each Amazon Web Services tag has two parts.
+  ///
+  /// <ul>
+  /// <li>
+  /// A tag <i>key</i> (for example, <code>CostCenter</code>,
+  /// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
+  /// <i>keys</i> are case-sensitive.
+  /// </li>
+  /// <li>
+  /// An optional field known as a tag <i>value</i> (for example,
+  /// <code>111122223333</code>, <code>Production</code>, or a team name).
+  /// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
+  /// <i>keys</i>, tag <i>values</i> are case-sensitive.
+  /// </li>
+  /// </ul>
+  /// Together these are known as <i>key</i>-<i>value</i> pairs.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final List<TagCollectionFilter>? tags;
+
+  ResourceCollectionFilter({
+    this.cloudFormation,
+    this.tags,
+  });
+
+  factory ResourceCollectionFilter.fromJson(Map<String, dynamic> json) {
+    return ResourceCollectionFilter(
+      cloudFormation: json['CloudFormation'] != null
+          ? CloudFormationCollectionFilter.fromJson(
+              json['CloudFormation'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => TagCollectionFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFormation = this.cloudFormation;
+    final tags = this.tags;
+    return {
+      if (cloudFormation != null) 'CloudFormation': cloudFormation,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Information about Amazon Web Services CloudFormation stacks. You can use up
+/// to 500 stacks to specify which Amazon Web Services resources in your account
+/// to analyze. For more information, see <a
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
+/// in the <i>Amazon Web Services CloudFormation User Guide</i>.
+class CloudFormationCollectionFilter {
+  /// An array of CloudFormation stack names.
+  final List<String>? stackNames;
+
+  CloudFormationCollectionFilter({
+    this.stackNames,
+  });
+
+  factory CloudFormationCollectionFilter.fromJson(Map<String, dynamic> json) {
+    return CloudFormationCollectionFilter(
+      stackNames: (json['StackNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackNames = this.stackNames;
+    return {
+      if (stackNames != null) 'StackNames': stackNames,
+    };
+  }
+}
+
+/// A collection of Amazon Web Services tags used to filter insights. This is
+/// used to return insights generated from only resources that contain the tags
+/// in the tag collection.
+class TagCollectionFilter {
+  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
+  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
+  /// resources in your account and Region tagged with this <i>key</i> make up
+  /// your DevOps Guru application and analysis boundary.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final String appBoundaryKey;
+
+  /// The values in an Amazon Web Services tag collection.
+  ///
+  /// The tag's <i>value</i> is an optional field used to associate a string with
+  /// the tag <i>key</i> (for example, <code>111122223333</code>,
+  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
+  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
+  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
+  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
+  final List<String> tagValues;
+
+  TagCollectionFilter({
+    required this.appBoundaryKey,
+    required this.tagValues,
+  });
+
+  factory TagCollectionFilter.fromJson(Map<String, dynamic> json) {
+    return TagCollectionFilter(
+      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
+      tagValues: ((json['TagValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appBoundaryKey = this.appBoundaryKey;
+    final tagValues = this.tagValues;
+    return {
+      'AppBoundaryKey': appBoundaryKey,
+      'TagValues': tagValues,
+    };
+  }
+}
+
+class ResourceCollectionType {
+  static const awsCloudFormation =
+      ResourceCollectionType._('AWS_CLOUD_FORMATION');
+  static const awsService = ResourceCollectionType._('AWS_SERVICE');
+  static const awsTags = ResourceCollectionType._('AWS_TAGS');
+
+  final String value;
+
+  const ResourceCollectionType._(this.value);
+
+  static const values = [awsCloudFormation, awsService, awsTags];
+
+  static ResourceCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CostEstimationStatus {
+  static const ongoing = CostEstimationStatus._('ONGOING');
+  static const completed = CostEstimationStatus._('COMPLETED');
+
+  final String value;
+
+  const CostEstimationStatus._(this.value);
+
+  static const values = [ongoing, completed];
+
+  static CostEstimationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostEstimationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostEstimationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The time range of a cost estimation.
+class CostEstimationTimeRange {
+  /// The end time of the cost estimation.
+  final DateTime? endTime;
+
+  /// The start time of the cost estimation.
+  final DateTime? startTime;
+
+  CostEstimationTimeRange({
+    this.endTime,
+    this.startTime,
+  });
+
+  factory CostEstimationTimeRange.fromJson(Map<String, dynamic> json) {
+    return CostEstimationTimeRange(
+      endTime: timeStampFromJson(json['EndTime']),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// An object that contains information about the estimated monthly cost to
+/// analyze an Amazon Web Services resource. For more information, see <a
+/// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html">Estimate
+/// your Amazon DevOps Guru costs</a> and <a
+/// href="http://aws.amazon.com/devops-guru/pricing/">Amazon DevOps Guru
+/// pricing</a>.
+class ServiceResourceCost {
+  /// The total estimated monthly cost to analyze the active resources for this
+  /// resource.
+  final double? cost;
+
+  /// The number of active resources analyzed for this service to create a monthly
+  /// cost estimate.
+  final int? count;
+
+  /// The state of the resource. The resource is <code>ACTIVE</code> if it
+  /// produces metrics, events, or logs within an hour, otherwise it is
+  /// <code>INACTIVE</code>. You pay for the number of active Amazon Web Services
+  /// resource hours analyzed for each resource. Inactive resources are not
+  /// charged.
+  final CostEstimationServiceResourceState? state;
+
+  /// The type of the Amazon Web Services resource.
+  final String? type;
+
+  /// The price per hour to analyze the resources in the service. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html">Estimate
+  /// your Amazon DevOps Guru costs</a> and <a
+  /// href="http://aws.amazon.com/devops-guru/pricing/">Amazon DevOps Guru
+  /// pricing</a>.
+  final double? unitCost;
+
+  ServiceResourceCost({
+    this.cost,
+    this.count,
+    this.state,
+    this.type,
+    this.unitCost,
+  });
+
+  factory ServiceResourceCost.fromJson(Map<String, dynamic> json) {
+    return ServiceResourceCost(
+      cost: json['Cost'] as double?,
+      count: json['Count'] as int?,
+      state: (json['State'] as String?)
+          ?.let(CostEstimationServiceResourceState.fromString),
+      type: json['Type'] as String?,
+      unitCost: json['UnitCost'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cost = this.cost;
+    final count = this.count;
+    final state = this.state;
+    final type = this.type;
+    final unitCost = this.unitCost;
+    return {
+      if (cost != null) 'Cost': cost,
+      if (count != null) 'Count': count,
+      if (state != null) 'State': state.value,
+      if (type != null) 'Type': type,
+      if (unitCost != null) 'UnitCost': unitCost,
+    };
+  }
+}
+
+class CostEstimationServiceResourceState {
+  static const active = CostEstimationServiceResourceState._('ACTIVE');
+  static const inactive = CostEstimationServiceResourceState._('INACTIVE');
+
+  final String value;
+
+  const CostEstimationServiceResourceState._(this.value);
+
+  static const values = [active, inactive];
+
+  static CostEstimationServiceResourceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CostEstimationServiceResourceState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CostEstimationServiceResourceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the integration of DevOps Guru with another Amazon Web
+/// Services service, such as Amazon Web Services Systems Manager.
+class ServiceIntegrationConfig {
+  /// Information about whether DevOps Guru is configured to encrypt server-side
+  /// data using KMS.
+  final KMSServerSideEncryptionIntegration? kMSServerSideEncryption;
+
+  /// Information about whether DevOps Guru is configured to perform log anomaly
+  /// detection on Amazon CloudWatch log groups.
+  final LogsAnomalyDetectionIntegration? logsAnomalyDetection;
+
+  /// Information about whether DevOps Guru is configured to create an OpsItem in
+  /// Amazon Web Services Systems Manager OpsCenter for each created insight.
+  final OpsCenterIntegration? opsCenter;
+
+  ServiceIntegrationConfig({
+    this.kMSServerSideEncryption,
+    this.logsAnomalyDetection,
+    this.opsCenter,
+  });
+
+  factory ServiceIntegrationConfig.fromJson(Map<String, dynamic> json) {
+    return ServiceIntegrationConfig(
+      kMSServerSideEncryption: json['KMSServerSideEncryption'] != null
+          ? KMSServerSideEncryptionIntegration.fromJson(
+              json['KMSServerSideEncryption'] as Map<String, dynamic>)
+          : null,
+      logsAnomalyDetection: json['LogsAnomalyDetection'] != null
+          ? LogsAnomalyDetectionIntegration.fromJson(
+              json['LogsAnomalyDetection'] as Map<String, dynamic>)
+          : null,
+      opsCenter: json['OpsCenter'] != null
+          ? OpsCenterIntegration.fromJson(
+              json['OpsCenter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kMSServerSideEncryption = this.kMSServerSideEncryption;
+    final logsAnomalyDetection = this.logsAnomalyDetection;
+    final opsCenter = this.opsCenter;
+    return {
+      if (kMSServerSideEncryption != null)
+        'KMSServerSideEncryption': kMSServerSideEncryption,
+      if (logsAnomalyDetection != null)
+        'LogsAnomalyDetection': logsAnomalyDetection,
+      if (opsCenter != null) 'OpsCenter': opsCenter,
+    };
+  }
+}
+
+/// Information about whether DevOps Guru is configured to create an OpsItem in
+/// Amazon Web Services Systems Manager OpsCenter for each created insight.
+class OpsCenterIntegration {
+  /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems
+  /// Manager OpsItem for each created insight.
+  final OptInStatus? optInStatus;
+
+  OpsCenterIntegration({
+    this.optInStatus,
+  });
+
+  factory OpsCenterIntegration.fromJson(Map<String, dynamic> json) {
+    return OpsCenterIntegration(
+      optInStatus:
+          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final optInStatus = this.optInStatus;
+    return {
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+    };
+  }
+}
+
+/// Information about the integration of DevOps Guru with CloudWatch log groups
+/// for log anomaly detection.
+class LogsAnomalyDetectionIntegration {
+  /// Specifies if DevOps Guru is configured to perform log anomaly detection on
+  /// CloudWatch log groups.
+  final OptInStatus? optInStatus;
+
+  LogsAnomalyDetectionIntegration({
+    this.optInStatus,
+  });
+
+  factory LogsAnomalyDetectionIntegration.fromJson(Map<String, dynamic> json) {
+    return LogsAnomalyDetectionIntegration(
+      optInStatus:
+          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final optInStatus = this.optInStatus;
+    return {
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+    };
+  }
+}
+
+/// Information about the KMS encryption used with DevOps Guru.
+class KMSServerSideEncryptionIntegration {
+  /// Describes the specified KMS key.
+  ///
+  /// To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN.
+  /// When using an alias name, prefix it with "alias/". If you specify a
+  /// predefined Amazon Web Services alias (an Amazon Web Services alias with no
+  /// key ID), Amazon Web Services KMS associates the alias with an Amazon Web
+  /// Services managed key and returns its KeyId and Arn in the response. To
+  /// specify a KMS key in a different Amazon Web Services account, you must use
+  /// the key ARN or alias ARN.
+  ///
+  /// For example:
+  ///
+  /// Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+  ///
+  /// Key ARN:
+  /// arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+  ///
+  /// Alias name: alias/ExampleAlias
+  ///
+  /// Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+  final String? kMSKeyId;
+
+  /// Specifies if DevOps Guru is enabled for customer managed keys.
+  final OptInStatus? optInStatus;
+
+  /// The type of KMS key used. Customer managed keys are the KMS keys that you
+  /// create. Amazon Web Services owned keys are keys that are owned and managed
+  /// by DevOps Guru.
+  final ServerSideEncryptionType? type;
+
+  KMSServerSideEncryptionIntegration({
+    this.kMSKeyId,
+    this.optInStatus,
+    this.type,
+  });
+
+  factory KMSServerSideEncryptionIntegration.fromJson(
+      Map<String, dynamic> json) {
+    return KMSServerSideEncryptionIntegration(
+      kMSKeyId: json['KMSKeyId'] as String?,
+      optInStatus:
+          (json['OptInStatus'] as String?)?.let(OptInStatus.fromString),
+      type: (json['Type'] as String?)?.let(ServerSideEncryptionType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kMSKeyId = this.kMSKeyId;
+    final optInStatus = this.optInStatus;
+    final type = this.type;
+    return {
+      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
+      if (optInStatus != null) 'OptInStatus': optInStatus.value,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// Information about the health of Amazon Web Services resources in your
+/// account that are specified by an Amazon Web Services tag <i>key</i>.
+class TagHealth {
+  /// Number of resources that DevOps Guru is monitoring in your account that are
+  /// specified by an Amazon Web Services tag.
+  final int? analyzedResourceCount;
+
+  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
+  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
+  /// resources in your account and Region tagged with this <i>key</i> make up
+  /// your DevOps Guru application and analysis boundary.
+  /// <important>
+  /// The string used for a <i>key</i> in a tag that you use to define your
+  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
+  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
+  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
+  /// case of characters in the <i>key</i> can be whatever you choose. After you
+  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
+  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
+  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
+  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
+  /// <code>Devops-Guru-production-application/RDS</code> or
+  /// <code>Devops-Guru-production-application/containers</code>.
+  /// </important>
+  final String? appBoundaryKey;
+
+  /// Information about the health of the Amazon Web Services resources in your
+  /// account that are specified by an Amazon Web Services tag, including the
+  /// number of open proactive, open reactive insights, and the Mean Time to
+  /// Recover (MTTR) of closed insights.
+  final InsightHealth? insight;
+
+  /// The value in an Amazon Web Services tag.
+  ///
+  /// The tag's <i>value</i> is an optional field used to associate a string with
+  /// the tag <i>key</i> (for example, <code>111122223333</code>,
+  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
+  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
+  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
+  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
+  final String? tagValue;
+
+  TagHealth({
+    this.analyzedResourceCount,
+    this.appBoundaryKey,
+    this.insight,
+    this.tagValue,
+  });
+
+  factory TagHealth.fromJson(Map<String, dynamic> json) {
+    return TagHealth(
+      analyzedResourceCount: json['AnalyzedResourceCount'] as int?,
+      appBoundaryKey: json['AppBoundaryKey'] as String?,
+      insight: json['Insight'] != null
+          ? InsightHealth.fromJson(json['Insight'] as Map<String, dynamic>)
+          : null,
+      tagValue: json['TagValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyzedResourceCount = this.analyzedResourceCount;
+    final appBoundaryKey = this.appBoundaryKey;
+    final insight = this.insight;
+    final tagValue = this.tagValue;
+    return {
+      if (analyzedResourceCount != null)
+        'AnalyzedResourceCount': analyzedResourceCount,
+      if (appBoundaryKey != null) 'AppBoundaryKey': appBoundaryKey,
+      if (insight != null) 'Insight': insight,
+      if (tagValue != null) 'TagValue': tagValue,
+    };
+  }
+}
+
+/// Information about the number of open reactive and proactive insights that
+/// can be used to gauge the health of your system.
+class InsightHealth {
+  /// The Meant Time to Recover (MTTR) for the insight.
+  final int? meanTimeToRecoverInMilliseconds;
+
+  /// The number of open proactive insights.
+  final int? openProactiveInsights;
+
+  /// The number of open reactive insights.
+  final int? openReactiveInsights;
+
+  InsightHealth({
+    this.meanTimeToRecoverInMilliseconds,
+    this.openProactiveInsights,
+    this.openReactiveInsights,
+  });
+
+  factory InsightHealth.fromJson(Map<String, dynamic> json) {
+    return InsightHealth(
+      meanTimeToRecoverInMilliseconds:
+          json['MeanTimeToRecoverInMilliseconds'] as int?,
+      openProactiveInsights: json['OpenProactiveInsights'] as int?,
+      openReactiveInsights: json['OpenReactiveInsights'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meanTimeToRecoverInMilliseconds =
+        this.meanTimeToRecoverInMilliseconds;
+    final openProactiveInsights = this.openProactiveInsights;
+    final openReactiveInsights = this.openReactiveInsights;
+    return {
+      if (meanTimeToRecoverInMilliseconds != null)
+        'MeanTimeToRecoverInMilliseconds': meanTimeToRecoverInMilliseconds,
+      if (openProactiveInsights != null)
+        'OpenProactiveInsights': openProactiveInsights,
+      if (openReactiveInsights != null)
+        'OpenReactiveInsights': openReactiveInsights,
+    };
+  }
+}
+
+/// Represents the health of an Amazon Web Services service.
+class ServiceHealth {
+  /// Number of resources that DevOps Guru is monitoring in an analyzed Amazon Web
+  /// Services service.
+  final int? analyzedResourceCount;
+
+  /// Represents the health of an Amazon Web Services service. This is a
+  /// <code>ServiceInsightHealth</code> that contains the number of open proactive
+  /// and reactive insights for this service.
+  final ServiceInsightHealth? insight;
+
+  /// The name of the Amazon Web Services service.
+  final ServiceName? serviceName;
+
+  ServiceHealth({
+    this.analyzedResourceCount,
+    this.insight,
+    this.serviceName,
+  });
+
+  factory ServiceHealth.fromJson(Map<String, dynamic> json) {
+    return ServiceHealth(
+      analyzedResourceCount: json['AnalyzedResourceCount'] as int?,
+      insight: json['Insight'] != null
+          ? ServiceInsightHealth.fromJson(
+              json['Insight'] as Map<String, dynamic>)
+          : null,
+      serviceName:
+          (json['ServiceName'] as String?)?.let(ServiceName.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyzedResourceCount = this.analyzedResourceCount;
+    final insight = this.insight;
+    final serviceName = this.serviceName;
+    return {
+      if (analyzedResourceCount != null)
+        'AnalyzedResourceCount': analyzedResourceCount,
+      if (insight != null) 'Insight': insight,
+      if (serviceName != null) 'ServiceName': serviceName.value,
+    };
+  }
+}
+
+/// Contains the number of open proactive and reactive insights in an analyzed
+/// Amazon Web Services service.
+class ServiceInsightHealth {
+  /// The number of open proactive insights in the Amazon Web Services service
+  final int? openProactiveInsights;
+
+  /// The number of open reactive insights in the Amazon Web Services service
+  final int? openReactiveInsights;
+
+  ServiceInsightHealth({
+    this.openProactiveInsights,
+    this.openReactiveInsights,
+  });
+
+  factory ServiceInsightHealth.fromJson(Map<String, dynamic> json) {
+    return ServiceInsightHealth(
+      openProactiveInsights: json['OpenProactiveInsights'] as int?,
+      openReactiveInsights: json['OpenReactiveInsights'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openProactiveInsights = this.openProactiveInsights;
+    final openReactiveInsights = this.openReactiveInsights;
+    return {
+      if (openProactiveInsights != null)
+        'OpenProactiveInsights': openProactiveInsights,
+      if (openReactiveInsights != null)
+        'OpenReactiveInsights': openReactiveInsights,
+    };
+  }
+}
+
+/// Information about the health of Amazon Web Services resources in your
+/// account that are specified by an Amazon Web Services CloudFormation stack.
+class CloudFormationHealth {
+  /// Number of resources that DevOps Guru is monitoring in your account that are
+  /// specified by an Amazon Web Services CloudFormation stack.
+  final int? analyzedResourceCount;
+
+  /// Information about the health of the Amazon Web Services resources in your
+  /// account that are specified by an Amazon Web Services CloudFormation stack,
+  /// including the number of open proactive, open reactive insights, and the Mean
+  /// Time to Recover (MTTR) of closed insights.
+  final InsightHealth? insight;
+
+  /// The name of the CloudFormation stack.
+  final String? stackName;
+
+  CloudFormationHealth({
+    this.analyzedResourceCount,
+    this.insight,
+    this.stackName,
+  });
+
+  factory CloudFormationHealth.fromJson(Map<String, dynamic> json) {
+    return CloudFormationHealth(
+      analyzedResourceCount: json['AnalyzedResourceCount'] as int?,
+      insight: json['Insight'] != null
+          ? InsightHealth.fromJson(json['Insight'] as Map<String, dynamic>)
+          : null,
+      stackName: json['StackName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyzedResourceCount = this.analyzedResourceCount;
+    final insight = this.insight;
+    final stackName = this.stackName;
+    return {
+      if (analyzedResourceCount != null)
+        'AnalyzedResourceCount': analyzedResourceCount,
+      if (insight != null) 'Insight': insight,
+      if (stackName != null) 'StackName': stackName,
+    };
+  }
+}
+
+/// Returns the number of open reactive insights, the number of open proactive
+/// insights, and the number of metrics analyzed in your Amazon Web Services
+/// account. Use these numbers to gauge the health of operations in your Amazon
+/// Web Services account.
+class AccountHealth {
+  /// The ID of the Amazon Web Services account.
+  final String? accountId;
+
+  /// Information about the health of the Amazon Web Services resources in your
+  /// account, including the number of open proactive, open reactive insights, and
+  /// the Mean Time to Recover (MTTR) of closed insights.
+  final AccountInsightHealth? insight;
+
+  AccountHealth({
+    this.accountId,
+    this.insight,
+  });
+
+  factory AccountHealth.fromJson(Map<String, dynamic> json) {
+    return AccountHealth(
+      accountId: json['AccountId'] as String?,
+      insight: json['Insight'] != null
+          ? AccountInsightHealth.fromJson(
+              json['Insight'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final insight = this.insight;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (insight != null) 'Insight': insight,
+    };
+  }
+}
+
+/// Information about the number of open reactive and proactive insights that
+/// can be used to gauge the health of your system.
+class AccountInsightHealth {
+  /// An integer that specifies the number of open proactive insights in your
+  /// Amazon Web Services account.
+  final int? openProactiveInsights;
+
+  /// An integer that specifies the number of open reactive insights in your
+  /// Amazon Web Services account.
+  final int? openReactiveInsights;
+
+  AccountInsightHealth({
+    this.openProactiveInsights,
+    this.openReactiveInsights,
+  });
+
+  factory AccountInsightHealth.fromJson(Map<String, dynamic> json) {
+    return AccountInsightHealth(
+      openProactiveInsights: json['OpenProactiveInsights'] as int?,
+      openReactiveInsights: json['OpenReactiveInsights'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openProactiveInsights = this.openProactiveInsights;
+    final openReactiveInsights = this.openReactiveInsights;
+    return {
+      if (openProactiveInsights != null)
+        'OpenProactiveInsights': openProactiveInsights,
+      if (openReactiveInsights != null)
+        'OpenReactiveInsights': openReactiveInsights,
+    };
+  }
+}
+
+class OrganizationResourceCollectionType {
+  static const awsCloudFormation =
+      OrganizationResourceCollectionType._('AWS_CLOUD_FORMATION');
+  static const awsService = OrganizationResourceCollectionType._('AWS_SERVICE');
+  static const awsAccount = OrganizationResourceCollectionType._('AWS_ACCOUNT');
+  static const awsTags = OrganizationResourceCollectionType._('AWS_TAGS');
+
+  final String value;
+
+  const OrganizationResourceCollectionType._(this.value);
+
+  static const values = [awsCloudFormation, awsService, awsAccount, awsTags];
+
+  static OrganizationResourceCollectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OrganizationResourceCollectionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OrganizationResourceCollectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Details about a proactive insight. This object is returned by
 /// <code>ListInsights</code>.
 class ProactiveInsight {
@@ -5513,152 +7613,168 @@ class ProactiveInsight {
   }
 }
 
-/// Details about a proactive insight. This object is returned by
-/// <code>DescribeInsight.</code>
-class ProactiveInsightSummary {
-  /// The Amazon Resource Names (ARNs) of the Amazon Web Services resources that
-  /// generated this insight.
-  final List<String>? associatedResourceArns;
+/// Information about a reactive insight. This object is returned by
+/// <code>ListInsights</code>.
+class ReactiveInsight {
+  /// Describes the reactive insight.
+  final String? description;
 
-  /// The ID of the proactive insight.
+  /// The ID of a reactive insight.
   final String? id;
   final InsightTimeRange? insightTimeRange;
 
-  /// The name of the proactive insight.
+  /// The name of a reactive insight.
   final String? name;
-  final PredictionTimeRange? predictionTimeRange;
   final ResourceCollection? resourceCollection;
-
-  /// A collection of the names of Amazon Web Services services.
-  final ServiceCollection? serviceCollection;
 
   /// The severity of the insight. For more information, see <a
   /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
   /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
   final InsightSeverity? severity;
 
-  /// The status of the proactive insight.
+  /// The ID of the Amazon Web Services System Manager OpsItem created for this
+  /// insight. You must enable the creation of OpstItems insights before they are
+  /// created for each insight.
+  final String? ssmOpsItemId;
+
+  /// The status of a reactive insight.
   final InsightStatus? status;
 
-  ProactiveInsightSummary({
-    this.associatedResourceArns,
+  ReactiveInsight({
+    this.description,
     this.id,
     this.insightTimeRange,
     this.name,
-    this.predictionTimeRange,
     this.resourceCollection,
-    this.serviceCollection,
     this.severity,
+    this.ssmOpsItemId,
     this.status,
   });
 
-  factory ProactiveInsightSummary.fromJson(Map<String, dynamic> json) {
-    return ProactiveInsightSummary(
-      associatedResourceArns: (json['AssociatedResourceArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
+  factory ReactiveInsight.fromJson(Map<String, dynamic> json) {
+    return ReactiveInsight(
+      description: json['Description'] as String?,
       id: json['Id'] as String?,
       insightTimeRange: json['InsightTimeRange'] != null
           ? InsightTimeRange.fromJson(
               json['InsightTimeRange'] as Map<String, dynamic>)
           : null,
       name: json['Name'] as String?,
-      predictionTimeRange: json['PredictionTimeRange'] != null
-          ? PredictionTimeRange.fromJson(
-              json['PredictionTimeRange'] as Map<String, dynamic>)
-          : null,
       resourceCollection: json['ResourceCollection'] != null
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      serviceCollection: json['ServiceCollection'] != null
-          ? ServiceCollection.fromJson(
-              json['ServiceCollection'] as Map<String, dynamic>)
-          : null,
       severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
+      ssmOpsItemId: json['SsmOpsItemId'] as String?,
       status: (json['Status'] as String?)?.let(InsightStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final associatedResourceArns = this.associatedResourceArns;
+    final description = this.description;
     final id = this.id;
     final insightTimeRange = this.insightTimeRange;
     final name = this.name;
-    final predictionTimeRange = this.predictionTimeRange;
     final resourceCollection = this.resourceCollection;
-    final serviceCollection = this.serviceCollection;
     final severity = this.severity;
+    final ssmOpsItemId = this.ssmOpsItemId;
     final status = this.status;
     return {
-      if (associatedResourceArns != null)
-        'AssociatedResourceArns': associatedResourceArns,
+      if (description != null) 'Description': description,
       if (id != null) 'Id': id,
       if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
       if (name != null) 'Name': name,
-      if (predictionTimeRange != null)
-        'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
       if (severity != null) 'Severity': severity.value,
+      if (ssmOpsItemId != null) 'SsmOpsItemId': ssmOpsItemId,
       if (status != null) 'Status': status.value,
     };
   }
 }
 
-/// Details about a proactive insight. This object is returned by
-/// <code>DescribeInsight</code>.
-class ProactiveOrganizationInsightSummary {
-  /// The ID of the Amazon Web Services account.
-  final String? accountId;
+/// Information about an anomaly. This object is returned by
+/// <code>ListAnomalies</code>.
+class ProactiveAnomaly {
+  /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
+  /// range between when the anomaly is opened and the time when it is closed.
+  final AnomalyReportedTimeRange? anomalyReportedTimeRange;
 
-  /// The ID of the insight summary.
+  /// Information about a resource in which DevOps Guru detected anomalous
+  /// behavior.
+  final List<AnomalyResource>? anomalyResources;
+  final AnomalyTimeRange? anomalyTimeRange;
+
+  /// The ID of the insight that contains this anomaly. An insight is composed of
+  /// related anomalies.
+  final String? associatedInsightId;
+
+  /// A description of the proactive anomaly.
+  final String? description;
+
+  /// The ID of a proactive anomaly.
   final String? id;
-  final InsightTimeRange? insightTimeRange;
 
-  /// The name of the insight summary.
-  final String? name;
-
-  /// The ID of the organizational unit.
-  final String? organizationalUnitId;
+  /// A threshold that was exceeded by behavior in analyzed resources. Exceeding
+  /// this threshold is related to the anomalous behavior that generated this
+  /// anomaly.
+  final double? limit;
   final PredictionTimeRange? predictionTimeRange;
   final ResourceCollection? resourceCollection;
-  final ServiceCollection? serviceCollection;
 
-  /// An array of severity values used to search for insights. For more
-  /// information, see <a
+  /// The severity of the anomaly. The severity of anomalies that generate an
+  /// insight determine that insight's severity. For more information, see <a
   /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
   /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
-  final InsightSeverity? severity;
+  final AnomalySeverity? severity;
 
-  /// An array of status values used to search for insights.
-  final InsightStatus? status;
+  /// Details about the source of the analyzed operational data that triggered the
+  /// anomaly. The one supported source is Amazon CloudWatch metrics.
+  final AnomalySourceDetails? sourceDetails;
 
-  ProactiveOrganizationInsightSummary({
-    this.accountId,
+  /// The metadata for the anomaly.
+  final AnomalySourceMetadata? sourceMetadata;
+
+  /// The status of a proactive anomaly.
+  final AnomalyStatus? status;
+
+  /// The time of the anomaly's most recent update.
+  final DateTime? updateTime;
+
+  ProactiveAnomaly({
+    this.anomalyReportedTimeRange,
+    this.anomalyResources,
+    this.anomalyTimeRange,
+    this.associatedInsightId,
+    this.description,
     this.id,
-    this.insightTimeRange,
-    this.name,
-    this.organizationalUnitId,
+    this.limit,
     this.predictionTimeRange,
     this.resourceCollection,
-    this.serviceCollection,
     this.severity,
+    this.sourceDetails,
+    this.sourceMetadata,
     this.status,
+    this.updateTime,
   });
 
-  factory ProactiveOrganizationInsightSummary.fromJson(
-      Map<String, dynamic> json) {
-    return ProactiveOrganizationInsightSummary(
-      accountId: json['AccountId'] as String?,
-      id: json['Id'] as String?,
-      insightTimeRange: json['InsightTimeRange'] != null
-          ? InsightTimeRange.fromJson(
-              json['InsightTimeRange'] as Map<String, dynamic>)
+  factory ProactiveAnomaly.fromJson(Map<String, dynamic> json) {
+    return ProactiveAnomaly(
+      anomalyReportedTimeRange: json['AnomalyReportedTimeRange'] != null
+          ? AnomalyReportedTimeRange.fromJson(
+              json['AnomalyReportedTimeRange'] as Map<String, dynamic>)
           : null,
-      name: json['Name'] as String?,
-      organizationalUnitId: json['OrganizationalUnitId'] as String?,
+      anomalyResources: (json['AnomalyResources'] as List?)
+          ?.nonNulls
+          .map((e) => AnomalyResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      anomalyTimeRange: json['AnomalyTimeRange'] != null
+          ? AnomalyTimeRange.fromJson(
+              json['AnomalyTimeRange'] as Map<String, dynamic>)
+          : null,
+      associatedInsightId: json['AssociatedInsightId'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      limit: json['Limit'] as double?,
       predictionTimeRange: json['PredictionTimeRange'] != null
           ? PredictionTimeRange.fromJson(
               json['PredictionTimeRange'] as Map<String, dynamic>)
@@ -5667,52 +7783,54 @@ class ProactiveOrganizationInsightSummary {
           ? ResourceCollection.fromJson(
               json['ResourceCollection'] as Map<String, dynamic>)
           : null,
-      serviceCollection: json['ServiceCollection'] != null
-          ? ServiceCollection.fromJson(
-              json['ServiceCollection'] as Map<String, dynamic>)
+      severity: (json['Severity'] as String?)?.let(AnomalySeverity.fromString),
+      sourceDetails: json['SourceDetails'] != null
+          ? AnomalySourceDetails.fromJson(
+              json['SourceDetails'] as Map<String, dynamic>)
           : null,
-      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
-      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
+      sourceMetadata: json['SourceMetadata'] != null
+          ? AnomalySourceMetadata.fromJson(
+              json['SourceMetadata'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.let(AnomalyStatus.fromString),
+      updateTime: timeStampFromJson(json['UpdateTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
+    final anomalyReportedTimeRange = this.anomalyReportedTimeRange;
+    final anomalyResources = this.anomalyResources;
+    final anomalyTimeRange = this.anomalyTimeRange;
+    final associatedInsightId = this.associatedInsightId;
+    final description = this.description;
     final id = this.id;
-    final insightTimeRange = this.insightTimeRange;
-    final name = this.name;
-    final organizationalUnitId = this.organizationalUnitId;
+    final limit = this.limit;
     final predictionTimeRange = this.predictionTimeRange;
     final resourceCollection = this.resourceCollection;
-    final serviceCollection = this.serviceCollection;
     final severity = this.severity;
+    final sourceDetails = this.sourceDetails;
+    final sourceMetadata = this.sourceMetadata;
     final status = this.status;
+    final updateTime = this.updateTime;
     return {
-      if (accountId != null) 'AccountId': accountId,
+      if (anomalyReportedTimeRange != null)
+        'AnomalyReportedTimeRange': anomalyReportedTimeRange,
+      if (anomalyResources != null) 'AnomalyResources': anomalyResources,
+      if (anomalyTimeRange != null) 'AnomalyTimeRange': anomalyTimeRange,
+      if (associatedInsightId != null)
+        'AssociatedInsightId': associatedInsightId,
+      if (description != null) 'Description': description,
       if (id != null) 'Id': id,
-      if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
-      if (name != null) 'Name': name,
-      if (organizationalUnitId != null)
-        'OrganizationalUnitId': organizationalUnitId,
+      if (limit != null) 'Limit': limit,
       if (predictionTimeRange != null)
         'PredictionTimeRange': predictionTimeRange,
       if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
       if (severity != null) 'Severity': severity.value,
+      if (sourceDetails != null) 'SourceDetails': sourceDetails,
+      if (sourceMetadata != null) 'SourceMetadata': sourceMetadata,
       if (status != null) 'Status': status.value,
+      if (updateTime != null) 'UpdateTime': unixTimestampToJson(updateTime),
     };
-  }
-}
-
-class PutFeedbackResponse {
-  PutFeedbackResponse();
-
-  factory PutFeedbackResponse.fromJson(Map<String, dynamic> _) {
-    return PutFeedbackResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -5851,2126 +7969,6 @@ class ReactiveAnomaly {
       if (sourceDetails != null) 'SourceDetails': sourceDetails,
       if (status != null) 'Status': status.value,
       if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Details about a reactive anomaly. This object is returned by
-/// <code>DescribeAnomaly.</code>
-class ReactiveAnomalySummary {
-  /// An <code>AnomalyReportedTimeRange</code> object that specifies the time
-  /// range between when the anomaly is opened and the time when it is closed.
-  final AnomalyReportedTimeRange? anomalyReportedTimeRange;
-
-  /// The Amazon Web Services resources in which anomalous behavior was detected
-  /// by DevOps Guru.
-  final List<AnomalyResource>? anomalyResources;
-  final AnomalyTimeRange? anomalyTimeRange;
-
-  /// The ID of the insight that contains this anomaly. An insight is composed of
-  /// related anomalies.
-  final String? associatedInsightId;
-
-  /// The ID of the causal anomaly that is associated with this reactive anomaly.
-  /// The ID of a `CAUSAL` anomaly is always `NULL`.
-  final String? causalAnomalyId;
-
-  /// A description of the reactive anomaly.
-  final String? description;
-
-  /// The ID of the reactive anomaly.
-  final String? id;
-
-  /// The name of the reactive anomaly.
-  final String? name;
-  final ResourceCollection? resourceCollection;
-
-  /// The severity of the anomaly. The severity of anomalies that generate an
-  /// insight determine that insight's severity. For more information, see <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
-  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
-  final AnomalySeverity? severity;
-
-  /// Details about the source of the analyzed operational data that triggered the
-  /// anomaly. The one supported source is Amazon CloudWatch metrics.
-  final AnomalySourceDetails? sourceDetails;
-
-  /// The status of the reactive anomaly.
-  final AnomalyStatus? status;
-
-  /// The type of the reactive anomaly. It can be one of the following types.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CAUSAL</code> - the anomaly can cause a new insight.
-  /// </li>
-  /// <li>
-  /// <code>CONTEXTUAL</code> - the anomaly contains additional information about
-  /// an insight or its causal anomaly.
-  /// </li>
-  /// </ul>
-  final AnomalyType? type;
-
-  ReactiveAnomalySummary({
-    this.anomalyReportedTimeRange,
-    this.anomalyResources,
-    this.anomalyTimeRange,
-    this.associatedInsightId,
-    this.causalAnomalyId,
-    this.description,
-    this.id,
-    this.name,
-    this.resourceCollection,
-    this.severity,
-    this.sourceDetails,
-    this.status,
-    this.type,
-  });
-
-  factory ReactiveAnomalySummary.fromJson(Map<String, dynamic> json) {
-    return ReactiveAnomalySummary(
-      anomalyReportedTimeRange: json['AnomalyReportedTimeRange'] != null
-          ? AnomalyReportedTimeRange.fromJson(
-              json['AnomalyReportedTimeRange'] as Map<String, dynamic>)
-          : null,
-      anomalyResources: (json['AnomalyResources'] as List?)
-          ?.nonNulls
-          .map((e) => AnomalyResource.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      anomalyTimeRange: json['AnomalyTimeRange'] != null
-          ? AnomalyTimeRange.fromJson(
-              json['AnomalyTimeRange'] as Map<String, dynamic>)
-          : null,
-      associatedInsightId: json['AssociatedInsightId'] as String?,
-      causalAnomalyId: json['CausalAnomalyId'] as String?,
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      resourceCollection: json['ResourceCollection'] != null
-          ? ResourceCollection.fromJson(
-              json['ResourceCollection'] as Map<String, dynamic>)
-          : null,
-      severity: (json['Severity'] as String?)?.let(AnomalySeverity.fromString),
-      sourceDetails: json['SourceDetails'] != null
-          ? AnomalySourceDetails.fromJson(
-              json['SourceDetails'] as Map<String, dynamic>)
-          : null,
-      status: (json['Status'] as String?)?.let(AnomalyStatus.fromString),
-      type: (json['Type'] as String?)?.let(AnomalyType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final anomalyReportedTimeRange = this.anomalyReportedTimeRange;
-    final anomalyResources = this.anomalyResources;
-    final anomalyTimeRange = this.anomalyTimeRange;
-    final associatedInsightId = this.associatedInsightId;
-    final causalAnomalyId = this.causalAnomalyId;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final resourceCollection = this.resourceCollection;
-    final severity = this.severity;
-    final sourceDetails = this.sourceDetails;
-    final status = this.status;
-    final type = this.type;
-    return {
-      if (anomalyReportedTimeRange != null)
-        'AnomalyReportedTimeRange': anomalyReportedTimeRange,
-      if (anomalyResources != null) 'AnomalyResources': anomalyResources,
-      if (anomalyTimeRange != null) 'AnomalyTimeRange': anomalyTimeRange,
-      if (associatedInsightId != null)
-        'AssociatedInsightId': associatedInsightId,
-      if (causalAnomalyId != null) 'CausalAnomalyId': causalAnomalyId,
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.value,
-      if (sourceDetails != null) 'SourceDetails': sourceDetails,
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Information about a reactive insight. This object is returned by
-/// <code>ListInsights</code>.
-class ReactiveInsight {
-  /// Describes the reactive insight.
-  final String? description;
-
-  /// The ID of a reactive insight.
-  final String? id;
-  final InsightTimeRange? insightTimeRange;
-
-  /// The name of a reactive insight.
-  final String? name;
-  final ResourceCollection? resourceCollection;
-
-  /// The severity of the insight. For more information, see <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
-  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
-  final InsightSeverity? severity;
-
-  /// The ID of the Amazon Web Services System Manager OpsItem created for this
-  /// insight. You must enable the creation of OpstItems insights before they are
-  /// created for each insight.
-  final String? ssmOpsItemId;
-
-  /// The status of a reactive insight.
-  final InsightStatus? status;
-
-  ReactiveInsight({
-    this.description,
-    this.id,
-    this.insightTimeRange,
-    this.name,
-    this.resourceCollection,
-    this.severity,
-    this.ssmOpsItemId,
-    this.status,
-  });
-
-  factory ReactiveInsight.fromJson(Map<String, dynamic> json) {
-    return ReactiveInsight(
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      insightTimeRange: json['InsightTimeRange'] != null
-          ? InsightTimeRange.fromJson(
-              json['InsightTimeRange'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      resourceCollection: json['ResourceCollection'] != null
-          ? ResourceCollection.fromJson(
-              json['ResourceCollection'] as Map<String, dynamic>)
-          : null,
-      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
-      ssmOpsItemId: json['SsmOpsItemId'] as String?,
-      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final id = this.id;
-    final insightTimeRange = this.insightTimeRange;
-    final name = this.name;
-    final resourceCollection = this.resourceCollection;
-    final severity = this.severity;
-    final ssmOpsItemId = this.ssmOpsItemId;
-    final status = this.status;
-    return {
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
-      if (name != null) 'Name': name,
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (severity != null) 'Severity': severity.value,
-      if (ssmOpsItemId != null) 'SsmOpsItemId': ssmOpsItemId,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Information about a reactive insight. This object is returned by
-/// <code>DescribeInsight.</code>
-class ReactiveInsightSummary {
-  /// The Amazon Resource Names (ARNs) of the Amazon Web Services resources that
-  /// generated this insight.
-  final List<String>? associatedResourceArns;
-
-  /// The ID of a reactive summary.
-  final String? id;
-  final InsightTimeRange? insightTimeRange;
-
-  /// The name of a reactive insight.
-  final String? name;
-  final ResourceCollection? resourceCollection;
-
-  /// A collection of the names of Amazon Web Services services.
-  final ServiceCollection? serviceCollection;
-
-  /// The severity of the insight. For more information, see <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
-  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
-  final InsightSeverity? severity;
-
-  /// The status of a reactive insight.
-  final InsightStatus? status;
-
-  ReactiveInsightSummary({
-    this.associatedResourceArns,
-    this.id,
-    this.insightTimeRange,
-    this.name,
-    this.resourceCollection,
-    this.serviceCollection,
-    this.severity,
-    this.status,
-  });
-
-  factory ReactiveInsightSummary.fromJson(Map<String, dynamic> json) {
-    return ReactiveInsightSummary(
-      associatedResourceArns: (json['AssociatedResourceArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      id: json['Id'] as String?,
-      insightTimeRange: json['InsightTimeRange'] != null
-          ? InsightTimeRange.fromJson(
-              json['InsightTimeRange'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      resourceCollection: json['ResourceCollection'] != null
-          ? ResourceCollection.fromJson(
-              json['ResourceCollection'] as Map<String, dynamic>)
-          : null,
-      serviceCollection: json['ServiceCollection'] != null
-          ? ServiceCollection.fromJson(
-              json['ServiceCollection'] as Map<String, dynamic>)
-          : null,
-      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
-      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associatedResourceArns = this.associatedResourceArns;
-    final id = this.id;
-    final insightTimeRange = this.insightTimeRange;
-    final name = this.name;
-    final resourceCollection = this.resourceCollection;
-    final serviceCollection = this.serviceCollection;
-    final severity = this.severity;
-    final status = this.status;
-    return {
-      if (associatedResourceArns != null)
-        'AssociatedResourceArns': associatedResourceArns,
-      if (id != null) 'Id': id,
-      if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
-      if (name != null) 'Name': name,
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-      if (severity != null) 'Severity': severity.value,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Information about a reactive insight. This object is returned by
-/// <code>DescribeInsight</code>.
-class ReactiveOrganizationInsightSummary {
-  /// The ID of the Amazon Web Services account.
-  final String? accountId;
-
-  /// The ID of the insight summary.
-  final String? id;
-  final InsightTimeRange? insightTimeRange;
-
-  /// The name of the insight summary.
-  final String? name;
-
-  /// The ID of the organizational unit.
-  final String? organizationalUnitId;
-  final ResourceCollection? resourceCollection;
-  final ServiceCollection? serviceCollection;
-
-  /// An array of severity values used to search for insights. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities">Understanding
-  /// insight severities</a> in the <i>Amazon DevOps Guru User Guide</i>.
-  final InsightSeverity? severity;
-
-  /// An array of status values used to search for insights.
-  final InsightStatus? status;
-
-  ReactiveOrganizationInsightSummary({
-    this.accountId,
-    this.id,
-    this.insightTimeRange,
-    this.name,
-    this.organizationalUnitId,
-    this.resourceCollection,
-    this.serviceCollection,
-    this.severity,
-    this.status,
-  });
-
-  factory ReactiveOrganizationInsightSummary.fromJson(
-      Map<String, dynamic> json) {
-    return ReactiveOrganizationInsightSummary(
-      accountId: json['AccountId'] as String?,
-      id: json['Id'] as String?,
-      insightTimeRange: json['InsightTimeRange'] != null
-          ? InsightTimeRange.fromJson(
-              json['InsightTimeRange'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      organizationalUnitId: json['OrganizationalUnitId'] as String?,
-      resourceCollection: json['ResourceCollection'] != null
-          ? ResourceCollection.fromJson(
-              json['ResourceCollection'] as Map<String, dynamic>)
-          : null,
-      serviceCollection: json['ServiceCollection'] != null
-          ? ServiceCollection.fromJson(
-              json['ServiceCollection'] as Map<String, dynamic>)
-          : null,
-      severity: (json['Severity'] as String?)?.let(InsightSeverity.fromString),
-      status: (json['Status'] as String?)?.let(InsightStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final id = this.id;
-    final insightTimeRange = this.insightTimeRange;
-    final name = this.name;
-    final organizationalUnitId = this.organizationalUnitId;
-    final resourceCollection = this.resourceCollection;
-    final serviceCollection = this.serviceCollection;
-    final severity = this.severity;
-    final status = this.status;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (id != null) 'Id': id,
-      if (insightTimeRange != null) 'InsightTimeRange': insightTimeRange,
-      if (name != null) 'Name': name,
-      if (organizationalUnitId != null)
-        'OrganizationalUnitId': organizationalUnitId,
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-      if (severity != null) 'Severity': severity.value,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Recommendation information to help you remediate detected anomalous behavior
-/// that generated an insight.
-class Recommendation {
-  /// The category type of the recommendation.
-  final String? category;
-
-  /// A description of the problem.
-  final String? description;
-
-  /// A hyperlink to information to help you address the problem.
-  final String? link;
-
-  /// The name of the recommendation.
-  final String? name;
-
-  /// The reason DevOps Guru flagged the anomalous behavior as a problem.
-  final String? reason;
-
-  /// Anomalies that are related to the problem. Use these Anomalies to learn more
-  /// about what's happening and to help address the issue.
-  final List<RecommendationRelatedAnomaly>? relatedAnomalies;
-
-  /// Events that are related to the problem. Use these events to learn more about
-  /// what's happening and to help address the issue.
-  final List<RecommendationRelatedEvent>? relatedEvents;
-
-  Recommendation({
-    this.category,
-    this.description,
-    this.link,
-    this.name,
-    this.reason,
-    this.relatedAnomalies,
-    this.relatedEvents,
-  });
-
-  factory Recommendation.fromJson(Map<String, dynamic> json) {
-    return Recommendation(
-      category: json['Category'] as String?,
-      description: json['Description'] as String?,
-      link: json['Link'] as String?,
-      name: json['Name'] as String?,
-      reason: json['Reason'] as String?,
-      relatedAnomalies: (json['RelatedAnomalies'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              RecommendationRelatedAnomaly.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      relatedEvents: (json['RelatedEvents'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              RecommendationRelatedEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final category = this.category;
-    final description = this.description;
-    final link = this.link;
-    final name = this.name;
-    final reason = this.reason;
-    final relatedAnomalies = this.relatedAnomalies;
-    final relatedEvents = this.relatedEvents;
-    return {
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (link != null) 'Link': link,
-      if (name != null) 'Name': name,
-      if (reason != null) 'Reason': reason,
-      if (relatedAnomalies != null) 'RelatedAnomalies': relatedAnomalies,
-      if (relatedEvents != null) 'RelatedEvents': relatedEvents,
-    };
-  }
-}
-
-/// Information about an anomaly that is related to a recommendation.
-class RecommendationRelatedAnomaly {
-  /// The ID of an anomaly that generated the insight with this recommendation.
-  final String? anomalyId;
-
-  /// An array of objects that represent resources in which DevOps Guru detected
-  /// anomalous behavior. Each object contains the name and type of the resource.
-  final List<RecommendationRelatedAnomalyResource>? resources;
-
-  /// Information about where the anomalous behavior related the recommendation
-  /// was found. For example, details in Amazon CloudWatch metrics.
-  final List<RecommendationRelatedAnomalySourceDetail>? sourceDetails;
-
-  RecommendationRelatedAnomaly({
-    this.anomalyId,
-    this.resources,
-    this.sourceDetails,
-  });
-
-  factory RecommendationRelatedAnomaly.fromJson(Map<String, dynamic> json) {
-    return RecommendationRelatedAnomaly(
-      anomalyId: json['AnomalyId'] as String?,
-      resources: (json['Resources'] as List?)
-          ?.nonNulls
-          .map((e) => RecommendationRelatedAnomalyResource.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      sourceDetails: (json['SourceDetails'] as List?)
-          ?.nonNulls
-          .map((e) => RecommendationRelatedAnomalySourceDetail.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final anomalyId = this.anomalyId;
-    final resources = this.resources;
-    final sourceDetails = this.sourceDetails;
-    return {
-      if (anomalyId != null) 'AnomalyId': anomalyId,
-      if (resources != null) 'Resources': resources,
-      if (sourceDetails != null) 'SourceDetails': sourceDetails,
-    };
-  }
-}
-
-/// Information about a resource in which DevOps Guru detected anomalous
-/// behavior.
-class RecommendationRelatedAnomalyResource {
-  /// The name of the resource.
-  final String? name;
-
-  /// The type of the resource. Resource types take the same form that is used by
-  /// Amazon Web Services CloudFormation resource type identifiers,
-  /// <code>service-provider::service-name::data-type-name</code>. For example,
-  /// <code>AWS::RDS::DBCluster</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Amazon
-  /// Web Services resource and property types reference</a> in the <i>Amazon Web
-  /// Services CloudFormation User Guide</i>.
-  final String? type;
-
-  RecommendationRelatedAnomalyResource({
-    this.name,
-    this.type,
-  });
-
-  factory RecommendationRelatedAnomalyResource.fromJson(
-      Map<String, dynamic> json) {
-    return RecommendationRelatedAnomalyResource(
-      name: json['Name'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Contains an array of
-/// <code>RecommendationRelatedCloudWatchMetricsSourceDetail</code> objects that
-/// contain the name and namespace of an Amazon CloudWatch metric.
-class RecommendationRelatedAnomalySourceDetail {
-  /// An array of <code>CloudWatchMetricsDetail</code> objects that contains
-  /// information about the analyzed metrics that displayed anomalous behavior.
-  final List<RecommendationRelatedCloudWatchMetricsSourceDetail>?
-      cloudWatchMetrics;
-
-  RecommendationRelatedAnomalySourceDetail({
-    this.cloudWatchMetrics,
-  });
-
-  factory RecommendationRelatedAnomalySourceDetail.fromJson(
-      Map<String, dynamic> json) {
-    return RecommendationRelatedAnomalySourceDetail(
-      cloudWatchMetrics: (json['CloudWatchMetrics'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              RecommendationRelatedCloudWatchMetricsSourceDetail.fromJson(
-                  e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchMetrics = this.cloudWatchMetrics;
-    return {
-      if (cloudWatchMetrics != null) 'CloudWatchMetrics': cloudWatchMetrics,
-    };
-  }
-}
-
-/// Information about an Amazon CloudWatch metric that is analyzed by DevOps
-/// Guru. It is one of many analyzed metrics that are used to generate insights.
-class RecommendationRelatedCloudWatchMetricsSourceDetail {
-  /// The name of the CloudWatch metric.
-  final String? metricName;
-
-  /// The namespace of the CloudWatch metric. A namespace is a container for
-  /// CloudWatch metrics.
-  final String? namespace;
-
-  RecommendationRelatedCloudWatchMetricsSourceDetail({
-    this.metricName,
-    this.namespace,
-  });
-
-  factory RecommendationRelatedCloudWatchMetricsSourceDetail.fromJson(
-      Map<String, dynamic> json) {
-    return RecommendationRelatedCloudWatchMetricsSourceDetail(
-      metricName: json['MetricName'] as String?,
-      namespace: json['Namespace'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    return {
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-    };
-  }
-}
-
-/// Information about an event that is related to a recommendation.
-class RecommendationRelatedEvent {
-  /// The name of the event. This corresponds to the <code>Name</code> field in an
-  /// <code>Event</code> object.
-  final String? name;
-
-  /// A <code>ResourceCollection</code> object that contains arrays of the names
-  /// of Amazon Web Services CloudFormation stacks. You can specify up to 500
-  /// Amazon Web Services CloudFormation stacks.
-  final List<RecommendationRelatedEventResource>? resources;
-
-  RecommendationRelatedEvent({
-    this.name,
-    this.resources,
-  });
-
-  factory RecommendationRelatedEvent.fromJson(Map<String, dynamic> json) {
-    return RecommendationRelatedEvent(
-      name: json['Name'] as String?,
-      resources: (json['Resources'] as List?)
-          ?.nonNulls
-          .map((e) => RecommendationRelatedEventResource.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final resources = this.resources;
-    return {
-      if (name != null) 'Name': name,
-      if (resources != null) 'Resources': resources,
-    };
-  }
-}
-
-/// Information about an Amazon Web Services resource that emitted and event
-/// that is related to a recommendation in an insight.
-class RecommendationRelatedEventResource {
-  /// The name of the resource that emitted the event. This corresponds to the
-  /// <code>Name</code> field in an <code>EventResource</code> object.
-  final String? name;
-
-  /// The type of the resource that emitted the event. This corresponds to the
-  /// <code>Type</code> field in an <code>EventResource</code> object.
-  final String? type;
-
-  RecommendationRelatedEventResource({
-    this.name,
-    this.type,
-  });
-
-  factory RecommendationRelatedEventResource.fromJson(
-      Map<String, dynamic> json) {
-    return RecommendationRelatedEventResource(
-      name: json['Name'] as String?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-class RemoveNotificationChannelResponse {
-  RemoveNotificationChannelResponse();
-
-  factory RemoveNotificationChannelResponse.fromJson(Map<String, dynamic> _) {
-    return RemoveNotificationChannelResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A collection of Amazon Web Services resources supported by DevOps Guru. The
-/// two types of Amazon Web Services resource collections supported are Amazon
-/// Web Services CloudFormation stacks and Amazon Web Services resources that
-/// contain the same Amazon Web Services tag. DevOps Guru can be configured to
-/// analyze the Amazon Web Services resources that are defined in the stacks or
-/// that are tagged using the same tag <i>key</i>. You can specify up to 500
-/// Amazon Web Services CloudFormation stacks.
-class ResourceCollection {
-  /// An array of the names of Amazon Web Services CloudFormation stacks. The
-  /// stacks define Amazon Web Services resources that DevOps Guru analyzes. You
-  /// can specify up to 500 Amazon Web Services CloudFormation stacks.
-  final CloudFormationCollection? cloudFormation;
-
-  /// The Amazon Web Services tags that are used by resources in the resource
-  /// collection.
-  ///
-  /// Tags help you identify and organize your Amazon Web Services resources. Many
-  /// Amazon Web Services services support tagging, so you can assign the same tag
-  /// to resources from different services to indicate that the resources are
-  /// related. For example, you can assign the same tag to an Amazon DynamoDB
-  /// table resource that you assign to an Lambda function. For more information
-  /// about using tags, see the <a
-  /// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
-  /// best practices</a> whitepaper.
-  ///
-  /// Each Amazon Web Services tag has two parts.
-  ///
-  /// <ul>
-  /// <li>
-  /// A tag <i>key</i> (for example, <code>CostCenter</code>,
-  /// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
-  /// <i>keys</i> are case-sensitive.
-  /// </li>
-  /// <li>
-  /// An optional field known as a tag <i>value</i> (for example,
-  /// <code>111122223333</code>, <code>Production</code>, or a team name).
-  /// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
-  /// <i>keys</i>, tag <i>values</i> are case-sensitive.
-  /// </li>
-  /// </ul>
-  /// Together these are known as <i>key</i>-<i>value</i> pairs.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final List<TagCollection>? tags;
-
-  ResourceCollection({
-    this.cloudFormation,
-    this.tags,
-  });
-
-  factory ResourceCollection.fromJson(Map<String, dynamic> json) {
-    return ResourceCollection(
-      cloudFormation: json['CloudFormation'] != null
-          ? CloudFormationCollection.fromJson(
-              json['CloudFormation'] as Map<String, dynamic>)
-          : null,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => TagCollection.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudFormation = this.cloudFormation;
-    final tags = this.tags;
-    return {
-      if (cloudFormation != null) 'CloudFormation': cloudFormation,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Information about a filter used to specify which Amazon Web Services
-/// resources are analyzed for anomalous behavior by DevOps Guru.
-class ResourceCollectionFilter {
-  /// Information about Amazon Web Services CloudFormation stacks. You can use up
-  /// to 500 stacks to specify which Amazon Web Services resources in your account
-  /// to analyze. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
-  /// in the <i>Amazon Web Services CloudFormation User Guide</i>.
-  final CloudFormationCollectionFilter? cloudFormation;
-
-  /// The Amazon Web Services tags used to filter the resources in the resource
-  /// collection.
-  ///
-  /// Tags help you identify and organize your Amazon Web Services resources. Many
-  /// Amazon Web Services services support tagging, so you can assign the same tag
-  /// to resources from different services to indicate that the resources are
-  /// related. For example, you can assign the same tag to an Amazon DynamoDB
-  /// table resource that you assign to an Lambda function. For more information
-  /// about using tags, see the <a
-  /// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
-  /// best practices</a> whitepaper.
-  ///
-  /// Each Amazon Web Services tag has two parts.
-  ///
-  /// <ul>
-  /// <li>
-  /// A tag <i>key</i> (for example, <code>CostCenter</code>,
-  /// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
-  /// <i>keys</i> are case-sensitive.
-  /// </li>
-  /// <li>
-  /// An optional field known as a tag <i>value</i> (for example,
-  /// <code>111122223333</code>, <code>Production</code>, or a team name).
-  /// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
-  /// <i>keys</i>, tag <i>values</i> are case-sensitive.
-  /// </li>
-  /// </ul>
-  /// Together these are known as <i>key</i>-<i>value</i> pairs.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final List<TagCollectionFilter>? tags;
-
-  ResourceCollectionFilter({
-    this.cloudFormation,
-    this.tags,
-  });
-
-  factory ResourceCollectionFilter.fromJson(Map<String, dynamic> json) {
-    return ResourceCollectionFilter(
-      cloudFormation: json['CloudFormation'] != null
-          ? CloudFormationCollectionFilter.fromJson(
-              json['CloudFormation'] as Map<String, dynamic>)
-          : null,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => TagCollectionFilter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudFormation = this.cloudFormation;
-    final tags = this.tags;
-    return {
-      if (cloudFormation != null) 'CloudFormation': cloudFormation,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class ResourceCollectionType {
-  static const awsCloudFormation =
-      ResourceCollectionType._('AWS_CLOUD_FORMATION');
-  static const awsService = ResourceCollectionType._('AWS_SERVICE');
-  static const awsTags = ResourceCollectionType._('AWS_TAGS');
-
-  final String value;
-
-  const ResourceCollectionType._(this.value);
-
-  static const values = [awsCloudFormation, awsService, awsTags];
-
-  static ResourceCollectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceCollectionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceCollectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourcePermission {
-  static const fullPermission = ResourcePermission._('FULL_PERMISSION');
-  static const missingPermission = ResourcePermission._('MISSING_PERMISSION');
-
-  final String value;
-
-  const ResourcePermission._(this.value);
-
-  static const values = [fullPermission, missingPermission];
-
-  static ResourcePermission fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourcePermission._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourcePermission && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceTypeFilter {
-  static const logGroups = ResourceTypeFilter._('LOG_GROUPS');
-  static const cloudfrontDistribution =
-      ResourceTypeFilter._('CLOUDFRONT_DISTRIBUTION');
-  static const dynamodbTable = ResourceTypeFilter._('DYNAMODB_TABLE');
-  static const ec2NatGateway = ResourceTypeFilter._('EC2_NAT_GATEWAY');
-  static const ecsCluster = ResourceTypeFilter._('ECS_CLUSTER');
-  static const ecsService = ResourceTypeFilter._('ECS_SERVICE');
-  static const eksCluster = ResourceTypeFilter._('EKS_CLUSTER');
-  static const elasticBeanstalkEnvironment =
-      ResourceTypeFilter._('ELASTIC_BEANSTALK_ENVIRONMENT');
-  static const elasticLoadBalancerLoadBalancer =
-      ResourceTypeFilter._('ELASTIC_LOAD_BALANCER_LOAD_BALANCER');
-  static const elasticLoadBalancingV2LoadBalancer =
-      ResourceTypeFilter._('ELASTIC_LOAD_BALANCING_V2_LOAD_BALANCER');
-  static const elasticLoadBalancingV2TargetGroup =
-      ResourceTypeFilter._('ELASTIC_LOAD_BALANCING_V2_TARGET_GROUP');
-  static const elasticacheCacheCluster =
-      ResourceTypeFilter._('ELASTICACHE_CACHE_CLUSTER');
-  static const elasticsearchDomain =
-      ResourceTypeFilter._('ELASTICSEARCH_DOMAIN');
-  static const kinesisStream = ResourceTypeFilter._('KINESIS_STREAM');
-  static const lambdaFunction = ResourceTypeFilter._('LAMBDA_FUNCTION');
-  static const openSearchServiceDomain =
-      ResourceTypeFilter._('OPEN_SEARCH_SERVICE_DOMAIN');
-  static const rdsDbInstance = ResourceTypeFilter._('RDS_DB_INSTANCE');
-  static const rdsDbCluster = ResourceTypeFilter._('RDS_DB_CLUSTER');
-  static const redshiftCluster = ResourceTypeFilter._('REDSHIFT_CLUSTER');
-  static const route53HostedZone = ResourceTypeFilter._('ROUTE53_HOSTED_ZONE');
-  static const route53HealthCheck =
-      ResourceTypeFilter._('ROUTE53_HEALTH_CHECK');
-  static const s3Bucket = ResourceTypeFilter._('S3_BUCKET');
-  static const sagemakerEndpoint = ResourceTypeFilter._('SAGEMAKER_ENDPOINT');
-  static const snsTopic = ResourceTypeFilter._('SNS_TOPIC');
-  static const sqsQueue = ResourceTypeFilter._('SQS_QUEUE');
-  static const stepFunctionsActivity =
-      ResourceTypeFilter._('STEP_FUNCTIONS_ACTIVITY');
-  static const stepFunctionsStateMachine =
-      ResourceTypeFilter._('STEP_FUNCTIONS_STATE_MACHINE');
-
-  final String value;
-
-  const ResourceTypeFilter._(this.value);
-
-  static const values = [
-    logGroups,
-    cloudfrontDistribution,
-    dynamodbTable,
-    ec2NatGateway,
-    ecsCluster,
-    ecsService,
-    eksCluster,
-    elasticBeanstalkEnvironment,
-    elasticLoadBalancerLoadBalancer,
-    elasticLoadBalancingV2LoadBalancer,
-    elasticLoadBalancingV2TargetGroup,
-    elasticacheCacheCluster,
-    elasticsearchDomain,
-    kinesisStream,
-    lambdaFunction,
-    openSearchServiceDomain,
-    rdsDbInstance,
-    rdsDbCluster,
-    redshiftCluster,
-    route53HostedZone,
-    route53HealthCheck,
-    s3Bucket,
-    sagemakerEndpoint,
-    snsTopic,
-    sqsQueue,
-    stepFunctionsActivity,
-    stepFunctionsStateMachine
-  ];
-
-  static ResourceTypeFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceTypeFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceTypeFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies values used to filter responses when searching for insights. You
-/// can use a <code>ResourceCollection</code>, <code>ServiceCollection</code>,
-/// array of severities, and an array of status values. Each filter type
-/// contains one or more values to search for. If you specify multiple filter
-/// types, the filter types are joined with an <code>AND</code>, and the request
-/// returns only results that match all of the specified filters.
-class SearchInsightsFilters {
-  final ResourceCollection? resourceCollection;
-
-  /// A collection of the names of Amazon Web Services services.
-  final ServiceCollection? serviceCollection;
-
-  /// An array of severity values used to search for insights.
-  final List<InsightSeverity>? severities;
-
-  /// An array of status values used to search for insights.
-  final List<InsightStatus>? statuses;
-
-  SearchInsightsFilters({
-    this.resourceCollection,
-    this.serviceCollection,
-    this.severities,
-    this.statuses,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceCollection = this.resourceCollection;
-    final serviceCollection = this.serviceCollection;
-    final severities = this.severities;
-    final statuses = this.statuses;
-    return {
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-      if (severities != null)
-        'Severities': severities.map((e) => e.value).toList(),
-      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class SearchInsightsResponse {
-  /// The pagination token to use to retrieve the next page of results for this
-  /// operation. If there are no more pages, this value is null.
-  final String? nextToken;
-
-  /// The returned proactive insights.
-  final List<ProactiveInsightSummary>? proactiveInsights;
-
-  /// The returned reactive insights.
-  final List<ReactiveInsightSummary>? reactiveInsights;
-
-  SearchInsightsResponse({
-    this.nextToken,
-    this.proactiveInsights,
-    this.reactiveInsights,
-  });
-
-  factory SearchInsightsResponse.fromJson(Map<String, dynamic> json) {
-    return SearchInsightsResponse(
-      nextToken: json['NextToken'] as String?,
-      proactiveInsights: (json['ProactiveInsights'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ProactiveInsightSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      reactiveInsights: (json['ReactiveInsights'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => ReactiveInsightSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final proactiveInsights = this.proactiveInsights;
-    final reactiveInsights = this.reactiveInsights;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (proactiveInsights != null) 'ProactiveInsights': proactiveInsights,
-      if (reactiveInsights != null) 'ReactiveInsights': reactiveInsights,
-    };
-  }
-}
-
-/// Filters you can use to specify which events are returned when
-/// <code>ListEvents</code> is called.
-class SearchOrganizationInsightsFilters {
-  final ResourceCollection? resourceCollection;
-  final ServiceCollection? serviceCollection;
-
-  /// An array of severity values used to search for insights.
-  final List<InsightSeverity>? severities;
-
-  /// An array of status values used to search for insights.
-  final List<InsightStatus>? statuses;
-
-  SearchOrganizationInsightsFilters({
-    this.resourceCollection,
-    this.serviceCollection,
-    this.severities,
-    this.statuses,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceCollection = this.resourceCollection;
-    final serviceCollection = this.serviceCollection;
-    final severities = this.severities;
-    final statuses = this.statuses;
-    return {
-      if (resourceCollection != null) 'ResourceCollection': resourceCollection,
-      if (serviceCollection != null) 'ServiceCollection': serviceCollection,
-      if (severities != null)
-        'Severities': severities.map((e) => e.value).toList(),
-      if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class SearchOrganizationInsightsResponse {
-  /// The pagination token to use to retrieve the next page of results for this
-  /// operation. If there are no more pages, this value is null.
-  final String? nextToken;
-
-  /// An integer that specifies the number of open proactive insights in your
-  /// Amazon Web Services account.
-  final List<ProactiveInsightSummary>? proactiveInsights;
-
-  /// An integer that specifies the number of open reactive insights in your
-  /// Amazon Web Services account.
-  final List<ReactiveInsightSummary>? reactiveInsights;
-
-  SearchOrganizationInsightsResponse({
-    this.nextToken,
-    this.proactiveInsights,
-    this.reactiveInsights,
-  });
-
-  factory SearchOrganizationInsightsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return SearchOrganizationInsightsResponse(
-      nextToken: json['NextToken'] as String?,
-      proactiveInsights: (json['ProactiveInsights'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ProactiveInsightSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      reactiveInsights: (json['ReactiveInsights'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => ReactiveInsightSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final proactiveInsights = this.proactiveInsights;
-    final reactiveInsights = this.reactiveInsights;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (proactiveInsights != null) 'ProactiveInsights': proactiveInsights,
-      if (reactiveInsights != null) 'ReactiveInsights': reactiveInsights,
-    };
-  }
-}
-
-class ServerSideEncryptionType {
-  static const customerManagedKey =
-      ServerSideEncryptionType._('CUSTOMER_MANAGED_KEY');
-  static const awsOwnedKmsKey = ServerSideEncryptionType._('AWS_OWNED_KMS_KEY');
-
-  final String value;
-
-  const ServerSideEncryptionType._(this.value);
-
-  static const values = [customerManagedKey, awsOwnedKmsKey];
-
-  static ServerSideEncryptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServerSideEncryptionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ServerSideEncryptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A collection of the names of Amazon Web Services services.
-class ServiceCollection {
-  /// An array of strings that each specifies the name of an Amazon Web Services
-  /// service.
-  final List<ServiceName>? serviceNames;
-
-  ServiceCollection({
-    this.serviceNames,
-  });
-
-  factory ServiceCollection.fromJson(Map<String, dynamic> json) {
-    return ServiceCollection(
-      serviceNames: (json['ServiceNames'] as List?)
-          ?.nonNulls
-          .map((e) => ServiceName.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceNames = this.serviceNames;
-    return {
-      if (serviceNames != null)
-        'ServiceNames': serviceNames.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Represents the health of an Amazon Web Services service.
-class ServiceHealth {
-  /// Number of resources that DevOps Guru is monitoring in an analyzed Amazon Web
-  /// Services service.
-  final int? analyzedResourceCount;
-
-  /// Represents the health of an Amazon Web Services service. This is a
-  /// <code>ServiceInsightHealth</code> that contains the number of open proactive
-  /// and reactive insights for this service.
-  final ServiceInsightHealth? insight;
-
-  /// The name of the Amazon Web Services service.
-  final ServiceName? serviceName;
-
-  ServiceHealth({
-    this.analyzedResourceCount,
-    this.insight,
-    this.serviceName,
-  });
-
-  factory ServiceHealth.fromJson(Map<String, dynamic> json) {
-    return ServiceHealth(
-      analyzedResourceCount: json['AnalyzedResourceCount'] as int?,
-      insight: json['Insight'] != null
-          ? ServiceInsightHealth.fromJson(
-              json['Insight'] as Map<String, dynamic>)
-          : null,
-      serviceName:
-          (json['ServiceName'] as String?)?.let(ServiceName.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final analyzedResourceCount = this.analyzedResourceCount;
-    final insight = this.insight;
-    final serviceName = this.serviceName;
-    return {
-      if (analyzedResourceCount != null)
-        'AnalyzedResourceCount': analyzedResourceCount,
-      if (insight != null) 'Insight': insight,
-      if (serviceName != null) 'ServiceName': serviceName.value,
-    };
-  }
-}
-
-/// Contains the number of open proactive and reactive insights in an analyzed
-/// Amazon Web Services service.
-class ServiceInsightHealth {
-  /// The number of open proactive insights in the Amazon Web Services service
-  final int? openProactiveInsights;
-
-  /// The number of open reactive insights in the Amazon Web Services service
-  final int? openReactiveInsights;
-
-  ServiceInsightHealth({
-    this.openProactiveInsights,
-    this.openReactiveInsights,
-  });
-
-  factory ServiceInsightHealth.fromJson(Map<String, dynamic> json) {
-    return ServiceInsightHealth(
-      openProactiveInsights: json['OpenProactiveInsights'] as int?,
-      openReactiveInsights: json['OpenReactiveInsights'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final openProactiveInsights = this.openProactiveInsights;
-    final openReactiveInsights = this.openReactiveInsights;
-    return {
-      if (openProactiveInsights != null)
-        'OpenProactiveInsights': openProactiveInsights,
-      if (openReactiveInsights != null)
-        'OpenReactiveInsights': openReactiveInsights,
-    };
-  }
-}
-
-/// Information about the integration of DevOps Guru with another Amazon Web
-/// Services service, such as Amazon Web Services Systems Manager.
-class ServiceIntegrationConfig {
-  /// Information about whether DevOps Guru is configured to encrypt server-side
-  /// data using KMS.
-  final KMSServerSideEncryptionIntegration? kMSServerSideEncryption;
-
-  /// Information about whether DevOps Guru is configured to perform log anomaly
-  /// detection on Amazon CloudWatch log groups.
-  final LogsAnomalyDetectionIntegration? logsAnomalyDetection;
-
-  /// Information about whether DevOps Guru is configured to create an OpsItem in
-  /// Amazon Web Services Systems Manager OpsCenter for each created insight.
-  final OpsCenterIntegration? opsCenter;
-
-  ServiceIntegrationConfig({
-    this.kMSServerSideEncryption,
-    this.logsAnomalyDetection,
-    this.opsCenter,
-  });
-
-  factory ServiceIntegrationConfig.fromJson(Map<String, dynamic> json) {
-    return ServiceIntegrationConfig(
-      kMSServerSideEncryption: json['KMSServerSideEncryption'] != null
-          ? KMSServerSideEncryptionIntegration.fromJson(
-              json['KMSServerSideEncryption'] as Map<String, dynamic>)
-          : null,
-      logsAnomalyDetection: json['LogsAnomalyDetection'] != null
-          ? LogsAnomalyDetectionIntegration.fromJson(
-              json['LogsAnomalyDetection'] as Map<String, dynamic>)
-          : null,
-      opsCenter: json['OpsCenter'] != null
-          ? OpsCenterIntegration.fromJson(
-              json['OpsCenter'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kMSServerSideEncryption = this.kMSServerSideEncryption;
-    final logsAnomalyDetection = this.logsAnomalyDetection;
-    final opsCenter = this.opsCenter;
-    return {
-      if (kMSServerSideEncryption != null)
-        'KMSServerSideEncryption': kMSServerSideEncryption,
-      if (logsAnomalyDetection != null)
-        'LogsAnomalyDetection': logsAnomalyDetection,
-      if (opsCenter != null) 'OpsCenter': opsCenter,
-    };
-  }
-}
-
-class ServiceName {
-  static const apiGateway = ServiceName._('API_GATEWAY');
-  static const applicationElb = ServiceName._('APPLICATION_ELB');
-  static const autoScalingGroup = ServiceName._('AUTO_SCALING_GROUP');
-  static const cloudFront = ServiceName._('CLOUD_FRONT');
-  static const dynamoDb = ServiceName._('DYNAMO_DB');
-  static const ec2 = ServiceName._('EC2');
-  static const ecs = ServiceName._('ECS');
-  static const eks = ServiceName._('EKS');
-  static const elasticBeanstalk = ServiceName._('ELASTIC_BEANSTALK');
-  static const elastiCache = ServiceName._('ELASTI_CACHE');
-  static const elb = ServiceName._('ELB');
-  static const es = ServiceName._('ES');
-  static const kinesis = ServiceName._('KINESIS');
-  static const lambda = ServiceName._('LAMBDA');
-  static const natGateway = ServiceName._('NAT_GATEWAY');
-  static const networkElb = ServiceName._('NETWORK_ELB');
-  static const rds = ServiceName._('RDS');
-  static const redshift = ServiceName._('REDSHIFT');
-  static const route_53 = ServiceName._('ROUTE_53');
-  static const s3 = ServiceName._('S3');
-  static const sageMaker = ServiceName._('SAGE_MAKER');
-  static const sns = ServiceName._('SNS');
-  static const sqs = ServiceName._('SQS');
-  static const stepFunctions = ServiceName._('STEP_FUNCTIONS');
-  static const swf = ServiceName._('SWF');
-
-  final String value;
-
-  const ServiceName._(this.value);
-
-  static const values = [
-    apiGateway,
-    applicationElb,
-    autoScalingGroup,
-    cloudFront,
-    dynamoDb,
-    ec2,
-    ecs,
-    eks,
-    elasticBeanstalk,
-    elastiCache,
-    elb,
-    es,
-    kinesis,
-    lambda,
-    natGateway,
-    networkElb,
-    rds,
-    redshift,
-    route_53,
-    s3,
-    sageMaker,
-    sns,
-    sqs,
-    stepFunctions,
-    swf
-  ];
-
-  static ServiceName fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ServiceName._(value));
-
-  @override
-  bool operator ==(other) => other is ServiceName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about the estimated monthly cost to
-/// analyze an Amazon Web Services resource. For more information, see <a
-/// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html">Estimate
-/// your Amazon DevOps Guru costs</a> and <a
-/// href="http://aws.amazon.com/devops-guru/pricing/">Amazon DevOps Guru
-/// pricing</a>.
-class ServiceResourceCost {
-  /// The total estimated monthly cost to analyze the active resources for this
-  /// resource.
-  final double? cost;
-
-  /// The number of active resources analyzed for this service to create a monthly
-  /// cost estimate.
-  final int? count;
-
-  /// The state of the resource. The resource is <code>ACTIVE</code> if it
-  /// produces metrics, events, or logs within an hour, otherwise it is
-  /// <code>INACTIVE</code>. You pay for the number of active Amazon Web Services
-  /// resource hours analyzed for each resource. Inactive resources are not
-  /// charged.
-  final CostEstimationServiceResourceState? state;
-
-  /// The type of the Amazon Web Services resource.
-  final String? type;
-
-  /// The price per hour to analyze the resources in the service. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html">Estimate
-  /// your Amazon DevOps Guru costs</a> and <a
-  /// href="http://aws.amazon.com/devops-guru/pricing/">Amazon DevOps Guru
-  /// pricing</a>.
-  final double? unitCost;
-
-  ServiceResourceCost({
-    this.cost,
-    this.count,
-    this.state,
-    this.type,
-    this.unitCost,
-  });
-
-  factory ServiceResourceCost.fromJson(Map<String, dynamic> json) {
-    return ServiceResourceCost(
-      cost: json['Cost'] as double?,
-      count: json['Count'] as int?,
-      state: (json['State'] as String?)
-          ?.let(CostEstimationServiceResourceState.fromString),
-      type: json['Type'] as String?,
-      unitCost: json['UnitCost'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cost = this.cost;
-    final count = this.count;
-    final state = this.state;
-    final type = this.type;
-    final unitCost = this.unitCost;
-    return {
-      if (cost != null) 'Cost': cost,
-      if (count != null) 'Count': count,
-      if (state != null) 'State': state.value,
-      if (type != null) 'Type': type,
-      if (unitCost != null) 'UnitCost': unitCost,
-    };
-  }
-}
-
-/// Contains the Amazon Resource Name (ARN) of an Amazon Simple Notification
-/// Service topic.
-///
-/// If you use an Amazon SNS topic in another account, you must attach a policy
-/// to it that grants DevOps Guru permission to send it notifications. DevOps
-/// Guru adds the required policy on your behalf to send notifications using
-/// Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html">Permissions
-/// for Amazon SNS topics</a>.
-///
-/// If you use an Amazon SNS topic that is encrypted by an Amazon Web Services
-/// Key Management Service customer-managed key (CMK), then you must add
-/// permissions to the CMK. For more information, see <a
-/// href="https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html">Permissions
-/// for Amazon Web Services KMS–encrypted Amazon SNS topics</a>.
-class SnsChannelConfig {
-  /// The Amazon Resource Name (ARN) of an Amazon Simple Notification Service
-  /// topic.
-  final String? topicArn;
-
-  SnsChannelConfig({
-    this.topicArn,
-  });
-
-  factory SnsChannelConfig.fromJson(Map<String, dynamic> json) {
-    return SnsChannelConfig(
-      topicArn: json['TopicArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final topicArn = this.topicArn;
-    return {
-      if (topicArn != null) 'TopicArn': topicArn,
-    };
-  }
-}
-
-class StartCostEstimationResponse {
-  StartCostEstimationResponse();
-
-  factory StartCostEstimationResponse.fromJson(Map<String, dynamic> _) {
-    return StartCostEstimationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A time range used to specify when the behavior of an insight or anomaly
-/// started.
-class StartTimeRange {
-  /// The start time of the time range.
-  final DateTime? fromTime;
-
-  /// The end time of the time range.
-  final DateTime? toTime;
-
-  StartTimeRange({
-    this.fromTime,
-    this.toTime,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fromTime = this.fromTime;
-    final toTime = this.toTime;
-    return {
-      if (fromTime != null) 'FromTime': unixTimestampToJson(fromTime),
-      if (toTime != null) 'ToTime': unixTimestampToJson(toTime),
-    };
-  }
-}
-
-/// A collection of Amazon Web Services tags.
-///
-/// Tags help you identify and organize your Amazon Web Services resources. Many
-/// Amazon Web Services services support tagging, so you can assign the same tag
-/// to resources from different services to indicate that the resources are
-/// related. For example, you can assign the same tag to an Amazon DynamoDB
-/// table resource that you assign to an Lambda function. For more information
-/// about using tags, see the <a
-/// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
-/// best practices</a> whitepaper.
-///
-/// Each Amazon Web Services tag has two parts.
-///
-/// <ul>
-/// <li>
-/// A tag <i>key</i> (for example, <code>CostCenter</code>,
-/// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
-/// <i>keys</i> are case-sensitive.
-/// </li>
-/// <li>
-/// An optional field known as a tag <i>value</i> (for example,
-/// <code>111122223333</code>, <code>Production</code>, or a team name).
-/// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
-/// <i>keys</i>, tag <i>values</i> are case-sensitive.
-/// </li>
-/// </ul>
-/// Together these are known as <i>key</i>-<i>value</i> pairs.
-/// <important>
-/// The string used for a <i>key</i> in a tag that you use to define your
-/// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-/// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-/// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-/// case of characters in the <i>key</i> can be whatever you choose. After you
-/// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-/// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-/// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-/// Possible <i>key</i>/<i>value</i> pairs in your application might be
-/// <code>Devops-Guru-production-application/RDS</code> or
-/// <code>Devops-Guru-production-application/containers</code>.
-/// </important>
-class TagCollection {
-  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
-  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
-  /// resources in your account and Region tagged with this <i>key</i> make up
-  /// your DevOps Guru application and analysis boundary.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final String appBoundaryKey;
-
-  /// The values in an Amazon Web Services tag collection.
-  ///
-  /// The tag's <i>value</i> is an optional field used to associate a string with
-  /// the tag <i>key</i> (for example, <code>111122223333</code>,
-  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
-  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
-  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
-  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
-  final List<String> tagValues;
-
-  TagCollection({
-    required this.appBoundaryKey,
-    required this.tagValues,
-  });
-
-  factory TagCollection.fromJson(Map<String, dynamic> json) {
-    return TagCollection(
-      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
-      tagValues: ((json['TagValues'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appBoundaryKey = this.appBoundaryKey;
-    final tagValues = this.tagValues;
-    return {
-      'AppBoundaryKey': appBoundaryKey,
-      'TagValues': tagValues,
-    };
-  }
-}
-
-/// A collection of Amazon Web Services tags used to filter insights. This is
-/// used to return insights generated from only resources that contain the tags
-/// in the tag collection.
-class TagCollectionFilter {
-  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
-  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
-  /// resources in your account and Region tagged with this <i>key</i> make up
-  /// your DevOps Guru application and analysis boundary.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final String appBoundaryKey;
-
-  /// The values in an Amazon Web Services tag collection.
-  ///
-  /// The tag's <i>value</i> is an optional field used to associate a string with
-  /// the tag <i>key</i> (for example, <code>111122223333</code>,
-  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
-  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
-  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
-  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
-  final List<String> tagValues;
-
-  TagCollectionFilter({
-    required this.appBoundaryKey,
-    required this.tagValues,
-  });
-
-  factory TagCollectionFilter.fromJson(Map<String, dynamic> json) {
-    return TagCollectionFilter(
-      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
-      tagValues: ((json['TagValues'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appBoundaryKey = this.appBoundaryKey;
-    final tagValues = this.tagValues;
-    return {
-      'AppBoundaryKey': appBoundaryKey,
-      'TagValues': tagValues,
-    };
-  }
-}
-
-/// Information about a collection of Amazon Web Services resources that are
-/// identified by an Amazon Web Services tag. This collection of resources is
-/// used to create a monthly cost estimate for DevOps Guru to analyze Amazon Web
-/// Services resources. The maximum number of tags you can specify for a cost
-/// estimate is one. The estimate created is for the cost to analyze the Amazon
-/// Web Services resources defined by the tag. For more information, see <a
-/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html">Stacks</a>
-/// in the <i>Amazon Web Services CloudFormation User Guide</i>.
-class TagCostEstimationResourceCollectionFilter {
-  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
-  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
-  /// resources in your account and Region tagged with this <i>key</i> make up
-  /// your DevOps Guru application and analysis boundary.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final String appBoundaryKey;
-
-  /// The values in an Amazon Web Services tag collection.
-  ///
-  /// The tag's <i>value</i> is an optional field used to associate a string with
-  /// the tag <i>key</i> (for example, <code>111122223333</code>,
-  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
-  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
-  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
-  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
-  final List<String> tagValues;
-
-  TagCostEstimationResourceCollectionFilter({
-    required this.appBoundaryKey,
-    required this.tagValues,
-  });
-
-  factory TagCostEstimationResourceCollectionFilter.fromJson(
-      Map<String, dynamic> json) {
-    return TagCostEstimationResourceCollectionFilter(
-      appBoundaryKey: (json['AppBoundaryKey'] as String?) ?? '',
-      tagValues: ((json['TagValues'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appBoundaryKey = this.appBoundaryKey;
-    final tagValues = this.tagValues;
-    return {
-      'AppBoundaryKey': appBoundaryKey,
-      'TagValues': tagValues,
-    };
-  }
-}
-
-/// Information about the health of Amazon Web Services resources in your
-/// account that are specified by an Amazon Web Services tag <i>key</i>.
-class TagHealth {
-  /// Number of resources that DevOps Guru is monitoring in your account that are
-  /// specified by an Amazon Web Services tag.
-  final int? analyzedResourceCount;
-
-  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
-  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
-  /// resources in your account and Region tagged with this <i>key</i> make up
-  /// your DevOps Guru application and analysis boundary.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final String? appBoundaryKey;
-
-  /// Information about the health of the Amazon Web Services resources in your
-  /// account that are specified by an Amazon Web Services tag, including the
-  /// number of open proactive, open reactive insights, and the Mean Time to
-  /// Recover (MTTR) of closed insights.
-  final InsightHealth? insight;
-
-  /// The value in an Amazon Web Services tag.
-  ///
-  /// The tag's <i>value</i> is an optional field used to associate a string with
-  /// the tag <i>key</i> (for example, <code>111122223333</code>,
-  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
-  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
-  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
-  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
-  final String? tagValue;
-
-  TagHealth({
-    this.analyzedResourceCount,
-    this.appBoundaryKey,
-    this.insight,
-    this.tagValue,
-  });
-
-  factory TagHealth.fromJson(Map<String, dynamic> json) {
-    return TagHealth(
-      analyzedResourceCount: json['AnalyzedResourceCount'] as int?,
-      appBoundaryKey: json['AppBoundaryKey'] as String?,
-      insight: json['Insight'] != null
-          ? InsightHealth.fromJson(json['Insight'] as Map<String, dynamic>)
-          : null,
-      tagValue: json['TagValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final analyzedResourceCount = this.analyzedResourceCount;
-    final appBoundaryKey = this.appBoundaryKey;
-    final insight = this.insight;
-    final tagValue = this.tagValue;
-    return {
-      if (analyzedResourceCount != null)
-        'AnalyzedResourceCount': analyzedResourceCount,
-      if (appBoundaryKey != null) 'AppBoundaryKey': appBoundaryKey,
-      if (insight != null) 'Insight': insight,
-      if (tagValue != null) 'TagValue': tagValue,
-    };
-  }
-}
-
-/// A pair that contains metric values at the respective timestamp.
-class TimestampMetricValuePair {
-  /// Value of the anomalous metric data point at respective Timestamp.
-  final double? metricValue;
-
-  /// A <code>Timestamp</code> that specifies the time the event occurred.
-  final DateTime? timestamp;
-
-  TimestampMetricValuePair({
-    this.metricValue,
-    this.timestamp,
-  });
-
-  factory TimestampMetricValuePair.fromJson(Map<String, dynamic> json) {
-    return TimestampMetricValuePair(
-      metricValue: json['MetricValue'] as double?,
-      timestamp: timeStampFromJson(json['Timestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricValue = this.metricValue;
-    final timestamp = this.timestamp;
-    return {
-      if (metricValue != null) 'MetricValue': metricValue,
-      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
-    };
-  }
-}
-
-/// Contains the names of Amazon Web Services CloudFormation stacks used to
-/// update a collection of stacks. You can specify up to 500 Amazon Web Services
-/// CloudFormation stacks.
-class UpdateCloudFormationCollectionFilter {
-  /// An array of the names of the Amazon Web Services CloudFormation stacks to
-  /// update. You can specify up to 500 Amazon Web Services CloudFormation stacks.
-  final List<String>? stackNames;
-
-  UpdateCloudFormationCollectionFilter({
-    this.stackNames,
-  });
-
-  Map<String, dynamic> toJson() {
-    final stackNames = this.stackNames;
-    return {
-      if (stackNames != null) 'StackNames': stackNames,
-    };
-  }
-}
-
-class UpdateEventSourcesConfigResponse {
-  UpdateEventSourcesConfigResponse();
-
-  factory UpdateEventSourcesConfigResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateEventSourcesConfigResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateResourceCollectionAction {
-  static const add = UpdateResourceCollectionAction._('ADD');
-  static const remove = UpdateResourceCollectionAction._('REMOVE');
-
-  final String value;
-
-  const UpdateResourceCollectionAction._(this.value);
-
-  static const values = [add, remove];
-
-  static UpdateResourceCollectionAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UpdateResourceCollectionAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is UpdateResourceCollectionAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information used to update a collection of Amazon Web Services
-/// resources.
-class UpdateResourceCollectionFilter {
-  /// A collection of Amazon Web Services CloudFormation stacks. You can specify
-  /// up to 500 Amazon Web Services CloudFormation stacks.
-  final UpdateCloudFormationCollectionFilter? cloudFormation;
-
-  /// The updated Amazon Web Services tags used to filter the resources in the
-  /// resource collection.
-  ///
-  /// Tags help you identify and organize your Amazon Web Services resources. Many
-  /// Amazon Web Services services support tagging, so you can assign the same tag
-  /// to resources from different services to indicate that the resources are
-  /// related. For example, you can assign the same tag to an Amazon DynamoDB
-  /// table resource that you assign to an Lambda function. For more information
-  /// about using tags, see the <a
-  /// href="https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html">Tagging
-  /// best practices</a> whitepaper.
-  ///
-  /// Each Amazon Web Services tag has two parts.
-  ///
-  /// <ul>
-  /// <li>
-  /// A tag <i>key</i> (for example, <code>CostCenter</code>,
-  /// <code>Environment</code>, <code>Project</code>, or <code>Secret</code>). Tag
-  /// <i>keys</i> are case-sensitive.
-  /// </li>
-  /// <li>
-  /// An optional field known as a tag <i>value</i> (for example,
-  /// <code>111122223333</code>, <code>Production</code>, or a team name).
-  /// Omitting the tag <i>value</i> is the same as using an empty string. Like tag
-  /// <i>keys</i>, tag <i>values</i> are case-sensitive.
-  /// </li>
-  /// </ul>
-  /// Together these are known as <i>key</i>-<i>value</i> pairs.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final List<UpdateTagCollectionFilter>? tags;
-
-  UpdateResourceCollectionFilter({
-    this.cloudFormation,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cloudFormation = this.cloudFormation;
-    final tags = this.tags;
-    return {
-      if (cloudFormation != null) 'CloudFormation': cloudFormation,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class UpdateResourceCollectionResponse {
-  UpdateResourceCollectionResponse();
-
-  factory UpdateResourceCollectionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateResourceCollectionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about updating the integration status of an Amazon Web Services
-/// service, such as Amazon Web Services Systems Manager, with DevOps Guru.
-class UpdateServiceIntegrationConfig {
-  /// Information about whether DevOps Guru is configured to encrypt server-side
-  /// data using KMS.
-  final KMSServerSideEncryptionIntegrationConfig? kMSServerSideEncryption;
-
-  /// Information about whether DevOps Guru is configured to perform log anomaly
-  /// detection on Amazon CloudWatch log groups.
-  final LogsAnomalyDetectionIntegrationConfig? logsAnomalyDetection;
-  final OpsCenterIntegrationConfig? opsCenter;
-
-  UpdateServiceIntegrationConfig({
-    this.kMSServerSideEncryption,
-    this.logsAnomalyDetection,
-    this.opsCenter,
-  });
-
-  Map<String, dynamic> toJson() {
-    final kMSServerSideEncryption = this.kMSServerSideEncryption;
-    final logsAnomalyDetection = this.logsAnomalyDetection;
-    final opsCenter = this.opsCenter;
-    return {
-      if (kMSServerSideEncryption != null)
-        'KMSServerSideEncryption': kMSServerSideEncryption,
-      if (logsAnomalyDetection != null)
-        'LogsAnomalyDetection': logsAnomalyDetection,
-      if (opsCenter != null) 'OpsCenter': opsCenter,
-    };
-  }
-}
-
-class UpdateServiceIntegrationResponse {
-  UpdateServiceIntegrationResponse();
-
-  factory UpdateServiceIntegrationResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateServiceIntegrationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A new collection of Amazon Web Services resources that are defined by an
-/// Amazon Web Services tag or tag <i>key</i>/<i>value</i> pair.
-class UpdateTagCollectionFilter {
-  /// An Amazon Web Services tag <i>key</i> that is used to identify the Amazon
-  /// Web Services resources that DevOps Guru analyzes. All Amazon Web Services
-  /// resources in your account and Region tagged with this <i>key</i> make up
-  /// your DevOps Guru application and analysis boundary.
-  /// <important>
-  /// The string used for a <i>key</i> in a tag that you use to define your
-  /// resource coverage must begin with the prefix <code>Devops-guru-</code>. The
-  /// tag <i>key</i> might be <code>DevOps-Guru-deployment-application</code> or
-  /// <code>devops-guru-rds-application</code>. When you create a <i>key</i>, the
-  /// case of characters in the <i>key</i> can be whatever you choose. After you
-  /// create a <i>key</i>, it is case-sensitive. For example, DevOps Guru works
-  /// with a <i>key</i> named <code>devops-guru-rds</code> and a <i>key</i> named
-  /// <code>DevOps-Guru-RDS</code>, and these act as two different <i>keys</i>.
-  /// Possible <i>key</i>/<i>value</i> pairs in your application might be
-  /// <code>Devops-Guru-production-application/RDS</code> or
-  /// <code>Devops-Guru-production-application/containers</code>.
-  /// </important>
-  final String appBoundaryKey;
-
-  /// The values in an Amazon Web Services tag collection.
-  ///
-  /// The tag's <i>value</i> is an optional field used to associate a string with
-  /// the tag <i>key</i> (for example, <code>111122223333</code>,
-  /// <code>Production</code>, or a team name). The <i>key</i> and <i>value</i>
-  /// are the tag's <i>key</i> pair. Omitting the tag <i>value</i> is the same as
-  /// using an empty string. Like tag <i>keys</i>, tag <i>values</i> are
-  /// case-sensitive. You can specify a maximum of 256 characters for a tag value.
-  final List<String> tagValues;
-
-  UpdateTagCollectionFilter({
-    required this.appBoundaryKey,
-    required this.tagValues,
-  });
-
-  Map<String, dynamic> toJson() {
-    final appBoundaryKey = this.appBoundaryKey;
-    final tagValues = this.tagValues;
-    return {
-      'AppBoundaryKey': appBoundaryKey,
-      'TagValues': tagValues,
     };
   }
 }

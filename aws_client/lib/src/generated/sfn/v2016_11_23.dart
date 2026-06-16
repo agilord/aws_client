@@ -20,8 +20,9 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Step Functions coordinates the components of distributed applications and
-/// microservices using visual workflows.
+/// With Step Functions, you can create workflows, also called <i>state
+/// machines</i>, to build distributed applications, automate processes,
+/// orchestrate microservices, and create data and machine learning pipelines.
 class Sfn {
   final _s.JsonProtocol _protocol;
   Sfn({
@@ -70,13 +71,13 @@ class Sfn {
   /// not be updated, even if they are different.
   /// </note>
   ///
-  /// May throw [ActivityLimitExceeded].
   /// May throw [ActivityAlreadyExists].
-  /// May throw [InvalidName].
-  /// May throw [TooManyTags].
+  /// May throw [ActivityLimitExceeded].
   /// May throw [InvalidEncryptionConfiguration].
+  /// May throw [InvalidName].
   /// May throw [KmsAccessDeniedException].
   /// May throw [KmsThrottlingException].
+  /// May throw [TooManyTags].
   ///
   /// Parameter [name] :
   /// The name of the activity to create. This name must be unique for your
@@ -93,16 +94,23 @@ class Sfn {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
+  /// brackets <code>< > { } [ ]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
   /// </li>
   /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
   /// </li>
   /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
   /// </li>
   /// </ul>
   /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
@@ -185,21 +193,21 @@ class Sfn {
   /// they are different.
   /// </note>
   ///
+  /// May throw [ConflictException].
   /// May throw [InvalidArn].
   /// May throw [InvalidDefinition].
-  /// May throw [InvalidName].
+  /// May throw [InvalidEncryptionConfiguration].
   /// May throw [InvalidLoggingConfiguration].
+  /// May throw [InvalidName].
   /// May throw [InvalidTracingConfiguration].
+  /// May throw [KmsAccessDeniedException].
+  /// May throw [KmsThrottlingException].
   /// May throw [StateMachineAlreadyExists].
   /// May throw [StateMachineDeleting].
   /// May throw [StateMachineLimitExceeded].
   /// May throw [StateMachineTypeNotSupported].
   /// May throw [TooManyTags].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InvalidEncryptionConfiguration].
-  /// May throw [KmsAccessDeniedException].
-  /// May throw [KmsThrottlingException].
   ///
   /// Parameter [definition] :
   /// The Amazon States Language definition of the state machine. See <a
@@ -216,16 +224,23 @@ class Sfn {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
+  /// brackets <code>< > { } [ ]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
   /// </li>
   /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
   /// </li>
   /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
   /// </li>
   /// </ul>
   /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
@@ -368,13 +383,13 @@ class Sfn {
   /// </li>
   /// </ul>
   ///
+  /// May throw [ConflictException].
   /// May throw [InvalidArn].
   /// May throw [InvalidName].
-  /// May throw [ValidationException].
-  /// May throw [StateMachineDeleting].
   /// May throw [ResourceNotFound].
-  /// May throw [ConflictException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [StateMachineDeleting].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the state machine alias.
@@ -533,10 +548,10 @@ class Sfn {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [InvalidArn].
   /// May throw [ResourceNotFound].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineAliasArn] :
   /// The Amazon Resource Name (ARN) of the state machine alias to delete.
@@ -583,9 +598,9 @@ class Sfn {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ValidationException].
-  /// May throw [InvalidArn].
   /// May throw [ConflictException].
+  /// May throw [InvalidArn].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineVersionArn] :
   /// The Amazon Resource Name (ARN) of the state machine version to delete.
@@ -705,8 +720,8 @@ class Sfn {
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html">Examining
   /// Map Run</a> in the <i>Step Functions Developer Guide</i>.
   ///
-  /// May throw [ResourceNotFound].
   /// May throw [InvalidArn].
+  /// May throw [ResourceNotFound].
   ///
   /// Parameter [mapRunArn] :
   /// The Amazon Resource Name (ARN) that identifies a Map Run.
@@ -756,7 +771,7 @@ class Sfn {
   /// The following qualified state machine ARN refers to an alias named
   /// <code>PROD</code>.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD></code>
   /// <note>
   /// If you provide a qualified state machine ARN that refers to a version ARN
   /// or an alias ARN, the request starts execution for that version or alias.
@@ -765,7 +780,7 @@ class Sfn {
   /// The following unqualified state machine ARN refers to a state machine
   /// named <code>myStateMachine</code>.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine></code>
   /// </li>
   /// </ul>
   /// This API action returns the details for a state machine version if the
@@ -776,10 +791,10 @@ class Sfn {
   /// </note>
   ///
   /// May throw [InvalidArn].
-  /// May throw [StateMachineDoesNotExist].
   /// May throw [KmsAccessDeniedException].
   /// May throw [KmsInvalidStateException].
   /// May throw [KmsThrottlingException].
+  /// May throw [StateMachineDoesNotExist].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine for which you want the
@@ -846,9 +861,9 @@ class Sfn {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ValidationException].
   /// May throw [InvalidArn].
   /// May throw [ResourceNotFound].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineAliasArn] :
   /// The Amazon Resource Name (ARN) of the state machine alias.
@@ -1154,10 +1169,10 @@ class Sfn {
   ///
   /// May throw [InvalidArn].
   /// May throw [InvalidToken].
+  /// May throw [ResourceNotFound].
   /// May throw [StateMachineDoesNotExist].
   /// May throw [StateMachineTypeNotSupported].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFound].
   ///
   /// Parameter [mapRunArn] :
   /// The Amazon Resource Name (ARN) of the Map Run that started the child
@@ -1217,6 +1232,15 @@ class Sfn {
   /// Parameter [statusFilter] :
   /// If specified, only list the executions whose current execution status
   /// matches the given filter.
+  ///
+  /// If you provide a <code>PENDING_REDRIVE</code> statusFilter, you must
+  /// specify <code>mapRunArn</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html#redrive-child-workflow-behavior">Child
+  /// workflow execution redrive behaviour</a> in the <i>Step Functions
+  /// Developer Guide</i>.
+  ///
+  /// If you provide a stateMachineArn and a <code>PENDING_REDRIVE</code>
+  /// statusFilter, the API returns a validation exception.
   Future<ListExecutionsOutput> listExecutions({
     String? mapRunArn,
     int? maxResults,
@@ -1350,8 +1374,8 @@ class Sfn {
   /// May throw [InvalidArn].
   /// May throw [InvalidToken].
   /// May throw [ResourceNotFound].
-  /// May throw [StateMachineDoesNotExist].
   /// May throw [StateMachineDeleting].
+  /// May throw [StateMachineDoesNotExist].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine for which you want to
@@ -1405,84 +1429,6 @@ class Sfn {
     );
 
     return ListStateMachineAliasesOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Lists <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">versions</a>
-  /// for the specified state machine Amazon Resource Name (ARN).
-  ///
-  /// The results are sorted in descending order of the version creation time.
-  ///
-  /// If <code>nextToken</code> is returned, there are more results available.
-  /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
-  /// page. Keep all other arguments unchanged. Each pagination token expires
-  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
-  /// 400 InvalidToken</i> error.
-  ///
-  /// <b>Related operations:</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <a>PublishStateMachineVersion</a>
-  /// </li>
-  /// <li>
-  /// <a>DeleteStateMachineVersion</a>
-  /// </li>
-  /// </ul>
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InvalidArn].
-  /// May throw [InvalidToken].
-  ///
-  /// Parameter [stateMachineArn] :
-  /// The Amazon Resource Name (ARN) of the state machine.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results that are returned per call. You can use
-  /// <code>nextToken</code> to obtain further pages of results. The default is
-  /// 100 and the maximum allowed page size is 1000. A value of 0 uses the
-  /// default.
-  ///
-  /// This is only an upper limit. The actual number of results returned per
-  /// call might be fewer than the specified maximum.
-  ///
-  /// Parameter [nextToken] :
-  /// If <code>nextToken</code> is returned, there are more results available.
-  /// The value of <code>nextToken</code> is a unique pagination token for each
-  /// page. Make the call again using the returned token to retrieve the next
-  /// page. Keep all other arguments unchanged. Each pagination token expires
-  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
-  /// 400 InvalidToken</i> error.
-  Future<ListStateMachineVersionsOutput> listStateMachineVersions({
-    required String stateMachineArn,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      1000,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'AWSStepFunctions.ListStateMachineVersions'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'stateMachineArn': stateMachineArn,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListStateMachineVersionsOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists the existing state machines.
@@ -1543,6 +1489,84 @@ class Sfn {
     );
 
     return ListStateMachinesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html">versions</a>
+  /// for the specified state machine Amazon Resource Name (ARN).
+  ///
+  /// The results are sorted in descending order of the version creation time.
+  ///
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
+  /// 400 InvalidToken</i> error.
+  ///
+  /// <b>Related operations:</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <a>PublishStateMachineVersion</a>
+  /// </li>
+  /// <li>
+  /// <a>DeleteStateMachineVersion</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidArn].
+  /// May throw [InvalidToken].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [stateMachineArn] :
+  /// The Amazon Resource Name (ARN) of the state machine.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results that are returned per call. You can use
+  /// <code>nextToken</code> to obtain further pages of results. The default is
+  /// 100 and the maximum allowed page size is 1000. A value of 0 uses the
+  /// default.
+  ///
+  /// This is only an upper limit. The actual number of results returned per
+  /// call might be fewer than the specified maximum.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>nextToken</code> is returned, there are more results available.
+  /// The value of <code>nextToken</code> is a unique pagination token for each
+  /// page. Make the call again using the returned token to retrieve the next
+  /// page. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an <i>HTTP
+  /// 400 InvalidToken</i> error.
+  Future<ListStateMachineVersionsOutput> listStateMachineVersions({
+    required String stateMachineArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSStepFunctions.ListStateMachineVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'stateMachineArn': stateMachineArn,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListStateMachineVersionsOutput.fromJson(jsonResponse.body);
   }
 
   /// List tags for a given resource.
@@ -1609,12 +1633,12 @@ class Sfn {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ValidationException].
-  /// May throw [StateMachineDeleting].
-  /// May throw [StateMachineDoesNotExist].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
   /// May throw [InvalidArn].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [StateMachineDeleting].
+  /// May throw [StateMachineDoesNotExist].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine.
@@ -1724,8 +1748,8 @@ class Sfn {
   /// </ul>
   ///
   /// May throw [ExecutionDoesNotExist].
-  /// May throw [ExecutionNotRedrivable].
   /// May throw [ExecutionLimitExceeded].
+  /// May throw [ExecutionNotRedrivable].
   /// May throw [InvalidArn].
   /// May throw [ValidationException].
   ///
@@ -1778,12 +1802,12 @@ class Sfn {
   /// <code>error</code> and <code>cause</code> fields because no data needs to
   /// be encrypted.
   ///
-  /// May throw [TaskDoesNotExist].
   /// May throw [InvalidToken].
-  /// May throw [TaskTimedOut].
   /// May throw [KmsAccessDeniedException].
   /// May throw [KmsInvalidStateException].
   /// May throw [KmsThrottlingException].
+  /// May throw [TaskDoesNotExist].
+  /// May throw [TaskTimedOut].
   ///
   /// Parameter [taskToken] :
   /// The token that represents this task. Task tokens are generated by Step
@@ -1844,8 +1868,8 @@ class Sfn {
   /// heartbeats.
   /// </note>
   ///
-  /// May throw [TaskDoesNotExist].
   /// May throw [InvalidToken].
+  /// May throw [TaskDoesNotExist].
   /// May throw [TaskTimedOut].
   ///
   /// Parameter [taskToken] :
@@ -1880,13 +1904,13 @@ class Sfn {
   /// run</a> pattern to report that the task identified by the
   /// <code>taskToken</code> completed successfully.
   ///
-  /// May throw [TaskDoesNotExist].
   /// May throw [InvalidOutput].
   /// May throw [InvalidToken].
-  /// May throw [TaskTimedOut].
   /// May throw [KmsAccessDeniedException].
   /// May throw [KmsInvalidStateException].
   /// May throw [KmsThrottlingException].
+  /// May throw [TaskDoesNotExist].
+  /// May throw [TaskTimedOut].
   ///
   /// Parameter [output] :
   /// The JSON output of the task. Length constraints apply to the payload size,
@@ -1943,7 +1967,7 @@ class Sfn {
   /// The following qualified state machine ARN refers to an alias named
   /// <code>PROD</code>.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD></code>
   /// <note>
   /// If you provide a qualified state machine ARN that refers to a version ARN
   /// or an alias ARN, the request starts execution for that version or alias.
@@ -1952,7 +1976,7 @@ class Sfn {
   /// The following unqualified state machine ARN refers to a state machine
   /// named <code>myStateMachine</code>.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine></code>
   /// </li>
   /// </ul>
   /// If you start an execution with an unqualified state machine ARN, Step
@@ -1977,17 +2001,17 @@ class Sfn {
   /// workflows.
   /// </note>
   ///
-  /// May throw [ExecutionLimitExceeded].
   /// May throw [ExecutionAlreadyExists].
+  /// May throw [ExecutionLimitExceeded].
   /// May throw [InvalidArn].
   /// May throw [InvalidExecutionInput].
   /// May throw [InvalidName].
-  /// May throw [StateMachineDoesNotExist].
-  /// May throw [StateMachineDeleting].
-  /// May throw [ValidationException].
   /// May throw [KmsAccessDeniedException].
   /// May throw [KmsInvalidStateException].
   /// May throw [KmsThrottlingException].
+  /// May throw [StateMachineDeleting].
+  /// May throw [StateMachineDoesNotExist].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine to execute.
@@ -2001,7 +2025,7 @@ class Sfn {
   /// that isn't qualified with a version or alias ARN. The following is an
   /// example of an unqualified state machine ARN.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine></code>
   ///
   /// Step Functions doesn't associate state machine executions that you start
   /// with an unqualified ARN with a version. This is true even if that version
@@ -2012,7 +2036,7 @@ class Sfn {
   /// combination of state machine ARN and the version number separated by a
   /// colon (:). The following is an example of the ARN for version 10.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;:10</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>:10</code>
   ///
   /// Step Functions doesn't associate executions that you start with a version
   /// ARN with any aliases that point to that version.
@@ -2023,7 +2047,7 @@ class Sfn {
   /// (:). The following is an example of the ARN for an alias named
   /// <code>PROD</code>.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD></code>
   ///
   /// Step Functions associates executions that you start with an alias ARN with
   /// that alias and the state machine version used for that execution.
@@ -2034,10 +2058,10 @@ class Sfn {
   /// The string that contains the JSON input data for the execution, for
   /// example:
   ///
-  /// <code>"input": "{\"first_name\" : \"test\"}"</code>
+  /// <code>"{\"first_name\" : \"Alejandro\"}"</code>
   /// <note>
   /// If you don't include any JSON input data, you still must include the two
-  /// braces, for example: <code>"input": "{}"</code>
+  /// braces, for example: <code>"{}"</code>
   /// </note>
   /// Length constraints apply to the payload size, and are expressed as bytes
   /// in UTF-8 encoding.
@@ -2061,16 +2085,23 @@ class Sfn {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
+  /// brackets <code>< > { } [ ]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
   /// </li>
   /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
   /// </li>
   /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
   /// </li>
   /// </ul>
   /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
@@ -2079,6 +2110,16 @@ class Sfn {
   /// Parameter [traceHeader] :
   /// Passes the X-Ray trace header. The trace header can also be passed in the
   /// request payload.
+  /// <note>
+  /// For X-Ray traces, all Amazon Web Services services use the
+  /// <code>X-Amzn-Trace-Id</code> header from the HTTP request. Using the
+  /// header is the preferred mechanism to identify a trace.
+  /// <code>StartExecution</code> and <code>StartSyncExecution</code> API
+  /// operations can also use <code>traceHeader</code> from the body of the
+  /// request payload. If <b>both</b> sources are provided, Step Functions will
+  /// use the <b>header value</b> (preferred) over the value in the request
+  /// body.
+  /// </note>
   Future<StartExecutionOutput> startExecution({
     required String stateMachineArn,
     String? input,
@@ -2123,12 +2164,12 @@ class Sfn {
   /// May throw [InvalidArn].
   /// May throw [InvalidExecutionInput].
   /// May throw [InvalidName].
-  /// May throw [StateMachineDoesNotExist].
-  /// May throw [StateMachineDeleting].
-  /// May throw [StateMachineTypeNotSupported].
   /// May throw [KmsAccessDeniedException].
   /// May throw [KmsInvalidStateException].
   /// May throw [KmsThrottlingException].
+  /// May throw [StateMachineDeleting].
+  /// May throw [StateMachineDoesNotExist].
+  /// May throw [StateMachineTypeNotSupported].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine to execute.
@@ -2144,10 +2185,10 @@ class Sfn {
   /// The string that contains the JSON input data for the execution, for
   /// example:
   ///
-  /// <code>"input": "{\"first_name\" : \"test\"}"</code>
+  /// <code>"{\"first_name\" : \"Alejandro\"}"</code>
   /// <note>
   /// If you don't include any JSON input data, you still must include the two
-  /// braces, for example: <code>"input": "{}"</code>
+  /// braces, for example: <code>"{}"</code>
   /// </note>
   /// Length constraints apply to the payload size, and are expressed as bytes
   /// in UTF-8 encoding.
@@ -2158,6 +2199,16 @@ class Sfn {
   /// Parameter [traceHeader] :
   /// Passes the X-Ray trace header. The trace header can also be passed in the
   /// request payload.
+  /// <note>
+  /// For X-Ray traces, all Amazon Web Services services use the
+  /// <code>X-Amzn-Trace-Id</code> header from the HTTP request. Using the
+  /// header is the preferred mechanism to identify a trace.
+  /// <code>StartExecution</code> and <code>StartSyncExecution</code> API
+  /// operations can also use <code>traceHeader</code> from the body of the
+  /// request payload. If <b>both</b> sources are provided, Step Functions will
+  /// use the <b>header value</b> (preferred) over the value in the request
+  /// body.
+  /// </note>
   Future<StartSyncExecutionOutput> startSyncExecution({
     required String stateMachineArn,
     IncludedData? includedData,
@@ -2201,10 +2252,10 @@ class Sfn {
   ///
   /// May throw [ExecutionDoesNotExist].
   /// May throw [InvalidArn].
-  /// May throw [ValidationException].
   /// May throw [KmsAccessDeniedException].
   /// May throw [KmsInvalidStateException].
   /// May throw [KmsThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [executionArn] :
   /// The Amazon Resource Name (ARN) of the execution to stop.
@@ -2302,7 +2353,7 @@ class Sfn {
   /// </li>
   /// <li>
   /// An <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-third-party-apis.html">HTTP
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/call-https-apis.html">HTTP
   /// Task</a> request and response
   /// </li>
   /// </ul>
@@ -2347,7 +2398,8 @@ class Sfn {
   /// execution of a state exceeds this duration, it fails with the
   /// <code>States.Timeout</code> error.
   ///
-  /// <code>TestState</code> doesn't support <a
+  /// <code>TestState</code> only supports the following when a mock is
+  /// specified: <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-activities.html">Activity
   /// tasks</a>, <code>.sync</code> or <code>.waitForTaskToken</code> <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-resource.html">service
@@ -2365,11 +2417,12 @@ class Sfn {
   /// Parameter [definition] :
   /// The <a
   /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
-  /// States Language</a> (ASL) definition of the state.
+  /// States Language</a> (ASL) definition of the state or state machine.
   ///
-  /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) of the execution role with the required IAM
-  /// permissions for the state.
+  /// Parameter [context] :
+  /// A JSON string representing a valid Context object for the state under
+  /// test. This field may only be specified if a mock is specified in the same
+  /// request.
   ///
   /// Parameter [input] :
   /// A string that contains the JSON input data for the state.
@@ -2397,6 +2450,12 @@ class Sfn {
   /// Each of these levels also provide information about the status of the
   /// state execution and the next state to transition to.
   ///
+  /// Parameter [mock] :
+  /// Defines a mocked result or error for the state under test.
+  ///
+  /// A mock can only be specified for Task, Map, or Parallel states. If it is
+  /// specified for another state type, an exception will be thrown.
+  ///
   /// Parameter [revealSecrets] :
   /// Specifies whether or not to include secret information in the test result.
   /// For HTTP Tasks, a secret includes the data that an EventBridge connection
@@ -2414,12 +2473,33 @@ class Sfn {
   /// throws an access denied error.
   ///
   /// By default, <code>revealSecrets</code> is set to <code>false</code>.
+  ///
+  /// Parameter [roleArn] :
+  /// The Amazon Resource Name (ARN) of the execution role with the required IAM
+  /// permissions for the state.
+  ///
+  /// Parameter [stateConfiguration] :
+  /// Contains configurations for the state under test.
+  ///
+  /// Parameter [stateName] :
+  /// Denotes the particular state within a state machine definition to be
+  /// tested. If this field is specified, the <code>definition</code> must
+  /// contain a fully-formed state machine definition.
+  ///
+  /// Parameter [variables] :
+  /// JSON object literal that sets variables used in the state under test.
+  /// Object keys are the variable names and values are the variable values.
   Future<TestStateOutput> testState({
     required String definition,
-    required String roleArn,
+    String? context,
     String? input,
     InspectionLevel? inspectionLevel,
+    MockInput? mock,
     bool? revealSecrets,
+    String? roleArn,
+    TestStateConfiguration? stateConfiguration,
+    String? stateName,
+    String? variables,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2433,10 +2513,16 @@ class Sfn {
       headers: headers,
       payload: {
         'definition': definition,
-        'roleArn': roleArn,
+        if (context != null) 'context': context,
         if (input != null) 'input': input,
         if (inspectionLevel != null) 'inspectionLevel': inspectionLevel.value,
+        if (mock != null) 'mock': mock,
         if (revealSecrets != null) 'revealSecrets': revealSecrets,
+        if (roleArn != null) 'roleArn': roleArn,
+        if (stateConfiguration != null)
+          'stateConfiguration': stateConfiguration,
+        if (stateName != null) 'stateName': stateName,
+        if (variables != null) 'variables': variables,
       },
     );
 
@@ -2478,8 +2564,8 @@ class Sfn {
   /// Updates an in-progress Map Run's configuration to include changes to the
   /// settings that control maximum concurrency and Map Run failure.
   ///
-  /// May throw [ResourceNotFound].
   /// May throw [InvalidArn].
+  /// May throw [ResourceNotFound].
   /// May throw [ValidationException].
   ///
   /// Parameter [mapRunArn] :
@@ -2578,7 +2664,7 @@ class Sfn {
   /// The following qualified state machine ARN refers to an alias named
   /// <code>PROD</code>.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine:PROD&gt;</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD></code>
   /// <note>
   /// If you provide a qualified state machine ARN that refers to a version ARN
   /// or an alias ARN, the request starts execution for that version or alias.
@@ -2587,7 +2673,7 @@ class Sfn {
   /// The following unqualified state machine ARN refers to a state machine
   /// named <code>myStateMachine</code>.
   ///
-  /// <code>arn:&lt;partition&gt;:states:&lt;region&gt;:&lt;account-id&gt;:stateMachine:&lt;myStateMachine&gt;</code>
+  /// <code>arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine></code>
   /// </li>
   /// </ul>
   /// After you update your state machine, you can set the <code>publish</code>
@@ -2604,19 +2690,19 @@ class Sfn {
   /// previous state machine <code>definition</code> and <code>roleArn</code>.
   /// </note>
   ///
+  /// May throw [ConflictException].
   /// May throw [InvalidArn].
   /// May throw [InvalidDefinition].
+  /// May throw [InvalidEncryptionConfiguration].
   /// May throw [InvalidLoggingConfiguration].
   /// May throw [InvalidTracingConfiguration].
-  /// May throw [MissingRequiredParameter].
-  /// May throw [StateMachineDeleting].
-  /// May throw [StateMachineDoesNotExist].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [InvalidEncryptionConfiguration].
   /// May throw [KmsAccessDeniedException].
   /// May throw [KmsThrottlingException].
+  /// May throw [MissingRequiredParameter].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [StateMachineDeleting].
+  /// May throw [StateMachineDoesNotExist].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineArn] :
   /// The Amazon Resource Name (ARN) of the state machine.
@@ -2726,11 +2812,11 @@ class Sfn {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [InvalidArn].
   /// May throw [ResourceNotFound].
-  /// May throw [ConflictException].
   /// May throw [StateMachineDeleting].
+  /// May throw [ValidationException].
   ///
   /// Parameter [stateMachineAliasArn] :
   /// The Amazon Resource Name (ARN) of the state machine alias.
@@ -2769,33 +2855,46 @@ class Sfn {
     return UpdateStateMachineAliasOutput.fromJson(jsonResponse.body);
   }
 
-  /// Validates the syntax of a state machine definition.
+  /// Validates the syntax of a state machine definition specified in <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+  /// States Language</a> (ASL), a JSON-based, structured language.
   ///
   /// You can validate that a state machine definition is correct without
-  /// creating a state machine resource. Step Functions will implicitly perform
-  /// the same syntax check when you invoke <code>CreateStateMachine</code> and
-  /// <code>UpdateStateMachine</code>. State machine definitions are specified
-  /// using a JSON-based, structured language. For more information on Amazon
-  /// States Language see <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
-  /// States Language</a> (ASL).
+  /// creating a state machine resource.
   ///
   /// Suggested uses for <code>ValidateStateMachineDefinition</code>:
   ///
   /// <ul>
   /// <li>
   /// Integrate automated checks into your code review or Continuous Integration
-  /// (CI) process to validate state machine definitions before starting
+  /// (CI) process to check state machine definitions before starting
   /// deployments.
   /// </li>
   /// <li>
-  /// Run the validation from a Git pre-commit hook to check your state machine
-  /// definitions before committing them to your source repository.
+  /// Run validation from a Git pre-commit hook to verify the definition before
+  /// committing to your source repository.
   /// </li>
-  /// </ul> <note>
-  /// Errors found in the state machine definition will be returned in the
-  /// response as a list of <b>diagnostic elements</b>, rather than raise an
-  /// exception.
+  /// </ul>
+  /// Validation will look for problems in your state machine definition and
+  /// return a <b>result</b> and a list of <b>diagnostic elements</b>.
+  ///
+  /// The <b>result</b> value will be <code>OK</code> when your workflow
+  /// definition can be successfully created or updated. Note the result can be
+  /// <code>OK</code> even when diagnostic warnings are present in the response.
+  /// The <b>result</b> value will be <code>FAIL</code> when the workflow
+  /// definition contains errors that would prevent you from creating or
+  /// updating your state machine.
+  ///
+  /// The list of <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/apireference/API_ValidateStateMachineDefinitionDiagnostic.html">ValidateStateMachineDefinitionDiagnostic</a>
+  /// data elements can contain zero or more <b>WARNING</b> and/or <b>ERROR</b>
+  /// elements.
+  /// <note>
+  /// The <b>ValidateStateMachineDefinition API</b> might add new diagnostics in
+  /// the future, adjust diagnostic codes, or change the message wording. Your
+  /// automated processes should only rely on the value of the <b>result</b>
+  /// field value (OK, FAIL). Do <b>not</b> rely on the exact order, count, or
+  /// wording of diagnostic messages.
   /// </note>
   ///
   /// May throw [ValidationException].
@@ -2858,354 +2957,6 @@ class Sfn {
   }
 }
 
-/// Contains details about an activity that failed during an execution.
-class ActivityFailedEventDetails {
-  /// A more detailed explanation of the cause of the failure.
-  final String? cause;
-
-  /// The error code of the failure.
-  final String? error;
-
-  ActivityFailedEventDetails({
-    this.cause,
-    this.error,
-  });
-
-  factory ActivityFailedEventDetails.fromJson(Map<String, dynamic> json) {
-    return ActivityFailedEventDetails(
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final error = this.error;
-    return {
-      if (cause != null) 'cause': cause,
-      if (error != null) 'error': error,
-    };
-  }
-}
-
-/// Contains details about an activity.
-class ActivityListItem {
-  /// The Amazon Resource Name (ARN) that identifies the activity.
-  final String activityArn;
-
-  /// The date the activity is created.
-  final DateTime creationDate;
-
-  /// The name of the activity.
-  ///
-  /// A name must <i>not</i> contain:
-  ///
-  /// <ul>
-  /// <li>
-  /// white space
-  /// </li>
-  /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
-  /// </li>
-  /// <li>
-  /// wildcard characters <code>? *</code>
-  /// </li>
-  /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
-  /// </li>
-  /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
-  /// </li>
-  /// </ul>
-  /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
-  /// A-Z, a-z, - and _.
-  final String name;
-
-  ActivityListItem({
-    required this.activityArn,
-    required this.creationDate,
-    required this.name,
-  });
-
-  factory ActivityListItem.fromJson(Map<String, dynamic> json) {
-    return ActivityListItem(
-      activityArn: (json['activityArn'] as String?) ?? '',
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activityArn = this.activityArn;
-    final creationDate = this.creationDate;
-    final name = this.name;
-    return {
-      'activityArn': activityArn,
-      'creationDate': unixTimestampToJson(creationDate),
-      'name': name,
-    };
-  }
-}
-
-/// Contains details about an activity schedule failure that occurred during an
-/// execution.
-class ActivityScheduleFailedEventDetails {
-  /// A more detailed explanation of the cause of the failure.
-  final String? cause;
-
-  /// The error code of the failure.
-  final String? error;
-
-  ActivityScheduleFailedEventDetails({
-    this.cause,
-    this.error,
-  });
-
-  factory ActivityScheduleFailedEventDetails.fromJson(
-      Map<String, dynamic> json) {
-    return ActivityScheduleFailedEventDetails(
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final error = this.error;
-    return {
-      if (cause != null) 'cause': cause,
-      if (error != null) 'error': error,
-    };
-  }
-}
-
-/// Contains details about an activity scheduled during an execution.
-class ActivityScheduledEventDetails {
-  /// The Amazon Resource Name (ARN) of the scheduled activity.
-  final String resource;
-
-  /// The maximum allowed duration between two heartbeats for the activity task.
-  final int? heartbeatInSeconds;
-
-  /// The JSON data input to the activity task. Length constraints apply to the
-  /// payload size, and are expressed as bytes in UTF-8 encoding.
-  final String? input;
-
-  /// Contains details about the input for an execution history event.
-  final HistoryEventExecutionDataDetails? inputDetails;
-
-  /// The maximum allowed duration of the activity task.
-  final int? timeoutInSeconds;
-
-  ActivityScheduledEventDetails({
-    required this.resource,
-    this.heartbeatInSeconds,
-    this.input,
-    this.inputDetails,
-    this.timeoutInSeconds,
-  });
-
-  factory ActivityScheduledEventDetails.fromJson(Map<String, dynamic> json) {
-    return ActivityScheduledEventDetails(
-      resource: (json['resource'] as String?) ?? '',
-      heartbeatInSeconds: json['heartbeatInSeconds'] as int?,
-      input: json['input'] as String?,
-      inputDetails: json['inputDetails'] != null
-          ? HistoryEventExecutionDataDetails.fromJson(
-              json['inputDetails'] as Map<String, dynamic>)
-          : null,
-      timeoutInSeconds: json['timeoutInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resource = this.resource;
-    final heartbeatInSeconds = this.heartbeatInSeconds;
-    final input = this.input;
-    final inputDetails = this.inputDetails;
-    final timeoutInSeconds = this.timeoutInSeconds;
-    return {
-      'resource': resource,
-      if (heartbeatInSeconds != null) 'heartbeatInSeconds': heartbeatInSeconds,
-      if (input != null) 'input': input,
-      if (inputDetails != null) 'inputDetails': inputDetails,
-      if (timeoutInSeconds != null) 'timeoutInSeconds': timeoutInSeconds,
-    };
-  }
-}
-
-/// Contains details about the start of an activity during an execution.
-class ActivityStartedEventDetails {
-  /// The name of the worker that the task is assigned to. These names are
-  /// provided by the workers when calling <a>GetActivityTask</a>.
-  final String? workerName;
-
-  ActivityStartedEventDetails({
-    this.workerName,
-  });
-
-  factory ActivityStartedEventDetails.fromJson(Map<String, dynamic> json) {
-    return ActivityStartedEventDetails(
-      workerName: json['workerName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final workerName = this.workerName;
-    return {
-      if (workerName != null) 'workerName': workerName,
-    };
-  }
-}
-
-/// Contains details about an activity that successfully terminated during an
-/// execution.
-class ActivitySucceededEventDetails {
-  /// The JSON data output by the activity task. Length constraints apply to the
-  /// payload size, and are expressed as bytes in UTF-8 encoding.
-  final String? output;
-
-  /// Contains details about the output of an execution history event.
-  final HistoryEventExecutionDataDetails? outputDetails;
-
-  ActivitySucceededEventDetails({
-    this.output,
-    this.outputDetails,
-  });
-
-  factory ActivitySucceededEventDetails.fromJson(Map<String, dynamic> json) {
-    return ActivitySucceededEventDetails(
-      output: json['output'] as String?,
-      outputDetails: json['outputDetails'] != null
-          ? HistoryEventExecutionDataDetails.fromJson(
-              json['outputDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final output = this.output;
-    final outputDetails = this.outputDetails;
-    return {
-      if (output != null) 'output': output,
-      if (outputDetails != null) 'outputDetails': outputDetails,
-    };
-  }
-}
-
-/// Contains details about an activity timeout that occurred during an
-/// execution.
-class ActivityTimedOutEventDetails {
-  /// A more detailed explanation of the cause of the timeout.
-  final String? cause;
-
-  /// The error code of the failure.
-  final String? error;
-
-  ActivityTimedOutEventDetails({
-    this.cause,
-    this.error,
-  });
-
-  factory ActivityTimedOutEventDetails.fromJson(Map<String, dynamic> json) {
-    return ActivityTimedOutEventDetails(
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final error = this.error;
-    return {
-      if (cause != null) 'cause': cause,
-      if (error != null) 'error': error,
-    };
-  }
-}
-
-/// An object that describes workflow billing details.
-class BillingDetails {
-  /// Billed duration of your workflow, in milliseconds.
-  final int? billedDurationInMilliseconds;
-
-  /// Billed memory consumption of your workflow, in MB.
-  final int? billedMemoryUsedInMB;
-
-  BillingDetails({
-    this.billedDurationInMilliseconds,
-    this.billedMemoryUsedInMB,
-  });
-
-  factory BillingDetails.fromJson(Map<String, dynamic> json) {
-    return BillingDetails(
-      billedDurationInMilliseconds:
-          json['billedDurationInMilliseconds'] as int?,
-      billedMemoryUsedInMB: json['billedMemoryUsedInMB'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final billedDurationInMilliseconds = this.billedDurationInMilliseconds;
-    final billedMemoryUsedInMB = this.billedMemoryUsedInMB;
-    return {
-      if (billedDurationInMilliseconds != null)
-        'billedDurationInMilliseconds': billedDurationInMilliseconds,
-      if (billedMemoryUsedInMB != null)
-        'billedMemoryUsedInMB': billedMemoryUsedInMB,
-    };
-  }
-}
-
-/// Provides details about execution input or output.
-class CloudWatchEventsExecutionDataDetails {
-  /// Indicates whether input or output was included in the response. Always
-  /// <code>true</code> for API calls.
-  final bool? included;
-
-  CloudWatchEventsExecutionDataDetails({
-    this.included,
-  });
-
-  factory CloudWatchEventsExecutionDataDetails.fromJson(
-      Map<String, dynamic> json) {
-    return CloudWatchEventsExecutionDataDetails(
-      included: json['included'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final included = this.included;
-    return {
-      if (included != null) 'included': included,
-    };
-  }
-}
-
-/// <p/>
-class CloudWatchLogsLogGroup {
-  /// The ARN of the the CloudWatch log group to which you want your logs emitted
-  /// to. The ARN must end with <code>:*</code>
-  final String? logGroupArn;
-
-  CloudWatchLogsLogGroup({
-    this.logGroupArn,
-  });
-
-  factory CloudWatchLogsLogGroup.fromJson(Map<String, dynamic> json) {
-    return CloudWatchLogsLogGroup(
-      logGroupArn: json['logGroupArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroupArn = this.logGroupArn;
-    return {
-      if (logGroupArn != null) 'logGroupArn': logGroupArn,
-    };
-  }
-}
-
 class CreateActivityOutput {
   /// The Amazon Resource Name (ARN) that identifies the created activity.
   final String activityArn;
@@ -3231,36 +2982,6 @@ class CreateActivityOutput {
     return {
       'activityArn': activityArn,
       'creationDate': unixTimestampToJson(creationDate),
-    };
-  }
-}
-
-class CreateStateMachineAliasOutput {
-  /// The date the state machine alias was created.
-  final DateTime creationDate;
-
-  /// The Amazon Resource Name (ARN) that identifies the created state machine
-  /// alias.
-  final String stateMachineAliasArn;
-
-  CreateStateMachineAliasOutput({
-    required this.creationDate,
-    required this.stateMachineAliasArn,
-  });
-
-  factory CreateStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
-    return CreateStateMachineAliasOutput(
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      stateMachineAliasArn: (json['stateMachineAliasArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final stateMachineAliasArn = this.stateMachineAliasArn;
-    return {
-      'creationDate': unixTimestampToJson(creationDate),
-      'stateMachineAliasArn': stateMachineAliasArn,
     };
   }
 }
@@ -3304,6 +3025,36 @@ class CreateStateMachineOutput {
   }
 }
 
+class CreateStateMachineAliasOutput {
+  /// The date the state machine alias was created.
+  final DateTime creationDate;
+
+  /// The Amazon Resource Name (ARN) that identifies the created state machine
+  /// alias.
+  final String stateMachineAliasArn;
+
+  CreateStateMachineAliasOutput({
+    required this.creationDate,
+    required this.stateMachineAliasArn,
+  });
+
+  factory CreateStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
+    return CreateStateMachineAliasOutput(
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      stateMachineAliasArn: (json['stateMachineAliasArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final stateMachineAliasArn = this.stateMachineAliasArn;
+    return {
+      'creationDate': unixTimestampToJson(creationDate),
+      'stateMachineAliasArn': stateMachineAliasArn,
+    };
+  }
+}
+
 class DeleteActivityOutput {
   DeleteActivityOutput();
 
@@ -3316,11 +3067,11 @@ class DeleteActivityOutput {
   }
 }
 
-class DeleteStateMachineAliasOutput {
-  DeleteStateMachineAliasOutput();
+class DeleteStateMachineOutput {
+  DeleteStateMachineOutput();
 
-  factory DeleteStateMachineAliasOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteStateMachineAliasOutput();
+  factory DeleteStateMachineOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteStateMachineOutput();
   }
 
   Map<String, dynamic> toJson() {
@@ -3328,11 +3079,11 @@ class DeleteStateMachineAliasOutput {
   }
 }
 
-class DeleteStateMachineOutput {
-  DeleteStateMachineOutput();
+class DeleteStateMachineAliasOutput {
+  DeleteStateMachineAliasOutput();
 
-  factory DeleteStateMachineOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteStateMachineOutput();
+  factory DeleteStateMachineAliasOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteStateMachineAliasOutput();
   }
 
   Map<String, dynamic> toJson() {
@@ -3368,16 +3119,23 @@ class DescribeActivityOutput {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
+  /// brackets <code>< > { } [ ]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
   /// </li>
   /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
   /// </li>
   /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
   /// </li>
   /// </ul>
   /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
@@ -3459,16 +3217,23 @@ class DescribeExecutionOutput {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
+  /// brackets <code>< > { } [ ]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
   /// </li>
   /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
   /// </li>
   /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
   /// </li>
   /// </ul>
   /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
@@ -3589,6 +3354,15 @@ class DescribeExecutionOutput {
   final DateTime? stopDate;
 
   /// The X-Ray trace header that was passed to the execution.
+  /// <note>
+  /// For X-Ray traces, all Amazon Web Services services use the
+  /// <code>X-Amzn-Trace-Id</code> header from the HTTP request. Using the header
+  /// is the preferred mechanism to identify a trace. <code>StartExecution</code>
+  /// and <code>StartSyncExecution</code> API operations can also use
+  /// <code>traceHeader</code> from the body of the request payload. If
+  /// <b>both</b> sources are provided, Step Functions will use the <b>header
+  /// value</b> (preferred) over the value in the request body.
+  /// </note>
   final String? traceHeader;
 
   DescribeExecutionOutput({
@@ -3811,6 +3585,185 @@ class DescribeMapRunOutput {
   }
 }
 
+class DescribeStateMachineOutput {
+  /// The date the state machine is created.
+  ///
+  /// For a state machine version, <code>creationDate</code> is the date the
+  /// version was created.
+  final DateTime creationDate;
+
+  /// The Amazon States Language definition of the state machine. See <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
+  /// States Language</a>.
+  ///
+  /// If called with <code>includedData = METADATA_ONLY</code>, the returned
+  /// definition will be <code>{}</code>.
+  final String definition;
+
+  /// The name of the state machine.
+  ///
+  /// A name must <i>not</i> contain:
+  ///
+  /// <ul>
+  /// <li>
+  /// white space
+  /// </li>
+  /// <li>
+  /// brackets <code>< > { } [ ]</code>
+  /// </li>
+  /// <li>
+  /// wildcard characters <code>? *</code>
+  /// </li>
+  /// <li>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
+  /// </li>
+  /// <li>
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
+  /// </li>
+  /// </ul>
+  /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
+  /// A-Z, a-z, - and _.
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the IAM role used when creating this state
+  /// machine. (The IAM role maintains security by granting Step Functions access
+  /// to Amazon Web Services resources.)
+  final String roleArn;
+
+  /// The Amazon Resource Name (ARN) that identifies the state machine.
+  ///
+  /// If you specified a state machine version ARN in your request, the API
+  /// returns the version ARN. The version ARN is a combination of state machine
+  /// ARN and the version number separated by a colon (:). For example,
+  /// <code>stateMachineARN:1</code>.
+  final String stateMachineArn;
+
+  /// The <code>type</code> of the state machine (<code>STANDARD</code> or
+  /// <code>EXPRESS</code>).
+  final StateMachineType type;
+
+  /// The description of the state machine version.
+  final String? description;
+
+  /// Settings to configure server-side encryption.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// A user-defined or an auto-generated string that identifies a
+  /// <code>Map</code> state. This parameter is present only if the
+  /// <code>stateMachineArn</code> specified in input is a qualified state machine
+  /// ARN.
+  final String? label;
+  final LoggingConfiguration? loggingConfiguration;
+
+  /// The revision identifier for the state machine.
+  ///
+  /// Use the <code>revisionId</code> parameter to compare between versions of a
+  /// state machine configuration used for executions without performing a diff of
+  /// the properties, such as <code>definition</code> and <code>roleArn</code>.
+  final String? revisionId;
+
+  /// The current status of the state machine.
+  final StateMachineStatus? status;
+
+  /// Selects whether X-Ray tracing is enabled.
+  final TracingConfiguration? tracingConfiguration;
+
+  /// A map of <b>state name</b> to a list of variables referenced by that state.
+  /// States that do not use variable references will not be shown in the
+  /// response.
+  final Map<String, List<String>>? variableReferences;
+
+  DescribeStateMachineOutput({
+    required this.creationDate,
+    required this.definition,
+    required this.name,
+    required this.roleArn,
+    required this.stateMachineArn,
+    required this.type,
+    this.description,
+    this.encryptionConfiguration,
+    this.label,
+    this.loggingConfiguration,
+    this.revisionId,
+    this.status,
+    this.tracingConfiguration,
+    this.variableReferences,
+  });
+
+  factory DescribeStateMachineOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStateMachineOutput(
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      definition: (json['definition'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
+      type: StateMachineType.fromString((json['type'] as String?) ?? ''),
+      description: json['description'] as String?,
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      label: json['label'] as String?,
+      loggingConfiguration: json['loggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['loggingConfiguration'] as Map<String, dynamic>)
+          : null,
+      revisionId: json['revisionId'] as String?,
+      status: (json['status'] as String?)?.let(StateMachineStatus.fromString),
+      tracingConfiguration: json['tracingConfiguration'] != null
+          ? TracingConfiguration.fromJson(
+              json['tracingConfiguration'] as Map<String, dynamic>)
+          : null,
+      variableReferences: (json['variableReferences'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).nonNulls.map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final definition = this.definition;
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final stateMachineArn = this.stateMachineArn;
+    final type = this.type;
+    final description = this.description;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final label = this.label;
+    final loggingConfiguration = this.loggingConfiguration;
+    final revisionId = this.revisionId;
+    final status = this.status;
+    final tracingConfiguration = this.tracingConfiguration;
+    final variableReferences = this.variableReferences;
+    return {
+      'creationDate': unixTimestampToJson(creationDate),
+      'definition': definition,
+      'name': name,
+      'roleArn': roleArn,
+      'stateMachineArn': stateMachineArn,
+      'type': type.value,
+      if (description != null) 'description': description,
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (label != null) 'label': label,
+      if (loggingConfiguration != null)
+        'loggingConfiguration': loggingConfiguration,
+      if (revisionId != null) 'revisionId': revisionId,
+      if (status != null) 'status': status.value,
+      if (tracingConfiguration != null)
+        'tracingConfiguration': tracingConfiguration,
+      if (variableReferences != null) 'variableReferences': variableReferences,
+    };
+  }
+}
+
 class DescribeStateMachineAliasOutput {
   /// The date the state machine alias was created.
   final DateTime? creationDate;
@@ -3902,7 +3855,7 @@ class DescribeStateMachineForExecutionOutput {
   final EncryptionConfiguration? encryptionConfiguration;
 
   /// A user-defined or an auto-generated string that identifies a
-  /// <code>Map</code> state. This ﬁeld is returned only if the
+  /// <code>Map</code> state. This field is returned only if the
   /// <code>executionArn</code> is a child workflow execution that was started by
   /// a Distributed Map state.
   final String? label;
@@ -3926,6 +3879,11 @@ class DescribeStateMachineForExecutionOutput {
   /// Selects whether X-Ray tracing is enabled.
   final TracingConfiguration? tracingConfiguration;
 
+  /// A map of <b>state name</b> to a list of variables referenced by that state.
+  /// States that do not use variable references will not be shown in the
+  /// response.
+  final Map<String, List<String>>? variableReferences;
+
   DescribeStateMachineForExecutionOutput({
     required this.definition,
     required this.name,
@@ -3938,6 +3896,7 @@ class DescribeStateMachineForExecutionOutput {
     this.mapRunArn,
     this.revisionId,
     this.tracingConfiguration,
+    this.variableReferences,
   });
 
   factory DescribeStateMachineForExecutionOutput.fromJson(
@@ -3963,6 +3922,9 @@ class DescribeStateMachineForExecutionOutput {
           ? TracingConfiguration.fromJson(
               json['tracingConfiguration'] as Map<String, dynamic>)
           : null,
+      variableReferences: (json['variableReferences'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).nonNulls.map((e) => e as String).toList())),
     );
   }
 
@@ -3978,6 +3940,7 @@ class DescribeStateMachineForExecutionOutput {
     final mapRunArn = this.mapRunArn;
     final revisionId = this.revisionId;
     final tracingConfiguration = this.tracingConfiguration;
+    final variableReferences = this.variableReferences;
     return {
       'definition': definition,
       'name': name,
@@ -3993,167 +3956,1102 @@ class DescribeStateMachineForExecutionOutput {
       if (revisionId != null) 'revisionId': revisionId,
       if (tracingConfiguration != null)
         'tracingConfiguration': tracingConfiguration,
+      if (variableReferences != null) 'variableReferences': variableReferences,
     };
   }
 }
 
-class DescribeStateMachineOutput {
-  /// The date the state machine is created.
-  ///
-  /// For a state machine version, <code>creationDate</code> is the date the
-  /// version was created.
-  final DateTime creationDate;
+class GetActivityTaskOutput {
+  /// The string that contains the JSON input data for the task. Length
+  /// constraints apply to the payload size, and are expressed as bytes in UTF-8
+  /// encoding.
+  final String? input;
 
-  /// The Amazon States Language definition of the state machine. See <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon
-  /// States Language</a>.
-  ///
-  /// If called with <code>includedData = METADATA_ONLY</code>, the returned
-  /// definition will be <code>{}</code>.
-  final String definition;
+  /// A token that identifies the scheduled task. This token must be copied and
+  /// included in subsequent calls to <a>SendTaskHeartbeat</a>,
+  /// <a>SendTaskSuccess</a> or <a>SendTaskFailure</a> in order to report the
+  /// progress or completion of the task.
+  final String? taskToken;
 
-  /// The name of the state machine.
-  ///
-  /// A name must <i>not</i> contain:
-  ///
-  /// <ul>
-  /// <li>
-  /// white space
-  /// </li>
-  /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
-  /// </li>
-  /// <li>
-  /// wildcard characters <code>? *</code>
-  /// </li>
-  /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
-  /// </li>
-  /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
-  /// </li>
-  /// </ul>
-  /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
-  /// A-Z, a-z, - and _.
-  final String name;
-
-  /// The Amazon Resource Name (ARN) of the IAM role used when creating this state
-  /// machine. (The IAM role maintains security by granting Step Functions access
-  /// to Amazon Web Services resources.)
-  final String roleArn;
-
-  /// The Amazon Resource Name (ARN) that identifies the state machine.
-  ///
-  /// If you specified a state machine version ARN in your request, the API
-  /// returns the version ARN. The version ARN is a combination of state machine
-  /// ARN and the version number separated by a colon (:). For example,
-  /// <code>stateMachineARN:1</code>.
-  final String stateMachineArn;
-
-  /// The <code>type</code> of the state machine (<code>STANDARD</code> or
-  /// <code>EXPRESS</code>).
-  final StateMachineType type;
-
-  /// The description of the state machine version.
-  final String? description;
-
-  /// Settings to configure server-side encryption.
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// A user-defined or an auto-generated string that identifies a
-  /// <code>Map</code> state. This parameter is present only if the
-  /// <code>stateMachineArn</code> specified in input is a qualified state machine
-  /// ARN.
-  final String? label;
-  final LoggingConfiguration? loggingConfiguration;
-
-  /// The revision identifier for the state machine.
-  ///
-  /// Use the <code>revisionId</code> parameter to compare between versions of a
-  /// state machine configuration used for executions without performing a diff of
-  /// the properties, such as <code>definition</code> and <code>roleArn</code>.
-  final String? revisionId;
-
-  /// The current status of the state machine.
-  final StateMachineStatus? status;
-
-  /// Selects whether X-Ray tracing is enabled.
-  final TracingConfiguration? tracingConfiguration;
-
-  DescribeStateMachineOutput({
-    required this.creationDate,
-    required this.definition,
-    required this.name,
-    required this.roleArn,
-    required this.stateMachineArn,
-    required this.type,
-    this.description,
-    this.encryptionConfiguration,
-    this.label,
-    this.loggingConfiguration,
-    this.revisionId,
-    this.status,
-    this.tracingConfiguration,
+  GetActivityTaskOutput({
+    this.input,
+    this.taskToken,
   });
 
-  factory DescribeStateMachineOutput.fromJson(Map<String, dynamic> json) {
-    return DescribeStateMachineOutput(
+  factory GetActivityTaskOutput.fromJson(Map<String, dynamic> json) {
+    return GetActivityTaskOutput(
+      input: json['input'] as String?,
+      taskToken: json['taskToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final input = this.input;
+    final taskToken = this.taskToken;
+    return {
+      if (input != null) 'input': input,
+      if (taskToken != null) 'taskToken': taskToken,
+    };
+  }
+}
+
+class GetExecutionHistoryOutput {
+  /// The list of events that occurred in the execution.
+  final List<HistoryEvent> events;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  GetExecutionHistoryOutput({
+    required this.events,
+    this.nextToken,
+  });
+
+  factory GetExecutionHistoryOutput.fromJson(Map<String, dynamic> json) {
+    return GetExecutionHistoryOutput(
+      events: ((json['events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final nextToken = this.nextToken;
+    return {
+      'events': events,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListActivitiesOutput {
+  /// The list of activities.
+  final List<ActivityListItem> activities;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListActivitiesOutput({
+    required this.activities,
+    this.nextToken,
+  });
+
+  factory ListActivitiesOutput.fromJson(Map<String, dynamic> json) {
+    return ListActivitiesOutput(
+      activities: ((json['activities'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ActivityListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activities = this.activities;
+    final nextToken = this.nextToken;
+    return {
+      'activities': activities,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListExecutionsOutput {
+  /// The list of matching executions.
+  final List<ExecutionListItem> executions;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListExecutionsOutput({
+    required this.executions,
+    this.nextToken,
+  });
+
+  factory ListExecutionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListExecutionsOutput(
+      executions: ((json['executions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ExecutionListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executions = this.executions;
+    final nextToken = this.nextToken;
+    return {
+      'executions': executions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListMapRunsOutput {
+  /// An array that lists information related to a Map Run, such as the Amazon
+  /// Resource Name (ARN) of the Map Run and the ARN of the state machine that
+  /// started the Map Run.
+  final List<MapRunListItem> mapRuns;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListMapRunsOutput({
+    required this.mapRuns,
+    this.nextToken,
+  });
+
+  factory ListMapRunsOutput.fromJson(Map<String, dynamic> json) {
+    return ListMapRunsOutput(
+      mapRuns: ((json['mapRuns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => MapRunListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mapRuns = this.mapRuns;
+    final nextToken = this.nextToken;
+    return {
+      'mapRuns': mapRuns,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListStateMachineAliasesOutput {
+  /// Aliases for the state machine.
+  final List<StateMachineAliasListItem> stateMachineAliases;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListStateMachineAliasesOutput({
+    required this.stateMachineAliases,
+    this.nextToken,
+  });
+
+  factory ListStateMachineAliasesOutput.fromJson(Map<String, dynamic> json) {
+    return ListStateMachineAliasesOutput(
+      stateMachineAliases: ((json['stateMachineAliases'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              StateMachineAliasListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stateMachineAliases = this.stateMachineAliases;
+    final nextToken = this.nextToken;
+    return {
+      'stateMachineAliases': stateMachineAliases,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListStateMachinesOutput {
+  final List<StateMachineListItem> stateMachines;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListStateMachinesOutput({
+    required this.stateMachines,
+    this.nextToken,
+  });
+
+  factory ListStateMachinesOutput.fromJson(Map<String, dynamic> json) {
+    return ListStateMachinesOutput(
+      stateMachines: ((json['stateMachines'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => StateMachineListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stateMachines = this.stateMachines;
+    final nextToken = this.nextToken;
+    return {
+      'stateMachines': stateMachines,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListStateMachineVersionsOutput {
+  /// Versions for the state machine.
+  final List<StateMachineVersionListItem> stateMachineVersions;
+
+  /// If <code>nextToken</code> is returned, there are more results available. The
+  /// value of <code>nextToken</code> is a unique pagination token for each page.
+  /// Make the call again using the returned token to retrieve the next page. Keep
+  /// all other arguments unchanged. Each pagination token expires after 24 hours.
+  /// Using an expired pagination token will return an <i>HTTP 400
+  /// InvalidToken</i> error.
+  final String? nextToken;
+
+  ListStateMachineVersionsOutput({
+    required this.stateMachineVersions,
+    this.nextToken,
+  });
+
+  factory ListStateMachineVersionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStateMachineVersionsOutput(
+      stateMachineVersions: ((json['stateMachineVersions'] as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              StateMachineVersionListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stateMachineVersions = this.stateMachineVersions;
+    final nextToken = this.nextToken;
+    return {
+      'stateMachineVersions': stateMachineVersions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceOutput {
+  /// An array of tags associated with the resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceOutput({
+    this.tags,
+  });
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class PublishStateMachineVersionOutput {
+  /// The date the version was created.
+  final DateTime creationDate;
+
+  /// The Amazon Resource Name (ARN) (ARN) that identifies the state machine
+  /// version.
+  final String stateMachineVersionArn;
+
+  PublishStateMachineVersionOutput({
+    required this.creationDate,
+    required this.stateMachineVersionArn,
+  });
+
+  factory PublishStateMachineVersionOutput.fromJson(Map<String, dynamic> json) {
+    return PublishStateMachineVersionOutput(
       creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      definition: (json['definition'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      roleArn: (json['roleArn'] as String?) ?? '',
-      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
-      type: StateMachineType.fromString((json['type'] as String?) ?? ''),
-      description: json['description'] as String?,
-      encryptionConfiguration: json['encryptionConfiguration'] != null
-          ? EncryptionConfiguration.fromJson(
-              json['encryptionConfiguration'] as Map<String, dynamic>)
-          : null,
-      label: json['label'] as String?,
-      loggingConfiguration: json['loggingConfiguration'] != null
-          ? LoggingConfiguration.fromJson(
-              json['loggingConfiguration'] as Map<String, dynamic>)
-          : null,
-      revisionId: json['revisionId'] as String?,
-      status: (json['status'] as String?)?.let(StateMachineStatus.fromString),
-      tracingConfiguration: json['tracingConfiguration'] != null
-          ? TracingConfiguration.fromJson(
-              json['tracingConfiguration'] as Map<String, dynamic>)
-          : null,
+      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     final creationDate = this.creationDate;
-    final definition = this.definition;
-    final name = this.name;
-    final roleArn = this.roleArn;
-    final stateMachineArn = this.stateMachineArn;
-    final type = this.type;
-    final description = this.description;
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final label = this.label;
-    final loggingConfiguration = this.loggingConfiguration;
-    final revisionId = this.revisionId;
-    final status = this.status;
-    final tracingConfiguration = this.tracingConfiguration;
+    final stateMachineVersionArn = this.stateMachineVersionArn;
     return {
       'creationDate': unixTimestampToJson(creationDate),
-      'definition': definition,
-      'name': name,
-      'roleArn': roleArn,
-      'stateMachineArn': stateMachineArn,
-      'type': type.value,
-      if (description != null) 'description': description,
-      if (encryptionConfiguration != null)
-        'encryptionConfiguration': encryptionConfiguration,
-      if (label != null) 'label': label,
-      if (loggingConfiguration != null)
-        'loggingConfiguration': loggingConfiguration,
-      if (revisionId != null) 'revisionId': revisionId,
+      'stateMachineVersionArn': stateMachineVersionArn,
+    };
+  }
+}
+
+class RedriveExecutionOutput {
+  /// The date the execution was last redriven.
+  final DateTime redriveDate;
+
+  RedriveExecutionOutput({
+    required this.redriveDate,
+  });
+
+  factory RedriveExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return RedriveExecutionOutput(
+      redriveDate: nonNullableTimeStampFromJson(json['redriveDate'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final redriveDate = this.redriveDate;
+    return {
+      'redriveDate': unixTimestampToJson(redriveDate),
+    };
+  }
+}
+
+class SendTaskFailureOutput {
+  SendTaskFailureOutput();
+
+  factory SendTaskFailureOutput.fromJson(Map<String, dynamic> _) {
+    return SendTaskFailureOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class SendTaskHeartbeatOutput {
+  SendTaskHeartbeatOutput();
+
+  factory SendTaskHeartbeatOutput.fromJson(Map<String, dynamic> _) {
+    return SendTaskHeartbeatOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class SendTaskSuccessOutput {
+  SendTaskSuccessOutput();
+
+  factory SendTaskSuccessOutput.fromJson(Map<String, dynamic> _) {
+    return SendTaskSuccessOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartExecutionOutput {
+  /// The Amazon Resource Name (ARN) that identifies the execution.
+  final String executionArn;
+
+  /// The date the execution is started.
+  final DateTime startDate;
+
+  StartExecutionOutput({
+    required this.executionArn,
+    required this.startDate,
+  });
+
+  factory StartExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return StartExecutionOutput(
+      executionArn: (json['executionArn'] as String?) ?? '',
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionArn = this.executionArn;
+    final startDate = this.startDate;
+    return {
+      'executionArn': executionArn,
+      'startDate': unixTimestampToJson(startDate),
+    };
+  }
+}
+
+class StartSyncExecutionOutput {
+  /// The Amazon Resource Name (ARN) that identifies the execution.
+  final String executionArn;
+
+  /// The date the execution is started.
+  final DateTime startDate;
+
+  /// The current status of the execution.
+  final SyncExecutionStatus status;
+
+  /// If the execution has already ended, the date the execution stopped.
+  final DateTime stopDate;
+
+  /// An object that describes workflow billing details, including billed duration
+  /// and memory use.
+  final BillingDetails? billingDetails;
+
+  /// A more detailed explanation of the cause of the failure.
+  final String? cause;
+
+  /// The error code of the failure.
+  final String? error;
+
+  /// The string that contains the JSON input data of the execution. Length
+  /// constraints apply to the payload size, and are expressed as bytes in UTF-8
+  /// encoding.
+  final String? input;
+  final CloudWatchEventsExecutionDataDetails? inputDetails;
+
+  /// The name of the execution.
+  final String? name;
+
+  /// The JSON output data of the execution. Length constraints apply to the
+  /// payload size, and are expressed as bytes in UTF-8 encoding.
+  /// <note>
+  /// This field is set only if the execution succeeds. If the execution fails,
+  /// this field is null.
+  /// </note>
+  final String? output;
+  final CloudWatchEventsExecutionDataDetails? outputDetails;
+
+  /// The Amazon Resource Name (ARN) that identifies the state machine.
+  final String? stateMachineArn;
+
+  /// The X-Ray trace header that was passed to the execution.
+  /// <note>
+  /// For X-Ray traces, all Amazon Web Services services use the
+  /// <code>X-Amzn-Trace-Id</code> header from the HTTP request. Using the header
+  /// is the preferred mechanism to identify a trace. <code>StartExecution</code>
+  /// and <code>StartSyncExecution</code> API operations can also use
+  /// <code>traceHeader</code> from the body of the request payload. If
+  /// <b>both</b> sources are provided, Step Functions will use the <b>header
+  /// value</b> (preferred) over the value in the request body.
+  /// </note>
+  final String? traceHeader;
+
+  StartSyncExecutionOutput({
+    required this.executionArn,
+    required this.startDate,
+    required this.status,
+    required this.stopDate,
+    this.billingDetails,
+    this.cause,
+    this.error,
+    this.input,
+    this.inputDetails,
+    this.name,
+    this.output,
+    this.outputDetails,
+    this.stateMachineArn,
+    this.traceHeader,
+  });
+
+  factory StartSyncExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return StartSyncExecutionOutput(
+      executionArn: (json['executionArn'] as String?) ?? '',
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
+      status: SyncExecutionStatus.fromString((json['status'] as String?) ?? ''),
+      stopDate: nonNullableTimeStampFromJson(json['stopDate'] ?? 0),
+      billingDetails: json['billingDetails'] != null
+          ? BillingDetails.fromJson(
+              json['billingDetails'] as Map<String, dynamic>)
+          : null,
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+      input: json['input'] as String?,
+      inputDetails: json['inputDetails'] != null
+          ? CloudWatchEventsExecutionDataDetails.fromJson(
+              json['inputDetails'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      output: json['output'] as String?,
+      outputDetails: json['outputDetails'] != null
+          ? CloudWatchEventsExecutionDataDetails.fromJson(
+              json['outputDetails'] as Map<String, dynamic>)
+          : null,
+      stateMachineArn: json['stateMachineArn'] as String?,
+      traceHeader: json['traceHeader'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionArn = this.executionArn;
+    final startDate = this.startDate;
+    final status = this.status;
+    final stopDate = this.stopDate;
+    final billingDetails = this.billingDetails;
+    final cause = this.cause;
+    final error = this.error;
+    final input = this.input;
+    final inputDetails = this.inputDetails;
+    final name = this.name;
+    final output = this.output;
+    final outputDetails = this.outputDetails;
+    final stateMachineArn = this.stateMachineArn;
+    final traceHeader = this.traceHeader;
+    return {
+      'executionArn': executionArn,
+      'startDate': unixTimestampToJson(startDate),
+      'status': status.value,
+      'stopDate': unixTimestampToJson(stopDate),
+      if (billingDetails != null) 'billingDetails': billingDetails,
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+      if (input != null) 'input': input,
+      if (inputDetails != null) 'inputDetails': inputDetails,
+      if (name != null) 'name': name,
+      if (output != null) 'output': output,
+      if (outputDetails != null) 'outputDetails': outputDetails,
+      if (stateMachineArn != null) 'stateMachineArn': stateMachineArn,
+      if (traceHeader != null) 'traceHeader': traceHeader,
+    };
+  }
+}
+
+class StopExecutionOutput {
+  /// The date the execution is stopped.
+  final DateTime stopDate;
+
+  StopExecutionOutput({
+    required this.stopDate,
+  });
+
+  factory StopExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return StopExecutionOutput(
+      stopDate: nonNullableTimeStampFromJson(json['stopDate'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stopDate = this.stopDate;
+    return {
+      'stopDate': unixTimestampToJson(stopDate),
+    };
+  }
+}
+
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TestStateOutput {
+  /// A detailed explanation of the cause for the error when the execution of a
+  /// state fails.
+  final String? cause;
+
+  /// The error returned when the execution of a state fails.
+  final String? error;
+
+  /// Returns additional details about the state's execution, including its input
+  /// and output data processing flow, and HTTP request and response information.
+  /// The <code>inspectionLevel</code> request parameter specifies which details
+  /// are returned.
+  final InspectionData? inspectionData;
+
+  /// The name of the next state to transition to. If you haven't defined a next
+  /// state in your definition or if the execution of the state fails, this field
+  /// doesn't contain a value.
+  final String? nextState;
+
+  /// The JSON output data of the state. Length constraints apply to the payload
+  /// size, and are expressed as bytes in UTF-8 encoding.
+  final String? output;
+
+  /// The execution status of the state.
+  final TestExecutionStatus? status;
+
+  TestStateOutput({
+    this.cause,
+    this.error,
+    this.inspectionData,
+    this.nextState,
+    this.output,
+    this.status,
+  });
+
+  factory TestStateOutput.fromJson(Map<String, dynamic> json) {
+    return TestStateOutput(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+      inspectionData: json['inspectionData'] != null
+          ? InspectionData.fromJson(
+              json['inspectionData'] as Map<String, dynamic>)
+          : null,
+      nextState: json['nextState'] as String?,
+      output: json['output'] as String?,
+      status: (json['status'] as String?)?.let(TestExecutionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final error = this.error;
+    final inspectionData = this.inspectionData;
+    final nextState = this.nextState;
+    final output = this.output;
+    final status = this.status;
+    return {
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+      if (inspectionData != null) 'inspectionData': inspectionData,
+      if (nextState != null) 'nextState': nextState,
+      if (output != null) 'output': output,
       if (status != null) 'status': status.value,
-      if (tracingConfiguration != null)
-        'tracingConfiguration': tracingConfiguration,
+    };
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateMapRunOutput {
+  UpdateMapRunOutput();
+
+  factory UpdateMapRunOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateMapRunOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateStateMachineOutput {
+  /// The date and time the state machine was updated.
+  final DateTime updateDate;
+
+  /// The revision identifier for the updated state machine.
+  final String? revisionId;
+
+  /// The Amazon Resource Name (ARN) of the published state machine version.
+  ///
+  /// If the <code>publish</code> parameter isn't set to <code>true</code>, this
+  /// field returns null.
+  final String? stateMachineVersionArn;
+
+  UpdateStateMachineOutput({
+    required this.updateDate,
+    this.revisionId,
+    this.stateMachineVersionArn,
+  });
+
+  factory UpdateStateMachineOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateStateMachineOutput(
+      updateDate: nonNullableTimeStampFromJson(json['updateDate'] ?? 0),
+      revisionId: json['revisionId'] as String?,
+      stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final updateDate = this.updateDate;
+    final revisionId = this.revisionId;
+    final stateMachineVersionArn = this.stateMachineVersionArn;
+    return {
+      'updateDate': unixTimestampToJson(updateDate),
+      if (revisionId != null) 'revisionId': revisionId,
+      if (stateMachineVersionArn != null)
+        'stateMachineVersionArn': stateMachineVersionArn,
+    };
+  }
+}
+
+class UpdateStateMachineAliasOutput {
+  /// The date and time the state machine alias was updated.
+  final DateTime updateDate;
+
+  UpdateStateMachineAliasOutput({
+    required this.updateDate,
+  });
+
+  factory UpdateStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateStateMachineAliasOutput(
+      updateDate: nonNullableTimeStampFromJson(json['updateDate'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final updateDate = this.updateDate;
+    return {
+      'updateDate': unixTimestampToJson(updateDate),
+    };
+  }
+}
+
+class ValidateStateMachineDefinitionOutput {
+  /// An array of diagnostic errors and warnings found during validation of the
+  /// state machine definition. Since <b>warnings</b> do not prevent deploying
+  /// your workflow definition, the <b>result</b> value could be <code>OK</code>
+  /// even when warning diagnostics are present in the response.
+  final List<ValidateStateMachineDefinitionDiagnostic> diagnostics;
+
+  /// The result value will be <code>OK</code> when no syntax errors are found, or
+  /// <code>FAIL</code> if the workflow definition does not pass verification.
+  final ValidateStateMachineDefinitionResultCode result;
+
+  /// The result value will be <code>true</code> if the number of diagnostics
+  /// found in the workflow definition exceeds <code>maxResults</code>. When all
+  /// diagnostics results are returned, the value will be <code>false</code>.
+  final bool? truncated;
+
+  ValidateStateMachineDefinitionOutput({
+    required this.diagnostics,
+    required this.result,
+    this.truncated,
+  });
+
+  factory ValidateStateMachineDefinitionOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ValidateStateMachineDefinitionOutput(
+      diagnostics: ((json['diagnostics'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ValidateStateMachineDefinitionDiagnostic.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      result: ValidateStateMachineDefinitionResultCode.fromString(
+          (json['result'] as String?) ?? ''),
+      truncated: json['truncated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diagnostics = this.diagnostics;
+    final result = this.result;
+    final truncated = this.truncated;
+    return {
+      'diagnostics': diagnostics,
+      'result': result.value,
+      if (truncated != null) 'truncated': truncated,
+    };
+  }
+}
+
+class ValidateStateMachineDefinitionResultCode {
+  static const ok = ValidateStateMachineDefinitionResultCode._('OK');
+  static const fail = ValidateStateMachineDefinitionResultCode._('FAIL');
+
+  final String value;
+
+  const ValidateStateMachineDefinitionResultCode._(this.value);
+
+  static const values = [ok, fail];
+
+  static ValidateStateMachineDefinitionResultCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidateStateMachineDefinitionResultCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidateStateMachineDefinitionResultCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes potential issues found during state machine validation. Rather
+/// than raise an exception, validation will return a list of <b>diagnostic
+/// elements</b> containing diagnostic information.
+/// <note>
+/// The <a
+/// href="https://docs.aws.amazon.com/step-functions/latest/apireference/API_ValidateStateMachineDefinition.html">ValidateStateMachineDefinitionlAPI</a>
+/// might add new diagnostics in the future, adjust diagnostic codes, or change
+/// the message wording. Your automated processes should only rely on the value
+/// of the <b>result</b> field value (OK, FAIL). Do <b>not</b> rely on the exact
+/// order, count, or wording of diagnostic messages.
+/// </note>
+/// <b>List of warning codes</b>
+/// <dl> <dt>NO_DOLLAR</dt> <dd>
+/// No <code>.$</code> on a field that appears to be a JSONPath or Intrinsic
+/// Function.
+/// </dd> <dt>NO_PATH</dt> <dd>
+/// Field value looks like a path, but field name does not end with 'Path'.
+/// </dd> <dt>PASS_RESULT_IS_STATIC</dt> <dd>
+/// Attempt to use a path in the result of a pass state.
+/// </dd> </dl>
+/// <b>List of error codes</b>
+/// <dl> <dt>INVALID_JSON_DESCRIPTION</dt> <dd>
+/// JSON syntax problem found.
+/// </dd> <dt>MISSING_DESCRIPTION</dt> <dd>
+/// Received a null or empty workflow input.
+/// </dd> <dt>SCHEMA_VALIDATION_FAILED</dt> <dd>
+/// Schema validation reported errors.
+/// </dd> <dt>INVALID_RESOURCE</dt> <dd>
+/// The value of a Task-state resource field is invalid.
+/// </dd> <dt>MISSING_END_STATE</dt> <dd>
+/// The workflow does not have a terminal state.
+/// </dd> <dt>DUPLICATE_STATE_NAME</dt> <dd>
+/// The same state name appears more than once.
+/// </dd> <dt>INVALID_STATE_NAME</dt> <dd>
+/// The state name does not follow the naming convention.
+/// </dd> <dt>STATE_MACHINE_NAME_EMPTY</dt> <dd>
+/// The state machine name has not been specified.
+/// </dd> <dt>STATE_MACHINE_NAME_INVALID</dt> <dd>
+/// The state machine name does not follow the naming convention.
+/// </dd> <dt>STATE_MACHINE_NAME_TOO_LONG</dt> <dd>
+/// The state name exceeds the allowed length.
+/// </dd> <dt>STATE_MACHINE_NAME_ALREADY_EXISTS</dt> <dd>
+/// The state name already exists.
+/// </dd> <dt>DUPLICATE_LABEL_NAME</dt> <dd>
+/// A label name appears more than once.
+/// </dd> <dt>INVALID_LABEL_NAME</dt> <dd>
+/// You have provided an invalid label name.
+/// </dd> <dt>MISSING_TRANSITION_TARGET</dt> <dd>
+/// The value of "Next" field doesn't match a known state name.
+/// </dd> <dt>TOO_DEEPLY_NESTED</dt> <dd>
+/// The states are too deeply nested.
+/// </dd> </dl>
+class ValidateStateMachineDefinitionDiagnostic {
+  /// Identifying code for the diagnostic.
+  final String code;
+
+  /// Message describing the diagnostic condition.
+  final String message;
+
+  /// A value of <code>ERROR</code> means that you cannot create or update a state
+  /// machine with this definition.
+  ///
+  /// <code>WARNING</code> level diagnostics alert you to potential issues, but
+  /// they will not prevent you from creating or updating your state machine.
+  final ValidateStateMachineDefinitionSeverity severity;
+
+  /// Location of the issue in the state machine, if available.
+  ///
+  /// For errors specific to a field, the location could be in the format:
+  /// <code>/States/<StateName>/<FieldName></code>, for example:
+  /// <code>/States/FailState/ErrorPath</code>.
+  final String? location;
+
+  ValidateStateMachineDefinitionDiagnostic({
+    required this.code,
+    required this.message,
+    required this.severity,
+    this.location,
+  });
+
+  factory ValidateStateMachineDefinitionDiagnostic.fromJson(
+      Map<String, dynamic> json) {
+    return ValidateStateMachineDefinitionDiagnostic(
+      code: (json['code'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
+      severity: ValidateStateMachineDefinitionSeverity.fromString(
+          (json['severity'] as String?) ?? ''),
+      location: json['location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final severity = this.severity;
+    final location = this.location;
+    return {
+      'code': code,
+      'message': message,
+      'severity': severity.value,
+      if (location != null) 'location': location,
+    };
+  }
+}
+
+class ValidateStateMachineDefinitionSeverity {
+  static const error = ValidateStateMachineDefinitionSeverity._('ERROR');
+  static const warning = ValidateStateMachineDefinitionSeverity._('WARNING');
+
+  final String value;
+
+  const ValidateStateMachineDefinitionSeverity._(this.value);
+
+  static const values = [error, warning];
+
+  static ValidateStateMachineDefinitionSeverity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ValidateStateMachineDefinitionSeverity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ValidateStateMachineDefinitionSeverity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StateMachineType {
+  static const standard = StateMachineType._('STANDARD');
+  static const express = StateMachineType._('EXPRESS');
+
+  final String value;
+
+  const StateMachineType._(this.value);
+
+  static const values = [standard, express];
+
+  static StateMachineType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StateMachineType._(value));
+
+  @override
+  bool operator ==(other) => other is StateMachineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about the routing configuration of a state machine alias.
+/// In a routing configuration, you define an array of objects that specify up
+/// to two state machine versions. You also specify the percentage of traffic to
+/// be routed to each version.
+class RoutingConfigurationListItem {
+  /// The Amazon Resource Name (ARN) that identifies one or two state machine
+  /// versions defined in the routing configuration.
+  ///
+  /// If you specify the ARN of a second version, it must belong to the same state
+  /// machine as the first version.
+  final String stateMachineVersionArn;
+
+  /// The percentage of traffic you want to route to a state machine version. The
+  /// sum of the weights in the routing configuration must be equal to 100.
+  final int weight;
+
+  RoutingConfigurationListItem({
+    required this.stateMachineVersionArn,
+    required this.weight,
+  });
+
+  factory RoutingConfigurationListItem.fromJson(Map<String, dynamic> json) {
+    return RoutingConfigurationListItem(
+      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
+      weight: (json['weight'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stateMachineVersionArn = this.stateMachineVersionArn;
+    final weight = this.weight;
+    return {
+      'stateMachineVersionArn': stateMachineVersionArn,
+      'weight': weight,
+    };
+  }
+}
+
+/// The <code>LoggingConfiguration</code> data type is used to set CloudWatch
+/// Logs options.
+class LoggingConfiguration {
+  /// An array of objects that describes where your execution history events will
+  /// be logged. Limited to size 1. Required, if your log level is not set to
+  /// <code>OFF</code>.
+  final List<LogDestination>? destinations;
+
+  /// Determines whether execution data is included in your log. When set to
+  /// <code>false</code>, data is excluded.
+  final bool? includeExecutionData;
+
+  /// Defines which category of execution history events are logged.
+  final LogLevel? level;
+
+  LoggingConfiguration({
+    this.destinations,
+    this.includeExecutionData,
+    this.level,
+  });
+
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      destinations: (json['destinations'] as List?)
+          ?.nonNulls
+          .map((e) => LogDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      includeExecutionData: json['includeExecutionData'] as bool?,
+      level: (json['level'] as String?)?.let(LogLevel.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinations = this.destinations;
+    final includeExecutionData = this.includeExecutionData;
+    final level = this.level;
+    return {
+      if (destinations != null) 'destinations': destinations,
+      if (includeExecutionData != null)
+        'includeExecutionData': includeExecutionData,
+      if (level != null) 'level': level.value,
+    };
+  }
+}
+
+/// Selects whether or not the state machine's X-Ray tracing is enabled. Default
+/// is <code>false</code>
+class TracingConfiguration {
+  /// When set to <code>true</code>, X-Ray tracing is enabled.
+  final bool? enabled;
+
+  TracingConfiguration({
+    this.enabled,
+  });
+
+  factory TracingConfiguration.fromJson(Map<String, dynamic> json) {
+    return TracingConfiguration(
+      enabled: json['enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'enabled': enabled,
     };
   }
 }
@@ -4244,25 +5142,558 @@ class EncryptionType {
   String toString() => value;
 }
 
-/// Contains details about an abort of an execution.
-class ExecutionAbortedEventDetails {
-  /// A more detailed explanation of the cause of the failure.
+class LogLevel {
+  static const all = LogLevel._('ALL');
+  static const error = LogLevel._('ERROR');
+  static const fatal = LogLevel._('FATAL');
+  static const off = LogLevel._('OFF');
+
+  final String value;
+
+  const LogLevel._(this.value);
+
+  static const values = [all, error, fatal, off];
+
+  static LogLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LogLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+///
+class LogDestination {
+  /// An object describing a CloudWatch log group. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html">AWS::Logs::LogGroup</a>
+  /// in the CloudFormation User Guide.
+  final CloudWatchLogsLogGroup? cloudWatchLogsLogGroup;
+
+  LogDestination({
+    this.cloudWatchLogsLogGroup,
+  });
+
+  factory LogDestination.fromJson(Map<String, dynamic> json) {
+    return LogDestination(
+      cloudWatchLogsLogGroup: json['cloudWatchLogsLogGroup'] != null
+          ? CloudWatchLogsLogGroup.fromJson(
+              json['cloudWatchLogsLogGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsLogGroup = this.cloudWatchLogsLogGroup;
+    return {
+      if (cloudWatchLogsLogGroup != null)
+        'cloudWatchLogsLogGroup': cloudWatchLogsLogGroup,
+    };
+  }
+}
+
+///
+class CloudWatchLogsLogGroup {
+  /// The ARN of the the CloudWatch log group to which you want your logs emitted
+  /// to. The ARN must end with <code>:*</code>
+  final String? logGroupArn;
+
+  CloudWatchLogsLogGroup({
+    this.logGroupArn,
+  });
+
+  factory CloudWatchLogsLogGroup.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLogsLogGroup(
+      logGroupArn: json['logGroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupArn = this.logGroupArn;
+    return {
+      if (logGroupArn != null) 'logGroupArn': logGroupArn,
+    };
+  }
+}
+
+/// Contains additional details about the state's execution, including its input
+/// and output data processing flow, and HTTP request and response information.
+class InspectionData {
+  /// The input after Step Functions applies an Arguments filter. This event will
+  /// only be present when QueryLanguage for the state machine or individual
+  /// states is set to JSONata. For more info, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/data-transform.html">Transforming
+  /// data with Step Functions</a>.
+  final String? afterArguments;
+
+  /// The input after Step Functions applies the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-inputpath">InputPath</a>
+  /// filter. Not populated when QueryLanguage is JSONata.
+  final String? afterInputPath;
+
+  /// The effective input after the ItemBatcher filter is applied in a Map state.
+  final String? afterItemBatcher;
+
+  /// An array containing the inputs for each Map iteration, transformed by the
+  /// ItemSelector specified in a Map state.
+  final String? afterItemSelector;
+
+  /// The effective input after the ItemsPath filter is applied. Not populated
+  /// when the QueryLanguage is JSONata.
+  final String? afterItemsPath;
+
+  /// The effective input after the ItemsPointer filter is applied in a Map state.
+  final String? afterItemsPointer;
+
+  /// The effective input after Step Functions applies the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-parameters">Parameters</a>
+  /// filter. Not populated when QueryLanguage is JSONata.
+  final String? afterParameters;
+
+  /// The effective result combined with the raw state input after Step Functions
+  /// applies the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultpath.html">ResultPath</a>
+  /// filter. Not populated when QueryLanguage is JSONata.
+  final String? afterResultPath;
+
+  /// The effective result after Step Functions applies the <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-resultselector">ResultSelector</a>
+  /// filter. Not populated when QueryLanguage is JSONata.
+  final String? afterResultSelector;
+
+  /// An object containing data about a handled exception in the tested state.
+  final InspectionErrorDetails? errorDetails;
+
+  /// The raw state input.
+  final String? input;
+
+  /// The max concurrency of the Map state.
+  final int? maxConcurrency;
+
+  /// The raw HTTP request that is sent when you test an HTTP Task.
+  final InspectionDataRequest? request;
+
+  /// The raw HTTP response that is returned when you test an HTTP Task.
+  final InspectionDataResponse? response;
+
+  /// The state's raw result.
+  final String? result;
+
+  /// The tolerated failure threshold for a Map state as defined in number of Map
+  /// state iterations.
+  final int? toleratedFailureCount;
+
+  /// The tolerated failure threshold for a Map state as defined in percentage of
+  /// Map state iterations.
+  final double? toleratedFailurePercentage;
+
+  /// JSON string that contains the set of workflow variables after execution of
+  /// the state. The set will include variables assigned in the state and
+  /// variables set up as test state input.
+  final String? variables;
+
+  InspectionData({
+    this.afterArguments,
+    this.afterInputPath,
+    this.afterItemBatcher,
+    this.afterItemSelector,
+    this.afterItemsPath,
+    this.afterItemsPointer,
+    this.afterParameters,
+    this.afterResultPath,
+    this.afterResultSelector,
+    this.errorDetails,
+    this.input,
+    this.maxConcurrency,
+    this.request,
+    this.response,
+    this.result,
+    this.toleratedFailureCount,
+    this.toleratedFailurePercentage,
+    this.variables,
+  });
+
+  factory InspectionData.fromJson(Map<String, dynamic> json) {
+    return InspectionData(
+      afterArguments: json['afterArguments'] as String?,
+      afterInputPath: json['afterInputPath'] as String?,
+      afterItemBatcher: json['afterItemBatcher'] as String?,
+      afterItemSelector: json['afterItemSelector'] as String?,
+      afterItemsPath: json['afterItemsPath'] as String?,
+      afterItemsPointer: json['afterItemsPointer'] as String?,
+      afterParameters: json['afterParameters'] as String?,
+      afterResultPath: json['afterResultPath'] as String?,
+      afterResultSelector: json['afterResultSelector'] as String?,
+      errorDetails: json['errorDetails'] != null
+          ? InspectionErrorDetails.fromJson(
+              json['errorDetails'] as Map<String, dynamic>)
+          : null,
+      input: json['input'] as String?,
+      maxConcurrency: json['maxConcurrency'] as int?,
+      request: json['request'] != null
+          ? InspectionDataRequest.fromJson(
+              json['request'] as Map<String, dynamic>)
+          : null,
+      response: json['response'] != null
+          ? InspectionDataResponse.fromJson(
+              json['response'] as Map<String, dynamic>)
+          : null,
+      result: json['result'] as String?,
+      toleratedFailureCount: json['toleratedFailureCount'] as int?,
+      toleratedFailurePercentage: json['toleratedFailurePercentage'] as double?,
+      variables: json['variables'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterArguments = this.afterArguments;
+    final afterInputPath = this.afterInputPath;
+    final afterItemBatcher = this.afterItemBatcher;
+    final afterItemSelector = this.afterItemSelector;
+    final afterItemsPath = this.afterItemsPath;
+    final afterItemsPointer = this.afterItemsPointer;
+    final afterParameters = this.afterParameters;
+    final afterResultPath = this.afterResultPath;
+    final afterResultSelector = this.afterResultSelector;
+    final errorDetails = this.errorDetails;
+    final input = this.input;
+    final maxConcurrency = this.maxConcurrency;
+    final request = this.request;
+    final response = this.response;
+    final result = this.result;
+    final toleratedFailureCount = this.toleratedFailureCount;
+    final toleratedFailurePercentage = this.toleratedFailurePercentage;
+    final variables = this.variables;
+    return {
+      if (afterArguments != null) 'afterArguments': afterArguments,
+      if (afterInputPath != null) 'afterInputPath': afterInputPath,
+      if (afterItemBatcher != null) 'afterItemBatcher': afterItemBatcher,
+      if (afterItemSelector != null) 'afterItemSelector': afterItemSelector,
+      if (afterItemsPath != null) 'afterItemsPath': afterItemsPath,
+      if (afterItemsPointer != null) 'afterItemsPointer': afterItemsPointer,
+      if (afterParameters != null) 'afterParameters': afterParameters,
+      if (afterResultPath != null) 'afterResultPath': afterResultPath,
+      if (afterResultSelector != null)
+        'afterResultSelector': afterResultSelector,
+      if (errorDetails != null) 'errorDetails': errorDetails,
+      if (input != null) 'input': input,
+      if (maxConcurrency != null) 'maxConcurrency': maxConcurrency,
+      if (request != null) 'request': request,
+      if (response != null) 'response': response,
+      if (result != null) 'result': result,
+      if (toleratedFailureCount != null)
+        'toleratedFailureCount': toleratedFailureCount,
+      if (toleratedFailurePercentage != null)
+        'toleratedFailurePercentage': toleratedFailurePercentage,
+      if (variables != null) 'variables': variables,
+    };
+  }
+}
+
+class TestExecutionStatus {
+  static const succeeded = TestExecutionStatus._('SUCCEEDED');
+  static const failed = TestExecutionStatus._('FAILED');
+  static const retriable = TestExecutionStatus._('RETRIABLE');
+  static const caughtError = TestExecutionStatus._('CAUGHT_ERROR');
+
+  final String value;
+
+  const TestExecutionStatus._(this.value);
+
+  static const values = [succeeded, failed, retriable, caughtError];
+
+  static TestExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TestExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TestExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains additional details about the state's execution, including its input
+/// and output data processing flow, and HTTP request information.
+class InspectionDataRequest {
+  /// The request body for the HTTP request.
+  final String? body;
+
+  /// The request headers associated with the HTTP request.
+  final String? headers;
+
+  /// The HTTP method used for the HTTP request.
+  final String? method;
+
+  /// The protocol used to make the HTTP request.
+  final String? protocol;
+
+  /// The API endpoint used for the HTTP request.
+  final String? url;
+
+  InspectionDataRequest({
+    this.body,
+    this.headers,
+    this.method,
+    this.protocol,
+    this.url,
+  });
+
+  factory InspectionDataRequest.fromJson(Map<String, dynamic> json) {
+    return InspectionDataRequest(
+      body: json['body'] as String?,
+      headers: json['headers'] as String?,
+      method: json['method'] as String?,
+      protocol: json['protocol'] as String?,
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final headers = this.headers;
+    final method = this.method;
+    final protocol = this.protocol;
+    final url = this.url;
+    return {
+      if (body != null) 'body': body,
+      if (headers != null) 'headers': headers,
+      if (method != null) 'method': method,
+      if (protocol != null) 'protocol': protocol,
+      if (url != null) 'url': url,
+    };
+  }
+}
+
+/// Contains additional details about the state's execution, including its input
+/// and output data processing flow, and HTTP response information. The
+/// <code>inspectionLevel</code> request parameter specifies which details are
+/// returned.
+class InspectionDataResponse {
+  /// The HTTP response returned.
+  final String? body;
+
+  /// The response headers associated with the HTTP response.
+  final String? headers;
+
+  /// The protocol used to return the HTTP response.
+  final String? protocol;
+
+  /// The HTTP response status code for the HTTP response.
+  final String? statusCode;
+
+  /// The message associated with the HTTP status code.
+  final String? statusMessage;
+
+  InspectionDataResponse({
+    this.body,
+    this.headers,
+    this.protocol,
+    this.statusCode,
+    this.statusMessage,
+  });
+
+  factory InspectionDataResponse.fromJson(Map<String, dynamic> json) {
+    return InspectionDataResponse(
+      body: json['body'] as String?,
+      headers: json['headers'] as String?,
+      protocol: json['protocol'] as String?,
+      statusCode: json['statusCode'] as String?,
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final headers = this.headers;
+    final protocol = this.protocol;
+    final statusCode = this.statusCode;
+    final statusMessage = this.statusMessage;
+    return {
+      if (body != null) 'body': body,
+      if (headers != null) 'headers': headers,
+      if (protocol != null) 'protocol': protocol,
+      if (statusCode != null) 'statusCode': statusCode,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
+}
+
+/// An object containing data about a handled exception in the tested state.
+class InspectionErrorDetails {
+  /// The array index of the Catch which handled the exception.
+  final int? catchIndex;
+
+  /// The duration in seconds of the backoff for a retry on a failed state
+  /// invocation.
+  final int? retryBackoffIntervalSeconds;
+
+  /// The array index of the Retry which handled the exception.
+  final int? retryIndex;
+
+  InspectionErrorDetails({
+    this.catchIndex,
+    this.retryBackoffIntervalSeconds,
+    this.retryIndex,
+  });
+
+  factory InspectionErrorDetails.fromJson(Map<String, dynamic> json) {
+    return InspectionErrorDetails(
+      catchIndex: json['catchIndex'] as int?,
+      retryBackoffIntervalSeconds: json['retryBackoffIntervalSeconds'] as int?,
+      retryIndex: json['retryIndex'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catchIndex = this.catchIndex;
+    final retryBackoffIntervalSeconds = this.retryBackoffIntervalSeconds;
+    final retryIndex = this.retryIndex;
+    return {
+      if (catchIndex != null) 'catchIndex': catchIndex,
+      if (retryBackoffIntervalSeconds != null)
+        'retryBackoffIntervalSeconds': retryBackoffIntervalSeconds,
+      if (retryIndex != null) 'retryIndex': retryIndex,
+    };
+  }
+}
+
+class InspectionLevel {
+  static const info = InspectionLevel._('INFO');
+  static const debug = InspectionLevel._('DEBUG');
+  static const trace = InspectionLevel._('TRACE');
+
+  final String value;
+
+  const InspectionLevel._(this.value);
+
+  static const values = [info, debug, trace];
+
+  static InspectionLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InspectionLevel._(value));
+
+  @override
+  bool operator ==(other) => other is InspectionLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A JSON object that contains a mocked <code>result</code> or
+/// <code>errorOutput</code>.
+class MockInput {
+  /// The mocked error output when calling TestState. When specified, the mocked
+  /// response is returned as a JSON object that contains an <code>error</code>
+  /// and <code>cause</code> field.
+  final MockErrorOutput? errorOutput;
+
+  /// Determines the level of strictness when validating mocked results against
+  /// their respective API models. Values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>STRICT</code>: All required fields must be present, and all present
+  /// fields must conform to the API's schema.
+  /// </li>
+  /// <li>
+  /// <code>PRESENT</code>: All present fields must conform to the API's schema.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: No validation is performed.
+  /// </li>
+  /// </ul>
+  /// If no value is specified, the default value is <code>STRICT</code>.
+  final MockResponseValidationMode? fieldValidationMode;
+
+  /// A JSON string containing the mocked result of the state invocation.
+  final String? result;
+
+  MockInput({
+    this.errorOutput,
+    this.fieldValidationMode,
+    this.result,
+  });
+
+  Map<String, dynamic> toJson() {
+    final errorOutput = this.errorOutput;
+    final fieldValidationMode = this.fieldValidationMode;
+    final result = this.result;
+    return {
+      if (errorOutput != null) 'errorOutput': errorOutput,
+      if (fieldValidationMode != null)
+        'fieldValidationMode': fieldValidationMode.value,
+      if (result != null) 'result': result,
+    };
+  }
+}
+
+/// Contains configurations for the tested state.
+class TestStateConfiguration {
+  /// The name of the state from which an error originates when an error is mocked
+  /// for a Map or Parallel state.
+  final String? errorCausedByState;
+
+  /// The data read by ItemReader in Distributed Map states as found in its
+  /// original source.
+  final String? mapItemReaderData;
+
+  /// The number of Map state iterations that failed during the Map state
+  /// invocation.
+  final int? mapIterationFailureCount;
+
+  /// The number of retry attempts that have occurred for the state's Retry that
+  /// applies to the mocked error.
+  final int? retrierRetryCount;
+
+  TestStateConfiguration({
+    this.errorCausedByState,
+    this.mapItemReaderData,
+    this.mapIterationFailureCount,
+    this.retrierRetryCount,
+  });
+
+  Map<String, dynamic> toJson() {
+    final errorCausedByState = this.errorCausedByState;
+    final mapItemReaderData = this.mapItemReaderData;
+    final mapIterationFailureCount = this.mapIterationFailureCount;
+    final retrierRetryCount = this.retrierRetryCount;
+    return {
+      if (errorCausedByState != null) 'errorCausedByState': errorCausedByState,
+      if (mapItemReaderData != null) 'mapItemReaderData': mapItemReaderData,
+      if (mapIterationFailureCount != null)
+        'mapIterationFailureCount': mapIterationFailureCount,
+      if (retrierRetryCount != null) 'retrierRetryCount': retrierRetryCount,
+    };
+  }
+}
+
+/// A JSON object that contains a mocked error.
+class MockErrorOutput {
+  /// A string containing the cause of the exception thrown when executing the
+  /// state's logic.
   final String? cause;
 
-  /// The error code of the failure.
+  /// A string denoting the error code of the exception thrown when invoking the
+  /// tested state. This field is required if <code>mock.errorOutput</code> is
+  /// specified.
   final String? error;
 
-  ExecutionAbortedEventDetails({
+  MockErrorOutput({
     this.cause,
     this.error,
   });
-
-  factory ExecutionAbortedEventDetails.fromJson(Map<String, dynamic> json) {
-    return ExecutionAbortedEventDetails(
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
-    );
-  }
 
   Map<String, dynamic> toJson() {
     final cause = this.cause;
@@ -4274,32 +5705,365 @@ class ExecutionAbortedEventDetails {
   }
 }
 
-/// Contains details about an execution failure event.
-class ExecutionFailedEventDetails {
-  /// A more detailed explanation of the cause of the failure.
-  final String? cause;
+class MockResponseValidationMode {
+  static const strict = MockResponseValidationMode._('STRICT');
+  static const present = MockResponseValidationMode._('PRESENT');
+  static const none = MockResponseValidationMode._('NONE');
 
-  /// The error code of the failure.
-  final String? error;
+  final String value;
 
-  ExecutionFailedEventDetails({
-    this.cause,
-    this.error,
+  const MockResponseValidationMode._(this.value);
+
+  static const values = [strict, present, none];
+
+  static MockResponseValidationMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MockResponseValidationMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MockResponseValidationMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Tags are key-value pairs that can be associated with Step Functions state
+/// machines and activities.
+///
+/// An array of key-value pairs. For more information, see <a
+/// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
+/// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
+/// Management User Guide</i>, and <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
+/// Access Using IAM Tags</a>.
+///
+/// Tags may only contain Unicode letters, digits, white space, or these
+/// symbols: <code>_ . : / = + - @</code>.
+class Tag {
+  /// The key of a tag.
+  final String? key;
+
+  /// The value of a tag.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
   });
 
-  factory ExecutionFailedEventDetails.fromJson(Map<String, dynamic> json) {
-    return ExecutionFailedEventDetails(
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final error = this.error;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (cause != null) 'cause': cause,
-      if (error != null) 'error': error,
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class SyncExecutionStatus {
+  static const succeeded = SyncExecutionStatus._('SUCCEEDED');
+  static const failed = SyncExecutionStatus._('FAILED');
+  static const timedOut = SyncExecutionStatus._('TIMED_OUT');
+
+  final String value;
+
+  const SyncExecutionStatus._(this.value);
+
+  static const values = [succeeded, failed, timedOut];
+
+  static SyncExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyncExecutionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SyncExecutionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides details about execution input or output.
+class CloudWatchEventsExecutionDataDetails {
+  /// Indicates whether input or output was included in the response. Always
+  /// <code>true</code> for API calls.
+  final bool? included;
+
+  CloudWatchEventsExecutionDataDetails({
+    this.included,
+  });
+
+  factory CloudWatchEventsExecutionDataDetails.fromJson(
+      Map<String, dynamic> json) {
+    return CloudWatchEventsExecutionDataDetails(
+      included: json['included'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final included = this.included;
+    return {
+      if (included != null) 'included': included,
+    };
+  }
+}
+
+/// An object that describes workflow billing details.
+class BillingDetails {
+  /// Billed duration of your workflow, in milliseconds.
+  final int? billedDurationInMilliseconds;
+
+  /// Billed memory consumption of your workflow, in MB.
+  final int? billedMemoryUsedInMB;
+
+  BillingDetails({
+    this.billedDurationInMilliseconds,
+    this.billedMemoryUsedInMB,
+  });
+
+  factory BillingDetails.fromJson(Map<String, dynamic> json) {
+    return BillingDetails(
+      billedDurationInMilliseconds:
+          json['billedDurationInMilliseconds'] as int?,
+      billedMemoryUsedInMB: json['billedMemoryUsedInMB'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billedDurationInMilliseconds = this.billedDurationInMilliseconds;
+    final billedMemoryUsedInMB = this.billedMemoryUsedInMB;
+    return {
+      if (billedDurationInMilliseconds != null)
+        'billedDurationInMilliseconds': billedDurationInMilliseconds,
+      if (billedMemoryUsedInMB != null)
+        'billedMemoryUsedInMB': billedMemoryUsedInMB,
+    };
+  }
+}
+
+class IncludedData {
+  static const allData = IncludedData._('ALL_DATA');
+  static const metadataOnly = IncludedData._('METADATA_ONLY');
+
+  final String value;
+
+  const IncludedData._(this.value);
+
+  static const values = [allData, metadataOnly];
+
+  static IncludedData fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IncludedData._(value));
+
+  @override
+  bool operator ==(other) => other is IncludedData && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about a specific state machine version.
+class StateMachineVersionListItem {
+  /// The creation date of a state machine version.
+  final DateTime creationDate;
+
+  /// The Amazon Resource Name (ARN) that identifies a state machine version. The
+  /// version ARN is a combination of state machine ARN and the version number
+  /// separated by a colon (:). For example, <code>stateMachineARN:1</code>.
+  final String stateMachineVersionArn;
+
+  StateMachineVersionListItem({
+    required this.creationDate,
+    required this.stateMachineVersionArn,
+  });
+
+  factory StateMachineVersionListItem.fromJson(Map<String, dynamic> json) {
+    return StateMachineVersionListItem(
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final stateMachineVersionArn = this.stateMachineVersionArn;
+    return {
+      'creationDate': unixTimestampToJson(creationDate),
+      'stateMachineVersionArn': stateMachineVersionArn,
+    };
+  }
+}
+
+/// Contains details about the state machine.
+class StateMachineListItem {
+  /// The date the state machine is created.
+  final DateTime creationDate;
+
+  /// The name of the state machine.
+  ///
+  /// A name must <i>not</i> contain:
+  ///
+  /// <ul>
+  /// <li>
+  /// white space
+  /// </li>
+  /// <li>
+  /// brackets <code>< > { } [ ]</code>
+  /// </li>
+  /// <li>
+  /// wildcard characters <code>? *</code>
+  /// </li>
+  /// <li>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
+  /// </li>
+  /// <li>
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
+  /// </li>
+  /// </ul>
+  /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
+  /// A-Z, a-z, - and _.
+  final String name;
+
+  /// The Amazon Resource Name (ARN) that identifies the state machine.
+  final String stateMachineArn;
+
+  ///
+  final StateMachineType type;
+
+  StateMachineListItem({
+    required this.creationDate,
+    required this.name,
+    required this.stateMachineArn,
+    required this.type,
+  });
+
+  factory StateMachineListItem.fromJson(Map<String, dynamic> json) {
+    return StateMachineListItem(
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
+      type: StateMachineType.fromString((json['type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final name = this.name;
+    final stateMachineArn = this.stateMachineArn;
+    final type = this.type;
+    return {
+      'creationDate': unixTimestampToJson(creationDate),
+      'name': name,
+      'stateMachineArn': stateMachineArn,
+      'type': type.value,
+    };
+  }
+}
+
+/// Contains details about a specific state machine alias.
+class StateMachineAliasListItem {
+  /// The creation date of a state machine alias.
+  final DateTime creationDate;
+
+  /// The Amazon Resource Name (ARN) that identifies a state machine alias. The
+  /// alias ARN is a combination of state machine ARN and the alias name separated
+  /// by a colon (:). For example, <code>stateMachineARN:PROD</code>.
+  final String stateMachineAliasArn;
+
+  StateMachineAliasListItem({
+    required this.creationDate,
+    required this.stateMachineAliasArn,
+  });
+
+  factory StateMachineAliasListItem.fromJson(Map<String, dynamic> json) {
+    return StateMachineAliasListItem(
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      stateMachineAliasArn: (json['stateMachineAliasArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final stateMachineAliasArn = this.stateMachineAliasArn;
+    return {
+      'creationDate': unixTimestampToJson(creationDate),
+      'stateMachineAliasArn': stateMachineAliasArn,
+    };
+  }
+}
+
+/// Contains details about a specific Map Run.
+class MapRunListItem {
+  /// The <code>executionArn</code> of the execution from which the Map Run was
+  /// started.
+  final String executionArn;
+
+  /// The Amazon Resource Name (ARN) of the Map Run.
+  final String mapRunArn;
+
+  /// The date on which the Map Run started.
+  final DateTime startDate;
+
+  /// The Amazon Resource Name (ARN) of the executed state machine.
+  final String stateMachineArn;
+
+  /// The date on which the Map Run stopped.
+  final DateTime? stopDate;
+
+  MapRunListItem({
+    required this.executionArn,
+    required this.mapRunArn,
+    required this.startDate,
+    required this.stateMachineArn,
+    this.stopDate,
+  });
+
+  factory MapRunListItem.fromJson(Map<String, dynamic> json) {
+    return MapRunListItem(
+      executionArn: (json['executionArn'] as String?) ?? '',
+      mapRunArn: (json['mapRunArn'] as String?) ?? '',
+      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
+      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
+      stopDate: timeStampFromJson(json['stopDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionArn = this.executionArn;
+    final mapRunArn = this.mapRunArn;
+    final startDate = this.startDate;
+    final stateMachineArn = this.stateMachineArn;
+    final stopDate = this.stopDate;
+    return {
+      'executionArn': executionArn,
+      'mapRunArn': mapRunArn,
+      'startDate': unixTimestampToJson(startDate),
+      'stateMachineArn': stateMachineArn,
+      if (stopDate != null) 'stopDate': unixTimestampToJson(stopDate),
     };
   }
 }
@@ -4318,16 +6082,23 @@ class ExecutionListItem {
   /// white space
   /// </li>
   /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
+  /// brackets <code>< > { } [ ]</code>
   /// </li>
   /// <li>
   /// wildcard characters <code>? *</code>
   /// </li>
   /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
   /// </li>
   /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
   /// </li>
   /// </ul>
   /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
@@ -4450,143 +6221,6 @@ class ExecutionListItem {
   }
 }
 
-class ExecutionRedriveFilter {
-  static const redriven = ExecutionRedriveFilter._('REDRIVEN');
-  static const notRedriven = ExecutionRedriveFilter._('NOT_REDRIVEN');
-
-  final String value;
-
-  const ExecutionRedriveFilter._(this.value);
-
-  static const values = [redriven, notRedriven];
-
-  static ExecutionRedriveFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionRedriveFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExecutionRedriveFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExecutionRedriveStatus {
-  static const redrivable = ExecutionRedriveStatus._('REDRIVABLE');
-  static const notRedrivable = ExecutionRedriveStatus._('NOT_REDRIVABLE');
-  static const redrivableByMapRun =
-      ExecutionRedriveStatus._('REDRIVABLE_BY_MAP_RUN');
-
-  final String value;
-
-  const ExecutionRedriveStatus._(this.value);
-
-  static const values = [redrivable, notRedrivable, redrivableByMapRun];
-
-  static ExecutionRedriveStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionRedriveStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExecutionRedriveStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details about a redriven execution.
-class ExecutionRedrivenEventDetails {
-  /// The number of times you've redriven an execution. If you have not yet
-  /// redriven an execution, the <code>redriveCount</code> is 0. This count is not
-  /// updated for redrives that failed to start or are pending to be redriven.
-  final int? redriveCount;
-
-  ExecutionRedrivenEventDetails({
-    this.redriveCount,
-  });
-
-  factory ExecutionRedrivenEventDetails.fromJson(Map<String, dynamic> json) {
-    return ExecutionRedrivenEventDetails(
-      redriveCount: json['redriveCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final redriveCount = this.redriveCount;
-    return {
-      if (redriveCount != null) 'redriveCount': redriveCount,
-    };
-  }
-}
-
-/// Contains details about the start of the execution.
-class ExecutionStartedEventDetails {
-  /// The JSON data input to the execution. Length constraints apply to the
-  /// payload size, and are expressed as bytes in UTF-8 encoding.
-  final String? input;
-
-  /// Contains details about the input for an execution history event.
-  final HistoryEventExecutionDataDetails? inputDetails;
-
-  /// The Amazon Resource Name (ARN) of the IAM role used for executing Lambda
-  /// tasks.
-  final String? roleArn;
-
-  /// The Amazon Resource Name (ARN) that identifies a state machine alias used
-  /// for starting the state machine execution.
-  final String? stateMachineAliasArn;
-
-  /// The Amazon Resource Name (ARN) that identifies a state machine version used
-  /// for starting the state machine execution.
-  final String? stateMachineVersionArn;
-
-  ExecutionStartedEventDetails({
-    this.input,
-    this.inputDetails,
-    this.roleArn,
-    this.stateMachineAliasArn,
-    this.stateMachineVersionArn,
-  });
-
-  factory ExecutionStartedEventDetails.fromJson(Map<String, dynamic> json) {
-    return ExecutionStartedEventDetails(
-      input: json['input'] as String?,
-      inputDetails: json['inputDetails'] != null
-          ? HistoryEventExecutionDataDetails.fromJson(
-              json['inputDetails'] as Map<String, dynamic>)
-          : null,
-      roleArn: json['roleArn'] as String?,
-      stateMachineAliasArn: json['stateMachineAliasArn'] as String?,
-      stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final input = this.input;
-    final inputDetails = this.inputDetails;
-    final roleArn = this.roleArn;
-    final stateMachineAliasArn = this.stateMachineAliasArn;
-    final stateMachineVersionArn = this.stateMachineVersionArn;
-    return {
-      if (input != null) 'input': input,
-      if (inputDetails != null) 'inputDetails': inputDetails,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (stateMachineAliasArn != null)
-        'stateMachineAliasArn': stateMachineAliasArn,
-      if (stateMachineVersionArn != null)
-        'stateMachineVersionArn': stateMachineVersionArn,
-    };
-  }
-}
-
 class ExecutionStatus {
   static const running = ExecutionStatus._('RUNNING');
   static const succeeded = ExecutionStatus._('SUCCEEDED');
@@ -4622,138 +6256,93 @@ class ExecutionStatus {
   String toString() => value;
 }
 
-/// Contains details about the successful termination of the execution.
-class ExecutionSucceededEventDetails {
-  /// The JSON data output by the execution. Length constraints apply to the
-  /// payload size, and are expressed as bytes in UTF-8 encoding.
-  final String? output;
+class ExecutionRedriveFilter {
+  static const redriven = ExecutionRedriveFilter._('REDRIVEN');
+  static const notRedriven = ExecutionRedriveFilter._('NOT_REDRIVEN');
 
-  /// Contains details about the output of an execution history event.
-  final HistoryEventExecutionDataDetails? outputDetails;
+  final String value;
 
-  ExecutionSucceededEventDetails({
-    this.output,
-    this.outputDetails,
-  });
+  const ExecutionRedriveFilter._(this.value);
 
-  factory ExecutionSucceededEventDetails.fromJson(Map<String, dynamic> json) {
-    return ExecutionSucceededEventDetails(
-      output: json['output'] as String?,
-      outputDetails: json['outputDetails'] != null
-          ? HistoryEventExecutionDataDetails.fromJson(
-              json['outputDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
+  static const values = [redriven, notRedriven];
 
-  Map<String, dynamic> toJson() {
-    final output = this.output;
-    final outputDetails = this.outputDetails;
-    return {
-      if (output != null) 'output': output,
-      if (outputDetails != null) 'outputDetails': outputDetails,
-    };
-  }
+  static ExecutionRedriveFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionRedriveFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExecutionRedriveFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// Contains details about the execution timeout that occurred during the
-/// execution.
-class ExecutionTimedOutEventDetails {
-  /// A more detailed explanation of the cause of the timeout.
-  final String? cause;
+/// Contains details about an activity.
+class ActivityListItem {
+  /// The Amazon Resource Name (ARN) that identifies the activity.
+  final String activityArn;
 
-  /// The error code of the failure.
-  final String? error;
+  /// The date the activity is created.
+  final DateTime creationDate;
 
-  ExecutionTimedOutEventDetails({
-    this.cause,
-    this.error,
+  /// The name of the activity.
+  ///
+  /// A name must <i>not</i> contain:
+  ///
+  /// <ul>
+  /// <li>
+  /// white space
+  /// </li>
+  /// <li>
+  /// brackets <code>< > { } [ ]</code>
+  /// </li>
+  /// <li>
+  /// wildcard characters <code>? *</code>
+  /// </li>
+  /// <li>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
+  /// </li>
+  /// <li>
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
+  /// </li>
+  /// </ul>
+  /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
+  /// A-Z, a-z, - and _.
+  final String name;
+
+  ActivityListItem({
+    required this.activityArn,
+    required this.creationDate,
+    required this.name,
   });
 
-  factory ExecutionTimedOutEventDetails.fromJson(Map<String, dynamic> json) {
-    return ExecutionTimedOutEventDetails(
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
+  factory ActivityListItem.fromJson(Map<String, dynamic> json) {
+    return ActivityListItem(
+      activityArn: (json['activityArn'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final error = this.error;
+    final activityArn = this.activityArn;
+    final creationDate = this.creationDate;
+    final name = this.name;
     return {
-      if (cause != null) 'cause': cause,
-      if (error != null) 'error': error,
-    };
-  }
-}
-
-class GetActivityTaskOutput {
-  /// The string that contains the JSON input data for the task. Length
-  /// constraints apply to the payload size, and are expressed as bytes in UTF-8
-  /// encoding.
-  final String? input;
-
-  /// A token that identifies the scheduled task. This token must be copied and
-  /// included in subsequent calls to <a>SendTaskHeartbeat</a>,
-  /// <a>SendTaskSuccess</a> or <a>SendTaskFailure</a> in order to report the
-  /// progress or completion of the task.
-  final String? taskToken;
-
-  GetActivityTaskOutput({
-    this.input,
-    this.taskToken,
-  });
-
-  factory GetActivityTaskOutput.fromJson(Map<String, dynamic> json) {
-    return GetActivityTaskOutput(
-      input: json['input'] as String?,
-      taskToken: json['taskToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final input = this.input;
-    final taskToken = this.taskToken;
-    return {
-      if (input != null) 'input': input,
-      if (taskToken != null) 'taskToken': taskToken,
-    };
-  }
-}
-
-class GetExecutionHistoryOutput {
-  /// The list of events that occurred in the execution.
-  final List<HistoryEvent> events;
-
-  /// If <code>nextToken</code> is returned, there are more results available. The
-  /// value of <code>nextToken</code> is a unique pagination token for each page.
-  /// Make the call again using the returned token to retrieve the next page. Keep
-  /// all other arguments unchanged. Each pagination token expires after 24 hours.
-  /// Using an expired pagination token will return an <i>HTTP 400
-  /// InvalidToken</i> error.
-  final String? nextToken;
-
-  GetExecutionHistoryOutput({
-    required this.events,
-    this.nextToken,
-  });
-
-  factory GetExecutionHistoryOutput.fromJson(Map<String, dynamic> json) {
-    return GetExecutionHistoryOutput(
-      events: ((json['events'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final events = this.events;
-    final nextToken = this.nextToken;
-    return {
-      'events': events,
-      if (nextToken != null) 'nextToken': nextToken,
+      'activityArn': activityArn,
+      'creationDate': unixTimestampToJson(creationDate),
+      'name': name,
     };
   }
 }
@@ -4763,7 +6352,9 @@ class HistoryEvent {
   /// The id of the event. Events are numbered sequentially, starting at one.
   final int id;
 
-  /// The date and time the event occurred.
+  /// The date and time the event occurred, expressed in seconds and fractional
+  /// milliseconds since the Unix epoch, which is defined as January 1, 1970, at
+  /// 00:00:00 Coordinated Universal Time (UTC).
   final DateTime timestamp;
 
   /// The type of the event.
@@ -4777,6 +6368,10 @@ class HistoryEvent {
   final ActivityStartedEventDetails? activityStartedEventDetails;
   final ActivitySucceededEventDetails? activitySucceededEventDetails;
   final ActivityTimedOutEventDetails? activityTimedOutEventDetails;
+
+  /// Contains details about an evaluation failure that occurred while processing
+  /// a state.
+  final EvaluationFailedEventDetails? evaluationFailedEventDetails;
   final ExecutionAbortedEventDetails? executionAbortedEventDetails;
   final ExecutionFailedEventDetails? executionFailedEventDetails;
 
@@ -4867,6 +6462,7 @@ class HistoryEvent {
     this.activityStartedEventDetails,
     this.activitySucceededEventDetails,
     this.activityTimedOutEventDetails,
+    this.evaluationFailedEventDetails,
     this.executionAbortedEventDetails,
     this.executionFailedEventDetails,
     this.executionRedrivenEventDetails,
@@ -4932,6 +6528,10 @@ class HistoryEvent {
       activityTimedOutEventDetails: json['activityTimedOutEventDetails'] != null
           ? ActivityTimedOutEventDetails.fromJson(
               json['activityTimedOutEventDetails'] as Map<String, dynamic>)
+          : null,
+      evaluationFailedEventDetails: json['evaluationFailedEventDetails'] != null
+          ? EvaluationFailedEventDetails.fromJson(
+              json['evaluationFailedEventDetails'] as Map<String, dynamic>)
           : null,
       executionAbortedEventDetails: json['executionAbortedEventDetails'] != null
           ? ExecutionAbortedEventDetails.fromJson(
@@ -5090,6 +6690,7 @@ class HistoryEvent {
     final activityStartedEventDetails = this.activityStartedEventDetails;
     final activitySucceededEventDetails = this.activitySucceededEventDetails;
     final activityTimedOutEventDetails = this.activityTimedOutEventDetails;
+    final evaluationFailedEventDetails = this.evaluationFailedEventDetails;
     final executionAbortedEventDetails = this.executionAbortedEventDetails;
     final executionFailedEventDetails = this.executionFailedEventDetails;
     final executionRedrivenEventDetails = this.executionRedrivenEventDetails;
@@ -5147,6 +6748,8 @@ class HistoryEvent {
         'activitySucceededEventDetails': activitySucceededEventDetails,
       if (activityTimedOutEventDetails != null)
         'activityTimedOutEventDetails': activityTimedOutEventDetails,
+      if (evaluationFailedEventDetails != null)
+        'evaluationFailedEventDetails': evaluationFailedEventDetails,
       if (executionAbortedEventDetails != null)
         'executionAbortedEventDetails': executionAbortedEventDetails,
       if (executionFailedEventDetails != null)
@@ -5213,30 +6816,6 @@ class HistoryEvent {
         'taskSucceededEventDetails': taskSucceededEventDetails,
       if (taskTimedOutEventDetails != null)
         'taskTimedOutEventDetails': taskTimedOutEventDetails,
-    };
-  }
-}
-
-/// Provides details about input or output in an execution history event.
-class HistoryEventExecutionDataDetails {
-  /// Indicates whether input or output was truncated in the response. Always
-  /// <code>false</code> for API calls.
-  final bool? truncated;
-
-  HistoryEventExecutionDataDetails({
-    this.truncated,
-  });
-
-  factory HistoryEventExecutionDataDetails.fromJson(Map<String, dynamic> json) {
-    return HistoryEventExecutionDataDetails(
-      truncated: json['truncated'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final truncated = this.truncated;
-    return {
-      if (truncated != null) 'truncated': truncated,
     };
   }
 }
@@ -5316,6 +6895,7 @@ class HistoryEventType {
   static const mapRunSucceeded = HistoryEventType._('MapRunSucceeded');
   static const executionRedriven = HistoryEventType._('ExecutionRedriven');
   static const mapRunRedriven = HistoryEventType._('MapRunRedriven');
+  static const evaluationFailed = HistoryEventType._('EvaluationFailed');
 
   final String value;
 
@@ -5382,7 +6962,8 @@ class HistoryEventType {
     mapRunStarted,
     mapRunSucceeded,
     executionRedriven,
-    mapRunRedriven
+    mapRunRedriven,
+    evaluationFailed
   ];
 
   static HistoryEventType fromString(String value) =>
@@ -5399,264 +6980,21 @@ class HistoryEventType {
   String toString() => value;
 }
 
-class IncludedData {
-  static const allData = IncludedData._('ALL_DATA');
-  static const metadataOnly = IncludedData._('METADATA_ONLY');
-
-  final String value;
-
-  const IncludedData._(this.value);
-
-  static const values = [allData, metadataOnly];
-
-  static IncludedData fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IncludedData._(value));
-
-  @override
-  bool operator ==(other) => other is IncludedData && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains additional details about the state's execution, including its input
-/// and output data processing flow, and HTTP request and response information.
-class InspectionData {
-  /// The input after Step Functions applies the <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-inputpath">InputPath</a>
-  /// filter.
-  final String? afterInputPath;
-
-  /// The effective input after Step Functions applies the <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-parameters">Parameters</a>
-  /// filter.
-  final String? afterParameters;
-
-  /// The effective result combined with the raw state input after Step Functions
-  /// applies the <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultpath.html">ResultPath</a>
-  /// filter.
-  final String? afterResultPath;
-
-  /// The effective result after Step Functions applies the <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-resultselector">ResultSelector</a>
-  /// filter.
-  final String? afterResultSelector;
-
-  /// The raw state input.
-  final String? input;
-
-  /// The raw HTTP request that is sent when you test an HTTP Task.
-  final InspectionDataRequest? request;
-
-  /// The raw HTTP response that is returned when you test an HTTP Task.
-  final InspectionDataResponse? response;
-
-  /// The state's raw result.
-  final String? result;
-
-  InspectionData({
-    this.afterInputPath,
-    this.afterParameters,
-    this.afterResultPath,
-    this.afterResultSelector,
-    this.input,
-    this.request,
-    this.response,
-    this.result,
-  });
-
-  factory InspectionData.fromJson(Map<String, dynamic> json) {
-    return InspectionData(
-      afterInputPath: json['afterInputPath'] as String?,
-      afterParameters: json['afterParameters'] as String?,
-      afterResultPath: json['afterResultPath'] as String?,
-      afterResultSelector: json['afterResultSelector'] as String?,
-      input: json['input'] as String?,
-      request: json['request'] != null
-          ? InspectionDataRequest.fromJson(
-              json['request'] as Map<String, dynamic>)
-          : null,
-      response: json['response'] != null
-          ? InspectionDataResponse.fromJson(
-              json['response'] as Map<String, dynamic>)
-          : null,
-      result: json['result'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final afterInputPath = this.afterInputPath;
-    final afterParameters = this.afterParameters;
-    final afterResultPath = this.afterResultPath;
-    final afterResultSelector = this.afterResultSelector;
-    final input = this.input;
-    final request = this.request;
-    final response = this.response;
-    final result = this.result;
-    return {
-      if (afterInputPath != null) 'afterInputPath': afterInputPath,
-      if (afterParameters != null) 'afterParameters': afterParameters,
-      if (afterResultPath != null) 'afterResultPath': afterResultPath,
-      if (afterResultSelector != null)
-        'afterResultSelector': afterResultSelector,
-      if (input != null) 'input': input,
-      if (request != null) 'request': request,
-      if (response != null) 'response': response,
-      if (result != null) 'result': result,
-    };
-  }
-}
-
-/// Contains additional details about the state's execution, including its input
-/// and output data processing flow, and HTTP request information.
-class InspectionDataRequest {
-  /// The request body for the HTTP request.
-  final String? body;
-
-  /// The request headers associated with the HTTP request.
-  final String? headers;
-
-  /// The HTTP method used for the HTTP request.
-  final String? method;
-
-  /// The protocol used to make the HTTP request.
-  final String? protocol;
-
-  /// The API endpoint used for the HTTP request.
-  final String? url;
-
-  InspectionDataRequest({
-    this.body,
-    this.headers,
-    this.method,
-    this.protocol,
-    this.url,
-  });
-
-  factory InspectionDataRequest.fromJson(Map<String, dynamic> json) {
-    return InspectionDataRequest(
-      body: json['body'] as String?,
-      headers: json['headers'] as String?,
-      method: json['method'] as String?,
-      protocol: json['protocol'] as String?,
-      url: json['url'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final body = this.body;
-    final headers = this.headers;
-    final method = this.method;
-    final protocol = this.protocol;
-    final url = this.url;
-    return {
-      if (body != null) 'body': body,
-      if (headers != null) 'headers': headers,
-      if (method != null) 'method': method,
-      if (protocol != null) 'protocol': protocol,
-      if (url != null) 'url': url,
-    };
-  }
-}
-
-/// Contains additional details about the state's execution, including its input
-/// and output data processing flow, and HTTP response information. The
-/// <code>inspectionLevel</code> request parameter specifies which details are
-/// returned.
-class InspectionDataResponse {
-  /// The HTTP response returned.
-  final String? body;
-
-  /// The response headers associated with the HTTP response.
-  final String? headers;
-
-  /// The protocol used to return the HTTP response.
-  final String? protocol;
-
-  /// The HTTP response status code for the HTTP response.
-  final String? statusCode;
-
-  /// The message associated with the HTTP status code.
-  final String? statusMessage;
-
-  InspectionDataResponse({
-    this.body,
-    this.headers,
-    this.protocol,
-    this.statusCode,
-    this.statusMessage,
-  });
-
-  factory InspectionDataResponse.fromJson(Map<String, dynamic> json) {
-    return InspectionDataResponse(
-      body: json['body'] as String?,
-      headers: json['headers'] as String?,
-      protocol: json['protocol'] as String?,
-      statusCode: json['statusCode'] as String?,
-      statusMessage: json['statusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final body = this.body;
-    final headers = this.headers;
-    final protocol = this.protocol;
-    final statusCode = this.statusCode;
-    final statusMessage = this.statusMessage;
-    return {
-      if (body != null) 'body': body,
-      if (headers != null) 'headers': headers,
-      if (protocol != null) 'protocol': protocol,
-      if (statusCode != null) 'statusCode': statusCode,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-    };
-  }
-}
-
-class InspectionLevel {
-  static const info = InspectionLevel._('INFO');
-  static const debug = InspectionLevel._('DEBUG');
-  static const trace = InspectionLevel._('TRACE');
-
-  final String value;
-
-  const InspectionLevel._(this.value);
-
-  static const values = [info, debug, trace];
-
-  static InspectionLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InspectionLevel._(value));
-
-  @override
-  bool operator ==(other) => other is InspectionLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details about a Lambda function that failed during an execution.
-class LambdaFunctionFailedEventDetails {
+/// Contains details about an activity that failed during an execution.
+class ActivityFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
 
   /// The error code of the failure.
   final String? error;
 
-  LambdaFunctionFailedEventDetails({
+  ActivityFailedEventDetails({
     this.cause,
     this.error,
   });
 
-  factory LambdaFunctionFailedEventDetails.fromJson(Map<String, dynamic> json) {
-    return LambdaFunctionFailedEventDetails(
+  factory ActivityFailedEventDetails.fromJson(Map<String, dynamic> json) {
+    return ActivityFailedEventDetails(
       cause: json['cause'] as String?,
       error: json['error'] as String?,
     );
@@ -5672,23 +7010,23 @@ class LambdaFunctionFailedEventDetails {
   }
 }
 
-/// Contains details about a failed Lambda function schedule event that occurred
-/// during an execution.
-class LambdaFunctionScheduleFailedEventDetails {
+/// Contains details about an activity schedule failure that occurred during an
+/// execution.
+class ActivityScheduleFailedEventDetails {
   /// A more detailed explanation of the cause of the failure.
   final String? cause;
 
   /// The error code of the failure.
   final String? error;
 
-  LambdaFunctionScheduleFailedEventDetails({
+  ActivityScheduleFailedEventDetails({
     this.cause,
     this.error,
   });
 
-  factory LambdaFunctionScheduleFailedEventDetails.fromJson(
+  factory ActivityScheduleFailedEventDetails.fromJson(
       Map<String, dynamic> json) {
-    return LambdaFunctionScheduleFailedEventDetails(
+    return ActivityScheduleFailedEventDetails(
       cause: json['cause'] as String?,
       error: json['error'] as String?,
     );
@@ -5704,44 +7042,40 @@ class LambdaFunctionScheduleFailedEventDetails {
   }
 }
 
-/// Contains details about a Lambda function scheduled during an execution.
-class LambdaFunctionScheduledEventDetails {
-  /// The Amazon Resource Name (ARN) of the scheduled Lambda function.
+/// Contains details about an activity scheduled during an execution.
+class ActivityScheduledEventDetails {
+  /// The Amazon Resource Name (ARN) of the scheduled activity.
   final String resource;
 
-  /// The JSON data input to the Lambda function. Length constraints apply to the
+  /// The maximum allowed duration between two heartbeats for the activity task.
+  final int? heartbeatInSeconds;
+
+  /// The JSON data input to the activity task. Length constraints apply to the
   /// payload size, and are expressed as bytes in UTF-8 encoding.
   final String? input;
 
-  /// Contains details about input for an execution history event.
+  /// Contains details about the input for an execution history event.
   final HistoryEventExecutionDataDetails? inputDetails;
 
-  /// The credentials that Step Functions uses for the task.
-  final TaskCredentials? taskCredentials;
-
-  /// The maximum allowed duration of the Lambda function.
+  /// The maximum allowed duration of the activity task.
   final int? timeoutInSeconds;
 
-  LambdaFunctionScheduledEventDetails({
+  ActivityScheduledEventDetails({
     required this.resource,
+    this.heartbeatInSeconds,
     this.input,
     this.inputDetails,
-    this.taskCredentials,
     this.timeoutInSeconds,
   });
 
-  factory LambdaFunctionScheduledEventDetails.fromJson(
-      Map<String, dynamic> json) {
-    return LambdaFunctionScheduledEventDetails(
+  factory ActivityScheduledEventDetails.fromJson(Map<String, dynamic> json) {
+    return ActivityScheduledEventDetails(
       resource: (json['resource'] as String?) ?? '',
+      heartbeatInSeconds: json['heartbeatInSeconds'] as int?,
       input: json['input'] as String?,
       inputDetails: json['inputDetails'] != null
           ? HistoryEventExecutionDataDetails.fromJson(
               json['inputDetails'] as Map<String, dynamic>)
-          : null,
-      taskCredentials: json['taskCredentials'] != null
-          ? TaskCredentials.fromJson(
-              json['taskCredentials'] as Map<String, dynamic>)
           : null,
       timeoutInSeconds: json['timeoutInSeconds'] as int?,
     );
@@ -5749,70 +7083,61 @@ class LambdaFunctionScheduledEventDetails {
 
   Map<String, dynamic> toJson() {
     final resource = this.resource;
+    final heartbeatInSeconds = this.heartbeatInSeconds;
     final input = this.input;
     final inputDetails = this.inputDetails;
-    final taskCredentials = this.taskCredentials;
     final timeoutInSeconds = this.timeoutInSeconds;
     return {
       'resource': resource,
+      if (heartbeatInSeconds != null) 'heartbeatInSeconds': heartbeatInSeconds,
       if (input != null) 'input': input,
       if (inputDetails != null) 'inputDetails': inputDetails,
-      if (taskCredentials != null) 'taskCredentials': taskCredentials,
       if (timeoutInSeconds != null) 'timeoutInSeconds': timeoutInSeconds,
     };
   }
 }
 
-/// Contains details about a lambda function that failed to start during an
-/// execution.
-class LambdaFunctionStartFailedEventDetails {
-  /// A more detailed explanation of the cause of the failure.
-  final String? cause;
+/// Contains details about the start of an activity during an execution.
+class ActivityStartedEventDetails {
+  /// The name of the worker that the task is assigned to. These names are
+  /// provided by the workers when calling <a>GetActivityTask</a>.
+  final String? workerName;
 
-  /// The error code of the failure.
-  final String? error;
-
-  LambdaFunctionStartFailedEventDetails({
-    this.cause,
-    this.error,
+  ActivityStartedEventDetails({
+    this.workerName,
   });
 
-  factory LambdaFunctionStartFailedEventDetails.fromJson(
-      Map<String, dynamic> json) {
-    return LambdaFunctionStartFailedEventDetails(
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
+  factory ActivityStartedEventDetails.fromJson(Map<String, dynamic> json) {
+    return ActivityStartedEventDetails(
+      workerName: json['workerName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final error = this.error;
+    final workerName = this.workerName;
     return {
-      if (cause != null) 'cause': cause,
-      if (error != null) 'error': error,
+      if (workerName != null) 'workerName': workerName,
     };
   }
 }
 
-/// Contains details about a Lambda function that successfully terminated during
-/// an execution.
-class LambdaFunctionSucceededEventDetails {
-  /// The JSON data output by the Lambda function. Length constraints apply to the
+/// Contains details about an activity that successfully terminated during an
+/// execution.
+class ActivitySucceededEventDetails {
+  /// The JSON data output by the activity task. Length constraints apply to the
   /// payload size, and are expressed as bytes in UTF-8 encoding.
   final String? output;
 
   /// Contains details about the output of an execution history event.
   final HistoryEventExecutionDataDetails? outputDetails;
 
-  LambdaFunctionSucceededEventDetails({
+  ActivitySucceededEventDetails({
     this.output,
     this.outputDetails,
   });
 
-  factory LambdaFunctionSucceededEventDetails.fromJson(
-      Map<String, dynamic> json) {
-    return LambdaFunctionSucceededEventDetails(
+  factory ActivitySucceededEventDetails.fromJson(Map<String, dynamic> json) {
+    return ActivitySucceededEventDetails(
       output: json['output'] as String?,
       outputDetails: json['outputDetails'] != null
           ? HistoryEventExecutionDataDetails.fromJson(
@@ -5831,23 +7156,22 @@ class LambdaFunctionSucceededEventDetails {
   }
 }
 
-/// Contains details about a Lambda function timeout that occurred during an
+/// Contains details about an activity timeout that occurred during an
 /// execution.
-class LambdaFunctionTimedOutEventDetails {
+class ActivityTimedOutEventDetails {
   /// A more detailed explanation of the cause of the timeout.
   final String? cause;
 
   /// The error code of the failure.
   final String? error;
 
-  LambdaFunctionTimedOutEventDetails({
+  ActivityTimedOutEventDetails({
     this.cause,
     this.error,
   });
 
-  factory LambdaFunctionTimedOutEventDetails.fromJson(
-      Map<String, dynamic> json) {
-    return LambdaFunctionTimedOutEventDetails(
+  factory ActivityTimedOutEventDetails.fromJson(Map<String, dynamic> json) {
+    return ActivityTimedOutEventDetails(
       cause: json['cause'] as String?,
       error: json['error'] as String?,
     );
@@ -5859,1474 +7183,6 @@ class LambdaFunctionTimedOutEventDetails {
     return {
       if (cause != null) 'cause': cause,
       if (error != null) 'error': error,
-    };
-  }
-}
-
-class ListActivitiesOutput {
-  /// The list of activities.
-  final List<ActivityListItem> activities;
-
-  /// If <code>nextToken</code> is returned, there are more results available. The
-  /// value of <code>nextToken</code> is a unique pagination token for each page.
-  /// Make the call again using the returned token to retrieve the next page. Keep
-  /// all other arguments unchanged. Each pagination token expires after 24 hours.
-  /// Using an expired pagination token will return an <i>HTTP 400
-  /// InvalidToken</i> error.
-  final String? nextToken;
-
-  ListActivitiesOutput({
-    required this.activities,
-    this.nextToken,
-  });
-
-  factory ListActivitiesOutput.fromJson(Map<String, dynamic> json) {
-    return ListActivitiesOutput(
-      activities: ((json['activities'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ActivityListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activities = this.activities;
-    final nextToken = this.nextToken;
-    return {
-      'activities': activities,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListExecutionsOutput {
-  /// The list of matching executions.
-  final List<ExecutionListItem> executions;
-
-  /// If <code>nextToken</code> is returned, there are more results available. The
-  /// value of <code>nextToken</code> is a unique pagination token for each page.
-  /// Make the call again using the returned token to retrieve the next page. Keep
-  /// all other arguments unchanged. Each pagination token expires after 24 hours.
-  /// Using an expired pagination token will return an <i>HTTP 400
-  /// InvalidToken</i> error.
-  final String? nextToken;
-
-  ListExecutionsOutput({
-    required this.executions,
-    this.nextToken,
-  });
-
-  factory ListExecutionsOutput.fromJson(Map<String, dynamic> json) {
-    return ListExecutionsOutput(
-      executions: ((json['executions'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ExecutionListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executions = this.executions;
-    final nextToken = this.nextToken;
-    return {
-      'executions': executions,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListMapRunsOutput {
-  /// An array that lists information related to a Map Run, such as the Amazon
-  /// Resource Name (ARN) of the Map Run and the ARN of the state machine that
-  /// started the Map Run.
-  final List<MapRunListItem> mapRuns;
-
-  /// If <code>nextToken</code> is returned, there are more results available. The
-  /// value of <code>nextToken</code> is a unique pagination token for each page.
-  /// Make the call again using the returned token to retrieve the next page. Keep
-  /// all other arguments unchanged. Each pagination token expires after 24 hours.
-  /// Using an expired pagination token will return an <i>HTTP 400
-  /// InvalidToken</i> error.
-  final String? nextToken;
-
-  ListMapRunsOutput({
-    required this.mapRuns,
-    this.nextToken,
-  });
-
-  factory ListMapRunsOutput.fromJson(Map<String, dynamic> json) {
-    return ListMapRunsOutput(
-      mapRuns: ((json['mapRuns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => MapRunListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mapRuns = this.mapRuns;
-    final nextToken = this.nextToken;
-    return {
-      'mapRuns': mapRuns,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListStateMachineAliasesOutput {
-  /// Aliases for the state machine.
-  final List<StateMachineAliasListItem> stateMachineAliases;
-
-  /// If <code>nextToken</code> is returned, there are more results available. The
-  /// value of <code>nextToken</code> is a unique pagination token for each page.
-  /// Make the call again using the returned token to retrieve the next page. Keep
-  /// all other arguments unchanged. Each pagination token expires after 24 hours.
-  /// Using an expired pagination token will return an <i>HTTP 400
-  /// InvalidToken</i> error.
-  final String? nextToken;
-
-  ListStateMachineAliasesOutput({
-    required this.stateMachineAliases,
-    this.nextToken,
-  });
-
-  factory ListStateMachineAliasesOutput.fromJson(Map<String, dynamic> json) {
-    return ListStateMachineAliasesOutput(
-      stateMachineAliases: ((json['stateMachineAliases'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              StateMachineAliasListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stateMachineAliases = this.stateMachineAliases;
-    final nextToken = this.nextToken;
-    return {
-      'stateMachineAliases': stateMachineAliases,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListStateMachineVersionsOutput {
-  /// Versions for the state machine.
-  final List<StateMachineVersionListItem> stateMachineVersions;
-
-  /// If <code>nextToken</code> is returned, there are more results available. The
-  /// value of <code>nextToken</code> is a unique pagination token for each page.
-  /// Make the call again using the returned token to retrieve the next page. Keep
-  /// all other arguments unchanged. Each pagination token expires after 24 hours.
-  /// Using an expired pagination token will return an <i>HTTP 400
-  /// InvalidToken</i> error.
-  final String? nextToken;
-
-  ListStateMachineVersionsOutput({
-    required this.stateMachineVersions,
-    this.nextToken,
-  });
-
-  factory ListStateMachineVersionsOutput.fromJson(Map<String, dynamic> json) {
-    return ListStateMachineVersionsOutput(
-      stateMachineVersions: ((json['stateMachineVersions'] as List?) ??
-              const [])
-          .nonNulls
-          .map((e) =>
-              StateMachineVersionListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stateMachineVersions = this.stateMachineVersions;
-    final nextToken = this.nextToken;
-    return {
-      'stateMachineVersions': stateMachineVersions,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListStateMachinesOutput {
-  final List<StateMachineListItem> stateMachines;
-
-  /// If <code>nextToken</code> is returned, there are more results available. The
-  /// value of <code>nextToken</code> is a unique pagination token for each page.
-  /// Make the call again using the returned token to retrieve the next page. Keep
-  /// all other arguments unchanged. Each pagination token expires after 24 hours.
-  /// Using an expired pagination token will return an <i>HTTP 400
-  /// InvalidToken</i> error.
-  final String? nextToken;
-
-  ListStateMachinesOutput({
-    required this.stateMachines,
-    this.nextToken,
-  });
-
-  factory ListStateMachinesOutput.fromJson(Map<String, dynamic> json) {
-    return ListStateMachinesOutput(
-      stateMachines: ((json['stateMachines'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => StateMachineListItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stateMachines = this.stateMachines;
-    final nextToken = this.nextToken;
-    return {
-      'stateMachines': stateMachines,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceOutput {
-  /// An array of tags associated with the resource.
-  final List<Tag>? tags;
-
-  ListTagsForResourceOutput({
-    this.tags,
-  });
-
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceOutput(
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// <p/>
-class LogDestination {
-  /// An object describing a CloudWatch log group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-logs-loggroup.html">AWS::Logs::LogGroup</a>
-  /// in the CloudFormation User Guide.
-  final CloudWatchLogsLogGroup? cloudWatchLogsLogGroup;
-
-  LogDestination({
-    this.cloudWatchLogsLogGroup,
-  });
-
-  factory LogDestination.fromJson(Map<String, dynamic> json) {
-    return LogDestination(
-      cloudWatchLogsLogGroup: json['cloudWatchLogsLogGroup'] != null
-          ? CloudWatchLogsLogGroup.fromJson(
-              json['cloudWatchLogsLogGroup'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogsLogGroup = this.cloudWatchLogsLogGroup;
-    return {
-      if (cloudWatchLogsLogGroup != null)
-        'cloudWatchLogsLogGroup': cloudWatchLogsLogGroup,
-    };
-  }
-}
-
-class LogLevel {
-  static const all = LogLevel._('ALL');
-  static const error = LogLevel._('ERROR');
-  static const fatal = LogLevel._('FATAL');
-  static const off = LogLevel._('OFF');
-
-  final String value;
-
-  const LogLevel._(this.value);
-
-  static const values = [all, error, fatal, off];
-
-  static LogLevel fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LogLevel._(value));
-
-  @override
-  bool operator ==(other) => other is LogLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The <code>LoggingConfiguration</code> data type is used to set CloudWatch
-/// Logs options.
-class LoggingConfiguration {
-  /// An array of objects that describes where your execution history events will
-  /// be logged. Limited to size 1. Required, if your log level is not set to
-  /// <code>OFF</code>.
-  final List<LogDestination>? destinations;
-
-  /// Determines whether execution data is included in your log. When set to
-  /// <code>false</code>, data is excluded.
-  final bool? includeExecutionData;
-
-  /// Defines which category of execution history events are logged.
-  final LogLevel? level;
-
-  LoggingConfiguration({
-    this.destinations,
-    this.includeExecutionData,
-    this.level,
-  });
-
-  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
-    return LoggingConfiguration(
-      destinations: (json['destinations'] as List?)
-          ?.nonNulls
-          .map((e) => LogDestination.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      includeExecutionData: json['includeExecutionData'] as bool?,
-      level: (json['level'] as String?)?.let(LogLevel.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinations = this.destinations;
-    final includeExecutionData = this.includeExecutionData;
-    final level = this.level;
-    return {
-      if (destinations != null) 'destinations': destinations,
-      if (includeExecutionData != null)
-        'includeExecutionData': includeExecutionData,
-      if (level != null) 'level': level.value,
-    };
-  }
-}
-
-/// Contains details about an iteration of a Map state.
-class MapIterationEventDetails {
-  /// The index of the array belonging to the Map state iteration.
-  final int? index;
-
-  /// The name of the iteration’s parent Map state.
-  final String? name;
-
-  MapIterationEventDetails({
-    this.index,
-    this.name,
-  });
-
-  factory MapIterationEventDetails.fromJson(Map<String, dynamic> json) {
-    return MapIterationEventDetails(
-      index: json['index'] as int?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final index = this.index;
-    final name = this.name;
-    return {
-      if (index != null) 'index': index,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Contains details about all of the child workflow executions started by a Map
-/// Run.
-class MapRunExecutionCounts {
-  /// The total number of child workflow executions that were started by a Map Run
-  /// and were running, but were either stopped by the user or by Step Functions
-  /// because the Map Run failed.
-  final int aborted;
-
-  /// The total number of child workflow executions that were started by a Map
-  /// Run, but have failed.
-  final int failed;
-
-  /// The total number of child workflow executions that were started by a Map
-  /// Run, but haven't started executing yet.
-  final int pending;
-
-  /// Returns the count of child workflow executions whose results were written by
-  /// <code>ResultWriter</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html">ResultWriter</a>
-  /// in the <i>Step Functions Developer Guide</i>.
-  final int resultsWritten;
-
-  /// The total number of child workflow executions that were started by a Map Run
-  /// and are currently in-progress.
-  final int running;
-
-  /// The total number of child workflow executions that were started by a Map Run
-  /// and have completed successfully.
-  final int succeeded;
-
-  /// The total number of child workflow executions that were started by a Map Run
-  /// and have timed out.
-  final int timedOut;
-
-  /// The total number of child workflow executions that were started by a Map
-  /// Run.
-  final int total;
-
-  /// The number of <code>FAILED</code>, <code>ABORTED</code>, or
-  /// <code>TIMED_OUT</code> child workflow executions that cannot be redriven
-  /// because their execution status is terminal. For example, child workflows
-  /// with an execution status of <code>FAILED</code>, <code>ABORTED</code>, or
-  /// <code>TIMED_OUT</code> and a <code>redriveStatus</code> of
-  /// <code>NOT_REDRIVABLE</code>.
-  final int? failuresNotRedrivable;
-
-  /// The number of unsuccessful child workflow executions currently waiting to be
-  /// redriven. The status of these child workflow executions could be
-  /// <code>FAILED</code>, <code>ABORTED</code>, or <code>TIMED_OUT</code> in the
-  /// original execution attempt or a previous redrive attempt.
-  final int? pendingRedrive;
-
-  MapRunExecutionCounts({
-    required this.aborted,
-    required this.failed,
-    required this.pending,
-    required this.resultsWritten,
-    required this.running,
-    required this.succeeded,
-    required this.timedOut,
-    required this.total,
-    this.failuresNotRedrivable,
-    this.pendingRedrive,
-  });
-
-  factory MapRunExecutionCounts.fromJson(Map<String, dynamic> json) {
-    return MapRunExecutionCounts(
-      aborted: (json['aborted'] as int?) ?? 0,
-      failed: (json['failed'] as int?) ?? 0,
-      pending: (json['pending'] as int?) ?? 0,
-      resultsWritten: (json['resultsWritten'] as int?) ?? 0,
-      running: (json['running'] as int?) ?? 0,
-      succeeded: (json['succeeded'] as int?) ?? 0,
-      timedOut: (json['timedOut'] as int?) ?? 0,
-      total: (json['total'] as int?) ?? 0,
-      failuresNotRedrivable: json['failuresNotRedrivable'] as int?,
-      pendingRedrive: json['pendingRedrive'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aborted = this.aborted;
-    final failed = this.failed;
-    final pending = this.pending;
-    final resultsWritten = this.resultsWritten;
-    final running = this.running;
-    final succeeded = this.succeeded;
-    final timedOut = this.timedOut;
-    final total = this.total;
-    final failuresNotRedrivable = this.failuresNotRedrivable;
-    final pendingRedrive = this.pendingRedrive;
-    return {
-      'aborted': aborted,
-      'failed': failed,
-      'pending': pending,
-      'resultsWritten': resultsWritten,
-      'running': running,
-      'succeeded': succeeded,
-      'timedOut': timedOut,
-      'total': total,
-      if (failuresNotRedrivable != null)
-        'failuresNotRedrivable': failuresNotRedrivable,
-      if (pendingRedrive != null) 'pendingRedrive': pendingRedrive,
-    };
-  }
-}
-
-/// Contains details about a Map Run failure event that occurred during a state
-/// machine execution.
-class MapRunFailedEventDetails {
-  /// A more detailed explanation of the cause of the failure.
-  final String? cause;
-
-  /// The error code of the Map Run failure.
-  final String? error;
-
-  MapRunFailedEventDetails({
-    this.cause,
-    this.error,
-  });
-
-  factory MapRunFailedEventDetails.fromJson(Map<String, dynamic> json) {
-    return MapRunFailedEventDetails(
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final error = this.error;
-    return {
-      if (cause != null) 'cause': cause,
-      if (error != null) 'error': error,
-    };
-  }
-}
-
-/// Contains details about items that were processed in all of the child
-/// workflow executions that were started by a Map Run.
-class MapRunItemCounts {
-  /// The total number of items processed in child workflow executions that were
-  /// either stopped by the user or by Step Functions, because the Map Run failed.
-  final int aborted;
-
-  /// The total number of items processed in child workflow executions that have
-  /// failed.
-  final int failed;
-
-  /// The total number of items to process in child workflow executions that
-  /// haven't started running yet.
-  final int pending;
-
-  /// Returns the count of items whose results were written by
-  /// <code>ResultWriter</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html">ResultWriter</a>
-  /// in the <i>Step Functions Developer Guide</i>.
-  final int resultsWritten;
-
-  /// The total number of items being processed in child workflow executions that
-  /// are currently in-progress.
-  final int running;
-
-  /// The total number of items processed in child workflow executions that have
-  /// completed successfully.
-  final int succeeded;
-
-  /// The total number of items processed in child workflow executions that have
-  /// timed out.
-  final int timedOut;
-
-  /// The total number of items processed in all the child workflow executions
-  /// started by a Map Run.
-  final int total;
-
-  /// The number of <code>FAILED</code>, <code>ABORTED</code>, or
-  /// <code>TIMED_OUT</code> items in child workflow executions that cannot be
-  /// redriven because the execution status of those child workflows is terminal.
-  /// For example, child workflows with an execution status of
-  /// <code>FAILED</code>, <code>ABORTED</code>, or <code>TIMED_OUT</code> and a
-  /// <code>redriveStatus</code> of <code>NOT_REDRIVABLE</code>.
-  final int? failuresNotRedrivable;
-
-  /// The number of unsuccessful items in child workflow executions currently
-  /// waiting to be redriven.
-  final int? pendingRedrive;
-
-  MapRunItemCounts({
-    required this.aborted,
-    required this.failed,
-    required this.pending,
-    required this.resultsWritten,
-    required this.running,
-    required this.succeeded,
-    required this.timedOut,
-    required this.total,
-    this.failuresNotRedrivable,
-    this.pendingRedrive,
-  });
-
-  factory MapRunItemCounts.fromJson(Map<String, dynamic> json) {
-    return MapRunItemCounts(
-      aborted: (json['aborted'] as int?) ?? 0,
-      failed: (json['failed'] as int?) ?? 0,
-      pending: (json['pending'] as int?) ?? 0,
-      resultsWritten: (json['resultsWritten'] as int?) ?? 0,
-      running: (json['running'] as int?) ?? 0,
-      succeeded: (json['succeeded'] as int?) ?? 0,
-      timedOut: (json['timedOut'] as int?) ?? 0,
-      total: (json['total'] as int?) ?? 0,
-      failuresNotRedrivable: json['failuresNotRedrivable'] as int?,
-      pendingRedrive: json['pendingRedrive'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aborted = this.aborted;
-    final failed = this.failed;
-    final pending = this.pending;
-    final resultsWritten = this.resultsWritten;
-    final running = this.running;
-    final succeeded = this.succeeded;
-    final timedOut = this.timedOut;
-    final total = this.total;
-    final failuresNotRedrivable = this.failuresNotRedrivable;
-    final pendingRedrive = this.pendingRedrive;
-    return {
-      'aborted': aborted,
-      'failed': failed,
-      'pending': pending,
-      'resultsWritten': resultsWritten,
-      'running': running,
-      'succeeded': succeeded,
-      'timedOut': timedOut,
-      'total': total,
-      if (failuresNotRedrivable != null)
-        'failuresNotRedrivable': failuresNotRedrivable,
-      if (pendingRedrive != null) 'pendingRedrive': pendingRedrive,
-    };
-  }
-}
-
-/// Contains details about a specific Map Run.
-class MapRunListItem {
-  /// The <code>executionArn</code> of the execution from which the Map Run was
-  /// started.
-  final String executionArn;
-
-  /// The Amazon Resource Name (ARN) of the Map Run.
-  final String mapRunArn;
-
-  /// The date on which the Map Run started.
-  final DateTime startDate;
-
-  /// The Amazon Resource Name (ARN) of the executed state machine.
-  final String stateMachineArn;
-
-  /// The date on which the Map Run stopped.
-  final DateTime? stopDate;
-
-  MapRunListItem({
-    required this.executionArn,
-    required this.mapRunArn,
-    required this.startDate,
-    required this.stateMachineArn,
-    this.stopDate,
-  });
-
-  factory MapRunListItem.fromJson(Map<String, dynamic> json) {
-    return MapRunListItem(
-      executionArn: (json['executionArn'] as String?) ?? '',
-      mapRunArn: (json['mapRunArn'] as String?) ?? '',
-      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
-      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
-      stopDate: timeStampFromJson(json['stopDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionArn = this.executionArn;
-    final mapRunArn = this.mapRunArn;
-    final startDate = this.startDate;
-    final stateMachineArn = this.stateMachineArn;
-    final stopDate = this.stopDate;
-    return {
-      'executionArn': executionArn,
-      'mapRunArn': mapRunArn,
-      'startDate': unixTimestampToJson(startDate),
-      'stateMachineArn': stateMachineArn,
-      if (stopDate != null) 'stopDate': unixTimestampToJson(stopDate),
-    };
-  }
-}
-
-/// Contains details about a Map Run that was redriven.
-class MapRunRedrivenEventDetails {
-  /// The Amazon Resource Name (ARN) of a Map Run that was redriven.
-  final String? mapRunArn;
-
-  /// The number of times the Map Run has been redriven at this point in the
-  /// execution's history including this event. The redrive count for a redriven
-  /// Map Run is always greater than 0.
-  final int? redriveCount;
-
-  MapRunRedrivenEventDetails({
-    this.mapRunArn,
-    this.redriveCount,
-  });
-
-  factory MapRunRedrivenEventDetails.fromJson(Map<String, dynamic> json) {
-    return MapRunRedrivenEventDetails(
-      mapRunArn: json['mapRunArn'] as String?,
-      redriveCount: json['redriveCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mapRunArn = this.mapRunArn;
-    final redriveCount = this.redriveCount;
-    return {
-      if (mapRunArn != null) 'mapRunArn': mapRunArn,
-      if (redriveCount != null) 'redriveCount': redriveCount,
-    };
-  }
-}
-
-/// Contains details about a Map Run that was started during a state machine
-/// execution.
-class MapRunStartedEventDetails {
-  /// The Amazon Resource Name (ARN) of a Map Run that was started.
-  final String? mapRunArn;
-
-  MapRunStartedEventDetails({
-    this.mapRunArn,
-  });
-
-  factory MapRunStartedEventDetails.fromJson(Map<String, dynamic> json) {
-    return MapRunStartedEventDetails(
-      mapRunArn: json['mapRunArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mapRunArn = this.mapRunArn;
-    return {
-      if (mapRunArn != null) 'mapRunArn': mapRunArn,
-    };
-  }
-}
-
-class MapRunStatus {
-  static const running = MapRunStatus._('RUNNING');
-  static const succeeded = MapRunStatus._('SUCCEEDED');
-  static const failed = MapRunStatus._('FAILED');
-  static const aborted = MapRunStatus._('ABORTED');
-
-  final String value;
-
-  const MapRunStatus._(this.value);
-
-  static const values = [running, succeeded, failed, aborted];
-
-  static MapRunStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MapRunStatus._(value));
-
-  @override
-  bool operator ==(other) => other is MapRunStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about a Map state that was started.
-class MapStateStartedEventDetails {
-  /// The size of the array for Map state iterations.
-  final int? length;
-
-  MapStateStartedEventDetails({
-    this.length,
-  });
-
-  factory MapStateStartedEventDetails.fromJson(Map<String, dynamic> json) {
-    return MapStateStartedEventDetails(
-      length: json['length'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final length = this.length;
-    return {
-      if (length != null) 'length': length,
-    };
-  }
-}
-
-class PublishStateMachineVersionOutput {
-  /// The date the version was created.
-  final DateTime creationDate;
-
-  /// The Amazon Resource Name (ARN) (ARN) that identifies the state machine
-  /// version.
-  final String stateMachineVersionArn;
-
-  PublishStateMachineVersionOutput({
-    required this.creationDate,
-    required this.stateMachineVersionArn,
-  });
-
-  factory PublishStateMachineVersionOutput.fromJson(Map<String, dynamic> json) {
-    return PublishStateMachineVersionOutput(
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final stateMachineVersionArn = this.stateMachineVersionArn;
-    return {
-      'creationDate': unixTimestampToJson(creationDate),
-      'stateMachineVersionArn': stateMachineVersionArn,
-    };
-  }
-}
-
-class RedriveExecutionOutput {
-  /// The date the execution was last redriven.
-  final DateTime redriveDate;
-
-  RedriveExecutionOutput({
-    required this.redriveDate,
-  });
-
-  factory RedriveExecutionOutput.fromJson(Map<String, dynamic> json) {
-    return RedriveExecutionOutput(
-      redriveDate: nonNullableTimeStampFromJson(json['redriveDate'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final redriveDate = this.redriveDate;
-    return {
-      'redriveDate': unixTimestampToJson(redriveDate),
-    };
-  }
-}
-
-/// Contains details about the routing configuration of a state machine alias.
-/// In a routing configuration, you define an array of objects that specify up
-/// to two state machine versions. You also specify the percentage of traffic to
-/// be routed to each version.
-class RoutingConfigurationListItem {
-  /// The Amazon Resource Name (ARN) that identifies one or two state machine
-  /// versions defined in the routing configuration.
-  ///
-  /// If you specify the ARN of a second version, it must belong to the same state
-  /// machine as the first version.
-  final String stateMachineVersionArn;
-
-  /// The percentage of traffic you want to route to a state machine version. The
-  /// sum of the weights in the routing configuration must be equal to 100.
-  final int weight;
-
-  RoutingConfigurationListItem({
-    required this.stateMachineVersionArn,
-    required this.weight,
-  });
-
-  factory RoutingConfigurationListItem.fromJson(Map<String, dynamic> json) {
-    return RoutingConfigurationListItem(
-      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
-      weight: (json['weight'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stateMachineVersionArn = this.stateMachineVersionArn;
-    final weight = this.weight;
-    return {
-      'stateMachineVersionArn': stateMachineVersionArn,
-      'weight': weight,
-    };
-  }
-}
-
-class SendTaskFailureOutput {
-  SendTaskFailureOutput();
-
-  factory SendTaskFailureOutput.fromJson(Map<String, dynamic> _) {
-    return SendTaskFailureOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class SendTaskHeartbeatOutput {
-  SendTaskHeartbeatOutput();
-
-  factory SendTaskHeartbeatOutput.fromJson(Map<String, dynamic> _) {
-    return SendTaskHeartbeatOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class SendTaskSuccessOutput {
-  SendTaskSuccessOutput();
-
-  factory SendTaskSuccessOutput.fromJson(Map<String, dynamic> _) {
-    return SendTaskSuccessOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class StartExecutionOutput {
-  /// The Amazon Resource Name (ARN) that identifies the execution.
-  final String executionArn;
-
-  /// The date the execution is started.
-  final DateTime startDate;
-
-  StartExecutionOutput({
-    required this.executionArn,
-    required this.startDate,
-  });
-
-  factory StartExecutionOutput.fromJson(Map<String, dynamic> json) {
-    return StartExecutionOutput(
-      executionArn: (json['executionArn'] as String?) ?? '',
-      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionArn = this.executionArn;
-    final startDate = this.startDate;
-    return {
-      'executionArn': executionArn,
-      'startDate': unixTimestampToJson(startDate),
-    };
-  }
-}
-
-class StartSyncExecutionOutput {
-  /// The Amazon Resource Name (ARN) that identifies the execution.
-  final String executionArn;
-
-  /// The date the execution is started.
-  final DateTime startDate;
-
-  /// The current status of the execution.
-  final SyncExecutionStatus status;
-
-  /// If the execution has already ended, the date the execution stopped.
-  final DateTime stopDate;
-
-  /// An object that describes workflow billing details, including billed duration
-  /// and memory use.
-  final BillingDetails? billingDetails;
-
-  /// A more detailed explanation of the cause of the failure.
-  final String? cause;
-
-  /// The error code of the failure.
-  final String? error;
-
-  /// The string that contains the JSON input data of the execution. Length
-  /// constraints apply to the payload size, and are expressed as bytes in UTF-8
-  /// encoding.
-  final String? input;
-  final CloudWatchEventsExecutionDataDetails? inputDetails;
-
-  /// The name of the execution.
-  final String? name;
-
-  /// The JSON output data of the execution. Length constraints apply to the
-  /// payload size, and are expressed as bytes in UTF-8 encoding.
-  /// <note>
-  /// This field is set only if the execution succeeds. If the execution fails,
-  /// this field is null.
-  /// </note>
-  final String? output;
-  final CloudWatchEventsExecutionDataDetails? outputDetails;
-
-  /// The Amazon Resource Name (ARN) that identifies the state machine.
-  final String? stateMachineArn;
-
-  /// The X-Ray trace header that was passed to the execution.
-  final String? traceHeader;
-
-  StartSyncExecutionOutput({
-    required this.executionArn,
-    required this.startDate,
-    required this.status,
-    required this.stopDate,
-    this.billingDetails,
-    this.cause,
-    this.error,
-    this.input,
-    this.inputDetails,
-    this.name,
-    this.output,
-    this.outputDetails,
-    this.stateMachineArn,
-    this.traceHeader,
-  });
-
-  factory StartSyncExecutionOutput.fromJson(Map<String, dynamic> json) {
-    return StartSyncExecutionOutput(
-      executionArn: (json['executionArn'] as String?) ?? '',
-      startDate: nonNullableTimeStampFromJson(json['startDate'] ?? 0),
-      status: SyncExecutionStatus.fromString((json['status'] as String?) ?? ''),
-      stopDate: nonNullableTimeStampFromJson(json['stopDate'] ?? 0),
-      billingDetails: json['billingDetails'] != null
-          ? BillingDetails.fromJson(
-              json['billingDetails'] as Map<String, dynamic>)
-          : null,
-      cause: json['cause'] as String?,
-      error: json['error'] as String?,
-      input: json['input'] as String?,
-      inputDetails: json['inputDetails'] != null
-          ? CloudWatchEventsExecutionDataDetails.fromJson(
-              json['inputDetails'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-      output: json['output'] as String?,
-      outputDetails: json['outputDetails'] != null
-          ? CloudWatchEventsExecutionDataDetails.fromJson(
-              json['outputDetails'] as Map<String, dynamic>)
-          : null,
-      stateMachineArn: json['stateMachineArn'] as String?,
-      traceHeader: json['traceHeader'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionArn = this.executionArn;
-    final startDate = this.startDate;
-    final status = this.status;
-    final stopDate = this.stopDate;
-    final billingDetails = this.billingDetails;
-    final cause = this.cause;
-    final error = this.error;
-    final input = this.input;
-    final inputDetails = this.inputDetails;
-    final name = this.name;
-    final output = this.output;
-    final outputDetails = this.outputDetails;
-    final stateMachineArn = this.stateMachineArn;
-    final traceHeader = this.traceHeader;
-    return {
-      'executionArn': executionArn,
-      'startDate': unixTimestampToJson(startDate),
-      'status': status.value,
-      'stopDate': unixTimestampToJson(stopDate),
-      if (billingDetails != null) 'billingDetails': billingDetails,
-      if (cause != null) 'cause': cause,
-      if (error != null) 'error': error,
-      if (input != null) 'input': input,
-      if (inputDetails != null) 'inputDetails': inputDetails,
-      if (name != null) 'name': name,
-      if (output != null) 'output': output,
-      if (outputDetails != null) 'outputDetails': outputDetails,
-      if (stateMachineArn != null) 'stateMachineArn': stateMachineArn,
-      if (traceHeader != null) 'traceHeader': traceHeader,
-    };
-  }
-}
-
-/// Contains details about a state entered during an execution.
-class StateEnteredEventDetails {
-  /// The name of the state.
-  final String name;
-
-  /// The string that contains the JSON input data for the state. Length
-  /// constraints apply to the payload size, and are expressed as bytes in UTF-8
-  /// encoding.
-  final String? input;
-
-  /// Contains details about the input for an execution history event.
-  final HistoryEventExecutionDataDetails? inputDetails;
-
-  StateEnteredEventDetails({
-    required this.name,
-    this.input,
-    this.inputDetails,
-  });
-
-  factory StateEnteredEventDetails.fromJson(Map<String, dynamic> json) {
-    return StateEnteredEventDetails(
-      name: (json['name'] as String?) ?? '',
-      input: json['input'] as String?,
-      inputDetails: json['inputDetails'] != null
-          ? HistoryEventExecutionDataDetails.fromJson(
-              json['inputDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final input = this.input;
-    final inputDetails = this.inputDetails;
-    return {
-      'name': name,
-      if (input != null) 'input': input,
-      if (inputDetails != null) 'inputDetails': inputDetails,
-    };
-  }
-}
-
-/// Contains details about an exit from a state during an execution.
-class StateExitedEventDetails {
-  /// The name of the state.
-  ///
-  /// A name must <i>not</i> contain:
-  ///
-  /// <ul>
-  /// <li>
-  /// white space
-  /// </li>
-  /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
-  /// </li>
-  /// <li>
-  /// wildcard characters <code>? *</code>
-  /// </li>
-  /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
-  /// </li>
-  /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
-  /// </li>
-  /// </ul>
-  /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
-  /// A-Z, a-z, - and _.
-  final String name;
-
-  /// The JSON output data of the state. Length constraints apply to the payload
-  /// size, and are expressed as bytes in UTF-8 encoding.
-  final String? output;
-
-  /// Contains details about the output of an execution history event.
-  final HistoryEventExecutionDataDetails? outputDetails;
-
-  StateExitedEventDetails({
-    required this.name,
-    this.output,
-    this.outputDetails,
-  });
-
-  factory StateExitedEventDetails.fromJson(Map<String, dynamic> json) {
-    return StateExitedEventDetails(
-      name: (json['name'] as String?) ?? '',
-      output: json['output'] as String?,
-      outputDetails: json['outputDetails'] != null
-          ? HistoryEventExecutionDataDetails.fromJson(
-              json['outputDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final output = this.output;
-    final outputDetails = this.outputDetails;
-    return {
-      'name': name,
-      if (output != null) 'output': output,
-      if (outputDetails != null) 'outputDetails': outputDetails,
-    };
-  }
-}
-
-/// Contains details about a specific state machine alias.
-class StateMachineAliasListItem {
-  /// The creation date of a state machine alias.
-  final DateTime creationDate;
-
-  /// The Amazon Resource Name (ARN) that identifies a state machine alias. The
-  /// alias ARN is a combination of state machine ARN and the alias name separated
-  /// by a colon (:). For example, <code>stateMachineARN:PROD</code>.
-  final String stateMachineAliasArn;
-
-  StateMachineAliasListItem({
-    required this.creationDate,
-    required this.stateMachineAliasArn,
-  });
-
-  factory StateMachineAliasListItem.fromJson(Map<String, dynamic> json) {
-    return StateMachineAliasListItem(
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      stateMachineAliasArn: (json['stateMachineAliasArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final stateMachineAliasArn = this.stateMachineAliasArn;
-    return {
-      'creationDate': unixTimestampToJson(creationDate),
-      'stateMachineAliasArn': stateMachineAliasArn,
-    };
-  }
-}
-
-/// Contains details about the state machine.
-class StateMachineListItem {
-  /// The date the state machine is created.
-  final DateTime creationDate;
-
-  /// The name of the state machine.
-  ///
-  /// A name must <i>not</i> contain:
-  ///
-  /// <ul>
-  /// <li>
-  /// white space
-  /// </li>
-  /// <li>
-  /// brackets <code>&lt; &gt; { } [ ]</code>
-  /// </li>
-  /// <li>
-  /// wildcard characters <code>? *</code>
-  /// </li>
-  /// <li>
-  /// special characters <code>" # % \ ^ | ~ ` $ &amp; , ; : /</code>
-  /// </li>
-  /// <li>
-  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>)
-  /// </li>
-  /// </ul>
-  /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
-  /// A-Z, a-z, - and _.
-  final String name;
-
-  /// The Amazon Resource Name (ARN) that identifies the state machine.
-  final String stateMachineArn;
-
-  /// <p/>
-  final StateMachineType type;
-
-  StateMachineListItem({
-    required this.creationDate,
-    required this.name,
-    required this.stateMachineArn,
-    required this.type,
-  });
-
-  factory StateMachineListItem.fromJson(Map<String, dynamic> json) {
-    return StateMachineListItem(
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      stateMachineArn: (json['stateMachineArn'] as String?) ?? '',
-      type: StateMachineType.fromString((json['type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final name = this.name;
-    final stateMachineArn = this.stateMachineArn;
-    final type = this.type;
-    return {
-      'creationDate': unixTimestampToJson(creationDate),
-      'name': name,
-      'stateMachineArn': stateMachineArn,
-      'type': type.value,
-    };
-  }
-}
-
-class StateMachineStatus {
-  static const active = StateMachineStatus._('ACTIVE');
-  static const deleting = StateMachineStatus._('DELETING');
-
-  final String value;
-
-  const StateMachineStatus._(this.value);
-
-  static const values = [active, deleting];
-
-  static StateMachineStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StateMachineStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StateMachineStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StateMachineType {
-  static const standard = StateMachineType._('STANDARD');
-  static const express = StateMachineType._('EXPRESS');
-
-  final String value;
-
-  const StateMachineType._(this.value);
-
-  static const values = [standard, express];
-
-  static StateMachineType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StateMachineType._(value));
-
-  @override
-  bool operator ==(other) => other is StateMachineType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details about a specific state machine version.
-class StateMachineVersionListItem {
-  /// The creation date of a state machine version.
-  final DateTime creationDate;
-
-  /// The Amazon Resource Name (ARN) that identifies a state machine version. The
-  /// version ARN is a combination of state machine ARN and the version number
-  /// separated by a colon (:). For example, <code>stateMachineARN:1</code>.
-  final String stateMachineVersionArn;
-
-  StateMachineVersionListItem({
-    required this.creationDate,
-    required this.stateMachineVersionArn,
-  });
-
-  factory StateMachineVersionListItem.fromJson(Map<String, dynamic> json) {
-    return StateMachineVersionListItem(
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      stateMachineVersionArn: (json['stateMachineVersionArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final stateMachineVersionArn = this.stateMachineVersionArn;
-    return {
-      'creationDate': unixTimestampToJson(creationDate),
-      'stateMachineVersionArn': stateMachineVersionArn,
-    };
-  }
-}
-
-class StopExecutionOutput {
-  /// The date the execution is stopped.
-  final DateTime stopDate;
-
-  StopExecutionOutput({
-    required this.stopDate,
-  });
-
-  factory StopExecutionOutput.fromJson(Map<String, dynamic> json) {
-    return StopExecutionOutput(
-      stopDate: nonNullableTimeStampFromJson(json['stopDate'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stopDate = this.stopDate;
-    return {
-      'stopDate': unixTimestampToJson(stopDate),
-    };
-  }
-}
-
-class SyncExecutionStatus {
-  static const succeeded = SyncExecutionStatus._('SUCCEEDED');
-  static const failed = SyncExecutionStatus._('FAILED');
-  static const timedOut = SyncExecutionStatus._('TIMED_OUT');
-
-  final String value;
-
-  const SyncExecutionStatus._(this.value);
-
-  static const values = [succeeded, failed, timedOut];
-
-  static SyncExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SyncExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SyncExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Tags are key-value pairs that can be associated with Step Functions state
-/// machines and activities.
-///
-/// An array of key-value pairs. For more information, see <a
-/// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Using
-/// Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost
-/// Management User Guide</i>, and <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
-/// Access Using IAM Tags</a>.
-///
-/// Tags may only contain Unicode letters, digits, white space, or these
-/// symbols: <code>_ . : / = + - @</code>.
-class Tag {
-  /// The key of a tag.
-  final String? key;
-
-  /// The value of a tag.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['key'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'key': key,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class TagResourceOutput {
-  TagResourceOutput();
-
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Contains details about the credentials that Step Functions uses for a task.
-class TaskCredentials {
-  /// The ARN of an IAM role that Step Functions assumes for the task. The role
-  /// can allow cross-account access to resources.
-  final String? roleArn;
-
-  TaskCredentials({
-    this.roleArn,
-  });
-
-  factory TaskCredentials.fromJson(Map<String, dynamic> json) {
-    return TaskCredentials(
-      roleArn: json['roleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    return {
-      if (roleArn != null) 'roleArn': roleArn,
     };
   }
 }
@@ -7704,327 +7560,847 @@ class TaskTimedOutEventDetails {
   }
 }
 
-class TestExecutionStatus {
-  static const succeeded = TestExecutionStatus._('SUCCEEDED');
-  static const failed = TestExecutionStatus._('FAILED');
-  static const retriable = TestExecutionStatus._('RETRIABLE');
-  static const caughtError = TestExecutionStatus._('CAUGHT_ERROR');
-
-  final String value;
-
-  const TestExecutionStatus._(this.value);
-
-  static const values = [succeeded, failed, retriable, caughtError];
-
-  static TestExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TestExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TestExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TestStateOutput {
-  /// A detailed explanation of the cause for the error when the execution of a
-  /// state fails.
+/// Contains details about an execution failure event.
+class ExecutionFailedEventDetails {
+  /// A more detailed explanation of the cause of the failure.
   final String? cause;
 
-  /// The error returned when the execution of a state fails.
+  /// The error code of the failure.
   final String? error;
 
-  /// Returns additional details about the state's execution, including its input
-  /// and output data processing flow, and HTTP request and response information.
-  /// The <code>inspectionLevel</code> request parameter specifies which details
-  /// are returned.
-  final InspectionData? inspectionData;
-
-  /// The name of the next state to transition to. If you haven't defined a next
-  /// state in your definition or if the execution of the state fails, this ﬁeld
-  /// doesn't contain a value.
-  final String? nextState;
-
-  /// The JSON output data of the state. Length constraints apply to the payload
-  /// size, and are expressed as bytes in UTF-8 encoding.
-  final String? output;
-
-  /// The execution status of the state.
-  final TestExecutionStatus? status;
-
-  TestStateOutput({
+  ExecutionFailedEventDetails({
     this.cause,
     this.error,
-    this.inspectionData,
-    this.nextState,
-    this.output,
-    this.status,
   });
 
-  factory TestStateOutput.fromJson(Map<String, dynamic> json) {
-    return TestStateOutput(
+  factory ExecutionFailedEventDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionFailedEventDetails(
       cause: json['cause'] as String?,
       error: json['error'] as String?,
-      inspectionData: json['inspectionData'] != null
-          ? InspectionData.fromJson(
-              json['inspectionData'] as Map<String, dynamic>)
-          : null,
-      nextState: json['nextState'] as String?,
-      output: json['output'] as String?,
-      status: (json['status'] as String?)?.let(TestExecutionStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final cause = this.cause;
     final error = this.error;
-    final inspectionData = this.inspectionData;
-    final nextState = this.nextState;
-    final output = this.output;
-    final status = this.status;
     return {
       if (cause != null) 'cause': cause,
       if (error != null) 'error': error,
-      if (inspectionData != null) 'inspectionData': inspectionData,
-      if (nextState != null) 'nextState': nextState,
-      if (output != null) 'output': output,
-      if (status != null) 'status': status.value,
     };
   }
 }
 
-/// Selects whether or not the state machine's X-Ray tracing is enabled. Default
-/// is <code>false</code>
-class TracingConfiguration {
-  /// When set to <code>true</code>, X-Ray tracing is enabled.
-  final bool? enabled;
+/// Contains details about the start of the execution.
+class ExecutionStartedEventDetails {
+  /// The JSON data input to the execution. Length constraints apply to the
+  /// payload size, and are expressed as bytes in UTF-8 encoding.
+  final String? input;
 
-  TracingConfiguration({
-    this.enabled,
-  });
+  /// Contains details about the input for an execution history event.
+  final HistoryEventExecutionDataDetails? inputDetails;
 
-  factory TracingConfiguration.fromJson(Map<String, dynamic> json) {
-    return TracingConfiguration(
-      enabled: json['enabled'] as bool?,
-    );
-  }
+  /// The Amazon Resource Name (ARN) of the IAM role used for executing Lambda
+  /// tasks.
+  final String? roleArn;
 
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    return {
-      if (enabled != null) 'enabled': enabled,
-    };
-  }
-}
+  /// The Amazon Resource Name (ARN) that identifies a state machine alias used
+  /// for starting the state machine execution.
+  final String? stateMachineAliasArn;
 
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateMapRunOutput {
-  UpdateMapRunOutput();
-
-  factory UpdateMapRunOutput.fromJson(Map<String, dynamic> _) {
-    return UpdateMapRunOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateStateMachineAliasOutput {
-  /// The date and time the state machine alias was updated.
-  final DateTime updateDate;
-
-  UpdateStateMachineAliasOutput({
-    required this.updateDate,
-  });
-
-  factory UpdateStateMachineAliasOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateStateMachineAliasOutput(
-      updateDate: nonNullableTimeStampFromJson(json['updateDate'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final updateDate = this.updateDate;
-    return {
-      'updateDate': unixTimestampToJson(updateDate),
-    };
-  }
-}
-
-class UpdateStateMachineOutput {
-  /// The date and time the state machine was updated.
-  final DateTime updateDate;
-
-  /// The revision identifier for the updated state machine.
-  final String? revisionId;
-
-  /// The Amazon Resource Name (ARN) of the published state machine version.
-  ///
-  /// If the <code>publish</code> parameter isn't set to <code>true</code>, this
-  /// field returns null.
+  /// The Amazon Resource Name (ARN) that identifies a state machine version used
+  /// for starting the state machine execution.
   final String? stateMachineVersionArn;
 
-  UpdateStateMachineOutput({
-    required this.updateDate,
-    this.revisionId,
+  ExecutionStartedEventDetails({
+    this.input,
+    this.inputDetails,
+    this.roleArn,
+    this.stateMachineAliasArn,
     this.stateMachineVersionArn,
   });
 
-  factory UpdateStateMachineOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateStateMachineOutput(
-      updateDate: nonNullableTimeStampFromJson(json['updateDate'] ?? 0),
-      revisionId: json['revisionId'] as String?,
+  factory ExecutionStartedEventDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionStartedEventDetails(
+      input: json['input'] as String?,
+      inputDetails: json['inputDetails'] != null
+          ? HistoryEventExecutionDataDetails.fromJson(
+              json['inputDetails'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['roleArn'] as String?,
+      stateMachineAliasArn: json['stateMachineAliasArn'] as String?,
       stateMachineVersionArn: json['stateMachineVersionArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final updateDate = this.updateDate;
-    final revisionId = this.revisionId;
+    final input = this.input;
+    final inputDetails = this.inputDetails;
+    final roleArn = this.roleArn;
+    final stateMachineAliasArn = this.stateMachineAliasArn;
     final stateMachineVersionArn = this.stateMachineVersionArn;
     return {
-      'updateDate': unixTimestampToJson(updateDate),
-      if (revisionId != null) 'revisionId': revisionId,
+      if (input != null) 'input': input,
+      if (inputDetails != null) 'inputDetails': inputDetails,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (stateMachineAliasArn != null)
+        'stateMachineAliasArn': stateMachineAliasArn,
       if (stateMachineVersionArn != null)
         'stateMachineVersionArn': stateMachineVersionArn,
     };
   }
 }
 
-/// Describes an error found during validation. Validation errors found in the
-/// definition return in the response as <b>diagnostic elements</b>, rather than
-/// raise an exception.
-class ValidateStateMachineDefinitionDiagnostic {
-  /// Identifying code for the diagnostic.
-  final String code;
+/// Contains details about the successful termination of the execution.
+class ExecutionSucceededEventDetails {
+  /// The JSON data output by the execution. Length constraints apply to the
+  /// payload size, and are expressed as bytes in UTF-8 encoding.
+  final String? output;
 
-  /// Message describing the diagnostic condition.
-  final String message;
+  /// Contains details about the output of an execution history event.
+  final HistoryEventExecutionDataDetails? outputDetails;
 
-  /// A value of <code>ERROR</code> means that you cannot create or update a state
-  /// machine with this definition.
-  final ValidateStateMachineDefinitionSeverity severity;
+  ExecutionSucceededEventDetails({
+    this.output,
+    this.outputDetails,
+  });
 
-  /// Location of the issue in the state machine, if available.
+  factory ExecutionSucceededEventDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionSucceededEventDetails(
+      output: json['output'] as String?,
+      outputDetails: json['outputDetails'] != null
+          ? HistoryEventExecutionDataDetails.fromJson(
+              json['outputDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final output = this.output;
+    final outputDetails = this.outputDetails;
+    return {
+      if (output != null) 'output': output,
+      if (outputDetails != null) 'outputDetails': outputDetails,
+    };
+  }
+}
+
+/// Contains details about an abort of an execution.
+class ExecutionAbortedEventDetails {
+  /// A more detailed explanation of the cause of the failure.
+  final String? cause;
+
+  /// The error code of the failure.
+  final String? error;
+
+  ExecutionAbortedEventDetails({
+    this.cause,
+    this.error,
+  });
+
+  factory ExecutionAbortedEventDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionAbortedEventDetails(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final error = this.error;
+    return {
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+/// Contains details about the execution timeout that occurred during the
+/// execution.
+class ExecutionTimedOutEventDetails {
+  /// A more detailed explanation of the cause of the timeout.
+  final String? cause;
+
+  /// The error code of the failure.
+  final String? error;
+
+  ExecutionTimedOutEventDetails({
+    this.cause,
+    this.error,
+  });
+
+  factory ExecutionTimedOutEventDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionTimedOutEventDetails(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final error = this.error;
+    return {
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+/// Contains details about a redriven execution.
+class ExecutionRedrivenEventDetails {
+  /// The number of times you've redriven an execution. If you have not yet
+  /// redriven an execution, the <code>redriveCount</code> is 0. This count is not
+  /// updated for redrives that failed to start or are pending to be redriven.
+  final int? redriveCount;
+
+  ExecutionRedrivenEventDetails({
+    this.redriveCount,
+  });
+
+  factory ExecutionRedrivenEventDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionRedrivenEventDetails(
+      redriveCount: json['redriveCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final redriveCount = this.redriveCount;
+    return {
+      if (redriveCount != null) 'redriveCount': redriveCount,
+    };
+  }
+}
+
+/// Details about a Map state that was started.
+class MapStateStartedEventDetails {
+  /// The size of the array for Map state iterations.
+  final int? length;
+
+  MapStateStartedEventDetails({
+    this.length,
+  });
+
+  factory MapStateStartedEventDetails.fromJson(Map<String, dynamic> json) {
+    return MapStateStartedEventDetails(
+      length: json['length'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final length = this.length;
+    return {
+      if (length != null) 'length': length,
+    };
+  }
+}
+
+/// Contains details about an iteration of a Map state.
+class MapIterationEventDetails {
+  /// The index of the array belonging to the Map state iteration.
+  final int? index;
+
+  /// The name of the iteration’s parent Map state.
+  final String? name;
+
+  MapIterationEventDetails({
+    this.index,
+    this.name,
+  });
+
+  factory MapIterationEventDetails.fromJson(Map<String, dynamic> json) {
+    return MapIterationEventDetails(
+      index: json['index'] as int?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final index = this.index;
+    final name = this.name;
+    return {
+      if (index != null) 'index': index,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Contains details about a Lambda function that failed during an execution.
+class LambdaFunctionFailedEventDetails {
+  /// A more detailed explanation of the cause of the failure.
+  final String? cause;
+
+  /// The error code of the failure.
+  final String? error;
+
+  LambdaFunctionFailedEventDetails({
+    this.cause,
+    this.error,
+  });
+
+  factory LambdaFunctionFailedEventDetails.fromJson(Map<String, dynamic> json) {
+    return LambdaFunctionFailedEventDetails(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final error = this.error;
+    return {
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+/// Contains details about a failed Lambda function schedule event that occurred
+/// during an execution.
+class LambdaFunctionScheduleFailedEventDetails {
+  /// A more detailed explanation of the cause of the failure.
+  final String? cause;
+
+  /// The error code of the failure.
+  final String? error;
+
+  LambdaFunctionScheduleFailedEventDetails({
+    this.cause,
+    this.error,
+  });
+
+  factory LambdaFunctionScheduleFailedEventDetails.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionScheduleFailedEventDetails(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final error = this.error;
+    return {
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+/// Contains details about a Lambda function scheduled during an execution.
+class LambdaFunctionScheduledEventDetails {
+  /// The Amazon Resource Name (ARN) of the scheduled Lambda function.
+  final String resource;
+
+  /// The JSON data input to the Lambda function. Length constraints apply to the
+  /// payload size, and are expressed as bytes in UTF-8 encoding.
+  final String? input;
+
+  /// Contains details about input for an execution history event.
+  final HistoryEventExecutionDataDetails? inputDetails;
+
+  /// The credentials that Step Functions uses for the task.
+  final TaskCredentials? taskCredentials;
+
+  /// The maximum allowed duration of the Lambda function.
+  final int? timeoutInSeconds;
+
+  LambdaFunctionScheduledEventDetails({
+    required this.resource,
+    this.input,
+    this.inputDetails,
+    this.taskCredentials,
+    this.timeoutInSeconds,
+  });
+
+  factory LambdaFunctionScheduledEventDetails.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionScheduledEventDetails(
+      resource: (json['resource'] as String?) ?? '',
+      input: json['input'] as String?,
+      inputDetails: json['inputDetails'] != null
+          ? HistoryEventExecutionDataDetails.fromJson(
+              json['inputDetails'] as Map<String, dynamic>)
+          : null,
+      taskCredentials: json['taskCredentials'] != null
+          ? TaskCredentials.fromJson(
+              json['taskCredentials'] as Map<String, dynamic>)
+          : null,
+      timeoutInSeconds: json['timeoutInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resource = this.resource;
+    final input = this.input;
+    final inputDetails = this.inputDetails;
+    final taskCredentials = this.taskCredentials;
+    final timeoutInSeconds = this.timeoutInSeconds;
+    return {
+      'resource': resource,
+      if (input != null) 'input': input,
+      if (inputDetails != null) 'inputDetails': inputDetails,
+      if (taskCredentials != null) 'taskCredentials': taskCredentials,
+      if (timeoutInSeconds != null) 'timeoutInSeconds': timeoutInSeconds,
+    };
+  }
+}
+
+/// Contains details about a lambda function that failed to start during an
+/// execution.
+class LambdaFunctionStartFailedEventDetails {
+  /// A more detailed explanation of the cause of the failure.
+  final String? cause;
+
+  /// The error code of the failure.
+  final String? error;
+
+  LambdaFunctionStartFailedEventDetails({
+    this.cause,
+    this.error,
+  });
+
+  factory LambdaFunctionStartFailedEventDetails.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionStartFailedEventDetails(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final error = this.error;
+    return {
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+/// Contains details about a Lambda function that successfully terminated during
+/// an execution.
+class LambdaFunctionSucceededEventDetails {
+  /// The JSON data output by the Lambda function. Length constraints apply to the
+  /// payload size, and are expressed as bytes in UTF-8 encoding.
+  final String? output;
+
+  /// Contains details about the output of an execution history event.
+  final HistoryEventExecutionDataDetails? outputDetails;
+
+  LambdaFunctionSucceededEventDetails({
+    this.output,
+    this.outputDetails,
+  });
+
+  factory LambdaFunctionSucceededEventDetails.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionSucceededEventDetails(
+      output: json['output'] as String?,
+      outputDetails: json['outputDetails'] != null
+          ? HistoryEventExecutionDataDetails.fromJson(
+              json['outputDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final output = this.output;
+    final outputDetails = this.outputDetails;
+    return {
+      if (output != null) 'output': output,
+      if (outputDetails != null) 'outputDetails': outputDetails,
+    };
+  }
+}
+
+/// Contains details about a Lambda function timeout that occurred during an
+/// execution.
+class LambdaFunctionTimedOutEventDetails {
+  /// A more detailed explanation of the cause of the timeout.
+  final String? cause;
+
+  /// The error code of the failure.
+  final String? error;
+
+  LambdaFunctionTimedOutEventDetails({
+    this.cause,
+    this.error,
+  });
+
+  factory LambdaFunctionTimedOutEventDetails.fromJson(
+      Map<String, dynamic> json) {
+    return LambdaFunctionTimedOutEventDetails(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final error = this.error;
+    return {
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+/// Contains details about a state entered during an execution.
+class StateEnteredEventDetails {
+  /// The name of the state.
+  final String name;
+
+  /// The string that contains the JSON input data for the state. Length
+  /// constraints apply to the payload size, and are expressed as bytes in UTF-8
+  /// encoding.
+  final String? input;
+
+  /// Contains details about the input for an execution history event.
+  final HistoryEventExecutionDataDetails? inputDetails;
+
+  StateEnteredEventDetails({
+    required this.name,
+    this.input,
+    this.inputDetails,
+  });
+
+  factory StateEnteredEventDetails.fromJson(Map<String, dynamic> json) {
+    return StateEnteredEventDetails(
+      name: (json['name'] as String?) ?? '',
+      input: json['input'] as String?,
+      inputDetails: json['inputDetails'] != null
+          ? HistoryEventExecutionDataDetails.fromJson(
+              json['inputDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final input = this.input;
+    final inputDetails = this.inputDetails;
+    return {
+      'name': name,
+      if (input != null) 'input': input,
+      if (inputDetails != null) 'inputDetails': inputDetails,
+    };
+  }
+}
+
+/// Contains details about an exit from a state during an execution.
+class StateExitedEventDetails {
+  /// The name of the state.
   ///
-  /// For errors specific to a field, the location could be in the format:
-  /// <code>/States/&lt;StateName&gt;/&lt;FieldName&gt;</code>, for example:
-  /// <code>/States/FailState/ErrorPath</code>.
+  /// A name must <i>not</i> contain:
+  ///
+  /// <ul>
+  /// <li>
+  /// white space
+  /// </li>
+  /// <li>
+  /// brackets <code>< > { } [ ]</code>
+  /// </li>
+  /// <li>
+  /// wildcard characters <code>? *</code>
+  /// </li>
+  /// <li>
+  /// special characters <code>" # % \ ^ | ~ ` $ & , ; : /</code>
+  /// </li>
+  /// <li>
+  /// control characters (<code>U+0000-001F</code>, <code>U+007F-009F</code>,
+  /// <code>U+FFFE-FFFF</code>)
+  /// </li>
+  /// <li>
+  /// surrogates (<code>U+D800-DFFF</code>)
+  /// </li>
+  /// <li>
+  /// invalid characters (<code> U+10FFFF</code>)
+  /// </li>
+  /// </ul>
+  /// To enable logging with CloudWatch Logs, the name should only contain 0-9,
+  /// A-Z, a-z, - and _.
+  final String name;
+
+  /// Map of variable name and value as a serialized JSON representation.
+  final Map<String, String>? assignedVariables;
+
+  /// Provides details about input or output in an execution history event.
+  final AssignedVariablesDetails? assignedVariablesDetails;
+
+  /// The JSON output data of the state. Length constraints apply to the payload
+  /// size, and are expressed as bytes in UTF-8 encoding.
+  final String? output;
+
+  /// Contains details about the output of an execution history event.
+  final HistoryEventExecutionDataDetails? outputDetails;
+
+  StateExitedEventDetails({
+    required this.name,
+    this.assignedVariables,
+    this.assignedVariablesDetails,
+    this.output,
+    this.outputDetails,
+  });
+
+  factory StateExitedEventDetails.fromJson(Map<String, dynamic> json) {
+    return StateExitedEventDetails(
+      name: (json['name'] as String?) ?? '',
+      assignedVariables: (json['assignedVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      assignedVariablesDetails: json['assignedVariablesDetails'] != null
+          ? AssignedVariablesDetails.fromJson(
+              json['assignedVariablesDetails'] as Map<String, dynamic>)
+          : null,
+      output: json['output'] as String?,
+      outputDetails: json['outputDetails'] != null
+          ? HistoryEventExecutionDataDetails.fromJson(
+              json['outputDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final assignedVariables = this.assignedVariables;
+    final assignedVariablesDetails = this.assignedVariablesDetails;
+    final output = this.output;
+    final outputDetails = this.outputDetails;
+    return {
+      'name': name,
+      if (assignedVariables != null) 'assignedVariables': assignedVariables,
+      if (assignedVariablesDetails != null)
+        'assignedVariablesDetails': assignedVariablesDetails,
+      if (output != null) 'output': output,
+      if (outputDetails != null) 'outputDetails': outputDetails,
+    };
+  }
+}
+
+/// Contains details about a Map Run that was started during a state machine
+/// execution.
+class MapRunStartedEventDetails {
+  /// The Amazon Resource Name (ARN) of a Map Run that was started.
+  final String? mapRunArn;
+
+  MapRunStartedEventDetails({
+    this.mapRunArn,
+  });
+
+  factory MapRunStartedEventDetails.fromJson(Map<String, dynamic> json) {
+    return MapRunStartedEventDetails(
+      mapRunArn: json['mapRunArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mapRunArn = this.mapRunArn;
+    return {
+      if (mapRunArn != null) 'mapRunArn': mapRunArn,
+    };
+  }
+}
+
+/// Contains details about a Map Run failure event that occurred during a state
+/// machine execution.
+class MapRunFailedEventDetails {
+  /// A more detailed explanation of the cause of the failure.
+  final String? cause;
+
+  /// The error code of the Map Run failure.
+  final String? error;
+
+  MapRunFailedEventDetails({
+    this.cause,
+    this.error,
+  });
+
+  factory MapRunFailedEventDetails.fromJson(Map<String, dynamic> json) {
+    return MapRunFailedEventDetails(
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final error = this.error;
+    return {
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+/// Contains details about a Map Run that was redriven.
+class MapRunRedrivenEventDetails {
+  /// The Amazon Resource Name (ARN) of a Map Run that was redriven.
+  final String? mapRunArn;
+
+  /// The number of times the Map Run has been redriven at this point in the
+  /// execution's history including this event. The redrive count for a redriven
+  /// Map Run is always greater than 0.
+  final int? redriveCount;
+
+  MapRunRedrivenEventDetails({
+    this.mapRunArn,
+    this.redriveCount,
+  });
+
+  factory MapRunRedrivenEventDetails.fromJson(Map<String, dynamic> json) {
+    return MapRunRedrivenEventDetails(
+      mapRunArn: json['mapRunArn'] as String?,
+      redriveCount: json['redriveCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mapRunArn = this.mapRunArn;
+    final redriveCount = this.redriveCount;
+    return {
+      if (mapRunArn != null) 'mapRunArn': mapRunArn,
+      if (redriveCount != null) 'redriveCount': redriveCount,
+    };
+  }
+}
+
+/// Contains details about an evaluation failure that occurred while processing
+/// a state, for example, when a JSONata expression throws an error. This event
+/// will only be present in state machines that have <b> QueryLanguage</b> set
+/// to JSONata, or individual states set to JSONata.
+class EvaluationFailedEventDetails {
+  /// The name of the state in which the evaluation error occurred.
+  final String state;
+
+  /// A more detailed explanation of the cause of the failure.
+  final String? cause;
+
+  /// The error code of the failure.
+  final String? error;
+
+  /// The location of the field in the state in which the evaluation error
+  /// occurred.
   final String? location;
 
-  ValidateStateMachineDefinitionDiagnostic({
-    required this.code,
-    required this.message,
-    required this.severity,
+  EvaluationFailedEventDetails({
+    required this.state,
+    this.cause,
+    this.error,
     this.location,
   });
 
-  factory ValidateStateMachineDefinitionDiagnostic.fromJson(
-      Map<String, dynamic> json) {
-    return ValidateStateMachineDefinitionDiagnostic(
-      code: (json['code'] as String?) ?? '',
-      message: (json['message'] as String?) ?? '',
-      severity: ValidateStateMachineDefinitionSeverity.fromString(
-          (json['severity'] as String?) ?? ''),
+  factory EvaluationFailedEventDetails.fromJson(Map<String, dynamic> json) {
+    return EvaluationFailedEventDetails(
+      state: (json['state'] as String?) ?? '',
+      cause: json['cause'] as String?,
+      error: json['error'] as String?,
       location: json['location'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final severity = this.severity;
+    final state = this.state;
+    final cause = this.cause;
+    final error = this.error;
     final location = this.location;
     return {
-      'code': code,
-      'message': message,
-      'severity': severity.value,
+      'state': state,
+      if (cause != null) 'cause': cause,
+      if (error != null) 'error': error,
       if (location != null) 'location': location,
     };
   }
 }
 
-class ValidateStateMachineDefinitionOutput {
-  /// If the result is <code>OK</code>, this field will be empty. When there are
-  /// errors, this field will contain an array of <b>Diagnostic</b> objects to
-  /// help you troubleshoot.
-  final List<ValidateStateMachineDefinitionDiagnostic> diagnostics;
-
-  /// The result value will be <code>OK</code> when no syntax errors are found, or
-  /// <code>FAIL</code> if the workflow definition does not pass verification.
-  final ValidateStateMachineDefinitionResultCode result;
-
-  /// The result value will be <code>true</code> if the number of diagnostics
-  /// found in the workflow definition exceeds <code>maxResults</code>. When all
-  /// diagnostics results are returned, the value will be <code>false</code>.
+/// Provides details about input or output in an execution history event.
+class HistoryEventExecutionDataDetails {
+  /// Indicates whether input or output was truncated in the response. Always
+  /// <code>false</code> for API calls. In CloudWatch logs, the value will be true
+  /// if the data is truncated due to size limits.
   final bool? truncated;
 
-  ValidateStateMachineDefinitionOutput({
-    required this.diagnostics,
-    required this.result,
+  HistoryEventExecutionDataDetails({
     this.truncated,
   });
 
-  factory ValidateStateMachineDefinitionOutput.fromJson(
-      Map<String, dynamic> json) {
-    return ValidateStateMachineDefinitionOutput(
-      diagnostics: ((json['diagnostics'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ValidateStateMachineDefinitionDiagnostic.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      result: ValidateStateMachineDefinitionResultCode.fromString(
-          (json['result'] as String?) ?? ''),
+  factory HistoryEventExecutionDataDetails.fromJson(Map<String, dynamic> json) {
+    return HistoryEventExecutionDataDetails(
       truncated: json['truncated'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final diagnostics = this.diagnostics;
-    final result = this.result;
     final truncated = this.truncated;
     return {
-      'diagnostics': diagnostics,
-      'result': result.value,
       if (truncated != null) 'truncated': truncated,
     };
   }
 }
 
-class ValidateStateMachineDefinitionResultCode {
-  static const ok = ValidateStateMachineDefinitionResultCode._('OK');
-  static const fail = ValidateStateMachineDefinitionResultCode._('FAIL');
+/// Provides details about assigned variables in an execution history event.
+class AssignedVariablesDetails {
+  /// Indicates whether assigned variables were truncated in the response. Always
+  /// <code>false</code> for API calls. In CloudWatch logs, the value will be true
+  /// if the data is truncated due to size limits.
+  final bool? truncated;
+
+  AssignedVariablesDetails({
+    this.truncated,
+  });
+
+  factory AssignedVariablesDetails.fromJson(Map<String, dynamic> json) {
+    return AssignedVariablesDetails(
+      truncated: json['truncated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final truncated = this.truncated;
+    return {
+      if (truncated != null) 'truncated': truncated,
+    };
+  }
+}
+
+/// Contains details about the credentials that Step Functions uses for a task.
+class TaskCredentials {
+  /// The ARN of an IAM role that Step Functions assumes for the task. The role
+  /// can allow cross-account access to resources.
+  final String? roleArn;
+
+  TaskCredentials({
+    this.roleArn,
+  });
+
+  factory TaskCredentials.fromJson(Map<String, dynamic> json) {
+    return TaskCredentials(
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    return {
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
+}
+
+class StateMachineStatus {
+  static const active = StateMachineStatus._('ACTIVE');
+  static const deleting = StateMachineStatus._('DELETING');
 
   final String value;
 
-  const ValidateStateMachineDefinitionResultCode._(this.value);
+  const StateMachineStatus._(this.value);
 
-  static const values = [ok, fail];
+  static const values = [active, deleting];
 
-  static ValidateStateMachineDefinitionResultCode fromString(String value) =>
+  static StateMachineStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ValidateStateMachineDefinitionResultCode._(value));
+          orElse: () => StateMachineStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is ValidateStateMachineDefinitionResultCode && other.value == value;
+      other is StateMachineStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -8033,23 +8409,261 @@ class ValidateStateMachineDefinitionResultCode {
   String toString() => value;
 }
 
-class ValidateStateMachineDefinitionSeverity {
-  static const error = ValidateStateMachineDefinitionSeverity._('ERROR');
-  static const warning = ValidateStateMachineDefinitionSeverity._('WARNING');
+class MapRunStatus {
+  static const running = MapRunStatus._('RUNNING');
+  static const succeeded = MapRunStatus._('SUCCEEDED');
+  static const failed = MapRunStatus._('FAILED');
+  static const aborted = MapRunStatus._('ABORTED');
 
   final String value;
 
-  const ValidateStateMachineDefinitionSeverity._(this.value);
+  const MapRunStatus._(this.value);
 
-  static const values = [error, warning];
+  static const values = [running, succeeded, failed, aborted];
 
-  static ValidateStateMachineDefinitionSeverity fromString(String value) =>
+  static MapRunStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MapRunStatus._(value));
+
+  @override
+  bool operator ==(other) => other is MapRunStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains details about items that were processed in all of the child
+/// workflow executions that were started by a Map Run.
+class MapRunItemCounts {
+  /// The total number of items processed in child workflow executions that were
+  /// either stopped by the user or by Step Functions, because the Map Run failed.
+  final int aborted;
+
+  /// The total number of items processed in child workflow executions that have
+  /// failed.
+  final int failed;
+
+  /// The total number of items to process in child workflow executions that
+  /// haven't started running yet.
+  final int pending;
+
+  /// Returns the count of items whose results were written by
+  /// <code>ResultWriter</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html">ResultWriter</a>
+  /// in the <i>Step Functions Developer Guide</i>.
+  final int resultsWritten;
+
+  /// The total number of items being processed in child workflow executions that
+  /// are currently in-progress.
+  final int running;
+
+  /// The total number of items processed in child workflow executions that have
+  /// completed successfully.
+  final int succeeded;
+
+  /// The total number of items processed in child workflow executions that have
+  /// timed out.
+  final int timedOut;
+
+  /// The total number of items processed in all the child workflow executions
+  /// started by a Map Run.
+  final int total;
+
+  /// The number of <code>FAILED</code>, <code>ABORTED</code>, or
+  /// <code>TIMED_OUT</code> items in child workflow executions that cannot be
+  /// redriven because the execution status of those child workflows is terminal.
+  /// For example, child workflows with an execution status of
+  /// <code>FAILED</code>, <code>ABORTED</code>, or <code>TIMED_OUT</code> and a
+  /// <code>redriveStatus</code> of <code>NOT_REDRIVABLE</code>.
+  final int? failuresNotRedrivable;
+
+  /// The number of unsuccessful items in child workflow executions currently
+  /// waiting to be redriven.
+  final int? pendingRedrive;
+
+  MapRunItemCounts({
+    required this.aborted,
+    required this.failed,
+    required this.pending,
+    required this.resultsWritten,
+    required this.running,
+    required this.succeeded,
+    required this.timedOut,
+    required this.total,
+    this.failuresNotRedrivable,
+    this.pendingRedrive,
+  });
+
+  factory MapRunItemCounts.fromJson(Map<String, dynamic> json) {
+    return MapRunItemCounts(
+      aborted: (json['aborted'] as int?) ?? 0,
+      failed: (json['failed'] as int?) ?? 0,
+      pending: (json['pending'] as int?) ?? 0,
+      resultsWritten: (json['resultsWritten'] as int?) ?? 0,
+      running: (json['running'] as int?) ?? 0,
+      succeeded: (json['succeeded'] as int?) ?? 0,
+      timedOut: (json['timedOut'] as int?) ?? 0,
+      total: (json['total'] as int?) ?? 0,
+      failuresNotRedrivable: json['failuresNotRedrivable'] as int?,
+      pendingRedrive: json['pendingRedrive'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aborted = this.aborted;
+    final failed = this.failed;
+    final pending = this.pending;
+    final resultsWritten = this.resultsWritten;
+    final running = this.running;
+    final succeeded = this.succeeded;
+    final timedOut = this.timedOut;
+    final total = this.total;
+    final failuresNotRedrivable = this.failuresNotRedrivable;
+    final pendingRedrive = this.pendingRedrive;
+    return {
+      'aborted': aborted,
+      'failed': failed,
+      'pending': pending,
+      'resultsWritten': resultsWritten,
+      'running': running,
+      'succeeded': succeeded,
+      'timedOut': timedOut,
+      'total': total,
+      if (failuresNotRedrivable != null)
+        'failuresNotRedrivable': failuresNotRedrivable,
+      if (pendingRedrive != null) 'pendingRedrive': pendingRedrive,
+    };
+  }
+}
+
+/// Contains details about all of the child workflow executions started by a Map
+/// Run.
+class MapRunExecutionCounts {
+  /// The total number of child workflow executions that were started by a Map Run
+  /// and were running, but were either stopped by the user or by Step Functions
+  /// because the Map Run failed.
+  final int aborted;
+
+  /// The total number of child workflow executions that were started by a Map
+  /// Run, but have failed.
+  final int failed;
+
+  /// The total number of child workflow executions that were started by a Map
+  /// Run, but haven't started executing yet.
+  final int pending;
+
+  /// Returns the count of child workflow executions whose results were written by
+  /// <code>ResultWriter</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html">ResultWriter</a>
+  /// in the <i>Step Functions Developer Guide</i>.
+  final int resultsWritten;
+
+  /// The total number of child workflow executions that were started by a Map Run
+  /// and are currently in-progress.
+  final int running;
+
+  /// The total number of child workflow executions that were started by a Map Run
+  /// and have completed successfully.
+  final int succeeded;
+
+  /// The total number of child workflow executions that were started by a Map Run
+  /// and have timed out.
+  final int timedOut;
+
+  /// The total number of child workflow executions that were started by a Map
+  /// Run.
+  final int total;
+
+  /// The number of <code>FAILED</code>, <code>ABORTED</code>, or
+  /// <code>TIMED_OUT</code> child workflow executions that cannot be redriven
+  /// because their execution status is terminal. For example, child workflows
+  /// with an execution status of <code>FAILED</code>, <code>ABORTED</code>, or
+  /// <code>TIMED_OUT</code> and a <code>redriveStatus</code> of
+  /// <code>NOT_REDRIVABLE</code>.
+  final int? failuresNotRedrivable;
+
+  /// The number of unsuccessful child workflow executions currently waiting to be
+  /// redriven. The status of these child workflow executions could be
+  /// <code>FAILED</code>, <code>ABORTED</code>, or <code>TIMED_OUT</code> in the
+  /// original execution attempt or a previous redrive attempt.
+  final int? pendingRedrive;
+
+  MapRunExecutionCounts({
+    required this.aborted,
+    required this.failed,
+    required this.pending,
+    required this.resultsWritten,
+    required this.running,
+    required this.succeeded,
+    required this.timedOut,
+    required this.total,
+    this.failuresNotRedrivable,
+    this.pendingRedrive,
+  });
+
+  factory MapRunExecutionCounts.fromJson(Map<String, dynamic> json) {
+    return MapRunExecutionCounts(
+      aborted: (json['aborted'] as int?) ?? 0,
+      failed: (json['failed'] as int?) ?? 0,
+      pending: (json['pending'] as int?) ?? 0,
+      resultsWritten: (json['resultsWritten'] as int?) ?? 0,
+      running: (json['running'] as int?) ?? 0,
+      succeeded: (json['succeeded'] as int?) ?? 0,
+      timedOut: (json['timedOut'] as int?) ?? 0,
+      total: (json['total'] as int?) ?? 0,
+      failuresNotRedrivable: json['failuresNotRedrivable'] as int?,
+      pendingRedrive: json['pendingRedrive'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aborted = this.aborted;
+    final failed = this.failed;
+    final pending = this.pending;
+    final resultsWritten = this.resultsWritten;
+    final running = this.running;
+    final succeeded = this.succeeded;
+    final timedOut = this.timedOut;
+    final total = this.total;
+    final failuresNotRedrivable = this.failuresNotRedrivable;
+    final pendingRedrive = this.pendingRedrive;
+    return {
+      'aborted': aborted,
+      'failed': failed,
+      'pending': pending,
+      'resultsWritten': resultsWritten,
+      'running': running,
+      'succeeded': succeeded,
+      'timedOut': timedOut,
+      'total': total,
+      if (failuresNotRedrivable != null)
+        'failuresNotRedrivable': failuresNotRedrivable,
+      if (pendingRedrive != null) 'pendingRedrive': pendingRedrive,
+    };
+  }
+}
+
+class ExecutionRedriveStatus {
+  static const redrivable = ExecutionRedriveStatus._('REDRIVABLE');
+  static const notRedrivable = ExecutionRedriveStatus._('NOT_REDRIVABLE');
+  static const redrivableByMapRun =
+      ExecutionRedriveStatus._('REDRIVABLE_BY_MAP_RUN');
+
+  final String value;
+
+  const ExecutionRedriveStatus._(this.value);
+
+  static const values = [redrivable, notRedrivable, redrivableByMapRun];
+
+  static ExecutionRedriveStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ValidateStateMachineDefinitionSeverity._(value));
+          orElse: () => ExecutionRedriveStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is ValidateStateMachineDefinitionSeverity && other.value == value;
+      other is ExecutionRedriveStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

@@ -1,4 +1,4 @@
-import 'package:aws_client/sqs_2012_11_05.dart';
+import 'package:aws_client/sqs.dart';
 
 void main() async {
   final sqs = Sqs(

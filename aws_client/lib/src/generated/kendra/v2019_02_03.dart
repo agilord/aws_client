@@ -33,7 +33,6 @@ class Kendra {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'kendra',
-            signingName: 'kendra',
           ),
           region: region,
           credentials: credentials,
@@ -57,12 +56,12 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceAlreadyExistException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [entityList] :
   /// Lists users or groups in your IAM Identity Center identity source.
@@ -104,12 +103,12 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceAlreadyExistException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of your Amazon Kendra experience.
@@ -163,12 +162,12 @@ class Kendra {
   /// could take up to an hour or more, depending on the number of documents you
   /// want to delete.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [documentIdList] :
   /// One or more identifiers for documents to delete from the index.
@@ -206,11 +205,11 @@ class Kendra {
   /// a query, then one or more specific documents are featured in the search
   /// results.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [featuredResultsSetIds] :
   /// The identifiers of the featured results sets that you want to delete.
@@ -256,12 +255,12 @@ class Kendra {
   /// BatchDeleteDocument</a> API. When a document is deleted from the index,
   /// Amazon Kendra returns <code>NOT_FOUND</code> as the status.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [documentInfoList] :
   /// A list of <code>DocumentInfo</code> objects that identify the documents
@@ -315,13 +314,13 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/in-adding-binary-doc.html">Adding
   /// files directly to an index</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [documents] :
   /// One or more documents to add to the index.
@@ -400,12 +399,12 @@ class Kendra {
   /// <code>ClearQuerySuggestions</code> is currently not supported in the
   /// Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index you want to clear query suggestions from.
@@ -456,14 +455,21 @@ class Kendra {
   /// source. Amazon Kendra currently only supports access control configuration
   /// for S3 data sources and documents indexed using the
   /// <code>BatchPutDocument</code> API.
+  /// <important>
+  /// You can't configure access control using
+  /// <code>CreateAccessControlConfiguration</code> for an Amazon Kendra Gen AI
+  /// Enterprise Edition index. Amazon Kendra will return a
+  /// <code>ValidationException</code> error for a
+  /// <code>Gen_AI_ENTERPRISE_EDITION</code> index.
+  /// </important>
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index to create an access control configuration for
@@ -545,14 +551,14 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html">Getting
   /// started with Java SDK</a>.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceAlreadyExistException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index you want to use with the data source
@@ -688,13 +694,13 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index for your Amazon Kendra experience.
@@ -766,13 +772,13 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/in-creating-faq.html#using-faq-file">Using
   /// your FAQ file</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index for the FAQ.
@@ -782,7 +788,7 @@ class Kendra {
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of an IAM role with permission to access
-  /// the S3 bucket that contains the FAQs. For more information, see <a
+  /// the S3 bucket that contains the FAQ file. For more information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM
   /// access roles for Amazon Kendra</a>.
   ///
@@ -868,13 +874,13 @@ class Kendra {
   /// request to increase this limit by contacting <a
   /// href="http://aws.amazon.com/contact-us/">Support</a>.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [FeaturedResultsConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
+  /// May throw [FeaturedResultsConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [featuredResultsSetName] :
   /// A name for the set of featured results.
@@ -972,13 +978,13 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html">Getting
   /// started with Java SDK</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceAlreadyExistException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceAlreadyExistException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// A name for the index.
@@ -1001,13 +1007,15 @@ class Kendra {
   /// The Amazon Kendra edition to use for the index. Choose
   /// <code>DEVELOPER_EDITION</code> for indexes intended for development,
   /// testing, or proof of concept. Use <code>ENTERPRISE_EDITION</code> for
-  /// production. Once you set the edition for an index, it can't be changed.
+  /// production. Use <code>GEN_AI_ENTERPRISE_EDITION</code> for creating
+  /// generative AI applications. Once you set the edition for an index, it
+  /// can't be changed.
   ///
   /// The <code>Edition</code> parameter is optional. If you don't supply a
   /// value, the default is <code>ENTERPRISE_EDITION</code>.
   ///
-  /// For more information on quota limits for Enterprise and Developer
-  /// editions, see <a
+  /// For more information on quota limits for Gen AI Enterprise Edition,
+  /// Enterprise Edition, and Developer Edition indices, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/quotas.html">Quotas</a>.
   ///
   /// Parameter [serverSideEncryptionConfiguration] :
@@ -1023,7 +1031,13 @@ class Kendra {
   ///
   /// Parameter [userContextPolicy] :
   /// The user context policy.
-  /// <dl> <dt>ATTRIBUTE_FILTER</dt> <dd>
+  /// <important>
+  /// If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can
+  /// only use <code>ATTRIBUTE_FILTER</code> to filter search results by user
+  /// context. If you're using an Amazon Kendra Gen AI Enterprise Edition index
+  /// and you try to use <code>USER_TOKEN</code> to configure user context
+  /// policy, Amazon Kendra returns a <code>ValidationException</code> error.
+  /// </important> <dl> <dt>ATTRIBUTE_FILTER</dt> <dd>
   /// All indexed content is searchable and displayable for all users. If you
   /// want to filter search results on user context, you can use the attribute
   /// filters of <code>_user_id</code> and <code>_group_ids</code> or you can
@@ -1040,9 +1054,18 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html">UserGroupResolutionConfiguration</a>.
   /// This is useful for user context filtering, where search results are
   /// filtered based on the user or their group access to documents.
+  /// <important>
+  /// If you're using an Amazon Kendra Gen AI Enterprise Edition index,
+  /// <code>UserGroupResolutionConfiguration</code> isn't supported.
+  /// </important>
   ///
   /// Parameter [userTokenConfigurations] :
   /// The user token configuration.
+  /// <important>
+  /// If you're using an Amazon Kendra Gen AI Enterprise Edition index and you
+  /// try to use <code>UserTokenConfigurations</code> to configure user context
+  /// policy, Amazon Kendra returns a <code>ValidationException</code> error.
+  /// </important>
   Future<CreateIndexResponse> createIndex({
     required String name,
     required String roleArn,
@@ -1108,13 +1131,13 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/query-suggestions.html#query-suggestions-blocklist">Query
   /// suggestions block list</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index you want to create a query suggestions block
@@ -1198,13 +1221,13 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/index-synonyms-adding-thesaurus-file.html">Adding
   /// custom synonyms to an index</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index for the thesaurus.
@@ -1272,12 +1295,12 @@ class Kendra {
   /// your documents. This is useful for user context filtering, where search
   /// results are filtered based on the user or their group access to documents.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the access control configuration you want to delete.
@@ -1319,11 +1342,11 @@ class Kendra {
   /// depending on the number of documents you want to delete.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the data source connector you want to delete.
@@ -1357,11 +1380,11 @@ class Kendra {
   /// a search experience with no code</a>.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of your Amazon Kendra experience you want to delete.
@@ -1389,14 +1412,14 @@ class Kendra {
     );
   }
 
-  /// Removes an FAQ from an index.
+  /// Removes a FAQ from an index.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the FAQ you want to remove.
@@ -1429,12 +1452,12 @@ class Kendra {
   /// <code>Status</code> field returned by a call to the
   /// <code>DescribeIndex</code> API is set to <code>DELETING</code>.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the index you want to delete.
@@ -1457,8 +1480,8 @@ class Kendra {
     );
   }
 
-  /// Deletes a group so that all users and sub groups that belong to the group
-  /// can no longer access documents only available to that group.
+  /// Deletes a group so that all users that belong to the group can no longer
+  /// access documents only available to that group.
   ///
   /// For example, after deleting the group "Summer Interns", all interns who
   /// belonged to that group no longer see intern-only documents in their search
@@ -1476,12 +1499,12 @@ class Kendra {
   /// <code>DeletePrincipalMapping</code> is currently not supported in the
   /// Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [groupId] :
   /// The identifier of the group you want to delete.
@@ -1558,12 +1581,12 @@ class Kendra {
   /// <code>DeleteQuerySuggestionsBlockList</code> is currently not supported in
   /// the Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the block list you want to delete.
@@ -1593,12 +1616,12 @@ class Kendra {
 
   /// Deletes an Amazon Kendra thesaurus.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the thesaurus you want to delete.
@@ -1632,11 +1655,11 @@ class Kendra {
   /// where search results are filtered based on the user or their group access
   /// to documents.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the access control configuration you want to get
@@ -1672,11 +1695,11 @@ class Kendra {
 
   /// Gets information about an Amazon Kendra data source connector.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the data source connector.
@@ -1712,11 +1735,11 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of your Amazon Kendra experience you want to get
@@ -1747,13 +1770,13 @@ class Kendra {
     return DescribeExperienceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets information about an FAQ list.
+  /// Gets information about a FAQ.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the FAQ you want to get information on.
@@ -1788,11 +1811,11 @@ class Kendra {
   /// match of a query, then one or more specific documents are featured in the
   /// search results.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [featuredResultsSetId] :
   /// The identifier of the set of featured results that you want to get
@@ -1825,11 +1848,11 @@ class Kendra {
 
   /// Gets information about an Amazon Kendra index.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the index you want to get information on.
@@ -1864,11 +1887,11 @@ class Kendra {
   /// <code>DescribePrincipalMapping</code> is currently not supported in the
   /// Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [groupId] :
   /// The identifier of the group required to check the processing of
@@ -1918,11 +1941,11 @@ class Kendra {
   /// <code>DescribeQuerySuggestionsBlockList</code> is currently not supported
   /// in the Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the block list you want to get information on.
@@ -1962,11 +1985,11 @@ class Kendra {
   /// <code>DescribeQuerySuggestionsConfig</code> is currently not supported in
   /// the Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index with query suggestions that you want to get
@@ -1995,11 +2018,11 @@ class Kendra {
 
   /// Gets information about an Amazon Kendra thesaurus.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the thesaurus you want to get information on.
@@ -2036,11 +2059,11 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [entityList] :
   /// Lists users or groups in your IAM Identity Center identity source.
@@ -2085,11 +2108,11 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [entityIds] :
   /// The identifiers of users or groups in your IAM Identity Center identity
@@ -2132,13 +2155,13 @@ class Kendra {
   /// <code>GetQuerySuggestions</code> is currently not supported in the Amazon
   /// Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index you want to get query suggestions from.
@@ -2208,10 +2231,10 @@ class Kendra {
   /// users interact with your search application and how effective the
   /// application is.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index to get search metrics data.
@@ -2297,11 +2320,11 @@ class Kendra {
   /// useful for user context filtering, where search results are filtered based
   /// on the user or their group access to documents.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index for the access control configuration.
@@ -2346,14 +2369,64 @@ class Kendra {
     return ListAccessControlConfigurationsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets statistics about synchronizing a data source connector.
+  /// Lists the data source connectors that you have created.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [indexId] :
+  /// The identifier of the index used with one or more data source connectors.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of data source connectors to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous response was incomplete (because there is more data to
+  /// retrieve), Amazon Kendra returns a pagination token in the response. You
+  /// can use this pagination token to retrieve the next set of data source
+  /// connectors.
+  Future<ListDataSourcesResponse> listDataSources({
+    required String indexId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSKendraFrontendService.ListDataSources'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'IndexId': indexId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListDataSourcesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets statistics about synchronizing a data source connector.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the data source connector.
@@ -2415,64 +2488,14 @@ class Kendra {
     return ListDataSourceSyncJobsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the data source connectors that you have created.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [indexId] :
-  /// The identifier of the index used with one or more data source connectors.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of data source connectors to return.
-  ///
-  /// Parameter [nextToken] :
-  /// If the previous response was incomplete (because there is more data to
-  /// retrieve), Amazon Kendra returns a pagination token in the response. You
-  /// can use this pagination token to retrieve the next set of data source
-  /// connectors.
-  Future<ListDataSourcesResponse> listDataSources({
-    required String indexId,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSKendraFrontendService.ListDataSources'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'IndexId': indexId,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListDataSourcesResponse.fromJson(jsonResponse.body);
-  }
-
   /// Lists specific permissions of users and groups with access to your Amazon
   /// Kendra experience.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of your Amazon Kendra experience.
@@ -2527,11 +2550,11 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of your Amazon Kendra experience.
@@ -2574,11 +2597,11 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index for your Amazon Kendra experience.
@@ -2622,16 +2645,16 @@ class Kendra {
     return ListExperiencesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list of FAQ lists associated with an index.
+  /// Gets a list of FAQs associated with an index.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
-  /// The index that contains the FAQ lists.
+  /// The index for the FAQs.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of FAQs to return in the response. If there are fewer
@@ -2677,11 +2700,11 @@ class Kendra {
   /// an exact match of a query, then one or more specific documents are
   /// featured in the search results.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index used for featuring results.
@@ -2730,12 +2753,12 @@ class Kendra {
   /// <code>ListGroupsOlderThanOrderingId</code> is currently not supported in
   /// the Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index for getting a list of groups mapped to users
@@ -2802,10 +2825,10 @@ class Kendra {
 
   /// Lists the Amazon Kendra indexes that you created.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of indices to return.
@@ -2852,11 +2875,11 @@ class Kendra {
   /// <code>ListQuerySuggestionsBlockLists</code> is currently not supported in
   /// the Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index for a list of all block lists that exist for
@@ -2906,18 +2929,24 @@ class Kendra {
     return ListQuerySuggestionsBlockListsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Gets a list of tags associated with a specified resource. Indexes, FAQs,
-  /// and data sources can have tags associated with them.
+  /// Gets a list of tags associated with a resource. Indexes, FAQs, data
+  /// sources, and other resources can have tags associated with them.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceUnavailableException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to get a
-  /// list of tags for.
+  /// The Amazon Resource Name (ARN) of the index, FAQ, data source, or other
+  /// resource to get a list of tags for. For example, the ARN of an index is
+  /// constructed as follows:
+  /// <i>arn:aws:kendra:your-region:your-account-id:index/index-id</i> For
+  /// information on how to construct an ARN for all types of Amazon Kendra
+  /// resources, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies">Resource
+  /// types</a>.
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceARN,
   }) async {
@@ -2941,11 +2970,11 @@ class Kendra {
 
   /// Lists the thesauri for an index.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index with one or more thesauri.
@@ -3008,22 +3037,22 @@ class Kendra {
   /// If more than five <code>PUT</code> actions for a group are currently
   /// processing, a validation exception is thrown.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [groupId] :
   /// The identifier of the group you want to map its users to.
   ///
   /// Parameter [groupMembers] :
-  /// The list that contains your users or sub groups that belong the same
-  /// group.
+  /// The list that contains your users that belong the same group. This can
+  /// include sub groups that belong to a group.
   ///
-  /// For example, the group "Company" includes the user "CEO" and the sub
+  /// For example, the group "Company A" includes the user "CEO" and the sub
   /// groups "Research", "Engineering", and "Sales and Marketing".
   ///
   /// If you have more than 1000 users and/or sub groups for a single group, you
@@ -3046,7 +3075,7 @@ class Kendra {
   /// customer-related documents stored in Salesforce.
   ///
   /// Parameter [orderingId] :
-  /// The timestamp identifier you specify to ensure Amazon Kendra does not
+  /// The timestamp identifier you specify to ensure Amazon Kendra doesn't
   /// override the latest <code>PUT</code> action with previous actions. The
   /// highest number ID, which is the ordering ID, is the latest action you want
   /// to process and apply on top of other actions with lower number IDs. This
@@ -3064,8 +3093,8 @@ class Kendra {
   /// action was received by Amazon Kendra.
   ///
   /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) of a role that has access to the S3 file
-  /// that contains your list of users or sub groups that belong to a group.
+  /// The Amazon Resource Name (ARN) of an IAM role that has access to the S3
+  /// file that contains your list of users that belong to a group.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-ds">IAM
@@ -3142,14 +3171,21 @@ class Kendra {
   /// most relevant results. If you filter result type to only question-answers,
   /// a maximum of four results are returned. If you filter result type to only
   /// answers, a maximum of three results are returned.
+  /// <important>
+  /// If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can
+  /// only use <code>ATTRIBUTE_FILTER</code> to filter search results by user
+  /// context. If you're using an Amazon Kendra Gen AI Enterprise Edition index
+  /// and you try to use <code>USER_TOKEN</code> to configure user context
+  /// policy, Amazon Kendra returns a <code>ValidationException</code> error.
+  /// </important>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index for the search.
@@ -3163,6 +3199,12 @@ class Kendra {
   /// The <code>AttributeFilter</code> parameter means you can create a set of
   /// filtering rules that a document must satisfy to be included in the query
   /// results.
+  /// <note>
+  /// For Amazon Kendra Gen AI Enterprise Edition indices use
+  /// <code>AttributeFilter</code> to enable document filtering for end users
+  /// using <code>_email_id</code> or include public documents
+  /// (<code>_email_id=null</code>).
+  /// </note>
   ///
   /// Parameter [collapseConfiguration] :
   /// Provides configuration to determine how to group results by document
@@ -3350,14 +3392,21 @@ class Kendra {
   /// for an index, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html">Adjusting
   /// capacity</a>.
+  /// <important>
+  /// If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can
+  /// only use <code>ATTRIBUTE_FILTER</code> to filter search results by user
+  /// context. If you're using an Amazon Kendra Gen AI Enterprise Edition index
+  /// and you try to use <code>USER_TOKEN</code> to configure user context
+  /// policy, Amazon Kendra returns a <code>ValidationException</code> error.
+  /// </important>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index to retrieve relevant passages for the search.
@@ -3381,6 +3430,12 @@ class Kendra {
   /// The <code>AttributeFilter</code> parameter means you can create a set of
   /// filtering rules that a document must satisfy to be included in the query
   /// results.
+  /// <note>
+  /// For Amazon Kendra Gen AI Enterprise Edition indices use
+  /// <code>AttributeFilter</code> to enable document filtering for end users
+  /// using <code>_email_id</code> or include public documents
+  /// (<code>_email_id=null</code>).
+  /// </note>
   ///
   /// Parameter [documentRelevanceOverrideConfigurations] :
   /// Overrides relevance tuning configurations of fields/attributes set at the
@@ -3460,13 +3515,13 @@ class Kendra {
   /// deleting documents from your data source respository could take up to an
   /// hour or more, depending on the number of documents to sync.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the data source connector to synchronize.
@@ -3499,11 +3554,11 @@ class Kendra {
   /// Stops a synchronization job that is currently running. You can't stop a
   /// scheduled synchronization job.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the data source connector for which to stop the
@@ -3538,12 +3593,12 @@ class Kendra {
   /// <code>SubmitFeedback</code> is currently not supported in the Amazon Web
   /// Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceUnavailableException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index that was queried.
@@ -3587,22 +3642,29 @@ class Kendra {
     );
   }
 
-  /// Adds the specified tag to the specified index, FAQ, or data source
+  /// Adds the specified tag to the specified index, FAQ, data source, or other
   /// resource. If the tag already exists, the existing value is replaced with
   /// the new value.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceUnavailableException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to tag.
+  /// The Amazon Resource Name (ARN) of the index, FAQ, data source, or other
+  /// resource to add a tag. For example, the ARN of an index is constructed as
+  /// follows: <i>arn:aws:kendra:your-region:your-account-id:index/index-id</i>
+  /// For information on how to construct an ARN for all types of Amazon Kendra
+  /// resources, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies">Resource
+  /// types</a>.
   ///
   /// Parameter [tags] :
-  /// A list of tag keys to add to the index, FAQ, or data source. If a tag
-  /// already exists, the existing value is replaced with the new value.
+  /// A list of tag keys to add to the index, FAQ, data source, or other
+  /// resource. If a tag already exists, the existing value is replaced with the
+  /// new value.
   Future<void> tagResource({
     required String resourceARN,
     required List<Tag> tags,
@@ -3624,21 +3686,27 @@ class Kendra {
     );
   }
 
-  /// Removes a tag from an index, FAQ, or a data source.
+  /// Removes a tag from an index, FAQ, data source, or other resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceUnavailableException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name (ARN) of the index, FAQ, or data source to remove
-  /// the tag from.
+  /// The Amazon Resource Name (ARN) of the index, FAQ, data source, or other
+  /// resource to remove a tag. For example, the ARN of an index is constructed
+  /// as follows:
+  /// <i>arn:aws:kendra:your-region:your-account-id:index/index-id</i> For
+  /// information on how to construct an ARN for all types of Amazon Kendra
+  /// resources, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies">Resource
+  /// types</a>.
   ///
   /// Parameter [tagKeys] :
-  /// A list of tag keys to remove from the index, FAQ, or data source. If a tag
-  /// key does not exist on the resource, it is ignored.
+  /// A list of tag keys to remove from the index, FAQ, data source, or other
+  /// resource. If a tag key doesn't exist for the resource, it is ignored.
   Future<void> untagResource({
     required String resourceARN,
     required List<String> tagKeys,
@@ -3685,14 +3753,21 @@ class Kendra {
   /// <code>.metadata.json</code> file. Amazon Kendra currently only supports
   /// access control configuration for S3 data sources and documents indexed
   /// using the <code>BatchPutDocument</code> API.
+  /// <important>
+  /// You can't configure access control using
+  /// <code>CreateAccessControlConfiguration</code> for an Amazon Kendra Gen AI
+  /// Enterprise Edition index. Amazon Kendra will return a
+  /// <code>ValidationException</code> error for a
+  /// <code>Gen_AI_ENTERPRISE_EDITION</code> index.
+  /// </important>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the access control configuration you want to update.
@@ -3750,12 +3825,12 @@ class Kendra {
 
   /// Updates an Amazon Kendra data source connector.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the data source connector you want to update.
@@ -3792,8 +3867,8 @@ class Kendra {
   /// A new name for the data source connector.
   ///
   /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) of a role with permission to access the
-  /// data source and required resources. For more information, see <a
+  /// The Amazon Resource Name (ARN) of an IAM role with permission to access
+  /// the data source and required resources. For more information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM
   /// roles for Amazon Kendra</a>.
   ///
@@ -3850,12 +3925,12 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
   /// a search experience with no code</a>.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of your Amazon Kendra experience you want to update.
@@ -3874,10 +3949,10 @@ class Kendra {
   /// A new name for your Amazon Kendra experience.
   ///
   /// Parameter [roleArn] :
-  /// The Amazon Resource Name (ARN) of a role with permission to access
-  /// <code>Query</code> API, <code>QuerySuggestions</code> API,
+  /// The Amazon Resource Name (ARN) of an IAM role with permission to access
+  /// the <code>Query</code> API, <code>QuerySuggestions</code> API,
   /// <code>SubmitFeedback</code> API, and IAM Identity Center that stores your
-  /// user and group information. For more information, see <a
+  /// users and groups information. For more information, see <a
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM
   /// roles for Amazon Kendra</a>.
   Future<void> updateExperience({
@@ -3915,12 +3990,12 @@ class Kendra {
   /// of a query, then one or more specific documents are featured in the search
   /// results.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [FeaturedResultsConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [featuredResultsSetId] :
   /// The identifier of the set of featured results that you want to update.
@@ -3988,13 +4063,13 @@ class Kendra {
 
   /// Updates an Amazon Kendra index.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the index you want to update.
@@ -4024,6 +4099,13 @@ class Kendra {
   ///
   /// Parameter [userContextPolicy] :
   /// The user context policy.
+  /// <important>
+  /// If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can
+  /// only use <code>ATTRIBUTE_FILTER</code> to filter search results by user
+  /// context. If you're using an Amazon Kendra Gen AI Enterprise Edition index
+  /// and you try to use <code>USER_TOKEN</code> to configure user context
+  /// policy, Amazon Kendra returns a <code>ValidationException</code> error.
+  /// </important>
   ///
   /// Parameter [userGroupResolutionConfiguration] :
   /// Gets users and groups from IAM Identity Center identity source. To
@@ -4031,9 +4113,18 @@ class Kendra {
   /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html">UserGroupResolutionConfiguration</a>.
   /// This is useful for user context filtering, where search results are
   /// filtered based on the user or their group access to documents.
+  /// <important>
+  /// If you're using an Amazon Kendra Gen AI Enterprise Edition index,
+  /// <code>UserGroupResolutionConfiguration</code> isn't supported.
+  /// </important>
   ///
   /// Parameter [userTokenConfigurations] :
   /// The user token configuration.
+  /// <important>
+  /// If you're using an Amazon Kendra Gen AI Enterprise Edition index and you
+  /// try to use <code>UserTokenConfigurations</code> to configure user context
+  /// policy, Amazon Kendra returns a <code>ValidationException</code> error.
+  /// </important>
   Future<void> updateIndex({
     required String id,
     CapacityUnitsConfiguration? capacityUnits,
@@ -4089,12 +4180,12 @@ class Kendra {
   /// <code>UpdateQuerySuggestionsBlockList</code> is currently not supported in
   /// the Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the block list you want to update.
@@ -4170,12 +4261,12 @@ class Kendra {
   /// <code>UpdateQuerySuggestionsConfig</code> is currently not supported in
   /// the Amazon Web Services GovCloud (US-West) region.
   ///
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [indexId] :
   /// The identifier of the index with query suggestions you want to update.
@@ -4287,12 +4378,12 @@ class Kendra {
 
   /// Updates a thesaurus for an index.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The identifier of the thesaurus you want to update.
@@ -4337,394 +4428,6 @@ class Kendra {
       },
     );
   }
-}
-
-/// Summary information on an access control configuration that you created for
-/// your documents in an index.
-class AccessControlConfigurationSummary {
-  /// The identifier of the access control configuration.
-  final String id;
-
-  AccessControlConfigurationSummary({
-    required this.id,
-  });
-
-  factory AccessControlConfigurationSummary.fromJson(
-      Map<String, dynamic> json) {
-    return AccessControlConfigurationSummary(
-      id: (json['Id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      'Id': id,
-    };
-  }
-}
-
-/// Access Control List files for the documents in a data source. For the format
-/// of the file, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html">Access
-/// control for S3 data sources</a>.
-class AccessControlListConfiguration {
-  /// Path to the Amazon S3 bucket that contains the ACL files.
-  final String? keyPath;
-
-  AccessControlListConfiguration({
-    this.keyPath,
-  });
-
-  factory AccessControlListConfiguration.fromJson(Map<String, dynamic> json) {
-    return AccessControlListConfiguration(
-      keyPath: json['KeyPath'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final keyPath = this.keyPath;
-    return {
-      if (keyPath != null) 'KeyPath': keyPath,
-    };
-  }
-}
-
-/// Provides information about the column that should be used for filtering the
-/// query response by groups.
-class AclConfiguration {
-  /// A list of groups, separated by semi-colons, that filters a query response
-  /// based on user context. The document is only returned to users that are in
-  /// one of the groups specified in the <code>UserContext</code> field of the
-  /// <code>Query</code> API.
-  final String allowedGroupsColumnName;
-
-  AclConfiguration({
-    required this.allowedGroupsColumnName,
-  });
-
-  factory AclConfiguration.fromJson(Map<String, dynamic> json) {
-    return AclConfiguration(
-      allowedGroupsColumnName:
-          (json['AllowedGroupsColumnName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedGroupsColumnName = this.allowedGroupsColumnName;
-    return {
-      'AllowedGroupsColumnName': allowedGroupsColumnName,
-    };
-  }
-}
-
-/// An attribute returned from an index query.
-class AdditionalResultAttribute {
-  /// The key that identifies the attribute.
-  final String key;
-
-  /// An object that contains the attribute value.
-  final AdditionalResultAttributeValue value;
-
-  /// The data type of the <code>Value</code> property.
-  final AdditionalResultAttributeValueType valueType;
-
-  AdditionalResultAttribute({
-    required this.key,
-    required this.value,
-    required this.valueType,
-  });
-
-  factory AdditionalResultAttribute.fromJson(Map<String, dynamic> json) {
-    return AdditionalResultAttribute(
-      key: (json['Key'] as String?) ?? '',
-      value: AdditionalResultAttributeValue.fromJson(
-          (json['Value'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      valueType: AdditionalResultAttributeValueType.fromString(
-          (json['ValueType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    final valueType = this.valueType;
-    return {
-      'Key': key,
-      'Value': value,
-      'ValueType': valueType.value,
-    };
-  }
-}
-
-/// An attribute returned with a document from a search.
-class AdditionalResultAttributeValue {
-  /// The text associated with the attribute and information about the highlight
-  /// to apply to the text.
-  final TextWithHighlights? textWithHighlightsValue;
-
-  AdditionalResultAttributeValue({
-    this.textWithHighlightsValue,
-  });
-
-  factory AdditionalResultAttributeValue.fromJson(Map<String, dynamic> json) {
-    return AdditionalResultAttributeValue(
-      textWithHighlightsValue: json['TextWithHighlightsValue'] != null
-          ? TextWithHighlights.fromJson(
-              json['TextWithHighlightsValue'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final textWithHighlightsValue = this.textWithHighlightsValue;
-    return {
-      if (textWithHighlightsValue != null)
-        'TextWithHighlightsValue': textWithHighlightsValue,
-    };
-  }
-}
-
-class AdditionalResultAttributeValueType {
-  static const textWithHighlightsValue =
-      AdditionalResultAttributeValueType._('TEXT_WITH_HIGHLIGHTS_VALUE');
-
-  final String value;
-
-  const AdditionalResultAttributeValueType._(this.value);
-
-  static const values = [textWithHighlightsValue];
-
-  static AdditionalResultAttributeValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AdditionalResultAttributeValueType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AdditionalResultAttributeValueType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information to connect to Alfresco as your data
-/// source.
-/// <note>
-/// Support for <code>AlfrescoConfiguration</code> ended May 2023. We recommend
-/// migrating to or using the Alfresco data source template schema / <a
-/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
-/// API.
-/// </note>
-class AlfrescoConfiguration {
-  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
-  /// the key-value pairs required to connect to your Alfresco data source. The
-  /// secret must contain a JSON structure with the following keys:
-  ///
-  /// <ul>
-  /// <li>
-  /// username—The user name of the Alfresco account.
-  /// </li>
-  /// <li>
-  /// password—The password of the Alfresco account.
-  /// </li>
-  /// </ul>
-  final String secretArn;
-
-  /// The identifier of the Alfresco site. For example, <i>my-site</i>.
-  final String siteId;
-
-  /// The URL of the Alfresco site. For example, <i>https://hostname:8080</i>.
-  final String siteUrl;
-
-  /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this
-  /// to connect to Alfresco if you require a secure SSL connection.
-  ///
-  /// You can simply generate a self-signed X509 certificate on any computer using
-  /// OpenSSL. For an example of using OpenSSL to create an X509 certificate, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html">Create
-  /// and sign an X509 certificate</a>.
-  final S3Path sslCertificateS3Path;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Alfresco blogs to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Alfresco fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
-  /// Mapping data source fields</a>. The Alfresco data source field names must
-  /// exist in your Alfresco custom metadata.
-  final List<DataSourceToIndexFieldMapping>? blogFieldMappings;
-
-  /// <code>TRUE</code> to index comments of blogs and other content.
-  final bool? crawlComments;
-
-  /// <code>TRUE</code> to index shared files.
-  final bool? crawlSystemFolders;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Alfresco document libraries to Amazon Kendra
-  /// index field names. To create custom fields, use the <code>UpdateIndex</code>
-  /// API before you map to Alfresco fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
-  /// Mapping data source fields</a>. The Alfresco data source field names must
-  /// exist in your Alfresco custom metadata.
-  final List<DataSourceToIndexFieldMapping>? documentLibraryFieldMappings;
-
-  /// Specify whether to index document libraries, wikis, or blogs. You can
-  /// specify one or more of these options.
-  final List<AlfrescoEntity>? entityFilter;
-
-  /// A list of regular expression patterns to exclude certain files in your
-  /// Alfresco data source. Files that match the patterns are excluded from the
-  /// index. Files that don't match the patterns are included in the index. If a
-  /// file matches both an inclusion pattern and an exclusion pattern, the
-  /// exclusion pattern takes precedence and the file isn't included in the index.
-  final List<String>? exclusionPatterns;
-
-  /// A list of regular expression patterns to include certain files in your
-  /// Alfresco data source. Files that match the patterns are included in the
-  /// index. Files that don't match the patterns are excluded from the index. If a
-  /// file matches both an inclusion pattern and an exclusion pattern, the
-  /// exclusion pattern takes precedence and the file isn't included in the index.
-  final List<String>? inclusionPatterns;
-
-  /// Configuration information for an Amazon Virtual Private Cloud to connect to
-  /// your Alfresco. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
-  /// a VPC</a>.
-  final DataSourceVpcConfiguration? vpcConfiguration;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Alfresco wikis to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Alfresco fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
-  /// Mapping data source fields</a>. The Alfresco data source field names must
-  /// exist in your Alfresco custom metadata.
-  final List<DataSourceToIndexFieldMapping>? wikiFieldMappings;
-
-  AlfrescoConfiguration({
-    required this.secretArn,
-    required this.siteId,
-    required this.siteUrl,
-    required this.sslCertificateS3Path,
-    this.blogFieldMappings,
-    this.crawlComments,
-    this.crawlSystemFolders,
-    this.documentLibraryFieldMappings,
-    this.entityFilter,
-    this.exclusionPatterns,
-    this.inclusionPatterns,
-    this.vpcConfiguration,
-    this.wikiFieldMappings,
-  });
-
-  factory AlfrescoConfiguration.fromJson(Map<String, dynamic> json) {
-    return AlfrescoConfiguration(
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      siteId: (json['SiteId'] as String?) ?? '',
-      siteUrl: (json['SiteUrl'] as String?) ?? '',
-      sslCertificateS3Path: S3Path.fromJson(
-          (json['SslCertificateS3Path'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      blogFieldMappings: (json['BlogFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      crawlComments: json['CrawlComments'] as bool?,
-      crawlSystemFolders: json['CrawlSystemFolders'] as bool?,
-      documentLibraryFieldMappings: (json['DocumentLibraryFieldMappings']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      entityFilter: (json['EntityFilter'] as List?)
-          ?.nonNulls
-          .map((e) => AlfrescoEntity.fromString((e as String)))
-          .toList(),
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? DataSourceVpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
-          : null,
-      wikiFieldMappings: (json['WikiFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final secretArn = this.secretArn;
-    final siteId = this.siteId;
-    final siteUrl = this.siteUrl;
-    final sslCertificateS3Path = this.sslCertificateS3Path;
-    final blogFieldMappings = this.blogFieldMappings;
-    final crawlComments = this.crawlComments;
-    final crawlSystemFolders = this.crawlSystemFolders;
-    final documentLibraryFieldMappings = this.documentLibraryFieldMappings;
-    final entityFilter = this.entityFilter;
-    final exclusionPatterns = this.exclusionPatterns;
-    final inclusionPatterns = this.inclusionPatterns;
-    final vpcConfiguration = this.vpcConfiguration;
-    final wikiFieldMappings = this.wikiFieldMappings;
-    return {
-      'SecretArn': secretArn,
-      'SiteId': siteId,
-      'SiteUrl': siteUrl,
-      'SslCertificateS3Path': sslCertificateS3Path,
-      if (blogFieldMappings != null) 'BlogFieldMappings': blogFieldMappings,
-      if (crawlComments != null) 'CrawlComments': crawlComments,
-      if (crawlSystemFolders != null) 'CrawlSystemFolders': crawlSystemFolders,
-      if (documentLibraryFieldMappings != null)
-        'DocumentLibraryFieldMappings': documentLibraryFieldMappings,
-      if (entityFilter != null)
-        'EntityFilter': entityFilter.map((e) => e.value).toList(),
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-      if (wikiFieldMappings != null) 'WikiFieldMappings': wikiFieldMappings,
-    };
-  }
-}
-
-class AlfrescoEntity {
-  static const wiki = AlfrescoEntity._('wiki');
-  static const blog = AlfrescoEntity._('blog');
-  static const documentLibrary = AlfrescoEntity._('documentLibrary');
-
-  final String value;
-
-  const AlfrescoEntity._(this.value);
-
-  static const values = [wiki, blog, documentLibrary];
-
-  static AlfrescoEntity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AlfrescoEntity._(value));
-
-  @override
-  bool operator ==(other) => other is AlfrescoEntity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AssociateEntitiesToExperienceResponse {
@@ -4781,386 +4484,6 @@ class AssociatePersonasToEntitiesResponse {
   }
 }
 
-/// Filters the search results based on document attributes or fields.
-///
-/// You can filter results using attributes for your particular documents. The
-/// attributes must exist in your index. For example, if your documents include
-/// the custom attribute "Department", you can filter documents that belong to
-/// the "HR" department. You would use the <code>EqualsTo</code> operation to
-/// filter results or documents with "Department" equals to "HR".
-///
-/// You can use <code>AndAllFilters</code> and <code>AndOrFilters</code> in
-/// combination with each other or with other operations such as
-/// <code>EqualsTo</code>. For example:
-///
-/// <code>AndAllFilters</code>
-///
-/// <ul>
-/// <li>
-/// <code>EqualsTo</code>: "Department", "HR"
-/// </li>
-/// <li>
-/// <code>AndOrFilters</code>
-///
-/// <ul>
-/// <li>
-/// <code>ContainsAny</code>: "Project Name", ["new hires", "new hiring"]
-/// </li>
-/// </ul> </li>
-/// </ul>
-/// This example filters results or documents that belong to the HR department
-/// <i>and</i> belong to projects that contain "new hires" <i>or</i> "new
-/// hiring" in the project name (must use <code>ContainAny</code> with
-/// <code>StringListValue</code>). This example is filtering with a depth of 2.
-///
-/// You cannot filter more than a depth of 2, otherwise you receive a
-/// <code>ValidationException</code> exception with the message "AttributeFilter
-/// cannot have a depth of more than 2." Also, if you use more than 10 attribute
-/// filters in a given list for <code>AndAllFilters</code> or
-/// <code>OrAllFilters</code>, you receive a <code>ValidationException</code>
-/// with the message "AttributeFilter cannot have a length of more than 10".
-///
-/// For examples of using <code>AttributeFilter</code>, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering">Using
-/// document attributes to filter search results</a>.
-class AttributeFilter {
-  /// Performs a logical <code>AND</code> operation on all filters that you
-  /// specify.
-  final List<AttributeFilter>? andAllFilters;
-
-  /// Returns true when a document contains all of the specified document
-  /// attributes/fields. This filter is only applicable to <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">StringListValue</a>.
-  final DocumentAttribute? containsAll;
-
-  /// Returns true when a document contains any of the specified document
-  /// attributes/fields. This filter is only applicable to <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">StringListValue</a>.
-  final DocumentAttribute? containsAny;
-
-  /// Performs an equals operation on document attributes/fields and their values.
-  final DocumentAttribute? equalsTo;
-
-  /// Performs a greater than operation on document attributes/fields and their
-  /// values. Use with the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
-  /// attribute type</a> <code>Date</code> or <code>Long</code>.
-  final DocumentAttribute? greaterThan;
-
-  /// Performs a greater or equals than operation on document attributes/fields
-  /// and their values. Use with the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
-  /// attribute type</a> <code>Date</code> or <code>Long</code>.
-  final DocumentAttribute? greaterThanOrEquals;
-
-  /// Performs a less than operation on document attributes/fields and their
-  /// values. Use with the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
-  /// attribute type</a> <code>Date</code> or <code>Long</code>.
-  final DocumentAttribute? lessThan;
-
-  /// Performs a less than or equals operation on document attributes/fields and
-  /// their values. Use with the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
-  /// attribute type</a> <code>Date</code> or <code>Long</code>.
-  final DocumentAttribute? lessThanOrEquals;
-
-  /// Performs a logical <code>NOT</code> operation on all filters that you
-  /// specify.
-  final AttributeFilter? notFilter;
-
-  /// Performs a logical <code>OR</code> operation on all filters that you
-  /// specify.
-  final List<AttributeFilter>? orAllFilters;
-
-  AttributeFilter({
-    this.andAllFilters,
-    this.containsAll,
-    this.containsAny,
-    this.equalsTo,
-    this.greaterThan,
-    this.greaterThanOrEquals,
-    this.lessThan,
-    this.lessThanOrEquals,
-    this.notFilter,
-    this.orAllFilters,
-  });
-
-  Map<String, dynamic> toJson() {
-    final andAllFilters = this.andAllFilters;
-    final containsAll = this.containsAll;
-    final containsAny = this.containsAny;
-    final equalsTo = this.equalsTo;
-    final greaterThan = this.greaterThan;
-    final greaterThanOrEquals = this.greaterThanOrEquals;
-    final lessThan = this.lessThan;
-    final lessThanOrEquals = this.lessThanOrEquals;
-    final notFilter = this.notFilter;
-    final orAllFilters = this.orAllFilters;
-    return {
-      if (andAllFilters != null) 'AndAllFilters': andAllFilters,
-      if (containsAll != null) 'ContainsAll': containsAll,
-      if (containsAny != null) 'ContainsAny': containsAny,
-      if (equalsTo != null) 'EqualsTo': equalsTo,
-      if (greaterThan != null) 'GreaterThan': greaterThan,
-      if (greaterThanOrEquals != null)
-        'GreaterThanOrEquals': greaterThanOrEquals,
-      if (lessThan != null) 'LessThan': lessThan,
-      if (lessThanOrEquals != null) 'LessThanOrEquals': lessThanOrEquals,
-      if (notFilter != null) 'NotFilter': notFilter,
-      if (orAllFilters != null) 'OrAllFilters': orAllFilters,
-    };
-  }
-}
-
-/// Gets information on the configuration of document fields/attributes that you
-/// want to base query suggestions on. To change your configuration, use <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_AttributeSuggestionsUpdateConfig.html">AttributeSuggestionsUpdateConfig</a>
-/// and then call <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html">UpdateQuerySuggestionsConfig</a>.
-class AttributeSuggestionsDescribeConfig {
-  /// The mode is set to either <code>ACTIVE</code> or <code>INACTIVE</code>. If
-  /// the <code>Mode</code> for query history is set to <code>ENABLED</code> when
-  /// calling <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html">UpdateQuerySuggestionsConfig</a>
-  /// and <code>AttributeSuggestionsMode</code> to use fields/attributes is set to
-  /// <code>ACTIVE</code>, and you haven't set your <code>SuggestionTypes</code>
-  /// preference to <code>DOCUMENT_ATTRIBUTES</code>, then Amazon Kendra uses the
-  /// query history.
-  final AttributeSuggestionsMode? attributeSuggestionsMode;
-
-  /// The list of fields/attributes that you want to set as suggestible for query
-  /// suggestions.
-  final List<SuggestableConfig>? suggestableConfigList;
-
-  AttributeSuggestionsDescribeConfig({
-    this.attributeSuggestionsMode,
-    this.suggestableConfigList,
-  });
-
-  factory AttributeSuggestionsDescribeConfig.fromJson(
-      Map<String, dynamic> json) {
-    return AttributeSuggestionsDescribeConfig(
-      attributeSuggestionsMode: (json['AttributeSuggestionsMode'] as String?)
-          ?.let(AttributeSuggestionsMode.fromString),
-      suggestableConfigList: (json['SuggestableConfigList'] as List?)
-          ?.nonNulls
-          .map((e) => SuggestableConfig.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeSuggestionsMode = this.attributeSuggestionsMode;
-    final suggestableConfigList = this.suggestableConfigList;
-    return {
-      if (attributeSuggestionsMode != null)
-        'AttributeSuggestionsMode': attributeSuggestionsMode.value,
-      if (suggestableConfigList != null)
-        'SuggestableConfigList': suggestableConfigList,
-    };
-  }
-}
-
-/// Provides the configuration information for the document fields/attributes
-/// that you want to base query suggestions on.
-class AttributeSuggestionsGetConfig {
-  /// The list of additional document field/attribute keys or field names to
-  /// include in the response. You can use additional fields to provide extra
-  /// information in the response. Additional fields are not used to based
-  /// suggestions on.
-  final List<String>? additionalResponseAttributes;
-
-  /// Filters the search results based on document fields/attributes.
-  final AttributeFilter? attributeFilter;
-
-  /// The list of document field/attribute keys or field names to use for query
-  /// suggestions. If the content within any of the fields match what your user
-  /// starts typing as their query, then the field content is returned as a query
-  /// suggestion.
-  final List<String>? suggestionAttributes;
-
-  /// Applies user context filtering so that only users who are given access to
-  /// certain documents see these document in their search results.
-  final UserContext? userContext;
-
-  AttributeSuggestionsGetConfig({
-    this.additionalResponseAttributes,
-    this.attributeFilter,
-    this.suggestionAttributes,
-    this.userContext,
-  });
-
-  Map<String, dynamic> toJson() {
-    final additionalResponseAttributes = this.additionalResponseAttributes;
-    final attributeFilter = this.attributeFilter;
-    final suggestionAttributes = this.suggestionAttributes;
-    final userContext = this.userContext;
-    return {
-      if (additionalResponseAttributes != null)
-        'AdditionalResponseAttributes': additionalResponseAttributes,
-      if (attributeFilter != null) 'AttributeFilter': attributeFilter,
-      if (suggestionAttributes != null)
-        'SuggestionAttributes': suggestionAttributes,
-      if (userContext != null) 'UserContext': userContext,
-    };
-  }
-}
-
-class AttributeSuggestionsMode {
-  static const active = AttributeSuggestionsMode._('ACTIVE');
-  static const inactive = AttributeSuggestionsMode._('INACTIVE');
-
-  final String value;
-
-  const AttributeSuggestionsMode._(this.value);
-
-  static const values = [active, inactive];
-
-  static AttributeSuggestionsMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttributeSuggestionsMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AttributeSuggestionsMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Updates the configuration information for the document fields/attributes
-/// that you want to base query suggestions on.
-///
-/// To deactivate using documents fields for query suggestions, set the mode to
-/// <code>INACTIVE</code>. You must also set <code>SuggestionTypes</code> as
-/// either <code>QUERY</code> or <code>DOCUMENT_ATTRIBUTES</code> and then call
-/// <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html">GetQuerySuggestions</a>.
-/// If you set to <code>QUERY</code>, then Amazon Kendra uses the query history
-/// to base suggestions on. If you set to <code>DOCUMENT_ATTRIBUTES</code>, then
-/// Amazon Kendra uses the contents of document fields to base suggestions on.
-class AttributeSuggestionsUpdateConfig {
-  /// You can set the mode to <code>ACTIVE</code> or <code>INACTIVE</code>. You
-  /// must also set <code>SuggestionTypes</code> as either <code>QUERY</code> or
-  /// <code>DOCUMENT_ATTRIBUTES</code> and then call <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html">GetQuerySuggestions</a>.
-  /// If <code>Mode</code> to use query history is set to <code>ENABLED</code>
-  /// when calling <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html">UpdateQuerySuggestionsConfig</a>
-  /// and <code>AttributeSuggestionsMode</code> to use fields/attributes is set to
-  /// <code>ACTIVE</code>, and you haven't set your <code>SuggestionTypes</code>
-  /// preference to <code>DOCUMENT_ATTRIBUTES</code>, then Amazon Kendra uses the
-  /// query history.
-  final AttributeSuggestionsMode? attributeSuggestionsMode;
-
-  /// The list of fields/attributes that you want to set as suggestible for query
-  /// suggestions.
-  final List<SuggestableConfig>? suggestableConfigList;
-
-  AttributeSuggestionsUpdateConfig({
-    this.attributeSuggestionsMode,
-    this.suggestableConfigList,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attributeSuggestionsMode = this.attributeSuggestionsMode;
-    final suggestableConfigList = this.suggestableConfigList;
-    return {
-      if (attributeSuggestionsMode != null)
-        'AttributeSuggestionsMode': attributeSuggestionsMode.value,
-      if (suggestableConfigList != null)
-        'SuggestableConfigList': suggestableConfigList,
-    };
-  }
-}
-
-/// Provides the configuration information to connect to websites that require
-/// user authentication.
-class AuthenticationConfiguration {
-  /// The list of configuration information that's required to connect to and
-  /// crawl a website host using basic authentication credentials.
-  ///
-  /// The list includes the name and port number of the website host.
-  final List<BasicAuthenticationConfiguration>? basicAuthentication;
-
-  AuthenticationConfiguration({
-    this.basicAuthentication,
-  });
-
-  factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
-    return AuthenticationConfiguration(
-      basicAuthentication: (json['BasicAuthentication'] as List?)
-          ?.nonNulls
-          .map((e) => BasicAuthenticationConfiguration.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final basicAuthentication = this.basicAuthentication;
-    return {
-      if (basicAuthentication != null)
-        'BasicAuthentication': basicAuthentication,
-    };
-  }
-}
-
-/// Provides the configuration information to connect to websites that require
-/// basic user authentication.
-class BasicAuthenticationConfiguration {
-  /// Your secret ARN, which you can create in <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">Secrets
-  /// Manager</a>
-  ///
-  /// You use a secret if basic authentication credentials are required to connect
-  /// to a website. The secret stores your credentials of user name and password.
-  final String credentials;
-
-  /// The name of the website host you want to connect to using authentication
-  /// credentials.
-  ///
-  /// For example, the host name of https://a.example.com/page1.html is
-  /// "a.example.com".
-  final String host;
-
-  /// The port number of the website host you want to connect to using
-  /// authentication credentials.
-  ///
-  /// For example, the port for https://a.example.com/page1.html is 443, the
-  /// standard port for HTTPS.
-  final int port;
-
-  BasicAuthenticationConfiguration({
-    required this.credentials,
-    required this.host,
-    required this.port,
-  });
-
-  factory BasicAuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
-    return BasicAuthenticationConfiguration(
-      credentials: (json['Credentials'] as String?) ?? '',
-      host: (json['Host'] as String?) ?? '',
-      port: (json['Port'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final credentials = this.credentials;
-    final host = this.host;
-    final port = this.port;
-    return {
-      'Credentials': credentials,
-      'Host': host,
-      'Port': port,
-    };
-  }
-}
-
 class BatchDeleteDocumentResponse {
   /// A list of documents that could not be removed from the index. Each entry
   /// contains an error message that indicates why the document couldn't be
@@ -5185,89 +4508,6 @@ class BatchDeleteDocumentResponse {
     final failedDocuments = this.failedDocuments;
     return {
       if (failedDocuments != null) 'FailedDocuments': failedDocuments,
-    };
-  }
-}
-
-/// Provides information about documents that could not be removed from an index
-/// by the <code>BatchDeleteDocument</code> API.
-class BatchDeleteDocumentResponseFailedDocument {
-  /// The error code for why the document couldn't be removed from the index.
-  final ErrorCode? errorCode;
-
-  /// An explanation for why the document couldn't be removed from the index.
-  final String? errorMessage;
-
-  /// The identifier of the document that couldn't be removed from the index.
-  final String? id;
-
-  BatchDeleteDocumentResponseFailedDocument({
-    this.errorCode,
-    this.errorMessage,
-    this.id,
-  });
-
-  factory BatchDeleteDocumentResponseFailedDocument.fromJson(
-      Map<String, dynamic> json) {
-    return BatchDeleteDocumentResponseFailedDocument(
-      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final id = this.id;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-/// Provides information about a set of featured results that couldn't be
-/// removed from an index by the <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchDeleteFeaturedResultsSet.html">BatchDeleteFeaturedResultsSet</a>
-/// API.
-class BatchDeleteFeaturedResultsSetError {
-  /// The error code for why the set of featured results couldn't be removed from
-  /// the index.
-  final ErrorCode errorCode;
-
-  /// An explanation for why the set of featured results couldn't be removed from
-  /// the index.
-  final String errorMessage;
-
-  /// The identifier of the set of featured results that couldn't be removed from
-  /// the index.
-  final String id;
-
-  BatchDeleteFeaturedResultsSetError({
-    required this.errorCode,
-    required this.errorMessage,
-    required this.id,
-  });
-
-  factory BatchDeleteFeaturedResultsSetError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchDeleteFeaturedResultsSetError(
-      errorCode: ErrorCode.fromString((json['ErrorCode'] as String?) ?? ''),
-      errorMessage: (json['ErrorMessage'] as String?) ?? '',
-      id: (json['Id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final id = this.id;
-    return {
-      'ErrorCode': errorCode.value,
-      'ErrorMessage': errorMessage,
-      'Id': id,
     };
   }
 }
@@ -5340,45 +4580,6 @@ class BatchGetDocumentStatusResponse {
   }
 }
 
-/// Provides a response when the status of a document could not be retrieved.
-class BatchGetDocumentStatusResponseError {
-  /// The identifier of the document whose status could not be retrieved.
-  final String? documentId;
-
-  /// Indicates the source of the error.
-  final ErrorCode? errorCode;
-
-  /// States that the API could not get the status of a document. This could be
-  /// because the request is not valid or there is a system error.
-  final String? errorMessage;
-
-  BatchGetDocumentStatusResponseError({
-    this.documentId,
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory BatchGetDocumentStatusResponseError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetDocumentStatusResponseError(
-      documentId: json['DocumentId'] as String?,
-      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentId = this.documentId;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (documentId != null) 'DocumentId': documentId,
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
 class BatchPutDocumentResponse {
   /// A list of documents that were not added to the index because the document
   /// failed a validation check. Each document contains an error message that
@@ -5408,1510 +4609,6 @@ class BatchPutDocumentResponse {
     final failedDocuments = this.failedDocuments;
     return {
       if (failedDocuments != null) 'FailedDocuments': failedDocuments,
-    };
-  }
-}
-
-/// Provides information about a document that could not be indexed.
-class BatchPutDocumentResponseFailedDocument {
-  /// The type of error that caused the document to fail to be indexed.
-  final ErrorCode? errorCode;
-
-  /// A description of the reason why the document could not be indexed.
-  final String? errorMessage;
-
-  /// The identifier of the document.
-  final String? id;
-
-  BatchPutDocumentResponseFailedDocument({
-    this.errorCode,
-    this.errorMessage,
-    this.id,
-  });
-
-  factory BatchPutDocumentResponseFailedDocument.fromJson(
-      Map<String, dynamic> json) {
-    return BatchPutDocumentResponseFailedDocument(
-      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final id = this.id;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-/// Provides the configuration information to connect to Box as your data
-/// source.
-class BoxConfiguration {
-  /// The identifier of the Box Enterprise platform. You can find the enterprise
-  /// ID in the Box Developer Console settings or when you create an app in Box
-  /// and download your authentication credentials. For example, <i>801234567</i>.
-  final String enterpriseId;
-
-  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
-  /// the key-value pairs required to connect to your Box platform. The secret
-  /// must contain a JSON structure with the following keys:
-  ///
-  /// <ul>
-  /// <li>
-  /// clientID—The identifier of the client OAuth 2.0 authentication application
-  /// created in Box.
-  /// </li>
-  /// <li>
-  /// clientSecret—A set of characters known only to the OAuth 2.0 authentication
-  /// application created in Box.
-  /// </li>
-  /// <li>
-  /// publicKeyId—The identifier of the public key contained within an identity
-  /// certificate.
-  /// </li>
-  /// <li>
-  /// privateKey—A set of characters that make up an encryption key.
-  /// </li>
-  /// <li>
-  /// passphrase—A set of characters that act like a password.
-  /// </li>
-  /// </ul>
-  /// You create an application in Box to generate the keys or credentials
-  /// required for the secret. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-box.html">Using
-  /// a Box data source</a>.
-  final String secretArn;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Box comments to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Box fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Box field names must exist in your Box custom
-  /// metadata.
-  final List<DataSourceToIndexFieldMapping>? commentFieldMappings;
-
-  /// <code>TRUE</code> to index comments.
-  final bool? crawlComments;
-
-  /// <code>TRUE</code> to index the contents of tasks.
-  final bool? crawlTasks;
-
-  /// <code>TRUE</code> to index web links.
-  final bool? crawlWebLinks;
-
-  /// A list of regular expression patterns to exclude certain files and folders
-  /// from your Box platform. Files and folders that match the patterns are
-  /// excluded from the index.Files and folders that don't match the patterns are
-  /// included in the index. If a file or folder matches both an inclusion and
-  /// exclusion pattern, the exclusion pattern takes precedence and the file or
-  /// folder isn't included in the index.
-  final List<String>? exclusionPatterns;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Box files to Amazon Kendra index field names.
-  /// To create custom fields, use the <code>UpdateIndex</code> API before you map
-  /// to Box fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Box field names must exist in your Box custom
-  /// metadata.
-  final List<DataSourceToIndexFieldMapping>? fileFieldMappings;
-
-  /// A list of regular expression patterns to include certain files and folders
-  /// in your Box platform. Files and folders that match the patterns are included
-  /// in the index. Files and folders that don't match the patterns are excluded
-  /// from the index. If a file or folder matches both an inclusion and exclusion
-  /// pattern, the exclusion pattern takes precedence and the file or folder isn't
-  /// included in the index.
-  final List<String>? inclusionPatterns;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Box tasks to Amazon Kendra index field names.
-  /// To create custom fields, use the <code>UpdateIndex</code> API before you map
-  /// to Box fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Box field names must exist in your Box custom
-  /// metadata.
-  final List<DataSourceToIndexFieldMapping>? taskFieldMappings;
-
-  /// <code>TRUE</code> to use the Slack change log to determine which documents
-  /// require updating in the index. Depending on the data source change log's
-  /// size, it may take longer for Amazon Kendra to use the change log than to
-  /// scan all of your documents.
-  final bool? useChangeLog;
-
-  /// Configuration information for an Amazon VPC to connect to your Box. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
-  /// a VPC</a>.
-  final DataSourceVpcConfiguration? vpcConfiguration;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Box web links to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Box fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Box field names must exist in your Box custom
-  /// metadata.
-  final List<DataSourceToIndexFieldMapping>? webLinkFieldMappings;
-
-  BoxConfiguration({
-    required this.enterpriseId,
-    required this.secretArn,
-    this.commentFieldMappings,
-    this.crawlComments,
-    this.crawlTasks,
-    this.crawlWebLinks,
-    this.exclusionPatterns,
-    this.fileFieldMappings,
-    this.inclusionPatterns,
-    this.taskFieldMappings,
-    this.useChangeLog,
-    this.vpcConfiguration,
-    this.webLinkFieldMappings,
-  });
-
-  factory BoxConfiguration.fromJson(Map<String, dynamic> json) {
-    return BoxConfiguration(
-      enterpriseId: (json['EnterpriseId'] as String?) ?? '',
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      commentFieldMappings: (json['CommentFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      crawlComments: json['CrawlComments'] as bool?,
-      crawlTasks: json['CrawlTasks'] as bool?,
-      crawlWebLinks: json['CrawlWebLinks'] as bool?,
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      fileFieldMappings: (json['FileFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      taskFieldMappings: (json['TaskFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      useChangeLog: json['UseChangeLog'] as bool?,
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? DataSourceVpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
-          : null,
-      webLinkFieldMappings: (json['WebLinkFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enterpriseId = this.enterpriseId;
-    final secretArn = this.secretArn;
-    final commentFieldMappings = this.commentFieldMappings;
-    final crawlComments = this.crawlComments;
-    final crawlTasks = this.crawlTasks;
-    final crawlWebLinks = this.crawlWebLinks;
-    final exclusionPatterns = this.exclusionPatterns;
-    final fileFieldMappings = this.fileFieldMappings;
-    final inclusionPatterns = this.inclusionPatterns;
-    final taskFieldMappings = this.taskFieldMappings;
-    final useChangeLog = this.useChangeLog;
-    final vpcConfiguration = this.vpcConfiguration;
-    final webLinkFieldMappings = this.webLinkFieldMappings;
-    return {
-      'EnterpriseId': enterpriseId,
-      'SecretArn': secretArn,
-      if (commentFieldMappings != null)
-        'CommentFieldMappings': commentFieldMappings,
-      if (crawlComments != null) 'CrawlComments': crawlComments,
-      if (crawlTasks != null) 'CrawlTasks': crawlTasks,
-      if (crawlWebLinks != null) 'CrawlWebLinks': crawlWebLinks,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (fileFieldMappings != null) 'FileFieldMappings': fileFieldMappings,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (taskFieldMappings != null) 'TaskFieldMappings': taskFieldMappings,
-      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-      if (webLinkFieldMappings != null)
-        'WebLinkFieldMappings': webLinkFieldMappings,
-    };
-  }
-}
-
-/// Specifies additional capacity units configured for your Enterprise Edition
-/// index. You can add and remove capacity units to fit your usage requirements.
-class CapacityUnitsConfiguration {
-  /// The amount of extra query capacity for an index and <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html">GetQuerySuggestions</a>
-  /// capacity.
-  ///
-  /// A single extra capacity unit for an index provides 0.1 queries per second or
-  /// approximately 8,000 queries per day. You can add up to 100 extra capacity
-  /// units.
-  ///
-  /// <code>GetQuerySuggestions</code> capacity is five times the provisioned
-  /// query capacity for an index, or the base capacity of 2.5 calls per second,
-  /// whichever is higher. For example, the base capacity for an index is 0.1
-  /// queries per second, and <code>GetQuerySuggestions</code> capacity has a base
-  /// of 2.5 calls per second. If you add another 0.1 queries per second to total
-  /// 0.2 queries per second for an index, the <code>GetQuerySuggestions</code>
-  /// capacity is 2.5 calls per second (higher than five times 0.2 queries per
-  /// second).
-  final int queryCapacityUnits;
-
-  /// The amount of extra storage capacity for an index. A single capacity unit
-  /// provides 30 GB of storage space or 100,000 documents, whichever is reached
-  /// first. You can add up to 100 extra capacity units.
-  final int storageCapacityUnits;
-
-  CapacityUnitsConfiguration({
-    required this.queryCapacityUnits,
-    required this.storageCapacityUnits,
-  });
-
-  factory CapacityUnitsConfiguration.fromJson(Map<String, dynamic> json) {
-    return CapacityUnitsConfiguration(
-      queryCapacityUnits: (json['QueryCapacityUnits'] as int?) ?? 0,
-      storageCapacityUnits: (json['StorageCapacityUnits'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final queryCapacityUnits = this.queryCapacityUnits;
-    final storageCapacityUnits = this.storageCapacityUnits;
-    return {
-      'QueryCapacityUnits': queryCapacityUnits,
-      'StorageCapacityUnits': storageCapacityUnits,
-    };
-  }
-}
-
-/// Gathers information about when a particular result was clicked by a user.
-/// Your application uses the <code>SubmitFeedback</code> API to provide click
-/// information.
-class ClickFeedback {
-  /// The Unix timestamp when the result was clicked.
-  final DateTime clickTime;
-
-  /// The identifier of the search result that was clicked.
-  final String resultId;
-
-  ClickFeedback({
-    required this.clickTime,
-    required this.resultId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final clickTime = this.clickTime;
-    final resultId = this.resultId;
-    return {
-      'ClickTime': unixTimestampToJson(clickTime),
-      'ResultId': resultId,
-    };
-  }
-}
-
-/// Specifies how to group results by document attribute value, and how to
-/// display them collapsed/expanded under a designated primary document for each
-/// group.
-class CollapseConfiguration {
-  /// The document attribute used to group search results. You can use any
-  /// attribute that has the <code>Sortable</code> flag set to true. You can also
-  /// sort by any of the following built-in attributes:"_category","_created_at",
-  /// "_last_updated_at", "_version", "_view_count".
-  final String documentAttributeKey;
-
-  /// Specifies whether to expand the collapsed results.
-  final bool? expand;
-
-  /// Provides configuration information to customize expansion options for a
-  /// collapsed group.
-  final ExpandConfiguration? expandConfiguration;
-
-  /// Specifies the behavior for documents without a value for the collapse
-  /// attribute.
-  ///
-  /// Amazon Kendra offers three customization options:
-  ///
-  /// <ul>
-  /// <li>
-  /// Choose to <code>COLLAPSE</code> all documents with null or missing values in
-  /// one group. This is the default configuration.
-  /// </li>
-  /// <li>
-  /// Choose to <code>IGNORE</code> documents with null or missing values. Ignored
-  /// documents will not appear in query results.
-  /// </li>
-  /// <li>
-  /// Choose to <code>EXPAND</code> each document with a null or missing value
-  /// into a group of its own.
-  /// </li>
-  /// </ul>
-  final MissingAttributeKeyStrategy? missingAttributeKeyStrategy;
-
-  /// A prioritized list of document attributes/fields that determine the primary
-  /// document among those in a collapsed group.
-  final List<SortingConfiguration>? sortingConfigurations;
-
-  CollapseConfiguration({
-    required this.documentAttributeKey,
-    this.expand,
-    this.expandConfiguration,
-    this.missingAttributeKeyStrategy,
-    this.sortingConfigurations,
-  });
-
-  Map<String, dynamic> toJson() {
-    final documentAttributeKey = this.documentAttributeKey;
-    final expand = this.expand;
-    final expandConfiguration = this.expandConfiguration;
-    final missingAttributeKeyStrategy = this.missingAttributeKeyStrategy;
-    final sortingConfigurations = this.sortingConfigurations;
-    return {
-      'DocumentAttributeKey': documentAttributeKey,
-      if (expand != null) 'Expand': expand,
-      if (expandConfiguration != null)
-        'ExpandConfiguration': expandConfiguration,
-      if (missingAttributeKeyStrategy != null)
-        'MissingAttributeKeyStrategy': missingAttributeKeyStrategy.value,
-      if (sortingConfigurations != null)
-        'SortingConfigurations': sortingConfigurations,
-    };
-  }
-}
-
-/// Provides details about a collapsed group of search results.
-class CollapsedResultDetail {
-  /// The value of the document attribute that results are collapsed on.
-  final DocumentAttribute documentAttribute;
-
-  /// A list of results in the collapsed group.
-  final List<ExpandedResultItem>? expandedResults;
-
-  CollapsedResultDetail({
-    required this.documentAttribute,
-    this.expandedResults,
-  });
-
-  factory CollapsedResultDetail.fromJson(Map<String, dynamic> json) {
-    return CollapsedResultDetail(
-      documentAttribute: DocumentAttribute.fromJson(
-          (json['DocumentAttribute'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      expandedResults: (json['ExpandedResults'] as List?)
-          ?.nonNulls
-          .map((e) => ExpandedResultItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentAttribute = this.documentAttribute;
-    final expandedResults = this.expandedResults;
-    return {
-      'DocumentAttribute': documentAttribute,
-      if (expandedResults != null) 'ExpandedResults': expandedResults,
-    };
-  }
-}
-
-/// Provides information about how Amazon Kendra should use the columns of a
-/// database in an index.
-class ColumnConfiguration {
-  /// One to five columns that indicate when a document in the database has
-  /// changed.
-  final List<String> changeDetectingColumns;
-
-  /// The column that contains the contents of the document.
-  final String documentDataColumnName;
-
-  /// The column that provides the document's identifier.
-  final String documentIdColumnName;
-
-  /// The column that contains the title of the document.
-  final String? documentTitleColumnName;
-
-  /// An array of objects that map database column names to the corresponding
-  /// fields in an index. You must first create the fields in the index using the
-  /// <code>UpdateIndex</code> API.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  ColumnConfiguration({
-    required this.changeDetectingColumns,
-    required this.documentDataColumnName,
-    required this.documentIdColumnName,
-    this.documentTitleColumnName,
-    this.fieldMappings,
-  });
-
-  factory ColumnConfiguration.fromJson(Map<String, dynamic> json) {
-    return ColumnConfiguration(
-      changeDetectingColumns:
-          ((json['ChangeDetectingColumns'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
-      documentDataColumnName: (json['DocumentDataColumnName'] as String?) ?? '',
-      documentIdColumnName: (json['DocumentIdColumnName'] as String?) ?? '',
-      documentTitleColumnName: json['DocumentTitleColumnName'] as String?,
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final changeDetectingColumns = this.changeDetectingColumns;
-    final documentDataColumnName = this.documentDataColumnName;
-    final documentIdColumnName = this.documentIdColumnName;
-    final documentTitleColumnName = this.documentTitleColumnName;
-    final fieldMappings = this.fieldMappings;
-    return {
-      'ChangeDetectingColumns': changeDetectingColumns,
-      'DocumentDataColumnName': documentDataColumnName,
-      'DocumentIdColumnName': documentIdColumnName,
-      if (documentTitleColumnName != null)
-        'DocumentTitleColumnName': documentTitleColumnName,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-    };
-  }
-}
-
-class ConditionOperator {
-  static const greaterThan = ConditionOperator._('GreaterThan');
-  static const greaterThanOrEquals = ConditionOperator._('GreaterThanOrEquals');
-  static const lessThan = ConditionOperator._('LessThan');
-  static const lessThanOrEquals = ConditionOperator._('LessThanOrEquals');
-  static const equals = ConditionOperator._('Equals');
-  static const notEquals = ConditionOperator._('NotEquals');
-  static const contains = ConditionOperator._('Contains');
-  static const notContains = ConditionOperator._('NotContains');
-  static const exists = ConditionOperator._('Exists');
-  static const notExists = ConditionOperator._('NotExists');
-  static const beginsWith = ConditionOperator._('BeginsWith');
-
-  final String value;
-
-  const ConditionOperator._(this.value);
-
-  static const values = [
-    greaterThan,
-    greaterThanOrEquals,
-    lessThan,
-    lessThanOrEquals,
-    equals,
-    notEquals,
-    contains,
-    notContains,
-    exists,
-    notExists,
-    beginsWith
-  ];
-
-  static ConditionOperator fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConditionOperator._(value));
-
-  @override
-  bool operator ==(other) => other is ConditionOperator && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration of attachment settings for the Confluence data source.
-/// Attachment settings are optional, if you don't specify settings attachments,
-/// Amazon Kendra won't index them.
-class ConfluenceAttachmentConfiguration {
-  /// Maps attributes or field names of Confluence attachments to Amazon Kendra
-  /// index field names. To create custom fields, use the <code>UpdateIndex</code>
-  /// API before you map to Confluence fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Confluence data source field names must exist in
-  /// your Confluence custom metadata.
-  ///
-  /// If you specify the <code>AttachentFieldMappings</code> parameter, you must
-  /// specify at least one field mapping.
-  final List<ConfluenceAttachmentToIndexFieldMapping>? attachmentFieldMappings;
-
-  /// <code>TRUE</code> to index attachments of pages and blogs in Confluence.
-  final bool? crawlAttachments;
-
-  ConfluenceAttachmentConfiguration({
-    this.attachmentFieldMappings,
-    this.crawlAttachments,
-  });
-
-  factory ConfluenceAttachmentConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ConfluenceAttachmentConfiguration(
-      attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) => ConfluenceAttachmentToIndexFieldMapping.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      crawlAttachments: json['CrawlAttachments'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attachmentFieldMappings = this.attachmentFieldMappings;
-    final crawlAttachments = this.crawlAttachments;
-    return {
-      if (attachmentFieldMappings != null)
-        'AttachmentFieldMappings': attachmentFieldMappings,
-      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
-    };
-  }
-}
-
-class ConfluenceAttachmentFieldName {
-  static const author = ConfluenceAttachmentFieldName._('AUTHOR');
-  static const contentType = ConfluenceAttachmentFieldName._('CONTENT_TYPE');
-  static const createdDate = ConfluenceAttachmentFieldName._('CREATED_DATE');
-  static const displayUrl = ConfluenceAttachmentFieldName._('DISPLAY_URL');
-  static const fileSize = ConfluenceAttachmentFieldName._('FILE_SIZE');
-  static const itemType = ConfluenceAttachmentFieldName._('ITEM_TYPE');
-  static const parentId = ConfluenceAttachmentFieldName._('PARENT_ID');
-  static const spaceKey = ConfluenceAttachmentFieldName._('SPACE_KEY');
-  static const spaceName = ConfluenceAttachmentFieldName._('SPACE_NAME');
-  static const url = ConfluenceAttachmentFieldName._('URL');
-  static const version = ConfluenceAttachmentFieldName._('VERSION');
-
-  final String value;
-
-  const ConfluenceAttachmentFieldName._(this.value);
-
-  static const values = [
-    author,
-    contentType,
-    createdDate,
-    displayUrl,
-    fileSize,
-    itemType,
-    parentId,
-    spaceKey,
-    spaceName,
-    url,
-    version
-  ];
-
-  static ConfluenceAttachmentFieldName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfluenceAttachmentFieldName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfluenceAttachmentFieldName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Maps attributes or field names of Confluence attachments to Amazon Kendra
-/// index field names. To create custom fields, use the <code>UpdateIndex</code>
-/// API before you map to Confluence fields. For more information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-/// data source fields</a>. The Confuence data source field names must exist in
-/// your Confluence custom metadata.
-class ConfluenceAttachmentToIndexFieldMapping {
-  /// The name of the field in the data source.
-  ///
-  /// You must first create the index field using the <code>UpdateIndex</code>
-  /// API.
-  final ConfluenceAttachmentFieldName? dataSourceFieldName;
-
-  /// The format for date fields in the data source. If the field specified in
-  /// <code>DataSourceFieldName</code> is a date field you must specify the date
-  /// format. If the field is not a date field, an exception is thrown.
-  final String? dateFieldFormat;
-
-  /// The name of the index field to map to the Confluence data source field. The
-  /// index field type must match the Confluence field type.
-  final String? indexFieldName;
-
-  ConfluenceAttachmentToIndexFieldMapping({
-    this.dataSourceFieldName,
-    this.dateFieldFormat,
-    this.indexFieldName,
-  });
-
-  factory ConfluenceAttachmentToIndexFieldMapping.fromJson(
-      Map<String, dynamic> json) {
-    return ConfluenceAttachmentToIndexFieldMapping(
-      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
-          ?.let(ConfluenceAttachmentFieldName.fromString),
-      dateFieldFormat: json['DateFieldFormat'] as String?,
-      indexFieldName: json['IndexFieldName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceFieldName = this.dataSourceFieldName;
-    final dateFieldFormat = this.dateFieldFormat;
-    final indexFieldName = this.indexFieldName;
-    return {
-      if (dataSourceFieldName != null)
-        'DataSourceFieldName': dataSourceFieldName.value,
-      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
-      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
-    };
-  }
-}
-
-class ConfluenceAuthenticationType {
-  static const httpBasic = ConfluenceAuthenticationType._('HTTP_BASIC');
-  static const pat = ConfluenceAuthenticationType._('PAT');
-
-  final String value;
-
-  const ConfluenceAuthenticationType._(this.value);
-
-  static const values = [httpBasic, pat];
-
-  static ConfluenceAuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfluenceAuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfluenceAuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Configuration of blog settings for the Confluence data source. Blogs are
-/// always indexed unless filtered from the index by the
-/// <code>ExclusionPatterns</code> or <code>InclusionPatterns</code> fields in
-/// the <code>ConfluenceConfiguration</code> object.
-class ConfluenceBlogConfiguration {
-  /// Maps attributes or field names of Confluence blogs to Amazon Kendra index
-  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
-  /// before you map to Confluence fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Confluence data source field names must exist in
-  /// your Confluence custom metadata.
-  ///
-  /// If you specify the <code>BlogFieldMappings</code> parameter, you must
-  /// specify at least one field mapping.
-  final List<ConfluenceBlogToIndexFieldMapping>? blogFieldMappings;
-
-  ConfluenceBlogConfiguration({
-    this.blogFieldMappings,
-  });
-
-  factory ConfluenceBlogConfiguration.fromJson(Map<String, dynamic> json) {
-    return ConfluenceBlogConfiguration(
-      blogFieldMappings: (json['BlogFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) => ConfluenceBlogToIndexFieldMapping.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blogFieldMappings = this.blogFieldMappings;
-    return {
-      if (blogFieldMappings != null) 'BlogFieldMappings': blogFieldMappings,
-    };
-  }
-}
-
-class ConfluenceBlogFieldName {
-  static const author = ConfluenceBlogFieldName._('AUTHOR');
-  static const displayUrl = ConfluenceBlogFieldName._('DISPLAY_URL');
-  static const itemType = ConfluenceBlogFieldName._('ITEM_TYPE');
-  static const labels = ConfluenceBlogFieldName._('LABELS');
-  static const publishDate = ConfluenceBlogFieldName._('PUBLISH_DATE');
-  static const spaceKey = ConfluenceBlogFieldName._('SPACE_KEY');
-  static const spaceName = ConfluenceBlogFieldName._('SPACE_NAME');
-  static const url = ConfluenceBlogFieldName._('URL');
-  static const version = ConfluenceBlogFieldName._('VERSION');
-
-  final String value;
-
-  const ConfluenceBlogFieldName._(this.value);
-
-  static const values = [
-    author,
-    displayUrl,
-    itemType,
-    labels,
-    publishDate,
-    spaceKey,
-    spaceName,
-    url,
-    version
-  ];
-
-  static ConfluenceBlogFieldName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfluenceBlogFieldName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfluenceBlogFieldName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Maps attributes or field names of Confluence blog to Amazon Kendra index
-/// field names. To create custom fields, use the <code>UpdateIndex</code> API
-/// before you map to Confluence fields. For more information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-/// data source fields</a>. The Confluence data source field names must exist in
-/// your Confluence custom metadata.
-class ConfluenceBlogToIndexFieldMapping {
-  /// The name of the field in the data source.
-  final ConfluenceBlogFieldName? dataSourceFieldName;
-
-  /// The format for date fields in the data source. If the field specified in
-  /// <code>DataSourceFieldName</code> is a date field you must specify the date
-  /// format. If the field is not a date field, an exception is thrown.
-  final String? dateFieldFormat;
-
-  /// The name of the index field to map to the Confluence data source field. The
-  /// index field type must match the Confluence field type.
-  final String? indexFieldName;
-
-  ConfluenceBlogToIndexFieldMapping({
-    this.dataSourceFieldName,
-    this.dateFieldFormat,
-    this.indexFieldName,
-  });
-
-  factory ConfluenceBlogToIndexFieldMapping.fromJson(
-      Map<String, dynamic> json) {
-    return ConfluenceBlogToIndexFieldMapping(
-      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
-          ?.let(ConfluenceBlogFieldName.fromString),
-      dateFieldFormat: json['DateFieldFormat'] as String?,
-      indexFieldName: json['IndexFieldName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceFieldName = this.dataSourceFieldName;
-    final dateFieldFormat = this.dateFieldFormat;
-    final indexFieldName = this.indexFieldName;
-    return {
-      if (dataSourceFieldName != null)
-        'DataSourceFieldName': dataSourceFieldName.value,
-      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
-      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
-    };
-  }
-}
-
-/// Provides the configuration information to connect to Confluence as your data
-/// source.
-class ConfluenceConfiguration {
-  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
-  /// the user name and password required to connect to the Confluence instance.
-  /// If you use Confluence Cloud, you use a generated API token as the password.
-  ///
-  /// You can also provide authentication credentials in the form of a personal
-  /// access token. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-confluence.html">Using
-  /// a Confluence data source</a>.
-  final String secretArn;
-
-  /// The URL of your Confluence instance. Use the full URL of the server. For
-  /// example, <i>https://server.example.com:port/</i>. You can also use an IP
-  /// address, for example, <i>https://192.168.1.113/</i>.
-  final String serverUrl;
-
-  /// The version or the type of Confluence installation to connect to.
-  final ConfluenceVersion version;
-
-  /// Configuration information for indexing attachments to Confluence blogs and
-  /// pages.
-  final ConfluenceAttachmentConfiguration? attachmentConfiguration;
-
-  /// Whether you want to connect to Confluence using basic authentication of user
-  /// name and password, or a personal access token. You can use a personal access
-  /// token for Confluence Server.
-  final ConfluenceAuthenticationType? authenticationType;
-
-  /// Configuration information for indexing Confluence blogs.
-  final ConfluenceBlogConfiguration? blogConfiguration;
-
-  /// A list of regular expression patterns to exclude certain blog posts, pages,
-  /// spaces, or attachments in your Confluence. Content that matches the patterns
-  /// are excluded from the index. Content that doesn't match the patterns is
-  /// included in the index. If content matches both an inclusion and exclusion
-  /// pattern, the exclusion pattern takes precedence and the content isn't
-  /// included in the index.
-  final List<String>? exclusionPatterns;
-
-  /// A list of regular expression patterns to include certain blog posts, pages,
-  /// spaces, or attachments in your Confluence. Content that matches the patterns
-  /// are included in the index. Content that doesn't match the patterns is
-  /// excluded from the index. If content matches both an inclusion and exclusion
-  /// pattern, the exclusion pattern takes precedence and the content isn't
-  /// included in the index.
-  final List<String>? inclusionPatterns;
-
-  /// Configuration information for indexing Confluence pages.
-  final ConfluencePageConfiguration? pageConfiguration;
-
-  /// Configuration information to connect to your Confluence URL instance via a
-  /// web proxy. You can use this option for Confluence Server.
-  ///
-  /// You must provide the website host name and port number. For example, the
-  /// host name of <i>https://a.example.com/page1.html</i> is "a.example.com" and
-  /// the port is 443, the standard port for HTTPS.
-  ///
-  /// Web proxy credentials are optional and you can use them to connect to a web
-  /// proxy server that requires basic authentication of user name and password.
-  /// To store web proxy credentials, you use a secret in Secrets Manager.
-  ///
-  /// It is recommended that you follow best security practices when configuring
-  /// your web proxy. This includes setting up throttling, setting up logging and
-  /// monitoring, and applying security patches on a regular basis. If you use
-  /// your web proxy with multiple data sources, sync jobs that occur at the same
-  /// time could strain the load on your proxy. It is recommended you prepare your
-  /// proxy beforehand for any security and load requirements.
-  final ProxyConfiguration? proxyConfiguration;
-
-  /// Configuration information for indexing Confluence spaces.
-  final ConfluenceSpaceConfiguration? spaceConfiguration;
-
-  /// Configuration information for an Amazon Virtual Private Cloud to connect to
-  /// your Confluence. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
-  /// a VPC</a>.
-  final DataSourceVpcConfiguration? vpcConfiguration;
-
-  ConfluenceConfiguration({
-    required this.secretArn,
-    required this.serverUrl,
-    required this.version,
-    this.attachmentConfiguration,
-    this.authenticationType,
-    this.blogConfiguration,
-    this.exclusionPatterns,
-    this.inclusionPatterns,
-    this.pageConfiguration,
-    this.proxyConfiguration,
-    this.spaceConfiguration,
-    this.vpcConfiguration,
-  });
-
-  factory ConfluenceConfiguration.fromJson(Map<String, dynamic> json) {
-    return ConfluenceConfiguration(
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      serverUrl: (json['ServerUrl'] as String?) ?? '',
-      version: ConfluenceVersion.fromString((json['Version'] as String?) ?? ''),
-      attachmentConfiguration: json['AttachmentConfiguration'] != null
-          ? ConfluenceAttachmentConfiguration.fromJson(
-              json['AttachmentConfiguration'] as Map<String, dynamic>)
-          : null,
-      authenticationType: (json['AuthenticationType'] as String?)
-          ?.let(ConfluenceAuthenticationType.fromString),
-      blogConfiguration: json['BlogConfiguration'] != null
-          ? ConfluenceBlogConfiguration.fromJson(
-              json['BlogConfiguration'] as Map<String, dynamic>)
-          : null,
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      pageConfiguration: json['PageConfiguration'] != null
-          ? ConfluencePageConfiguration.fromJson(
-              json['PageConfiguration'] as Map<String, dynamic>)
-          : null,
-      proxyConfiguration: json['ProxyConfiguration'] != null
-          ? ProxyConfiguration.fromJson(
-              json['ProxyConfiguration'] as Map<String, dynamic>)
-          : null,
-      spaceConfiguration: json['SpaceConfiguration'] != null
-          ? ConfluenceSpaceConfiguration.fromJson(
-              json['SpaceConfiguration'] as Map<String, dynamic>)
-          : null,
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? DataSourceVpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final secretArn = this.secretArn;
-    final serverUrl = this.serverUrl;
-    final version = this.version;
-    final attachmentConfiguration = this.attachmentConfiguration;
-    final authenticationType = this.authenticationType;
-    final blogConfiguration = this.blogConfiguration;
-    final exclusionPatterns = this.exclusionPatterns;
-    final inclusionPatterns = this.inclusionPatterns;
-    final pageConfiguration = this.pageConfiguration;
-    final proxyConfiguration = this.proxyConfiguration;
-    final spaceConfiguration = this.spaceConfiguration;
-    final vpcConfiguration = this.vpcConfiguration;
-    return {
-      'SecretArn': secretArn,
-      'ServerUrl': serverUrl,
-      'Version': version.value,
-      if (attachmentConfiguration != null)
-        'AttachmentConfiguration': attachmentConfiguration,
-      if (authenticationType != null)
-        'AuthenticationType': authenticationType.value,
-      if (blogConfiguration != null) 'BlogConfiguration': blogConfiguration,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (pageConfiguration != null) 'PageConfiguration': pageConfiguration,
-      if (proxyConfiguration != null) 'ProxyConfiguration': proxyConfiguration,
-      if (spaceConfiguration != null) 'SpaceConfiguration': spaceConfiguration,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-    };
-  }
-}
-
-/// Configuration of the page settings for the Confluence data source.
-class ConfluencePageConfiguration {
-  /// Maps attributes or field names of Confluence pages to Amazon Kendra index
-  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
-  /// before you map to Confluence fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Confluence data source field names must exist in
-  /// your Confluence custom metadata.
-  ///
-  /// If you specify the <code>PageFieldMappings</code> parameter, you must
-  /// specify at least one field mapping.
-  final List<ConfluencePageToIndexFieldMapping>? pageFieldMappings;
-
-  ConfluencePageConfiguration({
-    this.pageFieldMappings,
-  });
-
-  factory ConfluencePageConfiguration.fromJson(Map<String, dynamic> json) {
-    return ConfluencePageConfiguration(
-      pageFieldMappings: (json['PageFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) => ConfluencePageToIndexFieldMapping.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pageFieldMappings = this.pageFieldMappings;
-    return {
-      if (pageFieldMappings != null) 'PageFieldMappings': pageFieldMappings,
-    };
-  }
-}
-
-class ConfluencePageFieldName {
-  static const author = ConfluencePageFieldName._('AUTHOR');
-  static const contentStatus = ConfluencePageFieldName._('CONTENT_STATUS');
-  static const createdDate = ConfluencePageFieldName._('CREATED_DATE');
-  static const displayUrl = ConfluencePageFieldName._('DISPLAY_URL');
-  static const itemType = ConfluencePageFieldName._('ITEM_TYPE');
-  static const labels = ConfluencePageFieldName._('LABELS');
-  static const modifiedDate = ConfluencePageFieldName._('MODIFIED_DATE');
-  static const parentId = ConfluencePageFieldName._('PARENT_ID');
-  static const spaceKey = ConfluencePageFieldName._('SPACE_KEY');
-  static const spaceName = ConfluencePageFieldName._('SPACE_NAME');
-  static const url = ConfluencePageFieldName._('URL');
-  static const version = ConfluencePageFieldName._('VERSION');
-
-  final String value;
-
-  const ConfluencePageFieldName._(this.value);
-
-  static const values = [
-    author,
-    contentStatus,
-    createdDate,
-    displayUrl,
-    itemType,
-    labels,
-    modifiedDate,
-    parentId,
-    spaceKey,
-    spaceName,
-    url,
-    version
-  ];
-
-  static ConfluencePageFieldName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfluencePageFieldName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfluencePageFieldName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Maps attributes or field names of Confluence pages to Amazon Kendra index
-/// field names. To create custom fields, use the <code>UpdateIndex</code> API
-/// before you map to Confluence fields. For more information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-/// data source fields</a>. The Confluence data source field names must exist in
-/// your Confluence custom metadata.
-class ConfluencePageToIndexFieldMapping {
-  /// The name of the field in the data source.
-  final ConfluencePageFieldName? dataSourceFieldName;
-
-  /// The format for date fields in the data source. If the field specified in
-  /// <code>DataSourceFieldName</code> is a date field you must specify the date
-  /// format. If the field is not a date field, an exception is thrown.
-  final String? dateFieldFormat;
-
-  /// The name of the index field to map to the Confluence data source field. The
-  /// index field type must match the Confluence field type.
-  final String? indexFieldName;
-
-  ConfluencePageToIndexFieldMapping({
-    this.dataSourceFieldName,
-    this.dateFieldFormat,
-    this.indexFieldName,
-  });
-
-  factory ConfluencePageToIndexFieldMapping.fromJson(
-      Map<String, dynamic> json) {
-    return ConfluencePageToIndexFieldMapping(
-      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
-          ?.let(ConfluencePageFieldName.fromString),
-      dateFieldFormat: json['DateFieldFormat'] as String?,
-      indexFieldName: json['IndexFieldName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceFieldName = this.dataSourceFieldName;
-    final dateFieldFormat = this.dateFieldFormat;
-    final indexFieldName = this.indexFieldName;
-    return {
-      if (dataSourceFieldName != null)
-        'DataSourceFieldName': dataSourceFieldName.value,
-      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
-      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
-    };
-  }
-}
-
-/// Configuration information for indexing Confluence spaces.
-class ConfluenceSpaceConfiguration {
-  /// <code>TRUE</code> to index archived spaces.
-  final bool? crawlArchivedSpaces;
-
-  /// <code>TRUE</code> to index personal spaces. You can add restrictions to
-  /// items in personal spaces. If personal spaces are indexed, queries without
-  /// user context information may return restricted items from a personal space
-  /// in their results. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html">Filtering
-  /// on user context</a>.
-  final bool? crawlPersonalSpaces;
-
-  /// A list of space keys of Confluence spaces. If you include a key, the blogs,
-  /// documents, and attachments in the space are not indexed. If a space is in
-  /// both the <code>ExcludeSpaces</code> and the <code>IncludeSpaces</code> list,
-  /// the space is excluded.
-  final List<String>? excludeSpaces;
-
-  /// A list of space keys for Confluence spaces. If you include a key, the blogs,
-  /// documents, and attachments in the space are indexed. Spaces that aren't in
-  /// the list aren't indexed. A space in the list must exist. Otherwise, Amazon
-  /// Kendra logs an error when the data source is synchronized. If a space is in
-  /// both the <code>IncludeSpaces</code> and the <code>ExcludeSpaces</code> list,
-  /// the space is excluded.
-  final List<String>? includeSpaces;
-
-  /// Maps attributes or field names of Confluence spaces to Amazon Kendra index
-  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
-  /// before you map to Confluence fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Confluence data source field names must exist in
-  /// your Confluence custom metadata.
-  ///
-  /// If you specify the <code>SpaceFieldMappings</code> parameter, you must
-  /// specify at least one field mapping.
-  final List<ConfluenceSpaceToIndexFieldMapping>? spaceFieldMappings;
-
-  ConfluenceSpaceConfiguration({
-    this.crawlArchivedSpaces,
-    this.crawlPersonalSpaces,
-    this.excludeSpaces,
-    this.includeSpaces,
-    this.spaceFieldMappings,
-  });
-
-  factory ConfluenceSpaceConfiguration.fromJson(Map<String, dynamic> json) {
-    return ConfluenceSpaceConfiguration(
-      crawlArchivedSpaces: json['CrawlArchivedSpaces'] as bool?,
-      crawlPersonalSpaces: json['CrawlPersonalSpaces'] as bool?,
-      excludeSpaces: (json['ExcludeSpaces'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      includeSpaces: (json['IncludeSpaces'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      spaceFieldMappings: (json['SpaceFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) => ConfluenceSpaceToIndexFieldMapping.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final crawlArchivedSpaces = this.crawlArchivedSpaces;
-    final crawlPersonalSpaces = this.crawlPersonalSpaces;
-    final excludeSpaces = this.excludeSpaces;
-    final includeSpaces = this.includeSpaces;
-    final spaceFieldMappings = this.spaceFieldMappings;
-    return {
-      if (crawlArchivedSpaces != null)
-        'CrawlArchivedSpaces': crawlArchivedSpaces,
-      if (crawlPersonalSpaces != null)
-        'CrawlPersonalSpaces': crawlPersonalSpaces,
-      if (excludeSpaces != null) 'ExcludeSpaces': excludeSpaces,
-      if (includeSpaces != null) 'IncludeSpaces': includeSpaces,
-      if (spaceFieldMappings != null) 'SpaceFieldMappings': spaceFieldMappings,
-    };
-  }
-}
-
-class ConfluenceSpaceFieldName {
-  static const displayUrl = ConfluenceSpaceFieldName._('DISPLAY_URL');
-  static const itemType = ConfluenceSpaceFieldName._('ITEM_TYPE');
-  static const spaceKey = ConfluenceSpaceFieldName._('SPACE_KEY');
-  static const url = ConfluenceSpaceFieldName._('URL');
-
-  final String value;
-
-  const ConfluenceSpaceFieldName._(this.value);
-
-  static const values = [displayUrl, itemType, spaceKey, url];
-
-  static ConfluenceSpaceFieldName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfluenceSpaceFieldName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfluenceSpaceFieldName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Maps attributes or field names of Confluence spaces to Amazon Kendra index
-/// field names. To create custom fields, use the <code>UpdateIndex</code> API
-/// before you map to Confluence fields. For more information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-/// data source fields</a>. The Confluence data source field names must exist in
-/// your Confluence custom metadata.
-class ConfluenceSpaceToIndexFieldMapping {
-  /// The name of the field in the data source.
-  final ConfluenceSpaceFieldName? dataSourceFieldName;
-
-  /// The format for date fields in the data source. If the field specified in
-  /// <code>DataSourceFieldName</code> is a date field you must specify the date
-  /// format. If the field is not a date field, an exception is thrown.
-  final String? dateFieldFormat;
-
-  /// The name of the index field to map to the Confluence data source field. The
-  /// index field type must match the Confluence field type.
-  final String? indexFieldName;
-
-  ConfluenceSpaceToIndexFieldMapping({
-    this.dataSourceFieldName,
-    this.dateFieldFormat,
-    this.indexFieldName,
-  });
-
-  factory ConfluenceSpaceToIndexFieldMapping.fromJson(
-      Map<String, dynamic> json) {
-    return ConfluenceSpaceToIndexFieldMapping(
-      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
-          ?.let(ConfluenceSpaceFieldName.fromString),
-      dateFieldFormat: json['DateFieldFormat'] as String?,
-      indexFieldName: json['IndexFieldName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceFieldName = this.dataSourceFieldName;
-    final dateFieldFormat = this.dateFieldFormat;
-    final indexFieldName = this.indexFieldName;
-    return {
-      if (dataSourceFieldName != null)
-        'DataSourceFieldName': dataSourceFieldName.value,
-      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
-      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
-    };
-  }
-}
-
-class ConfluenceVersion {
-  static const cloud = ConfluenceVersion._('CLOUD');
-  static const server = ConfluenceVersion._('SERVER');
-
-  final String value;
-
-  const ConfluenceVersion._(this.value);
-
-  static const values = [cloud, server];
-
-  static ConfluenceVersion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfluenceVersion._(value));
-
-  @override
-  bool operator ==(other) => other is ConfluenceVersion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information that's required to connect to a
-/// database.
-class ConnectionConfiguration {
-  /// The name of the host for the database. Can be either a string
-  /// (host.subdomain.domain.tld) or an IPv4 or IPv6 address.
-  final String databaseHost;
-
-  /// The name of the database containing the document data.
-  final String databaseName;
-
-  /// The port that the database uses for connections.
-  final int databasePort;
-
-  /// The Amazon Resource Name (ARN) of credentials stored in Secrets Manager. The
-  /// credentials should be a user/password pair. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html">Using
-  /// a Database Data Source</a>. For more information about Secrets Manager, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">
-  /// What Is Secrets Manager</a> in the <i> Secrets Manager </i> user guide.
-  final String secretArn;
-
-  /// The name of the table that contains the document data.
-  final String tableName;
-
-  ConnectionConfiguration({
-    required this.databaseHost,
-    required this.databaseName,
-    required this.databasePort,
-    required this.secretArn,
-    required this.tableName,
-  });
-
-  factory ConnectionConfiguration.fromJson(Map<String, dynamic> json) {
-    return ConnectionConfiguration(
-      databaseHost: (json['DatabaseHost'] as String?) ?? '',
-      databaseName: (json['DatabaseName'] as String?) ?? '',
-      databasePort: (json['DatabasePort'] as int?) ?? 0,
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      tableName: (json['TableName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final databaseHost = this.databaseHost;
-    final databaseName = this.databaseName;
-    final databasePort = this.databasePort;
-    final secretArn = this.secretArn;
-    final tableName = this.tableName;
-    return {
-      'DatabaseHost': databaseHost,
-      'DatabaseName': databaseName,
-      'DatabasePort': databasePort,
-      'SecretArn': secretArn,
-      'TableName': tableName,
-    };
-  }
-}
-
-/// Provides the configuration information for your content sources, such as
-/// data sources, FAQs, and content indexed directly via <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html">BatchPutDocument</a>.
-class ContentSourceConfiguration {
-  /// The identifier of the data sources you want to use for your Amazon Kendra
-  /// experience.
-  final List<String>? dataSourceIds;
-
-  /// <code>TRUE</code> to use documents you indexed directly using the
-  /// <code>BatchPutDocument</code> API.
-  final bool? directPutContent;
-
-  /// The identifier of the FAQs that you want to use for your Amazon Kendra
-  /// experience.
-  final List<String>? faqIds;
-
-  ContentSourceConfiguration({
-    this.dataSourceIds,
-    this.directPutContent,
-    this.faqIds,
-  });
-
-  factory ContentSourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return ContentSourceConfiguration(
-      dataSourceIds: (json['DataSourceIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      directPutContent: json['DirectPutContent'] as bool?,
-      faqIds:
-          (json['FaqIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceIds = this.dataSourceIds;
-    final directPutContent = this.directPutContent;
-    final faqIds = this.faqIds;
-    return {
-      if (dataSourceIds != null) 'DataSourceIds': dataSourceIds,
-      if (directPutContent != null) 'DirectPutContent': directPutContent,
-      if (faqIds != null) 'FaqIds': faqIds,
-    };
-  }
-}
-
-class ContentType {
-  static const pdf = ContentType._('PDF');
-  static const html = ContentType._('HTML');
-  static const msWord = ContentType._('MS_WORD');
-  static const plainText = ContentType._('PLAIN_TEXT');
-  static const ppt = ContentType._('PPT');
-  static const rtf = ContentType._('RTF');
-  static const xml = ContentType._('XML');
-  static const xslt = ContentType._('XSLT');
-  static const msExcel = ContentType._('MS_EXCEL');
-  static const csv = ContentType._('CSV');
-  static const json = ContentType._('JSON');
-  static const md = ContentType._('MD');
-
-  final String value;
-
-  const ContentType._(this.value);
-
-  static const values = [
-    pdf,
-    html,
-    msWord,
-    plainText,
-    ppt,
-    rtf,
-    xml,
-    xslt,
-    msExcel,
-    csv,
-    json,
-    md
-  ];
-
-  static ContentType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
-
-  @override
-  bool operator ==(other) => other is ContentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A corrected misspelled word in a query.
-class Correction {
-  /// The zero-based location in the response string or text where the corrected
-  /// word starts.
-  final int? beginOffset;
-
-  /// The string or text of a corrected misspelled word in a query.
-  final String? correctedTerm;
-
-  /// The zero-based location in the response string or text where the corrected
-  /// word ends.
-  final int? endOffset;
-
-  /// The string or text of a misspelled word in a query.
-  final String? term;
-
-  Correction({
-    this.beginOffset,
-    this.correctedTerm,
-    this.endOffset,
-    this.term,
-  });
-
-  factory Correction.fromJson(Map<String, dynamic> json) {
-    return Correction(
-      beginOffset: json['BeginOffset'] as int?,
-      correctedTerm: json['CorrectedTerm'] as String?,
-      endOffset: json['EndOffset'] as int?,
-      term: json['Term'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginOffset = this.beginOffset;
-    final correctedTerm = this.correctedTerm;
-    final endOffset = this.endOffset;
-    final term = this.term;
-    return {
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (correctedTerm != null) 'CorrectedTerm': correctedTerm,
-      if (endOffset != null) 'EndOffset': endOffset,
-      if (term != null) 'Term': term,
     };
   }
 }
@@ -7101,985 +4798,6 @@ class CreateThesaurusResponse {
   }
 }
 
-/// Provides the configuration information for altering document metadata and
-/// content during the document ingestion process.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
-/// document metadata during the ingestion process</a>.
-class CustomDocumentEnrichmentConfiguration {
-  /// Configuration information to alter document attributes or metadata fields
-  /// and content when ingesting documents into Amazon Kendra.
-  final List<InlineCustomDocumentEnrichmentConfiguration>? inlineConfigurations;
-
-  /// Configuration information for invoking a Lambda function in Lambda on the
-  /// structured documents with their metadata and text extracted. You can use a
-  /// Lambda function to apply advanced logic for creating, modifying, or deleting
-  /// document metadata and content. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#advanced-data-manipulation">Advanced
-  /// data manipulation</a>.
-  final HookConfiguration? postExtractionHookConfiguration;
-
-  /// Configuration information for invoking a Lambda function in Lambda on the
-  /// original or raw documents before extracting their metadata and text. You can
-  /// use a Lambda function to apply advanced logic for creating, modifying, or
-  /// deleting document metadata and content. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#advanced-data-manipulation">Advanced
-  /// data manipulation</a>.
-  final HookConfiguration? preExtractionHookConfiguration;
-
-  /// The Amazon Resource Name (ARN) of a role with permission to run
-  /// <code>PreExtractionHookConfiguration</code> and
-  /// <code>PostExtractionHookConfiguration</code> for altering document metadata
-  /// and content during the document ingestion process. For more information, see
-  /// <a href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM
-  /// roles for Amazon Kendra</a>.
-  final String? roleArn;
-
-  CustomDocumentEnrichmentConfiguration({
-    this.inlineConfigurations,
-    this.postExtractionHookConfiguration,
-    this.preExtractionHookConfiguration,
-    this.roleArn,
-  });
-
-  factory CustomDocumentEnrichmentConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return CustomDocumentEnrichmentConfiguration(
-      inlineConfigurations: (json['InlineConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => InlineCustomDocumentEnrichmentConfiguration.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      postExtractionHookConfiguration:
-          json['PostExtractionHookConfiguration'] != null
-              ? HookConfiguration.fromJson(
-                  json['PostExtractionHookConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      preExtractionHookConfiguration: json['PreExtractionHookConfiguration'] !=
-              null
-          ? HookConfiguration.fromJson(
-              json['PreExtractionHookConfiguration'] as Map<String, dynamic>)
-          : null,
-      roleArn: json['RoleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inlineConfigurations = this.inlineConfigurations;
-    final postExtractionHookConfiguration =
-        this.postExtractionHookConfiguration;
-    final preExtractionHookConfiguration = this.preExtractionHookConfiguration;
-    final roleArn = this.roleArn;
-    return {
-      if (inlineConfigurations != null)
-        'InlineConfigurations': inlineConfigurations,
-      if (postExtractionHookConfiguration != null)
-        'PostExtractionHookConfiguration': postExtractionHookConfiguration,
-      if (preExtractionHookConfiguration != null)
-        'PreExtractionHookConfiguration': preExtractionHookConfiguration,
-      if (roleArn != null) 'RoleArn': roleArn,
-    };
-  }
-}
-
-/// Provides the configuration information for an Amazon Kendra data source.
-class DataSourceConfiguration {
-  /// Provides the configuration information to connect to Alfresco as your data
-  /// source.
-  /// <note>
-  /// Support for <code>AlfrescoConfiguration</code> ended May 2023. We recommend
-  /// migrating to or using the Alfresco data source template schema / <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
-  /// API.
-  /// </note>
-  final AlfrescoConfiguration? alfrescoConfiguration;
-
-  /// Provides the configuration information to connect to Box as your data
-  /// source.
-  final BoxConfiguration? boxConfiguration;
-
-  /// Provides the configuration information to connect to Confluence as your data
-  /// source.
-  final ConfluenceConfiguration? confluenceConfiguration;
-
-  /// Provides the configuration information to connect to a database as your data
-  /// source.
-  final DatabaseConfiguration? databaseConfiguration;
-
-  /// Provides the configuration information to connect to Amazon FSx as your data
-  /// source.
-  /// <note>
-  /// Amazon Kendra now supports an upgraded Amazon FSx Windows connector.
-  ///
-  /// You must now use the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
-  /// object instead of the <code>FsxConfiguration</code> object to configure your
-  /// connector.
-  ///
-  /// Connectors configured using the older console and API architecture will
-  /// continue to function as configured. However, you won't be able to edit or
-  /// update them. If you want to edit or update your connector configuration, you
-  /// must create a new connector.
-  ///
-  /// We recommended migrating your connector workflow to the upgraded version.
-  /// Support for connectors configured using the older architecture is scheduled
-  /// to end by June 2024.
-  /// </note>
-  final FsxConfiguration? fsxConfiguration;
-
-  /// Provides the configuration information to connect to GitHub as your data
-  /// source.
-  /// <note>
-  /// Amazon Kendra now supports an upgraded GitHub connector.
-  ///
-  /// You must now use the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
-  /// object instead of the <code>GitHubConfiguration</code> object to configure
-  /// your connector.
-  ///
-  /// Connectors configured using the older console and API architecture will
-  /// continue to function as configured. However, you won’t be able to edit or
-  /// update them. If you want to edit or update your connector configuration, you
-  /// must create a new connector.
-  ///
-  /// We recommended migrating your connector workflow to the upgraded version.
-  /// Support for connectors configured using the older architecture is scheduled
-  /// to end by June 2024.
-  /// </note>
-  final GitHubConfiguration? gitHubConfiguration;
-
-  /// Provides the configuration information to connect to Google Drive as your
-  /// data source.
-  final GoogleDriveConfiguration? googleDriveConfiguration;
-
-  /// Provides the configuration information to connect to Jira as your data
-  /// source.
-  final JiraConfiguration? jiraConfiguration;
-
-  /// Provides the configuration information to connect to Microsoft OneDrive as
-  /// your data source.
-  final OneDriveConfiguration? oneDriveConfiguration;
-
-  /// Provides the configuration information to connect to Quip as your data
-  /// source.
-  final QuipConfiguration? quipConfiguration;
-
-  /// Provides the configuration information to connect to an Amazon S3 bucket as
-  /// your data source.
-  /// <note>
-  /// Amazon Kendra now supports an upgraded Amazon S3 connector.
-  ///
-  /// You must now use the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
-  /// object instead of the <code>S3DataSourceConfiguration</code> object to
-  /// configure your connector.
-  ///
-  /// Connectors configured using the older console and API architecture will
-  /// continue to function as configured. However, you won't be able to edit or
-  /// update them. If you want to edit or update your connector configuration, you
-  /// must create a new connector.
-  ///
-  /// We recommended migrating your connector workflow to the upgraded version.
-  /// Support for connectors configured using the older architecture is scheduled
-  /// to end by June 2024.
-  /// </note>
-  final S3DataSourceConfiguration? s3Configuration;
-
-  /// Provides the configuration information to connect to Salesforce as your data
-  /// source.
-  final SalesforceConfiguration? salesforceConfiguration;
-
-  /// Provides the configuration information to connect to ServiceNow as your data
-  /// source.
-  final ServiceNowConfiguration? serviceNowConfiguration;
-
-  /// Provides the configuration information to connect to Microsoft SharePoint as
-  /// your data source.
-  final SharePointConfiguration? sharePointConfiguration;
-
-  /// Provides the configuration information to connect to Slack as your data
-  /// source.
-  /// <note>
-  /// Amazon Kendra now supports an upgraded Slack connector.
-  ///
-  /// You must now use the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
-  /// object instead of the <code>SlackConfiguration</code> object to configure
-  /// your connector.
-  ///
-  /// Connectors configured using the older console and API architecture will
-  /// continue to function as configured. However, you won't be able to edit or
-  /// update them. If you want to edit or update your connector configuration, you
-  /// must create a new connector.
-  ///
-  /// We recommended migrating your connector workflow to the upgraded version.
-  /// Support for connectors configured using the older architecture is scheduled
-  /// to end by June 2024.
-  /// </note>
-  final SlackConfiguration? slackConfiguration;
-
-  /// Provides a template for the configuration information to connect to your
-  /// data source.
-  final TemplateConfiguration? templateConfiguration;
-  final WebCrawlerConfiguration? webCrawlerConfiguration;
-
-  /// Provides the configuration information to connect to Amazon WorkDocs as your
-  /// data source.
-  final WorkDocsConfiguration? workDocsConfiguration;
-
-  DataSourceConfiguration({
-    this.alfrescoConfiguration,
-    this.boxConfiguration,
-    this.confluenceConfiguration,
-    this.databaseConfiguration,
-    this.fsxConfiguration,
-    this.gitHubConfiguration,
-    this.googleDriveConfiguration,
-    this.jiraConfiguration,
-    this.oneDriveConfiguration,
-    this.quipConfiguration,
-    this.s3Configuration,
-    this.salesforceConfiguration,
-    this.serviceNowConfiguration,
-    this.sharePointConfiguration,
-    this.slackConfiguration,
-    this.templateConfiguration,
-    this.webCrawlerConfiguration,
-    this.workDocsConfiguration,
-  });
-
-  factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return DataSourceConfiguration(
-      alfrescoConfiguration: json['AlfrescoConfiguration'] != null
-          ? AlfrescoConfiguration.fromJson(
-              json['AlfrescoConfiguration'] as Map<String, dynamic>)
-          : null,
-      boxConfiguration: json['BoxConfiguration'] != null
-          ? BoxConfiguration.fromJson(
-              json['BoxConfiguration'] as Map<String, dynamic>)
-          : null,
-      confluenceConfiguration: json['ConfluenceConfiguration'] != null
-          ? ConfluenceConfiguration.fromJson(
-              json['ConfluenceConfiguration'] as Map<String, dynamic>)
-          : null,
-      databaseConfiguration: json['DatabaseConfiguration'] != null
-          ? DatabaseConfiguration.fromJson(
-              json['DatabaseConfiguration'] as Map<String, dynamic>)
-          : null,
-      fsxConfiguration: json['FsxConfiguration'] != null
-          ? FsxConfiguration.fromJson(
-              json['FsxConfiguration'] as Map<String, dynamic>)
-          : null,
-      gitHubConfiguration: json['GitHubConfiguration'] != null
-          ? GitHubConfiguration.fromJson(
-              json['GitHubConfiguration'] as Map<String, dynamic>)
-          : null,
-      googleDriveConfiguration: json['GoogleDriveConfiguration'] != null
-          ? GoogleDriveConfiguration.fromJson(
-              json['GoogleDriveConfiguration'] as Map<String, dynamic>)
-          : null,
-      jiraConfiguration: json['JiraConfiguration'] != null
-          ? JiraConfiguration.fromJson(
-              json['JiraConfiguration'] as Map<String, dynamic>)
-          : null,
-      oneDriveConfiguration: json['OneDriveConfiguration'] != null
-          ? OneDriveConfiguration.fromJson(
-              json['OneDriveConfiguration'] as Map<String, dynamic>)
-          : null,
-      quipConfiguration: json['QuipConfiguration'] != null
-          ? QuipConfiguration.fromJson(
-              json['QuipConfiguration'] as Map<String, dynamic>)
-          : null,
-      s3Configuration: json['S3Configuration'] != null
-          ? S3DataSourceConfiguration.fromJson(
-              json['S3Configuration'] as Map<String, dynamic>)
-          : null,
-      salesforceConfiguration: json['SalesforceConfiguration'] != null
-          ? SalesforceConfiguration.fromJson(
-              json['SalesforceConfiguration'] as Map<String, dynamic>)
-          : null,
-      serviceNowConfiguration: json['ServiceNowConfiguration'] != null
-          ? ServiceNowConfiguration.fromJson(
-              json['ServiceNowConfiguration'] as Map<String, dynamic>)
-          : null,
-      sharePointConfiguration: json['SharePointConfiguration'] != null
-          ? SharePointConfiguration.fromJson(
-              json['SharePointConfiguration'] as Map<String, dynamic>)
-          : null,
-      slackConfiguration: json['SlackConfiguration'] != null
-          ? SlackConfiguration.fromJson(
-              json['SlackConfiguration'] as Map<String, dynamic>)
-          : null,
-      templateConfiguration: json['TemplateConfiguration'] != null
-          ? TemplateConfiguration.fromJson(
-              json['TemplateConfiguration'] as Map<String, dynamic>)
-          : null,
-      webCrawlerConfiguration: json['WebCrawlerConfiguration'] != null
-          ? WebCrawlerConfiguration.fromJson(
-              json['WebCrawlerConfiguration'] as Map<String, dynamic>)
-          : null,
-      workDocsConfiguration: json['WorkDocsConfiguration'] != null
-          ? WorkDocsConfiguration.fromJson(
-              json['WorkDocsConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alfrescoConfiguration = this.alfrescoConfiguration;
-    final boxConfiguration = this.boxConfiguration;
-    final confluenceConfiguration = this.confluenceConfiguration;
-    final databaseConfiguration = this.databaseConfiguration;
-    final fsxConfiguration = this.fsxConfiguration;
-    final gitHubConfiguration = this.gitHubConfiguration;
-    final googleDriveConfiguration = this.googleDriveConfiguration;
-    final jiraConfiguration = this.jiraConfiguration;
-    final oneDriveConfiguration = this.oneDriveConfiguration;
-    final quipConfiguration = this.quipConfiguration;
-    final s3Configuration = this.s3Configuration;
-    final salesforceConfiguration = this.salesforceConfiguration;
-    final serviceNowConfiguration = this.serviceNowConfiguration;
-    final sharePointConfiguration = this.sharePointConfiguration;
-    final slackConfiguration = this.slackConfiguration;
-    final templateConfiguration = this.templateConfiguration;
-    final webCrawlerConfiguration = this.webCrawlerConfiguration;
-    final workDocsConfiguration = this.workDocsConfiguration;
-    return {
-      if (alfrescoConfiguration != null)
-        'AlfrescoConfiguration': alfrescoConfiguration,
-      if (boxConfiguration != null) 'BoxConfiguration': boxConfiguration,
-      if (confluenceConfiguration != null)
-        'ConfluenceConfiguration': confluenceConfiguration,
-      if (databaseConfiguration != null)
-        'DatabaseConfiguration': databaseConfiguration,
-      if (fsxConfiguration != null) 'FsxConfiguration': fsxConfiguration,
-      if (gitHubConfiguration != null)
-        'GitHubConfiguration': gitHubConfiguration,
-      if (googleDriveConfiguration != null)
-        'GoogleDriveConfiguration': googleDriveConfiguration,
-      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
-      if (oneDriveConfiguration != null)
-        'OneDriveConfiguration': oneDriveConfiguration,
-      if (quipConfiguration != null) 'QuipConfiguration': quipConfiguration,
-      if (s3Configuration != null) 'S3Configuration': s3Configuration,
-      if (salesforceConfiguration != null)
-        'SalesforceConfiguration': salesforceConfiguration,
-      if (serviceNowConfiguration != null)
-        'ServiceNowConfiguration': serviceNowConfiguration,
-      if (sharePointConfiguration != null)
-        'SharePointConfiguration': sharePointConfiguration,
-      if (slackConfiguration != null) 'SlackConfiguration': slackConfiguration,
-      if (templateConfiguration != null)
-        'TemplateConfiguration': templateConfiguration,
-      if (webCrawlerConfiguration != null)
-        'WebCrawlerConfiguration': webCrawlerConfiguration,
-      if (workDocsConfiguration != null)
-        'WorkDocsConfiguration': workDocsConfiguration,
-    };
-  }
-}
-
-/// Data source information for user context filtering.
-class DataSourceGroup {
-  /// The identifier of the data source group you want to add to your list of data
-  /// source groups. This is for filtering search results based on the groups'
-  /// access to documents in that data source.
-  final String dataSourceId;
-
-  /// The identifier of the group you want to add to your list of groups. This is
-  /// for filtering search results based on the groups' access to documents.
-  final String groupId;
-
-  DataSourceGroup({
-    required this.dataSourceId,
-    required this.groupId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dataSourceId = this.dataSourceId;
-    final groupId = this.groupId;
-    return {
-      'DataSourceId': dataSourceId,
-      'GroupId': groupId,
-    };
-  }
-}
-
-class DataSourceStatus {
-  static const creating = DataSourceStatus._('CREATING');
-  static const deleting = DataSourceStatus._('DELETING');
-  static const failed = DataSourceStatus._('FAILED');
-  static const updating = DataSourceStatus._('UPDATING');
-  static const active = DataSourceStatus._('ACTIVE');
-
-  final String value;
-
-  const DataSourceStatus._(this.value);
-
-  static const values = [creating, deleting, failed, updating, active];
-
-  static DataSourceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataSourceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DataSourceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information for a Amazon Kendra data source.
-class DataSourceSummary {
-  /// The Unix timestamp when the data source connector was created.
-  final DateTime? createdAt;
-
-  /// The identifier for the data source.
-  final String? id;
-
-  /// The code for a language. This shows a supported language for all documents
-  /// in the data source. English is supported by default. For more information on
-  /// supported languages, including their codes, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html">Adding
-  /// documents in languages other than English</a>.
-  final String? languageCode;
-
-  /// The name of the data source.
-  final String? name;
-
-  /// The status of the data source. When the status is <code>ACTIVE</code> the
-  /// data source is ready to use.
-  final DataSourceStatus? status;
-
-  /// The type of the data source.
-  final DataSourceType? type;
-
-  /// The Unix timestamp when the data source connector was last updated.
-  final DateTime? updatedAt;
-
-  DataSourceSummary({
-    this.createdAt,
-    this.id,
-    this.languageCode,
-    this.name,
-    this.status,
-    this.type,
-    this.updatedAt,
-  });
-
-  factory DataSourceSummary.fromJson(Map<String, dynamic> json) {
-    return DataSourceSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      id: json['Id'] as String?,
-      languageCode: json['LanguageCode'] as String?,
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(DataSourceStatus.fromString),
-      type: (json['Type'] as String?)?.let(DataSourceType.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final id = this.id;
-    final languageCode = this.languageCode;
-    final name = this.name;
-    final status = this.status;
-    final type = this.type;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (id != null) 'Id': id,
-      if (languageCode != null) 'LanguageCode': languageCode,
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// Provides information about a data source synchronization job.
-class DataSourceSyncJob {
-  /// If the reason that the synchronization failed is due to an error with the
-  /// underlying data source, this field contains a code that identifies the
-  /// error.
-  final String? dataSourceErrorCode;
-
-  /// The Unix timestamp when the synchronization job completed.
-  final DateTime? endTime;
-
-  /// If the <code>Status</code> field is set to <code>FAILED</code>, the
-  /// <code>ErrorCode</code> field indicates the reason the synchronization
-  /// failed.
-  final ErrorCode? errorCode;
-
-  /// If the <code>Status</code> field is set to <code>ERROR</code>, the
-  /// <code>ErrorMessage</code> field contains a description of the error that
-  /// caused the synchronization to fail.
-  final String? errorMessage;
-
-  /// A identifier for the synchronization job.
-  final String? executionId;
-
-  /// Maps a batch delete document request to a specific data source sync job.
-  /// This is optional and should only be supplied when documents are deleted by a
-  /// data source connector.
-  final DataSourceSyncJobMetrics? metrics;
-
-  /// The Unix timestamp when the synchronization job started.
-  final DateTime? startTime;
-
-  /// The execution status of the synchronization job. When the
-  /// <code>Status</code> field is set to <code>SUCCEEDED</code>, the
-  /// synchronization job is done. If the status code is set to
-  /// <code>FAILED</code>, the <code>ErrorCode</code> and
-  /// <code>ErrorMessage</code> fields give you the reason for the failure.
-  final DataSourceSyncJobStatus? status;
-
-  DataSourceSyncJob({
-    this.dataSourceErrorCode,
-    this.endTime,
-    this.errorCode,
-    this.errorMessage,
-    this.executionId,
-    this.metrics,
-    this.startTime,
-    this.status,
-  });
-
-  factory DataSourceSyncJob.fromJson(Map<String, dynamic> json) {
-    return DataSourceSyncJob(
-      dataSourceErrorCode: json['DataSourceErrorCode'] as String?,
-      endTime: timeStampFromJson(json['EndTime']),
-      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-      executionId: json['ExecutionId'] as String?,
-      metrics: json['Metrics'] != null
-          ? DataSourceSyncJobMetrics.fromJson(
-              json['Metrics'] as Map<String, dynamic>)
-          : null,
-      startTime: timeStampFromJson(json['StartTime']),
-      status:
-          (json['Status'] as String?)?.let(DataSourceSyncJobStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceErrorCode = this.dataSourceErrorCode;
-    final endTime = this.endTime;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final executionId = this.executionId;
-    final metrics = this.metrics;
-    final startTime = this.startTime;
-    final status = this.status;
-    return {
-      if (dataSourceErrorCode != null)
-        'DataSourceErrorCode': dataSourceErrorCode,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (executionId != null) 'ExecutionId': executionId,
-      if (metrics != null) 'Metrics': metrics,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Maps a particular data source sync job to a particular data source.
-class DataSourceSyncJobMetricTarget {
-  /// The ID of the data source that is running the sync job.
-  final String dataSourceId;
-
-  /// The ID of the sync job that is running on the data source.
-  ///
-  /// If the ID of a sync job is not provided and there is a sync job running,
-  /// then the ID of this sync job is used and metrics are generated for this sync
-  /// job.
-  ///
-  /// If the ID of a sync job is not provided and there is no sync job running,
-  /// then no metrics are generated and documents are indexed/deleted at the index
-  /// level without sync job metrics included.
-  final String? dataSourceSyncJobId;
-
-  DataSourceSyncJobMetricTarget({
-    required this.dataSourceId,
-    this.dataSourceSyncJobId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dataSourceId = this.dataSourceId;
-    final dataSourceSyncJobId = this.dataSourceSyncJobId;
-    return {
-      'DataSourceId': dataSourceId,
-      if (dataSourceSyncJobId != null)
-        'DataSourceSyncJobId': dataSourceSyncJobId,
-    };
-  }
-}
-
-/// Maps a batch delete document request to a specific data source sync job.
-/// This is optional and should only be supplied when documents are deleted by a
-/// data source connector.
-class DataSourceSyncJobMetrics {
-  /// The number of documents added from the data source up to now in the data
-  /// source sync.
-  final String? documentsAdded;
-
-  /// The number of documents deleted from the data source up to now in the data
-  /// source sync run.
-  final String? documentsDeleted;
-
-  /// The number of documents that failed to sync from the data source up to now
-  /// in the data source sync run.
-  final String? documentsFailed;
-
-  /// The number of documents modified in the data source up to now in the data
-  /// source sync run.
-  final String? documentsModified;
-
-  /// The current number of documents crawled by the current sync job in the data
-  /// source.
-  final String? documentsScanned;
-
-  DataSourceSyncJobMetrics({
-    this.documentsAdded,
-    this.documentsDeleted,
-    this.documentsFailed,
-    this.documentsModified,
-    this.documentsScanned,
-  });
-
-  factory DataSourceSyncJobMetrics.fromJson(Map<String, dynamic> json) {
-    return DataSourceSyncJobMetrics(
-      documentsAdded: json['DocumentsAdded'] as String?,
-      documentsDeleted: json['DocumentsDeleted'] as String?,
-      documentsFailed: json['DocumentsFailed'] as String?,
-      documentsModified: json['DocumentsModified'] as String?,
-      documentsScanned: json['DocumentsScanned'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentsAdded = this.documentsAdded;
-    final documentsDeleted = this.documentsDeleted;
-    final documentsFailed = this.documentsFailed;
-    final documentsModified = this.documentsModified;
-    final documentsScanned = this.documentsScanned;
-    return {
-      if (documentsAdded != null) 'DocumentsAdded': documentsAdded,
-      if (documentsDeleted != null) 'DocumentsDeleted': documentsDeleted,
-      if (documentsFailed != null) 'DocumentsFailed': documentsFailed,
-      if (documentsModified != null) 'DocumentsModified': documentsModified,
-      if (documentsScanned != null) 'DocumentsScanned': documentsScanned,
-    };
-  }
-}
-
-class DataSourceSyncJobStatus {
-  static const failed = DataSourceSyncJobStatus._('FAILED');
-  static const succeeded = DataSourceSyncJobStatus._('SUCCEEDED');
-  static const syncing = DataSourceSyncJobStatus._('SYNCING');
-  static const incomplete = DataSourceSyncJobStatus._('INCOMPLETE');
-  static const stopping = DataSourceSyncJobStatus._('STOPPING');
-  static const aborted = DataSourceSyncJobStatus._('ABORTED');
-  static const syncingIndexing = DataSourceSyncJobStatus._('SYNCING_INDEXING');
-
-  final String value;
-
-  const DataSourceSyncJobStatus._(this.value);
-
-  static const values = [
-    failed,
-    succeeded,
-    syncing,
-    incomplete,
-    stopping,
-    aborted,
-    syncingIndexing
-  ];
-
-  static DataSourceSyncJobStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataSourceSyncJobStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DataSourceSyncJobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Maps attributes or field names of the documents synced from the data source
-/// to Amazon Kendra index field names. You can set up field mappings for each
-/// data source when calling <a
-/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_CreateDataSource.html">CreateDataSource</a>
-/// or <a
-/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_UpdateDataSource.html">UpdateDataSource</a>
-/// API. To create custom fields, use the <code>UpdateIndex</code> API to first
-/// create an index field and then map to the data source field. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-/// data source fields</a>.
-class DataSourceToIndexFieldMapping {
-  /// The name of the field in the data source. You must first create the index
-  /// field using the <code>UpdateIndex</code> API.
-  final String dataSourceFieldName;
-
-  /// The name of the index field to map to the data source field. The index field
-  /// type must match the data source field type.
-  final String indexFieldName;
-
-  /// The format for date fields in the data source. If the field specified in
-  /// <code>DataSourceFieldName</code> is a date field, you must specify the date
-  /// format. If the field is not a date field, an exception is thrown.
-  final String? dateFieldFormat;
-
-  DataSourceToIndexFieldMapping({
-    required this.dataSourceFieldName,
-    required this.indexFieldName,
-    this.dateFieldFormat,
-  });
-
-  factory DataSourceToIndexFieldMapping.fromJson(Map<String, dynamic> json) {
-    return DataSourceToIndexFieldMapping(
-      dataSourceFieldName: (json['DataSourceFieldName'] as String?) ?? '',
-      indexFieldName: (json['IndexFieldName'] as String?) ?? '',
-      dateFieldFormat: json['DateFieldFormat'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataSourceFieldName = this.dataSourceFieldName;
-    final indexFieldName = this.indexFieldName;
-    final dateFieldFormat = this.dateFieldFormat;
-    return {
-      'DataSourceFieldName': dataSourceFieldName,
-      'IndexFieldName': indexFieldName,
-      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
-    };
-  }
-}
-
-class DataSourceType {
-  static const s3 = DataSourceType._('S3');
-  static const sharepoint = DataSourceType._('SHAREPOINT');
-  static const database = DataSourceType._('DATABASE');
-  static const salesforce = DataSourceType._('SALESFORCE');
-  static const onedrive = DataSourceType._('ONEDRIVE');
-  static const servicenow = DataSourceType._('SERVICENOW');
-  static const custom = DataSourceType._('CUSTOM');
-  static const confluence = DataSourceType._('CONFLUENCE');
-  static const googledrive = DataSourceType._('GOOGLEDRIVE');
-  static const webcrawler = DataSourceType._('WEBCRAWLER');
-  static const workdocs = DataSourceType._('WORKDOCS');
-  static const fsx = DataSourceType._('FSX');
-  static const slack = DataSourceType._('SLACK');
-  static const box = DataSourceType._('BOX');
-  static const quip = DataSourceType._('QUIP');
-  static const jira = DataSourceType._('JIRA');
-  static const github = DataSourceType._('GITHUB');
-  static const alfresco = DataSourceType._('ALFRESCO');
-  static const template = DataSourceType._('TEMPLATE');
-
-  final String value;
-
-  const DataSourceType._(this.value);
-
-  static const values = [
-    s3,
-    sharepoint,
-    database,
-    salesforce,
-    onedrive,
-    servicenow,
-    custom,
-    confluence,
-    googledrive,
-    webcrawler,
-    workdocs,
-    fsx,
-    slack,
-    box,
-    quip,
-    jira,
-    github,
-    alfresco,
-    template
-  ];
-
-  static DataSourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DataSourceType._(value));
-
-  @override
-  bool operator ==(other) => other is DataSourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information to connect to an Amazon VPC.
-class DataSourceVpcConfiguration {
-  /// A list of identifiers of security groups within your Amazon VPC. The
-  /// security groups should enable Amazon Kendra to connect to the data source.
-  final List<String> securityGroupIds;
-
-  /// A list of identifiers for subnets within your Amazon VPC. The subnets should
-  /// be able to connect to each other in the VPC, and they should have outgoing
-  /// access to the Internet through a NAT device.
-  final List<String> subnetIds;
-
-  DataSourceVpcConfiguration({
-    required this.securityGroupIds,
-    required this.subnetIds,
-  });
-
-  factory DataSourceVpcConfiguration.fromJson(Map<String, dynamic> json) {
-    return DataSourceVpcConfiguration(
-      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupIds = this.securityGroupIds;
-    final subnetIds = this.subnetIds;
-    return {
-      'SecurityGroupIds': securityGroupIds,
-      'SubnetIds': subnetIds,
-    };
-  }
-}
-
-/// Provides the configuration information to an <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html">Amazon
-/// Kendra supported database</a>.
-class DatabaseConfiguration {
-  /// Information about where the index should get the document information from
-  /// the database.
-  final ColumnConfiguration columnConfiguration;
-
-  /// Configuration information that's required to connect to a database.
-  final ConnectionConfiguration connectionConfiguration;
-
-  /// The type of database engine that runs the database.
-  final DatabaseEngineType databaseEngineType;
-
-  /// Information about the database column that provides information for user
-  /// context filtering.
-  final AclConfiguration? aclConfiguration;
-
-  /// Provides information about how Amazon Kendra uses quote marks around SQL
-  /// identifiers when querying a database data source.
-  final SqlConfiguration? sqlConfiguration;
-  final DataSourceVpcConfiguration? vpcConfiguration;
-
-  DatabaseConfiguration({
-    required this.columnConfiguration,
-    required this.connectionConfiguration,
-    required this.databaseEngineType,
-    this.aclConfiguration,
-    this.sqlConfiguration,
-    this.vpcConfiguration,
-  });
-
-  factory DatabaseConfiguration.fromJson(Map<String, dynamic> json) {
-    return DatabaseConfiguration(
-      columnConfiguration: ColumnConfiguration.fromJson(
-          (json['ColumnConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      connectionConfiguration: ConnectionConfiguration.fromJson(
-          (json['ConnectionConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      databaseEngineType: DatabaseEngineType.fromString(
-          (json['DatabaseEngineType'] as String?) ?? ''),
-      aclConfiguration: json['AclConfiguration'] != null
-          ? AclConfiguration.fromJson(
-              json['AclConfiguration'] as Map<String, dynamic>)
-          : null,
-      sqlConfiguration: json['SqlConfiguration'] != null
-          ? SqlConfiguration.fromJson(
-              json['SqlConfiguration'] as Map<String, dynamic>)
-          : null,
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? DataSourceVpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final columnConfiguration = this.columnConfiguration;
-    final connectionConfiguration = this.connectionConfiguration;
-    final databaseEngineType = this.databaseEngineType;
-    final aclConfiguration = this.aclConfiguration;
-    final sqlConfiguration = this.sqlConfiguration;
-    final vpcConfiguration = this.vpcConfiguration;
-    return {
-      'ColumnConfiguration': columnConfiguration,
-      'ConnectionConfiguration': connectionConfiguration,
-      'DatabaseEngineType': databaseEngineType.value,
-      if (aclConfiguration != null) 'AclConfiguration': aclConfiguration,
-      if (sqlConfiguration != null) 'SqlConfiguration': sqlConfiguration,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-    };
-  }
-}
-
-class DatabaseEngineType {
-  static const rdsAuroraMysql = DatabaseEngineType._('RDS_AURORA_MYSQL');
-  static const rdsAuroraPostgresql =
-      DatabaseEngineType._('RDS_AURORA_POSTGRESQL');
-  static const rdsMysql = DatabaseEngineType._('RDS_MYSQL');
-  static const rdsPostgresql = DatabaseEngineType._('RDS_POSTGRESQL');
-
-  final String value;
-
-  const DatabaseEngineType._(this.value);
-
-  static const values = [
-    rdsAuroraMysql,
-    rdsAuroraPostgresql,
-    rdsMysql,
-    rdsPostgresql
-  ];
-
-  static DatabaseEngineType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DatabaseEngineType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DatabaseEngineType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeleteAccessControlConfigurationResponse {
   DeleteAccessControlConfigurationResponse();
 
@@ -8215,7 +4933,7 @@ class DescribeDataSourceResponse {
   /// The name for the data source connector.
   final String? name;
 
-  /// The Amazon Resource Name (ARN) of the role with permission to access the
+  /// The Amazon Resource Name (ARN) of the IAM role with permission to access the
   /// data source and required resources.
   final String? roleArn;
 
@@ -8358,10 +5076,10 @@ class DescribeExperienceResponse {
   /// Shows the name of your Amazon Kendra experience.
   final String? name;
 
-  /// Shows the Amazon Resource Name (ARN) of a role with permission to access
+  /// The Amazon Resource Name (ARN) of the IAM role with permission to access the
   /// <code>Query</code> API, <code>QuerySuggestions</code> API,
   /// <code>SubmitFeedback</code> API, and IAM Identity Center that stores your
-  /// user and group information.
+  /// users and groups information.
   final String? roleArn;
 
   /// The current processing status of your Amazon Kendra experience. When the
@@ -8448,7 +5166,7 @@ class DescribeFaqResponse {
   /// <code>ErrorMessage</code> field contains the reason why the FAQ failed.
   final String? errorMessage;
 
-  /// The file format used by the input files for the FAQ.
+  /// The file format used for the FAQ file.
   final FaqFileFormat? fileFormat;
 
   /// The identifier of the FAQ.
@@ -8467,8 +5185,8 @@ class DescribeFaqResponse {
   /// The name that you gave the FAQ when it was created.
   final String? name;
 
-  /// The Amazon Resource Name (ARN) of the role that provides access to the S3
-  /// bucket containing the input files for the FAQ.
+  /// The Amazon Resource Name (ARN) of the IAM role that provides access to the
+  /// S3 bucket containing the FAQ file.
   final String? roleArn;
   final S3Path? s3Path;
 
@@ -9208,7 +5926,7 @@ class DescribeThesaurusResponse {
   final int? synonymRuleCount;
 
   /// The number of unique terms in the thesaurus file. For example, the synonyms
-  /// <code>a,b,c</code> and <code>a=&gt;d</code>, the term count would be 4.
+  /// <code>a,b,c</code> and <code>a=>d</code>, the term count would be 4.
   final int? termCount;
 
   /// The Unix timestamp when the thesaurus was last updated.
@@ -9336,407 +6054,808 @@ class DisassociatePersonasFromEntitiesResponse {
   }
 }
 
-/// A document in an index.
-class Document {
-  /// A identifier of the document in the index.
-  ///
-  /// Note, each document ID must be unique per index. You cannot create a data
-  /// source to index your documents with their unique IDs and then use the
-  /// <code>BatchPutDocument</code> API to index the same documents, or vice
-  /// versa. You can delete a data source and then use the
-  /// <code>BatchPutDocument</code> API to index the same documents, or vice
-  /// versa.
-  final String id;
+class GetQuerySuggestionsResponse {
+  /// The identifier for a list of query suggestions for an index.
+  final String? querySuggestionsId;
 
-  /// The identifier of the access control configuration that you want to apply to
-  /// the document.
-  final String? accessControlConfigurationId;
+  /// A list of query suggestions for an index.
+  final List<Suggestion>? suggestions;
 
-  /// Information on principals (users and/or groups) and which documents they
-  /// should have access to. This is useful for user context filtering, where
-  /// search results are filtered based on the user or their group access to
-  /// documents.
-  final List<Principal>? accessControlList;
-
-  /// Custom attributes to apply to the document. Use the custom attributes to
-  /// provide additional information for searching, to provide facets for refining
-  /// searches, and to provide additional information in the query response.
-  ///
-  /// For example, 'DataSourceId' and 'DataSourceSyncJobId' are custom attributes
-  /// that provide information on the synchronization of documents running on a
-  /// data source. Note, 'DataSourceSyncJobId' could be an optional custom
-  /// attribute as Amazon Kendra will use the ID of a running sync job.
-  final List<DocumentAttribute>? attributes;
-
-  /// The contents of the document.
-  ///
-  /// Documents passed to the <code>Blob</code> parameter must be base64 encoded.
-  /// Your code might not need to encode the document file bytes if you're using
-  /// an Amazon Web Services SDK to call Amazon Kendra APIs. If you are calling
-  /// the Amazon Kendra endpoint directly using REST, you must base64 encode the
-  /// contents before sending.
-  final Uint8List? blob;
-
-  /// The file type of the document in the <code>Blob</code> field.
-  ///
-  /// If you want to index snippets or subsets of HTML documents instead of the
-  /// entirety of the HTML documents, you must add the <code>HTML</code> start and
-  /// closing tags (<code>&lt;HTML&gt;content&lt;/HTML&gt;</code>) around the
-  /// content.
-  final ContentType? contentType;
-
-  /// The list of <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Principal.html">principal</a>
-  /// lists that define the hierarchy for which documents users should have access
-  /// to.
-  final List<HierarchicalPrincipal>? hierarchicalAccessControlList;
-  final S3Path? s3Path;
-
-  /// The title of the document.
-  final String? title;
-
-  Document({
-    required this.id,
-    this.accessControlConfigurationId,
-    this.accessControlList,
-    this.attributes,
-    this.blob,
-    this.contentType,
-    this.hierarchicalAccessControlList,
-    this.s3Path,
-    this.title,
+  GetQuerySuggestionsResponse({
+    this.querySuggestionsId,
+    this.suggestions,
   });
 
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final accessControlConfigurationId = this.accessControlConfigurationId;
-    final accessControlList = this.accessControlList;
-    final attributes = this.attributes;
-    final blob = this.blob;
-    final contentType = this.contentType;
-    final hierarchicalAccessControlList = this.hierarchicalAccessControlList;
-    final s3Path = this.s3Path;
-    final title = this.title;
-    return {
-      'Id': id,
-      if (accessControlConfigurationId != null)
-        'AccessControlConfigurationId': accessControlConfigurationId,
-      if (accessControlList != null) 'AccessControlList': accessControlList,
-      if (attributes != null) 'Attributes': attributes,
-      if (blob != null) 'Blob': base64Encode(blob),
-      if (contentType != null) 'ContentType': contentType.value,
-      if (hierarchicalAccessControlList != null)
-        'HierarchicalAccessControlList': hierarchicalAccessControlList,
-      if (s3Path != null) 'S3Path': s3Path,
-      if (title != null) 'Title': title,
-    };
-  }
-}
-
-/// A document attribute or metadata field. To create custom document
-/// attributes, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-attributes.html">Custom
-/// attributes</a>.
-class DocumentAttribute {
-  /// The identifier for the attribute.
-  final String key;
-
-  /// The value of the attribute.
-  final DocumentAttributeValue value;
-
-  DocumentAttribute({
-    required this.key,
-    required this.value,
-  });
-
-  factory DocumentAttribute.fromJson(Map<String, dynamic> json) {
-    return DocumentAttribute(
-      key: (json['Key'] as String?) ?? '',
-      value: DocumentAttributeValue.fromJson(
-          (json['Value'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+  factory GetQuerySuggestionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetQuerySuggestionsResponse(
+      querySuggestionsId: json['QuerySuggestionsId'] as String?,
+      suggestions: (json['Suggestions'] as List?)
+          ?.nonNulls
+          .map((e) => Suggestion.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final querySuggestionsId = this.querySuggestionsId;
+    final suggestions = this.suggestions;
     return {
-      'Key': key,
-      'Value': value,
+      if (querySuggestionsId != null) 'QuerySuggestionsId': querySuggestionsId,
+      if (suggestions != null) 'Suggestions': suggestions,
     };
   }
 }
 
-/// The condition used for the target document attribute or metadata field when
-/// ingesting documents into Amazon Kendra. You use this with <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_DocumentAttributeTarget.html">DocumentAttributeTarget
-/// to apply the condition</a>.
-///
-/// For example, you can create the 'Department' target field and have it
-/// prefill department names associated with the documents based on information
-/// in the 'Source_URI' field. Set the condition that if the 'Source_URI' field
-/// contains 'financial' in its URI value, then prefill the target field
-/// 'Department' with the target value 'Finance' for the document.
-///
-/// Amazon Kendra cannot create a target field if it has not already been
-/// created as an index field. After you create your index field, you can create
-/// a document metadata field using <code>DocumentAttributeTarget</code>. Amazon
-/// Kendra then will map your newly created metadata field to your index field.
-class DocumentAttributeCondition {
-  /// The identifier of the document attribute used for the condition.
-  ///
-  /// For example, 'Source_URI' could be an identifier for the attribute or
-  /// metadata field that contains source URIs associated with the documents.
-  ///
-  /// Amazon Kendra currently does not support <code>_document_body</code> as an
-  /// attribute key used for the condition.
-  final String conditionDocumentAttributeKey;
+class GetSnapshotsResponse {
+  /// If the response is truncated, Amazon Kendra returns this token, which you
+  /// can use in a later request to retrieve the next set of search metrics data.
+  final String? nextToken;
 
-  /// The condition operator.
-  ///
-  /// For example, you can use 'Contains' to partially match a string.
-  final ConditionOperator operator;
+  /// The Unix timestamp for the beginning and end of the time window for the
+  /// search metrics data.
+  final TimeRange? snapShotTimeFilter;
 
-  /// The value used by the operator.
-  ///
-  /// For example, you can specify the value 'financial' for strings in the
-  /// 'Source_URI' field that partially match or contain this value.
-  final DocumentAttributeValue? conditionOnValue;
+  /// The search metrics data. The data returned depends on the metric type you
+  /// requested.
+  final List<List<String>>? snapshotsData;
 
-  DocumentAttributeCondition({
-    required this.conditionDocumentAttributeKey,
-    required this.operator,
-    this.conditionOnValue,
+  /// The column headers for the search metrics data.
+  final List<String>? snapshotsDataHeader;
+
+  GetSnapshotsResponse({
+    this.nextToken,
+    this.snapShotTimeFilter,
+    this.snapshotsData,
+    this.snapshotsDataHeader,
   });
 
-  factory DocumentAttributeCondition.fromJson(Map<String, dynamic> json) {
-    return DocumentAttributeCondition(
-      conditionDocumentAttributeKey:
-          (json['ConditionDocumentAttributeKey'] as String?) ?? '',
-      operator:
-          ConditionOperator.fromString((json['Operator'] as String?) ?? ''),
-      conditionOnValue: json['ConditionOnValue'] != null
-          ? DocumentAttributeValue.fromJson(
-              json['ConditionOnValue'] as Map<String, dynamic>)
+  factory GetSnapshotsResponse.fromJson(Map<String, dynamic> json) {
+    return GetSnapshotsResponse(
+      nextToken: json['NextToken'] as String?,
+      snapShotTimeFilter: json['SnapShotTimeFilter'] != null
+          ? TimeRange.fromJson(
+              json['SnapShotTimeFilter'] as Map<String, dynamic>)
           : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final conditionDocumentAttributeKey = this.conditionDocumentAttributeKey;
-    final operator = this.operator;
-    final conditionOnValue = this.conditionOnValue;
-    return {
-      'ConditionDocumentAttributeKey': conditionDocumentAttributeKey,
-      'Operator': operator.value,
-      if (conditionOnValue != null) 'ConditionOnValue': conditionOnValue,
-    };
-  }
-}
-
-/// The target document attribute or metadata field you want to alter when
-/// ingesting documents into Amazon Kendra.
-///
-/// For example, you can delete customer identification numbers associated with
-/// the documents, stored in the document metadata field called 'Customer_ID'.
-/// You set the target key as 'Customer_ID' and the deletion flag to
-/// <code>TRUE</code>. This removes all customer ID values in the field
-/// 'Customer_ID'. This would scrub personally identifiable information from
-/// each document's metadata.
-///
-/// Amazon Kendra cannot create a target field if it has not already been
-/// created as an index field. After you create your index field, you can create
-/// a document metadata field using <code>DocumentAttributeTarget</code>. Amazon
-/// Kendra then will map your newly created metadata field to your index field.
-///
-/// You can also use this with <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_DocumentAttributeCondition.html">DocumentAttributeCondition</a>.
-class DocumentAttributeTarget {
-  /// The identifier of the target document attribute or metadata field.
-  ///
-  /// For example, 'Department' could be an identifier for the target attribute or
-  /// metadata field that includes the department names associated with the
-  /// documents.
-  final String? targetDocumentAttributeKey;
-
-  /// The target value you want to create for the target attribute.
-  ///
-  /// For example, 'Finance' could be the target value for the target attribute
-  /// key 'Department'.
-  final DocumentAttributeValue? targetDocumentAttributeValue;
-
-  /// <code>TRUE</code> to delete the existing target value for your specified
-  /// target attribute key. You cannot create a target value and set this to
-  /// <code>TRUE</code>. To create a target value
-  /// (<code>TargetDocumentAttributeValue</code>), set this to <code>FALSE</code>.
-  final bool? targetDocumentAttributeValueDeletion;
-
-  DocumentAttributeTarget({
-    this.targetDocumentAttributeKey,
-    this.targetDocumentAttributeValue,
-    this.targetDocumentAttributeValueDeletion,
-  });
-
-  factory DocumentAttributeTarget.fromJson(Map<String, dynamic> json) {
-    return DocumentAttributeTarget(
-      targetDocumentAttributeKey: json['TargetDocumentAttributeKey'] as String?,
-      targetDocumentAttributeValue: json['TargetDocumentAttributeValue'] != null
-          ? DocumentAttributeValue.fromJson(
-              json['TargetDocumentAttributeValue'] as Map<String, dynamic>)
-          : null,
-      targetDocumentAttributeValueDeletion:
-          json['TargetDocumentAttributeValueDeletion'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetDocumentAttributeKey = this.targetDocumentAttributeKey;
-    final targetDocumentAttributeValue = this.targetDocumentAttributeValue;
-    final targetDocumentAttributeValueDeletion =
-        this.targetDocumentAttributeValueDeletion;
-    return {
-      if (targetDocumentAttributeKey != null)
-        'TargetDocumentAttributeKey': targetDocumentAttributeKey,
-      if (targetDocumentAttributeValue != null)
-        'TargetDocumentAttributeValue': targetDocumentAttributeValue,
-      if (targetDocumentAttributeValueDeletion != null)
-        'TargetDocumentAttributeValueDeletion':
-            targetDocumentAttributeValueDeletion,
-    };
-  }
-}
-
-/// The value of a document attribute. You can only provide one value for a
-/// document attribute.
-class DocumentAttributeValue {
-  /// A date expressed as an ISO 8601 string.
-  ///
-  /// It is important for the time zone to be included in the ISO 8601 date-time
-  /// format. For example, 2012-03-25T12:30:10+01:00 is the ISO 8601 date-time
-  /// format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European
-  /// Time.
-  final DateTime? dateValue;
-
-  /// A long integer value.
-  final int? longValue;
-
-  /// A list of strings. The default maximum length or number of strings is 10.
-  final List<String>? stringListValue;
-
-  /// A string, such as "department".
-  final String? stringValue;
-
-  DocumentAttributeValue({
-    this.dateValue,
-    this.longValue,
-    this.stringListValue,
-    this.stringValue,
-  });
-
-  factory DocumentAttributeValue.fromJson(Map<String, dynamic> json) {
-    return DocumentAttributeValue(
-      dateValue: timeStampFromJson(json['DateValue']),
-      longValue: json['LongValue'] as int?,
-      stringListValue: (json['StringListValue'] as List?)
+      snapshotsData: (json['SnapshotsData'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .toList(),
+      snapshotsDataHeader: (json['SnapshotsDataHeader'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      stringValue: json['StringValue'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dateValue = this.dateValue;
-    final longValue = this.longValue;
-    final stringListValue = this.stringListValue;
-    final stringValue = this.stringValue;
+    final nextToken = this.nextToken;
+    final snapShotTimeFilter = this.snapShotTimeFilter;
+    final snapshotsData = this.snapshotsData;
+    final snapshotsDataHeader = this.snapshotsDataHeader;
     return {
-      if (dateValue != null) 'DateValue': unixTimestampToJson(dateValue),
-      if (longValue != null) 'LongValue': longValue,
-      if (stringListValue != null) 'StringListValue': stringListValue,
-      if (stringValue != null) 'StringValue': stringValue,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (snapShotTimeFilter != null) 'SnapShotTimeFilter': snapShotTimeFilter,
+      if (snapshotsData != null) 'SnapshotsData': snapshotsData,
+      if (snapshotsDataHeader != null)
+        'SnapshotsDataHeader': snapshotsDataHeader,
     };
   }
 }
 
-/// Provides the count of documents that match a particular document attribute
-/// or field when doing a faceted search.
-class DocumentAttributeValueCountPair {
-  /// The number of documents in the response that have the attribute/field value
-  /// for the key.
-  final int? count;
+class ListAccessControlConfigurationsResponse {
+  /// The details of your access control configurations.
+  final List<AccessControlConfigurationSummary> accessControlConfigurations;
 
-  /// The value of the attribute/field. For example, "HR".
-  final DocumentAttributeValue? documentAttributeValue;
+  /// If the response is truncated, Amazon Kendra returns this token, which you
+  /// can use in the subsequent request to retrieve the next set of access control
+  /// configurations.
+  final String? nextToken;
 
-  /// Contains the results of a document attribute/field that is a nested facet. A
-  /// <code>FacetResult</code> contains the counts for each facet nested within a
-  /// facet.
-  ///
-  /// For example, the document attribute or facet "Department" includes a value
-  /// called "Engineering". In addition, the document attribute or facet
-  /// "SubDepartment" includes the values "Frontend" and "Backend" for documents
-  /// assigned to "Engineering". You can display nested facets in the search
-  /// results so that documents can be searched not only by department but also by
-  /// a sub department within a department. The counts for documents that belong
-  /// to "Frontend" and "Backend" within "Engineering" are returned for a query.
-  /// <p/> <p/>
-  final List<FacetResult>? facetResults;
-
-  DocumentAttributeValueCountPair({
-    this.count,
-    this.documentAttributeValue,
-    this.facetResults,
+  ListAccessControlConfigurationsResponse({
+    required this.accessControlConfigurations,
+    this.nextToken,
   });
 
-  factory DocumentAttributeValueCountPair.fromJson(Map<String, dynamic> json) {
-    return DocumentAttributeValueCountPair(
-      count: json['Count'] as int?,
-      documentAttributeValue: json['DocumentAttributeValue'] != null
-          ? DocumentAttributeValue.fromJson(
-              json['DocumentAttributeValue'] as Map<String, dynamic>)
-          : null,
+  factory ListAccessControlConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAccessControlConfigurationsResponse(
+      accessControlConfigurations:
+          ((json['AccessControlConfigurations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AccessControlConfigurationSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessControlConfigurations = this.accessControlConfigurations;
+    final nextToken = this.nextToken;
+    return {
+      'AccessControlConfigurations': accessControlConfigurations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListDataSourcesResponse {
+  /// If the response is truncated, Amazon Kendra returns this token that you can
+  /// use in the subsequent request to retrieve the next set of data source
+  /// connectors.
+  final String? nextToken;
+
+  /// An array of summary information for one or more data source connector.
+  final List<DataSourceSummary>? summaryItems;
+
+  ListDataSourcesResponse({
+    this.nextToken,
+    this.summaryItems,
+  });
+
+  factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataSourcesResponse(
+      nextToken: json['NextToken'] as String?,
+      summaryItems: (json['SummaryItems'] as List?)
+          ?.nonNulls
+          .map((e) => DataSourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaryItems = this.summaryItems;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (summaryItems != null) 'SummaryItems': summaryItems,
+    };
+  }
+}
+
+class ListDataSourceSyncJobsResponse {
+  /// A history of synchronization jobs for the data source connector.
+  final List<DataSourceSyncJob>? history;
+
+  /// If the response is truncated, Amazon Kendra returns this token that you can
+  /// use in the subsequent request to retrieve the next set of jobs.
+  final String? nextToken;
+
+  ListDataSourceSyncJobsResponse({
+    this.history,
+    this.nextToken,
+  });
+
+  factory ListDataSourceSyncJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDataSourceSyncJobsResponse(
+      history: (json['History'] as List?)
+          ?.nonNulls
+          .map((e) => DataSourceSyncJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final history = this.history;
+    final nextToken = this.nextToken;
+    return {
+      if (history != null) 'History': history,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListEntityPersonasResponse {
+  /// If the response is truncated, Amazon Kendra returns this token, which you
+  /// can use in a later request to retrieve the next set of users or groups.
+  final String? nextToken;
+
+  /// An array of summary information for one or more users or groups.
+  final List<PersonasSummary>? summaryItems;
+
+  ListEntityPersonasResponse({
+    this.nextToken,
+    this.summaryItems,
+  });
+
+  factory ListEntityPersonasResponse.fromJson(Map<String, dynamic> json) {
+    return ListEntityPersonasResponse(
+      nextToken: json['NextToken'] as String?,
+      summaryItems: (json['SummaryItems'] as List?)
+          ?.nonNulls
+          .map((e) => PersonasSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaryItems = this.summaryItems;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (summaryItems != null) 'SummaryItems': summaryItems,
+    };
+  }
+}
+
+class ListExperienceEntitiesResponse {
+  /// If the response is truncated, Amazon Kendra returns this token, which you
+  /// can use in a later request to retrieve the next set of users or groups.
+  final String? nextToken;
+
+  /// An array of summary information for one or more users or groups.
+  final List<ExperienceEntitiesSummary>? summaryItems;
+
+  ListExperienceEntitiesResponse({
+    this.nextToken,
+    this.summaryItems,
+  });
+
+  factory ListExperienceEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ListExperienceEntitiesResponse(
+      nextToken: json['NextToken'] as String?,
+      summaryItems: (json['SummaryItems'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ExperienceEntitiesSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaryItems = this.summaryItems;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (summaryItems != null) 'SummaryItems': summaryItems,
+    };
+  }
+}
+
+class ListExperiencesResponse {
+  /// If the response is truncated, Amazon Kendra returns this token, which you
+  /// can use in a later request to retrieve the next set of Amazon Kendra
+  /// experiences.
+  final String? nextToken;
+
+  /// An array of summary information for one or more Amazon Kendra experiences.
+  final List<ExperiencesSummary>? summaryItems;
+
+  ListExperiencesResponse({
+    this.nextToken,
+    this.summaryItems,
+  });
+
+  factory ListExperiencesResponse.fromJson(Map<String, dynamic> json) {
+    return ListExperiencesResponse(
+      nextToken: json['NextToken'] as String?,
+      summaryItems: (json['SummaryItems'] as List?)
+          ?.nonNulls
+          .map((e) => ExperiencesSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaryItems = this.summaryItems;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (summaryItems != null) 'SummaryItems': summaryItems,
+    };
+  }
+}
+
+class ListFaqsResponse {
+  /// Summary information about the FAQs for a specified index.
+  final List<FaqSummary>? faqSummaryItems;
+
+  /// If the response is truncated, Amazon Kendra returns this token that you can
+  /// use in the subsequent request to retrieve the next set of FAQs.
+  final String? nextToken;
+
+  ListFaqsResponse({
+    this.faqSummaryItems,
+    this.nextToken,
+  });
+
+  factory ListFaqsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFaqsResponse(
+      faqSummaryItems: (json['FaqSummaryItems'] as List?)
+          ?.nonNulls
+          .map((e) => FaqSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faqSummaryItems = this.faqSummaryItems;
+    final nextToken = this.nextToken;
+    return {
+      if (faqSummaryItems != null) 'FaqSummaryItems': faqSummaryItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListFeaturedResultsSetsResponse {
+  /// An array of summary information for one or more featured results sets.
+  final List<FeaturedResultsSetSummary>? featuredResultsSetSummaryItems;
+
+  /// If the response is truncated, Amazon Kendra returns a pagination token in
+  /// the response.
+  final String? nextToken;
+
+  ListFeaturedResultsSetsResponse({
+    this.featuredResultsSetSummaryItems,
+    this.nextToken,
+  });
+
+  factory ListFeaturedResultsSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFeaturedResultsSetsResponse(
+      featuredResultsSetSummaryItems:
+          (json['FeaturedResultsSetSummaryItems'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  FeaturedResultsSetSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final featuredResultsSetSummaryItems = this.featuredResultsSetSummaryItems;
+    final nextToken = this.nextToken;
+    return {
+      if (featuredResultsSetSummaryItems != null)
+        'FeaturedResultsSetSummaryItems': featuredResultsSetSummaryItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListGroupsOlderThanOrderingIdResponse {
+  /// Summary information for list of groups that are mapped to users before a
+  /// given ordering or timestamp identifier.
+  final List<GroupSummary>? groupsSummaries;
+
+  /// If the response is truncated, Amazon Kendra returns this token that you can
+  /// use in the subsequent request to retrieve the next set of groups that are
+  /// mapped to users before a given ordering or timestamp identifier.
+  final String? nextToken;
+
+  ListGroupsOlderThanOrderingIdResponse({
+    this.groupsSummaries,
+    this.nextToken,
+  });
+
+  factory ListGroupsOlderThanOrderingIdResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListGroupsOlderThanOrderingIdResponse(
+      groupsSummaries: (json['GroupsSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => GroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupsSummaries = this.groupsSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (groupsSummaries != null) 'GroupsSummaries': groupsSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListIndicesResponse {
+  /// An array of summary information on the configuration of one or more indexes.
+  final List<IndexConfigurationSummary>? indexConfigurationSummaryItems;
+
+  /// If the response is truncated, Amazon Kendra returns this token that you can
+  /// use in the subsequent request to retrieve the next set of indexes.
+  final String? nextToken;
+
+  ListIndicesResponse({
+    this.indexConfigurationSummaryItems,
+    this.nextToken,
+  });
+
+  factory ListIndicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListIndicesResponse(
+      indexConfigurationSummaryItems:
+          (json['IndexConfigurationSummaryItems'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  IndexConfigurationSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexConfigurationSummaryItems = this.indexConfigurationSummaryItems;
+    final nextToken = this.nextToken;
+    return {
+      if (indexConfigurationSummaryItems != null)
+        'IndexConfigurationSummaryItems': indexConfigurationSummaryItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListQuerySuggestionsBlockListsResponse {
+  /// Summary items for a block list.
+  ///
+  /// This includes summary items on the block list ID, block list name, when the
+  /// block list was created, when the block list was last updated, and the count
+  /// of block words/phrases in the block list.
+  ///
+  /// For information on the current quota limits for block lists, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/quotas.html">Quotas for
+  /// Amazon Kendra</a>.
+  final List<QuerySuggestionsBlockListSummary>? blockListSummaryItems;
+
+  /// If the response is truncated, Amazon Kendra returns this token that you can
+  /// use in the subsequent request to retrieve the next set of block lists.
+  final String? nextToken;
+
+  ListQuerySuggestionsBlockListsResponse({
+    this.blockListSummaryItems,
+    this.nextToken,
+  });
+
+  factory ListQuerySuggestionsBlockListsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListQuerySuggestionsBlockListsResponse(
+      blockListSummaryItems: (json['BlockListSummaryItems'] as List?)
+          ?.nonNulls
+          .map((e) => QuerySuggestionsBlockListSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockListSummaryItems = this.blockListSummaryItems;
+    final nextToken = this.nextToken;
+    return {
+      if (blockListSummaryItems != null)
+        'BlockListSummaryItems': blockListSummaryItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// A list of tags associated with the index, FAQ, data source, or other
+  /// resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ListThesauriResponse {
+  /// If the response is truncated, Amazon Kendra returns this token that you can
+  /// use in the subsequent request to retrieve the next set of thesauri.
+  final String? nextToken;
+
+  /// An array of summary information for a thesaurus or multiple thesauri.
+  final List<ThesaurusSummary>? thesaurusSummaryItems;
+
+  ListThesauriResponse({
+    this.nextToken,
+    this.thesaurusSummaryItems,
+  });
+
+  factory ListThesauriResponse.fromJson(Map<String, dynamic> json) {
+    return ListThesauriResponse(
+      nextToken: json['NextToken'] as String?,
+      thesaurusSummaryItems: (json['ThesaurusSummaryItems'] as List?)
+          ?.nonNulls
+          .map((e) => ThesaurusSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final thesaurusSummaryItems = this.thesaurusSummaryItems;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (thesaurusSummaryItems != null)
+        'ThesaurusSummaryItems': thesaurusSummaryItems,
+    };
+  }
+}
+
+class QueryResult {
+  /// Contains the facet results. A <code>FacetResult</code> contains the counts
+  /// for each field/attribute key that was specified in the <code>Facets</code>
+  /// input parameter.
+  final List<FacetResult>? facetResults;
+
+  /// The list of featured result items. Featured results are displayed at the top
+  /// of the search results page, placed above all other results for certain
+  /// queries. If there's an exact match of a query, then certain documents are
+  /// featured in the search results.
+  final List<FeaturedResultsItem>? featuredResultsItems;
+
+  /// The identifier for the search. You also use <code>QueryId</code> to identify
+  /// the search when using the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html">SubmitFeedback</a>
+  /// API.
+  final String? queryId;
+
+  /// The results of the search.
+  final List<QueryResultItem>? resultItems;
+
+  /// A list of information related to suggested spell corrections for a query.
+  final List<SpellCorrectedQuery>? spellCorrectedQueries;
+
+  /// The total number of items found by the search. However, you can only
+  /// retrieve up to 100 items. For example, if the search found 192 items, you
+  /// can only retrieve the first 100 of the items.
+  final int? totalNumberOfResults;
+
+  /// A list of warning codes and their messages on problems with your query.
+  ///
+  /// Amazon Kendra currently only supports one type of warning, which is a
+  /// warning on invalid syntax used in the query. For examples of invalid query
+  /// syntax, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax">Searching
+  /// with advanced query syntax</a>.
+  final List<Warning>? warnings;
+
+  QueryResult({
+    this.facetResults,
+    this.featuredResultsItems,
+    this.queryId,
+    this.resultItems,
+    this.spellCorrectedQueries,
+    this.totalNumberOfResults,
+    this.warnings,
+  });
+
+  factory QueryResult.fromJson(Map<String, dynamic> json) {
+    return QueryResult(
       facetResults: (json['FacetResults'] as List?)
           ?.nonNulls
           .map((e) => FacetResult.fromJson(e as Map<String, dynamic>))
           .toList(),
+      featuredResultsItems: (json['FeaturedResultsItems'] as List?)
+          ?.nonNulls
+          .map((e) => FeaturedResultsItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      queryId: json['QueryId'] as String?,
+      resultItems: (json['ResultItems'] as List?)
+          ?.nonNulls
+          .map((e) => QueryResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      spellCorrectedQueries: (json['SpellCorrectedQueries'] as List?)
+          ?.nonNulls
+          .map((e) => SpellCorrectedQuery.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalNumberOfResults: json['TotalNumberOfResults'] as int?,
+      warnings: (json['Warnings'] as List?)
+          ?.nonNulls
+          .map((e) => Warning.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final count = this.count;
-    final documentAttributeValue = this.documentAttributeValue;
     final facetResults = this.facetResults;
+    final featuredResultsItems = this.featuredResultsItems;
+    final queryId = this.queryId;
+    final resultItems = this.resultItems;
+    final spellCorrectedQueries = this.spellCorrectedQueries;
+    final totalNumberOfResults = this.totalNumberOfResults;
+    final warnings = this.warnings;
     return {
-      if (count != null) 'Count': count,
-      if (documentAttributeValue != null)
-        'DocumentAttributeValue': documentAttributeValue,
       if (facetResults != null) 'FacetResults': facetResults,
+      if (featuredResultsItems != null)
+        'FeaturedResultsItems': featuredResultsItems,
+      if (queryId != null) 'QueryId': queryId,
+      if (resultItems != null) 'ResultItems': resultItems,
+      if (spellCorrectedQueries != null)
+        'SpellCorrectedQueries': spellCorrectedQueries,
+      if (totalNumberOfResults != null)
+        'TotalNumberOfResults': totalNumberOfResults,
+      if (warnings != null) 'Warnings': warnings,
     };
   }
 }
 
-class DocumentAttributeValueType {
-  static const stringValue = DocumentAttributeValueType._('STRING_VALUE');
-  static const stringListValue =
-      DocumentAttributeValueType._('STRING_LIST_VALUE');
-  static const longValue = DocumentAttributeValueType._('LONG_VALUE');
-  static const dateValue = DocumentAttributeValueType._('DATE_VALUE');
+class RetrieveResult {
+  /// The identifier of query used for the search. You also use
+  /// <code>QueryId</code> to identify the search when using the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html">Submitfeedback</a>
+  /// API.
+  final String? queryId;
+
+  /// The results of the retrieved relevant passages for the search.
+  final List<RetrieveResultItem>? resultItems;
+
+  RetrieveResult({
+    this.queryId,
+    this.resultItems,
+  });
+
+  factory RetrieveResult.fromJson(Map<String, dynamic> json) {
+    return RetrieveResult(
+      queryId: json['QueryId'] as String?,
+      resultItems: (json['ResultItems'] as List?)
+          ?.nonNulls
+          .map((e) => RetrieveResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryId = this.queryId;
+    final resultItems = this.resultItems;
+    return {
+      if (queryId != null) 'QueryId': queryId,
+      if (resultItems != null) 'ResultItems': resultItems,
+    };
+  }
+}
+
+class StartDataSourceSyncJobResponse {
+  /// Identifies a particular synchronization job.
+  final String? executionId;
+
+  StartDataSourceSyncJobResponse({
+    this.executionId,
+  });
+
+  factory StartDataSourceSyncJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartDataSourceSyncJobResponse(
+      executionId: json['ExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionId = this.executionId;
+    return {
+      if (executionId != null) 'ExecutionId': executionId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAccessControlConfigurationResponse {
+  UpdateAccessControlConfigurationResponse();
+
+  factory UpdateAccessControlConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateAccessControlConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateFeaturedResultsSetResponse {
+  /// Information on the set of featured results. This includes the identifier of
+  /// the featured results set, whether the featured results set is active or
+  /// inactive, when the featured results set was last updated, and more.
+  final FeaturedResultsSet? featuredResultsSet;
+
+  UpdateFeaturedResultsSetResponse({
+    this.featuredResultsSet,
+  });
+
+  factory UpdateFeaturedResultsSetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFeaturedResultsSetResponse(
+      featuredResultsSet: json['FeaturedResultsSet'] != null
+          ? FeaturedResultsSet.fromJson(
+              json['FeaturedResultsSet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final featuredResultsSet = this.featuredResultsSet;
+    return {
+      if (featuredResultsSet != null) 'FeaturedResultsSet': featuredResultsSet,
+    };
+  }
+}
+
+/// Information required to find a specific file in an Amazon S3 bucket.
+class S3Path {
+  /// The name of the S3 bucket that contains the file.
+  final String bucket;
+
+  /// The name of the file.
+  final String key;
+
+  S3Path({
+    required this.bucket,
+    required this.key,
+  });
+
+  factory S3Path.fromJson(Map<String, dynamic> json) {
+    return S3Path(
+      bucket: (json['Bucket'] as String?) ?? '',
+      key: (json['Key'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      'Bucket': bucket,
+      'Key': key,
+    };
+  }
+}
+
+class Mode {
+  static const enabled = Mode._('ENABLED');
+  static const learnOnly = Mode._('LEARN_ONLY');
 
   final String value;
 
-  const DocumentAttributeValueType._(this.value);
+  const Mode._(this.value);
 
-  static const values = [stringValue, stringListValue, longValue, dateValue];
+  static const values = [enabled, learnOnly];
 
-  static DocumentAttributeValueType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DocumentAttributeValueType._(value));
+  static Mode fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
 
   @override
-  bool operator ==(other) =>
-      other is DocumentAttributeValueType && other.value == value;
+  bool operator ==(other) => other is Mode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9745,57 +6864,420 @@ class DocumentAttributeValueType {
   String toString() => value;
 }
 
-/// Identifies a document for which to retrieve status information
-class DocumentInfo {
-  /// The identifier of the document.
-  final String documentId;
+/// Updates the configuration information for the document fields/attributes
+/// that you want to base query suggestions on.
+///
+/// To deactivate using documents fields for query suggestions, set the mode to
+/// <code>INACTIVE</code>. You must also set <code>SuggestionTypes</code> as
+/// either <code>QUERY</code> or <code>DOCUMENT_ATTRIBUTES</code> and then call
+/// <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html">GetQuerySuggestions</a>.
+/// If you set to <code>QUERY</code>, then Amazon Kendra uses the query history
+/// to base suggestions on. If you set to <code>DOCUMENT_ATTRIBUTES</code>, then
+/// Amazon Kendra uses the contents of document fields to base suggestions on.
+class AttributeSuggestionsUpdateConfig {
+  /// You can set the mode to <code>ACTIVE</code> or <code>INACTIVE</code>. You
+  /// must also set <code>SuggestionTypes</code> as either <code>QUERY</code> or
+  /// <code>DOCUMENT_ATTRIBUTES</code> and then call <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html">GetQuerySuggestions</a>.
+  /// If <code>Mode</code> to use query history is set to <code>ENABLED</code>
+  /// when calling <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html">UpdateQuerySuggestionsConfig</a>
+  /// and <code>AttributeSuggestionsMode</code> to use fields/attributes is set to
+  /// <code>ACTIVE</code>, and you haven't set your <code>SuggestionTypes</code>
+  /// preference to <code>DOCUMENT_ATTRIBUTES</code>, then Amazon Kendra uses the
+  /// query history.
+  final AttributeSuggestionsMode? attributeSuggestionsMode;
 
-  /// Attributes that identify a specific version of a document to check.
-  ///
-  /// The only valid attributes are:
-  ///
-  /// <ul>
-  /// <li>
-  /// version
-  /// </li>
-  /// <li>
-  /// datasourceId
-  /// </li>
-  /// <li>
-  /// jobExecutionId
-  /// </li>
-  /// </ul>
-  /// The attributes follow these rules:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>dataSourceId</code> and <code>jobExecutionId</code> must be used
-  /// together.
-  /// </li>
-  /// <li>
-  /// <code>version</code> is ignored if <code>dataSourceId</code> and
-  /// <code>jobExecutionId</code> are not provided.
-  /// </li>
-  /// <li>
-  /// If <code>dataSourceId</code> and <code>jobExecutionId</code> are provided,
-  /// but <code>version</code> is not, the version defaults to "0".
-  /// </li>
-  /// </ul>
-  final List<DocumentAttribute>? attributes;
+  /// The list of fields/attributes that you want to set as suggestible for query
+  /// suggestions.
+  final List<SuggestableConfig>? suggestableConfigList;
 
-  DocumentInfo({
-    required this.documentId,
-    this.attributes,
+  AttributeSuggestionsUpdateConfig({
+    this.attributeSuggestionsMode,
+    this.suggestableConfigList,
   });
 
   Map<String, dynamic> toJson() {
-    final documentId = this.documentId;
-    final attributes = this.attributes;
+    final attributeSuggestionsMode = this.attributeSuggestionsMode;
+    final suggestableConfigList = this.suggestableConfigList;
     return {
-      'DocumentId': documentId,
-      if (attributes != null) 'Attributes': attributes,
+      if (attributeSuggestionsMode != null)
+        'AttributeSuggestionsMode': attributeSuggestionsMode.value,
+      if (suggestableConfigList != null)
+        'SuggestableConfigList': suggestableConfigList,
     };
   }
+}
+
+class AttributeSuggestionsMode {
+  static const active = AttributeSuggestionsMode._('ACTIVE');
+  static const inactive = AttributeSuggestionsMode._('INACTIVE');
+
+  final String value;
+
+  const AttributeSuggestionsMode._(this.value);
+
+  static const values = [active, inactive];
+
+  static AttributeSuggestionsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttributeSuggestionsMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttributeSuggestionsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the configuration information for a document field/attribute that
+/// you want to base query suggestions on.
+class SuggestableConfig {
+  /// The name of the document field/attribute.
+  final String? attributeName;
+
+  /// <code>TRUE</code> means the document field/attribute is suggestible, so the
+  /// contents within the field can be used for query suggestions.
+  final bool? suggestable;
+
+  SuggestableConfig({
+    this.attributeName,
+    this.suggestable,
+  });
+
+  factory SuggestableConfig.fromJson(Map<String, dynamic> json) {
+    return SuggestableConfig(
+      attributeName: json['AttributeName'] as String?,
+      suggestable: json['Suggestable'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final suggestable = this.suggestable;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (suggestable != null) 'Suggestable': suggestable,
+    };
+  }
+}
+
+/// Specifies additional capacity units configured for your Enterprise Edition
+/// index. You can add and remove capacity units to fit your usage requirements.
+class CapacityUnitsConfiguration {
+  /// The amount of extra query capacity for an index and <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_GetQuerySuggestions.html">GetQuerySuggestions</a>
+  /// capacity.
+  ///
+  /// A single extra capacity unit for an index provides 0.1 queries per second or
+  /// approximately 8,000 queries per day. You can add up to 100 extra capacity
+  /// units.
+  ///
+  /// <code>GetQuerySuggestions</code> capacity is five times the provisioned
+  /// query capacity for an index, or the base capacity of 2.5 calls per second,
+  /// whichever is higher. For example, the base capacity for an index is 0.1
+  /// queries per second, and <code>GetQuerySuggestions</code> capacity has a base
+  /// of 2.5 calls per second. If you add another 0.1 queries per second to total
+  /// 0.2 queries per second for an index, the <code>GetQuerySuggestions</code>
+  /// capacity is 2.5 calls per second (higher than five times 0.2 queries per
+  /// second).
+  final int queryCapacityUnits;
+
+  /// The amount of extra storage capacity for an index. A single capacity unit
+  /// provides 30 GB of storage space or 100,000 documents, whichever is reached
+  /// first. You can add up to 100 extra capacity units.
+  final int storageCapacityUnits;
+
+  CapacityUnitsConfiguration({
+    required this.queryCapacityUnits,
+    required this.storageCapacityUnits,
+  });
+
+  factory CapacityUnitsConfiguration.fromJson(Map<String, dynamic> json) {
+    return CapacityUnitsConfiguration(
+      queryCapacityUnits: (json['QueryCapacityUnits'] as int?) ?? 0,
+      storageCapacityUnits: (json['StorageCapacityUnits'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryCapacityUnits = this.queryCapacityUnits;
+    final storageCapacityUnits = this.storageCapacityUnits;
+    return {
+      'QueryCapacityUnits': queryCapacityUnits,
+      'StorageCapacityUnits': storageCapacityUnits,
+    };
+  }
+}
+
+class UserContextPolicy {
+  static const attributeFilter = UserContextPolicy._('ATTRIBUTE_FILTER');
+  static const userToken = UserContextPolicy._('USER_TOKEN');
+
+  final String value;
+
+  const UserContextPolicy._(this.value);
+
+  static const values = [attributeFilter, userToken];
+
+  static UserContextPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UserContextPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is UserContextPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the configuration information to get users and groups from an IAM
+/// Identity Center identity source. This is useful for user context filtering,
+/// where search results are filtered based on the user or their group access to
+/// documents. You can also use the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html">PutPrincipalMapping</a>
+/// API to map users to their groups so that you only need to provide the user
+/// ID when you issue the query.
+///
+/// To set up an IAM Identity Center identity source in the console to use with
+/// Amazon Kendra, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html">Getting
+/// started with an IAM Identity Center identity source</a>. You must also grant
+/// the required permissions to use IAM Identity Center with Amazon Kendra. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso">IAM
+/// roles for IAM Identity Center</a>.
+///
+/// Amazon Kendra currently does not support using
+/// <code>UserGroupResolutionConfiguration</code> with an Amazon Web Services
+/// organization member account for your IAM Identity Center identify source.
+/// You must create your index in the management account for the organization in
+/// order to use <code>UserGroupResolutionConfiguration</code>.
+/// <important>
+/// If you're using an Amazon Kendra Gen AI Enterprise Edition index,
+/// <code>UserGroupResolutionConfiguration</code> isn't supported.
+/// </important>
+class UserGroupResolutionConfiguration {
+  /// The identity store provider (mode) you want to use to get users and groups.
+  /// IAM Identity Center is currently the only available mode. Your users and
+  /// groups must exist in an IAM Identity Center identity source in order to use
+  /// this mode.
+  final UserGroupResolutionMode userGroupResolutionMode;
+
+  UserGroupResolutionConfiguration({
+    required this.userGroupResolutionMode,
+  });
+
+  factory UserGroupResolutionConfiguration.fromJson(Map<String, dynamic> json) {
+    return UserGroupResolutionConfiguration(
+      userGroupResolutionMode: UserGroupResolutionMode.fromString(
+          (json['UserGroupResolutionMode'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userGroupResolutionMode = this.userGroupResolutionMode;
+    return {
+      'UserGroupResolutionMode': userGroupResolutionMode.value,
+    };
+  }
+}
+
+class UserGroupResolutionMode {
+  static const awsSso = UserGroupResolutionMode._('AWS_SSO');
+  static const none = UserGroupResolutionMode._('NONE');
+
+  final String value;
+
+  const UserGroupResolutionMode._(this.value);
+
+  static const values = [awsSso, none];
+
+  static UserGroupResolutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UserGroupResolutionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UserGroupResolutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the configuration information for a token.
+/// <important>
+/// If you're using an Amazon Kendra Gen AI Enterprise Edition index and you try
+/// to use <code>UserTokenConfigurations</code> to configure user context
+/// policy, Amazon Kendra returns a <code>ValidationException</code> error.
+/// </important>
+class UserTokenConfiguration {
+  /// Information about the JSON token type configuration.
+  final JsonTokenTypeConfiguration? jsonTokenTypeConfiguration;
+
+  /// Information about the JWT token type configuration.
+  final JwtTokenTypeConfiguration? jwtTokenTypeConfiguration;
+
+  UserTokenConfiguration({
+    this.jsonTokenTypeConfiguration,
+    this.jwtTokenTypeConfiguration,
+  });
+
+  factory UserTokenConfiguration.fromJson(Map<String, dynamic> json) {
+    return UserTokenConfiguration(
+      jsonTokenTypeConfiguration: json['JsonTokenTypeConfiguration'] != null
+          ? JsonTokenTypeConfiguration.fromJson(
+              json['JsonTokenTypeConfiguration'] as Map<String, dynamic>)
+          : null,
+      jwtTokenTypeConfiguration: json['JwtTokenTypeConfiguration'] != null
+          ? JwtTokenTypeConfiguration.fromJson(
+              json['JwtTokenTypeConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jsonTokenTypeConfiguration = this.jsonTokenTypeConfiguration;
+    final jwtTokenTypeConfiguration = this.jwtTokenTypeConfiguration;
+    return {
+      if (jsonTokenTypeConfiguration != null)
+        'JsonTokenTypeConfiguration': jsonTokenTypeConfiguration,
+      if (jwtTokenTypeConfiguration != null)
+        'JwtTokenTypeConfiguration': jwtTokenTypeConfiguration,
+    };
+  }
+}
+
+/// Provides the configuration information for the JWT token type.
+class JwtTokenTypeConfiguration {
+  /// The location of the key.
+  final KeyLocation keyLocation;
+
+  /// The regular expression that identifies the claim.
+  final String? claimRegex;
+
+  /// The group attribute field.
+  final String? groupAttributeField;
+
+  /// The issuer of the token.
+  final String? issuer;
+
+  /// The Amazon Resource Name (arn) of the secret.
+  final String? secretManagerArn;
+
+  /// The signing key URL.
+  final String? url;
+
+  /// The user name attribute field.
+  final String? userNameAttributeField;
+
+  JwtTokenTypeConfiguration({
+    required this.keyLocation,
+    this.claimRegex,
+    this.groupAttributeField,
+    this.issuer,
+    this.secretManagerArn,
+    this.url,
+    this.userNameAttributeField,
+  });
+
+  factory JwtTokenTypeConfiguration.fromJson(Map<String, dynamic> json) {
+    return JwtTokenTypeConfiguration(
+      keyLocation:
+          KeyLocation.fromString((json['KeyLocation'] as String?) ?? ''),
+      claimRegex: json['ClaimRegex'] as String?,
+      groupAttributeField: json['GroupAttributeField'] as String?,
+      issuer: json['Issuer'] as String?,
+      secretManagerArn: json['SecretManagerArn'] as String?,
+      url: json['URL'] as String?,
+      userNameAttributeField: json['UserNameAttributeField'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyLocation = this.keyLocation;
+    final claimRegex = this.claimRegex;
+    final groupAttributeField = this.groupAttributeField;
+    final issuer = this.issuer;
+    final secretManagerArn = this.secretManagerArn;
+    final url = this.url;
+    final userNameAttributeField = this.userNameAttributeField;
+    return {
+      'KeyLocation': keyLocation.value,
+      if (claimRegex != null) 'ClaimRegex': claimRegex,
+      if (groupAttributeField != null)
+        'GroupAttributeField': groupAttributeField,
+      if (issuer != null) 'Issuer': issuer,
+      if (secretManagerArn != null) 'SecretManagerArn': secretManagerArn,
+      if (url != null) 'URL': url,
+      if (userNameAttributeField != null)
+        'UserNameAttributeField': userNameAttributeField,
+    };
+  }
+}
+
+/// Provides the configuration information for the JSON token type.
+class JsonTokenTypeConfiguration {
+  /// The group attribute field.
+  final String groupAttributeField;
+
+  /// The user name attribute field.
+  final String userNameAttributeField;
+
+  JsonTokenTypeConfiguration({
+    required this.groupAttributeField,
+    required this.userNameAttributeField,
+  });
+
+  factory JsonTokenTypeConfiguration.fromJson(Map<String, dynamic> json) {
+    return JsonTokenTypeConfiguration(
+      groupAttributeField: (json['GroupAttributeField'] as String?) ?? '',
+      userNameAttributeField: (json['UserNameAttributeField'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupAttributeField = this.groupAttributeField;
+    final userNameAttributeField = this.userNameAttributeField;
+    return {
+      'GroupAttributeField': groupAttributeField,
+      'UserNameAttributeField': userNameAttributeField,
+    };
+  }
+}
+
+class KeyLocation {
+  static const url = KeyLocation._('URL');
+  static const secretManager = KeyLocation._('SECRET_MANAGER');
+
+  final String value;
+
+  const KeyLocation._(this.value);
+
+  static const values = [url, secretManager];
+
+  static KeyLocation fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyLocation._(value));
+
+  @override
+  bool operator ==(other) => other is KeyLocation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Specifies the properties, such as relevance tuning and searchability, of an
@@ -9849,107 +7331,26 @@ class DocumentMetadataConfiguration {
   }
 }
 
-/// Overrides the document relevance properties of a custom index field.
-class DocumentRelevanceConfiguration {
-  /// The name of the index field.
-  final String name;
-
-  /// Provides information for tuning the relevance of a field in a search. When a
-  /// query includes terms that match the field, the results are given a boost in
-  /// the response based on these tuning parameters.
-  final Relevance relevance;
-
-  DocumentRelevanceConfiguration({
-    required this.name,
-    required this.relevance,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final relevance = this.relevance;
-    return {
-      'Name': name,
-      'Relevance': relevance,
-    };
-  }
-}
-
-class DocumentStatus {
-  static const notFound = DocumentStatus._('NOT_FOUND');
-  static const processing = DocumentStatus._('PROCESSING');
-  static const indexed = DocumentStatus._('INDEXED');
-  static const updated = DocumentStatus._('UPDATED');
-  static const failed = DocumentStatus._('FAILED');
-  static const updateFailed = DocumentStatus._('UPDATE_FAILED');
+class DocumentAttributeValueType {
+  static const stringValue = DocumentAttributeValueType._('STRING_VALUE');
+  static const stringListValue =
+      DocumentAttributeValueType._('STRING_LIST_VALUE');
+  static const longValue = DocumentAttributeValueType._('LONG_VALUE');
+  static const dateValue = DocumentAttributeValueType._('DATE_VALUE');
 
   final String value;
 
-  const DocumentStatus._(this.value);
+  const DocumentAttributeValueType._(this.value);
 
-  static const values = [
-    notFound,
-    processing,
-    indexed,
-    updated,
-    failed,
-    updateFailed
-  ];
+  static const values = [stringValue, stringListValue, longValue, dateValue];
 
-  static DocumentStatus fromString(String value) =>
+  static DocumentAttributeValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => DocumentStatus._(value));
+          orElse: () => DocumentAttributeValueType._(value));
 
   @override
-  bool operator ==(other) => other is DocumentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Document metadata files that contain information such as the document access
-/// control information, source URI, document author, and custom attributes.
-/// Each metadata file contains metadata about a single document.
-class DocumentsMetadataConfiguration {
-  /// A prefix used to filter metadata configuration files in the Amazon Web
-  /// Services S3 bucket. The S3 bucket might contain multiple metadata files. Use
-  /// <code>S3Prefix</code> to include only the desired metadata files.
-  final String? s3Prefix;
-
-  DocumentsMetadataConfiguration({
-    this.s3Prefix,
-  });
-
-  factory DocumentsMetadataConfiguration.fromJson(Map<String, dynamic> json) {
-    return DocumentsMetadataConfiguration(
-      s3Prefix: json['S3Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Prefix = this.s3Prefix;
-    return {
-      if (s3Prefix != null) 'S3Prefix': s3Prefix,
-    };
-  }
-}
-
-class EndpointType {
-  static const home = EndpointType._('HOME');
-
-  final String value;
-
-  const EndpointType._(this.value);
-
-  static const values = [home];
-
-  static EndpointType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
-
-  @override
-  bool operator ==(other) => other is EndpointType && other.value == value;
+  bool operator ==(other) =>
+      other is DocumentAttributeValueType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -9958,956 +7359,166 @@ class EndpointType {
   String toString() => value;
 }
 
-/// Provides the configuration information for users or groups in your IAM
-/// Identity Center identity source to grant access your Amazon Kendra
-/// experience.
-class EntityConfiguration {
-  /// The identifier of a user or group in your IAM Identity Center identity
-  /// source. For example, a user ID could be an email.
-  final String entityId;
-
-  /// Specifies whether you are configuring a <code>User</code> or a
-  /// <code>Group</code>.
-  final EntityType entityType;
-
-  EntityConfiguration({
-    required this.entityId,
-    required this.entityType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    final entityType = this.entityType;
-    return {
-      'EntityId': entityId,
-      'EntityType': entityType.value,
-    };
-  }
-}
-
-/// Information about the user entity.
-class EntityDisplayData {
-  /// The first name of the user.
-  final String? firstName;
-
-  /// The name of the group.
-  final String? groupName;
-
-  /// The user name of the user.
-  final String? identifiedUserName;
-
-  /// The last name of the user.
-  final String? lastName;
-
-  /// The name of the user.
-  final String? userName;
-
-  EntityDisplayData({
-    this.firstName,
-    this.groupName,
-    this.identifiedUserName,
-    this.lastName,
-    this.userName,
-  });
-
-  factory EntityDisplayData.fromJson(Map<String, dynamic> json) {
-    return EntityDisplayData(
-      firstName: json['FirstName'] as String?,
-      groupName: json['GroupName'] as String?,
-      identifiedUserName: json['IdentifiedUserName'] as String?,
-      lastName: json['LastName'] as String?,
-      userName: json['UserName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final firstName = this.firstName;
-    final groupName = this.groupName;
-    final identifiedUserName = this.identifiedUserName;
-    final lastName = this.lastName;
-    final userName = this.userName;
-    return {
-      if (firstName != null) 'FirstName': firstName,
-      if (groupName != null) 'GroupName': groupName,
-      if (identifiedUserName != null) 'IdentifiedUserName': identifiedUserName,
-      if (lastName != null) 'LastName': lastName,
-      if (userName != null) 'UserName': userName,
-    };
-  }
-}
-
-/// Provides the configuration information for users or groups in your IAM
-/// Identity Center identity source for access to your Amazon Kendra experience.
-/// Specific permissions are defined for each user or group once they are
-/// granted access to your Amazon Kendra experience.
-class EntityPersonaConfiguration {
-  /// The identifier of a user or group in your IAM Identity Center identity
-  /// source. For example, a user ID could be an email.
-  final String entityId;
-
-  /// The persona that defines the specific permissions of the user or group in
-  /// your IAM Identity Center identity source. The available personas or access
-  /// roles are <code>Owner</code> and <code>Viewer</code>. For more information
-  /// on these personas, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html#access-search-experience">Providing
-  /// access to your search page</a>.
-  final Persona persona;
-
-  EntityPersonaConfiguration({
-    required this.entityId,
-    required this.persona,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    final persona = this.persona;
-    return {
-      'EntityId': entityId,
-      'Persona': persona.value,
-    };
-  }
-}
-
-class EntityType {
-  static const user = EntityType._('USER');
-  static const group = EntityType._('GROUP');
-
-  final String value;
-
-  const EntityType._(this.value);
-
-  static const values = [user, group];
-
-  static EntityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
-
-  @override
-  bool operator ==(other) => other is EntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ErrorCode {
-  static const internalError = ErrorCode._('InternalError');
-  static const invalidRequest = ErrorCode._('InvalidRequest');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [internalError, invalidRequest];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the configuration information needed to customize how collapsed
-/// search result groups expand.
-class ExpandConfiguration {
-  /// The number of expanded results to show per collapsed primary document. For
-  /// instance, if you set this value to 3, then at most 3 results per collapsed
-  /// group will be displayed.
-  final int? maxExpandedResultsPerItem;
-
-  /// The number of collapsed search result groups to expand. If you set this
-  /// value to 10, for example, only the first 10 out of 100 result groups will
-  /// have expand functionality.
-  final int? maxResultItemsToExpand;
-
-  ExpandConfiguration({
-    this.maxExpandedResultsPerItem,
-    this.maxResultItemsToExpand,
-  });
-
-  Map<String, dynamic> toJson() {
-    final maxExpandedResultsPerItem = this.maxExpandedResultsPerItem;
-    final maxResultItemsToExpand = this.maxResultItemsToExpand;
-    return {
-      if (maxExpandedResultsPerItem != null)
-        'MaxExpandedResultsPerItem': maxExpandedResultsPerItem,
-      if (maxResultItemsToExpand != null)
-        'MaxResultItemsToExpand': maxResultItemsToExpand,
-    };
-  }
-}
-
-/// A single expanded result in a collapsed group of search results.
-///
-/// An expanded result item contains information about an expanded result
-/// document within a collapsed group of search results. This includes the
-/// original location of the document, a list of attributes assigned to the
-/// document, and relevant text from the document that satisfies the query.
-class ExpandedResultItem {
-  /// An array of document attributes assigned to a document in the search
-  /// results. For example, the document author ("_author") or the source URI
-  /// ("_source_uri") of the document.
-  final List<DocumentAttribute>? documentAttributes;
-  final TextWithHighlights? documentExcerpt;
-
-  /// The idenitifier of the document.
-  final String? documentId;
-  final TextWithHighlights? documentTitle;
-
-  /// The URI of the original location of the document.
-  final String? documentURI;
-
-  /// The identifier for the expanded result.
-  final String? id;
-
-  ExpandedResultItem({
-    this.documentAttributes,
-    this.documentExcerpt,
-    this.documentId,
-    this.documentTitle,
-    this.documentURI,
-    this.id,
-  });
-
-  factory ExpandedResultItem.fromJson(Map<String, dynamic> json) {
-    return ExpandedResultItem(
-      documentAttributes: (json['DocumentAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      documentExcerpt: json['DocumentExcerpt'] != null
-          ? TextWithHighlights.fromJson(
-              json['DocumentExcerpt'] as Map<String, dynamic>)
-          : null,
-      documentId: json['DocumentId'] as String?,
-      documentTitle: json['DocumentTitle'] != null
-          ? TextWithHighlights.fromJson(
-              json['DocumentTitle'] as Map<String, dynamic>)
-          : null,
-      documentURI: json['DocumentURI'] as String?,
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentAttributes = this.documentAttributes;
-    final documentExcerpt = this.documentExcerpt;
-    final documentId = this.documentId;
-    final documentTitle = this.documentTitle;
-    final documentURI = this.documentURI;
-    final id = this.id;
-    return {
-      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
-      if (documentExcerpt != null) 'DocumentExcerpt': documentExcerpt,
-      if (documentId != null) 'DocumentId': documentId,
-      if (documentTitle != null) 'DocumentTitle': documentTitle,
-      if (documentURI != null) 'DocumentURI': documentURI,
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-/// Provides the configuration information for your Amazon Kendra experience.
-/// This includes the data source IDs and/or FAQ IDs, and user or group
-/// information to grant access to your Amazon Kendra experience.
-class ExperienceConfiguration {
-  /// The identifiers of your data sources and FAQs. Or, you can specify that you
-  /// want to use documents indexed via the <code>BatchPutDocument</code> API.
-  /// This is the content you want to use for your Amazon Kendra experience.
-  final ContentSourceConfiguration? contentSourceConfiguration;
-
-  /// The IAM Identity Center field name that contains the identifiers of your
-  /// users, such as their emails.
-  final UserIdentityConfiguration? userIdentityConfiguration;
-
-  ExperienceConfiguration({
-    this.contentSourceConfiguration,
-    this.userIdentityConfiguration,
-  });
-
-  factory ExperienceConfiguration.fromJson(Map<String, dynamic> json) {
-    return ExperienceConfiguration(
-      contentSourceConfiguration: json['ContentSourceConfiguration'] != null
-          ? ContentSourceConfiguration.fromJson(
-              json['ContentSourceConfiguration'] as Map<String, dynamic>)
-          : null,
-      userIdentityConfiguration: json['UserIdentityConfiguration'] != null
-          ? UserIdentityConfiguration.fromJson(
-              json['UserIdentityConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentSourceConfiguration = this.contentSourceConfiguration;
-    final userIdentityConfiguration = this.userIdentityConfiguration;
-    return {
-      if (contentSourceConfiguration != null)
-        'ContentSourceConfiguration': contentSourceConfiguration,
-      if (userIdentityConfiguration != null)
-        'UserIdentityConfiguration': userIdentityConfiguration,
-    };
-  }
-}
-
-/// Provides the configuration information for the endpoint for your Amazon
-/// Kendra experience.
-class ExperienceEndpoint {
-  /// The endpoint of your Amazon Kendra experience.
-  final String? endpoint;
-
-  /// The type of endpoint for your Amazon Kendra experience. The type currently
-  /// available is <code>HOME</code>, which is a unique and fully hosted URL to
-  /// the home page of your Amazon Kendra experience.
-  final EndpointType? endpointType;
-
-  ExperienceEndpoint({
-    this.endpoint,
-    this.endpointType,
-  });
-
-  factory ExperienceEndpoint.fromJson(Map<String, dynamic> json) {
-    return ExperienceEndpoint(
-      endpoint: json['Endpoint'] as String?,
-      endpointType:
-          (json['EndpointType'] as String?)?.let(EndpointType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpoint = this.endpoint;
-    final endpointType = this.endpointType;
-    return {
-      if (endpoint != null) 'Endpoint': endpoint,
-      if (endpointType != null) 'EndpointType': endpointType.value,
-    };
-  }
-}
-
-/// Summary information for users or groups in your IAM Identity Center identity
-/// source with granted access to your Amazon Kendra experience. You can create
-/// an Amazon Kendra experience such as a search application. For more
-/// information on creating a search application experience, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
-/// a search experience with no code</a>.
-class ExperienceEntitiesSummary {
-  /// Information about the user entity.
-  final EntityDisplayData? displayData;
-
-  /// The identifier of a user or group in your IAM Identity Center identity
-  /// source. For example, a user ID could be an email.
-  final String? entityId;
-
-  /// Shows the type as <code>User</code> or <code>Group</code>.
-  final EntityType? entityType;
-
-  ExperienceEntitiesSummary({
-    this.displayData,
-    this.entityId,
-    this.entityType,
-  });
-
-  factory ExperienceEntitiesSummary.fromJson(Map<String, dynamic> json) {
-    return ExperienceEntitiesSummary(
-      displayData: json['DisplayData'] != null
-          ? EntityDisplayData.fromJson(
-              json['DisplayData'] as Map<String, dynamic>)
-          : null,
-      entityId: json['EntityId'] as String?,
-      entityType: (json['EntityType'] as String?)?.let(EntityType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final displayData = this.displayData;
-    final entityId = this.entityId;
-    final entityType = this.entityType;
-    return {
-      if (displayData != null) 'DisplayData': displayData,
-      if (entityId != null) 'EntityId': entityId,
-      if (entityType != null) 'EntityType': entityType.value,
-    };
-  }
-}
-
-class ExperienceStatus {
-  static const creating = ExperienceStatus._('CREATING');
-  static const active = ExperienceStatus._('ACTIVE');
-  static const deleting = ExperienceStatus._('DELETING');
-  static const failed = ExperienceStatus._('FAILED');
-
-  final String value;
-
-  const ExperienceStatus._(this.value);
-
-  static const values = [creating, active, deleting, failed];
-
-  static ExperienceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExperienceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExperienceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information for your Amazon Kendra experience. You can create an
-/// Amazon Kendra experience such as a search application. For more information
-/// on creating a search application experience, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
-/// a search experience with no code</a>.
-class ExperiencesSummary {
-  /// The Unix timestamp when your Amazon Kendra experience was created.
-  final DateTime? createdAt;
-
-  /// The endpoint URLs for your Amazon Kendra experiences. The URLs are unique
-  /// and fully hosted by Amazon Web Services.
-  final List<ExperienceEndpoint>? endpoints;
-
-  /// The identifier of your Amazon Kendra experience.
-  final String? id;
-
-  /// The name of your Amazon Kendra experience.
-  final String? name;
-
-  /// The processing status of your Amazon Kendra experience.
-  final ExperienceStatus? status;
-
-  ExperiencesSummary({
-    this.createdAt,
-    this.endpoints,
-    this.id,
-    this.name,
-    this.status,
-  });
-
-  factory ExperiencesSummary.fromJson(Map<String, dynamic> json) {
-    return ExperiencesSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      endpoints: (json['Endpoints'] as List?)
-          ?.nonNulls
-          .map((e) => ExperienceEndpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(ExperienceStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final endpoints = this.endpoints;
-    final id = this.id;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (endpoints != null) 'Endpoints': endpoints,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Information about a document attribute or field. You can use document
-/// attributes as facets.
-///
-/// For example, the document attribute or facet "Department" includes the
-/// values "HR", "Engineering", and "Accounting". You can display these values
-/// in the search results so that documents can be searched by department.
-///
-/// You can display up to 10 facet values per facet for a query. If you want to
-/// increase this limit, contact <a
-/// href="http://aws.amazon.com/contact-us/">Support</a>.
-class Facet {
-  /// The unique key for the document attribute.
-  final String? documentAttributeKey;
-
-  /// An array of document attributes that are nested facets within a facet.
+/// Provides information for tuning the relevance of a field in a search. When a
+/// query includes terms that match the field, the results are given a boost in
+/// the response based on these tuning parameters.
+class Relevance {
+  /// Specifies the time period that the boost applies to. For example, to make
+  /// the boost apply to documents with the field value within the last month, you
+  /// would use "2628000s". Once the field value is beyond the specified range,
+  /// the effect of the boost drops off. The higher the importance, the faster the
+  /// effect drops off. If you don't specify a value, the default is 3 months. The
+  /// value of the field is a numeric string followed by the character "s", for
+  /// example "86400s" for one day, or "604800s" for one week.
   ///
-  /// For example, the document attribute or facet "Department" includes a value
-  /// called "Engineering". In addition, the document attribute or facet
-  /// "SubDepartment" includes the values "Frontend" and "Backend" for documents
-  /// assigned to "Engineering". You can display nested facets in the search
-  /// results so that documents can be searched not only by department but also by
-  /// a sub department within a department. This helps your users further narrow
-  /// their search.
+  /// Only applies to <code>DATE</code> fields.
+  final String? duration;
+
+  /// Indicates that this field determines how "fresh" a document is. For example,
+  /// if document 1 was created on November 5, and document 2 was created on
+  /// October 31, document 1 is "fresher" than document 2. Only applies to
+  /// <code>DATE</code> fields.
+  final bool? freshness;
+
+  /// The relative importance of the field in the search. Larger numbers provide
+  /// more of a boost than smaller numbers.
+  final int? importance;
+
+  /// Determines how values should be interpreted.
   ///
-  /// You can only have one nested facet within a facet. If you want to increase
-  /// this limit, contact <a href="http://aws.amazon.com/contact-us/">Support</a>.
-  final List<Facet>? facets;
+  /// When the <code>RankOrder</code> field is <code>ASCENDING</code>, higher
+  /// numbers are better. For example, a document with a rating score of 10 is
+  /// higher ranking than a document with a rating score of 1.
+  ///
+  /// When the <code>RankOrder</code> field is <code>DESCENDING</code>, lower
+  /// numbers are better. For example, in a task tracking application, a priority
+  /// 1 task is more important than a priority 5 task.
+  ///
+  /// Only applies to <code>LONG</code> fields.
+  final Order? rankOrder;
 
-  /// Maximum number of facet values per facet. The default is 10. You can use
-  /// this to limit the number of facet values to less than 10. If you want to
-  /// increase the default, contact <a
-  /// href="http://aws.amazon.com/contact-us/">Support</a>.
-  final int? maxResults;
+  /// A list of values that should be given a different boost when they appear in
+  /// the result list. For example, if you are boosting a field called
+  /// "department", query terms that match the department field are boosted in the
+  /// result. However, you can add entries from the department field to boost
+  /// documents with those values higher.
+  ///
+  /// For example, you can add entries to the map with names of departments. If
+  /// you add "HR",5 and "Legal",3 those departments are given special attention
+  /// when they appear in the metadata of a document. When those terms appear they
+  /// are given the specified importance instead of the regular importance for the
+  /// boost.
+  final Map<String, int>? valueImportanceMap;
 
-  Facet({
-    this.documentAttributeKey,
-    this.facets,
-    this.maxResults,
+  Relevance({
+    this.duration,
+    this.freshness,
+    this.importance,
+    this.rankOrder,
+    this.valueImportanceMap,
   });
 
-  Map<String, dynamic> toJson() {
-    final documentAttributeKey = this.documentAttributeKey;
-    final facets = this.facets;
-    final maxResults = this.maxResults;
-    return {
-      if (documentAttributeKey != null)
-        'DocumentAttributeKey': documentAttributeKey,
-      if (facets != null) 'Facets': facets,
-      if (maxResults != null) 'MaxResults': maxResults,
-    };
-  }
-}
-
-/// The facet values for the documents in the response.
-class FacetResult {
-  /// The key for the facet values. This is the same as the
-  /// <code>DocumentAttributeKey</code> provided in the query.
-  final String? documentAttributeKey;
-
-  /// An array of key/value pairs, where the key is the value of the attribute and
-  /// the count is the number of documents that share the key value.
-  final List<DocumentAttributeValueCountPair>? documentAttributeValueCountPairs;
-
-  /// The data type of the facet value. This is the same as the type defined for
-  /// the index field when it was created.
-  final DocumentAttributeValueType? documentAttributeValueType;
-
-  FacetResult({
-    this.documentAttributeKey,
-    this.documentAttributeValueCountPairs,
-    this.documentAttributeValueType,
-  });
-
-  factory FacetResult.fromJson(Map<String, dynamic> json) {
-    return FacetResult(
-      documentAttributeKey: json['DocumentAttributeKey'] as String?,
-      documentAttributeValueCountPairs:
-          (json['DocumentAttributeValueCountPairs'] as List?)
-              ?.nonNulls
-              .map((e) => DocumentAttributeValueCountPair.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      documentAttributeValueType:
-          (json['DocumentAttributeValueType'] as String?)
-              ?.let(DocumentAttributeValueType.fromString),
+  factory Relevance.fromJson(Map<String, dynamic> json) {
+    return Relevance(
+      duration: json['Duration'] as String?,
+      freshness: json['Freshness'] as bool?,
+      importance: json['Importance'] as int?,
+      rankOrder: (json['RankOrder'] as String?)?.let(Order.fromString),
+      valueImportanceMap: (json['ValueImportanceMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final documentAttributeKey = this.documentAttributeKey;
-    final documentAttributeValueCountPairs =
-        this.documentAttributeValueCountPairs;
-    final documentAttributeValueType = this.documentAttributeValueType;
+    final duration = this.duration;
+    final freshness = this.freshness;
+    final importance = this.importance;
+    final rankOrder = this.rankOrder;
+    final valueImportanceMap = this.valueImportanceMap;
     return {
-      if (documentAttributeKey != null)
-        'DocumentAttributeKey': documentAttributeKey,
-      if (documentAttributeValueCountPairs != null)
-        'DocumentAttributeValueCountPairs': documentAttributeValueCountPairs,
-      if (documentAttributeValueType != null)
-        'DocumentAttributeValueType': documentAttributeValueType.value,
+      if (duration != null) 'Duration': duration,
+      if (freshness != null) 'Freshness': freshness,
+      if (importance != null) 'Importance': importance,
+      if (rankOrder != null) 'RankOrder': rankOrder.value,
+      if (valueImportanceMap != null) 'ValueImportanceMap': valueImportanceMap,
     };
   }
 }
 
-/// Information on the users or groups in your IAM Identity Center identity
-/// source that failed to properly configure with your Amazon Kendra experience.
-class FailedEntity {
-  /// The identifier of the user or group in your IAM Identity Center identity
-  /// source. For example, a user ID could be an email.
-  final String? entityId;
+/// Provides information about how a custom index field is used during a search.
+class Search {
+  /// Determines whether the field is returned in the query response. The default
+  /// is <code>true</code>.
+  final bool? displayable;
 
-  /// The reason the user or group in your IAM Identity Center identity source
-  /// failed to properly configure with your Amazon Kendra experience.
-  final String? errorMessage;
+  /// Indicates that the field can be used to create search facets, a count of
+  /// results for each value in the field. The default is <code>false</code> .
+  final bool? facetable;
 
-  FailedEntity({
-    this.entityId,
-    this.errorMessage,
+  /// Determines whether the field is used in the search. If the
+  /// <code>Searchable</code> field is <code>true</code>, you can use relevance
+  /// tuning to manually tune how Amazon Kendra weights the field in the search.
+  /// The default is <code>true</code> for string fields and <code>false</code>
+  /// for number and date fields.
+  final bool? searchable;
+
+  /// Determines whether the field can be used to sort the results of a query. If
+  /// you specify sorting on a field that does not have <code>Sortable</code> set
+  /// to <code>true</code>, Amazon Kendra returns an exception. The default is
+  /// <code>false</code>.
+  final bool? sortable;
+
+  Search({
+    this.displayable,
+    this.facetable,
+    this.searchable,
+    this.sortable,
   });
 
-  factory FailedEntity.fromJson(Map<String, dynamic> json) {
-    return FailedEntity(
-      entityId: json['EntityId'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
+  factory Search.fromJson(Map<String, dynamic> json) {
+    return Search(
+      displayable: json['Displayable'] as bool?,
+      facetable: json['Facetable'] as bool?,
+      searchable: json['Searchable'] as bool?,
+      sortable: json['Sortable'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final entityId = this.entityId;
-    final errorMessage = this.errorMessage;
+    final displayable = this.displayable;
+    final facetable = this.facetable;
+    final searchable = this.searchable;
+    final sortable = this.sortable;
     return {
-      if (entityId != null) 'EntityId': entityId,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (displayable != null) 'Displayable': displayable,
+      if (facetable != null) 'Facetable': facetable,
+      if (searchable != null) 'Searchable': searchable,
+      if (sortable != null) 'Sortable': sortable,
     };
   }
 }
 
-class FaqFileFormat {
-  static const csv = FaqFileFormat._('CSV');
-  static const csvWithHeader = FaqFileFormat._('CSV_WITH_HEADER');
-  static const json = FaqFileFormat._('JSON');
+class Order {
+  static const ascending = Order._('ASCENDING');
+  static const descending = Order._('DESCENDING');
 
   final String value;
 
-  const FaqFileFormat._(this.value);
+  const Order._(this.value);
 
-  static const values = [csv, csvWithHeader, json];
+  static const values = [ascending, descending];
 
-  static FaqFileFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FaqFileFormat._(value));
+  static Order fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
 
   @override
-  bool operator ==(other) => other is FaqFileFormat && other.value == value;
+  bool operator ==(other) => other is Order && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-/// Provides statistical information about the FAQ questions and answers
-/// contained in an index.
-class FaqStatistics {
-  /// The total number of FAQ questions and answers contained in the index.
-  final int indexedQuestionAnswersCount;
-
-  FaqStatistics({
-    required this.indexedQuestionAnswersCount,
-  });
-
-  factory FaqStatistics.fromJson(Map<String, dynamic> json) {
-    return FaqStatistics(
-      indexedQuestionAnswersCount:
-          (json['IndexedQuestionAnswersCount'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexedQuestionAnswersCount = this.indexedQuestionAnswersCount;
-    return {
-      'IndexedQuestionAnswersCount': indexedQuestionAnswersCount,
-    };
-  }
-}
-
-class FaqStatus {
-  static const creating = FaqStatus._('CREATING');
-  static const updating = FaqStatus._('UPDATING');
-  static const active = FaqStatus._('ACTIVE');
-  static const deleting = FaqStatus._('DELETING');
-  static const failed = FaqStatus._('FAILED');
-
-  final String value;
-
-  const FaqStatus._(this.value);
-
-  static const values = [creating, updating, active, deleting, failed];
-
-  static FaqStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FaqStatus._(value));
-
-  @override
-  bool operator ==(other) => other is FaqStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information for frequently asked questions and answers included in
-/// an index.
-class FaqSummary {
-  /// The Unix timestamp when the FAQ was created.
-  final DateTime? createdAt;
-
-  /// The file type used to create the FAQ.
-  final FaqFileFormat? fileFormat;
-
-  /// The identifier of the FAQ.
-  final String? id;
-
-  /// The code for a language. This shows a supported language for the FAQ
-  /// document as part of the summary information for FAQs. English is supported
-  /// by default. For more information on supported languages, including their
-  /// codes, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html">Adding
-  /// documents in languages other than English</a>.
-  final String? languageCode;
-
-  /// The name that you assigned the FAQ when you created or updated the FAQ.
-  final String? name;
-
-  /// The current status of the FAQ. When the status is <code>ACTIVE</code> the
-  /// FAQ is ready for use.
-  final FaqStatus? status;
-
-  /// The Unix timestamp when the FAQ was last updated.
-  final DateTime? updatedAt;
-
-  FaqSummary({
-    this.createdAt,
-    this.fileFormat,
-    this.id,
-    this.languageCode,
-    this.name,
-    this.status,
-    this.updatedAt,
-  });
-
-  factory FaqSummary.fromJson(Map<String, dynamic> json) {
-    return FaqSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      fileFormat:
-          (json['FileFormat'] as String?)?.let(FaqFileFormat.fromString),
-      id: json['Id'] as String?,
-      languageCode: json['LanguageCode'] as String?,
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(FaqStatus.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final fileFormat = this.fileFormat;
-    final id = this.id;
-    final languageCode = this.languageCode;
-    final name = this.name;
-    final status = this.status;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (fileFormat != null) 'FileFormat': fileFormat.value,
-      if (id != null) 'Id': id,
-      if (languageCode != null) 'LanguageCode': languageCode,
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// A featured document. This document is displayed at the top of the search
-/// results page, placed above all other results for certain queries. If there's
-/// an exact match of a query, then the document is featured in the search
-/// results.
-class FeaturedDocument {
-  /// The identifier of the document to feature in the search results. You can use
-  /// the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html">Query</a>
-  /// API to search for specific documents with their document IDs included in the
-  /// result items, or you can use the console.
-  final String? id;
-
-  FeaturedDocument({
-    this.id,
-  });
-
-  factory FeaturedDocument.fromJson(Map<String, dynamic> json) {
-    return FeaturedDocument(
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-/// A document ID doesn't exist but you have specified as a featured document.
-/// Amazon Kendra cannot feature the document if it doesn't exist in the index.
-/// You can check the status of a document and its ID or check for documents
-/// with status errors using the <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchGetDocumentStatus.html">BatchGetDocumentStatus</a>
-/// API.
-class FeaturedDocumentMissing {
-  /// The identifier of the document that doesn't exist but you have specified as
-  /// a featured document.
-  final String? id;
-
-  FeaturedDocumentMissing({
-    this.id,
-  });
-
-  factory FeaturedDocumentMissing.fromJson(Map<String, dynamic> json) {
-    return FeaturedDocumentMissing(
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      if (id != null) 'Id': id,
-    };
-  }
-}
-
-/// A featured document with its metadata information. This document is
-/// displayed at the top of the search results page, placed above all other
-/// results for certain queries. If there's an exact match of a query, then the
-/// document is featured in the search results.
-class FeaturedDocumentWithMetadata {
-  /// The identifier of the featured document with its metadata. You can use the
-  /// <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html">Query</a>
-  /// API to search for specific documents with their document IDs included in the
-  /// result items, or you can use the console.
-  final String? id;
-
-  /// The main title of the featured document.
-  final String? title;
-
-  /// The source URI location of the featured document.
-  final String? uri;
-
-  FeaturedDocumentWithMetadata({
-    this.id,
-    this.title,
-    this.uri,
-  });
-
-  factory FeaturedDocumentWithMetadata.fromJson(Map<String, dynamic> json) {
-    return FeaturedDocumentWithMetadata(
-      id: json['Id'] as String?,
-      title: json['Title'] as String?,
-      uri: json['URI'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final title = this.title;
-    final uri = this.uri;
-    return {
-      if (id != null) 'Id': id,
-      if (title != null) 'Title': title,
-      if (uri != null) 'URI': uri,
-    };
-  }
-}
-
-/// A single featured result item. A featured result is displayed at the top of
-/// the search results page, placed above all other results for certain queries.
-/// If there's an exact match of a query, then certain documents are featured in
-/// the search results.
-class FeaturedResultsItem {
-  /// One or more additional attributes associated with the featured result.
-  final List<AdditionalResultAttribute>? additionalAttributes;
-
-  /// An array of document attributes assigned to a featured document in the
-  /// search results. For example, the document author (<code>_author</code>) or
-  /// the source URI (<code>_source_uri</code>) of the document.
-  final List<DocumentAttribute>? documentAttributes;
-  final TextWithHighlights? documentExcerpt;
-
-  /// The identifier of the featured document.
-  final String? documentId;
-  final TextWithHighlights? documentTitle;
-
-  /// The source URI location of the featured document.
-  final String? documentURI;
-
-  /// A token that identifies a particular featured result from a particular
-  /// query. Use this token to provide click-through feedback for the result. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html">Submitting
-  /// feedback</a>.
-  final String? feedbackToken;
-
-  /// The identifier of the featured result.
-  final String? id;
-
-  /// The type of document within the featured result response. For example, a
-  /// response could include a question-answer type that's relevant to the query.
-  final QueryResultType? type;
-
-  FeaturedResultsItem({
-    this.additionalAttributes,
-    this.documentAttributes,
-    this.documentExcerpt,
-    this.documentId,
-    this.documentTitle,
-    this.documentURI,
-    this.feedbackToken,
-    this.id,
-    this.type,
-  });
-
-  factory FeaturedResultsItem.fromJson(Map<String, dynamic> json) {
-    return FeaturedResultsItem(
-      additionalAttributes: (json['AdditionalAttributes'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      documentAttributes: (json['DocumentAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      documentExcerpt: json['DocumentExcerpt'] != null
-          ? TextWithHighlights.fromJson(
-              json['DocumentExcerpt'] as Map<String, dynamic>)
-          : null,
-      documentId: json['DocumentId'] as String?,
-      documentTitle: json['DocumentTitle'] != null
-          ? TextWithHighlights.fromJson(
-              json['DocumentTitle'] as Map<String, dynamic>)
-          : null,
-      documentURI: json['DocumentURI'] as String?,
-      feedbackToken: json['FeedbackToken'] as String?,
-      id: json['Id'] as String?,
-      type: (json['Type'] as String?)?.let(QueryResultType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalAttributes = this.additionalAttributes;
-    final documentAttributes = this.documentAttributes;
-    final documentExcerpt = this.documentExcerpt;
-    final documentId = this.documentId;
-    final documentTitle = this.documentTitle;
-    final documentURI = this.documentURI;
-    final feedbackToken = this.feedbackToken;
-    final id = this.id;
-    final type = this.type;
-    return {
-      if (additionalAttributes != null)
-        'AdditionalAttributes': additionalAttributes,
-      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
-      if (documentExcerpt != null) 'DocumentExcerpt': documentExcerpt,
-      if (documentId != null) 'DocumentId': documentId,
-      if (documentTitle != null) 'DocumentTitle': documentTitle,
-      if (documentURI != null) 'DocumentURI': documentURI,
-      if (feedbackToken != null) 'FeedbackToken': feedbackToken,
-      if (id != null) 'Id': id,
-      if (type != null) 'Type': type.value,
-    };
-  }
 }
 
 /// A set of featured results that are displayed at the top of your search
@@ -11051,68 +7662,2271 @@ class FeaturedResultsSetStatus {
   String toString() => value;
 }
 
-/// Summary information for a set of featured results. Featured results are
-/// placed above all other results for certain queries. If there's an exact
-/// match of a query, then one or more specific documents are featured in the
-/// search results.
-class FeaturedResultsSetSummary {
-  /// The Unix timestamp when the set of featured results was created.
-  final int? creationTimestamp;
-
-  /// The identifier of the set of featured results.
-  final String? featuredResultsSetId;
-
-  /// The name for the set of featured results.
-  final String? featuredResultsSetName;
-
-  /// The Unix timestamp when the set of featured results was last updated.
-  final int? lastUpdatedTimestamp;
-
-  /// The current status of the set of featured results. When the value is
-  /// <code>ACTIVE</code>, featured results are ready for use. You can still
-  /// configure your settings before setting the status to <code>ACTIVE</code>.
-  /// You can set the status to <code>ACTIVE</code> or <code>INACTIVE</code> using
+/// A featured document. This document is displayed at the top of the search
+/// results page, placed above all other results for certain queries. If there's
+/// an exact match of a query, then the document is featured in the search
+/// results.
+class FeaturedDocument {
+  /// The identifier of the document to feature in the search results. You can use
   /// the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html">UpdateFeaturedResultsSet</a>
-  /// API. The queries you specify for featured results must be unique per
-  /// featured results set for each index, whether the status is
-  /// <code>ACTIVE</code> or <code>INACTIVE</code>.
-  final FeaturedResultsSetStatus? status;
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html">Query</a>
+  /// API to search for specific documents with their document IDs included in the
+  /// result items, or you can use the console.
+  final String? id;
 
-  FeaturedResultsSetSummary({
-    this.creationTimestamp,
-    this.featuredResultsSetId,
-    this.featuredResultsSetName,
-    this.lastUpdatedTimestamp,
-    this.status,
+  FeaturedDocument({
+    this.id,
   });
 
-  factory FeaturedResultsSetSummary.fromJson(Map<String, dynamic> json) {
-    return FeaturedResultsSetSummary(
-      creationTimestamp: json['CreationTimestamp'] as int?,
-      featuredResultsSetId: json['FeaturedResultsSetId'] as String?,
-      featuredResultsSetName: json['FeaturedResultsSetName'] as String?,
-      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as int?,
-      status:
-          (json['Status'] as String?)?.let(FeaturedResultsSetStatus.fromString),
+  factory FeaturedDocument.fromJson(Map<String, dynamic> json) {
+    return FeaturedDocument(
+      id: json['Id'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final creationTimestamp = this.creationTimestamp;
-    final featuredResultsSetId = this.featuredResultsSetId;
-    final featuredResultsSetName = this.featuredResultsSetName;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final status = this.status;
+    final id = this.id;
     return {
-      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
-      if (featuredResultsSetId != null)
-        'FeaturedResultsSetId': featuredResultsSetId,
-      if (featuredResultsSetName != null)
-        'FeaturedResultsSetName': featuredResultsSetName,
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': lastUpdatedTimestamp,
-      if (status != null) 'Status': status.value,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Provides the configuration information for your Amazon Kendra experience.
+/// This includes the data source IDs and/or FAQ IDs, and user or group
+/// information to grant access to your Amazon Kendra experience.
+class ExperienceConfiguration {
+  /// The identifiers of your data sources and FAQs. Or, you can specify that you
+  /// want to use documents indexed via the <code>BatchPutDocument</code> API.
+  /// This is the content you want to use for your Amazon Kendra experience.
+  final ContentSourceConfiguration? contentSourceConfiguration;
+
+  /// The IAM Identity Center field name that contains the identifiers of your
+  /// users, such as their emails.
+  final UserIdentityConfiguration? userIdentityConfiguration;
+
+  ExperienceConfiguration({
+    this.contentSourceConfiguration,
+    this.userIdentityConfiguration,
+  });
+
+  factory ExperienceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExperienceConfiguration(
+      contentSourceConfiguration: json['ContentSourceConfiguration'] != null
+          ? ContentSourceConfiguration.fromJson(
+              json['ContentSourceConfiguration'] as Map<String, dynamic>)
+          : null,
+      userIdentityConfiguration: json['UserIdentityConfiguration'] != null
+          ? UserIdentityConfiguration.fromJson(
+              json['UserIdentityConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentSourceConfiguration = this.contentSourceConfiguration;
+    final userIdentityConfiguration = this.userIdentityConfiguration;
+    return {
+      if (contentSourceConfiguration != null)
+        'ContentSourceConfiguration': contentSourceConfiguration,
+      if (userIdentityConfiguration != null)
+        'UserIdentityConfiguration': userIdentityConfiguration,
+    };
+  }
+}
+
+/// Provides the configuration information for your content sources, such as
+/// data sources, FAQs, and content indexed directly via <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchPutDocument.html">BatchPutDocument</a>.
+class ContentSourceConfiguration {
+  /// The identifier of the data sources you want to use for your Amazon Kendra
+  /// experience.
+  final List<String>? dataSourceIds;
+
+  /// <code>TRUE</code> to use documents you indexed directly using the
+  /// <code>BatchPutDocument</code> API.
+  final bool? directPutContent;
+
+  /// The identifier of the FAQs that you want to use for your Amazon Kendra
+  /// experience.
+  final List<String>? faqIds;
+
+  ContentSourceConfiguration({
+    this.dataSourceIds,
+    this.directPutContent,
+    this.faqIds,
+  });
+
+  factory ContentSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ContentSourceConfiguration(
+      dataSourceIds: (json['DataSourceIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      directPutContent: json['DirectPutContent'] as bool?,
+      faqIds:
+          (json['FaqIds'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceIds = this.dataSourceIds;
+    final directPutContent = this.directPutContent;
+    final faqIds = this.faqIds;
+    return {
+      if (dataSourceIds != null) 'DataSourceIds': dataSourceIds,
+      if (directPutContent != null) 'DirectPutContent': directPutContent,
+      if (faqIds != null) 'FaqIds': faqIds,
+    };
+  }
+}
+
+/// Provides the configuration information for the identifiers of your users.
+class UserIdentityConfiguration {
+  /// The IAM Identity Center field name that contains the identifiers of your
+  /// users, such as their emails. This is used for <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html">user
+  /// context filtering</a> and for granting access to your Amazon Kendra
+  /// experience. You must set up IAM Identity Center with Amazon Kendra. You must
+  /// include your users and groups in your Access Control List when you ingest
+  /// documents into your index. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html">Getting
+  /// started with an IAM Identity Center identity source</a>.
+  final String? identityAttributeName;
+
+  UserIdentityConfiguration({
+    this.identityAttributeName,
+  });
+
+  factory UserIdentityConfiguration.fromJson(Map<String, dynamic> json) {
+    return UserIdentityConfiguration(
+      identityAttributeName: json['IdentityAttributeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityAttributeName = this.identityAttributeName;
+    return {
+      if (identityAttributeName != null)
+        'IdentityAttributeName': identityAttributeName,
+    };
+  }
+}
+
+/// Provides the configuration information for an Amazon Kendra data source.
+class DataSourceConfiguration {
+  /// Provides the configuration information to connect to Alfresco as your data
+  /// source.
+  /// <note>
+  /// Support for <code>AlfrescoConfiguration</code> ended May 2023. We recommend
+  /// migrating to or using the Alfresco data source template schema / <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// API.
+  /// </note>
+  final AlfrescoConfiguration? alfrescoConfiguration;
+
+  /// Provides the configuration information to connect to Box as your data
+  /// source.
+  final BoxConfiguration? boxConfiguration;
+
+  /// Provides the configuration information to connect to Confluence as your data
+  /// source.
+  final ConfluenceConfiguration? confluenceConfiguration;
+
+  /// Provides the configuration information to connect to a database as your data
+  /// source.
+  final DatabaseConfiguration? databaseConfiguration;
+
+  /// Provides the configuration information to connect to Amazon FSx as your data
+  /// source.
+  /// <note>
+  /// Amazon Kendra now supports an upgraded Amazon FSx Windows connector.
+  ///
+  /// You must now use the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// object instead of the <code>FsxConfiguration</code> object to configure your
+  /// connector.
+  ///
+  /// Connectors configured using the older console and API architecture will
+  /// continue to function as configured. However, you won't be able to edit or
+  /// update them. If you want to edit or update your connector configuration, you
+  /// must create a new connector.
+  ///
+  /// We recommended migrating your connector workflow to the upgraded version.
+  /// Support for connectors configured using the older architecture is scheduled
+  /// to end by June 2024.
+  /// </note>
+  final FsxConfiguration? fsxConfiguration;
+
+  /// Provides the configuration information to connect to GitHub as your data
+  /// source.
+  /// <note>
+  /// Amazon Kendra now supports an upgraded GitHub connector.
+  ///
+  /// You must now use the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// object instead of the <code>GitHubConfiguration</code> object to configure
+  /// your connector.
+  ///
+  /// Connectors configured using the older console and API architecture will
+  /// continue to function as configured. However, you won’t be able to edit or
+  /// update them. If you want to edit or update your connector configuration, you
+  /// must create a new connector.
+  ///
+  /// We recommended migrating your connector workflow to the upgraded version.
+  /// Support for connectors configured using the older architecture is scheduled
+  /// to end by June 2024.
+  /// </note>
+  final GitHubConfiguration? gitHubConfiguration;
+
+  /// Provides the configuration information to connect to Google Drive as your
+  /// data source.
+  final GoogleDriveConfiguration? googleDriveConfiguration;
+
+  /// Provides the configuration information to connect to Jira as your data
+  /// source.
+  final JiraConfiguration? jiraConfiguration;
+
+  /// Provides the configuration information to connect to Microsoft OneDrive as
+  /// your data source.
+  final OneDriveConfiguration? oneDriveConfiguration;
+
+  /// Provides the configuration information to connect to Quip as your data
+  /// source.
+  final QuipConfiguration? quipConfiguration;
+
+  /// Provides the configuration information to connect to an Amazon S3 bucket as
+  /// your data source.
+  /// <note>
+  /// Amazon Kendra now supports an upgraded Amazon S3 connector.
+  ///
+  /// You must now use the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// object instead of the <code>S3DataSourceConfiguration</code> object to
+  /// configure your connector.
+  ///
+  /// Connectors configured using the older console and API architecture will
+  /// continue to function as configured. However, you won't be able to edit or
+  /// update them. If you want to edit or update your connector configuration, you
+  /// must create a new connector.
+  ///
+  /// We recommended migrating your connector workflow to the upgraded version.
+  /// Support for connectors configured using the older architecture is scheduled
+  /// to end by June 2024.
+  /// </note>
+  final S3DataSourceConfiguration? s3Configuration;
+
+  /// Provides the configuration information to connect to Salesforce as your data
+  /// source.
+  final SalesforceConfiguration? salesforceConfiguration;
+
+  /// Provides the configuration information to connect to ServiceNow as your data
+  /// source.
+  final ServiceNowConfiguration? serviceNowConfiguration;
+
+  /// Provides the configuration information to connect to Microsoft SharePoint as
+  /// your data source.
+  final SharePointConfiguration? sharePointConfiguration;
+
+  /// Provides the configuration information to connect to Slack as your data
+  /// source.
+  /// <note>
+  /// Amazon Kendra now supports an upgraded Slack connector.
+  ///
+  /// You must now use the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+  /// object instead of the <code>SlackConfiguration</code> object to configure
+  /// your connector.
+  ///
+  /// Connectors configured using the older console and API architecture will
+  /// continue to function as configured. However, you won't be able to edit or
+  /// update them. If you want to edit or update your connector configuration, you
+  /// must create a new connector.
+  ///
+  /// We recommended migrating your connector workflow to the upgraded version.
+  /// Support for connectors configured using the older architecture is scheduled
+  /// to end by June 2024.
+  /// </note>
+  final SlackConfiguration? slackConfiguration;
+
+  /// Provides a template for the configuration information to connect to your
+  /// data source.
+  final TemplateConfiguration? templateConfiguration;
+  final WebCrawlerConfiguration? webCrawlerConfiguration;
+
+  /// Provides the configuration information to connect to WorkDocs as your data
+  /// source.
+  final WorkDocsConfiguration? workDocsConfiguration;
+
+  DataSourceConfiguration({
+    this.alfrescoConfiguration,
+    this.boxConfiguration,
+    this.confluenceConfiguration,
+    this.databaseConfiguration,
+    this.fsxConfiguration,
+    this.gitHubConfiguration,
+    this.googleDriveConfiguration,
+    this.jiraConfiguration,
+    this.oneDriveConfiguration,
+    this.quipConfiguration,
+    this.s3Configuration,
+    this.salesforceConfiguration,
+    this.serviceNowConfiguration,
+    this.sharePointConfiguration,
+    this.slackConfiguration,
+    this.templateConfiguration,
+    this.webCrawlerConfiguration,
+    this.workDocsConfiguration,
+  });
+
+  factory DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataSourceConfiguration(
+      alfrescoConfiguration: json['AlfrescoConfiguration'] != null
+          ? AlfrescoConfiguration.fromJson(
+              json['AlfrescoConfiguration'] as Map<String, dynamic>)
+          : null,
+      boxConfiguration: json['BoxConfiguration'] != null
+          ? BoxConfiguration.fromJson(
+              json['BoxConfiguration'] as Map<String, dynamic>)
+          : null,
+      confluenceConfiguration: json['ConfluenceConfiguration'] != null
+          ? ConfluenceConfiguration.fromJson(
+              json['ConfluenceConfiguration'] as Map<String, dynamic>)
+          : null,
+      databaseConfiguration: json['DatabaseConfiguration'] != null
+          ? DatabaseConfiguration.fromJson(
+              json['DatabaseConfiguration'] as Map<String, dynamic>)
+          : null,
+      fsxConfiguration: json['FsxConfiguration'] != null
+          ? FsxConfiguration.fromJson(
+              json['FsxConfiguration'] as Map<String, dynamic>)
+          : null,
+      gitHubConfiguration: json['GitHubConfiguration'] != null
+          ? GitHubConfiguration.fromJson(
+              json['GitHubConfiguration'] as Map<String, dynamic>)
+          : null,
+      googleDriveConfiguration: json['GoogleDriveConfiguration'] != null
+          ? GoogleDriveConfiguration.fromJson(
+              json['GoogleDriveConfiguration'] as Map<String, dynamic>)
+          : null,
+      jiraConfiguration: json['JiraConfiguration'] != null
+          ? JiraConfiguration.fromJson(
+              json['JiraConfiguration'] as Map<String, dynamic>)
+          : null,
+      oneDriveConfiguration: json['OneDriveConfiguration'] != null
+          ? OneDriveConfiguration.fromJson(
+              json['OneDriveConfiguration'] as Map<String, dynamic>)
+          : null,
+      quipConfiguration: json['QuipConfiguration'] != null
+          ? QuipConfiguration.fromJson(
+              json['QuipConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3Configuration: json['S3Configuration'] != null
+          ? S3DataSourceConfiguration.fromJson(
+              json['S3Configuration'] as Map<String, dynamic>)
+          : null,
+      salesforceConfiguration: json['SalesforceConfiguration'] != null
+          ? SalesforceConfiguration.fromJson(
+              json['SalesforceConfiguration'] as Map<String, dynamic>)
+          : null,
+      serviceNowConfiguration: json['ServiceNowConfiguration'] != null
+          ? ServiceNowConfiguration.fromJson(
+              json['ServiceNowConfiguration'] as Map<String, dynamic>)
+          : null,
+      sharePointConfiguration: json['SharePointConfiguration'] != null
+          ? SharePointConfiguration.fromJson(
+              json['SharePointConfiguration'] as Map<String, dynamic>)
+          : null,
+      slackConfiguration: json['SlackConfiguration'] != null
+          ? SlackConfiguration.fromJson(
+              json['SlackConfiguration'] as Map<String, dynamic>)
+          : null,
+      templateConfiguration: json['TemplateConfiguration'] != null
+          ? TemplateConfiguration.fromJson(
+              json['TemplateConfiguration'] as Map<String, dynamic>)
+          : null,
+      webCrawlerConfiguration: json['WebCrawlerConfiguration'] != null
+          ? WebCrawlerConfiguration.fromJson(
+              json['WebCrawlerConfiguration'] as Map<String, dynamic>)
+          : null,
+      workDocsConfiguration: json['WorkDocsConfiguration'] != null
+          ? WorkDocsConfiguration.fromJson(
+              json['WorkDocsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alfrescoConfiguration = this.alfrescoConfiguration;
+    final boxConfiguration = this.boxConfiguration;
+    final confluenceConfiguration = this.confluenceConfiguration;
+    final databaseConfiguration = this.databaseConfiguration;
+    final fsxConfiguration = this.fsxConfiguration;
+    final gitHubConfiguration = this.gitHubConfiguration;
+    final googleDriveConfiguration = this.googleDriveConfiguration;
+    final jiraConfiguration = this.jiraConfiguration;
+    final oneDriveConfiguration = this.oneDriveConfiguration;
+    final quipConfiguration = this.quipConfiguration;
+    final s3Configuration = this.s3Configuration;
+    final salesforceConfiguration = this.salesforceConfiguration;
+    final serviceNowConfiguration = this.serviceNowConfiguration;
+    final sharePointConfiguration = this.sharePointConfiguration;
+    final slackConfiguration = this.slackConfiguration;
+    final templateConfiguration = this.templateConfiguration;
+    final webCrawlerConfiguration = this.webCrawlerConfiguration;
+    final workDocsConfiguration = this.workDocsConfiguration;
+    return {
+      if (alfrescoConfiguration != null)
+        'AlfrescoConfiguration': alfrescoConfiguration,
+      if (boxConfiguration != null) 'BoxConfiguration': boxConfiguration,
+      if (confluenceConfiguration != null)
+        'ConfluenceConfiguration': confluenceConfiguration,
+      if (databaseConfiguration != null)
+        'DatabaseConfiguration': databaseConfiguration,
+      if (fsxConfiguration != null) 'FsxConfiguration': fsxConfiguration,
+      if (gitHubConfiguration != null)
+        'GitHubConfiguration': gitHubConfiguration,
+      if (googleDriveConfiguration != null)
+        'GoogleDriveConfiguration': googleDriveConfiguration,
+      if (jiraConfiguration != null) 'JiraConfiguration': jiraConfiguration,
+      if (oneDriveConfiguration != null)
+        'OneDriveConfiguration': oneDriveConfiguration,
+      if (quipConfiguration != null) 'QuipConfiguration': quipConfiguration,
+      if (s3Configuration != null) 'S3Configuration': s3Configuration,
+      if (salesforceConfiguration != null)
+        'SalesforceConfiguration': salesforceConfiguration,
+      if (serviceNowConfiguration != null)
+        'ServiceNowConfiguration': serviceNowConfiguration,
+      if (sharePointConfiguration != null)
+        'SharePointConfiguration': sharePointConfiguration,
+      if (slackConfiguration != null) 'SlackConfiguration': slackConfiguration,
+      if (templateConfiguration != null)
+        'TemplateConfiguration': templateConfiguration,
+      if (webCrawlerConfiguration != null)
+        'WebCrawlerConfiguration': webCrawlerConfiguration,
+      if (workDocsConfiguration != null)
+        'WorkDocsConfiguration': workDocsConfiguration,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to an Amazon VPC.
+class DataSourceVpcConfiguration {
+  /// A list of identifiers of security groups within your Amazon VPC. The
+  /// security groups should enable Amazon Kendra to connect to the data source.
+  final List<String> securityGroupIds;
+
+  /// A list of identifiers for subnets within your Amazon VPC. The subnets should
+  /// be able to connect to each other in the VPC, and they should have outgoing
+  /// access to the Internet through a NAT device.
+  final List<String> subnetIds;
+
+  DataSourceVpcConfiguration({
+    required this.securityGroupIds,
+    required this.subnetIds,
+  });
+
+  factory DataSourceVpcConfiguration.fromJson(Map<String, dynamic> json) {
+    return DataSourceVpcConfiguration(
+      securityGroupIds: ((json['SecurityGroupIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: ((json['SubnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      'SecurityGroupIds': securityGroupIds,
+      'SubnetIds': subnetIds,
+    };
+  }
+}
+
+/// Provides the configuration information for altering document metadata and
+/// content during the document ingestion process.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
+/// document metadata during the ingestion process</a>.
+class CustomDocumentEnrichmentConfiguration {
+  /// Configuration information to alter document attributes or metadata fields
+  /// and content when ingesting documents into Amazon Kendra.
+  final List<InlineCustomDocumentEnrichmentConfiguration>? inlineConfigurations;
+
+  /// Configuration information for invoking a Lambda function in Lambda on the
+  /// structured documents with their metadata and text extracted. You can use a
+  /// Lambda function to apply advanced logic for creating, modifying, or deleting
+  /// document metadata and content. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#advanced-data-manipulation">Advanced
+  /// data manipulation</a>.
+  final HookConfiguration? postExtractionHookConfiguration;
+
+  /// Configuration information for invoking a Lambda function in Lambda on the
+  /// original or raw documents before extracting their metadata and text. You can
+  /// use a Lambda function to apply advanced logic for creating, modifying, or
+  /// deleting document metadata and content. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#advanced-data-manipulation">Advanced
+  /// data manipulation</a>.
+  final HookConfiguration? preExtractionHookConfiguration;
+
+  /// The Amazon Resource Name (ARN) of an IAM role with permission to run
+  /// <code>PreExtractionHookConfiguration</code> and
+  /// <code>PostExtractionHookConfiguration</code> for altering document metadata
+  /// and content during the document ingestion process. For more information, see
+  /// <a href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">an IAM
+  /// roles for Amazon Kendra</a>.
+  final String? roleArn;
+
+  CustomDocumentEnrichmentConfiguration({
+    this.inlineConfigurations,
+    this.postExtractionHookConfiguration,
+    this.preExtractionHookConfiguration,
+    this.roleArn,
+  });
+
+  factory CustomDocumentEnrichmentConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CustomDocumentEnrichmentConfiguration(
+      inlineConfigurations: (json['InlineConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => InlineCustomDocumentEnrichmentConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      postExtractionHookConfiguration:
+          json['PostExtractionHookConfiguration'] != null
+              ? HookConfiguration.fromJson(
+                  json['PostExtractionHookConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      preExtractionHookConfiguration: json['PreExtractionHookConfiguration'] !=
+              null
+          ? HookConfiguration.fromJson(
+              json['PreExtractionHookConfiguration'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inlineConfigurations = this.inlineConfigurations;
+    final postExtractionHookConfiguration =
+        this.postExtractionHookConfiguration;
+    final preExtractionHookConfiguration = this.preExtractionHookConfiguration;
+    final roleArn = this.roleArn;
+    return {
+      if (inlineConfigurations != null)
+        'InlineConfigurations': inlineConfigurations,
+      if (postExtractionHookConfiguration != null)
+        'PostExtractionHookConfiguration': postExtractionHookConfiguration,
+      if (preExtractionHookConfiguration != null)
+        'PreExtractionHookConfiguration': preExtractionHookConfiguration,
+      if (roleArn != null) 'RoleArn': roleArn,
+    };
+  }
+}
+
+/// Provides the configuration information for invoking a Lambda function in
+/// Lambda to alter document metadata and content when ingesting documents into
+/// Amazon Kendra. You can configure your Lambda function using <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_CustomDocumentEnrichmentConfiguration.html">PreExtractionHookConfiguration</a>
+/// if you want to apply advanced alterations on the original or raw documents.
+/// If you want to apply advanced alterations on the Amazon Kendra structured
+/// documents, you must configure your Lambda function using <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_CustomDocumentEnrichmentConfiguration.html">PostExtractionHookConfiguration</a>.
+/// You can only invoke one Lambda function. However, this function can invoke
+/// other functions it requires.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
+/// document metadata during the ingestion process</a>.
+class HookConfiguration {
+  /// The Amazon Resource Name (ARN) of an IAM role with permission to run a
+  /// Lambda function during ingestion. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">an IAM
+  /// roles for Amazon Kendra</a>.
+  final String lambdaArn;
+
+  /// Stores the original, raw documents or the structured, parsed documents
+  /// before and after altering them. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#cde-data-contracts-lambda">Data
+  /// contracts for Lambda functions</a>.
+  final String s3Bucket;
+
+  /// The condition used for when a Lambda function should be invoked.
+  ///
+  /// For example, you can specify a condition that if there are empty date-time
+  /// values, then Amazon Kendra should invoke a function that inserts the current
+  /// date-time.
+  final DocumentAttributeCondition? invocationCondition;
+
+  HookConfiguration({
+    required this.lambdaArn,
+    required this.s3Bucket,
+    this.invocationCondition,
+  });
+
+  factory HookConfiguration.fromJson(Map<String, dynamic> json) {
+    return HookConfiguration(
+      lambdaArn: (json['LambdaArn'] as String?) ?? '',
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
+      invocationCondition: json['InvocationCondition'] != null
+          ? DocumentAttributeCondition.fromJson(
+              json['InvocationCondition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    final s3Bucket = this.s3Bucket;
+    final invocationCondition = this.invocationCondition;
+    return {
+      'LambdaArn': lambdaArn,
+      'S3Bucket': s3Bucket,
+      if (invocationCondition != null)
+        'InvocationCondition': invocationCondition,
+    };
+  }
+}
+
+/// The condition used for the target document attribute or metadata field when
+/// ingesting documents into Amazon Kendra. You use this with <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_DocumentAttributeTarget.html">DocumentAttributeTarget
+/// to apply the condition</a>.
+///
+/// For example, you can create the 'Department' target field and have it
+/// prefill department names associated with the documents based on information
+/// in the 'Source_URI' field. Set the condition that if the 'Source_URI' field
+/// contains 'financial' in its URI value, then prefill the target field
+/// 'Department' with the target value 'Finance' for the document.
+///
+/// Amazon Kendra cannot create a target field if it has not already been
+/// created as an index field. After you create your index field, you can create
+/// a document metadata field using <code>DocumentAttributeTarget</code>. Amazon
+/// Kendra then will map your newly created metadata field to your index field.
+class DocumentAttributeCondition {
+  /// The identifier of the document attribute used for the condition.
+  ///
+  /// For example, 'Source_URI' could be an identifier for the attribute or
+  /// metadata field that contains source URIs associated with the documents.
+  ///
+  /// Amazon Kendra currently does not support <code>_document_body</code> as an
+  /// attribute key used for the condition.
+  final String conditionDocumentAttributeKey;
+
+  /// The condition operator.
+  ///
+  /// For example, you can use 'Contains' to partially match a string.
+  final ConditionOperator operator;
+
+  /// The value used by the operator.
+  ///
+  /// For example, you can specify the value 'financial' for strings in the
+  /// 'Source_URI' field that partially match or contain this value.
+  final DocumentAttributeValue? conditionOnValue;
+
+  DocumentAttributeCondition({
+    required this.conditionDocumentAttributeKey,
+    required this.operator,
+    this.conditionOnValue,
+  });
+
+  factory DocumentAttributeCondition.fromJson(Map<String, dynamic> json) {
+    return DocumentAttributeCondition(
+      conditionDocumentAttributeKey:
+          (json['ConditionDocumentAttributeKey'] as String?) ?? '',
+      operator:
+          ConditionOperator.fromString((json['Operator'] as String?) ?? ''),
+      conditionOnValue: json['ConditionOnValue'] != null
+          ? DocumentAttributeValue.fromJson(
+              json['ConditionOnValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditionDocumentAttributeKey = this.conditionDocumentAttributeKey;
+    final operator = this.operator;
+    final conditionOnValue = this.conditionOnValue;
+    return {
+      'ConditionDocumentAttributeKey': conditionDocumentAttributeKey,
+      'Operator': operator.value,
+      if (conditionOnValue != null) 'ConditionOnValue': conditionOnValue,
+    };
+  }
+}
+
+class ConditionOperator {
+  static const greaterThan = ConditionOperator._('GreaterThan');
+  static const greaterThanOrEquals = ConditionOperator._('GreaterThanOrEquals');
+  static const lessThan = ConditionOperator._('LessThan');
+  static const lessThanOrEquals = ConditionOperator._('LessThanOrEquals');
+  static const equals = ConditionOperator._('Equals');
+  static const notEquals = ConditionOperator._('NotEquals');
+  static const contains = ConditionOperator._('Contains');
+  static const notContains = ConditionOperator._('NotContains');
+  static const exists = ConditionOperator._('Exists');
+  static const notExists = ConditionOperator._('NotExists');
+  static const beginsWith = ConditionOperator._('BeginsWith');
+
+  final String value;
+
+  const ConditionOperator._(this.value);
+
+  static const values = [
+    greaterThan,
+    greaterThanOrEquals,
+    lessThan,
+    lessThanOrEquals,
+    equals,
+    notEquals,
+    contains,
+    notContains,
+    exists,
+    notExists,
+    beginsWith
+  ];
+
+  static ConditionOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConditionOperator._(value));
+
+  @override
+  bool operator ==(other) => other is ConditionOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The value of a document attribute. You can only provide one value for a
+/// document attribute.
+class DocumentAttributeValue {
+  /// A date expressed as an ISO 8601 string.
+  ///
+  /// It is important for the time zone to be included in the ISO 8601 date-time
+  /// format. For example, 2012-03-25T12:30:10+01:00 is the ISO 8601 date-time
+  /// format for March 25th 2012 at 12:30PM (plus 10 seconds) in Central European
+  /// Time.
+  final DateTime? dateValue;
+
+  /// A long integer value.
+  final int? longValue;
+
+  /// A list of strings. The default maximum length or number of strings is 10.
+  final List<String>? stringListValue;
+
+  /// A string, such as "department".
+  final String? stringValue;
+
+  DocumentAttributeValue({
+    this.dateValue,
+    this.longValue,
+    this.stringListValue,
+    this.stringValue,
+  });
+
+  factory DocumentAttributeValue.fromJson(Map<String, dynamic> json) {
+    return DocumentAttributeValue(
+      dateValue: timeStampFromJson(json['DateValue']),
+      longValue: json['LongValue'] as int?,
+      stringListValue: (json['StringListValue'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      stringValue: json['StringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dateValue = this.dateValue;
+    final longValue = this.longValue;
+    final stringListValue = this.stringListValue;
+    final stringValue = this.stringValue;
+    return {
+      if (dateValue != null) 'DateValue': unixTimestampToJson(dateValue),
+      if (longValue != null) 'LongValue': longValue,
+      if (stringListValue != null) 'StringListValue': stringListValue,
+      if (stringValue != null) 'StringValue': stringValue,
+    };
+  }
+}
+
+/// Provides the configuration information for applying basic logic to alter
+/// document metadata and content when ingesting documents into Amazon Kendra.
+/// To apply advanced logic, to go beyond what you can do with basic logic, see
+/// <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_HookConfiguration.html">HookConfiguration</a>.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
+/// document metadata during the ingestion process</a>.
+class InlineCustomDocumentEnrichmentConfiguration {
+  /// Configuration of the condition used for the target document attribute or
+  /// metadata field when ingesting documents into Amazon Kendra.
+  final DocumentAttributeCondition? condition;
+
+  /// <code>TRUE</code> to delete content if the condition used for the target
+  /// attribute is met.
+  final bool? documentContentDeletion;
+
+  /// Configuration of the target document attribute or metadata field when
+  /// ingesting documents into Amazon Kendra. You can also include a value.
+  final DocumentAttributeTarget? target;
+
+  InlineCustomDocumentEnrichmentConfiguration({
+    this.condition,
+    this.documentContentDeletion,
+    this.target,
+  });
+
+  factory InlineCustomDocumentEnrichmentConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return InlineCustomDocumentEnrichmentConfiguration(
+      condition: json['Condition'] != null
+          ? DocumentAttributeCondition.fromJson(
+              json['Condition'] as Map<String, dynamic>)
+          : null,
+      documentContentDeletion: json['DocumentContentDeletion'] as bool?,
+      target: json['Target'] != null
+          ? DocumentAttributeTarget.fromJson(
+              json['Target'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final documentContentDeletion = this.documentContentDeletion;
+    final target = this.target;
+    return {
+      if (condition != null) 'Condition': condition,
+      if (documentContentDeletion != null)
+        'DocumentContentDeletion': documentContentDeletion,
+      if (target != null) 'Target': target,
+    };
+  }
+}
+
+/// The target document attribute or metadata field you want to alter when
+/// ingesting documents into Amazon Kendra.
+///
+/// For example, you can delete customer identification numbers associated with
+/// the documents, stored in the document metadata field called 'Customer_ID'.
+/// You set the target key as 'Customer_ID' and the deletion flag to
+/// <code>TRUE</code>. This removes all customer ID values in the field
+/// 'Customer_ID'. This would scrub personally identifiable information from
+/// each document's metadata.
+///
+/// Amazon Kendra cannot create a target field if it has not already been
+/// created as an index field. After you create your index field, you can create
+/// a document metadata field using <code>DocumentAttributeTarget</code>. Amazon
+/// Kendra then will map your newly created metadata field to your index field.
+///
+/// You can also use this with <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_DocumentAttributeCondition.html">DocumentAttributeCondition</a>.
+class DocumentAttributeTarget {
+  /// The identifier of the target document attribute or metadata field.
+  ///
+  /// For example, 'Department' could be an identifier for the target attribute or
+  /// metadata field that includes the department names associated with the
+  /// documents.
+  final String? targetDocumentAttributeKey;
+
+  /// The target value you want to create for the target attribute.
+  ///
+  /// For example, 'Finance' could be the target value for the target attribute
+  /// key 'Department'.
+  final DocumentAttributeValue? targetDocumentAttributeValue;
+
+  /// <code>TRUE</code> to delete the existing target value for your specified
+  /// target attribute key. You cannot create a target value and set this to
+  /// <code>TRUE</code>. To create a target value
+  /// (<code>TargetDocumentAttributeValue</code>), set this to <code>FALSE</code>.
+  final bool? targetDocumentAttributeValueDeletion;
+
+  DocumentAttributeTarget({
+    this.targetDocumentAttributeKey,
+    this.targetDocumentAttributeValue,
+    this.targetDocumentAttributeValueDeletion,
+  });
+
+  factory DocumentAttributeTarget.fromJson(Map<String, dynamic> json) {
+    return DocumentAttributeTarget(
+      targetDocumentAttributeKey: json['TargetDocumentAttributeKey'] as String?,
+      targetDocumentAttributeValue: json['TargetDocumentAttributeValue'] != null
+          ? DocumentAttributeValue.fromJson(
+              json['TargetDocumentAttributeValue'] as Map<String, dynamic>)
+          : null,
+      targetDocumentAttributeValueDeletion:
+          json['TargetDocumentAttributeValueDeletion'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetDocumentAttributeKey = this.targetDocumentAttributeKey;
+    final targetDocumentAttributeValue = this.targetDocumentAttributeValue;
+    final targetDocumentAttributeValueDeletion =
+        this.targetDocumentAttributeValueDeletion;
+    return {
+      if (targetDocumentAttributeKey != null)
+        'TargetDocumentAttributeKey': targetDocumentAttributeKey,
+      if (targetDocumentAttributeValue != null)
+        'TargetDocumentAttributeValue': targetDocumentAttributeValue,
+      if (targetDocumentAttributeValueDeletion != null)
+        'TargetDocumentAttributeValueDeletion':
+            targetDocumentAttributeValueDeletion,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to an Amazon S3 bucket.
+/// <note>
+/// Amazon Kendra now supports an upgraded Amazon S3 connector.
+///
+/// You must now use the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+/// object instead of the <code>S3DataSourceConfiguration</code> object to
+/// configure your connector.
+///
+/// Connectors configured using the older console and API architecture will
+/// continue to function as configured. However, you won't be able to edit or
+/// update them. If you want to edit or update your connector configuration, you
+/// must create a new connector.
+///
+/// We recommended migrating your connector workflow to the upgraded version.
+/// Support for connectors configured using the older architecture is scheduled
+/// to end by June 2024.
+/// </note>
+class S3DataSourceConfiguration {
+  /// The name of the bucket that contains the documents.
+  final String bucketName;
+
+  /// Provides the path to the S3 bucket that contains the user context filtering
+  /// files for the data source. For the format of the file, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html">Access
+  /// control for S3 data sources</a>.
+  final AccessControlListConfiguration? accessControlListConfiguration;
+  final DocumentsMetadataConfiguration? documentsMetadataConfiguration;
+
+  /// A list of glob patterns (patterns that can expand a wildcard pattern into a
+  /// list of path names that match the given pattern) for certain file names and
+  /// file types to exclude from your index. If a document matches both an
+  /// inclusion and exclusion prefix or pattern, the exclusion prefix takes
+  /// precendence and the document is not indexed. Examples of glob patterns
+  /// include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>/myapp/config/*</i>—All files inside config directory.
+  /// </li>
+  /// <li>
+  /// <i>**/*.png</i>—All .png files in all directories.
+  /// </li>
+  /// <li>
+  /// <i>**/*.{png, ico, md}</i>—All .png, .ico or .md files in all directories.
+  /// </li>
+  /// <li>
+  /// <i>/myapp/src/**/*.ts</i>—All .ts files inside src directory (and all its
+  /// subdirectories).
+  /// </li>
+  /// <li>
+  /// <i>**/!(*.module).ts</i>—All .ts files but not .module.ts
+  /// </li>
+  /// <li>
+  /// <i>*.png , *.jpg</i>—All PNG and JPEG image files in a directory (files with
+  /// the extensions .png and .jpg).
+  /// </li>
+  /// <li>
+  /// <i>*internal*</i>—All files in a directory that contain 'internal' in the
+  /// file name, such as 'internal', 'internal_only', 'company_internal'.
+  /// </li>
+  /// <li>
+  /// <i>**/*internal*</i>—All internal-related files in a directory and its
+  /// subdirectories.
+  /// </li>
+  /// </ul>
+  /// For more examples, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters">Use
+  /// of Exclude and Include Filters</a> in the Amazon Web Services CLI Command
+  /// Reference.
+  final List<String>? exclusionPatterns;
+
+  /// A list of glob patterns (patterns that can expand a wildcard pattern into a
+  /// list of path names that match the given pattern) for certain file names and
+  /// file types to include in your index. If a document matches both an inclusion
+  /// and exclusion prefix or pattern, the exclusion prefix takes precendence and
+  /// the document is not indexed. Examples of glob patterns include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>/myapp/config/*</i>—All files inside config directory.
+  /// </li>
+  /// <li>
+  /// <i>**/*.png</i>—All .png files in all directories.
+  /// </li>
+  /// <li>
+  /// <i>**/*.{png, ico, md}</i>—All .png, .ico or .md files in all directories.
+  /// </li>
+  /// <li>
+  /// <i>/myapp/src/**/*.ts</i>—All .ts files inside src directory (and all its
+  /// subdirectories).
+  /// </li>
+  /// <li>
+  /// <i>**/!(*.module).ts</i>—All .ts files but not .module.ts
+  /// </li>
+  /// <li>
+  /// <i>*.png , *.jpg</i>—All PNG and JPEG image files in a directory (files with
+  /// the extensions .png and .jpg).
+  /// </li>
+  /// <li>
+  /// <i>*internal*</i>—All files in a directory that contain 'internal' in the
+  /// file name, such as 'internal', 'internal_only', 'company_internal'.
+  /// </li>
+  /// <li>
+  /// <i>**/*internal*</i>—All internal-related files in a directory and its
+  /// subdirectories.
+  /// </li>
+  /// </ul>
+  /// For more examples, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters">Use
+  /// of Exclude and Include Filters</a> in the Amazon Web Services CLI Command
+  /// Reference.
+  final List<String>? inclusionPatterns;
+
+  /// A list of S3 prefixes for the documents that should be included in the
+  /// index.
+  final List<String>? inclusionPrefixes;
+
+  S3DataSourceConfiguration({
+    required this.bucketName,
+    this.accessControlListConfiguration,
+    this.documentsMetadataConfiguration,
+    this.exclusionPatterns,
+    this.inclusionPatterns,
+    this.inclusionPrefixes,
+  });
+
+  factory S3DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3DataSourceConfiguration(
+      bucketName: (json['BucketName'] as String?) ?? '',
+      accessControlListConfiguration: json['AccessControlListConfiguration'] !=
+              null
+          ? AccessControlListConfiguration.fromJson(
+              json['AccessControlListConfiguration'] as Map<String, dynamic>)
+          : null,
+      documentsMetadataConfiguration: json['DocumentsMetadataConfiguration'] !=
+              null
+          ? DocumentsMetadataConfiguration.fromJson(
+              json['DocumentsMetadataConfiguration'] as Map<String, dynamic>)
+          : null,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inclusionPrefixes: (json['InclusionPrefixes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final accessControlListConfiguration = this.accessControlListConfiguration;
+    final documentsMetadataConfiguration = this.documentsMetadataConfiguration;
+    final exclusionPatterns = this.exclusionPatterns;
+    final inclusionPatterns = this.inclusionPatterns;
+    final inclusionPrefixes = this.inclusionPrefixes;
+    return {
+      'BucketName': bucketName,
+      if (accessControlListConfiguration != null)
+        'AccessControlListConfiguration': accessControlListConfiguration,
+      if (documentsMetadataConfiguration != null)
+        'DocumentsMetadataConfiguration': documentsMetadataConfiguration,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (inclusionPrefixes != null) 'InclusionPrefixes': inclusionPrefixes,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to Microsoft SharePoint as
+/// your data source.
+class SharePointConfiguration {
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
+  /// the user name and password required to connect to the SharePoint instance.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html">Microsoft
+  /// SharePoint</a>.
+  final String secretArn;
+
+  /// The version of Microsoft SharePoint that you use.
+  final SharePointVersion sharePointVersion;
+
+  /// The Microsoft SharePoint site URLs for the documents you want to index.
+  final List<String> urls;
+
+  /// Whether you want to connect to SharePoint Online using basic authentication
+  /// of user name and password, or OAuth authentication of user name, password,
+  /// client ID, and client secret, or AD App-only authentication of client
+  /// secret.
+  final SharePointOnlineAuthenticationType? authenticationType;
+
+  /// <code>TRUE</code> to index document attachments.
+  final bool? crawlAttachments;
+
+  /// <code>TRUE</code> to disable local groups information.
+  final bool? disableLocalGroups;
+
+  /// The Microsoft SharePoint attribute field that contains the title of the
+  /// document.
+  final String? documentTitleFieldName;
+
+  /// A list of regular expression patterns to exclude certain documents in your
+  /// SharePoint. Documents that match the patterns are excluded from the index.
+  /// Documents that don't match the patterns are included in the index. If a
+  /// document matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the document isn't included in the index.
+  ///
+  /// The regex applies to the display URL of the SharePoint document.
+  final List<String>? exclusionPatterns;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// SharePoint data source attributes or field names to Amazon Kendra index
+  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
+  /// before you map to SharePoint fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The SharePoint data source field names must exist in
+  /// your SharePoint custom metadata.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  /// A list of regular expression patterns to include certain documents in your
+  /// SharePoint. Documents that match the patterns are included in the index.
+  /// Documents that don't match the patterns are excluded from the index. If a
+  /// document matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the document isn't included in the index.
+  ///
+  /// The regex applies to the display URL of the SharePoint document.
+  final List<String>? inclusionPatterns;
+
+  /// Configuration information to connect to your Microsoft SharePoint site URLs
+  /// via instance via a web proxy. You can use this option for SharePoint Server.
+  ///
+  /// You must provide the website host name and port number. For example, the
+  /// host name of <i>https://a.example.com/page1.html</i> is "a.example.com" and
+  /// the port is 443, the standard port for HTTPS.
+  ///
+  /// Web proxy credentials are optional and you can use them to connect to a web
+  /// proxy server that requires basic authentication of user name and password.
+  /// To store web proxy credentials, you use a secret in Secrets Manager.
+  ///
+  /// It is recommended that you follow best security practices when configuring
+  /// your web proxy. This includes setting up throttling, setting up logging and
+  /// monitoring, and applying security patches on a regular basis. If you use
+  /// your web proxy with multiple data sources, sync jobs that occur at the same
+  /// time could strain the load on your proxy. It is recommended you prepare your
+  /// proxy beforehand for any security and load requirements.
+  final ProxyConfiguration? proxyConfiguration;
+
+  /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this
+  /// to connect to SharePoint Server if you require a secure SSL connection.
+  ///
+  /// You can generate a self-signed X509 certificate on any computer using
+  /// OpenSSL. For an example of using OpenSSL to create an X509 certificate, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html">Create
+  /// and sign an X509 certificate</a>.
+  final S3Path? sslCertificateS3Path;
+
+  /// <code>TRUE</code> to use the SharePoint change log to determine which
+  /// documents require updating in the index. Depending on the change log's size,
+  /// it may take longer for Amazon Kendra to use the change log than to scan all
+  /// of your documents in SharePoint.
+  final bool? useChangeLog;
+
+  /// Configuration information for an Amazon Virtual Private Cloud to connect to
+  /// your Microsoft SharePoint. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
+  /// a VPC</a>.
+  final DataSourceVpcConfiguration? vpcConfiguration;
+
+  SharePointConfiguration({
+    required this.secretArn,
+    required this.sharePointVersion,
+    required this.urls,
+    this.authenticationType,
+    this.crawlAttachments,
+    this.disableLocalGroups,
+    this.documentTitleFieldName,
+    this.exclusionPatterns,
+    this.fieldMappings,
+    this.inclusionPatterns,
+    this.proxyConfiguration,
+    this.sslCertificateS3Path,
+    this.useChangeLog,
+    this.vpcConfiguration,
+  });
+
+  factory SharePointConfiguration.fromJson(Map<String, dynamic> json) {
+    return SharePointConfiguration(
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      sharePointVersion: SharePointVersion.fromString(
+          (json['SharePointVersion'] as String?) ?? ''),
+      urls: ((json['Urls'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      authenticationType: (json['AuthenticationType'] as String?)
+          ?.let(SharePointOnlineAuthenticationType.fromString),
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+      disableLocalGroups: json['DisableLocalGroups'] as bool?,
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      proxyConfiguration: json['ProxyConfiguration'] != null
+          ? ProxyConfiguration.fromJson(
+              json['ProxyConfiguration'] as Map<String, dynamic>)
+          : null,
+      sslCertificateS3Path: json['SslCertificateS3Path'] != null
+          ? S3Path.fromJson(
+              json['SslCertificateS3Path'] as Map<String, dynamic>)
+          : null,
+      useChangeLog: json['UseChangeLog'] as bool?,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final sharePointVersion = this.sharePointVersion;
+    final urls = this.urls;
+    final authenticationType = this.authenticationType;
+    final crawlAttachments = this.crawlAttachments;
+    final disableLocalGroups = this.disableLocalGroups;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fieldMappings = this.fieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    final proxyConfiguration = this.proxyConfiguration;
+    final sslCertificateS3Path = this.sslCertificateS3Path;
+    final useChangeLog = this.useChangeLog;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'SecretArn': secretArn,
+      'SharePointVersion': sharePointVersion.value,
+      'Urls': urls,
+      if (authenticationType != null)
+        'AuthenticationType': authenticationType.value,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+      if (disableLocalGroups != null) 'DisableLocalGroups': disableLocalGroups,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (proxyConfiguration != null) 'ProxyConfiguration': proxyConfiguration,
+      if (sslCertificateS3Path != null)
+        'SslCertificateS3Path': sslCertificateS3Path,
+      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// Provides the configuration information to an <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html">Amazon
+/// Kendra supported database</a>.
+class DatabaseConfiguration {
+  /// Information about where the index should get the document information from
+  /// the database.
+  final ColumnConfiguration columnConfiguration;
+
+  /// Configuration information that's required to connect to a database.
+  final ConnectionConfiguration connectionConfiguration;
+
+  /// The type of database engine that runs the database.
+  final DatabaseEngineType databaseEngineType;
+
+  /// Information about the database column that provides information for user
+  /// context filtering.
+  final AclConfiguration? aclConfiguration;
+
+  /// Provides information about how Amazon Kendra uses quote marks around SQL
+  /// identifiers when querying a database data source.
+  final SqlConfiguration? sqlConfiguration;
+  final DataSourceVpcConfiguration? vpcConfiguration;
+
+  DatabaseConfiguration({
+    required this.columnConfiguration,
+    required this.connectionConfiguration,
+    required this.databaseEngineType,
+    this.aclConfiguration,
+    this.sqlConfiguration,
+    this.vpcConfiguration,
+  });
+
+  factory DatabaseConfiguration.fromJson(Map<String, dynamic> json) {
+    return DatabaseConfiguration(
+      columnConfiguration: ColumnConfiguration.fromJson(
+          (json['ColumnConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      connectionConfiguration: ConnectionConfiguration.fromJson(
+          (json['ConnectionConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      databaseEngineType: DatabaseEngineType.fromString(
+          (json['DatabaseEngineType'] as String?) ?? ''),
+      aclConfiguration: json['AclConfiguration'] != null
+          ? AclConfiguration.fromJson(
+              json['AclConfiguration'] as Map<String, dynamic>)
+          : null,
+      sqlConfiguration: json['SqlConfiguration'] != null
+          ? SqlConfiguration.fromJson(
+              json['SqlConfiguration'] as Map<String, dynamic>)
+          : null,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnConfiguration = this.columnConfiguration;
+    final connectionConfiguration = this.connectionConfiguration;
+    final databaseEngineType = this.databaseEngineType;
+    final aclConfiguration = this.aclConfiguration;
+    final sqlConfiguration = this.sqlConfiguration;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'ColumnConfiguration': columnConfiguration,
+      'ConnectionConfiguration': connectionConfiguration,
+      'DatabaseEngineType': databaseEngineType.value,
+      if (aclConfiguration != null) 'AclConfiguration': aclConfiguration,
+      if (sqlConfiguration != null) 'SqlConfiguration': sqlConfiguration,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to Salesforce as your data
+/// source.
+class SalesforceConfiguration {
+  /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the
+  /// key/value pairs required to connect to your Salesforce instance. The secret
+  /// must contain a JSON structure with the following keys:
+  ///
+  /// <ul>
+  /// <li>
+  /// authenticationUrl - The OAUTH endpoint that Amazon Kendra connects to get an
+  /// OAUTH token.
+  /// </li>
+  /// <li>
+  /// consumerKey - The application public key generated when you created your
+  /// Salesforce application.
+  /// </li>
+  /// <li>
+  /// consumerSecret - The application private key generated when you created your
+  /// Salesforce application.
+  /// </li>
+  /// <li>
+  /// password - The password associated with the user logging in to the
+  /// Salesforce instance.
+  /// </li>
+  /// <li>
+  /// securityToken - The token associated with the user logging in to the
+  /// Salesforce instance.
+  /// </li>
+  /// <li>
+  /// username - The user name of the user logging in to the Salesforce instance.
+  /// </li>
+  /// </ul>
+  final String secretArn;
+
+  /// The instance URL for the Salesforce site that you want to index.
+  final String serverUrl;
+
+  /// Configuration information for Salesforce chatter feeds.
+  final SalesforceChatterFeedConfiguration? chatterFeedConfiguration;
+
+  /// Indicates whether Amazon Kendra should index attachments to Salesforce
+  /// objects.
+  final bool? crawlAttachments;
+
+  /// A list of regular expression patterns to exclude certain documents in your
+  /// Salesforce. Documents that match the patterns are excluded from the index.
+  /// Documents that don't match the patterns are included in the index. If a
+  /// document matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the document isn't included in the index.
+  ///
+  /// The pattern is applied to the name of the attached file.
+  final List<String>? excludeAttachmentFilePatterns;
+
+  /// A list of regular expression patterns to include certain documents in your
+  /// Salesforce. Documents that match the patterns are included in the index.
+  /// Documents that don't match the patterns are excluded from the index. If a
+  /// document matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the document isn't included in the index.
+  ///
+  /// The pattern is applied to the name of the attached file.
+  final List<String>? includeAttachmentFilePatterns;
+
+  /// Configuration information for the knowledge article types that Amazon Kendra
+  /// indexes. Amazon Kendra indexes standard knowledge articles and the standard
+  /// fields of knowledge articles, or the custom fields of custom knowledge
+  /// articles, but not both.
+  final SalesforceKnowledgeArticleConfiguration? knowledgeArticleConfiguration;
+
+  /// Configuration information for processing attachments to Salesforce standard
+  /// objects.
+  final SalesforceStandardObjectAttachmentConfiguration?
+      standardObjectAttachmentConfiguration;
+
+  /// Configuration of the Salesforce standard objects that Amazon Kendra indexes.
+  final List<SalesforceStandardObjectConfiguration>?
+      standardObjectConfigurations;
+
+  SalesforceConfiguration({
+    required this.secretArn,
+    required this.serverUrl,
+    this.chatterFeedConfiguration,
+    this.crawlAttachments,
+    this.excludeAttachmentFilePatterns,
+    this.includeAttachmentFilePatterns,
+    this.knowledgeArticleConfiguration,
+    this.standardObjectAttachmentConfiguration,
+    this.standardObjectConfigurations,
+  });
+
+  factory SalesforceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SalesforceConfiguration(
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      serverUrl: (json['ServerUrl'] as String?) ?? '',
+      chatterFeedConfiguration: json['ChatterFeedConfiguration'] != null
+          ? SalesforceChatterFeedConfiguration.fromJson(
+              json['ChatterFeedConfiguration'] as Map<String, dynamic>)
+          : null,
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+      excludeAttachmentFilePatterns:
+          (json['ExcludeAttachmentFilePatterns'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      includeAttachmentFilePatterns:
+          (json['IncludeAttachmentFilePatterns'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      knowledgeArticleConfiguration:
+          json['KnowledgeArticleConfiguration'] != null
+              ? SalesforceKnowledgeArticleConfiguration.fromJson(
+                  json['KnowledgeArticleConfiguration'] as Map<String, dynamic>)
+              : null,
+      standardObjectAttachmentConfiguration:
+          json['StandardObjectAttachmentConfiguration'] != null
+              ? SalesforceStandardObjectAttachmentConfiguration.fromJson(
+                  json['StandardObjectAttachmentConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      standardObjectConfigurations:
+          (json['StandardObjectConfigurations'] as List?)
+              ?.nonNulls
+              .map((e) => SalesforceStandardObjectConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final serverUrl = this.serverUrl;
+    final chatterFeedConfiguration = this.chatterFeedConfiguration;
+    final crawlAttachments = this.crawlAttachments;
+    final excludeAttachmentFilePatterns = this.excludeAttachmentFilePatterns;
+    final includeAttachmentFilePatterns = this.includeAttachmentFilePatterns;
+    final knowledgeArticleConfiguration = this.knowledgeArticleConfiguration;
+    final standardObjectAttachmentConfiguration =
+        this.standardObjectAttachmentConfiguration;
+    final standardObjectConfigurations = this.standardObjectConfigurations;
+    return {
+      'SecretArn': secretArn,
+      'ServerUrl': serverUrl,
+      if (chatterFeedConfiguration != null)
+        'ChatterFeedConfiguration': chatterFeedConfiguration,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+      if (excludeAttachmentFilePatterns != null)
+        'ExcludeAttachmentFilePatterns': excludeAttachmentFilePatterns,
+      if (includeAttachmentFilePatterns != null)
+        'IncludeAttachmentFilePatterns': includeAttachmentFilePatterns,
+      if (knowledgeArticleConfiguration != null)
+        'KnowledgeArticleConfiguration': knowledgeArticleConfiguration,
+      if (standardObjectAttachmentConfiguration != null)
+        'StandardObjectAttachmentConfiguration':
+            standardObjectAttachmentConfiguration,
+      if (standardObjectConfigurations != null)
+        'StandardObjectConfigurations': standardObjectConfigurations,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to OneDrive as your data
+/// source.
+class OneDriveConfiguration {
+  /// A list of user accounts whose documents should be indexed.
+  final OneDriveUsers oneDriveUsers;
+
+  /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the
+  /// user name and password to connect to OneDrive. The user name should be the
+  /// application ID for the OneDrive application, and the password is the
+  /// application key for the OneDrive application.
+  final String secretArn;
+
+  /// The Azure Active Directory domain of the organization.
+  final String tenantDomain;
+
+  /// <code>TRUE</code> to disable local groups information.
+  final bool? disableLocalGroups;
+
+  /// A list of regular expression patterns to exclude certain documents in your
+  /// OneDrive. Documents that match the patterns are excluded from the index.
+  /// Documents that don't match the patterns are included in the index. If a
+  /// document matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the document isn't included in the index.
+  ///
+  /// The pattern is applied to the file name.
+  final List<String>? exclusionPatterns;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// OneDrive data source attributes or field names to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to OneDrive fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The OneDrive data source field names must exist in
+  /// your OneDrive custom metadata.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  /// A list of regular expression patterns to include certain documents in your
+  /// OneDrive. Documents that match the patterns are included in the index.
+  /// Documents that don't match the patterns are excluded from the index. If a
+  /// document matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the document isn't included in the index.
+  ///
+  /// The pattern is applied to the file name.
+  final List<String>? inclusionPatterns;
+
+  OneDriveConfiguration({
+    required this.oneDriveUsers,
+    required this.secretArn,
+    required this.tenantDomain,
+    this.disableLocalGroups,
+    this.exclusionPatterns,
+    this.fieldMappings,
+    this.inclusionPatterns,
+  });
+
+  factory OneDriveConfiguration.fromJson(Map<String, dynamic> json) {
+    return OneDriveConfiguration(
+      oneDriveUsers: OneDriveUsers.fromJson(
+          (json['OneDriveUsers'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      tenantDomain: (json['TenantDomain'] as String?) ?? '',
+      disableLocalGroups: json['DisableLocalGroups'] as bool?,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oneDriveUsers = this.oneDriveUsers;
+    final secretArn = this.secretArn;
+    final tenantDomain = this.tenantDomain;
+    final disableLocalGroups = this.disableLocalGroups;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fieldMappings = this.fieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    return {
+      'OneDriveUsers': oneDriveUsers,
+      'SecretArn': secretArn,
+      'TenantDomain': tenantDomain,
+      if (disableLocalGroups != null) 'DisableLocalGroups': disableLocalGroups,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to ServiceNow as your data
+/// source.
+class ServiceNowConfiguration {
+  /// The ServiceNow instance that the data source connects to. The host endpoint
+  /// should look like the following: <i>{instance}.service-now.com.</i>
+  final String hostUrl;
+
+  /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains
+  /// the user name and password required to connect to the ServiceNow instance.
+  /// You can also provide OAuth authentication credentials of user name,
+  /// password, client ID, and client secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-servicenow.html">Using
+  /// a ServiceNow data source</a>.
+  final String secretArn;
+
+  /// The identifier of the release that the ServiceNow host is running. If the
+  /// host is not running the <code>LONDON</code> release, use
+  /// <code>OTHERS</code>.
+  final ServiceNowBuildVersionType serviceNowBuildVersion;
+
+  /// The type of authentication used to connect to the ServiceNow instance. If
+  /// you choose <code>HTTP_BASIC</code>, Amazon Kendra is authenticated using the
+  /// user name and password provided in the Secrets Manager secret in the
+  /// <code>SecretArn</code> field. If you choose <code>OAUTH2</code>, Amazon
+  /// Kendra is authenticated using the credentials of client ID, client secret,
+  /// user name and password.
+  ///
+  /// When you use <code>OAUTH2</code> authentication, you must generate a token
+  /// and a client secret using the ServiceNow console. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-servicenow.html">Using
+  /// a ServiceNow data source</a>.
+  final ServiceNowAuthenticationType? authenticationType;
+
+  /// Configuration information for crawling knowledge articles in the ServiceNow
+  /// site.
+  final ServiceNowKnowledgeArticleConfiguration? knowledgeArticleConfiguration;
+
+  /// Configuration information for crawling service catalogs in the ServiceNow
+  /// site.
+  final ServiceNowServiceCatalogConfiguration? serviceCatalogConfiguration;
+
+  ServiceNowConfiguration({
+    required this.hostUrl,
+    required this.secretArn,
+    required this.serviceNowBuildVersion,
+    this.authenticationType,
+    this.knowledgeArticleConfiguration,
+    this.serviceCatalogConfiguration,
+  });
+
+  factory ServiceNowConfiguration.fromJson(Map<String, dynamic> json) {
+    return ServiceNowConfiguration(
+      hostUrl: (json['HostUrl'] as String?) ?? '',
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      serviceNowBuildVersion: ServiceNowBuildVersionType.fromString(
+          (json['ServiceNowBuildVersion'] as String?) ?? ''),
+      authenticationType: (json['AuthenticationType'] as String?)
+          ?.let(ServiceNowAuthenticationType.fromString),
+      knowledgeArticleConfiguration:
+          json['KnowledgeArticleConfiguration'] != null
+              ? ServiceNowKnowledgeArticleConfiguration.fromJson(
+                  json['KnowledgeArticleConfiguration'] as Map<String, dynamic>)
+              : null,
+      serviceCatalogConfiguration: json['ServiceCatalogConfiguration'] != null
+          ? ServiceNowServiceCatalogConfiguration.fromJson(
+              json['ServiceCatalogConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostUrl = this.hostUrl;
+    final secretArn = this.secretArn;
+    final serviceNowBuildVersion = this.serviceNowBuildVersion;
+    final authenticationType = this.authenticationType;
+    final knowledgeArticleConfiguration = this.knowledgeArticleConfiguration;
+    final serviceCatalogConfiguration = this.serviceCatalogConfiguration;
+    return {
+      'HostUrl': hostUrl,
+      'SecretArn': secretArn,
+      'ServiceNowBuildVersion': serviceNowBuildVersion.value,
+      if (authenticationType != null)
+        'AuthenticationType': authenticationType.value,
+      if (knowledgeArticleConfiguration != null)
+        'KnowledgeArticleConfiguration': knowledgeArticleConfiguration,
+      if (serviceCatalogConfiguration != null)
+        'ServiceCatalogConfiguration': serviceCatalogConfiguration,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to Confluence as your data
+/// source.
+class ConfluenceConfiguration {
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
+  /// the user name and password required to connect to the Confluence instance.
+  /// If you use Confluence Cloud, you use a generated API token as the password.
+  ///
+  /// You can also provide authentication credentials in the form of a personal
+  /// access token. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-confluence.html">Using
+  /// a Confluence data source</a>.
+  final String secretArn;
+
+  /// The URL of your Confluence instance. Use the full URL of the server. For
+  /// example, <i>https://server.example.com:port/</i>. You can also use an IP
+  /// address, for example, <i>https://192.168.1.113/</i>.
+  final String serverUrl;
+
+  /// The version or the type of Confluence installation to connect to.
+  final ConfluenceVersion version;
+
+  /// Configuration information for indexing attachments to Confluence blogs and
+  /// pages.
+  final ConfluenceAttachmentConfiguration? attachmentConfiguration;
+
+  /// Whether you want to connect to Confluence using basic authentication of user
+  /// name and password, or a personal access token. You can use a personal access
+  /// token for Confluence Server.
+  final ConfluenceAuthenticationType? authenticationType;
+
+  /// Configuration information for indexing Confluence blogs.
+  final ConfluenceBlogConfiguration? blogConfiguration;
+
+  /// A list of regular expression patterns to exclude certain blog posts, pages,
+  /// spaces, or attachments in your Confluence. Content that matches the patterns
+  /// are excluded from the index. Content that doesn't match the patterns is
+  /// included in the index. If content matches both an inclusion and exclusion
+  /// pattern, the exclusion pattern takes precedence and the content isn't
+  /// included in the index.
+  final List<String>? exclusionPatterns;
+
+  /// A list of regular expression patterns to include certain blog posts, pages,
+  /// spaces, or attachments in your Confluence. Content that matches the patterns
+  /// are included in the index. Content that doesn't match the patterns is
+  /// excluded from the index. If content matches both an inclusion and exclusion
+  /// pattern, the exclusion pattern takes precedence and the content isn't
+  /// included in the index.
+  final List<String>? inclusionPatterns;
+
+  /// Configuration information for indexing Confluence pages.
+  final ConfluencePageConfiguration? pageConfiguration;
+
+  /// Configuration information to connect to your Confluence URL instance via a
+  /// web proxy. You can use this option for Confluence Server.
+  ///
+  /// You must provide the website host name and port number. For example, the
+  /// host name of <i>https://a.example.com/page1.html</i> is "a.example.com" and
+  /// the port is 443, the standard port for HTTPS.
+  ///
+  /// Web proxy credentials are optional and you can use them to connect to a web
+  /// proxy server that requires basic authentication of user name and password.
+  /// To store web proxy credentials, you use a secret in Secrets Manager.
+  ///
+  /// It is recommended that you follow best security practices when configuring
+  /// your web proxy. This includes setting up throttling, setting up logging and
+  /// monitoring, and applying security patches on a regular basis. If you use
+  /// your web proxy with multiple data sources, sync jobs that occur at the same
+  /// time could strain the load on your proxy. It is recommended you prepare your
+  /// proxy beforehand for any security and load requirements.
+  final ProxyConfiguration? proxyConfiguration;
+
+  /// Configuration information for indexing Confluence spaces.
+  final ConfluenceSpaceConfiguration? spaceConfiguration;
+
+  /// Configuration information for an Amazon Virtual Private Cloud to connect to
+  /// your Confluence. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
+  /// a VPC</a>.
+  final DataSourceVpcConfiguration? vpcConfiguration;
+
+  ConfluenceConfiguration({
+    required this.secretArn,
+    required this.serverUrl,
+    required this.version,
+    this.attachmentConfiguration,
+    this.authenticationType,
+    this.blogConfiguration,
+    this.exclusionPatterns,
+    this.inclusionPatterns,
+    this.pageConfiguration,
+    this.proxyConfiguration,
+    this.spaceConfiguration,
+    this.vpcConfiguration,
+  });
+
+  factory ConfluenceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluenceConfiguration(
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      serverUrl: (json['ServerUrl'] as String?) ?? '',
+      version: ConfluenceVersion.fromString((json['Version'] as String?) ?? ''),
+      attachmentConfiguration: json['AttachmentConfiguration'] != null
+          ? ConfluenceAttachmentConfiguration.fromJson(
+              json['AttachmentConfiguration'] as Map<String, dynamic>)
+          : null,
+      authenticationType: (json['AuthenticationType'] as String?)
+          ?.let(ConfluenceAuthenticationType.fromString),
+      blogConfiguration: json['BlogConfiguration'] != null
+          ? ConfluenceBlogConfiguration.fromJson(
+              json['BlogConfiguration'] as Map<String, dynamic>)
+          : null,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      pageConfiguration: json['PageConfiguration'] != null
+          ? ConfluencePageConfiguration.fromJson(
+              json['PageConfiguration'] as Map<String, dynamic>)
+          : null,
+      proxyConfiguration: json['ProxyConfiguration'] != null
+          ? ProxyConfiguration.fromJson(
+              json['ProxyConfiguration'] as Map<String, dynamic>)
+          : null,
+      spaceConfiguration: json['SpaceConfiguration'] != null
+          ? ConfluenceSpaceConfiguration.fromJson(
+              json['SpaceConfiguration'] as Map<String, dynamic>)
+          : null,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final serverUrl = this.serverUrl;
+    final version = this.version;
+    final attachmentConfiguration = this.attachmentConfiguration;
+    final authenticationType = this.authenticationType;
+    final blogConfiguration = this.blogConfiguration;
+    final exclusionPatterns = this.exclusionPatterns;
+    final inclusionPatterns = this.inclusionPatterns;
+    final pageConfiguration = this.pageConfiguration;
+    final proxyConfiguration = this.proxyConfiguration;
+    final spaceConfiguration = this.spaceConfiguration;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'SecretArn': secretArn,
+      'ServerUrl': serverUrl,
+      'Version': version.value,
+      if (attachmentConfiguration != null)
+        'AttachmentConfiguration': attachmentConfiguration,
+      if (authenticationType != null)
+        'AuthenticationType': authenticationType.value,
+      if (blogConfiguration != null) 'BlogConfiguration': blogConfiguration,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (pageConfiguration != null) 'PageConfiguration': pageConfiguration,
+      if (proxyConfiguration != null) 'ProxyConfiguration': proxyConfiguration,
+      if (spaceConfiguration != null) 'SpaceConfiguration': spaceConfiguration,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to Google Drive as your
+/// data source.
+class GoogleDriveConfiguration {
+  /// The Amazon Resource Name (ARN) of a Secrets Managersecret that contains the
+  /// credentials required to connect to Google Drive. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-google-drive.html">Using
+  /// a Google Workspace Drive data source</a>.
+  final String secretArn;
+
+  /// A list of MIME types to exclude from the index. All documents matching the
+  /// specified MIME type are excluded.
+  ///
+  /// For a list of MIME types, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-google-drive.html">Using
+  /// a Google Workspace Drive data source</a>.
+  final List<String>? excludeMimeTypes;
+
+  /// A list of identifiers or shared drives to exclude from the index. All files
+  /// and folders stored on the shared drive are excluded.
+  final List<String>? excludeSharedDrives;
+
+  /// A list of email addresses of the users. Documents owned by these users are
+  /// excluded from the index. Documents shared with excluded users are indexed
+  /// unless they are excluded in another way.
+  final List<String>? excludeUserAccounts;
+
+  /// A list of regular expression patterns to exclude certain items in your
+  /// Google Drive, including shared drives and users' My Drives. Items that match
+  /// the patterns are excluded from the index. Items that don't match the
+  /// patterns are included in the index. If an item matches both an inclusion and
+  /// exclusion pattern, the exclusion pattern takes precedence and the item isn't
+  /// included in the index.
+  final List<String>? exclusionPatterns;
+
+  /// Maps Google Drive data source attributes or field names to Amazon Kendra
+  /// index field names. To create custom fields, use the <code>UpdateIndex</code>
+  /// API before you map to Google Drive fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Google Drive data source field names must exist
+  /// in your Google Drive custom metadata.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  /// A list of regular expression patterns to include certain items in your
+  /// Google Drive, including shared drives and users' My Drives. Items that match
+  /// the patterns are included in the index. Items that don't match the patterns
+  /// are excluded from the index. If an item matches both an inclusion and
+  /// exclusion pattern, the exclusion pattern takes precedence and the item isn't
+  /// included in the index.
+  final List<String>? inclusionPatterns;
+
+  GoogleDriveConfiguration({
+    required this.secretArn,
+    this.excludeMimeTypes,
+    this.excludeSharedDrives,
+    this.excludeUserAccounts,
+    this.exclusionPatterns,
+    this.fieldMappings,
+    this.inclusionPatterns,
+  });
+
+  factory GoogleDriveConfiguration.fromJson(Map<String, dynamic> json) {
+    return GoogleDriveConfiguration(
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      excludeMimeTypes: (json['ExcludeMimeTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      excludeSharedDrives: (json['ExcludeSharedDrives'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      excludeUserAccounts: (json['ExcludeUserAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final excludeMimeTypes = this.excludeMimeTypes;
+    final excludeSharedDrives = this.excludeSharedDrives;
+    final excludeUserAccounts = this.excludeUserAccounts;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fieldMappings = this.fieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    return {
+      'SecretArn': secretArn,
+      if (excludeMimeTypes != null) 'ExcludeMimeTypes': excludeMimeTypes,
+      if (excludeSharedDrives != null)
+        'ExcludeSharedDrives': excludeSharedDrives,
+      if (excludeUserAccounts != null)
+        'ExcludeUserAccounts': excludeUserAccounts,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+    };
+  }
+}
+
+/// Provides the configuration information required for Amazon Kendra Web
+/// Crawler.
+class WebCrawlerConfiguration {
+  /// Specifies the seed or starting point URLs of the websites or the sitemap
+  /// URLs of the websites you want to crawl.
+  ///
+  /// You can include website subdomains. You can list up to 100 seed URLs and up
+  /// to three sitemap URLs.
+  ///
+  /// You can only crawl websites that use the secure communication protocol,
+  /// Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when
+  /// crawling a website, it could be that the website is blocked from crawling.
+  ///
+  /// <i>When selecting websites to index, you must adhere to the <a
+  /// href="https://aws.amazon.com/aup/">Amazon Acceptable Use Policy</a> and all
+  /// other Amazon terms. Remember that you must only use Amazon Kendra Web
+  /// Crawler to index your own web pages, or web pages that you have
+  /// authorization to index.</i>
+  final Urls urls;
+
+  /// Configuration information required to connect to websites using
+  /// authentication.
+  ///
+  /// You can connect to websites using basic authentication of user name and
+  /// password. You use a secret in <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">Secrets
+  /// Manager</a> to store your authentication credentials.
+  ///
+  /// You must provide the website host name and port number. For example, the
+  /// host name of https://a.example.com/page1.html is "a.example.com" and the
+  /// port is 443, the standard port for HTTPS.
+  final AuthenticationConfiguration? authenticationConfiguration;
+
+  /// The 'depth' or number of levels from the seed level to crawl. For example,
+  /// the seed URL page is depth 1 and any hyperlinks on this page that are also
+  /// crawled are depth 2.
+  final int? crawlDepth;
+
+  /// The maximum size (in MB) of a web page or attachment to crawl.
+  ///
+  /// Files larger than this size (in MB) are skipped/not crawled.
+  ///
+  /// The default maximum size of a web page or attachment is set to 50 MB.
+  final double? maxContentSizePerPageInMegaBytes;
+
+  /// The maximum number of URLs on a web page to include when crawling a website.
+  /// This number is per web page.
+  ///
+  /// As a website’s web pages are crawled, any URLs the web pages link to are
+  /// also crawled. URLs on a web page are crawled in order of appearance.
+  ///
+  /// The default maximum links per page is 100.
+  final int? maxLinksPerPage;
+
+  /// The maximum number of URLs crawled per website host per minute.
+  ///
+  /// A minimum of one URL is required.
+  ///
+  /// The default maximum number of URLs crawled per website host per minute is
+  /// 300.
+  final int? maxUrlsPerMinuteCrawlRate;
+
+  /// Configuration information required to connect to your internal websites via
+  /// a web proxy.
+  ///
+  /// You must provide the website host name and port number. For example, the
+  /// host name of https://a.example.com/page1.html is "a.example.com" and the
+  /// port is 443, the standard port for HTTPS.
+  ///
+  /// Web proxy credentials are optional and you can use them to connect to a web
+  /// proxy server that requires basic authentication. To store web proxy
+  /// credentials, you use a secret in <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">Secrets
+  /// Manager</a>.
+  final ProxyConfiguration? proxyConfiguration;
+
+  /// A list of regular expression patterns to exclude certain URLs to crawl. URLs
+  /// that match the patterns are excluded from the index. URLs that don't match
+  /// the patterns are included in the index. If a URL matches both an inclusion
+  /// and exclusion pattern, the exclusion pattern takes precedence and the URL
+  /// file isn't included in the index.
+  final List<String>? urlExclusionPatterns;
+
+  /// A list of regular expression patterns to include certain URLs to crawl. URLs
+  /// that match the patterns are included in the index. URLs that don't match the
+  /// patterns are excluded from the index. If a URL matches both an inclusion and
+  /// exclusion pattern, the exclusion pattern takes precedence and the URL file
+  /// isn't included in the index.
+  final List<String>? urlInclusionPatterns;
+
+  WebCrawlerConfiguration({
+    required this.urls,
+    this.authenticationConfiguration,
+    this.crawlDepth,
+    this.maxContentSizePerPageInMegaBytes,
+    this.maxLinksPerPage,
+    this.maxUrlsPerMinuteCrawlRate,
+    this.proxyConfiguration,
+    this.urlExclusionPatterns,
+    this.urlInclusionPatterns,
+  });
+
+  factory WebCrawlerConfiguration.fromJson(Map<String, dynamic> json) {
+    return WebCrawlerConfiguration(
+      urls: Urls.fromJson(
+          (json['Urls'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      authenticationConfiguration: json['AuthenticationConfiguration'] != null
+          ? AuthenticationConfiguration.fromJson(
+              json['AuthenticationConfiguration'] as Map<String, dynamic>)
+          : null,
+      crawlDepth: json['CrawlDepth'] as int?,
+      maxContentSizePerPageInMegaBytes:
+          json['MaxContentSizePerPageInMegaBytes'] as double?,
+      maxLinksPerPage: json['MaxLinksPerPage'] as int?,
+      maxUrlsPerMinuteCrawlRate: json['MaxUrlsPerMinuteCrawlRate'] as int?,
+      proxyConfiguration: json['ProxyConfiguration'] != null
+          ? ProxyConfiguration.fromJson(
+              json['ProxyConfiguration'] as Map<String, dynamic>)
+          : null,
+      urlExclusionPatterns: (json['UrlExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      urlInclusionPatterns: (json['UrlInclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final urls = this.urls;
+    final authenticationConfiguration = this.authenticationConfiguration;
+    final crawlDepth = this.crawlDepth;
+    final maxContentSizePerPageInMegaBytes =
+        this.maxContentSizePerPageInMegaBytes;
+    final maxLinksPerPage = this.maxLinksPerPage;
+    final maxUrlsPerMinuteCrawlRate = this.maxUrlsPerMinuteCrawlRate;
+    final proxyConfiguration = this.proxyConfiguration;
+    final urlExclusionPatterns = this.urlExclusionPatterns;
+    final urlInclusionPatterns = this.urlInclusionPatterns;
+    return {
+      'Urls': urls,
+      if (authenticationConfiguration != null)
+        'AuthenticationConfiguration': authenticationConfiguration,
+      if (crawlDepth != null) 'CrawlDepth': crawlDepth,
+      if (maxContentSizePerPageInMegaBytes != null)
+        'MaxContentSizePerPageInMegaBytes': maxContentSizePerPageInMegaBytes,
+      if (maxLinksPerPage != null) 'MaxLinksPerPage': maxLinksPerPage,
+      if (maxUrlsPerMinuteCrawlRate != null)
+        'MaxUrlsPerMinuteCrawlRate': maxUrlsPerMinuteCrawlRate,
+      if (proxyConfiguration != null) 'ProxyConfiguration': proxyConfiguration,
+      if (urlExclusionPatterns != null)
+        'UrlExclusionPatterns': urlExclusionPatterns,
+      if (urlInclusionPatterns != null)
+        'UrlInclusionPatterns': urlInclusionPatterns,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to WorkDocs as your data
+/// source.
+///
+/// WorkDocs connector is available in Oregon, North Virginia, Sydney, Singapore
+/// and Ireland regions.
+class WorkDocsConfiguration {
+  /// The identifier of the directory corresponding to your WorkDocs site
+  /// repository.
+  ///
+  /// You can find the organization ID in the <a
+  /// href="https://console.aws.amazon.com/directoryservicev2/">Directory
+  /// Service</a> by going to <b>Active Directory</b>, then <b>Directories</b>.
+  /// Your WorkDocs site directory has an ID, which is the organization ID. You
+  /// can also set up a new WorkDocs directory in the Directory Service console
+  /// and enable a WorkDocs site for the directory in the WorkDocs console.
+  final String organizationId;
+
+  /// <code>TRUE</code> to include comments on documents in your index. Including
+  /// comments in your index means each comment is a document that can be searched
+  /// on.
+  ///
+  /// The default is set to <code>FALSE</code>.
+  final bool? crawlComments;
+
+  /// A list of regular expression patterns to exclude certain files in your
+  /// WorkDocs site repository. Files that match the patterns are excluded from
+  /// the index. Files that don’t match the patterns are included in the index. If
+  /// a file matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the file isn't included in the index.
+  final List<String>? exclusionPatterns;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// WorkDocs data source attributes or field names to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to WorkDocs fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The WorkDocs data source field names must exist in
+  /// your WorkDocs custom metadata.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  /// A list of regular expression patterns to include certain files in your
+  /// WorkDocs site repository. Files that match the patterns are included in the
+  /// index. Files that don't match the patterns are excluded from the index. If a
+  /// file matches both an inclusion and exclusion pattern, the exclusion pattern
+  /// takes precedence and the file isn't included in the index.
+  final List<String>? inclusionPatterns;
+
+  /// <code>TRUE</code> to use the WorkDocs change log to determine which
+  /// documents require updating in the index. Depending on the change log's size,
+  /// it may take longer for Amazon Kendra to use the change log than to scan all
+  /// of your documents in WorkDocs.
+  final bool? useChangeLog;
+
+  WorkDocsConfiguration({
+    required this.organizationId,
+    this.crawlComments,
+    this.exclusionPatterns,
+    this.fieldMappings,
+    this.inclusionPatterns,
+    this.useChangeLog,
+  });
+
+  factory WorkDocsConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkDocsConfiguration(
+      organizationId: (json['OrganizationId'] as String?) ?? '',
+      crawlComments: json['CrawlComments'] as bool?,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      useChangeLog: json['UseChangeLog'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationId = this.organizationId;
+    final crawlComments = this.crawlComments;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fieldMappings = this.fieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    final useChangeLog = this.useChangeLog;
+    return {
+      'OrganizationId': organizationId,
+      if (crawlComments != null) 'CrawlComments': crawlComments,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
     };
   }
 }
@@ -11251,113 +10065,816 @@ class FsxConfiguration {
   }
 }
 
-class FsxFileSystemType {
-  static const windows = FsxFileSystemType._('WINDOWS');
+/// Provides the configuration information to connect to Slack as your data
+/// source.
+/// <note>
+/// Amazon Kendra now supports an upgraded Slack connector.
+///
+/// You must now use the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+/// object instead of the <code>SlackConfiguration</code> object to configure
+/// your connector.
+///
+/// Connectors configured using the older console and API architecture will
+/// continue to function as configured. However, you won’t be able to edit or
+/// update them. If you want to edit or update your connector configuration, you
+/// must create a new connector.
+///
+/// We recommended migrating your connector workflow to the upgraded version.
+/// Support for connectors configured using the older architecture is scheduled
+/// to end by June 2024.
+/// </note>
+class SlackConfiguration {
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
+  /// the key-value pairs required to connect to your Slack workspace team. The
+  /// secret must contain a JSON structure with the following keys:
+  ///
+  /// <ul>
+  /// <li>
+  /// slackToken—The user or bot token created in Slack. For more information on
+  /// creating a token in Slack, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-slack.html#slack-authentication">Authentication
+  /// for a Slack data source</a>.
+  /// </li>
+  /// </ul>
+  final String secretArn;
 
-  final String value;
+  /// The date to start crawling your data from your Slack workspace team. The
+  /// date must follow this format: <code>yyyy-mm-dd</code>.
+  final String sinceCrawlDate;
 
-  const FsxFileSystemType._(this.value);
+  /// Specify whether to index public channels, private channels, group messages,
+  /// and direct messages. You can specify one or more of these options.
+  final List<SlackEntity> slackEntityList;
 
-  static const values = [windows];
+  /// The identifier of the team in the Slack workspace. For example,
+  /// <i>T0123456789</i>.
+  ///
+  /// You can find your team ID in the URL of the main page of your Slack
+  /// workspace. When you log in to Slack via a browser, you are directed to the
+  /// URL of the main page. For example,
+  /// <i>https://app.slack.com/client/<b>T0123456789</b>/...</i>.
+  final String teamId;
 
-  static FsxFileSystemType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FsxFileSystemType._(value));
+  /// <code>TRUE</code> to index bot messages from your Slack workspace team.
+  final bool? crawlBotMessage;
 
-  @override
-  bool operator ==(other) => other is FsxFileSystemType && other.value == value;
+  /// <code>TRUE</code> to exclude archived messages to index from your Slack
+  /// workspace team.
+  final bool? excludeArchived;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// A list of regular expression patterns to exclude certain attached files in
+  /// your Slack workspace team. Files that match the patterns are excluded from
+  /// the index. Files that don’t match the patterns are included in the index. If
+  /// a file matches both an inclusion and exclusion pattern, the exclusion
+  /// pattern takes precedence and the file isn't included in the index.
+  final List<String>? exclusionPatterns;
 
-  @override
-  String toString() => value;
-}
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map Slack
+  /// data source attributes or field names to Amazon Kendra index field names. To
+  /// create custom fields, use the <code>UpdateIndex</code> API before you map to
+  /// Slack fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Slack data source field names must exist in your
+  /// Slack custom metadata.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
 
-class GetQuerySuggestionsResponse {
-  /// The identifier for a list of query suggestions for an index.
-  final String? querySuggestionsId;
+  /// A list of regular expression patterns to include certain attached files in
+  /// your Slack workspace team. Files that match the patterns are included in the
+  /// index. Files that don't match the patterns are excluded from the index. If a
+  /// file matches both an inclusion and exclusion pattern, the exclusion pattern
+  /// takes precedence and the file isn't included in the index.
+  final List<String>? inclusionPatterns;
 
-  /// A list of query suggestions for an index.
-  final List<Suggestion>? suggestions;
+  /// The number of hours for change log to look back from when you last
+  /// synchronized your data. You can look back up to 7 days or 168 hours.
+  ///
+  /// Change log updates your index only if new content was added since you last
+  /// synced your data. Updated or deleted content from before you last synced
+  /// does not get updated in your index. To capture updated or deleted content
+  /// before you last synced, set the <code>LookBackPeriod</code> to the number of
+  /// hours you want change log to look back.
+  final int? lookBackPeriod;
 
-  GetQuerySuggestionsResponse({
-    this.querySuggestionsId,
-    this.suggestions,
+  /// The list of private channel names from your Slack workspace team. You use
+  /// this if you want to index specific private channels, not all private
+  /// channels. You can also use regular expression patterns to filter private
+  /// channels.
+  final List<String>? privateChannelFilter;
+
+  /// The list of public channel names to index from your Slack workspace team.
+  /// You use this if you want to index specific public channels, not all public
+  /// channels. You can also use regular expression patterns to filter public
+  /// channels.
+  final List<String>? publicChannelFilter;
+
+  /// <code>TRUE</code> to use the Slack change log to determine which documents
+  /// require updating in the index. Depending on the Slack change log's size, it
+  /// may take longer for Amazon Kendra to use the change log than to scan all of
+  /// your documents in Slack.
+  final bool? useChangeLog;
+
+  /// Configuration information for an Amazon Virtual Private Cloud to connect to
+  /// your Slack. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
+  /// a VPC</a>.
+  final DataSourceVpcConfiguration? vpcConfiguration;
+
+  SlackConfiguration({
+    required this.secretArn,
+    required this.sinceCrawlDate,
+    required this.slackEntityList,
+    required this.teamId,
+    this.crawlBotMessage,
+    this.excludeArchived,
+    this.exclusionPatterns,
+    this.fieldMappings,
+    this.inclusionPatterns,
+    this.lookBackPeriod,
+    this.privateChannelFilter,
+    this.publicChannelFilter,
+    this.useChangeLog,
+    this.vpcConfiguration,
   });
 
-  factory GetQuerySuggestionsResponse.fromJson(Map<String, dynamic> json) {
-    return GetQuerySuggestionsResponse(
-      querySuggestionsId: json['QuerySuggestionsId'] as String?,
-      suggestions: (json['Suggestions'] as List?)
-          ?.nonNulls
-          .map((e) => Suggestion.fromJson(e as Map<String, dynamic>))
+  factory SlackConfiguration.fromJson(Map<String, dynamic> json) {
+    return SlackConfiguration(
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      sinceCrawlDate: (json['SinceCrawlDate'] as String?) ?? '',
+      slackEntityList: ((json['SlackEntityList'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SlackEntity.fromString((e as String)))
           .toList(),
+      teamId: (json['TeamId'] as String?) ?? '',
+      crawlBotMessage: json['CrawlBotMessage'] as bool?,
+      excludeArchived: json['ExcludeArchived'] as bool?,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      lookBackPeriod: json['LookBackPeriod'] as int?,
+      privateChannelFilter: (json['PrivateChannelFilter'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      publicChannelFilter: (json['PublicChannelFilter'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      useChangeLog: json['UseChangeLog'] as bool?,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final querySuggestionsId = this.querySuggestionsId;
-    final suggestions = this.suggestions;
+    final secretArn = this.secretArn;
+    final sinceCrawlDate = this.sinceCrawlDate;
+    final slackEntityList = this.slackEntityList;
+    final teamId = this.teamId;
+    final crawlBotMessage = this.crawlBotMessage;
+    final excludeArchived = this.excludeArchived;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fieldMappings = this.fieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    final lookBackPeriod = this.lookBackPeriod;
+    final privateChannelFilter = this.privateChannelFilter;
+    final publicChannelFilter = this.publicChannelFilter;
+    final useChangeLog = this.useChangeLog;
+    final vpcConfiguration = this.vpcConfiguration;
     return {
-      if (querySuggestionsId != null) 'QuerySuggestionsId': querySuggestionsId,
-      if (suggestions != null) 'Suggestions': suggestions,
+      'SecretArn': secretArn,
+      'SinceCrawlDate': sinceCrawlDate,
+      'SlackEntityList': slackEntityList.map((e) => e.value).toList(),
+      'TeamId': teamId,
+      if (crawlBotMessage != null) 'CrawlBotMessage': crawlBotMessage,
+      if (excludeArchived != null) 'ExcludeArchived': excludeArchived,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (lookBackPeriod != null) 'LookBackPeriod': lookBackPeriod,
+      if (privateChannelFilter != null)
+        'PrivateChannelFilter': privateChannelFilter,
+      if (publicChannelFilter != null)
+        'PublicChannelFilter': publicChannelFilter,
+      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
     };
   }
 }
 
-class GetSnapshotsResponse {
-  /// If the response is truncated, Amazon Kendra returns this token, which you
-  /// can use in a later request to retrieve the next set of search metrics data.
-  final String? nextToken;
+/// Provides the configuration information to connect to Box as your data
+/// source.
+class BoxConfiguration {
+  /// The identifier of the Box Enterprise platform. You can find the enterprise
+  /// ID in the Box Developer Console settings or when you create an app in Box
+  /// and download your authentication credentials. For example, <i>801234567</i>.
+  final String enterpriseId;
 
-  /// The Unix timestamp for the beginning and end of the time window for the
-  /// search metrics data.
-  final TimeRange? snapShotTimeFilter;
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
+  /// the key-value pairs required to connect to your Box platform. The secret
+  /// must contain a JSON structure with the following keys:
+  ///
+  /// <ul>
+  /// <li>
+  /// clientID—The identifier of the client OAuth 2.0 authentication application
+  /// created in Box.
+  /// </li>
+  /// <li>
+  /// clientSecret—A set of characters known only to the OAuth 2.0 authentication
+  /// application created in Box.
+  /// </li>
+  /// <li>
+  /// publicKeyId—The identifier of the public key contained within an identity
+  /// certificate.
+  /// </li>
+  /// <li>
+  /// privateKey—A set of characters that make up an encryption key.
+  /// </li>
+  /// <li>
+  /// passphrase—A set of characters that act like a password.
+  /// </li>
+  /// </ul>
+  /// You create an application in Box to generate the keys or credentials
+  /// required for the secret. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-box.html">Using
+  /// a Box data source</a>.
+  final String secretArn;
 
-  /// The search metrics data. The data returned depends on the metric type you
-  /// requested.
-  final List<List<String>>? snapshotsData;
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Box comments to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Box fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Box field names must exist in your Box custom
+  /// metadata.
+  final List<DataSourceToIndexFieldMapping>? commentFieldMappings;
 
-  /// The column headers for the search metrics data.
-  final List<String>? snapshotsDataHeader;
+  /// <code>TRUE</code> to index comments.
+  final bool? crawlComments;
 
-  GetSnapshotsResponse({
-    this.nextToken,
-    this.snapShotTimeFilter,
-    this.snapshotsData,
-    this.snapshotsDataHeader,
+  /// <code>TRUE</code> to index the contents of tasks.
+  final bool? crawlTasks;
+
+  /// <code>TRUE</code> to index web links.
+  final bool? crawlWebLinks;
+
+  /// A list of regular expression patterns to exclude certain files and folders
+  /// from your Box platform. Files and folders that match the patterns are
+  /// excluded from the index.Files and folders that don't match the patterns are
+  /// included in the index. If a file or folder matches both an inclusion and
+  /// exclusion pattern, the exclusion pattern takes precedence and the file or
+  /// folder isn't included in the index.
+  final List<String>? exclusionPatterns;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Box files to Amazon Kendra index field names.
+  /// To create custom fields, use the <code>UpdateIndex</code> API before you map
+  /// to Box fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Box field names must exist in your Box custom
+  /// metadata.
+  final List<DataSourceToIndexFieldMapping>? fileFieldMappings;
+
+  /// A list of regular expression patterns to include certain files and folders
+  /// in your Box platform. Files and folders that match the patterns are included
+  /// in the index. Files and folders that don't match the patterns are excluded
+  /// from the index. If a file or folder matches both an inclusion and exclusion
+  /// pattern, the exclusion pattern takes precedence and the file or folder isn't
+  /// included in the index.
+  final List<String>? inclusionPatterns;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Box tasks to Amazon Kendra index field names.
+  /// To create custom fields, use the <code>UpdateIndex</code> API before you map
+  /// to Box fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Box field names must exist in your Box custom
+  /// metadata.
+  final List<DataSourceToIndexFieldMapping>? taskFieldMappings;
+
+  /// <code>TRUE</code> to use the Slack change log to determine which documents
+  /// require updating in the index. Depending on the data source change log's
+  /// size, it may take longer for Amazon Kendra to use the change log than to
+  /// scan all of your documents.
+  final bool? useChangeLog;
+
+  /// Configuration information for an Amazon VPC to connect to your Box. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
+  /// a VPC</a>.
+  final DataSourceVpcConfiguration? vpcConfiguration;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Box web links to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Box fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Box field names must exist in your Box custom
+  /// metadata.
+  final List<DataSourceToIndexFieldMapping>? webLinkFieldMappings;
+
+  BoxConfiguration({
+    required this.enterpriseId,
+    required this.secretArn,
+    this.commentFieldMappings,
+    this.crawlComments,
+    this.crawlTasks,
+    this.crawlWebLinks,
+    this.exclusionPatterns,
+    this.fileFieldMappings,
+    this.inclusionPatterns,
+    this.taskFieldMappings,
+    this.useChangeLog,
+    this.vpcConfiguration,
+    this.webLinkFieldMappings,
   });
 
-  factory GetSnapshotsResponse.fromJson(Map<String, dynamic> json) {
-    return GetSnapshotsResponse(
-      nextToken: json['NextToken'] as String?,
-      snapShotTimeFilter: json['SnapShotTimeFilter'] != null
-          ? TimeRange.fromJson(
-              json['SnapShotTimeFilter'] as Map<String, dynamic>)
-          : null,
-      snapshotsData: (json['SnapshotsData'] as List?)
+  factory BoxConfiguration.fromJson(Map<String, dynamic> json) {
+    return BoxConfiguration(
+      enterpriseId: (json['EnterpriseId'] as String?) ?? '',
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      commentFieldMappings: (json['CommentFieldMappings'] as List?)
           ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
-      snapshotsDataHeader: (json['SnapshotsDataHeader'] as List?)
+      crawlComments: json['CrawlComments'] as bool?,
+      crawlTasks: json['CrawlTasks'] as bool?,
+      crawlWebLinks: json['CrawlWebLinks'] as bool?,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
           ?.nonNulls
           .map((e) => e as String)
+          .toList(),
+      fileFieldMappings: (json['FileFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      taskFieldMappings: (json['TaskFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      useChangeLog: json['UseChangeLog'] as bool?,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+      webLinkFieldMappings: (json['WebLinkFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final snapShotTimeFilter = this.snapShotTimeFilter;
-    final snapshotsData = this.snapshotsData;
-    final snapshotsDataHeader = this.snapshotsDataHeader;
+    final enterpriseId = this.enterpriseId;
+    final secretArn = this.secretArn;
+    final commentFieldMappings = this.commentFieldMappings;
+    final crawlComments = this.crawlComments;
+    final crawlTasks = this.crawlTasks;
+    final crawlWebLinks = this.crawlWebLinks;
+    final exclusionPatterns = this.exclusionPatterns;
+    final fileFieldMappings = this.fileFieldMappings;
+    final inclusionPatterns = this.inclusionPatterns;
+    final taskFieldMappings = this.taskFieldMappings;
+    final useChangeLog = this.useChangeLog;
+    final vpcConfiguration = this.vpcConfiguration;
+    final webLinkFieldMappings = this.webLinkFieldMappings;
     return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (snapShotTimeFilter != null) 'SnapShotTimeFilter': snapShotTimeFilter,
-      if (snapshotsData != null) 'SnapshotsData': snapshotsData,
-      if (snapshotsDataHeader != null)
-        'SnapshotsDataHeader': snapshotsDataHeader,
+      'EnterpriseId': enterpriseId,
+      'SecretArn': secretArn,
+      if (commentFieldMappings != null)
+        'CommentFieldMappings': commentFieldMappings,
+      if (crawlComments != null) 'CrawlComments': crawlComments,
+      if (crawlTasks != null) 'CrawlTasks': crawlTasks,
+      if (crawlWebLinks != null) 'CrawlWebLinks': crawlWebLinks,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (fileFieldMappings != null) 'FileFieldMappings': fileFieldMappings,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (taskFieldMappings != null) 'TaskFieldMappings': taskFieldMappings,
+      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+      if (webLinkFieldMappings != null)
+        'WebLinkFieldMappings': webLinkFieldMappings,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to Quip as your data
+/// source.
+class QuipConfiguration {
+  /// The Quip site domain. For example,
+  /// <i>https://quip-company.quipdomain.com/browse</i>. The domain in this
+  /// example is "quipdomain".
+  final String domain;
+
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
+  /// the key-value pairs that are required to connect to your Quip. The secret
+  /// must contain a JSON structure with the following keys:
+  ///
+  /// <ul>
+  /// <li>
+  /// accessToken—The token created in Quip. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-slack.html">Using
+  /// a Quip data source</a>.
+  /// </li>
+  /// </ul>
+  final String secretArn;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Quip attachments to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Quip fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Quip field names must exist in your Quip custom
+  /// metadata.
+  final List<DataSourceToIndexFieldMapping>? attachmentFieldMappings;
+
+  /// <code>TRUE</code> to index attachments.
+  final bool? crawlAttachments;
+
+  /// <code>TRUE</code> to index the contents of chat rooms.
+  final bool? crawlChatRooms;
+
+  /// <code>TRUE</code> to index file comments.
+  final bool? crawlFileComments;
+
+  /// A list of regular expression patterns to exclude certain files in your Quip
+  /// file system. Files that match the patterns are excluded from the index.
+  /// Files that don’t match the patterns are included in the index. If a file
+  /// matches both an inclusion pattern and an exclusion pattern, the exclusion
+  /// pattern takes precedence, and the file isn't included in the index.
+  final List<String>? exclusionPatterns;
+
+  /// The identifiers of the Quip folders you want to index. You can find the
+  /// folder ID in your browser URL when you access your folder in Quip. For
+  /// example,
+  /// <i>https://quip-company.quipdomain.com/zlLuOVNSarTL/folder-name</i>. The
+  /// folder ID in this example is "zlLuOVNSarTL".
+  final List<String>? folderIds;
+
+  /// A list of regular expression patterns to include certain files in your Quip
+  /// file system. Files that match the patterns are included in the index. Files
+  /// that don't match the patterns are excluded from the index. If a file matches
+  /// both an inclusion pattern and an exclusion pattern, the exclusion pattern
+  /// takes precedence, and the file isn't included in the index.
+  final List<String>? inclusionPatterns;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Quip messages to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Quip fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Quip field names must exist in your Quip custom
+  /// metadata.
+  final List<DataSourceToIndexFieldMapping>? messageFieldMappings;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Quip threads to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Quip fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Quip field names must exist in your Quip custom
+  /// metadata.
+  final List<DataSourceToIndexFieldMapping>? threadFieldMappings;
+
+  /// Configuration information for an Amazon Virtual Private Cloud (VPC) to
+  /// connect to your Quip. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
+  /// a VPC</a>.
+  final DataSourceVpcConfiguration? vpcConfiguration;
+
+  QuipConfiguration({
+    required this.domain,
+    required this.secretArn,
+    this.attachmentFieldMappings,
+    this.crawlAttachments,
+    this.crawlChatRooms,
+    this.crawlFileComments,
+    this.exclusionPatterns,
+    this.folderIds,
+    this.inclusionPatterns,
+    this.messageFieldMappings,
+    this.threadFieldMappings,
+    this.vpcConfiguration,
+  });
+
+  factory QuipConfiguration.fromJson(Map<String, dynamic> json) {
+    return QuipConfiguration(
+      domain: (json['Domain'] as String?) ?? '',
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+      crawlChatRooms: json['CrawlChatRooms'] as bool?,
+      crawlFileComments: json['CrawlFileComments'] as bool?,
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      folderIds: (json['FolderIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      messageFieldMappings: (json['MessageFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      threadFieldMappings: (json['ThreadFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    final secretArn = this.secretArn;
+    final attachmentFieldMappings = this.attachmentFieldMappings;
+    final crawlAttachments = this.crawlAttachments;
+    final crawlChatRooms = this.crawlChatRooms;
+    final crawlFileComments = this.crawlFileComments;
+    final exclusionPatterns = this.exclusionPatterns;
+    final folderIds = this.folderIds;
+    final inclusionPatterns = this.inclusionPatterns;
+    final messageFieldMappings = this.messageFieldMappings;
+    final threadFieldMappings = this.threadFieldMappings;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      'Domain': domain,
+      'SecretArn': secretArn,
+      if (attachmentFieldMappings != null)
+        'AttachmentFieldMappings': attachmentFieldMappings,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+      if (crawlChatRooms != null) 'CrawlChatRooms': crawlChatRooms,
+      if (crawlFileComments != null) 'CrawlFileComments': crawlFileComments,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (folderIds != null) 'FolderIds': folderIds,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (messageFieldMappings != null)
+        'MessageFieldMappings': messageFieldMappings,
+      if (threadFieldMappings != null)
+        'ThreadFieldMappings': threadFieldMappings,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to Jira as your data
+/// source.
+class JiraConfiguration {
+  /// The URL of the Jira account. For example, <i>company.atlassian.net</i>.
+  final String jiraAccountUrl;
+
+  /// The Amazon Resource Name (ARN) of a secret in Secrets Manager contains the
+  /// key-value pairs required to connect to your Jira data source. The secret
+  /// must contain a JSON structure with the following keys:
+  ///
+  /// <ul>
+  /// <li>
+  /// jiraId—The Jira user name or email.
+  /// </li>
+  /// <li>
+  /// jiraCredentials—The Jira API token. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-jira.html">Using
+  /// a Jira data source</a>.
+  /// </li>
+  /// </ul>
+  final String secretArn;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Jira attachments to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Jira fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
+  /// Mapping data source fields</a>. The Jira data source field names must exist
+  /// in your Jira custom metadata.
+  final List<DataSourceToIndexFieldMapping>? attachmentFieldMappings;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Jira comments to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Jira fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
+  /// Mapping data source fields</a>. The Jira data source field names must exist
+  /// in your Jira custom metadata.
+  final List<DataSourceToIndexFieldMapping>? commentFieldMappings;
+
+  /// A list of regular expression patterns to exclude certain file paths, file
+  /// names, and file types in your Jira data source. Files that match the
+  /// patterns are excluded from the index. Files that don’t match the patterns
+  /// are included in the index. If a file matches both an inclusion pattern and
+  /// an exclusion pattern, the exclusion pattern takes precedence and the file
+  /// isn't included in the index.
+  final List<String>? exclusionPatterns;
+
+  /// A list of regular expression patterns to include certain file paths, file
+  /// names, and file types in your Jira data source. Files that match the
+  /// patterns are included in the index. Files that don't match the patterns are
+  /// excluded from the index. If a file matches both an inclusion pattern and an
+  /// exclusion pattern, the exclusion pattern takes precedence and the file isn't
+  /// included in the index.
+  final List<String>? inclusionPatterns;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Jira issues to Amazon Kendra index field names.
+  /// To create custom fields, use the <code>UpdateIndex</code> API before you map
+  /// to Jira fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
+  /// Mapping data source fields</a>. The Jira data source field names must exist
+  /// in your Jira custom metadata.
+  final List<DataSourceToIndexFieldMapping>? issueFieldMappings;
+
+  /// Specify whether to crawl comments, attachments, and work logs. You can
+  /// specify one or more of these options.
+  final List<IssueSubEntity>? issueSubEntityFilter;
+
+  /// Specify which issue types to crawl in your Jira data source. You can specify
+  /// one or more of these options to crawl.
+  final List<String>? issueType;
+
+  /// Specify which projects to crawl in your Jira data source. You can specify
+  /// one or more Jira project IDs.
+  final List<String>? project;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Jira projects to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Jira fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
+  /// Mapping data source fields</a>. The Jira data source field names must exist
+  /// in your Jira custom metadata.
+  final List<DataSourceToIndexFieldMapping>? projectFieldMappings;
+
+  /// Specify which statuses to crawl in your Jira data source. You can specify
+  /// one or more of these options to crawl.
+  final List<String>? status;
+
+  /// <code>TRUE</code> to use the Jira change log to determine which documents
+  /// require updating in the index. Depending on the change log's size, it may
+  /// take longer for Amazon Kendra to use the change log than to scan all of your
+  /// documents in Jira.
+  final bool? useChangeLog;
+
+  /// Configuration information for an Amazon Virtual Private Cloud to connect to
+  /// your Jira. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
+  /// a VPC</a>.
+  final DataSourceVpcConfiguration? vpcConfiguration;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Jira work logs to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Jira fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
+  /// Mapping data source fields</a>. The Jira data source field names must exist
+  /// in your Jira custom metadata.
+  final List<DataSourceToIndexFieldMapping>? workLogFieldMappings;
+
+  JiraConfiguration({
+    required this.jiraAccountUrl,
+    required this.secretArn,
+    this.attachmentFieldMappings,
+    this.commentFieldMappings,
+    this.exclusionPatterns,
+    this.inclusionPatterns,
+    this.issueFieldMappings,
+    this.issueSubEntityFilter,
+    this.issueType,
+    this.project,
+    this.projectFieldMappings,
+    this.status,
+    this.useChangeLog,
+    this.vpcConfiguration,
+    this.workLogFieldMappings,
+  });
+
+  factory JiraConfiguration.fromJson(Map<String, dynamic> json) {
+    return JiraConfiguration(
+      jiraAccountUrl: (json['JiraAccountUrl'] as String?) ?? '',
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      commentFieldMappings: (json['CommentFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      issueFieldMappings: (json['IssueFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      issueSubEntityFilter: (json['IssueSubEntityFilter'] as List?)
+          ?.nonNulls
+          .map((e) => IssueSubEntity.fromString((e as String)))
+          .toList(),
+      issueType: (json['IssueType'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      project:
+          (json['Project'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      projectFieldMappings: (json['ProjectFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status:
+          (json['Status'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      useChangeLog: json['UseChangeLog'] as bool?,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+      workLogFieldMappings: (json['WorkLogFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jiraAccountUrl = this.jiraAccountUrl;
+    final secretArn = this.secretArn;
+    final attachmentFieldMappings = this.attachmentFieldMappings;
+    final commentFieldMappings = this.commentFieldMappings;
+    final exclusionPatterns = this.exclusionPatterns;
+    final inclusionPatterns = this.inclusionPatterns;
+    final issueFieldMappings = this.issueFieldMappings;
+    final issueSubEntityFilter = this.issueSubEntityFilter;
+    final issueType = this.issueType;
+    final project = this.project;
+    final projectFieldMappings = this.projectFieldMappings;
+    final status = this.status;
+    final useChangeLog = this.useChangeLog;
+    final vpcConfiguration = this.vpcConfiguration;
+    final workLogFieldMappings = this.workLogFieldMappings;
+    return {
+      'JiraAccountUrl': jiraAccountUrl,
+      'SecretArn': secretArn,
+      if (attachmentFieldMappings != null)
+        'AttachmentFieldMappings': attachmentFieldMappings,
+      if (commentFieldMappings != null)
+        'CommentFieldMappings': commentFieldMappings,
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (issueFieldMappings != null) 'IssueFieldMappings': issueFieldMappings,
+      if (issueSubEntityFilter != null)
+        'IssueSubEntityFilter':
+            issueSubEntityFilter.map((e) => e.value).toList(),
+      if (issueType != null) 'IssueType': issueType,
+      if (project != null) 'Project': project,
+      if (projectFieldMappings != null)
+        'ProjectFieldMappings': projectFieldMappings,
+      if (status != null) 'Status': status,
+      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+      if (workLogFieldMappings != null)
+        'WorkLogFieldMappings': workLogFieldMappings,
     };
   }
 }
@@ -11767,6 +11284,411 @@ class GitHubConfiguration {
   }
 }
 
+/// Provides the configuration information to connect to Alfresco as your data
+/// source.
+/// <note>
+/// Support for <code>AlfrescoConfiguration</code> ended May 2023. We recommend
+/// migrating to or using the Alfresco data source template schema / <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
+/// API.
+/// </note>
+class AlfrescoConfiguration {
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
+  /// the key-value pairs required to connect to your Alfresco data source. The
+  /// secret must contain a JSON structure with the following keys:
+  ///
+  /// <ul>
+  /// <li>
+  /// username—The user name of the Alfresco account.
+  /// </li>
+  /// <li>
+  /// password—The password of the Alfresco account.
+  /// </li>
+  /// </ul>
+  final String secretArn;
+
+  /// The identifier of the Alfresco site. For example, <i>my-site</i>.
+  final String siteId;
+
+  /// The URL of the Alfresco site. For example, <i>https://hostname:8080</i>.
+  final String siteUrl;
+
+  /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this
+  /// to connect to Alfresco if you require a secure SSL connection.
+  ///
+  /// You can simply generate a self-signed X509 certificate on any computer using
+  /// OpenSSL. For an example of using OpenSSL to create an X509 certificate, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html">Create
+  /// and sign an X509 certificate</a>.
+  final S3Path sslCertificateS3Path;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Alfresco blogs to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Alfresco fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
+  /// Mapping data source fields</a>. The Alfresco data source field names must
+  /// exist in your Alfresco custom metadata.
+  final List<DataSourceToIndexFieldMapping>? blogFieldMappings;
+
+  /// <code>TRUE</code> to index comments of blogs and other content.
+  final bool? crawlComments;
+
+  /// <code>TRUE</code> to index shared files.
+  final bool? crawlSystemFolders;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Alfresco document libraries to Amazon Kendra
+  /// index field names. To create custom fields, use the <code>UpdateIndex</code>
+  /// API before you map to Alfresco fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
+  /// Mapping data source fields</a>. The Alfresco data source field names must
+  /// exist in your Alfresco custom metadata.
+  final List<DataSourceToIndexFieldMapping>? documentLibraryFieldMappings;
+
+  /// Specify whether to index document libraries, wikis, or blogs. You can
+  /// specify one or more of these options.
+  final List<AlfrescoEntity>? entityFilter;
+
+  /// A list of regular expression patterns to exclude certain files in your
+  /// Alfresco data source. Files that match the patterns are excluded from the
+  /// index. Files that don't match the patterns are included in the index. If a
+  /// file matches both an inclusion pattern and an exclusion pattern, the
+  /// exclusion pattern takes precedence and the file isn't included in the index.
+  final List<String>? exclusionPatterns;
+
+  /// A list of regular expression patterns to include certain files in your
+  /// Alfresco data source. Files that match the patterns are included in the
+  /// index. Files that don't match the patterns are excluded from the index. If a
+  /// file matches both an inclusion pattern and an exclusion pattern, the
+  /// exclusion pattern takes precedence and the file isn't included in the index.
+  final List<String>? inclusionPatterns;
+
+  /// Configuration information for an Amazon Virtual Private Cloud to connect to
+  /// your Alfresco. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
+  /// a VPC</a>.
+  final DataSourceVpcConfiguration? vpcConfiguration;
+
+  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
+  /// attributes or field names of Alfresco wikis to Amazon Kendra index field
+  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
+  /// you map to Alfresco fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
+  /// Mapping data source fields</a>. The Alfresco data source field names must
+  /// exist in your Alfresco custom metadata.
+  final List<DataSourceToIndexFieldMapping>? wikiFieldMappings;
+
+  AlfrescoConfiguration({
+    required this.secretArn,
+    required this.siteId,
+    required this.siteUrl,
+    required this.sslCertificateS3Path,
+    this.blogFieldMappings,
+    this.crawlComments,
+    this.crawlSystemFolders,
+    this.documentLibraryFieldMappings,
+    this.entityFilter,
+    this.exclusionPatterns,
+    this.inclusionPatterns,
+    this.vpcConfiguration,
+    this.wikiFieldMappings,
+  });
+
+  factory AlfrescoConfiguration.fromJson(Map<String, dynamic> json) {
+    return AlfrescoConfiguration(
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      siteId: (json['SiteId'] as String?) ?? '',
+      siteUrl: (json['SiteUrl'] as String?) ?? '',
+      sslCertificateS3Path: S3Path.fromJson(
+          (json['SslCertificateS3Path'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      blogFieldMappings: (json['BlogFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      crawlComments: json['CrawlComments'] as bool?,
+      crawlSystemFolders: json['CrawlSystemFolders'] as bool?,
+      documentLibraryFieldMappings: (json['DocumentLibraryFieldMappings']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      entityFilter: (json['EntityFilter'] as List?)
+          ?.nonNulls
+          .map((e) => AlfrescoEntity.fromString((e as String)))
+          .toList(),
+      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      inclusionPatterns: (json['InclusionPatterns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? DataSourceVpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+      wikiFieldMappings: (json['WikiFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretArn = this.secretArn;
+    final siteId = this.siteId;
+    final siteUrl = this.siteUrl;
+    final sslCertificateS3Path = this.sslCertificateS3Path;
+    final blogFieldMappings = this.blogFieldMappings;
+    final crawlComments = this.crawlComments;
+    final crawlSystemFolders = this.crawlSystemFolders;
+    final documentLibraryFieldMappings = this.documentLibraryFieldMappings;
+    final entityFilter = this.entityFilter;
+    final exclusionPatterns = this.exclusionPatterns;
+    final inclusionPatterns = this.inclusionPatterns;
+    final vpcConfiguration = this.vpcConfiguration;
+    final wikiFieldMappings = this.wikiFieldMappings;
+    return {
+      'SecretArn': secretArn,
+      'SiteId': siteId,
+      'SiteUrl': siteUrl,
+      'SslCertificateS3Path': sslCertificateS3Path,
+      if (blogFieldMappings != null) 'BlogFieldMappings': blogFieldMappings,
+      if (crawlComments != null) 'CrawlComments': crawlComments,
+      if (crawlSystemFolders != null) 'CrawlSystemFolders': crawlSystemFolders,
+      if (documentLibraryFieldMappings != null)
+        'DocumentLibraryFieldMappings': documentLibraryFieldMappings,
+      if (entityFilter != null)
+        'EntityFilter': entityFilter.map((e) => e.value).toList(),
+      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
+      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+      if (wikiFieldMappings != null) 'WikiFieldMappings': wikiFieldMappings,
+    };
+  }
+}
+
+/// Provides a template for the configuration information to connect to your
+/// data source.
+class TemplateConfiguration {
+  /// The template schema used for the data source, where templates schemas are
+  /// supported.
+  ///
+  /// See <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/ds-schemas.html">Data
+  /// source template schemas</a>.
+  final Object? template;
+
+  TemplateConfiguration({
+    this.template,
+  });
+
+  factory TemplateConfiguration.fromJson(Map<String, dynamic> json) {
+    return TemplateConfiguration(
+      template: json['Template'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final template = this.template;
+    return {
+      if (template != null) 'Template': template,
+    };
+  }
+}
+
+/// Maps attributes or field names of the documents synced from the data source
+/// to Amazon Kendra index field names. You can set up field mappings for each
+/// data source when calling <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_CreateDataSource.html">CreateDataSource</a>
+/// or <a
+/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_UpdateDataSource.html">UpdateDataSource</a>
+/// API. To create custom fields, use the <code>UpdateIndex</code> API to first
+/// create an index field and then map to the data source field. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+/// data source fields</a>.
+class DataSourceToIndexFieldMapping {
+  /// The name of the field in the data source. You must first create the index
+  /// field using the <code>UpdateIndex</code> API.
+  final String dataSourceFieldName;
+
+  /// The name of the index field to map to the data source field. The index field
+  /// type must match the data source field type.
+  final String indexFieldName;
+
+  /// The format for date fields in the data source. If the field specified in
+  /// <code>DataSourceFieldName</code> is a date field, you must specify the date
+  /// format. If the field is not a date field, an exception is thrown.
+  final String? dateFieldFormat;
+
+  DataSourceToIndexFieldMapping({
+    required this.dataSourceFieldName,
+    required this.indexFieldName,
+    this.dateFieldFormat,
+  });
+
+  factory DataSourceToIndexFieldMapping.fromJson(Map<String, dynamic> json) {
+    return DataSourceToIndexFieldMapping(
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?) ?? '',
+      indexFieldName: (json['IndexFieldName'] as String?) ?? '',
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final indexFieldName = this.indexFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    return {
+      'DataSourceFieldName': dataSourceFieldName,
+      'IndexFieldName': indexFieldName,
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+    };
+  }
+}
+
+class AlfrescoEntity {
+  static const wiki = AlfrescoEntity._('wiki');
+  static const blog = AlfrescoEntity._('blog');
+  static const documentLibrary = AlfrescoEntity._('documentLibrary');
+
+  final String value;
+
+  const AlfrescoEntity._(this.value);
+
+  static const values = [wiki, blog, documentLibrary];
+
+  static AlfrescoEntity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AlfrescoEntity._(value));
+
+  @override
+  bool operator ==(other) => other is AlfrescoEntity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the configuration information to connect to GitHub Enterprise Cloud
+/// (SaaS).
+class SaaSConfiguration {
+  /// The GitHub host URL or API endpoint URL. For example,
+  /// <i>https://api.github.com</i>.
+  final String hostUrl;
+
+  /// The name of the organization of the GitHub Enterprise Cloud (SaaS) account
+  /// you want to connect to. You can find your organization name by logging into
+  /// GitHub desktop and selecting <b>Your organizations</b> under your profile
+  /// picture dropdown.
+  final String organizationName;
+
+  SaaSConfiguration({
+    required this.hostUrl,
+    required this.organizationName,
+  });
+
+  factory SaaSConfiguration.fromJson(Map<String, dynamic> json) {
+    return SaaSConfiguration(
+      hostUrl: (json['HostUrl'] as String?) ?? '',
+      organizationName: (json['OrganizationName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostUrl = this.hostUrl;
+    final organizationName = this.organizationName;
+    return {
+      'HostUrl': hostUrl,
+      'OrganizationName': organizationName,
+    };
+  }
+}
+
+/// Provides the configuration information to connect to GitHub Enterprise
+/// Server (on premises).
+class OnPremiseConfiguration {
+  /// The GitHub host URL or API endpoint URL. For example,
+  /// <i>https://on-prem-host-url/api/v3/</i>
+  final String hostUrl;
+
+  /// The name of the organization of the GitHub Enterprise Server (on-premises)
+  /// account you want to connect to. You can find your organization name by
+  /// logging into GitHub desktop and selecting <b>Your organizations</b> under
+  /// your profile picture dropdown.
+  final String organizationName;
+
+  /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this
+  /// to connect to GitHub if you require a secure SSL connection.
+  ///
+  /// You can simply generate a self-signed X509 certificate on any computer using
+  /// OpenSSL. For an example of using OpenSSL to create an X509 certificate, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html">Create
+  /// and sign an X509 certificate</a>.
+  final S3Path sslCertificateS3Path;
+
+  OnPremiseConfiguration({
+    required this.hostUrl,
+    required this.organizationName,
+    required this.sslCertificateS3Path,
+  });
+
+  factory OnPremiseConfiguration.fromJson(Map<String, dynamic> json) {
+    return OnPremiseConfiguration(
+      hostUrl: (json['HostUrl'] as String?) ?? '',
+      organizationName: (json['OrganizationName'] as String?) ?? '',
+      sslCertificateS3Path: S3Path.fromJson(
+          (json['SslCertificateS3Path'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostUrl = this.hostUrl;
+    final organizationName = this.organizationName;
+    final sslCertificateS3Path = this.sslCertificateS3Path;
+    return {
+      'HostUrl': hostUrl,
+      'OrganizationName': organizationName,
+      'SslCertificateS3Path': sslCertificateS3Path,
+    };
+  }
+}
+
+class Type {
+  static const saas = Type._('SAAS');
+  static const onPremise = Type._('ON_PREMISE');
+
+  final String value;
+
+  const Type._(this.value);
+
+  static const values = [saas, onPremise];
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Provides the configuration information to include certain types of GitHub
 /// content. You can configure to index repository files only, or also include
 /// issues and pull requests, comments, and comment attachments.
@@ -11840,670 +11762,6 @@ class GitHubDocumentCrawlProperties {
   }
 }
 
-/// Provides the configuration information to connect to Google Drive as your
-/// data source.
-class GoogleDriveConfiguration {
-  /// The Amazon Resource Name (ARN) of a Secrets Managersecret that contains the
-  /// credentials required to connect to Google Drive. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-google-drive.html">Using
-  /// a Google Workspace Drive data source</a>.
-  final String secretArn;
-
-  /// A list of MIME types to exclude from the index. All documents matching the
-  /// specified MIME type are excluded.
-  ///
-  /// For a list of MIME types, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-google-drive.html">Using
-  /// a Google Workspace Drive data source</a>.
-  final List<String>? excludeMimeTypes;
-
-  /// A list of identifiers or shared drives to exclude from the index. All files
-  /// and folders stored on the shared drive are excluded.
-  final List<String>? excludeSharedDrives;
-
-  /// A list of email addresses of the users. Documents owned by these users are
-  /// excluded from the index. Documents shared with excluded users are indexed
-  /// unless they are excluded in another way.
-  final List<String>? excludeUserAccounts;
-
-  /// A list of regular expression patterns to exclude certain items in your
-  /// Google Drive, including shared drives and users' My Drives. Items that match
-  /// the patterns are excluded from the index. Items that don't match the
-  /// patterns are included in the index. If an item matches both an inclusion and
-  /// exclusion pattern, the exclusion pattern takes precedence and the item isn't
-  /// included in the index.
-  final List<String>? exclusionPatterns;
-
-  /// Maps Google Drive data source attributes or field names to Amazon Kendra
-  /// index field names. To create custom fields, use the <code>UpdateIndex</code>
-  /// API before you map to Google Drive fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Google Drive data source field names must exist
-  /// in your Google Drive custom metadata.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  /// A list of regular expression patterns to include certain items in your
-  /// Google Drive, including shared drives and users' My Drives. Items that match
-  /// the patterns are included in the index. Items that don't match the patterns
-  /// are excluded from the index. If an item matches both an inclusion and
-  /// exclusion pattern, the exclusion pattern takes precedence and the item isn't
-  /// included in the index.
-  final List<String>? inclusionPatterns;
-
-  GoogleDriveConfiguration({
-    required this.secretArn,
-    this.excludeMimeTypes,
-    this.excludeSharedDrives,
-    this.excludeUserAccounts,
-    this.exclusionPatterns,
-    this.fieldMappings,
-    this.inclusionPatterns,
-  });
-
-  factory GoogleDriveConfiguration.fromJson(Map<String, dynamic> json) {
-    return GoogleDriveConfiguration(
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      excludeMimeTypes: (json['ExcludeMimeTypes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      excludeSharedDrives: (json['ExcludeSharedDrives'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      excludeUserAccounts: (json['ExcludeUserAccounts'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final secretArn = this.secretArn;
-    final excludeMimeTypes = this.excludeMimeTypes;
-    final excludeSharedDrives = this.excludeSharedDrives;
-    final excludeUserAccounts = this.excludeUserAccounts;
-    final exclusionPatterns = this.exclusionPatterns;
-    final fieldMappings = this.fieldMappings;
-    final inclusionPatterns = this.inclusionPatterns;
-    return {
-      'SecretArn': secretArn,
-      if (excludeMimeTypes != null) 'ExcludeMimeTypes': excludeMimeTypes,
-      if (excludeSharedDrives != null)
-        'ExcludeSharedDrives': excludeSharedDrives,
-      if (excludeUserAccounts != null)
-        'ExcludeUserAccounts': excludeUserAccounts,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-    };
-  }
-}
-
-/// A list of users or sub groups that belong to a group. This is useful for
-/// user context filtering, where search results are filtered based on the user
-/// or their group access to documents.
-class GroupMembers {
-  /// A list of sub groups that belong to a group. For example, the sub groups
-  /// "Research", "Engineering", and "Sales and Marketing" all belong to the group
-  /// "Company".
-  final List<MemberGroup>? memberGroups;
-
-  /// A list of users that belong to a group. For example, a list of interns all
-  /// belong to the "Interns" group.
-  final List<MemberUser>? memberUsers;
-
-  /// If you have more than 1000 users and/or sub groups for a single group, you
-  /// need to provide the path to the S3 file that lists your users and sub groups
-  /// for a group. Your sub groups can contain more than 1000 users, but the list
-  /// of sub groups that belong to a group (and/or users) must be no more than
-  /// 1000.
-  ///
-  /// You can download this <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/samples/group_members.zip">example
-  /// S3 file</a> that uses the correct format for listing group members. Note,
-  /// <code>dataSourceId</code> is optional. The value of <code>type</code> for a
-  /// group is always <code>GROUP</code> and for a user it is always
-  /// <code>USER</code>.
-  final S3Path? s3PathforGroupMembers;
-
-  GroupMembers({
-    this.memberGroups,
-    this.memberUsers,
-    this.s3PathforGroupMembers,
-  });
-
-  Map<String, dynamic> toJson() {
-    final memberGroups = this.memberGroups;
-    final memberUsers = this.memberUsers;
-    final s3PathforGroupMembers = this.s3PathforGroupMembers;
-    return {
-      if (memberGroups != null) 'MemberGroups': memberGroups,
-      if (memberUsers != null) 'MemberUsers': memberUsers,
-      if (s3PathforGroupMembers != null)
-        'S3PathforGroupMembers': s3PathforGroupMembers,
-    };
-  }
-}
-
-/// Summary information on the processing of <code>PUT</code> and
-/// <code>DELETE</code> actions for mapping users to their groups.
-class GroupOrderingIdSummary {
-  /// The reason an action could not be processed. An action can be a
-  /// <code>PUT</code> or <code>DELETE</code> action for mapping users to their
-  /// groups.
-  final String? failureReason;
-
-  /// The Unix timestamp when an action was last updated. An action can be a
-  /// <code>PUT</code> or <code>DELETE</code> action for mapping users to their
-  /// groups.
-  final DateTime? lastUpdatedAt;
-
-  /// The order in which actions should complete processing. An action can be a
-  /// <code>PUT</code> or <code>DELETE</code> action for mapping users to their
-  /// groups.
-  final int? orderingId;
-
-  /// The Unix timestamp when an action was received by Amazon Kendra. An action
-  /// can be a <code>PUT</code> or <code>DELETE</code> action for mapping users to
-  /// their groups.
-  final DateTime? receivedAt;
-
-  /// The current processing status of actions for mapping users to their groups.
-  /// The status can be either <code>PROCESSING</code>, <code>SUCCEEDED</code>,
-  /// <code>DELETING</code>, <code>DELETED</code>, or <code>FAILED</code>.
-  final PrincipalMappingStatus? status;
-
-  GroupOrderingIdSummary({
-    this.failureReason,
-    this.lastUpdatedAt,
-    this.orderingId,
-    this.receivedAt,
-    this.status,
-  });
-
-  factory GroupOrderingIdSummary.fromJson(Map<String, dynamic> json) {
-    return GroupOrderingIdSummary(
-      failureReason: json['FailureReason'] as String?,
-      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      orderingId: json['OrderingId'] as int?,
-      receivedAt: timeStampFromJson(json['ReceivedAt']),
-      status:
-          (json['Status'] as String?)?.let(PrincipalMappingStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureReason = this.failureReason;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final orderingId = this.orderingId;
-    final receivedAt = this.receivedAt;
-    final status = this.status;
-    return {
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (lastUpdatedAt != null)
-        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (orderingId != null) 'OrderingId': orderingId,
-      if (receivedAt != null) 'ReceivedAt': unixTimestampToJson(receivedAt),
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Summary information for groups.
-class GroupSummary {
-  /// The identifier of the group you want group summary information on.
-  final String? groupId;
-
-  /// The timestamp identifier used for the latest <code>PUT</code> or
-  /// <code>DELETE</code> action.
-  final int? orderingId;
-
-  GroupSummary({
-    this.groupId,
-    this.orderingId,
-  });
-
-  factory GroupSummary.fromJson(Map<String, dynamic> json) {
-    return GroupSummary(
-      groupId: json['GroupId'] as String?,
-      orderingId: json['OrderingId'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupId = this.groupId;
-    final orderingId = this.orderingId;
-    return {
-      if (groupId != null) 'GroupId': groupId,
-      if (orderingId != null) 'OrderingId': orderingId,
-    };
-  }
-}
-
-/// Information to define the hierarchy for which documents users should have
-/// access to.
-class HierarchicalPrincipal {
-  /// A list of <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Principal.html">principal</a>
-  /// lists that define the hierarchy for which documents users should have access
-  /// to. Each hierarchical list specifies which user or group has allow or deny
-  /// access for each document.
-  final List<Principal> principalList;
-
-  HierarchicalPrincipal({
-    required this.principalList,
-  });
-
-  factory HierarchicalPrincipal.fromJson(Map<String, dynamic> json) {
-    return HierarchicalPrincipal(
-      principalList: ((json['PrincipalList'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Principal.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final principalList = this.principalList;
-    return {
-      'PrincipalList': principalList,
-    };
-  }
-}
-
-/// Provides information that you can use to highlight a search result so that
-/// your users can quickly identify terms in the response.
-class Highlight {
-  /// The zero-based location in the response string where the highlight starts.
-  final int beginOffset;
-
-  /// The zero-based location in the response string where the highlight ends.
-  final int endOffset;
-
-  /// Indicates whether the response is the best response. True if this is the
-  /// best response; otherwise, false.
-  final bool? topAnswer;
-
-  /// The highlight type.
-  final HighlightType? type;
-
-  Highlight({
-    required this.beginOffset,
-    required this.endOffset,
-    this.topAnswer,
-    this.type,
-  });
-
-  factory Highlight.fromJson(Map<String, dynamic> json) {
-    return Highlight(
-      beginOffset: (json['BeginOffset'] as int?) ?? 0,
-      endOffset: (json['EndOffset'] as int?) ?? 0,
-      topAnswer: json['TopAnswer'] as bool?,
-      type: (json['Type'] as String?)?.let(HighlightType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginOffset = this.beginOffset;
-    final endOffset = this.endOffset;
-    final topAnswer = this.topAnswer;
-    final type = this.type;
-    return {
-      'BeginOffset': beginOffset,
-      'EndOffset': endOffset,
-      if (topAnswer != null) 'TopAnswer': topAnswer,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class HighlightType {
-  static const standard = HighlightType._('STANDARD');
-  static const thesaurusSynonym = HighlightType._('THESAURUS_SYNONYM');
-
-  final String value;
-
-  const HighlightType._(this.value);
-
-  static const values = [standard, thesaurusSynonym];
-
-  static HighlightType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HighlightType._(value));
-
-  @override
-  bool operator ==(other) => other is HighlightType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information for invoking a Lambda function in
-/// Lambda to alter document metadata and content when ingesting documents into
-/// Amazon Kendra. You can configure your Lambda function using <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_CustomDocumentEnrichmentConfiguration.html">PreExtractionHookConfiguration</a>
-/// if you want to apply advanced alterations on the original or raw documents.
-/// If you want to apply advanced alterations on the Amazon Kendra structured
-/// documents, you must configure your Lambda function using <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_CustomDocumentEnrichmentConfiguration.html">PostExtractionHookConfiguration</a>.
-/// You can only invoke one Lambda function. However, this function can invoke
-/// other functions it requires.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
-/// document metadata during the ingestion process</a>.
-class HookConfiguration {
-  /// The Amazon Resource Name (ARN) of a role with permission to run a Lambda
-  /// function during ingestion. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html">IAM roles
-  /// for Amazon Kendra</a>.
-  final String lambdaArn;
-
-  /// Stores the original, raw documents or the structured, parsed documents
-  /// before and after altering them. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html#cde-data-contracts-lambda">Data
-  /// contracts for Lambda functions</a>.
-  final String s3Bucket;
-
-  /// The condition used for when a Lambda function should be invoked.
-  ///
-  /// For example, you can specify a condition that if there are empty date-time
-  /// values, then Amazon Kendra should invoke a function that inserts the current
-  /// date-time.
-  final DocumentAttributeCondition? invocationCondition;
-
-  HookConfiguration({
-    required this.lambdaArn,
-    required this.s3Bucket,
-    this.invocationCondition,
-  });
-
-  factory HookConfiguration.fromJson(Map<String, dynamic> json) {
-    return HookConfiguration(
-      lambdaArn: (json['LambdaArn'] as String?) ?? '',
-      s3Bucket: (json['S3Bucket'] as String?) ?? '',
-      invocationCondition: json['InvocationCondition'] != null
-          ? DocumentAttributeCondition.fromJson(
-              json['InvocationCondition'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lambdaArn = this.lambdaArn;
-    final s3Bucket = this.s3Bucket;
-    final invocationCondition = this.invocationCondition;
-    return {
-      'LambdaArn': lambdaArn,
-      'S3Bucket': s3Bucket,
-      if (invocationCondition != null)
-        'InvocationCondition': invocationCondition,
-    };
-  }
-}
-
-/// Summary information on the configuration of an index.
-class IndexConfigurationSummary {
-  /// The Unix timestamp when the index was created.
-  final DateTime createdAt;
-
-  /// The current status of the index. When the status is <code>ACTIVE</code>, the
-  /// index is ready to search.
-  final IndexStatus status;
-
-  /// The Unix timestamp when the index was last updated.
-  final DateTime updatedAt;
-
-  /// Indicates whether the index is a Enterprise Edition index or a Developer
-  /// Edition index.
-  final IndexEdition? edition;
-
-  /// A identifier for the index. Use this to identify the index when you are
-  /// using APIs such as <code>Query</code>, <code>DescribeIndex</code>,
-  /// <code>UpdateIndex</code>, and <code>DeleteIndex</code>.
-  final String? id;
-
-  /// The name of the index.
-  final String? name;
-
-  IndexConfigurationSummary({
-    required this.createdAt,
-    required this.status,
-    required this.updatedAt,
-    this.edition,
-    this.id,
-    this.name,
-  });
-
-  factory IndexConfigurationSummary.fromJson(Map<String, dynamic> json) {
-    return IndexConfigurationSummary(
-      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
-      status: IndexStatus.fromString((json['Status'] as String?) ?? ''),
-      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
-      edition: (json['Edition'] as String?)?.let(IndexEdition.fromString),
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final status = this.status;
-    final updatedAt = this.updatedAt;
-    final edition = this.edition;
-    final id = this.id;
-    final name = this.name;
-    return {
-      'CreatedAt': unixTimestampToJson(createdAt),
-      'Status': status.value,
-      'UpdatedAt': unixTimestampToJson(updatedAt),
-      if (edition != null) 'Edition': edition.value,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-class IndexEdition {
-  static const developerEdition = IndexEdition._('DEVELOPER_EDITION');
-  static const enterpriseEdition = IndexEdition._('ENTERPRISE_EDITION');
-
-  final String value;
-
-  const IndexEdition._(this.value);
-
-  static const values = [developerEdition, enterpriseEdition];
-
-  static IndexEdition fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IndexEdition._(value));
-
-  @override
-  bool operator ==(other) => other is IndexEdition && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information about the number of documents and the number of
-/// questions and answers in an index.
-class IndexStatistics {
-  /// The number of question and answer topics in the index.
-  final FaqStatistics faqStatistics;
-
-  /// The number of text documents indexed.
-  final TextDocumentStatistics textDocumentStatistics;
-
-  IndexStatistics({
-    required this.faqStatistics,
-    required this.textDocumentStatistics,
-  });
-
-  factory IndexStatistics.fromJson(Map<String, dynamic> json) {
-    return IndexStatistics(
-      faqStatistics: FaqStatistics.fromJson(
-          (json['FaqStatistics'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      textDocumentStatistics: TextDocumentStatistics.fromJson(
-          (json['TextDocumentStatistics'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faqStatistics = this.faqStatistics;
-    final textDocumentStatistics = this.textDocumentStatistics;
-    return {
-      'FaqStatistics': faqStatistics,
-      'TextDocumentStatistics': textDocumentStatistics,
-    };
-  }
-}
-
-class IndexStatus {
-  static const creating = IndexStatus._('CREATING');
-  static const active = IndexStatus._('ACTIVE');
-  static const deleting = IndexStatus._('DELETING');
-  static const failed = IndexStatus._('FAILED');
-  static const updating = IndexStatus._('UPDATING');
-  static const systemUpdating = IndexStatus._('SYSTEM_UPDATING');
-
-  final String value;
-
-  const IndexStatus._(this.value);
-
-  static const values = [
-    creating,
-    active,
-    deleting,
-    failed,
-    updating,
-    systemUpdating
-  ];
-
-  static IndexStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IndexStatus._(value));
-
-  @override
-  bool operator ==(other) => other is IndexStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information for applying basic logic to alter
-/// document metadata and content when ingesting documents into Amazon Kendra.
-/// To apply advanced logic, to go beyond what you can do with basic logic, see
-/// <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_HookConfiguration.html">HookConfiguration</a>.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-document-enrichment.html">Customizing
-/// document metadata during the ingestion process</a>.
-class InlineCustomDocumentEnrichmentConfiguration {
-  /// Configuration of the condition used for the target document attribute or
-  /// metadata field when ingesting documents into Amazon Kendra.
-  final DocumentAttributeCondition? condition;
-
-  /// <code>TRUE</code> to delete content if the condition used for the target
-  /// attribute is met.
-  final bool? documentContentDeletion;
-
-  /// Configuration of the target document attribute or metadata field when
-  /// ingesting documents into Amazon Kendra. You can also include a value.
-  final DocumentAttributeTarget? target;
-
-  InlineCustomDocumentEnrichmentConfiguration({
-    this.condition,
-    this.documentContentDeletion,
-    this.target,
-  });
-
-  factory InlineCustomDocumentEnrichmentConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return InlineCustomDocumentEnrichmentConfiguration(
-      condition: json['Condition'] != null
-          ? DocumentAttributeCondition.fromJson(
-              json['Condition'] as Map<String, dynamic>)
-          : null,
-      documentContentDeletion: json['DocumentContentDeletion'] as bool?,
-      target: json['Target'] != null
-          ? DocumentAttributeTarget.fromJson(
-              json['Target'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final condition = this.condition;
-    final documentContentDeletion = this.documentContentDeletion;
-    final target = this.target;
-    return {
-      if (condition != null) 'Condition': condition,
-      if (documentContentDeletion != null)
-        'DocumentContentDeletion': documentContentDeletion,
-      if (target != null) 'Target': target,
-    };
-  }
-}
-
-class Interval {
-  static const thisMonth = Interval._('THIS_MONTH');
-  static const thisWeek = Interval._('THIS_WEEK');
-  static const oneWeekAgo = Interval._('ONE_WEEK_AGO');
-  static const twoWeeksAgo = Interval._('TWO_WEEKS_AGO');
-  static const oneMonthAgo = Interval._('ONE_MONTH_AGO');
-  static const twoMonthsAgo = Interval._('TWO_MONTHS_AGO');
-
-  final String value;
-
-  const Interval._(this.value);
-
-  static const values = [
-    thisMonth,
-    thisWeek,
-    oneWeekAgo,
-    twoWeeksAgo,
-    oneMonthAgo,
-    twoMonthsAgo
-  ];
-
-  static Interval fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Interval._(value));
-
-  @override
-  bool operator ==(other) => other is Interval && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class IssueSubEntity {
   static const comments = IssueSubEntity._('COMMENTS');
   static const attachments = IssueSubEntity._('ATTACHMENTS');
@@ -12529,873 +11787,28 @@ class IssueSubEntity {
   String toString() => value;
 }
 
-/// Provides the configuration information to connect to Jira as your data
-/// source.
-class JiraConfiguration {
-  /// The URL of the Jira account. For example, <i>company.atlassian.net</i>.
-  final String jiraAccountUrl;
-
-  /// The Amazon Resource Name (ARN) of a secret in Secrets Manager contains the
-  /// key-value pairs required to connect to your Jira data source. The secret
-  /// must contain a JSON structure with the following keys:
-  ///
-  /// <ul>
-  /// <li>
-  /// jiraId—The Jira user name or email.
-  /// </li>
-  /// <li>
-  /// jiraCredentials—The Jira API token. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-jira.html">Using
-  /// a Jira data source</a>.
-  /// </li>
-  /// </ul>
-  final String secretArn;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Jira attachments to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Jira fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
-  /// Mapping data source fields</a>. The Jira data source field names must exist
-  /// in your Jira custom metadata.
-  final List<DataSourceToIndexFieldMapping>? attachmentFieldMappings;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Jira comments to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Jira fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
-  /// Mapping data source fields</a>. The Jira data source field names must exist
-  /// in your Jira custom metadata.
-  final List<DataSourceToIndexFieldMapping>? commentFieldMappings;
-
-  /// A list of regular expression patterns to exclude certain file paths, file
-  /// names, and file types in your Jira data source. Files that match the
-  /// patterns are excluded from the index. Files that don’t match the patterns
-  /// are included in the index. If a file matches both an inclusion pattern and
-  /// an exclusion pattern, the exclusion pattern takes precedence and the file
-  /// isn't included in the index.
-  final List<String>? exclusionPatterns;
-
-  /// A list of regular expression patterns to include certain file paths, file
-  /// names, and file types in your Jira data source. Files that match the
-  /// patterns are included in the index. Files that don't match the patterns are
-  /// excluded from the index. If a file matches both an inclusion pattern and an
-  /// exclusion pattern, the exclusion pattern takes precedence and the file isn't
-  /// included in the index.
-  final List<String>? inclusionPatterns;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Jira issues to Amazon Kendra index field names.
-  /// To create custom fields, use the <code>UpdateIndex</code> API before you map
-  /// to Jira fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
-  /// Mapping data source fields</a>. The Jira data source field names must exist
-  /// in your Jira custom metadata.
-  final List<DataSourceToIndexFieldMapping>? issueFieldMappings;
-
-  /// Specify whether to crawl comments, attachments, and work logs. You can
-  /// specify one or more of these options.
-  final List<IssueSubEntity>? issueSubEntityFilter;
-
-  /// Specify which issue types to crawl in your Jira data source. You can specify
-  /// one or more of these options to crawl.
-  final List<String>? issueType;
-
-  /// Specify which projects to crawl in your Jira data source. You can specify
-  /// one or more Jira project IDs.
-  final List<String>? project;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Jira projects to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Jira fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
-  /// Mapping data source fields</a>. The Jira data source field names must exist
-  /// in your Jira custom metadata.
-  final List<DataSourceToIndexFieldMapping>? projectFieldMappings;
-
-  /// Specify which statuses to crawl in your Jira data source. You can specify
-  /// one or more of these options to crawl.
-  final List<String>? status;
-
-  /// <code>TRUE</code> to use the Jira change log to determine which documents
-  /// require updating in the index. Depending on the change log's size, it may
-  /// take longer for Amazon Kendra to use the change log than to scan all of your
-  /// documents in Jira.
-  final bool? useChangeLog;
-
-  /// Configuration information for an Amazon Virtual Private Cloud to connect to
-  /// your Jira. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
-  /// a VPC</a>.
-  final DataSourceVpcConfiguration? vpcConfiguration;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Jira work logs to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Jira fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">
-  /// Mapping data source fields</a>. The Jira data source field names must exist
-  /// in your Jira custom metadata.
-  final List<DataSourceToIndexFieldMapping>? workLogFieldMappings;
-
-  JiraConfiguration({
-    required this.jiraAccountUrl,
-    required this.secretArn,
-    this.attachmentFieldMappings,
-    this.commentFieldMappings,
-    this.exclusionPatterns,
-    this.inclusionPatterns,
-    this.issueFieldMappings,
-    this.issueSubEntityFilter,
-    this.issueType,
-    this.project,
-    this.projectFieldMappings,
-    this.status,
-    this.useChangeLog,
-    this.vpcConfiguration,
-    this.workLogFieldMappings,
-  });
-
-  factory JiraConfiguration.fromJson(Map<String, dynamic> json) {
-    return JiraConfiguration(
-      jiraAccountUrl: (json['JiraAccountUrl'] as String?) ?? '',
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      commentFieldMappings: (json['CommentFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      issueFieldMappings: (json['IssueFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      issueSubEntityFilter: (json['IssueSubEntityFilter'] as List?)
-          ?.nonNulls
-          .map((e) => IssueSubEntity.fromString((e as String)))
-          .toList(),
-      issueType: (json['IssueType'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      project:
-          (json['Project'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      projectFieldMappings: (json['ProjectFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status:
-          (json['Status'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      useChangeLog: json['UseChangeLog'] as bool?,
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? DataSourceVpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
-          : null,
-      workLogFieldMappings: (json['WorkLogFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jiraAccountUrl = this.jiraAccountUrl;
-    final secretArn = this.secretArn;
-    final attachmentFieldMappings = this.attachmentFieldMappings;
-    final commentFieldMappings = this.commentFieldMappings;
-    final exclusionPatterns = this.exclusionPatterns;
-    final inclusionPatterns = this.inclusionPatterns;
-    final issueFieldMappings = this.issueFieldMappings;
-    final issueSubEntityFilter = this.issueSubEntityFilter;
-    final issueType = this.issueType;
-    final project = this.project;
-    final projectFieldMappings = this.projectFieldMappings;
-    final status = this.status;
-    final useChangeLog = this.useChangeLog;
-    final vpcConfiguration = this.vpcConfiguration;
-    final workLogFieldMappings = this.workLogFieldMappings;
-    return {
-      'JiraAccountUrl': jiraAccountUrl,
-      'SecretArn': secretArn,
-      if (attachmentFieldMappings != null)
-        'AttachmentFieldMappings': attachmentFieldMappings,
-      if (commentFieldMappings != null)
-        'CommentFieldMappings': commentFieldMappings,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (issueFieldMappings != null) 'IssueFieldMappings': issueFieldMappings,
-      if (issueSubEntityFilter != null)
-        'IssueSubEntityFilter':
-            issueSubEntityFilter.map((e) => e.value).toList(),
-      if (issueType != null) 'IssueType': issueType,
-      if (project != null) 'Project': project,
-      if (projectFieldMappings != null)
-        'ProjectFieldMappings': projectFieldMappings,
-      if (status != null) 'Status': status,
-      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-      if (workLogFieldMappings != null)
-        'WorkLogFieldMappings': workLogFieldMappings,
-    };
-  }
-}
-
-/// Provides the configuration information for the JSON token type.
-class JsonTokenTypeConfiguration {
-  /// The group attribute field.
-  final String groupAttributeField;
-
-  /// The user name attribute field.
-  final String userNameAttributeField;
-
-  JsonTokenTypeConfiguration({
-    required this.groupAttributeField,
-    required this.userNameAttributeField,
-  });
-
-  factory JsonTokenTypeConfiguration.fromJson(Map<String, dynamic> json) {
-    return JsonTokenTypeConfiguration(
-      groupAttributeField: (json['GroupAttributeField'] as String?) ?? '',
-      userNameAttributeField: (json['UserNameAttributeField'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupAttributeField = this.groupAttributeField;
-    final userNameAttributeField = this.userNameAttributeField;
-    return {
-      'GroupAttributeField': groupAttributeField,
-      'UserNameAttributeField': userNameAttributeField,
-    };
-  }
-}
-
-/// Provides the configuration information for the JWT token type.
-class JwtTokenTypeConfiguration {
-  /// The location of the key.
-  final KeyLocation keyLocation;
-
-  /// The regular expression that identifies the claim.
-  final String? claimRegex;
-
-  /// The group attribute field.
-  final String? groupAttributeField;
-
-  /// The issuer of the token.
-  final String? issuer;
-
-  /// The Amazon Resource Name (arn) of the secret.
-  final String? secretManagerArn;
-
-  /// The signing key URL.
-  final String? url;
-
-  /// The user name attribute field.
-  final String? userNameAttributeField;
-
-  JwtTokenTypeConfiguration({
-    required this.keyLocation,
-    this.claimRegex,
-    this.groupAttributeField,
-    this.issuer,
-    this.secretManagerArn,
-    this.url,
-    this.userNameAttributeField,
-  });
-
-  factory JwtTokenTypeConfiguration.fromJson(Map<String, dynamic> json) {
-    return JwtTokenTypeConfiguration(
-      keyLocation:
-          KeyLocation.fromString((json['KeyLocation'] as String?) ?? ''),
-      claimRegex: json['ClaimRegex'] as String?,
-      groupAttributeField: json['GroupAttributeField'] as String?,
-      issuer: json['Issuer'] as String?,
-      secretManagerArn: json['SecretManagerArn'] as String?,
-      url: json['URL'] as String?,
-      userNameAttributeField: json['UserNameAttributeField'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final keyLocation = this.keyLocation;
-    final claimRegex = this.claimRegex;
-    final groupAttributeField = this.groupAttributeField;
-    final issuer = this.issuer;
-    final secretManagerArn = this.secretManagerArn;
-    final url = this.url;
-    final userNameAttributeField = this.userNameAttributeField;
-    return {
-      'KeyLocation': keyLocation.value,
-      if (claimRegex != null) 'ClaimRegex': claimRegex,
-      if (groupAttributeField != null)
-        'GroupAttributeField': groupAttributeField,
-      if (issuer != null) 'Issuer': issuer,
-      if (secretManagerArn != null) 'SecretManagerArn': secretManagerArn,
-      if (url != null) 'URL': url,
-      if (userNameAttributeField != null)
-        'UserNameAttributeField': userNameAttributeField,
-    };
-  }
-}
-
-class KeyLocation {
-  static const url = KeyLocation._('URL');
-  static const secretManager = KeyLocation._('SECRET_MANAGER');
+class SlackEntity {
+  static const publicChannel = SlackEntity._('PUBLIC_CHANNEL');
+  static const privateChannel = SlackEntity._('PRIVATE_CHANNEL');
+  static const groupMessage = SlackEntity._('GROUP_MESSAGE');
+  static const directMessage = SlackEntity._('DIRECT_MESSAGE');
 
   final String value;
 
-  const KeyLocation._(this.value);
-
-  static const values = [url, secretManager];
-
-  static KeyLocation fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KeyLocation._(value));
-
-  @override
-  bool operator ==(other) => other is KeyLocation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListAccessControlConfigurationsResponse {
-  /// The details of your access control configurations.
-  final List<AccessControlConfigurationSummary> accessControlConfigurations;
-
-  /// If the response is truncated, Amazon Kendra returns this token, which you
-  /// can use in the subsequent request to retrieve the next set of access control
-  /// configurations.
-  final String? nextToken;
-
-  ListAccessControlConfigurationsResponse({
-    required this.accessControlConfigurations,
-    this.nextToken,
-  });
-
-  factory ListAccessControlConfigurationsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListAccessControlConfigurationsResponse(
-      accessControlConfigurations:
-          ((json['AccessControlConfigurations'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => AccessControlConfigurationSummary.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessControlConfigurations = this.accessControlConfigurations;
-    final nextToken = this.nextToken;
-    return {
-      'AccessControlConfigurations': accessControlConfigurations,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListDataSourceSyncJobsResponse {
-  /// A history of synchronization jobs for the data source connector.
-  final List<DataSourceSyncJob>? history;
-
-  /// If the response is truncated, Amazon Kendra returns this token that you can
-  /// use in the subsequent request to retrieve the next set of jobs.
-  final String? nextToken;
-
-  ListDataSourceSyncJobsResponse({
-    this.history,
-    this.nextToken,
-  });
-
-  factory ListDataSourceSyncJobsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDataSourceSyncJobsResponse(
-      history: (json['History'] as List?)
-          ?.nonNulls
-          .map((e) => DataSourceSyncJob.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final history = this.history;
-    final nextToken = this.nextToken;
-    return {
-      if (history != null) 'History': history,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListDataSourcesResponse {
-  /// If the response is truncated, Amazon Kendra returns this token that you can
-  /// use in the subsequent request to retrieve the next set of data source
-  /// connectors.
-  final String? nextToken;
-
-  /// An array of summary information for one or more data source connector.
-  final List<DataSourceSummary>? summaryItems;
-
-  ListDataSourcesResponse({
-    this.nextToken,
-    this.summaryItems,
-  });
-
-  factory ListDataSourcesResponse.fromJson(Map<String, dynamic> json) {
-    return ListDataSourcesResponse(
-      nextToken: json['NextToken'] as String?,
-      summaryItems: (json['SummaryItems'] as List?)
-          ?.nonNulls
-          .map((e) => DataSourceSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final summaryItems = this.summaryItems;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (summaryItems != null) 'SummaryItems': summaryItems,
-    };
-  }
-}
-
-class ListEntityPersonasResponse {
-  /// If the response is truncated, Amazon Kendra returns this token, which you
-  /// can use in a later request to retrieve the next set of users or groups.
-  final String? nextToken;
-
-  /// An array of summary information for one or more users or groups.
-  final List<PersonasSummary>? summaryItems;
-
-  ListEntityPersonasResponse({
-    this.nextToken,
-    this.summaryItems,
-  });
-
-  factory ListEntityPersonasResponse.fromJson(Map<String, dynamic> json) {
-    return ListEntityPersonasResponse(
-      nextToken: json['NextToken'] as String?,
-      summaryItems: (json['SummaryItems'] as List?)
-          ?.nonNulls
-          .map((e) => PersonasSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final summaryItems = this.summaryItems;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (summaryItems != null) 'SummaryItems': summaryItems,
-    };
-  }
-}
-
-class ListExperienceEntitiesResponse {
-  /// If the response is truncated, Amazon Kendra returns this token, which you
-  /// can use in a later request to retrieve the next set of users or groups.
-  final String? nextToken;
-
-  /// An array of summary information for one or more users or groups.
-  final List<ExperienceEntitiesSummary>? summaryItems;
-
-  ListExperienceEntitiesResponse({
-    this.nextToken,
-    this.summaryItems,
-  });
-
-  factory ListExperienceEntitiesResponse.fromJson(Map<String, dynamic> json) {
-    return ListExperienceEntitiesResponse(
-      nextToken: json['NextToken'] as String?,
-      summaryItems: (json['SummaryItems'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ExperienceEntitiesSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final summaryItems = this.summaryItems;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (summaryItems != null) 'SummaryItems': summaryItems,
-    };
-  }
-}
-
-class ListExperiencesResponse {
-  /// If the response is truncated, Amazon Kendra returns this token, which you
-  /// can use in a later request to retrieve the next set of Amazon Kendra
-  /// experiences.
-  final String? nextToken;
-
-  /// An array of summary information for one or more Amazon Kendra experiences.
-  final List<ExperiencesSummary>? summaryItems;
-
-  ListExperiencesResponse({
-    this.nextToken,
-    this.summaryItems,
-  });
-
-  factory ListExperiencesResponse.fromJson(Map<String, dynamic> json) {
-    return ListExperiencesResponse(
-      nextToken: json['NextToken'] as String?,
-      summaryItems: (json['SummaryItems'] as List?)
-          ?.nonNulls
-          .map((e) => ExperiencesSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final summaryItems = this.summaryItems;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (summaryItems != null) 'SummaryItems': summaryItems,
-    };
-  }
-}
-
-class ListFaqsResponse {
-  /// information about the FAQs associated with the specified index.
-  final List<FaqSummary>? faqSummaryItems;
-
-  /// If the response is truncated, Amazon Kendra returns this token that you can
-  /// use in the subsequent request to retrieve the next set of FAQs.
-  final String? nextToken;
-
-  ListFaqsResponse({
-    this.faqSummaryItems,
-    this.nextToken,
-  });
-
-  factory ListFaqsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFaqsResponse(
-      faqSummaryItems: (json['FaqSummaryItems'] as List?)
-          ?.nonNulls
-          .map((e) => FaqSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final faqSummaryItems = this.faqSummaryItems;
-    final nextToken = this.nextToken;
-    return {
-      if (faqSummaryItems != null) 'FaqSummaryItems': faqSummaryItems,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListFeaturedResultsSetsResponse {
-  /// An array of summary information for one or more featured results sets.
-  final List<FeaturedResultsSetSummary>? featuredResultsSetSummaryItems;
-
-  /// If the response is truncated, Amazon Kendra returns a pagination token in
-  /// the response.
-  final String? nextToken;
-
-  ListFeaturedResultsSetsResponse({
-    this.featuredResultsSetSummaryItems,
-    this.nextToken,
-  });
-
-  factory ListFeaturedResultsSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFeaturedResultsSetsResponse(
-      featuredResultsSetSummaryItems:
-          (json['FeaturedResultsSetSummaryItems'] as List?)
-              ?.nonNulls
-              .map((e) =>
-                  FeaturedResultsSetSummary.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final featuredResultsSetSummaryItems = this.featuredResultsSetSummaryItems;
-    final nextToken = this.nextToken;
-    return {
-      if (featuredResultsSetSummaryItems != null)
-        'FeaturedResultsSetSummaryItems': featuredResultsSetSummaryItems,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListGroupsOlderThanOrderingIdResponse {
-  /// Summary information for list of groups that are mapped to users before a
-  /// given ordering or timestamp identifier.
-  final List<GroupSummary>? groupsSummaries;
-
-  /// If the response is truncated, Amazon Kendra returns this token that you can
-  /// use in the subsequent request to retrieve the next set of groups that are
-  /// mapped to users before a given ordering or timestamp identifier.
-  final String? nextToken;
-
-  ListGroupsOlderThanOrderingIdResponse({
-    this.groupsSummaries,
-    this.nextToken,
-  });
-
-  factory ListGroupsOlderThanOrderingIdResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListGroupsOlderThanOrderingIdResponse(
-      groupsSummaries: (json['GroupsSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => GroupSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupsSummaries = this.groupsSummaries;
-    final nextToken = this.nextToken;
-    return {
-      if (groupsSummaries != null) 'GroupsSummaries': groupsSummaries,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListIndicesResponse {
-  /// An array of summary information on the configuration of one or more indexes.
-  final List<IndexConfigurationSummary>? indexConfigurationSummaryItems;
-
-  /// If the response is truncated, Amazon Kendra returns this token that you can
-  /// use in the subsequent request to retrieve the next set of indexes.
-  final String? nextToken;
-
-  ListIndicesResponse({
-    this.indexConfigurationSummaryItems,
-    this.nextToken,
-  });
-
-  factory ListIndicesResponse.fromJson(Map<String, dynamic> json) {
-    return ListIndicesResponse(
-      indexConfigurationSummaryItems:
-          (json['IndexConfigurationSummaryItems'] as List?)
-              ?.nonNulls
-              .map((e) =>
-                  IndexConfigurationSummary.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final indexConfigurationSummaryItems = this.indexConfigurationSummaryItems;
-    final nextToken = this.nextToken;
-    return {
-      if (indexConfigurationSummaryItems != null)
-        'IndexConfigurationSummaryItems': indexConfigurationSummaryItems,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListQuerySuggestionsBlockListsResponse {
-  /// Summary items for a block list.
-  ///
-  /// This includes summary items on the block list ID, block list name, when the
-  /// block list was created, when the block list was last updated, and the count
-  /// of block words/phrases in the block list.
-  ///
-  /// For information on the current quota limits for block lists, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/quotas.html">Quotas for
-  /// Amazon Kendra</a>.
-  final List<QuerySuggestionsBlockListSummary>? blockListSummaryItems;
-
-  /// If the response is truncated, Amazon Kendra returns this token that you can
-  /// use in the subsequent request to retrieve the next set of block lists.
-  final String? nextToken;
-
-  ListQuerySuggestionsBlockListsResponse({
-    this.blockListSummaryItems,
-    this.nextToken,
-  });
-
-  factory ListQuerySuggestionsBlockListsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListQuerySuggestionsBlockListsResponse(
-      blockListSummaryItems: (json['BlockListSummaryItems'] as List?)
-          ?.nonNulls
-          .map((e) => QuerySuggestionsBlockListSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blockListSummaryItems = this.blockListSummaryItems;
-    final nextToken = this.nextToken;
-    return {
-      if (blockListSummaryItems != null)
-        'BlockListSummaryItems': blockListSummaryItems,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// A list of tags associated with the index, FAQ, or data source.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class ListThesauriResponse {
-  /// If the response is truncated, Amazon Kendra returns this token that you can
-  /// use in the subsequent request to retrieve the next set of thesauri.
-  final String? nextToken;
-
-  /// An array of summary information for a thesaurus or multiple thesauri.
-  final List<ThesaurusSummary>? thesaurusSummaryItems;
-
-  ListThesauriResponse({
-    this.nextToken,
-    this.thesaurusSummaryItems,
-  });
-
-  factory ListThesauriResponse.fromJson(Map<String, dynamic> json) {
-    return ListThesauriResponse(
-      nextToken: json['NextToken'] as String?,
-      thesaurusSummaryItems: (json['ThesaurusSummaryItems'] as List?)
-          ?.nonNulls
-          .map((e) => ThesaurusSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final thesaurusSummaryItems = this.thesaurusSummaryItems;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (thesaurusSummaryItems != null)
-        'ThesaurusSummaryItems': thesaurusSummaryItems,
-    };
-  }
-}
-
-/// The sub groups that belong to a group.
-class MemberGroup {
-  /// The identifier of the sub group you want to map to a group.
-  final String groupId;
-
-  /// The identifier of the data source for the sub group you want to map to a
-  /// group.
-  final String? dataSourceId;
-
-  MemberGroup({
-    required this.groupId,
-    this.dataSourceId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final groupId = this.groupId;
-    final dataSourceId = this.dataSourceId;
-    return {
-      'GroupId': groupId,
-      if (dataSourceId != null) 'DataSourceId': dataSourceId,
-    };
-  }
-}
-
-/// The users that belong to a group.
-class MemberUser {
-  /// The identifier of the user you want to map to a group.
-  final String userId;
-
-  MemberUser({
-    required this.userId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final userId = this.userId;
-    return {
-      'UserId': userId,
-    };
-  }
-}
-
-class MetricType {
-  static const queriesByCount = MetricType._('QUERIES_BY_COUNT');
-  static const queriesByZeroClickRate =
-      MetricType._('QUERIES_BY_ZERO_CLICK_RATE');
-  static const queriesByZeroResultRate =
-      MetricType._('QUERIES_BY_ZERO_RESULT_RATE');
-  static const docsByClickCount = MetricType._('DOCS_BY_CLICK_COUNT');
-  static const aggQueryDocMetrics = MetricType._('AGG_QUERY_DOC_METRICS');
-  static const trendQueryDocMetrics = MetricType._('TREND_QUERY_DOC_METRICS');
-
-  final String value;
-
-  const MetricType._(this.value);
+  const SlackEntity._(this.value);
 
   static const values = [
-    queriesByCount,
-    queriesByZeroClickRate,
-    queriesByZeroResultRate,
-    docsByClickCount,
-    aggQueryDocMetrics,
-    trendQueryDocMetrics
+    publicChannel,
+    privateChannel,
+    groupMessage,
+    directMessage
   ];
 
-  static MetricType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
+  static SlackEntity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SlackEntity._(value));
 
   @override
-  bool operator ==(other) => other is MetricType && other.value == value;
+  bool operator ==(other) => other is SlackEntity && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13404,47 +11817,21 @@ class MetricType {
   String toString() => value;
 }
 
-class MissingAttributeKeyStrategy {
-  static const ignore = MissingAttributeKeyStrategy._('IGNORE');
-  static const collapse = MissingAttributeKeyStrategy._('COLLAPSE');
-  static const expand = MissingAttributeKeyStrategy._('EXPAND');
+class FsxFileSystemType {
+  static const windows = FsxFileSystemType._('WINDOWS');
 
   final String value;
 
-  const MissingAttributeKeyStrategy._(this.value);
+  const FsxFileSystemType._(this.value);
 
-  static const values = [ignore, collapse, expand];
+  static const values = [windows];
 
-  static MissingAttributeKeyStrategy fromString(String value) =>
+  static FsxFileSystemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => MissingAttributeKeyStrategy._(value));
+          orElse: () => FsxFileSystemType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is MissingAttributeKeyStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Mode {
-  static const enabled = Mode._('ENABLED');
-  static const learnOnly = Mode._('LEARN_ONLY');
-
-  final String value;
-
-  const Mode._(this.value);
-
-  static const values = [enabled, learnOnly];
-
-  static Mode fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Mode._(value));
-
-  @override
-  bool operator ==(other) => other is Mode && other.value == value;
+  bool operator ==(other) => other is FsxFileSystemType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -13453,395 +11840,62 @@ class Mode {
   String toString() => value;
 }
 
-/// Provides the configuration information to connect to GitHub Enterprise
-/// Server (on premises).
-class OnPremiseConfiguration {
-  /// The GitHub host URL or API endpoint URL. For example,
-  /// <i>https://on-prem-host-url/api/v3/</i>
-  final String hostUrl;
-
-  /// The name of the organization of the GitHub Enterprise Server (on-premises)
-  /// account you want to connect to. You can find your organization name by
-  /// logging into GitHub desktop and selecting <b>Your organizations</b> under
-  /// your profile picture dropdown.
-  final String organizationName;
-
-  /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this
-  /// to connect to GitHub if you require a secure SSL connection.
+/// Provides the configuration information of the URLs to crawl.
+///
+/// You can only crawl websites that use the secure communication protocol,
+/// Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when
+/// crawling a website, it could be that the website is blocked from crawling.
+///
+/// <i>When selecting websites to index, you must adhere to the <a
+/// href="https://aws.amazon.com/aup/">Amazon Acceptable Use Policy</a> and all
+/// other Amazon terms. Remember that you must only use Amazon Kendra Web
+/// Crawler to index your own web pages, or web pages that you have
+/// authorization to index.</i>
+class Urls {
+  /// Configuration of the seed or starting point URLs of the websites you want to
+  /// crawl.
   ///
-  /// You can simply generate a self-signed X509 certificate on any computer using
-  /// OpenSSL. For an example of using OpenSSL to create an X509 certificate, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html">Create
-  /// and sign an X509 certificate</a>.
-  final S3Path sslCertificateS3Path;
+  /// You can choose to crawl only the website host names, or the website host
+  /// names with subdomains, or the website host names with subdomains and other
+  /// domains that the web pages link to.
+  ///
+  /// You can list up to 100 seed URLs.
+  final SeedUrlConfiguration? seedUrlConfiguration;
 
-  OnPremiseConfiguration({
-    required this.hostUrl,
-    required this.organizationName,
-    required this.sslCertificateS3Path,
+  /// Configuration of the sitemap URLs of the websites you want to crawl.
+  ///
+  /// Only URLs belonging to the same website host names are crawled. You can list
+  /// up to three sitemap URLs.
+  final SiteMapsConfiguration? siteMapsConfiguration;
+
+  Urls({
+    this.seedUrlConfiguration,
+    this.siteMapsConfiguration,
   });
 
-  factory OnPremiseConfiguration.fromJson(Map<String, dynamic> json) {
-    return OnPremiseConfiguration(
-      hostUrl: (json['HostUrl'] as String?) ?? '',
-      organizationName: (json['OrganizationName'] as String?) ?? '',
-      sslCertificateS3Path: S3Path.fromJson(
-          (json['SslCertificateS3Path'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostUrl = this.hostUrl;
-    final organizationName = this.organizationName;
-    final sslCertificateS3Path = this.sslCertificateS3Path;
-    return {
-      'HostUrl': hostUrl,
-      'OrganizationName': organizationName,
-      'SslCertificateS3Path': sslCertificateS3Path,
-    };
-  }
-}
-
-/// Provides the configuration information to connect to OneDrive as your data
-/// source.
-class OneDriveConfiguration {
-  /// A list of user accounts whose documents should be indexed.
-  final OneDriveUsers oneDriveUsers;
-
-  /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the
-  /// user name and password to connect to OneDrive. The user name should be the
-  /// application ID for the OneDrive application, and the password is the
-  /// application key for the OneDrive application.
-  final String secretArn;
-
-  /// The Azure Active Directory domain of the organization.
-  final String tenantDomain;
-
-  /// <code>TRUE</code> to disable local groups information.
-  final bool? disableLocalGroups;
-
-  /// A list of regular expression patterns to exclude certain documents in your
-  /// OneDrive. Documents that match the patterns are excluded from the index.
-  /// Documents that don't match the patterns are included in the index. If a
-  /// document matches both an inclusion and exclusion pattern, the exclusion
-  /// pattern takes precedence and the document isn't included in the index.
-  ///
-  /// The pattern is applied to the file name.
-  final List<String>? exclusionPatterns;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// OneDrive data source attributes or field names to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to OneDrive fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The OneDrive data source field names must exist in
-  /// your OneDrive custom metadata.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  /// A list of regular expression patterns to include certain documents in your
-  /// OneDrive. Documents that match the patterns are included in the index.
-  /// Documents that don't match the patterns are excluded from the index. If a
-  /// document matches both an inclusion and exclusion pattern, the exclusion
-  /// pattern takes precedence and the document isn't included in the index.
-  ///
-  /// The pattern is applied to the file name.
-  final List<String>? inclusionPatterns;
-
-  OneDriveConfiguration({
-    required this.oneDriveUsers,
-    required this.secretArn,
-    required this.tenantDomain,
-    this.disableLocalGroups,
-    this.exclusionPatterns,
-    this.fieldMappings,
-    this.inclusionPatterns,
-  });
-
-  factory OneDriveConfiguration.fromJson(Map<String, dynamic> json) {
-    return OneDriveConfiguration(
-      oneDriveUsers: OneDriveUsers.fromJson(
-          (json['OneDriveUsers'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      tenantDomain: (json['TenantDomain'] as String?) ?? '',
-      disableLocalGroups: json['DisableLocalGroups'] as bool?,
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final oneDriveUsers = this.oneDriveUsers;
-    final secretArn = this.secretArn;
-    final tenantDomain = this.tenantDomain;
-    final disableLocalGroups = this.disableLocalGroups;
-    final exclusionPatterns = this.exclusionPatterns;
-    final fieldMappings = this.fieldMappings;
-    final inclusionPatterns = this.inclusionPatterns;
-    return {
-      'OneDriveUsers': oneDriveUsers,
-      'SecretArn': secretArn,
-      'TenantDomain': tenantDomain,
-      if (disableLocalGroups != null) 'DisableLocalGroups': disableLocalGroups,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-    };
-  }
-}
-
-/// User accounts whose documents should be indexed.
-class OneDriveUsers {
-  /// A list of users whose documents should be indexed. Specify the user names in
-  /// email format, for example, <code>username@tenantdomain</code>. If you need
-  /// to index the documents of more than 100 users, use the
-  /// <code>OneDriveUserS3Path</code> field to specify the location of a file
-  /// containing a list of users.
-  final List<String>? oneDriveUserList;
-
-  /// The S3 bucket location of a file containing a list of users whose documents
-  /// should be indexed.
-  final S3Path? oneDriveUserS3Path;
-
-  OneDriveUsers({
-    this.oneDriveUserList,
-    this.oneDriveUserS3Path,
-  });
-
-  factory OneDriveUsers.fromJson(Map<String, dynamic> json) {
-    return OneDriveUsers(
-      oneDriveUserList: (json['OneDriveUserList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      oneDriveUserS3Path: json['OneDriveUserS3Path'] != null
-          ? S3Path.fromJson(json['OneDriveUserS3Path'] as Map<String, dynamic>)
+  factory Urls.fromJson(Map<String, dynamic> json) {
+    return Urls(
+      seedUrlConfiguration: json['SeedUrlConfiguration'] != null
+          ? SeedUrlConfiguration.fromJson(
+              json['SeedUrlConfiguration'] as Map<String, dynamic>)
+          : null,
+      siteMapsConfiguration: json['SiteMapsConfiguration'] != null
+          ? SiteMapsConfiguration.fromJson(
+              json['SiteMapsConfiguration'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final oneDriveUserList = this.oneDriveUserList;
-    final oneDriveUserS3Path = this.oneDriveUserS3Path;
+    final seedUrlConfiguration = this.seedUrlConfiguration;
+    final siteMapsConfiguration = this.siteMapsConfiguration;
     return {
-      if (oneDriveUserList != null) 'OneDriveUserList': oneDriveUserList,
-      if (oneDriveUserS3Path != null) 'OneDriveUserS3Path': oneDriveUserS3Path,
+      if (seedUrlConfiguration != null)
+        'SeedUrlConfiguration': seedUrlConfiguration,
+      if (siteMapsConfiguration != null)
+        'SiteMapsConfiguration': siteMapsConfiguration,
     };
   }
-}
-
-class Order {
-  static const ascending = Order._('ASCENDING');
-  static const descending = Order._('DESCENDING');
-
-  final String value;
-
-  const Order._(this.value);
-
-  static const values = [ascending, descending];
-
-  static Order fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Order._(value));
-
-  @override
-  bool operator ==(other) => other is Order && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Persona {
-  static const owner = Persona._('OWNER');
-  static const viewer = Persona._('VIEWER');
-
-  final String value;
-
-  const Persona._(this.value);
-
-  static const values = [owner, viewer];
-
-  static Persona fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Persona._(value));
-
-  @override
-  bool operator ==(other) => other is Persona && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information for users or groups in your IAM Identity Center identity
-/// source. This applies to users and groups with specific permissions that
-/// define their level of access to your Amazon Kendra experience. You can
-/// create an Amazon Kendra experience such as a search application. For more
-/// information on creating a search application experience, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
-/// a search experience with no code</a>.
-class PersonasSummary {
-  /// The Unix timestamp when the summary information was created.
-  final DateTime? createdAt;
-
-  /// The identifier of a user or group in your IAM Identity Center identity
-  /// source. For example, a user ID could be an email.
-  final String? entityId;
-
-  /// The persona that defines the specific permissions of the user or group in
-  /// your IAM Identity Center identity source. The available personas or access
-  /// roles are <code>Owner</code> and <code>Viewer</code>. For more information
-  /// on these personas, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html#access-search-experience">Providing
-  /// access to your search page</a>.
-  final Persona? persona;
-
-  /// The Unix timestamp when the summary information was last updated.
-  final DateTime? updatedAt;
-
-  PersonasSummary({
-    this.createdAt,
-    this.entityId,
-    this.persona,
-    this.updatedAt,
-  });
-
-  factory PersonasSummary.fromJson(Map<String, dynamic> json) {
-    return PersonasSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      entityId: json['EntityId'] as String?,
-      persona: (json['Persona'] as String?)?.let(Persona.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final entityId = this.entityId;
-    final persona = this.persona;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (entityId != null) 'EntityId': entityId,
-      if (persona != null) 'Persona': persona.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// Provides user and group information for <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html">user
-/// context filtering</a>.
-class Principal {
-  /// Whether to allow or deny document access to the principal.
-  final ReadAccessType access;
-
-  /// The name of the user or group.
-  final String name;
-
-  /// The type of principal.
-  final PrincipalType type;
-
-  /// The identifier of the data source the principal should access documents
-  /// from.
-  final String? dataSourceId;
-
-  Principal({
-    required this.access,
-    required this.name,
-    required this.type,
-    this.dataSourceId,
-  });
-
-  factory Principal.fromJson(Map<String, dynamic> json) {
-    return Principal(
-      access: ReadAccessType.fromString((json['Access'] as String?) ?? ''),
-      name: (json['Name'] as String?) ?? '',
-      type: PrincipalType.fromString((json['Type'] as String?) ?? ''),
-      dataSourceId: json['DataSourceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final access = this.access;
-    final name = this.name;
-    final type = this.type;
-    final dataSourceId = this.dataSourceId;
-    return {
-      'Access': access.value,
-      'Name': name,
-      'Type': type.value,
-      if (dataSourceId != null) 'DataSourceId': dataSourceId,
-    };
-  }
-}
-
-class PrincipalMappingStatus {
-  static const failed = PrincipalMappingStatus._('FAILED');
-  static const succeeded = PrincipalMappingStatus._('SUCCEEDED');
-  static const processing = PrincipalMappingStatus._('PROCESSING');
-  static const deleting = PrincipalMappingStatus._('DELETING');
-  static const deleted = PrincipalMappingStatus._('DELETED');
-
-  final String value;
-
-  const PrincipalMappingStatus._(this.value);
-
-  static const values = [failed, succeeded, processing, deleting, deleted];
-
-  static PrincipalMappingStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PrincipalMappingStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PrincipalMappingStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PrincipalType {
-  static const user = PrincipalType._('USER');
-  static const group = PrincipalType._('GROUP');
-
-  final String value;
-
-  const PrincipalType._(this.value);
-
-  static const values = [user, group];
-
-  static PrincipalType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PrincipalType._(value));
-
-  @override
-  bool operator ==(other) => other is PrincipalType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Provides the configuration information for a web proxy to connect to website
@@ -13860,7 +11914,8 @@ class ProxyConfiguration {
   /// standard port for HTTPS.
   final int port;
 
-  /// Your secret ARN, which you can create in <a
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret. You create a
+  /// secret to store your credentials in <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">Secrets
   /// Manager</a>
   ///
@@ -13896,1854 +11951,86 @@ class ProxyConfiguration {
   }
 }
 
-class QueryIdentifiersEnclosingOption {
-  static const doubleQuotes =
-      QueryIdentifiersEnclosingOption._('DOUBLE_QUOTES');
-  static const none = QueryIdentifiersEnclosingOption._('NONE');
-
-  final String value;
-
-  const QueryIdentifiersEnclosingOption._(this.value);
-
-  static const values = [doubleQuotes, none];
-
-  static QueryIdentifiersEnclosingOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QueryIdentifiersEnclosingOption._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is QueryIdentifiersEnclosingOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class QueryResult {
-  /// Contains the facet results. A <code>FacetResult</code> contains the counts
-  /// for each field/attribute key that was specified in the <code>Facets</code>
-  /// input parameter.
-  final List<FacetResult>? facetResults;
-
-  /// The list of featured result items. Featured results are displayed at the top
-  /// of the search results page, placed above all other results for certain
-  /// queries. If there's an exact match of a query, then certain documents are
-  /// featured in the search results.
-  final List<FeaturedResultsItem>? featuredResultsItems;
-
-  /// The identifier for the search. You also use <code>QueryId</code> to identify
-  /// the search when using the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html">SubmitFeedback</a>
-  /// API.
-  final String? queryId;
-
-  /// The results of the search.
-  final List<QueryResultItem>? resultItems;
-
-  /// A list of information related to suggested spell corrections for a query.
-  final List<SpellCorrectedQuery>? spellCorrectedQueries;
-
-  /// The total number of items found by the search. However, you can only
-  /// retrieve up to 100 items. For example, if the search found 192 items, you
-  /// can only retrieve the first 100 of the items.
-  final int? totalNumberOfResults;
-
-  /// A list of warning codes and their messages on problems with your query.
+/// Provides the configuration information to connect to websites that require
+/// user authentication.
+class AuthenticationConfiguration {
+  /// The list of configuration information that's required to connect to and
+  /// crawl a website host using basic authentication credentials.
   ///
-  /// Amazon Kendra currently only supports one type of warning, which is a
-  /// warning on invalid syntax used in the query. For examples of invalid query
-  /// syntax, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax">Searching
-  /// with advanced query syntax</a>.
-  final List<Warning>? warnings;
+  /// The list includes the name and port number of the website host.
+  final List<BasicAuthenticationConfiguration>? basicAuthentication;
 
-  QueryResult({
-    this.facetResults,
-    this.featuredResultsItems,
-    this.queryId,
-    this.resultItems,
-    this.spellCorrectedQueries,
-    this.totalNumberOfResults,
-    this.warnings,
+  AuthenticationConfiguration({
+    this.basicAuthentication,
   });
 
-  factory QueryResult.fromJson(Map<String, dynamic> json) {
-    return QueryResult(
-      facetResults: (json['FacetResults'] as List?)
+  factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuthenticationConfiguration(
+      basicAuthentication: (json['BasicAuthentication'] as List?)
           ?.nonNulls
-          .map((e) => FacetResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      featuredResultsItems: (json['FeaturedResultsItems'] as List?)
-          ?.nonNulls
-          .map((e) => FeaturedResultsItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      queryId: json['QueryId'] as String?,
-      resultItems: (json['ResultItems'] as List?)
-          ?.nonNulls
-          .map((e) => QueryResultItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      spellCorrectedQueries: (json['SpellCorrectedQueries'] as List?)
-          ?.nonNulls
-          .map((e) => SpellCorrectedQuery.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      totalNumberOfResults: json['TotalNumberOfResults'] as int?,
-      warnings: (json['Warnings'] as List?)
-          ?.nonNulls
-          .map((e) => Warning.fromJson(e as Map<String, dynamic>))
+          .map((e) => BasicAuthenticationConfiguration.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final facetResults = this.facetResults;
-    final featuredResultsItems = this.featuredResultsItems;
-    final queryId = this.queryId;
-    final resultItems = this.resultItems;
-    final spellCorrectedQueries = this.spellCorrectedQueries;
-    final totalNumberOfResults = this.totalNumberOfResults;
-    final warnings = this.warnings;
+    final basicAuthentication = this.basicAuthentication;
     return {
-      if (facetResults != null) 'FacetResults': facetResults,
-      if (featuredResultsItems != null)
-        'FeaturedResultsItems': featuredResultsItems,
-      if (queryId != null) 'QueryId': queryId,
-      if (resultItems != null) 'ResultItems': resultItems,
-      if (spellCorrectedQueries != null)
-        'SpellCorrectedQueries': spellCorrectedQueries,
-      if (totalNumberOfResults != null)
-        'TotalNumberOfResults': totalNumberOfResults,
-      if (warnings != null) 'Warnings': warnings,
+      if (basicAuthentication != null)
+        'BasicAuthentication': basicAuthentication,
     };
   }
 }
 
-class QueryResultFormat {
-  static const table = QueryResultFormat._('TABLE');
-  static const text = QueryResultFormat._('TEXT');
-
-  final String value;
-
-  const QueryResultFormat._(this.value);
-
-  static const values = [table, text];
-
-  static QueryResultFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QueryResultFormat._(value));
-
-  @override
-  bool operator ==(other) => other is QueryResultFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A single query result.
-///
-/// A query result contains information about a document returned by the query.
-/// This includes the original location of the document, a list of attributes
-/// assigned to the document, and relevant text from the document that satisfies
-/// the query.
-class QueryResultItem {
-  /// One or more additional fields/attributes associated with the query result.
-  final List<AdditionalResultAttribute>? additionalAttributes;
-
-  /// Provides details about a collapsed group of search results.
-  final CollapsedResultDetail? collapsedResultDetail;
-
-  /// An array of document fields/attributes assigned to a document in the search
-  /// results. For example, the document author (<code>_author</code>) or the
-  /// source URI (<code>_source_uri</code>) of the document.
-  final List<DocumentAttribute>? documentAttributes;
-
-  /// An extract of the text in the document. Contains information about
-  /// highlighting the relevant terms in the excerpt.
-  final TextWithHighlights? documentExcerpt;
-
-  /// The identifier for the document.
-  final String? documentId;
-
-  /// The title of the document. Contains the text of the title and information
-  /// for highlighting the relevant terms in the title.
-  final TextWithHighlights? documentTitle;
-
-  /// The URI of the original location of the document.
-  final String? documentURI;
-
-  /// A token that identifies a particular result from a particular query. Use
-  /// this token to provide click-through feedback for the result. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html">Submitting
-  /// feedback</a>.
-  final String? feedbackToken;
-
-  /// If the <code>Type</code> of document within the response is
-  /// <code>ANSWER</code>, then it is either a <code>TABLE</code> answer or
-  /// <code>TEXT</code> answer. If it's a table answer, a table excerpt is
-  /// returned in <code>TableExcerpt</code>. If it's a text answer, a text excerpt
-  /// is returned in <code>DocumentExcerpt</code>.
-  final QueryResultFormat? format;
-
-  /// The unique identifier for the query result item id (<code>Id</code>) and the
-  /// query result item document id (<code>DocumentId</code>) combined. The value
-  /// of this field changes with every request, even when you have the same
-  /// documents.
-  final String? id;
-
-  /// Indicates the confidence level of Amazon Kendra providing a relevant result
-  /// for the query. Each result is placed into a bin that indicates the
-  /// confidence, <code>VERY_HIGH</code>, <code>HIGH</code>, <code>MEDIUM</code>
-  /// and <code>LOW</code>. You can use the score to determine if a response meets
-  /// the confidence needed for your application.
+/// Provides the configuration information to connect to websites that require
+/// basic user authentication.
+class BasicAuthenticationConfiguration {
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret. You create a
+  /// secret to store your credentials in <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">Secrets
+  /// Manager</a>
   ///
-  /// The field is only set to <code>LOW</code> when the <code>Type</code> field
-  /// is set to <code>DOCUMENT</code> and Amazon Kendra is not confident that the
-  /// result is relevant to the query.
-  final ScoreAttributes? scoreAttributes;
+  /// You use a secret if basic authentication credentials are required to connect
+  /// to a website. The secret stores your credentials of user name and password.
+  final String credentials;
 
-  /// An excerpt from a table within a document.
-  final TableExcerpt? tableExcerpt;
-
-  /// The type of document within the response. For example, a response could
-  /// include a question-answer that's relevant to the query.
-  final QueryResultType? type;
-
-  QueryResultItem({
-    this.additionalAttributes,
-    this.collapsedResultDetail,
-    this.documentAttributes,
-    this.documentExcerpt,
-    this.documentId,
-    this.documentTitle,
-    this.documentURI,
-    this.feedbackToken,
-    this.format,
-    this.id,
-    this.scoreAttributes,
-    this.tableExcerpt,
-    this.type,
-  });
-
-  factory QueryResultItem.fromJson(Map<String, dynamic> json) {
-    return QueryResultItem(
-      additionalAttributes: (json['AdditionalAttributes'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      collapsedResultDetail: json['CollapsedResultDetail'] != null
-          ? CollapsedResultDetail.fromJson(
-              json['CollapsedResultDetail'] as Map<String, dynamic>)
-          : null,
-      documentAttributes: (json['DocumentAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      documentExcerpt: json['DocumentExcerpt'] != null
-          ? TextWithHighlights.fromJson(
-              json['DocumentExcerpt'] as Map<String, dynamic>)
-          : null,
-      documentId: json['DocumentId'] as String?,
-      documentTitle: json['DocumentTitle'] != null
-          ? TextWithHighlights.fromJson(
-              json['DocumentTitle'] as Map<String, dynamic>)
-          : null,
-      documentURI: json['DocumentURI'] as String?,
-      feedbackToken: json['FeedbackToken'] as String?,
-      format: (json['Format'] as String?)?.let(QueryResultFormat.fromString),
-      id: json['Id'] as String?,
-      scoreAttributes: json['ScoreAttributes'] != null
-          ? ScoreAttributes.fromJson(
-              json['ScoreAttributes'] as Map<String, dynamic>)
-          : null,
-      tableExcerpt: json['TableExcerpt'] != null
-          ? TableExcerpt.fromJson(json['TableExcerpt'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(QueryResultType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalAttributes = this.additionalAttributes;
-    final collapsedResultDetail = this.collapsedResultDetail;
-    final documentAttributes = this.documentAttributes;
-    final documentExcerpt = this.documentExcerpt;
-    final documentId = this.documentId;
-    final documentTitle = this.documentTitle;
-    final documentURI = this.documentURI;
-    final feedbackToken = this.feedbackToken;
-    final format = this.format;
-    final id = this.id;
-    final scoreAttributes = this.scoreAttributes;
-    final tableExcerpt = this.tableExcerpt;
-    final type = this.type;
-    return {
-      if (additionalAttributes != null)
-        'AdditionalAttributes': additionalAttributes,
-      if (collapsedResultDetail != null)
-        'CollapsedResultDetail': collapsedResultDetail,
-      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
-      if (documentExcerpt != null) 'DocumentExcerpt': documentExcerpt,
-      if (documentId != null) 'DocumentId': documentId,
-      if (documentTitle != null) 'DocumentTitle': documentTitle,
-      if (documentURI != null) 'DocumentURI': documentURI,
-      if (feedbackToken != null) 'FeedbackToken': feedbackToken,
-      if (format != null) 'Format': format.value,
-      if (id != null) 'Id': id,
-      if (scoreAttributes != null) 'ScoreAttributes': scoreAttributes,
-      if (tableExcerpt != null) 'TableExcerpt': tableExcerpt,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class QueryResultType {
-  static const document = QueryResultType._('DOCUMENT');
-  static const questionAnswer = QueryResultType._('QUESTION_ANSWER');
-  static const answer = QueryResultType._('ANSWER');
-
-  final String value;
-
-  const QueryResultType._(this.value);
-
-  static const values = [document, questionAnswer, answer];
-
-  static QueryResultType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QueryResultType._(value));
-
-  @override
-  bool operator ==(other) => other is QueryResultType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class QuerySuggestionsBlockListStatus {
-  static const active = QuerySuggestionsBlockListStatus._('ACTIVE');
-  static const creating = QuerySuggestionsBlockListStatus._('CREATING');
-  static const deleting = QuerySuggestionsBlockListStatus._('DELETING');
-  static const updating = QuerySuggestionsBlockListStatus._('UPDATING');
-  static const activeButUpdateFailed =
-      QuerySuggestionsBlockListStatus._('ACTIVE_BUT_UPDATE_FAILED');
-  static const failed = QuerySuggestionsBlockListStatus._('FAILED');
-
-  final String value;
-
-  const QuerySuggestionsBlockListStatus._(this.value);
-
-  static const values = [
-    active,
-    creating,
-    deleting,
-    updating,
-    activeButUpdateFailed,
-    failed
-  ];
-
-  static QuerySuggestionsBlockListStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QuerySuggestionsBlockListStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is QuerySuggestionsBlockListStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information on a query suggestions block list.
-///
-/// This includes information on the block list ID, block list name, when the
-/// block list was created, when the block list was last updated, and the count
-/// of block words/phrases in the block list.
-///
-/// For information on the current quota limits for block lists, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/quotas.html">Quotas for
-/// Amazon Kendra</a>.
-class QuerySuggestionsBlockListSummary {
-  /// The Unix timestamp when the block list was created.
-  final DateTime? createdAt;
-
-  /// The identifier of a block list.
-  final String? id;
-
-  /// The number of items in the block list file.
-  final int? itemCount;
-
-  /// The name of the block list.
-  final String? name;
-
-  /// The status of the block list.
-  final QuerySuggestionsBlockListStatus? status;
-
-  /// The Unix timestamp when the block list was last updated.
-  final DateTime? updatedAt;
-
-  QuerySuggestionsBlockListSummary({
-    this.createdAt,
-    this.id,
-    this.itemCount,
-    this.name,
-    this.status,
-    this.updatedAt,
-  });
-
-  factory QuerySuggestionsBlockListSummary.fromJson(Map<String, dynamic> json) {
-    return QuerySuggestionsBlockListSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      id: json['Id'] as String?,
-      itemCount: json['ItemCount'] as int?,
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(QuerySuggestionsBlockListStatus.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final id = this.id;
-    final itemCount = this.itemCount;
-    final name = this.name;
-    final status = this.status;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (id != null) 'Id': id,
-      if (itemCount != null) 'ItemCount': itemCount,
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class QuerySuggestionsStatus {
-  static const active = QuerySuggestionsStatus._('ACTIVE');
-  static const updating = QuerySuggestionsStatus._('UPDATING');
-
-  final String value;
-
-  const QuerySuggestionsStatus._(this.value);
-
-  static const values = [active, updating];
-
-  static QuerySuggestionsStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => QuerySuggestionsStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is QuerySuggestionsStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information to connect to Quip as your data
-/// source.
-class QuipConfiguration {
-  /// The Quip site domain. For example,
-  /// <i>https://quip-company.quipdomain.com/browse</i>. The domain in this
-  /// example is "quipdomain".
-  final String domain;
-
-  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
-  /// the key-value pairs that are required to connect to your Quip. The secret
-  /// must contain a JSON structure with the following keys:
+  /// The name of the website host you want to connect to using authentication
+  /// credentials.
   ///
-  /// <ul>
-  /// <li>
-  /// accessToken—The token created in Quip. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-slack.html">Using
-  /// a Quip data source</a>.
-  /// </li>
-  /// </ul>
-  final String secretArn;
+  /// For example, the host name of https://a.example.com/page1.html is
+  /// "a.example.com".
+  final String host;
 
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Quip attachments to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Quip fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Quip field names must exist in your Quip custom
-  /// metadata.
-  final List<DataSourceToIndexFieldMapping>? attachmentFieldMappings;
-
-  /// <code>TRUE</code> to index attachments.
-  final bool? crawlAttachments;
-
-  /// <code>TRUE</code> to index the contents of chat rooms.
-  final bool? crawlChatRooms;
-
-  /// <code>TRUE</code> to index file comments.
-  final bool? crawlFileComments;
-
-  /// A list of regular expression patterns to exclude certain files in your Quip
-  /// file system. Files that match the patterns are excluded from the index.
-  /// Files that don’t match the patterns are included in the index. If a file
-  /// matches both an inclusion pattern and an exclusion pattern, the exclusion
-  /// pattern takes precedence, and the file isn't included in the index.
-  final List<String>? exclusionPatterns;
-
-  /// The identifiers of the Quip folders you want to index. You can find the
-  /// folder ID in your browser URL when you access your folder in Quip. For
-  /// example,
-  /// <i>https://quip-company.quipdomain.com/zlLuOVNSarTL/folder-name</i>. The
-  /// folder ID in this example is "zlLuOVNSarTL".
-  final List<String>? folderIds;
-
-  /// A list of regular expression patterns to include certain files in your Quip
-  /// file system. Files that match the patterns are included in the index. Files
-  /// that don't match the patterns are excluded from the index. If a file matches
-  /// both an inclusion pattern and an exclusion pattern, the exclusion pattern
-  /// takes precedence, and the file isn't included in the index.
-  final List<String>? inclusionPatterns;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Quip messages to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Quip fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Quip field names must exist in your Quip custom
-  /// metadata.
-  final List<DataSourceToIndexFieldMapping>? messageFieldMappings;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// attributes or field names of Quip threads to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Quip fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Quip field names must exist in your Quip custom
-  /// metadata.
-  final List<DataSourceToIndexFieldMapping>? threadFieldMappings;
-
-  /// Configuration information for an Amazon Virtual Private Cloud (VPC) to
-  /// connect to your Quip. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
-  /// a VPC</a>.
-  final DataSourceVpcConfiguration? vpcConfiguration;
-
-  QuipConfiguration({
-    required this.domain,
-    required this.secretArn,
-    this.attachmentFieldMappings,
-    this.crawlAttachments,
-    this.crawlChatRooms,
-    this.crawlFileComments,
-    this.exclusionPatterns,
-    this.folderIds,
-    this.inclusionPatterns,
-    this.messageFieldMappings,
-    this.threadFieldMappings,
-    this.vpcConfiguration,
-  });
-
-  factory QuipConfiguration.fromJson(Map<String, dynamic> json) {
-    return QuipConfiguration(
-      domain: (json['Domain'] as String?) ?? '',
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      crawlAttachments: json['CrawlAttachments'] as bool?,
-      crawlChatRooms: json['CrawlChatRooms'] as bool?,
-      crawlFileComments: json['CrawlFileComments'] as bool?,
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      folderIds: (json['FolderIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      messageFieldMappings: (json['MessageFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      threadFieldMappings: (json['ThreadFieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? DataSourceVpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domain = this.domain;
-    final secretArn = this.secretArn;
-    final attachmentFieldMappings = this.attachmentFieldMappings;
-    final crawlAttachments = this.crawlAttachments;
-    final crawlChatRooms = this.crawlChatRooms;
-    final crawlFileComments = this.crawlFileComments;
-    final exclusionPatterns = this.exclusionPatterns;
-    final folderIds = this.folderIds;
-    final inclusionPatterns = this.inclusionPatterns;
-    final messageFieldMappings = this.messageFieldMappings;
-    final threadFieldMappings = this.threadFieldMappings;
-    final vpcConfiguration = this.vpcConfiguration;
-    return {
-      'Domain': domain,
-      'SecretArn': secretArn,
-      if (attachmentFieldMappings != null)
-        'AttachmentFieldMappings': attachmentFieldMappings,
-      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
-      if (crawlChatRooms != null) 'CrawlChatRooms': crawlChatRooms,
-      if (crawlFileComments != null) 'CrawlFileComments': crawlFileComments,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (folderIds != null) 'FolderIds': folderIds,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (messageFieldMappings != null)
-        'MessageFieldMappings': messageFieldMappings,
-      if (threadFieldMappings != null)
-        'ThreadFieldMappings': threadFieldMappings,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
-    };
-  }
-}
-
-class ReadAccessType {
-  static const allow = ReadAccessType._('ALLOW');
-  static const deny = ReadAccessType._('DENY');
-
-  final String value;
-
-  const ReadAccessType._(this.value);
-
-  static const values = [allow, deny];
-
-  static ReadAccessType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReadAccessType._(value));
-
-  @override
-  bool operator ==(other) => other is ReadAccessType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information for tuning the relevance of a field in a search. When a
-/// query includes terms that match the field, the results are given a boost in
-/// the response based on these tuning parameters.
-class Relevance {
-  /// Specifies the time period that the boost applies to. For example, to make
-  /// the boost apply to documents with the field value within the last month, you
-  /// would use "2628000s". Once the field value is beyond the specified range,
-  /// the effect of the boost drops off. The higher the importance, the faster the
-  /// effect drops off. If you don't specify a value, the default is 3 months. The
-  /// value of the field is a numeric string followed by the character "s", for
-  /// example "86400s" for one day, or "604800s" for one week.
+  /// The port number of the website host you want to connect to using
+  /// authentication credentials.
   ///
-  /// Only applies to <code>DATE</code> fields.
-  final String? duration;
+  /// For example, the port for https://a.example.com/page1.html is 443, the
+  /// standard port for HTTPS.
+  final int port;
 
-  /// Indicates that this field determines how "fresh" a document is. For example,
-  /// if document 1 was created on November 5, and document 2 was created on
-  /// October 31, document 1 is "fresher" than document 2. Only applies to
-  /// <code>DATE</code> fields.
-  final bool? freshness;
-
-  /// The relative importance of the field in the search. Larger numbers provide
-  /// more of a boost than smaller numbers.
-  final int? importance;
-
-  /// Determines how values should be interpreted.
-  ///
-  /// When the <code>RankOrder</code> field is <code>ASCENDING</code>, higher
-  /// numbers are better. For example, a document with a rating score of 10 is
-  /// higher ranking than a document with a rating score of 1.
-  ///
-  /// When the <code>RankOrder</code> field is <code>DESCENDING</code>, lower
-  /// numbers are better. For example, in a task tracking application, a priority
-  /// 1 task is more important than a priority 5 task.
-  ///
-  /// Only applies to <code>LONG</code> fields.
-  final Order? rankOrder;
-
-  /// A list of values that should be given a different boost when they appear in
-  /// the result list. For example, if you are boosting a field called
-  /// "department", query terms that match the department field are boosted in the
-  /// result. However, you can add entries from the department field to boost
-  /// documents with those values higher.
-  ///
-  /// For example, you can add entries to the map with names of departments. If
-  /// you add "HR",5 and "Legal",3 those departments are given special attention
-  /// when they appear in the metadata of a document. When those terms appear they
-  /// are given the specified importance instead of the regular importance for the
-  /// boost.
-  final Map<String, int>? valueImportanceMap;
-
-  Relevance({
-    this.duration,
-    this.freshness,
-    this.importance,
-    this.rankOrder,
-    this.valueImportanceMap,
+  BasicAuthenticationConfiguration({
+    required this.credentials,
+    required this.host,
+    required this.port,
   });
 
-  factory Relevance.fromJson(Map<String, dynamic> json) {
-    return Relevance(
-      duration: json['Duration'] as String?,
-      freshness: json['Freshness'] as bool?,
-      importance: json['Importance'] as int?,
-      rankOrder: (json['RankOrder'] as String?)?.let(Order.fromString),
-      valueImportanceMap: (json['ValueImportanceMap'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as int)),
+  factory BasicAuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
+    return BasicAuthenticationConfiguration(
+      credentials: (json['Credentials'] as String?) ?? '',
+      host: (json['Host'] as String?) ?? '',
+      port: (json['Port'] as int?) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final duration = this.duration;
-    final freshness = this.freshness;
-    final importance = this.importance;
-    final rankOrder = this.rankOrder;
-    final valueImportanceMap = this.valueImportanceMap;
+    final credentials = this.credentials;
+    final host = this.host;
+    final port = this.port;
     return {
-      if (duration != null) 'Duration': duration,
-      if (freshness != null) 'Freshness': freshness,
-      if (importance != null) 'Importance': importance,
-      if (rankOrder != null) 'RankOrder': rankOrder.value,
-      if (valueImportanceMap != null) 'ValueImportanceMap': valueImportanceMap,
-    };
-  }
-}
-
-/// Provides feedback on how relevant a document is to a search. Your
-/// application uses the <code>SubmitFeedback</code> API to provide relevance
-/// information.
-class RelevanceFeedback {
-  /// Whether the document was relevant or not relevant to the search.
-  final RelevanceType relevanceValue;
-
-  /// The identifier of the search result that the user provided relevance
-  /// feedback for.
-  final String resultId;
-
-  RelevanceFeedback({
-    required this.relevanceValue,
-    required this.resultId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final relevanceValue = this.relevanceValue;
-    final resultId = this.resultId;
-    return {
-      'RelevanceValue': relevanceValue.value,
-      'ResultId': resultId,
-    };
-  }
-}
-
-class RelevanceType {
-  static const relevant = RelevanceType._('RELEVANT');
-  static const notRelevant = RelevanceType._('NOT_RELEVANT');
-
-  final String value;
-
-  const RelevanceType._(this.value);
-
-  static const values = [relevant, notRelevant];
-
-  static RelevanceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RelevanceType._(value));
-
-  @override
-  bool operator ==(other) => other is RelevanceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RetrieveResult {
-  /// The identifier of query used for the search. You also use
-  /// <code>QueryId</code> to identify the search when using the <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_SubmitFeedback.html">Submitfeedback</a>
-  /// API.
-  final String? queryId;
-
-  /// The results of the retrieved relevant passages for the search.
-  final List<RetrieveResultItem>? resultItems;
-
-  RetrieveResult({
-    this.queryId,
-    this.resultItems,
-  });
-
-  factory RetrieveResult.fromJson(Map<String, dynamic> json) {
-    return RetrieveResult(
-      queryId: json['QueryId'] as String?,
-      resultItems: (json['ResultItems'] as List?)
-          ?.nonNulls
-          .map((e) => RetrieveResultItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final queryId = this.queryId;
-    final resultItems = this.resultItems;
-    return {
-      if (queryId != null) 'QueryId': queryId,
-      if (resultItems != null) 'ResultItems': resultItems,
-    };
-  }
-}
-
-/// A single retrieved relevant passage result.
-class RetrieveResultItem {
-  /// The contents of the relevant passage.
-  final String? content;
-
-  /// An array of document fields/attributes assigned to a document in the search
-  /// results. For example, the document author (<code>_author</code>) or the
-  /// source URI (<code>_source_uri</code>) of the document.
-  final List<DocumentAttribute>? documentAttributes;
-
-  /// The identifier of the document.
-  final String? documentId;
-
-  /// The title of the document.
-  final String? documentTitle;
-
-  /// The URI of the original location of the document.
-  final String? documentURI;
-
-  /// The identifier of the relevant passage result.
-  final String? id;
-
-  /// The confidence score bucket for a retrieved passage result. The confidence
-  /// bucket provides a relative ranking that indicates how confident Amazon
-  /// Kendra is that the response is relevant to the query.
-  final ScoreAttributes? scoreAttributes;
-
-  RetrieveResultItem({
-    this.content,
-    this.documentAttributes,
-    this.documentId,
-    this.documentTitle,
-    this.documentURI,
-    this.id,
-    this.scoreAttributes,
-  });
-
-  factory RetrieveResultItem.fromJson(Map<String, dynamic> json) {
-    return RetrieveResultItem(
-      content: json['Content'] as String?,
-      documentAttributes: (json['DocumentAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      documentId: json['DocumentId'] as String?,
-      documentTitle: json['DocumentTitle'] as String?,
-      documentURI: json['DocumentURI'] as String?,
-      id: json['Id'] as String?,
-      scoreAttributes: json['ScoreAttributes'] != null
-          ? ScoreAttributes.fromJson(
-              json['ScoreAttributes'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final documentAttributes = this.documentAttributes;
-    final documentId = this.documentId;
-    final documentTitle = this.documentTitle;
-    final documentURI = this.documentURI;
-    final id = this.id;
-    final scoreAttributes = this.scoreAttributes;
-    return {
-      if (content != null) 'Content': content,
-      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
-      if (documentId != null) 'DocumentId': documentId,
-      if (documentTitle != null) 'DocumentTitle': documentTitle,
-      if (documentURI != null) 'DocumentURI': documentURI,
-      if (id != null) 'Id': id,
-      if (scoreAttributes != null) 'ScoreAttributes': scoreAttributes,
-    };
-  }
-}
-
-/// Provides the configuration information to connect to an Amazon S3 bucket.
-/// <note>
-/// Amazon Kendra now supports an upgraded Amazon S3 connector.
-///
-/// You must now use the <a
-/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
-/// object instead of the <code>S3DataSourceConfiguration</code> object to
-/// configure your connector.
-///
-/// Connectors configured using the older console and API architecture will
-/// continue to function as configured. However, you won't be able to edit or
-/// update them. If you want to edit or update your connector configuration, you
-/// must create a new connector.
-///
-/// We recommended migrating your connector workflow to the upgraded version.
-/// Support for connectors configured using the older architecture is scheduled
-/// to end by June 2024.
-/// </note>
-class S3DataSourceConfiguration {
-  /// The name of the bucket that contains the documents.
-  final String bucketName;
-
-  /// Provides the path to the S3 bucket that contains the user context filtering
-  /// files for the data source. For the format of the file, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html">Access
-  /// control for S3 data sources</a>.
-  final AccessControlListConfiguration? accessControlListConfiguration;
-  final DocumentsMetadataConfiguration? documentsMetadataConfiguration;
-
-  /// A list of glob patterns (patterns that can expand a wildcard pattern into a
-  /// list of path names that match the given pattern) for certain file names and
-  /// file types to exclude from your index. If a document matches both an
-  /// inclusion and exclusion prefix or pattern, the exclusion prefix takes
-  /// precendence and the document is not indexed. Examples of glob patterns
-  /// include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>/myapp/config/*</i>—All files inside config directory.
-  /// </li>
-  /// <li>
-  /// <i>**/*.png</i>—All .png files in all directories.
-  /// </li>
-  /// <li>
-  /// <i>**/*.{png, ico, md}</i>—All .png, .ico or .md files in all directories.
-  /// </li>
-  /// <li>
-  /// <i>/myapp/src/**/*.ts</i>—All .ts files inside src directory (and all its
-  /// subdirectories).
-  /// </li>
-  /// <li>
-  /// <i>**/!(*.module).ts</i>—All .ts files but not .module.ts
-  /// </li>
-  /// <li>
-  /// <i>*.png , *.jpg</i>—All PNG and JPEG image files in a directory (files with
-  /// the extensions .png and .jpg).
-  /// </li>
-  /// <li>
-  /// <i>*internal*</i>—All files in a directory that contain 'internal' in the
-  /// file name, such as 'internal', 'internal_only', 'company_internal'.
-  /// </li>
-  /// <li>
-  /// <i>**/*internal*</i>—All internal-related files in a directory and its
-  /// subdirectories.
-  /// </li>
-  /// </ul>
-  /// For more examples, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters">Use
-  /// of Exclude and Include Filters</a> in the Amazon Web Services CLI Command
-  /// Reference.
-  final List<String>? exclusionPatterns;
-
-  /// A list of glob patterns (patterns that can expand a wildcard pattern into a
-  /// list of path names that match the given pattern) for certain file names and
-  /// file types to include in your index. If a document matches both an inclusion
-  /// and exclusion prefix or pattern, the exclusion prefix takes precendence and
-  /// the document is not indexed. Examples of glob patterns include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>/myapp/config/*</i>—All files inside config directory.
-  /// </li>
-  /// <li>
-  /// <i>**/*.png</i>—All .png files in all directories.
-  /// </li>
-  /// <li>
-  /// <i>**/*.{png, ico, md}</i>—All .png, .ico or .md files in all directories.
-  /// </li>
-  /// <li>
-  /// <i>/myapp/src/**/*.ts</i>—All .ts files inside src directory (and all its
-  /// subdirectories).
-  /// </li>
-  /// <li>
-  /// <i>**/!(*.module).ts</i>—All .ts files but not .module.ts
-  /// </li>
-  /// <li>
-  /// <i>*.png , *.jpg</i>—All PNG and JPEG image files in a directory (files with
-  /// the extensions .png and .jpg).
-  /// </li>
-  /// <li>
-  /// <i>*internal*</i>—All files in a directory that contain 'internal' in the
-  /// file name, such as 'internal', 'internal_only', 'company_internal'.
-  /// </li>
-  /// <li>
-  /// <i>**/*internal*</i>—All internal-related files in a directory and its
-  /// subdirectories.
-  /// </li>
-  /// </ul>
-  /// For more examples, see <a
-  /// href="https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters">Use
-  /// of Exclude and Include Filters</a> in the Amazon Web Services CLI Command
-  /// Reference.
-  final List<String>? inclusionPatterns;
-
-  /// A list of S3 prefixes for the documents that should be included in the
-  /// index.
-  final List<String>? inclusionPrefixes;
-
-  S3DataSourceConfiguration({
-    required this.bucketName,
-    this.accessControlListConfiguration,
-    this.documentsMetadataConfiguration,
-    this.exclusionPatterns,
-    this.inclusionPatterns,
-    this.inclusionPrefixes,
-  });
-
-  factory S3DataSourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return S3DataSourceConfiguration(
-      bucketName: (json['BucketName'] as String?) ?? '',
-      accessControlListConfiguration: json['AccessControlListConfiguration'] !=
-              null
-          ? AccessControlListConfiguration.fromJson(
-              json['AccessControlListConfiguration'] as Map<String, dynamic>)
-          : null,
-      documentsMetadataConfiguration: json['DocumentsMetadataConfiguration'] !=
-              null
-          ? DocumentsMetadataConfiguration.fromJson(
-              json['DocumentsMetadataConfiguration'] as Map<String, dynamic>)
-          : null,
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      inclusionPrefixes: (json['InclusionPrefixes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final accessControlListConfiguration = this.accessControlListConfiguration;
-    final documentsMetadataConfiguration = this.documentsMetadataConfiguration;
-    final exclusionPatterns = this.exclusionPatterns;
-    final inclusionPatterns = this.inclusionPatterns;
-    final inclusionPrefixes = this.inclusionPrefixes;
-    return {
-      'BucketName': bucketName,
-      if (accessControlListConfiguration != null)
-        'AccessControlListConfiguration': accessControlListConfiguration,
-      if (documentsMetadataConfiguration != null)
-        'DocumentsMetadataConfiguration': documentsMetadataConfiguration,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (inclusionPrefixes != null) 'InclusionPrefixes': inclusionPrefixes,
-    };
-  }
-}
-
-/// Information required to find a specific file in an Amazon S3 bucket.
-class S3Path {
-  /// The name of the S3 bucket that contains the file.
-  final String bucket;
-
-  /// The name of the file.
-  final String key;
-
-  S3Path({
-    required this.bucket,
-    required this.key,
-  });
-
-  factory S3Path.fromJson(Map<String, dynamic> json) {
-    return S3Path(
-      bucket: (json['Bucket'] as String?) ?? '',
-      key: (json['Key'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final key = this.key;
-    return {
-      'Bucket': bucket,
-      'Key': key,
-    };
-  }
-}
-
-/// Provides the configuration information to connect to GitHub Enterprise Cloud
-/// (SaaS).
-class SaaSConfiguration {
-  /// The GitHub host URL or API endpoint URL. For example,
-  /// <i>https://api.github.com</i>.
-  final String hostUrl;
-
-  /// The name of the organization of the GitHub Enterprise Cloud (SaaS) account
-  /// you want to connect to. You can find your organization name by logging into
-  /// GitHub desktop and selecting <b>Your organizations</b> under your profile
-  /// picture dropdown.
-  final String organizationName;
-
-  SaaSConfiguration({
-    required this.hostUrl,
-    required this.organizationName,
-  });
-
-  factory SaaSConfiguration.fromJson(Map<String, dynamic> json) {
-    return SaaSConfiguration(
-      hostUrl: (json['HostUrl'] as String?) ?? '',
-      organizationName: (json['OrganizationName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostUrl = this.hostUrl;
-    final organizationName = this.organizationName;
-    return {
-      'HostUrl': hostUrl,
-      'OrganizationName': organizationName,
-    };
-  }
-}
-
-/// The configuration information for syncing a Salesforce chatter feed. The
-/// contents of the object comes from the Salesforce FeedItem table.
-class SalesforceChatterFeedConfiguration {
-  /// The name of the column in the Salesforce FeedItem table that contains the
-  /// content to index. Typically this is the <code>Body</code> column.
-  final String documentDataFieldName;
-
-  /// The name of the column in the Salesforce FeedItem table that contains the
-  /// title of the document. This is typically the <code>Title</code> column.
-  final String? documentTitleFieldName;
-
-  /// Maps fields from a Salesforce chatter feed into Amazon Kendra index fields.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  /// Filters the documents in the feed based on status of the user. When you
-  /// specify <code>ACTIVE_USERS</code> only documents from users who have an
-  /// active account are indexed. When you specify <code>STANDARD_USER</code> only
-  /// documents for Salesforce standard users are documented. You can specify
-  /// both.
-  final List<SalesforceChatterFeedIncludeFilterType>? includeFilterTypes;
-
-  SalesforceChatterFeedConfiguration({
-    required this.documentDataFieldName,
-    this.documentTitleFieldName,
-    this.fieldMappings,
-    this.includeFilterTypes,
-  });
-
-  factory SalesforceChatterFeedConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return SalesforceChatterFeedConfiguration(
-      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
-      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      includeFilterTypes: (json['IncludeFilterTypes'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SalesforceChatterFeedIncludeFilterType.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentDataFieldName = this.documentDataFieldName;
-    final documentTitleFieldName = this.documentTitleFieldName;
-    final fieldMappings = this.fieldMappings;
-    final includeFilterTypes = this.includeFilterTypes;
-    return {
-      'DocumentDataFieldName': documentDataFieldName,
-      if (documentTitleFieldName != null)
-        'DocumentTitleFieldName': documentTitleFieldName,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-      if (includeFilterTypes != null)
-        'IncludeFilterTypes': includeFilterTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-class SalesforceChatterFeedIncludeFilterType {
-  static const activeUser =
-      SalesforceChatterFeedIncludeFilterType._('ACTIVE_USER');
-  static const standardUser =
-      SalesforceChatterFeedIncludeFilterType._('STANDARD_USER');
-
-  final String value;
-
-  const SalesforceChatterFeedIncludeFilterType._(this.value);
-
-  static const values = [activeUser, standardUser];
-
-  static SalesforceChatterFeedIncludeFilterType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SalesforceChatterFeedIncludeFilterType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SalesforceChatterFeedIncludeFilterType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information to connect to Salesforce as your data
-/// source.
-class SalesforceConfiguration {
-  /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the
-  /// key/value pairs required to connect to your Salesforce instance. The secret
-  /// must contain a JSON structure with the following keys:
-  ///
-  /// <ul>
-  /// <li>
-  /// authenticationUrl - The OAUTH endpoint that Amazon Kendra connects to get an
-  /// OAUTH token.
-  /// </li>
-  /// <li>
-  /// consumerKey - The application public key generated when you created your
-  /// Salesforce application.
-  /// </li>
-  /// <li>
-  /// consumerSecret - The application private key generated when you created your
-  /// Salesforce application.
-  /// </li>
-  /// <li>
-  /// password - The password associated with the user logging in to the
-  /// Salesforce instance.
-  /// </li>
-  /// <li>
-  /// securityToken - The token associated with the user logging in to the
-  /// Salesforce instance.
-  /// </li>
-  /// <li>
-  /// username - The user name of the user logging in to the Salesforce instance.
-  /// </li>
-  /// </ul>
-  final String secretArn;
-
-  /// The instance URL for the Salesforce site that you want to index.
-  final String serverUrl;
-
-  /// Configuration information for Salesforce chatter feeds.
-  final SalesforceChatterFeedConfiguration? chatterFeedConfiguration;
-
-  /// Indicates whether Amazon Kendra should index attachments to Salesforce
-  /// objects.
-  final bool? crawlAttachments;
-
-  /// A list of regular expression patterns to exclude certain documents in your
-  /// Salesforce. Documents that match the patterns are excluded from the index.
-  /// Documents that don't match the patterns are included in the index. If a
-  /// document matches both an inclusion and exclusion pattern, the exclusion
-  /// pattern takes precedence and the document isn't included in the index.
-  ///
-  /// The pattern is applied to the name of the attached file.
-  final List<String>? excludeAttachmentFilePatterns;
-
-  /// A list of regular expression patterns to include certain documents in your
-  /// Salesforce. Documents that match the patterns are included in the index.
-  /// Documents that don't match the patterns are excluded from the index. If a
-  /// document matches both an inclusion and exclusion pattern, the exclusion
-  /// pattern takes precedence and the document isn't included in the index.
-  ///
-  /// The pattern is applied to the name of the attached file.
-  final List<String>? includeAttachmentFilePatterns;
-
-  /// Configuration information for the knowledge article types that Amazon Kendra
-  /// indexes. Amazon Kendra indexes standard knowledge articles and the standard
-  /// fields of knowledge articles, or the custom fields of custom knowledge
-  /// articles, but not both.
-  final SalesforceKnowledgeArticleConfiguration? knowledgeArticleConfiguration;
-
-  /// Configuration information for processing attachments to Salesforce standard
-  /// objects.
-  final SalesforceStandardObjectAttachmentConfiguration?
-      standardObjectAttachmentConfiguration;
-
-  /// Configuration of the Salesforce standard objects that Amazon Kendra indexes.
-  final List<SalesforceStandardObjectConfiguration>?
-      standardObjectConfigurations;
-
-  SalesforceConfiguration({
-    required this.secretArn,
-    required this.serverUrl,
-    this.chatterFeedConfiguration,
-    this.crawlAttachments,
-    this.excludeAttachmentFilePatterns,
-    this.includeAttachmentFilePatterns,
-    this.knowledgeArticleConfiguration,
-    this.standardObjectAttachmentConfiguration,
-    this.standardObjectConfigurations,
-  });
-
-  factory SalesforceConfiguration.fromJson(Map<String, dynamic> json) {
-    return SalesforceConfiguration(
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      serverUrl: (json['ServerUrl'] as String?) ?? '',
-      chatterFeedConfiguration: json['ChatterFeedConfiguration'] != null
-          ? SalesforceChatterFeedConfiguration.fromJson(
-              json['ChatterFeedConfiguration'] as Map<String, dynamic>)
-          : null,
-      crawlAttachments: json['CrawlAttachments'] as bool?,
-      excludeAttachmentFilePatterns:
-          (json['ExcludeAttachmentFilePatterns'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      includeAttachmentFilePatterns:
-          (json['IncludeAttachmentFilePatterns'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      knowledgeArticleConfiguration:
-          json['KnowledgeArticleConfiguration'] != null
-              ? SalesforceKnowledgeArticleConfiguration.fromJson(
-                  json['KnowledgeArticleConfiguration'] as Map<String, dynamic>)
-              : null,
-      standardObjectAttachmentConfiguration:
-          json['StandardObjectAttachmentConfiguration'] != null
-              ? SalesforceStandardObjectAttachmentConfiguration.fromJson(
-                  json['StandardObjectAttachmentConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      standardObjectConfigurations:
-          (json['StandardObjectConfigurations'] as List?)
-              ?.nonNulls
-              .map((e) => SalesforceStandardObjectConfiguration.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final secretArn = this.secretArn;
-    final serverUrl = this.serverUrl;
-    final chatterFeedConfiguration = this.chatterFeedConfiguration;
-    final crawlAttachments = this.crawlAttachments;
-    final excludeAttachmentFilePatterns = this.excludeAttachmentFilePatterns;
-    final includeAttachmentFilePatterns = this.includeAttachmentFilePatterns;
-    final knowledgeArticleConfiguration = this.knowledgeArticleConfiguration;
-    final standardObjectAttachmentConfiguration =
-        this.standardObjectAttachmentConfiguration;
-    final standardObjectConfigurations = this.standardObjectConfigurations;
-    return {
-      'SecretArn': secretArn,
-      'ServerUrl': serverUrl,
-      if (chatterFeedConfiguration != null)
-        'ChatterFeedConfiguration': chatterFeedConfiguration,
-      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
-      if (excludeAttachmentFilePatterns != null)
-        'ExcludeAttachmentFilePatterns': excludeAttachmentFilePatterns,
-      if (includeAttachmentFilePatterns != null)
-        'IncludeAttachmentFilePatterns': includeAttachmentFilePatterns,
-      if (knowledgeArticleConfiguration != null)
-        'KnowledgeArticleConfiguration': knowledgeArticleConfiguration,
-      if (standardObjectAttachmentConfiguration != null)
-        'StandardObjectAttachmentConfiguration':
-            standardObjectAttachmentConfiguration,
-      if (standardObjectConfigurations != null)
-        'StandardObjectConfigurations': standardObjectConfigurations,
-    };
-  }
-}
-
-/// Provides the configuration information for indexing Salesforce custom
-/// articles.
-class SalesforceCustomKnowledgeArticleTypeConfiguration {
-  /// The name of the field in the custom knowledge article that contains the
-  /// document data to index.
-  final String documentDataFieldName;
-
-  /// The name of the configuration.
-  final String name;
-
-  /// The name of the field in the custom knowledge article that contains the
-  /// document title.
-  final String? documentTitleFieldName;
-
-  /// Maps attributes or field names of the custom knowledge article to Amazon
-  /// Kendra index field names. To create custom fields, use the
-  /// <code>UpdateIndex</code> API before you map to Salesforce fields. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Salesforce data source field names must exist in
-  /// your Salesforce custom metadata.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  SalesforceCustomKnowledgeArticleTypeConfiguration({
-    required this.documentDataFieldName,
-    required this.name,
-    this.documentTitleFieldName,
-    this.fieldMappings,
-  });
-
-  factory SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return SalesforceCustomKnowledgeArticleTypeConfiguration(
-      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
-      name: (json['Name'] as String?) ?? '',
-      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentDataFieldName = this.documentDataFieldName;
-    final name = this.name;
-    final documentTitleFieldName = this.documentTitleFieldName;
-    final fieldMappings = this.fieldMappings;
-    return {
-      'DocumentDataFieldName': documentDataFieldName,
-      'Name': name,
-      if (documentTitleFieldName != null)
-        'DocumentTitleFieldName': documentTitleFieldName,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-    };
-  }
-}
-
-/// Provides the configuration information for the knowledge article types that
-/// Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and
-/// the standard fields of knowledge articles, or the custom fields of custom
-/// knowledge articles, but not both
-class SalesforceKnowledgeArticleConfiguration {
-  /// Specifies the document states that should be included when Amazon Kendra
-  /// indexes knowledge articles. You must specify at least one state.
-  final List<SalesforceKnowledgeArticleState> includedStates;
-
-  /// Configuration information for custom Salesforce knowledge articles.
-  final List<SalesforceCustomKnowledgeArticleTypeConfiguration>?
-      customKnowledgeArticleTypeConfigurations;
-
-  /// Configuration information for standard Salesforce knowledge articles.
-  final SalesforceStandardKnowledgeArticleTypeConfiguration?
-      standardKnowledgeArticleTypeConfiguration;
-
-  SalesforceKnowledgeArticleConfiguration({
-    required this.includedStates,
-    this.customKnowledgeArticleTypeConfigurations,
-    this.standardKnowledgeArticleTypeConfiguration,
-  });
-
-  factory SalesforceKnowledgeArticleConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return SalesforceKnowledgeArticleConfiguration(
-      includedStates: ((json['IncludedStates'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => SalesforceKnowledgeArticleState.fromString((e as String)))
-          .toList(),
-      customKnowledgeArticleTypeConfigurations:
-          (json['CustomKnowledgeArticleTypeConfigurations'] as List?)
-              ?.nonNulls
-              .map((e) =>
-                  SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
-                      e as Map<String, dynamic>))
-              .toList(),
-      standardKnowledgeArticleTypeConfiguration:
-          json['StandardKnowledgeArticleTypeConfiguration'] != null
-              ? SalesforceStandardKnowledgeArticleTypeConfiguration.fromJson(
-                  json['StandardKnowledgeArticleTypeConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final includedStates = this.includedStates;
-    final customKnowledgeArticleTypeConfigurations =
-        this.customKnowledgeArticleTypeConfigurations;
-    final standardKnowledgeArticleTypeConfiguration =
-        this.standardKnowledgeArticleTypeConfiguration;
-    return {
-      'IncludedStates': includedStates.map((e) => e.value).toList(),
-      if (customKnowledgeArticleTypeConfigurations != null)
-        'CustomKnowledgeArticleTypeConfigurations':
-            customKnowledgeArticleTypeConfigurations,
-      if (standardKnowledgeArticleTypeConfiguration != null)
-        'StandardKnowledgeArticleTypeConfiguration':
-            standardKnowledgeArticleTypeConfiguration,
-    };
-  }
-}
-
-class SalesforceKnowledgeArticleState {
-  static const draft = SalesforceKnowledgeArticleState._('DRAFT');
-  static const published = SalesforceKnowledgeArticleState._('PUBLISHED');
-  static const archived = SalesforceKnowledgeArticleState._('ARCHIVED');
-
-  final String value;
-
-  const SalesforceKnowledgeArticleState._(this.value);
-
-  static const values = [draft, published, archived];
-
-  static SalesforceKnowledgeArticleState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SalesforceKnowledgeArticleState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SalesforceKnowledgeArticleState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information for standard Salesforce knowledge
-/// articles.
-class SalesforceStandardKnowledgeArticleTypeConfiguration {
-  /// The name of the field that contains the document data to index.
-  final String documentDataFieldName;
-
-  /// The name of the field that contains the document title.
-  final String? documentTitleFieldName;
-
-  /// Maps attributes or field names of the knowledge article to Amazon Kendra
-  /// index field names. To create custom fields, use the <code>UpdateIndex</code>
-  /// API before you map to Salesforce fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Salesforce data source field names must exist in
-  /// your Salesforce custom metadata.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  SalesforceStandardKnowledgeArticleTypeConfiguration({
-    required this.documentDataFieldName,
-    this.documentTitleFieldName,
-    this.fieldMappings,
-  });
-
-  factory SalesforceStandardKnowledgeArticleTypeConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return SalesforceStandardKnowledgeArticleTypeConfiguration(
-      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
-      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentDataFieldName = this.documentDataFieldName;
-    final documentTitleFieldName = this.documentTitleFieldName;
-    final fieldMappings = this.fieldMappings;
-    return {
-      'DocumentDataFieldName': documentDataFieldName,
-      if (documentTitleFieldName != null)
-        'DocumentTitleFieldName': documentTitleFieldName,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-    };
-  }
-}
-
-/// Provides the configuration information for processing attachments to
-/// Salesforce standard objects.
-class SalesforceStandardObjectAttachmentConfiguration {
-  /// The name of the field used for the document title.
-  final String? documentTitleFieldName;
-
-  /// One or more objects that map fields in attachments to Amazon Kendra index
-  /// fields.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  SalesforceStandardObjectAttachmentConfiguration({
-    this.documentTitleFieldName,
-    this.fieldMappings,
-  });
-
-  factory SalesforceStandardObjectAttachmentConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return SalesforceStandardObjectAttachmentConfiguration(
-      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentTitleFieldName = this.documentTitleFieldName;
-    final fieldMappings = this.fieldMappings;
-    return {
-      if (documentTitleFieldName != null)
-        'DocumentTitleFieldName': documentTitleFieldName,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-    };
-  }
-}
-
-/// Provides the configuration information for indexing a single standard
-/// object.
-class SalesforceStandardObjectConfiguration {
-  /// The name of the field in the standard object table that contains the
-  /// document contents.
-  final String documentDataFieldName;
-
-  /// The name of the standard object.
-  final SalesforceStandardObjectName name;
-
-  /// The name of the field in the standard object table that contains the
-  /// document title.
-  final String? documentTitleFieldName;
-
-  /// Maps attributes or field names of the standard object to Amazon Kendra index
-  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
-  /// before you map to Salesforce fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Salesforce data source field names must exist in
-  /// your Salesforce custom metadata.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  SalesforceStandardObjectConfiguration({
-    required this.documentDataFieldName,
-    required this.name,
-    this.documentTitleFieldName,
-    this.fieldMappings,
-  });
-
-  factory SalesforceStandardObjectConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return SalesforceStandardObjectConfiguration(
-      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
-      name: SalesforceStandardObjectName.fromString(
-          (json['Name'] as String?) ?? ''),
-      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentDataFieldName = this.documentDataFieldName;
-    final name = this.name;
-    final documentTitleFieldName = this.documentTitleFieldName;
-    final fieldMappings = this.fieldMappings;
-    return {
-      'DocumentDataFieldName': documentDataFieldName,
-      'Name': name.value,
-      if (documentTitleFieldName != null)
-        'DocumentTitleFieldName': documentTitleFieldName,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-    };
-  }
-}
-
-class SalesforceStandardObjectName {
-  static const account = SalesforceStandardObjectName._('ACCOUNT');
-  static const campaign = SalesforceStandardObjectName._('CAMPAIGN');
-  static const $case = SalesforceStandardObjectName._('CASE');
-  static const contact = SalesforceStandardObjectName._('CONTACT');
-  static const contract = SalesforceStandardObjectName._('CONTRACT');
-  static const document = SalesforceStandardObjectName._('DOCUMENT');
-  static const group = SalesforceStandardObjectName._('GROUP');
-  static const idea = SalesforceStandardObjectName._('IDEA');
-  static const lead = SalesforceStandardObjectName._('LEAD');
-  static const opportunity = SalesforceStandardObjectName._('OPPORTUNITY');
-  static const partner = SalesforceStandardObjectName._('PARTNER');
-  static const pricebook = SalesforceStandardObjectName._('PRICEBOOK');
-  static const product = SalesforceStandardObjectName._('PRODUCT');
-  static const profile = SalesforceStandardObjectName._('PROFILE');
-  static const solution = SalesforceStandardObjectName._('SOLUTION');
-  static const task = SalesforceStandardObjectName._('TASK');
-  static const user = SalesforceStandardObjectName._('USER');
-
-  final String value;
-
-  const SalesforceStandardObjectName._(this.value);
-
-  static const values = [
-    account,
-    campaign,
-    $case,
-    contact,
-    contract,
-    document,
-    group,
-    idea,
-    lead,
-    opportunity,
-    partner,
-    pricebook,
-    product,
-    profile,
-    solution,
-    task,
-    user
-  ];
-
-  static SalesforceStandardObjectName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SalesforceStandardObjectName._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SalesforceStandardObjectName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides a relative ranking that indicates how confident Amazon Kendra is
-/// that the response is relevant to the query.
-class ScoreAttributes {
-  /// A relative ranking for how relevant the response is to the query.
-  final ScoreConfidence? scoreConfidence;
-
-  ScoreAttributes({
-    this.scoreConfidence,
-  });
-
-  factory ScoreAttributes.fromJson(Map<String, dynamic> json) {
-    return ScoreAttributes(
-      scoreConfidence:
-          (json['ScoreConfidence'] as String?)?.let(ScoreConfidence.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scoreConfidence = this.scoreConfidence;
-    return {
-      if (scoreConfidence != null) 'ScoreConfidence': scoreConfidence.value,
-    };
-  }
-}
-
-/// Enumeration for query score confidence.
-class ScoreConfidence {
-  static const veryHigh = ScoreConfidence._('VERY_HIGH');
-  static const high = ScoreConfidence._('HIGH');
-  static const medium = ScoreConfidence._('MEDIUM');
-  static const low = ScoreConfidence._('LOW');
-  static const notAvailable = ScoreConfidence._('NOT_AVAILABLE');
-
-  final String value;
-
-  const ScoreConfidence._(this.value);
-
-  static const values = [veryHigh, high, medium, low, notAvailable];
-
-  static ScoreConfidence fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScoreConfidence._(value));
-
-  @override
-  bool operator ==(other) => other is ScoreConfidence && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information about how a custom index field is used during a search.
-class Search {
-  /// Determines whether the field is returned in the query response. The default
-  /// is <code>true</code>.
-  final bool? displayable;
-
-  /// Indicates that the field can be used to create search facets, a count of
-  /// results for each value in the field. The default is <code>false</code> .
-  final bool? facetable;
-
-  /// Determines whether the field is used in the search. If the
-  /// <code>Searchable</code> field is <code>true</code>, you can use relevance
-  /// tuning to manually tune how Amazon Kendra weights the field in the search.
-  /// The default is <code>true</code> for string fields and <code>false</code>
-  /// for number and date fields.
-  final bool? searchable;
-
-  /// Determines whether the field can be used to sort the results of a query. If
-  /// you specify sorting on a field that does not have <code>Sortable</code> set
-  /// to <code>true</code>, Amazon Kendra returns an exception. The default is
-  /// <code>false</code>.
-  final bool? sortable;
-
-  Search({
-    this.displayable,
-    this.facetable,
-    this.searchable,
-    this.sortable,
-  });
-
-  factory Search.fromJson(Map<String, dynamic> json) {
-    return Search(
-      displayable: json['Displayable'] as bool?,
-      facetable: json['Facetable'] as bool?,
-      searchable: json['Searchable'] as bool?,
-      sortable: json['Sortable'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final displayable = this.displayable;
-    final facetable = this.facetable;
-    final searchable = this.searchable;
-    final sortable = this.sortable;
-    return {
-      if (displayable != null) 'Displayable': displayable,
-      if (facetable != null) 'Facetable': facetable,
-      if (searchable != null) 'Searchable': searchable,
-      if (sortable != null) 'Sortable': sortable,
+      'Credentials': credentials,
+      'Host': host,
+      'Port': port,
     };
   }
 }
@@ -15809,49 +12096,667 @@ class SeedUrlConfiguration {
   }
 }
 
-/// Provides the identifier of the KMS key used to encrypt data indexed by
-/// Amazon Kendra. Amazon Kendra doesn't support asymmetric keys.
-class ServerSideEncryptionConfiguration {
-  /// The identifier of the KMS key. Amazon Kendra doesn't support asymmetric
-  /// keys.
-  final String? kmsKeyId;
+/// Provides the configuration information for the sitemap URLs to crawl.
+///
+/// <i>When selecting websites to index, you must adhere to the <a
+/// href="https://aws.amazon.com/aup/">Amazon Acceptable Use Policy</a> and all
+/// other Amazon terms. Remember that you must only use Amazon Kendra Web
+/// Crawler to index your own web pages, or web pages that you have
+/// authorization to index.</i>
+class SiteMapsConfiguration {
+  /// The list of sitemap URLs of the websites you want to crawl.
+  ///
+  /// The list can include a maximum of three sitemap URLs.
+  final List<String> siteMaps;
 
-  ServerSideEncryptionConfiguration({
-    this.kmsKeyId,
+  SiteMapsConfiguration({
+    required this.siteMaps,
   });
 
-  factory ServerSideEncryptionConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ServerSideEncryptionConfiguration(
-      kmsKeyId: json['KmsKeyId'] as String?,
+  factory SiteMapsConfiguration.fromJson(Map<String, dynamic> json) {
+    return SiteMapsConfiguration(
+      siteMaps: ((json['SiteMaps'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final kmsKeyId = this.kmsKeyId;
+    final siteMaps = this.siteMaps;
     return {
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      'SiteMaps': siteMaps,
     };
   }
 }
 
-class ServiceNowAuthenticationType {
-  static const httpBasic = ServiceNowAuthenticationType._('HTTP_BASIC');
-  static const oauth2 = ServiceNowAuthenticationType._('OAUTH2');
+class WebCrawlerMode {
+  static const hostOnly = WebCrawlerMode._('HOST_ONLY');
+  static const subdomains = WebCrawlerMode._('SUBDOMAINS');
+  static const everything = WebCrawlerMode._('EVERYTHING');
 
   final String value;
 
-  const ServiceNowAuthenticationType._(this.value);
+  const WebCrawlerMode._(this.value);
 
-  static const values = [httpBasic, oauth2];
+  static const values = [hostOnly, subdomains, everything];
 
-  static ServiceNowAuthenticationType fromString(String value) =>
+  static WebCrawlerMode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceNowAuthenticationType._(value));
+          orElse: () => WebCrawlerMode._(value));
+
+  @override
+  bool operator ==(other) => other is WebCrawlerMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConfluenceVersion {
+  static const cloud = ConfluenceVersion._('CLOUD');
+  static const server = ConfluenceVersion._('SERVER');
+
+  final String value;
+
+  const ConfluenceVersion._(this.value);
+
+  static const values = [cloud, server];
+
+  static ConfluenceVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfluenceVersion._(value));
+
+  @override
+  bool operator ==(other) => other is ConfluenceVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration information for indexing Confluence spaces.
+class ConfluenceSpaceConfiguration {
+  /// <code>TRUE</code> to index archived spaces.
+  final bool? crawlArchivedSpaces;
+
+  /// <code>TRUE</code> to index personal spaces. You can add restrictions to
+  /// items in personal spaces. If personal spaces are indexed, queries without
+  /// user context information may return restricted items from a personal space
+  /// in their results. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html">Filtering
+  /// on user context</a>.
+  final bool? crawlPersonalSpaces;
+
+  /// A list of space keys of Confluence spaces. If you include a key, the blogs,
+  /// documents, and attachments in the space are not indexed. If a space is in
+  /// both the <code>ExcludeSpaces</code> and the <code>IncludeSpaces</code> list,
+  /// the space is excluded.
+  final List<String>? excludeSpaces;
+
+  /// A list of space keys for Confluence spaces. If you include a key, the blogs,
+  /// documents, and attachments in the space are indexed. Spaces that aren't in
+  /// the list aren't indexed. A space in the list must exist. Otherwise, Amazon
+  /// Kendra logs an error when the data source is synchronized. If a space is in
+  /// both the <code>IncludeSpaces</code> and the <code>ExcludeSpaces</code> list,
+  /// the space is excluded.
+  final List<String>? includeSpaces;
+
+  /// Maps attributes or field names of Confluence spaces to Amazon Kendra index
+  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
+  /// before you map to Confluence fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Confluence data source field names must exist in
+  /// your Confluence custom metadata.
+  ///
+  /// If you specify the <code>SpaceFieldMappings</code> parameter, you must
+  /// specify at least one field mapping.
+  final List<ConfluenceSpaceToIndexFieldMapping>? spaceFieldMappings;
+
+  ConfluenceSpaceConfiguration({
+    this.crawlArchivedSpaces,
+    this.crawlPersonalSpaces,
+    this.excludeSpaces,
+    this.includeSpaces,
+    this.spaceFieldMappings,
+  });
+
+  factory ConfluenceSpaceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluenceSpaceConfiguration(
+      crawlArchivedSpaces: json['CrawlArchivedSpaces'] as bool?,
+      crawlPersonalSpaces: json['CrawlPersonalSpaces'] as bool?,
+      excludeSpaces: (json['ExcludeSpaces'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      includeSpaces: (json['IncludeSpaces'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      spaceFieldMappings: (json['SpaceFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) => ConfluenceSpaceToIndexFieldMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final crawlArchivedSpaces = this.crawlArchivedSpaces;
+    final crawlPersonalSpaces = this.crawlPersonalSpaces;
+    final excludeSpaces = this.excludeSpaces;
+    final includeSpaces = this.includeSpaces;
+    final spaceFieldMappings = this.spaceFieldMappings;
+    return {
+      if (crawlArchivedSpaces != null)
+        'CrawlArchivedSpaces': crawlArchivedSpaces,
+      if (crawlPersonalSpaces != null)
+        'CrawlPersonalSpaces': crawlPersonalSpaces,
+      if (excludeSpaces != null) 'ExcludeSpaces': excludeSpaces,
+      if (includeSpaces != null) 'IncludeSpaces': includeSpaces,
+      if (spaceFieldMappings != null) 'SpaceFieldMappings': spaceFieldMappings,
+    };
+  }
+}
+
+/// Configuration of the page settings for the Confluence data source.
+class ConfluencePageConfiguration {
+  /// Maps attributes or field names of Confluence pages to Amazon Kendra index
+  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
+  /// before you map to Confluence fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Confluence data source field names must exist in
+  /// your Confluence custom metadata.
+  ///
+  /// If you specify the <code>PageFieldMappings</code> parameter, you must
+  /// specify at least one field mapping.
+  final List<ConfluencePageToIndexFieldMapping>? pageFieldMappings;
+
+  ConfluencePageConfiguration({
+    this.pageFieldMappings,
+  });
+
+  factory ConfluencePageConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluencePageConfiguration(
+      pageFieldMappings: (json['PageFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) => ConfluencePageToIndexFieldMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pageFieldMappings = this.pageFieldMappings;
+    return {
+      if (pageFieldMappings != null) 'PageFieldMappings': pageFieldMappings,
+    };
+  }
+}
+
+/// Configuration of blog settings for the Confluence data source. Blogs are
+/// always indexed unless filtered from the index by the
+/// <code>ExclusionPatterns</code> or <code>InclusionPatterns</code> fields in
+/// the <code>ConfluenceConfiguration</code> object.
+class ConfluenceBlogConfiguration {
+  /// Maps attributes or field names of Confluence blogs to Amazon Kendra index
+  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
+  /// before you map to Confluence fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Confluence data source field names must exist in
+  /// your Confluence custom metadata.
+  ///
+  /// If you specify the <code>BlogFieldMappings</code> parameter, you must
+  /// specify at least one field mapping.
+  final List<ConfluenceBlogToIndexFieldMapping>? blogFieldMappings;
+
+  ConfluenceBlogConfiguration({
+    this.blogFieldMappings,
+  });
+
+  factory ConfluenceBlogConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConfluenceBlogConfiguration(
+      blogFieldMappings: (json['BlogFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) => ConfluenceBlogToIndexFieldMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blogFieldMappings = this.blogFieldMappings;
+    return {
+      if (blogFieldMappings != null) 'BlogFieldMappings': blogFieldMappings,
+    };
+  }
+}
+
+/// Configuration of attachment settings for the Confluence data source.
+/// Attachment settings are optional, if you don't specify settings attachments,
+/// Amazon Kendra won't index them.
+class ConfluenceAttachmentConfiguration {
+  /// Maps attributes or field names of Confluence attachments to Amazon Kendra
+  /// index field names. To create custom fields, use the <code>UpdateIndex</code>
+  /// API before you map to Confluence fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Confluence data source field names must exist in
+  /// your Confluence custom metadata.
+  ///
+  /// If you specify the <code>AttachentFieldMappings</code> parameter, you must
+  /// specify at least one field mapping.
+  final List<ConfluenceAttachmentToIndexFieldMapping>? attachmentFieldMappings;
+
+  /// <code>TRUE</code> to index attachments of pages and blogs in Confluence.
+  final bool? crawlAttachments;
+
+  ConfluenceAttachmentConfiguration({
+    this.attachmentFieldMappings,
+    this.crawlAttachments,
+  });
+
+  factory ConfluenceAttachmentConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ConfluenceAttachmentConfiguration(
+      attachmentFieldMappings: (json['AttachmentFieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) => ConfluenceAttachmentToIndexFieldMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      crawlAttachments: json['CrawlAttachments'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentFieldMappings = this.attachmentFieldMappings;
+    final crawlAttachments = this.crawlAttachments;
+    return {
+      if (attachmentFieldMappings != null)
+        'AttachmentFieldMappings': attachmentFieldMappings,
+      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
+    };
+  }
+}
+
+class ConfluenceAuthenticationType {
+  static const httpBasic = ConfluenceAuthenticationType._('HTTP_BASIC');
+  static const pat = ConfluenceAuthenticationType._('PAT');
+
+  final String value;
+
+  const ConfluenceAuthenticationType._(this.value);
+
+  static const values = [httpBasic, pat];
+
+  static ConfluenceAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfluenceAuthenticationType._(value));
 
   @override
   bool operator ==(other) =>
-      other is ServiceNowAuthenticationType && other.value == value;
+      other is ConfluenceAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Maps attributes or field names of Confluence attachments to Amazon Kendra
+/// index field names. To create custom fields, use the <code>UpdateIndex</code>
+/// API before you map to Confluence fields. For more information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+/// data source fields</a>. The Confuence data source field names must exist in
+/// your Confluence custom metadata.
+class ConfluenceAttachmentToIndexFieldMapping {
+  /// The name of the field in the data source.
+  ///
+  /// You must first create the index field using the <code>UpdateIndex</code>
+  /// API.
+  final ConfluenceAttachmentFieldName? dataSourceFieldName;
+
+  /// The format for date fields in the data source. If the field specified in
+  /// <code>DataSourceFieldName</code> is a date field you must specify the date
+  /// format. If the field is not a date field, an exception is thrown.
+  final String? dateFieldFormat;
+
+  /// The name of the index field to map to the Confluence data source field. The
+  /// index field type must match the Confluence field type.
+  final String? indexFieldName;
+
+  ConfluenceAttachmentToIndexFieldMapping({
+    this.dataSourceFieldName,
+    this.dateFieldFormat,
+    this.indexFieldName,
+  });
+
+  factory ConfluenceAttachmentToIndexFieldMapping.fromJson(
+      Map<String, dynamic> json) {
+    return ConfluenceAttachmentToIndexFieldMapping(
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
+          ?.let(ConfluenceAttachmentFieldName.fromString),
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+      indexFieldName: json['IndexFieldName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    final indexFieldName = this.indexFieldName;
+    return {
+      if (dataSourceFieldName != null)
+        'DataSourceFieldName': dataSourceFieldName.value,
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
+    };
+  }
+}
+
+class ConfluenceAttachmentFieldName {
+  static const author = ConfluenceAttachmentFieldName._('AUTHOR');
+  static const contentType = ConfluenceAttachmentFieldName._('CONTENT_TYPE');
+  static const createdDate = ConfluenceAttachmentFieldName._('CREATED_DATE');
+  static const displayUrl = ConfluenceAttachmentFieldName._('DISPLAY_URL');
+  static const fileSize = ConfluenceAttachmentFieldName._('FILE_SIZE');
+  static const itemType = ConfluenceAttachmentFieldName._('ITEM_TYPE');
+  static const parentId = ConfluenceAttachmentFieldName._('PARENT_ID');
+  static const spaceKey = ConfluenceAttachmentFieldName._('SPACE_KEY');
+  static const spaceName = ConfluenceAttachmentFieldName._('SPACE_NAME');
+  static const url = ConfluenceAttachmentFieldName._('URL');
+  static const version = ConfluenceAttachmentFieldName._('VERSION');
+
+  final String value;
+
+  const ConfluenceAttachmentFieldName._(this.value);
+
+  static const values = [
+    author,
+    contentType,
+    createdDate,
+    displayUrl,
+    fileSize,
+    itemType,
+    parentId,
+    spaceKey,
+    spaceName,
+    url,
+    version
+  ];
+
+  static ConfluenceAttachmentFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfluenceAttachmentFieldName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfluenceAttachmentFieldName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Maps attributes or field names of Confluence blog to Amazon Kendra index
+/// field names. To create custom fields, use the <code>UpdateIndex</code> API
+/// before you map to Confluence fields. For more information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+/// data source fields</a>. The Confluence data source field names must exist in
+/// your Confluence custom metadata.
+class ConfluenceBlogToIndexFieldMapping {
+  /// The name of the field in the data source.
+  final ConfluenceBlogFieldName? dataSourceFieldName;
+
+  /// The format for date fields in the data source. If the field specified in
+  /// <code>DataSourceFieldName</code> is a date field you must specify the date
+  /// format. If the field is not a date field, an exception is thrown.
+  final String? dateFieldFormat;
+
+  /// The name of the index field to map to the Confluence data source field. The
+  /// index field type must match the Confluence field type.
+  final String? indexFieldName;
+
+  ConfluenceBlogToIndexFieldMapping({
+    this.dataSourceFieldName,
+    this.dateFieldFormat,
+    this.indexFieldName,
+  });
+
+  factory ConfluenceBlogToIndexFieldMapping.fromJson(
+      Map<String, dynamic> json) {
+    return ConfluenceBlogToIndexFieldMapping(
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
+          ?.let(ConfluenceBlogFieldName.fromString),
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+      indexFieldName: json['IndexFieldName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    final indexFieldName = this.indexFieldName;
+    return {
+      if (dataSourceFieldName != null)
+        'DataSourceFieldName': dataSourceFieldName.value,
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
+    };
+  }
+}
+
+class ConfluenceBlogFieldName {
+  static const author = ConfluenceBlogFieldName._('AUTHOR');
+  static const displayUrl = ConfluenceBlogFieldName._('DISPLAY_URL');
+  static const itemType = ConfluenceBlogFieldName._('ITEM_TYPE');
+  static const labels = ConfluenceBlogFieldName._('LABELS');
+  static const publishDate = ConfluenceBlogFieldName._('PUBLISH_DATE');
+  static const spaceKey = ConfluenceBlogFieldName._('SPACE_KEY');
+  static const spaceName = ConfluenceBlogFieldName._('SPACE_NAME');
+  static const url = ConfluenceBlogFieldName._('URL');
+  static const version = ConfluenceBlogFieldName._('VERSION');
+
+  final String value;
+
+  const ConfluenceBlogFieldName._(this.value);
+
+  static const values = [
+    author,
+    displayUrl,
+    itemType,
+    labels,
+    publishDate,
+    spaceKey,
+    spaceName,
+    url,
+    version
+  ];
+
+  static ConfluenceBlogFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfluenceBlogFieldName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfluenceBlogFieldName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Maps attributes or field names of Confluence pages to Amazon Kendra index
+/// field names. To create custom fields, use the <code>UpdateIndex</code> API
+/// before you map to Confluence fields. For more information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+/// data source fields</a>. The Confluence data source field names must exist in
+/// your Confluence custom metadata.
+class ConfluencePageToIndexFieldMapping {
+  /// The name of the field in the data source.
+  final ConfluencePageFieldName? dataSourceFieldName;
+
+  /// The format for date fields in the data source. If the field specified in
+  /// <code>DataSourceFieldName</code> is a date field you must specify the date
+  /// format. If the field is not a date field, an exception is thrown.
+  final String? dateFieldFormat;
+
+  /// The name of the index field to map to the Confluence data source field. The
+  /// index field type must match the Confluence field type.
+  final String? indexFieldName;
+
+  ConfluencePageToIndexFieldMapping({
+    this.dataSourceFieldName,
+    this.dateFieldFormat,
+    this.indexFieldName,
+  });
+
+  factory ConfluencePageToIndexFieldMapping.fromJson(
+      Map<String, dynamic> json) {
+    return ConfluencePageToIndexFieldMapping(
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
+          ?.let(ConfluencePageFieldName.fromString),
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+      indexFieldName: json['IndexFieldName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    final indexFieldName = this.indexFieldName;
+    return {
+      if (dataSourceFieldName != null)
+        'DataSourceFieldName': dataSourceFieldName.value,
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
+    };
+  }
+}
+
+class ConfluencePageFieldName {
+  static const author = ConfluencePageFieldName._('AUTHOR');
+  static const contentStatus = ConfluencePageFieldName._('CONTENT_STATUS');
+  static const createdDate = ConfluencePageFieldName._('CREATED_DATE');
+  static const displayUrl = ConfluencePageFieldName._('DISPLAY_URL');
+  static const itemType = ConfluencePageFieldName._('ITEM_TYPE');
+  static const labels = ConfluencePageFieldName._('LABELS');
+  static const modifiedDate = ConfluencePageFieldName._('MODIFIED_DATE');
+  static const parentId = ConfluencePageFieldName._('PARENT_ID');
+  static const spaceKey = ConfluencePageFieldName._('SPACE_KEY');
+  static const spaceName = ConfluencePageFieldName._('SPACE_NAME');
+  static const url = ConfluencePageFieldName._('URL');
+  static const version = ConfluencePageFieldName._('VERSION');
+
+  final String value;
+
+  const ConfluencePageFieldName._(this.value);
+
+  static const values = [
+    author,
+    contentStatus,
+    createdDate,
+    displayUrl,
+    itemType,
+    labels,
+    modifiedDate,
+    parentId,
+    spaceKey,
+    spaceName,
+    url,
+    version
+  ];
+
+  static ConfluencePageFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfluencePageFieldName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfluencePageFieldName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Maps attributes or field names of Confluence spaces to Amazon Kendra index
+/// field names. To create custom fields, use the <code>UpdateIndex</code> API
+/// before you map to Confluence fields. For more information, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+/// data source fields</a>. The Confluence data source field names must exist in
+/// your Confluence custom metadata.
+class ConfluenceSpaceToIndexFieldMapping {
+  /// The name of the field in the data source.
+  final ConfluenceSpaceFieldName? dataSourceFieldName;
+
+  /// The format for date fields in the data source. If the field specified in
+  /// <code>DataSourceFieldName</code> is a date field you must specify the date
+  /// format. If the field is not a date field, an exception is thrown.
+  final String? dateFieldFormat;
+
+  /// The name of the index field to map to the Confluence data source field. The
+  /// index field type must match the Confluence field type.
+  final String? indexFieldName;
+
+  ConfluenceSpaceToIndexFieldMapping({
+    this.dataSourceFieldName,
+    this.dateFieldFormat,
+    this.indexFieldName,
+  });
+
+  factory ConfluenceSpaceToIndexFieldMapping.fromJson(
+      Map<String, dynamic> json) {
+    return ConfluenceSpaceToIndexFieldMapping(
+      dataSourceFieldName: (json['DataSourceFieldName'] as String?)
+          ?.let(ConfluenceSpaceFieldName.fromString),
+      dateFieldFormat: json['DateFieldFormat'] as String?,
+      indexFieldName: json['IndexFieldName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceFieldName = this.dataSourceFieldName;
+    final dateFieldFormat = this.dateFieldFormat;
+    final indexFieldName = this.indexFieldName;
+    return {
+      if (dataSourceFieldName != null)
+        'DataSourceFieldName': dataSourceFieldName.value,
+      if (dateFieldFormat != null) 'DateFieldFormat': dateFieldFormat,
+      if (indexFieldName != null) 'IndexFieldName': indexFieldName,
+    };
+  }
+}
+
+class ConfluenceSpaceFieldName {
+  static const displayUrl = ConfluenceSpaceFieldName._('DISPLAY_URL');
+  static const itemType = ConfluenceSpaceFieldName._('ITEM_TYPE');
+  static const spaceKey = ConfluenceSpaceFieldName._('SPACE_KEY');
+  static const url = ConfluenceSpaceFieldName._('URL');
+
+  final String value;
+
+  const ConfluenceSpaceFieldName._(this.value);
+
+  static const values = [displayUrl, itemType, spaceKey, url];
+
+  static ConfluenceSpaceFieldName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfluenceSpaceFieldName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfluenceSpaceFieldName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15883,98 +12788,6 @@ class ServiceNowBuildVersionType {
 
   @override
   String toString() => value;
-}
-
-/// Provides the configuration information to connect to ServiceNow as your data
-/// source.
-class ServiceNowConfiguration {
-  /// The ServiceNow instance that the data source connects to. The host endpoint
-  /// should look like the following: <i>{instance}.service-now.com.</i>
-  final String hostUrl;
-
-  /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains
-  /// the user name and password required to connect to the ServiceNow instance.
-  /// You can also provide OAuth authentication credentials of user name,
-  /// password, client ID, and client secret. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-servicenow.html">Using
-  /// a ServiceNow data source</a>.
-  final String secretArn;
-
-  /// The identifier of the release that the ServiceNow host is running. If the
-  /// host is not running the <code>LONDON</code> release, use
-  /// <code>OTHERS</code>.
-  final ServiceNowBuildVersionType serviceNowBuildVersion;
-
-  /// The type of authentication used to connect to the ServiceNow instance. If
-  /// you choose <code>HTTP_BASIC</code>, Amazon Kendra is authenticated using the
-  /// user name and password provided in the Secrets Manager secret in the
-  /// <code>SecretArn</code> field. If you choose <code>OAUTH2</code>, Amazon
-  /// Kendra is authenticated using the credentials of client ID, client secret,
-  /// user name and password.
-  ///
-  /// When you use <code>OAUTH2</code> authentication, you must generate a token
-  /// and a client secret using the ServiceNow console. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-servicenow.html">Using
-  /// a ServiceNow data source</a>.
-  final ServiceNowAuthenticationType? authenticationType;
-
-  /// Configuration information for crawling knowledge articles in the ServiceNow
-  /// site.
-  final ServiceNowKnowledgeArticleConfiguration? knowledgeArticleConfiguration;
-
-  /// Configuration information for crawling service catalogs in the ServiceNow
-  /// site.
-  final ServiceNowServiceCatalogConfiguration? serviceCatalogConfiguration;
-
-  ServiceNowConfiguration({
-    required this.hostUrl,
-    required this.secretArn,
-    required this.serviceNowBuildVersion,
-    this.authenticationType,
-    this.knowledgeArticleConfiguration,
-    this.serviceCatalogConfiguration,
-  });
-
-  factory ServiceNowConfiguration.fromJson(Map<String, dynamic> json) {
-    return ServiceNowConfiguration(
-      hostUrl: (json['HostUrl'] as String?) ?? '',
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      serviceNowBuildVersion: ServiceNowBuildVersionType.fromString(
-          (json['ServiceNowBuildVersion'] as String?) ?? ''),
-      authenticationType: (json['AuthenticationType'] as String?)
-          ?.let(ServiceNowAuthenticationType.fromString),
-      knowledgeArticleConfiguration:
-          json['KnowledgeArticleConfiguration'] != null
-              ? ServiceNowKnowledgeArticleConfiguration.fromJson(
-                  json['KnowledgeArticleConfiguration'] as Map<String, dynamic>)
-              : null,
-      serviceCatalogConfiguration: json['ServiceCatalogConfiguration'] != null
-          ? ServiceNowServiceCatalogConfiguration.fromJson(
-              json['ServiceCatalogConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostUrl = this.hostUrl;
-    final secretArn = this.secretArn;
-    final serviceNowBuildVersion = this.serviceNowBuildVersion;
-    final authenticationType = this.authenticationType;
-    final knowledgeArticleConfiguration = this.knowledgeArticleConfiguration;
-    final serviceCatalogConfiguration = this.serviceCatalogConfiguration;
-    return {
-      'HostUrl': hostUrl,
-      'SecretArn': secretArn,
-      'ServiceNowBuildVersion': serviceNowBuildVersion.value,
-      if (authenticationType != null)
-        'AuthenticationType': authenticationType.value,
-      if (knowledgeArticleConfiguration != null)
-        'KnowledgeArticleConfiguration': knowledgeArticleConfiguration,
-      if (serviceCatalogConfiguration != null)
-        'ServiceCatalogConfiguration': serviceCatalogConfiguration,
-    };
-  }
 }
 
 /// Provides the configuration information for crawling knowledge articles in
@@ -16175,220 +12988,757 @@ class ServiceNowServiceCatalogConfiguration {
   }
 }
 
-/// Provides the configuration information to connect to Microsoft SharePoint as
-/// your data source.
-class SharePointConfiguration {
-  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
-  /// the user name and password required to connect to the SharePoint instance.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-sharepoint.html">Microsoft
-  /// SharePoint</a>.
-  final String secretArn;
+class ServiceNowAuthenticationType {
+  static const httpBasic = ServiceNowAuthenticationType._('HTTP_BASIC');
+  static const oauth2 = ServiceNowAuthenticationType._('OAUTH2');
 
-  /// The version of Microsoft SharePoint that you use.
-  final SharePointVersion sharePointVersion;
+  final String value;
 
-  /// The Microsoft SharePoint site URLs for the documents you want to index.
-  final List<String> urls;
+  const ServiceNowAuthenticationType._(this.value);
 
-  /// Whether you want to connect to SharePoint Online using basic authentication
-  /// of user name and password, or OAuth authentication of user name, password,
-  /// client ID, and client secret, or AD App-only authentication of client
-  /// secret.
-  final SharePointOnlineAuthenticationType? authenticationType;
+  static const values = [httpBasic, oauth2];
 
-  /// <code>TRUE</code> to index document attachments.
-  final bool? crawlAttachments;
+  static ServiceNowAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ServiceNowAuthenticationType._(value));
 
-  /// <code>TRUE</code> to disable local groups information.
-  final bool? disableLocalGroups;
+  @override
+  bool operator ==(other) =>
+      other is ServiceNowAuthenticationType && other.value == value;
 
-  /// The Microsoft SharePoint attribute field that contains the title of the
-  /// document.
-  final String? documentTitleFieldName;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// A list of regular expression patterns to exclude certain documents in your
-  /// SharePoint. Documents that match the patterns are excluded from the index.
-  /// Documents that don't match the patterns are included in the index. If a
-  /// document matches both an inclusion and exclusion pattern, the exclusion
-  /// pattern takes precedence and the document isn't included in the index.
-  ///
-  /// The regex applies to the display URL of the SharePoint document.
-  final List<String>? exclusionPatterns;
+  @override
+  String toString() => value;
+}
 
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map
-  /// SharePoint data source attributes or field names to Amazon Kendra index
-  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
-  /// before you map to SharePoint fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The SharePoint data source field names must exist in
-  /// your SharePoint custom metadata.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+/// User accounts whose documents should be indexed.
+class OneDriveUsers {
+  /// A list of users whose documents should be indexed. Specify the user names in
+  /// email format, for example, <code>username@tenantdomain</code>. If you need
+  /// to index the documents of more than 10 users, use the
+  /// <code>OneDriveUserS3Path</code> field to specify the location of a file
+  /// containing a list of users.
+  final List<String>? oneDriveUserList;
 
-  /// A list of regular expression patterns to include certain documents in your
-  /// SharePoint. Documents that match the patterns are included in the index.
-  /// Documents that don't match the patterns are excluded from the index. If a
-  /// document matches both an inclusion and exclusion pattern, the exclusion
-  /// pattern takes precedence and the document isn't included in the index.
-  ///
-  /// The regex applies to the display URL of the SharePoint document.
-  final List<String>? inclusionPatterns;
+  /// The S3 bucket location of a file containing a list of users whose documents
+  /// should be indexed.
+  final S3Path? oneDriveUserS3Path;
 
-  /// Configuration information to connect to your Microsoft SharePoint site URLs
-  /// via instance via a web proxy. You can use this option for SharePoint Server.
-  ///
-  /// You must provide the website host name and port number. For example, the
-  /// host name of <i>https://a.example.com/page1.html</i> is "a.example.com" and
-  /// the port is 443, the standard port for HTTPS.
-  ///
-  /// Web proxy credentials are optional and you can use them to connect to a web
-  /// proxy server that requires basic authentication of user name and password.
-  /// To store web proxy credentials, you use a secret in Secrets Manager.
-  ///
-  /// It is recommended that you follow best security practices when configuring
-  /// your web proxy. This includes setting up throttling, setting up logging and
-  /// monitoring, and applying security patches on a regular basis. If you use
-  /// your web proxy with multiple data sources, sync jobs that occur at the same
-  /// time could strain the load on your proxy. It is recommended you prepare your
-  /// proxy beforehand for any security and load requirements.
-  final ProxyConfiguration? proxyConfiguration;
-
-  /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this
-  /// to connect to SharePoint Server if you require a secure SSL connection.
-  ///
-  /// You can generate a self-signed X509 certificate on any computer using
-  /// OpenSSL. For an example of using OpenSSL to create an X509 certificate, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html">Create
-  /// and sign an X509 certificate</a>.
-  final S3Path? sslCertificateS3Path;
-
-  /// <code>TRUE</code> to use the SharePoint change log to determine which
-  /// documents require updating in the index. Depending on the change log's size,
-  /// it may take longer for Amazon Kendra to use the change log than to scan all
-  /// of your documents in SharePoint.
-  final bool? useChangeLog;
-
-  /// Configuration information for an Amazon Virtual Private Cloud to connect to
-  /// your Microsoft SharePoint. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
-  /// a VPC</a>.
-  final DataSourceVpcConfiguration? vpcConfiguration;
-
-  SharePointConfiguration({
-    required this.secretArn,
-    required this.sharePointVersion,
-    required this.urls,
-    this.authenticationType,
-    this.crawlAttachments,
-    this.disableLocalGroups,
-    this.documentTitleFieldName,
-    this.exclusionPatterns,
-    this.fieldMappings,
-    this.inclusionPatterns,
-    this.proxyConfiguration,
-    this.sslCertificateS3Path,
-    this.useChangeLog,
-    this.vpcConfiguration,
+  OneDriveUsers({
+    this.oneDriveUserList,
+    this.oneDriveUserS3Path,
   });
 
-  factory SharePointConfiguration.fromJson(Map<String, dynamic> json) {
-    return SharePointConfiguration(
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      sharePointVersion: SharePointVersion.fromString(
-          (json['SharePointVersion'] as String?) ?? ''),
-      urls: ((json['Urls'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      authenticationType: (json['AuthenticationType'] as String?)
-          ?.let(SharePointOnlineAuthenticationType.fromString),
-      crawlAttachments: json['CrawlAttachments'] as bool?,
-      disableLocalGroups: json['DisableLocalGroups'] as bool?,
-      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+  factory OneDriveUsers.fromJson(Map<String, dynamic> json) {
+    return OneDriveUsers(
+      oneDriveUserList: (json['OneDriveUserList'] as List?)
           ?.nonNulls
           .map((e) => e as String)
           .toList(),
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      proxyConfiguration: json['ProxyConfiguration'] != null
-          ? ProxyConfiguration.fromJson(
-              json['ProxyConfiguration'] as Map<String, dynamic>)
-          : null,
-      sslCertificateS3Path: json['SslCertificateS3Path'] != null
-          ? S3Path.fromJson(
-              json['SslCertificateS3Path'] as Map<String, dynamic>)
-          : null,
-      useChangeLog: json['UseChangeLog'] as bool?,
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? DataSourceVpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
+      oneDriveUserS3Path: json['OneDriveUserS3Path'] != null
+          ? S3Path.fromJson(json['OneDriveUserS3Path'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final secretArn = this.secretArn;
-    final sharePointVersion = this.sharePointVersion;
-    final urls = this.urls;
-    final authenticationType = this.authenticationType;
-    final crawlAttachments = this.crawlAttachments;
-    final disableLocalGroups = this.disableLocalGroups;
-    final documentTitleFieldName = this.documentTitleFieldName;
-    final exclusionPatterns = this.exclusionPatterns;
-    final fieldMappings = this.fieldMappings;
-    final inclusionPatterns = this.inclusionPatterns;
-    final proxyConfiguration = this.proxyConfiguration;
-    final sslCertificateS3Path = this.sslCertificateS3Path;
-    final useChangeLog = this.useChangeLog;
-    final vpcConfiguration = this.vpcConfiguration;
+    final oneDriveUserList = this.oneDriveUserList;
+    final oneDriveUserS3Path = this.oneDriveUserS3Path;
     return {
-      'SecretArn': secretArn,
-      'SharePointVersion': sharePointVersion.value,
-      'Urls': urls,
-      if (authenticationType != null)
-        'AuthenticationType': authenticationType.value,
-      if (crawlAttachments != null) 'CrawlAttachments': crawlAttachments,
-      if (disableLocalGroups != null) 'DisableLocalGroups': disableLocalGroups,
-      if (documentTitleFieldName != null)
-        'DocumentTitleFieldName': documentTitleFieldName,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (proxyConfiguration != null) 'ProxyConfiguration': proxyConfiguration,
-      if (sslCertificateS3Path != null)
-        'SslCertificateS3Path': sslCertificateS3Path,
-      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+      if (oneDriveUserList != null) 'OneDriveUserList': oneDriveUserList,
+      if (oneDriveUserS3Path != null) 'OneDriveUserS3Path': oneDriveUserS3Path,
     };
   }
 }
 
-class SharePointOnlineAuthenticationType {
-  static const httpBasic = SharePointOnlineAuthenticationType._('HTTP_BASIC');
-  static const oauth2 = SharePointOnlineAuthenticationType._('OAUTH2');
+/// Provides the configuration information for the knowledge article types that
+/// Amazon Kendra indexes. Amazon Kendra indexes standard knowledge articles and
+/// the standard fields of knowledge articles, or the custom fields of custom
+/// knowledge articles, but not both
+class SalesforceKnowledgeArticleConfiguration {
+  /// Specifies the document states that should be included when Amazon Kendra
+  /// indexes knowledge articles. You must specify at least one state.
+  final List<SalesforceKnowledgeArticleState> includedStates;
+
+  /// Configuration information for custom Salesforce knowledge articles.
+  final List<SalesforceCustomKnowledgeArticleTypeConfiguration>?
+      customKnowledgeArticleTypeConfigurations;
+
+  /// Configuration information for standard Salesforce knowledge articles.
+  final SalesforceStandardKnowledgeArticleTypeConfiguration?
+      standardKnowledgeArticleTypeConfiguration;
+
+  SalesforceKnowledgeArticleConfiguration({
+    required this.includedStates,
+    this.customKnowledgeArticleTypeConfigurations,
+    this.standardKnowledgeArticleTypeConfiguration,
+  });
+
+  factory SalesforceKnowledgeArticleConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SalesforceKnowledgeArticleConfiguration(
+      includedStates: ((json['IncludedStates'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => SalesforceKnowledgeArticleState.fromString((e as String)))
+          .toList(),
+      customKnowledgeArticleTypeConfigurations:
+          (json['CustomKnowledgeArticleTypeConfigurations'] as List?)
+              ?.nonNulls
+              .map((e) =>
+                  SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+      standardKnowledgeArticleTypeConfiguration:
+          json['StandardKnowledgeArticleTypeConfiguration'] != null
+              ? SalesforceStandardKnowledgeArticleTypeConfiguration.fromJson(
+                  json['StandardKnowledgeArticleTypeConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includedStates = this.includedStates;
+    final customKnowledgeArticleTypeConfigurations =
+        this.customKnowledgeArticleTypeConfigurations;
+    final standardKnowledgeArticleTypeConfiguration =
+        this.standardKnowledgeArticleTypeConfiguration;
+    return {
+      'IncludedStates': includedStates.map((e) => e.value).toList(),
+      if (customKnowledgeArticleTypeConfigurations != null)
+        'CustomKnowledgeArticleTypeConfigurations':
+            customKnowledgeArticleTypeConfigurations,
+      if (standardKnowledgeArticleTypeConfiguration != null)
+        'StandardKnowledgeArticleTypeConfiguration':
+            standardKnowledgeArticleTypeConfiguration,
+    };
+  }
+}
+
+/// The configuration information for syncing a Salesforce chatter feed. The
+/// contents of the object comes from the Salesforce FeedItem table.
+class SalesforceChatterFeedConfiguration {
+  /// The name of the column in the Salesforce FeedItem table that contains the
+  /// content to index. Typically this is the <code>Body</code> column.
+  final String documentDataFieldName;
+
+  /// The name of the column in the Salesforce FeedItem table that contains the
+  /// title of the document. This is typically the <code>Title</code> column.
+  final String? documentTitleFieldName;
+
+  /// Maps fields from a Salesforce chatter feed into Amazon Kendra index fields.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  /// Filters the documents in the feed based on status of the user. When you
+  /// specify <code>ACTIVE_USERS</code> only documents from users who have an
+  /// active account are indexed. When you specify <code>STANDARD_USER</code> only
+  /// documents for Salesforce standard users are documented. You can specify
+  /// both.
+  final List<SalesforceChatterFeedIncludeFilterType>? includeFilterTypes;
+
+  SalesforceChatterFeedConfiguration({
+    required this.documentDataFieldName,
+    this.documentTitleFieldName,
+    this.fieldMappings,
+    this.includeFilterTypes,
+  });
+
+  factory SalesforceChatterFeedConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SalesforceChatterFeedConfiguration(
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      includeFilterTypes: (json['IncludeFilterTypes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SalesforceChatterFeedIncludeFilterType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    final includeFilterTypes = this.includeFilterTypes;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+      if (includeFilterTypes != null)
+        'IncludeFilterTypes': includeFilterTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Provides the configuration information for processing attachments to
+/// Salesforce standard objects.
+class SalesforceStandardObjectAttachmentConfiguration {
+  /// The name of the field used for the document title.
+  final String? documentTitleFieldName;
+
+  /// One or more objects that map fields in attachments to Amazon Kendra index
+  /// fields.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  SalesforceStandardObjectAttachmentConfiguration({
+    this.documentTitleFieldName,
+    this.fieldMappings,
+  });
+
+  factory SalesforceStandardObjectAttachmentConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SalesforceStandardObjectAttachmentConfiguration(
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
+}
+
+class SalesforceChatterFeedIncludeFilterType {
+  static const activeUser =
+      SalesforceChatterFeedIncludeFilterType._('ACTIVE_USER');
+  static const standardUser =
+      SalesforceChatterFeedIncludeFilterType._('STANDARD_USER');
 
   final String value;
 
-  const SharePointOnlineAuthenticationType._(this.value);
+  const SalesforceChatterFeedIncludeFilterType._(this.value);
 
-  static const values = [httpBasic, oauth2];
+  static const values = [activeUser, standardUser];
 
-  static SharePointOnlineAuthenticationType fromString(String value) =>
+  static SalesforceChatterFeedIncludeFilterType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => SharePointOnlineAuthenticationType._(value));
+          orElse: () => SalesforceChatterFeedIncludeFilterType._(value));
 
   @override
   bool operator ==(other) =>
-      other is SharePointOnlineAuthenticationType && other.value == value;
+      other is SalesforceChatterFeedIncludeFilterType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the configuration information for standard Salesforce knowledge
+/// articles.
+class SalesforceStandardKnowledgeArticleTypeConfiguration {
+  /// The name of the field that contains the document data to index.
+  final String documentDataFieldName;
+
+  /// The name of the field that contains the document title.
+  final String? documentTitleFieldName;
+
+  /// Maps attributes or field names of the knowledge article to Amazon Kendra
+  /// index field names. To create custom fields, use the <code>UpdateIndex</code>
+  /// API before you map to Salesforce fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Salesforce data source field names must exist in
+  /// your Salesforce custom metadata.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  SalesforceStandardKnowledgeArticleTypeConfiguration({
+    required this.documentDataFieldName,
+    this.documentTitleFieldName,
+    this.fieldMappings,
+  });
+
+  factory SalesforceStandardKnowledgeArticleTypeConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SalesforceStandardKnowledgeArticleTypeConfiguration(
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
+}
+
+/// Provides the configuration information for indexing Salesforce custom
+/// articles.
+class SalesforceCustomKnowledgeArticleTypeConfiguration {
+  /// The name of the field in the custom knowledge article that contains the
+  /// document data to index.
+  final String documentDataFieldName;
+
+  /// The name of the configuration.
+  final String name;
+
+  /// The name of the field in the custom knowledge article that contains the
+  /// document title.
+  final String? documentTitleFieldName;
+
+  /// Maps attributes or field names of the custom knowledge article to Amazon
+  /// Kendra index field names. To create custom fields, use the
+  /// <code>UpdateIndex</code> API before you map to Salesforce fields. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Salesforce data source field names must exist in
+  /// your Salesforce custom metadata.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  SalesforceCustomKnowledgeArticleTypeConfiguration({
+    required this.documentDataFieldName,
+    required this.name,
+    this.documentTitleFieldName,
+    this.fieldMappings,
+  });
+
+  factory SalesforceCustomKnowledgeArticleTypeConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SalesforceCustomKnowledgeArticleTypeConfiguration(
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final name = this.name;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      'Name': name,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
+}
+
+class SalesforceKnowledgeArticleState {
+  static const draft = SalesforceKnowledgeArticleState._('DRAFT');
+  static const published = SalesforceKnowledgeArticleState._('PUBLISHED');
+  static const archived = SalesforceKnowledgeArticleState._('ARCHIVED');
+
+  final String value;
+
+  const SalesforceKnowledgeArticleState._(this.value);
+
+  static const values = [draft, published, archived];
+
+  static SalesforceKnowledgeArticleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SalesforceKnowledgeArticleState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SalesforceKnowledgeArticleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the configuration information for indexing a single standard
+/// object.
+class SalesforceStandardObjectConfiguration {
+  /// The name of the field in the standard object table that contains the
+  /// document contents.
+  final String documentDataFieldName;
+
+  /// The name of the standard object.
+  final SalesforceStandardObjectName name;
+
+  /// The name of the field in the standard object table that contains the
+  /// document title.
+  final String? documentTitleFieldName;
+
+  /// Maps attributes or field names of the standard object to Amazon Kendra index
+  /// field names. To create custom fields, use the <code>UpdateIndex</code> API
+  /// before you map to Salesforce fields. For more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
+  /// data source fields</a>. The Salesforce data source field names must exist in
+  /// your Salesforce custom metadata.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  SalesforceStandardObjectConfiguration({
+    required this.documentDataFieldName,
+    required this.name,
+    this.documentTitleFieldName,
+    this.fieldMappings,
+  });
+
+  factory SalesforceStandardObjectConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SalesforceStandardObjectConfiguration(
+      documentDataFieldName: (json['DocumentDataFieldName'] as String?) ?? '',
+      name: SalesforceStandardObjectName.fromString(
+          (json['Name'] as String?) ?? ''),
+      documentTitleFieldName: json['DocumentTitleFieldName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentDataFieldName = this.documentDataFieldName;
+    final name = this.name;
+    final documentTitleFieldName = this.documentTitleFieldName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      'DocumentDataFieldName': documentDataFieldName,
+      'Name': name.value,
+      if (documentTitleFieldName != null)
+        'DocumentTitleFieldName': documentTitleFieldName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
+}
+
+class SalesforceStandardObjectName {
+  static const account = SalesforceStandardObjectName._('ACCOUNT');
+  static const campaign = SalesforceStandardObjectName._('CAMPAIGN');
+  static const $case = SalesforceStandardObjectName._('CASE');
+  static const contact = SalesforceStandardObjectName._('CONTACT');
+  static const contract = SalesforceStandardObjectName._('CONTRACT');
+  static const document = SalesforceStandardObjectName._('DOCUMENT');
+  static const group = SalesforceStandardObjectName._('GROUP');
+  static const idea = SalesforceStandardObjectName._('IDEA');
+  static const lead = SalesforceStandardObjectName._('LEAD');
+  static const opportunity = SalesforceStandardObjectName._('OPPORTUNITY');
+  static const partner = SalesforceStandardObjectName._('PARTNER');
+  static const pricebook = SalesforceStandardObjectName._('PRICEBOOK');
+  static const product = SalesforceStandardObjectName._('PRODUCT');
+  static const profile = SalesforceStandardObjectName._('PROFILE');
+  static const solution = SalesforceStandardObjectName._('SOLUTION');
+  static const task = SalesforceStandardObjectName._('TASK');
+  static const user = SalesforceStandardObjectName._('USER');
+
+  final String value;
+
+  const SalesforceStandardObjectName._(this.value);
+
+  static const values = [
+    account,
+    campaign,
+    $case,
+    contact,
+    contract,
+    document,
+    group,
+    idea,
+    lead,
+    opportunity,
+    partner,
+    pricebook,
+    product,
+    profile,
+    solution,
+    task,
+    user
+  ];
+
+  static SalesforceStandardObjectName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SalesforceStandardObjectName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SalesforceStandardObjectName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DatabaseEngineType {
+  static const rdsAuroraMysql = DatabaseEngineType._('RDS_AURORA_MYSQL');
+  static const rdsAuroraPostgresql =
+      DatabaseEngineType._('RDS_AURORA_POSTGRESQL');
+  static const rdsMysql = DatabaseEngineType._('RDS_MYSQL');
+  static const rdsPostgresql = DatabaseEngineType._('RDS_POSTGRESQL');
+
+  final String value;
+
+  const DatabaseEngineType._(this.value);
+
+  static const values = [
+    rdsAuroraMysql,
+    rdsAuroraPostgresql,
+    rdsMysql,
+    rdsPostgresql
+  ];
+
+  static DatabaseEngineType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatabaseEngineType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatabaseEngineType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the configuration information that's required to connect to a
+/// database.
+class ConnectionConfiguration {
+  /// The name of the host for the database. Can be either a string
+  /// (host.subdomain.domain.tld) or an IPv4 or IPv6 address.
+  final String databaseHost;
+
+  /// The name of the database containing the document data.
+  final String databaseName;
+
+  /// The port that the database uses for connections.
+  final int databasePort;
+
+  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that stores the
+  /// credentials. The credentials should be a user-password pair. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-database.html">Using
+  /// a Database Data Source</a>. For more information about Secrets Manager, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">
+  /// What Is Secrets Manager</a> in the <i>Secrets Manager</i> user guide.
+  final String secretArn;
+
+  /// The name of the table that contains the document data.
+  final String tableName;
+
+  ConnectionConfiguration({
+    required this.databaseHost,
+    required this.databaseName,
+    required this.databasePort,
+    required this.secretArn,
+    required this.tableName,
+  });
+
+  factory ConnectionConfiguration.fromJson(Map<String, dynamic> json) {
+    return ConnectionConfiguration(
+      databaseHost: (json['DatabaseHost'] as String?) ?? '',
+      databaseName: (json['DatabaseName'] as String?) ?? '',
+      databasePort: (json['DatabasePort'] as int?) ?? 0,
+      secretArn: (json['SecretArn'] as String?) ?? '',
+      tableName: (json['TableName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseHost = this.databaseHost;
+    final databaseName = this.databaseName;
+    final databasePort = this.databasePort;
+    final secretArn = this.secretArn;
+    final tableName = this.tableName;
+    return {
+      'DatabaseHost': databaseHost,
+      'DatabaseName': databaseName,
+      'DatabasePort': databasePort,
+      'SecretArn': secretArn,
+      'TableName': tableName,
+    };
+  }
+}
+
+/// Provides information about how Amazon Kendra should use the columns of a
+/// database in an index.
+class ColumnConfiguration {
+  /// One to five columns that indicate when a document in the database has
+  /// changed.
+  final List<String> changeDetectingColumns;
+
+  /// The column that contains the contents of the document.
+  final String documentDataColumnName;
+
+  /// The column that provides the document's identifier.
+  final String documentIdColumnName;
+
+  /// The column that contains the title of the document.
+  final String? documentTitleColumnName;
+
+  /// An array of objects that map database column names to the corresponding
+  /// fields in an index. You must first create the fields in the index using the
+  /// <code>UpdateIndex</code> API.
+  final List<DataSourceToIndexFieldMapping>? fieldMappings;
+
+  ColumnConfiguration({
+    required this.changeDetectingColumns,
+    required this.documentDataColumnName,
+    required this.documentIdColumnName,
+    this.documentTitleColumnName,
+    this.fieldMappings,
+  });
+
+  factory ColumnConfiguration.fromJson(Map<String, dynamic> json) {
+    return ColumnConfiguration(
+      changeDetectingColumns:
+          ((json['ChangeDetectingColumns'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      documentDataColumnName: (json['DocumentDataColumnName'] as String?) ?? '',
+      documentIdColumnName: (json['DocumentIdColumnName'] as String?) ?? '',
+      documentTitleColumnName: json['DocumentTitleColumnName'] as String?,
+      fieldMappings: (json['FieldMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeDetectingColumns = this.changeDetectingColumns;
+    final documentDataColumnName = this.documentDataColumnName;
+    final documentIdColumnName = this.documentIdColumnName;
+    final documentTitleColumnName = this.documentTitleColumnName;
+    final fieldMappings = this.fieldMappings;
+    return {
+      'ChangeDetectingColumns': changeDetectingColumns,
+      'DocumentDataColumnName': documentDataColumnName,
+      'DocumentIdColumnName': documentIdColumnName,
+      if (documentTitleColumnName != null)
+        'DocumentTitleColumnName': documentTitleColumnName,
+      if (fieldMappings != null) 'FieldMappings': fieldMappings,
+    };
+  }
+}
+
+/// Provides information about the column that should be used for filtering the
+/// query response by groups.
+class AclConfiguration {
+  /// A list of groups, separated by semi-colons, that filters a query response
+  /// based on user context. The document is only returned to users that are in
+  /// one of the groups specified in the <code>UserContext</code> field of the
+  /// <code>Query</code> API.
+  final String allowedGroupsColumnName;
+
+  AclConfiguration({
+    required this.allowedGroupsColumnName,
+  });
+
+  factory AclConfiguration.fromJson(Map<String, dynamic> json) {
+    return AclConfiguration(
+      allowedGroupsColumnName:
+          (json['AllowedGroupsColumnName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedGroupsColumnName = this.allowedGroupsColumnName;
+    return {
+      'AllowedGroupsColumnName': allowedGroupsColumnName,
+    };
+  }
+}
+
+/// Provides the configuration information to use a SQL database.
+class SqlConfiguration {
+  /// Determines whether Amazon Kendra encloses SQL identifiers for tables and
+  /// column names in double quotes (") when making a database query.
+  ///
+  /// By default, Amazon Kendra passes SQL identifiers the way that they are
+  /// entered into the data source configuration. It does not change the case of
+  /// identifiers or enclose them in quotes.
+  ///
+  /// PostgreSQL internally converts uppercase characters to lower case characters
+  /// in identifiers unless they are quoted. Choosing this option encloses
+  /// identifiers in quotes so that PostgreSQL does not convert the character's
+  /// case.
+  ///
+  /// For MySQL databases, you must enable the <code>ansi_quotes</code> option
+  /// when you set this field to <code>DOUBLE_QUOTES</code>.
+  final QueryIdentifiersEnclosingOption? queryIdentifiersEnclosingOption;
+
+  SqlConfiguration({
+    this.queryIdentifiersEnclosingOption,
+  });
+
+  factory SqlConfiguration.fromJson(Map<String, dynamic> json) {
+    return SqlConfiguration(
+      queryIdentifiersEnclosingOption:
+          (json['QueryIdentifiersEnclosingOption'] as String?)
+              ?.let(QueryIdentifiersEnclosingOption.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryIdentifiersEnclosingOption =
+        this.queryIdentifiersEnclosingOption;
+    return {
+      if (queryIdentifiersEnclosingOption != null)
+        'QueryIdentifiersEnclosingOption':
+            queryIdentifiersEnclosingOption.value,
+    };
+  }
+}
+
+class QueryIdentifiersEnclosingOption {
+  static const doubleQuotes =
+      QueryIdentifiersEnclosingOption._('DOUBLE_QUOTES');
+  static const none = QueryIdentifiersEnclosingOption._('NONE');
+
+  final String value;
+
+  const QueryIdentifiersEnclosingOption._(this.value);
+
+  static const values = [doubleQuotes, none];
+
+  static QueryIdentifiersEnclosingOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryIdentifiersEnclosingOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryIdentifiersEnclosingOption && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -16428,271 +13778,439 @@ class SharePointVersion {
   String toString() => value;
 }
 
-/// Provides the configuration information for the sitemap URLs to crawl.
-///
-/// <i>When selecting websites to index, you must adhere to the <a
-/// href="https://aws.amazon.com/aup/">Amazon Acceptable Use Policy</a> and all
-/// other Amazon terms. Remember that you must only use Amazon Kendra Web
-/// Crawler to index your own web pages, or web pages that you have
-/// authorization to index.</i>
-class SiteMapsConfiguration {
-  /// The list of sitemap URLs of the websites you want to crawl.
-  ///
-  /// The list can include a maximum of three sitemap URLs.
-  final List<String> siteMaps;
+class SharePointOnlineAuthenticationType {
+  static const httpBasic = SharePointOnlineAuthenticationType._('HTTP_BASIC');
+  static const oauth2 = SharePointOnlineAuthenticationType._('OAUTH2');
 
-  SiteMapsConfiguration({
-    required this.siteMaps,
+  final String value;
+
+  const SharePointOnlineAuthenticationType._(this.value);
+
+  static const values = [httpBasic, oauth2];
+
+  static SharePointOnlineAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SharePointOnlineAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SharePointOnlineAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Document metadata files that contain information such as the document access
+/// control information, source URI, document author, and custom attributes.
+/// Each metadata file contains metadata about a single document.
+class DocumentsMetadataConfiguration {
+  /// A prefix used to filter metadata configuration files in the Amazon Web
+  /// Services S3 bucket. The S3 bucket might contain multiple metadata files. Use
+  /// <code>S3Prefix</code> to include only the desired metadata files.
+  final String? s3Prefix;
+
+  DocumentsMetadataConfiguration({
+    this.s3Prefix,
   });
 
-  factory SiteMapsConfiguration.fromJson(Map<String, dynamic> json) {
-    return SiteMapsConfiguration(
-      siteMaps: ((json['SiteMaps'] as List?) ?? const [])
+  factory DocumentsMetadataConfiguration.fromJson(Map<String, dynamic> json) {
+    return DocumentsMetadataConfiguration(
+      s3Prefix: json['S3Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Prefix = this.s3Prefix;
+    return {
+      if (s3Prefix != null) 'S3Prefix': s3Prefix,
+    };
+  }
+}
+
+/// Access Control List files for the documents in a data source. For the format
+/// of the file, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html">Access
+/// control for S3 data sources</a>.
+class AccessControlListConfiguration {
+  /// Path to the Amazon S3 bucket that contains the ACL files.
+  final String? keyPath;
+
+  AccessControlListConfiguration({
+    this.keyPath,
+  });
+
+  factory AccessControlListConfiguration.fromJson(Map<String, dynamic> json) {
+    return AccessControlListConfiguration(
+      keyPath: json['KeyPath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyPath = this.keyPath;
+    return {
+      if (keyPath != null) 'KeyPath': keyPath,
+    };
+  }
+}
+
+/// Information to define the hierarchy for which documents users should have
+/// access to.
+class HierarchicalPrincipal {
+  /// A list of <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Principal.html">principal</a>
+  /// lists that define the hierarchy for which documents users should have access
+  /// to. Each hierarchical list specifies which user or group has allow or deny
+  /// access for each document.
+  final List<Principal> principalList;
+
+  HierarchicalPrincipal({
+    required this.principalList,
+  });
+
+  factory HierarchicalPrincipal.fromJson(Map<String, dynamic> json) {
+    return HierarchicalPrincipal(
+      principalList: ((json['PrincipalList'] as List?) ?? const [])
           .nonNulls
-          .map((e) => e as String)
+          .map((e) => Principal.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final siteMaps = this.siteMaps;
+    final principalList = this.principalList;
     return {
-      'SiteMaps': siteMaps,
+      'PrincipalList': principalList,
     };
   }
 }
 
-/// Provides the configuration information to connect to Slack as your data
-/// source.
-/// <note>
-/// Amazon Kendra now supports an upgraded Slack connector.
-///
-/// You must now use the <a
-/// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html">TemplateConfiguration</a>
-/// object instead of the <code>SlackConfiguration</code> object to configure
-/// your connector.
-///
-/// Connectors configured using the older console and API architecture will
-/// continue to function as configured. However, you won’t be able to edit or
-/// update them. If you want to edit or update your connector configuration, you
-/// must create a new connector.
-///
-/// We recommended migrating your connector workflow to the upgraded version.
-/// Support for connectors configured using the older architecture is scheduled
-/// to end by June 2024.
-/// </note>
-class SlackConfiguration {
-  /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains
-  /// the key-value pairs required to connect to your Slack workspace team. The
-  /// secret must contain a JSON structure with the following keys:
-  ///
-  /// <ul>
-  /// <li>
-  /// slackToken—The user or bot token created in Slack. For more information on
-  /// creating a token in Slack, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/data-source-slack.html#slack-authentication">Authentication
-  /// for a Slack data source</a>.
-  /// </li>
-  /// </ul>
-  final String secretArn;
+/// Provides user and group information for <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html">user
+/// context filtering</a>.
+class Principal {
+  /// Whether to allow or deny document access to the principal.
+  final ReadAccessType access;
 
-  /// The date to start crawling your data from your Slack workspace team. The
-  /// date must follow this format: <code>yyyy-mm-dd</code>.
-  final String sinceCrawlDate;
+  /// The name of the user or group.
+  final String name;
 
-  /// Specify whether to index public channels, private channels, group messages,
-  /// and direct messages. You can specify one or more of these options.
-  final List<SlackEntity> slackEntityList;
+  /// The type of principal.
+  final PrincipalType type;
 
-  /// The identifier of the team in the Slack workspace. For example,
-  /// <i>T0123456789</i>.
-  ///
-  /// You can find your team ID in the URL of the main page of your Slack
-  /// workspace. When you log in to Slack via a browser, you are directed to the
-  /// URL of the main page. For example,
-  /// <i>https://app.slack.com/client/<b>T0123456789</b>/...</i>.
-  final String teamId;
+  /// The identifier of the data source the principal should access documents
+  /// from.
+  final String? dataSourceId;
 
-  /// <code>TRUE</code> to index bot messages from your Slack workspace team.
-  final bool? crawlBotMessage;
-
-  /// <code>TRUE</code> to exclude archived messages to index from your Slack
-  /// workspace team.
-  final bool? excludeArchived;
-
-  /// A list of regular expression patterns to exclude certain attached files in
-  /// your Slack workspace team. Files that match the patterns are excluded from
-  /// the index. Files that don’t match the patterns are included in the index. If
-  /// a file matches both an inclusion and exclusion pattern, the exclusion
-  /// pattern takes precedence and the file isn't included in the index.
-  final List<String>? exclusionPatterns;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map Slack
-  /// data source attributes or field names to Amazon Kendra index field names. To
-  /// create custom fields, use the <code>UpdateIndex</code> API before you map to
-  /// Slack fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Slack data source field names must exist in your
-  /// Slack custom metadata.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  /// A list of regular expression patterns to include certain attached files in
-  /// your Slack workspace team. Files that match the patterns are included in the
-  /// index. Files that don't match the patterns are excluded from the index. If a
-  /// file matches both an inclusion and exclusion pattern, the exclusion pattern
-  /// takes precedence and the file isn't included in the index.
-  final List<String>? inclusionPatterns;
-
-  /// The number of hours for change log to look back from when you last
-  /// synchronized your data. You can look back up to 7 days or 168 hours.
-  ///
-  /// Change log updates your index only if new content was added since you last
-  /// synced your data. Updated or deleted content from before you last synced
-  /// does not get updated in your index. To capture updated or deleted content
-  /// before you last synced, set the <code>LookBackPeriod</code> to the number of
-  /// hours you want change log to look back.
-  final int? lookBackPeriod;
-
-  /// The list of private channel names from your Slack workspace team. You use
-  /// this if you want to index specific private channels, not all private
-  /// channels. You can also use regular expression patterns to filter private
-  /// channels.
-  final List<String>? privateChannelFilter;
-
-  /// The list of public channel names to index from your Slack workspace team.
-  /// You use this if you want to index specific public channels, not all public
-  /// channels. You can also use regular expression patterns to filter public
-  /// channels.
-  final List<String>? publicChannelFilter;
-
-  /// <code>TRUE</code> to use the Slack change log to determine which documents
-  /// require updating in the index. Depending on the Slack change log's size, it
-  /// may take longer for Amazon Kendra to use the change log than to scan all of
-  /// your documents in Slack.
-  final bool? useChangeLog;
-
-  /// Configuration information for an Amazon Virtual Private Cloud to connect to
-  /// your Slack. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html">Configuring
-  /// a VPC</a>.
-  final DataSourceVpcConfiguration? vpcConfiguration;
-
-  SlackConfiguration({
-    required this.secretArn,
-    required this.sinceCrawlDate,
-    required this.slackEntityList,
-    required this.teamId,
-    this.crawlBotMessage,
-    this.excludeArchived,
-    this.exclusionPatterns,
-    this.fieldMappings,
-    this.inclusionPatterns,
-    this.lookBackPeriod,
-    this.privateChannelFilter,
-    this.publicChannelFilter,
-    this.useChangeLog,
-    this.vpcConfiguration,
+  Principal({
+    required this.access,
+    required this.name,
+    required this.type,
+    this.dataSourceId,
   });
 
-  factory SlackConfiguration.fromJson(Map<String, dynamic> json) {
-    return SlackConfiguration(
-      secretArn: (json['SecretArn'] as String?) ?? '',
-      sinceCrawlDate: (json['SinceCrawlDate'] as String?) ?? '',
-      slackEntityList: ((json['SlackEntityList'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => SlackEntity.fromString((e as String)))
-          .toList(),
-      teamId: (json['TeamId'] as String?) ?? '',
-      crawlBotMessage: json['CrawlBotMessage'] as bool?,
-      excludeArchived: json['ExcludeArchived'] as bool?,
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
+  factory Principal.fromJson(Map<String, dynamic> json) {
+    return Principal(
+      access: ReadAccessType.fromString((json['Access'] as String?) ?? ''),
+      name: (json['Name'] as String?) ?? '',
+      type: PrincipalType.fromString((json['Type'] as String?) ?? ''),
+      dataSourceId: json['DataSourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final access = this.access;
+    final name = this.name;
+    final type = this.type;
+    final dataSourceId = this.dataSourceId;
+    return {
+      'Access': access.value,
+      'Name': name,
+      'Type': type.value,
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+    };
+  }
+}
+
+class PrincipalType {
+  static const user = PrincipalType._('USER');
+  static const group = PrincipalType._('GROUP');
+
+  final String value;
+
+  const PrincipalType._(this.value);
+
+  static const values = [user, group];
+
+  static PrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReadAccessType {
+  static const allow = ReadAccessType._('ALLOW');
+  static const deny = ReadAccessType._('DENY');
+
+  final String value;
+
+  const ReadAccessType._(this.value);
+
+  static const values = [allow, deny];
+
+  static ReadAccessType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReadAccessType._(value));
+
+  @override
+  bool operator ==(other) => other is ReadAccessType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key-value pair that identifies or categorizes an index, FAQ, data source,
+/// or other resource. TA tag key and value can consist of Unicode letters,
+/// digits, white space, and any of the following symbols: _ . : / = + - @.
+class Tag {
+  /// The key for the tag. Keys are not case sensitive and must be unique for the
+  /// index, FAQ, data source, or other resource.
+  final String key;
+
+  /// The value associated with the tag. The value may be an empty string but it
+  /// can't be null.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Provides feedback on how relevant a document is to a search. Your
+/// application uses the <code>SubmitFeedback</code> API to provide relevance
+/// information.
+class RelevanceFeedback {
+  /// Whether the document was relevant or not relevant to the search.
+  final RelevanceType relevanceValue;
+
+  /// The identifier of the search result that the user provided relevance
+  /// feedback for.
+  final String resultId;
+
+  RelevanceFeedback({
+    required this.relevanceValue,
+    required this.resultId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final relevanceValue = this.relevanceValue;
+    final resultId = this.resultId;
+    return {
+      'RelevanceValue': relevanceValue.value,
+      'ResultId': resultId,
+    };
+  }
+}
+
+class RelevanceType {
+  static const relevant = RelevanceType._('RELEVANT');
+  static const notRelevant = RelevanceType._('NOT_RELEVANT');
+
+  final String value;
+
+  const RelevanceType._(this.value);
+
+  static const values = [relevant, notRelevant];
+
+  static RelevanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RelevanceType._(value));
+
+  @override
+  bool operator ==(other) => other is RelevanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Gathers information about when a particular result was clicked by a user.
+/// Your application uses the <code>SubmitFeedback</code> API to provide click
+/// information.
+class ClickFeedback {
+  /// The Unix timestamp when the result was clicked.
+  final DateTime clickTime;
+
+  /// The identifier of the search result that was clicked.
+  final String resultId;
+
+  ClickFeedback({
+    required this.clickTime,
+    required this.resultId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final clickTime = this.clickTime;
+    final resultId = this.resultId;
+    return {
+      'ClickTime': unixTimestampToJson(clickTime),
+      'ResultId': resultId,
+    };
+  }
+}
+
+/// A single retrieved relevant passage result.
+class RetrieveResultItem {
+  /// The contents of the relevant passage.
+  final String? content;
+
+  /// An array of document fields/attributes assigned to a document in the search
+  /// results. For example, the document author (<code>_author</code>) or the
+  /// source URI (<code>_source_uri</code>) of the document.
+  final List<DocumentAttribute>? documentAttributes;
+
+  /// The identifier of the document.
+  final String? documentId;
+
+  /// The title of the document.
+  final String? documentTitle;
+
+  /// The URI of the original location of the document.
+  final String? documentURI;
+
+  /// The identifier of the relevant passage result.
+  final String? id;
+
+  /// The confidence score bucket for a retrieved passage result. The confidence
+  /// bucket provides a relative ranking that indicates how confident Amazon
+  /// Kendra is that the response is relevant to the query.
+  final ScoreAttributes? scoreAttributes;
+
+  RetrieveResultItem({
+    this.content,
+    this.documentAttributes,
+    this.documentId,
+    this.documentTitle,
+    this.documentURI,
+    this.id,
+    this.scoreAttributes,
+  });
+
+  factory RetrieveResultItem.fromJson(Map<String, dynamic> json) {
+    return RetrieveResultItem(
+      content: json['Content'] as String?,
+      documentAttributes: (json['DocumentAttributes'] as List?)
           ?.nonNulls
-          .map((e) => e as String)
+          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      lookBackPeriod: json['LookBackPeriod'] as int?,
-      privateChannelFilter: (json['PrivateChannelFilter'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      publicChannelFilter: (json['PublicChannelFilter'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      useChangeLog: json['UseChangeLog'] as bool?,
-      vpcConfiguration: json['VpcConfiguration'] != null
-          ? DataSourceVpcConfiguration.fromJson(
-              json['VpcConfiguration'] as Map<String, dynamic>)
+      documentId: json['DocumentId'] as String?,
+      documentTitle: json['DocumentTitle'] as String?,
+      documentURI: json['DocumentURI'] as String?,
+      id: json['Id'] as String?,
+      scoreAttributes: json['ScoreAttributes'] != null
+          ? ScoreAttributes.fromJson(
+              json['ScoreAttributes'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final secretArn = this.secretArn;
-    final sinceCrawlDate = this.sinceCrawlDate;
-    final slackEntityList = this.slackEntityList;
-    final teamId = this.teamId;
-    final crawlBotMessage = this.crawlBotMessage;
-    final excludeArchived = this.excludeArchived;
-    final exclusionPatterns = this.exclusionPatterns;
-    final fieldMappings = this.fieldMappings;
-    final inclusionPatterns = this.inclusionPatterns;
-    final lookBackPeriod = this.lookBackPeriod;
-    final privateChannelFilter = this.privateChannelFilter;
-    final publicChannelFilter = this.publicChannelFilter;
-    final useChangeLog = this.useChangeLog;
-    final vpcConfiguration = this.vpcConfiguration;
+    final content = this.content;
+    final documentAttributes = this.documentAttributes;
+    final documentId = this.documentId;
+    final documentTitle = this.documentTitle;
+    final documentURI = this.documentURI;
+    final id = this.id;
+    final scoreAttributes = this.scoreAttributes;
     return {
-      'SecretArn': secretArn,
-      'SinceCrawlDate': sinceCrawlDate,
-      'SlackEntityList': slackEntityList.map((e) => e.value).toList(),
-      'TeamId': teamId,
-      if (crawlBotMessage != null) 'CrawlBotMessage': crawlBotMessage,
-      if (excludeArchived != null) 'ExcludeArchived': excludeArchived,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (lookBackPeriod != null) 'LookBackPeriod': lookBackPeriod,
-      if (privateChannelFilter != null)
-        'PrivateChannelFilter': privateChannelFilter,
-      if (publicChannelFilter != null)
-        'PublicChannelFilter': publicChannelFilter,
-      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
-      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+      if (content != null) 'Content': content,
+      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
+      if (documentId != null) 'DocumentId': documentId,
+      if (documentTitle != null) 'DocumentTitle': documentTitle,
+      if (documentURI != null) 'DocumentURI': documentURI,
+      if (id != null) 'Id': id,
+      if (scoreAttributes != null) 'ScoreAttributes': scoreAttributes,
     };
   }
 }
 
-class SlackEntity {
-  static const publicChannel = SlackEntity._('PUBLIC_CHANNEL');
-  static const privateChannel = SlackEntity._('PRIVATE_CHANNEL');
-  static const groupMessage = SlackEntity._('GROUP_MESSAGE');
-  static const directMessage = SlackEntity._('DIRECT_MESSAGE');
+/// Provides a relative ranking that indicates how confident Amazon Kendra is
+/// that the response is relevant to the query.
+class ScoreAttributes {
+  /// A relative ranking for how relevant the response is to the query.
+  final ScoreConfidence? scoreConfidence;
+
+  ScoreAttributes({
+    this.scoreConfidence,
+  });
+
+  factory ScoreAttributes.fromJson(Map<String, dynamic> json) {
+    return ScoreAttributes(
+      scoreConfidence:
+          (json['ScoreConfidence'] as String?)?.let(ScoreConfidence.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scoreConfidence = this.scoreConfidence;
+    return {
+      if (scoreConfidence != null) 'ScoreConfidence': scoreConfidence.value,
+    };
+  }
+}
+
+/// Enumeration for query score confidence.
+class ScoreConfidence {
+  static const veryHigh = ScoreConfidence._('VERY_HIGH');
+  static const high = ScoreConfidence._('HIGH');
+  static const medium = ScoreConfidence._('MEDIUM');
+  static const low = ScoreConfidence._('LOW');
+  static const notAvailable = ScoreConfidence._('NOT_AVAILABLE');
 
   final String value;
 
-  const SlackEntity._(this.value);
+  const ScoreConfidence._(this.value);
 
-  static const values = [
-    publicChannel,
-    privateChannel,
-    groupMessage,
-    directMessage
-  ];
+  static const values = [veryHigh, high, medium, low, notAvailable];
 
-  static SlackEntity fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SlackEntity._(value));
+  static ScoreConfidence fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScoreConfidence._(value));
 
   @override
-  bool operator ==(other) => other is SlackEntity && other.value == value;
+  bool operator ==(other) => other is ScoreConfidence && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -16701,27 +14219,1255 @@ class SlackEntity {
   String toString() => value;
 }
 
-class SortOrder {
-  static const desc = SortOrder._('DESC');
-  static const asc = SortOrder._('ASC');
+/// A document attribute or metadata field. To create custom document
+/// attributes, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/custom-attributes.html">Custom
+/// attributes</a>.
+class DocumentAttribute {
+  /// The identifier for the attribute.
+  final String key;
+
+  /// The value of the attribute.
+  final DocumentAttributeValue value;
+
+  DocumentAttribute({
+    required this.key,
+    required this.value,
+  });
+
+  factory DocumentAttribute.fromJson(Map<String, dynamic> json) {
+    return DocumentAttribute(
+      key: (json['Key'] as String?) ?? '',
+      value: DocumentAttributeValue.fromJson(
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Filters the search results based on document attributes or fields.
+///
+/// You can filter results using attributes for your particular documents. The
+/// attributes must exist in your index. For example, if your documents include
+/// the custom attribute "Department", you can filter documents that belong to
+/// the "HR" department. You would use the <code>EqualsTo</code> operation to
+/// filter results or documents with "Department" equals to "HR".
+///
+/// You can use <code>AndAllFilters</code> and <code>OrAllFilters</code> in
+/// combination with each other or with other operations such as
+/// <code>EqualsTo</code>. For example:
+///
+/// <code>AndAllFilters</code>
+///
+/// <ul>
+/// <li>
+/// <code>EqualsTo</code>: "Department", "HR"
+/// </li>
+/// <li>
+/// <code>OrAllFilters</code>
+///
+/// <ul>
+/// <li>
+/// <code>ContainsAny</code>: "Project Name", ["new hires", "new hiring"]
+/// </li>
+/// </ul> </li>
+/// </ul>
+/// This example filters results or documents that belong to the HR department
+/// <code>AND</code> belong to projects that contain "new hires" <code>OR</code>
+/// "new hiring" in the project name (must use <code>ContainAny</code> with
+/// <code>StringListValue</code>). This example is filtering with a depth of 2.
+///
+/// You cannot filter more than a depth of 2, otherwise you receive a
+/// <code>ValidationException</code> exception with the message "AttributeFilter
+/// cannot have a depth of more than 2." Also, if you use more than 10 attribute
+/// filters in a given list for <code>AndAllFilters</code> or
+/// <code>OrAllFilters</code>, you receive a <code>ValidationException</code>
+/// with the message "AttributeFilter cannot have a length of more than 10".
+///
+/// For examples of using <code>AttributeFilter</code>, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering">Using
+/// document attributes to filter search results</a>.
+class AttributeFilter {
+  /// Performs a logical <code>AND</code> operation on all filters that you
+  /// specify.
+  final List<AttributeFilter>? andAllFilters;
+
+  /// Returns true when a document contains all of the specified document
+  /// attributes/fields. This filter is only applicable to <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">StringListValue</a>.
+  final DocumentAttribute? containsAll;
+
+  /// Returns true when a document contains any of the specified document
+  /// attributes/fields. This filter is only applicable to <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">StringListValue</a>.
+  final DocumentAttribute? containsAny;
+
+  /// Performs an equals operation on document attributes/fields and their values.
+  final DocumentAttribute? equalsTo;
+
+  /// Performs a greater than operation on document attributes/fields and their
+  /// values. Use with the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
+  /// attribute type</a> <code>Date</code> or <code>Long</code>.
+  final DocumentAttribute? greaterThan;
+
+  /// Performs a greater or equals than operation on document attributes/fields
+  /// and their values. Use with the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
+  /// attribute type</a> <code>Date</code> or <code>Long</code>.
+  final DocumentAttribute? greaterThanOrEquals;
+
+  /// Performs a less than operation on document attributes/fields and their
+  /// values. Use with the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
+  /// attribute type</a> <code>Date</code> or <code>Long</code>.
+  final DocumentAttribute? lessThan;
+
+  /// Performs a less than or equals operation on document attributes/fields and
+  /// their values. Use with the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/APIReference/API_DocumentAttributeValue.html">document
+  /// attribute type</a> <code>Date</code> or <code>Long</code>.
+  final DocumentAttribute? lessThanOrEquals;
+
+  /// Performs a logical <code>NOT</code> operation on all filters that you
+  /// specify.
+  final AttributeFilter? notFilter;
+
+  /// Performs a logical <code>OR</code> operation on all filters that you
+  /// specify.
+  final List<AttributeFilter>? orAllFilters;
+
+  AttributeFilter({
+    this.andAllFilters,
+    this.containsAll,
+    this.containsAny,
+    this.equalsTo,
+    this.greaterThan,
+    this.greaterThanOrEquals,
+    this.lessThan,
+    this.lessThanOrEquals,
+    this.notFilter,
+    this.orAllFilters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final andAllFilters = this.andAllFilters;
+    final containsAll = this.containsAll;
+    final containsAny = this.containsAny;
+    final equalsTo = this.equalsTo;
+    final greaterThan = this.greaterThan;
+    final greaterThanOrEquals = this.greaterThanOrEquals;
+    final lessThan = this.lessThan;
+    final lessThanOrEquals = this.lessThanOrEquals;
+    final notFilter = this.notFilter;
+    final orAllFilters = this.orAllFilters;
+    return {
+      if (andAllFilters != null) 'AndAllFilters': andAllFilters,
+      if (containsAll != null) 'ContainsAll': containsAll,
+      if (containsAny != null) 'ContainsAny': containsAny,
+      if (equalsTo != null) 'EqualsTo': equalsTo,
+      if (greaterThan != null) 'GreaterThan': greaterThan,
+      if (greaterThanOrEquals != null)
+        'GreaterThanOrEquals': greaterThanOrEquals,
+      if (lessThan != null) 'LessThan': lessThan,
+      if (lessThanOrEquals != null) 'LessThanOrEquals': lessThanOrEquals,
+      if (notFilter != null) 'NotFilter': notFilter,
+      if (orAllFilters != null) 'OrAllFilters': orAllFilters,
+    };
+  }
+}
+
+/// Provides information about the user context for an Amazon Kendra index.
+///
+/// User context filtering is a kind of personalized search with the benefit of
+/// controlling access to documents. For example, not all teams that search the
+/// company portal for information should access top-secret company documents,
+/// nor are these documents relevant to all users. Only specific users or groups
+/// of teams given access to top-secret documents should see these documents in
+/// their search results.
+///
+/// You provide one of the following:
+///
+/// <ul>
+/// <li>
+/// User token
+/// </li>
+/// <li>
+/// User ID, the groups the user belongs to, and any data sources the groups can
+/// access.
+/// </li>
+/// </ul>
+/// If you provide both, an exception is thrown.
+/// <important>
+/// If you're using an Amazon Kendra Gen AI Enterprise Edition index, you can
+/// use <code>UserId</code>, <code>Groups</code>, and
+/// <code>DataSourceGroups</code> to filter content. If you set the
+/// <code>UserId</code> to a particular user ID, it also includes all public
+/// documents.
+///
+/// Amazon Kendra Gen AI Enterprise Edition indices don't support token based
+/// document filtering. If you're using an Amazon Kendra Gen AI Enterprise
+/// Edition index, Amazon Kendra returns a <code>ValidationException</code>
+/// error if the <code>Token</code> field has a non-null value.
+/// </important>
+class UserContext {
+  /// The list of data source groups you want to filter search results based on
+  /// groups' access to documents in that data source.
+  final List<DataSourceGroup>? dataSourceGroups;
+
+  /// The list of groups you want to filter search results based on the groups'
+  /// access to documents.
+  final List<String>? groups;
+
+  /// The user context token for filtering search results for a user. It must be a
+  /// JWT or a JSON token.
+  final String? token;
+
+  /// The identifier of the user you want to filter search results based on their
+  /// access to documents.
+  final String? userId;
+
+  UserContext({
+    this.dataSourceGroups,
+    this.groups,
+    this.token,
+    this.userId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataSourceGroups = this.dataSourceGroups;
+    final groups = this.groups;
+    final token = this.token;
+    final userId = this.userId;
+    return {
+      if (dataSourceGroups != null) 'DataSourceGroups': dataSourceGroups,
+      if (groups != null) 'Groups': groups,
+      if (token != null) 'Token': token,
+      if (userId != null) 'UserId': userId,
+    };
+  }
+}
+
+/// Data source information for user context filtering.
+class DataSourceGroup {
+  /// The identifier of the data source group you want to add to your list of data
+  /// source groups. This is for filtering search results based on the groups'
+  /// access to documents in that data source.
+  final String dataSourceId;
+
+  /// The identifier of the group you want to add to your list of groups. This is
+  /// for filtering search results based on the groups' access to documents.
+  final String groupId;
+
+  DataSourceGroup({
+    required this.dataSourceId,
+    required this.groupId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataSourceId = this.dataSourceId;
+    final groupId = this.groupId;
+    return {
+      'DataSourceId': dataSourceId,
+      'GroupId': groupId,
+    };
+  }
+}
+
+/// Overrides the document relevance properties of a custom index field.
+class DocumentRelevanceConfiguration {
+  /// The name of the index field.
+  final String name;
+
+  /// Provides information for tuning the relevance of a field in a search. When a
+  /// query includes terms that match the field, the results are given a boost in
+  /// the response based on these tuning parameters.
+  final Relevance relevance;
+
+  DocumentRelevanceConfiguration({
+    required this.name,
+    required this.relevance,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final relevance = this.relevance;
+    return {
+      'Name': name,
+      'Relevance': relevance,
+    };
+  }
+}
+
+/// A single featured result item. A featured result is displayed at the top of
+/// the search results page, placed above all other results for certain queries.
+/// If there's an exact match of a query, then certain documents are featured in
+/// the search results.
+class FeaturedResultsItem {
+  /// One or more additional attributes associated with the featured result.
+  final List<AdditionalResultAttribute>? additionalAttributes;
+
+  /// An array of document attributes assigned to a featured document in the
+  /// search results. For example, the document author (<code>_author</code>) or
+  /// the source URI (<code>_source_uri</code>) of the document.
+  final List<DocumentAttribute>? documentAttributes;
+  final TextWithHighlights? documentExcerpt;
+
+  /// The identifier of the featured document.
+  final String? documentId;
+  final TextWithHighlights? documentTitle;
+
+  /// The source URI location of the featured document.
+  final String? documentURI;
+
+  /// A token that identifies a particular featured result from a particular
+  /// query. Use this token to provide click-through feedback for the result. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html">Submitting
+  /// feedback</a>.
+  final String? feedbackToken;
+
+  /// The identifier of the featured result.
+  final String? id;
+
+  /// The type of document within the featured result response. For example, a
+  /// response could include a question-answer type that's relevant to the query.
+  final QueryResultType? type;
+
+  FeaturedResultsItem({
+    this.additionalAttributes,
+    this.documentAttributes,
+    this.documentExcerpt,
+    this.documentId,
+    this.documentTitle,
+    this.documentURI,
+    this.feedbackToken,
+    this.id,
+    this.type,
+  });
+
+  factory FeaturedResultsItem.fromJson(Map<String, dynamic> json) {
+    return FeaturedResultsItem(
+      additionalAttributes: (json['AdditionalAttributes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentAttributes: (json['DocumentAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentExcerpt: json['DocumentExcerpt'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentExcerpt'] as Map<String, dynamic>)
+          : null,
+      documentId: json['DocumentId'] as String?,
+      documentTitle: json['DocumentTitle'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentTitle'] as Map<String, dynamic>)
+          : null,
+      documentURI: json['DocumentURI'] as String?,
+      feedbackToken: json['FeedbackToken'] as String?,
+      id: json['Id'] as String?,
+      type: (json['Type'] as String?)?.let(QueryResultType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAttributes = this.additionalAttributes;
+    final documentAttributes = this.documentAttributes;
+    final documentExcerpt = this.documentExcerpt;
+    final documentId = this.documentId;
+    final documentTitle = this.documentTitle;
+    final documentURI = this.documentURI;
+    final feedbackToken = this.feedbackToken;
+    final id = this.id;
+    final type = this.type;
+    return {
+      if (additionalAttributes != null)
+        'AdditionalAttributes': additionalAttributes,
+      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
+      if (documentExcerpt != null) 'DocumentExcerpt': documentExcerpt,
+      if (documentId != null) 'DocumentId': documentId,
+      if (documentTitle != null) 'DocumentTitle': documentTitle,
+      if (documentURI != null) 'DocumentURI': documentURI,
+      if (feedbackToken != null) 'FeedbackToken': feedbackToken,
+      if (id != null) 'Id': id,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class QueryResultType {
+  static const document = QueryResultType._('DOCUMENT');
+  static const questionAnswer = QueryResultType._('QUESTION_ANSWER');
+  static const answer = QueryResultType._('ANSWER');
 
   final String value;
 
-  const SortOrder._(this.value);
+  const QueryResultType._(this.value);
 
-  static const values = [desc, asc];
+  static const values = [document, questionAnswer, answer];
 
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+  static QueryResultType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryResultType._(value));
 
   @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
+  bool operator ==(other) => other is QueryResultType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Provides text and information about where to highlight the text.
+class TextWithHighlights {
+  /// The beginning and end of the text that should be highlighted.
+  final List<Highlight>? highlights;
+
+  /// The text to display to the user.
+  final String? text;
+
+  TextWithHighlights({
+    this.highlights,
+    this.text,
+  });
+
+  factory TextWithHighlights.fromJson(Map<String, dynamic> json) {
+    return TextWithHighlights(
+      highlights: (json['Highlights'] as List?)
+          ?.nonNulls
+          .map((e) => Highlight.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      text: json['Text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final highlights = this.highlights;
+    final text = this.text;
+    return {
+      if (highlights != null) 'Highlights': highlights,
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// Provides information that you can use to highlight a search result so that
+/// your users can quickly identify terms in the response.
+class Highlight {
+  /// The zero-based location in the response string where the highlight starts.
+  final int beginOffset;
+
+  /// The zero-based location in the response string where the highlight ends.
+  final int endOffset;
+
+  /// Indicates whether the response is the best response. True if this is the
+  /// best response; otherwise, false.
+  final bool? topAnswer;
+
+  /// The highlight type.
+  final HighlightType? type;
+
+  Highlight({
+    required this.beginOffset,
+    required this.endOffset,
+    this.topAnswer,
+    this.type,
+  });
+
+  factory Highlight.fromJson(Map<String, dynamic> json) {
+    return Highlight(
+      beginOffset: (json['BeginOffset'] as int?) ?? 0,
+      endOffset: (json['EndOffset'] as int?) ?? 0,
+      topAnswer: json['TopAnswer'] as bool?,
+      type: (json['Type'] as String?)?.let(HighlightType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final endOffset = this.endOffset;
+    final topAnswer = this.topAnswer;
+    final type = this.type;
+    return {
+      'BeginOffset': beginOffset,
+      'EndOffset': endOffset,
+      if (topAnswer != null) 'TopAnswer': topAnswer,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class HighlightType {
+  static const standard = HighlightType._('STANDARD');
+  static const thesaurusSynonym = HighlightType._('THESAURUS_SYNONYM');
+
+  final String value;
+
+  const HighlightType._(this.value);
+
+  static const values = [standard, thesaurusSynonym];
+
+  static HighlightType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HighlightType._(value));
+
+  @override
+  bool operator ==(other) => other is HighlightType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An attribute returned from an index query.
+class AdditionalResultAttribute {
+  /// The key that identifies the attribute.
+  final String key;
+
+  /// An object that contains the attribute value.
+  final AdditionalResultAttributeValue value;
+
+  /// The data type of the <code>Value</code> property.
+  final AdditionalResultAttributeValueType valueType;
+
+  AdditionalResultAttribute({
+    required this.key,
+    required this.value,
+    required this.valueType,
+  });
+
+  factory AdditionalResultAttribute.fromJson(Map<String, dynamic> json) {
+    return AdditionalResultAttribute(
+      key: (json['Key'] as String?) ?? '',
+      value: AdditionalResultAttributeValue.fromJson(
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      valueType: AdditionalResultAttributeValueType.fromString(
+          (json['ValueType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    final valueType = this.valueType;
+    return {
+      'Key': key,
+      'Value': value,
+      'ValueType': valueType.value,
+    };
+  }
+}
+
+class AdditionalResultAttributeValueType {
+  static const textWithHighlightsValue =
+      AdditionalResultAttributeValueType._('TEXT_WITH_HIGHLIGHTS_VALUE');
+
+  final String value;
+
+  const AdditionalResultAttributeValueType._(this.value);
+
+  static const values = [textWithHighlightsValue];
+
+  static AdditionalResultAttributeValueType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdditionalResultAttributeValueType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalResultAttributeValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An attribute returned with a document from a search.
+class AdditionalResultAttributeValue {
+  /// The text associated with the attribute and information about the highlight
+  /// to apply to the text.
+  final TextWithHighlights? textWithHighlightsValue;
+
+  AdditionalResultAttributeValue({
+    this.textWithHighlightsValue,
+  });
+
+  factory AdditionalResultAttributeValue.fromJson(Map<String, dynamic> json) {
+    return AdditionalResultAttributeValue(
+      textWithHighlightsValue: json['TextWithHighlightsValue'] != null
+          ? TextWithHighlights.fromJson(
+              json['TextWithHighlightsValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final textWithHighlightsValue = this.textWithHighlightsValue;
+    return {
+      if (textWithHighlightsValue != null)
+        'TextWithHighlightsValue': textWithHighlightsValue,
+    };
+  }
+}
+
+/// A query with suggested spell corrections.
+class SpellCorrectedQuery {
+  /// The corrected misspelled word or words in a query.
+  final List<Correction>? corrections;
+
+  /// The query with the suggested spell corrections.
+  final String? suggestedQueryText;
+
+  SpellCorrectedQuery({
+    this.corrections,
+    this.suggestedQueryText,
+  });
+
+  factory SpellCorrectedQuery.fromJson(Map<String, dynamic> json) {
+    return SpellCorrectedQuery(
+      corrections: (json['Corrections'] as List?)
+          ?.nonNulls
+          .map((e) => Correction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      suggestedQueryText: json['SuggestedQueryText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final corrections = this.corrections;
+    final suggestedQueryText = this.suggestedQueryText;
+    return {
+      if (corrections != null) 'Corrections': corrections,
+      if (suggestedQueryText != null) 'SuggestedQueryText': suggestedQueryText,
+    };
+  }
+}
+
+/// A corrected misspelled word in a query.
+class Correction {
+  /// The zero-based location in the response string or text where the corrected
+  /// word starts.
+  final int? beginOffset;
+
+  /// The string or text of a corrected misspelled word in a query.
+  final String? correctedTerm;
+
+  /// The zero-based location in the response string or text where the corrected
+  /// word ends.
+  final int? endOffset;
+
+  /// The string or text of a misspelled word in a query.
+  final String? term;
+
+  Correction({
+    this.beginOffset,
+    this.correctedTerm,
+    this.endOffset,
+    this.term,
+  });
+
+  factory Correction.fromJson(Map<String, dynamic> json) {
+    return Correction(
+      beginOffset: json['BeginOffset'] as int?,
+      correctedTerm: json['CorrectedTerm'] as String?,
+      endOffset: json['EndOffset'] as int?,
+      term: json['Term'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final correctedTerm = this.correctedTerm;
+    final endOffset = this.endOffset;
+    final term = this.term;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (correctedTerm != null) 'CorrectedTerm': correctedTerm,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (term != null) 'Term': term,
+    };
+  }
+}
+
+/// The warning code and message that explains a problem with a query.
+class Warning {
+  /// The code used to show the type of warning for the query.
+  final WarningCode? code;
+
+  /// The message that explains the problem with the query.
+  final String? message;
+
+  Warning({
+    this.code,
+    this.message,
+  });
+
+  factory Warning.fromJson(Map<String, dynamic> json) {
+    return Warning(
+      code: (json['Code'] as String?)?.let(WarningCode.fromString),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.value,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+class WarningCode {
+  static const queryLanguageInvalidSyntax =
+      WarningCode._('QUERY_LANGUAGE_INVALID_SYNTAX');
+
+  final String value;
+
+  const WarningCode._(this.value);
+
+  static const values = [queryLanguageInvalidSyntax];
+
+  static WarningCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => WarningCode._(value));
+
+  @override
+  bool operator ==(other) => other is WarningCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The facet values for the documents in the response.
+class FacetResult {
+  /// The key for the facet values. This is the same as the
+  /// <code>DocumentAttributeKey</code> provided in the query.
+  final String? documentAttributeKey;
+
+  /// An array of key/value pairs, where the key is the value of the attribute and
+  /// the count is the number of documents that share the key value.
+  final List<DocumentAttributeValueCountPair>? documentAttributeValueCountPairs;
+
+  /// The data type of the facet value. This is the same as the type defined for
+  /// the index field when it was created.
+  final DocumentAttributeValueType? documentAttributeValueType;
+
+  FacetResult({
+    this.documentAttributeKey,
+    this.documentAttributeValueCountPairs,
+    this.documentAttributeValueType,
+  });
+
+  factory FacetResult.fromJson(Map<String, dynamic> json) {
+    return FacetResult(
+      documentAttributeKey: json['DocumentAttributeKey'] as String?,
+      documentAttributeValueCountPairs:
+          (json['DocumentAttributeValueCountPairs'] as List?)
+              ?.nonNulls
+              .map((e) => DocumentAttributeValueCountPair.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      documentAttributeValueType:
+          (json['DocumentAttributeValueType'] as String?)
+              ?.let(DocumentAttributeValueType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentAttributeKey = this.documentAttributeKey;
+    final documentAttributeValueCountPairs =
+        this.documentAttributeValueCountPairs;
+    final documentAttributeValueType = this.documentAttributeValueType;
+    return {
+      if (documentAttributeKey != null)
+        'DocumentAttributeKey': documentAttributeKey,
+      if (documentAttributeValueCountPairs != null)
+        'DocumentAttributeValueCountPairs': documentAttributeValueCountPairs,
+      if (documentAttributeValueType != null)
+        'DocumentAttributeValueType': documentAttributeValueType.value,
+    };
+  }
+}
+
+/// Provides the count of documents that match a particular document attribute
+/// or field when doing a faceted search.
+class DocumentAttributeValueCountPair {
+  /// The number of documents in the response that have the attribute/field value
+  /// for the key.
+  final int? count;
+
+  /// The value of the attribute/field. For example, "HR".
+  final DocumentAttributeValue? documentAttributeValue;
+
+  /// Contains the results of a document attribute/field that is a nested facet. A
+  /// <code>FacetResult</code> contains the counts for each facet nested within a
+  /// facet.
+  ///
+  /// For example, the document attribute or facet "Department" includes a value
+  /// called "Engineering". In addition, the document attribute or facet
+  /// "SubDepartment" includes the values "Frontend" and "Backend" for documents
+  /// assigned to "Engineering". You can display nested facets in the search
+  /// results so that documents can be searched not only by department but also by
+  /// a sub department within a department. The counts for documents that belong
+  /// to "Frontend" and "Backend" within "Engineering" are returned for a query.
+  ///
+  ///
+  ///
+  ///
+  final List<FacetResult>? facetResults;
+
+  DocumentAttributeValueCountPair({
+    this.count,
+    this.documentAttributeValue,
+    this.facetResults,
+  });
+
+  factory DocumentAttributeValueCountPair.fromJson(Map<String, dynamic> json) {
+    return DocumentAttributeValueCountPair(
+      count: json['Count'] as int?,
+      documentAttributeValue: json['DocumentAttributeValue'] != null
+          ? DocumentAttributeValue.fromJson(
+              json['DocumentAttributeValue'] as Map<String, dynamic>)
+          : null,
+      facetResults: (json['FacetResults'] as List?)
+          ?.nonNulls
+          .map((e) => FacetResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final documentAttributeValue = this.documentAttributeValue;
+    final facetResults = this.facetResults;
+    return {
+      if (count != null) 'Count': count,
+      if (documentAttributeValue != null)
+        'DocumentAttributeValue': documentAttributeValue,
+      if (facetResults != null) 'FacetResults': facetResults,
+    };
+  }
+}
+
+/// A single query result.
+///
+/// A query result contains information about a document returned by the query.
+/// This includes the original location of the document, a list of attributes
+/// assigned to the document, and relevant text from the document that satisfies
+/// the query.
+class QueryResultItem {
+  /// One or more additional fields/attributes associated with the query result.
+  final List<AdditionalResultAttribute>? additionalAttributes;
+
+  /// Provides details about a collapsed group of search results.
+  final CollapsedResultDetail? collapsedResultDetail;
+
+  /// An array of document fields/attributes assigned to a document in the search
+  /// results. For example, the document author (<code>_author</code>) or the
+  /// source URI (<code>_source_uri</code>) of the document.
+  final List<DocumentAttribute>? documentAttributes;
+
+  /// An extract of the text in the document. Contains information about
+  /// highlighting the relevant terms in the excerpt.
+  final TextWithHighlights? documentExcerpt;
+
+  /// The identifier for the document.
+  final String? documentId;
+
+  /// The title of the document. Contains the text of the title and information
+  /// for highlighting the relevant terms in the title.
+  final TextWithHighlights? documentTitle;
+
+  /// The URI of the original location of the document.
+  final String? documentURI;
+
+  /// A token that identifies a particular result from a particular query. Use
+  /// this token to provide click-through feedback for the result. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/submitting-feedback.html">Submitting
+  /// feedback</a>.
+  final String? feedbackToken;
+
+  /// If the <code>Type</code> of document within the response is
+  /// <code>ANSWER</code>, then it is either a <code>TABLE</code> answer or
+  /// <code>TEXT</code> answer. If it's a table answer, a table excerpt is
+  /// returned in <code>TableExcerpt</code>. If it's a text answer, a text excerpt
+  /// is returned in <code>DocumentExcerpt</code>.
+  final QueryResultFormat? format;
+
+  /// The unique identifier for the query result item id (<code>Id</code>) and the
+  /// query result item document id (<code>DocumentId</code>) combined. The value
+  /// of this field changes with every request, even when you have the same
+  /// documents.
+  final String? id;
+
+  /// Indicates the confidence level of Amazon Kendra providing a relevant result
+  /// for the query. Each result is placed into a bin that indicates the
+  /// confidence, <code>VERY_HIGH</code>, <code>HIGH</code>, <code>MEDIUM</code>
+  /// and <code>LOW</code>. You can use the score to determine if a response meets
+  /// the confidence needed for your application.
+  ///
+  /// The field is only set to <code>LOW</code> when the <code>Type</code> field
+  /// is set to <code>DOCUMENT</code> and Amazon Kendra is not confident that the
+  /// result is relevant to the query.
+  final ScoreAttributes? scoreAttributes;
+
+  /// An excerpt from a table within a document.
+  final TableExcerpt? tableExcerpt;
+
+  /// The type of document within the response. For example, a response could
+  /// include a question-answer that's relevant to the query.
+  final QueryResultType? type;
+
+  QueryResultItem({
+    this.additionalAttributes,
+    this.collapsedResultDetail,
+    this.documentAttributes,
+    this.documentExcerpt,
+    this.documentId,
+    this.documentTitle,
+    this.documentURI,
+    this.feedbackToken,
+    this.format,
+    this.id,
+    this.scoreAttributes,
+    this.tableExcerpt,
+    this.type,
+  });
+
+  factory QueryResultItem.fromJson(Map<String, dynamic> json) {
+    return QueryResultItem(
+      additionalAttributes: (json['AdditionalAttributes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AdditionalResultAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      collapsedResultDetail: json['CollapsedResultDetail'] != null
+          ? CollapsedResultDetail.fromJson(
+              json['CollapsedResultDetail'] as Map<String, dynamic>)
+          : null,
+      documentAttributes: (json['DocumentAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentExcerpt: json['DocumentExcerpt'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentExcerpt'] as Map<String, dynamic>)
+          : null,
+      documentId: json['DocumentId'] as String?,
+      documentTitle: json['DocumentTitle'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentTitle'] as Map<String, dynamic>)
+          : null,
+      documentURI: json['DocumentURI'] as String?,
+      feedbackToken: json['FeedbackToken'] as String?,
+      format: (json['Format'] as String?)?.let(QueryResultFormat.fromString),
+      id: json['Id'] as String?,
+      scoreAttributes: json['ScoreAttributes'] != null
+          ? ScoreAttributes.fromJson(
+              json['ScoreAttributes'] as Map<String, dynamic>)
+          : null,
+      tableExcerpt: json['TableExcerpt'] != null
+          ? TableExcerpt.fromJson(json['TableExcerpt'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(QueryResultType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAttributes = this.additionalAttributes;
+    final collapsedResultDetail = this.collapsedResultDetail;
+    final documentAttributes = this.documentAttributes;
+    final documentExcerpt = this.documentExcerpt;
+    final documentId = this.documentId;
+    final documentTitle = this.documentTitle;
+    final documentURI = this.documentURI;
+    final feedbackToken = this.feedbackToken;
+    final format = this.format;
+    final id = this.id;
+    final scoreAttributes = this.scoreAttributes;
+    final tableExcerpt = this.tableExcerpt;
+    final type = this.type;
+    return {
+      if (additionalAttributes != null)
+        'AdditionalAttributes': additionalAttributes,
+      if (collapsedResultDetail != null)
+        'CollapsedResultDetail': collapsedResultDetail,
+      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
+      if (documentExcerpt != null) 'DocumentExcerpt': documentExcerpt,
+      if (documentId != null) 'DocumentId': documentId,
+      if (documentTitle != null) 'DocumentTitle': documentTitle,
+      if (documentURI != null) 'DocumentURI': documentURI,
+      if (feedbackToken != null) 'FeedbackToken': feedbackToken,
+      if (format != null) 'Format': format.value,
+      if (id != null) 'Id': id,
+      if (scoreAttributes != null) 'ScoreAttributes': scoreAttributes,
+      if (tableExcerpt != null) 'TableExcerpt': tableExcerpt,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class QueryResultFormat {
+  static const table = QueryResultFormat._('TABLE');
+  static const text = QueryResultFormat._('TEXT');
+
+  final String value;
+
+  const QueryResultFormat._(this.value);
+
+  static const values = [table, text];
+
+  static QueryResultFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryResultFormat._(value));
+
+  @override
+  bool operator ==(other) => other is QueryResultFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An excerpt from a table within a document. The table excerpt displays up to
+/// five columns and three rows, depending on how many table cells are relevant
+/// to the query and how many columns are available in the original table. The
+/// top most relevant cell is displayed in the table excerpt, along with the
+/// next most relevant cells.
+class TableExcerpt {
+  /// A list of rows in the table excerpt.
+  final List<TableRow>? rows;
+
+  /// A count of the number of rows in the original table within the document.
+  final int? totalNumberOfRows;
+
+  TableExcerpt({
+    this.rows,
+    this.totalNumberOfRows,
+  });
+
+  factory TableExcerpt.fromJson(Map<String, dynamic> json) {
+    return TableExcerpt(
+      rows: (json['Rows'] as List?)
+          ?.nonNulls
+          .map((e) => TableRow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalNumberOfRows: json['TotalNumberOfRows'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rows = this.rows;
+    final totalNumberOfRows = this.totalNumberOfRows;
+    return {
+      if (rows != null) 'Rows': rows,
+      if (totalNumberOfRows != null) 'TotalNumberOfRows': totalNumberOfRows,
+    };
+  }
+}
+
+/// Provides details about a collapsed group of search results.
+class CollapsedResultDetail {
+  /// The value of the document attribute that results are collapsed on.
+  final DocumentAttribute documentAttribute;
+
+  /// A list of results in the collapsed group.
+  final List<ExpandedResultItem>? expandedResults;
+
+  CollapsedResultDetail({
+    required this.documentAttribute,
+    this.expandedResults,
+  });
+
+  factory CollapsedResultDetail.fromJson(Map<String, dynamic> json) {
+    return CollapsedResultDetail(
+      documentAttribute: DocumentAttribute.fromJson(
+          (json['DocumentAttribute'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      expandedResults: (json['ExpandedResults'] as List?)
+          ?.nonNulls
+          .map((e) => ExpandedResultItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentAttribute = this.documentAttribute;
+    final expandedResults = this.expandedResults;
+    return {
+      'DocumentAttribute': documentAttribute,
+      if (expandedResults != null) 'ExpandedResults': expandedResults,
+    };
+  }
+}
+
+/// A single expanded result in a collapsed group of search results.
+///
+/// An expanded result item contains information about an expanded result
+/// document within a collapsed group of search results. This includes the
+/// original location of the document, a list of attributes assigned to the
+/// document, and relevant text from the document that satisfies the query.
+class ExpandedResultItem {
+  /// An array of document attributes assigned to a document in the search
+  /// results. For example, the document author ("_author") or the source URI
+  /// ("_source_uri") of the document.
+  final List<DocumentAttribute>? documentAttributes;
+  final TextWithHighlights? documentExcerpt;
+
+  /// The idenitifier of the document.
+  final String? documentId;
+  final TextWithHighlights? documentTitle;
+
+  /// The URI of the original location of the document.
+  final String? documentURI;
+
+  /// The identifier for the expanded result.
+  final String? id;
+
+  ExpandedResultItem({
+    this.documentAttributes,
+    this.documentExcerpt,
+    this.documentId,
+    this.documentTitle,
+    this.documentURI,
+    this.id,
+  });
+
+  factory ExpandedResultItem.fromJson(Map<String, dynamic> json) {
+    return ExpandedResultItem(
+      documentAttributes: (json['DocumentAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentExcerpt: json['DocumentExcerpt'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentExcerpt'] as Map<String, dynamic>)
+          : null,
+      documentId: json['DocumentId'] as String?,
+      documentTitle: json['DocumentTitle'] != null
+          ? TextWithHighlights.fromJson(
+              json['DocumentTitle'] as Map<String, dynamic>)
+          : null,
+      documentURI: json['DocumentURI'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentAttributes = this.documentAttributes;
+    final documentExcerpt = this.documentExcerpt;
+    final documentId = this.documentId;
+    final documentTitle = this.documentTitle;
+    final documentURI = this.documentURI;
+    final id = this.id;
+    return {
+      if (documentAttributes != null) 'DocumentAttributes': documentAttributes,
+      if (documentExcerpt != null) 'DocumentExcerpt': documentExcerpt,
+      if (documentId != null) 'DocumentId': documentId,
+      if (documentTitle != null) 'DocumentTitle': documentTitle,
+      if (documentURI != null) 'DocumentURI': documentURI,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Information about a row in a table excerpt.
+class TableRow {
+  /// A list of table cells in a row.
+  final List<TableCell>? cells;
+
+  TableRow({
+    this.cells,
+  });
+
+  factory TableRow.fromJson(Map<String, dynamic> json) {
+    return TableRow(
+      cells: (json['Cells'] as List?)
+          ?.nonNulls
+          .map((e) => TableCell.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cells = this.cells;
+    return {
+      if (cells != null) 'Cells': cells,
+    };
+  }
+}
+
+/// Provides information about a table cell in a table excerpt.
+class TableCell {
+  /// <code>TRUE</code> means that the table cell should be treated as a header.
+  final bool? header;
+
+  /// <code>TRUE</code> means that the table cell has a high enough confidence and
+  /// is relevant to the query, so the value or content should be highlighted.
+  final bool? highlighted;
+
+  /// <code>TRUE</code> if the response of the table cell is the top answer. This
+  /// is the cell value or content with the highest confidence score or is the
+  /// most relevant to the query.
+  final bool? topAnswer;
+
+  /// The actual value or content within a table cell. A table cell could contain
+  /// a date value of a year, or a string value of text, for example.
+  final String? value;
+
+  TableCell({
+    this.header,
+    this.highlighted,
+    this.topAnswer,
+    this.value,
+  });
+
+  factory TableCell.fromJson(Map<String, dynamic> json) {
+    return TableCell(
+      header: json['Header'] as bool?,
+      highlighted: json['Highlighted'] as bool?,
+      topAnswer: json['TopAnswer'] as bool?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final header = this.header;
+    final highlighted = this.highlighted;
+    final topAnswer = this.topAnswer;
+    final value = this.value;
+    return {
+      if (header != null) 'Header': header,
+      if (highlighted != null) 'Highlighted': highlighted,
+      if (topAnswer != null) 'TopAnswer': topAnswer,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Specifies the document attribute to use to sort the response to a Amazon
@@ -16794,87 +15540,6 @@ class SortingConfiguration {
   }
 }
 
-/// The document ID and its fields/attributes that are used for a query
-/// suggestion, if document fields set to use for query suggestions.
-class SourceDocument {
-  /// The additional fields/attributes to include in the response. You can use
-  /// additional fields to provide extra information in the response. Additional
-  /// fields are not used to based suggestions on.
-  final List<DocumentAttribute>? additionalAttributes;
-
-  /// The identifier of the document used for a query suggestion.
-  final String? documentId;
-
-  /// The document fields/attributes used for a query suggestion.
-  final List<String>? suggestionAttributes;
-
-  SourceDocument({
-    this.additionalAttributes,
-    this.documentId,
-    this.suggestionAttributes,
-  });
-
-  factory SourceDocument.fromJson(Map<String, dynamic> json) {
-    return SourceDocument(
-      additionalAttributes: (json['AdditionalAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      documentId: json['DocumentId'] as String?,
-      suggestionAttributes: (json['SuggestionAttributes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalAttributes = this.additionalAttributes;
-    final documentId = this.documentId;
-    final suggestionAttributes = this.suggestionAttributes;
-    return {
-      if (additionalAttributes != null)
-        'AdditionalAttributes': additionalAttributes,
-      if (documentId != null) 'DocumentId': documentId,
-      if (suggestionAttributes != null)
-        'SuggestionAttributes': suggestionAttributes,
-    };
-  }
-}
-
-/// A query with suggested spell corrections.
-class SpellCorrectedQuery {
-  /// The corrected misspelled word or words in a query.
-  final List<Correction>? corrections;
-
-  /// The query with the suggested spell corrections.
-  final String? suggestedQueryText;
-
-  SpellCorrectedQuery({
-    this.corrections,
-    this.suggestedQueryText,
-  });
-
-  factory SpellCorrectedQuery.fromJson(Map<String, dynamic> json) {
-    return SpellCorrectedQuery(
-      corrections: (json['Corrections'] as List?)
-          ?.nonNulls
-          .map((e) => Correction.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      suggestedQueryText: json['SuggestedQueryText'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final corrections = this.corrections;
-    final suggestedQueryText = this.suggestedQueryText;
-    return {
-      if (corrections != null) 'Corrections': corrections,
-      if (suggestedQueryText != null) 'SuggestedQueryText': suggestedQueryText,
-    };
-  }
-}
-
 /// Provides the configuration information for suggested query spell
 /// corrections.
 ///
@@ -16903,279 +15568,93 @@ class SpellCorrectionConfiguration {
   }
 }
 
-/// Provides the configuration information to use a SQL database.
-class SqlConfiguration {
-  /// Determines whether Amazon Kendra encloses SQL identifiers for tables and
-  /// column names in double quotes (") when making a database query.
+/// Specifies how to group results by document attribute value, and how to
+/// display them collapsed/expanded under a designated primary document for each
+/// group.
+class CollapseConfiguration {
+  /// The document attribute used to group search results. You can use any
+  /// attribute that has the <code>Sortable</code> flag set to true. You can also
+  /// sort by any of the following built-in attributes:"_category","_created_at",
+  /// "_last_updated_at", "_version", "_view_count".
+  final String documentAttributeKey;
+
+  /// Specifies whether to expand the collapsed results.
+  final bool? expand;
+
+  /// Provides configuration information to customize expansion options for a
+  /// collapsed group.
+  final ExpandConfiguration? expandConfiguration;
+
+  /// Specifies the behavior for documents without a value for the collapse
+  /// attribute.
   ///
-  /// By default, Amazon Kendra passes SQL identifiers the way that they are
-  /// entered into the data source configuration. It does not change the case of
-  /// identifiers or enclose them in quotes.
+  /// Amazon Kendra offers three customization options:
   ///
-  /// PostgreSQL internally converts uppercase characters to lower case characters
-  /// in identifiers unless they are quoted. Choosing this option encloses
-  /// identifiers in quotes so that PostgreSQL does not convert the character's
-  /// case.
-  ///
-  /// For MySQL databases, you must enable the <code>ansi_quotes</code> option
-  /// when you set this field to <code>DOUBLE_QUOTES</code>.
-  final QueryIdentifiersEnclosingOption? queryIdentifiersEnclosingOption;
+  /// <ul>
+  /// <li>
+  /// Choose to <code>COLLAPSE</code> all documents with null or missing values in
+  /// one group. This is the default configuration.
+  /// </li>
+  /// <li>
+  /// Choose to <code>IGNORE</code> documents with null or missing values. Ignored
+  /// documents will not appear in query results.
+  /// </li>
+  /// <li>
+  /// Choose to <code>EXPAND</code> each document with a null or missing value
+  /// into a group of its own.
+  /// </li>
+  /// </ul>
+  final MissingAttributeKeyStrategy? missingAttributeKeyStrategy;
 
-  SqlConfiguration({
-    this.queryIdentifiersEnclosingOption,
+  /// A prioritized list of document attributes/fields that determine the primary
+  /// document among those in a collapsed group.
+  final List<SortingConfiguration>? sortingConfigurations;
+
+  CollapseConfiguration({
+    required this.documentAttributeKey,
+    this.expand,
+    this.expandConfiguration,
+    this.missingAttributeKeyStrategy,
+    this.sortingConfigurations,
   });
 
-  factory SqlConfiguration.fromJson(Map<String, dynamic> json) {
-    return SqlConfiguration(
-      queryIdentifiersEnclosingOption:
-          (json['QueryIdentifiersEnclosingOption'] as String?)
-              ?.let(QueryIdentifiersEnclosingOption.fromString),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final queryIdentifiersEnclosingOption =
-        this.queryIdentifiersEnclosingOption;
+    final documentAttributeKey = this.documentAttributeKey;
+    final expand = this.expand;
+    final expandConfiguration = this.expandConfiguration;
+    final missingAttributeKeyStrategy = this.missingAttributeKeyStrategy;
+    final sortingConfigurations = this.sortingConfigurations;
     return {
-      if (queryIdentifiersEnclosingOption != null)
-        'QueryIdentifiersEnclosingOption':
-            queryIdentifiersEnclosingOption.value,
+      'DocumentAttributeKey': documentAttributeKey,
+      if (expand != null) 'Expand': expand,
+      if (expandConfiguration != null)
+        'ExpandConfiguration': expandConfiguration,
+      if (missingAttributeKeyStrategy != null)
+        'MissingAttributeKeyStrategy': missingAttributeKeyStrategy.value,
+      if (sortingConfigurations != null)
+        'SortingConfigurations': sortingConfigurations,
     };
   }
 }
 
-class StartDataSourceSyncJobResponse {
-  /// Identifies a particular synchronization job.
-  final String? executionId;
-
-  StartDataSourceSyncJobResponse({
-    this.executionId,
-  });
-
-  factory StartDataSourceSyncJobResponse.fromJson(Map<String, dynamic> json) {
-    return StartDataSourceSyncJobResponse(
-      executionId: json['ExecutionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionId = this.executionId;
-    return {
-      if (executionId != null) 'ExecutionId': executionId,
-    };
-  }
-}
-
-/// Provides information about the status of documents submitted for indexing.
-class Status {
-  /// The identifier of the document.
-  final String? documentId;
-
-  /// The current status of a document.
-  ///
-  /// If the document was submitted for deletion, the status is
-  /// <code>NOT_FOUND</code> after the document is deleted.
-  final DocumentStatus? documentStatus;
-
-  /// Indicates the source of the error.
-  final String? failureCode;
-
-  /// Provides detailed information about why the document couldn't be indexed.
-  /// Use this information to correct the error before you resubmit the document
-  /// for indexing.
-  final String? failureReason;
-
-  Status({
-    this.documentId,
-    this.documentStatus,
-    this.failureCode,
-    this.failureReason,
-  });
-
-  factory Status.fromJson(Map<String, dynamic> json) {
-    return Status(
-      documentId: json['DocumentId'] as String?,
-      documentStatus:
-          (json['DocumentStatus'] as String?)?.let(DocumentStatus.fromString),
-      failureCode: json['FailureCode'] as String?,
-      failureReason: json['FailureReason'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentId = this.documentId;
-    final documentStatus = this.documentStatus;
-    final failureCode = this.failureCode;
-    final failureReason = this.failureReason;
-    return {
-      if (documentId != null) 'DocumentId': documentId,
-      if (documentStatus != null) 'DocumentStatus': documentStatus.value,
-      if (failureCode != null) 'FailureCode': failureCode,
-      if (failureReason != null) 'FailureReason': failureReason,
-    };
-  }
-}
-
-/// Provides the configuration information for a document field/attribute that
-/// you want to base query suggestions on.
-class SuggestableConfig {
-  /// The name of the document field/attribute.
-  final String? attributeName;
-
-  /// <code>TRUE</code> means the document field/attribute is suggestible, so the
-  /// contents within the field can be used for query suggestions.
-  final bool? suggestable;
-
-  SuggestableConfig({
-    this.attributeName,
-    this.suggestable,
-  });
-
-  factory SuggestableConfig.fromJson(Map<String, dynamic> json) {
-    return SuggestableConfig(
-      attributeName: json['AttributeName'] as String?,
-      suggestable: json['Suggestable'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeName = this.attributeName;
-    final suggestable = this.suggestable;
-    return {
-      if (attributeName != null) 'AttributeName': attributeName,
-      if (suggestable != null) 'Suggestable': suggestable,
-    };
-  }
-}
-
-/// A single query suggestion.
-class Suggestion {
-  /// The UUID (universally unique identifier) of a single query suggestion.
-  final String? id;
-
-  /// The list of document IDs and their fields/attributes that are used for a
-  /// single query suggestion, if document fields set to use for query
-  /// suggestions.
-  final List<SourceDocument>? sourceDocuments;
-
-  /// The value for the UUID (universally unique identifier) of a single query
-  /// suggestion.
-  ///
-  /// The value is the text string of a suggestion.
-  final SuggestionValue? value;
-
-  Suggestion({
-    this.id,
-    this.sourceDocuments,
-    this.value,
-  });
-
-  factory Suggestion.fromJson(Map<String, dynamic> json) {
-    return Suggestion(
-      id: json['Id'] as String?,
-      sourceDocuments: (json['SourceDocuments'] as List?)
-          ?.nonNulls
-          .map((e) => SourceDocument.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      value: json['Value'] != null
-          ? SuggestionValue.fromJson(json['Value'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final sourceDocuments = this.sourceDocuments;
-    final value = this.value;
-    return {
-      if (id != null) 'Id': id,
-      if (sourceDocuments != null) 'SourceDocuments': sourceDocuments,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// The text highlights for a single query suggestion.
-class SuggestionHighlight {
-  /// The zero-based location in the response string where the highlight starts.
-  final int? beginOffset;
-
-  /// The zero-based location in the response string where the highlight ends.
-  final int? endOffset;
-
-  SuggestionHighlight({
-    this.beginOffset,
-    this.endOffset,
-  });
-
-  factory SuggestionHighlight.fromJson(Map<String, dynamic> json) {
-    return SuggestionHighlight(
-      beginOffset: json['BeginOffset'] as int?,
-      endOffset: json['EndOffset'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final beginOffset = this.beginOffset;
-    final endOffset = this.endOffset;
-    return {
-      if (beginOffset != null) 'BeginOffset': beginOffset,
-      if (endOffset != null) 'EndOffset': endOffset,
-    };
-  }
-}
-
-/// Provides text and information about where to highlight the query suggestion
-/// text.
-class SuggestionTextWithHighlights {
-  /// The beginning and end of the query suggestion text that should be
-  /// highlighted.
-  final List<SuggestionHighlight>? highlights;
-
-  /// The query suggestion text to display to the user.
-  final String? text;
-
-  SuggestionTextWithHighlights({
-    this.highlights,
-    this.text,
-  });
-
-  factory SuggestionTextWithHighlights.fromJson(Map<String, dynamic> json) {
-    return SuggestionTextWithHighlights(
-      highlights: (json['Highlights'] as List?)
-          ?.nonNulls
-          .map((e) => SuggestionHighlight.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      text: json['Text'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final highlights = this.highlights;
-    final text = this.text;
-    return {
-      if (highlights != null) 'Highlights': highlights,
-      if (text != null) 'Text': text,
-    };
-  }
-}
-
-class SuggestionType {
-  static const query = SuggestionType._('QUERY');
-  static const documentAttributes = SuggestionType._('DOCUMENT_ATTRIBUTES');
+class MissingAttributeKeyStrategy {
+  static const ignore = MissingAttributeKeyStrategy._('IGNORE');
+  static const collapse = MissingAttributeKeyStrategy._('COLLAPSE');
+  static const expand = MissingAttributeKeyStrategy._('EXPAND');
 
   final String value;
 
-  const SuggestionType._(this.value);
+  const MissingAttributeKeyStrategy._(this.value);
 
-  static const values = [query, documentAttributes];
+  static const values = [ignore, collapse, expand];
 
-  static SuggestionType fromString(String value) =>
+  static MissingAttributeKeyStrategy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => SuggestionType._(value));
+          orElse: () => MissingAttributeKeyStrategy._(value));
 
   @override
-  bool operator ==(other) => other is SuggestionType && other.value == value;
+  bool operator ==(other) =>
+      other is MissingAttributeKeyStrategy && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17184,337 +15663,197 @@ class SuggestionType {
   String toString() => value;
 }
 
-/// The <code>SuggestionTextWithHighlights</code> structure information.
-class SuggestionValue {
-  /// The <code>SuggestionTextWithHighlights</code> structure that contains the
-  /// query suggestion text and highlights.
-  final SuggestionTextWithHighlights? text;
+/// Specifies the configuration information needed to customize how collapsed
+/// search result groups expand.
+class ExpandConfiguration {
+  /// The number of expanded results to show per collapsed primary document. For
+  /// instance, if you set this value to 3, then at most 3 results per collapsed
+  /// group will be displayed.
+  final int? maxExpandedResultsPerItem;
 
-  SuggestionValue({
-    this.text,
+  /// The number of collapsed search result groups to expand. If you set this
+  /// value to 10, for example, only the first 10 out of 100 result groups will
+  /// have expand functionality.
+  final int? maxResultItemsToExpand;
+
+  ExpandConfiguration({
+    this.maxExpandedResultsPerItem,
+    this.maxResultItemsToExpand,
   });
 
-  factory SuggestionValue.fromJson(Map<String, dynamic> json) {
-    return SuggestionValue(
-      text: json['Text'] != null
-          ? SuggestionTextWithHighlights.fromJson(
-              json['Text'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final text = this.text;
+    final maxExpandedResultsPerItem = this.maxExpandedResultsPerItem;
+    final maxResultItemsToExpand = this.maxResultItemsToExpand;
     return {
-      if (text != null) 'Text': text,
+      if (maxExpandedResultsPerItem != null)
+        'MaxExpandedResultsPerItem': maxExpandedResultsPerItem,
+      if (maxResultItemsToExpand != null)
+        'MaxResultItemsToExpand': maxResultItemsToExpand,
     };
   }
 }
 
-/// Provides information about a table cell in a table excerpt.
-class TableCell {
-  /// <code>TRUE</code> means that the table cell should be treated as a header.
-  final bool? header;
+class SortOrder {
+  static const desc = SortOrder._('DESC');
+  static const asc = SortOrder._('ASC');
 
-  /// <code>TRUE</code> means that the table cell has a high enough confidence and
-  /// is relevant to the query, so the value or content should be highlighted.
-  final bool? highlighted;
-
-  /// <code>TRUE</code> if the response of the table cell is the top answer. This
-  /// is the cell value or content with the highest confidence score or is the
-  /// most relevant to the query.
-  final bool? topAnswer;
-
-  /// The actual value or content within a table cell. A table cell could contain
-  /// a date value of a year, or a string value of text, for example.
-  final String? value;
-
-  TableCell({
-    this.header,
-    this.highlighted,
-    this.topAnswer,
-    this.value,
-  });
-
-  factory TableCell.fromJson(Map<String, dynamic> json) {
-    return TableCell(
-      header: json['Header'] as bool?,
-      highlighted: json['Highlighted'] as bool?,
-      topAnswer: json['TopAnswer'] as bool?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final header = this.header;
-    final highlighted = this.highlighted;
-    final topAnswer = this.topAnswer;
-    final value = this.value;
-    return {
-      if (header != null) 'Header': header,
-      if (highlighted != null) 'Highlighted': highlighted,
-      if (topAnswer != null) 'TopAnswer': topAnswer,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// An excerpt from a table within a document. The table excerpt displays up to
-/// five columns and three rows, depending on how many table cells are relevant
-/// to the query and how many columns are available in the original table. The
-/// top most relevant cell is displayed in the table excerpt, along with the
-/// next most relevant cells.
-class TableExcerpt {
-  /// A list of rows in the table excerpt.
-  final List<TableRow>? rows;
-
-  /// A count of the number of rows in the original table within the document.
-  final int? totalNumberOfRows;
-
-  TableExcerpt({
-    this.rows,
-    this.totalNumberOfRows,
-  });
-
-  factory TableExcerpt.fromJson(Map<String, dynamic> json) {
-    return TableExcerpt(
-      rows: (json['Rows'] as List?)
-          ?.nonNulls
-          .map((e) => TableRow.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      totalNumberOfRows: json['TotalNumberOfRows'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rows = this.rows;
-    final totalNumberOfRows = this.totalNumberOfRows;
-    return {
-      if (rows != null) 'Rows': rows,
-      if (totalNumberOfRows != null) 'TotalNumberOfRows': totalNumberOfRows,
-    };
-  }
-}
-
-/// Information about a row in a table excerpt.
-class TableRow {
-  /// A list of table cells in a row.
-  final List<TableCell>? cells;
-
-  TableRow({
-    this.cells,
-  });
-
-  factory TableRow.fromJson(Map<String, dynamic> json) {
-    return TableRow(
-      cells: (json['Cells'] as List?)
-          ?.nonNulls
-          .map((e) => TableCell.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cells = this.cells;
-    return {
-      if (cells != null) 'Cells': cells,
-    };
-  }
-}
-
-/// A list of key/value pairs that identify an index, FAQ, or data source. Tag
-/// keys and values can consist of Unicode letters, digits, white space, and any
-/// of the following symbols: _ . : / = + - @.
-class Tag {
-  /// The key for the tag. Keys are not case sensitive and must be unique for the
-  /// index, FAQ, or data source.
-  final String key;
-
-  /// The value associated with the tag. The value may be an empty string but it
-  /// can't be null.
   final String value;
 
-  Tag({
-    required this.key,
-    required this.value,
-  });
+  const SortOrder._(this.value);
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
+  static const values = [desc, asc];
 
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The template schema used for the data source, where templates schemas are
-/// supported.
+/// Information about a document attribute or field. You can use document
+/// attributes as facets.
 ///
-/// See <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/ds-schemas.html">Data
-/// source template schemas</a>.
-class Template {
-  Template();
+/// For example, the document attribute or facet "Department" includes the
+/// values "HR", "Engineering", and "Accounting". You can display these values
+/// in the search results so that documents can be searched by department.
+///
+/// You can display up to 10 facet values per facet for a query. If you want to
+/// increase this limit, contact <a
+/// href="http://aws.amazon.com/contact-us/">Support</a>.
+class Facet {
+  /// The unique key for the document attribute.
+  final String? documentAttributeKey;
 
-  factory Template.fromJson(Map<String, dynamic> _) {
-    return Template();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Provides a template for the configuration information to connect to your
-/// data source.
-class TemplateConfiguration {
-  /// The template schema used for the data source, where templates schemas are
-  /// supported.
+  /// An array of document attributes that are nested facets within a facet.
   ///
-  /// See <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/ds-schemas.html">Data
-  /// source template schemas</a>.
-  final Template? template;
+  /// For example, the document attribute or facet "Department" includes a value
+  /// called "Engineering". In addition, the document attribute or facet
+  /// "SubDepartment" includes the values "Frontend" and "Backend" for documents
+  /// assigned to "Engineering". You can display nested facets in the search
+  /// results so that documents can be searched not only by department but also by
+  /// a sub department within a department. This helps your users further narrow
+  /// their search.
+  ///
+  /// You can only have one nested facet within a facet. If you want to increase
+  /// this limit, contact <a href="http://aws.amazon.com/contact-us/">Support</a>.
+  final List<Facet>? facets;
 
-  TemplateConfiguration({
-    this.template,
+  /// Maximum number of facet values per facet. The default is 10. You can use
+  /// this to limit the number of facet values to less than 10. If you want to
+  /// increase the default, contact <a
+  /// href="http://aws.amazon.com/contact-us/">Support</a>.
+  final int? maxResults;
+
+  Facet({
+    this.documentAttributeKey,
+    this.facets,
+    this.maxResults,
   });
 
-  factory TemplateConfiguration.fromJson(Map<String, dynamic> json) {
-    return TemplateConfiguration(
-      template: json['Template'] != null
-          ? Template.fromJson(json['Template'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final template = this.template;
+    final documentAttributeKey = this.documentAttributeKey;
+    final facets = this.facets;
+    final maxResults = this.maxResults;
     return {
-      if (template != null) 'Template': template,
+      if (documentAttributeKey != null)
+        'DocumentAttributeKey': documentAttributeKey,
+      if (facets != null) 'Facets': facets,
+      if (maxResults != null) 'MaxResults': maxResults,
     };
   }
 }
 
-/// Provides information about text documents indexed in an index.
-class TextDocumentStatistics {
-  /// The total size, in bytes, of the indexed documents.
-  final int indexedTextBytes;
+/// A list of users that belong to a group. This is useful for user context
+/// filtering, where search results are filtered based on the user or their
+/// group access to documents.
+class GroupMembers {
+  /// A list of users that belong to a group. This can also include sub groups.
+  /// For example, the sub groups "Research", "Engineering", and "Sales and
+  /// Marketing" all belong to the group "Company A".
+  final List<MemberGroup>? memberGroups;
 
-  /// The number of text documents indexed.
-  final int indexedTextDocumentsCount;
+  /// A list of users that belong to a group. For example, a list of interns all
+  /// belong to the "Interns" group.
+  final List<MemberUser>? memberUsers;
 
-  TextDocumentStatistics({
-    required this.indexedTextBytes,
-    required this.indexedTextDocumentsCount,
+  /// If you have more than 1000 users and/or sub groups for a single group, you
+  /// need to provide the path to the S3 file that lists your users and sub groups
+  /// for a group. Your sub groups can contain more than 1000 users, but the list
+  /// of sub groups that belong to a group (and/or users) must be no more than
+  /// 1000.
+  ///
+  /// You can download this <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/samples/group_members.zip">example
+  /// S3 file</a> that uses the correct format for listing group members. Note,
+  /// <code>dataSourceId</code> is optional. The value of <code>type</code> for a
+  /// group is always <code>GROUP</code> and for a user it is always
+  /// <code>USER</code>.
+  final S3Path? s3PathforGroupMembers;
+
+  GroupMembers({
+    this.memberGroups,
+    this.memberUsers,
+    this.s3PathforGroupMembers,
   });
 
-  factory TextDocumentStatistics.fromJson(Map<String, dynamic> json) {
-    return TextDocumentStatistics(
-      indexedTextBytes: (json['IndexedTextBytes'] as int?) ?? 0,
-      indexedTextDocumentsCount:
-          (json['IndexedTextDocumentsCount'] as int?) ?? 0,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final indexedTextBytes = this.indexedTextBytes;
-    final indexedTextDocumentsCount = this.indexedTextDocumentsCount;
+    final memberGroups = this.memberGroups;
+    final memberUsers = this.memberUsers;
+    final s3PathforGroupMembers = this.s3PathforGroupMembers;
     return {
-      'IndexedTextBytes': indexedTextBytes,
-      'IndexedTextDocumentsCount': indexedTextDocumentsCount,
+      if (memberGroups != null) 'MemberGroups': memberGroups,
+      if (memberUsers != null) 'MemberUsers': memberUsers,
+      if (s3PathforGroupMembers != null)
+        'S3PathforGroupMembers': s3PathforGroupMembers,
     };
   }
 }
 
-/// Provides text and information about where to highlight the text.
-class TextWithHighlights {
-  /// The beginning and end of the text that should be highlighted.
-  final List<Highlight>? highlights;
+/// The users that belong to a group.
+class MemberUser {
+  /// The identifier of the user you want to map to a group.
+  final String userId;
 
-  /// The text to display to the user.
-  final String? text;
-
-  TextWithHighlights({
-    this.highlights,
-    this.text,
+  MemberUser({
+    required this.userId,
   });
 
-  factory TextWithHighlights.fromJson(Map<String, dynamic> json) {
-    return TextWithHighlights(
-      highlights: (json['Highlights'] as List?)
-          ?.nonNulls
-          .map((e) => Highlight.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      text: json['Text'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final highlights = this.highlights;
-    final text = this.text;
+    final userId = this.userId;
     return {
-      if (highlights != null) 'Highlights': highlights,
-      if (text != null) 'Text': text,
+      'UserId': userId,
     };
   }
 }
 
-class ThesaurusStatus {
-  static const creating = ThesaurusStatus._('CREATING');
-  static const active = ThesaurusStatus._('ACTIVE');
-  static const deleting = ThesaurusStatus._('DELETING');
-  static const updating = ThesaurusStatus._('UPDATING');
-  static const activeButUpdateFailed =
-      ThesaurusStatus._('ACTIVE_BUT_UPDATE_FAILED');
-  static const failed = ThesaurusStatus._('FAILED');
+/// The sub groups that belong to a group.
+class MemberGroup {
+  /// The identifier of the sub group you want to map to a group.
+  final String groupId;
 
-  final String value;
+  /// The identifier of the data source for the sub group you want to map to a
+  /// group.
+  final String? dataSourceId;
 
-  const ThesaurusStatus._(this.value);
+  MemberGroup({
+    required this.groupId,
+    this.dataSourceId,
+  });
 
-  static const values = [
-    creating,
-    active,
-    deleting,
-    updating,
-    activeButUpdateFailed,
-    failed
-  ];
-
-  static ThesaurusStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ThesaurusStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ThesaurusStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    final dataSourceId = this.dataSourceId;
+    return {
+      'GroupId': groupId,
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+    };
+  }
 }
 
 /// An array of summary information for a thesaurus or multiple thesauri.
@@ -17568,6 +15907,1040 @@ class ThesaurusSummary {
   }
 }
 
+class ThesaurusStatus {
+  static const creating = ThesaurusStatus._('CREATING');
+  static const active = ThesaurusStatus._('ACTIVE');
+  static const deleting = ThesaurusStatus._('DELETING');
+  static const updating = ThesaurusStatus._('UPDATING');
+  static const activeButUpdateFailed =
+      ThesaurusStatus._('ACTIVE_BUT_UPDATE_FAILED');
+  static const failed = ThesaurusStatus._('FAILED');
+
+  final String value;
+
+  const ThesaurusStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    deleting,
+    updating,
+    activeButUpdateFailed,
+    failed
+  ];
+
+  static ThesaurusStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThesaurusStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ThesaurusStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information on a query suggestions block list.
+///
+/// This includes information on the block list ID, block list name, when the
+/// block list was created, when the block list was last updated, and the count
+/// of block words/phrases in the block list.
+///
+/// For information on the current quota limits for block lists, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/quotas.html">Quotas for
+/// Amazon Kendra</a>.
+class QuerySuggestionsBlockListSummary {
+  /// The Unix timestamp when the block list was created.
+  final DateTime? createdAt;
+
+  /// The identifier of a block list.
+  final String? id;
+
+  /// The number of items in the block list file.
+  final int? itemCount;
+
+  /// The name of the block list.
+  final String? name;
+
+  /// The status of the block list.
+  final QuerySuggestionsBlockListStatus? status;
+
+  /// The Unix timestamp when the block list was last updated.
+  final DateTime? updatedAt;
+
+  QuerySuggestionsBlockListSummary({
+    this.createdAt,
+    this.id,
+    this.itemCount,
+    this.name,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory QuerySuggestionsBlockListSummary.fromJson(Map<String, dynamic> json) {
+    return QuerySuggestionsBlockListSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      id: json['Id'] as String?,
+      itemCount: json['ItemCount'] as int?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(QuerySuggestionsBlockListStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final itemCount = this.itemCount;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (id != null) 'Id': id,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class QuerySuggestionsBlockListStatus {
+  static const active = QuerySuggestionsBlockListStatus._('ACTIVE');
+  static const creating = QuerySuggestionsBlockListStatus._('CREATING');
+  static const deleting = QuerySuggestionsBlockListStatus._('DELETING');
+  static const updating = QuerySuggestionsBlockListStatus._('UPDATING');
+  static const activeButUpdateFailed =
+      QuerySuggestionsBlockListStatus._('ACTIVE_BUT_UPDATE_FAILED');
+  static const failed = QuerySuggestionsBlockListStatus._('FAILED');
+
+  final String value;
+
+  const QuerySuggestionsBlockListStatus._(this.value);
+
+  static const values = [
+    active,
+    creating,
+    deleting,
+    updating,
+    activeButUpdateFailed,
+    failed
+  ];
+
+  static QuerySuggestionsBlockListStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuerySuggestionsBlockListStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QuerySuggestionsBlockListStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information on the configuration of an index.
+class IndexConfigurationSummary {
+  /// The Unix timestamp when the index was created.
+  final DateTime createdAt;
+
+  /// The current status of the index. When the status is <code>ACTIVE</code>, the
+  /// index is ready to search.
+  final IndexStatus status;
+
+  /// The Unix timestamp when the index was last updated.
+  final DateTime updatedAt;
+
+  /// Indicates whether the index is a Enterprise Edition index or a Developer
+  /// Edition index.
+  final IndexEdition? edition;
+
+  /// A identifier for the index. Use this to identify the index when you are
+  /// using APIs such as <code>Query</code>, <code>DescribeIndex</code>,
+  /// <code>UpdateIndex</code>, and <code>DeleteIndex</code>.
+  final String? id;
+
+  /// The name of the index.
+  final String? name;
+
+  IndexConfigurationSummary({
+    required this.createdAt,
+    required this.status,
+    required this.updatedAt,
+    this.edition,
+    this.id,
+    this.name,
+  });
+
+  factory IndexConfigurationSummary.fromJson(Map<String, dynamic> json) {
+    return IndexConfigurationSummary(
+      createdAt: nonNullableTimeStampFromJson(json['CreatedAt'] ?? 0),
+      status: IndexStatus.fromString((json['Status'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['UpdatedAt'] ?? 0),
+      edition: (json['Edition'] as String?)?.let(IndexEdition.fromString),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    final edition = this.edition;
+    final id = this.id;
+    final name = this.name;
+    return {
+      'CreatedAt': unixTimestampToJson(createdAt),
+      'Status': status.value,
+      'UpdatedAt': unixTimestampToJson(updatedAt),
+      if (edition != null) 'Edition': edition.value,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+class IndexEdition {
+  static const developerEdition = IndexEdition._('DEVELOPER_EDITION');
+  static const enterpriseEdition = IndexEdition._('ENTERPRISE_EDITION');
+  static const genAiEnterpriseEdition =
+      IndexEdition._('GEN_AI_ENTERPRISE_EDITION');
+
+  final String value;
+
+  const IndexEdition._(this.value);
+
+  static const values = [
+    developerEdition,
+    enterpriseEdition,
+    genAiEnterpriseEdition
+  ];
+
+  static IndexEdition fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IndexEdition._(value));
+
+  @override
+  bool operator ==(other) => other is IndexEdition && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IndexStatus {
+  static const creating = IndexStatus._('CREATING');
+  static const active = IndexStatus._('ACTIVE');
+  static const deleting = IndexStatus._('DELETING');
+  static const failed = IndexStatus._('FAILED');
+  static const updating = IndexStatus._('UPDATING');
+  static const systemUpdating = IndexStatus._('SYSTEM_UPDATING');
+
+  final String value;
+
+  const IndexStatus._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    deleting,
+    failed,
+    updating,
+    systemUpdating
+  ];
+
+  static IndexStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IndexStatus._(value));
+
+  @override
+  bool operator ==(other) => other is IndexStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information for groups.
+class GroupSummary {
+  /// The identifier of the group you want group summary information on.
+  final String? groupId;
+
+  /// The timestamp identifier used for the latest <code>PUT</code> or
+  /// <code>DELETE</code> action.
+  final int? orderingId;
+
+  GroupSummary({
+    this.groupId,
+    this.orderingId,
+  });
+
+  factory GroupSummary.fromJson(Map<String, dynamic> json) {
+    return GroupSummary(
+      groupId: json['GroupId'] as String?,
+      orderingId: json['OrderingId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    final orderingId = this.orderingId;
+    return {
+      if (groupId != null) 'GroupId': groupId,
+      if (orderingId != null) 'OrderingId': orderingId,
+    };
+  }
+}
+
+/// Summary information for a set of featured results. Featured results are
+/// placed above all other results for certain queries. If there's an exact
+/// match of a query, then one or more specific documents are featured in the
+/// search results.
+class FeaturedResultsSetSummary {
+  /// The Unix timestamp when the set of featured results was created.
+  final int? creationTimestamp;
+
+  /// The identifier of the set of featured results.
+  final String? featuredResultsSetId;
+
+  /// The name for the set of featured results.
+  final String? featuredResultsSetName;
+
+  /// The Unix timestamp when the set of featured results was last updated.
+  final int? lastUpdatedTimestamp;
+
+  /// The current status of the set of featured results. When the value is
+  /// <code>ACTIVE</code>, featured results are ready for use. You can still
+  /// configure your settings before setting the status to <code>ACTIVE</code>.
+  /// You can set the status to <code>ACTIVE</code> or <code>INACTIVE</code> using
+  /// the <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html">UpdateFeaturedResultsSet</a>
+  /// API. The queries you specify for featured results must be unique per
+  /// featured results set for each index, whether the status is
+  /// <code>ACTIVE</code> or <code>INACTIVE</code>.
+  final FeaturedResultsSetStatus? status;
+
+  FeaturedResultsSetSummary({
+    this.creationTimestamp,
+    this.featuredResultsSetId,
+    this.featuredResultsSetName,
+    this.lastUpdatedTimestamp,
+    this.status,
+  });
+
+  factory FeaturedResultsSetSummary.fromJson(Map<String, dynamic> json) {
+    return FeaturedResultsSetSummary(
+      creationTimestamp: json['CreationTimestamp'] as int?,
+      featuredResultsSetId: json['FeaturedResultsSetId'] as String?,
+      featuredResultsSetName: json['FeaturedResultsSetName'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as int?,
+      status:
+          (json['Status'] as String?)?.let(FeaturedResultsSetStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final featuredResultsSetId = this.featuredResultsSetId;
+    final featuredResultsSetName = this.featuredResultsSetName;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final status = this.status;
+    return {
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (featuredResultsSetId != null)
+        'FeaturedResultsSetId': featuredResultsSetId,
+      if (featuredResultsSetName != null)
+        'FeaturedResultsSetName': featuredResultsSetName,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Summary information for frequently asked questions and answers included in
+/// an index.
+class FaqSummary {
+  /// The Unix timestamp when the FAQ was created.
+  final DateTime? createdAt;
+
+  /// The file type used to create the FAQ.
+  final FaqFileFormat? fileFormat;
+
+  /// The identifier of the FAQ.
+  final String? id;
+
+  /// The code for a language. This shows a supported language for the FAQ
+  /// document as part of the summary information for FAQs. English is supported
+  /// by default. For more information on supported languages, including their
+  /// codes, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html">Adding
+  /// documents in languages other than English</a>.
+  final String? languageCode;
+
+  /// The name that you assigned the FAQ when you created or updated the FAQ.
+  final String? name;
+
+  /// The current status of the FAQ. When the status is <code>ACTIVE</code> the
+  /// FAQ is ready for use.
+  final FaqStatus? status;
+
+  /// The Unix timestamp when the FAQ was last updated.
+  final DateTime? updatedAt;
+
+  FaqSummary({
+    this.createdAt,
+    this.fileFormat,
+    this.id,
+    this.languageCode,
+    this.name,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory FaqSummary.fromJson(Map<String, dynamic> json) {
+    return FaqSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      fileFormat:
+          (json['FileFormat'] as String?)?.let(FaqFileFormat.fromString),
+      id: json['Id'] as String?,
+      languageCode: json['LanguageCode'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.let(FaqStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final fileFormat = this.fileFormat;
+    final id = this.id;
+    final languageCode = this.languageCode;
+    final name = this.name;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (fileFormat != null) 'FileFormat': fileFormat.value,
+      if (id != null) 'Id': id,
+      if (languageCode != null) 'LanguageCode': languageCode,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class FaqStatus {
+  static const creating = FaqStatus._('CREATING');
+  static const updating = FaqStatus._('UPDATING');
+  static const active = FaqStatus._('ACTIVE');
+  static const deleting = FaqStatus._('DELETING');
+  static const failed = FaqStatus._('FAILED');
+
+  final String value;
+
+  const FaqStatus._(this.value);
+
+  static const values = [creating, updating, active, deleting, failed];
+
+  static FaqStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FaqStatus._(value));
+
+  @override
+  bool operator ==(other) => other is FaqStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FaqFileFormat {
+  static const csv = FaqFileFormat._('CSV');
+  static const csvWithHeader = FaqFileFormat._('CSV_WITH_HEADER');
+  static const json = FaqFileFormat._('JSON');
+
+  final String value;
+
+  const FaqFileFormat._(this.value);
+
+  static const values = [csv, csvWithHeader, json];
+
+  static FaqFileFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FaqFileFormat._(value));
+
+  @override
+  bool operator ==(other) => other is FaqFileFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information for your Amazon Kendra experience. You can create an
+/// Amazon Kendra experience such as a search application. For more information
+/// on creating a search application experience, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
+/// a search experience with no code</a>.
+class ExperiencesSummary {
+  /// The Unix timestamp when your Amazon Kendra experience was created.
+  final DateTime? createdAt;
+
+  /// The endpoint URLs for your Amazon Kendra experiences. The URLs are unique
+  /// and fully hosted by Amazon Web Services.
+  final List<ExperienceEndpoint>? endpoints;
+
+  /// The identifier of your Amazon Kendra experience.
+  final String? id;
+
+  /// The name of your Amazon Kendra experience.
+  final String? name;
+
+  /// The processing status of your Amazon Kendra experience.
+  final ExperienceStatus? status;
+
+  ExperiencesSummary({
+    this.createdAt,
+    this.endpoints,
+    this.id,
+    this.name,
+    this.status,
+  });
+
+  factory ExperiencesSummary.fromJson(Map<String, dynamic> json) {
+    return ExperiencesSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      endpoints: (json['Endpoints'] as List?)
+          ?.nonNulls
+          .map((e) => ExperienceEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.let(ExperienceStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final endpoints = this.endpoints;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ExperienceStatus {
+  static const creating = ExperienceStatus._('CREATING');
+  static const active = ExperienceStatus._('ACTIVE');
+  static const deleting = ExperienceStatus._('DELETING');
+  static const failed = ExperienceStatus._('FAILED');
+
+  final String value;
+
+  const ExperienceStatus._(this.value);
+
+  static const values = [creating, active, deleting, failed];
+
+  static ExperienceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperienceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExperienceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides the configuration information for the endpoint for your Amazon
+/// Kendra experience.
+class ExperienceEndpoint {
+  /// The endpoint of your Amazon Kendra experience.
+  final String? endpoint;
+
+  /// The type of endpoint for your Amazon Kendra experience. The type currently
+  /// available is <code>HOME</code>, which is a unique and fully hosted URL to
+  /// the home page of your Amazon Kendra experience.
+  final EndpointType? endpointType;
+
+  ExperienceEndpoint({
+    this.endpoint,
+    this.endpointType,
+  });
+
+  factory ExperienceEndpoint.fromJson(Map<String, dynamic> json) {
+    return ExperienceEndpoint(
+      endpoint: json['Endpoint'] as String?,
+      endpointType:
+          (json['EndpointType'] as String?)?.let(EndpointType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    final endpointType = this.endpointType;
+    return {
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (endpointType != null) 'EndpointType': endpointType.value,
+    };
+  }
+}
+
+class EndpointType {
+  static const home = EndpointType._('HOME');
+
+  final String value;
+
+  const EndpointType._(this.value);
+
+  static const values = [home];
+
+  static EndpointType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EndpointType._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary information for users or groups in your IAM Identity Center identity
+/// source with granted access to your Amazon Kendra experience. You can create
+/// an Amazon Kendra experience such as a search application. For more
+/// information on creating a search application experience, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
+/// a search experience with no code</a>.
+class ExperienceEntitiesSummary {
+  /// Information about the user entity.
+  final EntityDisplayData? displayData;
+
+  /// The identifier of a user or group in your IAM Identity Center identity
+  /// source. For example, a user ID could be an email.
+  final String? entityId;
+
+  /// Shows the type as <code>User</code> or <code>Group</code>.
+  final EntityType? entityType;
+
+  ExperienceEntitiesSummary({
+    this.displayData,
+    this.entityId,
+    this.entityType,
+  });
+
+  factory ExperienceEntitiesSummary.fromJson(Map<String, dynamic> json) {
+    return ExperienceEntitiesSummary(
+      displayData: json['DisplayData'] != null
+          ? EntityDisplayData.fromJson(
+              json['DisplayData'] as Map<String, dynamic>)
+          : null,
+      entityId: json['EntityId'] as String?,
+      entityType: (json['EntityType'] as String?)?.let(EntityType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayData = this.displayData;
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    return {
+      if (displayData != null) 'DisplayData': displayData,
+      if (entityId != null) 'EntityId': entityId,
+      if (entityType != null) 'EntityType': entityType.value,
+    };
+  }
+}
+
+class EntityType {
+  static const user = EntityType._('USER');
+  static const group = EntityType._('GROUP');
+
+  final String value;
+
+  const EntityType._(this.value);
+
+  static const values = [user, group];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the user entity.
+class EntityDisplayData {
+  /// The first name of the user.
+  final String? firstName;
+
+  /// The name of the group.
+  final String? groupName;
+
+  /// The user name of the user.
+  final String? identifiedUserName;
+
+  /// The last name of the user.
+  final String? lastName;
+
+  /// The name of the user.
+  final String? userName;
+
+  EntityDisplayData({
+    this.firstName,
+    this.groupName,
+    this.identifiedUserName,
+    this.lastName,
+    this.userName,
+  });
+
+  factory EntityDisplayData.fromJson(Map<String, dynamic> json) {
+    return EntityDisplayData(
+      firstName: json['FirstName'] as String?,
+      groupName: json['GroupName'] as String?,
+      identifiedUserName: json['IdentifiedUserName'] as String?,
+      lastName: json['LastName'] as String?,
+      userName: json['UserName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firstName = this.firstName;
+    final groupName = this.groupName;
+    final identifiedUserName = this.identifiedUserName;
+    final lastName = this.lastName;
+    final userName = this.userName;
+    return {
+      if (firstName != null) 'FirstName': firstName,
+      if (groupName != null) 'GroupName': groupName,
+      if (identifiedUserName != null) 'IdentifiedUserName': identifiedUserName,
+      if (lastName != null) 'LastName': lastName,
+      if (userName != null) 'UserName': userName,
+    };
+  }
+}
+
+/// Summary information for users or groups in your IAM Identity Center identity
+/// source. This applies to users and groups with specific permissions that
+/// define their level of access to your Amazon Kendra experience. You can
+/// create an Amazon Kendra experience such as a search application. For more
+/// information on creating a search application experience, see <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html">Building
+/// a search experience with no code</a>.
+class PersonasSummary {
+  /// The Unix timestamp when the summary information was created.
+  final DateTime? createdAt;
+
+  /// The identifier of a user or group in your IAM Identity Center identity
+  /// source. For example, a user ID could be an email.
+  final String? entityId;
+
+  /// The persona that defines the specific permissions of the user or group in
+  /// your IAM Identity Center identity source. The available personas or access
+  /// roles are <code>Owner</code> and <code>Viewer</code>. For more information
+  /// on these personas, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html#access-search-experience">Providing
+  /// access to your search page</a>.
+  final Persona? persona;
+
+  /// The Unix timestamp when the summary information was last updated.
+  final DateTime? updatedAt;
+
+  PersonasSummary({
+    this.createdAt,
+    this.entityId,
+    this.persona,
+    this.updatedAt,
+  });
+
+  factory PersonasSummary.fromJson(Map<String, dynamic> json) {
+    return PersonasSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      entityId: json['EntityId'] as String?,
+      persona: (json['Persona'] as String?)?.let(Persona.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final entityId = this.entityId;
+    final persona = this.persona;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (entityId != null) 'EntityId': entityId,
+      if (persona != null) 'Persona': persona.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class Persona {
+  static const owner = Persona._('OWNER');
+  static const viewer = Persona._('VIEWER');
+
+  final String value;
+
+  const Persona._(this.value);
+
+  static const values = [owner, viewer];
+
+  static Persona fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Persona._(value));
+
+  @override
+  bool operator ==(other) => other is Persona && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about a data source synchronization job.
+class DataSourceSyncJob {
+  /// If the reason that the synchronization failed is due to an error with the
+  /// underlying data source, this field contains a code that identifies the
+  /// error.
+  final String? dataSourceErrorCode;
+
+  /// The Unix timestamp when the synchronization job completed.
+  final DateTime? endTime;
+
+  /// If the <code>Status</code> field is set to <code>FAILED</code>, the
+  /// <code>ErrorCode</code> field indicates the reason the synchronization
+  /// failed.
+  final ErrorCode? errorCode;
+
+  /// If the <code>Status</code> field is set to <code>ERROR</code>, the
+  /// <code>ErrorMessage</code> field contains a description of the error that
+  /// caused the synchronization to fail.
+  final String? errorMessage;
+
+  /// A identifier for the synchronization job.
+  final String? executionId;
+
+  /// Maps a batch delete document request to a specific data source sync job.
+  /// This is optional and should only be supplied when documents are deleted by a
+  /// data source connector.
+  final DataSourceSyncJobMetrics? metrics;
+
+  /// The Unix timestamp when the synchronization job started.
+  final DateTime? startTime;
+
+  /// The execution status of the synchronization job. When the
+  /// <code>Status</code> field is set to <code>SUCCEEDED</code>, the
+  /// synchronization job is done. If the status code is set to
+  /// <code>FAILED</code>, the <code>ErrorCode</code> and
+  /// <code>ErrorMessage</code> fields give you the reason for the failure.
+  final DataSourceSyncJobStatus? status;
+
+  DataSourceSyncJob({
+    this.dataSourceErrorCode,
+    this.endTime,
+    this.errorCode,
+    this.errorMessage,
+    this.executionId,
+    this.metrics,
+    this.startTime,
+    this.status,
+  });
+
+  factory DataSourceSyncJob.fromJson(Map<String, dynamic> json) {
+    return DataSourceSyncJob(
+      dataSourceErrorCode: json['DataSourceErrorCode'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+      executionId: json['ExecutionId'] as String?,
+      metrics: json['Metrics'] != null
+          ? DataSourceSyncJobMetrics.fromJson(
+              json['Metrics'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['StartTime']),
+      status:
+          (json['Status'] as String?)?.let(DataSourceSyncJobStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceErrorCode = this.dataSourceErrorCode;
+    final endTime = this.endTime;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final executionId = this.executionId;
+    final metrics = this.metrics;
+    final startTime = this.startTime;
+    final status = this.status;
+    return {
+      if (dataSourceErrorCode != null)
+        'DataSourceErrorCode': dataSourceErrorCode,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (executionId != null) 'ExecutionId': executionId,
+      if (metrics != null) 'Metrics': metrics,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class DataSourceSyncJobStatus {
+  static const failed = DataSourceSyncJobStatus._('FAILED');
+  static const succeeded = DataSourceSyncJobStatus._('SUCCEEDED');
+  static const syncing = DataSourceSyncJobStatus._('SYNCING');
+  static const incomplete = DataSourceSyncJobStatus._('INCOMPLETE');
+  static const stopping = DataSourceSyncJobStatus._('STOPPING');
+  static const aborted = DataSourceSyncJobStatus._('ABORTED');
+  static const syncingIndexing = DataSourceSyncJobStatus._('SYNCING_INDEXING');
+
+  final String value;
+
+  const DataSourceSyncJobStatus._(this.value);
+
+  static const values = [
+    failed,
+    succeeded,
+    syncing,
+    incomplete,
+    stopping,
+    aborted,
+    syncingIndexing
+  ];
+
+  static DataSourceSyncJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSourceSyncJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DataSourceSyncJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ErrorCode {
+  static const internalError = ErrorCode._('InternalError');
+  static const invalidRequest = ErrorCode._('InvalidRequest');
+
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [internalError, invalidRequest];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Maps a batch delete document request to a specific data source sync job.
+/// This is optional and should only be supplied when documents are deleted by a
+/// data source connector.
+class DataSourceSyncJobMetrics {
+  /// The number of documents added from the data source up to now in the data
+  /// source sync.
+  final String? documentsAdded;
+
+  /// The number of documents deleted from the data source up to now in the data
+  /// source sync run.
+  final String? documentsDeleted;
+
+  /// The number of documents that failed to sync from the data source up to now
+  /// in the data source sync run.
+  final String? documentsFailed;
+
+  /// The number of documents modified in the data source up to now in the data
+  /// source sync run.
+  final String? documentsModified;
+
+  /// The current number of documents crawled by the current sync job in the data
+  /// source.
+  final String? documentsScanned;
+
+  DataSourceSyncJobMetrics({
+    this.documentsAdded,
+    this.documentsDeleted,
+    this.documentsFailed,
+    this.documentsModified,
+    this.documentsScanned,
+  });
+
+  factory DataSourceSyncJobMetrics.fromJson(Map<String, dynamic> json) {
+    return DataSourceSyncJobMetrics(
+      documentsAdded: json['DocumentsAdded'] as String?,
+      documentsDeleted: json['DocumentsDeleted'] as String?,
+      documentsFailed: json['DocumentsFailed'] as String?,
+      documentsModified: json['DocumentsModified'] as String?,
+      documentsScanned: json['DocumentsScanned'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentsAdded = this.documentsAdded;
+    final documentsDeleted = this.documentsDeleted;
+    final documentsFailed = this.documentsFailed;
+    final documentsModified = this.documentsModified;
+    final documentsScanned = this.documentsScanned;
+    return {
+      if (documentsAdded != null) 'DocumentsAdded': documentsAdded,
+      if (documentsDeleted != null) 'DocumentsDeleted': documentsDeleted,
+      if (documentsFailed != null) 'DocumentsFailed': documentsFailed,
+      if (documentsModified != null) 'DocumentsModified': documentsModified,
+      if (documentsScanned != null) 'DocumentsScanned': documentsScanned,
+    };
+  }
+}
+
 /// Provides a range of time.
 class TimeRange {
   /// The Unix timestamp for the end of the time range.
@@ -17598,21 +16971,129 @@ class TimeRange {
   }
 }
 
-class Type {
-  static const saas = Type._('SAAS');
-  static const onPremise = Type._('ON_PREMISE');
+/// Summary information for a Amazon Kendra data source.
+class DataSourceSummary {
+  /// The Unix timestamp when the data source connector was created.
+  final DateTime? createdAt;
+
+  /// The identifier for the data source.
+  final String? id;
+
+  /// The code for a language. This shows a supported language for all documents
+  /// in the data source. English is supported by default. For more information on
+  /// supported languages, including their codes, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/in-adding-languages.html">Adding
+  /// documents in languages other than English</a>.
+  final String? languageCode;
+
+  /// The name of the data source.
+  final String? name;
+
+  /// The status of the data source. When the status is <code>ACTIVE</code> the
+  /// data source is ready to use.
+  final DataSourceStatus? status;
+
+  /// The type of the data source.
+  final DataSourceType? type;
+
+  /// The Unix timestamp when the data source connector was last updated.
+  final DateTime? updatedAt;
+
+  DataSourceSummary({
+    this.createdAt,
+    this.id,
+    this.languageCode,
+    this.name,
+    this.status,
+    this.type,
+    this.updatedAt,
+  });
+
+  factory DataSourceSummary.fromJson(Map<String, dynamic> json) {
+    return DataSourceSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      id: json['Id'] as String?,
+      languageCode: json['LanguageCode'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.let(DataSourceStatus.fromString),
+      type: (json['Type'] as String?)?.let(DataSourceType.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final languageCode = this.languageCode;
+    final name = this.name;
+    final status = this.status;
+    final type = this.type;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (id != null) 'Id': id,
+      if (languageCode != null) 'LanguageCode': languageCode,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class DataSourceType {
+  static const s3 = DataSourceType._('S3');
+  static const sharepoint = DataSourceType._('SHAREPOINT');
+  static const database = DataSourceType._('DATABASE');
+  static const salesforce = DataSourceType._('SALESFORCE');
+  static const onedrive = DataSourceType._('ONEDRIVE');
+  static const servicenow = DataSourceType._('SERVICENOW');
+  static const custom = DataSourceType._('CUSTOM');
+  static const confluence = DataSourceType._('CONFLUENCE');
+  static const googledrive = DataSourceType._('GOOGLEDRIVE');
+  static const webcrawler = DataSourceType._('WEBCRAWLER');
+  static const workdocs = DataSourceType._('WORKDOCS');
+  static const fsx = DataSourceType._('FSX');
+  static const slack = DataSourceType._('SLACK');
+  static const box = DataSourceType._('BOX');
+  static const quip = DataSourceType._('QUIP');
+  static const jira = DataSourceType._('JIRA');
+  static const github = DataSourceType._('GITHUB');
+  static const alfresco = DataSourceType._('ALFRESCO');
+  static const template = DataSourceType._('TEMPLATE');
 
   final String value;
 
-  const Type._(this.value);
+  const DataSourceType._(this.value);
 
-  static const values = [saas, onPremise];
+  static const values = [
+    s3,
+    sharepoint,
+    database,
+    salesforce,
+    onedrive,
+    servicenow,
+    custom,
+    confluence,
+    googledrive,
+    webcrawler,
+    workdocs,
+    fsx,
+    slack,
+    box,
+    quip,
+    jira,
+    github,
+    alfresco,
+    template
+  ];
 
-  static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+  static DataSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DataSourceType._(value));
 
   @override
-  bool operator ==(other) => other is Type && other.value == value;
+  bool operator ==(other) => other is DataSourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17621,191 +17102,25 @@ class Type {
   String toString() => value;
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateAccessControlConfigurationResponse {
-  UpdateAccessControlConfigurationResponse();
-
-  factory UpdateAccessControlConfigurationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateAccessControlConfigurationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateFeaturedResultsSetResponse {
-  /// Information on the set of featured results. This includes the identifier of
-  /// the featured results set, whether the featured results set is active or
-  /// inactive, when the featured results set was last updated, and more.
-  final FeaturedResultsSet? featuredResultsSet;
-
-  UpdateFeaturedResultsSetResponse({
-    this.featuredResultsSet,
-  });
-
-  factory UpdateFeaturedResultsSetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateFeaturedResultsSetResponse(
-      featuredResultsSet: json['FeaturedResultsSet'] != null
-          ? FeaturedResultsSet.fromJson(
-              json['FeaturedResultsSet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final featuredResultsSet = this.featuredResultsSet;
-    return {
-      if (featuredResultsSet != null) 'FeaturedResultsSet': featuredResultsSet,
-    };
-  }
-}
-
-/// Provides the configuration information of the URLs to crawl.
-///
-/// You can only crawl websites that use the secure communication protocol,
-/// Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when
-/// crawling a website, it could be that the website is blocked from crawling.
-///
-/// <i>When selecting websites to index, you must adhere to the <a
-/// href="https://aws.amazon.com/aup/">Amazon Acceptable Use Policy</a> and all
-/// other Amazon terms. Remember that you must only use Amazon Kendra Web
-/// Crawler to index your own web pages, or web pages that you have
-/// authorization to index.</i>
-class Urls {
-  /// Configuration of the seed or starting point URLs of the websites you want to
-  /// crawl.
-  ///
-  /// You can choose to crawl only the website host names, or the website host
-  /// names with subdomains, or the website host names with subdomains and other
-  /// domains that the web pages link to.
-  ///
-  /// You can list up to 100 seed URLs.
-  final SeedUrlConfiguration? seedUrlConfiguration;
-
-  /// Configuration of the sitemap URLs of the websites you want to crawl.
-  ///
-  /// Only URLs belonging to the same website host names are crawled. You can list
-  /// up to three sitemap URLs.
-  final SiteMapsConfiguration? siteMapsConfiguration;
-
-  Urls({
-    this.seedUrlConfiguration,
-    this.siteMapsConfiguration,
-  });
-
-  factory Urls.fromJson(Map<String, dynamic> json) {
-    return Urls(
-      seedUrlConfiguration: json['SeedUrlConfiguration'] != null
-          ? SeedUrlConfiguration.fromJson(
-              json['SeedUrlConfiguration'] as Map<String, dynamic>)
-          : null,
-      siteMapsConfiguration: json['SiteMapsConfiguration'] != null
-          ? SiteMapsConfiguration.fromJson(
-              json['SiteMapsConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final seedUrlConfiguration = this.seedUrlConfiguration;
-    final siteMapsConfiguration = this.siteMapsConfiguration;
-    return {
-      if (seedUrlConfiguration != null)
-        'SeedUrlConfiguration': seedUrlConfiguration,
-      if (siteMapsConfiguration != null)
-        'SiteMapsConfiguration': siteMapsConfiguration,
-    };
-  }
-}
-
-/// Provides information about the user context for an Amazon Kendra index.
-///
-/// User context filtering is a kind of personalized search with the benefit of
-/// controlling access to documents. For example, not all teams that search the
-/// company portal for information should access top-secret company documents,
-/// nor are these documents relevant to all users. Only specific users or groups
-/// of teams given access to top-secret documents should see these documents in
-/// their search results.
-///
-/// You provide one of the following:
-///
-/// <ul>
-/// <li>
-/// User token
-/// </li>
-/// <li>
-/// User ID, the groups the user belongs to, and any data sources the groups can
-/// access.
-/// </li>
-/// </ul>
-/// If you provide both, an exception is thrown.
-class UserContext {
-  /// The list of data source groups you want to filter search results based on
-  /// groups' access to documents in that data source.
-  final List<DataSourceGroup>? dataSourceGroups;
-
-  /// The list of groups you want to filter search results based on the groups'
-  /// access to documents.
-  final List<String>? groups;
-
-  /// The user context token for filtering search results for a user. It must be a
-  /// JWT or a JSON token.
-  final String? token;
-
-  /// The identifier of the user you want to filter search results based on their
-  /// access to documents.
-  final String? userId;
-
-  UserContext({
-    this.dataSourceGroups,
-    this.groups,
-    this.token,
-    this.userId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dataSourceGroups = this.dataSourceGroups;
-    final groups = this.groups;
-    final token = this.token;
-    final userId = this.userId;
-    return {
-      if (dataSourceGroups != null) 'DataSourceGroups': dataSourceGroups,
-      if (groups != null) 'Groups': groups,
-      if (token != null) 'Token': token,
-      if (userId != null) 'UserId': userId,
-    };
-  }
-}
-
-class UserContextPolicy {
-  static const attributeFilter = UserContextPolicy._('ATTRIBUTE_FILTER');
-  static const userToken = UserContextPolicy._('USER_TOKEN');
+class DataSourceStatus {
+  static const creating = DataSourceStatus._('CREATING');
+  static const deleting = DataSourceStatus._('DELETING');
+  static const failed = DataSourceStatus._('FAILED');
+  static const updating = DataSourceStatus._('UPDATING');
+  static const active = DataSourceStatus._('ACTIVE');
 
   final String value;
 
-  const UserContextPolicy._(this.value);
+  const DataSourceStatus._(this.value);
 
-  static const values = [attributeFilter, userToken];
+  static const values = [creating, deleting, failed, updating, active];
 
-  static UserContextPolicy fromString(String value) =>
+  static DataSourceStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => UserContextPolicy._(value));
+          orElse: () => DataSourceStatus._(value));
 
   @override
-  bool operator ==(other) => other is UserContextPolicy && other.value == value;
+  bool operator ==(other) => other is DataSourceStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17814,71 +17129,434 @@ class UserContextPolicy {
   String toString() => value;
 }
 
-/// Provides the configuration information to get users and groups from an IAM
-/// Identity Center identity source. This is useful for user context filtering,
-/// where search results are filtered based on the user or their group access to
-/// documents. You can also use the <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_PutPrincipalMapping.html">PutPrincipalMapping</a>
-/// API to map users to their groups so that you only need to provide the user
-/// ID when you issue the query.
-///
-/// To set up an IAM Identity Center identity source in the console to use with
-/// Amazon Kendra, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html">Getting
-/// started with an IAM Identity Center identity source</a>. You must also grant
-/// the required permissions to use IAM Identity Center with Amazon Kendra. For
-/// more information, see <a
-/// href="https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html#iam-roles-aws-sso">IAM
-/// roles for IAM Identity Center</a>.
-///
-/// Amazon Kendra currently does not support using
-/// <code>UserGroupResolutionConfiguration</code> with an Amazon Web Services
-/// organization member account for your IAM Identity Center identify source.
-/// You must create your index in the management account for the organization in
-/// order to use <code>UserGroupResolutionConfiguration</code>.
-class UserGroupResolutionConfiguration {
-  /// The identity store provider (mode) you want to use to get users and groups.
-  /// IAM Identity Center is currently the only available mode. Your users and
-  /// groups must exist in an IAM Identity Center identity source in order to use
-  /// this mode.
-  final UserGroupResolutionMode userGroupResolutionMode;
+/// Summary information on an access control configuration that you created for
+/// your documents in an index.
+class AccessControlConfigurationSummary {
+  /// The identifier of the access control configuration.
+  final String id;
 
-  UserGroupResolutionConfiguration({
-    required this.userGroupResolutionMode,
+  AccessControlConfigurationSummary({
+    required this.id,
   });
 
-  factory UserGroupResolutionConfiguration.fromJson(Map<String, dynamic> json) {
-    return UserGroupResolutionConfiguration(
-      userGroupResolutionMode: UserGroupResolutionMode.fromString(
-          (json['UserGroupResolutionMode'] as String?) ?? ''),
+  factory AccessControlConfigurationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return AccessControlConfigurationSummary(
+      id: (json['Id'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final userGroupResolutionMode = this.userGroupResolutionMode;
+    final id = this.id;
     return {
-      'UserGroupResolutionMode': userGroupResolutionMode.value,
+      'Id': id,
     };
   }
 }
 
-class UserGroupResolutionMode {
-  static const awsSso = UserGroupResolutionMode._('AWS_SSO');
-  static const none = UserGroupResolutionMode._('NONE');
+class Interval {
+  static const thisMonth = Interval._('THIS_MONTH');
+  static const thisWeek = Interval._('THIS_WEEK');
+  static const oneWeekAgo = Interval._('ONE_WEEK_AGO');
+  static const twoWeeksAgo = Interval._('TWO_WEEKS_AGO');
+  static const oneMonthAgo = Interval._('ONE_MONTH_AGO');
+  static const twoMonthsAgo = Interval._('TWO_MONTHS_AGO');
 
   final String value;
 
-  const UserGroupResolutionMode._(this.value);
+  const Interval._(this.value);
 
-  static const values = [awsSso, none];
+  static const values = [
+    thisMonth,
+    thisWeek,
+    oneWeekAgo,
+    twoWeeksAgo,
+    oneMonthAgo,
+    twoMonthsAgo
+  ];
 
-  static UserGroupResolutionMode fromString(String value) =>
+  static Interval fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Interval._(value));
+
+  @override
+  bool operator ==(other) => other is Interval && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MetricType {
+  static const queriesByCount = MetricType._('QUERIES_BY_COUNT');
+  static const queriesByZeroClickRate =
+      MetricType._('QUERIES_BY_ZERO_CLICK_RATE');
+  static const queriesByZeroResultRate =
+      MetricType._('QUERIES_BY_ZERO_RESULT_RATE');
+  static const docsByClickCount = MetricType._('DOCS_BY_CLICK_COUNT');
+  static const aggQueryDocMetrics = MetricType._('AGG_QUERY_DOC_METRICS');
+  static const trendQueryDocMetrics = MetricType._('TREND_QUERY_DOC_METRICS');
+
+  final String value;
+
+  const MetricType._(this.value);
+
+  static const values = [
+    queriesByCount,
+    queriesByZeroClickRate,
+    queriesByZeroResultRate,
+    docsByClickCount,
+    aggQueryDocMetrics,
+    trendQueryDocMetrics
+  ];
+
+  static MetricType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
+
+  @override
+  bool operator ==(other) => other is MetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single query suggestion.
+class Suggestion {
+  /// The UUID (universally unique identifier) of a single query suggestion.
+  final String? id;
+
+  /// The list of document IDs and their fields/attributes that are used for a
+  /// single query suggestion, if document fields set to use for query
+  /// suggestions.
+  final List<SourceDocument>? sourceDocuments;
+
+  /// The value for the UUID (universally unique identifier) of a single query
+  /// suggestion.
+  ///
+  /// The value is the text string of a suggestion.
+  final SuggestionValue? value;
+
+  Suggestion({
+    this.id,
+    this.sourceDocuments,
+    this.value,
+  });
+
+  factory Suggestion.fromJson(Map<String, dynamic> json) {
+    return Suggestion(
+      id: json['Id'] as String?,
+      sourceDocuments: (json['SourceDocuments'] as List?)
+          ?.nonNulls
+          .map((e) => SourceDocument.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      value: json['Value'] != null
+          ? SuggestionValue.fromJson(json['Value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final sourceDocuments = this.sourceDocuments;
+    final value = this.value;
+    return {
+      if (id != null) 'Id': id,
+      if (sourceDocuments != null) 'SourceDocuments': sourceDocuments,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// The <code>SuggestionTextWithHighlights</code> structure information.
+class SuggestionValue {
+  /// The <code>SuggestionTextWithHighlights</code> structure that contains the
+  /// query suggestion text and highlights.
+  final SuggestionTextWithHighlights? text;
+
+  SuggestionValue({
+    this.text,
+  });
+
+  factory SuggestionValue.fromJson(Map<String, dynamic> json) {
+    return SuggestionValue(
+      text: json['Text'] != null
+          ? SuggestionTextWithHighlights.fromJson(
+              json['Text'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// The document ID and its fields/attributes that are used for a query
+/// suggestion, if document fields set to use for query suggestions.
+class SourceDocument {
+  /// The additional fields/attributes to include in the response. You can use
+  /// additional fields to provide extra information in the response. Additional
+  /// fields are not used to based suggestions on.
+  final List<DocumentAttribute>? additionalAttributes;
+
+  /// The identifier of the document used for a query suggestion.
+  final String? documentId;
+
+  /// The document fields/attributes used for a query suggestion.
+  final List<String>? suggestionAttributes;
+
+  SourceDocument({
+    this.additionalAttributes,
+    this.documentId,
+    this.suggestionAttributes,
+  });
+
+  factory SourceDocument.fromJson(Map<String, dynamic> json) {
+    return SourceDocument(
+      additionalAttributes: (json['AdditionalAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => DocumentAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentId: json['DocumentId'] as String?,
+      suggestionAttributes: (json['SuggestionAttributes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAttributes = this.additionalAttributes;
+    final documentId = this.documentId;
+    final suggestionAttributes = this.suggestionAttributes;
+    return {
+      if (additionalAttributes != null)
+        'AdditionalAttributes': additionalAttributes,
+      if (documentId != null) 'DocumentId': documentId,
+      if (suggestionAttributes != null)
+        'SuggestionAttributes': suggestionAttributes,
+    };
+  }
+}
+
+/// Provides text and information about where to highlight the query suggestion
+/// text.
+class SuggestionTextWithHighlights {
+  /// The beginning and end of the query suggestion text that should be
+  /// highlighted.
+  final List<SuggestionHighlight>? highlights;
+
+  /// The query suggestion text to display to the user.
+  final String? text;
+
+  SuggestionTextWithHighlights({
+    this.highlights,
+    this.text,
+  });
+
+  factory SuggestionTextWithHighlights.fromJson(Map<String, dynamic> json) {
+    return SuggestionTextWithHighlights(
+      highlights: (json['Highlights'] as List?)
+          ?.nonNulls
+          .map((e) => SuggestionHighlight.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      text: json['Text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final highlights = this.highlights;
+    final text = this.text;
+    return {
+      if (highlights != null) 'Highlights': highlights,
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// The text highlights for a single query suggestion.
+class SuggestionHighlight {
+  /// The zero-based location in the response string where the highlight starts.
+  final int? beginOffset;
+
+  /// The zero-based location in the response string where the highlight ends.
+  final int? endOffset;
+
+  SuggestionHighlight({
+    this.beginOffset,
+    this.endOffset,
+  });
+
+  factory SuggestionHighlight.fromJson(Map<String, dynamic> json) {
+    return SuggestionHighlight(
+      beginOffset: json['BeginOffset'] as int?,
+      endOffset: json['EndOffset'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final endOffset = this.endOffset;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (endOffset != null) 'EndOffset': endOffset,
+    };
+  }
+}
+
+/// Provides the configuration information for the document fields/attributes
+/// that you want to base query suggestions on.
+class AttributeSuggestionsGetConfig {
+  /// The list of additional document field/attribute keys or field names to
+  /// include in the response. You can use additional fields to provide extra
+  /// information in the response. Additional fields are not used to based
+  /// suggestions on.
+  final List<String>? additionalResponseAttributes;
+
+  /// Filters the search results based on document fields/attributes.
+  final AttributeFilter? attributeFilter;
+
+  /// The list of document field/attribute keys or field names to use for query
+  /// suggestions. If the content within any of the fields match what your user
+  /// starts typing as their query, then the field content is returned as a query
+  /// suggestion.
+  final List<String>? suggestionAttributes;
+
+  /// Applies user context filtering so that only users who are given access to
+  /// certain documents see these document in their search results.
+  final UserContext? userContext;
+
+  AttributeSuggestionsGetConfig({
+    this.additionalResponseAttributes,
+    this.attributeFilter,
+    this.suggestionAttributes,
+    this.userContext,
+  });
+
+  Map<String, dynamic> toJson() {
+    final additionalResponseAttributes = this.additionalResponseAttributes;
+    final attributeFilter = this.attributeFilter;
+    final suggestionAttributes = this.suggestionAttributes;
+    final userContext = this.userContext;
+    return {
+      if (additionalResponseAttributes != null)
+        'AdditionalResponseAttributes': additionalResponseAttributes,
+      if (attributeFilter != null) 'AttributeFilter': attributeFilter,
+      if (suggestionAttributes != null)
+        'SuggestionAttributes': suggestionAttributes,
+      if (userContext != null) 'UserContext': userContext,
+    };
+  }
+}
+
+class SuggestionType {
+  static const query = SuggestionType._('QUERY');
+  static const documentAttributes = SuggestionType._('DOCUMENT_ATTRIBUTES');
+
+  final String value;
+
+  const SuggestionType._(this.value);
+
+  static const values = [query, documentAttributes];
+
+  static SuggestionType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => UserGroupResolutionMode._(value));
+          orElse: () => SuggestionType._(value));
+
+  @override
+  bool operator ==(other) => other is SuggestionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information on the users or groups in your IAM Identity Center identity
+/// source that failed to properly configure with your Amazon Kendra experience.
+class FailedEntity {
+  /// The identifier of the user or group in your IAM Identity Center identity
+  /// source. For example, a user ID could be an email.
+  final String? entityId;
+
+  /// The reason the user or group in your IAM Identity Center identity source
+  /// failed to properly configure with your Amazon Kendra experience.
+  final String? errorMessage;
+
+  FailedEntity({
+    this.entityId,
+    this.errorMessage,
+  });
+
+  factory FailedEntity.fromJson(Map<String, dynamic> json) {
+    return FailedEntity(
+      entityId: json['EntityId'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final errorMessage = this.errorMessage;
+    return {
+      if (entityId != null) 'EntityId': entityId,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+/// Provides the configuration information for users or groups in your IAM
+/// Identity Center identity source to grant access your Amazon Kendra
+/// experience.
+class EntityConfiguration {
+  /// The identifier of a user or group in your IAM Identity Center identity
+  /// source. For example, a user ID could be an email.
+  final String entityId;
+
+  /// Specifies whether you are configuring a <code>User</code> or a
+  /// <code>Group</code>.
+  final EntityType entityType;
+
+  EntityConfiguration({
+    required this.entityId,
+    required this.entityType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    return {
+      'EntityId': entityId,
+      'EntityType': entityType.value,
+    };
+  }
+}
+
+class QuerySuggestionsStatus {
+  static const active = QuerySuggestionsStatus._('ACTIVE');
+  static const updating = QuerySuggestionsStatus._('UPDATING');
+
+  final String value;
+
+  const QuerySuggestionsStatus._(this.value);
+
+  static const values = [active, updating];
+
+  static QuerySuggestionsStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QuerySuggestionsStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is UserGroupResolutionMode && other.value == value;
+      other is QuerySuggestionsStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -17887,306 +17565,139 @@ class UserGroupResolutionMode {
   String toString() => value;
 }
 
-/// Provides the configuration information for the identifiers of your users.
-class UserIdentityConfiguration {
-  /// The IAM Identity Center field name that contains the identifiers of your
-  /// users, such as their emails. This is used for <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html">user
-  /// context filtering</a> and for granting access to your Amazon Kendra
-  /// experience. You must set up IAM Identity Center with Amazon Kendra. You must
-  /// include your users and groups in your Access Control List when you ingest
-  /// documents into your index. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/getting-started-aws-sso.html">Getting
-  /// started with an IAM Identity Center identity source</a>.
-  final String? identityAttributeName;
+/// Gets information on the configuration of document fields/attributes that you
+/// want to base query suggestions on. To change your configuration, use <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_AttributeSuggestionsUpdateConfig.html">AttributeSuggestionsUpdateConfig</a>
+/// and then call <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html">UpdateQuerySuggestionsConfig</a>.
+class AttributeSuggestionsDescribeConfig {
+  /// The mode is set to either <code>ACTIVE</code> or <code>INACTIVE</code>. If
+  /// the <code>Mode</code> for query history is set to <code>ENABLED</code> when
+  /// calling <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateQuerySuggestionsConfig.html">UpdateQuerySuggestionsConfig</a>
+  /// and <code>AttributeSuggestionsMode</code> to use fields/attributes is set to
+  /// <code>ACTIVE</code>, and you haven't set your <code>SuggestionTypes</code>
+  /// preference to <code>DOCUMENT_ATTRIBUTES</code>, then Amazon Kendra uses the
+  /// query history.
+  final AttributeSuggestionsMode? attributeSuggestionsMode;
 
-  UserIdentityConfiguration({
-    this.identityAttributeName,
+  /// The list of fields/attributes that you want to set as suggestible for query
+  /// suggestions.
+  final List<SuggestableConfig>? suggestableConfigList;
+
+  AttributeSuggestionsDescribeConfig({
+    this.attributeSuggestionsMode,
+    this.suggestableConfigList,
   });
 
-  factory UserIdentityConfiguration.fromJson(Map<String, dynamic> json) {
-    return UserIdentityConfiguration(
-      identityAttributeName: json['IdentityAttributeName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityAttributeName = this.identityAttributeName;
-    return {
-      if (identityAttributeName != null)
-        'IdentityAttributeName': identityAttributeName,
-    };
-  }
-}
-
-/// Provides the configuration information for a token.
-class UserTokenConfiguration {
-  /// Information about the JSON token type configuration.
-  final JsonTokenTypeConfiguration? jsonTokenTypeConfiguration;
-
-  /// Information about the JWT token type configuration.
-  final JwtTokenTypeConfiguration? jwtTokenTypeConfiguration;
-
-  UserTokenConfiguration({
-    this.jsonTokenTypeConfiguration,
-    this.jwtTokenTypeConfiguration,
-  });
-
-  factory UserTokenConfiguration.fromJson(Map<String, dynamic> json) {
-    return UserTokenConfiguration(
-      jsonTokenTypeConfiguration: json['JsonTokenTypeConfiguration'] != null
-          ? JsonTokenTypeConfiguration.fromJson(
-              json['JsonTokenTypeConfiguration'] as Map<String, dynamic>)
-          : null,
-      jwtTokenTypeConfiguration: json['JwtTokenTypeConfiguration'] != null
-          ? JwtTokenTypeConfiguration.fromJson(
-              json['JwtTokenTypeConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jsonTokenTypeConfiguration = this.jsonTokenTypeConfiguration;
-    final jwtTokenTypeConfiguration = this.jwtTokenTypeConfiguration;
-    return {
-      if (jsonTokenTypeConfiguration != null)
-        'JsonTokenTypeConfiguration': jsonTokenTypeConfiguration,
-      if (jwtTokenTypeConfiguration != null)
-        'JwtTokenTypeConfiguration': jwtTokenTypeConfiguration,
-    };
-  }
-}
-
-/// The warning code and message that explains a problem with a query.
-class Warning {
-  /// The code used to show the type of warning for the query.
-  final WarningCode? code;
-
-  /// The message that explains the problem with the query.
-  final String? message;
-
-  Warning({
-    this.code,
-    this.message,
-  });
-
-  factory Warning.fromJson(Map<String, dynamic> json) {
-    return Warning(
-      code: (json['Code'] as String?)?.let(WarningCode.fromString),
-      message: json['Message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'Code': code.value,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-class WarningCode {
-  static const queryLanguageInvalidSyntax =
-      WarningCode._('QUERY_LANGUAGE_INVALID_SYNTAX');
-
-  final String value;
-
-  const WarningCode._(this.value);
-
-  static const values = [queryLanguageInvalidSyntax];
-
-  static WarningCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => WarningCode._(value));
-
-  @override
-  bool operator ==(other) => other is WarningCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the configuration information required for Amazon Kendra Web
-/// Crawler.
-class WebCrawlerConfiguration {
-  /// Specifies the seed or starting point URLs of the websites or the sitemap
-  /// URLs of the websites you want to crawl.
-  ///
-  /// You can include website subdomains. You can list up to 100 seed URLs and up
-  /// to three sitemap URLs.
-  ///
-  /// You can only crawl websites that use the secure communication protocol,
-  /// Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when
-  /// crawling a website, it could be that the website is blocked from crawling.
-  ///
-  /// <i>When selecting websites to index, you must adhere to the <a
-  /// href="https://aws.amazon.com/aup/">Amazon Acceptable Use Policy</a> and all
-  /// other Amazon terms. Remember that you must only use Amazon Kendra Web
-  /// Crawler to index your own web pages, or web pages that you have
-  /// authorization to index.</i>
-  final Urls urls;
-
-  /// Configuration information required to connect to websites using
-  /// authentication.
-  ///
-  /// You can connect to websites using basic authentication of user name and
-  /// password. You use a secret in <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">Secrets
-  /// Manager</a> to store your authentication credentials.
-  ///
-  /// You must provide the website host name and port number. For example, the
-  /// host name of https://a.example.com/page1.html is "a.example.com" and the
-  /// port is 443, the standard port for HTTPS.
-  final AuthenticationConfiguration? authenticationConfiguration;
-
-  /// The 'depth' or number of levels from the seed level to crawl. For example,
-  /// the seed URL page is depth 1 and any hyperlinks on this page that are also
-  /// crawled are depth 2.
-  final int? crawlDepth;
-
-  /// The maximum size (in MB) of a web page or attachment to crawl.
-  ///
-  /// Files larger than this size (in MB) are skipped/not crawled.
-  ///
-  /// The default maximum size of a web page or attachment is set to 50 MB.
-  final double? maxContentSizePerPageInMegaBytes;
-
-  /// The maximum number of URLs on a web page to include when crawling a website.
-  /// This number is per web page.
-  ///
-  /// As a website’s web pages are crawled, any URLs the web pages link to are
-  /// also crawled. URLs on a web page are crawled in order of appearance.
-  ///
-  /// The default maximum links per page is 100.
-  final int? maxLinksPerPage;
-
-  /// The maximum number of URLs crawled per website host per minute.
-  ///
-  /// A minimum of one URL is required.
-  ///
-  /// The default maximum number of URLs crawled per website host per minute is
-  /// 300.
-  final int? maxUrlsPerMinuteCrawlRate;
-
-  /// Configuration information required to connect to your internal websites via
-  /// a web proxy.
-  ///
-  /// You must provide the website host name and port number. For example, the
-  /// host name of https://a.example.com/page1.html is "a.example.com" and the
-  /// port is 443, the standard port for HTTPS.
-  ///
-  /// Web proxy credentials are optional and you can use them to connect to a web
-  /// proxy server that requires basic authentication. To store web proxy
-  /// credentials, you use a secret in <a
-  /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html">Secrets
-  /// Manager</a>.
-  final ProxyConfiguration? proxyConfiguration;
-
-  /// A list of regular expression patterns to exclude certain URLs to crawl. URLs
-  /// that match the patterns are excluded from the index. URLs that don't match
-  /// the patterns are included in the index. If a URL matches both an inclusion
-  /// and exclusion pattern, the exclusion pattern takes precedence and the URL
-  /// file isn't included in the index.
-  final List<String>? urlExclusionPatterns;
-
-  /// A list of regular expression patterns to include certain URLs to crawl. URLs
-  /// that match the patterns are included in the index. URLs that don't match the
-  /// patterns are excluded from the index. If a URL matches both an inclusion and
-  /// exclusion pattern, the exclusion pattern takes precedence and the URL file
-  /// isn't included in the index.
-  final List<String>? urlInclusionPatterns;
-
-  WebCrawlerConfiguration({
-    required this.urls,
-    this.authenticationConfiguration,
-    this.crawlDepth,
-    this.maxContentSizePerPageInMegaBytes,
-    this.maxLinksPerPage,
-    this.maxUrlsPerMinuteCrawlRate,
-    this.proxyConfiguration,
-    this.urlExclusionPatterns,
-    this.urlInclusionPatterns,
-  });
-
-  factory WebCrawlerConfiguration.fromJson(Map<String, dynamic> json) {
-    return WebCrawlerConfiguration(
-      urls: Urls.fromJson(
-          (json['Urls'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      authenticationConfiguration: json['AuthenticationConfiguration'] != null
-          ? AuthenticationConfiguration.fromJson(
-              json['AuthenticationConfiguration'] as Map<String, dynamic>)
-          : null,
-      crawlDepth: json['CrawlDepth'] as int?,
-      maxContentSizePerPageInMegaBytes:
-          json['MaxContentSizePerPageInMegaBytes'] as double?,
-      maxLinksPerPage: json['MaxLinksPerPage'] as int?,
-      maxUrlsPerMinuteCrawlRate: json['MaxUrlsPerMinuteCrawlRate'] as int?,
-      proxyConfiguration: json['ProxyConfiguration'] != null
-          ? ProxyConfiguration.fromJson(
-              json['ProxyConfiguration'] as Map<String, dynamic>)
-          : null,
-      urlExclusionPatterns: (json['UrlExclusionPatterns'] as List?)
+  factory AttributeSuggestionsDescribeConfig.fromJson(
+      Map<String, dynamic> json) {
+    return AttributeSuggestionsDescribeConfig(
+      attributeSuggestionsMode: (json['AttributeSuggestionsMode'] as String?)
+          ?.let(AttributeSuggestionsMode.fromString),
+      suggestableConfigList: (json['SuggestableConfigList'] as List?)
           ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      urlInclusionPatterns: (json['UrlInclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
+          .map((e) => SuggestableConfig.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final urls = this.urls;
-    final authenticationConfiguration = this.authenticationConfiguration;
-    final crawlDepth = this.crawlDepth;
-    final maxContentSizePerPageInMegaBytes =
-        this.maxContentSizePerPageInMegaBytes;
-    final maxLinksPerPage = this.maxLinksPerPage;
-    final maxUrlsPerMinuteCrawlRate = this.maxUrlsPerMinuteCrawlRate;
-    final proxyConfiguration = this.proxyConfiguration;
-    final urlExclusionPatterns = this.urlExclusionPatterns;
-    final urlInclusionPatterns = this.urlInclusionPatterns;
+    final attributeSuggestionsMode = this.attributeSuggestionsMode;
+    final suggestableConfigList = this.suggestableConfigList;
     return {
-      'Urls': urls,
-      if (authenticationConfiguration != null)
-        'AuthenticationConfiguration': authenticationConfiguration,
-      if (crawlDepth != null) 'CrawlDepth': crawlDepth,
-      if (maxContentSizePerPageInMegaBytes != null)
-        'MaxContentSizePerPageInMegaBytes': maxContentSizePerPageInMegaBytes,
-      if (maxLinksPerPage != null) 'MaxLinksPerPage': maxLinksPerPage,
-      if (maxUrlsPerMinuteCrawlRate != null)
-        'MaxUrlsPerMinuteCrawlRate': maxUrlsPerMinuteCrawlRate,
-      if (proxyConfiguration != null) 'ProxyConfiguration': proxyConfiguration,
-      if (urlExclusionPatterns != null)
-        'UrlExclusionPatterns': urlExclusionPatterns,
-      if (urlInclusionPatterns != null)
-        'UrlInclusionPatterns': urlInclusionPatterns,
+      if (attributeSuggestionsMode != null)
+        'AttributeSuggestionsMode': attributeSuggestionsMode.value,
+      if (suggestableConfigList != null)
+        'SuggestableConfigList': suggestableConfigList,
     };
   }
 }
 
-class WebCrawlerMode {
-  static const hostOnly = WebCrawlerMode._('HOST_ONLY');
-  static const subdomains = WebCrawlerMode._('SUBDOMAINS');
-  static const everything = WebCrawlerMode._('EVERYTHING');
+/// Summary information on the processing of <code>PUT</code> and
+/// <code>DELETE</code> actions for mapping users to their groups.
+class GroupOrderingIdSummary {
+  /// The reason an action could not be processed. An action can be a
+  /// <code>PUT</code> or <code>DELETE</code> action for mapping users to their
+  /// groups.
+  final String? failureReason;
+
+  /// The Unix timestamp when an action was last updated. An action can be a
+  /// <code>PUT</code> or <code>DELETE</code> action for mapping users to their
+  /// groups.
+  final DateTime? lastUpdatedAt;
+
+  /// The order in which actions should complete processing. An action can be a
+  /// <code>PUT</code> or <code>DELETE</code> action for mapping users to their
+  /// groups.
+  final int? orderingId;
+
+  /// The Unix timestamp when an action was received by Amazon Kendra. An action
+  /// can be a <code>PUT</code> or <code>DELETE</code> action for mapping users to
+  /// their groups.
+  final DateTime? receivedAt;
+
+  /// The current processing status of actions for mapping users to their groups.
+  /// The status can be either <code>PROCESSING</code>, <code>SUCCEEDED</code>,
+  /// <code>DELETING</code>, <code>DELETED</code>, or <code>FAILED</code>.
+  final PrincipalMappingStatus? status;
+
+  GroupOrderingIdSummary({
+    this.failureReason,
+    this.lastUpdatedAt,
+    this.orderingId,
+    this.receivedAt,
+    this.status,
+  });
+
+  factory GroupOrderingIdSummary.fromJson(Map<String, dynamic> json) {
+    return GroupOrderingIdSummary(
+      failureReason: json['FailureReason'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      orderingId: json['OrderingId'] as int?,
+      receivedAt: timeStampFromJson(json['ReceivedAt']),
+      status:
+          (json['Status'] as String?)?.let(PrincipalMappingStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureReason = this.failureReason;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final orderingId = this.orderingId;
+    final receivedAt = this.receivedAt;
+    final status = this.status;
+    return {
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (orderingId != null) 'OrderingId': orderingId,
+      if (receivedAt != null) 'ReceivedAt': unixTimestampToJson(receivedAt),
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class PrincipalMappingStatus {
+  static const failed = PrincipalMappingStatus._('FAILED');
+  static const succeeded = PrincipalMappingStatus._('SUCCEEDED');
+  static const processing = PrincipalMappingStatus._('PROCESSING');
+  static const deleting = PrincipalMappingStatus._('DELETING');
+  static const deleted = PrincipalMappingStatus._('DELETED');
 
   final String value;
 
-  const WebCrawlerMode._(this.value);
+  const PrincipalMappingStatus._(this.value);
 
-  static const values = [hostOnly, subdomains, everything];
+  static const values = [failed, succeeded, processing, deleting, deleted];
 
-  static WebCrawlerMode fromString(String value) =>
+  static PrincipalMappingStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => WebCrawlerMode._(value));
+          orElse: () => PrincipalMappingStatus._(value));
 
   @override
-  bool operator ==(other) => other is WebCrawlerMode && other.value == value;
+  bool operator ==(other) =>
+      other is PrincipalMappingStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -18195,104 +17706,719 @@ class WebCrawlerMode {
   String toString() => value;
 }
 
-/// Provides the configuration information to connect to Amazon WorkDocs as your
-/// data source.
-///
-/// Amazon WorkDocs connector is available in Oregon, North Virginia, Sydney,
-/// Singapore and Ireland regions.
-class WorkDocsConfiguration {
-  /// The identifier of the directory corresponding to your Amazon WorkDocs site
-  /// repository.
-  ///
-  /// You can find the organization ID in the <a
-  /// href="https://console.aws.amazon.com/directoryservicev2/">Directory
-  /// Service</a> by going to <b>Active Directory</b>, then <b>Directories</b>.
-  /// Your Amazon WorkDocs site directory has an ID, which is the organization ID.
-  /// You can also set up a new Amazon WorkDocs directory in the Directory Service
-  /// console and enable a Amazon WorkDocs site for the directory in the Amazon
-  /// WorkDocs console.
-  final String organizationId;
+/// Provides the identifier of the KMS key used to encrypt data indexed by
+/// Amazon Kendra. Amazon Kendra doesn't support asymmetric keys.
+class ServerSideEncryptionConfiguration {
+  /// The identifier of the KMS key. Amazon Kendra doesn't support asymmetric
+  /// keys.
+  final String? kmsKeyId;
 
-  /// <code>TRUE</code> to include comments on documents in your index. Including
-  /// comments in your index means each comment is a document that can be searched
-  /// on.
-  ///
-  /// The default is set to <code>FALSE</code>.
-  final bool? crawlComments;
-
-  /// A list of regular expression patterns to exclude certain files in your
-  /// Amazon WorkDocs site repository. Files that match the patterns are excluded
-  /// from the index. Files that don’t match the patterns are included in the
-  /// index. If a file matches both an inclusion and exclusion pattern, the
-  /// exclusion pattern takes precedence and the file isn't included in the index.
-  final List<String>? exclusionPatterns;
-
-  /// A list of <code>DataSourceToIndexFieldMapping</code> objects that map Amazon
-  /// WorkDocs data source attributes or field names to Amazon Kendra index field
-  /// names. To create custom fields, use the <code>UpdateIndex</code> API before
-  /// you map to Amazon WorkDocs fields. For more information, see <a
-  /// href="https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html">Mapping
-  /// data source fields</a>. The Amazon WorkDocs data source field names must
-  /// exist in your Amazon WorkDocs custom metadata.
-  final List<DataSourceToIndexFieldMapping>? fieldMappings;
-
-  /// A list of regular expression patterns to include certain files in your
-  /// Amazon WorkDocs site repository. Files that match the patterns are included
-  /// in the index. Files that don't match the patterns are excluded from the
-  /// index. If a file matches both an inclusion and exclusion pattern, the
-  /// exclusion pattern takes precedence and the file isn't included in the index.
-  final List<String>? inclusionPatterns;
-
-  /// <code>TRUE</code> to use the Amazon WorkDocs change log to determine which
-  /// documents require updating in the index. Depending on the change log's size,
-  /// it may take longer for Amazon Kendra to use the change log than to scan all
-  /// of your documents in Amazon WorkDocs.
-  final bool? useChangeLog;
-
-  WorkDocsConfiguration({
-    required this.organizationId,
-    this.crawlComments,
-    this.exclusionPatterns,
-    this.fieldMappings,
-    this.inclusionPatterns,
-    this.useChangeLog,
+  ServerSideEncryptionConfiguration({
+    this.kmsKeyId,
   });
 
-  factory WorkDocsConfiguration.fromJson(Map<String, dynamic> json) {
-    return WorkDocsConfiguration(
-      organizationId: (json['OrganizationId'] as String?) ?? '',
-      crawlComments: json['CrawlComments'] as bool?,
-      exclusionPatterns: (json['ExclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      fieldMappings: (json['FieldMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              DataSourceToIndexFieldMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      inclusionPatterns: (json['InclusionPatterns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      useChangeLog: json['UseChangeLog'] as bool?,
+  factory ServerSideEncryptionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ServerSideEncryptionConfiguration(
+      kmsKeyId: json['KmsKeyId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final organizationId = this.organizationId;
-    final crawlComments = this.crawlComments;
-    final exclusionPatterns = this.exclusionPatterns;
-    final fieldMappings = this.fieldMappings;
-    final inclusionPatterns = this.inclusionPatterns;
-    final useChangeLog = this.useChangeLog;
+    final kmsKeyId = this.kmsKeyId;
     return {
-      'OrganizationId': organizationId,
-      if (crawlComments != null) 'CrawlComments': crawlComments,
-      if (exclusionPatterns != null) 'ExclusionPatterns': exclusionPatterns,
-      if (fieldMappings != null) 'FieldMappings': fieldMappings,
-      if (inclusionPatterns != null) 'InclusionPatterns': inclusionPatterns,
-      if (useChangeLog != null) 'UseChangeLog': useChangeLog,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+/// Provides information about the number of documents and the number of
+/// questions and answers in an index.
+class IndexStatistics {
+  /// The number of question and answer topics in the index.
+  final FaqStatistics faqStatistics;
+
+  /// The number of text documents indexed.
+  final TextDocumentStatistics textDocumentStatistics;
+
+  IndexStatistics({
+    required this.faqStatistics,
+    required this.textDocumentStatistics,
+  });
+
+  factory IndexStatistics.fromJson(Map<String, dynamic> json) {
+    return IndexStatistics(
+      faqStatistics: FaqStatistics.fromJson(
+          (json['FaqStatistics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      textDocumentStatistics: TextDocumentStatistics.fromJson(
+          (json['TextDocumentStatistics'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final faqStatistics = this.faqStatistics;
+    final textDocumentStatistics = this.textDocumentStatistics;
+    return {
+      'FaqStatistics': faqStatistics,
+      'TextDocumentStatistics': textDocumentStatistics,
+    };
+  }
+}
+
+/// Provides statistical information about the FAQ questions and answers for an
+/// index.
+class FaqStatistics {
+  /// The total number of FAQ questions and answers for an index.
+  final int indexedQuestionAnswersCount;
+
+  FaqStatistics({
+    required this.indexedQuestionAnswersCount,
+  });
+
+  factory FaqStatistics.fromJson(Map<String, dynamic> json) {
+    return FaqStatistics(
+      indexedQuestionAnswersCount:
+          (json['IndexedQuestionAnswersCount'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexedQuestionAnswersCount = this.indexedQuestionAnswersCount;
+    return {
+      'IndexedQuestionAnswersCount': indexedQuestionAnswersCount,
+    };
+  }
+}
+
+/// Provides information about text documents indexed in an index.
+class TextDocumentStatistics {
+  /// The total size, in bytes, of the indexed documents.
+  final int indexedTextBytes;
+
+  /// The number of text documents indexed.
+  final int indexedTextDocumentsCount;
+
+  TextDocumentStatistics({
+    required this.indexedTextBytes,
+    required this.indexedTextDocumentsCount,
+  });
+
+  factory TextDocumentStatistics.fromJson(Map<String, dynamic> json) {
+    return TextDocumentStatistics(
+      indexedTextBytes: (json['IndexedTextBytes'] as int?) ?? 0,
+      indexedTextDocumentsCount:
+          (json['IndexedTextDocumentsCount'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexedTextBytes = this.indexedTextBytes;
+    final indexedTextDocumentsCount = this.indexedTextDocumentsCount;
+    return {
+      'IndexedTextBytes': indexedTextBytes,
+      'IndexedTextDocumentsCount': indexedTextDocumentsCount,
+    };
+  }
+}
+
+/// A document ID doesn't exist but you have specified as a featured document.
+/// Amazon Kendra cannot feature the document if it doesn't exist in the index.
+/// You can check the status of a document and its ID or check for documents
+/// with status errors using the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchGetDocumentStatus.html">BatchGetDocumentStatus</a>
+/// API.
+class FeaturedDocumentMissing {
+  /// The identifier of the document that doesn't exist but you have specified as
+  /// a featured document.
+  final String? id;
+
+  FeaturedDocumentMissing({
+    this.id,
+  });
+
+  factory FeaturedDocumentMissing.fromJson(Map<String, dynamic> json) {
+    return FeaturedDocumentMissing(
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// A featured document with its metadata information. This document is
+/// displayed at the top of the search results page, placed above all other
+/// results for certain queries. If there's an exact match of a query, then the
+/// document is featured in the search results.
+class FeaturedDocumentWithMetadata {
+  /// The identifier of the featured document with its metadata. You can use the
+  /// <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Query.html">Query</a>
+  /// API to search for specific documents with their document IDs included in the
+  /// result items, or you can use the console.
+  final String? id;
+
+  /// The main title of the featured document.
+  final String? title;
+
+  /// The source URI location of the featured document.
+  final String? uri;
+
+  FeaturedDocumentWithMetadata({
+    this.id,
+    this.title,
+    this.uri,
+  });
+
+  factory FeaturedDocumentWithMetadata.fromJson(Map<String, dynamic> json) {
+    return FeaturedDocumentWithMetadata(
+      id: json['Id'] as String?,
+      title: json['Title'] as String?,
+      uri: json['URI'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final title = this.title;
+    final uri = this.uri;
+    return {
+      if (id != null) 'Id': id,
+      if (title != null) 'Title': title,
+      if (uri != null) 'URI': uri,
+    };
+  }
+}
+
+/// Provides information about a document that could not be indexed.
+class BatchPutDocumentResponseFailedDocument {
+  /// The identifier of the data source connector that the failed document belongs
+  /// to.
+  final String? dataSourceId;
+
+  /// The type of error that caused the document to fail to be indexed.
+  final ErrorCode? errorCode;
+
+  /// A description of the reason why the document could not be indexed.
+  final String? errorMessage;
+
+  /// The identifier of the document.
+  final String? id;
+
+  BatchPutDocumentResponseFailedDocument({
+    this.dataSourceId,
+    this.errorCode,
+    this.errorMessage,
+    this.id,
+  });
+
+  factory BatchPutDocumentResponseFailedDocument.fromJson(
+      Map<String, dynamic> json) {
+    return BatchPutDocumentResponseFailedDocument(
+      dataSourceId: json['DataSourceId'] as String?,
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceId = this.dataSourceId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final id = this.id;
+    return {
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// A document in an index.
+class Document {
+  /// A identifier of the document in the index.
+  ///
+  /// Note, each document ID must be unique per index. You cannot create a data
+  /// source to index your documents with their unique IDs and then use the
+  /// <code>BatchPutDocument</code> API to index the same documents, or vice
+  /// versa. You can delete a data source and then use the
+  /// <code>BatchPutDocument</code> API to index the same documents, or vice
+  /// versa.
+  final String id;
+
+  /// The identifier of the access control configuration that you want to apply to
+  /// the document.
+  final String? accessControlConfigurationId;
+
+  /// Information on principals (users and/or groups) and which documents they
+  /// should have access to. This is useful for user context filtering, where
+  /// search results are filtered based on the user or their group access to
+  /// documents.
+  final List<Principal>? accessControlList;
+
+  /// Custom attributes to apply to the document. Use the custom attributes to
+  /// provide additional information for searching, to provide facets for refining
+  /// searches, and to provide additional information in the query response.
+  ///
+  /// For example, 'DataSourceId' and 'DataSourceSyncJobId' are custom attributes
+  /// that provide information on the synchronization of documents running on a
+  /// data source. Note, 'DataSourceSyncJobId' could be an optional custom
+  /// attribute as Amazon Kendra will use the ID of a running sync job.
+  final List<DocumentAttribute>? attributes;
+
+  /// The contents of the document.
+  ///
+  /// Documents passed to the <code>Blob</code> parameter must be base64 encoded.
+  /// Your code might not need to encode the document file bytes if you're using
+  /// an Amazon Web Services SDK to call Amazon Kendra APIs. If you are calling
+  /// the Amazon Kendra endpoint directly using REST, you must base64 encode the
+  /// contents before sending.
+  final Uint8List? blob;
+
+  /// The file type of the document in the <code>Blob</code> field.
+  ///
+  /// If you want to index snippets or subsets of HTML documents instead of the
+  /// entirety of the HTML documents, you must add the <code>HTML</code> start and
+  /// closing tags (<code><HTML>content</HTML></code>) around the content.
+  final ContentType? contentType;
+
+  /// The list of <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/API_Principal.html">principal</a>
+  /// lists that define the hierarchy for which documents users should have access
+  /// to.
+  final List<HierarchicalPrincipal>? hierarchicalAccessControlList;
+  final S3Path? s3Path;
+
+  /// The title of the document.
+  final String? title;
+
+  Document({
+    required this.id,
+    this.accessControlConfigurationId,
+    this.accessControlList,
+    this.attributes,
+    this.blob,
+    this.contentType,
+    this.hierarchicalAccessControlList,
+    this.s3Path,
+    this.title,
+  });
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final accessControlConfigurationId = this.accessControlConfigurationId;
+    final accessControlList = this.accessControlList;
+    final attributes = this.attributes;
+    final blob = this.blob;
+    final contentType = this.contentType;
+    final hierarchicalAccessControlList = this.hierarchicalAccessControlList;
+    final s3Path = this.s3Path;
+    final title = this.title;
+    return {
+      'Id': id,
+      if (accessControlConfigurationId != null)
+        'AccessControlConfigurationId': accessControlConfigurationId,
+      if (accessControlList != null) 'AccessControlList': accessControlList,
+      if (attributes != null) 'Attributes': attributes,
+      if (blob != null) 'Blob': base64Encode(blob),
+      if (contentType != null) 'ContentType': contentType.value,
+      if (hierarchicalAccessControlList != null)
+        'HierarchicalAccessControlList': hierarchicalAccessControlList,
+      if (s3Path != null) 'S3Path': s3Path,
+      if (title != null) 'Title': title,
+    };
+  }
+}
+
+class ContentType {
+  static const pdf = ContentType._('PDF');
+  static const html = ContentType._('HTML');
+  static const msWord = ContentType._('MS_WORD');
+  static const plainText = ContentType._('PLAIN_TEXT');
+  static const ppt = ContentType._('PPT');
+  static const rtf = ContentType._('RTF');
+  static const xml = ContentType._('XML');
+  static const xslt = ContentType._('XSLT');
+  static const msExcel = ContentType._('MS_EXCEL');
+  static const csv = ContentType._('CSV');
+  static const json = ContentType._('JSON');
+  static const md = ContentType._('MD');
+
+  final String value;
+
+  const ContentType._(this.value);
+
+  static const values = [
+    pdf,
+    html,
+    msWord,
+    plainText,
+    ppt,
+    rtf,
+    xml,
+    xslt,
+    msExcel,
+    csv,
+    json,
+    md
+  ];
+
+  static ContentType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContentType._(value));
+
+  @override
+  bool operator ==(other) => other is ContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about the status of documents submitted for indexing.
+class Status {
+  /// The identifier of the document.
+  final String? documentId;
+
+  /// The current status of a document.
+  ///
+  /// If the document was submitted for deletion, the status is
+  /// <code>NOT_FOUND</code> after the document is deleted.
+  final DocumentStatus? documentStatus;
+
+  /// Indicates the source of the error.
+  final String? failureCode;
+
+  /// Provides detailed information about why the document couldn't be indexed.
+  /// Use this information to correct the error before you resubmit the document
+  /// for indexing.
+  final String? failureReason;
+
+  Status({
+    this.documentId,
+    this.documentStatus,
+    this.failureCode,
+    this.failureReason,
+  });
+
+  factory Status.fromJson(Map<String, dynamic> json) {
+    return Status(
+      documentId: json['DocumentId'] as String?,
+      documentStatus:
+          (json['DocumentStatus'] as String?)?.let(DocumentStatus.fromString),
+      failureCode: json['FailureCode'] as String?,
+      failureReason: json['FailureReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentId = this.documentId;
+    final documentStatus = this.documentStatus;
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    return {
+      if (documentId != null) 'DocumentId': documentId,
+      if (documentStatus != null) 'DocumentStatus': documentStatus.value,
+      if (failureCode != null) 'FailureCode': failureCode,
+      if (failureReason != null) 'FailureReason': failureReason,
+    };
+  }
+}
+
+class DocumentStatus {
+  static const notFound = DocumentStatus._('NOT_FOUND');
+  static const processing = DocumentStatus._('PROCESSING');
+  static const indexed = DocumentStatus._('INDEXED');
+  static const updated = DocumentStatus._('UPDATED');
+  static const failed = DocumentStatus._('FAILED');
+  static const updateFailed = DocumentStatus._('UPDATE_FAILED');
+
+  final String value;
+
+  const DocumentStatus._(this.value);
+
+  static const values = [
+    notFound,
+    processing,
+    indexed,
+    updated,
+    failed,
+    updateFailed
+  ];
+
+  static DocumentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DocumentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DocumentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a response when the status of a document could not be retrieved.
+class BatchGetDocumentStatusResponseError {
+  /// The identifier of the data source connector that the failed document belongs
+  /// to.
+  final String? dataSourceId;
+
+  /// The identifier of the document whose status could not be retrieved.
+  final String? documentId;
+
+  /// Indicates the source of the error.
+  final ErrorCode? errorCode;
+
+  /// States that the API could not get the status of a document. This could be
+  /// because the request is not valid or there is a system error.
+  final String? errorMessage;
+
+  BatchGetDocumentStatusResponseError({
+    this.dataSourceId,
+    this.documentId,
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory BatchGetDocumentStatusResponseError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetDocumentStatusResponseError(
+      dataSourceId: json['DataSourceId'] as String?,
+      documentId: json['DocumentId'] as String?,
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceId = this.dataSourceId;
+    final documentId = this.documentId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+      if (documentId != null) 'DocumentId': documentId,
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
+}
+
+/// Identifies a document for which to retrieve status information
+class DocumentInfo {
+  /// The identifier of the document.
+  final String documentId;
+
+  /// Attributes that identify a specific version of a document to check.
+  ///
+  /// The only valid attributes are:
+  ///
+  /// <ul>
+  /// <li>
+  /// version
+  /// </li>
+  /// <li>
+  /// datasourceId
+  /// </li>
+  /// <li>
+  /// jobExecutionId
+  /// </li>
+  /// </ul>
+  /// The attributes follow these rules:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>dataSourceId</code> and <code>jobExecutionId</code> must be used
+  /// together.
+  /// </li>
+  /// <li>
+  /// <code>version</code> is ignored if <code>dataSourceId</code> and
+  /// <code>jobExecutionId</code> are not provided.
+  /// </li>
+  /// <li>
+  /// If <code>dataSourceId</code> and <code>jobExecutionId</code> are provided,
+  /// but <code>version</code> is not, the version defaults to "0".
+  /// </li>
+  /// </ul>
+  final List<DocumentAttribute>? attributes;
+
+  DocumentInfo({
+    required this.documentId,
+    this.attributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final documentId = this.documentId;
+    final attributes = this.attributes;
+    return {
+      'DocumentId': documentId,
+      if (attributes != null) 'Attributes': attributes,
+    };
+  }
+}
+
+/// Provides information about a set of featured results that couldn't be
+/// removed from an index by the <a
+/// href="https://docs.aws.amazon.com/kendra/latest/dg/API_BatchDeleteFeaturedResultsSet.html">BatchDeleteFeaturedResultsSet</a>
+/// API.
+class BatchDeleteFeaturedResultsSetError {
+  /// The error code for why the set of featured results couldn't be removed from
+  /// the index.
+  final ErrorCode errorCode;
+
+  /// An explanation for why the set of featured results couldn't be removed from
+  /// the index.
+  final String errorMessage;
+
+  /// The identifier of the set of featured results that couldn't be removed from
+  /// the index.
+  final String id;
+
+  BatchDeleteFeaturedResultsSetError({
+    required this.errorCode,
+    required this.errorMessage,
+    required this.id,
+  });
+
+  factory BatchDeleteFeaturedResultsSetError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDeleteFeaturedResultsSetError(
+      errorCode: ErrorCode.fromString((json['ErrorCode'] as String?) ?? ''),
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      id: (json['Id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final id = this.id;
+    return {
+      'ErrorCode': errorCode.value,
+      'ErrorMessage': errorMessage,
+      'Id': id,
+    };
+  }
+}
+
+/// Provides information about documents that could not be removed from an index
+/// by the <code>BatchDeleteDocument</code> API.
+class BatchDeleteDocumentResponseFailedDocument {
+  /// The identifier of the data source connector that the document belongs to.
+  final String? dataSourceId;
+
+  /// The error code for why the document couldn't be removed from the index.
+  final ErrorCode? errorCode;
+
+  /// An explanation for why the document couldn't be removed from the index.
+  final String? errorMessage;
+
+  /// The identifier of the document that couldn't be removed from the index.
+  final String? id;
+
+  BatchDeleteDocumentResponseFailedDocument({
+    this.dataSourceId,
+    this.errorCode,
+    this.errorMessage,
+    this.id,
+  });
+
+  factory BatchDeleteDocumentResponseFailedDocument.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDeleteDocumentResponseFailedDocument(
+      dataSourceId: json['DataSourceId'] as String?,
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceId = this.dataSourceId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final id = this.id;
+    return {
+      if (dataSourceId != null) 'DataSourceId': dataSourceId,
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// Maps a particular data source sync job to a particular data source.
+class DataSourceSyncJobMetricTarget {
+  /// The ID of the data source that is running the sync job.
+  final String dataSourceId;
+
+  /// The ID of the sync job that is running on the data source.
+  ///
+  /// If the ID of a sync job is not provided and there is a sync job running,
+  /// then the ID of this sync job is used and metrics are generated for this sync
+  /// job.
+  ///
+  /// If the ID of a sync job is not provided and there is no sync job running,
+  /// then no metrics are generated and documents are indexed/deleted at the index
+  /// level without sync job metrics included.
+  final String? dataSourceSyncJobId;
+
+  DataSourceSyncJobMetricTarget({
+    required this.dataSourceId,
+    this.dataSourceSyncJobId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataSourceId = this.dataSourceId;
+    final dataSourceSyncJobId = this.dataSourceSyncJobId;
+    return {
+      'DataSourceId': dataSourceId,
+      if (dataSourceSyncJobId != null)
+        'DataSourceSyncJobId': dataSourceSyncJobId,
+    };
+  }
+}
+
+/// Provides the configuration information for users or groups in your IAM
+/// Identity Center identity source for access to your Amazon Kendra experience.
+/// Specific permissions are defined for each user or group once they are
+/// granted access to your Amazon Kendra experience.
+class EntityPersonaConfiguration {
+  /// The identifier of a user or group in your IAM Identity Center identity
+  /// source. For example, a user ID could be an email.
+  final String entityId;
+
+  /// The persona that defines the specific permissions of the user or group in
+  /// your IAM Identity Center identity source. The available personas or access
+  /// roles are <code>Owner</code> and <code>Viewer</code>. For more information
+  /// on these personas, see <a
+  /// href="https://docs.aws.amazon.com/kendra/latest/dg/deploying-search-experience-no-code.html#access-search-experience">Providing
+  /// access to your search page</a>.
+  final Persona persona;
+
+  EntityPersonaConfiguration({
+    required this.entityId,
+    required this.persona,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final persona = this.persona;
+    return {
+      'EntityId': entityId,
+      'Persona': persona.value,
     };
   }
 }

@@ -24,9 +24,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// service that helps you deploy and manage telecom networks. AWS TNB helps you
 /// with the lifecycle management of your telecommunication network functions
 /// throughout planning, deployment, and post-deployment activities.
-class TelcoNetworkBuilder {
+class Tnb {
   final _s.RestJsonProtocol _protocol;
-  TelcoNetworkBuilder({
+  Tnb({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -36,7 +36,6 @@ class TelcoNetworkBuilder {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'tnb',
-            signingName: 'tnb',
           ),
           region: region,
           credentials: credentials,
@@ -58,11 +57,11 @@ class TelcoNetworkBuilder {
   /// A network operation is any operation that is done to your network, such as
   /// network instance instantiation or termination.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsLcmOpOccId] :
   /// The identifier of the network operation.
@@ -95,11 +94,11 @@ class TelcoNetworkBuilder {
   /// function package content, see <a
   /// href="https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html">PutSolFunctionPackageContent</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [tags] :
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
@@ -135,12 +134,12 @@ class TelcoNetworkBuilder {
   /// a network, see <a
   /// href="https://docs.aws.amazon.com/tnb/latest/APIReference/API_InstantiateSolNetworkInstance.html">InstantiateSolNetworkInstance</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsName] :
   /// Network instance name.
@@ -197,11 +196,11 @@ class TelcoNetworkBuilder {
   /// using <a
   /// href="https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html">PutSolNetworkPackageContent</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [tags] :
   /// A tag is a label that you assign to an Amazon Web Services resource. Each
@@ -233,11 +232,11 @@ class TelcoNetworkBuilder {
   /// disable a function package, see <a
   /// href="https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolFunctionPackage.html">UpdateSolFunctionPackage</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [vnfPkgId] :
   /// ID of the function package.
@@ -263,11 +262,11 @@ class TelcoNetworkBuilder {
   /// terminated state. To terminate a network instance, see <a
   /// href="https://docs.aws.amazon.com/tnb/latest/APIReference/API_TerminateSolNetworkInstance.html">TerminateSolNetworkInstance</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsInstanceId] :
   /// Network instance ID.
@@ -293,11 +292,11 @@ class TelcoNetworkBuilder {
   /// disable a network package, see <a
   /// href="https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolNetworkPackage.html">UpdateSolNetworkPackage</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsdInfoId] :
   /// ID of the network service descriptor in the network package.
@@ -319,11 +318,11 @@ class TelcoNetworkBuilder {
   ///
   /// A network function instance is a function in a function package .
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [vnfInstanceId] :
   /// ID of the network function.
@@ -348,11 +347,11 @@ class TelcoNetworkBuilder {
   /// application) and function package descriptor that uses the TOSCA standard
   /// to describe how the network functions should run on your network..
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [vnfPkgId] :
   /// ID of the function package.
@@ -376,11 +375,11 @@ class TelcoNetworkBuilder {
   /// application) and function package descriptor that uses the TOSCA standard
   /// to describe how the network functions should run on your network.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [accept] :
   /// The format of the package that you want to download from the function
@@ -422,11 +421,11 @@ class TelcoNetworkBuilder {
   /// application) and function package descriptor that uses the TOSCA standard
   /// to describe how the network functions should run on your network.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [accept] :
   /// Indicates which content types, expressed as MIME types, the client is able
@@ -464,11 +463,11 @@ class TelcoNetworkBuilder {
   /// that can be deployed and on which life-cycle operations (like terminate,
   /// update, and delete) can be performed.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsInstanceId] :
   /// ID of the network instance.
@@ -491,11 +490,11 @@ class TelcoNetworkBuilder {
   /// A network operation is any operation that is done to your network, such as
   /// network instance instantiation or termination.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsLcmOpOccId] :
   /// The identifier of the network operation.
@@ -518,11 +517,11 @@ class TelcoNetworkBuilder {
   /// defines the function packages you want to deploy and the Amazon Web
   /// Services infrastructure you want to deploy them on.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsdInfoId] :
   /// ID of the network service descriptor in the network package.
@@ -545,11 +544,11 @@ class TelcoNetworkBuilder {
   /// defines the function packages you want to deploy and the Amazon Web
   /// Services infrastructure you want to deploy them on.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [accept] :
   /// The format of the package you want to download from the network package.
@@ -586,11 +585,11 @@ class TelcoNetworkBuilder {
   /// deploy and the Amazon Web Services infrastructure you want to deploy the
   /// network functions on.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsdInfoId] :
   /// ID of the network service descriptor in the network package.
@@ -622,12 +621,12 @@ class TelcoNetworkBuilder {
   /// network instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/tnb/latest/APIReference/API_CreateSolNetworkInstance.html">CreateSolNetworkInstance</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsInstanceId] :
   /// ID of the network instance.
@@ -677,10 +676,10 @@ class TelcoNetworkBuilder {
   ///
   /// A network function instance is a function in a function package .
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response.
@@ -691,12 +690,6 @@ class TelcoNetworkBuilder {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'nextpage_opaque_marker': [nextToken],
@@ -718,10 +711,10 @@ class TelcoNetworkBuilder {
   /// application) and function package descriptor that uses the TOSCA standard
   /// to describe how the network functions should run on your network.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response.
@@ -732,12 +725,6 @@ class TelcoNetworkBuilder {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'nextpage_opaque_marker': [nextToken],
@@ -758,10 +745,10 @@ class TelcoNetworkBuilder {
   /// that can be deployed and on which life-cycle operations (like terminate,
   /// update, and delete) can be performed.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response.
@@ -772,12 +759,6 @@ class TelcoNetworkBuilder {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'nextpage_opaque_marker': [nextToken],
@@ -798,10 +779,10 @@ class TelcoNetworkBuilder {
   /// A network operation is any operation that is done to your network, such as
   /// network instance instantiation or termination.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response.
@@ -817,12 +798,6 @@ class TelcoNetworkBuilder {
     String? nextToken,
     String? nsInstanceId,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'nextpage_opaque_marker': [nextToken],
@@ -844,10 +819,10 @@ class TelcoNetworkBuilder {
   /// defines the function packages you want to deploy and the Amazon Web
   /// Services infrastructure you want to deploy them on.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in the response.
@@ -858,12 +833,6 @@ class TelcoNetworkBuilder {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max_results': [maxResults.toString()],
       if (nextToken != null) 'nextpage_opaque_marker': [nextToken],
@@ -880,11 +849,11 @@ class TelcoNetworkBuilder {
 
   /// Lists tags for AWS TNB resources.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// Resource ARN.
@@ -907,11 +876,11 @@ class TelcoNetworkBuilder {
   /// application) and function package descriptor that uses the TOSCA standard
   /// to describe how the network functions should run on your network.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [file] :
   /// Function package file.
@@ -946,11 +915,11 @@ class TelcoNetworkBuilder {
   /// defines the function packages you want to deploy and the Amazon Web
   /// Services infrastructure you want to deploy them on.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [file] :
   /// Network package file.
@@ -985,11 +954,11 @@ class TelcoNetworkBuilder {
   /// tag consists of a key and an optional value. You can use tags to search
   /// and filter your resources or track your Amazon Web Services costs.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// Resource ARN.
@@ -1021,12 +990,12 @@ class TelcoNetworkBuilder {
   ///
   /// You must terminate a network instance before you can delete it.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsInstanceId] :
   /// ID of the network instance.
@@ -1060,11 +1029,11 @@ class TelcoNetworkBuilder {
   /// tag consists of a key and an optional value. You can use tags to search
   /// and filter your resources or track your Amazon Web Services costs.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceArn] :
   /// Resource ARN.
@@ -1094,11 +1063,11 @@ class TelcoNetworkBuilder {
   /// application) and function package descriptor that uses the TOSCA standard
   /// to describe how the network functions should run on your network.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [operationalState] :
   /// Operational state of the function package.
@@ -1131,12 +1100,12 @@ class TelcoNetworkBuilder {
   /// Choose the <i>updateType</i> parameter to target the necessary update of
   /// the network instance.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsInstanceId] :
   /// ID of the network instance.
@@ -1208,11 +1177,11 @@ class TelcoNetworkBuilder {
   /// deploy and the Amazon Web Services infrastructure you want to deploy the
   /// network functions on.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [nsdInfoId] :
   /// ID of the network service descriptor in the network package.
@@ -1246,11 +1215,11 @@ class TelcoNetworkBuilder {
   /// application) and function package descriptor that uses the TOSCA standard
   /// to describe how the network functions should run on your network.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [file] :
   /// Function package file.
@@ -1288,11 +1257,11 @@ class TelcoNetworkBuilder {
   /// defines the function packages you want to deploy and the Amazon Web
   /// Services infrastructure you want to deploy them on.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [file] :
   /// Network package file.
@@ -1501,133 +1470,6 @@ class CreateSolNetworkPackageOutput {
   }
 }
 
-class DescriptorContentType {
-  static const textPlain = DescriptorContentType._('text/plain');
-
-  final String value;
-
-  const DescriptorContentType._(this.value);
-
-  static const values = [textPlain];
-
-  static DescriptorContentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DescriptorContentType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DescriptorContentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Document {
-  Document();
-
-  factory Document.fromJson(Map<String, dynamic> _) {
-    return Document();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Provides error information.
-class ErrorInfo {
-  /// Error cause.
-  final String? cause;
-
-  /// Error details.
-  final String? details;
-
-  ErrorInfo({
-    this.cause,
-    this.details,
-  });
-
-  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
-    return ErrorInfo(
-      cause: json['cause'] as String?,
-      details: json['details'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cause = this.cause;
-    final details = this.details;
-    return {
-      if (cause != null) 'cause': cause,
-      if (details != null) 'details': details,
-    };
-  }
-}
-
-/// Metadata for function package artifacts.
-///
-/// Artifacts are the contents of the package descriptor file and the state of
-/// the package.
-class FunctionArtifactMeta {
-  /// Lists of function package overrides.
-  final List<ToscaOverride>? overrides;
-
-  FunctionArtifactMeta({
-    this.overrides,
-  });
-
-  factory FunctionArtifactMeta.fromJson(Map<String, dynamic> json) {
-    return FunctionArtifactMeta(
-      overrides: (json['overrides'] as List?)
-          ?.nonNulls
-          .map((e) => ToscaOverride.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final overrides = this.overrides;
-    return {
-      if (overrides != null) 'overrides': overrides,
-    };
-  }
-}
-
-/// The metadata of a network function instance.
-///
-/// A network function instance is a function in a function package .
-class GetSolFunctionInstanceMetadata {
-  /// The date that the resource was created.
-  final DateTime createdAt;
-
-  /// The date that the resource was last modified.
-  final DateTime lastModified;
-
-  GetSolFunctionInstanceMetadata({
-    required this.createdAt,
-    required this.lastModified,
-  });
-
-  factory GetSolFunctionInstanceMetadata.fromJson(Map<String, dynamic> json) {
-    return GetSolFunctionInstanceMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
-    return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
-    };
-  }
-}
-
 class GetSolFunctionInstanceOutput {
   /// Network function instance ARN.
   final String arn;
@@ -1733,93 +1575,6 @@ class GetSolFunctionInstanceOutput {
   }
 }
 
-class GetSolFunctionPackageContentOutput {
-  /// Indicates the media type of the resource.
-  final PackageContentType? contentType;
-
-  /// Contents of the function package.
-  final Uint8List? packageContent;
-
-  GetSolFunctionPackageContentOutput({
-    this.contentType,
-    this.packageContent,
-  });
-
-  Map<String, dynamic> toJson() {
-    final contentType = this.contentType;
-    final packageContent = this.packageContent;
-    return {
-      if (packageContent != null)
-        'packageContent': base64Encode(packageContent),
-    };
-  }
-}
-
-class GetSolFunctionPackageDescriptorOutput {
-  /// Indicates the media type of the resource.
-  final DescriptorContentType? contentType;
-
-  /// Contents of the function package descriptor.
-  final Uint8List? vnfd;
-
-  GetSolFunctionPackageDescriptorOutput({
-    this.contentType,
-    this.vnfd,
-  });
-
-  Map<String, dynamic> toJson() {
-    final contentType = this.contentType;
-    final vnfd = this.vnfd;
-    return {
-      if (vnfd != null) 'vnfd': base64Encode(vnfd),
-    };
-  }
-}
-
-/// Metadata related to the function package.
-///
-/// A function package is a .zip file in CSAR (Cloud Service Archive) format
-/// that contains a network function (an ETSI standard telecommunication
-/// application) and function package descriptor that uses the TOSCA standard to
-/// describe how the network functions should run on your network.
-class GetSolFunctionPackageMetadata {
-  /// The date that the resource was created.
-  final DateTime createdAt;
-
-  /// The date that the resource was last modified.
-  final DateTime lastModified;
-
-  /// Metadata related to the function package descriptor of the function package.
-  final FunctionArtifactMeta? vnfd;
-
-  GetSolFunctionPackageMetadata({
-    required this.createdAt,
-    required this.lastModified,
-    this.vnfd,
-  });
-
-  factory GetSolFunctionPackageMetadata.fromJson(Map<String, dynamic> json) {
-    return GetSolFunctionPackageMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-      vnfd: json['vnfd'] != null
-          ? FunctionArtifactMeta.fromJson(json['vnfd'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
-    final vnfd = this.vnfd;
-    return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
-      if (vnfd != null) 'vnfd': vnfd,
-    };
-  }
-}
-
 class GetSolFunctionPackageOutput {
   /// Function package ARN.
   final String arn;
@@ -1918,64 +1673,45 @@ class GetSolFunctionPackageOutput {
   }
 }
 
-/// Information about a network function.
-///
-/// A network instance is a single network created in Amazon Web Services TNB
-/// that can be deployed and on which life-cycle operations (like terminate,
-/// update, and delete) can be performed.
-class GetSolInstantiatedVnfInfo {
-  /// State of the network function.
-  final VnfOperationalState? vnfState;
+class GetSolFunctionPackageContentOutput {
+  /// Indicates the media type of the resource.
+  final PackageContentType? contentType;
 
-  GetSolInstantiatedVnfInfo({
-    this.vnfState,
+  /// Contents of the function package.
+  final Uint8List? packageContent;
+
+  GetSolFunctionPackageContentOutput({
+    this.contentType,
+    this.packageContent,
   });
 
-  factory GetSolInstantiatedVnfInfo.fromJson(Map<String, dynamic> json) {
-    return GetSolInstantiatedVnfInfo(
-      vnfState:
-          (json['vnfState'] as String?)?.let(VnfOperationalState.fromString),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final vnfState = this.vnfState;
+    final contentType = this.contentType;
+    final packageContent = this.packageContent;
     return {
-      if (vnfState != null) 'vnfState': vnfState.value,
+      if (packageContent != null)
+        'packageContent': base64Encode(packageContent),
     };
   }
 }
 
-/// The metadata of a network instance.
-///
-/// A network instance is a single network created in Amazon Web Services TNB
-/// that can be deployed and on which life-cycle operations (like terminate,
-/// update, and delete) can be performed.
-class GetSolNetworkInstanceMetadata {
-  /// The date that the resource was created.
-  final DateTime createdAt;
+class GetSolFunctionPackageDescriptorOutput {
+  /// Indicates the media type of the resource.
+  final DescriptorContentType? contentType;
 
-  /// The date that the resource was last modified.
-  final DateTime lastModified;
+  /// Contents of the function package descriptor.
+  final Uint8List? vnfd;
 
-  GetSolNetworkInstanceMetadata({
-    required this.createdAt,
-    required this.lastModified,
+  GetSolFunctionPackageDescriptorOutput({
+    this.contentType,
+    this.vnfd,
   });
 
-  factory GetSolNetworkInstanceMetadata.fromJson(Map<String, dynamic> json) {
-    return GetSolNetworkInstanceMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
+    final contentType = this.contentType;
+    final vnfd = this.vnfd;
     return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
+      if (vnfd != null) 'vnfd': base64Encode(vnfd),
     };
   }
 }
@@ -2064,78 +1800,6 @@ class GetSolNetworkInstanceOutput {
       if (lcmOpInfo != null) 'lcmOpInfo': lcmOpInfo,
       if (nsState != null) 'nsState': nsState.value,
       if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Metadata related to a network operation occurrence.
-///
-/// A network operation is any operation that is done to your network, such as
-/// network instance instantiation or termination.
-class GetSolNetworkOperationMetadata {
-  /// The date that the resource was created.
-  final DateTime createdAt;
-
-  /// The date that the resource was last modified.
-  final DateTime lastModified;
-
-  /// Metadata related to the network operation occurrence for network
-  /// instantiation. This is populated only if the lcmOperationType is
-  /// <code>INSTANTIATE</code>.
-  final InstantiateMetadata? instantiateMetadata;
-
-  /// Metadata related to the network operation occurrence for network function
-  /// updates in a network instance. This is populated only if the
-  /// lcmOperationType is <code>UPDATE</code> and the updateType is
-  /// <code>MODIFY_VNF_INFORMATION</code>.
-  final ModifyVnfInfoMetadata? modifyVnfInfoMetadata;
-
-  /// Metadata related to the network operation occurrence for network instance
-  /// updates. This is populated only if the lcmOperationType is
-  /// <code>UPDATE</code> and the updateType is <code>UPDATE_NS</code>.
-  final UpdateNsMetadata? updateNsMetadata;
-
-  GetSolNetworkOperationMetadata({
-    required this.createdAt,
-    required this.lastModified,
-    this.instantiateMetadata,
-    this.modifyVnfInfoMetadata,
-    this.updateNsMetadata,
-  });
-
-  factory GetSolNetworkOperationMetadata.fromJson(Map<String, dynamic> json) {
-    return GetSolNetworkOperationMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-      instantiateMetadata: json['instantiateMetadata'] != null
-          ? InstantiateMetadata.fromJson(
-              json['instantiateMetadata'] as Map<String, dynamic>)
-          : null,
-      modifyVnfInfoMetadata: json['modifyVnfInfoMetadata'] != null
-          ? ModifyVnfInfoMetadata.fromJson(
-              json['modifyVnfInfoMetadata'] as Map<String, dynamic>)
-          : null,
-      updateNsMetadata: json['updateNsMetadata'] != null
-          ? UpdateNsMetadata.fromJson(
-              json['updateNsMetadata'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
-    final instantiateMetadata = this.instantiateMetadata;
-    final modifyVnfInfoMetadata = this.modifyVnfInfoMetadata;
-    final updateNsMetadata = this.updateNsMetadata;
-    return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
-      if (instantiateMetadata != null)
-        'instantiateMetadata': instantiateMetadata,
-      if (modifyVnfInfoMetadata != null)
-        'modifyVnfInfoMetadata': modifyVnfInfoMetadata,
-      if (updateNsMetadata != null) 'updateNsMetadata': updateNsMetadata,
     };
   }
 }
@@ -2237,157 +1901,6 @@ class GetSolNetworkOperationOutput {
       if (tags != null) 'tags': tags,
       if (tasks != null) 'tasks': tasks,
       if (updateType != null) 'updateType': updateType.value,
-    };
-  }
-}
-
-/// Gets the details of a network operation.
-///
-/// A network operation is any operation that is done to your network, such as
-/// network instance instantiation or termination.
-class GetSolNetworkOperationTaskDetails {
-  /// Context for the network operation task.
-  final Map<String, String>? taskContext;
-
-  /// Task end time.
-  final DateTime? taskEndTime;
-
-  /// Task error details.
-  final ErrorInfo? taskErrorDetails;
-
-  /// Task name.
-  final String? taskName;
-
-  /// Task start time.
-  final DateTime? taskStartTime;
-
-  /// Task status.
-  final TaskStatus? taskStatus;
-
-  GetSolNetworkOperationTaskDetails({
-    this.taskContext,
-    this.taskEndTime,
-    this.taskErrorDetails,
-    this.taskName,
-    this.taskStartTime,
-    this.taskStatus,
-  });
-
-  factory GetSolNetworkOperationTaskDetails.fromJson(
-      Map<String, dynamic> json) {
-    return GetSolNetworkOperationTaskDetails(
-      taskContext: (json['taskContext'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      taskEndTime: timeStampFromJson(json['taskEndTime']),
-      taskErrorDetails: json['taskErrorDetails'] != null
-          ? ErrorInfo.fromJson(json['taskErrorDetails'] as Map<String, dynamic>)
-          : null,
-      taskName: json['taskName'] as String?,
-      taskStartTime: timeStampFromJson(json['taskStartTime']),
-      taskStatus: (json['taskStatus'] as String?)?.let(TaskStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final taskContext = this.taskContext;
-    final taskEndTime = this.taskEndTime;
-    final taskErrorDetails = this.taskErrorDetails;
-    final taskName = this.taskName;
-    final taskStartTime = this.taskStartTime;
-    final taskStatus = this.taskStatus;
-    return {
-      if (taskContext != null) 'taskContext': taskContext,
-      if (taskEndTime != null) 'taskEndTime': iso8601ToJson(taskEndTime),
-      if (taskErrorDetails != null) 'taskErrorDetails': taskErrorDetails,
-      if (taskName != null) 'taskName': taskName,
-      if (taskStartTime != null) 'taskStartTime': iso8601ToJson(taskStartTime),
-      if (taskStatus != null) 'taskStatus': taskStatus.value,
-    };
-  }
-}
-
-class GetSolNetworkPackageContentOutput {
-  /// Indicates the media type of the resource.
-  final PackageContentType? contentType;
-
-  /// Content of the network service descriptor in the network package.
-  final Uint8List? nsdContent;
-
-  GetSolNetworkPackageContentOutput({
-    this.contentType,
-    this.nsdContent,
-  });
-
-  Map<String, dynamic> toJson() {
-    final contentType = this.contentType;
-    final nsdContent = this.nsdContent;
-    return {
-      if (nsdContent != null) 'nsdContent': base64Encode(nsdContent),
-    };
-  }
-}
-
-class GetSolNetworkPackageDescriptorOutput {
-  /// Indicates the media type of the resource.
-  final DescriptorContentType? contentType;
-
-  /// Contents of the network service descriptor in the network package.
-  final Uint8List? nsd;
-
-  GetSolNetworkPackageDescriptorOutput({
-    this.contentType,
-    this.nsd,
-  });
-
-  Map<String, dynamic> toJson() {
-    final contentType = this.contentType;
-    final nsd = this.nsd;
-    return {
-      if (nsd != null) 'nsd': base64Encode(nsd),
-    };
-  }
-}
-
-/// Metadata associated with a network package.
-///
-/// A network package is a .zip file in CSAR (Cloud Service Archive) format
-/// defines the function packages you want to deploy and the Amazon Web Services
-/// infrastructure you want to deploy them on.
-class GetSolNetworkPackageMetadata {
-  /// The date that the resource was created.
-  final DateTime createdAt;
-
-  /// The date that the resource was last modified.
-  final DateTime lastModified;
-
-  /// Metadata related to the onboarded network service descriptor in the network
-  /// package.
-  final NetworkArtifactMeta? nsd;
-
-  GetSolNetworkPackageMetadata({
-    required this.createdAt,
-    required this.lastModified,
-    this.nsd,
-  });
-
-  factory GetSolNetworkPackageMetadata.fromJson(Map<String, dynamic> json) {
-    return GetSolNetworkPackageMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-      nsd: json['nsd'] != null
-          ? NetworkArtifactMeta.fromJson(json['nsd'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
-    final nsd = this.nsd;
-    return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
-      if (nsd != null) 'nsd': nsd,
     };
   }
 }
@@ -2494,145 +2007,44 @@ class GetSolNetworkPackageOutput {
   }
 }
 
-/// Information about the network function.
-///
-/// A network function instance is a function in a function package .
-class GetSolVnfInfo {
-  /// State of the network function instance.
-  final VnfOperationalState? vnfState;
+class GetSolNetworkPackageContentOutput {
+  /// Indicates the media type of the resource.
+  final PackageContentType? contentType;
 
-  /// Compute info used by the network function instance.
-  final List<GetSolVnfcResourceInfo>? vnfcResourceInfo;
+  /// Content of the network service descriptor in the network package.
+  final Uint8List? nsdContent;
 
-  GetSolVnfInfo({
-    this.vnfState,
-    this.vnfcResourceInfo,
+  GetSolNetworkPackageContentOutput({
+    this.contentType,
+    this.nsdContent,
   });
 
-  factory GetSolVnfInfo.fromJson(Map<String, dynamic> json) {
-    return GetSolVnfInfo(
-      vnfState:
-          (json['vnfState'] as String?)?.let(VnfOperationalState.fromString),
-      vnfcResourceInfo: (json['vnfcResourceInfo'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => GetSolVnfcResourceInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final vnfState = this.vnfState;
-    final vnfcResourceInfo = this.vnfcResourceInfo;
+    final contentType = this.contentType;
+    final nsdContent = this.nsdContent;
     return {
-      if (vnfState != null) 'vnfState': vnfState.value,
-      if (vnfcResourceInfo != null) 'vnfcResourceInfo': vnfcResourceInfo,
+      if (nsdContent != null) 'nsdContent': base64Encode(nsdContent),
     };
   }
 }
 
-/// Details of resource associated with a network function.
-///
-/// A network instance is a single network created in Amazon Web Services TNB
-/// that can be deployed and on which life-cycle operations (like terminate,
-/// update, and delete) can be performed.
-class GetSolVnfcResourceInfo {
-  /// The metadata of the network function compute.
-  final GetSolVnfcResourceInfoMetadata? metadata;
+class GetSolNetworkPackageDescriptorOutput {
+  /// Indicates the media type of the resource.
+  final DescriptorContentType? contentType;
 
-  GetSolVnfcResourceInfo({
-    this.metadata,
+  /// Contents of the network service descriptor in the network package.
+  final Uint8List? nsd;
+
+  GetSolNetworkPackageDescriptorOutput({
+    this.contentType,
+    this.nsd,
   });
 
-  factory GetSolVnfcResourceInfo.fromJson(Map<String, dynamic> json) {
-    return GetSolVnfcResourceInfo(
-      metadata: json['metadata'] != null
-          ? GetSolVnfcResourceInfoMetadata.fromJson(
-              json['metadata'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final metadata = this.metadata;
+    final contentType = this.contentType;
+    final nsd = this.nsd;
     return {
-      if (metadata != null) 'metadata': metadata,
-    };
-  }
-}
-
-/// The metadata of a network function.
-///
-/// A network instance is a single network created in Amazon Web Services TNB
-/// that can be deployed and on which life-cycle operations (like terminate,
-/// update, and delete) can be performed.
-class GetSolVnfcResourceInfoMetadata {
-  /// Information about the cluster.
-  final String? cluster;
-
-  /// Information about the helm chart.
-  final String? helmChart;
-
-  /// Information about the node group.
-  final String? nodeGroup;
-
-  GetSolVnfcResourceInfoMetadata({
-    this.cluster,
-    this.helmChart,
-    this.nodeGroup,
-  });
-
-  factory GetSolVnfcResourceInfoMetadata.fromJson(Map<String, dynamic> json) {
-    return GetSolVnfcResourceInfoMetadata(
-      cluster: json['cluster'] as String?,
-      helmChart: json['helmChart'] as String?,
-      nodeGroup: json['nodeGroup'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cluster = this.cluster;
-    final helmChart = this.helmChart;
-    final nodeGroup = this.nodeGroup;
-    return {
-      if (cluster != null) 'cluster': cluster,
-      if (helmChart != null) 'helmChart': helmChart,
-      if (nodeGroup != null) 'nodeGroup': nodeGroup,
-    };
-  }
-}
-
-/// Metadata related to the configuration properties used during instantiation
-/// of the network instance.
-class InstantiateMetadata {
-  /// The network service descriptor used for instantiating the network instance.
-  final String nsdInfoId;
-
-  /// The configurable properties used during instantiation.
-  final Document? additionalParamsForNs;
-
-  InstantiateMetadata({
-    required this.nsdInfoId,
-    this.additionalParamsForNs,
-  });
-
-  factory InstantiateMetadata.fromJson(Map<String, dynamic> json) {
-    return InstantiateMetadata(
-      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
-      additionalParamsForNs: json['additionalParamsForNs'] != null
-          ? Document.fromJson(
-              json['additionalParamsForNs'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nsdInfoId = this.nsdInfoId;
-    final additionalParamsForNs = this.additionalParamsForNs;
-    return {
-      'nsdInfoId': nsdInfoId,
-      if (additionalParamsForNs != null)
-        'additionalParamsForNs': additionalParamsForNs,
+      if (nsd != null) 'nsd': base64Encode(nsd),
     };
   }
 }
@@ -2672,167 +2084,6 @@ class InstantiateSolNetworkInstanceOutput {
   }
 }
 
-/// Lifecycle management operation details on the network instance.
-///
-/// Lifecycle management operations are deploy, update, or delete operations.
-class LcmOperationInfo {
-  /// The identifier of the network operation.
-  final String nsLcmOpOccId;
-
-  LcmOperationInfo({
-    required this.nsLcmOpOccId,
-  });
-
-  factory LcmOperationInfo.fromJson(Map<String, dynamic> json) {
-    return LcmOperationInfo(
-      nsLcmOpOccId: (json['nsLcmOpOccId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nsLcmOpOccId = this.nsLcmOpOccId;
-    return {
-      'nsLcmOpOccId': nsLcmOpOccId,
-    };
-  }
-}
-
-class LcmOperationType {
-  static const instantiate = LcmOperationType._('INSTANTIATE');
-  static const update = LcmOperationType._('UPDATE');
-  static const terminate = LcmOperationType._('TERMINATE');
-
-  final String value;
-
-  const LcmOperationType._(this.value);
-
-  static const values = [instantiate, update, terminate];
-
-  static LcmOperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LcmOperationType._(value));
-
-  @override
-  bool operator ==(other) => other is LcmOperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Lists information about a network function instance.
-///
-/// A network function instance is a function in a function package .
-class ListSolFunctionInstanceInfo {
-  /// Network function instance ARN.
-  final String arn;
-
-  /// Network function instance ID.
-  final String id;
-
-  /// Network function instance instantiation state.
-  final VnfInstantiationState instantiationState;
-
-  /// Network function instance metadata.
-  final ListSolFunctionInstanceMetadata metadata;
-
-  /// Network instance ID.
-  final String nsInstanceId;
-
-  /// Function package ID.
-  final String vnfPkgId;
-  final GetSolInstantiatedVnfInfo? instantiatedVnfInfo;
-
-  /// Function package name.
-  final String? vnfPkgName;
-
-  ListSolFunctionInstanceInfo({
-    required this.arn,
-    required this.id,
-    required this.instantiationState,
-    required this.metadata,
-    required this.nsInstanceId,
-    required this.vnfPkgId,
-    this.instantiatedVnfInfo,
-    this.vnfPkgName,
-  });
-
-  factory ListSolFunctionInstanceInfo.fromJson(Map<String, dynamic> json) {
-    return ListSolFunctionInstanceInfo(
-      arn: (json['arn'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      instantiationState: VnfInstantiationState.fromString(
-          (json['instantiationState'] as String?) ?? ''),
-      metadata: ListSolFunctionInstanceMetadata.fromJson(
-          (json['metadata'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      nsInstanceId: (json['nsInstanceId'] as String?) ?? '',
-      vnfPkgId: (json['vnfPkgId'] as String?) ?? '',
-      instantiatedVnfInfo: json['instantiatedVnfInfo'] != null
-          ? GetSolInstantiatedVnfInfo.fromJson(
-              json['instantiatedVnfInfo'] as Map<String, dynamic>)
-          : null,
-      vnfPkgName: json['vnfPkgName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final instantiationState = this.instantiationState;
-    final metadata = this.metadata;
-    final nsInstanceId = this.nsInstanceId;
-    final vnfPkgId = this.vnfPkgId;
-    final instantiatedVnfInfo = this.instantiatedVnfInfo;
-    final vnfPkgName = this.vnfPkgName;
-    return {
-      'arn': arn,
-      'id': id,
-      'instantiationState': instantiationState.value,
-      'metadata': metadata,
-      'nsInstanceId': nsInstanceId,
-      'vnfPkgId': vnfPkgId,
-      if (instantiatedVnfInfo != null)
-        'instantiatedVnfInfo': instantiatedVnfInfo,
-      if (vnfPkgName != null) 'vnfPkgName': vnfPkgName,
-    };
-  }
-}
-
-/// Lists network function instance metadata.
-///
-/// A network function instance is a function in a function package .
-class ListSolFunctionInstanceMetadata {
-  /// When the network function instance was created.
-  final DateTime createdAt;
-
-  /// When the network function instance was last modified.
-  final DateTime lastModified;
-
-  ListSolFunctionInstanceMetadata({
-    required this.createdAt,
-    required this.lastModified,
-  });
-
-  factory ListSolFunctionInstanceMetadata.fromJson(Map<String, dynamic> json) {
-    return ListSolFunctionInstanceMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
-    return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
-    };
-  }
-}
-
 class ListSolFunctionInstancesOutput {
   /// Network function instances.
   final List<ListSolFunctionInstanceInfo>? functionInstances;
@@ -2863,137 +2114,6 @@ class ListSolFunctionInstancesOutput {
     return {
       if (functionInstances != null) 'functionInstances': functionInstances,
       if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Information about a function package.
-///
-/// A function package is a .zip file in CSAR (Cloud Service Archive) format
-/// that contains a network function (an ETSI standard telecommunication
-/// application) and function package descriptor that uses the TOSCA standard to
-/// describe how the network functions should run on your network.
-class ListSolFunctionPackageInfo {
-  /// Function package ARN.
-  final String arn;
-
-  /// ID of the function package.
-  final String id;
-
-  /// Onboarding state of the function package.
-  final OnboardingState onboardingState;
-
-  /// Operational state of the function package.
-  final OperationalState operationalState;
-
-  /// Usage state of the function package.
-  final UsageState usageState;
-
-  /// The metadata of the function package.
-  final ListSolFunctionPackageMetadata? metadata;
-
-  /// The product name for the network function.
-  final String? vnfProductName;
-
-  /// Provider of the function package and the function package descriptor.
-  final String? vnfProvider;
-
-  /// Identifies the function package and the function package descriptor.
-  final String? vnfdId;
-
-  /// Identifies the version of the function package descriptor.
-  final String? vnfdVersion;
-
-  ListSolFunctionPackageInfo({
-    required this.arn,
-    required this.id,
-    required this.onboardingState,
-    required this.operationalState,
-    required this.usageState,
-    this.metadata,
-    this.vnfProductName,
-    this.vnfProvider,
-    this.vnfdId,
-    this.vnfdVersion,
-  });
-
-  factory ListSolFunctionPackageInfo.fromJson(Map<String, dynamic> json) {
-    return ListSolFunctionPackageInfo(
-      arn: (json['arn'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      onboardingState: OnboardingState.fromString(
-          (json['onboardingState'] as String?) ?? ''),
-      operationalState: OperationalState.fromString(
-          (json['operationalState'] as String?) ?? ''),
-      usageState: UsageState.fromString((json['usageState'] as String?) ?? ''),
-      metadata: json['metadata'] != null
-          ? ListSolFunctionPackageMetadata.fromJson(
-              json['metadata'] as Map<String, dynamic>)
-          : null,
-      vnfProductName: json['vnfProductName'] as String?,
-      vnfProvider: json['vnfProvider'] as String?,
-      vnfdId: json['vnfdId'] as String?,
-      vnfdVersion: json['vnfdVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final onboardingState = this.onboardingState;
-    final operationalState = this.operationalState;
-    final usageState = this.usageState;
-    final metadata = this.metadata;
-    final vnfProductName = this.vnfProductName;
-    final vnfProvider = this.vnfProvider;
-    final vnfdId = this.vnfdId;
-    final vnfdVersion = this.vnfdVersion;
-    return {
-      'arn': arn,
-      'id': id,
-      'onboardingState': onboardingState.value,
-      'operationalState': operationalState.value,
-      'usageState': usageState.value,
-      if (metadata != null) 'metadata': metadata,
-      if (vnfProductName != null) 'vnfProductName': vnfProductName,
-      if (vnfProvider != null) 'vnfProvider': vnfProvider,
-      if (vnfdId != null) 'vnfdId': vnfdId,
-      if (vnfdVersion != null) 'vnfdVersion': vnfdVersion,
-    };
-  }
-}
-
-/// Details for the function package metadata.
-///
-/// A function package is a .zip file in CSAR (Cloud Service Archive) format
-/// that contains a network function (an ETSI standard telecommunication
-/// application) and function package descriptor that uses the TOSCA standard to
-/// describe how the network functions should run on your network.
-class ListSolFunctionPackageMetadata {
-  /// The date that the resource was created.
-  final DateTime createdAt;
-
-  /// The date that the resource was last modified.
-  final DateTime lastModified;
-
-  ListSolFunctionPackageMetadata({
-    required this.createdAt,
-    required this.lastModified,
-  });
-
-  factory ListSolFunctionPackageMetadata.fromJson(Map<String, dynamic> json) {
-    return ListSolFunctionPackageMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
-    return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
     };
   }
 }
@@ -3036,118 +2156,6 @@ class ListSolFunctionPackagesOutput {
   }
 }
 
-/// Info about the specific network instance.
-///
-/// A network instance is a single network created in Amazon Web Services TNB
-/// that can be deployed and on which life-cycle operations (like terminate,
-/// update, and delete) can be performed.
-class ListSolNetworkInstanceInfo {
-  /// Network instance ARN.
-  final String arn;
-
-  /// ID of the network instance.
-  final String id;
-
-  /// The metadata of the network instance.
-  final ListSolNetworkInstanceMetadata metadata;
-
-  /// Human-readable description of the network instance.
-  final String nsInstanceDescription;
-
-  /// Human-readable name of the network instance.
-  final String nsInstanceName;
-
-  /// The state of the network instance.
-  final NsState nsState;
-
-  /// ID of the network service descriptor in the network package.
-  final String nsdId;
-
-  /// ID of the network service descriptor in the network package.
-  final String nsdInfoId;
-
-  ListSolNetworkInstanceInfo({
-    required this.arn,
-    required this.id,
-    required this.metadata,
-    required this.nsInstanceDescription,
-    required this.nsInstanceName,
-    required this.nsState,
-    required this.nsdId,
-    required this.nsdInfoId,
-  });
-
-  factory ListSolNetworkInstanceInfo.fromJson(Map<String, dynamic> json) {
-    return ListSolNetworkInstanceInfo(
-      arn: (json['arn'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      metadata: ListSolNetworkInstanceMetadata.fromJson(
-          (json['metadata'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      nsInstanceDescription: (json['nsInstanceDescription'] as String?) ?? '',
-      nsInstanceName: (json['nsInstanceName'] as String?) ?? '',
-      nsState: NsState.fromString((json['nsState'] as String?) ?? ''),
-      nsdId: (json['nsdId'] as String?) ?? '',
-      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final metadata = this.metadata;
-    final nsInstanceDescription = this.nsInstanceDescription;
-    final nsInstanceName = this.nsInstanceName;
-    final nsState = this.nsState;
-    final nsdId = this.nsdId;
-    final nsdInfoId = this.nsdInfoId;
-    return {
-      'arn': arn,
-      'id': id,
-      'metadata': metadata,
-      'nsInstanceDescription': nsInstanceDescription,
-      'nsInstanceName': nsInstanceName,
-      'nsState': nsState.value,
-      'nsdId': nsdId,
-      'nsdInfoId': nsdInfoId,
-    };
-  }
-}
-
-/// Metadata details for a network instance.
-///
-/// A network instance is a single network created in Amazon Web Services TNB
-/// that can be deployed and on which life-cycle operations (like terminate,
-/// update, and delete) can be performed.
-class ListSolNetworkInstanceMetadata {
-  /// The date that the resource was created.
-  final DateTime createdAt;
-
-  /// The date that the resource was last modified.
-  final DateTime lastModified;
-
-  ListSolNetworkInstanceMetadata({
-    required this.createdAt,
-    required this.lastModified,
-  });
-
-  factory ListSolNetworkInstanceMetadata.fromJson(Map<String, dynamic> json) {
-    return ListSolNetworkInstanceMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
-    return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
-    };
-  }
-}
-
 class ListSolNetworkInstancesOutput {
   /// Lists network instances.
   final List<ListSolNetworkInstanceInfo>? networkInstances;
@@ -3178,138 +2186,6 @@ class ListSolNetworkInstancesOutput {
     return {
       if (networkInstances != null) 'networkInstances': networkInstances,
       if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Information parameters for a network operation.
-class ListSolNetworkOperationsInfo {
-  /// Network operation ARN.
-  final String arn;
-
-  /// ID of this network operation.
-  final String id;
-
-  /// Type of lifecycle management network operation.
-  final LcmOperationType lcmOperationType;
-
-  /// ID of the network instance related to this operation.
-  final String nsInstanceId;
-
-  /// The state of the network operation.
-  final NsLcmOperationState operationState;
-
-  /// Error related to this specific network operation.
-  final ProblemDetails? error;
-
-  /// Metadata related to this network operation.
-  final ListSolNetworkOperationsMetadata? metadata;
-
-  /// Type of the update. Only present if the network operation lcmOperationType
-  /// is <code>UPDATE</code>.
-  final UpdateSolNetworkType? updateType;
-
-  ListSolNetworkOperationsInfo({
-    required this.arn,
-    required this.id,
-    required this.lcmOperationType,
-    required this.nsInstanceId,
-    required this.operationState,
-    this.error,
-    this.metadata,
-    this.updateType,
-  });
-
-  factory ListSolNetworkOperationsInfo.fromJson(Map<String, dynamic> json) {
-    return ListSolNetworkOperationsInfo(
-      arn: (json['arn'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      lcmOperationType: LcmOperationType.fromString(
-          (json['lcmOperationType'] as String?) ?? ''),
-      nsInstanceId: (json['nsInstanceId'] as String?) ?? '',
-      operationState: NsLcmOperationState.fromString(
-          (json['operationState'] as String?) ?? ''),
-      error: json['error'] != null
-          ? ProblemDetails.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-      metadata: json['metadata'] != null
-          ? ListSolNetworkOperationsMetadata.fromJson(
-              json['metadata'] as Map<String, dynamic>)
-          : null,
-      updateType:
-          (json['updateType'] as String?)?.let(UpdateSolNetworkType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final lcmOperationType = this.lcmOperationType;
-    final nsInstanceId = this.nsInstanceId;
-    final operationState = this.operationState;
-    final error = this.error;
-    final metadata = this.metadata;
-    final updateType = this.updateType;
-    return {
-      'arn': arn,
-      'id': id,
-      'lcmOperationType': lcmOperationType.value,
-      'nsInstanceId': nsInstanceId,
-      'operationState': operationState.value,
-      if (error != null) 'error': error,
-      if (metadata != null) 'metadata': metadata,
-      if (updateType != null) 'updateType': updateType.value,
-    };
-  }
-}
-
-/// Metadata related to a network operation.
-///
-/// A network operation is any operation that is done to your network, such as
-/// network instance instantiation or termination.
-class ListSolNetworkOperationsMetadata {
-  /// The date that the resource was created.
-  final DateTime createdAt;
-
-  /// The date that the resource was last modified.
-  final DateTime lastModified;
-
-  /// The network service descriptor id used for the operation.
-  ///
-  /// Only present if the updateType is <code>UPDATE_NS</code>.
-  final String? nsdInfoId;
-
-  /// The network function id used for the operation.
-  ///
-  /// Only present if the updateType is <code>MODIFY_VNF_INFO</code>.
-  final String? vnfInstanceId;
-
-  ListSolNetworkOperationsMetadata({
-    required this.createdAt,
-    required this.lastModified,
-    this.nsdInfoId,
-    this.vnfInstanceId,
-  });
-
-  factory ListSolNetworkOperationsMetadata.fromJson(Map<String, dynamic> json) {
-    return ListSolNetworkOperationsMetadata(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
-      nsdInfoId: json['nsdInfoId'] as String?,
-      vnfInstanceId: json['vnfInstanceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final lastModified = this.lastModified;
-    final nsdInfoId = this.nsdInfoId;
-    final vnfInstanceId = this.vnfInstanceId;
-    return {
-      'createdAt': iso8601ToJson(createdAt),
-      'lastModified': iso8601ToJson(lastModified),
-      if (nsdInfoId != null) 'nsdInfoId': nsdInfoId,
-      if (vnfInstanceId != null) 'vnfInstanceId': vnfInstanceId,
     };
   }
 }
@@ -3345,6 +2221,827 @@ class ListSolNetworkOperationsOutput {
     return {
       if (networkOperations != null) 'networkOperations': networkOperations,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListSolNetworkPackagesOutput {
+  /// Network packages. A network package is a .zip file in CSAR (Cloud Service
+  /// Archive) format defines the function packages you want to deploy and the
+  /// Amazon Web Services infrastructure you want to deploy them on.
+  final List<ListSolNetworkPackageInfo> networkPackages;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  ListSolNetworkPackagesOutput({
+    required this.networkPackages,
+    this.nextToken,
+  });
+
+  factory ListSolNetworkPackagesOutput.fromJson(Map<String, dynamic> json) {
+    return ListSolNetworkPackagesOutput(
+      networkPackages: ((json['networkPackages'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              ListSolNetworkPackageInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkPackages = this.networkPackages;
+    final nextToken = this.nextToken;
+    return {
+      'networkPackages': networkPackages,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceOutput {
+  /// A tag is a label that you assign to an Amazon Web Services resource. Each
+  /// tag consists of a key and an optional value. You can use tags to search and
+  /// filter your resources or track your Amazon Web Services costs.
+  final Map<String, String> tags;
+
+  ListTagsForResourceOutput({
+    required this.tags,
+  });
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags:
+          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      'tags': tags,
+    };
+  }
+}
+
+class PutSolFunctionPackageContentOutput {
+  /// Function package ID.
+  final String id;
+
+  /// Function package metadata.
+  final PutSolFunctionPackageContentMetadata metadata;
+
+  /// Function product name.
+  final String vnfProductName;
+
+  /// Function provider.
+  final String vnfProvider;
+
+  /// Function package descriptor ID.
+  final String vnfdId;
+
+  /// Function package descriptor version.
+  final String vnfdVersion;
+
+  PutSolFunctionPackageContentOutput({
+    required this.id,
+    required this.metadata,
+    required this.vnfProductName,
+    required this.vnfProvider,
+    required this.vnfdId,
+    required this.vnfdVersion,
+  });
+
+  factory PutSolFunctionPackageContentOutput.fromJson(
+      Map<String, dynamic> json) {
+    return PutSolFunctionPackageContentOutput(
+      id: (json['id'] as String?) ?? '',
+      metadata: PutSolFunctionPackageContentMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vnfProductName: (json['vnfProductName'] as String?) ?? '',
+      vnfProvider: (json['vnfProvider'] as String?) ?? '',
+      vnfdId: (json['vnfdId'] as String?) ?? '',
+      vnfdVersion: (json['vnfdVersion'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final metadata = this.metadata;
+    final vnfProductName = this.vnfProductName;
+    final vnfProvider = this.vnfProvider;
+    final vnfdId = this.vnfdId;
+    final vnfdVersion = this.vnfdVersion;
+    return {
+      'id': id,
+      'metadata': metadata,
+      'vnfProductName': vnfProductName,
+      'vnfProvider': vnfProvider,
+      'vnfdId': vnfdId,
+      'vnfdVersion': vnfdVersion,
+    };
+  }
+}
+
+class PutSolNetworkPackageContentOutput {
+  /// Network package ARN.
+  final String arn;
+
+  /// Network package ID.
+  final String id;
+
+  /// Network package metadata.
+  final PutSolNetworkPackageContentMetadata metadata;
+
+  /// Network service descriptor ID.
+  final String nsdId;
+
+  /// Network service descriptor name.
+  final String nsdName;
+
+  /// Network service descriptor version.
+  final String nsdVersion;
+
+  /// Function package IDs.
+  final List<String> vnfPkgIds;
+
+  PutSolNetworkPackageContentOutput({
+    required this.arn,
+    required this.id,
+    required this.metadata,
+    required this.nsdId,
+    required this.nsdName,
+    required this.nsdVersion,
+    required this.vnfPkgIds,
+  });
+
+  factory PutSolNetworkPackageContentOutput.fromJson(
+      Map<String, dynamic> json) {
+    return PutSolNetworkPackageContentOutput(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      metadata: PutSolNetworkPackageContentMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsdId: (json['nsdId'] as String?) ?? '',
+      nsdName: (json['nsdName'] as String?) ?? '',
+      nsdVersion: (json['nsdVersion'] as String?) ?? '',
+      vnfPkgIds: ((json['vnfPkgIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final metadata = this.metadata;
+    final nsdId = this.nsdId;
+    final nsdName = this.nsdName;
+    final nsdVersion = this.nsdVersion;
+    final vnfPkgIds = this.vnfPkgIds;
+    return {
+      'arn': arn,
+      'id': id,
+      'metadata': metadata,
+      'nsdId': nsdId,
+      'nsdName': nsdName,
+      'nsdVersion': nsdVersion,
+      'vnfPkgIds': vnfPkgIds,
+    };
+  }
+}
+
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TerminateSolNetworkInstanceOutput {
+  /// The identifier of the network operation.
+  final String? nsLcmOpOccId;
+
+  /// A tag is a label that you assign to an Amazon Web Services resource. Each
+  /// tag consists of a key and an optional value. When you use this API, the tags
+  /// are only applied to the network operation that is created. These tags are
+  /// not applied to the network instance. Use tags to search and filter your
+  /// resources or track your Amazon Web Services costs.
+  final Map<String, String>? tags;
+
+  TerminateSolNetworkInstanceOutput({
+    this.nsLcmOpOccId,
+    this.tags,
+  });
+
+  factory TerminateSolNetworkInstanceOutput.fromJson(
+      Map<String, dynamic> json) {
+    return TerminateSolNetworkInstanceOutput(
+      nsLcmOpOccId: json['nsLcmOpOccId'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nsLcmOpOccId = this.nsLcmOpOccId;
+    final tags = this.tags;
+    return {
+      if (nsLcmOpOccId != null) 'nsLcmOpOccId': nsLcmOpOccId,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateSolFunctionPackageOutput {
+  /// Operational state of the function package.
+  final OperationalState operationalState;
+
+  UpdateSolFunctionPackageOutput({
+    required this.operationalState,
+  });
+
+  factory UpdateSolFunctionPackageOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateSolFunctionPackageOutput(
+      operationalState: OperationalState.fromString(
+          (json['operationalState'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationalState = this.operationalState;
+    return {
+      'operationalState': operationalState.value,
+    };
+  }
+}
+
+class UpdateSolNetworkInstanceOutput {
+  /// The identifier of the network operation.
+  final String? nsLcmOpOccId;
+
+  /// A tag is a label that you assign to an Amazon Web Services resource. Each
+  /// tag consists of a key and an optional value. When you use this API, the tags
+  /// are only applied to the network operation that is created. These tags are
+  /// not applied to the network instance. Use tags to search and filter your
+  /// resources or track your Amazon Web Services costs.
+  final Map<String, String>? tags;
+
+  UpdateSolNetworkInstanceOutput({
+    this.nsLcmOpOccId,
+    this.tags,
+  });
+
+  factory UpdateSolNetworkInstanceOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateSolNetworkInstanceOutput(
+      nsLcmOpOccId: json['nsLcmOpOccId'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nsLcmOpOccId = this.nsLcmOpOccId;
+    final tags = this.tags;
+    return {
+      if (nsLcmOpOccId != null) 'nsLcmOpOccId': nsLcmOpOccId,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class UpdateSolNetworkPackageOutput {
+  /// Operational state of the network service descriptor in the network package.
+  final NsdOperationalState nsdOperationalState;
+
+  UpdateSolNetworkPackageOutput({
+    required this.nsdOperationalState,
+  });
+
+  factory UpdateSolNetworkPackageOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateSolNetworkPackageOutput(
+      nsdOperationalState: NsdOperationalState.fromString(
+          (json['nsdOperationalState'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nsdOperationalState = this.nsdOperationalState;
+    return {
+      'nsdOperationalState': nsdOperationalState.value,
+    };
+  }
+}
+
+class ValidateSolFunctionPackageContentOutput {
+  /// Function package ID.
+  final String id;
+
+  /// Function package metadata.
+  final ValidateSolFunctionPackageContentMetadata metadata;
+
+  /// Network function product name.
+  final String vnfProductName;
+
+  /// Network function provider.
+  final String vnfProvider;
+
+  /// Function package descriptor ID.
+  final String vnfdId;
+
+  /// Function package descriptor version.
+  final String vnfdVersion;
+
+  ValidateSolFunctionPackageContentOutput({
+    required this.id,
+    required this.metadata,
+    required this.vnfProductName,
+    required this.vnfProvider,
+    required this.vnfdId,
+    required this.vnfdVersion,
+  });
+
+  factory ValidateSolFunctionPackageContentOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ValidateSolFunctionPackageContentOutput(
+      id: (json['id'] as String?) ?? '',
+      metadata: ValidateSolFunctionPackageContentMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vnfProductName: (json['vnfProductName'] as String?) ?? '',
+      vnfProvider: (json['vnfProvider'] as String?) ?? '',
+      vnfdId: (json['vnfdId'] as String?) ?? '',
+      vnfdVersion: (json['vnfdVersion'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final metadata = this.metadata;
+    final vnfProductName = this.vnfProductName;
+    final vnfProvider = this.vnfProvider;
+    final vnfdId = this.vnfdId;
+    final vnfdVersion = this.vnfdVersion;
+    return {
+      'id': id,
+      'metadata': metadata,
+      'vnfProductName': vnfProductName,
+      'vnfProvider': vnfProvider,
+      'vnfdId': vnfdId,
+      'vnfdVersion': vnfdVersion,
+    };
+  }
+}
+
+class ValidateSolNetworkPackageContentOutput {
+  /// Network package ARN.
+  final String arn;
+
+  /// Network package ID.
+  final String id;
+
+  /// Network package metadata.
+  final ValidateSolNetworkPackageContentMetadata metadata;
+
+  /// Network service descriptor ID.
+  final String nsdId;
+
+  /// Network service descriptor name.
+  final String nsdName;
+
+  /// Network service descriptor version.
+  final String nsdVersion;
+
+  /// Function package IDs.
+  final List<String> vnfPkgIds;
+
+  ValidateSolNetworkPackageContentOutput({
+    required this.arn,
+    required this.id,
+    required this.metadata,
+    required this.nsdId,
+    required this.nsdName,
+    required this.nsdVersion,
+    required this.vnfPkgIds,
+  });
+
+  factory ValidateSolNetworkPackageContentOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ValidateSolNetworkPackageContentOutput(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      metadata: ValidateSolNetworkPackageContentMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsdId: (json['nsdId'] as String?) ?? '',
+      nsdName: (json['nsdName'] as String?) ?? '',
+      nsdVersion: (json['nsdVersion'] as String?) ?? '',
+      vnfPkgIds: ((json['vnfPkgIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final metadata = this.metadata;
+    final nsdId = this.nsdId;
+    final nsdName = this.nsdName;
+    final nsdVersion = this.nsdVersion;
+    final vnfPkgIds = this.vnfPkgIds;
+    return {
+      'arn': arn,
+      'id': id,
+      'metadata': metadata,
+      'nsdId': nsdId,
+      'nsdName': nsdName,
+      'nsdVersion': nsdVersion,
+      'vnfPkgIds': vnfPkgIds,
+    };
+  }
+}
+
+/// Validates network package content metadata.
+///
+/// A network package is a .zip file in CSAR (Cloud Service Archive) format
+/// defines the function packages you want to deploy and the Amazon Web Services
+/// infrastructure you want to deploy them on.
+class ValidateSolNetworkPackageContentMetadata {
+  final NetworkArtifactMeta? nsd;
+
+  ValidateSolNetworkPackageContentMetadata({
+    this.nsd,
+  });
+
+  factory ValidateSolNetworkPackageContentMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return ValidateSolNetworkPackageContentMetadata(
+      nsd: json['nsd'] != null
+          ? NetworkArtifactMeta.fromJson(json['nsd'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nsd = this.nsd;
+    return {
+      if (nsd != null) 'nsd': nsd,
+    };
+  }
+}
+
+/// Metadata for network package artifacts.
+///
+/// Artifacts are the contents of the package descriptor file and the state of
+/// the package.
+class NetworkArtifactMeta {
+  /// Lists network package overrides.
+  final List<ToscaOverride>? overrides;
+
+  NetworkArtifactMeta({
+    this.overrides,
+  });
+
+  factory NetworkArtifactMeta.fromJson(Map<String, dynamic> json) {
+    return NetworkArtifactMeta(
+      overrides: (json['overrides'] as List?)
+          ?.nonNulls
+          .map((e) => ToscaOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final overrides = this.overrides;
+    return {
+      if (overrides != null) 'overrides': overrides,
+    };
+  }
+}
+
+/// Overrides of the TOSCA node.
+class ToscaOverride {
+  /// Default value for the override.
+  final String? defaultValue;
+
+  /// Name of the TOSCA override.
+  final String? name;
+
+  ToscaOverride({
+    this.defaultValue,
+    this.name,
+  });
+
+  factory ToscaOverride.fromJson(Map<String, dynamic> json) {
+    return ToscaOverride(
+      defaultValue: json['defaultValue'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final name = this.name;
+    return {
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class PackageContentType {
+  static const applicationZip = PackageContentType._('application/zip');
+
+  final String value;
+
+  const PackageContentType._(this.value);
+
+  static const values = [applicationZip];
+
+  static PackageContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackageContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Validates function package content metadata.
+///
+/// A function package is a .zip file in CSAR (Cloud Service Archive) format
+/// that contains a network function (an ETSI standard telecommunication
+/// application) and function package descriptor that uses the TOSCA standard to
+/// describe how the network functions should run on your network.
+class ValidateSolFunctionPackageContentMetadata {
+  final FunctionArtifactMeta? vnfd;
+
+  ValidateSolFunctionPackageContentMetadata({
+    this.vnfd,
+  });
+
+  factory ValidateSolFunctionPackageContentMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return ValidateSolFunctionPackageContentMetadata(
+      vnfd: json['vnfd'] != null
+          ? FunctionArtifactMeta.fromJson(json['vnfd'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vnfd = this.vnfd;
+    return {
+      if (vnfd != null) 'vnfd': vnfd,
+    };
+  }
+}
+
+/// Metadata for function package artifacts.
+///
+/// Artifacts are the contents of the package descriptor file and the state of
+/// the package.
+class FunctionArtifactMeta {
+  /// Lists of function package overrides.
+  final List<ToscaOverride>? overrides;
+
+  FunctionArtifactMeta({
+    this.overrides,
+  });
+
+  factory FunctionArtifactMeta.fromJson(Map<String, dynamic> json) {
+    return FunctionArtifactMeta(
+      overrides: (json['overrides'] as List?)
+          ?.nonNulls
+          .map((e) => ToscaOverride.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final overrides = this.overrides;
+    return {
+      if (overrides != null) 'overrides': overrides,
+    };
+  }
+}
+
+class NsdOperationalState {
+  static const enabled = NsdOperationalState._('ENABLED');
+  static const disabled = NsdOperationalState._('DISABLED');
+
+  final String value;
+
+  const NsdOperationalState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static NsdOperationalState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NsdOperationalState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NsdOperationalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UpdateSolNetworkType {
+  static const modifyVnfInformation =
+      UpdateSolNetworkType._('MODIFY_VNF_INFORMATION');
+  static const updateNs = UpdateSolNetworkType._('UPDATE_NS');
+
+  final String value;
+
+  const UpdateSolNetworkType._(this.value);
+
+  static const values = [modifyVnfInformation, updateNs];
+
+  static UpdateSolNetworkType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateSolNetworkType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateSolNetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information parameters and/or the configurable properties for a network
+/// function.
+///
+/// A network function instance is a function in a function package .
+class UpdateSolNetworkModify {
+  /// Provides values for the configurable properties declared in the function
+  /// package descriptor.
+  final Document vnfConfigurableProperties;
+
+  /// ID of the network function instance.
+  ///
+  /// A network function instance is a function in a function package .
+  final String vnfInstanceId;
+
+  UpdateSolNetworkModify({
+    required this.vnfConfigurableProperties,
+    required this.vnfInstanceId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final vnfConfigurableProperties = this.vnfConfigurableProperties;
+    final vnfInstanceId = this.vnfInstanceId;
+    return {
+      'vnfConfigurableProperties': vnfConfigurableProperties,
+      'vnfInstanceId': vnfInstanceId,
+    };
+  }
+}
+
+/// Information parameters and/or the configurable properties for a network
+/// descriptor used for update.
+class UpdateSolNetworkServiceData {
+  /// ID of the network service descriptor.
+  final String nsdInfoId;
+
+  /// Values for the configurable properties declared in the network service
+  /// descriptor.
+  final Document? additionalParamsForNs;
+
+  UpdateSolNetworkServiceData({
+    required this.nsdInfoId,
+    this.additionalParamsForNs,
+  });
+
+  Map<String, dynamic> toJson() {
+    final nsdInfoId = this.nsdInfoId;
+    final additionalParamsForNs = this.additionalParamsForNs;
+    return {
+      'nsdInfoId': nsdInfoId,
+      if (additionalParamsForNs != null)
+        'additionalParamsForNs': additionalParamsForNs,
+    };
+  }
+}
+
+class OperationalState {
+  static const enabled = OperationalState._('ENABLED');
+  static const disabled = OperationalState._('DISABLED');
+
+  final String value;
+
+  const OperationalState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static OperationalState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationalState._(value));
+
+  @override
+  bool operator ==(other) => other is OperationalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Update metadata in a network package.
+///
+/// A network package is a .zip file in CSAR (Cloud Service Archive) format
+/// defines the function packages you want to deploy and the Amazon Web Services
+/// infrastructure you want to deploy them on.
+class PutSolNetworkPackageContentMetadata {
+  final NetworkArtifactMeta? nsd;
+
+  PutSolNetworkPackageContentMetadata({
+    this.nsd,
+  });
+
+  factory PutSolNetworkPackageContentMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return PutSolNetworkPackageContentMetadata(
+      nsd: json['nsd'] != null
+          ? NetworkArtifactMeta.fromJson(json['nsd'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nsd = this.nsd;
+    return {
+      if (nsd != null) 'nsd': nsd,
+    };
+  }
+}
+
+/// Update metadata in a function package.
+///
+/// A function package is a .zip file in CSAR (Cloud Service Archive) format
+/// that contains a network function (an ETSI standard telecommunication
+/// application) and function package descriptor that uses the TOSCA standard to
+/// describe how the network functions should run on your network.
+class PutSolFunctionPackageContentMetadata {
+  final FunctionArtifactMeta? vnfd;
+
+  PutSolFunctionPackageContentMetadata({
+    this.vnfd,
+  });
+
+  factory PutSolFunctionPackageContentMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return PutSolFunctionPackageContentMetadata(
+      vnfd: json['vnfd'] != null
+          ? FunctionArtifactMeta.fromJson(json['vnfd'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vnfd = this.vnfd;
+    return {
+      if (vnfd != null) 'vnfd': vnfd,
     };
   }
 }
@@ -3462,6 +3159,56 @@ class ListSolNetworkPackageInfo {
   }
 }
 
+class NsdOnboardingState {
+  static const created = NsdOnboardingState._('CREATED');
+  static const onboarded = NsdOnboardingState._('ONBOARDED');
+  static const error = NsdOnboardingState._('ERROR');
+
+  final String value;
+
+  const NsdOnboardingState._(this.value);
+
+  static const values = [created, onboarded, error];
+
+  static NsdOnboardingState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NsdOnboardingState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NsdOnboardingState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NsdUsageState {
+  static const inUse = NsdUsageState._('IN_USE');
+  static const notInUse = NsdUsageState._('NOT_IN_USE');
+
+  final String value;
+
+  const NsdUsageState._(this.value);
+
+  static const values = [inUse, notInUse];
+
+  static NsdUsageState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NsdUsageState._(value));
+
+  @override
+  bool operator ==(other) => other is NsdUsageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Metadata related to a network package.
 ///
 /// A network package is a .zip file in CSAR (Cloud Service Archive) format
@@ -3496,127 +3243,83 @@ class ListSolNetworkPackageMetadata {
   }
 }
 
-class ListSolNetworkPackagesOutput {
-  /// Network packages. A network package is a .zip file in CSAR (Cloud Service
-  /// Archive) format defines the function packages you want to deploy and the
-  /// Amazon Web Services infrastructure you want to deploy them on.
-  final List<ListSolNetworkPackageInfo> networkPackages;
+/// Information parameters for a network operation.
+class ListSolNetworkOperationsInfo {
+  /// Network operation ARN.
+  final String arn;
 
-  /// The token to use to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
-  final String? nextToken;
+  /// ID of this network operation.
+  final String id;
 
-  ListSolNetworkPackagesOutput({
-    required this.networkPackages,
-    this.nextToken,
+  /// Type of lifecycle management network operation.
+  final LcmOperationType lcmOperationType;
+
+  /// ID of the network instance related to this operation.
+  final String nsInstanceId;
+
+  /// The state of the network operation.
+  final NsLcmOperationState operationState;
+
+  /// Error related to this specific network operation.
+  final ProblemDetails? error;
+
+  /// Metadata related to this network operation.
+  final ListSolNetworkOperationsMetadata? metadata;
+
+  /// Type of the update. Only present if the network operation lcmOperationType
+  /// is <code>UPDATE</code>.
+  final UpdateSolNetworkType? updateType;
+
+  ListSolNetworkOperationsInfo({
+    required this.arn,
+    required this.id,
+    required this.lcmOperationType,
+    required this.nsInstanceId,
+    required this.operationState,
+    this.error,
+    this.metadata,
+    this.updateType,
   });
 
-  factory ListSolNetworkPackagesOutput.fromJson(Map<String, dynamic> json) {
-    return ListSolNetworkPackagesOutput(
-      networkPackages: ((json['networkPackages'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              ListSolNetworkPackageInfo.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
+  factory ListSolNetworkOperationsInfo.fromJson(Map<String, dynamic> json) {
+    return ListSolNetworkOperationsInfo(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lcmOperationType: LcmOperationType.fromString(
+          (json['lcmOperationType'] as String?) ?? ''),
+      nsInstanceId: (json['nsInstanceId'] as String?) ?? '',
+      operationState: NsLcmOperationState.fromString(
+          (json['operationState'] as String?) ?? ''),
+      error: json['error'] != null
+          ? ProblemDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      metadata: json['metadata'] != null
+          ? ListSolNetworkOperationsMetadata.fromJson(
+              json['metadata'] as Map<String, dynamic>)
+          : null,
+      updateType:
+          (json['updateType'] as String?)?.let(UpdateSolNetworkType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final networkPackages = this.networkPackages;
-    final nextToken = this.nextToken;
+    final arn = this.arn;
+    final id = this.id;
+    final lcmOperationType = this.lcmOperationType;
+    final nsInstanceId = this.nsInstanceId;
+    final operationState = this.operationState;
+    final error = this.error;
+    final metadata = this.metadata;
+    final updateType = this.updateType;
     return {
-      'networkPackages': networkPackages,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceOutput {
-  /// A tag is a label that you assign to an Amazon Web Services resource. Each
-  /// tag consists of a key and an optional value. You can use tags to search and
-  /// filter your resources or track your Amazon Web Services costs.
-  final Map<String, String> tags;
-
-  ListTagsForResourceOutput({
-    required this.tags,
-  });
-
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceOutput(
-      tags:
-          ((json['tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
-              .map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      'tags': tags,
-    };
-  }
-}
-
-/// Metadata related to the configuration properties used during update of a
-/// specific network function in a network instance.
-class ModifyVnfInfoMetadata {
-  /// The configurable properties used during update of the network function
-  /// instance.
-  final Document vnfConfigurableProperties;
-
-  /// The network function instance that was updated in the network instance.
-  final String vnfInstanceId;
-
-  ModifyVnfInfoMetadata({
-    required this.vnfConfigurableProperties,
-    required this.vnfInstanceId,
-  });
-
-  factory ModifyVnfInfoMetadata.fromJson(Map<String, dynamic> json) {
-    return ModifyVnfInfoMetadata(
-      vnfConfigurableProperties: Document.fromJson(
-          (json['vnfConfigurableProperties'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      vnfInstanceId: (json['vnfInstanceId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final vnfConfigurableProperties = this.vnfConfigurableProperties;
-    final vnfInstanceId = this.vnfInstanceId;
-    return {
-      'vnfConfigurableProperties': vnfConfigurableProperties,
-      'vnfInstanceId': vnfInstanceId,
-    };
-  }
-}
-
-/// Metadata for network package artifacts.
-///
-/// Artifacts are the contents of the package descriptor file and the state of
-/// the package.
-class NetworkArtifactMeta {
-  /// Lists network package overrides.
-  final List<ToscaOverride>? overrides;
-
-  NetworkArtifactMeta({
-    this.overrides,
-  });
-
-  factory NetworkArtifactMeta.fromJson(Map<String, dynamic> json) {
-    return NetworkArtifactMeta(
-      overrides: (json['overrides'] as List?)
-          ?.nonNulls
-          .map((e) => ToscaOverride.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final overrides = this.overrides;
-    return {
-      if (overrides != null) 'overrides': overrides,
+      'arn': arn,
+      'id': id,
+      'lcmOperationType': lcmOperationType.value,
+      'nsInstanceId': nsInstanceId,
+      'operationState': operationState.value,
+      if (error != null) 'error': error,
+      if (metadata != null) 'metadata': metadata,
+      if (updateType != null) 'updateType': updateType.value,
     };
   }
 }
@@ -3647,6 +3350,190 @@ class NsLcmOperationState {
 
   @override
   String toString() => value;
+}
+
+class LcmOperationType {
+  static const instantiate = LcmOperationType._('INSTANTIATE');
+  static const update = LcmOperationType._('UPDATE');
+  static const terminate = LcmOperationType._('TERMINATE');
+
+  final String value;
+
+  const LcmOperationType._(this.value);
+
+  static const values = [instantiate, update, terminate];
+
+  static LcmOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LcmOperationType._(value));
+
+  @override
+  bool operator ==(other) => other is LcmOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details related to problems with AWS TNB resources.
+class ProblemDetails {
+  /// A human-readable explanation specific to this occurrence of the problem.
+  final String detail;
+
+  /// A human-readable title of the problem type.
+  final String? title;
+
+  ProblemDetails({
+    required this.detail,
+    this.title,
+  });
+
+  factory ProblemDetails.fromJson(Map<String, dynamic> json) {
+    return ProblemDetails(
+      detail: (json['detail'] as String?) ?? '',
+      title: json['title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detail = this.detail;
+    final title = this.title;
+    return {
+      'detail': detail,
+      if (title != null) 'title': title,
+    };
+  }
+}
+
+/// Metadata related to a network operation.
+///
+/// A network operation is any operation that is done to your network, such as
+/// network instance instantiation or termination.
+class ListSolNetworkOperationsMetadata {
+  /// The date that the resource was created.
+  final DateTime createdAt;
+
+  /// The date that the resource was last modified.
+  final DateTime lastModified;
+
+  /// The network service descriptor id used for the operation.
+  ///
+  /// Only present if the updateType is <code>UPDATE_NS</code>.
+  final String? nsdInfoId;
+
+  /// The network function id used for the operation.
+  ///
+  /// Only present if the updateType is <code>MODIFY_VNF_INFO</code>.
+  final String? vnfInstanceId;
+
+  ListSolNetworkOperationsMetadata({
+    required this.createdAt,
+    required this.lastModified,
+    this.nsdInfoId,
+    this.vnfInstanceId,
+  });
+
+  factory ListSolNetworkOperationsMetadata.fromJson(Map<String, dynamic> json) {
+    return ListSolNetworkOperationsMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
+      nsdInfoId: json['nsdInfoId'] as String?,
+      vnfInstanceId: json['vnfInstanceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
+    final nsdInfoId = this.nsdInfoId;
+    final vnfInstanceId = this.vnfInstanceId;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
+      if (nsdInfoId != null) 'nsdInfoId': nsdInfoId,
+      if (vnfInstanceId != null) 'vnfInstanceId': vnfInstanceId,
+    };
+  }
+}
+
+/// Info about the specific network instance.
+///
+/// A network instance is a single network created in Amazon Web Services TNB
+/// that can be deployed and on which life-cycle operations (like terminate,
+/// update, and delete) can be performed.
+class ListSolNetworkInstanceInfo {
+  /// Network instance ARN.
+  final String arn;
+
+  /// ID of the network instance.
+  final String id;
+
+  /// The metadata of the network instance.
+  final ListSolNetworkInstanceMetadata metadata;
+
+  /// Human-readable description of the network instance.
+  final String nsInstanceDescription;
+
+  /// Human-readable name of the network instance.
+  final String nsInstanceName;
+
+  /// The state of the network instance.
+  final NsState nsState;
+
+  /// ID of the network service descriptor in the network package.
+  final String nsdId;
+
+  /// ID of the network service descriptor in the network package.
+  final String nsdInfoId;
+
+  ListSolNetworkInstanceInfo({
+    required this.arn,
+    required this.id,
+    required this.metadata,
+    required this.nsInstanceDescription,
+    required this.nsInstanceName,
+    required this.nsState,
+    required this.nsdId,
+    required this.nsdInfoId,
+  });
+
+  factory ListSolNetworkInstanceInfo.fromJson(Map<String, dynamic> json) {
+    return ListSolNetworkInstanceInfo(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      metadata: ListSolNetworkInstanceMetadata.fromJson(
+          (json['metadata'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      nsInstanceDescription: (json['nsInstanceDescription'] as String?) ?? '',
+      nsInstanceName: (json['nsInstanceName'] as String?) ?? '',
+      nsState: NsState.fromString((json['nsState'] as String?) ?? ''),
+      nsdId: (json['nsdId'] as String?) ?? '',
+      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final metadata = this.metadata;
+    final nsInstanceDescription = this.nsInstanceDescription;
+    final nsInstanceName = this.nsInstanceName;
+    final nsState = this.nsState;
+    final nsdId = this.nsdId;
+    final nsdInfoId = this.nsdInfoId;
+    return {
+      'arn': arn,
+      'id': id,
+      'metadata': metadata,
+      'nsInstanceDescription': nsInstanceDescription,
+      'nsInstanceName': nsInstanceName,
+      'nsState': nsState.value,
+      'nsdId': nsdId,
+      'nsdInfoId': nsdInfoId,
+    };
+  }
 }
 
 class NsState {
@@ -3694,79 +3581,134 @@ class NsState {
   String toString() => value;
 }
 
-class NsdOnboardingState {
-  static const created = NsdOnboardingState._('CREATED');
-  static const onboarded = NsdOnboardingState._('ONBOARDED');
-  static const error = NsdOnboardingState._('ERROR');
+/// Metadata details for a network instance.
+///
+/// A network instance is a single network created in Amazon Web Services TNB
+/// that can be deployed and on which life-cycle operations (like terminate,
+/// update, and delete) can be performed.
+class ListSolNetworkInstanceMetadata {
+  /// The date that the resource was created.
+  final DateTime createdAt;
 
-  final String value;
+  /// The date that the resource was last modified.
+  final DateTime lastModified;
 
-  const NsdOnboardingState._(this.value);
+  ListSolNetworkInstanceMetadata({
+    required this.createdAt,
+    required this.lastModified,
+  });
 
-  static const values = [created, onboarded, error];
+  factory ListSolNetworkInstanceMetadata.fromJson(Map<String, dynamic> json) {
+    return ListSolNetworkInstanceMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
+    );
+  }
 
-  static NsdOnboardingState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NsdOnboardingState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NsdOnboardingState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
+    };
+  }
 }
 
-class NsdOperationalState {
-  static const enabled = NsdOperationalState._('ENABLED');
-  static const disabled = NsdOperationalState._('DISABLED');
+/// Information about a function package.
+///
+/// A function package is a .zip file in CSAR (Cloud Service Archive) format
+/// that contains a network function (an ETSI standard telecommunication
+/// application) and function package descriptor that uses the TOSCA standard to
+/// describe how the network functions should run on your network.
+class ListSolFunctionPackageInfo {
+  /// Function package ARN.
+  final String arn;
 
-  final String value;
+  /// ID of the function package.
+  final String id;
 
-  const NsdOperationalState._(this.value);
+  /// Onboarding state of the function package.
+  final OnboardingState onboardingState;
 
-  static const values = [enabled, disabled];
+  /// Operational state of the function package.
+  final OperationalState operationalState;
 
-  static NsdOperationalState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NsdOperationalState._(value));
+  /// Usage state of the function package.
+  final UsageState usageState;
 
-  @override
-  bool operator ==(other) =>
-      other is NsdOperationalState && other.value == value;
+  /// The metadata of the function package.
+  final ListSolFunctionPackageMetadata? metadata;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The product name for the network function.
+  final String? vnfProductName;
 
-  @override
-  String toString() => value;
-}
+  /// Provider of the function package and the function package descriptor.
+  final String? vnfProvider;
 
-class NsdUsageState {
-  static const inUse = NsdUsageState._('IN_USE');
-  static const notInUse = NsdUsageState._('NOT_IN_USE');
+  /// Identifies the function package and the function package descriptor.
+  final String? vnfdId;
 
-  final String value;
+  /// Identifies the version of the function package descriptor.
+  final String? vnfdVersion;
 
-  const NsdUsageState._(this.value);
+  ListSolFunctionPackageInfo({
+    required this.arn,
+    required this.id,
+    required this.onboardingState,
+    required this.operationalState,
+    required this.usageState,
+    this.metadata,
+    this.vnfProductName,
+    this.vnfProvider,
+    this.vnfdId,
+    this.vnfdVersion,
+  });
 
-  static const values = [inUse, notInUse];
+  factory ListSolFunctionPackageInfo.fromJson(Map<String, dynamic> json) {
+    return ListSolFunctionPackageInfo(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      onboardingState: OnboardingState.fromString(
+          (json['onboardingState'] as String?) ?? ''),
+      operationalState: OperationalState.fromString(
+          (json['operationalState'] as String?) ?? ''),
+      usageState: UsageState.fromString((json['usageState'] as String?) ?? ''),
+      metadata: json['metadata'] != null
+          ? ListSolFunctionPackageMetadata.fromJson(
+              json['metadata'] as Map<String, dynamic>)
+          : null,
+      vnfProductName: json['vnfProductName'] as String?,
+      vnfProvider: json['vnfProvider'] as String?,
+      vnfdId: json['vnfdId'] as String?,
+      vnfdVersion: json['vnfdVersion'] as String?,
+    );
+  }
 
-  static NsdUsageState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NsdUsageState._(value));
-
-  @override
-  bool operator ==(other) => other is NsdUsageState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final onboardingState = this.onboardingState;
+    final operationalState = this.operationalState;
+    final usageState = this.usageState;
+    final metadata = this.metadata;
+    final vnfProductName = this.vnfProductName;
+    final vnfProvider = this.vnfProvider;
+    final vnfdId = this.vnfdId;
+    final vnfdVersion = this.vnfdVersion;
+    return {
+      'arn': arn,
+      'id': id,
+      'onboardingState': onboardingState.value,
+      'operationalState': operationalState.value,
+      'usageState': usageState.value,
+      if (metadata != null) 'metadata': metadata,
+      if (vnfProductName != null) 'vnfProductName': vnfProductName,
+      if (vnfProvider != null) 'vnfProvider': vnfProvider,
+      if (vnfdId != null) 'vnfdId': vnfdId,
+      if (vnfdVersion != null) 'vnfdVersion': vnfdVersion,
+    };
+  }
 }
 
 class OnboardingState {
@@ -3794,22 +3736,21 @@ class OnboardingState {
   String toString() => value;
 }
 
-class OperationalState {
-  static const enabled = OperationalState._('ENABLED');
-  static const disabled = OperationalState._('DISABLED');
+class UsageState {
+  static const inUse = UsageState._('IN_USE');
+  static const notInUse = UsageState._('NOT_IN_USE');
 
   final String value;
 
-  const OperationalState._(this.value);
+  const UsageState._(this.value);
 
-  static const values = [enabled, disabled];
+  static const values = [inUse, notInUse];
 
-  static OperationalState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationalState._(value));
+  static UsageState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UsageState._(value));
 
   @override
-  bool operator ==(other) => other is OperationalState && other.value == value;
+  bool operator ==(other) => other is UsageState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3818,165 +3759,280 @@ class OperationalState {
   String toString() => value;
 }
 
-class PackageContentType {
-  static const applicationZip = PackageContentType._('application/zip');
-
-  final String value;
-
-  const PackageContentType._(this.value);
-
-  static const values = [applicationZip];
-
-  static PackageContentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PackageContentType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PackageContentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details related to problems with AWS TNB resources.
-class ProblemDetails {
-  /// A human-readable explanation specific to this occurrence of the problem.
-  final String detail;
-
-  /// A human-readable title of the problem type.
-  final String? title;
-
-  ProblemDetails({
-    required this.detail,
-    this.title,
-  });
-
-  factory ProblemDetails.fromJson(Map<String, dynamic> json) {
-    return ProblemDetails(
-      detail: (json['detail'] as String?) ?? '',
-      title: json['title'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detail = this.detail;
-    final title = this.title;
-    return {
-      'detail': detail,
-      if (title != null) 'title': title,
-    };
-  }
-}
-
-/// Update metadata in a function package.
+/// Details for the function package metadata.
 ///
 /// A function package is a .zip file in CSAR (Cloud Service Archive) format
 /// that contains a network function (an ETSI standard telecommunication
 /// application) and function package descriptor that uses the TOSCA standard to
 /// describe how the network functions should run on your network.
-class PutSolFunctionPackageContentMetadata {
-  final FunctionArtifactMeta? vnfd;
+class ListSolFunctionPackageMetadata {
+  /// The date that the resource was created.
+  final DateTime createdAt;
 
-  PutSolFunctionPackageContentMetadata({
-    this.vnfd,
+  /// The date that the resource was last modified.
+  final DateTime lastModified;
+
+  ListSolFunctionPackageMetadata({
+    required this.createdAt,
+    required this.lastModified,
   });
 
-  factory PutSolFunctionPackageContentMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return PutSolFunctionPackageContentMetadata(
-      vnfd: json['vnfd'] != null
-          ? FunctionArtifactMeta.fromJson(json['vnfd'] as Map<String, dynamic>)
-          : null,
+  factory ListSolFunctionPackageMetadata.fromJson(Map<String, dynamic> json) {
+    return ListSolFunctionPackageMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final vnfd = this.vnfd;
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
     return {
-      if (vnfd != null) 'vnfd': vnfd,
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
     };
   }
 }
 
-class PutSolFunctionPackageContentOutput {
-  /// Function package ID.
+/// Lists information about a network function instance.
+///
+/// A network function instance is a function in a function package .
+class ListSolFunctionInstanceInfo {
+  /// Network function instance ARN.
+  final String arn;
+
+  /// Network function instance ID.
   final String id;
 
-  /// Function package metadata.
-  final PutSolFunctionPackageContentMetadata metadata;
+  /// Network function instance instantiation state.
+  final VnfInstantiationState instantiationState;
 
-  /// Function product name.
-  final String vnfProductName;
+  /// Network function instance metadata.
+  final ListSolFunctionInstanceMetadata metadata;
 
-  /// Function provider.
-  final String vnfProvider;
+  /// Network instance ID.
+  final String nsInstanceId;
 
-  /// Function package descriptor ID.
-  final String vnfdId;
+  /// Function package ID.
+  final String vnfPkgId;
+  final GetSolInstantiatedVnfInfo? instantiatedVnfInfo;
 
-  /// Function package descriptor version.
-  final String vnfdVersion;
+  /// Function package name.
+  final String? vnfPkgName;
 
-  PutSolFunctionPackageContentOutput({
+  ListSolFunctionInstanceInfo({
+    required this.arn,
     required this.id,
+    required this.instantiationState,
     required this.metadata,
-    required this.vnfProductName,
-    required this.vnfProvider,
-    required this.vnfdId,
-    required this.vnfdVersion,
+    required this.nsInstanceId,
+    required this.vnfPkgId,
+    this.instantiatedVnfInfo,
+    this.vnfPkgName,
   });
 
-  factory PutSolFunctionPackageContentOutput.fromJson(
-      Map<String, dynamic> json) {
-    return PutSolFunctionPackageContentOutput(
+  factory ListSolFunctionInstanceInfo.fromJson(Map<String, dynamic> json) {
+    return ListSolFunctionInstanceInfo(
+      arn: (json['arn'] as String?) ?? '',
       id: (json['id'] as String?) ?? '',
-      metadata: PutSolFunctionPackageContentMetadata.fromJson(
+      instantiationState: VnfInstantiationState.fromString(
+          (json['instantiationState'] as String?) ?? ''),
+      metadata: ListSolFunctionInstanceMetadata.fromJson(
           (json['metadata'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
-      vnfProductName: (json['vnfProductName'] as String?) ?? '',
-      vnfProvider: (json['vnfProvider'] as String?) ?? '',
-      vnfdId: (json['vnfdId'] as String?) ?? '',
-      vnfdVersion: (json['vnfdVersion'] as String?) ?? '',
+      nsInstanceId: (json['nsInstanceId'] as String?) ?? '',
+      vnfPkgId: (json['vnfPkgId'] as String?) ?? '',
+      instantiatedVnfInfo: json['instantiatedVnfInfo'] != null
+          ? GetSolInstantiatedVnfInfo.fromJson(
+              json['instantiatedVnfInfo'] as Map<String, dynamic>)
+          : null,
+      vnfPkgName: json['vnfPkgName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final arn = this.arn;
     final id = this.id;
+    final instantiationState = this.instantiationState;
     final metadata = this.metadata;
-    final vnfProductName = this.vnfProductName;
-    final vnfProvider = this.vnfProvider;
-    final vnfdId = this.vnfdId;
-    final vnfdVersion = this.vnfdVersion;
+    final nsInstanceId = this.nsInstanceId;
+    final vnfPkgId = this.vnfPkgId;
+    final instantiatedVnfInfo = this.instantiatedVnfInfo;
+    final vnfPkgName = this.vnfPkgName;
     return {
+      'arn': arn,
       'id': id,
+      'instantiationState': instantiationState.value,
       'metadata': metadata,
-      'vnfProductName': vnfProductName,
-      'vnfProvider': vnfProvider,
-      'vnfdId': vnfdId,
-      'vnfdVersion': vnfdVersion,
+      'nsInstanceId': nsInstanceId,
+      'vnfPkgId': vnfPkgId,
+      if (instantiatedVnfInfo != null)
+        'instantiatedVnfInfo': instantiatedVnfInfo,
+      if (vnfPkgName != null) 'vnfPkgName': vnfPkgName,
     };
   }
 }
 
-/// Update metadata in a network package.
+class VnfInstantiationState {
+  static const instantiated = VnfInstantiationState._('INSTANTIATED');
+  static const notInstantiated = VnfInstantiationState._('NOT_INSTANTIATED');
+
+  final String value;
+
+  const VnfInstantiationState._(this.value);
+
+  static const values = [instantiated, notInstantiated];
+
+  static VnfInstantiationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VnfInstantiationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VnfInstantiationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a network function.
+///
+/// A network instance is a single network created in Amazon Web Services TNB
+/// that can be deployed and on which life-cycle operations (like terminate,
+/// update, and delete) can be performed.
+class GetSolInstantiatedVnfInfo {
+  /// State of the network function.
+  final VnfOperationalState? vnfState;
+
+  GetSolInstantiatedVnfInfo({
+    this.vnfState,
+  });
+
+  factory GetSolInstantiatedVnfInfo.fromJson(Map<String, dynamic> json) {
+    return GetSolInstantiatedVnfInfo(
+      vnfState:
+          (json['vnfState'] as String?)?.let(VnfOperationalState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vnfState = this.vnfState;
+    return {
+      if (vnfState != null) 'vnfState': vnfState.value,
+    };
+  }
+}
+
+/// Lists network function instance metadata.
+///
+/// A network function instance is a function in a function package .
+class ListSolFunctionInstanceMetadata {
+  /// When the network function instance was created.
+  final DateTime createdAt;
+
+  /// When the network function instance was last modified.
+  final DateTime lastModified;
+
+  ListSolFunctionInstanceMetadata({
+    required this.createdAt,
+    required this.lastModified,
+  });
+
+  factory ListSolFunctionInstanceMetadata.fromJson(Map<String, dynamic> json) {
+    return ListSolFunctionInstanceMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
+    };
+  }
+}
+
+class VnfOperationalState {
+  static const started = VnfOperationalState._('STARTED');
+  static const stopped = VnfOperationalState._('STOPPED');
+
+  final String value;
+
+  const VnfOperationalState._(this.value);
+
+  static const values = [started, stopped];
+
+  static VnfOperationalState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VnfOperationalState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VnfOperationalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DescriptorContentType {
+  static const textPlain = DescriptorContentType._('text/plain');
+
+  final String value;
+
+  const DescriptorContentType._(this.value);
+
+  static const values = [textPlain];
+
+  static DescriptorContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DescriptorContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DescriptorContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Metadata associated with a network package.
 ///
 /// A network package is a .zip file in CSAR (Cloud Service Archive) format
 /// defines the function packages you want to deploy and the Amazon Web Services
 /// infrastructure you want to deploy them on.
-class PutSolNetworkPackageContentMetadata {
+class GetSolNetworkPackageMetadata {
+  /// The date that the resource was created.
+  final DateTime createdAt;
+
+  /// The date that the resource was last modified.
+  final DateTime lastModified;
+
+  /// Metadata related to the onboarded network service descriptor in the network
+  /// package.
   final NetworkArtifactMeta? nsd;
 
-  PutSolNetworkPackageContentMetadata({
+  GetSolNetworkPackageMetadata({
+    required this.createdAt,
+    required this.lastModified,
     this.nsd,
   });
 
-  factory PutSolNetworkPackageContentMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return PutSolNetworkPackageContentMetadata(
+  factory GetSolNetworkPackageMetadata.fromJson(Map<String, dynamic> json) {
+    return GetSolNetworkPackageMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
       nsd: json['nsd'] != null
           ? NetworkArtifactMeta.fromJson(json['nsd'] as Map<String, dynamic>)
           : null,
@@ -3984,92 +4040,181 @@ class PutSolNetworkPackageContentMetadata {
   }
 
   Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
     final nsd = this.nsd;
     return {
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
       if (nsd != null) 'nsd': nsd,
     };
   }
 }
 
-class PutSolNetworkPackageContentOutput {
-  /// Network package ARN.
-  final String arn;
+/// Metadata related to a network operation occurrence.
+///
+/// A network operation is any operation that is done to your network, such as
+/// network instance instantiation or termination.
+class GetSolNetworkOperationMetadata {
+  /// The date that the resource was created.
+  final DateTime createdAt;
 
-  /// Network package ID.
-  final String id;
+  /// The date that the resource was last modified.
+  final DateTime lastModified;
 
-  /// Network package metadata.
-  final PutSolNetworkPackageContentMetadata metadata;
+  /// Metadata related to the network operation occurrence for network
+  /// instantiation. This is populated only if the lcmOperationType is
+  /// <code>INSTANTIATE</code>.
+  final InstantiateMetadata? instantiateMetadata;
 
-  /// Network service descriptor ID.
-  final String nsdId;
+  /// Metadata related to the network operation occurrence for network function
+  /// updates in a network instance. This is populated only if the
+  /// lcmOperationType is <code>UPDATE</code> and the updateType is
+  /// <code>MODIFY_VNF_INFORMATION</code>.
+  final ModifyVnfInfoMetadata? modifyVnfInfoMetadata;
 
-  /// Network service descriptor name.
-  final String nsdName;
+  /// Metadata related to the network operation occurrence for network instance
+  /// updates. This is populated only if the lcmOperationType is
+  /// <code>UPDATE</code> and the updateType is <code>UPDATE_NS</code>.
+  final UpdateNsMetadata? updateNsMetadata;
 
-  /// Network service descriptor version.
-  final String nsdVersion;
-
-  /// Function package IDs.
-  final List<String> vnfPkgIds;
-
-  PutSolNetworkPackageContentOutput({
-    required this.arn,
-    required this.id,
-    required this.metadata,
-    required this.nsdId,
-    required this.nsdName,
-    required this.nsdVersion,
-    required this.vnfPkgIds,
+  GetSolNetworkOperationMetadata({
+    required this.createdAt,
+    required this.lastModified,
+    this.instantiateMetadata,
+    this.modifyVnfInfoMetadata,
+    this.updateNsMetadata,
   });
 
-  factory PutSolNetworkPackageContentOutput.fromJson(
-      Map<String, dynamic> json) {
-    return PutSolNetworkPackageContentOutput(
-      arn: (json['arn'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      metadata: PutSolNetworkPackageContentMetadata.fromJson(
-          (json['metadata'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      nsdId: (json['nsdId'] as String?) ?? '',
-      nsdName: (json['nsdName'] as String?) ?? '',
-      nsdVersion: (json['nsdVersion'] as String?) ?? '',
-      vnfPkgIds: ((json['vnfPkgIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+  factory GetSolNetworkOperationMetadata.fromJson(Map<String, dynamic> json) {
+    return GetSolNetworkOperationMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
+      instantiateMetadata: json['instantiateMetadata'] != null
+          ? InstantiateMetadata.fromJson(
+              json['instantiateMetadata'] as Map<String, dynamic>)
+          : null,
+      modifyVnfInfoMetadata: json['modifyVnfInfoMetadata'] != null
+          ? ModifyVnfInfoMetadata.fromJson(
+              json['modifyVnfInfoMetadata'] as Map<String, dynamic>)
+          : null,
+      updateNsMetadata: json['updateNsMetadata'] != null
+          ? UpdateNsMetadata.fromJson(
+              json['updateNsMetadata'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final metadata = this.metadata;
-    final nsdId = this.nsdId;
-    final nsdName = this.nsdName;
-    final nsdVersion = this.nsdVersion;
-    final vnfPkgIds = this.vnfPkgIds;
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
+    final instantiateMetadata = this.instantiateMetadata;
+    final modifyVnfInfoMetadata = this.modifyVnfInfoMetadata;
+    final updateNsMetadata = this.updateNsMetadata;
     return {
-      'arn': arn,
-      'id': id,
-      'metadata': metadata,
-      'nsdId': nsdId,
-      'nsdName': nsdName,
-      'nsdVersion': nsdVersion,
-      'vnfPkgIds': vnfPkgIds,
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
+      if (instantiateMetadata != null)
+        'instantiateMetadata': instantiateMetadata,
+      if (modifyVnfInfoMetadata != null)
+        'modifyVnfInfoMetadata': modifyVnfInfoMetadata,
+      if (updateNsMetadata != null) 'updateNsMetadata': updateNsMetadata,
     };
   }
 }
 
-class TagResourceOutput {
-  TagResourceOutput();
+/// Gets the details of a network operation.
+///
+/// A network operation is any operation that is done to your network, such as
+/// network instance instantiation or termination.
+class GetSolNetworkOperationTaskDetails {
+  /// Context for the network operation task.
+  final Map<String, String>? taskContext;
 
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
+  /// Task end time.
+  final DateTime? taskEndTime;
+
+  /// Task error details.
+  final ErrorInfo? taskErrorDetails;
+
+  /// Task name.
+  final String? taskName;
+
+  /// Task start time.
+  final DateTime? taskStartTime;
+
+  /// Task status.
+  final TaskStatus? taskStatus;
+
+  GetSolNetworkOperationTaskDetails({
+    this.taskContext,
+    this.taskEndTime,
+    this.taskErrorDetails,
+    this.taskName,
+    this.taskStartTime,
+    this.taskStatus,
+  });
+
+  factory GetSolNetworkOperationTaskDetails.fromJson(
+      Map<String, dynamic> json) {
+    return GetSolNetworkOperationTaskDetails(
+      taskContext: (json['taskContext'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      taskEndTime: timeStampFromJson(json['taskEndTime']),
+      taskErrorDetails: json['taskErrorDetails'] != null
+          ? ErrorInfo.fromJson(json['taskErrorDetails'] as Map<String, dynamic>)
+          : null,
+      taskName: json['taskName'] as String?,
+      taskStartTime: timeStampFromJson(json['taskStartTime']),
+      taskStatus: (json['taskStatus'] as String?)?.let(TaskStatus.fromString),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final taskContext = this.taskContext;
+    final taskEndTime = this.taskEndTime;
+    final taskErrorDetails = this.taskErrorDetails;
+    final taskName = this.taskName;
+    final taskStartTime = this.taskStartTime;
+    final taskStatus = this.taskStatus;
+    return {
+      if (taskContext != null) 'taskContext': taskContext,
+      if (taskEndTime != null) 'taskEndTime': iso8601ToJson(taskEndTime),
+      if (taskErrorDetails != null) 'taskErrorDetails': taskErrorDetails,
+      if (taskName != null) 'taskName': taskName,
+      if (taskStartTime != null) 'taskStartTime': iso8601ToJson(taskStartTime),
+      if (taskStatus != null) 'taskStatus': taskStatus.value,
+    };
+  }
+}
+
+/// Provides error information.
+class ErrorInfo {
+  /// Error cause.
+  final String? cause;
+
+  /// Error details.
+  final String? details;
+
+  ErrorInfo({
+    this.cause,
+    this.details,
+  });
+
+  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
+    return ErrorInfo(
+      cause: json['cause'] as String?,
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final details = this.details;
+    return {
+      if (cause != null) 'cause': cause,
+      if (details != null) 'details': details,
+    };
   }
 }
 
@@ -4109,83 +4254,6 @@ class TaskStatus {
   String toString() => value;
 }
 
-class TerminateSolNetworkInstanceOutput {
-  /// The identifier of the network operation.
-  final String? nsLcmOpOccId;
-
-  /// A tag is a label that you assign to an Amazon Web Services resource. Each
-  /// tag consists of a key and an optional value. When you use this API, the tags
-  /// are only applied to the network operation that is created. These tags are
-  /// not applied to the network instance. Use tags to search and filter your
-  /// resources or track your Amazon Web Services costs.
-  final Map<String, String>? tags;
-
-  TerminateSolNetworkInstanceOutput({
-    this.nsLcmOpOccId,
-    this.tags,
-  });
-
-  factory TerminateSolNetworkInstanceOutput.fromJson(
-      Map<String, dynamic> json) {
-    return TerminateSolNetworkInstanceOutput(
-      nsLcmOpOccId: json['nsLcmOpOccId'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nsLcmOpOccId = this.nsLcmOpOccId;
-    final tags = this.tags;
-    return {
-      if (nsLcmOpOccId != null) 'nsLcmOpOccId': nsLcmOpOccId,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Overrides of the TOSCA node.
-class ToscaOverride {
-  /// Default value for the override.
-  final String? defaultValue;
-
-  /// Name of the TOSCA override.
-  final String? name;
-
-  ToscaOverride({
-    this.defaultValue,
-    this.name,
-  });
-
-  factory ToscaOverride.fromJson(Map<String, dynamic> json) {
-    return ToscaOverride(
-      defaultValue: json['defaultValue'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultValue = this.defaultValue;
-    final name = this.name;
-    return {
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
 /// Metadata related to the configuration properties used during update of a
 /// network instance.
 class UpdateNsMetadata {
@@ -4221,81 +4289,29 @@ class UpdateNsMetadata {
   }
 }
 
-class UpdateSolFunctionPackageOutput {
-  /// Operational state of the function package.
-  final OperationalState operationalState;
-
-  UpdateSolFunctionPackageOutput({
-    required this.operationalState,
-  });
-
-  factory UpdateSolFunctionPackageOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateSolFunctionPackageOutput(
-      operationalState: OperationalState.fromString(
-          (json['operationalState'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationalState = this.operationalState;
-    return {
-      'operationalState': operationalState.value,
-    };
-  }
-}
-
-class UpdateSolNetworkInstanceOutput {
-  /// The identifier of the network operation.
-  final String? nsLcmOpOccId;
-
-  /// A tag is a label that you assign to an Amazon Web Services resource. Each
-  /// tag consists of a key and an optional value. When you use this API, the tags
-  /// are only applied to the network operation that is created. These tags are
-  /// not applied to the network instance. Use tags to search and filter your
-  /// resources or track your Amazon Web Services costs.
-  final Map<String, String>? tags;
-
-  UpdateSolNetworkInstanceOutput({
-    this.nsLcmOpOccId,
-    this.tags,
-  });
-
-  factory UpdateSolNetworkInstanceOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateSolNetworkInstanceOutput(
-      nsLcmOpOccId: json['nsLcmOpOccId'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nsLcmOpOccId = this.nsLcmOpOccId;
-    final tags = this.tags;
-    return {
-      if (nsLcmOpOccId != null) 'nsLcmOpOccId': nsLcmOpOccId,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Information parameters and/or the configurable properties for a network
-/// function.
-///
-/// A network function instance is a function in a function package .
-class UpdateSolNetworkModify {
-  /// Provides values for the configurable properties declared in the function
-  /// package descriptor.
+/// Metadata related to the configuration properties used during update of a
+/// specific network function in a network instance.
+class ModifyVnfInfoMetadata {
+  /// The configurable properties used during update of the network function
+  /// instance.
   final Document vnfConfigurableProperties;
 
-  /// ID of the network function instance.
-  ///
-  /// A network function instance is a function in a function package .
+  /// The network function instance that was updated in the network instance.
   final String vnfInstanceId;
 
-  UpdateSolNetworkModify({
+  ModifyVnfInfoMetadata({
     required this.vnfConfigurableProperties,
     required this.vnfInstanceId,
   });
+
+  factory ModifyVnfInfoMetadata.fromJson(Map<String, dynamic> json) {
+    return ModifyVnfInfoMetadata(
+      vnfConfigurableProperties: Document.fromJson(
+          (json['vnfConfigurableProperties'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      vnfInstanceId: (json['vnfInstanceId'] as String?) ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final vnfConfigurableProperties = this.vnfConfigurableProperties;
@@ -4307,43 +4323,29 @@ class UpdateSolNetworkModify {
   }
 }
 
-class UpdateSolNetworkPackageOutput {
-  /// Operational state of the network service descriptor in the network package.
-  final NsdOperationalState nsdOperationalState;
-
-  UpdateSolNetworkPackageOutput({
-    required this.nsdOperationalState,
-  });
-
-  factory UpdateSolNetworkPackageOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateSolNetworkPackageOutput(
-      nsdOperationalState: NsdOperationalState.fromString(
-          (json['nsdOperationalState'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nsdOperationalState = this.nsdOperationalState;
-    return {
-      'nsdOperationalState': nsdOperationalState.value,
-    };
-  }
-}
-
-/// Information parameters and/or the configurable properties for a network
-/// descriptor used for update.
-class UpdateSolNetworkServiceData {
-  /// ID of the network service descriptor.
+/// Metadata related to the configuration properties used during instantiation
+/// of the network instance.
+class InstantiateMetadata {
+  /// The network service descriptor used for instantiating the network instance.
   final String nsdInfoId;
 
-  /// Values for the configurable properties declared in the network service
-  /// descriptor.
+  /// The configurable properties used during instantiation.
   final Document? additionalParamsForNs;
 
-  UpdateSolNetworkServiceData({
+  InstantiateMetadata({
     required this.nsdInfoId,
     this.additionalParamsForNs,
   });
+
+  factory InstantiateMetadata.fromJson(Map<String, dynamic> json) {
+    return InstantiateMetadata(
+      nsdInfoId: (json['nsdInfoId'] as String?) ?? '',
+      additionalParamsForNs: json['additionalParamsForNs'] != null
+          ? Document.fromJson(
+              json['additionalParamsForNs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final nsdInfoId = this.nsdInfoId;
@@ -4356,71 +4358,91 @@ class UpdateSolNetworkServiceData {
   }
 }
 
-class UpdateSolNetworkType {
-  static const modifyVnfInformation =
-      UpdateSolNetworkType._('MODIFY_VNF_INFORMATION');
-  static const updateNs = UpdateSolNetworkType._('UPDATE_NS');
+/// Lifecycle management operation details on the network instance.
+///
+/// Lifecycle management operations are deploy, update, or delete operations.
+class LcmOperationInfo {
+  /// The identifier of the network operation.
+  final String nsLcmOpOccId;
 
-  final String value;
+  LcmOperationInfo({
+    required this.nsLcmOpOccId,
+  });
 
-  const UpdateSolNetworkType._(this.value);
+  factory LcmOperationInfo.fromJson(Map<String, dynamic> json) {
+    return LcmOperationInfo(
+      nsLcmOpOccId: (json['nsLcmOpOccId'] as String?) ?? '',
+    );
+  }
 
-  static const values = [modifyVnfInformation, updateNs];
-
-  static UpdateSolNetworkType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UpdateSolNetworkType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is UpdateSolNetworkType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final nsLcmOpOccId = this.nsLcmOpOccId;
+    return {
+      'nsLcmOpOccId': nsLcmOpOccId,
+    };
+  }
 }
 
-class UsageState {
-  static const inUse = UsageState._('IN_USE');
-  static const notInUse = UsageState._('NOT_IN_USE');
+/// The metadata of a network instance.
+///
+/// A network instance is a single network created in Amazon Web Services TNB
+/// that can be deployed and on which life-cycle operations (like terminate,
+/// update, and delete) can be performed.
+class GetSolNetworkInstanceMetadata {
+  /// The date that the resource was created.
+  final DateTime createdAt;
 
-  final String value;
+  /// The date that the resource was last modified.
+  final DateTime lastModified;
 
-  const UsageState._(this.value);
+  GetSolNetworkInstanceMetadata({
+    required this.createdAt,
+    required this.lastModified,
+  });
 
-  static const values = [inUse, notInUse];
+  factory GetSolNetworkInstanceMetadata.fromJson(Map<String, dynamic> json) {
+    return GetSolNetworkInstanceMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
+    );
+  }
 
-  static UsageState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UsageState._(value));
-
-  @override
-  bool operator ==(other) => other is UsageState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
+    };
+  }
 }
 
-/// Validates function package content metadata.
+/// Metadata related to the function package.
 ///
 /// A function package is a .zip file in CSAR (Cloud Service Archive) format
 /// that contains a network function (an ETSI standard telecommunication
 /// application) and function package descriptor that uses the TOSCA standard to
 /// describe how the network functions should run on your network.
-class ValidateSolFunctionPackageContentMetadata {
+class GetSolFunctionPackageMetadata {
+  /// The date that the resource was created.
+  final DateTime createdAt;
+
+  /// The date that the resource was last modified.
+  final DateTime lastModified;
+
+  /// Metadata related to the function package descriptor of the function package.
   final FunctionArtifactMeta? vnfd;
 
-  ValidateSolFunctionPackageContentMetadata({
+  GetSolFunctionPackageMetadata({
+    required this.createdAt,
+    required this.lastModified,
     this.vnfd,
   });
 
-  factory ValidateSolFunctionPackageContentMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return ValidateSolFunctionPackageContentMetadata(
+  factory GetSolFunctionPackageMetadata.fromJson(Map<String, dynamic> json) {
+    return GetSolFunctionPackageMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
       vnfd: json['vnfd'] != null
           ? FunctionArtifactMeta.fromJson(json['vnfd'] as Map<String, dynamic>)
           : null,
@@ -4428,220 +4450,167 @@ class ValidateSolFunctionPackageContentMetadata {
   }
 
   Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
     final vnfd = this.vnfd;
     return {
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
       if (vnfd != null) 'vnfd': vnfd,
     };
   }
 }
 
-class ValidateSolFunctionPackageContentOutput {
-  /// Function package ID.
-  final String id;
-
-  /// Function package metadata.
-  final ValidateSolFunctionPackageContentMetadata metadata;
-
-  /// Network function product name.
-  final String vnfProductName;
-
-  /// Network function provider.
-  final String vnfProvider;
-
-  /// Function package descriptor ID.
-  final String vnfdId;
-
-  /// Function package descriptor version.
-  final String vnfdVersion;
-
-  ValidateSolFunctionPackageContentOutput({
-    required this.id,
-    required this.metadata,
-    required this.vnfProductName,
-    required this.vnfProvider,
-    required this.vnfdId,
-    required this.vnfdVersion,
-  });
-
-  factory ValidateSolFunctionPackageContentOutput.fromJson(
-      Map<String, dynamic> json) {
-    return ValidateSolFunctionPackageContentOutput(
-      id: (json['id'] as String?) ?? '',
-      metadata: ValidateSolFunctionPackageContentMetadata.fromJson(
-          (json['metadata'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      vnfProductName: (json['vnfProductName'] as String?) ?? '',
-      vnfProvider: (json['vnfProvider'] as String?) ?? '',
-      vnfdId: (json['vnfdId'] as String?) ?? '',
-      vnfdVersion: (json['vnfdVersion'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final metadata = this.metadata;
-    final vnfProductName = this.vnfProductName;
-    final vnfProvider = this.vnfProvider;
-    final vnfdId = this.vnfdId;
-    final vnfdVersion = this.vnfdVersion;
-    return {
-      'id': id,
-      'metadata': metadata,
-      'vnfProductName': vnfProductName,
-      'vnfProvider': vnfProvider,
-      'vnfdId': vnfdId,
-      'vnfdVersion': vnfdVersion,
-    };
-  }
-}
-
-/// Validates network package content metadata.
+/// Information about the network function.
 ///
-/// A network package is a .zip file in CSAR (Cloud Service Archive) format
-/// defines the function packages you want to deploy and the Amazon Web Services
-/// infrastructure you want to deploy them on.
-class ValidateSolNetworkPackageContentMetadata {
-  final NetworkArtifactMeta? nsd;
+/// A network function instance is a function in a function package .
+class GetSolVnfInfo {
+  /// State of the network function instance.
+  final VnfOperationalState? vnfState;
 
-  ValidateSolNetworkPackageContentMetadata({
-    this.nsd,
+  /// Compute info used by the network function instance.
+  final List<GetSolVnfcResourceInfo>? vnfcResourceInfo;
+
+  GetSolVnfInfo({
+    this.vnfState,
+    this.vnfcResourceInfo,
   });
 
-  factory ValidateSolNetworkPackageContentMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return ValidateSolNetworkPackageContentMetadata(
-      nsd: json['nsd'] != null
-          ? NetworkArtifactMeta.fromJson(json['nsd'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nsd = this.nsd;
-    return {
-      if (nsd != null) 'nsd': nsd,
-    };
-  }
-}
-
-class ValidateSolNetworkPackageContentOutput {
-  /// Network package ARN.
-  final String arn;
-
-  /// Network package ID.
-  final String id;
-
-  /// Network package metadata.
-  final ValidateSolNetworkPackageContentMetadata metadata;
-
-  /// Network service descriptor ID.
-  final String nsdId;
-
-  /// Network service descriptor name.
-  final String nsdName;
-
-  /// Network service descriptor version.
-  final String nsdVersion;
-
-  /// Function package IDs.
-  final List<String> vnfPkgIds;
-
-  ValidateSolNetworkPackageContentOutput({
-    required this.arn,
-    required this.id,
-    required this.metadata,
-    required this.nsdId,
-    required this.nsdName,
-    required this.nsdVersion,
-    required this.vnfPkgIds,
-  });
-
-  factory ValidateSolNetworkPackageContentOutput.fromJson(
-      Map<String, dynamic> json) {
-    return ValidateSolNetworkPackageContentOutput(
-      arn: (json['arn'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      metadata: ValidateSolNetworkPackageContentMetadata.fromJson(
-          (json['metadata'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      nsdId: (json['nsdId'] as String?) ?? '',
-      nsdName: (json['nsdName'] as String?) ?? '',
-      nsdVersion: (json['nsdVersion'] as String?) ?? '',
-      vnfPkgIds: ((json['vnfPkgIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
+  factory GetSolVnfInfo.fromJson(Map<String, dynamic> json) {
+    return GetSolVnfInfo(
+      vnfState:
+          (json['vnfState'] as String?)?.let(VnfOperationalState.fromString),
+      vnfcResourceInfo: (json['vnfcResourceInfo'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => GetSolVnfcResourceInfo.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final metadata = this.metadata;
-    final nsdId = this.nsdId;
-    final nsdName = this.nsdName;
-    final nsdVersion = this.nsdVersion;
-    final vnfPkgIds = this.vnfPkgIds;
+    final vnfState = this.vnfState;
+    final vnfcResourceInfo = this.vnfcResourceInfo;
     return {
-      'arn': arn,
-      'id': id,
-      'metadata': metadata,
-      'nsdId': nsdId,
-      'nsdName': nsdName,
-      'nsdVersion': nsdVersion,
-      'vnfPkgIds': vnfPkgIds,
+      if (vnfState != null) 'vnfState': vnfState.value,
+      if (vnfcResourceInfo != null) 'vnfcResourceInfo': vnfcResourceInfo,
     };
   }
 }
 
-class VnfInstantiationState {
-  static const instantiated = VnfInstantiationState._('INSTANTIATED');
-  static const notInstantiated = VnfInstantiationState._('NOT_INSTANTIATED');
+/// The metadata of a network function instance.
+///
+/// A network function instance is a function in a function package .
+class GetSolFunctionInstanceMetadata {
+  /// The date that the resource was created.
+  final DateTime createdAt;
 
-  final String value;
+  /// The date that the resource was last modified.
+  final DateTime lastModified;
 
-  const VnfInstantiationState._(this.value);
+  GetSolFunctionInstanceMetadata({
+    required this.createdAt,
+    required this.lastModified,
+  });
 
-  static const values = [instantiated, notInstantiated];
+  factory GetSolFunctionInstanceMetadata.fromJson(Map<String, dynamic> json) {
+    return GetSolFunctionInstanceMetadata(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      lastModified: nonNullableTimeStampFromJson(json['lastModified'] ?? 0),
+    );
+  }
 
-  static VnfInstantiationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VnfInstantiationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VnfInstantiationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final lastModified = this.lastModified;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'lastModified': iso8601ToJson(lastModified),
+    };
+  }
 }
 
-class VnfOperationalState {
-  static const started = VnfOperationalState._('STARTED');
-  static const stopped = VnfOperationalState._('STOPPED');
+/// Details of resource associated with a network function.
+///
+/// A network instance is a single network created in Amazon Web Services TNB
+/// that can be deployed and on which life-cycle operations (like terminate,
+/// update, and delete) can be performed.
+class GetSolVnfcResourceInfo {
+  /// The metadata of the network function compute.
+  final GetSolVnfcResourceInfoMetadata? metadata;
 
-  final String value;
+  GetSolVnfcResourceInfo({
+    this.metadata,
+  });
 
-  const VnfOperationalState._(this.value);
+  factory GetSolVnfcResourceInfo.fromJson(Map<String, dynamic> json) {
+    return GetSolVnfcResourceInfo(
+      metadata: json['metadata'] != null
+          ? GetSolVnfcResourceInfoMetadata.fromJson(
+              json['metadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  static const values = [started, stopped];
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    return {
+      if (metadata != null) 'metadata': metadata,
+    };
+  }
+}
 
-  static VnfOperationalState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VnfOperationalState._(value));
+/// The metadata of a network function.
+///
+/// A network instance is a single network created in Amazon Web Services TNB
+/// that can be deployed and on which life-cycle operations (like terminate,
+/// update, and delete) can be performed.
+class GetSolVnfcResourceInfoMetadata {
+  /// Information about the cluster.
+  final String? cluster;
 
-  @override
-  bool operator ==(other) =>
-      other is VnfOperationalState && other.value == value;
+  /// Information about the helm chart.
+  final String? helmChart;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// Information about the node group.
+  final String? nodeGroup;
 
-  @override
-  String toString() => value;
+  GetSolVnfcResourceInfoMetadata({
+    this.cluster,
+    this.helmChart,
+    this.nodeGroup,
+  });
+
+  factory GetSolVnfcResourceInfoMetadata.fromJson(Map<String, dynamic> json) {
+    return GetSolVnfcResourceInfoMetadata(
+      cluster: json['cluster'] as String?,
+      helmChart: json['helmChart'] as String?,
+      nodeGroup: json['nodeGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    final helmChart = this.helmChart;
+    final nodeGroup = this.nodeGroup;
+    return {
+      if (cluster != null) 'cluster': cluster,
+      if (helmChart != null) 'helmChart': helmChart,
+      if (nodeGroup != null) 'nodeGroup': nodeGroup,
+    };
+  }
+}
+
+class Document {
+  Document();
+
+  factory Document.fromJson(Map<String, dynamic> _) {
+    return Document();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

@@ -78,14 +78,14 @@ class MigrationHub {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [createdArtifact] :
   /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2
@@ -130,15 +130,15 @@ class MigrationHub {
   /// with a migration task.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [PolicyErrorException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [discoveredResource] :
   /// Object representing a Resource.
@@ -178,6 +178,64 @@ class MigrationHub {
     );
   }
 
+  /// Associates a source resource with a migration task. For example, the
+  /// source resource can be a source server, an application, or a migration
+  /// wave.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [DryRunOperation].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
+  ///
+  /// Parameter [migrationTaskName] :
+  /// A unique identifier that references the migration task. <i>Do not include
+  /// sensitive data in this field.</i>
+  ///
+  /// Parameter [progressUpdateStream] :
+  /// The name of the progress-update stream, which is used for access control
+  /// as well as a namespace for migration-task names that is implicitly linked
+  /// to your AWS account. The progress-update stream must uniquely identify the
+  /// migration tool as it is used for all updates made by the tool; however, it
+  /// does not need to be unique for each AWS account because it is scoped to
+  /// the AWS account.
+  ///
+  /// Parameter [sourceResource] :
+  /// The source resource that you want to associate.
+  ///
+  /// Parameter [dryRun] :
+  /// This is an optional parameter that you can use to test whether the call
+  /// will succeed. Set this parameter to <code>true</code> to verify that you
+  /// have the permissions that are required to make the call, and that you have
+  /// specified the other parameters in the call correctly.
+  Future<void> associateSourceResource({
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    required SourceResource sourceResource,
+    bool? dryRun,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSMigrationHub.AssociateSourceResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationTaskName': migrationTaskName,
+        'ProgressUpdateStream': progressUpdateStream,
+        'SourceResource': sourceResource,
+        if (dryRun != null) 'DryRun': dryRun,
+      },
+    );
+  }
+
   /// Creates a progress update stream which is an AWS resource used for access
   /// control as well as a namespace for migration task names that is implicitly
   /// linked to your AWS account. It must uniquely identify the migration tool
@@ -185,13 +243,13 @@ class MigrationHub {
   /// to be unique for each AWS account because it is scoped to the AWS account.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
-  /// May throw [InvalidInputException].
   /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [progressUpdateStreamName] :
   /// The name of the ProgressUpdateStream. <i>Do not store personal data in
@@ -254,14 +312,14 @@ class MigrationHub {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [progressUpdateStreamName] :
   /// The name of the ProgressUpdateStream. <i>Do not store personal data in
@@ -294,13 +352,13 @@ class MigrationHub {
   /// Gets the migration status of an application.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [InvalidInputException].
   /// May throw [PolicyErrorException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [applicationId] :
   /// The configurationId in Application Discovery Service that uniquely
@@ -330,12 +388,12 @@ class MigrationHub {
   /// task.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [migrationTaskName] :
   /// The identifier given to the MigrationTask. <i>Do not store personal data
@@ -387,14 +445,14 @@ class MigrationHub {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [createdArtifactName] :
   /// An ARN of the AWS resource related to the migration (e.g., AMI, EC2
@@ -439,14 +497,14 @@ class MigrationHub {
   /// migration task.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [configurationId] :
   /// ConfigurationId of the Application Discovery Service resource to be
@@ -487,6 +545,62 @@ class MigrationHub {
     );
   }
 
+  /// Removes the association between a source resource and a migration task.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [DryRunOperation].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
+  ///
+  /// Parameter [migrationTaskName] :
+  /// A unique identifier that references the migration task. <i>Do not include
+  /// sensitive data in this field.</i>
+  ///
+  /// Parameter [progressUpdateStream] :
+  /// The name of the progress-update stream, which is used for access control
+  /// as well as a namespace for migration-task names that is implicitly linked
+  /// to your AWS account. The progress-update stream must uniquely identify the
+  /// migration tool as it is used for all updates made by the tool; however, it
+  /// does not need to be unique for each AWS account because it is scoped to
+  /// the AWS account.
+  ///
+  /// Parameter [sourceResourceName] :
+  /// The name that was specified for the source resource.
+  ///
+  /// Parameter [dryRun] :
+  /// This is an optional parameter that you can use to test whether the call
+  /// will succeed. Set this parameter to <code>true</code> to verify that you
+  /// have the permissions that are required to make the call, and that you have
+  /// specified the other parameters in the call correctly.
+  Future<void> disassociateSourceResource({
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    required String sourceResourceName,
+    bool? dryRun,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSMigrationHub.DisassociateSourceResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationTaskName': migrationTaskName,
+        'ProgressUpdateStream': progressUpdateStream,
+        'SourceResourceName': sourceResourceName,
+        if (dryRun != null) 'DryRun': dryRun,
+      },
+    );
+  }
+
   /// Registers a new migration task which represents a server, database, etc.,
   /// being migrated to AWS by a migration tool.
   ///
@@ -495,21 +609,21 @@ class MigrationHub {
   /// register the migration task with Migration Hub.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [migrationTaskName] :
   /// Unique identifier that references the migration task. <i>Do not store
   /// personal data in this field.</i>
   ///
   /// Parameter [progressUpdateStream] :
-  /// The name of the ProgressUpdateStream. &gt;
+  /// The name of the ProgressUpdateStream. >
   ///
   /// Parameter [dryRun] :
   /// Optional boolean flag to indicate whether any effect should take place.
@@ -542,11 +656,11 @@ class MigrationHub {
   /// statuses for those applications will be returned.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InvalidInputException].
   /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [applicationIds] :
   /// The configurationIds from the Application Discovery Service that uniquely
@@ -607,12 +721,12 @@ class MigrationHub {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [migrationTaskName] :
   /// Unique identifier that references the migration task. <i>Do not store
@@ -665,12 +779,12 @@ class MigrationHub {
   /// <code>MigrationTask</code>.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [migrationTaskName] :
   /// The name of the MigrationTask. <i>Do not store personal data in this
@@ -736,13 +850,13 @@ class MigrationHub {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [HomeRegionNotSetException].
   /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [InvalidInputException].
   /// May throw [PolicyErrorException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// Value to specify how many results are returned per page.
@@ -785,15 +899,85 @@ class MigrationHub {
     return ListMigrationTasksResult.fromJson(jsonResponse.body);
   }
 
+  /// This is a paginated API that returns all the migration-task states for the
+  /// specified <code>MigrationTaskName</code> and
+  /// <code>ProgressUpdateStream</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [migrationTaskName] :
+  /// A unique identifier that references the migration task. <i>Do not include
+  /// sensitive data in this field.</i>
+  ///
+  /// Parameter [progressUpdateStream] :
+  /// The name of the progress-update stream, which is used for access control
+  /// as well as a namespace for migration-task names that is implicitly linked
+  /// to your AWS account. The progress-update stream must uniquely identify the
+  /// migration tool as it is used for all updates made by the tool; however, it
+  /// does not need to be unique for each AWS account because it is scoped to
+  /// the AWS account.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the value that you specify here for <code>MaxResults</code>,
+  /// the response will include a token that you can use to retrieve the next
+  /// set of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>NextToken</code> was returned by a previous call, there are more
+  /// results available. The value of <code>NextToken</code> is a unique
+  /// pagination token for each page. To retrieve the next page of results,
+  /// specify the <code>NextToken</code> value that the previous call returned.
+  /// Keep all other arguments unchanged. Each pagination token expires after 24
+  /// hours. Using an expired pagination token will return an HTTP 400
+  /// InvalidToken error.
+  Future<ListMigrationTaskUpdatesResult> listMigrationTaskUpdates({
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSMigrationHub.ListMigrationTaskUpdates'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationTaskName': migrationTaskName,
+        'ProgressUpdateStream': progressUpdateStream,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListMigrationTaskUpdatesResult.fromJson(jsonResponse.body);
+  }
+
   /// Lists progress update streams associated with the user account making this
   /// call.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [InvalidInputException].
   /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// Filter to limit the maximum number of results to list per page.
@@ -831,21 +1015,90 @@ class MigrationHub {
     return ListProgressUpdateStreamsResult.fromJson(jsonResponse.body);
   }
 
+  /// Lists all the source resource that are associated with the specified
+  /// <code>MigrationTaskName</code> and <code>ProgressUpdateStream</code>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidInputException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [migrationTaskName] :
+  /// A unique identifier that references the migration task. <i>Do not store
+  /// confidential data in this field.</i>
+  ///
+  /// Parameter [progressUpdateStream] :
+  /// The name of the progress-update stream, which is used for access control
+  /// as well as a namespace for migration-task names that is implicitly linked
+  /// to your AWS account. The progress-update stream must uniquely identify the
+  /// migration tool as it is used for all updates made by the tool; however, it
+  /// does not need to be unique for each AWS account because it is scoped to
+  /// the AWS account.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to include in the response. If more results
+  /// exist than the value that you specify here for <code>MaxResults</code>,
+  /// the response will include a token that you can use to retrieve the next
+  /// set of results.
+  ///
+  /// Parameter [nextToken] :
+  /// If <code>NextToken</code> was returned by a previous call, there are more
+  /// results available. The value of <code>NextToken</code> is a unique
+  /// pagination token for each page. To retrieve the next page of results,
+  /// specify the <code>NextToken</code> value that the previous call returned.
+  /// Keep all other arguments unchanged. Each pagination token expires after 24
+  /// hours. Using an expired pagination token will return an HTTP 400
+  /// InvalidToken error.
+  Future<ListSourceResourcesResult> listSourceResources({
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSMigrationHub.ListSourceResources'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MigrationTaskName': migrationTaskName,
+        'ProgressUpdateStream': progressUpdateStream,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListSourceResourcesResult.fromJson(jsonResponse.body);
+  }
+
   /// Sets the migration state of an application. For a given application
   /// identified by the value passed to <code>ApplicationId</code>, its status
   /// is set or updated by passing one of three values to <code>Status</code>:
   /// <code>NOT_STARTED | IN_PROGRESS | COMPLETED</code>.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [PolicyErrorException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [applicationId] :
   /// The configurationId in Application Discovery Service that uniquely
@@ -905,14 +1158,14 @@ class MigrationHub {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [migrationTaskName] :
   /// Unique identifier that references the migration task. <i>Do not store
@@ -997,14 +1250,14 @@ class MigrationHub {
   /// </note>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [DryRunOperation].
-  /// May throw [UnauthorizedOperation].
+  /// May throw [HomeRegionNotSetException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [HomeRegionNotSetException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedOperation].
   ///
   /// Parameter [migrationTaskName] :
   /// Unique identifier that references the migration task. <i>Do not store
@@ -1073,73 +1326,6 @@ class MigrationHub {
   }
 }
 
-/// The state of an application discovered through Migration Hub import, the AWS
-/// Agentless Discovery Connector, or the AWS Application Discovery Agent.
-class ApplicationState {
-  /// The configurationId from the Application Discovery Service that uniquely
-  /// identifies an application.
-  final String? applicationId;
-
-  /// The current status of an application.
-  final ApplicationStatus? applicationStatus;
-
-  /// The timestamp when the application status was last updated.
-  final DateTime? lastUpdatedTime;
-
-  ApplicationState({
-    this.applicationId,
-    this.applicationStatus,
-    this.lastUpdatedTime,
-  });
-
-  factory ApplicationState.fromJson(Map<String, dynamic> json) {
-    return ApplicationState(
-      applicationId: json['ApplicationId'] as String?,
-      applicationStatus: (json['ApplicationStatus'] as String?)
-          ?.let(ApplicationStatus.fromString),
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationId = this.applicationId;
-    final applicationStatus = this.applicationStatus;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    return {
-      if (applicationId != null) 'ApplicationId': applicationId,
-      if (applicationStatus != null)
-        'ApplicationStatus': applicationStatus.value,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-    };
-  }
-}
-
-class ApplicationStatus {
-  static const notStarted = ApplicationStatus._('NOT_STARTED');
-  static const inProgress = ApplicationStatus._('IN_PROGRESS');
-  static const completed = ApplicationStatus._('COMPLETED');
-
-  final String value;
-
-  const ApplicationStatus._(this.value);
-
-  static const values = [notStarted, inProgress, completed];
-
-  static ApplicationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ApplicationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class AssociateCreatedArtifactResult {
   AssociateCreatedArtifactResult();
 
@@ -1164,6 +1350,18 @@ class AssociateDiscoveredResourceResult {
   }
 }
 
+class AssociateSourceResourceResult {
+  AssociateSourceResourceResult();
+
+  factory AssociateSourceResourceResult.fromJson(Map<String, dynamic> _) {
+    return AssociateSourceResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class CreateProgressUpdateStreamResult {
   CreateProgressUpdateStreamResult();
 
@@ -1173,38 +1371,6 @@ class CreateProgressUpdateStreamResult {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// An ARN of the AWS cloud resource target receiving the migration (e.g., AMI,
-/// EC2 instance, RDS instance, etc.).
-class CreatedArtifact {
-  /// An ARN that uniquely identifies the result of a migration task.
-  final String name;
-
-  /// A description that can be free-form text to record additional detail about
-  /// the artifact for clarity or for later reference.
-  final String? description;
-
-  CreatedArtifact({
-    required this.name,
-    this.description,
-  });
-
-  factory CreatedArtifact.fromJson(Map<String, dynamic> json) {
-    return CreatedArtifact(
-      name: (json['Name'] as String?) ?? '',
-      description: json['Description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final description = this.description;
-    return {
-      'Name': name,
-      if (description != null) 'Description': description,
-    };
   }
 }
 
@@ -1302,35 +1468,15 @@ class DisassociateDiscoveredResourceResult {
   }
 }
 
-/// Object representing the on-premises resource being migrated.
-class DiscoveredResource {
-  /// The configurationId in Application Discovery Service that uniquely
-  /// identifies the on-premise resource.
-  final String configurationId;
+class DisassociateSourceResourceResult {
+  DisassociateSourceResourceResult();
 
-  /// A description that can be free-form text to record additional detail about
-  /// the discovered resource for clarity or later reference.
-  final String? description;
-
-  DiscoveredResource({
-    required this.configurationId,
-    this.description,
-  });
-
-  factory DiscoveredResource.fromJson(Map<String, dynamic> json) {
-    return DiscoveredResource(
-      configurationId: (json['ConfigurationId'] as String?) ?? '',
-      description: json['Description'] as String?,
-    );
+  factory DisassociateSourceResourceResult.fromJson(Map<String, dynamic> _) {
+    return DisassociateSourceResourceResult();
   }
 
   Map<String, dynamic> toJson() {
-    final configurationId = this.configurationId;
-    final description = this.description;
-    return {
-      'ConfigurationId': configurationId,
-      if (description != null) 'Description': description,
-    };
+    return {};
   }
 }
 
@@ -1488,6 +1634,45 @@ class ListMigrationTasksResult {
   }
 }
 
+class ListMigrationTaskUpdatesResult {
+  /// The list of migration-task updates.
+  final List<MigrationTaskUpdate>? migrationTaskUpdateList;
+
+  /// If the response includes a <code>NextToken</code> value, that means that
+  /// there are more results available. The value of <code>NextToken</code> is a
+  /// unique pagination token for each page. To retrieve the next page of results,
+  /// call this API again and specify this <code>NextToken</code> value in the
+  /// request. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an HTTP 400
+  /// InvalidToken error.
+  final String? nextToken;
+
+  ListMigrationTaskUpdatesResult({
+    this.migrationTaskUpdateList,
+    this.nextToken,
+  });
+
+  factory ListMigrationTaskUpdatesResult.fromJson(Map<String, dynamic> json) {
+    return ListMigrationTaskUpdatesResult(
+      migrationTaskUpdateList: (json['MigrationTaskUpdateList'] as List?)
+          ?.nonNulls
+          .map((e) => MigrationTaskUpdate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationTaskUpdateList = this.migrationTaskUpdateList;
+    final nextToken = this.nextToken;
+    return {
+      if (migrationTaskUpdateList != null)
+        'MigrationTaskUpdateList': migrationTaskUpdateList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListProgressUpdateStreamsResult {
   /// If there are more streams created than the max result, return the next token
   /// to be passed to the next call as a bookmark of where to start from.
@@ -1526,128 +1711,40 @@ class ListProgressUpdateStreamsResult {
   }
 }
 
-/// Represents a migration task in a migration tool.
-class MigrationTask {
-  /// Unique identifier that references the migration task. <i>Do not store
-  /// personal data in this field.</i>
-  final String? migrationTaskName;
+class ListSourceResourcesResult {
+  /// If the response includes a <code>NextToken</code> value, that means that
+  /// there are more results available. The value of <code>NextToken</code> is a
+  /// unique pagination token for each page. To retrieve the next page of results,
+  /// call this API again and specify this <code>NextToken</code> value in the
+  /// request. Keep all other arguments unchanged. Each pagination token expires
+  /// after 24 hours. Using an expired pagination token will return an HTTP 400
+  /// InvalidToken error.
+  final String? nextToken;
 
-  /// A name that identifies the vendor of the migration tool being used.
-  final String? progressUpdateStream;
+  /// The list of source resources.
+  final List<SourceResource>? sourceResourceList;
 
-  /// Information about the resource that is being migrated. This data will be
-  /// used to map the task to a resource in the Application Discovery Service
-  /// repository.
-  final List<ResourceAttribute>? resourceAttributeList;
-
-  /// Task object encapsulating task information.
-  final Task? task;
-
-  /// The timestamp when the task was gathered.
-  final DateTime? updateDateTime;
-
-  MigrationTask({
-    this.migrationTaskName,
-    this.progressUpdateStream,
-    this.resourceAttributeList,
-    this.task,
-    this.updateDateTime,
+  ListSourceResourcesResult({
+    this.nextToken,
+    this.sourceResourceList,
   });
 
-  factory MigrationTask.fromJson(Map<String, dynamic> json) {
-    return MigrationTask(
-      migrationTaskName: json['MigrationTaskName'] as String?,
-      progressUpdateStream: json['ProgressUpdateStream'] as String?,
-      resourceAttributeList: (json['ResourceAttributeList'] as List?)
+  factory ListSourceResourcesResult.fromJson(Map<String, dynamic> json) {
+    return ListSourceResourcesResult(
+      nextToken: json['NextToken'] as String?,
+      sourceResourceList: (json['SourceResourceList'] as List?)
           ?.nonNulls
-          .map((e) => ResourceAttribute.fromJson(e as Map<String, dynamic>))
+          .map((e) => SourceResource.fromJson(e as Map<String, dynamic>))
           .toList(),
-      task: json['Task'] != null
-          ? Task.fromJson(json['Task'] as Map<String, dynamic>)
-          : null,
-      updateDateTime: timeStampFromJson(json['UpdateDateTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final migrationTaskName = this.migrationTaskName;
-    final progressUpdateStream = this.progressUpdateStream;
-    final resourceAttributeList = this.resourceAttributeList;
-    final task = this.task;
-    final updateDateTime = this.updateDateTime;
+    final nextToken = this.nextToken;
+    final sourceResourceList = this.sourceResourceList;
     return {
-      if (migrationTaskName != null) 'MigrationTaskName': migrationTaskName,
-      if (progressUpdateStream != null)
-        'ProgressUpdateStream': progressUpdateStream,
-      if (resourceAttributeList != null)
-        'ResourceAttributeList': resourceAttributeList,
-      if (task != null) 'Task': task,
-      if (updateDateTime != null)
-        'UpdateDateTime': unixTimestampToJson(updateDateTime),
-    };
-  }
-}
-
-/// MigrationTaskSummary includes <code>MigrationTaskName</code>,
-/// <code>ProgressPercent</code>, <code>ProgressUpdateStream</code>,
-/// <code>Status</code>, and <code>UpdateDateTime</code> for each task.
-class MigrationTaskSummary {
-  /// Unique identifier that references the migration task. <i>Do not store
-  /// personal data in this field.</i>
-  final String? migrationTaskName;
-
-  /// Indication of the percentage completion of the task.
-  final int? progressPercent;
-
-  /// An AWS resource used for access control. It should uniquely identify the
-  /// migration tool as it is used for all updates made by the tool.
-  final String? progressUpdateStream;
-
-  /// Status of the task.
-  final Status? status;
-
-  /// Detail information of what is being done within the overall status state.
-  final String? statusDetail;
-
-  /// The timestamp when the task was gathered.
-  final DateTime? updateDateTime;
-
-  MigrationTaskSummary({
-    this.migrationTaskName,
-    this.progressPercent,
-    this.progressUpdateStream,
-    this.status,
-    this.statusDetail,
-    this.updateDateTime,
-  });
-
-  factory MigrationTaskSummary.fromJson(Map<String, dynamic> json) {
-    return MigrationTaskSummary(
-      migrationTaskName: json['MigrationTaskName'] as String?,
-      progressPercent: json['ProgressPercent'] as int?,
-      progressUpdateStream: json['ProgressUpdateStream'] as String?,
-      status: (json['Status'] as String?)?.let(Status.fromString),
-      statusDetail: json['StatusDetail'] as String?,
-      updateDateTime: timeStampFromJson(json['UpdateDateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final migrationTaskName = this.migrationTaskName;
-    final progressPercent = this.progressPercent;
-    final progressUpdateStream = this.progressUpdateStream;
-    final status = this.status;
-    final statusDetail = this.statusDetail;
-    final updateDateTime = this.updateDateTime;
-    return {
-      if (migrationTaskName != null) 'MigrationTaskName': migrationTaskName,
-      if (progressPercent != null) 'ProgressPercent': progressPercent,
-      if (progressUpdateStream != null)
-        'ProgressUpdateStream': progressUpdateStream,
-      if (status != null) 'Status': status.value,
-      if (statusDetail != null) 'StatusDetail': statusDetail,
-      if (updateDateTime != null)
-        'UpdateDateTime': unixTimestampToJson(updateDateTime),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sourceResourceList != null) 'SourceResourceList': sourceResourceList,
     };
   }
 }
@@ -1673,32 +1770,6 @@ class NotifyMigrationTaskStateResult {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Summary of the AWS resource used for access control that is implicitly
-/// linked to your AWS account.
-class ProgressUpdateStreamSummary {
-  /// The name of the ProgressUpdateStream. <i>Do not store personal data in this
-  /// field.</i>
-  final String? progressUpdateStreamName;
-
-  ProgressUpdateStreamSummary({
-    this.progressUpdateStreamName,
-  });
-
-  factory ProgressUpdateStreamSummary.fromJson(Map<String, dynamic> json) {
-    return ProgressUpdateStreamSummary(
-      progressUpdateStreamName: json['ProgressUpdateStreamName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final progressUpdateStreamName = this.progressUpdateStreamName;
-    return {
-      if (progressUpdateStreamName != null)
-        'ProgressUpdateStreamName': progressUpdateStreamName,
-    };
   }
 }
 
@@ -1728,7 +1799,7 @@ class PutResourceAttributesResult {
 /// </dd> <dt>MAC_ADDRESS</dt> <dd>
 /// <code>^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$</code>
 /// </dd> <dt>FQDN</dt> <dd>
-/// <code>^[^&lt;&gt;{}\\\\/?,=\\p{Cntrl}]{1,256}$</code>
+/// <code>^[^<>{}\\\\/?,=\\p{Cntrl}]{1,256}$</code>
 /// </dd> </dl>
 class ResourceAttribute {
   /// Type of resource.
@@ -1805,31 +1876,6 @@ class ResourceAttributeType {
   String toString() => value;
 }
 
-class Status {
-  static const notStarted = Status._('NOT_STARTED');
-  static const inProgress = Status._('IN_PROGRESS');
-  static const failed = Status._('FAILED');
-  static const completed = Status._('COMPLETED');
-
-  final String value;
-
-  const Status._(this.value);
-
-  static const values = [notStarted, inProgress, failed, completed];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Task object encapsulating task information.
 class Task {
   /// Status of the task - Not Started, In-Progress, Complete.
@@ -1865,6 +1911,417 @@ class Task {
       'Status': status.value,
       if (progressPercent != null) 'ProgressPercent': progressPercent,
       if (statusDetail != null) 'StatusDetail': statusDetail,
+    };
+  }
+}
+
+class Status {
+  static const notStarted = Status._('NOT_STARTED');
+  static const inProgress = Status._('IN_PROGRESS');
+  static const failed = Status._('FAILED');
+  static const completed = Status._('COMPLETED');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [notStarted, inProgress, failed, completed];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApplicationStatus {
+  static const notStarted = ApplicationStatus._('NOT_STARTED');
+  static const inProgress = ApplicationStatus._('IN_PROGRESS');
+  static const completed = ApplicationStatus._('COMPLETED');
+
+  final String value;
+
+  const ApplicationStatus._(this.value);
+
+  static const values = [notStarted, inProgress, completed];
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A source resource can be a source server, a migration wave, an application,
+/// or any other resource that you track.
+class SourceResource {
+  /// This is the name that you want to use to identify the resource. If the
+  /// resource is an AWS resource, we recommend that you set this parameter to the
+  /// ARN of the resource.
+  final String name;
+
+  /// A description that can be free-form text to record additional detail about
+  /// the resource for clarity or later reference.
+  final String? description;
+
+  /// A free-form description of the status of the resource.
+  final String? statusDetail;
+
+  SourceResource({
+    required this.name,
+    this.description,
+    this.statusDetail,
+  });
+
+  factory SourceResource.fromJson(Map<String, dynamic> json) {
+    return SourceResource(
+      name: (json['Name'] as String?) ?? '',
+      description: json['Description'] as String?,
+      statusDetail: json['StatusDetail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    final statusDetail = this.statusDetail;
+    return {
+      'Name': name,
+      if (description != null) 'Description': description,
+      if (statusDetail != null) 'StatusDetail': statusDetail,
+    };
+  }
+}
+
+/// Summary of the AWS resource used for access control that is implicitly
+/// linked to your AWS account.
+class ProgressUpdateStreamSummary {
+  /// The name of the ProgressUpdateStream. <i>Do not store personal data in this
+  /// field.</i>
+  final String? progressUpdateStreamName;
+
+  ProgressUpdateStreamSummary({
+    this.progressUpdateStreamName,
+  });
+
+  factory ProgressUpdateStreamSummary.fromJson(Map<String, dynamic> json) {
+    return ProgressUpdateStreamSummary(
+      progressUpdateStreamName: json['ProgressUpdateStreamName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final progressUpdateStreamName = this.progressUpdateStreamName;
+    return {
+      if (progressUpdateStreamName != null)
+        'ProgressUpdateStreamName': progressUpdateStreamName,
+    };
+  }
+}
+
+/// A migration-task progress update.
+class MigrationTaskUpdate {
+  final Task? migrationTaskState;
+
+  /// The timestamp for the update.
+  final DateTime? updateDateTime;
+
+  /// The type of the update.
+  final UpdateType? updateType;
+
+  MigrationTaskUpdate({
+    this.migrationTaskState,
+    this.updateDateTime,
+    this.updateType,
+  });
+
+  factory MigrationTaskUpdate.fromJson(Map<String, dynamic> json) {
+    return MigrationTaskUpdate(
+      migrationTaskState: json['MigrationTaskState'] != null
+          ? Task.fromJson(json['MigrationTaskState'] as Map<String, dynamic>)
+          : null,
+      updateDateTime: timeStampFromJson(json['UpdateDateTime']),
+      updateType: (json['UpdateType'] as String?)?.let(UpdateType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationTaskState = this.migrationTaskState;
+    final updateDateTime = this.updateDateTime;
+    final updateType = this.updateType;
+    return {
+      if (migrationTaskState != null) 'MigrationTaskState': migrationTaskState,
+      if (updateDateTime != null)
+        'UpdateDateTime': unixTimestampToJson(updateDateTime),
+      if (updateType != null) 'UpdateType': updateType.value,
+    };
+  }
+}
+
+class UpdateType {
+  static const migrationTaskStateUpdated =
+      UpdateType._('MIGRATION_TASK_STATE_UPDATED');
+
+  final String value;
+
+  const UpdateType._(this.value);
+
+  static const values = [migrationTaskStateUpdated];
+
+  static UpdateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateType._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// MigrationTaskSummary includes <code>MigrationTaskName</code>,
+/// <code>ProgressPercent</code>, <code>ProgressUpdateStream</code>,
+/// <code>Status</code>, and <code>UpdateDateTime</code> for each task.
+class MigrationTaskSummary {
+  /// Unique identifier that references the migration task. <i>Do not store
+  /// personal data in this field.</i>
+  final String? migrationTaskName;
+
+  /// Indication of the percentage completion of the task.
+  final int? progressPercent;
+
+  /// An AWS resource used for access control. It should uniquely identify the
+  /// migration tool as it is used for all updates made by the tool.
+  final String? progressUpdateStream;
+
+  /// Status of the task.
+  final Status? status;
+
+  /// Detail information of what is being done within the overall status state.
+  final String? statusDetail;
+
+  /// The timestamp when the task was gathered.
+  final DateTime? updateDateTime;
+
+  MigrationTaskSummary({
+    this.migrationTaskName,
+    this.progressPercent,
+    this.progressUpdateStream,
+    this.status,
+    this.statusDetail,
+    this.updateDateTime,
+  });
+
+  factory MigrationTaskSummary.fromJson(Map<String, dynamic> json) {
+    return MigrationTaskSummary(
+      migrationTaskName: json['MigrationTaskName'] as String?,
+      progressPercent: json['ProgressPercent'] as int?,
+      progressUpdateStream: json['ProgressUpdateStream'] as String?,
+      status: (json['Status'] as String?)?.let(Status.fromString),
+      statusDetail: json['StatusDetail'] as String?,
+      updateDateTime: timeStampFromJson(json['UpdateDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationTaskName = this.migrationTaskName;
+    final progressPercent = this.progressPercent;
+    final progressUpdateStream = this.progressUpdateStream;
+    final status = this.status;
+    final statusDetail = this.statusDetail;
+    final updateDateTime = this.updateDateTime;
+    return {
+      if (migrationTaskName != null) 'MigrationTaskName': migrationTaskName,
+      if (progressPercent != null) 'ProgressPercent': progressPercent,
+      if (progressUpdateStream != null)
+        'ProgressUpdateStream': progressUpdateStream,
+      if (status != null) 'Status': status.value,
+      if (statusDetail != null) 'StatusDetail': statusDetail,
+      if (updateDateTime != null)
+        'UpdateDateTime': unixTimestampToJson(updateDateTime),
+    };
+  }
+}
+
+/// Object representing the on-premises resource being migrated.
+class DiscoveredResource {
+  /// The configurationId in Application Discovery Service that uniquely
+  /// identifies the on-premise resource.
+  final String configurationId;
+
+  /// A description that can be free-form text to record additional detail about
+  /// the discovered resource for clarity or later reference.
+  final String? description;
+
+  DiscoveredResource({
+    required this.configurationId,
+    this.description,
+  });
+
+  factory DiscoveredResource.fromJson(Map<String, dynamic> json) {
+    return DiscoveredResource(
+      configurationId: (json['ConfigurationId'] as String?) ?? '',
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationId = this.configurationId;
+    final description = this.description;
+    return {
+      'ConfigurationId': configurationId,
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// An ARN of the AWS cloud resource target receiving the migration (e.g., AMI,
+/// EC2 instance, RDS instance, etc.).
+class CreatedArtifact {
+  /// An ARN that uniquely identifies the result of a migration task.
+  final String name;
+
+  /// A description that can be free-form text to record additional detail about
+  /// the artifact for clarity or for later reference.
+  final String? description;
+
+  CreatedArtifact({
+    required this.name,
+    this.description,
+  });
+
+  factory CreatedArtifact.fromJson(Map<String, dynamic> json) {
+    return CreatedArtifact(
+      name: (json['Name'] as String?) ?? '',
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    return {
+      'Name': name,
+      if (description != null) 'Description': description,
+    };
+  }
+}
+
+/// The state of an application discovered through Migration Hub import, the AWS
+/// Agentless Discovery Connector, or the AWS Application Discovery Agent.
+class ApplicationState {
+  /// The configurationId from the Application Discovery Service that uniquely
+  /// identifies an application.
+  final String? applicationId;
+
+  /// The current status of an application.
+  final ApplicationStatus? applicationStatus;
+
+  /// The timestamp when the application status was last updated.
+  final DateTime? lastUpdatedTime;
+
+  ApplicationState({
+    this.applicationId,
+    this.applicationStatus,
+    this.lastUpdatedTime,
+  });
+
+  factory ApplicationState.fromJson(Map<String, dynamic> json) {
+    return ApplicationState(
+      applicationId: json['ApplicationId'] as String?,
+      applicationStatus: (json['ApplicationStatus'] as String?)
+          ?.let(ApplicationStatus.fromString),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final applicationStatus = this.applicationStatus;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (applicationStatus != null)
+        'ApplicationStatus': applicationStatus.value,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+    };
+  }
+}
+
+/// Represents a migration task in a migration tool.
+class MigrationTask {
+  /// Unique identifier that references the migration task. <i>Do not store
+  /// personal data in this field.</i>
+  final String? migrationTaskName;
+
+  /// A name that identifies the vendor of the migration tool being used.
+  final String? progressUpdateStream;
+
+  /// Information about the resource that is being migrated. This data will be
+  /// used to map the task to a resource in the Application Discovery Service
+  /// repository.
+  final List<ResourceAttribute>? resourceAttributeList;
+
+  /// Task object encapsulating task information.
+  final Task? task;
+
+  /// The timestamp when the task was gathered.
+  final DateTime? updateDateTime;
+
+  MigrationTask({
+    this.migrationTaskName,
+    this.progressUpdateStream,
+    this.resourceAttributeList,
+    this.task,
+    this.updateDateTime,
+  });
+
+  factory MigrationTask.fromJson(Map<String, dynamic> json) {
+    return MigrationTask(
+      migrationTaskName: json['MigrationTaskName'] as String?,
+      progressUpdateStream: json['ProgressUpdateStream'] as String?,
+      resourceAttributeList: (json['ResourceAttributeList'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      task: json['Task'] != null
+          ? Task.fromJson(json['Task'] as Map<String, dynamic>)
+          : null,
+      updateDateTime: timeStampFromJson(json['UpdateDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationTaskName = this.migrationTaskName;
+    final progressUpdateStream = this.progressUpdateStream;
+    final resourceAttributeList = this.resourceAttributeList;
+    final task = this.task;
+    final updateDateTime = this.updateDateTime;
+    return {
+      if (migrationTaskName != null) 'MigrationTaskName': migrationTaskName,
+      if (progressUpdateStream != null)
+        'ProgressUpdateStream': progressUpdateStream,
+      if (resourceAttributeList != null)
+        'ResourceAttributeList': resourceAttributeList,
+      if (task != null) 'Task': task,
+      if (updateDateTime != null)
+        'UpdateDateTime': unixTimestampToJson(updateDateTime),
     };
   }
 }

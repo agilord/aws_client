@@ -11,7 +11,9 @@ import 'model/config.dart';
 class DownloadCommand extends Command {
   Config? config;
 
-  DownloadCommand([this.config]) {
+  final bool downloadSmithy;
+
+  DownloadCommand([this.config, this.downloadSmithy = false]) {
     argParser
       ..addOption(
         'config-file',
@@ -47,7 +49,7 @@ class DownloadCommand extends Command {
     await _fetchApiDefinitions(config!.awsSdkJsReference);
     print('Definitions downloaded');
 
-    if (argResults?['smithy'] == true) {
+    if (argResults?['smithy'] == true || downloadSmithy) {
       final reference = config!.awsSdkJsV3Reference;
       if (reference == null) {
         throw StateError(

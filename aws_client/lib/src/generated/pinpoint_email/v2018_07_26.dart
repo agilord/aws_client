@@ -60,11 +60,11 @@ class PinpointEmail {
   /// are applied to the email.
   ///
   /// May throw [AlreadyExistsException].
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set.
@@ -122,11 +122,11 @@ class PinpointEmail {
   ///
   /// A single configuration set can include more than one event destination.
   ///
-  /// May throw [NotFoundException].
   /// May throw [AlreadyExistsException].
-  /// May throw [LimitExceededException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to add an event
@@ -162,10 +162,10 @@ class PinpointEmail {
   /// only the IP addresses in the associated pool.
   ///
   /// May throw [AlreadyExistsException].
-  /// May throw [LimitExceededException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [poolName] :
   /// The name of the dedicated IP pool.
@@ -200,14 +200,14 @@ class PinpointEmail {
   /// the test.
   ///
   /// May throw [AccountSuspendedException].
-  /// May throw [SendingPausedException].
-  /// May throw [MessageRejected].
-  /// May throw [MailFromDomainNotVerifiedException].
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [MessageRejected].
+  /// May throw [NotFoundException].
+  /// May throw [SendingPausedException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [content] :
   /// The HTML body of the message that you sent when you performed the
@@ -264,10 +264,10 @@ class PinpointEmail {
   /// It usually takes around 72 hours to complete the domain verification
   /// process.
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [emailIdentity] :
   /// The email address or domain that you want to verify.
@@ -300,10 +300,10 @@ class PinpointEmail {
   /// the email. When you apply a configuration set to an email, all of the
   /// rules in that configuration set are applied to the email.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to delete.
@@ -328,9 +328,9 @@ class PinpointEmail {
   /// receive bounces or complaints, or you can use Amazon Kinesis Data Firehose
   /// to stream data to Amazon S3 for long-term storage.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that contains the event destination that
@@ -353,10 +353,10 @@ class PinpointEmail {
 
   /// Delete a dedicated IP pool.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [poolName] :
   /// The name of the dedicated IP pool that you want to delete.
@@ -375,10 +375,10 @@ class PinpointEmail {
   /// Deletes an email identity that you previously verified for use with Amazon
   /// Pinpoint. An identity can be either an email address or a domain name.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [emailIdentity] :
   /// The identity (that is, the email address or domain) that you want to
@@ -397,8 +397,8 @@ class PinpointEmail {
   /// Obtain information about the email-sending status and capabilities of your
   /// Amazon Pinpoint account in the current AWS Region.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
   Future<GetAccountResponse> getAccount() async {
     final response = await _protocol.send(
       payload: null,
@@ -412,9 +412,9 @@ class PinpointEmail {
   /// Retrieve a list of the blacklists that your dedicated IP addresses appear
   /// on.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [blacklistItemNames] :
   /// A list of IP addresses that you want to retrieve blacklist information
@@ -446,9 +446,9 @@ class PinpointEmail {
   /// the email. When you apply a configuration set to an email, all of the
   /// rules in that configuration set are applied to the email.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to obtain more information
@@ -476,9 +476,9 @@ class PinpointEmail {
   /// receive bounces or complaints, or you can use Amazon Kinesis Data Firehose
   /// to stream data to Amazon S3 for long-term storage.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that contains the event destination.
@@ -500,9 +500,9 @@ class PinpointEmail {
   /// dedicated IP pool that it's associated with, as well information about the
   /// automatic warm-up process for the address.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [ip] :
   /// The IP address that you want to obtain more information about. The value
@@ -523,9 +523,9 @@ class PinpointEmail {
   /// List the dedicated IP addresses that are associated with your Amazon
   /// Pinpoint account.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [nextToken] :
   /// A token returned from a previous call to <code>GetDedicatedIps</code> to
@@ -573,9 +573,9 @@ class PinpointEmail {
   /// href="http://aws.amazon.com/pinpoint/pricing/">Amazon Pinpoint
   /// Pricing</a>.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [TooManyRequestsException].
   Future<GetDeliverabilityDashboardOptionsResponse>
       getDeliverabilityDashboardOptions() async {
     final response = await _protocol.send(
@@ -589,9 +589,9 @@ class PinpointEmail {
 
   /// Retrieve the results of a predictive inbox placement test.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [reportId] :
   /// A unique string that identifies the predictive inbox placement test.
@@ -613,9 +613,9 @@ class PinpointEmail {
   /// that the Deliverability dashboard is enabled for
   /// (<code>PutDeliverabilityDashboardOption</code> operation).
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [campaignId] :
   /// The unique identifier for the campaign. Amazon Pinpoint automatically
@@ -640,9 +640,9 @@ class PinpointEmail {
   /// Retrieve inbox placement and engagement rates for the domains that you use
   /// to send email.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [domain] :
   /// The domain that you want to obtain deliverability metrics for.
@@ -679,9 +679,9 @@ class PinpointEmail {
   /// Pinpoint account, including the identity's verification status, its DKIM
   /// authentication status, and its custom Mail-From settings.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
   /// The email identity that you want to retrieve details for.
@@ -706,8 +706,8 @@ class PinpointEmail {
   /// the email. When you apply a configuration set to an email, all of the
   /// rules in that configuration set are applied to the email.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [nextToken] :
   /// A token returned from a previous call to
@@ -741,8 +741,8 @@ class PinpointEmail {
   /// List all of the dedicated IP pools that exist in your Amazon Pinpoint
   /// account in the current AWS Region.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [nextToken] :
   /// A token returned from a previous call to <code>ListDedicatedIpPools</code>
@@ -777,9 +777,9 @@ class PinpointEmail {
   /// are complete, you can use the <code>GetDeliverabilityTestReport</code>
   /// operation to view the results.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [nextToken] :
   /// A token returned from a previous call to
@@ -817,9 +817,9 @@ class PinpointEmail {
   /// for a domain only if you enabled the Deliverability dashboard
   /// (<code>PutDeliverabilityDashboardOption</code> operation) for the domain.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [endDate] :
   /// The last day, in Unix time format, that you want to obtain deliverability
@@ -874,8 +874,8 @@ class PinpointEmail {
   /// or a domain. This operation returns identities that are verified as well
   /// as those that aren't.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [nextToken] :
   /// A token returned from a previous call to <code>ListEmailIdentities</code>
@@ -908,9 +908,9 @@ class PinpointEmail {
   }
 
   /// Retrieve a list of the tags (keys and values) that are associated with a
-  /// specified resource. A <i>tag</i> is a label that you optionally define and
+  /// specified resource. A <i>tag</i> is a label that you optionally define and
   /// associate with a resource in Amazon Pinpoint. Each tag consists of a
-  /// required <i>tag key</i> and an optional associated <i>tag value</i>. A tag
+  /// required <i>tag key</i> and an optional associated <i>tag value</i>. A tag
   /// key is a general label that acts as a category for more specific tag
   /// values. A tag value acts as a descriptor within a tag key.
   ///
@@ -940,8 +940,8 @@ class PinpointEmail {
   /// Enable or disable the automatic warm-up feature for dedicated IP
   /// addresses.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [autoWarmupEnabled] :
   /// Enables or disables the automatic warm-up feature for dedicated IP
@@ -964,8 +964,8 @@ class PinpointEmail {
 
   /// Enable or disable the ability of your account to send email.
   ///
-  /// May throw [TooManyRequestsException].
   /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [sendingEnabled] :
   /// Enables or disables your account's ability to send email. Set to
@@ -993,9 +993,9 @@ class PinpointEmail {
   /// dedicated IP pools to create groups of dedicated IP addresses for sending
   /// specific types of email.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to associate with a
@@ -1032,9 +1032,9 @@ class PinpointEmail {
   /// Enable or disable collection of reputation metrics for emails that you
   /// send using a particular configuration set in a specific AWS Region.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to enable or disable
@@ -1064,9 +1064,9 @@ class PinpointEmail {
   /// Enable or disable email sending for messages that use a particular
   /// configuration set in a specific AWS Region.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to enable or disable email
@@ -1095,9 +1095,9 @@ class PinpointEmail {
   /// Specify a custom domain to use for open and click tracking elements in
   /// email that you send using Amazon Pinpoint.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to add a custom tracking
@@ -1131,9 +1131,9 @@ class PinpointEmail {
   /// pool by using the <code>CreateDedicatedIpPool</code> operation.
   /// </note>
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [destinationPoolName] :
   /// The name of the IP pool that you want to add the dedicated IP address to.
@@ -1158,11 +1158,11 @@ class PinpointEmail {
     );
   }
 
-  /// <p/>
   ///
+  ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [ip] :
   /// The dedicated IP address that you want to update the warm-up attributes
@@ -1200,10 +1200,10 @@ class PinpointEmail {
   /// Pricing</a>.
   ///
   /// May throw [AlreadyExistsException].
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [dashboardEnabled] :
   /// Specifies whether to enable the Deliverability dashboard for your Amazon
@@ -1231,9 +1231,9 @@ class PinpointEmail {
 
   /// Used to enable or disable DKIM authentication for an email identity.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
   /// The email identity that you want to change the DKIM settings for.
@@ -1277,9 +1277,9 @@ class PinpointEmail {
   /// notifications, Amazon Pinpoint sends an email notification when these
   /// events occur (even if this setting is disabled).
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
   /// The email identity that you want to configure bounce and complaint
@@ -1320,9 +1320,9 @@ class PinpointEmail {
   /// Used to enable or disable the custom Mail-From domain configuration for an
   /// email identity.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [emailIdentity] :
   /// The verified email identity that you want to set up the custom MAIL FROM
@@ -1393,14 +1393,14 @@ class PinpointEmail {
   /// </li>
   /// </ul>
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [AccountSuspendedException].
-  /// May throw [SendingPausedException].
-  /// May throw [MessageRejected].
-  /// May throw [MailFromDomainNotVerifiedException].
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [MessageRejected].
+  /// May throw [NotFoundException].
+  /// May throw [SendingPausedException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [content] :
   /// An object that contains the body of the message. You can send either a
@@ -1460,12 +1460,12 @@ class PinpointEmail {
   }
 
   /// Add one or more tags (keys and values) to a specified resource. A
-  /// <i>tag</i> is a label that you optionally define and associate with a
+  /// <i>tag</i> is a label that you optionally define and associate with a
   /// resource in Amazon Pinpoint. Tags can help you categorize and manage
   /// resources in different ways, such as by purpose, owner, environment, or
   /// other criteria. A resource can have as many as 50 tags.
   ///
-  /// Each tag consists of a required <i>tag key</i> and an associated <i>tag
+  /// Each tag consists of a required <i>tag key</i> and an associated <i>tag
   /// value</i>, both of which you define. A tag key is a general label that
   /// acts as a category for more specific tag values. A tag value acts as a
   /// descriptor within a tag key.
@@ -1519,7 +1519,7 @@ class PinpointEmail {
   /// To remove more than one tag from the resource, append the
   /// <code>TagKeys</code> parameter and argument for each additional tag to
   /// remove, separated by an ampersand. For example:
-  /// <code>/v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2</code>
+  /// <code>/v1/email/tags?ResourceArn=ResourceArn&TagKeys=Key1&TagKeys=Key2</code>
   Future<void> untagResource({
     required String resourceArn,
     required List<String> tagKeys,
@@ -1546,9 +1546,9 @@ class PinpointEmail {
   /// receive bounces or complaints, or you can use Amazon Kinesis Data Firehose
   /// to stream data to Amazon S3 for long-term storage.
   ///
+  /// May throw [BadRequestException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [BadRequestException].
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that contains the event destination that
@@ -1577,231 +1577,17 @@ class PinpointEmail {
   }
 }
 
-/// The action that you want Amazon Pinpoint to take if it can't read the
-/// required MX record for a custom MAIL FROM domain. When you set this value to
-/// <code>UseDefaultValue</code>, Amazon Pinpoint uses <i>amazonses.com</i> as
-/// the MAIL FROM domain. When you set this value to <code>RejectMessage</code>,
-/// Amazon Pinpoint returns a <code>MailFromDomainNotVerified</code> error, and
-/// doesn't attempt to deliver the email.
-///
-/// These behaviors are taken when the custom MAIL FROM domain configuration is
-/// in the <code>Pending</code>, <code>Failed</code>, and
-/// <code>TemporaryFailure</code> states.
-class BehaviorOnMxFailure {
-  static const useDefaultValue = BehaviorOnMxFailure._('USE_DEFAULT_VALUE');
-  static const rejectMessage = BehaviorOnMxFailure._('REJECT_MESSAGE');
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+class CreateConfigurationSetResponse {
+  CreateConfigurationSetResponse();
 
-  final String value;
-
-  const BehaviorOnMxFailure._(this.value);
-
-  static const values = [useDefaultValue, rejectMessage];
-
-  static BehaviorOnMxFailure fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BehaviorOnMxFailure._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BehaviorOnMxFailure && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about a blacklisting event that impacts
-/// one of the dedicated IP addresses that is associated with your account.
-class BlacklistEntry {
-  /// Additional information about the blacklisting event, as provided by the
-  /// blacklist maintainer.
-  final String? description;
-
-  /// The time when the blacklisting event occurred, shown in Unix time format.
-  final DateTime? listingTime;
-
-  /// The name of the blacklist that the IP address appears on.
-  final String? rblName;
-
-  BlacklistEntry({
-    this.description,
-    this.listingTime,
-    this.rblName,
-  });
-
-  factory BlacklistEntry.fromJson(Map<String, dynamic> json) {
-    return BlacklistEntry(
-      description: json['Description'] as String?,
-      listingTime: timeStampFromJson(json['ListingTime']),
-      rblName: json['RblName'] as String?,
-    );
+  factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
+    return CreateConfigurationSetResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final description = this.description;
-    final listingTime = this.listingTime;
-    final rblName = this.rblName;
-    return {
-      if (description != null) 'Description': description,
-      if (listingTime != null) 'ListingTime': unixTimestampToJson(listingTime),
-      if (rblName != null) 'RblName': rblName,
-    };
-  }
-}
-
-/// Represents the body of the email message.
-class Body {
-  /// An object that represents the version of the message that is displayed in
-  /// email clients that support HTML. HTML messages can include formatted text,
-  /// hyperlinks, images, and more.
-  final Content? html;
-
-  /// An object that represents the version of the message that is displayed in
-  /// email clients that don't support HTML, or clients where the recipient has
-  /// disabled HTML rendering.
-  final Content? text;
-
-  Body({
-    this.html,
-    this.text,
-  });
-
-  Map<String, dynamic> toJson() {
-    final html = this.html;
-    final text = this.text;
-    return {
-      if (html != null) 'Html': html,
-      if (text != null) 'Text': text,
-    };
-  }
-}
-
-/// An object that defines an Amazon CloudWatch destination for email events.
-/// You can use Amazon CloudWatch to monitor and gain insights on your email
-/// sending metrics.
-class CloudWatchDestination {
-  /// An array of objects that define the dimensions to use when you send email
-  /// events to Amazon CloudWatch.
-  final List<CloudWatchDimensionConfiguration> dimensionConfigurations;
-
-  CloudWatchDestination({
-    required this.dimensionConfigurations,
-  });
-
-  factory CloudWatchDestination.fromJson(Map<String, dynamic> json) {
-    return CloudWatchDestination(
-      dimensionConfigurations:
-          ((json['DimensionConfigurations'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => CloudWatchDimensionConfiguration.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensionConfigurations = this.dimensionConfigurations;
-    return {
-      'DimensionConfigurations': dimensionConfigurations,
-    };
-  }
-}
-
-/// An object that defines the dimension configuration to use when you send
-/// Amazon Pinpoint email events to Amazon CloudWatch.
-class CloudWatchDimensionConfiguration {
-  /// The default value of the dimension that is published to Amazon CloudWatch if
-  /// you don't provide the value of the dimension when you send an email. This
-  /// value has to meet the following criteria:
-  ///
-  /// <ul>
-  /// <li>
-  /// It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores
-  /// (_), or dashes (-).
-  /// </li>
-  /// <li>
-  /// It can contain no more than 256 characters.
-  /// </li>
-  /// </ul>
-  final String defaultDimensionValue;
-
-  /// The name of an Amazon CloudWatch dimension associated with an email sending
-  /// metric. The name has to meet the following criteria:
-  ///
-  /// <ul>
-  /// <li>
-  /// It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores
-  /// (_), or dashes (-).
-  /// </li>
-  /// <li>
-  /// It can contain no more than 256 characters.
-  /// </li>
-  /// </ul>
-  final String dimensionName;
-
-  /// The location where Amazon Pinpoint finds the value of a dimension to publish
-  /// to Amazon CloudWatch. If you want Amazon Pinpoint to use the message tags
-  /// that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the
-  /// SendEmail/SendRawEmail API, choose <code>messageTag</code>. If you want
-  /// Amazon Pinpoint to use your own email headers, choose
-  /// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
-  /// choose <code>linkTags</code>.
-  final DimensionValueSource dimensionValueSource;
-
-  CloudWatchDimensionConfiguration({
-    required this.defaultDimensionValue,
-    required this.dimensionName,
-    required this.dimensionValueSource,
-  });
-
-  factory CloudWatchDimensionConfiguration.fromJson(Map<String, dynamic> json) {
-    return CloudWatchDimensionConfiguration(
-      defaultDimensionValue: (json['DefaultDimensionValue'] as String?) ?? '',
-      dimensionName: (json['DimensionName'] as String?) ?? '',
-      dimensionValueSource: DimensionValueSource.fromString(
-          (json['DimensionValueSource'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultDimensionValue = this.defaultDimensionValue;
-    final dimensionName = this.dimensionName;
-    final dimensionValueSource = this.dimensionValueSource;
-    return {
-      'DefaultDimensionValue': defaultDimensionValue,
-      'DimensionName': dimensionName,
-      'DimensionValueSource': dimensionValueSource.value,
-    };
-  }
-}
-
-/// An object that represents the content of the email, and optionally a
-/// character set specification.
-class Content {
-  /// The content of the message itself.
-  final String data;
-
-  /// The character set for the content. Because of the constraints of the SMTP
-  /// protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes
-  /// characters outside of the ASCII range, you have to specify a character set.
-  /// For example, you could specify <code>UTF-8</code>, <code>ISO-8859-1</code>,
-  /// or <code>Shift_JIS</code>.
-  final String? charset;
-
-  Content({
-    required this.data,
-    this.charset,
-  });
-
-  Map<String, dynamic> toJson() {
-    final data = this.data;
-    final charset = this.charset;
-    return {
-      'Data': data,
-      if (charset != null) 'Charset': charset,
-    };
+    return {};
   }
 }
 
@@ -1813,20 +1599,6 @@ class CreateConfigurationSetEventDestinationResponse {
   factory CreateConfigurationSetEventDestinationResponse.fromJson(
       Map<String, dynamic> _) {
     return CreateConfigurationSetEventDestinationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An HTTP 200 response if the request succeeds, or an error message if the
-/// request fails.
-class CreateConfigurationSetResponse {
-  CreateConfigurationSetResponse();
-
-  factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
-    return CreateConfigurationSetResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1937,111 +1709,17 @@ class CreateEmailIdentityResponse {
   }
 }
 
-/// An object that contains information about the volume of email sent on each
-/// day of the analysis period.
-class DailyVolume {
-  /// An object that contains inbox placement metrics for a specified day in the
-  /// analysis period, broken out by the recipient's email provider.
-  final List<DomainIspPlacement>? domainIspPlacements;
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+class DeleteConfigurationSetResponse {
+  DeleteConfigurationSetResponse();
 
-  /// The date that the DailyVolume metrics apply to, in Unix time.
-  final DateTime? startDate;
-
-  /// An object that contains inbox placement metrics for a specific day in the
-  /// analysis period.
-  final VolumeStatistics? volumeStatistics;
-
-  DailyVolume({
-    this.domainIspPlacements,
-    this.startDate,
-    this.volumeStatistics,
-  });
-
-  factory DailyVolume.fromJson(Map<String, dynamic> json) {
-    return DailyVolume(
-      domainIspPlacements: (json['DomainIspPlacements'] as List?)
-          ?.nonNulls
-          .map((e) => DomainIspPlacement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      startDate: timeStampFromJson(json['StartDate']),
-      volumeStatistics: json['VolumeStatistics'] != null
-          ? VolumeStatistics.fromJson(
-              json['VolumeStatistics'] as Map<String, dynamic>)
-          : null,
-    );
+  factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConfigurationSetResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final domainIspPlacements = this.domainIspPlacements;
-    final startDate = this.startDate;
-    final volumeStatistics = this.volumeStatistics;
-    return {
-      if (domainIspPlacements != null)
-        'DomainIspPlacements': domainIspPlacements,
-      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
-      if (volumeStatistics != null) 'VolumeStatistics': volumeStatistics,
-    };
-  }
-}
-
-/// Contains information about a dedicated IP address that is associated with
-/// your Amazon Pinpoint account.
-/// <p/>
-class DedicatedIp {
-  /// An IP address that is reserved for use by your Amazon Pinpoint account.
-  final String ip;
-
-  /// Indicates how complete the dedicated IP warm-up process is. When this value
-  /// equals 1, the address has completed the warm-up process and is ready for
-  /// use.
-  final int warmupPercentage;
-
-  /// The warm-up status of a dedicated IP address. The status can have one of the
-  /// following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IN_PROGRESS</code> – The IP address isn't ready to use because the
-  /// dedicated IP warm-up process is ongoing.
-  /// </li>
-  /// <li>
-  /// <code>DONE</code> – The dedicated IP warm-up process is complete, and the IP
-  /// address is ready to use.
-  /// </li>
-  /// </ul>
-  final WarmupStatus warmupStatus;
-
-  /// The name of the dedicated IP pool that the IP address is associated with.
-  final String? poolName;
-
-  DedicatedIp({
-    required this.ip,
-    required this.warmupPercentage,
-    required this.warmupStatus,
-    this.poolName,
-  });
-
-  factory DedicatedIp.fromJson(Map<String, dynamic> json) {
-    return DedicatedIp(
-      ip: (json['Ip'] as String?) ?? '',
-      warmupPercentage: (json['WarmupPercentage'] as int?) ?? 0,
-      warmupStatus:
-          WarmupStatus.fromString((json['WarmupStatus'] as String?) ?? ''),
-      poolName: json['PoolName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ip = this.ip;
-    final warmupPercentage = this.warmupPercentage;
-    final warmupStatus = this.warmupStatus;
-    final poolName = this.poolName;
-    return {
-      'Ip': ip,
-      'WarmupPercentage': warmupPercentage,
-      'WarmupStatus': warmupStatus.value,
-      if (poolName != null) 'PoolName': poolName,
-    };
+    return {};
   }
 }
 
@@ -2053,20 +1731,6 @@ class DeleteConfigurationSetEventDestinationResponse {
   factory DeleteConfigurationSetEventDestinationResponse.fromJson(
       Map<String, dynamic> _) {
     return DeleteConfigurationSetEventDestinationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An HTTP 200 response if the request succeeds, or an error message if the
-/// request fails.
-class DeleteConfigurationSetResponse {
-  DeleteConfigurationSetResponse();
-
-  factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteConfigurationSetResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -2100,892 +1764,6 @@ class DeleteEmailIdentityResponse {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-/// The current status of your Deliverability dashboard subscription. If this
-/// value is <code>PENDING_EXPIRATION</code>, your subscription is scheduled to
-/// expire at the end of the current calendar month.
-class DeliverabilityDashboardAccountStatus {
-  static const active = DeliverabilityDashboardAccountStatus._('ACTIVE');
-  static const pendingExpiration =
-      DeliverabilityDashboardAccountStatus._('PENDING_EXPIRATION');
-  static const disabled = DeliverabilityDashboardAccountStatus._('DISABLED');
-
-  final String value;
-
-  const DeliverabilityDashboardAccountStatus._(this.value);
-
-  static const values = [active, pendingExpiration, disabled];
-
-  static DeliverabilityDashboardAccountStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeliverabilityDashboardAccountStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeliverabilityDashboardAccountStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains metadata related to a predictive inbox placement
-/// test.
-class DeliverabilityTestReport {
-  /// The date and time when the predictive inbox placement test was created, in
-  /// Unix time format.
-  final DateTime? createDate;
-
-  /// The status of the predictive inbox placement test. If the status is
-  /// <code>IN_PROGRESS</code>, then the predictive inbox placement test is
-  /// currently running. Predictive inbox placement tests are usually complete
-  /// within 24 hours of creating the test. If the status is
-  /// <code>COMPLETE</code>, then the test is finished, and you can use the
-  /// <code>GetDeliverabilityTestReport</code> to view the results of the test.
-  final DeliverabilityTestStatus? deliverabilityTestStatus;
-
-  /// The sender address that you specified for the predictive inbox placement
-  /// test.
-  final String? fromEmailAddress;
-
-  /// A unique string that identifies the predictive inbox placement test.
-  final String? reportId;
-
-  /// A name that helps you identify a predictive inbox placement test report.
-  final String? reportName;
-
-  /// The subject line for an email that you submitted in a predictive inbox
-  /// placement test.
-  final String? subject;
-
-  DeliverabilityTestReport({
-    this.createDate,
-    this.deliverabilityTestStatus,
-    this.fromEmailAddress,
-    this.reportId,
-    this.reportName,
-    this.subject,
-  });
-
-  factory DeliverabilityTestReport.fromJson(Map<String, dynamic> json) {
-    return DeliverabilityTestReport(
-      createDate: timeStampFromJson(json['CreateDate']),
-      deliverabilityTestStatus: (json['DeliverabilityTestStatus'] as String?)
-          ?.let(DeliverabilityTestStatus.fromString),
-      fromEmailAddress: json['FromEmailAddress'] as String?,
-      reportId: json['ReportId'] as String?,
-      reportName: json['ReportName'] as String?,
-      subject: json['Subject'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createDate = this.createDate;
-    final deliverabilityTestStatus = this.deliverabilityTestStatus;
-    final fromEmailAddress = this.fromEmailAddress;
-    final reportId = this.reportId;
-    final reportName = this.reportName;
-    final subject = this.subject;
-    return {
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (deliverabilityTestStatus != null)
-        'DeliverabilityTestStatus': deliverabilityTestStatus.value,
-      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
-      if (reportId != null) 'ReportId': reportId,
-      if (reportName != null) 'ReportName': reportName,
-      if (subject != null) 'Subject': subject,
-    };
-  }
-}
-
-/// The status of a predictive inbox placement test. If the status is
-/// <code>IN_PROGRESS</code>, then the predictive inbox placement test is
-/// currently running. Predictive inbox placement tests are usually complete
-/// within 24 hours of creating the test. If the status is
-/// <code>COMPLETE</code>, then the test is finished, and you can use the
-/// <code>GetDeliverabilityTestReport</code> operation to view the results of
-/// the test.
-class DeliverabilityTestStatus {
-  static const inProgress = DeliverabilityTestStatus._('IN_PROGRESS');
-  static const completed = DeliverabilityTestStatus._('COMPLETED');
-
-  final String value;
-
-  const DeliverabilityTestStatus._(this.value);
-
-  static const values = [inProgress, completed];
-
-  static DeliverabilityTestStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeliverabilityTestStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeliverabilityTestStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Used to associate a configuration set with a dedicated IP pool.
-class DeliveryOptions {
-  /// The name of the dedicated IP pool that you want to associate with the
-  /// configuration set.
-  final String? sendingPoolName;
-
-  /// Specifies whether messages that use the configuration set are required to
-  /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
-  /// messages are only delivered if a TLS connection can be established. If the
-  /// value is <code>Optional</code>, messages can be delivered in plain text if a
-  /// TLS connection can't be established.
-  final TlsPolicy? tlsPolicy;
-
-  DeliveryOptions({
-    this.sendingPoolName,
-    this.tlsPolicy,
-  });
-
-  factory DeliveryOptions.fromJson(Map<String, dynamic> json) {
-    return DeliveryOptions(
-      sendingPoolName: json['SendingPoolName'] as String?,
-      tlsPolicy: (json['TlsPolicy'] as String?)?.let(TlsPolicy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sendingPoolName = this.sendingPoolName;
-    final tlsPolicy = this.tlsPolicy;
-    return {
-      if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
-    };
-  }
-}
-
-/// An object that describes the recipients for an email.
-class Destination {
-  /// An array that contains the email addresses of the "BCC" (blind carbon copy)
-  /// recipients for the email.
-  final List<String>? bccAddresses;
-
-  /// An array that contains the email addresses of the "CC" (carbon copy)
-  /// recipients for the email.
-  final List<String>? ccAddresses;
-
-  /// An array that contains the email addresses of the "To" recipients for the
-  /// email.
-  final List<String>? toAddresses;
-
-  Destination({
-    this.bccAddresses,
-    this.ccAddresses,
-    this.toAddresses,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bccAddresses = this.bccAddresses;
-    final ccAddresses = this.ccAddresses;
-    final toAddresses = this.toAddresses;
-    return {
-      if (bccAddresses != null) 'BccAddresses': bccAddresses,
-      if (ccAddresses != null) 'CcAddresses': ccAddresses,
-      if (toAddresses != null) 'ToAddresses': toAddresses,
-    };
-  }
-}
-
-/// The location where Amazon Pinpoint finds the value of a dimension to publish
-/// to Amazon CloudWatch. If you want Amazon Pinpoint to use the message tags
-/// that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the
-/// SendEmail/SendRawEmail API, choose <code>messageTag</code>. If you want
-/// Amazon Pinpoint to use your own email headers, choose
-/// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
-/// choose <code>linkTags</code>.
-class DimensionValueSource {
-  static const messageTag = DimensionValueSource._('MESSAGE_TAG');
-  static const emailHeader = DimensionValueSource._('EMAIL_HEADER');
-  static const linkTag = DimensionValueSource._('LINK_TAG');
-
-  final String value;
-
-  const DimensionValueSource._(this.value);
-
-  static const values = [messageTag, emailHeader, linkTag];
-
-  static DimensionValueSource fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DimensionValueSource._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DimensionValueSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about the DKIM configuration for an
-/// email identity.
-class DkimAttributes {
-  /// If the value is <code>true</code>, then the messages that Amazon Pinpoint
-  /// sends from the identity are DKIM-signed. If the value is <code>false</code>,
-  /// then the messages that Amazon Pinpoint sends from the identity aren't
-  /// DKIM-signed.
-  final bool? signingEnabled;
-
-  /// Describes whether or not Amazon Pinpoint has successfully located the DKIM
-  /// records in the DNS records for the domain. The status can be one of the
-  /// following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PENDING</code> – Amazon Pinpoint hasn't yet located the DKIM records
-  /// in the DNS configuration for the domain, but will continue to attempt to
-  /// locate them.
-  /// </li>
-  /// <li>
-  /// <code>SUCCESS</code> – Amazon Pinpoint located the DKIM records in the DNS
-  /// configuration for the domain and determined that they're correct. Amazon
-  /// Pinpoint can now send DKIM-signed email from the identity.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> – Amazon Pinpoint was unable to locate the DKIM records
-  /// in the DNS settings for the domain, and won't continue to search for them.
-  /// </li>
-  /// <li>
-  /// <code>TEMPORARY_FAILURE</code> – A temporary issue occurred, which prevented
-  /// Amazon Pinpoint from determining the DKIM status for the domain.
-  /// </li>
-  /// <li>
-  /// <code>NOT_STARTED</code> – Amazon Pinpoint hasn't yet started searching for
-  /// the DKIM records in the DKIM records for the domain.
-  /// </li>
-  /// </ul>
-  final DkimStatus? status;
-
-  /// A set of unique strings that you use to create a set of CNAME records that
-  /// you add to the DNS configuration for your domain. When Amazon Pinpoint
-  /// detects these records in the DNS configuration for your domain, the DKIM
-  /// authentication process is complete. Amazon Pinpoint usually detects these
-  /// records within about 72 hours of adding them to the DNS configuration for
-  /// your domain.
-  final List<String>? tokens;
-
-  DkimAttributes({
-    this.signingEnabled,
-    this.status,
-    this.tokens,
-  });
-
-  factory DkimAttributes.fromJson(Map<String, dynamic> json) {
-    return DkimAttributes(
-      signingEnabled: json['SigningEnabled'] as bool?,
-      status: (json['Status'] as String?)?.let(DkimStatus.fromString),
-      tokens:
-          (json['Tokens'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final signingEnabled = this.signingEnabled;
-    final status = this.status;
-    final tokens = this.tokens;
-    return {
-      if (signingEnabled != null) 'SigningEnabled': signingEnabled,
-      if (status != null) 'Status': status.value,
-      if (tokens != null) 'Tokens': tokens,
-    };
-  }
-}
-
-/// The DKIM authentication status of the identity. The status can be one of the
-/// following:
-///
-/// <ul>
-/// <li>
-/// <code>PENDING</code> – The DKIM verification process was initiated, and
-/// Amazon Pinpoint is still waiting for the required CNAME records to appear in
-/// the DNS configuration for the domain.
-/// </li>
-/// <li>
-/// <code>SUCCESS</code> – The DKIM authentication process completed
-/// successfully.
-/// </li>
-/// <li>
-/// <code>FAILED</code> – The DKIM authentication process failed. This can
-/// happen when Amazon Pinpoint fails to find the required CNAME records in the
-/// DNS configuration of the domain.
-/// </li>
-/// <li>
-/// <code>TEMPORARY_FAILURE</code> – A temporary issue is preventing Amazon
-/// Pinpoint from determining the DKIM authentication status of the domain.
-/// </li>
-/// <li>
-/// <code>NOT_STARTED</code> – The DKIM verification process hasn't been
-/// initiated for the domain.
-/// </li>
-/// </ul>
-class DkimStatus {
-  static const pending = DkimStatus._('PENDING');
-  static const success = DkimStatus._('SUCCESS');
-  static const failed = DkimStatus._('FAILED');
-  static const temporaryFailure = DkimStatus._('TEMPORARY_FAILURE');
-  static const notStarted = DkimStatus._('NOT_STARTED');
-
-  final String value;
-
-  const DkimStatus._(this.value);
-
-  static const values = [
-    pending,
-    success,
-    failed,
-    temporaryFailure,
-    notStarted
-  ];
-
-  static DkimStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DkimStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DkimStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains the deliverability data for a specific campaign.
-/// This data is available for a campaign only if the campaign sent email by
-/// using a domain that the Deliverability dashboard is enabled for
-/// (<code>PutDeliverabilityDashboardOption</code> operation).
-class DomainDeliverabilityCampaign {
-  /// The unique identifier for the campaign. Amazon Pinpoint automatically
-  /// generates and assigns this identifier to a campaign. This value is not the
-  /// same as the campaign identifier that Amazon Pinpoint assigns to campaigns
-  /// that you create and manage by using the Amazon Pinpoint API or the Amazon
-  /// Pinpoint console.
-  final String? campaignId;
-
-  /// The percentage of email messages that were deleted by recipients, without
-  /// being opened first. Due to technical limitations, this value only includes
-  /// recipients who opened the message by using an email client that supports
-  /// images.
-  final double? deleteRate;
-
-  /// The major email providers who handled the email message.
-  final List<String>? esps;
-
-  /// The first time, in Unix time format, when the email message was delivered to
-  /// any recipient's inbox. This value can help you determine how long it took
-  /// for a campaign to deliver an email message.
-  final DateTime? firstSeenDateTime;
-
-  /// The verified email address that the email message was sent from.
-  final String? fromAddress;
-
-  /// The URL of an image that contains a snapshot of the email message that was
-  /// sent.
-  final String? imageUrl;
-
-  /// The number of email messages that were delivered to recipients’ inboxes.
-  final int? inboxCount;
-
-  /// The last time, in Unix time format, when the email message was delivered to
-  /// any recipient's inbox. This value can help you determine how long it took
-  /// for a campaign to deliver an email message.
-  final DateTime? lastSeenDateTime;
-
-  /// The projected number of recipients that the email message was sent to.
-  final int? projectedVolume;
-
-  /// The percentage of email messages that were opened and then deleted by
-  /// recipients. Due to technical limitations, this value only includes
-  /// recipients who opened the message by using an email client that supports
-  /// images.
-  final double? readDeleteRate;
-
-  /// The percentage of email messages that were opened by recipients. Due to
-  /// technical limitations, this value only includes recipients who opened the
-  /// message by using an email client that supports images.
-  final double? readRate;
-
-  /// The IP addresses that were used to send the email message.
-  final List<String>? sendingIps;
-
-  /// The number of email messages that were delivered to recipients' spam or junk
-  /// mail folders.
-  final int? spamCount;
-
-  /// The subject line, or title, of the email message.
-  final String? subject;
-
-  DomainDeliverabilityCampaign({
-    this.campaignId,
-    this.deleteRate,
-    this.esps,
-    this.firstSeenDateTime,
-    this.fromAddress,
-    this.imageUrl,
-    this.inboxCount,
-    this.lastSeenDateTime,
-    this.projectedVolume,
-    this.readDeleteRate,
-    this.readRate,
-    this.sendingIps,
-    this.spamCount,
-    this.subject,
-  });
-
-  factory DomainDeliverabilityCampaign.fromJson(Map<String, dynamic> json) {
-    return DomainDeliverabilityCampaign(
-      campaignId: json['CampaignId'] as String?,
-      deleteRate: json['DeleteRate'] as double?,
-      esps: (json['Esps'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      firstSeenDateTime: timeStampFromJson(json['FirstSeenDateTime']),
-      fromAddress: json['FromAddress'] as String?,
-      imageUrl: json['ImageUrl'] as String?,
-      inboxCount: json['InboxCount'] as int?,
-      lastSeenDateTime: timeStampFromJson(json['LastSeenDateTime']),
-      projectedVolume: json['ProjectedVolume'] as int?,
-      readDeleteRate: json['ReadDeleteRate'] as double?,
-      readRate: json['ReadRate'] as double?,
-      sendingIps: (json['SendingIps'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      spamCount: json['SpamCount'] as int?,
-      subject: json['Subject'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaignId = this.campaignId;
-    final deleteRate = this.deleteRate;
-    final esps = this.esps;
-    final firstSeenDateTime = this.firstSeenDateTime;
-    final fromAddress = this.fromAddress;
-    final imageUrl = this.imageUrl;
-    final inboxCount = this.inboxCount;
-    final lastSeenDateTime = this.lastSeenDateTime;
-    final projectedVolume = this.projectedVolume;
-    final readDeleteRate = this.readDeleteRate;
-    final readRate = this.readRate;
-    final sendingIps = this.sendingIps;
-    final spamCount = this.spamCount;
-    final subject = this.subject;
-    return {
-      if (campaignId != null) 'CampaignId': campaignId,
-      if (deleteRate != null) 'DeleteRate': deleteRate,
-      if (esps != null) 'Esps': esps,
-      if (firstSeenDateTime != null)
-        'FirstSeenDateTime': unixTimestampToJson(firstSeenDateTime),
-      if (fromAddress != null) 'FromAddress': fromAddress,
-      if (imageUrl != null) 'ImageUrl': imageUrl,
-      if (inboxCount != null) 'InboxCount': inboxCount,
-      if (lastSeenDateTime != null)
-        'LastSeenDateTime': unixTimestampToJson(lastSeenDateTime),
-      if (projectedVolume != null) 'ProjectedVolume': projectedVolume,
-      if (readDeleteRate != null) 'ReadDeleteRate': readDeleteRate,
-      if (readRate != null) 'ReadRate': readRate,
-      if (sendingIps != null) 'SendingIps': sendingIps,
-      if (spamCount != null) 'SpamCount': spamCount,
-      if (subject != null) 'Subject': subject,
-    };
-  }
-}
-
-/// An object that contains information about the Deliverability dashboard
-/// subscription for a verified domain that you use to send email and currently
-/// has an active Deliverability dashboard subscription. If a Deliverability
-/// dashboard subscription is active for a domain, you gain access to
-/// reputation, inbox placement, and other metrics for the domain.
-class DomainDeliverabilityTrackingOption {
-  /// A verified domain that’s associated with your AWS account and currently has
-  /// an active Deliverability dashboard subscription.
-  final String? domain;
-
-  /// An object that contains information about the inbox placement data settings
-  /// for the domain.
-  final InboxPlacementTrackingOption? inboxPlacementTrackingOption;
-
-  /// The date, in Unix time format, when you enabled the Deliverability dashboard
-  /// for the domain.
-  final DateTime? subscriptionStartDate;
-
-  DomainDeliverabilityTrackingOption({
-    this.domain,
-    this.inboxPlacementTrackingOption,
-    this.subscriptionStartDate,
-  });
-
-  factory DomainDeliverabilityTrackingOption.fromJson(
-      Map<String, dynamic> json) {
-    return DomainDeliverabilityTrackingOption(
-      domain: json['Domain'] as String?,
-      inboxPlacementTrackingOption: json['InboxPlacementTrackingOption'] != null
-          ? InboxPlacementTrackingOption.fromJson(
-              json['InboxPlacementTrackingOption'] as Map<String, dynamic>)
-          : null,
-      subscriptionStartDate: timeStampFromJson(json['SubscriptionStartDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domain = this.domain;
-    final inboxPlacementTrackingOption = this.inboxPlacementTrackingOption;
-    final subscriptionStartDate = this.subscriptionStartDate;
-    return {
-      if (domain != null) 'Domain': domain,
-      if (inboxPlacementTrackingOption != null)
-        'InboxPlacementTrackingOption': inboxPlacementTrackingOption,
-      if (subscriptionStartDate != null)
-        'SubscriptionStartDate': unixTimestampToJson(subscriptionStartDate),
-    };
-  }
-}
-
-/// An object that contains inbox placement data for email sent from one of your
-/// email domains to a specific email provider.
-class DomainIspPlacement {
-  /// The percentage of messages that were sent from the selected domain to the
-  /// specified email provider that arrived in recipients' inboxes.
-  final double? inboxPercentage;
-
-  /// The total number of messages that were sent from the selected domain to the
-  /// specified email provider that arrived in recipients' inboxes.
-  final int? inboxRawCount;
-
-  /// The name of the email provider that the inbox placement data applies to.
-  final String? ispName;
-
-  /// The percentage of messages that were sent from the selected domain to the
-  /// specified email provider that arrived in recipients' spam or junk mail
-  /// folders.
-  final double? spamPercentage;
-
-  /// The total number of messages that were sent from the selected domain to the
-  /// specified email provider that arrived in recipients' spam or junk mail
-  /// folders.
-  final int? spamRawCount;
-
-  DomainIspPlacement({
-    this.inboxPercentage,
-    this.inboxRawCount,
-    this.ispName,
-    this.spamPercentage,
-    this.spamRawCount,
-  });
-
-  factory DomainIspPlacement.fromJson(Map<String, dynamic> json) {
-    return DomainIspPlacement(
-      inboxPercentage: json['InboxPercentage'] as double?,
-      inboxRawCount: json['InboxRawCount'] as int?,
-      ispName: json['IspName'] as String?,
-      spamPercentage: json['SpamPercentage'] as double?,
-      spamRawCount: json['SpamRawCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inboxPercentage = this.inboxPercentage;
-    final inboxRawCount = this.inboxRawCount;
-    final ispName = this.ispName;
-    final spamPercentage = this.spamPercentage;
-    final spamRawCount = this.spamRawCount;
-    return {
-      if (inboxPercentage != null) 'InboxPercentage': inboxPercentage,
-      if (inboxRawCount != null) 'InboxRawCount': inboxRawCount,
-      if (ispName != null) 'IspName': ispName,
-      if (spamPercentage != null) 'SpamPercentage': spamPercentage,
-      if (spamRawCount != null) 'SpamRawCount': spamRawCount,
-    };
-  }
-}
-
-/// An object that defines the entire content of the email, including the
-/// message headers and the body content. You can create a simple email message,
-/// in which you specify the subject and the text and HTML versions of the
-/// message body. You can also create raw messages, in which you specify a
-/// complete MIME-formatted message. Raw messages can include attachments and
-/// custom headers.
-class EmailContent {
-  /// The raw email message. The message has to meet the following criteria:
-  ///
-  /// <ul>
-  /// <li>
-  /// The message has to contain a header and a body, separated by one blank line.
-  /// </li>
-  /// <li>
-  /// All of the required header fields must be present in the message.
-  /// </li>
-  /// <li>
-  /// Each part of a multipart MIME message must be formatted properly.
-  /// </li>
-  /// <li>
-  /// If you include attachments, they must be in a file format that Amazon
-  /// Pinpoint supports.
-  /// </li>
-  /// <li>
-  /// The entire message must be Base64 encoded.
-  /// </li>
-  /// <li>
-  /// If any of the MIME parts in your message contain content that is outside of
-  /// the 7-bit ASCII character range, you should encode that content to ensure
-  /// that recipients' email clients render the message properly.
-  /// </li>
-  /// <li>
-  /// The length of any single line of text in the message can't exceed 1,000
-  /// characters. This restriction is defined in <a
-  /// href="https://tools.ietf.org/html/rfc5321">RFC 5321</a>.
-  /// </li>
-  /// </ul>
-  final RawMessage? raw;
-
-  /// The simple email message. The message consists of a subject and a message
-  /// body.
-  final Message? simple;
-
-  /// The template to use for the email message.
-  final Template? template;
-
-  EmailContent({
-    this.raw,
-    this.simple,
-    this.template,
-  });
-
-  Map<String, dynamic> toJson() {
-    final raw = this.raw;
-    final simple = this.simple;
-    final template = this.template;
-    return {
-      if (raw != null) 'Raw': raw,
-      if (simple != null) 'Simple': simple,
-      if (template != null) 'Template': template,
-    };
-  }
-}
-
-/// In Amazon Pinpoint, <i>events</i> include message sends, deliveries, opens,
-/// clicks, bounces, and complaints. <i>Event destinations</i> are places that
-/// you can send information about these events to. For example, you can send
-/// event data to Amazon SNS to receive notifications when you receive bounces
-/// or complaints, or you can use Amazon Kinesis Data Firehose to stream data to
-/// Amazon S3 for long-term storage.
-class EventDestination {
-  /// The types of events that Amazon Pinpoint sends to the specified event
-  /// destinations.
-  final List<EventType> matchingEventTypes;
-
-  /// A name that identifies the event destination.
-  final String name;
-
-  /// An object that defines an Amazon CloudWatch destination for email events.
-  /// You can use Amazon CloudWatch to monitor and gain insights on your email
-  /// sending metrics.
-  final CloudWatchDestination? cloudWatchDestination;
-
-  /// If <code>true</code>, the event destination is enabled. When the event
-  /// destination is enabled, the specified event types are sent to the
-  /// destinations in this <code>EventDestinationDefinition</code>.
-  ///
-  /// If <code>false</code>, the event destination is disabled. When the event
-  /// destination is disabled, events aren't sent to the specified destinations.
-  final bool? enabled;
-
-  /// An object that defines an Amazon Kinesis Data Firehose destination for email
-  /// events. You can use Amazon Kinesis Data Firehose to stream data to other
-  /// services, such as Amazon S3 and Amazon Redshift.
-  final KinesisFirehoseDestination? kinesisFirehoseDestination;
-
-  /// An object that defines a Amazon Pinpoint destination for email events. You
-  /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
-  /// projects. You can use these attributes to create segments for your
-  /// campaigns.
-  final PinpointDestination? pinpointDestination;
-
-  /// An object that defines an Amazon SNS destination for email events. You can
-  /// use Amazon SNS to send notification when certain email events occur.
-  final SnsDestination? snsDestination;
-
-  EventDestination({
-    required this.matchingEventTypes,
-    required this.name,
-    this.cloudWatchDestination,
-    this.enabled,
-    this.kinesisFirehoseDestination,
-    this.pinpointDestination,
-    this.snsDestination,
-  });
-
-  factory EventDestination.fromJson(Map<String, dynamic> json) {
-    return EventDestination(
-      matchingEventTypes: ((json['MatchingEventTypes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EventType.fromString((e as String)))
-          .toList(),
-      name: (json['Name'] as String?) ?? '',
-      cloudWatchDestination: json['CloudWatchDestination'] != null
-          ? CloudWatchDestination.fromJson(
-              json['CloudWatchDestination'] as Map<String, dynamic>)
-          : null,
-      enabled: json['Enabled'] as bool?,
-      kinesisFirehoseDestination: json['KinesisFirehoseDestination'] != null
-          ? KinesisFirehoseDestination.fromJson(
-              json['KinesisFirehoseDestination'] as Map<String, dynamic>)
-          : null,
-      pinpointDestination: json['PinpointDestination'] != null
-          ? PinpointDestination.fromJson(
-              json['PinpointDestination'] as Map<String, dynamic>)
-          : null,
-      snsDestination: json['SnsDestination'] != null
-          ? SnsDestination.fromJson(
-              json['SnsDestination'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final matchingEventTypes = this.matchingEventTypes;
-    final name = this.name;
-    final cloudWatchDestination = this.cloudWatchDestination;
-    final enabled = this.enabled;
-    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
-    final pinpointDestination = this.pinpointDestination;
-    final snsDestination = this.snsDestination;
-    return {
-      'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
-      'Name': name,
-      if (cloudWatchDestination != null)
-        'CloudWatchDestination': cloudWatchDestination,
-      if (enabled != null) 'Enabled': enabled,
-      if (kinesisFirehoseDestination != null)
-        'KinesisFirehoseDestination': kinesisFirehoseDestination,
-      if (pinpointDestination != null)
-        'PinpointDestination': pinpointDestination,
-      if (snsDestination != null) 'SnsDestination': snsDestination,
-    };
-  }
-}
-
-/// An object that defines the event destination. Specifically, it defines which
-/// services receive events from emails sent using the configuration set that
-/// the event destination is associated with. Also defines the types of events
-/// that are sent to the event destination.
-class EventDestinationDefinition {
-  /// An object that defines an Amazon CloudWatch destination for email events.
-  /// You can use Amazon CloudWatch to monitor and gain insights on your email
-  /// sending metrics.
-  final CloudWatchDestination? cloudWatchDestination;
-
-  /// If <code>true</code>, the event destination is enabled. When the event
-  /// destination is enabled, the specified event types are sent to the
-  /// destinations in this <code>EventDestinationDefinition</code>.
-  ///
-  /// If <code>false</code>, the event destination is disabled. When the event
-  /// destination is disabled, events aren't sent to the specified destinations.
-  final bool? enabled;
-
-  /// An object that defines an Amazon Kinesis Data Firehose destination for email
-  /// events. You can use Amazon Kinesis Data Firehose to stream data to other
-  /// services, such as Amazon S3 and Amazon Redshift.
-  final KinesisFirehoseDestination? kinesisFirehoseDestination;
-
-  /// An array that specifies which events Amazon Pinpoint should send to the
-  /// destinations in this <code>EventDestinationDefinition</code>.
-  final List<EventType>? matchingEventTypes;
-
-  /// An object that defines a Amazon Pinpoint destination for email events. You
-  /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
-  /// projects. You can use these attributes to create segments for your
-  /// campaigns.
-  final PinpointDestination? pinpointDestination;
-
-  /// An object that defines an Amazon SNS destination for email events. You can
-  /// use Amazon SNS to send notification when certain email events occur.
-  final SnsDestination? snsDestination;
-
-  EventDestinationDefinition({
-    this.cloudWatchDestination,
-    this.enabled,
-    this.kinesisFirehoseDestination,
-    this.matchingEventTypes,
-    this.pinpointDestination,
-    this.snsDestination,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchDestination = this.cloudWatchDestination;
-    final enabled = this.enabled;
-    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
-    final matchingEventTypes = this.matchingEventTypes;
-    final pinpointDestination = this.pinpointDestination;
-    final snsDestination = this.snsDestination;
-    return {
-      if (cloudWatchDestination != null)
-        'CloudWatchDestination': cloudWatchDestination,
-      if (enabled != null) 'Enabled': enabled,
-      if (kinesisFirehoseDestination != null)
-        'KinesisFirehoseDestination': kinesisFirehoseDestination,
-      if (matchingEventTypes != null)
-        'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
-      if (pinpointDestination != null)
-        'PinpointDestination': pinpointDestination,
-      if (snsDestination != null) 'SnsDestination': snsDestination,
-    };
-  }
-}
-
-/// An email sending event type. For example, email sends, opens, and bounces
-/// are all email events.
-class EventType {
-  static const send = EventType._('SEND');
-  static const reject = EventType._('REJECT');
-  static const bounce = EventType._('BOUNCE');
-  static const complaint = EventType._('COMPLAINT');
-  static const delivery = EventType._('DELIVERY');
-  static const open = EventType._('OPEN');
-  static const click = EventType._('CLICK');
-  static const renderingFailure = EventType._('RENDERING_FAILURE');
-
-  final String value;
-
-  const EventType._(this.value);
-
-  static const values = [
-    send,
-    reject,
-    bounce,
-    complaint,
-    delivery,
-    open,
-    click,
-    renderingFailure
-  ];
-
-  static EventType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
-
-  @override
-  bool operator ==(other) => other is EventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// A list of details about the email-sending capabilities of your Amazon
@@ -3111,34 +1889,6 @@ class GetBlacklistReportsResponse {
   }
 }
 
-/// Information about an event destination for a configuration set.
-class GetConfigurationSetEventDestinationsResponse {
-  /// An array that includes all of the events destinations that have been
-  /// configured for the configuration set.
-  final List<EventDestination>? eventDestinations;
-
-  GetConfigurationSetEventDestinationsResponse({
-    this.eventDestinations,
-  });
-
-  factory GetConfigurationSetEventDestinationsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetConfigurationSetEventDestinationsResponse(
-      eventDestinations: (json['EventDestinations'] as List?)
-          ?.nonNulls
-          .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventDestinations = this.eventDestinations;
-    return {
-      if (eventDestinations != null) 'EventDestinations': eventDestinations,
-    };
-  }
-}
-
 /// Information about a configuration set.
 class GetConfigurationSetResponse {
   /// The name of the configuration set.
@@ -3214,6 +1964,34 @@ class GetConfigurationSetResponse {
       if (sendingOptions != null) 'SendingOptions': sendingOptions,
       if (tags != null) 'Tags': tags,
       if (trackingOptions != null) 'TrackingOptions': trackingOptions,
+    };
+  }
+}
+
+/// Information about an event destination for a configuration set.
+class GetConfigurationSetEventDestinationsResponse {
+  /// An array that includes all of the events destinations that have been
+  /// configured for the configuration set.
+  final List<EventDestination>? eventDestinations;
+
+  GetConfigurationSetEventDestinationsResponse({
+    this.eventDestinations,
+  });
+
+  factory GetConfigurationSetEventDestinationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetConfigurationSetEventDestinationsResponse(
+      eventDestinations: (json['EventDestinations'] as List?)
+          ?.nonNulls
+          .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventDestinations = this.eventDestinations;
+    return {
+      if (eventDestinations != null) 'EventDestinations': eventDestinations,
     };
   }
 }
@@ -3589,203 +2367,6 @@ class GetEmailIdentityResponse {
   }
 }
 
-/// Information about an email identity.
-class IdentityInfo {
-  /// The address or domain of the identity.
-  final String? identityName;
-
-  /// The email identity type. The identity type can be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>EMAIL_ADDRESS</code> – The identity is an email address.
-  /// </li>
-  /// <li>
-  /// <code>DOMAIN</code> – The identity is a domain.
-  /// </li>
-  /// <li>
-  /// <code>MANAGED_DOMAIN</code> – The identity is a domain that is managed by
-  /// AWS.
-  /// </li>
-  /// </ul>
-  final IdentityType? identityType;
-
-  /// Indicates whether or not you can send email from the identity.
-  ///
-  /// In Amazon Pinpoint, an identity is an email address or domain that you send
-  /// email from. Before you can send email from an identity, you have to
-  /// demostrate that you own the identity, and that you authorize Amazon Pinpoint
-  /// to send email from that identity.
-  final bool? sendingEnabled;
-
-  IdentityInfo({
-    this.identityName,
-    this.identityType,
-    this.sendingEnabled,
-  });
-
-  factory IdentityInfo.fromJson(Map<String, dynamic> json) {
-    return IdentityInfo(
-      identityName: json['IdentityName'] as String?,
-      identityType:
-          (json['IdentityType'] as String?)?.let(IdentityType.fromString),
-      sendingEnabled: json['SendingEnabled'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityName = this.identityName;
-    final identityType = this.identityType;
-    final sendingEnabled = this.sendingEnabled;
-    return {
-      if (identityName != null) 'IdentityName': identityName,
-      if (identityType != null) 'IdentityType': identityType.value,
-      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
-    };
-  }
-}
-
-/// The email identity type. The identity type can be one of the following:
-///
-/// <ul>
-/// <li>
-/// <code>EMAIL_ADDRESS</code> – The identity is an email address.
-/// </li>
-/// <li>
-/// <code>DOMAIN</code> – The identity is a domain.
-/// </li>
-/// </ul>
-class IdentityType {
-  static const emailAddress = IdentityType._('EMAIL_ADDRESS');
-  static const domain = IdentityType._('DOMAIN');
-  static const managedDomain = IdentityType._('MANAGED_DOMAIN');
-
-  final String value;
-
-  const IdentityType._(this.value);
-
-  static const values = [emailAddress, domain, managedDomain];
-
-  static IdentityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
-
-  @override
-  bool operator ==(other) => other is IdentityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that contains information about the inbox placement data settings
-/// for a verified domain that’s associated with your AWS account. This data is
-/// available only if you enabled the Deliverability dashboard for the domain
-/// (<code>PutDeliverabilityDashboardOption</code> operation).
-class InboxPlacementTrackingOption {
-  /// Specifies whether inbox placement data is being tracked for the domain.
-  final bool? global;
-
-  /// An array of strings, one for each major email provider that the inbox
-  /// placement data applies to.
-  final List<String>? trackedIsps;
-
-  InboxPlacementTrackingOption({
-    this.global,
-    this.trackedIsps,
-  });
-
-  factory InboxPlacementTrackingOption.fromJson(Map<String, dynamic> json) {
-    return InboxPlacementTrackingOption(
-      global: json['Global'] as bool?,
-      trackedIsps: (json['TrackedIsps'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final global = this.global;
-    final trackedIsps = this.trackedIsps;
-    return {
-      if (global != null) 'Global': global,
-      if (trackedIsps != null) 'TrackedIsps': trackedIsps,
-    };
-  }
-}
-
-/// An object that describes how email sent during the predictive inbox
-/// placement test was handled by a certain email provider.
-class IspPlacement {
-  /// The name of the email provider that the inbox placement data applies to.
-  final String? ispName;
-
-  /// An object that contains inbox placement metrics for a specific email
-  /// provider.
-  final PlacementStatistics? placementStatistics;
-
-  IspPlacement({
-    this.ispName,
-    this.placementStatistics,
-  });
-
-  factory IspPlacement.fromJson(Map<String, dynamic> json) {
-    return IspPlacement(
-      ispName: json['IspName'] as String?,
-      placementStatistics: json['PlacementStatistics'] != null
-          ? PlacementStatistics.fromJson(
-              json['PlacementStatistics'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ispName = this.ispName;
-    final placementStatistics = this.placementStatistics;
-    return {
-      if (ispName != null) 'IspName': ispName,
-      if (placementStatistics != null)
-        'PlacementStatistics': placementStatistics,
-    };
-  }
-}
-
-/// An object that defines an Amazon Kinesis Data Firehose destination for email
-/// events. You can use Amazon Kinesis Data Firehose to stream data to other
-/// services, such as Amazon S3 and Amazon Redshift.
-class KinesisFirehoseDestination {
-  /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream
-  /// that Amazon Pinpoint sends email events to.
-  final String deliveryStreamArn;
-
-  /// The Amazon Resource Name (ARN) of the IAM role that Amazon Pinpoint uses
-  /// when sending email events to the Amazon Kinesis Data Firehose stream.
-  final String iamRoleArn;
-
-  KinesisFirehoseDestination({
-    required this.deliveryStreamArn,
-    required this.iamRoleArn,
-  });
-
-  factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
-    return KinesisFirehoseDestination(
-      deliveryStreamArn: (json['DeliveryStreamArn'] as String?) ?? '',
-      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryStreamArn = this.deliveryStreamArn;
-    final iamRoleArn = this.iamRoleArn;
-    return {
-      'DeliveryStreamArn': deliveryStreamArn,
-      'IamRoleArn': iamRoleArn,
-    };
-  }
-}
-
 /// A list of configuration sets in your Amazon Pinpoint account in the current
 /// AWS Region.
 class ListConfigurationSetsResponse {
@@ -4012,328 +2593,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// A list of attributes that are associated with a MAIL FROM domain.
-class MailFromAttributes {
-  /// The action that Amazon Pinpoint to takes if it can't read the required MX
-  /// record for a custom MAIL FROM domain. When you set this value to
-  /// <code>UseDefaultValue</code>, Amazon Pinpoint uses <i>amazonses.com</i> as
-  /// the MAIL FROM domain. When you set this value to <code>RejectMessage</code>,
-  /// Amazon Pinpoint returns a <code>MailFromDomainNotVerified</code> error, and
-  /// doesn't attempt to deliver the email.
-  ///
-  /// These behaviors are taken when the custom MAIL FROM domain configuration is
-  /// in the <code>Pending</code>, <code>Failed</code>, and
-  /// <code>TemporaryFailure</code> states.
-  final BehaviorOnMxFailure behaviorOnMxFailure;
-
-  /// The name of a domain that an email identity uses as a custom MAIL FROM
-  /// domain.
-  final String mailFromDomain;
-
-  /// The status of the MAIL FROM domain. This status can have the following
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PENDING</code> – Amazon Pinpoint hasn't started searching for the MX
-  /// record yet.
-  /// </li>
-  /// <li>
-  /// <code>SUCCESS</code> – Amazon Pinpoint detected the required MX record for
-  /// the MAIL FROM domain.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> – Amazon Pinpoint can't find the required MX record, or
-  /// the record no longer exists.
-  /// </li>
-  /// <li>
-  /// <code>TEMPORARY_FAILURE</code> – A temporary issue occurred, which prevented
-  /// Amazon Pinpoint from determining the status of the MAIL FROM domain.
-  /// </li>
-  /// </ul>
-  final MailFromDomainStatus mailFromDomainStatus;
-
-  MailFromAttributes({
-    required this.behaviorOnMxFailure,
-    required this.mailFromDomain,
-    required this.mailFromDomainStatus,
-  });
-
-  factory MailFromAttributes.fromJson(Map<String, dynamic> json) {
-    return MailFromAttributes(
-      behaviorOnMxFailure: BehaviorOnMxFailure.fromString(
-          (json['BehaviorOnMxFailure'] as String?) ?? ''),
-      mailFromDomain: (json['MailFromDomain'] as String?) ?? '',
-      mailFromDomainStatus: MailFromDomainStatus.fromString(
-          (json['MailFromDomainStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final behaviorOnMxFailure = this.behaviorOnMxFailure;
-    final mailFromDomain = this.mailFromDomain;
-    final mailFromDomainStatus = this.mailFromDomainStatus;
-    return {
-      'BehaviorOnMxFailure': behaviorOnMxFailure.value,
-      'MailFromDomain': mailFromDomain,
-      'MailFromDomainStatus': mailFromDomainStatus.value,
-    };
-  }
-}
-
-/// The status of the MAIL FROM domain. This status can have the following
-/// values:
-///
-/// <ul>
-/// <li>
-/// <code>PENDING</code> – Amazon Pinpoint hasn't started searching for the MX
-/// record yet.
-/// </li>
-/// <li>
-/// <code>SUCCESS</code> – Amazon Pinpoint detected the required MX record for
-/// the MAIL FROM domain.
-/// </li>
-/// <li>
-/// <code>FAILED</code> – Amazon Pinpoint can't find the required MX record, or
-/// the record no longer exists.
-/// </li>
-/// <li>
-/// <code>TEMPORARY_FAILURE</code> – A temporary issue occurred, which prevented
-/// Amazon Pinpoint from determining the status of the MAIL FROM domain.
-/// </li>
-/// </ul>
-class MailFromDomainStatus {
-  static const pending = MailFromDomainStatus._('PENDING');
-  static const success = MailFromDomainStatus._('SUCCESS');
-  static const failed = MailFromDomainStatus._('FAILED');
-  static const temporaryFailure = MailFromDomainStatus._('TEMPORARY_FAILURE');
-
-  final String value;
-
-  const MailFromDomainStatus._(this.value);
-
-  static const values = [pending, success, failed, temporaryFailure];
-
-  static MailFromDomainStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MailFromDomainStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MailFromDomainStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents the email message that you're sending. The <code>Message</code>
-/// object consists of a subject line and a message body.
-class Message {
-  /// The body of the message. You can specify an HTML version of the message, a
-  /// text-only version of the message, or both.
-  final Body body;
-
-  /// The subject line of the email. The subject line can only contain 7-bit ASCII
-  /// characters. However, you can specify non-ASCII characters in the subject
-  /// line by using encoded-word syntax, as described in <a
-  /// href="https://tools.ietf.org/html/rfc2047">RFC 2047</a>.
-  final Content subject;
-
-  Message({
-    required this.body,
-    required this.subject,
-  });
-
-  Map<String, dynamic> toJson() {
-    final body = this.body;
-    final subject = this.subject;
-    return {
-      'Body': body,
-      'Subject': subject,
-    };
-  }
-}
-
-/// Contains the name and value of a tag that you apply to an email. You can use
-/// message tags when you publish email sending events.
-class MessageTag {
-  /// The name of the message tag. The message tag name has to meet the following
-  /// criteria:
-  ///
-  /// <ul>
-  /// <li>
-  /// It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores
-  /// (_), or dashes (-).
-  /// </li>
-  /// <li>
-  /// It can contain no more than 256 characters.
-  /// </li>
-  /// </ul>
-  final String name;
-
-  /// The value of the message tag. The message tag value has to meet the
-  /// following criteria:
-  ///
-  /// <ul>
-  /// <li>
-  /// It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores
-  /// (_), or dashes (-).
-  /// </li>
-  /// <li>
-  /// It can contain no more than 256 characters.
-  /// </li>
-  /// </ul>
-  final String value;
-
-  MessageTag({
-    required this.name,
-    required this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-}
-
-/// An object that contains information about email that was sent from the
-/// selected domain.
-class OverallVolume {
-  /// An object that contains inbox and junk mail placement metrics for individual
-  /// email providers.
-  final List<DomainIspPlacement>? domainIspPlacements;
-
-  /// The percentage of emails that were sent from the domain that were read by
-  /// their recipients.
-  final double? readRatePercent;
-
-  /// An object that contains information about the numbers of messages that
-  /// arrived in recipients' inboxes and junk mail folders.
-  final VolumeStatistics? volumeStatistics;
-
-  OverallVolume({
-    this.domainIspPlacements,
-    this.readRatePercent,
-    this.volumeStatistics,
-  });
-
-  factory OverallVolume.fromJson(Map<String, dynamic> json) {
-    return OverallVolume(
-      domainIspPlacements: (json['DomainIspPlacements'] as List?)
-          ?.nonNulls
-          .map((e) => DomainIspPlacement.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      readRatePercent: json['ReadRatePercent'] as double?,
-      volumeStatistics: json['VolumeStatistics'] != null
-          ? VolumeStatistics.fromJson(
-              json['VolumeStatistics'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domainIspPlacements = this.domainIspPlacements;
-    final readRatePercent = this.readRatePercent;
-    final volumeStatistics = this.volumeStatistics;
-    return {
-      if (domainIspPlacements != null)
-        'DomainIspPlacements': domainIspPlacements,
-      if (readRatePercent != null) 'ReadRatePercent': readRatePercent,
-      if (volumeStatistics != null) 'VolumeStatistics': volumeStatistics,
-    };
-  }
-}
-
-/// An object that defines a Amazon Pinpoint destination for email events. You
-/// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
-/// projects. You can use these attributes to create segments for your
-/// campaigns.
-class PinpointDestination {
-  /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want
-  /// to send email events to.
-  final String? applicationArn;
-
-  PinpointDestination({
-    this.applicationArn,
-  });
-
-  factory PinpointDestination.fromJson(Map<String, dynamic> json) {
-    return PinpointDestination(
-      applicationArn: json['ApplicationArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationArn = this.applicationArn;
-    return {
-      if (applicationArn != null) 'ApplicationArn': applicationArn,
-    };
-  }
-}
-
-/// An object that contains inbox placement data for an email provider.
-class PlacementStatistics {
-  /// The percentage of emails that were authenticated by using DomainKeys
-  /// Identified Mail (DKIM) during the predictive inbox placement test.
-  final double? dkimPercentage;
-
-  /// The percentage of emails that arrived in recipients' inboxes during the
-  /// predictive inbox placement test.
-  final double? inboxPercentage;
-
-  /// The percentage of emails that didn't arrive in recipients' inboxes at all
-  /// during the predictive inbox placement test.
-  final double? missingPercentage;
-
-  /// The percentage of emails that arrived in recipients' spam or junk mail
-  /// folders during the predictive inbox placement test.
-  final double? spamPercentage;
-
-  /// The percentage of emails that were authenticated by using Sender Policy
-  /// Framework (SPF) during the predictive inbox placement test.
-  final double? spfPercentage;
-
-  PlacementStatistics({
-    this.dkimPercentage,
-    this.inboxPercentage,
-    this.missingPercentage,
-    this.spamPercentage,
-    this.spfPercentage,
-  });
-
-  factory PlacementStatistics.fromJson(Map<String, dynamic> json) {
-    return PlacementStatistics(
-      dkimPercentage: json['DkimPercentage'] as double?,
-      inboxPercentage: json['InboxPercentage'] as double?,
-      missingPercentage: json['MissingPercentage'] as double?,
-      spamPercentage: json['SpamPercentage'] as double?,
-      spfPercentage: json['SpfPercentage'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dkimPercentage = this.dkimPercentage;
-    final inboxPercentage = this.inboxPercentage;
-    final missingPercentage = this.missingPercentage;
-    final spamPercentage = this.spamPercentage;
-    final spfPercentage = this.spfPercentage;
-    return {
-      if (dkimPercentage != null) 'DkimPercentage': dkimPercentage,
-      if (inboxPercentage != null) 'InboxPercentage': inboxPercentage,
-      if (missingPercentage != null) 'MissingPercentage': missingPercentage,
-      if (spamPercentage != null) 'SpamPercentage': spamPercentage,
-      if (spfPercentage != null) 'SpfPercentage': spfPercentage,
-    };
-  }
-}
-
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 class PutAccountDedicatedIpWarmupAttributesResponse {
@@ -4512,6 +2771,644 @@ class PutEmailIdentityMailFromAttributesResponse {
   }
 }
 
+/// A unique message ID that you receive when Amazon Pinpoint accepts an email
+/// for sending.
+class SendEmailResponse {
+  /// A unique identifier for the message that is generated when Amazon Pinpoint
+  /// accepts the message.
+  /// <note>
+  /// It is possible for Amazon Pinpoint to accept a message without sending it.
+  /// This can happen when the message you're trying to send has an attachment
+  /// doesn't pass a virus check, or when you send a templated email that contains
+  /// invalid personalization content, for example.
+  /// </note>
+  final String? messageId;
+
+  SendEmailResponse({
+    this.messageId,
+  });
+
+  factory SendEmailResponse.fromJson(Map<String, dynamic> json) {
+    return SendEmailResponse(
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      if (messageId != null) 'MessageId': messageId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+class UpdateConfigurationSetEventDestinationResponse {
+  UpdateConfigurationSetEventDestinationResponse();
+
+  factory UpdateConfigurationSetEventDestinationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateConfigurationSetEventDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An object that defines the event destination. Specifically, it defines which
+/// services receive events from emails sent using the configuration set that
+/// the event destination is associated with. Also defines the types of events
+/// that are sent to the event destination.
+class EventDestinationDefinition {
+  /// An object that defines an Amazon CloudWatch destination for email events.
+  /// You can use Amazon CloudWatch to monitor and gain insights on your email
+  /// sending metrics.
+  final CloudWatchDestination? cloudWatchDestination;
+
+  /// If <code>true</code>, the event destination is enabled. When the event
+  /// destination is enabled, the specified event types are sent to the
+  /// destinations in this <code>EventDestinationDefinition</code>.
+  ///
+  /// If <code>false</code>, the event destination is disabled. When the event
+  /// destination is disabled, events aren't sent to the specified destinations.
+  final bool? enabled;
+
+  /// An object that defines an Amazon Kinesis Data Firehose destination for email
+  /// events. You can use Amazon Kinesis Data Firehose to stream data to other
+  /// services, such as Amazon S3 and Amazon Redshift.
+  final KinesisFirehoseDestination? kinesisFirehoseDestination;
+
+  /// An array that specifies which events Amazon Pinpoint should send to the
+  /// destinations in this <code>EventDestinationDefinition</code>.
+  final List<EventType>? matchingEventTypes;
+
+  /// An object that defines a Amazon Pinpoint destination for email events. You
+  /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
+  /// projects. You can use these attributes to create segments for your
+  /// campaigns.
+  final PinpointDestination? pinpointDestination;
+
+  /// An object that defines an Amazon SNS destination for email events. You can
+  /// use Amazon SNS to send notification when certain email events occur.
+  final SnsDestination? snsDestination;
+
+  EventDestinationDefinition({
+    this.cloudWatchDestination,
+    this.enabled,
+    this.kinesisFirehoseDestination,
+    this.matchingEventTypes,
+    this.pinpointDestination,
+    this.snsDestination,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchDestination = this.cloudWatchDestination;
+    final enabled = this.enabled;
+    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
+    final matchingEventTypes = this.matchingEventTypes;
+    final pinpointDestination = this.pinpointDestination;
+    final snsDestination = this.snsDestination;
+    return {
+      if (cloudWatchDestination != null)
+        'CloudWatchDestination': cloudWatchDestination,
+      if (enabled != null) 'Enabled': enabled,
+      if (kinesisFirehoseDestination != null)
+        'KinesisFirehoseDestination': kinesisFirehoseDestination,
+      if (matchingEventTypes != null)
+        'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
+      if (pinpointDestination != null)
+        'PinpointDestination': pinpointDestination,
+      if (snsDestination != null) 'SnsDestination': snsDestination,
+    };
+  }
+}
+
+/// An object that defines an Amazon Kinesis Data Firehose destination for email
+/// events. You can use Amazon Kinesis Data Firehose to stream data to other
+/// services, such as Amazon S3 and Amazon Redshift.
+class KinesisFirehoseDestination {
+  /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream
+  /// that Amazon Pinpoint sends email events to.
+  final String deliveryStreamArn;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that Amazon Pinpoint uses
+  /// when sending email events to the Amazon Kinesis Data Firehose stream.
+  final String iamRoleArn;
+
+  KinesisFirehoseDestination({
+    required this.deliveryStreamArn,
+    required this.iamRoleArn,
+  });
+
+  factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseDestination(
+      deliveryStreamArn: (json['DeliveryStreamArn'] as String?) ?? '',
+      iamRoleArn: (json['IamRoleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamArn = this.deliveryStreamArn;
+    final iamRoleArn = this.iamRoleArn;
+    return {
+      'DeliveryStreamArn': deliveryStreamArn,
+      'IamRoleArn': iamRoleArn,
+    };
+  }
+}
+
+/// An object that defines an Amazon CloudWatch destination for email events.
+/// You can use Amazon CloudWatch to monitor and gain insights on your email
+/// sending metrics.
+class CloudWatchDestination {
+  /// An array of objects that define the dimensions to use when you send email
+  /// events to Amazon CloudWatch.
+  final List<CloudWatchDimensionConfiguration> dimensionConfigurations;
+
+  CloudWatchDestination({
+    required this.dimensionConfigurations,
+  });
+
+  factory CloudWatchDestination.fromJson(Map<String, dynamic> json) {
+    return CloudWatchDestination(
+      dimensionConfigurations:
+          ((json['DimensionConfigurations'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => CloudWatchDimensionConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionConfigurations = this.dimensionConfigurations;
+    return {
+      'DimensionConfigurations': dimensionConfigurations,
+    };
+  }
+}
+
+/// An object that defines an Amazon SNS destination for email events. You can
+/// use Amazon SNS to send notification when certain email events occur.
+class SnsDestination {
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
+  /// publish email events to. For more information about Amazon SNS topics, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
+  /// Developer Guide</a>.
+  final String topicArn;
+
+  SnsDestination({
+    required this.topicArn,
+  });
+
+  factory SnsDestination.fromJson(Map<String, dynamic> json) {
+    return SnsDestination(
+      topicArn: (json['TopicArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    return {
+      'TopicArn': topicArn,
+    };
+  }
+}
+
+/// An object that defines a Amazon Pinpoint destination for email events. You
+/// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
+/// projects. You can use these attributes to create segments for your
+/// campaigns.
+class PinpointDestination {
+  /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project that you want
+  /// to send email events to.
+  final String? applicationArn;
+
+  PinpointDestination({
+    this.applicationArn,
+  });
+
+  factory PinpointDestination.fromJson(Map<String, dynamic> json) {
+    return PinpointDestination(
+      applicationArn: json['ApplicationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+    };
+  }
+}
+
+/// An object that defines the dimension configuration to use when you send
+/// Amazon Pinpoint email events to Amazon CloudWatch.
+class CloudWatchDimensionConfiguration {
+  /// The default value of the dimension that is published to Amazon CloudWatch if
+  /// you don't provide the value of the dimension when you send an email. This
+  /// value has to meet the following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores
+  /// (_), or dashes (-).
+  /// </li>
+  /// <li>
+  /// It can contain no more than 256 characters.
+  /// </li>
+  /// </ul>
+  final String defaultDimensionValue;
+
+  /// The name of an Amazon CloudWatch dimension associated with an email sending
+  /// metric. The name has to meet the following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// It can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores
+  /// (_), or dashes (-).
+  /// </li>
+  /// <li>
+  /// It can contain no more than 256 characters.
+  /// </li>
+  /// </ul>
+  final String dimensionName;
+
+  /// The location where Amazon Pinpoint finds the value of a dimension to publish
+  /// to Amazon CloudWatch. If you want Amazon Pinpoint to use the message tags
+  /// that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the
+  /// SendEmail/SendRawEmail API, choose <code>messageTag</code>. If you want
+  /// Amazon Pinpoint to use your own email headers, choose
+  /// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
+  /// choose <code>linkTags</code>.
+  final DimensionValueSource dimensionValueSource;
+
+  CloudWatchDimensionConfiguration({
+    required this.defaultDimensionValue,
+    required this.dimensionName,
+    required this.dimensionValueSource,
+  });
+
+  factory CloudWatchDimensionConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudWatchDimensionConfiguration(
+      defaultDimensionValue: (json['DefaultDimensionValue'] as String?) ?? '',
+      dimensionName: (json['DimensionName'] as String?) ?? '',
+      dimensionValueSource: DimensionValueSource.fromString(
+          (json['DimensionValueSource'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultDimensionValue = this.defaultDimensionValue;
+    final dimensionName = this.dimensionName;
+    final dimensionValueSource = this.dimensionValueSource;
+    return {
+      'DefaultDimensionValue': defaultDimensionValue,
+      'DimensionName': dimensionName,
+      'DimensionValueSource': dimensionValueSource.value,
+    };
+  }
+}
+
+/// The location where Amazon Pinpoint finds the value of a dimension to publish
+/// to Amazon CloudWatch. If you want Amazon Pinpoint to use the message tags
+/// that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the
+/// SendEmail/SendRawEmail API, choose <code>messageTag</code>. If you want
+/// Amazon Pinpoint to use your own email headers, choose
+/// <code>emailHeader</code>. If you want Amazon Pinpoint to use link tags,
+/// choose <code>linkTags</code>.
+class DimensionValueSource {
+  static const messageTag = DimensionValueSource._('MESSAGE_TAG');
+  static const emailHeader = DimensionValueSource._('EMAIL_HEADER');
+  static const linkTag = DimensionValueSource._('LINK_TAG');
+
+  final String value;
+
+  const DimensionValueSource._(this.value);
+
+  static const values = [messageTag, emailHeader, linkTag];
+
+  static DimensionValueSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DimensionValueSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DimensionValueSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An email sending event type. For example, email sends, opens, and bounces
+/// are all email events.
+class EventType {
+  static const send = EventType._('SEND');
+  static const reject = EventType._('REJECT');
+  static const bounce = EventType._('BOUNCE');
+  static const complaint = EventType._('COMPLAINT');
+  static const delivery = EventType._('DELIVERY');
+  static const open = EventType._('OPEN');
+  static const click = EventType._('CLICK');
+  static const renderingFailure = EventType._('RENDERING_FAILURE');
+
+  final String value;
+
+  const EventType._(this.value);
+
+  static const values = [
+    send,
+    reject,
+    bounce,
+    complaint,
+    delivery,
+    open,
+    click,
+    renderingFailure
+  ];
+
+  static EventType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EventType._(value));
+
+  @override
+  bool operator ==(other) => other is EventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that defines the tags that are associated with a resource. A
+/// <i>tag</i> is a label that you optionally define and associate with a
+/// resource in Amazon Pinpoint. Tags can help you categorize and manage
+/// resources in different ways, such as by purpose, owner, environment, or
+/// other criteria. A resource can have as many as 50 tags.
+///
+/// Each tag consists of a required <i>tag key</i> and an associated <i>tag
+/// value</i>, both of which you define. A tag key is a general label that acts
+/// as a category for a more specific tag value. A tag value acts as a
+/// descriptor within a tag key. A tag key can contain as many as 128
+/// characters. A tag value can contain as many as 256 characters. The
+/// characters can be Unicode letters, digits, white space, or one of the
+/// following symbols: _ . : / = + -. The following additional restrictions
+/// apply to tags:
+///
+/// <ul>
+/// <li>
+/// Tag keys and values are case sensitive.
+/// </li>
+/// <li>
+/// For each associated resource, each tag key must be unique and it can have
+/// only one value.
+/// </li>
+/// <li>
+/// The <code>aws:</code> prefix is reserved for use by AWS; you can’t use it in
+/// any tag keys or values that you define. In addition, you can't edit or
+/// remove tag keys or values that use this prefix. Tags that use this prefix
+/// don’t count against the limit of 50 tags per resource.
+/// </li>
+/// <li>
+/// You can associate tags with public or shared resources, but the tags are
+/// available only for your AWS account, not any other accounts that share the
+/// resource. In addition, the tags are available only for resources that are
+/// located in the specified AWS Region for your AWS account.
+/// </li>
+/// </ul>
+class Tag {
+  /// One part of a key-value pair that defines a tag. The maximum length of a tag
+  /// key is 128 characters. The minimum length is 1 character.
+  final String key;
+
+  /// The optional part of a key-value pair that defines a tag. The maximum length
+  /// of a tag value is 256 characters. The minimum length is 0 characters. If you
+  /// don’t want a resource to have a specific tag value, don’t specify a value
+  /// for this parameter. Amazon Pinpoint will set the value to an empty string.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// An object that describes the recipients for an email.
+class Destination {
+  /// An array that contains the email addresses of the "BCC" (blind carbon copy)
+  /// recipients for the email.
+  final List<String>? bccAddresses;
+
+  /// An array that contains the email addresses of the "CC" (carbon copy)
+  /// recipients for the email.
+  final List<String>? ccAddresses;
+
+  /// An array that contains the email addresses of the "To" recipients for the
+  /// email.
+  final List<String>? toAddresses;
+
+  Destination({
+    this.bccAddresses,
+    this.ccAddresses,
+    this.toAddresses,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bccAddresses = this.bccAddresses;
+    final ccAddresses = this.ccAddresses;
+    final toAddresses = this.toAddresses;
+    return {
+      if (bccAddresses != null) 'BccAddresses': bccAddresses,
+      if (ccAddresses != null) 'CcAddresses': ccAddresses,
+      if (toAddresses != null) 'ToAddresses': toAddresses,
+    };
+  }
+}
+
+/// An object that defines the entire content of the email, including the
+/// message headers and the body content. You can create a simple email message,
+/// in which you specify the subject and the text and HTML versions of the
+/// message body. You can also create raw messages, in which you specify a
+/// complete MIME-formatted message. Raw messages can include attachments and
+/// custom headers.
+class EmailContent {
+  /// The raw email message. The message has to meet the following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// The message has to contain a header and a body, separated by one blank line.
+  /// </li>
+  /// <li>
+  /// All of the required header fields must be present in the message.
+  /// </li>
+  /// <li>
+  /// Each part of a multipart MIME message must be formatted properly.
+  /// </li>
+  /// <li>
+  /// If you include attachments, they must be in a file format that Amazon
+  /// Pinpoint supports.
+  /// </li>
+  /// <li>
+  /// The entire message must be Base64 encoded.
+  /// </li>
+  /// <li>
+  /// If any of the MIME parts in your message contain content that is outside of
+  /// the 7-bit ASCII character range, you should encode that content to ensure
+  /// that recipients' email clients render the message properly.
+  /// </li>
+  /// <li>
+  /// The length of any single line of text in the message can't exceed 1,000
+  /// characters. This restriction is defined in <a
+  /// href="https://tools.ietf.org/html/rfc5321">RFC 5321</a>.
+  /// </li>
+  /// </ul>
+  final RawMessage? raw;
+
+  /// The simple email message. The message consists of a subject and a message
+  /// body.
+  final Message? simple;
+
+  /// The template to use for the email message.
+  final Template? template;
+
+  EmailContent({
+    this.raw,
+    this.simple,
+    this.template,
+  });
+
+  Map<String, dynamic> toJson() {
+    final raw = this.raw;
+    final simple = this.simple;
+    final template = this.template;
+    return {
+      if (raw != null) 'Raw': raw,
+      if (simple != null) 'Simple': simple,
+      if (template != null) 'Template': template,
+    };
+  }
+}
+
+/// Contains the name and value of a tag that you apply to an email. You can use
+/// message tags when you publish email sending events.
+class MessageTag {
+  /// The name of the message tag. The message tag name has to meet the following
+  /// criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores
+  /// (_), or dashes (-).
+  /// </li>
+  /// <li>
+  /// It can contain no more than 256 characters.
+  /// </li>
+  /// </ul>
+  final String name;
+
+  /// The value of the message tag. The message tag value has to meet the
+  /// following criteria:
+  ///
+  /// <ul>
+  /// <li>
+  /// It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores
+  /// (_), or dashes (-).
+  /// </li>
+  /// <li>
+  /// It can contain no more than 256 characters.
+  /// </li>
+  /// </ul>
+  final String value;
+
+  MessageTag({
+    required this.name,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+/// Represents the email message that you're sending. The <code>Message</code>
+/// object consists of a subject line and a message body.
+class Message {
+  /// The body of the message. You can specify an HTML version of the message, a
+  /// text-only version of the message, or both.
+  final Body body;
+
+  /// The subject line of the email. The subject line can only contain 7-bit ASCII
+  /// characters. However, you can specify non-ASCII characters in the subject
+  /// line by using encoded-word syntax, as described in <a
+  /// href="https://tools.ietf.org/html/rfc2047">RFC 2047</a>.
+  final Content subject;
+
+  Message({
+    required this.body,
+    required this.subject,
+  });
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final subject = this.subject;
+    return {
+      'Body': body,
+      'Subject': subject,
+    };
+  }
+}
+
 /// The raw email message.
 class RawMessage {
   /// The raw email message. The message has to meet the following criteria:
@@ -4557,250 +3454,6 @@ class RawMessage {
   }
 }
 
-/// Enable or disable collection of reputation metrics for emails that you send
-/// using this configuration set in the current AWS Region.
-class ReputationOptions {
-  /// The date and time (in Unix time) when the reputation metrics were last given
-  /// a fresh start. When your account is given a fresh start, your reputation
-  /// metrics are calculated starting from the date of the fresh start.
-  final DateTime? lastFreshStart;
-
-  /// If <code>true</code>, tracking of reputation metrics is enabled for the
-  /// configuration set. If <code>false</code>, tracking of reputation metrics is
-  /// disabled for the configuration set.
-  final bool? reputationMetricsEnabled;
-
-  ReputationOptions({
-    this.lastFreshStart,
-    this.reputationMetricsEnabled,
-  });
-
-  factory ReputationOptions.fromJson(Map<String, dynamic> json) {
-    return ReputationOptions(
-      lastFreshStart: timeStampFromJson(json['LastFreshStart']),
-      reputationMetricsEnabled: json['ReputationMetricsEnabled'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastFreshStart = this.lastFreshStart;
-    final reputationMetricsEnabled = this.reputationMetricsEnabled;
-    return {
-      if (lastFreshStart != null)
-        'LastFreshStart': unixTimestampToJson(lastFreshStart),
-      if (reputationMetricsEnabled != null)
-        'ReputationMetricsEnabled': reputationMetricsEnabled,
-    };
-  }
-}
-
-/// A unique message ID that you receive when Amazon Pinpoint accepts an email
-/// for sending.
-class SendEmailResponse {
-  /// A unique identifier for the message that is generated when Amazon Pinpoint
-  /// accepts the message.
-  /// <note>
-  /// It is possible for Amazon Pinpoint to accept a message without sending it.
-  /// This can happen when the message you're trying to send has an attachment
-  /// doesn't pass a virus check, or when you send a templated email that contains
-  /// invalid personalization content, for example.
-  /// </note>
-  final String? messageId;
-
-  SendEmailResponse({
-    this.messageId,
-  });
-
-  factory SendEmailResponse.fromJson(Map<String, dynamic> json) {
-    return SendEmailResponse(
-      messageId: json['MessageId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final messageId = this.messageId;
-    return {
-      if (messageId != null) 'MessageId': messageId,
-    };
-  }
-}
-
-/// An object that contains information about the per-day and per-second sending
-/// limits for your Amazon Pinpoint account in the current AWS Region.
-class SendQuota {
-  /// The maximum number of emails that you can send in the current AWS Region
-  /// over a 24-hour period. This value is also called your <i>sending quota</i>.
-  final double? max24HourSend;
-
-  /// The maximum number of emails that you can send per second in the current AWS
-  /// Region. This value is also called your <i>maximum sending rate</i> or your
-  /// <i>maximum TPS (transactions per second) rate</i>.
-  final double? maxSendRate;
-
-  /// The number of emails sent from your Amazon Pinpoint account in the current
-  /// AWS Region over the past 24 hours.
-  final double? sentLast24Hours;
-
-  SendQuota({
-    this.max24HourSend,
-    this.maxSendRate,
-    this.sentLast24Hours,
-  });
-
-  factory SendQuota.fromJson(Map<String, dynamic> json) {
-    return SendQuota(
-      max24HourSend: json['Max24HourSend'] as double?,
-      maxSendRate: json['MaxSendRate'] as double?,
-      sentLast24Hours: json['SentLast24Hours'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final max24HourSend = this.max24HourSend;
-    final maxSendRate = this.maxSendRate;
-    final sentLast24Hours = this.sentLast24Hours;
-    return {
-      if (max24HourSend != null) 'Max24HourSend': max24HourSend,
-      if (maxSendRate != null) 'MaxSendRate': maxSendRate,
-      if (sentLast24Hours != null) 'SentLast24Hours': sentLast24Hours,
-    };
-  }
-}
-
-/// Used to enable or disable email sending for messages that use this
-/// configuration set in the current AWS Region.
-class SendingOptions {
-  /// If <code>true</code>, email sending is enabled for the configuration set. If
-  /// <code>false</code>, email sending is disabled for the configuration set.
-  final bool? sendingEnabled;
-
-  SendingOptions({
-    this.sendingEnabled,
-  });
-
-  factory SendingOptions.fromJson(Map<String, dynamic> json) {
-    return SendingOptions(
-      sendingEnabled: json['SendingEnabled'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sendingEnabled = this.sendingEnabled;
-    return {
-      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
-    };
-  }
-}
-
-/// An object that defines an Amazon SNS destination for email events. You can
-/// use Amazon SNS to send notification when certain email events occur.
-class SnsDestination {
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to
-  /// publish email events to. For more information about Amazon SNS topics, see
-  /// the <a
-  /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
-  /// Developer Guide</a>.
-  final String topicArn;
-
-  SnsDestination({
-    required this.topicArn,
-  });
-
-  factory SnsDestination.fromJson(Map<String, dynamic> json) {
-    return SnsDestination(
-      topicArn: (json['TopicArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final topicArn = this.topicArn;
-    return {
-      'TopicArn': topicArn,
-    };
-  }
-}
-
-/// An object that defines the tags that are associated with a resource.
-/// A <i>tag</i> is a label that you optionally define and associate with a
-/// resource in Amazon Pinpoint. Tags can help you categorize and manage
-/// resources in different ways, such as by purpose, owner, environment, or
-/// other criteria. A resource can have as many as 50 tags.
-///
-/// Each tag consists of a required <i>tag key</i> and an associated <i>tag
-/// value</i>, both of which you define. A tag key is a general label that acts
-/// as a category for a more specific tag value. A tag value acts as a
-/// descriptor within a tag key. A tag key can contain as many as 128
-/// characters. A tag value can contain as many as 256 characters. The
-/// characters can be Unicode letters, digits, white space, or one of the
-/// following symbols: _ . : / = + -. The following additional restrictions
-/// apply to tags:
-///
-/// <ul>
-/// <li>
-/// Tag keys and values are case sensitive.
-/// </li>
-/// <li>
-/// For each associated resource, each tag key must be unique and it can have
-/// only one value.
-/// </li>
-/// <li>
-/// The <code>aws:</code> prefix is reserved for use by AWS; you can’t use it in
-/// any tag keys or values that you define. In addition, you can't edit or
-/// remove tag keys or values that use this prefix. Tags that use this prefix
-/// don’t count against the limit of 50 tags per resource.
-/// </li>
-/// <li>
-/// You can associate tags with public or shared resources, but the tags are
-/// available only for your AWS account, not any other accounts that share the
-/// resource. In addition, the tags are available only for resources that are
-/// located in the specified AWS Region for your AWS account.
-/// </li>
-/// </ul>
-class Tag {
-  /// One part of a key-value pair that defines a tag. The maximum length of a tag
-  /// key is 128 characters. The minimum length is 1 character.
-  final String key;
-
-  /// The optional part of a key-value pair that defines a tag. The maximum length
-  /// of a tag value is 256 characters. The minimum length is 0 characters. If you
-  /// don’t want a resource to have a specific tag value, don’t specify a value
-  /// for this parameter. Amazon Pinpoint will set the value to an empty string.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
 class Template {
   /// The Amazon Resource Name (ARN) of the template.
   final String? templateArn;
@@ -4822,6 +3475,183 @@ class Template {
     return {
       if (templateArn != null) 'TemplateArn': templateArn,
       if (templateData != null) 'TemplateData': templateData,
+    };
+  }
+}
+
+/// An object that represents the content of the email, and optionally a
+/// character set specification.
+class Content {
+  /// The content of the message itself.
+  final String data;
+
+  /// The character set for the content. Because of the constraints of the SMTP
+  /// protocol, Amazon Pinpoint uses 7-bit ASCII by default. If the text includes
+  /// characters outside of the ASCII range, you have to specify a character set.
+  /// For example, you could specify <code>UTF-8</code>, <code>ISO-8859-1</code>,
+  /// or <code>Shift_JIS</code>.
+  final String? charset;
+
+  Content({
+    required this.data,
+    this.charset,
+  });
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final charset = this.charset;
+    return {
+      'Data': data,
+      if (charset != null) 'Charset': charset,
+    };
+  }
+}
+
+/// Represents the body of the email message.
+class Body {
+  /// An object that represents the version of the message that is displayed in
+  /// email clients that support HTML. HTML messages can include formatted text,
+  /// hyperlinks, images, and more.
+  final Content? html;
+
+  /// An object that represents the version of the message that is displayed in
+  /// email clients that don't support HTML, or clients where the recipient has
+  /// disabled HTML rendering.
+  final Content? text;
+
+  Body({
+    this.html,
+    this.text,
+  });
+
+  Map<String, dynamic> toJson() {
+    final html = this.html;
+    final text = this.text;
+    return {
+      if (html != null) 'Html': html,
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// The action that you want Amazon Pinpoint to take if it can't read the
+/// required MX record for a custom MAIL FROM domain. When you set this value to
+/// <code>UseDefaultValue</code>, Amazon Pinpoint uses <i>amazonses.com</i> as
+/// the MAIL FROM domain. When you set this value to <code>RejectMessage</code>,
+/// Amazon Pinpoint returns a <code>MailFromDomainNotVerified</code> error, and
+/// doesn't attempt to deliver the email.
+///
+/// These behaviors are taken when the custom MAIL FROM domain configuration is
+/// in the <code>Pending</code>, <code>Failed</code>, and
+/// <code>TemporaryFailure</code> states.
+class BehaviorOnMxFailure {
+  static const useDefaultValue = BehaviorOnMxFailure._('USE_DEFAULT_VALUE');
+  static const rejectMessage = BehaviorOnMxFailure._('REJECT_MESSAGE');
+
+  final String value;
+
+  const BehaviorOnMxFailure._(this.value);
+
+  static const values = [useDefaultValue, rejectMessage];
+
+  static BehaviorOnMxFailure fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BehaviorOnMxFailure._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BehaviorOnMxFailure && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains information about the Deliverability dashboard
+/// subscription for a verified domain that you use to send email and currently
+/// has an active Deliverability dashboard subscription. If a Deliverability
+/// dashboard subscription is active for a domain, you gain access to
+/// reputation, inbox placement, and other metrics for the domain.
+class DomainDeliverabilityTrackingOption {
+  /// A verified domain that’s associated with your AWS account and currently has
+  /// an active Deliverability dashboard subscription.
+  final String? domain;
+
+  /// An object that contains information about the inbox placement data settings
+  /// for the domain.
+  final InboxPlacementTrackingOption? inboxPlacementTrackingOption;
+
+  /// The date, in Unix time format, when you enabled the Deliverability dashboard
+  /// for the domain.
+  final DateTime? subscriptionStartDate;
+
+  DomainDeliverabilityTrackingOption({
+    this.domain,
+    this.inboxPlacementTrackingOption,
+    this.subscriptionStartDate,
+  });
+
+  factory DomainDeliverabilityTrackingOption.fromJson(
+      Map<String, dynamic> json) {
+    return DomainDeliverabilityTrackingOption(
+      domain: json['Domain'] as String?,
+      inboxPlacementTrackingOption: json['InboxPlacementTrackingOption'] != null
+          ? InboxPlacementTrackingOption.fromJson(
+              json['InboxPlacementTrackingOption'] as Map<String, dynamic>)
+          : null,
+      subscriptionStartDate: timeStampFromJson(json['SubscriptionStartDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    final inboxPlacementTrackingOption = this.inboxPlacementTrackingOption;
+    final subscriptionStartDate = this.subscriptionStartDate;
+    return {
+      if (domain != null) 'Domain': domain,
+      if (inboxPlacementTrackingOption != null)
+        'InboxPlacementTrackingOption': inboxPlacementTrackingOption,
+      if (subscriptionStartDate != null)
+        'SubscriptionStartDate': unixTimestampToJson(subscriptionStartDate),
+    };
+  }
+}
+
+/// An object that contains information about the inbox placement data settings
+/// for a verified domain that’s associated with your AWS account. This data is
+/// available only if you enabled the Deliverability dashboard for the domain
+/// (<code>PutDeliverabilityDashboardOption</code> operation).
+class InboxPlacementTrackingOption {
+  /// Specifies whether inbox placement data is being tracked for the domain.
+  final bool? global;
+
+  /// An array of strings, one for each major email provider that the inbox
+  /// placement data applies to.
+  final List<String>? trackedIsps;
+
+  InboxPlacementTrackingOption({
+    this.global,
+    this.trackedIsps,
+  });
+
+  factory InboxPlacementTrackingOption.fromJson(Map<String, dynamic> json) {
+    return InboxPlacementTrackingOption(
+      global: json['Global'] as bool?,
+      trackedIsps: (json['TrackedIsps'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final global = this.global;
+    final trackedIsps = this.trackedIsps;
+    return {
+      if (global != null) 'Global': global,
+      if (trackedIsps != null) 'TrackedIsps': trackedIsps,
     };
   }
 }
@@ -4854,61 +3684,679 @@ class TlsPolicy {
   String toString() => value;
 }
 
-/// An object that defines the tracking options for a configuration set. When
-/// you use Amazon Pinpoint to send an email, it contains an invisible image
-/// that's used to track when recipients open your email. If your email contains
-/// links, those links are changed slightly in order to track when recipients
-/// click them.
-///
-/// These images and links include references to a domain operated by AWS. You
-/// can optionally configure Amazon Pinpoint to use a domain that you operate
-/// for these images and links.
-class TrackingOptions {
-  /// The domain that you want to use for tracking open and click events.
-  final String customRedirectDomain;
+/// Information about an email identity.
+class IdentityInfo {
+  /// The address or domain of the identity.
+  final String? identityName;
 
-  TrackingOptions({
-    required this.customRedirectDomain,
+  /// The email identity type. The identity type can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EMAIL_ADDRESS</code> – The identity is an email address.
+  /// </li>
+  /// <li>
+  /// <code>DOMAIN</code> – The identity is a domain.
+  /// </li>
+  /// <li>
+  /// <code>MANAGED_DOMAIN</code> – The identity is a domain that is managed by
+  /// AWS.
+  /// </li>
+  /// </ul>
+  final IdentityType? identityType;
+
+  /// Indicates whether or not you can send email from the identity.
+  ///
+  /// In Amazon Pinpoint, an identity is an email address or domain that you send
+  /// email from. Before you can send email from an identity, you have to
+  /// demostrate that you own the identity, and that you authorize Amazon Pinpoint
+  /// to send email from that identity.
+  final bool? sendingEnabled;
+
+  IdentityInfo({
+    this.identityName,
+    this.identityType,
+    this.sendingEnabled,
   });
 
-  factory TrackingOptions.fromJson(Map<String, dynamic> json) {
-    return TrackingOptions(
-      customRedirectDomain: (json['CustomRedirectDomain'] as String?) ?? '',
+  factory IdentityInfo.fromJson(Map<String, dynamic> json) {
+    return IdentityInfo(
+      identityName: json['IdentityName'] as String?,
+      identityType:
+          (json['IdentityType'] as String?)?.let(IdentityType.fromString),
+      sendingEnabled: json['SendingEnabled'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final customRedirectDomain = this.customRedirectDomain;
+    final identityName = this.identityName;
+    final identityType = this.identityType;
+    final sendingEnabled = this.sendingEnabled;
     return {
-      'CustomRedirectDomain': customRedirectDomain,
+      if (identityName != null) 'IdentityName': identityName,
+      if (identityType != null) 'IdentityType': identityType.value,
+      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
     };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// The email identity type. The identity type can be one of the following:
+///
+/// <ul>
+/// <li>
+/// <code>EMAIL_ADDRESS</code> – The identity is an email address.
+/// </li>
+/// <li>
+/// <code>DOMAIN</code> – The identity is a domain.
+/// </li>
+/// </ul>
+class IdentityType {
+  static const emailAddress = IdentityType._('EMAIL_ADDRESS');
+  static const domain = IdentityType._('DOMAIN');
+  static const managedDomain = IdentityType._('MANAGED_DOMAIN');
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  final String value;
+
+  const IdentityType._(this.value);
+
+  static const values = [emailAddress, domain, managedDomain];
+
+  static IdentityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains the deliverability data for a specific campaign.
+/// This data is available for a campaign only if the campaign sent email by
+/// using a domain that the Deliverability dashboard is enabled for
+/// (<code>PutDeliverabilityDashboardOption</code> operation).
+class DomainDeliverabilityCampaign {
+  /// The unique identifier for the campaign. Amazon Pinpoint automatically
+  /// generates and assigns this identifier to a campaign. This value is not the
+  /// same as the campaign identifier that Amazon Pinpoint assigns to campaigns
+  /// that you create and manage by using the Amazon Pinpoint API or the Amazon
+  /// Pinpoint console.
+  final String? campaignId;
+
+  /// The percentage of email messages that were deleted by recipients, without
+  /// being opened first. Due to technical limitations, this value only includes
+  /// recipients who opened the message by using an email client that supports
+  /// images.
+  final double? deleteRate;
+
+  /// The major email providers who handled the email message.
+  final List<String>? esps;
+
+  /// The first time, in Unix time format, when the email message was delivered to
+  /// any recipient's inbox. This value can help you determine how long it took
+  /// for a campaign to deliver an email message.
+  final DateTime? firstSeenDateTime;
+
+  /// The verified email address that the email message was sent from.
+  final String? fromAddress;
+
+  /// The URL of an image that contains a snapshot of the email message that was
+  /// sent.
+  final String? imageUrl;
+
+  /// The number of email messages that were delivered to recipients’ inboxes.
+  final int? inboxCount;
+
+  /// The last time, in Unix time format, when the email message was delivered to
+  /// any recipient's inbox. This value can help you determine how long it took
+  /// for a campaign to deliver an email message.
+  final DateTime? lastSeenDateTime;
+
+  /// The projected number of recipients that the email message was sent to.
+  final int? projectedVolume;
+
+  /// The percentage of email messages that were opened and then deleted by
+  /// recipients. Due to technical limitations, this value only includes
+  /// recipients who opened the message by using an email client that supports
+  /// images.
+  final double? readDeleteRate;
+
+  /// The percentage of email messages that were opened by recipients. Due to
+  /// technical limitations, this value only includes recipients who opened the
+  /// message by using an email client that supports images.
+  final double? readRate;
+
+  /// The IP addresses that were used to send the email message.
+  final List<String>? sendingIps;
+
+  /// The number of email messages that were delivered to recipients' spam or junk
+  /// mail folders.
+  final int? spamCount;
+
+  /// The subject line, or title, of the email message.
+  final String? subject;
+
+  DomainDeliverabilityCampaign({
+    this.campaignId,
+    this.deleteRate,
+    this.esps,
+    this.firstSeenDateTime,
+    this.fromAddress,
+    this.imageUrl,
+    this.inboxCount,
+    this.lastSeenDateTime,
+    this.projectedVolume,
+    this.readDeleteRate,
+    this.readRate,
+    this.sendingIps,
+    this.spamCount,
+    this.subject,
+  });
+
+  factory DomainDeliverabilityCampaign.fromJson(Map<String, dynamic> json) {
+    return DomainDeliverabilityCampaign(
+      campaignId: json['CampaignId'] as String?,
+      deleteRate: json['DeleteRate'] as double?,
+      esps: (json['Esps'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      firstSeenDateTime: timeStampFromJson(json['FirstSeenDateTime']),
+      fromAddress: json['FromAddress'] as String?,
+      imageUrl: json['ImageUrl'] as String?,
+      inboxCount: json['InboxCount'] as int?,
+      lastSeenDateTime: timeStampFromJson(json['LastSeenDateTime']),
+      projectedVolume: json['ProjectedVolume'] as int?,
+      readDeleteRate: json['ReadDeleteRate'] as double?,
+      readRate: json['ReadRate'] as double?,
+      sendingIps: (json['SendingIps'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      spamCount: json['SpamCount'] as int?,
+      subject: json['Subject'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final campaignId = this.campaignId;
+    final deleteRate = this.deleteRate;
+    final esps = this.esps;
+    final firstSeenDateTime = this.firstSeenDateTime;
+    final fromAddress = this.fromAddress;
+    final imageUrl = this.imageUrl;
+    final inboxCount = this.inboxCount;
+    final lastSeenDateTime = this.lastSeenDateTime;
+    final projectedVolume = this.projectedVolume;
+    final readDeleteRate = this.readDeleteRate;
+    final readRate = this.readRate;
+    final sendingIps = this.sendingIps;
+    final spamCount = this.spamCount;
+    final subject = this.subject;
+    return {
+      if (campaignId != null) 'CampaignId': campaignId,
+      if (deleteRate != null) 'DeleteRate': deleteRate,
+      if (esps != null) 'Esps': esps,
+      if (firstSeenDateTime != null)
+        'FirstSeenDateTime': unixTimestampToJson(firstSeenDateTime),
+      if (fromAddress != null) 'FromAddress': fromAddress,
+      if (imageUrl != null) 'ImageUrl': imageUrl,
+      if (inboxCount != null) 'InboxCount': inboxCount,
+      if (lastSeenDateTime != null)
+        'LastSeenDateTime': unixTimestampToJson(lastSeenDateTime),
+      if (projectedVolume != null) 'ProjectedVolume': projectedVolume,
+      if (readDeleteRate != null) 'ReadDeleteRate': readDeleteRate,
+      if (readRate != null) 'ReadRate': readRate,
+      if (sendingIps != null) 'SendingIps': sendingIps,
+      if (spamCount != null) 'SpamCount': spamCount,
+      if (subject != null) 'Subject': subject,
+    };
   }
 }
 
-/// An HTTP 200 response if the request succeeds, or an error message if the
-/// request fails.
-class UpdateConfigurationSetEventDestinationResponse {
-  UpdateConfigurationSetEventDestinationResponse();
+/// An object that contains metadata related to a predictive inbox placement
+/// test.
+class DeliverabilityTestReport {
+  /// The date and time when the predictive inbox placement test was created, in
+  /// Unix time format.
+  final DateTime? createDate;
 
-  factory UpdateConfigurationSetEventDestinationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateConfigurationSetEventDestinationResponse();
+  /// The status of the predictive inbox placement test. If the status is
+  /// <code>IN_PROGRESS</code>, then the predictive inbox placement test is
+  /// currently running. Predictive inbox placement tests are usually complete
+  /// within 24 hours of creating the test. If the status is
+  /// <code>COMPLETE</code>, then the test is finished, and you can use the
+  /// <code>GetDeliverabilityTestReport</code> to view the results of the test.
+  final DeliverabilityTestStatus? deliverabilityTestStatus;
+
+  /// The sender address that you specified for the predictive inbox placement
+  /// test.
+  final String? fromEmailAddress;
+
+  /// A unique string that identifies the predictive inbox placement test.
+  final String? reportId;
+
+  /// A name that helps you identify a predictive inbox placement test report.
+  final String? reportName;
+
+  /// The subject line for an email that you submitted in a predictive inbox
+  /// placement test.
+  final String? subject;
+
+  DeliverabilityTestReport({
+    this.createDate,
+    this.deliverabilityTestStatus,
+    this.fromEmailAddress,
+    this.reportId,
+    this.reportName,
+    this.subject,
+  });
+
+  factory DeliverabilityTestReport.fromJson(Map<String, dynamic> json) {
+    return DeliverabilityTestReport(
+      createDate: timeStampFromJson(json['CreateDate']),
+      deliverabilityTestStatus: (json['DeliverabilityTestStatus'] as String?)
+          ?.let(DeliverabilityTestStatus.fromString),
+      fromEmailAddress: json['FromEmailAddress'] as String?,
+      reportId: json['ReportId'] as String?,
+      reportName: json['ReportName'] as String?,
+      subject: json['Subject'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final createDate = this.createDate;
+    final deliverabilityTestStatus = this.deliverabilityTestStatus;
+    final fromEmailAddress = this.fromEmailAddress;
+    final reportId = this.reportId;
+    final reportName = this.reportName;
+    final subject = this.subject;
+    return {
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (deliverabilityTestStatus != null)
+        'DeliverabilityTestStatus': deliverabilityTestStatus.value,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (reportId != null) 'ReportId': reportId,
+      if (reportName != null) 'ReportName': reportName,
+      if (subject != null) 'Subject': subject,
+    };
+  }
+}
+
+/// The status of a predictive inbox placement test. If the status is
+/// <code>IN_PROGRESS</code>, then the predictive inbox placement test is
+/// currently running. Predictive inbox placement tests are usually complete
+/// within 24 hours of creating the test. If the status is
+/// <code>COMPLETE</code>, then the test is finished, and you can use the
+/// <code>GetDeliverabilityTestReport</code> operation to view the results of
+/// the test.
+class DeliverabilityTestStatus {
+  static const inProgress = DeliverabilityTestStatus._('IN_PROGRESS');
+  static const completed = DeliverabilityTestStatus._('COMPLETED');
+
+  final String value;
+
+  const DeliverabilityTestStatus._(this.value);
+
+  static const values = [inProgress, completed];
+
+  static DeliverabilityTestStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliverabilityTestStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliverabilityTestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains information about the DKIM configuration for an
+/// email identity.
+class DkimAttributes {
+  /// If the value is <code>true</code>, then the messages that Amazon Pinpoint
+  /// sends from the identity are DKIM-signed. If the value is <code>false</code>,
+  /// then the messages that Amazon Pinpoint sends from the identity aren't
+  /// DKIM-signed.
+  final bool? signingEnabled;
+
+  /// Describes whether or not Amazon Pinpoint has successfully located the DKIM
+  /// records in the DNS records for the domain. The status can be one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – Amazon Pinpoint hasn't yet located the DKIM records
+  /// in the DNS configuration for the domain, but will continue to attempt to
+  /// locate them.
+  /// </li>
+  /// <li>
+  /// <code>SUCCESS</code> – Amazon Pinpoint located the DKIM records in the DNS
+  /// configuration for the domain and determined that they're correct. Amazon
+  /// Pinpoint can now send DKIM-signed email from the identity.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – Amazon Pinpoint was unable to locate the DKIM records
+  /// in the DNS settings for the domain, and won't continue to search for them.
+  /// </li>
+  /// <li>
+  /// <code>TEMPORARY_FAILURE</code> – A temporary issue occurred, which prevented
+  /// Amazon Pinpoint from determining the DKIM status for the domain.
+  /// </li>
+  /// <li>
+  /// <code>NOT_STARTED</code> – Amazon Pinpoint hasn't yet started searching for
+  /// the DKIM records in the DKIM records for the domain.
+  /// </li>
+  /// </ul>
+  final DkimStatus? status;
+
+  /// A set of unique strings that you use to create a set of CNAME records that
+  /// you add to the DNS configuration for your domain. When Amazon Pinpoint
+  /// detects these records in the DNS configuration for your domain, the DKIM
+  /// authentication process is complete. Amazon Pinpoint usually detects these
+  /// records within about 72 hours of adding them to the DNS configuration for
+  /// your domain.
+  final List<String>? tokens;
+
+  DkimAttributes({
+    this.signingEnabled,
+    this.status,
+    this.tokens,
+  });
+
+  factory DkimAttributes.fromJson(Map<String, dynamic> json) {
+    return DkimAttributes(
+      signingEnabled: json['SigningEnabled'] as bool?,
+      status: (json['Status'] as String?)?.let(DkimStatus.fromString),
+      tokens:
+          (json['Tokens'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signingEnabled = this.signingEnabled;
+    final status = this.status;
+    final tokens = this.tokens;
+    return {
+      if (signingEnabled != null) 'SigningEnabled': signingEnabled,
+      if (status != null) 'Status': status.value,
+      if (tokens != null) 'Tokens': tokens,
+    };
+  }
+}
+
+/// A list of attributes that are associated with a MAIL FROM domain.
+class MailFromAttributes {
+  /// The action that Amazon Pinpoint to takes if it can't read the required MX
+  /// record for a custom MAIL FROM domain. When you set this value to
+  /// <code>UseDefaultValue</code>, Amazon Pinpoint uses <i>amazonses.com</i> as
+  /// the MAIL FROM domain. When you set this value to <code>RejectMessage</code>,
+  /// Amazon Pinpoint returns a <code>MailFromDomainNotVerified</code> error, and
+  /// doesn't attempt to deliver the email.
+  ///
+  /// These behaviors are taken when the custom MAIL FROM domain configuration is
+  /// in the <code>Pending</code>, <code>Failed</code>, and
+  /// <code>TemporaryFailure</code> states.
+  final BehaviorOnMxFailure behaviorOnMxFailure;
+
+  /// The name of a domain that an email identity uses as a custom MAIL FROM
+  /// domain.
+  final String mailFromDomain;
+
+  /// The status of the MAIL FROM domain. This status can have the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – Amazon Pinpoint hasn't started searching for the MX
+  /// record yet.
+  /// </li>
+  /// <li>
+  /// <code>SUCCESS</code> – Amazon Pinpoint detected the required MX record for
+  /// the MAIL FROM domain.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – Amazon Pinpoint can't find the required MX record, or
+  /// the record no longer exists.
+  /// </li>
+  /// <li>
+  /// <code>TEMPORARY_FAILURE</code> – A temporary issue occurred, which prevented
+  /// Amazon Pinpoint from determining the status of the MAIL FROM domain.
+  /// </li>
+  /// </ul>
+  final MailFromDomainStatus mailFromDomainStatus;
+
+  MailFromAttributes({
+    required this.behaviorOnMxFailure,
+    required this.mailFromDomain,
+    required this.mailFromDomainStatus,
+  });
+
+  factory MailFromAttributes.fromJson(Map<String, dynamic> json) {
+    return MailFromAttributes(
+      behaviorOnMxFailure: BehaviorOnMxFailure.fromString(
+          (json['BehaviorOnMxFailure'] as String?) ?? ''),
+      mailFromDomain: (json['MailFromDomain'] as String?) ?? '',
+      mailFromDomainStatus: MailFromDomainStatus.fromString(
+          (json['MailFromDomainStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behaviorOnMxFailure = this.behaviorOnMxFailure;
+    final mailFromDomain = this.mailFromDomain;
+    final mailFromDomainStatus = this.mailFromDomainStatus;
+    return {
+      'BehaviorOnMxFailure': behaviorOnMxFailure.value,
+      'MailFromDomain': mailFromDomain,
+      'MailFromDomainStatus': mailFromDomainStatus.value,
+    };
+  }
+}
+
+/// The status of the MAIL FROM domain. This status can have the following
+/// values:
+///
+/// <ul>
+/// <li>
+/// <code>PENDING</code> – Amazon Pinpoint hasn't started searching for the MX
+/// record yet.
+/// </li>
+/// <li>
+/// <code>SUCCESS</code> – Amazon Pinpoint detected the required MX record for
+/// the MAIL FROM domain.
+/// </li>
+/// <li>
+/// <code>FAILED</code> – Amazon Pinpoint can't find the required MX record, or
+/// the record no longer exists.
+/// </li>
+/// <li>
+/// <code>TEMPORARY_FAILURE</code> – A temporary issue occurred, which prevented
+/// Amazon Pinpoint from determining the status of the MAIL FROM domain.
+/// </li>
+/// </ul>
+class MailFromDomainStatus {
+  static const pending = MailFromDomainStatus._('PENDING');
+  static const success = MailFromDomainStatus._('SUCCESS');
+  static const failed = MailFromDomainStatus._('FAILED');
+  static const temporaryFailure = MailFromDomainStatus._('TEMPORARY_FAILURE');
+
+  final String value;
+
+  const MailFromDomainStatus._(this.value);
+
+  static const values = [pending, success, failed, temporaryFailure];
+
+  static MailFromDomainStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MailFromDomainStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MailFromDomainStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The DKIM authentication status of the identity. The status can be one of the
+/// following:
+///
+/// <ul>
+/// <li>
+/// <code>PENDING</code> – The DKIM verification process was initiated, and
+/// Amazon Pinpoint is still waiting for the required CNAME records to appear in
+/// the DNS configuration for the domain.
+/// </li>
+/// <li>
+/// <code>SUCCESS</code> – The DKIM authentication process completed
+/// successfully.
+/// </li>
+/// <li>
+/// <code>FAILED</code> – The DKIM authentication process failed. This can
+/// happen when Amazon Pinpoint fails to find the required CNAME records in the
+/// DNS configuration of the domain.
+/// </li>
+/// <li>
+/// <code>TEMPORARY_FAILURE</code> – A temporary issue is preventing Amazon
+/// Pinpoint from determining the DKIM authentication status of the domain.
+/// </li>
+/// <li>
+/// <code>NOT_STARTED</code> – The DKIM verification process hasn't been
+/// initiated for the domain.
+/// </li>
+/// </ul>
+class DkimStatus {
+  static const pending = DkimStatus._('PENDING');
+  static const success = DkimStatus._('SUCCESS');
+  static const failed = DkimStatus._('FAILED');
+  static const temporaryFailure = DkimStatus._('TEMPORARY_FAILURE');
+  static const notStarted = DkimStatus._('NOT_STARTED');
+
+  final String value;
+
+  const DkimStatus._(this.value);
+
+  static const values = [
+    pending,
+    success,
+    failed,
+    temporaryFailure,
+    notStarted
+  ];
+
+  static DkimStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DkimStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DkimStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that contains information about email that was sent from the
+/// selected domain.
+class OverallVolume {
+  /// An object that contains inbox and junk mail placement metrics for individual
+  /// email providers.
+  final List<DomainIspPlacement>? domainIspPlacements;
+
+  /// The percentage of emails that were sent from the domain that were read by
+  /// their recipients.
+  final double? readRatePercent;
+
+  /// An object that contains information about the numbers of messages that
+  /// arrived in recipients' inboxes and junk mail folders.
+  final VolumeStatistics? volumeStatistics;
+
+  OverallVolume({
+    this.domainIspPlacements,
+    this.readRatePercent,
+    this.volumeStatistics,
+  });
+
+  factory OverallVolume.fromJson(Map<String, dynamic> json) {
+    return OverallVolume(
+      domainIspPlacements: (json['DomainIspPlacements'] as List?)
+          ?.nonNulls
+          .map((e) => DomainIspPlacement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      readRatePercent: json['ReadRatePercent'] as double?,
+      volumeStatistics: json['VolumeStatistics'] != null
+          ? VolumeStatistics.fromJson(
+              json['VolumeStatistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainIspPlacements = this.domainIspPlacements;
+    final readRatePercent = this.readRatePercent;
+    final volumeStatistics = this.volumeStatistics;
+    return {
+      if (domainIspPlacements != null)
+        'DomainIspPlacements': domainIspPlacements,
+      if (readRatePercent != null) 'ReadRatePercent': readRatePercent,
+      if (volumeStatistics != null) 'VolumeStatistics': volumeStatistics,
+    };
+  }
+}
+
+/// An object that contains information about the volume of email sent on each
+/// day of the analysis period.
+class DailyVolume {
+  /// An object that contains inbox placement metrics for a specified day in the
+  /// analysis period, broken out by the recipient's email provider.
+  final List<DomainIspPlacement>? domainIspPlacements;
+
+  /// The date that the DailyVolume metrics apply to, in Unix time.
+  final DateTime? startDate;
+
+  /// An object that contains inbox placement metrics for a specific day in the
+  /// analysis period.
+  final VolumeStatistics? volumeStatistics;
+
+  DailyVolume({
+    this.domainIspPlacements,
+    this.startDate,
+    this.volumeStatistics,
+  });
+
+  factory DailyVolume.fromJson(Map<String, dynamic> json) {
+    return DailyVolume(
+      domainIspPlacements: (json['DomainIspPlacements'] as List?)
+          ?.nonNulls
+          .map((e) => DomainIspPlacement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startDate: timeStampFromJson(json['StartDate']),
+      volumeStatistics: json['VolumeStatistics'] != null
+          ? VolumeStatistics.fromJson(
+              json['VolumeStatistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainIspPlacements = this.domainIspPlacements;
+    final startDate = this.startDate;
+    final volumeStatistics = this.volumeStatistics;
+    return {
+      if (domainIspPlacements != null)
+        'DomainIspPlacements': domainIspPlacements,
+      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+      if (volumeStatistics != null) 'VolumeStatistics': volumeStatistics,
+    };
   }
 }
 
@@ -4960,6 +4408,248 @@ class VolumeStatistics {
   }
 }
 
+/// An object that contains inbox placement data for email sent from one of your
+/// email domains to a specific email provider.
+class DomainIspPlacement {
+  /// The percentage of messages that were sent from the selected domain to the
+  /// specified email provider that arrived in recipients' inboxes.
+  final double? inboxPercentage;
+
+  /// The total number of messages that were sent from the selected domain to the
+  /// specified email provider that arrived in recipients' inboxes.
+  final int? inboxRawCount;
+
+  /// The name of the email provider that the inbox placement data applies to.
+  final String? ispName;
+
+  /// The percentage of messages that were sent from the selected domain to the
+  /// specified email provider that arrived in recipients' spam or junk mail
+  /// folders.
+  final double? spamPercentage;
+
+  /// The total number of messages that were sent from the selected domain to the
+  /// specified email provider that arrived in recipients' spam or junk mail
+  /// folders.
+  final int? spamRawCount;
+
+  DomainIspPlacement({
+    this.inboxPercentage,
+    this.inboxRawCount,
+    this.ispName,
+    this.spamPercentage,
+    this.spamRawCount,
+  });
+
+  factory DomainIspPlacement.fromJson(Map<String, dynamic> json) {
+    return DomainIspPlacement(
+      inboxPercentage: json['InboxPercentage'] as double?,
+      inboxRawCount: json['InboxRawCount'] as int?,
+      ispName: json['IspName'] as String?,
+      spamPercentage: json['SpamPercentage'] as double?,
+      spamRawCount: json['SpamRawCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inboxPercentage = this.inboxPercentage;
+    final inboxRawCount = this.inboxRawCount;
+    final ispName = this.ispName;
+    final spamPercentage = this.spamPercentage;
+    final spamRawCount = this.spamRawCount;
+    return {
+      if (inboxPercentage != null) 'InboxPercentage': inboxPercentage,
+      if (inboxRawCount != null) 'InboxRawCount': inboxRawCount,
+      if (ispName != null) 'IspName': ispName,
+      if (spamPercentage != null) 'SpamPercentage': spamPercentage,
+      if (spamRawCount != null) 'SpamRawCount': spamRawCount,
+    };
+  }
+}
+
+/// An object that contains inbox placement data for an email provider.
+class PlacementStatistics {
+  /// The percentage of emails that were authenticated by using DomainKeys
+  /// Identified Mail (DKIM) during the predictive inbox placement test.
+  final double? dkimPercentage;
+
+  /// The percentage of emails that arrived in recipients' inboxes during the
+  /// predictive inbox placement test.
+  final double? inboxPercentage;
+
+  /// The percentage of emails that didn't arrive in recipients' inboxes at all
+  /// during the predictive inbox placement test.
+  final double? missingPercentage;
+
+  /// The percentage of emails that arrived in recipients' spam or junk mail
+  /// folders during the predictive inbox placement test.
+  final double? spamPercentage;
+
+  /// The percentage of emails that were authenticated by using Sender Policy
+  /// Framework (SPF) during the predictive inbox placement test.
+  final double? spfPercentage;
+
+  PlacementStatistics({
+    this.dkimPercentage,
+    this.inboxPercentage,
+    this.missingPercentage,
+    this.spamPercentage,
+    this.spfPercentage,
+  });
+
+  factory PlacementStatistics.fromJson(Map<String, dynamic> json) {
+    return PlacementStatistics(
+      dkimPercentage: json['DkimPercentage'] as double?,
+      inboxPercentage: json['InboxPercentage'] as double?,
+      missingPercentage: json['MissingPercentage'] as double?,
+      spamPercentage: json['SpamPercentage'] as double?,
+      spfPercentage: json['SpfPercentage'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dkimPercentage = this.dkimPercentage;
+    final inboxPercentage = this.inboxPercentage;
+    final missingPercentage = this.missingPercentage;
+    final spamPercentage = this.spamPercentage;
+    final spfPercentage = this.spfPercentage;
+    return {
+      if (dkimPercentage != null) 'DkimPercentage': dkimPercentage,
+      if (inboxPercentage != null) 'InboxPercentage': inboxPercentage,
+      if (missingPercentage != null) 'MissingPercentage': missingPercentage,
+      if (spamPercentage != null) 'SpamPercentage': spamPercentage,
+      if (spfPercentage != null) 'SpfPercentage': spfPercentage,
+    };
+  }
+}
+
+/// An object that describes how email sent during the predictive inbox
+/// placement test was handled by a certain email provider.
+class IspPlacement {
+  /// The name of the email provider that the inbox placement data applies to.
+  final String? ispName;
+
+  /// An object that contains inbox placement metrics for a specific email
+  /// provider.
+  final PlacementStatistics? placementStatistics;
+
+  IspPlacement({
+    this.ispName,
+    this.placementStatistics,
+  });
+
+  factory IspPlacement.fromJson(Map<String, dynamic> json) {
+    return IspPlacement(
+      ispName: json['IspName'] as String?,
+      placementStatistics: json['PlacementStatistics'] != null
+          ? PlacementStatistics.fromJson(
+              json['PlacementStatistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ispName = this.ispName;
+    final placementStatistics = this.placementStatistics;
+    return {
+      if (ispName != null) 'IspName': ispName,
+      if (placementStatistics != null)
+        'PlacementStatistics': placementStatistics,
+    };
+  }
+}
+
+/// The current status of your Deliverability dashboard subscription. If this
+/// value is <code>PENDING_EXPIRATION</code>, your subscription is scheduled to
+/// expire at the end of the current calendar month.
+class DeliverabilityDashboardAccountStatus {
+  static const active = DeliverabilityDashboardAccountStatus._('ACTIVE');
+  static const pendingExpiration =
+      DeliverabilityDashboardAccountStatus._('PENDING_EXPIRATION');
+  static const disabled = DeliverabilityDashboardAccountStatus._('DISABLED');
+
+  final String value;
+
+  const DeliverabilityDashboardAccountStatus._(this.value);
+
+  static const values = [active, pendingExpiration, disabled];
+
+  static DeliverabilityDashboardAccountStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeliverabilityDashboardAccountStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeliverabilityDashboardAccountStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about a dedicated IP address that is associated with
+/// your Amazon Pinpoint account.
+///
+///
+class DedicatedIp {
+  /// An IP address that is reserved for use by your Amazon Pinpoint account.
+  final String ip;
+
+  /// Indicates how complete the dedicated IP warm-up process is. When this value
+  /// equals 1, the address has completed the warm-up process and is ready for
+  /// use.
+  final int warmupPercentage;
+
+  /// The warm-up status of a dedicated IP address. The status can have one of the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IN_PROGRESS</code> – The IP address isn't ready to use because the
+  /// dedicated IP warm-up process is ongoing.
+  /// </li>
+  /// <li>
+  /// <code>DONE</code> – The dedicated IP warm-up process is complete, and the IP
+  /// address is ready to use.
+  /// </li>
+  /// </ul>
+  final WarmupStatus warmupStatus;
+
+  /// The name of the dedicated IP pool that the IP address is associated with.
+  final String? poolName;
+
+  DedicatedIp({
+    required this.ip,
+    required this.warmupPercentage,
+    required this.warmupStatus,
+    this.poolName,
+  });
+
+  factory DedicatedIp.fromJson(Map<String, dynamic> json) {
+    return DedicatedIp(
+      ip: (json['Ip'] as String?) ?? '',
+      warmupPercentage: (json['WarmupPercentage'] as int?) ?? 0,
+      warmupStatus:
+          WarmupStatus.fromString((json['WarmupStatus'] as String?) ?? ''),
+      poolName: json['PoolName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ip = this.ip;
+    final warmupPercentage = this.warmupPercentage;
+    final warmupStatus = this.warmupStatus;
+    final poolName = this.poolName;
+    return {
+      'Ip': ip,
+      'WarmupPercentage': warmupPercentage,
+      'WarmupStatus': warmupStatus.value,
+      if (poolName != null) 'PoolName': poolName,
+    };
+  }
+}
+
 /// The warmup status of a dedicated IP.
 class WarmupStatus {
   static const inProgress = WarmupStatus._('IN_PROGRESS');
@@ -4982,6 +4672,317 @@ class WarmupStatus {
 
   @override
   String toString() => value;
+}
+
+/// In Amazon Pinpoint, <i>events</i> include message sends, deliveries, opens,
+/// clicks, bounces, and complaints. <i>Event destinations</i> are places that
+/// you can send information about these events to. For example, you can send
+/// event data to Amazon SNS to receive notifications when you receive bounces
+/// or complaints, or you can use Amazon Kinesis Data Firehose to stream data to
+/// Amazon S3 for long-term storage.
+class EventDestination {
+  /// The types of events that Amazon Pinpoint sends to the specified event
+  /// destinations.
+  final List<EventType> matchingEventTypes;
+
+  /// A name that identifies the event destination.
+  final String name;
+
+  /// An object that defines an Amazon CloudWatch destination for email events.
+  /// You can use Amazon CloudWatch to monitor and gain insights on your email
+  /// sending metrics.
+  final CloudWatchDestination? cloudWatchDestination;
+
+  /// If <code>true</code>, the event destination is enabled. When the event
+  /// destination is enabled, the specified event types are sent to the
+  /// destinations in this <code>EventDestinationDefinition</code>.
+  ///
+  /// If <code>false</code>, the event destination is disabled. When the event
+  /// destination is disabled, events aren't sent to the specified destinations.
+  final bool? enabled;
+
+  /// An object that defines an Amazon Kinesis Data Firehose destination for email
+  /// events. You can use Amazon Kinesis Data Firehose to stream data to other
+  /// services, such as Amazon S3 and Amazon Redshift.
+  final KinesisFirehoseDestination? kinesisFirehoseDestination;
+
+  /// An object that defines a Amazon Pinpoint destination for email events. You
+  /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint
+  /// projects. You can use these attributes to create segments for your
+  /// campaigns.
+  final PinpointDestination? pinpointDestination;
+
+  /// An object that defines an Amazon SNS destination for email events. You can
+  /// use Amazon SNS to send notification when certain email events occur.
+  final SnsDestination? snsDestination;
+
+  EventDestination({
+    required this.matchingEventTypes,
+    required this.name,
+    this.cloudWatchDestination,
+    this.enabled,
+    this.kinesisFirehoseDestination,
+    this.pinpointDestination,
+    this.snsDestination,
+  });
+
+  factory EventDestination.fromJson(Map<String, dynamic> json) {
+    return EventDestination(
+      matchingEventTypes: ((json['MatchingEventTypes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EventType.fromString((e as String)))
+          .toList(),
+      name: (json['Name'] as String?) ?? '',
+      cloudWatchDestination: json['CloudWatchDestination'] != null
+          ? CloudWatchDestination.fromJson(
+              json['CloudWatchDestination'] as Map<String, dynamic>)
+          : null,
+      enabled: json['Enabled'] as bool?,
+      kinesisFirehoseDestination: json['KinesisFirehoseDestination'] != null
+          ? KinesisFirehoseDestination.fromJson(
+              json['KinesisFirehoseDestination'] as Map<String, dynamic>)
+          : null,
+      pinpointDestination: json['PinpointDestination'] != null
+          ? PinpointDestination.fromJson(
+              json['PinpointDestination'] as Map<String, dynamic>)
+          : null,
+      snsDestination: json['SnsDestination'] != null
+          ? SnsDestination.fromJson(
+              json['SnsDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchingEventTypes = this.matchingEventTypes;
+    final name = this.name;
+    final cloudWatchDestination = this.cloudWatchDestination;
+    final enabled = this.enabled;
+    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
+    final pinpointDestination = this.pinpointDestination;
+    final snsDestination = this.snsDestination;
+    return {
+      'MatchingEventTypes': matchingEventTypes.map((e) => e.value).toList(),
+      'Name': name,
+      if (cloudWatchDestination != null)
+        'CloudWatchDestination': cloudWatchDestination,
+      if (enabled != null) 'Enabled': enabled,
+      if (kinesisFirehoseDestination != null)
+        'KinesisFirehoseDestination': kinesisFirehoseDestination,
+      if (pinpointDestination != null)
+        'PinpointDestination': pinpointDestination,
+      if (snsDestination != null) 'SnsDestination': snsDestination,
+    };
+  }
+}
+
+/// An object that defines the tracking options for a configuration set. When
+/// you use Amazon Pinpoint to send an email, it contains an invisible image
+/// that's used to track when recipients open your email. If your email contains
+/// links, those links are changed slightly in order to track when recipients
+/// click them.
+///
+/// These images and links include references to a domain operated by AWS. You
+/// can optionally configure Amazon Pinpoint to use a domain that you operate
+/// for these images and links.
+class TrackingOptions {
+  /// The domain that you want to use for tracking open and click events.
+  final String customRedirectDomain;
+
+  TrackingOptions({
+    required this.customRedirectDomain,
+  });
+
+  factory TrackingOptions.fromJson(Map<String, dynamic> json) {
+    return TrackingOptions(
+      customRedirectDomain: (json['CustomRedirectDomain'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customRedirectDomain = this.customRedirectDomain;
+    return {
+      'CustomRedirectDomain': customRedirectDomain,
+    };
+  }
+}
+
+/// Used to associate a configuration set with a dedicated IP pool.
+class DeliveryOptions {
+  /// The name of the dedicated IP pool that you want to associate with the
+  /// configuration set.
+  final String? sendingPoolName;
+
+  /// Specifies whether messages that use the configuration set are required to
+  /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
+  /// messages are only delivered if a TLS connection can be established. If the
+  /// value is <code>Optional</code>, messages can be delivered in plain text if a
+  /// TLS connection can't be established.
+  final TlsPolicy? tlsPolicy;
+
+  DeliveryOptions({
+    this.sendingPoolName,
+    this.tlsPolicy,
+  });
+
+  factory DeliveryOptions.fromJson(Map<String, dynamic> json) {
+    return DeliveryOptions(
+      sendingPoolName: json['SendingPoolName'] as String?,
+      tlsPolicy: (json['TlsPolicy'] as String?)?.let(TlsPolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sendingPoolName = this.sendingPoolName;
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.value,
+    };
+  }
+}
+
+/// Enable or disable collection of reputation metrics for emails that you send
+/// using this configuration set in the current AWS Region.
+class ReputationOptions {
+  /// The date and time (in Unix time) when the reputation metrics were last given
+  /// a fresh start. When your account is given a fresh start, your reputation
+  /// metrics are calculated starting from the date of the fresh start.
+  final DateTime? lastFreshStart;
+
+  /// If <code>true</code>, tracking of reputation metrics is enabled for the
+  /// configuration set. If <code>false</code>, tracking of reputation metrics is
+  /// disabled for the configuration set.
+  final bool? reputationMetricsEnabled;
+
+  ReputationOptions({
+    this.lastFreshStart,
+    this.reputationMetricsEnabled,
+  });
+
+  factory ReputationOptions.fromJson(Map<String, dynamic> json) {
+    return ReputationOptions(
+      lastFreshStart: timeStampFromJson(json['LastFreshStart']),
+      reputationMetricsEnabled: json['ReputationMetricsEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastFreshStart = this.lastFreshStart;
+    final reputationMetricsEnabled = this.reputationMetricsEnabled;
+    return {
+      if (lastFreshStart != null)
+        'LastFreshStart': unixTimestampToJson(lastFreshStart),
+      if (reputationMetricsEnabled != null)
+        'ReputationMetricsEnabled': reputationMetricsEnabled,
+    };
+  }
+}
+
+/// Used to enable or disable email sending for messages that use this
+/// configuration set in the current AWS Region.
+class SendingOptions {
+  /// If <code>true</code>, email sending is enabled for the configuration set. If
+  /// <code>false</code>, email sending is disabled for the configuration set.
+  final bool? sendingEnabled;
+
+  SendingOptions({
+    this.sendingEnabled,
+  });
+
+  factory SendingOptions.fromJson(Map<String, dynamic> json) {
+    return SendingOptions(
+      sendingEnabled: json['SendingEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sendingEnabled = this.sendingEnabled;
+    return {
+      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
+    };
+  }
+}
+
+/// An object that contains information about a blacklisting event that impacts
+/// one of the dedicated IP addresses that is associated with your account.
+class BlacklistEntry {
+  /// Additional information about the blacklisting event, as provided by the
+  /// blacklist maintainer.
+  final String? description;
+
+  /// The time when the blacklisting event occurred, shown in Unix time format.
+  final DateTime? listingTime;
+
+  /// The name of the blacklist that the IP address appears on.
+  final String? rblName;
+
+  BlacklistEntry({
+    this.description,
+    this.listingTime,
+    this.rblName,
+  });
+
+  factory BlacklistEntry.fromJson(Map<String, dynamic> json) {
+    return BlacklistEntry(
+      description: json['Description'] as String?,
+      listingTime: timeStampFromJson(json['ListingTime']),
+      rblName: json['RblName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final listingTime = this.listingTime;
+    final rblName = this.rblName;
+    return {
+      if (description != null) 'Description': description,
+      if (listingTime != null) 'ListingTime': unixTimestampToJson(listingTime),
+      if (rblName != null) 'RblName': rblName,
+    };
+  }
+}
+
+/// An object that contains information about the per-day and per-second sending
+/// limits for your Amazon Pinpoint account in the current AWS Region.
+class SendQuota {
+  /// The maximum number of emails that you can send in the current AWS Region
+  /// over a 24-hour period. This value is also called your <i>sending quota</i>.
+  final double? max24HourSend;
+
+  /// The maximum number of emails that you can send per second in the current AWS
+  /// Region. This value is also called your <i>maximum sending rate</i> or your
+  /// <i>maximum TPS (transactions per second) rate</i>.
+  final double? maxSendRate;
+
+  /// The number of emails sent from your Amazon Pinpoint account in the current
+  /// AWS Region over the past 24 hours.
+  final double? sentLast24Hours;
+
+  SendQuota({
+    this.max24HourSend,
+    this.maxSendRate,
+    this.sentLast24Hours,
+  });
+
+  factory SendQuota.fromJson(Map<String, dynamic> json) {
+    return SendQuota(
+      max24HourSend: json['Max24HourSend'] as double?,
+      maxSendRate: json['MaxSendRate'] as double?,
+      sentLast24Hours: json['SentLast24Hours'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max24HourSend = this.max24HourSend;
+    final maxSendRate = this.maxSendRate;
+    final sentLast24Hours = this.sentLast24Hours;
+    return {
+      if (max24HourSend != null) 'Max24HourSend': max24HourSend,
+      if (maxSendRate != null) 'MaxSendRate': maxSendRate,
+      if (sentLast24Hours != null) 'SentLast24Hours': sentLast24Hours,
+    };
+  }
 }
 
 class AccountSuspendedException extends _s.GenericAwsException {

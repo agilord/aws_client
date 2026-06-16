@@ -30,12 +30,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Service endpoint
 ///
 /// The Free Tier API provides the following endpoint:
-///
-/// <ul>
-/// <li>
-/// https://freetier.us-east-1.api.aws
-/// </li>
-/// </ul>
+/// <ul/>
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-free-tier.html">Using
 /// the Amazon Web Services Free Tier</a> in the <i>Billing User Guide</i>.
@@ -51,7 +46,6 @@ class FreeTier {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'freetier',
-            signingName: 'freetier',
           ),
           region: region,
           credentials: credentials,
@@ -68,11 +62,70 @@ class FreeTier {
     _protocol.close();
   }
 
+  /// Returns a specific activity record that is available to the customer.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [activityId] :
+  /// A unique identifier that identifies the activity.
+  ///
+  /// Parameter [languageCode] :
+  /// The language code used to return translated title and description fields.
+  Future<GetAccountActivityResponse> getAccountActivity({
+    required String activityId,
+    LanguageCode? languageCode,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSFreeTierService.GetAccountActivity'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'activityId': activityId,
+        if (languageCode != null) 'languageCode': languageCode.value,
+      },
+    );
+
+    return GetAccountActivityResponse.fromJson(jsonResponse.body);
+  }
+
+  /// This returns all of the information related to the state of the account
+  /// plan related to Free Tier.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  Future<GetAccountPlanStateResponse> getAccountPlanState() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSFreeTierService.GetAccountPlanState'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetAccountPlanStateResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of all Free Tier usage objects that match your filters.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filter] :
   /// An expression that specifies the conditions that you want each
@@ -115,36 +168,368 @@ class FreeTier {
 
     return GetFreeTierUsageResponse.fromJson(jsonResponse.body);
   }
+
+  /// Returns a list of activities that are available. This operation supports
+  /// pagination and filtering by status.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filterActivityStatuses] :
+  /// The activity status filter. This field can be used to filter the response
+  /// by activities status.
+  ///
+  /// Parameter [languageCode] :
+  /// The language code used to return translated titles.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this request. To get the next
+  /// page of items, make another request with the token returned in the output.
+  ///
+  /// Parameter [nextToken] :
+  /// A token from a previous paginated response. If this is specified, the
+  /// response includes records beginning from this token (inclusive), up to the
+  /// number specified by <code>maxResults</code>.
+  Future<ListAccountActivitiesResponse> listAccountActivities({
+    List<ActivityStatus>? filterActivityStatuses,
+    LanguageCode? languageCode,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSFreeTierService.ListAccountActivities'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filterActivityStatuses != null)
+          'filterActivityStatuses':
+              filterActivityStatuses.map((e) => e.value).toList(),
+        if (languageCode != null) 'languageCode': languageCode.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListAccountActivitiesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// The account plan type for the Amazon Web Services account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountPlanType] :
+  /// The target account plan type. This makes it explicit about the change and
+  /// latest value of the <code>accountPlanType</code>.
+  Future<UpgradeAccountPlanResponse> upgradeAccountPlan({
+    required AccountPlanType accountPlanType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'AWSFreeTierService.UpgradeAccountPlan'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'accountPlanType': accountPlanType.value,
+      },
+    );
+
+    return UpgradeAccountPlanResponse.fromJson(jsonResponse.body);
+  }
 }
 
-class Dimension {
-  static const service = Dimension._('SERVICE');
-  static const operation = Dimension._('OPERATION');
-  static const usageType = Dimension._('USAGE_TYPE');
-  static const region = Dimension._('REGION');
-  static const freeTierType = Dimension._('FREE_TIER_TYPE');
-  static const description = Dimension._('DESCRIPTION');
-  static const usagePercentage = Dimension._('USAGE_PERCENTAGE');
+class GetAccountActivityResponse {
+  /// A unique identifier that identifies the activity.
+  final String activityId;
+
+  /// Provides detailed information about the activity and its expected outcomes.
+  final String description;
+
+  /// The URL resource that provides guidance on activity requirements and
+  /// completion.
+  final String instructionsUrl;
+
+  /// A reward granted upon activity completion.
+  final ActivityReward reward;
+
+  /// The current activity status.
+  final ActivityStatus status;
+
+  /// A short activity title.
+  final String title;
+
+  /// The timestamp when the activity is completed. This field appears only for
+  /// activities in the <code>COMPLETED</code> state.
+  final DateTime? completedAt;
+
+  /// The estimated time to complete the activity. This is the duration in
+  /// minutes.
+  final int? estimatedTimeToCompleteInMinutes;
+
+  /// The time by which the activity must be completed to receive a reward.
+  final DateTime? expiresAt;
+
+  /// The timestamp when the activity started. This field appears only for
+  /// activities in the <code>IN_PROGRESS</code> or <code>COMPLETED</code> states.
+  final DateTime? startedAt;
+
+  GetAccountActivityResponse({
+    required this.activityId,
+    required this.description,
+    required this.instructionsUrl,
+    required this.reward,
+    required this.status,
+    required this.title,
+    this.completedAt,
+    this.estimatedTimeToCompleteInMinutes,
+    this.expiresAt,
+    this.startedAt,
+  });
+
+  factory GetAccountActivityResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountActivityResponse(
+      activityId: (json['activityId'] as String?) ?? '',
+      description: (json['description'] as String?) ?? '',
+      instructionsUrl: (json['instructionsUrl'] as String?) ?? '',
+      reward: ActivityReward.fromJson(
+          (json['reward'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: ActivityStatus.fromString((json['status'] as String?) ?? ''),
+      title: (json['title'] as String?) ?? '',
+      completedAt: timeStampFromJson(json['completedAt']),
+      estimatedTimeToCompleteInMinutes:
+          json['estimatedTimeToCompleteInMinutes'] as int?,
+      expiresAt: timeStampFromJson(json['expiresAt']),
+      startedAt: timeStampFromJson(json['startedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final description = this.description;
+    final instructionsUrl = this.instructionsUrl;
+    final reward = this.reward;
+    final status = this.status;
+    final title = this.title;
+    final completedAt = this.completedAt;
+    final estimatedTimeToCompleteInMinutes =
+        this.estimatedTimeToCompleteInMinutes;
+    final expiresAt = this.expiresAt;
+    final startedAt = this.startedAt;
+    return {
+      'activityId': activityId,
+      'description': description,
+      'instructionsUrl': instructionsUrl,
+      'reward': reward,
+      'status': status.value,
+      'title': title,
+      if (completedAt != null) 'completedAt': iso8601ToJson(completedAt),
+      if (estimatedTimeToCompleteInMinutes != null)
+        'estimatedTimeToCompleteInMinutes': estimatedTimeToCompleteInMinutes,
+      if (expiresAt != null) 'expiresAt': iso8601ToJson(expiresAt),
+      if (startedAt != null) 'startedAt': iso8601ToJson(startedAt),
+    };
+  }
+}
+
+class GetAccountPlanStateResponse {
+  /// A unique identifier that identifies the account.
+  final String accountId;
+
+  /// The current status for the account plan.
+  final AccountPlanStatus accountPlanStatus;
+
+  /// The plan type for the account.
+  final AccountPlanType accountPlanType;
+
+  /// The timestamp for when the current account plan expires.
+  final DateTime? accountPlanExpirationDate;
+
+  /// The amount of credits remaining for the account.
+  final MonetaryAmount? accountPlanRemainingCredits;
+
+  GetAccountPlanStateResponse({
+    required this.accountId,
+    required this.accountPlanStatus,
+    required this.accountPlanType,
+    this.accountPlanExpirationDate,
+    this.accountPlanRemainingCredits,
+  });
+
+  factory GetAccountPlanStateResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountPlanStateResponse(
+      accountId: (json['accountId'] as String?) ?? '',
+      accountPlanStatus: AccountPlanStatus.fromString(
+          (json['accountPlanStatus'] as String?) ?? ''),
+      accountPlanType: AccountPlanType.fromString(
+          (json['accountPlanType'] as String?) ?? ''),
+      accountPlanExpirationDate:
+          timeStampFromJson(json['accountPlanExpirationDate']),
+      accountPlanRemainingCredits: json['accountPlanRemainingCredits'] != null
+          ? MonetaryAmount.fromJson(
+              json['accountPlanRemainingCredits'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final accountPlanStatus = this.accountPlanStatus;
+    final accountPlanType = this.accountPlanType;
+    final accountPlanExpirationDate = this.accountPlanExpirationDate;
+    final accountPlanRemainingCredits = this.accountPlanRemainingCredits;
+    return {
+      'accountId': accountId,
+      'accountPlanStatus': accountPlanStatus.value,
+      'accountPlanType': accountPlanType.value,
+      if (accountPlanExpirationDate != null)
+        'accountPlanExpirationDate': iso8601ToJson(accountPlanExpirationDate),
+      if (accountPlanRemainingCredits != null)
+        'accountPlanRemainingCredits': accountPlanRemainingCredits,
+    };
+  }
+}
+
+class GetFreeTierUsageResponse {
+  /// The list of Free Tier usage objects that meet your filter expression.
+  final List<FreeTierUsage> freeTierUsages;
+
+  /// The pagination token that indicates the next set of results to retrieve.
+  final String? nextToken;
+
+  GetFreeTierUsageResponse({
+    required this.freeTierUsages,
+    this.nextToken,
+  });
+
+  factory GetFreeTierUsageResponse.fromJson(Map<String, dynamic> json) {
+    return GetFreeTierUsageResponse(
+      freeTierUsages: ((json['freeTierUsages'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FreeTierUsage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final freeTierUsages = this.freeTierUsages;
+    final nextToken = this.nextToken;
+    return {
+      'freeTierUsages': freeTierUsages,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListAccountActivitiesResponse {
+  /// A brief information about the activities.
+  final List<ActivitySummary> activities;
+
+  /// The token to include in another request to get the next page of items. This
+  /// value is <code>null</code> when there are no more items to return.
+  final String? nextToken;
+
+  ListAccountActivitiesResponse({
+    required this.activities,
+    this.nextToken,
+  });
+
+  factory ListAccountActivitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountActivitiesResponse(
+      activities: ((json['activities'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ActivitySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activities = this.activities;
+    final nextToken = this.nextToken;
+    return {
+      'activities': activities,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class UpgradeAccountPlanResponse {
+  /// A unique identifier that identifies the account.
+  final String accountId;
+
+  /// This indicates the latest state of the account plan within its lifecycle.
+  final AccountPlanStatus accountPlanStatus;
+
+  /// The type of plan for the account.
+  final AccountPlanType accountPlanType;
+
+  UpgradeAccountPlanResponse({
+    required this.accountId,
+    required this.accountPlanStatus,
+    required this.accountPlanType,
+  });
+
+  factory UpgradeAccountPlanResponse.fromJson(Map<String, dynamic> json) {
+    return UpgradeAccountPlanResponse(
+      accountId: (json['accountId'] as String?) ?? '',
+      accountPlanStatus: AccountPlanStatus.fromString(
+          (json['accountPlanStatus'] as String?) ?? ''),
+      accountPlanType: AccountPlanType.fromString(
+          (json['accountPlanType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final accountPlanStatus = this.accountPlanStatus;
+    final accountPlanType = this.accountPlanType;
+    return {
+      'accountId': accountId,
+      'accountPlanStatus': accountPlanStatus.value,
+      'accountPlanType': accountPlanType.value,
+    };
+  }
+}
+
+class AccountPlanType {
+  static const free = AccountPlanType._('FREE');
+  static const paid = AccountPlanType._('PAID');
 
   final String value;
 
-  const Dimension._(this.value);
+  const AccountPlanType._(this.value);
 
-  static const values = [
-    service,
-    operation,
-    usageType,
-    region,
-    freeTierType,
-    description,
-    usagePercentage
-  ];
+  static const values = [free, paid];
 
-  static Dimension fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Dimension._(value));
+  static AccountPlanType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountPlanType._(value));
 
   @override
-  bool operator ==(other) => other is Dimension && other.value == value;
+  bool operator ==(other) => other is AccountPlanType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -153,33 +538,319 @@ class Dimension {
   String toString() => value;
 }
 
-/// Contains the specifications for the filters to use for your request.
-class DimensionValues {
-  /// The name of the dimension that you want to filter on.
-  final Dimension key;
+class AccountPlanStatus {
+  static const notStarted = AccountPlanStatus._('NOT_STARTED');
+  static const active = AccountPlanStatus._('ACTIVE');
+  static const expired = AccountPlanStatus._('EXPIRED');
 
-  /// The match options that you can use to filter your results. You can specify
-  /// only one of these values in the array.
-  final List<MatchOption> matchOptions;
+  final String value;
 
-  /// The metadata values you can specify to filter upon, so that the results all
-  /// match at least one of the specified values.
-  final List<String> values;
+  const AccountPlanStatus._(this.value);
 
-  DimensionValues({
-    required this.key,
-    required this.matchOptions,
-    required this.values,
+  static const values = [notStarted, active, expired];
+
+  static AccountPlanStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountPlanStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AccountPlanStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The summary of activities.
+class ActivitySummary {
+  /// A unique identifier that identifies the activity.
+  final String activityId;
+
+  /// The reward for the activity.
+  final ActivityReward reward;
+
+  /// The current status of the activity.
+  final ActivityStatus status;
+
+  /// The title of the activity.
+  final String title;
+
+  ActivitySummary({
+    required this.activityId,
+    required this.reward,
+    required this.status,
+    required this.title,
   });
 
+  factory ActivitySummary.fromJson(Map<String, dynamic> json) {
+    return ActivitySummary(
+      activityId: (json['activityId'] as String?) ?? '',
+      reward: ActivityReward.fromJson(
+          (json['reward'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: ActivityStatus.fromString((json['status'] as String?) ?? ''),
+      title: (json['title'] as String?) ?? '',
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final matchOptions = this.matchOptions;
-    final values = this.values;
+    final activityId = this.activityId;
+    final reward = this.reward;
+    final status = this.status;
+    final title = this.title;
     return {
-      'Key': key.value,
-      'MatchOptions': matchOptions.map((e) => e.value).toList(),
-      'Values': values,
+      'activityId': activityId,
+      'reward': reward,
+      'status': status.value,
+      'title': title,
+    };
+  }
+}
+
+/// The summary of the rewards granted as a result of activities completed.
+class ActivityReward {
+  /// The credits gained by activity rewards.
+  final MonetaryAmount? credit;
+
+  ActivityReward({
+    this.credit,
+  });
+
+  factory ActivityReward.fromJson(Map<String, dynamic> json) {
+    return ActivityReward(
+      credit: json['credit'] != null
+          ? MonetaryAmount.fromJson(json['credit'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final credit = this.credit;
+    return {
+      if (credit != null) 'credit': credit,
+    };
+  }
+}
+
+class ActivityStatus {
+  static const notStarted = ActivityStatus._('NOT_STARTED');
+  static const inProgress = ActivityStatus._('IN_PROGRESS');
+  static const completed = ActivityStatus._('COMPLETED');
+  static const expiring = ActivityStatus._('EXPIRING');
+
+  final String value;
+
+  const ActivityStatus._(this.value);
+
+  static const values = [notStarted, inProgress, completed, expiring];
+
+  static ActivityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActivityStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ActivityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The monetary amount of the credit.
+class MonetaryAmount {
+  /// The aggregated monetary amount of credits earned.
+  final double amount;
+
+  /// The unit that the monetary amount is given in.
+  final CurrencyCode unit;
+
+  MonetaryAmount({
+    required this.amount,
+    required this.unit,
+  });
+
+  factory MonetaryAmount.fromJson(Map<String, dynamic> json) {
+    return MonetaryAmount(
+      amount: (json['amount'] as double?) ?? 0,
+      unit: CurrencyCode.fromString((json['unit'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final unit = this.unit;
+    return {
+      'amount': amount,
+      'unit': unit.value,
+    };
+  }
+}
+
+class CurrencyCode {
+  static const usd = CurrencyCode._('USD');
+
+  final String value;
+
+  const CurrencyCode._(this.value);
+
+  static const values = [usd];
+
+  static CurrencyCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CurrencyCode._(value));
+
+  @override
+  bool operator ==(other) => other is CurrencyCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LanguageCode {
+  static const enUs = LanguageCode._('en-US');
+  static const enGb = LanguageCode._('en-GB');
+  static const idId = LanguageCode._('id-ID');
+  static const deDe = LanguageCode._('de-DE');
+  static const esEs = LanguageCode._('es-ES');
+  static const frFr = LanguageCode._('fr-FR');
+  static const jaJp = LanguageCode._('ja-JP');
+  static const itIt = LanguageCode._('it-IT');
+  static const ptPt = LanguageCode._('pt-PT');
+  static const koKr = LanguageCode._('ko-KR');
+  static const zhCn = LanguageCode._('zh-CN');
+  static const zhTw = LanguageCode._('zh-TW');
+  static const trTr = LanguageCode._('tr-TR');
+
+  final String value;
+
+  const LanguageCode._(this.value);
+
+  static const values = [
+    enUs,
+    enGb,
+    idId,
+    deDe,
+    esEs,
+    frFr,
+    jaJp,
+    itIt,
+    ptPt,
+    koKr,
+    zhCn,
+    zhTw,
+    trTr
+  ];
+
+  static LanguageCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LanguageCode._(value));
+
+  @override
+  bool operator ==(other) => other is LanguageCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Consists of a Amazon Web Services Free Tier offer’s metadata and your data
+/// usage for the offer.
+class FreeTierUsage {
+  /// Describes the actual usage accrued month-to-day (MTD) that you've used so
+  /// far.
+  final double? actualUsageAmount;
+
+  /// The description of the Free Tier offer.
+  final String? description;
+
+  /// Describes the forecasted usage by the month that you're expected to use.
+  final double? forecastedUsageAmount;
+
+  /// Describes the type of the Free Tier offer. For example, the offer can be
+  /// <code>"12 Months Free"</code>, <code>"Always Free"</code>, and <code>"Free
+  /// Trial"</code>.
+  final String? freeTierType;
+
+  /// Describes the maximum usage allowed in Free Tier.
+  final double? limit;
+
+  /// Describes <code>usageType</code> more granularly with the specific Amazon
+  /// Web Services service API operation. For example, this can be the
+  /// <code>RunInstances</code> API operation for Amazon Elastic Compute Cloud.
+  final String? operation;
+
+  /// Describes the Amazon Web Services Region for which this offer is applicable
+  final String? region;
+
+  /// The name of the Amazon Web Services service providing the Free Tier offer.
+  /// For example, this can be Amazon Elastic Compute Cloud.
+  final String? service;
+
+  /// Describes the unit of the <code>usageType</code>, such as <code>Hrs</code>.
+  final String? unit;
+
+  /// Describes the usage details of the offer. For example, this might be
+  /// <code>Global-BoxUsage:freetrial</code>.
+  final String? usageType;
+
+  FreeTierUsage({
+    this.actualUsageAmount,
+    this.description,
+    this.forecastedUsageAmount,
+    this.freeTierType,
+    this.limit,
+    this.operation,
+    this.region,
+    this.service,
+    this.unit,
+    this.usageType,
+  });
+
+  factory FreeTierUsage.fromJson(Map<String, dynamic> json) {
+    return FreeTierUsage(
+      actualUsageAmount: json['actualUsageAmount'] as double?,
+      description: json['description'] as String?,
+      forecastedUsageAmount: json['forecastedUsageAmount'] as double?,
+      freeTierType: json['freeTierType'] as String?,
+      limit: json['limit'] as double?,
+      operation: json['operation'] as String?,
+      region: json['region'] as String?,
+      service: json['service'] as String?,
+      unit: json['unit'] as String?,
+      usageType: json['usageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actualUsageAmount = this.actualUsageAmount;
+    final description = this.description;
+    final forecastedUsageAmount = this.forecastedUsageAmount;
+    final freeTierType = this.freeTierType;
+    final limit = this.limit;
+    final operation = this.operation;
+    final region = this.region;
+    final service = this.service;
+    final unit = this.unit;
+    final usageType = this.usageType;
+    return {
+      if (actualUsageAmount != null) 'actualUsageAmount': actualUsageAmount,
+      if (description != null) 'description': description,
+      if (forecastedUsageAmount != null)
+        'forecastedUsageAmount': forecastedUsageAmount,
+      if (freeTierType != null) 'freeTierType': freeTierType,
+      if (limit != null) 'limit': limit,
+      if (operation != null) 'operation': operation,
+      if (region != null) 'region': region,
+      if (service != null) 'service': service,
+      if (unit != null) 'unit': unit,
+      if (usageType != null) 'usageType': usageType,
     };
   }
 }
@@ -268,131 +939,71 @@ class Expression {
   }
 }
 
-/// Consists of a Amazon Web Services Free Tier offer’s metadata and your data
-/// usage for the offer.
-class FreeTierUsage {
-  /// Describes the actual usage accrued month-to-day (MTD) that you've used so
-  /// far.
-  final double? actualUsageAmount;
+/// Contains the specifications for the filters to use for your request.
+class DimensionValues {
+  /// The name of the dimension that you want to filter on.
+  final Dimension key;
 
-  /// The description of the Free Tier offer.
-  final String? description;
+  /// The match options that you can use to filter your results. You can specify
+  /// only one of these values in the array.
+  final List<MatchOption> matchOptions;
 
-  /// Describes the forecasted usage by the month that you're expected to use.
-  final double? forecastedUsageAmount;
+  /// The metadata values you can specify to filter upon, so that the results all
+  /// match at least one of the specified values.
+  final List<String> values;
 
-  /// Describes the type of the Free Tier offer. For example, the offer can be
-  /// <code>"12 Months Free"</code>, <code>"Always Free"</code>, and <code>"Free
-  /// Trial"</code>.
-  final String? freeTierType;
-
-  /// Describes the maximum usage allowed in Free Tier.
-  final double? limit;
-
-  /// Describes <code>usageType</code> more granularly with the specific Amazon
-  /// Web Service API operation. For example, this can be the
-  /// <code>RunInstances</code> API operation for Amazon Elastic Compute Cloud.
-  final String? operation;
-
-  /// Describes the Amazon Web Services Region for which this offer is applicable
-  final String? region;
-
-  /// The name of the Amazon Web Service providing the Free Tier offer. For
-  /// example, this can be Amazon Elastic Compute Cloud.
-  final String? service;
-
-  /// Describes the unit of the <code>usageType</code>, such as <code>Hrs</code>.
-  final String? unit;
-
-  /// Describes the usage details of the offer. For example, this might be
-  /// <code>Global-BoxUsage:freetrial</code>.
-  final String? usageType;
-
-  FreeTierUsage({
-    this.actualUsageAmount,
-    this.description,
-    this.forecastedUsageAmount,
-    this.freeTierType,
-    this.limit,
-    this.operation,
-    this.region,
-    this.service,
-    this.unit,
-    this.usageType,
+  DimensionValues({
+    required this.key,
+    required this.matchOptions,
+    required this.values,
   });
 
-  factory FreeTierUsage.fromJson(Map<String, dynamic> json) {
-    return FreeTierUsage(
-      actualUsageAmount: json['actualUsageAmount'] as double?,
-      description: json['description'] as String?,
-      forecastedUsageAmount: json['forecastedUsageAmount'] as double?,
-      freeTierType: json['freeTierType'] as String?,
-      limit: json['limit'] as double?,
-      operation: json['operation'] as String?,
-      region: json['region'] as String?,
-      service: json['service'] as String?,
-      unit: json['unit'] as String?,
-      usageType: json['usageType'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final actualUsageAmount = this.actualUsageAmount;
-    final description = this.description;
-    final forecastedUsageAmount = this.forecastedUsageAmount;
-    final freeTierType = this.freeTierType;
-    final limit = this.limit;
-    final operation = this.operation;
-    final region = this.region;
-    final service = this.service;
-    final unit = this.unit;
-    final usageType = this.usageType;
+    final key = this.key;
+    final matchOptions = this.matchOptions;
+    final values = this.values;
     return {
-      if (actualUsageAmount != null) 'actualUsageAmount': actualUsageAmount,
-      if (description != null) 'description': description,
-      if (forecastedUsageAmount != null)
-        'forecastedUsageAmount': forecastedUsageAmount,
-      if (freeTierType != null) 'freeTierType': freeTierType,
-      if (limit != null) 'limit': limit,
-      if (operation != null) 'operation': operation,
-      if (region != null) 'region': region,
-      if (service != null) 'service': service,
-      if (unit != null) 'unit': unit,
-      if (usageType != null) 'usageType': usageType,
+      'Key': key.value,
+      'MatchOptions': matchOptions.map((e) => e.value).toList(),
+      'Values': values,
     };
   }
 }
 
-class GetFreeTierUsageResponse {
-  /// The list of Free Tier usage objects that meet your filter expression.
-  final List<FreeTierUsage> freeTierUsages;
+class Dimension {
+  static const service = Dimension._('SERVICE');
+  static const operation = Dimension._('OPERATION');
+  static const usageType = Dimension._('USAGE_TYPE');
+  static const region = Dimension._('REGION');
+  static const freeTierType = Dimension._('FREE_TIER_TYPE');
+  static const description = Dimension._('DESCRIPTION');
+  static const usagePercentage = Dimension._('USAGE_PERCENTAGE');
 
-  /// The pagination token that indicates the next set of results to retrieve.
-  final String? nextToken;
+  final String value;
 
-  GetFreeTierUsageResponse({
-    required this.freeTierUsages,
-    this.nextToken,
-  });
+  const Dimension._(this.value);
 
-  factory GetFreeTierUsageResponse.fromJson(Map<String, dynamic> json) {
-    return GetFreeTierUsageResponse(
-      freeTierUsages: ((json['freeTierUsages'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => FreeTierUsage.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
+  static const values = [
+    service,
+    operation,
+    usageType,
+    region,
+    freeTierType,
+    description,
+    usagePercentage
+  ];
 
-  Map<String, dynamic> toJson() {
-    final freeTierUsages = this.freeTierUsages;
-    final nextToken = this.nextToken;
-    return {
-      'freeTierUsages': freeTierUsages,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
+  static Dimension fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Dimension._(value));
+
+  @override
+  bool operator ==(other) => other is Dimension && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class MatchOption {
@@ -427,9 +1038,19 @@ class MatchOption {
   String toString() => value;
 }
 
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String? type, String? message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
+}
+
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String? type, String? message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
@@ -443,8 +1064,12 @@ class ValidationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'ValidationException': (type, message) =>

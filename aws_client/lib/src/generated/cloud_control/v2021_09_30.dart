@@ -23,9 +23,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// For more information about Amazon Web Services Cloud Control API, see the <a
 /// href="https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/what-is-cloudcontrolapi.html">Amazon
 /// Web Services Cloud Control API User Guide</a>.
-class CloudControlApi {
+class CloudControl {
   final _s.JsonProtocol _protocol;
-  CloudControlApi({
+  CloudControl({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -35,7 +35,6 @@ class CloudControlApi {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'cloudcontrolapi',
-            signingName: 'cloudcontrolapi',
           ),
           region: region,
           credentials: credentials,
@@ -100,24 +99,24 @@ class CloudControlApi {
   /// returned by <code>CreateResource</code>.
   ///
   /// May throw [AlreadyExistsException].
-  /// May throw [HandlerInternalFailureException].
-  /// May throw [GeneralServiceException].
-  /// May throw [NotUpdatableException].
-  /// May throw [TypeNotFoundException].
-  /// May throw [ConcurrentOperationException].
-  /// May throw [InvalidRequestException].
-  /// May throw [PrivateTypeException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NetworkFailureException].
-  /// May throw [UnsupportedActionException].
-  /// May throw [NotStabilizedException].
-  /// May throw [ServiceInternalErrorException].
-  /// May throw [HandlerFailureException].
-  /// May throw [ServiceLimitExceededException].
-  /// May throw [InvalidCredentialsException].
-  /// May throw [ResourceConflictException].
   /// May throw [ClientTokenConflictException].
+  /// May throw [ConcurrentOperationException].
+  /// May throw [GeneralServiceException].
+  /// May throw [HandlerFailureException].
+  /// May throw [HandlerInternalFailureException].
+  /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidRequestException].
+  /// May throw [NetworkFailureException].
+  /// May throw [NotStabilizedException].
+  /// May throw [NotUpdatableException].
+  /// May throw [PrivateTypeException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceInternalErrorException].
+  /// May throw [ServiceLimitExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [TypeNotFoundException].
+  /// May throw [UnsupportedActionException].
   ///
   /// Parameter [desiredState] :
   /// Structured data format representing the desired state of the resource,
@@ -230,24 +229,24 @@ class CloudControlApi {
   /// returned by <code>DeleteResource</code>.
   ///
   /// May throw [AlreadyExistsException].
-  /// May throw [HandlerInternalFailureException].
-  /// May throw [GeneralServiceException].
-  /// May throw [NotUpdatableException].
-  /// May throw [TypeNotFoundException].
-  /// May throw [ConcurrentOperationException].
-  /// May throw [InvalidRequestException].
-  /// May throw [PrivateTypeException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NetworkFailureException].
-  /// May throw [UnsupportedActionException].
-  /// May throw [NotStabilizedException].
-  /// May throw [ServiceInternalErrorException].
-  /// May throw [HandlerFailureException].
-  /// May throw [ServiceLimitExceededException].
-  /// May throw [InvalidCredentialsException].
-  /// May throw [ResourceConflictException].
   /// May throw [ClientTokenConflictException].
+  /// May throw [ConcurrentOperationException].
+  /// May throw [GeneralServiceException].
+  /// May throw [HandlerFailureException].
+  /// May throw [HandlerInternalFailureException].
+  /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidRequestException].
+  /// May throw [NetworkFailureException].
+  /// May throw [NotStabilizedException].
+  /// May throw [NotUpdatableException].
+  /// May throw [PrivateTypeException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceInternalErrorException].
+  /// May throw [ServiceLimitExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [TypeNotFoundException].
+  /// May throw [UnsupportedActionException].
   ///
   /// Parameter [identifier] :
   /// The identifier for the resource.
@@ -350,22 +349,22 @@ class CloudControlApi {
   /// were provisioned using Cloud Control API.
   ///
   /// May throw [AlreadyExistsException].
-  /// May throw [HandlerInternalFailureException].
   /// May throw [GeneralServiceException].
-  /// May throw [NotUpdatableException].
-  /// May throw [TypeNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [PrivateTypeException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NetworkFailureException].
-  /// May throw [UnsupportedActionException].
-  /// May throw [NotStabilizedException].
-  /// May throw [ServiceInternalErrorException].
   /// May throw [HandlerFailureException].
-  /// May throw [ServiceLimitExceededException].
+  /// May throw [HandlerInternalFailureException].
   /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidRequestException].
+  /// May throw [NetworkFailureException].
+  /// May throw [NotStabilizedException].
+  /// May throw [NotUpdatableException].
+  /// May throw [PrivateTypeException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceInternalErrorException].
+  /// May throw [ServiceLimitExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [TypeNotFoundException].
+  /// May throw [UnsupportedActionException].
   ///
   /// Parameter [identifier] :
   /// The identifier for the resource.
@@ -543,22 +542,22 @@ class CloudControlApi {
   /// provisioned using Cloud Control API.
   ///
   /// May throw [AlreadyExistsException].
-  /// May throw [HandlerInternalFailureException].
   /// May throw [GeneralServiceException].
-  /// May throw [NotUpdatableException].
-  /// May throw [TypeNotFoundException].
-  /// May throw [InvalidRequestException].
-  /// May throw [PrivateTypeException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NetworkFailureException].
-  /// May throw [UnsupportedActionException].
-  /// May throw [NotStabilizedException].
-  /// May throw [ServiceInternalErrorException].
   /// May throw [HandlerFailureException].
-  /// May throw [ServiceLimitExceededException].
+  /// May throw [HandlerInternalFailureException].
   /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidRequestException].
+  /// May throw [NetworkFailureException].
+  /// May throw [NotStabilizedException].
+  /// May throw [NotUpdatableException].
+  /// May throw [PrivateTypeException].
   /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceInternalErrorException].
+  /// May throw [ServiceLimitExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [TypeNotFoundException].
+  /// May throw [UnsupportedActionException].
   ///
   /// Parameter [typeName] :
   /// The name of the resource type.
@@ -662,24 +661,24 @@ class CloudControlApi {
   /// and property types reference</a> in the <i>CloudFormation Users Guide</i>.
   ///
   /// May throw [AlreadyExistsException].
-  /// May throw [HandlerInternalFailureException].
-  /// May throw [GeneralServiceException].
-  /// May throw [NotUpdatableException].
-  /// May throw [TypeNotFoundException].
-  /// May throw [ConcurrentOperationException].
-  /// May throw [InvalidRequestException].
-  /// May throw [PrivateTypeException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NetworkFailureException].
-  /// May throw [UnsupportedActionException].
-  /// May throw [NotStabilizedException].
-  /// May throw [ServiceInternalErrorException].
-  /// May throw [HandlerFailureException].
-  /// May throw [ServiceLimitExceededException].
-  /// May throw [InvalidCredentialsException].
-  /// May throw [ResourceConflictException].
   /// May throw [ClientTokenConflictException].
+  /// May throw [ConcurrentOperationException].
+  /// May throw [GeneralServiceException].
+  /// May throw [HandlerFailureException].
+  /// May throw [HandlerInternalFailureException].
+  /// May throw [InvalidCredentialsException].
+  /// May throw [InvalidRequestException].
+  /// May throw [NetworkFailureException].
+  /// May throw [NotStabilizedException].
+  /// May throw [NotUpdatableException].
+  /// May throw [PrivateTypeException].
+  /// May throw [ResourceConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceInternalErrorException].
+  /// May throw [ServiceLimitExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [TypeNotFoundException].
+  /// May throw [UnsupportedActionException].
   ///
   /// Parameter [identifier] :
   /// The identifier for the resource.
@@ -902,15 +901,24 @@ class GetResourceOutput {
 }
 
 class GetResourceRequestStatusOutput {
+  /// Lists Hook invocations for the specified target in the request. This is a
+  /// list since the same target can invoke multiple Hooks.
+  final List<HookProgressEvent>? hooksProgressEvent;
+
   /// Represents the current status of the resource operation request.
   final ProgressEvent? progressEvent;
 
   GetResourceRequestStatusOutput({
+    this.hooksProgressEvent,
     this.progressEvent,
   });
 
   factory GetResourceRequestStatusOutput.fromJson(Map<String, dynamic> json) {
     return GetResourceRequestStatusOutput(
+      hooksProgressEvent: (json['HooksProgressEvent'] as List?)
+          ?.nonNulls
+          .map((e) => HookProgressEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
       progressEvent: json['ProgressEvent'] != null
           ? ProgressEvent.fromJson(
               json['ProgressEvent'] as Map<String, dynamic>)
@@ -919,67 +927,13 @@ class GetResourceRequestStatusOutput {
   }
 
   Map<String, dynamic> toJson() {
+    final hooksProgressEvent = this.hooksProgressEvent;
     final progressEvent = this.progressEvent;
     return {
+      if (hooksProgressEvent != null) 'HooksProgressEvent': hooksProgressEvent,
       if (progressEvent != null) 'ProgressEvent': progressEvent,
     };
   }
-}
-
-class HandlerErrorCode {
-  static const notUpdatable = HandlerErrorCode._('NotUpdatable');
-  static const invalidRequest = HandlerErrorCode._('InvalidRequest');
-  static const accessDenied = HandlerErrorCode._('AccessDenied');
-  static const invalidCredentials = HandlerErrorCode._('InvalidCredentials');
-  static const alreadyExists = HandlerErrorCode._('AlreadyExists');
-  static const notFound = HandlerErrorCode._('NotFound');
-  static const resourceConflict = HandlerErrorCode._('ResourceConflict');
-  static const throttling = HandlerErrorCode._('Throttling');
-  static const serviceLimitExceeded =
-      HandlerErrorCode._('ServiceLimitExceeded');
-  static const notStabilized = HandlerErrorCode._('NotStabilized');
-  static const generalServiceException =
-      HandlerErrorCode._('GeneralServiceException');
-  static const serviceInternalError =
-      HandlerErrorCode._('ServiceInternalError');
-  static const serviceTimeout = HandlerErrorCode._('ServiceTimeout');
-  static const networkFailure = HandlerErrorCode._('NetworkFailure');
-  static const internalFailure = HandlerErrorCode._('InternalFailure');
-
-  final String value;
-
-  const HandlerErrorCode._(this.value);
-
-  static const values = [
-    notUpdatable,
-    invalidRequest,
-    accessDenied,
-    invalidCredentials,
-    alreadyExists,
-    notFound,
-    resourceConflict,
-    throttling,
-    serviceLimitExceeded,
-    notStabilized,
-    generalServiceException,
-    serviceInternalError,
-    serviceTimeout,
-    networkFailure,
-    internalFailure
-  ];
-
-  static HandlerErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HandlerErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is HandlerErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListResourceRequestsOutput {
@@ -1065,63 +1019,33 @@ class ListResourcesOutput {
   }
 }
 
-class Operation {
-  static const create = Operation._('CREATE');
-  static const delete = Operation._('DELETE');
-  static const update = Operation._('UPDATE');
+class UpdateResourceOutput {
+  /// Represents the current status of the resource update request.
+  ///
+  /// Use the <code>RequestToken</code> of the <code>ProgressEvent</code> with <a
+  /// href="https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html">GetResourceRequestStatus</a>
+  /// to return the current status of a resource operation request.
+  final ProgressEvent? progressEvent;
 
-  final String value;
+  UpdateResourceOutput({
+    this.progressEvent,
+  });
 
-  const Operation._(this.value);
+  factory UpdateResourceOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateResourceOutput(
+      progressEvent: json['ProgressEvent'] != null
+          ? ProgressEvent.fromJson(
+              json['ProgressEvent'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
-  static const values = [create, delete, update];
-
-  static Operation fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
-
-  @override
-  bool operator ==(other) => other is Operation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class OperationStatus {
-  static const pending = OperationStatus._('PENDING');
-  static const inProgress = OperationStatus._('IN_PROGRESS');
-  static const success = OperationStatus._('SUCCESS');
-  static const failed = OperationStatus._('FAILED');
-  static const cancelInProgress = OperationStatus._('CANCEL_IN_PROGRESS');
-  static const cancelComplete = OperationStatus._('CANCEL_COMPLETE');
-
-  final String value;
-
-  const OperationStatus._(this.value);
-
-  static const values = [
-    pending,
-    inProgress,
-    success,
-    failed,
-    cancelInProgress,
-    cancelComplete
-  ];
-
-  static OperationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is OperationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final progressEvent = this.progressEvent;
+    return {
+      if (progressEvent != null) 'ProgressEvent': progressEvent,
+    };
+  }
 }
 
 /// Represents the current status of a resource operation request. For more
@@ -1141,6 +1065,9 @@ class ProgressEvent {
 
   /// When the resource operation request was initiated.
   final DateTime? eventTime;
+
+  /// The unique token representing the Hooks operation for the request.
+  final String? hooksRequestToken;
 
   /// The primary identifier for the resource.
   /// <note>
@@ -1201,6 +1128,7 @@ class ProgressEvent {
   ProgressEvent({
     this.errorCode,
     this.eventTime,
+    this.hooksRequestToken,
     this.identifier,
     this.operation,
     this.operationStatus,
@@ -1216,6 +1144,7 @@ class ProgressEvent {
       errorCode:
           (json['ErrorCode'] as String?)?.let(HandlerErrorCode.fromString),
       eventTime: timeStampFromJson(json['EventTime']),
+      hooksRequestToken: json['HooksRequestToken'] as String?,
       identifier: json['Identifier'] as String?,
       operation: (json['Operation'] as String?)?.let(Operation.fromString),
       operationStatus:
@@ -1231,6 +1160,7 @@ class ProgressEvent {
   Map<String, dynamic> toJson() {
     final errorCode = this.errorCode;
     final eventTime = this.eventTime;
+    final hooksRequestToken = this.hooksRequestToken;
     final identifier = this.identifier;
     final operation = this.operation;
     final operationStatus = this.operationStatus;
@@ -1242,6 +1172,7 @@ class ProgressEvent {
     return {
       if (errorCode != null) 'ErrorCode': errorCode.value,
       if (eventTime != null) 'EventTime': unixTimestampToJson(eventTime),
+      if (hooksRequestToken != null) 'HooksRequestToken': hooksRequestToken,
       if (identifier != null) 'Identifier': identifier,
       if (operation != null) 'Operation': operation.value,
       if (operationStatus != null) 'OperationStatus': operationStatus.value,
@@ -1252,6 +1183,124 @@ class ProgressEvent {
       if (typeName != null) 'TypeName': typeName,
     };
   }
+}
+
+class Operation {
+  static const create = Operation._('CREATE');
+  static const delete = Operation._('DELETE');
+  static const update = Operation._('UPDATE');
+
+  final String value;
+
+  const Operation._(this.value);
+
+  static const values = [create, delete, update];
+
+  static Operation fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Operation._(value));
+
+  @override
+  bool operator ==(other) => other is Operation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OperationStatus {
+  static const pending = OperationStatus._('PENDING');
+  static const inProgress = OperationStatus._('IN_PROGRESS');
+  static const success = OperationStatus._('SUCCESS');
+  static const failed = OperationStatus._('FAILED');
+  static const cancelInProgress = OperationStatus._('CANCEL_IN_PROGRESS');
+  static const cancelComplete = OperationStatus._('CANCEL_COMPLETE');
+
+  final String value;
+
+  const OperationStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    success,
+    failed,
+    cancelInProgress,
+    cancelComplete
+  ];
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HandlerErrorCode {
+  static const notUpdatable = HandlerErrorCode._('NotUpdatable');
+  static const invalidRequest = HandlerErrorCode._('InvalidRequest');
+  static const accessDenied = HandlerErrorCode._('AccessDenied');
+  static const unauthorizedTaggingOperation =
+      HandlerErrorCode._('UnauthorizedTaggingOperation');
+  static const invalidCredentials = HandlerErrorCode._('InvalidCredentials');
+  static const alreadyExists = HandlerErrorCode._('AlreadyExists');
+  static const notFound = HandlerErrorCode._('NotFound');
+  static const resourceConflict = HandlerErrorCode._('ResourceConflict');
+  static const throttling = HandlerErrorCode._('Throttling');
+  static const serviceLimitExceeded =
+      HandlerErrorCode._('ServiceLimitExceeded');
+  static const notStabilized = HandlerErrorCode._('NotStabilized');
+  static const generalServiceException =
+      HandlerErrorCode._('GeneralServiceException');
+  static const serviceInternalError =
+      HandlerErrorCode._('ServiceInternalError');
+  static const serviceTimeout = HandlerErrorCode._('ServiceTimeout');
+  static const networkFailure = HandlerErrorCode._('NetworkFailure');
+  static const internalFailure = HandlerErrorCode._('InternalFailure');
+
+  final String value;
+
+  const HandlerErrorCode._(this.value);
+
+  static const values = [
+    notUpdatable,
+    invalidRequest,
+    accessDenied,
+    unauthorizedTaggingOperation,
+    invalidCredentials,
+    alreadyExists,
+    notFound,
+    resourceConflict,
+    throttling,
+    serviceLimitExceeded,
+    notStabilized,
+    generalServiceException,
+    serviceInternalError,
+    serviceTimeout,
+    networkFailure,
+    internalFailure
+  ];
+
+  static HandlerErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HandlerErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is HandlerErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents information about a provisioned resource.
@@ -1337,31 +1386,113 @@ class ResourceRequestStatusFilter {
   }
 }
 
-class UpdateResourceOutput {
-  /// Represents the current status of the resource update request.
+/// Represents the current status of applicable Hooks for a resource operation
+/// request. It contains list of Hook invocation information for the resource
+/// specified in the request since the same target can invoke multiple Hooks.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html">Managing
+/// resource operation requests with Amazon Web Services Cloud Control API </a>.
+class HookProgressEvent {
+  /// The failure mode of the invocation. The following are the potential
+  /// statuses:
   ///
-  /// Use the <code>RequestToken</code> of the <code>ProgressEvent</code> with <a
-  /// href="https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html">GetResourceRequestStatus</a>
-  /// to return the current status of a resource operation request.
-  final ProgressEvent? progressEvent;
+  /// <ul>
+  /// <li>
+  /// <code>FAIL</code>: This will fail the Hook invocation and the request
+  /// associated with it.
+  /// </li>
+  /// <li>
+  /// <code>WARN</code>: This will fail the Hook invocation, but not the request
+  /// associated with it.
+  /// </li>
+  /// </ul>
+  final String? failureMode;
 
-  UpdateResourceOutput({
-    this.progressEvent,
+  /// The time that the Hook invocation request initiated.
+  final DateTime? hookEventTime;
+
+  /// The status of the Hook invocation. The following are potential statuses:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HOOK_PENDING</code>: The Hook was added to the invocation plan, but
+  /// not yet invoked.
+  /// </li>
+  /// <li>
+  /// <code>HOOK_IN_PROGRESS</code>: The Hook was invoked, but hasn't completed.
+  /// </li>
+  /// <li>
+  /// <code>HOOK_COMPLETE_SUCCEEDED</code>: The Hook invocation is complete with a
+  /// successful result.
+  /// </li>
+  /// <li>
+  /// <code>HOOK_COMPLETE_FAILED</code>: The Hook invocation is complete with a
+  /// failed result.
+  /// </li>
+  /// <li>
+  /// <code>HOOK_FAILED</code>: The Hook invocation didn't complete successfully.
+  /// </li>
+  /// </ul>
+  final String? hookStatus;
+
+  /// The message explaining the current Hook status.
+  final String? hookStatusMessage;
+
+  /// The ARN of the Hook being invoked.
+  final String? hookTypeArn;
+
+  /// The type name of the Hook being invoked.
+  final String? hookTypeName;
+
+  /// The type version of the Hook being invoked.
+  final String? hookTypeVersionId;
+
+  /// States whether the Hook is invoked before or after resource provisioning.
+  final String? invocationPoint;
+
+  HookProgressEvent({
+    this.failureMode,
+    this.hookEventTime,
+    this.hookStatus,
+    this.hookStatusMessage,
+    this.hookTypeArn,
+    this.hookTypeName,
+    this.hookTypeVersionId,
+    this.invocationPoint,
   });
 
-  factory UpdateResourceOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateResourceOutput(
-      progressEvent: json['ProgressEvent'] != null
-          ? ProgressEvent.fromJson(
-              json['ProgressEvent'] as Map<String, dynamic>)
-          : null,
+  factory HookProgressEvent.fromJson(Map<String, dynamic> json) {
+    return HookProgressEvent(
+      failureMode: json['FailureMode'] as String?,
+      hookEventTime: timeStampFromJson(json['HookEventTime']),
+      hookStatus: json['HookStatus'] as String?,
+      hookStatusMessage: json['HookStatusMessage'] as String?,
+      hookTypeArn: json['HookTypeArn'] as String?,
+      hookTypeName: json['HookTypeName'] as String?,
+      hookTypeVersionId: json['HookTypeVersionId'] as String?,
+      invocationPoint: json['InvocationPoint'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final progressEvent = this.progressEvent;
+    final failureMode = this.failureMode;
+    final hookEventTime = this.hookEventTime;
+    final hookStatus = this.hookStatus;
+    final hookStatusMessage = this.hookStatusMessage;
+    final hookTypeArn = this.hookTypeArn;
+    final hookTypeName = this.hookTypeName;
+    final hookTypeVersionId = this.hookTypeVersionId;
+    final invocationPoint = this.invocationPoint;
     return {
-      if (progressEvent != null) 'ProgressEvent': progressEvent,
+      if (failureMode != null) 'FailureMode': failureMode,
+      if (hookEventTime != null)
+        'HookEventTime': unixTimestampToJson(hookEventTime),
+      if (hookStatus != null) 'HookStatus': hookStatus,
+      if (hookStatusMessage != null) 'HookStatusMessage': hookStatusMessage,
+      if (hookTypeArn != null) 'HookTypeArn': hookTypeArn,
+      if (hookTypeName != null) 'HookTypeName': hookTypeName,
+      if (hookTypeVersionId != null) 'HookTypeVersionId': hookTypeVersionId,
+      if (invocationPoint != null) 'InvocationPoint': invocationPoint,
     };
   }
 }

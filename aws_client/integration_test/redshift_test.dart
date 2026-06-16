@@ -1,4 +1,4 @@
-import 'package:aws_client/redshift_2012_12_01.dart';
+import 'package:aws_client/redshift.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

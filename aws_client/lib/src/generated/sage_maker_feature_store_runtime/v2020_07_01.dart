@@ -77,10 +77,10 @@ class SageMakerFeatureStoreRuntime {
   /// Retrieves a batch of <code>Records</code> from a
   /// <code>FeatureGroup</code>.
   ///
-  /// May throw [ValidationError].
+  /// May throw [AccessForbidden].
   /// May throw [InternalFailure].
   /// May throw [ServiceUnavailable].
-  /// May throw [AccessForbidden].
+  /// May throw [ValidationError].
   ///
   /// Parameter [identifiers] :
   /// A list containing the name or Amazon Resource Name (ARN) of the
@@ -153,10 +153,10 @@ class SageMakerFeatureStoreRuntime {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-delete-records-offline-store.html#feature-store-delete-records-offline-store">Delete
   /// records from the offline store</a>.
   ///
-  /// May throw [ValidationError].
+  /// May throw [AccessForbidden].
   /// May throw [InternalFailure].
   /// May throw [ServiceUnavailable].
-  /// May throw [AccessForbidden].
+  /// May throw [ValidationError].
   ///
   /// Parameter [eventTime] :
   /// Timestamp indicating when the deletion event occurred.
@@ -207,11 +207,11 @@ class SageMakerFeatureStoreRuntime {
   /// retrieved. If no Record with <code>RecordIdentifierValue</code> is found,
   /// then an empty result is returned.
   ///
-  /// May throw [ValidationError].
-  /// May throw [ResourceNotFound].
-  /// May throw [InternalFailure].
-  /// May throw [ServiceUnavailable].
   /// May throw [AccessForbidden].
+  /// May throw [InternalFailure].
+  /// May throw [ResourceNotFound].
+  /// May throw [ServiceUnavailable].
+  /// May throw [ValidationError].
   ///
   /// Parameter [featureGroupName] :
   /// The name or Amazon Resource Name (ARN) of the feature group from which you
@@ -275,10 +275,10 @@ class SageMakerFeatureStoreRuntime {
   /// level <code>TtlDuration</code>. A record level <code>TtlDuration</code>
   /// supersedes the group level <code>TtlDuration</code>.
   ///
-  /// May throw [ValidationError].
+  /// May throw [AccessForbidden].
   /// May throw [InternalFailure].
   /// May throw [ServiceUnavailable].
-  /// May throw [AccessForbidden].
+  /// May throw [ValidationError].
   ///
   /// Parameter [featureGroupName] :
   /// The name or Amazon Resource Name (ARN) of the feature group that you want
@@ -333,103 +333,6 @@ class SageMakerFeatureStoreRuntime {
   }
 }
 
-/// The error that has occurred when attempting to retrieve a batch of Records.
-class BatchGetRecordError {
-  /// The error code of an error that has occurred when attempting to retrieve a
-  /// batch of Records. For more information on errors, see <a
-  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_GetRecord.html#API_feature_store_GetRecord_Errors">Errors</a>.
-  final String errorCode;
-
-  /// The error message of an error that has occurred when attempting to retrieve
-  /// a record in the batch.
-  final String errorMessage;
-
-  /// The name of the feature group that the record belongs to.
-  final String featureGroupName;
-
-  /// The value for the <code>RecordIdentifier</code> in string format of a Record
-  /// from a <code>FeatureGroup</code> that is causing an error when attempting to
-  /// be retrieved.
-  final String recordIdentifierValueAsString;
-
-  BatchGetRecordError({
-    required this.errorCode,
-    required this.errorMessage,
-    required this.featureGroupName,
-    required this.recordIdentifierValueAsString,
-  });
-
-  factory BatchGetRecordError.fromJson(Map<String, dynamic> json) {
-    return BatchGetRecordError(
-      errorCode: (json['ErrorCode'] as String?) ?? '',
-      errorMessage: (json['ErrorMessage'] as String?) ?? '',
-      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
-      recordIdentifierValueAsString:
-          (json['RecordIdentifierValueAsString'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final featureGroupName = this.featureGroupName;
-    final recordIdentifierValueAsString = this.recordIdentifierValueAsString;
-    return {
-      'ErrorCode': errorCode,
-      'ErrorMessage': errorMessage,
-      'FeatureGroupName': featureGroupName,
-      'RecordIdentifierValueAsString': recordIdentifierValueAsString,
-    };
-  }
-}
-
-/// The identifier that identifies the batch of Records you are retrieving in a
-/// batch.
-class BatchGetRecordIdentifier {
-  /// The name or Amazon Resource Name (ARN) of the <code>FeatureGroup</code>
-  /// containing the records you are retrieving in a batch.
-  final String featureGroupName;
-
-  /// The value for a list of record identifiers in string format.
-  final List<String> recordIdentifiersValueAsString;
-
-  /// List of names of Features to be retrieved. If not specified, the latest
-  /// value for all the Features are returned.
-  final List<String>? featureNames;
-
-  BatchGetRecordIdentifier({
-    required this.featureGroupName,
-    required this.recordIdentifiersValueAsString,
-    this.featureNames,
-  });
-
-  factory BatchGetRecordIdentifier.fromJson(Map<String, dynamic> json) {
-    return BatchGetRecordIdentifier(
-      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
-      recordIdentifiersValueAsString:
-          ((json['RecordIdentifiersValueAsString'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
-      featureNames: (json['FeatureNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final featureGroupName = this.featureGroupName;
-    final recordIdentifiersValueAsString = this.recordIdentifiersValueAsString;
-    final featureNames = this.featureNames;
-    return {
-      'FeatureGroupName': featureGroupName,
-      'RecordIdentifiersValueAsString': recordIdentifiersValueAsString,
-      if (featureNames != null) 'FeatureNames': featureNames,
-    };
-  }
-}
-
 class BatchGetRecordResponse {
   /// A list of errors that have occurred when retrieving a batch of Records.
   final List<BatchGetRecordError> errors;
@@ -479,70 +382,84 @@ class BatchGetRecordResponse {
   }
 }
 
-/// The output of records that have been retrieved in a batch.
-class BatchGetRecordResultDetail {
-  /// The <code>FeatureGroupName</code> containing Records you retrieved in a
-  /// batch.
-  final String featureGroupName;
-
-  /// The <code>Record</code> retrieved.
-  final List<FeatureValue> record;
-
-  /// The value of the record identifier in string format.
-  final String recordIdentifierValueAsString;
-
+class GetRecordResponse {
   /// The <code>ExpiresAt</code> ISO string of the requested record.
   final String? expiresAt;
 
-  BatchGetRecordResultDetail({
-    required this.featureGroupName,
-    required this.record,
-    required this.recordIdentifierValueAsString,
+  /// The record you requested. A list of <code>FeatureValues</code>.
+  final List<FeatureValue>? record;
+
+  GetRecordResponse({
     this.expiresAt,
+    this.record,
   });
 
-  factory BatchGetRecordResultDetail.fromJson(Map<String, dynamic> json) {
-    return BatchGetRecordResultDetail(
-      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
-      record: ((json['Record'] as List?) ?? const [])
-          .nonNulls
+  factory GetRecordResponse.fromJson(Map<String, dynamic> json) {
+    return GetRecordResponse(
+      expiresAt: json['ExpiresAt'] as String?,
+      record: (json['Record'] as List?)
+          ?.nonNulls
           .map((e) => FeatureValue.fromJson(e as Map<String, dynamic>))
           .toList(),
-      recordIdentifierValueAsString:
-          (json['RecordIdentifierValueAsString'] as String?) ?? '',
-      expiresAt: json['ExpiresAt'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final featureGroupName = this.featureGroupName;
-    final record = this.record;
-    final recordIdentifierValueAsString = this.recordIdentifierValueAsString;
     final expiresAt = this.expiresAt;
+    final record = this.record;
     return {
-      'FeatureGroupName': featureGroupName,
-      'Record': record,
-      'RecordIdentifierValueAsString': recordIdentifierValueAsString,
       if (expiresAt != null) 'ExpiresAt': expiresAt,
+      if (record != null) 'Record': record,
     };
   }
 }
 
-class DeletionMode {
-  static const softDelete = DeletionMode._('SoftDelete');
-  static const hardDelete = DeletionMode._('HardDelete');
+/// Time to live duration, where the record is hard deleted after the expiration
+/// time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +
+/// <code>TtlDuration</code>. For information on HardDelete, see the <a
+/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
+/// API in the Amazon SageMaker API Reference guide.
+class TtlDuration {
+  /// <code>TtlDuration</code> time unit.
+  final TtlDurationUnit unit;
+
+  /// <code>TtlDuration</code> time value.
+  final int value;
+
+  TtlDuration({
+    required this.unit,
+    required this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'Unit': unit.value,
+      'Value': value,
+    };
+  }
+}
+
+class TtlDurationUnit {
+  static const seconds = TtlDurationUnit._('Seconds');
+  static const minutes = TtlDurationUnit._('Minutes');
+  static const hours = TtlDurationUnit._('Hours');
+  static const days = TtlDurationUnit._('Days');
+  static const weeks = TtlDurationUnit._('Weeks');
 
   final String value;
 
-  const DeletionMode._(this.value);
+  const TtlDurationUnit._(this.value);
 
-  static const values = [softDelete, hardDelete];
+  static const values = [seconds, minutes, hours, days, weeks];
 
-  static DeletionMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DeletionMode._(value));
+  static TtlDurationUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TtlDurationUnit._(value));
 
   @override
-  bool operator ==(other) => other is DeletionMode && other.value == value;
+  bool operator ==(other) => other is TtlDurationUnit && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -551,23 +468,21 @@ class DeletionMode {
   String toString() => value;
 }
 
-class ExpirationTimeResponse {
-  static const enabled = ExpirationTimeResponse._('Enabled');
-  static const disabled = ExpirationTimeResponse._('Disabled');
+class TargetStore {
+  static const onlineStore = TargetStore._('OnlineStore');
+  static const offlineStore = TargetStore._('OfflineStore');
 
   final String value;
 
-  const ExpirationTimeResponse._(this.value);
+  const TargetStore._(this.value);
 
-  static const values = [enabled, disabled];
+  static const values = [onlineStore, offlineStore];
 
-  static ExpirationTimeResponse fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExpirationTimeResponse._(value));
+  static TargetStore fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetStore._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ExpirationTimeResponse && other.value == value;
+  bool operator ==(other) => other is TargetStore && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -623,113 +538,198 @@ class FeatureValue {
   }
 }
 
-class GetRecordResponse {
-  /// The <code>ExpiresAt</code> ISO string of the requested record.
-  final String? expiresAt;
+class ExpirationTimeResponse {
+  static const enabled = ExpirationTimeResponse._('Enabled');
+  static const disabled = ExpirationTimeResponse._('Disabled');
 
-  /// The record you requested. A list of <code>FeatureValues</code>.
-  final List<FeatureValue>? record;
+  final String value;
 
-  GetRecordResponse({
-    this.expiresAt,
-    this.record,
+  const ExpirationTimeResponse._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ExpirationTimeResponse fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExpirationTimeResponse._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExpirationTimeResponse && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeletionMode {
+  static const softDelete = DeletionMode._('SoftDelete');
+  static const hardDelete = DeletionMode._('HardDelete');
+
+  final String value;
+
+  const DeletionMode._(this.value);
+
+  static const values = [softDelete, hardDelete];
+
+  static DeletionMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeletionMode._(value));
+
+  @override
+  bool operator ==(other) => other is DeletionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The identifier that identifies the batch of Records you are retrieving in a
+/// batch.
+class BatchGetRecordIdentifier {
+  /// The name or Amazon Resource Name (ARN) of the <code>FeatureGroup</code>
+  /// containing the records you are retrieving in a batch.
+  final String featureGroupName;
+
+  /// The value for a list of record identifiers in string format.
+  final List<String> recordIdentifiersValueAsString;
+
+  /// List of names of Features to be retrieved. If not specified, the latest
+  /// value for all the Features are returned.
+  final List<String>? featureNames;
+
+  BatchGetRecordIdentifier({
+    required this.featureGroupName,
+    required this.recordIdentifiersValueAsString,
+    this.featureNames,
   });
 
-  factory GetRecordResponse.fromJson(Map<String, dynamic> json) {
-    return GetRecordResponse(
-      expiresAt: json['ExpiresAt'] as String?,
-      record: (json['Record'] as List?)
+  factory BatchGetRecordIdentifier.fromJson(Map<String, dynamic> json) {
+    return BatchGetRecordIdentifier(
+      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
+      recordIdentifiersValueAsString:
+          ((json['RecordIdentifiersValueAsString'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      featureNames: (json['FeatureNames'] as List?)
           ?.nonNulls
-          .map((e) => FeatureValue.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as String)
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final expiresAt = this.expiresAt;
-    final record = this.record;
+    final featureGroupName = this.featureGroupName;
+    final recordIdentifiersValueAsString = this.recordIdentifiersValueAsString;
+    final featureNames = this.featureNames;
     return {
-      if (expiresAt != null) 'ExpiresAt': expiresAt,
-      if (record != null) 'Record': record,
+      'FeatureGroupName': featureGroupName,
+      'RecordIdentifiersValueAsString': recordIdentifiersValueAsString,
+      if (featureNames != null) 'FeatureNames': featureNames,
     };
   }
 }
 
-class TargetStore {
-  static const onlineStore = TargetStore._('OnlineStore');
-  static const offlineStore = TargetStore._('OfflineStore');
+/// The error that has occurred when attempting to retrieve a batch of Records.
+class BatchGetRecordError {
+  /// The error code of an error that has occurred when attempting to retrieve a
+  /// batch of Records. For more information on errors, see <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_GetRecord.html#API_feature_store_GetRecord_Errors">Errors</a>.
+  final String errorCode;
 
-  final String value;
+  /// The error message of an error that has occurred when attempting to retrieve
+  /// a record in the batch.
+  final String errorMessage;
 
-  const TargetStore._(this.value);
+  /// The name of the feature group that the record belongs to.
+  final String featureGroupName;
 
-  static const values = [onlineStore, offlineStore];
+  /// The value for the <code>RecordIdentifier</code> in string format of a Record
+  /// from a <code>FeatureGroup</code> that is causing an error when attempting to
+  /// be retrieved.
+  final String recordIdentifierValueAsString;
 
-  static TargetStore fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TargetStore._(value));
-
-  @override
-  bool operator ==(other) => other is TargetStore && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Time to live duration, where the record is hard deleted after the expiration
-/// time is reached; <code>ExpiresAt</code> = <code>EventTime</code> +
-/// <code>TtlDuration</code>. For information on HardDelete, see the <a
-/// href="https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html">DeleteRecord</a>
-/// API in the Amazon SageMaker API Reference guide.
-class TtlDuration {
-  /// <code>TtlDuration</code> time unit.
-  final TtlDurationUnit unit;
-
-  /// <code>TtlDuration</code> time value.
-  final int value;
-
-  TtlDuration({
-    required this.unit,
-    required this.value,
+  BatchGetRecordError({
+    required this.errorCode,
+    required this.errorMessage,
+    required this.featureGroupName,
+    required this.recordIdentifierValueAsString,
   });
 
+  factory BatchGetRecordError.fromJson(Map<String, dynamic> json) {
+    return BatchGetRecordError(
+      errorCode: (json['ErrorCode'] as String?) ?? '',
+      errorMessage: (json['ErrorMessage'] as String?) ?? '',
+      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
+      recordIdentifierValueAsString:
+          (json['RecordIdentifierValueAsString'] as String?) ?? '',
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final unit = this.unit;
-    final value = this.value;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final featureGroupName = this.featureGroupName;
+    final recordIdentifierValueAsString = this.recordIdentifierValueAsString;
     return {
-      'Unit': unit.value,
-      'Value': value,
+      'ErrorCode': errorCode,
+      'ErrorMessage': errorMessage,
+      'FeatureGroupName': featureGroupName,
+      'RecordIdentifierValueAsString': recordIdentifierValueAsString,
     };
   }
 }
 
-class TtlDurationUnit {
-  static const seconds = TtlDurationUnit._('Seconds');
-  static const minutes = TtlDurationUnit._('Minutes');
-  static const hours = TtlDurationUnit._('Hours');
-  static const days = TtlDurationUnit._('Days');
-  static const weeks = TtlDurationUnit._('Weeks');
+/// The output of records that have been retrieved in a batch.
+class BatchGetRecordResultDetail {
+  /// The <code>FeatureGroupName</code> containing Records you retrieved in a
+  /// batch.
+  final String featureGroupName;
 
-  final String value;
+  /// The <code>Record</code> retrieved.
+  final List<FeatureValue> record;
 
-  const TtlDurationUnit._(this.value);
+  /// The value of the record identifier in string format.
+  final String recordIdentifierValueAsString;
 
-  static const values = [seconds, minutes, hours, days, weeks];
+  /// The <code>ExpiresAt</code> ISO string of the requested record.
+  final String? expiresAt;
 
-  static TtlDurationUnit fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TtlDurationUnit._(value));
+  BatchGetRecordResultDetail({
+    required this.featureGroupName,
+    required this.record,
+    required this.recordIdentifierValueAsString,
+    this.expiresAt,
+  });
 
-  @override
-  bool operator ==(other) => other is TtlDurationUnit && other.value == value;
+  factory BatchGetRecordResultDetail.fromJson(Map<String, dynamic> json) {
+    return BatchGetRecordResultDetail(
+      featureGroupName: (json['FeatureGroupName'] as String?) ?? '',
+      record: ((json['Record'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FeatureValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recordIdentifierValueAsString:
+          (json['RecordIdentifierValueAsString'] as String?) ?? '',
+      expiresAt: json['ExpiresAt'] as String?,
+    );
+  }
 
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final featureGroupName = this.featureGroupName;
+    final record = this.record;
+    final recordIdentifierValueAsString = this.recordIdentifierValueAsString;
+    final expiresAt = this.expiresAt;
+    return {
+      'FeatureGroupName': featureGroupName,
+      'Record': record,
+      'RecordIdentifierValueAsString': recordIdentifierValueAsString,
+      if (expiresAt != null) 'ExpiresAt': expiresAt,
+    };
+  }
 }
 
 class AccessForbidden extends _s.GenericAwsException {

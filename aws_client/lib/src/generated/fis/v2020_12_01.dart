@@ -37,7 +37,6 @@ class Fis {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'fis',
-            signingName: 'fis',
           ),
           region: region,
           credentials: credentials,
@@ -79,10 +78,10 @@ class Fis {
   /// href="https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html">experiment
   /// templates</a> in the <i>Fault Injection Service User Guide</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [actions] :
   /// The actions for the experiment.
@@ -104,6 +103,9 @@ class Fis {
   /// Parameter [experimentOptions] :
   /// The experiment options for the experiment template.
   ///
+  /// Parameter [experimentReportConfiguration] :
+  /// The experiment report configuration for the experiment template.
+  ///
   /// Parameter [logConfiguration] :
   /// The configuration for experiment logging.
   ///
@@ -119,6 +121,8 @@ class Fis {
     required List<CreateExperimentTemplateStopConditionInput> stopConditions,
     String? clientToken,
     CreateExperimentTemplateExperimentOptionsInput? experimentOptions,
+    CreateExperimentTemplateReportConfigurationInput?
+        experimentReportConfiguration,
     CreateExperimentTemplateLogConfigurationInput? logConfiguration,
     Map<String, String>? tags,
     Map<String, CreateExperimentTemplateTargetInput>? targets,
@@ -130,6 +134,8 @@ class Fis {
       'stopConditions': stopConditions,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (experimentOptions != null) 'experimentOptions': experimentOptions,
+      if (experimentReportConfiguration != null)
+        'experimentReportConfiguration': experimentReportConfiguration,
       if (logConfiguration != null) 'logConfiguration': logConfiguration,
       if (tags != null) 'tags': tags,
       if (targets != null) 'targets': targets,
@@ -150,10 +156,10 @@ class Fis {
   /// href="https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html">experiment
   /// options</a> in the <i>Fault Injection Service User Guide</i>.
   ///
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID of the target account.
@@ -195,8 +201,8 @@ class Fis {
 
   /// Deletes the specified experiment template.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the experiment template.
@@ -215,8 +221,8 @@ class Fis {
   /// Deletes the specified target account configuration of the experiment
   /// template.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID of the target account.
@@ -240,8 +246,8 @@ class Fis {
 
   /// Gets information about the specified FIS action.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the action.
@@ -259,8 +265,8 @@ class Fis {
 
   /// Gets information about the specified experiment.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the experiment.
@@ -304,8 +310,8 @@ class Fis {
 
   /// Gets information about the specified experiment template.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the experiment template.
@@ -366,8 +372,8 @@ class Fis {
 
   /// Gets information about the specified resource type.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceType] :
   /// The resource type.
@@ -420,8 +426,8 @@ class Fis {
 
   /// Lists the resolved targets information of the specified experiment.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [experimentId] :
   /// The ID of the experiment.
@@ -464,10 +470,51 @@ class Fis {
     return ListExperimentResolvedTargetsResponse.fromJson(response);
   }
 
-  /// Lists the target account configurations of the specified experiment.
+  /// Lists your experiments.
   ///
   /// May throw [ValidationException].
+  ///
+  /// Parameter [experimentTemplateId] :
+  /// The ID of the experiment template.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<ListExperimentsResponse> listExperiments({
+    String? experimentTemplateId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (experimentTemplateId != null)
+        'experimentTemplateId': [experimentTemplateId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/experiments',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListExperimentsResponse.fromJson(response);
+  }
+
+  /// Lists the target account configurations of the specified experiment.
+  ///
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [experimentId] :
   /// The ID of the experiment.
@@ -528,47 +575,6 @@ class Fis {
     return ListExperimentTemplatesResponse.fromJson(response);
   }
 
-  /// Lists your experiments.
-  ///
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [experimentTemplateId] :
-  /// The ID of the experiment template.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return with a single call. To retrieve
-  /// the remaining results, make another call with the returned
-  /// <code>nextToken</code> value.
-  ///
-  /// Parameter [nextToken] :
-  /// The token for the next page of results.
-  Future<ListExperimentsResponse> listExperiments({
-    String? experimentTemplateId,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final $query = <String, List<String>>{
-      if (experimentTemplateId != null)
-        'experimentTemplateId': [experimentTemplateId],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/experiments',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListExperimentsResponse.fromJson(response);
-  }
-
   /// Lists the tags for the specified resource.
   ///
   /// Parameter [resourceArn] :
@@ -588,8 +594,8 @@ class Fis {
   /// Lists the target account configurations of the specified experiment
   /// template.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [experimentTemplateId] :
   /// The ID of the experiment template.
@@ -665,10 +671,10 @@ class Fis {
 
   /// Starts running an experiment from the specified experiment template.
   ///
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [experimentTemplateId] :
   /// The ID of the experiment template.
@@ -705,8 +711,8 @@ class Fis {
 
   /// Stops the specified experiment.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the experiment.
@@ -769,9 +775,9 @@ class Fis {
 
   /// Updates the specified experiment template.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the experiment template.
@@ -784,6 +790,9 @@ class Fis {
   ///
   /// Parameter [experimentOptions] :
   /// The experiment options for the experiment template.
+  ///
+  /// Parameter [experimentReportConfiguration] :
+  /// The experiment report configuration for the experiment template.
   ///
   /// Parameter [logConfiguration] :
   /// The configuration for experiment logging.
@@ -802,6 +811,8 @@ class Fis {
     Map<String, UpdateExperimentTemplateActionInputItem>? actions,
     String? description,
     UpdateExperimentTemplateExperimentOptionsInput? experimentOptions,
+    UpdateExperimentTemplateReportConfigurationInput?
+        experimentReportConfiguration,
     UpdateExperimentTemplateLogConfigurationInput? logConfiguration,
     String? roleArn,
     List<UpdateExperimentTemplateStopConditionInput>? stopConditions,
@@ -811,6 +822,8 @@ class Fis {
       if (actions != null) 'actions': actions,
       if (description != null) 'description': description,
       if (experimentOptions != null) 'experimentOptions': experimentOptions,
+      if (experimentReportConfiguration != null)
+        'experimentReportConfiguration': experimentReportConfiguration,
       if (logConfiguration != null) 'logConfiguration': logConfiguration,
       if (roleArn != null) 'roleArn': roleArn,
       if (stopConditions != null) 'stopConditions': stopConditions,
@@ -827,9 +840,9 @@ class Fis {
 
   /// Updates the specified safety lever state.
   ///
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the safety lever.
@@ -855,8 +868,8 @@ class Fis {
   /// Updates the target account configuration for the specified experiment
   /// template.
   ///
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
   /// The Amazon Web Services account ID of the target account.
@@ -891,325 +904,6 @@ class Fis {
   }
 }
 
-class AccountTargeting {
-  static const singleAccount = AccountTargeting._('single-account');
-  static const multiAccount = AccountTargeting._('multi-account');
-
-  final String value;
-
-  const AccountTargeting._(this.value);
-
-  static const values = [singleAccount, multiAccount];
-
-  static AccountTargeting fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccountTargeting._(value));
-
-  @override
-  bool operator ==(other) => other is AccountTargeting && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an action. For more information, see <a
-/// href="https://docs.aws.amazon.com/fis/latest/userguide/fis-actions-reference.html">FIS
-/// actions</a> in the <i>Fault Injection Service User Guide</i>.
-class Action {
-  /// The Amazon Resource Name (ARN) of the action.
-  final String? arn;
-
-  /// The description for the action.
-  final String? description;
-
-  /// The ID of the action.
-  final String? id;
-
-  /// The action parameters, if applicable.
-  final Map<String, ActionParameter>? parameters;
-
-  /// The tags for the action.
-  final Map<String, String>? tags;
-
-  /// The supported targets for the action.
-  final Map<String, ActionTarget>? targets;
-
-  Action({
-    this.arn,
-    this.description,
-    this.id,
-    this.parameters,
-    this.tags,
-    this.targets,
-  });
-
-  factory Action.fromJson(Map<String, dynamic> json) {
-    return Action(
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ActionParameter.fromJson(e as Map<String, dynamic>))),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      targets: (json['targets'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ActionTarget.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final id = this.id;
-    final parameters = this.parameters;
-    final tags = this.tags;
-    final targets = this.targets;
-    return {
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (parameters != null) 'parameters': parameters,
-      if (tags != null) 'tags': tags,
-      if (targets != null) 'targets': targets,
-    };
-  }
-}
-
-/// Describes a parameter for an action.
-class ActionParameter {
-  /// The parameter description.
-  final String? description;
-
-  /// Indicates whether the parameter is required.
-  final bool? required;
-
-  ActionParameter({
-    this.description,
-    this.required,
-  });
-
-  factory ActionParameter.fromJson(Map<String, dynamic> json) {
-    return ActionParameter(
-      description: json['description'] as String?,
-      required: json['required'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final required = this.required;
-    return {
-      if (description != null) 'description': description,
-      if (required != null) 'required': required,
-    };
-  }
-}
-
-/// Provides a summary of an action.
-class ActionSummary {
-  /// The Amazon Resource Name (ARN) of the action.
-  final String? arn;
-
-  /// The description for the action.
-  final String? description;
-
-  /// The ID of the action.
-  final String? id;
-
-  /// The tags for the action.
-  final Map<String, String>? tags;
-
-  /// The targets for the action.
-  final Map<String, ActionTarget>? targets;
-
-  ActionSummary({
-    this.arn,
-    this.description,
-    this.id,
-    this.tags,
-    this.targets,
-  });
-
-  factory ActionSummary.fromJson(Map<String, dynamic> json) {
-    return ActionSummary(
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      targets: (json['targets'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ActionTarget.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final description = this.description;
-    final id = this.id;
-    final tags = this.tags;
-    final targets = this.targets;
-    return {
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (tags != null) 'tags': tags,
-      if (targets != null) 'targets': targets,
-    };
-  }
-}
-
-/// Describes a target for an action.
-class ActionTarget {
-  /// The resource type of the target.
-  final String? resourceType;
-
-  ActionTarget({
-    this.resourceType,
-  });
-
-  factory ActionTarget.fromJson(Map<String, dynamic> json) {
-    return ActionTarget(
-      resourceType: json['resourceType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceType = this.resourceType;
-    return {
-      if (resourceType != null) 'resourceType': resourceType,
-    };
-  }
-}
-
-class ActionsMode {
-  static const skipAll = ActionsMode._('skip-all');
-  static const runAll = ActionsMode._('run-all');
-
-  final String value;
-
-  const ActionsMode._(this.value);
-
-  static const values = [skipAll, runAll];
-
-  static ActionsMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ActionsMode._(value));
-
-  @override
-  bool operator ==(other) => other is ActionsMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies an action for an experiment template.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/fis/latest/userguide/actions.html">Actions</a>
-/// in the <i>Fault Injection Service User Guide</i>.
-class CreateExperimentTemplateActionInput {
-  /// The ID of the action. The format of the action ID is:
-  /// aws:<i>service-name</i>:<i>action-type</i>.
-  final String actionId;
-
-  /// A description for the action.
-  final String? description;
-
-  /// The parameters for the action, if applicable.
-  final Map<String, String>? parameters;
-
-  /// The name of the action that must be completed before the current action
-  /// starts. Omit this parameter to run the action at the start of the
-  /// experiment.
-  final List<String>? startAfter;
-
-  /// The targets for the action.
-  final Map<String, String>? targets;
-
-  CreateExperimentTemplateActionInput({
-    required this.actionId,
-    this.description,
-    this.parameters,
-    this.startAfter,
-    this.targets,
-  });
-
-  Map<String, dynamic> toJson() {
-    final actionId = this.actionId;
-    final description = this.description;
-    final parameters = this.parameters;
-    final startAfter = this.startAfter;
-    final targets = this.targets;
-    return {
-      'actionId': actionId,
-      if (description != null) 'description': description,
-      if (parameters != null) 'parameters': parameters,
-      if (startAfter != null) 'startAfter': startAfter,
-      if (targets != null) 'targets': targets,
-    };
-  }
-}
-
-/// Specifies experiment options for an experiment template.
-class CreateExperimentTemplateExperimentOptionsInput {
-  /// Specifies the account targeting setting for experiment options.
-  final AccountTargeting? accountTargeting;
-
-  /// Specifies the empty target resolution mode for experiment options.
-  final EmptyTargetResolutionMode? emptyTargetResolutionMode;
-
-  CreateExperimentTemplateExperimentOptionsInput({
-    this.accountTargeting,
-    this.emptyTargetResolutionMode,
-  });
-
-  Map<String, dynamic> toJson() {
-    final accountTargeting = this.accountTargeting;
-    final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
-    return {
-      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
-      if (emptyTargetResolutionMode != null)
-        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
-    };
-  }
-}
-
-/// Specifies the configuration for experiment logging.
-class CreateExperimentTemplateLogConfigurationInput {
-  /// The schema version.
-  final int logSchemaVersion;
-
-  /// The configuration for experiment logging to Amazon CloudWatch Logs.
-  final ExperimentTemplateCloudWatchLogsLogConfigurationInput?
-      cloudWatchLogsConfiguration;
-
-  /// The configuration for experiment logging to Amazon S3.
-  final ExperimentTemplateS3LogConfigurationInput? s3Configuration;
-
-  CreateExperimentTemplateLogConfigurationInput({
-    required this.logSchemaVersion,
-    this.cloudWatchLogsConfiguration,
-    this.s3Configuration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final logSchemaVersion = this.logSchemaVersion;
-    final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
-    final s3Configuration = this.s3Configuration;
-    return {
-      'logSchemaVersion': logSchemaVersion,
-      if (cloudWatchLogsConfiguration != null)
-        'cloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
-      if (s3Configuration != null) 's3Configuration': s3Configuration,
-    };
-  }
-}
-
 class CreateExperimentTemplateResponse {
   /// Information about the experiment template.
   final ExperimentTemplate? experimentTemplate;
@@ -1231,104 +925,6 @@ class CreateExperimentTemplateResponse {
     final experimentTemplate = this.experimentTemplate;
     return {
       if (experimentTemplate != null) 'experimentTemplate': experimentTemplate,
-    };
-  }
-}
-
-/// Specifies a stop condition for an experiment template.
-class CreateExperimentTemplateStopConditionInput {
-  /// The source for the stop condition. Specify <code>aws:cloudwatch:alarm</code>
-  /// if the stop condition is defined by a CloudWatch alarm. Specify
-  /// <code>none</code> if there is no stop condition.
-  final String source;
-
-  /// The Amazon Resource Name (ARN) of the CloudWatch alarm. This is required if
-  /// the source is a CloudWatch alarm.
-  final String? value;
-
-  CreateExperimentTemplateStopConditionInput({
-    required this.source,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    final value = this.value;
-    return {
-      'source': source,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// Specifies a target for an experiment. You must specify at least one Amazon
-/// Resource Name (ARN) or at least one resource tag. You cannot specify both
-/// ARNs and tags.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/fis/latest/userguide/targets.html">Targets</a>
-/// in the <i>Fault Injection Service User Guide</i>.
-class CreateExperimentTemplateTargetInput {
-  /// The resource type. The resource type must be supported for the specified
-  /// action.
-  final String resourceType;
-
-  /// Scopes the identified resources to a specific count of the resources at
-  /// random, or a percentage of the resources. All identified resources are
-  /// included in the target.
-  ///
-  /// <ul>
-  /// <li>
-  /// ALL - Run the action on all identified targets. This is the default.
-  /// </li>
-  /// <li>
-  /// COUNT(n) - Run the action on the specified number of targets, chosen from
-  /// the identified targets at random. For example, COUNT(1) selects one of the
-  /// targets.
-  /// </li>
-  /// <li>
-  /// PERCENT(n) - Run the action on the specified percentage of targets, chosen
-  /// from the identified targets at random. For example, PERCENT(25) selects 25%
-  /// of the targets.
-  /// </li>
-  /// </ul>
-  final String selectionMode;
-
-  /// The filters to apply to identify target resources using specific attributes.
-  final List<ExperimentTemplateTargetInputFilter>? filters;
-
-  /// The resource type parameters.
-  final Map<String, String>? parameters;
-
-  /// The Amazon Resource Names (ARNs) of the resources.
-  final List<String>? resourceArns;
-
-  /// The tags for the target resources.
-  final Map<String, String>? resourceTags;
-
-  CreateExperimentTemplateTargetInput({
-    required this.resourceType,
-    required this.selectionMode,
-    this.filters,
-    this.parameters,
-    this.resourceArns,
-    this.resourceTags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceType = this.resourceType;
-    final selectionMode = this.selectionMode;
-    final filters = this.filters;
-    final parameters = this.parameters;
-    final resourceArns = this.resourceArns;
-    final resourceTags = this.resourceTags;
-    return {
-      'resourceType': resourceType,
-      'selectionMode': selectionMode,
-      if (filters != null) 'filters': filters,
-      if (parameters != null) 'parameters': parameters,
-      if (resourceArns != null) 'resourceArns': resourceArns,
-      if (resourceTags != null) 'resourceTags': resourceTags,
     };
   }
 }
@@ -1408,1441 +1004,6 @@ class DeleteTargetAccountConfigurationResponse {
     return {
       if (targetAccountConfiguration != null)
         'targetAccountConfiguration': targetAccountConfiguration,
-    };
-  }
-}
-
-class EmptyTargetResolutionMode {
-  static const fail = EmptyTargetResolutionMode._('fail');
-  static const skip = EmptyTargetResolutionMode._('skip');
-
-  final String value;
-
-  const EmptyTargetResolutionMode._(this.value);
-
-  static const values = [fail, skip];
-
-  static EmptyTargetResolutionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EmptyTargetResolutionMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EmptyTargetResolutionMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an experiment.
-class Experiment {
-  /// The actions for the experiment.
-  final Map<String, ExperimentAction>? actions;
-
-  /// The Amazon Resource Name (ARN) of the experiment.
-  final String? arn;
-
-  /// The time that the experiment was created.
-  final DateTime? creationTime;
-
-  /// The time that the experiment ended.
-  final DateTime? endTime;
-
-  /// The experiment options for the experiment.
-  final ExperimentOptions? experimentOptions;
-
-  /// The ID of the experiment template.
-  final String? experimentTemplateId;
-
-  /// The ID of the experiment.
-  final String? id;
-
-  /// The configuration for experiment logging.
-  final ExperimentLogConfiguration? logConfiguration;
-
-  /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service
-  /// permission to perform service actions on your behalf.
-  final String? roleArn;
-
-  /// The time that the experiment started.
-  final DateTime? startTime;
-
-  /// The state of the experiment.
-  final ExperimentState? state;
-
-  /// The stop conditions for the experiment.
-  final List<ExperimentStopCondition>? stopConditions;
-
-  /// The tags for the experiment.
-  final Map<String, String>? tags;
-
-  /// The count of target account configurations for the experiment.
-  final int? targetAccountConfigurationsCount;
-
-  /// The targets for the experiment.
-  final Map<String, ExperimentTarget>? targets;
-
-  Experiment({
-    this.actions,
-    this.arn,
-    this.creationTime,
-    this.endTime,
-    this.experimentOptions,
-    this.experimentTemplateId,
-    this.id,
-    this.logConfiguration,
-    this.roleArn,
-    this.startTime,
-    this.state,
-    this.stopConditions,
-    this.tags,
-    this.targetAccountConfigurationsCount,
-    this.targets,
-  });
-
-  factory Experiment.fromJson(Map<String, dynamic> json) {
-    return Experiment(
-      actions: (json['actions'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ExperimentAction.fromJson(e as Map<String, dynamic>))),
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      endTime: timeStampFromJson(json['endTime']),
-      experimentOptions: json['experimentOptions'] != null
-          ? ExperimentOptions.fromJson(
-              json['experimentOptions'] as Map<String, dynamic>)
-          : null,
-      experimentTemplateId: json['experimentTemplateId'] as String?,
-      id: json['id'] as String?,
-      logConfiguration: json['logConfiguration'] != null
-          ? ExperimentLogConfiguration.fromJson(
-              json['logConfiguration'] as Map<String, dynamic>)
-          : null,
-      roleArn: json['roleArn'] as String?,
-      startTime: timeStampFromJson(json['startTime']),
-      state: json['state'] != null
-          ? ExperimentState.fromJson(json['state'] as Map<String, dynamic>)
-          : null,
-      stopConditions: (json['stopConditions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ExperimentStopCondition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      targetAccountConfigurationsCount:
-          json['targetAccountConfigurationsCount'] as int?,
-      targets: (json['targets'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(k, ExperimentTarget.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actions = this.actions;
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final endTime = this.endTime;
-    final experimentOptions = this.experimentOptions;
-    final experimentTemplateId = this.experimentTemplateId;
-    final id = this.id;
-    final logConfiguration = this.logConfiguration;
-    final roleArn = this.roleArn;
-    final startTime = this.startTime;
-    final state = this.state;
-    final stopConditions = this.stopConditions;
-    final tags = this.tags;
-    final targetAccountConfigurationsCount =
-        this.targetAccountConfigurationsCount;
-    final targets = this.targets;
-    return {
-      if (actions != null) 'actions': actions,
-      if (arn != null) 'arn': arn,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (experimentOptions != null) 'experimentOptions': experimentOptions,
-      if (experimentTemplateId != null)
-        'experimentTemplateId': experimentTemplateId,
-      if (id != null) 'id': id,
-      if (logConfiguration != null) 'logConfiguration': logConfiguration,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (state != null) 'state': state,
-      if (stopConditions != null) 'stopConditions': stopConditions,
-      if (tags != null) 'tags': tags,
-      if (targetAccountConfigurationsCount != null)
-        'targetAccountConfigurationsCount': targetAccountConfigurationsCount,
-      if (targets != null) 'targets': targets,
-    };
-  }
-}
-
-/// Describes the action for an experiment.
-class ExperimentAction {
-  /// The ID of the action.
-  final String? actionId;
-
-  /// The description for the action.
-  final String? description;
-
-  /// The time that the action ended.
-  final DateTime? endTime;
-
-  /// The parameters for the action.
-  final Map<String, String>? parameters;
-
-  /// The name of the action that must be completed before this action starts.
-  final List<String>? startAfter;
-
-  /// The time that the action started.
-  final DateTime? startTime;
-
-  /// The state of the action.
-  final ExperimentActionState? state;
-
-  /// The targets for the action.
-  final Map<String, String>? targets;
-
-  ExperimentAction({
-    this.actionId,
-    this.description,
-    this.endTime,
-    this.parameters,
-    this.startAfter,
-    this.startTime,
-    this.state,
-    this.targets,
-  });
-
-  factory ExperimentAction.fromJson(Map<String, dynamic> json) {
-    return ExperimentAction(
-      actionId: json['actionId'] as String?,
-      description: json['description'] as String?,
-      endTime: timeStampFromJson(json['endTime']),
-      parameters: (json['parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      startAfter: (json['startAfter'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      startTime: timeStampFromJson(json['startTime']),
-      state: json['state'] != null
-          ? ExperimentActionState.fromJson(
-              json['state'] as Map<String, dynamic>)
-          : null,
-      targets: (json['targets'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionId = this.actionId;
-    final description = this.description;
-    final endTime = this.endTime;
-    final parameters = this.parameters;
-    final startAfter = this.startAfter;
-    final startTime = this.startTime;
-    final state = this.state;
-    final targets = this.targets;
-    return {
-      if (actionId != null) 'actionId': actionId,
-      if (description != null) 'description': description,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (parameters != null) 'parameters': parameters,
-      if (startAfter != null) 'startAfter': startAfter,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (state != null) 'state': state,
-      if (targets != null) 'targets': targets,
-    };
-  }
-}
-
-/// Describes the state of an action.
-class ExperimentActionState {
-  /// The reason for the state.
-  final String? reason;
-
-  /// The state of the action.
-  final ExperimentActionStatus? status;
-
-  ExperimentActionState({
-    this.reason,
-    this.status,
-  });
-
-  factory ExperimentActionState.fromJson(Map<String, dynamic> json) {
-    return ExperimentActionState(
-      reason: json['reason'] as String?,
-      status:
-          (json['status'] as String?)?.let(ExperimentActionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reason = this.reason;
-    final status = this.status;
-    return {
-      if (reason != null) 'reason': reason,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class ExperimentActionStatus {
-  static const pending = ExperimentActionStatus._('pending');
-  static const initiating = ExperimentActionStatus._('initiating');
-  static const running = ExperimentActionStatus._('running');
-  static const completed = ExperimentActionStatus._('completed');
-  static const cancelled = ExperimentActionStatus._('cancelled');
-  static const stopping = ExperimentActionStatus._('stopping');
-  static const stopped = ExperimentActionStatus._('stopped');
-  static const failed = ExperimentActionStatus._('failed');
-  static const skipped = ExperimentActionStatus._('skipped');
-
-  final String value;
-
-  const ExperimentActionStatus._(this.value);
-
-  static const values = [
-    pending,
-    initiating,
-    running,
-    completed,
-    cancelled,
-    stopping,
-    stopped,
-    failed,
-    skipped
-  ];
-
-  static ExperimentActionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExperimentActionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExperimentActionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the configuration for experiment logging to Amazon CloudWatch
-/// Logs.
-class ExperimentCloudWatchLogsLogConfiguration {
-  /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
-  /// group.
-  final String? logGroupArn;
-
-  ExperimentCloudWatchLogsLogConfiguration({
-    this.logGroupArn,
-  });
-
-  factory ExperimentCloudWatchLogsLogConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ExperimentCloudWatchLogsLogConfiguration(
-      logGroupArn: json['logGroupArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroupArn = this.logGroupArn;
-    return {
-      if (logGroupArn != null) 'logGroupArn': logGroupArn,
-    };
-  }
-}
-
-/// Describes the error when an experiment has <code>failed</code>.
-class ExperimentError {
-  /// The Amazon Web Services Account ID where the experiment failure occurred.
-  final String? accountId;
-
-  /// The error code for the failed experiment.
-  final String? code;
-
-  /// Context for the section of the experiment template that failed.
-  final String? location;
-
-  ExperimentError({
-    this.accountId,
-    this.code,
-    this.location,
-  });
-
-  factory ExperimentError.fromJson(Map<String, dynamic> json) {
-    return ExperimentError(
-      accountId: json['accountId'] as String?,
-      code: json['code'] as String?,
-      location: json['location'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final code = this.code;
-    final location = this.location;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (code != null) 'code': code,
-      if (location != null) 'location': location,
-    };
-  }
-}
-
-/// Describes the configuration for experiment logging.
-class ExperimentLogConfiguration {
-  /// The configuration for experiment logging to Amazon CloudWatch Logs.
-  final ExperimentCloudWatchLogsLogConfiguration? cloudWatchLogsConfiguration;
-
-  /// The schema version.
-  final int? logSchemaVersion;
-
-  /// The configuration for experiment logging to Amazon S3.
-  final ExperimentS3LogConfiguration? s3Configuration;
-
-  ExperimentLogConfiguration({
-    this.cloudWatchLogsConfiguration,
-    this.logSchemaVersion,
-    this.s3Configuration,
-  });
-
-  factory ExperimentLogConfiguration.fromJson(Map<String, dynamic> json) {
-    return ExperimentLogConfiguration(
-      cloudWatchLogsConfiguration: json['cloudWatchLogsConfiguration'] != null
-          ? ExperimentCloudWatchLogsLogConfiguration.fromJson(
-              json['cloudWatchLogsConfiguration'] as Map<String, dynamic>)
-          : null,
-      logSchemaVersion: json['logSchemaVersion'] as int?,
-      s3Configuration: json['s3Configuration'] != null
-          ? ExperimentS3LogConfiguration.fromJson(
-              json['s3Configuration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
-    final logSchemaVersion = this.logSchemaVersion;
-    final s3Configuration = this.s3Configuration;
-    return {
-      if (cloudWatchLogsConfiguration != null)
-        'cloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
-      if (logSchemaVersion != null) 'logSchemaVersion': logSchemaVersion,
-      if (s3Configuration != null) 's3Configuration': s3Configuration,
-    };
-  }
-}
-
-/// Describes the options for an experiment.
-class ExperimentOptions {
-  /// The account targeting setting for an experiment.
-  final AccountTargeting? accountTargeting;
-
-  /// The actions mode of the experiment that is set from the StartExperiment API
-  /// command.
-  final ActionsMode? actionsMode;
-
-  /// The empty target resolution mode for an experiment.
-  final EmptyTargetResolutionMode? emptyTargetResolutionMode;
-
-  ExperimentOptions({
-    this.accountTargeting,
-    this.actionsMode,
-    this.emptyTargetResolutionMode,
-  });
-
-  factory ExperimentOptions.fromJson(Map<String, dynamic> json) {
-    return ExperimentOptions(
-      accountTargeting: (json['accountTargeting'] as String?)
-          ?.let(AccountTargeting.fromString),
-      actionsMode:
-          (json['actionsMode'] as String?)?.let(ActionsMode.fromString),
-      emptyTargetResolutionMode: (json['emptyTargetResolutionMode'] as String?)
-          ?.let(EmptyTargetResolutionMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountTargeting = this.accountTargeting;
-    final actionsMode = this.actionsMode;
-    final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
-    return {
-      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
-      if (actionsMode != null) 'actionsMode': actionsMode.value,
-      if (emptyTargetResolutionMode != null)
-        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
-    };
-  }
-}
-
-/// Describes the configuration for experiment logging to Amazon S3.
-class ExperimentS3LogConfiguration {
-  /// The name of the destination bucket.
-  final String? bucketName;
-
-  /// The bucket prefix.
-  final String? prefix;
-
-  ExperimentS3LogConfiguration({
-    this.bucketName,
-    this.prefix,
-  });
-
-  factory ExperimentS3LogConfiguration.fromJson(Map<String, dynamic> json) {
-    return ExperimentS3LogConfiguration(
-      bucketName: json['bucketName'] as String?,
-      prefix: json['prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final prefix = this.prefix;
-    return {
-      if (bucketName != null) 'bucketName': bucketName,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-/// Describes the state of an experiment.
-class ExperimentState {
-  /// The error information of the experiment when the action has
-  /// <code>failed</code>.
-  final ExperimentError? error;
-
-  /// The reason for the state.
-  final String? reason;
-
-  /// The state of the experiment.
-  final ExperimentStatus? status;
-
-  ExperimentState({
-    this.error,
-    this.reason,
-    this.status,
-  });
-
-  factory ExperimentState.fromJson(Map<String, dynamic> json) {
-    return ExperimentState(
-      error: json['error'] != null
-          ? ExperimentError.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-      reason: json['reason'] as String?,
-      status: (json['status'] as String?)?.let(ExperimentStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final error = this.error;
-    final reason = this.reason;
-    final status = this.status;
-    return {
-      if (error != null) 'error': error,
-      if (reason != null) 'reason': reason,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class ExperimentStatus {
-  static const pending = ExperimentStatus._('pending');
-  static const initiating = ExperimentStatus._('initiating');
-  static const running = ExperimentStatus._('running');
-  static const completed = ExperimentStatus._('completed');
-  static const stopping = ExperimentStatus._('stopping');
-  static const stopped = ExperimentStatus._('stopped');
-  static const failed = ExperimentStatus._('failed');
-  static const cancelled = ExperimentStatus._('cancelled');
-
-  final String value;
-
-  const ExperimentStatus._(this.value);
-
-  static const values = [
-    pending,
-    initiating,
-    running,
-    completed,
-    stopping,
-    stopped,
-    failed,
-    cancelled
-  ];
-
-  static ExperimentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExperimentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExperimentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the stop condition for an experiment.
-class ExperimentStopCondition {
-  /// The source for the stop condition.
-  final String? source;
-
-  /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
-  final String? value;
-
-  ExperimentStopCondition({
-    this.source,
-    this.value,
-  });
-
-  factory ExperimentStopCondition.fromJson(Map<String, dynamic> json) {
-    return ExperimentStopCondition(
-      source: json['source'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    final value = this.value;
-    return {
-      if (source != null) 'source': source,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// Provides a summary of an experiment.
-class ExperimentSummary {
-  /// The Amazon Resource Name (ARN) of the experiment.
-  final String? arn;
-
-  /// The time that the experiment was created.
-  final DateTime? creationTime;
-
-  /// The experiment options for the experiment.
-  final ExperimentOptions? experimentOptions;
-
-  /// The ID of the experiment template.
-  final String? experimentTemplateId;
-
-  /// The ID of the experiment.
-  final String? id;
-
-  /// The state of the experiment.
-  final ExperimentState? state;
-
-  /// The tags for the experiment.
-  final Map<String, String>? tags;
-
-  ExperimentSummary({
-    this.arn,
-    this.creationTime,
-    this.experimentOptions,
-    this.experimentTemplateId,
-    this.id,
-    this.state,
-    this.tags,
-  });
-
-  factory ExperimentSummary.fromJson(Map<String, dynamic> json) {
-    return ExperimentSummary(
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      experimentOptions: json['experimentOptions'] != null
-          ? ExperimentOptions.fromJson(
-              json['experimentOptions'] as Map<String, dynamic>)
-          : null,
-      experimentTemplateId: json['experimentTemplateId'] as String?,
-      id: json['id'] as String?,
-      state: json['state'] != null
-          ? ExperimentState.fromJson(json['state'] as Map<String, dynamic>)
-          : null,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final experimentOptions = this.experimentOptions;
-    final experimentTemplateId = this.experimentTemplateId;
-    final id = this.id;
-    final state = this.state;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (experimentOptions != null) 'experimentOptions': experimentOptions,
-      if (experimentTemplateId != null)
-        'experimentTemplateId': experimentTemplateId,
-      if (id != null) 'id': id,
-      if (state != null) 'state': state,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Describes a target for an experiment.
-class ExperimentTarget {
-  /// The filters to apply to identify target resources using specific attributes.
-  final List<ExperimentTargetFilter>? filters;
-
-  /// The resource type parameters.
-  final Map<String, String>? parameters;
-
-  /// The Amazon Resource Names (ARNs) of the resources.
-  final List<String>? resourceArns;
-
-  /// The tags for the target resources.
-  final Map<String, String>? resourceTags;
-
-  /// The resource type.
-  final String? resourceType;
-
-  /// Scopes the identified resources to a specific count or percentage.
-  final String? selectionMode;
-
-  ExperimentTarget({
-    this.filters,
-    this.parameters,
-    this.resourceArns,
-    this.resourceTags,
-    this.resourceType,
-    this.selectionMode,
-  });
-
-  factory ExperimentTarget.fromJson(Map<String, dynamic> json) {
-    return ExperimentTarget(
-      filters: (json['filters'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => ExperimentTargetFilter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      parameters: (json['parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      resourceArns: (json['resourceArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      resourceTags: (json['resourceTags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      resourceType: json['resourceType'] as String?,
-      selectionMode: json['selectionMode'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filters = this.filters;
-    final parameters = this.parameters;
-    final resourceArns = this.resourceArns;
-    final resourceTags = this.resourceTags;
-    final resourceType = this.resourceType;
-    final selectionMode = this.selectionMode;
-    return {
-      if (filters != null) 'filters': filters,
-      if (parameters != null) 'parameters': parameters,
-      if (resourceArns != null) 'resourceArns': resourceArns,
-      if (resourceTags != null) 'resourceTags': resourceTags,
-      if (resourceType != null) 'resourceType': resourceType,
-      if (selectionMode != null) 'selectionMode': selectionMode,
-    };
-  }
-}
-
-/// Describes a target account configuration for an experiment.
-class ExperimentTargetAccountConfiguration {
-  /// The Amazon Web Services account ID of the target account.
-  final String? accountId;
-
-  /// The description of the target account.
-  final String? description;
-
-  /// The Amazon Resource Name (ARN) of an IAM role for the target account.
-  final String? roleArn;
-
-  ExperimentTargetAccountConfiguration({
-    this.accountId,
-    this.description,
-    this.roleArn,
-  });
-
-  factory ExperimentTargetAccountConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ExperimentTargetAccountConfiguration(
-      accountId: json['accountId'] as String?,
-      description: json['description'] as String?,
-      roleArn: json['roleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final description = this.description;
-    final roleArn = this.roleArn;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (description != null) 'description': description,
-      if (roleArn != null) 'roleArn': roleArn,
-    };
-  }
-}
-
-/// Provides a summary of a target account configuration.
-class ExperimentTargetAccountConfigurationSummary {
-  /// The Amazon Web Services account ID of the target account.
-  final String? accountId;
-
-  /// The description of the target account.
-  final String? description;
-
-  /// The Amazon Resource Name (ARN) of an IAM role for the target account.
-  final String? roleArn;
-
-  ExperimentTargetAccountConfigurationSummary({
-    this.accountId,
-    this.description,
-    this.roleArn,
-  });
-
-  factory ExperimentTargetAccountConfigurationSummary.fromJson(
-      Map<String, dynamic> json) {
-    return ExperimentTargetAccountConfigurationSummary(
-      accountId: json['accountId'] as String?,
-      description: json['description'] as String?,
-      roleArn: json['roleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final description = this.description;
-    final roleArn = this.roleArn;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (description != null) 'description': description,
-      if (roleArn != null) 'roleArn': roleArn,
-    };
-  }
-}
-
-/// Describes a filter used for the target resources in an experiment.
-class ExperimentTargetFilter {
-  /// The attribute path for the filter.
-  final String? path;
-
-  /// The attribute values for the filter.
-  final List<String>? values;
-
-  ExperimentTargetFilter({
-    this.path,
-    this.values,
-  });
-
-  factory ExperimentTargetFilter.fromJson(Map<String, dynamic> json) {
-    return ExperimentTargetFilter(
-      path: json['path'] as String?,
-      values:
-          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    final values = this.values;
-    return {
-      if (path != null) 'path': path,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-/// Describes an experiment template.
-class ExperimentTemplate {
-  /// The actions for the experiment.
-  final Map<String, ExperimentTemplateAction>? actions;
-
-  /// The Amazon Resource Name (ARN) of the experiment template.
-  final String? arn;
-
-  /// The time the experiment template was created.
-  final DateTime? creationTime;
-
-  /// The description for the experiment template.
-  final String? description;
-
-  /// The experiment options for an experiment template.
-  final ExperimentTemplateExperimentOptions? experimentOptions;
-
-  /// The ID of the experiment template.
-  final String? id;
-
-  /// The time the experiment template was last updated.
-  final DateTime? lastUpdateTime;
-
-  /// The configuration for experiment logging.
-  final ExperimentTemplateLogConfiguration? logConfiguration;
-
-  /// The Amazon Resource Name (ARN) of an IAM role.
-  final String? roleArn;
-
-  /// The stop conditions for the experiment.
-  final List<ExperimentTemplateStopCondition>? stopConditions;
-
-  /// The tags for the experiment template.
-  final Map<String, String>? tags;
-
-  /// The count of target account configurations for the experiment template.
-  final int? targetAccountConfigurationsCount;
-
-  /// The targets for the experiment.
-  final Map<String, ExperimentTemplateTarget>? targets;
-
-  ExperimentTemplate({
-    this.actions,
-    this.arn,
-    this.creationTime,
-    this.description,
-    this.experimentOptions,
-    this.id,
-    this.lastUpdateTime,
-    this.logConfiguration,
-    this.roleArn,
-    this.stopConditions,
-    this.tags,
-    this.targetAccountConfigurationsCount,
-    this.targets,
-  });
-
-  factory ExperimentTemplate.fromJson(Map<String, dynamic> json) {
-    return ExperimentTemplate(
-      actions: (json['actions'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, ExperimentTemplateAction.fromJson(e as Map<String, dynamic>))),
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      experimentOptions: json['experimentOptions'] != null
-          ? ExperimentTemplateExperimentOptions.fromJson(
-              json['experimentOptions'] as Map<String, dynamic>)
-          : null,
-      id: json['id'] as String?,
-      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
-      logConfiguration: json['logConfiguration'] != null
-          ? ExperimentTemplateLogConfiguration.fromJson(
-              json['logConfiguration'] as Map<String, dynamic>)
-          : null,
-      roleArn: json['roleArn'] as String?,
-      stopConditions: (json['stopConditions'] as List?)
-          ?.nonNulls
-          .map((e) => ExperimentTemplateStopCondition.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      targetAccountConfigurationsCount:
-          json['targetAccountConfigurationsCount'] as int?,
-      targets: (json['targets'] as Map<String, dynamic>?)?.map((k, e) =>
-          MapEntry(
-              k, ExperimentTemplateTarget.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actions = this.actions;
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final experimentOptions = this.experimentOptions;
-    final id = this.id;
-    final lastUpdateTime = this.lastUpdateTime;
-    final logConfiguration = this.logConfiguration;
-    final roleArn = this.roleArn;
-    final stopConditions = this.stopConditions;
-    final tags = this.tags;
-    final targetAccountConfigurationsCount =
-        this.targetAccountConfigurationsCount;
-    final targets = this.targets;
-    return {
-      if (actions != null) 'actions': actions,
-      if (arn != null) 'arn': arn,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'description': description,
-      if (experimentOptions != null) 'experimentOptions': experimentOptions,
-      if (id != null) 'id': id,
-      if (lastUpdateTime != null)
-        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
-      if (logConfiguration != null) 'logConfiguration': logConfiguration,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (stopConditions != null) 'stopConditions': stopConditions,
-      if (tags != null) 'tags': tags,
-      if (targetAccountConfigurationsCount != null)
-        'targetAccountConfigurationsCount': targetAccountConfigurationsCount,
-      if (targets != null) 'targets': targets,
-    };
-  }
-}
-
-/// Describes an action for an experiment template.
-class ExperimentTemplateAction {
-  /// The ID of the action.
-  final String? actionId;
-
-  /// A description for the action.
-  final String? description;
-
-  /// The parameters for the action.
-  final Map<String, String>? parameters;
-
-  /// The name of the action that must be completed before the current action
-  /// starts.
-  final List<String>? startAfter;
-
-  /// The targets for the action.
-  final Map<String, String>? targets;
-
-  ExperimentTemplateAction({
-    this.actionId,
-    this.description,
-    this.parameters,
-    this.startAfter,
-    this.targets,
-  });
-
-  factory ExperimentTemplateAction.fromJson(Map<String, dynamic> json) {
-    return ExperimentTemplateAction(
-      actionId: json['actionId'] as String?,
-      description: json['description'] as String?,
-      parameters: (json['parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      startAfter: (json['startAfter'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      targets: (json['targets'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionId = this.actionId;
-    final description = this.description;
-    final parameters = this.parameters;
-    final startAfter = this.startAfter;
-    final targets = this.targets;
-    return {
-      if (actionId != null) 'actionId': actionId,
-      if (description != null) 'description': description,
-      if (parameters != null) 'parameters': parameters,
-      if (startAfter != null) 'startAfter': startAfter,
-      if (targets != null) 'targets': targets,
-    };
-  }
-}
-
-/// Describes the configuration for experiment logging to Amazon CloudWatch
-/// Logs.
-class ExperimentTemplateCloudWatchLogsLogConfiguration {
-  /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
-  /// group.
-  final String? logGroupArn;
-
-  ExperimentTemplateCloudWatchLogsLogConfiguration({
-    this.logGroupArn,
-  });
-
-  factory ExperimentTemplateCloudWatchLogsLogConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ExperimentTemplateCloudWatchLogsLogConfiguration(
-      logGroupArn: json['logGroupArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroupArn = this.logGroupArn;
-    return {
-      if (logGroupArn != null) 'logGroupArn': logGroupArn,
-    };
-  }
-}
-
-/// Specifies the configuration for experiment logging to Amazon CloudWatch
-/// Logs.
-class ExperimentTemplateCloudWatchLogsLogConfigurationInput {
-  /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
-  /// group.
-  final String logGroupArn;
-
-  ExperimentTemplateCloudWatchLogsLogConfigurationInput({
-    required this.logGroupArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final logGroupArn = this.logGroupArn;
-    return {
-      'logGroupArn': logGroupArn,
-    };
-  }
-}
-
-/// Describes the experiment options for an experiment template.
-class ExperimentTemplateExperimentOptions {
-  /// The account targeting setting for an experiment template.
-  final AccountTargeting? accountTargeting;
-
-  /// The empty target resolution mode for an experiment template.
-  final EmptyTargetResolutionMode? emptyTargetResolutionMode;
-
-  ExperimentTemplateExperimentOptions({
-    this.accountTargeting,
-    this.emptyTargetResolutionMode,
-  });
-
-  factory ExperimentTemplateExperimentOptions.fromJson(
-      Map<String, dynamic> json) {
-    return ExperimentTemplateExperimentOptions(
-      accountTargeting: (json['accountTargeting'] as String?)
-          ?.let(AccountTargeting.fromString),
-      emptyTargetResolutionMode: (json['emptyTargetResolutionMode'] as String?)
-          ?.let(EmptyTargetResolutionMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountTargeting = this.accountTargeting;
-    final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
-    return {
-      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
-      if (emptyTargetResolutionMode != null)
-        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
-    };
-  }
-}
-
-/// Describes the configuration for experiment logging.
-class ExperimentTemplateLogConfiguration {
-  /// The configuration for experiment logging to Amazon CloudWatch Logs.
-  final ExperimentTemplateCloudWatchLogsLogConfiguration?
-      cloudWatchLogsConfiguration;
-
-  /// The schema version.
-  final int? logSchemaVersion;
-
-  /// The configuration for experiment logging to Amazon S3.
-  final ExperimentTemplateS3LogConfiguration? s3Configuration;
-
-  ExperimentTemplateLogConfiguration({
-    this.cloudWatchLogsConfiguration,
-    this.logSchemaVersion,
-    this.s3Configuration,
-  });
-
-  factory ExperimentTemplateLogConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ExperimentTemplateLogConfiguration(
-      cloudWatchLogsConfiguration: json['cloudWatchLogsConfiguration'] != null
-          ? ExperimentTemplateCloudWatchLogsLogConfiguration.fromJson(
-              json['cloudWatchLogsConfiguration'] as Map<String, dynamic>)
-          : null,
-      logSchemaVersion: json['logSchemaVersion'] as int?,
-      s3Configuration: json['s3Configuration'] != null
-          ? ExperimentTemplateS3LogConfiguration.fromJson(
-              json['s3Configuration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
-    final logSchemaVersion = this.logSchemaVersion;
-    final s3Configuration = this.s3Configuration;
-    return {
-      if (cloudWatchLogsConfiguration != null)
-        'cloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
-      if (logSchemaVersion != null) 'logSchemaVersion': logSchemaVersion,
-      if (s3Configuration != null) 's3Configuration': s3Configuration,
-    };
-  }
-}
-
-/// Describes the configuration for experiment logging to Amazon S3.
-class ExperimentTemplateS3LogConfiguration {
-  /// The name of the destination bucket.
-  final String? bucketName;
-
-  /// The bucket prefix.
-  final String? prefix;
-
-  ExperimentTemplateS3LogConfiguration({
-    this.bucketName,
-    this.prefix,
-  });
-
-  factory ExperimentTemplateS3LogConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ExperimentTemplateS3LogConfiguration(
-      bucketName: json['bucketName'] as String?,
-      prefix: json['prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final prefix = this.prefix;
-    return {
-      if (bucketName != null) 'bucketName': bucketName,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-/// Specifies the configuration for experiment logging to Amazon S3.
-class ExperimentTemplateS3LogConfigurationInput {
-  /// The name of the destination bucket.
-  final String bucketName;
-
-  /// The bucket prefix.
-  final String? prefix;
-
-  ExperimentTemplateS3LogConfigurationInput({
-    required this.bucketName,
-    this.prefix,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final prefix = this.prefix;
-    return {
-      'bucketName': bucketName,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-/// Describes a stop condition for an experiment template.
-class ExperimentTemplateStopCondition {
-  /// The source for the stop condition.
-  final String? source;
-
-  /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
-  final String? value;
-
-  ExperimentTemplateStopCondition({
-    this.source,
-    this.value,
-  });
-
-  factory ExperimentTemplateStopCondition.fromJson(Map<String, dynamic> json) {
-    return ExperimentTemplateStopCondition(
-      source: json['source'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    final value = this.value;
-    return {
-      if (source != null) 'source': source,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// Provides a summary of an experiment template.
-class ExperimentTemplateSummary {
-  /// The Amazon Resource Name (ARN) of the experiment template.
-  final String? arn;
-
-  /// The time that the experiment template was created.
-  final DateTime? creationTime;
-
-  /// The description of the experiment template.
-  final String? description;
-
-  /// The ID of the experiment template.
-  final String? id;
-
-  /// The time that the experiment template was last updated.
-  final DateTime? lastUpdateTime;
-
-  /// The tags for the experiment template.
-  final Map<String, String>? tags;
-
-  ExperimentTemplateSummary({
-    this.arn,
-    this.creationTime,
-    this.description,
-    this.id,
-    this.lastUpdateTime,
-    this.tags,
-  });
-
-  factory ExperimentTemplateSummary.fromJson(Map<String, dynamic> json) {
-    return ExperimentTemplateSummary(
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      id: json['id'] as String?,
-      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdateTime = this.lastUpdateTime;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (description != null) 'description': description,
-      if (id != null) 'id': id,
-      if (lastUpdateTime != null)
-        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Describes a target for an experiment template.
-class ExperimentTemplateTarget {
-  /// The filters to apply to identify target resources using specific attributes.
-  final List<ExperimentTemplateTargetFilter>? filters;
-
-  /// The resource type parameters.
-  final Map<String, String>? parameters;
-
-  /// The Amazon Resource Names (ARNs) of the targets.
-  final List<String>? resourceArns;
-
-  /// The tags for the target resources.
-  final Map<String, String>? resourceTags;
-
-  /// The resource type.
-  final String? resourceType;
-
-  /// Scopes the identified resources to a specific count or percentage.
-  final String? selectionMode;
-
-  ExperimentTemplateTarget({
-    this.filters,
-    this.parameters,
-    this.resourceArns,
-    this.resourceTags,
-    this.resourceType,
-    this.selectionMode,
-  });
-
-  factory ExperimentTemplateTarget.fromJson(Map<String, dynamic> json) {
-    return ExperimentTemplateTarget(
-      filters: (json['filters'] as List?)
-          ?.nonNulls
-          .map((e) => ExperimentTemplateTargetFilter.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      parameters: (json['parameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      resourceArns: (json['resourceArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      resourceTags: (json['resourceTags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      resourceType: json['resourceType'] as String?,
-      selectionMode: json['selectionMode'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filters = this.filters;
-    final parameters = this.parameters;
-    final resourceArns = this.resourceArns;
-    final resourceTags = this.resourceTags;
-    final resourceType = this.resourceType;
-    final selectionMode = this.selectionMode;
-    return {
-      if (filters != null) 'filters': filters,
-      if (parameters != null) 'parameters': parameters,
-      if (resourceArns != null) 'resourceArns': resourceArns,
-      if (resourceTags != null) 'resourceTags': resourceTags,
-      if (resourceType != null) 'resourceType': resourceType,
-      if (selectionMode != null) 'selectionMode': selectionMode,
-    };
-  }
-}
-
-/// Describes a filter used for the target resources in an experiment template.
-class ExperimentTemplateTargetFilter {
-  /// The attribute path for the filter.
-  final String? path;
-
-  /// The attribute values for the filter.
-  final List<String>? values;
-
-  ExperimentTemplateTargetFilter({
-    this.path,
-    this.values,
-  });
-
-  factory ExperimentTemplateTargetFilter.fromJson(Map<String, dynamic> json) {
-    return ExperimentTemplateTargetFilter(
-      path: json['path'] as String?,
-      values:
-          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    final values = this.values;
-    return {
-      if (path != null) 'path': path,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-/// Specifies a filter used for the target resource input in an experiment
-/// template.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/fis/latest/userguide/targets.html#target-filters">Resource
-/// filters</a> in the <i>Fault Injection Service User Guide</i>.
-class ExperimentTemplateTargetInputFilter {
-  /// The attribute path for the filter.
-  final String path;
-
-  /// The attribute values for the filter.
-  final List<String> values;
-
-  ExperimentTemplateTargetInputFilter({
-    required this.path,
-    required this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    final values = this.values;
-    return {
-      'path': path,
-      'values': values,
     };
   }
 }
@@ -3090,6 +1251,39 @@ class ListExperimentResolvedTargetsResponse {
   }
 }
 
+class ListExperimentsResponse {
+  /// The experiments.
+  final List<ExperimentSummary>? experiments;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  ListExperimentsResponse({
+    this.experiments,
+    this.nextToken,
+  });
+
+  factory ListExperimentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListExperimentsResponse(
+      experiments: (json['experiments'] as List?)
+          ?.nonNulls
+          .map((e) => ExperimentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final experiments = this.experiments;
+    final nextToken = this.nextToken;
+    return {
+      if (experiments != null) 'experiments': experiments,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListExperimentTargetAccountConfigurationsResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
@@ -3158,39 +1352,6 @@ class ListExperimentTemplatesResponse {
     return {
       if (experimentTemplates != null)
         'experimentTemplates': experimentTemplates,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListExperimentsResponse {
-  /// The experiments.
-  final List<ExperimentSummary>? experiments;
-
-  /// The token to use to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
-  final String? nextToken;
-
-  ListExperimentsResponse({
-    this.experiments,
-    this.nextToken,
-  });
-
-  factory ListExperimentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListExperimentsResponse(
-      experiments: (json['experiments'] as List?)
-          ?.nonNulls
-          .map((e) => ExperimentSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final experiments = this.experiments;
-    final nextToken = this.nextToken;
-    return {
-      if (experiments != null) 'experiments': experiments,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -3291,40 +1452,187 @@ class ListTargetResourceTypesResponse {
   }
 }
 
-/// Describes a resolved target.
-class ResolvedTarget {
-  /// The resource type of the target.
-  final String? resourceType;
+class StartExperimentResponse {
+  /// Information about the experiment.
+  final Experiment? experiment;
 
-  /// Information about the target.
-  final Map<String, String>? targetInformation;
-
-  /// The name of the target.
-  final String? targetName;
-
-  ResolvedTarget({
-    this.resourceType,
-    this.targetInformation,
-    this.targetName,
+  StartExperimentResponse({
+    this.experiment,
   });
 
-  factory ResolvedTarget.fromJson(Map<String, dynamic> json) {
-    return ResolvedTarget(
-      resourceType: json['resourceType'] as String?,
-      targetInformation: (json['targetInformation'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      targetName: json['targetName'] as String?,
+  factory StartExperimentResponse.fromJson(Map<String, dynamic> json) {
+    return StartExperimentResponse(
+      experiment: json['experiment'] != null
+          ? Experiment.fromJson(json['experiment'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourceType = this.resourceType;
-    final targetInformation = this.targetInformation;
-    final targetName = this.targetName;
+    final experiment = this.experiment;
     return {
-      if (resourceType != null) 'resourceType': resourceType,
-      if (targetInformation != null) 'targetInformation': targetInformation,
-      if (targetName != null) 'targetName': targetName,
+      if (experiment != null) 'experiment': experiment,
+    };
+  }
+}
+
+class StopExperimentResponse {
+  /// Information about the experiment.
+  final Experiment? experiment;
+
+  StopExperimentResponse({
+    this.experiment,
+  });
+
+  factory StopExperimentResponse.fromJson(Map<String, dynamic> json) {
+    return StopExperimentResponse(
+      experiment: json['experiment'] != null
+          ? Experiment.fromJson(json['experiment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final experiment = this.experiment;
+    return {
+      if (experiment != null) 'experiment': experiment,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateExperimentTemplateResponse {
+  /// Information about the experiment template.
+  final ExperimentTemplate? experimentTemplate;
+
+  UpdateExperimentTemplateResponse({
+    this.experimentTemplate,
+  });
+
+  factory UpdateExperimentTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateExperimentTemplateResponse(
+      experimentTemplate: json['experimentTemplate'] != null
+          ? ExperimentTemplate.fromJson(
+              json['experimentTemplate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final experimentTemplate = this.experimentTemplate;
+    return {
+      if (experimentTemplate != null) 'experimentTemplate': experimentTemplate,
+    };
+  }
+}
+
+class UpdateSafetyLeverStateResponse {
+  /// Information about the safety lever.
+  final SafetyLever? safetyLever;
+
+  UpdateSafetyLeverStateResponse({
+    this.safetyLever,
+  });
+
+  factory UpdateSafetyLeverStateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSafetyLeverStateResponse(
+      safetyLever: json['safetyLever'] != null
+          ? SafetyLever.fromJson(json['safetyLever'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final safetyLever = this.safetyLever;
+    return {
+      if (safetyLever != null) 'safetyLever': safetyLever,
+    };
+  }
+}
+
+class UpdateTargetAccountConfigurationResponse {
+  /// Information about the target account configuration.
+  final TargetAccountConfiguration? targetAccountConfiguration;
+
+  UpdateTargetAccountConfigurationResponse({
+    this.targetAccountConfiguration,
+  });
+
+  factory UpdateTargetAccountConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateTargetAccountConfigurationResponse(
+      targetAccountConfiguration: json['targetAccountConfiguration'] != null
+          ? TargetAccountConfiguration.fromJson(
+              json['targetAccountConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetAccountConfiguration = this.targetAccountConfiguration;
+    return {
+      if (targetAccountConfiguration != null)
+        'targetAccountConfiguration': targetAccountConfiguration,
+    };
+  }
+}
+
+/// Describes a target account configuration.
+class TargetAccountConfiguration {
+  /// The Amazon Web Services account ID of the target account.
+  final String? accountId;
+
+  /// The description of the target account.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+  final String? roleArn;
+
+  TargetAccountConfiguration({
+    this.accountId,
+    this.description,
+    this.roleArn,
+  });
+
+  factory TargetAccountConfiguration.fromJson(Map<String, dynamic> json) {
+    return TargetAccountConfiguration(
+      accountId: json['accountId'] as String?,
+      description: json['description'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final description = this.description;
+    final roleArn = this.roleArn;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (description != null) 'description': description,
+      if (roleArn != null) 'roleArn': roleArn,
     };
   }
 }
@@ -3423,6 +1731,29 @@ class SafetyLeverStatus {
   String toString() => value;
 }
 
+/// Specifies a state for a safety lever.
+class UpdateSafetyLeverStateInput {
+  /// The reason for updating the state of the safety lever.
+  final String reason;
+
+  /// The updated state of the safety lever.
+  final SafetyLeverStatusInput status;
+
+  UpdateSafetyLeverStateInput({
+    required this.reason,
+    required this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      'reason': reason,
+      'status': status.value,
+    };
+  }
+}
+
 class SafetyLeverStatusInput {
   static const disengaged = SafetyLeverStatusInput._('disengaged');
   static const engaged = SafetyLeverStatusInput._('engaged');
@@ -3448,6 +1779,2102 @@ class SafetyLeverStatusInput {
   String toString() => value;
 }
 
+/// Describes an experiment template.
+class ExperimentTemplate {
+  /// The actions for the experiment.
+  final Map<String, ExperimentTemplateAction>? actions;
+
+  /// The Amazon Resource Name (ARN) of the experiment template.
+  final String? arn;
+
+  /// The time the experiment template was created.
+  final DateTime? creationTime;
+
+  /// The description for the experiment template.
+  final String? description;
+
+  /// The experiment options for an experiment template.
+  final ExperimentTemplateExperimentOptions? experimentOptions;
+
+  /// Describes the report configuration for the experiment template.
+  final ExperimentTemplateReportConfiguration? experimentReportConfiguration;
+
+  /// The ID of the experiment template.
+  final String? id;
+
+  /// The time the experiment template was last updated.
+  final DateTime? lastUpdateTime;
+
+  /// The configuration for experiment logging.
+  final ExperimentTemplateLogConfiguration? logConfiguration;
+
+  /// The Amazon Resource Name (ARN) of an IAM role.
+  final String? roleArn;
+
+  /// The stop conditions for the experiment.
+  final List<ExperimentTemplateStopCondition>? stopConditions;
+
+  /// The tags for the experiment template.
+  final Map<String, String>? tags;
+
+  /// The count of target account configurations for the experiment template.
+  final int? targetAccountConfigurationsCount;
+
+  /// The targets for the experiment.
+  final Map<String, ExperimentTemplateTarget>? targets;
+
+  ExperimentTemplate({
+    this.actions,
+    this.arn,
+    this.creationTime,
+    this.description,
+    this.experimentOptions,
+    this.experimentReportConfiguration,
+    this.id,
+    this.lastUpdateTime,
+    this.logConfiguration,
+    this.roleArn,
+    this.stopConditions,
+    this.tags,
+    this.targetAccountConfigurationsCount,
+    this.targets,
+  });
+
+  factory ExperimentTemplate.fromJson(Map<String, dynamic> json) {
+    return ExperimentTemplate(
+      actions: (json['actions'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, ExperimentTemplateAction.fromJson(e as Map<String, dynamic>))),
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      experimentOptions: json['experimentOptions'] != null
+          ? ExperimentTemplateExperimentOptions.fromJson(
+              json['experimentOptions'] as Map<String, dynamic>)
+          : null,
+      experimentReportConfiguration:
+          json['experimentReportConfiguration'] != null
+              ? ExperimentTemplateReportConfiguration.fromJson(
+                  json['experimentReportConfiguration'] as Map<String, dynamic>)
+              : null,
+      id: json['id'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      logConfiguration: json['logConfiguration'] != null
+          ? ExperimentTemplateLogConfiguration.fromJson(
+              json['logConfiguration'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['roleArn'] as String?,
+      stopConditions: (json['stopConditions'] as List?)
+          ?.nonNulls
+          .map((e) => ExperimentTemplateStopCondition.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetAccountConfigurationsCount:
+          json['targetAccountConfigurationsCount'] as int?,
+      targets: (json['targets'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, ExperimentTemplateTarget.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final experimentOptions = this.experimentOptions;
+    final experimentReportConfiguration = this.experimentReportConfiguration;
+    final id = this.id;
+    final lastUpdateTime = this.lastUpdateTime;
+    final logConfiguration = this.logConfiguration;
+    final roleArn = this.roleArn;
+    final stopConditions = this.stopConditions;
+    final tags = this.tags;
+    final targetAccountConfigurationsCount =
+        this.targetAccountConfigurationsCount;
+    final targets = this.targets;
+    return {
+      if (actions != null) 'actions': actions,
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'description': description,
+      if (experimentOptions != null) 'experimentOptions': experimentOptions,
+      if (experimentReportConfiguration != null)
+        'experimentReportConfiguration': experimentReportConfiguration,
+      if (id != null) 'id': id,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (logConfiguration != null) 'logConfiguration': logConfiguration,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (stopConditions != null) 'stopConditions': stopConditions,
+      if (tags != null) 'tags': tags,
+      if (targetAccountConfigurationsCount != null)
+        'targetAccountConfigurationsCount': targetAccountConfigurationsCount,
+      if (targets != null) 'targets': targets,
+    };
+  }
+}
+
+/// Describes the configuration for experiment logging.
+class ExperimentTemplateLogConfiguration {
+  /// The configuration for experiment logging to Amazon CloudWatch Logs.
+  final ExperimentTemplateCloudWatchLogsLogConfiguration?
+      cloudWatchLogsConfiguration;
+
+  /// The schema version.
+  final int? logSchemaVersion;
+
+  /// The configuration for experiment logging to Amazon S3.
+  final ExperimentTemplateS3LogConfiguration? s3Configuration;
+
+  ExperimentTemplateLogConfiguration({
+    this.cloudWatchLogsConfiguration,
+    this.logSchemaVersion,
+    this.s3Configuration,
+  });
+
+  factory ExperimentTemplateLogConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTemplateLogConfiguration(
+      cloudWatchLogsConfiguration: json['cloudWatchLogsConfiguration'] != null
+          ? ExperimentTemplateCloudWatchLogsLogConfiguration.fromJson(
+              json['cloudWatchLogsConfiguration'] as Map<String, dynamic>)
+          : null,
+      logSchemaVersion: json['logSchemaVersion'] as int?,
+      s3Configuration: json['s3Configuration'] != null
+          ? ExperimentTemplateS3LogConfiguration.fromJson(
+              json['s3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
+    final logSchemaVersion = this.logSchemaVersion;
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (cloudWatchLogsConfiguration != null)
+        'cloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
+      if (logSchemaVersion != null) 'logSchemaVersion': logSchemaVersion,
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// Describes the experiment options for an experiment template.
+class ExperimentTemplateExperimentOptions {
+  /// The account targeting setting for an experiment template.
+  final AccountTargeting? accountTargeting;
+
+  /// The empty target resolution mode for an experiment template.
+  final EmptyTargetResolutionMode? emptyTargetResolutionMode;
+
+  ExperimentTemplateExperimentOptions({
+    this.accountTargeting,
+    this.emptyTargetResolutionMode,
+  });
+
+  factory ExperimentTemplateExperimentOptions.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTemplateExperimentOptions(
+      accountTargeting: (json['accountTargeting'] as String?)
+          ?.let(AccountTargeting.fromString),
+      emptyTargetResolutionMode: (json['emptyTargetResolutionMode'] as String?)
+          ?.let(EmptyTargetResolutionMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountTargeting = this.accountTargeting;
+    final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
+    return {
+      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
+      if (emptyTargetResolutionMode != null)
+        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
+    };
+  }
+}
+
+/// Describes the experiment report configuration. For more information, see <a
+/// href="https://docs.aws.amazon.com/fis/latest/userguide/experiment-report-configuration">Experiment
+/// report configurations for AWS FIS</a>.
+class ExperimentTemplateReportConfiguration {
+  /// The data sources for the experiment report.
+  final ExperimentTemplateReportConfigurationDataSources? dataSources;
+
+  /// Describes the output destinations of the experiment report.
+  final ExperimentTemplateReportConfigurationOutputs? outputs;
+
+  /// The duration after the experiment end time for the data sources to include
+  /// in the report.
+  final String? postExperimentDuration;
+
+  /// The duration before the experiment start time for the data sources to
+  /// include in the report.
+  final String? preExperimentDuration;
+
+  ExperimentTemplateReportConfiguration({
+    this.dataSources,
+    this.outputs,
+    this.postExperimentDuration,
+    this.preExperimentDuration,
+  });
+
+  factory ExperimentTemplateReportConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTemplateReportConfiguration(
+      dataSources: json['dataSources'] != null
+          ? ExperimentTemplateReportConfigurationDataSources.fromJson(
+              json['dataSources'] as Map<String, dynamic>)
+          : null,
+      outputs: json['outputs'] != null
+          ? ExperimentTemplateReportConfigurationOutputs.fromJson(
+              json['outputs'] as Map<String, dynamic>)
+          : null,
+      postExperimentDuration: json['postExperimentDuration'] as String?,
+      preExperimentDuration: json['preExperimentDuration'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSources = this.dataSources;
+    final outputs = this.outputs;
+    final postExperimentDuration = this.postExperimentDuration;
+    final preExperimentDuration = this.preExperimentDuration;
+    return {
+      if (dataSources != null) 'dataSources': dataSources,
+      if (outputs != null) 'outputs': outputs,
+      if (postExperimentDuration != null)
+        'postExperimentDuration': postExperimentDuration,
+      if (preExperimentDuration != null)
+        'preExperimentDuration': preExperimentDuration,
+    };
+  }
+}
+
+/// The output destinations of the experiment report.
+class ExperimentTemplateReportConfigurationOutputs {
+  /// The S3 destination for the experiment report.
+  final ReportConfigurationS3Output? s3Configuration;
+
+  ExperimentTemplateReportConfigurationOutputs({
+    this.s3Configuration,
+  });
+
+  factory ExperimentTemplateReportConfigurationOutputs.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTemplateReportConfigurationOutputs(
+      s3Configuration: json['s3Configuration'] != null
+          ? ReportConfigurationS3Output.fromJson(
+              json['s3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// Describes the data sources for the experiment report.
+class ExperimentTemplateReportConfigurationDataSources {
+  /// The CloudWatch dashboards to include as data sources in the experiment
+  /// report.
+  final List<ExperimentTemplateReportConfigurationCloudWatchDashboard>?
+      cloudWatchDashboards;
+
+  ExperimentTemplateReportConfigurationDataSources({
+    this.cloudWatchDashboards,
+  });
+
+  factory ExperimentTemplateReportConfigurationDataSources.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTemplateReportConfigurationDataSources(
+      cloudWatchDashboards: (json['cloudWatchDashboards'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ExperimentTemplateReportConfigurationCloudWatchDashboard.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchDashboards = this.cloudWatchDashboards;
+    return {
+      if (cloudWatchDashboards != null)
+        'cloudWatchDashboards': cloudWatchDashboards,
+    };
+  }
+}
+
+/// The CloudWatch dashboards to include as data sources in the experiment
+/// report.
+class ExperimentTemplateReportConfigurationCloudWatchDashboard {
+  /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the
+  /// experiment report.
+  final String? dashboardIdentifier;
+
+  ExperimentTemplateReportConfigurationCloudWatchDashboard({
+    this.dashboardIdentifier,
+  });
+
+  factory ExperimentTemplateReportConfigurationCloudWatchDashboard.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTemplateReportConfigurationCloudWatchDashboard(
+      dashboardIdentifier: json['dashboardIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardIdentifier = this.dashboardIdentifier;
+    return {
+      if (dashboardIdentifier != null)
+        'dashboardIdentifier': dashboardIdentifier,
+    };
+  }
+}
+
+/// Describes the S3 destination for the experiment report.
+class ReportConfigurationS3Output {
+  /// The name of the S3 bucket where the experiment report will be stored.
+  final String? bucketName;
+
+  /// The prefix of the S3 bucket where the experiment report will be stored.
+  final String? prefix;
+
+  ReportConfigurationS3Output({
+    this.bucketName,
+    this.prefix,
+  });
+
+  factory ReportConfigurationS3Output.fromJson(Map<String, dynamic> json) {
+    return ReportConfigurationS3Output(
+      bucketName: json['bucketName'] as String?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+class AccountTargeting {
+  static const singleAccount = AccountTargeting._('single-account');
+  static const multiAccount = AccountTargeting._('multi-account');
+
+  final String value;
+
+  const AccountTargeting._(this.value);
+
+  static const values = [singleAccount, multiAccount];
+
+  static AccountTargeting fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AccountTargeting._(value));
+
+  @override
+  bool operator ==(other) => other is AccountTargeting && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EmptyTargetResolutionMode {
+  static const fail = EmptyTargetResolutionMode._('fail');
+  static const skip = EmptyTargetResolutionMode._('skip');
+
+  final String value;
+
+  const EmptyTargetResolutionMode._(this.value);
+
+  static const values = [fail, skip];
+
+  static EmptyTargetResolutionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EmptyTargetResolutionMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EmptyTargetResolutionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the configuration for experiment logging to Amazon CloudWatch
+/// Logs.
+class ExperimentTemplateCloudWatchLogsLogConfiguration {
+  /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
+  /// group.
+  final String? logGroupArn;
+
+  ExperimentTemplateCloudWatchLogsLogConfiguration({
+    this.logGroupArn,
+  });
+
+  factory ExperimentTemplateCloudWatchLogsLogConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTemplateCloudWatchLogsLogConfiguration(
+      logGroupArn: json['logGroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupArn = this.logGroupArn;
+    return {
+      if (logGroupArn != null) 'logGroupArn': logGroupArn,
+    };
+  }
+}
+
+/// Describes the configuration for experiment logging to Amazon S3.
+class ExperimentTemplateS3LogConfiguration {
+  /// The name of the destination bucket.
+  final String? bucketName;
+
+  /// The bucket prefix.
+  final String? prefix;
+
+  ExperimentTemplateS3LogConfiguration({
+    this.bucketName,
+    this.prefix,
+  });
+
+  factory ExperimentTemplateS3LogConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTemplateS3LogConfiguration(
+      bucketName: json['bucketName'] as String?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// Describes a stop condition for an experiment template.
+class ExperimentTemplateStopCondition {
+  /// The source for the stop condition.
+  final String? source;
+
+  /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
+  final String? value;
+
+  ExperimentTemplateStopCondition({
+    this.source,
+    this.value,
+  });
+
+  factory ExperimentTemplateStopCondition.fromJson(Map<String, dynamic> json) {
+    return ExperimentTemplateStopCondition(
+      source: json['source'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final value = this.value;
+    return {
+      if (source != null) 'source': source,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Describes an action for an experiment template.
+class ExperimentTemplateAction {
+  /// The ID of the action.
+  final String? actionId;
+
+  /// A description for the action.
+  final String? description;
+
+  /// The parameters for the action.
+  final Map<String, String>? parameters;
+
+  /// The name of the action that must be completed before the current action
+  /// starts.
+  final List<String>? startAfter;
+
+  /// The targets for the action.
+  final Map<String, String>? targets;
+
+  ExperimentTemplateAction({
+    this.actionId,
+    this.description,
+    this.parameters,
+    this.startAfter,
+    this.targets,
+  });
+
+  factory ExperimentTemplateAction.fromJson(Map<String, dynamic> json) {
+    return ExperimentTemplateAction(
+      actionId: json['actionId'] as String?,
+      description: json['description'] as String?,
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      startAfter: (json['startAfter'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      targets: (json['targets'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final description = this.description;
+    final parameters = this.parameters;
+    final startAfter = this.startAfter;
+    final targets = this.targets;
+    return {
+      if (actionId != null) 'actionId': actionId,
+      if (description != null) 'description': description,
+      if (parameters != null) 'parameters': parameters,
+      if (startAfter != null) 'startAfter': startAfter,
+      if (targets != null) 'targets': targets,
+    };
+  }
+}
+
+/// Describes a target for an experiment template.
+class ExperimentTemplateTarget {
+  /// The filters to apply to identify target resources using specific attributes.
+  final List<ExperimentTemplateTargetFilter>? filters;
+
+  /// The resource type parameters.
+  final Map<String, String>? parameters;
+
+  /// The Amazon Resource Names (ARNs) of the targets.
+  final List<String>? resourceArns;
+
+  /// The tags for the target resources.
+  final Map<String, String>? resourceTags;
+
+  /// The resource type.
+  final String? resourceType;
+
+  /// Scopes the identified resources to a specific count or percentage.
+  final String? selectionMode;
+
+  ExperimentTemplateTarget({
+    this.filters,
+    this.parameters,
+    this.resourceArns,
+    this.resourceTags,
+    this.resourceType,
+    this.selectionMode,
+  });
+
+  factory ExperimentTemplateTarget.fromJson(Map<String, dynamic> json) {
+    return ExperimentTemplateTarget(
+      filters: (json['filters'] as List?)
+          ?.nonNulls
+          .map((e) => ExperimentTemplateTargetFilter.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceArns: (json['resourceArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resourceTags: (json['resourceTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceType: json['resourceType'] as String?,
+      selectionMode: json['selectionMode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    final parameters = this.parameters;
+    final resourceArns = this.resourceArns;
+    final resourceTags = this.resourceTags;
+    final resourceType = this.resourceType;
+    final selectionMode = this.selectionMode;
+    return {
+      if (filters != null) 'filters': filters,
+      if (parameters != null) 'parameters': parameters,
+      if (resourceArns != null) 'resourceArns': resourceArns,
+      if (resourceTags != null) 'resourceTags': resourceTags,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (selectionMode != null) 'selectionMode': selectionMode,
+    };
+  }
+}
+
+/// Describes a filter used for the target resources in an experiment template.
+class ExperimentTemplateTargetFilter {
+  /// The attribute path for the filter.
+  final String? path;
+
+  /// The attribute values for the filter.
+  final List<String>? values;
+
+  ExperimentTemplateTargetFilter({
+    this.path,
+    this.values,
+  });
+
+  factory ExperimentTemplateTargetFilter.fromJson(Map<String, dynamic> json) {
+    return ExperimentTemplateTargetFilter(
+      path: json['path'] as String?,
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final values = this.values;
+    return {
+      if (path != null) 'path': path,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+/// Specifies the configuration for experiment logging.
+class UpdateExperimentTemplateLogConfigurationInput {
+  /// The configuration for experiment logging to Amazon CloudWatch Logs.
+  final ExperimentTemplateCloudWatchLogsLogConfigurationInput?
+      cloudWatchLogsConfiguration;
+
+  /// The schema version.
+  final int? logSchemaVersion;
+
+  /// The configuration for experiment logging to Amazon S3.
+  final ExperimentTemplateS3LogConfigurationInput? s3Configuration;
+
+  UpdateExperimentTemplateLogConfigurationInput({
+    this.cloudWatchLogsConfiguration,
+    this.logSchemaVersion,
+    this.s3Configuration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
+    final logSchemaVersion = this.logSchemaVersion;
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (cloudWatchLogsConfiguration != null)
+        'cloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
+      if (logSchemaVersion != null) 'logSchemaVersion': logSchemaVersion,
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// Specifies an experiment option for an experiment template.
+class UpdateExperimentTemplateExperimentOptionsInput {
+  /// The empty target resolution mode of the experiment template.
+  final EmptyTargetResolutionMode? emptyTargetResolutionMode;
+
+  UpdateExperimentTemplateExperimentOptionsInput({
+    this.emptyTargetResolutionMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
+    return {
+      if (emptyTargetResolutionMode != null)
+        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
+    };
+  }
+}
+
+/// Specifies the input for the experiment report configuration.
+class UpdateExperimentTemplateReportConfigurationInput {
+  /// The data sources for the experiment report.
+  final ExperimentTemplateReportConfigurationDataSourcesInput? dataSources;
+
+  /// Describes the output destinations of the experiment report.
+  final ExperimentTemplateReportConfigurationOutputsInput? outputs;
+
+  /// The duration after the experiment end time for the data sources to include
+  /// in the report.
+  final String? postExperimentDuration;
+
+  /// The duration before the experiment start time for the data sources to
+  /// include in the report.
+  final String? preExperimentDuration;
+
+  UpdateExperimentTemplateReportConfigurationInput({
+    this.dataSources,
+    this.outputs,
+    this.postExperimentDuration,
+    this.preExperimentDuration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataSources = this.dataSources;
+    final outputs = this.outputs;
+    final postExperimentDuration = this.postExperimentDuration;
+    final preExperimentDuration = this.preExperimentDuration;
+    return {
+      if (dataSources != null) 'dataSources': dataSources,
+      if (outputs != null) 'outputs': outputs,
+      if (postExperimentDuration != null)
+        'postExperimentDuration': postExperimentDuration,
+      if (preExperimentDuration != null)
+        'preExperimentDuration': preExperimentDuration,
+    };
+  }
+}
+
+/// Specifies the outputs for the experiment templates.
+class ExperimentTemplateReportConfigurationOutputsInput {
+  /// The S3 destination for the experiment report.
+  final ReportConfigurationS3OutputInput? s3Configuration;
+
+  ExperimentTemplateReportConfigurationOutputsInput({
+    this.s3Configuration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// Specifies the data sources for the experiment report.
+class ExperimentTemplateReportConfigurationDataSourcesInput {
+  /// The CloudWatch dashboards to include as data sources in the experiment
+  /// report.
+  final List<ReportConfigurationCloudWatchDashboardInput>? cloudWatchDashboards;
+
+  ExperimentTemplateReportConfigurationDataSourcesInput({
+    this.cloudWatchDashboards,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchDashboards = this.cloudWatchDashboards;
+    return {
+      if (cloudWatchDashboards != null)
+        'cloudWatchDashboards': cloudWatchDashboards,
+    };
+  }
+}
+
+/// Specifies the CloudWatch dashboard for the experiment report.
+class ReportConfigurationCloudWatchDashboardInput {
+  /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the
+  /// experiment report.
+  final String? dashboardIdentifier;
+
+  ReportConfigurationCloudWatchDashboardInput({
+    this.dashboardIdentifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dashboardIdentifier = this.dashboardIdentifier;
+    return {
+      if (dashboardIdentifier != null)
+        'dashboardIdentifier': dashboardIdentifier,
+    };
+  }
+}
+
+/// Specifies the S3 destination for the experiment report.
+class ReportConfigurationS3OutputInput {
+  /// The name of the S3 bucket where the experiment report will be stored.
+  final String? bucketName;
+
+  /// The prefix of the S3 bucket where the experiment report will be stored.
+  final String? prefix;
+
+  ReportConfigurationS3OutputInput({
+    this.bucketName,
+    this.prefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// Specifies the configuration for experiment logging to Amazon CloudWatch
+/// Logs.
+class ExperimentTemplateCloudWatchLogsLogConfigurationInput {
+  /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
+  /// group.
+  final String logGroupArn;
+
+  ExperimentTemplateCloudWatchLogsLogConfigurationInput({
+    required this.logGroupArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final logGroupArn = this.logGroupArn;
+    return {
+      'logGroupArn': logGroupArn,
+    };
+  }
+}
+
+/// Specifies the configuration for experiment logging to Amazon S3.
+class ExperimentTemplateS3LogConfigurationInput {
+  /// The name of the destination bucket.
+  final String bucketName;
+
+  /// The bucket prefix.
+  final String? prefix;
+
+  ExperimentTemplateS3LogConfigurationInput({
+    required this.bucketName,
+    this.prefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// Specifies an action for an experiment template.
+class UpdateExperimentTemplateActionInputItem {
+  /// The ID of the action.
+  final String? actionId;
+
+  /// A description for the action.
+  final String? description;
+
+  /// The parameters for the action, if applicable.
+  final Map<String, String>? parameters;
+
+  /// The name of the action that must be completed before the current action
+  /// starts. Omit this parameter to run the action at the start of the
+  /// experiment.
+  final List<String>? startAfter;
+
+  /// The targets for the action.
+  final Map<String, String>? targets;
+
+  UpdateExperimentTemplateActionInputItem({
+    this.actionId,
+    this.description,
+    this.parameters,
+    this.startAfter,
+    this.targets,
+  });
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final description = this.description;
+    final parameters = this.parameters;
+    final startAfter = this.startAfter;
+    final targets = this.targets;
+    return {
+      if (actionId != null) 'actionId': actionId,
+      if (description != null) 'description': description,
+      if (parameters != null) 'parameters': parameters,
+      if (startAfter != null) 'startAfter': startAfter,
+      if (targets != null) 'targets': targets,
+    };
+  }
+}
+
+/// Specifies a target for an experiment. You must specify at least one Amazon
+/// Resource Name (ARN) or at least one resource tag. You cannot specify both.
+class UpdateExperimentTemplateTargetInput {
+  /// The resource type. The resource type must be supported for the specified
+  /// action.
+  final String resourceType;
+
+  /// Scopes the identified resources to a specific count or percentage.
+  final String selectionMode;
+
+  /// The filters to apply to identify target resources using specific attributes.
+  final List<ExperimentTemplateTargetInputFilter>? filters;
+
+  /// The resource type parameters.
+  final Map<String, String>? parameters;
+
+  /// The Amazon Resource Names (ARNs) of the targets.
+  final List<String>? resourceArns;
+
+  /// The tags for the target resources.
+  final Map<String, String>? resourceTags;
+
+  UpdateExperimentTemplateTargetInput({
+    required this.resourceType,
+    required this.selectionMode,
+    this.filters,
+    this.parameters,
+    this.resourceArns,
+    this.resourceTags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    final selectionMode = this.selectionMode;
+    final filters = this.filters;
+    final parameters = this.parameters;
+    final resourceArns = this.resourceArns;
+    final resourceTags = this.resourceTags;
+    return {
+      'resourceType': resourceType,
+      'selectionMode': selectionMode,
+      if (filters != null) 'filters': filters,
+      if (parameters != null) 'parameters': parameters,
+      if (resourceArns != null) 'resourceArns': resourceArns,
+      if (resourceTags != null) 'resourceTags': resourceTags,
+    };
+  }
+}
+
+/// Specifies a filter used for the target resource input in an experiment
+/// template.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/fis/latest/userguide/targets.html#target-filters">Resource
+/// filters</a> in the <i>Fault Injection Service User Guide</i>.
+class ExperimentTemplateTargetInputFilter {
+  /// The attribute path for the filter.
+  final String path;
+
+  /// The attribute values for the filter.
+  final List<String> values;
+
+  ExperimentTemplateTargetInputFilter({
+    required this.path,
+    required this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final values = this.values;
+    return {
+      'path': path,
+      'values': values,
+    };
+  }
+}
+
+/// Specifies a stop condition for an experiment. You can define a stop
+/// condition as a CloudWatch alarm.
+class UpdateExperimentTemplateStopConditionInput {
+  /// The source for the stop condition. Specify <code>aws:cloudwatch:alarm</code>
+  /// if the stop condition is defined by a CloudWatch alarm. Specify
+  /// <code>none</code> if there is no stop condition.
+  final String source;
+
+  /// The Amazon Resource Name (ARN) of the CloudWatch alarm.
+  final String? value;
+
+  UpdateExperimentTemplateStopConditionInput({
+    required this.source,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final value = this.value;
+    return {
+      'source': source,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Describes an experiment.
+class Experiment {
+  /// The actions for the experiment.
+  final Map<String, ExperimentAction>? actions;
+
+  /// The Amazon Resource Name (ARN) of the experiment.
+  final String? arn;
+
+  /// The time that the experiment was created.
+  final DateTime? creationTime;
+
+  /// The time that the experiment ended.
+  final DateTime? endTime;
+
+  /// The experiment options for the experiment.
+  final ExperimentOptions? experimentOptions;
+
+  /// The experiment report for the experiment.
+  final ExperimentReport? experimentReport;
+
+  /// The experiment report configuration for the experiment.
+  final ExperimentReportConfiguration? experimentReportConfiguration;
+
+  /// The ID of the experiment template.
+  final String? experimentTemplateId;
+
+  /// The ID of the experiment.
+  final String? id;
+
+  /// The configuration for experiment logging.
+  final ExperimentLogConfiguration? logConfiguration;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service
+  /// permission to perform service actions on your behalf.
+  final String? roleArn;
+
+  /// The time that the experiment started.
+  final DateTime? startTime;
+
+  /// The state of the experiment.
+  final ExperimentState? state;
+
+  /// The stop conditions for the experiment.
+  final List<ExperimentStopCondition>? stopConditions;
+
+  /// The tags for the experiment.
+  final Map<String, String>? tags;
+
+  /// The count of target account configurations for the experiment.
+  final int? targetAccountConfigurationsCount;
+
+  /// The targets for the experiment.
+  final Map<String, ExperimentTarget>? targets;
+
+  Experiment({
+    this.actions,
+    this.arn,
+    this.creationTime,
+    this.endTime,
+    this.experimentOptions,
+    this.experimentReport,
+    this.experimentReportConfiguration,
+    this.experimentTemplateId,
+    this.id,
+    this.logConfiguration,
+    this.roleArn,
+    this.startTime,
+    this.state,
+    this.stopConditions,
+    this.tags,
+    this.targetAccountConfigurationsCount,
+    this.targets,
+  });
+
+  factory Experiment.fromJson(Map<String, dynamic> json) {
+    return Experiment(
+      actions: (json['actions'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ExperimentAction.fromJson(e as Map<String, dynamic>))),
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      endTime: timeStampFromJson(json['endTime']),
+      experimentOptions: json['experimentOptions'] != null
+          ? ExperimentOptions.fromJson(
+              json['experimentOptions'] as Map<String, dynamic>)
+          : null,
+      experimentReport: json['experimentReport'] != null
+          ? ExperimentReport.fromJson(
+              json['experimentReport'] as Map<String, dynamic>)
+          : null,
+      experimentReportConfiguration:
+          json['experimentReportConfiguration'] != null
+              ? ExperimentReportConfiguration.fromJson(
+                  json['experimentReportConfiguration'] as Map<String, dynamic>)
+              : null,
+      experimentTemplateId: json['experimentTemplateId'] as String?,
+      id: json['id'] as String?,
+      logConfiguration: json['logConfiguration'] != null
+          ? ExperimentLogConfiguration.fromJson(
+              json['logConfiguration'] as Map<String, dynamic>)
+          : null,
+      roleArn: json['roleArn'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      state: json['state'] != null
+          ? ExperimentState.fromJson(json['state'] as Map<String, dynamic>)
+          : null,
+      stopConditions: (json['stopConditions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ExperimentStopCondition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetAccountConfigurationsCount:
+          json['targetAccountConfigurationsCount'] as int?,
+      targets: (json['targets'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ExperimentTarget.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final endTime = this.endTime;
+    final experimentOptions = this.experimentOptions;
+    final experimentReport = this.experimentReport;
+    final experimentReportConfiguration = this.experimentReportConfiguration;
+    final experimentTemplateId = this.experimentTemplateId;
+    final id = this.id;
+    final logConfiguration = this.logConfiguration;
+    final roleArn = this.roleArn;
+    final startTime = this.startTime;
+    final state = this.state;
+    final stopConditions = this.stopConditions;
+    final tags = this.tags;
+    final targetAccountConfigurationsCount =
+        this.targetAccountConfigurationsCount;
+    final targets = this.targets;
+    return {
+      if (actions != null) 'actions': actions,
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (experimentOptions != null) 'experimentOptions': experimentOptions,
+      if (experimentReport != null) 'experimentReport': experimentReport,
+      if (experimentReportConfiguration != null)
+        'experimentReportConfiguration': experimentReportConfiguration,
+      if (experimentTemplateId != null)
+        'experimentTemplateId': experimentTemplateId,
+      if (id != null) 'id': id,
+      if (logConfiguration != null) 'logConfiguration': logConfiguration,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (state != null) 'state': state,
+      if (stopConditions != null) 'stopConditions': stopConditions,
+      if (tags != null) 'tags': tags,
+      if (targetAccountConfigurationsCount != null)
+        'targetAccountConfigurationsCount': targetAccountConfigurationsCount,
+      if (targets != null) 'targets': targets,
+    };
+  }
+}
+
+/// Describes the state of an experiment.
+class ExperimentState {
+  /// The error information of the experiment when the action has
+  /// <code>failed</code>.
+  final ExperimentError? error;
+
+  /// The reason for the state.
+  final String? reason;
+
+  /// The state of the experiment.
+  final ExperimentStatus? status;
+
+  ExperimentState({
+    this.error,
+    this.reason,
+    this.status,
+  });
+
+  factory ExperimentState.fromJson(Map<String, dynamic> json) {
+    return ExperimentState(
+      error: json['error'] != null
+          ? ExperimentError.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+      reason: json['reason'] as String?,
+      status: (json['status'] as String?)?.let(ExperimentStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (error != null) 'error': error,
+      if (reason != null) 'reason': reason,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// Describes the configuration for experiment logging.
+class ExperimentLogConfiguration {
+  /// The configuration for experiment logging to Amazon CloudWatch Logs.
+  final ExperimentCloudWatchLogsLogConfiguration? cloudWatchLogsConfiguration;
+
+  /// The schema version.
+  final int? logSchemaVersion;
+
+  /// The configuration for experiment logging to Amazon S3.
+  final ExperimentS3LogConfiguration? s3Configuration;
+
+  ExperimentLogConfiguration({
+    this.cloudWatchLogsConfiguration,
+    this.logSchemaVersion,
+    this.s3Configuration,
+  });
+
+  factory ExperimentLogConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExperimentLogConfiguration(
+      cloudWatchLogsConfiguration: json['cloudWatchLogsConfiguration'] != null
+          ? ExperimentCloudWatchLogsLogConfiguration.fromJson(
+              json['cloudWatchLogsConfiguration'] as Map<String, dynamic>)
+          : null,
+      logSchemaVersion: json['logSchemaVersion'] as int?,
+      s3Configuration: json['s3Configuration'] != null
+          ? ExperimentS3LogConfiguration.fromJson(
+              json['s3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
+    final logSchemaVersion = this.logSchemaVersion;
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (cloudWatchLogsConfiguration != null)
+        'cloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
+      if (logSchemaVersion != null) 'logSchemaVersion': logSchemaVersion,
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// Describes the options for an experiment.
+class ExperimentOptions {
+  /// The account targeting setting for an experiment.
+  final AccountTargeting? accountTargeting;
+
+  /// The actions mode of the experiment that is set from the StartExperiment API
+  /// command.
+  final ActionsMode? actionsMode;
+
+  /// The empty target resolution mode for an experiment.
+  final EmptyTargetResolutionMode? emptyTargetResolutionMode;
+
+  ExperimentOptions({
+    this.accountTargeting,
+    this.actionsMode,
+    this.emptyTargetResolutionMode,
+  });
+
+  factory ExperimentOptions.fromJson(Map<String, dynamic> json) {
+    return ExperimentOptions(
+      accountTargeting: (json['accountTargeting'] as String?)
+          ?.let(AccountTargeting.fromString),
+      actionsMode:
+          (json['actionsMode'] as String?)?.let(ActionsMode.fromString),
+      emptyTargetResolutionMode: (json['emptyTargetResolutionMode'] as String?)
+          ?.let(EmptyTargetResolutionMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountTargeting = this.accountTargeting;
+    final actionsMode = this.actionsMode;
+    final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
+    return {
+      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
+      if (actionsMode != null) 'actionsMode': actionsMode.value,
+      if (emptyTargetResolutionMode != null)
+        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
+    };
+  }
+}
+
+/// Describes the report configuration for the experiment. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/fis/latest/userguide/experiment-report-configuration">Experiment
+/// report configurations for AWS FIS</a>.
+class ExperimentReportConfiguration {
+  /// The data sources for the experiment report.
+  final ExperimentReportConfigurationDataSources? dataSources;
+
+  /// The output destinations of the experiment report.
+  final ExperimentReportConfigurationOutputs? outputs;
+
+  /// The duration after the experiment end time for the data sources to include
+  /// in the report.
+  final String? postExperimentDuration;
+
+  /// The duration before the experiment start time for the data sources to
+  /// include in the report.
+  final String? preExperimentDuration;
+
+  ExperimentReportConfiguration({
+    this.dataSources,
+    this.outputs,
+    this.postExperimentDuration,
+    this.preExperimentDuration,
+  });
+
+  factory ExperimentReportConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExperimentReportConfiguration(
+      dataSources: json['dataSources'] != null
+          ? ExperimentReportConfigurationDataSources.fromJson(
+              json['dataSources'] as Map<String, dynamic>)
+          : null,
+      outputs: json['outputs'] != null
+          ? ExperimentReportConfigurationOutputs.fromJson(
+              json['outputs'] as Map<String, dynamic>)
+          : null,
+      postExperimentDuration: json['postExperimentDuration'] as String?,
+      preExperimentDuration: json['preExperimentDuration'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSources = this.dataSources;
+    final outputs = this.outputs;
+    final postExperimentDuration = this.postExperimentDuration;
+    final preExperimentDuration = this.preExperimentDuration;
+    return {
+      if (dataSources != null) 'dataSources': dataSources,
+      if (outputs != null) 'outputs': outputs,
+      if (postExperimentDuration != null)
+        'postExperimentDuration': postExperimentDuration,
+      if (preExperimentDuration != null)
+        'preExperimentDuration': preExperimentDuration,
+    };
+  }
+}
+
+/// Describes the experiment report.
+class ExperimentReport {
+  /// The S3 destination of the experiment report.
+  final List<ExperimentReportS3Report>? s3Reports;
+
+  /// The state of the experiment report.
+  final ExperimentReportState? state;
+
+  ExperimentReport({
+    this.s3Reports,
+    this.state,
+  });
+
+  factory ExperimentReport.fromJson(Map<String, dynamic> json) {
+    return ExperimentReport(
+      s3Reports: (json['s3Reports'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ExperimentReportS3Report.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: json['state'] != null
+          ? ExperimentReportState.fromJson(
+              json['state'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Reports = this.s3Reports;
+    final state = this.state;
+    return {
+      if (s3Reports != null) 's3Reports': s3Reports,
+      if (state != null) 'state': state,
+    };
+  }
+}
+
+/// Describes the state of the experiment report generation.
+class ExperimentReportState {
+  /// The error information of the experiment when the experiment report
+  /// generation has failed.
+  final ExperimentReportError? error;
+
+  /// The reason for the state of the experiment report generation.
+  final String? reason;
+
+  /// The state of the experiment report generation.
+  final ExperimentReportStatus? status;
+
+  ExperimentReportState({
+    this.error,
+    this.reason,
+    this.status,
+  });
+
+  factory ExperimentReportState.fromJson(Map<String, dynamic> json) {
+    return ExperimentReportState(
+      error: json['error'] != null
+          ? ExperimentReportError.fromJson(
+              json['error'] as Map<String, dynamic>)
+          : null,
+      reason: json['reason'] as String?,
+      status:
+          (json['status'] as String?)?.let(ExperimentReportStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (error != null) 'error': error,
+      if (reason != null) 'reason': reason,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+/// Describes the S3 destination for the report.
+class ExperimentReportS3Report {
+  /// The Amazon Resource Name (ARN) of the generated report.
+  final String? arn;
+
+  /// The report type for the experiment report.
+  final String? reportType;
+
+  ExperimentReportS3Report({
+    this.arn,
+    this.reportType,
+  });
+
+  factory ExperimentReportS3Report.fromJson(Map<String, dynamic> json) {
+    return ExperimentReportS3Report(
+      arn: json['arn'] as String?,
+      reportType: json['reportType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final reportType = this.reportType;
+    return {
+      if (arn != null) 'arn': arn,
+      if (reportType != null) 'reportType': reportType,
+    };
+  }
+}
+
+class ExperimentReportStatus {
+  static const pending = ExperimentReportStatus._('pending');
+  static const running = ExperimentReportStatus._('running');
+  static const completed = ExperimentReportStatus._('completed');
+  static const cancelled = ExperimentReportStatus._('cancelled');
+  static const failed = ExperimentReportStatus._('failed');
+
+  final String value;
+
+  const ExperimentReportStatus._(this.value);
+
+  static const values = [pending, running, completed, cancelled, failed];
+
+  static ExperimentReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperimentReportStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the error when experiment report generation has failed.
+class ExperimentReportError {
+  /// The error code for the failed experiment report generation.
+  final String? code;
+
+  ExperimentReportError({
+    this.code,
+  });
+
+  factory ExperimentReportError.fromJson(Map<String, dynamic> json) {
+    return ExperimentReportError(
+      code: json['code'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    return {
+      if (code != null) 'code': code,
+    };
+  }
+}
+
+/// Describes the output destinations of the experiment report.
+class ExperimentReportConfigurationOutputs {
+  /// The S3 destination for the experiment report.
+  final ExperimentReportConfigurationOutputsS3Configuration? s3Configuration;
+
+  ExperimentReportConfigurationOutputs({
+    this.s3Configuration,
+  });
+
+  factory ExperimentReportConfigurationOutputs.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentReportConfigurationOutputs(
+      s3Configuration: json['s3Configuration'] != null
+          ? ExperimentReportConfigurationOutputsS3Configuration.fromJson(
+              json['s3Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Configuration = this.s3Configuration;
+    return {
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// Describes the data sources for the experiment report.
+class ExperimentReportConfigurationDataSources {
+  /// The CloudWatch dashboards to include as data sources in the experiment
+  /// report.
+  final List<ExperimentReportConfigurationCloudWatchDashboard>?
+      cloudWatchDashboards;
+
+  ExperimentReportConfigurationDataSources({
+    this.cloudWatchDashboards,
+  });
+
+  factory ExperimentReportConfigurationDataSources.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentReportConfigurationDataSources(
+      cloudWatchDashboards: (json['cloudWatchDashboards'] as List?)
+          ?.nonNulls
+          .map((e) => ExperimentReportConfigurationCloudWatchDashboard.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchDashboards = this.cloudWatchDashboards;
+    return {
+      if (cloudWatchDashboards != null)
+        'cloudWatchDashboards': cloudWatchDashboards,
+    };
+  }
+}
+
+/// Specifies the CloudWatch dashboard to include in the experiment report. The
+/// dashboard widgets will be captured as snapshot graphs within the report.
+class ExperimentReportConfigurationCloudWatchDashboard {
+  /// The Amazon Resource Name (ARN) of the CloudWatch dashboard to include in the
+  /// experiment report.
+  final String? dashboardIdentifier;
+
+  ExperimentReportConfigurationCloudWatchDashboard({
+    this.dashboardIdentifier,
+  });
+
+  factory ExperimentReportConfigurationCloudWatchDashboard.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentReportConfigurationCloudWatchDashboard(
+      dashboardIdentifier: json['dashboardIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardIdentifier = this.dashboardIdentifier;
+    return {
+      if (dashboardIdentifier != null)
+        'dashboardIdentifier': dashboardIdentifier,
+    };
+  }
+}
+
+/// Specifies the S3 destination for the experiment report.
+class ExperimentReportConfigurationOutputsS3Configuration {
+  /// The name of the S3 bucket where the experiment report will be stored.
+  final String? bucketName;
+
+  /// The prefix of the S3 bucket where the experiment report will be stored.
+  final String? prefix;
+
+  ExperimentReportConfigurationOutputsS3Configuration({
+    this.bucketName,
+    this.prefix,
+  });
+
+  factory ExperimentReportConfigurationOutputsS3Configuration.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentReportConfigurationOutputsS3Configuration(
+      bucketName: json['bucketName'] as String?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+class ActionsMode {
+  static const skipAll = ActionsMode._('skip-all');
+  static const runAll = ActionsMode._('run-all');
+
+  final String value;
+
+  const ActionsMode._(this.value);
+
+  static const values = [skipAll, runAll];
+
+  static ActionsMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionsMode._(value));
+
+  @override
+  bool operator ==(other) => other is ActionsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the configuration for experiment logging to Amazon CloudWatch
+/// Logs.
+class ExperimentCloudWatchLogsLogConfiguration {
+  /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log
+  /// group.
+  final String? logGroupArn;
+
+  ExperimentCloudWatchLogsLogConfiguration({
+    this.logGroupArn,
+  });
+
+  factory ExperimentCloudWatchLogsLogConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentCloudWatchLogsLogConfiguration(
+      logGroupArn: json['logGroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupArn = this.logGroupArn;
+    return {
+      if (logGroupArn != null) 'logGroupArn': logGroupArn,
+    };
+  }
+}
+
+/// Describes the configuration for experiment logging to Amazon S3.
+class ExperimentS3LogConfiguration {
+  /// The name of the destination bucket.
+  final String? bucketName;
+
+  /// The bucket prefix.
+  final String? prefix;
+
+  ExperimentS3LogConfiguration({
+    this.bucketName,
+    this.prefix,
+  });
+
+  factory ExperimentS3LogConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExperimentS3LogConfiguration(
+      bucketName: json['bucketName'] as String?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// Describes the stop condition for an experiment.
+class ExperimentStopCondition {
+  /// The source for the stop condition.
+  final String? source;
+
+  /// The Amazon Resource Name (ARN) of the CloudWatch alarm, if applicable.
+  final String? value;
+
+  ExperimentStopCondition({
+    this.source,
+    this.value,
+  });
+
+  factory ExperimentStopCondition.fromJson(Map<String, dynamic> json) {
+    return ExperimentStopCondition(
+      source: json['source'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final value = this.value;
+    return {
+      if (source != null) 'source': source,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Describes the action for an experiment.
+class ExperimentAction {
+  /// The ID of the action.
+  final String? actionId;
+
+  /// The description for the action.
+  final String? description;
+
+  /// The time that the action ended.
+  final DateTime? endTime;
+
+  /// The parameters for the action.
+  final Map<String, String>? parameters;
+
+  /// The name of the action that must be completed before this action starts.
+  final List<String>? startAfter;
+
+  /// The time that the action started.
+  final DateTime? startTime;
+
+  /// The state of the action.
+  final ExperimentActionState? state;
+
+  /// The targets for the action.
+  final Map<String, String>? targets;
+
+  ExperimentAction({
+    this.actionId,
+    this.description,
+    this.endTime,
+    this.parameters,
+    this.startAfter,
+    this.startTime,
+    this.state,
+    this.targets,
+  });
+
+  factory ExperimentAction.fromJson(Map<String, dynamic> json) {
+    return ExperimentAction(
+      actionId: json['actionId'] as String?,
+      description: json['description'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      startAfter: (json['startAfter'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      startTime: timeStampFromJson(json['startTime']),
+      state: json['state'] != null
+          ? ExperimentActionState.fromJson(
+              json['state'] as Map<String, dynamic>)
+          : null,
+      targets: (json['targets'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final description = this.description;
+    final endTime = this.endTime;
+    final parameters = this.parameters;
+    final startAfter = this.startAfter;
+    final startTime = this.startTime;
+    final state = this.state;
+    final targets = this.targets;
+    return {
+      if (actionId != null) 'actionId': actionId,
+      if (description != null) 'description': description,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (parameters != null) 'parameters': parameters,
+      if (startAfter != null) 'startAfter': startAfter,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (state != null) 'state': state,
+      if (targets != null) 'targets': targets,
+    };
+  }
+}
+
+/// Describes the state of an action.
+class ExperimentActionState {
+  /// The reason for the state.
+  final String? reason;
+
+  /// The state of the action.
+  final ExperimentActionStatus? status;
+
+  ExperimentActionState({
+    this.reason,
+    this.status,
+  });
+
+  factory ExperimentActionState.fromJson(Map<String, dynamic> json) {
+    return ExperimentActionState(
+      reason: json['reason'] as String?,
+      status:
+          (json['status'] as String?)?.let(ExperimentActionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    return {
+      if (reason != null) 'reason': reason,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class ExperimentActionStatus {
+  static const pending = ExperimentActionStatus._('pending');
+  static const initiating = ExperimentActionStatus._('initiating');
+  static const running = ExperimentActionStatus._('running');
+  static const completed = ExperimentActionStatus._('completed');
+  static const cancelled = ExperimentActionStatus._('cancelled');
+  static const stopping = ExperimentActionStatus._('stopping');
+  static const stopped = ExperimentActionStatus._('stopped');
+  static const failed = ExperimentActionStatus._('failed');
+  static const skipped = ExperimentActionStatus._('skipped');
+
+  final String value;
+
+  const ExperimentActionStatus._(this.value);
+
+  static const values = [
+    pending,
+    initiating,
+    running,
+    completed,
+    cancelled,
+    stopping,
+    stopped,
+    failed,
+    skipped
+  ];
+
+  static ExperimentActionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperimentActionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExperimentActionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a target for an experiment.
+class ExperimentTarget {
+  /// The filters to apply to identify target resources using specific attributes.
+  final List<ExperimentTargetFilter>? filters;
+
+  /// The resource type parameters.
+  final Map<String, String>? parameters;
+
+  /// The Amazon Resource Names (ARNs) of the resources.
+  final List<String>? resourceArns;
+
+  /// The tags for the target resources.
+  final Map<String, String>? resourceTags;
+
+  /// The resource type.
+  final String? resourceType;
+
+  /// Scopes the identified resources to a specific count or percentage.
+  final String? selectionMode;
+
+  ExperimentTarget({
+    this.filters,
+    this.parameters,
+    this.resourceArns,
+    this.resourceTags,
+    this.resourceType,
+    this.selectionMode,
+  });
+
+  factory ExperimentTarget.fromJson(Map<String, dynamic> json) {
+    return ExperimentTarget(
+      filters: (json['filters'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ExperimentTargetFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      parameters: (json['parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceArns: (json['resourceArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resourceTags: (json['resourceTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceType: json['resourceType'] as String?,
+      selectionMode: json['selectionMode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    final parameters = this.parameters;
+    final resourceArns = this.resourceArns;
+    final resourceTags = this.resourceTags;
+    final resourceType = this.resourceType;
+    final selectionMode = this.selectionMode;
+    return {
+      if (filters != null) 'filters': filters,
+      if (parameters != null) 'parameters': parameters,
+      if (resourceArns != null) 'resourceArns': resourceArns,
+      if (resourceTags != null) 'resourceTags': resourceTags,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (selectionMode != null) 'selectionMode': selectionMode,
+    };
+  }
+}
+
+/// Describes a filter used for the target resources in an experiment.
+class ExperimentTargetFilter {
+  /// The attribute path for the filter.
+  final String? path;
+
+  /// The attribute values for the filter.
+  final List<String>? values;
+
+  ExperimentTargetFilter({
+    this.path,
+    this.values,
+  });
+
+  factory ExperimentTargetFilter.fromJson(Map<String, dynamic> json) {
+    return ExperimentTargetFilter(
+      path: json['path'] as String?,
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final values = this.values;
+    return {
+      if (path != null) 'path': path,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+class ExperimentStatus {
+  static const pending = ExperimentStatus._('pending');
+  static const initiating = ExperimentStatus._('initiating');
+  static const running = ExperimentStatus._('running');
+  static const completed = ExperimentStatus._('completed');
+  static const stopping = ExperimentStatus._('stopping');
+  static const stopped = ExperimentStatus._('stopped');
+  static const failed = ExperimentStatus._('failed');
+  static const cancelled = ExperimentStatus._('cancelled');
+
+  final String value;
+
+  const ExperimentStatus._(this.value);
+
+  static const values = [
+    pending,
+    initiating,
+    running,
+    completed,
+    stopping,
+    stopped,
+    failed,
+    cancelled
+  ];
+
+  static ExperimentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExperimentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ExperimentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the error when an experiment has <code>failed</code>.
+class ExperimentError {
+  /// The Amazon Web Services Account ID where the experiment failure occurred.
+  final String? accountId;
+
+  /// The error code for the failed experiment.
+  final String? code;
+
+  /// Context for the section of the experiment template that failed.
+  final String? location;
+
+  ExperimentError({
+    this.accountId,
+    this.code,
+    this.location,
+  });
+
+  factory ExperimentError.fromJson(Map<String, dynamic> json) {
+    return ExperimentError(
+      accountId: json['accountId'] as String?,
+      code: json['code'] as String?,
+      location: json['location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final code = this.code;
+    final location = this.location;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (code != null) 'code': code,
+      if (location != null) 'location': location,
+    };
+  }
+}
+
 /// Specifies experiment options for running an experiment.
 class StartExperimentExperimentOptionsInput {
   /// Specifies the actions mode for experiment options.
@@ -3465,99 +3892,32 @@ class StartExperimentExperimentOptionsInput {
   }
 }
 
-class StartExperimentResponse {
-  /// Information about the experiment.
-  final Experiment? experiment;
-
-  StartExperimentResponse({
-    this.experiment,
-  });
-
-  factory StartExperimentResponse.fromJson(Map<String, dynamic> json) {
-    return StartExperimentResponse(
-      experiment: json['experiment'] != null
-          ? Experiment.fromJson(json['experiment'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final experiment = this.experiment;
-    return {
-      if (experiment != null) 'experiment': experiment,
-    };
-  }
-}
-
-class StopExperimentResponse {
-  /// Information about the experiment.
-  final Experiment? experiment;
-
-  StopExperimentResponse({
-    this.experiment,
-  });
-
-  factory StopExperimentResponse.fromJson(Map<String, dynamic> json) {
-    return StopExperimentResponse(
-      experiment: json['experiment'] != null
-          ? Experiment.fromJson(json['experiment'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final experiment = this.experiment;
-    return {
-      if (experiment != null) 'experiment': experiment,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Describes a target account configuration.
-class TargetAccountConfiguration {
-  /// The Amazon Web Services account ID of the target account.
-  final String? accountId;
-
-  /// The description of the target account.
+/// Describes a resource type.
+class TargetResourceTypeSummary {
+  /// A description of the resource type.
   final String? description;
 
-  /// The Amazon Resource Name (ARN) of an IAM role for the target account.
-  final String? roleArn;
+  /// The resource type.
+  final String? resourceType;
 
-  TargetAccountConfiguration({
-    this.accountId,
+  TargetResourceTypeSummary({
     this.description,
-    this.roleArn,
+    this.resourceType,
   });
 
-  factory TargetAccountConfiguration.fromJson(Map<String, dynamic> json) {
-    return TargetAccountConfiguration(
-      accountId: json['accountId'] as String?,
+  factory TargetResourceTypeSummary.fromJson(Map<String, dynamic> json) {
+    return TargetResourceTypeSummary(
       description: json['description'] as String?,
-      roleArn: json['roleArn'] as String?,
+      resourceType: json['resourceType'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
     final description = this.description;
-    final roleArn = this.roleArn;
+    final resourceType = this.resourceType;
     return {
-      if (accountId != null) 'accountId': accountId,
       if (description != null) 'description': description,
-      if (roleArn != null) 'roleArn': roleArn,
+      if (resourceType != null) 'resourceType': resourceType,
     };
   }
 }
@@ -3596,6 +3956,292 @@ class TargetAccountConfigurationSummary {
       if (accountId != null) 'accountId': accountId,
       if (description != null) 'description': description,
       if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
+}
+
+/// Provides a summary of an experiment template.
+class ExperimentTemplateSummary {
+  /// The Amazon Resource Name (ARN) of the experiment template.
+  final String? arn;
+
+  /// The time that the experiment template was created.
+  final DateTime? creationTime;
+
+  /// The description of the experiment template.
+  final String? description;
+
+  /// The ID of the experiment template.
+  final String? id;
+
+  /// The time that the experiment template was last updated.
+  final DateTime? lastUpdateTime;
+
+  /// The tags for the experiment template.
+  final Map<String, String>? tags;
+
+  ExperimentTemplateSummary({
+    this.arn,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.lastUpdateTime,
+    this.tags,
+  });
+
+  factory ExperimentTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return ExperimentTemplateSummary(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdateTime = this.lastUpdateTime;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Provides a summary of a target account configuration.
+class ExperimentTargetAccountConfigurationSummary {
+  /// The Amazon Web Services account ID of the target account.
+  final String? accountId;
+
+  /// The description of the target account.
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+  final String? roleArn;
+
+  ExperimentTargetAccountConfigurationSummary({
+    this.accountId,
+    this.description,
+    this.roleArn,
+  });
+
+  factory ExperimentTargetAccountConfigurationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTargetAccountConfigurationSummary(
+      accountId: json['accountId'] as String?,
+      description: json['description'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final description = this.description;
+    final roleArn = this.roleArn;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (description != null) 'description': description,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
+}
+
+/// Provides a summary of an experiment.
+class ExperimentSummary {
+  /// The Amazon Resource Name (ARN) of the experiment.
+  final String? arn;
+
+  /// The time that the experiment was created.
+  final DateTime? creationTime;
+
+  /// The experiment options for the experiment.
+  final ExperimentOptions? experimentOptions;
+
+  /// The ID of the experiment template.
+  final String? experimentTemplateId;
+
+  /// The ID of the experiment.
+  final String? id;
+
+  /// The state of the experiment.
+  final ExperimentState? state;
+
+  /// The tags for the experiment.
+  final Map<String, String>? tags;
+
+  ExperimentSummary({
+    this.arn,
+    this.creationTime,
+    this.experimentOptions,
+    this.experimentTemplateId,
+    this.id,
+    this.state,
+    this.tags,
+  });
+
+  factory ExperimentSummary.fromJson(Map<String, dynamic> json) {
+    return ExperimentSummary(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      experimentOptions: json['experimentOptions'] != null
+          ? ExperimentOptions.fromJson(
+              json['experimentOptions'] as Map<String, dynamic>)
+          : null,
+      experimentTemplateId: json['experimentTemplateId'] as String?,
+      id: json['id'] as String?,
+      state: json['state'] != null
+          ? ExperimentState.fromJson(json['state'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final experimentOptions = this.experimentOptions;
+    final experimentTemplateId = this.experimentTemplateId;
+    final id = this.id;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (experimentOptions != null) 'experimentOptions': experimentOptions,
+      if (experimentTemplateId != null)
+        'experimentTemplateId': experimentTemplateId,
+      if (id != null) 'id': id,
+      if (state != null) 'state': state,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Describes a resolved target.
+class ResolvedTarget {
+  /// The resource type of the target.
+  final String? resourceType;
+
+  /// Information about the target.
+  final Map<String, String>? targetInformation;
+
+  /// The name of the target.
+  final String? targetName;
+
+  ResolvedTarget({
+    this.resourceType,
+    this.targetInformation,
+    this.targetName,
+  });
+
+  factory ResolvedTarget.fromJson(Map<String, dynamic> json) {
+    return ResolvedTarget(
+      resourceType: json['resourceType'] as String?,
+      targetInformation: (json['targetInformation'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targetName: json['targetName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    final targetInformation = this.targetInformation;
+    final targetName = this.targetName;
+    return {
+      if (resourceType != null) 'resourceType': resourceType,
+      if (targetInformation != null) 'targetInformation': targetInformation,
+      if (targetName != null) 'targetName': targetName,
+    };
+  }
+}
+
+/// Provides a summary of an action.
+class ActionSummary {
+  /// The Amazon Resource Name (ARN) of the action.
+  final String? arn;
+
+  /// The description for the action.
+  final String? description;
+
+  /// The ID of the action.
+  final String? id;
+
+  /// The tags for the action.
+  final Map<String, String>? tags;
+
+  /// The targets for the action.
+  final Map<String, ActionTarget>? targets;
+
+  ActionSummary({
+    this.arn,
+    this.description,
+    this.id,
+    this.tags,
+    this.targets,
+  });
+
+  factory ActionSummary.fromJson(Map<String, dynamic> json) {
+    return ActionSummary(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targets: (json['targets'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ActionTarget.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final tags = this.tags;
+    final targets = this.targets;
+    return {
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (tags != null) 'tags': tags,
+      if (targets != null) 'targets': targets,
+    };
+  }
+}
+
+/// Describes a target for an action.
+class ActionTarget {
+  /// The resource type of the target.
+  final String? resourceType;
+
+  ActionTarget({
+    this.resourceType,
+  });
+
+  factory ActionTarget.fromJson(Map<String, dynamic> json) {
+    return ActionTarget(
+      resourceType: json['resourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    return {
+      if (resourceType != null) 'resourceType': resourceType,
     };
   }
 }
@@ -3670,52 +4316,240 @@ class TargetResourceTypeParameter {
   }
 }
 
-/// Describes a resource type.
-class TargetResourceTypeSummary {
-  /// A description of the resource type.
+/// Describes a target account configuration for an experiment.
+class ExperimentTargetAccountConfiguration {
+  /// The Amazon Web Services account ID of the target account.
+  final String? accountId;
+
+  /// The description of the target account.
   final String? description;
 
-  /// The resource type.
-  final String? resourceType;
+  /// The Amazon Resource Name (ARN) of an IAM role for the target account.
+  final String? roleArn;
 
-  TargetResourceTypeSummary({
+  ExperimentTargetAccountConfiguration({
+    this.accountId,
     this.description,
-    this.resourceType,
+    this.roleArn,
   });
 
-  factory TargetResourceTypeSummary.fromJson(Map<String, dynamic> json) {
-    return TargetResourceTypeSummary(
+  factory ExperimentTargetAccountConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ExperimentTargetAccountConfiguration(
+      accountId: json['accountId'] as String?,
       description: json['description'] as String?,
-      resourceType: json['resourceType'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final description = this.description;
+    final roleArn = this.roleArn;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (description != null) 'description': description,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
+}
+
+/// Describes an action. For more information, see <a
+/// href="https://docs.aws.amazon.com/fis/latest/userguide/fis-actions-reference.html">FIS
+/// actions</a> in the <i>Fault Injection Service User Guide</i>.
+class Action {
+  /// The Amazon Resource Name (ARN) of the action.
+  final String? arn;
+
+  /// The description for the action.
+  final String? description;
+
+  /// The ID of the action.
+  final String? id;
+
+  /// The action parameters, if applicable.
+  final Map<String, ActionParameter>? parameters;
+
+  /// The tags for the action.
+  final Map<String, String>? tags;
+
+  /// The supported targets for the action.
+  final Map<String, ActionTarget>? targets;
+
+  Action({
+    this.arn,
+    this.description,
+    this.id,
+    this.parameters,
+    this.tags,
+    this.targets,
+  });
+
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      parameters: (json['parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ActionParameter.fromJson(e as Map<String, dynamic>))),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targets: (json['targets'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, ActionTarget.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final id = this.id;
+    final parameters = this.parameters;
+    final tags = this.tags;
+    final targets = this.targets;
+    return {
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (parameters != null) 'parameters': parameters,
+      if (tags != null) 'tags': tags,
+      if (targets != null) 'targets': targets,
+    };
+  }
+}
+
+/// Describes a parameter for an action.
+class ActionParameter {
+  /// The parameter description.
+  final String? description;
+
+  /// Indicates whether the parameter is required.
+  final bool? required;
+
+  ActionParameter({
+    this.description,
+    this.required,
+  });
+
+  factory ActionParameter.fromJson(Map<String, dynamic> json) {
+    return ActionParameter(
+      description: json['description'] as String?,
+      required: json['required'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final description = this.description;
-    final resourceType = this.resourceType;
+    final required = this.required;
     return {
       if (description != null) 'description': description,
-      if (resourceType != null) 'resourceType': resourceType,
+      if (required != null) 'required': required,
     };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// Specifies the configuration for experiment logging.
+class CreateExperimentTemplateLogConfigurationInput {
+  /// The schema version.
+  final int logSchemaVersion;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  /// The configuration for experiment logging to Amazon CloudWatch Logs.
+  final ExperimentTemplateCloudWatchLogsLogConfigurationInput?
+      cloudWatchLogsConfiguration;
+
+  /// The configuration for experiment logging to Amazon S3.
+  final ExperimentTemplateS3LogConfigurationInput? s3Configuration;
+
+  CreateExperimentTemplateLogConfigurationInput({
+    required this.logSchemaVersion,
+    this.cloudWatchLogsConfiguration,
+    this.s3Configuration,
+  });
 
   Map<String, dynamic> toJson() {
-    return {};
+    final logSchemaVersion = this.logSchemaVersion;
+    final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
+    final s3Configuration = this.s3Configuration;
+    return {
+      'logSchemaVersion': logSchemaVersion,
+      if (cloudWatchLogsConfiguration != null)
+        'cloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
+      if (s3Configuration != null) 's3Configuration': s3Configuration,
+    };
+  }
+}
+
+/// Specifies experiment options for an experiment template.
+class CreateExperimentTemplateExperimentOptionsInput {
+  /// Specifies the account targeting setting for experiment options.
+  final AccountTargeting? accountTargeting;
+
+  /// Specifies the empty target resolution mode for experiment options.
+  final EmptyTargetResolutionMode? emptyTargetResolutionMode;
+
+  CreateExperimentTemplateExperimentOptionsInput({
+    this.accountTargeting,
+    this.emptyTargetResolutionMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountTargeting = this.accountTargeting;
+    final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
+    return {
+      if (accountTargeting != null) 'accountTargeting': accountTargeting.value,
+      if (emptyTargetResolutionMode != null)
+        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
+    };
+  }
+}
+
+/// Specifies the configuration for experiment reports.
+class CreateExperimentTemplateReportConfigurationInput {
+  /// The data sources for the experiment report.
+  final ExperimentTemplateReportConfigurationDataSourcesInput? dataSources;
+
+  /// The output destinations of the experiment report.
+  final ExperimentTemplateReportConfigurationOutputsInput? outputs;
+
+  /// The duration after the experiment end time for the data sources to include
+  /// in the report.
+  final String? postExperimentDuration;
+
+  /// The duration before the experiment start time for the data sources to
+  /// include in the report.
+  final String? preExperimentDuration;
+
+  CreateExperimentTemplateReportConfigurationInput({
+    this.dataSources,
+    this.outputs,
+    this.postExperimentDuration,
+    this.preExperimentDuration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataSources = this.dataSources;
+    final outputs = this.outputs;
+    final postExperimentDuration = this.postExperimentDuration;
+    final preExperimentDuration = this.preExperimentDuration;
+    return {
+      if (dataSources != null) 'dataSources': dataSources,
+      if (outputs != null) 'outputs': outputs,
+      if (postExperimentDuration != null)
+        'postExperimentDuration': postExperimentDuration,
+      if (preExperimentDuration != null)
+        'preExperimentDuration': preExperimentDuration,
+    };
   }
 }
 
 /// Specifies an action for an experiment template.
-class UpdateExperimentTemplateActionInputItem {
-  /// The ID of the action.
-  final String? actionId;
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/fis/latest/userguide/actions.html">Actions</a>
+/// in the <i>Fault Injection Service User Guide</i>.
+class CreateExperimentTemplateActionInput {
+  /// The ID of the action. The format of the action ID is:
+  /// aws:<i>service-name</i>:<i>action-type</i>.
+  final String actionId;
 
   /// A description for the action.
   final String? description;
@@ -3731,8 +4565,8 @@ class UpdateExperimentTemplateActionInputItem {
   /// The targets for the action.
   final Map<String, String>? targets;
 
-  UpdateExperimentTemplateActionInputItem({
-    this.actionId,
+  CreateExperimentTemplateActionInput({
+    required this.actionId,
     this.description,
     this.parameters,
     this.startAfter,
@@ -3746,7 +4580,7 @@ class UpdateExperimentTemplateActionInputItem {
     final startAfter = this.startAfter;
     final targets = this.targets;
     return {
-      if (actionId != null) 'actionId': actionId,
+      'actionId': actionId,
       if (description != null) 'description': description,
       if (parameters != null) 'parameters': parameters,
       if (startAfter != null) 'startAfter': startAfter,
@@ -3755,114 +4589,37 @@ class UpdateExperimentTemplateActionInputItem {
   }
 }
 
-/// Specifies an experiment option for an experiment template.
-class UpdateExperimentTemplateExperimentOptionsInput {
-  /// The empty target resolution mode of the experiment template.
-  final EmptyTargetResolutionMode? emptyTargetResolutionMode;
-
-  UpdateExperimentTemplateExperimentOptionsInput({
-    this.emptyTargetResolutionMode,
-  });
-
-  Map<String, dynamic> toJson() {
-    final emptyTargetResolutionMode = this.emptyTargetResolutionMode;
-    return {
-      if (emptyTargetResolutionMode != null)
-        'emptyTargetResolutionMode': emptyTargetResolutionMode.value,
-    };
-  }
-}
-
-/// Specifies the configuration for experiment logging.
-class UpdateExperimentTemplateLogConfigurationInput {
-  /// The configuration for experiment logging to Amazon CloudWatch Logs.
-  final ExperimentTemplateCloudWatchLogsLogConfigurationInput?
-      cloudWatchLogsConfiguration;
-
-  /// The schema version.
-  final int? logSchemaVersion;
-
-  /// The configuration for experiment logging to Amazon S3.
-  final ExperimentTemplateS3LogConfigurationInput? s3Configuration;
-
-  UpdateExperimentTemplateLogConfigurationInput({
-    this.cloudWatchLogsConfiguration,
-    this.logSchemaVersion,
-    this.s3Configuration,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogsConfiguration = this.cloudWatchLogsConfiguration;
-    final logSchemaVersion = this.logSchemaVersion;
-    final s3Configuration = this.s3Configuration;
-    return {
-      if (cloudWatchLogsConfiguration != null)
-        'cloudWatchLogsConfiguration': cloudWatchLogsConfiguration,
-      if (logSchemaVersion != null) 'logSchemaVersion': logSchemaVersion,
-      if (s3Configuration != null) 's3Configuration': s3Configuration,
-    };
-  }
-}
-
-class UpdateExperimentTemplateResponse {
-  /// Information about the experiment template.
-  final ExperimentTemplate? experimentTemplate;
-
-  UpdateExperimentTemplateResponse({
-    this.experimentTemplate,
-  });
-
-  factory UpdateExperimentTemplateResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateExperimentTemplateResponse(
-      experimentTemplate: json['experimentTemplate'] != null
-          ? ExperimentTemplate.fromJson(
-              json['experimentTemplate'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final experimentTemplate = this.experimentTemplate;
-    return {
-      if (experimentTemplate != null) 'experimentTemplate': experimentTemplate,
-    };
-  }
-}
-
-/// Specifies a stop condition for an experiment. You can define a stop
-/// condition as a CloudWatch alarm.
-class UpdateExperimentTemplateStopConditionInput {
-  /// The source for the stop condition. Specify <code>aws:cloudwatch:alarm</code>
-  /// if the stop condition is defined by a CloudWatch alarm. Specify
-  /// <code>none</code> if there is no stop condition.
-  final String source;
-
-  /// The Amazon Resource Name (ARN) of the CloudWatch alarm.
-  final String? value;
-
-  UpdateExperimentTemplateStopConditionInput({
-    required this.source,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    final value = this.value;
-    return {
-      'source': source,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
 /// Specifies a target for an experiment. You must specify at least one Amazon
-/// Resource Name (ARN) or at least one resource tag. You cannot specify both.
-class UpdateExperimentTemplateTargetInput {
+/// Resource Name (ARN) or at least one resource tag. You cannot specify both
+/// ARNs and tags.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/fis/latest/userguide/targets.html">Targets</a>
+/// in the <i>Fault Injection Service User Guide</i>.
+class CreateExperimentTemplateTargetInput {
   /// The resource type. The resource type must be supported for the specified
   /// action.
   final String resourceType;
 
-  /// Scopes the identified resources to a specific count or percentage.
+  /// Scopes the identified resources to a specific count of the resources at
+  /// random, or a percentage of the resources. All identified resources are
+  /// included in the target.
+  ///
+  /// <ul>
+  /// <li>
+  /// ALL - Run the action on all identified targets. This is the default.
+  /// </li>
+  /// <li>
+  /// COUNT(n) - Run the action on the specified number of targets, chosen from
+  /// the identified targets at random. For example, COUNT(1) selects one of the
+  /// targets.
+  /// </li>
+  /// <li>
+  /// PERCENT(n) - Run the action on the specified percentage of targets, chosen
+  /// from the identified targets at random. For example, PERCENT(25) selects 25%
+  /// of the targets.
+  /// </li>
+  /// </ul>
   final String selectionMode;
 
   /// The filters to apply to identify target resources using specific attributes.
@@ -3871,13 +4628,13 @@ class UpdateExperimentTemplateTargetInput {
   /// The resource type parameters.
   final Map<String, String>? parameters;
 
-  /// The Amazon Resource Names (ARNs) of the targets.
+  /// The Amazon Resource Names (ARNs) of the resources.
   final List<String>? resourceArns;
 
   /// The tags for the target resources.
   final Map<String, String>? resourceTags;
 
-  UpdateExperimentTemplateTargetInput({
+  CreateExperimentTemplateTargetInput({
     required this.resourceType,
     required this.selectionMode,
     this.filters,
@@ -3904,76 +4661,28 @@ class UpdateExperimentTemplateTargetInput {
   }
 }
 
-/// Specifies a state for a safety lever.
-class UpdateSafetyLeverStateInput {
-  /// The reason for updating the state of the safety lever.
-  final String reason;
+/// Specifies a stop condition for an experiment template.
+class CreateExperimentTemplateStopConditionInput {
+  /// The source for the stop condition. Specify <code>aws:cloudwatch:alarm</code>
+  /// if the stop condition is defined by a CloudWatch alarm. Specify
+  /// <code>none</code> if there is no stop condition.
+  final String source;
 
-  /// The updated state of the safety lever.
-  final SafetyLeverStatusInput status;
+  /// The Amazon Resource Name (ARN) of the CloudWatch alarm. This is required if
+  /// the source is a CloudWatch alarm.
+  final String? value;
 
-  UpdateSafetyLeverStateInput({
-    required this.reason,
-    required this.status,
+  CreateExperimentTemplateStopConditionInput({
+    required this.source,
+    this.value,
   });
 
   Map<String, dynamic> toJson() {
-    final reason = this.reason;
-    final status = this.status;
+    final source = this.source;
+    final value = this.value;
     return {
-      'reason': reason,
-      'status': status.value,
-    };
-  }
-}
-
-class UpdateSafetyLeverStateResponse {
-  /// Information about the safety lever.
-  final SafetyLever? safetyLever;
-
-  UpdateSafetyLeverStateResponse({
-    this.safetyLever,
-  });
-
-  factory UpdateSafetyLeverStateResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateSafetyLeverStateResponse(
-      safetyLever: json['safetyLever'] != null
-          ? SafetyLever.fromJson(json['safetyLever'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final safetyLever = this.safetyLever;
-    return {
-      if (safetyLever != null) 'safetyLever': safetyLever,
-    };
-  }
-}
-
-class UpdateTargetAccountConfigurationResponse {
-  /// Information about the target account configuration.
-  final TargetAccountConfiguration? targetAccountConfiguration;
-
-  UpdateTargetAccountConfigurationResponse({
-    this.targetAccountConfiguration,
-  });
-
-  factory UpdateTargetAccountConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateTargetAccountConfigurationResponse(
-      targetAccountConfiguration: json['targetAccountConfiguration'] != null
-          ? TargetAccountConfiguration.fromJson(
-              json['targetAccountConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetAccountConfiguration = this.targetAccountConfiguration;
-    return {
-      if (targetAccountConfiguration != null)
-        'targetAccountConfiguration': targetAccountConfiguration,
+      'source': source,
+      if (value != null) 'value': value,
     };
   }
 }

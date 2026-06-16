@@ -41,7 +41,6 @@ class ManagedBlockchainQuery {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'managedblockchain-query',
-            signingName: 'managedblockchain-query',
           ),
           region: region,
           credentials: credentials,
@@ -65,12 +64,12 @@ class ManagedBlockchainQuery {
   /// token standards are supported.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [getTokenBalanceInputs] :
   /// An array of <code>BatchGetTokenBalanceInputItem</code> objects whose
@@ -104,12 +103,12 @@ class ManagedBlockchainQuery {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [contractIdentifier] :
   /// Contains the blockchain address and network information about the
@@ -136,12 +135,12 @@ class ManagedBlockchainQuery {
   /// token standards are supported.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [ownerIdentifier] :
   /// The container for the identifier for the owner.
@@ -183,12 +182,12 @@ class ManagedBlockchainQuery {
   /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality">finality</a>.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [network] :
   /// The blockchain network where the transaction occurred.
@@ -226,11 +225,11 @@ class ManagedBlockchainQuery {
   ///
   /// The Bitcoin blockchain networks do not support this operation.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [contractFilter] :
   /// Contains the filter parameter for the request.
@@ -255,12 +254,6 @@ class ManagedBlockchainQuery {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      250,
-    );
     final $payload = <String, dynamic>{
       'contractFilter': contractFilter,
       if (maxResults != null) 'maxResults': maxResults,
@@ -280,11 +273,11 @@ class ManagedBlockchainQuery {
   /// This operation is only supported on the Bitcoin networks.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [addressIdentifierFilter] :
   /// This is the unique public address on the blockchain for which the
@@ -331,12 +324,6 @@ class ManagedBlockchainQuery {
     TimeFilter? timeFilter,
     VoutFilter? voutFilter,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      250,
-    );
     final $payload = <String, dynamic>{
       'addressIdentifierFilter': addressIdentifierFilter,
       'network': network,
@@ -375,11 +362,11 @@ class ManagedBlockchainQuery {
   /// <code>tokenFilter</code> when using this operation.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [tokenFilter] :
   /// The contract address or a token identifier on the blockchain network by
@@ -418,12 +405,6 @@ class ManagedBlockchainQuery {
     String? nextToken,
     OwnerFilter? ownerFilter,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      250,
-    );
     final $payload = <String, dynamic>{
       'tokenFilter': tokenFilter,
       if (maxResults != null) 'maxResults': maxResults,
@@ -446,11 +427,11 @@ class ManagedBlockchainQuery {
   /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality">finality</a>.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [network] :
   /// The blockchain network where the transaction events occurred.
@@ -487,12 +468,6 @@ class ManagedBlockchainQuery {
     String? transactionHash,
     String? transactionId,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      250,
-    );
     final $payload = <String, dynamic>{
       'network': network.value,
       if (maxResults != null) 'maxResults': maxResults,
@@ -511,11 +486,11 @@ class ManagedBlockchainQuery {
 
   /// Lists all the transaction events for a transaction.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [address] :
   /// The address (either a contract or wallet), whose transactions are being
@@ -559,12 +534,6 @@ class ManagedBlockchainQuery {
     ListTransactionsSort? sort,
     BlockchainInstant? toBlockchainInstant,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      250,
-    );
     final $payload = <String, dynamic>{
       'address': address,
       'network': network.value,
@@ -585,151 +554,6 @@ class ManagedBlockchainQuery {
       exceptionFnMap: _exceptionFns,
     );
     return ListTransactionsOutput.fromJson(response);
-  }
-}
-
-/// This is the container for the unique public address on the blockchain.
-class AddressIdentifierFilter {
-  /// The container for the recipient address of the transaction.
-  final List<String> transactionEventToAddress;
-
-  AddressIdentifierFilter({
-    required this.transactionEventToAddress,
-  });
-
-  Map<String, dynamic> toJson() {
-    final transactionEventToAddress = this.transactionEventToAddress;
-    return {
-      'transactionEventToAddress': transactionEventToAddress,
-    };
-  }
-}
-
-/// This container contains information about an contract.
-class AssetContract {
-  /// The container for the contract identifier containing its blockchain network
-  /// and address.
-  final ContractIdentifier contractIdentifier;
-
-  /// The address of the contract deployer.
-  final String deployerAddress;
-
-  /// The token standard of the contract.
-  final QueryTokenStandard tokenStandard;
-
-  AssetContract({
-    required this.contractIdentifier,
-    required this.deployerAddress,
-    required this.tokenStandard,
-  });
-
-  factory AssetContract.fromJson(Map<String, dynamic> json) {
-    return AssetContract(
-      contractIdentifier: ContractIdentifier.fromJson(
-          (json['contractIdentifier'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      deployerAddress: (json['deployerAddress'] as String?) ?? '',
-      tokenStandard: QueryTokenStandard.fromString(
-          (json['tokenStandard'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contractIdentifier = this.contractIdentifier;
-    final deployerAddress = this.deployerAddress;
-    final tokenStandard = this.tokenStandard;
-    return {
-      'contractIdentifier': contractIdentifier,
-      'deployerAddress': deployerAddress,
-      'tokenStandard': tokenStandard.value,
-    };
-  }
-}
-
-/// Error generated from a failed <code>BatchGetTokenBalance</code> request.
-class BatchGetTokenBalanceErrorItem {
-  /// The error code associated with the error.
-  final String errorCode;
-
-  /// The message associated with the error.
-  final String errorMessage;
-
-  /// The type of error.
-  final ErrorType errorType;
-  final BlockchainInstant? atBlockchainInstant;
-  final OwnerIdentifier? ownerIdentifier;
-  final TokenIdentifier? tokenIdentifier;
-
-  BatchGetTokenBalanceErrorItem({
-    required this.errorCode,
-    required this.errorMessage,
-    required this.errorType,
-    this.atBlockchainInstant,
-    this.ownerIdentifier,
-    this.tokenIdentifier,
-  });
-
-  factory BatchGetTokenBalanceErrorItem.fromJson(Map<String, dynamic> json) {
-    return BatchGetTokenBalanceErrorItem(
-      errorCode: (json['errorCode'] as String?) ?? '',
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-      errorType: ErrorType.fromString((json['errorType'] as String?) ?? ''),
-      atBlockchainInstant: json['atBlockchainInstant'] != null
-          ? BlockchainInstant.fromJson(
-              json['atBlockchainInstant'] as Map<String, dynamic>)
-          : null,
-      ownerIdentifier: json['ownerIdentifier'] != null
-          ? OwnerIdentifier.fromJson(
-              json['ownerIdentifier'] as Map<String, dynamic>)
-          : null,
-      tokenIdentifier: json['tokenIdentifier'] != null
-          ? TokenIdentifier.fromJson(
-              json['tokenIdentifier'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final errorType = this.errorType;
-    final atBlockchainInstant = this.atBlockchainInstant;
-    final ownerIdentifier = this.ownerIdentifier;
-    final tokenIdentifier = this.tokenIdentifier;
-    return {
-      'errorCode': errorCode,
-      'errorMessage': errorMessage,
-      'errorType': errorType.value,
-      if (atBlockchainInstant != null)
-        'atBlockchainInstant': atBlockchainInstant,
-      if (ownerIdentifier != null) 'ownerIdentifier': ownerIdentifier,
-      if (tokenIdentifier != null) 'tokenIdentifier': tokenIdentifier,
-    };
-  }
-}
-
-/// The container for the input for getting a token balance.
-class BatchGetTokenBalanceInputItem {
-  final OwnerIdentifier ownerIdentifier;
-  final TokenIdentifier tokenIdentifier;
-  final BlockchainInstant? atBlockchainInstant;
-
-  BatchGetTokenBalanceInputItem({
-    required this.ownerIdentifier,
-    required this.tokenIdentifier,
-    this.atBlockchainInstant,
-  });
-
-  Map<String, dynamic> toJson() {
-    final ownerIdentifier = this.ownerIdentifier;
-    final tokenIdentifier = this.tokenIdentifier;
-    final atBlockchainInstant = this.atBlockchainInstant;
-    return {
-      'ownerIdentifier': ownerIdentifier,
-      'tokenIdentifier': tokenIdentifier,
-      if (atBlockchainInstant != null)
-        'atBlockchainInstant': atBlockchainInstant,
-    };
   }
 }
 
@@ -770,280 +594,6 @@ class BatchGetTokenBalanceOutput {
       'tokenBalances': tokenBalances,
     };
   }
-}
-
-/// The container for the properties of a token balance output.
-class BatchGetTokenBalanceOutputItem {
-  final BlockchainInstant atBlockchainInstant;
-
-  /// The container for the token balance.
-  final String balance;
-  final BlockchainInstant? lastUpdatedTime;
-  final OwnerIdentifier? ownerIdentifier;
-  final TokenIdentifier? tokenIdentifier;
-
-  BatchGetTokenBalanceOutputItem({
-    required this.atBlockchainInstant,
-    required this.balance,
-    this.lastUpdatedTime,
-    this.ownerIdentifier,
-    this.tokenIdentifier,
-  });
-
-  factory BatchGetTokenBalanceOutputItem.fromJson(Map<String, dynamic> json) {
-    return BatchGetTokenBalanceOutputItem(
-      atBlockchainInstant: BlockchainInstant.fromJson(
-          (json['atBlockchainInstant'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      balance: (json['balance'] as String?) ?? '',
-      lastUpdatedTime: json['lastUpdatedTime'] != null
-          ? BlockchainInstant.fromJson(
-              json['lastUpdatedTime'] as Map<String, dynamic>)
-          : null,
-      ownerIdentifier: json['ownerIdentifier'] != null
-          ? OwnerIdentifier.fromJson(
-              json['ownerIdentifier'] as Map<String, dynamic>)
-          : null,
-      tokenIdentifier: json['tokenIdentifier'] != null
-          ? TokenIdentifier.fromJson(
-              json['tokenIdentifier'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final atBlockchainInstant = this.atBlockchainInstant;
-    final balance = this.balance;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final ownerIdentifier = this.ownerIdentifier;
-    final tokenIdentifier = this.tokenIdentifier;
-    return {
-      'atBlockchainInstant': atBlockchainInstant,
-      'balance': balance,
-      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
-      if (ownerIdentifier != null) 'ownerIdentifier': ownerIdentifier,
-      if (tokenIdentifier != null) 'tokenIdentifier': tokenIdentifier,
-    };
-  }
-}
-
-/// The container for time.
-class BlockchainInstant {
-  /// The container of the <code>Timestamp</code> of the blockchain instant.
-  /// <note>
-  /// This <code>timestamp</code> will only be recorded up to the second.
-  /// </note>
-  final DateTime? time;
-
-  BlockchainInstant({
-    this.time,
-  });
-
-  factory BlockchainInstant.fromJson(Map<String, dynamic> json) {
-    return BlockchainInstant(
-      time: timeStampFromJson(json['time']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final time = this.time;
-    return {
-      if (time != null) 'time': unixTimestampToJson(time),
-    };
-  }
-}
-
-class ConfirmationStatus {
-  static const $final = ConfirmationStatus._('FINAL');
-  static const nonfinal = ConfirmationStatus._('NONFINAL');
-
-  final String value;
-
-  const ConfirmationStatus._(this.value);
-
-  static const values = [$final, nonfinal];
-
-  static ConfirmationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfirmationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfirmationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The container for the <code>ConfirmationStatusFilter</code> that filters for
-/// the <a
-/// href="https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality">
-/// <i>finality</i> </a> of the results.
-class ConfirmationStatusFilter {
-  /// The container to determine whether to list results that have only reached <a
-  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality">
-  /// <i>finality</i> </a>. Transactions that have reached finality are always
-  /// part of the response.
-  final List<ConfirmationStatus> include;
-
-  ConfirmationStatusFilter({
-    required this.include,
-  });
-
-  Map<String, dynamic> toJson() {
-    final include = this.include;
-    return {
-      'include': include.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// The contract or wallet address by which to filter the request.
-class ContractFilter {
-  /// The network address of the deployer.
-  final String deployerAddress;
-
-  /// The blockchain network of the contract.
-  final QueryNetwork network;
-
-  /// The container for the token standard.
-  final QueryTokenStandard tokenStandard;
-
-  ContractFilter({
-    required this.deployerAddress,
-    required this.network,
-    required this.tokenStandard,
-  });
-
-  Map<String, dynamic> toJson() {
-    final deployerAddress = this.deployerAddress;
-    final network = this.network;
-    final tokenStandard = this.tokenStandard;
-    return {
-      'deployerAddress': deployerAddress,
-      'network': network.value,
-      'tokenStandard': tokenStandard.value,
-    };
-  }
-}
-
-/// Container for the blockchain address and network information about a
-/// contract.
-class ContractIdentifier {
-  /// Container for the blockchain address about a contract.
-  final String contractAddress;
-
-  /// The blockchain network of the contract.
-  final QueryNetwork network;
-
-  ContractIdentifier({
-    required this.contractAddress,
-    required this.network,
-  });
-
-  factory ContractIdentifier.fromJson(Map<String, dynamic> json) {
-    return ContractIdentifier(
-      contractAddress: (json['contractAddress'] as String?) ?? '',
-      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contractAddress = this.contractAddress;
-    final network = this.network;
-    return {
-      'contractAddress': contractAddress,
-      'network': network.value,
-    };
-  }
-}
-
-/// The metadata of the contract.
-class ContractMetadata {
-  /// The decimals used by the token contract.
-  final int? decimals;
-
-  /// The name of the token contract.
-  final String? name;
-
-  /// The symbol of the token contract.
-  final String? symbol;
-
-  ContractMetadata({
-    this.decimals,
-    this.name,
-    this.symbol,
-  });
-
-  factory ContractMetadata.fromJson(Map<String, dynamic> json) {
-    return ContractMetadata(
-      decimals: json['decimals'] as int?,
-      name: json['name'] as String?,
-      symbol: json['symbol'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final decimals = this.decimals;
-    final name = this.name;
-    final symbol = this.symbol;
-    return {
-      if (decimals != null) 'decimals': decimals,
-      if (name != null) 'name': name,
-      if (symbol != null) 'symbol': symbol,
-    };
-  }
-}
-
-class ErrorType {
-  static const validationException = ErrorType._('VALIDATION_EXCEPTION');
-  static const resourceNotFoundException =
-      ErrorType._('RESOURCE_NOT_FOUND_EXCEPTION');
-
-  final String value;
-
-  const ErrorType._(this.value);
-
-  static const values = [validationException, resourceNotFoundException];
-
-  static ErrorType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorType._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExecutionStatus {
-  static const failed = ExecutionStatus._('FAILED');
-  static const succeeded = ExecutionStatus._('SUCCEEDED');
-
-  final String value;
-
-  const ExecutionStatus._(this.value);
-
-  static const values = [failed, succeeded];
-
-  static ExecutionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExecutionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ExecutionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetAssetContractOutput {
@@ -1235,60 +785,6 @@ class ListFilteredTransactionEventsOutput {
   }
 }
 
-/// Lists all the transaction events for an address on the blockchain.
-/// <note>
-/// This operation is only supported on the Bitcoin blockchain networks.
-/// </note>
-class ListFilteredTransactionEventsSort {
-  /// Container on how the results will be sorted by?
-  final ListFilteredTransactionEventsSortBy? sortBy;
-
-  /// The container for the <i>sort order</i> for
-  /// <code>ListFilteredTransactionEvents</code>. The <code>SortOrder</code> field
-  /// only accepts the values <code>ASCENDING</code> and <code>DESCENDING</code>.
-  /// Not providing <code>SortOrder</code> will default to <code>ASCENDING</code>.
-  final SortOrder? sortOrder;
-
-  ListFilteredTransactionEventsSort({
-    this.sortBy,
-    this.sortOrder,
-  });
-
-  Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
-    return {
-      if (sortBy != null) 'sortBy': sortBy.value,
-      if (sortOrder != null) 'sortOrder': sortOrder.value,
-    };
-  }
-}
-
-class ListFilteredTransactionEventsSortBy {
-  static const blockchainInstant =
-      ListFilteredTransactionEventsSortBy._('blockchainInstant');
-
-  final String value;
-
-  const ListFilteredTransactionEventsSortBy._(this.value);
-
-  static const values = [blockchainInstant];
-
-  static ListFilteredTransactionEventsSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListFilteredTransactionEventsSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListFilteredTransactionEventsSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListTokenBalancesOutput {
   /// An array of <code>TokenBalance</code> objects. Each object contains details
   /// about the token balance.
@@ -1387,94 +883,57 @@ class ListTransactionsOutput {
   }
 }
 
-/// The container for determining how the list transaction result will be
-/// sorted.
-class ListTransactionsSort {
-  /// Defaults to the value <code>TRANSACTION_TIMESTAMP</code>.
-  final ListTransactionsSortBy? sortBy;
+/// The container of the transaction output.
+class TransactionOutputItem {
+  /// The blockchain network where the transaction occurred.
+  final QueryNetwork network;
 
-  /// The container for the <i>sort order</i> for <code>ListTransactions</code>.
-  /// The <code>SortOrder</code> field only accepts the values
-  /// <code>ASCENDING</code> and <code>DESCENDING</code>. Not providing
-  /// <code>SortOrder</code> will default to <code>ASCENDING</code>.
-  final SortOrder? sortOrder;
+  /// The hash of a transaction. It is generated when a transaction is created.
+  final String transactionHash;
 
-  ListTransactionsSort({
-    this.sortBy,
-    this.sortOrder,
+  /// The time when the transaction occurred.
+  final DateTime transactionTimestamp;
+
+  /// Specifies whether to list transactions that have not reached Finality.
+  final ConfirmationStatus? confirmationStatus;
+
+  /// The identifier of a Bitcoin transaction. It is generated when a transaction
+  /// is created.
+  final String? transactionId;
+
+  TransactionOutputItem({
+    required this.network,
+    required this.transactionHash,
+    required this.transactionTimestamp,
+    this.confirmationStatus,
+    this.transactionId,
   });
 
-  Map<String, dynamic> toJson() {
-    final sortBy = this.sortBy;
-    final sortOrder = this.sortOrder;
-    return {
-      if (sortBy != null) 'sortBy': sortBy.value,
-      if (sortOrder != null) 'sortOrder': sortOrder.value,
-    };
-  }
-}
-
-class ListTransactionsSortBy {
-  static const transactionTimestamp =
-      ListTransactionsSortBy._('TRANSACTION_TIMESTAMP');
-
-  final String value;
-
-  const ListTransactionsSortBy._(this.value);
-
-  static const values = [transactionTimestamp];
-
-  static ListTransactionsSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListTransactionsSortBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListTransactionsSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The container for the owner information to filter by.
-class OwnerFilter {
-  /// The contract or wallet address.
-  final String address;
-
-  OwnerFilter({
-    required this.address,
-  });
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    return {
-      'address': address,
-    };
-  }
-}
-
-/// The container for the owner identifier.
-class OwnerIdentifier {
-  /// The contract or wallet address for the owner.
-  final String address;
-
-  OwnerIdentifier({
-    required this.address,
-  });
-
-  factory OwnerIdentifier.fromJson(Map<String, dynamic> json) {
-    return OwnerIdentifier(
-      address: (json['address'] as String?) ?? '',
+  factory TransactionOutputItem.fromJson(Map<String, dynamic> json) {
+    return TransactionOutputItem(
+      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
+      transactionHash: (json['transactionHash'] as String?) ?? '',
+      transactionTimestamp:
+          nonNullableTimeStampFromJson(json['transactionTimestamp'] ?? 0),
+      confirmationStatus: (json['confirmationStatus'] as String?)
+          ?.let(ConfirmationStatus.fromString),
+      transactionId: json['transactionId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final address = this.address;
+    final network = this.network;
+    final transactionHash = this.transactionHash;
+    final transactionTimestamp = this.transactionTimestamp;
+    final confirmationStatus = this.confirmationStatus;
+    final transactionId = this.transactionId;
     return {
-      'address': address,
+      'network': network.value,
+      'transactionHash': transactionHash,
+      'transactionTimestamp': unixTimestampToJson(transactionTimestamp),
+      if (confirmationStatus != null)
+        'confirmationStatus': confirmationStatus.value,
+      if (transactionId != null) 'transactionId': transactionId,
     };
   }
 }
@@ -1510,30 +969,304 @@ class QueryNetwork {
   String toString() => value;
 }
 
-class QueryTokenStandard {
-  static const erc20 = QueryTokenStandard._('ERC20');
-  static const erc721 = QueryTokenStandard._('ERC721');
-  static const erc1155 = QueryTokenStandard._('ERC1155');
+class ConfirmationStatus {
+  static const $final = ConfirmationStatus._('FINAL');
+  static const nonfinal = ConfirmationStatus._('NONFINAL');
 
   final String value;
 
-  const QueryTokenStandard._(this.value);
+  const ConfirmationStatus._(this.value);
 
-  static const values = [erc20, erc721, erc1155];
+  static const values = [$final, nonfinal];
 
-  static QueryTokenStandard fromString(String value) =>
+  static ConfirmationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => QueryTokenStandard._(value));
+          orElse: () => ConfirmationStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is QueryTokenStandard && other.value == value;
+      other is ConfirmationStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// The container for time.
+class BlockchainInstant {
+  /// The container of the <code>Timestamp</code> of the blockchain instant.
+  /// <note>
+  /// This <code>timestamp</code> will only be recorded up to the second.
+  /// </note>
+  final DateTime? time;
+
+  BlockchainInstant({
+    this.time,
+  });
+
+  factory BlockchainInstant.fromJson(Map<String, dynamic> json) {
+    return BlockchainInstant(
+      time: timeStampFromJson(json['time']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final time = this.time;
+    return {
+      if (time != null) 'time': unixTimestampToJson(time),
+    };
+  }
+}
+
+/// The container for determining how the list transaction result will be
+/// sorted.
+class ListTransactionsSort {
+  /// Defaults to the value <code>TRANSACTION_TIMESTAMP</code>.
+  final ListTransactionsSortBy? sortBy;
+
+  /// The container for the <i>sort order</i> for <code>ListTransactions</code>.
+  /// The <code>SortOrder</code> field only accepts the values
+  /// <code>ASCENDING</code> and <code>DESCENDING</code>. Not providing
+  /// <code>SortOrder</code> will default to <code>ASCENDING</code>.
+  final SortOrder? sortOrder;
+
+  ListTransactionsSort({
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'sortBy': sortBy.value,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
+    };
+  }
+}
+
+/// The container for the <code>ConfirmationStatusFilter</code> that filters for
+/// the <a
+/// href="https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality">
+/// <i>finality</i> </a> of the results.
+class ConfirmationStatusFilter {
+  /// The container to determine whether to list results that have only reached <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality">
+  /// <i>finality</i> </a>. Transactions that have reached finality are always
+  /// part of the response.
+  final List<ConfirmationStatus> include;
+
+  ConfirmationStatusFilter({
+    required this.include,
+  });
+
+  Map<String, dynamic> toJson() {
+    final include = this.include;
+    return {
+      'include': include.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class ListTransactionsSortBy {
+  static const transactionTimestamp =
+      ListTransactionsSortBy._('TRANSACTION_TIMESTAMP');
+
+  final String value;
+
+  const ListTransactionsSortBy._(this.value);
+
+  static const values = [transactionTimestamp];
+
+  static ListTransactionsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListTransactionsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListTransactionsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The container for the properties of a transaction event.
+class TransactionEvent {
+  /// The type of transaction event.
+  final QueryTransactionEventType eventType;
+
+  /// The blockchain network where the transaction occurred.
+  final QueryNetwork network;
+
+  /// The hash of a transaction. It is generated when a transaction is created.
+  final String transactionHash;
+  final BlockchainInstant? blockchainInstant;
+
+  /// This container specifies whether the transaction has reached Finality.
+  final ConfirmationStatus? confirmationStatus;
+
+  /// The blockchain address for the contract
+  final String? contractAddress;
+
+  /// The wallet address initiating the transaction. It can either be a public key
+  /// or a contract.
+  final String? from;
+
+  /// The position of the spent transaction output in the output list of the
+  /// <i>creating transaction</i>.
+  /// <note>
+  /// This is only returned for <code>BITCOIN_VIN</code> event types.
+  /// </note>
+  final int? spentVoutIndex;
+
+  /// The transactionHash that <i>created</i> the spent transaction output.
+  /// <note>
+  /// This is only returned for <code>BITCOIN_VIN</code> event types.
+  /// </note>
+  final String? spentVoutTransactionHash;
+
+  /// The transactionId that <i>created</i> the spent transaction output.
+  /// <note>
+  /// This is only returned for <code>BITCOIN_VIN</code> event types.
+  /// </note>
+  final String? spentVoutTransactionId;
+
+  /// The wallet address receiving the transaction. It can either be a public key
+  /// or a contract.
+  final String? to;
+
+  /// The unique identifier for the token involved in the transaction.
+  final String? tokenId;
+
+  /// The identifier of a Bitcoin transaction. It is generated when a transaction
+  /// is created.
+  final String? transactionId;
+
+  /// The value that was transacted.
+  final String? value;
+
+  /// The position of the transaction output in the transaction output list.
+  final int? voutIndex;
+
+  /// Specifies if the transaction output is spent or unspent. This is only
+  /// returned for BITCOIN_VOUT event types.
+  /// <note>
+  /// This is only returned for <code>BITCOIN_VOUT</code> event types.
+  /// </note>
+  final bool? voutSpent;
+
+  TransactionEvent({
+    required this.eventType,
+    required this.network,
+    required this.transactionHash,
+    this.blockchainInstant,
+    this.confirmationStatus,
+    this.contractAddress,
+    this.from,
+    this.spentVoutIndex,
+    this.spentVoutTransactionHash,
+    this.spentVoutTransactionId,
+    this.to,
+    this.tokenId,
+    this.transactionId,
+    this.value,
+    this.voutIndex,
+    this.voutSpent,
+  });
+
+  factory TransactionEvent.fromJson(Map<String, dynamic> json) {
+    return TransactionEvent(
+      eventType: QueryTransactionEventType.fromString(
+          (json['eventType'] as String?) ?? ''),
+      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
+      transactionHash: (json['transactionHash'] as String?) ?? '',
+      blockchainInstant: json['blockchainInstant'] != null
+          ? BlockchainInstant.fromJson(
+              json['blockchainInstant'] as Map<String, dynamic>)
+          : null,
+      confirmationStatus: (json['confirmationStatus'] as String?)
+          ?.let(ConfirmationStatus.fromString),
+      contractAddress: json['contractAddress'] as String?,
+      from: json['from'] as String?,
+      spentVoutIndex: json['spentVoutIndex'] as int?,
+      spentVoutTransactionHash: json['spentVoutTransactionHash'] as String?,
+      spentVoutTransactionId: json['spentVoutTransactionId'] as String?,
+      to: json['to'] as String?,
+      tokenId: json['tokenId'] as String?,
+      transactionId: json['transactionId'] as String?,
+      value: json['value'] as String?,
+      voutIndex: json['voutIndex'] as int?,
+      voutSpent: json['voutSpent'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final network = this.network;
+    final transactionHash = this.transactionHash;
+    final blockchainInstant = this.blockchainInstant;
+    final confirmationStatus = this.confirmationStatus;
+    final contractAddress = this.contractAddress;
+    final from = this.from;
+    final spentVoutIndex = this.spentVoutIndex;
+    final spentVoutTransactionHash = this.spentVoutTransactionHash;
+    final spentVoutTransactionId = this.spentVoutTransactionId;
+    final to = this.to;
+    final tokenId = this.tokenId;
+    final transactionId = this.transactionId;
+    final value = this.value;
+    final voutIndex = this.voutIndex;
+    final voutSpent = this.voutSpent;
+    return {
+      'eventType': eventType.value,
+      'network': network.value,
+      'transactionHash': transactionHash,
+      if (blockchainInstant != null) 'blockchainInstant': blockchainInstant,
+      if (confirmationStatus != null)
+        'confirmationStatus': confirmationStatus.value,
+      if (contractAddress != null) 'contractAddress': contractAddress,
+      if (from != null) 'from': from,
+      if (spentVoutIndex != null) 'spentVoutIndex': spentVoutIndex,
+      if (spentVoutTransactionHash != null)
+        'spentVoutTransactionHash': spentVoutTransactionHash,
+      if (spentVoutTransactionId != null)
+        'spentVoutTransactionId': spentVoutTransactionId,
+      if (to != null) 'to': to,
+      if (tokenId != null) 'tokenId': tokenId,
+      if (transactionId != null) 'transactionId': transactionId,
+      if (value != null) 'value': value,
+      if (voutIndex != null) 'voutIndex': voutIndex,
+      if (voutSpent != null) 'voutSpent': voutSpent,
+    };
+  }
 }
 
 class QueryTransactionEventType {
@@ -1583,49 +1316,6 @@ class QueryTransactionEventType {
 
   @override
   String toString() => value;
-}
-
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// This container is used to specify a time frame.
-class TimeFilter {
-  final BlockchainInstant? from;
-  final BlockchainInstant? to;
-
-  TimeFilter({
-    this.from,
-    this.to,
-  });
-
-  Map<String, dynamic> toJson() {
-    final from = this.from;
-    final to = this.to;
-    return {
-      if (from != null) 'from': from,
-      if (to != null) 'to': to,
-    };
-  }
 }
 
 /// The balance of the token.
@@ -1696,37 +1386,25 @@ class TokenBalance {
   }
 }
 
-/// The container of the token filter like the contract address on a given
-/// blockchain network or a unique token identifier on a given blockchain
-/// network.
-/// <note>
-/// You must always specify the network property of this container when using
-/// this operation.
-/// </note>
-class TokenFilter {
-  /// The blockchain network of the token.
-  final QueryNetwork network;
+/// The container for the owner identifier.
+class OwnerIdentifier {
+  /// The contract or wallet address for the owner.
+  final String address;
 
-  /// This is the address of the contract.
-  final String? contractAddress;
-
-  /// The unique identifier of the token.
-  final String? tokenId;
-
-  TokenFilter({
-    required this.network,
-    this.contractAddress,
-    this.tokenId,
+  OwnerIdentifier({
+    required this.address,
   });
 
+  factory OwnerIdentifier.fromJson(Map<String, dynamic> json) {
+    return OwnerIdentifier(
+      address: (json['address'] as String?) ?? '',
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final network = this.network;
-    final contractAddress = this.contractAddress;
-    final tokenId = this.tokenId;
+    final address = this.address;
     return {
-      'network': network.value,
-      if (contractAddress != null) 'contractAddress': contractAddress,
-      if (tokenId != null) 'tokenId': tokenId,
+      'address': address,
     };
   }
 }
@@ -1775,6 +1453,294 @@ class TokenIdentifier {
       'network': network.value,
       if (contractAddress != null) 'contractAddress': contractAddress,
       if (tokenId != null) 'tokenId': tokenId,
+    };
+  }
+}
+
+/// The container for the owner information to filter by.
+class OwnerFilter {
+  /// The contract or wallet address.
+  final String address;
+
+  OwnerFilter({
+    required this.address,
+  });
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    return {
+      'address': address,
+    };
+  }
+}
+
+/// The container of the token filter like the contract address on a given
+/// blockchain network or a unique token identifier on a given blockchain
+/// network.
+/// <note>
+/// You must always specify the network property of this container when using
+/// this operation.
+/// </note>
+class TokenFilter {
+  /// The blockchain network of the token.
+  final QueryNetwork network;
+
+  /// This is the address of the contract.
+  final String? contractAddress;
+
+  /// The unique identifier of the token.
+  final String? tokenId;
+
+  TokenFilter({
+    required this.network,
+    this.contractAddress,
+    this.tokenId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final network = this.network;
+    final contractAddress = this.contractAddress;
+    final tokenId = this.tokenId;
+    return {
+      'network': network.value,
+      if (contractAddress != null) 'contractAddress': contractAddress,
+      if (tokenId != null) 'tokenId': tokenId,
+    };
+  }
+}
+
+/// This is the container for the unique public address on the blockchain.
+class AddressIdentifierFilter {
+  /// The container for the recipient address of the transaction.
+  final List<String> transactionEventToAddress;
+
+  AddressIdentifierFilter({
+    required this.transactionEventToAddress,
+  });
+
+  Map<String, dynamic> toJson() {
+    final transactionEventToAddress = this.transactionEventToAddress;
+    return {
+      'transactionEventToAddress': transactionEventToAddress,
+    };
+  }
+}
+
+/// This container is used to specify a time frame.
+class TimeFilter {
+  final BlockchainInstant? from;
+  final BlockchainInstant? to;
+
+  TimeFilter({
+    this.from,
+    this.to,
+  });
+
+  Map<String, dynamic> toJson() {
+    final from = this.from;
+    final to = this.to;
+    return {
+      if (from != null) 'from': from,
+      if (to != null) 'to': to,
+    };
+  }
+}
+
+/// This container specifies filtering attributes related to
+/// <code>BITCOIN_VOUT</code> event types
+class VoutFilter {
+  /// Specifies if the transaction output is spent or unspent.
+  final bool voutSpent;
+
+  VoutFilter({
+    required this.voutSpent,
+  });
+
+  Map<String, dynamic> toJson() {
+    final voutSpent = this.voutSpent;
+    return {
+      'voutSpent': voutSpent,
+    };
+  }
+}
+
+/// Lists all the transaction events for an address on the blockchain.
+/// <note>
+/// This operation is only supported on the Bitcoin blockchain networks.
+/// </note>
+class ListFilteredTransactionEventsSort {
+  /// Container on how the results will be sorted by?
+  final ListFilteredTransactionEventsSortBy? sortBy;
+
+  /// The container for the <i>sort order</i> for
+  /// <code>ListFilteredTransactionEvents</code>. The <code>SortOrder</code> field
+  /// only accepts the values <code>ASCENDING</code> and <code>DESCENDING</code>.
+  /// Not providing <code>SortOrder</code> will default to <code>ASCENDING</code>.
+  final SortOrder? sortOrder;
+
+  ListFilteredTransactionEventsSort({
+    this.sortBy,
+    this.sortOrder,
+  });
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'sortBy': sortBy.value,
+      if (sortOrder != null) 'sortOrder': sortOrder.value,
+    };
+  }
+}
+
+class ListFilteredTransactionEventsSortBy {
+  static const blockchainInstant =
+      ListFilteredTransactionEventsSortBy._('blockchainInstant');
+
+  final String value;
+
+  const ListFilteredTransactionEventsSortBy._(this.value);
+
+  static const values = [blockchainInstant];
+
+  static ListFilteredTransactionEventsSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListFilteredTransactionEventsSortBy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListFilteredTransactionEventsSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This container contains information about an contract.
+class AssetContract {
+  /// The container for the contract identifier containing its blockchain network
+  /// and address.
+  final ContractIdentifier contractIdentifier;
+
+  /// The address of the contract deployer.
+  final String deployerAddress;
+
+  /// The token standard of the contract.
+  final QueryTokenStandard tokenStandard;
+
+  AssetContract({
+    required this.contractIdentifier,
+    required this.deployerAddress,
+    required this.tokenStandard,
+  });
+
+  factory AssetContract.fromJson(Map<String, dynamic> json) {
+    return AssetContract(
+      contractIdentifier: ContractIdentifier.fromJson(
+          (json['contractIdentifier'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      deployerAddress: (json['deployerAddress'] as String?) ?? '',
+      tokenStandard: QueryTokenStandard.fromString(
+          (json['tokenStandard'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contractIdentifier = this.contractIdentifier;
+    final deployerAddress = this.deployerAddress;
+    final tokenStandard = this.tokenStandard;
+    return {
+      'contractIdentifier': contractIdentifier,
+      'deployerAddress': deployerAddress,
+      'tokenStandard': tokenStandard.value,
+    };
+  }
+}
+
+/// Container for the blockchain address and network information about a
+/// contract.
+class ContractIdentifier {
+  /// Container for the blockchain address about a contract.
+  final String contractAddress;
+
+  /// The blockchain network of the contract.
+  final QueryNetwork network;
+
+  ContractIdentifier({
+    required this.contractAddress,
+    required this.network,
+  });
+
+  factory ContractIdentifier.fromJson(Map<String, dynamic> json) {
+    return ContractIdentifier(
+      contractAddress: (json['contractAddress'] as String?) ?? '',
+      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contractAddress = this.contractAddress;
+    final network = this.network;
+    return {
+      'contractAddress': contractAddress,
+      'network': network.value,
+    };
+  }
+}
+
+class QueryTokenStandard {
+  static const erc20 = QueryTokenStandard._('ERC20');
+  static const erc721 = QueryTokenStandard._('ERC721');
+  static const erc1155 = QueryTokenStandard._('ERC1155');
+
+  final String value;
+
+  const QueryTokenStandard._(this.value);
+
+  static const values = [erc20, erc721, erc1155];
+
+  static QueryTokenStandard fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => QueryTokenStandard._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is QueryTokenStandard && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The contract or wallet address by which to filter the request.
+class ContractFilter {
+  /// The network address of the deployer.
+  final String deployerAddress;
+
+  /// The blockchain network of the contract.
+  final QueryNetwork network;
+
+  /// The container for the token standard.
+  final QueryTokenStandard tokenStandard;
+
+  ContractFilter({
+    required this.deployerAddress,
+    required this.network,
+    required this.tokenStandard,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deployerAddress = this.deployerAddress;
+    final network = this.network;
+    final tokenStandard = this.tokenStandard;
+    return {
+      'deployerAddress': deployerAddress,
+      'network': network.value,
+      'tokenStandard': tokenStandard.value,
     };
   }
 }
@@ -1956,226 +1922,229 @@ class Transaction {
   }
 }
 
-/// The container for the properties of a transaction event.
-class TransactionEvent {
-  /// The type of transaction event.
-  final QueryTransactionEventType eventType;
+class ExecutionStatus {
+  static const failed = ExecutionStatus._('FAILED');
+  static const succeeded = ExecutionStatus._('SUCCEEDED');
 
-  /// The blockchain network where the transaction occurred.
-  final QueryNetwork network;
+  final String value;
 
-  /// The hash of a transaction. It is generated when a transaction is created.
-  final String transactionHash;
-  final BlockchainInstant? blockchainInstant;
+  const ExecutionStatus._(this.value);
 
-  /// This container specifies whether the transaction has reached Finality.
-  final ConfirmationStatus? confirmationStatus;
+  static const values = [failed, succeeded];
 
-  /// The blockchain address for the contract
-  final String? contractAddress;
+  static ExecutionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionStatus._(value));
 
-  /// The wallet address initiating the transaction. It can either be a public key
-  /// or a contract.
-  final String? from;
+  @override
+  bool operator ==(other) => other is ExecutionStatus && other.value == value;
 
-  /// The position of the spent transaction output in the output list of the
-  /// <i>creating transaction</i>.
-  /// <note>
-  /// This is only returned for <code>BITCOIN_VIN</code> event types.
-  /// </note>
-  final int? spentVoutIndex;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// The transactionHash that <i>created</i> the spent transaction output.
-  /// <note>
-  /// This is only returned for <code>BITCOIN_VIN</code> event types.
-  /// </note>
-  final String? spentVoutTransactionHash;
+  @override
+  String toString() => value;
+}
 
-  /// The transactionId that <i>created</i> the spent transaction output.
-  /// <note>
-  /// This is only returned for <code>BITCOIN_VIN</code> event types.
-  /// </note>
-  final String? spentVoutTransactionId;
+/// The metadata of the contract.
+class ContractMetadata {
+  /// The decimals used by the token contract.
+  final int? decimals;
 
-  /// The wallet address receiving the transaction. It can either be a public key
-  /// or a contract.
-  final String? to;
+  /// The name of the token contract.
+  final String? name;
 
-  /// The unique identifier for the token involved in the transaction.
-  final String? tokenId;
+  /// The symbol of the token contract.
+  final String? symbol;
 
-  /// The identifier of a Bitcoin transaction. It is generated when a transaction
-  /// is created.
-  final String? transactionId;
-
-  /// The value that was transacted.
-  final String? value;
-
-  /// The position of the transaction output in the transaction output list.
-  final int? voutIndex;
-
-  /// Specifies if the transaction output is spent or unspent. This is only
-  /// returned for BITCOIN_VOUT event types.
-  /// <note>
-  /// This is only returned for <code>BITCOIN_VOUT</code> event types.
-  /// </note>
-  final bool? voutSpent;
-
-  TransactionEvent({
-    required this.eventType,
-    required this.network,
-    required this.transactionHash,
-    this.blockchainInstant,
-    this.confirmationStatus,
-    this.contractAddress,
-    this.from,
-    this.spentVoutIndex,
-    this.spentVoutTransactionHash,
-    this.spentVoutTransactionId,
-    this.to,
-    this.tokenId,
-    this.transactionId,
-    this.value,
-    this.voutIndex,
-    this.voutSpent,
+  ContractMetadata({
+    this.decimals,
+    this.name,
+    this.symbol,
   });
 
-  factory TransactionEvent.fromJson(Map<String, dynamic> json) {
-    return TransactionEvent(
-      eventType: QueryTransactionEventType.fromString(
-          (json['eventType'] as String?) ?? ''),
-      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
-      transactionHash: (json['transactionHash'] as String?) ?? '',
-      blockchainInstant: json['blockchainInstant'] != null
+  factory ContractMetadata.fromJson(Map<String, dynamic> json) {
+    return ContractMetadata(
+      decimals: json['decimals'] as int?,
+      name: json['name'] as String?,
+      symbol: json['symbol'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decimals = this.decimals;
+    final name = this.name;
+    final symbol = this.symbol;
+    return {
+      if (decimals != null) 'decimals': decimals,
+      if (name != null) 'name': name,
+      if (symbol != null) 'symbol': symbol,
+    };
+  }
+}
+
+/// Error generated from a failed <code>BatchGetTokenBalance</code> request.
+class BatchGetTokenBalanceErrorItem {
+  /// The error code associated with the error.
+  final String errorCode;
+
+  /// The message associated with the error.
+  final String errorMessage;
+
+  /// The type of error.
+  final ErrorType errorType;
+  final BlockchainInstant? atBlockchainInstant;
+  final OwnerIdentifier? ownerIdentifier;
+  final TokenIdentifier? tokenIdentifier;
+
+  BatchGetTokenBalanceErrorItem({
+    required this.errorCode,
+    required this.errorMessage,
+    required this.errorType,
+    this.atBlockchainInstant,
+    this.ownerIdentifier,
+    this.tokenIdentifier,
+  });
+
+  factory BatchGetTokenBalanceErrorItem.fromJson(Map<String, dynamic> json) {
+    return BatchGetTokenBalanceErrorItem(
+      errorCode: (json['errorCode'] as String?) ?? '',
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      errorType: ErrorType.fromString((json['errorType'] as String?) ?? ''),
+      atBlockchainInstant: json['atBlockchainInstant'] != null
           ? BlockchainInstant.fromJson(
-              json['blockchainInstant'] as Map<String, dynamic>)
+              json['atBlockchainInstant'] as Map<String, dynamic>)
           : null,
-      confirmationStatus: (json['confirmationStatus'] as String?)
-          ?.let(ConfirmationStatus.fromString),
-      contractAddress: json['contractAddress'] as String?,
-      from: json['from'] as String?,
-      spentVoutIndex: json['spentVoutIndex'] as int?,
-      spentVoutTransactionHash: json['spentVoutTransactionHash'] as String?,
-      spentVoutTransactionId: json['spentVoutTransactionId'] as String?,
-      to: json['to'] as String?,
-      tokenId: json['tokenId'] as String?,
-      transactionId: json['transactionId'] as String?,
-      value: json['value'] as String?,
-      voutIndex: json['voutIndex'] as int?,
-      voutSpent: json['voutSpent'] as bool?,
+      ownerIdentifier: json['ownerIdentifier'] != null
+          ? OwnerIdentifier.fromJson(
+              json['ownerIdentifier'] as Map<String, dynamic>)
+          : null,
+      tokenIdentifier: json['tokenIdentifier'] != null
+          ? TokenIdentifier.fromJson(
+              json['tokenIdentifier'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final eventType = this.eventType;
-    final network = this.network;
-    final transactionHash = this.transactionHash;
-    final blockchainInstant = this.blockchainInstant;
-    final confirmationStatus = this.confirmationStatus;
-    final contractAddress = this.contractAddress;
-    final from = this.from;
-    final spentVoutIndex = this.spentVoutIndex;
-    final spentVoutTransactionHash = this.spentVoutTransactionHash;
-    final spentVoutTransactionId = this.spentVoutTransactionId;
-    final to = this.to;
-    final tokenId = this.tokenId;
-    final transactionId = this.transactionId;
-    final value = this.value;
-    final voutIndex = this.voutIndex;
-    final voutSpent = this.voutSpent;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final errorType = this.errorType;
+    final atBlockchainInstant = this.atBlockchainInstant;
+    final ownerIdentifier = this.ownerIdentifier;
+    final tokenIdentifier = this.tokenIdentifier;
     return {
-      'eventType': eventType.value,
-      'network': network.value,
-      'transactionHash': transactionHash,
-      if (blockchainInstant != null) 'blockchainInstant': blockchainInstant,
-      if (confirmationStatus != null)
-        'confirmationStatus': confirmationStatus.value,
-      if (contractAddress != null) 'contractAddress': contractAddress,
-      if (from != null) 'from': from,
-      if (spentVoutIndex != null) 'spentVoutIndex': spentVoutIndex,
-      if (spentVoutTransactionHash != null)
-        'spentVoutTransactionHash': spentVoutTransactionHash,
-      if (spentVoutTransactionId != null)
-        'spentVoutTransactionId': spentVoutTransactionId,
-      if (to != null) 'to': to,
-      if (tokenId != null) 'tokenId': tokenId,
-      if (transactionId != null) 'transactionId': transactionId,
-      if (value != null) 'value': value,
-      if (voutIndex != null) 'voutIndex': voutIndex,
-      if (voutSpent != null) 'voutSpent': voutSpent,
+      'errorCode': errorCode,
+      'errorMessage': errorMessage,
+      'errorType': errorType.value,
+      if (atBlockchainInstant != null)
+        'atBlockchainInstant': atBlockchainInstant,
+      if (ownerIdentifier != null) 'ownerIdentifier': ownerIdentifier,
+      if (tokenIdentifier != null) 'tokenIdentifier': tokenIdentifier,
     };
   }
 }
 
-/// The container of the transaction output.
-class TransactionOutputItem {
-  /// The blockchain network where the transaction occurred.
-  final QueryNetwork network;
+class ErrorType {
+  static const validationException = ErrorType._('VALIDATION_EXCEPTION');
+  static const resourceNotFoundException =
+      ErrorType._('RESOURCE_NOT_FOUND_EXCEPTION');
 
-  /// The hash of a transaction. It is generated when a transaction is created.
-  final String transactionHash;
+  final String value;
 
-  /// The time when the transaction occurred.
-  final DateTime transactionTimestamp;
+  const ErrorType._(this.value);
 
-  /// Specifies whether to list transactions that have not reached Finality.
-  final ConfirmationStatus? confirmationStatus;
+  static const values = [validationException, resourceNotFoundException];
 
-  /// The identifier of a Bitcoin transaction. It is generated when a transaction
-  /// is created.
-  final String? transactionId;
+  static ErrorType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorType._(value));
 
-  TransactionOutputItem({
-    required this.network,
-    required this.transactionHash,
-    required this.transactionTimestamp,
-    this.confirmationStatus,
-    this.transactionId,
+  @override
+  bool operator ==(other) => other is ErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The container for the properties of a token balance output.
+class BatchGetTokenBalanceOutputItem {
+  final BlockchainInstant atBlockchainInstant;
+
+  /// The container for the token balance.
+  final String balance;
+  final BlockchainInstant? lastUpdatedTime;
+  final OwnerIdentifier? ownerIdentifier;
+  final TokenIdentifier? tokenIdentifier;
+
+  BatchGetTokenBalanceOutputItem({
+    required this.atBlockchainInstant,
+    required this.balance,
+    this.lastUpdatedTime,
+    this.ownerIdentifier,
+    this.tokenIdentifier,
   });
 
-  factory TransactionOutputItem.fromJson(Map<String, dynamic> json) {
-    return TransactionOutputItem(
-      network: QueryNetwork.fromString((json['network'] as String?) ?? ''),
-      transactionHash: (json['transactionHash'] as String?) ?? '',
-      transactionTimestamp:
-          nonNullableTimeStampFromJson(json['transactionTimestamp'] ?? 0),
-      confirmationStatus: (json['confirmationStatus'] as String?)
-          ?.let(ConfirmationStatus.fromString),
-      transactionId: json['transactionId'] as String?,
+  factory BatchGetTokenBalanceOutputItem.fromJson(Map<String, dynamic> json) {
+    return BatchGetTokenBalanceOutputItem(
+      atBlockchainInstant: BlockchainInstant.fromJson(
+          (json['atBlockchainInstant'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      balance: (json['balance'] as String?) ?? '',
+      lastUpdatedTime: json['lastUpdatedTime'] != null
+          ? BlockchainInstant.fromJson(
+              json['lastUpdatedTime'] as Map<String, dynamic>)
+          : null,
+      ownerIdentifier: json['ownerIdentifier'] != null
+          ? OwnerIdentifier.fromJson(
+              json['ownerIdentifier'] as Map<String, dynamic>)
+          : null,
+      tokenIdentifier: json['tokenIdentifier'] != null
+          ? TokenIdentifier.fromJson(
+              json['tokenIdentifier'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final network = this.network;
-    final transactionHash = this.transactionHash;
-    final transactionTimestamp = this.transactionTimestamp;
-    final confirmationStatus = this.confirmationStatus;
-    final transactionId = this.transactionId;
+    final atBlockchainInstant = this.atBlockchainInstant;
+    final balance = this.balance;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final ownerIdentifier = this.ownerIdentifier;
+    final tokenIdentifier = this.tokenIdentifier;
     return {
-      'network': network.value,
-      'transactionHash': transactionHash,
-      'transactionTimestamp': unixTimestampToJson(transactionTimestamp),
-      if (confirmationStatus != null)
-        'confirmationStatus': confirmationStatus.value,
-      if (transactionId != null) 'transactionId': transactionId,
+      'atBlockchainInstant': atBlockchainInstant,
+      'balance': balance,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (ownerIdentifier != null) 'ownerIdentifier': ownerIdentifier,
+      if (tokenIdentifier != null) 'tokenIdentifier': tokenIdentifier,
     };
   }
 }
 
-/// This container specifies filtering attributes related to
-/// <code>BITCOIN_VOUT</code> event types
-class VoutFilter {
-  /// Specifies if the transaction output is spent or unspent.
-  final bool voutSpent;
+/// The container for the input for getting a token balance.
+class BatchGetTokenBalanceInputItem {
+  final OwnerIdentifier ownerIdentifier;
+  final TokenIdentifier tokenIdentifier;
+  final BlockchainInstant? atBlockchainInstant;
 
-  VoutFilter({
-    required this.voutSpent,
+  BatchGetTokenBalanceInputItem({
+    required this.ownerIdentifier,
+    required this.tokenIdentifier,
+    this.atBlockchainInstant,
   });
 
   Map<String, dynamic> toJson() {
-    final voutSpent = this.voutSpent;
+    final ownerIdentifier = this.ownerIdentifier;
+    final tokenIdentifier = this.tokenIdentifier;
+    final atBlockchainInstant = this.atBlockchainInstant;
     return {
-      'voutSpent': voutSpent,
+      'ownerIdentifier': ownerIdentifier,
+      'tokenIdentifier': tokenIdentifier,
+      if (atBlockchainInstant != null)
+        'atBlockchainInstant': atBlockchainInstant,
     };
   }
 }

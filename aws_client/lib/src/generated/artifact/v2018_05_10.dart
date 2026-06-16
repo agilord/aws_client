@@ -34,7 +34,6 @@ class Artifact {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'artifact',
-            signingName: 'artifact',
           ),
           region: region,
           credentials: credentials,
@@ -53,13 +52,13 @@ class Artifact {
 
   /// Get the account settings for Artifact.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetAccountSettingsResponse> getAccountSettings() async {
     final response = await _protocol.send(
       payload: null,
@@ -70,15 +69,155 @@ class Artifact {
     return GetAccountSettingsResponse.fromJson(response);
   }
 
-  /// Get the content for a single report.
+  /// Put the account settings for Artifact.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [notificationSubscriptionStatus] :
+  /// Desired notification subscription status.
+  Future<PutAccountSettingsResponse> putAccountSettings({
+    NotificationSubscriptionStatus? notificationSubscriptionStatus,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (notificationSubscriptionStatus != null)
+        'notificationSubscriptionStatus': notificationSubscriptionStatus.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/account-settings/put',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAccountSettingsResponse.fromJson(response);
+  }
+
+  /// List active customer-agreements applicable to calling identity.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of resources to return in the paginated response.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token to request the next page of resources.
+  Future<ListCustomerAgreementsResponse> listCustomerAgreements({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      300,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/customer-agreement/list',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCustomerAgreementsResponse.fromJson(response);
+  }
+
+  /// Get the metadata for a single report.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [reportId] :
+  /// Unique resource ID for the report resource.
+  ///
+  /// Parameter [reportVersion] :
+  /// Version for the report resource.
+  Future<GetReportMetadataResponse> getReportMetadata({
+    required String reportId,
+    int? reportVersion,
+  }) async {
+    _s.validateNumRange(
+      'reportVersion',
+      reportVersion,
+      1,
+      1152921504606846976,
+    );
+    final $query = <String, List<String>>{
+      'reportId': [reportId],
+      if (reportVersion != null) 'reportVersion': [reportVersion.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/report/getMetadata',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetReportMetadataResponse.fromJson(response);
+  }
+
+  /// List available reports.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of resources to return in the paginated response.
+  ///
+  /// Parameter [nextToken] :
+  /// Pagination token to request the next page of resources.
+  Future<ListReportsResponse> listReports({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      300,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/report/list',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListReportsResponse.fromJson(response);
+  }
+
+  /// Get the content for a single report.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [reportId] :
   /// Unique resource ID for the report resource.
@@ -114,53 +253,15 @@ class Artifact {
     return GetReportResponse.fromJson(response);
   }
 
-  /// Get the metadata for a single report.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  ///
-  /// Parameter [reportId] :
-  /// Unique resource ID for the report resource.
-  ///
-  /// Parameter [reportVersion] :
-  /// Version for the report resource.
-  Future<GetReportMetadataResponse> getReportMetadata({
-    required String reportId,
-    int? reportVersion,
-  }) async {
-    _s.validateNumRange(
-      'reportVersion',
-      reportVersion,
-      1,
-      1152921504606846976,
-    );
-    final $query = <String, List<String>>{
-      'reportId': [reportId],
-      if (reportVersion != null) 'reportVersion': [reportVersion.toString()],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/v1/report/getMetadata',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetReportMetadataResponse.fromJson(response);
-  }
-
   /// Get the Term content associated with a single report.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [reportId] :
   /// Unique resource ID for the report resource.
@@ -191,21 +292,25 @@ class Artifact {
     return GetTermForReportResponse.fromJson(response);
   }
 
-  /// List available reports.
+  /// List available report versions for a given report.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [reportId] :
+  /// Unique resource ID for the report resource.
   ///
   /// Parameter [maxResults] :
   /// Maximum number of resources to return in the paginated response.
   ///
   /// Parameter [nextToken] :
   /// Pagination token to request the next page of resources.
-  Future<ListReportsResponse> listReports({
+  Future<ListReportVersionsResponse> listReportVersions({
+    required String reportId,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -216,95 +321,18 @@ class Artifact {
       300,
     );
     final $query = <String, List<String>>{
+      'reportId': [reportId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/report/list',
+      requestUri: '/v1/report/listVersions',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return ListReportsResponse.fromJson(response);
-  }
-
-  /// Put the account settings for Artifact.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  ///
-  /// Parameter [notificationSubscriptionStatus] :
-  /// Desired notification subscription status.
-  Future<PutAccountSettingsResponse> putAccountSettings({
-    NotificationSubscriptionStatus? notificationSubscriptionStatus,
-  }) async {
-    final $payload = <String, dynamic>{
-      if (notificationSubscriptionStatus != null)
-        'notificationSubscriptionStatus': notificationSubscriptionStatus.value,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'PUT',
-      requestUri: '/v1/account-settings/put',
-      exceptionFnMap: _exceptionFns,
-    );
-    return PutAccountSettingsResponse.fromJson(response);
-  }
-}
-
-class AcceptanceType {
-  static const passthrough = AcceptanceType._('PASSTHROUGH');
-  static const explicit = AcceptanceType._('EXPLICIT');
-
-  final String value;
-
-  const AcceptanceType._(this.value);
-
-  static const values = [passthrough, explicit];
-
-  static AcceptanceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AcceptanceType._(value));
-
-  @override
-  bool operator ==(other) => other is AcceptanceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Account settings for the customer.
-class AccountSettings {
-  /// Notification subscription status of the customer.
-  final NotificationSubscriptionStatus? notificationSubscriptionStatus;
-
-  AccountSettings({
-    this.notificationSubscriptionStatus,
-  });
-
-  factory AccountSettings.fromJson(Map<String, dynamic> json) {
-    return AccountSettings(
-      notificationSubscriptionStatus:
-          (json['notificationSubscriptionStatus'] as String?)
-              ?.let(NotificationSubscriptionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final notificationSubscriptionStatus = this.notificationSubscriptionStatus;
-    return {
-      if (notificationSubscriptionStatus != null)
-        'notificationSubscriptionStatus': notificationSubscriptionStatus.value,
-    };
+    return ListReportVersionsResponse.fromJson(response);
   }
 }
 
@@ -332,6 +360,63 @@ class GetAccountSettingsResponse {
   }
 }
 
+class PutAccountSettingsResponse {
+  final AccountSettings? accountSettings;
+
+  PutAccountSettingsResponse({
+    this.accountSettings,
+  });
+
+  factory PutAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return PutAccountSettingsResponse(
+      accountSettings: json['accountSettings'] != null
+          ? AccountSettings.fromJson(
+              json['accountSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountSettings = this.accountSettings;
+    return {
+      if (accountSettings != null) 'accountSettings': accountSettings,
+    };
+  }
+}
+
+class ListCustomerAgreementsResponse {
+  /// List of customer-agreement resources.
+  final List<CustomerAgreementSummary> customerAgreements;
+
+  /// Pagination token to request the next page of resources.
+  final String? nextToken;
+
+  ListCustomerAgreementsResponse({
+    required this.customerAgreements,
+    this.nextToken,
+  });
+
+  factory ListCustomerAgreementsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCustomerAgreementsResponse(
+      customerAgreements: ((json['customerAgreements'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              CustomerAgreementSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerAgreements = this.customerAgreements;
+    final nextToken = this.nextToken;
+    return {
+      'customerAgreements': customerAgreements,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class GetReportMetadataResponse {
   /// Report resource detail.
   final ReportDetail? reportDetails;
@@ -352,6 +437,38 @@ class GetReportMetadataResponse {
     final reportDetails = this.reportDetails;
     return {
       if (reportDetails != null) 'reportDetails': reportDetails,
+    };
+  }
+}
+
+class ListReportsResponse {
+  /// Pagination token to request the next page of resources.
+  final String? nextToken;
+
+  /// List of report resources.
+  final List<ReportSummary>? reports;
+
+  ListReportsResponse({
+    this.nextToken,
+    this.reports,
+  });
+
+  factory ListReportsResponse.fromJson(Map<String, dynamic> json) {
+    return ListReportsResponse(
+      nextToken: json['nextToken'] as String?,
+      reports: (json['reports'] as List?)
+          ?.nonNulls
+          .map((e) => ReportSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final reports = this.reports;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (reports != null) 'reports': reports,
     };
   }
 }
@@ -409,62 +526,159 @@ class GetTermForReportResponse {
   }
 }
 
-class ListReportsResponse {
+class ListReportVersionsResponse {
+  /// List of report resources.
+  final List<ReportSummary> reports;
+
   /// Pagination token to request the next page of resources.
   final String? nextToken;
 
-  /// List of report resources.
-  final List<ReportSummary>? reports;
-
-  ListReportsResponse({
+  ListReportVersionsResponse({
+    required this.reports,
     this.nextToken,
-    this.reports,
   });
 
-  factory ListReportsResponse.fromJson(Map<String, dynamic> json) {
-    return ListReportsResponse(
-      nextToken: json['nextToken'] as String?,
-      reports: (json['reports'] as List?)
-          ?.nonNulls
+  factory ListReportVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListReportVersionsResponse(
+      reports: ((json['reports'] as List?) ?? const [])
+          .nonNulls
           .map((e) => ReportSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
     final reports = this.reports;
+    final nextToken = this.nextToken;
     return {
+      'reports': reports,
       if (nextToken != null) 'nextToken': nextToken,
-      if (reports != null) 'reports': reports,
     };
   }
 }
 
-class NotificationSubscriptionStatus {
-  static const subscribed = NotificationSubscriptionStatus._('SUBSCRIBED');
-  static const notSubscribed =
-      NotificationSubscriptionStatus._('NOT_SUBSCRIBED');
+/// Summary for report resource.
+class ReportSummary {
+  /// Acceptance type for report.
+  final AcceptanceType? acceptanceType;
 
-  final String value;
+  /// ARN for the report resource.
+  final String? arn;
 
-  const NotificationSubscriptionStatus._(this.value);
+  /// Category for the report resource.
+  final String? category;
 
-  static const values = [subscribed, notSubscribed];
+  /// Associated company name for the report resource.
+  final String? companyName;
 
-  static NotificationSubscriptionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NotificationSubscriptionStatus._(value));
+  /// Description for the report resource.
+  final String? description;
 
-  @override
-  bool operator ==(other) =>
-      other is NotificationSubscriptionStatus && other.value == value;
+  /// Unique resource ID for the report resource.
+  final String? id;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// Name for the report resource.
+  final String? name;
 
-  @override
-  String toString() => value;
+  /// Timestamp indicating the report resource effective end.
+  final DateTime? periodEnd;
+
+  /// Timestamp indicating the report resource effective start.
+  final DateTime? periodStart;
+
+  /// Associated product name for the report resource.
+  final String? productName;
+
+  /// Series for the report resource.
+  final String? series;
+
+  /// Current state of the report resource.
+  final PublishedState? state;
+
+  /// The message associated with the current upload state.
+  final String? statusMessage;
+
+  /// The current state of the document upload.
+  final UploadState? uploadState;
+
+  /// Version for the report resource.
+  final int? version;
+
+  ReportSummary({
+    this.acceptanceType,
+    this.arn,
+    this.category,
+    this.companyName,
+    this.description,
+    this.id,
+    this.name,
+    this.periodEnd,
+    this.periodStart,
+    this.productName,
+    this.series,
+    this.state,
+    this.statusMessage,
+    this.uploadState,
+    this.version,
+  });
+
+  factory ReportSummary.fromJson(Map<String, dynamic> json) {
+    return ReportSummary(
+      acceptanceType:
+          (json['acceptanceType'] as String?)?.let(AcceptanceType.fromString),
+      arn: json['arn'] as String?,
+      category: json['category'] as String?,
+      companyName: json['companyName'] as String?,
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      periodEnd: timeStampFromJson(json['periodEnd']),
+      periodStart: timeStampFromJson(json['periodStart']),
+      productName: json['productName'] as String?,
+      series: json['series'] as String?,
+      state: (json['state'] as String?)?.let(PublishedState.fromString),
+      statusMessage: json['statusMessage'] as String?,
+      uploadState:
+          (json['uploadState'] as String?)?.let(UploadState.fromString),
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptanceType = this.acceptanceType;
+    final arn = this.arn;
+    final category = this.category;
+    final companyName = this.companyName;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final periodEnd = this.periodEnd;
+    final periodStart = this.periodStart;
+    final productName = this.productName;
+    final series = this.series;
+    final state = this.state;
+    final statusMessage = this.statusMessage;
+    final uploadState = this.uploadState;
+    final version = this.version;
+    return {
+      if (acceptanceType != null) 'acceptanceType': acceptanceType.value,
+      if (arn != null) 'arn': arn,
+      if (category != null) 'category': category,
+      if (companyName != null) 'companyName': companyName,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (periodEnd != null) 'periodEnd': iso8601ToJson(periodEnd),
+      if (periodStart != null) 'periodStart': iso8601ToJson(periodStart),
+      if (productName != null) 'productName': productName,
+      if (series != null) 'series': series,
+      if (state != null) 'state': state.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (uploadState != null) 'uploadState': uploadState.value,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 class PublishedState {
@@ -491,28 +705,53 @@ class PublishedState {
   String toString() => value;
 }
 
-class PutAccountSettingsResponse {
-  final AccountSettings? accountSettings;
+class UploadState {
+  static const processing = UploadState._('PROCESSING');
+  static const complete = UploadState._('COMPLETE');
+  static const failed = UploadState._('FAILED');
+  static const fault = UploadState._('FAULT');
 
-  PutAccountSettingsResponse({
-    this.accountSettings,
-  });
+  final String value;
 
-  factory PutAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
-    return PutAccountSettingsResponse(
-      accountSettings: json['accountSettings'] != null
-          ? AccountSettings.fromJson(
-              json['accountSettings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
+  const UploadState._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final accountSettings = this.accountSettings;
-    return {
-      if (accountSettings != null) 'accountSettings': accountSettings,
-    };
-  }
+  static const values = [processing, complete, failed, fault];
+
+  static UploadState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UploadState._(value));
+
+  @override
+  bool operator ==(other) => other is UploadState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AcceptanceType {
+  static const passthrough = AcceptanceType._('PASSTHROUGH');
+  static const explicit = AcceptanceType._('EXPLICIT');
+
+  final String value;
+
+  const AcceptanceType._(this.value);
+
+  static const values = [passthrough, explicit];
+
+  static AcceptanceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceptanceType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceptanceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Full detail for report resource metadata.
@@ -674,146 +913,216 @@ class ReportDetail {
   }
 }
 
-/// Summary for report resource.
-class ReportSummary {
-  /// Acceptance type for report.
-  final AcceptanceType? acceptanceType;
+/// Summary for customer-agreement resource.
+class CustomerAgreementSummary {
+  /// Terms required to accept the agreement resource.
+  final List<String>? acceptanceTerms;
 
-  /// ARN for the report resource.
+  /// ARN of the agreement resource the customer-agreement resource represents.
+  final String? agreementArn;
+
+  /// ARN of the customer-agreement resource.
   final String? arn;
 
-  /// Category for the report resource.
-  final String? category;
+  /// AWS account Id that owns the resource.
+  final String? awsAccountId;
 
-  /// Associated company name for the report resource.
-  final String? companyName;
-
-  /// Description for the report resource.
+  /// Description of the resource.
   final String? description;
 
-  /// Unique resource ID for the report resource.
+  /// Timestamp indicating when the agreement was terminated.
+  final DateTime? effectiveEnd;
+
+  /// Timestamp indicating when the agreement became effective.
+  final DateTime? effectiveStart;
+
+  /// Identifier of the customer-agreement resource.
   final String? id;
 
-  /// Name for the report resource.
+  /// Name of the customer-agreement resource.
   final String? name;
 
-  /// Timestamp indicating the report resource effective end.
-  final DateTime? periodEnd;
+  /// ARN of the organization that owns the resource.
+  final String? organizationArn;
 
-  /// Timestamp indicating the report resource effective start.
-  final DateTime? periodStart;
+  /// State of the resource.
+  final CustomerAgreementState? state;
 
-  /// Associated product name for the report resource.
-  final String? productName;
+  /// Terms required to terminate the customer-agreement resource.
+  final List<String>? terminateTerms;
 
-  /// Series for the report resource.
-  final String? series;
+  /// Type of the customer-agreement resource.
+  final AgreementType? type;
 
-  /// Current state of the report resource.
-  final PublishedState? state;
-
-  /// The message associated with the current upload state.
-  final String? statusMessage;
-
-  /// The current state of the document upload.
-  final UploadState? uploadState;
-
-  /// Version for the report resource.
-  final int? version;
-
-  ReportSummary({
-    this.acceptanceType,
+  CustomerAgreementSummary({
+    this.acceptanceTerms,
+    this.agreementArn,
     this.arn,
-    this.category,
-    this.companyName,
+    this.awsAccountId,
     this.description,
+    this.effectiveEnd,
+    this.effectiveStart,
     this.id,
     this.name,
-    this.periodEnd,
-    this.periodStart,
-    this.productName,
-    this.series,
+    this.organizationArn,
     this.state,
-    this.statusMessage,
-    this.uploadState,
-    this.version,
+    this.terminateTerms,
+    this.type,
   });
 
-  factory ReportSummary.fromJson(Map<String, dynamic> json) {
-    return ReportSummary(
-      acceptanceType:
-          (json['acceptanceType'] as String?)?.let(AcceptanceType.fromString),
+  factory CustomerAgreementSummary.fromJson(Map<String, dynamic> json) {
+    return CustomerAgreementSummary(
+      acceptanceTerms: (json['acceptanceTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      agreementArn: json['agreementArn'] as String?,
       arn: json['arn'] as String?,
-      category: json['category'] as String?,
-      companyName: json['companyName'] as String?,
+      awsAccountId: json['awsAccountId'] as String?,
       description: json['description'] as String?,
+      effectiveEnd: timeStampFromJson(json['effectiveEnd']),
+      effectiveStart: timeStampFromJson(json['effectiveStart']),
       id: json['id'] as String?,
       name: json['name'] as String?,
-      periodEnd: timeStampFromJson(json['periodEnd']),
-      periodStart: timeStampFromJson(json['periodStart']),
-      productName: json['productName'] as String?,
-      series: json['series'] as String?,
-      state: (json['state'] as String?)?.let(PublishedState.fromString),
-      statusMessage: json['statusMessage'] as String?,
-      uploadState:
-          (json['uploadState'] as String?)?.let(UploadState.fromString),
-      version: json['version'] as int?,
+      organizationArn: json['organizationArn'] as String?,
+      state: (json['state'] as String?)?.let(CustomerAgreementState.fromString),
+      terminateTerms: (json['terminateTerms'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      type: (json['type'] as String?)?.let(AgreementType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final acceptanceType = this.acceptanceType;
+    final acceptanceTerms = this.acceptanceTerms;
+    final agreementArn = this.agreementArn;
     final arn = this.arn;
-    final category = this.category;
-    final companyName = this.companyName;
+    final awsAccountId = this.awsAccountId;
     final description = this.description;
+    final effectiveEnd = this.effectiveEnd;
+    final effectiveStart = this.effectiveStart;
     final id = this.id;
     final name = this.name;
-    final periodEnd = this.periodEnd;
-    final periodStart = this.periodStart;
-    final productName = this.productName;
-    final series = this.series;
+    final organizationArn = this.organizationArn;
     final state = this.state;
-    final statusMessage = this.statusMessage;
-    final uploadState = this.uploadState;
-    final version = this.version;
+    final terminateTerms = this.terminateTerms;
+    final type = this.type;
     return {
-      if (acceptanceType != null) 'acceptanceType': acceptanceType.value,
+      if (acceptanceTerms != null) 'acceptanceTerms': acceptanceTerms,
+      if (agreementArn != null) 'agreementArn': agreementArn,
       if (arn != null) 'arn': arn,
-      if (category != null) 'category': category,
-      if (companyName != null) 'companyName': companyName,
+      if (awsAccountId != null) 'awsAccountId': awsAccountId,
       if (description != null) 'description': description,
+      if (effectiveEnd != null) 'effectiveEnd': iso8601ToJson(effectiveEnd),
+      if (effectiveStart != null)
+        'effectiveStart': iso8601ToJson(effectiveStart),
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-      if (periodEnd != null) 'periodEnd': iso8601ToJson(periodEnd),
-      if (periodStart != null) 'periodStart': iso8601ToJson(periodStart),
-      if (productName != null) 'productName': productName,
-      if (series != null) 'series': series,
+      if (organizationArn != null) 'organizationArn': organizationArn,
       if (state != null) 'state': state.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-      if (uploadState != null) 'uploadState': uploadState.value,
-      if (version != null) 'version': version,
+      if (terminateTerms != null) 'terminateTerms': terminateTerms,
+      if (type != null) 'type': type.value,
     };
   }
 }
 
-class UploadState {
-  static const processing = UploadState._('PROCESSING');
-  static const complete = UploadState._('COMPLETE');
-  static const failed = UploadState._('FAILED');
-  static const fault = UploadState._('FAULT');
+class CustomerAgreementState {
+  static const active = CustomerAgreementState._('ACTIVE');
+  static const customerTerminated =
+      CustomerAgreementState._('CUSTOMER_TERMINATED');
+  static const awsTerminated = CustomerAgreementState._('AWS_TERMINATED');
 
   final String value;
 
-  const UploadState._(this.value);
+  const CustomerAgreementState._(this.value);
 
-  static const values = [processing, complete, failed, fault];
+  static const values = [active, customerTerminated, awsTerminated];
 
-  static UploadState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UploadState._(value));
+  static CustomerAgreementState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomerAgreementState._(value));
 
   @override
-  bool operator ==(other) => other is UploadState && other.value == value;
+  bool operator ==(other) =>
+      other is CustomerAgreementState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AgreementType {
+  static const custom = AgreementType._('CUSTOM');
+  static const $default = AgreementType._('DEFAULT');
+  static const modified = AgreementType._('MODIFIED');
+
+  final String value;
+
+  const AgreementType._(this.value);
+
+  static const values = [custom, $default, modified];
+
+  static AgreementType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AgreementType._(value));
+
+  @override
+  bool operator ==(other) => other is AgreementType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Account settings for the customer.
+class AccountSettings {
+  /// Notification subscription status of the customer.
+  final NotificationSubscriptionStatus? notificationSubscriptionStatus;
+
+  AccountSettings({
+    this.notificationSubscriptionStatus,
+  });
+
+  factory AccountSettings.fromJson(Map<String, dynamic> json) {
+    return AccountSettings(
+      notificationSubscriptionStatus:
+          (json['notificationSubscriptionStatus'] as String?)
+              ?.let(NotificationSubscriptionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notificationSubscriptionStatus = this.notificationSubscriptionStatus;
+    return {
+      if (notificationSubscriptionStatus != null)
+        'notificationSubscriptionStatus': notificationSubscriptionStatus.value,
+    };
+  }
+}
+
+class NotificationSubscriptionStatus {
+  static const subscribed = NotificationSubscriptionStatus._('SUBSCRIBED');
+  static const notSubscribed =
+      NotificationSubscriptionStatus._('NOT_SUBSCRIBED');
+
+  final String value;
+
+  const NotificationSubscriptionStatus._(this.value);
+
+  static const values = [subscribed, notSubscribed];
+
+  static NotificationSubscriptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationSubscriptionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationSubscriptionStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

@@ -64,10 +64,10 @@ class ServiceDiscovery {
   /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">Cloud
   /// Map quotas</a> in the <i>Cloud Map Developer Guide</i>.
   ///
+  /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [NamespaceAlreadyExists].
   /// May throw [ResourceLimitExceeded].
-  /// May throw [DuplicateRequest].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
@@ -125,15 +125,15 @@ class ServiceDiscovery {
   /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">Cloud
   /// Map quotas</a> in the <i>Cloud Map Developer Guide</i>.
   ///
+  /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [NamespaceAlreadyExists].
   /// May throw [ResourceLimitExceeded].
-  /// May throw [DuplicateRequest].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
   /// The name that you want to assign to this namespace. When you create a
-  /// private DNS namespace, Cloud Map automatically creates an Amazon Route 53
+  /// private DNS namespace, Cloud Map automatically creates an Amazon Route 53
   /// private hosted zone that has the same name as the namespace.
   ///
   /// Parameter [vpc] :
@@ -202,10 +202,10 @@ class ServiceDiscovery {
   /// in the Amazon Web Services GovCloud (US) Regions.
   /// </important>
   ///
+  /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [NamespaceAlreadyExists].
   /// May throw [ResourceLimitExceeded].
-  /// May throw [DuplicateRequest].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
@@ -266,7 +266,7 @@ class ServiceDiscovery {
   /// <ul>
   /// <li>
   /// For public and private DNS namespaces, one of the following combinations
-  /// of DNS records in Amazon Route 53:
+  /// of DNS records in Amazon Route 53:
   ///
   /// <ul>
   /// <li>
@@ -300,8 +300,8 @@ class ServiceDiscovery {
   /// Map quotas</a> in the <i>Cloud Map Developer Guide</i>.
   ///
   /// May throw [InvalidInput].
-  /// May throw [ResourceLimitExceeded].
   /// May throw [NamespaceNotFound].
+  /// May throw [ResourceLimitExceeded].
   /// May throw [ServiceAlreadyExists].
   /// May throw [TooManyTagsException].
   ///
@@ -350,14 +350,14 @@ class ServiceDiscovery {
   /// A description for the service.
   ///
   /// Parameter [dnsConfig] :
-  /// A complex type that contains information about the Amazon Route 53 records
+  /// A complex type that contains information about the Amazon Route 53 records
   /// that you want Cloud Map to create when you register an instance.
   ///
   /// Parameter [healthCheckConfig] :
   /// <i>Public DNS and HTTP namespaces only.</i> A complex type that contains
-  /// settings for an optional Route 53 health check. If you specify settings
+  /// settings for an optional Route 53 health check. If you specify settings
   /// for a health check, Cloud Map associates the health check with all the
-  /// Route 53 DNS records that you specify in <code>DnsConfig</code>.
+  /// Route 53 DNS records that you specify in <code>DnsConfig</code>.
   /// <important>
   /// If you specify a health check configuration, you can specify either
   /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
@@ -378,9 +378,12 @@ class ServiceDiscovery {
   /// configuration from an existing service.
   ///
   /// Parameter [namespaceId] :
-  /// The ID of the namespace that you want to use to create the service. The
-  /// namespace ID must be specified, but it can be specified either here or in
-  /// the <code>DnsConfig</code> object.
+  /// The ID or Amazon Resource Name (ARN) of the namespace that you want to use
+  /// to create the service. For namespaces shared with your Amazon Web Services
+  /// account, specify the namespace ARN. For more information about shared
+  /// namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   ///
   /// Parameter [tags] :
   /// The tags to add to the service. Each tag consists of a key and an optional
@@ -433,13 +436,14 @@ class ServiceDiscovery {
   /// Deletes a namespace from the current account. If the namespace still
   /// contains one or more services, the request fails.
   ///
+  /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [NamespaceNotFound].
   /// May throw [ResourceInUse].
-  /// May throw [DuplicateRequest].
   ///
   /// Parameter [id] :
-  /// The ID of the namespace that you want to delete.
+  /// The ID or Amazon Resource Name (ARN) of the namespace that you want to
+  /// delete.
   Future<DeleteNamespaceResponse> deleteNamespace({
     required String id,
   }) async {
@@ -461,15 +465,21 @@ class ServiceDiscovery {
     return DeleteNamespaceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a specified service. If the service still contains one or more
-  /// registered instances, the request fails.
+  /// Deletes a specified service and all associated service attributes. If the
+  /// service still contains one or more registered instances, the request
+  /// fails.
   ///
   /// May throw [InvalidInput].
-  /// May throw [ServiceNotFound].
   /// May throw [ResourceInUse].
+  /// May throw [ServiceNotFound].
   ///
   /// Parameter [id] :
-  /// The ID of the service that you want to delete.
+  /// The ID or Amazon Resource Name (ARN) of the service that you want to
+  /// delete. If the namespace associated with the service is shared with your
+  /// Amazon Web Services account, specify the service ARN. For more information
+  /// about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a>.
   Future<void> deleteService({
     required String id,
   }) async {
@@ -489,12 +499,48 @@ class ServiceDiscovery {
     );
   }
 
-  /// Deletes the Amazon Route 53 DNS records and health check, if any, that
+  /// Deletes specific attributes associated with a service.
+  ///
+  /// May throw [InvalidInput].
+  /// May throw [ServiceNotFound].
+  ///
+  /// Parameter [attributes] :
+  /// A list of keys corresponding to each attribute that you want to delete.
+  ///
+  /// Parameter [serviceId] :
+  /// The ID or Amazon Resource Name (ARN) of the service from which the
+  /// attributes will be deleted. For services created in a namespace shared
+  /// with your Amazon Web Services account, specify the service ARN. For more
+  /// information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  Future<void> deleteServiceAttributes({
+    required List<String> attributes,
+    required String serviceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53AutoNaming_v20170314.DeleteServiceAttributes'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Attributes': attributes,
+        'ServiceId': serviceId,
+      },
+    );
+  }
+
+  /// Deletes the Amazon Route 53 DNS records and health check, if any, that
   /// Cloud Map created for the specified instance.
   ///
   /// May throw [DuplicateRequest].
-  /// May throw [InvalidInput].
   /// May throw [InstanceNotFound].
+  /// May throw [InvalidInput].
   /// May throw [ResourceInUse].
   /// May throw [ServiceNotFound].
   ///
@@ -504,7 +550,12 @@ class ServiceDiscovery {
   /// request.
   ///
   /// Parameter [serviceId] :
-  /// The ID of the service that the instance is associated with.
+  /// The ID or Amazon Resource Name (ARN) of the service that the instance is
+  /// associated with. If the namespace associated with the service is shared
+  /// with your account, specify the service ARN. For more information about
+  /// shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   Future<DeregisterInstanceResponse> deregisterInstance({
     required String instanceId,
     required String serviceId,
@@ -535,18 +586,18 @@ class ServiceDiscovery {
   /// instances. For public and private DNS namespaces, you can also use DNS
   /// queries to discover instances.
   ///
-  /// May throw [ServiceNotFound].
-  /// May throw [NamespaceNotFound].
   /// May throw [InvalidInput].
+  /// May throw [NamespaceNotFound].
   /// May throw [RequestLimitExceeded].
+  /// May throw [ServiceNotFound].
   ///
   /// Parameter [namespaceName] :
-  /// The <code>HttpName</code> name of the namespace. It's found in the
-  /// <code>HttpProperties</code> member of the <code>Properties</code> member
-  /// of the namespace. In most cases, <code>Name</code> and
-  /// <code>HttpName</code> match. However, if you reuse <code>Name</code> for
-  /// namespace creation, a generated hash is added to <code>HttpName</code> to
-  /// distinguish the two.
+  /// The <code>HttpName</code> name of the namespace. The <code>HttpName</code>
+  /// is found in the <code>HttpProperties</code> member of the
+  /// <code>Properties</code> member of the namespace. In most cases,
+  /// <code>Name</code> and <code>HttpName</code> match. However, if you reuse
+  /// <code>Name</code> for namespace creation, a generated hash is added to
+  /// <code>HttpName</code> to distinguish the two.
   ///
   /// Parameter [serviceName] :
   /// The name of the service that you specified when you registered the
@@ -581,6 +632,13 @@ class ServiceDiscovery {
   /// instances that match the filters that are specified in the
   /// <code>QueryParameters</code> parameter are returned.
   ///
+  /// Parameter [ownerAccount] :
+  /// The ID of the Amazon Web Services account that owns the namespace
+  /// associated with the instance, as specified in the namespace
+  /// <code>ResourceOwner</code> field. For instances associated with namespaces
+  /// that are shared with your account, you must specify an
+  /// <code>OwnerAccount</code>.
+  ///
   /// Parameter [queryParameters] :
   /// Filters to scope the results based on custom attributes for the instance
   /// (for example, <code>{version=v1, az=1a}</code>). Only instances that match
@@ -591,6 +649,7 @@ class ServiceDiscovery {
     HealthStatusFilter? healthStatus,
     int? maxResults,
     Map<String, String>? optionalParameters,
+    String? ownerAccount,
     Map<String, String>? queryParameters,
   }) async {
     _s.validateNumRange(
@@ -616,6 +675,7 @@ class ServiceDiscovery {
         if (maxResults != null) 'MaxResults': maxResults,
         if (optionalParameters != null)
           'OptionalParameters': optionalParameters,
+        if (ownerAccount != null) 'OwnerAccount': ownerAccount,
         if (queryParameters != null) 'QueryParameters': queryParameters,
       },
     );
@@ -625,22 +685,33 @@ class ServiceDiscovery {
 
   /// Discovers the increasing revision associated with an instance.
   ///
-  /// May throw [ServiceNotFound].
-  /// May throw [NamespaceNotFound].
   /// May throw [InvalidInput].
+  /// May throw [NamespaceNotFound].
   /// May throw [RequestLimitExceeded].
+  /// May throw [ServiceNotFound].
   ///
   /// Parameter [namespaceName] :
-  /// The <code>HttpName</code> name of the namespace. It's found in the
-  /// <code>HttpProperties</code> member of the <code>Properties</code> member
-  /// of the namespace.
+  /// The <code>HttpName</code> name of the namespace. The <code>HttpName</code>
+  /// is found in the <code>HttpProperties</code> member of the
+  /// <code>Properties</code> member of the namespace.
   ///
   /// Parameter [serviceName] :
   /// The name of the service that you specified when you registered the
   /// instance.
+  ///
+  /// Parameter [ownerAccount] :
+  /// The ID of the Amazon Web Services account that owns the namespace
+  /// associated with the instance, as specified in the namespace
+  /// <code>ResourceOwner</code> field. For instances associated with namespaces
+  /// that are shared with your account, you must specify an
+  /// <code>OwnerAccount</code>. For more information about shared namespaces,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   Future<DiscoverInstancesRevisionResponse> discoverInstancesRevision({
     required String namespaceName,
     required String serviceName,
+    String? ownerAccount,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -655,6 +726,7 @@ class ServiceDiscovery {
       payload: {
         'NamespaceName': namespaceName,
         'ServiceName': serviceName,
+        if (ownerAccount != null) 'OwnerAccount': ownerAccount,
       },
     );
 
@@ -671,7 +743,11 @@ class ServiceDiscovery {
   /// The ID of the instance that you want to get information about.
   ///
   /// Parameter [serviceId] :
-  /// The ID of the service that the instance is associated with.
+  /// The ID or Amazon Resource Name (ARN) of the service that the instance is
+  /// associated with. For services created in a shared namespace, specify the
+  /// service ARN. For more information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   Future<GetInstanceResponse> getInstance({
     required String instanceId,
     required String serviceId,
@@ -708,7 +784,11 @@ class ServiceDiscovery {
   /// May throw [ServiceNotFound].
   ///
   /// Parameter [serviceId] :
-  /// The ID of the service that the instance is associated with.
+  /// The ID or Amazon Resource Name (ARN) of the service that the instance is
+  /// associated with. For services created in a shared namespace, specify the
+  /// service ARN. For more information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   ///
   /// Parameter [instances] :
   /// An array that contains the IDs of all the instances that you want to get
@@ -776,7 +856,12 @@ class ServiceDiscovery {
   /// May throw [NamespaceNotFound].
   ///
   /// Parameter [id] :
-  /// The ID of the namespace that you want to get information about.
+  /// The ID or Amazon Resource Name (ARN) of the namespace that you want to get
+  /// information about. For namespaces shared with your Amazon Web Services
+  /// account, specify the namespace ARN. For more information about shared
+  /// namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>
   Future<GetNamespaceResponse> getNamespace({
     required String id,
   }) async {
@@ -810,8 +895,16 @@ class ServiceDiscovery {
   ///
   /// Parameter [operationId] :
   /// The ID of the operation that you want to get more information about.
+  ///
+  /// Parameter [ownerAccount] :
+  /// The ID of the Amazon Web Services account that owns the namespace
+  /// associated with the operation, as specified in the namespace
+  /// <code>ResourceOwner</code> field. For operations associated with
+  /// namespaces that are shared with your account, you must specify an
+  /// <code>OwnerAccount</code>.
   Future<GetOperationResponse> getOperation({
     required String operationId,
+    String? ownerAccount,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -825,6 +918,7 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'OperationId': operationId,
+        if (ownerAccount != null) 'OwnerAccount': ownerAccount,
       },
     );
 
@@ -837,7 +931,12 @@ class ServiceDiscovery {
   /// May throw [ServiceNotFound].
   ///
   /// Parameter [id] :
-  /// The ID of the service that you want to get settings for.
+  /// The ID or Amazon Resource Name (ARN) of the service that you want to get
+  /// settings for. For services created by consumers in a shared namespace,
+  /// specify the service ARN. For more information about shared namespaces, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   Future<GetServiceResponse> getService({
     required String id,
   }) async {
@@ -859,14 +958,51 @@ class ServiceDiscovery {
     return GetServiceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the attributes associated with a specified service.
+  ///
+  /// May throw [InvalidInput].
+  /// May throw [ServiceNotFound].
+  ///
+  /// Parameter [serviceId] :
+  /// The ID or Amazon Resource Name (ARN) of the service that you want to get
+  /// attributes for. For services created in a namespace shared with your
+  /// Amazon Web Services account, specify the service ARN. For more information
+  /// about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  Future<GetServiceAttributesResponse> getServiceAttributes({
+    required String serviceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53AutoNaming_v20170314.GetServiceAttributes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ServiceId': serviceId,
+      },
+    );
+
+    return GetServiceAttributesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists summary information about the instances that you registered by using
   /// a specified service.
   ///
-  /// May throw [ServiceNotFound].
   /// May throw [InvalidInput].
+  /// May throw [ServiceNotFound].
   ///
   /// Parameter [serviceId] :
-  /// The ID of the service that you want to list instances for.
+  /// The ID or Amazon Resource Name (ARN) of the service that you want to list
+  /// instances for. For services created in a shared namespace, specify the
+  /// service ARN. For more information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of instances that you want Cloud Map to return in the
@@ -912,7 +1048,8 @@ class ServiceDiscovery {
   }
 
   /// Lists summary information about the namespaces that were created by the
-  /// current Amazon Web Services account.
+  /// current Amazon Web Services account and shared with the current Amazon Web
+  /// Services account.
   ///
   /// May throw [InvalidInput].
   ///
@@ -1099,8 +1236,8 @@ class ServiceDiscovery {
 
   /// Lists tags for the specified resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidInput].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource that you want to retrieve
@@ -1195,12 +1332,12 @@ class ServiceDiscovery {
   /// </important>
   /// The following are the supported attribute keys.
   /// <dl> <dt>AWS_ALIAS_DNS_NAME</dt> <dd>
-  /// If you want Cloud Map to create an Amazon Route 53 alias record that
+  /// If you want Cloud Map to create an Amazon Route 53 alias record that
   /// routes traffic to an Elastic Load Balancing load balancer, specify the DNS
   /// name that's associated with the load balancer. For information about how
   /// to get the DNS name, see "DNSName" in the topic <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html">AliasTarget</a>
-  /// in the <i>Route 53 API Reference</i>.
+  /// in the <i>Route 53 API Reference</i>.
   ///
   /// Note the following:
   ///
@@ -1216,9 +1353,9 @@ class ServiceDiscovery {
   /// </li>
   /// <li>
   /// If the service that's specified by <code>ServiceId</code> includes
-  /// <code>HealthCheckConfig</code> settings, Cloud Map will create the
-  /// Route 53 health check, but it doesn't associate the health check with the
-  /// alias record.
+  /// <code>HealthCheckConfig</code> settings, Cloud Map will create the Route
+  /// 53 health check, but it doesn't associate the health check with the alias
+  /// record.
   /// </li>
   /// <li>
   /// Cloud Map currently doesn't support creating alias records that route
@@ -1250,14 +1387,14 @@ class ServiceDiscovery {
   /// initial status is <code>HEALTHY</code>.
   /// </dd> <dt>AWS_INSTANCE_CNAME</dt> <dd>
   /// If the service configuration includes a <code>CNAME</code> record, the
-  /// domain name that you want Route 53 to return in response to DNS queries
+  /// domain name that you want Route 53 to return in response to DNS queries
   /// (for example, <code>example.com</code>).
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
   /// includes settings for an <code>CNAME</code> record.
   /// </dd> <dt>AWS_INSTANCE_IPV4</dt> <dd>
   /// If the service configuration includes an <code>A</code> record, the IPv4
-  /// address that you want Route 53 to return in response to DNS queries (for
+  /// address that you want Route 53 to return in response to DNS queries (for
   /// example, <code>192.0.2.44</code>).
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
@@ -1266,7 +1403,7 @@ class ServiceDiscovery {
   /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
   /// </dd> <dt>AWS_INSTANCE_IPV6</dt> <dd>
   /// If the service configuration includes an <code>AAAA</code> record, the
-  /// IPv6 address that you want Route 53 to return in response to DNS queries
+  /// IPv6 address that you want Route 53 to return in response to DNS queries
   /// (for example, <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>).
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
@@ -1275,13 +1412,13 @@ class ServiceDiscovery {
   /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
   /// </dd> <dt>AWS_INSTANCE_PORT</dt> <dd>
   /// If the service includes an <code>SRV</code> record, the value that you
-  /// want Route 53 to return for the port.
+  /// want Route 53 to return for the port.
   ///
   /// If the service includes <code>HealthCheckConfig</code>, the port on the
-  /// endpoint that you want Route 53 to send requests to.
+  /// endpoint that you want Route 53 to send requests to.
   ///
   /// This value is required if you specified settings for an <code>SRV</code>
-  /// record or a Route 53 health check when you created the service.
+  /// record or a Route 53 health check when you created the service.
   /// </dd> <dt>Custom attributes</dt> <dd>
   /// You can add up to 30 custom attributes. For each key-value pair, the
   /// maximum length of the attribute name is 255 characters, and the maximum
@@ -1301,7 +1438,7 @@ class ServiceDiscovery {
   /// <code>InstanceId</code> is automatically included as part of the value for
   /// the <code>SRV</code> record. For more information, see <a
   /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type">DnsRecord
-  /// &gt; Type</a>.
+  /// > Type</a>.
   /// </li>
   /// <li>
   /// You can use this value to update an existing instance.
@@ -1327,7 +1464,12 @@ class ServiceDiscovery {
   /// </note>
   ///
   /// Parameter [serviceId] :
-  /// The ID of the service that you want to use for settings for the instance.
+  /// The ID or Amazon Resource Name (ARN) of the service that you want to use
+  /// for settings for the instance. For services created in a shared namespace,
+  /// specify the service ARN. For more information about shared namespaces, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   ///
   /// Parameter [creatorRequestId] :
   /// A unique string that identifies the request and that allows failed
@@ -1367,9 +1509,9 @@ class ServiceDiscovery {
 
   /// Adds one or more tags to the specified resource.
   ///
+  /// May throw [InvalidInput].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
-  /// May throw [InvalidInput].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource that you want to retrieve
@@ -1402,8 +1544,8 @@ class ServiceDiscovery {
 
   /// Removes one or more tags from the specified resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidInput].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource that you want to retrieve
@@ -1434,13 +1576,14 @@ class ServiceDiscovery {
 
   /// Updates an HTTP namespace.
   ///
+  /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [NamespaceNotFound].
   /// May throw [ResourceInUse].
-  /// May throw [DuplicateRequest].
   ///
   /// Parameter [id] :
-  /// The ID of the namespace that you want to update.
+  /// The ID or Amazon Resource Name (ARN) of the namespace that you want to
+  /// update.
   ///
   /// Parameter [namespace] :
   /// Updated properties for the the HTTP namespace.
@@ -1481,23 +1624,27 @@ class ServiceDiscovery {
   /// You can use <code>UpdateInstanceCustomHealthStatus</code> to change the
   /// status only for custom health checks, which you define using
   /// <code>HealthCheckCustomConfig</code> when you create a service. You can't
-  /// use it to change the status for Route 53 health checks, which you define
+  /// use it to change the status for Route 53 health checks, which you define
   /// using <code>HealthCheckConfig</code>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_HealthCheckCustomConfig.html">HealthCheckCustomConfig</a>.
   ///
-  /// May throw [InstanceNotFound].
-  /// May throw [ServiceNotFound].
   /// May throw [CustomHealthNotFound].
+  /// May throw [InstanceNotFound].
   /// May throw [InvalidInput].
+  /// May throw [ServiceNotFound].
   ///
   /// Parameter [instanceId] :
   /// The ID of the instance that you want to change the health status for.
   ///
   /// Parameter [serviceId] :
-  /// The ID of the service that includes the configuration for the custom
-  /// health check that you want to change the status for.
+  /// The ID or Amazon Resource Name (ARN) of the service that includes the
+  /// configuration for the custom health check that you want to change the
+  /// status for. For services created in a shared namespace, specify the
+  /// service ARN. For more information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   ///
   /// Parameter [status] :
   /// The new status of the instance, <code>HEALTHY</code> or
@@ -1528,13 +1675,14 @@ class ServiceDiscovery {
 
   /// Updates a private DNS namespace.
   ///
+  /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [NamespaceNotFound].
   /// May throw [ResourceInUse].
-  /// May throw [DuplicateRequest].
   ///
   /// Parameter [id] :
-  /// The ID of the namespace that you want to update.
+  /// The ID or Amazon Resource Name (ARN) of the namespace that you want to
+  /// update.
   ///
   /// Parameter [namespace] :
   /// Updated properties for the private DNS namespace.
@@ -1571,13 +1719,13 @@ class ServiceDiscovery {
 
   /// Updates a public DNS namespace.
   ///
+  /// May throw [DuplicateRequest].
   /// May throw [InvalidInput].
   /// May throw [NamespaceNotFound].
   /// May throw [ResourceInUse].
-  /// May throw [DuplicateRequest].
   ///
   /// Parameter [id] :
-  /// The ID of the namespace being updated.
+  /// The ID or Amazon Resource Name (ARN) of the namespace being updated.
   ///
   /// Parameter [namespace] :
   /// Updated properties for the public DNS namespace.
@@ -1640,7 +1788,20 @@ class ServiceDiscovery {
   /// from an <code>UpdateService</code> request, the configuration isn't
   /// deleted from the service.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// You can't call <code>UpdateService</code> and update settings in the
+  /// following scenarios:
+  ///
+  /// <ul>
+  /// <li>
+  /// When the service is associated with an HTTP namespace
+  /// </li>
+  /// <li>
+  /// When the service is associated with a shared namespace and contains
+  /// instances that were registered by Amazon Web Services accounts other than
+  /// the account making the <code>UpdateService</code> call
+  /// </li>
+  /// </ul> </note>
   /// When you update settings for a service, Cloud Map also updates the
   /// corresponding settings in all the records and health checks that were
   /// created by using the specified service.
@@ -1650,10 +1811,16 @@ class ServiceDiscovery {
   /// May throw [ServiceNotFound].
   ///
   /// Parameter [id] :
-  /// The ID of the service that you want to update.
+  /// The ID or Amazon Resource Name (ARN) of the service that you want to
+  /// update. If the namespace associated with the service is shared with your
+  /// Amazon Web Services account, specify the service ARN. For more information
+  /// about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>
   ///
   /// Parameter [service] :
-  /// A complex type that contains the new settings for the service.
+  /// A complex type that contains the new settings for the service. You can
+  /// specify a maximum of 30 attributes (key-value pairs).
   Future<UpdateServiceResponse> updateService({
     required String id,
     required ServiceChange service,
@@ -1675,6 +1842,41 @@ class ServiceDiscovery {
     );
 
     return UpdateServiceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Submits a request to update a specified service to add service-level
+  /// attributes.
+  ///
+  /// May throw [InvalidInput].
+  /// May throw [ServiceAttributesLimitExceededException].
+  /// May throw [ServiceNotFound].
+  ///
+  /// Parameter [attributes] :
+  /// A string map that contains attribute key-value pairs.
+  ///
+  /// Parameter [serviceId] :
+  /// The ID or Amazon Resource Name (ARN) of the service that you want to
+  /// update. For services created in a namespace shared with your Amazon Web
+  /// Services account, specify the service ARN.
+  Future<void> updateServiceAttributes({
+    required Map<String, String> attributes,
+    required String serviceId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53AutoNaming_v20170314.UpdateServiceAttributes'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Attributes': attributes,
+        'ServiceId': serviceId,
+      },
+    );
   }
 }
 
@@ -1775,31 +1977,6 @@ class CreateServiceResponse {
   }
 }
 
-class CustomHealthStatus {
-  static const healthy = CustomHealthStatus._('HEALTHY');
-  static const unhealthy = CustomHealthStatus._('UNHEALTHY');
-
-  final String value;
-
-  const CustomHealthStatus._(this.value);
-
-  static const values = [healthy, unhealthy];
-
-  static CustomHealthStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomHealthStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomHealthStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeleteNamespaceResponse {
   /// A value that you can use to determine whether the request completed
   /// successfully. To get the status of the operation, see <a
@@ -1829,6 +2006,18 @@ class DeleteServiceResponse {
 
   factory DeleteServiceResponse.fromJson(Map<String, dynamic> _) {
     return DeleteServiceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteServiceAttributesResponse {
+  DeleteServiceAttributesResponse();
+
+  factory DeleteServiceAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteServiceAttributesResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -1922,345 +2111,19 @@ class DiscoverInstancesRevisionResponse {
   }
 }
 
-/// A complex type that contains information about the Amazon Route 53 DNS
-/// records that you want Cloud Map to create when you register an instance.
-/// <important>
-/// The record types of a service can only be changed by deleting the service
-/// and recreating it with a new <code>Dnsconfig</code>.
-/// </important>
-class DnsConfig {
-  /// An array that contains one <code>DnsRecord</code> object for each Route 53
-  /// DNS record that you want Cloud Map to create when you register an instance.
-  final List<DnsRecord> dnsRecords;
-
-  /// <i>Use NamespaceId in <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_Service.html">Service</a>
-  /// instead.</i>
-  ///
-  /// The ID of the namespace to use for DNS configuration.
-  final String? namespaceId;
-
-  /// The routing policy that you want to apply to all Route 53 DNS records that
-  /// Cloud Map creates when you register an instance and specify this service.
-  /// <note>
-  /// If you want to use this service to register instances that create alias
-  /// records, specify <code>WEIGHTED</code> for the routing policy.
-  /// </note>
-  /// You can specify the following values:
-  /// <dl> <dt>MULTIVALUE</dt> <dd>
-  /// If you define a health check for the service and the health check is
-  /// healthy, Route 53 returns the applicable value for up to eight instances.
-  ///
-  /// For example, suppose that the service includes configurations for one
-  /// <code>A</code> record and a health check. You use the service to register 10
-  /// instances. Route 53 responds to DNS queries with IP addresses for up to
-  /// eight healthy instances. If fewer than eight instances are healthy, Route 53
-  /// responds to every DNS query with the IP addresses for all of the healthy
-  /// instances.
-  ///
-  /// If you don't define a health check for the service, Route 53 assumes that
-  /// all instances are healthy and returns the values for up to eight instances.
-  ///
-  /// For more information about the multivalue routing policy, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-multivalue">Multivalue
-  /// Answer Routing</a> in the <i>Route 53 Developer Guide</i>.
-  /// </dd> <dt>WEIGHTED</dt> <dd>
-  /// Route 53 returns the applicable value from one randomly selected instance
-  /// from among the instances that you registered using the same service.
-  /// Currently, all records have the same weight, so you can't route more or less
-  /// traffic to any instances.
-  ///
-  /// For example, suppose that the service includes configurations for one
-  /// <code>A</code> record and a health check. You use the service to register 10
-  /// instances. Route 53 responds to DNS queries with the IP address for one
-  /// randomly selected instance from among the healthy instances. If no instances
-  /// are healthy, Route 53 responds to DNS queries as if all of the instances
-  /// were healthy.
-  ///
-  /// If you don't define a health check for the service, Route 53 assumes that
-  /// all instances are healthy and returns the applicable value for one randomly
-  /// selected instance.
-  ///
-  /// For more information about the weighted routing policy, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-weighted">Weighted
-  /// Routing</a> in the <i>Route 53 Developer Guide</i>.
-  /// </dd> </dl>
-  final RoutingPolicy? routingPolicy;
-
-  DnsConfig({
-    required this.dnsRecords,
-    this.namespaceId,
-    this.routingPolicy,
-  });
-
-  factory DnsConfig.fromJson(Map<String, dynamic> json) {
-    return DnsConfig(
-      dnsRecords: ((json['DnsRecords'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      namespaceId: json['NamespaceId'] as String?,
-      routingPolicy:
-          (json['RoutingPolicy'] as String?)?.let(RoutingPolicy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dnsRecords = this.dnsRecords;
-    final namespaceId = this.namespaceId;
-    final routingPolicy = this.routingPolicy;
-    return {
-      'DnsRecords': dnsRecords,
-      if (namespaceId != null) 'NamespaceId': namespaceId,
-      if (routingPolicy != null) 'RoutingPolicy': routingPolicy.value,
-    };
-  }
-}
-
-/// A complex type that contains information about changes to the Route 53 DNS
-/// records that Cloud Map creates when you register an instance.
-class DnsConfigChange {
-  /// An array that contains one <code>DnsRecord</code> object for each Route 53
-  /// record that you want Cloud Map to create when you register an instance.
-  final List<DnsRecord> dnsRecords;
-
-  DnsConfigChange({
-    required this.dnsRecords,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dnsRecords = this.dnsRecords;
-    return {
-      'DnsRecords': dnsRecords,
-    };
-  }
-}
-
-/// A complex type that contains the ID for the Route 53 hosted zone that Cloud
-/// Map creates when you create a namespace.
-class DnsProperties {
-  /// The ID for the Route 53 hosted zone that Cloud Map creates when you create a
-  /// namespace.
-  final String? hostedZoneId;
-
-  /// Start of Authority (SOA) record for the hosted zone.
-  final SOA? soa;
-
-  DnsProperties({
-    this.hostedZoneId,
-    this.soa,
-  });
-
-  factory DnsProperties.fromJson(Map<String, dynamic> json) {
-    return DnsProperties(
-      hostedZoneId: json['HostedZoneId'] as String?,
-      soa: json['SOA'] != null
-          ? SOA.fromJson(json['SOA'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hostedZoneId = this.hostedZoneId;
-    final soa = this.soa;
-    return {
-      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
-      if (soa != null) 'SOA': soa,
-    };
-  }
-}
-
-/// A complex type that contains information about the Route 53 DNS records that
-/// you want Cloud Map to create when you register an instance.
-class DnsRecord {
-  /// The amount of time, in seconds, that you want DNS resolvers to cache the
-  /// settings for this record.
-  /// <note>
-  /// Alias records don't include a TTL because Route 53 uses the TTL for the
-  /// Amazon Web Services resource that an alias record routes traffic to. If you
-  /// include the <code>AWS_ALIAS_DNS_NAME</code> attribute when you submit a <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>
-  /// request, the <code>TTL</code> value is ignored. Always specify a TTL for the
-  /// service; you can use a service to register instances that create either
-  /// alias or non-alias records.
-  /// </note>
-  final int ttl;
-
-  /// The type of the resource, which indicates the type of value that Route 53
-  /// returns in response to DNS queries. You can specify values for
-  /// <code>Type</code> in the following combinations:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>A</code> </b>
-  /// </li>
-  /// <li>
-  /// <b> <code>AAAA</code> </b>
-  /// </li>
-  /// <li>
-  /// <b> <code>A</code> </b> and <b> <code>AAAA</code> </b>
-  /// </li>
-  /// <li>
-  /// <b> <code>SRV</code> </b>
-  /// </li>
-  /// <li>
-  /// <b> <code>CNAME</code> </b>
-  /// </li>
-  /// </ul>
-  /// If you want Cloud Map to create a Route 53 alias record when you register an
-  /// instance, specify <code>A</code> or <code>AAAA</code> for <code>Type</code>.
-  ///
-  /// You specify other settings, such as the IP address for <code>A</code> and
-  /// <code>AAAA</code> records, when you register an instance. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>.
-  ///
-  /// The following values are supported:
-  /// <dl> <dt>A</dt> <dd>
-  /// Route 53 returns the IP address of the resource in IPv4 format, such as
-  /// 192.0.2.44.
-  /// </dd> <dt>AAAA</dt> <dd>
-  /// Route 53 returns the IP address of the resource in IPv6 format, such as
-  /// 2001:0db8:85a3:0000:0000:abcd:0001:2345.
-  /// </dd> <dt>CNAME</dt> <dd>
-  /// Route 53 returns the domain name of the resource, such as www.example.com.
-  /// Note the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// You specify the domain name that you want to route traffic to when you
-  /// register an instance. For more information, see <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html#cloudmap-RegisterInstance-request-Attributes">Attributes</a>
-  /// in the topic <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>.
-  /// </li>
-  /// <li>
-  /// You must specify <code>WEIGHTED</code> for the value of
-  /// <code>RoutingPolicy</code>.
-  /// </li>
-  /// <li>
-  /// You can't specify both <code>CNAME</code> for <code>Type</code> and settings
-  /// for <code>HealthCheckConfig</code>. If you do, the request will fail with an
-  /// <code>InvalidInput</code> error.
-  /// </li>
-  /// </ul> </dd> <dt>SRV</dt> <dd>
-  /// Route 53 returns the value for an <code>SRV</code> record. The value for an
-  /// <code>SRV</code> record uses the following values:
-  ///
-  /// <code>priority weight port service-hostname</code>
-  ///
-  /// Note the following about the values:
-  ///
-  /// <ul>
-  /// <li>
-  /// The values of <code>priority</code> and <code>weight</code> are both set to
-  /// <code>1</code> and can't be changed.
-  /// </li>
-  /// <li>
-  /// The value of <code>port</code> comes from the value that you specify for the
-  /// <code>AWS_INSTANCE_PORT</code> attribute when you submit a <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>
-  /// request.
-  /// </li>
-  /// <li>
-  /// The value of <code>service-hostname</code> is a concatenation of the
-  /// following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// The value that you specify for <code>InstanceId</code> when you register an
-  /// instance.
-  /// </li>
-  /// <li>
-  /// The name of the service.
-  /// </li>
-  /// <li>
-  /// The name of the namespace.
-  /// </li>
-  /// </ul>
-  /// For example, if the value of <code>InstanceId</code> is <code>test</code>,
-  /// the name of the service is <code>backend</code>, and the name of the
-  /// namespace is <code>example.com</code>, the value of
-  /// <code>service-hostname</code> is the following:
-  ///
-  /// <code>test.backend.example.com</code>
-  /// </li>
-  /// </ul>
-  /// If you specify settings for an <code>SRV</code> record, note the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// If you specify values for <code>AWS_INSTANCE_IPV4</code>,
-  /// <code>AWS_INSTANCE_IPV6</code>, or both in the <code>RegisterInstance</code>
-  /// request, Cloud Map automatically creates <code>A</code> and/or
-  /// <code>AAAA</code> records that have the same name as the value of
-  /// <code>service-hostname</code> in the <code>SRV</code> record. You can ignore
-  /// these records.
-  /// </li>
-  /// <li>
-  /// If you're using a system that requires a specific <code>SRV</code> format,
-  /// such as HAProxy, see the <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html#cloudmap-CreateService-request-Name">Name</a>
-  /// element in the documentation about <code>CreateService</code> for
-  /// information about how to specify the correct name format.
-  /// </li>
-  /// </ul> </dd> </dl>
-  final RecordType type;
-
-  DnsRecord({
-    required this.ttl,
-    required this.type,
-  });
-
-  factory DnsRecord.fromJson(Map<String, dynamic> json) {
-    return DnsRecord(
-      ttl: (json['TTL'] as int?) ?? 0,
-      type: RecordType.fromString((json['Type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ttl = this.ttl;
-    final type = this.type;
-    return {
-      'TTL': ttl,
-      'Type': type.value,
-    };
-  }
-}
-
-class FilterCondition {
-  static const eq = FilterCondition._('EQ');
-  static const $in = FilterCondition._('IN');
-  static const between = FilterCondition._('BETWEEN');
-  static const beginsWith = FilterCondition._('BEGINS_WITH');
-
-  final String value;
-
-  const FilterCondition._(this.value);
-
-  static const values = [eq, $in, between, beginsWith];
-
-  static FilterCondition fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FilterCondition._(value));
-
-  @override
-  bool operator ==(other) => other is FilterCondition && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class GetInstanceResponse {
   /// A complex type that contains information about a specified instance.
   final Instance? instance;
 
+  /// The ID of the Amazon Web Services account that created the namespace that
+  /// contains the service that the instance is associated with. If this isn't
+  /// your account ID, it's the ID of the account that shared the namespace with
+  /// your account.
+  final String? resourceOwner;
+
   GetInstanceResponse({
     this.instance,
+    this.resourceOwner,
   });
 
   factory GetInstanceResponse.fromJson(Map<String, dynamic> json) {
@@ -2268,13 +2131,16 @@ class GetInstanceResponse {
       instance: json['Instance'] != null
           ? Instance.fromJson(json['Instance'] as Map<String, dynamic>)
           : null,
+      resourceOwner: json['ResourceOwner'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final instance = this.instance;
+    final resourceOwner = this.resourceOwner;
     return {
       if (instance != null) 'Instance': instance,
+      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
     };
   }
 }
@@ -2385,652 +2251,28 @@ class GetServiceResponse {
   }
 }
 
-/// <i>Public DNS and HTTP namespaces only.</i> A complex type that contains
-/// settings for an optional health check. If you specify settings for a health
-/// check, Cloud Map associates the health check with the records that you
-/// specify in <code>DnsConfig</code>.
-/// <important>
-/// If you specify a health check configuration, you can specify either
-/// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
-/// not both.
-/// </important>
-/// Health checks are basic Route 53 health checks that monitor an Amazon Web
-/// Services endpoint. For information about pricing for health checks, see <a
-/// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
-///
-/// Note the following about configuring health checks.
-/// <dl> <dt>A and AAAA records</dt> <dd>
-/// If <code>DnsConfig</code> includes configurations for both <code>A</code>
-/// and <code>AAAA</code> records, Cloud Map creates a health check that uses
-/// the IPv4 address to check the health of the resource. If the endpoint
-/// tthat's specified by the IPv4 address is unhealthy, Route 53 considers both
-/// the <code>A</code> and <code>AAAA</code> records to be unhealthy.
-/// </dd> <dt>CNAME records</dt> <dd>
-/// You can't specify settings for <code>HealthCheckConfig</code> when the
-/// <code>DNSConfig</code> includes <code>CNAME</code> for the value of
-/// <code>Type</code>. If you do, the <code>CreateService</code> request will
-/// fail with an <code>InvalidInput</code> error.
-/// </dd> <dt>Request interval</dt> <dd>
-/// A Route 53 health checker in each health-checking Amazon Web Services Region
-/// sends a health check request to an endpoint every 30 seconds. On average,
-/// your endpoint receives a health check request about every two seconds.
-/// However, health checkers don't coordinate with one another. Therefore, you
-/// might sometimes see several requests in one second that's followed by a few
-/// seconds with no health checks at all.
-/// </dd> <dt>Health checking regions</dt> <dd>
-/// Health checkers perform checks from all Route 53 health-checking Regions.
-/// For a list of the current Regions, see <a
-/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-Regions">Regions</a>.
-/// </dd> <dt>Alias records</dt> <dd>
-/// When you register an instance, if you include the
-/// <code>AWS_ALIAS_DNS_NAME</code> attribute, Cloud Map creates a Route 53
-/// alias record. Note the following:
-///
-/// <ul>
-/// <li>
-/// Route 53 automatically sets <code>EvaluateTargetHealth</code> to true for
-/// alias records. When <code>EvaluateTargetHealth</code> is true, the alias
-/// record inherits the health of the referenced Amazon Web Services resource.
-/// such as an ELB load balancer. For more information, see <a
-/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html#Route53-Type-AliasTarget-EvaluateTargetHealth">EvaluateTargetHealth</a>.
-/// </li>
-/// <li>
-/// If you include <code>HealthCheckConfig</code> and then use the service to
-/// register an instance that creates an alias record, Route 53 doesn't create
-/// the health check.
-/// </li>
-/// </ul> </dd> <dt>Charges for health checks</dt> <dd>
-/// Health checks are basic Route 53 health checks that monitor an Amazon Web
-/// Services endpoint. For information about pricing for health checks, see <a
-/// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
-/// </dd> </dl>
-class HealthCheckConfig {
-  /// The type of health check that you want to create, which indicates how
-  /// Route 53 determines whether an endpoint is healthy.
-  /// <important>
-  /// You can't change the value of <code>Type</code> after you create a health
-  /// check.
-  /// </important>
-  /// You can create the following types of health checks:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>HTTP</b>: Route 53 tries to establish a TCP connection. If successful,
-  /// Route 53 submits an HTTP request and waits for an HTTP status code of 200 or
-  /// greater and less than 400.
-  /// </li>
-  /// <li>
-  /// <b>HTTPS</b>: Route 53 tries to establish a TCP connection. If successful,
-  /// Route 53 submits an HTTPS request and waits for an HTTP status code of 200
-  /// or greater and less than 400.
-  /// <important>
-  /// If you specify HTTPS for the value of <code>Type</code>, the endpoint must
-  /// support TLS v1.0 or later.
-  /// </important> </li>
-  /// <li>
-  /// <b>TCP</b>: Route 53 tries to establish a TCP connection.
-  ///
-  /// If you specify <code>TCP</code> for <code>Type</code>, don't specify a value
-  /// for <code>ResourcePath</code>.
-  /// </li>
-  /// </ul>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
-  /// Route 53 Determines Whether an Endpoint Is Healthy</a> in the <i>Route 53
-  /// Developer Guide</i>.
-  final HealthCheckType type;
+class GetServiceAttributesResponse {
+  /// A complex type that contains the service ARN and a list of attribute
+  /// key-value pairs associated with the service.
+  final ServiceAttributes? serviceAttributes;
 
-  /// The number of consecutive health checks that an endpoint must pass or fail
-  /// for Route 53 to change the current status of the endpoint from unhealthy to
-  /// healthy or the other way around. For more information, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
-  /// Route 53 Determines Whether an Endpoint Is Healthy</a> in the <i>Route 53
-  /// Developer Guide</i>.
-  final int? failureThreshold;
-
-  /// The path that you want Route 53 to request when performing health checks.
-  /// The path can be any value that your endpoint returns an HTTP status code of
-  /// a 2xx or 3xx format for when the endpoint is healthy. An example file is
-  /// <code>/docs/route53-health-check.html</code>. Route 53 automatically adds
-  /// the DNS name for the service. If you don't specify a value for
-  /// <code>ResourcePath</code>, the default value is <code>/</code>.
-  ///
-  /// If you specify <code>TCP</code> for <code>Type</code>, you must <i>not</i>
-  /// specify a value for <code>ResourcePath</code>.
-  final String? resourcePath;
-
-  HealthCheckConfig({
-    required this.type,
-    this.failureThreshold,
-    this.resourcePath,
+  GetServiceAttributesResponse({
+    this.serviceAttributes,
   });
 
-  factory HealthCheckConfig.fromJson(Map<String, dynamic> json) {
-    return HealthCheckConfig(
-      type: HealthCheckType.fromString((json['Type'] as String?) ?? ''),
-      failureThreshold: json['FailureThreshold'] as int?,
-      resourcePath: json['ResourcePath'] as String?,
+  factory GetServiceAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return GetServiceAttributesResponse(
+      serviceAttributes: json['ServiceAttributes'] != null
+          ? ServiceAttributes.fromJson(
+              json['ServiceAttributes'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final type = this.type;
-    final failureThreshold = this.failureThreshold;
-    final resourcePath = this.resourcePath;
+    final serviceAttributes = this.serviceAttributes;
     return {
-      'Type': type.value,
-      if (failureThreshold != null) 'FailureThreshold': failureThreshold,
-      if (resourcePath != null) 'ResourcePath': resourcePath,
-    };
-  }
-}
-
-/// A complex type that contains information about an optional custom health
-/// check. A custom health check, which requires that you use a third-party
-/// health checker to evaluate the health of your resources, is useful in the
-/// following circumstances:
-///
-/// <ul>
-/// <li>
-/// You can't use a health check that's defined by
-/// <code>HealthCheckConfig</code> because the resource isn't available over the
-/// internet. For example, you can use a custom health check when the instance
-/// is in an Amazon VPC. (To check the health of resources in a VPC, the health
-/// checker must also be in the VPC.)
-/// </li>
-/// <li>
-/// You want to use a third-party health checker regardless of where your
-/// resources are located.
-/// </li>
-/// </ul> <important>
-/// If you specify a health check configuration, you can specify either
-/// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
-/// not both.
-/// </important>
-/// To change the status of a custom health check, submit an
-/// <code>UpdateInstanceCustomHealthStatus</code> request. Cloud Map doesn't
-/// monitor the status of the resource, it just keeps a record of the status
-/// specified in the most recent <code>UpdateInstanceCustomHealthStatus</code>
-/// request.
-///
-/// Here's how custom health checks work:
-/// <ol>
-/// <li>
-/// You create a service.
-/// </li>
-/// <li>
-/// You register an instance.
-/// </li>
-/// <li>
-/// You configure a third-party health checker to monitor the resource that's
-/// associated with the new instance.
-/// <note>
-/// Cloud Map doesn't check the health of the resource directly.
-/// </note> </li>
-/// <li>
-/// The third-party health-checker determines that the resource is unhealthy and
-/// notifies your application.
-/// </li>
-/// <li>
-/// Your application submits an <code>UpdateInstanceCustomHealthStatus</code>
-/// request.
-/// </li>
-/// <li>
-/// Cloud Map waits for 30 seconds.
-/// </li>
-/// <li>
-/// If another <code>UpdateInstanceCustomHealthStatus</code> request doesn't
-/// arrive during that time to change the status back to healthy, Cloud Map
-/// stops routing traffic to the resource.
-/// </li> </ol>
-class HealthCheckCustomConfig {
-  /// <important>
-  /// This parameter is no longer supported and is always set to 1. Cloud Map
-  /// waits for approximately 30 seconds after receiving an
-  /// <code>UpdateInstanceCustomHealthStatus</code> request before changing the
-  /// status of the service instance.
-  /// </important>
-  /// The number of 30-second intervals that you want Cloud Map to wait after
-  /// receiving an <code>UpdateInstanceCustomHealthStatus</code> request before it
-  /// changes the health status of a service instance.
-  ///
-  /// Sending a second or subsequent <code>UpdateInstanceCustomHealthStatus</code>
-  /// request with the same value before 30 seconds has passed doesn't accelerate
-  /// the change. Cloud Map still waits <code>30</code> seconds after the first
-  /// request to make the change.
-  final int? failureThreshold;
-
-  HealthCheckCustomConfig({
-    this.failureThreshold,
-  });
-
-  factory HealthCheckCustomConfig.fromJson(Map<String, dynamic> json) {
-    return HealthCheckCustomConfig(
-      failureThreshold: json['FailureThreshold'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureThreshold = this.failureThreshold;
-    return {
-      if (failureThreshold != null) 'FailureThreshold': failureThreshold,
-    };
-  }
-}
-
-class HealthCheckType {
-  static const http = HealthCheckType._('HTTP');
-  static const https = HealthCheckType._('HTTPS');
-  static const tcp = HealthCheckType._('TCP');
-
-  final String value;
-
-  const HealthCheckType._(this.value);
-
-  static const values = [http, https, tcp];
-
-  static HealthCheckType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HealthCheckType._(value));
-
-  @override
-  bool operator ==(other) => other is HealthCheckType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class HealthStatus {
-  static const healthy = HealthStatus._('HEALTHY');
-  static const unhealthy = HealthStatus._('UNHEALTHY');
-  static const unknown = HealthStatus._('UNKNOWN');
-
-  final String value;
-
-  const HealthStatus._(this.value);
-
-  static const values = [healthy, unhealthy, unknown];
-
-  static HealthStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => HealthStatus._(value));
-
-  @override
-  bool operator ==(other) => other is HealthStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class HealthStatusFilter {
-  static const healthy = HealthStatusFilter._('HEALTHY');
-  static const unhealthy = HealthStatusFilter._('UNHEALTHY');
-  static const all = HealthStatusFilter._('ALL');
-  static const healthyOrElseAll = HealthStatusFilter._('HEALTHY_OR_ELSE_ALL');
-
-  final String value;
-
-  const HealthStatusFilter._(this.value);
-
-  static const values = [healthy, unhealthy, all, healthyOrElseAll];
-
-  static HealthStatusFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HealthStatusFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HealthStatusFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// In a response to a <a
-/// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>
-/// request, <code>HttpInstanceSummary</code> contains information about one
-/// instance that matches the values that you specified in the request.
-class HttpInstanceSummary {
-  /// If you included any attributes when you registered the instance, the values
-  /// of those attributes.
-  final Map<String, String>? attributes;
-
-  /// If you configured health checking in the service, the current health status
-  /// of the service instance.
-  final HealthStatus? healthStatus;
-
-  /// The ID of an instance that matches the values that you specified in the
-  /// request.
-  final String? instanceId;
-
-  /// <code/> <code/> <code/>
-  ///
-  /// The <code>HttpName</code> name of the namespace. It's found in the
-  /// <code>HttpProperties</code> member of the <code>Properties</code> member of
-  /// the namespace.
-  final String? namespaceName;
-
-  /// The name of the service that you specified when you registered the instance.
-  final String? serviceName;
-
-  HttpInstanceSummary({
-    this.attributes,
-    this.healthStatus,
-    this.instanceId,
-    this.namespaceName,
-    this.serviceName,
-  });
-
-  factory HttpInstanceSummary.fromJson(Map<String, dynamic> json) {
-    return HttpInstanceSummary(
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      healthStatus:
-          (json['HealthStatus'] as String?)?.let(HealthStatus.fromString),
-      instanceId: json['InstanceId'] as String?,
-      namespaceName: json['NamespaceName'] as String?,
-      serviceName: json['ServiceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final healthStatus = this.healthStatus;
-    final instanceId = this.instanceId;
-    final namespaceName = this.namespaceName;
-    final serviceName = this.serviceName;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (healthStatus != null) 'HealthStatus': healthStatus.value,
-      if (instanceId != null) 'InstanceId': instanceId,
-      if (namespaceName != null) 'NamespaceName': namespaceName,
-      if (serviceName != null) 'ServiceName': serviceName,
-    };
-  }
-}
-
-/// Updated properties for the HTTP namespace.
-class HttpNamespaceChange {
-  /// An updated description for the HTTP namespace.
-  final String description;
-
-  HttpNamespaceChange({
-    required this.description,
-  });
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    return {
-      'Description': description,
-    };
-  }
-}
-
-/// A complex type that contains the name of an HTTP namespace.
-class HttpProperties {
-  /// The name of an HTTP namespace.
-  final String? httpName;
-
-  HttpProperties({
-    this.httpName,
-  });
-
-  factory HttpProperties.fromJson(Map<String, dynamic> json) {
-    return HttpProperties(
-      httpName: json['HttpName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final httpName = this.httpName;
-    return {
-      if (httpName != null) 'HttpName': httpName,
-    };
-  }
-}
-
-/// A complex type that contains information about an instance that Cloud Map
-/// creates when you submit a <code>RegisterInstance</code> request.
-class Instance {
-  /// An identifier that you want to associate with the instance. Note the
-  /// following:
-  ///
-  /// <ul>
-  /// <li>
-  /// If the service that's specified by <code>ServiceId</code> includes settings
-  /// for an <code>SRV</code> record, the value of <code>InstanceId</code> is
-  /// automatically included as part of the value for the <code>SRV</code> record.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type">DnsRecord
-  /// &gt; Type</a>.
-  /// </li>
-  /// <li>
-  /// You can use this value to update an existing instance.
-  /// </li>
-  /// <li>
-  /// To register a new instance, you must specify a value that's unique among
-  /// instances that you register by using the same service.
-  /// </li>
-  /// <li>
-  /// If you specify an existing <code>InstanceId</code> and
-  /// <code>ServiceId</code>, Cloud Map updates the existing DNS records. If
-  /// there's also an existing health check, Cloud Map deletes the old health
-  /// check and creates a new one.
-  /// <note>
-  /// The health check isn't deleted immediately, so it will still appear for a
-  /// while if you submit a <code>ListHealthChecks</code> request, for example.
-  /// </note> </li>
-  /// </ul>
-  final String id;
-
-  /// A string map that contains the following information for the service that
-  /// you specify in <code>ServiceId</code>:
-  ///
-  /// <ul>
-  /// <li>
-  /// The attributes that apply to the records that are defined in the service.
-  /// </li>
-  /// <li>
-  /// For each attribute, the applicable value.
-  /// </li>
-  /// </ul> <note>
-  /// Do not include sensitive information in the attributes if the namespace is
-  /// discoverable by public DNS queries.
-  /// </note>
-  /// Supported attribute keys include the following:
-  /// <dl> <dt>AWS_ALIAS_DNS_NAME</dt> <dd>
-  /// If you want Cloud Map to create a Route 53 alias record that routes traffic
-  /// to an Elastic Load Balancing load balancer, specify the DNS name that's
-  /// associated with the load balancer. For information about how to get the DNS
-  /// name, see <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html#Route53-Type-AliasTarget-DNSName">AliasTarget-&gt;DNSName</a>
-  /// in the <i>Route 53 API Reference</i>.
-  ///
-  /// Note the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// The configuration for the service that's specified by <code>ServiceId</code>
-  /// must include settings for an <code>A</code> record, an <code>AAAA</code>
-  /// record, or both.
-  /// </li>
-  /// <li>
-  /// In the service that's specified by <code>ServiceId</code>, the value of
-  /// <code>RoutingPolicy</code> must be <code>WEIGHTED</code>.
-  /// </li>
-  /// <li>
-  /// If the service that's specified by <code>ServiceId</code> includes
-  /// <code>HealthCheckConfig</code> settings, Cloud Map creates the health check,
-  /// but it won't associate the health check with the alias record.
-  /// </li>
-  /// <li>
-  /// Auto naming currently doesn't support creating alias records that route
-  /// traffic to Amazon Web Services resources other than ELB load balancers.
-  /// </li>
-  /// <li>
-  /// If you specify a value for <code>AWS_ALIAS_DNS_NAME</code>, don't specify
-  /// values for any of the <code>AWS_INSTANCE</code> attributes.
-  /// </li>
-  /// </ul> </dd> <dt>AWS_EC2_INSTANCE_ID</dt> <dd>
-  /// <i>HTTP namespaces only.</i> The Amazon EC2 instance ID for the instance.
-  /// The <code>AWS_INSTANCE_IPV4</code> attribute contains the primary private
-  /// IPv4 address.
-  /// </dd> <dt>AWS_INIT_HEALTH_STATUS</dt> <dd>
-  /// If the service configuration includes <code>HealthCheckCustomConfig</code>,
-  /// you can optionally use <code>AWS_INIT_HEALTH_STATUS</code> to specify the
-  /// initial status of the custom health check, <code>HEALTHY</code> or
-  /// <code>UNHEALTHY</code>. If you don't specify a value for
-  /// <code>AWS_INIT_HEALTH_STATUS</code>, the initial status is
-  /// <code>HEALTHY</code>.
-  /// </dd> <dt>AWS_INSTANCE_CNAME</dt> <dd>
-  /// If the service configuration includes a <code>CNAME</code> record, the
-  /// domain name that you want Route 53 to return in response to DNS queries (for
-  /// example, <code>example.com</code>).
-  ///
-  /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an <code>CNAME</code> record.
-  /// </dd> <dt>AWS_INSTANCE_IPV4</dt> <dd>
-  /// If the service configuration includes an <code>A</code> record, the IPv4
-  /// address that you want Route 53 to return in response to DNS queries (for
-  /// example, <code>192.0.2.44</code>).
-  ///
-  /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an <code>A</code> record. If the service includes
-  /// settings for an <code>SRV</code> record, you must specify a value for
-  /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
-  /// </dd> <dt>AWS_INSTANCE_IPV6</dt> <dd>
-  /// If the service configuration includes an <code>AAAA</code> record, the IPv6
-  /// address that you want Route 53 to return in response to DNS queries (for
-  /// example, <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>).
-  ///
-  /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an <code>AAAA</code> record. If the service includes
-  /// settings for an <code>SRV</code> record, you must specify a value for
-  /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
-  /// </dd> <dt>AWS_INSTANCE_PORT</dt> <dd>
-  /// If the service includes an <code>SRV</code> record, the value that you want
-  /// Route 53 to return for the port.
-  ///
-  /// If the service includes <code>HealthCheckConfig</code>, the port on the
-  /// endpoint that you want Route 53 to send requests to.
-  ///
-  /// This value is required if you specified settings for an <code>SRV</code>
-  /// record or a Route 53 health check when you created the service.
-  /// </dd> </dl>
-  final Map<String, String>? attributes;
-
-  /// A unique string that identifies the request and that allows failed
-  /// <code>RegisterInstance</code> requests to be retried without the risk of
-  /// executing the operation twice. You must use a unique
-  /// <code>CreatorRequestId</code> string every time you submit a
-  /// <code>RegisterInstance</code> request if you're registering additional
-  /// instances for the same namespace and service. <code>CreatorRequestId</code>
-  /// can be any unique string (for example, a date/time stamp).
-  final String? creatorRequestId;
-
-  Instance({
-    required this.id,
-    this.attributes,
-    this.creatorRequestId,
-  });
-
-  factory Instance.fromJson(Map<String, dynamic> json) {
-    return Instance(
-      id: (json['Id'] as String?) ?? '',
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      creatorRequestId: json['CreatorRequestId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final attributes = this.attributes;
-    final creatorRequestId = this.creatorRequestId;
-    return {
-      'Id': id,
-      if (attributes != null) 'Attributes': attributes,
-      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-    };
-  }
-}
-
-/// A complex type that contains information about the instances that you
-/// registered by using a specified service.
-class InstanceSummary {
-  /// A string map that contains the following information:
-  ///
-  /// <ul>
-  /// <li>
-  /// The attributes that are associated with the instance.
-  /// </li>
-  /// <li>
-  /// For each attribute, the applicable value.
-  /// </li>
-  /// </ul>
-  /// Supported attribute keys include the following:
-  /// <dl> <dt>AWS_ALIAS_DNS_NAME</dt> <dd>
-  /// For an alias record that routes traffic to an Elastic Load Balancing load
-  /// balancer, the DNS name that's associated with the load balancer.
-  /// </dd> <dt>AWS_EC2_INSTANCE_ID (HTTP namespaces only)</dt> <dd>
-  /// The Amazon EC2 instance ID for the instance. When the
-  /// <code>AWS_EC2_INSTANCE_ID</code> attribute is specified, then the
-  /// <code>AWS_INSTANCE_IPV4</code> attribute contains the primary private IPv4
-  /// address.
-  /// </dd> <dt>AWS_INIT_HEALTH_STATUS</dt> <dd>
-  /// If the service configuration includes <code>HealthCheckCustomConfig</code>,
-  /// you can optionally use <code>AWS_INIT_HEALTH_STATUS</code> to specify the
-  /// initial status of the custom health check, <code>HEALTHY</code> or
-  /// <code>UNHEALTHY</code>. If you don't specify a value for
-  /// <code>AWS_INIT_HEALTH_STATUS</code>, the initial status is
-  /// <code>HEALTHY</code>.
-  /// </dd> <dt>AWS_INSTANCE_CNAME</dt> <dd>
-  /// For a <code>CNAME</code> record, the domain name that Route 53 returns in
-  /// response to DNS queries (for example, <code>example.com</code>).
-  /// </dd> <dt>AWS_INSTANCE_IPV4</dt> <dd>
-  /// For an <code>A</code> record, the IPv4 address that Route 53 returns in
-  /// response to DNS queries (for example, <code>192.0.2.44</code>).
-  /// </dd> <dt>AWS_INSTANCE_IPV6</dt> <dd>
-  /// For an <code>AAAA</code> record, the IPv6 address that Route 53 returns in
-  /// response to DNS queries (for example,
-  /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>).
-  /// </dd> <dt>AWS_INSTANCE_PORT</dt> <dd>
-  /// For an <code>SRV</code> record, the value that Route 53 returns for the
-  /// port. In addition, if the service includes <code>HealthCheckConfig</code>,
-  /// the port on the endpoint that Route 53 sends requests to.
-  /// </dd> </dl>
-  final Map<String, String>? attributes;
-
-  /// The ID for an instance that you created by using a specified service.
-  final String? id;
-
-  InstanceSummary({
-    this.attributes,
-    this.id,
-  });
-
-  factory InstanceSummary.fromJson(Map<String, dynamic> json) {
-    return InstanceSummary(
-      attributes: (json['Attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      id: json['Id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final id = this.id;
-    return {
-      if (attributes != null) 'Attributes': attributes,
-      if (id != null) 'Id': id,
+      if (serviceAttributes != null) 'ServiceAttributes': serviceAttributes,
     };
   }
 }
@@ -3046,9 +2288,15 @@ class ListInstancesResponse {
   /// previous response in the next request.
   final String? nextToken;
 
+  /// The ID of the Amazon Web Services account that created the namespace that
+  /// contains the specified service. If this isn't your account ID, it's the ID
+  /// of the account that shared the namespace with your account.
+  final String? resourceOwner;
+
   ListInstancesResponse({
     this.instances,
     this.nextToken,
+    this.resourceOwner,
   });
 
   factory ListInstancesResponse.fromJson(Map<String, dynamic> json) {
@@ -3058,15 +2306,18 @@ class ListInstancesResponse {
           .map((e) => InstanceSummary.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
+      resourceOwner: json['ResourceOwner'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final instances = this.instances;
     final nextToken = this.nextToken;
+    final resourceOwner = this.resourceOwner;
     return {
       if (instances != null) 'Instances': instances,
       if (nextToken != null) 'NextToken': nextToken,
+      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
     };
   }
 }
@@ -3224,164 +2475,1215 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// A complex type that contains information about a specified namespace.
-class Namespace {
-  /// The Amazon Resource Name (ARN) that Cloud Map assigns to the namespace when
+class RegisterInstanceResponse {
+  /// A value that you can use to determine whether the request completed
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
+  final String? operationId;
+
+  RegisterInstanceResponse({
+    this.operationId,
+  });
+
+  factory RegisterInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterInstanceResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateHttpNamespaceResponse {
+  /// A value that you can use to determine whether the request completed
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
+  final String? operationId;
+
+  UpdateHttpNamespaceResponse({
+    this.operationId,
+  });
+
+  factory UpdateHttpNamespaceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateHttpNamespaceResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class UpdatePrivateDnsNamespaceResponse {
+  /// A value that you can use to determine whether the request completed
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
+  final String? operationId;
+
+  UpdatePrivateDnsNamespaceResponse({
+    this.operationId,
+  });
+
+  factory UpdatePrivateDnsNamespaceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdatePrivateDnsNamespaceResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class UpdatePublicDnsNamespaceResponse {
+  /// A value that you can use to determine whether the request completed
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
+  final String? operationId;
+
+  UpdatePublicDnsNamespaceResponse({
+    this.operationId,
+  });
+
+  factory UpdatePublicDnsNamespaceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePublicDnsNamespaceResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class UpdateServiceResponse {
+  /// A value that you can use to determine whether the request completed
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
+  final String? operationId;
+
+  UpdateServiceResponse({
+    this.operationId,
+  });
+
+  factory UpdateServiceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateServiceResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
+}
+
+class UpdateServiceAttributesResponse {
+  UpdateServiceAttributesResponse();
+
+  factory UpdateServiceAttributesResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateServiceAttributesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A complex type that contains changes to an existing service.
+class ServiceChange {
+  /// A description for the service.
+  final String? description;
+
+  /// Information about the Route 53 DNS records that you want Cloud Map to create
+  /// when you register an instance.
+  final DnsConfigChange? dnsConfig;
+
+  /// <i>Public DNS and HTTP namespaces only.</i> Settings for an optional health
+  /// check. If you specify settings for a health check, Cloud Map associates the
+  /// health check with the records that you specify in <code>DnsConfig</code>.
+  final HealthCheckConfig? healthCheckConfig;
+
+  ServiceChange({
+    this.description,
+    this.dnsConfig,
+    this.healthCheckConfig,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final dnsConfig = this.dnsConfig;
+    final healthCheckConfig = this.healthCheckConfig;
+    return {
+      if (description != null) 'Description': description,
+      if (dnsConfig != null) 'DnsConfig': dnsConfig,
+      if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
+    };
+  }
+}
+
+/// A complex type that contains information about changes to the Route 53 DNS
+/// records that Cloud Map creates when you register an instance.
+class DnsConfigChange {
+  /// An array that contains one <code>DnsRecord</code> object for each Route 53
+  /// record that you want Cloud Map to create when you register an instance.
+  final List<DnsRecord> dnsRecords;
+
+  DnsConfigChange({
+    required this.dnsRecords,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dnsRecords = this.dnsRecords;
+    return {
+      'DnsRecords': dnsRecords,
+    };
+  }
+}
+
+/// <i>Public DNS and HTTP namespaces only.</i> A complex type that contains
+/// settings for an optional health check. If you specify settings for a health
+/// check, Cloud Map associates the health check with the records that you
+/// specify in <code>DnsConfig</code>.
+/// <important>
+/// If you specify a health check configuration, you can specify either
+/// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
+/// not both.
+/// </important>
+/// Health checks are basic Route 53 health checks that monitor an Amazon Web
+/// Services endpoint. For information about pricing for health checks, see <a
+/// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+///
+/// Note the following about configuring health checks.
+/// <dl> <dt>A and AAAA records</dt> <dd>
+/// If <code>DnsConfig</code> includes configurations for both <code>A</code>
+/// and <code>AAAA</code> records, Cloud Map creates a health check that uses
+/// the IPv4 address to check the health of the resource. If the endpoint
+/// tthat's specified by the IPv4 address is unhealthy, Route 53 considers both
+/// the <code>A</code> and <code>AAAA</code> records to be unhealthy.
+/// </dd> <dt>CNAME records</dt> <dd>
+/// You can't specify settings for <code>HealthCheckConfig</code> when the
+/// <code>DNSConfig</code> includes <code>CNAME</code> for the value of
+/// <code>Type</code>. If you do, the <code>CreateService</code> request will
+/// fail with an <code>InvalidInput</code> error.
+/// </dd> <dt>Request interval</dt> <dd>
+/// A Route 53 health checker in each health-checking Amazon Web Services Region
+/// sends a health check request to an endpoint every 30 seconds. On average,
+/// your endpoint receives a health check request about every two seconds.
+/// However, health checkers don't coordinate with one another. Therefore, you
+/// might sometimes see several requests in one second that's followed by a few
+/// seconds with no health checks at all.
+/// </dd> <dt>Health checking regions</dt> <dd>
+/// Health checkers perform checks from all Route 53 health-checking Regions.
+/// For a list of the current Regions, see <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-Regions">Regions</a>.
+/// </dd> <dt>Alias records</dt> <dd>
+/// When you register an instance, if you include the
+/// <code>AWS_ALIAS_DNS_NAME</code> attribute, Cloud Map creates a Route 53
+/// alias record. Note the following:
+///
+/// <ul>
+/// <li>
+/// Route 53 automatically sets <code>EvaluateTargetHealth</code> to true for
+/// alias records. When <code>EvaluateTargetHealth</code> is true, the alias
+/// record inherits the health of the referenced Amazon Web Services resource.
+/// such as an ELB load balancer. For more information, see <a
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html#Route53-Type-AliasTarget-EvaluateTargetHealth">EvaluateTargetHealth</a>.
+/// </li>
+/// <li>
+/// If you include <code>HealthCheckConfig</code> and then use the service to
+/// register an instance that creates an alias record, Route 53 doesn't create
+/// the health check.
+/// </li>
+/// </ul> </dd> <dt>Charges for health checks</dt> <dd>
+/// Health checks are basic Route 53 health checks that monitor an Amazon Web
+/// Services endpoint. For information about pricing for health checks, see <a
+/// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+/// </dd> </dl>
+class HealthCheckConfig {
+  /// The type of health check that you want to create, which indicates how Route
+  /// 53 determines whether an endpoint is healthy.
+  /// <important>
+  /// You can't change the value of <code>Type</code> after you create a health
+  /// check.
+  /// </important>
+  /// You can create the following types of health checks:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>HTTP</b>: Route 53 tries to establish a TCP connection. If successful,
+  /// Route 53 submits an HTTP request and waits for an HTTP status code of 200 or
+  /// greater and less than 400.
+  /// </li>
+  /// <li>
+  /// <b>HTTPS</b>: Route 53 tries to establish a TCP connection. If successful,
+  /// Route 53 submits an HTTPS request and waits for an HTTP status code of 200
+  /// or greater and less than 400.
+  /// <important>
+  /// If you specify HTTPS for the value of <code>Type</code>, the endpoint must
+  /// support TLS v1.0 or later.
+  /// </important> </li>
+  /// <li>
+  /// <b>TCP</b>: Route 53 tries to establish a TCP connection.
+  ///
+  /// If you specify <code>TCP</code> for <code>Type</code>, don't specify a value
+  /// for <code>ResourcePath</code>.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
+  /// Route 53 Determines Whether an Endpoint Is Healthy</a> in the <i>Route 53
+  /// Developer Guide</i>.
+  final HealthCheckType type;
+
+  /// The number of consecutive health checks that an endpoint must pass or fail
+  /// for Route 53 to change the current status of the endpoint from unhealthy to
+  /// healthy or the other way around. For more information, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
+  /// Route 53 Determines Whether an Endpoint Is Healthy</a> in the <i>Route 53
+  /// Developer Guide</i>.
+  final int? failureThreshold;
+
+  /// The path that you want Route 53 to request when performing health checks.
+  /// The path can be any value that your endpoint returns an HTTP status code of
+  /// a 2xx or 3xx format for when the endpoint is healthy. An example file is
+  /// <code>/docs/route53-health-check.html</code>. Route 53 automatically adds
+  /// the DNS name for the service. If you don't specify a value for
+  /// <code>ResourcePath</code>, the default value is <code>/</code>.
+  ///
+  /// If you specify <code>TCP</code> for <code>Type</code>, you must <i>not</i>
+  /// specify a value for <code>ResourcePath</code>.
+  final String? resourcePath;
+
+  HealthCheckConfig({
+    required this.type,
+    this.failureThreshold,
+    this.resourcePath,
+  });
+
+  factory HealthCheckConfig.fromJson(Map<String, dynamic> json) {
+    return HealthCheckConfig(
+      type: HealthCheckType.fromString((json['Type'] as String?) ?? ''),
+      failureThreshold: json['FailureThreshold'] as int?,
+      resourcePath: json['ResourcePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final failureThreshold = this.failureThreshold;
+    final resourcePath = this.resourcePath;
+    return {
+      'Type': type.value,
+      if (failureThreshold != null) 'FailureThreshold': failureThreshold,
+      if (resourcePath != null) 'ResourcePath': resourcePath,
+    };
+  }
+}
+
+class HealthCheckType {
+  static const http = HealthCheckType._('HTTP');
+  static const https = HealthCheckType._('HTTPS');
+  static const tcp = HealthCheckType._('TCP');
+
+  final String value;
+
+  const HealthCheckType._(this.value);
+
+  static const values = [http, https, tcp];
+
+  static HealthCheckType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HealthCheckType._(value));
+
+  @override
+  bool operator ==(other) => other is HealthCheckType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains information about the Route 53 DNS records that
+/// you want Cloud Map to create when you register an instance.
+class DnsRecord {
+  /// The amount of time, in seconds, that you want DNS resolvers to cache the
+  /// settings for this record.
+  /// <note>
+  /// Alias records don't include a TTL because Route 53 uses the TTL for the
+  /// Amazon Web Services resource that an alias record routes traffic to. If you
+  /// include the <code>AWS_ALIAS_DNS_NAME</code> attribute when you submit a <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>
+  /// request, the <code>TTL</code> value is ignored. Always specify a TTL for the
+  /// service; you can use a service to register instances that create either
+  /// alias or non-alias records.
+  /// </note>
+  final int ttl;
+
+  /// The type of the resource, which indicates the type of value that Route 53
+  /// returns in response to DNS queries. You can specify values for
+  /// <code>Type</code> in the following combinations:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>A</code> </b>
+  /// </li>
+  /// <li>
+  /// <b> <code>AAAA</code> </b>
+  /// </li>
+  /// <li>
+  /// <b> <code>A</code> </b> and <b> <code>AAAA</code> </b>
+  /// </li>
+  /// <li>
+  /// <b> <code>SRV</code> </b>
+  /// </li>
+  /// <li>
+  /// <b> <code>CNAME</code> </b>
+  /// </li>
+  /// </ul>
+  /// If you want Cloud Map to create a Route 53 alias record when you register an
+  /// instance, specify <code>A</code> or <code>AAAA</code> for <code>Type</code>.
+  ///
+  /// You specify other settings, such as the IP address for <code>A</code> and
+  /// <code>AAAA</code> records, when you register an instance. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>.
+  ///
+  /// The following values are supported:
+  /// <dl> <dt>A</dt> <dd>
+  /// Route 53 returns the IP address of the resource in IPv4 format, such as
+  /// 192.0.2.44.
+  /// </dd> <dt>AAAA</dt> <dd>
+  /// Route 53 returns the IP address of the resource in IPv6 format, such as
+  /// 2001:0db8:85a3:0000:0000:abcd:0001:2345.
+  /// </dd> <dt>CNAME</dt> <dd>
+  /// Route 53 returns the domain name of the resource, such as www.example.com.
+  /// Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// You specify the domain name that you want to route traffic to when you
+  /// register an instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html#cloudmap-RegisterInstance-request-Attributes">Attributes</a>
+  /// in the topic <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>.
+  /// </li>
+  /// <li>
+  /// You must specify <code>WEIGHTED</code> for the value of
+  /// <code>RoutingPolicy</code>.
+  /// </li>
+  /// <li>
+  /// You can't specify both <code>CNAME</code> for <code>Type</code> and settings
+  /// for <code>HealthCheckConfig</code>. If you do, the request will fail with an
+  /// <code>InvalidInput</code> error.
+  /// </li>
+  /// </ul> </dd> <dt>SRV</dt> <dd>
+  /// Route 53 returns the value for an <code>SRV</code> record. The value for an
+  /// <code>SRV</code> record uses the following values:
+  ///
+  /// <code>priority weight port service-hostname</code>
+  ///
+  /// Note the following about the values:
+  ///
+  /// <ul>
+  /// <li>
+  /// The values of <code>priority</code> and <code>weight</code> are both set to
+  /// <code>1</code> and can't be changed.
+  /// </li>
+  /// <li>
+  /// The value of <code>port</code> comes from the value that you specify for the
+  /// <code>AWS_INSTANCE_PORT</code> attribute when you submit a <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>
+  /// request.
+  /// </li>
+  /// <li>
+  /// The value of <code>service-hostname</code> is a concatenation of the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// The value that you specify for <code>InstanceId</code> when you register an
+  /// instance.
+  /// </li>
+  /// <li>
+  /// The name of the service.
+  /// </li>
+  /// <li>
+  /// The name of the namespace.
+  /// </li>
+  /// </ul>
+  /// For example, if the value of <code>InstanceId</code> is <code>test</code>,
+  /// the name of the service is <code>backend</code>, and the name of the
+  /// namespace is <code>example.com</code>, the value of
+  /// <code>service-hostname</code> is the following:
+  ///
+  /// <code>test.backend.example.com</code>
+  /// </li>
+  /// </ul>
+  /// If you specify settings for an <code>SRV</code> record, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify values for <code>AWS_INSTANCE_IPV4</code>,
+  /// <code>AWS_INSTANCE_IPV6</code>, or both in the <code>RegisterInstance</code>
+  /// request, Cloud Map automatically creates <code>A</code> and/or
+  /// <code>AAAA</code> records that have the same name as the value of
+  /// <code>service-hostname</code> in the <code>SRV</code> record. You can ignore
+  /// these records.
+  /// </li>
+  /// <li>
+  /// If you're using a system that requires a specific <code>SRV</code> format,
+  /// such as HAProxy, see the <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html#cloudmap-CreateService-request-Name">Name</a>
+  /// element in the documentation about <code>CreateService</code> for
+  /// information about how to specify the correct name format.
+  /// </li>
+  /// </ul> </dd> </dl>
+  final RecordType type;
+
+  DnsRecord({
+    required this.ttl,
+    required this.type,
+  });
+
+  factory DnsRecord.fromJson(Map<String, dynamic> json) {
+    return DnsRecord(
+      ttl: (json['TTL'] as int?) ?? 0,
+      type: RecordType.fromString((json['Type'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ttl = this.ttl;
+    final type = this.type;
+    return {
+      'TTL': ttl,
+      'Type': type.value,
+    };
+  }
+}
+
+class RecordType {
+  static const srv = RecordType._('SRV');
+  static const a = RecordType._('A');
+  static const aaaa = RecordType._('AAAA');
+  static const cname = RecordType._('CNAME');
+
+  final String value;
+
+  const RecordType._(this.value);
+
+  static const values = [srv, a, aaaa, cname];
+
+  static RecordType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RecordType._(value));
+
+  @override
+  bool operator ==(other) => other is RecordType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Updated properties for the public DNS namespace.
+class PublicDnsNamespaceChange {
+  /// An updated description for the public DNS namespace.
+  final String? description;
+
+  /// Properties to be updated in the public DNS namespace.
+  final PublicDnsNamespacePropertiesChange? properties;
+
+  PublicDnsNamespaceChange({
+    this.description,
+    this.properties,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final properties = this.properties;
+    return {
+      if (description != null) 'Description': description,
+      if (properties != null) 'Properties': properties,
+    };
+  }
+}
+
+/// Updated properties for the public DNS namespace.
+class PublicDnsNamespacePropertiesChange {
+  /// Updated DNS properties for the hosted zone for the public DNS namespace.
+  final PublicDnsPropertiesMutableChange dnsProperties;
+
+  PublicDnsNamespacePropertiesChange({
+    required this.dnsProperties,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dnsProperties = this.dnsProperties;
+    return {
+      'DnsProperties': dnsProperties,
+    };
+  }
+}
+
+/// Updated DNS properties for the public DNS namespace.
+class PublicDnsPropertiesMutableChange {
+  /// Updated fields for the Start of Authority (SOA) record for the hosted zone
+  /// for the public DNS namespace.
+  final SOAChange soa;
+
+  PublicDnsPropertiesMutableChange({
+    required this.soa,
+  });
+
+  Map<String, dynamic> toJson() {
+    final soa = this.soa;
+    return {
+      'SOA': soa,
+    };
+  }
+}
+
+/// Updated Start of Authority (SOA) properties for a public or private DNS
+/// namespace.
+class SOAChange {
+  /// The updated time to live (TTL) for purposes of negative caching.
+  final int ttl;
+
+  SOAChange({
+    required this.ttl,
+  });
+
+  Map<String, dynamic> toJson() {
+    final ttl = this.ttl;
+    return {
+      'TTL': ttl,
+    };
+  }
+}
+
+/// Updated properties for the private DNS namespace.
+class PrivateDnsNamespaceChange {
+  /// An updated description for the private DNS namespace.
+  final String? description;
+
+  /// Properties to be updated in the private DNS namespace.
+  final PrivateDnsNamespacePropertiesChange? properties;
+
+  PrivateDnsNamespaceChange({
+    this.description,
+    this.properties,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final properties = this.properties;
+    return {
+      if (description != null) 'Description': description,
+      if (properties != null) 'Properties': properties,
+    };
+  }
+}
+
+/// Updated properties for the private DNS namespace.
+class PrivateDnsNamespacePropertiesChange {
+  /// Updated DNS properties for the private DNS namespace.
+  final PrivateDnsPropertiesMutableChange dnsProperties;
+
+  PrivateDnsNamespacePropertiesChange({
+    required this.dnsProperties,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dnsProperties = this.dnsProperties;
+    return {
+      'DnsProperties': dnsProperties,
+    };
+  }
+}
+
+/// Updated DNS properties for the private DNS namespace.
+class PrivateDnsPropertiesMutableChange {
+  /// Updated fields for the Start of Authority (SOA) record for the hosted zone
+  /// for the private DNS namespace.
+  final SOAChange soa;
+
+  PrivateDnsPropertiesMutableChange({
+    required this.soa,
+  });
+
+  Map<String, dynamic> toJson() {
+    final soa = this.soa;
+    return {
+      'SOA': soa,
+    };
+  }
+}
+
+class CustomHealthStatus {
+  static const healthy = CustomHealthStatus._('HEALTHY');
+  static const unhealthy = CustomHealthStatus._('UNHEALTHY');
+
+  final String value;
+
+  const CustomHealthStatus._(this.value);
+
+  static const values = [healthy, unhealthy];
+
+  static CustomHealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomHealthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomHealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Updated properties for the HTTP namespace.
+class HttpNamespaceChange {
+  /// An updated description for the HTTP namespace.
+  final String description;
+
+  HttpNamespaceChange({
+    required this.description,
+  });
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    return {
+      'Description': description,
+    };
+  }
+}
+
+/// A custom key-value pair that's associated with a resource.
+class Tag {
+  /// The key identifier, or name, of the tag.
+  final String key;
+
+  /// The string value that's associated with the key of the tag. You can set the
+  /// value of a tag to an empty string, but you can't set the value of a tag to
+  /// null.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// A complex type that contains information about a specified service.
+class ServiceSummary {
+  /// The Amazon Resource Name (ARN) that Cloud Map assigns to the service when
   /// you create it.
   final String? arn;
 
-  /// The date that the namespace was created, in Unix date/time format and
-  /// Coordinated Universal Time (UTC). The value of <code>CreateDate</code> is
-  /// accurate to milliseconds. For example, the value <code>1516925490.087</code>
-  /// represents Friday, January 26, 2018 12:11:30.087 AM.
+  /// The date and time that the service was created.
   final DateTime? createDate;
 
-  /// A unique string that identifies the request and that allows failed requests
-  /// to be retried without the risk of running an operation twice.
-  final String? creatorRequestId;
+  /// The ID of the Amazon Web Services account that created the service. If this
+  /// isn't your account ID, it is the account ID of the namespace owner or of
+  /// another account with which the namespace has been shared. For more
+  /// information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? createdByAccount;
 
-  /// The description that you specify for the namespace when you create it.
+  /// The description that you specify when you create the service.
   final String? description;
 
-  /// The ID of a namespace.
+  /// Information about the Route 53 DNS records that you want Cloud Map to create
+  /// when you register an instance.
+  final DnsConfig? dnsConfig;
+
+  /// <i>Public DNS and HTTP namespaces only.</i> Settings for an optional health
+  /// check. If you specify settings for a health check, Cloud Map associates the
+  /// health check with the records that you specify in <code>DnsConfig</code>.
+  final HealthCheckConfig? healthCheckConfig;
+
+  /// Information about an optional custom health check. A custom health check,
+  /// which requires that you use a third-party health checker to evaluate the
+  /// health of your resources, is useful in the following circumstances:
+  ///
+  /// <ul>
+  /// <li>
+  /// You can't use a health check that's defined by
+  /// <code>HealthCheckConfig</code> because the resource isn't available over the
+  /// internet. For example, you can use a custom health check when the instance
+  /// is in an Amazon VPC. (To check the health of resources in a VPC, the health
+  /// checker must also be in the VPC.)
+  /// </li>
+  /// <li>
+  /// You want to use a third-party health checker regardless of where your
+  /// resources are located.
+  /// </li>
+  /// </ul> <important>
+  /// If you specify a health check configuration, you can specify either
+  /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
+  /// not both.
+  /// </important>
+  final HealthCheckCustomConfig? healthCheckCustomConfig;
+
+  /// The ID that Cloud Map assigned to the service when you created it.
   final String? id;
 
-  /// The name of the namespace, such as <code>example.com</code>.
+  /// The number of instances that are currently associated with the service.
+  /// Instances that were previously associated with the service but that are
+  /// deleted aren't included in the count. The count might not reflect pending
+  /// registrations and deregistrations.
+  final int? instanceCount;
+
+  /// The name of the service.
   final String? name;
 
-  /// A complex type that contains information that's specific to the type of the
-  /// namespace.
-  final NamespaceProperties? properties;
+  /// The ID of the Amazon Web Services account that created the namespace with
+  /// which the service is associated. If this isn't your account ID, it is the ID
+  /// of the account that shared the namespace with your account. For more
+  /// information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? resourceOwner;
 
-  /// The number of services that are associated with the namespace.
-  final int? serviceCount;
-
-  /// The type of the namespace. The methods for discovering instances depends on
-  /// the value that you specify:
-  /// <dl> <dt>HTTP</dt> <dd>
-  /// Instances can be discovered only programmatically, using the Cloud Map
-  /// <code>DiscoverInstances</code> API.
-  /// </dd> <dt>DNS_PUBLIC</dt> <dd>
-  /// Instances can be discovered using public DNS queries and using the
-  /// <code>DiscoverInstances</code> API.
-  /// </dd> <dt>DNS_PRIVATE</dt> <dd>
-  /// Instances can be discovered using DNS queries in VPCs and using the
-  /// <code>DiscoverInstances</code> API.
+  /// Describes the systems that can be used to discover the service instances.
+  /// <dl> <dt>DNS_HTTP</dt> <dd>
+  /// The service instances can be discovered using either DNS queries or the
+  /// <code>DiscoverInstances</code> API operation.
+  /// </dd> <dt>HTTP</dt> <dd>
+  /// The service instances can only be discovered using the
+  /// <code>DiscoverInstances</code> API operation.
+  /// </dd> <dt>DNS</dt> <dd>
+  /// Reserved.
   /// </dd> </dl>
-  final NamespaceType? type;
+  final ServiceType? type;
 
-  Namespace({
+  ServiceSummary({
     this.arn,
     this.createDate,
-    this.creatorRequestId,
+    this.createdByAccount,
     this.description,
+    this.dnsConfig,
+    this.healthCheckConfig,
+    this.healthCheckCustomConfig,
     this.id,
+    this.instanceCount,
     this.name,
-    this.properties,
-    this.serviceCount,
+    this.resourceOwner,
     this.type,
   });
 
-  factory Namespace.fromJson(Map<String, dynamic> json) {
-    return Namespace(
+  factory ServiceSummary.fromJson(Map<String, dynamic> json) {
+    return ServiceSummary(
       arn: json['Arn'] as String?,
       createDate: timeStampFromJson(json['CreateDate']),
-      creatorRequestId: json['CreatorRequestId'] as String?,
+      createdByAccount: json['CreatedByAccount'] as String?,
       description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      properties: json['Properties'] != null
-          ? NamespaceProperties.fromJson(
-              json['Properties'] as Map<String, dynamic>)
+      dnsConfig: json['DnsConfig'] != null
+          ? DnsConfig.fromJson(json['DnsConfig'] as Map<String, dynamic>)
           : null,
-      serviceCount: json['ServiceCount'] as int?,
-      type: (json['Type'] as String?)?.let(NamespaceType.fromString),
+      healthCheckConfig: json['HealthCheckConfig'] != null
+          ? HealthCheckConfig.fromJson(
+              json['HealthCheckConfig'] as Map<String, dynamic>)
+          : null,
+      healthCheckCustomConfig: json['HealthCheckCustomConfig'] != null
+          ? HealthCheckCustomConfig.fromJson(
+              json['HealthCheckCustomConfig'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      instanceCount: json['InstanceCount'] as int?,
+      name: json['Name'] as String?,
+      resourceOwner: json['ResourceOwner'] as String?,
+      type: (json['Type'] as String?)?.let(ServiceType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
     final createDate = this.createDate;
-    final creatorRequestId = this.creatorRequestId;
+    final createdByAccount = this.createdByAccount;
     final description = this.description;
+    final dnsConfig = this.dnsConfig;
+    final healthCheckConfig = this.healthCheckConfig;
+    final healthCheckCustomConfig = this.healthCheckCustomConfig;
     final id = this.id;
+    final instanceCount = this.instanceCount;
     final name = this.name;
-    final properties = this.properties;
-    final serviceCount = this.serviceCount;
+    final resourceOwner = this.resourceOwner;
     final type = this.type;
     return {
       if (arn != null) 'Arn': arn,
       if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+      if (createdByAccount != null) 'CreatedByAccount': createdByAccount,
       if (description != null) 'Description': description,
+      if (dnsConfig != null) 'DnsConfig': dnsConfig,
+      if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
+      if (healthCheckCustomConfig != null)
+        'HealthCheckCustomConfig': healthCheckCustomConfig,
       if (id != null) 'Id': id,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
       if (name != null) 'Name': name,
-      if (properties != null) 'Properties': properties,
-      if (serviceCount != null) 'ServiceCount': serviceCount,
+      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
       if (type != null) 'Type': type.value,
     };
   }
 }
 
-/// A complex type that identifies the namespaces that you want to list. You can
-/// choose to list public or private namespaces.
-class NamespaceFilter {
-  /// Specify the namespaces that you want to get using one of the following.
+class ServiceType {
+  static const http = ServiceType._('HTTP');
+  static const dnsHttp = ServiceType._('DNS_HTTP');
+  static const dns = ServiceType._('DNS');
+
+  final String value;
+
+  const ServiceType._(this.value);
+
+  static const values = [http, dnsHttp, dns];
+
+  static ServiceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains information about the Amazon Route 53 DNS
+/// records that you want Cloud Map to create when you register an instance.
+class DnsConfig {
+  /// An array that contains one <code>DnsRecord</code> object for each Route 53
+  /// DNS record that you want Cloud Map to create when you register an instance.
+  /// <important>
+  /// The record type of a service specified in a <code>DnsRecord</code> object
+  /// can't be updated. To change a record type, you need to delete the service
+  /// and recreate it with a new <code>DnsConfig</code>.
+  /// </important>
+  final List<DnsRecord> dnsRecords;
+
+  /// <i>Use NamespaceId in <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_Service.html">Service</a>
+  /// instead.</i>
+  ///
+  /// The ID of the namespace to use for DNS configuration.
+  final String? namespaceId;
+
+  /// The routing policy that you want to apply to all Route 53 DNS records that
+  /// Cloud Map creates when you register an instance and specify this service.
+  /// <note>
+  /// If you want to use this service to register instances that create alias
+  /// records, specify <code>WEIGHTED</code> for the routing policy.
+  /// </note>
+  /// You can specify the following values:
+  /// <dl> <dt>MULTIVALUE</dt> <dd>
+  /// If you define a health check for the service and the health check is
+  /// healthy, Route 53 returns the applicable value for up to eight instances.
+  ///
+  /// For example, suppose that the service includes configurations for one
+  /// <code>A</code> record and a health check. You use the service to register 10
+  /// instances. Route 53 responds to DNS queries with IP addresses for up to
+  /// eight healthy instances. If fewer than eight instances are healthy, Route 53
+  /// responds to every DNS query with the IP addresses for all of the healthy
+  /// instances.
+  ///
+  /// If you don't define a health check for the service, Route 53 assumes that
+  /// all instances are healthy and returns the values for up to eight instances.
+  ///
+  /// For more information about the multivalue routing policy, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-multivalue">Multivalue
+  /// Answer Routing</a> in the <i>Route 53 Developer Guide</i>.
+  /// </dd> <dt>WEIGHTED</dt> <dd>
+  /// Route 53 returns the applicable value from one randomly selected instance
+  /// from among the instances that you registered using the same service.
+  /// Currently, all records have the same weight, so you can't route more or less
+  /// traffic to any instances.
+  ///
+  /// For example, suppose that the service includes configurations for one
+  /// <code>A</code> record and a health check. You use the service to register 10
+  /// instances. Route 53 responds to DNS queries with the IP address for one
+  /// randomly selected instance from among the healthy instances. If no instances
+  /// are healthy, Route 53 responds to DNS queries as if all of the instances
+  /// were healthy.
+  ///
+  /// If you don't define a health check for the service, Route 53 assumes that
+  /// all instances are healthy and returns the applicable value for one randomly
+  /// selected instance.
+  ///
+  /// For more information about the weighted routing policy, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-weighted">Weighted
+  /// Routing</a> in the <i>Route 53 Developer Guide</i>.
+  /// </dd> </dl>
+  final RoutingPolicy? routingPolicy;
+
+  DnsConfig({
+    required this.dnsRecords,
+    this.namespaceId,
+    this.routingPolicy,
+  });
+
+  factory DnsConfig.fromJson(Map<String, dynamic> json) {
+    return DnsConfig(
+      dnsRecords: ((json['DnsRecords'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DnsRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      namespaceId: json['NamespaceId'] as String?,
+      routingPolicy:
+          (json['RoutingPolicy'] as String?)?.let(RoutingPolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dnsRecords = this.dnsRecords;
+    final namespaceId = this.namespaceId;
+    final routingPolicy = this.routingPolicy;
+    return {
+      'DnsRecords': dnsRecords,
+      if (namespaceId != null) 'NamespaceId': namespaceId,
+      if (routingPolicy != null) 'RoutingPolicy': routingPolicy.value,
+    };
+  }
+}
+
+/// A complex type that contains information about an optional custom health
+/// check. A custom health check, which requires that you use a third-party
+/// health checker to evaluate the health of your resources, is useful in the
+/// following circumstances:
+///
+/// <ul>
+/// <li>
+/// You can't use a health check that's defined by
+/// <code>HealthCheckConfig</code> because the resource isn't available over the
+/// internet. For example, you can use a custom health check when the instance
+/// is in an Amazon VPC. (To check the health of resources in a VPC, the health
+/// checker must also be in the VPC.)
+/// </li>
+/// <li>
+/// You want to use a third-party health checker regardless of where your
+/// resources are located.
+/// </li>
+/// </ul> <important>
+/// If you specify a health check configuration, you can specify either
+/// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
+/// not both.
+/// </important>
+/// To change the status of a custom health check, submit an
+/// <code>UpdateInstanceCustomHealthStatus</code> request. Cloud Map doesn't
+/// monitor the status of the resource, it just keeps a record of the status
+/// specified in the most recent <code>UpdateInstanceCustomHealthStatus</code>
+/// request.
+///
+/// Here's how custom health checks work:
+/// <ol>
+/// <li>
+/// You create a service.
+/// </li>
+/// <li>
+/// You register an instance.
+/// </li>
+/// <li>
+/// You configure a third-party health checker to monitor the resource that's
+/// associated with the new instance.
+/// <note>
+/// Cloud Map doesn't check the health of the resource directly.
+/// </note> </li>
+/// <li>
+/// The third-party health-checker determines that the resource is unhealthy and
+/// notifies your application.
+/// </li>
+/// <li>
+/// Your application submits an <code>UpdateInstanceCustomHealthStatus</code>
+/// request.
+/// </li>
+/// <li>
+/// Cloud Map waits for 30 seconds.
+/// </li>
+/// <li>
+/// If another <code>UpdateInstanceCustomHealthStatus</code> request doesn't
+/// arrive during that time to change the status back to healthy, Cloud Map
+/// stops routing traffic to the resource.
+/// </li> </ol>
+class HealthCheckCustomConfig {
+  /// <important>
+  /// This parameter is no longer supported and is always set to 1. Cloud Map
+  /// waits for approximately 30 seconds after receiving an
+  /// <code>UpdateInstanceCustomHealthStatus</code> request before changing the
+  /// status of the service instance.
+  /// </important>
+  /// The number of 30-second intervals that you want Cloud Map to wait after
+  /// receiving an <code>UpdateInstanceCustomHealthStatus</code> request before it
+  /// changes the health status of a service instance.
+  ///
+  /// Sending a second or subsequent <code>UpdateInstanceCustomHealthStatus</code>
+  /// request with the same value before 30 seconds has passed doesn't accelerate
+  /// the change. Cloud Map still waits <code>30</code> seconds after the first
+  /// request to make the change.
+  final int? failureThreshold;
+
+  HealthCheckCustomConfig({
+    this.failureThreshold,
+  });
+
+  factory HealthCheckCustomConfig.fromJson(Map<String, dynamic> json) {
+    return HealthCheckCustomConfig(
+      failureThreshold: json['FailureThreshold'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureThreshold = this.failureThreshold;
+    return {
+      if (failureThreshold != null) 'FailureThreshold': failureThreshold,
+    };
+  }
+}
+
+class RoutingPolicy {
+  static const multivalue = RoutingPolicy._('MULTIVALUE');
+  static const weighted = RoutingPolicy._('WEIGHTED');
+
+  final String value;
+
+  const RoutingPolicy._(this.value);
+
+  static const values = [multivalue, weighted];
+
+  static RoutingPolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RoutingPolicy._(value));
+
+  @override
+  bool operator ==(other) => other is RoutingPolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that lets you specify the namespaces that you want to list
+/// services for.
+class ServiceFilter {
+  /// Specify the services that you want to get using one of the following.
   ///
   /// <ul>
   /// <li>
-  /// <code>TYPE</code>: Gets the namespaces of the specified type.
+  /// <code>NAMESPACE_ID</code>: Gets the services associated with the specified
+  /// namespace.
   /// </li>
   /// <li>
-  /// <code>NAME</code>: Gets the namespaces with the specified name.
-  /// </li>
-  /// <li>
-  /// <code>HTTP_NAME</code>: Gets the namespaces with the specified HTTP name.
+  /// <code>RESOURCE_OWNER</code>: Gets the services associated with the
+  /// namespaces created by your Amazon Web Services account or by other accounts.
+  /// This can be used to filter for services created in a shared namespace. For
+  /// more information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
   /// </li>
   /// </ul>
-  final NamespaceFilterName name;
+  final ServiceFilterName name;
 
-  /// Specify the values that are applicable to the value that you specify for
-  /// <code>Name</code>.
+  /// The values that are applicable to the value that you specify for
+  /// <code>Condition</code> to filter the list of services.
   ///
   /// <ul>
   /// <li>
-  /// <code>TYPE</code>: Specify <code>HTTP</code>, <code>DNS_PUBLIC</code>, or
-  /// <code>DNS_PRIVATE</code>.
+  /// <b>NAMESPACE_ID</b>: Specify one namespace ID or ARN. Specify the namespace
+  /// ARN for namespaces that are shared with your Amazon Web Services account.
   /// </li>
   /// <li>
-  /// <code>NAME</code>: Specify the name of the namespace, which is found in
-  /// <code>Namespace.Name</code>.
-  /// </li>
-  /// <li>
-  /// <code>HTTP_NAME</code>: Specify the HTTP name of the namespace, which is
-  /// found in <code>Namespace.Properties.HttpProperties.HttpName</code>.
+  /// <b>RESOURCE_OWNER</b>: Specify one of <code>SELF</code> or
+  /// <code>OTHER_ACCOUNTS</code>. <code>SELF</code> can be used to filter
+  /// services associated with namespaces created by you and
+  /// <code>OTHER_ACCOUNTS</code> can be used to filter services associated with
+  /// namespaces that were shared with you.
   /// </li>
   /// </ul>
   final List<String> values;
 
-  /// Specify the operator that you want to use to determine whether a namespace
-  /// matches the specified value. Valid values for <code>Condition</code> are one
-  /// of the following.
+  /// The operator that you want to use to determine whether a service is returned
+  /// by <code>ListServices</code>. Valid values for <code>Condition</code>
+  /// include the following:
   ///
   /// <ul>
   /// <li>
-  /// <code>EQ</code>: When you specify <code>EQ</code> for
-  /// <code>Condition</code>, you can specify only one value. <code>EQ</code> is
-  /// supported for <code>TYPE</code>, <code>NAME</code>, and
-  /// <code>HTTP_NAME</code>. <code>EQ</code> is the default condition and can be
-  /// omitted.
-  /// </li>
-  /// <li>
-  /// <code>BEGINS_WITH</code>: When you specify <code>BEGINS_WITH</code> for
-  /// <code>Condition</code>, you can specify only one value.
-  /// <code>BEGINS_WITH</code> is supported for <code>TYPE</code>,
-  /// <code>NAME</code>, and <code>HTTP_NAME</code>.
+  /// <code>EQ</code>: When you specify <code>EQ</code>, specify one value.
+  /// <code>EQ</code> is the default condition and can be omitted.
   /// </li>
   /// </ul>
   final FilterCondition? condition;
 
-  NamespaceFilter({
+  ServiceFilter({
     required this.name,
     required this.values,
     this.condition,
@@ -3399,24 +3701,22 @@ class NamespaceFilter {
   }
 }
 
-class NamespaceFilterName {
-  static const type = NamespaceFilterName._('TYPE');
-  static const name = NamespaceFilterName._('NAME');
-  static const httpName = NamespaceFilterName._('HTTP_NAME');
+class ServiceFilterName {
+  static const namespaceId = ServiceFilterName._('NAMESPACE_ID');
+  static const resourceOwner = ServiceFilterName._('RESOURCE_OWNER');
 
   final String value;
 
-  const NamespaceFilterName._(this.value);
+  const ServiceFilterName._(this.value);
 
-  static const values = [type, name, httpName];
+  static const values = [namespaceId, resourceOwner];
 
-  static NamespaceFilterName fromString(String value) =>
+  static ServiceFilterName fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => NamespaceFilterName._(value));
+          orElse: () => ServiceFilterName._(value));
 
   @override
-  bool operator ==(other) =>
-      other is NamespaceFilterName && other.value == value;
+  bool operator ==(other) => other is ServiceFilterName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3425,139 +3725,24 @@ class NamespaceFilterName {
   String toString() => value;
 }
 
-/// A complex type that contains information that's specific to the namespace
-/// type.
-class NamespaceProperties {
-  /// A complex type that contains the ID for the Route 53 hosted zone that Cloud
-  /// Map creates when you create a namespace.
-  final DnsProperties? dnsProperties;
-
-  /// A complex type that contains the name of an HTTP namespace.
-  final HttpProperties? httpProperties;
-
-  NamespaceProperties({
-    this.dnsProperties,
-    this.httpProperties,
-  });
-
-  factory NamespaceProperties.fromJson(Map<String, dynamic> json) {
-    return NamespaceProperties(
-      dnsProperties: json['DnsProperties'] != null
-          ? DnsProperties.fromJson(
-              json['DnsProperties'] as Map<String, dynamic>)
-          : null,
-      httpProperties: json['HttpProperties'] != null
-          ? HttpProperties.fromJson(
-              json['HttpProperties'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dnsProperties = this.dnsProperties;
-    final httpProperties = this.httpProperties;
-    return {
-      if (dnsProperties != null) 'DnsProperties': dnsProperties,
-      if (httpProperties != null) 'HttpProperties': httpProperties,
-    };
-  }
-}
-
-/// A complex type that contains information about a namespace.
-class NamespaceSummary {
-  /// The Amazon Resource Name (ARN) that Cloud Map assigns to the namespace when
-  /// you create it.
-  final String? arn;
-
-  /// The date and time that the namespace was created.
-  final DateTime? createDate;
-
-  /// A description for the namespace.
-  final String? description;
-
-  /// The ID of the namespace.
-  final String? id;
-
-  /// The name of the namespace. When you create a namespace, Cloud Map
-  /// automatically creates a Route 53 hosted zone that has the same name as the
-  /// namespace.
-  final String? name;
-
-  /// The properties of the namespace.
-  final NamespaceProperties? properties;
-
-  /// The number of services that were created using the namespace.
-  final int? serviceCount;
-
-  /// The type of the namespace, either public or private.
-  final NamespaceType? type;
-
-  NamespaceSummary({
-    this.arn,
-    this.createDate,
-    this.description,
-    this.id,
-    this.name,
-    this.properties,
-    this.serviceCount,
-    this.type,
-  });
-
-  factory NamespaceSummary.fromJson(Map<String, dynamic> json) {
-    return NamespaceSummary(
-      arn: json['Arn'] as String?,
-      createDate: timeStampFromJson(json['CreateDate']),
-      description: json['Description'] as String?,
-      id: json['Id'] as String?,
-      name: json['Name'] as String?,
-      properties: json['Properties'] != null
-          ? NamespaceProperties.fromJson(
-              json['Properties'] as Map<String, dynamic>)
-          : null,
-      serviceCount: json['ServiceCount'] as int?,
-      type: (json['Type'] as String?)?.let(NamespaceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createDate = this.createDate;
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final properties = this.properties;
-    final serviceCount = this.serviceCount;
-    final type = this.type;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (description != null) 'Description': description,
-      if (id != null) 'Id': id,
-      if (name != null) 'Name': name,
-      if (properties != null) 'Properties': properties,
-      if (serviceCount != null) 'ServiceCount': serviceCount,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class NamespaceType {
-  static const dnsPublic = NamespaceType._('DNS_PUBLIC');
-  static const dnsPrivate = NamespaceType._('DNS_PRIVATE');
-  static const http = NamespaceType._('HTTP');
+class FilterCondition {
+  static const eq = FilterCondition._('EQ');
+  static const $in = FilterCondition._('IN');
+  static const between = FilterCondition._('BETWEEN');
+  static const beginsWith = FilterCondition._('BEGINS_WITH');
 
   final String value;
 
-  const NamespaceType._(this.value);
+  const FilterCondition._(this.value);
 
-  static const values = [dnsPublic, dnsPrivate, http];
+  static const values = [eq, $in, between, beginsWith];
 
-  static NamespaceType fromString(String value) =>
+  static FilterCondition fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => NamespaceType._(value));
+          orElse: () => FilterCondition._(value));
 
   @override
-  bool operator ==(other) => other is NamespaceType && other.value == value;
+  bool operator ==(other) => other is FilterCondition && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3566,129 +3751,80 @@ class NamespaceType {
   String toString() => value;
 }
 
-/// A complex type that contains information about a specified operation.
-class Operation {
-  /// The date and time that the request was submitted, in Unix date/time format
-  /// and Coordinated Universal Time (UTC). The value of <code>CreateDate</code>
-  /// is accurate to milliseconds. For example, the value
-  /// <code>1516925490.087</code> represents Friday, January 26, 2018 12:11:30.087
-  /// AM.
-  final DateTime? createDate;
-
-  /// The code associated with <code>ErrorMessage</code>. Values for
-  /// <code>ErrorCode</code> include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACCESS_DENIED</code>
-  /// </li>
-  /// <li>
-  /// <code>CANNOT_CREATE_HOSTED_ZONE</code>
-  /// </li>
-  /// <li>
-  /// <code>EXPIRED_TOKEN</code>
-  /// </li>
-  /// <li>
-  /// <code>HOSTED_ZONE_NOT_FOUND</code>
-  /// </li>
-  /// <li>
-  /// <code>INTERNAL_FAILURE</code>
-  /// </li>
-  /// <li>
-  /// <code>INVALID_CHANGE_BATCH</code>
-  /// </li>
-  /// <li>
-  /// <code>THROTTLED_REQUEST</code>
-  /// </li>
-  /// </ul>
-  final String? errorCode;
-
-  /// If the value of <code>Status</code> is <code>FAIL</code>, the reason that
-  /// the operation failed.
-  final String? errorMessage;
-
-  /// The ID of the operation that you want to get information about.
+/// A complex type that contains information about an operation that matches the
+/// criteria that you specified in a <a
+/// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html">ListOperations</a>
+/// request.
+class OperationSummary {
+  /// The ID for an operation.
   final String? id;
 
   /// The status of the operation. Values include the following:
-  /// <dl> <dt>SUBMITTED</dt> <dd>
-  /// This is the initial state that occurs immediately after you submit a
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>SUBMITTED</b>: This is the initial state immediately after you submit a
   /// request.
-  /// </dd> <dt>PENDING</dt> <dd>
-  /// Cloud Map is performing the operation.
-  /// </dd> <dt>SUCCESS</dt> <dd>
-  /// The operation succeeded.
-  /// </dd> <dt>FAIL</dt> <dd>
-  /// The operation failed. For the failure reason, see <code>ErrorMessage</code>.
-  /// </dd> </dl>
+  /// </li>
+  /// <li>
+  /// <b>PENDING</b>: Cloud Map is performing the operation.
+  /// </li>
+  /// <li>
+  /// <b>SUCCESS</b>: The operation succeeded.
+  /// </li>
+  /// <li>
+  /// <b>FAIL</b>: The operation failed. For the failure reason, see
+  /// <code>ErrorMessage</code>.
+  /// </li>
+  /// </ul>
   final OperationStatus? status;
 
-  /// The name of the target entity that's associated with the operation:
-  /// <dl> <dt>NAMESPACE</dt> <dd>
-  /// The namespace ID is returned in the <code>ResourceId</code> property.
-  /// </dd> <dt>SERVICE</dt> <dd>
-  /// The service ID is returned in the <code>ResourceId</code> property.
-  /// </dd> <dt>INSTANCE</dt> <dd>
-  /// The instance ID is returned in the <code>ResourceId</code> property.
-  /// </dd> </dl>
-  final Map<OperationTargetType, String>? targets;
-
-  /// The name of the operation that's associated with the specified ID.
-  final OperationType? type;
-
-  /// The date and time that the value of <code>Status</code> changed to the
-  /// current value, in Unix date/time format and Coordinated Universal Time
-  /// (UTC). The value of <code>UpdateDate</code> is accurate to milliseconds. For
-  /// example, the value <code>1516925490.087</code> represents Friday, January
-  /// 26, 2018 12:11:30.087 AM.
-  final DateTime? updateDate;
-
-  Operation({
-    this.createDate,
-    this.errorCode,
-    this.errorMessage,
+  OperationSummary({
     this.id,
     this.status,
-    this.targets,
-    this.type,
-    this.updateDate,
   });
 
-  factory Operation.fromJson(Map<String, dynamic> json) {
-    return Operation(
-      createDate: timeStampFromJson(json['CreateDate']),
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
+  factory OperationSummary.fromJson(Map<String, dynamic> json) {
+    return OperationSummary(
       id: json['Id'] as String?,
       status: (json['Status'] as String?)?.let(OperationStatus.fromString),
-      targets: (json['Targets'] as Map<String, dynamic>?)?.map(
-          (k, e) => MapEntry(OperationTargetType.fromString(k), e as String)),
-      type: (json['Type'] as String?)?.let(OperationType.fromString),
-      updateDate: timeStampFromJson(json['UpdateDate']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createDate = this.createDate;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
     final id = this.id;
     final status = this.status;
-    final targets = this.targets;
-    final type = this.type;
-    final updateDate = this.updateDate;
     return {
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (id != null) 'Id': id,
       if (status != null) 'Status': status.value,
-      if (targets != null)
-        'Targets': targets.map((k, e) => MapEntry(k.value, e)),
-      if (type != null) 'Type': type.value,
-      if (updateDate != null) 'UpdateDate': unixTimestampToJson(updateDate),
     };
   }
+}
+
+class OperationStatus {
+  static const submitted = OperationStatus._('SUBMITTED');
+  static const pending = OperationStatus._('PENDING');
+  static const success = OperationStatus._('SUCCESS');
+  static const fail = OperationStatus._('FAIL');
+
+  final String value;
+
+  const OperationStatus._(this.value);
+
+  static const values = [submitted, pending, success, fail];
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A complex type that lets you select the operations that you want to list.
@@ -3816,106 +3952,795 @@ class OperationFilterName {
   String toString() => value;
 }
 
-class OperationStatus {
-  static const submitted = OperationStatus._('SUBMITTED');
-  static const pending = OperationStatus._('PENDING');
-  static const success = OperationStatus._('SUCCESS');
-  static const fail = OperationStatus._('FAIL');
+/// A complex type that contains information about a namespace.
+class NamespaceSummary {
+  /// The Amazon Resource Name (ARN) that Cloud Map assigns to the namespace when
+  /// you create it.
+  final String? arn;
 
-  final String value;
+  /// The date and time that the namespace was created.
+  final DateTime? createDate;
 
-  const OperationStatus._(this.value);
+  /// A description for the namespace.
+  final String? description;
 
-  static const values = [submitted, pending, success, fail];
-
-  static OperationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is OperationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A complex type that contains information about an operation that matches the
-/// criteria that you specified in a <a
-/// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html">ListOperations</a>
-/// request.
-class OperationSummary {
-  /// The ID for an operation.
+  /// The ID of the namespace.
   final String? id;
 
-  /// The status of the operation. Values include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>SUBMITTED</b>: This is the initial state immediately after you submit a
-  /// request.
-  /// </li>
-  /// <li>
-  /// <b>PENDING</b>: Cloud Map is performing the operation.
-  /// </li>
-  /// <li>
-  /// <b>SUCCESS</b>: The operation succeeded.
-  /// </li>
-  /// <li>
-  /// <b>FAIL</b>: The operation failed. For the failure reason, see
-  /// <code>ErrorMessage</code>.
-  /// </li>
-  /// </ul>
-  final OperationStatus? status;
+  /// The name of the namespace. When you create a namespace, Cloud Map
+  /// automatically creates a Route 53 hosted zone that has the same name as the
+  /// namespace.
+  final String? name;
 
-  OperationSummary({
+  /// The properties of the namespace.
+  final NamespaceProperties? properties;
+
+  /// The ID of the Amazon Web Services account that created the namespace. If
+  /// this isn't your account ID, it's the ID of the account that shared the
+  /// namespace with your account. For more information about shared namespaces,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? resourceOwner;
+
+  /// The number of services that were created using the namespace.
+  final int? serviceCount;
+
+  /// The type of the namespace, either public or private.
+  final NamespaceType? type;
+
+  NamespaceSummary({
+    this.arn,
+    this.createDate,
+    this.description,
     this.id,
-    this.status,
+    this.name,
+    this.properties,
+    this.resourceOwner,
+    this.serviceCount,
+    this.type,
   });
 
-  factory OperationSummary.fromJson(Map<String, dynamic> json) {
-    return OperationSummary(
+  factory NamespaceSummary.fromJson(Map<String, dynamic> json) {
+    return NamespaceSummary(
+      arn: json['Arn'] as String?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      description: json['Description'] as String?,
       id: json['Id'] as String?,
-      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
+      name: json['Name'] as String?,
+      properties: json['Properties'] != null
+          ? NamespaceProperties.fromJson(
+              json['Properties'] as Map<String, dynamic>)
+          : null,
+      resourceOwner: json['ResourceOwner'] as String?,
+      serviceCount: json['ServiceCount'] as int?,
+      type: (json['Type'] as String?)?.let(NamespaceType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final description = this.description;
     final id = this.id;
-    final status = this.status;
+    final name = this.name;
+    final properties = this.properties;
+    final resourceOwner = this.resourceOwner;
+    final serviceCount = this.serviceCount;
+    final type = this.type;
     return {
+      if (arn != null) 'Arn': arn,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (description != null) 'Description': description,
       if (id != null) 'Id': id,
-      if (status != null) 'Status': status.value,
+      if (name != null) 'Name': name,
+      if (properties != null) 'Properties': properties,
+      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
+      if (serviceCount != null) 'ServiceCount': serviceCount,
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
-class OperationTargetType {
-  static const namespace = OperationTargetType._('NAMESPACE');
-  static const service = OperationTargetType._('SERVICE');
-  static const instance = OperationTargetType._('INSTANCE');
+class NamespaceType {
+  static const dnsPublic = NamespaceType._('DNS_PUBLIC');
+  static const dnsPrivate = NamespaceType._('DNS_PRIVATE');
+  static const http = NamespaceType._('HTTP');
 
   final String value;
 
-  const OperationTargetType._(this.value);
+  const NamespaceType._(this.value);
 
-  static const values = [namespace, service, instance];
+  static const values = [dnsPublic, dnsPrivate, http];
 
-  static OperationTargetType fromString(String value) =>
+  static NamespaceType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => OperationTargetType._(value));
+          orElse: () => NamespaceType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is OperationTargetType && other.value == value;
+  bool operator ==(other) => other is NamespaceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// A complex type that contains information that's specific to the namespace
+/// type.
+class NamespaceProperties {
+  /// A complex type that contains the ID for the Route 53 hosted zone that Cloud
+  /// Map creates when you create a namespace.
+  final DnsProperties? dnsProperties;
+
+  /// A complex type that contains the name of an HTTP namespace.
+  final HttpProperties? httpProperties;
+
+  NamespaceProperties({
+    this.dnsProperties,
+    this.httpProperties,
+  });
+
+  factory NamespaceProperties.fromJson(Map<String, dynamic> json) {
+    return NamespaceProperties(
+      dnsProperties: json['DnsProperties'] != null
+          ? DnsProperties.fromJson(
+              json['DnsProperties'] as Map<String, dynamic>)
+          : null,
+      httpProperties: json['HttpProperties'] != null
+          ? HttpProperties.fromJson(
+              json['HttpProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dnsProperties = this.dnsProperties;
+    final httpProperties = this.httpProperties;
+    return {
+      if (dnsProperties != null) 'DnsProperties': dnsProperties,
+      if (httpProperties != null) 'HttpProperties': httpProperties,
+    };
+  }
+}
+
+/// A complex type that contains the ID for the Route 53 hosted zone that Cloud
+/// Map creates when you create a namespace.
+class DnsProperties {
+  /// The ID for the Route 53 hosted zone that Cloud Map creates when you create a
+  /// namespace.
+  final String? hostedZoneId;
+
+  /// Start of Authority (SOA) record for the hosted zone.
+  final SOA? soa;
+
+  DnsProperties({
+    this.hostedZoneId,
+    this.soa,
+  });
+
+  factory DnsProperties.fromJson(Map<String, dynamic> json) {
+    return DnsProperties(
+      hostedZoneId: json['HostedZoneId'] as String?,
+      soa: json['SOA'] != null
+          ? SOA.fromJson(json['SOA'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final soa = this.soa;
+    return {
+      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
+      if (soa != null) 'SOA': soa,
+    };
+  }
+}
+
+/// A complex type that contains the name of an HTTP namespace.
+class HttpProperties {
+  /// The name of an HTTP namespace.
+  final String? httpName;
+
+  HttpProperties({
+    this.httpName,
+  });
+
+  factory HttpProperties.fromJson(Map<String, dynamic> json) {
+    return HttpProperties(
+      httpName: json['HttpName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpName = this.httpName;
+    return {
+      if (httpName != null) 'HttpName': httpName,
+    };
+  }
+}
+
+/// Start of Authority (SOA) properties for a public or private DNS namespace.
+class SOA {
+  /// The time to live (TTL) for purposes of negative caching.
+  final int ttl;
+
+  SOA({
+    required this.ttl,
+  });
+
+  factory SOA.fromJson(Map<String, dynamic> json) {
+    return SOA(
+      ttl: (json['TTL'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ttl = this.ttl;
+    return {
+      'TTL': ttl,
+    };
+  }
+}
+
+/// A complex type that identifies the namespaces that you want to list. You can
+/// choose to list public or private namespaces.
+class NamespaceFilter {
+  /// Specify the namespaces that you want to get using one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TYPE</code>: Gets the namespaces of the specified type.
+  /// </li>
+  /// <li>
+  /// <code>NAME</code>: Gets the namespaces with the specified name.
+  /// </li>
+  /// <li>
+  /// <code>HTTP_NAME</code>: Gets the namespaces with the specified HTTP name.
+  /// </li>
+  /// <li>
+  /// <code>RESOURCE_OWNER</code>: Gets the namespaces created by your Amazon Web
+  /// Services account or by other accounts. This can be used to filter for shared
+  /// namespaces. For more information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  /// </li>
+  /// </ul>
+  final NamespaceFilterName name;
+
+  /// Specify the values that are applicable to the value that you specify for
+  /// <code>Name</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>TYPE</code>: Specify <code>HTTP</code>, <code>DNS_PUBLIC</code>, or
+  /// <code>DNS_PRIVATE</code>.
+  /// </li>
+  /// <li>
+  /// <code>NAME</code>: Specify the name of the namespace, which is found in
+  /// <code>Namespace.Name</code>.
+  /// </li>
+  /// <li>
+  /// <code>HTTP_NAME</code>: Specify the HTTP name of the namespace, which is
+  /// found in <code>Namespace.Properties.HttpProperties.HttpName</code>.
+  /// </li>
+  /// <li>
+  /// <code>RESOURCE_OWNER</code>: Specify one of <code>SELF</code> or
+  /// <code>OTHER_ACCOUNTS</code>. <code>SELF</code> can be used to filter
+  /// namespaces created by you and <code>OTHER_ACCOUNTS</code> can be used to
+  /// filter namespaces shared with you that were created by other accounts.
+  /// </li>
+  /// </ul>
+  final List<String> values;
+
+  /// Specify the operator that you want to use to determine whether a namespace
+  /// matches the specified value. Valid values for <code>Condition</code> are one
+  /// of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>EQ</code>: When you specify <code>EQ</code> for
+  /// <code>Condition</code>, you can specify only one value. <code>EQ</code> is
+  /// supported for <code>TYPE</code>, <code>NAME</code>,
+  /// <code>RESOURCE_OWNER</code> and <code>HTTP_NAME</code>. <code>EQ</code> is
+  /// the default condition and can be omitted.
+  /// </li>
+  /// <li>
+  /// <code>BEGINS_WITH</code>: When you specify <code>BEGINS_WITH</code> for
+  /// <code>Condition</code>, you can specify only one value.
+  /// <code>BEGINS_WITH</code> is supported for <code>TYPE</code>,
+  /// <code>NAME</code>, and <code>HTTP_NAME</code>.
+  /// </li>
+  /// </ul>
+  final FilterCondition? condition;
+
+  NamespaceFilter({
+    required this.name,
+    required this.values,
+    this.condition,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    final condition = this.condition;
+    return {
+      'Name': name.value,
+      'Values': values,
+      if (condition != null) 'Condition': condition.value,
+    };
+  }
+}
+
+class NamespaceFilterName {
+  static const type = NamespaceFilterName._('TYPE');
+  static const name = NamespaceFilterName._('NAME');
+  static const httpName = NamespaceFilterName._('HTTP_NAME');
+  static const resourceOwner = NamespaceFilterName._('RESOURCE_OWNER');
+
+  final String value;
+
+  const NamespaceFilterName._(this.value);
+
+  static const values = [type, name, httpName, resourceOwner];
+
+  static NamespaceFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NamespaceFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NamespaceFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that contains information about the instances that you
+/// registered by using a specified service.
+class InstanceSummary {
+  /// A string map that contains the following information:
+  ///
+  /// <ul>
+  /// <li>
+  /// The attributes that are associated with the instance.
+  /// </li>
+  /// <li>
+  /// For each attribute, the applicable value.
+  /// </li>
+  /// </ul>
+  /// Supported attribute keys include the following:
+  /// <dl> <dt>AWS_ALIAS_DNS_NAME</dt> <dd>
+  /// For an alias record that routes traffic to an Elastic Load Balancing load
+  /// balancer, the DNS name that's associated with the load balancer.
+  /// </dd> <dt>AWS_EC2_INSTANCE_ID (HTTP namespaces only)</dt> <dd>
+  /// The Amazon EC2 instance ID for the instance. When the
+  /// <code>AWS_EC2_INSTANCE_ID</code> attribute is specified, then the
+  /// <code>AWS_INSTANCE_IPV4</code> attribute contains the primary private IPv4
+  /// address.
+  /// </dd> <dt>AWS_INIT_HEALTH_STATUS</dt> <dd>
+  /// If the service configuration includes <code>HealthCheckCustomConfig</code>,
+  /// you can optionally use <code>AWS_INIT_HEALTH_STATUS</code> to specify the
+  /// initial status of the custom health check, <code>HEALTHY</code> or
+  /// <code>UNHEALTHY</code>. If you don't specify a value for
+  /// <code>AWS_INIT_HEALTH_STATUS</code>, the initial status is
+  /// <code>HEALTHY</code>.
+  /// </dd> <dt>AWS_INSTANCE_CNAME</dt> <dd>
+  /// For a <code>CNAME</code> record, the domain name that Route 53 returns in
+  /// response to DNS queries (for example, <code>example.com</code>).
+  /// </dd> <dt>AWS_INSTANCE_IPV4</dt> <dd>
+  /// For an <code>A</code> record, the IPv4 address that Route 53 returns in
+  /// response to DNS queries (for example, <code>192.0.2.44</code>).
+  /// </dd> <dt>AWS_INSTANCE_IPV6</dt> <dd>
+  /// For an <code>AAAA</code> record, the IPv6 address that Route 53 returns in
+  /// response to DNS queries (for example,
+  /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>).
+  /// </dd> <dt>AWS_INSTANCE_PORT</dt> <dd>
+  /// For an <code>SRV</code> record, the value that Route 53 returns for the
+  /// port. In addition, if the service includes <code>HealthCheckConfig</code>,
+  /// the port on the endpoint that Route 53 sends requests to.
+  /// </dd> </dl>
+  final Map<String, String>? attributes;
+
+  /// The ID of the Amazon Web Services account that registered the instance. If
+  /// this isn't your account ID, it's the ID of the account that shared the
+  /// namespace with your account or the ID of another account with which the
+  /// namespace has been shared. For more information about shared namespaces, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? createdByAccount;
+
+  /// The ID for an instance that you created by using a specified service.
+  final String? id;
+
+  InstanceSummary({
+    this.attributes,
+    this.createdByAccount,
+    this.id,
+  });
+
+  factory InstanceSummary.fromJson(Map<String, dynamic> json) {
+    return InstanceSummary(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      createdByAccount: json['CreatedByAccount'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final createdByAccount = this.createdByAccount;
+    final id = this.id;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (createdByAccount != null) 'CreatedByAccount': createdByAccount,
+      if (id != null) 'Id': id,
+    };
+  }
+}
+
+/// A complex type that contains information about attributes associated with a
+/// specific service.
+class ServiceAttributes {
+  /// A string map that contains the following information for the service that
+  /// you specify in <code>ServiceArn</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// The attributes that apply to the service.
+  /// </li>
+  /// <li>
+  /// For each attribute, the applicable value.
+  /// </li>
+  /// </ul>
+  /// You can specify a total of 30 attributes.
+  final Map<String, String>? attributes;
+
+  /// The ID of the Amazon Web Services account that created the namespace with
+  /// which the service is associated. If this isn't your account ID, it is the ID
+  /// of the account that shared the namespace with your account. For more
+  /// information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? resourceOwner;
+
+  /// The ARN of the service that the attributes are associated with.
+  final String? serviceArn;
+
+  ServiceAttributes({
+    this.attributes,
+    this.resourceOwner,
+    this.serviceArn,
+  });
+
+  factory ServiceAttributes.fromJson(Map<String, dynamic> json) {
+    return ServiceAttributes(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceOwner: json['ResourceOwner'] as String?,
+      serviceArn: json['ServiceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final resourceOwner = this.resourceOwner;
+    final serviceArn = this.serviceArn;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
+      if (serviceArn != null) 'ServiceArn': serviceArn,
+    };
+  }
+}
+
+/// A complex type that contains information about the specified service.
+class Service {
+  /// The Amazon Resource Name (ARN) that Cloud Map assigns to the service when
+  /// you create it.
+  final String? arn;
+
+  /// The date and time that the service was created, in Unix format and
+  /// Coordinated Universal Time (UTC). The value of <code>CreateDate</code> is
+  /// accurate to milliseconds. For example, the value <code>1516925490.087</code>
+  /// represents Friday, January 26, 2018 12:11:30.087 AM.
+  final DateTime? createDate;
+
+  /// The ID of the Amazon Web Services account that created the service. If this
+  /// isn't your account ID, it is the ID of account of the namespace owner or of
+  /// another account with which the namespace has been shared. For more
+  /// information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? createdByAccount;
+
+  /// A unique string that identifies the request and that allows failed requests
+  /// to be retried without the risk of running the operation twice.
+  /// <code>CreatorRequestId</code> can be any unique string (for example, a
+  /// date/timestamp).
+  final String? creatorRequestId;
+
+  /// The description of the service.
+  final String? description;
+
+  /// A complex type that contains information about the Route 53 DNS records that
+  /// you want Cloud Map to create when you register an instance.
+  /// <important>
+  /// The record types of a service can only be changed by deleting the service
+  /// and recreating it with a new <code>Dnsconfig</code>.
+  /// </important>
+  final DnsConfig? dnsConfig;
+
+  /// <i>Public DNS and HTTP namespaces only.</i> A complex type that contains
+  /// settings for an optional health check. If you specify settings for a health
+  /// check, Cloud Map associates the health check with the records that you
+  /// specify in <code>DnsConfig</code>.
+  ///
+  /// For information about the charges for health checks, see <a
+  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+  final HealthCheckConfig? healthCheckConfig;
+
+  /// A complex type that contains information about an optional custom health
+  /// check.
+  /// <important>
+  /// If you specify a health check configuration, you can specify either
+  /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
+  /// not both.
+  /// </important>
+  final HealthCheckCustomConfig? healthCheckCustomConfig;
+
+  /// The ID that Cloud Map assigned to the service when you created it.
+  final String? id;
+
+  /// The number of instances that are currently associated with the service.
+  /// Instances that were previously associated with the service but that are
+  /// deleted aren't included in the count. The count might not reflect pending
+  /// registrations and deregistrations.
+  final int? instanceCount;
+
+  /// The name of the service.
+  final String? name;
+
+  /// The ID of the namespace that was used to create the service.
+  final String? namespaceId;
+
+  /// The ID of the Amazon Web Services account that created the namespace with
+  /// which the service is associated. If this isn't your account ID, it is the ID
+  /// of the account that shared the namespace with your account. For more
+  /// information about shared namespaces, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? resourceOwner;
+
+  /// Describes the systems that can be used to discover the service instances.
+  /// <dl> <dt>DNS_HTTP</dt> <dd>
+  /// The service instances can be discovered using either DNS queries or the
+  /// <code>DiscoverInstances</code> API operation.
+  /// </dd> <dt>HTTP</dt> <dd>
+  /// The service instances can only be discovered using the
+  /// <code>DiscoverInstances</code> API operation.
+  /// </dd> <dt>DNS</dt> <dd>
+  /// Reserved.
+  /// </dd> </dl>
+  final ServiceType? type;
+
+  Service({
+    this.arn,
+    this.createDate,
+    this.createdByAccount,
+    this.creatorRequestId,
+    this.description,
+    this.dnsConfig,
+    this.healthCheckConfig,
+    this.healthCheckCustomConfig,
+    this.id,
+    this.instanceCount,
+    this.name,
+    this.namespaceId,
+    this.resourceOwner,
+    this.type,
+  });
+
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      arn: json['Arn'] as String?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      createdByAccount: json['CreatedByAccount'] as String?,
+      creatorRequestId: json['CreatorRequestId'] as String?,
+      description: json['Description'] as String?,
+      dnsConfig: json['DnsConfig'] != null
+          ? DnsConfig.fromJson(json['DnsConfig'] as Map<String, dynamic>)
+          : null,
+      healthCheckConfig: json['HealthCheckConfig'] != null
+          ? HealthCheckConfig.fromJson(
+              json['HealthCheckConfig'] as Map<String, dynamic>)
+          : null,
+      healthCheckCustomConfig: json['HealthCheckCustomConfig'] != null
+          ? HealthCheckCustomConfig.fromJson(
+              json['HealthCheckCustomConfig'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      instanceCount: json['InstanceCount'] as int?,
+      name: json['Name'] as String?,
+      namespaceId: json['NamespaceId'] as String?,
+      resourceOwner: json['ResourceOwner'] as String?,
+      type: (json['Type'] as String?)?.let(ServiceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final createdByAccount = this.createdByAccount;
+    final creatorRequestId = this.creatorRequestId;
+    final description = this.description;
+    final dnsConfig = this.dnsConfig;
+    final healthCheckConfig = this.healthCheckConfig;
+    final healthCheckCustomConfig = this.healthCheckCustomConfig;
+    final id = this.id;
+    final instanceCount = this.instanceCount;
+    final name = this.name;
+    final namespaceId = this.namespaceId;
+    final resourceOwner = this.resourceOwner;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (createdByAccount != null) 'CreatedByAccount': createdByAccount,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+      if (description != null) 'Description': description,
+      if (dnsConfig != null) 'DnsConfig': dnsConfig,
+      if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
+      if (healthCheckCustomConfig != null)
+        'HealthCheckCustomConfig': healthCheckCustomConfig,
+      if (id != null) 'Id': id,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (name != null) 'Name': name,
+      if (namespaceId != null) 'NamespaceId': namespaceId,
+      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// A complex type that contains information about a specified operation.
+class Operation {
+  /// The date and time that the request was submitted, in Unix date/time format
+  /// and Coordinated Universal Time (UTC). The value of <code>CreateDate</code>
+  /// is accurate to milliseconds. For example, the value
+  /// <code>1516925490.087</code> represents Friday, January 26, 2018 12:11:30.087
+  /// AM.
+  final DateTime? createDate;
+
+  /// The code associated with <code>ErrorMessage</code>. Values for
+  /// <code>ErrorCode</code> include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACCESS_DENIED</code>
+  /// </li>
+  /// <li>
+  /// <code>CANNOT_CREATE_HOSTED_ZONE</code>
+  /// </li>
+  /// <li>
+  /// <code>EXPIRED_TOKEN</code>
+  /// </li>
+  /// <li>
+  /// <code>HOSTED_ZONE_NOT_FOUND</code>
+  /// </li>
+  /// <li>
+  /// <code>INTERNAL_FAILURE</code>
+  /// </li>
+  /// <li>
+  /// <code>INVALID_CHANGE_BATCH</code>
+  /// </li>
+  /// <li>
+  /// <code>THROTTLED_REQUEST</code>
+  /// </li>
+  /// </ul>
+  final String? errorCode;
+
+  /// If the value of <code>Status</code> is <code>FAIL</code>, the reason that
+  /// the operation failed.
+  final String? errorMessage;
+
+  /// The ID of the operation that you want to get information about.
+  final String? id;
+
+  /// The ID of the Amazon Web Services account that owns the namespace associated
+  /// with the operation.
+  final String? ownerAccount;
+
+  /// The status of the operation. Values include the following:
+  /// <dl> <dt>SUBMITTED</dt> <dd>
+  /// This is the initial state that occurs immediately after you submit a
+  /// request.
+  /// </dd> <dt>PENDING</dt> <dd>
+  /// Cloud Map is performing the operation.
+  /// </dd> <dt>SUCCESS</dt> <dd>
+  /// The operation succeeded.
+  /// </dd> <dt>FAIL</dt> <dd>
+  /// The operation failed. For the failure reason, see <code>ErrorMessage</code>.
+  /// </dd> </dl>
+  final OperationStatus? status;
+
+  /// The name of the target entity that's associated with the operation:
+  /// <dl> <dt>NAMESPACE</dt> <dd>
+  /// The namespace ID is returned in the <code>ResourceId</code> property.
+  /// </dd> <dt>SERVICE</dt> <dd>
+  /// The service ID is returned in the <code>ResourceId</code> property.
+  /// </dd> <dt>INSTANCE</dt> <dd>
+  /// The instance ID is returned in the <code>ResourceId</code> property.
+  /// </dd> </dl>
+  final Map<OperationTargetType, String>? targets;
+
+  /// The name of the operation that's associated with the specified ID.
+  final OperationType? type;
+
+  /// The date and time that the value of <code>Status</code> changed to the
+  /// current value, in Unix date/time format and Coordinated Universal Time
+  /// (UTC). The value of <code>UpdateDate</code> is accurate to milliseconds. For
+  /// example, the value <code>1516925490.087</code> represents Friday, January
+  /// 26, 2018 12:11:30.087 AM.
+  final DateTime? updateDate;
+
+  Operation({
+    this.createDate,
+    this.errorCode,
+    this.errorMessage,
+    this.id,
+    this.ownerAccount,
+    this.status,
+    this.targets,
+    this.type,
+    this.updateDate,
+  });
+
+  factory Operation.fromJson(Map<String, dynamic> json) {
+    return Operation(
+      createDate: timeStampFromJson(json['CreateDate']),
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      id: json['Id'] as String?,
+      ownerAccount: json['OwnerAccount'] as String?,
+      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
+      targets: (json['Targets'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(OperationTargetType.fromString(k), e as String)),
+      type: (json['Type'] as String?)?.let(OperationType.fromString),
+      updateDate: timeStampFromJson(json['UpdateDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final id = this.id;
+    final ownerAccount = this.ownerAccount;
+    final status = this.status;
+    final targets = this.targets;
+    final type = this.type;
+    final updateDate = this.updateDate;
+    return {
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (id != null) 'Id': id,
+      if (ownerAccount != null) 'OwnerAccount': ownerAccount,
+      if (status != null) 'Status': status.value,
+      if (targets != null)
+        'Targets': targets.map((k, e) => MapEntry(k.value, e)),
+      if (type != null) 'Type': type.value,
+      if (updateDate != null) 'UpdateDate': unixTimestampToJson(updateDate),
+    };
+  }
 }
 
 class OperationType {
@@ -3953,257 +4778,24 @@ class OperationType {
   String toString() => value;
 }
 
-/// Updated properties for the private DNS namespace.
-class PrivateDnsNamespaceChange {
-  /// An updated description for the private DNS namespace.
-  final String? description;
-
-  /// Properties to be updated in the private DNS namespace.
-  final PrivateDnsNamespacePropertiesChange? properties;
-
-  PrivateDnsNamespaceChange({
-    this.description,
-    this.properties,
-  });
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final properties = this.properties;
-    return {
-      if (description != null) 'Description': description,
-      if (properties != null) 'Properties': properties,
-    };
-  }
-}
-
-/// DNS properties for the private DNS namespace.
-class PrivateDnsNamespaceProperties {
-  /// DNS properties for the private DNS namespace.
-  final PrivateDnsPropertiesMutable dnsProperties;
-
-  PrivateDnsNamespaceProperties({
-    required this.dnsProperties,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dnsProperties = this.dnsProperties;
-    return {
-      'DnsProperties': dnsProperties,
-    };
-  }
-}
-
-/// Updated properties for the private DNS namespace.
-class PrivateDnsNamespacePropertiesChange {
-  /// Updated DNS properties for the private DNS namespace.
-  final PrivateDnsPropertiesMutableChange dnsProperties;
-
-  PrivateDnsNamespacePropertiesChange({
-    required this.dnsProperties,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dnsProperties = this.dnsProperties;
-    return {
-      'DnsProperties': dnsProperties,
-    };
-  }
-}
-
-/// DNS properties for the private DNS namespace.
-class PrivateDnsPropertiesMutable {
-  /// Fields for the Start of Authority (SOA) record for the hosted zone for the
-  /// private DNS namespace.
-  final SOA soa;
-
-  PrivateDnsPropertiesMutable({
-    required this.soa,
-  });
-
-  Map<String, dynamic> toJson() {
-    final soa = this.soa;
-    return {
-      'SOA': soa,
-    };
-  }
-}
-
-/// Updated DNS properties for the private DNS namespace.
-class PrivateDnsPropertiesMutableChange {
-  /// Updated fields for the Start of Authority (SOA) record for the hosted zone
-  /// for the private DNS namespace.
-  final SOAChange soa;
-
-  PrivateDnsPropertiesMutableChange({
-    required this.soa,
-  });
-
-  Map<String, dynamic> toJson() {
-    final soa = this.soa;
-    return {
-      'SOA': soa,
-    };
-  }
-}
-
-/// Updated properties for the public DNS namespace.
-class PublicDnsNamespaceChange {
-  /// An updated description for the public DNS namespace.
-  final String? description;
-
-  /// Properties to be updated in the public DNS namespace.
-  final PublicDnsNamespacePropertiesChange? properties;
-
-  PublicDnsNamespaceChange({
-    this.description,
-    this.properties,
-  });
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final properties = this.properties;
-    return {
-      if (description != null) 'Description': description,
-      if (properties != null) 'Properties': properties,
-    };
-  }
-}
-
-/// DNS properties for the public DNS namespace.
-class PublicDnsNamespaceProperties {
-  /// DNS properties for the public DNS namespace.
-  final PublicDnsPropertiesMutable dnsProperties;
-
-  PublicDnsNamespaceProperties({
-    required this.dnsProperties,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dnsProperties = this.dnsProperties;
-    return {
-      'DnsProperties': dnsProperties,
-    };
-  }
-}
-
-/// Updated properties for the public DNS namespace.
-class PublicDnsNamespacePropertiesChange {
-  /// Updated DNS properties for the hosted zone for the public DNS namespace.
-  final PublicDnsPropertiesMutableChange dnsProperties;
-
-  PublicDnsNamespacePropertiesChange({
-    required this.dnsProperties,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dnsProperties = this.dnsProperties;
-    return {
-      'DnsProperties': dnsProperties,
-    };
-  }
-}
-
-/// DNS properties for the public DNS namespace.
-class PublicDnsPropertiesMutable {
-  /// Start of Authority (SOA) record for the hosted zone for the public DNS
-  /// namespace.
-  final SOA soa;
-
-  PublicDnsPropertiesMutable({
-    required this.soa,
-  });
-
-  Map<String, dynamic> toJson() {
-    final soa = this.soa;
-    return {
-      'SOA': soa,
-    };
-  }
-}
-
-/// Updated DNS properties for the public DNS namespace.
-class PublicDnsPropertiesMutableChange {
-  /// Updated fields for the Start of Authority (SOA) record for the hosted zone
-  /// for the public DNS namespace.
-  final SOAChange soa;
-
-  PublicDnsPropertiesMutableChange({
-    required this.soa,
-  });
-
-  Map<String, dynamic> toJson() {
-    final soa = this.soa;
-    return {
-      'SOA': soa,
-    };
-  }
-}
-
-class RecordType {
-  static const srv = RecordType._('SRV');
-  static const a = RecordType._('A');
-  static const aaaa = RecordType._('AAAA');
-  static const cname = RecordType._('CNAME');
+class OperationTargetType {
+  static const namespace = OperationTargetType._('NAMESPACE');
+  static const service = OperationTargetType._('SERVICE');
+  static const instance = OperationTargetType._('INSTANCE');
 
   final String value;
 
-  const RecordType._(this.value);
+  const OperationTargetType._(this.value);
 
-  static const values = [srv, a, aaaa, cname];
+  static const values = [namespace, service, instance];
 
-  static RecordType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => RecordType._(value));
-
-  @override
-  bool operator ==(other) => other is RecordType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class RegisterInstanceResponse {
-  /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
-  final String? operationId;
-
-  RegisterInstanceResponse({
-    this.operationId,
-  });
-
-  factory RegisterInstanceResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterInstanceResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-class RoutingPolicy {
-  static const multivalue = RoutingPolicy._('MULTIVALUE');
-  static const weighted = RoutingPolicy._('WEIGHTED');
-
-  final String value;
-
-  const RoutingPolicy._(this.value);
-
-  static const values = [multivalue, weighted];
-
-  static RoutingPolicy fromString(String value) =>
+  static OperationTargetType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => RoutingPolicy._(value));
+          orElse: () => OperationTargetType._(value));
 
   @override
-  bool operator ==(other) => other is RoutingPolicy && other.value == value;
+  bool operator ==(other) =>
+      other is OperationTargetType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4212,158 +4804,88 @@ class RoutingPolicy {
   String toString() => value;
 }
 
-/// Start of Authority (SOA) properties for a public or private DNS namespace.
-class SOA {
-  /// The time to live (TTL) for purposes of negative caching.
-  final int ttl;
-
-  SOA({
-    required this.ttl,
-  });
-
-  factory SOA.fromJson(Map<String, dynamic> json) {
-    return SOA(
-      ttl: (json['TTL'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ttl = this.ttl;
-    return {
-      'TTL': ttl,
-    };
-  }
-}
-
-/// Updated Start of Authority (SOA) properties for a public or private DNS
-/// namespace.
-class SOAChange {
-  /// The updated time to live (TTL) for purposes of negative caching.
-  final int ttl;
-
-  SOAChange({
-    required this.ttl,
-  });
-
-  Map<String, dynamic> toJson() {
-    final ttl = this.ttl;
-    return {
-      'TTL': ttl,
-    };
-  }
-}
-
-/// A complex type that contains information about the specified service.
-class Service {
-  /// The Amazon Resource Name (ARN) that Cloud Map assigns to the service when
+/// A complex type that contains information about a specified namespace.
+class Namespace {
+  /// The Amazon Resource Name (ARN) that Cloud Map assigns to the namespace when
   /// you create it.
   final String? arn;
 
-  /// The date and time that the service was created, in Unix format and
+  /// The date that the namespace was created, in Unix date/time format and
   /// Coordinated Universal Time (UTC). The value of <code>CreateDate</code> is
   /// accurate to milliseconds. For example, the value <code>1516925490.087</code>
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   final DateTime? createDate;
 
   /// A unique string that identifies the request and that allows failed requests
-  /// to be retried without the risk of running the operation twice.
-  /// <code>CreatorRequestId</code> can be any unique string (for example, a
-  /// date/timestamp).
+  /// to be retried without the risk of running an operation twice.
   final String? creatorRequestId;
 
-  /// The description of the service.
+  /// The description that you specify for the namespace when you create it.
   final String? description;
 
-  /// A complex type that contains information about the Route 53 DNS records that
-  /// you want Cloud Map to create when you register an instance.
-  /// <important>
-  /// The record types of a service can only be changed by deleting the service
-  /// and recreating it with a new <code>Dnsconfig</code>.
-  /// </important>
-  final DnsConfig? dnsConfig;
-
-  /// <i>Public DNS and HTTP namespaces only.</i> A complex type that contains
-  /// settings for an optional health check. If you specify settings for a health
-  /// check, Cloud Map associates the health check with the records that you
-  /// specify in <code>DnsConfig</code>.
-  ///
-  /// For information about the charges for health checks, see <a
-  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
-  final HealthCheckConfig? healthCheckConfig;
-
-  /// A complex type that contains information about an optional custom health
-  /// check.
-  /// <important>
-  /// If you specify a health check configuration, you can specify either
-  /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
-  /// not both.
-  /// </important>
-  final HealthCheckCustomConfig? healthCheckCustomConfig;
-
-  /// The ID that Cloud Map assigned to the service when you created it.
+  /// The ID of a namespace.
   final String? id;
 
-  /// The number of instances that are currently associated with the service.
-  /// Instances that were previously associated with the service but that are
-  /// deleted aren't included in the count. The count might not reflect pending
-  /// registrations and deregistrations.
-  final int? instanceCount;
-
-  /// The name of the service.
+  /// The name of the namespace, such as <code>example.com</code>.
   final String? name;
 
-  /// The ID of the namespace that was used to create the service.
-  final String? namespaceId;
+  /// A complex type that contains information that's specific to the type of the
+  /// namespace.
+  final NamespaceProperties? properties;
 
-  /// Describes the systems that can be used to discover the service instances.
-  /// <dl> <dt>DNS_HTTP</dt> <dd>
-  /// The service instances can be discovered using either DNS queries or the
-  /// <code>DiscoverInstances</code> API operation.
-  /// </dd> <dt>HTTP</dt> <dd>
-  /// The service instances can only be discovered using the
-  /// <code>DiscoverInstances</code> API operation.
-  /// </dd> <dt>DNS</dt> <dd>
-  /// Reserved.
+  /// The ID of the Amazon Web Services account that created the namespace. If
+  /// this isn't your account ID, it's the ID of the account that shared the
+  /// namespace with your account. For more information about shared namespaces,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? resourceOwner;
+
+  /// The number of services that are associated with the namespace.
+  final int? serviceCount;
+
+  /// The type of the namespace. The methods for discovering instances depends on
+  /// the value that you specify:
+  /// <dl> <dt>HTTP</dt> <dd>
+  /// Instances can be discovered only programmatically, using the Cloud Map
+  /// <code>DiscoverInstances</code> API.
+  /// </dd> <dt>DNS_PUBLIC</dt> <dd>
+  /// Instances can be discovered using public DNS queries and using the
+  /// <code>DiscoverInstances</code> API.
+  /// </dd> <dt>DNS_PRIVATE</dt> <dd>
+  /// Instances can be discovered using DNS queries in VPCs and using the
+  /// <code>DiscoverInstances</code> API.
   /// </dd> </dl>
-  final ServiceType? type;
+  final NamespaceType? type;
 
-  Service({
+  Namespace({
     this.arn,
     this.createDate,
     this.creatorRequestId,
     this.description,
-    this.dnsConfig,
-    this.healthCheckConfig,
-    this.healthCheckCustomConfig,
     this.id,
-    this.instanceCount,
     this.name,
-    this.namespaceId,
+    this.properties,
+    this.resourceOwner,
+    this.serviceCount,
     this.type,
   });
 
-  factory Service.fromJson(Map<String, dynamic> json) {
-    return Service(
+  factory Namespace.fromJson(Map<String, dynamic> json) {
+    return Namespace(
       arn: json['Arn'] as String?,
       createDate: timeStampFromJson(json['CreateDate']),
       creatorRequestId: json['CreatorRequestId'] as String?,
       description: json['Description'] as String?,
-      dnsConfig: json['DnsConfig'] != null
-          ? DnsConfig.fromJson(json['DnsConfig'] as Map<String, dynamic>)
-          : null,
-      healthCheckConfig: json['HealthCheckConfig'] != null
-          ? HealthCheckConfig.fromJson(
-              json['HealthCheckConfig'] as Map<String, dynamic>)
-          : null,
-      healthCheckCustomConfig: json['HealthCheckCustomConfig'] != null
-          ? HealthCheckCustomConfig.fromJson(
-              json['HealthCheckCustomConfig'] as Map<String, dynamic>)
-          : null,
       id: json['Id'] as String?,
-      instanceCount: json['InstanceCount'] as int?,
       name: json['Name'] as String?,
-      namespaceId: json['NamespaceId'] as String?,
-      type: (json['Type'] as String?)?.let(ServiceType.fromString),
+      properties: json['Properties'] != null
+          ? NamespaceProperties.fromJson(
+              json['Properties'] as Map<String, dynamic>)
+          : null,
+      resourceOwner: json['ResourceOwner'] as String?,
+      serviceCount: json['ServiceCount'] as int?,
+      type: (json['Type'] as String?)?.let(NamespaceType.fromString),
     );
   }
 
@@ -4372,120 +4894,43 @@ class Service {
     final createDate = this.createDate;
     final creatorRequestId = this.creatorRequestId;
     final description = this.description;
-    final dnsConfig = this.dnsConfig;
-    final healthCheckConfig = this.healthCheckConfig;
-    final healthCheckCustomConfig = this.healthCheckCustomConfig;
     final id = this.id;
-    final instanceCount = this.instanceCount;
     final name = this.name;
-    final namespaceId = this.namespaceId;
+    final properties = this.properties;
+    final resourceOwner = this.resourceOwner;
+    final serviceCount = this.serviceCount;
     final type = this.type;
     return {
       if (arn != null) 'Arn': arn,
       if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
       if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
       if (description != null) 'Description': description,
-      if (dnsConfig != null) 'DnsConfig': dnsConfig,
-      if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
-      if (healthCheckCustomConfig != null)
-        'HealthCheckCustomConfig': healthCheckCustomConfig,
       if (id != null) 'Id': id,
-      if (instanceCount != null) 'InstanceCount': instanceCount,
       if (name != null) 'Name': name,
-      if (namespaceId != null) 'NamespaceId': namespaceId,
+      if (properties != null) 'Properties': properties,
+      if (resourceOwner != null) 'ResourceOwner': resourceOwner,
+      if (serviceCount != null) 'ServiceCount': serviceCount,
       if (type != null) 'Type': type.value,
     };
   }
 }
 
-/// A complex type that contains changes to an existing service.
-class ServiceChange {
-  /// A description for the service.
-  final String? description;
-
-  /// Information about the Route 53 DNS records that you want Cloud Map to create
-  /// when you register an instance.
-  final DnsConfigChange? dnsConfig;
-
-  /// <i>Public DNS and HTTP namespaces only.</i> Settings for an optional health
-  /// check. If you specify settings for a health check, Cloud Map associates the
-  /// health check with the records that you specify in <code>DnsConfig</code>.
-  final HealthCheckConfig? healthCheckConfig;
-
-  ServiceChange({
-    this.description,
-    this.dnsConfig,
-    this.healthCheckConfig,
-  });
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final dnsConfig = this.dnsConfig;
-    final healthCheckConfig = this.healthCheckConfig;
-    return {
-      if (description != null) 'Description': description,
-      if (dnsConfig != null) 'DnsConfig': dnsConfig,
-      if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
-    };
-  }
-}
-
-/// A complex type that lets you specify the namespaces that you want to list
-/// services for.
-class ServiceFilter {
-  /// Specify <code>NAMESPACE_ID</code>.
-  final ServiceFilterName name;
-
-  /// The values that are applicable to the value that you specify for
-  /// <code>Condition</code> to filter the list of services.
-  final List<String> values;
-
-  /// The operator that you want to use to determine whether a service is returned
-  /// by <code>ListServices</code>. Valid values for <code>Condition</code>
-  /// include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>EQ</code>: When you specify <code>EQ</code>, specify one namespace ID
-  /// for <code>Values</code>. <code>EQ</code> is the default condition and can be
-  /// omitted.
-  /// </li>
-  /// </ul>
-  final FilterCondition? condition;
-
-  ServiceFilter({
-    required this.name,
-    required this.values,
-    this.condition,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    final condition = this.condition;
-    return {
-      'Name': name.value,
-      'Values': values,
-      if (condition != null) 'Condition': condition.value,
-    };
-  }
-}
-
-class ServiceFilterName {
-  static const namespaceId = ServiceFilterName._('NAMESPACE_ID');
+class HealthStatus {
+  static const healthy = HealthStatus._('HEALTHY');
+  static const unhealthy = HealthStatus._('UNHEALTHY');
+  static const unknown = HealthStatus._('UNKNOWN');
 
   final String value;
 
-  const ServiceFilterName._(this.value);
+  const HealthStatus._(this.value);
 
-  static const values = [namespaceId];
+  static const values = [healthy, unhealthy, unknown];
 
-  static ServiceFilterName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ServiceFilterName._(value));
+  static HealthStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HealthStatus._(value));
 
   @override
-  bool operator ==(other) => other is ServiceFilterName && other.value == value;
+  bool operator ==(other) => other is HealthStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4494,153 +4939,265 @@ class ServiceFilterName {
   String toString() => value;
 }
 
-/// A complex type that contains information about a specified service.
-class ServiceSummary {
-  /// The Amazon Resource Name (ARN) that Cloud Map assigns to the service when
-  /// you create it.
-  final String? arn;
-
-  /// The date and time that the service was created.
-  final DateTime? createDate;
-
-  /// The description that you specify when you create the service.
-  final String? description;
-
-  /// Information about the Route 53 DNS records that you want Cloud Map to create
-  /// when you register an instance.
-  final DnsConfig? dnsConfig;
-
-  /// <i>Public DNS and HTTP namespaces only.</i> Settings for an optional health
-  /// check. If you specify settings for a health check, Cloud Map associates the
-  /// health check with the records that you specify in <code>DnsConfig</code>.
-  final HealthCheckConfig? healthCheckConfig;
-
-  /// Information about an optional custom health check. A custom health check,
-  /// which requires that you use a third-party health checker to evaluate the
-  /// health of your resources, is useful in the following circumstances:
+/// A complex type that contains information about an instance that Cloud Map
+/// creates when you submit a <code>RegisterInstance</code> request.
+class Instance {
+  /// An identifier that you want to associate with the instance. Note the
+  /// following:
   ///
   /// <ul>
   /// <li>
-  /// You can't use a health check that's defined by
-  /// <code>HealthCheckConfig</code> because the resource isn't available over the
-  /// internet. For example, you can use a custom health check when the instance
-  /// is in an Amazon VPC. (To check the health of resources in a VPC, the health
-  /// checker must also be in the VPC.)
+  /// If the service that's specified by <code>ServiceId</code> includes settings
+  /// for an <code>SRV</code> record, the value of <code>InstanceId</code> is
+  /// automatically included as part of the value for the <code>SRV</code> record.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type">DnsRecord
+  /// > Type</a>.
   /// </li>
   /// <li>
-  /// You want to use a third-party health checker regardless of where your
-  /// resources are located.
+  /// You can use this value to update an existing instance.
   /// </li>
-  /// </ul> <important>
-  /// If you specify a health check configuration, you can specify either
-  /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
-  /// not both.
-  /// </important>
-  final HealthCheckCustomConfig? healthCheckCustomConfig;
+  /// <li>
+  /// To register a new instance, you must specify a value that's unique among
+  /// instances that you register by using the same service.
+  /// </li>
+  /// <li>
+  /// If you specify an existing <code>InstanceId</code> and
+  /// <code>ServiceId</code>, Cloud Map updates the existing DNS records. If
+  /// there's also an existing health check, Cloud Map deletes the old health
+  /// check and creates a new one.
+  /// <note>
+  /// The health check isn't deleted immediately, so it will still appear for a
+  /// while if you submit a <code>ListHealthChecks</code> request, for example.
+  /// </note> </li>
+  /// </ul>
+  final String id;
 
-  /// The ID that Cloud Map assigned to the service when you created it.
-  final String? id;
-
-  /// The number of instances that are currently associated with the service.
-  /// Instances that were previously associated with the service but that are
-  /// deleted aren't included in the count. The count might not reflect pending
-  /// registrations and deregistrations.
-  final int? instanceCount;
-
-  /// The name of the service.
-  final String? name;
-
-  /// Describes the systems that can be used to discover the service instances.
-  /// <dl> <dt>DNS_HTTP</dt> <dd>
-  /// The service instances can be discovered using either DNS queries or the
-  /// <code>DiscoverInstances</code> API operation.
-  /// </dd> <dt>HTTP</dt> <dd>
-  /// The service instances can only be discovered using the
-  /// <code>DiscoverInstances</code> API operation.
-  /// </dd> <dt>DNS</dt> <dd>
-  /// Reserved.
+  /// A string map that contains the following information for the service that
+  /// you specify in <code>ServiceId</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// The attributes that apply to the records that are defined in the service.
+  /// </li>
+  /// <li>
+  /// For each attribute, the applicable value.
+  /// </li>
+  /// </ul> <note>
+  /// Do not include sensitive information in the attributes if the namespace is
+  /// discoverable by public DNS queries.
+  /// </note>
+  /// Supported attribute keys include the following:
+  /// <dl> <dt>AWS_ALIAS_DNS_NAME</dt> <dd>
+  /// If you want Cloud Map to create a Route 53 alias record that routes traffic
+  /// to an Elastic Load Balancing load balancer, specify the DNS name that's
+  /// associated with the load balancer. For information about how to get the DNS
+  /// name, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html#Route53-Type-AliasTarget-DNSName">AliasTarget->DNSName</a>
+  /// in the <i>Route 53 API Reference</i>.
+  ///
+  /// Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The configuration for the service that's specified by <code>ServiceId</code>
+  /// must include settings for an <code>A</code> record, an <code>AAAA</code>
+  /// record, or both.
+  /// </li>
+  /// <li>
+  /// In the service that's specified by <code>ServiceId</code>, the value of
+  /// <code>RoutingPolicy</code> must be <code>WEIGHTED</code>.
+  /// </li>
+  /// <li>
+  /// If the service that's specified by <code>ServiceId</code> includes
+  /// <code>HealthCheckConfig</code> settings, Cloud Map creates the health check,
+  /// but it won't associate the health check with the alias record.
+  /// </li>
+  /// <li>
+  /// Auto naming currently doesn't support creating alias records that route
+  /// traffic to Amazon Web Services resources other than ELB load balancers.
+  /// </li>
+  /// <li>
+  /// If you specify a value for <code>AWS_ALIAS_DNS_NAME</code>, don't specify
+  /// values for any of the <code>AWS_INSTANCE</code> attributes.
+  /// </li>
+  /// </ul> </dd> <dt>AWS_EC2_INSTANCE_ID</dt> <dd>
+  /// <i>HTTP namespaces only.</i> The Amazon EC2 instance ID for the instance.
+  /// The <code>AWS_INSTANCE_IPV4</code> attribute contains the primary private
+  /// IPv4 address.
+  /// </dd> <dt>AWS_INIT_HEALTH_STATUS</dt> <dd>
+  /// If the service configuration includes <code>HealthCheckCustomConfig</code>,
+  /// you can optionally use <code>AWS_INIT_HEALTH_STATUS</code> to specify the
+  /// initial status of the custom health check, <code>HEALTHY</code> or
+  /// <code>UNHEALTHY</code>. If you don't specify a value for
+  /// <code>AWS_INIT_HEALTH_STATUS</code>, the initial status is
+  /// <code>HEALTHY</code>.
+  /// </dd> <dt>AWS_INSTANCE_CNAME</dt> <dd>
+  /// If the service configuration includes a <code>CNAME</code> record, the
+  /// domain name that you want Route 53 to return in response to DNS queries (for
+  /// example, <code>example.com</code>).
+  ///
+  /// This value is required if the service specified by <code>ServiceId</code>
+  /// includes settings for an <code>CNAME</code> record.
+  /// </dd> <dt>AWS_INSTANCE_IPV4</dt> <dd>
+  /// If the service configuration includes an <code>A</code> record, the IPv4
+  /// address that you want Route 53 to return in response to DNS queries (for
+  /// example, <code>192.0.2.44</code>).
+  ///
+  /// This value is required if the service specified by <code>ServiceId</code>
+  /// includes settings for an <code>A</code> record. If the service includes
+  /// settings for an <code>SRV</code> record, you must specify a value for
+  /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
+  /// </dd> <dt>AWS_INSTANCE_IPV6</dt> <dd>
+  /// If the service configuration includes an <code>AAAA</code> record, the IPv6
+  /// address that you want Route 53 to return in response to DNS queries (for
+  /// example, <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>).
+  ///
+  /// This value is required if the service specified by <code>ServiceId</code>
+  /// includes settings for an <code>AAAA</code> record. If the service includes
+  /// settings for an <code>SRV</code> record, you must specify a value for
+  /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
+  /// </dd> <dt>AWS_INSTANCE_PORT</dt> <dd>
+  /// If the service includes an <code>SRV</code> record, the value that you want
+  /// Route 53 to return for the port.
+  ///
+  /// If the service includes <code>HealthCheckConfig</code>, the port on the
+  /// endpoint that you want Route 53 to send requests to.
+  ///
+  /// This value is required if you specified settings for an <code>SRV</code>
+  /// record or a Route 53 health check when you created the service.
   /// </dd> </dl>
-  final ServiceType? type;
+  final Map<String, String>? attributes;
 
-  ServiceSummary({
-    this.arn,
-    this.createDate,
-    this.description,
-    this.dnsConfig,
-    this.healthCheckConfig,
-    this.healthCheckCustomConfig,
-    this.id,
-    this.instanceCount,
-    this.name,
-    this.type,
+  /// The ID of the Amazon Web Services account that registered the instance. If
+  /// this isn't your account ID, it's the ID of the account that shared the
+  /// namespace with your account or the ID of another account with which the
+  /// namespace has been shared. For more information about shared namespaces, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/sharing-namespaces.html">Cross-account
+  /// Cloud Map namespace sharing</a> in the <i>Cloud Map Developer Guide</i>.
+  final String? createdByAccount;
+
+  /// A unique string that identifies the request and that allows failed
+  /// <code>RegisterInstance</code> requests to be retried without the risk of
+  /// executing the operation twice. You must use a unique
+  /// <code>CreatorRequestId</code> string every time you submit a
+  /// <code>RegisterInstance</code> request if you're registering additional
+  /// instances for the same namespace and service. <code>CreatorRequestId</code>
+  /// can be any unique string (for example, a date/time stamp).
+  final String? creatorRequestId;
+
+  Instance({
+    required this.id,
+    this.attributes,
+    this.createdByAccount,
+    this.creatorRequestId,
   });
 
-  factory ServiceSummary.fromJson(Map<String, dynamic> json) {
-    return ServiceSummary(
-      arn: json['Arn'] as String?,
-      createDate: timeStampFromJson(json['CreateDate']),
-      description: json['Description'] as String?,
-      dnsConfig: json['DnsConfig'] != null
-          ? DnsConfig.fromJson(json['DnsConfig'] as Map<String, dynamic>)
-          : null,
-      healthCheckConfig: json['HealthCheckConfig'] != null
-          ? HealthCheckConfig.fromJson(
-              json['HealthCheckConfig'] as Map<String, dynamic>)
-          : null,
-      healthCheckCustomConfig: json['HealthCheckCustomConfig'] != null
-          ? HealthCheckCustomConfig.fromJson(
-              json['HealthCheckCustomConfig'] as Map<String, dynamic>)
-          : null,
-      id: json['Id'] as String?,
-      instanceCount: json['InstanceCount'] as int?,
-      name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.let(ServiceType.fromString),
+  factory Instance.fromJson(Map<String, dynamic> json) {
+    return Instance(
+      id: (json['Id'] as String?) ?? '',
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      createdByAccount: json['CreatedByAccount'] as String?,
+      creatorRequestId: json['CreatorRequestId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createDate = this.createDate;
-    final description = this.description;
-    final dnsConfig = this.dnsConfig;
-    final healthCheckConfig = this.healthCheckConfig;
-    final healthCheckCustomConfig = this.healthCheckCustomConfig;
     final id = this.id;
-    final instanceCount = this.instanceCount;
-    final name = this.name;
-    final type = this.type;
+    final attributes = this.attributes;
+    final createdByAccount = this.createdByAccount;
+    final creatorRequestId = this.creatorRequestId;
     return {
-      if (arn != null) 'Arn': arn,
-      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
-      if (description != null) 'Description': description,
-      if (dnsConfig != null) 'DnsConfig': dnsConfig,
-      if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
-      if (healthCheckCustomConfig != null)
-        'HealthCheckCustomConfig': healthCheckCustomConfig,
-      if (id != null) 'Id': id,
-      if (instanceCount != null) 'InstanceCount': instanceCount,
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type.value,
+      'Id': id,
+      if (attributes != null) 'Attributes': attributes,
+      if (createdByAccount != null) 'CreatedByAccount': createdByAccount,
+      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
     };
   }
 }
 
-class ServiceType {
-  static const http = ServiceType._('HTTP');
-  static const dnsHttp = ServiceType._('DNS_HTTP');
-  static const dns = ServiceType._('DNS');
+/// In a response to a <a
+/// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>
+/// request, <code>HttpInstanceSummary</code> contains information about one
+/// instance that matches the values that you specified in the request.
+class HttpInstanceSummary {
+  /// If you included any attributes when you registered the instance, the values
+  /// of those attributes.
+  final Map<String, String>? attributes;
+
+  /// If you configured health checking in the service, the current health status
+  /// of the service instance.
+  final HealthStatus? healthStatus;
+
+  /// The ID of an instance that matches the values that you specified in the
+  /// request.
+  final String? instanceId;
+
+  /// The <code>HttpName</code> name of the namespace. It's found in the
+  /// <code>HttpProperties</code> member of the <code>Properties</code> member of
+  /// the namespace.
+  final String? namespaceName;
+
+  /// The name of the service that you specified when you registered the instance.
+  final String? serviceName;
+
+  HttpInstanceSummary({
+    this.attributes,
+    this.healthStatus,
+    this.instanceId,
+    this.namespaceName,
+    this.serviceName,
+  });
+
+  factory HttpInstanceSummary.fromJson(Map<String, dynamic> json) {
+    return HttpInstanceSummary(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      healthStatus:
+          (json['HealthStatus'] as String?)?.let(HealthStatus.fromString),
+      instanceId: json['InstanceId'] as String?,
+      namespaceName: json['NamespaceName'] as String?,
+      serviceName: json['ServiceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final healthStatus = this.healthStatus;
+    final instanceId = this.instanceId;
+    final namespaceName = this.namespaceName;
+    final serviceName = this.serviceName;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (healthStatus != null) 'HealthStatus': healthStatus.value,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (namespaceName != null) 'NamespaceName': namespaceName,
+      if (serviceName != null) 'ServiceName': serviceName,
+    };
+  }
+}
+
+class HealthStatusFilter {
+  static const healthy = HealthStatusFilter._('HEALTHY');
+  static const unhealthy = HealthStatusFilter._('UNHEALTHY');
+  static const all = HealthStatusFilter._('ALL');
+  static const healthyOrElseAll = HealthStatusFilter._('HEALTHY_OR_ELSE_ALL');
 
   final String value;
 
-  const ServiceType._(this.value);
+  const HealthStatusFilter._(this.value);
 
-  static const values = [http, dnsHttp, dns];
+  static const values = [healthy, unhealthy, all, healthyOrElseAll];
 
-  static ServiceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
+  static HealthStatusFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HealthStatusFilter._(value));
 
   @override
-  bool operator ==(other) => other is ServiceType && other.value == value;
+  bool operator ==(other) =>
+      other is HealthStatusFilter && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4672,155 +5229,72 @@ class ServiceTypeOption {
   String toString() => value;
 }
 
-/// A custom key-value pair that's associated with a resource.
-class Tag {
-  /// The key identifier, or name, of the tag.
-  final String key;
+/// DNS properties for the public DNS namespace.
+class PublicDnsNamespaceProperties {
+  /// DNS properties for the public DNS namespace.
+  final PublicDnsPropertiesMutable dnsProperties;
 
-  /// The string value that's associated with the key of the tag. You can set the
-  /// value of a tag to an empty string, but you can't set the value of a tag to
-  /// null.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
+  PublicDnsNamespaceProperties({
+    required this.dnsProperties,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final dnsProperties = this.dnsProperties;
     return {
-      'Key': key,
-      'Value': value,
+      'DnsProperties': dnsProperties,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// DNS properties for the public DNS namespace.
+class PublicDnsPropertiesMutable {
+  /// Start of Authority (SOA) record for the hosted zone for the public DNS
+  /// namespace.
+  final SOA soa;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateHttpNamespaceResponse {
-  /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
-  final String? operationId;
-
-  UpdateHttpNamespaceResponse({
-    this.operationId,
+  PublicDnsPropertiesMutable({
+    required this.soa,
   });
 
-  factory UpdateHttpNamespaceResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateHttpNamespaceResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
+    final soa = this.soa;
     return {
-      if (operationId != null) 'OperationId': operationId,
+      'SOA': soa,
     };
   }
 }
 
-class UpdatePrivateDnsNamespaceResponse {
-  /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
-  final String? operationId;
+/// DNS properties for the private DNS namespace.
+class PrivateDnsNamespaceProperties {
+  /// DNS properties for the private DNS namespace.
+  final PrivateDnsPropertiesMutable dnsProperties;
 
-  UpdatePrivateDnsNamespaceResponse({
-    this.operationId,
+  PrivateDnsNamespaceProperties({
+    required this.dnsProperties,
   });
 
-  factory UpdatePrivateDnsNamespaceResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdatePrivateDnsNamespaceResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
+    final dnsProperties = this.dnsProperties;
     return {
-      if (operationId != null) 'OperationId': operationId,
+      'DnsProperties': dnsProperties,
     };
   }
 }
 
-class UpdatePublicDnsNamespaceResponse {
-  /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
-  final String? operationId;
+/// DNS properties for the private DNS namespace.
+class PrivateDnsPropertiesMutable {
+  /// Fields for the Start of Authority (SOA) record for the hosted zone for the
+  /// private DNS namespace.
+  final SOA soa;
 
-  UpdatePublicDnsNamespaceResponse({
-    this.operationId,
+  PrivateDnsPropertiesMutable({
+    required this.soa,
   });
 
-  factory UpdatePublicDnsNamespaceResponse.fromJson(Map<String, dynamic> json) {
-    return UpdatePublicDnsNamespaceResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
+    final soa = this.soa;
     return {
-      if (operationId != null) 'OperationId': operationId,
-    };
-  }
-}
-
-class UpdateServiceResponse {
-  /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a
-  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
-  final String? operationId;
-
-  UpdateServiceResponse({
-    this.operationId,
-  });
-
-  factory UpdateServiceResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateServiceResponse(
-      operationId: json['OperationId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    return {
-      if (operationId != null) 'OperationId': operationId,
+      'SOA': soa,
     };
   }
 }
@@ -4885,6 +5359,14 @@ class ServiceAlreadyExists extends _s.GenericAwsException {
       : super(type: type, code: 'ServiceAlreadyExists', message: message);
 }
 
+class ServiceAttributesLimitExceededException extends _s.GenericAwsException {
+  ServiceAttributesLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceAttributesLimitExceededException',
+            message: message);
+}
+
 class ServiceNotFound extends _s.GenericAwsException {
   ServiceNotFound({String? type, String? message})
       : super(type: type, code: 'ServiceNotFound', message: message);
@@ -4919,6 +5401,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceAlreadyExists': (type, message) =>
       ServiceAlreadyExists(type: type, message: message),
+  'ServiceAttributesLimitExceededException': (type, message) =>
+      ServiceAttributesLimitExceededException(type: type, message: message),
   'ServiceNotFound': (type, message) =>
       ServiceNotFound(type: type, message: message),
   'TooManyTagsException': (type, message) =>

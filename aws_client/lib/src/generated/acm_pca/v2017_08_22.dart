@@ -58,7 +58,6 @@ class AcmPca {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'acm-pca',
-            signingName: 'acm-pca',
           ),
           region: region,
           credentials: credentials,
@@ -101,10 +100,10 @@ class AcmPca {
   /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#crl-encryption">Encrypting
   /// Your CRLs</a>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InvalidArgsException].
-  /// May throw [InvalidTagException].
   /// May throw [InvalidPolicyException].
+  /// May throw [InvalidTagException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [certificateAuthorityConfiguration] :
   /// Name and bit size of the private key algorithm, the name of the signing
@@ -125,31 +124,31 @@ class AcmPca {
   /// certificate authorities.
   ///
   /// Parameter [keyStorageSecurityStandard] :
-  /// Specifies a cryptographic key management compliance standard used for
-  /// handling CA keys.
+  /// Specifies a cryptographic key management compliance standard for handling
+  /// and protecting CA keys.
   ///
   /// Default: FIPS_140_2_LEVEL_3_OR_HIGHER
   /// <note>
-  /// Some Amazon Web Services Regions do not support the default. When creating
-  /// a CA in these Regions, you must provide
-  /// <code>FIPS_140_2_LEVEL_2_OR_HIGHER</code> as the argument for
-  /// <code>KeyStorageSecurityStandard</code>. Failure to do this results in an
-  /// <code>InvalidArgsException</code> with the message, "A certificate
-  /// authority cannot be created in this region with the specified security
-  /// standard."
+  /// Some Amazon Web Services Regions don't support the default value. When you
+  /// create a CA in these Regions, you must use
+  /// <code>CCPC_LEVEL_1_OR_HIGHER</code> for the
+  /// <code>KeyStorageSecurityStandard</code> parameter. If you don't, the
+  /// operation returns an <code>InvalidArgsException</code> with this message:
+  /// "A certificate authority cannot be created in this region with the
+  /// specified security standard."
   ///
-  /// For information about security standard support in various Regions, see <a
+  /// For information about security standard support in different Amazon Web
+  /// Services Regions, see <a
   /// href="https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys">Storage
   /// and security compliance of Amazon Web Services Private CA private
   /// keys</a>.
   /// </note>
   ///
   /// Parameter [revocationConfiguration] :
-  /// Contains information to enable Online Certificate Status Protocol (OCSP)
-  /// support, to enable a certificate revocation list (CRL), to enable both, or
-  /// to enable neither. The default is for both certificate validation
-  /// mechanisms to be disabled.
-  /// <note>
+  /// Contains information to enable support for Online Certificate Status
+  /// Protocol (OCSP), certificate revocation list (CRL), both protocols, or
+  /// neither. By default, both certificate validation mechanisms are disabled.
+  ///
   /// The following requirements apply to revocation configurations.
   ///
   /// <ul>
@@ -175,7 +174,7 @@ class AcmPca {
   /// In a CRL or OCSP configuration, the value of a CNAME parameter must not
   /// include a protocol prefix such as "http://" or "https://".
   /// </li>
-  /// </ul> </note>
+  /// </ul>
   /// For more information, see the <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html">OcspConfiguration</a>
   /// and <a
@@ -233,20 +232,18 @@ class AcmPca {
   }
 
   /// Creates an audit report that lists every time that your CA private key is
-  /// used. The report is saved in the Amazon S3 bucket that you specify on
-  /// input. The <a
+  /// used to issue a certificate. The <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
   /// actions use the private key.
-  /// <note>
-  /// Both Amazon Web Services Private CA and the IAM principal must have
-  /// permission to write to the S3 bucket that you specify. If the IAM
-  /// principal making the call does not have permission to write to the bucket,
-  /// then an exception is thrown. For more information, see <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies">Access
-  /// policies for CRLs in Amazon S3</a>.
-  /// </note>
+  ///
+  /// To save the audit report to your designated Amazon S3 bucket, you must
+  /// create a bucket policy that grants Amazon Web Services Private CA
+  /// permission to access and write to it. For an example policy, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#s3-access">Prepare
+  /// an Amazon S3 bucket for audit reports</a>.
+  ///
   /// Amazon Web Services Private CA assets that are stored in Amazon S3 can be
   /// protected with encryption. For more information, see <a
   /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#audit-report-encryption">Encrypting
@@ -255,12 +252,12 @@ class AcmPca {
   /// You can generate a maximum of one report every 30 minutes.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArnException].
   /// May throw [InvalidArgsException].
-  /// May throw [RequestFailedException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidStateException].
+  /// May throw [RequestFailedException].
   /// May throw [RequestInProgressException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [auditReportResponseFormat] :
   /// The format in which to create the report. This can be either <b>JSON</b>
@@ -334,12 +331,12 @@ class AcmPca {
   /// </li>
   /// </ul>
   ///
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidStateException].
   /// May throw [LimitExceededException].
   /// May throw [PermissionAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArnException].
   /// May throw [RequestFailedException].
-  /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [actions] :
   /// The actions that the specified Amazon Web Services service principal can
@@ -420,11 +417,24 @@ class AcmPca {
   /// <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RestoreCertificateAuthority.html">RestoreCertificateAuthority</a>
   /// action.
+  /// <important>
+  /// A private CA can be deleted if it is in the
+  /// <code>PENDING_CERTIFICATE</code>, <code>CREATING</code>,
+  /// <code>EXPIRED</code>, <code>DISABLED</code>, or <code>FAILED</code> state.
+  /// To delete a CA in the <code>ACTIVE</code> state, you must first disable
+  /// it, or else the delete request results in an exception. If you are
+  /// deleting a private CA in the <code>PENDING_CERTIFICATE</code> or
+  /// <code>DISABLED</code> state, you can set the length of its restoration
+  /// period to 7-30 days. The default is 30. During this time, the status is
+  /// set to <code>DELETED</code> and the CA can be restored. A private CA
+  /// deleted in the <code>CREATING</code> or <code>FAILED</code> state has no
+  /// assigned restoration period and cannot be restored.
+  /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidArnException].
   /// May throw [InvalidStateException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
@@ -500,10 +510,10 @@ class AcmPca {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
-  /// May throw [RequestFailedException].
   /// May throw [InvalidStateException].
+  /// May throw [RequestFailedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Number (ARN) of the private CA that issued the
@@ -590,12 +600,12 @@ class AcmPca {
   /// </li>
   /// </ul>
   ///
-  /// May throw [LockoutPreventedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArnException].
-  /// May throw [RequestFailedException].
-  /// May throw [InvalidStateException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArnException].
+  /// May throw [InvalidStateException].
+  /// May throw [LockoutPreventedException].
+  /// May throw [RequestFailedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Number (ARN) of the private CA that will have its
@@ -660,8 +670,8 @@ class AcmPca {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
@@ -700,9 +710,9 @@ class AcmPca {
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
   /// action.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArnException].
   /// May throw [InvalidArgsException].
+  /// May throw [InvalidArnException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [auditReportId] :
   /// The report ID returned by calling the <a
@@ -745,17 +755,17 @@ class AcmPca {
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
   /// action. You must specify both the ARN of your private CA and the ARN of
   /// the issued certificate when calling the <b>GetCertificate</b> action. You
-  /// can retrieve the certificate if it is in the <b>ISSUED</b> state. You can
-  /// call the <a
+  /// can retrieve the certificate if it is in the <b>ISSUED</b>,
+  /// <b>EXPIRED</b>, or <b>REVOKED</b> state. You can call the <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html">CreateCertificateAuthorityAuditReport</a>
   /// action to create a report that contains information about all of the
   /// certificates issued and revoked by your private CA.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
-  /// May throw [RequestFailedException].
   /// May throw [InvalidStateException].
+  /// May throw [RequestFailedException].
   /// May throw [RequestInProgressException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateArn] :
   /// The ARN of the issued certificate. The ARN contains the certificate serial
@@ -800,9 +810,9 @@ class AcmPca {
   /// include the CA certificate. Each certificate in the chain signs the one
   /// before it.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) of your private CA. This is of the form:
@@ -841,11 +851,11 @@ class AcmPca {
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
   /// action. The CSR is returned as a base64 PEM-encoded string.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
-  /// May throw [RequestFailedException].
   /// May throw [InvalidStateException].
+  /// May throw [RequestFailedException].
   /// May throw [RequestInProgressException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called the <a
@@ -914,15 +924,15 @@ class AcmPca {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
-  /// May throw [RequestFailedException].
   /// May throw [InvalidStateException].
+  /// May throw [RequestFailedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Number (ARN) of the private CA that will have its
   /// policy retrieved. You can find the CA's ARN by calling the
-  /// ListCertificateAuthorities action. <pre><code> &lt;/p&gt; </code></pre>
+  /// ListCertificateAuthorities action.
   Future<GetPolicyResponse> getPolicy({
     required String resourceArn,
   }) async {
@@ -1022,40 +1032,43 @@ class AcmPca {
   ///
   /// <ul>
   /// <li>
-  /// Basic constraints (<i>must</i> be marked critical)
-  /// </li>
-  /// <li>
-  /// Subject alternative names
-  /// </li>
-  /// <li>
-  /// Key usage
-  /// </li>
-  /// <li>
-  /// Extended key usage
-  /// </li>
-  /// <li>
   /// Authority key identifier
   /// </li>
   /// <li>
-  /// Subject key identifier
-  /// </li>
-  /// <li>
-  /// Issuer alternative name
-  /// </li>
-  /// <li>
-  /// Subject directory attributes
-  /// </li>
-  /// <li>
-  /// Subject information access
+  /// Basic constraints (<i>must</i> be marked critical)
   /// </li>
   /// <li>
   /// Certificate policies
   /// </li>
   /// <li>
-  /// Policy mappings
+  /// Extended key usage
   /// </li>
   /// <li>
   /// Inhibit anyPolicy
+  /// </li>
+  /// <li>
+  /// Issuer alternative name
+  /// </li>
+  /// <li>
+  /// Key usage
+  /// </li>
+  /// <li>
+  /// Name constraints
+  /// </li>
+  /// <li>
+  /// Policy mappings
+  /// </li>
+  /// <li>
+  /// Subject alternative name
+  /// </li>
+  /// <li>
+  /// Subject directory attributes
+  /// </li>
+  /// <li>
+  /// Subject key identifier
+  /// </li>
+  /// <li>
+  /// Subject information access
   /// </li>
   /// </ul>
   /// Amazon Web Services Private CA rejects the following extensions when they
@@ -1063,34 +1076,31 @@ class AcmPca {
   ///
   /// <ul>
   /// <li>
-  /// Name constraints
-  /// </li>
-  /// <li>
-  /// Policy constraints
+  /// Authority information access
   /// </li>
   /// <li>
   /// CRL distribution points
   /// </li>
   /// <li>
-  /// Authority information access
-  /// </li>
-  /// <li>
   /// Freshest CRL
   /// </li>
   /// <li>
-  /// Any other extension
+  /// Policy constraints
   /// </li>
   /// </ul>
+  /// Amazon Web Services Private Certificate Authority will also reject any
+  /// other extension marked as critical not contained on the preceding list of
+  /// allowed extensions.
   ///
   /// May throw [CertificateMismatchException].
-  /// May throw [MalformedCertificateException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidArnException].
   /// May throw [InvalidRequestException].
-  /// May throw [RequestFailedException].
   /// May throw [InvalidStateException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [MalformedCertificateException].
+  /// May throw [RequestFailedException].
   /// May throw [RequestInProgressException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificate] :
   /// The PEM-encoded certificate for a private CA. This may be a self-signed
@@ -1149,12 +1159,12 @@ class AcmPca {
   /// Services Private CA.
   /// </note>
   ///
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArnException].
   /// May throw [InvalidArgsException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidStateException].
+  /// May throw [LimitExceededException].
   /// May throw [MalformedCSRException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
@@ -1400,11 +1410,11 @@ class AcmPca {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
-  /// May throw [RequestFailedException].
-  /// May throw [InvalidStateException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidStateException].
+  /// May throw [RequestFailedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Number (ARN) of the private CA to inspect. You can
@@ -1467,9 +1477,10 @@ class AcmPca {
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
   /// action to remove tags.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [InvalidStateException].
+  /// May throw [RequestFailedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called the <a
@@ -1563,13 +1574,13 @@ class AcmPca {
   /// </li>
   /// </ul>
   ///
-  /// May throw [LockoutPreventedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArnException].
-  /// May throw [RequestFailedException].
-  /// May throw [InvalidStateException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidPolicyException].
+  /// May throw [InvalidStateException].
+  /// May throw [LockoutPreventedException].
+  /// May throw [RequestFailedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [policy] :
   /// The path and file name of a JSON-formatted IAM policy to attach to the
@@ -1631,9 +1642,9 @@ class AcmPca {
   /// be activated. You cannot restore a CA after the restoration period has
   /// ended.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called the <a
@@ -1688,15 +1699,15 @@ class AcmPca {
   /// You cannot revoke a root CA self-signed certificate.
   /// </note>
   ///
-  /// May throw [RequestAlreadyProcessedException].
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [InvalidArnException].
   /// May throw [InvalidRequestException].
-  /// May throw [RequestFailedException].
   /// May throw [InvalidStateException].
-  /// May throw [ConcurrentModificationException].
+  /// May throw [LimitExceededException].
+  /// May throw [RequestAlreadyProcessedException].
+  /// May throw [RequestFailedException].
   /// May throw [RequestInProgressException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// Amazon Resource Name (ARN) of the private CA that issued the certificate
@@ -1767,10 +1778,10 @@ class AcmPca {
   /// tags to a CA at the time of creation</a>.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [InvalidStateException].
   /// May throw [InvalidTagException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [certificateAuthorityArn] :
@@ -1814,10 +1825,10 @@ class AcmPca {
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListTags.html">ListTags</a>
   /// action to see what tags are associated with your CA.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArnException].
   /// May throw [InvalidStateException].
   /// May throw [InvalidTagException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// The Amazon Resource Name (ARN) that was returned when you called <a
@@ -1864,12 +1875,12 @@ class AcmPca {
   /// policies for CRLs in Amazon S3</a>.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArnException].
-  /// May throw [InvalidArgsException].
-  /// May throw [InvalidStateException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidArgsException].
+  /// May throw [InvalidArnException].
   /// May throw [InvalidPolicyException].
+  /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [certificateAuthorityArn] :
   /// Amazon Resource Name (ARN) of the private CA that issued the certificate
@@ -1879,15 +1890,15 @@ class AcmPca {
   /// </code>
   ///
   /// Parameter [revocationConfiguration] :
-  /// Contains information to enable Online Certificate Status Protocol (OCSP)
-  /// support, to enable a certificate revocation list (CRL), to enable both, or
-  /// to enable neither. If this parameter is not supplied, existing capibilites
-  /// remain unchanged. For more information, see the <a
+  /// Contains information to enable support for Online Certificate Status
+  /// Protocol (OCSP), certificate revocation list (CRL), both protocols, or
+  /// neither. If you don't supply this parameter, existing capibilites remain
+  /// unchanged. For more information, see the <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html">OcspConfiguration</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html">CrlConfiguration</a>
   /// types.
-  /// <note>
+  ///
   /// The following requirements apply to revocation configurations.
   ///
   /// <ul>
@@ -1913,7 +1924,22 @@ class AcmPca {
   /// In a CRL or OCSP configuration, the value of a CNAME parameter must not
   /// include a protocol prefix such as "http://" or "https://".
   /// </li>
-  /// </ul> </note>
+  /// </ul> <important>
+  /// If you update the <code>S3BucketName</code> of <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html">CrlConfiguration</a>,
+  /// you can break revocation for existing certificates. In other words, if you
+  /// call <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+  /// to update the CRL configuration's S3 bucket name, Amazon Web Services
+  /// Private CA only writes CRLs to the new S3 bucket. Certificates issued
+  /// prior to this point will have the old S3 bucket name in your CRL
+  /// Distribution Point (CDP) extension, essentially breaking revocation. If
+  /// you must update the S3 bucket, you'll need to reissue old certificates to
+  /// keep the revocation working. Alternatively, you can use a <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html#privateca-Type-CrlConfiguration-CustomCname">CustomCname</a>
+  /// in your CRL configuration if you might need to change the S3 bucket name
+  /// in the future.
+  /// </important>
   ///
   /// Parameter [status] :
   /// Status of your private CA.
@@ -1940,6 +1966,1474 @@ class AcmPca {
       },
     );
   }
+}
+
+class CreateCertificateAuthorityResponse {
+  /// If successful, the Amazon Resource Name (ARN) of the certificate authority
+  /// (CA). This is of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
+  /// </code>.
+  final String? certificateAuthorityArn;
+
+  CreateCertificateAuthorityResponse({
+    this.certificateAuthorityArn,
+  });
+
+  factory CreateCertificateAuthorityResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCertificateAuthorityResponse(
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    return {
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+    };
+  }
+}
+
+class CreateCertificateAuthorityAuditReportResponse {
+  /// An alphanumeric string that contains a report identifier.
+  final String? auditReportId;
+
+  /// The <b>key</b> that uniquely identifies the report file in your S3 bucket.
+  final String? s3Key;
+
+  CreateCertificateAuthorityAuditReportResponse({
+    this.auditReportId,
+    this.s3Key,
+  });
+
+  factory CreateCertificateAuthorityAuditReportResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCertificateAuthorityAuditReportResponse(
+      auditReportId: json['AuditReportId'] as String?,
+      s3Key: json['S3Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditReportId = this.auditReportId;
+    final s3Key = this.s3Key;
+    return {
+      if (auditReportId != null) 'AuditReportId': auditReportId,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
+}
+
+class DescribeCertificateAuthorityResponse {
+  /// A <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CertificateAuthority.html">CertificateAuthority</a>
+  /// structure that contains information about your private CA.
+  final CertificateAuthority? certificateAuthority;
+
+  DescribeCertificateAuthorityResponse({
+    this.certificateAuthority,
+  });
+
+  factory DescribeCertificateAuthorityResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeCertificateAuthorityResponse(
+      certificateAuthority: json['CertificateAuthority'] != null
+          ? CertificateAuthority.fromJson(
+              json['CertificateAuthority'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthority = this.certificateAuthority;
+    return {
+      if (certificateAuthority != null)
+        'CertificateAuthority': certificateAuthority,
+    };
+  }
+}
+
+class DescribeCertificateAuthorityAuditReportResponse {
+  /// Specifies whether report creation is in progress, has succeeded, or has
+  /// failed.
+  final AuditReportStatus? auditReportStatus;
+
+  /// The date and time at which the report was created.
+  final DateTime? createdAt;
+
+  /// Name of the S3 bucket that contains the report.
+  final String? s3BucketName;
+
+  /// S3 <b>key</b> that uniquely identifies the report file in your S3 bucket.
+  final String? s3Key;
+
+  DescribeCertificateAuthorityAuditReportResponse({
+    this.auditReportStatus,
+    this.createdAt,
+    this.s3BucketName,
+    this.s3Key,
+  });
+
+  factory DescribeCertificateAuthorityAuditReportResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeCertificateAuthorityAuditReportResponse(
+      auditReportStatus: (json['AuditReportStatus'] as String?)
+          ?.let(AuditReportStatus.fromString),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      s3BucketName: json['S3BucketName'] as String?,
+      s3Key: json['S3Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditReportStatus = this.auditReportStatus;
+    final createdAt = this.createdAt;
+    final s3BucketName = this.s3BucketName;
+    final s3Key = this.s3Key;
+    return {
+      if (auditReportStatus != null)
+        'AuditReportStatus': auditReportStatus.value,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
+}
+
+class GetCertificateResponse {
+  /// The base64 PEM-encoded certificate specified by the
+  /// <code>CertificateArn</code> parameter.
+  final String? certificate;
+
+  /// The base64 PEM-encoded certificate chain that chains up to the root CA
+  /// certificate that you used to sign your private CA certificate.
+  final String? certificateChain;
+
+  GetCertificateResponse({
+    this.certificate,
+    this.certificateChain,
+  });
+
+  factory GetCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return GetCertificateResponse(
+      certificate: json['Certificate'] as String?,
+      certificateChain: json['CertificateChain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    final certificateChain = this.certificateChain;
+    return {
+      if (certificate != null) 'Certificate': certificate,
+      if (certificateChain != null) 'CertificateChain': certificateChain,
+    };
+  }
+}
+
+class GetCertificateAuthorityCertificateResponse {
+  /// Base64-encoded certificate authority (CA) certificate.
+  final String? certificate;
+
+  /// Base64-encoded certificate chain that includes any intermediate certificates
+  /// and chains up to root certificate that you used to sign your private CA
+  /// certificate. The chain does not include your private CA certificate. If this
+  /// is a root CA, the value will be null.
+  final String? certificateChain;
+
+  GetCertificateAuthorityCertificateResponse({
+    this.certificate,
+    this.certificateChain,
+  });
+
+  factory GetCertificateAuthorityCertificateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCertificateAuthorityCertificateResponse(
+      certificate: json['Certificate'] as String?,
+      certificateChain: json['CertificateChain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    final certificateChain = this.certificateChain;
+    return {
+      if (certificate != null) 'Certificate': certificate,
+      if (certificateChain != null) 'CertificateChain': certificateChain,
+    };
+  }
+}
+
+class GetCertificateAuthorityCsrResponse {
+  /// The base64 PEM-encoded certificate signing request (CSR) for your private CA
+  /// certificate.
+  final String? csr;
+
+  GetCertificateAuthorityCsrResponse({
+    this.csr,
+  });
+
+  factory GetCertificateAuthorityCsrResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCertificateAuthorityCsrResponse(
+      csr: json['Csr'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csr = this.csr;
+    return {
+      if (csr != null) 'Csr': csr,
+    };
+  }
+}
+
+class GetPolicyResponse {
+  /// The policy attached to the private CA as a JSON document.
+  final String? policy;
+
+  GetPolicyResponse({
+    this.policy,
+  });
+
+  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyResponse(
+      policy: json['Policy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
+}
+
+class IssueCertificateResponse {
+  /// The Amazon Resource Name (ARN) of the issued certificate and the certificate
+  /// serial number. This is of the form:
+  ///
+  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>/certificate/<i>286535153982981100925020015808220737245</i>
+  /// </code>
+  final String? certificateArn;
+
+  IssueCertificateResponse({
+    this.certificateArn,
+  });
+
+  factory IssueCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return IssueCertificateResponse(
+      certificateArn: json['CertificateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+    };
+  }
+}
+
+class ListCertificateAuthoritiesResponse {
+  /// Summary information about each certificate authority you have created.
+  final List<CertificateAuthority>? certificateAuthorities;
+
+  /// When the list is truncated, this value is present and should be used for the
+  /// <code>NextToken</code> parameter in a subsequent pagination request.
+  final String? nextToken;
+
+  ListCertificateAuthoritiesResponse({
+    this.certificateAuthorities,
+    this.nextToken,
+  });
+
+  factory ListCertificateAuthoritiesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCertificateAuthoritiesResponse(
+      certificateAuthorities: (json['CertificateAuthorities'] as List?)
+          ?.nonNulls
+          .map((e) => CertificateAuthority.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorities = this.certificateAuthorities;
+    final nextToken = this.nextToken;
+    return {
+      if (certificateAuthorities != null)
+        'CertificateAuthorities': certificateAuthorities,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListPermissionsResponse {
+  /// When the list is truncated, this value is present and should be used for the
+  /// <b>NextToken</b> parameter in a subsequent pagination request.
+  final String? nextToken;
+
+  /// Summary information about each permission assigned by the specified private
+  /// CA, including the action enabled, the policy provided, and the time of
+  /// creation.
+  final List<Permission>? permissions;
+
+  ListPermissionsResponse({
+    this.nextToken,
+    this.permissions,
+  });
+
+  factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPermissionsResponse(
+      nextToken: json['NextToken'] as String?,
+      permissions: (json['Permissions'] as List?)
+          ?.nonNulls
+          .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final permissions = this.permissions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (permissions != null) 'Permissions': permissions,
+    };
+  }
+}
+
+class ListTagsResponse {
+  /// When the list is truncated, this value is present and should be used for the
+  /// <b>NextToken</b> parameter in a subsequent pagination request.
+  final String? nextToken;
+
+  /// The tags associated with your private CA.
+  final List<Tag>? tags;
+
+  ListTagsResponse({
+    this.nextToken,
+    this.tags,
+  });
+
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Certificate revocation information used by the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+/// actions. Your private certificate authority (CA) can configure Online
+/// Certificate Status Protocol (OCSP) support and/or maintain a certificate
+/// revocation list (CRL). OCSP returns validation information about
+/// certificates as requested by clients, and a CRL contains an updated list of
+/// certificates revoked by your CA. For more information, see <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/revocation-setup.html">Setting
+/// up a certificate revocation method</a> in the <i>Amazon Web Services Private
+/// Certificate Authority User Guide</i>.
+class RevocationConfiguration {
+  /// Configuration of the certificate revocation list (CRL), if any, maintained
+  /// by your private CA. A CRL is typically updated approximately 30 minutes
+  /// after a certificate is revoked. If for any reason a CRL update fails, Amazon
+  /// Web Services Private CA makes further attempts every 15 minutes.
+  final CrlConfiguration? crlConfiguration;
+
+  /// Configuration of Online Certificate Status Protocol (OCSP) support, if any,
+  /// maintained by your private CA. When you revoke a certificate, OCSP responses
+  /// may take up to 60 minutes to reflect the new status.
+  final OcspConfiguration? ocspConfiguration;
+
+  RevocationConfiguration({
+    this.crlConfiguration,
+    this.ocspConfiguration,
+  });
+
+  factory RevocationConfiguration.fromJson(Map<String, dynamic> json) {
+    return RevocationConfiguration(
+      crlConfiguration: json['CrlConfiguration'] != null
+          ? CrlConfiguration.fromJson(
+              json['CrlConfiguration'] as Map<String, dynamic>)
+          : null,
+      ocspConfiguration: json['OcspConfiguration'] != null
+          ? OcspConfiguration.fromJson(
+              json['OcspConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final crlConfiguration = this.crlConfiguration;
+    final ocspConfiguration = this.ocspConfiguration;
+    return {
+      if (crlConfiguration != null) 'CrlConfiguration': crlConfiguration,
+      if (ocspConfiguration != null) 'OcspConfiguration': ocspConfiguration,
+    };
+  }
+}
+
+class CertificateAuthorityStatus {
+  static const creating = CertificateAuthorityStatus._('CREATING');
+  static const pendingCertificate =
+      CertificateAuthorityStatus._('PENDING_CERTIFICATE');
+  static const active = CertificateAuthorityStatus._('ACTIVE');
+  static const deleted = CertificateAuthorityStatus._('DELETED');
+  static const disabled = CertificateAuthorityStatus._('DISABLED');
+  static const expired = CertificateAuthorityStatus._('EXPIRED');
+  static const failed = CertificateAuthorityStatus._('FAILED');
+
+  final String value;
+
+  const CertificateAuthorityStatus._(this.value);
+
+  static const values = [
+    creating,
+    pendingCertificate,
+    active,
+    deleted,
+    disabled,
+    expired,
+    failed
+  ];
+
+  static CertificateAuthorityStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CertificateAuthorityStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateAuthorityStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains configuration information for a certificate revocation list (CRL).
+/// Your private certificate authority (CA) creates base CRLs. Delta CRLs are
+/// not supported. You can enable CRLs for your new or an existing private CA by
+/// setting the <b>Enabled</b> parameter to <code>true</code>. Your private CA
+/// writes CRLs to an S3 bucket that you specify in the <b>S3BucketName</b>
+/// parameter. You can hide the name of your bucket by specifying a value for
+/// the <b>CustomCname</b> parameter. Your private CA by default copies the
+/// CNAME or the S3 bucket name to the <b>CRL Distribution Points</b> extension
+/// of each certificate it issues. If you want to configure this default
+/// behavior to be something different, you can set the
+/// <b>CrlDistributionPointExtensionConfiguration</b> parameter. Your S3 bucket
+/// policy must give write permission to Amazon Web Services Private CA.
+///
+/// Amazon Web Services Private CA assets that are stored in Amazon S3 can be
+/// protected with encryption. For more information, see <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#crl-encryption">Encrypting
+/// Your CRLs</a>.
+///
+/// Your private CA uses the value in the <b>ExpirationInDays</b> parameter to
+/// calculate the <b>nextUpdate</b> field in the CRL. The CRL is refreshed prior
+/// to a certificate's expiration date or when a certificate is revoked. When a
+/// certificate is revoked, it appears in the CRL until the certificate expires,
+/// and then in one additional CRL after expiration, and it always appears in
+/// the audit report.
+///
+/// A CRL is typically updated approximately 30 minutes after a certificate is
+/// revoked. If for any reason a CRL update fails, Amazon Web Services Private
+/// CA makes further attempts every 15 minutes.
+///
+/// CRLs contain the following fields:
+///
+/// <ul>
+/// <li>
+/// <b>Version</b>: The current version number defined in RFC 5280 is V2. The
+/// integer value is 0x1.
+/// </li>
+/// <li>
+/// <b>Signature Algorithm</b>: The name of the algorithm used to sign the CRL.
+/// </li>
+/// <li>
+/// <b>Issuer</b>: The X.500 distinguished name of your private CA that issued
+/// the CRL.
+/// </li>
+/// <li>
+/// <b>Last Update</b>: The issue date and time of this CRL.
+/// </li>
+/// <li>
+/// <b>Next Update</b>: The day and time by which the next CRL will be issued.
+/// </li>
+/// <li>
+/// <b>Revoked Certificates</b>: List of revoked certificates. Each list item
+/// contains the following information.
+///
+/// <ul>
+/// <li>
+/// <b>Serial Number</b>: The serial number, in hexadecimal format, of the
+/// revoked certificate.
+/// </li>
+/// <li>
+/// <b>Revocation Date</b>: Date and time the certificate was revoked.
+/// </li>
+/// <li>
+/// <b>CRL Entry Extensions</b>: Optional extensions for the CRL entry.
+///
+/// <ul>
+/// <li>
+/// <b>X509v3 CRL Reason Code</b>: Reason the certificate was revoked.
+/// </li>
+/// </ul> </li>
+/// </ul> </li>
+/// <li>
+/// <b>CRL Extensions</b>: Optional extensions for the CRL.
+///
+/// <ul>
+/// <li>
+/// <b>X509v3 Authority Key Identifier</b>: Identifies the public key associated
+/// with the private key used to sign the certificate.
+/// </li>
+/// <li>
+/// <b>X509v3 CRL Number:</b>: Decimal sequence number for the CRL.
+/// </li>
+/// </ul> </li>
+/// <li>
+/// <b>Signature Algorithm</b>: Algorithm used by your private CA to sign the
+/// CRL.
+/// </li>
+/// <li>
+/// <b>Signature Value</b>: Signature computed over the CRL.
+/// </li>
+/// </ul>
+/// Certificate revocation lists created by Amazon Web Services Private CA are
+/// DER-encoded. You can use the following OpenSSL command to list a CRL.
+///
+/// <code>openssl crl -inform DER -text -in <i>crl_path</i> -noout</code>
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html">Planning
+/// a certificate revocation list (CRL)</a> in the <i>Amazon Web Services
+/// Private Certificate Authority User Guide</i>
+class CrlConfiguration {
+  /// Boolean value that specifies whether certificate revocation lists (CRLs) are
+  /// enabled. You can use this value to enable certificate revocation for a new
+  /// CA when you call the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+  /// action or for an existing CA when you call the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+  /// action.
+  final bool enabled;
+
+  /// Configures the behavior of the CRL Distribution Point extension for
+  /// certificates issued by your certificate authority. If this field is not
+  /// provided, then the CRl Distribution Point Extension will be present and
+  /// contain the default CRL URL.
+  final CrlDistributionPointExtensionConfiguration?
+      crlDistributionPointExtensionConfiguration;
+
+  /// Specifies whether to create a complete or partitioned CRL. This setting
+  /// determines the maximum number of certificates that the certificate authority
+  /// can issue and revoke. For more information, see <a
+  /// href="privateca/latest/userguide/pca.html#limits_pca">Amazon Web Services
+  /// Private CA quotas</a>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPLETE</code> - The default setting. Amazon Web Services Private CA
+  /// maintains a single CRL ﬁle for all unexpired certiﬁcates issued by a CA that
+  /// have been revoked for any reason. Each certiﬁcate that Amazon Web Services
+  /// Private CA issues is bound to a speciﬁc CRL through its CRL distribution
+  /// point (CDP) extension, deﬁned in <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.9"> RFC
+  /// 5280</a>.
+  /// </li>
+  /// <li>
+  /// <code>PARTITIONED</code> - Compared to complete CRLs, partitioned CRLs
+  /// dramatically increase the number of certiﬁcates your private CA can issue.
+  /// <important>
+  /// When using partitioned CRLs, you must validate that the CRL's associated
+  /// issuing distribution point (IDP) URI matches the certiﬁcate's CDP URI to
+  /// ensure the right CRL has been fetched. Amazon Web Services Private CA marks
+  /// the IDP extension as critical, which your client must be able to process.
+  /// </important> </li>
+  /// </ul>
+  final CrlType? crlType;
+
+  /// Name inserted into the certificate <b>CRL Distribution Points</b> extension
+  /// that enables the use of an alias for the CRL distribution point. Use this
+  /// value if you don't want the name of your S3 bucket to be public.
+  /// <note>
+  /// The content of a Canonical Name (CNAME) record must conform to <a
+  /// href="https://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> restrictions on the
+  /// use of special characters in URIs. Additionally, the value of the CNAME must
+  /// not include a protocol prefix such as "http://" or "https://".
+  /// </note>
+  final String? customCname;
+
+  /// Designates a custom ﬁle path in S3 for CRL(s). For example,
+  /// <code>http://&lt;CustomName&gt;/
+  /// &lt;CustomPath&gt;/&lt;CrlPartition_GUID&gt;.crl</code>.
+  final String? customPath;
+
+  /// Validity period of the CRL in days.
+  final int? expirationInDays;
+
+  /// Name of the S3 bucket that contains the CRL. If you do not provide a value
+  /// for the <b>CustomCname</b> argument, the name of your S3 bucket is placed
+  /// into the <b>CRL Distribution Points</b> extension of the issued certificate.
+  /// You can change the name of your bucket by calling the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
+  /// operation. You must specify a <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-policies">bucket
+  /// policy</a> that allows Amazon Web Services Private CA to write the CRL to
+  /// your bucket.
+  /// <note>
+  /// The <code>S3BucketName</code> parameter must conform to the <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html">S3
+  /// bucket naming rules</a>.
+  /// </note>
+  final String? s3BucketName;
+
+  /// Determines whether the CRL will be publicly readable or privately held in
+  /// the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be
+  /// accessible over the public internet. If you choose
+  /// BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access
+  /// the CRL, and your PKI clients may need an alternative method of access.
+  ///
+  /// If no value is specified, the default is <code>PUBLIC_READ</code>.
+  ///
+  /// <i>Note:</i> This default can cause CA creation to fail in some
+  /// circumstances. If you have have enabled the Block Public Access (BPA)
+  /// feature in your S3 account, then you must specify the value of this
+  /// parameter as <code>BUCKET_OWNER_FULL_CONTROL</code>, and not doing so
+  /// results in an error. If you have disabled BPA in S3, then you can specify
+  /// either <code>BUCKET_OWNER_FULL_CONTROL</code> or <code>PUBLIC_READ</code> as
+  /// the value.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-bpa">Blocking
+  /// public access to the S3 bucket</a>.
+  final S3ObjectAcl? s3ObjectAcl;
+
+  CrlConfiguration({
+    required this.enabled,
+    this.crlDistributionPointExtensionConfiguration,
+    this.crlType,
+    this.customCname,
+    this.customPath,
+    this.expirationInDays,
+    this.s3BucketName,
+    this.s3ObjectAcl,
+  });
+
+  factory CrlConfiguration.fromJson(Map<String, dynamic> json) {
+    return CrlConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      crlDistributionPointExtensionConfiguration:
+          json['CrlDistributionPointExtensionConfiguration'] != null
+              ? CrlDistributionPointExtensionConfiguration.fromJson(
+                  json['CrlDistributionPointExtensionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      crlType: (json['CrlType'] as String?)?.let(CrlType.fromString),
+      customCname: json['CustomCname'] as String?,
+      customPath: json['CustomPath'] as String?,
+      expirationInDays: json['ExpirationInDays'] as int?,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3ObjectAcl:
+          (json['S3ObjectAcl'] as String?)?.let(S3ObjectAcl.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final crlDistributionPointExtensionConfiguration =
+        this.crlDistributionPointExtensionConfiguration;
+    final crlType = this.crlType;
+    final customCname = this.customCname;
+    final customPath = this.customPath;
+    final expirationInDays = this.expirationInDays;
+    final s3BucketName = this.s3BucketName;
+    final s3ObjectAcl = this.s3ObjectAcl;
+    return {
+      'Enabled': enabled,
+      if (crlDistributionPointExtensionConfiguration != null)
+        'CrlDistributionPointExtensionConfiguration':
+            crlDistributionPointExtensionConfiguration,
+      if (crlType != null) 'CrlType': crlType.value,
+      if (customCname != null) 'CustomCname': customCname,
+      if (customPath != null) 'CustomPath': customPath,
+      if (expirationInDays != null) 'ExpirationInDays': expirationInDays,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3ObjectAcl != null) 'S3ObjectAcl': s3ObjectAcl.value,
+    };
+  }
+}
+
+/// Contains information to enable and configure Online Certificate Status
+/// Protocol (OCSP) for validating certificate revocation status.
+///
+/// When you revoke a certificate, OCSP responses may take up to 60 minutes to
+/// reflect the new status.
+class OcspConfiguration {
+  /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for
+  /// validating certificate revocation status.
+  final bool enabled;
+
+  /// By default, Amazon Web Services Private CA injects an Amazon Web Services
+  /// domain into certificates being validated by the Online Certificate Status
+  /// Protocol (OCSP). A customer can alternatively use this object to define a
+  /// CNAME specifying a customized OCSP domain.
+  /// <note>
+  /// The content of a Canonical Name (CNAME) record must conform to <a
+  /// href="https://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> restrictions on the
+  /// use of special characters in URIs. Additionally, the value of the CNAME must
+  /// not include a protocol prefix such as "http://" or "https://".
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/ocsp-customize.html">Customizing
+  /// Online Certificate Status Protocol (OCSP) </a> in the <i>Amazon Web Services
+  /// Private Certificate Authority User Guide</i>.
+  final String? ocspCustomCname;
+
+  OcspConfiguration({
+    required this.enabled,
+    this.ocspCustomCname,
+  });
+
+  factory OcspConfiguration.fromJson(Map<String, dynamic> json) {
+    return OcspConfiguration(
+      enabled: (json['Enabled'] as bool?) ?? false,
+      ocspCustomCname: json['OcspCustomCname'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final ocspCustomCname = this.ocspCustomCname;
+    return {
+      'Enabled': enabled,
+      if (ocspCustomCname != null) 'OcspCustomCname': ocspCustomCname,
+    };
+  }
+}
+
+class S3ObjectAcl {
+  static const publicRead = S3ObjectAcl._('PUBLIC_READ');
+  static const bucketOwnerFullControl =
+      S3ObjectAcl._('BUCKET_OWNER_FULL_CONTROL');
+
+  final String value;
+
+  const S3ObjectAcl._(this.value);
+
+  static const values = [publicRead, bucketOwnerFullControl];
+
+  static S3ObjectAcl fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => S3ObjectAcl._(value));
+
+  @override
+  bool operator ==(other) => other is S3ObjectAcl && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains configuration information for the default behavior of the CRL
+/// Distribution Point (CDP) extension in certificates issued by your CA. This
+/// extension contains a link to download the CRL, so you can check whether a
+/// certificate has been revoked. To choose whether you want this extension
+/// omitted or not in certificates issued by your CA, you can set the
+/// <b>OmitExtension</b> parameter.
+class CrlDistributionPointExtensionConfiguration {
+  /// Configures whether the CRL Distribution Point extension should be populated
+  /// with the default URL to the CRL. If set to <code>true</code>, then the CDP
+  /// extension will not be present in any certificates issued by that CA unless
+  /// otherwise specified through CSR or API passthrough.
+  /// <note>
+  /// Only set this if you have another way to distribute the CRL Distribution
+  /// Points ffor certificates issued by your CA, such as the Matter Distributed
+  /// Compliance Ledger
+  ///
+  /// This configuration cannot be enabled with a custom CNAME set.
+  /// </note>
+  final bool omitExtension;
+
+  CrlDistributionPointExtensionConfiguration({
+    required this.omitExtension,
+  });
+
+  factory CrlDistributionPointExtensionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CrlDistributionPointExtensionConfiguration(
+      omitExtension: (json['OmitExtension'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final omitExtension = this.omitExtension;
+    return {
+      'OmitExtension': omitExtension,
+    };
+  }
+}
+
+class CrlType {
+  static const complete = CrlType._('COMPLETE');
+  static const partitioned = CrlType._('PARTITIONED');
+
+  final String value;
+
+  const CrlType._(this.value);
+
+  static const values = [complete, partitioned];
+
+  static CrlType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => CrlType._(value));
+
+  @override
+  bool operator ==(other) => other is CrlType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Tags are labels that you can use to identify and organize your private CAs.
+/// Each tag consists of a key and an optional value. You can associate up to 50
+/// tags with a private CA. To add one or more tags to a private CA, call the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html">TagCertificateAuthority</a>
+/// action. To remove a tag, call the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
+/// action.
+class Tag {
+  /// Key (name) of the tag.
+  final String key;
+
+  /// Value of the tag.
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class RevocationReason {
+  static const unspecified = RevocationReason._('UNSPECIFIED');
+  static const keyCompromise = RevocationReason._('KEY_COMPROMISE');
+  static const certificateAuthorityCompromise =
+      RevocationReason._('CERTIFICATE_AUTHORITY_COMPROMISE');
+  static const affiliationChanged = RevocationReason._('AFFILIATION_CHANGED');
+  static const superseded = RevocationReason._('SUPERSEDED');
+  static const cessationOfOperation =
+      RevocationReason._('CESSATION_OF_OPERATION');
+  static const privilegeWithdrawn = RevocationReason._('PRIVILEGE_WITHDRAWN');
+  static const aACompromise = RevocationReason._('A_A_COMPROMISE');
+
+  final String value;
+
+  const RevocationReason._(this.value);
+
+  static const values = [
+    unspecified,
+    keyCompromise,
+    certificateAuthorityCompromise,
+    affiliationChanged,
+    superseded,
+    cessationOfOperation,
+    privilegeWithdrawn,
+    aACompromise
+  ];
+
+  static RevocationReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RevocationReason._(value));
+
+  @override
+  bool operator ==(other) => other is RevocationReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Permissions designate which private CA actions can be performed by an Amazon
+/// Web Services service or entity. In order for ACM to automatically renew
+/// private certificates, you must give the ACM service principal all available
+/// permissions (<code>IssueCertificate</code>, <code>GetCertificate</code>, and
+/// <code>ListPermissions</code>). Permissions can be assigned with the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html">CreatePermission</a>
+/// action, removed with the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html">DeletePermission</a>
+/// action, and listed with the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
+/// action.
+class Permission {
+  /// The private CA actions that can be performed by the designated Amazon Web
+  /// Services service.
+  final List<ActionType>? actions;
+
+  /// The Amazon Resource Number (ARN) of the private CA from which the permission
+  /// was issued.
+  final String? certificateAuthorityArn;
+
+  /// The time at which the permission was created.
+  final DateTime? createdAt;
+
+  /// The name of the policy that is associated with the permission.
+  final String? policy;
+
+  /// The Amazon Web Services service or entity that holds the permission. At this
+  /// time, the only valid principal is <code>acm.amazonaws.com</code>.
+  final String? principal;
+
+  /// The ID of the account that assigned the permission.
+  final String? sourceAccount;
+
+  Permission({
+    this.actions,
+    this.certificateAuthorityArn,
+    this.createdAt,
+    this.policy,
+    this.principal,
+    this.sourceAccount,
+  });
+
+  factory Permission.fromJson(Map<String, dynamic> json) {
+    return Permission(
+      actions: (json['Actions'] as List?)
+          ?.nonNulls
+          .map((e) => ActionType.fromString((e as String)))
+          .toList(),
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      policy: json['Policy'] as String?,
+      principal: json['Principal'] as String?,
+      sourceAccount: json['SourceAccount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final createdAt = this.createdAt;
+    final policy = this.policy;
+    final principal = this.principal;
+    final sourceAccount = this.sourceAccount;
+    return {
+      if (actions != null) 'Actions': actions.map((e) => e.value).toList(),
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (policy != null) 'Policy': policy,
+      if (principal != null) 'Principal': principal,
+      if (sourceAccount != null) 'SourceAccount': sourceAccount,
+    };
+  }
+}
+
+class ActionType {
+  static const issueCertificate = ActionType._('IssueCertificate');
+  static const getCertificate = ActionType._('GetCertificate');
+  static const listPermissions = ActionType._('ListPermissions');
+
+  final String value;
+
+  const ActionType._(this.value);
+
+  static const values = [issueCertificate, getCertificate, listPermissions];
+
+  static ActionType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
+
+  @override
+  bool operator ==(other) => other is ActionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about your private certificate authority (CA). Your
+/// private CA can issue and revoke X.509 digital certificates. Digital
+/// certificates verify that the entity named in the certificate <b>Subject</b>
+/// field owns or controls the public key contained in the <b>Subject Public Key
+/// Info</b> field. Call the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+/// action to create your private CA. You must then call the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCertificate.html">GetCertificateAuthorityCertificate</a>
+/// action to retrieve a private CA certificate signing request (CSR). Sign the
+/// CSR with your Amazon Web Services Private CA-hosted or on-premises root or
+/// subordinate CA certificate. Call the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
+/// action to import the signed certificate into Certificate Manager (ACM).
+class CertificateAuthority {
+  /// Amazon Resource Name (ARN) for your private certificate authority (CA). The
+  /// format is <code> <i>12345678-1234-1234-1234-123456789012</i> </code>.
+  final String? arn;
+
+  /// Your private CA configuration.
+  final CertificateAuthorityConfiguration? certificateAuthorityConfiguration;
+
+  /// Date and time at which your private CA was created.
+  final DateTime? createdAt;
+
+  /// Reason the request to create your private CA failed.
+  final FailureReason? failureReason;
+
+  /// Defines a cryptographic key management compliance standard for handling and
+  /// protecting CA keys.
+  ///
+  /// Default: FIPS_140_2_LEVEL_3_OR_HIGHER
+  /// <note>
+  /// Starting January 26, 2023, Amazon Web Services Private CA protects all CA
+  /// private keys in non-China regions using hardware security modules (HSMs)
+  /// that comply with FIPS PUB 140-2 Level 3.
+  ///
+  /// For information about security standard support in different Amazon Web
+  /// Services Regions, see <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys">Storage
+  /// and security compliance of Amazon Web Services Private CA private keys</a>.
+  /// </note>
+  final KeyStorageSecurityStandard? keyStorageSecurityStandard;
+
+  /// Date and time at which your private CA was last updated.
+  final DateTime? lastStateChangeAt;
+
+  /// Date and time after which your private CA certificate is not valid.
+  final DateTime? notAfter;
+
+  /// Date and time before which your private CA certificate is not valid.
+  final DateTime? notBefore;
+
+  /// The Amazon Web Services account ID that owns the certificate authority.
+  final String? ownerAccount;
+
+  /// The period during which a deleted CA can be restored. For more information,
+  /// see the <code>PermanentDeletionTimeInDays</code> parameter of the <a
+  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html">DeleteCertificateAuthorityRequest</a>
+  /// action.
+  final DateTime? restorableUntil;
+
+  /// Information about the Online Certificate Status Protocol (OCSP)
+  /// configuration or certificate revocation list (CRL) created and maintained by
+  /// your private CA.
+  final RevocationConfiguration? revocationConfiguration;
+
+  /// Serial number of your private CA.
+  final String? serial;
+
+  /// Status of your private CA.
+  final CertificateAuthorityStatus? status;
+
+  /// Type of your private CA.
+  final CertificateAuthorityType? type;
+
+  /// Specifies whether the CA issues general-purpose certificates that typically
+  /// require a revocation mechanism, or short-lived certificates that may
+  /// optionally omit revocation because they expire quickly. Short-lived
+  /// certificate validity is limited to seven days.
+  ///
+  /// The default value is GENERAL_PURPOSE.
+  final CertificateAuthorityUsageMode? usageMode;
+
+  CertificateAuthority({
+    this.arn,
+    this.certificateAuthorityConfiguration,
+    this.createdAt,
+    this.failureReason,
+    this.keyStorageSecurityStandard,
+    this.lastStateChangeAt,
+    this.notAfter,
+    this.notBefore,
+    this.ownerAccount,
+    this.restorableUntil,
+    this.revocationConfiguration,
+    this.serial,
+    this.status,
+    this.type,
+    this.usageMode,
+  });
+
+  factory CertificateAuthority.fromJson(Map<String, dynamic> json) {
+    return CertificateAuthority(
+      arn: json['Arn'] as String?,
+      certificateAuthorityConfiguration:
+          json['CertificateAuthorityConfiguration'] != null
+              ? CertificateAuthorityConfiguration.fromJson(
+                  json['CertificateAuthorityConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      failureReason:
+          (json['FailureReason'] as String?)?.let(FailureReason.fromString),
+      keyStorageSecurityStandard:
+          (json['KeyStorageSecurityStandard'] as String?)
+              ?.let(KeyStorageSecurityStandard.fromString),
+      lastStateChangeAt: timeStampFromJson(json['LastStateChangeAt']),
+      notAfter: timeStampFromJson(json['NotAfter']),
+      notBefore: timeStampFromJson(json['NotBefore']),
+      ownerAccount: json['OwnerAccount'] as String?,
+      restorableUntil: timeStampFromJson(json['RestorableUntil']),
+      revocationConfiguration: json['RevocationConfiguration'] != null
+          ? RevocationConfiguration.fromJson(
+              json['RevocationConfiguration'] as Map<String, dynamic>)
+          : null,
+      serial: json['Serial'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(CertificateAuthorityStatus.fromString),
+      type: (json['Type'] as String?)?.let(CertificateAuthorityType.fromString),
+      usageMode: (json['UsageMode'] as String?)
+          ?.let(CertificateAuthorityUsageMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final certificateAuthorityConfiguration =
+        this.certificateAuthorityConfiguration;
+    final createdAt = this.createdAt;
+    final failureReason = this.failureReason;
+    final keyStorageSecurityStandard = this.keyStorageSecurityStandard;
+    final lastStateChangeAt = this.lastStateChangeAt;
+    final notAfter = this.notAfter;
+    final notBefore = this.notBefore;
+    final ownerAccount = this.ownerAccount;
+    final restorableUntil = this.restorableUntil;
+    final revocationConfiguration = this.revocationConfiguration;
+    final serial = this.serial;
+    final status = this.status;
+    final type = this.type;
+    final usageMode = this.usageMode;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (certificateAuthorityConfiguration != null)
+        'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (failureReason != null) 'FailureReason': failureReason.value,
+      if (keyStorageSecurityStandard != null)
+        'KeyStorageSecurityStandard': keyStorageSecurityStandard.value,
+      if (lastStateChangeAt != null)
+        'LastStateChangeAt': unixTimestampToJson(lastStateChangeAt),
+      if (notAfter != null) 'NotAfter': unixTimestampToJson(notAfter),
+      if (notBefore != null) 'NotBefore': unixTimestampToJson(notBefore),
+      if (ownerAccount != null) 'OwnerAccount': ownerAccount,
+      if (restorableUntil != null)
+        'RestorableUntil': unixTimestampToJson(restorableUntil),
+      if (revocationConfiguration != null)
+        'RevocationConfiguration': revocationConfiguration,
+      if (serial != null) 'Serial': serial,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type.value,
+      if (usageMode != null) 'UsageMode': usageMode.value,
+    };
+  }
+}
+
+class CertificateAuthorityType {
+  static const root = CertificateAuthorityType._('ROOT');
+  static const subordinate = CertificateAuthorityType._('SUBORDINATE');
+
+  final String value;
+
+  const CertificateAuthorityType._(this.value);
+
+  static const values = [root, subordinate];
+
+  static CertificateAuthorityType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CertificateAuthorityType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateAuthorityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FailureReason {
+  static const requestTimedOut = FailureReason._('REQUEST_TIMED_OUT');
+  static const unsupportedAlgorithm = FailureReason._('UNSUPPORTED_ALGORITHM');
+  static const other = FailureReason._('OTHER');
+
+  final String value;
+
+  const FailureReason._(this.value);
+
+  static const values = [requestTimedOut, unsupportedAlgorithm, other];
+
+  static FailureReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FailureReason._(value));
+
+  @override
+  bool operator ==(other) => other is FailureReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains configuration information for your private certificate authority
+/// (CA). This includes information about the class of public key algorithm and
+/// the key pair that your private CA creates when it issues a certificate. It
+/// also includes the signature algorithm that it uses when issuing
+/// certificates, and its X.500 distinguished name. You must specify this
+/// information when you call the <a
+/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
+/// action.
+class CertificateAuthorityConfiguration {
+  /// Type of the public key algorithm and size, in bits, of the key pair that
+  /// your CA creates when it issues a certificate. When you create a subordinate
+  /// CA, you must use a key algorithm supported by the parent CA.
+  final KeyAlgorithm keyAlgorithm;
+
+  /// Name of the algorithm your private CA uses to sign certificate requests.
+  ///
+  /// This parameter should not be confused with the <code>SigningAlgorithm</code>
+  /// parameter used to sign certificates when they are issued.
+  final SigningAlgorithm signingAlgorithm;
+
+  /// Structure that contains X.500 distinguished name information for your
+  /// private CA.
+  final ASN1Subject subject;
+
+  /// Specifies information to be added to the extension section of the
+  /// certificate signing request (CSR).
+  final CsrExtensions? csrExtensions;
+
+  CertificateAuthorityConfiguration({
+    required this.keyAlgorithm,
+    required this.signingAlgorithm,
+    required this.subject,
+    this.csrExtensions,
+  });
+
+  factory CertificateAuthorityConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CertificateAuthorityConfiguration(
+      keyAlgorithm:
+          KeyAlgorithm.fromString((json['KeyAlgorithm'] as String?) ?? ''),
+      signingAlgorithm: SigningAlgorithm.fromString(
+          (json['SigningAlgorithm'] as String?) ?? ''),
+      subject: ASN1Subject.fromJson(
+          (json['Subject'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      csrExtensions: json['CsrExtensions'] != null
+          ? CsrExtensions.fromJson(
+              json['CsrExtensions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyAlgorithm = this.keyAlgorithm;
+    final signingAlgorithm = this.signingAlgorithm;
+    final subject = this.subject;
+    final csrExtensions = this.csrExtensions;
+    return {
+      'KeyAlgorithm': keyAlgorithm.value,
+      'SigningAlgorithm': signingAlgorithm.value,
+      'Subject': subject,
+      if (csrExtensions != null) 'CsrExtensions': csrExtensions,
+    };
+  }
+}
+
+class KeyStorageSecurityStandard {
+  static const fips_140_2Level_2OrHigher =
+      KeyStorageSecurityStandard._('FIPS_140_2_LEVEL_2_OR_HIGHER');
+  static const fips_140_2Level_3OrHigher =
+      KeyStorageSecurityStandard._('FIPS_140_2_LEVEL_3_OR_HIGHER');
+  static const ccpcLevel_1OrHigher =
+      KeyStorageSecurityStandard._('CCPC_LEVEL_1_OR_HIGHER');
+
+  final String value;
+
+  const KeyStorageSecurityStandard._(this.value);
+
+  static const values = [
+    fips_140_2Level_2OrHigher,
+    fips_140_2Level_3OrHigher,
+    ccpcLevel_1OrHigher
+  ];
+
+  static KeyStorageSecurityStandard fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KeyStorageSecurityStandard._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KeyStorageSecurityStandard && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CertificateAuthorityUsageMode {
+  static const generalPurpose =
+      CertificateAuthorityUsageMode._('GENERAL_PURPOSE');
+  static const shortLivedCertificate =
+      CertificateAuthorityUsageMode._('SHORT_LIVED_CERTIFICATE');
+
+  final String value;
+
+  const CertificateAuthorityUsageMode._(this.value);
+
+  static const values = [generalPurpose, shortLivedCertificate];
+
+  static CertificateAuthorityUsageMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CertificateAuthorityUsageMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateAuthorityUsageMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KeyAlgorithm {
+  static const rsa_2048 = KeyAlgorithm._('RSA_2048');
+  static const rsa_3072 = KeyAlgorithm._('RSA_3072');
+  static const rsa_4096 = KeyAlgorithm._('RSA_4096');
+  static const ecPrime256v1 = KeyAlgorithm._('EC_prime256v1');
+  static const ecSecp384r1 = KeyAlgorithm._('EC_secp384r1');
+  static const ecSecp521r1 = KeyAlgorithm._('EC_secp521r1');
+  static const mlDsa_44 = KeyAlgorithm._('ML_DSA_44');
+  static const mlDsa_65 = KeyAlgorithm._('ML_DSA_65');
+  static const mlDsa_87 = KeyAlgorithm._('ML_DSA_87');
+  static const sm2 = KeyAlgorithm._('SM2');
+
+  final String value;
+
+  const KeyAlgorithm._(this.value);
+
+  static const values = [
+    rsa_2048,
+    rsa_3072,
+    rsa_4096,
+    ecPrime256v1,
+    ecSecp384r1,
+    ecSecp521r1,
+    mlDsa_44,
+    mlDsa_65,
+    mlDsa_87,
+    sm2
+  ];
+
+  static KeyAlgorithm fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KeyAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is KeyAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SigningAlgorithm {
+  static const sha256withecdsa = SigningAlgorithm._('SHA256WITHECDSA');
+  static const sha384withecdsa = SigningAlgorithm._('SHA384WITHECDSA');
+  static const sha512withecdsa = SigningAlgorithm._('SHA512WITHECDSA');
+  static const sha256withrsa = SigningAlgorithm._('SHA256WITHRSA');
+  static const sha384withrsa = SigningAlgorithm._('SHA384WITHRSA');
+  static const sha512withrsa = SigningAlgorithm._('SHA512WITHRSA');
+  static const sm3withsm2 = SigningAlgorithm._('SM3WITHSM2');
+  static const mlDsa_44 = SigningAlgorithm._('ML_DSA_44');
+  static const mlDsa_65 = SigningAlgorithm._('ML_DSA_65');
+  static const mlDsa_87 = SigningAlgorithm._('ML_DSA_87');
+
+  final String value;
+
+  const SigningAlgorithm._(this.value);
+
+  static const values = [
+    sha256withecdsa,
+    sha384withecdsa,
+    sha512withecdsa,
+    sha256withrsa,
+    sha384withrsa,
+    sha512withrsa,
+    sm3withsm2,
+    mlDsa_44,
+    mlDsa_65,
+    mlDsa_87
+  ];
+
+  static SigningAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SigningAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is SigningAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Contains information about the certificate subject. The <code>Subject</code>
@@ -2096,6 +3590,127 @@ class ASN1Subject {
   }
 }
 
+/// Describes the certificate extensions to be added to the certificate signing
+/// request (CSR).
+class CsrExtensions {
+  /// Indicates the purpose of the certificate and of the key contained in the
+  /// certificate.
+  final KeyUsage? keyUsage;
+
+  /// For CA certificates, provides a path to additional information pertaining to
+  /// the CA, such as revocation and policy. For more information, see <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.2">Subject
+  /// Information Access</a> in RFC 5280.
+  final List<AccessDescription>? subjectInformationAccess;
+
+  CsrExtensions({
+    this.keyUsage,
+    this.subjectInformationAccess,
+  });
+
+  factory CsrExtensions.fromJson(Map<String, dynamic> json) {
+    return CsrExtensions(
+      keyUsage: json['KeyUsage'] != null
+          ? KeyUsage.fromJson(json['KeyUsage'] as Map<String, dynamic>)
+          : null,
+      subjectInformationAccess: (json['SubjectInformationAccess'] as List?)
+          ?.nonNulls
+          .map((e) => AccessDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyUsage = this.keyUsage;
+    final subjectInformationAccess = this.subjectInformationAccess;
+    return {
+      if (keyUsage != null) 'KeyUsage': keyUsage,
+      if (subjectInformationAccess != null)
+        'SubjectInformationAccess': subjectInformationAccess,
+    };
+  }
+}
+
+/// Defines one or more purposes for which the key contained in the certificate
+/// can be used. Default value for each option is false.
+class KeyUsage {
+  /// Key can be used to sign CRLs.
+  final bool? cRLSign;
+
+  /// Key can be used to decipher data.
+  final bool? dataEncipherment;
+
+  /// Key can be used only to decipher data.
+  final bool? decipherOnly;
+
+  /// Key can be used for digital signing.
+  final bool? digitalSignature;
+
+  /// Key can be used only to encipher data.
+  final bool? encipherOnly;
+
+  /// Key can be used in a key-agreement protocol.
+  final bool? keyAgreement;
+
+  /// Key can be used to sign certificates.
+  final bool? keyCertSign;
+
+  /// Key can be used to encipher data.
+  final bool? keyEncipherment;
+
+  /// Key can be used for non-repudiation.
+  final bool? nonRepudiation;
+
+  KeyUsage({
+    this.cRLSign,
+    this.dataEncipherment,
+    this.decipherOnly,
+    this.digitalSignature,
+    this.encipherOnly,
+    this.keyAgreement,
+    this.keyCertSign,
+    this.keyEncipherment,
+    this.nonRepudiation,
+  });
+
+  factory KeyUsage.fromJson(Map<String, dynamic> json) {
+    return KeyUsage(
+      cRLSign: json['CRLSign'] as bool?,
+      dataEncipherment: json['DataEncipherment'] as bool?,
+      decipherOnly: json['DecipherOnly'] as bool?,
+      digitalSignature: json['DigitalSignature'] as bool?,
+      encipherOnly: json['EncipherOnly'] as bool?,
+      keyAgreement: json['KeyAgreement'] as bool?,
+      keyCertSign: json['KeyCertSign'] as bool?,
+      keyEncipherment: json['KeyEncipherment'] as bool?,
+      nonRepudiation: json['NonRepudiation'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cRLSign = this.cRLSign;
+    final dataEncipherment = this.dataEncipherment;
+    final decipherOnly = this.decipherOnly;
+    final digitalSignature = this.digitalSignature;
+    final encipherOnly = this.encipherOnly;
+    final keyAgreement = this.keyAgreement;
+    final keyCertSign = this.keyCertSign;
+    final keyEncipherment = this.keyEncipherment;
+    final nonRepudiation = this.nonRepudiation;
+    return {
+      if (cRLSign != null) 'CRLSign': cRLSign,
+      if (dataEncipherment != null) 'DataEncipherment': dataEncipherment,
+      if (decipherOnly != null) 'DecipherOnly': decipherOnly,
+      if (digitalSignature != null) 'DigitalSignature': digitalSignature,
+      if (encipherOnly != null) 'EncipherOnly': encipherOnly,
+      if (keyAgreement != null) 'KeyAgreement': keyAgreement,
+      if (keyCertSign != null) 'KeyCertSign': keyCertSign,
+      if (keyEncipherment != null) 'KeyEncipherment': keyEncipherment,
+      if (nonRepudiation != null) 'NonRepudiation': nonRepudiation,
+    };
+  }
+}
+
 /// Provides access information used by the <code>authorityInfoAccess</code> and
 /// <code>subjectInfoAccess</code> extensions described in <a
 /// href="https://datatracker.ietf.org/doc/html/rfc5280">RFC 5280</a>.
@@ -2168,1152 +3783,6 @@ class AccessMethod {
         'CustomObjectIdentifier': customObjectIdentifier,
     };
   }
-}
-
-class AccessMethodType {
-  static const caRepository = AccessMethodType._('CA_REPOSITORY');
-  static const resourcePkiManifest =
-      AccessMethodType._('RESOURCE_PKI_MANIFEST');
-  static const resourcePkiNotify = AccessMethodType._('RESOURCE_PKI_NOTIFY');
-
-  final String value;
-
-  const AccessMethodType._(this.value);
-
-  static const values = [caRepository, resourcePkiManifest, resourcePkiNotify];
-
-  static AccessMethodType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AccessMethodType._(value));
-
-  @override
-  bool operator ==(other) => other is AccessMethodType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ActionType {
-  static const issueCertificate = ActionType._('IssueCertificate');
-  static const getCertificate = ActionType._('GetCertificate');
-  static const listPermissions = ActionType._('ListPermissions');
-
-  final String value;
-
-  const ActionType._(this.value);
-
-  static const values = [issueCertificate, getCertificate, listPermissions];
-
-  static ActionType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ActionType._(value));
-
-  @override
-  bool operator ==(other) => other is ActionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains X.509 certificate information to be placed in an issued
-/// certificate. An <code>APIPassthrough</code> or
-/// <code>APICSRPassthrough</code> template variant must be selected, or else
-/// this parameter is ignored.
-///
-/// If conflicting or duplicate certificate information is supplied from other
-/// sources, Amazon Web Services Private CA applies <a
-/// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">order
-/// of operation rules</a> to determine what information is used.
-class ApiPassthrough {
-  /// Specifies X.509 extension information for a certificate.
-  final Extensions? extensions;
-  final ASN1Subject? subject;
-
-  ApiPassthrough({
-    this.extensions,
-    this.subject,
-  });
-
-  Map<String, dynamic> toJson() {
-    final extensions = this.extensions;
-    final subject = this.subject;
-    return {
-      if (extensions != null) 'Extensions': extensions,
-      if (subject != null) 'Subject': subject,
-    };
-  }
-}
-
-class AuditReportResponseFormat {
-  static const json = AuditReportResponseFormat._('JSON');
-  static const csv = AuditReportResponseFormat._('CSV');
-
-  final String value;
-
-  const AuditReportResponseFormat._(this.value);
-
-  static const values = [json, csv];
-
-  static AuditReportResponseFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuditReportResponseFormat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuditReportResponseFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AuditReportStatus {
-  static const creating = AuditReportStatus._('CREATING');
-  static const success = AuditReportStatus._('SUCCESS');
-  static const failed = AuditReportStatus._('FAILED');
-
-  final String value;
-
-  const AuditReportStatus._(this.value);
-
-  static const values = [creating, success, failed];
-
-  static AuditReportStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuditReportStatus._(value));
-
-  @override
-  bool operator ==(other) => other is AuditReportStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about your private certificate authority (CA). Your
-/// private CA can issue and revoke X.509 digital certificates. Digital
-/// certificates verify that the entity named in the certificate <b>Subject</b>
-/// field owns or controls the public key contained in the <b>Subject Public Key
-/// Info</b> field. Call the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
-/// action to create your private CA. You must then call the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCertificate.html">GetCertificateAuthorityCertificate</a>
-/// action to retrieve a private CA certificate signing request (CSR). Sign the
-/// CSR with your Amazon Web Services Private CA-hosted or on-premises root or
-/// subordinate CA certificate. Call the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
-/// action to import the signed certificate into Certificate Manager (ACM).
-class CertificateAuthority {
-  /// Amazon Resource Name (ARN) for your private certificate authority (CA). The
-  /// format is <code> <i>12345678-1234-1234-1234-123456789012</i> </code>.
-  final String? arn;
-
-  /// Your private CA configuration.
-  final CertificateAuthorityConfiguration? certificateAuthorityConfiguration;
-
-  /// Date and time at which your private CA was created.
-  final DateTime? createdAt;
-
-  /// Reason the request to create your private CA failed.
-  final FailureReason? failureReason;
-
-  /// Defines a cryptographic key management compliance standard used for handling
-  /// CA keys.
-  ///
-  /// Default: FIPS_140_2_LEVEL_3_OR_HIGHER
-  ///
-  /// Note: Amazon Web Services Region ap-northeast-3 supports only
-  /// FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this parameter and
-  /// value when creating a CA in that Region. Specifying a different value (or no
-  /// value) results in an <code>InvalidArgsException</code> with the message "A
-  /// certificate authority cannot be created in this region with the specified
-  /// security standard."
-  final KeyStorageSecurityStandard? keyStorageSecurityStandard;
-
-  /// Date and time at which your private CA was last updated.
-  final DateTime? lastStateChangeAt;
-
-  /// Date and time after which your private CA certificate is not valid.
-  final DateTime? notAfter;
-
-  /// Date and time before which your private CA certificate is not valid.
-  final DateTime? notBefore;
-
-  /// The Amazon Web Services account ID that owns the certificate authority.
-  final String? ownerAccount;
-
-  /// The period during which a deleted CA can be restored. For more information,
-  /// see the <code>PermanentDeletionTimeInDays</code> parameter of the <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html">DeleteCertificateAuthorityRequest</a>
-  /// action.
-  final DateTime? restorableUntil;
-
-  /// Information about the Online Certificate Status Protocol (OCSP)
-  /// configuration or certificate revocation list (CRL) created and maintained by
-  /// your private CA.
-  final RevocationConfiguration? revocationConfiguration;
-
-  /// Serial number of your private CA.
-  final String? serial;
-
-  /// Status of your private CA.
-  final CertificateAuthorityStatus? status;
-
-  /// Type of your private CA.
-  final CertificateAuthorityType? type;
-
-  /// Specifies whether the CA issues general-purpose certificates that typically
-  /// require a revocation mechanism, or short-lived certificates that may
-  /// optionally omit revocation because they expire quickly. Short-lived
-  /// certificate validity is limited to seven days.
-  ///
-  /// The default value is GENERAL_PURPOSE.
-  final CertificateAuthorityUsageMode? usageMode;
-
-  CertificateAuthority({
-    this.arn,
-    this.certificateAuthorityConfiguration,
-    this.createdAt,
-    this.failureReason,
-    this.keyStorageSecurityStandard,
-    this.lastStateChangeAt,
-    this.notAfter,
-    this.notBefore,
-    this.ownerAccount,
-    this.restorableUntil,
-    this.revocationConfiguration,
-    this.serial,
-    this.status,
-    this.type,
-    this.usageMode,
-  });
-
-  factory CertificateAuthority.fromJson(Map<String, dynamic> json) {
-    return CertificateAuthority(
-      arn: json['Arn'] as String?,
-      certificateAuthorityConfiguration:
-          json['CertificateAuthorityConfiguration'] != null
-              ? CertificateAuthorityConfiguration.fromJson(
-                  json['CertificateAuthorityConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      failureReason:
-          (json['FailureReason'] as String?)?.let(FailureReason.fromString),
-      keyStorageSecurityStandard:
-          (json['KeyStorageSecurityStandard'] as String?)
-              ?.let(KeyStorageSecurityStandard.fromString),
-      lastStateChangeAt: timeStampFromJson(json['LastStateChangeAt']),
-      notAfter: timeStampFromJson(json['NotAfter']),
-      notBefore: timeStampFromJson(json['NotBefore']),
-      ownerAccount: json['OwnerAccount'] as String?,
-      restorableUntil: timeStampFromJson(json['RestorableUntil']),
-      revocationConfiguration: json['RevocationConfiguration'] != null
-          ? RevocationConfiguration.fromJson(
-              json['RevocationConfiguration'] as Map<String, dynamic>)
-          : null,
-      serial: json['Serial'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(CertificateAuthorityStatus.fromString),
-      type: (json['Type'] as String?)?.let(CertificateAuthorityType.fromString),
-      usageMode: (json['UsageMode'] as String?)
-          ?.let(CertificateAuthorityUsageMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final certificateAuthorityConfiguration =
-        this.certificateAuthorityConfiguration;
-    final createdAt = this.createdAt;
-    final failureReason = this.failureReason;
-    final keyStorageSecurityStandard = this.keyStorageSecurityStandard;
-    final lastStateChangeAt = this.lastStateChangeAt;
-    final notAfter = this.notAfter;
-    final notBefore = this.notBefore;
-    final ownerAccount = this.ownerAccount;
-    final restorableUntil = this.restorableUntil;
-    final revocationConfiguration = this.revocationConfiguration;
-    final serial = this.serial;
-    final status = this.status;
-    final type = this.type;
-    final usageMode = this.usageMode;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (certificateAuthorityConfiguration != null)
-        'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (failureReason != null) 'FailureReason': failureReason.value,
-      if (keyStorageSecurityStandard != null)
-        'KeyStorageSecurityStandard': keyStorageSecurityStandard.value,
-      if (lastStateChangeAt != null)
-        'LastStateChangeAt': unixTimestampToJson(lastStateChangeAt),
-      if (notAfter != null) 'NotAfter': unixTimestampToJson(notAfter),
-      if (notBefore != null) 'NotBefore': unixTimestampToJson(notBefore),
-      if (ownerAccount != null) 'OwnerAccount': ownerAccount,
-      if (restorableUntil != null)
-        'RestorableUntil': unixTimestampToJson(restorableUntil),
-      if (revocationConfiguration != null)
-        'RevocationConfiguration': revocationConfiguration,
-      if (serial != null) 'Serial': serial,
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type.value,
-      if (usageMode != null) 'UsageMode': usageMode.value,
-    };
-  }
-}
-
-/// Contains configuration information for your private certificate authority
-/// (CA). This includes information about the class of public key algorithm and
-/// the key pair that your private CA creates when it issues a certificate. It
-/// also includes the signature algorithm that it uses when issuing
-/// certificates, and its X.500 distinguished name. You must specify this
-/// information when you call the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
-/// action.
-class CertificateAuthorityConfiguration {
-  /// Type of the public key algorithm and size, in bits, of the key pair that
-  /// your CA creates when it issues a certificate. When you create a subordinate
-  /// CA, you must use a key algorithm supported by the parent CA.
-  final KeyAlgorithm keyAlgorithm;
-
-  /// Name of the algorithm your private CA uses to sign certificate requests.
-  ///
-  /// This parameter should not be confused with the <code>SigningAlgorithm</code>
-  /// parameter used to sign certificates when they are issued.
-  final SigningAlgorithm signingAlgorithm;
-
-  /// Structure that contains X.500 distinguished name information for your
-  /// private CA.
-  final ASN1Subject subject;
-
-  /// Specifies information to be added to the extension section of the
-  /// certificate signing request (CSR).
-  final CsrExtensions? csrExtensions;
-
-  CertificateAuthorityConfiguration({
-    required this.keyAlgorithm,
-    required this.signingAlgorithm,
-    required this.subject,
-    this.csrExtensions,
-  });
-
-  factory CertificateAuthorityConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return CertificateAuthorityConfiguration(
-      keyAlgorithm:
-          KeyAlgorithm.fromString((json['KeyAlgorithm'] as String?) ?? ''),
-      signingAlgorithm: SigningAlgorithm.fromString(
-          (json['SigningAlgorithm'] as String?) ?? ''),
-      subject: ASN1Subject.fromJson(
-          (json['Subject'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      csrExtensions: json['CsrExtensions'] != null
-          ? CsrExtensions.fromJson(
-              json['CsrExtensions'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final keyAlgorithm = this.keyAlgorithm;
-    final signingAlgorithm = this.signingAlgorithm;
-    final subject = this.subject;
-    final csrExtensions = this.csrExtensions;
-    return {
-      'KeyAlgorithm': keyAlgorithm.value,
-      'SigningAlgorithm': signingAlgorithm.value,
-      'Subject': subject,
-      if (csrExtensions != null) 'CsrExtensions': csrExtensions,
-    };
-  }
-}
-
-class CertificateAuthorityStatus {
-  static const creating = CertificateAuthorityStatus._('CREATING');
-  static const pendingCertificate =
-      CertificateAuthorityStatus._('PENDING_CERTIFICATE');
-  static const active = CertificateAuthorityStatus._('ACTIVE');
-  static const deleted = CertificateAuthorityStatus._('DELETED');
-  static const disabled = CertificateAuthorityStatus._('DISABLED');
-  static const expired = CertificateAuthorityStatus._('EXPIRED');
-  static const failed = CertificateAuthorityStatus._('FAILED');
-
-  final String value;
-
-  const CertificateAuthorityStatus._(this.value);
-
-  static const values = [
-    creating,
-    pendingCertificate,
-    active,
-    deleted,
-    disabled,
-    expired,
-    failed
-  ];
-
-  static CertificateAuthorityStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CertificateAuthorityStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CertificateAuthorityStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CertificateAuthorityType {
-  static const root = CertificateAuthorityType._('ROOT');
-  static const subordinate = CertificateAuthorityType._('SUBORDINATE');
-
-  final String value;
-
-  const CertificateAuthorityType._(this.value);
-
-  static const values = [root, subordinate];
-
-  static CertificateAuthorityType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CertificateAuthorityType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CertificateAuthorityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CertificateAuthorityUsageMode {
-  static const generalPurpose =
-      CertificateAuthorityUsageMode._('GENERAL_PURPOSE');
-  static const shortLivedCertificate =
-      CertificateAuthorityUsageMode._('SHORT_LIVED_CERTIFICATE');
-
-  final String value;
-
-  const CertificateAuthorityUsageMode._(this.value);
-
-  static const values = [generalPurpose, shortLivedCertificate];
-
-  static CertificateAuthorityUsageMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CertificateAuthorityUsageMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CertificateAuthorityUsageMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CreateCertificateAuthorityAuditReportResponse {
-  /// An alphanumeric string that contains a report identifier.
-  final String? auditReportId;
-
-  /// The <b>key</b> that uniquely identifies the report file in your S3 bucket.
-  final String? s3Key;
-
-  CreateCertificateAuthorityAuditReportResponse({
-    this.auditReportId,
-    this.s3Key,
-  });
-
-  factory CreateCertificateAuthorityAuditReportResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateCertificateAuthorityAuditReportResponse(
-      auditReportId: json['AuditReportId'] as String?,
-      s3Key: json['S3Key'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final auditReportId = this.auditReportId;
-    final s3Key = this.s3Key;
-    return {
-      if (auditReportId != null) 'AuditReportId': auditReportId,
-      if (s3Key != null) 'S3Key': s3Key,
-    };
-  }
-}
-
-class CreateCertificateAuthorityResponse {
-  /// If successful, the Amazon Resource Name (ARN) of the certificate authority
-  /// (CA). This is of the form:
-  ///
-  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
-  /// </code>.
-  final String? certificateAuthorityArn;
-
-  CreateCertificateAuthorityResponse({
-    this.certificateAuthorityArn,
-  });
-
-  factory CreateCertificateAuthorityResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateCertificateAuthorityResponse(
-      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateAuthorityArn = this.certificateAuthorityArn;
-    return {
-      if (certificateAuthorityArn != null)
-        'CertificateAuthorityArn': certificateAuthorityArn,
-    };
-  }
-}
-
-/// Contains configuration information for a certificate revocation list (CRL).
-/// Your private certificate authority (CA) creates base CRLs. Delta CRLs are
-/// not supported. You can enable CRLs for your new or an existing private CA by
-/// setting the <b>Enabled</b> parameter to <code>true</code>. Your private CA
-/// writes CRLs to an S3 bucket that you specify in the <b>S3BucketName</b>
-/// parameter. You can hide the name of your bucket by specifying a value for
-/// the <b>CustomCname</b> parameter. Your private CA by default copies the
-/// CNAME or the S3 bucket name to the <b>CRL Distribution Points</b> extension
-/// of each certificate it issues. If you want to configure this default
-/// behavior to be something different, you can set the
-/// <b>CrlDistributionPointExtensionConfiguration</b> parameter. Your S3 bucket
-/// policy must give write permission to Amazon Web Services Private CA.
-///
-/// Amazon Web Services Private CA assets that are stored in Amazon S3 can be
-/// protected with encryption. For more information, see <a
-/// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#crl-encryption">Encrypting
-/// Your CRLs</a>.
-///
-/// Your private CA uses the value in the <b>ExpirationInDays</b> parameter to
-/// calculate the <b>nextUpdate</b> field in the CRL. The CRL is refreshed prior
-/// to a certificate's expiration date or when a certificate is revoked. When a
-/// certificate is revoked, it appears in the CRL until the certificate expires,
-/// and then in one additional CRL after expiration, and it always appears in
-/// the audit report.
-///
-/// A CRL is typically updated approximately 30 minutes after a certificate is
-/// revoked. If for any reason a CRL update fails, Amazon Web Services Private
-/// CA makes further attempts every 15 minutes.
-///
-/// CRLs contain the following fields:
-///
-/// <ul>
-/// <li>
-/// <b>Version</b>: The current version number defined in RFC 5280 is V2. The
-/// integer value is 0x1.
-/// </li>
-/// <li>
-/// <b>Signature Algorithm</b>: The name of the algorithm used to sign the CRL.
-/// </li>
-/// <li>
-/// <b>Issuer</b>: The X.500 distinguished name of your private CA that issued
-/// the CRL.
-/// </li>
-/// <li>
-/// <b>Last Update</b>: The issue date and time of this CRL.
-/// </li>
-/// <li>
-/// <b>Next Update</b>: The day and time by which the next CRL will be issued.
-/// </li>
-/// <li>
-/// <b>Revoked Certificates</b>: List of revoked certificates. Each list item
-/// contains the following information.
-///
-/// <ul>
-/// <li>
-/// <b>Serial Number</b>: The serial number, in hexadecimal format, of the
-/// revoked certificate.
-/// </li>
-/// <li>
-/// <b>Revocation Date</b>: Date and time the certificate was revoked.
-/// </li>
-/// <li>
-/// <b>CRL Entry Extensions</b>: Optional extensions for the CRL entry.
-///
-/// <ul>
-/// <li>
-/// <b>X509v3 CRL Reason Code</b>: Reason the certificate was revoked.
-/// </li>
-/// </ul> </li>
-/// </ul> </li>
-/// <li>
-/// <b>CRL Extensions</b>: Optional extensions for the CRL.
-///
-/// <ul>
-/// <li>
-/// <b>X509v3 Authority Key Identifier</b>: Identifies the public key associated
-/// with the private key used to sign the certificate.
-/// </li>
-/// <li>
-/// <b>X509v3 CRL Number:</b>: Decimal sequence number for the CRL.
-/// </li>
-/// </ul> </li>
-/// <li>
-/// <b>Signature Algorithm</b>: Algorithm used by your private CA to sign the
-/// CRL.
-/// </li>
-/// <li>
-/// <b>Signature Value</b>: Signature computed over the CRL.
-/// </li>
-/// </ul>
-/// Certificate revocation lists created by Amazon Web Services Private CA are
-/// DER-encoded. You can use the following OpenSSL command to list a CRL.
-///
-/// <code>openssl crl -inform DER -text -in <i>crl_path</i> -noout</code>
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html">Planning
-/// a certificate revocation list (CRL)</a> in the <i>Amazon Web Services
-/// Private Certificate Authority User Guide</i>
-class CrlConfiguration {
-  /// Boolean value that specifies whether certificate revocation lists (CRLs) are
-  /// enabled. You can use this value to enable certificate revocation for a new
-  /// CA when you call the <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
-  /// action or for an existing CA when you call the <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
-  /// action.
-  final bool enabled;
-
-  /// Configures the behavior of the CRL Distribution Point extension for
-  /// certificates issued by your certificate authority. If this field is not
-  /// provided, then the CRl Distribution Point Extension will be present and
-  /// contain the default CRL URL.
-  final CrlDistributionPointExtensionConfiguration?
-      crlDistributionPointExtensionConfiguration;
-
-  /// Name inserted into the certificate <b>CRL Distribution Points</b> extension
-  /// that enables the use of an alias for the CRL distribution point. Use this
-  /// value if you don't want the name of your S3 bucket to be public.
-  /// <note>
-  /// The content of a Canonical Name (CNAME) record must conform to <a
-  /// href="https://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> restrictions on the
-  /// use of special characters in URIs. Additionally, the value of the CNAME must
-  /// not include a protocol prefix such as "http://" or "https://".
-  /// </note>
-  final String? customCname;
-
-  /// Validity period of the CRL in days.
-  final int? expirationInDays;
-
-  /// Name of the S3 bucket that contains the CRL. If you do not provide a value
-  /// for the <b>CustomCname</b> argument, the name of your S3 bucket is placed
-  /// into the <b>CRL Distribution Points</b> extension of the issued certificate.
-  /// You can change the name of your bucket by calling the <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
-  /// operation. You must specify a <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-policies">bucket
-  /// policy</a> that allows Amazon Web Services Private CA to write the CRL to
-  /// your bucket.
-  /// <note>
-  /// The <code>S3BucketName</code> parameter must conform to the <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html">S3
-  /// bucket naming rules</a>.
-  /// </note>
-  final String? s3BucketName;
-
-  /// Determines whether the CRL will be publicly readable or privately held in
-  /// the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be
-  /// accessible over the public internet. If you choose
-  /// BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access
-  /// the CRL, and your PKI clients may need an alternative method of access.
-  ///
-  /// If no value is specified, the default is <code>PUBLIC_READ</code>.
-  ///
-  /// <i>Note:</i> This default can cause CA creation to fail in some
-  /// circumstances. If you have have enabled the Block Public Access (BPA)
-  /// feature in your S3 account, then you must specify the value of this
-  /// parameter as <code>BUCKET_OWNER_FULL_CONTROL</code>, and not doing so
-  /// results in an error. If you have disabled BPA in S3, then you can specify
-  /// either <code>BUCKET_OWNER_FULL_CONTROL</code> or <code>PUBLIC_READ</code> as
-  /// the value.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-bpa">Blocking
-  /// public access to the S3 bucket</a>.
-  final S3ObjectAcl? s3ObjectAcl;
-
-  CrlConfiguration({
-    required this.enabled,
-    this.crlDistributionPointExtensionConfiguration,
-    this.customCname,
-    this.expirationInDays,
-    this.s3BucketName,
-    this.s3ObjectAcl,
-  });
-
-  factory CrlConfiguration.fromJson(Map<String, dynamic> json) {
-    return CrlConfiguration(
-      enabled: (json['Enabled'] as bool?) ?? false,
-      crlDistributionPointExtensionConfiguration:
-          json['CrlDistributionPointExtensionConfiguration'] != null
-              ? CrlDistributionPointExtensionConfiguration.fromJson(
-                  json['CrlDistributionPointExtensionConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      customCname: json['CustomCname'] as String?,
-      expirationInDays: json['ExpirationInDays'] as int?,
-      s3BucketName: json['S3BucketName'] as String?,
-      s3ObjectAcl:
-          (json['S3ObjectAcl'] as String?)?.let(S3ObjectAcl.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final crlDistributionPointExtensionConfiguration =
-        this.crlDistributionPointExtensionConfiguration;
-    final customCname = this.customCname;
-    final expirationInDays = this.expirationInDays;
-    final s3BucketName = this.s3BucketName;
-    final s3ObjectAcl = this.s3ObjectAcl;
-    return {
-      'Enabled': enabled,
-      if (crlDistributionPointExtensionConfiguration != null)
-        'CrlDistributionPointExtensionConfiguration':
-            crlDistributionPointExtensionConfiguration,
-      if (customCname != null) 'CustomCname': customCname,
-      if (expirationInDays != null) 'ExpirationInDays': expirationInDays,
-      if (s3BucketName != null) 'S3BucketName': s3BucketName,
-      if (s3ObjectAcl != null) 'S3ObjectAcl': s3ObjectAcl.value,
-    };
-  }
-}
-
-/// Contains configuration information for the default behavior of the CRL
-/// Distribution Point (CDP) extension in certificates issued by your CA. This
-/// extension contains a link to download the CRL, so you can check whether a
-/// certificate has been revoked. To choose whether you want this extension
-/// omitted or not in certificates issued by your CA, you can set the
-/// <b>OmitExtension</b> parameter.
-class CrlDistributionPointExtensionConfiguration {
-  /// Configures whether the CRL Distribution Point extension should be populated
-  /// with the default URL to the CRL. If set to <code>true</code>, then the CDP
-  /// extension will not be present in any certificates issued by that CA unless
-  /// otherwise specified through CSR or API passthrough.
-  /// <note>
-  /// Only set this if you have another way to distribute the CRL Distribution
-  /// Points ffor certificates issued by your CA, such as the Matter Distributed
-  /// Compliance Ledger
-  ///
-  /// This configuration cannot be enabled with a custom CNAME set.
-  /// </note>
-  final bool omitExtension;
-
-  CrlDistributionPointExtensionConfiguration({
-    required this.omitExtension,
-  });
-
-  factory CrlDistributionPointExtensionConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return CrlDistributionPointExtensionConfiguration(
-      omitExtension: (json['OmitExtension'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final omitExtension = this.omitExtension;
-    return {
-      'OmitExtension': omitExtension,
-    };
-  }
-}
-
-/// Describes the certificate extensions to be added to the certificate signing
-/// request (CSR).
-class CsrExtensions {
-  /// Indicates the purpose of the certificate and of the key contained in the
-  /// certificate.
-  final KeyUsage? keyUsage;
-
-  /// For CA certificates, provides a path to additional information pertaining to
-  /// the CA, such as revocation and policy. For more information, see <a
-  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.2">Subject
-  /// Information Access</a> in RFC 5280.
-  final List<AccessDescription>? subjectInformationAccess;
-
-  CsrExtensions({
-    this.keyUsage,
-    this.subjectInformationAccess,
-  });
-
-  factory CsrExtensions.fromJson(Map<String, dynamic> json) {
-    return CsrExtensions(
-      keyUsage: json['KeyUsage'] != null
-          ? KeyUsage.fromJson(json['KeyUsage'] as Map<String, dynamic>)
-          : null,
-      subjectInformationAccess: (json['SubjectInformationAccess'] as List?)
-          ?.nonNulls
-          .map((e) => AccessDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final keyUsage = this.keyUsage;
-    final subjectInformationAccess = this.subjectInformationAccess;
-    return {
-      if (keyUsage != null) 'KeyUsage': keyUsage,
-      if (subjectInformationAccess != null)
-        'SubjectInformationAccess': subjectInformationAccess,
-    };
-  }
-}
-
-/// Defines the X.500 relative distinguished name (RDN).
-class CustomAttribute {
-  /// Specifies the object identifier (OID) of the attribute type of the relative
-  /// distinguished name (RDN).
-  final String objectIdentifier;
-
-  /// <p/>
-  /// Specifies the attribute value of relative distinguished name (RDN).
-  final String value;
-
-  CustomAttribute({
-    required this.objectIdentifier,
-    required this.value,
-  });
-
-  factory CustomAttribute.fromJson(Map<String, dynamic> json) {
-    return CustomAttribute(
-      objectIdentifier: (json['ObjectIdentifier'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectIdentifier = this.objectIdentifier;
-    final value = this.value;
-    return {
-      'ObjectIdentifier': objectIdentifier,
-      'Value': value,
-    };
-  }
-}
-
-/// <p/>
-/// Specifies the X.509 extension information for a certificate.
-///
-/// Extensions present in <code>CustomExtensions</code> follow the
-/// <code>ApiPassthrough</code> <a
-/// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">template
-/// rules</a>.
-class CustomExtension {
-  /// <p/>
-  /// Specifies the object identifier (OID) of the X.509 extension. For more
-  /// information, see the <a href="https://oidref.com/2.5.29">Global OID
-  /// reference database.</a>
-  final String objectIdentifier;
-
-  /// <p/>
-  /// Specifies the base64-encoded value of the X.509 extension.
-  final String value;
-
-  /// <p/>
-  /// Specifies the critical flag of the X.509 extension.
-  final bool? critical;
-
-  CustomExtension({
-    required this.objectIdentifier,
-    required this.value,
-    this.critical,
-  });
-
-  Map<String, dynamic> toJson() {
-    final objectIdentifier = this.objectIdentifier;
-    final value = this.value;
-    final critical = this.critical;
-    return {
-      'ObjectIdentifier': objectIdentifier,
-      'Value': value,
-      if (critical != null) 'Critical': critical,
-    };
-  }
-}
-
-class DescribeCertificateAuthorityAuditReportResponse {
-  /// Specifies whether report creation is in progress, has succeeded, or has
-  /// failed.
-  final AuditReportStatus? auditReportStatus;
-
-  /// The date and time at which the report was created.
-  final DateTime? createdAt;
-
-  /// Name of the S3 bucket that contains the report.
-  final String? s3BucketName;
-
-  /// S3 <b>key</b> that uniquely identifies the report file in your S3 bucket.
-  final String? s3Key;
-
-  DescribeCertificateAuthorityAuditReportResponse({
-    this.auditReportStatus,
-    this.createdAt,
-    this.s3BucketName,
-    this.s3Key,
-  });
-
-  factory DescribeCertificateAuthorityAuditReportResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeCertificateAuthorityAuditReportResponse(
-      auditReportStatus: (json['AuditReportStatus'] as String?)
-          ?.let(AuditReportStatus.fromString),
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      s3BucketName: json['S3BucketName'] as String?,
-      s3Key: json['S3Key'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final auditReportStatus = this.auditReportStatus;
-    final createdAt = this.createdAt;
-    final s3BucketName = this.s3BucketName;
-    final s3Key = this.s3Key;
-    return {
-      if (auditReportStatus != null)
-        'AuditReportStatus': auditReportStatus.value,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (s3BucketName != null) 'S3BucketName': s3BucketName,
-      if (s3Key != null) 'S3Key': s3Key,
-    };
-  }
-}
-
-class DescribeCertificateAuthorityResponse {
-  /// A <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CertificateAuthority.html">CertificateAuthority</a>
-  /// structure that contains information about your private CA.
-  final CertificateAuthority? certificateAuthority;
-
-  DescribeCertificateAuthorityResponse({
-    this.certificateAuthority,
-  });
-
-  factory DescribeCertificateAuthorityResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeCertificateAuthorityResponse(
-      certificateAuthority: json['CertificateAuthority'] != null
-          ? CertificateAuthority.fromJson(
-              json['CertificateAuthority'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateAuthority = this.certificateAuthority;
-    return {
-      if (certificateAuthority != null)
-        'CertificateAuthority': certificateAuthority,
-    };
-  }
-}
-
-/// Describes an Electronic Data Interchange (EDI) entity as described in as
-/// defined in <a href="https://datatracker.ietf.org/doc/html/rfc5280">Subject
-/// Alternative Name</a> in RFC 5280.
-class EdiPartyName {
-  /// Specifies the party name.
-  final String partyName;
-
-  /// Specifies the name assigner.
-  final String? nameAssigner;
-
-  EdiPartyName({
-    required this.partyName,
-    this.nameAssigner,
-  });
-
-  factory EdiPartyName.fromJson(Map<String, dynamic> json) {
-    return EdiPartyName(
-      partyName: (json['PartyName'] as String?) ?? '',
-      nameAssigner: json['NameAssigner'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final partyName = this.partyName;
-    final nameAssigner = this.nameAssigner;
-    return {
-      'PartyName': partyName,
-      if (nameAssigner != null) 'NameAssigner': nameAssigner,
-    };
-  }
-}
-
-/// Specifies additional purposes for which the certified public key may be used
-/// other than basic purposes indicated in the <code>KeyUsage</code> extension.
-class ExtendedKeyUsage {
-  /// Specifies a custom <code>ExtendedKeyUsage</code> with an object identifier
-  /// (OID).
-  final String? extendedKeyUsageObjectIdentifier;
-
-  /// Specifies a standard <code>ExtendedKeyUsage</code> as defined as in <a
-  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.12">RFC
-  /// 5280</a>.
-  final ExtendedKeyUsageType? extendedKeyUsageType;
-
-  ExtendedKeyUsage({
-    this.extendedKeyUsageObjectIdentifier,
-    this.extendedKeyUsageType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final extendedKeyUsageObjectIdentifier =
-        this.extendedKeyUsageObjectIdentifier;
-    final extendedKeyUsageType = this.extendedKeyUsageType;
-    return {
-      if (extendedKeyUsageObjectIdentifier != null)
-        'ExtendedKeyUsageObjectIdentifier': extendedKeyUsageObjectIdentifier,
-      if (extendedKeyUsageType != null)
-        'ExtendedKeyUsageType': extendedKeyUsageType.value,
-    };
-  }
-}
-
-class ExtendedKeyUsageType {
-  static const serverAuth = ExtendedKeyUsageType._('SERVER_AUTH');
-  static const clientAuth = ExtendedKeyUsageType._('CLIENT_AUTH');
-  static const codeSigning = ExtendedKeyUsageType._('CODE_SIGNING');
-  static const emailProtection = ExtendedKeyUsageType._('EMAIL_PROTECTION');
-  static const timeStamping = ExtendedKeyUsageType._('TIME_STAMPING');
-  static const ocspSigning = ExtendedKeyUsageType._('OCSP_SIGNING');
-  static const smartCardLogin = ExtendedKeyUsageType._('SMART_CARD_LOGIN');
-  static const documentSigning = ExtendedKeyUsageType._('DOCUMENT_SIGNING');
-  static const certificateTransparency =
-      ExtendedKeyUsageType._('CERTIFICATE_TRANSPARENCY');
-
-  final String value;
-
-  const ExtendedKeyUsageType._(this.value);
-
-  static const values = [
-    serverAuth,
-    clientAuth,
-    codeSigning,
-    emailProtection,
-    timeStamping,
-    ocspSigning,
-    smartCardLogin,
-    documentSigning,
-    certificateTransparency
-  ];
-
-  static ExtendedKeyUsageType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExtendedKeyUsageType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExtendedKeyUsageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains X.509 extension information for a certificate.
-class Extensions {
-  /// Contains a sequence of one or more policy information terms, each of which
-  /// consists of an object identifier (OID) and optional qualifiers. For more
-  /// information, see NIST's definition of <a
-  /// href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
-  /// Identifier (OID)</a>.
-  ///
-  /// In an end-entity certificate, these terms indicate the policy under which
-  /// the certificate was issued and the purposes for which it may be used. In a
-  /// CA certificate, these terms limit the set of policies for certification
-  /// paths that include this certificate.
-  final List<PolicyInformation>? certificatePolicies;
-
-  /// <p/>
-  /// Contains a sequence of one or more X.509 extensions, each of which consists
-  /// of an object identifier (OID), a base64-encoded value, and the critical
-  /// flag. For more information, see the <a
-  /// href="https://oidref.com/2.5.29">Global OID reference database.</a>
-  final List<CustomExtension>? customExtensions;
-
-  /// Specifies additional purposes for which the certified public key may be used
-  /// other than basic purposes indicated in the <code>KeyUsage</code> extension.
-  final List<ExtendedKeyUsage>? extendedKeyUsage;
-  final KeyUsage? keyUsage;
-
-  /// The subject alternative name extension allows identities to be bound to the
-  /// subject of the certificate. These identities may be included in addition to
-  /// or in place of the identity in the subject field of the certificate.
-  final List<GeneralName>? subjectAlternativeNames;
-
-  Extensions({
-    this.certificatePolicies,
-    this.customExtensions,
-    this.extendedKeyUsage,
-    this.keyUsage,
-    this.subjectAlternativeNames,
-  });
-
-  Map<String, dynamic> toJson() {
-    final certificatePolicies = this.certificatePolicies;
-    final customExtensions = this.customExtensions;
-    final extendedKeyUsage = this.extendedKeyUsage;
-    final keyUsage = this.keyUsage;
-    final subjectAlternativeNames = this.subjectAlternativeNames;
-    return {
-      if (certificatePolicies != null)
-        'CertificatePolicies': certificatePolicies,
-      if (customExtensions != null) 'CustomExtensions': customExtensions,
-      if (extendedKeyUsage != null) 'ExtendedKeyUsage': extendedKeyUsage,
-      if (keyUsage != null) 'KeyUsage': keyUsage,
-      if (subjectAlternativeNames != null)
-        'SubjectAlternativeNames': subjectAlternativeNames,
-    };
-  }
-}
-
-class FailureReason {
-  static const requestTimedOut = FailureReason._('REQUEST_TIMED_OUT');
-  static const unsupportedAlgorithm = FailureReason._('UNSUPPORTED_ALGORITHM');
-  static const other = FailureReason._('OTHER');
-
-  final String value;
-
-  const FailureReason._(this.value);
-
-  static const values = [requestTimedOut, unsupportedAlgorithm, other];
-
-  static FailureReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FailureReason._(value));
-
-  @override
-  bool operator ==(other) => other is FailureReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Describes an ASN.1 X.400 <code>GeneralName</code> as defined in <a
@@ -3399,432 +3868,6 @@ class GeneralName {
   }
 }
 
-class GetCertificateAuthorityCertificateResponse {
-  /// Base64-encoded certificate authority (CA) certificate.
-  final String? certificate;
-
-  /// Base64-encoded certificate chain that includes any intermediate certificates
-  /// and chains up to root certificate that you used to sign your private CA
-  /// certificate. The chain does not include your private CA certificate. If this
-  /// is a root CA, the value will be null.
-  final String? certificateChain;
-
-  GetCertificateAuthorityCertificateResponse({
-    this.certificate,
-    this.certificateChain,
-  });
-
-  factory GetCertificateAuthorityCertificateResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetCertificateAuthorityCertificateResponse(
-      certificate: json['Certificate'] as String?,
-      certificateChain: json['CertificateChain'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificate = this.certificate;
-    final certificateChain = this.certificateChain;
-    return {
-      if (certificate != null) 'Certificate': certificate,
-      if (certificateChain != null) 'CertificateChain': certificateChain,
-    };
-  }
-}
-
-class GetCertificateAuthorityCsrResponse {
-  /// The base64 PEM-encoded certificate signing request (CSR) for your private CA
-  /// certificate.
-  final String? csr;
-
-  GetCertificateAuthorityCsrResponse({
-    this.csr,
-  });
-
-  factory GetCertificateAuthorityCsrResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetCertificateAuthorityCsrResponse(
-      csr: json['Csr'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final csr = this.csr;
-    return {
-      if (csr != null) 'Csr': csr,
-    };
-  }
-}
-
-class GetCertificateResponse {
-  /// The base64 PEM-encoded certificate specified by the
-  /// <code>CertificateArn</code> parameter.
-  final String? certificate;
-
-  /// The base64 PEM-encoded certificate chain that chains up to the root CA
-  /// certificate that you used to sign your private CA certificate.
-  final String? certificateChain;
-
-  GetCertificateResponse({
-    this.certificate,
-    this.certificateChain,
-  });
-
-  factory GetCertificateResponse.fromJson(Map<String, dynamic> json) {
-    return GetCertificateResponse(
-      certificate: json['Certificate'] as String?,
-      certificateChain: json['CertificateChain'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificate = this.certificate;
-    final certificateChain = this.certificateChain;
-    return {
-      if (certificate != null) 'Certificate': certificate,
-      if (certificateChain != null) 'CertificateChain': certificateChain,
-    };
-  }
-}
-
-class GetPolicyResponse {
-  /// The policy attached to the private CA as a JSON document.
-  final String? policy;
-
-  GetPolicyResponse({
-    this.policy,
-  });
-
-  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
-    return GetPolicyResponse(
-      policy: json['Policy'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final policy = this.policy;
-    return {
-      if (policy != null) 'Policy': policy,
-    };
-  }
-}
-
-class IssueCertificateResponse {
-  /// The Amazon Resource Name (ARN) of the issued certificate and the certificate
-  /// serial number. This is of the form:
-  ///
-  /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>/certificate/<i>286535153982981100925020015808220737245</i>
-  /// </code>
-  final String? certificateArn;
-
-  IssueCertificateResponse({
-    this.certificateArn,
-  });
-
-  factory IssueCertificateResponse.fromJson(Map<String, dynamic> json) {
-    return IssueCertificateResponse(
-      certificateArn: json['CertificateArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-    };
-  }
-}
-
-class KeyAlgorithm {
-  static const rsa_2048 = KeyAlgorithm._('RSA_2048');
-  static const rsa_4096 = KeyAlgorithm._('RSA_4096');
-  static const ecPrime256v1 = KeyAlgorithm._('EC_prime256v1');
-  static const ecSecp384r1 = KeyAlgorithm._('EC_secp384r1');
-  static const sm2 = KeyAlgorithm._('SM2');
-
-  final String value;
-
-  const KeyAlgorithm._(this.value);
-
-  static const values = [rsa_2048, rsa_4096, ecPrime256v1, ecSecp384r1, sm2];
-
-  static KeyAlgorithm fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => KeyAlgorithm._(value));
-
-  @override
-  bool operator ==(other) => other is KeyAlgorithm && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class KeyStorageSecurityStandard {
-  static const fips_140_2Level_2OrHigher =
-      KeyStorageSecurityStandard._('FIPS_140_2_LEVEL_2_OR_HIGHER');
-  static const fips_140_2Level_3OrHigher =
-      KeyStorageSecurityStandard._('FIPS_140_2_LEVEL_3_OR_HIGHER');
-  static const ccpcLevel_1OrHigher =
-      KeyStorageSecurityStandard._('CCPC_LEVEL_1_OR_HIGHER');
-
-  final String value;
-
-  const KeyStorageSecurityStandard._(this.value);
-
-  static const values = [
-    fips_140_2Level_2OrHigher,
-    fips_140_2Level_3OrHigher,
-    ccpcLevel_1OrHigher
-  ];
-
-  static KeyStorageSecurityStandard fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KeyStorageSecurityStandard._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KeyStorageSecurityStandard && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Defines one or more purposes for which the key contained in the certificate
-/// can be used. Default value for each option is false.
-class KeyUsage {
-  /// Key can be used to sign CRLs.
-  final bool? cRLSign;
-
-  /// Key can be used to decipher data.
-  final bool? dataEncipherment;
-
-  /// Key can be used only to decipher data.
-  final bool? decipherOnly;
-
-  /// Key can be used for digital signing.
-  final bool? digitalSignature;
-
-  /// Key can be used only to encipher data.
-  final bool? encipherOnly;
-
-  /// Key can be used in a key-agreement protocol.
-  final bool? keyAgreement;
-
-  /// Key can be used to sign certificates.
-  final bool? keyCertSign;
-
-  /// Key can be used to encipher data.
-  final bool? keyEncipherment;
-
-  /// Key can be used for non-repudiation.
-  final bool? nonRepudiation;
-
-  KeyUsage({
-    this.cRLSign,
-    this.dataEncipherment,
-    this.decipherOnly,
-    this.digitalSignature,
-    this.encipherOnly,
-    this.keyAgreement,
-    this.keyCertSign,
-    this.keyEncipherment,
-    this.nonRepudiation,
-  });
-
-  factory KeyUsage.fromJson(Map<String, dynamic> json) {
-    return KeyUsage(
-      cRLSign: json['CRLSign'] as bool?,
-      dataEncipherment: json['DataEncipherment'] as bool?,
-      decipherOnly: json['DecipherOnly'] as bool?,
-      digitalSignature: json['DigitalSignature'] as bool?,
-      encipherOnly: json['EncipherOnly'] as bool?,
-      keyAgreement: json['KeyAgreement'] as bool?,
-      keyCertSign: json['KeyCertSign'] as bool?,
-      keyEncipherment: json['KeyEncipherment'] as bool?,
-      nonRepudiation: json['NonRepudiation'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cRLSign = this.cRLSign;
-    final dataEncipherment = this.dataEncipherment;
-    final decipherOnly = this.decipherOnly;
-    final digitalSignature = this.digitalSignature;
-    final encipherOnly = this.encipherOnly;
-    final keyAgreement = this.keyAgreement;
-    final keyCertSign = this.keyCertSign;
-    final keyEncipherment = this.keyEncipherment;
-    final nonRepudiation = this.nonRepudiation;
-    return {
-      if (cRLSign != null) 'CRLSign': cRLSign,
-      if (dataEncipherment != null) 'DataEncipherment': dataEncipherment,
-      if (decipherOnly != null) 'DecipherOnly': decipherOnly,
-      if (digitalSignature != null) 'DigitalSignature': digitalSignature,
-      if (encipherOnly != null) 'EncipherOnly': encipherOnly,
-      if (keyAgreement != null) 'KeyAgreement': keyAgreement,
-      if (keyCertSign != null) 'KeyCertSign': keyCertSign,
-      if (keyEncipherment != null) 'KeyEncipherment': keyEncipherment,
-      if (nonRepudiation != null) 'NonRepudiation': nonRepudiation,
-    };
-  }
-}
-
-class ListCertificateAuthoritiesResponse {
-  /// Summary information about each certificate authority you have created.
-  final List<CertificateAuthority>? certificateAuthorities;
-
-  /// When the list is truncated, this value is present and should be used for the
-  /// <code>NextToken</code> parameter in a subsequent pagination request.
-  final String? nextToken;
-
-  ListCertificateAuthoritiesResponse({
-    this.certificateAuthorities,
-    this.nextToken,
-  });
-
-  factory ListCertificateAuthoritiesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListCertificateAuthoritiesResponse(
-      certificateAuthorities: (json['CertificateAuthorities'] as List?)
-          ?.nonNulls
-          .map((e) => CertificateAuthority.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateAuthorities = this.certificateAuthorities;
-    final nextToken = this.nextToken;
-    return {
-      if (certificateAuthorities != null)
-        'CertificateAuthorities': certificateAuthorities,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListPermissionsResponse {
-  /// When the list is truncated, this value is present and should be used for the
-  /// <b>NextToken</b> parameter in a subsequent pagination request.
-  final String? nextToken;
-
-  /// Summary information about each permission assigned by the specified private
-  /// CA, including the action enabled, the policy provided, and the time of
-  /// creation.
-  final List<Permission>? permissions;
-
-  ListPermissionsResponse({
-    this.nextToken,
-    this.permissions,
-  });
-
-  factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListPermissionsResponse(
-      nextToken: json['NextToken'] as String?,
-      permissions: (json['Permissions'] as List?)
-          ?.nonNulls
-          .map((e) => Permission.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final permissions = this.permissions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (permissions != null) 'Permissions': permissions,
-    };
-  }
-}
-
-class ListTagsResponse {
-  /// When the list is truncated, this value is present and should be used for the
-  /// <b>NextToken</b> parameter in a subsequent pagination request.
-  final String? nextToken;
-
-  /// The tags associated with your private CA.
-  final List<Tag>? tags;
-
-  ListTagsResponse({
-    this.nextToken,
-    this.tags,
-  });
-
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsResponse(
-      nextToken: json['NextToken'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final tags = this.tags;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Contains information to enable and configure Online Certificate Status
-/// Protocol (OCSP) for validating certificate revocation status.
-///
-/// When you revoke a certificate, OCSP responses may take up to 60 minutes to
-/// reflect the new status.
-class OcspConfiguration {
-  /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for
-  /// validating certificate revocation status.
-  final bool enabled;
-
-  /// By default, Amazon Web Services Private CA injects an Amazon Web Services
-  /// domain into certificates being validated by the Online Certificate Status
-  /// Protocol (OCSP). A customer can alternatively use this object to define a
-  /// CNAME specifying a customized OCSP domain.
-  /// <note>
-  /// The content of a Canonical Name (CNAME) record must conform to <a
-  /// href="https://www.ietf.org/rfc/rfc2396.txt">RFC2396</a> restrictions on the
-  /// use of special characters in URIs. Additionally, the value of the CNAME must
-  /// not include a protocol prefix such as "http://" or "https://".
-  /// </note>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/privateca/latest/userguide/ocsp-customize.html">Customizing
-  /// Online Certificate Status Protocol (OCSP) </a> in the <i>Amazon Web Services
-  /// Private Certificate Authority User Guide</i>.
-  final String? ocspCustomCname;
-
-  OcspConfiguration({
-    required this.enabled,
-    this.ocspCustomCname,
-  });
-
-  factory OcspConfiguration.fromJson(Map<String, dynamic> json) {
-    return OcspConfiguration(
-      enabled: (json['Enabled'] as bool?) ?? false,
-      ocspCustomCname: json['OcspCustomCname'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final ocspCustomCname = this.ocspCustomCname;
-    return {
-      'Enabled': enabled,
-      if (ocspCustomCname != null) 'OcspCustomCname': ocspCustomCname,
-    };
-  }
-}
-
 /// Defines a custom ASN.1 X.400 <code>GeneralName</code> using an object
 /// identifier (OID) and value. The OID must satisfy the regular expression
 /// shown below. For more information, see NIST's definition of <a
@@ -3859,124 +3902,56 @@ class OtherName {
   }
 }
 
-/// Permissions designate which private CA actions can be performed by an Amazon
-/// Web Services service or entity. In order for ACM to automatically renew
-/// private certificates, you must give the ACM service principal all available
-/// permissions (<code>IssueCertificate</code>, <code>GetCertificate</code>, and
-/// <code>ListPermissions</code>). Permissions can be assigned with the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html">CreatePermission</a>
-/// action, removed with the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html">DeletePermission</a>
-/// action, and listed with the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
-/// action.
-class Permission {
-  /// The private CA actions that can be performed by the designated Amazon Web
-  /// Services service.
-  final List<ActionType>? actions;
+/// Describes an Electronic Data Interchange (EDI) entity as described in as
+/// defined in <a href="https://datatracker.ietf.org/doc/html/rfc5280">Subject
+/// Alternative Name</a> in RFC 5280.
+class EdiPartyName {
+  /// Specifies the party name.
+  final String partyName;
 
-  /// The Amazon Resource Number (ARN) of the private CA from which the permission
-  /// was issued.
-  final String? certificateAuthorityArn;
+  /// Specifies the name assigner.
+  final String? nameAssigner;
 
-  /// The time at which the permission was created.
-  final DateTime? createdAt;
-
-  /// The name of the policy that is associated with the permission.
-  final String? policy;
-
-  /// The Amazon Web Services service or entity that holds the permission. At this
-  /// time, the only valid principal is <code>acm.amazonaws.com</code>.
-  final String? principal;
-
-  /// The ID of the account that assigned the permission.
-  final String? sourceAccount;
-
-  Permission({
-    this.actions,
-    this.certificateAuthorityArn,
-    this.createdAt,
-    this.policy,
-    this.principal,
-    this.sourceAccount,
+  EdiPartyName({
+    required this.partyName,
+    this.nameAssigner,
   });
 
-  factory Permission.fromJson(Map<String, dynamic> json) {
-    return Permission(
-      actions: (json['Actions'] as List?)
-          ?.nonNulls
-          .map((e) => ActionType.fromString((e as String)))
-          .toList(),
-      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      policy: json['Policy'] as String?,
-      principal: json['Principal'] as String?,
-      sourceAccount: json['SourceAccount'] as String?,
+  factory EdiPartyName.fromJson(Map<String, dynamic> json) {
+    return EdiPartyName(
+      partyName: (json['PartyName'] as String?) ?? '',
+      nameAssigner: json['NameAssigner'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final actions = this.actions;
-    final certificateAuthorityArn = this.certificateAuthorityArn;
-    final createdAt = this.createdAt;
-    final policy = this.policy;
-    final principal = this.principal;
-    final sourceAccount = this.sourceAccount;
+    final partyName = this.partyName;
+    final nameAssigner = this.nameAssigner;
     return {
-      if (actions != null) 'Actions': actions.map((e) => e.value).toList(),
-      if (certificateAuthorityArn != null)
-        'CertificateAuthorityArn': certificateAuthorityArn,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (policy != null) 'Policy': policy,
-      if (principal != null) 'Principal': principal,
-      if (sourceAccount != null) 'SourceAccount': sourceAccount,
+      'PartyName': partyName,
+      if (nameAssigner != null) 'NameAssigner': nameAssigner,
     };
   }
 }
 
-/// Defines the X.509 <code>CertificatePolicies</code> extension.
-class PolicyInformation {
-  /// Specifies the object identifier (OID) of the certificate policy under which
-  /// the certificate was issued. For more information, see NIST's definition of
-  /// <a href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
-  /// Identifier (OID)</a>.
-  final String certPolicyId;
-
-  /// Modifies the given <code>CertPolicyId</code> with a qualifier. Amazon Web
-  /// Services Private CA supports the certification practice statement (CPS)
-  /// qualifier.
-  final List<PolicyQualifierInfo>? policyQualifiers;
-
-  PolicyInformation({
-    required this.certPolicyId,
-    this.policyQualifiers,
-  });
-
-  Map<String, dynamic> toJson() {
-    final certPolicyId = this.certPolicyId;
-    final policyQualifiers = this.policyQualifiers;
-    return {
-      'CertPolicyId': certPolicyId,
-      if (policyQualifiers != null) 'PolicyQualifiers': policyQualifiers,
-    };
-  }
-}
-
-class PolicyQualifierId {
-  static const cps = PolicyQualifierId._('CPS');
+class AccessMethodType {
+  static const caRepository = AccessMethodType._('CA_REPOSITORY');
+  static const resourcePkiManifest =
+      AccessMethodType._('RESOURCE_PKI_MANIFEST');
+  static const resourcePkiNotify = AccessMethodType._('RESOURCE_PKI_NOTIFY');
 
   final String value;
 
-  const PolicyQualifierId._(this.value);
+  const AccessMethodType._(this.value);
 
-  static const values = [cps];
+  static const values = [caRepository, resourcePkiManifest, resourcePkiNotify];
 
-  static PolicyQualifierId fromString(String value) =>
+  static AccessMethodType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => PolicyQualifierId._(value));
+          orElse: () => AccessMethodType._(value));
 
   @override
-  bool operator ==(other) => other is PolicyQualifierId && other.value == value;
+  bool operator ==(other) => other is AccessMethodType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3985,49 +3960,34 @@ class PolicyQualifierId {
   String toString() => value;
 }
 
-/// Modifies the <code>CertPolicyId</code> of a <code>PolicyInformation</code>
-/// object with a qualifier. Amazon Web Services Private CA supports the
-/// certification practice statement (CPS) qualifier.
-class PolicyQualifierInfo {
-  /// Identifies the qualifier modifying a <code>CertPolicyId</code>.
-  final PolicyQualifierId policyQualifierId;
+/// Defines the X.500 relative distinguished name (RDN).
+class CustomAttribute {
+  /// Specifies the object identifier (OID) of the attribute type of the relative
+  /// distinguished name (RDN).
+  final String objectIdentifier;
 
-  /// Defines the qualifier type. Amazon Web Services Private CA supports the use
-  /// of a URI for a CPS qualifier in this field.
-  final Qualifier qualifier;
+  /// <p/>
+  /// Specifies the attribute value of relative distinguished name (RDN).
+  final String value;
 
-  PolicyQualifierInfo({
-    required this.policyQualifierId,
-    required this.qualifier,
+  CustomAttribute({
+    required this.objectIdentifier,
+    required this.value,
   });
 
-  Map<String, dynamic> toJson() {
-    final policyQualifierId = this.policyQualifierId;
-    final qualifier = this.qualifier;
-    return {
-      'PolicyQualifierId': policyQualifierId.value,
-      'Qualifier': qualifier,
-    };
+  factory CustomAttribute.fromJson(Map<String, dynamic> json) {
+    return CustomAttribute(
+      objectIdentifier: (json['ObjectIdentifier'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
   }
-}
-
-/// Defines a <code>PolicyInformation</code> qualifier. Amazon Web Services
-/// Private CA supports the <a
-/// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.4">certification
-/// practice statement (CPS) qualifier</a> defined in RFC 5280.
-class Qualifier {
-  /// Contains a pointer to a certification practice statement (CPS) published by
-  /// the CA.
-  final String cpsUri;
-
-  Qualifier({
-    required this.cpsUri,
-  });
 
   Map<String, dynamic> toJson() {
-    final cpsUri = this.cpsUri;
+    final objectIdentifier = this.objectIdentifier;
+    final value = this.value;
     return {
-      'CpsUri': cpsUri,
+      'ObjectIdentifier': objectIdentifier,
+      'Value': value,
     };
   }
 }
@@ -4056,194 +4016,31 @@ class ResourceOwner {
   String toString() => value;
 }
 
-/// Certificate revocation information used by the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
-/// actions. Your private certificate authority (CA) can configure Online
-/// Certificate Status Protocol (OCSP) support and/or maintain a certificate
-/// revocation list (CRL). OCSP returns validation information about
-/// certificates as requested by clients, and a CRL contains an updated list of
-/// certificates revoked by your CA. For more information, see <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/privateca/latest/userguide/revocation-setup.html">Setting
-/// up a certificate revocation method</a> in the <i>Amazon Web Services Private
-/// Certificate Authority User Guide</i>.
-class RevocationConfiguration {
-  /// Configuration of the certificate revocation list (CRL), if any, maintained
-  /// by your private CA. A CRL is typically updated approximately 30 minutes
-  /// after a certificate is revoked. If for any reason a CRL update fails, Amazon
-  /// Web Services Private CA makes further attempts every 15 minutes.
-  final CrlConfiguration? crlConfiguration;
+/// Contains X.509 certificate information to be placed in an issued
+/// certificate. An <code>APIPassthrough</code> or
+/// <code>APICSRPassthrough</code> template variant must be selected, or else
+/// this parameter is ignored.
+///
+/// If conflicting or duplicate certificate information is supplied from other
+/// sources, Amazon Web Services Private CA applies <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">order
+/// of operation rules</a> to determine what information is used.
+class ApiPassthrough {
+  /// Specifies X.509 extension information for a certificate.
+  final Extensions? extensions;
+  final ASN1Subject? subject;
 
-  /// Configuration of Online Certificate Status Protocol (OCSP) support, if any,
-  /// maintained by your private CA. When you revoke a certificate, OCSP responses
-  /// may take up to 60 minutes to reflect the new status.
-  final OcspConfiguration? ocspConfiguration;
-
-  RevocationConfiguration({
-    this.crlConfiguration,
-    this.ocspConfiguration,
+  ApiPassthrough({
+    this.extensions,
+    this.subject,
   });
 
-  factory RevocationConfiguration.fromJson(Map<String, dynamic> json) {
-    return RevocationConfiguration(
-      crlConfiguration: json['CrlConfiguration'] != null
-          ? CrlConfiguration.fromJson(
-              json['CrlConfiguration'] as Map<String, dynamic>)
-          : null,
-      ocspConfiguration: json['OcspConfiguration'] != null
-          ? OcspConfiguration.fromJson(
-              json['OcspConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final crlConfiguration = this.crlConfiguration;
-    final ocspConfiguration = this.ocspConfiguration;
+    final extensions = this.extensions;
+    final subject = this.subject;
     return {
-      if (crlConfiguration != null) 'CrlConfiguration': crlConfiguration,
-      if (ocspConfiguration != null) 'OcspConfiguration': ocspConfiguration,
-    };
-  }
-}
-
-class RevocationReason {
-  static const unspecified = RevocationReason._('UNSPECIFIED');
-  static const keyCompromise = RevocationReason._('KEY_COMPROMISE');
-  static const certificateAuthorityCompromise =
-      RevocationReason._('CERTIFICATE_AUTHORITY_COMPROMISE');
-  static const affiliationChanged = RevocationReason._('AFFILIATION_CHANGED');
-  static const superseded = RevocationReason._('SUPERSEDED');
-  static const cessationOfOperation =
-      RevocationReason._('CESSATION_OF_OPERATION');
-  static const privilegeWithdrawn = RevocationReason._('PRIVILEGE_WITHDRAWN');
-  static const aACompromise = RevocationReason._('A_A_COMPROMISE');
-
-  final String value;
-
-  const RevocationReason._(this.value);
-
-  static const values = [
-    unspecified,
-    keyCompromise,
-    certificateAuthorityCompromise,
-    affiliationChanged,
-    superseded,
-    cessationOfOperation,
-    privilegeWithdrawn,
-    aACompromise
-  ];
-
-  static RevocationReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RevocationReason._(value));
-
-  @override
-  bool operator ==(other) => other is RevocationReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class S3ObjectAcl {
-  static const publicRead = S3ObjectAcl._('PUBLIC_READ');
-  static const bucketOwnerFullControl =
-      S3ObjectAcl._('BUCKET_OWNER_FULL_CONTROL');
-
-  final String value;
-
-  const S3ObjectAcl._(this.value);
-
-  static const values = [publicRead, bucketOwnerFullControl];
-
-  static S3ObjectAcl fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => S3ObjectAcl._(value));
-
-  @override
-  bool operator ==(other) => other is S3ObjectAcl && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SigningAlgorithm {
-  static const sha256withecdsa = SigningAlgorithm._('SHA256WITHECDSA');
-  static const sha384withecdsa = SigningAlgorithm._('SHA384WITHECDSA');
-  static const sha512withecdsa = SigningAlgorithm._('SHA512WITHECDSA');
-  static const sha256withrsa = SigningAlgorithm._('SHA256WITHRSA');
-  static const sha384withrsa = SigningAlgorithm._('SHA384WITHRSA');
-  static const sha512withrsa = SigningAlgorithm._('SHA512WITHRSA');
-  static const sm3withsm2 = SigningAlgorithm._('SM3WITHSM2');
-
-  final String value;
-
-  const SigningAlgorithm._(this.value);
-
-  static const values = [
-    sha256withecdsa,
-    sha384withecdsa,
-    sha512withecdsa,
-    sha256withrsa,
-    sha384withrsa,
-    sha512withrsa,
-    sm3withsm2
-  ];
-
-  static SigningAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SigningAlgorithm._(value));
-
-  @override
-  bool operator ==(other) => other is SigningAlgorithm && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Tags are labels that you can use to identify and organize your private CAs.
-/// Each tag consists of a key and an optional value. You can associate up to 50
-/// tags with a private CA. To add one or more tags to a private CA, call the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html">TagCertificateAuthority</a>
-/// action. To remove a tag, call the <a
-/// href="https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
-/// action.
-class Tag {
-  /// Key (name) of the tag.
-  final String key;
-
-  /// Value of the tag.
-  final String? value;
-
-  Tag({
-    required this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      if (value != null) 'Value': value,
+      if (extensions != null) 'Extensions': extensions,
+      if (subject != null) 'Subject': subject,
     };
   }
 }
@@ -4352,6 +4149,324 @@ class ValidityPeriodType {
   @override
   bool operator ==(other) =>
       other is ValidityPeriodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains X.509 extension information for a certificate.
+class Extensions {
+  /// Contains a sequence of one or more policy information terms, each of which
+  /// consists of an object identifier (OID) and optional qualifiers. For more
+  /// information, see NIST's definition of <a
+  /// href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
+  /// Identifier (OID)</a>.
+  ///
+  /// In an end-entity certificate, these terms indicate the policy under which
+  /// the certificate was issued and the purposes for which it may be used. In a
+  /// CA certificate, these terms limit the set of policies for certification
+  /// paths that include this certificate.
+  final List<PolicyInformation>? certificatePolicies;
+
+  /// <p/>
+  /// Contains a sequence of one or more X.509 extensions, each of which consists
+  /// of an object identifier (OID), a base64-encoded value, and the critical
+  /// flag. For more information, see the <a
+  /// href="https://oidref.com/2.5.29">Global OID reference database.</a>
+  final List<CustomExtension>? customExtensions;
+
+  /// Specifies additional purposes for which the certified public key may be used
+  /// other than basic purposes indicated in the <code>KeyUsage</code> extension.
+  final List<ExtendedKeyUsage>? extendedKeyUsage;
+  final KeyUsage? keyUsage;
+
+  /// The subject alternative name extension allows identities to be bound to the
+  /// subject of the certificate. These identities may be included in addition to
+  /// or in place of the identity in the subject field of the certificate.
+  final List<GeneralName>? subjectAlternativeNames;
+
+  Extensions({
+    this.certificatePolicies,
+    this.customExtensions,
+    this.extendedKeyUsage,
+    this.keyUsage,
+    this.subjectAlternativeNames,
+  });
+
+  Map<String, dynamic> toJson() {
+    final certificatePolicies = this.certificatePolicies;
+    final customExtensions = this.customExtensions;
+    final extendedKeyUsage = this.extendedKeyUsage;
+    final keyUsage = this.keyUsage;
+    final subjectAlternativeNames = this.subjectAlternativeNames;
+    return {
+      if (certificatePolicies != null)
+        'CertificatePolicies': certificatePolicies,
+      if (customExtensions != null) 'CustomExtensions': customExtensions,
+      if (extendedKeyUsage != null) 'ExtendedKeyUsage': extendedKeyUsage,
+      if (keyUsage != null) 'KeyUsage': keyUsage,
+      if (subjectAlternativeNames != null)
+        'SubjectAlternativeNames': subjectAlternativeNames,
+    };
+  }
+}
+
+/// <p/>
+/// Specifies the X.509 extension information for a certificate.
+///
+/// Extensions present in <code>CustomExtensions</code> follow the
+/// <code>ApiPassthrough</code> <a
+/// href="https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations">template
+/// rules</a>.
+class CustomExtension {
+  /// <p/>
+  /// Specifies the object identifier (OID) of the X.509 extension. For more
+  /// information, see the <a href="https://oidref.com/2.5.29">Global OID
+  /// reference database.</a>
+  final String objectIdentifier;
+
+  /// <p/>
+  /// Specifies the base64-encoded value of the X.509 extension.
+  final String value;
+
+  /// <p/>
+  /// Specifies the critical flag of the X.509 extension.
+  final bool? critical;
+
+  CustomExtension({
+    required this.objectIdentifier,
+    required this.value,
+    this.critical,
+  });
+
+  Map<String, dynamic> toJson() {
+    final objectIdentifier = this.objectIdentifier;
+    final value = this.value;
+    final critical = this.critical;
+    return {
+      'ObjectIdentifier': objectIdentifier,
+      'Value': value,
+      if (critical != null) 'Critical': critical,
+    };
+  }
+}
+
+/// Specifies additional purposes for which the certified public key may be used
+/// other than basic purposes indicated in the <code>KeyUsage</code> extension.
+class ExtendedKeyUsage {
+  /// Specifies a custom <code>ExtendedKeyUsage</code> with an object identifier
+  /// (OID).
+  final String? extendedKeyUsageObjectIdentifier;
+
+  /// Specifies a standard <code>ExtendedKeyUsage</code> as defined as in <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.12">RFC
+  /// 5280</a>.
+  final ExtendedKeyUsageType? extendedKeyUsageType;
+
+  ExtendedKeyUsage({
+    this.extendedKeyUsageObjectIdentifier,
+    this.extendedKeyUsageType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final extendedKeyUsageObjectIdentifier =
+        this.extendedKeyUsageObjectIdentifier;
+    final extendedKeyUsageType = this.extendedKeyUsageType;
+    return {
+      if (extendedKeyUsageObjectIdentifier != null)
+        'ExtendedKeyUsageObjectIdentifier': extendedKeyUsageObjectIdentifier,
+      if (extendedKeyUsageType != null)
+        'ExtendedKeyUsageType': extendedKeyUsageType.value,
+    };
+  }
+}
+
+class ExtendedKeyUsageType {
+  static const serverAuth = ExtendedKeyUsageType._('SERVER_AUTH');
+  static const clientAuth = ExtendedKeyUsageType._('CLIENT_AUTH');
+  static const codeSigning = ExtendedKeyUsageType._('CODE_SIGNING');
+  static const emailProtection = ExtendedKeyUsageType._('EMAIL_PROTECTION');
+  static const timeStamping = ExtendedKeyUsageType._('TIME_STAMPING');
+  static const ocspSigning = ExtendedKeyUsageType._('OCSP_SIGNING');
+  static const smartCardLogin = ExtendedKeyUsageType._('SMART_CARD_LOGIN');
+  static const documentSigning = ExtendedKeyUsageType._('DOCUMENT_SIGNING');
+  static const certificateTransparency =
+      ExtendedKeyUsageType._('CERTIFICATE_TRANSPARENCY');
+
+  final String value;
+
+  const ExtendedKeyUsageType._(this.value);
+
+  static const values = [
+    serverAuth,
+    clientAuth,
+    codeSigning,
+    emailProtection,
+    timeStamping,
+    ocspSigning,
+    smartCardLogin,
+    documentSigning,
+    certificateTransparency
+  ];
+
+  static ExtendedKeyUsageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExtendedKeyUsageType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExtendedKeyUsageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines the X.509 <code>CertificatePolicies</code> extension.
+class PolicyInformation {
+  /// Specifies the object identifier (OID) of the certificate policy under which
+  /// the certificate was issued. For more information, see NIST's definition of
+  /// <a href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
+  /// Identifier (OID)</a>.
+  final String certPolicyId;
+
+  /// Modifies the given <code>CertPolicyId</code> with a qualifier. Amazon Web
+  /// Services Private CA supports the certification practice statement (CPS)
+  /// qualifier.
+  final List<PolicyQualifierInfo>? policyQualifiers;
+
+  PolicyInformation({
+    required this.certPolicyId,
+    this.policyQualifiers,
+  });
+
+  Map<String, dynamic> toJson() {
+    final certPolicyId = this.certPolicyId;
+    final policyQualifiers = this.policyQualifiers;
+    return {
+      'CertPolicyId': certPolicyId,
+      if (policyQualifiers != null) 'PolicyQualifiers': policyQualifiers,
+    };
+  }
+}
+
+/// Modifies the <code>CertPolicyId</code> of a <code>PolicyInformation</code>
+/// object with a qualifier. Amazon Web Services Private CA supports the
+/// certification practice statement (CPS) qualifier.
+class PolicyQualifierInfo {
+  /// Identifies the qualifier modifying a <code>CertPolicyId</code>.
+  final PolicyQualifierId policyQualifierId;
+
+  /// Defines the qualifier type. Amazon Web Services Private CA supports the use
+  /// of a URI for a CPS qualifier in this field.
+  final Qualifier qualifier;
+
+  PolicyQualifierInfo({
+    required this.policyQualifierId,
+    required this.qualifier,
+  });
+
+  Map<String, dynamic> toJson() {
+    final policyQualifierId = this.policyQualifierId;
+    final qualifier = this.qualifier;
+    return {
+      'PolicyQualifierId': policyQualifierId.value,
+      'Qualifier': qualifier,
+    };
+  }
+}
+
+class PolicyQualifierId {
+  static const cps = PolicyQualifierId._('CPS');
+
+  final String value;
+
+  const PolicyQualifierId._(this.value);
+
+  static const values = [cps];
+
+  static PolicyQualifierId fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PolicyQualifierId._(value));
+
+  @override
+  bool operator ==(other) => other is PolicyQualifierId && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Defines a <code>PolicyInformation</code> qualifier. Amazon Web Services
+/// Private CA supports the <a
+/// href="https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.4">certification
+/// practice statement (CPS) qualifier</a> defined in RFC 5280.
+class Qualifier {
+  /// Contains a pointer to a certification practice statement (CPS) published by
+  /// the CA.
+  final String cpsUri;
+
+  Qualifier({
+    required this.cpsUri,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cpsUri = this.cpsUri;
+    return {
+      'CpsUri': cpsUri,
+    };
+  }
+}
+
+class AuditReportStatus {
+  static const creating = AuditReportStatus._('CREATING');
+  static const success = AuditReportStatus._('SUCCESS');
+  static const failed = AuditReportStatus._('FAILED');
+
+  final String value;
+
+  const AuditReportStatus._(this.value);
+
+  static const values = [creating, success, failed];
+
+  static AuditReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuditReportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is AuditReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AuditReportResponseFormat {
+  static const json = AuditReportResponseFormat._('JSON');
+  static const csv = AuditReportResponseFormat._('CSV');
+
+  final String value;
+
+  const AuditReportResponseFormat._(this.value);
+
+  static const values = [json, csv];
+
+  static AuditReportResponseFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuditReportResponseFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuditReportResponseFormat && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

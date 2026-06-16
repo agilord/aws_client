@@ -107,16 +107,16 @@ class Textract {
   /// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html">Document
   /// Text Analysis</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadDocumentException].
+  /// May throw [DocumentTooLargeException].
+  /// May throw [HumanLoopQuotaExceededException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [UnsupportedDocumentException].
-  /// May throw [DocumentTooLargeException].
-  /// May throw [BadDocumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
-  /// May throw [HumanLoopQuotaExceededException].
+  /// May throw [UnsupportedDocumentException].
   ///
   /// Parameter [document] :
   /// The input document as base64-encoded bytes or an Amazon S3 object. If you
@@ -193,15 +193,15 @@ class Textract {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadDocumentException].
+  /// May throw [DocumentTooLargeException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [UnsupportedDocumentException].
-  /// May throw [DocumentTooLargeException].
-  /// May throw [BadDocumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
+  /// May throw [UnsupportedDocumentException].
   Future<AnalyzeExpenseResponse> analyzeExpense({
     required Document document,
   }) async {
@@ -229,15 +229,15 @@ class Textract {
   /// other Amazon Textract operations, <code>AnalyzeID</code> doesn't return
   /// any Geometry data.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadDocumentException].
+  /// May throw [DocumentTooLargeException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [UnsupportedDocumentException].
-  /// May throw [DocumentTooLargeException].
-  /// May throw [BadDocumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
+  /// May throw [UnsupportedDocumentException].
   ///
   /// Parameter [documentPages] :
   /// The document being passed to AnalyzeID.
@@ -269,16 +269,16 @@ class Textract {
   /// whether or not the adapter should be AutoUpdated with the AutoUpdate
   /// argument. By default, AutoUpdate is set to DISABLED.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
   /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
-  /// May throw [ValidationException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [adapterName] :
   /// The name to be assigned to the adapter being created.
@@ -339,19 +339,19 @@ class Textract {
   /// provide an optional KMSKeyId, an optional ClientRequestToken, and optional
   /// tags.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidKMSKeyException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidKMSKeyException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ThrottlingException].
   /// May throw [LimitExceededException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [adapterId] :
   /// A string containing a unique ID for the adapter that will receive a new
@@ -409,14 +409,14 @@ class Textract {
   /// Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the
   /// adapter specified by the ID.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [adapterId] :
   /// A string containing a unique ID for the adapter to be deleted.
@@ -443,14 +443,14 @@ class Textract {
   /// an AdapterId and a AdapterVersion. Deletes the adapter version specified
   /// by the AdapterId and the AdapterVersion.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [adapterId] :
   /// A string containing a unique ID for the adapter version that will be
@@ -499,15 +499,15 @@ class Textract {
   /// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html">Document
   /// Text Detection</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadDocumentException].
+  /// May throw [DocumentTooLargeException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [UnsupportedDocumentException].
-  /// May throw [DocumentTooLargeException].
-  /// May throw [BadDocumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
   /// May throw [ThrottlingException].
+  /// May throw [UnsupportedDocumentException].
   ///
   /// Parameter [document] :
   /// The input document as base64-encoded bytes or an Amazon S3 object. If you
@@ -542,13 +542,13 @@ class Textract {
   /// returning information on AdapterName, Description, CreationTime,
   /// AutoUpdate status, and FeatureTypes.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [adapterId] :
   /// A string containing a unique ID for the adapter.
@@ -577,13 +577,13 @@ class Textract {
   /// including: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage,
   /// DatasetConfig, KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [adapterId] :
   /// A string specifying a unique ID for the adapter version you want to
@@ -686,14 +686,14 @@ class Textract {
   /// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html">Document
   /// Text Analysis</a>.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidJobIdException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidS3ObjectException].
+  /// May throw [InvalidJobIdException].
   /// May throw [InvalidKMSKeyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
   /// A unique identifier for the text-detection job. The <code>JobId</code> is
@@ -779,14 +779,14 @@ class Textract {
   /// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html">Document
   /// Text Detection</a>.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidJobIdException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidS3ObjectException].
+  /// May throw [InvalidJobIdException].
   /// May throw [InvalidKMSKeyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
   /// A unique identifier for the text detection job. The <code>JobId</code> is
@@ -862,14 +862,14 @@ class Textract {
   /// href="https://docs.aws.amazon.com/textract/latest/dg/invoices-receipts.html">Analyzing
   /// Invoices and Receipts</a>.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidJobIdException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidS3ObjectException].
+  /// May throw [InvalidJobIdException].
   /// May throw [InvalidKMSKeyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
   /// A unique identifier for the text detection job. The <code>JobId</code> is
@@ -931,14 +931,14 @@ class Textract {
   /// GetLendingAnalysis, and pass the job identifier (<code>JobId</code>) from
   /// the initial call to <code>StartLendingAnalysis</code>.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidJobIdException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidS3ObjectException].
+  /// May throw [InvalidJobIdException].
   /// May throw [InvalidKMSKeyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
   /// A unique identifier for the lending or text-detection job. The
@@ -1004,14 +1004,14 @@ class Textract {
   /// (<code>JobId</code>) from the initial call to
   /// <code>StartLendingAnalysis</code>.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InvalidJobIdException].
   /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [InvalidS3ObjectException].
+  /// May throw [InvalidJobIdException].
   /// May throw [InvalidKMSKeyException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
   /// A unique identifier for the lending or text-detection job. The
@@ -1038,16 +1038,75 @@ class Textract {
     return GetLendingAnalysisSummaryResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all adapters that match the specified filtration criteria.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [afterCreationTime] :
+  /// Specifies the lower bound for the ListAdapters operation. Ensures
+  /// ListAdapters returns only adapters created after the specified creation
+  /// time.
+  ///
+  /// Parameter [beforeCreationTime] :
+  /// Specifies the upper bound for the ListAdapters operation. Ensures
+  /// ListAdapters returns only adapters created before the specified creation
+  /// time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return when listing adapters.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of results to return when listing adapters.
+  Future<ListAdaptersResponse> listAdapters({
+    DateTime? afterCreationTime,
+    DateTime? beforeCreationTime,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Textract.ListAdapters'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (afterCreationTime != null)
+          'AfterCreationTime': unixTimestampToJson(afterCreationTime),
+        if (beforeCreationTime != null)
+          'BeforeCreationTime': unixTimestampToJson(beforeCreationTime),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListAdaptersResponse.fromJson(jsonResponse.body);
+  }
+
   /// List all version of an adapter that meet the specified filtration
   /// criteria.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [adapterId] :
   /// A string containing a unique ID for the adapter to match for when listing
@@ -1106,72 +1165,13 @@ class Textract {
     return ListAdapterVersionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists all adapters that match the specified filtration criteria.
-  ///
-  /// May throw [InvalidParameterException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [afterCreationTime] :
-  /// Specifies the lower bound for the ListAdapters operation. Ensures
-  /// ListAdapters returns only adapters created after the specified creation
-  /// time.
-  ///
-  /// Parameter [beforeCreationTime] :
-  /// Specifies the upper bound for the ListAdapters operation. Ensures
-  /// ListAdapters returns only adapters created before the specified creation
-  /// time.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return when listing adapters.
-  ///
-  /// Parameter [nextToken] :
-  /// Identifies the next page of results to return when listing adapters.
-  Future<ListAdaptersResponse> listAdapters({
-    DateTime? afterCreationTime,
-    DateTime? beforeCreationTime,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'Textract.ListAdapters'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (afterCreationTime != null)
-          'AfterCreationTime': unixTimestampToJson(afterCreationTime),
-        if (beforeCreationTime != null)
-          'BeforeCreationTime': unixTimestampToJson(beforeCreationTime),
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListAdaptersResponse.fromJson(jsonResponse.body);
-  }
-
   /// Lists all tags for an Amazon Textract resource.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -1223,18 +1223,18 @@ class Textract {
   /// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works-analyzing.html">Document
   /// Text Analysis</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadDocumentException].
+  /// May throw [DocumentTooLargeException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidKMSKeyException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidKMSKeyException].
-  /// May throw [UnsupportedDocumentException].
-  /// May throw [DocumentTooLargeException].
-  /// May throw [BadDocumentException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ThrottlingException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedDocumentException].
   ///
   /// Parameter [documentLocation] :
   /// The location of the document to be processed.
@@ -1327,7 +1327,7 @@ class Textract {
   /// Amazon S3 bucket. Use <a>DocumentLocation</a> to specify the bucket name
   /// and file name of the document.
   ///
-  /// <code>StartTextDetection</code> returns a job identifier
+  /// <code>StartDocumentTextDetection</code> returns a job identifier
   /// (<code>JobId</code>) that you use to get the results of the operation.
   /// When text detection is finished, Amazon Textract publishes a completion
   /// status to the Amazon Simple Notification Service (Amazon SNS) topic that
@@ -1342,18 +1342,18 @@ class Textract {
   /// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works-detecting.html">Document
   /// Text Detection</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadDocumentException].
+  /// May throw [DocumentTooLargeException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidKMSKeyException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidKMSKeyException].
-  /// May throw [UnsupportedDocumentException].
-  /// May throw [DocumentTooLargeException].
-  /// May throw [BadDocumentException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ThrottlingException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedDocumentException].
   ///
   /// Parameter [documentLocation] :
   /// The location of the document to be processed.
@@ -1446,18 +1446,18 @@ class Textract {
   /// href="https://docs.aws.amazon.com/textract/latest/dg/invoice-receipts.html">Analyzing
   /// Invoices and Receipts</a>.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadDocumentException].
+  /// May throw [DocumentTooLargeException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidKMSKeyException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidKMSKeyException].
-  /// May throw [UnsupportedDocumentException].
-  /// May throw [DocumentTooLargeException].
-  /// May throw [BadDocumentException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ThrottlingException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedDocumentException].
   ///
   /// Parameter [documentLocation] :
   /// The location of the document to be processed.
@@ -1563,18 +1563,18 @@ class Textract {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [BadDocumentException].
+  /// May throw [DocumentTooLargeException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidKMSKeyException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidS3ObjectException].
-  /// May throw [InvalidKMSKeyException].
-  /// May throw [UnsupportedDocumentException].
-  /// May throw [DocumentTooLargeException].
-  /// May throw [BadDocumentException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [InternalServerError].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ThrottlingException].
   /// May throw [LimitExceededException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedDocumentException].
   ///
   /// Parameter [clientRequestToken] :
   /// The idempotent token that you use to identify the start request. If you
@@ -1632,12 +1632,12 @@ class Textract {
 
   /// Adds one or more tags to the specified resource.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -1669,11 +1669,11 @@ class Textract {
 
   /// Removes any tags with the specified keys from the specified resource.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
@@ -1708,14 +1708,14 @@ class Textract {
   /// cannot be updated. At least one new parameter must be specified as an
   /// argument.
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ProvisionedThroughputExceededException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [adapterId] :
   /// A string containing a unique ID for the adapter that will be updated.
@@ -1753,296 +1753,6 @@ class Textract {
     );
 
     return UpdateAdapterResponse.fromJson(jsonResponse.body);
-  }
-}
-
-/// An adapter selected for use when analyzing documents. Contains an adapter ID
-/// and a version number. Contains information on pages selected for analysis
-/// when analyzing documents asychronously.
-class Adapter {
-  /// A unique identifier for the adapter resource.
-  final String adapterId;
-
-  /// A string that identifies the version of the adapter.
-  final String version;
-
-  /// Pages is a parameter that the user inputs to specify which pages to apply an
-  /// adapter to. The following is a list of rules for using this parameter.
-  ///
-  /// <ul>
-  /// <li>
-  /// If a page is not specified, it is set to <code>["1"]</code> by default.
-  /// </li>
-  /// <li>
-  /// The following characters are allowed in the parameter's string: <code>0 1 2
-  /// 3 4 5 6 7 8 9 - *</code>. No whitespace is allowed.
-  /// </li>
-  /// <li>
-  /// When using * to indicate all pages, it must be the only element in the list.
-  /// </li>
-  /// <li>
-  /// You can use page intervals, such as <code>["1-3", "1-1", "4-*"]</code>.
-  /// Where <code>*</code> indicates last page of document.
-  /// </li>
-  /// <li>
-  /// Specified pages must be greater than 0 and less than or equal to the number
-  /// of pages in the document.
-  /// </li>
-  /// </ul>
-  final List<String>? pages;
-
-  Adapter({
-    required this.adapterId,
-    required this.version,
-    this.pages,
-  });
-
-  Map<String, dynamic> toJson() {
-    final adapterId = this.adapterId;
-    final version = this.version;
-    final pages = this.pages;
-    return {
-      'AdapterId': adapterId,
-      'Version': version,
-      if (pages != null) 'Pages': pages,
-    };
-  }
-}
-
-/// Contains information on the adapter, including the adapter ID, Name,
-/// Creation time, and feature types.
-class AdapterOverview {
-  /// A unique identifier for the adapter resource.
-  final String? adapterId;
-
-  /// A string naming the adapter resource.
-  final String? adapterName;
-
-  /// The date and time that the adapter was created.
-  final DateTime? creationTime;
-
-  /// The feature types that the adapter is operating on.
-  final List<FeatureType>? featureTypes;
-
-  AdapterOverview({
-    this.adapterId,
-    this.adapterName,
-    this.creationTime,
-    this.featureTypes,
-  });
-
-  factory AdapterOverview.fromJson(Map<String, dynamic> json) {
-    return AdapterOverview(
-      adapterId: json['AdapterId'] as String?,
-      adapterName: json['AdapterName'] as String?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      featureTypes: (json['FeatureTypes'] as List?)
-          ?.nonNulls
-          .map((e) => FeatureType.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adapterId = this.adapterId;
-    final adapterName = this.adapterName;
-    final creationTime = this.creationTime;
-    final featureTypes = this.featureTypes;
-    return {
-      if (adapterId != null) 'AdapterId': adapterId,
-      if (adapterName != null) 'AdapterName': adapterName,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (featureTypes != null)
-        'FeatureTypes': featureTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// The dataset configuration options for a given version of an adapter. Can
-/// include an Amazon S3 bucket if specified.
-class AdapterVersionDatasetConfig {
-  final S3Object? manifestS3Object;
-
-  AdapterVersionDatasetConfig({
-    this.manifestS3Object,
-  });
-
-  factory AdapterVersionDatasetConfig.fromJson(Map<String, dynamic> json) {
-    return AdapterVersionDatasetConfig(
-      manifestS3Object: json['ManifestS3Object'] != null
-          ? S3Object.fromJson(json['ManifestS3Object'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final manifestS3Object = this.manifestS3Object;
-    return {
-      if (manifestS3Object != null) 'ManifestS3Object': manifestS3Object,
-    };
-  }
-}
-
-/// Contains information on the metrics used to evalute the peformance of a
-/// given adapter version. Includes data for baseline model performance and
-/// individual adapter version perfromance.
-class AdapterVersionEvaluationMetric {
-  /// The F1 score, precision, and recall metrics for the baseline model.
-  final EvaluationMetric? adapterVersion;
-
-  /// The F1 score, precision, and recall metrics for the baseline model.
-  final EvaluationMetric? baseline;
-
-  /// Indicates the feature type being analyzed by a given adapter version.
-  final FeatureType? featureType;
-
-  AdapterVersionEvaluationMetric({
-    this.adapterVersion,
-    this.baseline,
-    this.featureType,
-  });
-
-  factory AdapterVersionEvaluationMetric.fromJson(Map<String, dynamic> json) {
-    return AdapterVersionEvaluationMetric(
-      adapterVersion: json['AdapterVersion'] != null
-          ? EvaluationMetric.fromJson(
-              json['AdapterVersion'] as Map<String, dynamic>)
-          : null,
-      baseline: json['Baseline'] != null
-          ? EvaluationMetric.fromJson(json['Baseline'] as Map<String, dynamic>)
-          : null,
-      featureType:
-          (json['FeatureType'] as String?)?.let(FeatureType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adapterVersion = this.adapterVersion;
-    final baseline = this.baseline;
-    final featureType = this.featureType;
-    return {
-      if (adapterVersion != null) 'AdapterVersion': adapterVersion,
-      if (baseline != null) 'Baseline': baseline,
-      if (featureType != null) 'FeatureType': featureType.value,
-    };
-  }
-}
-
-/// Summary info for an adapter version. Contains information on the AdapterId,
-/// AdapterVersion, CreationTime, FeatureTypes, and Status.
-class AdapterVersionOverview {
-  /// A unique identifier for the adapter associated with a given adapter version.
-  final String? adapterId;
-
-  /// An identified for a given adapter version.
-  final String? adapterVersion;
-
-  /// The date and time that a given adapter version was created.
-  final DateTime? creationTime;
-
-  /// The feature types that the adapter version is operating on.
-  final List<FeatureType>? featureTypes;
-
-  /// Contains information on the status of a given adapter version.
-  final AdapterVersionStatus? status;
-
-  /// A message explaining the status of a given adapter vesion.
-  final String? statusMessage;
-
-  AdapterVersionOverview({
-    this.adapterId,
-    this.adapterVersion,
-    this.creationTime,
-    this.featureTypes,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory AdapterVersionOverview.fromJson(Map<String, dynamic> json) {
-    return AdapterVersionOverview(
-      adapterId: json['AdapterId'] as String?,
-      adapterVersion: json['AdapterVersion'] as String?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      featureTypes: (json['FeatureTypes'] as List?)
-          ?.nonNulls
-          .map((e) => FeatureType.fromString((e as String)))
-          .toList(),
-      status: (json['Status'] as String?)?.let(AdapterVersionStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adapterId = this.adapterId;
-    final adapterVersion = this.adapterVersion;
-    final creationTime = this.creationTime;
-    final featureTypes = this.featureTypes;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (adapterId != null) 'AdapterId': adapterId,
-      if (adapterVersion != null) 'AdapterVersion': adapterVersion,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (featureTypes != null)
-        'FeatureTypes': featureTypes.map((e) => e.value).toList(),
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-class AdapterVersionStatus {
-  static const active = AdapterVersionStatus._('ACTIVE');
-  static const atRisk = AdapterVersionStatus._('AT_RISK');
-  static const deprecated = AdapterVersionStatus._('DEPRECATED');
-  static const creationError = AdapterVersionStatus._('CREATION_ERROR');
-  static const creationInProgress =
-      AdapterVersionStatus._('CREATION_IN_PROGRESS');
-
-  final String value;
-
-  const AdapterVersionStatus._(this.value);
-
-  static const values = [
-    active,
-    atRisk,
-    deprecated,
-    creationError,
-    creationInProgress
-  ];
-
-  static AdapterVersionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AdapterVersionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AdapterVersionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about adapters used when analyzing a document, with
-/// each adapter specified using an AdapterId and version
-class AdaptersConfig {
-  /// A list of adapters to be used when analyzing the specified document.
-  final List<Adapter> adapters;
-
-  AdaptersConfig({
-    required this.adapters,
-  });
-
-  Map<String, dynamic> toJson() {
-    final adapters = this.adapters;
-    return {
-      'Adapters': adapters,
-    };
   }
 }
 
@@ -2135,47 +1845,6 @@ class AnalyzeExpenseResponse {
   }
 }
 
-/// Used to contain the information detected by an AnalyzeID operation.
-class AnalyzeIDDetections {
-  /// Text of either the normalized field or value associated with it.
-  final String text;
-
-  /// The confidence score of the detected text.
-  final double? confidence;
-
-  /// Only returned for dates, returns the type of value detected and the date
-  /// written in a more machine readable way.
-  final NormalizedValue? normalizedValue;
-
-  AnalyzeIDDetections({
-    required this.text,
-    this.confidence,
-    this.normalizedValue,
-  });
-
-  factory AnalyzeIDDetections.fromJson(Map<String, dynamic> json) {
-    return AnalyzeIDDetections(
-      text: (json['Text'] as String?) ?? '',
-      confidence: json['Confidence'] as double?,
-      normalizedValue: json['NormalizedValue'] != null
-          ? NormalizedValue.fromJson(
-              json['NormalizedValue'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final text = this.text;
-    final confidence = this.confidence;
-    final normalizedValue = this.normalizedValue;
-    return {
-      'Text': text,
-      if (confidence != null) 'Confidence': confidence,
-      if (normalizedValue != null) 'NormalizedValue': normalizedValue,
-    };
-  }
-}
-
 class AnalyzeIDResponse {
   /// The version of the AnalyzeIdentity API being used to process documents.
   final String? analyzeIDModelVersion;
@@ -2216,527 +1885,6 @@ class AnalyzeIDResponse {
       if (identityDocuments != null) 'IdentityDocuments': identityDocuments,
     };
   }
-}
-
-class AutoUpdate {
-  static const enabled = AutoUpdate._('ENABLED');
-  static const disabled = AutoUpdate._('DISABLED');
-
-  final String value;
-
-  const AutoUpdate._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static AutoUpdate fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AutoUpdate._(value));
-
-  @override
-  bool operator ==(other) => other is AutoUpdate && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A <code>Block</code> represents items that are recognized in a document
-/// within a group of pixels close to each other. The information returned in a
-/// <code>Block</code> object depends on the type of operation. In text
-/// detection for documents (for example <a>DetectDocumentText</a>), you get
-/// information about the detected words and lines of text. In text analysis
-/// (for example <a>AnalyzeDocument</a>), you can also get information about the
-/// fields, tables, and selection elements that are detected in the document.
-///
-/// An array of <code>Block</code> objects is returned by both synchronous and
-/// asynchronous operations. In synchronous operations, such as
-/// <a>DetectDocumentText</a>, the array of <code>Block</code> objects is the
-/// entire set of results. In asynchronous operations, such as
-/// <a>GetDocumentAnalysis</a>, the array is returned over one or more
-/// responses.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works.html">How
-/// Amazon Textract Works</a>.
-class Block {
-  /// The type of text item that's recognized. In operations for text detection,
-  /// the following types are returned:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>PAGE</i> - Contains a list of the LINE <code>Block</code> objects that
-  /// are detected on a document page.
-  /// </li>
-  /// <li>
-  /// <i>WORD</i> - A word detected on a document page. A word is one or more ISO
-  /// basic Latin script characters that aren't separated by spaces.
-  /// </li>
-  /// <li>
-  /// <i>LINE</i> - A string of tab-delimited, contiguous words that are detected
-  /// on a document page.
-  /// </li>
-  /// </ul>
-  /// In text analysis operations, the following types are returned:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>PAGE</i> - Contains a list of child <code>Block</code> objects that are
-  /// detected on a document page.
-  /// </li>
-  /// <li>
-  /// <i>KEY_VALUE_SET</i> - Stores the KEY and VALUE <code>Block</code> objects
-  /// for linked text that's detected on a document page. Use the
-  /// <code>EntityType</code> field to determine if a KEY_VALUE_SET object is a
-  /// KEY <code>Block</code> object or a VALUE <code>Block</code> object.
-  /// </li>
-  /// <li>
-  /// <i>WORD</i> - A word that's detected on a document page. A word is one or
-  /// more ISO basic Latin script characters that aren't separated by spaces.
-  /// </li>
-  /// <li>
-  /// <i>LINE</i> - A string of tab-delimited, contiguous words that are detected
-  /// on a document page.
-  /// </li>
-  /// <li>
-  /// <i>TABLE</i> - A table that's detected on a document page. A table is
-  /// grid-based information with two or more rows or columns, with a cell span of
-  /// one row and one column each.
-  /// </li>
-  /// <li>
-  /// <i>TABLE_TITLE</i> - The title of a table. A title is typically a line of
-  /// text above or below a table, or embedded as the first row of a table.
-  /// </li>
-  /// <li>
-  /// <i>TABLE_FOOTER</i> - The footer associated with a table. A footer is
-  /// typically a line or lines of text below a table or embedded as the last row
-  /// of a table.
-  /// </li>
-  /// <li>
-  /// <i>CELL</i> - A cell within a detected table. The cell is the parent of the
-  /// block that contains the text in the cell.
-  /// </li>
-  /// <li>
-  /// <i>MERGED_CELL</i> - A cell in a table whose content spans more than one row
-  /// or column. The <code>Relationships</code> array for this cell contain data
-  /// from individual cells.
-  /// </li>
-  /// <li>
-  /// <i>SELECTION_ELEMENT</i> - A selection element such as an option button
-  /// (radio button) or a check box that's detected on a document page. Use the
-  /// value of <code>SelectionStatus</code> to determine the status of the
-  /// selection element.
-  /// </li>
-  /// <li>
-  /// <i>SIGNATURE</i> - The location and confidence score of a signature detected
-  /// on a document page. Can be returned as part of a Key-Value pair or a
-  /// detected cell.
-  /// </li>
-  /// <li>
-  /// <i>QUERY</i> - A question asked during the call of AnalyzeDocument. Contains
-  /// an alias and an ID that attaches it to its answer.
-  /// </li>
-  /// <li>
-  /// <i>QUERY_RESULT</i> - A response to a question asked during the call of
-  /// analyze document. Comes with an alias and ID for ease of locating in a
-  /// response. Also contains location and confidence score.
-  /// </li>
-  /// </ul>
-  /// The following BlockTypes are only returned for Amazon Textract Layout.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>LAYOUT_TITLE</code> - The main title of the document.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_HEADER</code> - Text located in the top margin of the document.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_FOOTER</code> - Text located in the bottom margin of the
-  /// document.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_SECTION_HEADER</code> - The titles of sections within a
-  /// document.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_PAGE_NUMBER</code> - The page number of the documents.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_LIST</code> - Any information grouped together in list form.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_FIGURE</code> - Indicates the location of an image in a
-  /// document.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_TABLE</code> - Indicates the location of a table in the
-  /// document.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_KEY_VALUE</code> - Indicates the location of form key-values in
-  /// a document.
-  /// </li>
-  /// <li>
-  /// <code>LAYOUT_TEXT</code> - Text that is present typically as a part of
-  /// paragraphs in documents.
-  /// </li>
-  /// </ul>
-  final BlockType? blockType;
-
-  /// The column in which a table cell appears. The first column position is 1.
-  /// <code>ColumnIndex</code> isn't returned by <code>DetectDocumentText</code>
-  /// and <code>GetDocumentTextDetection</code>.
-  final int? columnIndex;
-
-  /// The number of columns that a table cell spans. <code>ColumnSpan</code> isn't
-  /// returned by <code>DetectDocumentText</code> and
-  /// <code>GetDocumentTextDetection</code>.
-  final int? columnSpan;
-
-  /// The confidence score that Amazon Textract has in the accuracy of the
-  /// recognized text and the accuracy of the geometry points around the
-  /// recognized text.
-  final double? confidence;
-
-  /// The type of entity.
-  ///
-  /// The following entity types can be returned by FORMS analysis:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>KEY</i> - An identifier for a field on the document.
-  /// </li>
-  /// <li>
-  /// <i>VALUE</i> - The field text.
-  /// </li>
-  /// </ul>
-  /// The following entity types can be returned by TABLES analysis:
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>COLUMN_HEADER</i> - Identifies a cell that is a header of a column.
-  /// </li>
-  /// <li>
-  /// <i>TABLE_TITLE</i> - Identifies a cell that is a title within the table.
-  /// </li>
-  /// <li>
-  /// <i>TABLE_SECTION_TITLE</i> - Identifies a cell that is a title of a section
-  /// within a table. A section title is a cell that typically spans an entire row
-  /// above a section.
-  /// </li>
-  /// <li>
-  /// <i>TABLE_FOOTER</i> - Identifies a cell that is a footer of a table.
-  /// </li>
-  /// <li>
-  /// <i>TABLE_SUMMARY</i> - Identifies a summary cell of a table. A summary cell
-  /// can be a row of a table or an additional, smaller table that contains
-  /// summary information for another table.
-  /// </li>
-  /// <li>
-  /// <i>STRUCTURED_TABLE </i> - Identifies a table with column headers where the
-  /// content of each row corresponds to the headers.
-  /// </li>
-  /// <li>
-  /// <i>SEMI_STRUCTURED_TABLE</i> - Identifies a non-structured table.
-  /// </li>
-  /// </ul>
-  /// <code>EntityTypes</code> isn't returned by <code>DetectDocumentText</code>
-  /// and <code>GetDocumentTextDetection</code>.
-  final List<EntityType>? entityTypes;
-
-  /// The location of the recognized text on the image. It includes an
-  /// axis-aligned, coarse bounding box that surrounds the text, and a finer-grain
-  /// polygon for more accurate spatial information.
-  final Geometry? geometry;
-
-  /// The identifier for the recognized text. The identifier is only unique for a
-  /// single operation.
-  final String? id;
-
-  /// The page on which a block was detected. <code>Page</code> is returned by
-  /// synchronous and asynchronous operations. Page values greater than 1 are only
-  /// returned for multipage documents that are in PDF or TIFF format. A scanned
-  /// image (JPEG/PNG) provided to an asynchronous operation, even if it contains
-  /// multiple document pages, is considered a single-page document. This means
-  /// that for scanned images the value of <code>Page</code> is always 1.
-  final int? page;
-
-  /// <p/>
-  final Query? query;
-
-  /// A list of relationship objects that describe how blocks are related to each
-  /// other. For example, a LINE block object contains a CHILD relationship type
-  /// with the WORD blocks that make up the line of text. There aren't
-  /// Relationship objects in the list for relationships that don't exist, such as
-  /// when the current block has no child blocks.
-  final List<Relationship>? relationships;
-
-  /// The row in which a table cell is located. The first row position is 1.
-  /// <code>RowIndex</code> isn't returned by <code>DetectDocumentText</code> and
-  /// <code>GetDocumentTextDetection</code>.
-  final int? rowIndex;
-
-  /// The number of rows that a table cell spans. <code>RowSpan</code> isn't
-  /// returned by <code>DetectDocumentText</code> and
-  /// <code>GetDocumentTextDetection</code>.
-  final int? rowSpan;
-
-  /// The selection status of a selection element, such as an option button or
-  /// check box.
-  final SelectionStatus? selectionStatus;
-
-  /// The word or line of text that's recognized by Amazon Textract.
-  final String? text;
-
-  /// The kind of text that Amazon Textract has detected. Can check for
-  /// handwritten text and printed text.
-  final TextType? textType;
-
-  Block({
-    this.blockType,
-    this.columnIndex,
-    this.columnSpan,
-    this.confidence,
-    this.entityTypes,
-    this.geometry,
-    this.id,
-    this.page,
-    this.query,
-    this.relationships,
-    this.rowIndex,
-    this.rowSpan,
-    this.selectionStatus,
-    this.text,
-    this.textType,
-  });
-
-  factory Block.fromJson(Map<String, dynamic> json) {
-    return Block(
-      blockType: (json['BlockType'] as String?)?.let(BlockType.fromString),
-      columnIndex: json['ColumnIndex'] as int?,
-      columnSpan: json['ColumnSpan'] as int?,
-      confidence: json['Confidence'] as double?,
-      entityTypes: (json['EntityTypes'] as List?)
-          ?.nonNulls
-          .map((e) => EntityType.fromString((e as String)))
-          .toList(),
-      geometry: json['Geometry'] != null
-          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
-          : null,
-      id: json['Id'] as String?,
-      page: json['Page'] as int?,
-      query: json['Query'] != null
-          ? Query.fromJson(json['Query'] as Map<String, dynamic>)
-          : null,
-      relationships: (json['Relationships'] as List?)
-          ?.nonNulls
-          .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      rowIndex: json['RowIndex'] as int?,
-      rowSpan: json['RowSpan'] as int?,
-      selectionStatus:
-          (json['SelectionStatus'] as String?)?.let(SelectionStatus.fromString),
-      text: json['Text'] as String?,
-      textType: (json['TextType'] as String?)?.let(TextType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blockType = this.blockType;
-    final columnIndex = this.columnIndex;
-    final columnSpan = this.columnSpan;
-    final confidence = this.confidence;
-    final entityTypes = this.entityTypes;
-    final geometry = this.geometry;
-    final id = this.id;
-    final page = this.page;
-    final query = this.query;
-    final relationships = this.relationships;
-    final rowIndex = this.rowIndex;
-    final rowSpan = this.rowSpan;
-    final selectionStatus = this.selectionStatus;
-    final text = this.text;
-    final textType = this.textType;
-    return {
-      if (blockType != null) 'BlockType': blockType.value,
-      if (columnIndex != null) 'ColumnIndex': columnIndex,
-      if (columnSpan != null) 'ColumnSpan': columnSpan,
-      if (confidence != null) 'Confidence': confidence,
-      if (entityTypes != null)
-        'EntityTypes': entityTypes.map((e) => e.value).toList(),
-      if (geometry != null) 'Geometry': geometry,
-      if (id != null) 'Id': id,
-      if (page != null) 'Page': page,
-      if (query != null) 'Query': query,
-      if (relationships != null) 'Relationships': relationships,
-      if (rowIndex != null) 'RowIndex': rowIndex,
-      if (rowSpan != null) 'RowSpan': rowSpan,
-      if (selectionStatus != null) 'SelectionStatus': selectionStatus.value,
-      if (text != null) 'Text': text,
-      if (textType != null) 'TextType': textType.value,
-    };
-  }
-}
-
-class BlockType {
-  static const keyValueSet = BlockType._('KEY_VALUE_SET');
-  static const page = BlockType._('PAGE');
-  static const line = BlockType._('LINE');
-  static const word = BlockType._('WORD');
-  static const table = BlockType._('TABLE');
-  static const cell = BlockType._('CELL');
-  static const selectionElement = BlockType._('SELECTION_ELEMENT');
-  static const mergedCell = BlockType._('MERGED_CELL');
-  static const title = BlockType._('TITLE');
-  static const query = BlockType._('QUERY');
-  static const queryResult = BlockType._('QUERY_RESULT');
-  static const signature = BlockType._('SIGNATURE');
-  static const tableTitle = BlockType._('TABLE_TITLE');
-  static const tableFooter = BlockType._('TABLE_FOOTER');
-  static const layoutText = BlockType._('LAYOUT_TEXT');
-  static const layoutTitle = BlockType._('LAYOUT_TITLE');
-  static const layoutHeader = BlockType._('LAYOUT_HEADER');
-  static const layoutFooter = BlockType._('LAYOUT_FOOTER');
-  static const layoutSectionHeader = BlockType._('LAYOUT_SECTION_HEADER');
-  static const layoutPageNumber = BlockType._('LAYOUT_PAGE_NUMBER');
-  static const layoutList = BlockType._('LAYOUT_LIST');
-  static const layoutFigure = BlockType._('LAYOUT_FIGURE');
-  static const layoutTable = BlockType._('LAYOUT_TABLE');
-  static const layoutKeyValue = BlockType._('LAYOUT_KEY_VALUE');
-
-  final String value;
-
-  const BlockType._(this.value);
-
-  static const values = [
-    keyValueSet,
-    page,
-    line,
-    word,
-    table,
-    cell,
-    selectionElement,
-    mergedCell,
-    title,
-    query,
-    queryResult,
-    signature,
-    tableTitle,
-    tableFooter,
-    layoutText,
-    layoutTitle,
-    layoutHeader,
-    layoutFooter,
-    layoutSectionHeader,
-    layoutPageNumber,
-    layoutList,
-    layoutFigure,
-    layoutTable,
-    layoutKeyValue
-  ];
-
-  static BlockType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BlockType._(value));
-
-  @override
-  bool operator ==(other) => other is BlockType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The bounding box around the detected page, text, key-value pair, table,
-/// table cell, or selection element on a document page. The <code>left</code>
-/// (x-coordinate) and <code>top</code> (y-coordinate) are coordinates that
-/// represent the top and left sides of the bounding box. Note that the
-/// upper-left corner of the image is the origin (0,0).
-///
-/// The <code>top</code> and <code>left</code> values returned are ratios of the
-/// overall document page size. For example, if the input image is 700 x 200
-/// pixels, and the top-left coordinate of the bounding box is 350 x 50 pixels,
-/// the API returns a <code>left</code> value of 0.5 (350/700) and a
-/// <code>top</code> value of 0.25 (50/200).
-///
-/// The <code>width</code> and <code>height</code> values represent the
-/// dimensions of the bounding box as a ratio of the overall document page
-/// dimension. For example, if the document page size is 700 x 200 pixels, and
-/// the bounding box width is 70 pixels, the width returned is 0.1.
-class BoundingBox {
-  /// The height of the bounding box as a ratio of the overall document page
-  /// height.
-  final double? height;
-
-  /// The left coordinate of the bounding box as a ratio of overall document page
-  /// width.
-  final double? left;
-
-  /// The top coordinate of the bounding box as a ratio of overall document page
-  /// height.
-  final double? top;
-
-  /// The width of the bounding box as a ratio of the overall document page width.
-  final double? width;
-
-  BoundingBox({
-    this.height,
-    this.left,
-    this.top,
-    this.width,
-  });
-
-  factory BoundingBox.fromJson(Map<String, dynamic> json) {
-    return BoundingBox(
-      height: json['Height'] as double?,
-      left: json['Left'] as double?,
-      top: json['Top'] as double?,
-      width: json['Width'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final height = this.height;
-    final left = this.left;
-    final top = this.top;
-    final width = this.width;
-    return {
-      if (height != null) 'Height': height,
-      if (left != null) 'Left': left,
-      if (top != null) 'Top': top,
-      if (width != null) 'Width': width,
-    };
-  }
-}
-
-class ContentClassifier {
-  static const freeOfPersonallyIdentifiableInformation =
-      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
-  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
-
-  final String value;
-
-  const ContentClassifier._(this.value);
-
-  static const values = [
-    freeOfPersonallyIdentifiableInformation,
-    freeOfAdultContent
-  ];
-
-  static ContentClassifier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContentClassifier._(value));
-
-  @override
-  bool operator ==(other) => other is ContentClassifier && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateAdapterResponse {
@@ -2820,7 +1968,7 @@ class DetectDocumentTextResponse {
   /// in the document.
   final List<Block>? blocks;
 
-  /// <p/>
+  ///
   final String? detectDocumentTextModelVersion;
 
   /// Metadata about the document. It contains the number of pages that are
@@ -2857,669 +2005,6 @@ class DetectDocumentTextResponse {
       if (detectDocumentTextModelVersion != null)
         'DetectDocumentTextModelVersion': detectDocumentTextModelVersion,
       if (documentMetadata != null) 'DocumentMetadata': documentMetadata,
-    };
-  }
-}
-
-/// A structure that holds information regarding a detected signature on a page.
-class DetectedSignature {
-  /// The page a detected signature was found on.
-  final int? page;
-
-  DetectedSignature({
-    this.page,
-  });
-
-  factory DetectedSignature.fromJson(Map<String, dynamic> json) {
-    return DetectedSignature(
-      page: json['Page'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final page = this.page;
-    return {
-      if (page != null) 'Page': page,
-    };
-  }
-}
-
-/// The input document, either as bytes or as an S3 object.
-///
-/// You pass image bytes to an Amazon Textract API operation by using the
-/// <code>Bytes</code> property. For example, you would use the
-/// <code>Bytes</code> property to pass a document loaded from a local file
-/// system. Image bytes passed by using the <code>Bytes</code> property must be
-/// base64 encoded. Your code might not need to encode document file bytes if
-/// you're using an AWS SDK to call Amazon Textract API operations.
-///
-/// You pass images stored in an S3 bucket to an Amazon Textract API operation
-/// by using the <code>S3Object</code> property. Documents stored in an S3
-/// bucket don't need to be base64 encoded.
-///
-/// The AWS Region for the S3 bucket that contains the S3 object must match the
-/// AWS Region that you use for Amazon Textract operations.
-///
-/// If you use the AWS CLI to call Amazon Textract operations, passing image
-/// bytes using the Bytes property isn't supported. You must first upload the
-/// document to an Amazon S3 bucket, and then call the operation using the
-/// S3Object property.
-///
-/// For Amazon Textract to process an S3 object, the user must have permission
-/// to access the S3 object.
-class Document {
-  /// A blob of base64-encoded document bytes. The maximum size of a document
-  /// that's provided in a blob of bytes is 5 MB. The document bytes must be in
-  /// PNG or JPEG format.
-  ///
-  /// If you're using an AWS SDK to call Amazon Textract, you might not need to
-  /// base64-encode image bytes passed using the <code>Bytes</code> field.
-  final Uint8List? bytes;
-
-  /// Identifies an S3 object as the document source. The maximum size of a
-  /// document that's stored in an S3 bucket is 5 MB.
-  final S3Object? s3Object;
-
-  Document({
-    this.bytes,
-    this.s3Object,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bytes = this.bytes;
-    final s3Object = this.s3Object;
-    return {
-      if (bytes != null) 'Bytes': base64Encode(bytes),
-      if (s3Object != null) 'S3Object': s3Object,
-    };
-  }
-}
-
-/// Summary information about documents grouped by the same document type.
-class DocumentGroup {
-  /// A list of the detected signatures found in a document group.
-  final List<DetectedSignature>? detectedSignatures;
-
-  /// An array that contains information about the pages of a document, defined by
-  /// logical boundary.
-  final List<SplitDocument>? splitDocuments;
-
-  /// The type of document that Amazon Textract has detected. See <a
-  /// href="https://docs.aws.amazon.com/textract/latest/dg/lending-response-objects.html">Analyze
-  /// Lending Response Objects</a> for a list of all types returned by Textract.
-  final String? type;
-
-  /// A list of any expected signatures not found in a document group.
-  final List<UndetectedSignature>? undetectedSignatures;
-
-  DocumentGroup({
-    this.detectedSignatures,
-    this.splitDocuments,
-    this.type,
-    this.undetectedSignatures,
-  });
-
-  factory DocumentGroup.fromJson(Map<String, dynamic> json) {
-    return DocumentGroup(
-      detectedSignatures: (json['DetectedSignatures'] as List?)
-          ?.nonNulls
-          .map((e) => DetectedSignature.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      splitDocuments: (json['SplitDocuments'] as List?)
-          ?.nonNulls
-          .map((e) => SplitDocument.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: json['Type'] as String?,
-      undetectedSignatures: (json['UndetectedSignatures'] as List?)
-          ?.nonNulls
-          .map((e) => UndetectedSignature.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detectedSignatures = this.detectedSignatures;
-    final splitDocuments = this.splitDocuments;
-    final type = this.type;
-    final undetectedSignatures = this.undetectedSignatures;
-    return {
-      if (detectedSignatures != null) 'DetectedSignatures': detectedSignatures,
-      if (splitDocuments != null) 'SplitDocuments': splitDocuments,
-      if (type != null) 'Type': type,
-      if (undetectedSignatures != null)
-        'UndetectedSignatures': undetectedSignatures,
-    };
-  }
-}
-
-/// The Amazon S3 bucket that contains the document to be processed. It's used
-/// by asynchronous operations.
-///
-/// The input document can be an image file in JPEG or PNG format. It can also
-/// be a file in PDF format.
-class DocumentLocation {
-  /// The Amazon S3 bucket that contains the input document.
-  final S3Object? s3Object;
-
-  DocumentLocation({
-    this.s3Object,
-  });
-
-  Map<String, dynamic> toJson() {
-    final s3Object = this.s3Object;
-    return {
-      if (s3Object != null) 'S3Object': s3Object,
-    };
-  }
-}
-
-/// Information about the input document.
-class DocumentMetadata {
-  /// The number of pages that are detected in the document.
-  final int? pages;
-
-  DocumentMetadata({
-    this.pages,
-  });
-
-  factory DocumentMetadata.fromJson(Map<String, dynamic> json) {
-    return DocumentMetadata(
-      pages: json['Pages'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pages = this.pages;
-    return {
-      if (pages != null) 'Pages': pages,
-    };
-  }
-}
-
-class EntityType {
-  static const key = EntityType._('KEY');
-  static const $value = EntityType._('VALUE');
-  static const columnHeader = EntityType._('COLUMN_HEADER');
-  static const tableTitle = EntityType._('TABLE_TITLE');
-  static const tableFooter = EntityType._('TABLE_FOOTER');
-  static const tableSectionTitle = EntityType._('TABLE_SECTION_TITLE');
-  static const tableSummary = EntityType._('TABLE_SUMMARY');
-  static const structuredTable = EntityType._('STRUCTURED_TABLE');
-  static const semiStructuredTable = EntityType._('SEMI_STRUCTURED_TABLE');
-
-  final String value;
-
-  const EntityType._(this.value);
-
-  static const values = [
-    key,
-    $value,
-    columnHeader,
-    tableTitle,
-    tableFooter,
-    tableSectionTitle,
-    tableSummary,
-    structuredTable,
-    semiStructuredTable
-  ];
-
-  static EntityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
-
-  @override
-  bool operator ==(other) => other is EntityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The evaluation metrics (F1 score, Precision, and Recall) for an adapter
-/// version.
-class EvaluationMetric {
-  /// The F1 score for an adapter version.
-  final double? f1Score;
-
-  /// The Precision score for an adapter version.
-  final double? precision;
-
-  /// The Recall score for an adapter version.
-  final double? recall;
-
-  EvaluationMetric({
-    this.f1Score,
-    this.precision,
-    this.recall,
-  });
-
-  factory EvaluationMetric.fromJson(Map<String, dynamic> json) {
-    return EvaluationMetric(
-      f1Score: json['F1Score'] as double?,
-      precision: json['Precision'] as double?,
-      recall: json['Recall'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final f1Score = this.f1Score;
-    final precision = this.precision;
-    final recall = this.recall;
-    return {
-      if (f1Score != null) 'F1Score': f1Score,
-      if (precision != null) 'Precision': precision,
-      if (recall != null) 'Recall': recall,
-    };
-  }
-}
-
-/// Returns the kind of currency detected.
-class ExpenseCurrency {
-  /// Currency code for detected currency. the current supported codes are:
-  ///
-  /// <ul>
-  /// <li>
-  /// USD
-  /// </li>
-  /// <li>
-  /// EUR
-  /// </li>
-  /// <li>
-  /// GBP
-  /// </li>
-  /// <li>
-  /// CAD
-  /// </li>
-  /// <li>
-  /// INR
-  /// </li>
-  /// <li>
-  /// JPY
-  /// </li>
-  /// <li>
-  /// CHF
-  /// </li>
-  /// <li>
-  /// AUD
-  /// </li>
-  /// <li>
-  /// CNY
-  /// </li>
-  /// <li>
-  /// BZR
-  /// </li>
-  /// <li>
-  /// SEK
-  /// </li>
-  /// <li>
-  /// HKD
-  /// </li>
-  /// </ul>
-  final String? code;
-
-  /// Percentage confideence in the detected currency.
-  final double? confidence;
-
-  ExpenseCurrency({
-    this.code,
-    this.confidence,
-  });
-
-  factory ExpenseCurrency.fromJson(Map<String, dynamic> json) {
-    return ExpenseCurrency(
-      code: json['Code'] as String?,
-      confidence: json['Confidence'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final confidence = this.confidence;
-    return {
-      if (code != null) 'Code': code,
-      if (confidence != null) 'Confidence': confidence,
-    };
-  }
-}
-
-/// An object used to store information about the Value or Label detected by
-/// Amazon Textract.
-class ExpenseDetection {
-  /// The confidence in detection, as a percentage
-  final double? confidence;
-  final Geometry? geometry;
-
-  /// The word or line of text recognized by Amazon Textract
-  final String? text;
-
-  ExpenseDetection({
-    this.confidence,
-    this.geometry,
-    this.text,
-  });
-
-  factory ExpenseDetection.fromJson(Map<String, dynamic> json) {
-    return ExpenseDetection(
-      confidence: json['Confidence'] as double?,
-      geometry: json['Geometry'] != null
-          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
-          : null,
-      text: json['Text'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final geometry = this.geometry;
-    final text = this.text;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (geometry != null) 'Geometry': geometry,
-      if (text != null) 'Text': text,
-    };
-  }
-}
-
-/// The structure holding all the information returned by AnalyzeExpense
-class ExpenseDocument {
-  /// This is a block object, the same as reported when DetectDocumentText is run
-  /// on a document. It provides word level recognition of text.
-  final List<Block>? blocks;
-
-  /// Denotes which invoice or receipt in the document the information is coming
-  /// from. First document will be 1, the second 2, and so on.
-  final int? expenseIndex;
-
-  /// Information detected on each table of a document, seperated into
-  /// <code>LineItems</code>.
-  final List<LineItemGroup>? lineItemGroups;
-
-  /// Any information found outside of a table by Amazon Textract.
-  final List<ExpenseField>? summaryFields;
-
-  ExpenseDocument({
-    this.blocks,
-    this.expenseIndex,
-    this.lineItemGroups,
-    this.summaryFields,
-  });
-
-  factory ExpenseDocument.fromJson(Map<String, dynamic> json) {
-    return ExpenseDocument(
-      blocks: (json['Blocks'] as List?)
-          ?.nonNulls
-          .map((e) => Block.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      expenseIndex: json['ExpenseIndex'] as int?,
-      lineItemGroups: (json['LineItemGroups'] as List?)
-          ?.nonNulls
-          .map((e) => LineItemGroup.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      summaryFields: (json['SummaryFields'] as List?)
-          ?.nonNulls
-          .map((e) => ExpenseField.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blocks = this.blocks;
-    final expenseIndex = this.expenseIndex;
-    final lineItemGroups = this.lineItemGroups;
-    final summaryFields = this.summaryFields;
-    return {
-      if (blocks != null) 'Blocks': blocks,
-      if (expenseIndex != null) 'ExpenseIndex': expenseIndex,
-      if (lineItemGroups != null) 'LineItemGroups': lineItemGroups,
-      if (summaryFields != null) 'SummaryFields': summaryFields,
-    };
-  }
-}
-
-/// Breakdown of detected information, seperated into the catagories Type,
-/// LabelDetection, and ValueDetection
-class ExpenseField {
-  /// Shows the kind of currency, both the code and confidence associated with any
-  /// monatary value detected.
-  final ExpenseCurrency? currency;
-
-  /// Shows which group a response object belongs to, such as whether an address
-  /// line belongs to the vendor's address or the recipent's address.
-  final List<ExpenseGroupProperty>? groupProperties;
-
-  /// The explicitly stated label of a detected element.
-  final ExpenseDetection? labelDetection;
-
-  /// The page number the value was detected on.
-  final int? pageNumber;
-
-  /// The implied label of a detected element. Present alongside LabelDetection
-  /// for explicit elements.
-  final ExpenseType? type;
-
-  /// The value of a detected element. Present in explicit and implicit elements.
-  final ExpenseDetection? valueDetection;
-
-  ExpenseField({
-    this.currency,
-    this.groupProperties,
-    this.labelDetection,
-    this.pageNumber,
-    this.type,
-    this.valueDetection,
-  });
-
-  factory ExpenseField.fromJson(Map<String, dynamic> json) {
-    return ExpenseField(
-      currency: json['Currency'] != null
-          ? ExpenseCurrency.fromJson(json['Currency'] as Map<String, dynamic>)
-          : null,
-      groupProperties: (json['GroupProperties'] as List?)
-          ?.nonNulls
-          .map((e) => ExpenseGroupProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      labelDetection: json['LabelDetection'] != null
-          ? ExpenseDetection.fromJson(
-              json['LabelDetection'] as Map<String, dynamic>)
-          : null,
-      pageNumber: json['PageNumber'] as int?,
-      type: json['Type'] != null
-          ? ExpenseType.fromJson(json['Type'] as Map<String, dynamic>)
-          : null,
-      valueDetection: json['ValueDetection'] != null
-          ? ExpenseDetection.fromJson(
-              json['ValueDetection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currency = this.currency;
-    final groupProperties = this.groupProperties;
-    final labelDetection = this.labelDetection;
-    final pageNumber = this.pageNumber;
-    final type = this.type;
-    final valueDetection = this.valueDetection;
-    return {
-      if (currency != null) 'Currency': currency,
-      if (groupProperties != null) 'GroupProperties': groupProperties,
-      if (labelDetection != null) 'LabelDetection': labelDetection,
-      if (pageNumber != null) 'PageNumber': pageNumber,
-      if (type != null) 'Type': type,
-      if (valueDetection != null) 'ValueDetection': valueDetection,
-    };
-  }
-}
-
-/// Shows the group that a certain key belongs to. This helps differentiate
-/// between names and addresses for different organizations, that can be hard to
-/// determine via JSON response.
-class ExpenseGroupProperty {
-  /// Provides a group Id number, which will be the same for each in the group.
-  final String? id;
-
-  /// Informs you on whether the expense group is a name or an address.
-  final List<String>? types;
-
-  ExpenseGroupProperty({
-    this.id,
-    this.types,
-  });
-
-  factory ExpenseGroupProperty.fromJson(Map<String, dynamic> json) {
-    return ExpenseGroupProperty(
-      id: json['Id'] as String?,
-      types:
-          (json['Types'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final types = this.types;
-    return {
-      if (id != null) 'Id': id,
-      if (types != null) 'Types': types,
-    };
-  }
-}
-
-/// An object used to store information about the Type detected by Amazon
-/// Textract.
-class ExpenseType {
-  /// The confidence of accuracy, as a percentage.
-  final double? confidence;
-
-  /// The word or line of text detected by Amazon Textract.
-  final String? text;
-
-  ExpenseType({
-    this.confidence,
-    this.text,
-  });
-
-  factory ExpenseType.fromJson(Map<String, dynamic> json) {
-    return ExpenseType(
-      confidence: json['Confidence'] as double?,
-      text: json['Text'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final text = this.text;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (text != null) 'Text': text,
-    };
-  }
-}
-
-/// Contains information extracted by an analysis operation after using
-/// StartLendingAnalysis.
-class Extraction {
-  final ExpenseDocument? expenseDocument;
-  final IdentityDocument? identityDocument;
-
-  /// Holds the structured data returned by AnalyzeDocument for lending documents.
-  final LendingDocument? lendingDocument;
-
-  Extraction({
-    this.expenseDocument,
-    this.identityDocument,
-    this.lendingDocument,
-  });
-
-  factory Extraction.fromJson(Map<String, dynamic> json) {
-    return Extraction(
-      expenseDocument: json['ExpenseDocument'] != null
-          ? ExpenseDocument.fromJson(
-              json['ExpenseDocument'] as Map<String, dynamic>)
-          : null,
-      identityDocument: json['IdentityDocument'] != null
-          ? IdentityDocument.fromJson(
-              json['IdentityDocument'] as Map<String, dynamic>)
-          : null,
-      lendingDocument: json['LendingDocument'] != null
-          ? LendingDocument.fromJson(
-              json['LendingDocument'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final expenseDocument = this.expenseDocument;
-    final identityDocument = this.identityDocument;
-    final lendingDocument = this.lendingDocument;
-    return {
-      if (expenseDocument != null) 'ExpenseDocument': expenseDocument,
-      if (identityDocument != null) 'IdentityDocument': identityDocument,
-      if (lendingDocument != null) 'LendingDocument': lendingDocument,
-    };
-  }
-}
-
-class FeatureType {
-  static const tables = FeatureType._('TABLES');
-  static const forms = FeatureType._('FORMS');
-  static const queries = FeatureType._('QUERIES');
-  static const signatures = FeatureType._('SIGNATURES');
-  static const layout = FeatureType._('LAYOUT');
-
-  final String value;
-
-  const FeatureType._(this.value);
-
-  static const values = [tables, forms, queries, signatures, layout];
-
-  static FeatureType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FeatureType._(value));
-
-  @override
-  bool operator ==(other) => other is FeatureType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about where the following items are located on a document page:
-/// detected page, text, key-value pairs, tables, table cells, and selection
-/// elements.
-class Geometry {
-  /// An axis-aligned coarse representation of the location of the recognized item
-  /// on the document page.
-  final BoundingBox? boundingBox;
-
-  /// Within the bounding box, a fine-grained polygon around the recognized item.
-  final List<Point>? polygon;
-
-  Geometry({
-    this.boundingBox,
-    this.polygon,
-  });
-
-  factory Geometry.fromJson(Map<String, dynamic> json) {
-    return Geometry(
-      boundingBox: json['BoundingBox'] != null
-          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
-          : null,
-      polygon: (json['Polygon'] as List?)
-          ?.nonNulls
-          .map((e) => Point.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final boundingBox = this.boundingBox;
-    final polygon = this.polygon;
-    return {
-      if (boundingBox != null) 'BoundingBox': boundingBox,
-      if (polygon != null) 'Polygon': polygon,
     };
   }
 }
@@ -3706,7 +2191,7 @@ class GetAdapterVersionResponse {
 }
 
 class GetDocumentAnalysisResponse {
-  /// <p/>
+  ///
   final String? analyzeDocumentModelVersion;
 
   /// The results of the text-analysis operation.
@@ -3789,7 +2274,7 @@ class GetDocumentTextDetectionResponse {
   /// The results of the text-detection operation.
   final List<Block>? blocks;
 
-  /// <p/>
+  ///
   final String? detectDocumentTextModelVersion;
 
   /// Information about a document that Amazon Textract processed.
@@ -4088,481 +2573,35 @@ class GetLendingAnalysisSummaryResponse {
   }
 }
 
-/// Shows the results of the human in the loop evaluation. If there is no
-/// HumanLoopArn, the input did not trigger human review.
-class HumanLoopActivationOutput {
-  /// Shows the result of condition evaluations, including those conditions which
-  /// activated a human review.
-  final Object? humanLoopActivationConditionsEvaluationResults;
+class ListAdaptersResponse {
+  /// A list of adapters that matches the filtering criteria specified when
+  /// calling ListAdapters.
+  final List<AdapterOverview>? adapters;
 
-  /// Shows if and why human review was needed.
-  final List<String>? humanLoopActivationReasons;
+  /// Identifies the next page of results to return when listing adapters.
+  final String? nextToken;
 
-  /// The Amazon Resource Name (ARN) of the HumanLoop created.
-  final String? humanLoopArn;
-
-  HumanLoopActivationOutput({
-    this.humanLoopActivationConditionsEvaluationResults,
-    this.humanLoopActivationReasons,
-    this.humanLoopArn,
+  ListAdaptersResponse({
+    this.adapters,
+    this.nextToken,
   });
 
-  factory HumanLoopActivationOutput.fromJson(Map<String, dynamic> json) {
-    return HumanLoopActivationOutput(
-      humanLoopActivationConditionsEvaluationResults:
-          json['HumanLoopActivationConditionsEvaluationResults'] == null
-              ? null
-              : jsonDecode(
-                  json['HumanLoopActivationConditionsEvaluationResults']
-                      as String),
-      humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List?)
+  factory ListAdaptersResponse.fromJson(Map<String, dynamic> json) {
+    return ListAdaptersResponse(
+      adapters: (json['Adapters'] as List?)
           ?.nonNulls
-          .map((e) => e as String)
+          .map((e) => AdapterOverview.fromJson(e as Map<String, dynamic>))
           .toList(),
-      humanLoopArn: json['HumanLoopArn'] as String?,
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final humanLoopActivationConditionsEvaluationResults =
-        this.humanLoopActivationConditionsEvaluationResults;
-    final humanLoopActivationReasons = this.humanLoopActivationReasons;
-    final humanLoopArn = this.humanLoopArn;
+    final adapters = this.adapters;
+    final nextToken = this.nextToken;
     return {
-      if (humanLoopActivationConditionsEvaluationResults != null)
-        'HumanLoopActivationConditionsEvaluationResults':
-            jsonEncode(humanLoopActivationConditionsEvaluationResults),
-      if (humanLoopActivationReasons != null)
-        'HumanLoopActivationReasons': humanLoopActivationReasons,
-      if (humanLoopArn != null) 'HumanLoopArn': humanLoopArn,
-    };
-  }
-}
-
-/// Sets up the human review workflow the document will be sent to if one of the
-/// conditions is met. You can also set certain attributes of the image before
-/// review.
-class HumanLoopConfig {
-  /// The Amazon Resource Name (ARN) of the flow definition.
-  final String flowDefinitionArn;
-
-  /// The name of the human workflow used for this image. This should be kept
-  /// unique within a region.
-  final String humanLoopName;
-
-  /// Sets attributes of the input data.
-  final HumanLoopDataAttributes? dataAttributes;
-
-  HumanLoopConfig({
-    required this.flowDefinitionArn,
-    required this.humanLoopName,
-    this.dataAttributes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final flowDefinitionArn = this.flowDefinitionArn;
-    final humanLoopName = this.humanLoopName;
-    final dataAttributes = this.dataAttributes;
-    return {
-      'FlowDefinitionArn': flowDefinitionArn,
-      'HumanLoopName': humanLoopName,
-      if (dataAttributes != null) 'DataAttributes': dataAttributes,
-    };
-  }
-}
-
-/// Allows you to set attributes of the image. Currently, you can declare an
-/// image as free of personally identifiable information and adult content.
-class HumanLoopDataAttributes {
-  /// Sets whether the input image is free of personally identifiable information
-  /// or adult content.
-  final List<ContentClassifier>? contentClassifiers;
-
-  HumanLoopDataAttributes({
-    this.contentClassifiers,
-  });
-
-  Map<String, dynamic> toJson() {
-    final contentClassifiers = this.contentClassifiers;
-    return {
-      if (contentClassifiers != null)
-        'ContentClassifiers': contentClassifiers.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// The structure that lists each document processed in an AnalyzeID operation.
-class IdentityDocument {
-  /// Individual word recognition, as returned by document detection.
-  final List<Block>? blocks;
-
-  /// Denotes the placement of a document in the IdentityDocument list. The first
-  /// document is marked 1, the second 2 and so on.
-  final int? documentIndex;
-
-  /// The structure used to record information extracted from identity documents.
-  /// Contains both normalized field and value of the extracted text.
-  final List<IdentityDocumentField>? identityDocumentFields;
-
-  IdentityDocument({
-    this.blocks,
-    this.documentIndex,
-    this.identityDocumentFields,
-  });
-
-  factory IdentityDocument.fromJson(Map<String, dynamic> json) {
-    return IdentityDocument(
-      blocks: (json['Blocks'] as List?)
-          ?.nonNulls
-          .map((e) => Block.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      documentIndex: json['DocumentIndex'] as int?,
-      identityDocumentFields: (json['IdentityDocumentFields'] as List?)
-          ?.nonNulls
-          .map((e) => IdentityDocumentField.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blocks = this.blocks;
-    final documentIndex = this.documentIndex;
-    final identityDocumentFields = this.identityDocumentFields;
-    return {
-      if (blocks != null) 'Blocks': blocks,
-      if (documentIndex != null) 'DocumentIndex': documentIndex,
-      if (identityDocumentFields != null)
-        'IdentityDocumentFields': identityDocumentFields,
-    };
-  }
-}
-
-/// Structure containing both the normalized type of the extracted information
-/// and the text associated with it. These are extracted as Type and Value
-/// respectively.
-class IdentityDocumentField {
-  final AnalyzeIDDetections? type;
-  final AnalyzeIDDetections? valueDetection;
-
-  IdentityDocumentField({
-    this.type,
-    this.valueDetection,
-  });
-
-  factory IdentityDocumentField.fromJson(Map<String, dynamic> json) {
-    return IdentityDocumentField(
-      type: json['Type'] != null
-          ? AnalyzeIDDetections.fromJson(json['Type'] as Map<String, dynamic>)
-          : null,
-      valueDetection: json['ValueDetection'] != null
-          ? AnalyzeIDDetections.fromJson(
-              json['ValueDetection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final valueDetection = this.valueDetection;
-    return {
-      if (type != null) 'Type': type,
-      if (valueDetection != null) 'ValueDetection': valueDetection,
-    };
-  }
-}
-
-class JobStatus {
-  static const inProgress = JobStatus._('IN_PROGRESS');
-  static const succeeded = JobStatus._('SUCCEEDED');
-  static const failed = JobStatus._('FAILED');
-  static const partialSuccess = JobStatus._('PARTIAL_SUCCESS');
-
-  final String value;
-
-  const JobStatus._(this.value);
-
-  static const values = [inProgress, succeeded, failed, partialSuccess];
-
-  static JobStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
-
-  @override
-  bool operator ==(other) => other is JobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The results extracted for a lending document.
-class LendingDetection {
-  /// The confidence level for the text of a detected value in a lending document.
-  final double? confidence;
-  final Geometry? geometry;
-
-  /// The selection status of a selection element, such as an option button or
-  /// check box.
-  final SelectionStatus? selectionStatus;
-
-  /// The text extracted for a detected value in a lending document.
-  final String? text;
-
-  LendingDetection({
-    this.confidence,
-    this.geometry,
-    this.selectionStatus,
-    this.text,
-  });
-
-  factory LendingDetection.fromJson(Map<String, dynamic> json) {
-    return LendingDetection(
-      confidence: json['Confidence'] as double?,
-      geometry: json['Geometry'] != null
-          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
-          : null,
-      selectionStatus:
-          (json['SelectionStatus'] as String?)?.let(SelectionStatus.fromString),
-      text: json['Text'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final geometry = this.geometry;
-    final selectionStatus = this.selectionStatus;
-    final text = this.text;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (geometry != null) 'Geometry': geometry,
-      if (selectionStatus != null) 'SelectionStatus': selectionStatus.value,
-      if (text != null) 'Text': text,
-    };
-  }
-}
-
-/// Holds the structured data returned by AnalyzeDocument for lending documents.
-class LendingDocument {
-  /// An array of LendingField objects.
-  final List<LendingField>? lendingFields;
-
-  /// A list of signatures detected in a lending document.
-  final List<SignatureDetection>? signatureDetections;
-
-  LendingDocument({
-    this.lendingFields,
-    this.signatureDetections,
-  });
-
-  factory LendingDocument.fromJson(Map<String, dynamic> json) {
-    return LendingDocument(
-      lendingFields: (json['LendingFields'] as List?)
-          ?.nonNulls
-          .map((e) => LendingField.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      signatureDetections: (json['SignatureDetections'] as List?)
-          ?.nonNulls
-          .map((e) => SignatureDetection.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lendingFields = this.lendingFields;
-    final signatureDetections = this.signatureDetections;
-    return {
-      if (lendingFields != null) 'LendingFields': lendingFields,
-      if (signatureDetections != null)
-        'SignatureDetections': signatureDetections,
-    };
-  }
-}
-
-/// Holds the normalized key-value pairs returned by AnalyzeDocument, including
-/// the document type, detected text, and geometry.
-class LendingField {
-  final LendingDetection? keyDetection;
-
-  /// The type of the lending document.
-  final String? type;
-
-  /// An array of LendingDetection objects.
-  final List<LendingDetection>? valueDetections;
-
-  LendingField({
-    this.keyDetection,
-    this.type,
-    this.valueDetections,
-  });
-
-  factory LendingField.fromJson(Map<String, dynamic> json) {
-    return LendingField(
-      keyDetection: json['KeyDetection'] != null
-          ? LendingDetection.fromJson(
-              json['KeyDetection'] as Map<String, dynamic>)
-          : null,
-      type: json['Type'] as String?,
-      valueDetections: (json['ValueDetections'] as List?)
-          ?.nonNulls
-          .map((e) => LendingDetection.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final keyDetection = this.keyDetection;
-    final type = this.type;
-    final valueDetections = this.valueDetections;
-    return {
-      if (keyDetection != null) 'KeyDetection': keyDetection,
-      if (type != null) 'Type': type,
-      if (valueDetections != null) 'ValueDetections': valueDetections,
-    };
-  }
-}
-
-/// Contains the detections for each page analyzed through the Analyze Lending
-/// API.
-class LendingResult {
-  /// An array of Extraction to hold structured data. e.g. normalized key value
-  /// pairs instead of raw OCR detections .
-  final List<Extraction>? extractions;
-
-  /// The page number for a page, with regard to whole submission.
-  final int? page;
-
-  /// The classifier result for a given page.
-  final PageClassification? pageClassification;
-
-  LendingResult({
-    this.extractions,
-    this.page,
-    this.pageClassification,
-  });
-
-  factory LendingResult.fromJson(Map<String, dynamic> json) {
-    return LendingResult(
-      extractions: (json['Extractions'] as List?)
-          ?.nonNulls
-          .map((e) => Extraction.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      page: json['Page'] as int?,
-      pageClassification: json['PageClassification'] != null
-          ? PageClassification.fromJson(
-              json['PageClassification'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final extractions = this.extractions;
-    final page = this.page;
-    final pageClassification = this.pageClassification;
-    return {
-      if (extractions != null) 'Extractions': extractions,
-      if (page != null) 'Page': page,
-      if (pageClassification != null) 'PageClassification': pageClassification,
-    };
-  }
-}
-
-/// Contains information regarding DocumentGroups and UndetectedDocumentTypes.
-class LendingSummary {
-  /// Contains an array of all DocumentGroup objects.
-  final List<DocumentGroup>? documentGroups;
-
-  /// UndetectedDocumentTypes.
-  final List<String>? undetectedDocumentTypes;
-
-  LendingSummary({
-    this.documentGroups,
-    this.undetectedDocumentTypes,
-  });
-
-  factory LendingSummary.fromJson(Map<String, dynamic> json) {
-    return LendingSummary(
-      documentGroups: (json['DocumentGroups'] as List?)
-          ?.nonNulls
-          .map((e) => DocumentGroup.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      undetectedDocumentTypes: (json['UndetectedDocumentTypes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentGroups = this.documentGroups;
-    final undetectedDocumentTypes = this.undetectedDocumentTypes;
-    return {
-      if (documentGroups != null) 'DocumentGroups': documentGroups,
-      if (undetectedDocumentTypes != null)
-        'UndetectedDocumentTypes': undetectedDocumentTypes,
-    };
-  }
-}
-
-/// A structure that holds information about the different lines found in a
-/// document's tables.
-class LineItemFields {
-  /// ExpenseFields used to show information from detected lines on a table.
-  final List<ExpenseField>? lineItemExpenseFields;
-
-  LineItemFields({
-    this.lineItemExpenseFields,
-  });
-
-  factory LineItemFields.fromJson(Map<String, dynamic> json) {
-    return LineItemFields(
-      lineItemExpenseFields: (json['LineItemExpenseFields'] as List?)
-          ?.nonNulls
-          .map((e) => ExpenseField.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lineItemExpenseFields = this.lineItemExpenseFields;
-    return {
-      if (lineItemExpenseFields != null)
-        'LineItemExpenseFields': lineItemExpenseFields,
-    };
-  }
-}
-
-/// A grouping of tables which contain LineItems, with each table identified by
-/// the table's <code>LineItemGroupIndex</code>.
-class LineItemGroup {
-  /// The number used to identify a specific table in a document. The first table
-  /// encountered will have a LineItemGroupIndex of 1, the second 2, etc.
-  final int? lineItemGroupIndex;
-
-  /// The breakdown of information on a particular line of a table.
-  final List<LineItemFields>? lineItems;
-
-  LineItemGroup({
-    this.lineItemGroupIndex,
-    this.lineItems,
-  });
-
-  factory LineItemGroup.fromJson(Map<String, dynamic> json) {
-    return LineItemGroup(
-      lineItemGroupIndex: json['LineItemGroupIndex'] as int?,
-      lineItems: (json['LineItems'] as List?)
-          ?.nonNulls
-          .map((e) => LineItemFields.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lineItemGroupIndex = this.lineItemGroupIndex;
-    final lineItems = this.lineItems;
-    return {
-      if (lineItemGroupIndex != null) 'LineItemGroupIndex': lineItemGroupIndex,
-      if (lineItems != null) 'LineItems': lineItems,
+      if (adapters != null) 'Adapters': adapters,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -4601,39 +2640,6 @@ class ListAdapterVersionsResponse {
   }
 }
 
-class ListAdaptersResponse {
-  /// A list of adapters that matches the filtering criteria specified when
-  /// calling ListAdapters.
-  final List<AdapterOverview>? adapters;
-
-  /// Identifies the next page of results to return when listing adapters.
-  final String? nextToken;
-
-  ListAdaptersResponse({
-    this.adapters,
-    this.nextToken,
-  });
-
-  factory ListAdaptersResponse.fromJson(Map<String, dynamic> json) {
-    return ListAdaptersResponse(
-      adapters: (json['Adapters'] as List?)
-          ?.nonNulls
-          .map((e) => AdapterOverview.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adapters = this.adapters;
-    final nextToken = this.nextToken;
-    return {
-      if (adapters != null) 'Adapters': adapters,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
 class ListTagsForResourceResponse {
   /// A set of tags (key-value pairs) that are part of the requested resource.
   final Map<String, String>? tags;
@@ -4653,551 +2659,6 @@ class ListTagsForResourceResponse {
     final tags = this.tags;
     return {
       if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Contains information relating to dates in a document, including the type of
-/// value, and the value.
-class NormalizedValue {
-  /// The value of the date, written as Year-Month-DayTHour:Minute:Second.
-  final String? value;
-
-  /// The normalized type of the value detected. In this case, DATE.
-  final ValueType? valueType;
-
-  NormalizedValue({
-    this.value,
-    this.valueType,
-  });
-
-  factory NormalizedValue.fromJson(Map<String, dynamic> json) {
-    return NormalizedValue(
-      value: json['Value'] as String?,
-      valueType: (json['ValueType'] as String?)?.let(ValueType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final value = this.value;
-    final valueType = this.valueType;
-    return {
-      if (value != null) 'Value': value,
-      if (valueType != null) 'ValueType': valueType.value,
-    };
-  }
-}
-
-/// The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon
-/// Textract publishes the completion status of an asynchronous document
-/// operation.
-class NotificationChannel {
-  /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract
-  /// publishing permissions to the Amazon SNS topic.
-  final String roleArn;
-
-  /// The Amazon SNS topic that Amazon Textract posts the completion status to.
-  final String sNSTopicArn;
-
-  NotificationChannel({
-    required this.roleArn,
-    required this.sNSTopicArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final sNSTopicArn = this.sNSTopicArn;
-    return {
-      'RoleArn': roleArn,
-      'SNSTopicArn': sNSTopicArn,
-    };
-  }
-}
-
-/// Sets whether or not your output will go to a user created bucket. Used to
-/// set the name of the bucket, and the prefix on the output file.
-///
-/// <code>OutputConfig</code> is an optional parameter which lets you adjust
-/// where your output will be placed. By default, Amazon Textract will store the
-/// results internally and can only be accessed by the Get API operations. With
-/// <code>OutputConfig</code> enabled, you can set the name of the bucket the
-/// output will be sent to the file prefix of the results where you can download
-/// your results. Additionally, you can set the <code>KMSKeyID</code> parameter
-/// to a customer master key (CMK) to encrypt your output. Without this
-/// parameter set Amazon Textract will encrypt server-side using the AWS managed
-/// CMK for Amazon S3.
-///
-/// Decryption of Customer Content is necessary for processing of the documents
-/// by Amazon Textract. If your account is opted out under an AI services opt
-/// out policy then all unencrypted Customer Content is immediately and
-/// permanently deleted after the Customer Content has been processed by the
-/// service. No copy of of the output is retained by Amazon Textract. For
-/// information about how to opt out, see <a
-/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">
-/// Managing AI services opt-out policy. </a>
-///
-/// For more information on data privacy, see the <a
-/// href="https://aws.amazon.com/compliance/data-privacy-faq/">Data Privacy
-/// FAQ</a>.
-class OutputConfig {
-  /// The name of the bucket your output will go to.
-  final String s3Bucket;
-
-  /// The prefix of the object key that the output will be saved to. When not
-  /// enabled, the prefix will be “textract_output".
-  final String? s3Prefix;
-
-  OutputConfig({
-    required this.s3Bucket,
-    this.s3Prefix,
-  });
-
-  factory OutputConfig.fromJson(Map<String, dynamic> json) {
-    return OutputConfig(
-      s3Bucket: (json['S3Bucket'] as String?) ?? '',
-      s3Prefix: json['S3Prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Bucket = this.s3Bucket;
-    final s3Prefix = this.s3Prefix;
-    return {
-      'S3Bucket': s3Bucket,
-      if (s3Prefix != null) 'S3Prefix': s3Prefix,
-    };
-  }
-}
-
-/// The class assigned to a Page object detected in an input document. Contains
-/// information regarding the predicted type/class of a document's page and the
-/// page number that the Page object was detected on.
-class PageClassification {
-  /// The page number the value was detected on, relative to Amazon Textract's
-  /// starting position.
-  final List<Prediction> pageNumber;
-
-  /// The class, or document type, assigned to a detected Page object. The class,
-  /// or document type, assigned to a detected Page object.
-  final List<Prediction> pageType;
-
-  PageClassification({
-    required this.pageNumber,
-    required this.pageType,
-  });
-
-  factory PageClassification.fromJson(Map<String, dynamic> json) {
-    return PageClassification(
-      pageNumber: ((json['PageNumber'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      pageType: ((json['PageType'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pageNumber = this.pageNumber;
-    final pageType = this.pageType;
-    return {
-      'PageNumber': pageNumber,
-      'PageType': pageType,
-    };
-  }
-}
-
-/// The X and Y coordinates of a point on a document page. The X and Y values
-/// that are returned are ratios of the overall document page size. For example,
-/// if the input document is 700 x 200 and the operation returns X=0.5 and
-/// Y=0.25, then the point is at the (350,50) pixel coordinate on the document
-/// page.
-///
-/// An array of <code>Point</code> objects, <code>Polygon</code>, is returned by
-/// <a>DetectDocumentText</a>. <code>Polygon</code> represents a fine-grained
-/// polygon around detected text. For more information, see Geometry in the
-/// Amazon Textract Developer Guide.
-class Point {
-  /// The value of the X coordinate for a point on a <code>Polygon</code>.
-  final double? x;
-
-  /// The value of the Y coordinate for a point on a <code>Polygon</code>.
-  final double? y;
-
-  Point({
-    this.x,
-    this.y,
-  });
-
-  factory Point.fromJson(Map<String, dynamic> json) {
-    return Point(
-      x: json['X'] as double?,
-      y: json['Y'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final x = this.x;
-    final y = this.y;
-    return {
-      if (x != null) 'X': x,
-      if (y != null) 'Y': y,
-    };
-  }
-}
-
-/// Contains information regarding predicted values returned by Amazon Textract
-/// operations, including the predicted value and the confidence in the
-/// predicted value.
-class Prediction {
-  /// Amazon Textract's confidence in its predicted value.
-  final double? confidence;
-
-  /// The predicted value of a detected object.
-  final String? value;
-
-  Prediction({
-    this.confidence,
-    this.value,
-  });
-
-  factory Prediction.fromJson(Map<String, dynamic> json) {
-    return Prediction(
-      confidence: json['Confidence'] as double?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final value = this.value;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// <p/>
-class QueriesConfig {
-  /// <p/>
-  final List<Query> queries;
-
-  QueriesConfig({
-    required this.queries,
-  });
-
-  Map<String, dynamic> toJson() {
-    final queries = this.queries;
-    return {
-      'Queries': queries,
-    };
-  }
-}
-
-/// Each query contains the question you want to ask in the Text and the alias
-/// you want to associate.
-class Query {
-  /// Question that Amazon Textract will apply to the document. An example would
-  /// be "What is the customer's SSN?"
-  final String text;
-
-  /// Alias attached to the query, for ease of location.
-  final String? alias;
-
-  /// Pages is a parameter that the user inputs to specify which pages to apply a
-  /// query to. The following is a list of rules for using this parameter.
-  ///
-  /// <ul>
-  /// <li>
-  /// If a page is not specified, it is set to <code>["1"]</code> by default.
-  /// </li>
-  /// <li>
-  /// The following characters are allowed in the parameter's string: <code>0 1 2
-  /// 3 4 5 6 7 8 9 - *</code>. No whitespace is allowed.
-  /// </li>
-  /// <li>
-  /// When using * to indicate all pages, it must be the only element in the list.
-  /// </li>
-  /// <li>
-  /// You can use page intervals, such as <code>[“1-3”, “1-1”, “4-*”]</code>.
-  /// Where <code>*</code> indicates last page of document.
-  /// </li>
-  /// <li>
-  /// Specified pages must be greater than 0 and less than or equal to the number
-  /// of pages in the document.
-  /// </li>
-  /// </ul>
-  final List<String>? pages;
-
-  Query({
-    required this.text,
-    this.alias,
-    this.pages,
-  });
-
-  factory Query.fromJson(Map<String, dynamic> json) {
-    return Query(
-      text: (json['Text'] as String?) ?? '',
-      alias: json['Alias'] as String?,
-      pages:
-          (json['Pages'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final text = this.text;
-    final alias = this.alias;
-    final pages = this.pages;
-    return {
-      'Text': text,
-      if (alias != null) 'Alias': alias,
-      if (pages != null) 'Pages': pages,
-    };
-  }
-}
-
-/// Information about how blocks are related to each other. A <code>Block</code>
-/// object contains 0 or more <code>Relation</code> objects in a list,
-/// <code>Relationships</code>. For more information, see <a>Block</a>.
-///
-/// The <code>Type</code> element provides the type of the relationship for all
-/// blocks in the <code>IDs</code> array.
-class Relationship {
-  /// An array of IDs for related blocks. You can get the type of the relationship
-  /// from the <code>Type</code> element.
-  final List<String>? ids;
-
-  /// The type of relationship between the blocks in the IDs array and the current
-  /// block. The following list describes the relationship types that can be
-  /// returned.
-  ///
-  /// <ul>
-  /// <li>
-  /// <i>VALUE</i> - A list that contains the ID of the VALUE block that's
-  /// associated with the KEY of a key-value pair.
-  /// </li>
-  /// <li>
-  /// <i>CHILD</i> - A list of IDs that identify blocks found within the current
-  /// block object. For example, WORD blocks have a CHILD relationship to the LINE
-  /// block type.
-  /// </li>
-  /// <li>
-  /// <i>MERGED_CELL</i> - A list of IDs that identify each of the MERGED_CELL
-  /// block types in a table.
-  /// </li>
-  /// <li>
-  /// <i>ANSWER</i> - A list that contains the ID of the QUERY_RESULT block that’s
-  /// associated with the corresponding QUERY block.
-  /// </li>
-  /// <li>
-  /// <i>TABLE</i> - A list of IDs that identify associated TABLE block types.
-  /// </li>
-  /// <li>
-  /// <i>TABLE_TITLE</i> - A list that contains the ID for the TABLE_TITLE block
-  /// type in a table.
-  /// </li>
-  /// <li>
-  /// <i>TABLE_FOOTER</i> - A list of IDs that identify the TABLE_FOOTER block
-  /// types in a table.
-  /// </li>
-  /// </ul>
-  final RelationshipType? type;
-
-  Relationship({
-    this.ids,
-    this.type,
-  });
-
-  factory Relationship.fromJson(Map<String, dynamic> json) {
-    return Relationship(
-      ids: (json['Ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      type: (json['Type'] as String?)?.let(RelationshipType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ids = this.ids;
-    final type = this.type;
-    return {
-      if (ids != null) 'Ids': ids,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class RelationshipType {
-  static const $value = RelationshipType._('VALUE');
-  static const child = RelationshipType._('CHILD');
-  static const complexFeatures = RelationshipType._('COMPLEX_FEATURES');
-  static const mergedCell = RelationshipType._('MERGED_CELL');
-  static const title = RelationshipType._('TITLE');
-  static const answer = RelationshipType._('ANSWER');
-  static const table = RelationshipType._('TABLE');
-  static const tableTitle = RelationshipType._('TABLE_TITLE');
-  static const tableFooter = RelationshipType._('TABLE_FOOTER');
-
-  final String value;
-
-  const RelationshipType._(this.value);
-
-  static const values = [
-    $value,
-    child,
-    complexFeatures,
-    mergedCell,
-    title,
-    answer,
-    table,
-    tableTitle,
-    tableFooter
-  ];
-
-  static RelationshipType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RelationshipType._(value));
-
-  @override
-  bool operator ==(other) => other is RelationshipType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The S3 bucket name and file name that identifies the document.
-///
-/// The AWS Region for the S3 bucket that contains the document must match the
-/// Region that you use for Amazon Textract operations.
-///
-/// For Amazon Textract to process a file in an S3 bucket, the user must have
-/// permission to access the S3 bucket and file.
-class S3Object {
-  /// The name of the S3 bucket. Note that the # character is not valid in the
-  /// file name.
-  final String? bucket;
-
-  /// The file name of the input document. Synchronous operations can use image
-  /// files that are in JPEG or PNG format. Asynchronous operations also support
-  /// PDF and TIFF format files.
-  final String? name;
-
-  /// If the bucket has versioning enabled, you can specify the object version.
-  final String? version;
-
-  S3Object({
-    this.bucket,
-    this.name,
-    this.version,
-  });
-
-  factory S3Object.fromJson(Map<String, dynamic> json) {
-    return S3Object(
-      bucket: json['Bucket'] as String?,
-      name: json['Name'] as String?,
-      version: json['Version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final name = this.name;
-    final version = this.version;
-    return {
-      if (bucket != null) 'Bucket': bucket,
-      if (name != null) 'Name': name,
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-class SelectionStatus {
-  static const selected = SelectionStatus._('SELECTED');
-  static const notSelected = SelectionStatus._('NOT_SELECTED');
-
-  final String value;
-
-  const SelectionStatus._(this.value);
-
-  static const values = [selected, notSelected];
-
-  static SelectionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SelectionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is SelectionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information regarding a detected signature on a page.
-class SignatureDetection {
-  /// The confidence, from 0 to 100, in the predicted values for a detected
-  /// signature.
-  final double? confidence;
-  final Geometry? geometry;
-
-  SignatureDetection({
-    this.confidence,
-    this.geometry,
-  });
-
-  factory SignatureDetection.fromJson(Map<String, dynamic> json) {
-    return SignatureDetection(
-      confidence: json['Confidence'] as double?,
-      geometry: json['Geometry'] != null
-          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final confidence = this.confidence;
-    final geometry = this.geometry;
-    return {
-      if (confidence != null) 'Confidence': confidence,
-      if (geometry != null) 'Geometry': geometry,
-    };
-  }
-}
-
-/// Contains information about the pages of a document, defined by logical
-/// boundary.
-class SplitDocument {
-  /// The index for a given document in a DocumentGroup of a specific Type.
-  final int? index;
-
-  /// An array of page numbers for a for a given document, ordered by logical
-  /// boundary.
-  final List<int>? pages;
-
-  SplitDocument({
-    this.index,
-    this.pages,
-  });
-
-  factory SplitDocument.fromJson(Map<String, dynamic> json) {
-    return SplitDocument(
-      index: json['Index'] as int?,
-      pages: (json['Pages'] as List?)?.nonNulls.map((e) => e as int).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final index = this.index;
-    final pages = this.pages;
-    return {
-      if (index != null) 'Index': index,
-      if (pages != null) 'Pages': pages,
     };
   }
 }
@@ -5313,53 +2774,6 @@ class TagResourceResponse {
   }
 }
 
-class TextType {
-  static const handwriting = TextType._('HANDWRITING');
-  static const printed = TextType._('PRINTED');
-
-  final String value;
-
-  const TextType._(this.value);
-
-  static const values = [handwriting, printed];
-
-  static TextType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TextType._(value));
-
-  @override
-  bool operator ==(other) => other is TextType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure containing information about an undetected signature on a page
-/// where it was expected but not found.
-class UndetectedSignature {
-  /// The page where a signature was expected but not found.
-  final int? page;
-
-  UndetectedSignature({
-    this.page,
-  });
-
-  factory UndetectedSignature.fromJson(Map<String, dynamic> json) {
-    return UndetectedSignature(
-      page: json['Page'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final page = this.page;
-    return {
-      if (page != null) 'Page': page,
-    };
-  }
-}
-
 class UntagResourceResponse {
   UntagResourceResponse();
 
@@ -5435,26 +2849,584 @@ class UpdateAdapterResponse {
   }
 }
 
-class ValueType {
-  static const date = ValueType._('DATE');
+class AutoUpdate {
+  static const enabled = AutoUpdate._('ENABLED');
+  static const disabled = AutoUpdate._('DISABLED');
 
   final String value;
 
-  const ValueType._(this.value);
+  const AutoUpdate._(this.value);
 
-  static const values = [date];
+  static const values = [enabled, disabled];
 
-  static ValueType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ValueType._(value));
+  static AutoUpdate fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AutoUpdate._(value));
 
   @override
-  bool operator ==(other) => other is ValueType && other.value == value;
+  bool operator ==(other) => other is AutoUpdate && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class FeatureType {
+  static const tables = FeatureType._('TABLES');
+  static const forms = FeatureType._('FORMS');
+  static const queries = FeatureType._('QUERIES');
+  static const signatures = FeatureType._('SIGNATURES');
+  static const layout = FeatureType._('LAYOUT');
+
+  final String value;
+
+  const FeatureType._(this.value);
+
+  static const values = [tables, forms, queries, signatures, layout];
+
+  static FeatureType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FeatureType._(value));
+
+  @override
+  bool operator ==(other) => other is FeatureType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Amazon S3 bucket that contains the document to be processed. It's used
+/// by asynchronous operations.
+///
+/// The input document can be an image file in JPEG or PNG format. It can also
+/// be a file in PDF format.
+class DocumentLocation {
+  /// The Amazon S3 bucket that contains the input document.
+  final S3Object? s3Object;
+
+  DocumentLocation({
+    this.s3Object,
+  });
+
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
+}
+
+/// The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon
+/// Textract publishes the completion status of an asynchronous document
+/// operation.
+class NotificationChannel {
+  /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract
+  /// publishing permissions to the Amazon SNS topic.
+  final String roleArn;
+
+  /// The Amazon SNS topic that Amazon Textract posts the completion status to.
+  final String sNSTopicArn;
+
+  NotificationChannel({
+    required this.roleArn,
+    required this.sNSTopicArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final sNSTopicArn = this.sNSTopicArn;
+    return {
+      'RoleArn': roleArn,
+      'SNSTopicArn': sNSTopicArn,
+    };
+  }
+}
+
+/// Sets whether or not your output will go to a user created bucket. Used to
+/// set the name of the bucket, and the prefix on the output file.
+///
+/// <code>OutputConfig</code> is an optional parameter which lets you adjust
+/// where your output will be placed. By default, Amazon Textract will store the
+/// results internally and can only be accessed by the Get API operations. With
+/// <code>OutputConfig</code> enabled, you can set the name of the bucket the
+/// output will be sent to the file prefix of the results where you can download
+/// your results. Additionally, you can set the <code>KMSKeyID</code> parameter
+/// to a customer master key (CMK) to encrypt your output. Without this
+/// parameter set Amazon Textract will encrypt server-side using the AWS managed
+/// CMK for Amazon S3.
+///
+/// Decryption of Customer Content is necessary for processing of the documents
+/// by Amazon Textract. If your account is opted out under an AI services opt
+/// out policy then all unencrypted Customer Content is immediately and
+/// permanently deleted after the Customer Content has been processed by the
+/// service. No copy of of the output is retained by Amazon Textract. For
+/// information about how to opt out, see <a
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html">
+/// Managing AI services opt-out policy. </a>
+///
+/// For more information on data privacy, see the <a
+/// href="https://aws.amazon.com/compliance/data-privacy-faq/">Data Privacy
+/// FAQ</a>.
+class OutputConfig {
+  /// The name of the bucket your output will go to.
+  final String s3Bucket;
+
+  /// The prefix of the object key that the output will be saved to. When not
+  /// enabled, the prefix will be “textract_output".
+  final String? s3Prefix;
+
+  OutputConfig({
+    required this.s3Bucket,
+    this.s3Prefix,
+  });
+
+  factory OutputConfig.fromJson(Map<String, dynamic> json) {
+    return OutputConfig(
+      s3Bucket: (json['S3Bucket'] as String?) ?? '',
+      s3Prefix: json['S3Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Prefix = this.s3Prefix;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3Prefix != null) 'S3Prefix': s3Prefix,
+    };
+  }
+}
+
+/// The S3 bucket name and file name that identifies the document.
+///
+/// The AWS Region for the S3 bucket that contains the document must match the
+/// Region that you use for Amazon Textract operations.
+///
+/// For Amazon Textract to process a file in an S3 bucket, the user must have
+/// permission to access the S3 bucket and file.
+class S3Object {
+  /// The name of the S3 bucket. Note that the # character is not valid in the
+  /// file name.
+  final String? bucket;
+
+  /// The file name of the input document. Image files may be in PDF, TIFF, JPEG,
+  /// or PNG format.
+  final String? name;
+
+  /// If the bucket has versioning enabled, you can specify the object version.
+  final String? version;
+
+  S3Object({
+    this.bucket,
+    this.name,
+    this.version,
+  });
+
+  factory S3Object.fromJson(Map<String, dynamic> json) {
+    return S3Object(
+      bucket: json['Bucket'] as String?,
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+///
+class QueriesConfig {
+  ///
+  final List<Query> queries;
+
+  QueriesConfig({
+    required this.queries,
+  });
+
+  Map<String, dynamic> toJson() {
+    final queries = this.queries;
+    return {
+      'Queries': queries,
+    };
+  }
+}
+
+/// Contains information about adapters used when analyzing a document, with
+/// each adapter specified using an AdapterId and version
+class AdaptersConfig {
+  /// A list of adapters to be used when analyzing the specified document.
+  final List<Adapter> adapters;
+
+  AdaptersConfig({
+    required this.adapters,
+  });
+
+  Map<String, dynamic> toJson() {
+    final adapters = this.adapters;
+    return {
+      'Adapters': adapters,
+    };
+  }
+}
+
+/// An adapter selected for use when analyzing documents. Contains an adapter ID
+/// and a version number. Contains information on pages selected for analysis
+/// when analyzing documents asychronously.
+class Adapter {
+  /// A unique identifier for the adapter resource.
+  final String adapterId;
+
+  /// A string that identifies the version of the adapter.
+  final String version;
+
+  /// Pages is a parameter that the user inputs to specify which pages to apply an
+  /// adapter to. The following is a list of rules for using this parameter.
+  ///
+  /// <ul>
+  /// <li>
+  /// If a page is not specified, it is set to <code>["1"]</code> by default.
+  /// </li>
+  /// <li>
+  /// The following characters are allowed in the parameter's string: <code>0 1 2
+  /// 3 4 5 6 7 8 9 - *</code>. No whitespace is allowed.
+  /// </li>
+  /// <li>
+  /// When using * to indicate all pages, it must be the only element in the list.
+  /// </li>
+  /// <li>
+  /// You can use page intervals, such as <code>["1-3", "1-1", "4-*"]</code>.
+  /// Where <code>*</code> indicates last page of document.
+  /// </li>
+  /// <li>
+  /// Specified pages must be greater than 0 and less than or equal to the number
+  /// of pages in the document.
+  /// </li>
+  /// </ul>
+  final List<String>? pages;
+
+  Adapter({
+    required this.adapterId,
+    required this.version,
+    this.pages,
+  });
+
+  Map<String, dynamic> toJson() {
+    final adapterId = this.adapterId;
+    final version = this.version;
+    final pages = this.pages;
+    return {
+      'AdapterId': adapterId,
+      'Version': version,
+      if (pages != null) 'Pages': pages,
+    };
+  }
+}
+
+/// Each query contains the question you want to ask in the Text and the alias
+/// you want to associate.
+class Query {
+  /// Question that Amazon Textract will apply to the document. An example would
+  /// be "What is the customer's SSN?"
+  final String text;
+
+  /// Alias attached to the query, for ease of location.
+  final String? alias;
+
+  /// Pages is a parameter that the user inputs to specify which pages to apply a
+  /// query to. The following is a list of rules for using this parameter.
+  ///
+  /// <ul>
+  /// <li>
+  /// If a page is not specified, it is set to <code>["1"]</code> by default.
+  /// </li>
+  /// <li>
+  /// The following characters are allowed in the parameter's string: <code>0 1 2
+  /// 3 4 5 6 7 8 9 - *</code>. No whitespace is allowed.
+  /// </li>
+  /// <li>
+  /// When using * to indicate all pages, it must be the only element in the list.
+  /// </li>
+  /// <li>
+  /// You can use page intervals, such as <code>[“1-3”, “1-1”, “4-*”]</code>.
+  /// Where <code>*</code> indicates last page of document.
+  /// </li>
+  /// <li>
+  /// Specified pages must be greater than 0 and less than or equal to the number
+  /// of pages in the document.
+  /// </li>
+  /// </ul>
+  final List<String>? pages;
+
+  Query({
+    required this.text,
+    this.alias,
+    this.pages,
+  });
+
+  factory Query.fromJson(Map<String, dynamic> json) {
+    return Query(
+      text: (json['Text'] as String?) ?? '',
+      alias: json['Alias'] as String?,
+      pages:
+          (json['Pages'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final alias = this.alias;
+    final pages = this.pages;
+    return {
+      'Text': text,
+      if (alias != null) 'Alias': alias,
+      if (pages != null) 'Pages': pages,
+    };
+  }
+}
+
+/// Summary info for an adapter version. Contains information on the AdapterId,
+/// AdapterVersion, CreationTime, FeatureTypes, and Status.
+class AdapterVersionOverview {
+  /// A unique identifier for the adapter associated with a given adapter version.
+  final String? adapterId;
+
+  /// An identified for a given adapter version.
+  final String? adapterVersion;
+
+  /// The date and time that a given adapter version was created.
+  final DateTime? creationTime;
+
+  /// The feature types that the adapter version is operating on.
+  final List<FeatureType>? featureTypes;
+
+  /// Contains information on the status of a given adapter version.
+  final AdapterVersionStatus? status;
+
+  /// A message explaining the status of a given adapter vesion.
+  final String? statusMessage;
+
+  AdapterVersionOverview({
+    this.adapterId,
+    this.adapterVersion,
+    this.creationTime,
+    this.featureTypes,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory AdapterVersionOverview.fromJson(Map<String, dynamic> json) {
+    return AdapterVersionOverview(
+      adapterId: json['AdapterId'] as String?,
+      adapterVersion: json['AdapterVersion'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      featureTypes: (json['FeatureTypes'] as List?)
+          ?.nonNulls
+          .map((e) => FeatureType.fromString((e as String)))
+          .toList(),
+      status: (json['Status'] as String?)?.let(AdapterVersionStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adapterId = this.adapterId;
+    final adapterVersion = this.adapterVersion;
+    final creationTime = this.creationTime;
+    final featureTypes = this.featureTypes;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (adapterId != null) 'AdapterId': adapterId,
+      if (adapterVersion != null) 'AdapterVersion': adapterVersion,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (featureTypes != null)
+        'FeatureTypes': featureTypes.map((e) => e.value).toList(),
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class AdapterVersionStatus {
+  static const active = AdapterVersionStatus._('ACTIVE');
+  static const atRisk = AdapterVersionStatus._('AT_RISK');
+  static const deprecated = AdapterVersionStatus._('DEPRECATED');
+  static const creationError = AdapterVersionStatus._('CREATION_ERROR');
+  static const creationInProgress =
+      AdapterVersionStatus._('CREATION_IN_PROGRESS');
+
+  final String value;
+
+  const AdapterVersionStatus._(this.value);
+
+  static const values = [
+    active,
+    atRisk,
+    deprecated,
+    creationError,
+    creationInProgress
+  ];
+
+  static AdapterVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdapterVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdapterVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information on the adapter, including the adapter ID, Name,
+/// Creation time, and feature types.
+class AdapterOverview {
+  /// A unique identifier for the adapter resource.
+  final String? adapterId;
+
+  /// A string naming the adapter resource.
+  final String? adapterName;
+
+  /// The date and time that the adapter was created.
+  final DateTime? creationTime;
+
+  /// The feature types that the adapter is operating on.
+  final List<FeatureType>? featureTypes;
+
+  AdapterOverview({
+    this.adapterId,
+    this.adapterName,
+    this.creationTime,
+    this.featureTypes,
+  });
+
+  factory AdapterOverview.fromJson(Map<String, dynamic> json) {
+    return AdapterOverview(
+      adapterId: json['AdapterId'] as String?,
+      adapterName: json['AdapterName'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      featureTypes: (json['FeatureTypes'] as List?)
+          ?.nonNulls
+          .map((e) => FeatureType.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adapterId = this.adapterId;
+    final adapterName = this.adapterName;
+    final creationTime = this.creationTime;
+    final featureTypes = this.featureTypes;
+    return {
+      if (adapterId != null) 'AdapterId': adapterId,
+      if (adapterName != null) 'AdapterName': adapterName,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (featureTypes != null)
+        'FeatureTypes': featureTypes.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// Information about the input document.
+class DocumentMetadata {
+  /// The number of pages that are detected in the document.
+  final int? pages;
+
+  DocumentMetadata({
+    this.pages,
+  });
+
+  factory DocumentMetadata.fromJson(Map<String, dynamic> json) {
+    return DocumentMetadata(
+      pages: json['Pages'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pages = this.pages;
+    return {
+      if (pages != null) 'Pages': pages,
+    };
+  }
+}
+
+class JobStatus {
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const succeeded = JobStatus._('SUCCEEDED');
+  static const failed = JobStatus._('FAILED');
+  static const partialSuccess = JobStatus._('PARTIAL_SUCCESS');
+
+  final String value;
+
+  const JobStatus._(this.value);
+
+  static const values = [inProgress, succeeded, failed, partialSuccess];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information regarding DocumentGroups and UndetectedDocumentTypes.
+class LendingSummary {
+  /// Contains an array of all DocumentGroup objects.
+  final List<DocumentGroup>? documentGroups;
+
+  /// UndetectedDocumentTypes.
+  final List<String>? undetectedDocumentTypes;
+
+  LendingSummary({
+    this.documentGroups,
+    this.undetectedDocumentTypes,
+  });
+
+  factory LendingSummary.fromJson(Map<String, dynamic> json) {
+    return LendingSummary(
+      documentGroups: (json['DocumentGroups'] as List?)
+          ?.nonNulls
+          .map((e) => DocumentGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      undetectedDocumentTypes: (json['UndetectedDocumentTypes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentGroups = this.documentGroups;
+    final undetectedDocumentTypes = this.undetectedDocumentTypes;
+    return {
+      if (documentGroups != null) 'DocumentGroups': documentGroups,
+      if (undetectedDocumentTypes != null)
+        'UndetectedDocumentTypes': undetectedDocumentTypes,
+    };
+  }
 }
 
 /// A warning about an issue that occurred during asynchronous text analysis
@@ -5487,6 +3459,2040 @@ class Warning {
       if (pages != null) 'Pages': pages,
     };
   }
+}
+
+/// Summary information about documents grouped by the same document type.
+class DocumentGroup {
+  /// A list of the detected signatures found in a document group.
+  final List<DetectedSignature>? detectedSignatures;
+
+  /// An array that contains information about the pages of a document, defined by
+  /// logical boundary.
+  final List<SplitDocument>? splitDocuments;
+
+  /// The type of document that Amazon Textract has detected. See <a
+  /// href="https://docs.aws.amazon.com/textract/latest/dg/lending-response-objects.html">Analyze
+  /// Lending Response Objects</a> for a list of all types returned by Textract.
+  final String? type;
+
+  /// A list of any expected signatures not found in a document group.
+  final List<UndetectedSignature>? undetectedSignatures;
+
+  DocumentGroup({
+    this.detectedSignatures,
+    this.splitDocuments,
+    this.type,
+    this.undetectedSignatures,
+  });
+
+  factory DocumentGroup.fromJson(Map<String, dynamic> json) {
+    return DocumentGroup(
+      detectedSignatures: (json['DetectedSignatures'] as List?)
+          ?.nonNulls
+          .map((e) => DetectedSignature.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      splitDocuments: (json['SplitDocuments'] as List?)
+          ?.nonNulls
+          .map((e) => SplitDocument.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+      undetectedSignatures: (json['UndetectedSignatures'] as List?)
+          ?.nonNulls
+          .map((e) => UndetectedSignature.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectedSignatures = this.detectedSignatures;
+    final splitDocuments = this.splitDocuments;
+    final type = this.type;
+    final undetectedSignatures = this.undetectedSignatures;
+    return {
+      if (detectedSignatures != null) 'DetectedSignatures': detectedSignatures,
+      if (splitDocuments != null) 'SplitDocuments': splitDocuments,
+      if (type != null) 'Type': type,
+      if (undetectedSignatures != null)
+        'UndetectedSignatures': undetectedSignatures,
+    };
+  }
+}
+
+/// A structure containing information about an undetected signature on a page
+/// where it was expected but not found.
+class UndetectedSignature {
+  /// The page where a signature was expected but not found.
+  final int? page;
+
+  UndetectedSignature({
+    this.page,
+  });
+
+  factory UndetectedSignature.fromJson(Map<String, dynamic> json) {
+    return UndetectedSignature(
+      page: json['Page'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final page = this.page;
+    return {
+      if (page != null) 'Page': page,
+    };
+  }
+}
+
+/// A structure that holds information regarding a detected signature on a page.
+class DetectedSignature {
+  /// The page a detected signature was found on.
+  final int? page;
+
+  DetectedSignature({
+    this.page,
+  });
+
+  factory DetectedSignature.fromJson(Map<String, dynamic> json) {
+    return DetectedSignature(
+      page: json['Page'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final page = this.page;
+    return {
+      if (page != null) 'Page': page,
+    };
+  }
+}
+
+/// Contains information about the pages of a document, defined by logical
+/// boundary.
+class SplitDocument {
+  /// The index for a given document in a DocumentGroup of a specific Type.
+  final int? index;
+
+  /// An array of page numbers for a for a given document, ordered by logical
+  /// boundary.
+  final List<int>? pages;
+
+  SplitDocument({
+    this.index,
+    this.pages,
+  });
+
+  factory SplitDocument.fromJson(Map<String, dynamic> json) {
+    return SplitDocument(
+      index: json['Index'] as int?,
+      pages: (json['Pages'] as List?)?.nonNulls.map((e) => e as int).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final index = this.index;
+    final pages = this.pages;
+    return {
+      if (index != null) 'Index': index,
+      if (pages != null) 'Pages': pages,
+    };
+  }
+}
+
+/// Contains the detections for each page analyzed through the Analyze Lending
+/// API.
+class LendingResult {
+  /// An array of Extraction to hold structured data. e.g. normalized key value
+  /// pairs instead of raw OCR detections .
+  final List<Extraction>? extractions;
+
+  /// The page number for a page, with regard to whole submission.
+  final int? page;
+
+  /// The classifier result for a given page.
+  final PageClassification? pageClassification;
+
+  LendingResult({
+    this.extractions,
+    this.page,
+    this.pageClassification,
+  });
+
+  factory LendingResult.fromJson(Map<String, dynamic> json) {
+    return LendingResult(
+      extractions: (json['Extractions'] as List?)
+          ?.nonNulls
+          .map((e) => Extraction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      page: json['Page'] as int?,
+      pageClassification: json['PageClassification'] != null
+          ? PageClassification.fromJson(
+              json['PageClassification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final extractions = this.extractions;
+    final page = this.page;
+    final pageClassification = this.pageClassification;
+    return {
+      if (extractions != null) 'Extractions': extractions,
+      if (page != null) 'Page': page,
+      if (pageClassification != null) 'PageClassification': pageClassification,
+    };
+  }
+}
+
+/// The class assigned to a Page object detected in an input document. Contains
+/// information regarding the predicted type/class of a document's page and the
+/// page number that the Page object was detected on.
+class PageClassification {
+  /// The page number the value was detected on, relative to Amazon Textract's
+  /// starting position.
+  final List<Prediction> pageNumber;
+
+  /// The class, or document type, assigned to a detected Page object. The class,
+  /// or document type, assigned to a detected Page object.
+  final List<Prediction> pageType;
+
+  PageClassification({
+    required this.pageNumber,
+    required this.pageType,
+  });
+
+  factory PageClassification.fromJson(Map<String, dynamic> json) {
+    return PageClassification(
+      pageNumber: ((json['PageNumber'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pageType: ((json['PageType'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Prediction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pageNumber = this.pageNumber;
+    final pageType = this.pageType;
+    return {
+      'PageNumber': pageNumber,
+      'PageType': pageType,
+    };
+  }
+}
+
+/// Contains information extracted by an analysis operation after using
+/// StartLendingAnalysis.
+class Extraction {
+  final ExpenseDocument? expenseDocument;
+  final IdentityDocument? identityDocument;
+
+  /// Holds the structured data returned by AnalyzeDocument for lending documents.
+  final LendingDocument? lendingDocument;
+
+  Extraction({
+    this.expenseDocument,
+    this.identityDocument,
+    this.lendingDocument,
+  });
+
+  factory Extraction.fromJson(Map<String, dynamic> json) {
+    return Extraction(
+      expenseDocument: json['ExpenseDocument'] != null
+          ? ExpenseDocument.fromJson(
+              json['ExpenseDocument'] as Map<String, dynamic>)
+          : null,
+      identityDocument: json['IdentityDocument'] != null
+          ? IdentityDocument.fromJson(
+              json['IdentityDocument'] as Map<String, dynamic>)
+          : null,
+      lendingDocument: json['LendingDocument'] != null
+          ? LendingDocument.fromJson(
+              json['LendingDocument'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expenseDocument = this.expenseDocument;
+    final identityDocument = this.identityDocument;
+    final lendingDocument = this.lendingDocument;
+    return {
+      if (expenseDocument != null) 'ExpenseDocument': expenseDocument,
+      if (identityDocument != null) 'IdentityDocument': identityDocument,
+      if (lendingDocument != null) 'LendingDocument': lendingDocument,
+    };
+  }
+}
+
+/// Holds the structured data returned by AnalyzeDocument for lending documents.
+class LendingDocument {
+  /// An array of LendingField objects.
+  final List<LendingField>? lendingFields;
+
+  /// A list of signatures detected in a lending document.
+  final List<SignatureDetection>? signatureDetections;
+
+  LendingDocument({
+    this.lendingFields,
+    this.signatureDetections,
+  });
+
+  factory LendingDocument.fromJson(Map<String, dynamic> json) {
+    return LendingDocument(
+      lendingFields: (json['LendingFields'] as List?)
+          ?.nonNulls
+          .map((e) => LendingField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      signatureDetections: (json['SignatureDetections'] as List?)
+          ?.nonNulls
+          .map((e) => SignatureDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lendingFields = this.lendingFields;
+    final signatureDetections = this.signatureDetections;
+    return {
+      if (lendingFields != null) 'LendingFields': lendingFields,
+      if (signatureDetections != null)
+        'SignatureDetections': signatureDetections,
+    };
+  }
+}
+
+/// The structure holding all the information returned by AnalyzeExpense
+class ExpenseDocument {
+  /// This is a block object, the same as reported when DetectDocumentText is run
+  /// on a document. It provides word level recognition of text.
+  final List<Block>? blocks;
+
+  /// Denotes which invoice or receipt in the document the information is coming
+  /// from. First document will be 1, the second 2, and so on.
+  final int? expenseIndex;
+
+  /// Information detected on each table of a document, seperated into
+  /// <code>LineItems</code>.
+  final List<LineItemGroup>? lineItemGroups;
+
+  /// Any information found outside of a table by Amazon Textract.
+  final List<ExpenseField>? summaryFields;
+
+  ExpenseDocument({
+    this.blocks,
+    this.expenseIndex,
+    this.lineItemGroups,
+    this.summaryFields,
+  });
+
+  factory ExpenseDocument.fromJson(Map<String, dynamic> json) {
+    return ExpenseDocument(
+      blocks: (json['Blocks'] as List?)
+          ?.nonNulls
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      expenseIndex: json['ExpenseIndex'] as int?,
+      lineItemGroups: (json['LineItemGroups'] as List?)
+          ?.nonNulls
+          .map((e) => LineItemGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      summaryFields: (json['SummaryFields'] as List?)
+          ?.nonNulls
+          .map((e) => ExpenseField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blocks = this.blocks;
+    final expenseIndex = this.expenseIndex;
+    final lineItemGroups = this.lineItemGroups;
+    final summaryFields = this.summaryFields;
+    return {
+      if (blocks != null) 'Blocks': blocks,
+      if (expenseIndex != null) 'ExpenseIndex': expenseIndex,
+      if (lineItemGroups != null) 'LineItemGroups': lineItemGroups,
+      if (summaryFields != null) 'SummaryFields': summaryFields,
+    };
+  }
+}
+
+/// The structure that lists each document processed in an AnalyzeID operation.
+class IdentityDocument {
+  /// Individual word recognition, as returned by document detection.
+  final List<Block>? blocks;
+
+  /// Denotes the placement of a document in the IdentityDocument list. The first
+  /// document is marked 1, the second 2 and so on.
+  final int? documentIndex;
+
+  /// The structure used to record information extracted from identity documents.
+  /// Contains both normalized field and value of the extracted text.
+  final List<IdentityDocumentField>? identityDocumentFields;
+
+  IdentityDocument({
+    this.blocks,
+    this.documentIndex,
+    this.identityDocumentFields,
+  });
+
+  factory IdentityDocument.fromJson(Map<String, dynamic> json) {
+    return IdentityDocument(
+      blocks: (json['Blocks'] as List?)
+          ?.nonNulls
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentIndex: json['DocumentIndex'] as int?,
+      identityDocumentFields: (json['IdentityDocumentFields'] as List?)
+          ?.nonNulls
+          .map((e) => IdentityDocumentField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blocks = this.blocks;
+    final documentIndex = this.documentIndex;
+    final identityDocumentFields = this.identityDocumentFields;
+    return {
+      if (blocks != null) 'Blocks': blocks,
+      if (documentIndex != null) 'DocumentIndex': documentIndex,
+      if (identityDocumentFields != null)
+        'IdentityDocumentFields': identityDocumentFields,
+    };
+  }
+}
+
+/// A <code>Block</code> represents items that are recognized in a document
+/// within a group of pixels close to each other. The information returned in a
+/// <code>Block</code> object depends on the type of operation. In text
+/// detection for documents (for example <a>DetectDocumentText</a>), you get
+/// information about the detected words and lines of text. In text analysis
+/// (for example <a>AnalyzeDocument</a>), you can also get information about the
+/// fields, tables, and selection elements that are detected in the document.
+///
+/// An array of <code>Block</code> objects is returned by both synchronous and
+/// asynchronous operations. In synchronous operations, such as
+/// <a>DetectDocumentText</a>, the array of <code>Block</code> objects is the
+/// entire set of results. In asynchronous operations, such as
+/// <a>GetDocumentAnalysis</a>, the array is returned over one or more
+/// responses.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works.html">How
+/// Amazon Textract Works</a>.
+class Block {
+  /// The type of text item that's recognized. In operations for text detection,
+  /// the following types are returned:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>PAGE</i> - Contains a list of the LINE <code>Block</code> objects that
+  /// are detected on a document page.
+  /// </li>
+  /// <li>
+  /// <i>WORD</i> - A word detected on a document page. A word is one or more ISO
+  /// basic Latin script characters that aren't separated by spaces.
+  /// </li>
+  /// <li>
+  /// <i>LINE</i> - A string of space-delimited, contiguous words that are
+  /// detected on a document page.
+  /// </li>
+  /// </ul>
+  /// In text analysis operations, the following types are returned:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>PAGE</i> - Contains a list of child <code>Block</code> objects that are
+  /// detected on a document page.
+  /// </li>
+  /// <li>
+  /// <i>KEY_VALUE_SET</i> - Stores the KEY and VALUE <code>Block</code> objects
+  /// for linked text that's detected on a document page. Use the
+  /// <code>EntityType</code> field to determine if a KEY_VALUE_SET object is a
+  /// KEY <code>Block</code> object or a VALUE <code>Block</code> object.
+  /// </li>
+  /// <li>
+  /// <i>WORD</i> - A word that's detected on a document page. A word is one or
+  /// more ISO basic Latin script characters that aren't separated by spaces.
+  /// </li>
+  /// <li>
+  /// <i>LINE</i> - A string of tab-delimited, contiguous words that are detected
+  /// on a document page.
+  /// </li>
+  /// <li>
+  /// <i>TABLE</i> - A table that's detected on a document page. A table is
+  /// grid-based information with two or more rows or columns, with a cell span of
+  /// one row and one column each.
+  /// </li>
+  /// <li>
+  /// <i>TABLE_TITLE</i> - The title of a table. A title is typically a line of
+  /// text above or below a table, or embedded as the first row of a table.
+  /// </li>
+  /// <li>
+  /// <i>TABLE_FOOTER</i> - The footer associated with a table. A footer is
+  /// typically a line or lines of text below a table or embedded as the last row
+  /// of a table.
+  /// </li>
+  /// <li>
+  /// <i>CELL</i> - A cell within a detected table. The cell is the parent of the
+  /// block that contains the text in the cell.
+  /// </li>
+  /// <li>
+  /// <i>MERGED_CELL</i> - A cell in a table whose content spans more than one row
+  /// or column. The <code>Relationships</code> array for this cell contain data
+  /// from individual cells.
+  /// </li>
+  /// <li>
+  /// <i>SELECTION_ELEMENT</i> - A selection element such as an option button
+  /// (radio button) or a check box that's detected on a document page. Use the
+  /// value of <code>SelectionStatus</code> to determine the status of the
+  /// selection element.
+  /// </li>
+  /// <li>
+  /// <i>SIGNATURE</i> - The location and confidence score of a signature detected
+  /// on a document page. Can be returned as part of a Key-Value pair or a
+  /// detected cell.
+  /// </li>
+  /// <li>
+  /// <i>QUERY</i> - A question asked during the call of AnalyzeDocument. Contains
+  /// an alias and an ID that attaches it to its answer.
+  /// </li>
+  /// <li>
+  /// <i>QUERY_RESULT</i> - A response to a question asked during the call of
+  /// analyze document. Comes with an alias and ID for ease of locating in a
+  /// response. Also contains location and confidence score.
+  /// </li>
+  /// </ul>
+  /// The following BlockTypes are only returned for Amazon Textract Layout.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>LAYOUT_TITLE</code> - The main title of the document.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_HEADER</code> - Text located in the top margin of the document.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_FOOTER</code> - Text located in the bottom margin of the
+  /// document.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_SECTION_HEADER</code> - The titles of sections within a
+  /// document.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_PAGE_NUMBER</code> - The page number of the documents.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_LIST</code> - Any information grouped together in list form.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_FIGURE</code> - Indicates the location of an image in a
+  /// document.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_TABLE</code> - Indicates the location of a table in the
+  /// document.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_KEY_VALUE</code> - Indicates the location of form key-values in
+  /// a document.
+  /// </li>
+  /// <li>
+  /// <code>LAYOUT_TEXT</code> - Text that is present typically as a part of
+  /// paragraphs in documents.
+  /// </li>
+  /// </ul>
+  final BlockType? blockType;
+
+  /// The column in which a table cell appears. The first column position is 1.
+  /// <code>ColumnIndex</code> isn't returned by <code>DetectDocumentText</code>
+  /// and <code>GetDocumentTextDetection</code>.
+  final int? columnIndex;
+
+  /// The number of columns that a table cell spans. <code>ColumnSpan</code> isn't
+  /// returned by <code>DetectDocumentText</code> and
+  /// <code>GetDocumentTextDetection</code>.
+  final int? columnSpan;
+
+  /// The confidence score that Amazon Textract has in the accuracy of the
+  /// recognized text and the accuracy of the geometry points around the
+  /// recognized text.
+  final double? confidence;
+
+  /// The type of entity.
+  ///
+  /// The following entity types can be returned by FORMS analysis:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>KEY</i> - An identifier for a field on the document.
+  /// </li>
+  /// <li>
+  /// <i>VALUE</i> - The field text.
+  /// </li>
+  /// </ul>
+  /// The following entity types can be returned by TABLES analysis:
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>COLUMN_HEADER</i> - Identifies a cell that is a header of a column.
+  /// </li>
+  /// <li>
+  /// <i>TABLE_TITLE</i> - Identifies a cell that is a title within the table.
+  /// </li>
+  /// <li>
+  /// <i>TABLE_SECTION_TITLE</i> - Identifies a cell that is a title of a section
+  /// within a table. A section title is a cell that typically spans an entire row
+  /// above a section.
+  /// </li>
+  /// <li>
+  /// <i>TABLE_FOOTER</i> - Identifies a cell that is a footer of a table.
+  /// </li>
+  /// <li>
+  /// <i>TABLE_SUMMARY</i> - Identifies a summary cell of a table. A summary cell
+  /// can be a row of a table or an additional, smaller table that contains
+  /// summary information for another table.
+  /// </li>
+  /// <li>
+  /// <i>STRUCTURED_TABLE </i> - Identifies a table with column headers where the
+  /// content of each row corresponds to the headers.
+  /// </li>
+  /// <li>
+  /// <i>SEMI_STRUCTURED_TABLE</i> - Identifies a non-structured table.
+  /// </li>
+  /// </ul>
+  /// <code>EntityTypes</code> isn't returned by <code>DetectDocumentText</code>
+  /// and <code>GetDocumentTextDetection</code>.
+  final List<EntityType>? entityTypes;
+
+  /// The location of the recognized text on the image. It includes an
+  /// axis-aligned, coarse bounding box that surrounds the text, and a finer-grain
+  /// polygon for more accurate spatial information.
+  final Geometry? geometry;
+
+  /// The identifier for the recognized text. The identifier is only unique for a
+  /// single operation.
+  final String? id;
+
+  /// The page on which a block was detected. <code>Page</code> is returned by
+  /// synchronous and asynchronous operations. Page values greater than 1 are only
+  /// returned for multipage documents that are in PDF or TIFF format. A scanned
+  /// image (JPEG/PNG) provided to an asynchronous operation, even if it contains
+  /// multiple document pages, is considered a single-page document. This means
+  /// that for scanned images the value of <code>Page</code> is always 1.
+  final int? page;
+
+  ///
+  final Query? query;
+
+  /// A list of relationship objects that describe how blocks are related to each
+  /// other. For example, a LINE block object contains a CHILD relationship type
+  /// with the WORD blocks that make up the line of text. There aren't
+  /// Relationship objects in the list for relationships that don't exist, such as
+  /// when the current block has no child blocks.
+  final List<Relationship>? relationships;
+
+  /// The row in which a table cell is located. The first row position is 1.
+  /// <code>RowIndex</code> isn't returned by <code>DetectDocumentText</code> and
+  /// <code>GetDocumentTextDetection</code>.
+  final int? rowIndex;
+
+  /// The number of rows that a table cell spans. <code>RowSpan</code> isn't
+  /// returned by <code>DetectDocumentText</code> and
+  /// <code>GetDocumentTextDetection</code>.
+  final int? rowSpan;
+
+  /// The selection status of a selection element, such as an option button or
+  /// check box.
+  final SelectionStatus? selectionStatus;
+
+  /// The word or line of text that's recognized by Amazon Textract.
+  final String? text;
+
+  /// The kind of text that Amazon Textract has detected. Can check for
+  /// handwritten text and printed text.
+  final TextType? textType;
+
+  Block({
+    this.blockType,
+    this.columnIndex,
+    this.columnSpan,
+    this.confidence,
+    this.entityTypes,
+    this.geometry,
+    this.id,
+    this.page,
+    this.query,
+    this.relationships,
+    this.rowIndex,
+    this.rowSpan,
+    this.selectionStatus,
+    this.text,
+    this.textType,
+  });
+
+  factory Block.fromJson(Map<String, dynamic> json) {
+    return Block(
+      blockType: (json['BlockType'] as String?)?.let(BlockType.fromString),
+      columnIndex: json['ColumnIndex'] as int?,
+      columnSpan: json['ColumnSpan'] as int?,
+      confidence: json['Confidence'] as double?,
+      entityTypes: (json['EntityTypes'] as List?)
+          ?.nonNulls
+          .map((e) => EntityType.fromString((e as String)))
+          .toList(),
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      page: json['Page'] as int?,
+      query: json['Query'] != null
+          ? Query.fromJson(json['Query'] as Map<String, dynamic>)
+          : null,
+      relationships: (json['Relationships'] as List?)
+          ?.nonNulls
+          .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rowIndex: json['RowIndex'] as int?,
+      rowSpan: json['RowSpan'] as int?,
+      selectionStatus:
+          (json['SelectionStatus'] as String?)?.let(SelectionStatus.fromString),
+      text: json['Text'] as String?,
+      textType: (json['TextType'] as String?)?.let(TextType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockType = this.blockType;
+    final columnIndex = this.columnIndex;
+    final columnSpan = this.columnSpan;
+    final confidence = this.confidence;
+    final entityTypes = this.entityTypes;
+    final geometry = this.geometry;
+    final id = this.id;
+    final page = this.page;
+    final query = this.query;
+    final relationships = this.relationships;
+    final rowIndex = this.rowIndex;
+    final rowSpan = this.rowSpan;
+    final selectionStatus = this.selectionStatus;
+    final text = this.text;
+    final textType = this.textType;
+    return {
+      if (blockType != null) 'BlockType': blockType.value,
+      if (columnIndex != null) 'ColumnIndex': columnIndex,
+      if (columnSpan != null) 'ColumnSpan': columnSpan,
+      if (confidence != null) 'Confidence': confidence,
+      if (entityTypes != null)
+        'EntityTypes': entityTypes.map((e) => e.value).toList(),
+      if (geometry != null) 'Geometry': geometry,
+      if (id != null) 'Id': id,
+      if (page != null) 'Page': page,
+      if (query != null) 'Query': query,
+      if (relationships != null) 'Relationships': relationships,
+      if (rowIndex != null) 'RowIndex': rowIndex,
+      if (rowSpan != null) 'RowSpan': rowSpan,
+      if (selectionStatus != null) 'SelectionStatus': selectionStatus.value,
+      if (text != null) 'Text': text,
+      if (textType != null) 'TextType': textType.value,
+    };
+  }
+}
+
+class BlockType {
+  static const keyValueSet = BlockType._('KEY_VALUE_SET');
+  static const page = BlockType._('PAGE');
+  static const line = BlockType._('LINE');
+  static const word = BlockType._('WORD');
+  static const table = BlockType._('TABLE');
+  static const cell = BlockType._('CELL');
+  static const selectionElement = BlockType._('SELECTION_ELEMENT');
+  static const mergedCell = BlockType._('MERGED_CELL');
+  static const title = BlockType._('TITLE');
+  static const query = BlockType._('QUERY');
+  static const queryResult = BlockType._('QUERY_RESULT');
+  static const signature = BlockType._('SIGNATURE');
+  static const tableTitle = BlockType._('TABLE_TITLE');
+  static const tableFooter = BlockType._('TABLE_FOOTER');
+  static const layoutText = BlockType._('LAYOUT_TEXT');
+  static const layoutTitle = BlockType._('LAYOUT_TITLE');
+  static const layoutHeader = BlockType._('LAYOUT_HEADER');
+  static const layoutFooter = BlockType._('LAYOUT_FOOTER');
+  static const layoutSectionHeader = BlockType._('LAYOUT_SECTION_HEADER');
+  static const layoutPageNumber = BlockType._('LAYOUT_PAGE_NUMBER');
+  static const layoutList = BlockType._('LAYOUT_LIST');
+  static const layoutFigure = BlockType._('LAYOUT_FIGURE');
+  static const layoutTable = BlockType._('LAYOUT_TABLE');
+  static const layoutKeyValue = BlockType._('LAYOUT_KEY_VALUE');
+
+  final String value;
+
+  const BlockType._(this.value);
+
+  static const values = [
+    keyValueSet,
+    page,
+    line,
+    word,
+    table,
+    cell,
+    selectionElement,
+    mergedCell,
+    title,
+    query,
+    queryResult,
+    signature,
+    tableTitle,
+    tableFooter,
+    layoutText,
+    layoutTitle,
+    layoutHeader,
+    layoutFooter,
+    layoutSectionHeader,
+    layoutPageNumber,
+    layoutList,
+    layoutFigure,
+    layoutTable,
+    layoutKeyValue
+  ];
+
+  static BlockType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BlockType._(value));
+
+  @override
+  bool operator ==(other) => other is BlockType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TextType {
+  static const handwriting = TextType._('HANDWRITING');
+  static const printed = TextType._('PRINTED');
+
+  final String value;
+
+  const TextType._(this.value);
+
+  static const values = [handwriting, printed];
+
+  static TextType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TextType._(value));
+
+  @override
+  bool operator ==(other) => other is TextType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about where the following items are located on a document page:
+/// detected page, text, key-value pairs, tables, table cells, and selection
+/// elements.
+class Geometry {
+  /// An axis-aligned coarse representation of the location of the recognized item
+  /// on the document page.
+  final BoundingBox? boundingBox;
+
+  /// Within the bounding box, a fine-grained polygon around the recognized item.
+  final List<Point>? polygon;
+
+  /// Provides a numerical value corresponding to the rotation of the text.
+  final double? rotationAngle;
+
+  Geometry({
+    this.boundingBox,
+    this.polygon,
+    this.rotationAngle,
+  });
+
+  factory Geometry.fromJson(Map<String, dynamic> json) {
+    return Geometry(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      polygon: (json['Polygon'] as List?)
+          ?.nonNulls
+          .map((e) => Point.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rotationAngle: json['RotationAngle'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final polygon = this.polygon;
+    final rotationAngle = this.rotationAngle;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (polygon != null) 'Polygon': polygon,
+      if (rotationAngle != null) 'RotationAngle': rotationAngle,
+    };
+  }
+}
+
+class SelectionStatus {
+  static const selected = SelectionStatus._('SELECTED');
+  static const notSelected = SelectionStatus._('NOT_SELECTED');
+
+  final String value;
+
+  const SelectionStatus._(this.value);
+
+  static const values = [selected, notSelected];
+
+  static SelectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SelectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SelectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EntityType {
+  static const key = EntityType._('KEY');
+  static const $value = EntityType._('VALUE');
+  static const columnHeader = EntityType._('COLUMN_HEADER');
+  static const tableTitle = EntityType._('TABLE_TITLE');
+  static const tableFooter = EntityType._('TABLE_FOOTER');
+  static const tableSectionTitle = EntityType._('TABLE_SECTION_TITLE');
+  static const tableSummary = EntityType._('TABLE_SUMMARY');
+  static const structuredTable = EntityType._('STRUCTURED_TABLE');
+  static const semiStructuredTable = EntityType._('SEMI_STRUCTURED_TABLE');
+
+  final String value;
+
+  const EntityType._(this.value);
+
+  static const values = [
+    key,
+    $value,
+    columnHeader,
+    tableTitle,
+    tableFooter,
+    tableSectionTitle,
+    tableSummary,
+    structuredTable,
+    semiStructuredTable
+  ];
+
+  static EntityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EntityType._(value));
+
+  @override
+  bool operator ==(other) => other is EntityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about how blocks are related to each other. A <code>Block</code>
+/// object contains 0 or more <code>Relation</code> objects in a list,
+/// <code>Relationships</code>. For more information, see <a>Block</a>.
+///
+/// The <code>Type</code> element provides the type of the relationship for all
+/// blocks in the <code>IDs</code> array.
+class Relationship {
+  /// An array of IDs for related blocks. You can get the type of the relationship
+  /// from the <code>Type</code> element.
+  final List<String>? ids;
+
+  /// The type of relationship between the blocks in the IDs array and the current
+  /// block. The following list describes the relationship types that can be
+  /// returned.
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>VALUE</i> - A list that contains the ID of the VALUE block that's
+  /// associated with the KEY of a key-value pair.
+  /// </li>
+  /// <li>
+  /// <i>CHILD</i> - A list of IDs that identify blocks found within the current
+  /// block object. For example, WORD blocks have a CHILD relationship to the LINE
+  /// block type.
+  /// </li>
+  /// <li>
+  /// <i>MERGED_CELL</i> - A list of IDs that identify each of the MERGED_CELL
+  /// block types in a table.
+  /// </li>
+  /// <li>
+  /// <i>ANSWER</i> - A list that contains the ID of the QUERY_RESULT block that’s
+  /// associated with the corresponding QUERY block.
+  /// </li>
+  /// <li>
+  /// <i>TABLE</i> - A list of IDs that identify associated TABLE block types.
+  /// </li>
+  /// <li>
+  /// <i>TABLE_TITLE</i> - A list that contains the ID for the TABLE_TITLE block
+  /// type in a table.
+  /// </li>
+  /// <li>
+  /// <i>TABLE_FOOTER</i> - A list of IDs that identify the TABLE_FOOTER block
+  /// types in a table.
+  /// </li>
+  /// </ul>
+  final RelationshipType? type;
+
+  Relationship({
+    this.ids,
+    this.type,
+  });
+
+  factory Relationship.fromJson(Map<String, dynamic> json) {
+    return Relationship(
+      ids: (json['Ids'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      type: (json['Type'] as String?)?.let(RelationshipType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ids = this.ids;
+    final type = this.type;
+    return {
+      if (ids != null) 'Ids': ids,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class RelationshipType {
+  static const $value = RelationshipType._('VALUE');
+  static const child = RelationshipType._('CHILD');
+  static const complexFeatures = RelationshipType._('COMPLEX_FEATURES');
+  static const mergedCell = RelationshipType._('MERGED_CELL');
+  static const title = RelationshipType._('TITLE');
+  static const answer = RelationshipType._('ANSWER');
+  static const table = RelationshipType._('TABLE');
+  static const tableTitle = RelationshipType._('TABLE_TITLE');
+  static const tableFooter = RelationshipType._('TABLE_FOOTER');
+
+  final String value;
+
+  const RelationshipType._(this.value);
+
+  static const values = [
+    $value,
+    child,
+    complexFeatures,
+    mergedCell,
+    title,
+    answer,
+    table,
+    tableTitle,
+    tableFooter
+  ];
+
+  static RelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RelationshipType._(value));
+
+  @override
+  bool operator ==(other) => other is RelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The bounding box around the detected page, text, key-value pair, table,
+/// table cell, or selection element on a document page. The <code>left</code>
+/// (x-coordinate) and <code>top</code> (y-coordinate) are coordinates that
+/// represent the top and left sides of the bounding box. Note that the
+/// upper-left corner of the image is the origin (0,0).
+///
+/// The <code>top</code> and <code>left</code> values returned are ratios of the
+/// overall document page size. For example, if the input image is 700 x 200
+/// pixels, and the top-left coordinate of the bounding box is 350 x 50 pixels,
+/// the API returns a <code>left</code> value of 0.5 (350/700) and a
+/// <code>top</code> value of 0.25 (50/200).
+///
+/// The <code>width</code> and <code>height</code> values represent the
+/// dimensions of the bounding box as a ratio of the overall document page
+/// dimension. For example, if the document page size is 700 x 200 pixels, and
+/// the bounding box width is 70 pixels, the width returned is 0.1.
+class BoundingBox {
+  /// The height of the bounding box as a ratio of the overall document page
+  /// height.
+  final double? height;
+
+  /// The left coordinate of the bounding box as a ratio of overall document page
+  /// width.
+  final double? left;
+
+  /// The top coordinate of the bounding box as a ratio of overall document page
+  /// height.
+  final double? top;
+
+  /// The width of the bounding box as a ratio of the overall document page width.
+  final double? width;
+
+  BoundingBox({
+    this.height,
+    this.left,
+    this.top,
+    this.width,
+  });
+
+  factory BoundingBox.fromJson(Map<String, dynamic> json) {
+    return BoundingBox(
+      height: json['Height'] as double?,
+      left: json['Left'] as double?,
+      top: json['Top'] as double?,
+      width: json['Width'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final left = this.left;
+    final top = this.top;
+    final width = this.width;
+    return {
+      if (height != null) 'Height': height,
+      if (left != null) 'Left': left,
+      if (top != null) 'Top': top,
+      if (width != null) 'Width': width,
+    };
+  }
+}
+
+/// The X and Y coordinates of a point on a document page. The X and Y values
+/// that are returned are ratios of the overall document page size. For example,
+/// if the input document is 700 x 200 and the operation returns X=0.5 and
+/// Y=0.25, then the point is at the (350,50) pixel coordinate on the document
+/// page.
+///
+/// An array of <code>Point</code> objects, <code>Polygon</code>, is returned by
+/// <a>DetectDocumentText</a>. <code>Polygon</code> represents a fine-grained
+/// polygon around detected text. For more information, see Geometry in the
+/// Amazon Textract Developer Guide.
+class Point {
+  /// The value of the X coordinate for a point on a <code>Polygon</code>.
+  final double? x;
+
+  /// The value of the Y coordinate for a point on a <code>Polygon</code>.
+  final double? y;
+
+  Point({
+    this.x,
+    this.y,
+  });
+
+  factory Point.fromJson(Map<String, dynamic> json) {
+    return Point(
+      x: json['X'] as double?,
+      y: json['Y'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final x = this.x;
+    final y = this.y;
+    return {
+      if (x != null) 'X': x,
+      if (y != null) 'Y': y,
+    };
+  }
+}
+
+/// Structure containing both the normalized type of the extracted information
+/// and the text associated with it. These are extracted as Type and Value
+/// respectively.
+class IdentityDocumentField {
+  final AnalyzeIDDetections? type;
+  final AnalyzeIDDetections? valueDetection;
+
+  IdentityDocumentField({
+    this.type,
+    this.valueDetection,
+  });
+
+  factory IdentityDocumentField.fromJson(Map<String, dynamic> json) {
+    return IdentityDocumentField(
+      type: json['Type'] != null
+          ? AnalyzeIDDetections.fromJson(json['Type'] as Map<String, dynamic>)
+          : null,
+      valueDetection: json['ValueDetection'] != null
+          ? AnalyzeIDDetections.fromJson(
+              json['ValueDetection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final valueDetection = this.valueDetection;
+    return {
+      if (type != null) 'Type': type,
+      if (valueDetection != null) 'ValueDetection': valueDetection,
+    };
+  }
+}
+
+/// Used to contain the information detected by an AnalyzeID operation.
+class AnalyzeIDDetections {
+  /// Text of either the normalized field or value associated with it.
+  final String text;
+
+  /// The confidence score of the detected text.
+  final double? confidence;
+
+  /// Only returned for dates, returns the type of value detected and the date
+  /// written in a more machine readable way.
+  final NormalizedValue? normalizedValue;
+
+  AnalyzeIDDetections({
+    required this.text,
+    this.confidence,
+    this.normalizedValue,
+  });
+
+  factory AnalyzeIDDetections.fromJson(Map<String, dynamic> json) {
+    return AnalyzeIDDetections(
+      text: (json['Text'] as String?) ?? '',
+      confidence: json['Confidence'] as double?,
+      normalizedValue: json['NormalizedValue'] != null
+          ? NormalizedValue.fromJson(
+              json['NormalizedValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    final confidence = this.confidence;
+    final normalizedValue = this.normalizedValue;
+    return {
+      'Text': text,
+      if (confidence != null) 'Confidence': confidence,
+      if (normalizedValue != null) 'NormalizedValue': normalizedValue,
+    };
+  }
+}
+
+/// Contains information relating to dates in a document, including the type of
+/// value, and the value.
+class NormalizedValue {
+  /// The value of the date, written as Year-Month-DayTHour:Minute:Second.
+  final String? value;
+
+  /// The normalized type of the value detected. In this case, DATE.
+  final ValueType? valueType;
+
+  NormalizedValue({
+    this.value,
+    this.valueType,
+  });
+
+  factory NormalizedValue.fromJson(Map<String, dynamic> json) {
+    return NormalizedValue(
+      value: json['Value'] as String?,
+      valueType: (json['ValueType'] as String?)?.let(ValueType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    final valueType = this.valueType;
+    return {
+      if (value != null) 'Value': value,
+      if (valueType != null) 'ValueType': valueType.value,
+    };
+  }
+}
+
+class ValueType {
+  static const date = ValueType._('DATE');
+
+  final String value;
+
+  const ValueType._(this.value);
+
+  static const values = [date];
+
+  static ValueType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ValueType._(value));
+
+  @override
+  bool operator ==(other) => other is ValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A grouping of tables which contain LineItems, with each table identified by
+/// the table's <code>LineItemGroupIndex</code>.
+class LineItemGroup {
+  /// The number used to identify a specific table in a document. The first table
+  /// encountered will have a LineItemGroupIndex of 1, the second 2, etc.
+  final int? lineItemGroupIndex;
+
+  /// The breakdown of information on a particular line of a table.
+  final List<LineItemFields>? lineItems;
+
+  LineItemGroup({
+    this.lineItemGroupIndex,
+    this.lineItems,
+  });
+
+  factory LineItemGroup.fromJson(Map<String, dynamic> json) {
+    return LineItemGroup(
+      lineItemGroupIndex: json['LineItemGroupIndex'] as int?,
+      lineItems: (json['LineItems'] as List?)
+          ?.nonNulls
+          .map((e) => LineItemFields.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lineItemGroupIndex = this.lineItemGroupIndex;
+    final lineItems = this.lineItems;
+    return {
+      if (lineItemGroupIndex != null) 'LineItemGroupIndex': lineItemGroupIndex,
+      if (lineItems != null) 'LineItems': lineItems,
+    };
+  }
+}
+
+/// A structure that holds information about the different lines found in a
+/// document's tables.
+class LineItemFields {
+  /// ExpenseFields used to show information from detected lines on a table.
+  final List<ExpenseField>? lineItemExpenseFields;
+
+  LineItemFields({
+    this.lineItemExpenseFields,
+  });
+
+  factory LineItemFields.fromJson(Map<String, dynamic> json) {
+    return LineItemFields(
+      lineItemExpenseFields: (json['LineItemExpenseFields'] as List?)
+          ?.nonNulls
+          .map((e) => ExpenseField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lineItemExpenseFields = this.lineItemExpenseFields;
+    return {
+      if (lineItemExpenseFields != null)
+        'LineItemExpenseFields': lineItemExpenseFields,
+    };
+  }
+}
+
+/// Breakdown of detected information, seperated into the catagories Type,
+/// LabelDetection, and ValueDetection
+class ExpenseField {
+  /// Shows the kind of currency, both the code and confidence associated with any
+  /// monatary value detected.
+  final ExpenseCurrency? currency;
+
+  /// Shows which group a response object belongs to, such as whether an address
+  /// line belongs to the vendor's address or the recipent's address.
+  final List<ExpenseGroupProperty>? groupProperties;
+
+  /// The explicitly stated label of a detected element.
+  final ExpenseDetection? labelDetection;
+
+  /// The page number the value was detected on.
+  final int? pageNumber;
+
+  /// The implied label of a detected element. Present alongside LabelDetection
+  /// for explicit elements.
+  final ExpenseType? type;
+
+  /// The value of a detected element. Present in explicit and implicit elements.
+  final ExpenseDetection? valueDetection;
+
+  ExpenseField({
+    this.currency,
+    this.groupProperties,
+    this.labelDetection,
+    this.pageNumber,
+    this.type,
+    this.valueDetection,
+  });
+
+  factory ExpenseField.fromJson(Map<String, dynamic> json) {
+    return ExpenseField(
+      currency: json['Currency'] != null
+          ? ExpenseCurrency.fromJson(json['Currency'] as Map<String, dynamic>)
+          : null,
+      groupProperties: (json['GroupProperties'] as List?)
+          ?.nonNulls
+          .map((e) => ExpenseGroupProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      labelDetection: json['LabelDetection'] != null
+          ? ExpenseDetection.fromJson(
+              json['LabelDetection'] as Map<String, dynamic>)
+          : null,
+      pageNumber: json['PageNumber'] as int?,
+      type: json['Type'] != null
+          ? ExpenseType.fromJson(json['Type'] as Map<String, dynamic>)
+          : null,
+      valueDetection: json['ValueDetection'] != null
+          ? ExpenseDetection.fromJson(
+              json['ValueDetection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final groupProperties = this.groupProperties;
+    final labelDetection = this.labelDetection;
+    final pageNumber = this.pageNumber;
+    final type = this.type;
+    final valueDetection = this.valueDetection;
+    return {
+      if (currency != null) 'Currency': currency,
+      if (groupProperties != null) 'GroupProperties': groupProperties,
+      if (labelDetection != null) 'LabelDetection': labelDetection,
+      if (pageNumber != null) 'PageNumber': pageNumber,
+      if (type != null) 'Type': type,
+      if (valueDetection != null) 'ValueDetection': valueDetection,
+    };
+  }
+}
+
+/// An object used to store information about the Type detected by Amazon
+/// Textract.
+class ExpenseType {
+  /// The confidence of accuracy, as a percentage.
+  final double? confidence;
+
+  /// The word or line of text detected by Amazon Textract.
+  final String? text;
+
+  ExpenseType({
+    this.confidence,
+    this.text,
+  });
+
+  factory ExpenseType.fromJson(Map<String, dynamic> json) {
+    return ExpenseType(
+      confidence: json['Confidence'] as double?,
+      text: json['Text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final text = this.text;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// An object used to store information about the Value or Label detected by
+/// Amazon Textract.
+class ExpenseDetection {
+  /// The confidence in detection, as a percentage
+  final double? confidence;
+  final Geometry? geometry;
+
+  /// The word or line of text recognized by Amazon Textract
+  final String? text;
+
+  ExpenseDetection({
+    this.confidence,
+    this.geometry,
+    this.text,
+  });
+
+  factory ExpenseDetection.fromJson(Map<String, dynamic> json) {
+    return ExpenseDetection(
+      confidence: json['Confidence'] as double?,
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+      text: json['Text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final geometry = this.geometry;
+    final text = this.text;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (geometry != null) 'Geometry': geometry,
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// Returns the kind of currency detected.
+class ExpenseCurrency {
+  /// Currency code for detected currency. the current supported codes are:
+  ///
+  /// <ul>
+  /// <li>
+  /// USD
+  /// </li>
+  /// <li>
+  /// EUR
+  /// </li>
+  /// <li>
+  /// GBP
+  /// </li>
+  /// <li>
+  /// CAD
+  /// </li>
+  /// <li>
+  /// INR
+  /// </li>
+  /// <li>
+  /// JPY
+  /// </li>
+  /// <li>
+  /// CHF
+  /// </li>
+  /// <li>
+  /// AUD
+  /// </li>
+  /// <li>
+  /// CNY
+  /// </li>
+  /// <li>
+  /// BZR
+  /// </li>
+  /// <li>
+  /// SEK
+  /// </li>
+  /// <li>
+  /// HKD
+  /// </li>
+  /// </ul>
+  final String? code;
+
+  /// Percentage confideence in the detected currency.
+  final double? confidence;
+
+  ExpenseCurrency({
+    this.code,
+    this.confidence,
+  });
+
+  factory ExpenseCurrency.fromJson(Map<String, dynamic> json) {
+    return ExpenseCurrency(
+      code: json['Code'] as String?,
+      confidence: json['Confidence'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final confidence = this.confidence;
+    return {
+      if (code != null) 'Code': code,
+      if (confidence != null) 'Confidence': confidence,
+    };
+  }
+}
+
+/// Shows the group that a certain key belongs to. This helps differentiate
+/// between names and addresses for different organizations, that can be hard to
+/// determine via JSON response.
+class ExpenseGroupProperty {
+  /// Provides a group Id number, which will be the same for each in the group.
+  final String? id;
+
+  /// Informs you on whether the expense group is a name or an address.
+  final List<String>? types;
+
+  ExpenseGroupProperty({
+    this.id,
+    this.types,
+  });
+
+  factory ExpenseGroupProperty.fromJson(Map<String, dynamic> json) {
+    return ExpenseGroupProperty(
+      id: json['Id'] as String?,
+      types:
+          (json['Types'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final types = this.types;
+    return {
+      if (id != null) 'Id': id,
+      if (types != null) 'Types': types,
+    };
+  }
+}
+
+/// Information regarding a detected signature on a page.
+class SignatureDetection {
+  /// The confidence, from 0 to 100, in the predicted values for a detected
+  /// signature.
+  final double? confidence;
+  final Geometry? geometry;
+
+  SignatureDetection({
+    this.confidence,
+    this.geometry,
+  });
+
+  factory SignatureDetection.fromJson(Map<String, dynamic> json) {
+    return SignatureDetection(
+      confidence: json['Confidence'] as double?,
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final geometry = this.geometry;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (geometry != null) 'Geometry': geometry,
+    };
+  }
+}
+
+/// Holds the normalized key-value pairs returned by AnalyzeDocument, including
+/// the document type, detected text, and geometry.
+class LendingField {
+  final LendingDetection? keyDetection;
+
+  /// The type of the lending document.
+  final String? type;
+
+  /// An array of LendingDetection objects.
+  final List<LendingDetection>? valueDetections;
+
+  LendingField({
+    this.keyDetection,
+    this.type,
+    this.valueDetections,
+  });
+
+  factory LendingField.fromJson(Map<String, dynamic> json) {
+    return LendingField(
+      keyDetection: json['KeyDetection'] != null
+          ? LendingDetection.fromJson(
+              json['KeyDetection'] as Map<String, dynamic>)
+          : null,
+      type: json['Type'] as String?,
+      valueDetections: (json['ValueDetections'] as List?)
+          ?.nonNulls
+          .map((e) => LendingDetection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyDetection = this.keyDetection;
+    final type = this.type;
+    final valueDetections = this.valueDetections;
+    return {
+      if (keyDetection != null) 'KeyDetection': keyDetection,
+      if (type != null) 'Type': type,
+      if (valueDetections != null) 'ValueDetections': valueDetections,
+    };
+  }
+}
+
+/// The results extracted for a lending document.
+class LendingDetection {
+  /// The confidence level for the text of a detected value in a lending document.
+  final double? confidence;
+  final Geometry? geometry;
+
+  /// The selection status of a selection element, such as an option button or
+  /// check box.
+  final SelectionStatus? selectionStatus;
+
+  /// The text extracted for a detected value in a lending document.
+  final String? text;
+
+  LendingDetection({
+    this.confidence,
+    this.geometry,
+    this.selectionStatus,
+    this.text,
+  });
+
+  factory LendingDetection.fromJson(Map<String, dynamic> json) {
+    return LendingDetection(
+      confidence: json['Confidence'] as double?,
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+      selectionStatus:
+          (json['SelectionStatus'] as String?)?.let(SelectionStatus.fromString),
+      text: json['Text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final geometry = this.geometry;
+    final selectionStatus = this.selectionStatus;
+    final text = this.text;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (geometry != null) 'Geometry': geometry,
+      if (selectionStatus != null) 'SelectionStatus': selectionStatus.value,
+      if (text != null) 'Text': text,
+    };
+  }
+}
+
+/// Contains information regarding predicted values returned by Amazon Textract
+/// operations, including the predicted value and the confidence in the
+/// predicted value.
+class Prediction {
+  /// Amazon Textract's confidence in its predicted value.
+  final double? confidence;
+
+  /// The predicted value of a detected object.
+  final String? value;
+
+  Prediction({
+    this.confidence,
+    this.value,
+  });
+
+  factory Prediction.fromJson(Map<String, dynamic> json) {
+    return Prediction(
+      confidence: json['Confidence'] as double?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final value = this.value;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// The dataset configuration options for a given version of an adapter. Can
+/// include an Amazon S3 bucket if specified.
+class AdapterVersionDatasetConfig {
+  final S3Object? manifestS3Object;
+
+  AdapterVersionDatasetConfig({
+    this.manifestS3Object,
+  });
+
+  factory AdapterVersionDatasetConfig.fromJson(Map<String, dynamic> json) {
+    return AdapterVersionDatasetConfig(
+      manifestS3Object: json['ManifestS3Object'] != null
+          ? S3Object.fromJson(json['ManifestS3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final manifestS3Object = this.manifestS3Object;
+    return {
+      if (manifestS3Object != null) 'ManifestS3Object': manifestS3Object,
+    };
+  }
+}
+
+/// Contains information on the metrics used to evalute the peformance of a
+/// given adapter version. Includes data for baseline model performance and
+/// individual adapter version perfromance.
+class AdapterVersionEvaluationMetric {
+  /// The F1 score, precision, and recall metrics for the baseline model.
+  final EvaluationMetric? adapterVersion;
+
+  /// The F1 score, precision, and recall metrics for the baseline model.
+  final EvaluationMetric? baseline;
+
+  /// Indicates the feature type being analyzed by a given adapter version.
+  final FeatureType? featureType;
+
+  AdapterVersionEvaluationMetric({
+    this.adapterVersion,
+    this.baseline,
+    this.featureType,
+  });
+
+  factory AdapterVersionEvaluationMetric.fromJson(Map<String, dynamic> json) {
+    return AdapterVersionEvaluationMetric(
+      adapterVersion: json['AdapterVersion'] != null
+          ? EvaluationMetric.fromJson(
+              json['AdapterVersion'] as Map<String, dynamic>)
+          : null,
+      baseline: json['Baseline'] != null
+          ? EvaluationMetric.fromJson(json['Baseline'] as Map<String, dynamic>)
+          : null,
+      featureType:
+          (json['FeatureType'] as String?)?.let(FeatureType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adapterVersion = this.adapterVersion;
+    final baseline = this.baseline;
+    final featureType = this.featureType;
+    return {
+      if (adapterVersion != null) 'AdapterVersion': adapterVersion,
+      if (baseline != null) 'Baseline': baseline,
+      if (featureType != null) 'FeatureType': featureType.value,
+    };
+  }
+}
+
+/// The evaluation metrics (F1 score, Precision, and Recall) for an adapter
+/// version.
+class EvaluationMetric {
+  /// The F1 score for an adapter version.
+  final double? f1Score;
+
+  /// The Precision score for an adapter version.
+  final double? precision;
+
+  /// The Recall score for an adapter version.
+  final double? recall;
+
+  EvaluationMetric({
+    this.f1Score,
+    this.precision,
+    this.recall,
+  });
+
+  factory EvaluationMetric.fromJson(Map<String, dynamic> json) {
+    return EvaluationMetric(
+      f1Score: json['F1Score'] as double?,
+      precision: json['Precision'] as double?,
+      recall: json['Recall'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final f1Score = this.f1Score;
+    final precision = this.precision;
+    final recall = this.recall;
+    return {
+      if (f1Score != null) 'F1Score': f1Score,
+      if (precision != null) 'Precision': precision,
+      if (recall != null) 'Recall': recall,
+    };
+  }
+}
+
+/// The input document, either as bytes or as an S3 object.
+///
+/// You pass image bytes to an Amazon Textract API operation by using the
+/// <code>Bytes</code> property. For example, you would use the
+/// <code>Bytes</code> property to pass a document loaded from a local file
+/// system. Image bytes passed by using the <code>Bytes</code> property must be
+/// base64 encoded. Your code might not need to encode document file bytes if
+/// you're using an AWS SDK to call Amazon Textract API operations.
+///
+/// You pass images stored in an S3 bucket to an Amazon Textract API operation
+/// by using the <code>S3Object</code> property. Documents stored in an S3
+/// bucket don't need to be base64 encoded.
+///
+/// The AWS Region for the S3 bucket that contains the S3 object must match the
+/// AWS Region that you use for Amazon Textract operations.
+///
+/// If you use the AWS CLI to call Amazon Textract operations, passing image
+/// bytes using the Bytes property isn't supported. You must first upload the
+/// document to an Amazon S3 bucket, and then call the operation using the
+/// S3Object property.
+///
+/// For Amazon Textract to process an S3 object, the user must have permission
+/// to access the S3 object.
+class Document {
+  /// A blob of base64-encoded document bytes. The maximum size of a document
+  /// that's provided in a blob of bytes is 5 MB. The document bytes must be in
+  /// PNG or JPEG format.
+  ///
+  /// If you're using an AWS SDK to call Amazon Textract, you might not need to
+  /// base64-encode image bytes passed using the <code>Bytes</code> field.
+  final Uint8List? bytes;
+
+  /// Identifies an S3 object as the document source. The maximum size of a
+  /// document that's stored in an S3 bucket is 5 MB.
+  final S3Object? s3Object;
+
+  Document({
+    this.bytes,
+    this.s3Object,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bytes = this.bytes;
+    final s3Object = this.s3Object;
+    return {
+      if (bytes != null) 'Bytes': base64Encode(bytes),
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
+}
+
+/// Shows the results of the human in the loop evaluation. If there is no
+/// HumanLoopArn, the input did not trigger human review.
+class HumanLoopActivationOutput {
+  /// Shows the result of condition evaluations, including those conditions which
+  /// activated a human review.
+  final Object? humanLoopActivationConditionsEvaluationResults;
+
+  /// Shows if and why human review was needed.
+  final List<String>? humanLoopActivationReasons;
+
+  /// The Amazon Resource Name (ARN) of the HumanLoop created.
+  final String? humanLoopArn;
+
+  HumanLoopActivationOutput({
+    this.humanLoopActivationConditionsEvaluationResults,
+    this.humanLoopActivationReasons,
+    this.humanLoopArn,
+  });
+
+  factory HumanLoopActivationOutput.fromJson(Map<String, dynamic> json) {
+    return HumanLoopActivationOutput(
+      humanLoopActivationConditionsEvaluationResults:
+          json['HumanLoopActivationConditionsEvaluationResults'] == null
+              ? null
+              : jsonDecode(
+                  json['HumanLoopActivationConditionsEvaluationResults']
+                      as String),
+      humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      humanLoopArn: json['HumanLoopArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final humanLoopActivationConditionsEvaluationResults =
+        this.humanLoopActivationConditionsEvaluationResults;
+    final humanLoopActivationReasons = this.humanLoopActivationReasons;
+    final humanLoopArn = this.humanLoopArn;
+    return {
+      if (humanLoopActivationConditionsEvaluationResults != null)
+        'HumanLoopActivationConditionsEvaluationResults':
+            jsonEncode(humanLoopActivationConditionsEvaluationResults),
+      if (humanLoopActivationReasons != null)
+        'HumanLoopActivationReasons': humanLoopActivationReasons,
+      if (humanLoopArn != null) 'HumanLoopArn': humanLoopArn,
+    };
+  }
+}
+
+/// Sets up the human review workflow the document will be sent to if one of the
+/// conditions is met. You can also set certain attributes of the image before
+/// review.
+class HumanLoopConfig {
+  /// The Amazon Resource Name (ARN) of the flow definition.
+  final String flowDefinitionArn;
+
+  /// The name of the human workflow used for this image. This should be kept
+  /// unique within a region.
+  final String humanLoopName;
+
+  /// Sets attributes of the input data.
+  final HumanLoopDataAttributes? dataAttributes;
+
+  HumanLoopConfig({
+    required this.flowDefinitionArn,
+    required this.humanLoopName,
+    this.dataAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final flowDefinitionArn = this.flowDefinitionArn;
+    final humanLoopName = this.humanLoopName;
+    final dataAttributes = this.dataAttributes;
+    return {
+      'FlowDefinitionArn': flowDefinitionArn,
+      'HumanLoopName': humanLoopName,
+      if (dataAttributes != null) 'DataAttributes': dataAttributes,
+    };
+  }
+}
+
+/// Allows you to set attributes of the image. Currently, you can declare an
+/// image as free of personally identifiable information and adult content.
+class HumanLoopDataAttributes {
+  /// Sets whether the input image is free of personally identifiable information
+  /// or adult content.
+  final List<ContentClassifier>? contentClassifiers;
+
+  HumanLoopDataAttributes({
+    this.contentClassifiers,
+  });
+
+  Map<String, dynamic> toJson() {
+    final contentClassifiers = this.contentClassifiers;
+    return {
+      if (contentClassifiers != null)
+        'ContentClassifiers': contentClassifiers.map((e) => e.value).toList(),
+    };
+  }
+}
+
+class ContentClassifier {
+  static const freeOfPersonallyIdentifiableInformation =
+      ContentClassifier._('FreeOfPersonallyIdentifiableInformation');
+  static const freeOfAdultContent = ContentClassifier._('FreeOfAdultContent');
+
+  final String value;
+
+  const ContentClassifier._(this.value);
+
+  static const values = [
+    freeOfPersonallyIdentifiableInformation,
+    freeOfAdultContent
+  ];
+
+  static ContentClassifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContentClassifier._(value));
+
+  @override
+  bool operator ==(other) => other is ContentClassifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

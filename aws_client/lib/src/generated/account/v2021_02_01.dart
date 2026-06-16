@@ -33,7 +33,6 @@ class Account {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'account',
-            signingName: 'account',
           ),
           region: region,
           credentials: credentials,
@@ -50,16 +49,512 @@ class Account {
     _protocol.close();
   }
 
+  /// Updates the account name of the specified account. To use this API, IAM
+  /// principals must have the <code>account:PutAccountName</code> IAM
+  /// permission.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountName] :
+  /// The name of the account.
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12 digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation.
+  ///
+  /// If you do not specify this parameter, it defaults to the Amazon Web
+  /// Services account of the identity used to call the operation.
+  ///
+  /// To use this parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account, and the
+  /// specified account ID must be a member account in the same organization.
+  /// The organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// administrator</a> account assigned.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>; it
+  /// must call the operation in standalone context by not including the
+  /// <code>AccountId</code> parameter.
+  /// </note>
+  /// To call this operation on an account that is not a member of an
+  /// organization, then don't specify this parameter, and call the operation
+  /// using an identity belonging to the account whose contacts you wish to
+  /// retrieve or modify.
+  Future<void> putAccountName({
+    required String accountName,
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AccountName': accountName,
+      if (accountId != null) 'AccountId': accountId,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/putAccountName',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves information about the specified account including its account
+  /// name, account ID, account creation date and time, and account state. To
+  /// use this API, an IAM user or role must have the
+  /// <code>account:GetAccountInformation</code> IAM permission.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12 digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation.
+  ///
+  /// If you do not specify this parameter, it defaults to the Amazon Web
+  /// Services account of the identity used to call the operation.
+  ///
+  /// To use this parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account, and the
+  /// specified account ID must be a member account in the same organization.
+  /// The organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// administrator</a> account assigned.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>; it
+  /// must call the operation in standalone context by not including the
+  /// <code>AccountId</code> parameter.
+  /// </note>
+  /// To call this operation on an account that is not a member of an
+  /// organization, then don't specify this parameter, and call the operation
+  /// using an identity belonging to the account whose contacts you wish to
+  /// retrieve or modify.
+  Future<GetAccountInformationResponse> getAccountInformation({
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (accountId != null) 'AccountId': accountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getAccountInformation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAccountInformationResponse.fromJson(response);
+  }
+
+  /// Modifies the specified alternate contact attached to an Amazon Web
+  /// Services account.
+  ///
+  /// For complete details about how to use the alternate contact operations,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html">Update
+  /// the alternate contacts for your Amazon Web Services account</a>.
+  /// <note>
+  /// Before you can update the alternate contact information for an Amazon Web
+  /// Services account that is managed by Organizations, you must first enable
+  /// integration between Amazon Web Services Account Management and
+  /// Organizations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html">Enable
+  /// trusted access for Amazon Web Services Account Management</a>.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [alternateContactType] :
+  /// Specifies which alternate contact you want to create or update.
+  ///
+  /// Parameter [emailAddress] :
+  /// Specifies an email address for the alternate contact.
+  ///
+  /// Parameter [name] :
+  /// Specifies a name for the alternate contact.
+  ///
+  /// Parameter [phoneNumber] :
+  /// Specifies a phone number for the alternate contact.
+  ///
+  /// Parameter [title] :
+  /// Specifies a title for the alternate contact.
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12 digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation.
+  ///
+  /// If you do not specify this parameter, it defaults to the Amazon Web
+  /// Services account of the identity used to call the operation.
+  ///
+  /// To use this parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account, and the
+  /// specified account ID must be a member account in the same organization.
+  /// The organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// administrator</a> account assigned.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>; it
+  /// must call the operation in standalone context by not including the
+  /// <code>AccountId</code> parameter.
+  /// </note>
+  /// To call this operation on an account that is not a member of an
+  /// organization, then don't specify this parameter, and call the operation
+  /// using an identity belonging to the account whose contacts you wish to
+  /// retrieve or modify.
+  Future<void> putAlternateContact({
+    required AlternateContactType alternateContactType,
+    required String emailAddress,
+    required String name,
+    required String phoneNumber,
+    required String title,
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AlternateContactType': alternateContactType.value,
+      'EmailAddress': emailAddress,
+      'Name': name,
+      'PhoneNumber': phoneNumber,
+      'Title': title,
+      if (accountId != null) 'AccountId': accountId,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/putAlternateContact',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves the specified alternate contact attached to an Amazon Web
+  /// Services account.
+  ///
+  /// For complete details about how to use the alternate contact operations,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html">Update
+  /// the alternate contacts for your Amazon Web Services account</a>.
+  /// <note>
+  /// Before you can update the alternate contact information for an Amazon Web
+  /// Services account that is managed by Organizations, you must first enable
+  /// integration between Amazon Web Services Account Management and
+  /// Organizations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html">Enable
+  /// trusted access for Amazon Web Services Account Management</a>.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [alternateContactType] :
+  /// Specifies which alternate contact you want to retrieve.
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12 digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation.
+  ///
+  /// If you do not specify this parameter, it defaults to the Amazon Web
+  /// Services account of the identity used to call the operation.
+  ///
+  /// To use this parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account, and the
+  /// specified account ID must be a member account in the same organization.
+  /// The organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// administrator</a> account assigned.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>; it
+  /// must call the operation in standalone context by not including the
+  /// <code>AccountId</code> parameter.
+  /// </note>
+  /// To call this operation on an account that is not a member of an
+  /// organization, then don't specify this parameter, and call the operation
+  /// using an identity belonging to the account whose contacts you wish to
+  /// retrieve or modify.
+  Future<GetAlternateContactResponse> getAlternateContact({
+    required AlternateContactType alternateContactType,
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AlternateContactType': alternateContactType.value,
+      if (accountId != null) 'AccountId': accountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getAlternateContact',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAlternateContactResponse.fromJson(response);
+  }
+
+  /// Deletes the specified alternate contact from an Amazon Web Services
+  /// account.
+  ///
+  /// For complete details about how to use the alternate contact operations,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-alternate.html">Update
+  /// the alternate contacts for your Amazon Web Services account</a>.
+  /// <note>
+  /// Before you can update the alternate contact information for an Amazon Web
+  /// Services account that is managed by Organizations, you must first enable
+  /// integration between Amazon Web Services Account Management and
+  /// Organizations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html">Enable
+  /// trusted access for Amazon Web Services Account Management</a>.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [alternateContactType] :
+  /// Specifies which of the alternate contacts to delete.
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12 digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation.
+  ///
+  /// If you do not specify this parameter, it defaults to the Amazon Web
+  /// Services account of the identity used to call the operation.
+  ///
+  /// To use this parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account, and the
+  /// specified account ID must be a member account in the same organization.
+  /// The organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// administrator</a> account assigned.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>; it
+  /// must call the operation in standalone context by not including the
+  /// <code>AccountId</code> parameter.
+  /// </note>
+  /// To call this operation on an account that is not a member of an
+  /// organization, then don't specify this parameter, and call the operation
+  /// using an identity belonging to the account whose contacts you wish to
+  /// retrieve or modify.
+  Future<void> deleteAlternateContact({
+    required AlternateContactType alternateContactType,
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AlternateContactType': alternateContactType.value,
+      if (accountId != null) 'AccountId': accountId,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/deleteAlternateContact',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves information about the GovCloud account linked to the specified
+  /// standard account (if it exists) including the GovCloud account ID and
+  /// state. To use this API, an IAM user or role must have the
+  /// <code>account:GetGovCloudAccountInformation</code> IAM permission.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [standardAccountId] :
+  /// Specifies the 12 digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation.
+  ///
+  /// If you do not specify this parameter, it defaults to the Amazon Web
+  /// Services account of the identity used to call the operation.
+  ///
+  /// To use this parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account, and the
+  /// specified account ID must be a member account in the same organization.
+  /// The organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// administrator</a> account assigned.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>; it
+  /// must call the operation in standalone context by not including the
+  /// <code>AccountId</code> parameter.
+  /// </note>
+  /// To call this operation on an account that is not a member of an
+  /// organization, then don't specify this parameter, and call the operation
+  /// using an identity belonging to the account whose contacts you wish to
+  /// retrieve or modify.
+  Future<GetGovCloudAccountInformationResponse> getGovCloudAccountInformation({
+    String? standardAccountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (standardAccountId != null) 'StandardAccountId': standardAccountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getGovCloudAccountInformation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetGovCloudAccountInformationResponse.fromJson(response);
+  }
+
+  /// Updates the primary contact information of an Amazon Web Services account.
+  ///
+  /// For complete details about how to use the primary contact operations, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-primary.html">Update
+  /// the primary contact for your Amazon Web Services account</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [contactInformation] :
+  /// Contains the details of the primary contact information associated with an
+  /// Amazon Web Services account.
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12-digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation. If you
+  /// don't specify this parameter, it defaults to the Amazon Web Services
+  /// account of the identity used to call the operation. To use this parameter,
+  /// the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account. The specified
+  /// account ID must be a member account in the same organization. The
+  /// organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// administrator</a> account assigned.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>. It
+  /// must call the operation in standalone context by not including the
+  /// <code>AccountId</code> parameter.
+  /// </note>
+  /// To call this operation on an account that is not a member of an
+  /// organization, don't specify this parameter. Instead, call the operation
+  /// using an identity belonging to the account whose contacts you wish to
+  /// retrieve or modify.
+  Future<void> putContactInformation({
+    required ContactInformation contactInformation,
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      'ContactInformation': contactInformation,
+      if (accountId != null) 'AccountId': accountId,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/putContactInformation',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Retrieves the primary contact information of an Amazon Web Services
+  /// account.
+  ///
+  /// For complete details about how to use the primary contact operations, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact-primary.html">Update
+  /// the primary contact for your Amazon Web Services account</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12-digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation. If you
+  /// don't specify this parameter, it defaults to the Amazon Web Services
+  /// account of the identity used to call the operation. To use this parameter,
+  /// the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account. The specified
+  /// account ID must be a member account in the same organization. The
+  /// organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// admin</a> account assigned.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>. It
+  /// must call the operation in standalone context by not including the
+  /// <code>AccountId</code> parameter.
+  /// </note>
+  /// To call this operation on an account that is not a member of an
+  /// organization, don't specify this parameter. Instead, call the operation
+  /// using an identity belonging to the account whose contacts you wish to
+  /// retrieve or modify.
+  Future<GetContactInformationResponse> getContactInformation({
+    String? accountId,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (accountId != null) 'AccountId': accountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getContactInformation',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetContactInformationResponse.fromJson(response);
+  }
+
   /// Accepts the request that originated from <a>StartPrimaryEmailUpdate</a> to
   /// update the primary email address (also known as the root user email
   /// address) for the specified account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
   /// Specifies the 12-digit account ID number of the Amazon Web Services
@@ -71,9 +566,9 @@ class Account {
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
   /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
   /// admin</a> account assigned.
   ///
   /// This operation can only be called from the management account or the
@@ -109,72 +604,98 @@ class Account {
     return AcceptPrimaryEmailUpdateResponse.fromJson(response);
   }
 
-  /// Deletes the specified alternate contact from an Amazon Web Services
-  /// account.
+  /// Retrieves the primary email address for the specified account.
   ///
-  /// For complete details about how to use the alternate contact operations,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html">Access
-  /// or updating the alternate contacts</a>.
-  /// <note>
-  /// Before you can update the alternate contact information for an Amazon Web
-  /// Services account that is managed by Organizations, you must first enable
-  /// integration between Amazon Web Services Account Management and
-  /// Organizations. For more information, see <a
-  /// href="https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html">Enabling
-  /// trusted access for Amazon Web Services Account Management</a>.
-  /// </note>
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
-  ///
-  /// Parameter [alternateContactType] :
-  /// Specifies which of the alternate contacts to delete.
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
-  /// Specifies the 12 digit account ID number of the Amazon Web Services
-  /// account that you want to access or modify with this operation.
-  ///
-  /// If you do not specify this parameter, it defaults to the Amazon Web
-  /// Services account of the identity used to call the operation.
-  ///
-  /// To use this parameter, the caller must be an identity in the <a
+  /// Specifies the 12-digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation. To use this
+  /// parameter, the caller must be an identity in the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
-  /// management account</a> or a delegated administrator account, and the
-  /// specified account ID must be a member account in the same organization.
-  /// The organization must have <a
+  /// management account</a> or a delegated administrator account. The specified
+  /// account ID must be a member account in the same organization. The
+  /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
   /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
   /// admin</a> account assigned.
+  ///
+  /// This operation can only be called from the management account or the
+  /// delegated administrator account of an organization for a member account.
   /// <note>
-  /// The management account can't specify its own <code>AccountId</code>; it
-  /// must call the operation in standalone context by not including the
-  /// <code>AccountId</code> parameter.
+  /// The management account can't specify its own <code>AccountId</code>.
   /// </note>
-  /// To call this operation on an account that is not a member of an
-  /// organization, then don't specify this parameter, and call the operation
-  /// using an identity belonging to the account whose contacts you wish to
-  /// retrieve or modify.
-  Future<void> deleteAlternateContact({
-    required AlternateContactType alternateContactType,
-    String? accountId,
+  Future<GetPrimaryEmailResponse> getPrimaryEmail({
+    required String accountId,
   }) async {
     final $payload = <String, dynamic>{
-      'AlternateContactType': alternateContactType.value,
-      if (accountId != null) 'AccountId': accountId,
+      'AccountId': accountId,
     };
-    await _protocol.send(
+    final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/deleteAlternateContact',
+      requestUri: '/getPrimaryEmail',
       exceptionFnMap: _exceptionFns,
     );
+    return GetPrimaryEmailResponse.fromJson(response);
+  }
+
+  /// Starts the process to update the primary email address for the specified
+  /// account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [accountId] :
+  /// Specifies the 12-digit account ID number of the Amazon Web Services
+  /// account that you want to access or modify with this operation. To use this
+  /// parameter, the caller must be an identity in the <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
+  /// management account</a> or a delegated administrator account. The specified
+  /// account ID must be a member account in the same organization. The
+  /// organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
+  /// features enabled</a>, and the organization must have <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
+  /// access</a> enabled for the Account Management service, and optionally a <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
+  /// admin</a> account assigned.
+  ///
+  /// This operation can only be called from the management account or the
+  /// delegated administrator account of an organization for a member account.
+  /// <note>
+  /// The management account can't specify its own <code>AccountId</code>.
+  /// </note>
+  ///
+  /// Parameter [primaryEmail] :
+  /// The new primary email address (also known as the root user email address)
+  /// to use in the specified account.
+  Future<StartPrimaryEmailUpdateResponse> startPrimaryEmailUpdate({
+    required String accountId,
+    required String primaryEmail,
+  }) async {
+    final $payload = <String, dynamic>{
+      'AccountId': accountId,
+      'PrimaryEmail': primaryEmail,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/startPrimaryEmailUpdate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartPrimaryEmailUpdateResponse.fromJson(response);
   }
 
   /// Disables (opts-out) a particular Region for an account.
@@ -183,11 +704,11 @@ class Account {
   /// that reside in that Region.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [regionName] :
   /// Specifies the Region-code for a given Region name (for example,
@@ -209,9 +730,9 @@ class Account {
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
   /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
   /// admin</a> account assigned.
   /// <note>
   /// The management account can't specify its own <code>AccountId</code>. It
@@ -240,11 +761,11 @@ class Account {
 
   /// Enables (opts-in) a particular Region for an account.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [regionName] :
   /// Specifies the Region-code for a given Region name (for example,
@@ -267,9 +788,9 @@ class Account {
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
   /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
   /// admin</a> account assigned.
   /// <note>
   /// The management account can't specify its own <code>AccountId</code>. It
@@ -296,178 +817,12 @@ class Account {
     );
   }
 
-  /// Retrieves the specified alternate contact attached to an Amazon Web
-  /// Services account.
-  ///
-  /// For complete details about how to use the alternate contact operations,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html">Access
-  /// or updating the alternate contacts</a>.
-  /// <note>
-  /// Before you can update the alternate contact information for an Amazon Web
-  /// Services account that is managed by Organizations, you must first enable
-  /// integration between Amazon Web Services Account Management and
-  /// Organizations. For more information, see <a
-  /// href="https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html">Enabling
-  /// trusted access for Amazon Web Services Account Management</a>.
-  /// </note>
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [alternateContactType] :
-  /// Specifies which alternate contact you want to retrieve.
-  ///
-  /// Parameter [accountId] :
-  /// Specifies the 12 digit account ID number of the Amazon Web Services
-  /// account that you want to access or modify with this operation.
-  ///
-  /// If you do not specify this parameter, it defaults to the Amazon Web
-  /// Services account of the identity used to call the operation.
-  ///
-  /// To use this parameter, the caller must be an identity in the <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
-  /// management account</a> or a delegated administrator account, and the
-  /// specified account ID must be a member account in the same organization.
-  /// The organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
-  /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
-  /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
-  /// admin</a> account assigned.
-  /// <note>
-  /// The management account can't specify its own <code>AccountId</code>; it
-  /// must call the operation in standalone context by not including the
-  /// <code>AccountId</code> parameter.
-  /// </note>
-  /// To call this operation on an account that is not a member of an
-  /// organization, then don't specify this parameter, and call the operation
-  /// using an identity belonging to the account whose contacts you wish to
-  /// retrieve or modify.
-  Future<GetAlternateContactResponse> getAlternateContact({
-    required AlternateContactType alternateContactType,
-    String? accountId,
-  }) async {
-    final $payload = <String, dynamic>{
-      'AlternateContactType': alternateContactType.value,
-      if (accountId != null) 'AccountId': accountId,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/getAlternateContact',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetAlternateContactResponse.fromJson(response);
-  }
-
-  /// Retrieves the primary contact information of an Amazon Web Services
-  /// account.
-  ///
-  /// For complete details about how to use the primary contact operations, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html">Update
-  /// the primary and alternate contact information</a>.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [accountId] :
-  /// Specifies the 12-digit account ID number of the Amazon Web Services
-  /// account that you want to access or modify with this operation. If you
-  /// don't specify this parameter, it defaults to the Amazon Web Services
-  /// account of the identity used to call the operation. To use this parameter,
-  /// the caller must be an identity in the <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
-  /// management account</a> or a delegated administrator account. The specified
-  /// account ID must be a member account in the same organization. The
-  /// organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
-  /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
-  /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
-  /// admin</a> account assigned.
-  /// <note>
-  /// The management account can't specify its own <code>AccountId</code>. It
-  /// must call the operation in standalone context by not including the
-  /// <code>AccountId</code> parameter.
-  /// </note>
-  /// To call this operation on an account that is not a member of an
-  /// organization, don't specify this parameter. Instead, call the operation
-  /// using an identity belonging to the account whose contacts you wish to
-  /// retrieve or modify.
-  Future<GetContactInformationResponse> getContactInformation({
-    String? accountId,
-  }) async {
-    final $payload = <String, dynamic>{
-      if (accountId != null) 'AccountId': accountId,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/getContactInformation',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetContactInformationResponse.fromJson(response);
-  }
-
-  /// Retrieves the primary email address for the specified account.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [accountId] :
-  /// Specifies the 12-digit account ID number of the Amazon Web Services
-  /// account that you want to access or modify with this operation. To use this
-  /// parameter, the caller must be an identity in the <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
-  /// management account</a> or a delegated administrator account. The specified
-  /// account ID must be a member account in the same organization. The
-  /// organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
-  /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
-  /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
-  /// admin</a> account assigned.
-  ///
-  /// This operation can only be called from the management account or the
-  /// delegated administrator account of an organization for a member account.
-  /// <note>
-  /// The management account can't specify its own <code>AccountId</code>.
-  /// </note>
-  Future<GetPrimaryEmailResponse> getPrimaryEmail({
-    required String accountId,
-  }) async {
-    final $payload = <String, dynamic>{
-      'AccountId': accountId,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/getPrimaryEmail',
-      exceptionFnMap: _exceptionFns,
-    );
-    return GetPrimaryEmailResponse.fromJson(response);
-  }
-
   /// Retrieves the opt-in status of a particular Region.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [regionName] :
   /// Specifies the Region-code for a given Region name (for example,
@@ -486,9 +841,9 @@ class Account {
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
   /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
   /// admin</a> account assigned.
   /// <note>
   /// The management account can't specify its own <code>AccountId</code>. It
@@ -520,10 +875,10 @@ class Account {
   /// statuses. Optionally, this list can be filtered by the
   /// <code>region-opt-status-contains</code> parameter.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
   /// Specifies the 12-digit account ID number of the Amazon Web Services
@@ -537,9 +892,9 @@ class Account {
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
   /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
   /// admin</a> account assigned.
   /// <note>
   /// The management account can't specify its own <code>AccountId</code>. It
@@ -580,12 +935,6 @@ class Account {
     String? nextToken,
     List<RegionOptStatus>? regionOptStatusContains,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
     final $payload = <String, dynamic>{
       if (accountId != null) 'AccountId': accountId,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -602,164 +951,14 @@ class Account {
     );
     return ListRegionsResponse.fromJson(response);
   }
+}
 
-  /// Modifies the specified alternate contact attached to an Amazon Web
-  /// Services account.
-  ///
-  /// For complete details about how to use the alternate contact operations,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html">Access
-  /// or updating the alternate contacts</a>.
-  /// <note>
-  /// Before you can update the alternate contact information for an Amazon Web
-  /// Services account that is managed by Organizations, you must first enable
-  /// integration between Amazon Web Services Account Management and
-  /// Organizations. For more information, see <a
-  /// href="https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html">Enabling
-  /// trusted access for Amazon Web Services Account Management</a>.
-  /// </note>
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [alternateContactType] :
-  /// Specifies which alternate contact you want to create or update.
-  ///
-  /// Parameter [emailAddress] :
-  /// Specifies an email address for the alternate contact.
-  ///
-  /// Parameter [name] :
-  /// Specifies a name for the alternate contact.
-  ///
-  /// Parameter [phoneNumber] :
-  /// Specifies a phone number for the alternate contact.
-  ///
-  /// Parameter [title] :
-  /// Specifies a title for the alternate contact.
-  ///
-  /// Parameter [accountId] :
-  /// Specifies the 12 digit account ID number of the Amazon Web Services
-  /// account that you want to access or modify with this operation.
-  ///
-  /// If you do not specify this parameter, it defaults to the Amazon Web
-  /// Services account of the identity used to call the operation.
-  ///
-  /// To use this parameter, the caller must be an identity in the <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
-  /// management account</a> or a delegated administrator account, and the
-  /// specified account ID must be a member account in the same organization.
-  /// The organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
-  /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
-  /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
-  /// admin</a> account assigned.
-  /// <note>
-  /// The management account can't specify its own <code>AccountId</code>; it
-  /// must call the operation in standalone context by not including the
-  /// <code>AccountId</code> parameter.
-  /// </note>
-  /// To call this operation on an account that is not a member of an
-  /// organization, then don't specify this parameter, and call the operation
-  /// using an identity belonging to the account whose contacts you wish to
-  /// retrieve or modify.
-  Future<void> putAlternateContact({
-    required AlternateContactType alternateContactType,
-    required String emailAddress,
-    required String name,
-    required String phoneNumber,
-    required String title,
-    String? accountId,
-  }) async {
-    final $payload = <String, dynamic>{
-      'AlternateContactType': alternateContactType.value,
-      'EmailAddress': emailAddress,
-      'Name': name,
-      'PhoneNumber': phoneNumber,
-      'Title': title,
-      if (accountId != null) 'AccountId': accountId,
-    };
-    await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/putAlternateContact',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
+class GetAccountInformationResponse {
+  /// The date and time the account was created.
+  final DateTime? accountCreatedDate;
 
-  /// Updates the primary contact information of an Amazon Web Services account.
-  ///
-  /// For complete details about how to use the primary contact operations, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html">Update
-  /// the primary and alternate contact information</a>.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [contactInformation] :
-  /// Contains the details of the primary contact information associated with an
-  /// Amazon Web Services account.
-  ///
-  /// Parameter [accountId] :
-  /// Specifies the 12-digit account ID number of the Amazon Web Services
-  /// account that you want to access or modify with this operation. If you
-  /// don't specify this parameter, it defaults to the Amazon Web Services
-  /// account of the identity used to call the operation. To use this parameter,
-  /// the caller must be an identity in the <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
-  /// management account</a> or a delegated administrator account. The specified
-  /// account ID must be a member account in the same organization. The
-  /// organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
-  /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
-  /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
-  /// admin</a> account assigned.
-  /// <note>
-  /// The management account can't specify its own <code>AccountId</code>. It
-  /// must call the operation in standalone context by not including the
-  /// <code>AccountId</code> parameter.
-  /// </note>
-  /// To call this operation on an account that is not a member of an
-  /// organization, don't specify this parameter. Instead, call the operation
-  /// using an identity belonging to the account whose contacts you wish to
-  /// retrieve or modify.
-  Future<void> putContactInformation({
-    required ContactInformation contactInformation,
-    String? accountId,
-  }) async {
-    final $payload = <String, dynamic>{
-      'ContactInformation': contactInformation,
-      if (accountId != null) 'AccountId': accountId,
-    };
-    await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/putContactInformation',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Starts the process to update the primary email address for the specified
-  /// account.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [accountId] :
-  /// Specifies the 12-digit account ID number of the Amazon Web Services
-  /// account that you want to access or modify with this operation. To use this
+  /// Specifies the 12-digit account ID number of the Amazon Web Services account
+  /// that you want to access or modify with this operation. To use this
   /// parameter, the caller must be an identity in the <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account">organization's
   /// management account</a> or a delegated administrator account. The specified
@@ -767,9 +966,9 @@ class Account {
   /// organization must have <a
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">all
   /// features enabled</a>, and the organization must have <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html">trusted
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html">trusted
   /// access</a> enabled for the Account Management service, and optionally a <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html">delegated
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin">delegated
   /// admin</a> account assigned.
   ///
   /// This operation can only be called from the management account or the
@@ -777,25 +976,129 @@ class Account {
   /// <note>
   /// The management account can't specify its own <code>AccountId</code>.
   /// </note>
+  final String? accountId;
+
+  /// The name of the account.
+  final String? accountName;
+
+  /// The state of the account. Each account state represents a specific phase in
+  /// the account lifecycle. Use this information to manage account access,
+  /// automate workflows, or trigger actions based on account state changes.
   ///
-  /// Parameter [primaryEmail] :
-  /// The new primary email address (also known as the root user email address)
-  /// to use in the specified account.
-  Future<StartPrimaryEmailUpdateResponse> startPrimaryEmailUpdate({
-    required String accountId,
-    required String primaryEmail,
-  }) async {
-    final $payload = <String, dynamic>{
-      'AccountId': accountId,
-      'PrimaryEmail': primaryEmail,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/startPrimaryEmailUpdate',
-      exceptionFnMap: _exceptionFns,
+  /// Valid values: <code>PENDING_ACTIVATION | ACTIVE | SUSPENDED | CLOSED</code>
+  final AccountState? accountState;
+
+  GetAccountInformationResponse({
+    this.accountCreatedDate,
+    this.accountId,
+    this.accountName,
+    this.accountState,
+  });
+
+  factory GetAccountInformationResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountInformationResponse(
+      accountCreatedDate: timeStampFromJson(json['AccountCreatedDate']),
+      accountId: json['AccountId'] as String?,
+      accountName: json['AccountName'] as String?,
+      accountState:
+          (json['AccountState'] as String?)?.let(AccountState.fromString),
     );
-    return StartPrimaryEmailUpdateResponse.fromJson(response);
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountCreatedDate = this.accountCreatedDate;
+    final accountId = this.accountId;
+    final accountName = this.accountName;
+    final accountState = this.accountState;
+    return {
+      if (accountCreatedDate != null)
+        'AccountCreatedDate': iso8601ToJson(accountCreatedDate),
+      if (accountId != null) 'AccountId': accountId,
+      if (accountName != null) 'AccountName': accountName,
+      if (accountState != null) 'AccountState': accountState.value,
+    };
+  }
+}
+
+class GetAlternateContactResponse {
+  /// A structure that contains the details for the specified alternate contact.
+  final AlternateContact? alternateContact;
+
+  GetAlternateContactResponse({
+    this.alternateContact,
+  });
+
+  factory GetAlternateContactResponse.fromJson(Map<String, dynamic> json) {
+    return GetAlternateContactResponse(
+      alternateContact: json['AlternateContact'] != null
+          ? AlternateContact.fromJson(
+              json['AlternateContact'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alternateContact = this.alternateContact;
+    return {
+      if (alternateContact != null) 'AlternateContact': alternateContact,
+    };
+  }
+}
+
+class GetGovCloudAccountInformationResponse {
+  /// The account state of the linked GovCloud account.
+  final AwsAccountState accountState;
+
+  /// The 12-digit account ID number of the linked GovCloud account.
+  final String govCloudAccountId;
+
+  GetGovCloudAccountInformationResponse({
+    required this.accountState,
+    required this.govCloudAccountId,
+  });
+
+  factory GetGovCloudAccountInformationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetGovCloudAccountInformationResponse(
+      accountState:
+          AwsAccountState.fromString((json['AccountState'] as String?) ?? ''),
+      govCloudAccountId: (json['GovCloudAccountId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountState = this.accountState;
+    final govCloudAccountId = this.govCloudAccountId;
+    return {
+      'AccountState': accountState.value,
+      'GovCloudAccountId': govCloudAccountId,
+    };
+  }
+}
+
+class GetContactInformationResponse {
+  /// Contains the details of the primary contact information associated with an
+  /// Amazon Web Services account.
+  final ContactInformation? contactInformation;
+
+  GetContactInformationResponse({
+    this.contactInformation,
+  });
+
+  factory GetContactInformationResponse.fromJson(Map<String, dynamic> json) {
+    return GetContactInformationResponse(
+      contactInformation: json['ContactInformation'] != null
+          ? ContactInformation.fromJson(
+              json['ContactInformation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactInformation = this.contactInformation;
+    return {
+      if (contactInformation != null) 'ContactInformation': contactInformation,
+    };
   }
 }
 
@@ -822,78 +1125,201 @@ class AcceptPrimaryEmailUpdateResponse {
   }
 }
 
-/// A structure that contains the details of an alternate contact associated
-/// with an Amazon Web Services account
-class AlternateContact {
-  /// The type of alternate contact.
-  final AlternateContactType? alternateContactType;
+class GetPrimaryEmailResponse {
+  /// Retrieves the primary email address associated with the specified account.
+  final String? primaryEmail;
 
-  /// The email address associated with this alternate contact.
-  final String? emailAddress;
-
-  /// The name associated with this alternate contact.
-  final String? name;
-
-  /// The phone number associated with this alternate contact.
-  final String? phoneNumber;
-
-  /// The title associated with this alternate contact.
-  final String? title;
-
-  AlternateContact({
-    this.alternateContactType,
-    this.emailAddress,
-    this.name,
-    this.phoneNumber,
-    this.title,
+  GetPrimaryEmailResponse({
+    this.primaryEmail,
   });
 
-  factory AlternateContact.fromJson(Map<String, dynamic> json) {
-    return AlternateContact(
-      alternateContactType: (json['AlternateContactType'] as String?)
-          ?.let(AlternateContactType.fromString),
-      emailAddress: json['EmailAddress'] as String?,
-      name: json['Name'] as String?,
-      phoneNumber: json['PhoneNumber'] as String?,
-      title: json['Title'] as String?,
+  factory GetPrimaryEmailResponse.fromJson(Map<String, dynamic> json) {
+    return GetPrimaryEmailResponse(
+      primaryEmail: json['PrimaryEmail'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final alternateContactType = this.alternateContactType;
-    final emailAddress = this.emailAddress;
-    final name = this.name;
-    final phoneNumber = this.phoneNumber;
-    final title = this.title;
+    final primaryEmail = this.primaryEmail;
     return {
-      if (alternateContactType != null)
-        'AlternateContactType': alternateContactType.value,
-      if (emailAddress != null) 'EmailAddress': emailAddress,
-      if (name != null) 'Name': name,
-      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
-      if (title != null) 'Title': title,
+      if (primaryEmail != null) 'PrimaryEmail': primaryEmail,
     };
   }
 }
 
-class AlternateContactType {
-  static const billing = AlternateContactType._('BILLING');
-  static const operations = AlternateContactType._('OPERATIONS');
-  static const security = AlternateContactType._('SECURITY');
+class StartPrimaryEmailUpdateResponse {
+  /// The status of the primary email update request.
+  final PrimaryEmailUpdateStatus? status;
+
+  StartPrimaryEmailUpdateResponse({
+    this.status,
+  });
+
+  factory StartPrimaryEmailUpdateResponse.fromJson(Map<String, dynamic> json) {
+    return StartPrimaryEmailUpdateResponse(
+      status:
+          (json['Status'] as String?)?.let(PrimaryEmailUpdateStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class GetRegionOptStatusResponse {
+  /// The Region code that was passed in.
+  final String? regionName;
+
+  /// One of the potential statuses a Region can undergo (Enabled, Enabling,
+  /// Disabled, Disabling, Enabled_By_Default).
+  final RegionOptStatus? regionOptStatus;
+
+  GetRegionOptStatusResponse({
+    this.regionName,
+    this.regionOptStatus,
+  });
+
+  factory GetRegionOptStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegionOptStatusResponse(
+      regionName: json['RegionName'] as String?,
+      regionOptStatus:
+          (json['RegionOptStatus'] as String?)?.let(RegionOptStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final regionOptStatus = this.regionOptStatus;
+    return {
+      if (regionName != null) 'RegionName': regionName,
+      if (regionOptStatus != null) 'RegionOptStatus': regionOptStatus.value,
+    };
+  }
+}
+
+class ListRegionsResponse {
+  /// If there is more data to be returned, this will be populated. It should be
+  /// passed into the <code>next-token</code> request parameter of
+  /// <code>list-regions</code>.
+  final String? nextToken;
+
+  /// This is a list of Regions for a given account, or if the filtered parameter
+  /// was used, a list of Regions that match the filter criteria set in the
+  /// <code>filter</code> parameter.
+  final List<Region>? regions;
+
+  ListRegionsResponse({
+    this.nextToken,
+    this.regions,
+  });
+
+  factory ListRegionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRegionsResponse(
+      nextToken: json['NextToken'] as String?,
+      regions: (json['Regions'] as List?)
+          ?.nonNulls
+          .map((e) => Region.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final regions = this.regions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (regions != null) 'Regions': regions,
+    };
+  }
+}
+
+/// This is a structure that expresses the Region for a given account,
+/// consisting of a name and opt-in status.
+class Region {
+  /// The Region code of a given Region (for example, <code>us-east-1</code>).
+  final String? regionName;
+
+  /// One of potential statuses a Region can undergo (Enabled, Enabling, Disabled,
+  /// Disabling, Enabled_By_Default).
+  final RegionOptStatus? regionOptStatus;
+
+  Region({
+    this.regionName,
+    this.regionOptStatus,
+  });
+
+  factory Region.fromJson(Map<String, dynamic> json) {
+    return Region(
+      regionName: json['RegionName'] as String?,
+      regionOptStatus:
+          (json['RegionOptStatus'] as String?)?.let(RegionOptStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final regionOptStatus = this.regionOptStatus;
+    return {
+      if (regionName != null) 'RegionName': regionName,
+      if (regionOptStatus != null) 'RegionOptStatus': regionOptStatus.value,
+    };
+  }
+}
+
+class RegionOptStatus {
+  static const enabled = RegionOptStatus._('ENABLED');
+  static const enabling = RegionOptStatus._('ENABLING');
+  static const disabling = RegionOptStatus._('DISABLING');
+  static const disabled = RegionOptStatus._('DISABLED');
+  static const enabledByDefault = RegionOptStatus._('ENABLED_BY_DEFAULT');
 
   final String value;
 
-  const AlternateContactType._(this.value);
+  const RegionOptStatus._(this.value);
 
-  static const values = [billing, operations, security];
+  static const values = [
+    enabled,
+    enabling,
+    disabling,
+    disabled,
+    enabledByDefault
+  ];
 
-  static AlternateContactType fromString(String value) =>
+  static RegionOptStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => AlternateContactType._(value));
+          orElse: () => RegionOptStatus._(value));
+
+  @override
+  bool operator ==(other) => other is RegionOptStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PrimaryEmailUpdateStatus {
+  static const pending = PrimaryEmailUpdateStatus._('PENDING');
+  static const accepted = PrimaryEmailUpdateStatus._('ACCEPTED');
+
+  final String value;
+
+  const PrimaryEmailUpdateStatus._(this.value);
+
+  static const values = [pending, accepted];
+
+  static PrimaryEmailUpdateStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrimaryEmailUpdateStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is AlternateContactType && other.value == value;
+      other is PrimaryEmailUpdateStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1011,163 +1437,50 @@ class ContactInformation {
   }
 }
 
-class GetAlternateContactResponse {
-  /// A structure that contains the details for the specified alternate contact.
-  final AlternateContact? alternateContact;
-
-  GetAlternateContactResponse({
-    this.alternateContact,
-  });
-
-  factory GetAlternateContactResponse.fromJson(Map<String, dynamic> json) {
-    return GetAlternateContactResponse(
-      alternateContact: json['AlternateContact'] != null
-          ? AlternateContact.fromJson(
-              json['AlternateContact'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alternateContact = this.alternateContact;
-    return {
-      if (alternateContact != null) 'AlternateContact': alternateContact,
-    };
-  }
-}
-
-class GetContactInformationResponse {
-  /// Contains the details of the primary contact information associated with an
-  /// Amazon Web Services account.
-  final ContactInformation? contactInformation;
-
-  GetContactInformationResponse({
-    this.contactInformation,
-  });
-
-  factory GetContactInformationResponse.fromJson(Map<String, dynamic> json) {
-    return GetContactInformationResponse(
-      contactInformation: json['ContactInformation'] != null
-          ? ContactInformation.fromJson(
-              json['ContactInformation'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactInformation = this.contactInformation;
-    return {
-      if (contactInformation != null) 'ContactInformation': contactInformation,
-    };
-  }
-}
-
-class GetPrimaryEmailResponse {
-  /// Retrieves the primary email address associated with the specified account.
-  final String? primaryEmail;
-
-  GetPrimaryEmailResponse({
-    this.primaryEmail,
-  });
-
-  factory GetPrimaryEmailResponse.fromJson(Map<String, dynamic> json) {
-    return GetPrimaryEmailResponse(
-      primaryEmail: json['PrimaryEmail'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final primaryEmail = this.primaryEmail;
-    return {
-      if (primaryEmail != null) 'PrimaryEmail': primaryEmail,
-    };
-  }
-}
-
-class GetRegionOptStatusResponse {
-  /// The Region code that was passed in.
-  final String? regionName;
-
-  /// One of the potential statuses a Region can undergo (Enabled, Enabling,
-  /// Disabled, Disabling, Enabled_By_Default).
-  final RegionOptStatus? regionOptStatus;
-
-  GetRegionOptStatusResponse({
-    this.regionName,
-    this.regionOptStatus,
-  });
-
-  factory GetRegionOptStatusResponse.fromJson(Map<String, dynamic> json) {
-    return GetRegionOptStatusResponse(
-      regionName: json['RegionName'] as String?,
-      regionOptStatus:
-          (json['RegionOptStatus'] as String?)?.let(RegionOptStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    final regionOptStatus = this.regionOptStatus;
-    return {
-      if (regionName != null) 'RegionName': regionName,
-      if (regionOptStatus != null) 'RegionOptStatus': regionOptStatus.value,
-    };
-  }
-}
-
-class ListRegionsResponse {
-  /// If there is more data to be returned, this will be populated. It should be
-  /// passed into the <code>next-token</code> request parameter of
-  /// <code>list-regions</code>.
-  final String? nextToken;
-
-  /// This is a list of Regions for a given account, or if the filtered parameter
-  /// was used, a list of Regions that match the filter criteria set in the
-  /// <code>filter</code> parameter.
-  final List<Region>? regions;
-
-  ListRegionsResponse({
-    this.nextToken,
-    this.regions,
-  });
-
-  factory ListRegionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListRegionsResponse(
-      nextToken: json['NextToken'] as String?,
-      regions: (json['Regions'] as List?)
-          ?.nonNulls
-          .map((e) => Region.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final regions = this.regions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (regions != null) 'Regions': regions,
-    };
-  }
-}
-
-class PrimaryEmailUpdateStatus {
-  static const pending = PrimaryEmailUpdateStatus._('PENDING');
-  static const accepted = PrimaryEmailUpdateStatus._('ACCEPTED');
+class AwsAccountState {
+  static const pendingActivation = AwsAccountState._('PENDING_ACTIVATION');
+  static const active = AwsAccountState._('ACTIVE');
+  static const suspended = AwsAccountState._('SUSPENDED');
+  static const closed = AwsAccountState._('CLOSED');
 
   final String value;
 
-  const PrimaryEmailUpdateStatus._(this.value);
+  const AwsAccountState._(this.value);
 
-  static const values = [pending, accepted];
+  static const values = [pendingActivation, active, suspended, closed];
 
-  static PrimaryEmailUpdateStatus fromString(String value) =>
+  static AwsAccountState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => PrimaryEmailUpdateStatus._(value));
+          orElse: () => AwsAccountState._(value));
+
+  @override
+  bool operator ==(other) => other is AwsAccountState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AlternateContactType {
+  static const billing = AlternateContactType._('BILLING');
+  static const operations = AlternateContactType._('OPERATIONS');
+  static const security = AlternateContactType._('SECURITY');
+
+  final String value;
+
+  const AlternateContactType._(this.value);
+
+  static const values = [billing, operations, security];
+
+  static AlternateContactType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AlternateContactType._(value));
 
   @override
   bool operator ==(other) =>
-      other is PrimaryEmailUpdateStatus && other.value == value;
+      other is AlternateContactType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1176,93 +1489,83 @@ class PrimaryEmailUpdateStatus {
   String toString() => value;
 }
 
-/// This is a structure that expresses the Region for a given account,
-/// consisting of a name and opt-in status.
-class Region {
-  /// The Region code of a given Region (for example, <code>us-east-1</code>).
-  final String? regionName;
+/// A structure that contains the details of an alternate contact associated
+/// with an Amazon Web Services account
+class AlternateContact {
+  /// The type of alternate contact.
+  final AlternateContactType? alternateContactType;
 
-  /// One of potential statuses a Region can undergo (Enabled, Enabling, Disabled,
-  /// Disabling, Enabled_By_Default).
-  final RegionOptStatus? regionOptStatus;
+  /// The email address associated with this alternate contact.
+  final String? emailAddress;
 
-  Region({
-    this.regionName,
-    this.regionOptStatus,
+  /// The name associated with this alternate contact.
+  final String? name;
+
+  /// The phone number associated with this alternate contact.
+  final String? phoneNumber;
+
+  /// The title associated with this alternate contact.
+  final String? title;
+
+  AlternateContact({
+    this.alternateContactType,
+    this.emailAddress,
+    this.name,
+    this.phoneNumber,
+    this.title,
   });
 
-  factory Region.fromJson(Map<String, dynamic> json) {
-    return Region(
-      regionName: json['RegionName'] as String?,
-      regionOptStatus:
-          (json['RegionOptStatus'] as String?)?.let(RegionOptStatus.fromString),
+  factory AlternateContact.fromJson(Map<String, dynamic> json) {
+    return AlternateContact(
+      alternateContactType: (json['AlternateContactType'] as String?)
+          ?.let(AlternateContactType.fromString),
+      emailAddress: json['EmailAddress'] as String?,
+      name: json['Name'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+      title: json['Title'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final regionName = this.regionName;
-    final regionOptStatus = this.regionOptStatus;
+    final alternateContactType = this.alternateContactType;
+    final emailAddress = this.emailAddress;
+    final name = this.name;
+    final phoneNumber = this.phoneNumber;
+    final title = this.title;
     return {
-      if (regionName != null) 'RegionName': regionName,
-      if (regionOptStatus != null) 'RegionOptStatus': regionOptStatus.value,
+      if (alternateContactType != null)
+        'AlternateContactType': alternateContactType.value,
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (name != null) 'Name': name,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+      if (title != null) 'Title': title,
     };
   }
 }
 
-class RegionOptStatus {
-  static const enabled = RegionOptStatus._('ENABLED');
-  static const enabling = RegionOptStatus._('ENABLING');
-  static const disabling = RegionOptStatus._('DISABLING');
-  static const disabled = RegionOptStatus._('DISABLED');
-  static const enabledByDefault = RegionOptStatus._('ENABLED_BY_DEFAULT');
+class AccountState {
+  static const pendingActivation = AccountState._('PENDING_ACTIVATION');
+  static const active = AccountState._('ACTIVE');
+  static const suspended = AccountState._('SUSPENDED');
+  static const closed = AccountState._('CLOSED');
 
   final String value;
 
-  const RegionOptStatus._(this.value);
+  const AccountState._(this.value);
 
-  static const values = [
-    enabled,
-    enabling,
-    disabling,
-    disabled,
-    enabledByDefault
-  ];
+  static const values = [pendingActivation, active, suspended, closed];
 
-  static RegionOptStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RegionOptStatus._(value));
+  static AccountState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccountState._(value));
 
   @override
-  bool operator ==(other) => other is RegionOptStatus && other.value == value;
+  bool operator ==(other) => other is AccountState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class StartPrimaryEmailUpdateResponse {
-  /// The status of the primary email update request.
-  final PrimaryEmailUpdateStatus? status;
-
-  StartPrimaryEmailUpdateResponse({
-    this.status,
-  });
-
-  factory StartPrimaryEmailUpdateResponse.fromJson(Map<String, dynamic> json) {
-    return StartPrimaryEmailUpdateResponse(
-      status:
-          (json['Status'] as String?)?.let(PrimaryEmailUpdateStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      if (status != null) 'Status': status.value,
-    };
-  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
@@ -1285,6 +1588,12 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ResourceUnavailableException extends _s.GenericAwsException {
+  ResourceUnavailableException({String? type, String? message})
+      : super(
+            type: type, code: 'ResourceUnavailableException', message: message);
+}
+
 class TooManyRequestsException extends _s.GenericAwsException {
   TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
@@ -1304,6 +1613,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ResourceUnavailableException': (type, message) =>
+      ResourceUnavailableException(type: type, message: message),
   'TooManyRequestsException': (type, message) =>
       TooManyRequestsException(type: type, message: message),
   'ValidationException': (type, message) =>

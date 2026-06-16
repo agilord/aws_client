@@ -21,9 +21,9 @@ import '../../shared/shared.dart'
 export '../../shared/shared.dart' show AwsClientCredentials;
 
 /// Provide APIs to create and manage Amazon Connect Campaigns.
-class ConnectCampaign {
+class ConnectCampaigns {
   final _s.RestJsonProtocol _protocol;
-  ConnectCampaign({
+  ConnectCampaigns({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
@@ -33,7 +33,6 @@ class ConnectCampaign {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'connect-campaigns',
-            signingName: 'connect-campaigns',
           ),
           region: region,
           credentials: credentials,
@@ -53,13 +52,13 @@ class ConnectCampaign {
   /// Creates a campaign for the specified Amazon Connect account. This API is
   /// idempotent.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<CreateCampaignResponse> createCampaign({
     required String connectInstanceId,
     required DialerConfig dialerConfig,
@@ -85,10 +84,10 @@ class ConnectCampaign {
 
   /// Deletes a campaign from the specified Amazon Connect account.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   Future<void> deleteCampaign({
     required String id,
   }) async {
@@ -102,12 +101,12 @@ class ConnectCampaign {
 
   /// Deletes a connect instance config from the specified AWS account.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> deleteConnectInstanceConfig({
     required String connectInstanceId,
   }) async {
@@ -123,11 +122,11 @@ class ConnectCampaign {
   /// Delete the Connect Campaigns onboarding job for the specified Amazon
   /// Connect instance.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidStateException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  /// May throw [InvalidStateException].
   Future<void> deleteInstanceOnboardingJob({
     required String connectInstanceId,
   }) async {
@@ -142,10 +141,10 @@ class ConnectCampaign {
 
   /// Describes the specific campaign.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   Future<DescribeCampaignResponse> describeCampaign({
     required String id,
   }) async {
@@ -160,11 +159,11 @@ class ConnectCampaign {
 
   /// Get state of a campaign for the specified Amazon Connect account.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetCampaignStateResponse> getCampaignState({
     required String id,
   }) async {
@@ -179,10 +178,10 @@ class ConnectCampaign {
 
   /// Get state of campaigns for the specified Amazon Connect account.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<GetCampaignStateBatchResponse> getCampaignStateBatch({
     required List<String> campaignIds,
   }) async {
@@ -200,10 +199,10 @@ class ConnectCampaign {
 
   /// Get the specific Connect instance config.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   Future<GetConnectInstanceConfigResponse> getConnectInstanceConfig({
     required String connectInstanceId,
   }) async {
@@ -219,10 +218,10 @@ class ConnectCampaign {
 
   /// Get the specific instance onboarding job status.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   Future<GetInstanceOnboardingJobStatusResponse>
       getInstanceOnboardingJobStatus({
     required String connectInstanceId,
@@ -240,9 +239,9 @@ class ConnectCampaign {
   /// Provides summary information about the campaigns under the specified
   /// Amazon Connect account.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   Future<ListCampaignsResponse> listCampaigns({
     CampaignFilters? filters,
     int? maxResults,
@@ -270,11 +269,11 @@ class ConnectCampaign {
 
   /// List tags for a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String arn,
   }) async {
@@ -289,13 +288,13 @@ class ConnectCampaign {
 
   /// Pauses a campaign for the specified Amazon Connect account.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InvalidCampaignStateException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidCampaignStateException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> pauseCampaign({
     required String id,
   }) async {
@@ -310,13 +309,13 @@ class ConnectCampaign {
   /// Creates dials requests for the specified campaign Amazon Connect account.
   /// This API is idempotent.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InvalidCampaignStateException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidCampaignStateException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<PutDialRequestBatchResponse> putDialRequestBatch({
     required List<DialRequest> dialRequests,
     required String id,
@@ -335,13 +334,13 @@ class ConnectCampaign {
 
   /// Stops a campaign for the specified Amazon Connect account.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InvalidCampaignStateException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidCampaignStateException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> resumeCampaign({
     required String id,
   }) async {
@@ -355,13 +354,13 @@ class ConnectCampaign {
 
   /// Starts a campaign for the specified Amazon Connect account.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InvalidCampaignStateException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidCampaignStateException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> startCampaign({
     required String id,
   }) async {
@@ -375,12 +374,12 @@ class ConnectCampaign {
 
   /// Onboard the specific Amazon Connect instance to Connect Campaigns.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<StartInstanceOnboardingJobResponse> startInstanceOnboardingJob({
     required String connectInstanceId,
     required EncryptionConfig encryptionConfig,
@@ -400,13 +399,13 @@ class ConnectCampaign {
 
   /// Stops a campaign for the specified Amazon Connect account.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InvalidCampaignStateException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidCampaignStateException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> stopCampaign({
     required String id,
   }) async {
@@ -420,11 +419,11 @@ class ConnectCampaign {
 
   /// Tag a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> tagResource({
     required String arn,
     required Map<String, String> tags,
@@ -442,11 +441,11 @@ class ConnectCampaign {
 
   /// Untag a resource.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> untagResource({
     required String arn,
     required List<String> tagKeys,
@@ -465,11 +464,11 @@ class ConnectCampaign {
 
   /// Updates the dialer config of a campaign. This API is idempotent.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   Future<void> updateCampaignDialerConfig({
     required DialerConfig dialerConfig,
     required String id,
@@ -487,11 +486,11 @@ class ConnectCampaign {
 
   /// Updates the name of a campaign. This API is idempotent.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   Future<void> updateCampaignName({
     required String id,
     required String name,
@@ -509,12 +508,12 @@ class ConnectCampaign {
 
   /// Updates the outbound call config of a campaign. This API is idempotent.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   Future<void> updateCampaignOutboundCallConfig({
     required String id,
     AnswerMachineDetectionConfig? answerMachineDetectionConfig,
@@ -538,24 +537,291 @@ class ConnectCampaign {
   }
 }
 
-/// Agentless Dialer config
-class AgentlessDialerConfig {
-  final double? dialingCapacity;
+/// The response for Create Campaign API
+class CreateCampaignResponse {
+  final String? arn;
+  final String? id;
+  final Map<String, String>? tags;
 
-  AgentlessDialerConfig({
-    this.dialingCapacity,
+  CreateCampaignResponse({
+    this.arn,
+    this.id,
+    this.tags,
   });
 
-  factory AgentlessDialerConfig.fromJson(Map<String, dynamic> json) {
-    return AgentlessDialerConfig(
-      dialingCapacity: json['dialingCapacity'] as double?,
+  factory CreateCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCampaignResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dialingCapacity = this.dialingCapacity;
+    final arn = this.arn;
+    final id = this.id;
+    final tags = this.tags;
     return {
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// DescribeCampaignResponse
+class DescribeCampaignResponse {
+  final Campaign? campaign;
+
+  DescribeCampaignResponse({
+    this.campaign,
+  });
+
+  factory DescribeCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCampaignResponse(
+      campaign: json['campaign'] != null
+          ? Campaign.fromJson(json['campaign'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaign = this.campaign;
+    return {
+      if (campaign != null) 'campaign': campaign,
+    };
+  }
+}
+
+/// GetCampaignStateResponse
+class GetCampaignStateResponse {
+  final CampaignState? state;
+
+  GetCampaignStateResponse({
+    this.state,
+  });
+
+  factory GetCampaignStateResponse.fromJson(Map<String, dynamic> json) {
+    return GetCampaignStateResponse(
+      state: (json['state'] as String?)?.let(CampaignState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    return {
+      if (state != null) 'state': state.value,
+    };
+  }
+}
+
+/// GetCampaignStateBatchResponse
+class GetCampaignStateBatchResponse {
+  final List<FailedCampaignStateResponse>? failedRequests;
+  final List<SuccessfulCampaignStateResponse>? successfulRequests;
+
+  GetCampaignStateBatchResponse({
+    this.failedRequests,
+    this.successfulRequests,
+  });
+
+  factory GetCampaignStateBatchResponse.fromJson(Map<String, dynamic> json) {
+    return GetCampaignStateBatchResponse(
+      failedRequests: (json['failedRequests'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              FailedCampaignStateResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successfulRequests: (json['successfulRequests'] as List?)
+          ?.nonNulls
+          .map((e) => SuccessfulCampaignStateResponse.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequests = this.failedRequests;
+    final successfulRequests = this.successfulRequests;
+    return {
+      if (failedRequests != null) 'failedRequests': failedRequests,
+      if (successfulRequests != null) 'successfulRequests': successfulRequests,
+    };
+  }
+}
+
+/// GetConnectInstanceConfigResponse
+class GetConnectInstanceConfigResponse {
+  final InstanceConfig? connectInstanceConfig;
+
+  GetConnectInstanceConfigResponse({
+    this.connectInstanceConfig,
+  });
+
+  factory GetConnectInstanceConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectInstanceConfigResponse(
+      connectInstanceConfig: json['connectInstanceConfig'] != null
+          ? InstanceConfig.fromJson(
+              json['connectInstanceConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectInstanceConfig = this.connectInstanceConfig;
+    return {
+      if (connectInstanceConfig != null)
+        'connectInstanceConfig': connectInstanceConfig,
+    };
+  }
+}
+
+/// GetInstanceOnboardingJobStatusResponse
+class GetInstanceOnboardingJobStatusResponse {
+  final InstanceOnboardingJobStatus? connectInstanceOnboardingJobStatus;
+
+  GetInstanceOnboardingJobStatusResponse({
+    this.connectInstanceOnboardingJobStatus,
+  });
+
+  factory GetInstanceOnboardingJobStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetInstanceOnboardingJobStatusResponse(
+      connectInstanceOnboardingJobStatus:
+          json['connectInstanceOnboardingJobStatus'] != null
+              ? InstanceOnboardingJobStatus.fromJson(
+                  json['connectInstanceOnboardingJobStatus']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectInstanceOnboardingJobStatus =
+        this.connectInstanceOnboardingJobStatus;
+    return {
+      if (connectInstanceOnboardingJobStatus != null)
+        'connectInstanceOnboardingJobStatus':
+            connectInstanceOnboardingJobStatus,
+    };
+  }
+}
+
+/// ListCampaignsResponse
+class ListCampaignsResponse {
+  final List<CampaignSummary>? campaignSummaryList;
+  final String? nextToken;
+
+  ListCampaignsResponse({
+    this.campaignSummaryList,
+    this.nextToken,
+  });
+
+  factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCampaignsResponse(
+      campaignSummaryList: (json['campaignSummaryList'] as List?)
+          ?.nonNulls
+          .map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaignSummaryList = this.campaignSummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (campaignSummaryList != null)
+        'campaignSummaryList': campaignSummaryList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// ListTagsForResponse
+class ListTagsForResourceResponse {
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// PutDialRequestBatchResponse
+class PutDialRequestBatchResponse {
+  final List<FailedRequest>? failedRequests;
+  final List<SuccessfulRequest>? successfulRequests;
+
+  PutDialRequestBatchResponse({
+    this.failedRequests,
+    this.successfulRequests,
+  });
+
+  factory PutDialRequestBatchResponse.fromJson(Map<String, dynamic> json) {
+    return PutDialRequestBatchResponse(
+      failedRequests: (json['failedRequests'] as List?)
+          ?.nonNulls
+          .map((e) => FailedRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successfulRequests: (json['successfulRequests'] as List?)
+          ?.nonNulls
+          .map((e) => SuccessfulRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequests = this.failedRequests;
+    final successfulRequests = this.successfulRequests;
+    return {
+      if (failedRequests != null) 'failedRequests': failedRequests,
+      if (successfulRequests != null) 'successfulRequests': successfulRequests,
+    };
+  }
+}
+
+/// The response for StartInstanceOnboardingJob API.
+class StartInstanceOnboardingJobResponse {
+  final InstanceOnboardingJobStatus? connectInstanceOnboardingJobStatus;
+
+  StartInstanceOnboardingJobResponse({
+    this.connectInstanceOnboardingJobStatus,
+  });
+
+  factory StartInstanceOnboardingJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return StartInstanceOnboardingJobResponse(
+      connectInstanceOnboardingJobStatus:
+          json['connectInstanceOnboardingJobStatus'] != null
+              ? InstanceOnboardingJobStatus.fromJson(
+                  json['connectInstanceOnboardingJobStatus']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectInstanceOnboardingJobStatus =
+        this.connectInstanceOnboardingJobStatus;
+    return {
+      if (connectInstanceOnboardingJobStatus != null)
+        'connectInstanceOnboardingJobStatus':
+            connectInstanceOnboardingJobStatus,
     };
   }
 }
@@ -592,75 +858,400 @@ class AnswerMachineDetectionConfig {
   }
 }
 
-/// An Amazon Connect campaign.
-class Campaign {
-  final String arn;
-  final String connectInstanceId;
-  final DialerConfig dialerConfig;
-  final String id;
-  final String name;
-  final OutboundCallConfig outboundCallConfig;
-  final Map<String, String>? tags;
+/// The possible types of dialer config parameters
+class DialerConfig {
+  final AgentlessDialerConfig? agentlessDialerConfig;
+  final PredictiveDialerConfig? predictiveDialerConfig;
+  final ProgressiveDialerConfig? progressiveDialerConfig;
 
-  Campaign({
-    required this.arn,
-    required this.connectInstanceId,
-    required this.dialerConfig,
-    required this.id,
-    required this.name,
-    required this.outboundCallConfig,
-    this.tags,
+  DialerConfig({
+    this.agentlessDialerConfig,
+    this.predictiveDialerConfig,
+    this.progressiveDialerConfig,
   });
 
-  factory Campaign.fromJson(Map<String, dynamic> json) {
-    return Campaign(
-      arn: (json['arn'] as String?) ?? '',
-      connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
-      dialerConfig: DialerConfig.fromJson(
-          (json['dialerConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      outboundCallConfig: OutboundCallConfig.fromJson(
-          (json['outboundCallConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+  factory DialerConfig.fromJson(Map<String, dynamic> json) {
+    return DialerConfig(
+      agentlessDialerConfig: json['agentlessDialerConfig'] != null
+          ? AgentlessDialerConfig.fromJson(
+              json['agentlessDialerConfig'] as Map<String, dynamic>)
+          : null,
+      predictiveDialerConfig: json['predictiveDialerConfig'] != null
+          ? PredictiveDialerConfig.fromJson(
+              json['predictiveDialerConfig'] as Map<String, dynamic>)
+          : null,
+      progressiveDialerConfig: json['progressiveDialerConfig'] != null
+          ? ProgressiveDialerConfig.fromJson(
+              json['progressiveDialerConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final connectInstanceId = this.connectInstanceId;
-    final dialerConfig = this.dialerConfig;
-    final id = this.id;
-    final name = this.name;
-    final outboundCallConfig = this.outboundCallConfig;
-    final tags = this.tags;
+    final agentlessDialerConfig = this.agentlessDialerConfig;
+    final predictiveDialerConfig = this.predictiveDialerConfig;
+    final progressiveDialerConfig = this.progressiveDialerConfig;
     return {
-      'arn': arn,
-      'connectInstanceId': connectInstanceId,
-      'dialerConfig': dialerConfig,
-      'id': id,
-      'name': name,
-      'outboundCallConfig': outboundCallConfig,
-      if (tags != null) 'tags': tags,
+      if (agentlessDialerConfig != null)
+        'agentlessDialerConfig': agentlessDialerConfig,
+      if (predictiveDialerConfig != null)
+        'predictiveDialerConfig': predictiveDialerConfig,
+      if (progressiveDialerConfig != null)
+        'progressiveDialerConfig': progressiveDialerConfig,
     };
   }
 }
 
-/// Filter model by type
-class CampaignFilters {
-  final InstanceIdFilter? instanceIdFilter;
+/// Progressive Dialer config
+class ProgressiveDialerConfig {
+  final double bandwidthAllocation;
+  final double? dialingCapacity;
 
-  CampaignFilters({
-    this.instanceIdFilter,
+  ProgressiveDialerConfig({
+    required this.bandwidthAllocation,
+    this.dialingCapacity,
+  });
+
+  factory ProgressiveDialerConfig.fromJson(Map<String, dynamic> json) {
+    return ProgressiveDialerConfig(
+      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
+      dialingCapacity: json['dialingCapacity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bandwidthAllocation = this.bandwidthAllocation;
+    final dialingCapacity = this.dialingCapacity;
+    return {
+      'bandwidthAllocation': bandwidthAllocation,
+      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+    };
+  }
+}
+
+/// Predictive Dialer config
+class PredictiveDialerConfig {
+  final double bandwidthAllocation;
+  final double? dialingCapacity;
+
+  PredictiveDialerConfig({
+    required this.bandwidthAllocation,
+    this.dialingCapacity,
+  });
+
+  factory PredictiveDialerConfig.fromJson(Map<String, dynamic> json) {
+    return PredictiveDialerConfig(
+      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
+      dialingCapacity: json['dialingCapacity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bandwidthAllocation = this.bandwidthAllocation;
+    final dialingCapacity = this.dialingCapacity;
+    return {
+      'bandwidthAllocation': bandwidthAllocation,
+      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+    };
+  }
+}
+
+/// Agentless Dialer config
+class AgentlessDialerConfig {
+  final double? dialingCapacity;
+
+  AgentlessDialerConfig({
+    this.dialingCapacity,
+  });
+
+  factory AgentlessDialerConfig.fromJson(Map<String, dynamic> json) {
+    return AgentlessDialerConfig(
+      dialingCapacity: json['dialingCapacity'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dialingCapacity = this.dialingCapacity;
+    return {
+      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
+    };
+  }
+}
+
+/// Instance onboarding job status object
+class InstanceOnboardingJobStatus {
+  final String connectInstanceId;
+  final InstanceOnboardingJobStatusCode status;
+  final InstanceOnboardingJobFailureCode? failureCode;
+
+  InstanceOnboardingJobStatus({
+    required this.connectInstanceId,
+    required this.status,
+    this.failureCode,
+  });
+
+  factory InstanceOnboardingJobStatus.fromJson(Map<String, dynamic> json) {
+    return InstanceOnboardingJobStatus(
+      connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
+      status: InstanceOnboardingJobStatusCode.fromString(
+          (json['status'] as String?) ?? ''),
+      failureCode: (json['failureCode'] as String?)
+          ?.let(InstanceOnboardingJobFailureCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectInstanceId = this.connectInstanceId;
+    final status = this.status;
+    final failureCode = this.failureCode;
+    return {
+      'connectInstanceId': connectInstanceId,
+      'status': status.value,
+      if (failureCode != null) 'failureCode': failureCode.value,
+    };
+  }
+}
+
+/// Enumeration of the possible states for instance onboarding job
+class InstanceOnboardingJobStatusCode {
+  static const inProgress = InstanceOnboardingJobStatusCode._('IN_PROGRESS');
+  static const succeeded = InstanceOnboardingJobStatusCode._('SUCCEEDED');
+  static const failed = InstanceOnboardingJobStatusCode._('FAILED');
+
+  final String value;
+
+  const InstanceOnboardingJobStatusCode._(this.value);
+
+  static const values = [inProgress, succeeded, failed];
+
+  static InstanceOnboardingJobStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceOnboardingJobStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceOnboardingJobStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Enumeration of the possible failure codes for instance onboarding job
+class InstanceOnboardingJobFailureCode {
+  static const eventBridgeAccessDenied =
+      InstanceOnboardingJobFailureCode._('EVENT_BRIDGE_ACCESS_DENIED');
+  static const eventBridgeManagedRuleLimitExceeded =
+      InstanceOnboardingJobFailureCode._(
+          'EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED');
+  static const iamAccessDenied =
+      InstanceOnboardingJobFailureCode._('IAM_ACCESS_DENIED');
+  static const kmsAccessDenied =
+      InstanceOnboardingJobFailureCode._('KMS_ACCESS_DENIED');
+  static const kmsKeyNotFound =
+      InstanceOnboardingJobFailureCode._('KMS_KEY_NOT_FOUND');
+  static const internalFailure =
+      InstanceOnboardingJobFailureCode._('INTERNAL_FAILURE');
+
+  final String value;
+
+  const InstanceOnboardingJobFailureCode._(this.value);
+
+  static const values = [
+    eventBridgeAccessDenied,
+    eventBridgeManagedRuleLimitExceeded,
+    iamAccessDenied,
+    kmsAccessDenied,
+    kmsKeyNotFound,
+    internalFailure
+  ];
+
+  static InstanceOnboardingJobFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceOnboardingJobFailureCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceOnboardingJobFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Encryption config for Connect Instance. Note that sensitive data will always
+/// be encrypted. If disabled, service will perform encryption with its own key.
+/// If enabled, a KMS key id needs to be provided and KMS charges will apply.
+/// KMS is only type supported
+class EncryptionConfig {
+  final bool enabled;
+  final EncryptionType? encryptionType;
+  final String? keyArn;
+
+  EncryptionConfig({
+    required this.enabled,
+    this.encryptionType,
+    this.keyArn,
+  });
+
+  factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfig(
+      enabled: (json['enabled'] as bool?) ?? false,
+      encryptionType:
+          (json['encryptionType'] as String?)?.let(EncryptionType.fromString),
+      keyArn: json['keyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final encryptionType = this.encryptionType;
+    final keyArn = this.keyArn;
+    return {
+      'enabled': enabled,
+      if (encryptionType != null) 'encryptionType': encryptionType.value,
+      if (keyArn != null) 'keyArn': keyArn,
+    };
+  }
+}
+
+/// Server-side encryption type.
+class EncryptionType {
+  static const kms = EncryptionType._('KMS');
+
+  final String value;
+
+  const EncryptionType._(this.value);
+
+  static const values = [kms];
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A failed request identified by the unique client token.
+class FailedRequest {
+  final String? clientToken;
+  final FailureCode? failureCode;
+  final String? id;
+
+  FailedRequest({
+    this.clientToken,
+    this.failureCode,
+    this.id,
+  });
+
+  factory FailedRequest.fromJson(Map<String, dynamic> json) {
+    return FailedRequest(
+      clientToken: json['clientToken'] as String?,
+      failureCode:
+          (json['failureCode'] as String?)?.let(FailureCode.fromString),
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final failureCode = this.failureCode;
+    final id = this.id;
+    return {
+      if (clientToken != null) 'clientToken': clientToken,
+      if (failureCode != null) 'failureCode': failureCode.value,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// A predefined code indicating the error that caused the failure.
+class FailureCode {
+  static const invalidInput = FailureCode._('InvalidInput');
+  static const requestThrottled = FailureCode._('RequestThrottled');
+  static const unknownError = FailureCode._('UnknownError');
+
+  final String value;
+
+  const FailureCode._(this.value);
+
+  static const values = [invalidInput, requestThrottled, unknownError];
+
+  static FailureCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => FailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is FailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A successful request identified by the unique client token.
+class SuccessfulRequest {
+  final String? clientToken;
+  final String? id;
+
+  SuccessfulRequest({
+    this.clientToken,
+    this.id,
+  });
+
+  factory SuccessfulRequest.fromJson(Map<String, dynamic> json) {
+    return SuccessfulRequest(
+      clientToken: json['clientToken'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final id = this.id;
+    return {
+      if (clientToken != null) 'clientToken': clientToken,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// A dial request for a campaign.
+class DialRequest {
+  final Map<String, String> attributes;
+  final String clientToken;
+  final DateTime expirationTime;
+  final String phoneNumber;
+
+  DialRequest({
+    required this.attributes,
+    required this.clientToken,
+    required this.expirationTime,
+    required this.phoneNumber,
   });
 
   Map<String, dynamic> toJson() {
-    final instanceIdFilter = this.instanceIdFilter;
+    final attributes = this.attributes;
+    final clientToken = this.clientToken;
+    final expirationTime = this.expirationTime;
+    final phoneNumber = this.phoneNumber;
     return {
-      if (instanceIdFilter != null) 'instanceIdFilter': instanceIdFilter,
+      'attributes': attributes,
+      'clientToken': clientToken,
+      'expirationTime': iso8601ToJson(expirationTime),
+      'phoneNumber': phoneNumber,
     };
   }
 }
@@ -730,454 +1321,18 @@ class CampaignSummary {
   }
 }
 
-/// The response for Create Campaign API
-class CreateCampaignResponse {
-  final String? arn;
-  final String? id;
-  final Map<String, String>? tags;
+/// Filter model by type
+class CampaignFilters {
+  final InstanceIdFilter? instanceIdFilter;
 
-  CreateCampaignResponse({
-    this.arn,
-    this.id,
-    this.tags,
-  });
-
-  factory CreateCampaignResponse.fromJson(Map<String, dynamic> json) {
-    return CreateCampaignResponse(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// DescribeCampaignResponse
-class DescribeCampaignResponse {
-  final Campaign? campaign;
-
-  DescribeCampaignResponse({
-    this.campaign,
-  });
-
-  factory DescribeCampaignResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeCampaignResponse(
-      campaign: json['campaign'] != null
-          ? Campaign.fromJson(json['campaign'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaign = this.campaign;
-    return {
-      if (campaign != null) 'campaign': campaign,
-    };
-  }
-}
-
-/// A dial request for a campaign.
-class DialRequest {
-  final Map<String, String> attributes;
-  final String clientToken;
-  final DateTime expirationTime;
-  final String phoneNumber;
-
-  DialRequest({
-    required this.attributes,
-    required this.clientToken,
-    required this.expirationTime,
-    required this.phoneNumber,
+  CampaignFilters({
+    this.instanceIdFilter,
   });
 
   Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    final clientToken = this.clientToken;
-    final expirationTime = this.expirationTime;
-    final phoneNumber = this.phoneNumber;
+    final instanceIdFilter = this.instanceIdFilter;
     return {
-      'attributes': attributes,
-      'clientToken': clientToken,
-      'expirationTime': iso8601ToJson(expirationTime),
-      'phoneNumber': phoneNumber,
-    };
-  }
-}
-
-/// The possible types of dialer config parameters
-class DialerConfig {
-  final AgentlessDialerConfig? agentlessDialerConfig;
-  final PredictiveDialerConfig? predictiveDialerConfig;
-  final ProgressiveDialerConfig? progressiveDialerConfig;
-
-  DialerConfig({
-    this.agentlessDialerConfig,
-    this.predictiveDialerConfig,
-    this.progressiveDialerConfig,
-  });
-
-  factory DialerConfig.fromJson(Map<String, dynamic> json) {
-    return DialerConfig(
-      agentlessDialerConfig: json['agentlessDialerConfig'] != null
-          ? AgentlessDialerConfig.fromJson(
-              json['agentlessDialerConfig'] as Map<String, dynamic>)
-          : null,
-      predictiveDialerConfig: json['predictiveDialerConfig'] != null
-          ? PredictiveDialerConfig.fromJson(
-              json['predictiveDialerConfig'] as Map<String, dynamic>)
-          : null,
-      progressiveDialerConfig: json['progressiveDialerConfig'] != null
-          ? ProgressiveDialerConfig.fromJson(
-              json['progressiveDialerConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agentlessDialerConfig = this.agentlessDialerConfig;
-    final predictiveDialerConfig = this.predictiveDialerConfig;
-    final progressiveDialerConfig = this.progressiveDialerConfig;
-    return {
-      if (agentlessDialerConfig != null)
-        'agentlessDialerConfig': agentlessDialerConfig,
-      if (predictiveDialerConfig != null)
-        'predictiveDialerConfig': predictiveDialerConfig,
-      if (progressiveDialerConfig != null)
-        'progressiveDialerConfig': progressiveDialerConfig,
-    };
-  }
-}
-
-/// Encryption config for Connect Instance. Note that sensitive data will always
-/// be encrypted. If disabled, service will perform encryption with its own key.
-/// If enabled, a KMS key id needs to be provided and KMS charges will apply.
-/// KMS is only type supported
-class EncryptionConfig {
-  final bool enabled;
-  final EncryptionType? encryptionType;
-  final String? keyArn;
-
-  EncryptionConfig({
-    required this.enabled,
-    this.encryptionType,
-    this.keyArn,
-  });
-
-  factory EncryptionConfig.fromJson(Map<String, dynamic> json) {
-    return EncryptionConfig(
-      enabled: (json['enabled'] as bool?) ?? false,
-      encryptionType:
-          (json['encryptionType'] as String?)?.let(EncryptionType.fromString),
-      keyArn: json['keyArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final encryptionType = this.encryptionType;
-    final keyArn = this.keyArn;
-    return {
-      'enabled': enabled,
-      if (encryptionType != null) 'encryptionType': encryptionType.value,
-      if (keyArn != null) 'keyArn': keyArn,
-    };
-  }
-}
-
-/// Server-side encryption type.
-class EncryptionType {
-  static const kms = EncryptionType._('KMS');
-
-  final String value;
-
-  const EncryptionType._(this.value);
-
-  static const values = [kms];
-
-  static EncryptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionType._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Failed response of campaign state
-class FailedCampaignStateResponse {
-  final String? campaignId;
-  final GetCampaignStateBatchFailureCode? failureCode;
-
-  FailedCampaignStateResponse({
-    this.campaignId,
-    this.failureCode,
-  });
-
-  factory FailedCampaignStateResponse.fromJson(Map<String, dynamic> json) {
-    return FailedCampaignStateResponse(
-      campaignId: json['campaignId'] as String?,
-      failureCode: (json['failureCode'] as String?)
-          ?.let(GetCampaignStateBatchFailureCode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaignId = this.campaignId;
-    final failureCode = this.failureCode;
-    return {
-      if (campaignId != null) 'campaignId': campaignId,
-      if (failureCode != null) 'failureCode': failureCode.value,
-    };
-  }
-}
-
-/// A failed request identified by the unique client token.
-class FailedRequest {
-  final String? clientToken;
-  final FailureCode? failureCode;
-  final String? id;
-
-  FailedRequest({
-    this.clientToken,
-    this.failureCode,
-    this.id,
-  });
-
-  factory FailedRequest.fromJson(Map<String, dynamic> json) {
-    return FailedRequest(
-      clientToken: json['clientToken'] as String?,
-      failureCode:
-          (json['failureCode'] as String?)?.let(FailureCode.fromString),
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientToken = this.clientToken;
-    final failureCode = this.failureCode;
-    final id = this.id;
-    return {
-      if (clientToken != null) 'clientToken': clientToken,
-      if (failureCode != null) 'failureCode': failureCode.value,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// A predefined code indicating the error that caused the failure.
-class FailureCode {
-  static const invalidInput = FailureCode._('InvalidInput');
-  static const requestThrottled = FailureCode._('RequestThrottled');
-  static const unknownError = FailureCode._('UnknownError');
-
-  final String value;
-
-  const FailureCode._(this.value);
-
-  static const values = [invalidInput, requestThrottled, unknownError];
-
-  static FailureCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => FailureCode._(value));
-
-  @override
-  bool operator ==(other) => other is FailureCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A predefined code indicating the error that caused the failure in getting
-/// state of campaigns
-class GetCampaignStateBatchFailureCode {
-  static const resourceNotFound =
-      GetCampaignStateBatchFailureCode._('ResourceNotFound');
-  static const unknownError =
-      GetCampaignStateBatchFailureCode._('UnknownError');
-
-  final String value;
-
-  const GetCampaignStateBatchFailureCode._(this.value);
-
-  static const values = [resourceNotFound, unknownError];
-
-  static GetCampaignStateBatchFailureCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GetCampaignStateBatchFailureCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is GetCampaignStateBatchFailureCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// GetCampaignStateBatchResponse
-class GetCampaignStateBatchResponse {
-  final List<FailedCampaignStateResponse>? failedRequests;
-  final List<SuccessfulCampaignStateResponse>? successfulRequests;
-
-  GetCampaignStateBatchResponse({
-    this.failedRequests,
-    this.successfulRequests,
-  });
-
-  factory GetCampaignStateBatchResponse.fromJson(Map<String, dynamic> json) {
-    return GetCampaignStateBatchResponse(
-      failedRequests: (json['failedRequests'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              FailedCampaignStateResponse.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      successfulRequests: (json['successfulRequests'] as List?)
-          ?.nonNulls
-          .map((e) => SuccessfulCampaignStateResponse.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failedRequests = this.failedRequests;
-    final successfulRequests = this.successfulRequests;
-    return {
-      if (failedRequests != null) 'failedRequests': failedRequests,
-      if (successfulRequests != null) 'successfulRequests': successfulRequests,
-    };
-  }
-}
-
-/// GetCampaignStateResponse
-class GetCampaignStateResponse {
-  final CampaignState? state;
-
-  GetCampaignStateResponse({
-    this.state,
-  });
-
-  factory GetCampaignStateResponse.fromJson(Map<String, dynamic> json) {
-    return GetCampaignStateResponse(
-      state: (json['state'] as String?)?.let(CampaignState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    return {
-      if (state != null) 'state': state.value,
-    };
-  }
-}
-
-/// GetConnectInstanceConfigResponse
-class GetConnectInstanceConfigResponse {
-  final InstanceConfig? connectInstanceConfig;
-
-  GetConnectInstanceConfigResponse({
-    this.connectInstanceConfig,
-  });
-
-  factory GetConnectInstanceConfigResponse.fromJson(Map<String, dynamic> json) {
-    return GetConnectInstanceConfigResponse(
-      connectInstanceConfig: json['connectInstanceConfig'] != null
-          ? InstanceConfig.fromJson(
-              json['connectInstanceConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectInstanceConfig = this.connectInstanceConfig;
-    return {
-      if (connectInstanceConfig != null)
-        'connectInstanceConfig': connectInstanceConfig,
-    };
-  }
-}
-
-/// GetInstanceOnboardingJobStatusResponse
-class GetInstanceOnboardingJobStatusResponse {
-  final InstanceOnboardingJobStatus? connectInstanceOnboardingJobStatus;
-
-  GetInstanceOnboardingJobStatusResponse({
-    this.connectInstanceOnboardingJobStatus,
-  });
-
-  factory GetInstanceOnboardingJobStatusResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetInstanceOnboardingJobStatusResponse(
-      connectInstanceOnboardingJobStatus:
-          json['connectInstanceOnboardingJobStatus'] != null
-              ? InstanceOnboardingJobStatus.fromJson(
-                  json['connectInstanceOnboardingJobStatus']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectInstanceOnboardingJobStatus =
-        this.connectInstanceOnboardingJobStatus;
-    return {
-      if (connectInstanceOnboardingJobStatus != null)
-        'connectInstanceOnboardingJobStatus':
-            connectInstanceOnboardingJobStatus,
-    };
-  }
-}
-
-/// Instance config object
-class InstanceConfig {
-  final String connectInstanceId;
-  final EncryptionConfig encryptionConfig;
-  final String serviceLinkedRoleArn;
-
-  InstanceConfig({
-    required this.connectInstanceId,
-    required this.encryptionConfig,
-    required this.serviceLinkedRoleArn,
-  });
-
-  factory InstanceConfig.fromJson(Map<String, dynamic> json) {
-    return InstanceConfig(
-      connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
-      encryptionConfig: EncryptionConfig.fromJson(
-          (json['encryptionConfig'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      serviceLinkedRoleArn: (json['serviceLinkedRoleArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectInstanceId = this.connectInstanceId;
-    final encryptionConfig = this.encryptionConfig;
-    final serviceLinkedRoleArn = this.serviceLinkedRoleArn;
-    return {
-      'connectInstanceId': connectInstanceId,
-      'encryptionConfig': encryptionConfig,
-      'serviceLinkedRoleArn': serviceLinkedRoleArn,
+      if (instanceIdFilter != null) 'instanceIdFilter': instanceIdFilter,
     };
   }
 }
@@ -1227,103 +1382,89 @@ class InstanceIdFilterOperator {
   String toString() => value;
 }
 
-/// Enumeration of the possible failure codes for instance onboarding job
-class InstanceOnboardingJobFailureCode {
-  static const eventBridgeAccessDenied =
-      InstanceOnboardingJobFailureCode._('EVENT_BRIDGE_ACCESS_DENIED');
-  static const eventBridgeManagedRuleLimitExceeded =
-      InstanceOnboardingJobFailureCode._(
-          'EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED');
-  static const iamAccessDenied =
-      InstanceOnboardingJobFailureCode._('IAM_ACCESS_DENIED');
-  static const kmsAccessDenied =
-      InstanceOnboardingJobFailureCode._('KMS_ACCESS_DENIED');
-  static const kmsKeyNotFound =
-      InstanceOnboardingJobFailureCode._('KMS_KEY_NOT_FOUND');
-  static const internalFailure =
-      InstanceOnboardingJobFailureCode._('INTERNAL_FAILURE');
-
-  final String value;
-
-  const InstanceOnboardingJobFailureCode._(this.value);
-
-  static const values = [
-    eventBridgeAccessDenied,
-    eventBridgeManagedRuleLimitExceeded,
-    iamAccessDenied,
-    kmsAccessDenied,
-    kmsKeyNotFound,
-    internalFailure
-  ];
-
-  static InstanceOnboardingJobFailureCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceOnboardingJobFailureCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InstanceOnboardingJobFailureCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Instance onboarding job status object
-class InstanceOnboardingJobStatus {
+/// Instance config object
+class InstanceConfig {
   final String connectInstanceId;
-  final InstanceOnboardingJobStatusCode status;
-  final InstanceOnboardingJobFailureCode? failureCode;
+  final EncryptionConfig encryptionConfig;
+  final String serviceLinkedRoleArn;
 
-  InstanceOnboardingJobStatus({
+  InstanceConfig({
     required this.connectInstanceId,
-    required this.status,
-    this.failureCode,
+    required this.encryptionConfig,
+    required this.serviceLinkedRoleArn,
   });
 
-  factory InstanceOnboardingJobStatus.fromJson(Map<String, dynamic> json) {
-    return InstanceOnboardingJobStatus(
+  factory InstanceConfig.fromJson(Map<String, dynamic> json) {
+    return InstanceConfig(
       connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
-      status: InstanceOnboardingJobStatusCode.fromString(
-          (json['status'] as String?) ?? ''),
-      failureCode: (json['failureCode'] as String?)
-          ?.let(InstanceOnboardingJobFailureCode.fromString),
+      encryptionConfig: EncryptionConfig.fromJson(
+          (json['encryptionConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      serviceLinkedRoleArn: (json['serviceLinkedRoleArn'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     final connectInstanceId = this.connectInstanceId;
-    final status = this.status;
-    final failureCode = this.failureCode;
+    final encryptionConfig = this.encryptionConfig;
+    final serviceLinkedRoleArn = this.serviceLinkedRoleArn;
     return {
       'connectInstanceId': connectInstanceId,
-      'status': status.value,
+      'encryptionConfig': encryptionConfig,
+      'serviceLinkedRoleArn': serviceLinkedRoleArn,
+    };
+  }
+}
+
+/// Failed response of campaign state
+class FailedCampaignStateResponse {
+  final String? campaignId;
+  final GetCampaignStateBatchFailureCode? failureCode;
+
+  FailedCampaignStateResponse({
+    this.campaignId,
+    this.failureCode,
+  });
+
+  factory FailedCampaignStateResponse.fromJson(Map<String, dynamic> json) {
+    return FailedCampaignStateResponse(
+      campaignId: json['campaignId'] as String?,
+      failureCode: (json['failureCode'] as String?)
+          ?.let(GetCampaignStateBatchFailureCode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaignId = this.campaignId;
+    final failureCode = this.failureCode;
+    return {
+      if (campaignId != null) 'campaignId': campaignId,
       if (failureCode != null) 'failureCode': failureCode.value,
     };
   }
 }
 
-/// Enumeration of the possible states for instance onboarding job
-class InstanceOnboardingJobStatusCode {
-  static const inProgress = InstanceOnboardingJobStatusCode._('IN_PROGRESS');
-  static const succeeded = InstanceOnboardingJobStatusCode._('SUCCEEDED');
-  static const failed = InstanceOnboardingJobStatusCode._('FAILED');
+/// A predefined code indicating the error that caused the failure in getting
+/// state of campaigns
+class GetCampaignStateBatchFailureCode {
+  static const resourceNotFound =
+      GetCampaignStateBatchFailureCode._('ResourceNotFound');
+  static const unknownError =
+      GetCampaignStateBatchFailureCode._('UnknownError');
 
   final String value;
 
-  const InstanceOnboardingJobStatusCode._(this.value);
+  const GetCampaignStateBatchFailureCode._(this.value);
 
-  static const values = [inProgress, succeeded, failed];
+  static const values = [resourceNotFound, unknownError];
 
-  static InstanceOnboardingJobStatusCode fromString(String value) =>
+  static GetCampaignStateBatchFailureCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceOnboardingJobStatusCode._(value));
+          orElse: () => GetCampaignStateBatchFailureCode._(value));
 
   @override
   bool operator ==(other) =>
-      other is InstanceOnboardingJobStatusCode && other.value == value;
+      other is GetCampaignStateBatchFailureCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -1332,55 +1473,85 @@ class InstanceOnboardingJobStatusCode {
   String toString() => value;
 }
 
-/// ListCampaignsResponse
-class ListCampaignsResponse {
-  final List<CampaignSummary>? campaignSummaryList;
-  final String? nextToken;
+/// Successful response of campaign state
+class SuccessfulCampaignStateResponse {
+  final String? campaignId;
+  final CampaignState? state;
 
-  ListCampaignsResponse({
-    this.campaignSummaryList,
-    this.nextToken,
+  SuccessfulCampaignStateResponse({
+    this.campaignId,
+    this.state,
   });
 
-  factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) {
-    return ListCampaignsResponse(
-      campaignSummaryList: (json['campaignSummaryList'] as List?)
-          ?.nonNulls
-          .map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
+  factory SuccessfulCampaignStateResponse.fromJson(Map<String, dynamic> json) {
+    return SuccessfulCampaignStateResponse(
+      campaignId: json['campaignId'] as String?,
+      state: (json['state'] as String?)?.let(CampaignState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final campaignSummaryList = this.campaignSummaryList;
-    final nextToken = this.nextToken;
+    final campaignId = this.campaignId;
+    final state = this.state;
     return {
-      if (campaignSummaryList != null)
-        'campaignSummaryList': campaignSummaryList,
-      if (nextToken != null) 'nextToken': nextToken,
+      if (campaignId != null) 'campaignId': campaignId,
+      if (state != null) 'state': state.value,
     };
   }
 }
 
-/// ListTagsForResponse
-class ListTagsForResourceResponse {
+/// An Amazon Connect campaign.
+class Campaign {
+  final String arn;
+  final String connectInstanceId;
+  final DialerConfig dialerConfig;
+  final String id;
+  final String name;
+  final OutboundCallConfig outboundCallConfig;
   final Map<String, String>? tags;
 
-  ListTagsForResourceResponse({
+  Campaign({
+    required this.arn,
+    required this.connectInstanceId,
+    required this.dialerConfig,
+    required this.id,
+    required this.name,
+    required this.outboundCallConfig,
     this.tags,
   });
 
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
+  factory Campaign.fromJson(Map<String, dynamic> json) {
+    return Campaign(
+      arn: (json['arn'] as String?) ?? '',
+      connectInstanceId: (json['connectInstanceId'] as String?) ?? '',
+      dialerConfig: DialerConfig.fromJson(
+          (json['dialerConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      outboundCallConfig: OutboundCallConfig.fromJson(
+          (json['outboundCallConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
       tags: (json['tags'] as Map<String, dynamic>?)
           ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final connectInstanceId = this.connectInstanceId;
+    final dialerConfig = this.dialerConfig;
+    final id = this.id;
+    final name = this.name;
+    final outboundCallConfig = this.outboundCallConfig;
     final tags = this.tags;
     return {
+      'arn': arn,
+      'connectInstanceId': connectInstanceId,
+      'dialerConfig': dialerConfig,
+      'id': id,
+      'name': name,
+      'outboundCallConfig': outboundCallConfig,
       if (tags != null) 'tags': tags,
     };
   }
@@ -1424,178 +1595,6 @@ class OutboundCallConfig {
       if (connectQueueId != null) 'connectQueueId': connectQueueId,
       if (connectSourcePhoneNumber != null)
         'connectSourcePhoneNumber': connectSourcePhoneNumber,
-    };
-  }
-}
-
-/// Predictive Dialer config
-class PredictiveDialerConfig {
-  final double bandwidthAllocation;
-  final double? dialingCapacity;
-
-  PredictiveDialerConfig({
-    required this.bandwidthAllocation,
-    this.dialingCapacity,
-  });
-
-  factory PredictiveDialerConfig.fromJson(Map<String, dynamic> json) {
-    return PredictiveDialerConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
-      dialingCapacity: json['dialingCapacity'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bandwidthAllocation = this.bandwidthAllocation;
-    final dialingCapacity = this.dialingCapacity;
-    return {
-      'bandwidthAllocation': bandwidthAllocation,
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
-    };
-  }
-}
-
-/// Progressive Dialer config
-class ProgressiveDialerConfig {
-  final double bandwidthAllocation;
-  final double? dialingCapacity;
-
-  ProgressiveDialerConfig({
-    required this.bandwidthAllocation,
-    this.dialingCapacity,
-  });
-
-  factory ProgressiveDialerConfig.fromJson(Map<String, dynamic> json) {
-    return ProgressiveDialerConfig(
-      bandwidthAllocation: (json['bandwidthAllocation'] as double?) ?? 0,
-      dialingCapacity: json['dialingCapacity'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bandwidthAllocation = this.bandwidthAllocation;
-    final dialingCapacity = this.dialingCapacity;
-    return {
-      'bandwidthAllocation': bandwidthAllocation,
-      if (dialingCapacity != null) 'dialingCapacity': dialingCapacity,
-    };
-  }
-}
-
-/// PutDialRequestBatchResponse
-class PutDialRequestBatchResponse {
-  final List<FailedRequest>? failedRequests;
-  final List<SuccessfulRequest>? successfulRequests;
-
-  PutDialRequestBatchResponse({
-    this.failedRequests,
-    this.successfulRequests,
-  });
-
-  factory PutDialRequestBatchResponse.fromJson(Map<String, dynamic> json) {
-    return PutDialRequestBatchResponse(
-      failedRequests: (json['failedRequests'] as List?)
-          ?.nonNulls
-          .map((e) => FailedRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      successfulRequests: (json['successfulRequests'] as List?)
-          ?.nonNulls
-          .map((e) => SuccessfulRequest.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failedRequests = this.failedRequests;
-    final successfulRequests = this.successfulRequests;
-    return {
-      if (failedRequests != null) 'failedRequests': failedRequests,
-      if (successfulRequests != null) 'successfulRequests': successfulRequests,
-    };
-  }
-}
-
-/// The response for StartInstanceOnboardingJob API.
-class StartInstanceOnboardingJobResponse {
-  final InstanceOnboardingJobStatus? connectInstanceOnboardingJobStatus;
-
-  StartInstanceOnboardingJobResponse({
-    this.connectInstanceOnboardingJobStatus,
-  });
-
-  factory StartInstanceOnboardingJobResponse.fromJson(
-      Map<String, dynamic> json) {
-    return StartInstanceOnboardingJobResponse(
-      connectInstanceOnboardingJobStatus:
-          json['connectInstanceOnboardingJobStatus'] != null
-              ? InstanceOnboardingJobStatus.fromJson(
-                  json['connectInstanceOnboardingJobStatus']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectInstanceOnboardingJobStatus =
-        this.connectInstanceOnboardingJobStatus;
-    return {
-      if (connectInstanceOnboardingJobStatus != null)
-        'connectInstanceOnboardingJobStatus':
-            connectInstanceOnboardingJobStatus,
-    };
-  }
-}
-
-/// Successful response of campaign state
-class SuccessfulCampaignStateResponse {
-  final String? campaignId;
-  final CampaignState? state;
-
-  SuccessfulCampaignStateResponse({
-    this.campaignId,
-    this.state,
-  });
-
-  factory SuccessfulCampaignStateResponse.fromJson(Map<String, dynamic> json) {
-    return SuccessfulCampaignStateResponse(
-      campaignId: json['campaignId'] as String?,
-      state: (json['state'] as String?)?.let(CampaignState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaignId = this.campaignId;
-    final state = this.state;
-    return {
-      if (campaignId != null) 'campaignId': campaignId,
-      if (state != null) 'state': state.value,
-    };
-  }
-}
-
-/// A successful request identified by the unique client token.
-class SuccessfulRequest {
-  final String? clientToken;
-  final String? id;
-
-  SuccessfulRequest({
-    this.clientToken,
-    this.id,
-  });
-
-  factory SuccessfulRequest.fromJson(Map<String, dynamic> json) {
-    return SuccessfulRequest(
-      clientToken: json['clientToken'] as String?,
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientToken = this.clientToken;
-    final id = this.id;
-    return {
-      if (clientToken != null) 'clientToken': clientToken,
-      if (id != null) 'id': id,
     };
   }
 }

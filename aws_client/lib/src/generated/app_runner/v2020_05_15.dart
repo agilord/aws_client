@@ -37,7 +37,6 @@ class AppRunner {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'apprunner',
-            signingName: 'apprunner',
           ),
           region: region,
           credentials: credentials,
@@ -67,8 +66,8 @@ class AppRunner {
   /// <a href="https://docs.aws.amazon.com/acm/latest/userguide">AWS Certificate
   /// Manager (ACM)</a>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
   ///
   /// Parameter [domainName] :
@@ -133,8 +132,8 @@ class AppRunner {
   /// Configure a lower <code>MaxSize</code> to control your cost. The tradeoff
   /// is lower responsiveness during peak demand.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [autoScalingConfigurationName] :
@@ -259,8 +258,8 @@ class AppRunner {
   /// repositories. Both require a user interface approval process through the
   /// App Runner console before you can use the connection.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [connectionName] :
@@ -319,8 +318,8 @@ class AppRunner {
   /// one parameter, <code>TraceConfiguration</code>). If you don't specify a
   /// feature parameter, App Runner doesn't enable the feature.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [observabilityConfigurationName] :
@@ -380,8 +379,8 @@ class AppRunner {
   /// href="https://docs.aws.amazon.com/apprunner/latest/api/API_ListOperations.html">ListOperations</a>
   /// call to track the operation's progress.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [serviceName] :
@@ -475,8 +474,8 @@ class AppRunner {
   /// resource when you want to associate your App Runner service to a custom
   /// Amazon Virtual Private Cloud (Amazon VPC).
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [subnets] :
@@ -485,7 +484,8 @@ class AppRunner {
   /// Amazon VPC. App Runner determines the Amazon VPC from the subnets you
   /// specify.
   /// <note>
-  /// App Runner currently only provides support for IPv4.
+  /// App Runner only supports subnets of IP address type <i>IPv4</i> and
+  /// <i>dual stack</i> (IPv4 and IPv6).
   /// </note>
   ///
   /// Parameter [vpcConnectorName] :
@@ -531,9 +531,9 @@ class AppRunner {
   /// this resource when you want to associate your App Runner service with an
   /// Amazon VPC endpoint.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
-  /// May throw [InternalServiceErrorException].
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [ingressVpcConfiguration] :
@@ -586,8 +586,8 @@ class AppRunner {
   /// delete the default auto scaling configuration or a configuration that's
   /// used by one or more App Runner services.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [autoScalingConfigurationArn] :
@@ -635,9 +635,9 @@ class AppRunner {
   /// running App Runner services that use this connection. If there are any,
   /// the <code>DeleteConnection</code> action fails.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [connectionArn] :
   /// The Amazon Resource Name (ARN) of the App Runner connection that you want
@@ -667,8 +667,8 @@ class AppRunner {
   /// a specific revision or the latest active revision. You can't delete a
   /// configuration that's used by one or more App Runner services.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [observabilityConfigurationArn] :
@@ -711,10 +711,10 @@ class AppRunner {
   /// with the service you want to delete.
   /// </note>
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidStateException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serviceArn] :
   /// The Amazon Resource Name (ARN) of the App Runner service that you want to
@@ -743,8 +743,8 @@ class AppRunner {
   /// Delete an App Runner VPC connector resource. You can't delete a connector
   /// that's used by one or more App Runner services.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [vpcConnectorArn] :
@@ -792,10 +792,10 @@ class AppRunner {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [vpcIngressConnectionArn] :
   /// The Amazon Resource Name (ARN) of the App Runner VPC Ingress Connection
@@ -824,8 +824,8 @@ class AppRunner {
   /// Return a full description of an App Runner automatic scaling configuration
   /// resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [autoScalingConfigurationArn] :
@@ -861,8 +861,8 @@ class AppRunner {
   /// Return a description of custom domain names that are associated with an
   /// App Runner service.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serviceArn] :
@@ -917,8 +917,8 @@ class AppRunner {
   /// Return a full description of an App Runner observability configuration
   /// resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [observabilityConfigurationArn] :
@@ -954,9 +954,9 @@ class AppRunner {
 
   /// Return a full description of an App Runner service.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [serviceArn] :
   /// The Amazon Resource Name (ARN) of the App Runner service that you want a
@@ -984,8 +984,8 @@ class AppRunner {
 
   /// Return a description of an App Runner VPC connector resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [vpcConnectorArn] :
@@ -1017,8 +1017,8 @@ class AppRunner {
   /// Return a full description of an App Runner VPC Ingress Connection
   /// resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [vpcIngressConnectionArn] :
@@ -1054,10 +1054,10 @@ class AppRunner {
   /// action. App Runner delays certificate deletion for 30 days after a domain
   /// is disassociated from your service.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [domainName] :
   /// The domain name that you want to disassociate from the App Runner service.
@@ -1098,8 +1098,8 @@ class AppRunner {
   /// call and provide one of the ARNs returned by
   /// <code>ListAutoScalingConfigurations</code>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [autoScalingConfigurationName] :
   /// The name of the App Runner auto scaling configuration that you want to
@@ -1166,8 +1166,8 @@ class AppRunner {
   /// Returns a list of App Runner connections that are associated with your
   /// Amazon Web Services account.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [connectionName] :
   /// If specified, only this connection is returned. If not specified, the
@@ -1228,8 +1228,8 @@ class AppRunner {
   /// call and provide one of the ARNs returned by
   /// <code>ListObservabilityConfigurations</code>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [latestOnly] :
   /// Set to <code>true</code> to list only the latest revision for each
@@ -1300,8 +1300,8 @@ class AppRunner {
   /// chronological order. The first object on the list represents the last
   /// started operation.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serviceArn] :
@@ -1356,8 +1356,8 @@ class AppRunner {
   /// Returns a list of running App Runner services in your Amazon Web Services
   /// account.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in each response (result page).
@@ -1405,8 +1405,8 @@ class AppRunner {
   /// Returns a list of the associated App Runner services using an auto scaling
   /// configuration.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [autoScalingConfigurationArn] :
@@ -1468,10 +1468,10 @@ class AppRunner {
   /// List tags that are associated with for an App Runner resource. The
   /// response contains a list of tag key-value pairs.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that a tag list is
@@ -1502,8 +1502,8 @@ class AppRunner {
   /// Returns a list of App Runner VPC connectors in your Amazon Web Services
   /// account.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to include in each response (result page).
@@ -1551,8 +1551,8 @@ class AppRunner {
   /// Return a list of App Runner VPC Ingress Connections in your Amazon Web
   /// Services account.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [filter] :
   /// The VPC Ingress Connections to be listed based on either the Service Arn
@@ -1611,10 +1611,10 @@ class AppRunner {
   /// returned <code>OperationId</code> and the <a>ListOperations</a> call to
   /// track the operation's progress.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serviceArn] :
   /// The Amazon Resource Name (ARN) of the App Runner service that you want to
@@ -1647,10 +1647,10 @@ class AppRunner {
   /// returned <code>OperationId</code> and the <a>ListOperations</a> call to
   /// track the operation's progress.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serviceArn] :
   /// The Amazon Resource Name (ARN) of the App Runner service that you want to
@@ -1689,9 +1689,9 @@ class AppRunner {
   /// returned <code>OperationId</code> and the <a>ListOperations</a> call to
   /// track the operation's progress.
   ///
+  /// May throw [InternalServiceErrorException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [serviceArn] :
   /// The Amazon Resource Name (ARN) of the App Runner service that you want to
@@ -1720,10 +1720,10 @@ class AppRunner {
   /// Add tags to, or update the tag values of, an App Runner resource. A tag is
   /// a key-value pair.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that you want to update
@@ -1758,10 +1758,10 @@ class AppRunner {
 
   /// Remove tags from an App Runner resource.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource that you want to remove
@@ -1796,8 +1796,8 @@ class AppRunner {
   /// default auto scaling configuration will be set to non-default
   /// automatically.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [autoScalingConfigurationArn] :
@@ -1844,10 +1844,10 @@ class AppRunner {
   /// returned <code>OperationId</code> and the <a>ListOperations</a> call to
   /// track the operation's progress.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidStateException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [serviceArn] :
   /// The Amazon Resource Name (ARN) of the App Runner service that you want to
@@ -1938,10 +1938,10 @@ class AppRunner {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidStateException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidStateException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [ingressVpcConfiguration] :
   /// Specifications for the customer’s Amazon VPC and the related Amazon Web
@@ -2021,747 +2021,6 @@ class AssociateCustomDomainResponse {
       'DNSTarget': dNSTarget,
       'ServiceArn': serviceArn,
       'VpcDNSTargets': vpcDNSTargets,
-    };
-  }
-}
-
-/// Describes resources needed to authenticate access to some source
-/// repositories. The specific resource depends on the repository provider.
-class AuthenticationConfiguration {
-  /// The Amazon Resource Name (ARN) of the IAM role that grants the App Runner
-  /// service access to a source repository. It's required for ECR image
-  /// repositories (but not for ECR Public repositories).
-  final String? accessRoleArn;
-
-  /// The Amazon Resource Name (ARN) of the App Runner connection that enables the
-  /// App Runner service to connect to a source repository. It's required for
-  /// GitHub code repositories.
-  final String? connectionArn;
-
-  AuthenticationConfiguration({
-    this.accessRoleArn,
-    this.connectionArn,
-  });
-
-  factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
-    return AuthenticationConfiguration(
-      accessRoleArn: json['AccessRoleArn'] as String?,
-      connectionArn: json['ConnectionArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessRoleArn = this.accessRoleArn;
-    final connectionArn = this.connectionArn;
-    return {
-      if (accessRoleArn != null) 'AccessRoleArn': accessRoleArn,
-      if (connectionArn != null) 'ConnectionArn': connectionArn,
-    };
-  }
-}
-
-/// Describes an App Runner automatic scaling configuration resource.
-///
-/// A higher <code>MinSize</code> increases the spread of your App Runner
-/// service over more Availability Zones in the Amazon Web Services Region. The
-/// tradeoff is a higher minimal cost.
-///
-/// A lower <code>MaxSize</code> controls your cost. The tradeoff is lower
-/// responsiveness during peak demand.
-///
-/// Multiple revisions of a configuration might have the same
-/// <code>AutoScalingConfigurationName</code> and different
-/// <code>AutoScalingConfigurationRevision</code> values.
-class AutoScalingConfiguration {
-  /// The Amazon Resource Name (ARN) of this auto scaling configuration.
-  final String? autoScalingConfigurationArn;
-
-  /// The customer-provided auto scaling configuration name. It can be used in
-  /// multiple revisions of a configuration.
-  final String? autoScalingConfigurationName;
-
-  /// The revision of this auto scaling configuration. It's unique among all the
-  /// active configurations (<code>"Status": "ACTIVE"</code>) that share the same
-  /// <code>AutoScalingConfigurationName</code>.
-  final int? autoScalingConfigurationRevision;
-
-  /// The time when the auto scaling configuration was created. It's in Unix time
-  /// stamp format.
-  final DateTime? createdAt;
-
-  /// The time when the auto scaling configuration was deleted. It's in Unix time
-  /// stamp format.
-  final DateTime? deletedAt;
-
-  /// Indicates if this auto scaling configuration has an App Runner service
-  /// associated with it. A value of <code>true</code> indicates one or more
-  /// services are associated. A value of <code>false</code> indicates no services
-  /// are associated.
-  final bool? hasAssociatedService;
-
-  /// Indicates if this auto scaling configuration should be used as the default
-  /// for a new App Runner service that does not have an auto scaling
-  /// configuration ARN specified during creation. Each account can have only one
-  /// default <code>AutoScalingConfiguration</code> per region. The default
-  /// <code>AutoScalingConfiguration</code> can be any revision under the same
-  /// <code>AutoScalingConfigurationName</code>.
-  final bool? isDefault;
-
-  /// It's set to <code>true</code> for the configuration with the highest
-  /// <code>Revision</code> among all configurations that share the same
-  /// <code>AutoScalingConfigurationName</code>. It's set to <code>false</code>
-  /// otherwise.
-  final bool? latest;
-
-  /// The maximum number of concurrent requests that an instance processes. If the
-  /// number of concurrent requests exceeds this limit, App Runner scales the
-  /// service up.
-  final int? maxConcurrency;
-
-  /// The maximum number of instances that a service scales up to. At most
-  /// <code>MaxSize</code> instances actively serve traffic for your service.
-  final int? maxSize;
-
-  /// The minimum number of instances that App Runner provisions for a service.
-  /// The service always has at least <code>MinSize</code> provisioned instances.
-  /// Some of them actively serve traffic. The rest of them (provisioned and
-  /// inactive instances) are a cost-effective compute capacity reserve and are
-  /// ready to be quickly activated. You pay for memory usage of all the
-  /// provisioned instances. You pay for CPU usage of only the active subset.
-  ///
-  /// App Runner temporarily doubles the number of provisioned instances during
-  /// deployments, to maintain the same capacity for both old and new code.
-  final int? minSize;
-
-  /// The current state of the auto scaling configuration. If the status of a
-  /// configuration revision is <code>INACTIVE</code>, it was deleted and can't be
-  /// used. Inactive configuration revisions are permanently removed some time
-  /// after they are deleted.
-  final AutoScalingConfigurationStatus? status;
-
-  AutoScalingConfiguration({
-    this.autoScalingConfigurationArn,
-    this.autoScalingConfigurationName,
-    this.autoScalingConfigurationRevision,
-    this.createdAt,
-    this.deletedAt,
-    this.hasAssociatedService,
-    this.isDefault,
-    this.latest,
-    this.maxConcurrency,
-    this.maxSize,
-    this.minSize,
-    this.status,
-  });
-
-  factory AutoScalingConfiguration.fromJson(Map<String, dynamic> json) {
-    return AutoScalingConfiguration(
-      autoScalingConfigurationArn:
-          json['AutoScalingConfigurationArn'] as String?,
-      autoScalingConfigurationName:
-          json['AutoScalingConfigurationName'] as String?,
-      autoScalingConfigurationRevision:
-          json['AutoScalingConfigurationRevision'] as int?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      deletedAt: timeStampFromJson(json['DeletedAt']),
-      hasAssociatedService: json['HasAssociatedService'] as bool?,
-      isDefault: json['IsDefault'] as bool?,
-      latest: json['Latest'] as bool?,
-      maxConcurrency: json['MaxConcurrency'] as int?,
-      maxSize: json['MaxSize'] as int?,
-      minSize: json['MinSize'] as int?,
-      status: (json['Status'] as String?)
-          ?.let(AutoScalingConfigurationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingConfigurationArn = this.autoScalingConfigurationArn;
-    final autoScalingConfigurationName = this.autoScalingConfigurationName;
-    final autoScalingConfigurationRevision =
-        this.autoScalingConfigurationRevision;
-    final createdAt = this.createdAt;
-    final deletedAt = this.deletedAt;
-    final hasAssociatedService = this.hasAssociatedService;
-    final isDefault = this.isDefault;
-    final latest = this.latest;
-    final maxConcurrency = this.maxConcurrency;
-    final maxSize = this.maxSize;
-    final minSize = this.minSize;
-    final status = this.status;
-    return {
-      if (autoScalingConfigurationArn != null)
-        'AutoScalingConfigurationArn': autoScalingConfigurationArn,
-      if (autoScalingConfigurationName != null)
-        'AutoScalingConfigurationName': autoScalingConfigurationName,
-      if (autoScalingConfigurationRevision != null)
-        'AutoScalingConfigurationRevision': autoScalingConfigurationRevision,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (deletedAt != null) 'DeletedAt': unixTimestampToJson(deletedAt),
-      if (hasAssociatedService != null)
-        'HasAssociatedService': hasAssociatedService,
-      if (isDefault != null) 'IsDefault': isDefault,
-      if (latest != null) 'Latest': latest,
-      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
-      if (maxSize != null) 'MaxSize': maxSize,
-      if (minSize != null) 'MinSize': minSize,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class AutoScalingConfigurationStatus {
-  static const active = AutoScalingConfigurationStatus._('ACTIVE');
-  static const inactive = AutoScalingConfigurationStatus._('INACTIVE');
-
-  final String value;
-
-  const AutoScalingConfigurationStatus._(this.value);
-
-  static const values = [active, inactive];
-
-  static AutoScalingConfigurationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AutoScalingConfigurationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AutoScalingConfigurationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides summary information about an App Runner automatic scaling
-/// configuration resource.
-///
-/// This type contains limited information about an auto scaling configuration.
-/// It includes only identification information, without configuration details.
-/// It's returned by the <a>ListAutoScalingConfigurations</a> action. Complete
-/// configuration information is returned by the
-/// <a>CreateAutoScalingConfiguration</a>,
-/// <a>DescribeAutoScalingConfiguration</a>, and
-/// <a>DeleteAutoScalingConfiguration</a> actions using the
-/// <a>AutoScalingConfiguration</a> type.
-class AutoScalingConfigurationSummary {
-  /// The Amazon Resource Name (ARN) of this auto scaling configuration.
-  final String? autoScalingConfigurationArn;
-
-  /// The customer-provided auto scaling configuration name. It can be used in
-  /// multiple revisions of a configuration.
-  final String? autoScalingConfigurationName;
-
-  /// The revision of this auto scaling configuration. It's unique among all the
-  /// active configurations (<code>"Status": "ACTIVE"</code>) with the same
-  /// <code>AutoScalingConfigurationName</code>.
-  final int? autoScalingConfigurationRevision;
-
-  /// The time when the auto scaling configuration was created. It's in Unix time
-  /// stamp format.
-  final DateTime? createdAt;
-
-  /// Indicates if this auto scaling configuration has an App Runner service
-  /// associated with it. A value of <code>true</code> indicates one or more
-  /// services are associated. A value of <code>false</code> indicates no services
-  /// are associated.
-  final bool? hasAssociatedService;
-
-  /// Indicates if this auto scaling configuration should be used as the default
-  /// for a new App Runner service that does not have an auto scaling
-  /// configuration ARN specified during creation. Each account can have only one
-  /// default <code>AutoScalingConfiguration</code> per region. The default
-  /// <code>AutoScalingConfiguration</code> can be any revision under the same
-  /// <code>AutoScalingConfigurationName</code>.
-  final bool? isDefault;
-
-  /// The current state of the auto scaling configuration. If the status of a
-  /// configuration revision is <code>INACTIVE</code>, it was deleted and can't be
-  /// used. Inactive configuration revisions are permanently removed some time
-  /// after they are deleted.
-  final AutoScalingConfigurationStatus? status;
-
-  AutoScalingConfigurationSummary({
-    this.autoScalingConfigurationArn,
-    this.autoScalingConfigurationName,
-    this.autoScalingConfigurationRevision,
-    this.createdAt,
-    this.hasAssociatedService,
-    this.isDefault,
-    this.status,
-  });
-
-  factory AutoScalingConfigurationSummary.fromJson(Map<String, dynamic> json) {
-    return AutoScalingConfigurationSummary(
-      autoScalingConfigurationArn:
-          json['AutoScalingConfigurationArn'] as String?,
-      autoScalingConfigurationName:
-          json['AutoScalingConfigurationName'] as String?,
-      autoScalingConfigurationRevision:
-          json['AutoScalingConfigurationRevision'] as int?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      hasAssociatedService: json['HasAssociatedService'] as bool?,
-      isDefault: json['IsDefault'] as bool?,
-      status: (json['Status'] as String?)
-          ?.let(AutoScalingConfigurationStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingConfigurationArn = this.autoScalingConfigurationArn;
-    final autoScalingConfigurationName = this.autoScalingConfigurationName;
-    final autoScalingConfigurationRevision =
-        this.autoScalingConfigurationRevision;
-    final createdAt = this.createdAt;
-    final hasAssociatedService = this.hasAssociatedService;
-    final isDefault = this.isDefault;
-    final status = this.status;
-    return {
-      if (autoScalingConfigurationArn != null)
-        'AutoScalingConfigurationArn': autoScalingConfigurationArn,
-      if (autoScalingConfigurationName != null)
-        'AutoScalingConfigurationName': autoScalingConfigurationName,
-      if (autoScalingConfigurationRevision != null)
-        'AutoScalingConfigurationRevision': autoScalingConfigurationRevision,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (hasAssociatedService != null)
-        'HasAssociatedService': hasAssociatedService,
-      if (isDefault != null) 'IsDefault': isDefault,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Describes a certificate CNAME record to add to your DNS. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_AssociateCustomDomain.html">AssociateCustomDomain</a>.
-class CertificateValidationRecord {
-  /// The certificate CNAME record name.
-  final String? name;
-
-  /// The current state of the certificate CNAME record validation. It should
-  /// change to <code>SUCCESS</code> after App Runner completes validation with
-  /// your DNS.
-  final CertificateValidationRecordStatus? status;
-
-  /// The record type, always <code>CNAME</code>.
-  final String? type;
-
-  /// The certificate CNAME record value.
-  final String? value;
-
-  CertificateValidationRecord({
-    this.name,
-    this.status,
-    this.type,
-    this.value,
-  });
-
-  factory CertificateValidationRecord.fromJson(Map<String, dynamic> json) {
-    return CertificateValidationRecord(
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(CertificateValidationRecordStatus.fromString),
-      type: json['Type'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final status = this.status;
-    final type = this.type;
-    final value = this.value;
-    return {
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-      if (type != null) 'Type': type,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class CertificateValidationRecordStatus {
-  static const pendingValidation =
-      CertificateValidationRecordStatus._('PENDING_VALIDATION');
-  static const success = CertificateValidationRecordStatus._('SUCCESS');
-  static const failed = CertificateValidationRecordStatus._('FAILED');
-
-  final String value;
-
-  const CertificateValidationRecordStatus._(this.value);
-
-  static const values = [pendingValidation, success, failed];
-
-  static CertificateValidationRecordStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CertificateValidationRecordStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CertificateValidationRecordStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the configuration that App Runner uses to build and run an App
-/// Runner service from a source code repository.
-class CodeConfiguration {
-  /// The source of the App Runner configuration. Values are interpreted as
-  /// follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>REPOSITORY</code> – App Runner reads configuration values from the
-  /// <code>apprunner.yaml</code> file in the source code repository and ignores
-  /// <code>CodeConfigurationValues</code>.
-  /// </li>
-  /// <li>
-  /// <code>API</code> – App Runner uses configuration values provided in
-  /// <code>CodeConfigurationValues</code> and ignores the
-  /// <code>apprunner.yaml</code> file in the source code repository.
-  /// </li>
-  /// </ul>
-  final ConfigurationSource configurationSource;
-
-  /// The basic configuration for building and running the App Runner service. Use
-  /// it to quickly launch an App Runner service without providing a
-  /// <code>apprunner.yaml</code> file in the source code repository (or ignoring
-  /// the file if it exists).
-  final CodeConfigurationValues? codeConfigurationValues;
-
-  CodeConfiguration({
-    required this.configurationSource,
-    this.codeConfigurationValues,
-  });
-
-  factory CodeConfiguration.fromJson(Map<String, dynamic> json) {
-    return CodeConfiguration(
-      configurationSource: ConfigurationSource.fromString(
-          (json['ConfigurationSource'] as String?) ?? ''),
-      codeConfigurationValues: json['CodeConfigurationValues'] != null
-          ? CodeConfigurationValues.fromJson(
-              json['CodeConfigurationValues'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final configurationSource = this.configurationSource;
-    final codeConfigurationValues = this.codeConfigurationValues;
-    return {
-      'ConfigurationSource': configurationSource.value,
-      if (codeConfigurationValues != null)
-        'CodeConfigurationValues': codeConfigurationValues,
-    };
-  }
-}
-
-/// Describes the basic configuration needed for building and running an App
-/// Runner service. This type doesn't support the full set of possible
-/// configuration options. Fur full configuration capabilities, use a
-/// <code>apprunner.yaml</code> file in the source code repository.
-class CodeConfigurationValues {
-  /// A runtime environment type for building and running an App Runner service.
-  /// It represents a programming language runtime.
-  final Runtime runtime;
-
-  /// The command App Runner runs to build your application.
-  final String? buildCommand;
-
-  /// The port that your application listens to in the container.
-  ///
-  /// Default: <code>8080</code>
-  final String? port;
-
-  /// An array of key-value pairs representing the secrets and parameters that get
-  /// referenced to your service as an environment variable. The supported values
-  /// are either the full Amazon Resource Name (ARN) of the Secrets Manager secret
-  /// or the full ARN of the parameter in the Amazon Web Services Systems Manager
-  /// Parameter Store.
-  /// <note>
-  /// <ul>
-  /// <li>
-  /// If the Amazon Web Services Systems Manager Parameter Store parameter exists
-  /// in the same Amazon Web Services Region as the service that you're launching,
-  /// you can use either the full ARN or name of the secret. If the parameter
-  /// exists in a different Region, then the full ARN must be specified.
-  /// </li>
-  /// <li>
-  /// Currently, cross account referencing of Amazon Web Services Systems Manager
-  /// Parameter Store parameter is not supported.
-  /// </li>
-  /// </ul> </note>
-  final Map<String, String>? runtimeEnvironmentSecrets;
-
-  /// The environment variables that are available to your running App Runner
-  /// service. An array of key-value pairs.
-  final Map<String, String>? runtimeEnvironmentVariables;
-
-  /// The command App Runner runs to start your application.
-  final String? startCommand;
-
-  CodeConfigurationValues({
-    required this.runtime,
-    this.buildCommand,
-    this.port,
-    this.runtimeEnvironmentSecrets,
-    this.runtimeEnvironmentVariables,
-    this.startCommand,
-  });
-
-  factory CodeConfigurationValues.fromJson(Map<String, dynamic> json) {
-    return CodeConfigurationValues(
-      runtime: Runtime.fromString((json['Runtime'] as String?) ?? ''),
-      buildCommand: json['BuildCommand'] as String?,
-      port: json['Port'] as String?,
-      runtimeEnvironmentSecrets:
-          (json['RuntimeEnvironmentSecrets'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      runtimeEnvironmentVariables:
-          (json['RuntimeEnvironmentVariables'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      startCommand: json['StartCommand'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final runtime = this.runtime;
-    final buildCommand = this.buildCommand;
-    final port = this.port;
-    final runtimeEnvironmentSecrets = this.runtimeEnvironmentSecrets;
-    final runtimeEnvironmentVariables = this.runtimeEnvironmentVariables;
-    final startCommand = this.startCommand;
-    return {
-      'Runtime': runtime.value,
-      if (buildCommand != null) 'BuildCommand': buildCommand,
-      if (port != null) 'Port': port,
-      if (runtimeEnvironmentSecrets != null)
-        'RuntimeEnvironmentSecrets': runtimeEnvironmentSecrets,
-      if (runtimeEnvironmentVariables != null)
-        'RuntimeEnvironmentVariables': runtimeEnvironmentVariables,
-      if (startCommand != null) 'StartCommand': startCommand,
-    };
-  }
-}
-
-/// Describes a source code repository.
-class CodeRepository {
-  /// The location of the repository that contains the source code.
-  final String repositoryUrl;
-
-  /// The version that should be used within the source code repository.
-  final SourceCodeVersion sourceCodeVersion;
-
-  /// Configuration for building and running the service from a source code
-  /// repository.
-  /// <note>
-  /// <code>CodeConfiguration</code> is required only for
-  /// <code>CreateService</code> request.
-  /// </note>
-  final CodeConfiguration? codeConfiguration;
-
-  /// The path of the directory that stores source code and configuration files.
-  /// The build and start commands also execute from here. The path is absolute
-  /// from root and, if not specified, defaults to the repository root.
-  final String? sourceDirectory;
-
-  CodeRepository({
-    required this.repositoryUrl,
-    required this.sourceCodeVersion,
-    this.codeConfiguration,
-    this.sourceDirectory,
-  });
-
-  factory CodeRepository.fromJson(Map<String, dynamic> json) {
-    return CodeRepository(
-      repositoryUrl: (json['RepositoryUrl'] as String?) ?? '',
-      sourceCodeVersion: SourceCodeVersion.fromJson(
-          (json['SourceCodeVersion'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      codeConfiguration: json['CodeConfiguration'] != null
-          ? CodeConfiguration.fromJson(
-              json['CodeConfiguration'] as Map<String, dynamic>)
-          : null,
-      sourceDirectory: json['SourceDirectory'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final repositoryUrl = this.repositoryUrl;
-    final sourceCodeVersion = this.sourceCodeVersion;
-    final codeConfiguration = this.codeConfiguration;
-    final sourceDirectory = this.sourceDirectory;
-    return {
-      'RepositoryUrl': repositoryUrl,
-      'SourceCodeVersion': sourceCodeVersion,
-      if (codeConfiguration != null) 'CodeConfiguration': codeConfiguration,
-      if (sourceDirectory != null) 'SourceDirectory': sourceDirectory,
-    };
-  }
-}
-
-class ConfigurationSource {
-  static const repository = ConfigurationSource._('REPOSITORY');
-  static const api = ConfigurationSource._('API');
-
-  final String value;
-
-  const ConfigurationSource._(this.value);
-
-  static const values = [repository, api];
-
-  static ConfigurationSource fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigurationSource._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigurationSource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes an App Runner connection resource.
-class Connection {
-  /// The Amazon Resource Name (ARN) of this connection.
-  final String? connectionArn;
-
-  /// The customer-provided connection name.
-  final String? connectionName;
-
-  /// The App Runner connection creation time, expressed as a Unix time stamp.
-  final DateTime? createdAt;
-
-  /// The source repository provider.
-  final ProviderType? providerType;
-
-  /// The current state of the App Runner connection. When the state is
-  /// <code>AVAILABLE</code>, you can use the connection to create an App Runner
-  /// service.
-  final ConnectionStatus? status;
-
-  Connection({
-    this.connectionArn,
-    this.connectionName,
-    this.createdAt,
-    this.providerType,
-    this.status,
-  });
-
-  factory Connection.fromJson(Map<String, dynamic> json) {
-    return Connection(
-      connectionArn: json['ConnectionArn'] as String?,
-      connectionName: json['ConnectionName'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      providerType:
-          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
-      status: (json['Status'] as String?)?.let(ConnectionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionArn = this.connectionArn;
-    final connectionName = this.connectionName;
-    final createdAt = this.createdAt;
-    final providerType = this.providerType;
-    final status = this.status;
-    return {
-      if (connectionArn != null) 'ConnectionArn': connectionArn,
-      if (connectionName != null) 'ConnectionName': connectionName,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (providerType != null) 'ProviderType': providerType.value,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class ConnectionStatus {
-  static const pendingHandshake = ConnectionStatus._('PENDING_HANDSHAKE');
-  static const available = ConnectionStatus._('AVAILABLE');
-  static const error = ConnectionStatus._('ERROR');
-  static const deleted = ConnectionStatus._('DELETED');
-
-  final String value;
-
-  const ConnectionStatus._(this.value);
-
-  static const values = [pendingHandshake, available, error, deleted];
-
-  static ConnectionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides summary information about an App Runner connection resource.
-class ConnectionSummary {
-  /// The Amazon Resource Name (ARN) of this connection.
-  final String? connectionArn;
-
-  /// The customer-provided connection name.
-  final String? connectionName;
-
-  /// The App Runner connection creation time, expressed as a Unix time stamp.
-  final DateTime? createdAt;
-
-  /// The source repository provider.
-  final ProviderType? providerType;
-
-  /// The current state of the App Runner connection. When the state is
-  /// <code>AVAILABLE</code>, you can use the connection to create an App Runner
-  /// service.
-  final ConnectionStatus? status;
-
-  ConnectionSummary({
-    this.connectionArn,
-    this.connectionName,
-    this.createdAt,
-    this.providerType,
-    this.status,
-  });
-
-  factory ConnectionSummary.fromJson(Map<String, dynamic> json) {
-    return ConnectionSummary(
-      connectionArn: json['ConnectionArn'] as String?,
-      connectionName: json['ConnectionName'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      providerType:
-          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
-      status: (json['Status'] as String?)?.let(ConnectionStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionArn = this.connectionArn;
-    final connectionName = this.connectionName;
-    final createdAt = this.createdAt;
-    final providerType = this.providerType;
-    final status = this.status;
-    return {
-      if (connectionArn != null) 'ConnectionArn': connectionArn,
-      if (connectionName != null) 'ConnectionName': connectionName,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (providerType != null) 'ProviderType': providerType.value,
-      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2924,101 +2183,6 @@ class CreateVpcIngressConnectionResponse {
       'VpcIngressConnection': vpcIngressConnection,
     };
   }
-}
-
-/// Describes a custom domain that's associated with an App Runner service.
-class CustomDomain {
-  /// An associated custom domain endpoint. It can be a root domain (for example,
-  /// <code>example.com</code>), a subdomain (for example,
-  /// <code>login.example.com</code> or <code>admin.login.example.com</code>), or
-  /// a wildcard (for example, <code>*.example.com</code>).
-  final String domainName;
-
-  /// When <code>true</code>, the subdomain <code>www.<i>DomainName</i> </code> is
-  /// associated with the App Runner service in addition to the base domain.
-  final bool enableWWWSubdomain;
-
-  /// The current state of the domain name association.
-  final CustomDomainAssociationStatus status;
-
-  /// A list of certificate CNAME records that's used for this domain name.
-  final List<CertificateValidationRecord>? certificateValidationRecords;
-
-  CustomDomain({
-    required this.domainName,
-    required this.enableWWWSubdomain,
-    required this.status,
-    this.certificateValidationRecords,
-  });
-
-  factory CustomDomain.fromJson(Map<String, dynamic> json) {
-    return CustomDomain(
-      domainName: (json['DomainName'] as String?) ?? '',
-      enableWWWSubdomain: (json['EnableWWWSubdomain'] as bool?) ?? false,
-      status: CustomDomainAssociationStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-      certificateValidationRecords: (json['CertificateValidationRecords']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              CertificateValidationRecord.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final domainName = this.domainName;
-    final enableWWWSubdomain = this.enableWWWSubdomain;
-    final status = this.status;
-    final certificateValidationRecords = this.certificateValidationRecords;
-    return {
-      'DomainName': domainName,
-      'EnableWWWSubdomain': enableWWWSubdomain,
-      'Status': status.value,
-      if (certificateValidationRecords != null)
-        'CertificateValidationRecords': certificateValidationRecords,
-    };
-  }
-}
-
-class CustomDomainAssociationStatus {
-  static const creating = CustomDomainAssociationStatus._('CREATING');
-  static const createFailed = CustomDomainAssociationStatus._('CREATE_FAILED');
-  static const active = CustomDomainAssociationStatus._('ACTIVE');
-  static const deleting = CustomDomainAssociationStatus._('DELETING');
-  static const deleteFailed = CustomDomainAssociationStatus._('DELETE_FAILED');
-  static const pendingCertificateDnsValidation =
-      CustomDomainAssociationStatus._('PENDING_CERTIFICATE_DNS_VALIDATION');
-  static const bindingCertificate =
-      CustomDomainAssociationStatus._('BINDING_CERTIFICATE');
-
-  final String value;
-
-  const CustomDomainAssociationStatus._(this.value);
-
-  static const values = [
-    creating,
-    createFailed,
-    active,
-    deleting,
-    deleteFailed,
-    pendingCertificateDnsValidation,
-    bindingCertificate
-  ];
-
-  static CustomDomainAssociationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomDomainAssociationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomDomainAssociationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DeleteAutoScalingConfigurationResponse {
@@ -3418,473 +2582,6 @@ class DisassociateCustomDomainResponse {
   }
 }
 
-/// Describes configuration settings related to outbound network traffic of an
-/// App Runner service.
-class EgressConfiguration {
-  /// The type of egress configuration.
-  ///
-  /// Set to <code>DEFAULT</code> for access to resources hosted on public
-  /// networks.
-  ///
-  /// Set to <code>VPC</code> to associate your service to a custom VPC specified
-  /// by <code>VpcConnectorArn</code>.
-  final EgressType? egressType;
-
-  /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want
-  /// to associate with your App Runner service. Only valid when <code>EgressType
-  /// = VPC</code>.
-  final String? vpcConnectorArn;
-
-  EgressConfiguration({
-    this.egressType,
-    this.vpcConnectorArn,
-  });
-
-  factory EgressConfiguration.fromJson(Map<String, dynamic> json) {
-    return EgressConfiguration(
-      egressType: (json['EgressType'] as String?)?.let(EgressType.fromString),
-      vpcConnectorArn: json['VpcConnectorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final egressType = this.egressType;
-    final vpcConnectorArn = this.vpcConnectorArn;
-    return {
-      if (egressType != null) 'EgressType': egressType.value,
-      if (vpcConnectorArn != null) 'VpcConnectorArn': vpcConnectorArn,
-    };
-  }
-}
-
-class EgressType {
-  static const $default = EgressType._('DEFAULT');
-  static const vpc = EgressType._('VPC');
-
-  final String value;
-
-  const EgressType._(this.value);
-
-  static const values = [$default, vpc];
-
-  static EgressType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => EgressType._(value));
-
-  @override
-  bool operator ==(other) => other is EgressType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a custom encryption key that App Runner uses to encrypt copies of
-/// the source repository and service logs.
-class EncryptionConfiguration {
-  /// The ARN of the KMS key that's used for encryption.
-  final String kmsKey;
-
-  EncryptionConfiguration({
-    required this.kmsKey,
-  });
-
-  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
-    return EncryptionConfiguration(
-      kmsKey: (json['KmsKey'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kmsKey = this.kmsKey;
-    return {
-      'KmsKey': kmsKey,
-    };
-  }
-}
-
-/// Describes the settings for the health check that App Runner performs to
-/// monitor the health of a service.
-class HealthCheckConfiguration {
-  /// The number of consecutive checks that must succeed before App Runner decides
-  /// that the service is healthy.
-  ///
-  /// Default: <code>1</code>
-  final int? healthyThreshold;
-
-  /// The time interval, in seconds, between health checks.
-  ///
-  /// Default: <code>5</code>
-  final int? interval;
-
-  /// The URL that health check requests are sent to.
-  ///
-  /// <code>Path</code> is only applicable when you set <code>Protocol</code> to
-  /// <code>HTTP</code>.
-  ///
-  /// Default: <code>"/"</code>
-  final String? path;
-
-  /// The IP protocol that App Runner uses to perform health checks for your
-  /// service.
-  ///
-  /// If you set <code>Protocol</code> to <code>HTTP</code>, App Runner sends
-  /// health check requests to the HTTP path specified by <code>Path</code>.
-  ///
-  /// Default: <code>TCP</code>
-  final HealthCheckProtocol? protocol;
-
-  /// The time, in seconds, to wait for a health check response before deciding it
-  /// failed.
-  ///
-  /// Default: <code>2</code>
-  final int? timeout;
-
-  /// The number of consecutive checks that must fail before App Runner decides
-  /// that the service is unhealthy.
-  ///
-  /// Default: <code>5</code>
-  final int? unhealthyThreshold;
-
-  HealthCheckConfiguration({
-    this.healthyThreshold,
-    this.interval,
-    this.path,
-    this.protocol,
-    this.timeout,
-    this.unhealthyThreshold,
-  });
-
-  factory HealthCheckConfiguration.fromJson(Map<String, dynamic> json) {
-    return HealthCheckConfiguration(
-      healthyThreshold: json['HealthyThreshold'] as int?,
-      interval: json['Interval'] as int?,
-      path: json['Path'] as String?,
-      protocol:
-          (json['Protocol'] as String?)?.let(HealthCheckProtocol.fromString),
-      timeout: json['Timeout'] as int?,
-      unhealthyThreshold: json['UnhealthyThreshold'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final healthyThreshold = this.healthyThreshold;
-    final interval = this.interval;
-    final path = this.path;
-    final protocol = this.protocol;
-    final timeout = this.timeout;
-    final unhealthyThreshold = this.unhealthyThreshold;
-    return {
-      if (healthyThreshold != null) 'HealthyThreshold': healthyThreshold,
-      if (interval != null) 'Interval': interval,
-      if (path != null) 'Path': path,
-      if (protocol != null) 'Protocol': protocol.value,
-      if (timeout != null) 'Timeout': timeout,
-      if (unhealthyThreshold != null) 'UnhealthyThreshold': unhealthyThreshold,
-    };
-  }
-}
-
-class HealthCheckProtocol {
-  static const tcp = HealthCheckProtocol._('TCP');
-  static const http = HealthCheckProtocol._('HTTP');
-
-  final String value;
-
-  const HealthCheckProtocol._(this.value);
-
-  static const values = [tcp, http];
-
-  static HealthCheckProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HealthCheckProtocol._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HealthCheckProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the configuration that App Runner uses to run an App Runner
-/// service using an image pulled from a source image repository.
-class ImageConfiguration {
-  /// The port that your application listens to in the container.
-  ///
-  /// Default: <code>8080</code>
-  final String? port;
-
-  /// An array of key-value pairs representing the secrets and parameters that get
-  /// referenced to your service as an environment variable. The supported values
-  /// are either the full Amazon Resource Name (ARN) of the Secrets Manager secret
-  /// or the full ARN of the parameter in the Amazon Web Services Systems Manager
-  /// Parameter Store.
-  /// <note>
-  /// <ul>
-  /// <li>
-  /// If the Amazon Web Services Systems Manager Parameter Store parameter exists
-  /// in the same Amazon Web Services Region as the service that you're launching,
-  /// you can use either the full ARN or name of the secret. If the parameter
-  /// exists in a different Region, then the full ARN must be specified.
-  /// </li>
-  /// <li>
-  /// Currently, cross account referencing of Amazon Web Services Systems Manager
-  /// Parameter Store parameter is not supported.
-  /// </li>
-  /// </ul> </note>
-  final Map<String, String>? runtimeEnvironmentSecrets;
-
-  /// Environment variables that are available to your running App Runner service.
-  /// An array of key-value pairs.
-  final Map<String, String>? runtimeEnvironmentVariables;
-
-  /// An optional command that App Runner runs to start the application in the
-  /// source image. If specified, this command overrides the Docker image’s
-  /// default start command.
-  final String? startCommand;
-
-  ImageConfiguration({
-    this.port,
-    this.runtimeEnvironmentSecrets,
-    this.runtimeEnvironmentVariables,
-    this.startCommand,
-  });
-
-  factory ImageConfiguration.fromJson(Map<String, dynamic> json) {
-    return ImageConfiguration(
-      port: json['Port'] as String?,
-      runtimeEnvironmentSecrets:
-          (json['RuntimeEnvironmentSecrets'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      runtimeEnvironmentVariables:
-          (json['RuntimeEnvironmentVariables'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      startCommand: json['StartCommand'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final port = this.port;
-    final runtimeEnvironmentSecrets = this.runtimeEnvironmentSecrets;
-    final runtimeEnvironmentVariables = this.runtimeEnvironmentVariables;
-    final startCommand = this.startCommand;
-    return {
-      if (port != null) 'Port': port,
-      if (runtimeEnvironmentSecrets != null)
-        'RuntimeEnvironmentSecrets': runtimeEnvironmentSecrets,
-      if (runtimeEnvironmentVariables != null)
-        'RuntimeEnvironmentVariables': runtimeEnvironmentVariables,
-      if (startCommand != null) 'StartCommand': startCommand,
-    };
-  }
-}
-
-/// Describes a source image repository.
-class ImageRepository {
-  /// The identifier of an image.
-  ///
-  /// For an image in Amazon Elastic Container Registry (Amazon ECR), this is an
-  /// image name. For the image name format, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html">Pulling
-  /// an image</a> in the <i>Amazon ECR User Guide</i>.
-  final String imageIdentifier;
-
-  /// The type of the image repository. This reflects the repository provider and
-  /// whether the repository is private or public.
-  final ImageRepositoryType imageRepositoryType;
-
-  /// Configuration for running the identified image.
-  final ImageConfiguration? imageConfiguration;
-
-  ImageRepository({
-    required this.imageIdentifier,
-    required this.imageRepositoryType,
-    this.imageConfiguration,
-  });
-
-  factory ImageRepository.fromJson(Map<String, dynamic> json) {
-    return ImageRepository(
-      imageIdentifier: (json['ImageIdentifier'] as String?) ?? '',
-      imageRepositoryType: ImageRepositoryType.fromString(
-          (json['ImageRepositoryType'] as String?) ?? ''),
-      imageConfiguration: json['ImageConfiguration'] != null
-          ? ImageConfiguration.fromJson(
-              json['ImageConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final imageIdentifier = this.imageIdentifier;
-    final imageRepositoryType = this.imageRepositoryType;
-    final imageConfiguration = this.imageConfiguration;
-    return {
-      'ImageIdentifier': imageIdentifier,
-      'ImageRepositoryType': imageRepositoryType.value,
-      if (imageConfiguration != null) 'ImageConfiguration': imageConfiguration,
-    };
-  }
-}
-
-class ImageRepositoryType {
-  static const ecr = ImageRepositoryType._('ECR');
-  static const ecrPublic = ImageRepositoryType._('ECR_PUBLIC');
-
-  final String value;
-
-  const ImageRepositoryType._(this.value);
-
-  static const values = [ecr, ecrPublic];
-
-  static ImageRepositoryType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageRepositoryType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ImageRepositoryType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Network configuration settings for inbound network traffic.
-class IngressConfiguration {
-  /// Specifies whether your App Runner service is publicly accessible. To make
-  /// the service publicly accessible set it to <code>True</code>. To make the
-  /// service privately accessible, from only within an Amazon VPC set it to
-  /// <code>False</code>.
-  final bool? isPubliclyAccessible;
-
-  IngressConfiguration({
-    this.isPubliclyAccessible,
-  });
-
-  factory IngressConfiguration.fromJson(Map<String, dynamic> json) {
-    return IngressConfiguration(
-      isPubliclyAccessible: json['IsPubliclyAccessible'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isPubliclyAccessible = this.isPubliclyAccessible;
-    return {
-      if (isPubliclyAccessible != null)
-        'IsPubliclyAccessible': isPubliclyAccessible,
-    };
-  }
-}
-
-/// The configuration of your VPC and the associated VPC endpoint. The VPC
-/// endpoint is an Amazon Web Services PrivateLink resource that allows access
-/// to your App Runner services from within an Amazon VPC.
-class IngressVpcConfiguration {
-  /// The ID of the VPC endpoint that your App Runner service connects to.
-  final String? vpcEndpointId;
-
-  /// The ID of the VPC that is used for the VPC endpoint.
-  final String? vpcId;
-
-  IngressVpcConfiguration({
-    this.vpcEndpointId,
-    this.vpcId,
-  });
-
-  factory IngressVpcConfiguration.fromJson(Map<String, dynamic> json) {
-    return IngressVpcConfiguration(
-      vpcEndpointId: json['VpcEndpointId'] as String?,
-      vpcId: json['VpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final vpcEndpointId = this.vpcEndpointId;
-    final vpcId = this.vpcId;
-    return {
-      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
-      if (vpcId != null) 'VpcId': vpcId,
-    };
-  }
-}
-
-/// Describes the runtime configuration of an App Runner service instance
-/// (scaling unit).
-class InstanceConfiguration {
-  /// The number of CPU units reserved for each instance of your App Runner
-  /// service.
-  ///
-  /// Default: <code>1 vCPU</code>
-  final String? cpu;
-
-  /// The Amazon Resource Name (ARN) of an IAM role that provides permissions to
-  /// your App Runner service. These are permissions that your code needs when it
-  /// calls any Amazon Web Services APIs.
-  final String? instanceRoleArn;
-
-  /// The amount of memory, in MB or GB, reserved for each instance of your App
-  /// Runner service.
-  ///
-  /// Default: <code>2 GB</code>
-  final String? memory;
-
-  InstanceConfiguration({
-    this.cpu,
-    this.instanceRoleArn,
-    this.memory,
-  });
-
-  factory InstanceConfiguration.fromJson(Map<String, dynamic> json) {
-    return InstanceConfiguration(
-      cpu: json['Cpu'] as String?,
-      instanceRoleArn: json['InstanceRoleArn'] as String?,
-      memory: json['Memory'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cpu = this.cpu;
-    final instanceRoleArn = this.instanceRoleArn;
-    final memory = this.memory;
-    return {
-      if (cpu != null) 'Cpu': cpu,
-      if (instanceRoleArn != null) 'InstanceRoleArn': instanceRoleArn,
-      if (memory != null) 'Memory': memory,
-    };
-  }
-}
-
-class IpAddressType {
-  static const ipv4 = IpAddressType._('IPV4');
-  static const dualStack = IpAddressType._('DUAL_STACK');
-
-  final String value;
-
-  const IpAddressType._(this.value);
-
-  static const values = [ipv4, dualStack];
-
-  static IpAddressType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IpAddressType._(value));
-
-  @override
-  bool operator ==(other) => other is IpAddressType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListAutoScalingConfigurationsResponse {
   /// A list of summary information records for auto scaling configurations. In a
   /// paginated request, the request returns up to <code>MaxResults</code> records
@@ -4038,6 +2735,40 @@ class ListOperationsResponse {
   }
 }
 
+class ListServicesResponse {
+  /// A list of service summary information records. In a paginated request, the
+  /// request returns up to <code>MaxResults</code> records for each call.
+  final List<ServiceSummary> serviceSummaryList;
+
+  /// The token that you can pass in a subsequent request to get the next result
+  /// page. It's returned in a paginated request.
+  final String? nextToken;
+
+  ListServicesResponse({
+    required this.serviceSummaryList,
+    this.nextToken,
+  });
+
+  factory ListServicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListServicesResponse(
+      serviceSummaryList: ((json['ServiceSummaryList'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceSummaryList = this.serviceSummaryList;
+    final nextToken = this.nextToken;
+    return {
+      'ServiceSummaryList': serviceSummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListServicesForAutoScalingConfigurationResponse {
   /// A list of service ARN records. In a paginated request, the request returns
   /// up to <code>MaxResults</code> records for each call.
@@ -4068,40 +2799,6 @@ class ListServicesForAutoScalingConfigurationResponse {
     final nextToken = this.nextToken;
     return {
       'ServiceArnList': serviceArnList,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListServicesResponse {
-  /// A list of service summary information records. In a paginated request, the
-  /// request returns up to <code>MaxResults</code> records for each call.
-  final List<ServiceSummary> serviceSummaryList;
-
-  /// The token that you can pass in a subsequent request to get the next result
-  /// page. It's returned in a paginated request.
-  final String? nextToken;
-
-  ListServicesResponse({
-    required this.serviceSummaryList,
-    this.nextToken,
-  });
-
-  factory ListServicesResponse.fromJson(Map<String, dynamic> json) {
-    return ListServicesResponse(
-      serviceSummaryList: ((json['ServiceSummaryList'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ServiceSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final serviceSummaryList = this.serviceSummaryList;
-    final nextToken = this.nextToken;
-    return {
-      'ServiceSummaryList': serviceSummaryList,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -4166,31 +2863,6 @@ class ListVpcConnectorsResponse {
   }
 }
 
-/// Returns a list of VPC Ingress Connections based on the filter provided. It
-/// can return either <code>ServiceArn</code> or <code>VpcEndpointId</code>, or
-/// both.
-class ListVpcIngressConnectionsFilter {
-  /// The Amazon Resource Name (ARN) of a service to filter by.
-  final String? serviceArn;
-
-  /// The ID of a VPC Endpoint to filter by.
-  final String? vpcEndpointId;
-
-  ListVpcIngressConnectionsFilter({
-    this.serviceArn,
-    this.vpcEndpointId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final serviceArn = this.serviceArn;
-    final vpcEndpointId = this.vpcEndpointId;
-    return {
-      if (serviceArn != null) 'ServiceArn': serviceArn,
-      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
-    };
-  }
-}
-
 class ListVpcIngressConnectionsResponse {
   /// A list of summary information records for VPC Ingress Connections. In a
   /// paginated request, the request returns up to <code>MaxResults</code> records
@@ -4231,393 +2903,6 @@ class ListVpcIngressConnectionsResponse {
   }
 }
 
-/// Describes configuration settings related to network traffic of an App Runner
-/// service. Consists of embedded objects for each configurable network feature.
-class NetworkConfiguration {
-  /// Network configuration settings for outbound message traffic.
-  final EgressConfiguration? egressConfiguration;
-
-  /// Network configuration settings for inbound message traffic.
-  final IngressConfiguration? ingressConfiguration;
-
-  /// App Runner provides you with the option to choose between <i>Internet
-  /// Protocol version 4 (IPv4)</i> and <i>dual stack</i> (IPv4 and IPv6) for your
-  /// incoming public network configuration. This is an optional parameter. If you
-  /// do not specify an <code>IpAddressType</code>, it defaults to select IPv4.
-  /// <note>
-  /// Currently, App Runner supports dual stack for only Public endpoint. Only
-  /// IPv4 is supported for Private endpoint. If you update a service that's using
-  /// dual-stack Public endpoint to a Private endpoint, your App Runner service
-  /// will default to support only IPv4 for Private endpoint and fail to receive
-  /// traffic originating from IPv6 endpoint.
-  /// </note>
-  final IpAddressType? ipAddressType;
-
-  NetworkConfiguration({
-    this.egressConfiguration,
-    this.ingressConfiguration,
-    this.ipAddressType,
-  });
-
-  factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
-    return NetworkConfiguration(
-      egressConfiguration: json['EgressConfiguration'] != null
-          ? EgressConfiguration.fromJson(
-              json['EgressConfiguration'] as Map<String, dynamic>)
-          : null,
-      ingressConfiguration: json['IngressConfiguration'] != null
-          ? IngressConfiguration.fromJson(
-              json['IngressConfiguration'] as Map<String, dynamic>)
-          : null,
-      ipAddressType:
-          (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final egressConfiguration = this.egressConfiguration;
-    final ingressConfiguration = this.ingressConfiguration;
-    final ipAddressType = this.ipAddressType;
-    return {
-      if (egressConfiguration != null)
-        'EgressConfiguration': egressConfiguration,
-      if (ingressConfiguration != null)
-        'IngressConfiguration': ingressConfiguration,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
-    };
-  }
-}
-
-/// Describes an App Runner observability configuration resource. Multiple
-/// revisions of a configuration have the same
-/// <code>ObservabilityConfigurationName</code> and different
-/// <code>ObservabilityConfigurationRevision</code> values.
-///
-/// The resource is designed to configure multiple features (currently one
-/// feature, tracing). This type contains optional members that describe the
-/// configuration of these features (currently one member,
-/// <code>TraceConfiguration</code>). If a feature member isn't specified, the
-/// feature isn't enabled.
-class ObservabilityConfiguration {
-  /// The time when the observability configuration was created. It's in Unix time
-  /// stamp format.
-  final DateTime? createdAt;
-
-  /// The time when the observability configuration was deleted. It's in Unix time
-  /// stamp format.
-  final DateTime? deletedAt;
-
-  /// It's set to <code>true</code> for the configuration with the highest
-  /// <code>Revision</code> among all configurations that share the same
-  /// <code>ObservabilityConfigurationName</code>. It's set to <code>false</code>
-  /// otherwise.
-  final bool? latest;
-
-  /// The Amazon Resource Name (ARN) of this observability configuration.
-  final String? observabilityConfigurationArn;
-
-  /// The customer-provided observability configuration name. It can be used in
-  /// multiple revisions of a configuration.
-  final String? observabilityConfigurationName;
-
-  /// The revision of this observability configuration. It's unique among all the
-  /// active configurations (<code>"Status": "ACTIVE"</code>) that share the same
-  /// <code>ObservabilityConfigurationName</code>.
-  final int? observabilityConfigurationRevision;
-
-  /// The current state of the observability configuration. If the status of a
-  /// configuration revision is <code>INACTIVE</code>, it was deleted and can't be
-  /// used. Inactive configuration revisions are permanently removed some time
-  /// after they are deleted.
-  final ObservabilityConfigurationStatus? status;
-
-  /// The configuration of the tracing feature within this observability
-  /// configuration. If not specified, tracing isn't enabled.
-  final TraceConfiguration? traceConfiguration;
-
-  ObservabilityConfiguration({
-    this.createdAt,
-    this.deletedAt,
-    this.latest,
-    this.observabilityConfigurationArn,
-    this.observabilityConfigurationName,
-    this.observabilityConfigurationRevision,
-    this.status,
-    this.traceConfiguration,
-  });
-
-  factory ObservabilityConfiguration.fromJson(Map<String, dynamic> json) {
-    return ObservabilityConfiguration(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      deletedAt: timeStampFromJson(json['DeletedAt']),
-      latest: json['Latest'] as bool?,
-      observabilityConfigurationArn:
-          json['ObservabilityConfigurationArn'] as String?,
-      observabilityConfigurationName:
-          json['ObservabilityConfigurationName'] as String?,
-      observabilityConfigurationRevision:
-          json['ObservabilityConfigurationRevision'] as int?,
-      status: (json['Status'] as String?)
-          ?.let(ObservabilityConfigurationStatus.fromString),
-      traceConfiguration: json['TraceConfiguration'] != null
-          ? TraceConfiguration.fromJson(
-              json['TraceConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final deletedAt = this.deletedAt;
-    final latest = this.latest;
-    final observabilityConfigurationArn = this.observabilityConfigurationArn;
-    final observabilityConfigurationName = this.observabilityConfigurationName;
-    final observabilityConfigurationRevision =
-        this.observabilityConfigurationRevision;
-    final status = this.status;
-    final traceConfiguration = this.traceConfiguration;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (deletedAt != null) 'DeletedAt': unixTimestampToJson(deletedAt),
-      if (latest != null) 'Latest': latest,
-      if (observabilityConfigurationArn != null)
-        'ObservabilityConfigurationArn': observabilityConfigurationArn,
-      if (observabilityConfigurationName != null)
-        'ObservabilityConfigurationName': observabilityConfigurationName,
-      if (observabilityConfigurationRevision != null)
-        'ObservabilityConfigurationRevision':
-            observabilityConfigurationRevision,
-      if (status != null) 'Status': status.value,
-      if (traceConfiguration != null) 'TraceConfiguration': traceConfiguration,
-    };
-  }
-}
-
-class ObservabilityConfigurationStatus {
-  static const active = ObservabilityConfigurationStatus._('ACTIVE');
-  static const inactive = ObservabilityConfigurationStatus._('INACTIVE');
-
-  final String value;
-
-  const ObservabilityConfigurationStatus._(this.value);
-
-  static const values = [active, inactive];
-
-  static ObservabilityConfigurationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObservabilityConfigurationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ObservabilityConfigurationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides summary information about an App Runner observability configuration
-/// resource.
-///
-/// This type contains limited information about an observability configuration.
-/// It includes only identification information, without configuration details.
-/// It's returned by the <a>ListObservabilityConfigurations</a> action. Complete
-/// configuration information is returned by the
-/// <a>CreateObservabilityConfiguration</a>,
-/// <a>DescribeObservabilityConfiguration</a>, and
-/// <a>DeleteObservabilityConfiguration</a> actions using the
-/// <a>ObservabilityConfiguration</a> type.
-class ObservabilityConfigurationSummary {
-  /// The Amazon Resource Name (ARN) of this observability configuration.
-  final String? observabilityConfigurationArn;
-
-  /// The customer-provided observability configuration name. It can be used in
-  /// multiple revisions of a configuration.
-  final String? observabilityConfigurationName;
-
-  /// The revision of this observability configuration. It's unique among all the
-  /// active configurations (<code>"Status": "ACTIVE"</code>) that share the same
-  /// <code>ObservabilityConfigurationName</code>.
-  final int? observabilityConfigurationRevision;
-
-  ObservabilityConfigurationSummary({
-    this.observabilityConfigurationArn,
-    this.observabilityConfigurationName,
-    this.observabilityConfigurationRevision,
-  });
-
-  factory ObservabilityConfigurationSummary.fromJson(
-      Map<String, dynamic> json) {
-    return ObservabilityConfigurationSummary(
-      observabilityConfigurationArn:
-          json['ObservabilityConfigurationArn'] as String?,
-      observabilityConfigurationName:
-          json['ObservabilityConfigurationName'] as String?,
-      observabilityConfigurationRevision:
-          json['ObservabilityConfigurationRevision'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final observabilityConfigurationArn = this.observabilityConfigurationArn;
-    final observabilityConfigurationName = this.observabilityConfigurationName;
-    final observabilityConfigurationRevision =
-        this.observabilityConfigurationRevision;
-    return {
-      if (observabilityConfigurationArn != null)
-        'ObservabilityConfigurationArn': observabilityConfigurationArn,
-      if (observabilityConfigurationName != null)
-        'ObservabilityConfigurationName': observabilityConfigurationName,
-      if (observabilityConfigurationRevision != null)
-        'ObservabilityConfigurationRevision':
-            observabilityConfigurationRevision,
-    };
-  }
-}
-
-class OperationStatus {
-  static const pending = OperationStatus._('PENDING');
-  static const inProgress = OperationStatus._('IN_PROGRESS');
-  static const failed = OperationStatus._('FAILED');
-  static const succeeded = OperationStatus._('SUCCEEDED');
-  static const rollbackInProgress = OperationStatus._('ROLLBACK_IN_PROGRESS');
-  static const rollbackFailed = OperationStatus._('ROLLBACK_FAILED');
-  static const rollbackSucceeded = OperationStatus._('ROLLBACK_SUCCEEDED');
-
-  final String value;
-
-  const OperationStatus._(this.value);
-
-  static const values = [
-    pending,
-    inProgress,
-    failed,
-    succeeded,
-    rollbackInProgress,
-    rollbackFailed,
-    rollbackSucceeded
-  ];
-
-  static OperationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is OperationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides summary information for an operation that occurred on an App Runner
-/// service.
-class OperationSummary {
-  /// The time when the operation ended. It's in the Unix time stamp format.
-  final DateTime? endedAt;
-
-  /// A unique ID of this operation. It's unique in the scope of the App Runner
-  /// service.
-  final String? id;
-
-  /// The time when the operation started. It's in the Unix time stamp format.
-  final DateTime? startedAt;
-
-  /// The current state of the operation.
-  final OperationStatus? status;
-
-  /// The Amazon Resource Name (ARN) of the resource that the operation acted on
-  /// (for example, an App Runner service).
-  final String? targetArn;
-
-  /// The type of operation. It indicates a specific action that occured.
-  final OperationType? type;
-
-  /// The time when the operation was last updated. It's in the Unix time stamp
-  /// format.
-  final DateTime? updatedAt;
-
-  OperationSummary({
-    this.endedAt,
-    this.id,
-    this.startedAt,
-    this.status,
-    this.targetArn,
-    this.type,
-    this.updatedAt,
-  });
-
-  factory OperationSummary.fromJson(Map<String, dynamic> json) {
-    return OperationSummary(
-      endedAt: timeStampFromJson(json['EndedAt']),
-      id: json['Id'] as String?,
-      startedAt: timeStampFromJson(json['StartedAt']),
-      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
-      targetArn: json['TargetArn'] as String?,
-      type: (json['Type'] as String?)?.let(OperationType.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endedAt = this.endedAt;
-    final id = this.id;
-    final startedAt = this.startedAt;
-    final status = this.status;
-    final targetArn = this.targetArn;
-    final type = this.type;
-    final updatedAt = this.updatedAt;
-    return {
-      if (endedAt != null) 'EndedAt': unixTimestampToJson(endedAt),
-      if (id != null) 'Id': id,
-      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
-      if (status != null) 'Status': status.value,
-      if (targetArn != null) 'TargetArn': targetArn,
-      if (type != null) 'Type': type.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class OperationType {
-  static const startDeployment = OperationType._('START_DEPLOYMENT');
-  static const createService = OperationType._('CREATE_SERVICE');
-  static const pauseService = OperationType._('PAUSE_SERVICE');
-  static const resumeService = OperationType._('RESUME_SERVICE');
-  static const deleteService = OperationType._('DELETE_SERVICE');
-  static const updateService = OperationType._('UPDATE_SERVICE');
-
-  final String value;
-
-  const OperationType._(this.value);
-
-  static const values = [
-    startDeployment,
-    createService,
-    pauseService,
-    resumeService,
-    deleteService,
-    updateService
-  ];
-
-  static OperationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OperationType._(value));
-
-  @override
-  bool operator ==(other) => other is OperationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class PauseServiceResponse {
   /// A description of the App Runner service that this request just paused.
   final Service service;
@@ -4648,29 +2933,6 @@ class PauseServiceResponse {
       if (operationId != null) 'OperationId': operationId,
     };
   }
-}
-
-class ProviderType {
-  static const github = ProviderType._('GITHUB');
-  static const bitbucket = ProviderType._('BITBUCKET');
-
-  final String value;
-
-  const ProviderType._(this.value);
-
-  static const values = [github, bitbucket];
-
-  static ProviderType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ProviderType._(value));
-
-  @override
-  bool operator ==(other) => other is ProviderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ResumeServiceResponse {
@@ -4705,50 +2967,328 @@ class ResumeServiceResponse {
   }
 }
 
-class Runtime {
-  static const python_3 = Runtime._('PYTHON_3');
-  static const nodejs_12 = Runtime._('NODEJS_12');
-  static const nodejs_14 = Runtime._('NODEJS_14');
-  static const corretto_8 = Runtime._('CORRETTO_8');
-  static const corretto_11 = Runtime._('CORRETTO_11');
-  static const nodejs_16 = Runtime._('NODEJS_16');
-  static const go_1 = Runtime._('GO_1');
-  static const dotnet_6 = Runtime._('DOTNET_6');
-  static const php_81 = Runtime._('PHP_81');
-  static const ruby_31 = Runtime._('RUBY_31');
-  static const python_311 = Runtime._('PYTHON_311');
-  static const nodejs_18 = Runtime._('NODEJS_18');
+class StartDeploymentResponse {
+  /// The unique ID of the asynchronous operation that this request started. You
+  /// can use it combined with the <a>ListOperations</a> call to track the
+  /// operation's progress.
+  final String operationId;
+
+  StartDeploymentResponse({
+    required this.operationId,
+  });
+
+  factory StartDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return StartDeploymentResponse(
+      operationId: (json['OperationId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDefaultAutoScalingConfigurationResponse {
+  /// A description of the App Runner auto scaling configuration that was set as
+  /// default.
+  final AutoScalingConfiguration autoScalingConfiguration;
+
+  UpdateDefaultAutoScalingConfigurationResponse({
+    required this.autoScalingConfiguration,
+  });
+
+  factory UpdateDefaultAutoScalingConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateDefaultAutoScalingConfigurationResponse(
+      autoScalingConfiguration: AutoScalingConfiguration.fromJson(
+          (json['AutoScalingConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingConfiguration = this.autoScalingConfiguration;
+    return {
+      'AutoScalingConfiguration': autoScalingConfiguration,
+    };
+  }
+}
+
+class UpdateServiceResponse {
+  /// The unique ID of the asynchronous operation that this request started. You
+  /// can use it combined with the <a>ListOperations</a> call to track the
+  /// operation's progress.
+  final String operationId;
+
+  /// A description of the App Runner service updated by this request. All
+  /// configuration values in the returned <code>Service</code> structure reflect
+  /// configuration changes that are being applied by this request.
+  final Service service;
+
+  UpdateServiceResponse({
+    required this.operationId,
+    required this.service,
+  });
+
+  factory UpdateServiceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateServiceResponse(
+      operationId: (json['OperationId'] as String?) ?? '',
+      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    final service = this.service;
+    return {
+      'OperationId': operationId,
+      'Service': service,
+    };
+  }
+}
+
+class UpdateVpcIngressConnectionResponse {
+  /// A description of the App Runner VPC Ingress Connection resource that's
+  /// updated by this request.
+  final VpcIngressConnection vpcIngressConnection;
+
+  UpdateVpcIngressConnectionResponse({
+    required this.vpcIngressConnection,
+  });
+
+  factory UpdateVpcIngressConnectionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateVpcIngressConnectionResponse(
+      vpcIngressConnection: VpcIngressConnection.fromJson(
+          (json['VpcIngressConnection'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpcIngressConnection = this.vpcIngressConnection;
+    return {
+      'VpcIngressConnection': vpcIngressConnection,
+    };
+  }
+}
+
+/// The App Runner resource that specifies an App Runner endpoint for incoming
+/// traffic. It establishes a connection between a VPC interface endpoint and a
+/// App Runner service, to make your App Runner service accessible from only
+/// within an Amazon VPC.
+class VpcIngressConnection {
+  /// The Account Id you use to create the VPC Ingress Connection resource.
+  final String? accountId;
+
+  /// The time when the VPC Ingress Connection was created. It's in the Unix time
+  /// stamp format.
+  ///
+  /// <ul>
+  /// <li>
+  /// Type: Timestamp
+  /// </li>
+  /// <li>
+  /// Required: Yes
+  /// </li>
+  /// </ul>
+  final DateTime? createdAt;
+
+  /// The time when the App Runner service was deleted. It's in the Unix time
+  /// stamp format.
+  ///
+  /// <ul>
+  /// <li>
+  /// Type: Timestamp
+  /// </li>
+  /// <li>
+  /// Required: No
+  /// </li>
+  /// </ul>
+  final DateTime? deletedAt;
+
+  /// The domain name associated with the VPC Ingress Connection resource.
+  final String? domainName;
+
+  /// Specifications for the customer’s VPC and related PrivateLink VPC endpoint
+  /// that are used to associate with the VPC Ingress Connection resource.
+  final IngressVpcConfiguration? ingressVpcConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the service associated with the VPC
+  /// Ingress Connection.
+  final String? serviceArn;
+
+  /// The current status of the VPC Ingress Connection. The VPC Ingress Connection
+  /// displays one of the following statuses: <code>AVAILABLE</code>,
+  /// <code>PENDING_CREATION</code>, <code>PENDING_UPDATE</code>,
+  /// <code>PENDING_DELETION</code>,<code>FAILED_CREATION</code>,
+  /// <code>FAILED_UPDATE</code>, <code>FAILED_DELETION</code>, and
+  /// <code>DELETED</code>..
+  final VpcIngressConnectionStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the VPC Ingress Connection.
+  final String? vpcIngressConnectionArn;
+
+  /// The customer-provided VPC Ingress Connection name.
+  final String? vpcIngressConnectionName;
+
+  VpcIngressConnection({
+    this.accountId,
+    this.createdAt,
+    this.deletedAt,
+    this.domainName,
+    this.ingressVpcConfiguration,
+    this.serviceArn,
+    this.status,
+    this.vpcIngressConnectionArn,
+    this.vpcIngressConnectionName,
+  });
+
+  factory VpcIngressConnection.fromJson(Map<String, dynamic> json) {
+    return VpcIngressConnection(
+      accountId: json['AccountId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      deletedAt: timeStampFromJson(json['DeletedAt']),
+      domainName: json['DomainName'] as String?,
+      ingressVpcConfiguration: json['IngressVpcConfiguration'] != null
+          ? IngressVpcConfiguration.fromJson(
+              json['IngressVpcConfiguration'] as Map<String, dynamic>)
+          : null,
+      serviceArn: json['ServiceArn'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(VpcIngressConnectionStatus.fromString),
+      vpcIngressConnectionArn: json['VpcIngressConnectionArn'] as String?,
+      vpcIngressConnectionName: json['VpcIngressConnectionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final createdAt = this.createdAt;
+    final deletedAt = this.deletedAt;
+    final domainName = this.domainName;
+    final ingressVpcConfiguration = this.ingressVpcConfiguration;
+    final serviceArn = this.serviceArn;
+    final status = this.status;
+    final vpcIngressConnectionArn = this.vpcIngressConnectionArn;
+    final vpcIngressConnectionName = this.vpcIngressConnectionName;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (deletedAt != null) 'DeletedAt': unixTimestampToJson(deletedAt),
+      if (domainName != null) 'DomainName': domainName,
+      if (ingressVpcConfiguration != null)
+        'IngressVpcConfiguration': ingressVpcConfiguration,
+      if (serviceArn != null) 'ServiceArn': serviceArn,
+      if (status != null) 'Status': status.value,
+      if (vpcIngressConnectionArn != null)
+        'VpcIngressConnectionArn': vpcIngressConnectionArn,
+      if (vpcIngressConnectionName != null)
+        'VpcIngressConnectionName': vpcIngressConnectionName,
+    };
+  }
+}
+
+class VpcIngressConnectionStatus {
+  static const available = VpcIngressConnectionStatus._('AVAILABLE');
+  static const pendingCreation =
+      VpcIngressConnectionStatus._('PENDING_CREATION');
+  static const pendingUpdate = VpcIngressConnectionStatus._('PENDING_UPDATE');
+  static const pendingDeletion =
+      VpcIngressConnectionStatus._('PENDING_DELETION');
+  static const failedCreation = VpcIngressConnectionStatus._('FAILED_CREATION');
+  static const failedUpdate = VpcIngressConnectionStatus._('FAILED_UPDATE');
+  static const failedDeletion = VpcIngressConnectionStatus._('FAILED_DELETION');
+  static const deleted = VpcIngressConnectionStatus._('DELETED');
 
   final String value;
 
-  const Runtime._(this.value);
+  const VpcIngressConnectionStatus._(this.value);
 
   static const values = [
-    python_3,
-    nodejs_12,
-    nodejs_14,
-    corretto_8,
-    corretto_11,
-    nodejs_16,
-    go_1,
-    dotnet_6,
-    php_81,
-    ruby_31,
-    python_311,
-    nodejs_18
+    available,
+    pendingCreation,
+    pendingUpdate,
+    pendingDeletion,
+    failedCreation,
+    failedUpdate,
+    failedDeletion,
+    deleted
   ];
 
-  static Runtime fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Runtime._(value));
+  static VpcIngressConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VpcIngressConnectionStatus._(value));
 
   @override
-  bool operator ==(other) => other is Runtime && other.value == value;
+  bool operator ==(other) =>
+      other is VpcIngressConnectionStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// The configuration of your VPC and the associated VPC endpoint. The VPC
+/// endpoint is an Amazon Web Services PrivateLink resource that allows access
+/// to your App Runner services from within an Amazon VPC.
+class IngressVpcConfiguration {
+  /// The ID of the VPC endpoint that your App Runner service connects to.
+  final String? vpcEndpointId;
+
+  /// The ID of the VPC that is used for the VPC endpoint.
+  final String? vpcId;
+
+  IngressVpcConfiguration({
+    this.vpcEndpointId,
+    this.vpcId,
+  });
+
+  factory IngressVpcConfiguration.fromJson(Map<String, dynamic> json) {
+    return IngressVpcConfiguration(
+      vpcEndpointId: json['VpcEndpointId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpcEndpointId = this.vpcEndpointId;
+    final vpcId = this.vpcId;
+    return {
+      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
 }
 
 /// Describes an App Runner service. It can describe a service in any state,
@@ -4935,53 +3475,6 @@ class Service {
   }
 }
 
-/// Describes the observability configuration of an App Runner service. These
-/// are additional observability features, like tracing, that you choose to
-/// enable. They're configured in a separate resource that you associate with
-/// your service.
-class ServiceObservabilityConfiguration {
-  /// When <code>true</code>, an observability configuration resource is
-  /// associated with the service, and an
-  /// <code>ObservabilityConfigurationArn</code> is specified.
-  final bool observabilityEnabled;
-
-  /// The Amazon Resource Name (ARN) of the observability configuration that is
-  /// associated with the service. Specified only when
-  /// <code>ObservabilityEnabled</code> is <code>true</code>.
-  ///
-  /// Specify an ARN with a name and a revision number to associate that revision.
-  /// For example:
-  /// <code>arn:aws:apprunner:us-east-1:123456789012:observabilityconfiguration/xray-tracing/3</code>
-  ///
-  /// Specify just the name to associate the latest revision. For example:
-  /// <code>arn:aws:apprunner:us-east-1:123456789012:observabilityconfiguration/xray-tracing</code>
-  final String? observabilityConfigurationArn;
-
-  ServiceObservabilityConfiguration({
-    required this.observabilityEnabled,
-    this.observabilityConfigurationArn,
-  });
-
-  factory ServiceObservabilityConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ServiceObservabilityConfiguration(
-      observabilityEnabled: (json['ObservabilityEnabled'] as bool?) ?? false,
-      observabilityConfigurationArn:
-          json['ObservabilityConfigurationArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final observabilityEnabled = this.observabilityEnabled;
-    final observabilityConfigurationArn = this.observabilityConfigurationArn;
-    return {
-      'ObservabilityEnabled': observabilityEnabled,
-      if (observabilityConfigurationArn != null)
-        'ObservabilityConfigurationArn': observabilityConfigurationArn,
-    };
-  }
-}
-
 class ServiceStatus {
   static const createFailed = ServiceStatus._('CREATE_FAILED');
   static const running = ServiceStatus._('RUNNING');
@@ -5009,164 +3502,6 @@ class ServiceStatus {
 
   @override
   bool operator ==(other) => other is ServiceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides summary information for an App Runner service.
-///
-/// This type contains limited information about a service. It doesn't include
-/// configuration details. It's returned by the <a
-/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_ListServices.html">ListServices</a>
-/// action. Complete service information is returned by the <a
-/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_CreateService.html">CreateService</a>,
-/// <a
-/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_DescribeService.html">DescribeService</a>,
-/// and <a
-/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_DeleteService.html">DeleteService</a>
-/// actions using the <a
-/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_Service.html">Service</a>
-/// type.
-class ServiceSummary {
-  /// The time when the App Runner service was created. It's in the Unix time
-  /// stamp format.
-  final DateTime? createdAt;
-
-  /// The Amazon Resource Name (ARN) of this service.
-  final String? serviceArn;
-
-  /// An ID that App Runner generated for this service. It's unique within the
-  /// Amazon Web Services Region.
-  final String? serviceId;
-
-  /// The customer-provided service name.
-  final String? serviceName;
-
-  /// A subdomain URL that App Runner generated for this service. You can use this
-  /// URL to access your service web application.
-  final String? serviceUrl;
-
-  /// The current state of the App Runner service. These particular values mean
-  /// the following.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATE_FAILED</code> – The service failed to create. The failed
-  /// service isn't usable, and still counts towards your service quota. To
-  /// troubleshoot this failure, read the failure events and logs, change any
-  /// parameters that need to be fixed, and rebuild your service using
-  /// <code>UpdateService</code>.
-  /// </li>
-  /// <li>
-  /// <code>DELETE_FAILED</code> – The service failed to delete and can't be
-  /// successfully recovered. Retry the service deletion call to ensure that all
-  /// related resources are removed.
-  /// </li>
-  /// </ul>
-  final ServiceStatus? status;
-
-  /// The time when the App Runner service was last updated. It's in theUnix time
-  /// stamp format.
-  final DateTime? updatedAt;
-
-  ServiceSummary({
-    this.createdAt,
-    this.serviceArn,
-    this.serviceId,
-    this.serviceName,
-    this.serviceUrl,
-    this.status,
-    this.updatedAt,
-  });
-
-  factory ServiceSummary.fromJson(Map<String, dynamic> json) {
-    return ServiceSummary(
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      serviceArn: json['ServiceArn'] as String?,
-      serviceId: json['ServiceId'] as String?,
-      serviceName: json['ServiceName'] as String?,
-      serviceUrl: json['ServiceUrl'] as String?,
-      status: (json['Status'] as String?)?.let(ServiceStatus.fromString),
-      updatedAt: timeStampFromJson(json['UpdatedAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final serviceArn = this.serviceArn;
-    final serviceId = this.serviceId;
-    final serviceName = this.serviceName;
-    final serviceUrl = this.serviceUrl;
-    final status = this.status;
-    final updatedAt = this.updatedAt;
-    return {
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (serviceArn != null) 'ServiceArn': serviceArn,
-      if (serviceId != null) 'ServiceId': serviceId,
-      if (serviceName != null) 'ServiceName': serviceName,
-      if (serviceUrl != null) 'ServiceUrl': serviceUrl,
-      if (status != null) 'Status': status.value,
-      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-/// Identifies a version of code that App Runner refers to within a source code
-/// repository.
-class SourceCodeVersion {
-  /// The type of version identifier.
-  ///
-  /// For a git-based repository, branches represent versions.
-  final SourceCodeVersionType type;
-
-  /// A source code version.
-  ///
-  /// For a git-based repository, a branch name maps to a specific version. App
-  /// Runner uses the most recent commit to the branch.
-  final String value;
-
-  SourceCodeVersion({
-    required this.type,
-    required this.value,
-  });
-
-  factory SourceCodeVersion.fromJson(Map<String, dynamic> json) {
-    return SourceCodeVersion(
-      type: SourceCodeVersionType.fromString((json['Type'] as String?) ?? ''),
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final value = this.value;
-    return {
-      'Type': type.value,
-      'Value': value,
-    };
-  }
-}
-
-class SourceCodeVersionType {
-  static const branch = SourceCodeVersionType._('BRANCH');
-
-  final String value;
-
-  const SourceCodeVersionType._(this.value);
-
-  static const values = [branch];
-
-  static SourceCodeVersionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SourceCodeVersionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SourceCodeVersionType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -5246,26 +3581,1172 @@ class SourceConfiguration {
   }
 }
 
-class StartDeploymentResponse {
-  /// The unique ID of the asynchronous operation that this request started. You
-  /// can use it combined with the <a>ListOperations</a> call to track the
-  /// operation's progress.
-  final String operationId;
+/// Describes the runtime configuration of an App Runner service instance
+/// (scaling unit).
+class InstanceConfiguration {
+  /// The number of CPU units reserved for each instance of your App Runner
+  /// service.
+  ///
+  /// Default: <code>1 vCPU</code>
+  final String? cpu;
 
-  StartDeploymentResponse({
-    required this.operationId,
+  /// The Amazon Resource Name (ARN) of an IAM role that provides permissions to
+  /// your App Runner service. These are permissions that your code needs when it
+  /// calls any Amazon Web Services APIs.
+  final String? instanceRoleArn;
+
+  /// The amount of memory, in MB or GB, reserved for each instance of your App
+  /// Runner service.
+  ///
+  /// Default: <code>2 GB</code>
+  final String? memory;
+
+  InstanceConfiguration({
+    this.cpu,
+    this.instanceRoleArn,
+    this.memory,
   });
 
-  factory StartDeploymentResponse.fromJson(Map<String, dynamic> json) {
-    return StartDeploymentResponse(
-      operationId: (json['OperationId'] as String?) ?? '',
+  factory InstanceConfiguration.fromJson(Map<String, dynamic> json) {
+    return InstanceConfiguration(
+      cpu: json['Cpu'] as String?,
+      instanceRoleArn: json['InstanceRoleArn'] as String?,
+      memory: json['Memory'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
+    final cpu = this.cpu;
+    final instanceRoleArn = this.instanceRoleArn;
+    final memory = this.memory;
     return {
-      'OperationId': operationId,
+      if (cpu != null) 'Cpu': cpu,
+      if (instanceRoleArn != null) 'InstanceRoleArn': instanceRoleArn,
+      if (memory != null) 'Memory': memory,
+    };
+  }
+}
+
+/// Describes a custom encryption key that App Runner uses to encrypt copies of
+/// the source repository and service logs.
+class EncryptionConfiguration {
+  /// The ARN of the KMS key that's used for encryption.
+  final String kmsKey;
+
+  EncryptionConfiguration({
+    required this.kmsKey,
+  });
+
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      kmsKey: (json['KmsKey'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKey = this.kmsKey;
+    return {
+      'KmsKey': kmsKey,
+    };
+  }
+}
+
+/// Describes the settings for the health check that App Runner performs to
+/// monitor the health of a service.
+class HealthCheckConfiguration {
+  /// The number of consecutive checks that must succeed before App Runner decides
+  /// that the service is healthy.
+  ///
+  /// Default: <code>1</code>
+  final int? healthyThreshold;
+
+  /// The time interval, in seconds, between health checks.
+  ///
+  /// Default: <code>5</code>
+  final int? interval;
+
+  /// The URL that health check requests are sent to.
+  ///
+  /// <code>Path</code> is only applicable when you set <code>Protocol</code> to
+  /// <code>HTTP</code>.
+  ///
+  /// Default: <code>"/"</code>
+  final String? path;
+
+  /// The IP protocol that App Runner uses to perform health checks for your
+  /// service.
+  ///
+  /// If you set <code>Protocol</code> to <code>HTTP</code>, App Runner sends
+  /// health check requests to the HTTP path specified by <code>Path</code>.
+  ///
+  /// Default: <code>TCP</code>
+  final HealthCheckProtocol? protocol;
+
+  /// The time, in seconds, to wait for a health check response before deciding it
+  /// failed.
+  ///
+  /// Default: <code>2</code>
+  final int? timeout;
+
+  /// The number of consecutive checks that must fail before App Runner decides
+  /// that the service is unhealthy.
+  ///
+  /// Default: <code>5</code>
+  final int? unhealthyThreshold;
+
+  HealthCheckConfiguration({
+    this.healthyThreshold,
+    this.interval,
+    this.path,
+    this.protocol,
+    this.timeout,
+    this.unhealthyThreshold,
+  });
+
+  factory HealthCheckConfiguration.fromJson(Map<String, dynamic> json) {
+    return HealthCheckConfiguration(
+      healthyThreshold: json['HealthyThreshold'] as int?,
+      interval: json['Interval'] as int?,
+      path: json['Path'] as String?,
+      protocol:
+          (json['Protocol'] as String?)?.let(HealthCheckProtocol.fromString),
+      timeout: json['Timeout'] as int?,
+      unhealthyThreshold: json['UnhealthyThreshold'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthyThreshold = this.healthyThreshold;
+    final interval = this.interval;
+    final path = this.path;
+    final protocol = this.protocol;
+    final timeout = this.timeout;
+    final unhealthyThreshold = this.unhealthyThreshold;
+    return {
+      if (healthyThreshold != null) 'HealthyThreshold': healthyThreshold,
+      if (interval != null) 'Interval': interval,
+      if (path != null) 'Path': path,
+      if (protocol != null) 'Protocol': protocol.value,
+      if (timeout != null) 'Timeout': timeout,
+      if (unhealthyThreshold != null) 'UnhealthyThreshold': unhealthyThreshold,
+    };
+  }
+}
+
+/// Provides summary information about an App Runner automatic scaling
+/// configuration resource.
+///
+/// This type contains limited information about an auto scaling configuration.
+/// It includes only identification information, without configuration details.
+/// It's returned by the <a>ListAutoScalingConfigurations</a> action. Complete
+/// configuration information is returned by the
+/// <a>CreateAutoScalingConfiguration</a>,
+/// <a>DescribeAutoScalingConfiguration</a>, and
+/// <a>DeleteAutoScalingConfiguration</a> actions using the
+/// <a>AutoScalingConfiguration</a> type.
+class AutoScalingConfigurationSummary {
+  /// The Amazon Resource Name (ARN) of this auto scaling configuration.
+  final String? autoScalingConfigurationArn;
+
+  /// The customer-provided auto scaling configuration name. It can be used in
+  /// multiple revisions of a configuration.
+  final String? autoScalingConfigurationName;
+
+  /// The revision of this auto scaling configuration. It's unique among all the
+  /// active configurations (<code>"Status": "ACTIVE"</code>) with the same
+  /// <code>AutoScalingConfigurationName</code>.
+  final int? autoScalingConfigurationRevision;
+
+  /// The time when the auto scaling configuration was created. It's in Unix time
+  /// stamp format.
+  final DateTime? createdAt;
+
+  /// Indicates if this auto scaling configuration has an App Runner service
+  /// associated with it. A value of <code>true</code> indicates one or more
+  /// services are associated. A value of <code>false</code> indicates no services
+  /// are associated.
+  final bool? hasAssociatedService;
+
+  /// Indicates if this auto scaling configuration should be used as the default
+  /// for a new App Runner service that does not have an auto scaling
+  /// configuration ARN specified during creation. Each account can have only one
+  /// default <code>AutoScalingConfiguration</code> per region. The default
+  /// <code>AutoScalingConfiguration</code> can be any revision under the same
+  /// <code>AutoScalingConfigurationName</code>.
+  final bool? isDefault;
+
+  /// The current state of the auto scaling configuration. If the status of a
+  /// configuration revision is <code>INACTIVE</code>, it was deleted and can't be
+  /// used. Inactive configuration revisions are permanently removed some time
+  /// after they are deleted.
+  final AutoScalingConfigurationStatus? status;
+
+  AutoScalingConfigurationSummary({
+    this.autoScalingConfigurationArn,
+    this.autoScalingConfigurationName,
+    this.autoScalingConfigurationRevision,
+    this.createdAt,
+    this.hasAssociatedService,
+    this.isDefault,
+    this.status,
+  });
+
+  factory AutoScalingConfigurationSummary.fromJson(Map<String, dynamic> json) {
+    return AutoScalingConfigurationSummary(
+      autoScalingConfigurationArn:
+          json['AutoScalingConfigurationArn'] as String?,
+      autoScalingConfigurationName:
+          json['AutoScalingConfigurationName'] as String?,
+      autoScalingConfigurationRevision:
+          json['AutoScalingConfigurationRevision'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      hasAssociatedService: json['HasAssociatedService'] as bool?,
+      isDefault: json['IsDefault'] as bool?,
+      status: (json['Status'] as String?)
+          ?.let(AutoScalingConfigurationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingConfigurationArn = this.autoScalingConfigurationArn;
+    final autoScalingConfigurationName = this.autoScalingConfigurationName;
+    final autoScalingConfigurationRevision =
+        this.autoScalingConfigurationRevision;
+    final createdAt = this.createdAt;
+    final hasAssociatedService = this.hasAssociatedService;
+    final isDefault = this.isDefault;
+    final status = this.status;
+    return {
+      if (autoScalingConfigurationArn != null)
+        'AutoScalingConfigurationArn': autoScalingConfigurationArn,
+      if (autoScalingConfigurationName != null)
+        'AutoScalingConfigurationName': autoScalingConfigurationName,
+      if (autoScalingConfigurationRevision != null)
+        'AutoScalingConfigurationRevision': autoScalingConfigurationRevision,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (hasAssociatedService != null)
+        'HasAssociatedService': hasAssociatedService,
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Describes configuration settings related to network traffic of an App Runner
+/// service. Consists of embedded objects for each configurable network feature.
+class NetworkConfiguration {
+  /// Network configuration settings for outbound message traffic.
+  final EgressConfiguration? egressConfiguration;
+
+  /// Network configuration settings for inbound message traffic.
+  final IngressConfiguration? ingressConfiguration;
+
+  /// App Runner provides you with the option to choose between <i>IPv4</i> and
+  /// <i>dual stack</i> (IPv4 and IPv6). This is an optional parameter. If you do
+  /// not specify an <code>IpAddressType</code>, it defaults to select IPv4.
+  final IpAddressType? ipAddressType;
+
+  NetworkConfiguration({
+    this.egressConfiguration,
+    this.ingressConfiguration,
+    this.ipAddressType,
+  });
+
+  factory NetworkConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkConfiguration(
+      egressConfiguration: json['EgressConfiguration'] != null
+          ? EgressConfiguration.fromJson(
+              json['EgressConfiguration'] as Map<String, dynamic>)
+          : null,
+      ingressConfiguration: json['IngressConfiguration'] != null
+          ? IngressConfiguration.fromJson(
+              json['IngressConfiguration'] as Map<String, dynamic>)
+          : null,
+      ipAddressType:
+          (json['IpAddressType'] as String?)?.let(IpAddressType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final egressConfiguration = this.egressConfiguration;
+    final ingressConfiguration = this.ingressConfiguration;
+    final ipAddressType = this.ipAddressType;
+    return {
+      if (egressConfiguration != null)
+        'EgressConfiguration': egressConfiguration,
+      if (ingressConfiguration != null)
+        'IngressConfiguration': ingressConfiguration,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+    };
+  }
+}
+
+/// Describes the observability configuration of an App Runner service. These
+/// are additional observability features, like tracing, that you choose to
+/// enable. They're configured in a separate resource that you associate with
+/// your service.
+class ServiceObservabilityConfiguration {
+  /// When <code>true</code>, an observability configuration resource is
+  /// associated with the service, and an
+  /// <code>ObservabilityConfigurationArn</code> is specified.
+  final bool observabilityEnabled;
+
+  /// The Amazon Resource Name (ARN) of the observability configuration that is
+  /// associated with the service. Specified only when
+  /// <code>ObservabilityEnabled</code> is <code>true</code>.
+  ///
+  /// Specify an ARN with a name and a revision number to associate that revision.
+  /// For example:
+  /// <code>arn:aws:apprunner:us-east-1:123456789012:observabilityconfiguration/xray-tracing/3</code>
+  ///
+  /// Specify just the name to associate the latest revision. For example:
+  /// <code>arn:aws:apprunner:us-east-1:123456789012:observabilityconfiguration/xray-tracing</code>
+  final String? observabilityConfigurationArn;
+
+  ServiceObservabilityConfiguration({
+    required this.observabilityEnabled,
+    this.observabilityConfigurationArn,
+  });
+
+  factory ServiceObservabilityConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ServiceObservabilityConfiguration(
+      observabilityEnabled: (json['ObservabilityEnabled'] as bool?) ?? false,
+      observabilityConfigurationArn:
+          json['ObservabilityConfigurationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final observabilityEnabled = this.observabilityEnabled;
+    final observabilityConfigurationArn = this.observabilityConfigurationArn;
+    return {
+      'ObservabilityEnabled': observabilityEnabled,
+      if (observabilityConfigurationArn != null)
+        'ObservabilityConfigurationArn': observabilityConfigurationArn,
+    };
+  }
+}
+
+/// Describes configuration settings related to outbound network traffic of an
+/// App Runner service.
+class EgressConfiguration {
+  /// The type of egress configuration.
+  ///
+  /// Set to <code>DEFAULT</code> for access to resources hosted on public
+  /// networks.
+  ///
+  /// Set to <code>VPC</code> to associate your service to a custom VPC specified
+  /// by <code>VpcConnectorArn</code>.
+  final EgressType? egressType;
+
+  /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want
+  /// to associate with your App Runner service. Only valid when <code>EgressType
+  /// = VPC</code>.
+  final String? vpcConnectorArn;
+
+  EgressConfiguration({
+    this.egressType,
+    this.vpcConnectorArn,
+  });
+
+  factory EgressConfiguration.fromJson(Map<String, dynamic> json) {
+    return EgressConfiguration(
+      egressType: (json['EgressType'] as String?)?.let(EgressType.fromString),
+      vpcConnectorArn: json['VpcConnectorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final egressType = this.egressType;
+    final vpcConnectorArn = this.vpcConnectorArn;
+    return {
+      if (egressType != null) 'EgressType': egressType.value,
+      if (vpcConnectorArn != null) 'VpcConnectorArn': vpcConnectorArn,
+    };
+  }
+}
+
+/// Network configuration settings for inbound network traffic.
+class IngressConfiguration {
+  /// Specifies whether your App Runner service is publicly accessible. To make
+  /// the service publicly accessible set it to <code>True</code>. To make the
+  /// service privately accessible, from only within an Amazon VPC set it to
+  /// <code>False</code>.
+  final bool? isPubliclyAccessible;
+
+  IngressConfiguration({
+    this.isPubliclyAccessible,
+  });
+
+  factory IngressConfiguration.fromJson(Map<String, dynamic> json) {
+    return IngressConfiguration(
+      isPubliclyAccessible: json['IsPubliclyAccessible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isPubliclyAccessible = this.isPubliclyAccessible;
+    return {
+      if (isPubliclyAccessible != null)
+        'IsPubliclyAccessible': isPubliclyAccessible,
+    };
+  }
+}
+
+class IpAddressType {
+  static const ipv4 = IpAddressType._('IPV4');
+  static const dualStack = IpAddressType._('DUAL_STACK');
+
+  final String value;
+
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, dualStack];
+
+  static IpAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EgressType {
+  static const $default = EgressType._('DEFAULT');
+  static const vpc = EgressType._('VPC');
+
+  final String value;
+
+  const EgressType._(this.value);
+
+  static const values = [$default, vpc];
+
+  static EgressType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => EgressType._(value));
+
+  @override
+  bool operator ==(other) => other is EgressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AutoScalingConfigurationStatus {
+  static const active = AutoScalingConfigurationStatus._('ACTIVE');
+  static const inactive = AutoScalingConfigurationStatus._('INACTIVE');
+
+  final String value;
+
+  const AutoScalingConfigurationStatus._(this.value);
+
+  static const values = [active, inactive];
+
+  static AutoScalingConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutoScalingConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutoScalingConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HealthCheckProtocol {
+  static const tcp = HealthCheckProtocol._('TCP');
+  static const http = HealthCheckProtocol._('HTTP');
+
+  final String value;
+
+  const HealthCheckProtocol._(this.value);
+
+  static const values = [tcp, http];
+
+  static HealthCheckProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HealthCheckProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is HealthCheckProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a source code repository.
+class CodeRepository {
+  /// The location of the repository that contains the source code.
+  final String repositoryUrl;
+
+  /// The version that should be used within the source code repository.
+  final SourceCodeVersion sourceCodeVersion;
+
+  /// Configuration for building and running the service from a source code
+  /// repository.
+  /// <note>
+  /// <code>CodeConfiguration</code> is required only for
+  /// <code>CreateService</code> request.
+  /// </note>
+  final CodeConfiguration? codeConfiguration;
+
+  /// The path of the directory that stores source code and configuration files.
+  /// The build and start commands also execute from here. The path is absolute
+  /// from root and, if not specified, defaults to the repository root.
+  final String? sourceDirectory;
+
+  CodeRepository({
+    required this.repositoryUrl,
+    required this.sourceCodeVersion,
+    this.codeConfiguration,
+    this.sourceDirectory,
+  });
+
+  factory CodeRepository.fromJson(Map<String, dynamic> json) {
+    return CodeRepository(
+      repositoryUrl: (json['RepositoryUrl'] as String?) ?? '',
+      sourceCodeVersion: SourceCodeVersion.fromJson(
+          (json['SourceCodeVersion'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      codeConfiguration: json['CodeConfiguration'] != null
+          ? CodeConfiguration.fromJson(
+              json['CodeConfiguration'] as Map<String, dynamic>)
+          : null,
+      sourceDirectory: json['SourceDirectory'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryUrl = this.repositoryUrl;
+    final sourceCodeVersion = this.sourceCodeVersion;
+    final codeConfiguration = this.codeConfiguration;
+    final sourceDirectory = this.sourceDirectory;
+    return {
+      'RepositoryUrl': repositoryUrl,
+      'SourceCodeVersion': sourceCodeVersion,
+      if (codeConfiguration != null) 'CodeConfiguration': codeConfiguration,
+      if (sourceDirectory != null) 'SourceDirectory': sourceDirectory,
+    };
+  }
+}
+
+/// Describes a source image repository.
+class ImageRepository {
+  /// The identifier of an image.
+  ///
+  /// For an image in Amazon Elastic Container Registry (Amazon ECR), this is an
+  /// image name. For the image name format, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html">Pulling
+  /// an image</a> in the <i>Amazon ECR User Guide</i>.
+  final String imageIdentifier;
+
+  /// The type of the image repository. This reflects the repository provider and
+  /// whether the repository is private or public.
+  final ImageRepositoryType imageRepositoryType;
+
+  /// Configuration for running the identified image.
+  final ImageConfiguration? imageConfiguration;
+
+  ImageRepository({
+    required this.imageIdentifier,
+    required this.imageRepositoryType,
+    this.imageConfiguration,
+  });
+
+  factory ImageRepository.fromJson(Map<String, dynamic> json) {
+    return ImageRepository(
+      imageIdentifier: (json['ImageIdentifier'] as String?) ?? '',
+      imageRepositoryType: ImageRepositoryType.fromString(
+          (json['ImageRepositoryType'] as String?) ?? ''),
+      imageConfiguration: json['ImageConfiguration'] != null
+          ? ImageConfiguration.fromJson(
+              json['ImageConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageIdentifier = this.imageIdentifier;
+    final imageRepositoryType = this.imageRepositoryType;
+    final imageConfiguration = this.imageConfiguration;
+    return {
+      'ImageIdentifier': imageIdentifier,
+      'ImageRepositoryType': imageRepositoryType.value,
+      if (imageConfiguration != null) 'ImageConfiguration': imageConfiguration,
+    };
+  }
+}
+
+/// Describes resources needed to authenticate access to some source
+/// repositories. The specific resource depends on the repository provider.
+class AuthenticationConfiguration {
+  /// The Amazon Resource Name (ARN) of the IAM role that grants the App Runner
+  /// service access to a source repository. It's required for ECR image
+  /// repositories (but not for ECR Public repositories).
+  final String? accessRoleArn;
+
+  /// The Amazon Resource Name (ARN) of the App Runner connection that enables the
+  /// App Runner service to connect to a source repository. It's required for
+  /// GitHub code repositories.
+  final String? connectionArn;
+
+  AuthenticationConfiguration({
+    this.accessRoleArn,
+    this.connectionArn,
+  });
+
+  factory AuthenticationConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuthenticationConfiguration(
+      accessRoleArn: json['AccessRoleArn'] as String?,
+      connectionArn: json['ConnectionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessRoleArn = this.accessRoleArn;
+    final connectionArn = this.connectionArn;
+    return {
+      if (accessRoleArn != null) 'AccessRoleArn': accessRoleArn,
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+    };
+  }
+}
+
+/// Describes the configuration that App Runner uses to run an App Runner
+/// service using an image pulled from a source image repository.
+class ImageConfiguration {
+  /// The port that your application listens to in the container.
+  ///
+  /// Default: <code>8080</code>
+  final String? port;
+
+  /// An array of key-value pairs representing the secrets and parameters that get
+  /// referenced to your service as an environment variable. The supported values
+  /// are either the full Amazon Resource Name (ARN) of the Secrets Manager secret
+  /// or the full ARN of the parameter in the Amazon Web Services Systems Manager
+  /// Parameter Store.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// If the Amazon Web Services Systems Manager Parameter Store parameter exists
+  /// in the same Amazon Web Services Region as the service that you're launching,
+  /// you can use either the full ARN or name of the secret. If the parameter
+  /// exists in a different Region, then the full ARN must be specified.
+  /// </li>
+  /// <li>
+  /// Currently, cross account referencing of Amazon Web Services Systems Manager
+  /// Parameter Store parameter is not supported.
+  /// </li>
+  /// </ul> </note>
+  final Map<String, String>? runtimeEnvironmentSecrets;
+
+  /// Environment variables that are available to your running App Runner service.
+  /// An array of key-value pairs.
+  final Map<String, String>? runtimeEnvironmentVariables;
+
+  /// An optional command that App Runner runs to start the application in the
+  /// source image. If specified, this command overrides the Docker image’s
+  /// default start command.
+  final String? startCommand;
+
+  ImageConfiguration({
+    this.port,
+    this.runtimeEnvironmentSecrets,
+    this.runtimeEnvironmentVariables,
+    this.startCommand,
+  });
+
+  factory ImageConfiguration.fromJson(Map<String, dynamic> json) {
+    return ImageConfiguration(
+      port: json['Port'] as String?,
+      runtimeEnvironmentSecrets:
+          (json['RuntimeEnvironmentSecrets'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      runtimeEnvironmentVariables:
+          (json['RuntimeEnvironmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      startCommand: json['StartCommand'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final runtimeEnvironmentSecrets = this.runtimeEnvironmentSecrets;
+    final runtimeEnvironmentVariables = this.runtimeEnvironmentVariables;
+    final startCommand = this.startCommand;
+    return {
+      if (port != null) 'Port': port,
+      if (runtimeEnvironmentSecrets != null)
+        'RuntimeEnvironmentSecrets': runtimeEnvironmentSecrets,
+      if (runtimeEnvironmentVariables != null)
+        'RuntimeEnvironmentVariables': runtimeEnvironmentVariables,
+      if (startCommand != null) 'StartCommand': startCommand,
+    };
+  }
+}
+
+class ImageRepositoryType {
+  static const ecr = ImageRepositoryType._('ECR');
+  static const ecrPublic = ImageRepositoryType._('ECR_PUBLIC');
+
+  final String value;
+
+  const ImageRepositoryType._(this.value);
+
+  static const values = [ecr, ecrPublic];
+
+  static ImageRepositoryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageRepositoryType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImageRepositoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies a version of code that App Runner refers to within a source code
+/// repository.
+class SourceCodeVersion {
+  /// The type of version identifier.
+  ///
+  /// For a git-based repository, branches represent versions.
+  final SourceCodeVersionType type;
+
+  /// A source code version.
+  ///
+  /// For a git-based repository, a branch name maps to a specific version. App
+  /// Runner uses the most recent commit to the branch.
+  final String value;
+
+  SourceCodeVersion({
+    required this.type,
+    required this.value,
+  });
+
+  factory SourceCodeVersion.fromJson(Map<String, dynamic> json) {
+    return SourceCodeVersion(
+      type: SourceCodeVersionType.fromString((json['Type'] as String?) ?? ''),
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.value,
+      'Value': value,
+    };
+  }
+}
+
+/// Describes the configuration that App Runner uses to build and run an App
+/// Runner service from a source code repository.
+class CodeConfiguration {
+  /// The source of the App Runner configuration. Values are interpreted as
+  /// follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REPOSITORY</code> – App Runner reads configuration values from the
+  /// <code>apprunner.yaml</code> file in the source code repository and ignores
+  /// <code>CodeConfigurationValues</code>.
+  /// </li>
+  /// <li>
+  /// <code>API</code> – App Runner uses configuration values provided in
+  /// <code>CodeConfigurationValues</code> and ignores the
+  /// <code>apprunner.yaml</code> file in the source code repository.
+  /// </li>
+  /// </ul>
+  final ConfigurationSource configurationSource;
+
+  /// The basic configuration for building and running the App Runner service. Use
+  /// it to quickly launch an App Runner service without providing a
+  /// <code>apprunner.yaml</code> file in the source code repository (or ignoring
+  /// the file if it exists).
+  final CodeConfigurationValues? codeConfigurationValues;
+
+  CodeConfiguration({
+    required this.configurationSource,
+    this.codeConfigurationValues,
+  });
+
+  factory CodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return CodeConfiguration(
+      configurationSource: ConfigurationSource.fromString(
+          (json['ConfigurationSource'] as String?) ?? ''),
+      codeConfigurationValues: json['CodeConfigurationValues'] != null
+          ? CodeConfigurationValues.fromJson(
+              json['CodeConfigurationValues'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationSource = this.configurationSource;
+    final codeConfigurationValues = this.codeConfigurationValues;
+    return {
+      'ConfigurationSource': configurationSource.value,
+      if (codeConfigurationValues != null)
+        'CodeConfigurationValues': codeConfigurationValues,
+    };
+  }
+}
+
+class ConfigurationSource {
+  static const repository = ConfigurationSource._('REPOSITORY');
+  static const api = ConfigurationSource._('API');
+
+  final String value;
+
+  const ConfigurationSource._(this.value);
+
+  static const values = [repository, api];
+
+  static ConfigurationSource fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConfigurationSource._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConfigurationSource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the basic configuration needed for building and running an App
+/// Runner service. This type doesn't support the full set of possible
+/// configuration options. Fur full configuration capabilities, use a
+/// <code>apprunner.yaml</code> file in the source code repository.
+class CodeConfigurationValues {
+  /// A runtime environment type for building and running an App Runner service.
+  /// It represents a programming language runtime.
+  final Runtime runtime;
+
+  /// The command App Runner runs to build your application.
+  final String? buildCommand;
+
+  /// The port that your application listens to in the container.
+  ///
+  /// Default: <code>8080</code>
+  final String? port;
+
+  /// An array of key-value pairs representing the secrets and parameters that get
+  /// referenced to your service as an environment variable. The supported values
+  /// are either the full Amazon Resource Name (ARN) of the Secrets Manager secret
+  /// or the full ARN of the parameter in the Amazon Web Services Systems Manager
+  /// Parameter Store.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// If the Amazon Web Services Systems Manager Parameter Store parameter exists
+  /// in the same Amazon Web Services Region as the service that you're launching,
+  /// you can use either the full ARN or name of the secret. If the parameter
+  /// exists in a different Region, then the full ARN must be specified.
+  /// </li>
+  /// <li>
+  /// Currently, cross account referencing of Amazon Web Services Systems Manager
+  /// Parameter Store parameter is not supported.
+  /// </li>
+  /// </ul> </note>
+  final Map<String, String>? runtimeEnvironmentSecrets;
+
+  /// The environment variables that are available to your running App Runner
+  /// service. An array of key-value pairs.
+  final Map<String, String>? runtimeEnvironmentVariables;
+
+  /// The command App Runner runs to start your application.
+  final String? startCommand;
+
+  CodeConfigurationValues({
+    required this.runtime,
+    this.buildCommand,
+    this.port,
+    this.runtimeEnvironmentSecrets,
+    this.runtimeEnvironmentVariables,
+    this.startCommand,
+  });
+
+  factory CodeConfigurationValues.fromJson(Map<String, dynamic> json) {
+    return CodeConfigurationValues(
+      runtime: Runtime.fromString((json['Runtime'] as String?) ?? ''),
+      buildCommand: json['BuildCommand'] as String?,
+      port: json['Port'] as String?,
+      runtimeEnvironmentSecrets:
+          (json['RuntimeEnvironmentSecrets'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      runtimeEnvironmentVariables:
+          (json['RuntimeEnvironmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      startCommand: json['StartCommand'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runtime = this.runtime;
+    final buildCommand = this.buildCommand;
+    final port = this.port;
+    final runtimeEnvironmentSecrets = this.runtimeEnvironmentSecrets;
+    final runtimeEnvironmentVariables = this.runtimeEnvironmentVariables;
+    final startCommand = this.startCommand;
+    return {
+      'Runtime': runtime.value,
+      if (buildCommand != null) 'BuildCommand': buildCommand,
+      if (port != null) 'Port': port,
+      if (runtimeEnvironmentSecrets != null)
+        'RuntimeEnvironmentSecrets': runtimeEnvironmentSecrets,
+      if (runtimeEnvironmentVariables != null)
+        'RuntimeEnvironmentVariables': runtimeEnvironmentVariables,
+      if (startCommand != null) 'StartCommand': startCommand,
+    };
+  }
+}
+
+class Runtime {
+  static const python_3 = Runtime._('PYTHON_3');
+  static const nodejs_12 = Runtime._('NODEJS_12');
+  static const nodejs_14 = Runtime._('NODEJS_14');
+  static const corretto_8 = Runtime._('CORRETTO_8');
+  static const corretto_11 = Runtime._('CORRETTO_11');
+  static const nodejs_16 = Runtime._('NODEJS_16');
+  static const go_1 = Runtime._('GO_1');
+  static const dotnet_6 = Runtime._('DOTNET_6');
+  static const php_81 = Runtime._('PHP_81');
+  static const ruby_31 = Runtime._('RUBY_31');
+  static const python_311 = Runtime._('PYTHON_311');
+  static const nodejs_18 = Runtime._('NODEJS_18');
+  static const nodejs_22 = Runtime._('NODEJS_22');
+
+  final String value;
+
+  const Runtime._(this.value);
+
+  static const values = [
+    python_3,
+    nodejs_12,
+    nodejs_14,
+    corretto_8,
+    corretto_11,
+    nodejs_16,
+    go_1,
+    dotnet_6,
+    php_81,
+    ruby_31,
+    python_311,
+    nodejs_18,
+    nodejs_22
+  ];
+
+  static Runtime fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Runtime._(value));
+
+  @override
+  bool operator ==(other) => other is Runtime && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SourceCodeVersionType {
+  static const branch = SourceCodeVersionType._('BRANCH');
+
+  final String value;
+
+  const SourceCodeVersionType._(this.value);
+
+  static const values = [branch];
+
+  static SourceCodeVersionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SourceCodeVersionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SourceCodeVersionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an App Runner automatic scaling configuration resource.
+///
+/// A higher <code>MinSize</code> increases the spread of your App Runner
+/// service over more Availability Zones in the Amazon Web Services Region. The
+/// tradeoff is a higher minimal cost.
+///
+/// A lower <code>MaxSize</code> controls your cost. The tradeoff is lower
+/// responsiveness during peak demand.
+///
+/// Multiple revisions of a configuration might have the same
+/// <code>AutoScalingConfigurationName</code> and different
+/// <code>AutoScalingConfigurationRevision</code> values.
+class AutoScalingConfiguration {
+  /// The Amazon Resource Name (ARN) of this auto scaling configuration.
+  final String? autoScalingConfigurationArn;
+
+  /// The customer-provided auto scaling configuration name. It can be used in
+  /// multiple revisions of a configuration.
+  final String? autoScalingConfigurationName;
+
+  /// The revision of this auto scaling configuration. It's unique among all the
+  /// active configurations (<code>"Status": "ACTIVE"</code>) that share the same
+  /// <code>AutoScalingConfigurationName</code>.
+  final int? autoScalingConfigurationRevision;
+
+  /// The time when the auto scaling configuration was created. It's in Unix time
+  /// stamp format.
+  final DateTime? createdAt;
+
+  /// The time when the auto scaling configuration was deleted. It's in Unix time
+  /// stamp format.
+  final DateTime? deletedAt;
+
+  /// Indicates if this auto scaling configuration has an App Runner service
+  /// associated with it. A value of <code>true</code> indicates one or more
+  /// services are associated. A value of <code>false</code> indicates no services
+  /// are associated.
+  final bool? hasAssociatedService;
+
+  /// Indicates if this auto scaling configuration should be used as the default
+  /// for a new App Runner service that does not have an auto scaling
+  /// configuration ARN specified during creation. Each account can have only one
+  /// default <code>AutoScalingConfiguration</code> per region. The default
+  /// <code>AutoScalingConfiguration</code> can be any revision under the same
+  /// <code>AutoScalingConfigurationName</code>.
+  final bool? isDefault;
+
+  /// It's set to <code>true</code> for the configuration with the highest
+  /// <code>Revision</code> among all configurations that share the same
+  /// <code>AutoScalingConfigurationName</code>. It's set to <code>false</code>
+  /// otherwise.
+  final bool? latest;
+
+  /// The maximum number of concurrent requests that an instance processes. If the
+  /// number of concurrent requests exceeds this limit, App Runner scales the
+  /// service up.
+  final int? maxConcurrency;
+
+  /// The maximum number of instances that a service scales up to. At most
+  /// <code>MaxSize</code> instances actively serve traffic for your service.
+  final int? maxSize;
+
+  /// The minimum number of instances that App Runner provisions for a service.
+  /// The service always has at least <code>MinSize</code> provisioned instances.
+  /// Some of them actively serve traffic. The rest of them (provisioned and
+  /// inactive instances) are a cost-effective compute capacity reserve and are
+  /// ready to be quickly activated. You pay for memory usage of all the
+  /// provisioned instances. You pay for CPU usage of only the active subset.
+  ///
+  /// App Runner temporarily doubles the number of provisioned instances during
+  /// deployments, to maintain the same capacity for both old and new code.
+  final int? minSize;
+
+  /// The current state of the auto scaling configuration. If the status of a
+  /// configuration revision is <code>INACTIVE</code>, it was deleted and can't be
+  /// used. Inactive configuration revisions are permanently removed some time
+  /// after they are deleted.
+  final AutoScalingConfigurationStatus? status;
+
+  AutoScalingConfiguration({
+    this.autoScalingConfigurationArn,
+    this.autoScalingConfigurationName,
+    this.autoScalingConfigurationRevision,
+    this.createdAt,
+    this.deletedAt,
+    this.hasAssociatedService,
+    this.isDefault,
+    this.latest,
+    this.maxConcurrency,
+    this.maxSize,
+    this.minSize,
+    this.status,
+  });
+
+  factory AutoScalingConfiguration.fromJson(Map<String, dynamic> json) {
+    return AutoScalingConfiguration(
+      autoScalingConfigurationArn:
+          json['AutoScalingConfigurationArn'] as String?,
+      autoScalingConfigurationName:
+          json['AutoScalingConfigurationName'] as String?,
+      autoScalingConfigurationRevision:
+          json['AutoScalingConfigurationRevision'] as int?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      deletedAt: timeStampFromJson(json['DeletedAt']),
+      hasAssociatedService: json['HasAssociatedService'] as bool?,
+      isDefault: json['IsDefault'] as bool?,
+      latest: json['Latest'] as bool?,
+      maxConcurrency: json['MaxConcurrency'] as int?,
+      maxSize: json['MaxSize'] as int?,
+      minSize: json['MinSize'] as int?,
+      status: (json['Status'] as String?)
+          ?.let(AutoScalingConfigurationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingConfigurationArn = this.autoScalingConfigurationArn;
+    final autoScalingConfigurationName = this.autoScalingConfigurationName;
+    final autoScalingConfigurationRevision =
+        this.autoScalingConfigurationRevision;
+    final createdAt = this.createdAt;
+    final deletedAt = this.deletedAt;
+    final hasAssociatedService = this.hasAssociatedService;
+    final isDefault = this.isDefault;
+    final latest = this.latest;
+    final maxConcurrency = this.maxConcurrency;
+    final maxSize = this.maxSize;
+    final minSize = this.minSize;
+    final status = this.status;
+    return {
+      if (autoScalingConfigurationArn != null)
+        'AutoScalingConfigurationArn': autoScalingConfigurationArn,
+      if (autoScalingConfigurationName != null)
+        'AutoScalingConfigurationName': autoScalingConfigurationName,
+      if (autoScalingConfigurationRevision != null)
+        'AutoScalingConfigurationRevision': autoScalingConfigurationRevision,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (deletedAt != null) 'DeletedAt': unixTimestampToJson(deletedAt),
+      if (hasAssociatedService != null)
+        'HasAssociatedService': hasAssociatedService,
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (latest != null) 'Latest': latest,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxSize != null) 'MaxSize': maxSize,
+      if (minSize != null) 'MinSize': minSize,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5301,159 +4782,60 @@ class Tag {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// Provides summary information about an VPC Ingress Connection, which includes
+/// its VPC Ingress Connection ARN and its associated Service ARN.
+class VpcIngressConnectionSummary {
+  /// The Amazon Resource Name (ARN) of the service associated with the VPC
+  /// Ingress Connection.
+  final String? serviceArn;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
+  /// The Amazon Resource Name (ARN) of the VPC Ingress Connection.
+  final String? vpcIngressConnectionArn;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Describes the configuration of the tracing feature within an App Runner
-/// observability configuration.
-class TraceConfiguration {
-  /// The implementation provider chosen for tracing App Runner services.
-  final TracingVendor vendor;
-
-  TraceConfiguration({
-    required this.vendor,
+  VpcIngressConnectionSummary({
+    this.serviceArn,
+    this.vpcIngressConnectionArn,
   });
 
-  factory TraceConfiguration.fromJson(Map<String, dynamic> json) {
-    return TraceConfiguration(
-      vendor: TracingVendor.fromString((json['Vendor'] as String?) ?? ''),
+  factory VpcIngressConnectionSummary.fromJson(Map<String, dynamic> json) {
+    return VpcIngressConnectionSummary(
+      serviceArn: json['ServiceArn'] as String?,
+      vpcIngressConnectionArn: json['VpcIngressConnectionArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final vendor = this.vendor;
+    final serviceArn = this.serviceArn;
+    final vpcIngressConnectionArn = this.vpcIngressConnectionArn;
     return {
-      'Vendor': vendor.value,
+      if (serviceArn != null) 'ServiceArn': serviceArn,
+      if (vpcIngressConnectionArn != null)
+        'VpcIngressConnectionArn': vpcIngressConnectionArn,
     };
   }
 }
 
-class TracingVendor {
-  static const awsxray = TracingVendor._('AWSXRAY');
+/// Returns a list of VPC Ingress Connections based on the filter provided. It
+/// can return either <code>ServiceArn</code> or <code>VpcEndpointId</code>, or
+/// both.
+class ListVpcIngressConnectionsFilter {
+  /// The Amazon Resource Name (ARN) of a service to filter by.
+  final String? serviceArn;
 
-  final String value;
+  /// The ID of a VPC Endpoint to filter by.
+  final String? vpcEndpointId;
 
-  const TracingVendor._(this.value);
-
-  static const values = [awsxray];
-
-  static TracingVendor fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TracingVendor._(value));
-
-  @override
-  bool operator ==(other) => other is TracingVendor && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDefaultAutoScalingConfigurationResponse {
-  /// A description of the App Runner auto scaling configuration that was set as
-  /// default.
-  final AutoScalingConfiguration autoScalingConfiguration;
-
-  UpdateDefaultAutoScalingConfigurationResponse({
-    required this.autoScalingConfiguration,
+  ListVpcIngressConnectionsFilter({
+    this.serviceArn,
+    this.vpcEndpointId,
   });
 
-  factory UpdateDefaultAutoScalingConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateDefaultAutoScalingConfigurationResponse(
-      autoScalingConfiguration: AutoScalingConfiguration.fromJson(
-          (json['AutoScalingConfiguration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final autoScalingConfiguration = this.autoScalingConfiguration;
+    final serviceArn = this.serviceArn;
+    final vpcEndpointId = this.vpcEndpointId;
     return {
-      'AutoScalingConfiguration': autoScalingConfiguration,
-    };
-  }
-}
-
-class UpdateServiceResponse {
-  /// The unique ID of the asynchronous operation that this request started. You
-  /// can use it combined with the <a>ListOperations</a> call to track the
-  /// operation's progress.
-  final String operationId;
-
-  /// A description of the App Runner service updated by this request. All
-  /// configuration values in the returned <code>Service</code> structure reflect
-  /// configuration changes that are being applied by this request.
-  final Service service;
-
-  UpdateServiceResponse({
-    required this.operationId,
-    required this.service,
-  });
-
-  factory UpdateServiceResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateServiceResponse(
-      operationId: (json['OperationId'] as String?) ?? '',
-      service: Service.fromJson((json['Service'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final operationId = this.operationId;
-    final service = this.service;
-    return {
-      'OperationId': operationId,
-      'Service': service,
-    };
-  }
-}
-
-class UpdateVpcIngressConnectionResponse {
-  /// A description of the App Runner VPC Ingress Connection resource that's
-  /// updated by this request.
-  final VpcIngressConnection vpcIngressConnection;
-
-  UpdateVpcIngressConnectionResponse({
-    required this.vpcIngressConnection,
-  });
-
-  factory UpdateVpcIngressConnectionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateVpcIngressConnectionResponse(
-      vpcIngressConnection: VpcIngressConnection.fromJson(
-          (json['VpcIngressConnection'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final vpcIngressConnection = this.vpcIngressConnection;
-    return {
-      'VpcIngressConnection': vpcIngressConnection,
+      if (serviceArn != null) 'ServiceArn': serviceArn,
+      if (vpcEndpointId != null) 'VpcEndpointId': vpcEndpointId,
     };
   }
 }
@@ -5580,6 +4962,462 @@ class VpcConnectorStatus {
   String toString() => value;
 }
 
+/// Provides summary information for an App Runner service.
+///
+/// This type contains limited information about a service. It doesn't include
+/// configuration details. It's returned by the <a
+/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_ListServices.html">ListServices</a>
+/// action. Complete service information is returned by the <a
+/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_CreateService.html">CreateService</a>,
+/// <a
+/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_DescribeService.html">DescribeService</a>,
+/// and <a
+/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_DeleteService.html">DeleteService</a>
+/// actions using the <a
+/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_Service.html">Service</a>
+/// type.
+class ServiceSummary {
+  /// The time when the App Runner service was created. It's in the Unix time
+  /// stamp format.
+  final DateTime? createdAt;
+
+  /// The Amazon Resource Name (ARN) of this service.
+  final String? serviceArn;
+
+  /// An ID that App Runner generated for this service. It's unique within the
+  /// Amazon Web Services Region.
+  final String? serviceId;
+
+  /// The customer-provided service name.
+  final String? serviceName;
+
+  /// A subdomain URL that App Runner generated for this service. You can use this
+  /// URL to access your service web application.
+  final String? serviceUrl;
+
+  /// The current state of the App Runner service. These particular values mean
+  /// the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATE_FAILED</code> – The service failed to create. The failed
+  /// service isn't usable, and still counts towards your service quota. To
+  /// troubleshoot this failure, read the failure events and logs, change any
+  /// parameters that need to be fixed, and rebuild your service using
+  /// <code>UpdateService</code>.
+  /// </li>
+  /// <li>
+  /// <code>DELETE_FAILED</code> – The service failed to delete and can't be
+  /// successfully recovered. Retry the service deletion call to ensure that all
+  /// related resources are removed.
+  /// </li>
+  /// </ul>
+  final ServiceStatus? status;
+
+  /// The time when the App Runner service was last updated. It's in theUnix time
+  /// stamp format.
+  final DateTime? updatedAt;
+
+  ServiceSummary({
+    this.createdAt,
+    this.serviceArn,
+    this.serviceId,
+    this.serviceName,
+    this.serviceUrl,
+    this.status,
+    this.updatedAt,
+  });
+
+  factory ServiceSummary.fromJson(Map<String, dynamic> json) {
+    return ServiceSummary(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      serviceArn: json['ServiceArn'] as String?,
+      serviceId: json['ServiceId'] as String?,
+      serviceName: json['ServiceName'] as String?,
+      serviceUrl: json['ServiceUrl'] as String?,
+      status: (json['Status'] as String?)?.let(ServiceStatus.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final serviceArn = this.serviceArn;
+    final serviceId = this.serviceId;
+    final serviceName = this.serviceName;
+    final serviceUrl = this.serviceUrl;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (serviceArn != null) 'ServiceArn': serviceArn,
+      if (serviceId != null) 'ServiceId': serviceId,
+      if (serviceName != null) 'ServiceName': serviceName,
+      if (serviceUrl != null) 'ServiceUrl': serviceUrl,
+      if (status != null) 'Status': status.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// Provides summary information for an operation that occurred on an App Runner
+/// service.
+class OperationSummary {
+  /// The time when the operation ended. It's in the Unix time stamp format.
+  final DateTime? endedAt;
+
+  /// A unique ID of this operation. It's unique in the scope of the App Runner
+  /// service.
+  final String? id;
+
+  /// The time when the operation started. It's in the Unix time stamp format.
+  final DateTime? startedAt;
+
+  /// The current state of the operation.
+  final OperationStatus? status;
+
+  /// The Amazon Resource Name (ARN) of the resource that the operation acted on
+  /// (for example, an App Runner service).
+  final String? targetArn;
+
+  /// The type of operation. It indicates a specific action that occured.
+  final OperationType? type;
+
+  /// The time when the operation was last updated. It's in the Unix time stamp
+  /// format.
+  final DateTime? updatedAt;
+
+  OperationSummary({
+    this.endedAt,
+    this.id,
+    this.startedAt,
+    this.status,
+    this.targetArn,
+    this.type,
+    this.updatedAt,
+  });
+
+  factory OperationSummary.fromJson(Map<String, dynamic> json) {
+    return OperationSummary(
+      endedAt: timeStampFromJson(json['EndedAt']),
+      id: json['Id'] as String?,
+      startedAt: timeStampFromJson(json['StartedAt']),
+      status: (json['Status'] as String?)?.let(OperationStatus.fromString),
+      targetArn: json['TargetArn'] as String?,
+      type: (json['Type'] as String?)?.let(OperationType.fromString),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endedAt = this.endedAt;
+    final id = this.id;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    final type = this.type;
+    final updatedAt = this.updatedAt;
+    return {
+      if (endedAt != null) 'EndedAt': unixTimestampToJson(endedAt),
+      if (id != null) 'Id': id,
+      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
+      if (status != null) 'Status': status.value,
+      if (targetArn != null) 'TargetArn': targetArn,
+      if (type != null) 'Type': type.value,
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+class OperationType {
+  static const startDeployment = OperationType._('START_DEPLOYMENT');
+  static const createService = OperationType._('CREATE_SERVICE');
+  static const pauseService = OperationType._('PAUSE_SERVICE');
+  static const resumeService = OperationType._('RESUME_SERVICE');
+  static const deleteService = OperationType._('DELETE_SERVICE');
+  static const updateService = OperationType._('UPDATE_SERVICE');
+
+  final String value;
+
+  const OperationType._(this.value);
+
+  static const values = [
+    startDeployment,
+    createService,
+    pauseService,
+    resumeService,
+    deleteService,
+    updateService
+  ];
+
+  static OperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationType._(value));
+
+  @override
+  bool operator ==(other) => other is OperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OperationStatus {
+  static const pending = OperationStatus._('PENDING');
+  static const inProgress = OperationStatus._('IN_PROGRESS');
+  static const failed = OperationStatus._('FAILED');
+  static const succeeded = OperationStatus._('SUCCEEDED');
+  static const rollbackInProgress = OperationStatus._('ROLLBACK_IN_PROGRESS');
+  static const rollbackFailed = OperationStatus._('ROLLBACK_FAILED');
+  static const rollbackSucceeded = OperationStatus._('ROLLBACK_SUCCEEDED');
+
+  final String value;
+
+  const OperationStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    failed,
+    succeeded,
+    rollbackInProgress,
+    rollbackFailed,
+    rollbackSucceeded
+  ];
+
+  static OperationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OperationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OperationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides summary information about an App Runner observability configuration
+/// resource.
+///
+/// This type contains limited information about an observability configuration.
+/// It includes only identification information, without configuration details.
+/// It's returned by the <a>ListObservabilityConfigurations</a> action. Complete
+/// configuration information is returned by the
+/// <a>CreateObservabilityConfiguration</a>,
+/// <a>DescribeObservabilityConfiguration</a>, and
+/// <a>DeleteObservabilityConfiguration</a> actions using the
+/// <a>ObservabilityConfiguration</a> type.
+class ObservabilityConfigurationSummary {
+  /// The Amazon Resource Name (ARN) of this observability configuration.
+  final String? observabilityConfigurationArn;
+
+  /// The customer-provided observability configuration name. It can be used in
+  /// multiple revisions of a configuration.
+  final String? observabilityConfigurationName;
+
+  /// The revision of this observability configuration. It's unique among all the
+  /// active configurations (<code>"Status": "ACTIVE"</code>) that share the same
+  /// <code>ObservabilityConfigurationName</code>.
+  final int? observabilityConfigurationRevision;
+
+  ObservabilityConfigurationSummary({
+    this.observabilityConfigurationArn,
+    this.observabilityConfigurationName,
+    this.observabilityConfigurationRevision,
+  });
+
+  factory ObservabilityConfigurationSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ObservabilityConfigurationSummary(
+      observabilityConfigurationArn:
+          json['ObservabilityConfigurationArn'] as String?,
+      observabilityConfigurationName:
+          json['ObservabilityConfigurationName'] as String?,
+      observabilityConfigurationRevision:
+          json['ObservabilityConfigurationRevision'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final observabilityConfigurationArn = this.observabilityConfigurationArn;
+    final observabilityConfigurationName = this.observabilityConfigurationName;
+    final observabilityConfigurationRevision =
+        this.observabilityConfigurationRevision;
+    return {
+      if (observabilityConfigurationArn != null)
+        'ObservabilityConfigurationArn': observabilityConfigurationArn,
+      if (observabilityConfigurationName != null)
+        'ObservabilityConfigurationName': observabilityConfigurationName,
+      if (observabilityConfigurationRevision != null)
+        'ObservabilityConfigurationRevision':
+            observabilityConfigurationRevision,
+    };
+  }
+}
+
+/// Provides summary information about an App Runner connection resource.
+class ConnectionSummary {
+  /// The Amazon Resource Name (ARN) of this connection.
+  final String? connectionArn;
+
+  /// The customer-provided connection name.
+  final String? connectionName;
+
+  /// The App Runner connection creation time, expressed as a Unix time stamp.
+  final DateTime? createdAt;
+
+  /// The source repository provider.
+  final ProviderType? providerType;
+
+  /// The current state of the App Runner connection. When the state is
+  /// <code>AVAILABLE</code>, you can use the connection to create an App Runner
+  /// service.
+  final ConnectionStatus? status;
+
+  ConnectionSummary({
+    this.connectionArn,
+    this.connectionName,
+    this.createdAt,
+    this.providerType,
+    this.status,
+  });
+
+  factory ConnectionSummary.fromJson(Map<String, dynamic> json) {
+    return ConnectionSummary(
+      connectionArn: json['ConnectionArn'] as String?,
+      connectionName: json['ConnectionName'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
+      status: (json['Status'] as String?)?.let(ConnectionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionArn = this.connectionArn;
+    final connectionName = this.connectionName;
+    final createdAt = this.createdAt;
+    final providerType = this.providerType;
+    final status = this.status;
+    return {
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (providerType != null) 'ProviderType': providerType.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ProviderType {
+  static const github = ProviderType._('GITHUB');
+  static const bitbucket = ProviderType._('BITBUCKET');
+
+  final String value;
+
+  const ProviderType._(this.value);
+
+  static const values = [github, bitbucket];
+
+  static ProviderType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProviderType._(value));
+
+  @override
+  bool operator ==(other) => other is ProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConnectionStatus {
+  static const pendingHandshake = ConnectionStatus._('PENDING_HANDSHAKE');
+  static const available = ConnectionStatus._('AVAILABLE');
+  static const error = ConnectionStatus._('ERROR');
+  static const deleted = ConnectionStatus._('DELETED');
+
+  final String value;
+
+  const ConnectionStatus._(this.value);
+
+  static const values = [pendingHandshake, available, error, deleted];
+
+  static ConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a custom domain that's associated with an App Runner service.
+class CustomDomain {
+  /// An associated custom domain endpoint. It can be a root domain (for example,
+  /// <code>example.com</code>), a subdomain (for example,
+  /// <code>login.example.com</code> or <code>admin.login.example.com</code>), or
+  /// a wildcard (for example, <code>*.example.com</code>).
+  final String domainName;
+
+  /// When <code>true</code>, the subdomain <code>www.<i>DomainName</i> </code> is
+  /// associated with the App Runner service in addition to the base domain.
+  final bool enableWWWSubdomain;
+
+  /// The current state of the domain name association.
+  final CustomDomainAssociationStatus status;
+
+  /// A list of certificate CNAME records that's used for this domain name.
+  final List<CertificateValidationRecord>? certificateValidationRecords;
+
+  CustomDomain({
+    required this.domainName,
+    required this.enableWWWSubdomain,
+    required this.status,
+    this.certificateValidationRecords,
+  });
+
+  factory CustomDomain.fromJson(Map<String, dynamic> json) {
+    return CustomDomain(
+      domainName: (json['DomainName'] as String?) ?? '',
+      enableWWWSubdomain: (json['EnableWWWSubdomain'] as bool?) ?? false,
+      status: CustomDomainAssociationStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      certificateValidationRecords: (json['CertificateValidationRecords']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              CertificateValidationRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final enableWWWSubdomain = this.enableWWWSubdomain;
+    final status = this.status;
+    final certificateValidationRecords = this.certificateValidationRecords;
+    return {
+      'DomainName': domainName,
+      'EnableWWWSubdomain': enableWWWSubdomain,
+      'Status': status.value,
+      if (certificateValidationRecords != null)
+        'CertificateValidationRecords': certificateValidationRecords,
+    };
+  }
+}
+
 /// DNS Target record for a custom domain of this Amazon VPC.
 class VpcDNSTarget {
   /// The domain name of your target DNS that is associated with the Amazon VPC.
@@ -5620,156 +5458,38 @@ class VpcDNSTarget {
   }
 }
 
-/// The App Runner resource that specifies an App Runner endpoint for incoming
-/// traffic. It establishes a connection between a VPC interface endpoint and a
-/// App Runner service, to make your App Runner service accessible from only
-/// within an Amazon VPC.
-class VpcIngressConnection {
-  /// The Account Id you use to create the VPC Ingress Connection resource.
-  final String? accountId;
-
-  /// The time when the VPC Ingress Connection was created. It's in the Unix time
-  /// stamp format.
-  ///
-  /// <ul>
-  /// <li>
-  /// Type: Timestamp
-  /// </li>
-  /// <li>
-  /// Required: Yes
-  /// </li>
-  /// </ul>
-  final DateTime? createdAt;
-
-  /// The time when the App Runner service was deleted. It's in the Unix time
-  /// stamp format.
-  ///
-  /// <ul>
-  /// <li>
-  /// Type: Timestamp
-  /// </li>
-  /// <li>
-  /// Required: No
-  /// </li>
-  /// </ul>
-  final DateTime? deletedAt;
-
-  /// The domain name associated with the VPC Ingress Connection resource.
-  final String? domainName;
-
-  /// Specifications for the customer’s VPC and related PrivateLink VPC endpoint
-  /// that are used to associate with the VPC Ingress Connection resource.
-  final IngressVpcConfiguration? ingressVpcConfiguration;
-
-  /// The Amazon Resource Name (ARN) of the service associated with the VPC
-  /// Ingress Connection.
-  final String? serviceArn;
-
-  /// The current status of the VPC Ingress Connection. The VPC Ingress Connection
-  /// displays one of the following statuses: <code>AVAILABLE</code>,
-  /// <code>PENDING_CREATION</code>, <code>PENDING_UPDATE</code>,
-  /// <code>PENDING_DELETION</code>,<code>FAILED_CREATION</code>,
-  /// <code>FAILED_UPDATE</code>, <code>FAILED_DELETION</code>, and
-  /// <code>DELETED</code>..
-  final VpcIngressConnectionStatus? status;
-
-  /// The Amazon Resource Name (ARN) of the VPC Ingress Connection.
-  final String? vpcIngressConnectionArn;
-
-  /// The customer-provided VPC Ingress Connection name.
-  final String? vpcIngressConnectionName;
-
-  VpcIngressConnection({
-    this.accountId,
-    this.createdAt,
-    this.deletedAt,
-    this.domainName,
-    this.ingressVpcConfiguration,
-    this.serviceArn,
-    this.status,
-    this.vpcIngressConnectionArn,
-    this.vpcIngressConnectionName,
-  });
-
-  factory VpcIngressConnection.fromJson(Map<String, dynamic> json) {
-    return VpcIngressConnection(
-      accountId: json['AccountId'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      deletedAt: timeStampFromJson(json['DeletedAt']),
-      domainName: json['DomainName'] as String?,
-      ingressVpcConfiguration: json['IngressVpcConfiguration'] != null
-          ? IngressVpcConfiguration.fromJson(
-              json['IngressVpcConfiguration'] as Map<String, dynamic>)
-          : null,
-      serviceArn: json['ServiceArn'] as String?,
-      status: (json['Status'] as String?)
-          ?.let(VpcIngressConnectionStatus.fromString),
-      vpcIngressConnectionArn: json['VpcIngressConnectionArn'] as String?,
-      vpcIngressConnectionName: json['VpcIngressConnectionName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final createdAt = this.createdAt;
-    final deletedAt = this.deletedAt;
-    final domainName = this.domainName;
-    final ingressVpcConfiguration = this.ingressVpcConfiguration;
-    final serviceArn = this.serviceArn;
-    final status = this.status;
-    final vpcIngressConnectionArn = this.vpcIngressConnectionArn;
-    final vpcIngressConnectionName = this.vpcIngressConnectionName;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (deletedAt != null) 'DeletedAt': unixTimestampToJson(deletedAt),
-      if (domainName != null) 'DomainName': domainName,
-      if (ingressVpcConfiguration != null)
-        'IngressVpcConfiguration': ingressVpcConfiguration,
-      if (serviceArn != null) 'ServiceArn': serviceArn,
-      if (status != null) 'Status': status.value,
-      if (vpcIngressConnectionArn != null)
-        'VpcIngressConnectionArn': vpcIngressConnectionArn,
-      if (vpcIngressConnectionName != null)
-        'VpcIngressConnectionName': vpcIngressConnectionName,
-    };
-  }
-}
-
-class VpcIngressConnectionStatus {
-  static const available = VpcIngressConnectionStatus._('AVAILABLE');
-  static const pendingCreation =
-      VpcIngressConnectionStatus._('PENDING_CREATION');
-  static const pendingUpdate = VpcIngressConnectionStatus._('PENDING_UPDATE');
-  static const pendingDeletion =
-      VpcIngressConnectionStatus._('PENDING_DELETION');
-  static const failedCreation = VpcIngressConnectionStatus._('FAILED_CREATION');
-  static const failedUpdate = VpcIngressConnectionStatus._('FAILED_UPDATE');
-  static const failedDeletion = VpcIngressConnectionStatus._('FAILED_DELETION');
-  static const deleted = VpcIngressConnectionStatus._('DELETED');
+class CustomDomainAssociationStatus {
+  static const creating = CustomDomainAssociationStatus._('CREATING');
+  static const createFailed = CustomDomainAssociationStatus._('CREATE_FAILED');
+  static const active = CustomDomainAssociationStatus._('ACTIVE');
+  static const deleting = CustomDomainAssociationStatus._('DELETING');
+  static const deleteFailed = CustomDomainAssociationStatus._('DELETE_FAILED');
+  static const pendingCertificateDnsValidation =
+      CustomDomainAssociationStatus._('PENDING_CERTIFICATE_DNS_VALIDATION');
+  static const bindingCertificate =
+      CustomDomainAssociationStatus._('BINDING_CERTIFICATE');
 
   final String value;
 
-  const VpcIngressConnectionStatus._(this.value);
+  const CustomDomainAssociationStatus._(this.value);
 
   static const values = [
-    available,
-    pendingCreation,
-    pendingUpdate,
-    pendingDeletion,
-    failedCreation,
-    failedUpdate,
-    failedDeletion,
-    deleted
+    creating,
+    createFailed,
+    active,
+    deleting,
+    deleteFailed,
+    pendingCertificateDnsValidation,
+    bindingCertificate
   ];
 
-  static VpcIngressConnectionStatus fromString(String value) =>
+  static CustomDomainAssociationStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => VpcIngressConnectionStatus._(value));
+          orElse: () => CustomDomainAssociationStatus._(value));
 
   @override
   bool operator ==(other) =>
-      other is VpcIngressConnectionStatus && other.value == value;
+      other is CustomDomainAssociationStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -5778,35 +5498,309 @@ class VpcIngressConnectionStatus {
   String toString() => value;
 }
 
-/// Provides summary information about an VPC Ingress Connection, which includes
-/// its VPC Ingress Connection ARN and its associated Service ARN.
-class VpcIngressConnectionSummary {
-  /// The Amazon Resource Name (ARN) of the service associated with the VPC
-  /// Ingress Connection.
-  final String? serviceArn;
+/// Describes a certificate CNAME record to add to your DNS. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/apprunner/latest/api/API_AssociateCustomDomain.html">AssociateCustomDomain</a>.
+class CertificateValidationRecord {
+  /// The certificate CNAME record name.
+  final String? name;
 
-  /// The Amazon Resource Name (ARN) of the VPC Ingress Connection.
-  final String? vpcIngressConnectionArn;
+  /// The current state of the certificate CNAME record validation. It should
+  /// change to <code>SUCCESS</code> after App Runner completes validation with
+  /// your DNS.
+  final CertificateValidationRecordStatus? status;
 
-  VpcIngressConnectionSummary({
-    this.serviceArn,
-    this.vpcIngressConnectionArn,
+  /// The record type, always <code>CNAME</code>.
+  final String? type;
+
+  /// The certificate CNAME record value.
+  final String? value;
+
+  CertificateValidationRecord({
+    this.name,
+    this.status,
+    this.type,
+    this.value,
   });
 
-  factory VpcIngressConnectionSummary.fromJson(Map<String, dynamic> json) {
-    return VpcIngressConnectionSummary(
-      serviceArn: json['ServiceArn'] as String?,
-      vpcIngressConnectionArn: json['VpcIngressConnectionArn'] as String?,
+  factory CertificateValidationRecord.fromJson(Map<String, dynamic> json) {
+    return CertificateValidationRecord(
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)
+          ?.let(CertificateValidationRecordStatus.fromString),
+      type: json['Type'] as String?,
+      value: json['Value'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final serviceArn = this.serviceArn;
-    final vpcIngressConnectionArn = this.vpcIngressConnectionArn;
+    final name = this.name;
+    final status = this.status;
+    final type = this.type;
+    final value = this.value;
     return {
-      if (serviceArn != null) 'ServiceArn': serviceArn,
-      if (vpcIngressConnectionArn != null)
-        'VpcIngressConnectionArn': vpcIngressConnectionArn,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+      if (type != null) 'Type': type,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+class CertificateValidationRecordStatus {
+  static const pendingValidation =
+      CertificateValidationRecordStatus._('PENDING_VALIDATION');
+  static const success = CertificateValidationRecordStatus._('SUCCESS');
+  static const failed = CertificateValidationRecordStatus._('FAILED');
+
+  final String value;
+
+  const CertificateValidationRecordStatus._(this.value);
+
+  static const values = [pendingValidation, success, failed];
+
+  static CertificateValidationRecordStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CertificateValidationRecordStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateValidationRecordStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an App Runner observability configuration resource. Multiple
+/// revisions of a configuration have the same
+/// <code>ObservabilityConfigurationName</code> and different
+/// <code>ObservabilityConfigurationRevision</code> values.
+///
+/// The resource is designed to configure multiple features (currently one
+/// feature, tracing). This type contains optional members that describe the
+/// configuration of these features (currently one member,
+/// <code>TraceConfiguration</code>). If a feature member isn't specified, the
+/// feature isn't enabled.
+class ObservabilityConfiguration {
+  /// The time when the observability configuration was created. It's in Unix time
+  /// stamp format.
+  final DateTime? createdAt;
+
+  /// The time when the observability configuration was deleted. It's in Unix time
+  /// stamp format.
+  final DateTime? deletedAt;
+
+  /// It's set to <code>true</code> for the configuration with the highest
+  /// <code>Revision</code> among all configurations that share the same
+  /// <code>ObservabilityConfigurationName</code>. It's set to <code>false</code>
+  /// otherwise.
+  final bool? latest;
+
+  /// The Amazon Resource Name (ARN) of this observability configuration.
+  final String? observabilityConfigurationArn;
+
+  /// The customer-provided observability configuration name. It can be used in
+  /// multiple revisions of a configuration.
+  final String? observabilityConfigurationName;
+
+  /// The revision of this observability configuration. It's unique among all the
+  /// active configurations (<code>"Status": "ACTIVE"</code>) that share the same
+  /// <code>ObservabilityConfigurationName</code>.
+  final int? observabilityConfigurationRevision;
+
+  /// The current state of the observability configuration. If the status of a
+  /// configuration revision is <code>INACTIVE</code>, it was deleted and can't be
+  /// used. Inactive configuration revisions are permanently removed some time
+  /// after they are deleted.
+  final ObservabilityConfigurationStatus? status;
+
+  /// The configuration of the tracing feature within this observability
+  /// configuration. If not specified, tracing isn't enabled.
+  final TraceConfiguration? traceConfiguration;
+
+  ObservabilityConfiguration({
+    this.createdAt,
+    this.deletedAt,
+    this.latest,
+    this.observabilityConfigurationArn,
+    this.observabilityConfigurationName,
+    this.observabilityConfigurationRevision,
+    this.status,
+    this.traceConfiguration,
+  });
+
+  factory ObservabilityConfiguration.fromJson(Map<String, dynamic> json) {
+    return ObservabilityConfiguration(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      deletedAt: timeStampFromJson(json['DeletedAt']),
+      latest: json['Latest'] as bool?,
+      observabilityConfigurationArn:
+          json['ObservabilityConfigurationArn'] as String?,
+      observabilityConfigurationName:
+          json['ObservabilityConfigurationName'] as String?,
+      observabilityConfigurationRevision:
+          json['ObservabilityConfigurationRevision'] as int?,
+      status: (json['Status'] as String?)
+          ?.let(ObservabilityConfigurationStatus.fromString),
+      traceConfiguration: json['TraceConfiguration'] != null
+          ? TraceConfiguration.fromJson(
+              json['TraceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final deletedAt = this.deletedAt;
+    final latest = this.latest;
+    final observabilityConfigurationArn = this.observabilityConfigurationArn;
+    final observabilityConfigurationName = this.observabilityConfigurationName;
+    final observabilityConfigurationRevision =
+        this.observabilityConfigurationRevision;
+    final status = this.status;
+    final traceConfiguration = this.traceConfiguration;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (deletedAt != null) 'DeletedAt': unixTimestampToJson(deletedAt),
+      if (latest != null) 'Latest': latest,
+      if (observabilityConfigurationArn != null)
+        'ObservabilityConfigurationArn': observabilityConfigurationArn,
+      if (observabilityConfigurationName != null)
+        'ObservabilityConfigurationName': observabilityConfigurationName,
+      if (observabilityConfigurationRevision != null)
+        'ObservabilityConfigurationRevision':
+            observabilityConfigurationRevision,
+      if (status != null) 'Status': status.value,
+      if (traceConfiguration != null) 'TraceConfiguration': traceConfiguration,
+    };
+  }
+}
+
+/// Describes the configuration of the tracing feature within an App Runner
+/// observability configuration.
+class TraceConfiguration {
+  /// The implementation provider chosen for tracing App Runner services.
+  final TracingVendor vendor;
+
+  TraceConfiguration({
+    required this.vendor,
+  });
+
+  factory TraceConfiguration.fromJson(Map<String, dynamic> json) {
+    return TraceConfiguration(
+      vendor: TracingVendor.fromString((json['Vendor'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vendor = this.vendor;
+    return {
+      'Vendor': vendor.value,
+    };
+  }
+}
+
+class ObservabilityConfigurationStatus {
+  static const active = ObservabilityConfigurationStatus._('ACTIVE');
+  static const inactive = ObservabilityConfigurationStatus._('INACTIVE');
+
+  final String value;
+
+  const ObservabilityConfigurationStatus._(this.value);
+
+  static const values = [active, inactive];
+
+  static ObservabilityConfigurationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObservabilityConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObservabilityConfigurationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TracingVendor {
+  static const awsxray = TracingVendor._('AWSXRAY');
+
+  final String value;
+
+  const TracingVendor._(this.value);
+
+  static const values = [awsxray];
+
+  static TracingVendor fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TracingVendor._(value));
+
+  @override
+  bool operator ==(other) => other is TracingVendor && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an App Runner connection resource.
+class Connection {
+  /// The Amazon Resource Name (ARN) of this connection.
+  final String? connectionArn;
+
+  /// The customer-provided connection name.
+  final String? connectionName;
+
+  /// The App Runner connection creation time, expressed as a Unix time stamp.
+  final DateTime? createdAt;
+
+  /// The source repository provider.
+  final ProviderType? providerType;
+
+  /// The current state of the App Runner connection. When the state is
+  /// <code>AVAILABLE</code>, you can use the connection to create an App Runner
+  /// service.
+  final ConnectionStatus? status;
+
+  Connection({
+    this.connectionArn,
+    this.connectionName,
+    this.createdAt,
+    this.providerType,
+    this.status,
+  });
+
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      connectionArn: json['ConnectionArn'] as String?,
+      connectionName: json['ConnectionName'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      providerType:
+          (json['ProviderType'] as String?)?.let(ProviderType.fromString),
+      status: (json['Status'] as String?)?.let(ConnectionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionArn = this.connectionArn;
+    final connectionName = this.connectionName;
+    final createdAt = this.createdAt;
+    final providerType = this.providerType;
+    final status = this.status;
+    return {
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (providerType != null) 'ProviderType': providerType.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }

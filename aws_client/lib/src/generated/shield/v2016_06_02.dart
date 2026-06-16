@@ -67,12 +67,12 @@ class Shield {
   /// href="http://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
   /// Support plan</a>.
   ///
+  /// May throw [AccessDeniedForDependencyException].
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
-  /// May throw [NoAssociatedRoleException].
-  /// May throw [LimitsExceededException].
   /// May throw [InvalidParameterException].
-  /// May throw [AccessDeniedForDependencyException].
+  /// May throw [LimitsExceededException].
+  /// May throw [NoAssociatedRoleException].
   /// May throw [OptimisticLockException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -137,10 +137,10 @@ class Shield {
   /// href="http://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
   /// Support plan</a>.
   ///
+  /// May throw [AccessDeniedForDependencyException].
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
   /// May throw [InvalidParameterException].
-  /// May throw [AccessDeniedForDependencyException].
   /// May throw [OptimisticLockException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -178,17 +178,17 @@ class Shield {
   /// Amazon Web Services resource to improve responsiveness and accuracy in
   /// attack detection and response.
   ///
-  /// You define the health check in Route 53 and then associate it with your
+  /// You define the health check in Route 53 and then associate it with your
   /// Shield Advanced protection. For more information, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option">Shield
   /// Advanced Health-Based Detection</a> in the <i>WAF Developer Guide</i>.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [LimitsExceededException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
-  /// May throw [OptimisticLockException].
   /// May throw [InvalidResourceException].
+  /// May throw [LimitsExceededException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [healthCheckArn] :
   /// The Amazon Resource Name (ARN) of the health check to associate with the
@@ -241,8 +241,8 @@ class Shield {
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [emergencyContactList] :
   /// A list of email addresses and phone numbers that the Shield Response Team
@@ -277,7 +277,7 @@ class Shield {
   }
 
   /// Enables Shield Advanced for a specific Amazon Web Services resource. The
-  /// resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted
+  /// resource can be an Amazon CloudFront distribution, Amazon Route 53 hosted
   /// zone, Global Accelerator standard accelerator, Elastic IP Address,
   /// Application Load Balancer, or a Classic Load Balancer. You can protect
   /// Amazon EC2 instances and Network Load Balancers by association with
@@ -294,13 +294,13 @@ class Shield {
   /// Shield Advanced protection to Amazon Web Services resources</a>.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidOperationException].
-  /// May throw [LimitsExceededException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [OptimisticLockException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidResourceException].
+  /// May throw [LimitsExceededException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// Friendly name for the <code>Protection</code> you are creating.
@@ -332,7 +332,7 @@ class Shield {
   /// </code>
   /// </li>
   /// <li>
-  /// For Amazon Route 53:
+  /// For Amazon Route 53:
   /// <code>arn:aws:route53:::hostedzone/<i>hosted-zone-id</i> </code>
   /// </li>
   /// <li>
@@ -375,11 +375,11 @@ class Shield {
   /// reduces false positives.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [OptimisticLockException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [LimitsExceededException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [aggregation] :
   /// Defines how Shield combines resource data for the group in order to
@@ -489,8 +489,8 @@ class Shield {
   /// Deletes an Shield Advanced <a>Protection</a>.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [protectionId] :
   /// The unique identifier (ID) for the <a>Protection</a> object to be deleted.
@@ -549,7 +549,6 @@ class Shield {
   /// May throw [InternalErrorException].
   /// May throw [LockedSubscriptionException].
   /// May throw [ResourceNotFoundException].
-  @Deprecated('Deprecated')
   Future<void> deleteSubscription() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -566,8 +565,8 @@ class Shield {
 
   /// Describes the details of a DDoS attack.
   ///
-  /// May throw [InternalErrorException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalErrorException].
   ///
   /// Parameter [attackId] :
   /// The unique identifier (ID) for the attack.
@@ -765,10 +764,10 @@ class Shield {
   /// for the resource.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [OptimisticLockException].
   /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN (Amazon Resource Name) of the protected resource.
@@ -799,8 +798,8 @@ class Shield {
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   Future<void> disableProactiveEngagement() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -818,10 +817,10 @@ class Shield {
   /// Removes the Shield Response Team's (SRT) access to the specified Amazon S3
   /// bucket containing the logs that you shared previously.
   ///
+  /// May throw [AccessDeniedForDependencyException].
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
   /// May throw [NoAssociatedRoleException].
-  /// May throw [AccessDeniedForDependencyException].
   /// May throw [OptimisticLockException].
   /// May throw [ResourceNotFoundException].
   ///
@@ -872,16 +871,16 @@ class Shield {
   /// Amazon Web Services resource to improve responsiveness and accuracy in
   /// attack detection and response.
   ///
-  /// You define the health check in Route 53 and then associate or disassociate
+  /// You define the health check in Route 53 and then associate or disassociate
   /// it with your Shield Advanced protection. For more information, see <a
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/ddos-overview.html#ddos-advanced-health-check-option">Shield
   /// Advanced Health-Based Detection</a> in the <i>WAF Developer Guide</i>.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [OptimisticLockException].
   /// May throw [InvalidResourceException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [healthCheckArn] :
   /// The Amazon Resource Name (ARN) of the health check that is associated with
@@ -943,12 +942,12 @@ class Shield {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/">WAF
   /// Developer Guide</a>.
   ///
-  /// May throw [LimitsExceededException].
   /// May throw [InternalErrorException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterException].
-  /// May throw [OptimisticLockException].
   /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitsExceededException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [action] :
   /// Specifies the action setting that Shield Advanced should use in the WAF
@@ -990,8 +989,8 @@ class Shield {
   /// May throw [InternalErrorException].
   /// May throw [InvalidOperationException].
   /// May throw [InvalidParameterException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   Future<void> enableProactiveEngagement() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1030,8 +1029,8 @@ class Shield {
   /// time period.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
   ///
   /// Parameter [endTime] :
   /// The end of the time period for the attacks. This is a
@@ -1119,8 +1118,8 @@ class Shield {
   /// just the subset of protection groups that match the criteria.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [inclusionFilters] :
   /// Narrows the set of protection groups that the call retrieves. You can
@@ -1191,8 +1190,8 @@ class Shield {
   /// subset of protections that match the criteria.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [inclusionFilters] :
   /// Narrows the set of protections that the call retrieves. You can retrieve a
@@ -1261,8 +1260,8 @@ class Shield {
   /// Retrieves the resources that are included in the protection group.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidPaginationTokenException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [protectionGroupId] :
   /// The name of the protection group. You use this to identify the protection
@@ -1359,8 +1358,8 @@ class Shield {
   /// Adds or updates tags for a resource in Shield.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidResourceException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
@@ -1393,8 +1392,8 @@ class Shield {
   /// Removes tags from a resource in Shield.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [InvalidResourceException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidResourceException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
@@ -1428,10 +1427,10 @@ class Shield {
   /// mitigation configuration for the specified resource.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidOperationException].
   /// May throw [InvalidParameterException].
   /// May throw [OptimisticLockException].
-  /// May throw [InvalidOperationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [action] :
   /// Specifies the action setting that Shield Advanced should use in the WAF
@@ -1508,9 +1507,9 @@ class Shield {
   /// grouping improves the accuracy of detection and reduces false positives.
   ///
   /// May throw [InternalErrorException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [OptimisticLockException].
   /// May throw [InvalidParameterException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [aggregation] :
   /// Defines how Shield combines resource data for the group in order to
@@ -1593,10 +1592,10 @@ class Shield {
   /// </note>
   ///
   /// May throw [InternalErrorException].
-  /// May throw [LockedSubscriptionException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterException].
+  /// May throw [LockedSubscriptionException].
   /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [autoRenew] :
   /// When you initally create a subscription, <code>AutoRenew</code> is set to
@@ -1624,75 +1623,6 @@ class Shield {
       },
     );
   }
-}
-
-/// The automatic application layer DDoS mitigation settings for a
-/// <a>Protection</a>. This configuration determines whether Shield Advanced
-/// automatically manages rules in the web ACL in order to respond to
-/// application layer events that Shield Advanced determines to be DDoS attacks.
-class ApplicationLayerAutomaticResponseConfiguration {
-  /// Specifies the action setting that Shield Advanced should use in the WAF
-  /// rules that it creates on behalf of the protected resource in response to
-  /// DDoS attacks. You specify this as part of the configuration for the
-  /// automatic application layer DDoS mitigation feature, when you enable or
-  /// update automatic mitigation. Shield Advanced creates the WAF rules in a
-  /// Shield Advanced-managed rule group, inside the web ACL that you have
-  /// associated with the resource.
-  final ResponseAction action;
-
-  /// Indicates whether automatic application layer DDoS mitigation is enabled for
-  /// the protection.
-  final ApplicationLayerAutomaticResponseStatus status;
-
-  ApplicationLayerAutomaticResponseConfiguration({
-    required this.action,
-    required this.status,
-  });
-
-  factory ApplicationLayerAutomaticResponseConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ApplicationLayerAutomaticResponseConfiguration(
-      action: ResponseAction.fromJson(
-          (json['Action'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      status: ApplicationLayerAutomaticResponseStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final status = this.status;
-    return {
-      'Action': action,
-      'Status': status.value,
-    };
-  }
-}
-
-class ApplicationLayerAutomaticResponseStatus {
-  static const enabled = ApplicationLayerAutomaticResponseStatus._('ENABLED');
-  static const disabled = ApplicationLayerAutomaticResponseStatus._('DISABLED');
-
-  final String value;
-
-  const ApplicationLayerAutomaticResponseStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ApplicationLayerAutomaticResponseStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationLayerAutomaticResponseStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApplicationLayerAutomaticResponseStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AssociateDRTLogBucketResponse {
@@ -1744,586 +1674,6 @@ class AssociateProactiveEngagementDetailsResponse {
   }
 }
 
-/// The details of a DDoS attack.
-class AttackDetail {
-  /// List of counters that describe the attack for the specified time period.
-  final List<SummarizedCounter>? attackCounters;
-
-  /// The unique identifier (ID) of the attack.
-  final String? attackId;
-
-  /// The array of objects that provide details of the Shield event.
-  ///
-  /// For infrastructure layer events (L3 and L4 events), you can view metrics for
-  /// top contributors in Amazon CloudWatch metrics. For more information, see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms">Shield
-  /// metrics and alarms</a> in the <i>WAF Developer Guide</i>.
-  final List<AttackProperty>? attackProperties;
-
-  /// The time the attack ended, in Unix time in seconds.
-  final DateTime? endTime;
-
-  /// List of mitigation actions taken for the attack.
-  final List<Mitigation>? mitigations;
-
-  /// The ARN (Amazon Resource Name) of the resource that was attacked.
-  final String? resourceArn;
-
-  /// The time the attack started, in Unix time in seconds.
-  final DateTime? startTime;
-
-  /// If applicable, additional detail about the resource being attacked, for
-  /// example, IP address or URL.
-  final List<SubResourceSummary>? subResources;
-
-  AttackDetail({
-    this.attackCounters,
-    this.attackId,
-    this.attackProperties,
-    this.endTime,
-    this.mitigations,
-    this.resourceArn,
-    this.startTime,
-    this.subResources,
-  });
-
-  factory AttackDetail.fromJson(Map<String, dynamic> json) {
-    return AttackDetail(
-      attackCounters: (json['AttackCounters'] as List?)
-          ?.nonNulls
-          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      attackId: json['AttackId'] as String?,
-      attackProperties: (json['AttackProperties'] as List?)
-          ?.nonNulls
-          .map((e) => AttackProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      endTime: timeStampFromJson(json['EndTime']),
-      mitigations: (json['Mitigations'] as List?)
-          ?.nonNulls
-          .map((e) => Mitigation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      resourceArn: json['ResourceArn'] as String?,
-      startTime: timeStampFromJson(json['StartTime']),
-      subResources: (json['SubResources'] as List?)
-          ?.nonNulls
-          .map((e) => SubResourceSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attackCounters = this.attackCounters;
-    final attackId = this.attackId;
-    final attackProperties = this.attackProperties;
-    final endTime = this.endTime;
-    final mitigations = this.mitigations;
-    final resourceArn = this.resourceArn;
-    final startTime = this.startTime;
-    final subResources = this.subResources;
-    return {
-      if (attackCounters != null) 'AttackCounters': attackCounters,
-      if (attackId != null) 'AttackId': attackId,
-      if (attackProperties != null) 'AttackProperties': attackProperties,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (mitigations != null) 'Mitigations': mitigations,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (subResources != null) 'SubResources': subResources,
-    };
-  }
-}
-
-class AttackLayer {
-  static const network = AttackLayer._('NETWORK');
-  static const application = AttackLayer._('APPLICATION');
-
-  final String value;
-
-  const AttackLayer._(this.value);
-
-  static const values = [network, application];
-
-  static AttackLayer fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AttackLayer._(value));
-
-  @override
-  bool operator ==(other) => other is AttackLayer && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details of a Shield event. This is provided as part of an
-/// <a>AttackDetail</a>.
-class AttackProperty {
-  /// The type of Shield event that was observed. <code>NETWORK</code> indicates
-  /// layer 3 and layer 4 events and <code>APPLICATION</code> indicates layer 7
-  /// events.
-  ///
-  /// For infrastructure layer events (L3 and L4 events), you can view metrics for
-  /// top contributors in Amazon CloudWatch metrics. For more information, see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms">Shield
-  /// metrics and alarms</a> in the <i>WAF Developer Guide</i>.
-  final AttackLayer? attackLayer;
-
-  /// Defines the Shield event property information that is provided. The
-  /// <code>WORDPRESS_PINGBACK_REFLECTOR</code> and
-  /// <code>WORDPRESS_PINGBACK_SOURCE</code> values are valid only for WordPress
-  /// reflective pingback events.
-  final AttackPropertyIdentifier? attackPropertyIdentifier;
-
-  /// Contributor objects for the top five contributors to a Shield event. A
-  /// contributor is a source of traffic that Shield Advanced identifies as
-  /// responsible for some or all of an event.
-  final List<Contributor>? topContributors;
-
-  /// The total contributions made to this Shield event by all contributors.
-  final int? total;
-
-  /// The unit used for the <code>Contributor</code> <code>Value</code> property.
-  final Unit? unit;
-
-  AttackProperty({
-    this.attackLayer,
-    this.attackPropertyIdentifier,
-    this.topContributors,
-    this.total,
-    this.unit,
-  });
-
-  factory AttackProperty.fromJson(Map<String, dynamic> json) {
-    return AttackProperty(
-      attackLayer:
-          (json['AttackLayer'] as String?)?.let(AttackLayer.fromString),
-      attackPropertyIdentifier: (json['AttackPropertyIdentifier'] as String?)
-          ?.let(AttackPropertyIdentifier.fromString),
-      topContributors: (json['TopContributors'] as List?)
-          ?.nonNulls
-          .map((e) => Contributor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      total: json['Total'] as int?,
-      unit: (json['Unit'] as String?)?.let(Unit.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attackLayer = this.attackLayer;
-    final attackPropertyIdentifier = this.attackPropertyIdentifier;
-    final topContributors = this.topContributors;
-    final total = this.total;
-    final unit = this.unit;
-    return {
-      if (attackLayer != null) 'AttackLayer': attackLayer.value,
-      if (attackPropertyIdentifier != null)
-        'AttackPropertyIdentifier': attackPropertyIdentifier.value,
-      if (topContributors != null) 'TopContributors': topContributors,
-      if (total != null) 'Total': total,
-      if (unit != null) 'Unit': unit.value,
-    };
-  }
-}
-
-class AttackPropertyIdentifier {
-  static const destinationUrl = AttackPropertyIdentifier._('DESTINATION_URL');
-  static const referrer = AttackPropertyIdentifier._('REFERRER');
-  static const sourceAsn = AttackPropertyIdentifier._('SOURCE_ASN');
-  static const sourceCountry = AttackPropertyIdentifier._('SOURCE_COUNTRY');
-  static const sourceIpAddress =
-      AttackPropertyIdentifier._('SOURCE_IP_ADDRESS');
-  static const sourceUserAgent =
-      AttackPropertyIdentifier._('SOURCE_USER_AGENT');
-  static const wordpressPingbackReflector =
-      AttackPropertyIdentifier._('WORDPRESS_PINGBACK_REFLECTOR');
-  static const wordpressPingbackSource =
-      AttackPropertyIdentifier._('WORDPRESS_PINGBACK_SOURCE');
-
-  final String value;
-
-  const AttackPropertyIdentifier._(this.value);
-
-  static const values = [
-    destinationUrl,
-    referrer,
-    sourceAsn,
-    sourceCountry,
-    sourceIpAddress,
-    sourceUserAgent,
-    wordpressPingbackReflector,
-    wordpressPingbackSource
-  ];
-
-  static AttackPropertyIdentifier fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttackPropertyIdentifier._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AttackPropertyIdentifier && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A single attack statistics data record. This is returned by
-/// <a>DescribeAttackStatistics</a> along with a time range indicating the time
-/// period that the attack statistics apply to.
-class AttackStatisticsDataItem {
-  /// The number of attacks detected during the time period. This is always
-  /// present, but might be zero.
-  final int attackCount;
-
-  /// Information about the volume of attacks during the time period. If the
-  /// accompanying <code>AttackCount</code> is zero, this setting might be empty.
-  final AttackVolume? attackVolume;
-
-  AttackStatisticsDataItem({
-    required this.attackCount,
-    this.attackVolume,
-  });
-
-  factory AttackStatisticsDataItem.fromJson(Map<String, dynamic> json) {
-    return AttackStatisticsDataItem(
-      attackCount: (json['AttackCount'] as int?) ?? 0,
-      attackVolume: json['AttackVolume'] != null
-          ? AttackVolume.fromJson(json['AttackVolume'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attackCount = this.attackCount;
-    final attackVolume = this.attackVolume;
-    return {
-      'AttackCount': attackCount,
-      if (attackVolume != null) 'AttackVolume': attackVolume,
-    };
-  }
-}
-
-/// Summarizes all DDoS attacks for a specified time period.
-class AttackSummary {
-  /// The unique identifier (ID) of the attack.
-  final String? attackId;
-
-  /// The list of attacks for a specified time period.
-  final List<AttackVectorDescription>? attackVectors;
-
-  /// The end time of the attack, in Unix time in seconds.
-  final DateTime? endTime;
-
-  /// The ARN (Amazon Resource Name) of the resource that was attacked.
-  final String? resourceArn;
-
-  /// The start time of the attack, in Unix time in seconds.
-  final DateTime? startTime;
-
-  AttackSummary({
-    this.attackId,
-    this.attackVectors,
-    this.endTime,
-    this.resourceArn,
-    this.startTime,
-  });
-
-  factory AttackSummary.fromJson(Map<String, dynamic> json) {
-    return AttackSummary(
-      attackId: json['AttackId'] as String?,
-      attackVectors: (json['AttackVectors'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AttackVectorDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      endTime: timeStampFromJson(json['EndTime']),
-      resourceArn: json['ResourceArn'] as String?,
-      startTime: timeStampFromJson(json['StartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attackId = this.attackId;
-    final attackVectors = this.attackVectors;
-    final endTime = this.endTime;
-    final resourceArn = this.resourceArn;
-    final startTime = this.startTime;
-    return {
-      if (attackId != null) 'AttackId': attackId,
-      if (attackVectors != null) 'AttackVectors': attackVectors,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
-/// Describes the attack.
-class AttackVectorDescription {
-  /// The attack type. Valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// UDP_TRAFFIC
-  /// </li>
-  /// <li>
-  /// UDP_FRAGMENT
-  /// </li>
-  /// <li>
-  /// GENERIC_UDP_REFLECTION
-  /// </li>
-  /// <li>
-  /// DNS_REFLECTION
-  /// </li>
-  /// <li>
-  /// NTP_REFLECTION
-  /// </li>
-  /// <li>
-  /// CHARGEN_REFLECTION
-  /// </li>
-  /// <li>
-  /// SSDP_REFLECTION
-  /// </li>
-  /// <li>
-  /// PORT_MAPPER
-  /// </li>
-  /// <li>
-  /// RIP_REFLECTION
-  /// </li>
-  /// <li>
-  /// SNMP_REFLECTION
-  /// </li>
-  /// <li>
-  /// MSSQL_REFLECTION
-  /// </li>
-  /// <li>
-  /// NET_BIOS_REFLECTION
-  /// </li>
-  /// <li>
-  /// SYN_FLOOD
-  /// </li>
-  /// <li>
-  /// ACK_FLOOD
-  /// </li>
-  /// <li>
-  /// REQUEST_FLOOD
-  /// </li>
-  /// <li>
-  /// HTTP_REFLECTION
-  /// </li>
-  /// <li>
-  /// UDS_REFLECTION
-  /// </li>
-  /// <li>
-  /// MEMCACHED_REFLECTION
-  /// </li>
-  /// </ul>
-  final String vectorType;
-
-  AttackVectorDescription({
-    required this.vectorType,
-  });
-
-  factory AttackVectorDescription.fromJson(Map<String, dynamic> json) {
-    return AttackVectorDescription(
-      vectorType: (json['VectorType'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final vectorType = this.vectorType;
-    return {
-      'VectorType': vectorType,
-    };
-  }
-}
-
-/// Information about the volume of attacks during the time period, included in
-/// an <a>AttackStatisticsDataItem</a>. If the accompanying
-/// <code>AttackCount</code> in the statistics object is zero, this setting
-/// might be empty.
-class AttackVolume {
-  /// A statistics object that uses bits per second as the unit. This is included
-  /// for network level attacks.
-  final AttackVolumeStatistics? bitsPerSecond;
-
-  /// A statistics object that uses packets per second as the unit. This is
-  /// included for network level attacks.
-  final AttackVolumeStatistics? packetsPerSecond;
-
-  /// A statistics object that uses requests per second as the unit. This is
-  /// included for application level attacks, and is only available for accounts
-  /// that are subscribed to Shield Advanced.
-  final AttackVolumeStatistics? requestsPerSecond;
-
-  AttackVolume({
-    this.bitsPerSecond,
-    this.packetsPerSecond,
-    this.requestsPerSecond,
-  });
-
-  factory AttackVolume.fromJson(Map<String, dynamic> json) {
-    return AttackVolume(
-      bitsPerSecond: json['BitsPerSecond'] != null
-          ? AttackVolumeStatistics.fromJson(
-              json['BitsPerSecond'] as Map<String, dynamic>)
-          : null,
-      packetsPerSecond: json['PacketsPerSecond'] != null
-          ? AttackVolumeStatistics.fromJson(
-              json['PacketsPerSecond'] as Map<String, dynamic>)
-          : null,
-      requestsPerSecond: json['RequestsPerSecond'] != null
-          ? AttackVolumeStatistics.fromJson(
-              json['RequestsPerSecond'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bitsPerSecond = this.bitsPerSecond;
-    final packetsPerSecond = this.packetsPerSecond;
-    final requestsPerSecond = this.requestsPerSecond;
-    return {
-      if (bitsPerSecond != null) 'BitsPerSecond': bitsPerSecond,
-      if (packetsPerSecond != null) 'PacketsPerSecond': packetsPerSecond,
-      if (requestsPerSecond != null) 'RequestsPerSecond': requestsPerSecond,
-    };
-  }
-}
-
-/// Statistics objects for the various data types in <a>AttackVolume</a>.
-class AttackVolumeStatistics {
-  /// The maximum attack volume observed for the given unit.
-  final double max;
-
-  AttackVolumeStatistics({
-    required this.max,
-  });
-
-  factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) {
-    return AttackVolumeStatistics(
-      max: (json['Max'] as double?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final max = this.max;
-    return {
-      'Max': max,
-    };
-  }
-}
-
-class AutoRenew {
-  static const enabled = AutoRenew._('ENABLED');
-  static const disabled = AutoRenew._('DISABLED');
-
-  final String value;
-
-  const AutoRenew._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static AutoRenew fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AutoRenew._(value));
-
-  @override
-  bool operator ==(other) => other is AutoRenew && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies that Shield Advanced should configure its WAF rules with the WAF
-/// <code>Block</code> action.
-///
-/// This is only used in the context of the <code>ResponseAction</code> setting.
-///
-/// JSON specification: <code>"Block": {}</code>
-class BlockAction {
-  BlockAction();
-
-  factory BlockAction.fromJson(Map<String, dynamic> _) {
-    return BlockAction();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A contributor to the attack and their contribution.
-class Contributor {
-  /// The name of the contributor. The type of name that you'll find here depends
-  /// on the <code>AttackPropertyIdentifier</code> setting in the
-  /// <code>AttackProperty</code> where this contributor is defined. For example,
-  /// if the <code>AttackPropertyIdentifier</code> is <code>SOURCE_COUNTRY</code>,
-  /// the <code>Name</code> could be <code>United States</code>.
-  final String? name;
-
-  /// The contribution of this contributor expressed in <a>Protection</a> units.
-  /// For example <code>10,000</code>.
-  final int? value;
-
-  Contributor({
-    this.name,
-    this.value,
-  });
-
-  factory Contributor.fromJson(Map<String, dynamic> json) {
-    return Contributor(
-      name: json['Name'] as String?,
-      value: json['Value'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      if (name != null) 'Name': name,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Specifies that Shield Advanced should configure its WAF rules with the WAF
-/// <code>Count</code> action.
-///
-/// This is only used in the context of the <code>ResponseAction</code> setting.
-///
-/// JSON specification: <code>"Count": {}</code>
-class CountAction {
-  CountAction();
-
-  factory CountAction.fromJson(Map<String, dynamic> _) {
-    return CountAction();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class CreateProtectionGroupResponse {
-  CreateProtectionGroupResponse();
-
-  factory CreateProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
-    return CreateProtectionGroupResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
 class CreateProtectionResponse {
   /// The unique identifier (ID) for the <a>Protection</a> object that is created.
   final String? protectionId;
@@ -2346,11 +1696,11 @@ class CreateProtectionResponse {
   }
 }
 
-class CreateSubscriptionResponse {
-  CreateSubscriptionResponse();
+class CreateProtectionGroupResponse {
+  CreateProtectionGroupResponse();
 
-  factory CreateSubscriptionResponse.fromJson(Map<String, dynamic> _) {
-    return CreateSubscriptionResponse();
+  factory CreateProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
+    return CreateProtectionGroupResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -2358,11 +1708,11 @@ class CreateSubscriptionResponse {
   }
 }
 
-class DeleteProtectionGroupResponse {
-  DeleteProtectionGroupResponse();
+class CreateSubscriptionResponse {
+  CreateSubscriptionResponse();
 
-  factory DeleteProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteProtectionGroupResponse();
+  factory CreateSubscriptionResponse.fromJson(Map<String, dynamic> _) {
+    return CreateSubscriptionResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -2382,7 +1732,18 @@ class DeleteProtectionResponse {
   }
 }
 
-@Deprecated('Deprecated')
+class DeleteProtectionGroupResponse {
+  DeleteProtectionGroupResponse();
+
+  factory DeleteProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteProtectionGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteSubscriptionResponse {
   DeleteSubscriptionResponse();
 
@@ -2516,6 +1877,30 @@ class DescribeEmergencyContactSettingsResponse {
   }
 }
 
+class DescribeProtectionResponse {
+  /// The <a>Protection</a> that you requested.
+  final Protection? protection;
+
+  DescribeProtectionResponse({
+    this.protection,
+  });
+
+  factory DescribeProtectionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProtectionResponse(
+      protection: json['Protection'] != null
+          ? Protection.fromJson(json['Protection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final protection = this.protection;
+    return {
+      if (protection != null) 'Protection': protection,
+    };
+  }
+}
+
 class DescribeProtectionGroupResponse {
   /// A grouping of protected resources that you and Shield Advanced can monitor
   /// as a collective. This resource grouping improves the accuracy of detection
@@ -2538,30 +1923,6 @@ class DescribeProtectionGroupResponse {
     final protectionGroup = this.protectionGroup;
     return {
       'ProtectionGroup': protectionGroup,
-    };
-  }
-}
-
-class DescribeProtectionResponse {
-  /// The <a>Protection</a> that you requested.
-  final Protection? protection;
-
-  DescribeProtectionResponse({
-    this.protection,
-  });
-
-  factory DescribeProtectionResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeProtectionResponse(
-      protection: json['Protection'] != null
-          ? Protection.fromJson(json['Protection'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final protection = this.protection;
-    return {
-      if (protection != null) 'Protection': protection,
     };
   }
 }
@@ -2651,45 +2012,6 @@ class DisassociateHealthCheckResponse {
   }
 }
 
-/// Contact information that the SRT can use to contact you if you have
-/// proactive engagement enabled, for escalations to the SRT and to initiate
-/// proactive customer support.
-class EmergencyContact {
-  /// The email address for the contact.
-  final String emailAddress;
-
-  /// Additional notes regarding the contact.
-  final String? contactNotes;
-
-  /// The phone number for the contact.
-  final String? phoneNumber;
-
-  EmergencyContact({
-    required this.emailAddress,
-    this.contactNotes,
-    this.phoneNumber,
-  });
-
-  factory EmergencyContact.fromJson(Map<String, dynamic> json) {
-    return EmergencyContact(
-      emailAddress: (json['EmailAddress'] as String?) ?? '',
-      contactNotes: json['ContactNotes'] as String?,
-      phoneNumber: json['PhoneNumber'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final emailAddress = this.emailAddress;
-    final contactNotes = this.contactNotes;
-    final phoneNumber = this.phoneNumber;
-    return {
-      'EmailAddress': emailAddress,
-      if (contactNotes != null) 'ContactNotes': contactNotes,
-      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
-    };
-  }
-}
-
 class EnableApplicationLayerAutomaticResponseResponse {
   EnableApplicationLayerAutomaticResponseResponse();
 
@@ -2734,119 +2056,6 @@ class GetSubscriptionStateResponse {
     final subscriptionState = this.subscriptionState;
     return {
       'SubscriptionState': subscriptionState.value,
-    };
-  }
-}
-
-/// Narrows the set of protections that the call retrieves. You can retrieve a
-/// single protection by providing its name or the ARN (Amazon Resource Name) of
-/// its protected resource. You can also retrieve all protections for a specific
-/// resource type. You can provide up to one criteria per filter type. Shield
-/// Advanced returns protections that exactly match all of the filter criteria
-/// that you provide.
-class InclusionProtectionFilters {
-  /// The name of the protection that you want to retrieve.
-  final List<String>? protectionNames;
-
-  /// The ARN (Amazon Resource Name) of the resource whose protection you want to
-  /// retrieve.
-  final List<String>? resourceArns;
-
-  /// The type of protected resource whose protections you want to retrieve.
-  final List<ProtectedResourceType>? resourceTypes;
-
-  InclusionProtectionFilters({
-    this.protectionNames,
-    this.resourceArns,
-    this.resourceTypes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final protectionNames = this.protectionNames;
-    final resourceArns = this.resourceArns;
-    final resourceTypes = this.resourceTypes;
-    return {
-      if (protectionNames != null) 'ProtectionNames': protectionNames,
-      if (resourceArns != null) 'ResourceArns': resourceArns,
-      if (resourceTypes != null)
-        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Narrows the set of protection groups that the call retrieves. You can
-/// retrieve a single protection group by its name and you can retrieve all
-/// protection groups that are configured with a specific pattern, aggregation,
-/// or resource type. You can provide up to one criteria per filter type. Shield
-/// Advanced returns the protection groups that exactly match all of the search
-/// criteria that you provide.
-class InclusionProtectionGroupFilters {
-  /// The aggregation setting of the protection groups that you want to retrieve.
-  final List<ProtectionGroupAggregation>? aggregations;
-
-  /// The pattern specification of the protection groups that you want to
-  /// retrieve.
-  final List<ProtectionGroupPattern>? patterns;
-
-  /// The ID of the protection group that you want to retrieve.
-  final List<String>? protectionGroupIds;
-
-  /// The resource type configuration of the protection groups that you want to
-  /// retrieve. In the protection group configuration, you specify the resource
-  /// type when you set the group's <code>Pattern</code> to
-  /// <code>BY_RESOURCE_TYPE</code>.
-  final List<ProtectedResourceType>? resourceTypes;
-
-  InclusionProtectionGroupFilters({
-    this.aggregations,
-    this.patterns,
-    this.protectionGroupIds,
-    this.resourceTypes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final aggregations = this.aggregations;
-    final patterns = this.patterns;
-    final protectionGroupIds = this.protectionGroupIds;
-    final resourceTypes = this.resourceTypes;
-    return {
-      if (aggregations != null)
-        'Aggregations': aggregations.map((e) => e.value).toList(),
-      if (patterns != null) 'Patterns': patterns.map((e) => e.value).toList(),
-      if (protectionGroupIds != null) 'ProtectionGroupIds': protectionGroupIds,
-      if (resourceTypes != null)
-        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Specifies how many protections of a given type you can create.
-class Limit {
-  /// The maximum number of protections that can be created for the specified
-  /// <code>Type</code>.
-  final int? max;
-
-  /// The type of protection.
-  final String? type;
-
-  Limit({
-    this.max,
-    this.type,
-  });
-
-  factory Limit.fromJson(Map<String, dynamic> json) {
-    return Limit(
-      max: json['Max'] as int?,
-      type: json['Type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final max = this.max;
-    final type = this.type;
-    return {
-      if (max != null) 'Max': max,
-      if (type != null) 'Type': type,
     };
   }
 }
@@ -2896,7 +2105,7 @@ class ListAttacksResponse {
 }
 
 class ListProtectionGroupsResponse {
-  /// <p/>
+  ///
   final List<ProtectionGroup> protectionGroups;
 
   /// When you request a list of objects from Shield Advanced, if the response
@@ -3054,47 +2263,147 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// The mitigation applied to a DDoS attack.
-class Mitigation {
-  /// The name of the mitigation taken for this attack.
-  final String? mitigationName;
+class TagResourceResponse {
+  TagResourceResponse();
 
-  Mitigation({
-    this.mitigationName,
-  });
-
-  factory Mitigation.fromJson(Map<String, dynamic> json) {
-    return Mitigation(
-      mitigationName: json['MitigationName'] as String?,
-    );
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
   }
 
   Map<String, dynamic> toJson() {
-    final mitigationName = this.mitigationName;
-    return {
-      if (mitigationName != null) 'MitigationName': mitigationName,
-    };
+    return {};
   }
 }
 
-class ProactiveEngagementStatus {
-  static const enabled = ProactiveEngagementStatus._('ENABLED');
-  static const disabled = ProactiveEngagementStatus._('DISABLED');
-  static const pending = ProactiveEngagementStatus._('PENDING');
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateApplicationLayerAutomaticResponseResponse {
+  UpdateApplicationLayerAutomaticResponseResponse();
+
+  factory UpdateApplicationLayerAutomaticResponseResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateApplicationLayerAutomaticResponseResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateEmergencyContactSettingsResponse {
+  UpdateEmergencyContactSettingsResponse();
+
+  factory UpdateEmergencyContactSettingsResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateEmergencyContactSettingsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateProtectionGroupResponse {
+  UpdateProtectionGroupResponse();
+
+  factory UpdateProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateProtectionGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateSubscriptionResponse {
+  UpdateSubscriptionResponse();
+
+  factory UpdateSubscriptionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateSubscriptionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class AutoRenew {
+  static const enabled = AutoRenew._('ENABLED');
+  static const disabled = AutoRenew._('DISABLED');
 
   final String value;
 
-  const ProactiveEngagementStatus._(this.value);
+  const AutoRenew._(this.value);
 
-  static const values = [enabled, disabled, pending];
+  static const values = [enabled, disabled];
 
-  static ProactiveEngagementStatus fromString(String value) =>
+  static AutoRenew fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AutoRenew._(value));
+
+  @override
+  bool operator ==(other) => other is AutoRenew && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProtectionGroupAggregation {
+  static const sum = ProtectionGroupAggregation._('SUM');
+  static const mean = ProtectionGroupAggregation._('MEAN');
+  static const max = ProtectionGroupAggregation._('MAX');
+
+  final String value;
+
+  const ProtectionGroupAggregation._(this.value);
+
+  static const values = [sum, mean, max];
+
+  static ProtectionGroupAggregation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ProactiveEngagementStatus._(value));
+          orElse: () => ProtectionGroupAggregation._(value));
 
   @override
   bool operator ==(other) =>
-      other is ProactiveEngagementStatus && other.value == value;
+      other is ProtectionGroupAggregation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProtectionGroupPattern {
+  static const all = ProtectionGroupPattern._('ALL');
+  static const arbitrary = ProtectionGroupPattern._('ARBITRARY');
+  static const byResourceType = ProtectionGroupPattern._('BY_RESOURCE_TYPE');
+
+  final String value;
+
+  const ProtectionGroupPattern._(this.value);
+
+  static const values = [all, arbitrary, byResourceType];
+
+  static ProtectionGroupPattern fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProtectionGroupPattern._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProtectionGroupPattern && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3145,6 +2454,170 @@ class ProtectedResourceType {
   String toString() => value;
 }
 
+/// Contact information that the SRT can use to contact you if you have
+/// proactive engagement enabled, for escalations to the SRT and to initiate
+/// proactive customer support.
+class EmergencyContact {
+  /// The email address for the contact.
+  final String emailAddress;
+
+  /// Additional notes regarding the contact.
+  final String? contactNotes;
+
+  /// The phone number for the contact.
+  final String? phoneNumber;
+
+  EmergencyContact({
+    required this.emailAddress,
+    this.contactNotes,
+    this.phoneNumber,
+  });
+
+  factory EmergencyContact.fromJson(Map<String, dynamic> json) {
+    return EmergencyContact(
+      emailAddress: (json['EmailAddress'] as String?) ?? '',
+      contactNotes: json['ContactNotes'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emailAddress = this.emailAddress;
+    final contactNotes = this.contactNotes;
+    final phoneNumber = this.phoneNumber;
+    return {
+      'EmailAddress': emailAddress,
+      if (contactNotes != null) 'ContactNotes': contactNotes,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
+}
+
+/// Specifies the action setting that Shield Advanced should use in the WAF
+/// rules that it creates on behalf of the protected resource in response to
+/// DDoS attacks. You specify this as part of the configuration for the
+/// automatic application layer DDoS mitigation feature, when you enable or
+/// update automatic mitigation. Shield Advanced creates the WAF rules in a
+/// Shield Advanced-managed rule group, inside the web ACL that you have
+/// associated with the resource.
+class ResponseAction {
+  /// Specifies that Shield Advanced should configure its WAF rules with the WAF
+  /// <code>Block</code> action.
+  ///
+  /// You must specify exactly one action, either <code>Block</code> or
+  /// <code>Count</code>.
+  final BlockAction? block;
+
+  /// Specifies that Shield Advanced should configure its WAF rules with the WAF
+  /// <code>Count</code> action.
+  ///
+  /// You must specify exactly one action, either <code>Block</code> or
+  /// <code>Count</code>.
+  final CountAction? count;
+
+  ResponseAction({
+    this.block,
+    this.count,
+  });
+
+  factory ResponseAction.fromJson(Map<String, dynamic> json) {
+    return ResponseAction(
+      block: json['Block'] != null
+          ? BlockAction.fromJson(json['Block'] as Map<String, dynamic>)
+          : null,
+      count: json['Count'] != null
+          ? CountAction.fromJson(json['Count'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final block = this.block;
+    final count = this.count;
+    return {
+      if (block != null) 'Block': block,
+      if (count != null) 'Count': count,
+    };
+  }
+}
+
+/// Specifies that Shield Advanced should configure its WAF rules with the WAF
+/// <code>Block</code> action.
+///
+/// This is only used in the context of the <code>ResponseAction</code> setting.
+///
+/// JSON specification: <code>"Block": {}</code>
+class BlockAction {
+  BlockAction();
+
+  factory BlockAction.fromJson(Map<String, dynamic> _) {
+    return BlockAction();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Specifies that Shield Advanced should configure its WAF rules with the WAF
+/// <code>Count</code> action.
+///
+/// This is only used in the context of the <code>ResponseAction</code> setting.
+///
+/// JSON specification: <code>"Count": {}</code>
+class CountAction {
+  CountAction();
+
+  factory CountAction.fromJson(Map<String, dynamic> _) {
+    return CountAction();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A tag associated with an Amazon Web Services resource. Tags are key:value
+/// pairs that you can use to categorize and manage your resources, for purposes
+/// like billing or other management. Typically, the tag key represents a
+/// category, such as "environment", and the tag value represents a specific
+/// value within that category, such as "test," "development," or "production".
+/// Or you might set the tag key to "customer" and the value to the customer
+/// name or ID. You can specify one or more tags to add to each Amazon Web
+/// Services resource, up to 50 tags for a resource.
+class Tag {
+  /// Part of the key:value pair that defines a tag. You can use a tag key to
+  /// describe a category of information, such as "customer." Tag keys are
+  /// case-sensitive.
+  final String? key;
+
+  /// Part of the key:value pair that defines a tag. You can use a tag value to
+  /// describe a specific value within a category, such as "companyA" or
+  /// "companyB." Tag values are case-sensitive.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
 /// An object that represents a resource that is under DDoS protection.
 class Protection {
   /// The automatic application layer DDoS mitigation settings for the protection.
@@ -3154,7 +2627,7 @@ class Protection {
   final ApplicationLayerAutomaticResponseConfiguration?
       applicationLayerAutomaticResponseConfiguration;
 
-  /// The unique identifier (ID) for the Route 53 health check that's associated
+  /// The unique identifier (ID) for the Route 53 health check that's associated
   /// with the protection.
   final List<String>? healthCheckIds;
 
@@ -3217,6 +2690,111 @@ class Protection {
       if (name != null) 'Name': name,
       if (protectionArn != null) 'ProtectionArn': protectionArn,
       if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// The automatic application layer DDoS mitigation settings for a
+/// <a>Protection</a>. This configuration determines whether Shield Advanced
+/// automatically manages rules in the web ACL in order to respond to
+/// application layer events that Shield Advanced determines to be DDoS attacks.
+class ApplicationLayerAutomaticResponseConfiguration {
+  /// Specifies the action setting that Shield Advanced should use in the WAF
+  /// rules that it creates on behalf of the protected resource in response to
+  /// DDoS attacks. You specify this as part of the configuration for the
+  /// automatic application layer DDoS mitigation feature, when you enable or
+  /// update automatic mitigation. Shield Advanced creates the WAF rules in a
+  /// Shield Advanced-managed rule group, inside the web ACL that you have
+  /// associated with the resource.
+  final ResponseAction action;
+
+  /// Indicates whether automatic application layer DDoS mitigation is enabled for
+  /// the protection.
+  final ApplicationLayerAutomaticResponseStatus status;
+
+  ApplicationLayerAutomaticResponseConfiguration({
+    required this.action,
+    required this.status,
+  });
+
+  factory ApplicationLayerAutomaticResponseConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationLayerAutomaticResponseConfiguration(
+      action: ResponseAction.fromJson(
+          (json['Action'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      status: ApplicationLayerAutomaticResponseStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final status = this.status;
+    return {
+      'Action': action,
+      'Status': status.value,
+    };
+  }
+}
+
+class ApplicationLayerAutomaticResponseStatus {
+  static const enabled = ApplicationLayerAutomaticResponseStatus._('ENABLED');
+  static const disabled = ApplicationLayerAutomaticResponseStatus._('DISABLED');
+
+  final String value;
+
+  const ApplicationLayerAutomaticResponseStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ApplicationLayerAutomaticResponseStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationLayerAutomaticResponseStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationLayerAutomaticResponseStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Narrows the set of protections that the call retrieves. You can retrieve a
+/// single protection by providing its name or the ARN (Amazon Resource Name) of
+/// its protected resource. You can also retrieve all protections for a specific
+/// resource type. You can provide up to one criteria per filter type. Shield
+/// Advanced returns protections that exactly match all of the filter criteria
+/// that you provide.
+class InclusionProtectionFilters {
+  /// The name of the protection that you want to retrieve.
+  final List<String>? protectionNames;
+
+  /// The ARN (Amazon Resource Name) of the resource whose protection you want to
+  /// retrieve.
+  final List<String>? resourceArns;
+
+  /// The type of protected resource whose protections you want to retrieve.
+  final List<ProtectedResourceType>? resourceTypes;
+
+  InclusionProtectionFilters({
+    this.protectionNames,
+    this.resourceArns,
+    this.resourceTypes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final protectionNames = this.protectionNames;
+    final resourceArns = this.resourceArns;
+    final resourceTypes = this.resourceTypes;
+    return {
+      if (protectionNames != null) 'ProtectionNames': protectionNames,
+      if (resourceArns != null) 'ResourceArns': resourceArns,
+      if (resourceTypes != null)
+        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
     };
   }
 }
@@ -3318,284 +2896,234 @@ class ProtectionGroup {
   }
 }
 
-class ProtectionGroupAggregation {
-  static const sum = ProtectionGroupAggregation._('SUM');
-  static const mean = ProtectionGroupAggregation._('MEAN');
-  static const max = ProtectionGroupAggregation._('MAX');
+/// Narrows the set of protection groups that the call retrieves. You can
+/// retrieve a single protection group by its name and you can retrieve all
+/// protection groups that are configured with a specific pattern, aggregation,
+/// or resource type. You can provide up to one criteria per filter type. Shield
+/// Advanced returns the protection groups that exactly match all of the search
+/// criteria that you provide.
+class InclusionProtectionGroupFilters {
+  /// The aggregation setting of the protection groups that you want to retrieve.
+  final List<ProtectionGroupAggregation>? aggregations;
 
-  final String value;
+  /// The pattern specification of the protection groups that you want to
+  /// retrieve.
+  final List<ProtectionGroupPattern>? patterns;
 
-  const ProtectionGroupAggregation._(this.value);
+  /// The ID of the protection group that you want to retrieve.
+  final List<String>? protectionGroupIds;
 
-  static const values = [sum, mean, max];
+  /// The resource type configuration of the protection groups that you want to
+  /// retrieve. In the protection group configuration, you specify the resource
+  /// type when you set the group's <code>Pattern</code> to
+  /// <code>BY_RESOURCE_TYPE</code>.
+  final List<ProtectedResourceType>? resourceTypes;
 
-  static ProtectionGroupAggregation fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProtectionGroupAggregation._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProtectionGroupAggregation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Limits settings on protection groups with arbitrary pattern type.
-class ProtectionGroupArbitraryPatternLimits {
-  /// The maximum number of resources you can specify for a single arbitrary
-  /// pattern in a protection group.
-  final int maxMembers;
-
-  ProtectionGroupArbitraryPatternLimits({
-    required this.maxMembers,
+  InclusionProtectionGroupFilters({
+    this.aggregations,
+    this.patterns,
+    this.protectionGroupIds,
+    this.resourceTypes,
   });
 
-  factory ProtectionGroupArbitraryPatternLimits.fromJson(
-      Map<String, dynamic> json) {
-    return ProtectionGroupArbitraryPatternLimits(
-      maxMembers: (json['MaxMembers'] as int?) ?? 0,
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final maxMembers = this.maxMembers;
+    final aggregations = this.aggregations;
+    final patterns = this.patterns;
+    final protectionGroupIds = this.protectionGroupIds;
+    final resourceTypes = this.resourceTypes;
     return {
-      'MaxMembers': maxMembers,
+      if (aggregations != null)
+        'Aggregations': aggregations.map((e) => e.value).toList(),
+      if (patterns != null) 'Patterns': patterns.map((e) => e.value).toList(),
+      if (protectionGroupIds != null) 'ProtectionGroupIds': protectionGroupIds,
+      if (resourceTypes != null)
+        'ResourceTypes': resourceTypes.map((e) => e.value).toList(),
     };
   }
 }
 
-/// Limits settings on protection groups for your subscription.
-class ProtectionGroupLimits {
-  /// The maximum number of protection groups that you can have at one time.
-  final int maxProtectionGroups;
+/// Summarizes all DDoS attacks for a specified time period.
+class AttackSummary {
+  /// The unique identifier (ID) of the attack.
+  final String? attackId;
 
-  /// Limits settings by pattern type in the protection groups for your
-  /// subscription.
-  final ProtectionGroupPatternTypeLimits patternTypeLimits;
+  /// The list of attacks for a specified time period.
+  final List<AttackVectorDescription>? attackVectors;
 
-  ProtectionGroupLimits({
-    required this.maxProtectionGroups,
-    required this.patternTypeLimits,
-  });
+  /// The end time of the attack, in Unix time in seconds.
+  final DateTime? endTime;
 
-  factory ProtectionGroupLimits.fromJson(Map<String, dynamic> json) {
-    return ProtectionGroupLimits(
-      maxProtectionGroups: (json['MaxProtectionGroups'] as int?) ?? 0,
-      patternTypeLimits: ProtectionGroupPatternTypeLimits.fromJson(
-          (json['PatternTypeLimits'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
+  /// The ARN (Amazon Resource Name) of the resource that was attacked.
+  final String? resourceArn;
 
-  Map<String, dynamic> toJson() {
-    final maxProtectionGroups = this.maxProtectionGroups;
-    final patternTypeLimits = this.patternTypeLimits;
-    return {
-      'MaxProtectionGroups': maxProtectionGroups,
-      'PatternTypeLimits': patternTypeLimits,
-    };
-  }
-}
+  /// The start time of the attack, in Unix time in seconds.
+  final DateTime? startTime;
 
-class ProtectionGroupPattern {
-  static const all = ProtectionGroupPattern._('ALL');
-  static const arbitrary = ProtectionGroupPattern._('ARBITRARY');
-  static const byResourceType = ProtectionGroupPattern._('BY_RESOURCE_TYPE');
-
-  final String value;
-
-  const ProtectionGroupPattern._(this.value);
-
-  static const values = [all, arbitrary, byResourceType];
-
-  static ProtectionGroupPattern fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProtectionGroupPattern._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProtectionGroupPattern && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Limits settings by pattern type in the protection groups for your
-/// subscription.
-class ProtectionGroupPatternTypeLimits {
-  /// Limits settings on protection groups with arbitrary pattern type.
-  final ProtectionGroupArbitraryPatternLimits arbitraryPatternLimits;
-
-  ProtectionGroupPatternTypeLimits({
-    required this.arbitraryPatternLimits,
-  });
-
-  factory ProtectionGroupPatternTypeLimits.fromJson(Map<String, dynamic> json) {
-    return ProtectionGroupPatternTypeLimits(
-      arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits.fromJson(
-          (json['ArbitraryPatternLimits'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arbitraryPatternLimits = this.arbitraryPatternLimits;
-    return {
-      'ArbitraryPatternLimits': arbitraryPatternLimits,
-    };
-  }
-}
-
-/// Limits settings on protections for your subscription.
-class ProtectionLimits {
-  /// The maximum number of resource types that you can specify in a protection.
-  final List<Limit> protectedResourceTypeLimits;
-
-  ProtectionLimits({
-    required this.protectedResourceTypeLimits,
-  });
-
-  factory ProtectionLimits.fromJson(Map<String, dynamic> json) {
-    return ProtectionLimits(
-      protectedResourceTypeLimits:
-          ((json['ProtectedResourceTypeLimits'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => Limit.fromJson(e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final protectedResourceTypeLimits = this.protectedResourceTypeLimits;
-    return {
-      'ProtectedResourceTypeLimits': protectedResourceTypeLimits,
-    };
-  }
-}
-
-/// Specifies the action setting that Shield Advanced should use in the WAF
-/// rules that it creates on behalf of the protected resource in response to
-/// DDoS attacks. You specify this as part of the configuration for the
-/// automatic application layer DDoS mitigation feature, when you enable or
-/// update automatic mitigation. Shield Advanced creates the WAF rules in a
-/// Shield Advanced-managed rule group, inside the web ACL that you have
-/// associated with the resource.
-class ResponseAction {
-  /// Specifies that Shield Advanced should configure its WAF rules with the WAF
-  /// <code>Block</code> action.
-  ///
-  /// You must specify exactly one action, either <code>Block</code> or
-  /// <code>Count</code>.
-  final BlockAction? block;
-
-  /// Specifies that Shield Advanced should configure its WAF rules with the WAF
-  /// <code>Count</code> action.
-  ///
-  /// You must specify exactly one action, either <code>Block</code> or
-  /// <code>Count</code>.
-  final CountAction? count;
-
-  ResponseAction({
-    this.block,
-    this.count,
-  });
-
-  factory ResponseAction.fromJson(Map<String, dynamic> json) {
-    return ResponseAction(
-      block: json['Block'] != null
-          ? BlockAction.fromJson(json['Block'] as Map<String, dynamic>)
-          : null,
-      count: json['Count'] != null
-          ? CountAction.fromJson(json['Count'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final block = this.block;
-    final count = this.count;
-    return {
-      if (block != null) 'Block': block,
-      if (count != null) 'Count': count,
-    };
-  }
-}
-
-/// The attack information for the specified SubResource.
-class SubResourceSummary {
-  /// The list of attack types and associated counters.
-  final List<SummarizedAttackVector>? attackVectors;
-
-  /// The counters that describe the details of the attack.
-  final List<SummarizedCounter>? counters;
-
-  /// The unique identifier (ID) of the <code>SubResource</code>.
-  final String? id;
-
-  /// The <code>SubResource</code> type.
-  final SubResourceType? type;
-
-  SubResourceSummary({
+  AttackSummary({
+    this.attackId,
     this.attackVectors,
-    this.counters,
-    this.id,
-    this.type,
+    this.endTime,
+    this.resourceArn,
+    this.startTime,
   });
 
-  factory SubResourceSummary.fromJson(Map<String, dynamic> json) {
-    return SubResourceSummary(
+  factory AttackSummary.fromJson(Map<String, dynamic> json) {
+    return AttackSummary(
+      attackId: json['AttackId'] as String?,
       attackVectors: (json['AttackVectors'] as List?)
           ?.nonNulls
-          .map(
-              (e) => SummarizedAttackVector.fromJson(e as Map<String, dynamic>))
+          .map((e) =>
+              AttackVectorDescription.fromJson(e as Map<String, dynamic>))
           .toList(),
-      counters: (json['Counters'] as List?)
-          ?.nonNulls
-          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: json['Id'] as String?,
-      type: (json['Type'] as String?)?.let(SubResourceType.fromString),
+      endTime: timeStampFromJson(json['EndTime']),
+      resourceArn: json['ResourceArn'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final attackId = this.attackId;
     final attackVectors = this.attackVectors;
-    final counters = this.counters;
-    final id = this.id;
-    final type = this.type;
+    final endTime = this.endTime;
+    final resourceArn = this.resourceArn;
+    final startTime = this.startTime;
     return {
+      if (attackId != null) 'AttackId': attackId,
       if (attackVectors != null) 'AttackVectors': attackVectors,
-      if (counters != null) 'Counters': counters,
-      if (id != null) 'Id': id,
-      if (type != null) 'Type': type.value,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
 
-class SubResourceType {
-  static const ip = SubResourceType._('IP');
-  static const url = SubResourceType._('URL');
+/// Describes the attack.
+class AttackVectorDescription {
+  /// The attack type. Valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// UDP_TRAFFIC
+  /// </li>
+  /// <li>
+  /// UDP_FRAGMENT
+  /// </li>
+  /// <li>
+  /// GENERIC_UDP_REFLECTION
+  /// </li>
+  /// <li>
+  /// DNS_REFLECTION
+  /// </li>
+  /// <li>
+  /// NTP_REFLECTION
+  /// </li>
+  /// <li>
+  /// CHARGEN_REFLECTION
+  /// </li>
+  /// <li>
+  /// SSDP_REFLECTION
+  /// </li>
+  /// <li>
+  /// PORT_MAPPER
+  /// </li>
+  /// <li>
+  /// RIP_REFLECTION
+  /// </li>
+  /// <li>
+  /// SNMP_REFLECTION
+  /// </li>
+  /// <li>
+  /// MSSQL_REFLECTION
+  /// </li>
+  /// <li>
+  /// NET_BIOS_REFLECTION
+  /// </li>
+  /// <li>
+  /// SYN_FLOOD
+  /// </li>
+  /// <li>
+  /// ACK_FLOOD
+  /// </li>
+  /// <li>
+  /// REQUEST_FLOOD
+  /// </li>
+  /// <li>
+  /// HTTP_REFLECTION
+  /// </li>
+  /// <li>
+  /// UDS_REFLECTION
+  /// </li>
+  /// <li>
+  /// MEMCACHED_REFLECTION
+  /// </li>
+  /// </ul>
+  final String vectorType;
+
+  AttackVectorDescription({
+    required this.vectorType,
+  });
+
+  factory AttackVectorDescription.fromJson(Map<String, dynamic> json) {
+    return AttackVectorDescription(
+      vectorType: (json['VectorType'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vectorType = this.vectorType;
+    return {
+      'VectorType': vectorType,
+    };
+  }
+}
+
+/// The time range.
+class TimeRange {
+  /// The start time, in Unix time in seconds.
+  final DateTime? fromInclusive;
+
+  /// The end time, in Unix time in seconds.
+  final DateTime? toExclusive;
+
+  TimeRange({
+    this.fromInclusive,
+    this.toExclusive,
+  });
+
+  factory TimeRange.fromJson(Map<String, dynamic> json) {
+    return TimeRange(
+      fromInclusive: timeStampFromJson(json['FromInclusive']),
+      toExclusive: timeStampFromJson(json['ToExclusive']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fromInclusive = this.fromInclusive;
+    final toExclusive = this.toExclusive;
+    return {
+      if (fromInclusive != null)
+        'FromInclusive': unixTimestampToJson(fromInclusive),
+      if (toExclusive != null) 'ToExclusive': unixTimestampToJson(toExclusive),
+    };
+  }
+}
+
+class SubscriptionState {
+  static const active = SubscriptionState._('ACTIVE');
+  static const inactive = SubscriptionState._('INACTIVE');
 
   final String value;
 
-  const SubResourceType._(this.value);
+  const SubscriptionState._(this.value);
 
-  static const values = [ip, url];
+  static const values = [active, inactive];
 
-  static SubResourceType fromString(String value) =>
+  static SubscriptionState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => SubResourceType._(value));
+          orElse: () => SubscriptionState._(value));
 
   @override
-  bool operator ==(other) => other is SubResourceType && other.value == value;
+  bool operator ==(other) => other is SubscriptionState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3701,6 +3229,32 @@ class Subscription {
   }
 }
 
+class ProactiveEngagementStatus {
+  static const enabled = ProactiveEngagementStatus._('ENABLED');
+  static const disabled = ProactiveEngagementStatus._('DISABLED');
+  static const pending = ProactiveEngagementStatus._('PENDING');
+
+  final String value;
+
+  const ProactiveEngagementStatus._(this.value);
+
+  static const values = [enabled, disabled, pending];
+
+  static ProactiveEngagementStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProactiveEngagementStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProactiveEngagementStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Limits settings for your subscription.
 class SubscriptionLimits {
   /// Limits settings on protection groups for your subscription.
@@ -3735,22 +3289,458 @@ class SubscriptionLimits {
   }
 }
 
-class SubscriptionState {
-  static const active = SubscriptionState._('ACTIVE');
-  static const inactive = SubscriptionState._('INACTIVE');
+/// Limits settings on protections for your subscription.
+class ProtectionLimits {
+  /// The maximum number of resource types that you can specify in a protection.
+  final List<Limit> protectedResourceTypeLimits;
+
+  ProtectionLimits({
+    required this.protectedResourceTypeLimits,
+  });
+
+  factory ProtectionLimits.fromJson(Map<String, dynamic> json) {
+    return ProtectionLimits(
+      protectedResourceTypeLimits:
+          ((json['ProtectedResourceTypeLimits'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => Limit.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final protectedResourceTypeLimits = this.protectedResourceTypeLimits;
+    return {
+      'ProtectedResourceTypeLimits': protectedResourceTypeLimits,
+    };
+  }
+}
+
+/// Limits settings on protection groups for your subscription.
+class ProtectionGroupLimits {
+  /// The maximum number of protection groups that you can have at one time.
+  final int maxProtectionGroups;
+
+  /// Limits settings by pattern type in the protection groups for your
+  /// subscription.
+  final ProtectionGroupPatternTypeLimits patternTypeLimits;
+
+  ProtectionGroupLimits({
+    required this.maxProtectionGroups,
+    required this.patternTypeLimits,
+  });
+
+  factory ProtectionGroupLimits.fromJson(Map<String, dynamic> json) {
+    return ProtectionGroupLimits(
+      maxProtectionGroups: (json['MaxProtectionGroups'] as int?) ?? 0,
+      patternTypeLimits: ProtectionGroupPatternTypeLimits.fromJson(
+          (json['PatternTypeLimits'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxProtectionGroups = this.maxProtectionGroups;
+    final patternTypeLimits = this.patternTypeLimits;
+    return {
+      'MaxProtectionGroups': maxProtectionGroups,
+      'PatternTypeLimits': patternTypeLimits,
+    };
+  }
+}
+
+/// Limits settings by pattern type in the protection groups for your
+/// subscription.
+class ProtectionGroupPatternTypeLimits {
+  /// Limits settings on protection groups with arbitrary pattern type.
+  final ProtectionGroupArbitraryPatternLimits arbitraryPatternLimits;
+
+  ProtectionGroupPatternTypeLimits({
+    required this.arbitraryPatternLimits,
+  });
+
+  factory ProtectionGroupPatternTypeLimits.fromJson(Map<String, dynamic> json) {
+    return ProtectionGroupPatternTypeLimits(
+      arbitraryPatternLimits: ProtectionGroupArbitraryPatternLimits.fromJson(
+          (json['ArbitraryPatternLimits'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arbitraryPatternLimits = this.arbitraryPatternLimits;
+    return {
+      'ArbitraryPatternLimits': arbitraryPatternLimits,
+    };
+  }
+}
+
+/// Limits settings on protection groups with arbitrary pattern type.
+class ProtectionGroupArbitraryPatternLimits {
+  /// The maximum number of resources you can specify for a single arbitrary
+  /// pattern in a protection group.
+  final int maxMembers;
+
+  ProtectionGroupArbitraryPatternLimits({
+    required this.maxMembers,
+  });
+
+  factory ProtectionGroupArbitraryPatternLimits.fromJson(
+      Map<String, dynamic> json) {
+    return ProtectionGroupArbitraryPatternLimits(
+      maxMembers: (json['MaxMembers'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxMembers = this.maxMembers;
+    return {
+      'MaxMembers': maxMembers,
+    };
+  }
+}
+
+/// Specifies how many protections of a given type you can create.
+class Limit {
+  /// The maximum number of protections that can be created for the specified
+  /// <code>Type</code>.
+  final int? max;
+
+  /// The type of protection.
+  final String? type;
+
+  Limit({
+    this.max,
+    this.type,
+  });
+
+  factory Limit.fromJson(Map<String, dynamic> json) {
+    return Limit(
+      max: json['Max'] as int?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final type = this.type;
+    return {
+      if (max != null) 'Max': max,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// A single attack statistics data record. This is returned by
+/// <a>DescribeAttackStatistics</a> along with a time range indicating the time
+/// period that the attack statistics apply to.
+class AttackStatisticsDataItem {
+  /// The number of attacks detected during the time period. This is always
+  /// present, but might be zero.
+  final int attackCount;
+
+  /// Information about the volume of attacks during the time period. If the
+  /// accompanying <code>AttackCount</code> is zero, this setting might be empty.
+  final AttackVolume? attackVolume;
+
+  AttackStatisticsDataItem({
+    required this.attackCount,
+    this.attackVolume,
+  });
+
+  factory AttackStatisticsDataItem.fromJson(Map<String, dynamic> json) {
+    return AttackStatisticsDataItem(
+      attackCount: (json['AttackCount'] as int?) ?? 0,
+      attackVolume: json['AttackVolume'] != null
+          ? AttackVolume.fromJson(json['AttackVolume'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attackCount = this.attackCount;
+    final attackVolume = this.attackVolume;
+    return {
+      'AttackCount': attackCount,
+      if (attackVolume != null) 'AttackVolume': attackVolume,
+    };
+  }
+}
+
+/// Information about the volume of attacks during the time period, included in
+/// an <a>AttackStatisticsDataItem</a>. If the accompanying
+/// <code>AttackCount</code> in the statistics object is zero, this setting
+/// might be empty.
+class AttackVolume {
+  /// A statistics object that uses bits per second as the unit. This is included
+  /// for network level attacks.
+  final AttackVolumeStatistics? bitsPerSecond;
+
+  /// A statistics object that uses packets per second as the unit. This is
+  /// included for network level attacks.
+  final AttackVolumeStatistics? packetsPerSecond;
+
+  /// A statistics object that uses requests per second as the unit. This is
+  /// included for application level attacks, and is only available for accounts
+  /// that are subscribed to Shield Advanced.
+  final AttackVolumeStatistics? requestsPerSecond;
+
+  AttackVolume({
+    this.bitsPerSecond,
+    this.packetsPerSecond,
+    this.requestsPerSecond,
+  });
+
+  factory AttackVolume.fromJson(Map<String, dynamic> json) {
+    return AttackVolume(
+      bitsPerSecond: json['BitsPerSecond'] != null
+          ? AttackVolumeStatistics.fromJson(
+              json['BitsPerSecond'] as Map<String, dynamic>)
+          : null,
+      packetsPerSecond: json['PacketsPerSecond'] != null
+          ? AttackVolumeStatistics.fromJson(
+              json['PacketsPerSecond'] as Map<String, dynamic>)
+          : null,
+      requestsPerSecond: json['RequestsPerSecond'] != null
+          ? AttackVolumeStatistics.fromJson(
+              json['RequestsPerSecond'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bitsPerSecond = this.bitsPerSecond;
+    final packetsPerSecond = this.packetsPerSecond;
+    final requestsPerSecond = this.requestsPerSecond;
+    return {
+      if (bitsPerSecond != null) 'BitsPerSecond': bitsPerSecond,
+      if (packetsPerSecond != null) 'PacketsPerSecond': packetsPerSecond,
+      if (requestsPerSecond != null) 'RequestsPerSecond': requestsPerSecond,
+    };
+  }
+}
+
+/// Statistics objects for the various data types in <a>AttackVolume</a>.
+class AttackVolumeStatistics {
+  /// The maximum attack volume observed for the given unit.
+  final double max;
+
+  AttackVolumeStatistics({
+    required this.max,
+  });
+
+  factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) {
+    return AttackVolumeStatistics(
+      max: (json['Max'] as double?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    return {
+      'Max': max,
+    };
+  }
+}
+
+/// The details of a DDoS attack.
+class AttackDetail {
+  /// List of counters that describe the attack for the specified time period.
+  final List<SummarizedCounter>? attackCounters;
+
+  /// The unique identifier (ID) of the attack.
+  final String? attackId;
+
+  /// The array of objects that provide details of the Shield event.
+  ///
+  /// For infrastructure layer events (L3 and L4 events), you can view metrics for
+  /// top contributors in Amazon CloudWatch metrics. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms">Shield
+  /// metrics and alarms</a> in the <i>WAF Developer Guide</i>.
+  final List<AttackProperty>? attackProperties;
+
+  /// The time the attack ended, in Unix time in seconds.
+  final DateTime? endTime;
+
+  /// List of mitigation actions taken for the attack.
+  final List<Mitigation>? mitigations;
+
+  /// The ARN (Amazon Resource Name) of the resource that was attacked.
+  final String? resourceArn;
+
+  /// The time the attack started, in Unix time in seconds.
+  final DateTime? startTime;
+
+  /// If applicable, additional detail about the resource being attacked, for
+  /// example, IP address or URL.
+  final List<SubResourceSummary>? subResources;
+
+  AttackDetail({
+    this.attackCounters,
+    this.attackId,
+    this.attackProperties,
+    this.endTime,
+    this.mitigations,
+    this.resourceArn,
+    this.startTime,
+    this.subResources,
+  });
+
+  factory AttackDetail.fromJson(Map<String, dynamic> json) {
+    return AttackDetail(
+      attackCounters: (json['AttackCounters'] as List?)
+          ?.nonNulls
+          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attackId: json['AttackId'] as String?,
+      attackProperties: (json['AttackProperties'] as List?)
+          ?.nonNulls
+          .map((e) => AttackProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      endTime: timeStampFromJson(json['EndTime']),
+      mitigations: (json['Mitigations'] as List?)
+          ?.nonNulls
+          .map((e) => Mitigation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceArn: json['ResourceArn'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      subResources: (json['SubResources'] as List?)
+          ?.nonNulls
+          .map((e) => SubResourceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attackCounters = this.attackCounters;
+    final attackId = this.attackId;
+    final attackProperties = this.attackProperties;
+    final endTime = this.endTime;
+    final mitigations = this.mitigations;
+    final resourceArn = this.resourceArn;
+    final startTime = this.startTime;
+    final subResources = this.subResources;
+    return {
+      if (attackCounters != null) 'AttackCounters': attackCounters,
+      if (attackId != null) 'AttackId': attackId,
+      if (attackProperties != null) 'AttackProperties': attackProperties,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (mitigations != null) 'Mitigations': mitigations,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (subResources != null) 'SubResources': subResources,
+    };
+  }
+}
+
+/// The mitigation applied to a DDoS attack.
+class Mitigation {
+  /// The name of the mitigation taken for this attack.
+  final String? mitigationName;
+
+  Mitigation({
+    this.mitigationName,
+  });
+
+  factory Mitigation.fromJson(Map<String, dynamic> json) {
+    return Mitigation(
+      mitigationName: json['MitigationName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mitigationName = this.mitigationName;
+    return {
+      if (mitigationName != null) 'MitigationName': mitigationName,
+    };
+  }
+}
+
+/// Details of a Shield event. This is provided as part of an
+/// <a>AttackDetail</a>.
+class AttackProperty {
+  /// The type of Shield event that was observed. <code>NETWORK</code> indicates
+  /// layer 3 and layer 4 events and <code>APPLICATION</code> indicates layer 7
+  /// events.
+  ///
+  /// For infrastructure layer events (L3 and L4 events), you can view metrics for
+  /// top contributors in Amazon CloudWatch metrics. For more information, see <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#set-ddos-alarms">Shield
+  /// metrics and alarms</a> in the <i>WAF Developer Guide</i>.
+  final AttackLayer? attackLayer;
+
+  /// Defines the Shield event property information that is provided. The
+  /// <code>WORDPRESS_PINGBACK_REFLECTOR</code> and
+  /// <code>WORDPRESS_PINGBACK_SOURCE</code> values are valid only for WordPress
+  /// reflective pingback events.
+  final AttackPropertyIdentifier? attackPropertyIdentifier;
+
+  /// Contributor objects for the top five contributors to a Shield event. A
+  /// contributor is a source of traffic that Shield Advanced identifies as
+  /// responsible for some or all of an event.
+  final List<Contributor>? topContributors;
+
+  /// The total contributions made to this Shield event by all contributors.
+  final int? total;
+
+  /// The unit used for the <code>Contributor</code> <code>Value</code> property.
+  final Unit? unit;
+
+  AttackProperty({
+    this.attackLayer,
+    this.attackPropertyIdentifier,
+    this.topContributors,
+    this.total,
+    this.unit,
+  });
+
+  factory AttackProperty.fromJson(Map<String, dynamic> json) {
+    return AttackProperty(
+      attackLayer:
+          (json['AttackLayer'] as String?)?.let(AttackLayer.fromString),
+      attackPropertyIdentifier: (json['AttackPropertyIdentifier'] as String?)
+          ?.let(AttackPropertyIdentifier.fromString),
+      topContributors: (json['TopContributors'] as List?)
+          ?.nonNulls
+          .map((e) => Contributor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      total: json['Total'] as int?,
+      unit: (json['Unit'] as String?)?.let(Unit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attackLayer = this.attackLayer;
+    final attackPropertyIdentifier = this.attackPropertyIdentifier;
+    final topContributors = this.topContributors;
+    final total = this.total;
+    final unit = this.unit;
+    return {
+      if (attackLayer != null) 'AttackLayer': attackLayer.value,
+      if (attackPropertyIdentifier != null)
+        'AttackPropertyIdentifier': attackPropertyIdentifier.value,
+      if (topContributors != null) 'TopContributors': topContributors,
+      if (total != null) 'Total': total,
+      if (unit != null) 'Unit': unit.value,
+    };
+  }
+}
+
+class AttackLayer {
+  static const network = AttackLayer._('NETWORK');
+  static const application = AttackLayer._('APPLICATION');
 
   final String value;
 
-  const SubscriptionState._(this.value);
+  const AttackLayer._(this.value);
 
-  static const values = [active, inactive];
+  static const values = [network, application];
 
-  static SubscriptionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SubscriptionState._(value));
+  static AttackLayer fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AttackLayer._(value));
 
   @override
-  bool operator ==(other) => other is SubscriptionState && other.value == value;
+  bool operator ==(other) => other is AttackLayer && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3759,35 +3749,106 @@ class SubscriptionState {
   String toString() => value;
 }
 
-/// A summary of information about the attack.
-class SummarizedAttackVector {
-  /// The attack type, for example, SNMP reflection or SYN flood.
-  final String vectorType;
+class AttackPropertyIdentifier {
+  static const destinationUrl = AttackPropertyIdentifier._('DESTINATION_URL');
+  static const referrer = AttackPropertyIdentifier._('REFERRER');
+  static const sourceAsn = AttackPropertyIdentifier._('SOURCE_ASN');
+  static const sourceCountry = AttackPropertyIdentifier._('SOURCE_COUNTRY');
+  static const sourceIpAddress =
+      AttackPropertyIdentifier._('SOURCE_IP_ADDRESS');
+  static const sourceUserAgent =
+      AttackPropertyIdentifier._('SOURCE_USER_AGENT');
+  static const wordpressPingbackReflector =
+      AttackPropertyIdentifier._('WORDPRESS_PINGBACK_REFLECTOR');
+  static const wordpressPingbackSource =
+      AttackPropertyIdentifier._('WORDPRESS_PINGBACK_SOURCE');
 
-  /// The list of counters that describe the details of the attack.
-  final List<SummarizedCounter>? vectorCounters;
+  final String value;
 
-  SummarizedAttackVector({
-    required this.vectorType,
-    this.vectorCounters,
+  const AttackPropertyIdentifier._(this.value);
+
+  static const values = [
+    destinationUrl,
+    referrer,
+    sourceAsn,
+    sourceCountry,
+    sourceIpAddress,
+    sourceUserAgent,
+    wordpressPingbackReflector,
+    wordpressPingbackSource
+  ];
+
+  static AttackPropertyIdentifier fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttackPropertyIdentifier._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttackPropertyIdentifier && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Unit {
+  static const bits = Unit._('BITS');
+  static const bytes = Unit._('BYTES');
+  static const packets = Unit._('PACKETS');
+  static const requests = Unit._('REQUESTS');
+
+  final String value;
+
+  const Unit._(this.value);
+
+  static const values = [bits, bytes, packets, requests];
+
+  static Unit fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+
+  @override
+  bool operator ==(other) => other is Unit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A contributor to the attack and their contribution.
+class Contributor {
+  /// The name of the contributor. The type of name that you'll find here depends
+  /// on the <code>AttackPropertyIdentifier</code> setting in the
+  /// <code>AttackProperty</code> where this contributor is defined. For example,
+  /// if the <code>AttackPropertyIdentifier</code> is <code>SOURCE_COUNTRY</code>,
+  /// the <code>Name</code> could be <code>United States</code>.
+  final String? name;
+
+  /// The contribution of this contributor expressed in <a>Protection</a> units.
+  /// For example <code>10,000</code>.
+  final int? value;
+
+  Contributor({
+    this.name,
+    this.value,
   });
 
-  factory SummarizedAttackVector.fromJson(Map<String, dynamic> json) {
-    return SummarizedAttackVector(
-      vectorType: (json['VectorType'] as String?) ?? '',
-      vectorCounters: (json['VectorCounters'] as List?)
-          ?.nonNulls
-          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory Contributor.fromJson(Map<String, dynamic> json) {
+    return Contributor(
+      name: json['Name'] as String?,
+      value: json['Value'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final vectorType = this.vectorType;
-    final vectorCounters = this.vectorCounters;
+    final name = this.name;
+    final value = this.value;
     return {
-      'VectorType': vectorType,
-      if (vectorCounters != null) 'VectorCounters': vectorCounters,
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
     };
   }
 }
@@ -3850,107 +3911,73 @@ class SummarizedCounter {
   }
 }
 
-/// A tag associated with an Amazon Web Services resource. Tags are key:value
-/// pairs that you can use to categorize and manage your resources, for purposes
-/// like billing or other management. Typically, the tag key represents a
-/// category, such as "environment", and the tag value represents a specific
-/// value within that category, such as "test," "development," or "production".
-/// Or you might set the tag key to "customer" and the value to the customer
-/// name or ID. You can specify one or more tags to add to each Amazon Web
-/// Services resource, up to 50 tags for a resource.
-class Tag {
-  /// Part of the key:value pair that defines a tag. You can use a tag key to
-  /// describe a category of information, such as "customer." Tag keys are
-  /// case-sensitive.
-  final String? key;
+/// The attack information for the specified SubResource.
+class SubResourceSummary {
+  /// The list of attack types and associated counters.
+  final List<SummarizedAttackVector>? attackVectors;
 
-  /// Part of the key:value pair that defines a tag. You can use a tag value to
-  /// describe a specific value within a category, such as "companyA" or
-  /// "companyB." Tag values are case-sensitive.
-  final String? value;
+  /// The counters that describe the details of the attack.
+  final List<SummarizedCounter>? counters;
 
-  Tag({
-    this.key,
-    this.value,
+  /// The unique identifier (ID) of the <code>SubResource</code>.
+  final String? id;
+
+  /// The <code>SubResource</code> type.
+  final SubResourceType? type;
+
+  SubResourceSummary({
+    this.attackVectors,
+    this.counters,
+    this.id,
+    this.type,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
+  factory SubResourceSummary.fromJson(Map<String, dynamic> json) {
+    return SubResourceSummary(
+      attackVectors: (json['AttackVectors'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => SummarizedAttackVector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      counters: (json['Counters'] as List?)
+          ?.nonNulls
+          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      type: (json['Type'] as String?)?.let(SubResourceType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final attackVectors = this.attackVectors;
+    final counters = this.counters;
+    final id = this.id;
+    final type = this.type;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (attackVectors != null) 'AttackVectors': attackVectors,
+      if (counters != null) 'Counters': counters,
+      if (id != null) 'Id': id,
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The time range.
-class TimeRange {
-  /// The start time, in Unix time in seconds.
-  final DateTime? fromInclusive;
-
-  /// The end time, in Unix time in seconds.
-  final DateTime? toExclusive;
-
-  TimeRange({
-    this.fromInclusive,
-    this.toExclusive,
-  });
-
-  factory TimeRange.fromJson(Map<String, dynamic> json) {
-    return TimeRange(
-      fromInclusive: timeStampFromJson(json['FromInclusive']),
-      toExclusive: timeStampFromJson(json['ToExclusive']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fromInclusive = this.fromInclusive;
-    final toExclusive = this.toExclusive;
-    return {
-      if (fromInclusive != null)
-        'FromInclusive': unixTimestampToJson(fromInclusive),
-      if (toExclusive != null) 'ToExclusive': unixTimestampToJson(toExclusive),
-    };
-  }
-}
-
-class Unit {
-  static const bits = Unit._('BITS');
-  static const bytes = Unit._('BYTES');
-  static const packets = Unit._('PACKETS');
-  static const requests = Unit._('REQUESTS');
+class SubResourceType {
+  static const ip = SubResourceType._('IP');
+  static const url = SubResourceType._('URL');
 
   final String value;
 
-  const Unit._(this.value);
+  const SubResourceType._(this.value);
 
-  static const values = [bits, bytes, packets, requests];
+  static const values = [ip, url];
 
-  static Unit fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Unit._(value));
+  static SubResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SubResourceType._(value));
 
   @override
-  bool operator ==(other) => other is Unit && other.value == value;
+  bool operator ==(other) => other is SubResourceType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3959,65 +3986,36 @@ class Unit {
   String toString() => value;
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// A summary of information about the attack.
+class SummarizedAttackVector {
+  /// The attack type, for example, SNMP reflection or SYN flood.
+  final String vectorType;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
+  /// The list of counters that describe the details of the attack.
+  final List<SummarizedCounter>? vectorCounters;
+
+  SummarizedAttackVector({
+    required this.vectorType,
+    this.vectorCounters,
+  });
+
+  factory SummarizedAttackVector.fromJson(Map<String, dynamic> json) {
+    return SummarizedAttackVector(
+      vectorType: (json['VectorType'] as String?) ?? '',
+      vectorCounters: (json['VectorCounters'] as List?)
+          ?.nonNulls
+          .map((e) => SummarizedCounter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateApplicationLayerAutomaticResponseResponse {
-  UpdateApplicationLayerAutomaticResponseResponse();
-
-  factory UpdateApplicationLayerAutomaticResponseResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateApplicationLayerAutomaticResponseResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateEmergencyContactSettingsResponse {
-  UpdateEmergencyContactSettingsResponse();
-
-  factory UpdateEmergencyContactSettingsResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateEmergencyContactSettingsResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateProtectionGroupResponse {
-  UpdateProtectionGroupResponse();
-
-  factory UpdateProtectionGroupResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateProtectionGroupResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateSubscriptionResponse {
-  UpdateSubscriptionResponse();
-
-  factory UpdateSubscriptionResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateSubscriptionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
+    final vectorType = this.vectorType;
+    final vectorCounters = this.vectorCounters;
+    return {
+      'VectorType': vectorType,
+      if (vectorCounters != null) 'VectorCounters': vectorCounters,
+    };
   }
 }
 

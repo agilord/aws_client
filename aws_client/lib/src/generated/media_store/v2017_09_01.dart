@@ -34,7 +34,6 @@ class MediaStore {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'mediastore',
-            signingName: 'mediastore',
           ),
           region: region,
           credentials: credentials,
@@ -55,8 +54,8 @@ class MediaStore {
   /// bucket in the Amazon S3 service.
   ///
   /// May throw [ContainerInUseException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerError].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [containerName] :
   /// The name for the container. The name must be from 1 to 255 characters.
@@ -130,8 +129,8 @@ class MediaStore {
   ///
   /// May throw [ContainerInUseException].
   /// May throw [ContainerNotFoundException].
-  /// May throw [PolicyNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [PolicyNotFoundException].
   ///
   /// Parameter [containerName] :
   /// The name of the container that holds the policy.
@@ -192,8 +191,8 @@ class MediaStore {
   ///
   /// May throw [ContainerInUseException].
   /// May throw [ContainerNotFoundException].
-  /// May throw [PolicyNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [PolicyNotFoundException].
   ///
   /// Parameter [containerName] :
   /// The name of the container that holds the object lifecycle policy.
@@ -222,8 +221,8 @@ class MediaStore {
   ///
   /// May throw [ContainerInUseException].
   /// May throw [ContainerNotFoundException].
-  /// May throw [PolicyNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [PolicyNotFoundException].
   ///
   /// Parameter [containerName] :
   /// The name of the container that is associated with the metric policy that
@@ -289,8 +288,8 @@ class MediaStore {
   ///
   /// May throw [ContainerInUseException].
   /// May throw [ContainerNotFoundException].
-  /// May throw [PolicyNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [PolicyNotFoundException].
   ///
   /// Parameter [containerName] :
   /// The name of the container.
@@ -354,8 +353,8 @@ class MediaStore {
   ///
   /// May throw [ContainerInUseException].
   /// May throw [ContainerNotFoundException].
-  /// May throw [PolicyNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [PolicyNotFoundException].
   ///
   /// Parameter [containerName] :
   /// The name of the container that the object lifecycle policy is assigned to.
@@ -382,10 +381,10 @@ class MediaStore {
 
   /// Returns the metric policy for the specified container.
   ///
-  /// May throw [ContainerNotFoundException].
-  /// May throw [PolicyNotFoundException].
   /// May throw [ContainerInUseException].
+  /// May throw [ContainerNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [PolicyNotFoundException].
   ///
   /// Parameter [containerName] :
   /// The name of the container that is associated with the metric policy.
@@ -502,8 +501,8 @@ class MediaStore {
   /// container. If you enter <code>PutContainerPolicy</code> twice, the second
   /// command modifies the existing policy.
   ///
-  /// May throw [ContainerNotFoundException].
   /// May throw [ContainerInUseException].
+  /// May throw [ContainerNotFoundException].
   /// May throw [InternalServerError].
   ///
   /// Parameter [containerName] :
@@ -559,8 +558,8 @@ class MediaStore {
   /// href="https://docs.aws.amazon.com/mediastore/latest/ug/cors-policy.html">Cross-Origin
   /// Resource Sharing (CORS) in AWS Elemental MediaStore</a>.
   ///
-  /// May throw [ContainerNotFoundException].
   /// May throw [ContainerInUseException].
+  /// May throw [ContainerNotFoundException].
   /// May throw [InternalServerError].
   ///
   /// Parameter [containerName] :
@@ -823,229 +822,10 @@ class MediaStore {
   }
 }
 
-/// This section describes operations that you can perform on an AWS Elemental
-/// MediaStore container.
-class Container {
-  /// The Amazon Resource Name (ARN) of the container. The ARN has the following
-  /// format:
-  ///
-  /// arn:aws:&lt;region&gt;:&lt;account that owns this
-  /// container&gt;:container/&lt;name of container&gt;
-  ///
-  /// For example: arn:aws:mediastore:us-west-2:111122223333:container/movies
-  final String? arn;
-
-  /// The state of access logging on the container. This value is
-  /// <code>false</code> by default, indicating that AWS Elemental MediaStore does
-  /// not send access logs to Amazon CloudWatch Logs. When you enable access
-  /// logging on the container, MediaStore changes this value to
-  /// <code>true</code>, indicating that the service delivers access logs for
-  /// objects stored in that container to CloudWatch Logs.
-  final bool? accessLoggingEnabled;
-
-  /// Unix timestamp.
-  final DateTime? creationTime;
-
-  /// The DNS endpoint of the container. Use the endpoint to identify the specific
-  /// container when sending requests to the data plane. The service assigns this
-  /// value when the container is created. Once the value has been assigned, it
-  /// does not change.
-  final String? endpoint;
-
-  /// The name of the container.
-  final String? name;
-
-  /// The status of container creation or deletion. The status is one of the
-  /// following: <code>CREATING</code>, <code>ACTIVE</code>, or
-  /// <code>DELETING</code>. While the service is creating the container, the
-  /// status is <code>CREATING</code>. When the endpoint is available, the status
-  /// changes to <code>ACTIVE</code>.
-  final ContainerStatus? status;
-
-  Container({
-    this.arn,
-    this.accessLoggingEnabled,
-    this.creationTime,
-    this.endpoint,
-    this.name,
-    this.status,
-  });
-
-  factory Container.fromJson(Map<String, dynamic> json) {
-    return Container(
-      arn: json['ARN'] as String?,
-      accessLoggingEnabled: json['AccessLoggingEnabled'] as bool?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      endpoint: json['Endpoint'] as String?,
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(ContainerStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final accessLoggingEnabled = this.accessLoggingEnabled;
-    final creationTime = this.creationTime;
-    final endpoint = this.endpoint;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (arn != null) 'ARN': arn,
-      if (accessLoggingEnabled != null)
-        'AccessLoggingEnabled': accessLoggingEnabled,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (endpoint != null) 'Endpoint': endpoint,
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class ContainerLevelMetrics {
-  static const enabled = ContainerLevelMetrics._('ENABLED');
-  static const disabled = ContainerLevelMetrics._('DISABLED');
-
-  final String value;
-
-  const ContainerLevelMetrics._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ContainerLevelMetrics fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContainerLevelMetrics._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContainerLevelMetrics && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ContainerStatus {
-  static const active = ContainerStatus._('ACTIVE');
-  static const creating = ContainerStatus._('CREATING');
-  static const deleting = ContainerStatus._('DELETING');
-
-  final String value;
-
-  const ContainerStatus._(this.value);
-
-  static const values = [active, creating, deleting];
-
-  static ContainerStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContainerStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ContainerStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If
-/// more than one rule applies, the service uses the first applicable rule
-/// listed.
-class CorsRule {
-  /// Specifies which headers are allowed in a preflight <code>OPTIONS</code>
-  /// request through the <code>Access-Control-Request-Headers</code> header. Each
-  /// header name that is specified in <code>Access-Control-Request-Headers</code>
-  /// must have a corresponding entry in the rule. Only the headers that were
-  /// requested are sent back.
-  ///
-  /// This element can contain only one wildcard character (*).
-  final List<String> allowedHeaders;
-
-  /// One or more response headers that you want users to be able to access from
-  /// their applications (for example, from a JavaScript
-  /// <code>XMLHttpRequest</code> object).
-  ///
-  /// Each CORS rule must have at least one <code>AllowedOrigins</code> element.
-  /// The string value can include only one wildcard character (*), for example,
-  /// http://*.example.com. Additionally, you can specify only one wildcard
-  /// character to allow cross-origin access for all origins.
-  final List<String> allowedOrigins;
-
-  /// Identifies an HTTP method that the origin that is specified in the rule is
-  /// allowed to execute.
-  ///
-  /// Each CORS rule must contain at least one <code>AllowedMethods</code> and one
-  /// <code>AllowedOrigins</code> element.
-  final List<MethodName>? allowedMethods;
-
-  /// One or more headers in the response that you want users to be able to access
-  /// from their applications (for example, from a JavaScript
-  /// <code>XMLHttpRequest</code> object).
-  ///
-  /// This element is optional for each rule.
-  final List<String>? exposeHeaders;
-
-  /// The time in seconds that your browser caches the preflight response for the
-  /// specified resource.
-  ///
-  /// A CORS rule can have only one <code>MaxAgeSeconds</code> element.
-  final int? maxAgeSeconds;
-
-  CorsRule({
-    required this.allowedHeaders,
-    required this.allowedOrigins,
-    this.allowedMethods,
-    this.exposeHeaders,
-    this.maxAgeSeconds,
-  });
-
-  factory CorsRule.fromJson(Map<String, dynamic> json) {
-    return CorsRule(
-      allowedHeaders: ((json['AllowedHeaders'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      allowedOrigins: ((json['AllowedOrigins'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      allowedMethods: (json['AllowedMethods'] as List?)
-          ?.nonNulls
-          .map((e) => MethodName.fromString((e as String)))
-          .toList(),
-      exposeHeaders: (json['ExposeHeaders'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      maxAgeSeconds: json['MaxAgeSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedHeaders = this.allowedHeaders;
-    final allowedOrigins = this.allowedOrigins;
-    final allowedMethods = this.allowedMethods;
-    final exposeHeaders = this.exposeHeaders;
-    final maxAgeSeconds = this.maxAgeSeconds;
-    return {
-      'AllowedHeaders': allowedHeaders,
-      'AllowedOrigins': allowedOrigins,
-      if (allowedMethods != null)
-        'AllowedMethods': allowedMethods.map((e) => e.value).toList(),
-      if (exposeHeaders != null) 'ExposeHeaders': exposeHeaders,
-      if (maxAgeSeconds != null) 'MaxAgeSeconds': maxAgeSeconds,
-    };
-  }
-}
-
 class CreateContainerOutput {
   /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container.
-  /// The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that
-  /// owns this container&gt;:container/&lt;name of container&gt;. For example:
+  /// The ARN has the following format: arn:aws:<region>:<account that owns this
+  /// container>:container/<name of container>. For example:
   /// arn:aws:mediastore:us-west-2:111122223333:container/movies
   ///
   /// ContainerName: The container name as specified in the request.
@@ -1320,115 +1100,6 @@ class ListTagsForResourceOutput {
   }
 }
 
-class MethodName {
-  static const put = MethodName._('PUT');
-  static const get = MethodName._('GET');
-  static const delete = MethodName._('DELETE');
-  static const head = MethodName._('HEAD');
-
-  final String value;
-
-  const MethodName._(this.value);
-
-  static const values = [put, get, delete, head];
-
-  static MethodName fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MethodName._(value));
-
-  @override
-  bool operator ==(other) => other is MethodName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The metric policy that is associated with the container. A metric policy
-/// allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. In the
-/// policy, you must indicate whether you want MediaStore to send
-/// container-level metrics. You can also include rules to define groups of
-/// objects that you want MediaStore to send object-level metrics for.
-///
-/// To view examples of how to construct a metric policy for your use case, see
-/// <a
-/// href="https://docs.aws.amazon.com/mediastore/latest/ug/policies-metric-examples.html">Example
-/// Metric Policies</a>.
-class MetricPolicy {
-  /// A setting to enable or disable metrics at the container level.
-  final ContainerLevelMetrics containerLevelMetrics;
-
-  /// A parameter that holds an array of rules that enable metrics at the object
-  /// level. This parameter is optional, but if you choose to include it, you must
-  /// also include at least one rule. By default, you can include up to five
-  /// rules. You can also <a
-  /// href="https://console.aws.amazon.com/servicequotas/home?region=us-east-1#!/services/mediastore/quotas">request
-  /// a quota increase</a> to allow up to 300 rules per policy.
-  final List<MetricPolicyRule>? metricPolicyRules;
-
-  MetricPolicy({
-    required this.containerLevelMetrics,
-    this.metricPolicyRules,
-  });
-
-  factory MetricPolicy.fromJson(Map<String, dynamic> json) {
-    return MetricPolicy(
-      containerLevelMetrics: ContainerLevelMetrics.fromString(
-          (json['ContainerLevelMetrics'] as String?) ?? ''),
-      metricPolicyRules: (json['MetricPolicyRules'] as List?)
-          ?.nonNulls
-          .map((e) => MetricPolicyRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final containerLevelMetrics = this.containerLevelMetrics;
-    final metricPolicyRules = this.metricPolicyRules;
-    return {
-      'ContainerLevelMetrics': containerLevelMetrics.value,
-      if (metricPolicyRules != null) 'MetricPolicyRules': metricPolicyRules,
-    };
-  }
-}
-
-/// A setting that enables metrics at the object level. Each rule contains an
-/// object group and an object group name. If the policy includes the
-/// MetricPolicyRules parameter, you must include at least one rule. Each metric
-/// policy can include up to five rules by default. You can also <a
-/// href="https://console.aws.amazon.com/servicequotas/home?region=us-east-1#!/services/mediastore/quotas">request
-/// a quota increase</a> to allow up to 300 rules per policy.
-class MetricPolicyRule {
-  /// A path or file name that defines which objects to include in the group.
-  /// Wildcards (*) are acceptable.
-  final String objectGroup;
-
-  /// A name that allows you to refer to the object group.
-  final String objectGroupName;
-
-  MetricPolicyRule({
-    required this.objectGroup,
-    required this.objectGroupName,
-  });
-
-  factory MetricPolicyRule.fromJson(Map<String, dynamic> json) {
-    return MetricPolicyRule(
-      objectGroup: (json['ObjectGroup'] as String?) ?? '',
-      objectGroupName: (json['ObjectGroupName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final objectGroup = this.objectGroup;
-    final objectGroupName = this.objectGroupName;
-    return {
-      'ObjectGroup': objectGroup,
-      'ObjectGroupName': objectGroupName,
-    };
-  }
-}
-
 class PutContainerPolicyOutput {
   PutContainerPolicyOutput();
 
@@ -1501,6 +1172,30 @@ class StopAccessLoggingOutput {
   }
 }
 
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 /// A collection of tags associated with a container. Each tag consists of a
 /// key:value pair, which can be anything you define. Typically, the tag key
 /// represents a category (such as "environment") and the tag value represents a
@@ -1542,28 +1237,332 @@ class Tag {
   }
 }
 
-class TagResourceOutput {
-  TagResourceOutput();
+/// The metric policy that is associated with the container. A metric policy
+/// allows AWS Elemental MediaStore to send metrics to Amazon CloudWatch. In the
+/// policy, you must indicate whether you want MediaStore to send
+/// container-level metrics. You can also include rules to define groups of
+/// objects that you want MediaStore to send object-level metrics for.
+///
+/// To view examples of how to construct a metric policy for your use case, see
+/// <a
+/// href="https://docs.aws.amazon.com/mediastore/latest/ug/policies-metric-examples.html">Example
+/// Metric Policies</a>.
+class MetricPolicy {
+  /// A setting to enable or disable metrics at the container level.
+  final ContainerLevelMetrics containerLevelMetrics;
 
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
+  /// A parameter that holds an array of rules that enable metrics at the object
+  /// level. This parameter is optional, but if you choose to include it, you must
+  /// also include at least one rule. By default, you can include up to five
+  /// rules. You can also <a
+  /// href="https://console.aws.amazon.com/servicequotas/home?region=us-east-1#!/services/mediastore/quotas">request
+  /// a quota increase</a> to allow up to 300 rules per policy.
+  final List<MetricPolicyRule>? metricPolicyRules;
+
+  MetricPolicy({
+    required this.containerLevelMetrics,
+    this.metricPolicyRules,
+  });
+
+  factory MetricPolicy.fromJson(Map<String, dynamic> json) {
+    return MetricPolicy(
+      containerLevelMetrics: ContainerLevelMetrics.fromString(
+          (json['ContainerLevelMetrics'] as String?) ?? ''),
+      metricPolicyRules: (json['MetricPolicyRules'] as List?)
+          ?.nonNulls
+          .map((e) => MetricPolicyRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final containerLevelMetrics = this.containerLevelMetrics;
+    final metricPolicyRules = this.metricPolicyRules;
+    return {
+      'ContainerLevelMetrics': containerLevelMetrics.value,
+      if (metricPolicyRules != null) 'MetricPolicyRules': metricPolicyRules,
+    };
   }
 }
 
-class UntagResourceOutput {
-  UntagResourceOutput();
+class ContainerLevelMetrics {
+  static const enabled = ContainerLevelMetrics._('ENABLED');
+  static const disabled = ContainerLevelMetrics._('DISABLED');
 
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
+  final String value;
+
+  const ContainerLevelMetrics._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ContainerLevelMetrics fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerLevelMetrics._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerLevelMetrics && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A setting that enables metrics at the object level. Each rule contains an
+/// object group and an object group name. If the policy includes the
+/// MetricPolicyRules parameter, you must include at least one rule. Each metric
+/// policy can include up to five rules by default. You can also <a
+/// href="https://console.aws.amazon.com/servicequotas/home?region=us-east-1#!/services/mediastore/quotas">request
+/// a quota increase</a> to allow up to 300 rules per policy.
+class MetricPolicyRule {
+  /// A path or file name that defines which objects to include in the group.
+  /// Wildcards (*) are acceptable.
+  final String objectGroup;
+
+  /// A name that allows you to refer to the object group.
+  final String objectGroupName;
+
+  MetricPolicyRule({
+    required this.objectGroup,
+    required this.objectGroupName,
+  });
+
+  factory MetricPolicyRule.fromJson(Map<String, dynamic> json) {
+    return MetricPolicyRule(
+      objectGroup: (json['ObjectGroup'] as String?) ?? '',
+      objectGroupName: (json['ObjectGroupName'] as String?) ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final objectGroup = this.objectGroup;
+    final objectGroupName = this.objectGroupName;
+    return {
+      'ObjectGroup': objectGroup,
+      'ObjectGroupName': objectGroupName,
+    };
   }
+}
+
+/// A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If
+/// more than one rule applies, the service uses the first applicable rule
+/// listed.
+class CorsRule {
+  /// Specifies which headers are allowed in a preflight <code>OPTIONS</code>
+  /// request through the <code>Access-Control-Request-Headers</code> header. Each
+  /// header name that is specified in <code>Access-Control-Request-Headers</code>
+  /// must have a corresponding entry in the rule. Only the headers that were
+  /// requested are sent back.
+  ///
+  /// This element can contain only one wildcard character (*).
+  final List<String> allowedHeaders;
+
+  /// One or more response headers that you want users to be able to access from
+  /// their applications (for example, from a JavaScript
+  /// <code>XMLHttpRequest</code> object).
+  ///
+  /// Each CORS rule must have at least one <code>AllowedOrigins</code> element.
+  /// The string value can include only one wildcard character (*), for example,
+  /// http://*.example.com. Additionally, you can specify only one wildcard
+  /// character to allow cross-origin access for all origins.
+  final List<String> allowedOrigins;
+
+  /// Identifies an HTTP method that the origin that is specified in the rule is
+  /// allowed to execute.
+  ///
+  /// Each CORS rule must contain at least one <code>AllowedMethods</code> and one
+  /// <code>AllowedOrigins</code> element.
+  final List<MethodName>? allowedMethods;
+
+  /// One or more headers in the response that you want users to be able to access
+  /// from their applications (for example, from a JavaScript
+  /// <code>XMLHttpRequest</code> object).
+  ///
+  /// This element is optional for each rule.
+  final List<String>? exposeHeaders;
+
+  /// The time in seconds that your browser caches the preflight response for the
+  /// specified resource.
+  ///
+  /// A CORS rule can have only one <code>MaxAgeSeconds</code> element.
+  final int? maxAgeSeconds;
+
+  CorsRule({
+    required this.allowedHeaders,
+    required this.allowedOrigins,
+    this.allowedMethods,
+    this.exposeHeaders,
+    this.maxAgeSeconds,
+  });
+
+  factory CorsRule.fromJson(Map<String, dynamic> json) {
+    return CorsRule(
+      allowedHeaders: ((json['AllowedHeaders'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedOrigins: ((json['AllowedOrigins'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      allowedMethods: (json['AllowedMethods'] as List?)
+          ?.nonNulls
+          .map((e) => MethodName.fromString((e as String)))
+          .toList(),
+      exposeHeaders: (json['ExposeHeaders'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      maxAgeSeconds: json['MaxAgeSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedHeaders = this.allowedHeaders;
+    final allowedOrigins = this.allowedOrigins;
+    final allowedMethods = this.allowedMethods;
+    final exposeHeaders = this.exposeHeaders;
+    final maxAgeSeconds = this.maxAgeSeconds;
+    return {
+      'AllowedHeaders': allowedHeaders,
+      'AllowedOrigins': allowedOrigins,
+      if (allowedMethods != null)
+        'AllowedMethods': allowedMethods.map((e) => e.value).toList(),
+      if (exposeHeaders != null) 'ExposeHeaders': exposeHeaders,
+      if (maxAgeSeconds != null) 'MaxAgeSeconds': maxAgeSeconds,
+    };
+  }
+}
+
+class MethodName {
+  static const put = MethodName._('PUT');
+  static const get = MethodName._('GET');
+  static const delete = MethodName._('DELETE');
+  static const head = MethodName._('HEAD');
+
+  final String value;
+
+  const MethodName._(this.value);
+
+  static const values = [put, get, delete, head];
+
+  static MethodName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MethodName._(value));
+
+  @override
+  bool operator ==(other) => other is MethodName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This section describes operations that you can perform on an AWS Elemental
+/// MediaStore container.
+class Container {
+  /// The Amazon Resource Name (ARN) of the container. The ARN has the following
+  /// format:
+  ///
+  /// arn:aws:<region>:<account that owns this container>:container/<name of
+  /// container>
+  ///
+  /// For example: arn:aws:mediastore:us-west-2:111122223333:container/movies
+  final String? arn;
+
+  /// The state of access logging on the container. This value is
+  /// <code>false</code> by default, indicating that AWS Elemental MediaStore does
+  /// not send access logs to Amazon CloudWatch Logs. When you enable access
+  /// logging on the container, MediaStore changes this value to
+  /// <code>true</code>, indicating that the service delivers access logs for
+  /// objects stored in that container to CloudWatch Logs.
+  final bool? accessLoggingEnabled;
+
+  /// Unix timestamp.
+  final DateTime? creationTime;
+
+  /// The DNS endpoint of the container. Use the endpoint to identify the specific
+  /// container when sending requests to the data plane. The service assigns this
+  /// value when the container is created. Once the value has been assigned, it
+  /// does not change.
+  final String? endpoint;
+
+  /// The name of the container.
+  final String? name;
+
+  /// The status of container creation or deletion. The status is one of the
+  /// following: <code>CREATING</code>, <code>ACTIVE</code>, or
+  /// <code>DELETING</code>. While the service is creating the container, the
+  /// status is <code>CREATING</code>. When the endpoint is available, the status
+  /// changes to <code>ACTIVE</code>.
+  final ContainerStatus? status;
+
+  Container({
+    this.arn,
+    this.accessLoggingEnabled,
+    this.creationTime,
+    this.endpoint,
+    this.name,
+    this.status,
+  });
+
+  factory Container.fromJson(Map<String, dynamic> json) {
+    return Container(
+      arn: json['ARN'] as String?,
+      accessLoggingEnabled: json['AccessLoggingEnabled'] as bool?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      endpoint: json['Endpoint'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.let(ContainerStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final accessLoggingEnabled = this.accessLoggingEnabled;
+    final creationTime = this.creationTime;
+    final endpoint = this.endpoint;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (accessLoggingEnabled != null)
+        'AccessLoggingEnabled': accessLoggingEnabled,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ContainerStatus {
+  static const active = ContainerStatus._('ACTIVE');
+  static const creating = ContainerStatus._('CREATING');
+  static const deleting = ContainerStatus._('DELETING');
+
+  final String value;
+
+  const ContainerStatus._(this.value);
+
+  static const values = [active, creating, deleting];
+
+  static ContainerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ContainerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ContainerInUseException extends _s.GenericAwsException {

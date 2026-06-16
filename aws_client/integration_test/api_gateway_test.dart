@@ -1,4 +1,4 @@
-import 'package:aws_client/api_gateway_2015_07_09.dart';
+import 'package:aws_client/api_gateway.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

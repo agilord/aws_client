@@ -20,7 +20,7 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// <p/>
+///
 class PersonalizeRuntime {
   final _s.RestJsonProtocol _protocol;
   PersonalizeRuntime({
@@ -464,41 +464,6 @@ class GetRecommendationsResponse {
   }
 }
 
-/// An object that identifies an action.
-///
-/// The API returns a list of <code>PredictedAction</code>s.
-class PredictedAction {
-  /// The ID of the recommended action.
-  final String? actionId;
-
-  /// The score of the recommended action. For information about action scores,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html">How
-  /// action recommendation scoring works</a>.
-  final double? score;
-
-  PredictedAction({
-    this.actionId,
-    this.score,
-  });
-
-  factory PredictedAction.fromJson(Map<String, dynamic> json) {
-    return PredictedAction(
-      actionId: json['actionId'] as String?,
-      score: json['score'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionId = this.actionId;
-    final score = this.score;
-    return {
-      if (actionId != null) 'actionId': actionId,
-      if (score != null) 'score': score,
-    };
-  }
-}
-
 /// An object that identifies an item.
 ///
 /// The and APIs return a list of <code>PredictedItem</code>s.
@@ -628,6 +593,41 @@ class Promotion {
       if (name != null) 'name': name,
       if (percentPromotedItems != null)
         'percentPromotedItems': percentPromotedItems,
+    };
+  }
+}
+
+/// An object that identifies an action.
+///
+/// The API returns a list of <code>PredictedAction</code>s.
+class PredictedAction {
+  /// The ID of the recommended action.
+  final String? actionId;
+
+  /// The score of the recommended action. For information about action scores,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/how-action-recommendation-scoring-works.html">How
+  /// action recommendation scoring works</a>.
+  final double? score;
+
+  PredictedAction({
+    this.actionId,
+    this.score,
+  });
+
+  factory PredictedAction.fromJson(Map<String, dynamic> json) {
+    return PredictedAction(
+      actionId: json['actionId'] as String?,
+      score: json['score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final score = this.score;
+    return {
+      if (actionId != null) 'actionId': actionId,
+      if (score != null) 'score': score,
     };
   }
 }

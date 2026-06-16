@@ -54,7 +54,6 @@ class CostAndUsageReport {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'cur',
-            signingName: 'cur',
           ),
           region: region,
           credentials: credentials,
@@ -137,8 +136,8 @@ class CostAndUsageReport {
 
   /// Lists the tags associated with the specified report definition.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [reportName] :
@@ -192,10 +191,10 @@ class CostAndUsageReport {
   /// Creates a new report using the description that you provide.
   ///
   /// May throw [DuplicateReportNameException].
-  /// May throw [ReportLimitReachedException].
   /// May throw [InternalErrorException].
-  /// May throw [ValidationException].
+  /// May throw [ReportLimitReachedException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [reportDefinition] :
   /// Represents the output of the PutReportDefinition operation. The content
@@ -226,8 +225,8 @@ class CostAndUsageReport {
 
   /// Associates a set of tags with a report definition.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [reportName] :
@@ -259,8 +258,8 @@ class CostAndUsageReport {
 
   /// Disassociates a set of tags from a report definition.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [reportName] :
@@ -289,140 +288,6 @@ class CostAndUsageReport {
       },
     );
   }
-}
-
-/// The region of the S3 bucket that Amazon Web Services delivers the report
-/// into.
-class AWSRegion {
-  static const afSouth_1 = AWSRegion._('af-south-1');
-  static const apEast_1 = AWSRegion._('ap-east-1');
-  static const apSouth_1 = AWSRegion._('ap-south-1');
-  static const apSouth_2 = AWSRegion._('ap-south-2');
-  static const apSoutheast_1 = AWSRegion._('ap-southeast-1');
-  static const apSoutheast_2 = AWSRegion._('ap-southeast-2');
-  static const apSoutheast_3 = AWSRegion._('ap-southeast-3');
-  static const apNortheast_1 = AWSRegion._('ap-northeast-1');
-  static const apNortheast_2 = AWSRegion._('ap-northeast-2');
-  static const apNortheast_3 = AWSRegion._('ap-northeast-3');
-  static const caCentral_1 = AWSRegion._('ca-central-1');
-  static const euCentral_1 = AWSRegion._('eu-central-1');
-  static const euCentral_2 = AWSRegion._('eu-central-2');
-  static const euWest_1 = AWSRegion._('eu-west-1');
-  static const euWest_2 = AWSRegion._('eu-west-2');
-  static const euWest_3 = AWSRegion._('eu-west-3');
-  static const euNorth_1 = AWSRegion._('eu-north-1');
-  static const euSouth_1 = AWSRegion._('eu-south-1');
-  static const euSouth_2 = AWSRegion._('eu-south-2');
-  static const meCentral_1 = AWSRegion._('me-central-1');
-  static const meSouth_1 = AWSRegion._('me-south-1');
-  static const saEast_1 = AWSRegion._('sa-east-1');
-  static const usEast_1 = AWSRegion._('us-east-1');
-  static const usEast_2 = AWSRegion._('us-east-2');
-  static const usWest_1 = AWSRegion._('us-west-1');
-  static const usWest_2 = AWSRegion._('us-west-2');
-  static const cnNorth_1 = AWSRegion._('cn-north-1');
-  static const cnNorthwest_1 = AWSRegion._('cn-northwest-1');
-
-  final String value;
-
-  const AWSRegion._(this.value);
-
-  static const values = [
-    afSouth_1,
-    apEast_1,
-    apSouth_1,
-    apSouth_2,
-    apSoutheast_1,
-    apSoutheast_2,
-    apSoutheast_3,
-    apNortheast_1,
-    apNortheast_2,
-    apNortheast_3,
-    caCentral_1,
-    euCentral_1,
-    euCentral_2,
-    euWest_1,
-    euWest_2,
-    euWest_3,
-    euNorth_1,
-    euSouth_1,
-    euSouth_2,
-    meCentral_1,
-    meSouth_1,
-    saEast_1,
-    usEast_1,
-    usEast_2,
-    usWest_1,
-    usWest_2,
-    cnNorth_1,
-    cnNorthwest_1
-  ];
-
-  static AWSRegion fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AWSRegion._(value));
-
-  @override
-  bool operator ==(other) => other is AWSRegion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The types of manifest that you want Amazon Web Services to create for this
-/// report.
-class AdditionalArtifact {
-  static const redshift = AdditionalArtifact._('REDSHIFT');
-  static const quicksight = AdditionalArtifact._('QUICKSIGHT');
-  static const athena = AdditionalArtifact._('ATHENA');
-
-  final String value;
-
-  const AdditionalArtifact._(this.value);
-
-  static const values = [redshift, quicksight, athena];
-
-  static AdditionalArtifact fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AdditionalArtifact._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AdditionalArtifact && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The compression format that Amazon Web Services uses for the report.
-class CompressionFormat {
-  static const zip = CompressionFormat._('ZIP');
-  static const gzip = CompressionFormat._('GZIP');
-  static const parquet = CompressionFormat._('Parquet');
-
-  final String value;
-
-  const CompressionFormat._(this.value);
-
-  static const values = [zip, gzip, parquet];
-
-  static CompressionFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CompressionFormat._(value));
-
-  @override
-  bool operator ==(other) => other is CompressionFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
@@ -480,30 +345,6 @@ class DescribeReportDefinitionsResponse {
   }
 }
 
-class LastStatus {
-  static const success = LastStatus._('SUCCESS');
-  static const errorPermissions = LastStatus._('ERROR_PERMISSIONS');
-  static const errorNoBucket = LastStatus._('ERROR_NO_BUCKET');
-
-  final String value;
-
-  const LastStatus._(this.value);
-
-  static const values = [success, errorPermissions, errorNoBucket];
-
-  static LastStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LastStatus._(value));
-
-  @override
-  bool operator ==(other) => other is LastStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListTagsForResourceResponse {
   /// The tags assigned to the report definition resource.
   final List<Tag>? tags;
@@ -552,6 +393,64 @@ class PutReportDefinitionResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
+/// report definition.
+class Tag {
+  /// The key of the tag. Tag keys are case sensitive. Each report definition can
+  /// only have up to one tag with the same key. If you try to add an existing tag
+  /// with the same key, the existing tag value will be updated to the new value.
+  final String key;
+
+  /// The value of the tag. Tag values are case-sensitive. This can be an empty
+  /// string.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
   }
 }
 
@@ -674,6 +573,31 @@ class ReportDefinition {
   }
 }
 
+/// The length of time covered by the report.
+class TimeUnit {
+  static const hourly = TimeUnit._('HOURLY');
+  static const daily = TimeUnit._('DAILY');
+  static const monthly = TimeUnit._('MONTHLY');
+
+  final String value;
+
+  const TimeUnit._(this.value);
+
+  static const values = [hourly, daily, monthly];
+
+  static TimeUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeUnit._(value));
+
+  @override
+  bool operator ==(other) => other is TimeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// The format that Amazon Web Services saves the report in.
 class ReportFormat {
   static const textORcsv = ReportFormat._('textORcsv');
@@ -690,6 +614,136 @@ class ReportFormat {
 
   @override
   bool operator ==(other) => other is ReportFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The compression format that Amazon Web Services uses for the report.
+class CompressionFormat {
+  static const zip = CompressionFormat._('ZIP');
+  static const gzip = CompressionFormat._('GZIP');
+  static const parquet = CompressionFormat._('Parquet');
+
+  final String value;
+
+  const CompressionFormat._(this.value);
+
+  static const values = [zip, gzip, parquet];
+
+  static CompressionFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CompressionFormat._(value));
+
+  @override
+  bool operator ==(other) => other is CompressionFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The region of the S3 bucket that Amazon Web Services delivers the report
+/// into.
+class AWSRegion {
+  static const afSouth_1 = AWSRegion._('af-south-1');
+  static const apEast_1 = AWSRegion._('ap-east-1');
+  static const apSouth_1 = AWSRegion._('ap-south-1');
+  static const apSouth_2 = AWSRegion._('ap-south-2');
+  static const apSoutheast_1 = AWSRegion._('ap-southeast-1');
+  static const apSoutheast_2 = AWSRegion._('ap-southeast-2');
+  static const apSoutheast_3 = AWSRegion._('ap-southeast-3');
+  static const apNortheast_1 = AWSRegion._('ap-northeast-1');
+  static const apNortheast_2 = AWSRegion._('ap-northeast-2');
+  static const apNortheast_3 = AWSRegion._('ap-northeast-3');
+  static const caCentral_1 = AWSRegion._('ca-central-1');
+  static const euCentral_1 = AWSRegion._('eu-central-1');
+  static const euCentral_2 = AWSRegion._('eu-central-2');
+  static const euWest_1 = AWSRegion._('eu-west-1');
+  static const euWest_2 = AWSRegion._('eu-west-2');
+  static const euWest_3 = AWSRegion._('eu-west-3');
+  static const euNorth_1 = AWSRegion._('eu-north-1');
+  static const euSouth_1 = AWSRegion._('eu-south-1');
+  static const euSouth_2 = AWSRegion._('eu-south-2');
+  static const meCentral_1 = AWSRegion._('me-central-1');
+  static const meSouth_1 = AWSRegion._('me-south-1');
+  static const saEast_1 = AWSRegion._('sa-east-1');
+  static const usEast_1 = AWSRegion._('us-east-1');
+  static const usEast_2 = AWSRegion._('us-east-2');
+  static const usWest_1 = AWSRegion._('us-west-1');
+  static const usWest_2 = AWSRegion._('us-west-2');
+  static const cnNorth_1 = AWSRegion._('cn-north-1');
+  static const cnNorthwest_1 = AWSRegion._('cn-northwest-1');
+
+  final String value;
+
+  const AWSRegion._(this.value);
+
+  static const values = [
+    afSouth_1,
+    apEast_1,
+    apSouth_1,
+    apSouth_2,
+    apSoutheast_1,
+    apSoutheast_2,
+    apSoutheast_3,
+    apNortheast_1,
+    apNortheast_2,
+    apNortheast_3,
+    caCentral_1,
+    euCentral_1,
+    euCentral_2,
+    euWest_1,
+    euWest_2,
+    euWest_3,
+    euNorth_1,
+    euSouth_1,
+    euSouth_2,
+    meCentral_1,
+    meSouth_1,
+    saEast_1,
+    usEast_1,
+    usEast_2,
+    usWest_1,
+    usWest_2,
+    cnNorth_1,
+    cnNorthwest_1
+  ];
+
+  static AWSRegion fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AWSRegion._(value));
+
+  @override
+  bool operator ==(other) => other is AWSRegion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ReportVersioning {
+  static const createNewReport = ReportVersioning._('CREATE_NEW_REPORT');
+  static const overwriteReport = ReportVersioning._('OVERWRITE_REPORT');
+
+  final String value;
+
+  const ReportVersioning._(this.value);
+
+  static const values = [createNewReport, overwriteReport];
+
+  static ReportVersioning fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReportVersioning._(value));
+
+  @override
+  bool operator ==(other) => other is ReportVersioning && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -730,22 +784,50 @@ class ReportStatus {
   }
 }
 
-class ReportVersioning {
-  static const createNewReport = ReportVersioning._('CREATE_NEW_REPORT');
-  static const overwriteReport = ReportVersioning._('OVERWRITE_REPORT');
+class LastStatus {
+  static const success = LastStatus._('SUCCESS');
+  static const errorPermissions = LastStatus._('ERROR_PERMISSIONS');
+  static const errorNoBucket = LastStatus._('ERROR_NO_BUCKET');
 
   final String value;
 
-  const ReportVersioning._(this.value);
+  const LastStatus._(this.value);
 
-  static const values = [createNewReport, overwriteReport];
+  static const values = [success, errorPermissions, errorNoBucket];
 
-  static ReportVersioning fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReportVersioning._(value));
+  static LastStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LastStatus._(value));
 
   @override
-  bool operator ==(other) => other is ReportVersioning && other.value == value;
+  bool operator ==(other) => other is LastStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The types of manifest that you want Amazon Web Services to create for this
+/// report.
+class AdditionalArtifact {
+  static const redshift = AdditionalArtifact._('REDSHIFT');
+  static const quicksight = AdditionalArtifact._('QUICKSIGHT');
+  static const athena = AdditionalArtifact._('ATHENA');
+
+  final String value;
+
+  const AdditionalArtifact._(this.value);
+
+  static const values = [redshift, quicksight, athena];
+
+  static AdditionalArtifact fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdditionalArtifact._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdditionalArtifact && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -784,89 +866,6 @@ class SchemaElement {
 
   @override
   String toString() => value;
-}
-
-/// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
-/// report definition.
-class Tag {
-  /// The key of the tag. Tag keys are case sensitive. Each report definition can
-  /// only have up to one tag with the same key. If you try to add an existing tag
-  /// with the same key, the existing tag value will be updated to the new value.
-  final String key;
-
-  /// The value of the tag. Tag values are case-sensitive. This can be an empty
-  /// string.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The length of time covered by the report.
-class TimeUnit {
-  static const hourly = TimeUnit._('HOURLY');
-  static const daily = TimeUnit._('DAILY');
-  static const monthly = TimeUnit._('MONTHLY');
-
-  final String value;
-
-  const TimeUnit._(this.value);
-
-  static const values = [hourly, daily, monthly];
-
-  static TimeUnit fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TimeUnit._(value));
-
-  @override
-  bool operator ==(other) => other is TimeUnit && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
 }
 
 class DuplicateReportNameException extends _s.GenericAwsException {

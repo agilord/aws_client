@@ -20,6 +20,12 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
+/// Amazon FSx File Gateway is no longer available to new customers. Existing
+/// customers of FSx File Gateway can continue to use the service normally. For
+/// capabilities similar to FSx File Gateway, visit <a
+/// href="https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/">this
+/// blog post</a>.
+/// </important>
 /// Storage Gateway is the service that connects an on-premises software
 /// appliance with cloud-based storage to provide seamless and secure
 /// integration between an organization's on-premises IT environment and the
@@ -65,8 +71,8 @@ class StorageGateway {
   /// You must turn on the gateway VM before you can activate your gateway.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [activationKey] :
   /// Your gateway activation key. You can obtain the activation key by sending
@@ -112,7 +118,13 @@ class StorageGateway {
   /// A value that defines the type of gateway to activate. The type specified
   /// is critical to all later functions of the gateway and cannot be changed
   /// after activation. The default value is <code>CACHED</code>.
-  ///
+  /// <important>
+  /// Amazon FSx File Gateway is no longer available to new customers. Existing
+  /// customers of FSx File Gateway can continue to use the service normally.
+  /// For capabilities similar to FSx File Gateway, visit <a
+  /// href="https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/">this
+  /// blog post</a>.
+  /// </important>
   /// Valid Values: <code>STORED</code> | <code>CACHED</code> | <code>VTL</code>
   /// | <code>FILE_S3</code> | <code>FILE_FSX_SMB</code>
   ///
@@ -183,8 +195,8 @@ class StorageGateway {
   /// which you want to add cache, and one or more disk IDs that you want to
   /// configure as cache.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [diskIds] :
   /// An array of strings that identify disks that are to be configured as
@@ -239,8 +251,8 @@ class StorageGateway {
   /// You can create a maximum of 50 tags for each resource. Virtual tapes and
   /// storage volumes that are recovered to a new gateway maintain their tags.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource you want to add tags to.
@@ -285,8 +297,8 @@ class StorageGateway {
   /// which you want to add upload buffer, and one or more disk IDs that you
   /// want to configure as upload buffer.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [diskIds] :
   /// An array of strings that identify disks that are to be configured as
@@ -328,8 +340,8 @@ class StorageGateway {
   /// which you want to add working storage, and one or more disk IDs that you
   /// want to configure as working storage.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [diskIds] :
   /// An array of strings that identify disks that are to be configured as
@@ -364,8 +376,8 @@ class StorageGateway {
   /// directly into the S3 storage class (S3 Glacier or S3 Glacier Deep Archive)
   /// that corresponds to the pool.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [poolId] :
   /// The ID of the pool that you want to add your tape to for archiving. The
@@ -418,8 +430,8 @@ class StorageGateway {
   /// system are available for access through the gateway. This operation only
   /// supports the FSx File Gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [clientToken] :
   /// A unique string value that you supply that is used by the FSx File Gateway
@@ -496,8 +508,8 @@ class StorageGateway {
   /// a snapshot. It also makes it easier to move your volumes from an
   /// on-premises gateway to a gateway hosted on an Amazon EC2 instance.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [gatewayARN] :
   /// The Amazon Resource Name (ARN) of the gateway that you want to attach the
@@ -505,7 +517,7 @@ class StorageGateway {
   ///
   /// Parameter [networkInterfaceId] :
   /// The network interface of the gateway on which to expose the iSCSI target.
-  /// Only IPv4 addresses are accepted. Use <a>DescribeGatewayInformation</a> to
+  /// Accepts IPv4 and IPv6 addresses. Use <a>DescribeGatewayInformation</a> to
   /// get a list of the network interfaces available on a gateway.
   ///
   /// Valid Values: A valid IP address.
@@ -561,8 +573,8 @@ class StorageGateway {
   /// the archiving process is initiated. This operation is only supported in
   /// the tape gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [tapeARN] :
   /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel
@@ -590,13 +602,45 @@ class StorageGateway {
     return CancelArchivalOutput.fromJson(jsonResponse.body);
   }
 
+  /// Cancels generation of a specified cache report. You can use this operation
+  /// to manually cancel an IN-PROGRESS report for any reason. This action
+  /// changes the report status from IN-PROGRESS to CANCELLED. You can only
+  /// cancel in-progress reports. If the the report you attempt to cancel is in
+  /// FAILED, ERROR, or COMPLETED state, the cancel operation returns an error.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
+  ///
+  /// Parameter [cacheReportARN] :
+  /// The Amazon Resource Name (ARN) of the cache report you want to cancel.
+  Future<CancelCacheReportOutput> cancelCacheReport({
+    required String cacheReportARN,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.CancelCacheReport'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CacheReportARN': cacheReportARN,
+      },
+    );
+
+    return CancelCacheReportOutput.fromJson(jsonResponse.body);
+  }
+
   /// Cancels retrieval of a virtual tape from the virtual tape shelf (VTS) to a
   /// gateway after the retrieval process is initiated. The virtual tape is
   /// returned to the VTS. This operation is only supported in the tape gateway
   /// type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [tapeARN] :
   /// The Amazon Resource Name (ARN) of the virtual tape you want to cancel
@@ -644,8 +688,8 @@ class StorageGateway {
   /// <code>VolumeSizeInBytes</code> value must be equal to or larger than the
   /// size of the copied volume, in bytes.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [clientToken] :
   /// A unique identifier that you use to retry a request. If you retry a
@@ -654,7 +698,7 @@ class StorageGateway {
   ///
   /// Parameter [networkInterfaceId] :
   /// The network interface of the gateway on which to expose the iSCSI target.
-  /// Only IPv4 addresses are accepted. Use <a>DescribeGatewayInformation</a> to
+  /// Accepts IPv4 and IPv6 addresses. Use <a>DescribeGatewayInformation</a> to
   /// get a list of the network interfaces available on a gateway.
   ///
   /// Valid Values: A valid IP address.
@@ -767,8 +811,8 @@ class StorageGateway {
   /// share.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [clientToken] :
   /// A unique string value that you supply that is used by S3 File Gateway to
@@ -788,7 +832,7 @@ class StorageGateway {
   ///
   /// Bucket ARN:
   ///
-  /// <code>arn:aws:s3:::my-bucket/prefix/</code>
+  /// <code>arn:aws:s3:::amzn-s3-demo-bucket/prefix/</code>
   ///
   /// Access point ARN:
   ///
@@ -825,7 +869,7 @@ class StorageGateway {
   ///
   /// Parameter [clientList] :
   /// The list of clients that are allowed to access the S3 File Gateway. The
-  /// list must contain either valid IP addresses or valid CIDR blocks.
+  /// list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
@@ -835,12 +879,34 @@ class StorageGateway {
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
   /// <code>S3_ONEZONE_IA</code>
   ///
+  /// Parameter [encryptionType] :
+  /// A value that specifies the type of server-side encryption that the file
+  /// share will use for the data that it stores in Amazon S3.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
+  ///
+  /// If values for both parameters exist in the same request, then the
+  /// specified encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>, then <code>KMSEncrypted</code> must be
+  /// <code>true</code>.
+  /// </note>
+  ///
   /// Parameter [fileShareName] :
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
   /// <code>LocationARN</code>, or if an access point or access point alias is
   /// used.
+  ///
+  /// A valid NFS file share name can only contain the following characters:
+  /// <code>a</code>-<code>z</code>, <code>A</code>-<code>Z</code>,
+  /// <code>0</code>-<code>9</code>, <code>-</code>, <code>.</code>, and
+  /// <code>_</code>.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -852,17 +918,32 @@ class StorageGateway {
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
   /// Parameter [kMSEncrypted] :
-  /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
-  /// Optional.
+  /// Optional. Set to <code>true</code> to use Amazon S3 server-side encryption
+  /// with your own KMS key (SSE-KMS), or <code>false</code> to use a key
+  /// managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS),
+  /// set the <code>EncryptionType</code> parameter instead.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
   ///
+  /// If values for both parameters exist in the same request, then the
+  /// specified encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>, then <code>KMSEncrypted</code> must be
+  /// <code>true</code>.
+  /// </note>
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
   /// Parameter [kMSKey] :
-  /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK)
-  /// used for Amazon S3 server-side encryption. Storage Gateway does not
-  /// support asymmetric CMKs. This value can only be set when
-  /// <code>KMSEncrypted</code> is <code>true</code>. Optional.
+  /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master
+  /// key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does
+  /// not support asymmetric CMKs. This value must be set if
+  /// <code>KMSEncrypted</code> is <code>true</code>, or if
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>.
   ///
   /// Parameter [nFSFileShareDefaults] :
   /// File share default values. Optional.
@@ -878,6 +959,10 @@ class StorageGateway {
   /// <note>
   /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the
   /// object uploading to Amazon S3, only the timing of the notification.
+  ///
+  /// This setting is not meant to specify an exact time at which the
+  /// notification will be sent. In some cases, the gateway might require more
+  /// than the specified delay time to generate and send notifications.
   /// </note>
   /// The following example sets <code>NotificationPolicy</code> on with
   /// <code>SettlingTimeInSeconds</code> set to 60.
@@ -958,6 +1043,7 @@ class StorageGateway {
     CacheAttributes? cacheAttributes,
     List<String>? clientList,
     String? defaultStorageClass,
+    EncryptionType? encryptionType,
     String? fileShareName,
     bool? guessMIMETypeEnabled,
     bool? kMSEncrypted,
@@ -993,6 +1079,7 @@ class StorageGateway {
         if (clientList != null) 'ClientList': clientList,
         if (defaultStorageClass != null)
           'DefaultStorageClass': defaultStorageClass,
+        if (encryptionType != null) 'EncryptionType': encryptionType.value,
         if (fileShareName != null) 'FileShareName': fileShareName,
         if (guessMIMETypeEnabled != null)
           'GuessMIMETypeEnabled': guessMIMETypeEnabled,
@@ -1035,8 +1122,8 @@ class StorageGateway {
   /// share.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [clientToken] :
   /// A unique string value that you supply that is used by S3 File Gateway to
@@ -1055,7 +1142,7 @@ class StorageGateway {
   ///
   /// Bucket ARN:
   ///
-  /// <code>arn:aws:s3:::my-bucket/prefix/</code>
+  /// <code>arn:aws:s3:::amzn-s3-demo-bucket/prefix/</code>
   ///
   /// Access point ARN:
   ///
@@ -1125,12 +1212,33 @@ class StorageGateway {
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
   /// <code>S3_ONEZONE_IA</code>
   ///
+  /// Parameter [encryptionType] :
+  /// A value that specifies the type of server-side encryption that the file
+  /// share will use for the data that it stores in Amazon S3.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
+  ///
+  /// If values for both parameters exist in the same request, then the
+  /// specified encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>, then <code>KMSEncrypted</code> must be
+  /// <code>true</code>.
+  /// </note>
+  ///
   /// Parameter [fileShareName] :
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
   /// <code>LocationARN</code>, or if an access point or access point alias is
   /// used.
+  ///
+  /// A valid SMB file share name cannot contain the following characters:
+  /// <code>[</code>,<code>]</code>,<code>#</code>,<code>;</code>,<code><</code>,<code>></code>,<code>:</code>,<code>"</code>,<code>\</code>,<code>/</code>,<code>|</code>,<code>?</code>,<code>*</code>,<code>+</code>,
+  /// or ASCII control characters <code>1-31</code>.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -1149,17 +1257,32 @@ class StorageGateway {
   /// Authentication is set to <code>ActiveDirectory</code>.
   ///
   /// Parameter [kMSEncrypted] :
-  /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
-  /// Optional.
+  /// Optional. Set to <code>true</code> to use Amazon S3 server-side encryption
+  /// with your own KMS key (SSE-KMS), or <code>false</code> to use a key
+  /// managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS),
+  /// set the <code>EncryptionType</code> parameter instead.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
   ///
+  /// If values for both parameters exist in the same request, then the
+  /// specified encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>, then <code>KMSEncrypted</code> must be
+  /// <code>true</code>.
+  /// </note>
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
   /// Parameter [kMSKey] :
-  /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK)
-  /// used for Amazon S3 server-side encryption. Storage Gateway does not
-  /// support asymmetric CMKs. This value can only be set when
-  /// <code>KMSEncrypted</code> is <code>true</code>. Optional.
+  /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master
+  /// key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does
+  /// not support asymmetric CMKs. This value must be set if
+  /// <code>KMSEncrypted</code> is <code>true</code>, or if
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>.
   ///
   /// Parameter [notificationPolicy] :
   /// The notification policy of the file share.
@@ -1172,6 +1295,10 @@ class StorageGateway {
   /// <note>
   /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the
   /// object uploading to Amazon S3, only the timing of the notification.
+  ///
+  /// This setting is not meant to specify an exact time at which the
+  /// notification will be sent. In some cases, the gateway might require more
+  /// than the specified delay time to generate and send notifications.
   /// </note>
   /// The following example sets <code>NotificationPolicy</code> on with
   /// <code>SettlingTimeInSeconds</code> set to 60.
@@ -1222,9 +1349,9 @@ class StorageGateway {
   /// permissions to the POSIX permissions.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html">Using
-  /// Microsoft Windows ACLs to control access to an SMB file share</a> in the
-  /// <i>Storage Gateway User Guide</i>.
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html">Using
+  /// Windows ACLs to limit SMB file share access</a> in the <i>Amazon S3 File
+  /// Gateway User Guide</i>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
@@ -1249,7 +1376,7 @@ class StorageGateway {
   ///
   /// Parameter [validUserList] :
   /// A list of users or groups in the Active Directory that are allowed to
-  /// access the file <a href=""/> share. A group must be prefixed with the @
+  /// access the file <a href=""></a> share. A group must be prefixed with the @
   /// character. Acceptable formats include: <code>DOMAIN\User1</code>,
   /// <code>user1</code>, <code>@group1</code>, and <code>@DOMAIN\group1</code>.
   /// Can only be set if Authentication is set to <code>ActiveDirectory</code>.
@@ -1266,6 +1393,7 @@ class StorageGateway {
     CacheAttributes? cacheAttributes,
     CaseSensitivity? caseSensitivity,
     String? defaultStorageClass,
+    EncryptionType? encryptionType,
     String? fileShareName,
     bool? guessMIMETypeEnabled,
     List<String>? invalidUserList,
@@ -1307,6 +1435,7 @@ class StorageGateway {
         if (caseSensitivity != null) 'CaseSensitivity': caseSensitivity.value,
         if (defaultStorageClass != null)
           'DefaultStorageClass': defaultStorageClass,
+        if (encryptionType != null) 'EncryptionType': encryptionType.value,
         if (fileShareName != null) 'FileShareName': fileShareName,
         if (guessMIMETypeEnabled != null)
           'GuessMIMETypeEnabled': guessMIMETypeEnabled,
@@ -1363,8 +1492,8 @@ class StorageGateway {
   /// page.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   /// May throw [ServiceUnavailableError].
   ///
   /// Parameter [snapshotDescription] :
@@ -1435,8 +1564,8 @@ class StorageGateway {
   /// in the <i>Amazon Elastic Compute Cloud API Reference</i>.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   /// May throw [ServiceUnavailableError].
   ///
   /// Parameter [snapshotDescription] :
@@ -1501,8 +1630,8 @@ class StorageGateway {
   /// Name (ARN), its size, and the iSCSI target ARN that initiators can use to
   /// connect to the volume target.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [diskId] :
   /// The unique identifier for the gateway local disk that is configured as a
@@ -1512,7 +1641,7 @@ class StorageGateway {
   ///
   /// Parameter [networkInterfaceId] :
   /// The network interface of the gateway on which to expose the iSCSI target.
-  /// Only IPv4 addresses are accepted. Use <a>DescribeGatewayInformation</a> to
+  /// Accepts IPv4 and IPv6 addresses. Use <a>DescribeGatewayInformation</a> to
   /// get a list of the network interfaces available on a gateway.
   ///
   /// Valid Values: A valid IP address.
@@ -1603,8 +1732,8 @@ class StorageGateway {
   /// Creates a new custom tape pool. You can use custom tape pool to enable
   /// tape retention lock on tapes that are archived in the custom pool.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [poolName] :
   /// The name of the new custom tape pool.
@@ -1673,106 +1802,6 @@ class StorageGateway {
     return CreateTapePoolOutput.fromJson(jsonResponse.body);
   }
 
-  /// Creates a virtual tape by using your own barcode. You write data to the
-  /// virtual tape and then archive the tape. A barcode is unique and cannot be
-  /// reused if it has already been used on a tape. This applies to barcodes
-  /// used on deleted tapes. This operation is only supported in the tape
-  /// gateway type.
-  /// <note>
-  /// Cache storage must be allocated to the gateway before you can create a
-  /// virtual tape. Use the <a>AddCache</a> operation to add cache storage to a
-  /// gateway.
-  /// </note>
-  ///
-  /// May throw [InvalidGatewayRequestException].
-  /// May throw [InternalServerError].
-  ///
-  /// Parameter [gatewayARN] :
-  /// The unique Amazon Resource Name (ARN) that represents the gateway to
-  /// associate the virtual tape with. Use the <a>ListGateways</a> operation to
-  /// return a list of gateways for your account and Amazon Web Services Region.
-  ///
-  /// Parameter [tapeBarcode] :
-  /// The barcode that you want to assign to the tape.
-  /// <note>
-  /// Barcodes cannot be reused. This includes barcodes used for tapes that have
-  /// been deleted.
-  /// </note>
-  ///
-  /// Parameter [tapeSizeInBytes] :
-  /// The size, in bytes, of the virtual tape that you want to create.
-  /// <note>
-  /// The size must be aligned by gigabyte (1024*1024*1024 bytes).
-  /// </note>
-  ///
-  /// Parameter [kMSEncrypted] :
-  /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
-  /// Optional.
-  ///
-  /// Valid Values: <code>true</code> | <code>false</code>
-  ///
-  /// Parameter [kMSKey] :
-  /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK)
-  /// used for Amazon S3 server-side encryption. Storage Gateway does not
-  /// support asymmetric CMKs. This value can only be set when
-  /// <code>KMSEncrypted</code> is <code>true</code>. Optional.
-  ///
-  /// Parameter [poolId] :
-  /// The ID of the pool that you want to add your tape to for archiving. The
-  /// tape in this pool is archived in the S3 storage class that is associated
-  /// with the pool. When you use your backup application to eject the tape, the
-  /// tape is archived directly into the storage class (S3 Glacier or S3 Deep
-  /// Archive) that corresponds to the pool.
-  ///
-  /// Parameter [tags] :
-  /// A list of up to 50 tags that can be assigned to a virtual tape that has a
-  /// barcode. Each tag is a key-value pair.
-  /// <note>
-  /// Valid characters for key and value are letters, spaces, and numbers
-  /// representable in UTF-8 format, and the following special characters: + - =
-  /// . _ : / @. The maximum length of a tag's key is 128 characters, and the
-  /// maximum length for a tag's value is 256.
-  /// </note>
-  ///
-  /// Parameter [worm] :
-  /// Set to <code>TRUE</code> if the tape you are creating is to be configured
-  /// as a write-once-read-many (WORM) tape.
-  Future<CreateTapeWithBarcodeOutput> createTapeWithBarcode({
-    required String gatewayARN,
-    required String tapeBarcode,
-    required int tapeSizeInBytes,
-    bool? kMSEncrypted,
-    String? kMSKey,
-    String? poolId,
-    List<Tag>? tags,
-    bool? worm,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'StorageGateway_20130630.CreateTapeWithBarcode'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'GatewayARN': gatewayARN,
-        'TapeBarcode': tapeBarcode,
-        'TapeSizeInBytes': tapeSizeInBytes,
-        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-        if (kMSKey != null) 'KMSKey': kMSKey,
-        if (poolId != null) 'PoolId': poolId,
-        if (tags != null) 'Tags': tags,
-        if (worm != null) 'Worm': worm,
-      },
-    );
-
-    return CreateTapeWithBarcodeOutput.fromJson(jsonResponse.body);
-  }
-
   /// Creates one or more virtual tapes. You write data to the virtual tapes and
   /// then archive the tapes. This operation is only supported in the tape
   /// gateway type.
@@ -1782,8 +1811,8 @@ class StorageGateway {
   /// gateway.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [clientToken] :
   /// A unique identifier that you use to retry a request. If you retry a
@@ -1895,12 +1924,112 @@ class StorageGateway {
     return CreateTapesOutput.fromJson(jsonResponse.body);
   }
 
+  /// Creates a virtual tape by using your own barcode. You write data to the
+  /// virtual tape and then archive the tape. A barcode is unique and cannot be
+  /// reused if it has already been used on a tape. This applies to barcodes
+  /// used on deleted tapes. This operation is only supported in the tape
+  /// gateway type.
+  /// <note>
+  /// Cache storage must be allocated to the gateway before you can create a
+  /// virtual tape. Use the <a>AddCache</a> operation to add cache storage to a
+  /// gateway.
+  /// </note>
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
+  ///
+  /// Parameter [gatewayARN] :
+  /// The unique Amazon Resource Name (ARN) that represents the gateway to
+  /// associate the virtual tape with. Use the <a>ListGateways</a> operation to
+  /// return a list of gateways for your account and Amazon Web Services Region.
+  ///
+  /// Parameter [tapeBarcode] :
+  /// The barcode that you want to assign to the tape.
+  /// <note>
+  /// Barcodes cannot be reused. This includes barcodes used for tapes that have
+  /// been deleted.
+  /// </note>
+  ///
+  /// Parameter [tapeSizeInBytes] :
+  /// The size, in bytes, of the virtual tape that you want to create.
+  /// <note>
+  /// The size must be aligned by gigabyte (1024*1024*1024 bytes).
+  /// </note>
+  ///
+  /// Parameter [kMSEncrypted] :
+  /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
+  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
+  /// Optional.
+  ///
+  /// Valid Values: <code>true</code> | <code>false</code>
+  ///
+  /// Parameter [kMSKey] :
+  /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK)
+  /// used for Amazon S3 server-side encryption. Storage Gateway does not
+  /// support asymmetric CMKs. This value can only be set when
+  /// <code>KMSEncrypted</code> is <code>true</code>. Optional.
+  ///
+  /// Parameter [poolId] :
+  /// The ID of the pool that you want to add your tape to for archiving. The
+  /// tape in this pool is archived in the S3 storage class that is associated
+  /// with the pool. When you use your backup application to eject the tape, the
+  /// tape is archived directly into the storage class (S3 Glacier or S3 Deep
+  /// Archive) that corresponds to the pool.
+  ///
+  /// Parameter [tags] :
+  /// A list of up to 50 tags that can be assigned to a virtual tape that has a
+  /// barcode. Each tag is a key-value pair.
+  /// <note>
+  /// Valid characters for key and value are letters, spaces, and numbers
+  /// representable in UTF-8 format, and the following special characters: + - =
+  /// . _ : / @. The maximum length of a tag's key is 128 characters, and the
+  /// maximum length for a tag's value is 256.
+  /// </note>
+  ///
+  /// Parameter [worm] :
+  /// Set to <code>TRUE</code> if the tape you are creating is to be configured
+  /// as a write-once-read-many (WORM) tape.
+  Future<CreateTapeWithBarcodeOutput> createTapeWithBarcode({
+    required String gatewayARN,
+    required String tapeBarcode,
+    required int tapeSizeInBytes,
+    bool? kMSEncrypted,
+    String? kMSKey,
+    String? poolId,
+    List<Tag>? tags,
+    bool? worm,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.CreateTapeWithBarcode'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GatewayARN': gatewayARN,
+        'TapeBarcode': tapeBarcode,
+        'TapeSizeInBytes': tapeSizeInBytes,
+        if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+        if (kMSKey != null) 'KMSKey': kMSKey,
+        if (poolId != null) 'PoolId': poolId,
+        if (tags != null) 'Tags': tags,
+        if (worm != null) 'Worm': worm,
+      },
+    );
+
+    return CreateTapeWithBarcodeOutput.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the automatic tape creation policy of a gateway. If you delete
   /// this policy, new virtual tapes must be created manually. Use the Amazon
   /// Resource Name (ARN) of the gateway in your request to remove the policy.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DeleteAutomaticTapeCreationPolicyOutput>
       deleteAutomaticTapeCreationPolicy({
     required String gatewayARN,
@@ -1931,8 +2060,8 @@ class StorageGateway {
   /// the gateway in your request. This operation is supported only for the
   /// stored volume, cached volume, and tape gateway types.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [bandwidthType] :
   /// One of the BandwidthType values that indicates the gateway bandwidth rate
@@ -1963,12 +2092,48 @@ class StorageGateway {
     return DeleteBandwidthRateLimitOutput.fromJson(jsonResponse.body);
   }
 
+  /// Deletes the specified cache report and any associated tags from the
+  /// Storage Gateway database. You can only delete completed reports. If the
+  /// status of the report you attempt to delete still IN-PROGRESS, the delete
+  /// operation returns an error. You can use <code>CancelCacheReport</code> to
+  /// cancel an IN-PROGRESS report.
+  /// <note>
+  /// <code>DeleteCacheReport</code> does not delete the report object from your
+  /// Amazon S3 bucket.
+  /// </note>
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
+  ///
+  /// Parameter [cacheReportARN] :
+  /// The Amazon Resource Name (ARN) of the cache report you want to delete.
+  Future<DeleteCacheReportOutput> deleteCacheReport({
+    required String cacheReportARN,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.DeleteCacheReport'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CacheReportARN': cacheReportARN,
+      },
+    );
+
+    return DeleteCacheReportOutput.fromJson(jsonResponse.body);
+  }
+
   /// Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for
   /// a specified iSCSI target and initiator pair. This operation is supported
   /// in volume and tape gateway types.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [initiatorName] :
   /// The iSCSI initiator that connects to the target.
@@ -2003,8 +2168,8 @@ class StorageGateway {
   /// Deletes a file share from an S3 File Gateway. This operation is only
   /// supported for S3 File Gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileShareARN] :
   /// The Amazon Resource Name (ARN) of the file share to be deleted.
@@ -2052,16 +2217,16 @@ class StorageGateway {
   /// <important>
   /// You no longer pay software charges after the gateway is deleted; however,
   /// your existing Amazon EBS snapshots persist and you will continue to be
-  /// billed for these snapshots. You can choose to remove all remaining Amazon
-  /// EBS snapshots by canceling your Amazon EC2 subscription.  If you prefer
-  /// not to cancel your Amazon EC2 subscription, you can delete your snapshots
+  /// billed for these snapshots. You can choose to remove all remaining Amazon
+  /// EBS snapshots by canceling your Amazon EC2 subscription. If you prefer not
+  /// to cancel your Amazon EC2 subscription, you can delete your snapshots
   /// using the Amazon EC2 console. For more information, see the <a
   /// href="http://aws.amazon.com/storagegateway">Storage Gateway detail
   /// page</a>.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DeleteGatewayOutput> deleteGateway({
     required String gatewayARN,
   }) async {
@@ -2099,8 +2264,8 @@ class StorageGateway {
   /// in the <i>Amazon Elastic Compute Cloud API Reference</i>.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [volumeARN] :
   /// The volume which snapshot schedule to delete.
@@ -2128,8 +2293,8 @@ class StorageGateway {
   /// Deletes the specified virtual tape. This operation is only supported in
   /// the tape gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [gatewayARN] :
   /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape
@@ -2174,8 +2339,8 @@ class StorageGateway {
   /// Deletes the specified virtual tape from the virtual tape shelf (VTS). This
   /// operation is only supported in the tape gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [tapeARN] :
   /// The Amazon Resource Name (ARN) of the virtual tape to delete from the
@@ -2215,8 +2380,8 @@ class StorageGateway {
   /// are no tapes in the pool and if there are no automatic tape creation
   /// policies that reference the custom tape pool.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [poolARN] :
   /// The Amazon Resource Name (ARN) of the custom tape pool to delete.
@@ -2259,8 +2424,8 @@ class StorageGateway {
   /// In the request, you must provide the Amazon Resource Name (ARN) of the
   /// storage volume you want to delete.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [volumeARN] :
   /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
@@ -2290,8 +2455,8 @@ class StorageGateway {
   /// test that was performed on the host in a cluster. If a test isn't
   /// performed, the status and start time in the response would be null.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeAvailabilityMonitorTestOutput>
       describeAvailabilityMonitorTest({
     required String gatewayARN,
@@ -2326,8 +2491,8 @@ class StorageGateway {
   /// gateway to describe, use the Amazon Resource Name (ARN) of the gateway in
   /// your request.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeBandwidthRateLimitOutput> describeBandwidthRateLimit({
     required String gatewayARN,
   }) async {
@@ -2370,8 +2535,8 @@ class StorageGateway {
   /// describe, use the Amazon Resource Name (ARN) of the gateway in your
   /// request.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeBandwidthRateLimitScheduleOutput>
       describeBandwidthRateLimitSchedule({
     required String gatewayARN,
@@ -2401,8 +2566,8 @@ class StorageGateway {
   /// The response includes disk IDs that are configured as cache, and it
   /// includes the amount of cache allocated and used.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeCacheOutput> describeCache({
     required String gatewayARN,
   }) async {
@@ -2431,8 +2596,8 @@ class StorageGateway {
   /// the response, Storage Gateway returns volume information sorted by volume
   /// Amazon Resource Name (ARN).
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [volumeARNs] :
   /// An array of strings where each string represents the Amazon Resource Name
@@ -2459,13 +2624,42 @@ class StorageGateway {
     return DescribeCachediSCSIVolumesOutput.fromJson(jsonResponse.body);
   }
 
+  /// Returns information about the specified cache report, including completion
+  /// status and generation progress.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
+  ///
+  /// Parameter [cacheReportARN] :
+  /// The Amazon Resource Name (ARN) of the cache report you want to describe.
+  Future<DescribeCacheReportOutput> describeCacheReport({
+    required String cacheReportARN,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.DescribeCacheReport'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CacheReportARN': cacheReportARN,
+      },
+    );
+
+    return DescribeCacheReportOutput.fromJson(jsonResponse.body);
+  }
+
   /// Returns an array of Challenge-Handshake Authentication Protocol (CHAP)
   /// credentials information for a specified iSCSI target, one for each
   /// target-initiator pair. This operation is supported in the volume and tape
   /// gateway types.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [targetARN] :
   /// The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
@@ -2495,8 +2689,8 @@ class StorageGateway {
   /// Gets the file system association information. This operation is only
   /// supported for FSx File Gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileSystemAssociationARNList] :
   /// An array containing the Amazon Resource Name (ARN) of each file system
@@ -2527,8 +2721,8 @@ class StorageGateway {
   /// describe, use the Amazon Resource Name (ARN) of the gateway in your
   /// request.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeGatewayInformationOutput> describeGatewayInformation({
     required String gatewayARN,
   }) async {
@@ -2555,8 +2749,8 @@ class StorageGateway {
   /// maintenance, and which types of updates to apply. Time values returned are
   /// for the gateway's time zone.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeMaintenanceStartTimeOutput> describeMaintenanceStartTime({
     required String gatewayARN,
   }) async {
@@ -2582,8 +2776,8 @@ class StorageGateway {
   /// from an S3 File Gateway. This operation is only supported for S3 File
   /// Gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileShareARNList] :
   /// An array containing the Amazon Resource Name (ARN) of each file share to
@@ -2613,8 +2807,8 @@ class StorageGateway {
   /// from a S3 File Gateway. This operation is only supported for S3 File
   /// Gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileShareARNList] :
   /// An array containing the Amazon Resource Name (ARN) of each file share to
@@ -2643,8 +2837,8 @@ class StorageGateway {
   /// Gets a description of a Server Message Block (SMB) file share settings
   /// from a file gateway. This operation is only supported for file gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeSMBSettingsOutput> describeSMBSettings({
     required String gatewayARN,
   }) async {
@@ -2671,8 +2865,8 @@ class StorageGateway {
   /// automatically initiated on the volume. This operation is only supported in
   /// the cached volume and stored volume types.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [volumeARN] :
   /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
@@ -2703,8 +2897,8 @@ class StorageGateway {
   /// the response, Storage Gateway returns volume information sorted by volume
   /// ARNs. This operation is only supported in stored volume gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [volumeARNs] :
   /// An array of strings where each string represents the Amazon Resource Name
@@ -2738,8 +2932,8 @@ class StorageGateway {
   /// returns a description of all virtual tapes found in the VTS associated
   /// with your account.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// Specifies that the number of virtual tapes described be limited to the
@@ -2791,8 +2985,8 @@ class StorageGateway {
   /// virtual tapes that have recovery points can be recovered to a new gateway.
   /// This operation is only supported in the tape gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// Specifies that the number of virtual tape recovery points that are
@@ -2845,8 +3039,8 @@ class StorageGateway {
   /// <code>Marker</code> value in your subsequent request to retrieve the next
   /// set of tapes.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// Specifies that the number of virtual tapes described be limited to the
@@ -2905,8 +3099,8 @@ class StorageGateway {
   /// The response includes disk IDs that are configured as upload buffer space,
   /// and it includes the amount of upload buffer space allocated and used.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeUploadBufferOutput> describeUploadBuffer({
     required String gatewayARN,
   }) async {
@@ -2934,8 +3128,8 @@ class StorageGateway {
   ///
   /// This operation is only supported in the tape gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// Specifies that the number of VTL devices described be limited to the
@@ -2998,8 +3192,8 @@ class StorageGateway {
   /// The response includes disk IDs that are configured as working storage, and
   /// it includes the amount of working storage allocated and used.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DescribeWorkingStorageOutput> describeWorkingStorage({
     required String gatewayARN,
   }) async {
@@ -3028,8 +3222,8 @@ class StorageGateway {
   /// on-premises gateway to a gateway hosted on an Amazon EC2 instance. This
   /// operation is only supported in the volume gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [volumeARN] :
   /// The Amazon Resource Name (ARN) of the volume to detach from the gateway.
@@ -3074,8 +3268,8 @@ class StorageGateway {
   /// After a gateway is disabled, it cannot be enabled.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<DisableGatewayOutput> disableGateway({
     required String gatewayARN,
   }) async {
@@ -3102,8 +3296,8 @@ class StorageGateway {
   /// Amazon FSx file system. This operation is only supported in the FSx File
   /// Gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileSystemAssociationARN] :
   /// The Amazon Resource Name (ARN) of the file system association to be
@@ -3138,6 +3332,74 @@ class StorageGateway {
     return DisassociateFileSystemOutput.fromJson(jsonResponse.body);
   }
 
+  /// Starts a process that cleans the specified file share's cache of file
+  /// entries that are failing upload to Amazon S3. This API operation reports
+  /// success if the request is received with valid arguments, and there are no
+  /// other cache clean operations currently in-progress for the specified file
+  /// share. After a successful request, the cache clean operation occurs
+  /// asynchronously and reports progress using CloudWatch logs and
+  /// notifications.
+  /// <important>
+  /// If <code>ForceRemove</code> is set to <code>True</code>, the cache clean
+  /// operation will delete file data from the gateway which might otherwise be
+  /// recoverable. We recommend using this operation only after all other
+  /// methods to clear files failing upload have been exhausted, and if your
+  /// business need outweighs the potential data loss.
+  /// </important>
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
+  ///
+  /// Parameter [fileShareARN] :
+  /// The Amazon Resource Name (ARN) of the file share for which you want to
+  /// start the cache clean operation.
+  ///
+  /// Parameter [forceRemove] :
+  /// Specifies whether cache entries with full or partial file data currently
+  /// stored on the gateway will be forcibly removed by the cache clean
+  /// operation.
+  ///
+  /// Valid arguments:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>False</code> - The cache clean operation skips cache entries failing
+  /// upload if they are associated with data currently stored on the gateway.
+  /// This preserves the cached data.
+  /// </li>
+  /// <li>
+  /// <code>True</code> - The cache clean operation removes cache entries
+  /// failing upload even if they are associated with data currently stored on
+  /// the gateway. This deletes the cached data.
+  /// <important>
+  /// If <code>ForceRemove</code> is set to <code>True</code>, the cache clean
+  /// operation will delete file data from the gateway which might otherwise be
+  /// recoverable.
+  /// </important> </li>
+  /// </ul>
+  Future<EvictFilesFailingUploadOutput> evictFilesFailingUpload({
+    required String fileShareARN,
+    bool? forceRemove,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.EvictFilesFailingUpload'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FileShareARN': fileShareARN,
+        if (forceRemove != null) 'ForceRemove': forceRemove,
+      },
+    );
+
+    return EvictFilesFailingUploadOutput.fromJson(jsonResponse.body);
+  }
+
   /// Adds a file gateway to an Active Directory domain. This operation is only
   /// supported for file gateways that support the SMB file protocol.
   /// <note>
@@ -3152,8 +3414,8 @@ class StorageGateway {
   /// the domain.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [domainName] :
   /// The name of the domain that you want the gateway to join.
@@ -3175,9 +3437,15 @@ class StorageGateway {
   /// domain.
   ///
   /// Parameter [domainControllers] :
-  /// List of IPv4 addresses, NetBIOS names, or host names of your domain
-  /// server. If you need to specify the port number include it after the colon
-  /// (“:”). For example, <code>mydc.mydomain.com:389</code>.
+  /// List of IP addresses, NetBIOS names, or host names of your domain server.
+  /// If you need to specify the port number include it after the colon (“:”).
+  /// For example, <code>mydc.mydomain.com:389</code>.
+  /// <note>
+  /// S3 File Gateway supports IPv6 addresses in addition to IPv4 and other
+  /// existing formats.
+  ///
+  /// FSx File Gateway does not support IPv6.
+  /// </note>
   ///
   /// Parameter [organizationalUnit] :
   /// The organizational unit (OU) is a container in an Active Directory that
@@ -3233,8 +3501,8 @@ class StorageGateway {
   ///
   /// This operation is only supported for tape gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<ListAutomaticTapeCreationPoliciesOutput>
       listAutomaticTapeCreationPolicies({
     String? gatewayARN,
@@ -3258,12 +3526,47 @@ class StorageGateway {
     return ListAutomaticTapeCreationPoliciesOutput.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of existing cache reports for all file shares associated
+  /// with your Amazon Web Services account. This list includes all information
+  /// provided by the <code>DescribeCacheReport</code> action, such as report
+  /// name, status, completion progress, start time, end time, filters, and
+  /// tags.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
+  ///
+  /// Parameter [marker] :
+  /// Opaque pagination token returned from a previous
+  /// <code>ListCacheReports</code> operation. If present, <code>Marker</code>
+  /// specifies where to continue the list from after a previous call to
+  /// <code>ListCacheReports</code>. Optional.
+  Future<ListCacheReportsOutput> listCacheReports({
+    String? marker,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.ListCacheReports'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (marker != null) 'Marker': marker,
+      },
+    );
+
+    return ListCacheReportsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Gets a list of the file shares for a specific S3 File Gateway, or the list
   /// of file shares that belong to the calling Amazon Web Services account.
   /// This operation is only supported for S3 File Gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [gatewayARN] :
   /// The Amazon Resource Name (ARN) of the gateway whose file shares you want
@@ -3313,8 +3616,8 @@ class StorageGateway {
   /// object contains a summary of a file system association. This operation is
   /// only supported for FSx File Gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// The maximum number of file system associations to return in the response.
@@ -3370,8 +3673,8 @@ class StorageGateway {
   /// contains a marker that you can specify in your next request to fetch the
   /// next page of gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// Specifies that the list of gateways returned be limited to the specified
@@ -3421,8 +3724,8 @@ class StorageGateway {
   /// occupied by a disk that has incorrect metadata or the disk content is
   /// corrupted).
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<ListLocalDisksOutput> listLocalDisks({
     required String gatewayARN,
   }) async {
@@ -3447,8 +3750,8 @@ class StorageGateway {
   /// Lists the tags that have been added to the specified resource. This
   /// operation is supported in storage gateways of all types.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource for which you want to list
@@ -3503,8 +3806,8 @@ class StorageGateway {
   /// truncated, the response includes a <code>Marker</code> element that you
   /// can use in your subsequent request to retrieve the next set of tape pools.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// An optional number limit for the tape pools in the list returned by this
@@ -3562,8 +3865,8 @@ class StorageGateway {
   /// can use in your subsequent request to retrieve the next set of tapes. This
   /// operation is only supported in the tape gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// An optional number limit for the tapes in the list returned by this call.
@@ -3607,8 +3910,8 @@ class StorageGateway {
   /// operation is only supported in the cached volume and stored volume gateway
   /// types.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [volumeARN] :
   /// The Amazon Resource Name (ARN) of the volume. Use the <a>ListVolumes</a>
@@ -3643,8 +3946,8 @@ class StorageGateway {
   /// volume. To create a snapshot from a volume recovery point use the
   /// <a>CreateSnapshotFromVolumeRecoveryPoint</a> operation.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<ListVolumeRecoveryPointsOutput> listVolumeRecoveryPoints({
     required String gatewayARN,
   }) async {
@@ -3680,8 +3983,8 @@ class StorageGateway {
   /// operation is only supported in the cached volume and stored volume gateway
   /// types.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [limit] :
   /// Specifies that the list of volumes returned be limited to the specified
@@ -3722,25 +4025,25 @@ class StorageGateway {
     return ListVolumesOutput.fromJson(jsonResponse.body);
   }
 
-  /// Sends you notification through CloudWatch Events when all files written to
-  /// your file share have been uploaded to Amazon S3.
+  /// Sends you notification through Amazon EventBridge when all files written
+  /// to your file share have been uploaded to Amazon S3.
   ///
-  /// Storage Gateway can send a notification through Amazon CloudWatch Events
-  /// when all files written to your file share up to that point in time have
-  /// been uploaded to Amazon S3. These files include files written to the file
-  /// share up to the time that you make a request for notification. When the
-  /// upload is done, Storage Gateway sends you notification through an Amazon
-  /// CloudWatch Event. You can configure CloudWatch Events to send the
-  /// notification through event targets such as Amazon SNS or Lambda function.
-  /// This operation is only supported for S3 File Gateways.
+  /// Storage Gateway can send a notification through Amazon EventBridge when
+  /// all files written to your file share up to that point in time have been
+  /// uploaded to Amazon S3. These files include files written to the file share
+  /// up to the time that you make a request for notification. When the upload
+  /// is done, Storage Gateway sends you notification through EventBridge. You
+  /// can configure EventBridge to send the notification through event targets
+  /// such as Amazon SNS or Lambda function. This operation is only supported
+  /// for S3 File Gateways.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/filegateway/latest/files3/monitoring-file-gateway.html#get-notification">Getting
   /// file upload notification</a> in the <i>Amazon S3 File Gateway User
   /// Guide</i>.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<NotifyWhenUploadedOutput> notifyWhenUploaded({
     required String fileShareARN,
   }) async {
@@ -3812,8 +4115,8 @@ class StorageGateway {
   /// notified about file operations</a> in the <i>Amazon S3 File Gateway User
   /// Guide</i>.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileShareARN] :
   /// The Amazon Resource Name (ARN) of the file share you want to refresh.
@@ -3868,8 +4171,8 @@ class StorageGateway {
   /// Removes one or more tags from the specified resource. This operation is
   /// supported in storage gateways of all types.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the resource you want to remove the tags
@@ -3917,8 +4220,8 @@ class StorageGateway {
   /// properly.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<ResetCacheOutput> resetCache({
     required String gatewayARN,
   }) async {
@@ -3951,8 +4254,8 @@ class StorageGateway {
   /// retrieve it to another gateway. This operation is only supported in the
   /// tape gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [gatewayARN] :
   /// The Amazon Resource Name (ARN) of the gateway you want to retrieve the
@@ -4000,8 +4303,8 @@ class StorageGateway {
   /// There is no charge for retrieving recovery points.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [tapeARN] :
   /// The Amazon Resource Name (ARN) of the virtual tape for which you want to
@@ -4034,8 +4337,8 @@ class StorageGateway {
   /// credentials. We recommend that you set a new password. You don't need to
   /// know the default password to set a new password.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [localConsolePassword] :
   /// The password you want to set for your VM local console.
@@ -4067,8 +4370,8 @@ class StorageGateway {
   /// the file share is set to <code>GuestAccess</code>. This operation only
   /// supported for S3 File Gateways
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [gatewayARN] :
   /// The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share
@@ -4127,8 +4430,8 @@ class StorageGateway {
   /// (using <a>DeleteGateway</a>) to no longer pay software charges associated
   /// with the gateway.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<ShutdownGatewayOutput> shutdownGateway({
     required String gatewayARN,
   }) async {
@@ -4160,8 +4463,8 @@ class StorageGateway {
   /// period.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<StartAvailabilityMonitorTestOutput> startAvailabilityMonitorTest({
     required String gatewayARN,
   }) async {
@@ -4183,6 +4486,130 @@ class StorageGateway {
     return StartAvailabilityMonitorTestOutput.fromJson(jsonResponse.body);
   }
 
+  /// Starts generating a report of the file metadata currently cached by an S3
+  /// File Gateway for a specific file share. You can use this report to
+  /// identify and resolve issues if you have files failing upload from your
+  /// gateway to Amazon S3. The report is a CSV file containing a list of files
+  /// which match the set of filter parameters you specify in the request.
+  /// <note>
+  /// The <b>Files Failing Upload</b> flag is reset every 24 hours and during
+  /// gateway reboot. If this report captures the files after the reset, but
+  /// before they become flagged again, they will not be reported as <b>Files
+  /// Failing Upload</b>.
+  /// </note>
+  /// The following requirements must be met to successfully generate a cache
+  /// report:
+  ///
+  /// <ul>
+  /// <li>
+  /// You must have <code>s3:PutObject</code> and
+  /// <code>s3:AbortMultipartUpload</code> permissions for the Amazon S3 bucket
+  /// where you want to store the cache report.
+  /// </li>
+  /// <li>
+  /// No other cache reports can currently be in-progress for the specified file
+  /// share.
+  /// </li>
+  /// <li>
+  /// There must be fewer than 10 existing cache reports for the specified file
+  /// share.
+  /// </li>
+  /// <li>
+  /// The gateway must be online and connected to Amazon Web Services.
+  /// </li>
+  /// <li>
+  /// The root disk must have at least 20GB of free space when report generation
+  /// starts.
+  /// </li>
+  /// <li>
+  /// You must specify at least one value for <code>InclusionFilters</code> or
+  /// <code>ExclusionFilters</code> in the request.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
+  ///
+  /// Parameter [bucketRegion] :
+  /// The Amazon Web Services Region of the Amazon S3 bucket where you want to
+  /// save the cache report.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique identifier that you use to ensure idempotent report generation if
+  /// you need to retry an unsuccessful <code>StartCacheReport</code> request.
+  /// If you retry a request, use the same <code>ClientToken</code> you
+  /// specified in the initial request.
+  ///
+  /// Parameter [locationARN] :
+  /// The ARN of the Amazon S3 bucket where you want to save the cache report.
+  /// <note>
+  /// We do not recommend saving the cache report to the same Amazon S3 bucket
+  /// for which you are generating the report.
+  ///
+  /// This field does not accept access point ARNs.
+  /// </note>
+  ///
+  /// Parameter [role] :
+  /// The ARN of the IAM role used when saving the cache report to Amazon S3.
+  ///
+  /// Parameter [exclusionFilters] :
+  /// The list of filters and parameters that determine which files are excluded
+  /// from the report. You must specify at least one value for
+  /// <code>InclusionFilters</code> or <code>ExclusionFilters</code> in a
+  /// <code>StartCacheReport</code> request.
+  ///
+  /// Parameter [inclusionFilters] :
+  /// The list of filters and parameters that determine which files are included
+  /// in the report. You must specify at least one value for
+  /// <code>InclusionFilters</code> or <code>ExclusionFilters</code> in a
+  /// <code>StartCacheReport</code> request.
+  ///
+  /// Parameter [tags] :
+  /// A list of up to 50 key/value tags that you can assign to the cache report.
+  /// Using tags can help you categorize your reports and more easily locate
+  /// them in search results.
+  ///
+  /// Parameter [vPCEndpointDNSName] :
+  /// The DNS name of the VPC endpoint associated with the Amazon S3 where you
+  /// want to save the cache report. Optional.
+  Future<StartCacheReportOutput> startCacheReport({
+    required String bucketRegion,
+    required String clientToken,
+    required String fileShareARN,
+    required String locationARN,
+    required String role,
+    List<CacheReportFilter>? exclusionFilters,
+    List<CacheReportFilter>? inclusionFilters,
+    List<Tag>? tags,
+    String? vPCEndpointDNSName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'StorageGateway_20130630.StartCacheReport'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BucketRegion': bucketRegion,
+        'ClientToken': clientToken,
+        'FileShareARN': fileShareARN,
+        'LocationARN': locationARN,
+        'Role': role,
+        if (exclusionFilters != null) 'ExclusionFilters': exclusionFilters,
+        if (inclusionFilters != null) 'InclusionFilters': inclusionFilters,
+        if (tags != null) 'Tags': tags,
+        if (vPCEndpointDNSName != null)
+          'VPCEndpointDNSName': vPCEndpointDNSName,
+      },
+    );
+
+    return StartCacheReportOutput.fromJson(jsonResponse.body);
+  }
+
   /// Starts a gateway that you previously shut down (see
   /// <a>ShutdownGateway</a>). After the gateway starts, you can then make other
   /// API calls, your applications can read from or write to the gateway's
@@ -4197,8 +4624,8 @@ class StorageGateway {
   /// To specify which gateway to start, use the Amazon Resource Name (ARN) of
   /// the gateway in your request.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<StartGatewayOutput> startGateway({
     required String gatewayARN,
   }) async {
@@ -4229,8 +4656,8 @@ class StorageGateway {
   /// A gateway can have only one automatic tape creation policy.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [automaticTapeCreationRules] :
   /// An automatic tape creation policy consists of a list of automatic tape
@@ -4275,8 +4702,8 @@ class StorageGateway {
   /// To specify which gateway to update, use the Amazon Resource Name (ARN) of
   /// the gateway in your request.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [averageDownloadRateLimitInBitsPerSec] :
   /// The average download bandwidth rate limit in bits per second.
@@ -4332,8 +4759,8 @@ class StorageGateway {
   /// rate limits for upload only. FSx file gateways do not support bandwidth
   /// rate limits.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [bandwidthRateLimitIntervals] :
   /// An array containing bandwidth rate limit schedule intervals for a gateway.
@@ -4372,8 +4799,8 @@ class StorageGateway {
   /// are closed and initiators must reconnect with the new credentials.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [initiatorName] :
   /// The iSCSI initiator that connects to the target.
@@ -4429,8 +4856,8 @@ class StorageGateway {
   /// Updates a file system association. This operation is only supported in the
   /// FSx File Gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileSystemAssociationARN] :
   /// The Amazon Resource Name (ARN) of the file system association that you
@@ -4485,8 +4912,8 @@ class StorageGateway {
   /// the gateway has no effect on the gateway's ARN.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [cloudWatchLogGroupARN] :
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you
@@ -4554,8 +4981,8 @@ class StorageGateway {
   /// your Linux iSCSI settings</a>, respectively.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   Future<UpdateGatewaySoftwareNowOutput> updateGatewaySoftwareNow({
     required String gatewayARN,
   }) async {
@@ -4595,8 +5022,8 @@ class StorageGateway {
   /// critically impact your deployment.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [dayOfMonth] :
   /// The day of the month component of the maintenance start time represented
@@ -4629,7 +5056,11 @@ class StorageGateway {
   /// <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.
   ///
   /// <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway
-  /// maintenance updates.
+  /// maintenance updates. The gateway will still receive emergency version
+  /// updates on rare occasions if necessary to remedy highly critical security
+  /// or durability issues. You will be notified before an emergency version
+  /// update is applied. These updates are applied during your gateway's
+  /// scheduled maintenance window.
   Future<UpdateMaintenanceStartTimeOutput> updateMaintenanceStartTime({
     required String gatewayARN,
     int? dayOfMonth,
@@ -4712,8 +5143,8 @@ class StorageGateway {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileShareARN] :
   /// The Amazon Resource Name (ARN) of the file share to be updated.
@@ -4726,7 +5157,7 @@ class StorageGateway {
   ///
   /// Parameter [clientList] :
   /// The list of clients that are allowed to access the S3 File Gateway. The
-  /// list must contain either valid IP addresses or valid CIDR blocks.
+  /// list must contain either valid IPv4/IPv6 addresses or valid CIDR blocks.
   ///
   /// Parameter [defaultStorageClass] :
   /// The default storage class for objects put into an Amazon S3 bucket by the
@@ -4736,12 +5167,34 @@ class StorageGateway {
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
   /// <code>S3_ONEZONE_IA</code>
   ///
+  /// Parameter [encryptionType] :
+  /// A value that specifies the type of server-side encryption that the file
+  /// share will use for the data that it stores in Amazon S3.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
+  ///
+  /// If values for both parameters exist in the same request, then the
+  /// specified encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>, then <code>KMSEncrypted</code> must be
+  /// <code>true</code>.
+  /// </note>
+  ///
   /// Parameter [fileShareName] :
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
   /// <code>LocationARN</code>, or if an access point or access point alias is
   /// used.
+  ///
+  /// A valid NFS file share name can only contain the following characters:
+  /// <code>a</code>-<code>z</code>, <code>A</code>-<code>Z</code>,
+  /// <code>0</code>-<code>9</code>, <code>-</code>, <code>.</code>, and
+  /// <code>_</code>.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -4753,17 +5206,32 @@ class StorageGateway {
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
   /// Parameter [kMSEncrypted] :
-  /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
-  /// Optional.
+  /// Optional. Set to <code>true</code> to use Amazon S3 server-side encryption
+  /// with your own KMS key (SSE-KMS), or <code>false</code> to use a key
+  /// managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS),
+  /// set the <code>EncryptionType</code> parameter instead.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
   ///
+  /// If values for both parameters exist in the same request, then the
+  /// specified encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>, then <code>KMSEncrypted</code> must be
+  /// <code>true</code>.
+  /// </note>
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
   /// Parameter [kMSKey] :
-  /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK)
-  /// used for Amazon S3 server-side encryption. Storage Gateway does not
-  /// support asymmetric CMKs. This value can only be set when
-  /// <code>KMSEncrypted</code> is <code>true</code>. Optional.
+  /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master
+  /// key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does
+  /// not support asymmetric CMKs. This value must be set if
+  /// <code>KMSEncrypted</code> is <code>true</code>, or if
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>.
   ///
   /// Parameter [nFSFileShareDefaults] :
   /// The default values for the file share. Optional.
@@ -4779,6 +5247,10 @@ class StorageGateway {
   /// <note>
   /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the
   /// object uploading to Amazon S3, only the timing of the notification.
+  ///
+  /// This setting is not meant to specify an exact time at which the
+  /// notification will be sent. In some cases, the gateway might require more
+  /// than the specified delay time to generate and send notifications.
   /// </note>
   /// The following example sets <code>NotificationPolicy</code> on with
   /// <code>SettlingTimeInSeconds</code> set to 60.
@@ -4836,6 +5308,7 @@ class StorageGateway {
     CacheAttributes? cacheAttributes,
     List<String>? clientList,
     String? defaultStorageClass,
+    EncryptionType? encryptionType,
     String? fileShareName,
     bool? guessMIMETypeEnabled,
     bool? kMSEncrypted,
@@ -4865,6 +5338,7 @@ class StorageGateway {
         if (clientList != null) 'ClientList': clientList,
         if (defaultStorageClass != null)
           'DefaultStorageClass': defaultStorageClass,
+        if (encryptionType != null) 'EncryptionType': encryptionType.value,
         if (fileShareName != null) 'FileShareName': fileShareName,
         if (guessMIMETypeEnabled != null)
           'GuessMIMETypeEnabled': guessMIMETypeEnabled,
@@ -4904,8 +5378,8 @@ class StorageGateway {
   /// share.
   /// </important>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileShareARN] :
   /// The Amazon Resource Name (ARN) of the SMB file share that you want to
@@ -4942,12 +5416,33 @@ class StorageGateway {
   /// <code>S3_INTELLIGENT_TIERING</code> | <code>S3_STANDARD_IA</code> |
   /// <code>S3_ONEZONE_IA</code>
   ///
+  /// Parameter [encryptionType] :
+  /// A value that specifies the type of server-side encryption that the file
+  /// share will use for the data that it stores in Amazon S3.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
+  ///
+  /// If values for both parameters exist in the same request, then the
+  /// specified encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>, then <code>KMSEncrypted</code> must be
+  /// <code>true</code>.
+  /// </note>
+  ///
   /// Parameter [fileShareName] :
   /// The name of the file share. Optional.
   /// <note>
   /// <code>FileShareName</code> must be set if an S3 prefix name is set in
   /// <code>LocationARN</code>, or if an access point or access point alias is
   /// used.
+  ///
+  /// A valid SMB file share name cannot contain the following characters:
+  /// <code>[</code>,<code>]</code>,<code>#</code>,<code>;</code>,<code><</code>,<code>></code>,<code>:</code>,<code>"</code>,<code>\</code>,<code>/</code>,<code>|</code>,<code>?</code>,<code>*</code>,<code>+</code>,
+  /// or ASCII control characters <code>1-31</code>.
   /// </note>
   ///
   /// Parameter [guessMIMETypeEnabled] :
@@ -4966,17 +5461,32 @@ class StorageGateway {
   /// Authentication is set to <code>ActiveDirectory</code>.
   ///
   /// Parameter [kMSEncrypted] :
-  /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
-  /// Optional.
+  /// Optional. Set to <code>true</code> to use Amazon S3 server-side encryption
+  /// with your own KMS key (SSE-KMS), or <code>false</code> to use a key
+  /// managed by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS),
+  /// set the <code>EncryptionType</code> parameter instead.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
   ///
+  /// If values for both parameters exist in the same request, then the
+  /// specified encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>, then <code>KMSEncrypted</code> must be
+  /// <code>true</code>.
+  /// </note>
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
   /// Parameter [kMSKey] :
-  /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK)
-  /// used for Amazon S3 server-side encryption. Storage Gateway does not
-  /// support asymmetric CMKs. This value can only be set when
-  /// <code>KMSEncrypted</code> is <code>true</code>. Optional.
+  /// Optional. The Amazon Resource Name (ARN) of a symmetric customer master
+  /// key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does
+  /// not support asymmetric CMKs. This value must be set if
+  /// <code>KMSEncrypted</code> is <code>true</code>, or if
+  /// <code>EncryptionType</code> is <code>SseKms</code> or
+  /// <code>DsseKms</code>.
   ///
   /// Parameter [notificationPolicy] :
   /// The notification policy of the file share.
@@ -4989,6 +5499,10 @@ class StorageGateway {
   /// <note>
   /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the
   /// object uploading to Amazon S3, only the timing of the notification.
+  ///
+  /// This setting is not meant to specify an exact time at which the
+  /// notification will be sent. In some cases, the gateway might require more
+  /// than the specified delay time to generate and send notifications.
   /// </note>
   /// The following example sets <code>NotificationPolicy</code> on with
   /// <code>SettlingTimeInSeconds</code> set to 60.
@@ -5039,9 +5553,9 @@ class StorageGateway {
   /// permissions to the POSIX permissions.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html">Using
-  /// Microsoft Windows ACLs to control access to an SMB file share</a> in the
-  /// <i>Storage Gateway User Guide</i>.
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html">Using
+  /// Windows ACLs to limit SMB file share access</a> in the <i>Amazon S3 File
+  /// Gateway User Guide</i>.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   ///
@@ -5059,6 +5573,7 @@ class StorageGateway {
     CacheAttributes? cacheAttributes,
     CaseSensitivity? caseSensitivity,
     String? defaultStorageClass,
+    EncryptionType? encryptionType,
     String? fileShareName,
     bool? guessMIMETypeEnabled,
     List<String>? invalidUserList,
@@ -5093,6 +5608,7 @@ class StorageGateway {
         if (caseSensitivity != null) 'CaseSensitivity': caseSensitivity.value,
         if (defaultStorageClass != null)
           'DefaultStorageClass': defaultStorageClass,
+        if (encryptionType != null) 'EncryptionType': encryptionType.value,
         if (fileShareName != null) 'FileShareName': fileShareName,
         if (guessMIMETypeEnabled != null)
           'GuessMIMETypeEnabled': guessMIMETypeEnabled,
@@ -5116,8 +5632,8 @@ class StorageGateway {
   /// Controls whether the shares on an S3 File Gateway are visible in a net
   /// view or browse list. The operation is only supported for S3 File Gateways.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [fileSharesVisible] :
   /// The shares on this gateway appear when listing shares.
@@ -5147,8 +5663,8 @@ class StorageGateway {
   /// Updates the list of Active Directory users and groups that have special
   /// permissions for SMB file shares on the gateway.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [sMBLocalGroups] :
   /// A list of Active Directory users and groups that you want to grant special
@@ -5188,8 +5704,8 @@ class StorageGateway {
   /// A higher security strategy level can affect performance of the gateway.
   /// </note>
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [sMBSecurityStrategy] :
   /// Specifies the type of security strategy.
@@ -5251,8 +5767,8 @@ class StorageGateway {
   /// you want the snapshot to begin on a day and the frequency (in hours) of
   /// snapshots.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [recurrenceInHours] :
   /// Frequency of snapshots. Specify the number of hours between snapshots.
@@ -5328,8 +5844,8 @@ class StorageGateway {
   /// tape gateway is activated. This operation is only supported in the tape
   /// gateway type.
   ///
-  /// May throw [InvalidGatewayRequestException].
   /// May throw [InternalServerError].
+  /// May throw [InvalidGatewayRequestException].
   ///
   /// Parameter [deviceType] :
   /// The type of medium changer you want to select.
@@ -5391,44 +5907,6 @@ class ActivateGatewayOutput {
       if (gatewayARN != null) 'GatewayARN': gatewayARN,
     };
   }
-}
-
-class ActiveDirectoryStatus {
-  static const accessDenied = ActiveDirectoryStatus._('ACCESS_DENIED');
-  static const detached = ActiveDirectoryStatus._('DETACHED');
-  static const joined = ActiveDirectoryStatus._('JOINED');
-  static const joining = ActiveDirectoryStatus._('JOINING');
-  static const networkError = ActiveDirectoryStatus._('NETWORK_ERROR');
-  static const timeout = ActiveDirectoryStatus._('TIMEOUT');
-  static const unknownError = ActiveDirectoryStatus._('UNKNOWN_ERROR');
-
-  final String value;
-
-  const ActiveDirectoryStatus._(this.value);
-
-  static const values = [
-    accessDenied,
-    detached,
-    joined,
-    joining,
-    networkError,
-    timeout,
-    unknownError
-  ];
-
-  static ActiveDirectoryStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ActiveDirectoryStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ActiveDirectoryStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AddCacheOutput {
@@ -5597,440 +6075,6 @@ class AttachVolumeOutput {
   }
 }
 
-/// Information about the gateway's automatic tape creation policies, including
-/// the automatic tape creation rules and the gateway that is using the
-/// policies.
-class AutomaticTapeCreationPolicyInfo {
-  /// An automatic tape creation policy consists of a list of automatic tape
-  /// creation rules. This returns the rules that determine when and how to
-  /// automatically create new tapes.
-  final List<AutomaticTapeCreationRule>? automaticTapeCreationRules;
-  final String? gatewayARN;
-
-  AutomaticTapeCreationPolicyInfo({
-    this.automaticTapeCreationRules,
-    this.gatewayARN,
-  });
-
-  factory AutomaticTapeCreationPolicyInfo.fromJson(Map<String, dynamic> json) {
-    return AutomaticTapeCreationPolicyInfo(
-      automaticTapeCreationRules: (json['AutomaticTapeCreationRules'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AutomaticTapeCreationRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      gatewayARN: json['GatewayARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final automaticTapeCreationRules = this.automaticTapeCreationRules;
-    final gatewayARN = this.gatewayARN;
-    return {
-      if (automaticTapeCreationRules != null)
-        'AutomaticTapeCreationRules': automaticTapeCreationRules,
-      if (gatewayARN != null) 'GatewayARN': gatewayARN,
-    };
-  }
-}
-
-/// An automatic tape creation policy consists of automatic tape creation rules
-/// where each rule defines when and how to create new tapes. For more
-/// information about automatic tape creation, see <a
-/// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/GettingStartedCreateTapes.html#CreateTapesAutomatically">Creating
-/// Tapes Automatically</a>.
-class AutomaticTapeCreationRule {
-  /// The minimum number of available virtual tapes that the gateway maintains at
-  /// all times. If the number of tapes on the gateway goes below this value, the
-  /// gateway creates as many new tapes as are needed to have
-  /// <code>MinimumNumTapes</code> on the gateway. For more information about
-  /// automatic tape creation, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/GettingStartedCreateTapes.html#CreateTapesAutomatically">Creating
-  /// Tapes Automatically</a>.
-  final int minimumNumTapes;
-
-  /// The ID of the pool that you want to add your tape to for archiving. The tape
-  /// in this pool is archived in the Amazon S3 storage class that is associated
-  /// with the pool. When you use your backup application to eject the tape, the
-  /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
-  /// Deep Archive) that corresponds to the pool.
-  final String poolId;
-
-  /// A prefix that you append to the barcode of the virtual tape that you are
-  /// creating. This prefix makes the barcode unique.
-  /// <note>
-  /// The prefix must be 1-4 characters in length and must be one of the uppercase
-  /// letters from A to Z.
-  /// </note>
-  final String tapeBarcodePrefix;
-
-  /// The size, in bytes, of the virtual tape capacity.
-  final int tapeSizeInBytes;
-
-  /// Set to <code>true</code> to indicate that tapes are to be archived as
-  /// write-once-read-many (WORM). Set to <code>false</code> when WORM is not
-  /// enabled for tapes.
-  final bool? worm;
-
-  AutomaticTapeCreationRule({
-    required this.minimumNumTapes,
-    required this.poolId,
-    required this.tapeBarcodePrefix,
-    required this.tapeSizeInBytes,
-    this.worm,
-  });
-
-  factory AutomaticTapeCreationRule.fromJson(Map<String, dynamic> json) {
-    return AutomaticTapeCreationRule(
-      minimumNumTapes: (json['MinimumNumTapes'] as int?) ?? 0,
-      poolId: (json['PoolId'] as String?) ?? '',
-      tapeBarcodePrefix: (json['TapeBarcodePrefix'] as String?) ?? '',
-      tapeSizeInBytes: (json['TapeSizeInBytes'] as int?) ?? 0,
-      worm: json['Worm'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final minimumNumTapes = this.minimumNumTapes;
-    final poolId = this.poolId;
-    final tapeBarcodePrefix = this.tapeBarcodePrefix;
-    final tapeSizeInBytes = this.tapeSizeInBytes;
-    final worm = this.worm;
-    return {
-      'MinimumNumTapes': minimumNumTapes,
-      'PoolId': poolId,
-      'TapeBarcodePrefix': tapeBarcodePrefix,
-      'TapeSizeInBytes': tapeSizeInBytes,
-      if (worm != null) 'Worm': worm,
-    };
-  }
-}
-
-class AutomaticUpdatePolicy {
-  static const allVersions = AutomaticUpdatePolicy._('ALL_VERSIONS');
-  static const emergencyVersionsOnly =
-      AutomaticUpdatePolicy._('EMERGENCY_VERSIONS_ONLY');
-
-  final String value;
-
-  const AutomaticUpdatePolicy._(this.value);
-
-  static const values = [allVersions, emergencyVersionsOnly];
-
-  static AutomaticUpdatePolicy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AutomaticUpdatePolicy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AutomaticUpdatePolicy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AvailabilityMonitorTestStatus {
-  static const complete = AvailabilityMonitorTestStatus._('COMPLETE');
-  static const failed = AvailabilityMonitorTestStatus._('FAILED');
-  static const pending = AvailabilityMonitorTestStatus._('PENDING');
-
-  final String value;
-
-  const AvailabilityMonitorTestStatus._(this.value);
-
-  static const values = [complete, failed, pending];
-
-  static AvailabilityMonitorTestStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AvailabilityMonitorTestStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AvailabilityMonitorTestStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate
-/// limit schedule consists of one or more bandwidth rate limit intervals. A
-/// bandwidth rate limit interval defines a period of time on one or more days
-/// of the week, during which bandwidth rate limits are specified for uploading,
-/// downloading, or both.
-class BandwidthRateLimitInterval {
-  /// The days of the week component of the bandwidth rate limit interval,
-  /// represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6
-  /// represents Saturday.
-  final List<int> daysOfWeek;
-
-  /// The hour of the day to end the bandwidth rate limit interval.
-  final int endHourOfDay;
-
-  /// The minute of the hour to end the bandwidth rate limit interval.
-  /// <important>
-  /// The bandwidth rate limit interval ends at the end of the minute. To end an
-  /// interval at the end of an hour, use the value <code>59</code>.
-  /// </important>
-  final int endMinuteOfHour;
-
-  /// The hour of the day to start the bandwidth rate limit interval.
-  final int startHourOfDay;
-
-  /// The minute of the hour to start the bandwidth rate limit interval. The
-  /// interval begins at the start of that minute. To begin an interval exactly at
-  /// the start of the hour, use the value <code>0</code>.
-  final int startMinuteOfHour;
-
-  /// The average download rate limit component of the bandwidth rate limit
-  /// interval, in bits per second. This field does not appear in the response if
-  /// the download rate limit is not set.
-  final int? averageDownloadRateLimitInBitsPerSec;
-
-  /// The average upload rate limit component of the bandwidth rate limit
-  /// interval, in bits per second. This field does not appear in the response if
-  /// the upload rate limit is not set.
-  /// <note>
-  /// For Tape Gateway and Volume Gateway, the minimum value is
-  /// <code>51200</code>.
-  ///
-  /// For S3 File Gateway and FSx File Gateway, the minimum value is
-  /// <code>104857600</code>.
-  /// </note>
-  final int? averageUploadRateLimitInBitsPerSec;
-
-  BandwidthRateLimitInterval({
-    required this.daysOfWeek,
-    required this.endHourOfDay,
-    required this.endMinuteOfHour,
-    required this.startHourOfDay,
-    required this.startMinuteOfHour,
-    this.averageDownloadRateLimitInBitsPerSec,
-    this.averageUploadRateLimitInBitsPerSec,
-  });
-
-  factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
-    return BandwidthRateLimitInterval(
-      daysOfWeek: ((json['DaysOfWeek'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as int)
-          .toList(),
-      endHourOfDay: (json['EndHourOfDay'] as int?) ?? 0,
-      endMinuteOfHour: (json['EndMinuteOfHour'] as int?) ?? 0,
-      startHourOfDay: (json['StartHourOfDay'] as int?) ?? 0,
-      startMinuteOfHour: (json['StartMinuteOfHour'] as int?) ?? 0,
-      averageDownloadRateLimitInBitsPerSec:
-          json['AverageDownloadRateLimitInBitsPerSec'] as int?,
-      averageUploadRateLimitInBitsPerSec:
-          json['AverageUploadRateLimitInBitsPerSec'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final daysOfWeek = this.daysOfWeek;
-    final endHourOfDay = this.endHourOfDay;
-    final endMinuteOfHour = this.endMinuteOfHour;
-    final startHourOfDay = this.startHourOfDay;
-    final startMinuteOfHour = this.startMinuteOfHour;
-    final averageDownloadRateLimitInBitsPerSec =
-        this.averageDownloadRateLimitInBitsPerSec;
-    final averageUploadRateLimitInBitsPerSec =
-        this.averageUploadRateLimitInBitsPerSec;
-    return {
-      'DaysOfWeek': daysOfWeek,
-      'EndHourOfDay': endHourOfDay,
-      'EndMinuteOfHour': endMinuteOfHour,
-      'StartHourOfDay': startHourOfDay,
-      'StartMinuteOfHour': startMinuteOfHour,
-      if (averageDownloadRateLimitInBitsPerSec != null)
-        'AverageDownloadRateLimitInBitsPerSec':
-            averageDownloadRateLimitInBitsPerSec,
-      if (averageUploadRateLimitInBitsPerSec != null)
-        'AverageUploadRateLimitInBitsPerSec':
-            averageUploadRateLimitInBitsPerSec,
-    };
-  }
-}
-
-/// The refresh cache information for the file share or FSx file systems.
-class CacheAttributes {
-  /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the
-  /// length of time since the last refresh after which access to the directory
-  /// would cause the file gateway to first refresh that directory's contents from
-  /// the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in
-  /// seconds.
-  ///
-  /// Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days)
-  final int? cacheStaleTimeoutInSeconds;
-
-  CacheAttributes({
-    this.cacheStaleTimeoutInSeconds,
-  });
-
-  factory CacheAttributes.fromJson(Map<String, dynamic> json) {
-    return CacheAttributes(
-      cacheStaleTimeoutInSeconds: json['CacheStaleTimeoutInSeconds'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cacheStaleTimeoutInSeconds = this.cacheStaleTimeoutInSeconds;
-    return {
-      if (cacheStaleTimeoutInSeconds != null)
-        'CacheStaleTimeoutInSeconds': cacheStaleTimeoutInSeconds,
-    };
-  }
-}
-
-/// Describes an iSCSI cached volume.
-class CachediSCSIVolume {
-  /// The date the volume was created. Volumes created prior to March 28, 2017
-  /// don’t have this timestamp.
-  final DateTime? createdDate;
-  final String? kMSKey;
-
-  /// If the cached volume was created from a snapshot, this field contains the
-  /// snapshot ID used, e.g., snap-78e22663. Otherwise, this field is not
-  /// included.
-  final String? sourceSnapshotId;
-
-  /// The name of the iSCSI target used by an initiator to connect to a volume and
-  /// used as a suffix for the target ARN. For example, specifying
-  /// <code>TargetName</code> as <i>myvolume</i> results in the target ARN of
-  /// <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
-  /// The target name must be unique across all volumes on a gateway.
-  ///
-  /// If you don't specify a value, Storage Gateway uses the value that was
-  /// previously used for this volume as the new target name.
-  final String? targetName;
-
-  /// The Amazon Resource Name (ARN) of the storage volume.
-  final String? volumeARN;
-
-  /// A value that indicates whether a storage volume is attached to or detached
-  /// from a gateway. For more information, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#attach-detach-volume">Moving
-  /// your volumes to a different gateway</a>.
-  final String? volumeAttachmentStatus;
-
-  /// The unique identifier of the volume, e.g., vol-AE4B946D.
-  final String? volumeId;
-
-  /// Represents the percentage complete if the volume is restoring or
-  /// bootstrapping that represents the percent of data transferred. This field
-  /// does not appear in the response if the cached volume is not restoring or
-  /// bootstrapping.
-  final double? volumeProgress;
-
-  /// The size, in bytes, of the volume capacity.
-  final int? volumeSizeInBytes;
-
-  /// One of the VolumeStatus values that indicates the state of the storage
-  /// volume.
-  final String? volumeStatus;
-
-  /// One of the VolumeType enumeration values that describes the type of the
-  /// volume.
-  final String? volumeType;
-
-  /// The size of the data stored on the volume in bytes. This value is calculated
-  /// based on the number of blocks that are touched, instead of the actual amount
-  /// of data written. This value can be useful for sequential write patterns but
-  /// less accurate for random write patterns. <code>VolumeUsedInBytes</code> is
-  /// different from the compressed size of the volume, which is the value that is
-  /// used to calculate your bill.
-  /// <note>
-  /// This value is not available for volumes created prior to May 13, 2015, until
-  /// you store data on the volume.
-  ///
-  /// If you use a delete tool that overwrites the data on your volume with random
-  /// data, your usage will not be reduced. This is because the random data is not
-  /// compressible. If you want to reduce the amount of billed storage on your
-  /// volume, we recommend overwriting your files with zeros to compress the data
-  /// to a negligible amount of actual storage.
-  /// </note>
-  final int? volumeUsedInBytes;
-
-  /// An <a>VolumeiSCSIAttributes</a> object that represents a collection of iSCSI
-  /// attributes for one stored volume.
-  final VolumeiSCSIAttributes? volumeiSCSIAttributes;
-
-  CachediSCSIVolume({
-    this.createdDate,
-    this.kMSKey,
-    this.sourceSnapshotId,
-    this.targetName,
-    this.volumeARN,
-    this.volumeAttachmentStatus,
-    this.volumeId,
-    this.volumeProgress,
-    this.volumeSizeInBytes,
-    this.volumeStatus,
-    this.volumeType,
-    this.volumeUsedInBytes,
-    this.volumeiSCSIAttributes,
-  });
-
-  factory CachediSCSIVolume.fromJson(Map<String, dynamic> json) {
-    return CachediSCSIVolume(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      kMSKey: json['KMSKey'] as String?,
-      sourceSnapshotId: json['SourceSnapshotId'] as String?,
-      targetName: json['TargetName'] as String?,
-      volumeARN: json['VolumeARN'] as String?,
-      volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
-      volumeId: json['VolumeId'] as String?,
-      volumeProgress: json['VolumeProgress'] as double?,
-      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
-      volumeStatus: json['VolumeStatus'] as String?,
-      volumeType: json['VolumeType'] as String?,
-      volumeUsedInBytes: json['VolumeUsedInBytes'] as int?,
-      volumeiSCSIAttributes: json['VolumeiSCSIAttributes'] != null
-          ? VolumeiSCSIAttributes.fromJson(
-              json['VolumeiSCSIAttributes'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final kMSKey = this.kMSKey;
-    final sourceSnapshotId = this.sourceSnapshotId;
-    final targetName = this.targetName;
-    final volumeARN = this.volumeARN;
-    final volumeAttachmentStatus = this.volumeAttachmentStatus;
-    final volumeId = this.volumeId;
-    final volumeProgress = this.volumeProgress;
-    final volumeSizeInBytes = this.volumeSizeInBytes;
-    final volumeStatus = this.volumeStatus;
-    final volumeType = this.volumeType;
-    final volumeUsedInBytes = this.volumeUsedInBytes;
-    final volumeiSCSIAttributes = this.volumeiSCSIAttributes;
-    return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (kMSKey != null) 'KMSKey': kMSKey,
-      if (sourceSnapshotId != null) 'SourceSnapshotId': sourceSnapshotId,
-      if (targetName != null) 'TargetName': targetName,
-      if (volumeARN != null) 'VolumeARN': volumeARN,
-      if (volumeAttachmentStatus != null)
-        'VolumeAttachmentStatus': volumeAttachmentStatus,
-      if (volumeId != null) 'VolumeId': volumeId,
-      if (volumeProgress != null) 'VolumeProgress': volumeProgress,
-      if (volumeSizeInBytes != null) 'VolumeSizeInBytes': volumeSizeInBytes,
-      if (volumeStatus != null) 'VolumeStatus': volumeStatus,
-      if (volumeType != null) 'VolumeType': volumeType,
-      if (volumeUsedInBytes != null) 'VolumeUsedInBytes': volumeUsedInBytes,
-      if (volumeiSCSIAttributes != null)
-        'VolumeiSCSIAttributes': volumeiSCSIAttributes,
-    };
-  }
-}
-
 /// CancelArchivalOutput
 class CancelArchivalOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape for which archiving was
@@ -6055,6 +6099,28 @@ class CancelArchivalOutput {
   }
 }
 
+class CancelCacheReportOutput {
+  /// The Amazon Resource Name (ARN) of the cache report you want to cancel.
+  final String? cacheReportARN;
+
+  CancelCacheReportOutput({
+    this.cacheReportARN,
+  });
+
+  factory CancelCacheReportOutput.fromJson(Map<String, dynamic> json) {
+    return CancelCacheReportOutput(
+      cacheReportARN: json['CacheReportARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheReportARN = this.cacheReportARN;
+    return {
+      if (cacheReportARN != null) 'CacheReportARN': cacheReportARN,
+    };
+  }
+}
+
 /// CancelRetrievalOutput
 class CancelRetrievalOutput {
   /// The Amazon Resource Name (ARN) of the virtual tape for which retrieval was
@@ -6075,83 +6141,6 @@ class CancelRetrievalOutput {
     final tapeARN = this.tapeARN;
     return {
       if (tapeARN != null) 'TapeARN': tapeARN,
-    };
-  }
-}
-
-class CaseSensitivity {
-  static const clientSpecified = CaseSensitivity._('ClientSpecified');
-  static const caseSensitive = CaseSensitivity._('CaseSensitive');
-
-  final String value;
-
-  const CaseSensitivity._(this.value);
-
-  static const values = [clientSpecified, caseSensitive];
-
-  static CaseSensitivity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CaseSensitivity._(value));
-
-  @override
-  bool operator ==(other) => other is CaseSensitivity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes Challenge-Handshake Authentication Protocol (CHAP) information
-/// that supports authentication between your gateway and iSCSI initiators.
-class ChapInfo {
-  /// The iSCSI initiator that connects to the target.
-  final String? initiatorName;
-
-  /// The secret key that the initiator (for example, the Windows client) must
-  /// provide to participate in mutual CHAP with the target.
-  final String? secretToAuthenticateInitiator;
-
-  /// The secret key that the target must provide to participate in mutual CHAP
-  /// with the initiator (e.g., Windows client).
-  final String? secretToAuthenticateTarget;
-
-  /// The Amazon Resource Name (ARN) of the volume.
-  ///
-  /// Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens
-  /// (-).
-  final String? targetARN;
-
-  ChapInfo({
-    this.initiatorName,
-    this.secretToAuthenticateInitiator,
-    this.secretToAuthenticateTarget,
-    this.targetARN,
-  });
-
-  factory ChapInfo.fromJson(Map<String, dynamic> json) {
-    return ChapInfo(
-      initiatorName: json['InitiatorName'] as String?,
-      secretToAuthenticateInitiator:
-          json['SecretToAuthenticateInitiator'] as String?,
-      secretToAuthenticateTarget: json['SecretToAuthenticateTarget'] as String?,
-      targetARN: json['TargetARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final initiatorName = this.initiatorName;
-    final secretToAuthenticateInitiator = this.secretToAuthenticateInitiator;
-    final secretToAuthenticateTarget = this.secretToAuthenticateTarget;
-    final targetARN = this.targetARN;
-    return {
-      if (initiatorName != null) 'InitiatorName': initiatorName,
-      if (secretToAuthenticateInitiator != null)
-        'SecretToAuthenticateInitiator': secretToAuthenticateInitiator,
-      if (secretToAuthenticateTarget != null)
-        'SecretToAuthenticateTarget': secretToAuthenticateTarget,
-      if (targetARN != null) 'TargetARN': targetARN,
     };
   }
 }
@@ -6232,6 +6221,40 @@ class CreateSMBFileShareOutput {
   }
 }
 
+/// A JSON object containing the following fields:
+class CreateSnapshotOutput {
+  /// The snapshot ID that is used to refer to the snapshot in future operations
+  /// such as describing snapshots (Amazon Elastic Compute Cloud API
+  /// <code>DescribeSnapshots</code>) or creating a volume from a snapshot
+  /// (<a>CreateStorediSCSIVolume</a>).
+  final String? snapshotId;
+
+  /// The Amazon Resource Name (ARN) of the volume of which the snapshot was
+  /// taken.
+  final String? volumeARN;
+
+  CreateSnapshotOutput({
+    this.snapshotId,
+    this.volumeARN,
+  });
+
+  factory CreateSnapshotOutput.fromJson(Map<String, dynamic> json) {
+    return CreateSnapshotOutput(
+      snapshotId: json['SnapshotId'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotId = this.snapshotId;
+    final volumeARN = this.volumeARN;
+    return {
+      if (snapshotId != null) 'SnapshotId': snapshotId,
+      if (volumeARN != null) 'VolumeARN': volumeARN,
+    };
+  }
+}
+
 class CreateSnapshotFromVolumeRecoveryPointOutput {
   /// The ID of the snapshot.
   final String? snapshotId;
@@ -6268,40 +6291,6 @@ class CreateSnapshotFromVolumeRecoveryPointOutput {
       if (volumeARN != null) 'VolumeARN': volumeARN,
       if (volumeRecoveryPointTime != null)
         'VolumeRecoveryPointTime': volumeRecoveryPointTime,
-    };
-  }
-}
-
-/// A JSON object containing the following fields:
-class CreateSnapshotOutput {
-  /// The snapshot ID that is used to refer to the snapshot in future operations
-  /// such as describing snapshots (Amazon Elastic Compute Cloud API
-  /// <code>DescribeSnapshots</code>) or creating a volume from a snapshot
-  /// (<a>CreateStorediSCSIVolume</a>).
-  final String? snapshotId;
-
-  /// The Amazon Resource Name (ARN) of the volume of which the snapshot was
-  /// taken.
-  final String? volumeARN;
-
-  CreateSnapshotOutput({
-    this.snapshotId,
-    this.volumeARN,
-  });
-
-  factory CreateSnapshotOutput.fromJson(Map<String, dynamic> json) {
-    return CreateSnapshotOutput(
-      snapshotId: json['SnapshotId'] as String?,
-      volumeARN: json['VolumeARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final snapshotId = this.snapshotId;
-    final volumeARN = this.volumeARN;
-    return {
-      if (snapshotId != null) 'SnapshotId': snapshotId,
-      if (volumeARN != null) 'VolumeARN': volumeARN,
     };
   }
 }
@@ -6369,30 +6358,6 @@ class CreateTapePoolOutput {
 }
 
 /// CreateTapeOutput
-class CreateTapeWithBarcodeOutput {
-  /// A unique Amazon Resource Name (ARN) that represents the virtual tape that
-  /// was created.
-  final String? tapeARN;
-
-  CreateTapeWithBarcodeOutput({
-    this.tapeARN,
-  });
-
-  factory CreateTapeWithBarcodeOutput.fromJson(Map<String, dynamic> json) {
-    return CreateTapeWithBarcodeOutput(
-      tapeARN: json['TapeARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tapeARN = this.tapeARN;
-    return {
-      if (tapeARN != null) 'TapeARN': tapeARN,
-    };
-  }
-}
-
-/// CreateTapeOutput
 class CreateTapesOutput {
   /// A list of unique Amazon Resource Names (ARNs) that represents the virtual
   /// tapes that were created.
@@ -6415,6 +6380,30 @@ class CreateTapesOutput {
     final tapeARNs = this.tapeARNs;
     return {
       if (tapeARNs != null) 'TapeARNs': tapeARNs,
+    };
+  }
+}
+
+/// CreateTapeOutput
+class CreateTapeWithBarcodeOutput {
+  /// A unique Amazon Resource Name (ARN) that represents the virtual tape that
+  /// was created.
+  final String? tapeARN;
+
+  CreateTapeWithBarcodeOutput({
+    this.tapeARN,
+  });
+
+  factory CreateTapeWithBarcodeOutput.fromJson(Map<String, dynamic> json) {
+    return CreateTapeWithBarcodeOutput(
+      tapeARN: json['TapeARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tapeARN = this.tapeARN;
+    return {
+      if (tapeARN != null) 'TapeARN': tapeARN,
     };
   }
 }
@@ -6460,6 +6449,28 @@ class DeleteBandwidthRateLimitOutput {
     final gatewayARN = this.gatewayARN;
     return {
       if (gatewayARN != null) 'GatewayARN': gatewayARN,
+    };
+  }
+}
+
+class DeleteCacheReportOutput {
+  /// The Amazon Resource Name (ARN) of the cache report you want to delete.
+  final String? cacheReportARN;
+
+  DeleteCacheReportOutput({
+    this.cacheReportARN,
+  });
+
+  factory DeleteCacheReportOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteCacheReportOutput(
+      cacheReportARN: json['CacheReportARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheReportARN = this.cacheReportARN;
+    return {
+      if (cacheReportARN != null) 'CacheReportARN': cacheReportARN,
     };
   }
 }
@@ -6561,18 +6572,17 @@ class DeleteSnapshotScheduleOutput {
   }
 }
 
-/// DeleteTapeArchiveOutput
-class DeleteTapeArchiveOutput {
-  /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the
-  /// virtual tape shelf (VTS).
+/// DeleteTapeOutput
+class DeleteTapeOutput {
+  /// The Amazon Resource Name (ARN) of the deleted virtual tape.
   final String? tapeARN;
 
-  DeleteTapeArchiveOutput({
+  DeleteTapeOutput({
     this.tapeARN,
   });
 
-  factory DeleteTapeArchiveOutput.fromJson(Map<String, dynamic> json) {
-    return DeleteTapeArchiveOutput(
+  factory DeleteTapeOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteTapeOutput(
       tapeARN: json['TapeARN'] as String?,
     );
   }
@@ -6585,17 +6595,18 @@ class DeleteTapeArchiveOutput {
   }
 }
 
-/// DeleteTapeOutput
-class DeleteTapeOutput {
-  /// The Amazon Resource Name (ARN) of the deleted virtual tape.
+/// DeleteTapeArchiveOutput
+class DeleteTapeArchiveOutput {
+  /// The Amazon Resource Name (ARN) of the virtual tape that was deleted from the
+  /// virtual tape shelf (VTS).
   final String? tapeARN;
 
-  DeleteTapeOutput({
+  DeleteTapeArchiveOutput({
     this.tapeARN,
   });
 
-  factory DeleteTapeOutput.fromJson(Map<String, dynamic> json) {
-    return DeleteTapeOutput(
+  factory DeleteTapeArchiveOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteTapeArchiveOutput(
       tapeARN: json['TapeARN'] as String?,
     );
   }
@@ -6876,6 +6887,32 @@ class DescribeCachediSCSIVolumesOutput {
   }
 }
 
+class DescribeCacheReportOutput {
+  /// Contains all informational fields associated with a cache report. Includes
+  /// name, ARN, tags, status, progress, filters, start time, and end time.
+  final CacheReportInfo? cacheReportInfo;
+
+  DescribeCacheReportOutput({
+    this.cacheReportInfo,
+  });
+
+  factory DescribeCacheReportOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeCacheReportOutput(
+      cacheReportInfo: json['CacheReportInfo'] != null
+          ? CacheReportInfo.fromJson(
+              json['CacheReportInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheReportInfo = this.cacheReportInfo;
+    return {
+      if (cacheReportInfo != null) 'CacheReportInfo': cacheReportInfo,
+    };
+  }
+}
+
 /// A JSON object containing the following fields:
 class DescribeChapCredentialsOutput {
   /// An array of <a>ChapInfo</a> objects that represent CHAP credentials. Each
@@ -7001,6 +7038,13 @@ class DescribeGatewayInformationOutput {
   final String? gatewayTimezone;
 
   /// The type of the gateway.
+  /// <important>
+  /// Amazon FSx File Gateway is no longer available to new customers. Existing
+  /// customers of FSx File Gateway can continue to use the service normally. For
+  /// capabilities similar to FSx File Gateway, visit <a
+  /// href="https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/">this
+  /// blog post</a>.
+  /// </important>
   final String? gatewayType;
 
   /// The type of hardware or software platform on which the gateway is running.
@@ -7213,12 +7257,17 @@ class DescribeMaintenanceStartTimeOutput {
   /// A set of variables indicating the software update preferences for the
   /// gateway.
   ///
-  /// Includes <code>AutomaticUpdatePolicy</code> field with the following inputs:
+  /// Includes <code>AutomaticUpdatePolicy</code> parameter with the following
+  /// inputs:
   ///
   /// <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.
   ///
   /// <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway maintenance
-  /// updates.
+  /// updates. The gateway will still receive emergency version updates on rare
+  /// occasions if necessary to remedy highly critical security or durability
+  /// issues. You will be notified before an emergency version update is applied.
+  /// These updates are applied during your gateway's scheduled maintenance
+  /// window.
   final SoftwareUpdatePreferences? softwareUpdatePreferences;
 
   /// A value that indicates the time zone that is set for the gateway. The start
@@ -7329,7 +7378,11 @@ class DescribeSMBFileSharesOutput {
 class DescribeSMBSettingsOutput {
   /// Indicates the status of a gateway that is a member of the Active Directory
   /// domain.
-  ///
+  /// <note>
+  /// This field is only used as part of a <code>JoinDomain</code> request. It is
+  /// not affected by Active Directory connectivity changes that occur after the
+  /// <code>JoinDomain</code> request succeeds.
+  /// </note>
   /// <ul>
   /// <li>
   /// <code>ACCESS_DENIED</code>: Indicates that the <code>JoinDomain</code>
@@ -7909,52 +7962,6 @@ class DetachVolumeOutput {
   }
 }
 
-/// Lists iSCSI information about a VTL device.
-class DeviceiSCSIAttributes {
-  /// Indicates whether mutual CHAP is enabled for the iSCSI target.
-  final bool? chapEnabled;
-
-  /// The network interface identifier of the VTL device.
-  final String? networkInterfaceId;
-
-  /// The port used to communicate with iSCSI VTL device targets.
-  final int? networkInterfacePort;
-
-  /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI
-  /// qualified name(iqn) of a tape drive or media changer target.
-  final String? targetARN;
-
-  DeviceiSCSIAttributes({
-    this.chapEnabled,
-    this.networkInterfaceId,
-    this.networkInterfacePort,
-    this.targetARN,
-  });
-
-  factory DeviceiSCSIAttributes.fromJson(Map<String, dynamic> json) {
-    return DeviceiSCSIAttributes(
-      chapEnabled: json['ChapEnabled'] as bool?,
-      networkInterfaceId: json['NetworkInterfaceId'] as String?,
-      networkInterfacePort: json['NetworkInterfacePort'] as int?,
-      targetARN: json['TargetARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final chapEnabled = this.chapEnabled;
-    final networkInterfaceId = this.networkInterfaceId;
-    final networkInterfacePort = this.networkInterfacePort;
-    final targetARN = this.targetARN;
-    return {
-      if (chapEnabled != null) 'ChapEnabled': chapEnabled,
-      if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
-      if (networkInterfacePort != null)
-        'NetworkInterfacePort': networkInterfacePort,
-      if (targetARN != null) 'TargetARN': targetARN,
-    };
-  }
-}
-
 /// DisableGatewayOutput
 class DisableGatewayOutput {
   /// The unique Amazon Resource Name (ARN) of the disabled gateway.
@@ -8001,532 +8008,38 @@ class DisassociateFileSystemOutput {
   }
 }
 
-/// Represents a gateway's local disk.
-class Disk {
-  /// The iSCSI qualified name (IQN) that is defined for a disk. This field is not
-  /// included in the response if the local disk is not defined as an iSCSI
-  /// target. The format of this field is
-  /// <i>targetIqn::LUNNumber::region-volumeId</i>.
-  final String? diskAllocationResource;
-  final String? diskAllocationType;
-  final List<String>? diskAttributeList;
+class EvictFilesFailingUploadOutput {
+  /// The randomly generated ID of the CloudWatch notification associated with the
+  /// cache clean operation. This ID is in UUID format.
+  final String? notificationId;
 
-  /// The unique device ID or other distinguishing data that identifies a local
-  /// disk.
-  final String? diskId;
-
-  /// The device node of a local disk as assigned by the virtualization
-  /// environment.
-  final String? diskNode;
-
-  /// The path of a local disk in the gateway virtual machine (VM).
-  final String? diskPath;
-
-  /// The local disk size in bytes.
-  final int? diskSizeInBytes;
-
-  /// A value that represents the status of a local disk.
-  final String? diskStatus;
-
-  Disk({
-    this.diskAllocationResource,
-    this.diskAllocationType,
-    this.diskAttributeList,
-    this.diskId,
-    this.diskNode,
-    this.diskPath,
-    this.diskSizeInBytes,
-    this.diskStatus,
+  EvictFilesFailingUploadOutput({
+    this.notificationId,
   });
 
-  factory Disk.fromJson(Map<String, dynamic> json) {
-    return Disk(
-      diskAllocationResource: json['DiskAllocationResource'] as String?,
-      diskAllocationType: json['DiskAllocationType'] as String?,
-      diskAttributeList: (json['DiskAttributeList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      diskId: json['DiskId'] as String?,
-      diskNode: json['DiskNode'] as String?,
-      diskPath: json['DiskPath'] as String?,
-      diskSizeInBytes: json['DiskSizeInBytes'] as int?,
-      diskStatus: json['DiskStatus'] as String?,
+  factory EvictFilesFailingUploadOutput.fromJson(Map<String, dynamic> json) {
+    return EvictFilesFailingUploadOutput(
+      notificationId: json['NotificationId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final diskAllocationResource = this.diskAllocationResource;
-    final diskAllocationType = this.diskAllocationType;
-    final diskAttributeList = this.diskAttributeList;
-    final diskId = this.diskId;
-    final diskNode = this.diskNode;
-    final diskPath = this.diskPath;
-    final diskSizeInBytes = this.diskSizeInBytes;
-    final diskStatus = this.diskStatus;
+    final notificationId = this.notificationId;
     return {
-      if (diskAllocationResource != null)
-        'DiskAllocationResource': diskAllocationResource,
-      if (diskAllocationType != null) 'DiskAllocationType': diskAllocationType,
-      if (diskAttributeList != null) 'DiskAttributeList': diskAttributeList,
-      if (diskId != null) 'DiskId': diskId,
-      if (diskNode != null) 'DiskNode': diskNode,
-      if (diskPath != null) 'DiskPath': diskPath,
-      if (diskSizeInBytes != null) 'DiskSizeInBytes': diskSizeInBytes,
-      if (diskStatus != null) 'DiskStatus': diskStatus,
+      if (notificationId != null) 'NotificationId': notificationId,
     };
   }
-}
-
-/// Specifies network configuration information for the gateway associated with
-/// the Amazon FSx file system.
-class EndpointNetworkConfiguration {
-  /// A list of gateway IP addresses on which the associated Amazon FSx file
-  /// system is available.
-  /// <note>
-  /// If multiple file systems are associated with this gateway, this field is
-  /// required.
-  /// </note>
-  final List<String>? ipAddresses;
-
-  EndpointNetworkConfiguration({
-    this.ipAddresses,
-  });
-
-  factory EndpointNetworkConfiguration.fromJson(Map<String, dynamic> json) {
-    return EndpointNetworkConfiguration(
-      ipAddresses: (json['IpAddresses'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ipAddresses = this.ipAddresses;
-    return {
-      if (ipAddresses != null) 'IpAddresses': ipAddresses,
-    };
-  }
-}
-
-/// Describes a file share. Only supported S3 File Gateway.
-class FileShareInfo {
-  final String? fileShareARN;
-  final String? fileShareId;
-  final String? fileShareStatus;
-  final FileShareType? fileShareType;
-  final String? gatewayARN;
-
-  FileShareInfo({
-    this.fileShareARN,
-    this.fileShareId,
-    this.fileShareStatus,
-    this.fileShareType,
-    this.gatewayARN,
-  });
-
-  factory FileShareInfo.fromJson(Map<String, dynamic> json) {
-    return FileShareInfo(
-      fileShareARN: json['FileShareARN'] as String?,
-      fileShareId: json['FileShareId'] as String?,
-      fileShareStatus: json['FileShareStatus'] as String?,
-      fileShareType:
-          (json['FileShareType'] as String?)?.let(FileShareType.fromString),
-      gatewayARN: json['GatewayARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fileShareARN = this.fileShareARN;
-    final fileShareId = this.fileShareId;
-    final fileShareStatus = this.fileShareStatus;
-    final fileShareType = this.fileShareType;
-    final gatewayARN = this.gatewayARN;
-    return {
-      if (fileShareARN != null) 'FileShareARN': fileShareARN,
-      if (fileShareId != null) 'FileShareId': fileShareId,
-      if (fileShareStatus != null) 'FileShareStatus': fileShareStatus,
-      if (fileShareType != null) 'FileShareType': fileShareType.value,
-      if (gatewayARN != null) 'GatewayARN': gatewayARN,
-    };
-  }
-}
-
-/// The type of the file share.
-class FileShareType {
-  static const nfs = FileShareType._('NFS');
-  static const smb = FileShareType._('SMB');
-
-  final String value;
-
-  const FileShareType._(this.value);
-
-  static const values = [nfs, smb];
-
-  static FileShareType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FileShareType._(value));
-
-  @override
-  bool operator ==(other) => other is FileShareType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the object returned by <code>DescribeFileSystemAssociations</code>
-/// that describes a created file system association.
-class FileSystemAssociationInfo {
-  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
-  final String? auditDestinationARN;
-  final CacheAttributes? cacheAttributes;
-
-  /// Specifies network configuration information for the gateway associated with
-  /// the Amazon FSx file system.
-  /// <note>
-  /// If multiple file systems are associated with this gateway, this parameter's
-  /// <code>IpAddresses</code> field is required.
-  /// </note>
-  final EndpointNetworkConfiguration? endpointNetworkConfiguration;
-
-  /// The Amazon Resource Name (ARN) of the file system association.
-  final String? fileSystemAssociationARN;
-
-  /// The status of the file system association. Valid Values:
-  /// <code>AVAILABLE</code> | <code>CREATING</code> | <code>DELETING</code> |
-  /// <code>FORCE_DELETING</code> | <code>UPDATING</code> | <code>ERROR</code>
-  final String? fileSystemAssociationStatus;
-
-  /// An array containing the FileSystemAssociationStatusDetail data type, which
-  /// provides detailed information on file system association status.
-  final List<FileSystemAssociationStatusDetail>?
-      fileSystemAssociationStatusDetails;
-  final String? gatewayARN;
-
-  /// The ARN of the backend Amazon FSx file system used for storing file data.
-  /// For information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/APIReference/API_FileSystem.html">FileSystem</a>
-  /// in the <i>Amazon FSx API Reference</i>.
-  final String? locationARN;
-
-  /// A list of up to 50 tags assigned to the SMB file share, sorted
-  /// alphabetically by key name. Each tag is a key-value pair.
-  final List<Tag>? tags;
-
-  FileSystemAssociationInfo({
-    this.auditDestinationARN,
-    this.cacheAttributes,
-    this.endpointNetworkConfiguration,
-    this.fileSystemAssociationARN,
-    this.fileSystemAssociationStatus,
-    this.fileSystemAssociationStatusDetails,
-    this.gatewayARN,
-    this.locationARN,
-    this.tags,
-  });
-
-  factory FileSystemAssociationInfo.fromJson(Map<String, dynamic> json) {
-    return FileSystemAssociationInfo(
-      auditDestinationARN: json['AuditDestinationARN'] as String?,
-      cacheAttributes: json['CacheAttributes'] != null
-          ? CacheAttributes.fromJson(
-              json['CacheAttributes'] as Map<String, dynamic>)
-          : null,
-      endpointNetworkConfiguration: json['EndpointNetworkConfiguration'] != null
-          ? EndpointNetworkConfiguration.fromJson(
-              json['EndpointNetworkConfiguration'] as Map<String, dynamic>)
-          : null,
-      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
-      fileSystemAssociationStatus:
-          json['FileSystemAssociationStatus'] as String?,
-      fileSystemAssociationStatusDetails:
-          (json['FileSystemAssociationStatusDetails'] as List?)
-              ?.nonNulls
-              .map((e) => FileSystemAssociationStatusDetail.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      gatewayARN: json['GatewayARN'] as String?,
-      locationARN: json['LocationARN'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final auditDestinationARN = this.auditDestinationARN;
-    final cacheAttributes = this.cacheAttributes;
-    final endpointNetworkConfiguration = this.endpointNetworkConfiguration;
-    final fileSystemAssociationARN = this.fileSystemAssociationARN;
-    final fileSystemAssociationStatus = this.fileSystemAssociationStatus;
-    final fileSystemAssociationStatusDetails =
-        this.fileSystemAssociationStatusDetails;
-    final gatewayARN = this.gatewayARN;
-    final locationARN = this.locationARN;
-    final tags = this.tags;
-    return {
-      if (auditDestinationARN != null)
-        'AuditDestinationARN': auditDestinationARN,
-      if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
-      if (endpointNetworkConfiguration != null)
-        'EndpointNetworkConfiguration': endpointNetworkConfiguration,
-      if (fileSystemAssociationARN != null)
-        'FileSystemAssociationARN': fileSystemAssociationARN,
-      if (fileSystemAssociationStatus != null)
-        'FileSystemAssociationStatus': fileSystemAssociationStatus,
-      if (fileSystemAssociationStatusDetails != null)
-        'FileSystemAssociationStatusDetails':
-            fileSystemAssociationStatusDetails,
-      if (gatewayARN != null) 'GatewayARN': gatewayARN,
-      if (locationARN != null) 'LocationARN': locationARN,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Detailed information on file system association status.
-class FileSystemAssociationStatusDetail {
-  /// The error code for a given file system association status.
-  final String? errorCode;
-
-  FileSystemAssociationStatusDetail({
-    this.errorCode,
-  });
-
-  factory FileSystemAssociationStatusDetail.fromJson(
-      Map<String, dynamic> json) {
-    return FileSystemAssociationStatusDetail(
-      errorCode: json['ErrorCode'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-    };
-  }
-}
-
-/// Gets the summary returned by <code>ListFileSystemAssociation</code>, which
-/// is a summary of a created file system association.
-class FileSystemAssociationSummary {
-  /// The Amazon Resource Name (ARN) of the file system association.
-  final String? fileSystemAssociationARN;
-
-  /// The ID of the file system association.
-  final String? fileSystemAssociationId;
-
-  /// The status of the file share. Valid Values: <code>AVAILABLE</code> |
-  /// <code>CREATING</code> | <code>DELETING</code> | <code>FORCE_DELETING</code>
-  /// | <code>UPDATING</code> | <code>ERROR</code>
-  final String? fileSystemAssociationStatus;
-  final String? gatewayARN;
-
-  FileSystemAssociationSummary({
-    this.fileSystemAssociationARN,
-    this.fileSystemAssociationId,
-    this.fileSystemAssociationStatus,
-    this.gatewayARN,
-  });
-
-  factory FileSystemAssociationSummary.fromJson(Map<String, dynamic> json) {
-    return FileSystemAssociationSummary(
-      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
-      fileSystemAssociationId: json['FileSystemAssociationId'] as String?,
-      fileSystemAssociationStatus:
-          json['FileSystemAssociationStatus'] as String?,
-      gatewayARN: json['GatewayARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fileSystemAssociationARN = this.fileSystemAssociationARN;
-    final fileSystemAssociationId = this.fileSystemAssociationId;
-    final fileSystemAssociationStatus = this.fileSystemAssociationStatus;
-    final gatewayARN = this.gatewayARN;
-    return {
-      if (fileSystemAssociationARN != null)
-        'FileSystemAssociationARN': fileSystemAssociationARN,
-      if (fileSystemAssociationId != null)
-        'FileSystemAssociationId': fileSystemAssociationId,
-      if (fileSystemAssociationStatus != null)
-        'FileSystemAssociationStatus': fileSystemAssociationStatus,
-      if (gatewayARN != null) 'GatewayARN': gatewayARN,
-    };
-  }
-}
-
-class GatewayCapacity {
-  static const small = GatewayCapacity._('Small');
-  static const medium = GatewayCapacity._('Medium');
-  static const large = GatewayCapacity._('Large');
-
-  final String value;
-
-  const GatewayCapacity._(this.value);
-
-  static const values = [small, medium, large];
-
-  static GatewayCapacity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GatewayCapacity._(value));
-
-  @override
-  bool operator ==(other) => other is GatewayCapacity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a gateway object.
-class GatewayInfo {
-  /// Date after which this gateway will not receive software updates for new
-  /// features and bug fixes.
-  final String? deprecationDate;
-
-  /// The ID of the Amazon EC2 instance that was used to launch the gateway.
-  final String? ec2InstanceId;
-
-  /// The Amazon Web Services Region where the Amazon EC2 instance is located.
-  final String? ec2InstanceRegion;
-
-  /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
-  /// operation to return a list of gateways for your account and Amazon Web
-  /// Services Region.
-  final String? gatewayARN;
-
-  /// The unique identifier assigned to your gateway during activation. This ID
-  /// becomes part of the gateway Amazon Resource Name (ARN), which you use as
-  /// input for other operations.
-  final String? gatewayId;
-
-  /// The name of the gateway.
-  final String? gatewayName;
-
-  /// The state of the gateway.
-  ///
-  /// Valid Values: <code>DISABLED</code> | <code>ACTIVE</code>
-  final String? gatewayOperationalState;
-
-  /// The type of the gateway.
-  final String? gatewayType;
-
-  /// The type of hardware or software platform on which the gateway is running.
-  /// <note>
-  /// Tape Gateway is no longer available on Snow Family devices.
-  /// </note>
-  final HostEnvironment? hostEnvironment;
-
-  /// A unique identifier for the specific instance of the host platform running
-  /// the gateway. This value is only available for certain host environments, and
-  /// its format depends on the host environment type.
-  final String? hostEnvironmentId;
-
-  /// The version number of the software running on the gateway appliance.
-  final String? softwareVersion;
-
-  GatewayInfo({
-    this.deprecationDate,
-    this.ec2InstanceId,
-    this.ec2InstanceRegion,
-    this.gatewayARN,
-    this.gatewayId,
-    this.gatewayName,
-    this.gatewayOperationalState,
-    this.gatewayType,
-    this.hostEnvironment,
-    this.hostEnvironmentId,
-    this.softwareVersion,
-  });
-
-  factory GatewayInfo.fromJson(Map<String, dynamic> json) {
-    return GatewayInfo(
-      deprecationDate: json['DeprecationDate'] as String?,
-      ec2InstanceId: json['Ec2InstanceId'] as String?,
-      ec2InstanceRegion: json['Ec2InstanceRegion'] as String?,
-      gatewayARN: json['GatewayARN'] as String?,
-      gatewayId: json['GatewayId'] as String?,
-      gatewayName: json['GatewayName'] as String?,
-      gatewayOperationalState: json['GatewayOperationalState'] as String?,
-      gatewayType: json['GatewayType'] as String?,
-      hostEnvironment:
-          (json['HostEnvironment'] as String?)?.let(HostEnvironment.fromString),
-      hostEnvironmentId: json['HostEnvironmentId'] as String?,
-      softwareVersion: json['SoftwareVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deprecationDate = this.deprecationDate;
-    final ec2InstanceId = this.ec2InstanceId;
-    final ec2InstanceRegion = this.ec2InstanceRegion;
-    final gatewayARN = this.gatewayARN;
-    final gatewayId = this.gatewayId;
-    final gatewayName = this.gatewayName;
-    final gatewayOperationalState = this.gatewayOperationalState;
-    final gatewayType = this.gatewayType;
-    final hostEnvironment = this.hostEnvironment;
-    final hostEnvironmentId = this.hostEnvironmentId;
-    final softwareVersion = this.softwareVersion;
-    return {
-      if (deprecationDate != null) 'DeprecationDate': deprecationDate,
-      if (ec2InstanceId != null) 'Ec2InstanceId': ec2InstanceId,
-      if (ec2InstanceRegion != null) 'Ec2InstanceRegion': ec2InstanceRegion,
-      if (gatewayARN != null) 'GatewayARN': gatewayARN,
-      if (gatewayId != null) 'GatewayId': gatewayId,
-      if (gatewayName != null) 'GatewayName': gatewayName,
-      if (gatewayOperationalState != null)
-        'GatewayOperationalState': gatewayOperationalState,
-      if (gatewayType != null) 'GatewayType': gatewayType,
-      if (hostEnvironment != null) 'HostEnvironment': hostEnvironment.value,
-      if (hostEnvironmentId != null) 'HostEnvironmentId': hostEnvironmentId,
-      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
-    };
-  }
-}
-
-class HostEnvironment {
-  static const vmware = HostEnvironment._('VMWARE');
-  static const hyperV = HostEnvironment._('HYPER-V');
-  static const ec2 = HostEnvironment._('EC2');
-  static const kvm = HostEnvironment._('KVM');
-  static const other = HostEnvironment._('OTHER');
-  static const snowball = HostEnvironment._('SNOWBALL');
-
-  final String value;
-
-  const HostEnvironment._(this.value);
-
-  static const values = [vmware, hyperV, ec2, kvm, other, snowball];
-
-  static HostEnvironment fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HostEnvironment._(value));
-
-  @override
-  bool operator ==(other) => other is HostEnvironment && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// JoinDomainOutput
 class JoinDomainOutput {
   /// Indicates the status of the gateway as a member of the Active Directory
   /// domain.
-  ///
+  /// <note>
+  /// This field is only used as part of a <code>JoinDomain</code> request. It is
+  /// not affected by Active Directory connectivity changes that occur after the
+  /// <code>JoinDomain</code> request succeeds.
+  /// </note>
   /// <ul>
   /// <li>
   /// <code>ACCESS_DENIED</code>: Indicates that the <code>JoinDomain</code>
@@ -8542,6 +8055,11 @@ class JoinDomainOutput {
   /// <li>
   /// <code>JOINING</code>: Indicates that a <code>JoinDomain</code> operation is
   /// in progress.
+  /// </li>
+  /// <li>
+  /// <code>INSUFFICIENT_PERMISSIONS</code>: Indicates that the
+  /// <code>JoinDomain</code> operation failed because the specified user lacks
+  /// the necessary permissions to join the domain.
   /// </li>
   /// <li>
   /// <code>NETWORK_ERROR</code>: Indicates that <code>JoinDomain</code> operation
@@ -8613,6 +8131,42 @@ class ListAutomaticTapeCreationPoliciesOutput {
     return {
       if (automaticTapeCreationPolicyInfos != null)
         'AutomaticTapeCreationPolicyInfos': automaticTapeCreationPolicyInfos,
+    };
+  }
+}
+
+class ListCacheReportsOutput {
+  /// A list of existing cache reports for all file shares associated with your
+  /// Amazon Web Services account. This list includes all information provided by
+  /// the <code>DescribeCacheReport</code> action, such as report status,
+  /// completion progress, start time, end time, filters, and tags.
+  final List<CacheReportInfo>? cacheReportList;
+
+  /// If the request includes <code>Marker</code>, the response returns that value
+  /// in this field.
+  final String? marker;
+
+  ListCacheReportsOutput({
+    this.cacheReportList,
+    this.marker,
+  });
+
+  factory ListCacheReportsOutput.fromJson(Map<String, dynamic> json) {
+    return ListCacheReportsOutput(
+      cacheReportList: (json['CacheReportList'] as List?)
+          ?.nonNulls
+          .map((e) => CacheReportInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheReportList = this.cacheReportList;
+    final marker = this.marker;
+    return {
+      if (cacheReportList != null) 'CacheReportList': cacheReportList,
+      if (marker != null) 'Marker': marker,
     };
   }
 }
@@ -9011,344 +8565,6 @@ class ListVolumesOutput {
   }
 }
 
-/// Describes Network File System (NFS) file share default values. Files and
-/// folders stored as Amazon S3 objects in S3 buckets don't, by default, have
-/// Unix file permissions assigned to them. Upon discovery in an S3 bucket by
-/// Storage Gateway, the S3 objects that represent files and folders are
-/// assigned these default Unix permissions. This operation is only supported
-/// for S3 File Gateways.
-class NFSFileShareDefaults {
-  /// The Unix directory mode in the form "nnnn". For example, <code>0666</code>
-  /// represents the default access mode for all directories inside the file
-  /// share. The default value is <code>0777</code>.
-  final String? directoryMode;
-
-  /// The Unix file mode in the form "nnnn". For example, <code>0666</code>
-  /// represents the default file mode inside the file share. The default value is
-  /// <code>0666</code>.
-  final String? fileMode;
-
-  /// The default group ID for the file share (unless the files have another group
-  /// ID specified). The default value is <code>nfsnobody</code>.
-  final int? groupId;
-
-  /// The default owner ID for files in the file share (unless the files have
-  /// another owner ID specified). The default value is <code>nfsnobody</code>.
-  final int? ownerId;
-
-  NFSFileShareDefaults({
-    this.directoryMode,
-    this.fileMode,
-    this.groupId,
-    this.ownerId,
-  });
-
-  factory NFSFileShareDefaults.fromJson(Map<String, dynamic> json) {
-    return NFSFileShareDefaults(
-      directoryMode: json['DirectoryMode'] as String?,
-      fileMode: json['FileMode'] as String?,
-      groupId: json['GroupId'] as int?,
-      ownerId: json['OwnerId'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final directoryMode = this.directoryMode;
-    final fileMode = this.fileMode;
-    final groupId = this.groupId;
-    final ownerId = this.ownerId;
-    return {
-      if (directoryMode != null) 'DirectoryMode': directoryMode,
-      if (fileMode != null) 'FileMode': fileMode,
-      if (groupId != null) 'GroupId': groupId,
-      if (ownerId != null) 'OwnerId': ownerId,
-    };
-  }
-}
-
-/// The Unix file permissions and ownership information assigned, by default, to
-/// native S3 objects when an S3 File Gateway discovers them in S3 buckets. This
-/// operation is only supported in S3 File Gateways.
-class NFSFileShareInfo {
-  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
-  final String? auditDestinationARN;
-
-  /// Specifies the Region of the S3 bucket where the NFS file share stores files.
-  /// <note>
-  /// This parameter is required for NFS file shares that connect to Amazon S3
-  /// through a VPC endpoint, a VPC access point, or an access point alias that
-  /// points to a VPC access point.
-  /// </note>
-  final String? bucketRegion;
-
-  /// Refresh cache information for the file share.
-  final CacheAttributes? cacheAttributes;
-  final List<String>? clientList;
-
-  /// The default storage class for objects put into an Amazon S3 bucket by the S3
-  /// File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
-  ///
-  /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
-  /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
-  final String? defaultStorageClass;
-  final String? fileShareARN;
-  final String? fileShareId;
-
-  /// The name of the file share. Optional.
-  /// <note>
-  /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>, or if an access point or access point alias is
-  /// used.
-  /// </note>
-  final String? fileShareName;
-  final String? fileShareStatus;
-  final String? gatewayARN;
-
-  /// A value that enables guessing of the MIME type for uploaded objects based on
-  /// file extensions. Set this value to <code>true</code> to enable MIME type
-  /// guessing, otherwise set to <code>false</code>. The default value is
-  /// <code>true</code>.
-  ///
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? guessMIMETypeEnabled;
-
-  /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
-  /// Optional.
-  ///
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? kMSEncrypted;
-  final String? kMSKey;
-  final String? locationARN;
-  final NFSFileShareDefaults? nFSFileShareDefaults;
-
-  /// The notification policy of the file share.
-  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
-  /// after the last point in time a client wrote to a file before generating an
-  /// <code>ObjectUploaded</code> notification. Because clients can make many
-  /// small writes to files, it's best to set this parameter for as long as
-  /// possible to avoid generating multiple notifications for the same file in a
-  /// small time period.
-  /// <note>
-  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the object
-  /// uploading to Amazon S3, only the timing of the notification.
-  /// </note>
-  /// The following example sets <code>NotificationPolicy</code> on with
-  /// <code>SettlingTimeInSeconds</code> set to 60.
-  ///
-  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
-  ///
-  /// The following example sets <code>NotificationPolicy</code> off.
-  ///
-  /// <code>{}</code>
-  final String? notificationPolicy;
-  final ObjectACL? objectACL;
-  final String? path;
-
-  /// A value that sets the write status of a file share. Set this value to
-  /// <code>true</code> to set the write status to read-only, otherwise set to
-  /// <code>false</code>.
-  ///
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? readOnly;
-
-  /// A value that sets who pays the cost of the request and the cost associated
-  /// with data download from the S3 bucket. If this value is set to
-  /// <code>true</code>, the requester pays the costs; otherwise, the S3 bucket
-  /// owner pays. However, the S3 bucket owner always pays the cost of storing
-  /// data.
-  /// <note>
-  /// <code>RequesterPays</code> is a configuration for the S3 bucket that backs
-  /// the file share, so make sure that the configuration on the file share is the
-  /// same as the S3 bucket configuration.
-  /// </note>
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? requesterPays;
-  final String? role;
-  final String? squash;
-
-  /// A list of up to 50 tags assigned to the NFS file share, sorted
-  /// alphabetically by key name. Each tag is a key-value pair. For a gateway with
-  /// more than 10 tags assigned, you can view all tags using the
-  /// <code>ListTagsForResource</code> API operation.
-  final List<Tag>? tags;
-
-  /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to
-  /// connect to Amazon S3.
-  /// <note>
-  /// This parameter is required for NFS file shares that connect to Amazon S3
-  /// through a VPC endpoint, a VPC access point, or an access point alias that
-  /// points to a VPC access point.
-  /// </note>
-  final String? vPCEndpointDNSName;
-
-  NFSFileShareInfo({
-    this.auditDestinationARN,
-    this.bucketRegion,
-    this.cacheAttributes,
-    this.clientList,
-    this.defaultStorageClass,
-    this.fileShareARN,
-    this.fileShareId,
-    this.fileShareName,
-    this.fileShareStatus,
-    this.gatewayARN,
-    this.guessMIMETypeEnabled,
-    this.kMSEncrypted,
-    this.kMSKey,
-    this.locationARN,
-    this.nFSFileShareDefaults,
-    this.notificationPolicy,
-    this.objectACL,
-    this.path,
-    this.readOnly,
-    this.requesterPays,
-    this.role,
-    this.squash,
-    this.tags,
-    this.vPCEndpointDNSName,
-  });
-
-  factory NFSFileShareInfo.fromJson(Map<String, dynamic> json) {
-    return NFSFileShareInfo(
-      auditDestinationARN: json['AuditDestinationARN'] as String?,
-      bucketRegion: json['BucketRegion'] as String?,
-      cacheAttributes: json['CacheAttributes'] != null
-          ? CacheAttributes.fromJson(
-              json['CacheAttributes'] as Map<String, dynamic>)
-          : null,
-      clientList: (json['ClientList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      defaultStorageClass: json['DefaultStorageClass'] as String?,
-      fileShareARN: json['FileShareARN'] as String?,
-      fileShareId: json['FileShareId'] as String?,
-      fileShareName: json['FileShareName'] as String?,
-      fileShareStatus: json['FileShareStatus'] as String?,
-      gatewayARN: json['GatewayARN'] as String?,
-      guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool?,
-      kMSEncrypted: json['KMSEncrypted'] as bool?,
-      kMSKey: json['KMSKey'] as String?,
-      locationARN: json['LocationARN'] as String?,
-      nFSFileShareDefaults: json['NFSFileShareDefaults'] != null
-          ? NFSFileShareDefaults.fromJson(
-              json['NFSFileShareDefaults'] as Map<String, dynamic>)
-          : null,
-      notificationPolicy: json['NotificationPolicy'] as String?,
-      objectACL: (json['ObjectACL'] as String?)?.let(ObjectACL.fromString),
-      path: json['Path'] as String?,
-      readOnly: json['ReadOnly'] as bool?,
-      requesterPays: json['RequesterPays'] as bool?,
-      role: json['Role'] as String?,
-      squash: json['Squash'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vPCEndpointDNSName: json['VPCEndpointDNSName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final auditDestinationARN = this.auditDestinationARN;
-    final bucketRegion = this.bucketRegion;
-    final cacheAttributes = this.cacheAttributes;
-    final clientList = this.clientList;
-    final defaultStorageClass = this.defaultStorageClass;
-    final fileShareARN = this.fileShareARN;
-    final fileShareId = this.fileShareId;
-    final fileShareName = this.fileShareName;
-    final fileShareStatus = this.fileShareStatus;
-    final gatewayARN = this.gatewayARN;
-    final guessMIMETypeEnabled = this.guessMIMETypeEnabled;
-    final kMSEncrypted = this.kMSEncrypted;
-    final kMSKey = this.kMSKey;
-    final locationARN = this.locationARN;
-    final nFSFileShareDefaults = this.nFSFileShareDefaults;
-    final notificationPolicy = this.notificationPolicy;
-    final objectACL = this.objectACL;
-    final path = this.path;
-    final readOnly = this.readOnly;
-    final requesterPays = this.requesterPays;
-    final role = this.role;
-    final squash = this.squash;
-    final tags = this.tags;
-    final vPCEndpointDNSName = this.vPCEndpointDNSName;
-    return {
-      if (auditDestinationARN != null)
-        'AuditDestinationARN': auditDestinationARN,
-      if (bucketRegion != null) 'BucketRegion': bucketRegion,
-      if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
-      if (clientList != null) 'ClientList': clientList,
-      if (defaultStorageClass != null)
-        'DefaultStorageClass': defaultStorageClass,
-      if (fileShareARN != null) 'FileShareARN': fileShareARN,
-      if (fileShareId != null) 'FileShareId': fileShareId,
-      if (fileShareName != null) 'FileShareName': fileShareName,
-      if (fileShareStatus != null) 'FileShareStatus': fileShareStatus,
-      if (gatewayARN != null) 'GatewayARN': gatewayARN,
-      if (guessMIMETypeEnabled != null)
-        'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-      if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-      if (kMSKey != null) 'KMSKey': kMSKey,
-      if (locationARN != null) 'LocationARN': locationARN,
-      if (nFSFileShareDefaults != null)
-        'NFSFileShareDefaults': nFSFileShareDefaults,
-      if (notificationPolicy != null) 'NotificationPolicy': notificationPolicy,
-      if (objectACL != null) 'ObjectACL': objectACL.value,
-      if (path != null) 'Path': path,
-      if (readOnly != null) 'ReadOnly': readOnly,
-      if (requesterPays != null) 'RequesterPays': requesterPays,
-      if (role != null) 'Role': role,
-      if (squash != null) 'Squash': squash,
-      if (tags != null) 'Tags': tags,
-      if (vPCEndpointDNSName != null) 'VPCEndpointDNSName': vPCEndpointDNSName,
-    };
-  }
-}
-
-/// Describes a gateway's network interface.
-class NetworkInterface {
-  /// The Internet Protocol version 4 (IPv4) address of the interface.
-  final String? ipv4Address;
-
-  /// The Internet Protocol version 6 (IPv6) address of the interface.
-  /// <i>Currently not supported</i>.
-  final String? ipv6Address;
-
-  /// The Media Access Control (MAC) address of the interface.
-  /// <note>
-  /// This is currently unsupported and will not be returned in output.
-  /// </note>
-  final String? macAddress;
-
-  NetworkInterface({
-    this.ipv4Address,
-    this.ipv6Address,
-    this.macAddress,
-  });
-
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
-    return NetworkInterface(
-      ipv4Address: json['Ipv4Address'] as String?,
-      ipv6Address: json['Ipv6Address'] as String?,
-      macAddress: json['MacAddress'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ipv4Address = this.ipv4Address;
-    final ipv6Address = this.ipv6Address;
-    final macAddress = this.macAddress;
-    return {
-      if (ipv4Address != null) 'Ipv4Address': ipv4Address,
-      if (ipv6Address != null) 'Ipv6Address': ipv6Address,
-      if (macAddress != null) 'MacAddress': macAddress,
-    };
-  }
-}
-
 class NotifyWhenUploadedOutput {
   final String? fileShareARN;
   final String? notificationId;
@@ -9373,144 +8589,6 @@ class NotifyWhenUploadedOutput {
       if (notificationId != null) 'NotificationId': notificationId,
     };
   }
-}
-
-/// A value that sets the access control list (ACL) permission for objects in
-/// the S3 bucket that an S3 File Gateway puts objects into. The default value
-/// is <code>private</code>.
-class ObjectACL {
-  static const private = ObjectACL._('private');
-  static const publicRead = ObjectACL._('public-read');
-  static const publicReadWrite = ObjectACL._('public-read-write');
-  static const authenticatedRead = ObjectACL._('authenticated-read');
-  static const bucketOwnerRead = ObjectACL._('bucket-owner-read');
-  static const bucketOwnerFullControl =
-      ObjectACL._('bucket-owner-full-control');
-  static const awsExecRead = ObjectACL._('aws-exec-read');
-
-  final String value;
-
-  const ObjectACL._(this.value);
-
-  static const values = [
-    private,
-    publicRead,
-    publicReadWrite,
-    authenticatedRead,
-    bucketOwnerRead,
-    bucketOwnerFullControl,
-    awsExecRead
-  ];
-
-  static ObjectACL fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ObjectACL._(value));
-
-  @override
-  bool operator ==(other) => other is ObjectACL && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a custom tape pool.
-class PoolInfo {
-  /// The Amazon Resource Name (ARN) of the custom tape pool. Use the
-  /// <a>ListTapePools</a> operation to return a list of custom tape pools for
-  /// your account and Amazon Web Services Region.
-  final String? poolARN;
-
-  /// The name of the custom tape pool. <code>PoolName</code> can use all ASCII
-  /// characters, except '/' and '\'.
-  final String? poolName;
-
-  /// Status of the custom tape pool. Pool can be <code>ACTIVE</code> or
-  /// <code>DELETED</code>.
-  final PoolStatus? poolStatus;
-
-  /// Tape retention lock time is set in days. Tape retention lock can be enabled
-  /// for up to 100 years (36,500 days).
-  final int? retentionLockTimeInDays;
-
-  /// Tape retention lock type, which can be configured in two modes. When
-  /// configured in governance mode, Amazon Web Services accounts with specific
-  /// IAM permissions are authorized to remove the tape retention lock from
-  /// archived virtual tapes. When configured in compliance mode, the tape
-  /// retention lock cannot be removed by any user, including the root Amazon Web
-  /// Services account.
-  final RetentionLockType? retentionLockType;
-
-  /// The storage class that is associated with the custom pool. When you use your
-  /// backup application to eject the tape, the tape is archived directly into the
-  /// storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to
-  /// the pool.
-  final TapeStorageClass? storageClass;
-
-  PoolInfo({
-    this.poolARN,
-    this.poolName,
-    this.poolStatus,
-    this.retentionLockTimeInDays,
-    this.retentionLockType,
-    this.storageClass,
-  });
-
-  factory PoolInfo.fromJson(Map<String, dynamic> json) {
-    return PoolInfo(
-      poolARN: json['PoolARN'] as String?,
-      poolName: json['PoolName'] as String?,
-      poolStatus: (json['PoolStatus'] as String?)?.let(PoolStatus.fromString),
-      retentionLockTimeInDays: json['RetentionLockTimeInDays'] as int?,
-      retentionLockType: (json['RetentionLockType'] as String?)
-          ?.let(RetentionLockType.fromString),
-      storageClass:
-          (json['StorageClass'] as String?)?.let(TapeStorageClass.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final poolARN = this.poolARN;
-    final poolName = this.poolName;
-    final poolStatus = this.poolStatus;
-    final retentionLockTimeInDays = this.retentionLockTimeInDays;
-    final retentionLockType = this.retentionLockType;
-    final storageClass = this.storageClass;
-    return {
-      if (poolARN != null) 'PoolARN': poolARN,
-      if (poolName != null) 'PoolName': poolName,
-      if (poolStatus != null) 'PoolStatus': poolStatus.value,
-      if (retentionLockTimeInDays != null)
-        'RetentionLockTimeInDays': retentionLockTimeInDays,
-      if (retentionLockType != null)
-        'RetentionLockType': retentionLockType.value,
-      if (storageClass != null) 'StorageClass': storageClass.value,
-    };
-  }
-}
-
-class PoolStatus {
-  static const active = PoolStatus._('ACTIVE');
-  static const deleted = PoolStatus._('DELETED');
-
-  final String value;
-
-  const PoolStatus._(this.value);
-
-  static const values = [active, deleted];
-
-  static PoolStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PoolStatus._(value));
-
-  @override
-  bool operator ==(other) => other is PoolStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// RefreshCacheOutput
@@ -9585,31 +8663,6 @@ class ResetCacheOutput {
   }
 }
 
-class RetentionLockType {
-  static const compliance = RetentionLockType._('COMPLIANCE');
-  static const governance = RetentionLockType._('GOVERNANCE');
-  static const none = RetentionLockType._('NONE');
-
-  final String value;
-
-  const RetentionLockType._(this.value);
-
-  static const values = [compliance, governance, none];
-
-  static RetentionLockType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RetentionLockType._(value));
-
-  @override
-  bool operator ==(other) => other is RetentionLockType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// RetrieveTapeArchiveOutput
 class RetrieveTapeArchiveOutput {
   /// The Amazon Resource Name (ARN) of the retrieved virtual tape.
@@ -9655,388 +8708,6 @@ class RetrieveTapeRecoveryPointOutput {
       if (tapeARN != null) 'TapeARN': tapeARN,
     };
   }
-}
-
-/// The Windows file permissions and ownership information assigned, by default,
-/// to native S3 objects when S3 File Gateway discovers them in S3 buckets. This
-/// operation is only supported for S3 File Gateways.
-class SMBFileShareInfo {
-  /// Indicates whether <code>AccessBasedEnumeration</code> is enabled.
-  final bool? accessBasedEnumeration;
-
-  /// A list of users or groups in the Active Directory that have administrator
-  /// rights to the file share. A group must be prefixed with the @ character.
-  /// Acceptable formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
-  /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
-  /// Authentication is set to <code>ActiveDirectory</code>.
-  final List<String>? adminUserList;
-
-  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
-  final String? auditDestinationARN;
-  final String? authentication;
-
-  /// Specifies the Region of the S3 bucket where the SMB file share stores files.
-  /// <note>
-  /// This parameter is required for SMB file shares that connect to Amazon S3
-  /// through a VPC endpoint, a VPC access point, or an access point alias that
-  /// points to a VPC access point.
-  /// </note>
-  final String? bucketRegion;
-
-  /// Refresh cache information for the file share.
-  final CacheAttributes? cacheAttributes;
-
-  /// The case of an object name in an Amazon S3 bucket. For
-  /// <code>ClientSpecified</code>, the client determines the case sensitivity.
-  /// For <code>CaseSensitive</code>, the gateway determines the case sensitivity.
-  /// The default value is <code>ClientSpecified</code>.
-  final CaseSensitivity? caseSensitivity;
-
-  /// The default storage class for objects put into an Amazon S3 bucket by the S3
-  /// File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
-  ///
-  /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
-  /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
-  final String? defaultStorageClass;
-  final String? fileShareARN;
-  final String? fileShareId;
-
-  /// The name of the file share. Optional.
-  /// <note>
-  /// <code>FileShareName</code> must be set if an S3 prefix name is set in
-  /// <code>LocationARN</code>, or if an access point or access point alias is
-  /// used.
-  /// </note>
-  final String? fileShareName;
-  final String? fileShareStatus;
-  final String? gatewayARN;
-
-  /// A value that enables guessing of the MIME type for uploaded objects based on
-  /// file extensions. Set this value to <code>true</code> to enable MIME type
-  /// guessing, otherwise set to <code>false</code>. The default value is
-  /// <code>true</code>.
-  ///
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? guessMIMETypeEnabled;
-
-  /// A list of users or groups in the Active Directory that are not allowed to
-  /// access the file share. A group must be prefixed with the @ character.
-  /// Acceptable formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
-  /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
-  /// Authentication is set to <code>ActiveDirectory</code>.
-  final List<String>? invalidUserList;
-
-  /// Set to <code>true</code> to use Amazon S3 server-side encryption with your
-  /// own KMS key, or <code>false</code> to use a key managed by Amazon S3.
-  /// Optional.
-  ///
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? kMSEncrypted;
-  final String? kMSKey;
-  final String? locationARN;
-
-  /// The notification policy of the file share.
-  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
-  /// after the last point in time a client wrote to a file before generating an
-  /// <code>ObjectUploaded</code> notification. Because clients can make many
-  /// small writes to files, it's best to set this parameter for as long as
-  /// possible to avoid generating multiple notifications for the same file in a
-  /// small time period.
-  /// <note>
-  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the object
-  /// uploading to Amazon S3, only the timing of the notification.
-  /// </note>
-  /// The following example sets <code>NotificationPolicy</code> on with
-  /// <code>SettlingTimeInSeconds</code> set to 60.
-  ///
-  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
-  ///
-  /// The following example sets <code>NotificationPolicy</code> off.
-  ///
-  /// <code>{}</code>
-  final String? notificationPolicy;
-  final ObjectACL? objectACL;
-
-  /// Specifies whether opportunistic locking is enabled for the SMB file share.
-  /// <note>
-  /// Enabling opportunistic locking on case-sensitive shares is not recommended
-  /// for workloads that involve access to files with the same name in different
-  /// case.
-  /// </note>
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? oplocksEnabled;
-
-  /// The file share path used by the SMB client to identify the mount point.
-  final String? path;
-
-  /// A value that sets the write status of a file share. Set this value to
-  /// <code>true</code> to set the write status to read-only, otherwise set to
-  /// <code>false</code>.
-  ///
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? readOnly;
-
-  /// A value that sets who pays the cost of the request and the cost associated
-  /// with data download from the S3 bucket. If this value is set to
-  /// <code>true</code>, the requester pays the costs; otherwise, the S3 bucket
-  /// owner pays. However, the S3 bucket owner always pays the cost of storing
-  /// data.
-  /// <note>
-  /// <code>RequesterPays</code> is a configuration for the S3 bucket that backs
-  /// the file share, so make sure that the configuration on the file share is the
-  /// same as the S3 bucket configuration.
-  /// </note>
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? requesterPays;
-  final String? role;
-
-  /// If this value is set to <code>true</code>, it indicates that access control
-  /// list (ACL) is enabled on the SMB file share. If it is set to
-  /// <code>false</code>, it indicates that file and directory permissions are
-  /// mapped to the POSIX permission.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/smb-acl.html">Using
-  /// Microsoft Windows ACLs to control access to an SMB file share</a> in the
-  /// <i>Storage Gateway User Guide</i>.
-  final bool? sMBACLEnabled;
-
-  /// A list of up to 50 tags assigned to the SMB file share, sorted
-  /// alphabetically by key name. Each tag is a key-value pair. For a gateway with
-  /// more than 10 tags assigned, you can view all tags using the
-  /// <code>ListTagsForResource</code> API operation.
-  final List<Tag>? tags;
-
-  /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to
-  /// connect to Amazon S3.
-  /// <note>
-  /// This parameter is required for SMB file shares that connect to Amazon S3
-  /// through a VPC endpoint, a VPC access point, or an access point alias that
-  /// points to a VPC access point.
-  /// </note>
-  final String? vPCEndpointDNSName;
-
-  /// A list of users or groups in the Active Directory that are allowed to access
-  /// the file share. A group must be prefixed with the @ character. Acceptable
-  /// formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
-  /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
-  /// Authentication is set to <code>ActiveDirectory</code>.
-  final List<String>? validUserList;
-
-  SMBFileShareInfo({
-    this.accessBasedEnumeration,
-    this.adminUserList,
-    this.auditDestinationARN,
-    this.authentication,
-    this.bucketRegion,
-    this.cacheAttributes,
-    this.caseSensitivity,
-    this.defaultStorageClass,
-    this.fileShareARN,
-    this.fileShareId,
-    this.fileShareName,
-    this.fileShareStatus,
-    this.gatewayARN,
-    this.guessMIMETypeEnabled,
-    this.invalidUserList,
-    this.kMSEncrypted,
-    this.kMSKey,
-    this.locationARN,
-    this.notificationPolicy,
-    this.objectACL,
-    this.oplocksEnabled,
-    this.path,
-    this.readOnly,
-    this.requesterPays,
-    this.role,
-    this.sMBACLEnabled,
-    this.tags,
-    this.vPCEndpointDNSName,
-    this.validUserList,
-  });
-
-  factory SMBFileShareInfo.fromJson(Map<String, dynamic> json) {
-    return SMBFileShareInfo(
-      accessBasedEnumeration: json['AccessBasedEnumeration'] as bool?,
-      adminUserList: (json['AdminUserList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      auditDestinationARN: json['AuditDestinationARN'] as String?,
-      authentication: json['Authentication'] as String?,
-      bucketRegion: json['BucketRegion'] as String?,
-      cacheAttributes: json['CacheAttributes'] != null
-          ? CacheAttributes.fromJson(
-              json['CacheAttributes'] as Map<String, dynamic>)
-          : null,
-      caseSensitivity:
-          (json['CaseSensitivity'] as String?)?.let(CaseSensitivity.fromString),
-      defaultStorageClass: json['DefaultStorageClass'] as String?,
-      fileShareARN: json['FileShareARN'] as String?,
-      fileShareId: json['FileShareId'] as String?,
-      fileShareName: json['FileShareName'] as String?,
-      fileShareStatus: json['FileShareStatus'] as String?,
-      gatewayARN: json['GatewayARN'] as String?,
-      guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool?,
-      invalidUserList: (json['InvalidUserList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      kMSEncrypted: json['KMSEncrypted'] as bool?,
-      kMSKey: json['KMSKey'] as String?,
-      locationARN: json['LocationARN'] as String?,
-      notificationPolicy: json['NotificationPolicy'] as String?,
-      objectACL: (json['ObjectACL'] as String?)?.let(ObjectACL.fromString),
-      oplocksEnabled: json['OplocksEnabled'] as bool?,
-      path: json['Path'] as String?,
-      readOnly: json['ReadOnly'] as bool?,
-      requesterPays: json['RequesterPays'] as bool?,
-      role: json['Role'] as String?,
-      sMBACLEnabled: json['SMBACLEnabled'] as bool?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vPCEndpointDNSName: json['VPCEndpointDNSName'] as String?,
-      validUserList: (json['ValidUserList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessBasedEnumeration = this.accessBasedEnumeration;
-    final adminUserList = this.adminUserList;
-    final auditDestinationARN = this.auditDestinationARN;
-    final authentication = this.authentication;
-    final bucketRegion = this.bucketRegion;
-    final cacheAttributes = this.cacheAttributes;
-    final caseSensitivity = this.caseSensitivity;
-    final defaultStorageClass = this.defaultStorageClass;
-    final fileShareARN = this.fileShareARN;
-    final fileShareId = this.fileShareId;
-    final fileShareName = this.fileShareName;
-    final fileShareStatus = this.fileShareStatus;
-    final gatewayARN = this.gatewayARN;
-    final guessMIMETypeEnabled = this.guessMIMETypeEnabled;
-    final invalidUserList = this.invalidUserList;
-    final kMSEncrypted = this.kMSEncrypted;
-    final kMSKey = this.kMSKey;
-    final locationARN = this.locationARN;
-    final notificationPolicy = this.notificationPolicy;
-    final objectACL = this.objectACL;
-    final oplocksEnabled = this.oplocksEnabled;
-    final path = this.path;
-    final readOnly = this.readOnly;
-    final requesterPays = this.requesterPays;
-    final role = this.role;
-    final sMBACLEnabled = this.sMBACLEnabled;
-    final tags = this.tags;
-    final vPCEndpointDNSName = this.vPCEndpointDNSName;
-    final validUserList = this.validUserList;
-    return {
-      if (accessBasedEnumeration != null)
-        'AccessBasedEnumeration': accessBasedEnumeration,
-      if (adminUserList != null) 'AdminUserList': adminUserList,
-      if (auditDestinationARN != null)
-        'AuditDestinationARN': auditDestinationARN,
-      if (authentication != null) 'Authentication': authentication,
-      if (bucketRegion != null) 'BucketRegion': bucketRegion,
-      if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
-      if (caseSensitivity != null) 'CaseSensitivity': caseSensitivity.value,
-      if (defaultStorageClass != null)
-        'DefaultStorageClass': defaultStorageClass,
-      if (fileShareARN != null) 'FileShareARN': fileShareARN,
-      if (fileShareId != null) 'FileShareId': fileShareId,
-      if (fileShareName != null) 'FileShareName': fileShareName,
-      if (fileShareStatus != null) 'FileShareStatus': fileShareStatus,
-      if (gatewayARN != null) 'GatewayARN': gatewayARN,
-      if (guessMIMETypeEnabled != null)
-        'GuessMIMETypeEnabled': guessMIMETypeEnabled,
-      if (invalidUserList != null) 'InvalidUserList': invalidUserList,
-      if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
-      if (kMSKey != null) 'KMSKey': kMSKey,
-      if (locationARN != null) 'LocationARN': locationARN,
-      if (notificationPolicy != null) 'NotificationPolicy': notificationPolicy,
-      if (objectACL != null) 'ObjectACL': objectACL.value,
-      if (oplocksEnabled != null) 'OplocksEnabled': oplocksEnabled,
-      if (path != null) 'Path': path,
-      if (readOnly != null) 'ReadOnly': readOnly,
-      if (requesterPays != null) 'RequesterPays': requesterPays,
-      if (role != null) 'Role': role,
-      if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
-      if (tags != null) 'Tags': tags,
-      if (vPCEndpointDNSName != null) 'VPCEndpointDNSName': vPCEndpointDNSName,
-      if (validUserList != null) 'ValidUserList': validUserList,
-    };
-  }
-}
-
-/// A list of Active Directory users and groups that have special permissions
-/// for SMB file shares on the gateway.
-class SMBLocalGroups {
-  /// A list of Active Directory users and groups that have local Gateway Admin
-  /// permissions. Acceptable formats include: <code>DOMAIN\User1</code>,
-  /// <code>user1</code>, <code>DOMAIN\group1</code>, and <code>group1</code>.
-  ///
-  /// Gateway Admins can use the Shared Folders Microsoft Management Console
-  /// snap-in to force-close files that are open and locked.
-  final List<String>? gatewayAdmins;
-
-  SMBLocalGroups({
-    this.gatewayAdmins,
-  });
-
-  factory SMBLocalGroups.fromJson(Map<String, dynamic> json) {
-    return SMBLocalGroups(
-      gatewayAdmins: (json['GatewayAdmins'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gatewayAdmins = this.gatewayAdmins;
-    return {
-      if (gatewayAdmins != null) 'GatewayAdmins': gatewayAdmins,
-    };
-  }
-}
-
-class SMBSecurityStrategy {
-  static const clientSpecified = SMBSecurityStrategy._('ClientSpecified');
-  static const mandatorySigning = SMBSecurityStrategy._('MandatorySigning');
-  static const mandatoryEncryption =
-      SMBSecurityStrategy._('MandatoryEncryption');
-  static const mandatoryEncryptionNoAes128 =
-      SMBSecurityStrategy._('MandatoryEncryptionNoAes128');
-
-  final String value;
-
-  const SMBSecurityStrategy._(this.value);
-
-  static const values = [
-    clientSpecified,
-    mandatorySigning,
-    mandatoryEncryption,
-    mandatoryEncryptionNoAes128
-  ];
-
-  static SMBSecurityStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SMBSecurityStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SMBSecurityStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class SetLocalConsolePasswordOutput {
@@ -10104,37 +8775,6 @@ class ShutdownGatewayOutput {
   }
 }
 
-/// A set of variables indicating the software update preferences for the
-/// gateway.
-class SoftwareUpdatePreferences {
-  /// Indicates the automatic update policy for a gateway.
-  ///
-  /// <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.
-  ///
-  /// <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway maintenance
-  /// updates.
-  final AutomaticUpdatePolicy? automaticUpdatePolicy;
-
-  SoftwareUpdatePreferences({
-    this.automaticUpdatePolicy,
-  });
-
-  factory SoftwareUpdatePreferences.fromJson(Map<String, dynamic> json) {
-    return SoftwareUpdatePreferences(
-      automaticUpdatePolicy: (json['AutomaticUpdatePolicy'] as String?)
-          ?.let(AutomaticUpdatePolicy.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final automaticUpdatePolicy = this.automaticUpdatePolicy;
-    return {
-      if (automaticUpdatePolicy != null)
-        'AutomaticUpdatePolicy': automaticUpdatePolicy.value,
-    };
-  }
-}
-
 class StartAvailabilityMonitorTestOutput {
   final String? gatewayARN;
 
@@ -10153,6 +8793,29 @@ class StartAvailabilityMonitorTestOutput {
     final gatewayARN = this.gatewayARN;
     return {
       if (gatewayARN != null) 'GatewayARN': gatewayARN,
+    };
+  }
+}
+
+class StartCacheReportOutput {
+  /// The Amazon Resource Name (ARN) of the cache report generated by the
+  /// <code>StartCacheReport</code> request.
+  final String? cacheReportARN;
+
+  StartCacheReportOutput({
+    this.cacheReportARN,
+  });
+
+  factory StartCacheReportOutput.fromJson(Map<String, dynamic> json) {
+    return StartCacheReportOutput(
+      cacheReportARN: json['CacheReportARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheReportARN = this.cacheReportARN;
+    return {
+      if (cacheReportARN != null) 'CacheReportARN': cacheReportARN,
     };
   }
 }
@@ -10178,593 +8841,6 @@ class StartGatewayOutput {
       if (gatewayARN != null) 'GatewayARN': gatewayARN,
     };
   }
-}
-
-/// Describes an iSCSI stored volume.
-class StorediSCSIVolume {
-  /// The date the volume was created. Volumes created prior to March 28, 2017
-  /// don’t have this timestamp.
-  final DateTime? createdDate;
-  final String? kMSKey;
-
-  /// Indicates if when the stored volume was created, existing data on the
-  /// underlying local disk was preserved.
-  ///
-  /// Valid Values: <code>true</code> | <code>false</code>
-  final bool? preservedExistingData;
-
-  /// If the stored volume was created from a snapshot, this field contains the
-  /// snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
-  final String? sourceSnapshotId;
-
-  /// The name of the iSCSI target used by an initiator to connect to a volume and
-  /// used as a suffix for the target ARN. For example, specifying
-  /// <code>TargetName</code> as <i>myvolume</i> results in the target ARN of
-  /// <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
-  /// The target name must be unique across all volumes on a gateway.
-  ///
-  /// If you don't specify a value, Storage Gateway uses the value that was
-  /// previously used for this volume as the new target name.
-  final String? targetName;
-
-  /// The Amazon Resource Name (ARN) of the storage volume.
-  final String? volumeARN;
-
-  /// A value that indicates whether a storage volume is attached to, detached
-  /// from, or is in the process of detaching from a gateway. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#attach-detach-volume">Moving
-  /// your volumes to a different gateway</a>.
-  final String? volumeAttachmentStatus;
-
-  /// The ID of the local disk that was specified in the
-  /// <a>CreateStorediSCSIVolume</a> operation.
-  final String? volumeDiskId;
-
-  /// The unique identifier of the volume, e.g., vol-AE4B946D.
-  final String? volumeId;
-
-  /// Represents the percentage complete if the volume is restoring or
-  /// bootstrapping that represents the percent of data transferred. This field
-  /// does not appear in the response if the stored volume is not restoring or
-  /// bootstrapping.
-  final double? volumeProgress;
-
-  /// The size of the volume in bytes.
-  final int? volumeSizeInBytes;
-
-  /// One of the VolumeStatus values that indicates the state of the storage
-  /// volume.
-  final String? volumeStatus;
-
-  /// One of the VolumeType enumeration values describing the type of the volume.
-  final String? volumeType;
-
-  /// The size of the data stored on the volume in bytes. This value is calculated
-  /// based on the number of blocks that are touched, instead of the actual amount
-  /// of data written. This value can be useful for sequential write patterns but
-  /// less accurate for random write patterns. <code>VolumeUsedInBytes</code> is
-  /// different from the compressed size of the volume, which is the value that is
-  /// used to calculate your bill.
-  /// <note>
-  /// This value is not available for volumes created prior to May 13, 2015, until
-  /// you store data on the volume.
-  /// </note>
-  final int? volumeUsedInBytes;
-
-  /// An <a>VolumeiSCSIAttributes</a> object that represents a collection of iSCSI
-  /// attributes for one stored volume.
-  final VolumeiSCSIAttributes? volumeiSCSIAttributes;
-
-  StorediSCSIVolume({
-    this.createdDate,
-    this.kMSKey,
-    this.preservedExistingData,
-    this.sourceSnapshotId,
-    this.targetName,
-    this.volumeARN,
-    this.volumeAttachmentStatus,
-    this.volumeDiskId,
-    this.volumeId,
-    this.volumeProgress,
-    this.volumeSizeInBytes,
-    this.volumeStatus,
-    this.volumeType,
-    this.volumeUsedInBytes,
-    this.volumeiSCSIAttributes,
-  });
-
-  factory StorediSCSIVolume.fromJson(Map<String, dynamic> json) {
-    return StorediSCSIVolume(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      kMSKey: json['KMSKey'] as String?,
-      preservedExistingData: json['PreservedExistingData'] as bool?,
-      sourceSnapshotId: json['SourceSnapshotId'] as String?,
-      targetName: json['TargetName'] as String?,
-      volumeARN: json['VolumeARN'] as String?,
-      volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
-      volumeDiskId: json['VolumeDiskId'] as String?,
-      volumeId: json['VolumeId'] as String?,
-      volumeProgress: json['VolumeProgress'] as double?,
-      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
-      volumeStatus: json['VolumeStatus'] as String?,
-      volumeType: json['VolumeType'] as String?,
-      volumeUsedInBytes: json['VolumeUsedInBytes'] as int?,
-      volumeiSCSIAttributes: json['VolumeiSCSIAttributes'] != null
-          ? VolumeiSCSIAttributes.fromJson(
-              json['VolumeiSCSIAttributes'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final kMSKey = this.kMSKey;
-    final preservedExistingData = this.preservedExistingData;
-    final sourceSnapshotId = this.sourceSnapshotId;
-    final targetName = this.targetName;
-    final volumeARN = this.volumeARN;
-    final volumeAttachmentStatus = this.volumeAttachmentStatus;
-    final volumeDiskId = this.volumeDiskId;
-    final volumeId = this.volumeId;
-    final volumeProgress = this.volumeProgress;
-    final volumeSizeInBytes = this.volumeSizeInBytes;
-    final volumeStatus = this.volumeStatus;
-    final volumeType = this.volumeType;
-    final volumeUsedInBytes = this.volumeUsedInBytes;
-    final volumeiSCSIAttributes = this.volumeiSCSIAttributes;
-    return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (kMSKey != null) 'KMSKey': kMSKey,
-      if (preservedExistingData != null)
-        'PreservedExistingData': preservedExistingData,
-      if (sourceSnapshotId != null) 'SourceSnapshotId': sourceSnapshotId,
-      if (targetName != null) 'TargetName': targetName,
-      if (volumeARN != null) 'VolumeARN': volumeARN,
-      if (volumeAttachmentStatus != null)
-        'VolumeAttachmentStatus': volumeAttachmentStatus,
-      if (volumeDiskId != null) 'VolumeDiskId': volumeDiskId,
-      if (volumeId != null) 'VolumeId': volumeId,
-      if (volumeProgress != null) 'VolumeProgress': volumeProgress,
-      if (volumeSizeInBytes != null) 'VolumeSizeInBytes': volumeSizeInBytes,
-      if (volumeStatus != null) 'VolumeStatus': volumeStatus,
-      if (volumeType != null) 'VolumeType': volumeType,
-      if (volumeUsedInBytes != null) 'VolumeUsedInBytes': volumeUsedInBytes,
-      if (volumeiSCSIAttributes != null)
-        'VolumeiSCSIAttributes': volumeiSCSIAttributes,
-    };
-  }
-}
-
-/// A key-value pair that helps you manage, filter, and search for your
-/// resource. Allowed characters: letters, white space, and numbers,
-/// representable in UTF-8, and the following characters: + - = . _ : /.
-class Tag {
-  /// Tag key. The key can't start with aws:.
-  final String key;
-
-  /// Value of the tag key.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-/// Describes a virtual tape object.
-class Tape {
-  final String? kMSKey;
-
-  /// The date that the tape enters a custom tape pool.
-  final DateTime? poolEntryDate;
-
-  /// The ID of the pool that contains tapes that will be archived. The tapes in
-  /// this pool are archived in the S3 storage class that is associated with the
-  /// pool. When you use your backup application to eject the tape, the tape is
-  /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
-  /// Archive) that corresponds to the pool.
-  final String? poolId;
-
-  /// For archiving virtual tapes, indicates how much data remains to be uploaded
-  /// before archiving is complete.
-  ///
-  /// Range: 0 (not started) to 100 (complete).
-  final double? progress;
-
-  /// The date that the tape is first archived with tape retention lock enabled.
-  final DateTime? retentionStartDate;
-
-  /// The Amazon Resource Name (ARN) of the virtual tape.
-  final String? tapeARN;
-
-  /// The barcode that identifies a specific virtual tape.
-  final String? tapeBarcode;
-
-  /// The date the virtual tape was created.
-  final DateTime? tapeCreatedDate;
-
-  /// The size, in bytes, of the virtual tape capacity.
-  final int? tapeSizeInBytes;
-
-  /// The current state of the virtual tape.
-  final String? tapeStatus;
-
-  /// The size, in bytes, of data stored on the virtual tape.
-  /// <note>
-  /// This value is not available for tapes created prior to May 13, 2015.
-  /// </note>
-  final int? tapeUsedInBytes;
-
-  /// The virtual tape library (VTL) device that the virtual tape is associated
-  /// with.
-  final String? vTLDevice;
-
-  /// If the tape is archived as write-once-read-many (WORM), this value is
-  /// <code>true</code>.
-  final bool? worm;
-
-  Tape({
-    this.kMSKey,
-    this.poolEntryDate,
-    this.poolId,
-    this.progress,
-    this.retentionStartDate,
-    this.tapeARN,
-    this.tapeBarcode,
-    this.tapeCreatedDate,
-    this.tapeSizeInBytes,
-    this.tapeStatus,
-    this.tapeUsedInBytes,
-    this.vTLDevice,
-    this.worm,
-  });
-
-  factory Tape.fromJson(Map<String, dynamic> json) {
-    return Tape(
-      kMSKey: json['KMSKey'] as String?,
-      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
-      poolId: json['PoolId'] as String?,
-      progress: json['Progress'] as double?,
-      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
-      tapeARN: json['TapeARN'] as String?,
-      tapeBarcode: json['TapeBarcode'] as String?,
-      tapeCreatedDate: timeStampFromJson(json['TapeCreatedDate']),
-      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
-      tapeStatus: json['TapeStatus'] as String?,
-      tapeUsedInBytes: json['TapeUsedInBytes'] as int?,
-      vTLDevice: json['VTLDevice'] as String?,
-      worm: json['Worm'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final kMSKey = this.kMSKey;
-    final poolEntryDate = this.poolEntryDate;
-    final poolId = this.poolId;
-    final progress = this.progress;
-    final retentionStartDate = this.retentionStartDate;
-    final tapeARN = this.tapeARN;
-    final tapeBarcode = this.tapeBarcode;
-    final tapeCreatedDate = this.tapeCreatedDate;
-    final tapeSizeInBytes = this.tapeSizeInBytes;
-    final tapeStatus = this.tapeStatus;
-    final tapeUsedInBytes = this.tapeUsedInBytes;
-    final vTLDevice = this.vTLDevice;
-    final worm = this.worm;
-    return {
-      if (kMSKey != null) 'KMSKey': kMSKey,
-      if (poolEntryDate != null)
-        'PoolEntryDate': unixTimestampToJson(poolEntryDate),
-      if (poolId != null) 'PoolId': poolId,
-      if (progress != null) 'Progress': progress,
-      if (retentionStartDate != null)
-        'RetentionStartDate': unixTimestampToJson(retentionStartDate),
-      if (tapeARN != null) 'TapeARN': tapeARN,
-      if (tapeBarcode != null) 'TapeBarcode': tapeBarcode,
-      if (tapeCreatedDate != null)
-        'TapeCreatedDate': unixTimestampToJson(tapeCreatedDate),
-      if (tapeSizeInBytes != null) 'TapeSizeInBytes': tapeSizeInBytes,
-      if (tapeStatus != null) 'TapeStatus': tapeStatus,
-      if (tapeUsedInBytes != null) 'TapeUsedInBytes': tapeUsedInBytes,
-      if (vTLDevice != null) 'VTLDevice': vTLDevice,
-      if (worm != null) 'Worm': worm,
-    };
-  }
-}
-
-/// Represents a virtual tape that is archived in the virtual tape shelf (VTS).
-class TapeArchive {
-  /// The time that the archiving of the virtual tape was completed.
-  ///
-  /// The default timestamp format is in the ISO8601 extended
-  /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
-  final DateTime? completionTime;
-  final String? kMSKey;
-
-  /// The time that the tape entered the custom tape pool.
-  ///
-  /// The default timestamp format is in the ISO8601 extended
-  /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
-  final DateTime? poolEntryDate;
-
-  /// The ID of the pool that was used to archive the tape. The tapes in this pool
-  /// are archived in the S3 storage class that is associated with the pool.
-  final String? poolId;
-
-  /// If the archived tape is subject to tape retention lock, the date that the
-  /// archived tape started being retained.
-  final DateTime? retentionStartDate;
-
-  /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is
-  /// being retrieved to.
-  ///
-  /// The virtual tape is retrieved from the virtual tape shelf (VTS).
-  final String? retrievedTo;
-
-  /// The Amazon Resource Name (ARN) of an archived virtual tape.
-  final String? tapeARN;
-
-  /// The barcode that identifies the archived virtual tape.
-  final String? tapeBarcode;
-
-  /// The date the virtual tape was created.
-  final DateTime? tapeCreatedDate;
-
-  /// The size, in bytes, of the archived virtual tape.
-  final int? tapeSizeInBytes;
-
-  /// The current state of the archived virtual tape.
-  final String? tapeStatus;
-
-  /// The size, in bytes, of data stored on the virtual tape.
-  /// <note>
-  /// This value is not available for tapes created prior to May 13, 2015.
-  /// </note>
-  final int? tapeUsedInBytes;
-
-  /// Set to <code>true</code> if the archived tape is stored as
-  /// write-once-read-many (WORM).
-  final bool? worm;
-
-  TapeArchive({
-    this.completionTime,
-    this.kMSKey,
-    this.poolEntryDate,
-    this.poolId,
-    this.retentionStartDate,
-    this.retrievedTo,
-    this.tapeARN,
-    this.tapeBarcode,
-    this.tapeCreatedDate,
-    this.tapeSizeInBytes,
-    this.tapeStatus,
-    this.tapeUsedInBytes,
-    this.worm,
-  });
-
-  factory TapeArchive.fromJson(Map<String, dynamic> json) {
-    return TapeArchive(
-      completionTime: timeStampFromJson(json['CompletionTime']),
-      kMSKey: json['KMSKey'] as String?,
-      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
-      poolId: json['PoolId'] as String?,
-      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
-      retrievedTo: json['RetrievedTo'] as String?,
-      tapeARN: json['TapeARN'] as String?,
-      tapeBarcode: json['TapeBarcode'] as String?,
-      tapeCreatedDate: timeStampFromJson(json['TapeCreatedDate']),
-      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
-      tapeStatus: json['TapeStatus'] as String?,
-      tapeUsedInBytes: json['TapeUsedInBytes'] as int?,
-      worm: json['Worm'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final completionTime = this.completionTime;
-    final kMSKey = this.kMSKey;
-    final poolEntryDate = this.poolEntryDate;
-    final poolId = this.poolId;
-    final retentionStartDate = this.retentionStartDate;
-    final retrievedTo = this.retrievedTo;
-    final tapeARN = this.tapeARN;
-    final tapeBarcode = this.tapeBarcode;
-    final tapeCreatedDate = this.tapeCreatedDate;
-    final tapeSizeInBytes = this.tapeSizeInBytes;
-    final tapeStatus = this.tapeStatus;
-    final tapeUsedInBytes = this.tapeUsedInBytes;
-    final worm = this.worm;
-    return {
-      if (completionTime != null)
-        'CompletionTime': unixTimestampToJson(completionTime),
-      if (kMSKey != null) 'KMSKey': kMSKey,
-      if (poolEntryDate != null)
-        'PoolEntryDate': unixTimestampToJson(poolEntryDate),
-      if (poolId != null) 'PoolId': poolId,
-      if (retentionStartDate != null)
-        'RetentionStartDate': unixTimestampToJson(retentionStartDate),
-      if (retrievedTo != null) 'RetrievedTo': retrievedTo,
-      if (tapeARN != null) 'TapeARN': tapeARN,
-      if (tapeBarcode != null) 'TapeBarcode': tapeBarcode,
-      if (tapeCreatedDate != null)
-        'TapeCreatedDate': unixTimestampToJson(tapeCreatedDate),
-      if (tapeSizeInBytes != null) 'TapeSizeInBytes': tapeSizeInBytes,
-      if (tapeStatus != null) 'TapeStatus': tapeStatus,
-      if (tapeUsedInBytes != null) 'TapeUsedInBytes': tapeUsedInBytes,
-      if (worm != null) 'Worm': worm,
-    };
-  }
-}
-
-/// Describes a virtual tape.
-class TapeInfo {
-  /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
-  /// operation to return a list of gateways for your account and Amazon Web
-  /// Services Region.
-  final String? gatewayARN;
-
-  /// The date that the tape entered the custom tape pool with tape retention lock
-  /// enabled.
-  final DateTime? poolEntryDate;
-
-  /// The ID of the pool that you want to add your tape to for archiving. The tape
-  /// in this pool is archived in the S3 storage class that is associated with the
-  /// pool. When you use your backup application to eject the tape, the tape is
-  /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
-  /// Archive) that corresponds to the pool.
-  final String? poolId;
-
-  /// The date that the tape became subject to tape retention lock.
-  final DateTime? retentionStartDate;
-
-  /// The Amazon Resource Name (ARN) of a virtual tape.
-  final String? tapeARN;
-
-  /// The barcode that identifies a specific virtual tape.
-  final String? tapeBarcode;
-
-  /// The size, in bytes, of a virtual tape.
-  final int? tapeSizeInBytes;
-
-  /// The status of the tape.
-  final String? tapeStatus;
-
-  TapeInfo({
-    this.gatewayARN,
-    this.poolEntryDate,
-    this.poolId,
-    this.retentionStartDate,
-    this.tapeARN,
-    this.tapeBarcode,
-    this.tapeSizeInBytes,
-    this.tapeStatus,
-  });
-
-  factory TapeInfo.fromJson(Map<String, dynamic> json) {
-    return TapeInfo(
-      gatewayARN: json['GatewayARN'] as String?,
-      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
-      poolId: json['PoolId'] as String?,
-      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
-      tapeARN: json['TapeARN'] as String?,
-      tapeBarcode: json['TapeBarcode'] as String?,
-      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
-      tapeStatus: json['TapeStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gatewayARN = this.gatewayARN;
-    final poolEntryDate = this.poolEntryDate;
-    final poolId = this.poolId;
-    final retentionStartDate = this.retentionStartDate;
-    final tapeARN = this.tapeARN;
-    final tapeBarcode = this.tapeBarcode;
-    final tapeSizeInBytes = this.tapeSizeInBytes;
-    final tapeStatus = this.tapeStatus;
-    return {
-      if (gatewayARN != null) 'GatewayARN': gatewayARN,
-      if (poolEntryDate != null)
-        'PoolEntryDate': unixTimestampToJson(poolEntryDate),
-      if (poolId != null) 'PoolId': poolId,
-      if (retentionStartDate != null)
-        'RetentionStartDate': unixTimestampToJson(retentionStartDate),
-      if (tapeARN != null) 'TapeARN': tapeARN,
-      if (tapeBarcode != null) 'TapeBarcode': tapeBarcode,
-      if (tapeSizeInBytes != null) 'TapeSizeInBytes': tapeSizeInBytes,
-      if (tapeStatus != null) 'TapeStatus': tapeStatus,
-    };
-  }
-}
-
-/// Describes a recovery point.
-class TapeRecoveryPointInfo {
-  /// The Amazon Resource Name (ARN) of the virtual tape.
-  final String? tapeARN;
-
-  /// The time when the point-in-time view of the virtual tape was replicated for
-  /// later recovery.
-  ///
-  /// The default timestamp format of the tape recovery point time is in the
-  /// ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-  final DateTime? tapeRecoveryPointTime;
-
-  /// The size, in bytes, of the virtual tapes to recover.
-  final int? tapeSizeInBytes;
-
-  /// The status of the virtual tapes.
-  final String? tapeStatus;
-
-  TapeRecoveryPointInfo({
-    this.tapeARN,
-    this.tapeRecoveryPointTime,
-    this.tapeSizeInBytes,
-    this.tapeStatus,
-  });
-
-  factory TapeRecoveryPointInfo.fromJson(Map<String, dynamic> json) {
-    return TapeRecoveryPointInfo(
-      tapeARN: json['TapeARN'] as String?,
-      tapeRecoveryPointTime: timeStampFromJson(json['TapeRecoveryPointTime']),
-      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
-      tapeStatus: json['TapeStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tapeARN = this.tapeARN;
-    final tapeRecoveryPointTime = this.tapeRecoveryPointTime;
-    final tapeSizeInBytes = this.tapeSizeInBytes;
-    final tapeStatus = this.tapeStatus;
-    return {
-      if (tapeARN != null) 'TapeARN': tapeARN,
-      if (tapeRecoveryPointTime != null)
-        'TapeRecoveryPointTime': unixTimestampToJson(tapeRecoveryPointTime),
-      if (tapeSizeInBytes != null) 'TapeSizeInBytes': tapeSizeInBytes,
-      if (tapeStatus != null) 'TapeStatus': tapeStatus,
-    };
-  }
-}
-
-class TapeStorageClass {
-  static const deepArchive = TapeStorageClass._('DEEP_ARCHIVE');
-  static const glacier = TapeStorageClass._('GLACIER');
-
-  final String value;
-
-  const TapeStorageClass._(this.value);
-
-  static const values = [deepArchive, glacier];
-
-  static TapeStorageClass fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TapeStorageClass._(value));
-
-  @override
-  bool operator ==(other) => other is TapeStorageClass && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class UpdateAutomaticTapeCreationPolicyOutput {
@@ -11124,61 +9200,617 @@ class UpdateVTLDeviceTypeOutput {
   }
 }
 
-/// Represents a device object associated with a tape gateway.
-class VTLDevice {
-  /// A list of iSCSI information about a VTL device.
-  final DeviceiSCSIAttributes? deviceiSCSIAttributes;
+/// A key-value pair that helps you manage, filter, and search for your
+/// resource. Allowed characters: letters, white space, and numbers,
+/// representable in UTF-8, and the following characters: + - = . _ : /.
+class Tag {
+  /// Tag key. The key can't start with aws:.
+  final String key;
 
-  /// Specifies the unique Amazon Resource Name (ARN) of the device (tape drive or
-  /// media changer).
-  final String? vTLDeviceARN;
+  /// Value of the tag key.
+  final String value;
 
-  /// Specifies the model number of device that the VTL device emulates.
-  final String? vTLDeviceProductIdentifier;
-
-  /// Specifies the type of device that the VTL device emulates.
-  final String? vTLDeviceType;
-
-  /// Specifies the vendor of the device that the VTL device object emulates.
-  final String? vTLDeviceVendor;
-
-  VTLDevice({
-    this.deviceiSCSIAttributes,
-    this.vTLDeviceARN,
-    this.vTLDeviceProductIdentifier,
-    this.vTLDeviceType,
-    this.vTLDeviceVendor,
+  Tag({
+    required this.key,
+    required this.value,
   });
 
-  factory VTLDevice.fromJson(Map<String, dynamic> json) {
-    return VTLDevice(
-      deviceiSCSIAttributes: json['DeviceiSCSIAttributes'] != null
-          ? DeviceiSCSIAttributes.fromJson(
-              json['DeviceiSCSIAttributes'] as Map<String, dynamic>)
-          : null,
-      vTLDeviceARN: json['VTLDeviceARN'] as String?,
-      vTLDeviceProductIdentifier: json['VTLDeviceProductIdentifier'] as String?,
-      vTLDeviceType: json['VTLDeviceType'] as String?,
-      vTLDeviceVendor: json['VTLDeviceVendor'] as String?,
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deviceiSCSIAttributes = this.deviceiSCSIAttributes;
-    final vTLDeviceARN = this.vTLDeviceARN;
-    final vTLDeviceProductIdentifier = this.vTLDeviceProductIdentifier;
-    final vTLDeviceType = this.vTLDeviceType;
-    final vTLDeviceVendor = this.vTLDeviceVendor;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (deviceiSCSIAttributes != null)
-        'DeviceiSCSIAttributes': deviceiSCSIAttributes,
-      if (vTLDeviceARN != null) 'VTLDeviceARN': vTLDeviceARN,
-      if (vTLDeviceProductIdentifier != null)
-        'VTLDeviceProductIdentifier': vTLDeviceProductIdentifier,
-      if (vTLDeviceType != null) 'VTLDeviceType': vTLDeviceType,
-      if (vTLDeviceVendor != null) 'VTLDeviceVendor': vTLDeviceVendor,
+      'Key': key,
+      'Value': value,
     };
   }
+}
+
+class SMBSecurityStrategy {
+  static const clientSpecified = SMBSecurityStrategy._('ClientSpecified');
+  static const mandatorySigning = SMBSecurityStrategy._('MandatorySigning');
+  static const mandatoryEncryption =
+      SMBSecurityStrategy._('MandatoryEncryption');
+  static const mandatoryEncryptionNoAes128 =
+      SMBSecurityStrategy._('MandatoryEncryptionNoAes128');
+
+  final String value;
+
+  const SMBSecurityStrategy._(this.value);
+
+  static const values = [
+    clientSpecified,
+    mandatorySigning,
+    mandatoryEncryption,
+    mandatoryEncryptionNoAes128
+  ];
+
+  static SMBSecurityStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SMBSecurityStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SMBSecurityStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A list of Active Directory users and groups that have special permissions
+/// for SMB file shares on the gateway.
+class SMBLocalGroups {
+  /// A list of Active Directory users and groups that have local Gateway Admin
+  /// permissions. Acceptable formats include: <code>DOMAIN\User1</code>,
+  /// <code>user1</code>, <code>DOMAIN\group1</code>, and <code>group1</code>.
+  ///
+  /// Gateway Admins can use the Shared Folders Microsoft Management Console
+  /// snap-in to force-close files that are open and locked.
+  final List<String>? gatewayAdmins;
+
+  SMBLocalGroups({
+    this.gatewayAdmins,
+  });
+
+  factory SMBLocalGroups.fromJson(Map<String, dynamic> json) {
+    return SMBLocalGroups(
+      gatewayAdmins: (json['GatewayAdmins'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayAdmins = this.gatewayAdmins;
+    return {
+      if (gatewayAdmins != null) 'GatewayAdmins': gatewayAdmins,
+    };
+  }
+}
+
+class EncryptionType {
+  static const sseS3 = EncryptionType._('SseS3');
+  static const sseKms = EncryptionType._('SseKms');
+  static const dsseKms = EncryptionType._('DsseKms');
+
+  final String value;
+
+  const EncryptionType._(this.value);
+
+  static const values = [sseS3, sseKms, dsseKms];
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A value that sets the access control list (ACL) permission for objects in
+/// the S3 bucket that an S3 File Gateway puts objects into. The default value
+/// is <code>private</code>.
+class ObjectACL {
+  static const private = ObjectACL._('private');
+  static const publicRead = ObjectACL._('public-read');
+  static const publicReadWrite = ObjectACL._('public-read-write');
+  static const authenticatedRead = ObjectACL._('authenticated-read');
+  static const bucketOwnerRead = ObjectACL._('bucket-owner-read');
+  static const bucketOwnerFullControl =
+      ObjectACL._('bucket-owner-full-control');
+  static const awsExecRead = ObjectACL._('aws-exec-read');
+
+  final String value;
+
+  const ObjectACL._(this.value);
+
+  static const values = [
+    private,
+    publicRead,
+    publicReadWrite,
+    authenticatedRead,
+    bucketOwnerRead,
+    bucketOwnerFullControl,
+    awsExecRead
+  ];
+
+  static ObjectACL fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ObjectACL._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectACL && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CaseSensitivity {
+  static const clientSpecified = CaseSensitivity._('ClientSpecified');
+  static const caseSensitive = CaseSensitivity._('CaseSensitive');
+
+  final String value;
+
+  const CaseSensitivity._(this.value);
+
+  static const values = [clientSpecified, caseSensitive];
+
+  static CaseSensitivity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CaseSensitivity._(value));
+
+  @override
+  bool operator ==(other) => other is CaseSensitivity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The refresh cache information for the file share or FSx file systems.
+class CacheAttributes {
+  /// Refreshes a file share's cache by using Time To Live (TTL). TTL is the
+  /// length of time since the last refresh after which access to the directory
+  /// would cause the file gateway to first refresh that directory's contents from
+  /// the Amazon S3 bucket or Amazon FSx file system. The TTL duration is in
+  /// seconds.
+  ///
+  /// Valid Values:0, 300 to 2,592,000 seconds (5 minutes to 30 days)
+  final int? cacheStaleTimeoutInSeconds;
+
+  CacheAttributes({
+    this.cacheStaleTimeoutInSeconds,
+  });
+
+  factory CacheAttributes.fromJson(Map<String, dynamic> json) {
+    return CacheAttributes(
+      cacheStaleTimeoutInSeconds: json['CacheStaleTimeoutInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheStaleTimeoutInSeconds = this.cacheStaleTimeoutInSeconds;
+    return {
+      if (cacheStaleTimeoutInSeconds != null)
+        'CacheStaleTimeoutInSeconds': cacheStaleTimeoutInSeconds,
+    };
+  }
+}
+
+/// Describes Network File System (NFS) file share default values. Files and
+/// folders stored as Amazon S3 objects in S3 buckets don't, by default, have
+/// Unix file permissions assigned to them. Upon discovery in an S3 bucket by
+/// Storage Gateway, the S3 objects that represent files and folders are
+/// assigned these default Unix permissions. This operation is only supported
+/// for S3 File Gateways.
+class NFSFileShareDefaults {
+  /// The Unix directory mode in the form "nnnn". For example, <code>0666</code>
+  /// represents the default access mode for all directories inside the file
+  /// share. The default value is <code>0777</code>.
+  final String? directoryMode;
+
+  /// The Unix file mode in the form "nnnn". For example, <code>0666</code>
+  /// represents the default file mode inside the file share. The default value is
+  /// <code>0666</code>.
+  final String? fileMode;
+
+  /// The default group ID for the file share (unless the files have another group
+  /// ID specified). The default value is <code>nfsnobody</code>.
+  final int? groupId;
+
+  /// The default owner ID for files in the file share (unless the files have
+  /// another owner ID specified). The default value is <code>nfsnobody</code>.
+  final int? ownerId;
+
+  NFSFileShareDefaults({
+    this.directoryMode,
+    this.fileMode,
+    this.groupId,
+    this.ownerId,
+  });
+
+  factory NFSFileShareDefaults.fromJson(Map<String, dynamic> json) {
+    return NFSFileShareDefaults(
+      directoryMode: json['DirectoryMode'] as String?,
+      fileMode: json['FileMode'] as String?,
+      groupId: json['GroupId'] as int?,
+      ownerId: json['OwnerId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directoryMode = this.directoryMode;
+    final fileMode = this.fileMode;
+    final groupId = this.groupId;
+    final ownerId = this.ownerId;
+    return {
+      if (directoryMode != null) 'DirectoryMode': directoryMode,
+      if (fileMode != null) 'FileMode': fileMode,
+      if (groupId != null) 'GroupId': groupId,
+      if (ownerId != null) 'OwnerId': ownerId,
+    };
+  }
+}
+
+/// A set of variables indicating the software update preferences for the
+/// gateway.
+class SoftwareUpdatePreferences {
+  /// Indicates the automatic update policy for a gateway.
+  ///
+  /// <code>ALL_VERSIONS</code> - Enables regular gateway maintenance updates.
+  ///
+  /// <code>EMERGENCY_VERSIONS_ONLY</code> - Disables regular gateway maintenance
+  /// updates. The gateway will still receive emergency version updates on rare
+  /// occasions if necessary to remedy highly critical security or durability
+  /// issues. You will be notified before an emergency version update is applied.
+  /// These updates are applied during your gateway's scheduled maintenance
+  /// window.
+  final AutomaticUpdatePolicy? automaticUpdatePolicy;
+
+  SoftwareUpdatePreferences({
+    this.automaticUpdatePolicy,
+  });
+
+  factory SoftwareUpdatePreferences.fromJson(Map<String, dynamic> json) {
+    return SoftwareUpdatePreferences(
+      automaticUpdatePolicy: (json['AutomaticUpdatePolicy'] as String?)
+          ?.let(AutomaticUpdatePolicy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automaticUpdatePolicy = this.automaticUpdatePolicy;
+    return {
+      if (automaticUpdatePolicy != null)
+        'AutomaticUpdatePolicy': automaticUpdatePolicy.value,
+    };
+  }
+}
+
+class AutomaticUpdatePolicy {
+  static const allVersions = AutomaticUpdatePolicy._('ALL_VERSIONS');
+  static const emergencyVersionsOnly =
+      AutomaticUpdatePolicy._('EMERGENCY_VERSIONS_ONLY');
+
+  final String value;
+
+  const AutomaticUpdatePolicy._(this.value);
+
+  static const values = [allVersions, emergencyVersionsOnly];
+
+  static AutomaticUpdatePolicy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AutomaticUpdatePolicy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AutomaticUpdatePolicy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class GatewayCapacity {
+  static const small = GatewayCapacity._('Small');
+  static const medium = GatewayCapacity._('Medium');
+  static const large = GatewayCapacity._('Large');
+
+  final String value;
+
+  const GatewayCapacity._(this.value);
+
+  static const values = [small, medium, large];
+
+  static GatewayCapacity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GatewayCapacity._(value));
+
+  @override
+  bool operator ==(other) => other is GatewayCapacity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate
+/// limit schedule consists of one or more bandwidth rate limit intervals. A
+/// bandwidth rate limit interval defines a period of time on one or more days
+/// of the week, during which bandwidth rate limits are specified for uploading,
+/// downloading, or both.
+/// <note>
+/// FSx File Gateway does not support this feature.
+/// </note>
+class BandwidthRateLimitInterval {
+  /// The days of the week component of the bandwidth rate limit interval,
+  /// represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6
+  /// represents Saturday.
+  final List<int> daysOfWeek;
+
+  /// The hour of the day to end the bandwidth rate limit interval.
+  final int endHourOfDay;
+
+  /// The minute of the hour to end the bandwidth rate limit interval.
+  /// <important>
+  /// The bandwidth rate limit interval ends at the end of the minute. To end an
+  /// interval at the end of an hour, use the value <code>59</code>.
+  /// </important>
+  final int endMinuteOfHour;
+
+  /// The hour of the day to start the bandwidth rate limit interval.
+  final int startHourOfDay;
+
+  /// The minute of the hour to start the bandwidth rate limit interval. The
+  /// interval begins at the start of that minute. To begin an interval exactly at
+  /// the start of the hour, use the value <code>0</code>.
+  final int startMinuteOfHour;
+
+  /// The average download rate limit component of the bandwidth rate limit
+  /// interval, in bits per second. This field does not appear in the response if
+  /// the download rate limit is not set.
+  /// <note>
+  /// S3 File Gateway does not support this feature.
+  /// </note>
+  final int? averageDownloadRateLimitInBitsPerSec;
+
+  /// The average upload rate limit component of the bandwidth rate limit
+  /// interval, in bits per second. This field does not appear in the response if
+  /// the upload rate limit is not set.
+  /// <note>
+  /// For Tape Gateway and Volume Gateway, the minimum value is
+  /// <code>51200</code>.
+  ///
+  /// This field is required for S3 File Gateway, and the minimum value is
+  /// <code>104857600</code>.
+  /// </note>
+  final int? averageUploadRateLimitInBitsPerSec;
+
+  BandwidthRateLimitInterval({
+    required this.daysOfWeek,
+    required this.endHourOfDay,
+    required this.endMinuteOfHour,
+    required this.startHourOfDay,
+    required this.startMinuteOfHour,
+    this.averageDownloadRateLimitInBitsPerSec,
+    this.averageUploadRateLimitInBitsPerSec,
+  });
+
+  factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
+    return BandwidthRateLimitInterval(
+      daysOfWeek: ((json['DaysOfWeek'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as int)
+          .toList(),
+      endHourOfDay: (json['EndHourOfDay'] as int?) ?? 0,
+      endMinuteOfHour: (json['EndMinuteOfHour'] as int?) ?? 0,
+      startHourOfDay: (json['StartHourOfDay'] as int?) ?? 0,
+      startMinuteOfHour: (json['StartMinuteOfHour'] as int?) ?? 0,
+      averageDownloadRateLimitInBitsPerSec:
+          json['AverageDownloadRateLimitInBitsPerSec'] as int?,
+      averageUploadRateLimitInBitsPerSec:
+          json['AverageUploadRateLimitInBitsPerSec'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final daysOfWeek = this.daysOfWeek;
+    final endHourOfDay = this.endHourOfDay;
+    final endMinuteOfHour = this.endMinuteOfHour;
+    final startHourOfDay = this.startHourOfDay;
+    final startMinuteOfHour = this.startMinuteOfHour;
+    final averageDownloadRateLimitInBitsPerSec =
+        this.averageDownloadRateLimitInBitsPerSec;
+    final averageUploadRateLimitInBitsPerSec =
+        this.averageUploadRateLimitInBitsPerSec;
+    return {
+      'DaysOfWeek': daysOfWeek,
+      'EndHourOfDay': endHourOfDay,
+      'EndMinuteOfHour': endMinuteOfHour,
+      'StartHourOfDay': startHourOfDay,
+      'StartMinuteOfHour': startMinuteOfHour,
+      if (averageDownloadRateLimitInBitsPerSec != null)
+        'AverageDownloadRateLimitInBitsPerSec':
+            averageDownloadRateLimitInBitsPerSec,
+      if (averageUploadRateLimitInBitsPerSec != null)
+        'AverageUploadRateLimitInBitsPerSec':
+            averageUploadRateLimitInBitsPerSec,
+    };
+  }
+}
+
+/// An automatic tape creation policy consists of automatic tape creation rules
+/// where each rule defines when and how to create new tapes. For more
+/// information about automatic tape creation, see <a
+/// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/GettingStartedCreateTapes.html#CreateTapesAutomatically">Creating
+/// Tapes Automatically</a>.
+class AutomaticTapeCreationRule {
+  /// The minimum number of available virtual tapes that the gateway maintains at
+  /// all times. If the number of tapes on the gateway goes below this value, the
+  /// gateway creates as many new tapes as are needed to have
+  /// <code>MinimumNumTapes</code> on the gateway. For more information about
+  /// automatic tape creation, see <a
+  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/GettingStartedCreateTapes.html#CreateTapesAutomatically">Creating
+  /// Tapes Automatically</a>.
+  final int minimumNumTapes;
+
+  /// The ID of the pool that you want to add your tape to for archiving. The tape
+  /// in this pool is archived in the Amazon S3 storage class that is associated
+  /// with the pool. When you use your backup application to eject the tape, the
+  /// tape is archived directly into the storage class (S3 Glacier or S3 Glacier
+  /// Deep Archive) that corresponds to the pool.
+  final String poolId;
+
+  /// A prefix that you append to the barcode of the virtual tape that you are
+  /// creating. This prefix makes the barcode unique.
+  /// <note>
+  /// The prefix must be 1-4 characters in length and must be one of the uppercase
+  /// letters from A to Z.
+  /// </note>
+  final String tapeBarcodePrefix;
+
+  /// The size, in bytes, of the virtual tape capacity.
+  final int tapeSizeInBytes;
+
+  /// Set to <code>true</code> to indicate that tapes are to be archived as
+  /// write-once-read-many (WORM). Set to <code>false</code> when WORM is not
+  /// enabled for tapes.
+  final bool? worm;
+
+  AutomaticTapeCreationRule({
+    required this.minimumNumTapes,
+    required this.poolId,
+    required this.tapeBarcodePrefix,
+    required this.tapeSizeInBytes,
+    this.worm,
+  });
+
+  factory AutomaticTapeCreationRule.fromJson(Map<String, dynamic> json) {
+    return AutomaticTapeCreationRule(
+      minimumNumTapes: (json['MinimumNumTapes'] as int?) ?? 0,
+      poolId: (json['PoolId'] as String?) ?? '',
+      tapeBarcodePrefix: (json['TapeBarcodePrefix'] as String?) ?? '',
+      tapeSizeInBytes: (json['TapeSizeInBytes'] as int?) ?? 0,
+      worm: json['Worm'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final minimumNumTapes = this.minimumNumTapes;
+    final poolId = this.poolId;
+    final tapeBarcodePrefix = this.tapeBarcodePrefix;
+    final tapeSizeInBytes = this.tapeSizeInBytes;
+    final worm = this.worm;
+    return {
+      'MinimumNumTapes': minimumNumTapes,
+      'PoolId': poolId,
+      'TapeBarcodePrefix': tapeBarcodePrefix,
+      'TapeSizeInBytes': tapeSizeInBytes,
+      if (worm != null) 'Worm': worm,
+    };
+  }
+}
+
+/// A list of filter parameters and associated values that determine which files
+/// are included or excluded from a cache report created by a
+/// <code>StartCacheReport</code> request. Multiple instances of the same filter
+/// parameter are combined with an OR operation, while different parameters are
+/// combined with an AND operation.
+class CacheReportFilter {
+  /// The parameter name for a filter that determines which files are included or
+  /// excluded from a cache report.
+  ///
+  /// <b>Valid Names:</b>
+  ///
+  /// UploadFailureReason | UploadState
+  final CacheReportFilterName name;
+
+  /// The parameter value for a filter that determines which files are included or
+  /// excluded from a cache report.
+  ///
+  /// <b>Valid <code>UploadFailureReason</code> Values:</b>
+  ///
+  /// <code>InaccessibleStorageClass</code> | <code>InvalidObjectState</code> |
+  /// <code>ObjectMissing</code> | <code>S3AccessDenied</code>
+  ///
+  /// <b>Valid <code>UploadState</code> Values:</b>
+  ///
+  /// <code>FailingUpload</code>
+  final List<String> values;
+
+  CacheReportFilter({
+    required this.name,
+    required this.values,
+  });
+
+  factory CacheReportFilter.fromJson(Map<String, dynamic> json) {
+    return CacheReportFilter(
+      name: CacheReportFilterName.fromString((json['Name'] as String?) ?? ''),
+      values: ((json['Values'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name.value,
+      'Values': values,
+    };
+  }
+}
+
+class CacheReportFilterName {
+  static const uploadState = CacheReportFilterName._('UploadState');
+  static const uploadFailureReason =
+      CacheReportFilterName._('UploadFailureReason');
+
+  final String value;
+
+  const CacheReportFilterName._(this.value);
+
+  static const values = [uploadState, uploadFailureReason];
+
+  static CacheReportFilterName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CacheReportFilterName._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CacheReportFilterName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Describes a storage volume object.
@@ -11315,6 +9947,1340 @@ class VolumeRecoveryPointInfo {
   }
 }
 
+/// Describes a virtual tape.
+class TapeInfo {
+  /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
+  /// operation to return a list of gateways for your account and Amazon Web
+  /// Services Region.
+  final String? gatewayARN;
+
+  /// The date that the tape entered the custom tape pool with tape retention lock
+  /// enabled.
+  final DateTime? poolEntryDate;
+
+  /// The ID of the pool that you want to add your tape to for archiving. The tape
+  /// in this pool is archived in the S3 storage class that is associated with the
+  /// pool. When you use your backup application to eject the tape, the tape is
+  /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
+  /// Archive) that corresponds to the pool.
+  final String? poolId;
+
+  /// The date that the tape became subject to tape retention lock.
+  final DateTime? retentionStartDate;
+
+  /// The Amazon Resource Name (ARN) of a virtual tape.
+  final String? tapeARN;
+
+  /// The barcode that identifies a specific virtual tape.
+  final String? tapeBarcode;
+
+  /// The size, in bytes, of a virtual tape.
+  final int? tapeSizeInBytes;
+
+  /// The status of the tape.
+  final String? tapeStatus;
+
+  TapeInfo({
+    this.gatewayARN,
+    this.poolEntryDate,
+    this.poolId,
+    this.retentionStartDate,
+    this.tapeARN,
+    this.tapeBarcode,
+    this.tapeSizeInBytes,
+    this.tapeStatus,
+  });
+
+  factory TapeInfo.fromJson(Map<String, dynamic> json) {
+    return TapeInfo(
+      gatewayARN: json['GatewayARN'] as String?,
+      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
+      poolId: json['PoolId'] as String?,
+      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
+      tapeARN: json['TapeARN'] as String?,
+      tapeBarcode: json['TapeBarcode'] as String?,
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
+      tapeStatus: json['TapeStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayARN = this.gatewayARN;
+    final poolEntryDate = this.poolEntryDate;
+    final poolId = this.poolId;
+    final retentionStartDate = this.retentionStartDate;
+    final tapeARN = this.tapeARN;
+    final tapeBarcode = this.tapeBarcode;
+    final tapeSizeInBytes = this.tapeSizeInBytes;
+    final tapeStatus = this.tapeStatus;
+    return {
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+      if (poolEntryDate != null)
+        'PoolEntryDate': unixTimestampToJson(poolEntryDate),
+      if (poolId != null) 'PoolId': poolId,
+      if (retentionStartDate != null)
+        'RetentionStartDate': unixTimestampToJson(retentionStartDate),
+      if (tapeARN != null) 'TapeARN': tapeARN,
+      if (tapeBarcode != null) 'TapeBarcode': tapeBarcode,
+      if (tapeSizeInBytes != null) 'TapeSizeInBytes': tapeSizeInBytes,
+      if (tapeStatus != null) 'TapeStatus': tapeStatus,
+    };
+  }
+}
+
+/// Describes a custom tape pool.
+class PoolInfo {
+  /// The Amazon Resource Name (ARN) of the custom tape pool. Use the
+  /// <a>ListTapePools</a> operation to return a list of custom tape pools for
+  /// your account and Amazon Web Services Region.
+  final String? poolARN;
+
+  /// The name of the custom tape pool. <code>PoolName</code> can use all ASCII
+  /// characters, except '/' and '\'.
+  final String? poolName;
+
+  /// Status of the custom tape pool. Pool can be <code>ACTIVE</code> or
+  /// <code>DELETED</code>.
+  final PoolStatus? poolStatus;
+
+  /// Tape retention lock time is set in days. Tape retention lock can be enabled
+  /// for up to 100 years (36,500 days).
+  final int? retentionLockTimeInDays;
+
+  /// Tape retention lock type, which can be configured in two modes. When
+  /// configured in governance mode, Amazon Web Services accounts with specific
+  /// IAM permissions are authorized to remove the tape retention lock from
+  /// archived virtual tapes. When configured in compliance mode, the tape
+  /// retention lock cannot be removed by any user, including the root Amazon Web
+  /// Services account.
+  final RetentionLockType? retentionLockType;
+
+  /// The storage class that is associated with the custom pool. When you use your
+  /// backup application to eject the tape, the tape is archived directly into the
+  /// storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to
+  /// the pool.
+  final TapeStorageClass? storageClass;
+
+  PoolInfo({
+    this.poolARN,
+    this.poolName,
+    this.poolStatus,
+    this.retentionLockTimeInDays,
+    this.retentionLockType,
+    this.storageClass,
+  });
+
+  factory PoolInfo.fromJson(Map<String, dynamic> json) {
+    return PoolInfo(
+      poolARN: json['PoolARN'] as String?,
+      poolName: json['PoolName'] as String?,
+      poolStatus: (json['PoolStatus'] as String?)?.let(PoolStatus.fromString),
+      retentionLockTimeInDays: json['RetentionLockTimeInDays'] as int?,
+      retentionLockType: (json['RetentionLockType'] as String?)
+          ?.let(RetentionLockType.fromString),
+      storageClass:
+          (json['StorageClass'] as String?)?.let(TapeStorageClass.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final poolARN = this.poolARN;
+    final poolName = this.poolName;
+    final poolStatus = this.poolStatus;
+    final retentionLockTimeInDays = this.retentionLockTimeInDays;
+    final retentionLockType = this.retentionLockType;
+    final storageClass = this.storageClass;
+    return {
+      if (poolARN != null) 'PoolARN': poolARN,
+      if (poolName != null) 'PoolName': poolName,
+      if (poolStatus != null) 'PoolStatus': poolStatus.value,
+      if (retentionLockTimeInDays != null)
+        'RetentionLockTimeInDays': retentionLockTimeInDays,
+      if (retentionLockType != null)
+        'RetentionLockType': retentionLockType.value,
+      if (storageClass != null) 'StorageClass': storageClass.value,
+    };
+  }
+}
+
+class TapeStorageClass {
+  static const deepArchive = TapeStorageClass._('DEEP_ARCHIVE');
+  static const glacier = TapeStorageClass._('GLACIER');
+
+  final String value;
+
+  const TapeStorageClass._(this.value);
+
+  static const values = [deepArchive, glacier];
+
+  static TapeStorageClass fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TapeStorageClass._(value));
+
+  @override
+  bool operator ==(other) => other is TapeStorageClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RetentionLockType {
+  static const compliance = RetentionLockType._('COMPLIANCE');
+  static const governance = RetentionLockType._('GOVERNANCE');
+  static const none = RetentionLockType._('NONE');
+
+  final String value;
+
+  const RetentionLockType._(this.value);
+
+  static const values = [compliance, governance, none];
+
+  static RetentionLockType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RetentionLockType._(value));
+
+  @override
+  bool operator ==(other) => other is RetentionLockType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PoolStatus {
+  static const active = PoolStatus._('ACTIVE');
+  static const deleted = PoolStatus._('DELETED');
+
+  final String value;
+
+  const PoolStatus._(this.value);
+
+  static const values = [active, deleted];
+
+  static PoolStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PoolStatus._(value));
+
+  @override
+  bool operator ==(other) => other is PoolStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a gateway's local disk.
+class Disk {
+  /// The iSCSI qualified name (IQN) that is defined for a disk. This field is not
+  /// included in the response if the local disk is not defined as an iSCSI
+  /// target. The format of this field is
+  /// <i>targetIqn::LUNNumber::region-volumeId</i>.
+  final String? diskAllocationResource;
+  final String? diskAllocationType;
+  final List<String>? diskAttributeList;
+
+  /// The unique device ID or other distinguishing data that identifies a local
+  /// disk.
+  final String? diskId;
+
+  /// The device node of a local disk as assigned by the virtualization
+  /// environment.
+  final String? diskNode;
+
+  /// The path of a local disk in the gateway virtual machine (VM).
+  final String? diskPath;
+
+  /// The local disk size in bytes.
+  final int? diskSizeInBytes;
+
+  /// A value that represents the status of a local disk.
+  final String? diskStatus;
+
+  Disk({
+    this.diskAllocationResource,
+    this.diskAllocationType,
+    this.diskAttributeList,
+    this.diskId,
+    this.diskNode,
+    this.diskPath,
+    this.diskSizeInBytes,
+    this.diskStatus,
+  });
+
+  factory Disk.fromJson(Map<String, dynamic> json) {
+    return Disk(
+      diskAllocationResource: json['DiskAllocationResource'] as String?,
+      diskAllocationType: json['DiskAllocationType'] as String?,
+      diskAttributeList: (json['DiskAttributeList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      diskId: json['DiskId'] as String?,
+      diskNode: json['DiskNode'] as String?,
+      diskPath: json['DiskPath'] as String?,
+      diskSizeInBytes: json['DiskSizeInBytes'] as int?,
+      diskStatus: json['DiskStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diskAllocationResource = this.diskAllocationResource;
+    final diskAllocationType = this.diskAllocationType;
+    final diskAttributeList = this.diskAttributeList;
+    final diskId = this.diskId;
+    final diskNode = this.diskNode;
+    final diskPath = this.diskPath;
+    final diskSizeInBytes = this.diskSizeInBytes;
+    final diskStatus = this.diskStatus;
+    return {
+      if (diskAllocationResource != null)
+        'DiskAllocationResource': diskAllocationResource,
+      if (diskAllocationType != null) 'DiskAllocationType': diskAllocationType,
+      if (diskAttributeList != null) 'DiskAttributeList': diskAttributeList,
+      if (diskId != null) 'DiskId': diskId,
+      if (diskNode != null) 'DiskNode': diskNode,
+      if (diskPath != null) 'DiskPath': diskPath,
+      if (diskSizeInBytes != null) 'DiskSizeInBytes': diskSizeInBytes,
+      if (diskStatus != null) 'DiskStatus': diskStatus,
+    };
+  }
+}
+
+/// Describes a gateway object.
+class GatewayInfo {
+  /// Date after which this gateway will not receive software updates for new
+  /// features and bug fixes.
+  final String? deprecationDate;
+
+  /// The ID of the Amazon EC2 instance that was used to launch the gateway.
+  final String? ec2InstanceId;
+
+  /// The Amazon Web Services Region where the Amazon EC2 instance is located.
+  final String? ec2InstanceRegion;
+
+  /// The Amazon Resource Name (ARN) of the gateway. Use the <a>ListGateways</a>
+  /// operation to return a list of gateways for your account and Amazon Web
+  /// Services Region.
+  final String? gatewayARN;
+
+  /// The unique identifier assigned to your gateway during activation. This ID
+  /// becomes part of the gateway Amazon Resource Name (ARN), which you use as
+  /// input for other operations.
+  final String? gatewayId;
+
+  /// The name of the gateway.
+  final String? gatewayName;
+
+  /// The state of the gateway.
+  ///
+  /// Valid Values: <code>DISABLED</code> | <code>ACTIVE</code>
+  final String? gatewayOperationalState;
+
+  /// The type of the gateway.
+  /// <important>
+  /// Amazon FSx File Gateway is no longer available to new customers. Existing
+  /// customers of FSx File Gateway can continue to use the service normally. For
+  /// capabilities similar to FSx File Gateway, visit <a
+  /// href="https://aws.amazon.com/blogs/storage/switch-your-file-share-access-from-amazon-fsx-file-gateway-to-amazon-fsx-for-windows-file-server/">this
+  /// blog post</a>.
+  /// </important>
+  final String? gatewayType;
+
+  /// The type of hardware or software platform on which the gateway is running.
+  /// <note>
+  /// Tape Gateway is no longer available on Snow Family devices.
+  /// </note>
+  final HostEnvironment? hostEnvironment;
+
+  /// A unique identifier for the specific instance of the host platform running
+  /// the gateway. This value is only available for certain host environments, and
+  /// its format depends on the host environment type.
+  final String? hostEnvironmentId;
+
+  /// The version number of the software running on the gateway appliance.
+  final String? softwareVersion;
+
+  GatewayInfo({
+    this.deprecationDate,
+    this.ec2InstanceId,
+    this.ec2InstanceRegion,
+    this.gatewayARN,
+    this.gatewayId,
+    this.gatewayName,
+    this.gatewayOperationalState,
+    this.gatewayType,
+    this.hostEnvironment,
+    this.hostEnvironmentId,
+    this.softwareVersion,
+  });
+
+  factory GatewayInfo.fromJson(Map<String, dynamic> json) {
+    return GatewayInfo(
+      deprecationDate: json['DeprecationDate'] as String?,
+      ec2InstanceId: json['Ec2InstanceId'] as String?,
+      ec2InstanceRegion: json['Ec2InstanceRegion'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+      gatewayId: json['GatewayId'] as String?,
+      gatewayName: json['GatewayName'] as String?,
+      gatewayOperationalState: json['GatewayOperationalState'] as String?,
+      gatewayType: json['GatewayType'] as String?,
+      hostEnvironment:
+          (json['HostEnvironment'] as String?)?.let(HostEnvironment.fromString),
+      hostEnvironmentId: json['HostEnvironmentId'] as String?,
+      softwareVersion: json['SoftwareVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deprecationDate = this.deprecationDate;
+    final ec2InstanceId = this.ec2InstanceId;
+    final ec2InstanceRegion = this.ec2InstanceRegion;
+    final gatewayARN = this.gatewayARN;
+    final gatewayId = this.gatewayId;
+    final gatewayName = this.gatewayName;
+    final gatewayOperationalState = this.gatewayOperationalState;
+    final gatewayType = this.gatewayType;
+    final hostEnvironment = this.hostEnvironment;
+    final hostEnvironmentId = this.hostEnvironmentId;
+    final softwareVersion = this.softwareVersion;
+    return {
+      if (deprecationDate != null) 'DeprecationDate': deprecationDate,
+      if (ec2InstanceId != null) 'Ec2InstanceId': ec2InstanceId,
+      if (ec2InstanceRegion != null) 'Ec2InstanceRegion': ec2InstanceRegion,
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+      if (gatewayId != null) 'GatewayId': gatewayId,
+      if (gatewayName != null) 'GatewayName': gatewayName,
+      if (gatewayOperationalState != null)
+        'GatewayOperationalState': gatewayOperationalState,
+      if (gatewayType != null) 'GatewayType': gatewayType,
+      if (hostEnvironment != null) 'HostEnvironment': hostEnvironment.value,
+      if (hostEnvironmentId != null) 'HostEnvironmentId': hostEnvironmentId,
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
+    };
+  }
+}
+
+class HostEnvironment {
+  static const vmware = HostEnvironment._('VMWARE');
+  static const hyperV = HostEnvironment._('HYPER-V');
+  static const ec2 = HostEnvironment._('EC2');
+  static const kvm = HostEnvironment._('KVM');
+  static const other = HostEnvironment._('OTHER');
+  static const snowball = HostEnvironment._('SNOWBALL');
+
+  final String value;
+
+  const HostEnvironment._(this.value);
+
+  static const values = [vmware, hyperV, ec2, kvm, other, snowball];
+
+  static HostEnvironment fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HostEnvironment._(value));
+
+  @override
+  bool operator ==(other) => other is HostEnvironment && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Gets the summary returned by <code>ListFileSystemAssociation</code>, which
+/// is a summary of a created file system association.
+class FileSystemAssociationSummary {
+  /// The Amazon Resource Name (ARN) of the file system association.
+  final String? fileSystemAssociationARN;
+
+  /// The ID of the file system association.
+  final String? fileSystemAssociationId;
+
+  /// The status of the file share. Valid Values: <code>AVAILABLE</code> |
+  /// <code>CREATING</code> | <code>DELETING</code> | <code>FORCE_DELETING</code>
+  /// | <code>UPDATING</code> | <code>ERROR</code>
+  final String? fileSystemAssociationStatus;
+  final String? gatewayARN;
+
+  FileSystemAssociationSummary({
+    this.fileSystemAssociationARN,
+    this.fileSystemAssociationId,
+    this.fileSystemAssociationStatus,
+    this.gatewayARN,
+  });
+
+  factory FileSystemAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return FileSystemAssociationSummary(
+      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
+      fileSystemAssociationId: json['FileSystemAssociationId'] as String?,
+      fileSystemAssociationStatus:
+          json['FileSystemAssociationStatus'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSystemAssociationARN = this.fileSystemAssociationARN;
+    final fileSystemAssociationId = this.fileSystemAssociationId;
+    final fileSystemAssociationStatus = this.fileSystemAssociationStatus;
+    final gatewayARN = this.gatewayARN;
+    return {
+      if (fileSystemAssociationARN != null)
+        'FileSystemAssociationARN': fileSystemAssociationARN,
+      if (fileSystemAssociationId != null)
+        'FileSystemAssociationId': fileSystemAssociationId,
+      if (fileSystemAssociationStatus != null)
+        'FileSystemAssociationStatus': fileSystemAssociationStatus,
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+    };
+  }
+}
+
+/// Describes a file share. Only supported S3 File Gateway.
+class FileShareInfo {
+  final String? fileShareARN;
+  final String? fileShareId;
+  final String? fileShareStatus;
+  final FileShareType? fileShareType;
+  final String? gatewayARN;
+
+  FileShareInfo({
+    this.fileShareARN,
+    this.fileShareId,
+    this.fileShareStatus,
+    this.fileShareType,
+    this.gatewayARN,
+  });
+
+  factory FileShareInfo.fromJson(Map<String, dynamic> json) {
+    return FileShareInfo(
+      fileShareARN: json['FileShareARN'] as String?,
+      fileShareId: json['FileShareId'] as String?,
+      fileShareStatus: json['FileShareStatus'] as String?,
+      fileShareType:
+          (json['FileShareType'] as String?)?.let(FileShareType.fromString),
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileShareARN = this.fileShareARN;
+    final fileShareId = this.fileShareId;
+    final fileShareStatus = this.fileShareStatus;
+    final fileShareType = this.fileShareType;
+    final gatewayARN = this.gatewayARN;
+    return {
+      if (fileShareARN != null) 'FileShareARN': fileShareARN,
+      if (fileShareId != null) 'FileShareId': fileShareId,
+      if (fileShareStatus != null) 'FileShareStatus': fileShareStatus,
+      if (fileShareType != null) 'FileShareType': fileShareType.value,
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+    };
+  }
+}
+
+/// The type of the file share.
+class FileShareType {
+  static const nfs = FileShareType._('NFS');
+  static const smb = FileShareType._('SMB');
+
+  final String value;
+
+  const FileShareType._(this.value);
+
+  static const values = [nfs, smb];
+
+  static FileShareType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FileShareType._(value));
+
+  @override
+  bool operator ==(other) => other is FileShareType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains all informational fields associated with a cache report. Includes
+/// name, ARN, tags, status, progress, filters, start time, and end time.
+class CacheReportInfo {
+  /// The Amazon Resource Name (ARN) of the cache report you want to describe.
+  final String? cacheReportARN;
+
+  /// The status of the specified cache report.
+  final CacheReportStatus? cacheReportStatus;
+
+  /// The time at which the gateway stopped generating the cache report.
+  final DateTime? endTime;
+
+  /// The list of filters and parameters that determine which files are excluded
+  /// from the report.
+  final List<CacheReportFilter>? exclusionFilters;
+  final String? fileShareARN;
+
+  /// The list of filters and parameters that determine which files are included
+  /// in the report.
+  final List<CacheReportFilter>? inclusionFilters;
+
+  /// The ARN of the Amazon S3 bucket location where the cache report is saved.
+  final String? locationARN;
+
+  /// The percentage of the report generation process that has been completed at
+  /// time of inquiry.
+  final int? reportCompletionPercent;
+
+  /// The file name of the completed cache report object stored in Amazon S3.
+  final String? reportName;
+  final String? role;
+
+  /// The time at which the gateway started generating the cache report.
+  final DateTime? startTime;
+
+  /// The list of key/value tags associated with the report.
+  final List<Tag>? tags;
+
+  CacheReportInfo({
+    this.cacheReportARN,
+    this.cacheReportStatus,
+    this.endTime,
+    this.exclusionFilters,
+    this.fileShareARN,
+    this.inclusionFilters,
+    this.locationARN,
+    this.reportCompletionPercent,
+    this.reportName,
+    this.role,
+    this.startTime,
+    this.tags,
+  });
+
+  factory CacheReportInfo.fromJson(Map<String, dynamic> json) {
+    return CacheReportInfo(
+      cacheReportARN: json['CacheReportARN'] as String?,
+      cacheReportStatus: (json['CacheReportStatus'] as String?)
+          ?.let(CacheReportStatus.fromString),
+      endTime: timeStampFromJson(json['EndTime']),
+      exclusionFilters: (json['ExclusionFilters'] as List?)
+          ?.nonNulls
+          .map((e) => CacheReportFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fileShareARN: json['FileShareARN'] as String?,
+      inclusionFilters: (json['InclusionFilters'] as List?)
+          ?.nonNulls
+          .map((e) => CacheReportFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      locationARN: json['LocationARN'] as String?,
+      reportCompletionPercent: json['ReportCompletionPercent'] as int?,
+      reportName: json['ReportName'] as String?,
+      role: json['Role'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheReportARN = this.cacheReportARN;
+    final cacheReportStatus = this.cacheReportStatus;
+    final endTime = this.endTime;
+    final exclusionFilters = this.exclusionFilters;
+    final fileShareARN = this.fileShareARN;
+    final inclusionFilters = this.inclusionFilters;
+    final locationARN = this.locationARN;
+    final reportCompletionPercent = this.reportCompletionPercent;
+    final reportName = this.reportName;
+    final role = this.role;
+    final startTime = this.startTime;
+    final tags = this.tags;
+    return {
+      if (cacheReportARN != null) 'CacheReportARN': cacheReportARN,
+      if (cacheReportStatus != null)
+        'CacheReportStatus': cacheReportStatus.value,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (exclusionFilters != null) 'ExclusionFilters': exclusionFilters,
+      if (fileShareARN != null) 'FileShareARN': fileShareARN,
+      if (inclusionFilters != null) 'InclusionFilters': inclusionFilters,
+      if (locationARN != null) 'LocationARN': locationARN,
+      if (reportCompletionPercent != null)
+        'ReportCompletionPercent': reportCompletionPercent,
+      if (reportName != null) 'ReportName': reportName,
+      if (role != null) 'Role': role,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class CacheReportStatus {
+  static const inProgress = CacheReportStatus._('IN_PROGRESS');
+  static const completed = CacheReportStatus._('COMPLETED');
+  static const canceled = CacheReportStatus._('CANCELED');
+  static const failed = CacheReportStatus._('FAILED');
+  static const error = CacheReportStatus._('ERROR');
+
+  final String value;
+
+  const CacheReportStatus._(this.value);
+
+  static const values = [inProgress, completed, canceled, failed, error];
+
+  static CacheReportStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CacheReportStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CacheReportStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the gateway's automatic tape creation policies, including
+/// the automatic tape creation rules and the gateway that is using the
+/// policies.
+class AutomaticTapeCreationPolicyInfo {
+  /// An automatic tape creation policy consists of a list of automatic tape
+  /// creation rules. This returns the rules that determine when and how to
+  /// automatically create new tapes.
+  final List<AutomaticTapeCreationRule>? automaticTapeCreationRules;
+  final String? gatewayARN;
+
+  AutomaticTapeCreationPolicyInfo({
+    this.automaticTapeCreationRules,
+    this.gatewayARN,
+  });
+
+  factory AutomaticTapeCreationPolicyInfo.fromJson(Map<String, dynamic> json) {
+    return AutomaticTapeCreationPolicyInfo(
+      automaticTapeCreationRules: (json['AutomaticTapeCreationRules'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AutomaticTapeCreationRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automaticTapeCreationRules = this.automaticTapeCreationRules;
+    final gatewayARN = this.gatewayARN;
+    return {
+      if (automaticTapeCreationRules != null)
+        'AutomaticTapeCreationRules': automaticTapeCreationRules,
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+    };
+  }
+}
+
+class ActiveDirectoryStatus {
+  static const accessDenied = ActiveDirectoryStatus._('ACCESS_DENIED');
+  static const detached = ActiveDirectoryStatus._('DETACHED');
+  static const joined = ActiveDirectoryStatus._('JOINED');
+  static const joining = ActiveDirectoryStatus._('JOINING');
+  static const networkError = ActiveDirectoryStatus._('NETWORK_ERROR');
+  static const timeout = ActiveDirectoryStatus._('TIMEOUT');
+  static const unknownError = ActiveDirectoryStatus._('UNKNOWN_ERROR');
+  static const insufficientPermissions =
+      ActiveDirectoryStatus._('INSUFFICIENT_PERMISSIONS');
+
+  final String value;
+
+  const ActiveDirectoryStatus._(this.value);
+
+  static const values = [
+    accessDenied,
+    detached,
+    joined,
+    joining,
+    networkError,
+    timeout,
+    unknownError,
+    insufficientPermissions
+  ];
+
+  static ActiveDirectoryStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActiveDirectoryStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActiveDirectoryStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a device object associated with a tape gateway.
+class VTLDevice {
+  /// A list of iSCSI information about a VTL device.
+  final DeviceiSCSIAttributes? deviceiSCSIAttributes;
+
+  /// Specifies the unique Amazon Resource Name (ARN) of the device (tape drive or
+  /// media changer).
+  final String? vTLDeviceARN;
+
+  /// Specifies the model number of device that the VTL device emulates.
+  final String? vTLDeviceProductIdentifier;
+
+  /// Specifies the type of device that the VTL device emulates.
+  final String? vTLDeviceType;
+
+  /// Specifies the vendor of the device that the VTL device object emulates.
+  final String? vTLDeviceVendor;
+
+  VTLDevice({
+    this.deviceiSCSIAttributes,
+    this.vTLDeviceARN,
+    this.vTLDeviceProductIdentifier,
+    this.vTLDeviceType,
+    this.vTLDeviceVendor,
+  });
+
+  factory VTLDevice.fromJson(Map<String, dynamic> json) {
+    return VTLDevice(
+      deviceiSCSIAttributes: json['DeviceiSCSIAttributes'] != null
+          ? DeviceiSCSIAttributes.fromJson(
+              json['DeviceiSCSIAttributes'] as Map<String, dynamic>)
+          : null,
+      vTLDeviceARN: json['VTLDeviceARN'] as String?,
+      vTLDeviceProductIdentifier: json['VTLDeviceProductIdentifier'] as String?,
+      vTLDeviceType: json['VTLDeviceType'] as String?,
+      vTLDeviceVendor: json['VTLDeviceVendor'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceiSCSIAttributes = this.deviceiSCSIAttributes;
+    final vTLDeviceARN = this.vTLDeviceARN;
+    final vTLDeviceProductIdentifier = this.vTLDeviceProductIdentifier;
+    final vTLDeviceType = this.vTLDeviceType;
+    final vTLDeviceVendor = this.vTLDeviceVendor;
+    return {
+      if (deviceiSCSIAttributes != null)
+        'DeviceiSCSIAttributes': deviceiSCSIAttributes,
+      if (vTLDeviceARN != null) 'VTLDeviceARN': vTLDeviceARN,
+      if (vTLDeviceProductIdentifier != null)
+        'VTLDeviceProductIdentifier': vTLDeviceProductIdentifier,
+      if (vTLDeviceType != null) 'VTLDeviceType': vTLDeviceType,
+      if (vTLDeviceVendor != null) 'VTLDeviceVendor': vTLDeviceVendor,
+    };
+  }
+}
+
+/// Lists iSCSI information about a VTL device.
+class DeviceiSCSIAttributes {
+  /// Indicates whether mutual CHAP is enabled for the iSCSI target.
+  final bool? chapEnabled;
+
+  /// The network interface identifier of the VTL device.
+  final String? networkInterfaceId;
+
+  /// The port used to communicate with iSCSI VTL device targets.
+  final int? networkInterfacePort;
+
+  /// Specifies the unique Amazon Resource Name (ARN) that encodes the iSCSI
+  /// qualified name(iqn) of a tape drive or media changer target.
+  final String? targetARN;
+
+  DeviceiSCSIAttributes({
+    this.chapEnabled,
+    this.networkInterfaceId,
+    this.networkInterfacePort,
+    this.targetARN,
+  });
+
+  factory DeviceiSCSIAttributes.fromJson(Map<String, dynamic> json) {
+    return DeviceiSCSIAttributes(
+      chapEnabled: json['ChapEnabled'] as bool?,
+      networkInterfaceId: json['NetworkInterfaceId'] as String?,
+      networkInterfacePort: json['NetworkInterfacePort'] as int?,
+      targetARN: json['TargetARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final chapEnabled = this.chapEnabled;
+    final networkInterfaceId = this.networkInterfaceId;
+    final networkInterfacePort = this.networkInterfacePort;
+    final targetARN = this.targetARN;
+    return {
+      if (chapEnabled != null) 'ChapEnabled': chapEnabled,
+      if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
+      if (networkInterfacePort != null)
+        'NetworkInterfacePort': networkInterfacePort,
+      if (targetARN != null) 'TargetARN': targetARN,
+    };
+  }
+}
+
+/// Describes a virtual tape object.
+class Tape {
+  final String? kMSKey;
+
+  /// The date that the tape enters a custom tape pool.
+  final DateTime? poolEntryDate;
+
+  /// The ID of the pool that contains tapes that will be archived. The tapes in
+  /// this pool are archived in the S3 storage class that is associated with the
+  /// pool. When you use your backup application to eject the tape, the tape is
+  /// archived directly into the storage class (S3 Glacier or S3 Glacier Deep
+  /// Archive) that corresponds to the pool.
+  final String? poolId;
+
+  /// For archiving virtual tapes, indicates how much data remains to be uploaded
+  /// before archiving is complete.
+  ///
+  /// Range: 0 (not started) to 100 (complete).
+  final double? progress;
+
+  /// The date that the tape is first archived with tape retention lock enabled.
+  final DateTime? retentionStartDate;
+
+  /// The Amazon Resource Name (ARN) of the virtual tape.
+  final String? tapeARN;
+
+  /// The barcode that identifies a specific virtual tape.
+  final String? tapeBarcode;
+
+  /// The date the virtual tape was created.
+  final DateTime? tapeCreatedDate;
+
+  /// The size, in bytes, of the virtual tape capacity.
+  final int? tapeSizeInBytes;
+
+  /// The current state of the virtual tape.
+  final String? tapeStatus;
+
+  /// The size, in bytes, of data stored on the virtual tape.
+  /// <note>
+  /// This value is not available for tapes created prior to May 13, 2015.
+  /// </note>
+  final int? tapeUsedInBytes;
+
+  /// The virtual tape library (VTL) device that the virtual tape is associated
+  /// with.
+  final String? vTLDevice;
+
+  /// If the tape is archived as write-once-read-many (WORM), this value is
+  /// <code>true</code>.
+  final bool? worm;
+
+  Tape({
+    this.kMSKey,
+    this.poolEntryDate,
+    this.poolId,
+    this.progress,
+    this.retentionStartDate,
+    this.tapeARN,
+    this.tapeBarcode,
+    this.tapeCreatedDate,
+    this.tapeSizeInBytes,
+    this.tapeStatus,
+    this.tapeUsedInBytes,
+    this.vTLDevice,
+    this.worm,
+  });
+
+  factory Tape.fromJson(Map<String, dynamic> json) {
+    return Tape(
+      kMSKey: json['KMSKey'] as String?,
+      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
+      poolId: json['PoolId'] as String?,
+      progress: json['Progress'] as double?,
+      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
+      tapeARN: json['TapeARN'] as String?,
+      tapeBarcode: json['TapeBarcode'] as String?,
+      tapeCreatedDate: timeStampFromJson(json['TapeCreatedDate']),
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
+      tapeStatus: json['TapeStatus'] as String?,
+      tapeUsedInBytes: json['TapeUsedInBytes'] as int?,
+      vTLDevice: json['VTLDevice'] as String?,
+      worm: json['Worm'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kMSKey = this.kMSKey;
+    final poolEntryDate = this.poolEntryDate;
+    final poolId = this.poolId;
+    final progress = this.progress;
+    final retentionStartDate = this.retentionStartDate;
+    final tapeARN = this.tapeARN;
+    final tapeBarcode = this.tapeBarcode;
+    final tapeCreatedDate = this.tapeCreatedDate;
+    final tapeSizeInBytes = this.tapeSizeInBytes;
+    final tapeStatus = this.tapeStatus;
+    final tapeUsedInBytes = this.tapeUsedInBytes;
+    final vTLDevice = this.vTLDevice;
+    final worm = this.worm;
+    return {
+      if (kMSKey != null) 'KMSKey': kMSKey,
+      if (poolEntryDate != null)
+        'PoolEntryDate': unixTimestampToJson(poolEntryDate),
+      if (poolId != null) 'PoolId': poolId,
+      if (progress != null) 'Progress': progress,
+      if (retentionStartDate != null)
+        'RetentionStartDate': unixTimestampToJson(retentionStartDate),
+      if (tapeARN != null) 'TapeARN': tapeARN,
+      if (tapeBarcode != null) 'TapeBarcode': tapeBarcode,
+      if (tapeCreatedDate != null)
+        'TapeCreatedDate': unixTimestampToJson(tapeCreatedDate),
+      if (tapeSizeInBytes != null) 'TapeSizeInBytes': tapeSizeInBytes,
+      if (tapeStatus != null) 'TapeStatus': tapeStatus,
+      if (tapeUsedInBytes != null) 'TapeUsedInBytes': tapeUsedInBytes,
+      if (vTLDevice != null) 'VTLDevice': vTLDevice,
+      if (worm != null) 'Worm': worm,
+    };
+  }
+}
+
+/// Describes a recovery point.
+class TapeRecoveryPointInfo {
+  /// The Amazon Resource Name (ARN) of the virtual tape.
+  final String? tapeARN;
+
+  /// The time when the point-in-time view of the virtual tape was replicated for
+  /// later recovery.
+  ///
+  /// The default timestamp format of the tape recovery point time is in the
+  /// ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
+  final DateTime? tapeRecoveryPointTime;
+
+  /// The size, in bytes, of the virtual tapes to recover.
+  final int? tapeSizeInBytes;
+
+  /// The status of the virtual tapes.
+  final String? tapeStatus;
+
+  TapeRecoveryPointInfo({
+    this.tapeARN,
+    this.tapeRecoveryPointTime,
+    this.tapeSizeInBytes,
+    this.tapeStatus,
+  });
+
+  factory TapeRecoveryPointInfo.fromJson(Map<String, dynamic> json) {
+    return TapeRecoveryPointInfo(
+      tapeARN: json['TapeARN'] as String?,
+      tapeRecoveryPointTime: timeStampFromJson(json['TapeRecoveryPointTime']),
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
+      tapeStatus: json['TapeStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tapeARN = this.tapeARN;
+    final tapeRecoveryPointTime = this.tapeRecoveryPointTime;
+    final tapeSizeInBytes = this.tapeSizeInBytes;
+    final tapeStatus = this.tapeStatus;
+    return {
+      if (tapeARN != null) 'TapeARN': tapeARN,
+      if (tapeRecoveryPointTime != null)
+        'TapeRecoveryPointTime': unixTimestampToJson(tapeRecoveryPointTime),
+      if (tapeSizeInBytes != null) 'TapeSizeInBytes': tapeSizeInBytes,
+      if (tapeStatus != null) 'TapeStatus': tapeStatus,
+    };
+  }
+}
+
+/// Represents a virtual tape that is archived in the virtual tape shelf (VTS).
+class TapeArchive {
+  /// The time that the archiving of the virtual tape was completed.
+  ///
+  /// The default timestamp format is in the ISO8601 extended
+  /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
+  final DateTime? completionTime;
+  final String? kMSKey;
+
+  /// The time that the tape entered the custom tape pool.
+  ///
+  /// The default timestamp format is in the ISO8601 extended
+  /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
+  final DateTime? poolEntryDate;
+
+  /// The ID of the pool that was used to archive the tape. The tapes in this pool
+  /// are archived in the S3 storage class that is associated with the pool.
+  final String? poolId;
+
+  /// If the archived tape is subject to tape retention lock, the date that the
+  /// archived tape started being retained.
+  final DateTime? retentionStartDate;
+
+  /// The Amazon Resource Name (ARN) of the tape gateway that the virtual tape is
+  /// being retrieved to.
+  ///
+  /// The virtual tape is retrieved from the virtual tape shelf (VTS).
+  final String? retrievedTo;
+
+  /// The Amazon Resource Name (ARN) of an archived virtual tape.
+  final String? tapeARN;
+
+  /// The barcode that identifies the archived virtual tape.
+  final String? tapeBarcode;
+
+  /// The date the virtual tape was created.
+  final DateTime? tapeCreatedDate;
+
+  /// The size, in bytes, of the archived virtual tape.
+  final int? tapeSizeInBytes;
+
+  /// The current state of the archived virtual tape.
+  final String? tapeStatus;
+
+  /// The size, in bytes, of data stored on the virtual tape.
+  /// <note>
+  /// This value is not available for tapes created prior to May 13, 2015.
+  /// </note>
+  final int? tapeUsedInBytes;
+
+  /// Set to <code>true</code> if the archived tape is stored as
+  /// write-once-read-many (WORM).
+  final bool? worm;
+
+  TapeArchive({
+    this.completionTime,
+    this.kMSKey,
+    this.poolEntryDate,
+    this.poolId,
+    this.retentionStartDate,
+    this.retrievedTo,
+    this.tapeARN,
+    this.tapeBarcode,
+    this.tapeCreatedDate,
+    this.tapeSizeInBytes,
+    this.tapeStatus,
+    this.tapeUsedInBytes,
+    this.worm,
+  });
+
+  factory TapeArchive.fromJson(Map<String, dynamic> json) {
+    return TapeArchive(
+      completionTime: timeStampFromJson(json['CompletionTime']),
+      kMSKey: json['KMSKey'] as String?,
+      poolEntryDate: timeStampFromJson(json['PoolEntryDate']),
+      poolId: json['PoolId'] as String?,
+      retentionStartDate: timeStampFromJson(json['RetentionStartDate']),
+      retrievedTo: json['RetrievedTo'] as String?,
+      tapeARN: json['TapeARN'] as String?,
+      tapeBarcode: json['TapeBarcode'] as String?,
+      tapeCreatedDate: timeStampFromJson(json['TapeCreatedDate']),
+      tapeSizeInBytes: json['TapeSizeInBytes'] as int?,
+      tapeStatus: json['TapeStatus'] as String?,
+      tapeUsedInBytes: json['TapeUsedInBytes'] as int?,
+      worm: json['Worm'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionTime = this.completionTime;
+    final kMSKey = this.kMSKey;
+    final poolEntryDate = this.poolEntryDate;
+    final poolId = this.poolId;
+    final retentionStartDate = this.retentionStartDate;
+    final retrievedTo = this.retrievedTo;
+    final tapeARN = this.tapeARN;
+    final tapeBarcode = this.tapeBarcode;
+    final tapeCreatedDate = this.tapeCreatedDate;
+    final tapeSizeInBytes = this.tapeSizeInBytes;
+    final tapeStatus = this.tapeStatus;
+    final tapeUsedInBytes = this.tapeUsedInBytes;
+    final worm = this.worm;
+    return {
+      if (completionTime != null)
+        'CompletionTime': unixTimestampToJson(completionTime),
+      if (kMSKey != null) 'KMSKey': kMSKey,
+      if (poolEntryDate != null)
+        'PoolEntryDate': unixTimestampToJson(poolEntryDate),
+      if (poolId != null) 'PoolId': poolId,
+      if (retentionStartDate != null)
+        'RetentionStartDate': unixTimestampToJson(retentionStartDate),
+      if (retrievedTo != null) 'RetrievedTo': retrievedTo,
+      if (tapeARN != null) 'TapeARN': tapeARN,
+      if (tapeBarcode != null) 'TapeBarcode': tapeBarcode,
+      if (tapeCreatedDate != null)
+        'TapeCreatedDate': unixTimestampToJson(tapeCreatedDate),
+      if (tapeSizeInBytes != null) 'TapeSizeInBytes': tapeSizeInBytes,
+      if (tapeStatus != null) 'TapeStatus': tapeStatus,
+      if (tapeUsedInBytes != null) 'TapeUsedInBytes': tapeUsedInBytes,
+      if (worm != null) 'Worm': worm,
+    };
+  }
+}
+
+/// Describes an iSCSI stored volume.
+class StorediSCSIVolume {
+  /// The date the volume was created. Volumes created prior to March 28, 2017
+  /// don’t have this timestamp.
+  final DateTime? createdDate;
+  final String? kMSKey;
+
+  /// Indicates if when the stored volume was created, existing data on the
+  /// underlying local disk was preserved.
+  ///
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? preservedExistingData;
+
+  /// If the stored volume was created from a snapshot, this field contains the
+  /// snapshot ID used, e.g. snap-78e22663. Otherwise, this field is not included.
+  final String? sourceSnapshotId;
+
+  /// The name of the iSCSI target used by an initiator to connect to a volume and
+  /// used as a suffix for the target ARN. For example, specifying
+  /// <code>TargetName</code> as <i>myvolume</i> results in the target ARN of
+  /// <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
+  /// The target name must be unique across all volumes on a gateway.
+  ///
+  /// If you don't specify a value, Storage Gateway uses the value that was
+  /// previously used for this volume as the new target name.
+  final String? targetName;
+
+  /// The Amazon Resource Name (ARN) of the storage volume.
+  final String? volumeARN;
+
+  /// A value that indicates whether a storage volume is attached to, detached
+  /// from, or is in the process of detaching from a gateway. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#attach-detach-volume">Moving
+  /// your volumes to a different gateway</a>.
+  final String? volumeAttachmentStatus;
+
+  /// The ID of the local disk that was specified in the
+  /// <a>CreateStorediSCSIVolume</a> operation.
+  final String? volumeDiskId;
+
+  /// The unique identifier of the volume, e.g., vol-AE4B946D.
+  final String? volumeId;
+
+  /// Represents the percentage complete if the volume is restoring or
+  /// bootstrapping that represents the percent of data transferred. This field
+  /// does not appear in the response if the stored volume is not restoring or
+  /// bootstrapping.
+  final double? volumeProgress;
+
+  /// The size of the volume in bytes.
+  final int? volumeSizeInBytes;
+
+  /// One of the VolumeStatus values that indicates the state of the storage
+  /// volume.
+  final String? volumeStatus;
+
+  /// One of the VolumeType enumeration values describing the type of the volume.
+  final String? volumeType;
+
+  /// The size of the data stored on the volume in bytes. This value is calculated
+  /// based on the number of blocks that are touched, instead of the actual amount
+  /// of data written. This value can be useful for sequential write patterns but
+  /// less accurate for random write patterns. <code>VolumeUsedInBytes</code> is
+  /// different from the compressed size of the volume, which is the value that is
+  /// used to calculate your bill.
+  /// <note>
+  /// This value is not available for volumes created prior to May 13, 2015, until
+  /// you store data on the volume.
+  /// </note>
+  final int? volumeUsedInBytes;
+
+  /// An <a>VolumeiSCSIAttributes</a> object that represents a collection of iSCSI
+  /// attributes for one stored volume.
+  final VolumeiSCSIAttributes? volumeiSCSIAttributes;
+
+  StorediSCSIVolume({
+    this.createdDate,
+    this.kMSKey,
+    this.preservedExistingData,
+    this.sourceSnapshotId,
+    this.targetName,
+    this.volumeARN,
+    this.volumeAttachmentStatus,
+    this.volumeDiskId,
+    this.volumeId,
+    this.volumeProgress,
+    this.volumeSizeInBytes,
+    this.volumeStatus,
+    this.volumeType,
+    this.volumeUsedInBytes,
+    this.volumeiSCSIAttributes,
+  });
+
+  factory StorediSCSIVolume.fromJson(Map<String, dynamic> json) {
+    return StorediSCSIVolume(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      kMSKey: json['KMSKey'] as String?,
+      preservedExistingData: json['PreservedExistingData'] as bool?,
+      sourceSnapshotId: json['SourceSnapshotId'] as String?,
+      targetName: json['TargetName'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+      volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
+      volumeDiskId: json['VolumeDiskId'] as String?,
+      volumeId: json['VolumeId'] as String?,
+      volumeProgress: json['VolumeProgress'] as double?,
+      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
+      volumeStatus: json['VolumeStatus'] as String?,
+      volumeType: json['VolumeType'] as String?,
+      volumeUsedInBytes: json['VolumeUsedInBytes'] as int?,
+      volumeiSCSIAttributes: json['VolumeiSCSIAttributes'] != null
+          ? VolumeiSCSIAttributes.fromJson(
+              json['VolumeiSCSIAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final kMSKey = this.kMSKey;
+    final preservedExistingData = this.preservedExistingData;
+    final sourceSnapshotId = this.sourceSnapshotId;
+    final targetName = this.targetName;
+    final volumeARN = this.volumeARN;
+    final volumeAttachmentStatus = this.volumeAttachmentStatus;
+    final volumeDiskId = this.volumeDiskId;
+    final volumeId = this.volumeId;
+    final volumeProgress = this.volumeProgress;
+    final volumeSizeInBytes = this.volumeSizeInBytes;
+    final volumeStatus = this.volumeStatus;
+    final volumeType = this.volumeType;
+    final volumeUsedInBytes = this.volumeUsedInBytes;
+    final volumeiSCSIAttributes = this.volumeiSCSIAttributes;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (kMSKey != null) 'KMSKey': kMSKey,
+      if (preservedExistingData != null)
+        'PreservedExistingData': preservedExistingData,
+      if (sourceSnapshotId != null) 'SourceSnapshotId': sourceSnapshotId,
+      if (targetName != null) 'TargetName': targetName,
+      if (volumeARN != null) 'VolumeARN': volumeARN,
+      if (volumeAttachmentStatus != null)
+        'VolumeAttachmentStatus': volumeAttachmentStatus,
+      if (volumeDiskId != null) 'VolumeDiskId': volumeDiskId,
+      if (volumeId != null) 'VolumeId': volumeId,
+      if (volumeProgress != null) 'VolumeProgress': volumeProgress,
+      if (volumeSizeInBytes != null) 'VolumeSizeInBytes': volumeSizeInBytes,
+      if (volumeStatus != null) 'VolumeStatus': volumeStatus,
+      if (volumeType != null) 'VolumeType': volumeType,
+      if (volumeUsedInBytes != null) 'VolumeUsedInBytes': volumeUsedInBytes,
+      if (volumeiSCSIAttributes != null)
+        'VolumeiSCSIAttributes': volumeiSCSIAttributes,
+    };
+  }
+}
+
 /// Lists iSCSI information about a volume.
 class VolumeiSCSIAttributes {
   /// Indicates whether mutual CHAP is enabled for the iSCSI target.
@@ -11365,6 +11331,1072 @@ class VolumeiSCSIAttributes {
       if (targetARN != null) 'TargetARN': targetARN,
     };
   }
+}
+
+/// The Windows file permissions and ownership information assigned, by default,
+/// to native S3 objects when S3 File Gateway discovers them in S3 buckets. This
+/// operation is only supported for S3 File Gateways.
+class SMBFileShareInfo {
+  /// Indicates whether <code>AccessBasedEnumeration</code> is enabled.
+  final bool? accessBasedEnumeration;
+
+  /// A list of users or groups in the Active Directory that have administrator
+  /// rights to the file share. A group must be prefixed with the @ character.
+  /// Acceptable formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
+  /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
+  /// Authentication is set to <code>ActiveDirectory</code>.
+  final List<String>? adminUserList;
+
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
+  final String? auditDestinationARN;
+  final String? authentication;
+
+  /// Specifies the Region of the S3 bucket where the SMB file share stores files.
+  /// <note>
+  /// This parameter is required for SMB file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  final String? bucketRegion;
+
+  /// Refresh cache information for the file share.
+  final CacheAttributes? cacheAttributes;
+
+  /// The case of an object name in an Amazon S3 bucket. For
+  /// <code>ClientSpecified</code>, the client determines the case sensitivity.
+  /// For <code>CaseSensitive</code>, the gateway determines the case sensitivity.
+  /// The default value is <code>ClientSpecified</code>.
+  final CaseSensitivity? caseSensitivity;
+
+  /// The default storage class for objects put into an Amazon S3 bucket by the S3
+  /// File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
+  ///
+  /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
+  /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
+  final String? defaultStorageClass;
+
+  /// A value that specifies the type of server-side encryption that the file
+  /// share will use for the data that it stores in Amazon S3.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
+  ///
+  /// If values for both parameters exist in the same request, then the specified
+  /// encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or <code>DsseKms</code>,
+  /// then <code>KMSEncrypted</code> must be <code>true</code>.
+  /// </note>
+  final EncryptionType? encryptionType;
+  final String? fileShareARN;
+  final String? fileShareId;
+
+  /// The name of the file share. Optional.
+  /// <note>
+  /// <code>FileShareName</code> must be set if an S3 prefix name is set in
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
+  /// </note>
+  final String? fileShareName;
+  final String? fileShareStatus;
+  final String? gatewayARN;
+
+  /// A value that enables guessing of the MIME type for uploaded objects based on
+  /// file extensions. Set this value to <code>true</code> to enable MIME type
+  /// guessing, otherwise set to <code>false</code>. The default value is
+  /// <code>true</code>.
+  ///
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? guessMIMETypeEnabled;
+
+  /// A list of users or groups in the Active Directory that are not allowed to
+  /// access the file share. A group must be prefixed with the @ character.
+  /// Acceptable formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
+  /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
+  /// Authentication is set to <code>ActiveDirectory</code>.
+  final List<String>? invalidUserList;
+
+  /// Optional. Set to <code>true</code> to use Amazon S3 server-side encryption
+  /// with your own KMS key (SSE-KMS), or <code>false</code> to use a key managed
+  /// by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+  /// <code>EncryptionType</code> parameter instead.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
+  ///
+  /// If values for both parameters exist in the same request, then the specified
+  /// encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or <code>DsseKms</code>,
+  /// then <code>KMSEncrypted</code> must be <code>true</code>.
+  /// </note>
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? kMSEncrypted;
+  final String? kMSKey;
+  final String? locationARN;
+
+  /// The notification policy of the file share.
+  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
+  /// after the last point in time a client wrote to a file before generating an
+  /// <code>ObjectUploaded</code> notification. Because clients can make many
+  /// small writes to files, it's best to set this parameter for as long as
+  /// possible to avoid generating multiple notifications for the same file in a
+  /// small time period.
+  /// <note>
+  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the object
+  /// uploading to Amazon S3, only the timing of the notification.
+  ///
+  /// This setting is not meant to specify an exact time at which the notification
+  /// will be sent. In some cases, the gateway might require more than the
+  /// specified delay time to generate and send notifications.
+  /// </note>
+  /// The following example sets <code>NotificationPolicy</code> on with
+  /// <code>SettlingTimeInSeconds</code> set to 60.
+  ///
+  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
+  ///
+  /// The following example sets <code>NotificationPolicy</code> off.
+  ///
+  /// <code>{}</code>
+  final String? notificationPolicy;
+  final ObjectACL? objectACL;
+
+  /// Specifies whether opportunistic locking is enabled for the SMB file share.
+  /// <note>
+  /// Enabling opportunistic locking on case-sensitive shares is not recommended
+  /// for workloads that involve access to files with the same name in different
+  /// case.
+  /// </note>
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? oplocksEnabled;
+
+  /// The file share path used by the SMB client to identify the mount point.
+  final String? path;
+
+  /// A value that sets the write status of a file share. Set this value to
+  /// <code>true</code> to set the write status to read-only, otherwise set to
+  /// <code>false</code>.
+  ///
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? readOnly;
+
+  /// A value that sets who pays the cost of the request and the cost associated
+  /// with data download from the S3 bucket. If this value is set to
+  /// <code>true</code>, the requester pays the costs; otherwise, the S3 bucket
+  /// owner pays. However, the S3 bucket owner always pays the cost of storing
+  /// data.
+  /// <note>
+  /// <code>RequesterPays</code> is a configuration for the S3 bucket that backs
+  /// the file share, so make sure that the configuration on the file share is the
+  /// same as the S3 bucket configuration.
+  /// </note>
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? requesterPays;
+  final String? role;
+
+  /// If this value is set to <code>true</code>, it indicates that access control
+  /// list (ACL) is enabled on the SMB file share. If it is set to
+  /// <code>false</code>, it indicates that file and directory permissions are
+  /// mapped to the POSIX permission.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/filegateway/latest/files3/smb-acl.html">Using
+  /// Windows ACLs to limit SMB file share access</a> in the <i>Amazon S3 File
+  /// Gateway User Guide</i>.
+  final bool? sMBACLEnabled;
+
+  /// A list of up to 50 tags assigned to the SMB file share, sorted
+  /// alphabetically by key name. Each tag is a key-value pair. For a gateway with
+  /// more than 10 tags assigned, you can view all tags using the
+  /// <code>ListTagsForResource</code> API operation.
+  final List<Tag>? tags;
+
+  /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to
+  /// connect to Amazon S3.
+  /// <note>
+  /// This parameter is required for SMB file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  final String? vPCEndpointDNSName;
+
+  /// A list of users or groups in the Active Directory that are allowed to access
+  /// the file share. A group must be prefixed with the @ character. Acceptable
+  /// formats include: <code>DOMAIN\User1</code>, <code>user1</code>,
+  /// <code>@group1</code>, and <code>@DOMAIN\group1</code>. Can only be set if
+  /// Authentication is set to <code>ActiveDirectory</code>.
+  final List<String>? validUserList;
+
+  SMBFileShareInfo({
+    this.accessBasedEnumeration,
+    this.adminUserList,
+    this.auditDestinationARN,
+    this.authentication,
+    this.bucketRegion,
+    this.cacheAttributes,
+    this.caseSensitivity,
+    this.defaultStorageClass,
+    this.encryptionType,
+    this.fileShareARN,
+    this.fileShareId,
+    this.fileShareName,
+    this.fileShareStatus,
+    this.gatewayARN,
+    this.guessMIMETypeEnabled,
+    this.invalidUserList,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.locationARN,
+    this.notificationPolicy,
+    this.objectACL,
+    this.oplocksEnabled,
+    this.path,
+    this.readOnly,
+    this.requesterPays,
+    this.role,
+    this.sMBACLEnabled,
+    this.tags,
+    this.vPCEndpointDNSName,
+    this.validUserList,
+  });
+
+  factory SMBFileShareInfo.fromJson(Map<String, dynamic> json) {
+    return SMBFileShareInfo(
+      accessBasedEnumeration: json['AccessBasedEnumeration'] as bool?,
+      adminUserList: (json['AdminUserList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      auditDestinationARN: json['AuditDestinationARN'] as String?,
+      authentication: json['Authentication'] as String?,
+      bucketRegion: json['BucketRegion'] as String?,
+      cacheAttributes: json['CacheAttributes'] != null
+          ? CacheAttributes.fromJson(
+              json['CacheAttributes'] as Map<String, dynamic>)
+          : null,
+      caseSensitivity:
+          (json['CaseSensitivity'] as String?)?.let(CaseSensitivity.fromString),
+      defaultStorageClass: json['DefaultStorageClass'] as String?,
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
+      fileShareARN: json['FileShareARN'] as String?,
+      fileShareId: json['FileShareId'] as String?,
+      fileShareName: json['FileShareName'] as String?,
+      fileShareStatus: json['FileShareStatus'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+      guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool?,
+      invalidUserList: (json['InvalidUserList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      kMSEncrypted: json['KMSEncrypted'] as bool?,
+      kMSKey: json['KMSKey'] as String?,
+      locationARN: json['LocationARN'] as String?,
+      notificationPolicy: json['NotificationPolicy'] as String?,
+      objectACL: (json['ObjectACL'] as String?)?.let(ObjectACL.fromString),
+      oplocksEnabled: json['OplocksEnabled'] as bool?,
+      path: json['Path'] as String?,
+      readOnly: json['ReadOnly'] as bool?,
+      requesterPays: json['RequesterPays'] as bool?,
+      role: json['Role'] as String?,
+      sMBACLEnabled: json['SMBACLEnabled'] as bool?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vPCEndpointDNSName: json['VPCEndpointDNSName'] as String?,
+      validUserList: (json['ValidUserList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessBasedEnumeration = this.accessBasedEnumeration;
+    final adminUserList = this.adminUserList;
+    final auditDestinationARN = this.auditDestinationARN;
+    final authentication = this.authentication;
+    final bucketRegion = this.bucketRegion;
+    final cacheAttributes = this.cacheAttributes;
+    final caseSensitivity = this.caseSensitivity;
+    final defaultStorageClass = this.defaultStorageClass;
+    final encryptionType = this.encryptionType;
+    final fileShareARN = this.fileShareARN;
+    final fileShareId = this.fileShareId;
+    final fileShareName = this.fileShareName;
+    final fileShareStatus = this.fileShareStatus;
+    final gatewayARN = this.gatewayARN;
+    final guessMIMETypeEnabled = this.guessMIMETypeEnabled;
+    final invalidUserList = this.invalidUserList;
+    final kMSEncrypted = this.kMSEncrypted;
+    final kMSKey = this.kMSKey;
+    final locationARN = this.locationARN;
+    final notificationPolicy = this.notificationPolicy;
+    final objectACL = this.objectACL;
+    final oplocksEnabled = this.oplocksEnabled;
+    final path = this.path;
+    final readOnly = this.readOnly;
+    final requesterPays = this.requesterPays;
+    final role = this.role;
+    final sMBACLEnabled = this.sMBACLEnabled;
+    final tags = this.tags;
+    final vPCEndpointDNSName = this.vPCEndpointDNSName;
+    final validUserList = this.validUserList;
+    return {
+      if (accessBasedEnumeration != null)
+        'AccessBasedEnumeration': accessBasedEnumeration,
+      if (adminUserList != null) 'AdminUserList': adminUserList,
+      if (auditDestinationARN != null)
+        'AuditDestinationARN': auditDestinationARN,
+      if (authentication != null) 'Authentication': authentication,
+      if (bucketRegion != null) 'BucketRegion': bucketRegion,
+      if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
+      if (caseSensitivity != null) 'CaseSensitivity': caseSensitivity.value,
+      if (defaultStorageClass != null)
+        'DefaultStorageClass': defaultStorageClass,
+      if (encryptionType != null) 'EncryptionType': encryptionType.value,
+      if (fileShareARN != null) 'FileShareARN': fileShareARN,
+      if (fileShareId != null) 'FileShareId': fileShareId,
+      if (fileShareName != null) 'FileShareName': fileShareName,
+      if (fileShareStatus != null) 'FileShareStatus': fileShareStatus,
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+      if (guessMIMETypeEnabled != null)
+        'GuessMIMETypeEnabled': guessMIMETypeEnabled,
+      if (invalidUserList != null) 'InvalidUserList': invalidUserList,
+      if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+      if (kMSKey != null) 'KMSKey': kMSKey,
+      if (locationARN != null) 'LocationARN': locationARN,
+      if (notificationPolicy != null) 'NotificationPolicy': notificationPolicy,
+      if (objectACL != null) 'ObjectACL': objectACL.value,
+      if (oplocksEnabled != null) 'OplocksEnabled': oplocksEnabled,
+      if (path != null) 'Path': path,
+      if (readOnly != null) 'ReadOnly': readOnly,
+      if (requesterPays != null) 'RequesterPays': requesterPays,
+      if (role != null) 'Role': role,
+      if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
+      if (tags != null) 'Tags': tags,
+      if (vPCEndpointDNSName != null) 'VPCEndpointDNSName': vPCEndpointDNSName,
+      if (validUserList != null) 'ValidUserList': validUserList,
+    };
+  }
+}
+
+/// The Unix file permissions and ownership information assigned, by default, to
+/// native S3 objects when an S3 File Gateway discovers them in S3 buckets. This
+/// operation is only supported in S3 File Gateways.
+class NFSFileShareInfo {
+  /// The Amazon Resource Name (ARN) of the storage used for audit logs.
+  final String? auditDestinationARN;
+
+  /// Specifies the Region of the S3 bucket where the NFS file share stores files.
+  /// <note>
+  /// This parameter is required for NFS file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  final String? bucketRegion;
+
+  /// Refresh cache information for the file share.
+  final CacheAttributes? cacheAttributes;
+  final List<String>? clientList;
+
+  /// The default storage class for objects put into an Amazon S3 bucket by the S3
+  /// File Gateway. The default value is <code>S3_STANDARD</code>. Optional.
+  ///
+  /// Valid Values: <code>S3_STANDARD</code> | <code>S3_INTELLIGENT_TIERING</code>
+  /// | <code>S3_STANDARD_IA</code> | <code>S3_ONEZONE_IA</code>
+  final String? defaultStorageClass;
+
+  /// A value that specifies the type of server-side encryption that the file
+  /// share will use for the data that it stores in Amazon S3.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
+  ///
+  /// If values for both parameters exist in the same request, then the specified
+  /// encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or <code>DsseKms</code>,
+  /// then <code>KMSEncrypted</code> must be <code>true</code>.
+  /// </note>
+  final EncryptionType? encryptionType;
+  final String? fileShareARN;
+  final String? fileShareId;
+
+  /// The name of the file share. Optional.
+  /// <note>
+  /// <code>FileShareName</code> must be set if an S3 prefix name is set in
+  /// <code>LocationARN</code>, or if an access point or access point alias is
+  /// used.
+  /// </note>
+  final String? fileShareName;
+  final String? fileShareStatus;
+  final String? gatewayARN;
+
+  /// A value that enables guessing of the MIME type for uploaded objects based on
+  /// file extensions. Set this value to <code>true</code> to enable MIME type
+  /// guessing, otherwise set to <code>false</code>. The default value is
+  /// <code>true</code>.
+  ///
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? guessMIMETypeEnabled;
+
+  /// Optional. Set to <code>true</code> to use Amazon S3 server-side encryption
+  /// with your own KMS key (SSE-KMS), or <code>false</code> to use a key managed
+  /// by Amazon S3 (SSE-S3). To use dual-layer encryption (DSSE-KMS), set the
+  /// <code>EncryptionType</code> parameter instead.
+  /// <note>
+  /// We recommend using <code>EncryptionType</code> instead of
+  /// <code>KMSEncrypted</code> to set the file share encryption method. You do
+  /// not need to provide values for both parameters.
+  ///
+  /// If values for both parameters exist in the same request, then the specified
+  /// encryption methods must not conflict. For example, if
+  /// <code>EncryptionType</code> is <code>SseS3</code>, then
+  /// <code>KMSEncrypted</code> must be <code>false</code>. If
+  /// <code>EncryptionType</code> is <code>SseKms</code> or <code>DsseKms</code>,
+  /// then <code>KMSEncrypted</code> must be <code>true</code>.
+  /// </note>
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? kMSEncrypted;
+  final String? kMSKey;
+  final String? locationARN;
+  final NFSFileShareDefaults? nFSFileShareDefaults;
+
+  /// The notification policy of the file share.
+  /// <code>SettlingTimeInSeconds</code> controls the number of seconds to wait
+  /// after the last point in time a client wrote to a file before generating an
+  /// <code>ObjectUploaded</code> notification. Because clients can make many
+  /// small writes to files, it's best to set this parameter for as long as
+  /// possible to avoid generating multiple notifications for the same file in a
+  /// small time period.
+  /// <note>
+  /// <code>SettlingTimeInSeconds</code> has no effect on the timing of the object
+  /// uploading to Amazon S3, only the timing of the notification.
+  ///
+  /// This setting is not meant to specify an exact time at which the notification
+  /// will be sent. In some cases, the gateway might require more than the
+  /// specified delay time to generate and send notifications.
+  /// </note>
+  /// The following example sets <code>NotificationPolicy</code> on with
+  /// <code>SettlingTimeInSeconds</code> set to 60.
+  ///
+  /// <code>{\"Upload\": {\"SettlingTimeInSeconds\": 60}}</code>
+  ///
+  /// The following example sets <code>NotificationPolicy</code> off.
+  ///
+  /// <code>{}</code>
+  final String? notificationPolicy;
+  final ObjectACL? objectACL;
+  final String? path;
+
+  /// A value that sets the write status of a file share. Set this value to
+  /// <code>true</code> to set the write status to read-only, otherwise set to
+  /// <code>false</code>.
+  ///
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? readOnly;
+
+  /// A value that sets who pays the cost of the request and the cost associated
+  /// with data download from the S3 bucket. If this value is set to
+  /// <code>true</code>, the requester pays the costs; otherwise, the S3 bucket
+  /// owner pays. However, the S3 bucket owner always pays the cost of storing
+  /// data.
+  /// <note>
+  /// <code>RequesterPays</code> is a configuration for the S3 bucket that backs
+  /// the file share, so make sure that the configuration on the file share is the
+  /// same as the S3 bucket configuration.
+  /// </note>
+  /// Valid Values: <code>true</code> | <code>false</code>
+  final bool? requesterPays;
+  final String? role;
+  final String? squash;
+
+  /// A list of up to 50 tags assigned to the NFS file share, sorted
+  /// alphabetically by key name. Each tag is a key-value pair. For a gateway with
+  /// more than 10 tags assigned, you can view all tags using the
+  /// <code>ListTagsForResource</code> API operation.
+  final List<Tag>? tags;
+
+  /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to
+  /// connect to Amazon S3.
+  /// <note>
+  /// This parameter is required for NFS file shares that connect to Amazon S3
+  /// through a VPC endpoint, a VPC access point, or an access point alias that
+  /// points to a VPC access point.
+  /// </note>
+  final String? vPCEndpointDNSName;
+
+  NFSFileShareInfo({
+    this.auditDestinationARN,
+    this.bucketRegion,
+    this.cacheAttributes,
+    this.clientList,
+    this.defaultStorageClass,
+    this.encryptionType,
+    this.fileShareARN,
+    this.fileShareId,
+    this.fileShareName,
+    this.fileShareStatus,
+    this.gatewayARN,
+    this.guessMIMETypeEnabled,
+    this.kMSEncrypted,
+    this.kMSKey,
+    this.locationARN,
+    this.nFSFileShareDefaults,
+    this.notificationPolicy,
+    this.objectACL,
+    this.path,
+    this.readOnly,
+    this.requesterPays,
+    this.role,
+    this.squash,
+    this.tags,
+    this.vPCEndpointDNSName,
+  });
+
+  factory NFSFileShareInfo.fromJson(Map<String, dynamic> json) {
+    return NFSFileShareInfo(
+      auditDestinationARN: json['AuditDestinationARN'] as String?,
+      bucketRegion: json['BucketRegion'] as String?,
+      cacheAttributes: json['CacheAttributes'] != null
+          ? CacheAttributes.fromJson(
+              json['CacheAttributes'] as Map<String, dynamic>)
+          : null,
+      clientList: (json['ClientList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      defaultStorageClass: json['DefaultStorageClass'] as String?,
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
+      fileShareARN: json['FileShareARN'] as String?,
+      fileShareId: json['FileShareId'] as String?,
+      fileShareName: json['FileShareName'] as String?,
+      fileShareStatus: json['FileShareStatus'] as String?,
+      gatewayARN: json['GatewayARN'] as String?,
+      guessMIMETypeEnabled: json['GuessMIMETypeEnabled'] as bool?,
+      kMSEncrypted: json['KMSEncrypted'] as bool?,
+      kMSKey: json['KMSKey'] as String?,
+      locationARN: json['LocationARN'] as String?,
+      nFSFileShareDefaults: json['NFSFileShareDefaults'] != null
+          ? NFSFileShareDefaults.fromJson(
+              json['NFSFileShareDefaults'] as Map<String, dynamic>)
+          : null,
+      notificationPolicy: json['NotificationPolicy'] as String?,
+      objectACL: (json['ObjectACL'] as String?)?.let(ObjectACL.fromString),
+      path: json['Path'] as String?,
+      readOnly: json['ReadOnly'] as bool?,
+      requesterPays: json['RequesterPays'] as bool?,
+      role: json['Role'] as String?,
+      squash: json['Squash'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vPCEndpointDNSName: json['VPCEndpointDNSName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditDestinationARN = this.auditDestinationARN;
+    final bucketRegion = this.bucketRegion;
+    final cacheAttributes = this.cacheAttributes;
+    final clientList = this.clientList;
+    final defaultStorageClass = this.defaultStorageClass;
+    final encryptionType = this.encryptionType;
+    final fileShareARN = this.fileShareARN;
+    final fileShareId = this.fileShareId;
+    final fileShareName = this.fileShareName;
+    final fileShareStatus = this.fileShareStatus;
+    final gatewayARN = this.gatewayARN;
+    final guessMIMETypeEnabled = this.guessMIMETypeEnabled;
+    final kMSEncrypted = this.kMSEncrypted;
+    final kMSKey = this.kMSKey;
+    final locationARN = this.locationARN;
+    final nFSFileShareDefaults = this.nFSFileShareDefaults;
+    final notificationPolicy = this.notificationPolicy;
+    final objectACL = this.objectACL;
+    final path = this.path;
+    final readOnly = this.readOnly;
+    final requesterPays = this.requesterPays;
+    final role = this.role;
+    final squash = this.squash;
+    final tags = this.tags;
+    final vPCEndpointDNSName = this.vPCEndpointDNSName;
+    return {
+      if (auditDestinationARN != null)
+        'AuditDestinationARN': auditDestinationARN,
+      if (bucketRegion != null) 'BucketRegion': bucketRegion,
+      if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
+      if (clientList != null) 'ClientList': clientList,
+      if (defaultStorageClass != null)
+        'DefaultStorageClass': defaultStorageClass,
+      if (encryptionType != null) 'EncryptionType': encryptionType.value,
+      if (fileShareARN != null) 'FileShareARN': fileShareARN,
+      if (fileShareId != null) 'FileShareId': fileShareId,
+      if (fileShareName != null) 'FileShareName': fileShareName,
+      if (fileShareStatus != null) 'FileShareStatus': fileShareStatus,
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+      if (guessMIMETypeEnabled != null)
+        'GuessMIMETypeEnabled': guessMIMETypeEnabled,
+      if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
+      if (kMSKey != null) 'KMSKey': kMSKey,
+      if (locationARN != null) 'LocationARN': locationARN,
+      if (nFSFileShareDefaults != null)
+        'NFSFileShareDefaults': nFSFileShareDefaults,
+      if (notificationPolicy != null) 'NotificationPolicy': notificationPolicy,
+      if (objectACL != null) 'ObjectACL': objectACL.value,
+      if (path != null) 'Path': path,
+      if (readOnly != null) 'ReadOnly': readOnly,
+      if (requesterPays != null) 'RequesterPays': requesterPays,
+      if (role != null) 'Role': role,
+      if (squash != null) 'Squash': squash,
+      if (tags != null) 'Tags': tags,
+      if (vPCEndpointDNSName != null) 'VPCEndpointDNSName': vPCEndpointDNSName,
+    };
+  }
+}
+
+/// Describes a gateway's network interface.
+class NetworkInterface {
+  /// The Internet Protocol version 4 (IPv4) address of the interface.
+  final String? ipv4Address;
+
+  /// The Internet Protocol version 6 (IPv6) address of the interface.
+  /// <note>
+  /// This element returns IPv6 addresses for all gateway types except FSx File
+  /// Gateway.
+  /// </note>
+  final String? ipv6Address;
+
+  /// The Media Access Control (MAC) address of the interface.
+  /// <note>
+  /// This is currently unsupported and will not be returned in output.
+  /// </note>
+  final String? macAddress;
+
+  NetworkInterface({
+    this.ipv4Address,
+    this.ipv6Address,
+    this.macAddress,
+  });
+
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      ipv4Address: json['Ipv4Address'] as String?,
+      ipv6Address: json['Ipv6Address'] as String?,
+      macAddress: json['MacAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv4Address = this.ipv4Address;
+    final ipv6Address = this.ipv6Address;
+    final macAddress = this.macAddress;
+    return {
+      if (ipv4Address != null) 'Ipv4Address': ipv4Address,
+      if (ipv6Address != null) 'Ipv6Address': ipv6Address,
+      if (macAddress != null) 'MacAddress': macAddress,
+    };
+  }
+}
+
+/// Describes the object returned by <code>DescribeFileSystemAssociations</code>
+/// that describes a created file system association.
+class FileSystemAssociationInfo {
+  /// The Amazon Resource Name (ARN) of the storage used for the audit logs.
+  final String? auditDestinationARN;
+  final CacheAttributes? cacheAttributes;
+
+  /// Specifies network configuration information for the gateway associated with
+  /// the Amazon FSx file system.
+  /// <note>
+  /// If multiple file systems are associated with this gateway, this parameter's
+  /// <code>IpAddresses</code> field is required.
+  /// </note>
+  final EndpointNetworkConfiguration? endpointNetworkConfiguration;
+
+  /// The Amazon Resource Name (ARN) of the file system association.
+  final String? fileSystemAssociationARN;
+
+  /// The status of the file system association. Valid Values:
+  /// <code>AVAILABLE</code> | <code>CREATING</code> | <code>DELETING</code> |
+  /// <code>FORCE_DELETING</code> | <code>UPDATING</code> | <code>ERROR</code>
+  final String? fileSystemAssociationStatus;
+
+  /// An array containing the FileSystemAssociationStatusDetail data type, which
+  /// provides detailed information on file system association status.
+  final List<FileSystemAssociationStatusDetail>?
+      fileSystemAssociationStatusDetails;
+  final String? gatewayARN;
+
+  /// The ARN of the backend Amazon FSx file system used for storing file data.
+  /// For information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/APIReference/API_FileSystem.html">FileSystem</a>
+  /// in the <i>Amazon FSx API Reference</i>.
+  final String? locationARN;
+
+  /// A list of up to 50 tags assigned to the SMB file share, sorted
+  /// alphabetically by key name. Each tag is a key-value pair.
+  final List<Tag>? tags;
+
+  FileSystemAssociationInfo({
+    this.auditDestinationARN,
+    this.cacheAttributes,
+    this.endpointNetworkConfiguration,
+    this.fileSystemAssociationARN,
+    this.fileSystemAssociationStatus,
+    this.fileSystemAssociationStatusDetails,
+    this.gatewayARN,
+    this.locationARN,
+    this.tags,
+  });
+
+  factory FileSystemAssociationInfo.fromJson(Map<String, dynamic> json) {
+    return FileSystemAssociationInfo(
+      auditDestinationARN: json['AuditDestinationARN'] as String?,
+      cacheAttributes: json['CacheAttributes'] != null
+          ? CacheAttributes.fromJson(
+              json['CacheAttributes'] as Map<String, dynamic>)
+          : null,
+      endpointNetworkConfiguration: json['EndpointNetworkConfiguration'] != null
+          ? EndpointNetworkConfiguration.fromJson(
+              json['EndpointNetworkConfiguration'] as Map<String, dynamic>)
+          : null,
+      fileSystemAssociationARN: json['FileSystemAssociationARN'] as String?,
+      fileSystemAssociationStatus:
+          json['FileSystemAssociationStatus'] as String?,
+      fileSystemAssociationStatusDetails:
+          (json['FileSystemAssociationStatusDetails'] as List?)
+              ?.nonNulls
+              .map((e) => FileSystemAssociationStatusDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      gatewayARN: json['GatewayARN'] as String?,
+      locationARN: json['LocationARN'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditDestinationARN = this.auditDestinationARN;
+    final cacheAttributes = this.cacheAttributes;
+    final endpointNetworkConfiguration = this.endpointNetworkConfiguration;
+    final fileSystemAssociationARN = this.fileSystemAssociationARN;
+    final fileSystemAssociationStatus = this.fileSystemAssociationStatus;
+    final fileSystemAssociationStatusDetails =
+        this.fileSystemAssociationStatusDetails;
+    final gatewayARN = this.gatewayARN;
+    final locationARN = this.locationARN;
+    final tags = this.tags;
+    return {
+      if (auditDestinationARN != null)
+        'AuditDestinationARN': auditDestinationARN,
+      if (cacheAttributes != null) 'CacheAttributes': cacheAttributes,
+      if (endpointNetworkConfiguration != null)
+        'EndpointNetworkConfiguration': endpointNetworkConfiguration,
+      if (fileSystemAssociationARN != null)
+        'FileSystemAssociationARN': fileSystemAssociationARN,
+      if (fileSystemAssociationStatus != null)
+        'FileSystemAssociationStatus': fileSystemAssociationStatus,
+      if (fileSystemAssociationStatusDetails != null)
+        'FileSystemAssociationStatusDetails':
+            fileSystemAssociationStatusDetails,
+      if (gatewayARN != null) 'GatewayARN': gatewayARN,
+      if (locationARN != null) 'LocationARN': locationARN,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// Specifies network configuration information for the gateway associated with
+/// the Amazon FSx file system.
+class EndpointNetworkConfiguration {
+  /// A list of gateway IP addresses on which the associated Amazon FSx file
+  /// system is available.
+  /// <note>
+  /// If multiple file systems are associated with this gateway, this field is
+  /// required.
+  /// </note>
+  final List<String>? ipAddresses;
+
+  EndpointNetworkConfiguration({
+    this.ipAddresses,
+  });
+
+  factory EndpointNetworkConfiguration.fromJson(Map<String, dynamic> json) {
+    return EndpointNetworkConfiguration(
+      ipAddresses: (json['IpAddresses'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipAddresses = this.ipAddresses;
+    return {
+      if (ipAddresses != null) 'IpAddresses': ipAddresses,
+    };
+  }
+}
+
+/// Detailed information on file system association status.
+class FileSystemAssociationStatusDetail {
+  /// The error code for a given file system association status.
+  final String? errorCode;
+
+  FileSystemAssociationStatusDetail({
+    this.errorCode,
+  });
+
+  factory FileSystemAssociationStatusDetail.fromJson(
+      Map<String, dynamic> json) {
+    return FileSystemAssociationStatusDetail(
+      errorCode: json['ErrorCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+    };
+  }
+}
+
+/// Describes Challenge-Handshake Authentication Protocol (CHAP) information
+/// that supports authentication between your gateway and iSCSI initiators.
+class ChapInfo {
+  /// The iSCSI initiator that connects to the target.
+  final String? initiatorName;
+
+  /// The secret key that the initiator (for example, the Windows client) must
+  /// provide to participate in mutual CHAP with the target.
+  final String? secretToAuthenticateInitiator;
+
+  /// The secret key that the target must provide to participate in mutual CHAP
+  /// with the initiator (e.g., Windows client).
+  final String? secretToAuthenticateTarget;
+
+  /// The Amazon Resource Name (ARN) of the volume.
+  ///
+  /// Valid Values: 50 to 500 lowercase letters, numbers, periods (.), and hyphens
+  /// (-).
+  final String? targetARN;
+
+  ChapInfo({
+    this.initiatorName,
+    this.secretToAuthenticateInitiator,
+    this.secretToAuthenticateTarget,
+    this.targetARN,
+  });
+
+  factory ChapInfo.fromJson(Map<String, dynamic> json) {
+    return ChapInfo(
+      initiatorName: json['InitiatorName'] as String?,
+      secretToAuthenticateInitiator:
+          json['SecretToAuthenticateInitiator'] as String?,
+      secretToAuthenticateTarget: json['SecretToAuthenticateTarget'] as String?,
+      targetARN: json['TargetARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatorName = this.initiatorName;
+    final secretToAuthenticateInitiator = this.secretToAuthenticateInitiator;
+    final secretToAuthenticateTarget = this.secretToAuthenticateTarget;
+    final targetARN = this.targetARN;
+    return {
+      if (initiatorName != null) 'InitiatorName': initiatorName,
+      if (secretToAuthenticateInitiator != null)
+        'SecretToAuthenticateInitiator': secretToAuthenticateInitiator,
+      if (secretToAuthenticateTarget != null)
+        'SecretToAuthenticateTarget': secretToAuthenticateTarget,
+      if (targetARN != null) 'TargetARN': targetARN,
+    };
+  }
+}
+
+/// Describes an iSCSI cached volume.
+class CachediSCSIVolume {
+  /// The date the volume was created. Volumes created prior to March 28, 2017
+  /// don’t have this timestamp.
+  final DateTime? createdDate;
+  final String? kMSKey;
+
+  /// If the cached volume was created from a snapshot, this field contains the
+  /// snapshot ID used, e.g., snap-78e22663. Otherwise, this field is not
+  /// included.
+  final String? sourceSnapshotId;
+
+  /// The name of the iSCSI target used by an initiator to connect to a volume and
+  /// used as a suffix for the target ARN. For example, specifying
+  /// <code>TargetName</code> as <i>myvolume</i> results in the target ARN of
+  /// <code>arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume</code>.
+  /// The target name must be unique across all volumes on a gateway.
+  ///
+  /// If you don't specify a value, Storage Gateway uses the value that was
+  /// previously used for this volume as the new target name.
+  final String? targetName;
+
+  /// The Amazon Resource Name (ARN) of the storage volume.
+  final String? volumeARN;
+
+  /// A value that indicates whether a storage volume is attached to or detached
+  /// from a gateway. For more information, see <a
+  /// href="https://docs.aws.amazon.com/storagegateway/latest/userguide/managing-volumes.html#attach-detach-volume">Moving
+  /// your volumes to a different gateway</a>.
+  final String? volumeAttachmentStatus;
+
+  /// The unique identifier of the volume, e.g., vol-AE4B946D.
+  final String? volumeId;
+
+  /// Represents the percentage complete if the volume is restoring or
+  /// bootstrapping that represents the percent of data transferred. This field
+  /// does not appear in the response if the cached volume is not restoring or
+  /// bootstrapping.
+  final double? volumeProgress;
+
+  /// The size, in bytes, of the volume capacity.
+  final int? volumeSizeInBytes;
+
+  /// One of the VolumeStatus values that indicates the state of the storage
+  /// volume.
+  final String? volumeStatus;
+
+  /// One of the VolumeType enumeration values that describes the type of the
+  /// volume.
+  final String? volumeType;
+
+  /// The size of the data stored on the volume in bytes. This value is calculated
+  /// based on the number of blocks that are touched, instead of the actual amount
+  /// of data written. This value can be useful for sequential write patterns but
+  /// less accurate for random write patterns. <code>VolumeUsedInBytes</code> is
+  /// different from the compressed size of the volume, which is the value that is
+  /// used to calculate your bill.
+  /// <note>
+  /// This value is not available for volumes created prior to May 13, 2015, until
+  /// you store data on the volume.
+  ///
+  /// If you use a delete tool that overwrites the data on your volume with random
+  /// data, your usage will not be reduced. This is because the random data is not
+  /// compressible. If you want to reduce the amount of billed storage on your
+  /// volume, we recommend overwriting your files with zeros to compress the data
+  /// to a negligible amount of actual storage.
+  /// </note>
+  final int? volumeUsedInBytes;
+
+  /// An <a>VolumeiSCSIAttributes</a> object that represents a collection of iSCSI
+  /// attributes for one stored volume.
+  final VolumeiSCSIAttributes? volumeiSCSIAttributes;
+
+  CachediSCSIVolume({
+    this.createdDate,
+    this.kMSKey,
+    this.sourceSnapshotId,
+    this.targetName,
+    this.volumeARN,
+    this.volumeAttachmentStatus,
+    this.volumeId,
+    this.volumeProgress,
+    this.volumeSizeInBytes,
+    this.volumeStatus,
+    this.volumeType,
+    this.volumeUsedInBytes,
+    this.volumeiSCSIAttributes,
+  });
+
+  factory CachediSCSIVolume.fromJson(Map<String, dynamic> json) {
+    return CachediSCSIVolume(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      kMSKey: json['KMSKey'] as String?,
+      sourceSnapshotId: json['SourceSnapshotId'] as String?,
+      targetName: json['TargetName'] as String?,
+      volumeARN: json['VolumeARN'] as String?,
+      volumeAttachmentStatus: json['VolumeAttachmentStatus'] as String?,
+      volumeId: json['VolumeId'] as String?,
+      volumeProgress: json['VolumeProgress'] as double?,
+      volumeSizeInBytes: json['VolumeSizeInBytes'] as int?,
+      volumeStatus: json['VolumeStatus'] as String?,
+      volumeType: json['VolumeType'] as String?,
+      volumeUsedInBytes: json['VolumeUsedInBytes'] as int?,
+      volumeiSCSIAttributes: json['VolumeiSCSIAttributes'] != null
+          ? VolumeiSCSIAttributes.fromJson(
+              json['VolumeiSCSIAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final kMSKey = this.kMSKey;
+    final sourceSnapshotId = this.sourceSnapshotId;
+    final targetName = this.targetName;
+    final volumeARN = this.volumeARN;
+    final volumeAttachmentStatus = this.volumeAttachmentStatus;
+    final volumeId = this.volumeId;
+    final volumeProgress = this.volumeProgress;
+    final volumeSizeInBytes = this.volumeSizeInBytes;
+    final volumeStatus = this.volumeStatus;
+    final volumeType = this.volumeType;
+    final volumeUsedInBytes = this.volumeUsedInBytes;
+    final volumeiSCSIAttributes = this.volumeiSCSIAttributes;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (kMSKey != null) 'KMSKey': kMSKey,
+      if (sourceSnapshotId != null) 'SourceSnapshotId': sourceSnapshotId,
+      if (targetName != null) 'TargetName': targetName,
+      if (volumeARN != null) 'VolumeARN': volumeARN,
+      if (volumeAttachmentStatus != null)
+        'VolumeAttachmentStatus': volumeAttachmentStatus,
+      if (volumeId != null) 'VolumeId': volumeId,
+      if (volumeProgress != null) 'VolumeProgress': volumeProgress,
+      if (volumeSizeInBytes != null) 'VolumeSizeInBytes': volumeSizeInBytes,
+      if (volumeStatus != null) 'VolumeStatus': volumeStatus,
+      if (volumeType != null) 'VolumeType': volumeType,
+      if (volumeUsedInBytes != null) 'VolumeUsedInBytes': volumeUsedInBytes,
+      if (volumeiSCSIAttributes != null)
+        'VolumeiSCSIAttributes': volumeiSCSIAttributes,
+    };
+  }
+}
+
+class AvailabilityMonitorTestStatus {
+  static const complete = AvailabilityMonitorTestStatus._('COMPLETE');
+  static const failed = AvailabilityMonitorTestStatus._('FAILED');
+  static const pending = AvailabilityMonitorTestStatus._('PENDING');
+
+  final String value;
+
+  const AvailabilityMonitorTestStatus._(this.value);
+
+  static const values = [complete, failed, pending];
+
+  static AvailabilityMonitorTestStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AvailabilityMonitorTestStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AvailabilityMonitorTestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InternalServerError extends _s.GenericAwsException {

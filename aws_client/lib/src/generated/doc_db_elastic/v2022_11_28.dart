@@ -37,7 +37,6 @@ class DocDBElastic {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'docdb-elastic',
-            signingName: 'docdb-elastic',
           ),
           region: region,
           credentials: credentials,
@@ -54,15 +53,80 @@ class DocDBElastic {
     _protocol.close();
   }
 
-  /// Copies a snapshot of an elastic cluster.
+  /// The type of pending maintenance action to be applied to the resource.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applyAction] :
+  /// The pending maintenance action to apply to the resource.
+  ///
+  /// Valid actions are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ENGINE_UPDATE<i/> </code>
+  /// </li>
+  /// <li>
+  /// <code>ENGINE_UPGRADE</code>
+  /// </li>
+  /// <li>
+  /// <code>SECURITY_UPDATE</code>
+  /// </li>
+  /// <li>
+  /// <code>OS_UPDATE</code>
+  /// </li>
+  /// <li>
+  /// <code>MASTER_USER_PASSWORD_UPDATE</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [optInType] :
+  /// A value that specifies the type of opt-in request, or undoes an opt-in
+  /// request. An opt-in request of type <code>IMMEDIATE</code> can't be undone.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which
+  /// the pending maintenance action applies.
+  ///
+  /// Parameter [applyOn] :
+  /// A specific date to apply the pending maintenance action. Required if
+  /// opt-in-type is <code>APPLY_ON</code>. Format: <code>yyyy/MM/dd
+  /// HH:mm-yyyy/MM/dd HH:mm</code>
+  Future<ApplyPendingMaintenanceActionOutput> applyPendingMaintenanceAction({
+    required String applyAction,
+    required OptInType optInType,
+    required String resourceArn,
+    String? applyOn,
+  }) async {
+    final $payload = <String, dynamic>{
+      'applyAction': applyAction,
+      'optInType': optInType.value,
+      'resourceArn': resourceArn,
+      if (applyOn != null) 'applyOn': applyOn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/pending-action',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ApplyPendingMaintenanceActionOutput.fromJson(response);
+  }
+
+  /// Copies a snapshot of an elastic cluster.
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [snapshotArn] :
   /// The Amazon Resource Name (ARN) identifier of the elastic cluster snapshot.
@@ -141,12 +205,12 @@ class DocDBElastic {
   /// Creates a new Amazon DocumentDB elastic cluster and returns its cluster
   /// structure.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [adminUserName] :
   /// The name of the Amazon DocumentDB elastic clusters administrator.
@@ -313,13 +377,13 @@ class DocDBElastic {
 
   /// Creates a snapshot of an elastic cluster.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The ARN identifier of the elastic cluster of which you want to create a
@@ -351,12 +415,12 @@ class DocDBElastic {
 
   /// Delete an elastic cluster.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The ARN identifier of the elastic cluster that is to be deleted.
@@ -374,12 +438,12 @@ class DocDBElastic {
 
   /// Delete an elastic cluster snapshot.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [snapshotArn] :
   /// The ARN identifier of the elastic cluster snapshot that is to be deleted.
@@ -397,11 +461,11 @@ class DocDBElastic {
 
   /// Returns information about a specific elastic cluster.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The ARN identifier of the elastic cluster.
@@ -419,11 +483,11 @@ class DocDBElastic {
 
   /// Returns information about a specific elastic cluster snapshot
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [snapshotArn] :
   /// The ARN identifier of the elastic cluster snapshot.
@@ -439,12 +503,72 @@ class DocDBElastic {
     return GetClusterSnapshotOutput.fromJson(response);
   }
 
-  /// Returns information about snapshots for a specified elastic cluster.
+  /// Retrieves all maintenance actions that are pending.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
+  ///
+  /// Parameter [resourceArn] :
+  /// Retrieves pending maintenance actions for a specific Amazon Resource Name
+  /// (ARN).
+  Future<GetPendingMaintenanceActionOutput> getPendingMaintenanceAction({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/pending-action/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetPendingMaintenanceActionOutput.fromJson(response);
+  }
+
+  /// Returns information about provisioned Amazon DocumentDB elastic clusters.
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of elastic cluster snapshot results to receive in the
+  /// response.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token provided by a previous request. If this parameter is
+  /// specified, the response includes only records beyond this token, up to the
+  /// value specified by <code>max-results</code>.
+  ///
+  /// If there is no more data in the responce, the <code>nextToken</code> will
+  /// not be returned.
+  Future<ListClustersOutput> listClusters({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/clusters',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListClustersOutput.fromJson(response);
+  }
+
+  /// Returns information about snapshots for a specified elastic cluster.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The ARN identifier of the elastic cluster.
@@ -481,12 +605,6 @@ class DocDBElastic {
     String? nextToken,
     String? snapshotType,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      20,
-      100,
-    );
     final $query = <String, List<String>>{
       if (clusterArn != null) 'clusterArn': [clusterArn],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -503,34 +621,27 @@ class DocDBElastic {
     return ListClusterSnapshotsOutput.fromJson(response);
   }
 
-  /// Returns information about provisioned Amazon DocumentDB elastic clusters.
+  /// Retrieves a list of all maintenance actions that are pending.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of elastic cluster snapshot results to receive in the
-  /// response.
+  /// The maximum number of results to include in the response. If more records
+  /// exist than the specified <code>maxResults</code> value, a pagination token
+  /// (marker) is included in the response so that the remaining results can be
+  /// retrieved.
   ///
   /// Parameter [nextToken] :
-  /// A pagination token provided by a previous request. If this parameter is
-  /// specified, the response includes only records beyond this token, up to the
-  /// value specified by <code>max-results</code>.
-  ///
-  /// If there is no more data in the responce, the <code>nextToken</code> will
-  /// not be returned.
-  Future<ListClustersOutput> listClusters({
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>maxResults</code>.
+  Future<ListPendingMaintenanceActionsOutput> listPendingMaintenanceActions({
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -538,19 +649,19 @@ class DocDBElastic {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/clusters',
+      requestUri: '/pending-actions',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return ListClustersOutput.fromJson(response);
+    return ListPendingMaintenanceActionsOutput.fromJson(response);
   }
 
   /// Lists all tags on a elastic cluster resource
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN identifier of the elastic cluster resource.
@@ -568,13 +679,13 @@ class DocDBElastic {
 
   /// Restores an elastic cluster from a snapshot.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterName] :
   /// The name of the elastic cluster.
@@ -647,11 +758,11 @@ class DocDBElastic {
   /// Restarts the stopped elastic cluster that is specified by
   /// <code>clusterARN</code>.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The ARN identifier of the elastic cluster.
@@ -671,11 +782,11 @@ class DocDBElastic {
   /// <code>clusterArn</code>. The elastic cluster must be in the
   /// <i>available</i> state.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The ARN identifier of the elastic cluster.
@@ -693,10 +804,10 @@ class DocDBElastic {
 
   /// Adds metadata tags to an elastic cluster resource
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN identifier of the elastic cluster resource.
@@ -720,10 +831,10 @@ class DocDBElastic {
 
   /// Removes metadata tags from an elastic cluster resource
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN identifier of the elastic cluster resource.
@@ -750,12 +861,12 @@ class DocDBElastic {
   /// admin-username/password, upgrading the API version, and setting up a
   /// backup window and maintenance window
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clusterArn] :
   /// The ARN identifier of the elastic cluster.
@@ -856,390 +967,30 @@ class DocDBElastic {
   }
 }
 
-class Auth {
-  static const plainText = Auth._('PLAIN_TEXT');
-  static const secretArn = Auth._('SECRET_ARN');
+class ApplyPendingMaintenanceActionOutput {
+  /// The output of the pending maintenance action being applied.
+  final ResourcePendingMaintenanceAction resourcePendingMaintenanceAction;
 
-  final String value;
-
-  const Auth._(this.value);
-
-  static const values = [plainText, secretArn];
-
-  static Auth fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Auth._(value));
-
-  @override
-  bool operator ==(other) => other is Auth && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns information about a specific elastic cluster.
-class Cluster {
-  /// The name of the elastic cluster administrator.
-  final String adminUserName;
-
-  /// The authentication type for the elastic cluster.
-  final Auth authType;
-
-  /// The ARN identifier of the elastic cluster.
-  final String clusterArn;
-
-  /// The URL used to connect to the elastic cluster.
-  final String clusterEndpoint;
-
-  /// The name of the elastic cluster.
-  final String clusterName;
-
-  /// The time when the elastic cluster was created in Universal Coordinated Time
-  /// (UTC).
-  final String createTime;
-
-  /// The KMS key identifier to use to encrypt the elastic cluster.
-  final String kmsKeyId;
-
-  /// The weekly time range during which system maintenance can occur, in
-  /// Universal Coordinated Time (UTC).
-  ///
-  /// <i>Format</i>: <code>ddd:hh24:mi-ddd:hh24:mi</code>
-  final String preferredMaintenanceWindow;
-
-  /// The number of vCPUs assigned to each elastic cluster shard. Maximum is 64.
-  /// Allowed values are 2, 4, 8, 16, 32, 64.
-  final int shardCapacity;
-
-  /// The number of shards assigned to the elastic cluster. Maximum is 32.
-  final int shardCount;
-
-  /// The status of the elastic cluster.
-  final Status status;
-
-  /// The Amazon EC2 subnet IDs for the elastic cluster.
-  final List<String> subnetIds;
-
-  /// A list of EC2 VPC security groups associated with thie elastic cluster.
-  final List<String> vpcSecurityGroupIds;
-
-  /// The number of days for which automatic snapshots are retained.
-  final int? backupRetentionPeriod;
-
-  /// The daily time range during which automated backups are created if automated
-  /// backups are enabled, as determined by <code>backupRetentionPeriod</code>.
-  final String? preferredBackupWindow;
-
-  /// The number of replica instances applying to all shards in the cluster. A
-  /// <code>shardInstanceCount</code> value of 1 means there is one writer
-  /// instance, and any additional instances are replicas that can be used for
-  /// reads and to improve availability.
-  final int? shardInstanceCount;
-
-  /// The total number of shards in the cluster.
-  final List<Shard>? shards;
-
-  Cluster({
-    required this.adminUserName,
-    required this.authType,
-    required this.clusterArn,
-    required this.clusterEndpoint,
-    required this.clusterName,
-    required this.createTime,
-    required this.kmsKeyId,
-    required this.preferredMaintenanceWindow,
-    required this.shardCapacity,
-    required this.shardCount,
-    required this.status,
-    required this.subnetIds,
-    required this.vpcSecurityGroupIds,
-    this.backupRetentionPeriod,
-    this.preferredBackupWindow,
-    this.shardInstanceCount,
-    this.shards,
+  ApplyPendingMaintenanceActionOutput({
+    required this.resourcePendingMaintenanceAction,
   });
 
-  factory Cluster.fromJson(Map<String, dynamic> json) {
-    return Cluster(
-      adminUserName: (json['adminUserName'] as String?) ?? '',
-      authType: Auth.fromString((json['authType'] as String?) ?? ''),
-      clusterArn: (json['clusterArn'] as String?) ?? '',
-      clusterEndpoint: (json['clusterEndpoint'] as String?) ?? '',
-      clusterName: (json['clusterName'] as String?) ?? '',
-      createTime: (json['createTime'] as String?) ?? '',
-      kmsKeyId: (json['kmsKeyId'] as String?) ?? '',
-      preferredMaintenanceWindow:
-          (json['preferredMaintenanceWindow'] as String?) ?? '',
-      shardCapacity: (json['shardCapacity'] as int?) ?? 0,
-      shardCount: (json['shardCount'] as int?) ?? 0,
-      status: Status.fromString((json['status'] as String?) ?? ''),
-      subnetIds: ((json['subnetIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      vpcSecurityGroupIds: ((json['vpcSecurityGroupIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      backupRetentionPeriod: json['backupRetentionPeriod'] as int?,
-      preferredBackupWindow: json['preferredBackupWindow'] as String?,
-      shardInstanceCount: json['shardInstanceCount'] as int?,
-      shards: (json['shards'] as List?)
-          ?.nonNulls
-          .map((e) => Shard.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory ApplyPendingMaintenanceActionOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ApplyPendingMaintenanceActionOutput(
+      resourcePendingMaintenanceAction:
+          ResourcePendingMaintenanceAction.fromJson(
+              (json['resourcePendingMaintenanceAction']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final adminUserName = this.adminUserName;
-    final authType = this.authType;
-    final clusterArn = this.clusterArn;
-    final clusterEndpoint = this.clusterEndpoint;
-    final clusterName = this.clusterName;
-    final createTime = this.createTime;
-    final kmsKeyId = this.kmsKeyId;
-    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
-    final shardCapacity = this.shardCapacity;
-    final shardCount = this.shardCount;
-    final status = this.status;
-    final subnetIds = this.subnetIds;
-    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
-    final backupRetentionPeriod = this.backupRetentionPeriod;
-    final preferredBackupWindow = this.preferredBackupWindow;
-    final shardInstanceCount = this.shardInstanceCount;
-    final shards = this.shards;
+    final resourcePendingMaintenanceAction =
+        this.resourcePendingMaintenanceAction;
     return {
-      'adminUserName': adminUserName,
-      'authType': authType.value,
-      'clusterArn': clusterArn,
-      'clusterEndpoint': clusterEndpoint,
-      'clusterName': clusterName,
-      'createTime': createTime,
-      'kmsKeyId': kmsKeyId,
-      'preferredMaintenanceWindow': preferredMaintenanceWindow,
-      'shardCapacity': shardCapacity,
-      'shardCount': shardCount,
-      'status': status.value,
-      'subnetIds': subnetIds,
-      'vpcSecurityGroupIds': vpcSecurityGroupIds,
-      if (backupRetentionPeriod != null)
-        'backupRetentionPeriod': backupRetentionPeriod,
-      if (preferredBackupWindow != null)
-        'preferredBackupWindow': preferredBackupWindow,
-      if (shardInstanceCount != null) 'shardInstanceCount': shardInstanceCount,
-      if (shards != null) 'shards': shards,
-    };
-  }
-}
-
-/// A list of Amazon DocumentDB elastic clusters.
-class ClusterInList {
-  /// The ARN identifier of the elastic cluster.
-  final String clusterArn;
-
-  /// The name of the elastic cluster.
-  final String clusterName;
-
-  /// The status of the elastic cluster.
-  final Status status;
-
-  ClusterInList({
-    required this.clusterArn,
-    required this.clusterName,
-    required this.status,
-  });
-
-  factory ClusterInList.fromJson(Map<String, dynamic> json) {
-    return ClusterInList(
-      clusterArn: (json['clusterArn'] as String?) ?? '',
-      clusterName: (json['clusterName'] as String?) ?? '',
-      status: Status.fromString((json['status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterArn = this.clusterArn;
-    final clusterName = this.clusterName;
-    final status = this.status;
-    return {
-      'clusterArn': clusterArn,
-      'clusterName': clusterName,
-      'status': status.value,
-    };
-  }
-}
-
-/// Returns information about a specific elastic cluster snapshot.
-class ClusterSnapshot {
-  /// The name of the elastic cluster administrator.
-  final String adminUserName;
-
-  /// The ARN identifier of the elastic cluster.
-  final String clusterArn;
-
-  /// The time when the elastic cluster was created in Universal Coordinated Time
-  /// (UTC).
-  final String clusterCreationTime;
-
-  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
-  /// encryption key. If you are creating a cluster using the same Amazon account
-  /// that owns this KMS encryption key, you can use the KMS key alias instead of
-  /// the ARN as the KMS encryption key. If an encryption key is not specified
-  /// here, Amazon DocumentDB uses the default encryption key that KMS creates for
-  /// your account. Your account has a different default encryption key for each
-  /// Amazon Region.
-  final String kmsKeyId;
-
-  /// The ARN identifier of the elastic cluster snapshot.
-  final String snapshotArn;
-
-  /// The time when the elastic cluster snapshot was created in Universal
-  /// Coordinated Time (UTC).
-  final String snapshotCreationTime;
-
-  /// The name of the elastic cluster snapshot.
-  final String snapshotName;
-
-  /// The status of the elastic cluster snapshot.
-  final Status status;
-
-  /// The Amazon EC2 subnet IDs for the elastic cluster.
-  final List<String> subnetIds;
-
-  /// A list of EC2 VPC security groups to associate with the elastic cluster.
-  final List<String> vpcSecurityGroupIds;
-
-  /// The type of cluster snapshots to be returned. You can specify one of the
-  /// following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>automated</code> - Return all cluster snapshots that Amazon DocumentDB
-  /// has automatically created for your Amazon Web Services account.
-  /// </li>
-  /// <li>
-  /// <code>manual</code> - Return all cluster snapshots that you have manually
-  /// created for your Amazon Web Services account.
-  /// </li>
-  /// </ul>
-  final SnapshotType? snapshotType;
-
-  ClusterSnapshot({
-    required this.adminUserName,
-    required this.clusterArn,
-    required this.clusterCreationTime,
-    required this.kmsKeyId,
-    required this.snapshotArn,
-    required this.snapshotCreationTime,
-    required this.snapshotName,
-    required this.status,
-    required this.subnetIds,
-    required this.vpcSecurityGroupIds,
-    this.snapshotType,
-  });
-
-  factory ClusterSnapshot.fromJson(Map<String, dynamic> json) {
-    return ClusterSnapshot(
-      adminUserName: (json['adminUserName'] as String?) ?? '',
-      clusterArn: (json['clusterArn'] as String?) ?? '',
-      clusterCreationTime: (json['clusterCreationTime'] as String?) ?? '',
-      kmsKeyId: (json['kmsKeyId'] as String?) ?? '',
-      snapshotArn: (json['snapshotArn'] as String?) ?? '',
-      snapshotCreationTime: (json['snapshotCreationTime'] as String?) ?? '',
-      snapshotName: (json['snapshotName'] as String?) ?? '',
-      status: Status.fromString((json['status'] as String?) ?? ''),
-      subnetIds: ((json['subnetIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      vpcSecurityGroupIds: ((json['vpcSecurityGroupIds'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      snapshotType:
-          (json['snapshotType'] as String?)?.let(SnapshotType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adminUserName = this.adminUserName;
-    final clusterArn = this.clusterArn;
-    final clusterCreationTime = this.clusterCreationTime;
-    final kmsKeyId = this.kmsKeyId;
-    final snapshotArn = this.snapshotArn;
-    final snapshotCreationTime = this.snapshotCreationTime;
-    final snapshotName = this.snapshotName;
-    final status = this.status;
-    final subnetIds = this.subnetIds;
-    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
-    final snapshotType = this.snapshotType;
-    return {
-      'adminUserName': adminUserName,
-      'clusterArn': clusterArn,
-      'clusterCreationTime': clusterCreationTime,
-      'kmsKeyId': kmsKeyId,
-      'snapshotArn': snapshotArn,
-      'snapshotCreationTime': snapshotCreationTime,
-      'snapshotName': snapshotName,
-      'status': status.value,
-      'subnetIds': subnetIds,
-      'vpcSecurityGroupIds': vpcSecurityGroupIds,
-      if (snapshotType != null) 'snapshotType': snapshotType.value,
-    };
-  }
-}
-
-/// A list of elastic cluster snapshots.
-class ClusterSnapshotInList {
-  /// The ARN identifier of the elastic cluster.
-  final String clusterArn;
-
-  /// The ARN identifier of the elastic cluster snapshot.
-  final String snapshotArn;
-
-  /// The time when the elastic cluster snapshot was created in Universal
-  /// Coordinated Time (UTC).
-  final String snapshotCreationTime;
-
-  /// The name of the elastic cluster snapshot.
-  final String snapshotName;
-
-  /// The status of the elastic cluster snapshot.
-  final Status status;
-
-  ClusterSnapshotInList({
-    required this.clusterArn,
-    required this.snapshotArn,
-    required this.snapshotCreationTime,
-    required this.snapshotName,
-    required this.status,
-  });
-
-  factory ClusterSnapshotInList.fromJson(Map<String, dynamic> json) {
-    return ClusterSnapshotInList(
-      clusterArn: (json['clusterArn'] as String?) ?? '',
-      snapshotArn: (json['snapshotArn'] as String?) ?? '',
-      snapshotCreationTime: (json['snapshotCreationTime'] as String?) ?? '',
-      snapshotName: (json['snapshotName'] as String?) ?? '',
-      status: Status.fromString((json['status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterArn = this.clusterArn;
-    final snapshotArn = this.snapshotArn;
-    final snapshotCreationTime = this.snapshotCreationTime;
-    final snapshotName = this.snapshotName;
-    final status = this.status;
-    return {
-      'clusterArn': clusterArn,
-      'snapshotArn': snapshotArn,
-      'snapshotCreationTime': snapshotCreationTime,
-      'snapshotName': snapshotName,
-      'status': status.value,
+      'resourcePendingMaintenanceAction': resourcePendingMaintenanceAction,
     };
   }
 }
@@ -1408,6 +1159,71 @@ class GetClusterSnapshotOutput {
   }
 }
 
+class GetPendingMaintenanceActionOutput {
+  /// Provides information about a pending maintenance action for a resource.
+  final ResourcePendingMaintenanceAction resourcePendingMaintenanceAction;
+
+  GetPendingMaintenanceActionOutput({
+    required this.resourcePendingMaintenanceAction,
+  });
+
+  factory GetPendingMaintenanceActionOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetPendingMaintenanceActionOutput(
+      resourcePendingMaintenanceAction:
+          ResourcePendingMaintenanceAction.fromJson(
+              (json['resourcePendingMaintenanceAction']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourcePendingMaintenanceAction =
+        this.resourcePendingMaintenanceAction;
+    return {
+      'resourcePendingMaintenanceAction': resourcePendingMaintenanceAction,
+    };
+  }
+}
+
+class ListClustersOutput {
+  /// A list of Amazon DocumentDB elastic clusters.
+  final List<ClusterInList>? clusters;
+
+  /// A pagination token provided by a previous request. If this parameter is
+  /// specified, the response includes only records beyond this token, up to the
+  /// value specified by <code>max-results</code>.
+  ///
+  /// If there is no more data in the responce, the <code>nextToken</code> will
+  /// not be returned.
+  final String? nextToken;
+
+  ListClustersOutput({
+    this.clusters,
+    this.nextToken,
+  });
+
+  factory ListClustersOutput.fromJson(Map<String, dynamic> json) {
+    return ListClustersOutput(
+      clusters: (json['clusters'] as List?)
+          ?.nonNulls
+          .map((e) => ClusterInList.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusters = this.clusters;
+    final nextToken = this.nextToken;
+    return {
+      if (clusters != null) 'clusters': clusters,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListClusterSnapshotsOutput {
   /// A pagination token provided by a previous request. If this parameter is
   /// specified, the response includes only records beyond this token, up to the
@@ -1445,38 +1261,40 @@ class ListClusterSnapshotsOutput {
   }
 }
 
-class ListClustersOutput {
-  /// A list of Amazon DocumentDB elastic clusters.
-  final List<ClusterInList>? clusters;
+class ListPendingMaintenanceActionsOutput {
+  /// Provides information about a pending maintenance action for a resource.
+  final List<ResourcePendingMaintenanceAction>
+      resourcePendingMaintenanceActions;
 
-  /// A pagination token provided by a previous request. If this parameter is
-  /// specified, the response includes only records beyond this token, up to the
-  /// value specified by <code>max-results</code>.
-  ///
-  /// If there is no more data in the responce, the <code>nextToken</code> will
-  /// not be returned.
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is displayed, the responses will include only records beyond the
+  /// marker, up to the value specified by <code>maxResults</code>.
   final String? nextToken;
 
-  ListClustersOutput({
-    this.clusters,
+  ListPendingMaintenanceActionsOutput({
+    required this.resourcePendingMaintenanceActions,
     this.nextToken,
   });
 
-  factory ListClustersOutput.fromJson(Map<String, dynamic> json) {
-    return ListClustersOutput(
-      clusters: (json['clusters'] as List?)
-          ?.nonNulls
-          .map((e) => ClusterInList.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory ListPendingMaintenanceActionsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListPendingMaintenanceActionsOutput(
+      resourcePendingMaintenanceActions:
+          ((json['resourcePendingMaintenanceActions'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => ResourcePendingMaintenanceAction.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final clusters = this.clusters;
+    final resourcePendingMaintenanceActions =
+        this.resourcePendingMaintenanceActions;
     final nextToken = this.nextToken;
     return {
-      if (clusters != null) 'clusters': clusters,
+      'resourcePendingMaintenanceActions': resourcePendingMaintenanceActions,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -1528,66 +1346,6 @@ class RestoreClusterFromSnapshotOutput {
   }
 }
 
-/// The name of the shard.
-class Shard {
-  /// The time when the shard was created in Universal Coordinated Time (UTC).
-  final String createTime;
-
-  /// The ID of the shard.
-  final String shardId;
-
-  /// The current status of the shard.
-  final Status status;
-
-  Shard({
-    required this.createTime,
-    required this.shardId,
-    required this.status,
-  });
-
-  factory Shard.fromJson(Map<String, dynamic> json) {
-    return Shard(
-      createTime: (json['createTime'] as String?) ?? '',
-      shardId: (json['shardId'] as String?) ?? '',
-      status: Status.fromString((json['status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createTime = this.createTime;
-    final shardId = this.shardId;
-    final status = this.status;
-    return {
-      'createTime': createTime,
-      'shardId': shardId,
-      'status': status.value,
-    };
-  }
-}
-
-class SnapshotType {
-  static const manual = SnapshotType._('MANUAL');
-  static const automated = SnapshotType._('AUTOMATED');
-
-  final String value;
-
-  const SnapshotType._(this.value);
-
-  static const values = [manual, automated];
-
-  static SnapshotType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SnapshotType._(value));
-
-  @override
-  bool operator ==(other) => other is SnapshotType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StartClusterOutput {
   final Cluster cluster;
 
@@ -1608,68 +1366,6 @@ class StartClusterOutput {
       'cluster': cluster,
     };
   }
-}
-
-class Status {
-  static const creating = Status._('CREATING');
-  static const active = Status._('ACTIVE');
-  static const deleting = Status._('DELETING');
-  static const updating = Status._('UPDATING');
-  static const vpcEndpointLimitExceeded =
-      Status._('VPC_ENDPOINT_LIMIT_EXCEEDED');
-  static const ipAddressLimitExceeded = Status._('IP_ADDRESS_LIMIT_EXCEEDED');
-  static const invalidSecurityGroupId = Status._('INVALID_SECURITY_GROUP_ID');
-  static const invalidSubnetId = Status._('INVALID_SUBNET_ID');
-  static const inaccessibleEncryptionCreds =
-      Status._('INACCESSIBLE_ENCRYPTION_CREDS');
-  static const inaccessibleSecretArn = Status._('INACCESSIBLE_SECRET_ARN');
-  static const inaccessibleVpcEndpoint = Status._('INACCESSIBLE_VPC_ENDPOINT');
-  static const incompatibleNetwork = Status._('INCOMPATIBLE_NETWORK');
-  static const merging = Status._('MERGING');
-  static const modifying = Status._('MODIFYING');
-  static const splitting = Status._('SPLITTING');
-  static const copying = Status._('COPYING');
-  static const starting = Status._('STARTING');
-  static const stopping = Status._('STOPPING');
-  static const stopped = Status._('STOPPED');
-
-  final String value;
-
-  const Status._(this.value);
-
-  static const values = [
-    creating,
-    active,
-    deleting,
-    updating,
-    vpcEndpointLimitExceeded,
-    ipAddressLimitExceeded,
-    invalidSecurityGroupId,
-    invalidSubnetId,
-    inaccessibleEncryptionCreds,
-    inaccessibleSecretArn,
-    inaccessibleVpcEndpoint,
-    incompatibleNetwork,
-    merging,
-    modifying,
-    splitting,
-    copying,
-    starting,
-    stopping,
-    stopped
-  ];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class StopClusterOutput {
@@ -1739,6 +1435,651 @@ class UpdateClusterOutput {
       'cluster': cluster,
     };
   }
+}
+
+/// Returns information about a specific elastic cluster.
+class Cluster {
+  /// The name of the elastic cluster administrator.
+  final String adminUserName;
+
+  /// The authentication type for the elastic cluster.
+  final Auth authType;
+
+  /// The ARN identifier of the elastic cluster.
+  final String clusterArn;
+
+  /// The URL used to connect to the elastic cluster.
+  final String clusterEndpoint;
+
+  /// The name of the elastic cluster.
+  final String clusterName;
+
+  /// The time when the elastic cluster was created in Universal Coordinated Time
+  /// (UTC).
+  final String createTime;
+
+  /// The KMS key identifier to use to encrypt the elastic cluster.
+  final String kmsKeyId;
+
+  /// The weekly time range during which system maintenance can occur, in
+  /// Universal Coordinated Time (UTC).
+  ///
+  /// <i>Format</i>: <code>ddd:hh24:mi-ddd:hh24:mi</code>
+  final String preferredMaintenanceWindow;
+
+  /// The number of vCPUs assigned to each elastic cluster shard. Maximum is 64.
+  /// Allowed values are 2, 4, 8, 16, 32, 64.
+  final int shardCapacity;
+
+  /// The number of shards assigned to the elastic cluster. Maximum is 32.
+  final int shardCount;
+
+  /// The status of the elastic cluster.
+  final Status status;
+
+  /// The Amazon EC2 subnet IDs for the elastic cluster.
+  final List<String> subnetIds;
+
+  /// A list of EC2 VPC security groups associated with thie elastic cluster.
+  final List<String> vpcSecurityGroupIds;
+
+  /// The number of days for which automatic snapshots are retained.
+  final int? backupRetentionPeriod;
+
+  /// The daily time range during which automated backups are created if automated
+  /// backups are enabled, as determined by <code>backupRetentionPeriod</code>.
+  final String? preferredBackupWindow;
+
+  /// The number of replica instances applying to all shards in the cluster. A
+  /// <code>shardInstanceCount</code> value of 1 means there is one writer
+  /// instance, and any additional instances are replicas that can be used for
+  /// reads and to improve availability.
+  final int? shardInstanceCount;
+
+  /// The total number of shards in the cluster.
+  final List<Shard>? shards;
+
+  Cluster({
+    required this.adminUserName,
+    required this.authType,
+    required this.clusterArn,
+    required this.clusterEndpoint,
+    required this.clusterName,
+    required this.createTime,
+    required this.kmsKeyId,
+    required this.preferredMaintenanceWindow,
+    required this.shardCapacity,
+    required this.shardCount,
+    required this.status,
+    required this.subnetIds,
+    required this.vpcSecurityGroupIds,
+    this.backupRetentionPeriod,
+    this.preferredBackupWindow,
+    this.shardInstanceCount,
+    this.shards,
+  });
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      adminUserName: (json['adminUserName'] as String?) ?? '',
+      authType: Auth.fromString((json['authType'] as String?) ?? ''),
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      clusterEndpoint: (json['clusterEndpoint'] as String?) ?? '',
+      clusterName: (json['clusterName'] as String?) ?? '',
+      createTime: (json['createTime'] as String?) ?? '',
+      kmsKeyId: (json['kmsKeyId'] as String?) ?? '',
+      preferredMaintenanceWindow:
+          (json['preferredMaintenanceWindow'] as String?) ?? '',
+      shardCapacity: (json['shardCapacity'] as int?) ?? 0,
+      shardCount: (json['shardCount'] as int?) ?? 0,
+      status: Status.fromString((json['status'] as String?) ?? ''),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcSecurityGroupIds: ((json['vpcSecurityGroupIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      backupRetentionPeriod: json['backupRetentionPeriod'] as int?,
+      preferredBackupWindow: json['preferredBackupWindow'] as String?,
+      shardInstanceCount: json['shardInstanceCount'] as int?,
+      shards: (json['shards'] as List?)
+          ?.nonNulls
+          .map((e) => Shard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminUserName = this.adminUserName;
+    final authType = this.authType;
+    final clusterArn = this.clusterArn;
+    final clusterEndpoint = this.clusterEndpoint;
+    final clusterName = this.clusterName;
+    final createTime = this.createTime;
+    final kmsKeyId = this.kmsKeyId;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final shardCapacity = this.shardCapacity;
+    final shardCount = this.shardCount;
+    final status = this.status;
+    final subnetIds = this.subnetIds;
+    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
+    final backupRetentionPeriod = this.backupRetentionPeriod;
+    final preferredBackupWindow = this.preferredBackupWindow;
+    final shardInstanceCount = this.shardInstanceCount;
+    final shards = this.shards;
+    return {
+      'adminUserName': adminUserName,
+      'authType': authType.value,
+      'clusterArn': clusterArn,
+      'clusterEndpoint': clusterEndpoint,
+      'clusterName': clusterName,
+      'createTime': createTime,
+      'kmsKeyId': kmsKeyId,
+      'preferredMaintenanceWindow': preferredMaintenanceWindow,
+      'shardCapacity': shardCapacity,
+      'shardCount': shardCount,
+      'status': status.value,
+      'subnetIds': subnetIds,
+      'vpcSecurityGroupIds': vpcSecurityGroupIds,
+      if (backupRetentionPeriod != null)
+        'backupRetentionPeriod': backupRetentionPeriod,
+      if (preferredBackupWindow != null)
+        'preferredBackupWindow': preferredBackupWindow,
+      if (shardInstanceCount != null) 'shardInstanceCount': shardInstanceCount,
+      if (shards != null) 'shards': shards,
+    };
+  }
+}
+
+class Status {
+  static const creating = Status._('CREATING');
+  static const active = Status._('ACTIVE');
+  static const deleting = Status._('DELETING');
+  static const updating = Status._('UPDATING');
+  static const vpcEndpointLimitExceeded =
+      Status._('VPC_ENDPOINT_LIMIT_EXCEEDED');
+  static const ipAddressLimitExceeded = Status._('IP_ADDRESS_LIMIT_EXCEEDED');
+  static const invalidSecurityGroupId = Status._('INVALID_SECURITY_GROUP_ID');
+  static const invalidSubnetId = Status._('INVALID_SUBNET_ID');
+  static const inaccessibleEncryptionCreds =
+      Status._('INACCESSIBLE_ENCRYPTION_CREDS');
+  static const inaccessibleSecretArn = Status._('INACCESSIBLE_SECRET_ARN');
+  static const inaccessibleVpcEndpoint = Status._('INACCESSIBLE_VPC_ENDPOINT');
+  static const incompatibleNetwork = Status._('INCOMPATIBLE_NETWORK');
+  static const merging = Status._('MERGING');
+  static const modifying = Status._('MODIFYING');
+  static const splitting = Status._('SPLITTING');
+  static const copying = Status._('COPYING');
+  static const starting = Status._('STARTING');
+  static const stopping = Status._('STOPPING');
+  static const stopped = Status._('STOPPED');
+  static const maintenance = Status._('MAINTENANCE');
+  static const inaccessibleEncryptionCredentialsRecoverable =
+      Status._('INACCESSIBLE_ENCRYPTION_CREDENTIALS_RECOVERABLE');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    deleting,
+    updating,
+    vpcEndpointLimitExceeded,
+    ipAddressLimitExceeded,
+    invalidSecurityGroupId,
+    invalidSubnetId,
+    inaccessibleEncryptionCreds,
+    inaccessibleSecretArn,
+    inaccessibleVpcEndpoint,
+    incompatibleNetwork,
+    merging,
+    modifying,
+    splitting,
+    copying,
+    starting,
+    stopping,
+    stopped,
+    maintenance,
+    inaccessibleEncryptionCredentialsRecoverable
+  ];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Auth {
+  static const plainText = Auth._('PLAIN_TEXT');
+  static const secretArn = Auth._('SECRET_ARN');
+
+  final String value;
+
+  const Auth._(this.value);
+
+  static const values = [plainText, secretArn];
+
+  static Auth fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Auth._(value));
+
+  @override
+  bool operator ==(other) => other is Auth && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The name of the shard.
+class Shard {
+  /// The time when the shard was created in Universal Coordinated Time (UTC).
+  final String createTime;
+
+  /// The ID of the shard.
+  final String shardId;
+
+  /// The current status of the shard.
+  final Status status;
+
+  Shard({
+    required this.createTime,
+    required this.shardId,
+    required this.status,
+  });
+
+  factory Shard.fromJson(Map<String, dynamic> json) {
+    return Shard(
+      createTime: (json['createTime'] as String?) ?? '',
+      shardId: (json['shardId'] as String?) ?? '',
+      status: Status.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTime = this.createTime;
+    final shardId = this.shardId;
+    final status = this.status;
+    return {
+      'createTime': createTime,
+      'shardId': shardId,
+      'status': status.value,
+    };
+  }
+}
+
+/// Provides information about a pending maintenance action for a resource.
+class ResourcePendingMaintenanceAction {
+  /// Provides information about a pending maintenance action for a resource.
+  final List<PendingMaintenanceActionDetails>? pendingMaintenanceActionDetails;
+
+  /// The Amazon DocumentDB Amazon Resource Name (ARN) of the resource to which
+  /// the pending maintenance action applies.
+  final String? resourceArn;
+
+  ResourcePendingMaintenanceAction({
+    this.pendingMaintenanceActionDetails,
+    this.resourceArn,
+  });
+
+  factory ResourcePendingMaintenanceAction.fromJson(Map<String, dynamic> json) {
+    return ResourcePendingMaintenanceAction(
+      pendingMaintenanceActionDetails:
+          (json['pendingMaintenanceActionDetails'] as List?)
+              ?.nonNulls
+              .map((e) => PendingMaintenanceActionDetails.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      resourceArn: json['resourceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pendingMaintenanceActionDetails =
+        this.pendingMaintenanceActionDetails;
+    final resourceArn = this.resourceArn;
+    return {
+      if (pendingMaintenanceActionDetails != null)
+        'pendingMaintenanceActionDetails': pendingMaintenanceActionDetails,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+    };
+  }
+}
+
+/// Retrieves the details of maintenance actions that are pending.
+class PendingMaintenanceActionDetails {
+  /// Displays the specific action of a pending maintenance action.
+  final String action;
+
+  /// Displays the date of the maintenance window when the action is applied. The
+  /// maintenance action is applied to the resource during its first maintenance
+  /// window after this date. If this date is specified, any
+  /// <code>NEXT_MAINTENANCE</code> <code>optInType</code> requests are ignored.
+  final String? autoAppliedAfterDate;
+
+  /// Displays the effective date when the pending maintenance action is applied
+  /// to the resource.
+  final String? currentApplyDate;
+
+  /// Displays a description providing more detail about the maintenance action.
+  final String? description;
+
+  /// Displays the date when the maintenance action is automatically applied. The
+  /// maintenance action is applied to the resource on this date regardless of the
+  /// maintenance window for the resource. If this date is specified, any
+  /// <code>IMMEDIATE</code> <code>optInType</code> requests are ignored.
+  final String? forcedApplyDate;
+
+  /// Displays the type of <code>optInType</code> request that has been received
+  /// for the resource.
+  final String? optInStatus;
+
+  PendingMaintenanceActionDetails({
+    required this.action,
+    this.autoAppliedAfterDate,
+    this.currentApplyDate,
+    this.description,
+    this.forcedApplyDate,
+    this.optInStatus,
+  });
+
+  factory PendingMaintenanceActionDetails.fromJson(Map<String, dynamic> json) {
+    return PendingMaintenanceActionDetails(
+      action: (json['action'] as String?) ?? '',
+      autoAppliedAfterDate: json['autoAppliedAfterDate'] as String?,
+      currentApplyDate: json['currentApplyDate'] as String?,
+      description: json['description'] as String?,
+      forcedApplyDate: json['forcedApplyDate'] as String?,
+      optInStatus: json['optInStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final autoAppliedAfterDate = this.autoAppliedAfterDate;
+    final currentApplyDate = this.currentApplyDate;
+    final description = this.description;
+    final forcedApplyDate = this.forcedApplyDate;
+    final optInStatus = this.optInStatus;
+    return {
+      'action': action,
+      if (autoAppliedAfterDate != null)
+        'autoAppliedAfterDate': autoAppliedAfterDate,
+      if (currentApplyDate != null) 'currentApplyDate': currentApplyDate,
+      if (description != null) 'description': description,
+      if (forcedApplyDate != null) 'forcedApplyDate': forcedApplyDate,
+      if (optInStatus != null) 'optInStatus': optInStatus,
+    };
+  }
+}
+
+/// A list of elastic cluster snapshots.
+class ClusterSnapshotInList {
+  /// The ARN identifier of the elastic cluster.
+  final String clusterArn;
+
+  /// The ARN identifier of the elastic cluster snapshot.
+  final String snapshotArn;
+
+  /// The time when the elastic cluster snapshot was created in Universal
+  /// Coordinated Time (UTC).
+  final String snapshotCreationTime;
+
+  /// The name of the elastic cluster snapshot.
+  final String snapshotName;
+
+  /// The status of the elastic cluster snapshot.
+  final Status status;
+
+  ClusterSnapshotInList({
+    required this.clusterArn,
+    required this.snapshotArn,
+    required this.snapshotCreationTime,
+    required this.snapshotName,
+    required this.status,
+  });
+
+  factory ClusterSnapshotInList.fromJson(Map<String, dynamic> json) {
+    return ClusterSnapshotInList(
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      snapshotArn: (json['snapshotArn'] as String?) ?? '',
+      snapshotCreationTime: (json['snapshotCreationTime'] as String?) ?? '',
+      snapshotName: (json['snapshotName'] as String?) ?? '',
+      status: Status.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final snapshotArn = this.snapshotArn;
+    final snapshotCreationTime = this.snapshotCreationTime;
+    final snapshotName = this.snapshotName;
+    final status = this.status;
+    return {
+      'clusterArn': clusterArn,
+      'snapshotArn': snapshotArn,
+      'snapshotCreationTime': snapshotCreationTime,
+      'snapshotName': snapshotName,
+      'status': status.value,
+    };
+  }
+}
+
+/// A list of Amazon DocumentDB elastic clusters.
+class ClusterInList {
+  /// The ARN identifier of the elastic cluster.
+  final String clusterArn;
+
+  /// The name of the elastic cluster.
+  final String clusterName;
+
+  /// The status of the elastic cluster.
+  final Status status;
+
+  ClusterInList({
+    required this.clusterArn,
+    required this.clusterName,
+    required this.status,
+  });
+
+  factory ClusterInList.fromJson(Map<String, dynamic> json) {
+    return ClusterInList(
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      clusterName: (json['clusterName'] as String?) ?? '',
+      status: Status.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterName = this.clusterName;
+    final status = this.status;
+    return {
+      'clusterArn': clusterArn,
+      'clusterName': clusterName,
+      'status': status.value,
+    };
+  }
+}
+
+/// Returns information about a specific elastic cluster snapshot.
+class ClusterSnapshot {
+  /// The name of the elastic cluster administrator.
+  final String adminUserName;
+
+  /// The ARN identifier of the elastic cluster.
+  final String clusterArn;
+
+  /// The time when the elastic cluster was created in Universal Coordinated Time
+  /// (UTC).
+  final String clusterCreationTime;
+
+  /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
+  /// encryption key. If you are creating a cluster using the same Amazon account
+  /// that owns this KMS encryption key, you can use the KMS key alias instead of
+  /// the ARN as the KMS encryption key. If an encryption key is not specified
+  /// here, Amazon DocumentDB uses the default encryption key that KMS creates for
+  /// your account. Your account has a different default encryption key for each
+  /// Amazon Region.
+  final String kmsKeyId;
+
+  /// The ARN identifier of the elastic cluster snapshot.
+  final String snapshotArn;
+
+  /// The time when the elastic cluster snapshot was created in Universal
+  /// Coordinated Time (UTC).
+  final String snapshotCreationTime;
+
+  /// The name of the elastic cluster snapshot.
+  final String snapshotName;
+
+  /// The status of the elastic cluster snapshot.
+  final Status status;
+
+  /// The Amazon EC2 subnet IDs for the elastic cluster.
+  final List<String> subnetIds;
+
+  /// A list of EC2 VPC security groups to associate with the elastic cluster.
+  final List<String> vpcSecurityGroupIds;
+
+  /// The type of cluster snapshots to be returned. You can specify one of the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>automated</code> - Return all cluster snapshots that Amazon DocumentDB
+  /// has automatically created for your Amazon Web Services account.
+  /// </li>
+  /// <li>
+  /// <code>manual</code> - Return all cluster snapshots that you have manually
+  /// created for your Amazon Web Services account.
+  /// </li>
+  /// </ul>
+  final SnapshotType? snapshotType;
+
+  ClusterSnapshot({
+    required this.adminUserName,
+    required this.clusterArn,
+    required this.clusterCreationTime,
+    required this.kmsKeyId,
+    required this.snapshotArn,
+    required this.snapshotCreationTime,
+    required this.snapshotName,
+    required this.status,
+    required this.subnetIds,
+    required this.vpcSecurityGroupIds,
+    this.snapshotType,
+  });
+
+  factory ClusterSnapshot.fromJson(Map<String, dynamic> json) {
+    return ClusterSnapshot(
+      adminUserName: (json['adminUserName'] as String?) ?? '',
+      clusterArn: (json['clusterArn'] as String?) ?? '',
+      clusterCreationTime: (json['clusterCreationTime'] as String?) ?? '',
+      kmsKeyId: (json['kmsKeyId'] as String?) ?? '',
+      snapshotArn: (json['snapshotArn'] as String?) ?? '',
+      snapshotCreationTime: (json['snapshotCreationTime'] as String?) ?? '',
+      snapshotName: (json['snapshotName'] as String?) ?? '',
+      status: Status.fromString((json['status'] as String?) ?? ''),
+      subnetIds: ((json['subnetIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      vpcSecurityGroupIds: ((json['vpcSecurityGroupIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      snapshotType:
+          (json['snapshotType'] as String?)?.let(SnapshotType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminUserName = this.adminUserName;
+    final clusterArn = this.clusterArn;
+    final clusterCreationTime = this.clusterCreationTime;
+    final kmsKeyId = this.kmsKeyId;
+    final snapshotArn = this.snapshotArn;
+    final snapshotCreationTime = this.snapshotCreationTime;
+    final snapshotName = this.snapshotName;
+    final status = this.status;
+    final subnetIds = this.subnetIds;
+    final vpcSecurityGroupIds = this.vpcSecurityGroupIds;
+    final snapshotType = this.snapshotType;
+    return {
+      'adminUserName': adminUserName,
+      'clusterArn': clusterArn,
+      'clusterCreationTime': clusterCreationTime,
+      'kmsKeyId': kmsKeyId,
+      'snapshotArn': snapshotArn,
+      'snapshotCreationTime': snapshotCreationTime,
+      'snapshotName': snapshotName,
+      'status': status.value,
+      'subnetIds': subnetIds,
+      'vpcSecurityGroupIds': vpcSecurityGroupIds,
+      if (snapshotType != null) 'snapshotType': snapshotType.value,
+    };
+  }
+}
+
+class SnapshotType {
+  static const manual = SnapshotType._('MANUAL');
+  static const automated = SnapshotType._('AUTOMATED');
+
+  final String value;
+
+  const SnapshotType._(this.value);
+
+  static const values = [manual, automated];
+
+  static SnapshotType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SnapshotType._(value));
+
+  @override
+  bool operator ==(other) => other is SnapshotType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OptInType {
+  static const immediate = OptInType._('IMMEDIATE');
+  static const nextMaintenance = OptInType._('NEXT_MAINTENANCE');
+  static const applyOn = OptInType._('APPLY_ON');
+  static const undoOptIn = OptInType._('UNDO_OPT_IN');
+
+  final String value;
+
+  const OptInType._(this.value);
+
+  static const values = [immediate, nextMaintenance, applyOn, undoOptIn];
+
+  static OptInType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OptInType._(value));
+
+  @override
+  bool operator ==(other) => other is OptInType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

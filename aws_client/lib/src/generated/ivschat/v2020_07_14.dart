@@ -74,9 +74,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// comprises a <i>key</i> and a <i>value</i>, both set by you. For example, you
 /// might set a tag as <code>topic:nature</code> to label a particular video
 /// category. See <a
-/// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-/// AWS Resources</a> for more information, including restrictions that apply to
-/// tags and "Tag naming limits and requirements"; Amazon IVS Chat has no
+/// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
+/// practices and strategies</a> in <i>Tagging Amazon Web Services Resources and
+/// Tag Editor</i> for details, including restrictions that apply to tags and
+/// "Tag naming limits and requirements"; Amazon IVS Chat has no
 /// service-specific constraints beyond what is documented there.
 ///
 /// Tags can help you identify and organize your AWS resources. For example, you
@@ -85,9 +86,9 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Access
 /// Tags</a>).
 ///
-/// The Amazon IVS Chat API has these tag-related endpoints: <a>TagResource</a>,
-/// <a>UntagResource</a>, and <a>ListTagsForResource</a>. The following resource
-/// supports tagging: Room.
+/// The Amazon IVS Chat API has these tag-related operations:
+/// <a>TagResource</a>, <a>UntagResource</a>, and <a>ListTagsForResource</a>.
+/// The following resource supports tagging: Room.
 ///
 /// At most 50 tags can be applied to a resource.
 ///
@@ -108,7 +109,7 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// </li>
 /// </ul>
 /// Users (viewers) connect to a room using secure access tokens that you create
-/// using the <a>CreateChatToken</a> endpoint through the AWS SDK. You call
+/// using the <a>CreateChatToken</a> operation through the AWS SDK. You call
 /// CreateChatToken for every user’s chat session, passing identity and
 /// authorization information about the user.
 ///
@@ -160,7 +161,6 @@ class Ivschat {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'ivschat',
-            signingName: 'ivschat',
           ),
           region: region,
           credentials: credentials,
@@ -196,8 +196,8 @@ class Ivschat {
   /// your application.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [PendingVerification].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [roomIdentifier] :
@@ -255,11 +255,11 @@ class Ivschat {
   /// Creates a logging configuration that allows clients to store and record
   /// sent messages.
   ///
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [PendingVerification].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [PendingVerification].
   /// May throw [ValidationException].
   ///
   /// Parameter [destinationConfiguration] :
@@ -274,8 +274,9 @@ class Ivschat {
   /// Parameter [tags] :
   /// Tags to attach to the resource. Array of maps, each of the form
   /// <code>string:string (key:value)</code>. See <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> for details, including restrictions that apply to tags
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
+  /// practices and strategies</a> in <i>Tagging Amazon Web Services Resources
+  /// and Tag Editor</i> for details, including restrictions that apply to tags
   /// and "Tag naming limits and requirements"; Amazon IVS Chat has no
   /// constraints on tags beyond what is documented there.
   Future<CreateLoggingConfigurationResponse> createLoggingConfiguration({
@@ -299,11 +300,11 @@ class Ivschat {
 
   /// Creates a room that allows clients to connect and pass messages.
   ///
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [PendingVerification].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [PendingVerification].
   /// May throw [ValidationException].
   ///
   /// Parameter [loggingConfigurationIdentifiers] :
@@ -327,8 +328,9 @@ class Ivschat {
   /// Parameter [tags] :
   /// Tags to attach to the resource. Array of maps, each of the form
   /// <code>string:string (key:value)</code>. See <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> for details, including restrictions that apply to tags
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
+  /// practices and strategies</a> in <i>Tagging Amazon Web Services Resources
+  /// and Tag Editor</i> for details, including restrictions that apply to tags
   /// and "Tag naming limits and requirements"; Amazon IVS Chat has no
   /// constraints beyond what is documented there.
   Future<CreateRoomResponse> createRoom({
@@ -374,10 +376,10 @@ class Ivschat {
 
   /// Deletes the specified logging configuration.
   ///
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [PendingVerification].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [identifier] :
@@ -404,10 +406,10 @@ class Ivschat {
   /// DeleteMessage</a> WebSocket operation in the Amazon IVS Chat Messaging
   /// API.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [PendingVerification].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [id] :
@@ -444,8 +446,8 @@ class Ivschat {
   /// Deletes the specified room.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [PendingVerification].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [identifier] :
@@ -470,10 +472,10 @@ class Ivschat {
   /// DisconnectUser</a> WebSocket operation in the Amazon IVS Chat Messaging
   /// API.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [PendingVerification].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [roomIdentifier] :
@@ -641,8 +643,8 @@ class Ivschat {
 
   /// Gets information about AWS tags for the specified ARN.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
@@ -663,10 +665,10 @@ class Ivschat {
   /// logic to send events to clients of a room; e.g., to notify clients to
   /// change the way the chat UI is rendered.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [PendingVerification].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [eventName] :
@@ -700,8 +702,8 @@ class Ivschat {
 
   /// Adds or updates tags for the AWS resource with the specified ARN.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
@@ -710,8 +712,9 @@ class Ivschat {
   /// Parameter [tags] :
   /// Array of tags to be added or updated. Array of maps, each of the form
   /// <code>string:string (key:value)</code>. See <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> for details, including restrictions that apply to tags
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
+  /// practices and strategies</a> in <i>Tagging Amazon Web Services Resources
+  /// and Tag Editor</i> for details, including restrictions that apply to tags
   /// and "Tag naming limits and requirements"; Amazon IVS Chat has no
   /// constraints beyond what is documented there.
   Future<void> tagResource({
@@ -731,8 +734,8 @@ class Ivschat {
 
   /// Removes tags from the resource with the specified ARN.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
@@ -741,8 +744,9 @@ class Ivschat {
   /// Parameter [tagKeys] :
   /// Array of tags to be removed. Array of maps, each of the form
   /// <code>string:string (key:value)</code>. See <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> for details, including restrictions that apply to tags
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
+  /// practices and strategies</a> in <i>Tagging Amazon Web Services Resources
+  /// and Tag Editor</i> for details, including restrictions that apply to tags
   /// and "Tag naming limits and requirements"; Amazon IVS Chat has no
   /// constraints beyond what is documented there.
   Future<void> untagResource({
@@ -763,10 +767,10 @@ class Ivschat {
 
   /// Updates a specified logging configuration.
   ///
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [PendingVerification].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [identifier] :
@@ -803,8 +807,8 @@ class Ivschat {
   /// Updates a room’s configuration.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [PendingVerification].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [identifier] :
@@ -868,57 +872,6 @@ class Ivschat {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRoomResponse.fromJson(response);
-  }
-}
-
-class ChatTokenCapability {
-  static const sendMessage = ChatTokenCapability._('SEND_MESSAGE');
-  static const disconnectUser = ChatTokenCapability._('DISCONNECT_USER');
-  static const deleteMessage = ChatTokenCapability._('DELETE_MESSAGE');
-
-  final String value;
-
-  const ChatTokenCapability._(this.value);
-
-  static const values = [sendMessage, disconnectUser, deleteMessage];
-
-  static ChatTokenCapability fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChatTokenCapability._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ChatTokenCapability && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies a CloudWatch Logs location where chat logs will be stored.
-class CloudWatchLogsDestinationConfiguration {
-  /// Name of the Amazon Cloudwatch Logs destination where chat activity will be
-  /// logged.
-  final String logGroupName;
-
-  CloudWatchLogsDestinationConfiguration({
-    required this.logGroupName,
-  });
-
-  factory CloudWatchLogsDestinationConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return CloudWatchLogsDestinationConfiguration(
-      logGroupName: (json['logGroupName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroupName = this.logGroupName;
-    return {
-      'logGroupName': logGroupName,
-    };
   }
 }
 
@@ -1050,30 +1003,6 @@ class CreateLoggingConfigurationResponse {
   }
 }
 
-class CreateLoggingConfigurationState {
-  static const active = CreateLoggingConfigurationState._('ACTIVE');
-
-  final String value;
-
-  const CreateLoggingConfigurationState._(this.value);
-
-  static const values = [active];
-
-  static CreateLoggingConfigurationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CreateLoggingConfigurationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CreateLoggingConfigurationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CreateRoomResponse {
   /// Room ARN, assigned by the system.
   final String? arn;
@@ -1200,57 +1129,6 @@ class DeleteMessageResponse {
   }
 }
 
-/// A complex type that describes a location where chat logs will be stored.
-/// Each member represents the configuration of one log destination. For
-/// logging, you define only one type of destination (for CloudWatch Logs,
-/// Kinesis Firehose, or S3).
-class DestinationConfiguration {
-  /// An Amazon CloudWatch Logs destination configuration where chat activity will
-  /// be logged.
-  final CloudWatchLogsDestinationConfiguration? cloudWatchLogs;
-
-  /// An Amazon Kinesis Data Firehose destination configuration where chat
-  /// activity will be logged.
-  final FirehoseDestinationConfiguration? firehose;
-
-  /// An Amazon S3 destination configuration where chat activity will be logged.
-  final S3DestinationConfiguration? s3;
-
-  DestinationConfiguration({
-    this.cloudWatchLogs,
-    this.firehose,
-    this.s3,
-  });
-
-  factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
-    return DestinationConfiguration(
-      cloudWatchLogs: json['cloudWatchLogs'] != null
-          ? CloudWatchLogsDestinationConfiguration.fromJson(
-              json['cloudWatchLogs'] as Map<String, dynamic>)
-          : null,
-      firehose: json['firehose'] != null
-          ? FirehoseDestinationConfiguration.fromJson(
-              json['firehose'] as Map<String, dynamic>)
-          : null,
-      s3: json['s3'] != null
-          ? S3DestinationConfiguration.fromJson(
-              json['s3'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogs = this.cloudWatchLogs;
-    final firehose = this.firehose;
-    final s3 = this.s3;
-    return {
-      if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
-      if (firehose != null) 'firehose': firehose,
-      if (s3 != null) 's3': s3,
-    };
-  }
-}
-
 class DisconnectUserResponse {
   DisconnectUserResponse();
 
@@ -1260,54 +1138,6 @@ class DisconnectUserResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-class FallbackResult {
-  static const allow = FallbackResult._('ALLOW');
-  static const deny = FallbackResult._('DENY');
-
-  final String value;
-
-  const FallbackResult._(this.value);
-
-  static const values = [allow, deny];
-
-  static FallbackResult fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FallbackResult._(value));
-
-  @override
-  bool operator ==(other) => other is FallbackResult && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies a Kinesis Firehose location where chat logs will be stored.
-class FirehoseDestinationConfiguration {
-  /// Name of the Amazon Kinesis Firehose delivery stream where chat activity will
-  /// be logged.
-  final String deliveryStreamName;
-
-  FirehoseDestinationConfiguration({
-    required this.deliveryStreamName,
-  });
-
-  factory FirehoseDestinationConfiguration.fromJson(Map<String, dynamic> json) {
-    return FirehoseDestinationConfiguration(
-      deliveryStreamName: (json['deliveryStreamName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deliveryStreamName = this.deliveryStreamName;
-    return {
-      'deliveryStreamName': deliveryStreamName,
-    };
   }
 }
 
@@ -1600,284 +1430,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-class LoggingConfigurationState {
-  static const creating = LoggingConfigurationState._('CREATING');
-  static const createFailed = LoggingConfigurationState._('CREATE_FAILED');
-  static const deleting = LoggingConfigurationState._('DELETING');
-  static const deleteFailed = LoggingConfigurationState._('DELETE_FAILED');
-  static const updating = LoggingConfigurationState._('UPDATING');
-  static const updateFailed = LoggingConfigurationState._('UPDATE_FAILED');
-  static const active = LoggingConfigurationState._('ACTIVE');
-
-  final String value;
-
-  const LoggingConfigurationState._(this.value);
-
-  static const values = [
-    creating,
-    createFailed,
-    deleting,
-    deleteFailed,
-    updating,
-    updateFailed,
-    active
-  ];
-
-  static LoggingConfigurationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LoggingConfigurationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LoggingConfigurationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary information about a logging configuration.
-class LoggingConfigurationSummary {
-  /// Logging-configuration ARN.
-  final String? arn;
-
-  /// Time when the logging configuration was created. This is an ISO 8601
-  /// timestamp; <i>note that this is returned as a string</i>.
-  final DateTime? createTime;
-
-  /// A complex type that contains a destination configuration for where chat
-  /// content will be logged.
-  final DestinationConfiguration? destinationConfiguration;
-
-  /// Logging-configuration ID, generated by the system. This is a relative
-  /// identifier, the part of the ARN that uniquely identifies the room.
-  final String? id;
-
-  /// Logging-configuration name. The value does not need to be unique.
-  final String? name;
-
-  /// The state of the logging configuration. When this is <code>ACTIVE</code>,
-  /// the configuration is ready for logging chat content.
-  final LoggingConfigurationState? state;
-
-  /// Tags to attach to the resource. Array of maps, each of the form
-  /// <code>string:string (key:value)</code>. See <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> for details, including restrictions that apply to tags and
-  /// "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on
-  /// tags beyond what is documented there.
-  final Map<String, String>? tags;
-
-  /// Time of the logging configuration’s last update. This is an ISO 8601
-  /// timestamp; <i>note that this is returned as a string</i>.
-  final DateTime? updateTime;
-
-  LoggingConfigurationSummary({
-    this.arn,
-    this.createTime,
-    this.destinationConfiguration,
-    this.id,
-    this.name,
-    this.state,
-    this.tags,
-    this.updateTime,
-  });
-
-  factory LoggingConfigurationSummary.fromJson(Map<String, dynamic> json) {
-    return LoggingConfigurationSummary(
-      arn: json['arn'] as String?,
-      createTime: timeStampFromJson(json['createTime']),
-      destinationConfiguration: json['destinationConfiguration'] != null
-          ? DestinationConfiguration.fromJson(
-              json['destinationConfiguration'] as Map<String, dynamic>)
-          : null,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      state:
-          (json['state'] as String?)?.let(LoggingConfigurationState.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      updateTime: timeStampFromJson(json['updateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createTime = this.createTime;
-    final destinationConfiguration = this.destinationConfiguration;
-    final id = this.id;
-    final name = this.name;
-    final state = this.state;
-    final tags = this.tags;
-    final updateTime = this.updateTime;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createTime != null) 'createTime': iso8601ToJson(createTime),
-      if (destinationConfiguration != null)
-        'destinationConfiguration': destinationConfiguration,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (state != null) 'state': state.value,
-      if (tags != null) 'tags': tags,
-      if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
-    };
-  }
-}
-
-/// Configuration information for optional message review.
-class MessageReviewHandler {
-  /// Specifies the fallback behavior (whether the message is allowed or denied)
-  /// if the handler does not return a valid response, encounters an error, or
-  /// times out. (For the timeout period, see <a
-  /// href="https://docs.aws.amazon.com/ivs/latest/userguide/service-quotas.html">
-  /// Service Quotas</a>.) If allowed, the message is delivered with returned
-  /// content to all users connected to the room. If denied, the message is not
-  /// delivered to any user. Default: <code>ALLOW</code>.
-  final FallbackResult? fallbackResult;
-
-  /// Identifier of the message review handler. Currently this must be an ARN of a
-  /// lambda function.
-  final String? uri;
-
-  MessageReviewHandler({
-    this.fallbackResult,
-    this.uri,
-  });
-
-  factory MessageReviewHandler.fromJson(Map<String, dynamic> json) {
-    return MessageReviewHandler(
-      fallbackResult:
-          (json['fallbackResult'] as String?)?.let(FallbackResult.fromString),
-      uri: json['uri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fallbackResult = this.fallbackResult;
-    final uri = this.uri;
-    return {
-      if (fallbackResult != null) 'fallbackResult': fallbackResult.value,
-      if (uri != null) 'uri': uri,
-    };
-  }
-}
-
-/// Summary information about a room.
-class RoomSummary {
-  /// Room ARN.
-  final String? arn;
-
-  /// Time when the room was created. This is an ISO 8601 timestamp; <i>note that
-  /// this is returned as a string</i>.
-  final DateTime? createTime;
-
-  /// Room ID, generated by the system. This is a relative identifier, the part of
-  /// the ARN that uniquely identifies the room.
-  final String? id;
-
-  /// List of logging-configuration identifiers attached to the room.
-  final List<String>? loggingConfigurationIdentifiers;
-
-  /// Configuration information for optional review of messages.
-  final MessageReviewHandler? messageReviewHandler;
-
-  /// Room name. The value does not need to be unique.
-  final String? name;
-
-  /// Tags attached to the resource. Array of maps, each of the form
-  /// <code>string:string (key:value)</code>. See <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// AWS Resources</a> for details, including restrictions that apply to tags and
-  /// "Tag naming limits and requirements"; Amazon IVS Chat has no constraints
-  /// beyond what is documented there.
-  final Map<String, String>? tags;
-
-  /// Time of the room’s last update. This is an ISO 8601 timestamp; <i>note that
-  /// this is returned as a string</i>.
-  final DateTime? updateTime;
-
-  RoomSummary({
-    this.arn,
-    this.createTime,
-    this.id,
-    this.loggingConfigurationIdentifiers,
-    this.messageReviewHandler,
-    this.name,
-    this.tags,
-    this.updateTime,
-  });
-
-  factory RoomSummary.fromJson(Map<String, dynamic> json) {
-    return RoomSummary(
-      arn: json['arn'] as String?,
-      createTime: timeStampFromJson(json['createTime']),
-      id: json['id'] as String?,
-      loggingConfigurationIdentifiers:
-          (json['loggingConfigurationIdentifiers'] as List?)
-              ?.nonNulls
-              .map((e) => e as String)
-              .toList(),
-      messageReviewHandler: json['messageReviewHandler'] != null
-          ? MessageReviewHandler.fromJson(
-              json['messageReviewHandler'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      updateTime: timeStampFromJson(json['updateTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createTime = this.createTime;
-    final id = this.id;
-    final loggingConfigurationIdentifiers =
-        this.loggingConfigurationIdentifiers;
-    final messageReviewHandler = this.messageReviewHandler;
-    final name = this.name;
-    final tags = this.tags;
-    final updateTime = this.updateTime;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createTime != null) 'createTime': iso8601ToJson(createTime),
-      if (id != null) 'id': id,
-      if (loggingConfigurationIdentifiers != null)
-        'loggingConfigurationIdentifiers': loggingConfigurationIdentifiers,
-      if (messageReviewHandler != null)
-        'messageReviewHandler': messageReviewHandler,
-      if (name != null) 'name': name,
-      if (tags != null) 'tags': tags,
-      if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
-    };
-  }
-}
-
-/// Specifies an S3 location where chat logs will be stored.
-class S3DestinationConfiguration {
-  /// Name of the Amazon S3 bucket where chat activity will be logged.
-  final String bucketName;
-
-  S3DestinationConfiguration({
-    required this.bucketName,
-  });
-
-  factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
-    return S3DestinationConfiguration(
-      bucketName: (json['bucketName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    return {
-      'bucketName': bucketName,
-    };
-  }
-}
-
 class SendEventResponse {
   /// An identifier generated by Amazon IVS Chat. This identifier must be used in
   /// subsequent operations for this message, such as DeleteMessage.
@@ -2012,30 +1564,6 @@ class UpdateLoggingConfigurationResponse {
   }
 }
 
-class UpdateLoggingConfigurationState {
-  static const active = UpdateLoggingConfigurationState._('ACTIVE');
-
-  final String value;
-
-  const UpdateLoggingConfigurationState._(this.value);
-
-  static const values = [active];
-
-  static UpdateLoggingConfigurationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UpdateLoggingConfigurationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is UpdateLoggingConfigurationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class UpdateRoomResponse {
   /// Room ARN, from the request (if <code>identifier</code> was an ARN).
   final String? arn;
@@ -2139,6 +1667,484 @@ class UpdateRoomResponse {
       if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
     };
   }
+}
+
+/// Configuration information for optional message review.
+class MessageReviewHandler {
+  /// Specifies the fallback behavior (whether the message is allowed or denied)
+  /// if the handler does not return a valid response, encounters an error, or
+  /// times out. (For the timeout period, see <a
+  /// href="https://docs.aws.amazon.com/ivs/latest/userguide/service-quotas.html">
+  /// Service Quotas</a>.) If allowed, the message is delivered with returned
+  /// content to all users connected to the room. If denied, the message is not
+  /// delivered to any user. Default: <code>ALLOW</code>.
+  final FallbackResult? fallbackResult;
+
+  /// Identifier of the message review handler. Currently this must be an ARN of a
+  /// lambda function.
+  final String? uri;
+
+  MessageReviewHandler({
+    this.fallbackResult,
+    this.uri,
+  });
+
+  factory MessageReviewHandler.fromJson(Map<String, dynamic> json) {
+    return MessageReviewHandler(
+      fallbackResult:
+          (json['fallbackResult'] as String?)?.let(FallbackResult.fromString),
+      uri: json['uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fallbackResult = this.fallbackResult;
+    final uri = this.uri;
+    return {
+      if (fallbackResult != null) 'fallbackResult': fallbackResult.value,
+      if (uri != null) 'uri': uri,
+    };
+  }
+}
+
+class FallbackResult {
+  static const allow = FallbackResult._('ALLOW');
+  static const deny = FallbackResult._('DENY');
+
+  final String value;
+
+  const FallbackResult._(this.value);
+
+  static const values = [allow, deny];
+
+  static FallbackResult fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FallbackResult._(value));
+
+  @override
+  bool operator ==(other) => other is FallbackResult && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A complex type that describes a location where chat logs will be stored.
+/// Each member represents the configuration of one log destination. For
+/// logging, you define only one type of destination (for CloudWatch Logs,
+/// Kinesis Firehose, or S3).
+class DestinationConfiguration {
+  /// An Amazon CloudWatch Logs destination configuration where chat activity will
+  /// be logged.
+  final CloudWatchLogsDestinationConfiguration? cloudWatchLogs;
+
+  /// An Amazon Kinesis Data Firehose destination configuration where chat
+  /// activity will be logged.
+  final FirehoseDestinationConfiguration? firehose;
+
+  /// An Amazon S3 destination configuration where chat activity will be logged.
+  final S3DestinationConfiguration? s3;
+
+  DestinationConfiguration({
+    this.cloudWatchLogs,
+    this.firehose,
+    this.s3,
+  });
+
+  factory DestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return DestinationConfiguration(
+      cloudWatchLogs: json['cloudWatchLogs'] != null
+          ? CloudWatchLogsDestinationConfiguration.fromJson(
+              json['cloudWatchLogs'] as Map<String, dynamic>)
+          : null,
+      firehose: json['firehose'] != null
+          ? FirehoseDestinationConfiguration.fromJson(
+              json['firehose'] as Map<String, dynamic>)
+          : null,
+      s3: json['s3'] != null
+          ? S3DestinationConfiguration.fromJson(
+              json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogs = this.cloudWatchLogs;
+    final firehose = this.firehose;
+    final s3 = this.s3;
+    return {
+      if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
+      if (firehose != null) 'firehose': firehose,
+      if (s3 != null) 's3': s3,
+    };
+  }
+}
+
+class UpdateLoggingConfigurationState {
+  static const active = UpdateLoggingConfigurationState._('ACTIVE');
+
+  final String value;
+
+  const UpdateLoggingConfigurationState._(this.value);
+
+  static const values = [active];
+
+  static UpdateLoggingConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateLoggingConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateLoggingConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies an S3 location where chat logs will be stored.
+class S3DestinationConfiguration {
+  /// Name of the Amazon S3 bucket where chat activity will be logged.
+  final String bucketName;
+
+  S3DestinationConfiguration({
+    required this.bucketName,
+  });
+
+  factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3DestinationConfiguration(
+      bucketName: (json['bucketName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    return {
+      'bucketName': bucketName,
+    };
+  }
+}
+
+/// Specifies a CloudWatch Logs location where chat logs will be stored.
+class CloudWatchLogsDestinationConfiguration {
+  /// Name of the Amazon Cloudwatch Logs destination where chat activity will be
+  /// logged.
+  final String logGroupName;
+
+  CloudWatchLogsDestinationConfiguration({
+    required this.logGroupName,
+  });
+
+  factory CloudWatchLogsDestinationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CloudWatchLogsDestinationConfiguration(
+      logGroupName: (json['logGroupName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupName = this.logGroupName;
+    return {
+      'logGroupName': logGroupName,
+    };
+  }
+}
+
+/// Specifies a Kinesis Firehose location where chat logs will be stored.
+class FirehoseDestinationConfiguration {
+  /// Name of the Amazon Kinesis Firehose delivery stream where chat activity will
+  /// be logged.
+  final String deliveryStreamName;
+
+  FirehoseDestinationConfiguration({
+    required this.deliveryStreamName,
+  });
+
+  factory FirehoseDestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return FirehoseDestinationConfiguration(
+      deliveryStreamName: (json['deliveryStreamName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamName = this.deliveryStreamName;
+    return {
+      'deliveryStreamName': deliveryStreamName,
+    };
+  }
+}
+
+/// Summary information about a room.
+class RoomSummary {
+  /// Room ARN.
+  final String? arn;
+
+  /// Time when the room was created. This is an ISO 8601 timestamp; <i>note that
+  /// this is returned as a string</i>.
+  final DateTime? createTime;
+
+  /// Room ID, generated by the system. This is a relative identifier, the part of
+  /// the ARN that uniquely identifies the room.
+  final String? id;
+
+  /// List of logging-configuration identifiers attached to the room.
+  final List<String>? loggingConfigurationIdentifiers;
+
+  /// Configuration information for optional review of messages.
+  final MessageReviewHandler? messageReviewHandler;
+
+  /// Room name. The value does not need to be unique.
+  final String? name;
+
+  /// Tags attached to the resource. Array of maps, each of the form
+  /// <code>string:string (key:value)</code>. See <a
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
+  /// practices and strategies</a> in <i>Tagging Amazon Web Services Resources and
+  /// Tag Editor</i> for details, including restrictions that apply to tags and
+  /// "Tag naming limits and requirements"; Amazon IVS Chat has no constraints
+  /// beyond what is documented there.
+  final Map<String, String>? tags;
+
+  /// Time of the room’s last update. This is an ISO 8601 timestamp; <i>note that
+  /// this is returned as a string</i>.
+  final DateTime? updateTime;
+
+  RoomSummary({
+    this.arn,
+    this.createTime,
+    this.id,
+    this.loggingConfigurationIdentifiers,
+    this.messageReviewHandler,
+    this.name,
+    this.tags,
+    this.updateTime,
+  });
+
+  factory RoomSummary.fromJson(Map<String, dynamic> json) {
+    return RoomSummary(
+      arn: json['arn'] as String?,
+      createTime: timeStampFromJson(json['createTime']),
+      id: json['id'] as String?,
+      loggingConfigurationIdentifiers:
+          (json['loggingConfigurationIdentifiers'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      messageReviewHandler: json['messageReviewHandler'] != null
+          ? MessageReviewHandler.fromJson(
+              json['messageReviewHandler'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updateTime: timeStampFromJson(json['updateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createTime = this.createTime;
+    final id = this.id;
+    final loggingConfigurationIdentifiers =
+        this.loggingConfigurationIdentifiers;
+    final messageReviewHandler = this.messageReviewHandler;
+    final name = this.name;
+    final tags = this.tags;
+    final updateTime = this.updateTime;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createTime != null) 'createTime': iso8601ToJson(createTime),
+      if (id != null) 'id': id,
+      if (loggingConfigurationIdentifiers != null)
+        'loggingConfigurationIdentifiers': loggingConfigurationIdentifiers,
+      if (messageReviewHandler != null)
+        'messageReviewHandler': messageReviewHandler,
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+      if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
+/// Summary information about a logging configuration.
+class LoggingConfigurationSummary {
+  /// Logging-configuration ARN.
+  final String? arn;
+
+  /// Time when the logging configuration was created. This is an ISO 8601
+  /// timestamp; <i>note that this is returned as a string</i>.
+  final DateTime? createTime;
+
+  /// A complex type that contains a destination configuration for where chat
+  /// content will be logged.
+  final DestinationConfiguration? destinationConfiguration;
+
+  /// Logging-configuration ID, generated by the system. This is a relative
+  /// identifier, the part of the ARN that uniquely identifies the room.
+  final String? id;
+
+  /// Logging-configuration name. The value does not need to be unique.
+  final String? name;
+
+  /// The state of the logging configuration. When this is <code>ACTIVE</code>,
+  /// the configuration is ready for logging chat content.
+  final LoggingConfigurationState? state;
+
+  /// Tags to attach to the resource. Array of maps, each of the form
+  /// <code>string:string (key:value)</code>. See <a
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html">Best
+  /// practices and strategies</a> in <i>Tagging Amazon Web Services Resources and
+  /// Tag Editor</i> for details, including restrictions that apply to tags and
+  /// "Tag naming limits and requirements"; Amazon IVS Chat has no constraints on
+  /// tags beyond what is documented there.
+  final Map<String, String>? tags;
+
+  /// Time of the logging configuration’s last update. This is an ISO 8601
+  /// timestamp; <i>note that this is returned as a string</i>.
+  final DateTime? updateTime;
+
+  LoggingConfigurationSummary({
+    this.arn,
+    this.createTime,
+    this.destinationConfiguration,
+    this.id,
+    this.name,
+    this.state,
+    this.tags,
+    this.updateTime,
+  });
+
+  factory LoggingConfigurationSummary.fromJson(Map<String, dynamic> json) {
+    return LoggingConfigurationSummary(
+      arn: json['arn'] as String?,
+      createTime: timeStampFromJson(json['createTime']),
+      destinationConfiguration: json['destinationConfiguration'] != null
+          ? DestinationConfiguration.fromJson(
+              json['destinationConfiguration'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      state:
+          (json['state'] as String?)?.let(LoggingConfigurationState.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updateTime: timeStampFromJson(json['updateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createTime = this.createTime;
+    final destinationConfiguration = this.destinationConfiguration;
+    final id = this.id;
+    final name = this.name;
+    final state = this.state;
+    final tags = this.tags;
+    final updateTime = this.updateTime;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createTime != null) 'createTime': iso8601ToJson(createTime),
+      if (destinationConfiguration != null)
+        'destinationConfiguration': destinationConfiguration,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (state != null) 'state': state.value,
+      if (tags != null) 'tags': tags,
+      if (updateTime != null) 'updateTime': iso8601ToJson(updateTime),
+    };
+  }
+}
+
+class LoggingConfigurationState {
+  static const creating = LoggingConfigurationState._('CREATING');
+  static const createFailed = LoggingConfigurationState._('CREATE_FAILED');
+  static const deleting = LoggingConfigurationState._('DELETING');
+  static const deleteFailed = LoggingConfigurationState._('DELETE_FAILED');
+  static const updating = LoggingConfigurationState._('UPDATING');
+  static const updateFailed = LoggingConfigurationState._('UPDATE_FAILED');
+  static const active = LoggingConfigurationState._('ACTIVE');
+
+  final String value;
+
+  const LoggingConfigurationState._(this.value);
+
+  static const values = [
+    creating,
+    createFailed,
+    deleting,
+    deleteFailed,
+    updating,
+    updateFailed,
+    active
+  ];
+
+  static LoggingConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LoggingConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LoggingConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CreateLoggingConfigurationState {
+  static const active = CreateLoggingConfigurationState._('ACTIVE');
+
+  final String value;
+
+  const CreateLoggingConfigurationState._(this.value);
+
+  static const values = [active];
+
+  static CreateLoggingConfigurationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CreateLoggingConfigurationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CreateLoggingConfigurationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ChatTokenCapability {
+  static const sendMessage = ChatTokenCapability._('SEND_MESSAGE');
+  static const disconnectUser = ChatTokenCapability._('DISCONNECT_USER');
+  static const deleteMessage = ChatTokenCapability._('DELETE_MESSAGE');
+
+  final String value;
+
+  const ChatTokenCapability._(this.value);
+
+  static const values = [sendMessage, disconnectUser, deleteMessage];
+
+  static ChatTokenCapability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChatTokenCapability._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ChatTokenCapability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

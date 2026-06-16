@@ -69,10 +69,10 @@ class EcrPublic {
   /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
-  /// May throw [RepositoryNotFoundException].
   /// May throw [InvalidParameterException].
-  /// May throw [ServerException].
   /// May throw [RegistryNotFoundException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [layerDigests] :
@@ -122,9 +122,9 @@ class EcrPublic {
   /// You can completely delete an image (and all of its tags) by specifying the
   /// digest of the image in your request.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [imageIds] :
@@ -177,16 +177,16 @@ class EcrPublic {
   /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
-  /// May throw [ServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [RepositoryNotFoundException].
-  /// May throw [UploadNotFoundException].
-  /// May throw [InvalidLayerException].
-  /// May throw [LayerPartTooSmallException].
-  /// May throw [LayerAlreadyExistsException].
   /// May throw [EmptyUploadException].
+  /// May throw [InvalidLayerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LayerAlreadyExistsException].
+  /// May throw [LayerPartTooSmallException].
   /// May throw [RegistryNotFoundException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
+  /// May throw [UploadNotFoundException].
   ///
   /// Parameter [layerDigests] :
   /// The <code>sha256</code> digest of the image layer.
@@ -235,12 +235,12 @@ class EcrPublic {
   /// ECR repositories</a> in the <i>Amazon Elastic Container Registry User
   /// Guide</i>.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidTagParameterException].
-  /// May throw [TooManyTagsException].
-  /// May throw [RepositoryAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [RepositoryAlreadyExistsException].
+  /// May throw [ServerException].
+  /// May throw [TooManyTagsException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [repositoryName] :
@@ -290,10 +290,10 @@ class EcrPublic {
   /// use the <code>force</code> option. This option deletes all images on your
   /// behalf before deleting the repository.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
-  /// May throw [RepositoryNotFoundException].
   /// May throw [RepositoryNotEmptyException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [repositoryName] :
@@ -336,10 +336,10 @@ class EcrPublic {
   /// Deletes the repository policy that's associated with the specified
   /// repository.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [RepositoryPolicyNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [repositoryName] :
@@ -373,75 +373,6 @@ class EcrPublic {
     return DeleteRepositoryPolicyResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the image tag details for a repository in a public registry.
-  ///
-  /// May throw [ServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [RepositoryNotFoundException].
-  /// May throw [UnsupportedCommandException].
-  ///
-  /// Parameter [repositoryName] :
-  /// The name of the repository that contains the image tag details to
-  /// describe.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of repository results that's returned by
-  /// <code>DescribeImageTags</code> in paginated output. When this parameter is
-  /// used, <code>DescribeImageTags</code> only returns <code>maxResults</code>
-  /// results in a single page along with a <code>nextToken</code> response
-  /// element. You can see the remaining results of the initial request by
-  /// sending another <code>DescribeImageTags</code> request with the returned
-  /// <code>nextToken</code> value. This value can be between 1 and 1000. If
-  /// this parameter isn't used, then <code>DescribeImageTags</code> returns up
-  /// to 100 results and a <code>nextToken</code> value, if applicable. If you
-  /// specify images with <code>imageIds</code>, you can't use this option.
-  ///
-  /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value that's returned from a previous paginated
-  /// <code>DescribeImageTags</code> request where <code>maxResults</code> was
-  /// used and the results exceeded the value of that parameter. Pagination
-  /// continues from the end of the previous results that returned the
-  /// <code>nextToken</code> value. If there are no more results to return, this
-  /// value is <code>null</code>. If you specify images with
-  /// <code>imageIds</code>, you can't use this option.
-  ///
-  /// Parameter [registryId] :
-  /// The Amazon Web Services account ID that's associated with the public
-  /// registry that contains the repository where images are described. If you
-  /// do not specify a registry, the default public registry is assumed.
-  Future<DescribeImageTagsResponse> describeImageTags({
-    required String repositoryName,
-    int? maxResults,
-    String? nextToken,
-    String? registryId,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1000,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SpencerFrontendService.DescribeImageTags'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'repositoryName': repositoryName,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (registryId != null) 'registryId': registryId,
-      },
-    );
-
-    return DescribeImageTagsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Returns metadata that's related to the images in a repository in a public
   /// registry.
   /// <note>
@@ -452,10 +383,10 @@ class EcrPublic {
   /// are returned by <a>DescribeImages</a>.
   /// </note>
   ///
-  /// May throw [ServerException].
+  /// May throw [ImageNotFoundException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
-  /// May throw [ImageNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [repositoryName] :
@@ -524,11 +455,80 @@ class EcrPublic {
     return DescribeImagesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the image tag details for a repository in a public registry.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
+  /// May throw [UnsupportedCommandException].
+  ///
+  /// Parameter [repositoryName] :
+  /// The name of the repository that contains the image tag details to
+  /// describe.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of repository results that's returned by
+  /// <code>DescribeImageTags</code> in paginated output. When this parameter is
+  /// used, <code>DescribeImageTags</code> only returns <code>maxResults</code>
+  /// results in a single page along with a <code>nextToken</code> response
+  /// element. You can see the remaining results of the initial request by
+  /// sending another <code>DescribeImageTags</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 1000. If
+  /// this parameter isn't used, then <code>DescribeImageTags</code> returns up
+  /// to 100 results and a <code>nextToken</code> value, if applicable. If you
+  /// specify images with <code>imageIds</code>, you can't use this option.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>nextToken</code> value that's returned from a previous paginated
+  /// <code>DescribeImageTags</code> request where <code>maxResults</code> was
+  /// used and the results exceeded the value of that parameter. Pagination
+  /// continues from the end of the previous results that returned the
+  /// <code>nextToken</code> value. If there are no more results to return, this
+  /// value is <code>null</code>. If you specify images with
+  /// <code>imageIds</code>, you can't use this option.
+  ///
+  /// Parameter [registryId] :
+  /// The Amazon Web Services account ID that's associated with the public
+  /// registry that contains the repository where images are described. If you
+  /// do not specify a registry, the default public registry is assumed.
+  Future<DescribeImageTagsResponse> describeImageTags({
+    required String repositoryName,
+    int? maxResults,
+    String? nextToken,
+    String? registryId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SpencerFrontendService.DescribeImageTags'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'repositoryName': repositoryName,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (registryId != null) 'registryId': registryId,
+      },
+    );
+
+    return DescribeImageTagsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns details for a public registry.
   ///
   /// May throw [InvalidParameterException].
-  /// May throw [UnsupportedCommandException].
   /// May throw [ServerException].
+  /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of repository results that's returned by
@@ -584,9 +584,9 @@ class EcrPublic {
 
   /// Describes repositories that are in a public registry.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [maxResults] :
@@ -664,8 +664,8 @@ class EcrPublic {
   /// <code>ecr-public:GetAuthorizationToken</code> and
   /// <code>sts:GetServiceBearerToken</code> permissions.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   Future<GetAuthorizationTokenResponse> getAuthorizationToken() async {
     final headers = <String, String>{
@@ -706,10 +706,10 @@ class EcrPublic {
   /// Retrieve catalog metadata for a repository in a public registry. This
   /// metadata is displayed publicly in the Amazon ECR Public Gallery.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryCatalogDataNotFoundException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [repositoryName] :
@@ -744,10 +744,10 @@ class EcrPublic {
 
   /// Retrieves the repository policy for the specified repository.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [RepositoryPolicyNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [repositoryName] :
@@ -791,10 +791,10 @@ class EcrPublic {
   /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
-  /// May throw [RepositoryNotFoundException].
   /// May throw [RegistryNotFoundException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [repositoryName] :
@@ -831,8 +831,8 @@ class EcrPublic {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
-  /// May throw [UnsupportedCommandException].
   /// May throw [ServerException].
+  /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) that identifies the resource to list the
@@ -871,16 +871,16 @@ class EcrPublic {
   /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
-  /// May throw [ServerException].
-  /// May throw [InvalidParameterException].
-  /// May throw [RepositoryNotFoundException].
   /// May throw [ImageAlreadyExistsException].
-  /// May throw [LayersNotFoundException].
-  /// May throw [ReferencedImagesNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [ImageTagAlreadyExistsException].
   /// May throw [ImageDigestDoesNotMatchException].
+  /// May throw [ImageTagAlreadyExistsException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LayersNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [ReferencedImagesNotFoundException].
   /// May throw [RegistryNotFoundException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [imageManifest] :
@@ -941,8 +941,8 @@ class EcrPublic {
 
   /// Create or update the catalog data for a public registry.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [displayName] :
@@ -975,9 +975,9 @@ class EcrPublic {
 
   /// Creates or updates the catalog data for a repository in a public registry.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [catalogData] :
@@ -1022,9 +1022,9 @@ class EcrPublic {
   /// ECR Repository Policies</a> in the <i>Amazon Elastic Container Registry
   /// User Guide</i>.
   ///
-  /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [policyText] :
@@ -1081,10 +1081,10 @@ class EcrPublic {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidTagParameterException].
-  /// May throw [TooManyTagsException].
   /// May throw [RepositoryNotFoundException].
-  /// May throw [UnsupportedCommandException].
   /// May throw [ServerException].
+  /// May throw [TooManyTagsException].
+  /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to add tags to. Currently,
@@ -1119,10 +1119,10 @@ class EcrPublic {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidTagParameterException].
-  /// May throw [TooManyTagsException].
   /// May throw [RepositoryNotFoundException].
-  /// May throw [UnsupportedCommandException].
   /// May throw [ServerException].
+  /// May throw [TooManyTagsException].
+  /// May throw [UnsupportedCommandException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to delete tags from.
@@ -1162,14 +1162,14 @@ class EcrPublic {
   /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
-  /// May throw [ServerException].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidLayerPartException].
-  /// May throw [RepositoryNotFoundException].
-  /// May throw [UploadNotFoundException].
+  /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
   /// May throw [RegistryNotFoundException].
+  /// May throw [RepositoryNotFoundException].
+  /// May throw [ServerException].
   /// May throw [UnsupportedCommandException].
+  /// May throw [UploadNotFoundException].
   ///
   /// Parameter [layerPartBlob] :
   /// The base64-encoded layer part payload.
@@ -1236,40 +1236,6 @@ class EcrPublic {
     );
 
     return UploadLayerPartResponse.fromJson(jsonResponse.body);
-  }
-}
-
-/// An authorization token data object that corresponds to a public registry.
-class AuthorizationData {
-  /// A base64-encoded string that contains authorization data for a public Amazon
-  /// ECR registry. When the string is decoded, it's presented in the format
-  /// <code>user:password</code> for public registry authentication using
-  /// <code>docker login</code>.
-  final String? authorizationToken;
-
-  /// The Unix time in seconds and milliseconds when the authorization token
-  /// expires. Authorization tokens are valid for 12 hours.
-  final DateTime? expiresAt;
-
-  AuthorizationData({
-    this.authorizationToken,
-    this.expiresAt,
-  });
-
-  factory AuthorizationData.fromJson(Map<String, dynamic> json) {
-    return AuthorizationData(
-      authorizationToken: json['authorizationToken'] as String?,
-      expiresAt: timeStampFromJson(json['expiresAt']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizationToken = this.authorizationToken;
-    final expiresAt = this.expiresAt;
-    return {
-      if (authorizationToken != null) 'authorizationToken': authorizationToken,
-      if (expiresAt != null) 'expiresAt': unixTimestampToJson(expiresAt),
-    };
   }
 }
 
@@ -1421,6 +1387,30 @@ class CreateRepositoryResponse {
   }
 }
 
+class DeleteRepositoryResponse {
+  /// The repository that was deleted.
+  final Repository? repository;
+
+  DeleteRepositoryResponse({
+    this.repository,
+  });
+
+  factory DeleteRepositoryResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRepositoryResponse(
+      repository: json['repository'] != null
+          ? Repository.fromJson(json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
+}
+
 class DeleteRepositoryPolicyResponse {
   /// The JSON repository policy that was deleted from the repository.
   final String? policyText;
@@ -1457,26 +1447,38 @@ class DeleteRepositoryPolicyResponse {
   }
 }
 
-class DeleteRepositoryResponse {
-  /// The repository that was deleted.
-  final Repository? repository;
+class DescribeImagesResponse {
+  /// A list of <a>ImageDetail</a> objects that contain data about the image.
+  final List<ImageDetail>? imageDetails;
 
-  DeleteRepositoryResponse({
-    this.repository,
+  /// The <code>nextToken</code> value to include in a future
+  /// <code>DescribeImages</code> request. When the results of a
+  /// <code>DescribeImages</code> request exceed <code>maxResults</code>, you can
+  /// use this value to retrieve the next page of results. If there are no more
+  /// results to return, this value is <code>null</code>.
+  final String? nextToken;
+
+  DescribeImagesResponse({
+    this.imageDetails,
+    this.nextToken,
   });
 
-  factory DeleteRepositoryResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteRepositoryResponse(
-      repository: json['repository'] != null
-          ? Repository.fromJson(json['repository'] as Map<String, dynamic>)
-          : null,
+  factory DescribeImagesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeImagesResponse(
+      imageDetails: (json['imageDetails'] as List?)
+          ?.nonNulls
+          .map((e) => ImageDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final repository = this.repository;
+    final imageDetails = this.imageDetails;
+    final nextToken = this.nextToken;
     return {
-      if (repository != null) 'repository': repository,
+      if (imageDetails != null) 'imageDetails': imageDetails,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -1512,42 +1514,6 @@ class DescribeImageTagsResponse {
     final nextToken = this.nextToken;
     return {
       if (imageTagDetails != null) 'imageTagDetails': imageTagDetails,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class DescribeImagesResponse {
-  /// A list of <a>ImageDetail</a> objects that contain data about the image.
-  final List<ImageDetail>? imageDetails;
-
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>DescribeImages</code> request. When the results of a
-  /// <code>DescribeImages</code> request exceed <code>maxResults</code>, you can
-  /// use this value to retrieve the next page of results. If there are no more
-  /// results to return, this value is <code>null</code>.
-  final String? nextToken;
-
-  DescribeImagesResponse({
-    this.imageDetails,
-    this.nextToken,
-  });
-
-  factory DescribeImagesResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeImagesResponse(
-      imageDetails: (json['imageDetails'] as List?)
-          ?.nonNulls
-          .map((e) => ImageDetail.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final imageDetails = this.imageDetails;
-    final nextToken = this.nextToken;
-    return {
-      if (imageDetails != null) 'imageDetails': imageDetails,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -1736,301 +1702,6 @@ class GetRepositoryPolicyResponse {
   }
 }
 
-/// An object that represents an Amazon ECR image.
-class Image {
-  /// An object that contains the image tag and image digest associated with an
-  /// image.
-  final ImageIdentifier? imageId;
-
-  /// The image manifest that's associated with the image.
-  final String? imageManifest;
-
-  /// The manifest media type of the image.
-  final String? imageManifestMediaType;
-
-  /// The Amazon Web Services account ID that's associated with the registry
-  /// containing the image.
-  final String? registryId;
-
-  /// The name of the repository that's associated with the image.
-  final String? repositoryName;
-
-  Image({
-    this.imageId,
-    this.imageManifest,
-    this.imageManifestMediaType,
-    this.registryId,
-    this.repositoryName,
-  });
-
-  factory Image.fromJson(Map<String, dynamic> json) {
-    return Image(
-      imageId: json['imageId'] != null
-          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
-          : null,
-      imageManifest: json['imageManifest'] as String?,
-      imageManifestMediaType: json['imageManifestMediaType'] as String?,
-      registryId: json['registryId'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final imageId = this.imageId;
-    final imageManifest = this.imageManifest;
-    final imageManifestMediaType = this.imageManifestMediaType;
-    final registryId = this.registryId;
-    final repositoryName = this.repositoryName;
-    return {
-      if (imageId != null) 'imageId': imageId,
-      if (imageManifest != null) 'imageManifest': imageManifest,
-      if (imageManifestMediaType != null)
-        'imageManifestMediaType': imageManifestMediaType,
-      if (registryId != null) 'registryId': registryId,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-/// An object that describes an image that's returned by a <a>DescribeImages</a>
-/// operation.
-class ImageDetail {
-  /// The artifact media type of the image.
-  final String? artifactMediaType;
-
-  /// The <code>sha256</code> digest of the image manifest.
-  final String? imageDigest;
-
-  /// The media type of the image manifest.
-  final String? imageManifestMediaType;
-
-  /// The date and time, expressed in standard JavaScript date format, that the
-  /// current image was pushed to the repository at.
-  final DateTime? imagePushedAt;
-
-  /// The size, in bytes, of the image in the repository.
-  ///
-  /// If the image is a manifest list, this is the max size of all manifests in
-  /// the list.
-  /// <note>
-  /// Beginning with Docker version 1.9, the Docker client compresses image layers
-  /// before pushing them to a V2 Docker registry. The output of the <code>docker
-  /// images</code> command shows the uncompressed image size, so it might return
-  /// a larger image size than the image sizes that are returned by
-  /// <a>DescribeImages</a>.
-  /// </note>
-  final int? imageSizeInBytes;
-
-  /// The list of tags that's associated with this image.
-  final List<String>? imageTags;
-
-  /// The Amazon Web Services account ID that's associated with the public
-  /// registry where this image belongs.
-  final String? registryId;
-
-  /// The name of the repository where this image belongs.
-  final String? repositoryName;
-
-  ImageDetail({
-    this.artifactMediaType,
-    this.imageDigest,
-    this.imageManifestMediaType,
-    this.imagePushedAt,
-    this.imageSizeInBytes,
-    this.imageTags,
-    this.registryId,
-    this.repositoryName,
-  });
-
-  factory ImageDetail.fromJson(Map<String, dynamic> json) {
-    return ImageDetail(
-      artifactMediaType: json['artifactMediaType'] as String?,
-      imageDigest: json['imageDigest'] as String?,
-      imageManifestMediaType: json['imageManifestMediaType'] as String?,
-      imagePushedAt: timeStampFromJson(json['imagePushedAt']),
-      imageSizeInBytes: json['imageSizeInBytes'] as int?,
-      imageTags: (json['imageTags'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      registryId: json['registryId'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final artifactMediaType = this.artifactMediaType;
-    final imageDigest = this.imageDigest;
-    final imageManifestMediaType = this.imageManifestMediaType;
-    final imagePushedAt = this.imagePushedAt;
-    final imageSizeInBytes = this.imageSizeInBytes;
-    final imageTags = this.imageTags;
-    final registryId = this.registryId;
-    final repositoryName = this.repositoryName;
-    return {
-      if (artifactMediaType != null) 'artifactMediaType': artifactMediaType,
-      if (imageDigest != null) 'imageDigest': imageDigest,
-      if (imageManifestMediaType != null)
-        'imageManifestMediaType': imageManifestMediaType,
-      if (imagePushedAt != null)
-        'imagePushedAt': unixTimestampToJson(imagePushedAt),
-      if (imageSizeInBytes != null) 'imageSizeInBytes': imageSizeInBytes,
-      if (imageTags != null) 'imageTags': imageTags,
-      if (registryId != null) 'registryId': registryId,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-/// An object that represents an Amazon ECR image failure.
-class ImageFailure {
-  /// The code that's associated with the failure.
-  final ImageFailureCode? failureCode;
-
-  /// The reason for the failure.
-  final String? failureReason;
-
-  /// The image ID that's associated with the failure.
-  final ImageIdentifier? imageId;
-
-  ImageFailure({
-    this.failureCode,
-    this.failureReason,
-    this.imageId,
-  });
-
-  factory ImageFailure.fromJson(Map<String, dynamic> json) {
-    return ImageFailure(
-      failureCode:
-          (json['failureCode'] as String?)?.let(ImageFailureCode.fromString),
-      failureReason: json['failureReason'] as String?,
-      imageId: json['imageId'] != null
-          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureCode = this.failureCode;
-    final failureReason = this.failureReason;
-    final imageId = this.imageId;
-    return {
-      if (failureCode != null) 'failureCode': failureCode.value,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (imageId != null) 'imageId': imageId,
-    };
-  }
-}
-
-class ImageFailureCode {
-  static const invalidImageDigest = ImageFailureCode._('InvalidImageDigest');
-  static const invalidImageTag = ImageFailureCode._('InvalidImageTag');
-  static const imageTagDoesNotMatchDigest =
-      ImageFailureCode._('ImageTagDoesNotMatchDigest');
-  static const imageNotFound = ImageFailureCode._('ImageNotFound');
-  static const missingDigestAndTag = ImageFailureCode._('MissingDigestAndTag');
-  static const imageReferencedByManifestList =
-      ImageFailureCode._('ImageReferencedByManifestList');
-  static const kmsError = ImageFailureCode._('KmsError');
-
-  final String value;
-
-  const ImageFailureCode._(this.value);
-
-  static const values = [
-    invalidImageDigest,
-    invalidImageTag,
-    imageTagDoesNotMatchDigest,
-    imageNotFound,
-    missingDigestAndTag,
-    imageReferencedByManifestList,
-    kmsError
-  ];
-
-  static ImageFailureCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageFailureCode._(value));
-
-  @override
-  bool operator ==(other) => other is ImageFailureCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object with identifying information for an Amazon ECR image.
-class ImageIdentifier {
-  /// The <code>sha256</code> digest of the image manifest.
-  final String? imageDigest;
-
-  /// The tag that's used for the image.
-  final String? imageTag;
-
-  ImageIdentifier({
-    this.imageDigest,
-    this.imageTag,
-  });
-
-  factory ImageIdentifier.fromJson(Map<String, dynamic> json) {
-    return ImageIdentifier(
-      imageDigest: json['imageDigest'] as String?,
-      imageTag: json['imageTag'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final imageDigest = this.imageDigest;
-    final imageTag = this.imageTag;
-    return {
-      if (imageDigest != null) 'imageDigest': imageDigest,
-      if (imageTag != null) 'imageTag': imageTag,
-    };
-  }
-}
-
-/// An object that represents the image tag details for an image.
-class ImageTagDetail {
-  /// The time stamp that indicates when the image tag was created.
-  final DateTime? createdAt;
-
-  /// An object that describes the details of an image.
-  final ReferencedImageDetail? imageDetail;
-
-  /// The tag that's associated with the image.
-  final String? imageTag;
-
-  ImageTagDetail({
-    this.createdAt,
-    this.imageDetail,
-    this.imageTag,
-  });
-
-  factory ImageTagDetail.fromJson(Map<String, dynamic> json) {
-    return ImageTagDetail(
-      createdAt: timeStampFromJson(json['createdAt']),
-      imageDetail: json['imageDetail'] != null
-          ? ReferencedImageDetail.fromJson(
-              json['imageDetail'] as Map<String, dynamic>)
-          : null,
-      imageTag: json['imageTag'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final imageDetail = this.imageDetail;
-    final imageTag = this.imageTag;
-    return {
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
-      if (imageDetail != null) 'imageDetail': imageDetail,
-      if (imageTag != null) 'imageTag': imageTag,
-    };
-  }
-}
-
 class InitiateLayerUploadResponse {
   /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
   final int? partSize;
@@ -2059,140 +1730,6 @@ class InitiateLayerUploadResponse {
       if (uploadId != null) 'uploadId': uploadId,
     };
   }
-}
-
-/// An object that represents an Amazon ECR image layer.
-class Layer {
-  /// The availability status of the image layer.
-  final LayerAvailability? layerAvailability;
-
-  /// The <code>sha256</code> digest of the image layer.
-  final String? layerDigest;
-
-  /// The size, in bytes, of the image layer.
-  final int? layerSize;
-
-  /// The media type of the layer, such as
-  /// <code>application/vnd.docker.image.rootfs.diff.tar.gzip</code> or
-  /// <code>application/vnd.oci.image.layer.v1.tar+gzip</code>.
-  final String? mediaType;
-
-  Layer({
-    this.layerAvailability,
-    this.layerDigest,
-    this.layerSize,
-    this.mediaType,
-  });
-
-  factory Layer.fromJson(Map<String, dynamic> json) {
-    return Layer(
-      layerAvailability: (json['layerAvailability'] as String?)
-          ?.let(LayerAvailability.fromString),
-      layerDigest: json['layerDigest'] as String?,
-      layerSize: json['layerSize'] as int?,
-      mediaType: json['mediaType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final layerAvailability = this.layerAvailability;
-    final layerDigest = this.layerDigest;
-    final layerSize = this.layerSize;
-    final mediaType = this.mediaType;
-    return {
-      if (layerAvailability != null)
-        'layerAvailability': layerAvailability.value,
-      if (layerDigest != null) 'layerDigest': layerDigest,
-      if (layerSize != null) 'layerSize': layerSize,
-      if (mediaType != null) 'mediaType': mediaType,
-    };
-  }
-}
-
-class LayerAvailability {
-  static const available = LayerAvailability._('AVAILABLE');
-  static const unavailable = LayerAvailability._('UNAVAILABLE');
-
-  final String value;
-
-  const LayerAvailability._(this.value);
-
-  static const values = [available, unavailable];
-
-  static LayerAvailability fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LayerAvailability._(value));
-
-  @override
-  bool operator ==(other) => other is LayerAvailability && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object that represents an Amazon ECR image layer failure.
-class LayerFailure {
-  /// The failure code that's associated with the failure.
-  final LayerFailureCode? failureCode;
-
-  /// The reason for the failure.
-  final String? failureReason;
-
-  /// The layer digest that's associated with the failure.
-  final String? layerDigest;
-
-  LayerFailure({
-    this.failureCode,
-    this.failureReason,
-    this.layerDigest,
-  });
-
-  factory LayerFailure.fromJson(Map<String, dynamic> json) {
-    return LayerFailure(
-      failureCode:
-          (json['failureCode'] as String?)?.let(LayerFailureCode.fromString),
-      failureReason: json['failureReason'] as String?,
-      layerDigest: json['layerDigest'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureCode = this.failureCode;
-    final failureReason = this.failureReason;
-    final layerDigest = this.layerDigest;
-    return {
-      if (failureCode != null) 'failureCode': failureCode.value,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (layerDigest != null) 'layerDigest': layerDigest,
-    };
-  }
-}
-
-class LayerFailureCode {
-  static const invalidLayerDigest = LayerFailureCode._('InvalidLayerDigest');
-  static const missingLayerDigest = LayerFailureCode._('MissingLayerDigest');
-
-  final String value;
-
-  const LayerFailureCode._(this.value);
-
-  static const values = [invalidLayerDigest, missingLayerDigest];
-
-  static LayerFailureCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LayerFailureCode._(value));
-
-  @override
-  bool operator ==(other) => other is LayerFailureCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListTagsForResourceResponse {
@@ -2293,294 +1830,140 @@ class PutRepositoryCatalogDataResponse {
   }
 }
 
-/// An object that describes the image tag details that are returned by a
-/// <a>DescribeImageTags</a> action.
-class ReferencedImageDetail {
-  /// The artifact media type of the image.
-  final String? artifactMediaType;
+class SetRepositoryPolicyResponse {
+  /// The JSON repository policy text that's applied to the repository.
+  final String? policyText;
 
-  /// The <code>sha256</code> digest of the image manifest.
-  final String? imageDigest;
-
-  /// The media type of the image manifest.
-  final String? imageManifestMediaType;
-
-  /// The date and time, expressed in standard JavaScript date format, which the
-  /// current image tag was pushed to the repository at.
-  final DateTime? imagePushedAt;
-
-  /// The size, in bytes, of the image in the repository.
-  ///
-  /// If the image is a manifest list, this is the max size of all manifests in
-  /// the list.
-  /// <note>
-  /// Beginning with Docker version 1.9, the Docker client compresses image layers
-  /// before pushing them to a V2 Docker registry. The output of the <code>docker
-  /// images</code> command shows the uncompressed image size, so it might return
-  /// a larger image size than the image sizes that are returned by
-  /// <a>DescribeImages</a>.
-  /// </note>
-  final int? imageSizeInBytes;
-
-  ReferencedImageDetail({
-    this.artifactMediaType,
-    this.imageDigest,
-    this.imageManifestMediaType,
-    this.imagePushedAt,
-    this.imageSizeInBytes,
-  });
-
-  factory ReferencedImageDetail.fromJson(Map<String, dynamic> json) {
-    return ReferencedImageDetail(
-      artifactMediaType: json['artifactMediaType'] as String?,
-      imageDigest: json['imageDigest'] as String?,
-      imageManifestMediaType: json['imageManifestMediaType'] as String?,
-      imagePushedAt: timeStampFromJson(json['imagePushedAt']),
-      imageSizeInBytes: json['imageSizeInBytes'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final artifactMediaType = this.artifactMediaType;
-    final imageDigest = this.imageDigest;
-    final imageManifestMediaType = this.imageManifestMediaType;
-    final imagePushedAt = this.imagePushedAt;
-    final imageSizeInBytes = this.imageSizeInBytes;
-    return {
-      if (artifactMediaType != null) 'artifactMediaType': artifactMediaType,
-      if (imageDigest != null) 'imageDigest': imageDigest,
-      if (imageManifestMediaType != null)
-        'imageManifestMediaType': imageManifestMediaType,
-      if (imagePushedAt != null)
-        'imagePushedAt': unixTimestampToJson(imagePushedAt),
-      if (imageSizeInBytes != null) 'imageSizeInBytes': imageSizeInBytes,
-    };
-  }
-}
-
-/// The details of a public registry.
-class Registry {
-  /// An array of objects that represents the aliases for a public registry.
-  final List<RegistryAlias> aliases;
-
-  /// The Amazon Resource Name (ARN) of the public registry.
-  final String registryArn;
-
-  /// The Amazon Web Services account ID that's associated with the registry. If
-  /// you do not specify a registry, the default public registry is assumed.
-  final String registryId;
-
-  /// The URI of a public registry. The URI contains a universal prefix and the
-  /// registry alias.
-  final String registryUri;
-
-  /// Indicates whether the account is a verified Amazon Web Services Marketplace
-  /// vendor. If an account is verified, each public repository receives a
-  /// verified account badge on the Amazon ECR Public Gallery.
-  final bool verified;
-
-  Registry({
-    required this.aliases,
-    required this.registryArn,
-    required this.registryId,
-    required this.registryUri,
-    required this.verified,
-  });
-
-  factory Registry.fromJson(Map<String, dynamic> json) {
-    return Registry(
-      aliases: ((json['aliases'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => RegistryAlias.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      registryArn: (json['registryArn'] as String?) ?? '',
-      registryId: (json['registryId'] as String?) ?? '',
-      registryUri: (json['registryUri'] as String?) ?? '',
-      verified: (json['verified'] as bool?) ?? false,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final aliases = this.aliases;
-    final registryArn = this.registryArn;
-    final registryId = this.registryId;
-    final registryUri = this.registryUri;
-    final verified = this.verified;
-    return {
-      'aliases': aliases,
-      'registryArn': registryArn,
-      'registryId': registryId,
-      'registryUri': registryUri,
-      'verified': verified,
-    };
-  }
-}
-
-/// An object representing the aliases for a public registry. A public registry
-/// is given an alias when it's created. However, a custom alias can be set
-/// using the Amazon ECR console. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html">Registries</a>
-/// in the <i>Amazon Elastic Container Registry User Guide</i>.
-class RegistryAlias {
-  /// Indicates whether the registry alias is the default alias for the registry.
-  /// When the first public repository is created, your public registry is
-  /// assigned a default registry alias.
-  final bool defaultRegistryAlias;
-
-  /// The name of the registry alias.
-  final String name;
-
-  /// Indicates whether the registry alias is the primary alias for the registry.
-  /// If true, the alias is the primary registry alias and is displayed in both
-  /// the repository URL and the image URI used in the <code>docker pull</code>
-  /// commands on the Amazon ECR Public Gallery.
-  /// <note>
-  /// A registry alias that isn't the primary registry alias can be used in the
-  /// repository URI in a <code>docker pull</code> command.
-  /// </note>
-  final bool primaryRegistryAlias;
-
-  /// The status of the registry alias.
-  final RegistryAliasStatus status;
-
-  RegistryAlias({
-    required this.defaultRegistryAlias,
-    required this.name,
-    required this.primaryRegistryAlias,
-    required this.status,
-  });
-
-  factory RegistryAlias.fromJson(Map<String, dynamic> json) {
-    return RegistryAlias(
-      defaultRegistryAlias: (json['defaultRegistryAlias'] as bool?) ?? false,
-      name: (json['name'] as String?) ?? '',
-      primaryRegistryAlias: (json['primaryRegistryAlias'] as bool?) ?? false,
-      status: RegistryAliasStatus.fromString((json['status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultRegistryAlias = this.defaultRegistryAlias;
-    final name = this.name;
-    final primaryRegistryAlias = this.primaryRegistryAlias;
-    final status = this.status;
-    return {
-      'defaultRegistryAlias': defaultRegistryAlias,
-      'name': name,
-      'primaryRegistryAlias': primaryRegistryAlias,
-      'status': status.value,
-    };
-  }
-}
-
-class RegistryAliasStatus {
-  static const active = RegistryAliasStatus._('ACTIVE');
-  static const pending = RegistryAliasStatus._('PENDING');
-  static const rejected = RegistryAliasStatus._('REJECTED');
-
-  final String value;
-
-  const RegistryAliasStatus._(this.value);
-
-  static const values = [active, pending, rejected];
-
-  static RegistryAliasStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RegistryAliasStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RegistryAliasStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The metadata for a public registry.
-class RegistryCatalogData {
-  /// The display name for a public registry. This appears on the Amazon ECR
-  /// Public Gallery.
-  /// <important>
-  /// Only accounts that have the verified account badge can have a registry
-  /// display name.
-  /// </important>
-  final String? displayName;
-
-  RegistryCatalogData({
-    this.displayName,
-  });
-
-  factory RegistryCatalogData.fromJson(Map<String, dynamic> json) {
-    return RegistryCatalogData(
-      displayName: json['displayName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final displayName = this.displayName;
-    return {
-      if (displayName != null) 'displayName': displayName,
-    };
-  }
-}
-
-/// An object representing a repository.
-class Repository {
-  /// The date and time, in JavaScript date format, when the repository was
-  /// created.
-  final DateTime? createdAt;
-
-  /// The Amazon Web Services account ID that's associated with the public
-  /// registry that contains the repository.
+  /// The registry ID that's associated with the request.
   final String? registryId;
 
-  /// The Amazon Resource Name (ARN) that identifies the repository. The ARN
-  /// contains the <code>arn:aws:ecr</code> namespace, followed by the region of
-  /// the repository, Amazon Web Services account ID of the repository owner,
-  /// repository namespace, and repository name. For example,
-  /// <code>arn:aws:ecr:region:012345678910:repository/test</code>.
-  final String? repositoryArn;
-
-  /// The name of the repository.
+  /// The repository name that's associated with the request.
   final String? repositoryName;
 
-  /// The URI for the repository. You can use this URI for container image
-  /// <code>push</code> and <code>pull</code> operations.
-  final String? repositoryUri;
-
-  Repository({
-    this.createdAt,
+  SetRepositoryPolicyResponse({
+    this.policyText,
     this.registryId,
-    this.repositoryArn,
     this.repositoryName,
-    this.repositoryUri,
   });
 
-  factory Repository.fromJson(Map<String, dynamic> json) {
-    return Repository(
-      createdAt: timeStampFromJson(json['createdAt']),
+  factory SetRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return SetRepositoryPolicyResponse(
+      policyText: json['policyText'] as String?,
       registryId: json['registryId'] as String?,
-      repositoryArn: json['repositoryArn'] as String?,
       repositoryName: json['repositoryName'] as String?,
-      repositoryUri: json['repositoryUri'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
+    final policyText = this.policyText;
     final registryId = this.registryId;
-    final repositoryArn = this.repositoryArn;
     final repositoryName = this.repositoryName;
-    final repositoryUri = this.repositoryUri;
     return {
-      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (policyText != null) 'policyText': policyText,
       if (registryId != null) 'registryId': registryId,
-      if (repositoryArn != null) 'repositoryArn': repositoryArn,
       if (repositoryName != null) 'repositoryName': repositoryName,
-      if (repositoryUri != null) 'repositoryUri': repositoryUri,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UploadLayerPartResponse {
+  /// The integer value of the last byte that's received in the request.
+  final int? lastByteReceived;
+
+  /// The registry ID that's associated with the request.
+  final String? registryId;
+
+  /// The repository name that's associated with the request.
+  final String? repositoryName;
+
+  /// The upload ID that's associated with the request.
+  final String? uploadId;
+
+  UploadLayerPartResponse({
+    this.lastByteReceived,
+    this.registryId,
+    this.repositoryName,
+    this.uploadId,
+  });
+
+  factory UploadLayerPartResponse.fromJson(Map<String, dynamic> json) {
+    return UploadLayerPartResponse(
+      lastByteReceived: json['lastByteReceived'] as int?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      uploadId: json['uploadId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastByteReceived = this.lastByteReceived;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    final uploadId = this.uploadId;
+    return {
+      if (lastByteReceived != null) 'lastByteReceived': lastByteReceived,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (uploadId != null) 'uploadId': uploadId,
+    };
+  }
+}
+
+/// The metadata that you apply to a resource to help you categorize and
+/// organize them. Each tag consists of a key and an optional value. You define
+/// both. Tag keys can have a maximum character length of 128 characters, and
+/// tag values can have a maximum length of 256 characters.
+class Tag {
+  /// One part of a key-value pair that make up a tag. A <code>key</code> is a
+  /// general label that acts like a category for more specific tag values.
+  final String? key;
+
+  /// The optional part of a key-value pair that make up a tag. A
+  /// <code>value</code> acts as a descriptor within a tag category (key).
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
     };
   }
 }
@@ -2765,142 +2148,759 @@ class RepositoryCatalogDataInput {
   }
 }
 
-class SetRepositoryPolicyResponse {
-  /// The JSON repository policy text that's applied to the repository.
-  final String? policyText;
+/// The metadata for a public registry.
+class RegistryCatalogData {
+  /// The display name for a public registry. This appears on the Amazon ECR
+  /// Public Gallery.
+  /// <important>
+  /// Only accounts that have the verified account badge can have a registry
+  /// display name.
+  /// </important>
+  final String? displayName;
 
-  /// The registry ID that's associated with the request.
+  RegistryCatalogData({
+    this.displayName,
+  });
+
+  factory RegistryCatalogData.fromJson(Map<String, dynamic> json) {
+    return RegistryCatalogData(
+      displayName: json['displayName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    return {
+      if (displayName != null) 'displayName': displayName,
+    };
+  }
+}
+
+/// An object that represents an Amazon ECR image.
+class Image {
+  /// An object that contains the image tag and image digest associated with an
+  /// image.
+  final ImageIdentifier? imageId;
+
+  /// The image manifest that's associated with the image.
+  final String? imageManifest;
+
+  /// The manifest media type of the image.
+  final String? imageManifestMediaType;
+
+  /// The Amazon Web Services account ID that's associated with the registry
+  /// containing the image.
   final String? registryId;
 
-  /// The repository name that's associated with the request.
+  /// The name of the repository that's associated with the image.
   final String? repositoryName;
 
-  SetRepositoryPolicyResponse({
-    this.policyText,
+  Image({
+    this.imageId,
+    this.imageManifest,
+    this.imageManifestMediaType,
     this.registryId,
     this.repositoryName,
   });
 
-  factory SetRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) {
-    return SetRepositoryPolicyResponse(
-      policyText: json['policyText'] as String?,
+  factory Image.fromJson(Map<String, dynamic> json) {
+    return Image(
+      imageId: json['imageId'] != null
+          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
+          : null,
+      imageManifest: json['imageManifest'] as String?,
+      imageManifestMediaType: json['imageManifestMediaType'] as String?,
       registryId: json['registryId'] as String?,
       repositoryName: json['repositoryName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final policyText = this.policyText;
+    final imageId = this.imageId;
+    final imageManifest = this.imageManifest;
+    final imageManifestMediaType = this.imageManifestMediaType;
     final registryId = this.registryId;
     final repositoryName = this.repositoryName;
     return {
-      if (policyText != null) 'policyText': policyText,
+      if (imageId != null) 'imageId': imageId,
+      if (imageManifest != null) 'imageManifest': imageManifest,
+      if (imageManifestMediaType != null)
+        'imageManifestMediaType': imageManifestMediaType,
       if (registryId != null) 'registryId': registryId,
       if (repositoryName != null) 'repositoryName': repositoryName,
     };
   }
 }
 
-/// The metadata that you apply to a resource to help you categorize and
-/// organize them. Each tag consists of a key and an optional value. You define
-/// both. Tag keys can have a maximum character length of 128 characters, and
-/// tag values can have a maximum length of 256 characters.
-class Tag {
-  /// One part of a key-value pair that make up a tag. A <code>key</code> is a
-  /// general label that acts like a category for more specific tag values.
-  final String? key;
+/// An object with identifying information for an Amazon ECR image.
+class ImageIdentifier {
+  /// The <code>sha256</code> digest of the image manifest.
+  final String? imageDigest;
 
-  /// The optional part of a key-value pair that make up a tag. A
-  /// <code>value</code> acts as a descriptor within a tag category (key).
-  final String? value;
+  /// The tag that's used for the image.
+  final String? imageTag;
 
-  Tag({
-    this.key,
-    this.value,
+  ImageIdentifier({
+    this.imageDigest,
+    this.imageTag,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
+  factory ImageIdentifier.fromJson(Map<String, dynamic> json) {
+    return ImageIdentifier(
+      imageDigest: json['imageDigest'] as String?,
+      imageTag: json['imageTag'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final imageDigest = this.imageDigest;
+    final imageTag = this.imageTag;
     return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (imageTag != null) 'imageTag': imageTag,
     };
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// An authorization token data object that corresponds to a public registry.
+class AuthorizationData {
+  /// A base64-encoded string that contains authorization data for a public Amazon
+  /// ECR registry. When the string is decoded, it's presented in the format
+  /// <code>user:password</code> for public registry authentication using
+  /// <code>docker login</code>.
+  final String? authorizationToken;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
+  /// The Unix time in seconds and milliseconds when the authorization token
+  /// expires. Authorization tokens are valid for 12 hours.
+  final DateTime? expiresAt;
+
+  AuthorizationData({
+    this.authorizationToken,
+    this.expiresAt,
+  });
+
+  factory AuthorizationData.fromJson(Map<String, dynamic> json) {
+    return AuthorizationData(
+      authorizationToken: json['authorizationToken'] as String?,
+      expiresAt: timeStampFromJson(json['expiresAt']),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final authorizationToken = this.authorizationToken;
+    final expiresAt = this.expiresAt;
+    return {
+      if (authorizationToken != null) 'authorizationToken': authorizationToken,
+      if (expiresAt != null) 'expiresAt': unixTimestampToJson(expiresAt),
+    };
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// An object representing a repository.
+class Repository {
+  /// The date and time, in JavaScript date format, when the repository was
+  /// created.
+  final DateTime? createdAt;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UploadLayerPartResponse {
-  /// The integer value of the last byte that's received in the request.
-  final int? lastByteReceived;
-
-  /// The registry ID that's associated with the request.
+  /// The Amazon Web Services account ID that's associated with the public
+  /// registry that contains the repository.
   final String? registryId;
 
-  /// The repository name that's associated with the request.
+  /// The Amazon Resource Name (ARN) that identifies the repository. The ARN
+  /// contains the <code>arn:aws:ecr</code> namespace, followed by the region of
+  /// the repository, Amazon Web Services account ID of the repository owner,
+  /// repository namespace, and repository name. For example,
+  /// <code>arn:aws:ecr:region:012345678910:repository/test</code>.
+  final String? repositoryArn;
+
+  /// The name of the repository.
   final String? repositoryName;
 
-  /// The upload ID that's associated with the request.
-  final String? uploadId;
+  /// The URI for the repository. You can use this URI for container image
+  /// <code>push</code> and <code>pull</code> operations.
+  final String? repositoryUri;
 
-  UploadLayerPartResponse({
-    this.lastByteReceived,
+  Repository({
+    this.createdAt,
     this.registryId,
+    this.repositoryArn,
     this.repositoryName,
-    this.uploadId,
+    this.repositoryUri,
   });
 
-  factory UploadLayerPartResponse.fromJson(Map<String, dynamic> json) {
-    return UploadLayerPartResponse(
-      lastByteReceived: json['lastByteReceived'] as int?,
+  factory Repository.fromJson(Map<String, dynamic> json) {
+    return Repository(
+      createdAt: timeStampFromJson(json['createdAt']),
       registryId: json['registryId'] as String?,
+      repositoryArn: json['repositoryArn'] as String?,
       repositoryName: json['repositoryName'] as String?,
-      uploadId: json['uploadId'] as String?,
+      repositoryUri: json['repositoryUri'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lastByteReceived = this.lastByteReceived;
+    final createdAt = this.createdAt;
     final registryId = this.registryId;
+    final repositoryArn = this.repositoryArn;
     final repositoryName = this.repositoryName;
-    final uploadId = this.uploadId;
+    final repositoryUri = this.repositoryUri;
     return {
-      if (lastByteReceived != null) 'lastByteReceived': lastByteReceived,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
       if (registryId != null) 'registryId': registryId,
+      if (repositoryArn != null) 'repositoryArn': repositoryArn,
       if (repositoryName != null) 'repositoryName': repositoryName,
-      if (uploadId != null) 'uploadId': uploadId,
+      if (repositoryUri != null) 'repositoryUri': repositoryUri,
     };
   }
+}
+
+/// The details of a public registry.
+class Registry {
+  /// An array of objects that represents the aliases for a public registry.
+  final List<RegistryAlias> aliases;
+
+  /// The Amazon Resource Name (ARN) of the public registry.
+  final String registryArn;
+
+  /// The Amazon Web Services account ID that's associated with the registry. If
+  /// you do not specify a registry, the default public registry is assumed.
+  final String registryId;
+
+  /// The URI of a public registry. The URI contains a universal prefix and the
+  /// registry alias.
+  final String registryUri;
+
+  /// Indicates whether the account is a verified Amazon Web Services Marketplace
+  /// vendor. If an account is verified, each public repository receives a
+  /// verified account badge on the Amazon ECR Public Gallery.
+  final bool verified;
+
+  Registry({
+    required this.aliases,
+    required this.registryArn,
+    required this.registryId,
+    required this.registryUri,
+    required this.verified,
+  });
+
+  factory Registry.fromJson(Map<String, dynamic> json) {
+    return Registry(
+      aliases: ((json['aliases'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RegistryAlias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      registryArn: (json['registryArn'] as String?) ?? '',
+      registryId: (json['registryId'] as String?) ?? '',
+      registryUri: (json['registryUri'] as String?) ?? '',
+      verified: (json['verified'] as bool?) ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliases = this.aliases;
+    final registryArn = this.registryArn;
+    final registryId = this.registryId;
+    final registryUri = this.registryUri;
+    final verified = this.verified;
+    return {
+      'aliases': aliases,
+      'registryArn': registryArn,
+      'registryId': registryId,
+      'registryUri': registryUri,
+      'verified': verified,
+    };
+  }
+}
+
+/// An object representing the aliases for a public registry. A public registry
+/// is given an alias when it's created. However, a custom alias can be set
+/// using the Amazon ECR console. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html">Registries</a>
+/// in the <i>Amazon Elastic Container Registry User Guide</i>.
+class RegistryAlias {
+  /// Indicates whether the registry alias is the default alias for the registry.
+  /// When the first public repository is created, your public registry is
+  /// assigned a default registry alias.
+  final bool defaultRegistryAlias;
+
+  /// The name of the registry alias.
+  final String name;
+
+  /// Indicates whether the registry alias is the primary alias for the registry.
+  /// If true, the alias is the primary registry alias and is displayed in both
+  /// the repository URL and the image URI used in the <code>docker pull</code>
+  /// commands on the Amazon ECR Public Gallery.
+  /// <note>
+  /// A registry alias that isn't the primary registry alias can be used in the
+  /// repository URI in a <code>docker pull</code> command.
+  /// </note>
+  final bool primaryRegistryAlias;
+
+  /// The status of the registry alias.
+  final RegistryAliasStatus status;
+
+  RegistryAlias({
+    required this.defaultRegistryAlias,
+    required this.name,
+    required this.primaryRegistryAlias,
+    required this.status,
+  });
+
+  factory RegistryAlias.fromJson(Map<String, dynamic> json) {
+    return RegistryAlias(
+      defaultRegistryAlias: (json['defaultRegistryAlias'] as bool?) ?? false,
+      name: (json['name'] as String?) ?? '',
+      primaryRegistryAlias: (json['primaryRegistryAlias'] as bool?) ?? false,
+      status: RegistryAliasStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultRegistryAlias = this.defaultRegistryAlias;
+    final name = this.name;
+    final primaryRegistryAlias = this.primaryRegistryAlias;
+    final status = this.status;
+    return {
+      'defaultRegistryAlias': defaultRegistryAlias,
+      'name': name,
+      'primaryRegistryAlias': primaryRegistryAlias,
+      'status': status.value,
+    };
+  }
+}
+
+class RegistryAliasStatus {
+  static const active = RegistryAliasStatus._('ACTIVE');
+  static const pending = RegistryAliasStatus._('PENDING');
+  static const rejected = RegistryAliasStatus._('REJECTED');
+
+  final String value;
+
+  const RegistryAliasStatus._(this.value);
+
+  static const values = [active, pending, rejected];
+
+  static RegistryAliasStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistryAliasStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistryAliasStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that represents the image tag details for an image.
+class ImageTagDetail {
+  /// The time stamp that indicates when the image tag was created.
+  final DateTime? createdAt;
+
+  /// An object that describes the details of an image.
+  final ReferencedImageDetail? imageDetail;
+
+  /// The tag that's associated with the image.
+  final String? imageTag;
+
+  ImageTagDetail({
+    this.createdAt,
+    this.imageDetail,
+    this.imageTag,
+  });
+
+  factory ImageTagDetail.fromJson(Map<String, dynamic> json) {
+    return ImageTagDetail(
+      createdAt: timeStampFromJson(json['createdAt']),
+      imageDetail: json['imageDetail'] != null
+          ? ReferencedImageDetail.fromJson(
+              json['imageDetail'] as Map<String, dynamic>)
+          : null,
+      imageTag: json['imageTag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final imageDetail = this.imageDetail;
+    final imageTag = this.imageTag;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (imageDetail != null) 'imageDetail': imageDetail,
+      if (imageTag != null) 'imageTag': imageTag,
+    };
+  }
+}
+
+/// An object that describes the image tag details that are returned by a
+/// <a>DescribeImageTags</a> action.
+class ReferencedImageDetail {
+  /// The artifact media type of the image.
+  final String? artifactMediaType;
+
+  /// The <code>sha256</code> digest of the image manifest.
+  final String? imageDigest;
+
+  /// The media type of the image manifest.
+  final String? imageManifestMediaType;
+
+  /// The date and time, expressed in standard JavaScript date format, which the
+  /// current image tag was pushed to the repository at.
+  final DateTime? imagePushedAt;
+
+  /// The size, in bytes, of the image in the repository.
+  ///
+  /// If the image is a manifest list, this is the max size of all manifests in
+  /// the list.
+  /// <note>
+  /// Beginning with Docker version 1.9, the Docker client compresses image layers
+  /// before pushing them to a V2 Docker registry. The output of the <code>docker
+  /// images</code> command shows the uncompressed image size, so it might return
+  /// a larger image size than the image sizes that are returned by
+  /// <a>DescribeImages</a>.
+  /// </note>
+  final int? imageSizeInBytes;
+
+  ReferencedImageDetail({
+    this.artifactMediaType,
+    this.imageDigest,
+    this.imageManifestMediaType,
+    this.imagePushedAt,
+    this.imageSizeInBytes,
+  });
+
+  factory ReferencedImageDetail.fromJson(Map<String, dynamic> json) {
+    return ReferencedImageDetail(
+      artifactMediaType: json['artifactMediaType'] as String?,
+      imageDigest: json['imageDigest'] as String?,
+      imageManifestMediaType: json['imageManifestMediaType'] as String?,
+      imagePushedAt: timeStampFromJson(json['imagePushedAt']),
+      imageSizeInBytes: json['imageSizeInBytes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactMediaType = this.artifactMediaType;
+    final imageDigest = this.imageDigest;
+    final imageManifestMediaType = this.imageManifestMediaType;
+    final imagePushedAt = this.imagePushedAt;
+    final imageSizeInBytes = this.imageSizeInBytes;
+    return {
+      if (artifactMediaType != null) 'artifactMediaType': artifactMediaType,
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (imageManifestMediaType != null)
+        'imageManifestMediaType': imageManifestMediaType,
+      if (imagePushedAt != null)
+        'imagePushedAt': unixTimestampToJson(imagePushedAt),
+      if (imageSizeInBytes != null) 'imageSizeInBytes': imageSizeInBytes,
+    };
+  }
+}
+
+/// An object that describes an image that's returned by a <a>DescribeImages</a>
+/// operation.
+class ImageDetail {
+  /// The artifact media type of the image.
+  final String? artifactMediaType;
+
+  /// The <code>sha256</code> digest of the image manifest.
+  final String? imageDigest;
+
+  /// The media type of the image manifest.
+  final String? imageManifestMediaType;
+
+  /// The date and time, expressed in standard JavaScript date format, that the
+  /// current image was pushed to the repository at.
+  final DateTime? imagePushedAt;
+
+  /// The size, in bytes, of the image in the repository.
+  ///
+  /// If the image is a manifest list, this is the max size of all manifests in
+  /// the list.
+  /// <note>
+  /// Beginning with Docker version 1.9, the Docker client compresses image layers
+  /// before pushing them to a V2 Docker registry. The output of the <code>docker
+  /// images</code> command shows the uncompressed image size, so it might return
+  /// a larger image size than the image sizes that are returned by
+  /// <a>DescribeImages</a>.
+  /// </note>
+  final int? imageSizeInBytes;
+
+  /// The list of tags that's associated with this image.
+  final List<String>? imageTags;
+
+  /// The Amazon Web Services account ID that's associated with the public
+  /// registry where this image belongs.
+  final String? registryId;
+
+  /// The name of the repository where this image belongs.
+  final String? repositoryName;
+
+  ImageDetail({
+    this.artifactMediaType,
+    this.imageDigest,
+    this.imageManifestMediaType,
+    this.imagePushedAt,
+    this.imageSizeInBytes,
+    this.imageTags,
+    this.registryId,
+    this.repositoryName,
+  });
+
+  factory ImageDetail.fromJson(Map<String, dynamic> json) {
+    return ImageDetail(
+      artifactMediaType: json['artifactMediaType'] as String?,
+      imageDigest: json['imageDigest'] as String?,
+      imageManifestMediaType: json['imageManifestMediaType'] as String?,
+      imagePushedAt: timeStampFromJson(json['imagePushedAt']),
+      imageSizeInBytes: json['imageSizeInBytes'] as int?,
+      imageTags: (json['imageTags'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactMediaType = this.artifactMediaType;
+    final imageDigest = this.imageDigest;
+    final imageManifestMediaType = this.imageManifestMediaType;
+    final imagePushedAt = this.imagePushedAt;
+    final imageSizeInBytes = this.imageSizeInBytes;
+    final imageTags = this.imageTags;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (artifactMediaType != null) 'artifactMediaType': artifactMediaType,
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (imageManifestMediaType != null)
+        'imageManifestMediaType': imageManifestMediaType,
+      if (imagePushedAt != null)
+        'imagePushedAt': unixTimestampToJson(imagePushedAt),
+      if (imageSizeInBytes != null) 'imageSizeInBytes': imageSizeInBytes,
+      if (imageTags != null) 'imageTags': imageTags,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// An object that represents an Amazon ECR image failure.
+class ImageFailure {
+  /// The code that's associated with the failure.
+  final ImageFailureCode? failureCode;
+
+  /// The reason for the failure.
+  final String? failureReason;
+
+  /// The image ID that's associated with the failure.
+  final ImageIdentifier? imageId;
+
+  ImageFailure({
+    this.failureCode,
+    this.failureReason,
+    this.imageId,
+  });
+
+  factory ImageFailure.fromJson(Map<String, dynamic> json) {
+    return ImageFailure(
+      failureCode:
+          (json['failureCode'] as String?)?.let(ImageFailureCode.fromString),
+      failureReason: json['failureReason'] as String?,
+      imageId: json['imageId'] != null
+          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    final imageId = this.imageId;
+    return {
+      if (failureCode != null) 'failureCode': failureCode.value,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (imageId != null) 'imageId': imageId,
+    };
+  }
+}
+
+class ImageFailureCode {
+  static const invalidImageDigest = ImageFailureCode._('InvalidImageDigest');
+  static const invalidImageTag = ImageFailureCode._('InvalidImageTag');
+  static const imageTagDoesNotMatchDigest =
+      ImageFailureCode._('ImageTagDoesNotMatchDigest');
+  static const imageNotFound = ImageFailureCode._('ImageNotFound');
+  static const missingDigestAndTag = ImageFailureCode._('MissingDigestAndTag');
+  static const imageReferencedByManifestList =
+      ImageFailureCode._('ImageReferencedByManifestList');
+  static const kmsError = ImageFailureCode._('KmsError');
+
+  final String value;
+
+  const ImageFailureCode._(this.value);
+
+  static const values = [
+    invalidImageDigest,
+    invalidImageTag,
+    imageTagDoesNotMatchDigest,
+    imageNotFound,
+    missingDigestAndTag,
+    imageReferencedByManifestList,
+    kmsError
+  ];
+
+  static ImageFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageFailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is ImageFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that represents an Amazon ECR image layer failure.
+class LayerFailure {
+  /// The failure code that's associated with the failure.
+  final LayerFailureCode? failureCode;
+
+  /// The reason for the failure.
+  final String? failureReason;
+
+  /// The layer digest that's associated with the failure.
+  final String? layerDigest;
+
+  LayerFailure({
+    this.failureCode,
+    this.failureReason,
+    this.layerDigest,
+  });
+
+  factory LayerFailure.fromJson(Map<String, dynamic> json) {
+    return LayerFailure(
+      failureCode:
+          (json['failureCode'] as String?)?.let(LayerFailureCode.fromString),
+      failureReason: json['failureReason'] as String?,
+      layerDigest: json['layerDigest'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    final layerDigest = this.layerDigest;
+    return {
+      if (failureCode != null) 'failureCode': failureCode.value,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (layerDigest != null) 'layerDigest': layerDigest,
+    };
+  }
+}
+
+class LayerFailureCode {
+  static const invalidLayerDigest = LayerFailureCode._('InvalidLayerDigest');
+  static const missingLayerDigest = LayerFailureCode._('MissingLayerDigest');
+
+  final String value;
+
+  const LayerFailureCode._(this.value);
+
+  static const values = [invalidLayerDigest, missingLayerDigest];
+
+  static LayerFailureCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LayerFailureCode._(value));
+
+  @override
+  bool operator ==(other) => other is LayerFailureCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that represents an Amazon ECR image layer.
+class Layer {
+  /// The availability status of the image layer.
+  final LayerAvailability? layerAvailability;
+
+  /// The <code>sha256</code> digest of the image layer.
+  final String? layerDigest;
+
+  /// The size, in bytes, of the image layer.
+  final int? layerSize;
+
+  /// The media type of the layer, such as
+  /// <code>application/vnd.docker.image.rootfs.diff.tar.gzip</code> or
+  /// <code>application/vnd.oci.image.layer.v1.tar+gzip</code>.
+  final String? mediaType;
+
+  Layer({
+    this.layerAvailability,
+    this.layerDigest,
+    this.layerSize,
+    this.mediaType,
+  });
+
+  factory Layer.fromJson(Map<String, dynamic> json) {
+    return Layer(
+      layerAvailability: (json['layerAvailability'] as String?)
+          ?.let(LayerAvailability.fromString),
+      layerDigest: json['layerDigest'] as String?,
+      layerSize: json['layerSize'] as int?,
+      mediaType: json['mediaType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final layerAvailability = this.layerAvailability;
+    final layerDigest = this.layerDigest;
+    final layerSize = this.layerSize;
+    final mediaType = this.mediaType;
+    return {
+      if (layerAvailability != null)
+        'layerAvailability': layerAvailability.value,
+      if (layerDigest != null) 'layerDigest': layerDigest,
+      if (layerSize != null) 'layerSize': layerSize,
+      if (mediaType != null) 'mediaType': mediaType,
+    };
+  }
+}
+
+class LayerAvailability {
+  static const available = LayerAvailability._('AVAILABLE');
+  static const unavailable = LayerAvailability._('UNAVAILABLE');
+
+  final String value;
+
+  const LayerAvailability._(this.value);
+
+  static const values = [available, unavailable];
+
+  static LayerAvailability fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LayerAvailability._(value));
+
+  @override
+  bool operator ==(other) => other is LayerAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class EmptyUploadException extends _s.GenericAwsException {

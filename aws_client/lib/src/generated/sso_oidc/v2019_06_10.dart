@@ -24,11 +24,14 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// client (such as CLI or a native application) to register with IAM Identity
 /// Center. The service also enables the client to fetch the user’s access token
 /// upon successful authentication and authorization with IAM Identity Center.
-/// <note>
+///
+/// <b>API namespaces</b>
+///
 /// IAM Identity Center uses the <code>sso</code> and <code>identitystore</code>
-/// API namespaces.
-/// </note>
-/// <b>Considerations for Using This Guide</b>
+/// API namespaces. IAM Identity Center OpenID Connect uses the
+/// <code>sso-oauth</code> namespace.
+///
+/// <b>Considerations for using this guide</b>
 ///
 /// Before you begin using this guide, we recommend that you first review the
 /// following important information about how the IAM Identity Center OIDC
@@ -99,20 +102,20 @@ class SsoOidc {
 
   /// Creates and returns access and refresh tokens for clients that are
   /// authenticated using client secrets. The access token can be used to fetch
-  /// short-term credentials for the assigned AWS accounts or to access
+  /// short-lived credentials for the assigned AWS accounts or to access
   /// application APIs using <code>bearer</code> authentication.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidClientException].
-  /// May throw [InvalidGrantException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [UnsupportedGrantTypeException].
-  /// May throw [InvalidScopeException].
-  /// May throw [AuthorizationPendingException].
-  /// May throw [SlowDownException].
   /// May throw [AccessDeniedException].
+  /// May throw [AuthorizationPendingException].
   /// May throw [ExpiredTokenException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidClientException].
+  /// May throw [InvalidGrantException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidScopeException].
+  /// May throw [SlowDownException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [UnsupportedGrantTypeException].
   ///
   /// Parameter [clientId] :
   /// The unique identifier string for the client or application. This value
@@ -123,21 +126,19 @@ class SsoOidc {
   /// persisted result of the <a>RegisterClient</a> API.
   ///
   /// Parameter [grantType] :
-  /// Supports the following OAuth grant types: Device Code and Refresh Token.
-  /// Specify either of the following values, depending on the grant type that
-  /// you want:
+  /// Supports the following OAuth grant types: Authorization Code, Device Code,
+  /// and Refresh Token. Specify one of the following values, depending on the
+  /// grant type that you want:
+  ///
+  /// * Authorization Code - <code>authorization_code</code>
   ///
   /// * Device Code - <code>urn:ietf:params:oauth:grant-type:device_code</code>
   ///
   /// * Refresh Token - <code>refresh_token</code>
   ///
-  /// For information about how to obtain the device code, see the
-  /// <a>StartDeviceAuthorization</a> topic.
-  ///
   /// Parameter [code] :
   /// Used only when calling this API for the Authorization Code grant type. The
-  /// short-term code is used to identify this authorization request. This grant
-  /// type is currently unsupported for the <a>CreateToken</a> API.
+  /// short-lived code is used to identify this authorization request.
   ///
   /// Parameter [codeVerifier] :
   /// Used only when calling this API for the Authorization Code grant type.
@@ -146,8 +147,8 @@ class SsoOidc {
   ///
   /// Parameter [deviceCode] :
   /// Used only when calling this API for the Device Code grant type. This
-  /// short-term code is used to identify this authorization request. This comes
-  /// from the result of the <a>StartDeviceAuthorization</a> API.
+  /// short-lived code is used to identify this authorization request. This
+  /// comes from the result of the <a>StartDeviceAuthorization</a> API.
   ///
   /// Parameter [redirectUri] :
   /// Used only when calling this API for the Authorization Code grant type.
@@ -156,8 +157,8 @@ class SsoOidc {
   ///
   /// Parameter [refreshToken] :
   /// Used only when calling this API for the Refresh Token grant type. This
-  /// token is used to refresh short-term tokens, such as the access token, that
-  /// might expire.
+  /// token is used to refresh short-lived tokens, such as the access token,
+  /// that might expire.
   ///
   /// For more information about the features and limitations of the current IAM
   /// Identity Center OIDC implementation, see <i>Considerations for Using this
@@ -166,10 +167,9 @@ class SsoOidc {
   /// Identity Center OIDC API Reference</a>.
   ///
   /// Parameter [scope] :
-  /// The list of scopes for which authorization is requested. The access token
-  /// that is issued is limited to the scopes that are granted. If this value is
-  /// not specified, IAM Identity Center authorizes all scopes that are
-  /// configured for the client during the call to <a>RegisterClient</a>.
+  /// The list of scopes for which authorization is requested. This parameter
+  /// has no effect; the access token will always include all scopes configured
+  /// during client registration.
   Future<CreateTokenResponse> createToken({
     required String clientId,
     required String clientSecret,
@@ -202,23 +202,34 @@ class SsoOidc {
     return CreateTokenResponse.fromJson(response);
   }
 
-  /// Creates and returns access and refresh tokens for clients and applications
-  /// that are authenticated using IAM entities. The access token can be used to
-  /// fetch short-term credentials for the assigned Amazon Web Services accounts
-  /// or to access application APIs using <code>bearer</code> authentication.
+  /// Creates and returns access and refresh tokens for authorized client
+  /// applications that are authenticated using any IAM entity, such as a
+  /// service role or user. These tokens might contain defined scopes that
+  /// specify permissions such as <code>read:profile</code> or
+  /// <code>write:data</code>. Through downscoping, you can use the scopes
+  /// parameter to request tokens with reduced permissions compared to the
+  /// original client application's permissions or, if applicable, the refresh
+  /// token's scopes. The access token can be used to fetch short-lived
+  /// credentials for the assigned Amazon Web Services accounts or to access
+  /// application APIs using <code>bearer</code> authentication.
+  /// <note>
+  /// This API is used with Signature Version 4. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html">Amazon
+  /// Web Services Signature Version 4 for API Requests</a>.
+  /// </note>
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidClientException].
-  /// May throw [InvalidGrantException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [UnsupportedGrantTypeException].
-  /// May throw [InvalidScopeException].
-  /// May throw [AuthorizationPendingException].
-  /// May throw [SlowDownException].
   /// May throw [AccessDeniedException].
+  /// May throw [AuthorizationPendingException].
   /// May throw [ExpiredTokenException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidClientException].
+  /// May throw [InvalidGrantException].
+  /// May throw [InvalidRequestException].
   /// May throw [InvalidRequestRegionException].
+  /// May throw [InvalidScopeException].
+  /// May throw [SlowDownException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [UnsupportedGrantTypeException].
   ///
   /// Parameter [clientId] :
   /// The unique identifier string for the client or application. This value is
@@ -246,7 +257,7 @@ class SsoOidc {
   ///
   /// Parameter [code] :
   /// Used only when calling this API for the Authorization Code grant type.
-  /// This short-term code is used to identify this authorization request. The
+  /// This short-lived code is used to identify this authorization request. The
   /// code is obtained through a redirect from IAM Identity Center to a redirect
   /// URI persisted in the Authorization Code GrantOptions for the application.
   ///
@@ -262,8 +273,8 @@ class SsoOidc {
   ///
   /// Parameter [refreshToken] :
   /// Used only when calling this API for the Refresh Token grant type. This
-  /// token is used to refresh short-term tokens, such as the access token, that
-  /// might expire.
+  /// token is used to refresh short-lived tokens, such as the access token,
+  /// that might expire.
   ///
   /// For more information about the features and limitations of the current IAM
   /// Identity Center OIDC implementation, see <i>Considerations for Using this
@@ -338,15 +349,16 @@ class SsoOidc {
     return CreateTokenWithIAMResponse.fromJson(response);
   }
 
-  /// Registers a client with IAM Identity Center. This allows clients to
-  /// initiate device authorization. The output should be persisted for reuse
-  /// through many authentication requests.
+  /// Registers a public client with IAM Identity Center. This allows clients to
+  /// perform authorization using the authorization code grant with Proof Key
+  /// for Code Exchange (PKCE) or the device code grant.
   ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidClientMetadataException].
+  /// May throw [InvalidRedirectUriException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidScopeException].
-  /// May throw [InvalidClientMetadataException].
-  /// May throw [InternalServerException].
-  /// May throw [InvalidRedirectUriException].
+  /// May throw [SlowDownException].
   /// May throw [UnsupportedGrantTypeException].
   ///
   /// Parameter [clientName] :
@@ -365,6 +377,14 @@ class SsoOidc {
   /// Parameter [grantTypes] :
   /// The list of OAuth 2.0 grant types that are defined by the client. This
   /// list is used to restrict the token granting flows available to the client.
+  /// Supports the following OAuth 2.0 grant types: Authorization Code, Device
+  /// Code, and Refresh Token.
+  ///
+  /// * Authorization Code - <code>authorization_code</code>
+  ///
+  /// * Device Code - <code>urn:ietf:params:oauth:grant-type:device_code</code>
+  ///
+  /// * Refresh Token - <code>refresh_token</code>
   ///
   /// Parameter [issuerUrl] :
   /// The IAM Identity Center Issuer URL associated with an instance of IAM
@@ -411,11 +431,11 @@ class SsoOidc {
   /// Initiates device authorization by requesting a pair of verification codes
   /// from the authorization service.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InvalidClientException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [SlowDownException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidClientException].
+  /// May throw [InvalidRequestException].
+  /// May throw [SlowDownException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [clientId] :
   /// The unique identifier string for the client that is registered with IAM
@@ -525,6 +545,10 @@ class CreateTokenWithIAMResponse {
   /// assigned to a user.
   final String? accessToken;
 
+  /// A structure containing information from IAM Identity Center managed user and
+  /// group information.
+  final AwsAdditionalDetails? awsAdditionalDetails;
+
   /// Indicates the time in seconds when an access token will expire.
   final int? expiresIn;
 
@@ -561,6 +585,7 @@ class CreateTokenWithIAMResponse {
 
   CreateTokenWithIAMResponse({
     this.accessToken,
+    this.awsAdditionalDetails,
     this.expiresIn,
     this.idToken,
     this.issuedTokenType,
@@ -572,6 +597,10 @@ class CreateTokenWithIAMResponse {
   factory CreateTokenWithIAMResponse.fromJson(Map<String, dynamic> json) {
     return CreateTokenWithIAMResponse(
       accessToken: json['accessToken'] as String?,
+      awsAdditionalDetails: json['awsAdditionalDetails'] != null
+          ? AwsAdditionalDetails.fromJson(
+              json['awsAdditionalDetails'] as Map<String, dynamic>)
+          : null,
       expiresIn: json['expiresIn'] as int?,
       idToken: json['idToken'] as String?,
       issuedTokenType: json['issuedTokenType'] as String?,
@@ -584,6 +613,7 @@ class CreateTokenWithIAMResponse {
 
   Map<String, dynamic> toJson() {
     final accessToken = this.accessToken;
+    final awsAdditionalDetails = this.awsAdditionalDetails;
     final expiresIn = this.expiresIn;
     final idToken = this.idToken;
     final issuedTokenType = this.issuedTokenType;
@@ -592,6 +622,8 @@ class CreateTokenWithIAMResponse {
     final tokenType = this.tokenType;
     return {
       if (accessToken != null) 'accessToken': accessToken,
+      if (awsAdditionalDetails != null)
+        'awsAdditionalDetails': awsAdditionalDetails,
       if (expiresIn != null) 'expiresIn': expiresIn,
       if (idToken != null) 'idToken': idToken,
       if (issuedTokenType != null) 'issuedTokenType': issuedTokenType,
@@ -726,6 +758,37 @@ class StartDeviceAuthorizationResponse {
       if (verificationUri != null) 'verificationUri': verificationUri,
       if (verificationUriComplete != null)
         'verificationUriComplete': verificationUriComplete,
+    };
+  }
+}
+
+/// This structure contains Amazon Web Services-specific parameter extensions
+/// and the <a
+/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html">identity
+/// context</a>.
+class AwsAdditionalDetails {
+  /// The trusted context assertion is signed and encrypted by STS. It provides
+  /// access to <code>sts:identity_context</code> claim in the
+  /// <code>idToken</code> without JWT parsing
+  ///
+  /// Identity context comprises information that Amazon Web Services services use
+  /// to make authorization decisions when they receive requests.
+  final String? identityContext;
+
+  AwsAdditionalDetails({
+    this.identityContext,
+  });
+
+  factory AwsAdditionalDetails.fromJson(Map<String, dynamic> json) {
+    return AwsAdditionalDetails(
+      identityContext: json['identityContext'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityContext = this.identityContext;
+    return {
+      if (identityContext != null) 'identityContext': identityContext,
     };
   }
 }

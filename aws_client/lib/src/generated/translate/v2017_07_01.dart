@@ -34,7 +34,6 @@ class Translate {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'translate',
-            signingName: 'translate',
           ),
           region: region,
           credentials: credentials,
@@ -56,14 +55,14 @@ class Translate {
   /// you want segments of text to be translated. By adding parallel data, you
   /// can influence the style, tone, and word choice in your translation output.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [TooManyTagsException].
-  /// May throw [ConflictException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [name] :
   /// A custom name for the parallel data resource in Amazon Translate. You must
@@ -119,9 +118,9 @@ class Translate {
   /// Deletes a parallel data resource in Amazon Translate.
   ///
   /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [name] :
   /// The name of the parallel data resource that is being deleted.
@@ -148,10 +147,10 @@ class Translate {
 
   /// A synchronous action that deletes a custom terminology.
   ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [name] :
   /// The name of the custom terminology being deleted.
@@ -178,9 +177,9 @@ class Translate {
   /// including name, ID, status, source and target languages, input/output S3
   /// buckets, and so on.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
   /// The identifier that Amazon Translate generated for the job. The
@@ -210,10 +209,10 @@ class Translate {
 
   /// Provides information about a parallel data resource.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [name] :
   /// The name of the parallel data resource that is being retrieved.
@@ -240,10 +239,10 @@ class Translate {
 
   /// Retrieves a custom terminology.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [name] :
   /// The name of the custom terminology being retrieved.
@@ -293,12 +292,12 @@ class Translate {
   /// terminology takes up to 10 minutes to fully propagate. After that,
   /// translations have access to the new terminology.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServerException].
   /// May throw [InvalidParameterValueException].
   /// May throw [LimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [TooManyTagsException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [mergeStrategy] :
   /// The merge strategy of the custom terminology being imported. Currently,
@@ -357,10 +356,10 @@ class Translate {
   /// Provides a list of languages (RFC-5646 codes and names) that Amazon
   /// Translate supports.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedDisplayLanguageCodeException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [displayLanguageCode] :
   /// The language code for the language to use to display the language names in
@@ -406,9 +405,9 @@ class Translate {
 
   /// Provides a list of your parallel data resources in Amazon Translate.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of parallel data resources returned for each request.
@@ -450,9 +449,9 @@ class Translate {
   /// href="https://docs.aws.amazon.com/translate/latest/dg/tagging.html">
   /// Tagging your resources</a>.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the given Amazon Translate resource you
@@ -480,9 +479,9 @@ class Translate {
 
   /// Provides a list of custom terminologies associated with your account.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidParameterValueException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of custom terminologies returned per list request.
@@ -521,10 +520,10 @@ class Translate {
 
   /// Gets a list of the batch translation jobs that you have submitted.
   ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidFilterException].
   /// May throw [InvalidRequestException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InvalidFilterException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [filter] :
   /// The parameters that specify which batch translation jobs to retrieve.
@@ -582,12 +581,12 @@ class Translate {
   /// <a>ListTextTranslationJobs</a> operation, and stopped with the
   /// <a>StopTextTranslationJob</a> operation.
   ///
-  /// May throw [TooManyRequestsException].
-  /// May throw [UnsupportedLanguagePairException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedLanguagePairException].
   ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
@@ -737,9 +736,9 @@ class Translate {
   /// <a>DescribeTextTranslationJob</a> or <a>ListTextTranslationJobs</a>
   /// operations to get a batch translation job's <code>JobId</code>.
   ///
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [jobId] :
   /// The job ID of the job to be stopped.
@@ -769,11 +768,11 @@ class Translate {
   /// href="https://docs.aws.amazon.com/translate/latest/dg/tagging.html">
   /// Tagging your resources</a>.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the given Amazon Translate resource to
@@ -817,13 +816,13 @@ class Translate {
   /// href="https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html">Setting
   /// formality</a>.
   ///
+  /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [UnsupportedLanguagePairException].
-  /// May throw [InternalServerException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnsupportedLanguagePairException].
   ///
   /// Parameter [document] :
   /// The content and content type for the document to be translated. The
@@ -915,14 +914,14 @@ class Translate {
   /// href="https://docs.aws.amazon.com/translate/latest/dg/what-is-languages.html">Supported
   /// languages</a>.
   ///
+  /// May throw [DetectedLanguageLowConfidenceException].
+  /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [TextSizeLimitExceededException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnsupportedLanguagePairException].
-  /// May throw [DetectedLanguageLowConfidenceException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [sourceLanguageCode] :
   /// The language code for the language of the source text. For a list of
@@ -1016,10 +1015,10 @@ class Translate {
   /// href="https://docs.aws.amazon.com/translate/latest/dg/tagging.html">
   /// Tagging your resources</a>.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [ConcurrentModificationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the given Amazon Translate resource from
@@ -1054,13 +1053,13 @@ class Translate {
   /// input file from Amazon S3.
   ///
   /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [name] :
   /// The name of the parallel data resource being updated.
@@ -1100,68 +1099,6 @@ class Translate {
 
     return UpdateParallelDataResponse.fromJson(jsonResponse.body);
   }
-}
-
-/// The custom terminology applied to the input text by Amazon Translate for the
-/// translated text response. This is optional in the response and will only be
-/// present if you specified terminology input in the request. Currently, only
-/// one terminology can be applied per TranslateText request.
-class AppliedTerminology {
-  /// The name of the custom terminology applied to the input text by Amazon
-  /// Translate for the translated text response.
-  final String? name;
-
-  /// The specific terms of the custom terminology applied to the input text by
-  /// Amazon Translate for the translated text response. A maximum of 250 terms
-  /// will be returned, and the specific terms applied will be the first 250 terms
-  /// in the source text.
-  final List<Term>? terms;
-
-  AppliedTerminology({
-    this.name,
-    this.terms,
-  });
-
-  factory AppliedTerminology.fromJson(Map<String, dynamic> json) {
-    return AppliedTerminology(
-      name: json['Name'] as String?,
-      terms: (json['Terms'] as List?)
-          ?.nonNulls
-          .map((e) => Term.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final terms = this.terms;
-    return {
-      if (name != null) 'Name': name,
-      if (terms != null) 'Terms': terms,
-    };
-  }
-}
-
-class Brevity {
-  static const on = Brevity._('ON');
-
-  final String value;
-
-  const Brevity._(this.value);
-
-  static const values = [on];
-
-  static Brevity fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Brevity._(value));
-
-  @override
-  bool operator ==(other) => other is Brevity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateParallelDataResponse {
@@ -1249,181 +1186,6 @@ class DescribeTextTranslationJobResponse {
         'TextTranslationJobProperties': textTranslationJobProperties,
     };
   }
-}
-
-class Directionality {
-  static const uni = Directionality._('UNI');
-  static const multi = Directionality._('MULTI');
-
-  final String value;
-
-  const Directionality._(this.value);
-
-  static const values = [uni, multi];
-
-  static Directionality fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => Directionality._(value));
-
-  @override
-  bool operator ==(other) => other is Directionality && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DisplayLanguageCode {
-  static const de = DisplayLanguageCode._('de');
-  static const en = DisplayLanguageCode._('en');
-  static const es = DisplayLanguageCode._('es');
-  static const fr = DisplayLanguageCode._('fr');
-  static const it = DisplayLanguageCode._('it');
-  static const ja = DisplayLanguageCode._('ja');
-  static const ko = DisplayLanguageCode._('ko');
-  static const pt = DisplayLanguageCode._('pt');
-  static const zh = DisplayLanguageCode._('zh');
-  static const zhTw = DisplayLanguageCode._('zh-TW');
-
-  final String value;
-
-  const DisplayLanguageCode._(this.value);
-
-  static const values = [de, en, es, fr, it, ja, ko, pt, zh, zhTw];
-
-  static DisplayLanguageCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DisplayLanguageCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DisplayLanguageCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The content and content type of a document.
-class Document {
-  /// The <code>Content</code>field type is Binary large object (blob). This
-  /// object contains the document content converted into base64-encoded binary
-  /// data. If you use one of the AWS SDKs, the SDK performs the Base64-encoding
-  /// on this field before sending the request.
-  final Uint8List content;
-
-  /// Describes the format of the document. You can specify one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>text/html</code> - The input data consists of HTML content. Amazon
-  /// Translate translates only the text in the HTML element.
-  /// </li>
-  /// <li>
-  /// <code>text/plain</code> - The input data consists of unformatted text.
-  /// Amazon Translate translates every character in the content.
-  /// </li>
-  /// <li>
-  /// <code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code>
-  /// - The input data consists of a Word document (.docx).
-  /// </li>
-  /// </ul>
-  final String contentType;
-
-  Document({
-    required this.content,
-    required this.contentType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    final contentType = this.contentType;
-    return {
-      'Content': base64Encode(content),
-      'ContentType': contentType,
-    };
-  }
-}
-
-/// The encryption key used to encrypt this object.
-class EncryptionKey {
-  /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt
-  /// this object.
-  final String id;
-
-  /// The type of encryption key used by Amazon Translate to encrypt this object.
-  final EncryptionKeyType type;
-
-  EncryptionKey({
-    required this.id,
-    required this.type,
-  });
-
-  factory EncryptionKey.fromJson(Map<String, dynamic> json) {
-    return EncryptionKey(
-      id: (json['Id'] as String?) ?? '',
-      type: EncryptionKeyType.fromString((json['Type'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final type = this.type;
-    return {
-      'Id': id,
-      'Type': type.value,
-    };
-  }
-}
-
-class EncryptionKeyType {
-  static const kms = EncryptionKeyType._('KMS');
-
-  final String value;
-
-  const EncryptionKeyType._(this.value);
-
-  static const values = [kms];
-
-  static EncryptionKeyType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionKeyType._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionKeyType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Formality {
-  static const formal = Formality._('FORMAL');
-  static const informal = Formality._('INFORMAL');
-
-  final String value;
-
-  const Formality._(this.value);
-
-  static const values = [formal, informal];
-
-  static Formality fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Formality._(value));
-
-  @override
-  bool operator ==(other) => other is Formality && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class GetParallelDataResponse {
@@ -1613,185 +1375,6 @@ class ImportTerminologyResponse {
   }
 }
 
-/// The input configuration properties for requesting a batch translation job.
-class InputDataConfig {
-  /// Describes the format of the data that you submit to Amazon Translate as
-  /// input. You can specify one of the following multipurpose internet mail
-  /// extension (MIME) types:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>text/html</code>: The input data consists of one or more HTML files.
-  /// Amazon Translate translates only the text that resides in the
-  /// <code>html</code> element in each file.
-  /// </li>
-  /// <li>
-  /// <code>text/plain</code>: The input data consists of one or more unformatted
-  /// text files. Amazon Translate translates every character in this type of
-  /// input.
-  /// </li>
-  /// <li>
-  /// <code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code>:
-  /// The input data consists of one or more Word documents (.docx).
-  /// </li>
-  /// <li>
-  /// <code>application/vnd.openxmlformats-officedocument.presentationml.presentation</code>:
-  /// The input data consists of one or more PowerPoint Presentation files
-  /// (.pptx).
-  /// </li>
-  /// <li>
-  /// <code>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</code>:
-  /// The input data consists of one or more Excel Workbook files (.xlsx).
-  /// </li>
-  /// <li>
-  /// <code>application/x-xliff+xml</code>: The input data consists of one or more
-  /// XML Localization Interchange File Format (XLIFF) files (.xlf). Amazon
-  /// Translate supports only XLIFF version 1.2.
-  /// </li>
-  /// </ul> <important>
-  /// If you structure your input data as HTML, ensure that you set this parameter
-  /// to <code>text/html</code>. By doing so, you cut costs by limiting the
-  /// translation to the contents of the <code>html</code> element in each file.
-  /// Otherwise, if you set this parameter to <code>text/plain</code>, your costs
-  /// will cover the translation of every character.
-  /// </important>
-  final String contentType;
-
-  /// The URI of the AWS S3 folder that contains the input files. Amazon Translate
-  /// translates all the files in the folder and all its sub-folders. The folder
-  /// must be in the same Region as the API endpoint you are calling.
-  final String s3Uri;
-
-  InputDataConfig({
-    required this.contentType,
-    required this.s3Uri,
-  });
-
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
-    return InputDataConfig(
-      contentType: (json['ContentType'] as String?) ?? '',
-      s3Uri: (json['S3Uri'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentType = this.contentType;
-    final s3Uri = this.s3Uri;
-    return {
-      'ContentType': contentType,
-      'S3Uri': s3Uri,
-    };
-  }
-}
-
-/// The number of documents successfully and unsuccessfully processed during a
-/// translation job.
-class JobDetails {
-  /// The number of documents that could not be processed during a translation
-  /// job.
-  final int? documentsWithErrorsCount;
-
-  /// The number of documents used as input in a translation job.
-  final int? inputDocumentsCount;
-
-  /// The number of documents successfully processed during a translation job.
-  final int? translatedDocumentsCount;
-
-  JobDetails({
-    this.documentsWithErrorsCount,
-    this.inputDocumentsCount,
-    this.translatedDocumentsCount,
-  });
-
-  factory JobDetails.fromJson(Map<String, dynamic> json) {
-    return JobDetails(
-      documentsWithErrorsCount: json['DocumentsWithErrorsCount'] as int?,
-      inputDocumentsCount: json['InputDocumentsCount'] as int?,
-      translatedDocumentsCount: json['TranslatedDocumentsCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final documentsWithErrorsCount = this.documentsWithErrorsCount;
-    final inputDocumentsCount = this.inputDocumentsCount;
-    final translatedDocumentsCount = this.translatedDocumentsCount;
-    return {
-      if (documentsWithErrorsCount != null)
-        'DocumentsWithErrorsCount': documentsWithErrorsCount,
-      if (inputDocumentsCount != null)
-        'InputDocumentsCount': inputDocumentsCount,
-      if (translatedDocumentsCount != null)
-        'TranslatedDocumentsCount': translatedDocumentsCount,
-    };
-  }
-}
-
-class JobStatus {
-  static const submitted = JobStatus._('SUBMITTED');
-  static const inProgress = JobStatus._('IN_PROGRESS');
-  static const completed = JobStatus._('COMPLETED');
-  static const completedWithError = JobStatus._('COMPLETED_WITH_ERROR');
-  static const failed = JobStatus._('FAILED');
-  static const stopRequested = JobStatus._('STOP_REQUESTED');
-  static const stopped = JobStatus._('STOPPED');
-
-  final String value;
-
-  const JobStatus._(this.value);
-
-  static const values = [
-    submitted,
-    inProgress,
-    completed,
-    completedWithError,
-    failed,
-    stopRequested,
-    stopped
-  ];
-
-  static JobStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
-
-  @override
-  bool operator ==(other) => other is JobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A supported language.
-class Language {
-  /// Language code for the supported language.
-  final String languageCode;
-
-  /// Language name of the supported language.
-  final String languageName;
-
-  Language({
-    required this.languageCode,
-    required this.languageName,
-  });
-
-  factory Language.fromJson(Map<String, dynamic> json) {
-    return Language(
-      languageCode: (json['LanguageCode'] as String?) ?? '',
-      languageName: (json['LanguageName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final languageCode = this.languageCode;
-    final languageName = this.languageName;
-    return {
-      'LanguageCode': languageCode,
-      'LanguageName': languageName,
-    };
-  }
-}
-
 class ListLanguagesResponse {
   /// The language code passed in with the request.
   final DisplayLanguageCode? displayLanguageCode;
@@ -1969,27 +1552,797 @@ class ListTextTranslationJobsResponse {
   }
 }
 
-class MergeStrategy {
-  static const overwrite = MergeStrategy._('OVERWRITE');
+class StartTextTranslationJobResponse {
+  /// The identifier generated for the job. To get the status of a job, use this
+  /// ID with the <a>DescribeTextTranslationJob</a> operation.
+  final String? jobId;
+
+  /// The status of the job. Possible values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SUBMITTED</code> - The job has been received and is queued for
+  /// processing.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS</code> - Amazon Translate is processing the job.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - The job was successfully completed and the output
+  /// is available.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED_WITH_ERROR</code> - The job was completed with errors. The
+  /// errors can be analyzed in the job's output.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The job did not complete. To get details, use the
+  /// <a>DescribeTextTranslationJob</a> operation.
+  /// </li>
+  /// <li>
+  /// <code>STOP_REQUESTED</code> - The user who started the job has requested
+  /// that it be stopped.
+  /// </li>
+  /// <li>
+  /// <code>STOPPED</code> - The job has been stopped.
+  /// </li>
+  /// </ul>
+  final JobStatus? jobStatus;
+
+  StartTextTranslationJobResponse({
+    this.jobId,
+    this.jobStatus,
+  });
+
+  factory StartTextTranslationJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartTextTranslationJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
+    };
+  }
+}
+
+class StopTextTranslationJobResponse {
+  /// The job ID of the stopped batch translation job.
+  final String? jobId;
+
+  /// The status of the designated job. Upon successful completion, the job's
+  /// status will be <code>STOPPED</code>.
+  final JobStatus? jobStatus;
+
+  StopTextTranslationJobResponse({
+    this.jobId,
+    this.jobStatus,
+  });
+
+  factory StopTextTranslationJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopTextTranslationJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TranslateDocumentResponse {
+  /// The language code of the source document.
+  final String sourceLanguageCode;
+
+  /// The language code of the translated document.
+  final String targetLanguageCode;
+
+  /// The document containing the translated content. The document format matches
+  /// the source document format.
+  final TranslatedDocument translatedDocument;
+  final TranslationSettings? appliedSettings;
+
+  /// The names of the custom terminologies applied to the input text by Amazon
+  /// Translate to produce the translated text document.
+  final List<AppliedTerminology>? appliedTerminologies;
+
+  TranslateDocumentResponse({
+    required this.sourceLanguageCode,
+    required this.targetLanguageCode,
+    required this.translatedDocument,
+    this.appliedSettings,
+    this.appliedTerminologies,
+  });
+
+  factory TranslateDocumentResponse.fromJson(Map<String, dynamic> json) {
+    return TranslateDocumentResponse(
+      sourceLanguageCode: (json['SourceLanguageCode'] as String?) ?? '',
+      targetLanguageCode: (json['TargetLanguageCode'] as String?) ?? '',
+      translatedDocument: TranslatedDocument.fromJson(
+          (json['TranslatedDocument'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      appliedSettings: json['AppliedSettings'] != null
+          ? TranslationSettings.fromJson(
+              json['AppliedSettings'] as Map<String, dynamic>)
+          : null,
+      appliedTerminologies: (json['AppliedTerminologies'] as List?)
+          ?.nonNulls
+          .map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceLanguageCode = this.sourceLanguageCode;
+    final targetLanguageCode = this.targetLanguageCode;
+    final translatedDocument = this.translatedDocument;
+    final appliedSettings = this.appliedSettings;
+    final appliedTerminologies = this.appliedTerminologies;
+    return {
+      'SourceLanguageCode': sourceLanguageCode,
+      'TargetLanguageCode': targetLanguageCode,
+      'TranslatedDocument': translatedDocument,
+      if (appliedSettings != null) 'AppliedSettings': appliedSettings,
+      if (appliedTerminologies != null)
+        'AppliedTerminologies': appliedTerminologies,
+    };
+  }
+}
+
+class TranslateTextResponse {
+  /// The language code for the language of the source text.
+  final String sourceLanguageCode;
+
+  /// The language code for the language of the target text.
+  final String targetLanguageCode;
+
+  /// The translated text.
+  final String translatedText;
+
+  /// Optional settings that modify the translation output.
+  final TranslationSettings? appliedSettings;
+
+  /// The names of the custom terminologies applied to the input text by Amazon
+  /// Translate for the translated text response.
+  final List<AppliedTerminology>? appliedTerminologies;
+
+  TranslateTextResponse({
+    required this.sourceLanguageCode,
+    required this.targetLanguageCode,
+    required this.translatedText,
+    this.appliedSettings,
+    this.appliedTerminologies,
+  });
+
+  factory TranslateTextResponse.fromJson(Map<String, dynamic> json) {
+    return TranslateTextResponse(
+      sourceLanguageCode: (json['SourceLanguageCode'] as String?) ?? '',
+      targetLanguageCode: (json['TargetLanguageCode'] as String?) ?? '',
+      translatedText: (json['TranslatedText'] as String?) ?? '',
+      appliedSettings: json['AppliedSettings'] != null
+          ? TranslationSettings.fromJson(
+              json['AppliedSettings'] as Map<String, dynamic>)
+          : null,
+      appliedTerminologies: (json['AppliedTerminologies'] as List?)
+          ?.nonNulls
+          .map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceLanguageCode = this.sourceLanguageCode;
+    final targetLanguageCode = this.targetLanguageCode;
+    final translatedText = this.translatedText;
+    final appliedSettings = this.appliedSettings;
+    final appliedTerminologies = this.appliedTerminologies;
+    return {
+      'SourceLanguageCode': sourceLanguageCode,
+      'TargetLanguageCode': targetLanguageCode,
+      'TranslatedText': translatedText,
+      if (appliedSettings != null) 'AppliedSettings': appliedSettings,
+      if (appliedTerminologies != null)
+        'AppliedTerminologies': appliedTerminologies,
+    };
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateParallelDataResponse {
+  /// The time that the most recent update was attempted.
+  final DateTime? latestUpdateAttemptAt;
+
+  /// The status of the parallel data update attempt. When the updated parallel
+  /// data resource is ready for you to use, the status is <code>ACTIVE</code>.
+  final ParallelDataStatus? latestUpdateAttemptStatus;
+
+  /// The name of the parallel data resource being updated.
+  final String? name;
+
+  /// The status of the parallel data resource that you are attempting to update.
+  /// Your update request is accepted only if this status is either
+  /// <code>ACTIVE</code> or <code>FAILED</code>.
+  final ParallelDataStatus? status;
+
+  UpdateParallelDataResponse({
+    this.latestUpdateAttemptAt,
+    this.latestUpdateAttemptStatus,
+    this.name,
+    this.status,
+  });
+
+  factory UpdateParallelDataResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateParallelDataResponse(
+      latestUpdateAttemptAt: timeStampFromJson(json['LatestUpdateAttemptAt']),
+      latestUpdateAttemptStatus: (json['LatestUpdateAttemptStatus'] as String?)
+          ?.let(ParallelDataStatus.fromString),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.let(ParallelDataStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final latestUpdateAttemptAt = this.latestUpdateAttemptAt;
+    final latestUpdateAttemptStatus = this.latestUpdateAttemptStatus;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (latestUpdateAttemptAt != null)
+        'LatestUpdateAttemptAt': unixTimestampToJson(latestUpdateAttemptAt),
+      if (latestUpdateAttemptStatus != null)
+        'LatestUpdateAttemptStatus': latestUpdateAttemptStatus.value,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ParallelDataStatus {
+  static const creating = ParallelDataStatus._('CREATING');
+  static const updating = ParallelDataStatus._('UPDATING');
+  static const active = ParallelDataStatus._('ACTIVE');
+  static const deleting = ParallelDataStatus._('DELETING');
+  static const failed = ParallelDataStatus._('FAILED');
 
   final String value;
 
-  const MergeStrategy._(this.value);
+  const ParallelDataStatus._(this.value);
 
-  static const values = [overwrite];
+  static const values = [creating, updating, active, deleting, failed];
 
-  static MergeStrategy fromString(String value) =>
+  static ParallelDataStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => MergeStrategy._(value));
+          orElse: () => ParallelDataStatus._(value));
 
   @override
-  bool operator ==(other) => other is MergeStrategy && other.value == value;
+  bool operator ==(other) =>
+      other is ParallelDataStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Specifies the format and S3 location of the parallel data input file.
+class ParallelDataConfig {
+  /// The format of the parallel data input file.
+  final ParallelDataFormat? format;
+
+  /// The URI of the Amazon S3 folder that contains the parallel data input file.
+  /// The folder must be in the same Region as the API endpoint you are calling.
+  final String? s3Uri;
+
+  ParallelDataConfig({
+    this.format,
+    this.s3Uri,
+  });
+
+  factory ParallelDataConfig.fromJson(Map<String, dynamic> json) {
+    return ParallelDataConfig(
+      format: (json['Format'] as String?)?.let(ParallelDataFormat.fromString),
+      s3Uri: json['S3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final s3Uri = this.s3Uri;
+    return {
+      if (format != null) 'Format': format.value,
+      if (s3Uri != null) 'S3Uri': s3Uri,
+    };
+  }
+}
+
+class ParallelDataFormat {
+  static const tsv = ParallelDataFormat._('TSV');
+  static const csv = ParallelDataFormat._('CSV');
+  static const tmx = ParallelDataFormat._('TMX');
+
+  final String value;
+
+  const ParallelDataFormat._(this.value);
+
+  static const values = [tsv, csv, tmx];
+
+  static ParallelDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ParallelDataFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ParallelDataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Settings to configure your translation output. You can configure the
+/// following options:
+///
+/// <ul>
+/// <li>
+/// Brevity: reduces the length of the translation output for most translations.
+/// Available for <code>TranslateText</code> only.
+/// </li>
+/// <li>
+/// Formality: sets the formality level of the translation output.
+/// </li>
+/// <li>
+/// Profanity: masks profane words and phrases in the translation output.
+/// </li>
+/// </ul>
+class TranslationSettings {
+  /// When you turn on brevity, Amazon Translate reduces the length of the
+  /// translation output for most translations (when compared with the same
+  /// translation with brevity turned off). By default, brevity is turned off.
+  ///
+  /// If you turn on brevity for a translation request with an unsupported
+  /// language pair, the translation proceeds with the brevity setting turned off.
+  ///
+  /// For the language pairs that brevity supports, see <a
+  /// href="https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-brevity">Using
+  /// brevity</a> in the Amazon Translate Developer Guide.
+  final Brevity? brevity;
+
+  /// You can specify the desired level of formality for translations to supported
+  /// target languages. The formality setting controls the level of formal
+  /// language usage (also known as <a
+  /// href="https://en.wikipedia.org/wiki/Register_(sociolinguistics)">register</a>)
+  /// in the translation output. You can set the value to informal or formal. If
+  /// you don't specify a value for formality, or if the target language doesn't
+  /// support formality, the translation will ignore the formality setting.
+  ///
+  /// If you specify multiple target languages for the job, translate ignores the
+  /// formality setting for any unsupported target language.
+  ///
+  /// For a list of target languages that support formality, see <a
+  /// href="https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html#customizing-translations-formality-languages">Supported
+  /// languages</a> in the Amazon Translate Developer Guide.
+  final Formality? formality;
+
+  /// You can enable the profanity setting if you want to mask profane words and
+  /// phrases in your translation output.
+  ///
+  /// To mask profane words and phrases, Amazon Translate replaces them with the
+  /// grawlix string “?$#@$“. This 5-character sequence is used for each profane
+  /// word or phrase, regardless of the length or number of words.
+  ///
+  /// Amazon Translate doesn't detect profanity in all of its supported languages.
+  /// For languages that don't support profanity detection, see <a
+  /// href="https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-profanity.html#customizing-translations-profanity-languages">Unsupported
+  /// languages</a> in the Amazon Translate Developer Guide.
+  ///
+  /// If you specify multiple target languages for the job, all the target
+  /// languages must support profanity masking. If any of the target languages
+  /// don't support profanity masking, the translation job won't mask profanity
+  /// for any target language.
+  final Profanity? profanity;
+
+  TranslationSettings({
+    this.brevity,
+    this.formality,
+    this.profanity,
+  });
+
+  factory TranslationSettings.fromJson(Map<String, dynamic> json) {
+    return TranslationSettings(
+      brevity: (json['Brevity'] as String?)?.let(Brevity.fromString),
+      formality: (json['Formality'] as String?)?.let(Formality.fromString),
+      profanity: (json['Profanity'] as String?)?.let(Profanity.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brevity = this.brevity;
+    final formality = this.formality;
+    final profanity = this.profanity;
+    return {
+      if (brevity != null) 'Brevity': brevity.value,
+      if (formality != null) 'Formality': formality.value,
+      if (profanity != null) 'Profanity': profanity.value,
+    };
+  }
+}
+
+class Formality {
+  static const formal = Formality._('FORMAL');
+  static const informal = Formality._('INFORMAL');
+
+  final String value;
+
+  const Formality._(this.value);
+
+  static const values = [formal, informal];
+
+  static Formality fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Formality._(value));
+
+  @override
+  bool operator ==(other) => other is Formality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Profanity {
+  static const mask = Profanity._('MASK');
+
+  final String value;
+
+  const Profanity._(this.value);
+
+  static const values = [mask];
+
+  static Profanity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Profanity._(value));
+
+  @override
+  bool operator ==(other) => other is Profanity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Brevity {
+  static const on = Brevity._('ON');
+
+  final String value;
+
+  const Brevity._(this.value);
+
+  static const values = [on];
+
+  static Brevity fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Brevity._(value));
+
+  @override
+  bool operator ==(other) => other is Brevity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The custom terminology applied to the input text by Amazon Translate for the
+/// translated text response. This is optional in the response and will only be
+/// present if you specified terminology input in the request. Currently, only
+/// one terminology can be applied per TranslateText request.
+class AppliedTerminology {
+  /// The name of the custom terminology applied to the input text by Amazon
+  /// Translate for the translated text response.
+  final String? name;
+
+  /// The specific terms of the custom terminology applied to the input text by
+  /// Amazon Translate for the translated text response. A maximum of 250 terms
+  /// will be returned, and the specific terms applied will be the first 250 terms
+  /// in the source text.
+  final List<Term>? terms;
+
+  AppliedTerminology({
+    this.name,
+    this.terms,
+  });
+
+  factory AppliedTerminology.fromJson(Map<String, dynamic> json) {
+    return AppliedTerminology(
+      name: json['Name'] as String?,
+      terms: (json['Terms'] as List?)
+          ?.nonNulls
+          .map((e) => Term.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final terms = this.terms;
+    return {
+      if (name != null) 'Name': name,
+      if (terms != null) 'Terms': terms,
+    };
+  }
+}
+
+/// The term being translated by the custom terminology.
+class Term {
+  /// The source text of the term being translated by the custom terminology.
+  final String? sourceText;
+
+  /// The target text of the term being translated by the custom terminology.
+  final String? targetText;
+
+  Term({
+    this.sourceText,
+    this.targetText,
+  });
+
+  factory Term.fromJson(Map<String, dynamic> json) {
+    return Term(
+      sourceText: json['SourceText'] as String?,
+      targetText: json['TargetText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceText = this.sourceText;
+    final targetText = this.targetText;
+    return {
+      if (sourceText != null) 'SourceText': sourceText,
+      if (targetText != null) 'TargetText': targetText,
+    };
+  }
+}
+
+/// The translated content.
+class TranslatedDocument {
+  /// The document containing the translated content.
+  final Uint8List content;
+
+  TranslatedDocument({
+    required this.content,
+  });
+
+  factory TranslatedDocument.fromJson(Map<String, dynamic> json) {
+    return TranslatedDocument(
+      content: _s.decodeUint8List((json['Content'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    return {
+      'Content': base64Encode(content),
+    };
+  }
+}
+
+/// The content and content type of a document.
+class Document {
+  /// The <code>Content</code>field type is Binary large object (blob). This
+  /// object contains the document content converted into base64-encoded binary
+  /// data. If you use one of the AWS SDKs, the SDK performs the Base64-encoding
+  /// on this field before sending the request.
+  final Uint8List content;
+
+  /// Describes the format of the document. You can specify one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>text/html</code> - The input data consists of HTML content. Amazon
+  /// Translate translates only the text in the HTML element.
+  /// </li>
+  /// <li>
+  /// <code>text/plain</code> - The input data consists of unformatted text.
+  /// Amazon Translate translates every character in the content.
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code>
+  /// - The input data consists of a Word document (.docx).
+  /// </li>
+  /// </ul>
+  final String contentType;
+
+  Document({
+    required this.content,
+    required this.contentType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final contentType = this.contentType;
+    return {
+      'Content': base64Encode(content),
+      'ContentType': contentType,
+    };
+  }
+}
+
+/// A key-value pair that adds as a metadata to a resource used by Amazon
+/// Translate.
+class Tag {
+  /// The initial part of a key-value pair that forms a tag associated with a
+  /// given resource.
+  final String key;
+
+  /// The second part of a key-value pair that forms a tag associated with a given
+  /// resource.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class JobStatus {
+  static const submitted = JobStatus._('SUBMITTED');
+  static const inProgress = JobStatus._('IN_PROGRESS');
+  static const completed = JobStatus._('COMPLETED');
+  static const completedWithError = JobStatus._('COMPLETED_WITH_ERROR');
+  static const failed = JobStatus._('FAILED');
+  static const stopRequested = JobStatus._('STOP_REQUESTED');
+  static const stopped = JobStatus._('STOPPED');
+
+  final String value;
+
+  const JobStatus._(this.value);
+
+  static const values = [
+    submitted,
+    inProgress,
+    completed,
+    completedWithError,
+    failed,
+    stopRequested,
+    stopped
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The input configuration properties for requesting a batch translation job.
+class InputDataConfig {
+  /// Describes the format of the data that you submit to Amazon Translate as
+  /// input. You can specify one of the following multipurpose internet mail
+  /// extension (MIME) types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>text/html</code>: The input data consists of one or more HTML files.
+  /// Amazon Translate translates only the text that resides in the
+  /// <code>html</code> element in each file.
+  /// </li>
+  /// <li>
+  /// <code>text/plain</code>: The input data consists of one or more unformatted
+  /// text files. Amazon Translate translates every character in this type of
+  /// input.
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.openxmlformats-officedocument.wordprocessingml.document</code>:
+  /// The input data consists of one or more Word documents (.docx).
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.openxmlformats-officedocument.presentationml.presentation</code>:
+  /// The input data consists of one or more PowerPoint Presentation files
+  /// (.pptx).
+  /// </li>
+  /// <li>
+  /// <code>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</code>:
+  /// The input data consists of one or more Excel Workbook files (.xlsx).
+  /// </li>
+  /// <li>
+  /// <code>application/x-xliff+xml</code>: The input data consists of one or more
+  /// XML Localization Interchange File Format (XLIFF) files (.xlf). Amazon
+  /// Translate supports only XLIFF version 1.2.
+  /// </li>
+  /// </ul> <important>
+  /// If you structure your input data as HTML, ensure that you set this parameter
+  /// to <code>text/html</code>. By doing so, you cut costs by limiting the
+  /// translation to the contents of the <code>html</code> element in each file.
+  /// Otherwise, if you set this parameter to <code>text/plain</code>, your costs
+  /// will cover the translation of every character.
+  /// </important>
+  final String contentType;
+
+  /// The URI of the AWS S3 folder that contains the input files. Amazon Translate
+  /// translates all the files in the folder and all its sub-folders. The folder
+  /// must be in the same Region as the API endpoint you are calling.
+  final String s3Uri;
+
+  InputDataConfig({
+    required this.contentType,
+    required this.s3Uri,
+  });
+
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      contentType: (json['ContentType'] as String?) ?? '',
+      s3Uri: (json['S3Uri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final s3Uri = this.s3Uri;
+    return {
+      'ContentType': contentType,
+      'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// The output configuration properties for a batch translation job.
@@ -2024,99 +2377,476 @@ class OutputDataConfig {
   }
 }
 
-/// Specifies the format and S3 location of the parallel data input file.
-class ParallelDataConfig {
-  /// The format of the parallel data input file.
-  final ParallelDataFormat? format;
+/// The encryption key used to encrypt this object.
+class EncryptionKey {
+  /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt
+  /// this object.
+  final String id;
 
-  /// The URI of the Amazon S3 folder that contains the parallel data input file.
-  /// The folder must be in the same Region as the API endpoint you are calling.
-  final String? s3Uri;
+  /// The type of encryption key used by Amazon Translate to encrypt this object.
+  final EncryptionKeyType type;
 
-  ParallelDataConfig({
-    this.format,
-    this.s3Uri,
+  EncryptionKey({
+    required this.id,
+    required this.type,
   });
 
-  factory ParallelDataConfig.fromJson(Map<String, dynamic> json) {
-    return ParallelDataConfig(
-      format: (json['Format'] as String?)?.let(ParallelDataFormat.fromString),
-      s3Uri: json['S3Uri'] as String?,
+  factory EncryptionKey.fromJson(Map<String, dynamic> json) {
+    return EncryptionKey(
+      id: (json['Id'] as String?) ?? '',
+      type: EncryptionKeyType.fromString((json['Type'] as String?) ?? ''),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final format = this.format;
-    final s3Uri = this.s3Uri;
+    final id = this.id;
+    final type = this.type;
     return {
-      if (format != null) 'Format': format.value,
-      if (s3Uri != null) 'S3Uri': s3Uri,
+      'Id': id,
+      'Type': type.value,
     };
   }
 }
 
-/// The location of the most recent parallel data input file that was
-/// successfully imported into Amazon Translate.
-class ParallelDataDataLocation {
-  /// The Amazon S3 location of the parallel data input file. The location is
-  /// returned as a presigned URL to that has a 30-minute expiration.
-  /// <important>
-  /// Amazon Translate doesn't scan all input files for the risk of CSV injection
-  /// attacks.
-  ///
-  /// CSV injection occurs when a .csv or .tsv file is altered so that a record
-  /// contains malicious code. The record begins with a special character, such as
-  /// =, +, -, or @. When the file is opened in a spreadsheet program, the program
-  /// might interpret the record as a formula and run the code within it.
-  ///
-  /// Before you download an input file from Amazon S3, ensure that you recognize
-  /// the file and trust its creator.
-  /// </important>
-  final String location;
-
-  /// Describes the repository that contains the parallel data input file.
-  final String repositoryType;
-
-  ParallelDataDataLocation({
-    required this.location,
-    required this.repositoryType,
-  });
-
-  factory ParallelDataDataLocation.fromJson(Map<String, dynamic> json) {
-    return ParallelDataDataLocation(
-      location: (json['Location'] as String?) ?? '',
-      repositoryType: (json['RepositoryType'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final location = this.location;
-    final repositoryType = this.repositoryType;
-    return {
-      'Location': location,
-      'RepositoryType': repositoryType,
-    };
-  }
-}
-
-class ParallelDataFormat {
-  static const tsv = ParallelDataFormat._('TSV');
-  static const csv = ParallelDataFormat._('CSV');
-  static const tmx = ParallelDataFormat._('TMX');
+class EncryptionKeyType {
+  static const kms = EncryptionKeyType._('KMS');
 
   final String value;
 
-  const ParallelDataFormat._(this.value);
+  const EncryptionKeyType._(this.value);
 
-  static const values = [tsv, csv, tmx];
+  static const values = [kms];
 
-  static ParallelDataFormat fromString(String value) =>
+  static EncryptionKeyType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ParallelDataFormat._(value));
+          orElse: () => EncryptionKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about a translation job.
+class TextTranslationJobProperties {
+  /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
+  /// (IAM) role that granted Amazon Translate read access to the job's input
+  /// data.
+  final String? dataAccessRoleArn;
+
+  /// The time at which the translation job ended.
+  final DateTime? endTime;
+
+  /// The input configuration properties that were specified when the job was
+  /// requested.
+  final InputDataConfig? inputDataConfig;
+
+  /// The number of documents successfully and unsuccessfully processed during the
+  /// translation job.
+  final JobDetails? jobDetails;
+
+  /// The ID of the translation job.
+  final String? jobId;
+
+  /// The user-defined name of the translation job.
+  final String? jobName;
+
+  /// The status of the translation job.
+  final JobStatus? jobStatus;
+
+  /// An explanation of any errors that may have occurred during the translation
+  /// job.
+  final String? message;
+
+  /// The output configuration properties that were specified when the job was
+  /// requested.
+  final OutputDataConfig? outputDataConfig;
+
+  /// A list containing the names of the parallel data resources applied to the
+  /// translation job.
+  final List<String>? parallelDataNames;
+
+  /// Settings that modify the translation output.
+  final TranslationSettings? settings;
+
+  /// The language code of the language of the source text. The language must be a
+  /// language supported by Amazon Translate.
+  final String? sourceLanguageCode;
+
+  /// The time at which the translation job was submitted.
+  final DateTime? submittedTime;
+
+  /// The language code of the language of the target text. The language must be a
+  /// language supported by Amazon Translate.
+  final List<String>? targetLanguageCodes;
+
+  /// A list containing the names of the terminologies applied to a translation
+  /// job. Only one terminology can be applied per <a>StartTextTranslationJob</a>
+  /// request at this time.
+  final List<String>? terminologyNames;
+
+  TextTranslationJobProperties({
+    this.dataAccessRoleArn,
+    this.endTime,
+    this.inputDataConfig,
+    this.jobDetails,
+    this.jobId,
+    this.jobName,
+    this.jobStatus,
+    this.message,
+    this.outputDataConfig,
+    this.parallelDataNames,
+    this.settings,
+    this.sourceLanguageCode,
+    this.submittedTime,
+    this.targetLanguageCodes,
+    this.terminologyNames,
+  });
+
+  factory TextTranslationJobProperties.fromJson(Map<String, dynamic> json) {
+    return TextTranslationJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobDetails: json['JobDetails'] != null
+          ? JobDetails.fromJson(json['JobDetails'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+      message: json['Message'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      parallelDataNames: (json['ParallelDataNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      settings: json['Settings'] != null
+          ? TranslationSettings.fromJson(
+              json['Settings'] as Map<String, dynamic>)
+          : null,
+      sourceLanguageCode: json['SourceLanguageCode'] as String?,
+      submittedTime: timeStampFromJson(json['SubmittedTime']),
+      targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      terminologyNames: (json['TerminologyNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobDetails = this.jobDetails;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final message = this.message;
+    final outputDataConfig = this.outputDataConfig;
+    final parallelDataNames = this.parallelDataNames;
+    final settings = this.settings;
+    final sourceLanguageCode = this.sourceLanguageCode;
+    final submittedTime = this.submittedTime;
+    final targetLanguageCodes = this.targetLanguageCodes;
+    final terminologyNames = this.terminologyNames;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobDetails != null) 'JobDetails': jobDetails,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
+      if (message != null) 'Message': message,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (parallelDataNames != null) 'ParallelDataNames': parallelDataNames,
+      if (settings != null) 'Settings': settings,
+      if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
+      if (submittedTime != null)
+        'SubmittedTime': unixTimestampToJson(submittedTime),
+      if (targetLanguageCodes != null)
+        'TargetLanguageCodes': targetLanguageCodes,
+      if (terminologyNames != null) 'TerminologyNames': terminologyNames,
+    };
+  }
+}
+
+/// The number of documents successfully and unsuccessfully processed during a
+/// translation job.
+class JobDetails {
+  /// The number of documents that could not be processed during a translation
+  /// job.
+  final int? documentsWithErrorsCount;
+
+  /// The number of documents used as input in a translation job.
+  final int? inputDocumentsCount;
+
+  /// The number of documents successfully processed during a translation job.
+  final int? translatedDocumentsCount;
+
+  JobDetails({
+    this.documentsWithErrorsCount,
+    this.inputDocumentsCount,
+    this.translatedDocumentsCount,
+  });
+
+  factory JobDetails.fromJson(Map<String, dynamic> json) {
+    return JobDetails(
+      documentsWithErrorsCount: json['DocumentsWithErrorsCount'] as int?,
+      inputDocumentsCount: json['InputDocumentsCount'] as int?,
+      translatedDocumentsCount: json['TranslatedDocumentsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentsWithErrorsCount = this.documentsWithErrorsCount;
+    final inputDocumentsCount = this.inputDocumentsCount;
+    final translatedDocumentsCount = this.translatedDocumentsCount;
+    return {
+      if (documentsWithErrorsCount != null)
+        'DocumentsWithErrorsCount': documentsWithErrorsCount,
+      if (inputDocumentsCount != null)
+        'InputDocumentsCount': inputDocumentsCount,
+      if (translatedDocumentsCount != null)
+        'TranslatedDocumentsCount': translatedDocumentsCount,
+    };
+  }
+}
+
+/// Provides information for filtering a list of translation jobs. For more
+/// information, see <a>ListTextTranslationJobs</a>.
+class TextTranslationJobFilter {
+  /// Filters the list of jobs by name.
+  final String? jobName;
+
+  /// Filters the list of jobs based by job status.
+  final JobStatus? jobStatus;
+
+  /// Filters the list of jobs based on the time that the job was submitted for
+  /// processing and returns only the jobs submitted after the specified time.
+  /// Jobs are returned in descending order, newest to oldest.
+  final DateTime? submittedAfterTime;
+
+  /// Filters the list of jobs based on the time that the job was submitted for
+  /// processing and returns only the jobs submitted before the specified time.
+  /// Jobs are returned in ascending order, oldest to newest.
+  final DateTime? submittedBeforeTime;
+
+  TextTranslationJobFilter({
+    this.jobName,
+    this.jobStatus,
+    this.submittedAfterTime,
+    this.submittedBeforeTime,
+  });
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submittedAfterTime = this.submittedAfterTime;
+    final submittedBeforeTime = this.submittedBeforeTime;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.value,
+      if (submittedAfterTime != null)
+        'SubmittedAfterTime': unixTimestampToJson(submittedAfterTime),
+      if (submittedBeforeTime != null)
+        'SubmittedBeforeTime': unixTimestampToJson(submittedBeforeTime),
+    };
+  }
+}
+
+/// The properties of the custom terminology.
+class TerminologyProperties {
+  /// The Amazon Resource Name (ARN) of the custom terminology.
+  final String? arn;
+
+  /// The time at which the custom terminology was created, based on the
+  /// timestamp.
+  final DateTime? createdAt;
+
+  /// The description of the custom terminology properties.
+  final String? description;
+
+  /// The directionality of your terminology resource indicates whether it has one
+  /// source language (uni-directional) or multiple (multi-directional).
+  /// <dl> <dt>UNI</dt> <dd>
+  /// The terminology resource has one source language (the first column in a CSV
+  /// file), and all of its other languages are target languages.
+  /// </dd> <dt>MULTI</dt> <dd>
+  /// Any language in the terminology resource can be the source language.
+  /// </dd> </dl>
+  final Directionality? directionality;
+
+  /// The encryption key for the custom terminology.
+  final EncryptionKey? encryptionKey;
+
+  /// The format of the custom terminology input file.
+  final TerminologyDataFormat? format;
+
+  /// The time at which the custom terminology was last update, based on the
+  /// timestamp.
+  final DateTime? lastUpdatedAt;
+
+  /// Additional information from Amazon Translate about the terminology resource.
+  final String? message;
+
+  /// The name of the custom terminology.
+  final String? name;
+
+  /// The size of the file used when importing a custom terminology.
+  final int? sizeBytes;
+
+  /// The number of terms in the input file that Amazon Translate skipped when you
+  /// created or updated the terminology resource.
+  final int? skippedTermCount;
+
+  /// The language code for the source text of the translation request for which
+  /// the custom terminology is being used.
+  final String? sourceLanguageCode;
+
+  /// The language codes for the target languages available with the custom
+  /// terminology resource. All possible target languages are returned in array.
+  final List<String>? targetLanguageCodes;
+
+  /// The number of terms included in the custom terminology.
+  final int? termCount;
+
+  TerminologyProperties({
+    this.arn,
+    this.createdAt,
+    this.description,
+    this.directionality,
+    this.encryptionKey,
+    this.format,
+    this.lastUpdatedAt,
+    this.message,
+    this.name,
+    this.sizeBytes,
+    this.skippedTermCount,
+    this.sourceLanguageCode,
+    this.targetLanguageCodes,
+    this.termCount,
+  });
+
+  factory TerminologyProperties.fromJson(Map<String, dynamic> json) {
+    return TerminologyProperties(
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      directionality:
+          (json['Directionality'] as String?)?.let(Directionality.fromString),
+      encryptionKey: json['EncryptionKey'] != null
+          ? EncryptionKey.fromJson(
+              json['EncryptionKey'] as Map<String, dynamic>)
+          : null,
+      format:
+          (json['Format'] as String?)?.let(TerminologyDataFormat.fromString),
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      sizeBytes: json['SizeBytes'] as int?,
+      skippedTermCount: json['SkippedTermCount'] as int?,
+      sourceLanguageCode: json['SourceLanguageCode'] as String?,
+      targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      termCount: json['TermCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final directionality = this.directionality;
+    final encryptionKey = this.encryptionKey;
+    final format = this.format;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final message = this.message;
+    final name = this.name;
+    final sizeBytes = this.sizeBytes;
+    final skippedTermCount = this.skippedTermCount;
+    final sourceLanguageCode = this.sourceLanguageCode;
+    final targetLanguageCodes = this.targetLanguageCodes;
+    final termCount = this.termCount;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (directionality != null) 'Directionality': directionality.value,
+      if (encryptionKey != null) 'EncryptionKey': encryptionKey,
+      if (format != null) 'Format': format.value,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (message != null) 'Message': message,
+      if (name != null) 'Name': name,
+      if (sizeBytes != null) 'SizeBytes': sizeBytes,
+      if (skippedTermCount != null) 'SkippedTermCount': skippedTermCount,
+      if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
+      if (targetLanguageCodes != null)
+        'TargetLanguageCodes': targetLanguageCodes,
+      if (termCount != null) 'TermCount': termCount,
+    };
+  }
+}
+
+class Directionality {
+  static const uni = Directionality._('UNI');
+  static const multi = Directionality._('MULTI');
+
+  final String value;
+
+  const Directionality._(this.value);
+
+  static const values = [uni, multi];
+
+  static Directionality fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => Directionality._(value));
+
+  @override
+  bool operator ==(other) => other is Directionality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TerminologyDataFormat {
+  static const csv = TerminologyDataFormat._('CSV');
+  static const tmx = TerminologyDataFormat._('TMX');
+  static const tsv = TerminologyDataFormat._('TSV');
+
+  final String value;
+
+  const TerminologyDataFormat._(this.value);
+
+  static const values = [csv, tmx, tsv];
+
+  static TerminologyDataFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TerminologyDataFormat._(value));
 
   @override
   bool operator ==(other) =>
-      other is ParallelDataFormat && other.value == value;
+      other is TerminologyDataFormat && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2284,26 +3014,31 @@ class ParallelDataProperties {
   }
 }
 
-class ParallelDataStatus {
-  static const creating = ParallelDataStatus._('CREATING');
-  static const updating = ParallelDataStatus._('UPDATING');
-  static const active = ParallelDataStatus._('ACTIVE');
-  static const deleting = ParallelDataStatus._('DELETING');
-  static const failed = ParallelDataStatus._('FAILED');
+class DisplayLanguageCode {
+  static const de = DisplayLanguageCode._('de');
+  static const en = DisplayLanguageCode._('en');
+  static const es = DisplayLanguageCode._('es');
+  static const fr = DisplayLanguageCode._('fr');
+  static const it = DisplayLanguageCode._('it');
+  static const ja = DisplayLanguageCode._('ja');
+  static const ko = DisplayLanguageCode._('ko');
+  static const pt = DisplayLanguageCode._('pt');
+  static const zh = DisplayLanguageCode._('zh');
+  static const zhTw = DisplayLanguageCode._('zh-TW');
 
   final String value;
 
-  const ParallelDataStatus._(this.value);
+  const DisplayLanguageCode._(this.value);
 
-  static const values = [creating, updating, active, deleting, failed];
+  static const values = [de, en, es, fr, it, ja, ko, pt, zh, zhTw];
 
-  static ParallelDataStatus fromString(String value) =>
+  static DisplayLanguageCode fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ParallelDataStatus._(value));
+          orElse: () => DisplayLanguageCode._(value));
 
   @override
   bool operator ==(other) =>
-      other is ParallelDataStatus && other.value == value;
+      other is DisplayLanguageCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2312,190 +3047,101 @@ class ParallelDataStatus {
   String toString() => value;
 }
 
-class Profanity {
-  static const mask = Profanity._('MASK');
+/// A supported language.
+class Language {
+  /// Language code for the supported language.
+  final String languageCode;
 
-  final String value;
+  /// Language name of the supported language.
+  final String languageName;
 
-  const Profanity._(this.value);
+  Language({
+    required this.languageCode,
+    required this.languageName,
+  });
 
-  static const values = [mask];
+  factory Language.fromJson(Map<String, dynamic> json) {
+    return Language(
+      languageCode: (json['LanguageCode'] as String?) ?? '',
+      languageName: (json['LanguageName'] as String?) ?? '',
+    );
+  }
 
-  static Profanity fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Profanity._(value));
-
-  @override
-  bool operator ==(other) => other is Profanity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final languageName = this.languageName;
+    return {
+      'LanguageCode': languageCode,
+      'LanguageName': languageName,
+    };
+  }
 }
 
-class StartTextTranslationJobResponse {
-  /// The identifier generated for the job. To get the status of a job, use this
-  /// ID with the <a>DescribeTextTranslationJob</a> operation.
-  final String? jobId;
-
-  /// The status of the job. Possible values include:
+/// The location of the custom terminology data.
+class TerminologyDataLocation {
+  /// The Amazon S3 location of the most recent custom terminology input file that
+  /// was successfully imported into Amazon Translate. The location is returned as
+  /// a presigned URL that has a 30-minute expiration .
+  /// <important>
+  /// Amazon Translate doesn't scan all input files for the risk of CSV injection
+  /// attacks.
   ///
-  /// <ul>
-  /// <li>
-  /// <code>SUBMITTED</code> - The job has been received and is queued for
-  /// processing.
-  /// </li>
-  /// <li>
-  /// <code>IN_PROGRESS</code> - Amazon Translate is processing the job.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED</code> - The job was successfully completed and the output
-  /// is available.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED_WITH_ERROR</code> - The job was completed with errors. The
-  /// errors can be analyzed in the job's output.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> - The job did not complete. To get details, use the
-  /// <a>DescribeTextTranslationJob</a> operation.
-  /// </li>
-  /// <li>
-  /// <code>STOP_REQUESTED</code> - The user who started the job has requested
-  /// that it be stopped.
-  /// </li>
-  /// <li>
-  /// <code>STOPPED</code> - The job has been stopped.
-  /// </li>
-  /// </ul>
-  final JobStatus? jobStatus;
+  /// CSV injection occurs when a .csv or .tsv file is altered so that a record
+  /// contains malicious code. The record begins with a special character, such as
+  /// =, +, -, or @. When the file is opened in a spreadsheet program, the program
+  /// might interpret the record as a formula and run the code within it.
+  ///
+  /// Before you download an input file from Amazon S3, ensure that you recognize
+  /// the file and trust its creator.
+  /// </important>
+  final String location;
 
-  StartTextTranslationJobResponse({
-    this.jobId,
-    this.jobStatus,
+  /// The repository type for the custom terminology data.
+  final String repositoryType;
+
+  TerminologyDataLocation({
+    required this.location,
+    required this.repositoryType,
   });
 
-  factory StartTextTranslationJobResponse.fromJson(Map<String, dynamic> json) {
-    return StartTextTranslationJobResponse(
-      jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
+  factory TerminologyDataLocation.fromJson(Map<String, dynamic> json) {
+    return TerminologyDataLocation(
+      location: (json['Location'] as String?) ?? '',
+      repositoryType: (json['RepositoryType'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final jobStatus = this.jobStatus;
+    final location = this.location;
+    final repositoryType = this.repositoryType;
     return {
-      if (jobId != null) 'JobId': jobId,
-      if (jobStatus != null) 'JobStatus': jobStatus.value,
+      'Location': location,
+      'RepositoryType': repositoryType,
     };
   }
 }
 
-class StopTextTranslationJobResponse {
-  /// The job ID of the stopped batch translation job.
-  final String? jobId;
+class MergeStrategy {
+  static const overwrite = MergeStrategy._('OVERWRITE');
 
-  /// The status of the designated job. Upon successful completion, the job's
-  /// status will be <code>STOPPED</code>.
-  final JobStatus? jobStatus;
-
-  StopTextTranslationJobResponse({
-    this.jobId,
-    this.jobStatus,
-  });
-
-  factory StopTextTranslationJobResponse.fromJson(Map<String, dynamic> json) {
-    return StopTextTranslationJobResponse(
-      jobId: json['JobId'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final jobStatus = this.jobStatus;
-    return {
-      if (jobId != null) 'JobId': jobId,
-      if (jobStatus != null) 'JobStatus': jobStatus.value,
-    };
-  }
-}
-
-/// A key-value pair that adds as a metadata to a resource used by Amazon
-/// Translate.
-class Tag {
-  /// The initial part of a key-value pair that forms a tag associated with a
-  /// given resource.
-  final String key;
-
-  /// The second part of a key-value pair that forms a tag associated with a given
-  /// resource.
   final String value;
 
-  Tag({
-    required this.key,
-    required this.value,
-  });
+  const MergeStrategy._(this.value);
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
+  static const values = [overwrite];
 
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
+  static MergeStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MergeStrategy._(value));
 
-class TagResourceResponse {
-  TagResourceResponse();
+  @override
+  bool operator ==(other) => other is MergeStrategy && other.value == value;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
+  @override
+  int get hashCode => value.hashCode;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The term being translated by the custom terminology.
-class Term {
-  /// The source text of the term being translated by the custom terminology.
-  final String? sourceText;
-
-  /// The target text of the term being translated by the custom terminology.
-  final String? targetText;
-
-  Term({
-    this.sourceText,
-    this.targetText,
-  });
-
-  factory Term.fromJson(Map<String, dynamic> json) {
-    return Term(
-      sourceText: json['SourceText'] as String?,
-      targetText: json['TargetText'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sourceText = this.sourceText;
-    final targetText = this.targetText;
-    return {
-      if (sourceText != null) 'SourceText': sourceText,
-      if (targetText != null) 'TargetText': targetText,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
 /// The data associated with the custom terminology. For information about the
@@ -2546,37 +3192,11 @@ class TerminologyData {
   }
 }
 
-class TerminologyDataFormat {
-  static const csv = TerminologyDataFormat._('CSV');
-  static const tmx = TerminologyDataFormat._('TMX');
-  static const tsv = TerminologyDataFormat._('TSV');
-
-  final String value;
-
-  const TerminologyDataFormat._(this.value);
-
-  static const values = [csv, tmx, tsv];
-
-  static TerminologyDataFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TerminologyDataFormat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TerminologyDataFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The location of the custom terminology data.
-class TerminologyDataLocation {
-  /// The Amazon S3 location of the most recent custom terminology input file that
-  /// was successfully imported into Amazon Translate. The location is returned as
-  /// a presigned URL that has a 30-minute expiration .
+/// The location of the most recent parallel data input file that was
+/// successfully imported into Amazon Translate.
+class ParallelDataDataLocation {
+  /// The Amazon S3 location of the parallel data input file. The location is
+  /// returned as a presigned URL to that has a 30-minute expiration.
   /// <important>
   /// Amazon Translate doesn't scan all input files for the risk of CSV injection
   /// attacks.
@@ -2591,16 +3211,16 @@ class TerminologyDataLocation {
   /// </important>
   final String location;
 
-  /// The repository type for the custom terminology data.
+  /// Describes the repository that contains the parallel data input file.
   final String repositoryType;
 
-  TerminologyDataLocation({
+  ParallelDataDataLocation({
     required this.location,
     required this.repositoryType,
   });
 
-  factory TerminologyDataLocation.fromJson(Map<String, dynamic> json) {
-    return TerminologyDataLocation(
+  factory ParallelDataDataLocation.fromJson(Map<String, dynamic> json) {
+    return ParallelDataDataLocation(
       location: (json['Location'] as String?) ?? '',
       repositoryType: (json['RepositoryType'] as String?) ?? '',
     );
@@ -2612,627 +3232,6 @@ class TerminologyDataLocation {
     return {
       'Location': location,
       'RepositoryType': repositoryType,
-    };
-  }
-}
-
-/// The properties of the custom terminology.
-class TerminologyProperties {
-  /// The Amazon Resource Name (ARN) of the custom terminology.
-  final String? arn;
-
-  /// The time at which the custom terminology was created, based on the
-  /// timestamp.
-  final DateTime? createdAt;
-
-  /// The description of the custom terminology properties.
-  final String? description;
-
-  /// The directionality of your terminology resource indicates whether it has one
-  /// source language (uni-directional) or multiple (multi-directional).
-  /// <dl> <dt>UNI</dt> <dd>
-  /// The terminology resource has one source language (the first column in a CSV
-  /// file), and all of its other languages are target languages.
-  /// </dd> <dt>MULTI</dt> <dd>
-  /// Any language in the terminology resource can be the source language.
-  /// </dd> </dl>
-  final Directionality? directionality;
-
-  /// The encryption key for the custom terminology.
-  final EncryptionKey? encryptionKey;
-
-  /// The format of the custom terminology input file.
-  final TerminologyDataFormat? format;
-
-  /// The time at which the custom terminology was last update, based on the
-  /// timestamp.
-  final DateTime? lastUpdatedAt;
-
-  /// Additional information from Amazon Translate about the terminology resource.
-  final String? message;
-
-  /// The name of the custom terminology.
-  final String? name;
-
-  /// The size of the file used when importing a custom terminology.
-  final int? sizeBytes;
-
-  /// The number of terms in the input file that Amazon Translate skipped when you
-  /// created or updated the terminology resource.
-  final int? skippedTermCount;
-
-  /// The language code for the source text of the translation request for which
-  /// the custom terminology is being used.
-  final String? sourceLanguageCode;
-
-  /// The language codes for the target languages available with the custom
-  /// terminology resource. All possible target languages are returned in array.
-  final List<String>? targetLanguageCodes;
-
-  /// The number of terms included in the custom terminology.
-  final int? termCount;
-
-  TerminologyProperties({
-    this.arn,
-    this.createdAt,
-    this.description,
-    this.directionality,
-    this.encryptionKey,
-    this.format,
-    this.lastUpdatedAt,
-    this.message,
-    this.name,
-    this.sizeBytes,
-    this.skippedTermCount,
-    this.sourceLanguageCode,
-    this.targetLanguageCodes,
-    this.termCount,
-  });
-
-  factory TerminologyProperties.fromJson(Map<String, dynamic> json) {
-    return TerminologyProperties(
-      arn: json['Arn'] as String?,
-      createdAt: timeStampFromJson(json['CreatedAt']),
-      description: json['Description'] as String?,
-      directionality:
-          (json['Directionality'] as String?)?.let(Directionality.fromString),
-      encryptionKey: json['EncryptionKey'] != null
-          ? EncryptionKey.fromJson(
-              json['EncryptionKey'] as Map<String, dynamic>)
-          : null,
-      format:
-          (json['Format'] as String?)?.let(TerminologyDataFormat.fromString),
-      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
-      message: json['Message'] as String?,
-      name: json['Name'] as String?,
-      sizeBytes: json['SizeBytes'] as int?,
-      skippedTermCount: json['SkippedTermCount'] as int?,
-      sourceLanguageCode: json['SourceLanguageCode'] as String?,
-      targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      termCount: json['TermCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final description = this.description;
-    final directionality = this.directionality;
-    final encryptionKey = this.encryptionKey;
-    final format = this.format;
-    final lastUpdatedAt = this.lastUpdatedAt;
-    final message = this.message;
-    final name = this.name;
-    final sizeBytes = this.sizeBytes;
-    final skippedTermCount = this.skippedTermCount;
-    final sourceLanguageCode = this.sourceLanguageCode;
-    final targetLanguageCodes = this.targetLanguageCodes;
-    final termCount = this.termCount;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
-      if (description != null) 'Description': description,
-      if (directionality != null) 'Directionality': directionality.value,
-      if (encryptionKey != null) 'EncryptionKey': encryptionKey,
-      if (format != null) 'Format': format.value,
-      if (lastUpdatedAt != null)
-        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
-      if (message != null) 'Message': message,
-      if (name != null) 'Name': name,
-      if (sizeBytes != null) 'SizeBytes': sizeBytes,
-      if (skippedTermCount != null) 'SkippedTermCount': skippedTermCount,
-      if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
-      if (targetLanguageCodes != null)
-        'TargetLanguageCodes': targetLanguageCodes,
-      if (termCount != null) 'TermCount': termCount,
-    };
-  }
-}
-
-/// Provides information for filtering a list of translation jobs. For more
-/// information, see <a>ListTextTranslationJobs</a>.
-class TextTranslationJobFilter {
-  /// Filters the list of jobs by name.
-  final String? jobName;
-
-  /// Filters the list of jobs based by job status.
-  final JobStatus? jobStatus;
-
-  /// Filters the list of jobs based on the time that the job was submitted for
-  /// processing and returns only the jobs submitted after the specified time.
-  /// Jobs are returned in descending order, newest to oldest.
-  final DateTime? submittedAfterTime;
-
-  /// Filters the list of jobs based on the time that the job was submitted for
-  /// processing and returns only the jobs submitted before the specified time.
-  /// Jobs are returned in ascending order, oldest to newest.
-  final DateTime? submittedBeforeTime;
-
-  TextTranslationJobFilter({
-    this.jobName,
-    this.jobStatus,
-    this.submittedAfterTime,
-    this.submittedBeforeTime,
-  });
-
-  Map<String, dynamic> toJson() {
-    final jobName = this.jobName;
-    final jobStatus = this.jobStatus;
-    final submittedAfterTime = this.submittedAfterTime;
-    final submittedBeforeTime = this.submittedBeforeTime;
-    return {
-      if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.value,
-      if (submittedAfterTime != null)
-        'SubmittedAfterTime': unixTimestampToJson(submittedAfterTime),
-      if (submittedBeforeTime != null)
-        'SubmittedBeforeTime': unixTimestampToJson(submittedBeforeTime),
-    };
-  }
-}
-
-/// Provides information about a translation job.
-class TextTranslationJobProperties {
-  /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
-  /// (IAM) role that granted Amazon Translate read access to the job's input
-  /// data.
-  final String? dataAccessRoleArn;
-
-  /// The time at which the translation job ended.
-  final DateTime? endTime;
-
-  /// The input configuration properties that were specified when the job was
-  /// requested.
-  final InputDataConfig? inputDataConfig;
-
-  /// The number of documents successfully and unsuccessfully processed during the
-  /// translation job.
-  final JobDetails? jobDetails;
-
-  /// The ID of the translation job.
-  final String? jobId;
-
-  /// The user-defined name of the translation job.
-  final String? jobName;
-
-  /// The status of the translation job.
-  final JobStatus? jobStatus;
-
-  /// An explanation of any errors that may have occurred during the translation
-  /// job.
-  final String? message;
-
-  /// The output configuration properties that were specified when the job was
-  /// requested.
-  final OutputDataConfig? outputDataConfig;
-
-  /// A list containing the names of the parallel data resources applied to the
-  /// translation job.
-  final List<String>? parallelDataNames;
-
-  /// Settings that modify the translation output.
-  final TranslationSettings? settings;
-
-  /// The language code of the language of the source text. The language must be a
-  /// language supported by Amazon Translate.
-  final String? sourceLanguageCode;
-
-  /// The time at which the translation job was submitted.
-  final DateTime? submittedTime;
-
-  /// The language code of the language of the target text. The language must be a
-  /// language supported by Amazon Translate.
-  final List<String>? targetLanguageCodes;
-
-  /// A list containing the names of the terminologies applied to a translation
-  /// job. Only one terminology can be applied per <a>StartTextTranslationJob</a>
-  /// request at this time.
-  final List<String>? terminologyNames;
-
-  TextTranslationJobProperties({
-    this.dataAccessRoleArn,
-    this.endTime,
-    this.inputDataConfig,
-    this.jobDetails,
-    this.jobId,
-    this.jobName,
-    this.jobStatus,
-    this.message,
-    this.outputDataConfig,
-    this.parallelDataNames,
-    this.settings,
-    this.sourceLanguageCode,
-    this.submittedTime,
-    this.targetLanguageCodes,
-    this.terminologyNames,
-  });
-
-  factory TextTranslationJobProperties.fromJson(Map<String, dynamic> json) {
-    return TextTranslationJobProperties(
-      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
-      endTime: timeStampFromJson(json['EndTime']),
-      inputDataConfig: json['InputDataConfig'] != null
-          ? InputDataConfig.fromJson(
-              json['InputDataConfig'] as Map<String, dynamic>)
-          : null,
-      jobDetails: json['JobDetails'] != null
-          ? JobDetails.fromJson(json['JobDetails'] as Map<String, dynamic>)
-          : null,
-      jobId: json['JobId'] as String?,
-      jobName: json['JobName'] as String?,
-      jobStatus: (json['JobStatus'] as String?)?.let(JobStatus.fromString),
-      message: json['Message'] as String?,
-      outputDataConfig: json['OutputDataConfig'] != null
-          ? OutputDataConfig.fromJson(
-              json['OutputDataConfig'] as Map<String, dynamic>)
-          : null,
-      parallelDataNames: (json['ParallelDataNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      settings: json['Settings'] != null
-          ? TranslationSettings.fromJson(
-              json['Settings'] as Map<String, dynamic>)
-          : null,
-      sourceLanguageCode: json['SourceLanguageCode'] as String?,
-      submittedTime: timeStampFromJson(json['SubmittedTime']),
-      targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      terminologyNames: (json['TerminologyNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataAccessRoleArn = this.dataAccessRoleArn;
-    final endTime = this.endTime;
-    final inputDataConfig = this.inputDataConfig;
-    final jobDetails = this.jobDetails;
-    final jobId = this.jobId;
-    final jobName = this.jobName;
-    final jobStatus = this.jobStatus;
-    final message = this.message;
-    final outputDataConfig = this.outputDataConfig;
-    final parallelDataNames = this.parallelDataNames;
-    final settings = this.settings;
-    final sourceLanguageCode = this.sourceLanguageCode;
-    final submittedTime = this.submittedTime;
-    final targetLanguageCodes = this.targetLanguageCodes;
-    final terminologyNames = this.terminologyNames;
-    return {
-      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
-      if (jobDetails != null) 'JobDetails': jobDetails,
-      if (jobId != null) 'JobId': jobId,
-      if (jobName != null) 'JobName': jobName,
-      if (jobStatus != null) 'JobStatus': jobStatus.value,
-      if (message != null) 'Message': message,
-      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
-      if (parallelDataNames != null) 'ParallelDataNames': parallelDataNames,
-      if (settings != null) 'Settings': settings,
-      if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
-      if (submittedTime != null)
-        'SubmittedTime': unixTimestampToJson(submittedTime),
-      if (targetLanguageCodes != null)
-        'TargetLanguageCodes': targetLanguageCodes,
-      if (terminologyNames != null) 'TerminologyNames': terminologyNames,
-    };
-  }
-}
-
-class TranslateDocumentResponse {
-  /// The language code of the source document.
-  final String sourceLanguageCode;
-
-  /// The language code of the translated document.
-  final String targetLanguageCode;
-
-  /// The document containing the translated content. The document format matches
-  /// the source document format.
-  final TranslatedDocument translatedDocument;
-  final TranslationSettings? appliedSettings;
-
-  /// The names of the custom terminologies applied to the input text by Amazon
-  /// Translate to produce the translated text document.
-  final List<AppliedTerminology>? appliedTerminologies;
-
-  TranslateDocumentResponse({
-    required this.sourceLanguageCode,
-    required this.targetLanguageCode,
-    required this.translatedDocument,
-    this.appliedSettings,
-    this.appliedTerminologies,
-  });
-
-  factory TranslateDocumentResponse.fromJson(Map<String, dynamic> json) {
-    return TranslateDocumentResponse(
-      sourceLanguageCode: (json['SourceLanguageCode'] as String?) ?? '',
-      targetLanguageCode: (json['TargetLanguageCode'] as String?) ?? '',
-      translatedDocument: TranslatedDocument.fromJson(
-          (json['TranslatedDocument'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      appliedSettings: json['AppliedSettings'] != null
-          ? TranslationSettings.fromJson(
-              json['AppliedSettings'] as Map<String, dynamic>)
-          : null,
-      appliedTerminologies: (json['AppliedTerminologies'] as List?)
-          ?.nonNulls
-          .map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sourceLanguageCode = this.sourceLanguageCode;
-    final targetLanguageCode = this.targetLanguageCode;
-    final translatedDocument = this.translatedDocument;
-    final appliedSettings = this.appliedSettings;
-    final appliedTerminologies = this.appliedTerminologies;
-    return {
-      'SourceLanguageCode': sourceLanguageCode,
-      'TargetLanguageCode': targetLanguageCode,
-      'TranslatedDocument': translatedDocument,
-      if (appliedSettings != null) 'AppliedSettings': appliedSettings,
-      if (appliedTerminologies != null)
-        'AppliedTerminologies': appliedTerminologies,
-    };
-  }
-}
-
-class TranslateTextResponse {
-  /// The language code for the language of the source text.
-  final String sourceLanguageCode;
-
-  /// The language code for the language of the target text.
-  final String targetLanguageCode;
-
-  /// The translated text.
-  final String translatedText;
-
-  /// Optional settings that modify the translation output.
-  final TranslationSettings? appliedSettings;
-
-  /// The names of the custom terminologies applied to the input text by Amazon
-  /// Translate for the translated text response.
-  final List<AppliedTerminology>? appliedTerminologies;
-
-  TranslateTextResponse({
-    required this.sourceLanguageCode,
-    required this.targetLanguageCode,
-    required this.translatedText,
-    this.appliedSettings,
-    this.appliedTerminologies,
-  });
-
-  factory TranslateTextResponse.fromJson(Map<String, dynamic> json) {
-    return TranslateTextResponse(
-      sourceLanguageCode: (json['SourceLanguageCode'] as String?) ?? '',
-      targetLanguageCode: (json['TargetLanguageCode'] as String?) ?? '',
-      translatedText: (json['TranslatedText'] as String?) ?? '',
-      appliedSettings: json['AppliedSettings'] != null
-          ? TranslationSettings.fromJson(
-              json['AppliedSettings'] as Map<String, dynamic>)
-          : null,
-      appliedTerminologies: (json['AppliedTerminologies'] as List?)
-          ?.nonNulls
-          .map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sourceLanguageCode = this.sourceLanguageCode;
-    final targetLanguageCode = this.targetLanguageCode;
-    final translatedText = this.translatedText;
-    final appliedSettings = this.appliedSettings;
-    final appliedTerminologies = this.appliedTerminologies;
-    return {
-      'SourceLanguageCode': sourceLanguageCode,
-      'TargetLanguageCode': targetLanguageCode,
-      'TranslatedText': translatedText,
-      if (appliedSettings != null) 'AppliedSettings': appliedSettings,
-      if (appliedTerminologies != null)
-        'AppliedTerminologies': appliedTerminologies,
-    };
-  }
-}
-
-/// The translated content.
-class TranslatedDocument {
-  /// The document containing the translated content.
-  final Uint8List content;
-
-  TranslatedDocument({
-    required this.content,
-  });
-
-  factory TranslatedDocument.fromJson(Map<String, dynamic> json) {
-    return TranslatedDocument(
-      content: _s.decodeUint8List((json['Content'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final content = this.content;
-    return {
-      'Content': base64Encode(content),
-    };
-  }
-}
-
-/// Settings to configure your translation output. You can configure the
-/// following options:
-///
-/// <ul>
-/// <li>
-/// Brevity: reduces the length of the translation output for most translations.
-/// Available for <code>TranslateText</code> only.
-/// </li>
-/// <li>
-/// Formality: sets the formality level of the translation output.
-/// </li>
-/// <li>
-/// Profanity: masks profane words and phrases in the translation output.
-/// </li>
-/// </ul>
-class TranslationSettings {
-  /// When you turn on brevity, Amazon Translate reduces the length of the
-  /// translation output for most translations (when compared with the same
-  /// translation with brevity turned off). By default, brevity is turned off.
-  ///
-  /// If you turn on brevity for a translation request with an unsupported
-  /// language pair, the translation proceeds with the brevity setting turned off.
-  ///
-  /// For the language pairs that brevity supports, see <a
-  /// href="https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-brevity">Using
-  /// brevity</a> in the Amazon Translate Developer Guide.
-  final Brevity? brevity;
-
-  /// You can specify the desired level of formality for translations to supported
-  /// target languages. The formality setting controls the level of formal
-  /// language usage (also known as <a
-  /// href="https://en.wikipedia.org/wiki/Register_(sociolinguistics)">register</a>)
-  /// in the translation output. You can set the value to informal or formal. If
-  /// you don't specify a value for formality, or if the target language doesn't
-  /// support formality, the translation will ignore the formality setting.
-  ///
-  /// If you specify multiple target languages for the job, translate ignores the
-  /// formality setting for any unsupported target language.
-  ///
-  /// For a list of target languages that support formality, see <a
-  /// href="https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-formality.html#customizing-translations-formality-languages">Supported
-  /// languages</a> in the Amazon Translate Developer Guide.
-  final Formality? formality;
-
-  /// You can enable the profanity setting if you want to mask profane words and
-  /// phrases in your translation output.
-  ///
-  /// To mask profane words and phrases, Amazon Translate replaces them with the
-  /// grawlix string “?$#@$“. This 5-character sequence is used for each profane
-  /// word or phrase, regardless of the length or number of words.
-  ///
-  /// Amazon Translate doesn't detect profanity in all of its supported languages.
-  /// For languages that don't support profanity detection, see <a
-  /// href="https://docs.aws.amazon.com/translate/latest/dg/customizing-translations-profanity.html#customizing-translations-profanity-languages">Unsupported
-  /// languages</a> in the Amazon Translate Developer Guide.
-  ///
-  /// If you specify multiple target languages for the job, all the target
-  /// languages must support profanity masking. If any of the target languages
-  /// don't support profanity masking, the translation job won't mask profanity
-  /// for any target language.
-  final Profanity? profanity;
-
-  TranslationSettings({
-    this.brevity,
-    this.formality,
-    this.profanity,
-  });
-
-  factory TranslationSettings.fromJson(Map<String, dynamic> json) {
-    return TranslationSettings(
-      brevity: (json['Brevity'] as String?)?.let(Brevity.fromString),
-      formality: (json['Formality'] as String?)?.let(Formality.fromString),
-      profanity: (json['Profanity'] as String?)?.let(Profanity.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final brevity = this.brevity;
-    final formality = this.formality;
-    final profanity = this.profanity;
-    return {
-      if (brevity != null) 'Brevity': brevity.value,
-      if (formality != null) 'Formality': formality.value,
-      if (profanity != null) 'Profanity': profanity.value,
-    };
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateParallelDataResponse {
-  /// The time that the most recent update was attempted.
-  final DateTime? latestUpdateAttemptAt;
-
-  /// The status of the parallel data update attempt. When the updated parallel
-  /// data resource is ready for you to use, the status is <code>ACTIVE</code>.
-  final ParallelDataStatus? latestUpdateAttemptStatus;
-
-  /// The name of the parallel data resource being updated.
-  final String? name;
-
-  /// The status of the parallel data resource that you are attempting to update.
-  /// Your update request is accepted only if this status is either
-  /// <code>ACTIVE</code> or <code>FAILED</code>.
-  final ParallelDataStatus? status;
-
-  UpdateParallelDataResponse({
-    this.latestUpdateAttemptAt,
-    this.latestUpdateAttemptStatus,
-    this.name,
-    this.status,
-  });
-
-  factory UpdateParallelDataResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateParallelDataResponse(
-      latestUpdateAttemptAt: timeStampFromJson(json['LatestUpdateAttemptAt']),
-      latestUpdateAttemptStatus: (json['LatestUpdateAttemptStatus'] as String?)
-          ?.let(ParallelDataStatus.fromString),
-      name: json['Name'] as String?,
-      status: (json['Status'] as String?)?.let(ParallelDataStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final latestUpdateAttemptAt = this.latestUpdateAttemptAt;
-    final latestUpdateAttemptStatus = this.latestUpdateAttemptStatus;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (latestUpdateAttemptAt != null)
-        'LatestUpdateAttemptAt': unixTimestampToJson(latestUpdateAttemptAt),
-      if (latestUpdateAttemptStatus != null)
-        'LatestUpdateAttemptStatus': latestUpdateAttemptStatus.value,
-      if (name != null) 'Name': name,
-      if (status != null) 'Status': status.value,
     };
   }
 }

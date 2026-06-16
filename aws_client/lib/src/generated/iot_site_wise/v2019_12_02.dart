@@ -41,7 +41,6 @@ class IoTSiteWise {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'iotsitewise',
-            signingName: 'iotsitewise',
           ),
           region: region,
           credentials: credentials,
@@ -63,13 +62,13 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/add-associated-assets.html">Associating
   /// assets</a> in the <i>IoT SiteWise User Guide</i>.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [LimitExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [assetId] :
   /// The ID of the parent asset. This can be either the actual ID in UUID
@@ -121,11 +120,11 @@ class IoTSiteWise {
 
   /// Associates a time series (data stream) with an asset property.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [alias] :
   /// The alias that identifies the time series.
@@ -165,7 +164,7 @@ class IoTSiteWise {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/timeseries/associate/',
+      requestUri: '/timeseries/associate',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -173,11 +172,11 @@ class IoTSiteWise {
 
   /// Associates a group (batch) of assets with an IoT SiteWise Monitor project.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assetIds] :
   /// The IDs of the assets to be associated to the project.
@@ -211,9 +210,9 @@ class IoTSiteWise {
   /// Disassociates a group (batch) of assets from an IoT SiteWise Monitor
   /// project.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetIds] :
@@ -251,10 +250,10 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates">Querying
   /// aggregates</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [entries] :
   /// The list of asset property aggregate entries for the batch get request.
@@ -308,10 +307,10 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values">Querying
   /// current values</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [entries] :
   /// The list of asset property value entries for the batch get request. You
@@ -341,10 +340,10 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values">Querying
   /// historical values</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [entries] :
   /// The list of asset property historical value entries for the batch get
@@ -428,22 +427,31 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-batchputassetpropertyvalue-action">BatchPutAssetPropertyValue
   /// authorization</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [entries] :
   /// The list of asset property value entries for the batch put request. You
   /// can specify up to 10 entries per request.
+  ///
+  /// Parameter [enablePartialEntryProcessing] :
+  /// This setting enables partial ingestion at entry-level. If set to
+  /// <code>true</code>, we ingest all TQVs not resulting in an error. If set to
+  /// <code>false</code>, an invalid TQV fails ingestion of the entire entry
+  /// that contains it.
   Future<BatchPutAssetPropertyValueResponse> batchPutAssetPropertyValue({
     required List<PutAssetPropertyValueEntry> entries,
+    bool? enablePartialEntryProcessing,
   }) async {
     final $payload = <String, dynamic>{
       'entries': entries,
+      if (enablePartialEntryProcessing != null)
+        'enablePartialEntryProcessing': enablePartialEntryProcessing,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -457,12 +465,16 @@ class IoTSiteWise {
   /// Creates an access policy that grants the specified identity (IAM Identity
   /// Center user, IAM Identity Center group, or IAM user) access to the
   /// specified IoT SiteWise Monitor portal or project resource.
+  /// <note>
+  /// Support for access policies that use an SSO Group as the identity is not
+  /// supported at this time.
+  /// </note>
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [accessPolicyIdentity] :
   /// The identity for this access policy. Choose an IAM Identity Center user,
@@ -514,13 +526,13 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-assets.html">Creating
   /// assets</a> in the <i>IoT SiteWise User Guide</i>.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [assetModelId] :
   /// The ID of the asset model from which to create the asset. This can be
@@ -593,8 +605,8 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/define-models.html">Defining
   /// asset models</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// You can create two types of asset models, <code>ASSET_MODEL</code> or
-  /// <code>COMPONENT_MODEL</code>.
+  /// You can create three types of asset models, <code>ASSET_MODEL</code>,
+  /// <code>COMPONENT_MODEL</code>, or an <code>INTERFACE</code>.
   ///
   /// <ul>
   /// <li>
@@ -606,15 +618,19 @@ class IoTSiteWise {
   /// composite models of other asset models. You can't create assets directly
   /// from this type of asset model.
   /// </li>
+  /// <li>
+  /// <b>INTERFACE</b> – An interface is a type of model that defines a standard
+  /// structure that can be applied to different asset models.
+  /// </li>
   /// </ul>
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [assetModelName] :
   /// A unique name for the asset model.
@@ -763,13 +779,13 @@ class IoTSiteWise {
   /// <code>composedAssetModelId</code>.
   ///
   /// May throw [ConflictingOperationException].
-  /// May throw [PreconditionFailedException].
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [PreconditionFailedException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [assetModelCompositeModelName] :
   /// A unique name for the composite model.
@@ -903,18 +919,29 @@ class IoTSiteWise {
   /// configure storage settings, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_PutStorageConfiguration.html">PutStorageConfiguration</a>.
   ///
-  /// Bulk import is designed to store historical data to IoT SiteWise. It does
-  /// not trigger computations or notifications on IoT SiteWise warm or cold
-  /// tier storage.
-  /// </important>
+  /// Bulk import is designed to store historical data to IoT SiteWise.
   ///
+  /// <ul>
+  /// <li>
+  /// Newly ingested data in the hot tier triggers notifications and
+  /// computations.
+  /// </li>
+  /// <li>
+  /// After data moves from the hot tier to the warm or cold tier based on
+  /// retention settings, it does not trigger computations or notifications.
+  /// </li>
+  /// <li>
+  /// Data older than 7 days does not trigger computations or notifications.
+  /// </li>
+  /// </ul> </important>
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [errorReportLocation] :
   /// The Amazon S3 destination where errors associated with the job creation
@@ -971,19 +998,91 @@ class IoTSiteWise {
     return CreateBulkImportJobResponse.fromJson(response);
   }
 
+  /// Create a computation model with a configuration and data binding.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [computationModelConfiguration] :
+  /// The configuration for the computation model.
+  ///
+  /// Parameter [computationModelDataBinding] :
+  /// The data binding for the computation model. Key is a variable name defined
+  /// in configuration. Value is a <code>ComputationModelDataBindingValue</code>
+  /// referenced by the variable.
+  ///
+  /// Parameter [computationModelName] :
+  /// The name of the computation model.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [computationModelDescription] :
+  /// The description of the computation model.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs that contain metadata for the asset. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html">Tagging
+  /// your IoT SiteWise resources</a> in the <i>IoT SiteWise User Guide</i>.
+  Future<CreateComputationModelResponse> createComputationModel({
+    required ComputationModelConfiguration computationModelConfiguration,
+    required Map<String, ComputationModelDataBindingValue>
+        computationModelDataBinding,
+    required String computationModelName,
+    String? clientToken,
+    String? computationModelDescription,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'computationModelConfiguration': computationModelConfiguration,
+      'computationModelDataBinding': computationModelDataBinding,
+      'computationModelName': computationModelName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (computationModelDescription != null)
+        'computationModelDescription': computationModelDescription,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/computation-models',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateComputationModelResponse.fromJson(response);
+  }
+
   /// Creates a dashboard in an IoT SiteWise Monitor project.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [dashboardDefinition] :
-  /// The dashboard definition specified in a JSON literal. For detailed
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html">Creating
-  /// dashboards (CLI)</a> in the <i>IoT SiteWise User Guide</i>.
+  /// The dashboard definition specified in a JSON literal.
+  ///
+  /// <ul>
+  /// <li>
+  /// IoT SiteWise Monitor (Classic) see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html">Create
+  /// dashboards (CLI)</a>
+  /// </li>
+  /// <li>
+  /// IoT SiteWise Monitor (AI-aware) see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-ai-dashboard-cli.html">Create
+  /// dashboards (CLI)</a>
+  /// </li>
+  /// </ul>
+  /// in the <i>IoT SiteWise User Guide</i>
   ///
   /// Parameter [dashboardName] :
   /// A friendly name for the dashboard.
@@ -1030,23 +1129,96 @@ class IoTSiteWise {
     return CreateDashboardResponse.fromJson(response);
   }
 
+  /// Creates a dataset to connect an external datasource.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [datasetName] :
+  /// The name of the dataset.
+  ///
+  /// Parameter [datasetSource] :
+  /// The data source for the dataset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [datasetDescription] :
+  /// A description about the dataset, and its functionality.
+  ///
+  /// Parameter [datasetId] :
+  /// The ID of the dataset.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs that contain metadata for the access policy. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html">Tagging
+  /// your IoT SiteWise resources</a> in the <i>IoT SiteWise User Guide</i>.
+  Future<CreateDatasetResponse> createDataset({
+    required String datasetName,
+    required DatasetSource datasetSource,
+    String? clientToken,
+    String? datasetDescription,
+    String? datasetId,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'datasetName': datasetName,
+      'datasetSource': datasetSource,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (datasetDescription != null) 'datasetDescription': datasetDescription,
+      if (datasetId != null) 'datasetId': datasetId,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/datasets',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateDatasetResponse.fromJson(response);
+  }
+
   /// Creates a gateway, which is a virtual or edge device that delivers
   /// industrial data streams from local servers to IoT SiteWise. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html">Ingesting
   /// data using a gateway</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [gatewayName] :
   /// A unique name for the gateway.
   ///
   /// Parameter [gatewayPlatform] :
   /// The gateway's platform. You can only specify one platform in a gateway.
+  ///
+  /// Parameter [gatewayVersion] :
+  /// The version of the gateway to create. Specify <code>3</code> to create an
+  /// MQTT-enabled, V3 gateway and <code>2</code> to create a Classic streams,
+  /// V2 gateway. If not specified, the default is <code>2</code> (Classic
+  /// streams, V2 gateway).
+  /// <note>
+  /// When creating a V3 gateway (<code>gatewayVersion=3</code>) with the
+  /// <code>GreengrassV2</code> platform, you must also specify the
+  /// <code>coreDeviceOperatingSystem</code> parameter.
+  /// </note>
+  /// We recommend creating an MQTT-enabled gateway for self-hosted gateways and
+  /// Siemens Industrial Edge gateways. For more information on gateway
+  /// versions, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateways.html">Use
+  /// Amazon Web Services IoT SiteWise Edge Edge gateways</a>.
   ///
   /// Parameter [tags] :
   /// A list of key-value pairs that contain metadata for the gateway. For more
@@ -1056,11 +1228,13 @@ class IoTSiteWise {
   Future<CreateGatewayResponse> createGateway({
     required String gatewayName,
     required GatewayPlatform gatewayPlatform,
+    String? gatewayVersion,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'gatewayName': gatewayName,
       'gatewayPlatform': gatewayPlatform,
+      if (gatewayVersion != null) 'gatewayVersion': gatewayVersion,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1083,11 +1257,11 @@ class IoTSiteWise {
   /// Guide</i>.
   /// </note>
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [portalContactEmail] :
   /// The Amazon Web Services administrator's contact email address.
@@ -1158,6 +1332,17 @@ class IoTSiteWise {
   /// A logo image to display in the portal. Upload a square, high-resolution
   /// image. The image is displayed on a dark background.
   ///
+  /// Parameter [portalType] :
+  /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is
+  /// <code>SITEWISE_PORTAL_V1</code>. The value for IoT SiteWise Monitor
+  /// (AI-aware) is <code>SITEWISE_PORTAL_V2</code>.
+  ///
+  /// Parameter [portalTypeConfiguration] :
+  /// The configuration entry associated with the specific portal type. The
+  /// value for IoT SiteWise Monitor (Classic) is
+  /// <code>SITEWISE_PORTAL_V1</code>. The value for IoT SiteWise Monitor
+  /// (AI-aware) is <code>SITEWISE_PORTAL_V2</code>.
+  ///
   /// Parameter [tags] :
   /// A list of key-value pairs that contain metadata for the portal. For more
   /// information, see <a
@@ -1173,6 +1358,8 @@ class IoTSiteWise {
     AuthMode? portalAuthMode,
     String? portalDescription,
     ImageFile? portalLogoImageFile,
+    PortalType? portalType,
+    Map<String, PortalTypeEntry>? portalTypeConfiguration,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
@@ -1187,6 +1374,9 @@ class IoTSiteWise {
       if (portalDescription != null) 'portalDescription': portalDescription,
       if (portalLogoImageFile != null)
         'portalLogoImageFile': portalLogoImageFile,
+      if (portalType != null) 'portalType': portalType.value,
+      if (portalTypeConfiguration != null)
+        'portalTypeConfiguration': portalTypeConfiguration,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1204,11 +1394,11 @@ class IoTSiteWise {
   /// information.
   /// </note>
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [portalId] :
   /// The ID of the portal in which to create the project.
@@ -1256,9 +1446,9 @@ class IoTSiteWise {
   /// specified IoT SiteWise Monitor resource. You can use this operation to
   /// revoke access to an IoT SiteWise Monitor resource.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [accessPolicyId] :
@@ -1294,11 +1484,11 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html">DisassociateAssets</a>.
   /// </note>
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [assetId] :
   /// The ID of the asset to delete. This can be either the actual ID in UUID
@@ -1336,12 +1526,12 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html">Deleting
   /// assets and models</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [PreconditionFailedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assetModelId] :
   /// The ID of the asset model to delete. This can be either the actual ID in
@@ -1408,12 +1598,12 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html">Deleting
   /// assets and models</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [PreconditionFailedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assetModelCompositeModelId] :
   /// The ID of a composite model on this asset model.
@@ -1474,11 +1664,85 @@ class IoTSiteWise {
     return DeleteAssetModelCompositeModelResponse.fromJson(response);
   }
 
-  /// Deletes a dashboard from IoT SiteWise Monitor.
+  /// Deletes an interface relationship between an asset model and an interface
+  /// asset model.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetModelId] :
+  /// The ID of the asset model. This can be either the actual ID in UUID
+  /// format, or else externalId: followed by the external ID.
+  ///
+  /// Parameter [interfaceAssetModelId] :
+  /// The ID of the interface asset model. This can be either the actual ID in
+  /// UUID format, or else externalId: followed by the external ID.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<DeleteAssetModelInterfaceRelationshipResponse>
+      deleteAssetModelInterfaceRelationship({
+    required String assetModelId,
+    required String interfaceAssetModelId,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/asset-models/${Uri.encodeComponent(assetModelId)}/interface/${Uri.encodeComponent(interfaceAssetModelId)}/asset-model-interface-relationship',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteAssetModelInterfaceRelationshipResponse.fromJson(response);
+  }
+
+  /// Deletes a computation model. This action can't be undone.
+  ///
+  /// May throw [ConflictingOperationException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [computationModelId] :
+  /// The ID of the computation model.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<DeleteComputationModelResponse> deleteComputationModel({
+    required String computationModelId,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/computation-models/${Uri.encodeComponent(computationModelId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteComputationModelResponse.fromJson(response);
+  }
+
+  /// Deletes a dashboard from IoT SiteWise Monitor.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [dashboardId] :
@@ -1504,13 +1768,45 @@ class IoTSiteWise {
     );
   }
 
+  /// Deletes a dataset. This cannot be undone.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [datasetId] :
+  /// The ID of the dataset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<DeleteDatasetResponse> deleteDataset({
+    required String datasetId,
+    String? clientToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteDatasetResponse.fromJson(response);
+  }
+
   /// Deletes a gateway from IoT SiteWise. When you delete a gateway, some of
   /// the gateway's files remain in your gateway's file system.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictingOperationException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [gatewayId] :
@@ -1528,11 +1824,11 @@ class IoTSiteWise {
 
   /// Deletes a portal from IoT SiteWise Monitor.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [portalId] :
   /// The ID of the portal to delete.
@@ -1560,9 +1856,9 @@ class IoTSiteWise {
 
   /// Deletes a project from IoT SiteWise Monitor.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [projectId] :
@@ -1614,11 +1910,11 @@ class IoTSiteWise {
   /// </ul> </li>
   /// </ul>
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [alias] :
   /// The alias that identifies the time series.
@@ -1658,7 +1954,7 @@ class IoTSiteWise {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/timeseries/delete/',
+      requestUri: '/timeseries/delete',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -1667,9 +1963,9 @@ class IoTSiteWise {
   /// Describes an access policy, which specifies an identity's access to an IoT
   /// SiteWise Monitor portal or project.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [accessPolicyId] :
@@ -1688,9 +1984,9 @@ class IoTSiteWise {
 
   /// Retrieves information about an action.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [actionId] :
@@ -1709,9 +2005,9 @@ class IoTSiteWise {
 
   /// Retrieves information about an asset.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetId] :
@@ -1747,9 +2043,9 @@ class IoTSiteWise {
   /// about the model this is based on, call <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModelCompositeModel.html">DescribeAssetModelCompositeModel</a>.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetCompositeModelId] :
@@ -1779,11 +2075,13 @@ class IoTSiteWise {
     return DescribeAssetCompositeModelResponse.fromJson(response);
   }
 
-  /// Retrieves information about an asset model.
+  /// Retrieves information about an asset model. This includes details about
+  /// the asset model's properties, hierarchies, composite models, and any
+  /// interface relationships if the asset model implements interfaces.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetModelId] :
@@ -1857,6 +2155,10 @@ class IoTSiteWise {
       assetModelType:
           ($json['assetModelType'] as String?)?.let(AssetModelType.fromString),
       assetModelVersion: $json['assetModelVersion'] as String?,
+      interfaceDetails: ($json['interfaceDetails'] as List?)
+          ?.nonNulls
+          .map((e) => InterfaceRelationship.fromJson(e as Map<String, dynamic>))
+          .toList(),
       eTag: _s.extractHeaderStringValue(response.headers, 'ETag'),
     );
   }
@@ -1866,9 +2168,9 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html">Custom
   /// composite models (Components)</a> in the <i>IoT SiteWise User Guide</i>.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetModelCompositeModelId] :
@@ -1911,6 +2213,36 @@ class IoTSiteWise {
     return DescribeAssetModelCompositeModelResponse.fromJson(response);
   }
 
+  /// Retrieves information about an interface relationship between an asset
+  /// model and an interface asset model.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetModelId] :
+  /// The ID of the asset model. This can be either the actual ID in UUID
+  /// format, or else externalId: followed by the external ID.
+  ///
+  /// Parameter [interfaceAssetModelId] :
+  /// The ID of the interface asset model. This can be either the actual ID in
+  /// UUID format, or else externalId: followed by the external ID.
+  Future<DescribeAssetModelInterfaceRelationshipResponse>
+      describeAssetModelInterfaceRelationship({
+    required String assetModelId,
+    required String interfaceAssetModelId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/asset-models/${Uri.encodeComponent(assetModelId)}/interface/${Uri.encodeComponent(interfaceAssetModelId)}/asset-model-interface-relationship',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAssetModelInterfaceRelationshipResponse.fromJson(response);
+  }
+
   /// Retrieves information about an asset property.
   /// <note>
   /// When you call this operation for an attribute property, this response
@@ -1922,9 +2254,9 @@ class IoTSiteWise {
   /// value of an asset property, use <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html">GetAssetPropertyValue</a>.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetId] :
@@ -1960,9 +2292,9 @@ class IoTSiteWise {
   /// a bulk import job (CLI)</a> in the <i>Amazon Simple Storage Service User
   /// Guide</i>.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
@@ -1979,11 +2311,80 @@ class IoTSiteWise {
     return DescribeBulkImportJobResponse.fromJson(response);
   }
 
-  /// Retrieves information about a dashboard.
+  /// Retrieves information about a computation model.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [computationModelId] :
+  /// The ID of the computation model.
+  ///
+  /// Parameter [computationModelVersion] :
+  /// The version of the computation model.
+  Future<DescribeComputationModelResponse> describeComputationModel({
+    required String computationModelId,
+    String? computationModelVersion,
+  }) async {
+    final $query = <String, List<String>>{
+      if (computationModelVersion != null)
+        'computationModelVersion': [computationModelVersion],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/computation-models/${Uri.encodeComponent(computationModelId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeComputationModelResponse.fromJson(response);
+  }
+
+  /// Retrieves information about the execution summary of a computation model.
+  ///
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [computationModelId] :
+  /// The ID of the computation model.
+  ///
+  /// Parameter [resolveToResourceId] :
+  /// The ID of the resolved resource.
+  ///
+  /// Parameter [resolveToResourceType] :
+  /// The type of the resolved resource.
+  Future<DescribeComputationModelExecutionSummaryResponse>
+      describeComputationModelExecutionSummary({
+    required String computationModelId,
+    String? resolveToResourceId,
+    ResolveToResourceType? resolveToResourceType,
+  }) async {
+    final $query = <String, List<String>>{
+      if (resolveToResourceId != null)
+        'resolveToResourceId': [resolveToResourceId],
+      if (resolveToResourceType != null)
+        'resolveToResourceType': [resolveToResourceType.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/computation-models/${Uri.encodeComponent(computationModelId)}/execution-summary',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeComputationModelExecutionSummaryResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a dashboard.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [dashboardId] :
@@ -2000,14 +2401,35 @@ class IoTSiteWise {
     return DescribeDashboardResponse.fromJson(response);
   }
 
+  /// Retrieves information about a dataset.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [datasetId] :
+  /// The ID of the dataset.
+  Future<DescribeDatasetResponse> describeDataset({
+    required String datasetId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDatasetResponse.fromJson(response);
+  }
+
   /// Retrieves information about the default encryption configuration for the
   /// Amazon Web Services account in the default or specified Region. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html">Key
   /// management</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   Future<DescribeDefaultEncryptionConfigurationResponse>
       describeDefaultEncryptionConfiguration() async {
@@ -2020,11 +2442,32 @@ class IoTSiteWise {
     return DescribeDefaultEncryptionConfigurationResponse.fromJson(response);
   }
 
-  /// Retrieves information about a gateway.
+  /// Retrieves information about the execution.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [executionId] :
+  /// The ID of the execution.
+  Future<DescribeExecutionResponse> describeExecution({
+    required String executionId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/executions/${Uri.encodeComponent(executionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeExecutionResponse.fromJson(response);
+  }
+
+  /// Retrieves information about a gateway.
+  ///
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [gatewayId] :
@@ -2041,25 +2484,46 @@ class IoTSiteWise {
     return DescribeGatewayResponse.fromJson(response);
   }
 
-  /// Retrieves information about a gateway capability configuration. Each
-  /// gateway capability defines data sources for a gateway. A capability
-  /// configuration can contain multiple data source configurations. If you
-  /// define OPC-UA sources for a gateway in the IoT SiteWise console, all of
-  /// your OPC-UA sources are stored in one capability configuration. To list
-  /// all capability configurations for a gateway, use <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html">DescribeGateway</a>.
+  /// Each gateway capability defines data sources for a gateway. This is the
+  /// namespace of the gateway capability.
   ///
+  /// . The namespace follows the format
+  /// <code>service:capability:version</code>, where:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>service</code> - The service providing the capability, or
+  /// <code>iotsitewise</code>.
+  /// </li>
+  /// <li>
+  /// <code>capability</code> - The specific capability type. Options include:
+  /// <code>opcuacollector</code> for the OPC UA data source collector, or
+  /// <code>publisher</code> for data publisher capability.
+  /// </li>
+  /// <li>
+  /// <code>version</code> - The version number of the capability. Option
+  /// include <code>2</code> for Classic streams, V2 gateways, and
+  /// <code>3</code> for MQTT-enabled, V3 gateways.
+  /// </li>
+  /// </ul>
+  /// After updating a capability configuration, the sync status becomes
+  /// <code>OUT_OF_SYNC</code> until the gateway processes the configuration.Use
+  /// <code>DescribeGatewayCapabilityConfiguration</code> to check the sync
+  /// status and verify the configuration was applied.
+  ///
+  /// A gateway can have multiple capability configurations with different
+  /// namespaces.
+  ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [capabilityNamespace] :
   /// The namespace of the capability configuration. For example, if you
-  /// configure OPC-UA sources from the IoT SiteWise console, your OPC-UA
+  /// configure OPC UA sources for an MQTT-enabled gateway, your OPC-UA
   /// capability configuration has the namespace
-  /// <code>iotsitewise:opcuacollector:version</code>, where
-  /// <code>version</code> is a number such as <code>1</code>.
+  /// <code>iotsitewise:opcuacollector:3</code>.
   ///
   /// Parameter [gatewayId] :
   /// The ID of the gateway that defines the capability configuration.
@@ -2080,10 +2544,10 @@ class IoTSiteWise {
 
   /// Retrieves the current IoT SiteWise logging options.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   Future<DescribeLoggingOptionsResponse> describeLoggingOptions() async {
     final response = await _protocol.send(
       payload: null,
@@ -2096,9 +2560,9 @@ class IoTSiteWise {
 
   /// Retrieves information about a portal.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [portalId] :
@@ -2117,9 +2581,9 @@ class IoTSiteWise {
 
   /// Retrieves information about a project.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [projectId] :
@@ -2138,12 +2602,12 @@ class IoTSiteWise {
 
   /// Retrieves information about the storage configuration for IoT SiteWise.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   Future<DescribeStorageConfigurationResponse>
       describeStorageConfiguration() async {
     final response = await _protocol.send(
@@ -2179,9 +2643,9 @@ class IoTSiteWise {
   /// </ul> </li>
   /// </ul>
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [alias] :
@@ -2213,7 +2677,7 @@ class IoTSiteWise {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/timeseries/describe/',
+      requestUri: '/timeseries/describe',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -2223,11 +2687,11 @@ class IoTSiteWise {
   /// Disassociates a child asset from the given parent asset through a
   /// hierarchy defined in the parent asset's model.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [assetId] :
   /// The ID of the parent asset from which to disassociate the child asset.
@@ -2281,11 +2745,11 @@ class IoTSiteWise {
 
   /// Disassociates a time series (data stream) from an asset property.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [alias] :
   /// The alias that identifies the time series.
@@ -2325,7 +2789,7 @@ class IoTSiteWise {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/timeseries/disassociate/',
+      requestUri: '/timeseries/disassociate',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -2333,12 +2797,12 @@ class IoTSiteWise {
 
   /// Executes an action on a target resource.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [actionDefinitionId] :
   /// The ID of the action definition.
@@ -2353,17 +2817,22 @@ class IoTSiteWise {
   /// A unique case-sensitive identifier that you can provide to ensure the
   /// idempotency of the request. Don't reuse this client token if a new
   /// idempotent request is required.
+  ///
+  /// Parameter [resolveTo] :
+  /// The detailed resource this action resolves to.
   Future<ExecuteActionResponse> executeAction({
     required String actionDefinitionId,
     required ActionPayload actionPayload,
     required TargetResource targetResource,
     String? clientToken,
+    ResolveTo? resolveTo,
   }) async {
     final $payload = <String, dynamic>{
       'actionDefinitionId': actionDefinitionId,
       'actionPayload': actionPayload,
       'targetResource': targetResource,
       if (clientToken != null) 'clientToken': clientToken,
+      if (resolveTo != null) 'resolveTo': resolveTo,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2377,24 +2846,42 @@ class IoTSiteWise {
   /// Run SQL queries to retrieve metadata and time-series data from asset
   /// models, assets, measurements, metrics, transforms, and aggregates.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [QueryTimeoutException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [QueryTimeoutException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [queryStatement] :
   /// The IoT SiteWise query statement.
   ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
   /// Parameter [maxResults] :
-  /// The maximum number of results to return at one time. The default is 25.
+  /// The maximum number of results to return at one time.
+  ///
+  /// <ul>
+  /// <li>
+  /// Minimum is 1
+  /// </li>
+  /// <li>
+  /// Maximum is 20000
+  /// </li>
+  /// <li>
+  /// Default is 20000
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [nextToken] :
   /// The string that specifies the next page of results.
   Future<ExecuteQueryResponse> executeQuery({
     required String queryStatement,
+    String? clientToken,
     int? maxResults,
     String? nextToken,
   }) async {
@@ -2406,6 +2893,7 @@ class IoTSiteWise {
     );
     final $payload = <String, dynamic>{
       'queryStatement': queryStatement,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
     };
@@ -2436,11 +2924,11 @@ class IoTSiteWise {
   /// </li>
   /// </ul>
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [aggregateTypes] :
   /// The data aggregating function.
@@ -2557,11 +3045,11 @@ class IoTSiteWise {
   /// </li>
   /// </ul>
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assetId] :
   /// The ID of the asset, in UUID format.
@@ -2616,11 +3104,11 @@ class IoTSiteWise {
   /// </li>
   /// </ul>
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assetId] :
   /// The ID of the asset, in UUID format.
@@ -2733,11 +3221,11 @@ class IoTSiteWise {
   /// </li>
   /// </ul>
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [endTimeInSeconds] :
   /// The inclusive end of the range from which to interpolate data, expressed
@@ -2934,12 +3422,58 @@ class IoTSiteWise {
     return GetInterpolatedAssetPropertyValuesResponse.fromJson(response);
   }
 
+  /// Invokes SiteWise Assistant to start or continue a conversation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [message] :
+  /// A text message sent to the SiteWise Assistant by the user.
+  ///
+  /// Parameter [conversationId] :
+  /// The ID assigned to a conversation. IoT SiteWise automatically generates a
+  /// unique ID for you, and this parameter is never required. However, if you
+  /// prefer to have your own ID, you must specify it here in UUID format. If
+  /// you specify your own ID, it must be globally unique.
+  ///
+  /// Parameter [enableTrace] :
+  /// Specifies if to turn trace on or not. It is used to track the SiteWise
+  /// Assistant's reasoning, and data access process.
+  Future<InvokeAssistantResponse> invokeAssistant({
+    required String message,
+    String? conversationId,
+    bool? enableTrace,
+  }) async {
+    final $payload = <String, dynamic>{
+      'message': message,
+      if (conversationId != null) 'conversationId': conversationId,
+      if (enableTrace != null) 'enableTrace': enableTrace,
+    };
+    final response = await _protocol.sendRaw(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/assistant/invocation',
+      exceptionFnMap: _exceptionFns,
+    );
+    final $json = await _s.jsonFromResponse(response);
+    return InvokeAssistantResponse(
+      body: ResponseStream.fromJson($json),
+      conversationId: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-iotsitewise-assistant-conversation-id')!,
+    );
+  }
+
   /// Retrieves a paginated list of access policies for an identity (an IAM
   /// Identity Center user, an IAM Identity Center group, or an IAM user) or an
   /// IoT SiteWise Monitor resource (a portal or project).
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [iamArn] :
@@ -3008,8 +3542,8 @@ class IoTSiteWise {
 
   /// Retrieves a paginated list of actions for a specific target resource.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -3024,11 +3558,19 @@ class IoTSiteWise {
   ///
   /// Parameter [nextToken] :
   /// The token to be used for the next set of paginated results.
+  ///
+  /// Parameter [resolveToResourceId] :
+  /// The ID of the resolved resource.
+  ///
+  /// Parameter [resolveToResourceType] :
+  /// The type of the resolved resource.
   Future<ListActionsResponse> listActions({
     required String targetResourceId,
     required TargetResourceType targetResourceType,
     int? maxResults,
     String? nextToken,
+    String? resolveToResourceId,
+    ResolveToResourceType? resolveToResourceType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3041,6 +3583,10 @@ class IoTSiteWise {
       'targetResourceType': [targetResourceType.value],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (resolveToResourceId != null)
+        'resolveToResourceId': [resolveToResourceId],
+      if (resolveToResourceType != null)
+        'resolveToResourceType': [resolveToResourceType.value],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3055,10 +3601,10 @@ class IoTSiteWise {
   /// Retrieves a paginated list of composite models associated with the asset
   /// model
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [assetModelId] :
   /// The ID of the asset model. This can be either the actual ID in UUID
@@ -3113,8 +3659,8 @@ class IoTSiteWise {
   /// If you update properties associated with the model before you finish
   /// listing all the properties, you need to start all over again.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -3186,8 +3732,8 @@ class IoTSiteWise {
 
   /// Retrieves a paginated list of summaries of all asset models.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [assetModelTypes] :
@@ -3203,6 +3749,10 @@ class IoTSiteWise {
   /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
   /// composite models of other asset models. You can't create assets directly
   /// from this type of asset model.
+  /// </li>
+  /// <li>
+  /// <b>INTERFACE</b> – An interface is a type of model that defines a standard
+  /// structure that can be applied to different asset models.
   /// </li>
   /// </ul>
   ///
@@ -3253,8 +3803,8 @@ class IoTSiteWise {
   /// update properties associated with the model before you finish listing all
   /// the properties, you need to start all over again.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -3318,8 +3868,8 @@ class IoTSiteWise {
   /// use this operation to identify an asset's root asset and all associated
   /// assets between that asset and its root.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -3393,8 +3943,8 @@ class IoTSiteWise {
   /// to get all of your asset model IDs. Then, use ListAssets to get all assets
   /// for each asset model.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -3472,8 +4022,8 @@ class IoTSiteWise {
   /// </li>
   /// </ul>
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -3556,8 +4106,8 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ListBulkImportJobs.html">List
   /// bulk import jobs (CLI)</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -3599,8 +4149,8 @@ class IoTSiteWise {
   /// Retrieves a paginated list of composition relationships for an asset model
   /// of type <code>COMPONENT_MODEL</code>.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
@@ -3644,11 +4194,142 @@ class IoTSiteWise {
     return ListCompositionRelationshipsResponse.fromJson(response);
   }
 
+  /// Lists all data binding usages for computation models. This allows to
+  /// identify where specific data bindings are being utilized across the
+  /// computation models. This track dependencies between data sources and
+  /// computation models.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [dataBindingValueFilter] :
+  /// A filter used to limit the returned data binding usages based on specific
+  /// data binding values. You can filter by asset, asset model, asset property,
+  /// or asset model property to find all computation models using these
+  /// specific data sources.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token used for the next set of paginated results.
+  Future<ListComputationModelDataBindingUsagesResponse>
+      listComputationModelDataBindingUsages({
+    required DataBindingValueFilter dataBindingValueFilter,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $payload = <String, dynamic>{
+      'dataBindingValueFilter': dataBindingValueFilter,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/computation-models/data-binding-usages',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComputationModelDataBindingUsagesResponse.fromJson(response);
+  }
+
+  /// Lists all distinct resources that are resolved from the executed actions
+  /// of the computation model.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [computationModelId] :
+  /// The ID of the computation model for which to list resolved resources.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token used for the next set of paginated results.
+  Future<ListComputationModelResolveToResourcesResponse>
+      listComputationModelResolveToResources({
+    required String computationModelId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/computation-models/${Uri.encodeComponent(computationModelId)}/resolve-to-resources',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComputationModelResolveToResourcesResponse.fromJson(response);
+  }
+
+  /// Retrieves a paginated list of summaries of all computation models.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [computationModelType] :
+  /// The type of computation model. If a <code>computationModelType</code> is
+  /// not provided, all types of computation models are returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListComputationModelsResponse> listComputationModels({
+    ComputationModelType? computationModelType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (computationModelType != null)
+        'computationModelType': [computationModelType.value],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/computation-models',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComputationModelsResponse.fromJson(response);
+  }
+
   /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor
   /// project.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [projectId] :
@@ -3687,10 +4368,114 @@ class IoTSiteWise {
     return ListDashboardsResponse.fromJson(response);
   }
 
+  /// Retrieves a paginated list of datasets for a specific target resource.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [sourceType] :
+  /// The type of data source for the dataset.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  Future<ListDatasetsResponse> listDatasets({
+    required DatasetSourceType sourceType,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      'sourceType': [sourceType.value],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/datasets',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDatasetsResponse.fromJson(response);
+  }
+
+  /// Retrieves a paginated list of summaries of all executions.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [targetResourceId] :
+  /// The ID of the target resource.
+  ///
+  /// Parameter [targetResourceType] :
+  /// The type of the target resource.
+  ///
+  /// Parameter [actionType] :
+  /// The type of action exectued.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results returned for each paginated request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token used for the next set of paginated results.
+  ///
+  /// Parameter [resolveToResourceId] :
+  /// The ID of the resolved resource.
+  ///
+  /// Parameter [resolveToResourceType] :
+  /// The type of the resolved resource.
+  Future<ListExecutionsResponse> listExecutions({
+    required String targetResourceId,
+    required TargetResourceType targetResourceType,
+    String? actionType,
+    int? maxResults,
+    String? nextToken,
+    String? resolveToResourceId,
+    ResolveToResourceType? resolveToResourceType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      'targetResourceId': [targetResourceId],
+      'targetResourceType': [targetResourceType.value],
+      if (actionType != null) 'actionType': [actionType],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (resolveToResourceId != null)
+        'resolveToResourceId': [resolveToResourceId],
+      if (resolveToResourceType != null)
+        'resolveToResourceType': [resolveToResourceType.value],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/executions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListExecutionsResponse.fromJson(response);
+  }
+
   /// Retrieves a paginated list of gateways.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
@@ -3724,10 +4509,54 @@ class IoTSiteWise {
     return ListGatewaysResponse.fromJson(response);
   }
 
+  /// Retrieves a paginated list of asset models that have a specific interface
+  /// asset model applied to them.
+  ///
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [interfaceAssetModelId] :
+  /// The ID of the interface asset model. This can be either the actual ID in
+  /// UUID format, or else externalId: followed by the external ID.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for each paginated request.
+  /// Default: 50
+  ///
+  /// Parameter [nextToken] :
+  /// The token to be used for the next set of paginated results.
+  Future<ListInterfaceRelationshipsResponse> listInterfaceRelationships({
+    required String interfaceAssetModelId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/interface/${Uri.encodeComponent(interfaceAssetModelId)}/asset-models',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInterfaceRelationshipsResponse.fromJson(response);
+  }
+
   /// Retrieves a paginated list of IoT SiteWise Monitor portals.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
@@ -3764,8 +4593,8 @@ class IoTSiteWise {
   /// Retrieves a paginated list of assets associated with an IoT SiteWise
   /// Monitor project.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [projectId] :
@@ -3805,8 +4634,8 @@ class IoTSiteWise {
 
   /// Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
   ///
-  /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [portalId] :
@@ -3847,12 +4676,12 @@ class IoTSiteWise {
 
   /// Retrieves the list of tags for an IoT SiteWise resource.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceArn] :
@@ -3877,9 +4706,9 @@ class IoTSiteWise {
 
   /// Retrieves a paginated list of time series (data streams).
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [aliasPrefix] :
@@ -3935,11 +4764,61 @@ class IoTSiteWise {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/timeseries/',
+      requestUri: '/timeseries',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTimeSeriesResponse.fromJson(response);
+  }
+
+  /// Creates or updates an interface relationship between an asset model and an
+  /// interface asset model. This operation applies an interface to an asset
+  /// model.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [assetModelId] :
+  /// The ID of the asset model. This can be either the actual ID in UUID
+  /// format, or else externalId: followed by the external ID.
+  ///
+  /// Parameter [interfaceAssetModelId] :
+  /// The ID of the interface asset model. This can be either the actual ID in
+  /// UUID format, or else externalId: followed by the external ID.
+  ///
+  /// Parameter [propertyMappingConfiguration] :
+  /// The configuration for mapping properties from the interface asset model to
+  /// the asset model where the interface is applied. This configuration
+  /// controls how properties are matched and created during the interface
+  /// application process.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  Future<PutAssetModelInterfaceRelationshipResponse>
+      putAssetModelInterfaceRelationship({
+    required String assetModelId,
+    required String interfaceAssetModelId,
+    required PropertyMappingConfiguration propertyMappingConfiguration,
+    String? clientToken,
+  }) async {
+    final $payload = <String, dynamic>{
+      'propertyMappingConfiguration': propertyMappingConfiguration,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/asset-models/${Uri.encodeComponent(assetModelId)}/interface/${Uri.encodeComponent(interfaceAssetModelId)}/asset-model-interface-relationship',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAssetModelInterfaceRelationshipResponse.fromJson(response);
   }
 
   /// Sets the default encryption configuration for the Amazon Web Services
@@ -3947,11 +4826,11 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html">Key
   /// management</a> in the <i>IoT SiteWise User Guide</i>.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [encryptionType] :
   /// The type of encryption used for the encryption configuration.
@@ -3979,11 +4858,11 @@ class IoTSiteWise {
 
   /// Sets logging options for IoT SiteWise.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalFailureException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [loggingOptions] :
   /// The logging options to set.
@@ -4003,13 +4882,13 @@ class IoTSiteWise {
 
   /// Configures storage settings for IoT SiteWise.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [storageType] :
   /// The storage tier that you specified for your data. The
@@ -4026,6 +4905,11 @@ class IoTSiteWise {
   /// S3 bucket.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [disallowIngestNullNaN] :
+  /// Describes the configuration for ingesting NULL and NaN data. By default
+  /// the feature is allowed. The feature is disallowed if the value is
+  /// <code>true</code>.
   ///
   /// Parameter [disassociatedDataStorage] :
   /// Contains the storage configuration for time series (data streams) that
@@ -4064,6 +4948,7 @@ class IoTSiteWise {
   /// before it is deleted. You can set this only if cold tier is enabled.
   Future<PutStorageConfigurationResponse> putStorageConfiguration({
     required StorageType storageType,
+    bool? disallowIngestNullNaN,
     DisassociatedDataStorageState? disassociatedDataStorage,
     MultiLayerStorage? multiLayerStorage,
     RetentionPeriod? retentionPeriod,
@@ -4072,6 +4957,8 @@ class IoTSiteWise {
   }) async {
     final $payload = <String, dynamic>{
       'storageType': storageType.value,
+      if (disallowIngestNullNaN != null)
+        'disallowIngestNullNaN': disallowIngestNullNaN,
       if (disassociatedDataStorage != null)
         'disassociatedDataStorage': disassociatedDataStorage.value,
       if (multiLayerStorage != null) 'multiLayerStorage': multiLayerStorage,
@@ -4092,14 +4979,14 @@ class IoTSiteWise {
   /// Adds tags to an IoT SiteWise resource. If a tag already exists for the
   /// resource, this operation updates the tag's value.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
-  /// May throw [UnauthorizedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [TooManyTagsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceArn] :
   /// The <a
@@ -4132,12 +5019,12 @@ class IoTSiteWise {
 
   /// Removes a tag from an IoT SiteWise resource.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [UnauthorizedException].
   ///
   /// Parameter [resourceArn] :
@@ -4167,9 +5054,9 @@ class IoTSiteWise {
   /// Updates an existing access policy that specifies an identity's access to
   /// an IoT SiteWise Monitor portal or project resource.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [accessPolicyId] :
@@ -4216,12 +5103,12 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html">Updating
   /// assets and models</a> in the <i>IoT SiteWise User Guide</i>.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [assetId] :
   /// The ID of the asset to update. This can be either the actual ID in UUID
@@ -4293,14 +5180,14 @@ class IoTSiteWise {
   /// <code>id</code>.
   /// </li> </ol> </important>
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [PreconditionFailedException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
-  /// May throw [LimitExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
-  /// May throw [PreconditionFailedException].
   ///
   /// Parameter [assetModelId] :
   /// The ID of the asset model to update. This can be either the actual ID in
@@ -4451,13 +5338,13 @@ class IoTSiteWise {
   /// </li> </ol> </important>
   ///
   /// May throw [ConflictingOperationException].
-  /// May throw [PreconditionFailedException].
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [PreconditionFailedException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [assetModelCompositeModelId] :
   /// The ID of a composite model on this asset model.
@@ -4562,11 +5449,11 @@ class IoTSiteWise {
   /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html">DescribeAssetProperty</a>.
   /// </important>
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [assetId] :
   /// The ID of the asset to be updated. This can be either the actual ID in
@@ -4636,18 +5523,87 @@ class IoTSiteWise {
     );
   }
 
+  /// Updates the computation model.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [computationModelConfiguration] :
+  /// The configuration for the computation model.
+  ///
+  /// Parameter [computationModelDataBinding] :
+  /// The data binding for the computation model. Key is a variable name defined
+  /// in configuration. Value is a <code>ComputationModelDataBindingValue</code>
+  /// referenced by the variable.
+  ///
+  /// Parameter [computationModelId] :
+  /// The ID of the computation model.
+  ///
+  /// Parameter [computationModelName] :
+  /// The name of the computation model.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [computationModelDescription] :
+  /// The description of the computation model.
+  Future<UpdateComputationModelResponse> updateComputationModel({
+    required ComputationModelConfiguration computationModelConfiguration,
+    required Map<String, ComputationModelDataBindingValue>
+        computationModelDataBinding,
+    required String computationModelId,
+    required String computationModelName,
+    String? clientToken,
+    String? computationModelDescription,
+  }) async {
+    final $payload = <String, dynamic>{
+      'computationModelConfiguration': computationModelConfiguration,
+      'computationModelDataBinding': computationModelDataBinding,
+      'computationModelName': computationModelName,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (computationModelDescription != null)
+        'computationModelDescription': computationModelDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/computation-models/${Uri.encodeComponent(computationModelId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateComputationModelResponse.fromJson(response);
+  }
+
   /// Updates an IoT SiteWise Monitor dashboard.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [dashboardDefinition] :
-  /// The new dashboard definition, as specified in a JSON literal. For detailed
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html">Creating
-  /// dashboards (CLI)</a> in the <i>IoT SiteWise User Guide</i>.
+  /// The new dashboard definition, as specified in a JSON literal.
+  ///
+  /// <ul>
+  /// <li>
+  /// IoT SiteWise Monitor (Classic) see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html">Create
+  /// dashboards (CLI)</a>
+  /// </li>
+  /// <li>
+  /// IoT SiteWise Monitor (AI-aware) see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-ai-dashboard-cli.html">Create
+  /// dashboards (CLI)</a>
+  /// </li>
+  /// </ul>
+  /// in the <i>IoT SiteWise User Guide</i>
   ///
   /// Parameter [dashboardId] :
   /// The ID of the dashboard to update.
@@ -4684,12 +5640,59 @@ class IoTSiteWise {
     );
   }
 
-  /// Updates a gateway's name.
+  /// Updates a dataset.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ConflictingOperationException].
   /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [datasetId] :
+  /// The ID of the dataset.
+  ///
+  /// Parameter [datasetName] :
+  /// The name of the dataset.
+  ///
+  /// Parameter [datasetSource] :
+  /// The data source for the dataset.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case-sensitive identifier that you can provide to ensure the
+  /// idempotency of the request. Don't reuse this client token if a new
+  /// idempotent request is required.
+  ///
+  /// Parameter [datasetDescription] :
+  /// A description about the dataset, and its functionality.
+  Future<UpdateDatasetResponse> updateDataset({
+    required String datasetId,
+    required String datasetName,
+    required DatasetSource datasetSource,
+    String? clientToken,
+    String? datasetDescription,
+  }) async {
+    final $payload = <String, dynamic>{
+      'datasetName': datasetName,
+      'datasetSource': datasetSource,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (datasetDescription != null) 'datasetDescription': datasetDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateDatasetResponse.fromJson(response);
+  }
+
+  /// Updates a gateway's name.
+  ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [gatewayId] :
@@ -4714,18 +5717,45 @@ class IoTSiteWise {
 
   /// Updates a gateway capability configuration or defines a new capability
   /// configuration. Each gateway capability defines data sources for a gateway.
-  /// A capability configuration can contain multiple data source
-  /// configurations. If you define OPC-UA sources for a gateway in the IoT
-  /// SiteWise console, all of your OPC-UA sources are stored in one capability
-  /// configuration. To list all capability configurations for a gateway, use <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGateway.html">DescribeGateway</a>.
   ///
-  /// May throw [InvalidRequestException].
-  /// May throw [ResourceNotFoundException].
+  /// Important workflow notes:
+  ///
+  /// Each gateway capability defines data sources for a gateway. This is the
+  /// namespace of the gateway capability.
+  ///
+  /// . The namespace follows the format
+  /// <code>service:capability:version</code>, where:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>service</code> - The service providing the capability, or
+  /// <code>iotsitewise</code>.
+  /// </li>
+  /// <li>
+  /// <code>capability</code> - The specific capability type. Options include:
+  /// <code>opcuacollector</code> for the OPC UA data source collector, or
+  /// <code>publisher</code> for data publisher capability.
+  /// </li>
+  /// <li>
+  /// <code>version</code> - The version number of the capability. Option
+  /// include <code>2</code> for Classic streams, V2 gateways, and
+  /// <code>3</code> for MQTT-enabled, V3 gateways.
+  /// </li>
+  /// </ul>
+  /// After updating a capability configuration, the sync status becomes
+  /// <code>OUT_OF_SYNC</code> until the gateway processes the configuration.Use
+  /// <code>DescribeGatewayCapabilityConfiguration</code> to check the sync
+  /// status and verify the configuration was applied.
+  ///
+  /// A gateway can have multiple capability configurations with different
+  /// namespaces.
+  ///
   /// May throw [ConflictingOperationException].
   /// May throw [InternalFailureException].
-  /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [capabilityConfiguration] :
   /// The JSON document that defines the configuration for the gateway
@@ -4735,10 +5765,9 @@ class IoTSiteWise {
   ///
   /// Parameter [capabilityNamespace] :
   /// The namespace of the gateway capability configuration to be updated. For
-  /// example, if you configure OPC-UA sources from the IoT SiteWise console,
-  /// your OPC-UA capability configuration has the namespace
-  /// <code>iotsitewise:opcuacollector:version</code>, where
-  /// <code>version</code> is a number such as <code>1</code>.
+  /// example, if you configure OPC UA sources for an MQTT-enabled gateway, your
+  /// OPC-UA capability configuration has the namespace
+  /// <code>iotsitewise:opcuacollector:3</code>.
   ///
   /// Parameter [gatewayId] :
   /// The ID of the gateway to be updated.
@@ -4764,11 +5793,11 @@ class IoTSiteWise {
 
   /// Updates an IoT SiteWise Monitor portal.
   ///
+  /// May throw [ConflictingOperationException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictingOperationException].
   ///
   /// Parameter [portalContactEmail] :
   /// The Amazon Web Services administrator's contact email address.
@@ -4806,6 +5835,17 @@ class IoTSiteWise {
   ///
   /// Parameter [portalDescription] :
   /// A new description for the portal.
+  ///
+  /// Parameter [portalType] :
+  /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is
+  /// <code>SITEWISE_PORTAL_V1</code>. The value for IoT SiteWise Monitor
+  /// (AI-aware) is <code>SITEWISE_PORTAL_V2</code>.
+  ///
+  /// Parameter [portalTypeConfiguration] :
+  /// The configuration entry associated with the specific portal type. The
+  /// value for IoT SiteWise Monitor (Classic) is
+  /// <code>SITEWISE_PORTAL_V1</code>. The value for IoT SiteWise Monitor
+  /// (AI-aware) is <code>SITEWISE_PORTAL_V2</code>.
   Future<UpdatePortalResponse> updatePortal({
     required String portalContactEmail,
     required String portalId,
@@ -4816,6 +5856,8 @@ class IoTSiteWise {
     String? notificationSenderEmail,
     String? portalDescription,
     Image? portalLogoImage,
+    PortalType? portalType,
+    Map<String, PortalTypeEntry>? portalTypeConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       'portalContactEmail': portalContactEmail,
@@ -4827,6 +5869,9 @@ class IoTSiteWise {
         'notificationSenderEmail': notificationSenderEmail,
       if (portalDescription != null) 'portalDescription': portalDescription,
       if (portalLogoImage != null) 'portalLogoImage': portalLogoImage,
+      if (portalType != null) 'portalType': portalType.value,
+      if (portalTypeConfiguration != null)
+        'portalTypeConfiguration': portalTypeConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4839,9 +5884,9 @@ class IoTSiteWise {
 
   /// Updates an IoT SiteWise Monitor project.
   ///
+  /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalFailureException].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [projectId] :
@@ -4877,2168 +5922,165 @@ class IoTSiteWise {
   }
 }
 
-/// Contains an access policy that defines an identity's access to an IoT
-/// SiteWise Monitor resource.
-class AccessPolicySummary {
-  /// The ID of the access policy.
-  final String id;
+/// Your request has conflicting operations. This can occur if you're trying to
+/// perform more than one operation on the same resource at the same time.
+class ConflictingOperationException implements _s.AwsException {
+  final String? message;
 
-  /// The identity (an IAM Identity Center user, an IAM Identity Center group, or
-  /// an IAM user).
-  final Identity identity;
+  /// The ARN of the resource that conflicts with this operation.
+  final String? resourceArn;
 
-  /// The permissions for the access policy. Note that a project
-  /// <code>ADMINISTRATOR</code> is also known as a project owner.
-  final Permission permission;
+  /// The ID of the resource that conflicts with this operation.
+  final String? resourceId;
 
-  /// The IoT SiteWise Monitor resource (a portal or project).
-  final Resource resource;
-
-  /// The date the access policy was created, in Unix epoch time.
-  final DateTime? creationDate;
-
-  /// The date the access policy was last updated, in Unix epoch time.
-  final DateTime? lastUpdateDate;
-
-  AccessPolicySummary({
-    required this.id,
-    required this.identity,
-    required this.permission,
-    required this.resource,
-    this.creationDate,
-    this.lastUpdateDate,
+  ConflictingOperationException({
+    this.message,
+    this.resourceArn,
+    this.resourceId,
   });
 
-  factory AccessPolicySummary.fromJson(Map<String, dynamic> json) {
-    return AccessPolicySummary(
-      id: (json['id'] as String?) ?? '',
-      identity: Identity.fromJson((json['identity'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      permission: Permission.fromString((json['permission'] as String?) ?? ''),
-      resource: Resource.fromJson((json['resource'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      creationDate: timeStampFromJson(json['creationDate']),
-      lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
+  factory ConflictingOperationException.fromJson(Map<String, dynamic> json) {
+    return ConflictingOperationException(
+      message: json['message'] as String?,
+      resourceArn: json['resourceArn'] as String?,
+      resourceId: json['resourceId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final id = this.id;
-    final identity = this.identity;
-    final permission = this.permission;
-    final resource = this.resource;
-    final creationDate = this.creationDate;
-    final lastUpdateDate = this.lastUpdateDate;
+    final message = this.message;
+    final resourceArn = this.resourceArn;
+    final resourceId = this.resourceId;
     return {
-      'id': id,
-      'identity': identity,
-      'permission': permission.value,
-      'resource': resource,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (lastUpdateDate != null)
-        'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      if (message != null) 'message': message,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (resourceId != null) 'resourceId': resourceId,
     };
   }
 }
 
-/// Contains a definition for an action.
-class ActionDefinition {
-  /// The ID of the action definition.
-  final String actionDefinitionId;
+/// IoT SiteWise can't process your request right now. Try again later.
+class InternalFailureException implements _s.AwsException {
+  final String? message;
 
-  /// The name of the action definition.
-  final String actionName;
-
-  /// The type of the action definition.
-  final String actionType;
-
-  ActionDefinition({
-    required this.actionDefinitionId,
-    required this.actionName,
-    required this.actionType,
+  InternalFailureException({
+    this.message,
   });
 
-  factory ActionDefinition.fromJson(Map<String, dynamic> json) {
-    return ActionDefinition(
-      actionDefinitionId: (json['actionDefinitionId'] as String?) ?? '',
-      actionName: (json['actionName'] as String?) ?? '',
-      actionType: (json['actionType'] as String?) ?? '',
+  factory InternalFailureException.fromJson(Map<String, dynamic> json) {
+    return InternalFailureException(
+      message: json['message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final actionDefinitionId = this.actionDefinitionId;
-    final actionName = this.actionName;
-    final actionType = this.actionType;
-    return {
-      'actionDefinitionId': actionDefinitionId,
-      'actionName': actionName,
-      'actionType': actionType,
-    };
-  }
-}
-
-/// The JSON payload of the action.
-class ActionPayload {
-  /// The payload of the action in a JSON string.
-  final String stringValue;
-
-  ActionPayload({
-    required this.stringValue,
-  });
-
-  factory ActionPayload.fromJson(Map<String, dynamic> json) {
-    return ActionPayload(
-      stringValue: (json['stringValue'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final stringValue = this.stringValue;
-    return {
-      'stringValue': stringValue,
-    };
-  }
-}
-
-/// Contains the summary of the actions.
-class ActionSummary {
-  /// The ID of the action definition.
-  final String? actionDefinitionId;
-
-  /// The ID of the action.
-  final String? actionId;
-
-  /// The resource the action will be taken on.
-  final TargetResource? targetResource;
-
-  ActionSummary({
-    this.actionDefinitionId,
-    this.actionId,
-    this.targetResource,
-  });
-
-  factory ActionSummary.fromJson(Map<String, dynamic> json) {
-    return ActionSummary(
-      actionDefinitionId: json['actionDefinitionId'] as String?,
-      actionId: json['actionId'] as String?,
-      targetResource: json['targetResource'] != null
-          ? TargetResource.fromJson(
-              json['targetResource'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actionDefinitionId = this.actionDefinitionId;
-    final actionId = this.actionId;
-    final targetResource = this.targetResource;
-    return {
-      if (actionDefinitionId != null) 'actionDefinitionId': actionDefinitionId,
-      if (actionId != null) 'actionId': actionId,
-      if (targetResource != null) 'targetResource': targetResource,
-    };
-  }
-}
-
-class AggregateType {
-  static const average = AggregateType._('AVERAGE');
-  static const count = AggregateType._('COUNT');
-  static const maximum = AggregateType._('MAXIMUM');
-  static const minimum = AggregateType._('MINIMUM');
-  static const sum = AggregateType._('SUM');
-  static const standardDeviation = AggregateType._('STANDARD_DEVIATION');
-
-  final String value;
-
-  const AggregateType._(this.value);
-
-  static const values = [
-    average,
-    count,
-    maximum,
-    minimum,
-    sum,
-    standardDeviation
-  ];
-
-  static AggregateType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AggregateType._(value));
-
-  @override
-  bool operator ==(other) => other is AggregateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains aggregated asset property values (for example, average, minimum,
-/// and maximum).
-class AggregatedValue {
-  /// The date the aggregating computations occurred, in Unix epoch time.
-  final DateTime timestamp;
-
-  /// The value of the aggregates.
-  final Aggregates value;
-
-  /// The quality of the aggregated data.
-  final Quality? quality;
-
-  AggregatedValue({
-    required this.timestamp,
-    required this.value,
-    this.quality,
-  });
-
-  factory AggregatedValue.fromJson(Map<String, dynamic> json) {
-    return AggregatedValue(
-      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
-      value: Aggregates.fromJson((json['value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      quality: (json['quality'] as String?)?.let(Quality.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timestamp = this.timestamp;
-    final value = this.value;
-    final quality = this.quality;
-    return {
-      'timestamp': unixTimestampToJson(timestamp),
-      'value': value,
-      if (quality != null) 'quality': quality.value,
-    };
-  }
-}
-
-/// Contains the (pre-calculated) aggregate values for an asset property.
-class Aggregates {
-  /// The average (mean) value of the time series over a time interval window.
-  final double? average;
-
-  /// The count of data points in the time series over a time interval window.
-  final double? count;
-
-  /// The maximum value of the time series over a time interval window.
-  final double? maximum;
-
-  /// The minimum value of the time series over a time interval window.
-  final double? minimum;
-
-  /// The standard deviation of the time series over a time interval window.
-  final double? standardDeviation;
-
-  /// The sum of the time series over a time interval window.
-  final double? sum;
-
-  Aggregates({
-    this.average,
-    this.count,
-    this.maximum,
-    this.minimum,
-    this.standardDeviation,
-    this.sum,
-  });
-
-  factory Aggregates.fromJson(Map<String, dynamic> json) {
-    return Aggregates(
-      average: json['average'] as double?,
-      count: json['count'] as double?,
-      maximum: json['maximum'] as double?,
-      minimum: json['minimum'] as double?,
-      standardDeviation: json['standardDeviation'] as double?,
-      sum: json['sum'] as double?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final average = this.average;
-    final count = this.count;
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    final standardDeviation = this.standardDeviation;
-    final sum = this.sum;
-    return {
-      if (average != null) 'average': average,
-      if (count != null) 'count': count,
-      if (maximum != null) 'maximum': maximum,
-      if (minimum != null) 'minimum': minimum,
-      if (standardDeviation != null) 'standardDeviation': standardDeviation,
-      if (sum != null) 'sum': sum,
-    };
-  }
-}
-
-/// Contains the configuration information of an alarm created in an IoT
-/// SiteWise Monitor portal. You can use the alarm to monitor an asset property
-/// and get notified when the asset property value is outside a specified range.
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html">Monitoring
-/// with alarms</a> in the <i>IoT SiteWise Application Guide</i>.
-class Alarms {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the IAM role that allows the alarm to perform actions and access Amazon
-  /// Web Services resources and services, such as IoT Events.
-  final String alarmRoleArn;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the Lambda function that manages alarm notifications. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/lambda-support.html">Managing
-  /// alarm notifications</a> in the <i>IoT Events Developer Guide</i>.
-  final String? notificationLambdaArn;
-
-  Alarms({
-    required this.alarmRoleArn,
-    this.notificationLambdaArn,
-  });
-
-  factory Alarms.fromJson(Map<String, dynamic> json) {
-    return Alarms(
-      alarmRoleArn: (json['alarmRoleArn'] as String?) ?? '',
-      notificationLambdaArn: json['notificationLambdaArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alarmRoleArn = this.alarmRoleArn;
-    final notificationLambdaArn = this.notificationLambdaArn;
-    return {
-      'alarmRoleArn': alarmRoleArn,
-      if (notificationLambdaArn != null)
-        'notificationLambdaArn': notificationLambdaArn,
-    };
-  }
-}
-
-/// Contains information about a composite model in an asset. This object
-/// contains the asset's properties that you define in the composite model.
-class AssetCompositeModel {
-  /// The name of the composite model.
-  final String name;
-
-  /// The asset properties that this composite model defines.
-  final List<AssetProperty> properties;
-
-  /// The type of the composite model. For alarm composite models, this type is
-  /// <code>AWS/ALARM</code>.
-  final String type;
-
-  /// The description of the composite model.
-  final String? description;
-
-  /// The external ID of the asset composite model. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID of the asset composite model.
-  final String? id;
-
-  AssetCompositeModel({
-    required this.name,
-    required this.properties,
-    required this.type,
-    this.description,
-    this.externalId,
-    this.id,
-  });
-
-  factory AssetCompositeModel.fromJson(Map<String, dynamic> json) {
-    return AssetCompositeModel(
-      name: (json['name'] as String?) ?? '',
-      properties: ((json['properties'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: (json['type'] as String?) ?? '',
-      description: json['description'] as String?,
-      externalId: json['externalId'] as String?,
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final properties = this.properties;
-    final type = this.type;
-    final description = this.description;
-    final externalId = this.externalId;
-    final id = this.id;
-    return {
-      'name': name,
-      'properties': properties,
-      'type': type,
-      if (description != null) 'description': description,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// Represents one level between a composite model and the root of the asset.
-class AssetCompositeModelPathSegment {
-  /// The ID of the path segment.
-  final String? id;
-
-  /// The name of the path segment.
-  final String? name;
-
-  AssetCompositeModelPathSegment({
-    this.id,
-    this.name,
-  });
-
-  factory AssetCompositeModelPathSegment.fromJson(Map<String, dynamic> json) {
-    return AssetCompositeModelPathSegment(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Contains a summary of the composite model for a specific asset.
-class AssetCompositeModelSummary {
-  /// A description of the composite model that this summary describes.
-  final String description;
-
-  /// The ID of the composite model that this summary describes.
-  final String id;
-
-  /// The name of the composite model that this summary describes.
-  final String name;
-
-  /// The path that includes all the components of the asset model for the asset.
-  final List<AssetCompositeModelPathSegment> path;
-
-  /// The type of asset model.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>ASSET_MODEL</b> – (default) An asset model that you can use to create
-  /// assets. Can't be included as a component in another asset model.
-  /// </li>
-  /// <li>
-  /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
-  /// composite models of other asset models. You can't create assets directly
-  /// from this type of asset model.
-  /// </li>
-  /// </ul>
-  final String type;
-
-  /// An external ID to assign to the asset model.
-  ///
-  /// If the composite model is a derived composite model, or one nested inside a
-  /// component model, you can only set the external ID using
-  /// <code>UpdateAssetModelCompositeModel</code> and specifying the derived ID of
-  /// the model or property from the created model it's a part of.
-  final String? externalId;
-
-  AssetCompositeModelSummary({
-    required this.description,
-    required this.id,
-    required this.name,
-    required this.path,
-    required this.type,
-    this.externalId,
-  });
-
-  factory AssetCompositeModelSummary.fromJson(Map<String, dynamic> json) {
-    return AssetCompositeModelSummary(
-      description: (json['description'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      path: ((json['path'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => AssetCompositeModelPathSegment.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      type: (json['type'] as String?) ?? '',
-      externalId: json['externalId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final id = this.id;
-    final name = this.name;
-    final path = this.path;
-    final type = this.type;
-    final externalId = this.externalId;
-    return {
-      'description': description,
-      'id': id,
-      'name': name,
-      'path': path,
-      'type': type,
-      if (externalId != null) 'externalId': externalId,
-    };
-  }
-}
-
-class AssetErrorCode {
-  static const internalFailure = AssetErrorCode._('INTERNAL_FAILURE');
-
-  final String value;
-
-  const AssetErrorCode._(this.value);
-
-  static const values = [internalFailure];
-
-  static AssetErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssetErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is AssetErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains error details for the requested associate project asset action.
-class AssetErrorDetails {
-  /// The ID of the asset, in UUID format.
-  final String assetId;
-
-  /// The error code.
-  final AssetErrorCode code;
-
-  /// The error message.
-  final String message;
-
-  AssetErrorDetails({
-    required this.assetId,
-    required this.code,
-    required this.message,
-  });
-
-  factory AssetErrorDetails.fromJson(Map<String, dynamic> json) {
-    return AssetErrorDetails(
-      assetId: (json['assetId'] as String?) ?? '',
-      code: AssetErrorCode.fromString((json['code'] as String?) ?? ''),
-      message: (json['message'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetId = this.assetId;
-    final code = this.code;
     final message = this.message;
     return {
-      'assetId': assetId,
-      'code': code.value,
-      'message': message,
+      if (message != null) 'message': message,
     };
   }
 }
 
-/// Describes an asset hierarchy that contains a hierarchy's name and ID.
-class AssetHierarchy {
-  /// The hierarchy name provided in the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
-  /// or <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
-  /// API operation.
-  final String name;
+/// The request isn't valid. This can occur if your request contains malformed
+/// JSON or unsupported characters. Check your request and try again.
+class InvalidRequestException implements _s.AwsException {
+  final String? message;
 
-  /// The external ID of the hierarchy, if it has one. When you update an asset
-  /// hierarchy, you may assign an external ID if it doesn't already have one. You
-  /// can't change the external ID of an asset hierarchy that already has one. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID of the hierarchy. This ID is a <code>hierarchyId</code>.
-  final String? id;
-
-  AssetHierarchy({
-    required this.name,
-    this.externalId,
-    this.id,
+  InvalidRequestException({
+    this.message,
   });
 
-  factory AssetHierarchy.fromJson(Map<String, dynamic> json) {
-    return AssetHierarchy(
-      name: (json['name'] as String?) ?? '',
-      externalId: json['externalId'] as String?,
-      id: json['id'] as String?,
+  factory InvalidRequestException.fromJson(Map<String, dynamic> json) {
+    return InvalidRequestException(
+      message: json['message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final externalId = this.externalId;
-    final id = this.id;
+    final message = this.message;
     return {
-      'name': name,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
+      if (message != null) 'message': message,
     };
   }
 }
 
-/// Contains information about a parent asset and a child asset that are related
-/// through an asset hierarchy.
-class AssetHierarchyInfo {
-  /// The ID of the child asset in this asset relationship.
-  final String? childAssetId;
-
-  /// The ID of the parent asset in this asset relationship.
-  final String? parentAssetId;
-
-  AssetHierarchyInfo({
-    this.childAssetId,
-    this.parentAssetId,
-  });
-
-  factory AssetHierarchyInfo.fromJson(Map<String, dynamic> json) {
-    return AssetHierarchyInfo(
-      childAssetId: json['childAssetId'] as String?,
-      parentAssetId: json['parentAssetId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final childAssetId = this.childAssetId;
-    final parentAssetId = this.parentAssetId;
-    return {
-      if (childAssetId != null) 'childAssetId': childAssetId,
-      if (parentAssetId != null) 'parentAssetId': parentAssetId,
-    };
-  }
-}
-
-/// Contains information about a composite model in an asset model. This object
-/// contains the asset property definitions that you define in the composite
+/// You've reached the quota for a resource. For example, this can occur if
+/// you're trying to associate more than the allowed number of child assets or
+/// attempting to create more than the allowed number of properties for an asset
 /// model.
-class AssetModelCompositeModel {
-  /// The name of the composite model.
-  final String name;
-
-  /// The type of the composite model. For alarm composite models, this type is
-  /// <code>AWS/ALARM</code>.
-  final String type;
-
-  /// The description of the composite model.
-  final String? description;
-
-  /// The external ID of the asset model composite model. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID of the asset model composite model.
-  final String? id;
-
-  /// The asset property definitions for this composite model.
-  final List<AssetModelProperty>? properties;
-
-  AssetModelCompositeModel({
-    required this.name,
-    required this.type,
-    this.description,
-    this.externalId,
-    this.id,
-    this.properties,
-  });
-
-  factory AssetModelCompositeModel.fromJson(Map<String, dynamic> json) {
-    return AssetModelCompositeModel(
-      name: (json['name'] as String?) ?? '',
-      type: (json['type'] as String?) ?? '',
-      description: json['description'] as String?,
-      externalId: json['externalId'] as String?,
-      id: json['id'] as String?,
-      properties: (json['properties'] as List?)
-          ?.nonNulls
-          .map((e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    final description = this.description;
-    final externalId = this.externalId;
-    final id = this.id;
-    final properties = this.properties;
-    return {
-      'name': name,
-      'type': type,
-      if (description != null) 'description': description,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-      if (properties != null) 'properties': properties,
-    };
-  }
-}
-
-/// Contains a composite model definition in an asset model. This composite
-/// model definition is applied to all assets created from the asset model.
-class AssetModelCompositeModelDefinition {
-  /// The name of the composite model.
-  final String name;
-
-  /// The type of the composite model. For alarm composite models, this type is
-  /// <code>AWS/ALARM</code>.
-  final String type;
-
-  /// The description of the composite model.
-  final String? description;
-
-  /// An external ID to assign to the composite model. The external ID must be
-  /// unique among composite models within this asset model. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID to assign to the composite model, if desired. IoT SiteWise
-  /// automatically generates a unique ID for you, so this parameter is never
-  /// required. However, if you prefer to supply your own ID instead, you can
-  /// specify it here in UUID format. If you specify your own ID, it must be
-  /// globally unique.
-  final String? id;
-
-  /// The asset property definitions for this composite model.
-  final List<AssetModelPropertyDefinition>? properties;
-
-  AssetModelCompositeModelDefinition({
-    required this.name,
-    required this.type,
-    this.description,
-    this.externalId,
-    this.id,
-    this.properties,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    final description = this.description;
-    final externalId = this.externalId;
-    final id = this.id;
-    final properties = this.properties;
-    return {
-      'name': name,
-      'type': type,
-      if (description != null) 'description': description,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-      if (properties != null) 'properties': properties,
-    };
-  }
-}
-
-/// Represents one level between a composite model and the root of the asset
-/// model.
-class AssetModelCompositeModelPathSegment {
-  /// The ID of the path segment.
-  final String? id;
-
-  /// The name of the path segment.
-  final String? name;
-
-  AssetModelCompositeModelPathSegment({
-    this.id,
-    this.name,
-  });
-
-  factory AssetModelCompositeModelPathSegment.fromJson(
-      Map<String, dynamic> json) {
-    return AssetModelCompositeModelPathSegment(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Contains a summary of the composite model.
-class AssetModelCompositeModelSummary {
-  /// The ID of the composite model that this summary describes..
-  final String id;
-
-  /// The name of the composite model that this summary describes..
-  final String name;
-
-  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
-  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
-  final String type;
-
-  /// The description of the composite model that this summary describes..
-  final String? description;
-
-  /// The external ID of a composite model on this asset model. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The path that includes all the pieces that make up the composite model.
-  final List<AssetModelCompositeModelPathSegment>? path;
-
-  AssetModelCompositeModelSummary({
-    required this.id,
-    required this.name,
-    required this.type,
-    this.description,
-    this.externalId,
-    this.path,
-  });
-
-  factory AssetModelCompositeModelSummary.fromJson(Map<String, dynamic> json) {
-    return AssetModelCompositeModelSummary(
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      type: (json['type'] as String?) ?? '',
-      description: json['description'] as String?,
-      externalId: json['externalId'] as String?,
-      path: (json['path'] as List?)
-          ?.nonNulls
-          .map((e) => AssetModelCompositeModelPathSegment.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final type = this.type;
-    final description = this.description;
-    final externalId = this.externalId;
-    final path = this.path;
-    return {
-      'id': id,
-      'name': name,
-      'type': type,
-      if (description != null) 'description': description,
-      if (externalId != null) 'externalId': externalId,
-      if (path != null) 'path': path,
-    };
-  }
-}
-
-/// Describes an asset hierarchy that contains a hierarchy's name, ID, and child
-/// asset model ID that specifies the type of asset that can be in this
-/// hierarchy.
-class AssetModelHierarchy {
-  /// The ID of the asset model, in UUID format. All assets in this hierarchy must
-  /// be instances of the <code>childAssetModelId</code> asset model. IoT SiteWise
-  /// will always return the actual asset model ID for this value. However, when
-  /// you are specifying this value as part of a call to <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>,
-  /// you may provide either the asset model ID or else <code>externalId:</code>
-  /// followed by the asset model's external ID. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String childAssetModelId;
-
-  /// The name of the asset model hierarchy that you specify by using the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
-  /// or <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
-  /// API operation.
-  final String name;
-
-  /// The external ID (if any) provided in the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
-  /// or <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
-  /// operation. You can assign an external ID by specifying this value as part of
-  /// a call to <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>.
-  /// However, you can't change the external ID if one is already assigned. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID of the asset model hierarchy. This ID is a <code>hierarchyId</code>.
-  ///
-  /// <ul>
-  /// <li>
-  /// If you are callling <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
-  /// to create a <i>new</i> hierarchy: You can specify its ID here, if desired.
-  /// IoT SiteWise automatically generates a unique ID for you, so this parameter
-  /// is never required. However, if you prefer to supply your own ID instead, you
-  /// can specify it here in UUID format. If you specify your own ID, it must be
-  /// globally unique.
-  /// </li>
-  /// <li>
-  /// If you are calling UpdateAssetModel to modify an <i>existing</i> hierarchy:
-  /// This can be either the actual ID in UUID format, or else
-  /// <code>externalId:</code> followed by the external ID, if it has one. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
-  /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  /// </li>
-  /// </ul>
-  final String? id;
-
-  AssetModelHierarchy({
-    required this.childAssetModelId,
-    required this.name,
-    this.externalId,
-    this.id,
-  });
-
-  factory AssetModelHierarchy.fromJson(Map<String, dynamic> json) {
-    return AssetModelHierarchy(
-      childAssetModelId: (json['childAssetModelId'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      externalId: json['externalId'] as String?,
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final childAssetModelId = this.childAssetModelId;
-    final name = this.name;
-    final externalId = this.externalId;
-    final id = this.id;
-    return {
-      'childAssetModelId': childAssetModelId,
-      'name': name,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// Contains an asset model hierarchy used in asset model creation. An asset
-/// model hierarchy determines the kind (or type) of asset that can belong to a
-/// hierarchy.
-class AssetModelHierarchyDefinition {
-  /// The ID of an asset model for this hierarchy. This can be either the actual
-  /// ID in UUID format, or else <code>externalId:</code> followed by the external
-  /// ID, if it has one. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
-  /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String childAssetModelId;
-
-  /// The name of the asset model hierarchy definition (as specified in the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
-  /// or <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
-  /// API operation).
-  final String name;
-
-  /// An external ID to assign to the asset model hierarchy. The external ID must
-  /// be unique among asset model hierarchies within this asset model. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID to assign to the asset model hierarchy, if desired. IoT SiteWise
-  /// automatically generates a unique ID for you, so this parameter is never
-  /// required. However, if you prefer to supply your own ID instead, you can
-  /// specify it here in UUID format. If you specify your own ID, it must be
-  /// globally unique.
-  final String? id;
-
-  AssetModelHierarchyDefinition({
-    required this.childAssetModelId,
-    required this.name,
-    this.externalId,
-    this.id,
-  });
-
-  Map<String, dynamic> toJson() {
-    final childAssetModelId = this.childAssetModelId;
-    final name = this.name;
-    final externalId = this.externalId;
-    final id = this.id;
-    return {
-      'childAssetModelId': childAssetModelId,
-      'name': name,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// Contains information about an asset model property.
-class AssetModelProperty {
-  /// The data type of the asset model property.
-  final PropertyDataType dataType;
-
-  /// The name of the asset model property.
-  final String name;
-
-  /// The property type (see <code>PropertyType</code>).
-  final PropertyType type;
-
-  /// The data type of the structure for this property. This parameter exists on
-  /// properties that have the <code>STRUCT</code> data type.
-  final String? dataTypeSpec;
-
-  /// The external ID (if any) provided in the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
-  /// or <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
-  /// operation. You can assign an external ID by specifying this value as part of
-  /// a call to <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>.
-  /// However, you can't change the external ID if one is already assigned. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID of the asset model property.
-  ///
-  /// <ul>
-  /// <li>
-  /// If you are callling <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
-  /// to create a <i>new</i> property: You can specify its ID here, if desired.
-  /// IoT SiteWise automatically generates a unique ID for you, so this parameter
-  /// is never required. However, if you prefer to supply your own ID instead, you
-  /// can specify it here in UUID format. If you specify your own ID, it must be
-  /// globally unique.
-  /// </li>
-  /// <li>
-  /// If you are calling UpdateAssetModel to modify an <i>existing</i> property:
-  /// This can be either the actual ID in UUID format, or else
-  /// <code>externalId:</code> followed by the external ID, if it has one. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
-  /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  /// </li>
-  /// </ul>
-  final String? id;
-
-  /// The structured path to the property from the root of the asset model.
-  final List<AssetModelPropertyPathSegment>? path;
-
-  /// The unit of the asset model property, such as <code>Newtons</code> or
-  /// <code>RPM</code>.
-  final String? unit;
-
-  AssetModelProperty({
-    required this.dataType,
-    required this.name,
-    required this.type,
-    this.dataTypeSpec,
-    this.externalId,
-    this.id,
-    this.path,
-    this.unit,
-  });
-
-  factory AssetModelProperty.fromJson(Map<String, dynamic> json) {
-    return AssetModelProperty(
-      dataType:
-          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
-      name: (json['name'] as String?) ?? '',
-      type: PropertyType.fromJson(
-          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      dataTypeSpec: json['dataTypeSpec'] as String?,
-      externalId: json['externalId'] as String?,
-      id: json['id'] as String?,
-      path: (json['path'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssetModelPropertyPathSegment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      unit: json['unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final name = this.name;
-    final type = this.type;
-    final dataTypeSpec = this.dataTypeSpec;
-    final externalId = this.externalId;
-    final id = this.id;
-    final path = this.path;
-    final unit = this.unit;
-    return {
-      'dataType': dataType.value,
-      'name': name,
-      'type': type,
-      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-      if (path != null) 'path': path,
-      if (unit != null) 'unit': unit,
-    };
-  }
-}
-
-/// Contains an asset model property definition. This property definition is
-/// applied to all assets created from the asset model.
-class AssetModelPropertyDefinition {
-  /// The data type of the property definition.
-  ///
-  /// If you specify <code>STRUCT</code>, you must also specify
-  /// <code>dataTypeSpec</code> to identify the type of the structure for this
-  /// property.
-  final PropertyDataType dataType;
-
-  /// The name of the property definition.
-  final String name;
-
-  /// The property definition type (see <code>PropertyType</code>). You can only
-  /// specify one type in a property definition.
-  final PropertyType type;
-
-  /// The data type of the structure for this property. This parameter is required
-  /// on properties that have the <code>STRUCT</code> data type.
-  ///
-  /// The options for this parameter depend on the type of the composite model in
-  /// which you define this property. Use <code>AWS/ALARM_STATE</code> for alarm
-  /// state in alarm composite models.
-  final String? dataTypeSpec;
-
-  /// An external ID to assign to the property definition. The external ID must be
-  /// unique among property definitions within this asset model. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID to assign to the asset model property, if desired. IoT SiteWise
-  /// automatically generates a unique ID for you, so this parameter is never
-  /// required. However, if you prefer to supply your own ID instead, you can
-  /// specify it here in UUID format. If you specify your own ID, it must be
-  /// globally unique.
-  final String? id;
-
-  /// The unit of the property definition, such as <code>Newtons</code> or
-  /// <code>RPM</code>.
-  final String? unit;
-
-  AssetModelPropertyDefinition({
-    required this.dataType,
-    required this.name,
-    required this.type,
-    this.dataTypeSpec,
-    this.externalId,
-    this.id,
-    this.unit,
-  });
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final name = this.name;
-    final type = this.type;
-    final dataTypeSpec = this.dataTypeSpec;
-    final externalId = this.externalId;
-    final id = this.id;
-    final unit = this.unit;
-    return {
-      'dataType': dataType.value,
-      'name': name,
-      'type': type,
-      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-      if (unit != null) 'unit': unit,
-    };
-  }
-}
-
-/// Represents one level between a property and the root of the asset model.
-class AssetModelPropertyPathSegment {
-  /// The ID of the path segment.
-  final String? id;
-
-  /// The name of the path segment.
-  final String? name;
-
-  AssetModelPropertyPathSegment({
-    this.id,
-    this.name,
-  });
-
-  factory AssetModelPropertyPathSegment.fromJson(Map<String, dynamic> json) {
-    return AssetModelPropertyPathSegment(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Contains a summary of a property associated with a model.
-class AssetModelPropertySummary {
-  /// The data type of the property.
-  final PropertyDataType dataType;
-
-  /// The name of the property.
-  final String name;
-  final PropertyType type;
-
-  /// The ID of the composite model that contains the asset model property.
-  final String? assetModelCompositeModelId;
-
-  /// The data type of the structure for this property. This parameter exists on
-  /// properties that have the <code>STRUCT</code> data type.
-  final String? dataTypeSpec;
-
-  /// The external ID of the property. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID of the property.
-  final String? id;
-
-  /// The structured path to the property from the root of the asset model.
-  final List<AssetModelPropertyPathSegment>? path;
-
-  /// The unit (such as <code>Newtons</code> or <code>RPM</code>) of the property.
-  final String? unit;
-
-  AssetModelPropertySummary({
-    required this.dataType,
-    required this.name,
-    required this.type,
-    this.assetModelCompositeModelId,
-    this.dataTypeSpec,
-    this.externalId,
-    this.id,
-    this.path,
-    this.unit,
-  });
-
-  factory AssetModelPropertySummary.fromJson(Map<String, dynamic> json) {
-    return AssetModelPropertySummary(
-      dataType:
-          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
-      name: (json['name'] as String?) ?? '',
-      type: PropertyType.fromJson(
-          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      assetModelCompositeModelId: json['assetModelCompositeModelId'] as String?,
-      dataTypeSpec: json['dataTypeSpec'] as String?,
-      externalId: json['externalId'] as String?,
-      id: json['id'] as String?,
-      path: (json['path'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssetModelPropertyPathSegment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      unit: json['unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final name = this.name;
-    final type = this.type;
-    final assetModelCompositeModelId = this.assetModelCompositeModelId;
-    final dataTypeSpec = this.dataTypeSpec;
-    final externalId = this.externalId;
-    final id = this.id;
-    final path = this.path;
-    final unit = this.unit;
-    return {
-      'dataType': dataType.value,
-      'name': name,
-      'type': type,
-      if (assetModelCompositeModelId != null)
-        'assetModelCompositeModelId': assetModelCompositeModelId,
-      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-      if (path != null) 'path': path,
-      if (unit != null) 'unit': unit,
-    };
-  }
-}
-
-class AssetModelState {
-  static const creating = AssetModelState._('CREATING');
-  static const active = AssetModelState._('ACTIVE');
-  static const updating = AssetModelState._('UPDATING');
-  static const propagating = AssetModelState._('PROPAGATING');
-  static const deleting = AssetModelState._('DELETING');
-  static const failed = AssetModelState._('FAILED');
-
-  final String value;
-
-  const AssetModelState._(this.value);
-
-  static const values = [
-    creating,
-    active,
-    updating,
-    propagating,
-    deleting,
-    failed
-  ];
-
-  static AssetModelState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssetModelState._(value));
-
-  @override
-  bool operator ==(other) => other is AssetModelState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains current status information for an asset model. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html">Asset
-/// and model states</a> in the <i>IoT SiteWise User Guide</i>.
-class AssetModelStatus {
-  /// The current state of the asset model.
-  final AssetModelState state;
-
-  /// Contains associated error information, if any.
-  final ErrorDetails? error;
-
-  AssetModelStatus({
-    required this.state,
-    this.error,
-  });
-
-  factory AssetModelStatus.fromJson(Map<String, dynamic> json) {
-    return AssetModelStatus(
-      state: AssetModelState.fromString((json['state'] as String?) ?? ''),
-      error: json['error'] != null
-          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    final error = this.error;
-    return {
-      'state': state.value,
-      if (error != null) 'error': error,
-    };
-  }
-}
-
-/// Contains a summary of an asset model.
-class AssetModelSummary {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the asset model, which has the following format.
-  ///
-  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}</code>
-  final String arn;
-
-  /// The date the asset model was created, in Unix epoch time.
-  final DateTime creationDate;
-
-  /// The asset model description.
-  final String description;
-
-  /// The ID of the asset model (used with IoT SiteWise API operations).
-  final String id;
-
-  /// The date the asset model was last updated, in Unix epoch time.
-  final DateTime lastUpdateDate;
-
-  /// The name of the asset model.
-  final String name;
-
-  /// The current status of the asset model.
-  final AssetModelStatus status;
-
-  /// The type of asset model.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>ASSET_MODEL</b> – (default) An asset model that you can use to create
-  /// assets. Can't be included as a component in another asset model.
-  /// </li>
-  /// <li>
-  /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
-  /// composite models of other asset models. You can't create assets directly
-  /// from this type of asset model.
-  /// </li>
-  /// </ul>
-  final AssetModelType? assetModelType;
-
-  /// The external ID of the asset model. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The version number of the asset model.
-  final String? version;
-
-  AssetModelSummary({
-    required this.arn,
-    required this.creationDate,
-    required this.description,
-    required this.id,
-    required this.lastUpdateDate,
-    required this.name,
-    required this.status,
-    this.assetModelType,
-    this.externalId,
-    this.version,
-  });
-
-  factory AssetModelSummary.fromJson(Map<String, dynamic> json) {
-    return AssetModelSummary(
-      arn: (json['arn'] as String?) ?? '',
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      description: (json['description'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      status: AssetModelStatus.fromJson(
-          (json['status'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      assetModelType:
-          (json['assetModelType'] as String?)?.let(AssetModelType.fromString),
-      externalId: json['externalId'] as String?,
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationDate = this.creationDate;
-    final description = this.description;
-    final id = this.id;
-    final lastUpdateDate = this.lastUpdateDate;
-    final name = this.name;
-    final status = this.status;
-    final assetModelType = this.assetModelType;
-    final externalId = this.externalId;
-    final version = this.version;
-    return {
-      'arn': arn,
-      'creationDate': unixTimestampToJson(creationDate),
-      'description': description,
-      'id': id,
-      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
-      'name': name,
-      'status': status,
-      if (assetModelType != null) 'assetModelType': assetModelType.value,
-      if (externalId != null) 'externalId': externalId,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-class AssetModelType {
-  static const assetModel = AssetModelType._('ASSET_MODEL');
-  static const componentModel = AssetModelType._('COMPONENT_MODEL');
-
-  final String value;
-
-  const AssetModelType._(this.value);
-
-  static const values = [assetModel, componentModel];
-
-  static AssetModelType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssetModelType._(value));
-
-  @override
-  bool operator ==(other) => other is AssetModelType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AssetModelVersionType {
-  static const latest = AssetModelVersionType._('LATEST');
-  static const active = AssetModelVersionType._('ACTIVE');
-
-  final String value;
-
-  const AssetModelVersionType._(this.value);
-
-  static const values = [latest, active];
-
-  static AssetModelVersionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssetModelVersionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AssetModelVersionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains asset property information.
-class AssetProperty {
-  /// The data type of the asset property.
-  final PropertyDataType dataType;
-
-  /// The ID of the asset property.
-  final String id;
-
-  /// The name of the property.
-  final String name;
-
-  /// The alias that identifies the property, such as an OPC-UA server data stream
-  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
-  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? alias;
-
-  /// The data type of the structure for this property. This parameter exists on
-  /// properties that have the <code>STRUCT</code> data type.
-  final String? dataTypeSpec;
-
-  /// The external ID of the asset property. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The asset property's notification topic and state. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
-  final PropertyNotification? notification;
-
-  /// The structured path to the property from the root of the asset.
-  final List<AssetPropertyPathSegment>? path;
-
-  /// The unit (such as <code>Newtons</code> or <code>RPM</code>) of the asset
-  /// property.
-  final String? unit;
-
-  AssetProperty({
-    required this.dataType,
-    required this.id,
-    required this.name,
-    this.alias,
-    this.dataTypeSpec,
-    this.externalId,
-    this.notification,
-    this.path,
-    this.unit,
-  });
-
-  factory AssetProperty.fromJson(Map<String, dynamic> json) {
-    return AssetProperty(
-      dataType:
-          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      alias: json['alias'] as String?,
-      dataTypeSpec: json['dataTypeSpec'] as String?,
-      externalId: json['externalId'] as String?,
-      notification: json['notification'] != null
-          ? PropertyNotification.fromJson(
-              json['notification'] as Map<String, dynamic>)
-          : null,
-      path: (json['path'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      unit: json['unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final id = this.id;
-    final name = this.name;
-    final alias = this.alias;
-    final dataTypeSpec = this.dataTypeSpec;
-    final externalId = this.externalId;
-    final notification = this.notification;
-    final path = this.path;
-    final unit = this.unit;
-    return {
-      'dataType': dataType.value,
-      'id': id,
-      'name': name,
-      if (alias != null) 'alias': alias,
-      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
-      if (externalId != null) 'externalId': externalId,
-      if (notification != null) 'notification': notification,
-      if (path != null) 'path': path,
-      if (unit != null) 'unit': unit,
-    };
-  }
-}
-
-/// Represents one level between a property and the root of the asset.
-class AssetPropertyPathSegment {
-  /// The ID of the path segment.
-  final String? id;
-
-  /// The name of the path segment.
-  final String? name;
-
-  AssetPropertyPathSegment({
-    this.id,
-    this.name,
-  });
-
-  factory AssetPropertyPathSegment.fromJson(Map<String, dynamic> json) {
-    return AssetPropertyPathSegment(
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    return {
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Contains a summary of a property associated with an asset.
-class AssetPropertySummary {
-  /// The ID of the property.
-  final String id;
-
-  /// The alias that identifies the property, such as an OPC-UA server data stream
-  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
-  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? alias;
-
-  /// The ID of the composite model that contains the asset property.
-  final String? assetCompositeModelId;
-
-  /// The external ID of the property. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-  final PropertyNotification? notification;
-
-  /// The structured path to the property from the root of the asset.
-  final List<AssetPropertyPathSegment>? path;
-
-  /// The unit of measure (such as Newtons or RPM) of the asset property.
-  final String? unit;
-
-  AssetPropertySummary({
-    required this.id,
-    this.alias,
-    this.assetCompositeModelId,
-    this.externalId,
-    this.notification,
-    this.path,
-    this.unit,
-  });
-
-  factory AssetPropertySummary.fromJson(Map<String, dynamic> json) {
-    return AssetPropertySummary(
-      id: (json['id'] as String?) ?? '',
-      alias: json['alias'] as String?,
-      assetCompositeModelId: json['assetCompositeModelId'] as String?,
-      externalId: json['externalId'] as String?,
-      notification: json['notification'] != null
-          ? PropertyNotification.fromJson(
-              json['notification'] as Map<String, dynamic>)
-          : null,
-      path: (json['path'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      unit: json['unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final alias = this.alias;
-    final assetCompositeModelId = this.assetCompositeModelId;
-    final externalId = this.externalId;
-    final notification = this.notification;
-    final path = this.path;
-    final unit = this.unit;
-    return {
-      'id': id,
-      if (alias != null) 'alias': alias,
-      if (assetCompositeModelId != null)
-        'assetCompositeModelId': assetCompositeModelId,
-      if (externalId != null) 'externalId': externalId,
-      if (notification != null) 'notification': notification,
-      if (path != null) 'path': path,
-      if (unit != null) 'unit': unit,
-    };
-  }
-}
-
-/// Contains asset property value information.
-class AssetPropertyValue {
-  /// The timestamp of the asset property value.
-  final TimeInNanos timestamp;
-
-  /// The value of the asset property (see <code>Variant</code>).
-  final Variant value;
-
-  /// The quality of the asset property value.
-  final Quality? quality;
-
-  AssetPropertyValue({
-    required this.timestamp,
-    required this.value,
-    this.quality,
-  });
-
-  factory AssetPropertyValue.fromJson(Map<String, dynamic> json) {
-    return AssetPropertyValue(
-      timestamp: TimeInNanos.fromJson(
-          (json['timestamp'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      value: Variant.fromJson((json['value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      quality: (json['quality'] as String?)?.let(Quality.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timestamp = this.timestamp;
-    final value = this.value;
-    final quality = this.quality;
-    return {
-      'timestamp': timestamp,
-      'value': value,
-      if (quality != null) 'quality': quality.value,
-    };
-  }
-}
-
-/// Contains information about assets that are related to one another.
-class AssetRelationshipSummary {
-  /// The relationship type of the assets in this relationship. This value is one
-  /// of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>HIERARCHY</code> – The assets are related through an asset hierarchy.
-  /// If you specify this relationship type, this asset relationship includes the
-  /// <code>hierarchyInfo</code> object.
-  /// </li>
-  /// </ul>
-  final AssetRelationshipType relationshipType;
-
-  /// The assets that are related through an asset hierarchy.
-  ///
-  /// This object is present if the <code>relationshipType</code> is
-  /// <code>HIERARCHY</code>.
-  final AssetHierarchyInfo? hierarchyInfo;
-
-  AssetRelationshipSummary({
-    required this.relationshipType,
-    this.hierarchyInfo,
-  });
-
-  factory AssetRelationshipSummary.fromJson(Map<String, dynamic> json) {
-    return AssetRelationshipSummary(
-      relationshipType: AssetRelationshipType.fromString(
-          (json['relationshipType'] as String?) ?? ''),
-      hierarchyInfo: json['hierarchyInfo'] != null
-          ? AssetHierarchyInfo.fromJson(
-              json['hierarchyInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final relationshipType = this.relationshipType;
-    final hierarchyInfo = this.hierarchyInfo;
-    return {
-      'relationshipType': relationshipType.value,
-      if (hierarchyInfo != null) 'hierarchyInfo': hierarchyInfo,
-    };
-  }
-}
-
-class AssetRelationshipType {
-  static const hierarchy = AssetRelationshipType._('HIERARCHY');
-
-  final String value;
-
-  const AssetRelationshipType._(this.value);
-
-  static const values = [hierarchy];
-
-  static AssetRelationshipType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AssetRelationshipType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AssetRelationshipType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AssetState {
-  static const creating = AssetState._('CREATING');
-  static const active = AssetState._('ACTIVE');
-  static const updating = AssetState._('UPDATING');
-  static const deleting = AssetState._('DELETING');
-  static const failed = AssetState._('FAILED');
-
-  final String value;
-
-  const AssetState._(this.value);
-
-  static const values = [creating, active, updating, deleting, failed];
-
-  static AssetState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AssetState._(value));
-
-  @override
-  bool operator ==(other) => other is AssetState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the current status of an asset. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html">Asset
-/// and model states</a> in the <i>IoT SiteWise User Guide</i>.
-class AssetStatus {
-  /// The current status of the asset.
-  final AssetState state;
-
-  /// Contains associated error information, if any.
-  final ErrorDetails? error;
-
-  AssetStatus({
-    required this.state,
-    this.error,
-  });
-
-  factory AssetStatus.fromJson(Map<String, dynamic> json) {
-    return AssetStatus(
-      state: AssetState.fromString((json['state'] as String?) ?? ''),
-      error: json['error'] != null
-          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    final error = this.error;
-    return {
-      'state': state.value,
-      if (error != null) 'error': error,
-    };
-  }
-}
-
-/// Contains a summary of an asset.
-class AssetSummary {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the asset, which has the following format.
-  ///
-  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}</code>
-  final String arn;
-
-  /// The ID of the asset model used to create this asset.
-  final String assetModelId;
-
-  /// The date the asset was created, in Unix epoch time.
-  final DateTime creationDate;
-
-  /// A list of asset hierarchies that each contain a <code>hierarchyId</code>. A
-  /// hierarchy specifies allowed parent/child asset relationships.
-  final List<AssetHierarchy> hierarchies;
-
-  /// The ID of the asset, in UUID format.
-  final String id;
-
-  /// The date the asset was last updated, in Unix epoch time.
-  final DateTime lastUpdateDate;
-
-  /// The name of the asset.
-  final String name;
-
-  /// The current status of the asset.
-  final AssetStatus status;
-
-  /// A description for the asset.
-  final String? description;
-
-  /// The external ID of the asset. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  AssetSummary({
-    required this.arn,
-    required this.assetModelId,
-    required this.creationDate,
-    required this.hierarchies,
-    required this.id,
-    required this.lastUpdateDate,
-    required this.name,
-    required this.status,
-    this.description,
-    this.externalId,
-  });
-
-  factory AssetSummary.fromJson(Map<String, dynamic> json) {
-    return AssetSummary(
-      arn: (json['arn'] as String?) ?? '',
-      assetModelId: (json['assetModelId'] as String?) ?? '',
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      hierarchies: ((json['hierarchies'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: (json['id'] as String?) ?? '',
-      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      status: AssetStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      description: json['description'] as String?,
-      externalId: json['externalId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final assetModelId = this.assetModelId;
-    final creationDate = this.creationDate;
-    final hierarchies = this.hierarchies;
-    final id = this.id;
-    final lastUpdateDate = this.lastUpdateDate;
-    final name = this.name;
-    final status = this.status;
-    final description = this.description;
-    final externalId = this.externalId;
-    return {
-      'arn': arn,
-      'assetModelId': assetModelId,
-      'creationDate': unixTimestampToJson(creationDate),
-      'hierarchies': hierarchies,
-      'id': id,
-      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
-      'name': name,
-      'status': status,
-      if (description != null) 'description': description,
-      if (externalId != null) 'externalId': externalId,
-    };
-  }
-}
-
-/// Contains a summary of an associated asset.
-class AssociatedAssetsSummary {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the asset, which has the following format.
-  ///
-  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}</code>
-  final String arn;
-
-  /// The ID of the asset model used to create the asset.
-  final String assetModelId;
-
-  /// The date the asset was created, in Unix epoch time.
-  final DateTime creationDate;
-
-  /// A list of asset hierarchies that each contain a <code>hierarchyId</code>. A
-  /// hierarchy specifies allowed parent/child asset relationships.
-  final List<AssetHierarchy> hierarchies;
-
-  /// The ID of the asset, in UUID format.
-  final String id;
-
-  /// The date the asset was last updated, in Unix epoch time.
-  final DateTime lastUpdateDate;
-
-  /// The name of the asset.
-  final String name;
-
-  /// The current status of the asset.
-  final AssetStatus status;
-
-  /// A description for the asset.
-  final String? description;
-
-  /// The external ID of the asset. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  AssociatedAssetsSummary({
-    required this.arn,
-    required this.assetModelId,
-    required this.creationDate,
-    required this.hierarchies,
-    required this.id,
-    required this.lastUpdateDate,
-    required this.name,
-    required this.status,
-    this.description,
-    this.externalId,
-  });
-
-  factory AssociatedAssetsSummary.fromJson(Map<String, dynamic> json) {
-    return AssociatedAssetsSummary(
-      arn: (json['arn'] as String?) ?? '',
-      assetModelId: (json['assetModelId'] as String?) ?? '',
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      hierarchies: ((json['hierarchies'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      id: (json['id'] as String?) ?? '',
-      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      status: AssetStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      description: json['description'] as String?,
-      externalId: json['externalId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final assetModelId = this.assetModelId;
-    final creationDate = this.creationDate;
-    final hierarchies = this.hierarchies;
-    final id = this.id;
-    final lastUpdateDate = this.lastUpdateDate;
-    final name = this.name;
-    final status = this.status;
-    final description = this.description;
-    final externalId = this.externalId;
-    return {
-      'arn': arn,
-      'assetModelId': assetModelId,
-      'creationDate': unixTimestampToJson(creationDate),
-      'hierarchies': hierarchies,
-      'id': id,
-      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
-      'name': name,
-      'status': status,
-      if (description != null) 'description': description,
-      if (externalId != null) 'externalId': externalId,
-    };
-  }
-}
-
-/// Contains an asset attribute property. For more information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#attributes">Attributes</a>
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html">Quotas</a>
 /// in the <i>IoT SiteWise User Guide</i>.
-class Attribute {
-  /// The default value of the asset model property attribute. All assets that you
-  /// create from the asset model contain this attribute value. You can update an
-  /// attribute's value after you create an asset. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-attribute-values.html">Updating
-  /// attribute values</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? defaultValue;
+class LimitExceededException implements _s.AwsException {
+  final String? message;
 
-  Attribute({
-    this.defaultValue,
+  LimitExceededException({
+    this.message,
   });
 
-  factory Attribute.fromJson(Map<String, dynamic> json) {
-    return Attribute(
-      defaultValue: json['defaultValue'] as String?,
+  factory LimitExceededException.fromJson(Map<String, dynamic> json) {
+    return LimitExceededException(
+      message: json['message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final defaultValue = this.defaultValue;
+    final message = this.message;
     return {
-      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (message != null) 'message': message,
     };
   }
 }
 
-class AuthMode {
-  static const iam = AuthMode._('IAM');
-  static const sso = AuthMode._('SSO');
+/// The requested resource can't be found.
+class ResourceNotFoundException implements _s.AwsException {
+  final String? message;
 
-  final String value;
+  ResourceNotFoundException({
+    this.message,
+  });
 
-  const AuthMode._(this.value);
+  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) {
+    return ResourceNotFoundException(
+      message: json['message'] as String?,
+    );
+  }
 
-  static const values = [iam, sso];
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
 
-  static AuthMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AuthMode._(value));
+/// Your request exceeded a rate limit. For example, you might have exceeded the
+/// number of IoT SiteWise assets that can be created per second, the allowed
+/// number of messages per second, and so on.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html">Quotas</a>
+/// in the <i>IoT SiteWise User Guide</i>.
+class ThrottlingException implements _s.AwsException {
+  final String? message;
 
-  @override
-  bool operator ==(other) => other is AuthMode && other.value == value;
+  ThrottlingException({
+    this.message,
+  });
 
-  @override
-  int get hashCode => value.hashCode;
+  factory ThrottlingException.fromJson(Map<String, dynamic> json) {
+    return ThrottlingException(
+      message: json['message'] as String?,
+    );
+  }
 
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 class BatchAssociateProjectAssetsResponse {
@@ -7089,239 +6131,6 @@ class BatchDisassociateProjectAssetsResponse {
     final errors = this.errors;
     return {
       if (errors != null) 'errors': errors,
-    };
-  }
-}
-
-class BatchEntryCompletionStatus {
-  static const success = BatchEntryCompletionStatus._('SUCCESS');
-  static const error = BatchEntryCompletionStatus._('ERROR');
-
-  final String value;
-
-  const BatchEntryCompletionStatus._(this.value);
-
-  static const values = [success, error];
-
-  static BatchEntryCompletionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchEntryCompletionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchEntryCompletionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information for an asset property aggregate entry that is
-/// associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
-/// API.
-///
-/// To identify an asset property, you must specify one of the following:
-///
-/// <ul>
-/// <li>
-/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
-/// </li>
-/// <li>
-/// A <code>propertyAlias</code>, which is a data stream alias (for example,
-/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
-/// property's alias, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
-/// </li>
-/// </ul>
-class BatchGetAssetPropertyAggregatesEntry {
-  /// The data aggregating function.
-  final List<AggregateType> aggregateTypes;
-
-  /// The inclusive end of the range from which to query historical data,
-  /// expressed in seconds in Unix epoch time.
-  final DateTime endDate;
-
-  /// The ID of the entry.
-  final String entryId;
-
-  /// The time interval over which to aggregate data.
-  final String resolution;
-
-  /// The exclusive start of the range from which to query historical data,
-  /// expressed in seconds in Unix epoch time.
-  final DateTime startDate;
-
-  /// The ID of the asset in which the asset property was created.
-  final String? assetId;
-
-  /// The alias that identifies the property, such as an OPC-UA server data stream
-  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
-  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? propertyAlias;
-
-  /// The ID of the asset property, in UUID format.
-  final String? propertyId;
-
-  /// The quality by which to filter asset data.
-  final List<Quality>? qualities;
-
-  /// The chronological sorting order of the requested information.
-  ///
-  /// Default: <code>ASCENDING</code>
-  final TimeOrdering? timeOrdering;
-
-  BatchGetAssetPropertyAggregatesEntry({
-    required this.aggregateTypes,
-    required this.endDate,
-    required this.entryId,
-    required this.resolution,
-    required this.startDate,
-    this.assetId,
-    this.propertyAlias,
-    this.propertyId,
-    this.qualities,
-    this.timeOrdering,
-  });
-
-  Map<String, dynamic> toJson() {
-    final aggregateTypes = this.aggregateTypes;
-    final endDate = this.endDate;
-    final entryId = this.entryId;
-    final resolution = this.resolution;
-    final startDate = this.startDate;
-    final assetId = this.assetId;
-    final propertyAlias = this.propertyAlias;
-    final propertyId = this.propertyId;
-    final qualities = this.qualities;
-    final timeOrdering = this.timeOrdering;
-    return {
-      'aggregateTypes': aggregateTypes.map((e) => e.value).toList(),
-      'endDate': unixTimestampToJson(endDate),
-      'entryId': entryId,
-      'resolution': resolution,
-      'startDate': unixTimestampToJson(startDate),
-      if (assetId != null) 'assetId': assetId,
-      if (propertyAlias != null) 'propertyAlias': propertyAlias,
-      if (propertyId != null) 'propertyId': propertyId,
-      if (qualities != null)
-        'qualities': qualities.map((e) => e.value).toList(),
-      if (timeOrdering != null) 'timeOrdering': timeOrdering.value,
-    };
-  }
-}
-
-class BatchGetAssetPropertyAggregatesErrorCode {
-  static const resourceNotFoundException =
-      BatchGetAssetPropertyAggregatesErrorCode._('ResourceNotFoundException');
-  static const invalidRequestException =
-      BatchGetAssetPropertyAggregatesErrorCode._('InvalidRequestException');
-  static const accessDeniedException =
-      BatchGetAssetPropertyAggregatesErrorCode._('AccessDeniedException');
-
-  final String value;
-
-  const BatchGetAssetPropertyAggregatesErrorCode._(this.value);
-
-  static const values = [
-    resourceNotFoundException,
-    invalidRequestException,
-    accessDeniedException
-  ];
-
-  static BatchGetAssetPropertyAggregatesErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchGetAssetPropertyAggregatesErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchGetAssetPropertyAggregatesErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains error information for an asset property aggregate entry that is
-/// associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
-/// API.
-class BatchGetAssetPropertyAggregatesErrorEntry {
-  /// The ID of the entry.
-  final String entryId;
-
-  /// The error code.
-  final BatchGetAssetPropertyAggregatesErrorCode errorCode;
-
-  /// The associated error message.
-  final String errorMessage;
-
-  BatchGetAssetPropertyAggregatesErrorEntry({
-    required this.entryId,
-    required this.errorCode,
-    required this.errorMessage,
-  });
-
-  factory BatchGetAssetPropertyAggregatesErrorEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyAggregatesErrorEntry(
-      entryId: (json['entryId'] as String?) ?? '',
-      errorCode: BatchGetAssetPropertyAggregatesErrorCode.fromString(
-          (json['errorCode'] as String?) ?? ''),
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      'entryId': entryId,
-      'errorCode': errorCode.value,
-      'errorMessage': errorMessage,
-    };
-  }
-}
-
-/// Contains the error code and the timestamp for an asset property aggregate
-/// entry that is associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
-/// API.
-class BatchGetAssetPropertyAggregatesErrorInfo {
-  /// The error code.
-  final BatchGetAssetPropertyAggregatesErrorCode errorCode;
-
-  /// The date the error occurred, in Unix epoch time.
-  final DateTime errorTimestamp;
-
-  BatchGetAssetPropertyAggregatesErrorInfo({
-    required this.errorCode,
-    required this.errorTimestamp,
-  });
-
-  factory BatchGetAssetPropertyAggregatesErrorInfo.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyAggregatesErrorInfo(
-      errorCode: BatchGetAssetPropertyAggregatesErrorCode.fromString(
-          (json['errorCode'] as String?) ?? ''),
-      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorTimestamp = this.errorTimestamp;
-    return {
-      'errorCode': errorCode.value,
-      'errorTimestamp': unixTimestampToJson(errorTimestamp),
     };
   }
 }
@@ -7389,441 +6198,65 @@ class BatchGetAssetPropertyAggregatesResponse {
   }
 }
 
-/// Contains information for an entry that has been processed by the previous <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
-/// request.
-class BatchGetAssetPropertyAggregatesSkippedEntry {
-  /// The completion status of each entry that is associated with the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
-  /// API.
-  final BatchEntryCompletionStatus completionStatus;
+class BatchGetAssetPropertyValueResponse {
+  /// A list of the errors (if any) associated with the batch request. Each error
+  /// entry contains the <code>entryId</code> of the entry that failed.
+  final List<BatchGetAssetPropertyValueErrorEntry> errorEntries;
 
-  /// The ID of the entry.
-  final String entryId;
+  /// A list of entries that were not processed by this batch request. because
+  /// these entries had been completely processed by previous paginated requests.
+  /// Each skipped entry contains the <code>entryId</code> of the entry that
+  /// skipped.
+  final List<BatchGetAssetPropertyValueSkippedEntry> skippedEntries;
 
-  /// The error information, such as the error code and the timestamp.
-  final BatchGetAssetPropertyAggregatesErrorInfo? errorInfo;
+  /// A list of entries that were processed successfully by this batch request.
+  /// Each success entry contains the <code>entryId</code> of the entry that
+  /// succeeded and the latest query result.
+  final List<BatchGetAssetPropertyValueSuccessEntry> successEntries;
 
-  BatchGetAssetPropertyAggregatesSkippedEntry({
-    required this.completionStatus,
-    required this.entryId,
-    this.errorInfo,
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  BatchGetAssetPropertyValueResponse({
+    required this.errorEntries,
+    required this.skippedEntries,
+    required this.successEntries,
+    this.nextToken,
   });
 
-  factory BatchGetAssetPropertyAggregatesSkippedEntry.fromJson(
+  factory BatchGetAssetPropertyValueResponse.fromJson(
       Map<String, dynamic> json) {
-    return BatchGetAssetPropertyAggregatesSkippedEntry(
-      completionStatus: BatchEntryCompletionStatus.fromString(
-          (json['completionStatus'] as String?) ?? ''),
-      entryId: (json['entryId'] as String?) ?? '',
-      errorInfo: json['errorInfo'] != null
-          ? BatchGetAssetPropertyAggregatesErrorInfo.fromJson(
-              json['errorInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final completionStatus = this.completionStatus;
-    final entryId = this.entryId;
-    final errorInfo = this.errorInfo;
-    return {
-      'completionStatus': completionStatus.value,
-      'entryId': entryId,
-      if (errorInfo != null) 'errorInfo': errorInfo,
-    };
-  }
-}
-
-/// Contains success information for an entry that is associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
-/// API.
-class BatchGetAssetPropertyAggregatesSuccessEntry {
-  /// The requested aggregated asset property values (for example, average,
-  /// minimum, and maximum).
-  final List<AggregatedValue> aggregatedValues;
-
-  /// The ID of the entry.
-  final String entryId;
-
-  BatchGetAssetPropertyAggregatesSuccessEntry({
-    required this.aggregatedValues,
-    required this.entryId,
-  });
-
-  factory BatchGetAssetPropertyAggregatesSuccessEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyAggregatesSuccessEntry(
-      aggregatedValues: ((json['aggregatedValues'] as List?) ?? const [])
+    return BatchGetAssetPropertyValueResponse(
+      errorEntries: ((json['errorEntries'] as List?) ?? const [])
           .nonNulls
-          .map((e) => AggregatedValue.fromJson(e as Map<String, dynamic>))
+          .map((e) => BatchGetAssetPropertyValueErrorEntry.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
-      entryId: (json['entryId'] as String?) ?? '',
+      skippedEntries: ((json['skippedEntries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BatchGetAssetPropertyValueSkippedEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      successEntries: ((json['successEntries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => BatchGetAssetPropertyValueSuccessEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final aggregatedValues = this.aggregatedValues;
-    final entryId = this.entryId;
+    final errorEntries = this.errorEntries;
+    final skippedEntries = this.skippedEntries;
+    final successEntries = this.successEntries;
+    final nextToken = this.nextToken;
     return {
-      'aggregatedValues': aggregatedValues,
-      'entryId': entryId,
-    };
-  }
-}
-
-/// Contains information for an asset property value entry that is associated
-/// with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
-/// API.
-///
-/// To identify an asset property, you must specify one of the following:
-///
-/// <ul>
-/// <li>
-/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
-/// </li>
-/// <li>
-/// A <code>propertyAlias</code>, which is a data stream alias (for example,
-/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
-/// property's alias, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
-/// </li>
-/// </ul>
-class BatchGetAssetPropertyValueEntry {
-  /// The ID of the entry.
-  final String entryId;
-
-  /// The ID of the asset in which the asset property was created.
-  final String? assetId;
-
-  /// The alias that identifies the property, such as an OPC-UA server data stream
-  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
-  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? propertyAlias;
-
-  /// The ID of the asset property, in UUID format.
-  final String? propertyId;
-
-  BatchGetAssetPropertyValueEntry({
-    required this.entryId,
-    this.assetId,
-    this.propertyAlias,
-    this.propertyId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final assetId = this.assetId;
-    final propertyAlias = this.propertyAlias;
-    final propertyId = this.propertyId;
-    return {
-      'entryId': entryId,
-      if (assetId != null) 'assetId': assetId,
-      if (propertyAlias != null) 'propertyAlias': propertyAlias,
-      if (propertyId != null) 'propertyId': propertyId,
-    };
-  }
-}
-
-class BatchGetAssetPropertyValueErrorCode {
-  static const resourceNotFoundException =
-      BatchGetAssetPropertyValueErrorCode._('ResourceNotFoundException');
-  static const invalidRequestException =
-      BatchGetAssetPropertyValueErrorCode._('InvalidRequestException');
-  static const accessDeniedException =
-      BatchGetAssetPropertyValueErrorCode._('AccessDeniedException');
-
-  final String value;
-
-  const BatchGetAssetPropertyValueErrorCode._(this.value);
-
-  static const values = [
-    resourceNotFoundException,
-    invalidRequestException,
-    accessDeniedException
-  ];
-
-  static BatchGetAssetPropertyValueErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchGetAssetPropertyValueErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchGetAssetPropertyValueErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains error information for an asset property value entry that is
-/// associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
-/// API.
-class BatchGetAssetPropertyValueErrorEntry {
-  /// The ID of the entry.
-  final String entryId;
-
-  /// The error code.
-  final BatchGetAssetPropertyValueErrorCode errorCode;
-
-  /// The associated error message.
-  final String errorMessage;
-
-  BatchGetAssetPropertyValueErrorEntry({
-    required this.entryId,
-    required this.errorCode,
-    required this.errorMessage,
-  });
-
-  factory BatchGetAssetPropertyValueErrorEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueErrorEntry(
-      entryId: (json['entryId'] as String?) ?? '',
-      errorCode: BatchGetAssetPropertyValueErrorCode.fromString(
-          (json['errorCode'] as String?) ?? ''),
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      'entryId': entryId,
-      'errorCode': errorCode.value,
-      'errorMessage': errorMessage,
-    };
-  }
-}
-
-/// The error information, such as the error code and the timestamp.
-class BatchGetAssetPropertyValueErrorInfo {
-  /// The error code.
-  final BatchGetAssetPropertyValueErrorCode errorCode;
-
-  /// The date the error occurred, in Unix epoch time.
-  final DateTime errorTimestamp;
-
-  BatchGetAssetPropertyValueErrorInfo({
-    required this.errorCode,
-    required this.errorTimestamp,
-  });
-
-  factory BatchGetAssetPropertyValueErrorInfo.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueErrorInfo(
-      errorCode: BatchGetAssetPropertyValueErrorCode.fromString(
-          (json['errorCode'] as String?) ?? ''),
-      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorTimestamp = this.errorTimestamp;
-    return {
-      'errorCode': errorCode.value,
-      'errorTimestamp': unixTimestampToJson(errorTimestamp),
-    };
-  }
-}
-
-/// Contains information for an asset property historical value entry that is
-/// associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
-/// API.
-///
-/// To identify an asset property, you must specify one of the following:
-///
-/// <ul>
-/// <li>
-/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
-/// </li>
-/// <li>
-/// A <code>propertyAlias</code>, which is a data stream alias (for example,
-/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
-/// property's alias, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
-/// </li>
-/// </ul>
-class BatchGetAssetPropertyValueHistoryEntry {
-  /// The ID of the entry.
-  final String entryId;
-
-  /// The ID of the asset in which the asset property was created.
-  final String? assetId;
-
-  /// The inclusive end of the range from which to query historical data,
-  /// expressed in seconds in Unix epoch time.
-  final DateTime? endDate;
-
-  /// The alias that identifies the property, such as an OPC-UA server data stream
-  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
-  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? propertyAlias;
-
-  /// The ID of the asset property, in UUID format.
-  final String? propertyId;
-
-  /// The quality by which to filter asset data.
-  final List<Quality>? qualities;
-
-  /// The exclusive start of the range from which to query historical data,
-  /// expressed in seconds in Unix epoch time.
-  final DateTime? startDate;
-
-  /// The chronological sorting order of the requested information.
-  ///
-  /// Default: <code>ASCENDING</code>
-  final TimeOrdering? timeOrdering;
-
-  BatchGetAssetPropertyValueHistoryEntry({
-    required this.entryId,
-    this.assetId,
-    this.endDate,
-    this.propertyAlias,
-    this.propertyId,
-    this.qualities,
-    this.startDate,
-    this.timeOrdering,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final assetId = this.assetId;
-    final endDate = this.endDate;
-    final propertyAlias = this.propertyAlias;
-    final propertyId = this.propertyId;
-    final qualities = this.qualities;
-    final startDate = this.startDate;
-    final timeOrdering = this.timeOrdering;
-    return {
-      'entryId': entryId,
-      if (assetId != null) 'assetId': assetId,
-      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
-      if (propertyAlias != null) 'propertyAlias': propertyAlias,
-      if (propertyId != null) 'propertyId': propertyId,
-      if (qualities != null)
-        'qualities': qualities.map((e) => e.value).toList(),
-      if (startDate != null) 'startDate': unixTimestampToJson(startDate),
-      if (timeOrdering != null) 'timeOrdering': timeOrdering.value,
-    };
-  }
-}
-
-class BatchGetAssetPropertyValueHistoryErrorCode {
-  static const resourceNotFoundException =
-      BatchGetAssetPropertyValueHistoryErrorCode._('ResourceNotFoundException');
-  static const invalidRequestException =
-      BatchGetAssetPropertyValueHistoryErrorCode._('InvalidRequestException');
-  static const accessDeniedException =
-      BatchGetAssetPropertyValueHistoryErrorCode._('AccessDeniedException');
-
-  final String value;
-
-  const BatchGetAssetPropertyValueHistoryErrorCode._(this.value);
-
-  static const values = [
-    resourceNotFoundException,
-    invalidRequestException,
-    accessDeniedException
-  ];
-
-  static BatchGetAssetPropertyValueHistoryErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchGetAssetPropertyValueHistoryErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchGetAssetPropertyValueHistoryErrorCode &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A list of the errors (if any) associated with the batch request. Each error
-/// entry contains the <code>entryId</code> of the entry that failed.
-class BatchGetAssetPropertyValueHistoryErrorEntry {
-  /// The ID of the entry.
-  final String entryId;
-
-  /// The error code.
-  final BatchGetAssetPropertyValueHistoryErrorCode errorCode;
-
-  /// The associated error message.
-  final String errorMessage;
-
-  BatchGetAssetPropertyValueHistoryErrorEntry({
-    required this.entryId,
-    required this.errorCode,
-    required this.errorMessage,
-  });
-
-  factory BatchGetAssetPropertyValueHistoryErrorEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueHistoryErrorEntry(
-      entryId: (json['entryId'] as String?) ?? '',
-      errorCode: BatchGetAssetPropertyValueHistoryErrorCode.fromString(
-          (json['errorCode'] as String?) ?? ''),
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      'entryId': entryId,
-      'errorCode': errorCode.value,
-      'errorMessage': errorMessage,
-    };
-  }
-}
-
-/// The error information, such as the error code and the timestamp.
-class BatchGetAssetPropertyValueHistoryErrorInfo {
-  /// The error code.
-  final BatchGetAssetPropertyValueHistoryErrorCode errorCode;
-
-  /// The date the error occurred, in Unix epoch time.
-  final DateTime errorTimestamp;
-
-  BatchGetAssetPropertyValueHistoryErrorInfo({
-    required this.errorCode,
-    required this.errorTimestamp,
-  });
-
-  factory BatchGetAssetPropertyValueHistoryErrorInfo.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueHistoryErrorInfo(
-      errorCode: BatchGetAssetPropertyValueHistoryErrorCode.fromString(
-          (json['errorCode'] as String?) ?? ''),
-      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorTimestamp = this.errorTimestamp;
-    return {
-      'errorCode': errorCode.value,
-      'errorTimestamp': unixTimestampToJson(errorTimestamp),
+      'errorEntries': errorEntries,
+      'skippedEntries': skippedEntries,
+      'successEntries': successEntries,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -7891,362 +6324,6 @@ class BatchGetAssetPropertyValueHistoryResponse {
   }
 }
 
-/// Contains information for an entry that has been processed by the previous <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
-/// request.
-class BatchGetAssetPropertyValueHistorySkippedEntry {
-  /// The completion status of each entry that is associated with the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValueHistory.html">BatchGetAssetPropertyValueHistory</a>
-  /// API.
-  final BatchEntryCompletionStatus completionStatus;
-
-  /// The ID of the entry.
-  final String entryId;
-
-  /// The error information, such as the error code and the timestamp.
-  final BatchGetAssetPropertyValueHistoryErrorInfo? errorInfo;
-
-  BatchGetAssetPropertyValueHistorySkippedEntry({
-    required this.completionStatus,
-    required this.entryId,
-    this.errorInfo,
-  });
-
-  factory BatchGetAssetPropertyValueHistorySkippedEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueHistorySkippedEntry(
-      completionStatus: BatchEntryCompletionStatus.fromString(
-          (json['completionStatus'] as String?) ?? ''),
-      entryId: (json['entryId'] as String?) ?? '',
-      errorInfo: json['errorInfo'] != null
-          ? BatchGetAssetPropertyValueHistoryErrorInfo.fromJson(
-              json['errorInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final completionStatus = this.completionStatus;
-    final entryId = this.entryId;
-    final errorInfo = this.errorInfo;
-    return {
-      'completionStatus': completionStatus.value,
-      'entryId': entryId,
-      if (errorInfo != null) 'errorInfo': errorInfo,
-    };
-  }
-}
-
-/// Contains success information for an entry that is associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
-/// API.
-class BatchGetAssetPropertyValueHistorySuccessEntry {
-  /// The requested historical values for the specified asset property.
-  final List<AssetPropertyValue> assetPropertyValueHistory;
-
-  /// The ID of the entry.
-  final String entryId;
-
-  BatchGetAssetPropertyValueHistorySuccessEntry({
-    required this.assetPropertyValueHistory,
-    required this.entryId,
-  });
-
-  factory BatchGetAssetPropertyValueHistorySuccessEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueHistorySuccessEntry(
-      assetPropertyValueHistory: ((json['assetPropertyValueHistory']
-                  as List?) ??
-              const [])
-          .nonNulls
-          .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      entryId: (json['entryId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetPropertyValueHistory = this.assetPropertyValueHistory;
-    final entryId = this.entryId;
-    return {
-      'assetPropertyValueHistory': assetPropertyValueHistory,
-      'entryId': entryId,
-    };
-  }
-}
-
-class BatchGetAssetPropertyValueResponse {
-  /// A list of the errors (if any) associated with the batch request. Each error
-  /// entry contains the <code>entryId</code> of the entry that failed.
-  final List<BatchGetAssetPropertyValueErrorEntry> errorEntries;
-
-  /// A list of entries that were not processed by this batch request. because
-  /// these entries had been completely processed by previous paginated requests.
-  /// Each skipped entry contains the <code>entryId</code> of the entry that
-  /// skipped.
-  final List<BatchGetAssetPropertyValueSkippedEntry> skippedEntries;
-
-  /// A list of entries that were processed successfully by this batch request.
-  /// Each success entry contains the <code>entryId</code> of the entry that
-  /// succeeded and the latest query result.
-  final List<BatchGetAssetPropertyValueSuccessEntry> successEntries;
-
-  /// The token for the next set of results, or null if there are no additional
-  /// results.
-  final String? nextToken;
-
-  BatchGetAssetPropertyValueResponse({
-    required this.errorEntries,
-    required this.skippedEntries,
-    required this.successEntries,
-    this.nextToken,
-  });
-
-  factory BatchGetAssetPropertyValueResponse.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueResponse(
-      errorEntries: ((json['errorEntries'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => BatchGetAssetPropertyValueErrorEntry.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      skippedEntries: ((json['skippedEntries'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => BatchGetAssetPropertyValueSkippedEntry.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      successEntries: ((json['successEntries'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => BatchGetAssetPropertyValueSuccessEntry.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorEntries = this.errorEntries;
-    final skippedEntries = this.skippedEntries;
-    final successEntries = this.successEntries;
-    final nextToken = this.nextToken;
-    return {
-      'errorEntries': errorEntries,
-      'skippedEntries': skippedEntries,
-      'successEntries': successEntries,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Contains information for an entry that has been processed by the previous <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
-/// request.
-class BatchGetAssetPropertyValueSkippedEntry {
-  /// The completion status of each entry that is associated with the <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
-  /// request.
-  final BatchEntryCompletionStatus completionStatus;
-
-  /// The ID of the entry.
-  final String entryId;
-
-  /// The error information, such as the error code and the timestamp.
-  final BatchGetAssetPropertyValueErrorInfo? errorInfo;
-
-  BatchGetAssetPropertyValueSkippedEntry({
-    required this.completionStatus,
-    required this.entryId,
-    this.errorInfo,
-  });
-
-  factory BatchGetAssetPropertyValueSkippedEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueSkippedEntry(
-      completionStatus: BatchEntryCompletionStatus.fromString(
-          (json['completionStatus'] as String?) ?? ''),
-      entryId: (json['entryId'] as String?) ?? '',
-      errorInfo: json['errorInfo'] != null
-          ? BatchGetAssetPropertyValueErrorInfo.fromJson(
-              json['errorInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final completionStatus = this.completionStatus;
-    final entryId = this.entryId;
-    final errorInfo = this.errorInfo;
-    return {
-      'completionStatus': completionStatus.value,
-      'entryId': entryId,
-      if (errorInfo != null) 'errorInfo': errorInfo,
-    };
-  }
-}
-
-/// Contains success information for an entry that is associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
-/// API.
-class BatchGetAssetPropertyValueSuccessEntry {
-  /// The ID of the entry.
-  final String entryId;
-  final AssetPropertyValue? assetPropertyValue;
-
-  BatchGetAssetPropertyValueSuccessEntry({
-    required this.entryId,
-    this.assetPropertyValue,
-  });
-
-  factory BatchGetAssetPropertyValueSuccessEntry.fromJson(
-      Map<String, dynamic> json) {
-    return BatchGetAssetPropertyValueSuccessEntry(
-      entryId: (json['entryId'] as String?) ?? '',
-      assetPropertyValue: json['assetPropertyValue'] != null
-          ? AssetPropertyValue.fromJson(
-              json['assetPropertyValue'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final assetPropertyValue = this.assetPropertyValue;
-    return {
-      'entryId': entryId,
-      if (assetPropertyValue != null) 'assetPropertyValue': assetPropertyValue,
-    };
-  }
-}
-
-/// Contains error information from updating a batch of asset property values.
-class BatchPutAssetPropertyError {
-  /// The error code.
-  final BatchPutAssetPropertyValueErrorCode errorCode;
-
-  /// The associated error message.
-  final String errorMessage;
-
-  /// A list of timestamps for each error, if any.
-  final List<TimeInNanos> timestamps;
-
-  BatchPutAssetPropertyError({
-    required this.errorCode,
-    required this.errorMessage,
-    required this.timestamps,
-  });
-
-  factory BatchPutAssetPropertyError.fromJson(Map<String, dynamic> json) {
-    return BatchPutAssetPropertyError(
-      errorCode: BatchPutAssetPropertyValueErrorCode.fromString(
-          (json['errorCode'] as String?) ?? ''),
-      errorMessage: (json['errorMessage'] as String?) ?? '',
-      timestamps: ((json['timestamps'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => TimeInNanos.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final timestamps = this.timestamps;
-    return {
-      'errorCode': errorCode.value,
-      'errorMessage': errorMessage,
-      'timestamps': timestamps,
-    };
-  }
-}
-
-/// Contains error information for asset property value entries that are
-/// associated with the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchPutAssetPropertyValue.html">BatchPutAssetPropertyValue</a>
-/// API.
-class BatchPutAssetPropertyErrorEntry {
-  /// The ID of the failed entry.
-  final String entryId;
-
-  /// The list of update property value errors.
-  final List<BatchPutAssetPropertyError> errors;
-
-  BatchPutAssetPropertyErrorEntry({
-    required this.entryId,
-    required this.errors,
-  });
-
-  factory BatchPutAssetPropertyErrorEntry.fromJson(Map<String, dynamic> json) {
-    return BatchPutAssetPropertyErrorEntry(
-      entryId: (json['entryId'] as String?) ?? '',
-      errors: ((json['errors'] as List?) ?? const [])
-          .nonNulls
-          .map((e) =>
-              BatchPutAssetPropertyError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final errors = this.errors;
-    return {
-      'entryId': entryId,
-      'errors': errors,
-    };
-  }
-}
-
-class BatchPutAssetPropertyValueErrorCode {
-  static const resourceNotFoundException =
-      BatchPutAssetPropertyValueErrorCode._('ResourceNotFoundException');
-  static const invalidRequestException =
-      BatchPutAssetPropertyValueErrorCode._('InvalidRequestException');
-  static const internalFailureException =
-      BatchPutAssetPropertyValueErrorCode._('InternalFailureException');
-  static const serviceUnavailableException =
-      BatchPutAssetPropertyValueErrorCode._('ServiceUnavailableException');
-  static const throttlingException =
-      BatchPutAssetPropertyValueErrorCode._('ThrottlingException');
-  static const limitExceededException =
-      BatchPutAssetPropertyValueErrorCode._('LimitExceededException');
-  static const conflictingOperationException =
-      BatchPutAssetPropertyValueErrorCode._('ConflictingOperationException');
-  static const timestampOutOfRangeException =
-      BatchPutAssetPropertyValueErrorCode._('TimestampOutOfRangeException');
-  static const accessDeniedException =
-      BatchPutAssetPropertyValueErrorCode._('AccessDeniedException');
-
-  final String value;
-
-  const BatchPutAssetPropertyValueErrorCode._(this.value);
-
-  static const values = [
-    resourceNotFoundException,
-    invalidRequestException,
-    internalFailureException,
-    serviceUnavailableException,
-    throttlingException,
-    limitExceededException,
-    conflictingOperationException,
-    timestampOutOfRangeException,
-    accessDeniedException
-  ];
-
-  static BatchPutAssetPropertyValueErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchPutAssetPropertyValueErrorCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchPutAssetPropertyValueErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class BatchPutAssetPropertyValueResponse {
   /// A list of the errors (if any) associated with the batch put request. Each
   /// error entry contains the <code>entryId</code> of the entry that failed.
@@ -8271,390 +6348,6 @@ class BatchPutAssetPropertyValueResponse {
     final errorEntries = this.errorEntries;
     return {
       'errorEntries': errorEntries,
-    };
-  }
-}
-
-class CapabilitySyncStatus {
-  static const inSync = CapabilitySyncStatus._('IN_SYNC');
-  static const outOfSync = CapabilitySyncStatus._('OUT_OF_SYNC');
-  static const syncFailed = CapabilitySyncStatus._('SYNC_FAILED');
-  static const unknown = CapabilitySyncStatus._('UNKNOWN');
-  static const notApplicable = CapabilitySyncStatus._('NOT_APPLICABLE');
-
-  final String value;
-
-  const CapabilitySyncStatus._(this.value);
-
-  static const values = [inSync, outOfSync, syncFailed, unknown, notApplicable];
-
-  static CapabilitySyncStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CapabilitySyncStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CapabilitySyncStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A description of the column in the query results.
-class ColumnInfo {
-  /// The name of the column description.
-  final String? name;
-
-  /// The type of the column description.
-  final ColumnType? type;
-
-  ColumnInfo({
-    this.name,
-    this.type,
-  });
-
-  factory ColumnInfo.fromJson(Map<String, dynamic> json) {
-    return ColumnInfo(
-      name: json['name'] as String?,
-      type: json['type'] != null
-          ? ColumnType.fromJson(json['type'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (name != null) 'name': name,
-      if (type != null) 'type': type,
-    };
-  }
-}
-
-class ColumnName {
-  static const alias = ColumnName._('ALIAS');
-  static const assetId = ColumnName._('ASSET_ID');
-  static const propertyId = ColumnName._('PROPERTY_ID');
-  static const dataType = ColumnName._('DATA_TYPE');
-  static const timestampSeconds = ColumnName._('TIMESTAMP_SECONDS');
-  static const timestampNanoOffset = ColumnName._('TIMESTAMP_NANO_OFFSET');
-  static const quality = ColumnName._('QUALITY');
-  static const $value = ColumnName._('VALUE');
-
-  final String value;
-
-  const ColumnName._(this.value);
-
-  static const values = [
-    alias,
-    assetId,
-    propertyId,
-    dataType,
-    timestampSeconds,
-    timestampNanoOffset,
-    quality,
-    $value
-  ];
-
-  static ColumnName fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ColumnName._(value));
-
-  @override
-  bool operator ==(other) => other is ColumnName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The data type of the column.
-class ColumnType {
-  /// The allowed data types that the column has as it's value.
-  final ScalarType? scalarType;
-
-  ColumnType({
-    this.scalarType,
-  });
-
-  factory ColumnType.fromJson(Map<String, dynamic> json) {
-    return ColumnType(
-      scalarType: (json['scalarType'] as String?)?.let(ScalarType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scalarType = this.scalarType;
-    return {
-      if (scalarType != null) 'scalarType': scalarType.value,
-    };
-  }
-}
-
-/// Contains information about a composite model property on an asset.
-class CompositeModelProperty {
-  final Property assetProperty;
-
-  /// The name of the property.
-  final String name;
-
-  /// The type of the composite model that defines this property.
-  final String type;
-
-  /// The external ID of the composite model that contains the property. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The ID of the composite model that contains the property.
-  final String? id;
-
-  CompositeModelProperty({
-    required this.assetProperty,
-    required this.name,
-    required this.type,
-    this.externalId,
-    this.id,
-  });
-
-  factory CompositeModelProperty.fromJson(Map<String, dynamic> json) {
-    return CompositeModelProperty(
-      assetProperty: Property.fromJson(
-          (json['assetProperty'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      name: (json['name'] as String?) ?? '',
-      type: (json['type'] as String?) ?? '',
-      externalId: json['externalId'] as String?,
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetProperty = this.assetProperty;
-    final name = this.name;
-    final type = this.type;
-    final externalId = this.externalId;
-    final id = this.id;
-    return {
-      'assetProperty': assetProperty,
-      'name': name,
-      'type': type,
-      if (externalId != null) 'externalId': externalId,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// Metadata for the composition relationship established by using
-/// <code>composedAssetModelId</code> in <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html">
-/// <code>CreateAssetModelCompositeModel</code> </a>.
-class CompositionDetails {
-  /// An array detailing the composition relationship for this composite model.
-  final List<CompositionRelationshipItem>? compositionRelationship;
-
-  CompositionDetails({
-    this.compositionRelationship,
-  });
-
-  factory CompositionDetails.fromJson(Map<String, dynamic> json) {
-    return CompositionDetails(
-      compositionRelationship: (json['compositionRelationship'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CompositionRelationshipItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final compositionRelationship = this.compositionRelationship;
-    return {
-      if (compositionRelationship != null)
-        'compositionRelationship': compositionRelationship,
-    };
-  }
-}
-
-/// Represents a composite model that composed an asset model of type
-/// <code>COMPONENT_MODEL</code>.
-class CompositionRelationshipItem {
-  /// The ID of the component.
-  final String? id;
-
-  CompositionRelationshipItem({
-    this.id,
-  });
-
-  factory CompositionRelationshipItem.fromJson(Map<String, dynamic> json) {
-    return CompositionRelationshipItem(
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// Contains a summary of the components of the composite model.
-class CompositionRelationshipSummary {
-  /// The ID of a composite model on this asset model.
-  final String assetModelCompositeModelId;
-
-  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
-  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
-  final String assetModelCompositeModelType;
-
-  /// The ID of the asset model, in UUID format.
-  final String assetModelId;
-
-  CompositionRelationshipSummary({
-    required this.assetModelCompositeModelId,
-    required this.assetModelCompositeModelType,
-    required this.assetModelId,
-  });
-
-  factory CompositionRelationshipSummary.fromJson(Map<String, dynamic> json) {
-    return CompositionRelationshipSummary(
-      assetModelCompositeModelId:
-          (json['assetModelCompositeModelId'] as String?) ?? '',
-      assetModelCompositeModelType:
-          (json['assetModelCompositeModelType'] as String?) ?? '',
-      assetModelId: (json['assetModelId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetModelCompositeModelId = this.assetModelCompositeModelId;
-    final assetModelCompositeModelType = this.assetModelCompositeModelType;
-    final assetModelId = this.assetModelId;
-    return {
-      'assetModelCompositeModelId': assetModelCompositeModelId,
-      'assetModelCompositeModelType': assetModelCompositeModelType,
-      'assetModelId': assetModelId,
-    };
-  }
-}
-
-class ComputeLocation {
-  static const edge = ComputeLocation._('EDGE');
-  static const cloud = ComputeLocation._('CLOUD');
-
-  final String value;
-
-  const ComputeLocation._(this.value);
-
-  static const values = [edge, cloud];
-
-  static ComputeLocation fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ComputeLocation._(value));
-
-  @override
-  bool operator ==(other) => other is ComputeLocation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the details of an IoT SiteWise configuration error.
-class ConfigurationErrorDetails {
-  /// The error code.
-  final ErrorCode code;
-
-  /// The error message.
-  final String message;
-
-  ConfigurationErrorDetails({
-    required this.code,
-    required this.message,
-  });
-
-  factory ConfigurationErrorDetails.fromJson(Map<String, dynamic> json) {
-    return ConfigurationErrorDetails(
-      code: ErrorCode.fromString((json['code'] as String?) ?? ''),
-      message: (json['message'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      'code': code.value,
-      'message': message,
-    };
-  }
-}
-
-class ConfigurationState {
-  static const active = ConfigurationState._('ACTIVE');
-  static const updateInProgress = ConfigurationState._('UPDATE_IN_PROGRESS');
-  static const updateFailed = ConfigurationState._('UPDATE_FAILED');
-
-  final String value;
-
-  const ConfigurationState._(this.value);
-
-  static const values = [active, updateInProgress, updateFailed];
-
-  static ConfigurationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConfigurationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConfigurationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains current status information for the configuration.
-class ConfigurationStatus {
-  /// The current state of the configuration.
-  final ConfigurationState state;
-
-  /// Contains associated error information, if any.
-  final ConfigurationErrorDetails? error;
-
-  ConfigurationStatus({
-    required this.state,
-    this.error,
-  });
-
-  factory ConfigurationStatus.fromJson(Map<String, dynamic> json) {
-    return ConfigurationStatus(
-      state: ConfigurationState.fromString((json['state'] as String?) ?? ''),
-      error: json['error'] != null
-          ? ConfigurationErrorDetails.fromJson(
-              json['error'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    final error = this.error;
-    return {
-      'state': state.value,
-      if (error != null) 'error': error,
     };
   }
 }
@@ -8692,46 +6385,46 @@ class CreateAccessPolicyResponse {
   }
 }
 
-class CreateAssetModelCompositeModelResponse {
-  /// The ID of the composed asset model. You can use this ID when you call other
-  /// IoT SiteWise APIs.
-  final String assetModelCompositeModelId;
+class CreateAssetResponse {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the asset, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}</code>
+  final String assetArn;
 
-  /// The path to the composite model listing the parent composite models.
-  final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
-  final AssetModelStatus assetModelStatus;
+  /// The ID of the asset, in UUID format. This ID uniquely identifies the asset
+  /// within IoT SiteWise and can be used with other IoT SiteWise API operations.
+  final String assetId;
 
-  CreateAssetModelCompositeModelResponse({
-    required this.assetModelCompositeModelId,
-    required this.assetModelCompositeModelPath,
-    required this.assetModelStatus,
+  /// The status of the asset, which contains a state (<code>CREATING</code> after
+  /// successfully calling this operation) and any error message.
+  final AssetStatus assetStatus;
+
+  CreateAssetResponse({
+    required this.assetArn,
+    required this.assetId,
+    required this.assetStatus,
   });
 
-  factory CreateAssetModelCompositeModelResponse.fromJson(
-      Map<String, dynamic> json) {
-    return CreateAssetModelCompositeModelResponse(
-      assetModelCompositeModelId:
-          (json['assetModelCompositeModelId'] as String?) ?? '',
-      assetModelCompositeModelPath:
-          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => AssetModelCompositeModelPathSegment.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      assetModelStatus: AssetModelStatus.fromJson(
-          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+  factory CreateAssetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAssetResponse(
+      assetArn: (json['assetArn'] as String?) ?? '',
+      assetId: (json['assetId'] as String?) ?? '',
+      assetStatus: AssetStatus.fromJson(
+          (json['assetStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final assetModelCompositeModelId = this.assetModelCompositeModelId;
-    final assetModelCompositeModelPath = this.assetModelCompositeModelPath;
-    final assetModelStatus = this.assetModelStatus;
+    final assetArn = this.assetArn;
+    final assetId = this.assetId;
+    final assetStatus = this.assetStatus;
     return {
-      'assetModelCompositeModelId': assetModelCompositeModelId,
-      'assetModelCompositeModelPath': assetModelCompositeModelPath,
-      'assetModelStatus': assetModelStatus,
+      'assetArn': assetArn,
+      'assetId': assetId,
+      'assetStatus': assetStatus,
     };
   }
 }
@@ -8780,46 +6473,46 @@ class CreateAssetModelResponse {
   }
 }
 
-class CreateAssetResponse {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the asset, which has the following format.
-  ///
-  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}</code>
-  final String assetArn;
+class CreateAssetModelCompositeModelResponse {
+  /// The ID of the composed asset model. You can use this ID when you call other
+  /// IoT SiteWise APIs.
+  final String assetModelCompositeModelId;
 
-  /// The ID of the asset, in UUID format. This ID uniquely identifies the asset
-  /// within IoT SiteWise and can be used with other IoT SiteWise API operations.
-  final String assetId;
+  /// The path to the composite model listing the parent composite models.
+  final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
+  final AssetModelStatus assetModelStatus;
 
-  /// The status of the asset, which contains a state (<code>CREATING</code> after
-  /// successfully calling this operation) and any error message.
-  final AssetStatus assetStatus;
-
-  CreateAssetResponse({
-    required this.assetArn,
-    required this.assetId,
-    required this.assetStatus,
+  CreateAssetModelCompositeModelResponse({
+    required this.assetModelCompositeModelId,
+    required this.assetModelCompositeModelPath,
+    required this.assetModelStatus,
   });
 
-  factory CreateAssetResponse.fromJson(Map<String, dynamic> json) {
-    return CreateAssetResponse(
-      assetArn: (json['assetArn'] as String?) ?? '',
-      assetId: (json['assetId'] as String?) ?? '',
-      assetStatus: AssetStatus.fromJson(
-          (json['assetStatus'] as Map<String, dynamic>?) ??
+  factory CreateAssetModelCompositeModelResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAssetModelCompositeModelResponse(
+      assetModelCompositeModelId:
+          (json['assetModelCompositeModelId'] as String?) ?? '',
+      assetModelCompositeModelPath:
+          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AssetModelCompositeModelPathSegment.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      assetModelStatus: AssetModelStatus.fromJson(
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final assetArn = this.assetArn;
-    final assetId = this.assetId;
-    final assetStatus = this.assetStatus;
+    final assetModelCompositeModelId = this.assetModelCompositeModelId;
+    final assetModelCompositeModelPath = this.assetModelCompositeModelPath;
+    final assetModelStatus = this.assetModelStatus;
     return {
-      'assetArn': assetArn,
-      'assetId': assetId,
-      'assetStatus': assetStatus,
+      'assetModelCompositeModelId': assetModelCompositeModelId,
+      'assetModelCompositeModelPath': assetModelCompositeModelPath,
+      'assetModelStatus': assetModelStatus,
     };
   }
 }
@@ -8888,6 +6581,49 @@ class CreateBulkImportJobResponse {
   }
 }
 
+class CreateComputationModelResponse {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the computation model, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}</code>
+  final String computationModelArn;
+
+  /// The ID of the computation model.
+  final String computationModelId;
+
+  /// The status of the computation model, containing a state (CREATING after
+  /// successfully calling this operation) and any error messages.
+  final ComputationModelStatus computationModelStatus;
+
+  CreateComputationModelResponse({
+    required this.computationModelArn,
+    required this.computationModelId,
+    required this.computationModelStatus,
+  });
+
+  factory CreateComputationModelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateComputationModelResponse(
+      computationModelArn: (json['computationModelArn'] as String?) ?? '',
+      computationModelId: (json['computationModelId'] as String?) ?? '',
+      computationModelStatus: ComputationModelStatus.fromJson(
+          (json['computationModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computationModelArn = this.computationModelArn;
+    final computationModelId = this.computationModelId;
+    final computationModelStatus = this.computationModelStatus;
+    return {
+      'computationModelArn': computationModelArn,
+      'computationModelId': computationModelId,
+      'computationModelStatus': computationModelStatus,
+    };
+  }
+}
+
 class CreateDashboardResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -8917,6 +6653,50 @@ class CreateDashboardResponse {
     return {
       'dashboardArn': dashboardArn,
       'dashboardId': dashboardId,
+    };
+  }
+}
+
+class CreateDatasetResponse {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
+  /// of the dataset. The format is
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}</code>.
+  final String datasetArn;
+
+  /// The ID of the dataset.
+  final String datasetId;
+
+  /// The status of the dataset. This contains the state and any error messages.
+  /// State is <code>CREATING</code> after a successfull call to this API, and any
+  /// associated error message. The state is <code>ACTIVE</code> when ready to
+  /// use.
+  final DatasetStatus datasetStatus;
+
+  CreateDatasetResponse({
+    required this.datasetArn,
+    required this.datasetId,
+    required this.datasetStatus,
+  });
+
+  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetResponse(
+      datasetArn: (json['datasetArn'] as String?) ?? '',
+      datasetId: (json['datasetId'] as String?) ?? '',
+      datasetStatus: DatasetStatus.fromJson(
+          (json['datasetStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    final datasetId = this.datasetId;
+    final datasetStatus = this.datasetStatus;
+    return {
+      'datasetArn': datasetArn,
+      'datasetId': datasetId,
+      'datasetStatus': datasetStatus,
     };
   }
 }
@@ -9049,173 +6829,6 @@ class CreateProjectResponse {
   }
 }
 
-/// A .CSV file.
-class Csv {
-  /// The column names specified in the .csv file.
-  final List<ColumnName> columnNames;
-
-  Csv({
-    required this.columnNames,
-  });
-
-  factory Csv.fromJson(Map<String, dynamic> json) {
-    return Csv(
-      columnNames: ((json['columnNames'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ColumnName.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final columnNames = this.columnNames;
-    return {
-      'columnNames': columnNames.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// Contains information about a customer managed Amazon S3 bucket.
-class CustomerManagedS3Storage {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the Identity and Access Management role that allows IoT SiteWise to send
-  /// data to Amazon S3.
-  final String roleArn;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the Amazon S3 object. For more information about how to find the ARN for
-  /// an Amazon S3 object, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-arn-format.html">Amazon
-  /// S3 resources</a> in the <i>Amazon Simple Storage Service User Guide</i>.
-  final String s3ResourceArn;
-
-  CustomerManagedS3Storage({
-    required this.roleArn,
-    required this.s3ResourceArn,
-  });
-
-  factory CustomerManagedS3Storage.fromJson(Map<String, dynamic> json) {
-    return CustomerManagedS3Storage(
-      roleArn: (json['roleArn'] as String?) ?? '',
-      s3ResourceArn: (json['s3ResourceArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final s3ResourceArn = this.s3ResourceArn;
-    return {
-      'roleArn': roleArn,
-      's3ResourceArn': s3ResourceArn,
-    };
-  }
-}
-
-/// Contains a dashboard summary.
-class DashboardSummary {
-  /// The ID of the dashboard.
-  final String id;
-
-  /// The name of the dashboard
-  final String name;
-
-  /// The date the dashboard was created, in Unix epoch time.
-  final DateTime? creationDate;
-
-  /// The dashboard's description.
-  final String? description;
-
-  /// The date the dashboard was last updated, in Unix epoch time.
-  final DateTime? lastUpdateDate;
-
-  DashboardSummary({
-    required this.id,
-    required this.name,
-    this.creationDate,
-    this.description,
-    this.lastUpdateDate,
-  });
-
-  factory DashboardSummary.fromJson(Map<String, dynamic> json) {
-    return DashboardSummary(
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      creationDate: timeStampFromJson(json['creationDate']),
-      description: json['description'] as String?,
-      lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final creationDate = this.creationDate;
-    final description = this.description;
-    final lastUpdateDate = this.lastUpdateDate;
-    return {
-      'id': id,
-      'name': name,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (description != null) 'description': description,
-      if (lastUpdateDate != null)
-        'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
-    };
-  }
-}
-
-/// Represents a single data point in a query result.
-class Datum {
-  /// Indicates if the data point is an array.
-  final List<Datum>? arrayValue;
-
-  /// Indicates if the data point is null.
-  final bool? nullValue;
-
-  /// Indicates if the data point is a row.
-  final Row? rowValue;
-
-  /// Indicates if the data point is a scalar value such as integer, string,
-  /// double, or Boolean.
-  final String? scalarValue;
-
-  Datum({
-    this.arrayValue,
-    this.nullValue,
-    this.rowValue,
-    this.scalarValue,
-  });
-
-  factory Datum.fromJson(Map<String, dynamic> json) {
-    return Datum(
-      arrayValue: (json['arrayValue'] as List?)
-          ?.nonNulls
-          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nullValue: json['nullValue'] as bool?,
-      rowValue: json['rowValue'] != null
-          ? Row.fromJson(json['rowValue'] as Map<String, dynamic>)
-          : null,
-      scalarValue: json['scalarValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arrayValue = this.arrayValue;
-    final nullValue = this.nullValue;
-    final rowValue = this.rowValue;
-    final scalarValue = this.scalarValue;
-    return {
-      if (arrayValue != null) 'arrayValue': arrayValue,
-      if (nullValue != null) 'nullValue': nullValue,
-      if (rowValue != null) 'rowValue': rowValue,
-      if (scalarValue != null) 'scalarValue': scalarValue,
-    };
-  }
-}
-
 class DeleteAccessPolicyResponse {
   DeleteAccessPolicyResponse();
 
@@ -9228,26 +6841,27 @@ class DeleteAccessPolicyResponse {
   }
 }
 
-class DeleteAssetModelCompositeModelResponse {
-  final AssetModelStatus assetModelStatus;
+class DeleteAssetResponse {
+  /// The status of the asset, which contains a state (<code>DELETING</code> after
+  /// successfully calling this operation) and any error message.
+  final AssetStatus assetStatus;
 
-  DeleteAssetModelCompositeModelResponse({
-    required this.assetModelStatus,
+  DeleteAssetResponse({
+    required this.assetStatus,
   });
 
-  factory DeleteAssetModelCompositeModelResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DeleteAssetModelCompositeModelResponse(
-      assetModelStatus: AssetModelStatus.fromJson(
-          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+  factory DeleteAssetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteAssetResponse(
+      assetStatus: AssetStatus.fromJson(
+          (json['assetStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final assetModelStatus = this.assetModelStatus;
+    final assetStatus = this.assetStatus;
     return {
-      'assetModelStatus': assetModelStatus,
+      'assetStatus': assetStatus,
     };
   }
 }
@@ -9277,27 +6891,96 @@ class DeleteAssetModelResponse {
   }
 }
 
-class DeleteAssetResponse {
-  /// The status of the asset, which contains a state (<code>DELETING</code> after
-  /// successfully calling this operation) and any error message.
-  final AssetStatus assetStatus;
+class DeleteAssetModelCompositeModelResponse {
+  final AssetModelStatus assetModelStatus;
 
-  DeleteAssetResponse({
-    required this.assetStatus,
+  DeleteAssetModelCompositeModelResponse({
+    required this.assetModelStatus,
   });
 
-  factory DeleteAssetResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteAssetResponse(
-      assetStatus: AssetStatus.fromJson(
-          (json['assetStatus'] as Map<String, dynamic>?) ??
+  factory DeleteAssetModelCompositeModelResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteAssetModelCompositeModelResponse(
+      assetModelStatus: AssetModelStatus.fromJson(
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final assetStatus = this.assetStatus;
+    final assetModelStatus = this.assetModelStatus;
     return {
-      'assetStatus': assetStatus,
+      'assetModelStatus': assetModelStatus,
+    };
+  }
+}
+
+class DeleteAssetModelInterfaceRelationshipResponse {
+  /// The ARN of the asset model, which has the following format.
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}</code>
+  final String assetModelArn;
+
+  /// The ID of the asset model.
+  final String assetModelId;
+  final AssetModelStatus assetModelStatus;
+
+  /// The ID of the interface asset model.
+  final String interfaceAssetModelId;
+
+  DeleteAssetModelInterfaceRelationshipResponse({
+    required this.assetModelArn,
+    required this.assetModelId,
+    required this.assetModelStatus,
+    required this.interfaceAssetModelId,
+  });
+
+  factory DeleteAssetModelInterfaceRelationshipResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteAssetModelInterfaceRelationshipResponse(
+      assetModelArn: (json['assetModelArn'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      assetModelStatus: AssetModelStatus.fromJson(
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      interfaceAssetModelId: (json['interfaceAssetModelId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelArn = this.assetModelArn;
+    final assetModelId = this.assetModelId;
+    final assetModelStatus = this.assetModelStatus;
+    final interfaceAssetModelId = this.interfaceAssetModelId;
+    return {
+      'assetModelArn': assetModelArn,
+      'assetModelId': assetModelId,
+      'assetModelStatus': assetModelStatus,
+      'interfaceAssetModelId': interfaceAssetModelId,
+    };
+  }
+}
+
+class DeleteComputationModelResponse {
+  /// The status of the computation model. It contains a state (DELETING after
+  /// successfully calling this operation) and any error messages.
+  final ComputationModelStatus computationModelStatus;
+
+  DeleteComputationModelResponse({
+    required this.computationModelStatus,
+  });
+
+  factory DeleteComputationModelResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteComputationModelResponse(
+      computationModelStatus: ComputationModelStatus.fromJson(
+          (json['computationModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computationModelStatus = this.computationModelStatus;
+    return {
+      'computationModelStatus': computationModelStatus,
     };
   }
 }
@@ -9311,6 +6994,32 @@ class DeleteDashboardResponse {
 
   Map<String, dynamic> toJson() {
     return {};
+  }
+}
+
+class DeleteDatasetResponse {
+  /// The status of the dataset. This contains the state and any error messages.
+  /// State is <code>DELETING</code> after a successfull call to this API, and any
+  /// associated error message.
+  final DatasetStatus datasetStatus;
+
+  DeleteDatasetResponse({
+    required this.datasetStatus,
+  });
+
+  factory DeleteDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDatasetResponse(
+      datasetStatus: DatasetStatus.fromJson(
+          (json['datasetStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetStatus = this.datasetStatus;
+    return {
+      'datasetStatus': datasetStatus,
+    };
   }
 }
 
@@ -9446,12 +7155,16 @@ class DescribeActionResponse {
   /// The resource the action will be taken on.
   final TargetResource targetResource;
 
+  /// The detailed resource this action resolves to.
+  final ResolveTo? resolveTo;
+
   DescribeActionResponse({
     required this.actionDefinitionId,
     required this.actionId,
     required this.actionPayload,
     required this.executionTime,
     required this.targetResource,
+    this.resolveTo,
   });
 
   factory DescribeActionResponse.fromJson(Map<String, dynamic> json) {
@@ -9465,6 +7178,9 @@ class DescribeActionResponse {
       targetResource: TargetResource.fromJson(
           (json['targetResource'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      resolveTo: json['resolveTo'] != null
+          ? ResolveTo.fromJson(json['resolveTo'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -9474,469 +7190,14 @@ class DescribeActionResponse {
     final actionPayload = this.actionPayload;
     final executionTime = this.executionTime;
     final targetResource = this.targetResource;
+    final resolveTo = this.resolveTo;
     return {
       'actionDefinitionId': actionDefinitionId,
       'actionId': actionId,
       'actionPayload': actionPayload,
       'executionTime': unixTimestampToJson(executionTime),
       'targetResource': targetResource,
-    };
-  }
-}
-
-class DescribeAssetCompositeModelResponse {
-  /// A description for the composite model.
-  final String assetCompositeModelDescription;
-
-  /// The ID of a composite model on this asset.
-  final String assetCompositeModelId;
-
-  /// The unique, friendly name for the composite model.
-  final String assetCompositeModelName;
-
-  /// The path to the composite model listing the parent composite models.
-  final List<AssetCompositeModelPathSegment> assetCompositeModelPath;
-
-  /// The property definitions of the composite model that was used to create the
-  /// asset.
-  final List<AssetProperty> assetCompositeModelProperties;
-
-  /// The list of composite model summaries.
-  final List<AssetCompositeModelSummary> assetCompositeModelSummaries;
-
-  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
-  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
-  final String assetCompositeModelType;
-
-  /// The ID of the asset, in UUID format. This ID uniquely identifies the asset
-  /// within IoT SiteWise and can be used with other IoT SiteWise APIs.
-  final String assetId;
-
-  /// The available actions for a composite model on this asset.
-  final List<ActionDefinition>? actionDefinitions;
-
-  /// An external ID to assign to the asset model.
-  ///
-  /// If the composite model is a component-based composite model, or one nested
-  /// inside a component model, you can only set the external ID using
-  /// <code>UpdateAssetModelCompositeModel</code> and specifying the derived ID of
-  /// the model or property from the created model it's a part of.
-  final String? assetCompositeModelExternalId;
-
-  DescribeAssetCompositeModelResponse({
-    required this.assetCompositeModelDescription,
-    required this.assetCompositeModelId,
-    required this.assetCompositeModelName,
-    required this.assetCompositeModelPath,
-    required this.assetCompositeModelProperties,
-    required this.assetCompositeModelSummaries,
-    required this.assetCompositeModelType,
-    required this.assetId,
-    this.actionDefinitions,
-    this.assetCompositeModelExternalId,
-  });
-
-  factory DescribeAssetCompositeModelResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeAssetCompositeModelResponse(
-      assetCompositeModelDescription:
-          (json['assetCompositeModelDescription'] as String?) ?? '',
-      assetCompositeModelId: (json['assetCompositeModelId'] as String?) ?? '',
-      assetCompositeModelName:
-          (json['assetCompositeModelName'] as String?) ?? '',
-      assetCompositeModelPath:
-          ((json['assetCompositeModelPath'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => AssetCompositeModelPathSegment.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      assetCompositeModelProperties:
-          ((json['assetCompositeModelProperties'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      assetCompositeModelSummaries: ((json['assetCompositeModelSummaries']
-                  as List?) ??
-              const [])
-          .nonNulls
-          .map((e) =>
-              AssetCompositeModelSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      assetCompositeModelType:
-          (json['assetCompositeModelType'] as String?) ?? '',
-      assetId: (json['assetId'] as String?) ?? '',
-      actionDefinitions: (json['actionDefinitions'] as List?)
-          ?.nonNulls
-          .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      assetCompositeModelExternalId:
-          json['assetCompositeModelExternalId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetCompositeModelDescription = this.assetCompositeModelDescription;
-    final assetCompositeModelId = this.assetCompositeModelId;
-    final assetCompositeModelName = this.assetCompositeModelName;
-    final assetCompositeModelPath = this.assetCompositeModelPath;
-    final assetCompositeModelProperties = this.assetCompositeModelProperties;
-    final assetCompositeModelSummaries = this.assetCompositeModelSummaries;
-    final assetCompositeModelType = this.assetCompositeModelType;
-    final assetId = this.assetId;
-    final actionDefinitions = this.actionDefinitions;
-    final assetCompositeModelExternalId = this.assetCompositeModelExternalId;
-    return {
-      'assetCompositeModelDescription': assetCompositeModelDescription,
-      'assetCompositeModelId': assetCompositeModelId,
-      'assetCompositeModelName': assetCompositeModelName,
-      'assetCompositeModelPath': assetCompositeModelPath,
-      'assetCompositeModelProperties': assetCompositeModelProperties,
-      'assetCompositeModelSummaries': assetCompositeModelSummaries,
-      'assetCompositeModelType': assetCompositeModelType,
-      'assetId': assetId,
-      if (actionDefinitions != null) 'actionDefinitions': actionDefinitions,
-      if (assetCompositeModelExternalId != null)
-        'assetCompositeModelExternalId': assetCompositeModelExternalId,
-    };
-  }
-}
-
-class DescribeAssetModelCompositeModelResponse {
-  /// The description for the composite model.
-  final String assetModelCompositeModelDescription;
-
-  /// The ID of a composite model on this asset model.
-  final String assetModelCompositeModelId;
-
-  /// The unique, friendly name for the composite model.
-  final String assetModelCompositeModelName;
-
-  /// The path to the composite model listing the parent composite models.
-  final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
-
-  /// The property definitions of the composite model.
-  final List<AssetModelProperty> assetModelCompositeModelProperties;
-
-  /// The list of composite model summaries for the composite model.
-  final List<AssetModelCompositeModelSummary> assetModelCompositeModelSummaries;
-
-  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
-  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
-  final String assetModelCompositeModelType;
-
-  /// The ID of the asset model, in UUID format.
-  final String assetModelId;
-
-  /// The available actions for a composite model on this asset model.
-  final List<ActionDefinition>? actionDefinitions;
-
-  /// The external ID of a composite model on this asset model.
-  final String? assetModelCompositeModelExternalId;
-
-  /// Metadata for the composition relationship established by using
-  /// <code>composedAssetModelId</code> in <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html">
-  /// <code>CreateAssetModelCompositeModel</code> </a>. For instance, an array
-  /// detailing the path of the composition relationship for this composite model.
-  final CompositionDetails? compositionDetails;
-
-  DescribeAssetModelCompositeModelResponse({
-    required this.assetModelCompositeModelDescription,
-    required this.assetModelCompositeModelId,
-    required this.assetModelCompositeModelName,
-    required this.assetModelCompositeModelPath,
-    required this.assetModelCompositeModelProperties,
-    required this.assetModelCompositeModelSummaries,
-    required this.assetModelCompositeModelType,
-    required this.assetModelId,
-    this.actionDefinitions,
-    this.assetModelCompositeModelExternalId,
-    this.compositionDetails,
-  });
-
-  factory DescribeAssetModelCompositeModelResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeAssetModelCompositeModelResponse(
-      assetModelCompositeModelDescription:
-          (json['assetModelCompositeModelDescription'] as String?) ?? '',
-      assetModelCompositeModelId:
-          (json['assetModelCompositeModelId'] as String?) ?? '',
-      assetModelCompositeModelName:
-          (json['assetModelCompositeModelName'] as String?) ?? '',
-      assetModelCompositeModelPath:
-          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => AssetModelCompositeModelPathSegment.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      assetModelCompositeModelProperties:
-          ((json['assetModelCompositeModelProperties'] as List?) ?? const [])
-              .nonNulls
-              .map(
-                  (e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      assetModelCompositeModelSummaries:
-          ((json['assetModelCompositeModelSummaries'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => AssetModelCompositeModelSummary.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      assetModelCompositeModelType:
-          (json['assetModelCompositeModelType'] as String?) ?? '',
-      assetModelId: (json['assetModelId'] as String?) ?? '',
-      actionDefinitions: (json['actionDefinitions'] as List?)
-          ?.nonNulls
-          .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      assetModelCompositeModelExternalId:
-          json['assetModelCompositeModelExternalId'] as String?,
-      compositionDetails: json['compositionDetails'] != null
-          ? CompositionDetails.fromJson(
-              json['compositionDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetModelCompositeModelDescription =
-        this.assetModelCompositeModelDescription;
-    final assetModelCompositeModelId = this.assetModelCompositeModelId;
-    final assetModelCompositeModelName = this.assetModelCompositeModelName;
-    final assetModelCompositeModelPath = this.assetModelCompositeModelPath;
-    final assetModelCompositeModelProperties =
-        this.assetModelCompositeModelProperties;
-    final assetModelCompositeModelSummaries =
-        this.assetModelCompositeModelSummaries;
-    final assetModelCompositeModelType = this.assetModelCompositeModelType;
-    final assetModelId = this.assetModelId;
-    final actionDefinitions = this.actionDefinitions;
-    final assetModelCompositeModelExternalId =
-        this.assetModelCompositeModelExternalId;
-    final compositionDetails = this.compositionDetails;
-    return {
-      'assetModelCompositeModelDescription':
-          assetModelCompositeModelDescription,
-      'assetModelCompositeModelId': assetModelCompositeModelId,
-      'assetModelCompositeModelName': assetModelCompositeModelName,
-      'assetModelCompositeModelPath': assetModelCompositeModelPath,
-      'assetModelCompositeModelProperties': assetModelCompositeModelProperties,
-      'assetModelCompositeModelSummaries': assetModelCompositeModelSummaries,
-      'assetModelCompositeModelType': assetModelCompositeModelType,
-      'assetModelId': assetModelId,
-      if (actionDefinitions != null) 'actionDefinitions': actionDefinitions,
-      if (assetModelCompositeModelExternalId != null)
-        'assetModelCompositeModelExternalId':
-            assetModelCompositeModelExternalId,
-      if (compositionDetails != null) 'compositionDetails': compositionDetails,
-    };
-  }
-}
-
-class DescribeAssetModelResponse {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the asset model, which has the following format.
-  ///
-  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}</code>
-  final String assetModelArn;
-
-  /// The date the asset model was created, in Unix epoch time.
-  final DateTime assetModelCreationDate;
-
-  /// The asset model's description.
-  final String assetModelDescription;
-
-  /// A list of asset model hierarchies that each contain a
-  /// <code>childAssetModelId</code> and a <code>hierarchyId</code> (named
-  /// <code>id</code>). A hierarchy specifies allowed parent/child asset
-  /// relationships for an asset model.
-  final List<AssetModelHierarchy> assetModelHierarchies;
-
-  /// The ID of the asset model, in UUID format.
-  final String assetModelId;
-
-  /// The date the asset model was last updated, in Unix epoch time.
-  final DateTime assetModelLastUpdateDate;
-
-  /// The name of the asset model.
-  final String assetModelName;
-
-  /// The list of asset properties for the asset model.
-  ///
-  /// This object doesn't include properties that you define in composite models.
-  /// You can find composite model properties in the
-  /// <code>assetModelCompositeModels</code> object.
-  final List<AssetModelProperty> assetModelProperties;
-
-  /// The current status of the asset model, which contains a state and any error
-  /// message.
-  final AssetModelStatus assetModelStatus;
-
-  /// The list of the immediate child custom composite model summaries for the
-  /// asset model.
-  final List<AssetModelCompositeModelSummary>?
-      assetModelCompositeModelSummaries;
-
-  /// The list of built-in composite models for the asset model, such as those
-  /// with those of type <code>AWS/ALARMS</code>.
-  final List<AssetModelCompositeModel>? assetModelCompositeModels;
-
-  /// The external ID of the asset model, if any.
-  final String? assetModelExternalId;
-
-  /// The type of asset model.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>ASSET_MODEL</b> – (default) An asset model that you can use to create
-  /// assets. Can't be included as a component in another asset model.
-  /// </li>
-  /// <li>
-  /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
-  /// composite models of other asset models. You can't create assets directly
-  /// from this type of asset model.
-  /// </li>
-  /// </ul>
-  final AssetModelType? assetModelType;
-
-  /// The version of the asset model. See <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html">
-  /// Asset model versions</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? assetModelVersion;
-
-  /// The entity tag (ETag) is a hash of the retrieved version of the asset model.
-  /// It's used to make concurrent updates safely to the resource. See <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">Optimistic
-  /// locking for asset model writes</a> in the <i>IoT SiteWise User Guide</i>.
-  ///
-  /// See <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">
-  /// Optimistic locking for asset model writes</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? eTag;
-
-  DescribeAssetModelResponse({
-    required this.assetModelArn,
-    required this.assetModelCreationDate,
-    required this.assetModelDescription,
-    required this.assetModelHierarchies,
-    required this.assetModelId,
-    required this.assetModelLastUpdateDate,
-    required this.assetModelName,
-    required this.assetModelProperties,
-    required this.assetModelStatus,
-    this.assetModelCompositeModelSummaries,
-    this.assetModelCompositeModels,
-    this.assetModelExternalId,
-    this.assetModelType,
-    this.assetModelVersion,
-    this.eTag,
-  });
-
-  Map<String, dynamic> toJson() {
-    final assetModelArn = this.assetModelArn;
-    final assetModelCreationDate = this.assetModelCreationDate;
-    final assetModelDescription = this.assetModelDescription;
-    final assetModelHierarchies = this.assetModelHierarchies;
-    final assetModelId = this.assetModelId;
-    final assetModelLastUpdateDate = this.assetModelLastUpdateDate;
-    final assetModelName = this.assetModelName;
-    final assetModelProperties = this.assetModelProperties;
-    final assetModelStatus = this.assetModelStatus;
-    final assetModelCompositeModelSummaries =
-        this.assetModelCompositeModelSummaries;
-    final assetModelCompositeModels = this.assetModelCompositeModels;
-    final assetModelExternalId = this.assetModelExternalId;
-    final assetModelType = this.assetModelType;
-    final assetModelVersion = this.assetModelVersion;
-    final eTag = this.eTag;
-    return {
-      'assetModelArn': assetModelArn,
-      'assetModelCreationDate': unixTimestampToJson(assetModelCreationDate),
-      'assetModelDescription': assetModelDescription,
-      'assetModelHierarchies': assetModelHierarchies,
-      'assetModelId': assetModelId,
-      'assetModelLastUpdateDate': unixTimestampToJson(assetModelLastUpdateDate),
-      'assetModelName': assetModelName,
-      'assetModelProperties': assetModelProperties,
-      'assetModelStatus': assetModelStatus,
-      if (assetModelCompositeModelSummaries != null)
-        'assetModelCompositeModelSummaries': assetModelCompositeModelSummaries,
-      if (assetModelCompositeModels != null)
-        'assetModelCompositeModels': assetModelCompositeModels,
-      if (assetModelExternalId != null)
-        'assetModelExternalId': assetModelExternalId,
-      if (assetModelType != null) 'assetModelType': assetModelType.value,
-      if (assetModelVersion != null) 'assetModelVersion': assetModelVersion,
-    };
-  }
-}
-
-class DescribeAssetPropertyResponse {
-  /// The ID of the asset, in UUID format.
-  final String assetId;
-
-  /// The ID of the asset model, in UUID format.
-  final String assetModelId;
-
-  /// The name of the asset.
-  final String assetName;
-
-  /// The external ID of the asset. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? assetExternalId;
-
-  /// The asset property's definition, alias, and notification state.
-  ///
-  /// This response includes this object for normal asset properties. If you
-  /// describe an asset property in a composite model, this response includes the
-  /// asset property information in <code>compositeModel</code>.
-  final Property? assetProperty;
-
-  /// The composite model that declares this asset property, if this asset
-  /// property exists in a composite model.
-  final CompositeModelProperty? compositeModel;
-
-  DescribeAssetPropertyResponse({
-    required this.assetId,
-    required this.assetModelId,
-    required this.assetName,
-    this.assetExternalId,
-    this.assetProperty,
-    this.compositeModel,
-  });
-
-  factory DescribeAssetPropertyResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAssetPropertyResponse(
-      assetId: (json['assetId'] as String?) ?? '',
-      assetModelId: (json['assetModelId'] as String?) ?? '',
-      assetName: (json['assetName'] as String?) ?? '',
-      assetExternalId: json['assetExternalId'] as String?,
-      assetProperty: json['assetProperty'] != null
-          ? Property.fromJson(json['assetProperty'] as Map<String, dynamic>)
-          : null,
-      compositeModel: json['compositeModel'] != null
-          ? CompositeModelProperty.fromJson(
-              json['compositeModel'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetId = this.assetId;
-    final assetModelId = this.assetModelId;
-    final assetName = this.assetName;
-    final assetExternalId = this.assetExternalId;
-    final assetProperty = this.assetProperty;
-    final compositeModel = this.compositeModel;
-    return {
-      'assetId': assetId,
-      'assetModelId': assetModelId,
-      'assetName': assetName,
-      if (assetExternalId != null) 'assetExternalId': assetExternalId,
-      if (assetProperty != null) 'assetProperty': assetProperty,
-      if (compositeModel != null) 'compositeModel': compositeModel,
+      if (resolveTo != null) 'resolveTo': resolveTo,
     };
   }
 }
@@ -10078,6 +7339,522 @@ class DescribeAssetResponse {
   }
 }
 
+class DescribeAssetCompositeModelResponse {
+  /// A description for the composite model.
+  final String assetCompositeModelDescription;
+
+  /// The ID of a composite model on this asset.
+  final String assetCompositeModelId;
+
+  /// The unique, friendly name for the composite model.
+  final String assetCompositeModelName;
+
+  /// The path to the composite model listing the parent composite models.
+  final List<AssetCompositeModelPathSegment> assetCompositeModelPath;
+
+  /// The property definitions of the composite model that was used to create the
+  /// asset.
+  final List<AssetProperty> assetCompositeModelProperties;
+
+  /// The list of composite model summaries.
+  final List<AssetCompositeModelSummary> assetCompositeModelSummaries;
+
+  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
+  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
+  final String assetCompositeModelType;
+
+  /// The ID of the asset, in UUID format. This ID uniquely identifies the asset
+  /// within IoT SiteWise and can be used with other IoT SiteWise APIs.
+  final String assetId;
+
+  /// The available actions for a composite model on this asset.
+  final List<ActionDefinition>? actionDefinitions;
+
+  /// An external ID to assign to the asset model.
+  ///
+  /// If the composite model is a component-based composite model, or one nested
+  /// inside a component model, you can only set the external ID using
+  /// <code>UpdateAssetModelCompositeModel</code> and specifying the derived ID of
+  /// the model or property from the created model it's a part of.
+  final String? assetCompositeModelExternalId;
+
+  DescribeAssetCompositeModelResponse({
+    required this.assetCompositeModelDescription,
+    required this.assetCompositeModelId,
+    required this.assetCompositeModelName,
+    required this.assetCompositeModelPath,
+    required this.assetCompositeModelProperties,
+    required this.assetCompositeModelSummaries,
+    required this.assetCompositeModelType,
+    required this.assetId,
+    this.actionDefinitions,
+    this.assetCompositeModelExternalId,
+  });
+
+  factory DescribeAssetCompositeModelResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAssetCompositeModelResponse(
+      assetCompositeModelDescription:
+          (json['assetCompositeModelDescription'] as String?) ?? '',
+      assetCompositeModelId: (json['assetCompositeModelId'] as String?) ?? '',
+      assetCompositeModelName:
+          (json['assetCompositeModelName'] as String?) ?? '',
+      assetCompositeModelPath:
+          ((json['assetCompositeModelPath'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AssetCompositeModelPathSegment.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      assetCompositeModelProperties:
+          ((json['assetCompositeModelProperties'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      assetCompositeModelSummaries: ((json['assetCompositeModelSummaries']
+                  as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              AssetCompositeModelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetCompositeModelType:
+          (json['assetCompositeModelType'] as String?) ?? '',
+      assetId: (json['assetId'] as String?) ?? '',
+      actionDefinitions: (json['actionDefinitions'] as List?)
+          ?.nonNulls
+          .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetCompositeModelExternalId:
+          json['assetCompositeModelExternalId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetCompositeModelDescription = this.assetCompositeModelDescription;
+    final assetCompositeModelId = this.assetCompositeModelId;
+    final assetCompositeModelName = this.assetCompositeModelName;
+    final assetCompositeModelPath = this.assetCompositeModelPath;
+    final assetCompositeModelProperties = this.assetCompositeModelProperties;
+    final assetCompositeModelSummaries = this.assetCompositeModelSummaries;
+    final assetCompositeModelType = this.assetCompositeModelType;
+    final assetId = this.assetId;
+    final actionDefinitions = this.actionDefinitions;
+    final assetCompositeModelExternalId = this.assetCompositeModelExternalId;
+    return {
+      'assetCompositeModelDescription': assetCompositeModelDescription,
+      'assetCompositeModelId': assetCompositeModelId,
+      'assetCompositeModelName': assetCompositeModelName,
+      'assetCompositeModelPath': assetCompositeModelPath,
+      'assetCompositeModelProperties': assetCompositeModelProperties,
+      'assetCompositeModelSummaries': assetCompositeModelSummaries,
+      'assetCompositeModelType': assetCompositeModelType,
+      'assetId': assetId,
+      if (actionDefinitions != null) 'actionDefinitions': actionDefinitions,
+      if (assetCompositeModelExternalId != null)
+        'assetCompositeModelExternalId': assetCompositeModelExternalId,
+    };
+  }
+}
+
+class DescribeAssetModelResponse {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the asset model, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}</code>
+  final String assetModelArn;
+
+  /// The date the asset model was created, in Unix epoch time.
+  final DateTime assetModelCreationDate;
+
+  /// The asset model's description.
+  final String assetModelDescription;
+
+  /// A list of asset model hierarchies that each contain a
+  /// <code>childAssetModelId</code> and a <code>hierarchyId</code> (named
+  /// <code>id</code>). A hierarchy specifies allowed parent/child asset
+  /// relationships for an asset model.
+  final List<AssetModelHierarchy> assetModelHierarchies;
+
+  /// The ID of the asset model, in UUID format.
+  final String assetModelId;
+
+  /// The date the asset model was last updated, in Unix epoch time.
+  final DateTime assetModelLastUpdateDate;
+
+  /// The name of the asset model.
+  final String assetModelName;
+
+  /// The list of asset properties for the asset model.
+  ///
+  /// This object doesn't include properties that you define in composite models.
+  /// You can find composite model properties in the
+  /// <code>assetModelCompositeModels</code> object.
+  final List<AssetModelProperty> assetModelProperties;
+
+  /// The current status of the asset model, which contains a state and any error
+  /// message.
+  final AssetModelStatus assetModelStatus;
+
+  /// The list of the immediate child custom composite model summaries for the
+  /// asset model.
+  final List<AssetModelCompositeModelSummary>?
+      assetModelCompositeModelSummaries;
+
+  /// The list of built-in composite models for the asset model, such as those
+  /// with those of type <code>AWS/ALARMS</code>.
+  final List<AssetModelCompositeModel>? assetModelCompositeModels;
+
+  /// The external ID of the asset model, if any.
+  final String? assetModelExternalId;
+
+  /// The type of asset model.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ASSET_MODEL</b> – (default) An asset model that you can use to create
+  /// assets. Can't be included as a component in another asset model.
+  /// </li>
+  /// <li>
+  /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
+  /// composite models of other asset models. You can't create assets directly
+  /// from this type of asset model.
+  /// </li>
+  /// </ul>
+  final AssetModelType? assetModelType;
+
+  /// The version of the asset model. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html">
+  /// Asset model versions</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? assetModelVersion;
+
+  /// The entity tag (ETag) is a hash of the retrieved version of the asset model.
+  /// It's used to make concurrent updates safely to the resource. See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">Optimistic
+  /// locking for asset model writes</a> in the <i>IoT SiteWise User Guide</i>.
+  ///
+  /// See <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html">
+  /// Optimistic locking for asset model writes</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? eTag;
+
+  /// A list of interface details that describe the interfaces implemented by this
+  /// asset model, including interface asset model IDs and property mappings.
+  final List<InterfaceRelationship>? interfaceDetails;
+
+  DescribeAssetModelResponse({
+    required this.assetModelArn,
+    required this.assetModelCreationDate,
+    required this.assetModelDescription,
+    required this.assetModelHierarchies,
+    required this.assetModelId,
+    required this.assetModelLastUpdateDate,
+    required this.assetModelName,
+    required this.assetModelProperties,
+    required this.assetModelStatus,
+    this.assetModelCompositeModelSummaries,
+    this.assetModelCompositeModels,
+    this.assetModelExternalId,
+    this.assetModelType,
+    this.assetModelVersion,
+    this.eTag,
+    this.interfaceDetails,
+  });
+
+  Map<String, dynamic> toJson() {
+    final assetModelArn = this.assetModelArn;
+    final assetModelCreationDate = this.assetModelCreationDate;
+    final assetModelDescription = this.assetModelDescription;
+    final assetModelHierarchies = this.assetModelHierarchies;
+    final assetModelId = this.assetModelId;
+    final assetModelLastUpdateDate = this.assetModelLastUpdateDate;
+    final assetModelName = this.assetModelName;
+    final assetModelProperties = this.assetModelProperties;
+    final assetModelStatus = this.assetModelStatus;
+    final assetModelCompositeModelSummaries =
+        this.assetModelCompositeModelSummaries;
+    final assetModelCompositeModels = this.assetModelCompositeModels;
+    final assetModelExternalId = this.assetModelExternalId;
+    final assetModelType = this.assetModelType;
+    final assetModelVersion = this.assetModelVersion;
+    final eTag = this.eTag;
+    final interfaceDetails = this.interfaceDetails;
+    return {
+      'assetModelArn': assetModelArn,
+      'assetModelCreationDate': unixTimestampToJson(assetModelCreationDate),
+      'assetModelDescription': assetModelDescription,
+      'assetModelHierarchies': assetModelHierarchies,
+      'assetModelId': assetModelId,
+      'assetModelLastUpdateDate': unixTimestampToJson(assetModelLastUpdateDate),
+      'assetModelName': assetModelName,
+      'assetModelProperties': assetModelProperties,
+      'assetModelStatus': assetModelStatus,
+      if (assetModelCompositeModelSummaries != null)
+        'assetModelCompositeModelSummaries': assetModelCompositeModelSummaries,
+      if (assetModelCompositeModels != null)
+        'assetModelCompositeModels': assetModelCompositeModels,
+      if (assetModelExternalId != null)
+        'assetModelExternalId': assetModelExternalId,
+      if (assetModelType != null) 'assetModelType': assetModelType.value,
+      if (assetModelVersion != null) 'assetModelVersion': assetModelVersion,
+      if (interfaceDetails != null) 'interfaceDetails': interfaceDetails,
+    };
+  }
+}
+
+class DescribeAssetModelCompositeModelResponse {
+  /// The description for the composite model.
+  final String assetModelCompositeModelDescription;
+
+  /// The ID of a composite model on this asset model.
+  final String assetModelCompositeModelId;
+
+  /// The unique, friendly name for the composite model.
+  final String assetModelCompositeModelName;
+
+  /// The path to the composite model listing the parent composite models.
+  final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
+
+  /// The property definitions of the composite model.
+  final List<AssetModelProperty> assetModelCompositeModelProperties;
+
+  /// The list of composite model summaries for the composite model.
+  final List<AssetModelCompositeModelSummary> assetModelCompositeModelSummaries;
+
+  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
+  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
+  final String assetModelCompositeModelType;
+
+  /// The ID of the asset model, in UUID format.
+  final String assetModelId;
+
+  /// The available actions for a composite model on this asset model.
+  final List<ActionDefinition>? actionDefinitions;
+
+  /// The external ID of a composite model on this asset model.
+  final String? assetModelCompositeModelExternalId;
+
+  /// Metadata for the composition relationship established by using
+  /// <code>composedAssetModelId</code> in <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html">
+  /// <code>CreateAssetModelCompositeModel</code> </a>. For instance, an array
+  /// detailing the path of the composition relationship for this composite model.
+  final CompositionDetails? compositionDetails;
+
+  DescribeAssetModelCompositeModelResponse({
+    required this.assetModelCompositeModelDescription,
+    required this.assetModelCompositeModelId,
+    required this.assetModelCompositeModelName,
+    required this.assetModelCompositeModelPath,
+    required this.assetModelCompositeModelProperties,
+    required this.assetModelCompositeModelSummaries,
+    required this.assetModelCompositeModelType,
+    required this.assetModelId,
+    this.actionDefinitions,
+    this.assetModelCompositeModelExternalId,
+    this.compositionDetails,
+  });
+
+  factory DescribeAssetModelCompositeModelResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAssetModelCompositeModelResponse(
+      assetModelCompositeModelDescription:
+          (json['assetModelCompositeModelDescription'] as String?) ?? '',
+      assetModelCompositeModelId:
+          (json['assetModelCompositeModelId'] as String?) ?? '',
+      assetModelCompositeModelName:
+          (json['assetModelCompositeModelName'] as String?) ?? '',
+      assetModelCompositeModelPath:
+          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AssetModelCompositeModelPathSegment.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      assetModelCompositeModelProperties:
+          ((json['assetModelCompositeModelProperties'] as List?) ?? const [])
+              .nonNulls
+              .map(
+                  (e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      assetModelCompositeModelSummaries:
+          ((json['assetModelCompositeModelSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AssetModelCompositeModelSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      assetModelCompositeModelType:
+          (json['assetModelCompositeModelType'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      actionDefinitions: (json['actionDefinitions'] as List?)
+          ?.nonNulls
+          .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetModelCompositeModelExternalId:
+          json['assetModelCompositeModelExternalId'] as String?,
+      compositionDetails: json['compositionDetails'] != null
+          ? CompositionDetails.fromJson(
+              json['compositionDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelCompositeModelDescription =
+        this.assetModelCompositeModelDescription;
+    final assetModelCompositeModelId = this.assetModelCompositeModelId;
+    final assetModelCompositeModelName = this.assetModelCompositeModelName;
+    final assetModelCompositeModelPath = this.assetModelCompositeModelPath;
+    final assetModelCompositeModelProperties =
+        this.assetModelCompositeModelProperties;
+    final assetModelCompositeModelSummaries =
+        this.assetModelCompositeModelSummaries;
+    final assetModelCompositeModelType = this.assetModelCompositeModelType;
+    final assetModelId = this.assetModelId;
+    final actionDefinitions = this.actionDefinitions;
+    final assetModelCompositeModelExternalId =
+        this.assetModelCompositeModelExternalId;
+    final compositionDetails = this.compositionDetails;
+    return {
+      'assetModelCompositeModelDescription':
+          assetModelCompositeModelDescription,
+      'assetModelCompositeModelId': assetModelCompositeModelId,
+      'assetModelCompositeModelName': assetModelCompositeModelName,
+      'assetModelCompositeModelPath': assetModelCompositeModelPath,
+      'assetModelCompositeModelProperties': assetModelCompositeModelProperties,
+      'assetModelCompositeModelSummaries': assetModelCompositeModelSummaries,
+      'assetModelCompositeModelType': assetModelCompositeModelType,
+      'assetModelId': assetModelId,
+      if (actionDefinitions != null) 'actionDefinitions': actionDefinitions,
+      if (assetModelCompositeModelExternalId != null)
+        'assetModelCompositeModelExternalId':
+            assetModelCompositeModelExternalId,
+      if (compositionDetails != null) 'compositionDetails': compositionDetails,
+    };
+  }
+}
+
+class DescribeAssetModelInterfaceRelationshipResponse {
+  /// The ID of the asset model.
+  final String assetModelId;
+
+  /// A list of hierarchy mappings between the interface asset model and the asset
+  /// model where the interface is applied.
+  final List<HierarchyMapping> hierarchyMappings;
+
+  /// The ID of the interface asset model.
+  final String interfaceAssetModelId;
+
+  /// A list of property mappings between the interface asset model and the asset
+  /// model where the interface is applied.
+  final List<PropertyMapping> propertyMappings;
+
+  DescribeAssetModelInterfaceRelationshipResponse({
+    required this.assetModelId,
+    required this.hierarchyMappings,
+    required this.interfaceAssetModelId,
+    required this.propertyMappings,
+  });
+
+  factory DescribeAssetModelInterfaceRelationshipResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAssetModelInterfaceRelationshipResponse(
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      hierarchyMappings: ((json['hierarchyMappings'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HierarchyMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      interfaceAssetModelId: (json['interfaceAssetModelId'] as String?) ?? '',
+      propertyMappings: ((json['propertyMappings'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => PropertyMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelId = this.assetModelId;
+    final hierarchyMappings = this.hierarchyMappings;
+    final interfaceAssetModelId = this.interfaceAssetModelId;
+    final propertyMappings = this.propertyMappings;
+    return {
+      'assetModelId': assetModelId,
+      'hierarchyMappings': hierarchyMappings,
+      'interfaceAssetModelId': interfaceAssetModelId,
+      'propertyMappings': propertyMappings,
+    };
+  }
+}
+
+class DescribeAssetPropertyResponse {
+  /// The ID of the asset, in UUID format.
+  final String assetId;
+
+  /// The ID of the asset model, in UUID format.
+  final String assetModelId;
+
+  /// The name of the asset.
+  final String assetName;
+
+  /// The external ID of the asset. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? assetExternalId;
+
+  /// The asset property's definition, alias, and notification state.
+  ///
+  /// This response includes this object for normal asset properties. If you
+  /// describe an asset property in a composite model, this response includes the
+  /// asset property information in <code>compositeModel</code>.
+  final Property? assetProperty;
+
+  /// The composite model that declares this asset property, if this asset
+  /// property exists in a composite model.
+  final CompositeModelProperty? compositeModel;
+
+  DescribeAssetPropertyResponse({
+    required this.assetId,
+    required this.assetModelId,
+    required this.assetName,
+    this.assetExternalId,
+    this.assetProperty,
+    this.compositeModel,
+  });
+
+  factory DescribeAssetPropertyResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAssetPropertyResponse(
+      assetId: (json['assetId'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      assetName: (json['assetName'] as String?) ?? '',
+      assetExternalId: json['assetExternalId'] as String?,
+      assetProperty: json['assetProperty'] != null
+          ? Property.fromJson(json['assetProperty'] as Map<String, dynamic>)
+          : null,
+      compositeModel: json['compositeModel'] != null
+          ? CompositeModelProperty.fromJson(
+              json['compositeModel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final assetModelId = this.assetModelId;
+    final assetName = this.assetName;
+    final assetExternalId = this.assetExternalId;
+    final assetProperty = this.assetProperty;
+    final compositeModel = this.compositeModel;
+    return {
+      'assetId': assetId,
+      'assetModelId': assetModelId,
+      'assetName': assetName,
+      if (assetExternalId != null) 'assetExternalId': assetExternalId,
+      if (assetProperty != null) 'assetProperty': assetProperty,
+      if (compositeModel != null) 'compositeModel': compositeModel,
+    };
+  }
+}
+
 class DescribeBulkImportJobResponse {
   /// The Amazon S3 destination where errors associated with the job creation
   /// request are saved.
@@ -10215,6 +7992,170 @@ class DescribeBulkImportJobResponse {
   }
 }
 
+class DescribeComputationModelResponse {
+  /// The available actions for this computation model.
+  final List<ActionDefinition> actionDefinitions;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the computation model, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}</code>
+  final String computationModelArn;
+
+  /// The configuration for the computation model.
+  final ComputationModelConfiguration computationModelConfiguration;
+
+  /// The model creation date, in Unix epoch time.
+  final DateTime computationModelCreationDate;
+
+  /// The data binding for the computation model. Key is a variable name defined
+  /// in configuration. Value is a <code>ComputationModelDataBindingValue</code>
+  /// referenced by the variable.
+  final Map<String, ComputationModelDataBindingValue>
+      computationModelDataBinding;
+
+  /// The ID of the computation model.
+  final String computationModelId;
+
+  /// The date the model was last updated, in Unix epoch time.
+  final DateTime computationModelLastUpdateDate;
+
+  /// The name of the computation model.
+  final String computationModelName;
+
+  /// The current status of the asset model, which contains a state and an error
+  /// message if any.
+  final ComputationModelStatus computationModelStatus;
+
+  /// The version of the computation model.
+  final String computationModelVersion;
+
+  /// The description of the computation model.
+  final String? computationModelDescription;
+
+  DescribeComputationModelResponse({
+    required this.actionDefinitions,
+    required this.computationModelArn,
+    required this.computationModelConfiguration,
+    required this.computationModelCreationDate,
+    required this.computationModelDataBinding,
+    required this.computationModelId,
+    required this.computationModelLastUpdateDate,
+    required this.computationModelName,
+    required this.computationModelStatus,
+    required this.computationModelVersion,
+    this.computationModelDescription,
+  });
+
+  factory DescribeComputationModelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeComputationModelResponse(
+      actionDefinitions: ((json['actionDefinitions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ActionDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      computationModelArn: (json['computationModelArn'] as String?) ?? '',
+      computationModelConfiguration: ComputationModelConfiguration.fromJson(
+          (json['computationModelConfiguration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      computationModelCreationDate: nonNullableTimeStampFromJson(
+          json['computationModelCreationDate'] ?? 0),
+      computationModelDataBinding:
+          ((json['computationModelDataBinding'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(
+                  k,
+                  ComputationModelDataBindingValue.fromJson(
+                      e as Map<String, dynamic>))),
+      computationModelId: (json['computationModelId'] as String?) ?? '',
+      computationModelLastUpdateDate: nonNullableTimeStampFromJson(
+          json['computationModelLastUpdateDate'] ?? 0),
+      computationModelName: (json['computationModelName'] as String?) ?? '',
+      computationModelStatus: ComputationModelStatus.fromJson(
+          (json['computationModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      computationModelVersion:
+          (json['computationModelVersion'] as String?) ?? '',
+      computationModelDescription:
+          json['computationModelDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionDefinitions = this.actionDefinitions;
+    final computationModelArn = this.computationModelArn;
+    final computationModelConfiguration = this.computationModelConfiguration;
+    final computationModelCreationDate = this.computationModelCreationDate;
+    final computationModelDataBinding = this.computationModelDataBinding;
+    final computationModelId = this.computationModelId;
+    final computationModelLastUpdateDate = this.computationModelLastUpdateDate;
+    final computationModelName = this.computationModelName;
+    final computationModelStatus = this.computationModelStatus;
+    final computationModelVersion = this.computationModelVersion;
+    final computationModelDescription = this.computationModelDescription;
+    return {
+      'actionDefinitions': actionDefinitions,
+      'computationModelArn': computationModelArn,
+      'computationModelConfiguration': computationModelConfiguration,
+      'computationModelCreationDate':
+          unixTimestampToJson(computationModelCreationDate),
+      'computationModelDataBinding': computationModelDataBinding,
+      'computationModelId': computationModelId,
+      'computationModelLastUpdateDate':
+          unixTimestampToJson(computationModelLastUpdateDate),
+      'computationModelName': computationModelName,
+      'computationModelStatus': computationModelStatus,
+      'computationModelVersion': computationModelVersion,
+      if (computationModelDescription != null)
+        'computationModelDescription': computationModelDescription,
+    };
+  }
+}
+
+class DescribeComputationModelExecutionSummaryResponse {
+  /// Contains the execution summary of the computation model.
+  final Map<String, String> computationModelExecutionSummary;
+
+  /// The ID of the computation model.
+  final String computationModelId;
+
+  /// The detailed resource this execution summary resolves to.
+  final ResolveTo? resolveTo;
+
+  DescribeComputationModelExecutionSummaryResponse({
+    required this.computationModelExecutionSummary,
+    required this.computationModelId,
+    this.resolveTo,
+  });
+
+  factory DescribeComputationModelExecutionSummaryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeComputationModelExecutionSummaryResponse(
+      computationModelExecutionSummary:
+          ((json['computationModelExecutionSummary']
+                      as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      computationModelId: (json['computationModelId'] as String?) ?? '',
+      resolveTo: json['resolveTo'] != null
+          ? ResolveTo.fromJson(json['resolveTo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computationModelExecutionSummary =
+        this.computationModelExecutionSummary;
+    final computationModelId = this.computationModelId;
+    final resolveTo = this.resolveTo;
+    return {
+      'computationModelExecutionSummary': computationModelExecutionSummary,
+      'computationModelId': computationModelId,
+      if (resolveTo != null) 'resolveTo': resolveTo,
+    };
+  }
+}
+
 class DescribeDashboardResponse {
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
@@ -10295,6 +8236,96 @@ class DescribeDashboardResponse {
   }
 }
 
+class DescribeDatasetResponse {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
+  /// of the dataset. The format is
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}</code>.
+  final String datasetArn;
+
+  /// The dataset creation date, in Unix epoch time.
+  final DateTime datasetCreationDate;
+
+  /// A description about the dataset, and its functionality.
+  final String datasetDescription;
+
+  /// The ID of the dataset.
+  final String datasetId;
+
+  /// The date the dataset was last updated, in Unix epoch time.
+  final DateTime datasetLastUpdateDate;
+
+  /// The name of the dataset.
+  final String datasetName;
+
+  /// The data source for the dataset.
+  final DatasetSource datasetSource;
+
+  /// The status of the dataset. This contains the state and any error messages.
+  /// State is <code>CREATING</code> after a successfull call to this API, and any
+  /// associated error message. The state is <code>ACTIVE</code> when ready to
+  /// use.
+  final DatasetStatus datasetStatus;
+
+  /// The version of the dataset.
+  final String? datasetVersion;
+
+  DescribeDatasetResponse({
+    required this.datasetArn,
+    required this.datasetCreationDate,
+    required this.datasetDescription,
+    required this.datasetId,
+    required this.datasetLastUpdateDate,
+    required this.datasetName,
+    required this.datasetSource,
+    required this.datasetStatus,
+    this.datasetVersion,
+  });
+
+  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetResponse(
+      datasetArn: (json['datasetArn'] as String?) ?? '',
+      datasetCreationDate:
+          nonNullableTimeStampFromJson(json['datasetCreationDate'] ?? 0),
+      datasetDescription: (json['datasetDescription'] as String?) ?? '',
+      datasetId: (json['datasetId'] as String?) ?? '',
+      datasetLastUpdateDate:
+          nonNullableTimeStampFromJson(json['datasetLastUpdateDate'] ?? 0),
+      datasetName: (json['datasetName'] as String?) ?? '',
+      datasetSource: DatasetSource.fromJson(
+          (json['datasetSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      datasetStatus: DatasetStatus.fromJson(
+          (json['datasetStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      datasetVersion: json['datasetVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    final datasetCreationDate = this.datasetCreationDate;
+    final datasetDescription = this.datasetDescription;
+    final datasetId = this.datasetId;
+    final datasetLastUpdateDate = this.datasetLastUpdateDate;
+    final datasetName = this.datasetName;
+    final datasetSource = this.datasetSource;
+    final datasetStatus = this.datasetStatus;
+    final datasetVersion = this.datasetVersion;
+    return {
+      'datasetArn': datasetArn,
+      'datasetCreationDate': unixTimestampToJson(datasetCreationDate),
+      'datasetDescription': datasetDescription,
+      'datasetId': datasetId,
+      'datasetLastUpdateDate': unixTimestampToJson(datasetLastUpdateDate),
+      'datasetName': datasetName,
+      'datasetSource': datasetSource,
+      'datasetStatus': datasetStatus,
+      if (datasetVersion != null) 'datasetVersion': datasetVersion,
+    };
+  }
+}
+
 class DescribeDefaultEncryptionConfigurationResponse {
   /// The status of the account configuration. This contains the
   /// <code>ConfigurationState</code>. If there's an error, it also contains the
@@ -10338,6 +8369,212 @@ class DescribeDefaultEncryptionConfigurationResponse {
   }
 }
 
+class DescribeExecutionResponse {
+  /// The ID of the execution.
+  final String executionId;
+
+  /// The time the process started.
+  final DateTime executionStartTime;
+
+  /// The status of the execution process.
+  final ExecutionStatus executionStatus;
+  final TargetResource targetResource;
+
+  /// The version of the target resource.
+  final String targetResourceVersion;
+
+  /// The type of action exectued.
+  final String? actionType;
+
+  /// Provides detailed information about the execution of your anomaly detection
+  /// models. This includes model metrics and training timestamps for both
+  /// training and inference actions.
+  ///
+  /// <ul>
+  /// <li>
+  /// The training action (Amazon Web Services/ANOMALY_DETECTION_TRAINING),
+  /// includes performance metrics that help you compare different versions of
+  /// your anomaly detection models. These metrics provide insights into the
+  /// model's performance during the training process.
+  /// </li>
+  /// <li>
+  /// The inference action (Amazon Web Services/ANOMALY_DETECTION_INFERENCE),
+  /// includes information about the results of executing your anomaly detection
+  /// models. This helps you understand the output of your models and assess their
+  /// performance.
+  /// </li>
+  /// </ul>
+  final Map<String, String>? executionDetails;
+
+  /// The time the process ended.
+  final DateTime? executionEndTime;
+
+  /// Entity version used for the execution.
+  final String? executionEntityVersion;
+
+  /// The result of the execution.
+  final Map<String, String>? executionResult;
+
+  /// The detailed resource this execution resolves to.
+  final ResolveTo? resolveTo;
+
+  DescribeExecutionResponse({
+    required this.executionId,
+    required this.executionStartTime,
+    required this.executionStatus,
+    required this.targetResource,
+    required this.targetResourceVersion,
+    this.actionType,
+    this.executionDetails,
+    this.executionEndTime,
+    this.executionEntityVersion,
+    this.executionResult,
+    this.resolveTo,
+  });
+
+  factory DescribeExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeExecutionResponse(
+      executionId: (json['executionId'] as String?) ?? '',
+      executionStartTime:
+          nonNullableTimeStampFromJson(json['executionStartTime'] ?? 0),
+      executionStatus: ExecutionStatus.fromJson(
+          (json['executionStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetResource: TargetResource.fromJson(
+          (json['targetResource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetResourceVersion: (json['targetResourceVersion'] as String?) ?? '',
+      actionType: json['actionType'] as String?,
+      executionDetails: (json['executionDetails'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      executionEndTime: timeStampFromJson(json['executionEndTime']),
+      executionEntityVersion: json['executionEntityVersion'] as String?,
+      executionResult: (json['executionResult'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resolveTo: json['resolveTo'] != null
+          ? ResolveTo.fromJson(json['resolveTo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionId = this.executionId;
+    final executionStartTime = this.executionStartTime;
+    final executionStatus = this.executionStatus;
+    final targetResource = this.targetResource;
+    final targetResourceVersion = this.targetResourceVersion;
+    final actionType = this.actionType;
+    final executionDetails = this.executionDetails;
+    final executionEndTime = this.executionEndTime;
+    final executionEntityVersion = this.executionEntityVersion;
+    final executionResult = this.executionResult;
+    final resolveTo = this.resolveTo;
+    return {
+      'executionId': executionId,
+      'executionStartTime': unixTimestampToJson(executionStartTime),
+      'executionStatus': executionStatus,
+      'targetResource': targetResource,
+      'targetResourceVersion': targetResourceVersion,
+      if (actionType != null) 'actionType': actionType,
+      if (executionDetails != null) 'executionDetails': executionDetails,
+      if (executionEndTime != null)
+        'executionEndTime': unixTimestampToJson(executionEndTime),
+      if (executionEntityVersion != null)
+        'executionEntityVersion': executionEntityVersion,
+      if (executionResult != null) 'executionResult': executionResult,
+      if (resolveTo != null) 'resolveTo': resolveTo,
+    };
+  }
+}
+
+class DescribeGatewayResponse {
+  /// The date the gateway was created, in Unix epoch time.
+  final DateTime creationDate;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the gateway, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}</code>
+  final String gatewayArn;
+
+  /// A list of gateway capability summaries that each contain a namespace and
+  /// status. Each gateway capability defines data sources for the gateway. To
+  /// retrieve a capability configuration's definition, use <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGatewayCapabilityConfiguration.html">DescribeGatewayCapabilityConfiguration</a>.
+  final List<GatewayCapabilitySummary> gatewayCapabilitySummaries;
+
+  /// The ID of the gateway device.
+  final String gatewayId;
+
+  /// The name of the gateway.
+  final String gatewayName;
+
+  /// The date the gateway was last updated, in Unix epoch time.
+  final DateTime lastUpdateDate;
+
+  /// The gateway's platform.
+  final GatewayPlatform? gatewayPlatform;
+
+  /// The version of the gateway. A value of <code>3</code> indicates an
+  /// MQTT-enabled, V3 gateway, while <code>2</code> indicates a Classic streams,
+  /// V2 gateway.
+  final String? gatewayVersion;
+
+  DescribeGatewayResponse({
+    required this.creationDate,
+    required this.gatewayArn,
+    required this.gatewayCapabilitySummaries,
+    required this.gatewayId,
+    required this.gatewayName,
+    required this.lastUpdateDate,
+    this.gatewayPlatform,
+    this.gatewayVersion,
+  });
+
+  factory DescribeGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeGatewayResponse(
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      gatewayArn: (json['gatewayArn'] as String?) ?? '',
+      gatewayCapabilitySummaries:
+          ((json['gatewayCapabilitySummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      gatewayId: (json['gatewayId'] as String?) ?? '',
+      gatewayName: (json['gatewayName'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      gatewayPlatform: json['gatewayPlatform'] != null
+          ? GatewayPlatform.fromJson(
+              json['gatewayPlatform'] as Map<String, dynamic>)
+          : null,
+      gatewayVersion: json['gatewayVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final gatewayArn = this.gatewayArn;
+    final gatewayCapabilitySummaries = this.gatewayCapabilitySummaries;
+    final gatewayId = this.gatewayId;
+    final gatewayName = this.gatewayName;
+    final lastUpdateDate = this.lastUpdateDate;
+    final gatewayPlatform = this.gatewayPlatform;
+    final gatewayVersion = this.gatewayVersion;
+    return {
+      'creationDate': unixTimestampToJson(creationDate),
+      'gatewayArn': gatewayArn,
+      'gatewayCapabilitySummaries': gatewayCapabilitySummaries,
+      'gatewayId': gatewayId,
+      'gatewayName': gatewayName,
+      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      if (gatewayPlatform != null) 'gatewayPlatform': gatewayPlatform,
+      if (gatewayVersion != null) 'gatewayVersion': gatewayVersion,
+    };
+  }
+}
+
 class DescribeGatewayCapabilityConfigurationResponse {
   /// The JSON document that defines the gateway capability's configuration. For
   /// more information, see <a
@@ -10348,20 +8585,27 @@ class DescribeGatewayCapabilityConfigurationResponse {
   /// The namespace of the gateway capability.
   final String capabilityNamespace;
 
-  /// The synchronization status of the capability configuration. The sync status
-  /// can be one of the following:
+  /// The synchronization status of the gateway capability configuration. The sync
+  /// status can be one of the following:
   ///
   /// <ul>
   /// <li>
-  /// <code>IN_SYNC</code> – The gateway is running the capability configuration.
+  /// <code>IN_SYNC</code> - The gateway is running with the latest configuration.
   /// </li>
   /// <li>
-  /// <code>OUT_OF_SYNC</code> – The gateway hasn't received the capability
+  /// <code>OUT_OF_SYNC</code> - The gateway hasn't received the latest
   /// configuration.
   /// </li>
   /// <li>
-  /// <code>SYNC_FAILED</code> – The gateway rejected the capability
-  /// configuration.
+  /// <code>SYNC_FAILED</code> - The gateway rejected the latest configuration.
+  /// </li>
+  /// <li>
+  /// <code>UNKNOWN</code> - The gateway hasn't reported its sync status.
+  /// </li>
+  /// <li>
+  /// <code>NOT_APPLICABLE</code> - The gateway doesn't support this capability.
+  /// This is most common when integrating partner data sources, because the data
+  /// integration is handled externally by the partner.
   /// </li>
   /// </ul>
   final CapabilitySyncStatus capabilitySyncStatus;
@@ -10398,85 +8642,6 @@ class DescribeGatewayCapabilityConfigurationResponse {
       'capabilityNamespace': capabilityNamespace,
       'capabilitySyncStatus': capabilitySyncStatus.value,
       'gatewayId': gatewayId,
-    };
-  }
-}
-
-class DescribeGatewayResponse {
-  /// The date the gateway was created, in Unix epoch time.
-  final DateTime creationDate;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the gateway, which has the following format.
-  ///
-  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}</code>
-  final String gatewayArn;
-
-  /// A list of gateway capability summaries that each contain a namespace and
-  /// status. Each gateway capability defines data sources for the gateway. To
-  /// retrieve a capability configuration's definition, use <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGatewayCapabilityConfiguration.html">DescribeGatewayCapabilityConfiguration</a>.
-  final List<GatewayCapabilitySummary> gatewayCapabilitySummaries;
-
-  /// The ID of the gateway device.
-  final String gatewayId;
-
-  /// The name of the gateway.
-  final String gatewayName;
-
-  /// The date the gateway was last updated, in Unix epoch time.
-  final DateTime lastUpdateDate;
-
-  /// The gateway's platform.
-  final GatewayPlatform? gatewayPlatform;
-
-  DescribeGatewayResponse({
-    required this.creationDate,
-    required this.gatewayArn,
-    required this.gatewayCapabilitySummaries,
-    required this.gatewayId,
-    required this.gatewayName,
-    required this.lastUpdateDate,
-    this.gatewayPlatform,
-  });
-
-  factory DescribeGatewayResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeGatewayResponse(
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      gatewayArn: (json['gatewayArn'] as String?) ?? '',
-      gatewayCapabilitySummaries:
-          ((json['gatewayCapabilitySummaries'] as List?) ?? const [])
-              .nonNulls
-              .map((e) =>
-                  GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      gatewayId: (json['gatewayId'] as String?) ?? '',
-      gatewayName: (json['gatewayName'] as String?) ?? '',
-      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
-      gatewayPlatform: json['gatewayPlatform'] != null
-          ? GatewayPlatform.fromJson(
-              json['gatewayPlatform'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final gatewayArn = this.gatewayArn;
-    final gatewayCapabilitySummaries = this.gatewayCapabilitySummaries;
-    final gatewayId = this.gatewayId;
-    final gatewayName = this.gatewayName;
-    final lastUpdateDate = this.lastUpdateDate;
-    final gatewayPlatform = this.gatewayPlatform;
-    return {
-      'creationDate': unixTimestampToJson(creationDate),
-      'gatewayArn': gatewayArn,
-      'gatewayCapabilitySummaries': gatewayCapabilitySummaries,
-      'gatewayId': gatewayId,
-      'gatewayName': gatewayName,
-      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
-      if (gatewayPlatform != null) 'gatewayPlatform': gatewayPlatform,
     };
   }
 }
@@ -10560,6 +8725,17 @@ class DescribePortalResponse {
   /// The portal's logo image, which is available at a URL.
   final ImageLocation? portalLogoImageLocation;
 
+  /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is
+  /// <code>SITEWISE_PORTAL_V1</code>. The value for IoT SiteWise Monitor
+  /// (AI-aware) is <code>SITEWISE_PORTAL_V2</code>.
+  final PortalType? portalType;
+
+  /// The configuration entry associated with the specific portal type. The value
+  /// for IoT SiteWise Monitor (Classic) is <code>SITEWISE_PORTAL_V1</code>. The
+  /// value for IoT SiteWise Monitor (AI-aware) is
+  /// <code>SITEWISE_PORTAL_V2</code>.
+  final Map<String, PortalTypeEntry>? portalTypeConfiguration;
+
   /// The <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
   /// of the service role that allows the portal's users to access your IoT
@@ -10584,6 +8760,8 @@ class DescribePortalResponse {
     this.portalAuthMode,
     this.portalDescription,
     this.portalLogoImageLocation,
+    this.portalType,
+    this.portalTypeConfiguration,
     this.roleArn,
   });
 
@@ -10613,6 +8791,11 @@ class DescribePortalResponse {
           ? ImageLocation.fromJson(
               json['portalLogoImageLocation'] as Map<String, dynamic>)
           : null,
+      portalType: (json['portalType'] as String?)?.let(PortalType.fromString),
+      portalTypeConfiguration: (json['portalTypeConfiguration']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, PortalTypeEntry.fromJson(e as Map<String, dynamic>))),
       roleArn: json['roleArn'] as String?,
     );
   }
@@ -10632,6 +8815,8 @@ class DescribePortalResponse {
     final portalAuthMode = this.portalAuthMode;
     final portalDescription = this.portalDescription;
     final portalLogoImageLocation = this.portalLogoImageLocation;
+    final portalType = this.portalType;
+    final portalTypeConfiguration = this.portalTypeConfiguration;
     final roleArn = this.roleArn;
     return {
       'portalArn': portalArn,
@@ -10650,6 +8835,9 @@ class DescribePortalResponse {
       if (portalDescription != null) 'portalDescription': portalDescription,
       if (portalLogoImageLocation != null)
         'portalLogoImageLocation': portalLogoImageLocation,
+      if (portalType != null) 'portalType': portalType.value,
+      if (portalTypeConfiguration != null)
+        'portalTypeConfiguration': portalTypeConfiguration,
       if (roleArn != null) 'roleArn': roleArn,
     };
   }
@@ -10744,6 +8932,11 @@ class DescribeStorageConfigurationResponse {
   /// </ul>
   final StorageType storageType;
 
+  /// Describes the configuration for ingesting NULL and NaN data. By default the
+  /// feature is allowed. The feature is disallowed if the value is
+  /// <code>true</code>.
+  final bool? disallowIngestNullNaN;
+
   /// Contains the storage configuration for time series (data streams) that
   /// aren't associated with asset properties. The
   /// <code>disassociatedDataStorage</code> can be one of the following values:
@@ -10788,6 +8981,7 @@ class DescribeStorageConfigurationResponse {
   DescribeStorageConfigurationResponse({
     required this.configurationStatus,
     required this.storageType,
+    this.disallowIngestNullNaN,
     this.disassociatedDataStorage,
     this.lastUpdateDate,
     this.multiLayerStorage,
@@ -10804,6 +8998,7 @@ class DescribeStorageConfigurationResponse {
               const <String, dynamic>{}),
       storageType:
           StorageType.fromString((json['storageType'] as String?) ?? ''),
+      disallowIngestNullNaN: json['disallowIngestNullNaN'] as bool?,
       disassociatedDataStorage: (json['disassociatedDataStorage'] as String?)
           ?.let(DisassociatedDataStorageState.fromString),
       lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
@@ -10826,6 +9021,7 @@ class DescribeStorageConfigurationResponse {
   Map<String, dynamic> toJson() {
     final configurationStatus = this.configurationStatus;
     final storageType = this.storageType;
+    final disallowIngestNullNaN = this.disallowIngestNullNaN;
     final disassociatedDataStorage = this.disassociatedDataStorage;
     final lastUpdateDate = this.lastUpdateDate;
     final multiLayerStorage = this.multiLayerStorage;
@@ -10835,6 +9031,8 @@ class DescribeStorageConfigurationResponse {
     return {
       'configurationStatus': configurationStatus,
       'storageType': storageType.value,
+      if (disallowIngestNullNaN != null)
+        'disallowIngestNullNaN': disallowIngestNullNaN,
       if (disassociatedDataStorage != null)
         'disassociatedDataStorage': disassociatedDataStorage.value,
       if (lastUpdateDate != null)
@@ -10943,216 +9141,6 @@ class DescribeTimeSeriesResponse {
   }
 }
 
-/// Contains detailed error information.
-class DetailedError {
-  /// The error code.
-  final DetailedErrorCode code;
-
-  /// The error message.
-  final String message;
-
-  DetailedError({
-    required this.code,
-    required this.message,
-  });
-
-  factory DetailedError.fromJson(Map<String, dynamic> json) {
-    return DetailedError(
-      code: DetailedErrorCode.fromString((json['code'] as String?) ?? ''),
-      message: (json['message'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      'code': code.value,
-      'message': message,
-    };
-  }
-}
-
-class DetailedErrorCode {
-  static const incompatibleComputeLocation =
-      DetailedErrorCode._('INCOMPATIBLE_COMPUTE_LOCATION');
-  static const incompatibleForwardingConfiguration =
-      DetailedErrorCode._('INCOMPATIBLE_FORWARDING_CONFIGURATION');
-
-  final String value;
-
-  const DetailedErrorCode._(this.value);
-
-  static const values = [
-    incompatibleComputeLocation,
-    incompatibleForwardingConfiguration
-  ];
-
-  static DetailedErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DetailedErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is DetailedErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DisassociatedDataStorageState {
-  static const enabled = DisassociatedDataStorageState._('ENABLED');
-  static const disabled = DisassociatedDataStorageState._('DISABLED');
-
-  final String value;
-
-  const DisassociatedDataStorageState._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static DisassociatedDataStorageState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DisassociatedDataStorageState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DisassociatedDataStorageState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EncryptionType {
-  static const sitewiseDefaultEncryption =
-      EncryptionType._('SITEWISE_DEFAULT_ENCRYPTION');
-  static const kmsBasedEncryption = EncryptionType._('KMS_BASED_ENCRYPTION');
-
-  final String value;
-
-  const EncryptionType._(this.value);
-
-  static const values = [sitewiseDefaultEncryption, kmsBasedEncryption];
-
-  static EncryptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionType._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ErrorCode {
-  static const validationError = ErrorCode._('VALIDATION_ERROR');
-  static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [validationError, internalFailure];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the details of an IoT SiteWise error.
-class ErrorDetails {
-  /// The error code.
-  final ErrorCode code;
-
-  /// The error message.
-  final String message;
-
-  /// A list of detailed errors.
-  final List<DetailedError>? details;
-
-  ErrorDetails({
-    required this.code,
-    required this.message,
-    this.details,
-  });
-
-  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
-    return ErrorDetails(
-      code: ErrorCode.fromString((json['code'] as String?) ?? ''),
-      message: (json['message'] as String?) ?? '',
-      details: (json['details'] as List?)
-          ?.nonNulls
-          .map((e) => DetailedError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final details = this.details;
-    return {
-      'code': code.value,
-      'message': message,
-      if (details != null) 'details': details,
-    };
-  }
-}
-
-/// The Amazon S3 destination where errors associated with the job creation
-/// request are saved.
-class ErrorReportLocation {
-  /// The name of the Amazon S3 bucket to which errors associated with the bulk
-  /// import job are sent.
-  final String bucket;
-
-  /// Amazon S3 uses the prefix as a folder name to organize data in the bucket.
-  /// Each Amazon S3 object has a key that is its unique identifier in the bucket.
-  /// Each object in a bucket has exactly one key. The prefix must end with a
-  /// forward slash (/). For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing
-  /// objects using prefixes</a> in the <i>Amazon Simple Storage Service User
-  /// Guide</i>.
-  final String prefix;
-
-  ErrorReportLocation({
-    required this.bucket,
-    required this.prefix,
-  });
-
-  factory ErrorReportLocation.fromJson(Map<String, dynamic> json) {
-    return ErrorReportLocation(
-      bucket: (json['bucket'] as String?) ?? '',
-      prefix: (json['prefix'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final prefix = this.prefix;
-    return {
-      'bucket': bucket,
-      'prefix': prefix,
-    };
-  }
-}
-
 class ExecuteActionResponse {
   /// The ID of the action.
   final String actionId;
@@ -11217,314 +9205,24 @@ class ExecuteQueryResponse {
   }
 }
 
-/// Contains expression variable information.
-class ExpressionVariable {
-  /// The friendly name of the variable to be used in the expression.
-  final String name;
+/// Access is denied.
+class AccessDeniedException implements _s.AwsException {
+  final String? message;
 
-  /// The variable that identifies an asset property from which to use values.
-  final VariableValue value;
-
-  ExpressionVariable({
-    required this.name,
-    required this.value,
+  AccessDeniedException({
+    this.message,
   });
 
-  factory ExpressionVariable.fromJson(Map<String, dynamic> json) {
-    return ExpressionVariable(
-      name: (json['name'] as String?) ?? '',
-      value: VariableValue.fromJson((json['value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
+  factory AccessDeniedException.fromJson(Map<String, dynamic> json) {
+    return AccessDeniedException(
+      message: json['message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
+    final message = this.message;
     return {
-      'name': name,
-      'value': value,
-    };
-  }
-}
-
-/// The file in Amazon S3 where your data is saved.
-class File {
-  /// The name of the Amazon S3 bucket from which data is imported.
-  final String bucket;
-
-  /// The key of the Amazon S3 object that contains your data. Each object has a
-  /// key that is a unique identifier. Each object has exactly one key.
-  final String key;
-
-  /// The version ID to identify a specific version of the Amazon S3 object that
-  /// contains your data.
-  final String? versionId;
-
-  File({
-    required this.bucket,
-    required this.key,
-    this.versionId,
-  });
-
-  factory File.fromJson(Map<String, dynamic> json) {
-    return File(
-      bucket: (json['bucket'] as String?) ?? '',
-      key: (json['key'] as String?) ?? '',
-      versionId: json['versionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final key = this.key;
-    final versionId = this.versionId;
-    return {
-      'bucket': bucket,
-      'key': key,
-      if (versionId != null) 'versionId': versionId,
-    };
-  }
-}
-
-/// The file format of the data in S3.
-class FileFormat {
-  /// The file is in .CSV format.
-  final Csv? csv;
-
-  /// The file is in parquet format.
-  final Parquet? parquet;
-
-  FileFormat({
-    this.csv,
-    this.parquet,
-  });
-
-  factory FileFormat.fromJson(Map<String, dynamic> json) {
-    return FileFormat(
-      csv: json['csv'] != null
-          ? Csv.fromJson(json['csv'] as Map<String, dynamic>)
-          : null,
-      parquet: json['parquet'] != null
-          ? Parquet.fromJson(json['parquet'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final csv = this.csv;
-    final parquet = this.parquet;
-    return {
-      if (csv != null) 'csv': csv,
-      if (parquet != null) 'parquet': parquet,
-    };
-  }
-}
-
-/// The forwarding configuration for a given property.
-class ForwardingConfig {
-  /// The forwarding state for the given property.
-  final ForwardingConfigState state;
-
-  ForwardingConfig({
-    required this.state,
-  });
-
-  factory ForwardingConfig.fromJson(Map<String, dynamic> json) {
-    return ForwardingConfig(
-      state: ForwardingConfigState.fromString((json['state'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    return {
-      'state': state.value,
-    };
-  }
-}
-
-class ForwardingConfigState {
-  static const disabled = ForwardingConfigState._('DISABLED');
-  static const enabled = ForwardingConfigState._('ENABLED');
-
-  final String value;
-
-  const ForwardingConfigState._(this.value);
-
-  static const values = [disabled, enabled];
-
-  static ForwardingConfigState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ForwardingConfigState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ForwardingConfigState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains a summary of a gateway capability configuration.
-class GatewayCapabilitySummary {
-  /// The namespace of the capability configuration. For example, if you configure
-  /// OPC-UA sources from the IoT SiteWise console, your OPC-UA capability
-  /// configuration has the namespace
-  /// <code>iotsitewise:opcuacollector:version</code>, where <code>version</code>
-  /// is a number such as <code>1</code>.
-  final String capabilityNamespace;
-
-  /// The synchronization status of the capability configuration. The sync status
-  /// can be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IN_SYNC</code> – The gateway is running the capability configuration.
-  /// </li>
-  /// <li>
-  /// <code>OUT_OF_SYNC</code> – The gateway hasn't received the capability
-  /// configuration.
-  /// </li>
-  /// <li>
-  /// <code>SYNC_FAILED</code> – The gateway rejected the capability
-  /// configuration.
-  /// </li>
-  /// </ul>
-  final CapabilitySyncStatus capabilitySyncStatus;
-
-  GatewayCapabilitySummary({
-    required this.capabilityNamespace,
-    required this.capabilitySyncStatus,
-  });
-
-  factory GatewayCapabilitySummary.fromJson(Map<String, dynamic> json) {
-    return GatewayCapabilitySummary(
-      capabilityNamespace: (json['capabilityNamespace'] as String?) ?? '',
-      capabilitySyncStatus: CapabilitySyncStatus.fromString(
-          (json['capabilitySyncStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capabilityNamespace = this.capabilityNamespace;
-    final capabilitySyncStatus = this.capabilitySyncStatus;
-    return {
-      'capabilityNamespace': capabilityNamespace,
-      'capabilitySyncStatus': capabilitySyncStatus.value,
-    };
-  }
-}
-
-/// Contains a gateway's platform information.
-class GatewayPlatform {
-  /// A gateway that runs on IoT Greengrass.
-  final Greengrass? greengrass;
-
-  /// A gateway that runs on IoT Greengrass V2.
-  final GreengrassV2? greengrassV2;
-
-  /// A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device.
-  final SiemensIE? siemensIE;
-
-  GatewayPlatform({
-    this.greengrass,
-    this.greengrassV2,
-    this.siemensIE,
-  });
-
-  factory GatewayPlatform.fromJson(Map<String, dynamic> json) {
-    return GatewayPlatform(
-      greengrass: json['greengrass'] != null
-          ? Greengrass.fromJson(json['greengrass'] as Map<String, dynamic>)
-          : null,
-      greengrassV2: json['greengrassV2'] != null
-          ? GreengrassV2.fromJson(json['greengrassV2'] as Map<String, dynamic>)
-          : null,
-      siemensIE: json['siemensIE'] != null
-          ? SiemensIE.fromJson(json['siemensIE'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final greengrass = this.greengrass;
-    final greengrassV2 = this.greengrassV2;
-    final siemensIE = this.siemensIE;
-    return {
-      if (greengrass != null) 'greengrass': greengrass,
-      if (greengrassV2 != null) 'greengrassV2': greengrassV2,
-      if (siemensIE != null) 'siemensIE': siemensIE,
-    };
-  }
-}
-
-/// Contains a summary of a gateway.
-class GatewaySummary {
-  /// The date the gateway was created, in Unix epoch time.
-  final DateTime creationDate;
-
-  /// The ID of the gateway device.
-  final String gatewayId;
-
-  /// The name of the gateway.
-  final String gatewayName;
-
-  /// The date the gateway was last updated, in Unix epoch time.
-  final DateTime lastUpdateDate;
-
-  /// A list of gateway capability summaries that each contain a namespace and
-  /// status. Each gateway capability defines data sources for the gateway. To
-  /// retrieve a capability configuration's definition, use <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGatewayCapabilityConfiguration.html">DescribeGatewayCapabilityConfiguration</a>.
-  final List<GatewayCapabilitySummary>? gatewayCapabilitySummaries;
-  final GatewayPlatform? gatewayPlatform;
-
-  GatewaySummary({
-    required this.creationDate,
-    required this.gatewayId,
-    required this.gatewayName,
-    required this.lastUpdateDate,
-    this.gatewayCapabilitySummaries,
-    this.gatewayPlatform,
-  });
-
-  factory GatewaySummary.fromJson(Map<String, dynamic> json) {
-    return GatewaySummary(
-      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
-      gatewayId: (json['gatewayId'] as String?) ?? '',
-      gatewayName: (json['gatewayName'] as String?) ?? '',
-      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
-      gatewayCapabilitySummaries: (json['gatewayCapabilitySummaries'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      gatewayPlatform: json['gatewayPlatform'] != null
-          ? GatewayPlatform.fromJson(
-              json['gatewayPlatform'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDate = this.creationDate;
-    final gatewayId = this.gatewayId;
-    final gatewayName = this.gatewayName;
-    final lastUpdateDate = this.lastUpdateDate;
-    final gatewayCapabilitySummaries = this.gatewayCapabilitySummaries;
-    final gatewayPlatform = this.gatewayPlatform;
-    return {
-      'creationDate': unixTimestampToJson(creationDate),
-      'gatewayId': gatewayId,
-      'gatewayName': gatewayName,
-      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
-      if (gatewayCapabilitySummaries != null)
-        'gatewayCapabilitySummaries': gatewayCapabilitySummaries,
-      if (gatewayPlatform != null) 'gatewayPlatform': gatewayPlatform,
+      if (message != null) 'message': message,
     };
   }
 }
@@ -11563,6 +9261,31 @@ class GetAssetPropertyAggregatesResponse {
   }
 }
 
+class GetAssetPropertyValueResponse {
+  /// The current asset property value.
+  final AssetPropertyValue? propertyValue;
+
+  GetAssetPropertyValueResponse({
+    this.propertyValue,
+  });
+
+  factory GetAssetPropertyValueResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssetPropertyValueResponse(
+      propertyValue: json['propertyValue'] != null
+          ? AssetPropertyValue.fromJson(
+              json['propertyValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyValue = this.propertyValue;
+    return {
+      if (propertyValue != null) 'propertyValue': propertyValue,
+    };
+  }
+}
+
 class GetAssetPropertyValueHistoryResponse {
   /// The asset property's value history.
   final List<AssetPropertyValue> assetPropertyValueHistory;
@@ -11595,31 +9318,6 @@ class GetAssetPropertyValueHistoryResponse {
     return {
       'assetPropertyValueHistory': assetPropertyValueHistory,
       if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class GetAssetPropertyValueResponse {
-  /// The current asset property value.
-  final AssetPropertyValue? propertyValue;
-
-  GetAssetPropertyValueResponse({
-    this.propertyValue,
-  });
-
-  factory GetAssetPropertyValueResponse.fromJson(Map<String, dynamic> json) {
-    return GetAssetPropertyValueResponse(
-      propertyValue: json['propertyValue'] != null
-          ? AssetPropertyValue.fromJson(
-              json['propertyValue'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final propertyValue = this.propertyValue;
-    return {
-      if (propertyValue != null) 'propertyValue': propertyValue,
     };
   }
 }
@@ -11661,496 +9359,23 @@ class GetInterpolatedAssetPropertyValuesResponse {
   }
 }
 
-/// Contains details for a gateway that runs on IoT Greengrass. To create a
-/// gateway that runs on IoT Greengrass, you must add the IoT SiteWise connector
-/// to a Greengrass group and deploy it. Your Greengrass group must also have
-/// permissions to upload data to IoT SiteWise. For more information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html">Ingesting
-/// data using a gateway</a> in the <i>IoT SiteWise User Guide</i>.
-class Greengrass {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the Greengrass group. For more information about how to find a group's
-  /// ARN, see <a
-  /// href="https://docs.aws.amazon.com/greengrass/v1/apireference/listgroups-get.html">ListGroups</a>
-  /// and <a
-  /// href="https://docs.aws.amazon.com/greengrass/v1/apireference/getgroup-get.html">GetGroup</a>
-  /// in the <i>IoT Greengrass V1 API Reference</i>.
-  final String groupArn;
+class InvokeAssistantResponse {
+  final ResponseStream body;
 
-  Greengrass({
-    required this.groupArn,
-  });
+  /// The ID of the conversation, in UUID format. This ID uniquely identifies the
+  /// conversation within IoT SiteWise.
+  final String conversationId;
 
-  factory Greengrass.fromJson(Map<String, dynamic> json) {
-    return Greengrass(
-      groupArn: (json['groupArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final groupArn = this.groupArn;
-    return {
-      'groupArn': groupArn,
-    };
-  }
-}
-
-/// Contains details for a gateway that runs on IoT Greengrass V2. To create a
-/// gateway that runs on IoT Greengrass V2, you must deploy the IoT SiteWise
-/// Edge component to your gateway device. Your <a
-/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/device-service-role.html">Greengrass
-/// device role</a> must use the <code>AWSIoTSiteWiseEdgeAccess</code> policy.
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/sw-gateways.html">Using
-/// IoT SiteWise at the edge</a> in the <i>IoT SiteWise User Guide</i>.
-class GreengrassV2 {
-  /// The name of the IoT thing for your IoT Greengrass V2 core device.
-  final String coreDeviceThingName;
-
-  GreengrassV2({
-    required this.coreDeviceThingName,
-  });
-
-  factory GreengrassV2.fromJson(Map<String, dynamic> json) {
-    return GreengrassV2(
-      coreDeviceThingName: (json['coreDeviceThingName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final coreDeviceThingName = this.coreDeviceThingName;
-    return {
-      'coreDeviceThingName': coreDeviceThingName,
-    };
-  }
-}
-
-/// Contains information for a group identity in an access policy.
-class GroupIdentity {
-  /// The IAM Identity Center ID of the group.
-  final String id;
-
-  GroupIdentity({
-    required this.id,
-  });
-
-  factory GroupIdentity.fromJson(Map<String, dynamic> json) {
-    return GroupIdentity(
-      id: (json['id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      'id': id,
-    };
-  }
-}
-
-/// Contains information about an Identity and Access Management role. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
-/// roles</a> in the <i>IAM User Guide</i>.
-class IAMRoleIdentity {
-  /// The ARN of the IAM role. For more information, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// ARNs</a> in the <i>IAM User Guide</i>.
-  final String arn;
-
-  IAMRoleIdentity({
-    required this.arn,
-  });
-
-  factory IAMRoleIdentity.fromJson(Map<String, dynamic> json) {
-    return IAMRoleIdentity(
-      arn: (json['arn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'arn': arn,
-    };
-  }
-}
-
-/// Contains information about an Identity and Access Management user.
-class IAMUserIdentity {
-  /// The ARN of the IAM user. For more information, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// ARNs</a> in the <i>IAM User Guide</i>.
-  /// <note>
-  /// If you delete the IAM user, access policies that contain this identity
-  /// include an empty <code>arn</code>. You can delete the access policy for the
-  /// IAM user that no longer exists.
-  /// </note>
-  final String arn;
-
-  IAMUserIdentity({
-    required this.arn,
-  });
-
-  factory IAMUserIdentity.fromJson(Map<String, dynamic> json) {
-    return IAMUserIdentity(
-      arn: (json['arn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      'arn': arn,
-    };
-  }
-}
-
-/// Contains an identity that can access an IoT SiteWise Monitor resource.
-/// <note>
-/// Currently, you can't use Amazon Web Services API operations to retrieve IAM
-/// Identity Center identity IDs. You can find the IAM Identity Center identity
-/// IDs in the URL of user and group pages in the <a
-/// href="https://console.aws.amazon.com/singlesignon">IAM Identity Center
-/// console</a>.
-/// </note>
-class Identity {
-  /// An IAM Identity Center group identity.
-  final GroupIdentity? group;
-
-  /// An IAM role identity.
-  final IAMRoleIdentity? iamRole;
-
-  /// An IAM user identity.
-  final IAMUserIdentity? iamUser;
-
-  /// An IAM Identity Center user identity.
-  final UserIdentity? user;
-
-  Identity({
-    this.group,
-    this.iamRole,
-    this.iamUser,
-    this.user,
-  });
-
-  factory Identity.fromJson(Map<String, dynamic> json) {
-    return Identity(
-      group: json['group'] != null
-          ? GroupIdentity.fromJson(json['group'] as Map<String, dynamic>)
-          : null,
-      iamRole: json['iamRole'] != null
-          ? IAMRoleIdentity.fromJson(json['iamRole'] as Map<String, dynamic>)
-          : null,
-      iamUser: json['iamUser'] != null
-          ? IAMUserIdentity.fromJson(json['iamUser'] as Map<String, dynamic>)
-          : null,
-      user: json['user'] != null
-          ? UserIdentity.fromJson(json['user'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final group = this.group;
-    final iamRole = this.iamRole;
-    final iamUser = this.iamUser;
-    final user = this.user;
-    return {
-      if (group != null) 'group': group,
-      if (iamRole != null) 'iamRole': iamRole,
-      if (iamUser != null) 'iamUser': iamUser,
-      if (user != null) 'user': user,
-    };
-  }
-}
-
-class IdentityType {
-  static const user = IdentityType._('USER');
-  static const group = IdentityType._('GROUP');
-  static const iam = IdentityType._('IAM');
-
-  final String value;
-
-  const IdentityType._(this.value);
-
-  static const values = [user, group, iam];
-
-  static IdentityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
-
-  @override
-  bool operator ==(other) => other is IdentityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains an image that is one of the following:
-///
-/// <ul>
-/// <li>
-/// An image file. Choose this option to upload a new image.
-/// </li>
-/// <li>
-/// The ID of an existing image. Choose this option to keep an existing image.
-/// </li>
-/// </ul>
-class Image {
-  final ImageFile? file;
-
-  /// The ID of an existing image. Specify this parameter to keep an existing
-  /// image.
-  final String? id;
-
-  Image({
-    this.file,
-    this.id,
+  InvokeAssistantResponse({
+    required this.body,
+    required this.conversationId,
   });
 
   Map<String, dynamic> toJson() {
-    final file = this.file;
-    final id = this.id;
+    final body = this.body;
+    final conversationId = this.conversationId;
     return {
-      if (file != null) 'file': file,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-/// Contains an image file.
-class ImageFile {
-  /// The image file contents, represented as a base64-encoded string. The file
-  /// size must be less than 1 MB.
-  final Uint8List data;
-
-  /// The file type of the image.
-  final ImageFileType type;
-
-  ImageFile({
-    required this.data,
-    required this.type,
-  });
-
-  Map<String, dynamic> toJson() {
-    final data = this.data;
-    final type = this.type;
-    return {
-      'data': base64Encode(data),
-      'type': type.value,
-    };
-  }
-}
-
-class ImageFileType {
-  static const png = ImageFileType._('PNG');
-
-  final String value;
-
-  const ImageFileType._(this.value);
-
-  static const values = [png];
-
-  static ImageFileType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ImageFileType._(value));
-
-  @override
-  bool operator ==(other) => other is ImageFileType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains an image that is uploaded to IoT SiteWise and available at a URL.
-class ImageLocation {
-  /// The ID of the image.
-  final String id;
-
-  /// The URL where the image is available. The URL is valid for 15 minutes so
-  /// that you can view and download the image
-  final String url;
-
-  ImageLocation({
-    required this.id,
-    required this.url,
-  });
-
-  factory ImageLocation.fromJson(Map<String, dynamic> json) {
-    return ImageLocation(
-      id: (json['id'] as String?) ?? '',
-      url: (json['url'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final url = this.url;
-    return {
-      'id': id,
-      'url': url,
-    };
-  }
-}
-
-/// Contains information about an interpolated asset property value.
-class InterpolatedAssetPropertyValue {
-  final TimeInNanos timestamp;
-  final Variant value;
-
-  InterpolatedAssetPropertyValue({
-    required this.timestamp,
-    required this.value,
-  });
-
-  factory InterpolatedAssetPropertyValue.fromJson(Map<String, dynamic> json) {
-    return InterpolatedAssetPropertyValue(
-      timestamp: TimeInNanos.fromJson(
-          (json['timestamp'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      value: Variant.fromJson((json['value'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timestamp = this.timestamp;
-    final value = this.value;
-    return {
-      'timestamp': timestamp,
-      'value': value,
-    };
-  }
-}
-
-/// Contains the configuration information of a job, such as the file format
-/// used to save data in Amazon S3.
-class JobConfiguration {
-  /// The file format of the data in S3.
-  final FileFormat fileFormat;
-
-  JobConfiguration({
-    required this.fileFormat,
-  });
-
-  factory JobConfiguration.fromJson(Map<String, dynamic> json) {
-    return JobConfiguration(
-      fileFormat: FileFormat.fromJson(
-          (json['fileFormat'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fileFormat = this.fileFormat;
-    return {
-      'fileFormat': fileFormat,
-    };
-  }
-}
-
-class JobStatus {
-  static const pending = JobStatus._('PENDING');
-  static const cancelled = JobStatus._('CANCELLED');
-  static const running = JobStatus._('RUNNING');
-  static const completed = JobStatus._('COMPLETED');
-  static const failed = JobStatus._('FAILED');
-  static const completedWithFailures = JobStatus._('COMPLETED_WITH_FAILURES');
-
-  final String value;
-
-  const JobStatus._(this.value);
-
-  static const values = [
-    pending,
-    cancelled,
-    running,
-    completed,
-    failed,
-    completedWithFailures
-  ];
-
-  static JobStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
-
-  @override
-  bool operator ==(other) => other is JobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains the job summary information.
-class JobSummary {
-  /// The ID of the job.
-  final String id;
-
-  /// The unique name that helps identify the job request.
-  final String name;
-
-  /// The status of the bulk import job can be one of following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PENDING</code> – IoT SiteWise is waiting for the current bulk import
-  /// job to finish.
-  /// </li>
-  /// <li>
-  /// <code>CANCELLED</code> – The bulk import job has been canceled.
-  /// </li>
-  /// <li>
-  /// <code>RUNNING</code> – IoT SiteWise is processing your request to import
-  /// your data from Amazon S3.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED</code> – IoT SiteWise successfully completed your request to
-  /// import data from Amazon S3.
-  /// </li>
-  /// <li>
-  /// <code>FAILED</code> – IoT SiteWise couldn't process your request to import
-  /// data from Amazon S3. You can use logs saved in the specified error report
-  /// location in Amazon S3 to troubleshoot issues.
-  /// </li>
-  /// <li>
-  /// <code>COMPLETED_WITH_FAILURES</code> – IoT SiteWise completed your request
-  /// to import data from Amazon S3 with errors. You can use logs saved in the
-  /// specified error report location in Amazon S3 to troubleshoot issues.
-  /// </li>
-  /// </ul>
-  final JobStatus status;
-
-  JobSummary({
-    required this.id,
-    required this.name,
-    required this.status,
-  });
-
-  factory JobSummary.fromJson(Map<String, dynamic> json) {
-    return JobSummary(
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      status: JobStatus.fromString((json['status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final status = this.status;
-    return {
-      'id': id,
-      'name': name,
-      'status': status.value,
+      'body': body,
     };
   }
 }
@@ -12259,31 +9484,6 @@ class ListAssetModelCompositeModelsResponse {
   }
 }
 
-class ListAssetModelPropertiesFilter {
-  static const all = ListAssetModelPropertiesFilter._('ALL');
-  static const base = ListAssetModelPropertiesFilter._('BASE');
-
-  final String value;
-
-  const ListAssetModelPropertiesFilter._(this.value);
-
-  static const values = [all, base];
-
-  static ListAssetModelPropertiesFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListAssetModelPropertiesFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListAssetModelPropertiesFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListAssetModelPropertiesResponse {
   /// A list that summarizes the properties associated with the specified asset
   /// model.
@@ -12351,31 +9551,6 @@ class ListAssetModelsResponse {
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
-}
-
-class ListAssetPropertiesFilter {
-  static const all = ListAssetPropertiesFilter._('ALL');
-  static const base = ListAssetPropertiesFilter._('BASE');
-
-  final String value;
-
-  const ListAssetPropertiesFilter._(this.value);
-
-  static const values = [all, base];
-
-  static ListAssetPropertiesFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListAssetPropertiesFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListAssetPropertiesFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListAssetPropertiesResponse {
@@ -12447,30 +9622,6 @@ class ListAssetRelationshipsResponse {
   }
 }
 
-class ListAssetsFilter {
-  static const all = ListAssetsFilter._('ALL');
-  static const topLevel = ListAssetsFilter._('TOP_LEVEL');
-
-  final String value;
-
-  const ListAssetsFilter._(this.value);
-
-  static const values = [all, topLevel];
-
-  static ListAssetsFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListAssetsFilter._(value));
-
-  @override
-  bool operator ==(other) => other is ListAssetsFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListAssetsResponse {
   /// A list that summarizes each asset.
   final List<AssetSummary> assetSummaries;
@@ -12536,45 +9687,6 @@ class ListAssociatedAssetsResponse {
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
-}
-
-class ListBulkImportJobsFilter {
-  static const all = ListBulkImportJobsFilter._('ALL');
-  static const pending = ListBulkImportJobsFilter._('PENDING');
-  static const running = ListBulkImportJobsFilter._('RUNNING');
-  static const cancelled = ListBulkImportJobsFilter._('CANCELLED');
-  static const failed = ListBulkImportJobsFilter._('FAILED');
-  static const completedWithFailures =
-      ListBulkImportJobsFilter._('COMPLETED_WITH_FAILURES');
-  static const completed = ListBulkImportJobsFilter._('COMPLETED');
-
-  final String value;
-
-  const ListBulkImportJobsFilter._(this.value);
-
-  static const values = [
-    all,
-    pending,
-    running,
-    cancelled,
-    failed,
-    completedWithFailures,
-    completed
-  ];
-
-  static ListBulkImportJobsFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListBulkImportJobsFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListBulkImportJobsFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListBulkImportJobsResponse {
@@ -12647,6 +9759,120 @@ class ListCompositionRelationshipsResponse {
   }
 }
 
+class ListComputationModelDataBindingUsagesResponse {
+  /// A list of summaries describing the data binding usages across computation
+  /// models. Each summary includes the computation model IDs and the matched data
+  /// binding details.
+  final List<ComputationModelDataBindingUsageSummary> dataBindingUsageSummaries;
+
+  /// The token for the next set of paginated results, or null if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListComputationModelDataBindingUsagesResponse({
+    required this.dataBindingUsageSummaries,
+    this.nextToken,
+  });
+
+  factory ListComputationModelDataBindingUsagesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListComputationModelDataBindingUsagesResponse(
+      dataBindingUsageSummaries:
+          ((json['dataBindingUsageSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => ComputationModelDataBindingUsageSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataBindingUsageSummaries = this.dataBindingUsageSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'dataBindingUsageSummaries': dataBindingUsageSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListComputationModelResolveToResourcesResponse {
+  /// A list of summaries describing the distinct resources that this computation
+  /// model resolves to when actions were executed.
+  final List<ComputationModelResolveToResourceSummary>
+      computationModelResolveToResourceSummaries;
+
+  /// The token for the next set of paginated results, or null if there are no
+  /// additional results.
+  final String? nextToken;
+
+  ListComputationModelResolveToResourcesResponse({
+    required this.computationModelResolveToResourceSummaries,
+    this.nextToken,
+  });
+
+  factory ListComputationModelResolveToResourcesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListComputationModelResolveToResourcesResponse(
+      computationModelResolveToResourceSummaries:
+          ((json['computationModelResolveToResourceSummaries'] as List?) ??
+                  const [])
+              .nonNulls
+              .map((e) => ComputationModelResolveToResourceSummary.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computationModelResolveToResourceSummaries =
+        this.computationModelResolveToResourceSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'computationModelResolveToResourceSummaries':
+          computationModelResolveToResourceSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListComputationModelsResponse {
+  /// A list summarizing each computation model.
+  final List<ComputationModelSummary> computationModelSummaries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListComputationModelsResponse({
+    required this.computationModelSummaries,
+    this.nextToken,
+  });
+
+  factory ListComputationModelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListComputationModelsResponse(
+      computationModelSummaries:
+          ((json['computationModelSummaries'] as List?) ?? const [])
+              .nonNulls
+              .map((e) =>
+                  ComputationModelSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computationModelSummaries = this.computationModelSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'computationModelSummaries': computationModelSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListDashboardsResponse {
   /// A list that summarizes each dashboard in the project.
   final List<DashboardSummary> dashboardSummaries;
@@ -12680,6 +9906,72 @@ class ListDashboardsResponse {
   }
 }
 
+class ListDatasetsResponse {
+  /// A list that summarizes the dataset response.
+  final List<DatasetSummary> datasetSummaries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListDatasetsResponse({
+    required this.datasetSummaries,
+    this.nextToken,
+  });
+
+  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetsResponse(
+      datasetSummaries: ((json['datasetSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetSummaries = this.datasetSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'datasetSummaries': datasetSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListExecutionsResponse {
+  /// Contains the list of execution summaries of the computation models.
+  final List<ExecutionSummary> executionSummaries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListExecutionsResponse({
+    required this.executionSummaries,
+    this.nextToken,
+  });
+
+  factory ListExecutionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListExecutionsResponse(
+      executionSummaries: ((json['executionSummaries'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ExecutionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionSummaries = this.executionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'executionSummaries': executionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class ListGatewaysResponse {
   /// A list that summarizes each gateway.
   final List<GatewaySummary> gatewaySummaries;
@@ -12708,6 +10000,43 @@ class ListGatewaysResponse {
     final nextToken = this.nextToken;
     return {
       'gatewaySummaries': gatewaySummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListInterfaceRelationshipsResponse {
+  /// A list that summarizes each interface relationship.
+  final List<InterfaceRelationshipSummary> interfaceRelationshipSummaries;
+
+  /// The token for the next set of results, or null if there are no additional
+  /// results.
+  final String? nextToken;
+
+  ListInterfaceRelationshipsResponse({
+    required this.interfaceRelationshipSummaries,
+    this.nextToken,
+  });
+
+  factory ListInterfaceRelationshipsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListInterfaceRelationshipsResponse(
+      interfaceRelationshipSummaries: ((json['interfaceRelationshipSummaries']
+                  as List?) ??
+              const [])
+          .nonNulls
+          .map((e) =>
+              InterfaceRelationshipSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interfaceRelationshipSummaries = this.interfaceRelationshipSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'interfaceRelationshipSummaries': interfaceRelationshipSummaries,
       if (nextToken != null) 'nextToken': nextToken,
     };
   }
@@ -12871,913 +10200,47 @@ class ListTimeSeriesResponse {
   }
 }
 
-class ListTimeSeriesType {
-  static const associated = ListTimeSeriesType._('ASSOCIATED');
-  static const disassociated = ListTimeSeriesType._('DISASSOCIATED');
+class PutAssetModelInterfaceRelationshipResponse {
+  /// The ARN of the asset model, which has the following format.
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}</code>
+  final String assetModelArn;
 
-  final String value;
+  /// The ID of the asset model.
+  final String assetModelId;
+  final AssetModelStatus assetModelStatus;
 
-  const ListTimeSeriesType._(this.value);
+  /// The ID of the interface asset model.
+  final String interfaceAssetModelId;
 
-  static const values = [associated, disassociated];
-
-  static ListTimeSeriesType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListTimeSeriesType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ListTimeSeriesType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LoggingLevel {
-  static const error = LoggingLevel._('ERROR');
-  static const info = LoggingLevel._('INFO');
-  static const off = LoggingLevel._('OFF');
-
-  final String value;
-
-  const LoggingLevel._(this.value);
-
-  static const values = [error, info, off];
-
-  static LoggingLevel fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LoggingLevel._(value));
-
-  @override
-  bool operator ==(other) => other is LoggingLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains logging options.
-class LoggingOptions {
-  /// The IoT SiteWise logging verbosity level.
-  final LoggingLevel level;
-
-  LoggingOptions({
-    required this.level,
+  PutAssetModelInterfaceRelationshipResponse({
+    required this.assetModelArn,
+    required this.assetModelId,
+    required this.assetModelStatus,
+    required this.interfaceAssetModelId,
   });
 
-  factory LoggingOptions.fromJson(Map<String, dynamic> json) {
-    return LoggingOptions(
-      level: LoggingLevel.fromString((json['level'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final level = this.level;
-    return {
-      'level': level.value,
-    };
-  }
-}
-
-/// Contains an asset measurement property. For more information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#measurements">Measurements</a>
-/// in the <i>IoT SiteWise User Guide</i>.
-class Measurement {
-  /// The processing configuration for the given measurement property. You can
-  /// configure measurements to be kept at the edge or forwarded to the Amazon Web
-  /// Services Cloud. By default, measurements are forwarded to the cloud.
-  final MeasurementProcessingConfig? processingConfig;
-
-  Measurement({
-    this.processingConfig,
-  });
-
-  factory Measurement.fromJson(Map<String, dynamic> json) {
-    return Measurement(
-      processingConfig: json['processingConfig'] != null
-          ? MeasurementProcessingConfig.fromJson(
-              json['processingConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final processingConfig = this.processingConfig;
-    return {
-      if (processingConfig != null) 'processingConfig': processingConfig,
-    };
-  }
-}
-
-/// The processing configuration for the given measurement property. You can
-/// configure measurements to be kept at the edge or forwarded to the Amazon Web
-/// Services Cloud. By default, measurements are forwarded to the cloud.
-class MeasurementProcessingConfig {
-  /// The forwarding configuration for the given measurement property.
-  final ForwardingConfig forwardingConfig;
-
-  MeasurementProcessingConfig({
-    required this.forwardingConfig,
-  });
-
-  factory MeasurementProcessingConfig.fromJson(Map<String, dynamic> json) {
-    return MeasurementProcessingConfig(
-      forwardingConfig: ForwardingConfig.fromJson(
-          (json['forwardingConfig'] as Map<String, dynamic>?) ??
+  factory PutAssetModelInterfaceRelationshipResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutAssetModelInterfaceRelationshipResponse(
+      assetModelArn: (json['assetModelArn'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      assetModelStatus: AssetModelStatus.fromJson(
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
               const <String, dynamic>{}),
+      interfaceAssetModelId: (json['interfaceAssetModelId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final forwardingConfig = this.forwardingConfig;
+    final assetModelArn = this.assetModelArn;
+    final assetModelId = this.assetModelId;
+    final assetModelStatus = this.assetModelStatus;
+    final interfaceAssetModelId = this.interfaceAssetModelId;
     return {
-      'forwardingConfig': forwardingConfig,
-    };
-  }
-}
-
-/// Contains an asset metric property. With metrics, you can calculate aggregate
-/// functions, such as an average, maximum, or minimum, as specified through an
-/// expression. A metric maps several values to a single value (such as a sum).
-///
-/// The maximum number of dependent/cascading variables used in any one metric
-/// calculation is 10. Therefore, a <i>root</i> metric can have up to 10
-/// cascading metrics in its computational dependency tree. Additionally, a
-/// metric can only have a data type of <code>DOUBLE</code> and consume
-/// properties with data types of <code>INTEGER</code> or <code>DOUBLE</code>.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#metrics">Metrics</a>
-/// in the <i>IoT SiteWise User Guide</i>.
-class Metric {
-  /// The mathematical expression that defines the metric aggregation function.
-  /// You can specify up to 10 variables per expression. You can specify up to 10
-  /// functions per expression.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html">Quotas</a>
-  /// in the <i>IoT SiteWise User Guide</i>.
-  final String expression;
-
-  /// The list of variables used in the expression.
-  final List<ExpressionVariable> variables;
-
-  /// The window (time interval) over which IoT SiteWise computes the metric's
-  /// aggregation expression. IoT SiteWise computes one data point per
-  /// <code>window</code>.
-  final MetricWindow window;
-
-  /// The processing configuration for the given metric property. You can
-  /// configure metrics to be computed at the edge or in the Amazon Web Services
-  /// Cloud. By default, metrics are forwarded to the cloud.
-  final MetricProcessingConfig? processingConfig;
-
-  Metric({
-    required this.expression,
-    required this.variables,
-    required this.window,
-    this.processingConfig,
-  });
-
-  factory Metric.fromJson(Map<String, dynamic> json) {
-    return Metric(
-      expression: (json['expression'] as String?) ?? '',
-      variables: ((json['variables'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ExpressionVariable.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      window: MetricWindow.fromJson((json['window'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      processingConfig: json['processingConfig'] != null
-          ? MetricProcessingConfig.fromJson(
-              json['processingConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final expression = this.expression;
-    final variables = this.variables;
-    final window = this.window;
-    final processingConfig = this.processingConfig;
-    return {
-      'expression': expression,
-      'variables': variables,
-      'window': window,
-      if (processingConfig != null) 'processingConfig': processingConfig,
-    };
-  }
-}
-
-/// The processing configuration for the given metric property. You can
-/// configure metrics to be computed at the edge or in the Amazon Web Services
-/// Cloud. By default, metrics are forwarded to the cloud.
-class MetricProcessingConfig {
-  /// The compute location for the given metric property.
-  final ComputeLocation computeLocation;
-
-  MetricProcessingConfig({
-    required this.computeLocation,
-  });
-
-  factory MetricProcessingConfig.fromJson(Map<String, dynamic> json) {
-    return MetricProcessingConfig(
-      computeLocation: ComputeLocation.fromString(
-          (json['computeLocation'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final computeLocation = this.computeLocation;
-    return {
-      'computeLocation': computeLocation.value,
-    };
-  }
-}
-
-/// Contains a time interval window used for data aggregate computations (for
-/// example, average, sum, count, and so on).
-class MetricWindow {
-  /// The tumbling time interval window.
-  final TumblingWindow? tumbling;
-
-  MetricWindow({
-    this.tumbling,
-  });
-
-  factory MetricWindow.fromJson(Map<String, dynamic> json) {
-    return MetricWindow(
-      tumbling: json['tumbling'] != null
-          ? TumblingWindow.fromJson(json['tumbling'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tumbling = this.tumbling;
-    return {
-      if (tumbling != null) 'tumbling': tumbling,
-    };
-  }
-}
-
-class MonitorErrorCode {
-  static const internalFailure = MonitorErrorCode._('INTERNAL_FAILURE');
-  static const validationError = MonitorErrorCode._('VALIDATION_ERROR');
-  static const limitExceeded = MonitorErrorCode._('LIMIT_EXCEEDED');
-
-  final String value;
-
-  const MonitorErrorCode._(this.value);
-
-  static const values = [internalFailure, validationError, limitExceeded];
-
-  static MonitorErrorCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MonitorErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is MonitorErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains IoT SiteWise Monitor error details.
-class MonitorErrorDetails {
-  /// The error code.
-  final MonitorErrorCode? code;
-
-  /// The error message.
-  final String? message;
-
-  MonitorErrorDetails({
-    this.code,
-    this.message,
-  });
-
-  factory MonitorErrorDetails.fromJson(Map<String, dynamic> json) {
-    return MonitorErrorDetails(
-      code: (json['code'] as String?)?.let(MonitorErrorCode.fromString),
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'code': code.value,
-      if (message != null) 'message': message,
-    };
-  }
-}
-
-/// Contains information about the storage destination.
-class MultiLayerStorage {
-  /// Contains information about a customer managed Amazon S3 bucket.
-  final CustomerManagedS3Storage customerManagedS3Storage;
-
-  MultiLayerStorage({
-    required this.customerManagedS3Storage,
-  });
-
-  factory MultiLayerStorage.fromJson(Map<String, dynamic> json) {
-    return MultiLayerStorage(
-      customerManagedS3Storage: CustomerManagedS3Storage.fromJson(
-          (json['customerManagedS3Storage'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customerManagedS3Storage = this.customerManagedS3Storage;
-    return {
-      'customerManagedS3Storage': customerManagedS3Storage,
-    };
-  }
-}
-
-/// A parquet file.
-class Parquet {
-  Parquet();
-
-  factory Parquet.fromJson(Map<String, dynamic> _) {
-    return Parquet();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class Permission {
-  static const administrator = Permission._('ADMINISTRATOR');
-  static const viewer = Permission._('VIEWER');
-
-  final String value;
-
-  const Permission._(this.value);
-
-  static const values = [administrator, viewer];
-
-  static Permission fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
-
-  @override
-  bool operator ==(other) => other is Permission && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Identifies an IoT SiteWise Monitor portal.
-class PortalResource {
-  /// The ID of the portal.
-  final String id;
-
-  PortalResource({
-    required this.id,
-  });
-
-  factory PortalResource.fromJson(Map<String, dynamic> json) {
-    return PortalResource(
-      id: (json['id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      'id': id,
-    };
-  }
-}
-
-class PortalState {
-  static const creating = PortalState._('CREATING');
-  static const updating = PortalState._('UPDATING');
-  static const deleting = PortalState._('DELETING');
-  static const active = PortalState._('ACTIVE');
-  static const failed = PortalState._('FAILED');
-
-  final String value;
-
-  const PortalState._(this.value);
-
-  static const values = [creating, updating, deleting, active, failed];
-
-  static PortalState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PortalState._(value));
-
-  @override
-  bool operator ==(other) => other is PortalState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains information about the current status of a portal.
-class PortalStatus {
-  /// The current state of the portal.
-  final PortalState state;
-
-  /// Contains associated error information, if any.
-  final MonitorErrorDetails? error;
-
-  PortalStatus({
-    required this.state,
-    this.error,
-  });
-
-  factory PortalStatus.fromJson(Map<String, dynamic> json) {
-    return PortalStatus(
-      state: PortalState.fromString((json['state'] as String?) ?? ''),
-      error: json['error'] != null
-          ? MonitorErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    final error = this.error;
-    return {
-      'state': state.value,
-      if (error != null) 'error': error,
-    };
-  }
-}
-
-/// Contains a portal summary.
-class PortalSummary {
-  /// The ID of the portal.
-  final String id;
-
-  /// The name of the portal.
-  final String name;
-
-  /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access
-  /// portals that use IAM Identity Center for authentication. For portals that
-  /// use IAM for authentication, you must use the IoT SiteWise console to get a
-  /// URL that you can use to access the portal.
-  final String startUrl;
-  final PortalStatus status;
-
-  /// The date the portal was created, in Unix epoch time.
-  final DateTime? creationDate;
-
-  /// The portal's description.
-  final String? description;
-
-  /// The date the portal was last updated, in Unix epoch time.
-  final DateTime? lastUpdateDate;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the service role that allows the portal's users to access your IoT
-  /// SiteWise resources on your behalf. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html">Using
-  /// service roles for IoT SiteWise Monitor</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? roleArn;
-
-  PortalSummary({
-    required this.id,
-    required this.name,
-    required this.startUrl,
-    required this.status,
-    this.creationDate,
-    this.description,
-    this.lastUpdateDate,
-    this.roleArn,
-  });
-
-  factory PortalSummary.fromJson(Map<String, dynamic> json) {
-    return PortalSummary(
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      startUrl: (json['startUrl'] as String?) ?? '',
-      status: PortalStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      creationDate: timeStampFromJson(json['creationDate']),
-      description: json['description'] as String?,
-      lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
-      roleArn: json['roleArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final startUrl = this.startUrl;
-    final status = this.status;
-    final creationDate = this.creationDate;
-    final description = this.description;
-    final lastUpdateDate = this.lastUpdateDate;
-    final roleArn = this.roleArn;
-    return {
-      'id': id,
-      'name': name,
-      'startUrl': startUrl,
-      'status': status,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (description != null) 'description': description,
-      if (lastUpdateDate != null)
-        'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
-      if (roleArn != null) 'roleArn': roleArn,
-    };
-  }
-}
-
-/// Identifies a specific IoT SiteWise Monitor project.
-class ProjectResource {
-  /// The ID of the project.
-  final String id;
-
-  ProjectResource({
-    required this.id,
-  });
-
-  factory ProjectResource.fromJson(Map<String, dynamic> json) {
-    return ProjectResource(
-      id: (json['id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      'id': id,
-    };
-  }
-}
-
-/// Contains project summary information.
-class ProjectSummary {
-  /// The ID of the project.
-  final String id;
-
-  /// The name of the project.
-  final String name;
-
-  /// The date the project was created, in Unix epoch time.
-  final DateTime? creationDate;
-
-  /// The project's description.
-  final String? description;
-
-  /// The date the project was last updated, in Unix epoch time.
-  final DateTime? lastUpdateDate;
-
-  ProjectSummary({
-    required this.id,
-    required this.name,
-    this.creationDate,
-    this.description,
-    this.lastUpdateDate,
-  });
-
-  factory ProjectSummary.fromJson(Map<String, dynamic> json) {
-    return ProjectSummary(
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      creationDate: timeStampFromJson(json['creationDate']),
-      description: json['description'] as String?,
-      lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final name = this.name;
-    final creationDate = this.creationDate;
-    final description = this.description;
-    final lastUpdateDate = this.lastUpdateDate;
-    return {
-      'id': id,
-      'name': name,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (description != null) 'description': description,
-      if (lastUpdateDate != null)
-        'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
-    };
-  }
-}
-
-/// Contains asset property information.
-class Property {
-  /// The property data type.
-  final PropertyDataType dataType;
-
-  /// The ID of the asset property.
-  final String id;
-
-  /// The name of the property.
-  final String name;
-
-  /// The alias that identifies the property, such as an OPC-UA server data stream
-  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
-  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? alias;
-
-  /// The external ID of the asset property. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
-  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
-  final String? externalId;
-
-  /// The asset property's notification topic and state. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
-  final PropertyNotification? notification;
-
-  /// The structured path to the property from the root of the asset.
-  final List<AssetPropertyPathSegment>? path;
-
-  /// The property type (see <code>PropertyType</code>). A property contains one
-  /// type.
-  final PropertyType? type;
-
-  /// The unit (such as <code>Newtons</code> or <code>RPM</code>) of the asset
-  /// property.
-  final String? unit;
-
-  Property({
-    required this.dataType,
-    required this.id,
-    required this.name,
-    this.alias,
-    this.externalId,
-    this.notification,
-    this.path,
-    this.type,
-    this.unit,
-  });
-
-  factory Property.fromJson(Map<String, dynamic> json) {
-    return Property(
-      dataType:
-          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
-      id: (json['id'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-      alias: json['alias'] as String?,
-      externalId: json['externalId'] as String?,
-      notification: json['notification'] != null
-          ? PropertyNotification.fromJson(
-              json['notification'] as Map<String, dynamic>)
-          : null,
-      path: (json['path'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      type: json['type'] != null
-          ? PropertyType.fromJson(json['type'] as Map<String, dynamic>)
-          : null,
-      unit: json['unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final id = this.id;
-    final name = this.name;
-    final alias = this.alias;
-    final externalId = this.externalId;
-    final notification = this.notification;
-    final path = this.path;
-    final type = this.type;
-    final unit = this.unit;
-    return {
-      'dataType': dataType.value,
-      'id': id,
-      'name': name,
-      if (alias != null) 'alias': alias,
-      if (externalId != null) 'externalId': externalId,
-      if (notification != null) 'notification': notification,
-      if (path != null) 'path': path,
-      if (type != null) 'type': type,
-      if (unit != null) 'unit': unit,
-    };
-  }
-}
-
-class PropertyDataType {
-  static const string = PropertyDataType._('STRING');
-  static const integer = PropertyDataType._('INTEGER');
-  static const $double = PropertyDataType._('DOUBLE');
-  static const boolean = PropertyDataType._('BOOLEAN');
-  static const struct = PropertyDataType._('STRUCT');
-
-  final String value;
-
-  const PropertyDataType._(this.value);
-
-  static const values = [string, integer, $double, boolean, struct];
-
-  static PropertyDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PropertyDataType._(value));
-
-  @override
-  bool operator ==(other) => other is PropertyDataType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains asset property value notification information. When the
-/// notification state is enabled, IoT SiteWise publishes property value updates
-/// to a unique MQTT topic. For more information, see <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/interact-with-other-services.html">Interacting
-/// with other services</a> in the <i>IoT SiteWise User Guide</i>.
-class PropertyNotification {
-  /// The current notification state.
-  final PropertyNotificationState state;
-
-  /// The MQTT topic to which IoT SiteWise publishes property value update
-  /// notifications.
-  final String topic;
-
-  PropertyNotification({
-    required this.state,
-    required this.topic,
-  });
-
-  factory PropertyNotification.fromJson(Map<String, dynamic> json) {
-    return PropertyNotification(
-      state: PropertyNotificationState.fromString(
-          (json['state'] as String?) ?? ''),
-      topic: (json['topic'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final state = this.state;
-    final topic = this.topic;
-    return {
-      'state': state.value,
-      'topic': topic,
-    };
-  }
-}
-
-class PropertyNotificationState {
-  static const enabled = PropertyNotificationState._('ENABLED');
-  static const disabled = PropertyNotificationState._('DISABLED');
-
-  final String value;
-
-  const PropertyNotificationState._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static PropertyNotificationState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PropertyNotificationState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PropertyNotificationState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains a property type, which can be one of <code>attribute</code>,
-/// <code>measurement</code>, <code>metric</code>, or <code>transform</code>.
-class PropertyType {
-  /// Specifies an asset attribute property. An attribute generally contains
-  /// static information, such as the serial number of an <a
-  /// href="https://en.wikipedia.org/wiki/Internet_of_things#Industrial_applications">IIoT</a>
-  /// wind turbine.
-  final Attribute? attribute;
-
-  /// Specifies an asset measurement property. A measurement represents a device's
-  /// raw sensor data stream, such as timestamped temperature values or
-  /// timestamped power values.
-  final Measurement? measurement;
-
-  /// Specifies an asset metric property. A metric contains a mathematical
-  /// expression that uses aggregate functions to process all input data points
-  /// over a time interval and output a single data point, such as to calculate
-  /// the average hourly temperature.
-  final Metric? metric;
-
-  /// Specifies an asset transform property. A transform contains a mathematical
-  /// expression that maps a property's data points from one form to another, such
-  /// as a unit conversion from Celsius to Fahrenheit.
-  final Transform? transform;
-
-  PropertyType({
-    this.attribute,
-    this.measurement,
-    this.metric,
-    this.transform,
-  });
-
-  factory PropertyType.fromJson(Map<String, dynamic> json) {
-    return PropertyType(
-      attribute: json['attribute'] != null
-          ? Attribute.fromJson(json['attribute'] as Map<String, dynamic>)
-          : null,
-      measurement: json['measurement'] != null
-          ? Measurement.fromJson(json['measurement'] as Map<String, dynamic>)
-          : null,
-      metric: json['metric'] != null
-          ? Metric.fromJson(json['metric'] as Map<String, dynamic>)
-          : null,
-      transform: json['transform'] != null
-          ? Transform.fromJson(json['transform'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attribute = this.attribute;
-    final measurement = this.measurement;
-    final metric = this.metric;
-    final transform = this.transform;
-    return {
-      if (attribute != null) 'attribute': attribute,
-      if (measurement != null) 'measurement': measurement,
-      if (metric != null) 'metric': metric,
-      if (transform != null) 'transform': transform,
-    };
-  }
-}
-
-/// Contains a list of value updates for an asset property in the list of asset
-/// entries consumed by the <a
-/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchPutAssetPropertyValue.html">BatchPutAssetPropertyValue</a>
-/// API operation.
-class PutAssetPropertyValueEntry {
-  /// The user specified ID for the entry. You can use this ID to identify which
-  /// entries failed.
-  final String entryId;
-
-  /// The list of property values to upload. You can specify up to 10
-  /// <code>propertyValues</code> array elements.
-  final List<AssetPropertyValue> propertyValues;
-
-  /// The ID of the asset to update.
-  final String? assetId;
-
-  /// The alias that identifies the property, such as an OPC-UA server data stream
-  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
-  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
-  /// Guide</i>.
-  final String? propertyAlias;
-
-  /// The ID of the asset property for this entry.
-  final String? propertyId;
-
-  PutAssetPropertyValueEntry({
-    required this.entryId,
-    required this.propertyValues,
-    this.assetId,
-    this.propertyAlias,
-    this.propertyId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final entryId = this.entryId;
-    final propertyValues = this.propertyValues;
-    final assetId = this.assetId;
-    final propertyAlias = this.propertyAlias;
-    final propertyId = this.propertyId;
-    return {
-      'entryId': entryId,
-      'propertyValues': propertyValues,
-      if (assetId != null) 'assetId': assetId,
-      if (propertyAlias != null) 'propertyAlias': propertyAlias,
-      if (propertyId != null) 'propertyId': propertyId,
+      'assetModelArn': assetModelArn,
+      'assetModelId': assetModelId,
+      'assetModelStatus': assetModelStatus,
+      'interfaceAssetModelId': interfaceAssetModelId,
     };
   }
 }
@@ -13856,6 +10319,11 @@ class PutStorageConfigurationResponse {
   /// </ul>
   final StorageType storageType;
 
+  /// Describes the configuration for ingesting NULL and NaN data. By default the
+  /// feature is allowed. The feature is disallowed if the value is
+  /// <code>true</code>.
+  final bool? disallowIngestNullNaN;
+
   /// Contains the storage configuration for time series (data streams) that
   /// aren't associated with asset properties. The
   /// <code>disassociatedDataStorage</code> can be one of the following values:
@@ -13894,6 +10362,7 @@ class PutStorageConfigurationResponse {
   PutStorageConfigurationResponse({
     required this.configurationStatus,
     required this.storageType,
+    this.disallowIngestNullNaN,
     this.disassociatedDataStorage,
     this.multiLayerStorage,
     this.retentionPeriod,
@@ -13908,6 +10377,7 @@ class PutStorageConfigurationResponse {
               const <String, dynamic>{}),
       storageType:
           StorageType.fromString((json['storageType'] as String?) ?? ''),
+      disallowIngestNullNaN: json['disallowIngestNullNaN'] as bool?,
       disassociatedDataStorage: (json['disassociatedDataStorage'] as String?)
           ?.let(DisassociatedDataStorageState.fromString),
       multiLayerStorage: json['multiLayerStorage'] != null
@@ -13929,6 +10399,7 @@ class PutStorageConfigurationResponse {
   Map<String, dynamic> toJson() {
     final configurationStatus = this.configurationStatus;
     final storageType = this.storageType;
+    final disallowIngestNullNaN = this.disallowIngestNullNaN;
     final disassociatedDataStorage = this.disassociatedDataStorage;
     final multiLayerStorage = this.multiLayerStorage;
     final retentionPeriod = this.retentionPeriod;
@@ -13937,6 +10408,8 @@ class PutStorageConfigurationResponse {
     return {
       'configurationStatus': configurationStatus,
       'storageType': storageType.value,
+      if (disallowIngestNullNaN != null)
+        'disallowIngestNullNaN': disallowIngestNullNaN,
       if (disassociatedDataStorage != null)
         'disassociatedDataStorage': disassociatedDataStorage.value,
       if (multiLayerStorage != null) 'multiLayerStorage': multiLayerStorage,
@@ -13946,226 +10419,6 @@ class PutStorageConfigurationResponse {
         'warmTierRetentionPeriod': warmTierRetentionPeriod,
     };
   }
-}
-
-class Quality {
-  static const good = Quality._('GOOD');
-  static const bad = Quality._('BAD');
-  static const uncertain = Quality._('UNCERTAIN');
-
-  final String value;
-
-  const Quality._(this.value);
-
-  static const values = [good, bad, uncertain];
-
-  static Quality fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Quality._(value));
-
-  @override
-  bool operator ==(other) => other is Quality && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains an IoT SiteWise Monitor resource ID for a portal or project.
-class Resource {
-  /// A portal resource.
-  final PortalResource? portal;
-
-  /// A project resource.
-  final ProjectResource? project;
-
-  Resource({
-    this.portal,
-    this.project,
-  });
-
-  factory Resource.fromJson(Map<String, dynamic> json) {
-    return Resource(
-      portal: json['portal'] != null
-          ? PortalResource.fromJson(json['portal'] as Map<String, dynamic>)
-          : null,
-      project: json['project'] != null
-          ? ProjectResource.fromJson(json['project'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final portal = this.portal;
-    final project = this.project;
-    return {
-      if (portal != null) 'portal': portal,
-      if (project != null) 'project': project,
-    };
-  }
-}
-
-class ResourceType {
-  static const portal = ResourceType._('PORTAL');
-  static const project = ResourceType._('PROJECT');
-
-  final String value;
-
-  const ResourceType._(this.value);
-
-  static const values = [portal, project];
-
-  static ResourceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The number of days your data is kept in the hot tier. By default, your data
-/// is kept indefinitely in the hot tier.
-class RetentionPeriod {
-  /// The number of days that your data is kept.
-  /// <note>
-  /// If you specified a value for this parameter, the <code>unlimited</code>
-  /// parameter must be <code>false</code>.
-  /// </note>
-  final int? numberOfDays;
-
-  /// If true, your data is kept indefinitely.
-  /// <note>
-  /// If configured to <code>true</code>, you must not specify a value for the
-  /// <code>numberOfDays</code> parameter.
-  /// </note>
-  final bool? unlimited;
-
-  RetentionPeriod({
-    this.numberOfDays,
-    this.unlimited,
-  });
-
-  factory RetentionPeriod.fromJson(Map<String, dynamic> json) {
-    return RetentionPeriod(
-      numberOfDays: json['numberOfDays'] as int?,
-      unlimited: json['unlimited'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final numberOfDays = this.numberOfDays;
-    final unlimited = this.unlimited;
-    return {
-      if (numberOfDays != null) 'numberOfDays': numberOfDays,
-      if (unlimited != null) 'unlimited': unlimited,
-    };
-  }
-}
-
-/// Represents a single row in the query results.
-class Row {
-  /// List of data points in a single row of the result set.
-  final List<Datum> data;
-
-  Row({
-    required this.data,
-  });
-
-  factory Row.fromJson(Map<String, dynamic> json) {
-    return Row(
-      data: ((json['data'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final data = this.data;
-    return {
-      'data': data,
-    };
-  }
-}
-
-class ScalarType {
-  static const boolean = ScalarType._('BOOLEAN');
-  static const $int = ScalarType._('INT');
-  static const $double = ScalarType._('DOUBLE');
-  static const timestamp = ScalarType._('TIMESTAMP');
-  static const string = ScalarType._('STRING');
-
-  final String value;
-
-  const ScalarType._(this.value);
-
-  static const values = [boolean, $int, $double, timestamp, string];
-
-  static ScalarType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ScalarType._(value));
-
-  @override
-  bool operator ==(other) => other is ScalarType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains details for a SiteWise Edge gateway that runs on a Siemens
-/// Industrial Edge Device.
-class SiemensIE {
-  /// The name of the IoT Thing for your SiteWise Edge gateway.
-  final String iotCoreThingName;
-
-  SiemensIE({
-    required this.iotCoreThingName,
-  });
-
-  factory SiemensIE.fromJson(Map<String, dynamic> json) {
-    return SiemensIE(
-      iotCoreThingName: (json['iotCoreThingName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final iotCoreThingName = this.iotCoreThingName;
-    return {
-      'iotCoreThingName': iotCoreThingName,
-    };
-  }
-}
-
-class StorageType {
-  static const sitewiseDefaultStorage =
-      StorageType._('SITEWISE_DEFAULT_STORAGE');
-  static const multiLayerStorage = StorageType._('MULTI_LAYER_STORAGE');
-
-  final String value;
-
-  const StorageType._(this.value);
-
-  static const values = [sitewiseDefaultStorage, multiLayerStorage];
-
-  static StorageType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
-
-  @override
-  bool operator ==(other) => other is StorageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class TagResourceResponse {
@@ -14180,99 +10433,1176 @@ class TagResourceResponse {
   }
 }
 
-/// The resource the action will be taken on.
-class TargetResource {
-  /// The ID of the asset, in UUID format.
-  final String assetId;
+class UntagResourceResponse {
+  UntagResourceResponse();
 
-  TargetResource({
-    required this.assetId,
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAccessPolicyResponse {
+  UpdateAccessPolicyResponse();
+
+  factory UpdateAccessPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateAccessPolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateAssetResponse {
+  /// The status of the asset, which contains a state (<code>UPDATING</code> after
+  /// successfully calling this operation) and any error message.
+  final AssetStatus assetStatus;
+
+  UpdateAssetResponse({
+    required this.assetStatus,
   });
 
-  factory TargetResource.fromJson(Map<String, dynamic> json) {
-    return TargetResource(
+  factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAssetResponse(
+      assetStatus: AssetStatus.fromJson(
+          (json['assetStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetStatus = this.assetStatus;
+    return {
+      'assetStatus': assetStatus,
+    };
+  }
+}
+
+class UpdateAssetModelResponse {
+  /// The status of the asset model, which contains a state (<code>UPDATING</code>
+  /// after successfully calling this operation) and any error message.
+  final AssetModelStatus assetModelStatus;
+
+  UpdateAssetModelResponse({
+    required this.assetModelStatus,
+  });
+
+  factory UpdateAssetModelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAssetModelResponse(
+      assetModelStatus: AssetModelStatus.fromJson(
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelStatus = this.assetModelStatus;
+    return {
+      'assetModelStatus': assetModelStatus,
+    };
+  }
+}
+
+class UpdateAssetModelCompositeModelResponse {
+  /// The path to the composite model listing the parent composite models.
+  final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
+  final AssetModelStatus assetModelStatus;
+
+  UpdateAssetModelCompositeModelResponse({
+    required this.assetModelCompositeModelPath,
+    required this.assetModelStatus,
+  });
+
+  factory UpdateAssetModelCompositeModelResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAssetModelCompositeModelResponse(
+      assetModelCompositeModelPath:
+          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => AssetModelCompositeModelPathSegment.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      assetModelStatus: AssetModelStatus.fromJson(
+          (json['assetModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelCompositeModelPath = this.assetModelCompositeModelPath;
+    final assetModelStatus = this.assetModelStatus;
+    return {
+      'assetModelCompositeModelPath': assetModelCompositeModelPath,
+      'assetModelStatus': assetModelStatus,
+    };
+  }
+}
+
+class UpdateComputationModelResponse {
+  /// The status of the computation model. It contains a state (UPDATING after
+  /// successfully calling this operation) and an error message if any.
+  final ComputationModelStatus computationModelStatus;
+
+  UpdateComputationModelResponse({
+    required this.computationModelStatus,
+  });
+
+  factory UpdateComputationModelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateComputationModelResponse(
+      computationModelStatus: ComputationModelStatus.fromJson(
+          (json['computationModelStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computationModelStatus = this.computationModelStatus;
+    return {
+      'computationModelStatus': computationModelStatus,
+    };
+  }
+}
+
+class UpdateDashboardResponse {
+  UpdateDashboardResponse();
+
+  factory UpdateDashboardResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDashboardResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDatasetResponse {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
+  /// of the dataset. The format is
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}</code>.
+  final String? datasetArn;
+
+  /// The ID of the dataset.
+  final String? datasetId;
+
+  /// The status of the dataset. This contains the state and any error messages.
+  /// State is <code>UPDATING</code> after a successfull call to this API, and any
+  /// associated error message. The state is <code>ACTIVE</code> when ready to
+  /// use.
+  final DatasetStatus? datasetStatus;
+
+  UpdateDatasetResponse({
+    this.datasetArn,
+    this.datasetId,
+    this.datasetStatus,
+  });
+
+  factory UpdateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDatasetResponse(
+      datasetArn: json['datasetArn'] as String?,
+      datasetId: json['datasetId'] as String?,
+      datasetStatus: json['datasetStatus'] != null
+          ? DatasetStatus.fromJson(
+              json['datasetStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    final datasetId = this.datasetId;
+    final datasetStatus = this.datasetStatus;
+    return {
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (datasetId != null) 'datasetId': datasetId,
+      if (datasetStatus != null) 'datasetStatus': datasetStatus,
+    };
+  }
+}
+
+class UpdateGatewayCapabilityConfigurationResponse {
+  /// The namespace of the gateway capability.
+  final String capabilityNamespace;
+
+  /// The synchronization status of the gateway capability configuration. The sync
+  /// status can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IN_SYNC</code> - The gateway is running with the latest configuration.
+  /// </li>
+  /// <li>
+  /// <code>OUT_OF_SYNC</code> - The gateway hasn't received the latest
+  /// configuration.
+  /// </li>
+  /// <li>
+  /// <code>SYNC_FAILED</code> - The gateway rejected the latest configuration.
+  /// </li>
+  /// <li>
+  /// <code>UNKNOWN</code> - The gateway hasn't reported its sync status.
+  /// </li>
+  /// <li>
+  /// <code>NOT_APPLICABLE</code> - The gateway doesn't support this capability.
+  /// This is most common when integrating partner data sources, because the data
+  /// integration is handled externally by the partner.
+  /// </li>
+  /// </ul>
+  /// After you update a capability configuration, its sync status is
+  /// <code>OUT_OF_SYNC</code> until the gateway receives and applies or rejects
+  /// the updated configuration.
+  final CapabilitySyncStatus capabilitySyncStatus;
+
+  UpdateGatewayCapabilityConfigurationResponse({
+    required this.capabilityNamespace,
+    required this.capabilitySyncStatus,
+  });
+
+  factory UpdateGatewayCapabilityConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateGatewayCapabilityConfigurationResponse(
+      capabilityNamespace: (json['capabilityNamespace'] as String?) ?? '',
+      capabilitySyncStatus: CapabilitySyncStatus.fromString(
+          (json['capabilitySyncStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capabilityNamespace = this.capabilityNamespace;
+    final capabilitySyncStatus = this.capabilitySyncStatus;
+    return {
+      'capabilityNamespace': capabilityNamespace,
+      'capabilitySyncStatus': capabilitySyncStatus.value,
+    };
+  }
+}
+
+class UpdatePortalResponse {
+  /// The status of the portal, which contains a state (<code>UPDATING</code>
+  /// after successfully calling this operation) and any error message.
+  final PortalStatus portalStatus;
+
+  UpdatePortalResponse({
+    required this.portalStatus,
+  });
+
+  factory UpdatePortalResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePortalResponse(
+      portalStatus: PortalStatus.fromJson(
+          (json['portalStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final portalStatus = this.portalStatus;
+    return {
+      'portalStatus': portalStatus,
+    };
+  }
+}
+
+class UpdateProjectResponse {
+  UpdateProjectResponse();
+
+  factory UpdateProjectResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateProjectResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Contains information about the current status of a portal.
+class PortalStatus {
+  /// The current state of the portal.
+  final PortalState state;
+
+  /// Contains associated error information, if any.
+  final MonitorErrorDetails? error;
+
+  PortalStatus({
+    required this.state,
+    this.error,
+  });
+
+  factory PortalStatus.fromJson(Map<String, dynamic> json) {
+    return PortalStatus(
+      state: PortalState.fromString((json['state'] as String?) ?? ''),
+      error: json['error'] != null
+          ? MonitorErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final error = this.error;
+    return {
+      'state': state.value,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+class PortalState {
+  static const creating = PortalState._('CREATING');
+  static const pending = PortalState._('PENDING');
+  static const updating = PortalState._('UPDATING');
+  static const deleting = PortalState._('DELETING');
+  static const active = PortalState._('ACTIVE');
+  static const failed = PortalState._('FAILED');
+
+  final String value;
+
+  const PortalState._(this.value);
+
+  static const values = [creating, pending, updating, deleting, active, failed];
+
+  static PortalState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PortalState._(value));
+
+  @override
+  bool operator ==(other) => other is PortalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains IoT SiteWise Monitor error details.
+class MonitorErrorDetails {
+  /// The error code.
+  final MonitorErrorCode? code;
+
+  /// The error message.
+  final String? message;
+
+  MonitorErrorDetails({
+    this.code,
+    this.message,
+  });
+
+  factory MonitorErrorDetails.fromJson(Map<String, dynamic> json) {
+    return MonitorErrorDetails(
+      code: (json['code'] as String?)?.let(MonitorErrorCode.fromString),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code.value,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+class MonitorErrorCode {
+  static const internalFailure = MonitorErrorCode._('INTERNAL_FAILURE');
+  static const validationError = MonitorErrorCode._('VALIDATION_ERROR');
+  static const limitExceeded = MonitorErrorCode._('LIMIT_EXCEEDED');
+
+  final String value;
+
+  const MonitorErrorCode._(this.value);
+
+  static const values = [internalFailure, validationError, limitExceeded];
+
+  static MonitorErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MonitorErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is MonitorErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains an image that is one of the following:
+///
+/// <ul>
+/// <li>
+/// An image file. Choose this option to upload a new image.
+/// </li>
+/// <li>
+/// The ID of an existing image. Choose this option to keep an existing image.
+/// </li>
+/// </ul>
+class Image {
+  final ImageFile? file;
+
+  /// The ID of an existing image. Specify this parameter to keep an existing
+  /// image.
+  final String? id;
+
+  Image({
+    this.file,
+    this.id,
+  });
+
+  Map<String, dynamic> toJson() {
+    final file = this.file;
+    final id = this.id;
+    return {
+      if (file != null) 'file': file,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Contains the configuration information of an alarm created in an IoT
+/// SiteWise Monitor portal. You can use the alarm to monitor an asset property
+/// and get notified when the asset property value is outside a specified range.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html">Monitoring
+/// with alarms</a> in the <i>IoT SiteWise Application Guide</i>.
+class Alarms {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the IAM role that allows the alarm to perform actions and access Amazon
+  /// Web Services resources and services, such as IoT Events.
+  final String alarmRoleArn;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the Lambda function that manages alarm notifications. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/developerguide/lambda-support.html">Managing
+  /// alarm notifications</a> in the <i>IoT Events Developer Guide</i>.
+  final String? notificationLambdaArn;
+
+  Alarms({
+    required this.alarmRoleArn,
+    this.notificationLambdaArn,
+  });
+
+  factory Alarms.fromJson(Map<String, dynamic> json) {
+    return Alarms(
+      alarmRoleArn: (json['alarmRoleArn'] as String?) ?? '',
+      notificationLambdaArn: json['notificationLambdaArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmRoleArn = this.alarmRoleArn;
+    final notificationLambdaArn = this.notificationLambdaArn;
+    return {
+      'alarmRoleArn': alarmRoleArn,
+      if (notificationLambdaArn != null)
+        'notificationLambdaArn': notificationLambdaArn,
+    };
+  }
+}
+
+class PortalType {
+  static const sitewisePortalV1 = PortalType._('SITEWISE_PORTAL_V1');
+  static const sitewisePortalV2 = PortalType._('SITEWISE_PORTAL_V2');
+
+  final String value;
+
+  const PortalType._(this.value);
+
+  static const values = [sitewisePortalV1, sitewisePortalV2];
+
+  static PortalType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PortalType._(value));
+
+  @override
+  bool operator ==(other) => other is PortalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration entry associated with the specific portal type. The
+/// <code>portalTypeConfiguration</code> is a map of the
+/// <code>portalTypeKey</code> to the <code>PortalTypeEntry</code>.
+class PortalTypeEntry {
+  /// The array of tools associated with the specified portal type. The possible
+  /// values are <code>ASSISTANT</code> and <code>DASHBOARD</code>.
+  final List<String>? portalTools;
+
+  PortalTypeEntry({
+    this.portalTools,
+  });
+
+  factory PortalTypeEntry.fromJson(Map<String, dynamic> json) {
+    return PortalTypeEntry(
+      portalTools: (json['portalTools'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final portalTools = this.portalTools;
+    return {
+      if (portalTools != null) 'portalTools': portalTools,
+    };
+  }
+}
+
+/// Contains an image file.
+class ImageFile {
+  /// The image file contents, represented as a base64-encoded string. The file
+  /// size must be less than 1 MB.
+  final Uint8List data;
+
+  /// The file type of the image.
+  final ImageFileType type;
+
+  ImageFile({
+    required this.data,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final type = this.type;
+    return {
+      'data': base64Encode(data),
+      'type': type.value,
+    };
+  }
+}
+
+class ImageFileType {
+  static const png = ImageFileType._('PNG');
+
+  final String value;
+
+  const ImageFileType._(this.value);
+
+  static const values = [png];
+
+  static ImageFileType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImageFileType._(value));
+
+  @override
+  bool operator ==(other) => other is ImageFileType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CapabilitySyncStatus {
+  static const inSync = CapabilitySyncStatus._('IN_SYNC');
+  static const outOfSync = CapabilitySyncStatus._('OUT_OF_SYNC');
+  static const syncFailed = CapabilitySyncStatus._('SYNC_FAILED');
+  static const unknown = CapabilitySyncStatus._('UNKNOWN');
+  static const notApplicable = CapabilitySyncStatus._('NOT_APPLICABLE');
+
+  final String value;
+
+  const CapabilitySyncStatus._(this.value);
+
+  static const values = [inSync, outOfSync, syncFailed, unknown, notApplicable];
+
+  static CapabilitySyncStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapabilitySyncStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapabilitySyncStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of the dataset. This contains the state and any error messages.
+/// The state is <code>ACTIVE</code> when ready to use.
+class DatasetStatus {
+  /// The current status of the dataset.
+  final DatasetState state;
+  final ErrorDetails? error;
+
+  DatasetStatus({
+    required this.state,
+    this.error,
+  });
+
+  factory DatasetStatus.fromJson(Map<String, dynamic> json) {
+    return DatasetStatus(
+      state: DatasetState.fromString((json['state'] as String?) ?? ''),
+      error: json['error'] != null
+          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final error = this.error;
+    return {
+      'state': state.value,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+class DatasetState {
+  static const creating = DatasetState._('CREATING');
+  static const active = DatasetState._('ACTIVE');
+  static const updating = DatasetState._('UPDATING');
+  static const deleting = DatasetState._('DELETING');
+  static const failed = DatasetState._('FAILED');
+
+  final String value;
+
+  const DatasetState._(this.value);
+
+  static const values = [creating, active, updating, deleting, failed];
+
+  static DatasetState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DatasetState._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the details of an IoT SiteWise error.
+class ErrorDetails {
+  /// The error code.
+  final ErrorCode code;
+
+  /// The error message.
+  final String message;
+
+  /// A list of detailed errors.
+  final List<DetailedError>? details;
+
+  ErrorDetails({
+    required this.code,
+    required this.message,
+    this.details,
+  });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      code: ErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+      details: (json['details'] as List?)
+          ?.nonNulls
+          .map((e) => DetailedError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final details = this.details;
+    return {
+      'code': code.value,
+      'message': message,
+      if (details != null) 'details': details,
+    };
+  }
+}
+
+class ErrorCode {
+  static const validationError = ErrorCode._('VALIDATION_ERROR');
+  static const internalFailure = ErrorCode._('INTERNAL_FAILURE');
+
+  final String value;
+
+  const ErrorCode._(this.value);
+
+  static const values = [validationError, internalFailure];
+
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is ErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains detailed error information.
+class DetailedError {
+  /// The error code.
+  final DetailedErrorCode code;
+
+  /// The error message.
+  final String message;
+
+  DetailedError({
+    required this.code,
+    required this.message,
+  });
+
+  factory DetailedError.fromJson(Map<String, dynamic> json) {
+    return DetailedError(
+      code: DetailedErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'code': code.value,
+      'message': message,
+    };
+  }
+}
+
+class DetailedErrorCode {
+  static const incompatibleComputeLocation =
+      DetailedErrorCode._('INCOMPATIBLE_COMPUTE_LOCATION');
+  static const incompatibleForwardingConfiguration =
+      DetailedErrorCode._('INCOMPATIBLE_FORWARDING_CONFIGURATION');
+
+  final String value;
+
+  const DetailedErrorCode._(this.value);
+
+  static const values = [
+    incompatibleComputeLocation,
+    incompatibleForwardingConfiguration
+  ];
+
+  static DetailedErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DetailedErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is DetailedErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The data source for the dataset.
+class DatasetSource {
+  /// The format of the dataset source associated with the dataset.
+  final DatasetSourceFormat sourceFormat;
+
+  /// The type of data source for the dataset.
+  final DatasetSourceType sourceType;
+
+  /// The details of the dataset source associated with the dataset.
+  final SourceDetail? sourceDetail;
+
+  DatasetSource({
+    required this.sourceFormat,
+    required this.sourceType,
+    this.sourceDetail,
+  });
+
+  factory DatasetSource.fromJson(Map<String, dynamic> json) {
+    return DatasetSource(
+      sourceFormat: DatasetSourceFormat.fromString(
+          (json['sourceFormat'] as String?) ?? ''),
+      sourceType:
+          DatasetSourceType.fromString((json['sourceType'] as String?) ?? ''),
+      sourceDetail: json['sourceDetail'] != null
+          ? SourceDetail.fromJson(json['sourceDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceFormat = this.sourceFormat;
+    final sourceType = this.sourceType;
+    final sourceDetail = this.sourceDetail;
+    return {
+      'sourceFormat': sourceFormat.value,
+      'sourceType': sourceType.value,
+      if (sourceDetail != null) 'sourceDetail': sourceDetail,
+    };
+  }
+}
+
+class DatasetSourceType {
+  static const kendra = DatasetSourceType._('KENDRA');
+
+  final String value;
+
+  const DatasetSourceType._(this.value);
+
+  static const values = [kendra];
+
+  static DatasetSourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetSourceType._(value));
+
+  @override
+  bool operator ==(other) => other is DatasetSourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DatasetSourceFormat {
+  static const knowledgeBase = DatasetSourceFormat._('KNOWLEDGE_BASE');
+
+  final String value;
+
+  const DatasetSourceFormat._(this.value);
+
+  static const values = [knowledgeBase];
+
+  static DatasetSourceFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DatasetSourceFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DatasetSourceFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of the dataset source associated with the dataset.
+class SourceDetail {
+  /// Contains details about the Kendra dataset source.
+  final KendraSourceDetail? kendra;
+
+  SourceDetail({
+    this.kendra,
+  });
+
+  factory SourceDetail.fromJson(Map<String, dynamic> json) {
+    return SourceDetail(
+      kendra: json['kendra'] != null
+          ? KendraSourceDetail.fromJson(json['kendra'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kendra = this.kendra;
+    return {
+      if (kendra != null) 'kendra': kendra,
+    };
+  }
+}
+
+/// The source details for the Kendra dataset source.
+class KendraSourceDetail {
+  /// The <code>knowledgeBaseArn</code> details for the Kendra dataset source.
+  final String knowledgeBaseArn;
+
+  /// The <code>roleARN</code> details for the Kendra dataset source.
+  final String roleArn;
+
+  KendraSourceDetail({
+    required this.knowledgeBaseArn,
+    required this.roleArn,
+  });
+
+  factory KendraSourceDetail.fromJson(Map<String, dynamic> json) {
+    return KendraSourceDetail(
+      knowledgeBaseArn: (json['knowledgeBaseArn'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final knowledgeBaseArn = this.knowledgeBaseArn;
+    final roleArn = this.roleArn;
+    return {
+      'knowledgeBaseArn': knowledgeBaseArn,
+      'roleArn': roleArn,
+    };
+  }
+}
+
+/// Contains current status information for a computation model.
+class ComputationModelStatus {
+  /// The current state of the computation model.
+  final ComputationModelState state;
+  final ErrorDetails? error;
+
+  ComputationModelStatus({
+    required this.state,
+    this.error,
+  });
+
+  factory ComputationModelStatus.fromJson(Map<String, dynamic> json) {
+    return ComputationModelStatus(
+      state: ComputationModelState.fromString((json['state'] as String?) ?? ''),
+      error: json['error'] != null
+          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final error = this.error;
+    return {
+      'state': state.value,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+class ComputationModelState {
+  static const creating = ComputationModelState._('CREATING');
+  static const active = ComputationModelState._('ACTIVE');
+  static const updating = ComputationModelState._('UPDATING');
+  static const deleting = ComputationModelState._('DELETING');
+  static const failed = ComputationModelState._('FAILED');
+
+  final String value;
+
+  const ComputationModelState._(this.value);
+
+  static const values = [creating, active, updating, deleting, failed];
+
+  static ComputationModelState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComputationModelState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComputationModelState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for the computation model.
+class ComputationModelConfiguration {
+  /// The configuration for the anomaly detection type of computation model.
+  final ComputationModelAnomalyDetectionConfiguration? anomalyDetection;
+
+  ComputationModelConfiguration({
+    this.anomalyDetection,
+  });
+
+  factory ComputationModelConfiguration.fromJson(Map<String, dynamic> json) {
+    return ComputationModelConfiguration(
+      anomalyDetection: json['anomalyDetection'] != null
+          ? ComputationModelAnomalyDetectionConfiguration.fromJson(
+              json['anomalyDetection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyDetection = this.anomalyDetection;
+    return {
+      if (anomalyDetection != null) 'anomalyDetection': anomalyDetection,
+    };
+  }
+}
+
+/// Contains computation model data binding value information, which can be one
+/// of <code>assetModelProperty</code>, <code>list</code>.
+class ComputationModelDataBindingValue {
+  /// Specifies an asset model property data binding value.
+  final AssetModelPropertyBindingValue? assetModelProperty;
+
+  /// The asset property value used for computation model data binding.
+  final AssetPropertyBindingValue? assetProperty;
+
+  /// Specifies a list of data binding value.
+  final List<ComputationModelDataBindingValue>? list;
+
+  ComputationModelDataBindingValue({
+    this.assetModelProperty,
+    this.assetProperty,
+    this.list,
+  });
+
+  factory ComputationModelDataBindingValue.fromJson(Map<String, dynamic> json) {
+    return ComputationModelDataBindingValue(
+      assetModelProperty: json['assetModelProperty'] != null
+          ? AssetModelPropertyBindingValue.fromJson(
+              json['assetModelProperty'] as Map<String, dynamic>)
+          : null,
+      assetProperty: json['assetProperty'] != null
+          ? AssetPropertyBindingValue.fromJson(
+              json['assetProperty'] as Map<String, dynamic>)
+          : null,
+      list: (json['list'] as List?)
+          ?.nonNulls
+          .map((e) => ComputationModelDataBindingValue.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelProperty = this.assetModelProperty;
+    final assetProperty = this.assetProperty;
+    final list = this.list;
+    return {
+      if (assetModelProperty != null) 'assetModelProperty': assetModelProperty,
+      if (assetProperty != null) 'assetProperty': assetProperty,
+      if (list != null) 'list': list,
+    };
+  }
+}
+
+/// Contains information about an <code>assetModelProperty</code> binding value.
+class AssetModelPropertyBindingValue {
+  /// The ID of the asset model, in UUID format.
+  final String assetModelId;
+
+  /// The ID of the asset model property used in data binding value.
+  final String propertyId;
+
+  AssetModelPropertyBindingValue({
+    required this.assetModelId,
+    required this.propertyId,
+  });
+
+  factory AssetModelPropertyBindingValue.fromJson(Map<String, dynamic> json) {
+    return AssetModelPropertyBindingValue(
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      propertyId: (json['propertyId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelId = this.assetModelId;
+    final propertyId = this.propertyId;
+    return {
+      'assetModelId': assetModelId,
+      'propertyId': propertyId,
+    };
+  }
+}
+
+/// Represents a data binding value referencing a specific asset property. It's
+/// used to bind computation model variables to actual asset property values for
+/// processing.
+class AssetPropertyBindingValue {
+  /// The ID of the asset containing the property. This identifies the specific
+  /// asset instance's property value used in the computation model.
+  final String assetId;
+
+  /// The ID of the property within the asset. This identifies the specific
+  /// property's value used in the computation model.
+  final String propertyId;
+
+  AssetPropertyBindingValue({
+    required this.assetId,
+    required this.propertyId,
+  });
+
+  factory AssetPropertyBindingValue.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyBindingValue(
       assetId: (json['assetId'] as String?) ?? '',
+      propertyId: (json['propertyId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     final assetId = this.assetId;
+    final propertyId = this.propertyId;
     return {
       'assetId': assetId,
+      'propertyId': propertyId,
     };
   }
 }
 
-class TargetResourceType {
-  static const asset = TargetResourceType._('ASSET');
+/// Contains the configuration of the type of anomaly detection computation
+/// model.
+class ComputationModelAnomalyDetectionConfiguration {
+  /// Define the variable name associated with input properties, with the
+  /// following format <code>${VariableName}</code>.
+  final String inputProperties;
 
-  final String value;
+  /// Define the variable name associated with the result property, and the
+  /// following format <code>${VariableName}</code>.
+  final String resultProperty;
 
-  const TargetResourceType._(this.value);
-
-  static const values = [asset];
-
-  static TargetResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TargetResourceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TargetResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Contains a timestamp with optional nanosecond granularity.
-class TimeInNanos {
-  /// The timestamp date, in seconds, in the Unix epoch format. Fractional
-  /// nanosecond data is provided by <code>offsetInNanos</code>.
-  final int timeInSeconds;
-
-  /// The nanosecond offset from <code>timeInSeconds</code>.
-  final int? offsetInNanos;
-
-  TimeInNanos({
-    required this.timeInSeconds,
-    this.offsetInNanos,
+  ComputationModelAnomalyDetectionConfiguration({
+    required this.inputProperties,
+    required this.resultProperty,
   });
 
-  factory TimeInNanos.fromJson(Map<String, dynamic> json) {
-    return TimeInNanos(
-      timeInSeconds: (json['timeInSeconds'] as int?) ?? 0,
-      offsetInNanos: json['offsetInNanos'] as int?,
+  factory ComputationModelAnomalyDetectionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ComputationModelAnomalyDetectionConfiguration(
+      inputProperties: (json['inputProperties'] as String?) ?? '',
+      resultProperty: (json['resultProperty'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final timeInSeconds = this.timeInSeconds;
-    final offsetInNanos = this.offsetInNanos;
+    final inputProperties = this.inputProperties;
+    final resultProperty = this.resultProperty;
     return {
-      'timeInSeconds': timeInSeconds,
-      if (offsetInNanos != null) 'offsetInNanos': offsetInNanos,
+      'inputProperties': inputProperties,
+      'resultProperty': resultProperty,
     };
   }
 }
 
-class TimeOrdering {
-  static const ascending = TimeOrdering._('ASCENDING');
-  static const descending = TimeOrdering._('DESCENDING');
+class PropertyNotificationState {
+  static const enabled = PropertyNotificationState._('ENABLED');
+  static const disabled = PropertyNotificationState._('DISABLED');
 
   final String value;
 
-  const TimeOrdering._(this.value);
+  const PropertyNotificationState._(this.value);
 
-  static const values = [ascending, descending];
+  static const values = [enabled, disabled];
 
-  static TimeOrdering fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TimeOrdering._(value));
+  static PropertyNotificationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PropertyNotificationState._(value));
 
   @override
-  bool operator ==(other) => other is TimeOrdering && other.value == value;
+  bool operator ==(other) =>
+      other is PropertyNotificationState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -14281,98 +11611,422 @@ class TimeOrdering {
   String toString() => value;
 }
 
-/// Contains a summary of a time series (data stream).
-class TimeSeriesSummary {
-  /// The data type of the time series.
+/// Contains current status information for an asset model. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html">Asset
+/// and model states</a> in the <i>IoT SiteWise User Guide</i>.
+class AssetModelStatus {
+  /// The current state of the asset model.
+  final AssetModelState state;
+
+  /// Contains associated error information, if any.
+  final ErrorDetails? error;
+
+  AssetModelStatus({
+    required this.state,
+    this.error,
+  });
+
+  factory AssetModelStatus.fromJson(Map<String, dynamic> json) {
+    return AssetModelStatus(
+      state: AssetModelState.fromString((json['state'] as String?) ?? ''),
+      error: json['error'] != null
+          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final error = this.error;
+    return {
+      'state': state.value,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+class AssetModelState {
+  static const creating = AssetModelState._('CREATING');
+  static const active = AssetModelState._('ACTIVE');
+  static const updating = AssetModelState._('UPDATING');
+  static const propagating = AssetModelState._('PROPAGATING');
+  static const deleting = AssetModelState._('DELETING');
+  static const failed = AssetModelState._('FAILED');
+
+  final String value;
+
+  const AssetModelState._(this.value);
+
+  static const values = [
+    creating,
+    active,
+    updating,
+    propagating,
+    deleting,
+    failed
+  ];
+
+  static AssetModelState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssetModelState._(value));
+
+  @override
+  bool operator ==(other) => other is AssetModelState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents one level between a composite model and the root of the asset
+/// model.
+class AssetModelCompositeModelPathSegment {
+  /// The ID of the path segment.
+  final String? id;
+
+  /// The name of the path segment.
+  final String? name;
+
+  AssetModelCompositeModelPathSegment({
+    this.id,
+    this.name,
+  });
+
+  factory AssetModelCompositeModelPathSegment.fromJson(
+      Map<String, dynamic> json) {
+    return AssetModelCompositeModelPathSegment(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class AssetModelVersionType {
+  static const latest = AssetModelVersionType._('LATEST');
+  static const active = AssetModelVersionType._('ACTIVE');
+
+  final String value;
+
+  const AssetModelVersionType._(this.value);
+
+  static const values = [latest, active];
+
+  static AssetModelVersionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssetModelVersionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetModelVersionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about an asset model property.
+class AssetModelProperty {
+  /// The data type of the asset model property.
   ///
   /// If you specify <code>STRUCT</code>, you must also specify
   /// <code>dataTypeSpec</code> to identify the type of the structure for this
-  /// time series.
+  /// property.
   final PropertyDataType dataType;
 
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
-  /// of the time series, which has the following format.
-  ///
-  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}</code>
-  final String timeSeriesArn;
+  /// The name of the asset model property.
+  final String name;
 
-  /// The date that the time series was created, in Unix epoch time.
-  final DateTime timeSeriesCreationDate;
+  /// The property type (see <code>PropertyType</code>).
+  final PropertyType type;
 
-  /// The ID of the time series.
-  final String timeSeriesId;
-
-  /// The date that the time series was last updated, in Unix epoch time.
-  final DateTime timeSeriesLastUpdateDate;
-
-  /// The alias that identifies the time series.
-  final String? alias;
-
-  /// The ID of the asset in which the asset property was created.
-  final String? assetId;
-
-  /// The data type of the structure for this time series. This parameter is
-  /// required for time series that have the <code>STRUCT</code> data type.
-  ///
-  /// The options for this parameter depend on the type of the composite model in
-  /// which you created the asset property that is associated with your time
-  /// series. Use <code>AWS/ALARM_STATE</code> for alarm state in alarm composite
-  /// models.
+  /// The data type of the structure for this property. This parameter exists on
+  /// properties that have the <code>STRUCT</code> data type.
   final String? dataTypeSpec;
 
-  /// The ID of the asset property, in UUID format.
-  final String? propertyId;
+  /// The external ID (if any) provided in the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
+  /// operation. You can assign an external ID by specifying this value as part of
+  /// a call to <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>.
+  /// However, you can't change the external ID if one is already assigned. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
 
-  TimeSeriesSummary({
+  /// The ID of the asset model property.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you are callling <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
+  /// to create a <i>new</i> property: You can specify its ID here, if desired.
+  /// IoT SiteWise automatically generates a unique ID for you, so this parameter
+  /// is never required. However, if you prefer to supply your own ID instead, you
+  /// can specify it here in UUID format. If you specify your own ID, it must be
+  /// globally unique.
+  /// </li>
+  /// <li>
+  /// If you are calling UpdateAssetModel to modify an <i>existing</i> property:
+  /// This can be either the actual ID in UUID format, or else
+  /// <code>externalId:</code> followed by the external ID, if it has one. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
+  /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  /// </li>
+  /// </ul>
+  final String? id;
+
+  /// The structured path to the property from the root of the asset model.
+  final List<AssetModelPropertyPathSegment>? path;
+
+  /// The unit of the asset model property, such as <code>Newtons</code> or
+  /// <code>RPM</code>.
+  final String? unit;
+
+  AssetModelProperty({
     required this.dataType,
-    required this.timeSeriesArn,
-    required this.timeSeriesCreationDate,
-    required this.timeSeriesId,
-    required this.timeSeriesLastUpdateDate,
-    this.alias,
-    this.assetId,
+    required this.name,
+    required this.type,
     this.dataTypeSpec,
-    this.propertyId,
+    this.externalId,
+    this.id,
+    this.path,
+    this.unit,
   });
 
-  factory TimeSeriesSummary.fromJson(Map<String, dynamic> json) {
-    return TimeSeriesSummary(
+  factory AssetModelProperty.fromJson(Map<String, dynamic> json) {
+    return AssetModelProperty(
       dataType:
           PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
-      timeSeriesArn: (json['timeSeriesArn'] as String?) ?? '',
-      timeSeriesCreationDate:
-          nonNullableTimeStampFromJson(json['timeSeriesCreationDate'] ?? 0),
-      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
-      timeSeriesLastUpdateDate:
-          nonNullableTimeStampFromJson(json['timeSeriesLastUpdateDate'] ?? 0),
-      alias: json['alias'] as String?,
-      assetId: json['assetId'] as String?,
+      name: (json['name'] as String?) ?? '',
+      type: PropertyType.fromJson(
+          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
       dataTypeSpec: json['dataTypeSpec'] as String?,
-      propertyId: json['propertyId'] as String?,
+      externalId: json['externalId'] as String?,
+      id: json['id'] as String?,
+      path: (json['path'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssetModelPropertyPathSegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['unit'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final dataType = this.dataType;
-    final timeSeriesArn = this.timeSeriesArn;
-    final timeSeriesCreationDate = this.timeSeriesCreationDate;
-    final timeSeriesId = this.timeSeriesId;
-    final timeSeriesLastUpdateDate = this.timeSeriesLastUpdateDate;
-    final alias = this.alias;
-    final assetId = this.assetId;
+    final name = this.name;
+    final type = this.type;
     final dataTypeSpec = this.dataTypeSpec;
-    final propertyId = this.propertyId;
+    final externalId = this.externalId;
+    final id = this.id;
+    final path = this.path;
+    final unit = this.unit;
     return {
       'dataType': dataType.value,
-      'timeSeriesArn': timeSeriesArn,
-      'timeSeriesCreationDate': unixTimestampToJson(timeSeriesCreationDate),
-      'timeSeriesId': timeSeriesId,
-      'timeSeriesLastUpdateDate': unixTimestampToJson(timeSeriesLastUpdateDate),
-      if (alias != null) 'alias': alias,
-      if (assetId != null) 'assetId': assetId,
+      'name': name,
+      'type': type,
       if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
-      if (propertyId != null) 'propertyId': propertyId,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+      if (path != null) 'path': path,
+      if (unit != null) 'unit': unit,
+    };
+  }
+}
+
+class PropertyDataType {
+  static const string = PropertyDataType._('STRING');
+  static const integer = PropertyDataType._('INTEGER');
+  static const $double = PropertyDataType._('DOUBLE');
+  static const boolean = PropertyDataType._('BOOLEAN');
+  static const struct = PropertyDataType._('STRUCT');
+
+  final String value;
+
+  const PropertyDataType._(this.value);
+
+  static const values = [string, integer, $double, boolean, struct];
+
+  static PropertyDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PropertyDataType._(value));
+
+  @override
+  bool operator ==(other) => other is PropertyDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a property type, which can be one of <code>attribute</code>,
+/// <code>measurement</code>, <code>metric</code>, or <code>transform</code>.
+class PropertyType {
+  /// Specifies an asset attribute property. An attribute generally contains
+  /// static information, such as the serial number of an <a
+  /// href="https://en.wikipedia.org/wiki/Internet_of_things#Industrial_applications">IIoT</a>
+  /// wind turbine.
+  final Attribute? attribute;
+
+  /// Specifies an asset measurement property. A measurement represents a device's
+  /// raw sensor data stream, such as timestamped temperature values or
+  /// timestamped power values.
+  final Measurement? measurement;
+
+  /// Specifies an asset metric property. A metric contains a mathematical
+  /// expression that uses aggregate functions to process all input data points
+  /// over a time interval and output a single data point, such as to calculate
+  /// the average hourly temperature.
+  final Metric? metric;
+
+  /// Specifies an asset transform property. A transform contains a mathematical
+  /// expression that maps a property's data points from one form to another, such
+  /// as a unit conversion from Celsius to Fahrenheit.
+  final Transform? transform;
+
+  PropertyType({
+    this.attribute,
+    this.measurement,
+    this.metric,
+    this.transform,
+  });
+
+  factory PropertyType.fromJson(Map<String, dynamic> json) {
+    return PropertyType(
+      attribute: json['attribute'] != null
+          ? Attribute.fromJson(json['attribute'] as Map<String, dynamic>)
+          : null,
+      measurement: json['measurement'] != null
+          ? Measurement.fromJson(json['measurement'] as Map<String, dynamic>)
+          : null,
+      metric: json['metric'] != null
+          ? Metric.fromJson(json['metric'] as Map<String, dynamic>)
+          : null,
+      transform: json['transform'] != null
+          ? Transform.fromJson(json['transform'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final measurement = this.measurement;
+    final metric = this.metric;
+    final transform = this.transform;
+    return {
+      if (attribute != null) 'attribute': attribute,
+      if (measurement != null) 'measurement': measurement,
+      if (metric != null) 'metric': metric,
+      if (transform != null) 'transform': transform,
+    };
+  }
+}
+
+/// Represents one level between a property and the root of the asset model.
+class AssetModelPropertyPathSegment {
+  /// The ID of the path segment.
+  final String? id;
+
+  /// The name of the path segment.
+  final String? name;
+
+  AssetModelPropertyPathSegment({
+    this.id,
+    this.name,
+  });
+
+  factory AssetModelPropertyPathSegment.fromJson(Map<String, dynamic> json) {
+    return AssetModelPropertyPathSegment(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Contains an asset attribute property. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#attributes">Attributes</a>
+/// in the <i>IoT SiteWise User Guide</i>.
+class Attribute {
+  /// The default value of the asset model property attribute. All assets that you
+  /// create from the asset model contain this attribute value. You can update an
+  /// attribute's value after you create an asset. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-attribute-values.html">Updating
+  /// attribute values</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? defaultValue;
+
+  Attribute({
+    this.defaultValue,
+  });
+
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      defaultValue: json['defaultValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    return {
+      if (defaultValue != null) 'defaultValue': defaultValue,
+    };
+  }
+}
+
+/// Contains an asset measurement property. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#measurements">Measurements</a>
+/// in the <i>IoT SiteWise User Guide</i>.
+class Measurement {
+  /// The processing configuration for the given measurement property. You can
+  /// configure measurements to be kept at the edge or forwarded to the Amazon Web
+  /// Services Cloud. By default, measurements are forwarded to the cloud.
+  final MeasurementProcessingConfig? processingConfig;
+
+  Measurement({
+    this.processingConfig,
+  });
+
+  factory Measurement.fromJson(Map<String, dynamic> json) {
+    return Measurement(
+      processingConfig: json['processingConfig'] != null
+          ? MeasurementProcessingConfig.fromJson(
+              json['processingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final processingConfig = this.processingConfig;
+    return {
+      if (processingConfig != null) 'processingConfig': processingConfig,
     };
   }
 }
@@ -14438,81 +12092,147 @@ class Transform {
   }
 }
 
-/// The processing configuration for the given transform property. You can
-/// configure transforms to be kept at the edge or forwarded to the Amazon Web
-/// Services Cloud. You can also configure transforms to be computed at the edge
-/// or in the cloud.
-class TransformProcessingConfig {
-  /// The compute location for the given transform property.
-  final ComputeLocation computeLocation;
-  final ForwardingConfig? forwardingConfig;
+/// Contains an asset metric property. With metrics, you can calculate aggregate
+/// functions, such as an average, maximum, or minimum, as specified through an
+/// expression. A metric maps several values to a single value (such as a sum).
+///
+/// The maximum number of dependent/cascading variables used in any one metric
+/// calculation is 10. Therefore, a <i>root</i> metric can have up to 10
+/// cascading metrics in its computational dependency tree. Additionally, a
+/// metric can only have a data type of <code>DOUBLE</code> and consume
+/// properties with data types of <code>INTEGER</code> or <code>DOUBLE</code>.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#metrics">Metrics</a>
+/// in the <i>IoT SiteWise User Guide</i>.
+class Metric {
+  /// The window (time interval) over which IoT SiteWise computes the metric's
+  /// aggregation expression. IoT SiteWise computes one data point per
+  /// <code>window</code>.
+  final MetricWindow window;
 
-  TransformProcessingConfig({
-    required this.computeLocation,
-    this.forwardingConfig,
+  /// The mathematical expression that defines the metric aggregation function.
+  /// You can specify up to 10 variables per expression. You can specify up to 10
+  /// functions per expression.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html">Quotas</a>
+  /// in the <i>IoT SiteWise User Guide</i>.
+  final String? expression;
+
+  /// The processing configuration for the given metric property. You can
+  /// configure metrics to be computed at the edge or in the Amazon Web Services
+  /// Cloud. By default, metrics are forwarded to the cloud.
+  final MetricProcessingConfig? processingConfig;
+
+  /// The list of variables used in the expression.
+  final List<ExpressionVariable>? variables;
+
+  Metric({
+    required this.window,
+    this.expression,
+    this.processingConfig,
+    this.variables,
   });
 
-  factory TransformProcessingConfig.fromJson(Map<String, dynamic> json) {
-    return TransformProcessingConfig(
-      computeLocation: ComputeLocation.fromString(
-          (json['computeLocation'] as String?) ?? ''),
-      forwardingConfig: json['forwardingConfig'] != null
-          ? ForwardingConfig.fromJson(
-              json['forwardingConfig'] as Map<String, dynamic>)
+  factory Metric.fromJson(Map<String, dynamic> json) {
+    return Metric(
+      window: MetricWindow.fromJson((json['window'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      expression: json['expression'] as String?,
+      processingConfig: json['processingConfig'] != null
+          ? MetricProcessingConfig.fromJson(
+              json['processingConfig'] as Map<String, dynamic>)
+          : null,
+      variables: (json['variables'] as List?)
+          ?.nonNulls
+          .map((e) => ExpressionVariable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final window = this.window;
+    final expression = this.expression;
+    final processingConfig = this.processingConfig;
+    final variables = this.variables;
+    return {
+      'window': window,
+      if (expression != null) 'expression': expression,
+      if (processingConfig != null) 'processingConfig': processingConfig,
+      if (variables != null) 'variables': variables,
+    };
+  }
+}
+
+/// Contains a time interval window used for data aggregate computations (for
+/// example, average, sum, count, and so on).
+class MetricWindow {
+  /// The tumbling time interval window.
+  final TumblingWindow? tumbling;
+
+  MetricWindow({
+    this.tumbling,
+  });
+
+  factory MetricWindow.fromJson(Map<String, dynamic> json) {
+    return MetricWindow(
+      tumbling: json['tumbling'] != null
+          ? TumblingWindow.fromJson(json['tumbling'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final computeLocation = this.computeLocation;
-    final forwardingConfig = this.forwardingConfig;
+    final tumbling = this.tumbling;
     return {
-      'computeLocation': computeLocation.value,
-      if (forwardingConfig != null) 'forwardingConfig': forwardingConfig,
+      if (tumbling != null) 'tumbling': tumbling,
     };
   }
 }
 
-class TraversalDirection {
-  static const parent = TraversalDirection._('PARENT');
-  static const child = TraversalDirection._('CHILD');
+/// The processing configuration for the given metric property. You can
+/// configure metrics to be computed at the edge or in the Amazon Web Services
+/// Cloud. By default, metrics are forwarded to the cloud.
+class MetricProcessingConfig {
+  /// The compute location for the given metric property.
+  final ComputeLocation computeLocation;
 
-  final String value;
+  MetricProcessingConfig({
+    required this.computeLocation,
+  });
 
-  const TraversalDirection._(this.value);
+  factory MetricProcessingConfig.fromJson(Map<String, dynamic> json) {
+    return MetricProcessingConfig(
+      computeLocation: ComputeLocation.fromString(
+          (json['computeLocation'] as String?) ?? ''),
+    );
+  }
 
-  static const values = [parent, child];
-
-  static TraversalDirection fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TraversalDirection._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TraversalDirection && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final computeLocation = this.computeLocation;
+    return {
+      'computeLocation': computeLocation.value,
+    };
+  }
 }
 
-class TraversalType {
-  static const pathToRoot = TraversalType._('PATH_TO_ROOT');
+class ComputeLocation {
+  static const edge = ComputeLocation._('EDGE');
+  static const cloud = ComputeLocation._('CLOUD');
 
   final String value;
 
-  const TraversalType._(this.value);
+  const ComputeLocation._(this.value);
 
-  static const values = [pathToRoot];
+  static const values = [edge, cloud];
 
-  static TraversalType fromString(String value) =>
+  static ComputeLocation fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TraversalType._(value));
+          orElse: () => ComputeLocation._(value));
 
   @override
-  bool operator ==(other) => other is TraversalType && other.value == value;
+  bool operator ==(other) => other is ComputeLocation && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -14637,232 +12357,33 @@ class TumblingWindow {
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// Contains expression variable information.
+class ExpressionVariable {
+  /// The friendly name of the variable to be used in the expression.
+  final String name;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  /// The variable that identifies an asset property from which to use values.
+  final VariableValue value;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateAccessPolicyResponse {
-  UpdateAccessPolicyResponse();
-
-  factory UpdateAccessPolicyResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateAccessPolicyResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateAssetModelCompositeModelResponse {
-  /// The path to the composite model listing the parent composite models.
-  final List<AssetModelCompositeModelPathSegment> assetModelCompositeModelPath;
-  final AssetModelStatus assetModelStatus;
-
-  UpdateAssetModelCompositeModelResponse({
-    required this.assetModelCompositeModelPath,
-    required this.assetModelStatus,
+  ExpressionVariable({
+    required this.name,
+    required this.value,
   });
 
-  factory UpdateAssetModelCompositeModelResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateAssetModelCompositeModelResponse(
-      assetModelCompositeModelPath:
-          ((json['assetModelCompositeModelPath'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => AssetModelCompositeModelPathSegment.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      assetModelStatus: AssetModelStatus.fromJson(
-          (json['assetModelStatus'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+  factory ExpressionVariable.fromJson(Map<String, dynamic> json) {
+    return ExpressionVariable(
+      name: (json['name'] as String?) ?? '',
+      value: VariableValue.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final assetModelCompositeModelPath = this.assetModelCompositeModelPath;
-    final assetModelStatus = this.assetModelStatus;
+    final name = this.name;
+    final value = this.value;
     return {
-      'assetModelCompositeModelPath': assetModelCompositeModelPath,
-      'assetModelStatus': assetModelStatus,
-    };
-  }
-}
-
-class UpdateAssetModelResponse {
-  /// The status of the asset model, which contains a state (<code>UPDATING</code>
-  /// after successfully calling this operation) and any error message.
-  final AssetModelStatus assetModelStatus;
-
-  UpdateAssetModelResponse({
-    required this.assetModelStatus,
-  });
-
-  factory UpdateAssetModelResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAssetModelResponse(
-      assetModelStatus: AssetModelStatus.fromJson(
-          (json['assetModelStatus'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetModelStatus = this.assetModelStatus;
-    return {
-      'assetModelStatus': assetModelStatus,
-    };
-  }
-}
-
-class UpdateAssetResponse {
-  /// The status of the asset, which contains a state (<code>UPDATING</code> after
-  /// successfully calling this operation) and any error message.
-  final AssetStatus assetStatus;
-
-  UpdateAssetResponse({
-    required this.assetStatus,
-  });
-
-  factory UpdateAssetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAssetResponse(
-      assetStatus: AssetStatus.fromJson(
-          (json['assetStatus'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetStatus = this.assetStatus;
-    return {
-      'assetStatus': assetStatus,
-    };
-  }
-}
-
-class UpdateDashboardResponse {
-  UpdateDashboardResponse();
-
-  factory UpdateDashboardResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateDashboardResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateGatewayCapabilityConfigurationResponse {
-  /// The namespace of the gateway capability.
-  final String capabilityNamespace;
-
-  /// The synchronization status of the capability configuration. The sync status
-  /// can be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IN_SYNC</code> – The gateway is running the capability configuration.
-  /// </li>
-  /// <li>
-  /// <code>OUT_OF_SYNC</code> – The gateway hasn't received the capability
-  /// configuration.
-  /// </li>
-  /// <li>
-  /// <code>SYNC_FAILED</code> – The gateway rejected the capability
-  /// configuration.
-  /// </li>
-  /// </ul>
-  /// After you update a capability configuration, its sync status is
-  /// <code>OUT_OF_SYNC</code> until the gateway receives and applies or rejects
-  /// the updated configuration.
-  final CapabilitySyncStatus capabilitySyncStatus;
-
-  UpdateGatewayCapabilityConfigurationResponse({
-    required this.capabilityNamespace,
-    required this.capabilitySyncStatus,
-  });
-
-  factory UpdateGatewayCapabilityConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateGatewayCapabilityConfigurationResponse(
-      capabilityNamespace: (json['capabilityNamespace'] as String?) ?? '',
-      capabilitySyncStatus: CapabilitySyncStatus.fromString(
-          (json['capabilitySyncStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capabilityNamespace = this.capabilityNamespace;
-    final capabilitySyncStatus = this.capabilitySyncStatus;
-    return {
-      'capabilityNamespace': capabilityNamespace,
-      'capabilitySyncStatus': capabilitySyncStatus.value,
-    };
-  }
-}
-
-class UpdatePortalResponse {
-  /// The status of the portal, which contains a state (<code>UPDATING</code>
-  /// after successfully calling this operation) and any error message.
-  final PortalStatus portalStatus;
-
-  UpdatePortalResponse({
-    required this.portalStatus,
-  });
-
-  factory UpdatePortalResponse.fromJson(Map<String, dynamic> json) {
-    return UpdatePortalResponse(
-      portalStatus: PortalStatus.fromJson(
-          (json['portalStatus'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final portalStatus = this.portalStatus;
-    return {
-      'portalStatus': portalStatus,
-    };
-  }
-}
-
-class UpdateProjectResponse {
-  UpdateProjectResponse();
-
-  factory UpdateProjectResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateProjectResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Contains information for a user identity in an access policy.
-class UserIdentity {
-  /// The IAM Identity Center ID of the user.
-  final String id;
-
-  UserIdentity({
-    required this.id,
-  });
-
-  factory UserIdentity.fromJson(Map<String, dynamic> json) {
-    return UserIdentity(
-      id: (json['id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    return {
-      'id': id,
+      'name': name,
+      'value': value,
     };
   }
 }
@@ -14925,48 +12446,766 @@ class VariableValue {
   }
 }
 
-/// Contains an asset property value (of a single type only).
-class Variant {
-  /// Asset property data of type Boolean (true or false).
-  final bool? booleanValue;
+/// The processing configuration for the given transform property. You can
+/// configure transforms to be kept at the edge or forwarded to the Amazon Web
+/// Services Cloud. You can also configure transforms to be computed at the edge
+/// or in the cloud.
+class TransformProcessingConfig {
+  /// The compute location for the given transform property.
+  final ComputeLocation computeLocation;
+  final ForwardingConfig? forwardingConfig;
 
-  /// Asset property data of type double (floating point number).
-  final double? doubleValue;
-
-  /// Asset property data of type integer (whole number).
-  final int? integerValue;
-
-  /// Asset property data of type string (sequence of characters).
-  final String? stringValue;
-
-  Variant({
-    this.booleanValue,
-    this.doubleValue,
-    this.integerValue,
-    this.stringValue,
+  TransformProcessingConfig({
+    required this.computeLocation,
+    this.forwardingConfig,
   });
 
-  factory Variant.fromJson(Map<String, dynamic> json) {
-    return Variant(
-      booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
-      integerValue: json['integerValue'] as int?,
-      stringValue: json['stringValue'] as String?,
+  factory TransformProcessingConfig.fromJson(Map<String, dynamic> json) {
+    return TransformProcessingConfig(
+      computeLocation: ComputeLocation.fromString(
+          (json['computeLocation'] as String?) ?? ''),
+      forwardingConfig: json['forwardingConfig'] != null
+          ? ForwardingConfig.fromJson(
+              json['forwardingConfig'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final booleanValue = this.booleanValue;
-    final doubleValue = this.doubleValue;
-    final integerValue = this.integerValue;
-    final stringValue = this.stringValue;
+    final computeLocation = this.computeLocation;
+    final forwardingConfig = this.forwardingConfig;
     return {
-      if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
-      if (integerValue != null) 'integerValue': integerValue,
-      if (stringValue != null) 'stringValue': stringValue,
+      'computeLocation': computeLocation.value,
+      if (forwardingConfig != null) 'forwardingConfig': forwardingConfig,
     };
   }
+}
+
+/// The forwarding configuration for a given property.
+class ForwardingConfig {
+  /// The forwarding state for the given property.
+  final ForwardingConfigState state;
+
+  ForwardingConfig({
+    required this.state,
+  });
+
+  factory ForwardingConfig.fromJson(Map<String, dynamic> json) {
+    return ForwardingConfig(
+      state: ForwardingConfigState.fromString((json['state'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    return {
+      'state': state.value,
+    };
+  }
+}
+
+class ForwardingConfigState {
+  static const disabled = ForwardingConfigState._('DISABLED');
+  static const enabled = ForwardingConfigState._('ENABLED');
+
+  final String value;
+
+  const ForwardingConfigState._(this.value);
+
+  static const values = [disabled, enabled];
+
+  static ForwardingConfigState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ForwardingConfigState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ForwardingConfigState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The processing configuration for the given measurement property. You can
+/// configure measurements to be kept at the edge or forwarded to the Amazon Web
+/// Services Cloud. By default, measurements are forwarded to the cloud.
+class MeasurementProcessingConfig {
+  /// The forwarding configuration for the given measurement property.
+  final ForwardingConfig forwardingConfig;
+
+  MeasurementProcessingConfig({
+    required this.forwardingConfig,
+  });
+
+  factory MeasurementProcessingConfig.fromJson(Map<String, dynamic> json) {
+    return MeasurementProcessingConfig(
+      forwardingConfig: ForwardingConfig.fromJson(
+          (json['forwardingConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forwardingConfig = this.forwardingConfig;
+    return {
+      'forwardingConfig': forwardingConfig,
+    };
+  }
+}
+
+/// Contains information about a composite model in an asset model. This object
+/// contains the asset property definitions that you define in the composite
+/// model.
+class AssetModelCompositeModel {
+  /// The name of the composite model.
+  final String name;
+
+  /// The type of the composite model. For alarm composite models, this type is
+  /// <code>AWS/ALARM</code>.
+  final String type;
+
+  /// The description of the composite model.
+  final String? description;
+
+  /// The external ID of the asset model composite model. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID of the asset model composite model.
+  final String? id;
+
+  /// The asset property definitions for this composite model.
+  final List<AssetModelProperty>? properties;
+
+  AssetModelCompositeModel({
+    required this.name,
+    required this.type,
+    this.description,
+    this.externalId,
+    this.id,
+    this.properties,
+  });
+
+  factory AssetModelCompositeModel.fromJson(Map<String, dynamic> json) {
+    return AssetModelCompositeModel(
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+      description: json['description'] as String?,
+      externalId: json['externalId'] as String?,
+      id: json['id'] as String?,
+      properties: (json['properties'] as List?)
+          ?.nonNulls
+          .map((e) => AssetModelProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final description = this.description;
+    final externalId = this.externalId;
+    final id = this.id;
+    final properties = this.properties;
+    return {
+      'name': name,
+      'type': type,
+      if (description != null) 'description': description,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+      if (properties != null) 'properties': properties,
+    };
+  }
+}
+
+/// Describes an asset hierarchy that contains a hierarchy's name, ID, and child
+/// asset model ID that specifies the type of asset that can be in this
+/// hierarchy.
+class AssetModelHierarchy {
+  /// The ID of the asset model, in UUID format. All assets in this hierarchy must
+  /// be instances of the <code>childAssetModelId</code> asset model. IoT SiteWise
+  /// will always return the actual asset model ID for this value. However, when
+  /// you are specifying this value as part of a call to <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>,
+  /// you may provide either the asset model ID or else <code>externalId:</code>
+  /// followed by the asset model's external ID. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String childAssetModelId;
+
+  /// The name of the asset model hierarchy that you specify by using the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
+  /// API operation.
+  final String name;
+
+  /// The external ID (if any) provided in the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
+  /// operation. You can assign an external ID by specifying this value as part of
+  /// a call to <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>.
+  /// However, you can't change the external ID if one is already assigned. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID of the asset model hierarchy. This ID is a <code>hierarchyId</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you are callling <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
+  /// to create a <i>new</i> hierarchy: You can specify its ID here, if desired.
+  /// IoT SiteWise automatically generates a unique ID for you, so this parameter
+  /// is never required. However, if you prefer to supply your own ID instead, you
+  /// can specify it here in UUID format. If you specify your own ID, it must be
+  /// globally unique.
+  /// </li>
+  /// <li>
+  /// If you are calling UpdateAssetModel to modify an <i>existing</i> hierarchy:
+  /// This can be either the actual ID in UUID format, or else
+  /// <code>externalId:</code> followed by the external ID, if it has one. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
+  /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  /// </li>
+  /// </ul>
+  final String? id;
+
+  AssetModelHierarchy({
+    required this.childAssetModelId,
+    required this.name,
+    this.externalId,
+    this.id,
+  });
+
+  factory AssetModelHierarchy.fromJson(Map<String, dynamic> json) {
+    return AssetModelHierarchy(
+      childAssetModelId: (json['childAssetModelId'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      externalId: json['externalId'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childAssetModelId = this.childAssetModelId;
+    final name = this.name;
+    final externalId = this.externalId;
+    final id = this.id;
+    return {
+      'childAssetModelId': childAssetModelId,
+      'name': name,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Contains information about the current status of an asset. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html">Asset
+/// and model states</a> in the <i>IoT SiteWise User Guide</i>.
+class AssetStatus {
+  /// The current status of the asset.
+  final AssetState state;
+
+  /// Contains associated error information, if any.
+  final ErrorDetails? error;
+
+  AssetStatus({
+    required this.state,
+    this.error,
+  });
+
+  factory AssetStatus.fromJson(Map<String, dynamic> json) {
+    return AssetStatus(
+      state: AssetState.fromString((json['state'] as String?) ?? ''),
+      error: json['error'] != null
+          ? ErrorDetails.fromJson(json['error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final error = this.error;
+    return {
+      'state': state.value,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+class AssetState {
+  static const creating = AssetState._('CREATING');
+  static const active = AssetState._('ACTIVE');
+  static const updating = AssetState._('UPDATING');
+  static const deleting = AssetState._('DELETING');
+  static const failed = AssetState._('FAILED');
+
+  final String value;
+
+  const AssetState._(this.value);
+
+  static const values = [creating, active, updating, deleting, failed];
+
+  static AssetState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AssetState._(value));
+
+  @override
+  bool operator ==(other) => other is AssetState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains an identity that can access an IoT SiteWise Monitor resource.
+/// <note>
+/// Currently, you can't use Amazon Web Services API operations to retrieve IAM
+/// Identity Center identity IDs. You can find the IAM Identity Center identity
+/// IDs in the URL of user and group pages in the <a
+/// href="https://console.aws.amazon.com/singlesignon">IAM Identity Center
+/// console</a>.
+/// </note>
+class Identity {
+  /// An IAM Identity Center group identity.
+  final GroupIdentity? group;
+
+  /// An IAM role identity.
+  final IAMRoleIdentity? iamRole;
+
+  /// An IAM user identity.
+  final IAMUserIdentity? iamUser;
+
+  /// An IAM Identity Center user identity.
+  final UserIdentity? user;
+
+  Identity({
+    this.group,
+    this.iamRole,
+    this.iamUser,
+    this.user,
+  });
+
+  factory Identity.fromJson(Map<String, dynamic> json) {
+    return Identity(
+      group: json['group'] != null
+          ? GroupIdentity.fromJson(json['group'] as Map<String, dynamic>)
+          : null,
+      iamRole: json['iamRole'] != null
+          ? IAMRoleIdentity.fromJson(json['iamRole'] as Map<String, dynamic>)
+          : null,
+      iamUser: json['iamUser'] != null
+          ? IAMUserIdentity.fromJson(json['iamUser'] as Map<String, dynamic>)
+          : null,
+      user: json['user'] != null
+          ? UserIdentity.fromJson(json['user'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    final iamRole = this.iamRole;
+    final iamUser = this.iamUser;
+    final user = this.user;
+    return {
+      if (group != null) 'group': group,
+      if (iamRole != null) 'iamRole': iamRole,
+      if (iamUser != null) 'iamUser': iamUser,
+      if (user != null) 'user': user,
+    };
+  }
+}
+
+/// Contains an IoT SiteWise Monitor resource ID for a portal or project.
+class Resource {
+  /// A portal resource.
+  final PortalResource? portal;
+
+  /// A project resource.
+  final ProjectResource? project;
+
+  Resource({
+    this.portal,
+    this.project,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      portal: json['portal'] != null
+          ? PortalResource.fromJson(json['portal'] as Map<String, dynamic>)
+          : null,
+      project: json['project'] != null
+          ? ProjectResource.fromJson(json['project'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final portal = this.portal;
+    final project = this.project;
+    return {
+      if (portal != null) 'portal': portal,
+      if (project != null) 'project': project,
+    };
+  }
+}
+
+class Permission {
+  static const administrator = Permission._('ADMINISTRATOR');
+  static const viewer = Permission._('VIEWER');
+
+  final String value;
+
+  const Permission._(this.value);
+
+  static const values = [administrator, viewer];
+
+  static Permission fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permission._(value));
+
+  @override
+  bool operator ==(other) => other is Permission && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Identifies an IoT SiteWise Monitor portal.
+class PortalResource {
+  /// The ID of the portal.
+  final String id;
+
+  PortalResource({
+    required this.id,
+  });
+
+  factory PortalResource.fromJson(Map<String, dynamic> json) {
+    return PortalResource(
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+/// Identifies a specific IoT SiteWise Monitor project.
+class ProjectResource {
+  /// The ID of the project.
+  final String id;
+
+  ProjectResource({
+    required this.id,
+  });
+
+  factory ProjectResource.fromJson(Map<String, dynamic> json) {
+    return ProjectResource(
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+/// Contains information for a user identity in an access policy.
+class UserIdentity {
+  /// The IAM Identity Center ID of the user.
+  final String id;
+
+  UserIdentity({
+    required this.id,
+  });
+
+  factory UserIdentity.fromJson(Map<String, dynamic> json) {
+    return UserIdentity(
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+/// Contains information for a group identity in an access policy.
+class GroupIdentity {
+  /// The IAM Identity Center ID of the group.
+  final String id;
+
+  GroupIdentity({
+    required this.id,
+  });
+
+  factory GroupIdentity.fromJson(Map<String, dynamic> json) {
+    return GroupIdentity(
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+/// Contains information about an Identity and Access Management user.
+class IAMUserIdentity {
+  /// The ARN of the IAM user. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// ARNs</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// If you delete the IAM user, access policies that contain this identity
+  /// include an empty <code>arn</code>. You can delete the access policy for the
+  /// IAM user that no longer exists.
+  /// </note>
+  final String arn;
+
+  IAMUserIdentity({
+    required this.arn,
+  });
+
+  factory IAMUserIdentity.fromJson(Map<String, dynamic> json) {
+    return IAMUserIdentity(
+      arn: (json['arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'arn': arn,
+    };
+  }
+}
+
+/// Contains information about an Identity and Access Management role. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
+/// roles</a> in the <i>IAM User Guide</i>.
+class IAMRoleIdentity {
+  /// The ARN of the IAM role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
+  /// ARNs</a> in the <i>IAM User Guide</i>.
+  final String arn;
+
+  IAMRoleIdentity({
+    required this.arn,
+  });
+
+  factory IAMRoleIdentity.fromJson(Map<String, dynamic> json) {
+    return IAMRoleIdentity(
+      arn: (json['arn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'arn': arn,
+    };
+  }
+}
+
+class StorageType {
+  static const sitewiseDefaultStorage =
+      StorageType._('SITEWISE_DEFAULT_STORAGE');
+  static const multiLayerStorage = StorageType._('MULTI_LAYER_STORAGE');
+
+  final String value;
+
+  const StorageType._(this.value);
+
+  static const values = [sitewiseDefaultStorage, multiLayerStorage];
+
+  static StorageType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StorageType._(value));
+
+  @override
+  bool operator ==(other) => other is StorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the storage destination.
+class MultiLayerStorage {
+  /// Contains information about a customer managed Amazon S3 bucket.
+  final CustomerManagedS3Storage customerManagedS3Storage;
+
+  MultiLayerStorage({
+    required this.customerManagedS3Storage,
+  });
+
+  factory MultiLayerStorage.fromJson(Map<String, dynamic> json) {
+    return MultiLayerStorage(
+      customerManagedS3Storage: CustomerManagedS3Storage.fromJson(
+          (json['customerManagedS3Storage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedS3Storage = this.customerManagedS3Storage;
+    return {
+      'customerManagedS3Storage': customerManagedS3Storage,
+    };
+  }
+}
+
+class DisassociatedDataStorageState {
+  static const enabled = DisassociatedDataStorageState._('ENABLED');
+  static const disabled = DisassociatedDataStorageState._('DISABLED');
+
+  final String value;
+
+  const DisassociatedDataStorageState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static DisassociatedDataStorageState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DisassociatedDataStorageState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DisassociatedDataStorageState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The number of days your data is kept in the hot tier. By default, your data
+/// is kept indefinitely in the hot tier.
+class RetentionPeriod {
+  /// The number of days that your data is kept.
+  /// <note>
+  /// If you specified a value for this parameter, the <code>unlimited</code>
+  /// parameter must be <code>false</code>.
+  /// </note>
+  final int? numberOfDays;
+
+  /// If true, your data is kept indefinitely.
+  /// <note>
+  /// If configured to <code>true</code>, you must not specify a value for the
+  /// <code>numberOfDays</code> parameter.
+  /// </note>
+  final bool? unlimited;
+
+  RetentionPeriod({
+    this.numberOfDays,
+    this.unlimited,
+  });
+
+  factory RetentionPeriod.fromJson(Map<String, dynamic> json) {
+    return RetentionPeriod(
+      numberOfDays: json['numberOfDays'] as int?,
+      unlimited: json['unlimited'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfDays = this.numberOfDays;
+    final unlimited = this.unlimited;
+    return {
+      if (numberOfDays != null) 'numberOfDays': numberOfDays,
+      if (unlimited != null) 'unlimited': unlimited,
+    };
+  }
+}
+
+/// Contains current status information for the configuration.
+class ConfigurationStatus {
+  /// The current state of the configuration.
+  final ConfigurationState state;
+
+  /// Contains associated error information, if any.
+  final ConfigurationErrorDetails? error;
+
+  ConfigurationStatus({
+    required this.state,
+    this.error,
+  });
+
+  factory ConfigurationStatus.fromJson(Map<String, dynamic> json) {
+    return ConfigurationStatus(
+      state: ConfigurationState.fromString((json['state'] as String?) ?? ''),
+      error: json['error'] != null
+          ? ConfigurationErrorDetails.fromJson(
+              json['error'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final error = this.error;
+    return {
+      'state': state.value,
+      if (error != null) 'error': error,
+    };
+  }
+}
+
+class WarmTierState {
+  static const enabled = WarmTierState._('ENABLED');
+  static const disabled = WarmTierState._('DISABLED');
+
+  final String value;
+
+  const WarmTierState._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static WarmTierState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WarmTierState._(value));
+
+  @override
+  bool operator ==(other) => other is WarmTierState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Set this period to specify how long your data is stored in the warm tier
@@ -15000,22 +13239,24 @@ class WarmTierRetentionPeriod {
   }
 }
 
-class WarmTierState {
-  static const enabled = WarmTierState._('ENABLED');
-  static const disabled = WarmTierState._('DISABLED');
+class ConfigurationState {
+  static const active = ConfigurationState._('ACTIVE');
+  static const updateInProgress = ConfigurationState._('UPDATE_IN_PROGRESS');
+  static const updateFailed = ConfigurationState._('UPDATE_FAILED');
 
   final String value;
 
-  const WarmTierState._(this.value);
+  const ConfigurationState._(this.value);
 
-  static const values = [enabled, disabled];
+  static const values = [active, updateInProgress, updateFailed];
 
-  static WarmTierState fromString(String value) =>
+  static ConfigurationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => WarmTierState._(value));
+          orElse: () => ConfigurationState._(value));
 
   @override
-  bool operator ==(other) => other is WarmTierState && other.value == value;
+  bool operator ==(other) =>
+      other is ConfigurationState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -15024,32 +13265,5830 @@ class WarmTierState {
   String toString() => value;
 }
 
-class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String? type, String? message})
-      : super(type: type, code: 'AccessDeniedException', message: message);
+/// Contains the details of an IoT SiteWise configuration error.
+class ConfigurationErrorDetails {
+  /// The error code.
+  final ErrorCode code;
+
+  /// The error message.
+  final String message;
+
+  ConfigurationErrorDetails({
+    required this.code,
+    required this.message,
+  });
+
+  factory ConfigurationErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ConfigurationErrorDetails(
+      code: ErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'code': code.value,
+      'message': message,
+    };
+  }
 }
 
-class ConflictingOperationException extends _s.GenericAwsException {
-  ConflictingOperationException({String? type, String? message})
-      : super(
-            type: type,
-            code: 'ConflictingOperationException',
-            message: message);
+/// Contains information about a customer managed Amazon S3 bucket.
+class CustomerManagedS3Storage {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the Identity and Access Management role that allows IoT SiteWise to send
+  /// data to Amazon S3.
+  final String roleArn;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the Amazon S3 object. For more information about how to find the ARN for
+  /// an Amazon S3 object, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-arn-format.html">Amazon
+  /// S3 resources</a> in the <i>Amazon Simple Storage Service User Guide</i>.
+  final String s3ResourceArn;
+
+  CustomerManagedS3Storage({
+    required this.roleArn,
+    required this.s3ResourceArn,
+  });
+
+  factory CustomerManagedS3Storage.fromJson(Map<String, dynamic> json) {
+    return CustomerManagedS3Storage(
+      roleArn: (json['roleArn'] as String?) ?? '',
+      s3ResourceArn: (json['s3ResourceArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final s3ResourceArn = this.s3ResourceArn;
+    return {
+      'roleArn': roleArn,
+      's3ResourceArn': s3ResourceArn,
+    };
+  }
 }
 
-class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String? type, String? message})
-      : super(type: type, code: 'InternalFailureException', message: message);
+/// Contains logging options.
+class LoggingOptions {
+  /// The IoT SiteWise logging verbosity level.
+  final LoggingLevel level;
+
+  LoggingOptions({
+    required this.level,
+  });
+
+  factory LoggingOptions.fromJson(Map<String, dynamic> json) {
+    return LoggingOptions(
+      level: LoggingLevel.fromString((json['level'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final level = this.level;
+    return {
+      'level': level.value,
+    };
+  }
 }
 
-class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String? type, String? message})
-      : super(type: type, code: 'InvalidRequestException', message: message);
+class LoggingLevel {
+  static const error = LoggingLevel._('ERROR');
+  static const info = LoggingLevel._('INFO');
+  static const off = LoggingLevel._('OFF');
+
+  final String value;
+
+  const LoggingLevel._(this.value);
+
+  static const values = [error, info, off];
+
+  static LoggingLevel fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LoggingLevel._(value));
+
+  @override
+  bool operator ==(other) => other is LoggingLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String? type, String? message})
-      : super(type: type, code: 'LimitExceededException', message: message);
+class EncryptionType {
+  static const sitewiseDefaultEncryption =
+      EncryptionType._('SITEWISE_DEFAULT_ENCRYPTION');
+  static const kmsBasedEncryption = EncryptionType._('KMS_BASED_ENCRYPTION');
+
+  final String value;
+
+  const EncryptionType._(this.value);
+
+  static const values = [sitewiseDefaultEncryption, kmsBasedEncryption];
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains configuration options for mapping properties from an interface
+/// asset model to an asset model where the interface is applied.
+class PropertyMappingConfiguration {
+  /// If true, missing properties from the interface asset model are automatically
+  /// created in the asset model where the interface is applied.
+  final bool? createMissingProperty;
+
+  /// If true, properties are matched by name between the interface asset model
+  /// and the asset model where the interface is applied.
+  final bool? matchByPropertyName;
+
+  /// A list of specific property mappings that override the automatic mapping by
+  /// name when an interface is applied to an asset model.
+  final List<PropertyMapping>? overrides;
+
+  PropertyMappingConfiguration({
+    this.createMissingProperty,
+    this.matchByPropertyName,
+    this.overrides,
+  });
+
+  Map<String, dynamic> toJson() {
+    final createMissingProperty = this.createMissingProperty;
+    final matchByPropertyName = this.matchByPropertyName;
+    final overrides = this.overrides;
+    return {
+      if (createMissingProperty != null)
+        'createMissingProperty': createMissingProperty,
+      if (matchByPropertyName != null)
+        'matchByPropertyName': matchByPropertyName,
+      if (overrides != null) 'overrides': overrides,
+    };
+  }
+}
+
+/// Maps a property from an interface asset model to a property in the asset
+/// model where the interface is applied.
+class PropertyMapping {
+  /// The ID of the property in the asset model where the interface is applied.
+  final String assetModelPropertyId;
+
+  /// The ID of the property in the interface asset model.
+  final String interfaceAssetModelPropertyId;
+
+  PropertyMapping({
+    required this.assetModelPropertyId,
+    required this.interfaceAssetModelPropertyId,
+  });
+
+  factory PropertyMapping.fromJson(Map<String, dynamic> json) {
+    return PropertyMapping(
+      assetModelPropertyId: (json['assetModelPropertyId'] as String?) ?? '',
+      interfaceAssetModelPropertyId:
+          (json['interfaceAssetModelPropertyId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelPropertyId = this.assetModelPropertyId;
+    final interfaceAssetModelPropertyId = this.interfaceAssetModelPropertyId;
+    return {
+      'assetModelPropertyId': assetModelPropertyId,
+      'interfaceAssetModelPropertyId': interfaceAssetModelPropertyId,
+    };
+  }
+}
+
+/// Contains a summary of a time series (data stream).
+class TimeSeriesSummary {
+  /// The data type of the time series.
+  ///
+  /// If you specify <code>STRUCT</code>, you must also specify
+  /// <code>dataTypeSpec</code> to identify the type of the structure for this
+  /// time series.
+  final PropertyDataType dataType;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the time series, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:time-series/${TimeSeriesId}</code>
+  final String timeSeriesArn;
+
+  /// The date that the time series was created, in Unix epoch time.
+  final DateTime timeSeriesCreationDate;
+
+  /// The ID of the time series.
+  final String timeSeriesId;
+
+  /// The date that the time series was last updated, in Unix epoch time.
+  final DateTime timeSeriesLastUpdateDate;
+
+  /// The alias that identifies the time series.
+  final String? alias;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The data type of the structure for this time series. This parameter is
+  /// required for time series that have the <code>STRUCT</code> data type.
+  ///
+  /// The options for this parameter depend on the type of the composite model in
+  /// which you created the asset property that is associated with your time
+  /// series. Use <code>AWS/ALARM_STATE</code> for alarm state in alarm composite
+  /// models.
+  final String? dataTypeSpec;
+
+  /// The ID of the asset property, in UUID format.
+  final String? propertyId;
+
+  TimeSeriesSummary({
+    required this.dataType,
+    required this.timeSeriesArn,
+    required this.timeSeriesCreationDate,
+    required this.timeSeriesId,
+    required this.timeSeriesLastUpdateDate,
+    this.alias,
+    this.assetId,
+    this.dataTypeSpec,
+    this.propertyId,
+  });
+
+  factory TimeSeriesSummary.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesSummary(
+      dataType:
+          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
+      timeSeriesArn: (json['timeSeriesArn'] as String?) ?? '',
+      timeSeriesCreationDate:
+          nonNullableTimeStampFromJson(json['timeSeriesCreationDate'] ?? 0),
+      timeSeriesId: (json['timeSeriesId'] as String?) ?? '',
+      timeSeriesLastUpdateDate:
+          nonNullableTimeStampFromJson(json['timeSeriesLastUpdateDate'] ?? 0),
+      alias: json['alias'] as String?,
+      assetId: json['assetId'] as String?,
+      dataTypeSpec: json['dataTypeSpec'] as String?,
+      propertyId: json['propertyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final timeSeriesArn = this.timeSeriesArn;
+    final timeSeriesCreationDate = this.timeSeriesCreationDate;
+    final timeSeriesId = this.timeSeriesId;
+    final timeSeriesLastUpdateDate = this.timeSeriesLastUpdateDate;
+    final alias = this.alias;
+    final assetId = this.assetId;
+    final dataTypeSpec = this.dataTypeSpec;
+    final propertyId = this.propertyId;
+    return {
+      'dataType': dataType.value,
+      'timeSeriesArn': timeSeriesArn,
+      'timeSeriesCreationDate': unixTimestampToJson(timeSeriesCreationDate),
+      'timeSeriesId': timeSeriesId,
+      'timeSeriesLastUpdateDate': unixTimestampToJson(timeSeriesLastUpdateDate),
+      if (alias != null) 'alias': alias,
+      if (assetId != null) 'assetId': assetId,
+      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
+      if (propertyId != null) 'propertyId': propertyId,
+    };
+  }
+}
+
+class ListTimeSeriesType {
+  static const associated = ListTimeSeriesType._('ASSOCIATED');
+  static const disassociated = ListTimeSeriesType._('DISASSOCIATED');
+
+  final String value;
+
+  const ListTimeSeriesType._(this.value);
+
+  static const values = [associated, disassociated];
+
+  static ListTimeSeriesType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListTimeSeriesType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListTimeSeriesType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains project summary information.
+class ProjectSummary {
+  /// The ID of the project.
+  final String id;
+
+  /// The name of the project.
+  final String name;
+
+  /// The date the project was created, in Unix epoch time.
+  final DateTime? creationDate;
+
+  /// The project's description.
+  final String? description;
+
+  /// The date the project was last updated, in Unix epoch time.
+  final DateTime? lastUpdateDate;
+
+  ProjectSummary({
+    required this.id,
+    required this.name,
+    this.creationDate,
+    this.description,
+    this.lastUpdateDate,
+  });
+
+  factory ProjectSummary.fromJson(Map<String, dynamic> json) {
+    return ProjectSummary(
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final lastUpdateDate = this.lastUpdateDate;
+    return {
+      'id': id,
+      'name': name,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'description': description,
+      if (lastUpdateDate != null)
+        'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+    };
+  }
+}
+
+/// Contains a portal summary.
+class PortalSummary {
+  /// The ID of the portal.
+  final String id;
+
+  /// The name of the portal.
+  final String name;
+
+  /// The URL for the IoT SiteWise Monitor portal. You can use this URL to access
+  /// portals that use IAM Identity Center for authentication. For portals that
+  /// use IAM for authentication, you must use the IoT SiteWise console to get a
+  /// URL that you can use to access the portal.
+  final String startUrl;
+  final PortalStatus status;
+
+  /// The date the portal was created, in Unix epoch time.
+  final DateTime? creationDate;
+
+  /// The portal's description.
+  final String? description;
+
+  /// The date the portal was last updated, in Unix epoch time.
+  final DateTime? lastUpdateDate;
+
+  /// Define the type of portal. The value for IoT SiteWise Monitor (Classic) is
+  /// <code>SITEWISE_PORTAL_V1</code>. The value for IoT SiteWise Monitor
+  /// (AI-aware) is <code>SITEWISE_PORTAL_V2</code>.
+  final PortalType? portalType;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the service role that allows the portal's users to access your IoT
+  /// SiteWise resources on your behalf. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html">Using
+  /// service roles for IoT SiteWise Monitor</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? roleArn;
+
+  PortalSummary({
+    required this.id,
+    required this.name,
+    required this.startUrl,
+    required this.status,
+    this.creationDate,
+    this.description,
+    this.lastUpdateDate,
+    this.portalType,
+    this.roleArn,
+  });
+
+  factory PortalSummary.fromJson(Map<String, dynamic> json) {
+    return PortalSummary(
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      startUrl: (json['startUrl'] as String?) ?? '',
+      status: PortalStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
+      portalType: (json['portalType'] as String?)?.let(PortalType.fromString),
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final startUrl = this.startUrl;
+    final status = this.status;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final lastUpdateDate = this.lastUpdateDate;
+    final portalType = this.portalType;
+    final roleArn = this.roleArn;
+    return {
+      'id': id,
+      'name': name,
+      'startUrl': startUrl,
+      'status': status,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'description': description,
+      if (lastUpdateDate != null)
+        'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      if (portalType != null) 'portalType': portalType.value,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
+}
+
+/// Contains summary information about an interface relationship, which defines
+/// how an interface is applied to an asset model. This summary provides the
+/// essential identifiers needed to retrieve detailed information about the
+/// relationship.
+class InterfaceRelationshipSummary {
+  /// The ID of the asset model that has the interface applied to it.
+  final String id;
+
+  InterfaceRelationshipSummary({
+    required this.id,
+  });
+
+  factory InterfaceRelationshipSummary.fromJson(Map<String, dynamic> json) {
+    return InterfaceRelationshipSummary(
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+/// Contains a summary of a gateway.
+class GatewaySummary {
+  /// The date the gateway was created, in Unix epoch time.
+  final DateTime creationDate;
+
+  /// The ID of the gateway device.
+  final String gatewayId;
+
+  /// The name of the gateway.
+  final String gatewayName;
+
+  /// The date the gateway was last updated, in Unix epoch time.
+  final DateTime lastUpdateDate;
+
+  /// A list of gateway capability summaries that each contain a namespace and
+  /// status. Each gateway capability defines data sources for the gateway. To
+  /// retrieve a capability configuration's definition, use <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGatewayCapabilityConfiguration.html">DescribeGatewayCapabilityConfiguration</a>.
+  final List<GatewayCapabilitySummary>? gatewayCapabilitySummaries;
+  final GatewayPlatform? gatewayPlatform;
+
+  /// The version of the gateway. A value of <code>3</code> indicates an
+  /// MQTT-enabled, V3 gateway, while <code>2</code> indicates a Classic streams,
+  /// V2 gateway.
+  final String? gatewayVersion;
+
+  GatewaySummary({
+    required this.creationDate,
+    required this.gatewayId,
+    required this.gatewayName,
+    required this.lastUpdateDate,
+    this.gatewayCapabilitySummaries,
+    this.gatewayPlatform,
+    this.gatewayVersion,
+  });
+
+  factory GatewaySummary.fromJson(Map<String, dynamic> json) {
+    return GatewaySummary(
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      gatewayId: (json['gatewayId'] as String?) ?? '',
+      gatewayName: (json['gatewayName'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      gatewayCapabilitySummaries: (json['gatewayCapabilitySummaries'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              GatewayCapabilitySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      gatewayPlatform: json['gatewayPlatform'] != null
+          ? GatewayPlatform.fromJson(
+              json['gatewayPlatform'] as Map<String, dynamic>)
+          : null,
+      gatewayVersion: json['gatewayVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final gatewayId = this.gatewayId;
+    final gatewayName = this.gatewayName;
+    final lastUpdateDate = this.lastUpdateDate;
+    final gatewayCapabilitySummaries = this.gatewayCapabilitySummaries;
+    final gatewayPlatform = this.gatewayPlatform;
+    final gatewayVersion = this.gatewayVersion;
+    return {
+      'creationDate': unixTimestampToJson(creationDate),
+      'gatewayId': gatewayId,
+      'gatewayName': gatewayName,
+      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      if (gatewayCapabilitySummaries != null)
+        'gatewayCapabilitySummaries': gatewayCapabilitySummaries,
+      if (gatewayPlatform != null) 'gatewayPlatform': gatewayPlatform,
+      if (gatewayVersion != null) 'gatewayVersion': gatewayVersion,
+    };
+  }
+}
+
+/// The gateway's platform configuration. You can only specify one platform type
+/// in a gateway.
+///
+/// (Legacy only) For Greengrass V1 gateways, specify the
+/// <code>greengrass</code> parameter with a valid Greengrass group ARN.
+///
+/// For Greengrass V2 gateways, specify the <code>greengrassV2</code> parameter
+/// with a valid core device thing name. If creating a V3 gateway
+/// (<code>gatewayVersion=3</code>), you must also specify the
+/// <code>coreDeviceOperatingSystem</code>.
+///
+/// For Siemens Industrial Edge gateways, specify the <code>siemensIE</code>
+/// parameter with a valid IoT Core thing name.
+class GatewayPlatform {
+  /// A gateway that runs on IoT Greengrass.
+  final Greengrass? greengrass;
+
+  /// A gateway that runs on IoT Greengrass V2.
+  final GreengrassV2? greengrassV2;
+
+  /// A SiteWise Edge gateway that runs on a Siemens Industrial Edge Device.
+  final SiemensIE? siemensIE;
+
+  GatewayPlatform({
+    this.greengrass,
+    this.greengrassV2,
+    this.siemensIE,
+  });
+
+  factory GatewayPlatform.fromJson(Map<String, dynamic> json) {
+    return GatewayPlatform(
+      greengrass: json['greengrass'] != null
+          ? Greengrass.fromJson(json['greengrass'] as Map<String, dynamic>)
+          : null,
+      greengrassV2: json['greengrassV2'] != null
+          ? GreengrassV2.fromJson(json['greengrassV2'] as Map<String, dynamic>)
+          : null,
+      siemensIE: json['siemensIE'] != null
+          ? SiemensIE.fromJson(json['siemensIE'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final greengrass = this.greengrass;
+    final greengrassV2 = this.greengrassV2;
+    final siemensIE = this.siemensIE;
+    return {
+      if (greengrass != null) 'greengrass': greengrass,
+      if (greengrassV2 != null) 'greengrassV2': greengrassV2,
+      if (siemensIE != null) 'siemensIE': siemensIE,
+    };
+  }
+}
+
+/// Contains a summary of a gateway capability configuration.
+class GatewayCapabilitySummary {
+  /// The namespace of the capability configuration. For example, if you configure
+  /// OPC UA sources for an MQTT-enabled gateway, your OPC-UA capability
+  /// configuration has the namespace <code>iotsitewise:opcuacollector:3</code>.
+  final String capabilityNamespace;
+
+  /// The synchronization status of the gateway capability configuration. The sync
+  /// status can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IN_SYNC</code> - The gateway is running with the latest configuration.
+  /// </li>
+  /// <li>
+  /// <code>OUT_OF_SYNC</code> - The gateway hasn't received the latest
+  /// configuration.
+  /// </li>
+  /// <li>
+  /// <code>SYNC_FAILED</code> - The gateway rejected the latest configuration.
+  /// </li>
+  /// <li>
+  /// <code>UNKNOWN</code> - The gateway hasn't reported its sync status.
+  /// </li>
+  /// <li>
+  /// <code>NOT_APPLICABLE</code> - The gateway doesn't support this capability.
+  /// This is most common when integrating partner data sources, because the data
+  /// integration is handled externally by the partner.
+  /// </li>
+  /// </ul>
+  final CapabilitySyncStatus capabilitySyncStatus;
+
+  GatewayCapabilitySummary({
+    required this.capabilityNamespace,
+    required this.capabilitySyncStatus,
+  });
+
+  factory GatewayCapabilitySummary.fromJson(Map<String, dynamic> json) {
+    return GatewayCapabilitySummary(
+      capabilityNamespace: (json['capabilityNamespace'] as String?) ?? '',
+      capabilitySyncStatus: CapabilitySyncStatus.fromString(
+          (json['capabilitySyncStatus'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capabilityNamespace = this.capabilityNamespace;
+    final capabilitySyncStatus = this.capabilitySyncStatus;
+    return {
+      'capabilityNamespace': capabilityNamespace,
+      'capabilitySyncStatus': capabilitySyncStatus.value,
+    };
+  }
+}
+
+/// Contains details for a gateway that runs on IoT Greengrass. To create a
+/// gateway that runs on IoT Greengrass, you must add the IoT SiteWise connector
+/// to a Greengrass group and deploy it. Your Greengrass group must also have
+/// permissions to upload data to IoT SiteWise. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html">Ingesting
+/// data using a gateway</a> in the <i>IoT SiteWise User Guide</i>.
+class Greengrass {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the Greengrass group. For more information about how to find a group's
+  /// ARN, see <a
+  /// href="https://docs.aws.amazon.com/greengrass/v1/apireference/listgroups-get.html">ListGroups</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/greengrass/v1/apireference/getgroup-get.html">GetGroup</a>
+  /// in the <i>IoT Greengrass V1 API Reference</i>.
+  final String groupArn;
+
+  Greengrass({
+    required this.groupArn,
+  });
+
+  factory Greengrass.fromJson(Map<String, dynamic> json) {
+    return Greengrass(
+      groupArn: (json['groupArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupArn = this.groupArn;
+    return {
+      'groupArn': groupArn,
+    };
+  }
+}
+
+/// Contains details for a gateway that runs on IoT Greengrass V2. To create a
+/// gateway that runs on IoT Greengrass V2, you must deploy the IoT SiteWise
+/// Edge component to your gateway device. Your <a
+/// href="https://docs.aws.amazon.com/greengrass/v2/developerguide/device-service-role.html">Greengrass
+/// device role</a> must use the <code>AWSIoTSiteWiseEdgeAccess</code> policy.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/sw-gateways.html">Using
+/// IoT SiteWise at the edge</a> in the <i>IoT SiteWise User Guide</i>.
+class GreengrassV2 {
+  /// The name of the IoT thing for your IoT Greengrass V2 core device.
+  final String coreDeviceThingName;
+
+  /// The operating system of the core device in IoT Greengrass V2. Specifying the
+  /// operating system is required for MQTT-enabled, V3 gateways
+  /// (<code>gatewayVersion</code> <code>3</code>) and not applicable for Classic
+  /// stream, V2 gateways (<code>gatewayVersion</code> <code>2</code>).
+  final CoreDeviceOperatingSystem? coreDeviceOperatingSystem;
+
+  GreengrassV2({
+    required this.coreDeviceThingName,
+    this.coreDeviceOperatingSystem,
+  });
+
+  factory GreengrassV2.fromJson(Map<String, dynamic> json) {
+    return GreengrassV2(
+      coreDeviceThingName: (json['coreDeviceThingName'] as String?) ?? '',
+      coreDeviceOperatingSystem: (json['coreDeviceOperatingSystem'] as String?)
+          ?.let(CoreDeviceOperatingSystem.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coreDeviceThingName = this.coreDeviceThingName;
+    final coreDeviceOperatingSystem = this.coreDeviceOperatingSystem;
+    return {
+      'coreDeviceThingName': coreDeviceThingName,
+      if (coreDeviceOperatingSystem != null)
+        'coreDeviceOperatingSystem': coreDeviceOperatingSystem.value,
+    };
+  }
+}
+
+/// Contains details for a SiteWise Edge gateway that runs on a Siemens
+/// Industrial Edge Device.
+class SiemensIE {
+  /// The name of the IoT Thing for your SiteWise Edge gateway.
+  final String iotCoreThingName;
+
+  SiemensIE({
+    required this.iotCoreThingName,
+  });
+
+  factory SiemensIE.fromJson(Map<String, dynamic> json) {
+    return SiemensIE(
+      iotCoreThingName: (json['iotCoreThingName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iotCoreThingName = this.iotCoreThingName;
+    return {
+      'iotCoreThingName': iotCoreThingName,
+    };
+  }
+}
+
+class CoreDeviceOperatingSystem {
+  static const linuxAarch64 = CoreDeviceOperatingSystem._('LINUX_AARCH64');
+  static const linuxAmd64 = CoreDeviceOperatingSystem._('LINUX_AMD64');
+  static const windowsAmd64 = CoreDeviceOperatingSystem._('WINDOWS_AMD64');
+
+  final String value;
+
+  const CoreDeviceOperatingSystem._(this.value);
+
+  static const values = [linuxAarch64, linuxAmd64, windowsAmd64];
+
+  static CoreDeviceOperatingSystem fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CoreDeviceOperatingSystem._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CoreDeviceOperatingSystem && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the execution summary of the computation model.
+class ExecutionSummary {
+  /// The ID of the execution.
+  final String executionId;
+
+  /// The time the process started.
+  final DateTime executionStartTime;
+
+  /// The status of the execution process.
+  final ExecutionStatus executionStatus;
+  final TargetResource targetResource;
+
+  /// The version of the target resource.
+  final String targetResourceVersion;
+
+  /// The type of action exectued.
+  final String? actionType;
+
+  /// The time the process ended.
+  final DateTime? executionEndTime;
+
+  /// The execution entity version associated with the summary.
+  final String? executionEntityVersion;
+
+  /// The detailed resource this execution resolves to.
+  final ResolveTo? resolveTo;
+
+  ExecutionSummary({
+    required this.executionId,
+    required this.executionStartTime,
+    required this.executionStatus,
+    required this.targetResource,
+    required this.targetResourceVersion,
+    this.actionType,
+    this.executionEndTime,
+    this.executionEntityVersion,
+    this.resolveTo,
+  });
+
+  factory ExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return ExecutionSummary(
+      executionId: (json['executionId'] as String?) ?? '',
+      executionStartTime:
+          nonNullableTimeStampFromJson(json['executionStartTime'] ?? 0),
+      executionStatus: ExecutionStatus.fromJson(
+          (json['executionStatus'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetResource: TargetResource.fromJson(
+          (json['targetResource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      targetResourceVersion: (json['targetResourceVersion'] as String?) ?? '',
+      actionType: json['actionType'] as String?,
+      executionEndTime: timeStampFromJson(json['executionEndTime']),
+      executionEntityVersion: json['executionEntityVersion'] as String?,
+      resolveTo: json['resolveTo'] != null
+          ? ResolveTo.fromJson(json['resolveTo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionId = this.executionId;
+    final executionStartTime = this.executionStartTime;
+    final executionStatus = this.executionStatus;
+    final targetResource = this.targetResource;
+    final targetResourceVersion = this.targetResourceVersion;
+    final actionType = this.actionType;
+    final executionEndTime = this.executionEndTime;
+    final executionEntityVersion = this.executionEntityVersion;
+    final resolveTo = this.resolveTo;
+    return {
+      'executionId': executionId,
+      'executionStartTime': unixTimestampToJson(executionStartTime),
+      'executionStatus': executionStatus,
+      'targetResource': targetResource,
+      'targetResourceVersion': targetResourceVersion,
+      if (actionType != null) 'actionType': actionType,
+      if (executionEndTime != null)
+        'executionEndTime': unixTimestampToJson(executionEndTime),
+      if (executionEntityVersion != null)
+        'executionEntityVersion': executionEntityVersion,
+      if (resolveTo != null) 'resolveTo': resolveTo,
+    };
+  }
+}
+
+/// The resource the action will be taken on. This can include asset-based
+/// resources and computation model resources.
+class TargetResource {
+  /// The ID of the asset, in UUID format.
+  final String? assetId;
+
+  /// The ID of the computation model.
+  final String? computationModelId;
+
+  TargetResource({
+    this.assetId,
+    this.computationModelId,
+  });
+
+  factory TargetResource.fromJson(Map<String, dynamic> json) {
+    return TargetResource(
+      assetId: json['assetId'] as String?,
+      computationModelId: json['computationModelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final computationModelId = this.computationModelId;
+    return {
+      if (assetId != null) 'assetId': assetId,
+      if (computationModelId != null) 'computationModelId': computationModelId,
+    };
+  }
+}
+
+/// The detailed resource this execution summary resolves to.
+class ResolveTo {
+  /// The ID of the asset that the resource resolves to.
+  final String assetId;
+
+  ResolveTo({
+    required this.assetId,
+  });
+
+  factory ResolveTo.fromJson(Map<String, dynamic> json) {
+    return ResolveTo(
+      assetId: (json['assetId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    return {
+      'assetId': assetId,
+    };
+  }
+}
+
+/// The status of the execution.
+class ExecutionStatus {
+  /// The current state of the computation model.
+  final ExecutionState state;
+
+  ExecutionStatus({
+    required this.state,
+  });
+
+  factory ExecutionStatus.fromJson(Map<String, dynamic> json) {
+    return ExecutionStatus(
+      state: ExecutionState.fromString((json['state'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    return {
+      'state': state.value,
+    };
+  }
+}
+
+class ExecutionState {
+  static const running = ExecutionState._('RUNNING');
+  static const completed = ExecutionState._('COMPLETED');
+  static const failed = ExecutionState._('FAILED');
+
+  final String value;
+
+  const ExecutionState._(this.value);
+
+  static const values = [running, completed, failed];
+
+  static ExecutionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExecutionState._(value));
+
+  @override
+  bool operator ==(other) => other is ExecutionState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TargetResourceType {
+  static const asset = TargetResourceType._('ASSET');
+  static const computationModel = TargetResourceType._('COMPUTATION_MODEL');
+
+  final String value;
+
+  const TargetResourceType._(this.value);
+
+  static const values = [asset, computationModel];
+
+  static TargetResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResolveToResourceType {
+  static const asset = ResolveToResourceType._('ASSET');
+
+  final String value;
+
+  const ResolveToResourceType._(this.value);
+
+  static const values = [asset];
+
+  static ResolveToResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResolveToResourceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResolveToResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The summary details for the dataset.
+class DatasetSummary {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
+  /// of the dataset. The format is
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}</code>.
+  final String arn;
+
+  /// The dataset creation date, in Unix epoch time.
+  final DateTime creationDate;
+
+  /// A description about the dataset, and its functionality.
+  final String description;
+
+  /// The ID of the dataset.
+  final String id;
+
+  /// The date the dataset was last updated, in Unix epoch time.
+  final DateTime lastUpdateDate;
+
+  /// The name of the dataset.
+  final String name;
+
+  /// The status of the dataset. This contains the state and any error messages.
+  /// The state is <code>ACTIVE</code> when ready to use.
+  final DatasetStatus status;
+
+  DatasetSummary({
+    required this.arn,
+    required this.creationDate,
+    required this.description,
+    required this.id,
+    required this.lastUpdateDate,
+    required this.name,
+    required this.status,
+  });
+
+  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSummary(
+      arn: (json['arn'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: DatasetStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdateDate = this.lastUpdateDate;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'arn': arn,
+      'creationDate': unixTimestampToJson(creationDate),
+      'description': description,
+      'id': id,
+      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      'name': name,
+      'status': status,
+    };
+  }
+}
+
+/// Contains a dashboard summary.
+class DashboardSummary {
+  /// The ID of the dashboard.
+  final String id;
+
+  /// The name of the dashboard
+  final String name;
+
+  /// The date the dashboard was created, in Unix epoch time.
+  final DateTime? creationDate;
+
+  /// The dashboard's description.
+  final String? description;
+
+  /// The date the dashboard was last updated, in Unix epoch time.
+  final DateTime? lastUpdateDate;
+
+  DashboardSummary({
+    required this.id,
+    required this.name,
+    this.creationDate,
+    this.description,
+    this.lastUpdateDate,
+  });
+
+  factory DashboardSummary.fromJson(Map<String, dynamic> json) {
+    return DashboardSummary(
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final lastUpdateDate = this.lastUpdateDate;
+    return {
+      'id': id,
+      'name': name,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'description': description,
+      if (lastUpdateDate != null)
+        'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+    };
+  }
+}
+
+/// Contains a summary of a computation model.
+class ComputationModelSummary {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the computation model, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:computation-model/${ComputationModelId}</code>
+  final String arn;
+
+  /// The model creation date, in Unix epoch time.
+  final DateTime creationDate;
+
+  /// The ID of the computation model.
+  final String id;
+
+  /// The time the model was last updated, in Unix epoch time.
+  final DateTime lastUpdateDate;
+
+  /// The name of the computation model.
+  final String name;
+
+  /// The current status of the computation model.
+  final ComputationModelStatus status;
+
+  /// The type of the computation model.
+  final ComputationModelType type;
+
+  /// The version of the computation model.
+  final String version;
+
+  /// The description of the computation model.
+  final String? description;
+
+  ComputationModelSummary({
+    required this.arn,
+    required this.creationDate,
+    required this.id,
+    required this.lastUpdateDate,
+    required this.name,
+    required this.status,
+    required this.type,
+    required this.version,
+    this.description,
+  });
+
+  factory ComputationModelSummary.fromJson(Map<String, dynamic> json) {
+    return ComputationModelSummary(
+      arn: (json['arn'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: ComputationModelStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      type: ComputationModelType.fromString((json['type'] as String?) ?? ''),
+      version: (json['version'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final id = this.id;
+    final lastUpdateDate = this.lastUpdateDate;
+    final name = this.name;
+    final status = this.status;
+    final type = this.type;
+    final version = this.version;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'creationDate': unixTimestampToJson(creationDate),
+      'id': id,
+      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      'name': name,
+      'status': status,
+      'type': type.value,
+      'version': version,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class ComputationModelType {
+  static const anomalyDetection = ComputationModelType._('ANOMALY_DETECTION');
+
+  final String value;
+
+  const ComputationModelType._(this.value);
+
+  static const values = [anomalyDetection];
+
+  static ComputationModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComputationModelType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComputationModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of the resource that a computation model resolves to.
+class ComputationModelResolveToResourceSummary {
+  final ResolveTo? resolveTo;
+
+  ComputationModelResolveToResourceSummary({
+    this.resolveTo,
+  });
+
+  factory ComputationModelResolveToResourceSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ComputationModelResolveToResourceSummary(
+      resolveTo: json['resolveTo'] != null
+          ? ResolveTo.fromJson(json['resolveTo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolveTo = this.resolveTo;
+    return {
+      if (resolveTo != null) 'resolveTo': resolveTo,
+    };
+  }
+}
+
+/// A summary of how a specific data binding is used across computation models.
+/// This tracks dependencies between data sources and computation models,
+/// allowing you to understand the impact of changes to data sources.
+class ComputationModelDataBindingUsageSummary {
+  /// The list of computation model IDs that use this data binding. This allows
+  /// identification of all computation models affected by changes to the
+  /// referenced data source.
+  final List<String> computationModelIds;
+
+  /// The data binding matched by the filter criteria. Contains details about
+  /// specific data binding values used by the computation models.
+  final MatchedDataBinding matchedDataBinding;
+
+  ComputationModelDataBindingUsageSummary({
+    required this.computationModelIds,
+    required this.matchedDataBinding,
+  });
+
+  factory ComputationModelDataBindingUsageSummary.fromJson(
+      Map<String, dynamic> json) {
+    return ComputationModelDataBindingUsageSummary(
+      computationModelIds: ((json['computationModelIds'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      matchedDataBinding: MatchedDataBinding.fromJson(
+          (json['matchedDataBinding'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computationModelIds = this.computationModelIds;
+    final matchedDataBinding = this.matchedDataBinding;
+    return {
+      'computationModelIds': computationModelIds,
+      'matchedDataBinding': matchedDataBinding,
+    };
+  }
+}
+
+/// Represents a data binding that matches the specified filter criteria.
+class MatchedDataBinding {
+  /// The value of the matched data binding.
+  final DataBindingValue value;
+
+  MatchedDataBinding({
+    required this.value,
+  });
+
+  factory MatchedDataBinding.fromJson(Map<String, dynamic> json) {
+    return MatchedDataBinding(
+      value: DataBindingValue.fromJson(
+          (json['value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      'value': value,
+    };
+  }
+}
+
+/// Represents a value used in a data binding. It can be an asset property or an
+/// asset model property.
+class DataBindingValue {
+  final AssetModelPropertyBindingValue? assetModelProperty;
+
+  /// The asset property value used in the data binding.
+  final AssetPropertyBindingValue? assetProperty;
+
+  DataBindingValue({
+    this.assetModelProperty,
+    this.assetProperty,
+  });
+
+  factory DataBindingValue.fromJson(Map<String, dynamic> json) {
+    return DataBindingValue(
+      assetModelProperty: json['assetModelProperty'] != null
+          ? AssetModelPropertyBindingValue.fromJson(
+              json['assetModelProperty'] as Map<String, dynamic>)
+          : null,
+      assetProperty: json['assetProperty'] != null
+          ? AssetPropertyBindingValue.fromJson(
+              json['assetProperty'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelProperty = this.assetModelProperty;
+    final assetProperty = this.assetProperty;
+    return {
+      if (assetModelProperty != null) 'assetModelProperty': assetModelProperty,
+      if (assetProperty != null) 'assetProperty': assetProperty,
+    };
+  }
+}
+
+/// A filter used to match specific data binding values based on criteria. This
+/// filter allows searching for data bindings by asset, asset model, asset
+/// property, or asset model property.
+class DataBindingValueFilter {
+  /// Filter criteria for matching data bindings based on a specific asset. Used
+  /// to list all data bindings referencing a particular asset or its properties.
+  final AssetBindingValueFilter? asset;
+
+  /// Filter criteria for matching data bindings based on a specific asset model.
+  /// Used to list all data bindings referencing a particular asset model or its
+  /// properties.
+  final AssetModelBindingValueFilter? assetModel;
+
+  /// Filter criteria for matching data bindings based on a specific asset model
+  /// property. Used to list all data bindings referencing a particular property
+  /// of an asset model.
+  final AssetModelPropertyBindingValueFilter? assetModelProperty;
+
+  /// Filter criteria for matching data bindings based on a specific asset
+  /// property. Used to list all data bindings referencing a particular property
+  /// of an asset.
+  final AssetPropertyBindingValueFilter? assetProperty;
+
+  DataBindingValueFilter({
+    this.asset,
+    this.assetModel,
+    this.assetModelProperty,
+    this.assetProperty,
+  });
+
+  Map<String, dynamic> toJson() {
+    final asset = this.asset;
+    final assetModel = this.assetModel;
+    final assetModelProperty = this.assetModelProperty;
+    final assetProperty = this.assetProperty;
+    return {
+      if (asset != null) 'asset': asset,
+      if (assetModel != null) 'assetModel': assetModel,
+      if (assetModelProperty != null) 'assetModelProperty': assetModelProperty,
+      if (assetProperty != null) 'assetProperty': assetProperty,
+    };
+  }
+}
+
+/// A filter used to match data bindings based on a specific asset. This filter
+/// identifies all computation models referencing a particular asset in their
+/// data bindings.
+class AssetBindingValueFilter {
+  /// The ID of the asset to filter data bindings by. Only data bindings
+  /// referencing this specific asset are matched.
+  final String assetId;
+
+  AssetBindingValueFilter({
+    required this.assetId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    return {
+      'assetId': assetId,
+    };
+  }
+}
+
+/// A filter used to match data bindings based on a specific asset model. This
+/// filter identifies all computation models referencing a particular asset
+/// model in their data bindings.
+class AssetModelBindingValueFilter {
+  /// The ID of the asset model to filter data bindings by. Only data bindings
+  /// referemncing this specific asset model are matched.
+  final String assetModelId;
+
+  AssetModelBindingValueFilter({
+    required this.assetModelId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final assetModelId = this.assetModelId;
+    return {
+      'assetModelId': assetModelId,
+    };
+  }
+}
+
+/// A filter used to match data bindings based on a specific asset property.
+/// This filter helps identify all computation models referencing a particular
+/// property of an asset in their data bindings.
+class AssetPropertyBindingValueFilter {
+  /// The ID of the asset containing the property to filter by. This identifies
+  /// the specific asset instance containing the property of interest.
+  final String assetId;
+
+  /// The ID of the property within the asset to filter by. Only data bindings
+  /// referencing this specific property of the specified asset are matched.
+  final String propertyId;
+
+  AssetPropertyBindingValueFilter({
+    required this.assetId,
+    required this.propertyId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final propertyId = this.propertyId;
+    return {
+      'assetId': assetId,
+      'propertyId': propertyId,
+    };
+  }
+}
+
+/// A filter used to match data bindings based on a specific asset model
+/// property. This filter identifies all computation models that reference a
+/// particular property of an asset model in their data bindings.
+class AssetModelPropertyBindingValueFilter {
+  /// The ID of the asset model containing the filter property. This identifies
+  /// the specific asset model that contains the property of interest.
+  final String assetModelId;
+
+  /// The ID of the property within the asset model to filter by. Only data
+  /// bindings referencing this specific property of the specified asset model are
+  /// matched.
+  final String propertyId;
+
+  AssetModelPropertyBindingValueFilter({
+    required this.assetModelId,
+    required this.propertyId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final assetModelId = this.assetModelId;
+    final propertyId = this.propertyId;
+    return {
+      'assetModelId': assetModelId,
+      'propertyId': propertyId,
+    };
+  }
+}
+
+/// Contains a summary of the components of the composite model.
+class CompositionRelationshipSummary {
+  /// The ID of a composite model on this asset model.
+  final String assetModelCompositeModelId;
+
+  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
+  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
+  final String assetModelCompositeModelType;
+
+  /// The ID of the asset model, in UUID format.
+  final String assetModelId;
+
+  CompositionRelationshipSummary({
+    required this.assetModelCompositeModelId,
+    required this.assetModelCompositeModelType,
+    required this.assetModelId,
+  });
+
+  factory CompositionRelationshipSummary.fromJson(Map<String, dynamic> json) {
+    return CompositionRelationshipSummary(
+      assetModelCompositeModelId:
+          (json['assetModelCompositeModelId'] as String?) ?? '',
+      assetModelCompositeModelType:
+          (json['assetModelCompositeModelType'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelCompositeModelId = this.assetModelCompositeModelId;
+    final assetModelCompositeModelType = this.assetModelCompositeModelType;
+    final assetModelId = this.assetModelId;
+    return {
+      'assetModelCompositeModelId': assetModelCompositeModelId,
+      'assetModelCompositeModelType': assetModelCompositeModelType,
+      'assetModelId': assetModelId,
+    };
+  }
+}
+
+/// Contains the job summary information.
+class JobSummary {
+  /// The ID of the job.
+  final String id;
+
+  /// The unique name that helps identify the job request.
+  final String name;
+
+  /// The status of the bulk import job can be one of following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – IoT SiteWise is waiting for the current bulk import
+  /// job to finish.
+  /// </li>
+  /// <li>
+  /// <code>CANCELLED</code> – The bulk import job has been canceled.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> – IoT SiteWise is processing your request to import
+  /// your data from Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> – IoT SiteWise successfully completed your request to
+  /// import data from Amazon S3.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – IoT SiteWise couldn't process your request to import
+  /// data from Amazon S3. You can use logs saved in the specified error report
+  /// location in Amazon S3 to troubleshoot issues.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED_WITH_FAILURES</code> – IoT SiteWise completed your request
+  /// to import data from Amazon S3 with errors. You can use logs saved in the
+  /// specified error report location in Amazon S3 to troubleshoot issues.
+  /// </li>
+  /// </ul>
+  final JobStatus status;
+
+  JobSummary({
+    required this.id,
+    required this.name,
+    required this.status,
+  });
+
+  factory JobSummary.fromJson(Map<String, dynamic> json) {
+    return JobSummary(
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'id': id,
+      'name': name,
+      'status': status.value,
+    };
+  }
+}
+
+class JobStatus {
+  static const pending = JobStatus._('PENDING');
+  static const cancelled = JobStatus._('CANCELLED');
+  static const running = JobStatus._('RUNNING');
+  static const completed = JobStatus._('COMPLETED');
+  static const failed = JobStatus._('FAILED');
+  static const completedWithFailures = JobStatus._('COMPLETED_WITH_FAILURES');
+
+  final String value;
+
+  const JobStatus._(this.value);
+
+  static const values = [
+    pending,
+    cancelled,
+    running,
+    completed,
+    failed,
+    completedWithFailures
+  ];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ListBulkImportJobsFilter {
+  static const all = ListBulkImportJobsFilter._('ALL');
+  static const pending = ListBulkImportJobsFilter._('PENDING');
+  static const running = ListBulkImportJobsFilter._('RUNNING');
+  static const cancelled = ListBulkImportJobsFilter._('CANCELLED');
+  static const failed = ListBulkImportJobsFilter._('FAILED');
+  static const completedWithFailures =
+      ListBulkImportJobsFilter._('COMPLETED_WITH_FAILURES');
+  static const completed = ListBulkImportJobsFilter._('COMPLETED');
+
+  final String value;
+
+  const ListBulkImportJobsFilter._(this.value);
+
+  static const values = [
+    all,
+    pending,
+    running,
+    cancelled,
+    failed,
+    completedWithFailures,
+    completed
+  ];
+
+  static ListBulkImportJobsFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListBulkImportJobsFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListBulkImportJobsFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a summary of an associated asset.
+class AssociatedAssetsSummary {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the asset, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}</code>
+  final String arn;
+
+  /// The ID of the asset model used to create the asset.
+  final String assetModelId;
+
+  /// The date the asset was created, in Unix epoch time.
+  final DateTime creationDate;
+
+  /// A list of asset hierarchies that each contain a <code>hierarchyId</code>. A
+  /// hierarchy specifies allowed parent/child asset relationships.
+  final List<AssetHierarchy> hierarchies;
+
+  /// The ID of the asset, in UUID format.
+  final String id;
+
+  /// The date the asset was last updated, in Unix epoch time.
+  final DateTime lastUpdateDate;
+
+  /// The name of the asset.
+  final String name;
+
+  /// The current status of the asset.
+  final AssetStatus status;
+
+  /// A description for the asset.
+  final String? description;
+
+  /// The external ID of the asset. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  AssociatedAssetsSummary({
+    required this.arn,
+    required this.assetModelId,
+    required this.creationDate,
+    required this.hierarchies,
+    required this.id,
+    required this.lastUpdateDate,
+    required this.name,
+    required this.status,
+    this.description,
+    this.externalId,
+  });
+
+  factory AssociatedAssetsSummary.fromJson(Map<String, dynamic> json) {
+    return AssociatedAssetsSummary(
+      arn: (json['arn'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      hierarchies: ((json['hierarchies'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: (json['id'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: AssetStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      description: json['description'] as String?,
+      externalId: json['externalId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final assetModelId = this.assetModelId;
+    final creationDate = this.creationDate;
+    final hierarchies = this.hierarchies;
+    final id = this.id;
+    final lastUpdateDate = this.lastUpdateDate;
+    final name = this.name;
+    final status = this.status;
+    final description = this.description;
+    final externalId = this.externalId;
+    return {
+      'arn': arn,
+      'assetModelId': assetModelId,
+      'creationDate': unixTimestampToJson(creationDate),
+      'hierarchies': hierarchies,
+      'id': id,
+      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      'name': name,
+      'status': status,
+      if (description != null) 'description': description,
+      if (externalId != null) 'externalId': externalId,
+    };
+  }
+}
+
+/// Describes an asset hierarchy that contains a hierarchy's name and ID.
+class AssetHierarchy {
+  /// The hierarchy name provided in the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
+  /// API operation.
+  final String name;
+
+  /// The external ID of the hierarchy, if it has one. When you update an asset
+  /// hierarchy, you may assign an external ID if it doesn't already have one. You
+  /// can't change the external ID of an asset hierarchy that already has one. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID of the hierarchy. This ID is a <code>hierarchyId</code>.
+  final String? id;
+
+  AssetHierarchy({
+    required this.name,
+    this.externalId,
+    this.id,
+  });
+
+  factory AssetHierarchy.fromJson(Map<String, dynamic> json) {
+    return AssetHierarchy(
+      name: (json['name'] as String?) ?? '',
+      externalId: json['externalId'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final externalId = this.externalId;
+    final id = this.id;
+    return {
+      'name': name,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+class TraversalDirection {
+  static const parent = TraversalDirection._('PARENT');
+  static const child = TraversalDirection._('CHILD');
+
+  final String value;
+
+  const TraversalDirection._(this.value);
+
+  static const values = [parent, child];
+
+  static TraversalDirection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TraversalDirection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TraversalDirection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a summary of an asset.
+class AssetSummary {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the asset, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}</code>
+  final String arn;
+
+  /// The ID of the asset model used to create this asset.
+  final String assetModelId;
+
+  /// The date the asset was created, in Unix epoch time.
+  final DateTime creationDate;
+
+  /// A list of asset hierarchies that each contain a <code>hierarchyId</code>. A
+  /// hierarchy specifies allowed parent/child asset relationships.
+  final List<AssetHierarchy> hierarchies;
+
+  /// The ID of the asset, in UUID format.
+  final String id;
+
+  /// The date the asset was last updated, in Unix epoch time.
+  final DateTime lastUpdateDate;
+
+  /// The name of the asset.
+  final String name;
+
+  /// The current status of the asset.
+  final AssetStatus status;
+
+  /// A description for the asset.
+  final String? description;
+
+  /// The external ID of the asset. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  AssetSummary({
+    required this.arn,
+    required this.assetModelId,
+    required this.creationDate,
+    required this.hierarchies,
+    required this.id,
+    required this.lastUpdateDate,
+    required this.name,
+    required this.status,
+    this.description,
+    this.externalId,
+  });
+
+  factory AssetSummary.fromJson(Map<String, dynamic> json) {
+    return AssetSummary(
+      arn: (json['arn'] as String?) ?? '',
+      assetModelId: (json['assetModelId'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      hierarchies: ((json['hierarchies'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AssetHierarchy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: (json['id'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: AssetStatus.fromJson((json['status'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      description: json['description'] as String?,
+      externalId: json['externalId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final assetModelId = this.assetModelId;
+    final creationDate = this.creationDate;
+    final hierarchies = this.hierarchies;
+    final id = this.id;
+    final lastUpdateDate = this.lastUpdateDate;
+    final name = this.name;
+    final status = this.status;
+    final description = this.description;
+    final externalId = this.externalId;
+    return {
+      'arn': arn,
+      'assetModelId': assetModelId,
+      'creationDate': unixTimestampToJson(creationDate),
+      'hierarchies': hierarchies,
+      'id': id,
+      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      'name': name,
+      'status': status,
+      if (description != null) 'description': description,
+      if (externalId != null) 'externalId': externalId,
+    };
+  }
+}
+
+class ListAssetsFilter {
+  static const all = ListAssetsFilter._('ALL');
+  static const topLevel = ListAssetsFilter._('TOP_LEVEL');
+
+  final String value;
+
+  const ListAssetsFilter._(this.value);
+
+  static const values = [all, topLevel];
+
+  static ListAssetsFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListAssetsFilter._(value));
+
+  @override
+  bool operator ==(other) => other is ListAssetsFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about assets that are related to one another.
+class AssetRelationshipSummary {
+  /// The relationship type of the assets in this relationship. This value is one
+  /// of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HIERARCHY</code> – The assets are related through an asset hierarchy.
+  /// If you specify this relationship type, this asset relationship includes the
+  /// <code>hierarchyInfo</code> object.
+  /// </li>
+  /// </ul>
+  final AssetRelationshipType relationshipType;
+
+  /// The assets that are related through an asset hierarchy.
+  ///
+  /// This object is present if the <code>relationshipType</code> is
+  /// <code>HIERARCHY</code>.
+  final AssetHierarchyInfo? hierarchyInfo;
+
+  AssetRelationshipSummary({
+    required this.relationshipType,
+    this.hierarchyInfo,
+  });
+
+  factory AssetRelationshipSummary.fromJson(Map<String, dynamic> json) {
+    return AssetRelationshipSummary(
+      relationshipType: AssetRelationshipType.fromString(
+          (json['relationshipType'] as String?) ?? ''),
+      hierarchyInfo: json['hierarchyInfo'] != null
+          ? AssetHierarchyInfo.fromJson(
+              json['hierarchyInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final relationshipType = this.relationshipType;
+    final hierarchyInfo = this.hierarchyInfo;
+    return {
+      'relationshipType': relationshipType.value,
+      if (hierarchyInfo != null) 'hierarchyInfo': hierarchyInfo,
+    };
+  }
+}
+
+/// Contains information about a parent asset and a child asset that are related
+/// through an asset hierarchy.
+class AssetHierarchyInfo {
+  /// The ID of the child asset in this asset relationship.
+  final String? childAssetId;
+
+  /// The ID of the parent asset in this asset relationship.
+  final String? parentAssetId;
+
+  AssetHierarchyInfo({
+    this.childAssetId,
+    this.parentAssetId,
+  });
+
+  factory AssetHierarchyInfo.fromJson(Map<String, dynamic> json) {
+    return AssetHierarchyInfo(
+      childAssetId: json['childAssetId'] as String?,
+      parentAssetId: json['parentAssetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childAssetId = this.childAssetId;
+    final parentAssetId = this.parentAssetId;
+    return {
+      if (childAssetId != null) 'childAssetId': childAssetId,
+      if (parentAssetId != null) 'parentAssetId': parentAssetId,
+    };
+  }
+}
+
+class AssetRelationshipType {
+  static const hierarchy = AssetRelationshipType._('HIERARCHY');
+
+  final String value;
+
+  const AssetRelationshipType._(this.value);
+
+  static const values = [hierarchy];
+
+  static AssetRelationshipType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssetRelationshipType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AssetRelationshipType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TraversalType {
+  static const pathToRoot = TraversalType._('PATH_TO_ROOT');
+
+  final String value;
+
+  const TraversalType._(this.value);
+
+  static const values = [pathToRoot];
+
+  static TraversalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TraversalType._(value));
+
+  @override
+  bool operator ==(other) => other is TraversalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a summary of a property associated with an asset.
+class AssetPropertySummary {
+  /// The ID of the property.
+  final String id;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? alias;
+
+  /// The ID of the composite model that contains the asset property.
+  final String? assetCompositeModelId;
+
+  /// The external ID of the property. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+  final PropertyNotification? notification;
+
+  /// The structured path to the property from the root of the asset.
+  final List<AssetPropertyPathSegment>? path;
+
+  /// The unit of measure (such as Newtons or RPM) of the asset property.
+  final String? unit;
+
+  AssetPropertySummary({
+    required this.id,
+    this.alias,
+    this.assetCompositeModelId,
+    this.externalId,
+    this.notification,
+    this.path,
+    this.unit,
+  });
+
+  factory AssetPropertySummary.fromJson(Map<String, dynamic> json) {
+    return AssetPropertySummary(
+      id: (json['id'] as String?) ?? '',
+      alias: json['alias'] as String?,
+      assetCompositeModelId: json['assetCompositeModelId'] as String?,
+      externalId: json['externalId'] as String?,
+      notification: json['notification'] != null
+          ? PropertyNotification.fromJson(
+              json['notification'] as Map<String, dynamic>)
+          : null,
+      path: (json['path'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final alias = this.alias;
+    final assetCompositeModelId = this.assetCompositeModelId;
+    final externalId = this.externalId;
+    final notification = this.notification;
+    final path = this.path;
+    final unit = this.unit;
+    return {
+      'id': id,
+      if (alias != null) 'alias': alias,
+      if (assetCompositeModelId != null)
+        'assetCompositeModelId': assetCompositeModelId,
+      if (externalId != null) 'externalId': externalId,
+      if (notification != null) 'notification': notification,
+      if (path != null) 'path': path,
+      if (unit != null) 'unit': unit,
+    };
+  }
+}
+
+/// Contains asset property value notification information. When the
+/// notification state is enabled, IoT SiteWise publishes property value updates
+/// to a unique MQTT topic. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/interact-with-other-services.html">Interacting
+/// with other services</a> in the <i>IoT SiteWise User Guide</i>.
+class PropertyNotification {
+  /// The current notification state.
+  final PropertyNotificationState state;
+
+  /// The MQTT topic to which IoT SiteWise publishes property value update
+  /// notifications.
+  final String topic;
+
+  PropertyNotification({
+    required this.state,
+    required this.topic,
+  });
+
+  factory PropertyNotification.fromJson(Map<String, dynamic> json) {
+    return PropertyNotification(
+      state: PropertyNotificationState.fromString(
+          (json['state'] as String?) ?? ''),
+      topic: (json['topic'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final topic = this.topic;
+    return {
+      'state': state.value,
+      'topic': topic,
+    };
+  }
+}
+
+/// Represents one level between a property and the root of the asset.
+class AssetPropertyPathSegment {
+  /// The ID of the path segment.
+  final String? id;
+
+  /// The name of the path segment.
+  final String? name;
+
+  AssetPropertyPathSegment({
+    this.id,
+    this.name,
+  });
+
+  factory AssetPropertyPathSegment.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyPathSegment(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class ListAssetPropertiesFilter {
+  static const all = ListAssetPropertiesFilter._('ALL');
+  static const base = ListAssetPropertiesFilter._('BASE');
+
+  final String value;
+
+  const ListAssetPropertiesFilter._(this.value);
+
+  static const values = [all, base];
+
+  static ListAssetPropertiesFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListAssetPropertiesFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListAssetPropertiesFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a summary of an asset model.
+class AssetModelSummary {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">ARN</a>
+  /// of the asset model, which has the following format.
+  ///
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}</code>
+  final String arn;
+
+  /// The date the asset model was created, in Unix epoch time.
+  final DateTime creationDate;
+
+  /// The asset model description.
+  final String description;
+
+  /// The ID of the asset model (used with IoT SiteWise API operations).
+  final String id;
+
+  /// The date the asset model was last updated, in Unix epoch time.
+  final DateTime lastUpdateDate;
+
+  /// The name of the asset model.
+  final String name;
+
+  /// The current status of the asset model.
+  final AssetModelStatus status;
+
+  /// The type of asset model.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ASSET_MODEL</b> – (default) An asset model that you can use to create
+  /// assets. Can't be included as a component in another asset model.
+  /// </li>
+  /// <li>
+  /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
+  /// composite models of other asset models. You can't create assets directly
+  /// from this type of asset model.
+  /// </li>
+  /// </ul>
+  final AssetModelType? assetModelType;
+
+  /// The external ID of the asset model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The version number of the asset model.
+  final String? version;
+
+  AssetModelSummary({
+    required this.arn,
+    required this.creationDate,
+    required this.description,
+    required this.id,
+    required this.lastUpdateDate,
+    required this.name,
+    required this.status,
+    this.assetModelType,
+    this.externalId,
+    this.version,
+  });
+
+  factory AssetModelSummary.fromJson(Map<String, dynamic> json) {
+    return AssetModelSummary(
+      arn: (json['arn'] as String?) ?? '',
+      creationDate: nonNullableTimeStampFromJson(json['creationDate'] ?? 0),
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      lastUpdateDate: nonNullableTimeStampFromJson(json['lastUpdateDate'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      status: AssetModelStatus.fromJson(
+          (json['status'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      assetModelType:
+          (json['assetModelType'] as String?)?.let(AssetModelType.fromString),
+      externalId: json['externalId'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final id = this.id;
+    final lastUpdateDate = this.lastUpdateDate;
+    final name = this.name;
+    final status = this.status;
+    final assetModelType = this.assetModelType;
+    final externalId = this.externalId;
+    final version = this.version;
+    return {
+      'arn': arn,
+      'creationDate': unixTimestampToJson(creationDate),
+      'description': description,
+      'id': id,
+      'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      'name': name,
+      'status': status,
+      if (assetModelType != null) 'assetModelType': assetModelType.value,
+      if (externalId != null) 'externalId': externalId,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+class AssetModelType {
+  static const assetModel = AssetModelType._('ASSET_MODEL');
+  static const componentModel = AssetModelType._('COMPONENT_MODEL');
+  static const interface = AssetModelType._('INTERFACE');
+
+  final String value;
+
+  const AssetModelType._(this.value);
+
+  static const values = [assetModel, componentModel, interface];
+
+  static AssetModelType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssetModelType._(value));
+
+  @override
+  bool operator ==(other) => other is AssetModelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a summary of a property associated with a model. This includes
+/// information about which interfaces the property belongs to, if any.
+class AssetModelPropertySummary {
+  /// The data type of the property.
+  final PropertyDataType dataType;
+
+  /// The name of the property.
+  final String name;
+  final PropertyType type;
+
+  /// The ID of the composite model that contains the asset model property.
+  final String? assetModelCompositeModelId;
+
+  /// The data type of the structure for this property. This parameter exists on
+  /// properties that have the <code>STRUCT</code> data type.
+  final String? dataTypeSpec;
+
+  /// The external ID of the property. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID of the property.
+  final String? id;
+
+  /// A list of interface summaries that describe which interfaces this property
+  /// belongs to, including the interface asset model ID and the corresponding
+  /// property ID in the interface.
+  final List<InterfaceSummary>? interfaceSummaries;
+
+  /// The structured path to the property from the root of the asset model.
+  final List<AssetModelPropertyPathSegment>? path;
+
+  /// The unit (such as <code>Newtons</code> or <code>RPM</code>) of the property.
+  final String? unit;
+
+  AssetModelPropertySummary({
+    required this.dataType,
+    required this.name,
+    required this.type,
+    this.assetModelCompositeModelId,
+    this.dataTypeSpec,
+    this.externalId,
+    this.id,
+    this.interfaceSummaries,
+    this.path,
+    this.unit,
+  });
+
+  factory AssetModelPropertySummary.fromJson(Map<String, dynamic> json) {
+    return AssetModelPropertySummary(
+      dataType:
+          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
+      name: (json['name'] as String?) ?? '',
+      type: PropertyType.fromJson(
+          (json['type'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      assetModelCompositeModelId: json['assetModelCompositeModelId'] as String?,
+      dataTypeSpec: json['dataTypeSpec'] as String?,
+      externalId: json['externalId'] as String?,
+      id: json['id'] as String?,
+      interfaceSummaries: (json['interfaceSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => InterfaceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      path: (json['path'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssetModelPropertyPathSegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final name = this.name;
+    final type = this.type;
+    final assetModelCompositeModelId = this.assetModelCompositeModelId;
+    final dataTypeSpec = this.dataTypeSpec;
+    final externalId = this.externalId;
+    final id = this.id;
+    final interfaceSummaries = this.interfaceSummaries;
+    final path = this.path;
+    final unit = this.unit;
+    return {
+      'dataType': dataType.value,
+      'name': name,
+      'type': type,
+      if (assetModelCompositeModelId != null)
+        'assetModelCompositeModelId': assetModelCompositeModelId,
+      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+      if (interfaceSummaries != null) 'interfaceSummaries': interfaceSummaries,
+      if (path != null) 'path': path,
+      if (unit != null) 'unit': unit,
+    };
+  }
+}
+
+/// Contains summary information about an interface that a property belongs to.
+class InterfaceSummary {
+  /// The ID of the interface asset model that contains this property.
+  final String interfaceAssetModelId;
+
+  /// The ID of the property in the interface asset model that corresponds to this
+  /// property.
+  final String interfaceAssetModelPropertyId;
+
+  InterfaceSummary({
+    required this.interfaceAssetModelId,
+    required this.interfaceAssetModelPropertyId,
+  });
+
+  factory InterfaceSummary.fromJson(Map<String, dynamic> json) {
+    return InterfaceSummary(
+      interfaceAssetModelId: (json['interfaceAssetModelId'] as String?) ?? '',
+      interfaceAssetModelPropertyId:
+          (json['interfaceAssetModelPropertyId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interfaceAssetModelId = this.interfaceAssetModelId;
+    final interfaceAssetModelPropertyId = this.interfaceAssetModelPropertyId;
+    return {
+      'interfaceAssetModelId': interfaceAssetModelId,
+      'interfaceAssetModelPropertyId': interfaceAssetModelPropertyId,
+    };
+  }
+}
+
+class ListAssetModelPropertiesFilter {
+  static const all = ListAssetModelPropertiesFilter._('ALL');
+  static const base = ListAssetModelPropertiesFilter._('BASE');
+
+  final String value;
+
+  const ListAssetModelPropertiesFilter._(this.value);
+
+  static const values = [all, base];
+
+  static ListAssetModelPropertiesFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListAssetModelPropertiesFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ListAssetModelPropertiesFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a summary of the composite model.
+class AssetModelCompositeModelSummary {
+  /// The ID of the composite model that this summary describes..
+  final String id;
+
+  /// The name of the composite model that this summary describes..
+  final String name;
+
+  /// The composite model type. Valid values are <code>AWS/ALARM</code>,
+  /// <code>CUSTOM</code>, or <code> AWS/L4E_ANOMALY</code>.
+  final String type;
+
+  /// The description of the composite model that this summary describes..
+  final String? description;
+
+  /// The external ID of a composite model on this asset model. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The path that includes all the pieces that make up the composite model.
+  final List<AssetModelCompositeModelPathSegment>? path;
+
+  AssetModelCompositeModelSummary({
+    required this.id,
+    required this.name,
+    required this.type,
+    this.description,
+    this.externalId,
+    this.path,
+  });
+
+  factory AssetModelCompositeModelSummary.fromJson(Map<String, dynamic> json) {
+    return AssetModelCompositeModelSummary(
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+      description: json['description'] as String?,
+      externalId: json['externalId'] as String?,
+      path: (json['path'] as List?)
+          ?.nonNulls
+          .map((e) => AssetModelCompositeModelPathSegment.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    final description = this.description;
+    final externalId = this.externalId;
+    final path = this.path;
+    return {
+      'id': id,
+      'name': name,
+      'type': type,
+      if (description != null) 'description': description,
+      if (externalId != null) 'externalId': externalId,
+      if (path != null) 'path': path,
+    };
+  }
+}
+
+/// Contains the summary of the actions, including information about where the
+/// action resolves to.
+class ActionSummary {
+  /// The ID of the action definition.
+  final String? actionDefinitionId;
+
+  /// The ID of the action.
+  final String? actionId;
+
+  /// The detailed resource this action resolves to.
+  final ResolveTo? resolveTo;
+
+  /// The resource the action will be taken on.
+  final TargetResource? targetResource;
+
+  ActionSummary({
+    this.actionDefinitionId,
+    this.actionId,
+    this.resolveTo,
+    this.targetResource,
+  });
+
+  factory ActionSummary.fromJson(Map<String, dynamic> json) {
+    return ActionSummary(
+      actionDefinitionId: json['actionDefinitionId'] as String?,
+      actionId: json['actionId'] as String?,
+      resolveTo: json['resolveTo'] != null
+          ? ResolveTo.fromJson(json['resolveTo'] as Map<String, dynamic>)
+          : null,
+      targetResource: json['targetResource'] != null
+          ? TargetResource.fromJson(
+              json['targetResource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionDefinitionId = this.actionDefinitionId;
+    final actionId = this.actionId;
+    final resolveTo = this.resolveTo;
+    final targetResource = this.targetResource;
+    return {
+      if (actionDefinitionId != null) 'actionDefinitionId': actionDefinitionId,
+      if (actionId != null) 'actionId': actionId,
+      if (resolveTo != null) 'resolveTo': resolveTo,
+      if (targetResource != null) 'targetResource': targetResource,
+    };
+  }
+}
+
+/// Contains an access policy that defines an identity's access to an IoT
+/// SiteWise Monitor resource.
+class AccessPolicySummary {
+  /// The ID of the access policy.
+  final String id;
+
+  /// The identity (an IAM Identity Center user, an IAM Identity Center group, or
+  /// an IAM user).
+  final Identity identity;
+
+  /// The permissions for the access policy. Note that a project
+  /// <code>ADMINISTRATOR</code> is also known as a project owner.
+  final Permission permission;
+
+  /// The IoT SiteWise Monitor resource (a portal or project).
+  final Resource resource;
+
+  /// The date the access policy was created, in Unix epoch time.
+  final DateTime? creationDate;
+
+  /// The date the access policy was last updated, in Unix epoch time.
+  final DateTime? lastUpdateDate;
+
+  AccessPolicySummary({
+    required this.id,
+    required this.identity,
+    required this.permission,
+    required this.resource,
+    this.creationDate,
+    this.lastUpdateDate,
+  });
+
+  factory AccessPolicySummary.fromJson(Map<String, dynamic> json) {
+    return AccessPolicySummary(
+      id: (json['id'] as String?) ?? '',
+      identity: Identity.fromJson((json['identity'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      permission: Permission.fromString((json['permission'] as String?) ?? ''),
+      resource: Resource.fromJson((json['resource'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastUpdateDate: timeStampFromJson(json['lastUpdateDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final identity = this.identity;
+    final permission = this.permission;
+    final resource = this.resource;
+    final creationDate = this.creationDate;
+    final lastUpdateDate = this.lastUpdateDate;
+    return {
+      'id': id,
+      'identity': identity,
+      'permission': permission.value,
+      'resource': resource,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastUpdateDate != null)
+        'lastUpdateDate': unixTimestampToJson(lastUpdateDate),
+    };
+  }
+}
+
+class IdentityType {
+  static const user = IdentityType._('USER');
+  static const group = IdentityType._('GROUP');
+  static const iam = IdentityType._('IAM');
+
+  final String value;
+
+  const IdentityType._(this.value);
+
+  static const values = [user, group, iam];
+
+  static IdentityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => IdentityType._(value));
+
+  @override
+  bool operator ==(other) => other is IdentityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceType {
+  static const portal = ResourceType._('PORTAL');
+  static const project = ResourceType._('PROJECT');
+
+  final String value;
+
+  const ResourceType._(this.value);
+
+  static const values = [portal, project];
+
+  static ResourceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains the response, citation, and trace from the SiteWise Assistant.
+class ResponseStream {
+  final AccessDeniedException? accessDeniedException;
+  final ConflictingOperationException? conflictingOperationException;
+  final InternalFailureException? internalFailureException;
+  final InvalidRequestException? invalidRequestException;
+  final LimitExceededException? limitExceededException;
+
+  /// Contains the SiteWise Assistant's response.
+  final InvocationOutput? output;
+  final ResourceNotFoundException? resourceNotFoundException;
+  final ThrottlingException? throttlingException;
+
+  /// Contains tracing information of the SiteWise Assistant's reasoning and data
+  /// access.
+  final Trace? trace;
+
+  ResponseStream({
+    this.accessDeniedException,
+    this.conflictingOperationException,
+    this.internalFailureException,
+    this.invalidRequestException,
+    this.limitExceededException,
+    this.output,
+    this.resourceNotFoundException,
+    this.throttlingException,
+    this.trace,
+  });
+
+  factory ResponseStream.fromJson(Map<String, dynamic> json) {
+    return ResponseStream(
+      accessDeniedException: json['accessDeniedException'] != null
+          ? AccessDeniedException.fromJson(
+              json['accessDeniedException'] as Map<String, dynamic>)
+          : null,
+      conflictingOperationException:
+          json['conflictingOperationException'] != null
+              ? ConflictingOperationException.fromJson(
+                  json['conflictingOperationException'] as Map<String, dynamic>)
+              : null,
+      internalFailureException: json['internalFailureException'] != null
+          ? InternalFailureException.fromJson(
+              json['internalFailureException'] as Map<String, dynamic>)
+          : null,
+      invalidRequestException: json['invalidRequestException'] != null
+          ? InvalidRequestException.fromJson(
+              json['invalidRequestException'] as Map<String, dynamic>)
+          : null,
+      limitExceededException: json['limitExceededException'] != null
+          ? LimitExceededException.fromJson(
+              json['limitExceededException'] as Map<String, dynamic>)
+          : null,
+      output: json['output'] != null
+          ? InvocationOutput.fromJson(json['output'] as Map<String, dynamic>)
+          : null,
+      resourceNotFoundException: json['resourceNotFoundException'] != null
+          ? ResourceNotFoundException.fromJson(
+              json['resourceNotFoundException'] as Map<String, dynamic>)
+          : null,
+      throttlingException: json['throttlingException'] != null
+          ? ThrottlingException.fromJson(
+              json['throttlingException'] as Map<String, dynamic>)
+          : null,
+      trace: json['trace'] != null
+          ? Trace.fromJson(json['trace'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessDeniedException = this.accessDeniedException;
+    final conflictingOperationException = this.conflictingOperationException;
+    final internalFailureException = this.internalFailureException;
+    final invalidRequestException = this.invalidRequestException;
+    final limitExceededException = this.limitExceededException;
+    final output = this.output;
+    final resourceNotFoundException = this.resourceNotFoundException;
+    final throttlingException = this.throttlingException;
+    final trace = this.trace;
+    return {
+      if (accessDeniedException != null)
+        'accessDeniedException': accessDeniedException,
+      if (conflictingOperationException != null)
+        'conflictingOperationException': conflictingOperationException,
+      if (internalFailureException != null)
+        'internalFailureException': internalFailureException,
+      if (invalidRequestException != null)
+        'invalidRequestException': invalidRequestException,
+      if (limitExceededException != null)
+        'limitExceededException': limitExceededException,
+      if (output != null) 'output': output,
+      if (resourceNotFoundException != null)
+        'resourceNotFoundException': resourceNotFoundException,
+      if (throttlingException != null)
+        'throttlingException': throttlingException,
+      if (trace != null) 'trace': trace,
+    };
+  }
+}
+
+/// Contains tracing information of the SiteWise Assistant's reasoning and data
+/// access.
+class Trace {
+  /// The cited text from the data source.
+  final String? text;
+
+  Trace({
+    this.text,
+  });
+
+  factory Trace.fromJson(Map<String, dynamic> json) {
+    return Trace(
+      text: json['text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+/// This contains the SiteWise Assistant's response and the corresponding
+/// citation.
+class InvocationOutput {
+  /// A list of citations, and related information for the SiteWise Assistant's
+  /// response.
+  final List<Citation>? citations;
+
+  /// The text message of the SiteWise Assistant's response.
+  final String? message;
+
+  InvocationOutput({
+    this.citations,
+    this.message,
+  });
+
+  factory InvocationOutput.fromJson(Map<String, dynamic> json) {
+    return InvocationOutput(
+      citations: (json['citations'] as List?)
+          ?.nonNulls
+          .map((e) => Citation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final citations = this.citations;
+    final message = this.message;
+    return {
+      if (citations != null) 'citations': citations,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// Contains text content to which the SiteWise Assistant refers to, and
+/// generate the final response. It also contains information about the source.
+class Citation {
+  /// Contains the cited text from the data source.
+  final Content? content;
+
+  /// Contains information about the data source.
+  final Reference? reference;
+
+  Citation({
+    this.content,
+    this.reference,
+  });
+
+  factory Citation.fromJson(Map<String, dynamic> json) {
+    return Citation(
+      content: json['content'] != null
+          ? Content.fromJson(json['content'] as Map<String, dynamic>)
+          : null,
+      reference: json['reference'] != null
+          ? Reference.fromJson(json['reference'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final reference = this.reference;
+    return {
+      if (content != null) 'content': content,
+      if (reference != null) 'reference': reference,
+    };
+  }
+}
+
+/// Contains the reference information.
+class Reference {
+  /// Contains the dataset reference information.
+  final DataSetReference? dataset;
+
+  Reference({
+    this.dataset,
+  });
+
+  factory Reference.fromJson(Map<String, dynamic> json) {
+    return Reference(
+      dataset: json['dataset'] != null
+          ? DataSetReference.fromJson(json['dataset'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataset = this.dataset;
+    return {
+      if (dataset != null) 'dataset': dataset,
+    };
+  }
+}
+
+/// Contains the cited text from the data source.
+class Content {
+  /// The cited text from the data source.
+  final String? text;
+
+  Content({
+    this.text,
+  });
+
+  factory Content.fromJson(Map<String, dynamic> json) {
+    return Content(
+      text: json['text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final text = this.text;
+    return {
+      if (text != null) 'text': text,
+    };
+  }
+}
+
+/// Contains information about the dataset use and it's source.
+class DataSetReference {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html">ARN</a>
+  /// of the dataset. The format is
+  /// <code>arn:${Partition}:iotsitewise:${Region}:${Account}:dataset/${DatasetId}</code>.
+  final String? datasetArn;
+
+  /// The data source for the dataset.
+  final Source? source;
+
+  DataSetReference({
+    this.datasetArn,
+    this.source,
+  });
+
+  factory DataSetReference.fromJson(Map<String, dynamic> json) {
+    return DataSetReference(
+      datasetArn: json['datasetArn'] as String?,
+      source: json['source'] != null
+          ? Source.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    final source = this.source;
+    return {
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (source != null) 'source': source,
+    };
+  }
+}
+
+/// The data source for the dataset.
+class Source {
+  /// Contains the ARN of the dataset. If the source is Kendra, it's the ARN of
+  /// the Kendra index.
+  final String? arn;
+
+  /// Contains the location information where the cited text is originally stored.
+  /// For example, if the data source is Kendra, and the text synchronized is from
+  /// an S3 bucket, then the location refers to an S3 object.
+  final Location? location;
+
+  Source({
+    this.arn,
+    this.location,
+  });
+
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+      arn: json['arn'] as String?,
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final location = this.location;
+    return {
+      if (arn != null) 'arn': arn,
+      if (location != null) 'location': location,
+    };
+  }
+}
+
+/// Contains location information about the cited text and where it's stored.
+class Location {
+  /// The URI of the location.
+  final String? uri;
+
+  Location({
+    this.uri,
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      uri: json['uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uri = this.uri;
+    return {
+      if (uri != null) 'uri': uri,
+    };
+  }
+}
+
+/// Contains information about an interpolated asset property value.
+class InterpolatedAssetPropertyValue {
+  final TimeInNanos timestamp;
+  final Variant value;
+
+  InterpolatedAssetPropertyValue({
+    required this.timestamp,
+    required this.value,
+  });
+
+  factory InterpolatedAssetPropertyValue.fromJson(Map<String, dynamic> json) {
+    return InterpolatedAssetPropertyValue(
+      timestamp: TimeInNanos.fromJson(
+          (json['timestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      value: Variant.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final value = this.value;
+    return {
+      'timestamp': timestamp,
+      'value': value,
+    };
+  }
+}
+
+/// Contains a timestamp with optional nanosecond granularity.
+class TimeInNanos {
+  /// The timestamp date, in seconds, in the Unix epoch format. Fractional
+  /// nanosecond data is provided by <code>offsetInNanos</code>.
+  final int timeInSeconds;
+
+  /// The nanosecond offset from <code>timeInSeconds</code>.
+  final int? offsetInNanos;
+
+  TimeInNanos({
+    required this.timeInSeconds,
+    this.offsetInNanos,
+  });
+
+  factory TimeInNanos.fromJson(Map<String, dynamic> json) {
+    return TimeInNanos(
+      timeInSeconds: (json['timeInSeconds'] as int?) ?? 0,
+      offsetInNanos: json['offsetInNanos'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeInSeconds = this.timeInSeconds;
+    final offsetInNanos = this.offsetInNanos;
+    return {
+      'timeInSeconds': timeInSeconds,
+      if (offsetInNanos != null) 'offsetInNanos': offsetInNanos,
+    };
+  }
+}
+
+/// Contains an asset property value (of a single type only).
+class Variant {
+  /// Asset property data of type Boolean (true or false).
+  final bool? booleanValue;
+
+  /// Asset property data of type double (floating point number). The min value is
+  /// -10^10. The max value is 10^10. Double.NaN is allowed.
+  final double? doubleValue;
+
+  /// Asset property data of type integer (whole number).
+  final int? integerValue;
+
+  /// The type of null asset property data with BAD and UNCERTAIN qualities.
+  final PropertyValueNullValue? nullValue;
+
+  /// Asset property data of type string (sequence of characters). The allowed
+  /// pattern: "^$|[^\u0000-\u001F\u007F]+". The max length is 1024.
+  final String? stringValue;
+
+  Variant({
+    this.booleanValue,
+    this.doubleValue,
+    this.integerValue,
+    this.nullValue,
+    this.stringValue,
+  });
+
+  factory Variant.fromJson(Map<String, dynamic> json) {
+    return Variant(
+      booleanValue: json['booleanValue'] as bool?,
+      doubleValue: json['doubleValue'] as double?,
+      integerValue: json['integerValue'] as int?,
+      nullValue: json['nullValue'] != null
+          ? PropertyValueNullValue.fromJson(
+              json['nullValue'] as Map<String, dynamic>)
+          : null,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final integerValue = this.integerValue;
+    final nullValue = this.nullValue;
+    final stringValue = this.stringValue;
+    return {
+      if (booleanValue != null) 'booleanValue': booleanValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (integerValue != null) 'integerValue': integerValue,
+      if (nullValue != null) 'nullValue': nullValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
+}
+
+/// The value type of null asset property data with BAD and UNCERTAIN qualities.
+class PropertyValueNullValue {
+  /// The type of null asset property data.
+  final RawValueType valueType;
+
+  PropertyValueNullValue({
+    required this.valueType,
+  });
+
+  factory PropertyValueNullValue.fromJson(Map<String, dynamic> json) {
+    return PropertyValueNullValue(
+      valueType: RawValueType.fromString((json['valueType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final valueType = this.valueType;
+    return {
+      'valueType': valueType.value,
+    };
+  }
+}
+
+class RawValueType {
+  static const d = RawValueType._('D');
+  static const b = RawValueType._('B');
+  static const s = RawValueType._('S');
+  static const i = RawValueType._('I');
+  static const u = RawValueType._('U');
+
+  final String value;
+
+  const RawValueType._(this.value);
+
+  static const values = [d, b, s, i, u];
+
+  static RawValueType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RawValueType._(value));
+
+  @override
+  bool operator ==(other) => other is RawValueType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Quality {
+  static const good = Quality._('GOOD');
+  static const bad = Quality._('BAD');
+  static const uncertain = Quality._('UNCERTAIN');
+
+  final String value;
+
+  const Quality._(this.value);
+
+  static const values = [good, bad, uncertain];
+
+  static Quality fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Quality._(value));
+
+  @override
+  bool operator ==(other) => other is Quality && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains asset property value information.
+class AssetPropertyValue {
+  /// The timestamp of the asset property value.
+  final TimeInNanos timestamp;
+
+  /// The value of the asset property (see <code>Variant</code>).
+  final Variant value;
+
+  /// The quality of the asset property value.
+  final Quality? quality;
+
+  AssetPropertyValue({
+    required this.timestamp,
+    required this.value,
+    this.quality,
+  });
+
+  factory AssetPropertyValue.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyValue(
+      timestamp: TimeInNanos.fromJson(
+          (json['timestamp'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      value: Variant.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      quality: (json['quality'] as String?)?.let(Quality.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final value = this.value;
+    final quality = this.quality;
+    return {
+      'timestamp': timestamp,
+      'value': value,
+      if (quality != null) 'quality': quality.value,
+    };
+  }
+}
+
+class TimeOrdering {
+  static const ascending = TimeOrdering._('ASCENDING');
+  static const descending = TimeOrdering._('DESCENDING');
+
+  final String value;
+
+  const TimeOrdering._(this.value);
+
+  static const values = [ascending, descending];
+
+  static TimeOrdering fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeOrdering._(value));
+
+  @override
+  bool operator ==(other) => other is TimeOrdering && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains aggregated asset property values (for example, average, minimum,
+/// and maximum).
+class AggregatedValue {
+  /// The date the aggregating computations occurred, in Unix epoch time.
+  final DateTime timestamp;
+
+  /// The value of the aggregates.
+  final Aggregates value;
+
+  /// The quality of the aggregated data.
+  final Quality? quality;
+
+  AggregatedValue({
+    required this.timestamp,
+    required this.value,
+    this.quality,
+  });
+
+  factory AggregatedValue.fromJson(Map<String, dynamic> json) {
+    return AggregatedValue(
+      timestamp: nonNullableTimeStampFromJson(json['timestamp'] ?? 0),
+      value: Aggregates.fromJson((json['value'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      quality: (json['quality'] as String?)?.let(Quality.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final value = this.value;
+    final quality = this.quality;
+    return {
+      'timestamp': unixTimestampToJson(timestamp),
+      'value': value,
+      if (quality != null) 'quality': quality.value,
+    };
+  }
+}
+
+/// Contains the (pre-calculated) aggregate values for an asset property.
+class Aggregates {
+  /// The average (mean) value of the time series over a time interval window.
+  final double? average;
+
+  /// The count of data points in the time series over a time interval window.
+  final double? count;
+
+  /// The maximum value of the time series over a time interval window.
+  final double? maximum;
+
+  /// The minimum value of the time series over a time interval window.
+  final double? minimum;
+
+  /// The standard deviation of the time series over a time interval window.
+  final double? standardDeviation;
+
+  /// The sum of the time series over a time interval window.
+  final double? sum;
+
+  Aggregates({
+    this.average,
+    this.count,
+    this.maximum,
+    this.minimum,
+    this.standardDeviation,
+    this.sum,
+  });
+
+  factory Aggregates.fromJson(Map<String, dynamic> json) {
+    return Aggregates(
+      average: json['average'] as double?,
+      count: json['count'] as double?,
+      maximum: json['maximum'] as double?,
+      minimum: json['minimum'] as double?,
+      standardDeviation: json['standardDeviation'] as double?,
+      sum: json['sum'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final average = this.average;
+    final count = this.count;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    final standardDeviation = this.standardDeviation;
+    final sum = this.sum;
+    return {
+      if (average != null) 'average': average,
+      if (count != null) 'count': count,
+      if (maximum != null) 'maximum': maximum,
+      if (minimum != null) 'minimum': minimum,
+      if (standardDeviation != null) 'standardDeviation': standardDeviation,
+      if (sum != null) 'sum': sum,
+    };
+  }
+}
+
+class AggregateType {
+  static const average = AggregateType._('AVERAGE');
+  static const count = AggregateType._('COUNT');
+  static const maximum = AggregateType._('MAXIMUM');
+  static const minimum = AggregateType._('MINIMUM');
+  static const sum = AggregateType._('SUM');
+  static const standardDeviation = AggregateType._('STANDARD_DEVIATION');
+
+  final String value;
+
+  const AggregateType._(this.value);
+
+  static const values = [
+    average,
+    count,
+    maximum,
+    minimum,
+    sum,
+    standardDeviation
+  ];
+
+  static AggregateType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AggregateType._(value));
+
+  @override
+  bool operator ==(other) => other is AggregateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a single row in the query results.
+class Row {
+  /// List of data points in a single row of the result set.
+  final List<Datum> data;
+
+  Row({
+    required this.data,
+  });
+
+  factory Row.fromJson(Map<String, dynamic> json) {
+    return Row(
+      data: ((json['data'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    return {
+      'data': data,
+    };
+  }
+}
+
+/// Represents a single data point in a query result.
+class Datum {
+  /// Indicates if the data point is an array.
+  final List<Datum>? arrayValue;
+
+  /// Indicates if the data point is null.
+  final bool? nullValue;
+
+  /// Indicates if the data point is a row.
+  final Row? rowValue;
+
+  /// Indicates if the data point is a scalar value such as integer, string,
+  /// double, or Boolean.
+  final String? scalarValue;
+
+  Datum({
+    this.arrayValue,
+    this.nullValue,
+    this.rowValue,
+    this.scalarValue,
+  });
+
+  factory Datum.fromJson(Map<String, dynamic> json) {
+    return Datum(
+      arrayValue: (json['arrayValue'] as List?)
+          ?.nonNulls
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nullValue: json['nullValue'] as bool?,
+      rowValue: json['rowValue'] != null
+          ? Row.fromJson(json['rowValue'] as Map<String, dynamic>)
+          : null,
+      scalarValue: json['scalarValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arrayValue = this.arrayValue;
+    final nullValue = this.nullValue;
+    final rowValue = this.rowValue;
+    final scalarValue = this.scalarValue;
+    return {
+      if (arrayValue != null) 'arrayValue': arrayValue,
+      if (nullValue != null) 'nullValue': nullValue,
+      if (rowValue != null) 'rowValue': rowValue,
+      if (scalarValue != null) 'scalarValue': scalarValue,
+    };
+  }
+}
+
+/// A description of the column in the query results.
+class ColumnInfo {
+  /// The name of the column description.
+  final String? name;
+
+  /// The type of the column description.
+  final ColumnType? type;
+
+  ColumnInfo({
+    this.name,
+    this.type,
+  });
+
+  factory ColumnInfo.fromJson(Map<String, dynamic> json) {
+    return ColumnInfo(
+      name: json['name'] as String?,
+      type: json['type'] != null
+          ? ColumnType.fromJson(json['type'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (name != null) 'name': name,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+/// The data type of the column.
+class ColumnType {
+  /// The allowed data types that the column has as it's value.
+  final ScalarType? scalarType;
+
+  ColumnType({
+    this.scalarType,
+  });
+
+  factory ColumnType.fromJson(Map<String, dynamic> json) {
+    return ColumnType(
+      scalarType: (json['scalarType'] as String?)?.let(ScalarType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scalarType = this.scalarType;
+    return {
+      if (scalarType != null) 'scalarType': scalarType.value,
+    };
+  }
+}
+
+class ScalarType {
+  static const boolean = ScalarType._('BOOLEAN');
+  static const $int = ScalarType._('INT');
+  static const $double = ScalarType._('DOUBLE');
+  static const timestamp = ScalarType._('TIMESTAMP');
+  static const string = ScalarType._('STRING');
+
+  final String value;
+
+  const ScalarType._(this.value);
+
+  static const values = [boolean, $int, $double, timestamp, string];
+
+  static ScalarType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScalarType._(value));
+
+  @override
+  bool operator ==(other) => other is ScalarType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The JSON payload of the action.
+class ActionPayload {
+  /// The payload of the action in a JSON string.
+  final String stringValue;
+
+  ActionPayload({
+    required this.stringValue,
+  });
+
+  factory ActionPayload.fromJson(Map<String, dynamic> json) {
+    return ActionPayload(
+      stringValue: (json['stringValue'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stringValue = this.stringValue;
+    return {
+      'stringValue': stringValue,
+    };
+  }
+}
+
+/// Contains an image that is uploaded to IoT SiteWise and available at a URL.
+class ImageLocation {
+  /// The ID of the image.
+  final String id;
+
+  /// The URL where the image is available. The URL is valid for 15 minutes so
+  /// that you can view and download the image
+  final String url;
+
+  ImageLocation({
+    required this.id,
+    required this.url,
+  });
+
+  factory ImageLocation.fromJson(Map<String, dynamic> json) {
+    return ImageLocation(
+      id: (json['id'] as String?) ?? '',
+      url: (json['url'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final url = this.url;
+    return {
+      'id': id,
+      'url': url,
+    };
+  }
+}
+
+class AuthMode {
+  static const iam = AuthMode._('IAM');
+  static const sso = AuthMode._('SSO');
+
+  final String value;
+
+  const AuthMode._(this.value);
+
+  static const values = [iam, sso];
+
+  static AuthMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AuthMode._(value));
+
+  @override
+  bool operator ==(other) => other is AuthMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a definition for an action.
+class ActionDefinition {
+  /// The ID of the action definition.
+  final String actionDefinitionId;
+
+  /// The name of the action definition.
+  final String actionName;
+
+  /// The type of the action definition.
+  final String actionType;
+
+  ActionDefinition({
+    required this.actionDefinitionId,
+    required this.actionName,
+    required this.actionType,
+  });
+
+  factory ActionDefinition.fromJson(Map<String, dynamic> json) {
+    return ActionDefinition(
+      actionDefinitionId: (json['actionDefinitionId'] as String?) ?? '',
+      actionName: (json['actionName'] as String?) ?? '',
+      actionType: (json['actionType'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionDefinitionId = this.actionDefinitionId;
+    final actionName = this.actionName;
+    final actionType = this.actionType;
+    return {
+      'actionDefinitionId': actionDefinitionId,
+      'actionName': actionName,
+      'actionType': actionType,
+    };
+  }
+}
+
+/// The Amazon S3 destination where errors associated with the job creation
+/// request are saved.
+class ErrorReportLocation {
+  /// The name of the Amazon S3 bucket to which errors associated with the bulk
+  /// import job are sent.
+  final String bucket;
+
+  /// Amazon S3 uses the prefix as a folder name to organize data in the bucket.
+  /// Each Amazon S3 object has a key that is its unique identifier in the bucket.
+  /// Each object in a bucket has exactly one key. The prefix must end with a
+  /// forward slash (/). For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing
+  /// objects using prefixes</a> in the <i>Amazon Simple Storage Service User
+  /// Guide</i>.
+  final String prefix;
+
+  ErrorReportLocation({
+    required this.bucket,
+    required this.prefix,
+  });
+
+  factory ErrorReportLocation.fromJson(Map<String, dynamic> json) {
+    return ErrorReportLocation(
+      bucket: (json['bucket'] as String?) ?? '',
+      prefix: (json['prefix'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'bucket': bucket,
+      'prefix': prefix,
+    };
+  }
+}
+
+/// Contains the configuration information of a job, such as the file format
+/// used to save data in Amazon S3.
+class JobConfiguration {
+  /// The file format of the data in S3.
+  final FileFormat fileFormat;
+
+  JobConfiguration({
+    required this.fileFormat,
+  });
+
+  factory JobConfiguration.fromJson(Map<String, dynamic> json) {
+    return JobConfiguration(
+      fileFormat: FileFormat.fromJson(
+          (json['fileFormat'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileFormat = this.fileFormat;
+    return {
+      'fileFormat': fileFormat,
+    };
+  }
+}
+
+/// The file format of the data in S3.
+class FileFormat {
+  /// The file is in .CSV format.
+  final Csv? csv;
+
+  /// The file is in parquet format.
+  final Parquet? parquet;
+
+  FileFormat({
+    this.csv,
+    this.parquet,
+  });
+
+  factory FileFormat.fromJson(Map<String, dynamic> json) {
+    return FileFormat(
+      csv: json['csv'] != null
+          ? Csv.fromJson(json['csv'] as Map<String, dynamic>)
+          : null,
+      parquet: json['parquet'] != null
+          ? Parquet.fromJson(json['parquet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    final parquet = this.parquet;
+    return {
+      if (csv != null) 'csv': csv,
+      if (parquet != null) 'parquet': parquet,
+    };
+  }
+}
+
+/// A .CSV file.
+class Csv {
+  /// The column names specified in the .csv file.
+  final List<ColumnName> columnNames;
+
+  Csv({
+    required this.columnNames,
+  });
+
+  factory Csv.fromJson(Map<String, dynamic> json) {
+    return Csv(
+      columnNames: ((json['columnNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ColumnName.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnNames = this.columnNames;
+    return {
+      'columnNames': columnNames.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// A parquet file.
+class Parquet {
+  Parquet();
+
+  factory Parquet.fromJson(Map<String, dynamic> _) {
+    return Parquet();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ColumnName {
+  static const alias = ColumnName._('ALIAS');
+  static const assetId = ColumnName._('ASSET_ID');
+  static const propertyId = ColumnName._('PROPERTY_ID');
+  static const dataType = ColumnName._('DATA_TYPE');
+  static const timestampSeconds = ColumnName._('TIMESTAMP_SECONDS');
+  static const timestampNanoOffset = ColumnName._('TIMESTAMP_NANO_OFFSET');
+  static const quality = ColumnName._('QUALITY');
+  static const $value = ColumnName._('VALUE');
+
+  final String value;
+
+  const ColumnName._(this.value);
+
+  static const values = [
+    alias,
+    assetId,
+    propertyId,
+    dataType,
+    timestampSeconds,
+    timestampNanoOffset,
+    quality,
+    $value
+  ];
+
+  static ColumnName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ColumnName._(value));
+
+  @override
+  bool operator ==(other) => other is ColumnName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The file in Amazon S3 where your data is saved.
+class File {
+  /// The name of the Amazon S3 bucket from which data is imported.
+  final String bucket;
+
+  /// The key of the Amazon S3 object that contains your data. Each object has a
+  /// key that is a unique identifier. Each object has exactly one key.
+  final String key;
+
+  /// The version ID to identify a specific version of the Amazon S3 object that
+  /// contains your data.
+  final String? versionId;
+
+  File({
+    required this.bucket,
+    required this.key,
+    this.versionId,
+  });
+
+  factory File.fromJson(Map<String, dynamic> json) {
+    return File(
+      bucket: (json['bucket'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
+      versionId: json['versionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    final versionId = this.versionId;
+    return {
+      'bucket': bucket,
+      'key': key,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
+}
+
+/// Contains asset property information.
+class Property {
+  /// The property data type.
+  final PropertyDataType dataType;
+
+  /// The ID of the asset property.
+  final String id;
+
+  /// The name of the property.
+  final String name;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? alias;
+
+  /// The external ID of the asset property. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The asset property's notification topic and state. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
+  final PropertyNotification? notification;
+
+  /// The structured path to the property from the root of the asset.
+  final List<AssetPropertyPathSegment>? path;
+
+  /// The property type (see <code>PropertyType</code>). A property contains one
+  /// type.
+  final PropertyType? type;
+
+  /// The unit (such as <code>Newtons</code> or <code>RPM</code>) of the asset
+  /// property.
+  final String? unit;
+
+  Property({
+    required this.dataType,
+    required this.id,
+    required this.name,
+    this.alias,
+    this.externalId,
+    this.notification,
+    this.path,
+    this.type,
+    this.unit,
+  });
+
+  factory Property.fromJson(Map<String, dynamic> json) {
+    return Property(
+      dataType:
+          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      alias: json['alias'] as String?,
+      externalId: json['externalId'] as String?,
+      notification: json['notification'] != null
+          ? PropertyNotification.fromJson(
+              json['notification'] as Map<String, dynamic>)
+          : null,
+      path: (json['path'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['type'] != null
+          ? PropertyType.fromJson(json['type'] as Map<String, dynamic>)
+          : null,
+      unit: json['unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final id = this.id;
+    final name = this.name;
+    final alias = this.alias;
+    final externalId = this.externalId;
+    final notification = this.notification;
+    final path = this.path;
+    final type = this.type;
+    final unit = this.unit;
+    return {
+      'dataType': dataType.value,
+      'id': id,
+      'name': name,
+      if (alias != null) 'alias': alias,
+      if (externalId != null) 'externalId': externalId,
+      if (notification != null) 'notification': notification,
+      if (path != null) 'path': path,
+      if (type != null) 'type': type,
+      if (unit != null) 'unit': unit,
+    };
+  }
+}
+
+/// Contains information about a composite model property on an asset.
+class CompositeModelProperty {
+  final Property assetProperty;
+
+  /// The name of the property.
+  final String name;
+
+  /// The type of the composite model that defines this property.
+  final String type;
+
+  /// The external ID of the composite model that contains the property. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID of the composite model that contains the property.
+  final String? id;
+
+  CompositeModelProperty({
+    required this.assetProperty,
+    required this.name,
+    required this.type,
+    this.externalId,
+    this.id,
+  });
+
+  factory CompositeModelProperty.fromJson(Map<String, dynamic> json) {
+    return CompositeModelProperty(
+      assetProperty: Property.fromJson(
+          (json['assetProperty'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      type: (json['type'] as String?) ?? '',
+      externalId: json['externalId'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetProperty = this.assetProperty;
+    final name = this.name;
+    final type = this.type;
+    final externalId = this.externalId;
+    final id = this.id;
+    return {
+      'assetProperty': assetProperty,
+      'name': name,
+      'type': type,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Maps a hierarchy from an interface asset model to a hierarchy in the asset
+/// model where the interface is applied.
+class HierarchyMapping {
+  /// The ID of the hierarchy in the asset model where the interface is applied.
+  final String assetModelHierarchyId;
+
+  /// The ID of the hierarchy in the interface asset model.
+  final String interfaceAssetModelHierarchyId;
+
+  HierarchyMapping({
+    required this.assetModelHierarchyId,
+    required this.interfaceAssetModelHierarchyId,
+  });
+
+  factory HierarchyMapping.fromJson(Map<String, dynamic> json) {
+    return HierarchyMapping(
+      assetModelHierarchyId: (json['assetModelHierarchyId'] as String?) ?? '',
+      interfaceAssetModelHierarchyId:
+          (json['interfaceAssetModelHierarchyId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetModelHierarchyId = this.assetModelHierarchyId;
+    final interfaceAssetModelHierarchyId = this.interfaceAssetModelHierarchyId;
+    return {
+      'assetModelHierarchyId': assetModelHierarchyId,
+      'interfaceAssetModelHierarchyId': interfaceAssetModelHierarchyId,
+    };
+  }
+}
+
+/// Metadata for the composition relationship established by using
+/// <code>composedAssetModelId</code> in <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModelCompositeModel.html">
+/// <code>CreateAssetModelCompositeModel</code> </a>.
+class CompositionDetails {
+  /// An array detailing the composition relationship for this composite model.
+  final List<CompositionRelationshipItem>? compositionRelationship;
+
+  CompositionDetails({
+    this.compositionRelationship,
+  });
+
+  factory CompositionDetails.fromJson(Map<String, dynamic> json) {
+    return CompositionDetails(
+      compositionRelationship: (json['compositionRelationship'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CompositionRelationshipItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compositionRelationship = this.compositionRelationship;
+    return {
+      if (compositionRelationship != null)
+        'compositionRelationship': compositionRelationship,
+    };
+  }
+}
+
+/// Represents a composite model that composed an asset model of type
+/// <code>COMPONENT_MODEL</code>.
+class CompositionRelationshipItem {
+  /// The ID of the component.
+  final String? id;
+
+  CompositionRelationshipItem({
+    this.id,
+  });
+
+  factory CompositionRelationshipItem.fromJson(Map<String, dynamic> json) {
+    return CompositionRelationshipItem(
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Contains information about the relationship between an asset model and an
+/// interface asset model that is applied to it.
+class InterfaceRelationship {
+  /// The ID of the asset model that has the interface applied to it.
+  final String id;
+
+  InterfaceRelationship({
+    required this.id,
+  });
+
+  factory InterfaceRelationship.fromJson(Map<String, dynamic> json) {
+    return InterfaceRelationship(
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+/// Contains a summary of the composite model for a specific asset.
+class AssetCompositeModelSummary {
+  /// A description of the composite model that this summary describes.
+  final String description;
+
+  /// The ID of the composite model that this summary describes.
+  final String id;
+
+  /// The name of the composite model that this summary describes.
+  final String name;
+
+  /// The path that includes all the components of the asset model for the asset.
+  final List<AssetCompositeModelPathSegment> path;
+
+  /// The type of asset model.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>ASSET_MODEL</b> – (default) An asset model that you can use to create
+  /// assets. Can't be included as a component in another asset model.
+  /// </li>
+  /// <li>
+  /// <b>COMPONENT_MODEL</b> – A reusable component that you can include in the
+  /// composite models of other asset models. You can't create assets directly
+  /// from this type of asset model.
+  /// </li>
+  /// </ul>
+  final String type;
+
+  /// An external ID to assign to the asset model.
+  ///
+  /// If the composite model is a derived composite model, or one nested inside a
+  /// component model, you can only set the external ID using
+  /// <code>UpdateAssetModelCompositeModel</code> and specifying the derived ID of
+  /// the model or property from the created model it's a part of.
+  final String? externalId;
+
+  AssetCompositeModelSummary({
+    required this.description,
+    required this.id,
+    required this.name,
+    required this.path,
+    required this.type,
+    this.externalId,
+  });
+
+  factory AssetCompositeModelSummary.fromJson(Map<String, dynamic> json) {
+    return AssetCompositeModelSummary(
+      description: (json['description'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      path: ((json['path'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AssetCompositeModelPathSegment.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      type: (json['type'] as String?) ?? '',
+      externalId: json['externalId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final path = this.path;
+    final type = this.type;
+    final externalId = this.externalId;
+    return {
+      'description': description,
+      'id': id,
+      'name': name,
+      'path': path,
+      'type': type,
+      if (externalId != null) 'externalId': externalId,
+    };
+  }
+}
+
+/// Contains asset property information.
+class AssetProperty {
+  /// The data type of the asset property.
+  final PropertyDataType dataType;
+
+  /// The ID of the asset property.
+  final String id;
+
+  /// The name of the property.
+  final String name;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? alias;
+
+  /// The data type of the structure for this property. This parameter exists on
+  /// properties that have the <code>STRUCT</code> data type.
+  final String? dataTypeSpec;
+
+  /// The external ID of the asset property. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The asset property's notification topic and state. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
+  final PropertyNotification? notification;
+
+  /// The structured path to the property from the root of the asset.
+  final List<AssetPropertyPathSegment>? path;
+
+  /// The unit (such as <code>Newtons</code> or <code>RPM</code>) of the asset
+  /// property.
+  final String? unit;
+
+  AssetProperty({
+    required this.dataType,
+    required this.id,
+    required this.name,
+    this.alias,
+    this.dataTypeSpec,
+    this.externalId,
+    this.notification,
+    this.path,
+    this.unit,
+  });
+
+  factory AssetProperty.fromJson(Map<String, dynamic> json) {
+    return AssetProperty(
+      dataType:
+          PropertyDataType.fromString((json['dataType'] as String?) ?? ''),
+      id: (json['id'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+      alias: json['alias'] as String?,
+      dataTypeSpec: json['dataTypeSpec'] as String?,
+      externalId: json['externalId'] as String?,
+      notification: json['notification'] != null
+          ? PropertyNotification.fromJson(
+              json['notification'] as Map<String, dynamic>)
+          : null,
+      path: (json['path'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AssetPropertyPathSegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unit: json['unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final id = this.id;
+    final name = this.name;
+    final alias = this.alias;
+    final dataTypeSpec = this.dataTypeSpec;
+    final externalId = this.externalId;
+    final notification = this.notification;
+    final path = this.path;
+    final unit = this.unit;
+    return {
+      'dataType': dataType.value,
+      'id': id,
+      'name': name,
+      if (alias != null) 'alias': alias,
+      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
+      if (externalId != null) 'externalId': externalId,
+      if (notification != null) 'notification': notification,
+      if (path != null) 'path': path,
+      if (unit != null) 'unit': unit,
+    };
+  }
+}
+
+/// Represents one level between a composite model and the root of the asset.
+class AssetCompositeModelPathSegment {
+  /// The ID of the path segment.
+  final String? id;
+
+  /// The name of the path segment.
+  final String? name;
+
+  AssetCompositeModelPathSegment({
+    this.id,
+    this.name,
+  });
+
+  factory AssetCompositeModelPathSegment.fromJson(Map<String, dynamic> json) {
+    return AssetCompositeModelPathSegment(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Contains information about a composite model in an asset. This object
+/// contains the asset's properties that you define in the composite model.
+class AssetCompositeModel {
+  /// The name of the composite model.
+  final String name;
+
+  /// The asset properties that this composite model defines.
+  final List<AssetProperty> properties;
+
+  /// The type of the composite model. For alarm composite models, this type is
+  /// <code>AWS/ALARM</code>.
+  final String type;
+
+  /// The description of the composite model.
+  final String? description;
+
+  /// The external ID of the asset composite model. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID of the asset composite model.
+  final String? id;
+
+  AssetCompositeModel({
+    required this.name,
+    required this.properties,
+    required this.type,
+    this.description,
+    this.externalId,
+    this.id,
+  });
+
+  factory AssetCompositeModel.fromJson(Map<String, dynamic> json) {
+    return AssetCompositeModel(
+      name: (json['name'] as String?) ?? '',
+      properties: ((json['properties'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AssetProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['type'] as String?) ?? '',
+      description: json['description'] as String?,
+      externalId: json['externalId'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final properties = this.properties;
+    final type = this.type;
+    final description = this.description;
+    final externalId = this.externalId;
+    final id = this.id;
+    return {
+      'name': name,
+      'properties': properties,
+      'type': type,
+      if (description != null) 'description': description,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Contains an asset model property definition. This property definition is
+/// applied to all assets created from the asset model.
+class AssetModelPropertyDefinition {
+  /// The data type of the property definition.
+  ///
+  /// If you specify <code>STRUCT</code>, you must also specify
+  /// <code>dataTypeSpec</code> to identify the type of the structure for this
+  /// property.
+  final PropertyDataType dataType;
+
+  /// The name of the property definition.
+  final String name;
+
+  /// The property definition type (see <code>PropertyType</code>). You can only
+  /// specify one type in a property definition.
+  final PropertyType type;
+
+  /// The data type of the structure for this property. This parameter is required
+  /// on properties that have the <code>STRUCT</code> data type.
+  ///
+  /// The options for this parameter depend on the type of the composite model in
+  /// which you define this property. Use <code>AWS/ALARM_STATE</code> for alarm
+  /// state in alarm composite models.
+  final String? dataTypeSpec;
+
+  /// An external ID to assign to the property definition. The external ID must be
+  /// unique among property definitions within this asset model. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID to assign to the asset model property, if desired. IoT SiteWise
+  /// automatically generates a unique ID for you, so this parameter is never
+  /// required. However, if you prefer to supply your own ID instead, you can
+  /// specify it here in UUID format. If you specify your own ID, it must be
+  /// globally unique.
+  final String? id;
+
+  /// The unit of the property definition, such as <code>Newtons</code> or
+  /// <code>RPM</code>.
+  final String? unit;
+
+  AssetModelPropertyDefinition({
+    required this.dataType,
+    required this.name,
+    required this.type,
+    this.dataTypeSpec,
+    this.externalId,
+    this.id,
+    this.unit,
+  });
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final name = this.name;
+    final type = this.type;
+    final dataTypeSpec = this.dataTypeSpec;
+    final externalId = this.externalId;
+    final id = this.id;
+    final unit = this.unit;
+    return {
+      'dataType': dataType.value,
+      'name': name,
+      'type': type,
+      if (dataTypeSpec != null) 'dataTypeSpec': dataTypeSpec,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+      if (unit != null) 'unit': unit,
+    };
+  }
+}
+
+/// Contains a composite model definition in an asset model. This composite
+/// model definition is applied to all assets created from the asset model.
+class AssetModelCompositeModelDefinition {
+  /// The name of the composite model.
+  final String name;
+
+  /// The type of the composite model. For alarm composite models, this type is
+  /// <code>AWS/ALARM</code>.
+  final String type;
+
+  /// The description of the composite model.
+  final String? description;
+
+  /// An external ID to assign to the composite model. The external ID must be
+  /// unique among composite models within this asset model. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID to assign to the composite model, if desired. IoT SiteWise
+  /// automatically generates a unique ID for you, so this parameter is never
+  /// required. However, if you prefer to supply your own ID instead, you can
+  /// specify it here in UUID format. If you specify your own ID, it must be
+  /// globally unique.
+  final String? id;
+
+  /// The asset property definitions for this composite model.
+  final List<AssetModelPropertyDefinition>? properties;
+
+  AssetModelCompositeModelDefinition({
+    required this.name,
+    required this.type,
+    this.description,
+    this.externalId,
+    this.id,
+    this.properties,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final description = this.description;
+    final externalId = this.externalId;
+    final id = this.id;
+    final properties = this.properties;
+    return {
+      'name': name,
+      'type': type,
+      if (description != null) 'description': description,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+      if (properties != null) 'properties': properties,
+    };
+  }
+}
+
+/// Contains an asset model hierarchy used in asset model creation. An asset
+/// model hierarchy determines the kind (or type) of asset that can belong to a
+/// hierarchy.
+class AssetModelHierarchyDefinition {
+  /// The ID of an asset model for this hierarchy. This can be either the actual
+  /// ID in UUID format, or else <code>externalId:</code> followed by the external
+  /// ID, if it has one. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-id-references">Referencing
+  /// objects with external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String childAssetModelId;
+
+  /// The name of the asset model hierarchy definition (as specified in the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_CreateAssetModel.html">CreateAssetModel</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetModel.html">UpdateAssetModel</a>
+  /// API operation).
+  final String name;
+
+  /// An external ID to assign to the asset model hierarchy. The external ID must
+  /// be unique among asset model hierarchies within this asset model. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/object-ids.html#external-ids">Using
+  /// external IDs</a> in the <i>IoT SiteWise User Guide</i>.
+  final String? externalId;
+
+  /// The ID to assign to the asset model hierarchy, if desired. IoT SiteWise
+  /// automatically generates a unique ID for you, so this parameter is never
+  /// required. However, if you prefer to supply your own ID instead, you can
+  /// specify it here in UUID format. If you specify your own ID, it must be
+  /// globally unique.
+  final String? id;
+
+  AssetModelHierarchyDefinition({
+    required this.childAssetModelId,
+    required this.name,
+    this.externalId,
+    this.id,
+  });
+
+  Map<String, dynamic> toJson() {
+    final childAssetModelId = this.childAssetModelId;
+    final name = this.name;
+    final externalId = this.externalId;
+    final id = this.id;
+    return {
+      'childAssetModelId': childAssetModelId,
+      'name': name,
+      if (externalId != null) 'externalId': externalId,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+/// Contains error information for asset property value entries that are
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchPutAssetPropertyValue.html">BatchPutAssetPropertyValue</a>
+/// API.
+class BatchPutAssetPropertyErrorEntry {
+  /// The ID of the failed entry.
+  final String entryId;
+
+  /// The list of update property value errors.
+  final List<BatchPutAssetPropertyError> errors;
+
+  BatchPutAssetPropertyErrorEntry({
+    required this.entryId,
+    required this.errors,
+  });
+
+  factory BatchPutAssetPropertyErrorEntry.fromJson(Map<String, dynamic> json) {
+    return BatchPutAssetPropertyErrorEntry(
+      entryId: (json['entryId'] as String?) ?? '',
+      errors: ((json['errors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              BatchPutAssetPropertyError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final errors = this.errors;
+    return {
+      'entryId': entryId,
+      'errors': errors,
+    };
+  }
+}
+
+/// Contains error information from updating a batch of asset property values.
+class BatchPutAssetPropertyError {
+  /// The error code.
+  final BatchPutAssetPropertyValueErrorCode errorCode;
+
+  /// The associated error message.
+  final String errorMessage;
+
+  /// A list of timestamps for each error, if any.
+  final List<TimeInNanos> timestamps;
+
+  BatchPutAssetPropertyError({
+    required this.errorCode,
+    required this.errorMessage,
+    required this.timestamps,
+  });
+
+  factory BatchPutAssetPropertyError.fromJson(Map<String, dynamic> json) {
+    return BatchPutAssetPropertyError(
+      errorCode: BatchPutAssetPropertyValueErrorCode.fromString(
+          (json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      timestamps: ((json['timestamps'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => TimeInNanos.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final timestamps = this.timestamps;
+    return {
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
+      'timestamps': timestamps,
+    };
+  }
+}
+
+class BatchPutAssetPropertyValueErrorCode {
+  static const resourceNotFoundException =
+      BatchPutAssetPropertyValueErrorCode._('ResourceNotFoundException');
+  static const invalidRequestException =
+      BatchPutAssetPropertyValueErrorCode._('InvalidRequestException');
+  static const internalFailureException =
+      BatchPutAssetPropertyValueErrorCode._('InternalFailureException');
+  static const serviceUnavailableException =
+      BatchPutAssetPropertyValueErrorCode._('ServiceUnavailableException');
+  static const throttlingException =
+      BatchPutAssetPropertyValueErrorCode._('ThrottlingException');
+  static const limitExceededException =
+      BatchPutAssetPropertyValueErrorCode._('LimitExceededException');
+  static const conflictingOperationException =
+      BatchPutAssetPropertyValueErrorCode._('ConflictingOperationException');
+  static const timestampOutOfRangeException =
+      BatchPutAssetPropertyValueErrorCode._('TimestampOutOfRangeException');
+  static const accessDeniedException =
+      BatchPutAssetPropertyValueErrorCode._('AccessDeniedException');
+
+  final String value;
+
+  const BatchPutAssetPropertyValueErrorCode._(this.value);
+
+  static const values = [
+    resourceNotFoundException,
+    invalidRequestException,
+    internalFailureException,
+    serviceUnavailableException,
+    throttlingException,
+    limitExceededException,
+    conflictingOperationException,
+    timestampOutOfRangeException,
+    accessDeniedException
+  ];
+
+  static BatchPutAssetPropertyValueErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchPutAssetPropertyValueErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchPutAssetPropertyValueErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains a list of value updates for an asset property in the list of asset
+/// entries consumed by the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchPutAssetPropertyValue.html">BatchPutAssetPropertyValue</a>
+/// API operation.
+class PutAssetPropertyValueEntry {
+  /// The user specified ID for the entry. You can use this ID to identify which
+  /// entries failed.
+  final String entryId;
+
+  /// The list of property values to upload. You can specify up to 10
+  /// <code>propertyValues</code> array elements.
+  final List<AssetPropertyValue> propertyValues;
+
+  /// The ID of the asset to update.
+  final String? assetId;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? propertyAlias;
+
+  /// The ID of the asset property for this entry.
+  final String? propertyId;
+
+  PutAssetPropertyValueEntry({
+    required this.entryId,
+    required this.propertyValues,
+    this.assetId,
+    this.propertyAlias,
+    this.propertyId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final propertyValues = this.propertyValues;
+    final assetId = this.assetId;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    return {
+      'entryId': entryId,
+      'propertyValues': propertyValues,
+      if (assetId != null) 'assetId': assetId,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+    };
+  }
+}
+
+/// Contains information for an entry that has been processed by the previous <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
+/// request.
+class BatchGetAssetPropertyValueHistorySkippedEntry {
+  /// The completion status of each entry that is associated with the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValueHistory.html">BatchGetAssetPropertyValueHistory</a>
+  /// API.
+  final BatchEntryCompletionStatus completionStatus;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error information, such as the error code and the timestamp.
+  final BatchGetAssetPropertyValueHistoryErrorInfo? errorInfo;
+
+  BatchGetAssetPropertyValueHistorySkippedEntry({
+    required this.completionStatus,
+    required this.entryId,
+    this.errorInfo,
+  });
+
+  factory BatchGetAssetPropertyValueHistorySkippedEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistorySkippedEntry(
+      completionStatus: BatchEntryCompletionStatus.fromString(
+          (json['completionStatus'] as String?) ?? ''),
+      entryId: (json['entryId'] as String?) ?? '',
+      errorInfo: json['errorInfo'] != null
+          ? BatchGetAssetPropertyValueHistoryErrorInfo.fromJson(
+              json['errorInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionStatus = this.completionStatus;
+    final entryId = this.entryId;
+    final errorInfo = this.errorInfo;
+    return {
+      'completionStatus': completionStatus.value,
+      'entryId': entryId,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+    };
+  }
+}
+
+class BatchEntryCompletionStatus {
+  static const success = BatchEntryCompletionStatus._('SUCCESS');
+  static const error = BatchEntryCompletionStatus._('ERROR');
+
+  final String value;
+
+  const BatchEntryCompletionStatus._(this.value);
+
+  static const values = [success, error];
+
+  static BatchEntryCompletionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchEntryCompletionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchEntryCompletionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The error information, such as the error code and the timestamp.
+class BatchGetAssetPropertyValueHistoryErrorInfo {
+  /// The error code.
+  final BatchGetAssetPropertyValueHistoryErrorCode errorCode;
+
+  /// The date the error occurred, in Unix epoch time.
+  final DateTime errorTimestamp;
+
+  BatchGetAssetPropertyValueHistoryErrorInfo({
+    required this.errorCode,
+    required this.errorTimestamp,
+  });
+
+  factory BatchGetAssetPropertyValueHistoryErrorInfo.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistoryErrorInfo(
+      errorCode: BatchGetAssetPropertyValueHistoryErrorCode.fromString(
+          (json['errorCode'] as String?) ?? ''),
+      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorTimestamp = this.errorTimestamp;
+    return {
+      'errorCode': errorCode.value,
+      'errorTimestamp': unixTimestampToJson(errorTimestamp),
+    };
+  }
+}
+
+class BatchGetAssetPropertyValueHistoryErrorCode {
+  static const resourceNotFoundException =
+      BatchGetAssetPropertyValueHistoryErrorCode._('ResourceNotFoundException');
+  static const invalidRequestException =
+      BatchGetAssetPropertyValueHistoryErrorCode._('InvalidRequestException');
+  static const accessDeniedException =
+      BatchGetAssetPropertyValueHistoryErrorCode._('AccessDeniedException');
+
+  final String value;
+
+  const BatchGetAssetPropertyValueHistoryErrorCode._(this.value);
+
+  static const values = [
+    resourceNotFoundException,
+    invalidRequestException,
+    accessDeniedException
+  ];
+
+  static BatchGetAssetPropertyValueHistoryErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchGetAssetPropertyValueHistoryErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchGetAssetPropertyValueHistoryErrorCode &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains success information for an entry that is associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
+/// API.
+class BatchGetAssetPropertyValueHistorySuccessEntry {
+  /// The requested historical values for the specified asset property.
+  final List<AssetPropertyValue> assetPropertyValueHistory;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  BatchGetAssetPropertyValueHistorySuccessEntry({
+    required this.assetPropertyValueHistory,
+    required this.entryId,
+  });
+
+  factory BatchGetAssetPropertyValueHistorySuccessEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistorySuccessEntry(
+      assetPropertyValueHistory: ((json['assetPropertyValueHistory']
+                  as List?) ??
+              const [])
+          .nonNulls
+          .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      entryId: (json['entryId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetPropertyValueHistory = this.assetPropertyValueHistory;
+    final entryId = this.entryId;
+    return {
+      'assetPropertyValueHistory': assetPropertyValueHistory,
+      'entryId': entryId,
+    };
+  }
+}
+
+/// A list of the errors (if any) associated with the batch request. Each error
+/// entry contains the <code>entryId</code> of the entry that failed.
+class BatchGetAssetPropertyValueHistoryErrorEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error code.
+  final BatchGetAssetPropertyValueHistoryErrorCode errorCode;
+
+  /// The associated error message.
+  final String errorMessage;
+
+  BatchGetAssetPropertyValueHistoryErrorEntry({
+    required this.entryId,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchGetAssetPropertyValueHistoryErrorEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueHistoryErrorEntry(
+      entryId: (json['entryId'] as String?) ?? '',
+      errorCode: BatchGetAssetPropertyValueHistoryErrorCode.fromString(
+          (json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'entryId': entryId,
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// Contains information for an asset property historical value entry that is
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValueHistory</a>
+/// API.
+///
+/// To identify an asset property, you must specify one of the following:
+///
+/// <ul>
+/// <li>
+/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
+/// </li>
+/// <li>
+/// A <code>propertyAlias</code>, which is a data stream alias (for example,
+/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
+/// property's alias, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
+/// </li>
+/// </ul>
+class BatchGetAssetPropertyValueHistoryEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The inclusive end of the range from which to query historical data,
+  /// expressed in seconds in Unix epoch time.
+  final DateTime? endDate;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? propertyAlias;
+
+  /// The ID of the asset property, in UUID format.
+  final String? propertyId;
+
+  /// The quality by which to filter asset data.
+  final List<Quality>? qualities;
+
+  /// The exclusive start of the range from which to query historical data,
+  /// expressed in seconds in Unix epoch time.
+  final DateTime? startDate;
+
+  /// The chronological sorting order of the requested information.
+  ///
+  /// Default: <code>ASCENDING</code>
+  final TimeOrdering? timeOrdering;
+
+  BatchGetAssetPropertyValueHistoryEntry({
+    required this.entryId,
+    this.assetId,
+    this.endDate,
+    this.propertyAlias,
+    this.propertyId,
+    this.qualities,
+    this.startDate,
+    this.timeOrdering,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final assetId = this.assetId;
+    final endDate = this.endDate;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    final qualities = this.qualities;
+    final startDate = this.startDate;
+    final timeOrdering = this.timeOrdering;
+    return {
+      'entryId': entryId,
+      if (assetId != null) 'assetId': assetId,
+      if (endDate != null) 'endDate': unixTimestampToJson(endDate),
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+      if (qualities != null)
+        'qualities': qualities.map((e) => e.value).toList(),
+      if (startDate != null) 'startDate': unixTimestampToJson(startDate),
+      if (timeOrdering != null) 'timeOrdering': timeOrdering.value,
+    };
+  }
+}
+
+/// Contains information for an entry that has been processed by the previous <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+/// request.
+class BatchGetAssetPropertyValueSkippedEntry {
+  /// The completion status of each entry that is associated with the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+  /// request.
+  final BatchEntryCompletionStatus completionStatus;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error information, such as the error code and the timestamp.
+  final BatchGetAssetPropertyValueErrorInfo? errorInfo;
+
+  BatchGetAssetPropertyValueSkippedEntry({
+    required this.completionStatus,
+    required this.entryId,
+    this.errorInfo,
+  });
+
+  factory BatchGetAssetPropertyValueSkippedEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueSkippedEntry(
+      completionStatus: BatchEntryCompletionStatus.fromString(
+          (json['completionStatus'] as String?) ?? ''),
+      entryId: (json['entryId'] as String?) ?? '',
+      errorInfo: json['errorInfo'] != null
+          ? BatchGetAssetPropertyValueErrorInfo.fromJson(
+              json['errorInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionStatus = this.completionStatus;
+    final entryId = this.entryId;
+    final errorInfo = this.errorInfo;
+    return {
+      'completionStatus': completionStatus.value,
+      'entryId': entryId,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+    };
+  }
+}
+
+/// The error information, such as the error code and the timestamp.
+class BatchGetAssetPropertyValueErrorInfo {
+  /// The error code.
+  final BatchGetAssetPropertyValueErrorCode errorCode;
+
+  /// The date the error occurred, in Unix epoch time.
+  final DateTime errorTimestamp;
+
+  BatchGetAssetPropertyValueErrorInfo({
+    required this.errorCode,
+    required this.errorTimestamp,
+  });
+
+  factory BatchGetAssetPropertyValueErrorInfo.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueErrorInfo(
+      errorCode: BatchGetAssetPropertyValueErrorCode.fromString(
+          (json['errorCode'] as String?) ?? ''),
+      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorTimestamp = this.errorTimestamp;
+    return {
+      'errorCode': errorCode.value,
+      'errorTimestamp': unixTimestampToJson(errorTimestamp),
+    };
+  }
+}
+
+class BatchGetAssetPropertyValueErrorCode {
+  static const resourceNotFoundException =
+      BatchGetAssetPropertyValueErrorCode._('ResourceNotFoundException');
+  static const invalidRequestException =
+      BatchGetAssetPropertyValueErrorCode._('InvalidRequestException');
+  static const accessDeniedException =
+      BatchGetAssetPropertyValueErrorCode._('AccessDeniedException');
+
+  final String value;
+
+  const BatchGetAssetPropertyValueErrorCode._(this.value);
+
+  static const values = [
+    resourceNotFoundException,
+    invalidRequestException,
+    accessDeniedException
+  ];
+
+  static BatchGetAssetPropertyValueErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchGetAssetPropertyValueErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchGetAssetPropertyValueErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains success information for an entry that is associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+/// API.
+class BatchGetAssetPropertyValueSuccessEntry {
+  /// The ID of the entry.
+  final String entryId;
+  final AssetPropertyValue? assetPropertyValue;
+
+  BatchGetAssetPropertyValueSuccessEntry({
+    required this.entryId,
+    this.assetPropertyValue,
+  });
+
+  factory BatchGetAssetPropertyValueSuccessEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueSuccessEntry(
+      entryId: (json['entryId'] as String?) ?? '',
+      assetPropertyValue: json['assetPropertyValue'] != null
+          ? AssetPropertyValue.fromJson(
+              json['assetPropertyValue'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final assetPropertyValue = this.assetPropertyValue;
+    return {
+      'entryId': entryId,
+      if (assetPropertyValue != null) 'assetPropertyValue': assetPropertyValue,
+    };
+  }
+}
+
+/// Contains error information for an asset property value entry that is
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+/// API.
+class BatchGetAssetPropertyValueErrorEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error code.
+  final BatchGetAssetPropertyValueErrorCode errorCode;
+
+  /// The associated error message.
+  final String errorMessage;
+
+  BatchGetAssetPropertyValueErrorEntry({
+    required this.entryId,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchGetAssetPropertyValueErrorEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyValueErrorEntry(
+      entryId: (json['entryId'] as String?) ?? '',
+      errorCode: BatchGetAssetPropertyValueErrorCode.fromString(
+          (json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'entryId': entryId,
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// Contains information for an asset property value entry that is associated
+/// with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyValue.html">BatchGetAssetPropertyValue</a>
+/// API.
+///
+/// To identify an asset property, you must specify one of the following:
+///
+/// <ul>
+/// <li>
+/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
+/// </li>
+/// <li>
+/// A <code>propertyAlias</code>, which is a data stream alias (for example,
+/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
+/// property's alias, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
+/// </li>
+/// </ul>
+class BatchGetAssetPropertyValueEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? propertyAlias;
+
+  /// The ID of the asset property, in UUID format.
+  final String? propertyId;
+
+  BatchGetAssetPropertyValueEntry({
+    required this.entryId,
+    this.assetId,
+    this.propertyAlias,
+    this.propertyId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final assetId = this.assetId;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    return {
+      'entryId': entryId,
+      if (assetId != null) 'assetId': assetId,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+    };
+  }
+}
+
+/// Contains information for an entry that has been processed by the previous <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// request.
+class BatchGetAssetPropertyAggregatesSkippedEntry {
+  /// The completion status of each entry that is associated with the <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+  /// API.
+  final BatchEntryCompletionStatus completionStatus;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error information, such as the error code and the timestamp.
+  final BatchGetAssetPropertyAggregatesErrorInfo? errorInfo;
+
+  BatchGetAssetPropertyAggregatesSkippedEntry({
+    required this.completionStatus,
+    required this.entryId,
+    this.errorInfo,
+  });
+
+  factory BatchGetAssetPropertyAggregatesSkippedEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesSkippedEntry(
+      completionStatus: BatchEntryCompletionStatus.fromString(
+          (json['completionStatus'] as String?) ?? ''),
+      entryId: (json['entryId'] as String?) ?? '',
+      errorInfo: json['errorInfo'] != null
+          ? BatchGetAssetPropertyAggregatesErrorInfo.fromJson(
+              json['errorInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionStatus = this.completionStatus;
+    final entryId = this.entryId;
+    final errorInfo = this.errorInfo;
+    return {
+      'completionStatus': completionStatus.value,
+      'entryId': entryId,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+    };
+  }
+}
+
+/// Contains the error code and the timestamp for an asset property aggregate
+/// entry that is associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// API.
+class BatchGetAssetPropertyAggregatesErrorInfo {
+  /// The error code.
+  final BatchGetAssetPropertyAggregatesErrorCode errorCode;
+
+  /// The date the error occurred, in Unix epoch time.
+  final DateTime errorTimestamp;
+
+  BatchGetAssetPropertyAggregatesErrorInfo({
+    required this.errorCode,
+    required this.errorTimestamp,
+  });
+
+  factory BatchGetAssetPropertyAggregatesErrorInfo.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesErrorInfo(
+      errorCode: BatchGetAssetPropertyAggregatesErrorCode.fromString(
+          (json['errorCode'] as String?) ?? ''),
+      errorTimestamp: nonNullableTimeStampFromJson(json['errorTimestamp'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorTimestamp = this.errorTimestamp;
+    return {
+      'errorCode': errorCode.value,
+      'errorTimestamp': unixTimestampToJson(errorTimestamp),
+    };
+  }
+}
+
+class BatchGetAssetPropertyAggregatesErrorCode {
+  static const resourceNotFoundException =
+      BatchGetAssetPropertyAggregatesErrorCode._('ResourceNotFoundException');
+  static const invalidRequestException =
+      BatchGetAssetPropertyAggregatesErrorCode._('InvalidRequestException');
+  static const accessDeniedException =
+      BatchGetAssetPropertyAggregatesErrorCode._('AccessDeniedException');
+
+  final String value;
+
+  const BatchGetAssetPropertyAggregatesErrorCode._(this.value);
+
+  static const values = [
+    resourceNotFoundException,
+    invalidRequestException,
+    accessDeniedException
+  ];
+
+  static BatchGetAssetPropertyAggregatesErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchGetAssetPropertyAggregatesErrorCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchGetAssetPropertyAggregatesErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains success information for an entry that is associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// API.
+class BatchGetAssetPropertyAggregatesSuccessEntry {
+  /// The requested aggregated asset property values (for example, average,
+  /// minimum, and maximum).
+  final List<AggregatedValue> aggregatedValues;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  BatchGetAssetPropertyAggregatesSuccessEntry({
+    required this.aggregatedValues,
+    required this.entryId,
+  });
+
+  factory BatchGetAssetPropertyAggregatesSuccessEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesSuccessEntry(
+      aggregatedValues: ((json['aggregatedValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AggregatedValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      entryId: (json['entryId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregatedValues = this.aggregatedValues;
+    final entryId = this.entryId;
+    return {
+      'aggregatedValues': aggregatedValues,
+      'entryId': entryId,
+    };
+  }
+}
+
+/// Contains error information for an asset property aggregate entry that is
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// API.
+class BatchGetAssetPropertyAggregatesErrorEntry {
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The error code.
+  final BatchGetAssetPropertyAggregatesErrorCode errorCode;
+
+  /// The associated error message.
+  final String errorMessage;
+
+  BatchGetAssetPropertyAggregatesErrorEntry({
+    required this.entryId,
+    required this.errorCode,
+    required this.errorMessage,
+  });
+
+  factory BatchGetAssetPropertyAggregatesErrorEntry.fromJson(
+      Map<String, dynamic> json) {
+    return BatchGetAssetPropertyAggregatesErrorEntry(
+      entryId: (json['entryId'] as String?) ?? '',
+      errorCode: BatchGetAssetPropertyAggregatesErrorCode.fromString(
+          (json['errorCode'] as String?) ?? ''),
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryId = this.entryId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'entryId': entryId,
+      'errorCode': errorCode.value,
+      'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// Contains information for an asset property aggregate entry that is
+/// associated with the <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_BatchGetAssetPropertyAggregates.html">BatchGetAssetPropertyAggregates</a>
+/// API.
+///
+/// To identify an asset property, you must specify one of the following:
+///
+/// <ul>
+/// <li>
+/// The <code>assetId</code> and <code>propertyId</code> of an asset property.
+/// </li>
+/// <li>
+/// A <code>propertyAlias</code>, which is a data stream alias (for example,
+/// <code>/company/windfarm/3/turbine/7/temperature</code>). To define an asset
+/// property's alias, see <a
+/// href="https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html">UpdateAssetProperty</a>.
+/// </li>
+/// </ul>
+class BatchGetAssetPropertyAggregatesEntry {
+  /// The data aggregating function.
+  final List<AggregateType> aggregateTypes;
+
+  /// The inclusive end of the range from which to query historical data,
+  /// expressed in seconds in Unix epoch time.
+  final DateTime endDate;
+
+  /// The ID of the entry.
+  final String entryId;
+
+  /// The time interval over which to aggregate data.
+  final String resolution;
+
+  /// The exclusive start of the range from which to query historical data,
+  /// expressed in seconds in Unix epoch time.
+  final DateTime startDate;
+
+  /// The ID of the asset in which the asset property was created.
+  final String? assetId;
+
+  /// The alias that identifies the property, such as an OPC-UA server data stream
+  /// path (for example, <code>/company/windfarm/3/turbine/7/temperature</code>).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-sitewise/latest/userguide/connect-data-streams.html">Mapping
+  /// industrial data streams to asset properties</a> in the <i>IoT SiteWise User
+  /// Guide</i>.
+  final String? propertyAlias;
+
+  /// The ID of the asset property, in UUID format.
+  final String? propertyId;
+
+  /// The quality by which to filter asset data.
+  final List<Quality>? qualities;
+
+  /// The chronological sorting order of the requested information.
+  ///
+  /// Default: <code>ASCENDING</code>
+  final TimeOrdering? timeOrdering;
+
+  BatchGetAssetPropertyAggregatesEntry({
+    required this.aggregateTypes,
+    required this.endDate,
+    required this.entryId,
+    required this.resolution,
+    required this.startDate,
+    this.assetId,
+    this.propertyAlias,
+    this.propertyId,
+    this.qualities,
+    this.timeOrdering,
+  });
+
+  Map<String, dynamic> toJson() {
+    final aggregateTypes = this.aggregateTypes;
+    final endDate = this.endDate;
+    final entryId = this.entryId;
+    final resolution = this.resolution;
+    final startDate = this.startDate;
+    final assetId = this.assetId;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    final qualities = this.qualities;
+    final timeOrdering = this.timeOrdering;
+    return {
+      'aggregateTypes': aggregateTypes.map((e) => e.value).toList(),
+      'endDate': unixTimestampToJson(endDate),
+      'entryId': entryId,
+      'resolution': resolution,
+      'startDate': unixTimestampToJson(startDate),
+      if (assetId != null) 'assetId': assetId,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+      if (qualities != null)
+        'qualities': qualities.map((e) => e.value).toList(),
+      if (timeOrdering != null) 'timeOrdering': timeOrdering.value,
+    };
+  }
+}
+
+/// Contains error details for the requested associate project asset action.
+class AssetErrorDetails {
+  /// The ID of the asset, in UUID format.
+  final String assetId;
+
+  /// The error code.
+  final AssetErrorCode code;
+
+  /// The error message.
+  final String message;
+
+  AssetErrorDetails({
+    required this.assetId,
+    required this.code,
+    required this.message,
+  });
+
+  factory AssetErrorDetails.fromJson(Map<String, dynamic> json) {
+    return AssetErrorDetails(
+      assetId: (json['assetId'] as String?) ?? '',
+      code: AssetErrorCode.fromString((json['code'] as String?) ?? ''),
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final code = this.code;
+    final message = this.message;
+    return {
+      'assetId': assetId,
+      'code': code.value,
+      'message': message,
+    };
+  }
+}
+
+class AssetErrorCode {
+  static const internalFailure = AssetErrorCode._('INTERNAL_FAILURE');
+
+  final String value;
+
+  const AssetErrorCode._(this.value);
+
+  static const values = [internalFailure];
+
+  static AssetErrorCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AssetErrorCode._(value));
+
+  @override
+  bool operator ==(other) => other is AssetErrorCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class PreconditionFailedException extends _s.GenericAwsException {
@@ -15071,20 +19110,10 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
             message: message);
 }
 
-class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String? type, String? message})
-      : super(type: type, code: 'ResourceNotFoundException', message: message);
-}
-
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
-}
-
-class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String? type, String? message})
-      : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
@@ -15104,15 +19133,15 @@ class ValidationException extends _s.GenericAwsException {
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
-      AccessDeniedException(type: type, message: message),
+      AccessDeniedException(message: message),
   'ConflictingOperationException': (type, message) =>
-      ConflictingOperationException(type: type, message: message),
+      ConflictingOperationException(message: message),
   'InternalFailureException': (type, message) =>
-      InternalFailureException(type: type, message: message),
+      InternalFailureException(message: message),
   'InvalidRequestException': (type, message) =>
-      InvalidRequestException(type: type, message: message),
+      InvalidRequestException(message: message),
   'LimitExceededException': (type, message) =>
-      LimitExceededException(type: type, message: message),
+      LimitExceededException(message: message),
   'PreconditionFailedException': (type, message) =>
       PreconditionFailedException(type: type, message: message),
   'QueryTimeoutException': (type, message) =>
@@ -15120,11 +19149,11 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ResourceAlreadyExistsException': (type, message) =>
       ResourceAlreadyExistsException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
-      ResourceNotFoundException(type: type, message: message),
+      ResourceNotFoundException(message: message),
   'ServiceUnavailableException': (type, message) =>
       ServiceUnavailableException(type: type, message: message),
   'ThrottlingException': (type, message) =>
-      ThrottlingException(type: type, message: message),
+      ThrottlingException(message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
   'UnauthorizedException': (type, message) =>

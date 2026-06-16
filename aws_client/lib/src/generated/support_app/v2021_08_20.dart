@@ -37,7 +37,6 @@ class SupportApp {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'supportapp',
-            signingName: 'supportapp',
           ),
           region: region,
           credentials: credentials,
@@ -78,10 +77,10 @@ class SupportApp {
   /// your account. Users require an invitation to join private channels.
   /// </note>
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
   /// May throw [ValidationException].
   ///
   /// Parameter [channelId] :
@@ -185,9 +184,9 @@ class SupportApp {
   /// Support Center. The alias also appears in Slack messages from the Amazon
   /// Web Services Support App.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   Future<void> deleteAccountAlias() async {
     final response = await _protocol.send(
       payload: null,
@@ -200,10 +199,10 @@ class SupportApp {
   /// Deletes a Slack channel configuration from your Amazon Web Services
   /// account. This operation doesn't delete your Slack channel.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [channelId] :
@@ -232,10 +231,10 @@ class SupportApp {
   /// Deletes a Slack workspace configuration from your Amazon Web Services
   /// account. This operation doesn't delete your Slack workspace.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [teamId] :
@@ -393,10 +392,10 @@ class SupportApp {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [teamId] :
@@ -422,10 +421,10 @@ class SupportApp {
   /// Updates the configuration for a Slack channel, such as case update
   /// notifications.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
   ///
   /// Parameter [channelId] :
@@ -525,29 +524,6 @@ class SupportApp {
     );
     return UpdateSlackChannelConfigurationResult.fromJson(response);
   }
-}
-
-class AccountType {
-  static const management = AccountType._('management');
-  static const member = AccountType._('member');
-
-  final String value;
-
-  const AccountType._(this.value);
-
-  static const values = [management, member];
-
-  static AccountType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AccountType._(value));
-
-  @override
-  bool operator ==(other) => other is AccountType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateSlackChannelConfigurationResult {
@@ -696,32 +672,6 @@ class ListSlackWorkspaceConfigurationsResult {
   }
 }
 
-class NotificationSeverityLevel {
-  static const none = NotificationSeverityLevel._('none');
-  static const all = NotificationSeverityLevel._('all');
-  static const high = NotificationSeverityLevel._('high');
-
-  final String value;
-
-  const NotificationSeverityLevel._(this.value);
-
-  static const values = [none, all, high];
-
-  static NotificationSeverityLevel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NotificationSeverityLevel._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NotificationSeverityLevel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class PutAccountAliasResult {
   PutAccountAliasResult();
 
@@ -769,6 +719,184 @@ class RegisterSlackWorkspaceForOrganizationResult {
     return {
       if (accountType != null) 'accountType': accountType.value,
       if (teamId != null) 'teamId': teamId,
+      if (teamName != null) 'teamName': teamName,
+    };
+  }
+}
+
+class UpdateSlackChannelConfigurationResult {
+  /// The channel ID in Slack. This ID identifies a channel within a Slack
+  /// workspace.
+  final String? channelId;
+
+  /// The name of the Slack channel that you configure for the Amazon Web Services
+  /// Support App.
+  final String? channelName;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that you want to use to
+  /// perform operations on Amazon Web Services. For more information, see <a
+  /// href="https://docs.aws.amazon.com/awssupport/latest/user/support-app-permissions.html">Managing
+  /// access to the Amazon Web Services Support App</a> in the <i>Amazon Web
+  /// Services Support User Guide</i>.
+  final String? channelRoleArn;
+
+  /// Whether you want to get notified when a support case has a new
+  /// correspondence.
+  final bool? notifyOnAddCorrespondenceToCase;
+
+  /// The case severity for a support case that you want to receive notifications.
+  final NotificationSeverityLevel? notifyOnCaseSeverity;
+
+  /// Whether you want to get notified when a support case is created or reopened.
+  final bool? notifyOnCreateOrReopenCase;
+
+  /// Whether you want to get notified when a support case is resolved.
+  final bool? notifyOnResolveCase;
+
+  /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+  /// <code>T012ABCDEFG</code>.
+  final String? teamId;
+
+  UpdateSlackChannelConfigurationResult({
+    this.channelId,
+    this.channelName,
+    this.channelRoleArn,
+    this.notifyOnAddCorrespondenceToCase,
+    this.notifyOnCaseSeverity,
+    this.notifyOnCreateOrReopenCase,
+    this.notifyOnResolveCase,
+    this.teamId,
+  });
+
+  factory UpdateSlackChannelConfigurationResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSlackChannelConfigurationResult(
+      channelId: json['channelId'] as String?,
+      channelName: json['channelName'] as String?,
+      channelRoleArn: json['channelRoleArn'] as String?,
+      notifyOnAddCorrespondenceToCase:
+          json['notifyOnAddCorrespondenceToCase'] as bool?,
+      notifyOnCaseSeverity: (json['notifyOnCaseSeverity'] as String?)
+          ?.let(NotificationSeverityLevel.fromString),
+      notifyOnCreateOrReopenCase: json['notifyOnCreateOrReopenCase'] as bool?,
+      notifyOnResolveCase: json['notifyOnResolveCase'] as bool?,
+      teamId: json['teamId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelId = this.channelId;
+    final channelName = this.channelName;
+    final channelRoleArn = this.channelRoleArn;
+    final notifyOnAddCorrespondenceToCase =
+        this.notifyOnAddCorrespondenceToCase;
+    final notifyOnCaseSeverity = this.notifyOnCaseSeverity;
+    final notifyOnCreateOrReopenCase = this.notifyOnCreateOrReopenCase;
+    final notifyOnResolveCase = this.notifyOnResolveCase;
+    final teamId = this.teamId;
+    return {
+      if (channelId != null) 'channelId': channelId,
+      if (channelName != null) 'channelName': channelName,
+      if (channelRoleArn != null) 'channelRoleArn': channelRoleArn,
+      if (notifyOnAddCorrespondenceToCase != null)
+        'notifyOnAddCorrespondenceToCase': notifyOnAddCorrespondenceToCase,
+      if (notifyOnCaseSeverity != null)
+        'notifyOnCaseSeverity': notifyOnCaseSeverity.value,
+      if (notifyOnCreateOrReopenCase != null)
+        'notifyOnCreateOrReopenCase': notifyOnCreateOrReopenCase,
+      if (notifyOnResolveCase != null)
+        'notifyOnResolveCase': notifyOnResolveCase,
+      if (teamId != null) 'teamId': teamId,
+    };
+  }
+}
+
+class NotificationSeverityLevel {
+  static const none = NotificationSeverityLevel._('none');
+  static const all = NotificationSeverityLevel._('all');
+  static const high = NotificationSeverityLevel._('high');
+
+  final String value;
+
+  const NotificationSeverityLevel._(this.value);
+
+  static const values = [none, all, high];
+
+  static NotificationSeverityLevel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NotificationSeverityLevel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NotificationSeverityLevel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AccountType {
+  static const management = AccountType._('management');
+  static const member = AccountType._('member');
+
+  final String value;
+
+  const AccountType._(this.value);
+
+  static const values = [management, member];
+
+  static AccountType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AccountType._(value));
+
+  @override
+  bool operator ==(other) => other is AccountType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for a Slack workspace that you added to an Amazon Web
+/// Services account.
+class SlackWorkspaceConfiguration {
+  /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
+  /// <code>T012ABCDEFG</code>.
+  final String teamId;
+
+  /// Whether to allow member accounts to authorize Slack workspaces. Member
+  /// accounts must be part of an organization in Organizations.
+  final bool? allowOrganizationMemberAccount;
+
+  /// The name of the Slack workspace.
+  final String? teamName;
+
+  SlackWorkspaceConfiguration({
+    required this.teamId,
+    this.allowOrganizationMemberAccount,
+    this.teamName,
+  });
+
+  factory SlackWorkspaceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SlackWorkspaceConfiguration(
+      teamId: (json['teamId'] as String?) ?? '',
+      allowOrganizationMemberAccount:
+          json['allowOrganizationMemberAccount'] as bool?,
+      teamName: json['teamName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final teamId = this.teamId;
+    final allowOrganizationMemberAccount = this.allowOrganizationMemberAccount;
+    final teamName = this.teamName;
+    return {
+      'teamId': teamId,
+      if (allowOrganizationMemberAccount != null)
+        'allowOrganizationMemberAccount': allowOrganizationMemberAccount,
       if (teamName != null) 'teamName': teamName,
     };
   }
@@ -858,135 +986,6 @@ class SlackChannelConfiguration {
         'notifyOnCreateOrReopenCase': notifyOnCreateOrReopenCase,
       if (notifyOnResolveCase != null)
         'notifyOnResolveCase': notifyOnResolveCase,
-    };
-  }
-}
-
-/// The configuration for a Slack workspace that you added to an Amazon Web
-/// Services account.
-class SlackWorkspaceConfiguration {
-  /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
-  /// <code>T012ABCDEFG</code>.
-  final String teamId;
-
-  /// Whether to allow member accounts to authorize Slack workspaces. Member
-  /// accounts must be part of an organization in Organizations.
-  final bool? allowOrganizationMemberAccount;
-
-  /// The name of the Slack workspace.
-  final String? teamName;
-
-  SlackWorkspaceConfiguration({
-    required this.teamId,
-    this.allowOrganizationMemberAccount,
-    this.teamName,
-  });
-
-  factory SlackWorkspaceConfiguration.fromJson(Map<String, dynamic> json) {
-    return SlackWorkspaceConfiguration(
-      teamId: (json['teamId'] as String?) ?? '',
-      allowOrganizationMemberAccount:
-          json['allowOrganizationMemberAccount'] as bool?,
-      teamName: json['teamName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final teamId = this.teamId;
-    final allowOrganizationMemberAccount = this.allowOrganizationMemberAccount;
-    final teamName = this.teamName;
-    return {
-      'teamId': teamId,
-      if (allowOrganizationMemberAccount != null)
-        'allowOrganizationMemberAccount': allowOrganizationMemberAccount,
-      if (teamName != null) 'teamName': teamName,
-    };
-  }
-}
-
-class UpdateSlackChannelConfigurationResult {
-  /// The channel ID in Slack. This ID identifies a channel within a Slack
-  /// workspace.
-  final String? channelId;
-
-  /// The name of the Slack channel that you configure for the Amazon Web Services
-  /// Support App.
-  final String? channelName;
-
-  /// The Amazon Resource Name (ARN) of an IAM role that you want to use to
-  /// perform operations on Amazon Web Services. For more information, see <a
-  /// href="https://docs.aws.amazon.com/awssupport/latest/user/support-app-permissions.html">Managing
-  /// access to the Amazon Web Services Support App</a> in the <i>Amazon Web
-  /// Services Support User Guide</i>.
-  final String? channelRoleArn;
-
-  /// Whether you want to get notified when a support case has a new
-  /// correspondence.
-  final bool? notifyOnAddCorrespondenceToCase;
-
-  /// The case severity for a support case that you want to receive notifications.
-  final NotificationSeverityLevel? notifyOnCaseSeverity;
-
-  /// Whether you want to get notified when a support case is created or reopened.
-  final bool? notifyOnCreateOrReopenCase;
-
-  /// Whether you want to get notified when a support case is resolved.
-  final bool? notifyOnResolveCase;
-
-  /// The team ID in Slack. This ID uniquely identifies a Slack workspace, such as
-  /// <code>T012ABCDEFG</code>.
-  final String? teamId;
-
-  UpdateSlackChannelConfigurationResult({
-    this.channelId,
-    this.channelName,
-    this.channelRoleArn,
-    this.notifyOnAddCorrespondenceToCase,
-    this.notifyOnCaseSeverity,
-    this.notifyOnCreateOrReopenCase,
-    this.notifyOnResolveCase,
-    this.teamId,
-  });
-
-  factory UpdateSlackChannelConfigurationResult.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateSlackChannelConfigurationResult(
-      channelId: json['channelId'] as String?,
-      channelName: json['channelName'] as String?,
-      channelRoleArn: json['channelRoleArn'] as String?,
-      notifyOnAddCorrespondenceToCase:
-          json['notifyOnAddCorrespondenceToCase'] as bool?,
-      notifyOnCaseSeverity: (json['notifyOnCaseSeverity'] as String?)
-          ?.let(NotificationSeverityLevel.fromString),
-      notifyOnCreateOrReopenCase: json['notifyOnCreateOrReopenCase'] as bool?,
-      notifyOnResolveCase: json['notifyOnResolveCase'] as bool?,
-      teamId: json['teamId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelId = this.channelId;
-    final channelName = this.channelName;
-    final channelRoleArn = this.channelRoleArn;
-    final notifyOnAddCorrespondenceToCase =
-        this.notifyOnAddCorrespondenceToCase;
-    final notifyOnCaseSeverity = this.notifyOnCaseSeverity;
-    final notifyOnCreateOrReopenCase = this.notifyOnCreateOrReopenCase;
-    final notifyOnResolveCase = this.notifyOnResolveCase;
-    final teamId = this.teamId;
-    return {
-      if (channelId != null) 'channelId': channelId,
-      if (channelName != null) 'channelName': channelName,
-      if (channelRoleArn != null) 'channelRoleArn': channelRoleArn,
-      if (notifyOnAddCorrespondenceToCase != null)
-        'notifyOnAddCorrespondenceToCase': notifyOnAddCorrespondenceToCase,
-      if (notifyOnCaseSeverity != null)
-        'notifyOnCaseSeverity': notifyOnCaseSeverity.value,
-      if (notifyOnCreateOrReopenCase != null)
-        'notifyOnCreateOrReopenCase': notifyOnCreateOrReopenCase,
-      if (notifyOnResolveCase != null)
-        'notifyOnResolveCase': notifyOnResolveCase,
-      if (teamId != null) 'teamId': teamId,
     };
   }
 }

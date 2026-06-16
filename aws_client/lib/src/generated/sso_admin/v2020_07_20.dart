@@ -20,24 +20,33 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// IAM Identity Center (successor to Single Sign-On) helps you securely create,
-/// or connect, your workforce identities and manage their access centrally
-/// across Amazon Web Services accounts and applications. IAM Identity Center is
-/// the recommended approach for workforce authentication and authorization in
-/// Amazon Web Services, for organizations of any size and type.
+/// IAM Identity Center is the Amazon Web Services solution for connecting your
+/// workforce users to Amazon Web Services managed applications and other Amazon
+/// Web Services resources. You can connect your existing identity provider and
+/// synchronize users and groups from your directory, or create and manage your
+/// users directly in IAM Identity Center. You can then use IAM Identity Center
+/// for either or both of the following:
+///
+/// <ul>
+/// <li>
+/// User access to applications
+/// </li>
+/// <li>
+/// User access to Amazon Web Services accounts
+/// </li>
+/// </ul>
+/// This guide provides information about single sign-on operations that you can
+/// use for access to applications and Amazon Web Services accounts. For
+/// information about IAM Identity Center features, see the <a
+/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html">IAM
+/// Identity Center User Guide</a>.
 /// <note>
 /// IAM Identity Center uses the <code>sso</code> and <code>identitystore</code>
 /// API namespaces.
 /// </note>
-/// This reference guide provides information on single sign-on operations which
-/// could be used for access management of Amazon Web Services accounts. For
-/// information about IAM Identity Center features, see the <a
-/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html">IAM
-/// Identity Center User Guide</a>.
-///
-/// Many operations in the IAM Identity Center APIs rely on identifiers for
-/// users and groups, known as principals. For more information about how to
-/// work with principals and principal IDs in IAM Identity Center, see the <a
+/// Many API operations for IAM Identity Center rely on identifiers for users
+/// and groups, known as principals. For more information about how to work with
+/// principals and principal IDs in IAM Identity Center, see the <a
 /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html">Identity
 /// Store API Reference</a>.
 /// <note>
@@ -61,7 +70,6 @@ class SsoAdmin {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'sso',
-            signingName: 'sso',
           ),
           region: region,
           credentials: credentials,
@@ -78,16 +86,81 @@ class SsoAdmin {
     _protocol.close();
   }
 
+  /// Adds a Region to an IAM Identity Center instance. This operation initiates
+  /// an asynchronous workflow to replicate the IAM Identity Center instance to
+  /// the target Region. The Region status is set to ADDING at first and changes
+  /// to ACTIVE when the workflow completes.
+  ///
+  /// To use this operation, your IAM Identity Center instance and the target
+  /// Region must meet the requirements described in the <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/multi-region-iam-identity-center.html#multi-region-prerequisites">IAM
+  /// Identity Center User Guide</a>.
+  ///
+  /// The following actions are related to <code>AddRegion</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_RemoveRegion.html">RemoveRegion</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_DescribeRegion.html">DescribeRegion</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListRegions.html">ListRegions</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to
+  /// replicate to the target Region.
+  ///
+  /// Parameter [regionName] :
+  /// The name of the Amazon Web Services Region to add to the IAM Identity
+  /// Center instance. The Region name must be 1-32 characters long and follow
+  /// the pattern of Amazon Web Services Region names (for example, us-east-1).
+  Future<AddRegionResponse> addRegion({
+    required String instanceArn,
+    required String regionName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.AddRegion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        'RegionName': regionName,
+      },
+    );
+
+    return AddRegionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Attaches the specified customer managed policy to the specified
   /// <a>PermissionSet</a>.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [customerManagedPolicyReference] :
   /// Specifies the name and path of a customer managed policy. You must have an
@@ -132,13 +205,13 @@ class SsoAdmin {
   /// applies the corresponding IAM policy updates to all assigned accounts.
   /// </note>
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -196,13 +269,13 @@ class SsoAdmin {
   /// status of an assignment creation request.
   /// </note>
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -263,16 +336,28 @@ class SsoAdmin {
     return CreateAccountAssignmentResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an application in IAM Identity Center for the given application
-  /// provider.
+  /// Creates an OAuth 2.0 customer managed application in IAM Identity Center
+  /// for the given application provider.
+  /// <note>
+  /// This API does not support creating SAML 2.0 customer managed applications
+  /// or Amazon Web Services managed applications. To learn how to create an
+  /// Amazon Web Services managed application, see the application user guide.
+  /// You can create a SAML 2.0 customer managed application in the Amazon Web
+  /// Services Management Console only. See <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/customermanagedapps-saml2-setup.html">Setting
+  /// up customer managed SAML 2.0 applications</a>. For more information on
+  /// these application types, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/awsapps.html">Amazon
+  /// Web Services managed applications</a>.
+  /// </note>
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationProviderArn] :
   /// The ARN of the application provider under which the operation will run.
@@ -352,23 +437,23 @@ class SsoAdmin {
 
   /// Grant application access to a user or group.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationArn] :
-  /// The ARN of the application provider under which the operation will run.
+  /// The ARN of the application for which the assignment is created.
   ///
   /// Parameter [principalId] :
   /// An identifier for an object in IAM Identity Center, such as a user or
   /// group. PrincipalIds are GUIDs (For example,
   /// f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
   /// PrincipalIds in IAM Identity Center, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
   /// Identity Center Identity Store API Reference</a>.
   ///
   /// Parameter [principalType] :
@@ -412,12 +497,12 @@ class SsoAdmin {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [clientToken] :
   /// Specifies a unique, case-sensitive ID that you provide to ensure the
@@ -478,12 +563,12 @@ class SsoAdmin {
   /// created.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceAccessControlAttributeConfiguration] :
   /// Specifies the IAM Identity Center identity store attributes to add to your
@@ -527,13 +612,13 @@ class SsoAdmin {
   /// use <code> <a>CreateAccountAssignment</a> </code>.
   /// </note>
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -599,12 +684,12 @@ class SsoAdmin {
   /// user. Applications enabled for IAM Identity Center can use these tokens
   /// for authentication.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// Specifies the ARN of the instance of IAM Identity Center to contain the
@@ -679,12 +764,12 @@ class SsoAdmin {
   /// status of an assignment deletion request.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -747,12 +832,12 @@ class SsoAdmin {
   /// Deletes the association with the application. The connected service
   /// resource still exists.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationArn] :
   /// Specifies the ARN of the application. For more information about ARNs, see
@@ -778,50 +863,15 @@ class SsoAdmin {
     );
   }
 
-  /// Deletes an IAM Identity Center access scope from an application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application with the access scope to delete.
-  ///
-  /// Parameter [scope] :
-  /// Specifies the name of the access scope to remove from the application.
-  Future<void> deleteApplicationAccessScope({
-    required String applicationArn,
-    required String scope,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.DeleteApplicationAccessScope'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        'Scope': scope,
-      },
-    );
-  }
-
   /// Revoke application access to an application by deleting application
   /// assignments for a user or group.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationArn] :
   /// Specifies the ARN of the application.
@@ -831,7 +881,7 @@ class SsoAdmin {
   /// group. PrincipalIds are GUIDs (For example,
   /// f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
   /// PrincipalIds in IAM Identity Center, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
   /// Identity Center Identity Store API Reference</a>.
   ///
   /// Parameter [principalType] :
@@ -859,85 +909,14 @@ class SsoAdmin {
     );
   }
 
-  /// Deletes an authentication method from an application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application with the authentication method to
-  /// delete.
-  ///
-  /// Parameter [authenticationMethodType] :
-  /// Specifies the authentication method type to delete from the application.
-  Future<void> deleteApplicationAuthenticationMethod({
-    required String applicationArn,
-    required AuthenticationMethodType authenticationMethodType,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.DeleteApplicationAuthenticationMethod'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        'AuthenticationMethodType': authenticationMethodType.value,
-      },
-    );
-  }
-
-  /// Deletes a grant from an application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application with the grant to delete.
-  ///
-  /// Parameter [grantType] :
-  /// Specifies the type of grant to delete from the application.
-  Future<void> deleteApplicationGrant({
-    required String applicationArn,
-    required GrantType grantType,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.DeleteApplicationGrant'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        'GrantType': grantType.value,
-      },
-    );
-  }
-
   /// Deletes the inline policy from a specified permission set.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -974,11 +953,11 @@ class SsoAdmin {
   /// member account can delete the organization instance, but those roles can
   /// delete their own instance.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the instance of IAM Identity Center under which the operation
@@ -1010,12 +989,12 @@ class SsoAdmin {
   /// see <a href="/singlesignon/latest/userguide/abac.html">Attribute-Based
   /// Access Control</a> in the <i>IAM Identity Center User Guide</i>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -1040,14 +1019,51 @@ class SsoAdmin {
     );
   }
 
-  /// Deletes the specified permission set.
+  /// Deletes the permissions boundary from a specified <a>PermissionSet</a>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The ARN of the IAM Identity Center instance under which the operation will
+  /// be executed.
+  ///
+  /// Parameter [permissionSetArn] :
+  /// The ARN of the <code>PermissionSet</code>.
+  Future<void> deletePermissionsBoundaryFromPermissionSet({
+    required String instanceArn,
+    required String permissionSetArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'SWBExternalService.DeletePermissionsBoundaryFromPermissionSet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        'PermissionSetArn': permissionSetArn,
+      },
+    );
+  }
+
+  /// Deletes the specified permission set.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -1079,43 +1095,6 @@ class SsoAdmin {
     );
   }
 
-  /// Deletes the permissions boundary from a specified <a>PermissionSet</a>.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [instanceArn] :
-  /// The ARN of the IAM Identity Center instance under which the operation will
-  /// be executed.
-  ///
-  /// Parameter [permissionSetArn] :
-  /// The ARN of the <code>PermissionSet</code>.
-  Future<void> deletePermissionsBoundaryFromPermissionSet({
-    required String instanceArn,
-    required String permissionSetArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target':
-          'SWBExternalService.DeletePermissionsBoundaryFromPermissionSet'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'InstanceArn': instanceArn,
-        'PermissionSetArn': permissionSetArn,
-      },
-    );
-  }
-
   /// Deletes a trusted token issuer configuration from an instance of IAM
   /// Identity Center.
   /// <note>
@@ -1124,12 +1103,12 @@ class SsoAdmin {
   /// issuer.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [trustedTokenIssuerArn] :
   /// Specifies the ARN of the trusted token issuer configuration to delete.
@@ -1154,10 +1133,10 @@ class SsoAdmin {
 
   /// Describes the status of the assignment creation request.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [accountAssignmentCreationRequestId] :
@@ -1198,10 +1177,10 @@ class SsoAdmin {
 
   /// Describes the status of the assignment deletion request.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [accountAssignmentDeletionRequestId] :
@@ -1243,10 +1222,10 @@ class SsoAdmin {
   /// Retrieves the details of an application associated with an instance of IAM
   /// Identity Center.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [applicationArn] :
@@ -1281,10 +1260,10 @@ class SsoAdmin {
   /// this API to test access to an application for a user. Instead use
   /// <a>ListApplicationAssignmentsForPrincipal</a>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [applicationArn] :
@@ -1298,7 +1277,7 @@ class SsoAdmin {
   /// group. PrincipalIds are GUIDs (For example,
   /// f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about
   /// PrincipalIds in IAM Identity Center, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
   /// Identity Center Identity Store API Reference</a>.
   ///
   /// Parameter [principalType] :
@@ -1332,10 +1311,10 @@ class SsoAdmin {
   /// Web Services managed application or customer managed application to IAM
   /// Identity Center.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [applicationProviderArn] :
@@ -1381,9 +1360,9 @@ class SsoAdmin {
   /// </li>
   /// </ul>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -1418,10 +1397,10 @@ class SsoAdmin {
   /// href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access
   /// Control</a> in the <i>IAM Identity Center User Guide</i>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -1453,10 +1432,10 @@ class SsoAdmin {
 
   /// Gets the details of the permission set.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -1493,10 +1472,10 @@ class SsoAdmin {
 
   /// Describes the status for the given permission set provisioning request.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -1535,15 +1514,75 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
+  /// Retrieves details about a specific Region enabled in an IAM Identity
+  /// Center instance. Details include the Region name, current status (ACTIVE,
+  /// ADDING, or REMOVING), the date when the Region was added, and whether it
+  /// is the primary Region. The request must be made from one of the enabled
+  /// Regions of the IAM Identity Center instance.
+  ///
+  /// The following actions are related to <code>DescribeRegion</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_AddRegion.html">
+  /// AddRegion</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_RemoveRegion.html">RemoveRegion</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListRegions.html">ListRegions</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+  ///
+  /// Parameter [regionName] :
+  /// The name of the Amazon Web Services Region to retrieve information about.
+  /// The Region name must be 1-32 characters long and follow the pattern of
+  /// Amazon Web Services Region names (for example, us-east-1).
+  Future<DescribeRegionResponse> describeRegion({
+    required String instanceArn,
+    required String regionName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.DescribeRegion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        'RegionName': regionName,
+      },
+    );
+
+    return DescribeRegionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves details about a trusted token issuer configuration stored in an
   /// instance of IAM Identity Center. Details include the name of the trusted
   /// token issuer, the issuer URL, and the path of the source attribute and the
   /// destination attribute for a trusted token issuer configuration.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [trustedTokenIssuerArn] :
@@ -1573,12 +1612,12 @@ class SsoAdmin {
   /// Detaches the specified customer managed policy from the specified
   /// <a>PermissionSet</a>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [customerManagedPolicyReference] :
   /// Specifies the name and path of a customer managed policy. You must have an
@@ -1618,12 +1657,12 @@ class SsoAdmin {
   /// Detaches the attached Amazon Web Services managed policy ARN from the
   /// specified permission set.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -1662,52 +1701,13 @@ class SsoAdmin {
     );
   }
 
-  /// Retrieves the authorized targets for an IAM Identity Center access scope
-  /// for an application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application with the access scope that you want
-  /// to retrieve.
-  ///
-  /// Parameter [scope] :
-  /// Specifies the name of the access scope for which you want the authorized
-  /// targets.
-  Future<GetApplicationAccessScopeResponse> getApplicationAccessScope({
-    required String applicationArn,
-    required String scope,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.GetApplicationAccessScope'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        'Scope': scope,
-      },
-    );
-
-    return GetApplicationAccessScopeResponse.fromJson(jsonResponse.body);
-  }
-
   /// Retrieves the configuration of
   /// <a>PutApplicationAssignmentConfiguration</a>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [applicationArn] :
@@ -1738,27 +1738,31 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
-  /// Retrieves details about an authentication method used by an application.
+  /// Retrieves the session configuration for an application in IAM Identity
+  /// Center.
   ///
-  /// May throw [ThrottlingException].
+  /// The session configuration determines how users can access an application.
+  /// This includes whether user background sessions are enabled. User
+  /// background sessions allow users to start a job on a supported Amazon Web
+  /// Services managed application without having to remain signed in to an
+  /// active session while the job runs.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application.
-  ///
-  /// Parameter [authenticationMethodType] :
-  /// Specifies the type of authentication method for which you want details.
-  Future<GetApplicationAuthenticationMethodResponse>
-      getApplicationAuthenticationMethod({
+  /// The Amazon Resource Name (ARN) of the application for which to retrieve
+  /// the session configuration.
+  Future<GetApplicationSessionConfigurationResponse>
+      getApplicationSessionConfiguration({
     required String applicationArn,
-    required AuthenticationMethodType authenticationMethodType,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.GetApplicationAuthenticationMethod'
+      'X-Amz-Target': 'SWBExternalService.GetApplicationSessionConfiguration'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -1768,56 +1772,19 @@ class SsoAdmin {
       headers: headers,
       payload: {
         'ApplicationArn': applicationArn,
-        'AuthenticationMethodType': authenticationMethodType.value,
       },
     );
 
-    return GetApplicationAuthenticationMethodResponse.fromJson(
+    return GetApplicationSessionConfigurationResponse.fromJson(
         jsonResponse.body);
-  }
-
-  /// Retrieves details about an application grant.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application that contains the grant.
-  ///
-  /// Parameter [grantType] :
-  /// Specifies the type of grant.
-  Future<GetApplicationGrantResponse> getApplicationGrant({
-    required String applicationArn,
-    required GrantType grantType,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.GetApplicationGrant'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        'GrantType': grantType.value,
-      },
-    );
-
-    return GetApplicationGrantResponse.fromJson(jsonResponse.body);
   }
 
   /// Obtains the inline policy assigned to the permission set.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -1855,10 +1822,10 @@ class SsoAdmin {
 
   /// Obtains the permissions boundary for a specified <a>PermissionSet</a>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -1896,10 +1863,10 @@ class SsoAdmin {
   /// Lists the status of the Amazon Web Services account assignment creation
   /// requests for a specified IAM Identity Center instance.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -1956,10 +1923,10 @@ class SsoAdmin {
   /// Lists the status of the Amazon Web Services account assignment deletion
   /// requests for a specified IAM Identity Center instance.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2016,10 +1983,10 @@ class SsoAdmin {
   /// Lists the assignee of the specified Amazon Web Services account with the
   /// specified permission set.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
@@ -2078,12 +2045,15 @@ class SsoAdmin {
   }
 
   /// Retrieves a list of the IAM Identity Center associated Amazon Web Services
-  /// accounts that the principal has access to.
+  /// accounts that the principal has access to. This action must be called from
+  /// the management account containing your organization instance of IAM
+  /// Identity Center. This action is not valid for account instances of IAM
+  /// Identity Center.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2160,10 +2130,10 @@ class SsoAdmin {
   /// Lists all the Amazon Web Services accounts where the specified permission
   /// set is provisioned.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2225,73 +2195,13 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
-  /// Lists the access scopes and authorized targets associated with an
-  /// application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application.
-  ///
-  /// Parameter [maxResults] :
-  /// Specifies the total number of results that you want included in each
-  /// response. If additional items exist beyond the number you specify, the
-  /// <code>NextToken</code> response element is returned with a value (not
-  /// null). Include the specified value as the <code>NextToken</code> request
-  /// parameter in the next call to the operation to get the next set of
-  /// results. Note that the service might return fewer results than the maximum
-  /// even when there are more results available. You should check
-  /// <code>NextToken</code> after every operation to ensure that you receive
-  /// all of the results.
-  ///
-  /// Parameter [nextToken] :
-  /// Specifies that you want to receive the next page of results. Valid only if
-  /// you received a <code>NextToken</code> response in the previous request. If
-  /// you did, it indicates that more output is available. Set this parameter to
-  /// the value provided by the previous call's <code>NextToken</code> response
-  /// to request the next page of results.
-  Future<ListApplicationAccessScopesResponse> listApplicationAccessScopes({
-    required String applicationArn,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      10,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.ListApplicationAccessScopes'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListApplicationAccessScopesResponse.fromJson(jsonResponse.body);
-  }
-
   /// Lists Amazon Web Services account users that are assigned to an
   /// application.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [applicationArn] :
@@ -2345,12 +2255,17 @@ class SsoAdmin {
     return ListApplicationAssignmentsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the applications to which a specified principal is assigned.
+  /// Lists the applications to which a specified principal is assigned. You
+  /// must provide a filter when calling this action from a member account
+  /// against your organization instance of IAM Identity Center. A filter is not
+  /// required when called from the management account against an organization
+  /// instance of IAM Identity Center, or from a member account against an
+  /// account instance of IAM Identity Center in the same account.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2426,96 +2341,12 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
-  /// Lists all of the authentication methods supported by the specified
-  /// application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application with the authentication methods you
-  /// want to list.
-  ///
-  /// Parameter [nextToken] :
-  /// Specifies that you want to receive the next page of results. Valid only if
-  /// you received a <code>NextToken</code> response in the previous request. If
-  /// you did, it indicates that more output is available. Set this parameter to
-  /// the value provided by the previous call's <code>NextToken</code> response
-  /// to request the next page of results.
-  Future<ListApplicationAuthenticationMethodsResponse>
-      listApplicationAuthenticationMethods({
-    required String applicationArn,
-    String? nextToken,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.ListApplicationAuthenticationMethods'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListApplicationAuthenticationMethodsResponse.fromJson(
-        jsonResponse.body);
-  }
-
-  /// List the grants associated with an application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application whose grants you want to list.
-  ///
-  /// Parameter [nextToken] :
-  /// Specifies that you want to receive the next page of results. Valid only if
-  /// you received a <code>NextToken</code> response in the previous request. If
-  /// you did, it indicates that more output is available. Set this parameter to
-  /// the value provided by the previous call's <code>NextToken</code> response
-  /// to request the next page of results.
-  Future<ListApplicationGrantsResponse> listApplicationGrants({
-    required String applicationArn,
-    String? nextToken,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.ListApplicationGrants'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListApplicationGrantsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Lists the application providers configured in the IAM Identity Center
   /// identity store.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -2565,14 +2396,15 @@ class SsoAdmin {
   }
 
   /// Lists all applications associated with the instance of IAM Identity
-  /// Center. When listing applications for an instance in the management
-  /// account, member accounts must use the <code>applicationAccount</code>
-  /// parameter to filter the list to only applications created from that
-  /// account.
+  /// Center. When listing applications for an organization instance in the
+  /// management account, member accounts must use the
+  /// <code>applicationAccount</code> parameter to filter the list to only
+  /// applications created from that account. When listing applications for an
+  /// account instance in the same member account, a filter is not required.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2638,10 +2470,10 @@ class SsoAdmin {
   /// Lists all customer managed policies attached to a specified
   /// <a>PermissionSet</a>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2697,9 +2529,9 @@ class SsoAdmin {
   /// Identity Center that were created in or visible to the account calling
   /// this API.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -2740,10 +2572,10 @@ class SsoAdmin {
   /// Lists the Amazon Web Services managed policy that is attached to a
   /// specified permission set.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2800,10 +2632,10 @@ class SsoAdmin {
   /// Lists the status of the permission set provisioning requests for a
   /// specified IAM Identity Center instance.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2859,10 +2691,10 @@ class SsoAdmin {
 
   /// Lists the <a>PermissionSet</a>s in an IAM Identity Center instance.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -2912,10 +2744,10 @@ class SsoAdmin {
   /// Lists all the permission sets that are provisioned to a specified Amazon
   /// Web Services account.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [accountId] :
@@ -2977,12 +2809,79 @@ class SsoAdmin {
         jsonResponse.body);
   }
 
+  /// Lists all enabled Regions of an IAM Identity Center instance, including
+  /// those that are being added or removed. This operation returns Regions with
+  /// ACTIVE, ADDING, or REMOVING status.
+  ///
+  /// The following actions are related to <code>ListRegions</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_AddRegion.html">
+  /// AddRegion</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_RemoveRegion.html">RemoveRegion</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_DescribeRegion.html">DescribeRegion</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Default is 100.
+  ///
+  /// Parameter [nextToken] :
+  /// The pagination token for the list API. Initially the value is null. Use
+  /// the output of previous API calls to make subsequent calls.
+  Future<ListRegionsResponse> listRegions({
+    required String instanceArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.ListRegions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListRegionsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists the tags that are attached to a specified resource.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
@@ -3026,9 +2925,9 @@ class SsoAdmin {
   /// Lists all the trusted token issuers configured in an instance of IAM
   /// Identity Center.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
@@ -3086,12 +2985,12 @@ class SsoAdmin {
   /// The process by which a specified permission set is provisioned to the
   /// specified target.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -3136,50 +3035,6 @@ class SsoAdmin {
     return ProvisionPermissionSetResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds or updates the list of authorized targets for an IAM Identity Center
-  /// access scope for an application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application with the access scope with the
-  /// targets to add or update.
-  ///
-  /// Parameter [scope] :
-  /// Specifies the name of the access scope to be associated with the specified
-  /// targets.
-  ///
-  /// Parameter [authorizedTargets] :
-  /// Specifies an array list of ARNs that represent the authorized targets for
-  /// this access scope.
-  Future<void> putApplicationAccessScope({
-    required String applicationArn,
-    required String scope,
-    List<String>? authorizedTargets,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.PutApplicationAccessScope'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        'Scope': scope,
-        if (authorizedTargets != null) 'AuthorizedTargets': authorizedTargets,
-      },
-    );
-  }
-
   /// Configure how users gain access to an application. If
   /// <code>AssignmentsRequired</code> is <code>true</code> (default value),
   /// users don’t have access to the application unless an assignment is created
@@ -3191,12 +3046,12 @@ class SsoAdmin {
   /// the user retains access if <code>AssignmentsRequired</code> is set to
   /// <code>true</code>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationArn] :
   /// Specifies the ARN of the application. For more information about ARNs, see
@@ -3231,35 +3086,36 @@ class SsoAdmin {
     );
   }
 
-  /// Adds or updates an authentication method for an application.
+  /// Updates the session configuration for an application in IAM Identity
+  /// Center.
   ///
-  /// May throw [ThrottlingException].
+  /// The session configuration determines how users can access an application.
+  /// This includes whether user background sessions are enabled. User
+  /// background sessions allow users to start a job on a supported Amazon Web
+  /// Services managed application without having to remain signed in to an
+  /// active session while the job runs.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application with the authentication method to add
-  /// or update.
+  /// The Amazon Resource Name (ARN) of the application for which to update the
+  /// session configuration.
   ///
-  /// Parameter [authenticationMethod] :
-  /// Specifies a structure that describes the authentication method to add or
-  /// update. The structure type you provide is determined by the
-  /// <code>AuthenticationMethodType</code> parameter.
-  ///
-  /// Parameter [authenticationMethodType] :
-  /// Specifies the type of the authentication method that you want to add or
-  /// update.
-  Future<void> putApplicationAuthenticationMethod({
+  /// Parameter [userBackgroundSessionApplicationStatus] :
+  /// The status of user background sessions for the application.
+  Future<void> putApplicationSessionConfiguration({
     required String applicationArn,
-    required AuthenticationMethod authenticationMethod,
-    required AuthenticationMethodType authenticationMethodType,
+    UserBackgroundSessionApplicationStatus?
+        userBackgroundSessionApplicationStatus,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.PutApplicationAuthenticationMethod'
+      'X-Amz-Target': 'SWBExternalService.PutApplicationSessionConfiguration'
     };
     await _protocol.send(
       method: 'POST',
@@ -3269,48 +3125,9 @@ class SsoAdmin {
       headers: headers,
       payload: {
         'ApplicationArn': applicationArn,
-        'AuthenticationMethod': authenticationMethod,
-        'AuthenticationMethodType': authenticationMethodType.value,
-      },
-    );
-  }
-
-  /// Adds a grant to an application.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [applicationArn] :
-  /// Specifies the ARN of the application to update.
-  ///
-  /// Parameter [grant] :
-  /// Specifies a structure that describes the grant to update.
-  ///
-  /// Parameter [grantType] :
-  /// Specifies the type of grant to update.
-  Future<void> putApplicationGrant({
-    required String applicationArn,
-    required Grant grant,
-    required GrantType grantType,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SWBExternalService.PutApplicationGrant'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ApplicationArn': applicationArn,
-        'Grant': grant,
-        'GrantType': grantType.value,
+        if (userBackgroundSessionApplicationStatus != null)
+          'UserBackgroundSessionApplicationStatus':
+              userBackgroundSessionApplicationStatus.value,
       },
     );
   }
@@ -3323,13 +3140,13 @@ class SsoAdmin {
   /// all assigned accounts.
   /// </note>
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [inlinePolicy] :
   /// The inline policy to attach to a <a>PermissionSet</a>.
@@ -3369,12 +3186,12 @@ class SsoAdmin {
   /// Attaches an Amazon Web Services managed or customer managed policy to the
   /// specified <a>PermissionSet</a> as a permissions boundary.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -3409,15 +3226,79 @@ class SsoAdmin {
     );
   }
 
-  /// Associates a set of tags with a specified resource.
+  /// Removes an additional Region from an IAM Identity Center instance. This
+  /// operation initiates an asynchronous workflow to clean up IAM Identity
+  /// Center resources in the specified additional Region. The Region status is
+  /// set to REMOVING and the Region record is deleted when the workflow
+  /// completes. The request must be made from the primary Region. The target
+  /// Region cannot be the primary Region, and no other add or remove Region
+  /// workflows can be in progress.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ThrottlingException].
+  /// The following actions are related to <code>RemoveRegion</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_AddRegion.html">
+  /// AddRegion</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_DescribeRegion.html">DescribeRegion</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/APIReference/API_ListRegions.html">ListRegions</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [instanceArn] :
+  /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+  ///
+  /// Parameter [regionName] :
+  /// The name of the Amazon Web Services Region to remove from the IAM Identity
+  /// Center instance. The Region name must be 1-32 characters long and follow
+  /// the pattern of Amazon Web Services Region names (for example, us-east-1).
+  /// The primary Region cannot be removed.
+  Future<RemoveRegionResponse> removeRegion({
+    required String instanceArn,
+    required String regionName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.RemoveRegion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceArn': instanceArn,
+        'RegionName': regionName,
+      },
+    );
+
+    return RemoveRegionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Associates a set of tags with a specified resource.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource with the tags to be listed.
@@ -3456,12 +3337,12 @@ class SsoAdmin {
 
   /// Disassociates a set of tags from a specified resource.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource with the tags to be listed.
@@ -3500,12 +3381,12 @@ class SsoAdmin {
 
   /// Updates application properties.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [applicationArn] :
   /// Specifies the ARN of the application. For more information about ARNs, see
@@ -3555,11 +3436,12 @@ class SsoAdmin {
   /// Update the details for the instance of IAM Identity Center that is owned
   /// by the Amazon Web Services account.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the instance of IAM Identity Center under which the operation
@@ -3568,11 +3450,17 @@ class SsoAdmin {
   /// Names (ARNs) and Amazon Web Services Service Namespaces</a> in the
   /// <i>Amazon Web Services General Reference</i>.
   ///
+  /// Parameter [encryptionConfiguration] :
+  /// Specifies the encryption configuration for your IAM Identity Center
+  /// instance. You can use this to configure customer managed KMS keys or
+  /// Amazon Web Services owned KMS keys for encrypting your instance data.
+  ///
   /// Parameter [name] :
   /// Updates the instance name.
   Future<void> updateInstance({
     required String instanceArn,
-    required String name,
+    EncryptionConfiguration? encryptionConfiguration,
+    String? name,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3586,7 +3474,9 @@ class SsoAdmin {
       headers: headers,
       payload: {
         'InstanceArn': instanceArn,
-        'Name': name,
+        if (encryptionConfiguration != null)
+          'EncryptionConfiguration': encryptionConfiguration,
+        if (name != null) 'Name': name,
       },
     );
   }
@@ -3602,12 +3492,12 @@ class SsoAdmin {
   /// href="/singlesignon/latest/userguide/abac.html">Attribute-Based Access
   /// Control</a> in the <i>IAM Identity Center User Guide</i>.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceAccessControlAttributeConfiguration] :
   /// Updates the attributes for your ABAC configuration.
@@ -3641,12 +3531,12 @@ class SsoAdmin {
 
   /// Updates an existing permission set.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [instanceArn] :
   /// The ARN of the IAM Identity Center instance under which the operation will
@@ -3704,12 +3594,12 @@ class SsoAdmin {
   /// issuer.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
   /// Parameter [trustedTokenIssuerArn] :
   /// Specifies the ARN of the trusted token issuer configuration that you want
@@ -3746,590 +3636,590 @@ class SsoAdmin {
       },
     );
   }
-}
 
-/// These are IAM Identity Center identity store attributes that you can
-/// configure for use in attributes-based access control (ABAC). You can create
-/// permissions policies that determine who can access your Amazon Web Services
-/// resources based upon the configured attribute values. When you enable ABAC
-/// and specify <code>AccessControlAttributes</code>, IAM Identity Center passes
-/// the attribute values of the authenticated user into IAM for use in policy
-/// evaluation.
-class AccessControlAttribute {
-  /// The name of the attribute associated with your identities in your identity
-  /// source. This is used to map a specified attribute in your identity source
-  /// with an attribute in IAM Identity Center.
-  final String key;
-
-  /// The value used for mapping a specified attribute to an identity source.
-  final AccessControlAttributeValue value;
-
-  AccessControlAttribute({
-    required this.key,
-    required this.value,
-  });
-
-  factory AccessControlAttribute.fromJson(Map<String, dynamic> json) {
-    return AccessControlAttribute(
-      key: (json['Key'] as String?) ?? '',
-      value: AccessControlAttributeValue.fromJson(
-          (json['Value'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+  /// Adds or updates the list of authorized targets for an IAM Identity Center
+  /// access scope for an application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application with the access scope with the
+  /// targets to add or update.
+  ///
+  /// Parameter [scope] :
+  /// Specifies the name of the access scope to be associated with the specified
+  /// targets.
+  ///
+  /// Parameter [authorizedTargets] :
+  /// Specifies an array list of ARNs that represent the authorized targets for
+  /// this access scope.
+  Future<void> putApplicationAccessScope({
+    required String applicationArn,
+    required String scope,
+    List<String>? authorizedTargets,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.PutApplicationAccessScope'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'Scope': scope,
+        if (authorizedTargets != null) 'AuthorizedTargets': authorizedTargets,
+      },
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
+  /// Retrieves the authorized targets for an IAM Identity Center access scope
+  /// for an application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application with the access scope that you want
+  /// to retrieve.
+  ///
+  /// Parameter [scope] :
+  /// Specifies the name of the access scope for which you want the authorized
+  /// targets.
+  Future<GetApplicationAccessScopeResponse> getApplicationAccessScope({
+    required String applicationArn,
+    required String scope,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.GetApplicationAccessScope'
     };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'Scope': scope,
+      },
+    );
+
+    return GetApplicationAccessScopeResponse.fromJson(jsonResponse.body);
   }
-}
 
-/// The value used for mapping a specified attribute to an identity source. For
-/// more information, see <a
-/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html">Attribute
-/// mappings</a> in the <i>IAM Identity Center User Guide</i>.
-class AccessControlAttributeValue {
-  /// The identity source to use when mapping a specified attribute to IAM
-  /// Identity Center.
-  final List<String> source;
-
-  AccessControlAttributeValue({
-    required this.source,
-  });
-
-  factory AccessControlAttributeValue.fromJson(Map<String, dynamic> json) {
-    return AccessControlAttributeValue(
-      source: ((json['Source'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+  /// Deletes an IAM Identity Center access scope from an application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application with the access scope to delete.
+  ///
+  /// Parameter [scope] :
+  /// Specifies the name of the access scope to remove from the application.
+  Future<void> deleteApplicationAccessScope({
+    required String applicationArn,
+    required String scope,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.DeleteApplicationAccessScope'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'Scope': scope,
+      },
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final source = this.source;
-    return {
-      'Source': source,
-    };
-  }
-}
-
-/// The assignment that indicates a principal's limited access to a specified
-/// Amazon Web Services account with a specified permission set.
-/// <note>
-/// The term <i>principal</i> here refers to a user or group that is defined in
-/// IAM Identity Center.
-/// </note>
-class AccountAssignment {
-  /// The identifier of the Amazon Web Services account.
-  final String? accountId;
-
-  /// The ARN of the permission set. For more information about ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
-  /// Services General Reference</i>.
-  final String? permissionSetArn;
-
-  /// An identifier for an object in IAM Identity Center, such as a user or group.
-  /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
-  /// For more information about PrincipalIds in IAM Identity Center, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
-  /// Identity Center Identity Store API Reference</a>.
-  final String? principalId;
-
-  /// The entity type for which the assignment will be created.
-  final PrincipalType? principalType;
-
-  AccountAssignment({
-    this.accountId,
-    this.permissionSetArn,
-    this.principalId,
-    this.principalType,
-  });
-
-  factory AccountAssignment.fromJson(Map<String, dynamic> json) {
-    return AccountAssignment(
-      accountId: json['AccountId'] as String?,
-      permissionSetArn: json['PermissionSetArn'] as String?,
-      principalId: json['PrincipalId'] as String?,
-      principalType:
-          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final permissionSetArn = this.permissionSetArn;
-    final principalId = this.principalId;
-    final principalType = this.principalType;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
-      if (principalId != null) 'PrincipalId': principalId,
-      if (principalType != null) 'PrincipalType': principalType.value,
-    };
-  }
-}
-
-/// A structure that describes an assignment of an Amazon Web Services account
-/// to a principal and the permissions that principal has in the account.
-class AccountAssignmentForPrincipal {
-  /// The account ID number of the Amazon Web Services account.
-  final String? accountId;
-
-  /// The ARN of the IAM Identity Center permission set assigned to this principal
-  /// for this Amazon Web Services account.
-  final String? permissionSetArn;
-
-  /// The ID of the principal.
-  final String? principalId;
-
-  /// The type of the principal.
-  final PrincipalType? principalType;
-
-  AccountAssignmentForPrincipal({
-    this.accountId,
-    this.permissionSetArn,
-    this.principalId,
-    this.principalType,
-  });
-
-  factory AccountAssignmentForPrincipal.fromJson(Map<String, dynamic> json) {
-    return AccountAssignmentForPrincipal(
-      accountId: json['AccountId'] as String?,
-      permissionSetArn: json['PermissionSetArn'] as String?,
-      principalId: json['PrincipalId'] as String?,
-      principalType:
-          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final permissionSetArn = this.permissionSetArn;
-    final principalId = this.principalId;
-    final principalType = this.principalType;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
-      if (principalId != null) 'PrincipalId': principalId,
-      if (principalType != null) 'PrincipalType': principalType.value,
-    };
-  }
-}
-
-/// The status of the creation or deletion operation of an assignment that a
-/// principal needs to access an account.
-class AccountAssignmentOperationStatus {
-  /// The date that the permission set was created.
-  final DateTime? createdDate;
-
-  /// The message that contains an error or exception in case of an operation
-  /// failure.
-  final String? failureReason;
-
-  /// The ARN of the permission set. For more information about ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
-  /// Services General Reference</i>.
-  final String? permissionSetArn;
-
-  /// An identifier for an object in IAM Identity Center, such as a user or group.
-  /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
-  /// For more information about PrincipalIds in IAM Identity Center, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
-  /// Identity Center Identity Store API Reference</a>.
-  final String? principalId;
-
-  /// The entity type for which the assignment will be created.
-  final PrincipalType? principalType;
-
-  /// The identifier for tracking the request operation that is generated by the
-  /// universally unique identifier (UUID) workflow.
-  final String? requestId;
-
-  /// The status of the permission set provisioning process.
-  final StatusValues? status;
-
-  /// TargetID is an Amazon Web Services account identifier, (For example,
-  /// 123456789012).
-  final String? targetId;
-
-  /// The entity type for which the assignment will be created.
-  final TargetType? targetType;
-
-  AccountAssignmentOperationStatus({
-    this.createdDate,
-    this.failureReason,
-    this.permissionSetArn,
-    this.principalId,
-    this.principalType,
-    this.requestId,
-    this.status,
-    this.targetId,
-    this.targetType,
-  });
-
-  factory AccountAssignmentOperationStatus.fromJson(Map<String, dynamic> json) {
-    return AccountAssignmentOperationStatus(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      failureReason: json['FailureReason'] as String?,
-      permissionSetArn: json['PermissionSetArn'] as String?,
-      principalId: json['PrincipalId'] as String?,
-      principalType:
-          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
-      requestId: json['RequestId'] as String?,
-      status: (json['Status'] as String?)?.let(StatusValues.fromString),
-      targetId: json['TargetId'] as String?,
-      targetType: (json['TargetType'] as String?)?.let(TargetType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final failureReason = this.failureReason;
-    final permissionSetArn = this.permissionSetArn;
-    final principalId = this.principalId;
-    final principalType = this.principalType;
-    final requestId = this.requestId;
-    final status = this.status;
-    final targetId = this.targetId;
-    final targetType = this.targetType;
-    return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
-      if (principalId != null) 'PrincipalId': principalId,
-      if (principalType != null) 'PrincipalType': principalType.value,
-      if (requestId != null) 'RequestId': requestId,
-      if (status != null) 'Status': status.value,
-      if (targetId != null) 'TargetId': targetId,
-      if (targetType != null) 'TargetType': targetType.value,
-    };
-  }
-}
-
-/// Provides information about the <a>AccountAssignment</a> creation request.
-class AccountAssignmentOperationStatusMetadata {
-  /// The date that the permission set was created.
-  final DateTime? createdDate;
-
-  /// The identifier for tracking the request operation that is generated by the
-  /// universally unique identifier (UUID) workflow.
-  final String? requestId;
-
-  /// The status of the permission set provisioning process.
-  final StatusValues? status;
-
-  AccountAssignmentOperationStatusMetadata({
-    this.createdDate,
-    this.requestId,
-    this.status,
-  });
-
-  factory AccountAssignmentOperationStatusMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return AccountAssignmentOperationStatusMetadata(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      requestId: json['RequestId'] as String?,
-      status: (json['Status'] as String?)?.let(StatusValues.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final requestId = this.requestId;
-    final status = this.status;
-    return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (requestId != null) 'RequestId': requestId,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class ActorPolicyDocument {
-  ActorPolicyDocument();
-
-  factory ActorPolicyDocument.fromJson(Map<String, dynamic> _) {
-    return ActorPolicyDocument();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A structure that describes an application that uses IAM Identity Center for
-/// access management.
-class Application {
-  /// The Amazon Web Services account ID number of the application.
-  final String? applicationAccount;
-
-  /// The ARN of the application.
-  final String? applicationArn;
-
-  /// The ARN of the application provider for this application.
-  final String? applicationProviderArn;
-
-  /// The date and time when the application was originally created.
-  final DateTime? createdDate;
-
-  /// The description of the application.
-  final String? description;
-
-  /// The ARN of the instance of IAM Identity Center that is configured with this
+  /// Lists the access scopes and authorized targets associated with an
   /// application.
-  final String? instanceArn;
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the total number of results that you want included in each
+  /// response. If additional items exist beyond the number you specify, the
+  /// <code>NextToken</code> response element is returned with a value (not
+  /// null). Include the specified value as the <code>NextToken</code> request
+  /// parameter in the next call to the operation to get the next set of
+  /// results. Note that the service might return fewer results than the maximum
+  /// even when there are more results available. You should check
+  /// <code>NextToken</code> after every operation to ensure that you receive
+  /// all of the results.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies that you want to receive the next page of results. Valid only if
+  /// you received a <code>NextToken</code> response in the previous request. If
+  /// you did, it indicates that more output is available. Set this parameter to
+  /// the value provided by the previous call's <code>NextToken</code> response
+  /// to request the next page of results.
+  Future<ListApplicationAccessScopesResponse> listApplicationAccessScopes({
+    required String applicationArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.ListApplicationAccessScopes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
 
-  /// The name of the application.
-  final String? name;
+    return ListApplicationAccessScopesResponse.fromJson(jsonResponse.body);
+  }
 
-  /// A structure that describes the options for the access portal associated with
-  /// this application.
-  final PortalOptions? portalOptions;
+  /// Adds or updates an authentication method for an application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application with the authentication method to add
+  /// or update.
+  ///
+  /// Parameter [authenticationMethod] :
+  /// Specifies a structure that describes the authentication method to add or
+  /// update. The structure type you provide is determined by the
+  /// <code>AuthenticationMethodType</code> parameter.
+  ///
+  /// Parameter [authenticationMethodType] :
+  /// Specifies the type of the authentication method that you want to add or
+  /// update.
+  Future<void> putApplicationAuthenticationMethod({
+    required String applicationArn,
+    required AuthenticationMethod authenticationMethod,
+    required AuthenticationMethodType authenticationMethodType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.PutApplicationAuthenticationMethod'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'AuthenticationMethod': authenticationMethod,
+        'AuthenticationMethodType': authenticationMethodType.value,
+      },
+    );
+  }
 
-  /// The current status of the application in this instance of IAM Identity
-  /// Center.
-  final ApplicationStatus? status;
+  /// Retrieves details about an authentication method used by an application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application.
+  ///
+  /// Parameter [authenticationMethodType] :
+  /// Specifies the type of authentication method for which you want details.
+  Future<GetApplicationAuthenticationMethodResponse>
+      getApplicationAuthenticationMethod({
+    required String applicationArn,
+    required AuthenticationMethodType authenticationMethodType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.GetApplicationAuthenticationMethod'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'AuthenticationMethodType': authenticationMethodType.value,
+      },
+    );
 
-  Application({
-    this.applicationAccount,
-    this.applicationArn,
-    this.applicationProviderArn,
-    this.createdDate,
-    this.description,
-    this.instanceArn,
-    this.name,
-    this.portalOptions,
+    return GetApplicationAuthenticationMethodResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Deletes an authentication method from an application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application with the authentication method to
+  /// delete.
+  ///
+  /// Parameter [authenticationMethodType] :
+  /// Specifies the authentication method type to delete from the application.
+  Future<void> deleteApplicationAuthenticationMethod({
+    required String applicationArn,
+    required AuthenticationMethodType authenticationMethodType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.DeleteApplicationAuthenticationMethod'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'AuthenticationMethodType': authenticationMethodType.value,
+      },
+    );
+  }
+
+  /// Lists all of the authentication methods supported by the specified
+  /// application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application with the authentication methods you
+  /// want to list.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies that you want to receive the next page of results. Valid only if
+  /// you received a <code>NextToken</code> response in the previous request. If
+  /// you did, it indicates that more output is available. Set this parameter to
+  /// the value provided by the previous call's <code>NextToken</code> response
+  /// to request the next page of results.
+  Future<ListApplicationAuthenticationMethodsResponse>
+      listApplicationAuthenticationMethods({
+    required String applicationArn,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.ListApplicationAuthenticationMethods'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListApplicationAuthenticationMethodsResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Creates a configuration for an application to use grants. Conceptually
+  /// grants are authorization to request actions related to tokens. This
+  /// configuration will be used when parties are requesting and receiving
+  /// tokens during the trusted identity propagation process. For more
+  /// information on the IAM Identity Center supported grant workflows, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/customermanagedapps-saml2-oauth2.html">SAML
+  /// 2.0 and OAuth 2.0</a>.
+  ///
+  /// A grant is created between your applications and Identity Center instance
+  /// which enables an application to use specified mechanisms to obtain tokens.
+  /// These tokens are used by your applications to gain access to Amazon Web
+  /// Services resources on behalf of users. The following elements are within
+  /// these exchanges:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Requester</b> - The application requesting access to Amazon Web
+  /// Services resources.
+  /// </li>
+  /// <li>
+  /// <b>Subject</b> - Typically the user that is requesting access to Amazon
+  /// Web Services resources.
+  /// </li>
+  /// <li>
+  /// <b>Grant</b> - Conceptually, a grant is authorization to access Amazon Web
+  /// Services resources. These grants authorize token generation for
+  /// authenticating access to the requester and for the request to make
+  /// requests on behalf of the subjects. There are four types of grants:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>AuthorizationCode</b> - Allows an application to request authorization
+  /// through a series of user-agent redirects.
+  /// </li>
+  /// <li>
+  /// <b>JWT bearer </b> - Authorizes an application to exchange a JSON Web
+  /// Token that came from an external identity provider. To learn more, see <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc6749">RFC 6479</a>.
+  /// </li>
+  /// <li>
+  /// <b>Refresh token</b> - Enables application to request new access tokens to
+  /// replace expiring or expired access tokens.
+  /// </li>
+  /// <li>
+  /// <b>Exchange token</b> - A grant that requests tokens from the
+  /// authorization server by providing a ‘subject’ token with access scope
+  /// authorizing trusted identity propagation to this application. To learn
+  /// more, see <a href="https://datatracker.ietf.org/doc/html/rfc8693">RFC
+  /// 8693</a>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <b>Authorization server</b> - IAM Identity Center requests tokens.
+  /// </li>
+  /// </ul>
+  /// User credentials are never shared directly within these exchanges.
+  /// Instead, applications use grants to request access tokens from IAM
+  /// Identity Center. For more information, see <a
+  /// href="https://datatracker.ietf.org/doc/html/rfc6749">RFC 6479</a>.
+  /// <p class="title"> <b>Use cases</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Connecting to custom applications.
+  /// </li>
+  /// <li>
+  /// Configuring an Amazon Web Services service to make calls to another Amazon
+  /// Web Services services using JWT tokens.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application to update.
+  ///
+  /// Parameter [grant] :
+  /// Specifies a structure that describes the grant to update.
+  ///
+  /// Parameter [grantType] :
+  /// Specifies the type of grant to update.
+  Future<void> putApplicationGrant({
+    required String applicationArn,
+    required Grant grant,
+    required GrantType grantType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.PutApplicationGrant'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'Grant': grant,
+        'GrantType': grantType.value,
+      },
+    );
+  }
+
+  /// Retrieves details about an application grant.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application that contains the grant.
+  ///
+  /// Parameter [grantType] :
+  /// Specifies the type of grant.
+  Future<GetApplicationGrantResponse> getApplicationGrant({
+    required String applicationArn,
+    required GrantType grantType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.GetApplicationGrant'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'GrantType': grantType.value,
+      },
+    );
+
+    return GetApplicationGrantResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a grant from an application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application with the grant to delete.
+  ///
+  /// Parameter [grantType] :
+  /// Specifies the type of grant to delete from the application.
+  Future<void> deleteApplicationGrant({
+    required String applicationArn,
+    required GrantType grantType,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.DeleteApplicationGrant'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        'GrantType': grantType.value,
+      },
+    );
+  }
+
+  /// List the grants associated with an application.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [applicationArn] :
+  /// Specifies the ARN of the application whose grants you want to list.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies that you want to receive the next page of results. Valid only if
+  /// you received a <code>NextToken</code> response in the previous request. If
+  /// you did, it indicates that more output is available. Set this parameter to
+  /// the value provided by the previous call's <code>NextToken</code> response
+  /// to request the next page of results.
+  Future<ListApplicationGrantsResponse> listApplicationGrants({
+    required String applicationArn,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SWBExternalService.ListApplicationGrants'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationArn': applicationArn,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListApplicationGrantsResponse.fromJson(jsonResponse.body);
+  }
+}
+
+class AddRegionResponse {
+  /// The status of the Region after the Add operation. The status is ADDING when
+  /// the asynchronous workflow is in progress and changes to ACTIVE when
+  /// complete.
+  final RegionStatus? status;
+
+  AddRegionResponse({
     this.status,
   });
 
-  factory Application.fromJson(Map<String, dynamic> json) {
-    return Application(
-      applicationAccount: json['ApplicationAccount'] as String?,
-      applicationArn: json['ApplicationArn'] as String?,
-      applicationProviderArn: json['ApplicationProviderArn'] as String?,
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      description: json['Description'] as String?,
-      instanceArn: json['InstanceArn'] as String?,
-      name: json['Name'] as String?,
-      portalOptions: json['PortalOptions'] != null
-          ? PortalOptions.fromJson(
-              json['PortalOptions'] as Map<String, dynamic>)
-          : null,
-      status: (json['Status'] as String?)?.let(ApplicationStatus.fromString),
+  factory AddRegionResponse.fromJson(Map<String, dynamic> json) {
+    return AddRegionResponse(
+      status: (json['Status'] as String?)?.let(RegionStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final applicationAccount = this.applicationAccount;
-    final applicationArn = this.applicationArn;
-    final applicationProviderArn = this.applicationProviderArn;
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final instanceArn = this.instanceArn;
-    final name = this.name;
-    final portalOptions = this.portalOptions;
     final status = this.status;
     return {
-      if (applicationAccount != null) 'ApplicationAccount': applicationAccount,
-      if (applicationArn != null) 'ApplicationArn': applicationArn,
-      if (applicationProviderArn != null)
-        'ApplicationProviderArn': applicationProviderArn,
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (description != null) 'Description': description,
-      if (instanceArn != null) 'InstanceArn': instanceArn,
-      if (name != null) 'Name': name,
-      if (portalOptions != null) 'PortalOptions': portalOptions,
       if (status != null) 'Status': status.value,
     };
   }
-}
-
-/// A structure that describes an assignment of a principal to an application.
-class ApplicationAssignment {
-  /// The ARN of the application that has principals assigned.
-  final String applicationArn;
-
-  /// The unique identifier of the principal assigned to the application.
-  final String principalId;
-
-  /// The type of the principal assigned to the application.
-  final PrincipalType principalType;
-
-  ApplicationAssignment({
-    required this.applicationArn,
-    required this.principalId,
-    required this.principalType,
-  });
-
-  factory ApplicationAssignment.fromJson(Map<String, dynamic> json) {
-    return ApplicationAssignment(
-      applicationArn: (json['ApplicationArn'] as String?) ?? '',
-      principalId: (json['PrincipalId'] as String?) ?? '',
-      principalType:
-          PrincipalType.fromString((json['PrincipalType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationArn = this.applicationArn;
-    final principalId = this.principalId;
-    final principalType = this.principalType;
-    return {
-      'ApplicationArn': applicationArn,
-      'PrincipalId': principalId,
-      'PrincipalType': principalType.value,
-    };
-  }
-}
-
-/// A structure that describes an application to which a principal is assigned.
-class ApplicationAssignmentForPrincipal {
-  /// The ARN of the application to which the specified principal is assigned.
-  final String? applicationArn;
-
-  /// The unique identifier of the principal assigned to the application.
-  final String? principalId;
-
-  /// The type of the principal assigned to the application.
-  final PrincipalType? principalType;
-
-  ApplicationAssignmentForPrincipal({
-    this.applicationArn,
-    this.principalId,
-    this.principalType,
-  });
-
-  factory ApplicationAssignmentForPrincipal.fromJson(
-      Map<String, dynamic> json) {
-    return ApplicationAssignmentForPrincipal(
-      applicationArn: json['ApplicationArn'] as String?,
-      principalId: json['PrincipalId'] as String?,
-      principalType:
-          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationArn = this.applicationArn;
-    final principalId = this.principalId;
-    final principalType = this.principalType;
-    return {
-      if (applicationArn != null) 'ApplicationArn': applicationArn,
-      if (principalId != null) 'PrincipalId': principalId,
-      if (principalType != null) 'PrincipalType': principalType.value,
-    };
-  }
-}
-
-/// A structure that describes a provider that can be used to connect an Amazon
-/// Web Services managed application or customer managed application to IAM
-/// Identity Center.
-class ApplicationProvider {
-  /// The ARN of the application provider.
-  final String applicationProviderArn;
-
-  /// A structure that describes how IAM Identity Center represents the
-  /// application provider in the portal.
-  final DisplayData? displayData;
-
-  /// The protocol that the application provider uses to perform federation.
-  final FederationProtocol? federationProtocol;
-
-  /// A structure that describes the application provider's resource server.
-  final ResourceServerConfig? resourceServerConfig;
-
-  ApplicationProvider({
-    required this.applicationProviderArn,
-    this.displayData,
-    this.federationProtocol,
-    this.resourceServerConfig,
-  });
-
-  factory ApplicationProvider.fromJson(Map<String, dynamic> json) {
-    return ApplicationProvider(
-      applicationProviderArn: (json['ApplicationProviderArn'] as String?) ?? '',
-      displayData: json['DisplayData'] != null
-          ? DisplayData.fromJson(json['DisplayData'] as Map<String, dynamic>)
-          : null,
-      federationProtocol: (json['FederationProtocol'] as String?)
-          ?.let(FederationProtocol.fromString),
-      resourceServerConfig: json['ResourceServerConfig'] != null
-          ? ResourceServerConfig.fromJson(
-              json['ResourceServerConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationProviderArn = this.applicationProviderArn;
-    final displayData = this.displayData;
-    final federationProtocol = this.federationProtocol;
-    final resourceServerConfig = this.resourceServerConfig;
-    return {
-      'ApplicationProviderArn': applicationProviderArn,
-      if (displayData != null) 'DisplayData': displayData,
-      if (federationProtocol != null)
-        'FederationProtocol': federationProtocol.value,
-      if (resourceServerConfig != null)
-        'ResourceServerConfig': resourceServerConfig,
-    };
-  }
-}
-
-class ApplicationStatus {
-  static const enabled = ApplicationStatus._('ENABLED');
-  static const disabled = ApplicationStatus._('DISABLED');
-
-  final String value;
-
-  const ApplicationStatus._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ApplicationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ApplicationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ApplicationVisibility {
-  static const enabled = ApplicationVisibility._('ENABLED');
-  static const disabled = ApplicationVisibility._('DISABLED');
-
-  final String value;
-
-  const ApplicationVisibility._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static ApplicationVisibility fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationVisibility._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApplicationVisibility && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AttachCustomerManagedPolicyReferenceToPermissionSetResponse {
@@ -4355,194 +4245,6 @@ class AttachManagedPolicyToPermissionSetResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// A structure that stores the details of the Amazon Web Services managed
-/// policy.
-class AttachedManagedPolicy {
-  /// The ARN of the Amazon Web Services managed policy. For more information
-  /// about ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
-  /// Services General Reference</i>.
-  final String? arn;
-
-  /// The name of the Amazon Web Services managed policy.
-  final String? name;
-
-  AttachedManagedPolicy({
-    this.arn,
-    this.name,
-  });
-
-  factory AttachedManagedPolicy.fromJson(Map<String, dynamic> json) {
-    return AttachedManagedPolicy(
-      arn: json['Arn'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// A structure that describes an authentication method that can be used by an
-/// application.
-class AuthenticationMethod {
-  /// A structure that describes details for IAM authentication.
-  final IamAuthenticationMethod? iam;
-
-  AuthenticationMethod({
-    this.iam,
-  });
-
-  factory AuthenticationMethod.fromJson(Map<String, dynamic> json) {
-    return AuthenticationMethod(
-      iam: json['Iam'] != null
-          ? IamAuthenticationMethod.fromJson(
-              json['Iam'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final iam = this.iam;
-    return {
-      if (iam != null) 'Iam': iam,
-    };
-  }
-}
-
-/// A structure that describes an authentication method and its type.
-class AuthenticationMethodItem {
-  /// A structure that describes an authentication method. The contents of this
-  /// structure is determined by the <code>AuthenticationMethodType</code>.
-  final AuthenticationMethod? authenticationMethod;
-
-  /// The type of authentication that is used by this method.
-  final AuthenticationMethodType? authenticationMethodType;
-
-  AuthenticationMethodItem({
-    this.authenticationMethod,
-    this.authenticationMethodType,
-  });
-
-  factory AuthenticationMethodItem.fromJson(Map<String, dynamic> json) {
-    return AuthenticationMethodItem(
-      authenticationMethod: json['AuthenticationMethod'] != null
-          ? AuthenticationMethod.fromJson(
-              json['AuthenticationMethod'] as Map<String, dynamic>)
-          : null,
-      authenticationMethodType: (json['AuthenticationMethodType'] as String?)
-          ?.let(AuthenticationMethodType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationMethod = this.authenticationMethod;
-    final authenticationMethodType = this.authenticationMethodType;
-    return {
-      if (authenticationMethod != null)
-        'AuthenticationMethod': authenticationMethod,
-      if (authenticationMethodType != null)
-        'AuthenticationMethodType': authenticationMethodType.value,
-    };
-  }
-}
-
-class AuthenticationMethodType {
-  static const iam = AuthenticationMethodType._('IAM');
-
-  final String value;
-
-  const AuthenticationMethodType._(this.value);
-
-  static const values = [iam];
-
-  static AuthenticationMethodType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthenticationMethodType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthenticationMethodType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that defines configuration settings for an application that
-/// supports the OAuth 2.0 Authorization Code Grant.
-class AuthorizationCodeGrant {
-  /// A list of URIs that are valid locations to redirect a user's browser after
-  /// the user is authorized.
-  final List<String>? redirectUris;
-
-  AuthorizationCodeGrant({
-    this.redirectUris,
-  });
-
-  factory AuthorizationCodeGrant.fromJson(Map<String, dynamic> json) {
-    return AuthorizationCodeGrant(
-      redirectUris: (json['RedirectUris'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final redirectUris = this.redirectUris;
-    return {
-      if (redirectUris != null) 'RedirectUris': redirectUris,
-    };
-  }
-}
-
-/// A structure that describes a trusted token issuer and associates it with a
-/// set of authorized audiences.
-class AuthorizedTokenIssuer {
-  /// An array list of authorized audiences, or applications, that can consume the
-  /// tokens generated by the associated trusted token issuer.
-  final List<String>? authorizedAudiences;
-
-  /// The ARN of the trusted token issuer.
-  final String? trustedTokenIssuerArn;
-
-  AuthorizedTokenIssuer({
-    this.authorizedAudiences,
-    this.trustedTokenIssuerArn,
-  });
-
-  factory AuthorizedTokenIssuer.fromJson(Map<String, dynamic> json) {
-    return AuthorizedTokenIssuer(
-      authorizedAudiences: (json['AuthorizedAudiences'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      trustedTokenIssuerArn: json['TrustedTokenIssuerArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizedAudiences = this.authorizedAudiences;
-    final trustedTokenIssuerArn = this.trustedTokenIssuerArn;
-    return {
-      if (authorizedAudiences != null)
-        'AuthorizedAudiences': authorizedAudiences,
-      if (trustedTokenIssuerArn != null)
-        'TrustedTokenIssuerArn': trustedTokenIssuerArn,
-    };
   }
 }
 
@@ -4575,46 +4277,52 @@ class CreateAccountAssignmentResponse {
   }
 }
 
-class CreateApplicationAssignmentResponse {
-  CreateApplicationAssignmentResponse();
-
-  factory CreateApplicationAssignmentResponse.fromJson(Map<String, dynamic> _) {
-    return CreateApplicationAssignmentResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
 class CreateApplicationResponse {
   /// Specifies the ARN of the application.
   final String? applicationArn;
 
+  /// The ARN of the identity store that is connected to the instance of IAM
+  /// Identity Center.
+  final String? identityStoreArn;
+
+  /// The ARN of the instance of IAM Identity Center under which the operation
+  /// will run. For more information about ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
+  final String? instanceArn;
+
   CreateApplicationResponse({
     this.applicationArn,
+    this.identityStoreArn,
+    this.instanceArn,
   });
 
   factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
     return CreateApplicationResponse(
       applicationArn: json['ApplicationArn'] as String?,
+      identityStoreArn: json['IdentityStoreArn'] as String?,
+      instanceArn: json['InstanceArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final applicationArn = this.applicationArn;
+    final identityStoreArn = this.identityStoreArn;
+    final instanceArn = this.instanceArn;
     return {
       if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (identityStoreArn != null) 'IdentityStoreArn': identityStoreArn,
+      if (instanceArn != null) 'InstanceArn': instanceArn,
     };
   }
 }
 
-class CreateInstanceAccessControlAttributeConfigurationResponse {
-  CreateInstanceAccessControlAttributeConfigurationResponse();
+class CreateApplicationAssignmentResponse {
+  CreateApplicationAssignmentResponse();
 
-  factory CreateInstanceAccessControlAttributeConfigurationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return CreateInstanceAccessControlAttributeConfigurationResponse();
+  factory CreateApplicationAssignmentResponse.fromJson(Map<String, dynamic> _) {
+    return CreateApplicationAssignmentResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4647,6 +4355,19 @@ class CreateInstanceResponse {
     return {
       if (instanceArn != null) 'InstanceArn': instanceArn,
     };
+  }
+}
+
+class CreateInstanceAccessControlAttributeConfigurationResponse {
+  CreateInstanceAccessControlAttributeConfigurationResponse();
+
+  factory CreateInstanceAccessControlAttributeConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CreateInstanceAccessControlAttributeConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -4698,43 +4419,6 @@ class CreateTrustedTokenIssuerResponse {
   }
 }
 
-/// Specifies the name and path of a customer managed policy. You must have an
-/// IAM policy that matches the name and path in each Amazon Web Services
-/// account where you want to deploy your permission set.
-class CustomerManagedPolicyReference {
-  /// The name of the IAM policy that you have configured in each account where
-  /// you want to deploy your permission set.
-  final String name;
-
-  /// The path to the IAM policy that you have configured in each account where
-  /// you want to deploy your permission set. The default is <code>/</code>. For
-  /// more information, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names">Friendly
-  /// names and paths</a> in the <i>IAM User Guide</i>.
-  final String? path;
-
-  CustomerManagedPolicyReference({
-    required this.name,
-    this.path,
-  });
-
-  factory CustomerManagedPolicyReference.fromJson(Map<String, dynamic> json) {
-    return CustomerManagedPolicyReference(
-      name: (json['Name'] as String?) ?? '',
-      path: json['Path'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final path = this.path;
-    return {
-      'Name': name,
-      if (path != null) 'Path': path,
-    };
-  }
-}
-
 class DeleteAccountAssignmentResponse {
   /// The status object for the account assignment deletion operation.
   final AccountAssignmentOperationStatus? accountAssignmentDeletionStatus;
@@ -4764,11 +4448,11 @@ class DeleteAccountAssignmentResponse {
   }
 }
 
-class DeleteApplicationAssignmentResponse {
-  DeleteApplicationAssignmentResponse();
+class DeleteApplicationResponse {
+  DeleteApplicationResponse();
 
-  factory DeleteApplicationAssignmentResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteApplicationAssignmentResponse();
+  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4776,11 +4460,11 @@ class DeleteApplicationAssignmentResponse {
   }
 }
 
-class DeleteApplicationResponse {
-  DeleteApplicationResponse();
+class DeleteApplicationAssignmentResponse {
+  DeleteApplicationAssignmentResponse();
 
-  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteApplicationResponse();
+  factory DeleteApplicationAssignmentResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationAssignmentResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4801,6 +4485,18 @@ class DeleteInlinePolicyFromPermissionSetResponse {
   }
 }
 
+class DeleteInstanceResponse {
+  DeleteInstanceResponse();
+
+  factory DeleteInstanceResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteInstanceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteInstanceAccessControlAttributeConfigurationResponse {
   DeleteInstanceAccessControlAttributeConfigurationResponse();
 
@@ -4814,11 +4510,12 @@ class DeleteInstanceAccessControlAttributeConfigurationResponse {
   }
 }
 
-class DeleteInstanceResponse {
-  DeleteInstanceResponse();
+class DeletePermissionsBoundaryFromPermissionSetResponse {
+  DeletePermissionsBoundaryFromPermissionSetResponse();
 
-  factory DeleteInstanceResponse.fromJson(Map<String, dynamic> _) {
-    return DeleteInstanceResponse();
+  factory DeletePermissionsBoundaryFromPermissionSetResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeletePermissionsBoundaryFromPermissionSetResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4831,19 +4528,6 @@ class DeletePermissionSetResponse {
 
   factory DeletePermissionSetResponse.fromJson(Map<String, dynamic> _) {
     return DeletePermissionSetResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeletePermissionsBoundaryFromPermissionSetResponse {
-  DeletePermissionsBoundaryFromPermissionSetResponse();
-
-  factory DeletePermissionsBoundaryFromPermissionSetResponse.fromJson(
-      Map<String, dynamic> _) {
-    return DeletePermissionsBoundaryFromPermissionSetResponse();
   }
 
   Map<String, dynamic> toJson() {
@@ -4923,6 +4607,109 @@ class DescribeAccountAssignmentDeletionStatusResponse {
   }
 }
 
+class DescribeApplicationResponse {
+  /// The account ID.
+  final String? applicationAccount;
+
+  /// Specifies the ARN of the application.
+  final String? applicationArn;
+
+  /// The ARN of the application provider under which the operation will run.
+  final String? applicationProviderArn;
+
+  /// The date the application was created.
+  final DateTime? createdDate;
+
+  /// The Amazon Web Services Region where the application was created in IAM
+  /// Identity Center.
+  final String? createdFrom;
+
+  /// The description of the .
+  final String? description;
+
+  /// The ARN of the identity store that is connected to the instance of IAM
+  /// Identity Center.
+  final String? identityStoreArn;
+
+  /// The ARN of the IAM Identity Center application under which the operation
+  /// will run. For more information about ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
+  final String? instanceArn;
+
+  /// The application name.
+  final String? name;
+
+  /// A structure that describes the options for the portal associated with an
+  /// application.
+  final PortalOptions? portalOptions;
+
+  /// Specifies whether the application is enabled or disabled.
+  final ApplicationStatus? status;
+
+  DescribeApplicationResponse({
+    this.applicationAccount,
+    this.applicationArn,
+    this.applicationProviderArn,
+    this.createdDate,
+    this.createdFrom,
+    this.description,
+    this.identityStoreArn,
+    this.instanceArn,
+    this.name,
+    this.portalOptions,
+    this.status,
+  });
+
+  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeApplicationResponse(
+      applicationAccount: json['ApplicationAccount'] as String?,
+      applicationArn: json['ApplicationArn'] as String?,
+      applicationProviderArn: json['ApplicationProviderArn'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      createdFrom: json['CreatedFrom'] as String?,
+      description: json['Description'] as String?,
+      identityStoreArn: json['IdentityStoreArn'] as String?,
+      instanceArn: json['InstanceArn'] as String?,
+      name: json['Name'] as String?,
+      portalOptions: json['PortalOptions'] != null
+          ? PortalOptions.fromJson(
+              json['PortalOptions'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.let(ApplicationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationAccount = this.applicationAccount;
+    final applicationArn = this.applicationArn;
+    final applicationProviderArn = this.applicationProviderArn;
+    final createdDate = this.createdDate;
+    final createdFrom = this.createdFrom;
+    final description = this.description;
+    final identityStoreArn = this.identityStoreArn;
+    final instanceArn = this.instanceArn;
+    final name = this.name;
+    final portalOptions = this.portalOptions;
+    final status = this.status;
+    return {
+      if (applicationAccount != null) 'ApplicationAccount': applicationAccount,
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (applicationProviderArn != null)
+        'ApplicationProviderArn': applicationProviderArn,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (createdFrom != null) 'CreatedFrom': createdFrom,
+      if (description != null) 'Description': description,
+      if (identityStoreArn != null) 'IdentityStoreArn': identityStoreArn,
+      if (instanceArn != null) 'InstanceArn': instanceArn,
+      if (name != null) 'Name': name,
+      if (portalOptions != null) 'PortalOptions': portalOptions,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
 class DescribeApplicationAssignmentResponse {
   /// Specifies the ARN of the application. For more information about ARNs, see
   /// <a href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource
@@ -4933,7 +4720,7 @@ class DescribeApplicationAssignmentResponse {
   /// An identifier for an object in IAM Identity Center, such as a user or group.
   /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
   /// For more information about PrincipalIds in IAM Identity Center, see the <a
-  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
   /// Identity Center Identity Store API Reference</a>.
   final String? principalId;
 
@@ -5021,89 +4808,90 @@ class DescribeApplicationProviderResponse {
   }
 }
 
-class DescribeApplicationResponse {
-  /// The account ID.
-  final String? applicationAccount;
-
-  /// Specifies the ARN of the application.
-  final String? applicationArn;
-
-  /// The ARN of the application provider under which the operation will run.
-  final String? applicationProviderArn;
-
-  /// The date the application was created.
+class DescribeInstanceResponse {
+  /// The date the instance was created.
   final DateTime? createdDate;
 
-  /// The description of the .
-  final String? description;
+  /// Contains the encryption configuration for your IAM Identity Center instance,
+  /// including the encryption status, KMS key type, and KMS key ARN.
+  final EncryptionConfigurationDetails? encryptionConfigurationDetails;
 
-  /// The ARN of the IAM Identity Center application under which the operation
+  /// The identifier of the identity store that is connected to the instance of
+  /// IAM Identity Center.
+  final String? identityStoreId;
+
+  /// The ARN of the instance of IAM Identity Center under which the operation
   /// will run. For more information about ARNs, see <a
   /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
   /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
   /// Services General Reference</i>.
   final String? instanceArn;
 
-  /// The application name.
+  /// Specifies the instance name.
   final String? name;
 
-  /// A structure that describes the options for the portal associated with an
-  /// application.
-  final PortalOptions? portalOptions;
+  /// The identifier of the Amazon Web Services account for which the instance was
+  /// created.
+  final String? ownerAccountId;
 
-  /// Specifies whether the application is enabled or disabled.
-  final ApplicationStatus? status;
+  /// The status of the instance.
+  final InstanceStatus? status;
 
-  DescribeApplicationResponse({
-    this.applicationAccount,
-    this.applicationArn,
-    this.applicationProviderArn,
+  /// Provides additional context about the current status of the IAM Identity
+  /// Center instance. This field is particularly useful when an instance is in a
+  /// non-ACTIVE state, such as CREATE_FAILED. When an instance fails to create or
+  /// update, this field contains information about the cause, which may include
+  /// issues with KMS key configuration, permission problems with the specified
+  /// KMS key, or service-related errors.
+  final String? statusReason;
+
+  DescribeInstanceResponse({
     this.createdDate,
-    this.description,
+    this.encryptionConfigurationDetails,
+    this.identityStoreId,
     this.instanceArn,
     this.name,
-    this.portalOptions,
+    this.ownerAccountId,
     this.status,
+    this.statusReason,
   });
 
-  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeApplicationResponse(
-      applicationAccount: json['ApplicationAccount'] as String?,
-      applicationArn: json['ApplicationArn'] as String?,
-      applicationProviderArn: json['ApplicationProviderArn'] as String?,
+  factory DescribeInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeInstanceResponse(
       createdDate: timeStampFromJson(json['CreatedDate']),
-      description: json['Description'] as String?,
+      encryptionConfigurationDetails: json['EncryptionConfigurationDetails'] !=
+              null
+          ? EncryptionConfigurationDetails.fromJson(
+              json['EncryptionConfigurationDetails'] as Map<String, dynamic>)
+          : null,
+      identityStoreId: json['IdentityStoreId'] as String?,
       instanceArn: json['InstanceArn'] as String?,
       name: json['Name'] as String?,
-      portalOptions: json['PortalOptions'] != null
-          ? PortalOptions.fromJson(
-              json['PortalOptions'] as Map<String, dynamic>)
-          : null,
-      status: (json['Status'] as String?)?.let(ApplicationStatus.fromString),
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      status: (json['Status'] as String?)?.let(InstanceStatus.fromString),
+      statusReason: json['StatusReason'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final applicationAccount = this.applicationAccount;
-    final applicationArn = this.applicationArn;
-    final applicationProviderArn = this.applicationProviderArn;
     final createdDate = this.createdDate;
-    final description = this.description;
+    final encryptionConfigurationDetails = this.encryptionConfigurationDetails;
+    final identityStoreId = this.identityStoreId;
     final instanceArn = this.instanceArn;
     final name = this.name;
-    final portalOptions = this.portalOptions;
+    final ownerAccountId = this.ownerAccountId;
     final status = this.status;
+    final statusReason = this.statusReason;
     return {
-      if (applicationAccount != null) 'ApplicationAccount': applicationAccount,
-      if (applicationArn != null) 'ApplicationArn': applicationArn,
-      if (applicationProviderArn != null)
-        'ApplicationProviderArn': applicationProviderArn,
       if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (description != null) 'Description': description,
+      if (encryptionConfigurationDetails != null)
+        'EncryptionConfigurationDetails': encryptionConfigurationDetails,
+      if (identityStoreId != null) 'IdentityStoreId': identityStoreId,
       if (instanceArn != null) 'InstanceArn': instanceArn,
       if (name != null) 'Name': name,
-      if (portalOptions != null) 'PortalOptions': portalOptions,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
       if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason,
     };
   }
 }
@@ -5156,65 +4944,27 @@ class DescribeInstanceAccessControlAttributeConfigurationResponse {
   }
 }
 
-class DescribeInstanceResponse {
-  /// The date the instance was created.
-  final DateTime? createdDate;
+class DescribePermissionSetResponse {
+  /// Describes the level of access on an Amazon Web Services account.
+  final PermissionSet? permissionSet;
 
-  /// The identifier of the identity store that is connected to the instance of
-  /// IAM Identity Center.
-  final String? identityStoreId;
-
-  /// The ARN of the instance of IAM Identity Center under which the operation
-  /// will run. For more information about ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
-  /// Services General Reference</i>.
-  final String? instanceArn;
-
-  /// Specifies the instance name.
-  final String? name;
-
-  /// The identifier of the Amazon Web Services account for which the instance was
-  /// created.
-  final String? ownerAccountId;
-
-  /// The status of the instance.
-  final InstanceStatus? status;
-
-  DescribeInstanceResponse({
-    this.createdDate,
-    this.identityStoreId,
-    this.instanceArn,
-    this.name,
-    this.ownerAccountId,
-    this.status,
+  DescribePermissionSetResponse({
+    this.permissionSet,
   });
 
-  factory DescribeInstanceResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeInstanceResponse(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      identityStoreId: json['IdentityStoreId'] as String?,
-      instanceArn: json['InstanceArn'] as String?,
-      name: json['Name'] as String?,
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      status: (json['Status'] as String?)?.let(InstanceStatus.fromString),
+  factory DescribePermissionSetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePermissionSetResponse(
+      permissionSet: json['PermissionSet'] != null
+          ? PermissionSet.fromJson(
+              json['PermissionSet'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final identityStoreId = this.identityStoreId;
-    final instanceArn = this.instanceArn;
-    final name = this.name;
-    final ownerAccountId = this.ownerAccountId;
-    final status = this.status;
+    final permissionSet = this.permissionSet;
     return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (identityStoreId != null) 'IdentityStoreId': identityStoreId,
-      if (instanceArn != null) 'InstanceArn': instanceArn,
-      if (name != null) 'Name': name,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (status != null) 'Status': status.value,
+      if (permissionSet != null) 'PermissionSet': permissionSet,
     };
   }
 }
@@ -5249,27 +4999,53 @@ class DescribePermissionSetProvisioningStatusResponse {
   }
 }
 
-class DescribePermissionSetResponse {
-  /// Describes the level of access on an Amazon Web Services account.
-  final PermissionSet? permissionSet;
+class DescribeRegionResponse {
+  /// The timestamp when the Region was added to the IAM Identity Center instance.
+  /// For the primary Region, this is the IAM Identity Center instance creation
+  /// time.
+  final DateTime? addedDate;
 
-  DescribePermissionSetResponse({
-    this.permissionSet,
+  /// Indicates whether this is the primary Region where the IAM Identity Center
+  /// instance was originally enabled. For more information on the difference
+  /// between the primary Region and additional Regions, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/multi-region-iam-identity-center.html">IAM
+  /// Identity Center User Guide</a>
+  final bool? isPrimaryRegion;
+
+  /// The Amazon Web Services Region name.
+  final String? regionName;
+
+  /// The current status of the Region. Valid values are ACTIVE (Region is
+  /// operational), ADDING (Region replication workflow is in progress), or
+  /// REMOVING (Region removal workflow is in progress).
+  final RegionStatus? status;
+
+  DescribeRegionResponse({
+    this.addedDate,
+    this.isPrimaryRegion,
+    this.regionName,
+    this.status,
   });
 
-  factory DescribePermissionSetResponse.fromJson(Map<String, dynamic> json) {
-    return DescribePermissionSetResponse(
-      permissionSet: json['PermissionSet'] != null
-          ? PermissionSet.fromJson(
-              json['PermissionSet'] as Map<String, dynamic>)
-          : null,
+  factory DescribeRegionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRegionResponse(
+      addedDate: timeStampFromJson(json['AddedDate']),
+      isPrimaryRegion: json['IsPrimaryRegion'] as bool?,
+      regionName: json['RegionName'] as String?,
+      status: (json['Status'] as String?)?.let(RegionStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final permissionSet = this.permissionSet;
+    final addedDate = this.addedDate;
+    final isPrimaryRegion = this.isPrimaryRegion;
+    final regionName = this.regionName;
+    final status = this.status;
     return {
-      if (permissionSet != null) 'PermissionSet': permissionSet,
+      if (addedDate != null) 'AddedDate': unixTimestampToJson(addedDate),
+      if (isPrimaryRegion != null) 'IsPrimaryRegion': isPrimaryRegion,
+      if (regionName != null) 'RegionName': regionName,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -5355,102 +5131,6 @@ class DetachManagedPolicyFromPermissionSetResponse {
   }
 }
 
-/// A structure that describes how the portal represents an application
-/// provider.
-class DisplayData {
-  /// The description of the application provider that appears in the portal.
-  final String? description;
-
-  /// The name of the application provider that appears in the portal.
-  final String? displayName;
-
-  /// A URL that points to an icon that represents the application provider.
-  final String? iconUrl;
-
-  DisplayData({
-    this.description,
-    this.displayName,
-    this.iconUrl,
-  });
-
-  factory DisplayData.fromJson(Map<String, dynamic> json) {
-    return DisplayData(
-      description: json['Description'] as String?,
-      displayName: json['DisplayName'] as String?,
-      iconUrl: json['IconUrl'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final displayName = this.displayName;
-    final iconUrl = this.iconUrl;
-    return {
-      if (description != null) 'Description': description,
-      if (displayName != null) 'DisplayName': displayName,
-      if (iconUrl != null) 'IconUrl': iconUrl,
-    };
-  }
-}
-
-class FederationProtocol {
-  static const saml = FederationProtocol._('SAML');
-  static const oauth = FederationProtocol._('OAUTH');
-
-  final String value;
-
-  const FederationProtocol._(this.value);
-
-  static const values = [saml, oauth];
-
-  static FederationProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FederationProtocol._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is FederationProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class GetApplicationAccessScopeResponse {
-  /// The name of the access scope that can be used with the authorized targets.
-  final String scope;
-
-  /// An array of authorized targets associated with this access scope.
-  final List<String>? authorizedTargets;
-
-  GetApplicationAccessScopeResponse({
-    required this.scope,
-    this.authorizedTargets,
-  });
-
-  factory GetApplicationAccessScopeResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetApplicationAccessScopeResponse(
-      scope: (json['Scope'] as String?) ?? '',
-      authorizedTargets: (json['AuthorizedTargets'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scope = this.scope;
-    final authorizedTargets = this.authorizedTargets;
-    return {
-      'Scope': scope,
-      if (authorizedTargets != null) 'AuthorizedTargets': authorizedTargets,
-    };
-  }
-}
-
 class GetApplicationAssignmentConfigurationResponse {
   /// If <code>AssignmentsRequired</code> is <code>true</code> (default value),
   /// users don’t have access to the application unless an assignment is created
@@ -5478,52 +5158,31 @@ class GetApplicationAssignmentConfigurationResponse {
   }
 }
 
-class GetApplicationAuthenticationMethodResponse {
-  /// A structure that contains details about the requested authentication method.
-  final AuthenticationMethod? authenticationMethod;
+class GetApplicationSessionConfigurationResponse {
+  /// The status of user background sessions for the application.
+  final UserBackgroundSessionApplicationStatus?
+      userBackgroundSessionApplicationStatus;
 
-  GetApplicationAuthenticationMethodResponse({
-    this.authenticationMethod,
+  GetApplicationSessionConfigurationResponse({
+    this.userBackgroundSessionApplicationStatus,
   });
 
-  factory GetApplicationAuthenticationMethodResponse.fromJson(
+  factory GetApplicationSessionConfigurationResponse.fromJson(
       Map<String, dynamic> json) {
-    return GetApplicationAuthenticationMethodResponse(
-      authenticationMethod: json['AuthenticationMethod'] != null
-          ? AuthenticationMethod.fromJson(
-              json['AuthenticationMethod'] as Map<String, dynamic>)
-          : null,
+    return GetApplicationSessionConfigurationResponse(
+      userBackgroundSessionApplicationStatus:
+          (json['UserBackgroundSessionApplicationStatus'] as String?)
+              ?.let(UserBackgroundSessionApplicationStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final authenticationMethod = this.authenticationMethod;
+    final userBackgroundSessionApplicationStatus =
+        this.userBackgroundSessionApplicationStatus;
     return {
-      if (authenticationMethod != null)
-        'AuthenticationMethod': authenticationMethod,
-    };
-  }
-}
-
-class GetApplicationGrantResponse {
-  /// A structure that describes the requested grant.
-  final Grant grant;
-
-  GetApplicationGrantResponse({
-    required this.grant,
-  });
-
-  factory GetApplicationGrantResponse.fromJson(Map<String, dynamic> json) {
-    return GetApplicationGrantResponse(
-      grant: Grant.fromJson((json['Grant'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final grant = this.grant;
-    return {
-      'Grant': grant,
+      if (userBackgroundSessionApplicationStatus != null)
+        'UserBackgroundSessionApplicationStatus':
+            userBackgroundSessionApplicationStatus.value,
     };
   }
 }
@@ -5578,359 +5237,6 @@ class GetPermissionsBoundaryForPermissionSetResponse {
     return {
       if (permissionsBoundary != null)
         'PermissionsBoundary': permissionsBoundary,
-    };
-  }
-}
-
-/// The Grant union represents the set of possible configuration options for the
-/// selected grant type. Exactly one member of the union must be specified, and
-/// must match the grant type selected.
-class Grant {
-  /// Configuration options for the <code>authorization_code</code> grant type.
-  final AuthorizationCodeGrant? authorizationCode;
-
-  /// Configuration options for the
-  /// <code>urn:ietf:params:oauth:grant-type:jwt-bearer</code> grant type.
-  final JwtBearerGrant? jwtBearer;
-
-  /// Configuration options for the <code>refresh_token</code> grant type.
-  final RefreshTokenGrant? refreshToken;
-
-  /// Configuration options for the
-  /// <code>urn:ietf:params:oauth:grant-type:token-exchange</code> grant type.
-  final TokenExchangeGrant? tokenExchange;
-
-  Grant({
-    this.authorizationCode,
-    this.jwtBearer,
-    this.refreshToken,
-    this.tokenExchange,
-  });
-
-  factory Grant.fromJson(Map<String, dynamic> json) {
-    return Grant(
-      authorizationCode: json['AuthorizationCode'] != null
-          ? AuthorizationCodeGrant.fromJson(
-              json['AuthorizationCode'] as Map<String, dynamic>)
-          : null,
-      jwtBearer: json['JwtBearer'] != null
-          ? JwtBearerGrant.fromJson(json['JwtBearer'] as Map<String, dynamic>)
-          : null,
-      refreshToken: json['RefreshToken'] != null
-          ? RefreshTokenGrant.fromJson(
-              json['RefreshToken'] as Map<String, dynamic>)
-          : null,
-      tokenExchange: json['TokenExchange'] != null
-          ? TokenExchangeGrant.fromJson(
-              json['TokenExchange'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizationCode = this.authorizationCode;
-    final jwtBearer = this.jwtBearer;
-    final refreshToken = this.refreshToken;
-    final tokenExchange = this.tokenExchange;
-    return {
-      if (authorizationCode != null) 'AuthorizationCode': authorizationCode,
-      if (jwtBearer != null) 'JwtBearer': jwtBearer,
-      if (refreshToken != null) 'RefreshToken': refreshToken,
-      if (tokenExchange != null) 'TokenExchange': tokenExchange,
-    };
-  }
-}
-
-/// A structure that defines a single grant and its configuration.
-class GrantItem {
-  /// The configuration structure for the selected grant.
-  final Grant grant;
-
-  /// The type of the selected grant.
-  final GrantType grantType;
-
-  GrantItem({
-    required this.grant,
-    required this.grantType,
-  });
-
-  factory GrantItem.fromJson(Map<String, dynamic> json) {
-    return GrantItem(
-      grant: Grant.fromJson((json['Grant'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      grantType: GrantType.fromString((json['GrantType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final grant = this.grant;
-    final grantType = this.grantType;
-    return {
-      'Grant': grant,
-      'GrantType': grantType.value,
-    };
-  }
-}
-
-class GrantType {
-  static const authorizationCode = GrantType._('authorization_code');
-  static const refreshToken = GrantType._('refresh_token');
-  static const urnIetfParamsOauthGrantTypeJwtBearer =
-      GrantType._('urn:ietf:params:oauth:grant-type:jwt-bearer');
-  static const urnIetfParamsOauthGrantTypeTokenExchange =
-      GrantType._('urn:ietf:params:oauth:grant-type:token-exchange');
-
-  final String value;
-
-  const GrantType._(this.value);
-
-  static const values = [
-    authorizationCode,
-    refreshToken,
-    urnIetfParamsOauthGrantTypeJwtBearer,
-    urnIetfParamsOauthGrantTypeTokenExchange
-  ];
-
-  static GrantType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => GrantType._(value));
-
-  @override
-  bool operator ==(other) => other is GrantType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that describes details for authentication that uses IAM.
-class IamAuthenticationMethod {
-  /// An IAM policy document in JSON.
-  final ActorPolicyDocument actorPolicy;
-
-  IamAuthenticationMethod({
-    required this.actorPolicy,
-  });
-
-  factory IamAuthenticationMethod.fromJson(Map<String, dynamic> json) {
-    return IamAuthenticationMethod(
-      actorPolicy: ActorPolicyDocument.fromJson(
-          (json['ActorPolicy'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actorPolicy = this.actorPolicy;
-    return {
-      'ActorPolicy': actorPolicy,
-    };
-  }
-}
-
-/// Specifies the attributes to add to your attribute-based access control
-/// (ABAC) configuration.
-class InstanceAccessControlAttributeConfiguration {
-  /// Lists the attributes that are configured for ABAC in the specified IAM
-  /// Identity Center instance.
-  final List<AccessControlAttribute> accessControlAttributes;
-
-  InstanceAccessControlAttributeConfiguration({
-    required this.accessControlAttributes,
-  });
-
-  factory InstanceAccessControlAttributeConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return InstanceAccessControlAttributeConfiguration(
-      accessControlAttributes: ((json['AccessControlAttributes'] as List?) ??
-              const [])
-          .nonNulls
-          .map(
-              (e) => AccessControlAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessControlAttributes = this.accessControlAttributes;
-    return {
-      'AccessControlAttributes': accessControlAttributes,
-    };
-  }
-}
-
-class InstanceAccessControlAttributeConfigurationStatus {
-  static const enabled =
-      InstanceAccessControlAttributeConfigurationStatus._('ENABLED');
-  static const creationInProgress =
-      InstanceAccessControlAttributeConfigurationStatus._(
-          'CREATION_IN_PROGRESS');
-  static const creationFailed =
-      InstanceAccessControlAttributeConfigurationStatus._('CREATION_FAILED');
-
-  final String value;
-
-  const InstanceAccessControlAttributeConfigurationStatus._(this.value);
-
-  static const values = [enabled, creationInProgress, creationFailed];
-
-  static InstanceAccessControlAttributeConfigurationStatus fromString(
-          String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              InstanceAccessControlAttributeConfigurationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InstanceAccessControlAttributeConfigurationStatus &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information about the IAM Identity Center instance.
-class InstanceMetadata {
-  /// The date and time that the Identity Center instance was created.
-  final DateTime? createdDate;
-
-  /// The identifier of the identity store that is connected to the Identity
-  /// Center instance.
-  final String? identityStoreId;
-
-  /// The ARN of the Identity Center instance under which the operation will be
-  /// executed. For more information about ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
-  /// Services General Reference</i>.
-  final String? instanceArn;
-
-  /// The name of the Identity Center instance.
-  final String? name;
-
-  /// The Amazon Web Services account ID number of the owner of the Identity
-  /// Center instance.
-  final String? ownerAccountId;
-
-  /// The current status of this Identity Center instance.
-  final InstanceStatus? status;
-
-  InstanceMetadata({
-    this.createdDate,
-    this.identityStoreId,
-    this.instanceArn,
-    this.name,
-    this.ownerAccountId,
-    this.status,
-  });
-
-  factory InstanceMetadata.fromJson(Map<String, dynamic> json) {
-    return InstanceMetadata(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      identityStoreId: json['IdentityStoreId'] as String?,
-      instanceArn: json['InstanceArn'] as String?,
-      name: json['Name'] as String?,
-      ownerAccountId: json['OwnerAccountId'] as String?,
-      status: (json['Status'] as String?)?.let(InstanceStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final identityStoreId = this.identityStoreId;
-    final instanceArn = this.instanceArn;
-    final name = this.name;
-    final ownerAccountId = this.ownerAccountId;
-    final status = this.status;
-    return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (identityStoreId != null) 'IdentityStoreId': identityStoreId,
-      if (instanceArn != null) 'InstanceArn': instanceArn,
-      if (name != null) 'Name': name,
-      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class InstanceStatus {
-  static const createInProgress = InstanceStatus._('CREATE_IN_PROGRESS');
-  static const deleteInProgress = InstanceStatus._('DELETE_IN_PROGRESS');
-  static const active = InstanceStatus._('ACTIVE');
-
-  final String value;
-
-  const InstanceStatus._(this.value);
-
-  static const values = [createInProgress, deleteInProgress, active];
-
-  static InstanceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is InstanceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JwksRetrievalOption {
-  static const openIdDiscovery = JwksRetrievalOption._('OPEN_ID_DISCOVERY');
-
-  final String value;
-
-  const JwksRetrievalOption._(this.value);
-
-  static const values = [openIdDiscovery];
-
-  static JwksRetrievalOption fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => JwksRetrievalOption._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is JwksRetrievalOption && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A structure that defines configuration settings for an application that
-/// supports the JWT Bearer Token Authorization Grant.
-class JwtBearerGrant {
-  /// A list of allowed token issuers trusted by the Identity Center instances for
-  /// this application.
-  final List<AuthorizedTokenIssuer>? authorizedTokenIssuers;
-
-  JwtBearerGrant({
-    this.authorizedTokenIssuers,
-  });
-
-  factory JwtBearerGrant.fromJson(Map<String, dynamic> json) {
-    return JwtBearerGrant(
-      authorizedTokenIssuers: (json['AuthorizedTokenIssuers'] as List?)
-          ?.nonNulls
-          .map((e) => AuthorizedTokenIssuer.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizedTokenIssuers = this.authorizedTokenIssuers;
-    return {
-      if (authorizedTokenIssuers != null)
-        'AuthorizedTokenIssuers': authorizedTokenIssuers,
     };
   }
 }
@@ -6013,20 +5319,36 @@ class ListAccountAssignmentDeletionStatusResponse {
   }
 }
 
-/// A structure that describes a filter for account assignments.
-class ListAccountAssignmentsFilter {
-  /// The ID number of an Amazon Web Services account that filters the results in
-  /// the response.
-  final String? accountId;
+class ListAccountAssignmentsResponse {
+  /// The list of assignments that match the input Amazon Web Services account and
+  /// permission set.
+  final List<AccountAssignment>? accountAssignments;
 
-  ListAccountAssignmentsFilter({
-    this.accountId,
+  /// The pagination token for the list API. Initially the value is null. Use the
+  /// output of previous API calls to make subsequent calls.
+  final String? nextToken;
+
+  ListAccountAssignmentsResponse({
+    this.accountAssignments,
+    this.nextToken,
   });
 
+  factory ListAccountAssignmentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountAssignmentsResponse(
+      accountAssignments: (json['AccountAssignments'] as List?)
+          ?.nonNulls
+          .map((e) => AccountAssignment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
+    final accountAssignments = this.accountAssignments;
+    final nextToken = this.nextToken;
     return {
-      if (accountId != null) 'AccountId': accountId,
+      if (accountAssignments != null) 'AccountAssignments': accountAssignments,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -6055,40 +5377,6 @@ class ListAccountAssignmentsForPrincipalResponse {
           ?.nonNulls
           .map((e) =>
               AccountAssignmentForPrincipal.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountAssignments = this.accountAssignments;
-    final nextToken = this.nextToken;
-    return {
-      if (accountAssignments != null) 'AccountAssignments': accountAssignments,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListAccountAssignmentsResponse {
-  /// The list of assignments that match the input Amazon Web Services account and
-  /// permission set.
-  final List<AccountAssignment>? accountAssignments;
-
-  /// The pagination token for the list API. Initially the value is null. Use the
-  /// output of previous API calls to make subsequent calls.
-  final String? nextToken;
-
-  ListAccountAssignmentsResponse({
-    this.accountAssignments,
-    this.nextToken,
-  });
-
-  factory ListAccountAssignmentsResponse.fromJson(Map<String, dynamic> json) {
-    return ListAccountAssignmentsResponse(
-      accountAssignments: (json['AccountAssignments'] as List?)
-          ?.nonNulls
-          .map((e) => AccountAssignment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
@@ -6138,10 +5426,9 @@ class ListAccountsForProvisionedPermissionSetResponse {
   }
 }
 
-class ListApplicationAccessScopesResponse {
-  /// An array list of access scopes and their authorized targets that are
-  /// associated with the application.
-  final List<ScopeDetails> scopes;
+class ListApplicationAssignmentsResponse {
+  /// The list of users assigned to an application.
+  final List<ApplicationAssignment>? applicationAssignments;
 
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -6151,45 +5438,29 @@ class ListApplicationAccessScopesResponse {
   /// This indicates that this is the last page of results.
   final String? nextToken;
 
-  ListApplicationAccessScopesResponse({
-    required this.scopes,
+  ListApplicationAssignmentsResponse({
+    this.applicationAssignments,
     this.nextToken,
   });
 
-  factory ListApplicationAccessScopesResponse.fromJson(
+  factory ListApplicationAssignmentsResponse.fromJson(
       Map<String, dynamic> json) {
-    return ListApplicationAccessScopesResponse(
-      scopes: ((json['Scopes'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => ScopeDetails.fromJson(e as Map<String, dynamic>))
+    return ListApplicationAssignmentsResponse(
+      applicationAssignments: (json['ApplicationAssignments'] as List?)
+          ?.nonNulls
+          .map((e) => ApplicationAssignment.fromJson(e as Map<String, dynamic>))
           .toList(),
       nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final scopes = this.scopes;
+    final applicationAssignments = this.applicationAssignments;
     final nextToken = this.nextToken;
     return {
-      'Scopes': scopes,
+      if (applicationAssignments != null)
+        'ApplicationAssignments': applicationAssignments,
       if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// A structure that describes a filter for application assignments.
-class ListApplicationAssignmentsFilter {
-  /// The ARN of an application.
-  final String? applicationArn;
-
-  ListApplicationAssignmentsFilter({
-    this.applicationArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final applicationArn = this.applicationArn;
-    return {
-      if (applicationArn != null) 'ApplicationArn': applicationArn,
     };
   }
 }
@@ -6234,122 +5505,6 @@ class ListApplicationAssignmentsForPrincipalResponse {
   }
 }
 
-class ListApplicationAssignmentsResponse {
-  /// The list of users assigned to an application.
-  final List<ApplicationAssignment>? applicationAssignments;
-
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
-  final String? nextToken;
-
-  ListApplicationAssignmentsResponse({
-    this.applicationAssignments,
-    this.nextToken,
-  });
-
-  factory ListApplicationAssignmentsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListApplicationAssignmentsResponse(
-      applicationAssignments: (json['ApplicationAssignments'] as List?)
-          ?.nonNulls
-          .map((e) => ApplicationAssignment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationAssignments = this.applicationAssignments;
-    final nextToken = this.nextToken;
-    return {
-      if (applicationAssignments != null)
-        'ApplicationAssignments': applicationAssignments,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListApplicationAuthenticationMethodsResponse {
-  /// An array list of authentication methods for the specified application.
-  final List<AuthenticationMethodItem>? authenticationMethods;
-
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
-  final String? nextToken;
-
-  ListApplicationAuthenticationMethodsResponse({
-    this.authenticationMethods,
-    this.nextToken,
-  });
-
-  factory ListApplicationAuthenticationMethodsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListApplicationAuthenticationMethodsResponse(
-      authenticationMethods: (json['AuthenticationMethods'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              AuthenticationMethodItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationMethods = this.authenticationMethods;
-    final nextToken = this.nextToken;
-    return {
-      if (authenticationMethods != null)
-        'AuthenticationMethods': authenticationMethods,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListApplicationGrantsResponse {
-  /// An array list of structures that describe the requested grants.
-  final List<GrantItem> grants;
-
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
-  final String? nextToken;
-
-  ListApplicationGrantsResponse({
-    required this.grants,
-    this.nextToken,
-  });
-
-  factory ListApplicationGrantsResponse.fromJson(Map<String, dynamic> json) {
-    return ListApplicationGrantsResponse(
-      grants: ((json['Grants'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => GrantItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final grants = this.grants;
-    final nextToken = this.nextToken;
-    return {
-      'Grants': grants,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
 class ListApplicationProvidersResponse {
   /// An array list of structures that describe application providers.
   final List<ApplicationProvider>? applicationProviders;
@@ -6384,32 +5539,6 @@ class ListApplicationProvidersResponse {
       if (applicationProviders != null)
         'ApplicationProviders': applicationProviders,
       if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// A structure that describes a filter for applications.
-class ListApplicationsFilter {
-  /// An Amazon Web Services account ID number that filters the results in the
-  /// response.
-  final String? applicationAccount;
-
-  /// The ARN of an application provider that can filter the results in the
-  /// response.
-  final String? applicationProvider;
-
-  ListApplicationsFilter({
-    this.applicationAccount,
-    this.applicationProvider,
-  });
-
-  Map<String, dynamic> toJson() {
-    final applicationAccount = this.applicationAccount;
-    final applicationProvider = this.applicationProvider;
-    return {
-      if (applicationAccount != null) 'ApplicationAccount': applicationAccount,
-      if (applicationProvider != null)
-        'ApplicationProvider': applicationProvider,
     };
   }
 }
@@ -6597,6 +5726,39 @@ class ListPermissionSetProvisioningStatusResponse {
   }
 }
 
+class ListPermissionSetsResponse {
+  /// The pagination token for the list API. Initially the value is null. Use the
+  /// output of previous API calls to make subsequent calls.
+  final String? nextToken;
+
+  /// Defines the level of access on an Amazon Web Services account.
+  final List<String>? permissionSets;
+
+  ListPermissionSetsResponse({
+    this.nextToken,
+    this.permissionSets,
+  });
+
+  factory ListPermissionSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPermissionSetsResponse(
+      nextToken: json['NextToken'] as String?,
+      permissionSets: (json['PermissionSets'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final permissionSets = this.permissionSets;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (permissionSets != null) 'PermissionSets': permissionSets,
+    };
+  }
+}
+
 class ListPermissionSetsProvisionedToAccountResponse {
   /// The pagination token for the list API. Initially the value is null. Use the
   /// output of previous API calls to make subsequent calls.
@@ -6631,35 +5793,36 @@ class ListPermissionSetsProvisionedToAccountResponse {
   }
 }
 
-class ListPermissionSetsResponse {
-  /// The pagination token for the list API. Initially the value is null. Use the
-  /// output of previous API calls to make subsequent calls.
+class ListRegionsResponse {
+  /// The pagination token to be used in subsequent calls. If the value is null,
+  /// then there are no more entries.
   final String? nextToken;
 
-  /// Defines the level of access on an Amazon Web Services account.
-  final List<String>? permissionSets;
+  /// The list of Regions enabled in the IAM Identity Center instance, including
+  /// Regions with ACTIVE, ADDING, or REMOVING status.
+  final List<RegionMetadata>? regions;
 
-  ListPermissionSetsResponse({
+  ListRegionsResponse({
     this.nextToken,
-    this.permissionSets,
+    this.regions,
   });
 
-  factory ListPermissionSetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListPermissionSetsResponse(
+  factory ListRegionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRegionsResponse(
       nextToken: json['NextToken'] as String?,
-      permissionSets: (json['PermissionSets'] as List?)
+      regions: (json['Regions'] as List?)
           ?.nonNulls
-          .map((e) => e as String)
+          .map((e) => RegionMetadata.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final nextToken = this.nextToken;
-    final permissionSets = this.permissionSets;
+    final regions = this.regions;
     return {
       if (nextToken != null) 'NextToken': nextToken,
-      if (permissionSets != null) 'PermissionSets': permissionSets,
+      if (regions != null) 'Regions': regions,
     };
   }
 }
@@ -6736,58 +5899,815 @@ class ListTrustedTokenIssuersResponse {
   }
 }
 
-/// A structure that describes configuration settings for a trusted token issuer
-/// that supports OpenID Connect (OIDC) and JSON Web Tokens (JWTs).
-class OidcJwtConfiguration {
-  /// The path of the source attribute in the JWT from the trusted token issuer.
-  /// The attribute mapped by this JMESPath expression is compared against the
-  /// attribute mapped by <code>IdentityStoreAttributePath</code> when a trusted
-  /// token issuer token is exchanged for an IAM Identity Center token.
-  final String claimAttributePath;
+class ProvisionPermissionSetResponse {
+  /// The status object for the permission set provisioning operation.
+  final PermissionSetProvisioningStatus? permissionSetProvisioningStatus;
 
-  /// The path of the destination attribute in a JWT from IAM Identity Center. The
-  /// attribute mapped by this JMESPath expression is compared against the
-  /// attribute mapped by <code>ClaimAttributePath</code> when a trusted token
-  /// issuer token is exchanged for an IAM Identity Center token.
-  final String identityStoreAttributePath;
-
-  /// The URL that IAM Identity Center uses for OpenID Discovery. OpenID Discovery
-  /// is used to obtain the information required to verify the tokens that the
-  /// trusted token issuer generates.
-  final String issuerUrl;
-
-  /// The method that the trusted token issuer can use to retrieve the JSON Web
-  /// Key Set used to verify a JWT.
-  final JwksRetrievalOption jwksRetrievalOption;
-
-  OidcJwtConfiguration({
-    required this.claimAttributePath,
-    required this.identityStoreAttributePath,
-    required this.issuerUrl,
-    required this.jwksRetrievalOption,
+  ProvisionPermissionSetResponse({
+    this.permissionSetProvisioningStatus,
   });
 
-  factory OidcJwtConfiguration.fromJson(Map<String, dynamic> json) {
-    return OidcJwtConfiguration(
-      claimAttributePath: (json['ClaimAttributePath'] as String?) ?? '',
-      identityStoreAttributePath:
-          (json['IdentityStoreAttributePath'] as String?) ?? '',
-      issuerUrl: (json['IssuerUrl'] as String?) ?? '',
-      jwksRetrievalOption: JwksRetrievalOption.fromString(
-          (json['JwksRetrievalOption'] as String?) ?? ''),
+  factory ProvisionPermissionSetResponse.fromJson(Map<String, dynamic> json) {
+    return ProvisionPermissionSetResponse(
+      permissionSetProvisioningStatus:
+          json['PermissionSetProvisioningStatus'] != null
+              ? PermissionSetProvisioningStatus.fromJson(
+                  json['PermissionSetProvisioningStatus']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final claimAttributePath = this.claimAttributePath;
-    final identityStoreAttributePath = this.identityStoreAttributePath;
-    final issuerUrl = this.issuerUrl;
-    final jwksRetrievalOption = this.jwksRetrievalOption;
+    final permissionSetProvisioningStatus =
+        this.permissionSetProvisioningStatus;
     return {
-      'ClaimAttributePath': claimAttributePath,
-      'IdentityStoreAttributePath': identityStoreAttributePath,
-      'IssuerUrl': issuerUrl,
-      'JwksRetrievalOption': jwksRetrievalOption.value,
+      if (permissionSetProvisioningStatus != null)
+        'PermissionSetProvisioningStatus': permissionSetProvisioningStatus,
+    };
+  }
+}
+
+class PutApplicationAssignmentConfigurationResponse {
+  PutApplicationAssignmentConfigurationResponse();
+
+  factory PutApplicationAssignmentConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutApplicationAssignmentConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class PutApplicationSessionConfigurationResponse {
+  PutApplicationSessionConfigurationResponse();
+
+  factory PutApplicationSessionConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutApplicationSessionConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class PutInlinePolicyToPermissionSetResponse {
+  PutInlinePolicyToPermissionSetResponse();
+
+  factory PutInlinePolicyToPermissionSetResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutInlinePolicyToPermissionSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class PutPermissionsBoundaryToPermissionSetResponse {
+  PutPermissionsBoundaryToPermissionSetResponse();
+
+  factory PutPermissionsBoundaryToPermissionSetResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutPermissionsBoundaryToPermissionSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RemoveRegionResponse {
+  /// The status of the Region after the remove operation. The status is REMOVING
+  /// when the asynchronous workflow is in progress. The Region record is deleted
+  /// when the workflow completes.
+  final RegionStatus? status;
+
+  RemoveRegionResponse({
+    this.status,
+  });
+
+  factory RemoveRegionResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveRegionResponse(
+      status: (json['Status'] as String?)?.let(RegionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateApplicationResponse {
+  UpdateApplicationResponse();
+
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateInstanceResponse {
+  UpdateInstanceResponse();
+
+  factory UpdateInstanceResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateInstanceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateInstanceAccessControlAttributeConfigurationResponse {
+  UpdateInstanceAccessControlAttributeConfigurationResponse();
+
+  factory UpdateInstanceAccessControlAttributeConfigurationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateInstanceAccessControlAttributeConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdatePermissionSetResponse {
+  UpdatePermissionSetResponse();
+
+  factory UpdatePermissionSetResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePermissionSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateTrustedTokenIssuerResponse {
+  UpdateTrustedTokenIssuerResponse();
+
+  factory UpdateTrustedTokenIssuerResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTrustedTokenIssuerResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class GetApplicationAccessScopeResponse {
+  /// The name of the access scope that can be used with the authorized targets.
+  final String scope;
+
+  /// An array of authorized targets associated with this access scope.
+  final List<String>? authorizedTargets;
+
+  GetApplicationAccessScopeResponse({
+    required this.scope,
+    this.authorizedTargets,
+  });
+
+  factory GetApplicationAccessScopeResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetApplicationAccessScopeResponse(
+      scope: (json['Scope'] as String?) ?? '',
+      authorizedTargets: (json['AuthorizedTargets'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scope = this.scope;
+    final authorizedTargets = this.authorizedTargets;
+    return {
+      'Scope': scope,
+      if (authorizedTargets != null) 'AuthorizedTargets': authorizedTargets,
+    };
+  }
+}
+
+class ListApplicationAccessScopesResponse {
+  /// An array list of access scopes and their authorized targets that are
+  /// associated with the application.
+  final List<ScopeDetails> scopes;
+
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  ListApplicationAccessScopesResponse({
+    required this.scopes,
+    this.nextToken,
+  });
+
+  factory ListApplicationAccessScopesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListApplicationAccessScopesResponse(
+      scopes: ((json['Scopes'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => ScopeDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scopes = this.scopes;
+    final nextToken = this.nextToken;
+    return {
+      'Scopes': scopes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class GetApplicationAuthenticationMethodResponse {
+  /// A structure that contains details about the requested authentication method.
+  final AuthenticationMethod? authenticationMethod;
+
+  GetApplicationAuthenticationMethodResponse({
+    this.authenticationMethod,
+  });
+
+  factory GetApplicationAuthenticationMethodResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetApplicationAuthenticationMethodResponse(
+      authenticationMethod: json['AuthenticationMethod'] != null
+          ? AuthenticationMethod.fromJson(
+              json['AuthenticationMethod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationMethod = this.authenticationMethod;
+    return {
+      if (authenticationMethod != null)
+        'AuthenticationMethod': authenticationMethod,
+    };
+  }
+}
+
+class ListApplicationAuthenticationMethodsResponse {
+  /// An array list of authentication methods for the specified application.
+  final List<AuthenticationMethodItem>? authenticationMethods;
+
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  ListApplicationAuthenticationMethodsResponse({
+    this.authenticationMethods,
+    this.nextToken,
+  });
+
+  factory ListApplicationAuthenticationMethodsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListApplicationAuthenticationMethodsResponse(
+      authenticationMethods: (json['AuthenticationMethods'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              AuthenticationMethodItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationMethods = this.authenticationMethods;
+    final nextToken = this.nextToken;
+    return {
+      if (authenticationMethods != null)
+        'AuthenticationMethods': authenticationMethods,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class GetApplicationGrantResponse {
+  /// A structure that describes the requested grant.
+  final Grant grant;
+
+  GetApplicationGrantResponse({
+    required this.grant,
+  });
+
+  factory GetApplicationGrantResponse.fromJson(Map<String, dynamic> json) {
+    return GetApplicationGrantResponse(
+      grant: Grant.fromJson((json['Grant'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grant = this.grant;
+    return {
+      'Grant': grant,
+    };
+  }
+}
+
+class ListApplicationGrantsResponse {
+  /// An array list of structures that describe the requested grants.
+  final List<GrantItem> grants;
+
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  ListApplicationGrantsResponse({
+    required this.grants,
+    this.nextToken,
+  });
+
+  factory ListApplicationGrantsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationGrantsResponse(
+      grants: ((json['Grants'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => GrantItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grants = this.grants;
+    final nextToken = this.nextToken;
+    return {
+      'Grants': grants,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// A structure that defines a single grant and its configuration.
+class GrantItem {
+  /// The configuration structure for the selected grant.
+  final Grant grant;
+
+  /// The type of the selected grant.
+  final GrantType grantType;
+
+  GrantItem({
+    required this.grant,
+    required this.grantType,
+  });
+
+  factory GrantItem.fromJson(Map<String, dynamic> json) {
+    return GrantItem(
+      grant: Grant.fromJson((json['Grant'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      grantType: GrantType.fromString((json['GrantType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grant = this.grant;
+    final grantType = this.grantType;
+    return {
+      'Grant': grant,
+      'GrantType': grantType.value,
+    };
+  }
+}
+
+class GrantType {
+  static const authorizationCode = GrantType._('authorization_code');
+  static const refreshToken = GrantType._('refresh_token');
+  static const urnIetfParamsOauthGrantTypeJwtBearer =
+      GrantType._('urn:ietf:params:oauth:grant-type:jwt-bearer');
+  static const urnIetfParamsOauthGrantTypeTokenExchange =
+      GrantType._('urn:ietf:params:oauth:grant-type:token-exchange');
+
+  final String value;
+
+  const GrantType._(this.value);
+
+  static const values = [
+    authorizationCode,
+    refreshToken,
+    urnIetfParamsOauthGrantTypeJwtBearer,
+    urnIetfParamsOauthGrantTypeTokenExchange
+  ];
+
+  static GrantType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GrantType._(value));
+
+  @override
+  bool operator ==(other) => other is GrantType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Grant union represents the set of possible configuration options for the
+/// selected grant type. Exactly one member of the union must be specified, and
+/// must match the grant type selected.
+class Grant {
+  /// Configuration options for the <code>authorization_code</code> grant type.
+  final AuthorizationCodeGrant? authorizationCode;
+
+  /// Configuration options for the
+  /// <code>urn:ietf:params:oauth:grant-type:jwt-bearer</code> grant type.
+  final JwtBearerGrant? jwtBearer;
+
+  /// Configuration options for the <code>refresh_token</code> grant type.
+  final RefreshTokenGrant? refreshToken;
+
+  /// Configuration options for the
+  /// <code>urn:ietf:params:oauth:grant-type:token-exchange</code> grant type.
+  final TokenExchangeGrant? tokenExchange;
+
+  Grant({
+    this.authorizationCode,
+    this.jwtBearer,
+    this.refreshToken,
+    this.tokenExchange,
+  });
+
+  factory Grant.fromJson(Map<String, dynamic> json) {
+    return Grant(
+      authorizationCode: json['AuthorizationCode'] != null
+          ? AuthorizationCodeGrant.fromJson(
+              json['AuthorizationCode'] as Map<String, dynamic>)
+          : null,
+      jwtBearer: json['JwtBearer'] != null
+          ? JwtBearerGrant.fromJson(json['JwtBearer'] as Map<String, dynamic>)
+          : null,
+      refreshToken: json['RefreshToken'] != null
+          ? RefreshTokenGrant.fromJson(
+              json['RefreshToken'] as Map<String, dynamic>)
+          : null,
+      tokenExchange: json['TokenExchange'] != null
+          ? TokenExchangeGrant.fromJson(
+              json['TokenExchange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationCode = this.authorizationCode;
+    final jwtBearer = this.jwtBearer;
+    final refreshToken = this.refreshToken;
+    final tokenExchange = this.tokenExchange;
+    return {
+      if (authorizationCode != null) 'AuthorizationCode': authorizationCode,
+      if (jwtBearer != null) 'JwtBearer': jwtBearer,
+      if (refreshToken != null) 'RefreshToken': refreshToken,
+      if (tokenExchange != null) 'TokenExchange': tokenExchange,
+    };
+  }
+}
+
+/// A structure that defines configuration settings for an application that
+/// supports the OAuth 2.0 Authorization Code Grant.
+class AuthorizationCodeGrant {
+  /// A list of URIs that are valid locations to redirect a user's browser after
+  /// the user is authorized.
+  /// <note>
+  /// RedirectUris is required when the grant type is
+  /// <code>authorization_code</code>.
+  /// </note>
+  final List<String>? redirectUris;
+
+  AuthorizationCodeGrant({
+    this.redirectUris,
+  });
+
+  factory AuthorizationCodeGrant.fromJson(Map<String, dynamic> json) {
+    return AuthorizationCodeGrant(
+      redirectUris: (json['RedirectUris'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final redirectUris = this.redirectUris;
+    return {
+      if (redirectUris != null) 'RedirectUris': redirectUris,
+    };
+  }
+}
+
+/// A structure that defines configuration settings for an application that
+/// supports the JWT Bearer Token Authorization Grant. The
+/// <code>AuthorizedAudience</code> field is the aud claim. For more
+/// information, see <a href="https://datatracker.ietf.org/doc/html/rfc7523">RFC
+/// 7523</a>.
+class JwtBearerGrant {
+  /// A list of allowed token issuers trusted by the Identity Center instances for
+  /// this application.
+  /// <note>
+  /// <code>AuthorizedTokenIssuers</code> is required when the grant type is
+  /// <code>JwtBearerGrant</code>.
+  /// </note>
+  final List<AuthorizedTokenIssuer>? authorizedTokenIssuers;
+
+  JwtBearerGrant({
+    this.authorizedTokenIssuers,
+  });
+
+  factory JwtBearerGrant.fromJson(Map<String, dynamic> json) {
+    return JwtBearerGrant(
+      authorizedTokenIssuers: (json['AuthorizedTokenIssuers'] as List?)
+          ?.nonNulls
+          .map((e) => AuthorizedTokenIssuer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedTokenIssuers = this.authorizedTokenIssuers;
+    return {
+      if (authorizedTokenIssuers != null)
+        'AuthorizedTokenIssuers': authorizedTokenIssuers,
+    };
+  }
+}
+
+/// A structure that defines configuration settings for an application that
+/// supports the OAuth 2.0 Refresh Token Grant. For more, see <a
+/// href="https://datatracker.ietf.org/doc/html/rfc6749#section-1.5">RFC
+/// 6749</a>.
+class RefreshTokenGrant {
+  RefreshTokenGrant();
+
+  factory RefreshTokenGrant.fromJson(Map<String, dynamic> _) {
+    return RefreshTokenGrant();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A structure that defines configuration settings for an application that
+/// supports the OAuth 2.0 Token Exchange Grant. For more information, see <a
+/// href="https://datatracker.ietf.org/doc/html/rfc8693">RFC 8693</a>.
+class TokenExchangeGrant {
+  TokenExchangeGrant();
+
+  factory TokenExchangeGrant.fromJson(Map<String, dynamic> _) {
+    return TokenExchangeGrant();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A structure that describes a trusted token issuer and associates it with a
+/// set of authorized audiences.
+class AuthorizedTokenIssuer {
+  /// An array list of authorized audiences, or applications, that can consume the
+  /// tokens generated by the associated trusted token issuer.
+  final List<String>? authorizedAudiences;
+
+  /// The ARN of the trusted token issuer.
+  final String? trustedTokenIssuerArn;
+
+  AuthorizedTokenIssuer({
+    this.authorizedAudiences,
+    this.trustedTokenIssuerArn,
+  });
+
+  factory AuthorizedTokenIssuer.fromJson(Map<String, dynamic> json) {
+    return AuthorizedTokenIssuer(
+      authorizedAudiences: (json['AuthorizedAudiences'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      trustedTokenIssuerArn: json['TrustedTokenIssuerArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedAudiences = this.authorizedAudiences;
+    final trustedTokenIssuerArn = this.trustedTokenIssuerArn;
+    return {
+      if (authorizedAudiences != null)
+        'AuthorizedAudiences': authorizedAudiences,
+      if (trustedTokenIssuerArn != null)
+        'TrustedTokenIssuerArn': trustedTokenIssuerArn,
+    };
+  }
+}
+
+/// A structure that describes an authentication method and its type.
+class AuthenticationMethodItem {
+  /// A structure that describes an authentication method. The contents of this
+  /// structure is determined by the <code>AuthenticationMethodType</code>.
+  final AuthenticationMethod? authenticationMethod;
+
+  /// The type of authentication that is used by this method.
+  final AuthenticationMethodType? authenticationMethodType;
+
+  AuthenticationMethodItem({
+    this.authenticationMethod,
+    this.authenticationMethodType,
+  });
+
+  factory AuthenticationMethodItem.fromJson(Map<String, dynamic> json) {
+    return AuthenticationMethodItem(
+      authenticationMethod: json['AuthenticationMethod'] != null
+          ? AuthenticationMethod.fromJson(
+              json['AuthenticationMethod'] as Map<String, dynamic>)
+          : null,
+      authenticationMethodType: (json['AuthenticationMethodType'] as String?)
+          ?.let(AuthenticationMethodType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationMethod = this.authenticationMethod;
+    final authenticationMethodType = this.authenticationMethodType;
+    return {
+      if (authenticationMethod != null)
+        'AuthenticationMethod': authenticationMethod,
+      if (authenticationMethodType != null)
+        'AuthenticationMethodType': authenticationMethodType.value,
+    };
+  }
+}
+
+class AuthenticationMethodType {
+  static const iam = AuthenticationMethodType._('IAM');
+
+  final String value;
+
+  const AuthenticationMethodType._(this.value);
+
+  static const values = [iam];
+
+  static AuthenticationMethodType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticationMethodType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticationMethodType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that describes an authentication method that can be used by an
+/// application.
+class AuthenticationMethod {
+  /// A structure that describes details for IAM authentication.
+  final IamAuthenticationMethod? iam;
+
+  AuthenticationMethod({
+    this.iam,
+  });
+
+  factory AuthenticationMethod.fromJson(Map<String, dynamic> json) {
+    return AuthenticationMethod(
+      iam: json['Iam'] != null
+          ? IamAuthenticationMethod.fromJson(
+              json['Iam'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iam = this.iam;
+    return {
+      if (iam != null) 'Iam': iam,
+    };
+  }
+}
+
+/// A structure that describes details for authentication that uses IAM.
+class IamAuthenticationMethod {
+  /// An IAM policy document in JSON.
+  final Object actorPolicy;
+
+  IamAuthenticationMethod({
+    required this.actorPolicy,
+  });
+
+  factory IamAuthenticationMethod.fromJson(Map<String, dynamic> json) {
+    return IamAuthenticationMethod(
+      actorPolicy: json['ActorPolicy'] as Object,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actorPolicy = this.actorPolicy;
+    return {
+      'ActorPolicy': actorPolicy,
+    };
+  }
+}
+
+/// A structure that describes an IAM Identity Center access scope and its
+/// authorized targets.
+class ScopeDetails {
+  /// The name of the access scope.
+  final String scope;
+
+  /// An array list of ARNs of applications.
+  final List<String>? authorizedTargets;
+
+  ScopeDetails({
+    required this.scope,
+    this.authorizedTargets,
+  });
+
+  factory ScopeDetails.fromJson(Map<String, dynamic> json) {
+    return ScopeDetails(
+      scope: (json['Scope'] as String?) ?? '',
+      authorizedTargets: (json['AuthorizedTargets'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scope = this.scope;
+    final authorizedTargets = this.authorizedTargets;
+    return {
+      'Scope': scope,
+      if (authorizedTargets != null) 'AuthorizedTargets': authorizedTargets,
+    };
+  }
+}
+
+/// A structure that contains details to be updated for a trusted token issuer
+/// configuration. The structure and settings that you can include depend on the
+/// type of the trusted token issuer being updated.
+class TrustedTokenIssuerUpdateConfiguration {
+  /// A structure that describes an updated configuration for a trusted token
+  /// issuer that uses OpenID Connect (OIDC) with JSON web tokens (JWT).
+  final OidcJwtUpdateConfiguration? oidcJwtConfiguration;
+
+  TrustedTokenIssuerUpdateConfiguration({
+    this.oidcJwtConfiguration,
+  });
+
+  Map<String, dynamic> toJson() {
+    final oidcJwtConfiguration = this.oidcJwtConfiguration;
+    return {
+      if (oidcJwtConfiguration != null)
+        'OidcJwtConfiguration': oidcJwtConfiguration,
     };
   }
 }
@@ -6831,527 +6751,216 @@ class OidcJwtUpdateConfiguration {
   }
 }
 
-/// Filters the operation status list based on the passed attribute value.
-class OperationStatusFilter {
-  /// Filters the list operations result based on the status attribute.
-  final StatusValues? status;
+class JwksRetrievalOption {
+  static const openIdDiscovery = JwksRetrievalOption._('OPEN_ID_DISCOVERY');
 
-  OperationStatusFilter({
-    this.status,
-  });
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      if (status != null) 'Status': status.value,
-    };
-  }
+  const JwksRetrievalOption._(this.value);
+
+  static const values = [openIdDiscovery];
+
+  static JwksRetrievalOption fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JwksRetrievalOption._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JwksRetrievalOption && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-/// An entity that contains IAM policies.
-class PermissionSet {
-  /// The date that the permission set was created.
-  final DateTime? createdDate;
+/// Specifies the attributes to add to your attribute-based access control
+/// (ABAC) configuration.
+class InstanceAccessControlAttributeConfiguration {
+  /// Lists the attributes that are configured for ABAC in the specified IAM
+  /// Identity Center instance.
+  final List<AccessControlAttribute> accessControlAttributes;
 
-  /// The description of the <a>PermissionSet</a>.
-  final String? description;
-
-  /// The name of the permission set.
-  final String? name;
-
-  /// The ARN of the permission set. For more information about ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
-  /// Services General Reference</i>.
-  final String? permissionSetArn;
-
-  /// Used to redirect users within the application during the federation
-  /// authentication process.
-  final String? relayState;
-
-  /// The length of time that the application user sessions are valid for in the
-  /// ISO-8601 standard.
-  final String? sessionDuration;
-
-  PermissionSet({
-    this.createdDate,
-    this.description,
-    this.name,
-    this.permissionSetArn,
-    this.relayState,
-    this.sessionDuration,
+  InstanceAccessControlAttributeConfiguration({
+    required this.accessControlAttributes,
   });
 
-  factory PermissionSet.fromJson(Map<String, dynamic> json) {
-    return PermissionSet(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      description: json['Description'] as String?,
-      name: json['Name'] as String?,
-      permissionSetArn: json['PermissionSetArn'] as String?,
-      relayState: json['RelayState'] as String?,
-      sessionDuration: json['SessionDuration'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final description = this.description;
-    final name = this.name;
-    final permissionSetArn = this.permissionSetArn;
-    final relayState = this.relayState;
-    final sessionDuration = this.sessionDuration;
-    return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (description != null) 'Description': description,
-      if (name != null) 'Name': name,
-      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
-      if (relayState != null) 'RelayState': relayState,
-      if (sessionDuration != null) 'SessionDuration': sessionDuration,
-    };
-  }
-}
-
-/// A structure that is used to provide the status of the provisioning operation
-/// for a specified permission set.
-class PermissionSetProvisioningStatus {
-  /// The identifier of the Amazon Web Services account from which to list the
-  /// assignments.
-  final String? accountId;
-
-  /// The date that the permission set was created.
-  final DateTime? createdDate;
-
-  /// The message that contains an error or exception in case of an operation
-  /// failure.
-  final String? failureReason;
-
-  /// The ARN of the permission set that is being provisioned. For more
-  /// information about ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
-  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
-  /// Services General Reference</i>.
-  final String? permissionSetArn;
-
-  /// The identifier for tracking the request operation that is generated by the
-  /// universally unique identifier (UUID) workflow.
-  final String? requestId;
-
-  /// The status of the permission set provisioning process.
-  final StatusValues? status;
-
-  PermissionSetProvisioningStatus({
-    this.accountId,
-    this.createdDate,
-    this.failureReason,
-    this.permissionSetArn,
-    this.requestId,
-    this.status,
-  });
-
-  factory PermissionSetProvisioningStatus.fromJson(Map<String, dynamic> json) {
-    return PermissionSetProvisioningStatus(
-      accountId: json['AccountId'] as String?,
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      failureReason: json['FailureReason'] as String?,
-      permissionSetArn: json['PermissionSetArn'] as String?,
-      requestId: json['RequestId'] as String?,
-      status: (json['Status'] as String?)?.let(StatusValues.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final createdDate = this.createdDate;
-    final failureReason = this.failureReason;
-    final permissionSetArn = this.permissionSetArn;
-    final requestId = this.requestId;
-    final status = this.status;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (failureReason != null) 'FailureReason': failureReason,
-      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
-      if (requestId != null) 'RequestId': requestId,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-/// Provides information about the permission set provisioning status.
-class PermissionSetProvisioningStatusMetadata {
-  /// The date that the permission set was created.
-  final DateTime? createdDate;
-
-  /// The identifier for tracking the request operation that is generated by the
-  /// universally unique identifier (UUID) workflow.
-  final String? requestId;
-
-  /// The status of the permission set provisioning process.
-  final StatusValues? status;
-
-  PermissionSetProvisioningStatusMetadata({
-    this.createdDate,
-    this.requestId,
-    this.status,
-  });
-
-  factory PermissionSetProvisioningStatusMetadata.fromJson(
+  factory InstanceAccessControlAttributeConfiguration.fromJson(
       Map<String, dynamic> json) {
-    return PermissionSetProvisioningStatusMetadata(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      requestId: json['RequestId'] as String?,
-      status: (json['Status'] as String?)?.let(StatusValues.fromString),
+    return InstanceAccessControlAttributeConfiguration(
+      accessControlAttributes: ((json['AccessControlAttributes'] as List?) ??
+              const [])
+          .nonNulls
+          .map(
+              (e) => AccessControlAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final requestId = this.requestId;
-    final status = this.status;
+    final accessControlAttributes = this.accessControlAttributes;
     return {
-      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
-      if (requestId != null) 'RequestId': requestId,
-      if (status != null) 'Status': status.value,
+      'AccessControlAttributes': accessControlAttributes,
     };
   }
 }
 
-/// Specifies the configuration of the Amazon Web Services managed or customer
-/// managed policy that you want to set as a permissions boundary. Specify
-/// either <code>CustomerManagedPolicyReference</code> to use the name and path
-/// of a customer managed policy, or <code>ManagedPolicyArn</code> to use the
-/// ARN of an Amazon Web Services managed policy. A permissions boundary
-/// represents the maximum permissions that any policy can grant your role. For
+/// These are IAM Identity Center identity store attributes that you can
+/// configure for use in attributes-based access control (ABAC). You can create
+/// permissions policies that determine who can access your Amazon Web Services
+/// resources based upon the configured attribute values. When you enable ABAC
+/// and specify <code>AccessControlAttributes</code>, IAM Identity Center passes
+/// the attribute values of the authenticated user into IAM for use in policy
+/// evaluation.
+class AccessControlAttribute {
+  /// The name of the attribute associated with your identities in your identity
+  /// source. This is used to map a specified attribute in your identity source
+  /// with an attribute in IAM Identity Center.
+  final String key;
+
+  /// The value used for mapping a specified attribute to an identity source.
+  final AccessControlAttributeValue value;
+
+  AccessControlAttribute({
+    required this.key,
+    required this.value,
+  });
+
+  factory AccessControlAttribute.fromJson(Map<String, dynamic> json) {
+    return AccessControlAttribute(
+      key: (json['Key'] as String?) ?? '',
+      value: AccessControlAttributeValue.fromJson(
+          (json['Value'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// The value used for mapping a specified attribute to an identity source. For
 /// more information, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-/// boundaries for IAM entities</a> in the <i>IAM User Guide</i>.
-/// <important>
-/// Policies used as permissions boundaries don't provide permissions. You must
-/// also attach an IAM policy to the role. To learn how the effective
-/// permissions for a role are evaluated, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">IAM
-/// JSON policy evaluation logic</a> in the <i>IAM User Guide</i>.
-/// </important>
-class PermissionsBoundary {
-  /// Specifies the name and path of a customer managed policy. You must have an
-  /// IAM policy that matches the name and path in each Amazon Web Services
-  /// account where you want to deploy your permission set.
-  final CustomerManagedPolicyReference? customerManagedPolicyReference;
+/// href="https://docs.aws.amazon.com/singlesignon/latest/userguide/attributemappingsconcept.html">Attribute
+/// mappings</a> in the <i>IAM Identity Center User Guide</i>.
+class AccessControlAttributeValue {
+  /// The identity source to use when mapping a specified attribute to IAM
+  /// Identity Center.
+  final List<String> source;
 
-  /// The Amazon Web Services managed policy ARN that you want to attach to a
-  /// permission set as a permissions boundary.
-  final String? managedPolicyArn;
-
-  PermissionsBoundary({
-    this.customerManagedPolicyReference,
-    this.managedPolicyArn,
+  AccessControlAttributeValue({
+    required this.source,
   });
 
-  factory PermissionsBoundary.fromJson(Map<String, dynamic> json) {
-    return PermissionsBoundary(
-      customerManagedPolicyReference: json['CustomerManagedPolicyReference'] !=
-              null
-          ? CustomerManagedPolicyReference.fromJson(
-              json['CustomerManagedPolicyReference'] as Map<String, dynamic>)
-          : null,
-      managedPolicyArn: json['ManagedPolicyArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customerManagedPolicyReference = this.customerManagedPolicyReference;
-    final managedPolicyArn = this.managedPolicyArn;
-    return {
-      if (customerManagedPolicyReference != null)
-        'CustomerManagedPolicyReference': customerManagedPolicyReference,
-      if (managedPolicyArn != null) 'ManagedPolicyArn': managedPolicyArn,
-    };
-  }
-}
-
-/// A structure that describes the options for the access portal associated with
-/// an application.
-class PortalOptions {
-  /// A structure that describes the sign-in options for the access portal.
-  final SignInOptions? signInOptions;
-
-  /// Indicates whether this application is visible in the access portal.
-  final ApplicationVisibility? visibility;
-
-  PortalOptions({
-    this.signInOptions,
-    this.visibility,
-  });
-
-  factory PortalOptions.fromJson(Map<String, dynamic> json) {
-    return PortalOptions(
-      signInOptions: json['SignInOptions'] != null
-          ? SignInOptions.fromJson(
-              json['SignInOptions'] as Map<String, dynamic>)
-          : null,
-      visibility: (json['Visibility'] as String?)
-          ?.let(ApplicationVisibility.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final signInOptions = this.signInOptions;
-    final visibility = this.visibility;
-    return {
-      if (signInOptions != null) 'SignInOptions': signInOptions,
-      if (visibility != null) 'Visibility': visibility.value,
-    };
-  }
-}
-
-class PrincipalType {
-  static const user = PrincipalType._('USER');
-  static const group = PrincipalType._('GROUP');
-
-  final String value;
-
-  const PrincipalType._(this.value);
-
-  static const values = [user, group];
-
-  static PrincipalType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PrincipalType._(value));
-
-  @override
-  bool operator ==(other) => other is PrincipalType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProvisionPermissionSetResponse {
-  /// The status object for the permission set provisioning operation.
-  final PermissionSetProvisioningStatus? permissionSetProvisioningStatus;
-
-  ProvisionPermissionSetResponse({
-    this.permissionSetProvisioningStatus,
-  });
-
-  factory ProvisionPermissionSetResponse.fromJson(Map<String, dynamic> json) {
-    return ProvisionPermissionSetResponse(
-      permissionSetProvisioningStatus:
-          json['PermissionSetProvisioningStatus'] != null
-              ? PermissionSetProvisioningStatus.fromJson(
-                  json['PermissionSetProvisioningStatus']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final permissionSetProvisioningStatus =
-        this.permissionSetProvisioningStatus;
-    return {
-      if (permissionSetProvisioningStatus != null)
-        'PermissionSetProvisioningStatus': permissionSetProvisioningStatus,
-    };
-  }
-}
-
-class ProvisionTargetType {
-  static const awsAccount = ProvisionTargetType._('AWS_ACCOUNT');
-  static const allProvisionedAccounts =
-      ProvisionTargetType._('ALL_PROVISIONED_ACCOUNTS');
-
-  final String value;
-
-  const ProvisionTargetType._(this.value);
-
-  static const values = [awsAccount, allProvisionedAccounts];
-
-  static ProvisionTargetType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisionTargetType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisionTargetType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProvisioningStatus {
-  static const latestPermissionSetProvisioned =
-      ProvisioningStatus._('LATEST_PERMISSION_SET_PROVISIONED');
-  static const latestPermissionSetNotProvisioned =
-      ProvisioningStatus._('LATEST_PERMISSION_SET_NOT_PROVISIONED');
-
-  final String value;
-
-  const ProvisioningStatus._(this.value);
-
-  static const values = [
-    latestPermissionSetProvisioned,
-    latestPermissionSetNotProvisioned
-  ];
-
-  static ProvisioningStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ProvisioningStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ProvisioningStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PutApplicationAssignmentConfigurationResponse {
-  PutApplicationAssignmentConfigurationResponse();
-
-  factory PutApplicationAssignmentConfigurationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return PutApplicationAssignmentConfigurationResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class PutInlinePolicyToPermissionSetResponse {
-  PutInlinePolicyToPermissionSetResponse();
-
-  factory PutInlinePolicyToPermissionSetResponse.fromJson(
-      Map<String, dynamic> _) {
-    return PutInlinePolicyToPermissionSetResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class PutPermissionsBoundaryToPermissionSetResponse {
-  PutPermissionsBoundaryToPermissionSetResponse();
-
-  factory PutPermissionsBoundaryToPermissionSetResponse.fromJson(
-      Map<String, dynamic> _) {
-    return PutPermissionsBoundaryToPermissionSetResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A structure that defines configuration settings for an application that
-/// supports the OAuth 2.0 Refresh Token Grant.
-class RefreshTokenGrant {
-  RefreshTokenGrant();
-
-  factory RefreshTokenGrant.fromJson(Map<String, dynamic> _) {
-    return RefreshTokenGrant();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A structure that describes the configuration of a resource server.
-class ResourceServerConfig {
-  /// A list of the IAM Identity Center access scopes that are associated with
-  /// this resource server.
-  final Map<String, ResourceServerScopeDetails>? scopes;
-
-  ResourceServerConfig({
-    this.scopes,
-  });
-
-  factory ResourceServerConfig.fromJson(Map<String, dynamic> json) {
-    return ResourceServerConfig(
-      scopes: (json['Scopes'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
-          k, ResourceServerScopeDetails.fromJson(e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scopes = this.scopes;
-    return {
-      if (scopes != null) 'Scopes': scopes,
-    };
-  }
-}
-
-/// A structure that describes details for an IAM Identity Center access scope
-/// that is associated with a resource server.
-class ResourceServerScopeDetails {
-  /// The title of an access scope for a resource server.
-  final String? detailedTitle;
-
-  /// The description of an access scope for a resource server.
-  final String? longDescription;
-
-  ResourceServerScopeDetails({
-    this.detailedTitle,
-    this.longDescription,
-  });
-
-  factory ResourceServerScopeDetails.fromJson(Map<String, dynamic> json) {
-    return ResourceServerScopeDetails(
-      detailedTitle: json['DetailedTitle'] as String?,
-      longDescription: json['LongDescription'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final detailedTitle = this.detailedTitle;
-    final longDescription = this.longDescription;
-    return {
-      if (detailedTitle != null) 'DetailedTitle': detailedTitle,
-      if (longDescription != null) 'LongDescription': longDescription,
-    };
-  }
-}
-
-/// A structure that describes an IAM Identity Center access scope and its
-/// authorized targets.
-class ScopeDetails {
-  /// The name of the access scope.
-  final String scope;
-
-  /// An array list of ARNs of applications.
-  final List<String>? authorizedTargets;
-
-  ScopeDetails({
-    required this.scope,
-    this.authorizedTargets,
-  });
-
-  factory ScopeDetails.fromJson(Map<String, dynamic> json) {
-    return ScopeDetails(
-      scope: (json['Scope'] as String?) ?? '',
-      authorizedTargets: (json['AuthorizedTargets'] as List?)
-          ?.nonNulls
+  factory AccessControlAttributeValue.fromJson(Map<String, dynamic> json) {
+    return AccessControlAttributeValue(
+      source: ((json['Source'] as List?) ?? const [])
+          .nonNulls
           .map((e) => e as String)
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final scope = this.scope;
-    final authorizedTargets = this.authorizedTargets;
+    final source = this.source;
     return {
-      'Scope': scope,
-      if (authorizedTargets != null) 'AuthorizedTargets': authorizedTargets,
+      'Source': source,
+    };
+  }
+}
+
+/// A structure that specifies the KMS key type and KMS key ARN used to encrypt
+/// data in your IAM Identity Center instance.
+class EncryptionConfiguration {
+  /// The type of KMS key used for encryption.
+  final KmsKeyType keyType;
+
+  /// The ARN of the KMS key used to encrypt data. Required when KeyType is
+  /// CUSTOMER_MANAGED_KEY. Cannot be specified when KeyType is AWS_OWNED_KMS_KEY.
+  final String? kmsKeyArn;
+
+  EncryptionConfiguration({
+    required this.keyType,
+    this.kmsKeyArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final keyType = this.keyType;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'KeyType': keyType.value,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+class KmsKeyType {
+  static const awsOwnedKmsKey = KmsKeyType._('AWS_OWNED_KMS_KEY');
+  static const customerManagedKey = KmsKeyType._('CUSTOMER_MANAGED_KEY');
+
+  final String value;
+
+  const KmsKeyType._(this.value);
+
+  static const values = [awsOwnedKmsKey, customerManagedKey];
+
+  static KmsKeyType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KmsKeyType._(value));
+
+  @override
+  bool operator ==(other) => other is KmsKeyType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApplicationStatus {
+  static const enabled = ApplicationStatus._('ENABLED');
+  static const disabled = ApplicationStatus._('DISABLED');
+
+  final String value;
+
+  const ApplicationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that describes the options for the access portal associated with
+/// an application that can be updated.
+class UpdateApplicationPortalOptions {
+  final SignInOptions? signInOptions;
+
+  UpdateApplicationPortalOptions({
+    this.signInOptions,
+  });
+
+  Map<String, dynamic> toJson() {
+    final signInOptions = this.signInOptions;
+    return {
+      if (signInOptions != null) 'SignInOptions': signInOptions,
     };
   }
 }
@@ -7424,30 +7033,6 @@ class SignInOrigin {
   String toString() => value;
 }
 
-class StatusValues {
-  static const inProgress = StatusValues._('IN_PROGRESS');
-  static const failed = StatusValues._('FAILED');
-  static const succeeded = StatusValues._('SUCCEEDED');
-
-  final String value;
-
-  const StatusValues._(this.value);
-
-  static const values = [inProgress, failed, succeeded];
-
-  static StatusValues fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StatusValues._(value));
-
-  @override
-  bool operator ==(other) => other is StatusValues && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// A set of key-value pairs that are used to manage the resource. Tags can only
 /// be applied to permission sets and cannot be applied to corresponding roles
 /// that IAM Identity Center creates in Amazon Web Services accounts.
@@ -7480,32 +7065,22 @@ class Tag {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TargetType {
-  static const awsAccount = TargetType._('AWS_ACCOUNT');
+class RegionStatus {
+  static const active = RegionStatus._('ACTIVE');
+  static const adding = RegionStatus._('ADDING');
+  static const removing = RegionStatus._('REMOVING');
 
   final String value;
 
-  const TargetType._(this.value);
+  const RegionStatus._(this.value);
 
-  static const values = [awsAccount];
+  static const values = [active, adding, removing];
 
-  static TargetType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
+  static RegionStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => RegionStatus._(value));
 
   @override
-  bool operator ==(other) => other is TargetType && other.value == value;
+  bool operator ==(other) => other is RegionStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7514,48 +7089,235 @@ class TargetType {
   String toString() => value;
 }
 
-/// A structure that defines configuration settings for an application that
-/// supports the OAuth 2.0 Token Exchange Grant.
-class TokenExchangeGrant {
-  TokenExchangeGrant();
+/// Specifies the configuration of the Amazon Web Services managed or customer
+/// managed policy that you want to set as a permissions boundary. Specify
+/// either <code>CustomerManagedPolicyReference</code> to use the name and path
+/// of a customer managed policy, or <code>ManagedPolicyArn</code> to use the
+/// ARN of an Amazon Web Services managed policy. A permissions boundary
+/// represents the maximum permissions that any policy can grant your role. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
+/// boundaries for IAM entities</a> in the <i>IAM User Guide</i>.
+/// <important>
+/// Policies used as permissions boundaries don't provide permissions. You must
+/// also attach an IAM policy to the role. To learn how the effective
+/// permissions for a role are evaluated, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">IAM
+/// JSON policy evaluation logic</a> in the <i>IAM User Guide</i>.
+/// </important>
+class PermissionsBoundary {
+  /// Specifies the name and path of a customer managed policy. You must have an
+  /// IAM policy that matches the name and path in each Amazon Web Services
+  /// account where you want to deploy your permission set.
+  final CustomerManagedPolicyReference? customerManagedPolicyReference;
 
-  factory TokenExchangeGrant.fromJson(Map<String, dynamic> _) {
-    return TokenExchangeGrant();
-  }
+  /// The Amazon Web Services managed policy ARN that you want to attach to a
+  /// permission set as a permissions boundary.
+  final String? managedPolicyArn;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A structure that describes the configuration of a trusted token issuer. The
-/// structure and available settings are determined by the type of the trusted
-/// token issuer.
-class TrustedTokenIssuerConfiguration {
-  /// A structure that describes the settings for a trusted token issuer that
-  /// works with OpenID Connect (OIDC) by using JSON Web Tokens (JWT).
-  final OidcJwtConfiguration? oidcJwtConfiguration;
-
-  TrustedTokenIssuerConfiguration({
-    this.oidcJwtConfiguration,
+  PermissionsBoundary({
+    this.customerManagedPolicyReference,
+    this.managedPolicyArn,
   });
 
-  factory TrustedTokenIssuerConfiguration.fromJson(Map<String, dynamic> json) {
-    return TrustedTokenIssuerConfiguration(
-      oidcJwtConfiguration: json['OidcJwtConfiguration'] != null
-          ? OidcJwtConfiguration.fromJson(
-              json['OidcJwtConfiguration'] as Map<String, dynamic>)
+  factory PermissionsBoundary.fromJson(Map<String, dynamic> json) {
+    return PermissionsBoundary(
+      customerManagedPolicyReference: json['CustomerManagedPolicyReference'] !=
+              null
+          ? CustomerManagedPolicyReference.fromJson(
+              json['CustomerManagedPolicyReference'] as Map<String, dynamic>)
           : null,
+      managedPolicyArn: json['ManagedPolicyArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final oidcJwtConfiguration = this.oidcJwtConfiguration;
+    final customerManagedPolicyReference = this.customerManagedPolicyReference;
+    final managedPolicyArn = this.managedPolicyArn;
     return {
-      if (oidcJwtConfiguration != null)
-        'OidcJwtConfiguration': oidcJwtConfiguration,
+      if (customerManagedPolicyReference != null)
+        'CustomerManagedPolicyReference': customerManagedPolicyReference,
+      if (managedPolicyArn != null) 'ManagedPolicyArn': managedPolicyArn,
     };
   }
+}
+
+/// Specifies the name and path of a customer managed policy. You must have an
+/// IAM policy that matches the name and path in each Amazon Web Services
+/// account where you want to deploy your permission set.
+class CustomerManagedPolicyReference {
+  /// The name of the IAM policy that you have configured in each account where
+  /// you want to deploy your permission set.
+  final String name;
+
+  /// The path to the IAM policy that you have configured in each account where
+  /// you want to deploy your permission set. The default is <code>/</code>. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names">Friendly
+  /// names and paths</a> in the <i>IAM User Guide</i>.
+  final String? path;
+
+  CustomerManagedPolicyReference({
+    required this.name,
+    this.path,
+  });
+
+  factory CustomerManagedPolicyReference.fromJson(Map<String, dynamic> json) {
+    return CustomerManagedPolicyReference(
+      name: (json['Name'] as String?) ?? '',
+      path: json['Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final path = this.path;
+    return {
+      'Name': name,
+      if (path != null) 'Path': path,
+    };
+  }
+}
+
+class UserBackgroundSessionApplicationStatus {
+  static const enabled = UserBackgroundSessionApplicationStatus._('ENABLED');
+  static const disabled = UserBackgroundSessionApplicationStatus._('DISABLED');
+
+  final String value;
+
+  const UserBackgroundSessionApplicationStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static UserBackgroundSessionApplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UserBackgroundSessionApplicationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UserBackgroundSessionApplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that is used to provide the status of the provisioning operation
+/// for a specified permission set.
+class PermissionSetProvisioningStatus {
+  /// The identifier of the Amazon Web Services account from which to list the
+  /// assignments.
+  final String? accountId;
+
+  /// The date that the permission set was created.
+  final DateTime? createdDate;
+
+  /// The message that contains an error or exception in case of an operation
+  /// failure.
+  final String? failureReason;
+
+  /// The ARN of the permission set that is being provisioned. For more
+  /// information about ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
+  final String? permissionSetArn;
+
+  /// The identifier for tracking the request operation that is generated by the
+  /// universally unique identifier (UUID) workflow.
+  final String? requestId;
+
+  /// The status of the permission set provisioning process.
+  final StatusValues? status;
+
+  PermissionSetProvisioningStatus({
+    this.accountId,
+    this.createdDate,
+    this.failureReason,
+    this.permissionSetArn,
+    this.requestId,
+    this.status,
+  });
+
+  factory PermissionSetProvisioningStatus.fromJson(Map<String, dynamic> json) {
+    return PermissionSetProvisioningStatus(
+      accountId: json['AccountId'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      failureReason: json['FailureReason'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      requestId: json['RequestId'] as String?,
+      status: (json['Status'] as String?)?.let(StatusValues.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final createdDate = this.createdDate;
+    final failureReason = this.failureReason;
+    final permissionSetArn = this.permissionSetArn;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
+      if (requestId != null) 'RequestId': requestId,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class StatusValues {
+  static const inProgress = StatusValues._('IN_PROGRESS');
+  static const failed = StatusValues._('FAILED');
+  static const succeeded = StatusValues._('SUCCEEDED');
+
+  final String value;
+
+  const StatusValues._(this.value);
+
+  static const values = [inProgress, failed, succeeded];
+
+  static StatusValues fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusValues._(value));
+
+  @override
+  bool operator ==(other) => other is StatusValues && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ProvisionTargetType {
+  static const awsAccount = ProvisionTargetType._('AWS_ACCOUNT');
+  static const allProvisionedAccounts =
+      ProvisionTargetType._('ALL_PROVISIONED_ACCOUNTS');
+
+  final String value;
+
+  const ProvisionTargetType._(this.value);
+
+  static const values = [awsAccount, allProvisionedAccounts];
+
+  static ProvisionTargetType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisionTargetType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisionTargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A structure that describes a trusted token issuer.
@@ -7624,17 +7386,945 @@ class TrustedTokenIssuerType {
   String toString() => value;
 }
 
-/// A structure that contains details to be updated for a trusted token issuer
-/// configuration. The structure and settings that you can include depend on the
-/// type of the trusted token issuer being updated.
-class TrustedTokenIssuerUpdateConfiguration {
-  /// A structure that describes an updated configuration for a trusted token
-  /// issuer that uses OpenID Connect (OIDC) with JSON web tokens (JWT).
-  final OidcJwtUpdateConfiguration? oidcJwtConfiguration;
+/// Contains information about an enabled Region of an IAM Identity Center
+/// instance, including the Region name, status, date added, and whether it is
+/// the primary Region.
+class RegionMetadata {
+  /// The timestamp when the Region was added to the IAM Identity Center instance.
+  /// For the primary Region, this is the instance creation time.
+  final DateTime? addedDate;
 
-  TrustedTokenIssuerUpdateConfiguration({
+  /// Indicates whether this is the primary Region where the IAM Identity Center
+  /// instance was originally enabled. The primary Region cannot be removed.
+  final bool? isPrimaryRegion;
+
+  /// The Amazon Web Services Region name.
+  final String? regionName;
+
+  /// The current status of the Region. Valid values are ACTIVE (Region is
+  /// operational), ADDING (Region extension workflow is in progress), or REMOVING
+  /// (Region removal workflow is in progress).
+  final RegionStatus? status;
+
+  RegionMetadata({
+    this.addedDate,
+    this.isPrimaryRegion,
+    this.regionName,
+    this.status,
+  });
+
+  factory RegionMetadata.fromJson(Map<String, dynamic> json) {
+    return RegionMetadata(
+      addedDate: timeStampFromJson(json['AddedDate']),
+      isPrimaryRegion: json['IsPrimaryRegion'] as bool?,
+      regionName: json['RegionName'] as String?,
+      status: (json['Status'] as String?)?.let(RegionStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addedDate = this.addedDate;
+    final isPrimaryRegion = this.isPrimaryRegion;
+    final regionName = this.regionName;
+    final status = this.status;
+    return {
+      if (addedDate != null) 'AddedDate': unixTimestampToJson(addedDate),
+      if (isPrimaryRegion != null) 'IsPrimaryRegion': isPrimaryRegion,
+      if (regionName != null) 'RegionName': regionName,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class ProvisioningStatus {
+  static const latestPermissionSetProvisioned =
+      ProvisioningStatus._('LATEST_PERMISSION_SET_PROVISIONED');
+  static const latestPermissionSetNotProvisioned =
+      ProvisioningStatus._('LATEST_PERMISSION_SET_NOT_PROVISIONED');
+
+  final String value;
+
+  const ProvisioningStatus._(this.value);
+
+  static const values = [
+    latestPermissionSetProvisioned,
+    latestPermissionSetNotProvisioned
+  ];
+
+  static ProvisioningStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProvisioningStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ProvisioningStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides information about the permission set provisioning status.
+class PermissionSetProvisioningStatusMetadata {
+  /// The date that the permission set was created.
+  final DateTime? createdDate;
+
+  /// The identifier for tracking the request operation that is generated by the
+  /// universally unique identifier (UUID) workflow.
+  final String? requestId;
+
+  /// The status of the permission set provisioning process.
+  final StatusValues? status;
+
+  PermissionSetProvisioningStatusMetadata({
+    this.createdDate,
+    this.requestId,
+    this.status,
+  });
+
+  factory PermissionSetProvisioningStatusMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return PermissionSetProvisioningStatusMetadata(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      requestId: json['RequestId'] as String?,
+      status: (json['Status'] as String?)?.let(StatusValues.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (requestId != null) 'RequestId': requestId,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Filters the operation status list based on the passed attribute value.
+class OperationStatusFilter {
+  /// Filters the list operations result based on the status attribute.
+  final StatusValues? status;
+
+  OperationStatusFilter({
+    this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// A structure that stores a list of managed policy ARNs that describe the
+/// associated Amazon Web Services managed policy.
+class AttachedManagedPolicy {
+  /// The ARN of the Amazon Web Services managed policy. For more information
+  /// about ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
+  final String? arn;
+
+  /// The name of the Amazon Web Services managed policy.
+  final String? name;
+
+  AttachedManagedPolicy({
+    this.arn,
+    this.name,
+  });
+
+  factory AttachedManagedPolicy.fromJson(Map<String, dynamic> json) {
+    return AttachedManagedPolicy(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Provides information about the IAM Identity Center instance.
+class InstanceMetadata {
+  /// The date and time that the Identity Center instance was created.
+  final DateTime? createdDate;
+
+  /// The identifier of the identity store that is connected to the Identity
+  /// Center instance.
+  final String? identityStoreId;
+
+  /// The ARN of the Identity Center instance under which the operation will be
+  /// executed. For more information about ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
+  final String? instanceArn;
+
+  /// The name of the Identity Center instance.
+  final String? name;
+
+  /// The Amazon Web Services account ID number of the owner of the Identity
+  /// Center instance.
+  final String? ownerAccountId;
+
+  /// The current status of this Identity Center instance.
+  final InstanceStatus? status;
+
+  /// Provides additional context about the current status of the IAM Identity
+  /// Center instance. This field is particularly useful when an instance is in a
+  /// non-ACTIVE state, such as CREATE_FAILED. When an instance creation fails,
+  /// this field contains information about the cause, which may include issues
+  /// with KMS key configuration or insufficient permissions.
+  final String? statusReason;
+
+  InstanceMetadata({
+    this.createdDate,
+    this.identityStoreId,
+    this.instanceArn,
+    this.name,
+    this.ownerAccountId,
+    this.status,
+    this.statusReason,
+  });
+
+  factory InstanceMetadata.fromJson(Map<String, dynamic> json) {
+    return InstanceMetadata(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      identityStoreId: json['IdentityStoreId'] as String?,
+      instanceArn: json['InstanceArn'] as String?,
+      name: json['Name'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      status: (json['Status'] as String?)?.let(InstanceStatus.fromString),
+      statusReason: json['StatusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final identityStoreId = this.identityStoreId;
+    final instanceArn = this.instanceArn;
+    final name = this.name;
+    final ownerAccountId = this.ownerAccountId;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (identityStoreId != null) 'IdentityStoreId': identityStoreId,
+      if (instanceArn != null) 'InstanceArn': instanceArn,
+      if (name != null) 'Name': name,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason,
+    };
+  }
+}
+
+class InstanceStatus {
+  static const createInProgress = InstanceStatus._('CREATE_IN_PROGRESS');
+  static const createFailed = InstanceStatus._('CREATE_FAILED');
+  static const deleteInProgress = InstanceStatus._('DELETE_IN_PROGRESS');
+  static const active = InstanceStatus._('ACTIVE');
+
+  final String value;
+
+  const InstanceStatus._(this.value);
+
+  static const values = [
+    createInProgress,
+    createFailed,
+    deleteInProgress,
+    active
+  ];
+
+  static InstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is InstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that describes an application that uses IAM Identity Center for
+/// access management.
+class Application {
+  /// The Amazon Web Services account ID number of the application.
+  final String? applicationAccount;
+
+  /// The ARN of the application.
+  final String? applicationArn;
+
+  /// The ARN of the application provider for this application.
+  final String? applicationProviderArn;
+
+  /// The date and time when the application was originally created.
+  final DateTime? createdDate;
+
+  /// The Amazon Web Services Region where the application was created in IAM
+  /// Identity Center.
+  final String? createdFrom;
+
+  /// The description of the application.
+  final String? description;
+
+  /// The ARN of the identity store that is connected to the instance of IAM
+  /// Identity Center.
+  final String? identityStoreArn;
+
+  /// The ARN of the instance of IAM Identity Center that is configured with this
+  /// application.
+  final String? instanceArn;
+
+  /// The name of the application.
+  final String? name;
+
+  /// A structure that describes the options for the access portal associated with
+  /// this application.
+  final PortalOptions? portalOptions;
+
+  /// The current status of the application in this instance of IAM Identity
+  /// Center.
+  final ApplicationStatus? status;
+
+  Application({
+    this.applicationAccount,
+    this.applicationArn,
+    this.applicationProviderArn,
+    this.createdDate,
+    this.createdFrom,
+    this.description,
+    this.identityStoreArn,
+    this.instanceArn,
+    this.name,
+    this.portalOptions,
+    this.status,
+  });
+
+  factory Application.fromJson(Map<String, dynamic> json) {
+    return Application(
+      applicationAccount: json['ApplicationAccount'] as String?,
+      applicationArn: json['ApplicationArn'] as String?,
+      applicationProviderArn: json['ApplicationProviderArn'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      createdFrom: json['CreatedFrom'] as String?,
+      description: json['Description'] as String?,
+      identityStoreArn: json['IdentityStoreArn'] as String?,
+      instanceArn: json['InstanceArn'] as String?,
+      name: json['Name'] as String?,
+      portalOptions: json['PortalOptions'] != null
+          ? PortalOptions.fromJson(
+              json['PortalOptions'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.let(ApplicationStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationAccount = this.applicationAccount;
+    final applicationArn = this.applicationArn;
+    final applicationProviderArn = this.applicationProviderArn;
+    final createdDate = this.createdDate;
+    final createdFrom = this.createdFrom;
+    final description = this.description;
+    final identityStoreArn = this.identityStoreArn;
+    final instanceArn = this.instanceArn;
+    final name = this.name;
+    final portalOptions = this.portalOptions;
+    final status = this.status;
+    return {
+      if (applicationAccount != null) 'ApplicationAccount': applicationAccount,
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (applicationProviderArn != null)
+        'ApplicationProviderArn': applicationProviderArn,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (createdFrom != null) 'CreatedFrom': createdFrom,
+      if (description != null) 'Description': description,
+      if (identityStoreArn != null) 'IdentityStoreArn': identityStoreArn,
+      if (instanceArn != null) 'InstanceArn': instanceArn,
+      if (name != null) 'Name': name,
+      if (portalOptions != null) 'PortalOptions': portalOptions,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// A structure that describes the options for the access portal associated with
+/// an application.
+class PortalOptions {
+  /// A structure that describes the sign-in options for the access portal.
+  final SignInOptions? signInOptions;
+
+  /// Indicates whether this application is visible in the access portal.
+  final ApplicationVisibility? visibility;
+
+  PortalOptions({
+    this.signInOptions,
+    this.visibility,
+  });
+
+  factory PortalOptions.fromJson(Map<String, dynamic> json) {
+    return PortalOptions(
+      signInOptions: json['SignInOptions'] != null
+          ? SignInOptions.fromJson(
+              json['SignInOptions'] as Map<String, dynamic>)
+          : null,
+      visibility: (json['Visibility'] as String?)
+          ?.let(ApplicationVisibility.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signInOptions = this.signInOptions;
+    final visibility = this.visibility;
+    return {
+      if (signInOptions != null) 'SignInOptions': signInOptions,
+      if (visibility != null) 'Visibility': visibility.value,
+    };
+  }
+}
+
+class ApplicationVisibility {
+  static const enabled = ApplicationVisibility._('ENABLED');
+  static const disabled = ApplicationVisibility._('DISABLED');
+
+  final String value;
+
+  const ApplicationVisibility._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static ApplicationVisibility fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationVisibility._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationVisibility && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that describes a filter for applications.
+class ListApplicationsFilter {
+  /// An Amazon Web Services account ID number that filters the results in the
+  /// response.
+  final String? applicationAccount;
+
+  /// The ARN of an application provider that can filter the results in the
+  /// response.
+  final String? applicationProvider;
+
+  ListApplicationsFilter({
+    this.applicationAccount,
+    this.applicationProvider,
+  });
+
+  Map<String, dynamic> toJson() {
+    final applicationAccount = this.applicationAccount;
+    final applicationProvider = this.applicationProvider;
+    return {
+      if (applicationAccount != null) 'ApplicationAccount': applicationAccount,
+      if (applicationProvider != null)
+        'ApplicationProvider': applicationProvider,
+    };
+  }
+}
+
+/// A structure that describes a provider that can be used to connect an Amazon
+/// Web Services managed application or customer managed application to IAM
+/// Identity Center.
+class ApplicationProvider {
+  /// The ARN of the application provider.
+  final String applicationProviderArn;
+
+  /// A structure that describes how IAM Identity Center represents the
+  /// application provider in the portal.
+  final DisplayData? displayData;
+
+  /// The protocol that the application provider uses to perform federation.
+  final FederationProtocol? federationProtocol;
+
+  /// A structure that describes the application provider's resource server.
+  final ResourceServerConfig? resourceServerConfig;
+
+  ApplicationProvider({
+    required this.applicationProviderArn,
+    this.displayData,
+    this.federationProtocol,
+    this.resourceServerConfig,
+  });
+
+  factory ApplicationProvider.fromJson(Map<String, dynamic> json) {
+    return ApplicationProvider(
+      applicationProviderArn: (json['ApplicationProviderArn'] as String?) ?? '',
+      displayData: json['DisplayData'] != null
+          ? DisplayData.fromJson(json['DisplayData'] as Map<String, dynamic>)
+          : null,
+      federationProtocol: (json['FederationProtocol'] as String?)
+          ?.let(FederationProtocol.fromString),
+      resourceServerConfig: json['ResourceServerConfig'] != null
+          ? ResourceServerConfig.fromJson(
+              json['ResourceServerConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationProviderArn = this.applicationProviderArn;
+    final displayData = this.displayData;
+    final federationProtocol = this.federationProtocol;
+    final resourceServerConfig = this.resourceServerConfig;
+    return {
+      'ApplicationProviderArn': applicationProviderArn,
+      if (displayData != null) 'DisplayData': displayData,
+      if (federationProtocol != null)
+        'FederationProtocol': federationProtocol.value,
+      if (resourceServerConfig != null)
+        'ResourceServerConfig': resourceServerConfig,
+    };
+  }
+}
+
+class FederationProtocol {
+  static const saml = FederationProtocol._('SAML');
+  static const oauth = FederationProtocol._('OAUTH');
+
+  final String value;
+
+  const FederationProtocol._(this.value);
+
+  static const values = [saml, oauth];
+
+  static FederationProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FederationProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is FederationProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that describes how the portal represents an application
+/// provider.
+class DisplayData {
+  /// The description of the application provider that appears in the portal.
+  final String? description;
+
+  /// The name of the application provider that appears in the portal.
+  final String? displayName;
+
+  /// A URL that points to an icon that represents the application provider.
+  final String? iconUrl;
+
+  DisplayData({
+    this.description,
+    this.displayName,
+    this.iconUrl,
+  });
+
+  factory DisplayData.fromJson(Map<String, dynamic> json) {
+    return DisplayData(
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      iconUrl: json['IconUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final displayName = this.displayName;
+    final iconUrl = this.iconUrl;
+    return {
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (iconUrl != null) 'IconUrl': iconUrl,
+    };
+  }
+}
+
+/// A structure that describes the configuration of a resource server.
+class ResourceServerConfig {
+  /// A list of the IAM Identity Center access scopes that are associated with
+  /// this resource server.
+  final Map<String, ResourceServerScopeDetails>? scopes;
+
+  ResourceServerConfig({
+    this.scopes,
+  });
+
+  factory ResourceServerConfig.fromJson(Map<String, dynamic> json) {
+    return ResourceServerConfig(
+      scopes: (json['Scopes'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
+          k, ResourceServerScopeDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scopes = this.scopes;
+    return {
+      if (scopes != null) 'Scopes': scopes,
+    };
+  }
+}
+
+/// A structure that describes details for an IAM Identity Center access scope
+/// that is associated with a resource server.
+class ResourceServerScopeDetails {
+  /// The title of an access scope for a resource server.
+  final String? detailedTitle;
+
+  /// The description of an access scope for a resource server.
+  final String? longDescription;
+
+  ResourceServerScopeDetails({
+    this.detailedTitle,
+    this.longDescription,
+  });
+
+  factory ResourceServerScopeDetails.fromJson(Map<String, dynamic> json) {
+    return ResourceServerScopeDetails(
+      detailedTitle: json['DetailedTitle'] as String?,
+      longDescription: json['LongDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detailedTitle = this.detailedTitle;
+    final longDescription = this.longDescription;
+    return {
+      if (detailedTitle != null) 'DetailedTitle': detailedTitle,
+      if (longDescription != null) 'LongDescription': longDescription,
+    };
+  }
+}
+
+/// A structure that describes an application to which a principal is assigned.
+class ApplicationAssignmentForPrincipal {
+  /// The ARN of the application to which the specified principal is assigned.
+  final String? applicationArn;
+
+  /// The unique identifier of the principal assigned to the application.
+  final String? principalId;
+
+  /// The type of the principal assigned to the application.
+  final PrincipalType? principalType;
+
+  ApplicationAssignmentForPrincipal({
+    this.applicationArn,
+    this.principalId,
+    this.principalType,
+  });
+
+  factory ApplicationAssignmentForPrincipal.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationAssignmentForPrincipal(
+      applicationArn: json['ApplicationArn'] as String?,
+      principalId: json['PrincipalId'] as String?,
+      principalType:
+          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final principalId = this.principalId;
+    final principalType = this.principalType;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (principalId != null) 'PrincipalId': principalId,
+      if (principalType != null) 'PrincipalType': principalType.value,
+    };
+  }
+}
+
+class PrincipalType {
+  static const user = PrincipalType._('USER');
+  static const group = PrincipalType._('GROUP');
+
+  final String value;
+
+  const PrincipalType._(this.value);
+
+  static const values = [user, group];
+
+  static PrincipalType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PrincipalType._(value));
+
+  @override
+  bool operator ==(other) => other is PrincipalType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that describes a filter for application assignments.
+class ListApplicationAssignmentsFilter {
+  /// The ARN of an application.
+  final String? applicationArn;
+
+  ListApplicationAssignmentsFilter({
+    this.applicationArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+    };
+  }
+}
+
+/// A structure that describes an assignment of a principal to an application.
+class ApplicationAssignment {
+  /// The ARN of the application that has principals assigned.
+  final String applicationArn;
+
+  /// The unique identifier of the principal assigned to the application.
+  final String principalId;
+
+  /// The type of the principal assigned to the application.
+  final PrincipalType principalType;
+
+  ApplicationAssignment({
+    required this.applicationArn,
+    required this.principalId,
+    required this.principalType,
+  });
+
+  factory ApplicationAssignment.fromJson(Map<String, dynamic> json) {
+    return ApplicationAssignment(
+      applicationArn: (json['ApplicationArn'] as String?) ?? '',
+      principalId: (json['PrincipalId'] as String?) ?? '',
+      principalType:
+          PrincipalType.fromString((json['PrincipalType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final principalId = this.principalId;
+    final principalType = this.principalType;
+    return {
+      'ApplicationArn': applicationArn,
+      'PrincipalId': principalId,
+      'PrincipalType': principalType.value,
+    };
+  }
+}
+
+/// A structure that describes an assignment of an Amazon Web Services account
+/// to a principal and the permissions that principal has in the account.
+class AccountAssignmentForPrincipal {
+  /// The account ID number of the Amazon Web Services account.
+  final String? accountId;
+
+  /// The ARN of the IAM Identity Center permission set assigned to this principal
+  /// for this Amazon Web Services account.
+  final String? permissionSetArn;
+
+  /// The ID of the principal.
+  final String? principalId;
+
+  /// The type of the principal.
+  final PrincipalType? principalType;
+
+  AccountAssignmentForPrincipal({
+    this.accountId,
+    this.permissionSetArn,
+    this.principalId,
+    this.principalType,
+  });
+
+  factory AccountAssignmentForPrincipal.fromJson(Map<String, dynamic> json) {
+    return AccountAssignmentForPrincipal(
+      accountId: json['AccountId'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      principalId: json['PrincipalId'] as String?,
+      principalType:
+          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final permissionSetArn = this.permissionSetArn;
+    final principalId = this.principalId;
+    final principalType = this.principalType;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
+      if (principalId != null) 'PrincipalId': principalId,
+      if (principalType != null) 'PrincipalType': principalType.value,
+    };
+  }
+}
+
+/// A structure that describes a filter for account assignments.
+class ListAccountAssignmentsFilter {
+  /// The ID number of an Amazon Web Services account that filters the results in
+  /// the response.
+  final String? accountId;
+
+  ListAccountAssignmentsFilter({
+    this.accountId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+    };
+  }
+}
+
+/// The assignment that indicates a principal's limited access to a specified
+/// Amazon Web Services account with a specified permission set.
+/// <note>
+/// The term <i>principal</i> here refers to a user or group that is defined in
+/// IAM Identity Center.
+/// </note>
+class AccountAssignment {
+  /// The identifier of the Amazon Web Services account.
+  final String? accountId;
+
+  /// The ARN of the permission set. For more information about ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
+  final String? permissionSetArn;
+
+  /// An identifier for an object in IAM Identity Center, such as a user or group.
+  /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
+  /// For more information about PrincipalIds in IAM Identity Center, see the <a
+  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
+  /// Identity Center Identity Store API Reference</a>.
+  final String? principalId;
+
+  /// The entity type for which the assignment will be created.
+  final PrincipalType? principalType;
+
+  AccountAssignment({
+    this.accountId,
+    this.permissionSetArn,
+    this.principalId,
+    this.principalType,
+  });
+
+  factory AccountAssignment.fromJson(Map<String, dynamic> json) {
+    return AccountAssignment(
+      accountId: json['AccountId'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      principalId: json['PrincipalId'] as String?,
+      principalType:
+          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final permissionSetArn = this.permissionSetArn;
+    final principalId = this.principalId;
+    final principalType = this.principalType;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
+      if (principalId != null) 'PrincipalId': principalId,
+      if (principalType != null) 'PrincipalType': principalType.value,
+    };
+  }
+}
+
+/// Provides information about the <a>AccountAssignment</a> creation request.
+class AccountAssignmentOperationStatusMetadata {
+  /// The date that the permission set was created.
+  final DateTime? createdDate;
+
+  /// The identifier for tracking the request operation that is generated by the
+  /// universally unique identifier (UUID) workflow.
+  final String? requestId;
+
+  /// The status of the permission set provisioning process.
+  final StatusValues? status;
+
+  AccountAssignmentOperationStatusMetadata({
+    this.createdDate,
+    this.requestId,
+    this.status,
+  });
+
+  factory AccountAssignmentOperationStatusMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return AccountAssignmentOperationStatusMetadata(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      requestId: json['RequestId'] as String?,
+      status: (json['Status'] as String?)?.let(StatusValues.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final requestId = this.requestId;
+    final status = this.status;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (requestId != null) 'RequestId': requestId,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// A structure that describes the configuration of a trusted token issuer. The
+/// structure and available settings are determined by the type of the trusted
+/// token issuer.
+class TrustedTokenIssuerConfiguration {
+  /// A structure that describes the settings for a trusted token issuer that
+  /// works with OpenID Connect (OIDC) by using JSON Web Tokens (JWT).
+  final OidcJwtConfiguration? oidcJwtConfiguration;
+
+  TrustedTokenIssuerConfiguration({
     this.oidcJwtConfiguration,
   });
+
+  factory TrustedTokenIssuerConfiguration.fromJson(Map<String, dynamic> json) {
+    return TrustedTokenIssuerConfiguration(
+      oidcJwtConfiguration: json['OidcJwtConfiguration'] != null
+          ? OidcJwtConfiguration.fromJson(
+              json['OidcJwtConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     final oidcJwtConfiguration = this.oidcJwtConfiguration;
@@ -7645,94 +8335,345 @@ class TrustedTokenIssuerUpdateConfiguration {
   }
 }
 
-class UntagResourceResponse {
-  UntagResourceResponse();
+/// A structure that describes configuration settings for a trusted token issuer
+/// that supports OpenID Connect (OIDC) and JSON Web Tokens (JWTs).
+class OidcJwtConfiguration {
+  /// The path of the source attribute in the JWT from the trusted token issuer.
+  /// The attribute mapped by this JMESPath expression is compared against the
+  /// attribute mapped by <code>IdentityStoreAttributePath</code> when a trusted
+  /// token issuer token is exchanged for an IAM Identity Center token.
+  final String claimAttributePath;
 
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
+  /// The path of the destination attribute in a JWT from IAM Identity Center. The
+  /// attribute mapped by this JMESPath expression is compared against the
+  /// attribute mapped by <code>ClaimAttributePath</code> when a trusted token
+  /// issuer token is exchanged for an IAM Identity Center token.
+  final String identityStoreAttributePath;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The URL that IAM Identity Center uses for OpenID Discovery. OpenID Discovery
+  /// is used to obtain the information required to verify the tokens that the
+  /// trusted token issuer generates.
+  final String issuerUrl;
 
-/// A structure that describes the options for the access portal associated with
-/// an application that can be updated.
-class UpdateApplicationPortalOptions {
-  final SignInOptions? signInOptions;
+  /// The method that the trusted token issuer can use to retrieve the JSON Web
+  /// Key Set used to verify a JWT.
+  final JwksRetrievalOption jwksRetrievalOption;
 
-  UpdateApplicationPortalOptions({
-    this.signInOptions,
+  OidcJwtConfiguration({
+    required this.claimAttributePath,
+    required this.identityStoreAttributePath,
+    required this.issuerUrl,
+    required this.jwksRetrievalOption,
   });
 
+  factory OidcJwtConfiguration.fromJson(Map<String, dynamic> json) {
+    return OidcJwtConfiguration(
+      claimAttributePath: (json['ClaimAttributePath'] as String?) ?? '',
+      identityStoreAttributePath:
+          (json['IdentityStoreAttributePath'] as String?) ?? '',
+      issuerUrl: (json['IssuerUrl'] as String?) ?? '',
+      jwksRetrievalOption: JwksRetrievalOption.fromString(
+          (json['JwksRetrievalOption'] as String?) ?? ''),
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final signInOptions = this.signInOptions;
+    final claimAttributePath = this.claimAttributePath;
+    final identityStoreAttributePath = this.identityStoreAttributePath;
+    final issuerUrl = this.issuerUrl;
+    final jwksRetrievalOption = this.jwksRetrievalOption;
     return {
-      if (signInOptions != null) 'SignInOptions': signInOptions,
+      'ClaimAttributePath': claimAttributePath,
+      'IdentityStoreAttributePath': identityStoreAttributePath,
+      'IssuerUrl': issuerUrl,
+      'JwksRetrievalOption': jwksRetrievalOption.value,
     };
   }
 }
 
-class UpdateApplicationResponse {
-  UpdateApplicationResponse();
+/// An entity that contains IAM policies.
+class PermissionSet {
+  /// The date that the permission set was created.
+  final DateTime? createdDate;
 
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateApplicationResponse();
+  /// The description of the <a>PermissionSet</a>.
+  final String? description;
+
+  /// The name of the permission set.
+  final String? name;
+
+  /// The ARN of the permission set. For more information about ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
+  final String? permissionSetArn;
+
+  /// Used to redirect users within the application during the federation
+  /// authentication process.
+  final String? relayState;
+
+  /// The length of time that the application user sessions are valid for in the
+  /// ISO-8601 standard.
+  final String? sessionDuration;
+
+  PermissionSet({
+    this.createdDate,
+    this.description,
+    this.name,
+    this.permissionSetArn,
+    this.relayState,
+    this.sessionDuration,
+  });
+
+  factory PermissionSet.fromJson(Map<String, dynamic> json) {
+    return PermissionSet(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      relayState: json['RelayState'] as String?,
+      sessionDuration: json['SessionDuration'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final name = this.name;
+    final permissionSetArn = this.permissionSetArn;
+    final relayState = this.relayState;
+    final sessionDuration = this.sessionDuration;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
+      if (relayState != null) 'RelayState': relayState,
+      if (sessionDuration != null) 'SessionDuration': sessionDuration,
+    };
   }
 }
 
-class UpdateInstanceAccessControlAttributeConfigurationResponse {
-  UpdateInstanceAccessControlAttributeConfigurationResponse();
+class InstanceAccessControlAttributeConfigurationStatus {
+  static const enabled =
+      InstanceAccessControlAttributeConfigurationStatus._('ENABLED');
+  static const creationInProgress =
+      InstanceAccessControlAttributeConfigurationStatus._(
+          'CREATION_IN_PROGRESS');
+  static const creationFailed =
+      InstanceAccessControlAttributeConfigurationStatus._('CREATION_FAILED');
 
-  factory UpdateInstanceAccessControlAttributeConfigurationResponse.fromJson(
-      Map<String, dynamic> _) {
-    return UpdateInstanceAccessControlAttributeConfigurationResponse();
+  final String value;
+
+  const InstanceAccessControlAttributeConfigurationStatus._(this.value);
+
+  static const values = [enabled, creationInProgress, creationFailed];
+
+  static InstanceAccessControlAttributeConfigurationStatus fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              InstanceAccessControlAttributeConfigurationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceAccessControlAttributeConfigurationStatus &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The encryption configuration of your IAM Identity Center instance, including
+/// the key type, KMS key ARN, and current encryption status.
+class EncryptionConfigurationDetails {
+  /// The current status of encryption configuration.
+  final KmsKeyStatus? encryptionStatus;
+
+  /// Provides additional context about the current encryption status. This field
+  /// is particularly useful when the encryption status is UPDATE_FAILED. When
+  /// encryption configuration update fails, this field contains information about
+  /// the cause, which may include KMS key access issues, key not found errors,
+  /// invalid key configuration, key in an invalid state, or a disabled key.
+  final String? encryptionStatusReason;
+
+  /// The type of KMS key used for encryption.
+  final KmsKeyType? keyType;
+
+  /// The ARN of the KMS key currently used to encrypt data in your IAM Identity
+  /// Center instance.
+  final String? kmsKeyArn;
+
+  EncryptionConfigurationDetails({
+    this.encryptionStatus,
+    this.encryptionStatusReason,
+    this.keyType,
+    this.kmsKeyArn,
+  });
+
+  factory EncryptionConfigurationDetails.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfigurationDetails(
+      encryptionStatus:
+          (json['EncryptionStatus'] as String?)?.let(KmsKeyStatus.fromString),
+      encryptionStatusReason: json['EncryptionStatusReason'] as String?,
+      keyType: (json['KeyType'] as String?)?.let(KmsKeyType.fromString),
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final encryptionStatus = this.encryptionStatus;
+    final encryptionStatusReason = this.encryptionStatusReason;
+    final keyType = this.keyType;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      if (encryptionStatus != null) 'EncryptionStatus': encryptionStatus.value,
+      if (encryptionStatusReason != null)
+        'EncryptionStatusReason': encryptionStatusReason,
+      if (keyType != null) 'KeyType': keyType.value,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+    };
   }
 }
 
-class UpdateInstanceResponse {
-  UpdateInstanceResponse();
+class KmsKeyStatus {
+  static const updating = KmsKeyStatus._('UPDATING');
+  static const enabled = KmsKeyStatus._('ENABLED');
+  static const updateFailed = KmsKeyStatus._('UPDATE_FAILED');
 
-  factory UpdateInstanceResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateInstanceResponse();
+  final String value;
+
+  const KmsKeyStatus._(this.value);
+
+  static const values = [updating, enabled, updateFailed];
+
+  static KmsKeyStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => KmsKeyStatus._(value));
+
+  @override
+  bool operator ==(other) => other is KmsKeyStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of the creation or deletion operation of an assignment that a
+/// principal needs to access an account.
+class AccountAssignmentOperationStatus {
+  /// The date that the permission set was created.
+  final DateTime? createdDate;
+
+  /// The message that contains an error or exception in case of an operation
+  /// failure.
+  final String? failureReason;
+
+  /// The ARN of the permission set. For more information about ARNs, see <a
+  /// href="/general/latest/gr/aws-arns-and-namespaces.html">Amazon Resource Names
+  /// (ARNs) and Amazon Web Services Service Namespaces</a> in the <i>Amazon Web
+  /// Services General Reference</i>.
+  final String? permissionSetArn;
+
+  /// An identifier for an object in IAM Identity Center, such as a user or group.
+  /// PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6).
+  /// For more information about PrincipalIds in IAM Identity Center, see the <a
+  /// href="/singlesignon/latest/IdentityStoreAPIReference/welcome.html">IAM
+  /// Identity Center Identity Store API Reference</a>.
+  final String? principalId;
+
+  /// The entity type for which the assignment will be created.
+  final PrincipalType? principalType;
+
+  /// The identifier for tracking the request operation that is generated by the
+  /// universally unique identifier (UUID) workflow.
+  final String? requestId;
+
+  /// The status of the permission set provisioning process.
+  final StatusValues? status;
+
+  /// TargetID is an Amazon Web Services account identifier, (For example,
+  /// 123456789012).
+  final String? targetId;
+
+  /// The entity type for which the assignment will be created.
+  final TargetType? targetType;
+
+  AccountAssignmentOperationStatus({
+    this.createdDate,
+    this.failureReason,
+    this.permissionSetArn,
+    this.principalId,
+    this.principalType,
+    this.requestId,
+    this.status,
+    this.targetId,
+    this.targetType,
+  });
+
+  factory AccountAssignmentOperationStatus.fromJson(Map<String, dynamic> json) {
+    return AccountAssignmentOperationStatus(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      failureReason: json['FailureReason'] as String?,
+      permissionSetArn: json['PermissionSetArn'] as String?,
+      principalId: json['PrincipalId'] as String?,
+      principalType:
+          (json['PrincipalType'] as String?)?.let(PrincipalType.fromString),
+      requestId: json['RequestId'] as String?,
+      status: (json['Status'] as String?)?.let(StatusValues.fromString),
+      targetId: json['TargetId'] as String?,
+      targetType: (json['TargetType'] as String?)?.let(TargetType.fromString),
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final createdDate = this.createdDate;
+    final failureReason = this.failureReason;
+    final permissionSetArn = this.permissionSetArn;
+    final principalId = this.principalId;
+    final principalType = this.principalType;
+    final requestId = this.requestId;
+    final status = this.status;
+    final targetId = this.targetId;
+    final targetType = this.targetType;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (permissionSetArn != null) 'PermissionSetArn': permissionSetArn,
+      if (principalId != null) 'PrincipalId': principalId,
+      if (principalType != null) 'PrincipalType': principalType.value,
+      if (requestId != null) 'RequestId': requestId,
+      if (status != null) 'Status': status.value,
+      if (targetId != null) 'TargetId': targetId,
+      if (targetType != null) 'TargetType': targetType.value,
+    };
   }
 }
 
-class UpdatePermissionSetResponse {
-  UpdatePermissionSetResponse();
+class TargetType {
+  static const awsAccount = TargetType._('AWS_ACCOUNT');
 
-  factory UpdatePermissionSetResponse.fromJson(Map<String, dynamic> _) {
-    return UpdatePermissionSetResponse();
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  const TargetType._(this.value);
 
-class UpdateTrustedTokenIssuerResponse {
-  UpdateTrustedTokenIssuerResponse();
+  static const values = [awsAccount];
 
-  factory UpdateTrustedTokenIssuerResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateTrustedTokenIssuerResponse();
-  }
+  static TargetType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TargetType._(value));
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
+  @override
+  bool operator ==(other) => other is TargetType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

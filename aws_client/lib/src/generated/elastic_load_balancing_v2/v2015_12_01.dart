@@ -66,14 +66,14 @@ class ElasticLoadBalancingV2 {
   /// successful but the certificate is not added again.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html">HTTPS
-  /// listeners</a> in the <i>Application Load Balancers Guide</i> or <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html">TLS
-  /// listeners</a> in the <i>Network Load Balancers Guide</i>.
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/https-listener-certificates.html">SSL
+  /// certificates</a> in the <i>Application Load Balancers Guide</i> or <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/tls-listener-certificates.html">Server
+  /// certificates</a> in the <i>Network Load Balancers Guide</i>.
   ///
+  /// May throw [CertificateNotFoundException].
   /// May throw [ListenerNotFoundException].
   /// May throw [TooManyCertificatesException].
-  /// May throw [CertificateNotFoundException].
   ///
   /// Parameter [certificates] :
   /// The certificate to add. You can specify one certificate per call. Set
@@ -115,11 +115,11 @@ class ElasticLoadBalancingV2 {
   /// has a tag with the same key, <code>AddTags</code> updates its value.
   ///
   /// May throw [DuplicateTagKeysException].
-  /// May throw [TooManyTagsException].
-  /// May throw [LoadBalancerNotFoundException].
-  /// May throw [TargetGroupNotFoundException].
   /// May throw [ListenerNotFoundException].
+  /// May throw [LoadBalancerNotFoundException].
   /// May throw [RuleNotFoundException].
+  /// May throw [TargetGroupNotFoundException].
+  /// May throw [TooManyTagsException].
   /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [resourceArns] :
@@ -157,10 +157,10 @@ class ElasticLoadBalancingV2 {
 
   /// Adds the specified revocation file to the specified trust store.
   ///
-  /// May throw [TrustStoreNotFoundException].
   /// May throw [InvalidRevocationContentException].
-  /// May throw [TooManyTrustStoreRevocationEntriesException].
   /// May throw [RevocationContentNotFoundException].
+  /// May throw [TooManyTrustStoreRevocationEntriesException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [trustStoreArn] :
   /// The Amazon Resource Name (ARN) of the trust store.
@@ -219,26 +219,26 @@ class ElasticLoadBalancingV2 {
   /// time. If you attempt to create multiple listeners with the same settings,
   /// each call succeeds.
   ///
-  /// May throw [DuplicateListenerException].
-  /// May throw [TooManyListenersException].
-  /// May throw [TooManyCertificatesException].
-  /// May throw [LoadBalancerNotFoundException].
-  /// May throw [TargetGroupNotFoundException].
-  /// May throw [TargetGroupAssociationLimitException].
-  /// May throw [InvalidConfigurationRequestException].
-  /// May throw [IncompatibleProtocolsException].
-  /// May throw [SSLPolicyNotFoundException].
-  /// May throw [CertificateNotFoundException].
-  /// May throw [UnsupportedProtocolException].
-  /// May throw [TooManyRegistrationsForTargetIdException].
-  /// May throw [TooManyTargetsException].
-  /// May throw [TooManyActionsException].
-  /// May throw [InvalidLoadBalancerActionException].
-  /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
   /// May throw [ALPNPolicyNotSupportedException].
+  /// May throw [CertificateNotFoundException].
+  /// May throw [DuplicateListenerException].
+  /// May throw [IncompatibleProtocolsException].
+  /// May throw [InvalidConfigurationRequestException].
+  /// May throw [InvalidLoadBalancerActionException].
+  /// May throw [LoadBalancerNotFoundException].
+  /// May throw [SSLPolicyNotFoundException].
+  /// May throw [TargetGroupAssociationLimitException].
+  /// May throw [TargetGroupNotFoundException].
+  /// May throw [TooManyActionsException].
+  /// May throw [TooManyCertificatesException].
+  /// May throw [TooManyListenersException].
+  /// May throw [TooManyRegistrationsForTargetIdException].
   /// May throw [TooManyTagsException].
+  /// May throw [TooManyTargetsException].
+  /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
   /// May throw [TrustStoreNotFoundException].
   /// May throw [TrustStoreNotReadyException].
+  /// May throw [UnsupportedProtocolException].
   ///
   /// Parameter [defaultActions] :
   /// The actions for the default rule.
@@ -269,7 +269,7 @@ class ElasticLoadBalancingV2 {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies">ALPN
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html#alpn-policies">ALPN
   /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// Parameter [certificates] :
@@ -278,27 +278,28 @@ class ElasticLoadBalancingV2 {
   /// the certificate ARN but do not set <code>IsDefault</code>.
   ///
   /// Parameter [mutualAuthentication] :
-  /// The mutual authentication configuration information.
+  /// [HTTPS listeners] The mutual authentication configuration information.
   ///
   /// Parameter [port] :
-  /// The port on which the load balancer is listening. You cannot specify a
-  /// port for a Gateway Load Balancer.
+  /// The port on which the load balancer is listening. You can't specify a port
+  /// for a Gateway Load Balancer.
   ///
   /// Parameter [protocol] :
   /// The protocol for connections from clients to the load balancer. For
   /// Application Load Balancers, the supported protocols are HTTP and HTTPS.
-  /// For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and
-  /// TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode
-  /// is enabled. You cannot specify a protocol for a Gateway Load Balancer.
+  /// For Network Load Balancers, the supported protocols are TCP, TLS, UDP,
+  /// TCP_UDP, QUIC, and TCP_QUIC. You can’t specify the UDP, TCP_UDP, QUIC, or
+  /// TCP_QUIC protocol if dual-stack mode is enabled. You can't specify a
+  /// protocol for a Gateway Load Balancer.
   ///
   /// Parameter [sslPolicy] :
   /// [HTTPS and TLS listeners] The security policy that defines which protocols
   /// and ciphers are supported.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html">Security
   /// policies</a> in the <i>Application Load Balancers Guide</i> and <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html">Security
   /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// Parameter [tags] :
@@ -393,19 +394,19 @@ class ElasticLoadBalancingV2 {
   /// time. If you attempt to create multiple load balancers with the same
   /// settings, each call succeeds.
   ///
-  /// May throw [DuplicateLoadBalancerNameException].
-  /// May throw [TooManyLoadBalancersException].
-  /// May throw [InvalidConfigurationRequestException].
-  /// May throw [SubnetNotFoundException].
-  /// May throw [InvalidSubnetException].
-  /// May throw [InvalidSecurityGroupException].
-  /// May throw [InvalidSchemeException].
-  /// May throw [TooManyTagsException].
-  /// May throw [DuplicateTagKeysException].
-  /// May throw [ResourceInUseException].
   /// May throw [AllocationIdNotFoundException].
   /// May throw [AvailabilityZoneNotSupportedException].
+  /// May throw [DuplicateLoadBalancerNameException].
+  /// May throw [DuplicateTagKeysException].
+  /// May throw [InvalidConfigurationRequestException].
+  /// May throw [InvalidSchemeException].
+  /// May throw [InvalidSecurityGroupException].
+  /// May throw [InvalidSubnetException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [SubnetNotFoundException].
+  /// May throw [TooManyLoadBalancersException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
   /// The name of the load balancer.
@@ -418,23 +419,25 @@ class ElasticLoadBalancingV2 {
   /// [Application Load Balancers on Outposts] The ID of the customer-owned
   /// address pool (CoIP pool).
   ///
+  /// Parameter [enablePrefixForIpv6SourceNat] :
+  /// [Network Load Balancers with UDP listeners] Indicates whether to use an
+  /// IPv6 prefix from each subnet for source NAT. The IP address type must be
+  /// <code>dualstack</code>. The default value is <code>off</code>.
+  ///
   /// Parameter [ipAddressType] :
-  /// Note: Internal load balancers must use the <code>ipv4</code> IP address
-  /// type.
+  /// The IP address type. Internal load balancers must use <code>ipv4</code>.
   ///
-  /// [Application Load Balancers] The IP address type. The possible values are
-  /// <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for
-  /// IPv4 and IPv6 addresses), and <code>dualstack-without-public-ipv4</code>
-  /// (for IPv6 only public addresses, with private IPv4 and IPv6 addresses).
+  /// [Application Load Balancers] The possible values are <code>ipv4</code>
+  /// (IPv4 addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
+  /// <code>dualstack-without-public-ipv4</code> (public IPv6 addresses and
+  /// private IPv4 and IPv6 addresses).
   ///
-  /// [Network Load Balancers] The IP address type. The possible values are
-  /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
-  /// (for IPv4 and IPv6 addresses). You can’t specify <code>dualstack</code>
-  /// for a load balancer with a UDP or TCP_UDP listener.
+  /// [Network Load Balancers and Gateway Load Balancers] The possible values
+  /// are <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4
+  /// and IPv6 addresses).
   ///
-  /// [Gateway Load Balancers] The IP address type. The possible values are
-  /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
-  /// (for IPv4 and IPv6 addresses).
+  /// Parameter [ipamPools] :
+  /// [Application Load Balancers] The IPAM pools to use with the load balancer.
   ///
   /// Parameter [scheme] :
   /// The nodes of an Internet-facing load balancer have public IP addresses.
@@ -450,7 +453,7 @@ class ElasticLoadBalancingV2 {
   ///
   /// The default is an Internet-facing load balancer.
   ///
-  /// You cannot specify a scheme for a Gateway Load Balancer.
+  /// You can't specify a scheme for a Gateway Load Balancer.
   ///
   /// Parameter [securityGroups] :
   /// [Application Load Balancers and Network Load Balancers] The IDs of the
@@ -461,7 +464,7 @@ class ElasticLoadBalancingV2 {
   /// Zone. You must specify either subnets or subnet mappings, but not both.
   ///
   /// [Application Load Balancers] You must specify subnets from at least two
-  /// Availability Zones. You cannot specify Elastic IP addresses for your
+  /// Availability Zones. You can't specify Elastic IP addresses for your
   /// subnets.
   ///
   /// [Application Load Balancers on Outposts] You must specify one Outpost
@@ -478,7 +481,7 @@ class ElasticLoadBalancingV2 {
   /// can specify one IPv6 address per subnet.
   ///
   /// [Gateway Load Balancers] You can specify subnets from one or more
-  /// Availability Zones. You cannot specify Elastic IP addresses for your
+  /// Availability Zones. You can't specify Elastic IP addresses for your
   /// subnets.
   ///
   /// Parameter [subnets] :
@@ -495,11 +498,8 @@ class ElasticLoadBalancingV2 {
   /// [Application Load Balancers on Local Zones] You can specify subnets from
   /// one or more Local Zones.
   ///
-  /// [Network Load Balancers] You can specify subnets from one or more
-  /// Availability Zones.
-  ///
-  /// [Gateway Load Balancers] You can specify subnets from one or more
-  /// Availability Zones.
+  /// [Network Load Balancers and Gateway Load Balancers] You can specify
+  /// subnets from one or more Availability Zones.
   ///
   /// Parameter [tags] :
   /// The tags to assign to the load balancer.
@@ -509,7 +509,9 @@ class ElasticLoadBalancingV2 {
   Future<CreateLoadBalancerOutput> createLoadBalancer({
     required String name,
     String? customerOwnedIpv4Pool,
+    EnablePrefixForIpv6SourceNatEnum? enablePrefixForIpv6SourceNat,
     IpAddressType? ipAddressType,
+    IpamPools? ipamPools,
     LoadBalancerSchemeEnum? scheme,
     List<String>? securityGroups,
     List<SubnetMapping>? subnetMappings,
@@ -521,7 +523,12 @@ class ElasticLoadBalancingV2 {
       'Name': name,
       if (customerOwnedIpv4Pool != null)
         'CustomerOwnedIpv4Pool': customerOwnedIpv4Pool,
+      if (enablePrefixForIpv6SourceNat != null)
+        'EnablePrefixForIpv6SourceNat': enablePrefixForIpv6SourceNat.value,
       if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+      if (ipamPools != null)
+        for (var e1 in ipamPools.toQueryMap().entries)
+          'IpamPools.${e1.key}': e1.value,
       if (scheme != null) 'Scheme': scheme.value,
       if (securityGroups != null)
         if (securityGroups.isEmpty)
@@ -566,29 +573,30 @@ class ElasticLoadBalancingV2 {
   /// Creates a rule for the specified listener. The listener must be associated
   /// with an Application Load Balancer.
   ///
-  /// Each rule consists of a priority, one or more actions, and one or more
-  /// conditions. Rules are evaluated in priority order, from the lowest value
-  /// to the highest value. When the conditions for a rule are met, its actions
-  /// are performed. If the conditions for no rules are met, the actions for the
-  /// default rule are performed. For more information, see <a
+  /// Each rule consists of a priority, one or more actions, one or more
+  /// conditions, and up to two optional transforms. Rules are evaluated in
+  /// priority order, from the lowest value to the highest value. When the
+  /// conditions for a rule are met, its actions are performed. If the
+  /// conditions for no rules are met, the actions for the default rule are
+  /// performed. For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#listener-rules">Listener
   /// rules</a> in the <i>Application Load Balancers Guide</i>.
   ///
-  /// May throw [PriorityInUseException].
-  /// May throw [TooManyTargetGroupsException].
-  /// May throw [TooManyRulesException].
-  /// May throw [TargetGroupAssociationLimitException].
   /// May throw [IncompatibleProtocolsException].
-  /// May throw [ListenerNotFoundException].
-  /// May throw [TargetGroupNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
-  /// May throw [TooManyRegistrationsForTargetIdException].
-  /// May throw [TooManyTargetsException].
-  /// May throw [UnsupportedProtocolException].
-  /// May throw [TooManyActionsException].
   /// May throw [InvalidLoadBalancerActionException].
-  /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
+  /// May throw [ListenerNotFoundException].
+  /// May throw [PriorityInUseException].
+  /// May throw [TargetGroupAssociationLimitException].
+  /// May throw [TargetGroupNotFoundException].
+  /// May throw [TooManyActionsException].
+  /// May throw [TooManyRegistrationsForTargetIdException].
+  /// May throw [TooManyRulesException].
   /// May throw [TooManyTagsException].
+  /// May throw [TooManyTargetGroupsException].
+  /// May throw [TooManyTargetsException].
+  /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
+  /// May throw [UnsupportedProtocolException].
   ///
   /// Parameter [actions] :
   /// The actions.
@@ -605,12 +613,17 @@ class ElasticLoadBalancingV2 {
   ///
   /// Parameter [tags] :
   /// The tags to assign to the rule.
+  ///
+  /// Parameter [transforms] :
+  /// The transforms to apply to requests that match this rule. You can add one
+  /// host header rewrite transform and one URL rewrite transform.
   Future<CreateRuleOutput> createRule({
     required List<Action> actions,
     required List<RuleCondition> conditions,
     required String listenerArn,
     required int priority,
     List<Tag>? tags,
+    List<RuleTransform>? transforms,
   }) async {
     _s.validateNumRange(
       'priority',
@@ -641,6 +654,13 @@ class ElasticLoadBalancingV2 {
           for (var i1 = 0; i1 < tags.length; i1++)
             for (var e3 in tags[i1].toQueryMap().entries)
               'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (transforms != null)
+        if (transforms.isEmpty)
+          'Transforms': ''
+        else
+          for (var i1 = 0; i1 < transforms.length; i1++)
+            for (var e3 in transforms[i1].toQueryMap().entries)
+              'Transforms.member.${i1 + 1}.${e3.key}': e3.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -680,9 +700,9 @@ class ElasticLoadBalancingV2 {
   /// settings, each call succeeds.
   ///
   /// May throw [DuplicateTargetGroupNameException].
-  /// May throw [TooManyTargetGroupsException].
   /// May throw [InvalidConfigurationRequestException].
   /// May throw [TooManyTagsException].
+  /// May throw [TooManyTargetGroupsException].
   ///
   /// Parameter [name] :
   /// The name of the target group.
@@ -695,14 +715,15 @@ class ElasticLoadBalancingV2 {
   /// Indicates whether health checks are enabled. If the target type is
   /// <code>lambda</code>, health checks are disabled by default but can be
   /// enabled. If the target type is <code>instance</code>, <code>ip</code>, or
-  /// <code>alb</code>, health checks are always enabled and cannot be disabled.
+  /// <code>alb</code>, health checks are always enabled and can't be disabled.
   ///
   /// Parameter [healthCheckIntervalSeconds] :
   /// The approximate amount of time, in seconds, between health checks of an
   /// individual target. The range is 5-300. If the target group protocol is
-  /// TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds. If the
-  /// target group protocol is GENEVE, the default is 10 seconds. If the target
-  /// type is <code>lambda</code>, the default is 35 seconds.
+  /// TCP, TLS, UDP, TCP_UDP, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 30
+  /// seconds. If the target group protocol is GENEVE, the default is 10
+  /// seconds. If the target type is <code>lambda</code>, the default is 35
+  /// seconds.
   ///
   /// Parameter [healthCheckPath] :
   /// [HTTP/HTTPS health checks] The destination for health checks on the
@@ -716,18 +737,18 @@ class ElasticLoadBalancingV2 {
   ///
   /// Parameter [healthCheckPort] :
   /// The port the load balancer uses when performing health checks on targets.
-  /// If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or TCP_UDP, the default is
-  /// <code>traffic-port</code>, which is the port on which each target receives
-  /// traffic from the load balancer. If the protocol is GENEVE, the default is
-  /// port 80.
+  /// If the protocol is HTTP, HTTPS, TCP, TLS, UDP, TCP_UDP, QUIC, or TCP_QUIC
+  /// the default is <code>traffic-port</code>, which is the port on which each
+  /// target receives traffic from the load balancer. If the protocol is GENEVE,
+  /// the default is port 80.
   ///
   /// Parameter [healthCheckProtocol] :
   /// The protocol the load balancer uses when performing health checks on
   /// targets. For Application Load Balancers, the default is HTTP. For Network
   /// Load Balancers and Gateway Load Balancers, the default is TCP. The TCP
   /// protocol is not supported for health checks if the protocol of the target
-  /// group is HTTP or HTTPS. The GENEVE, TLS, UDP, and TCP_UDP protocols are
-  /// not supported for health checks.
+  /// group is HTTP or HTTPS. The GENEVE, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC
+  /// protocols are not supported for health checks.
   ///
   /// Parameter [healthCheckTimeoutSeconds] :
   /// The amount of time, in seconds, during which no response from a target
@@ -745,16 +766,14 @@ class ElasticLoadBalancingV2 {
   /// type is <code>lambda</code>, the default is 5.
   ///
   /// Parameter [ipAddressType] :
-  /// The type of IP address used for this target group. The possible values are
-  /// <code>ipv4</code> and <code>ipv6</code>. This is an optional parameter. If
-  /// not specified, the IP address type defaults to <code>ipv4</code>.
+  /// The IP address type. The default value is <code>ipv4</code>.
   ///
   /// Parameter [matcher] :
   /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for
   /// a successful response from a target. For target groups with a protocol of
-  /// TCP, TCP_UDP, UDP or TLS the range is 200-599. For target groups with a
-  /// protocol of HTTP or HTTPS, the range is 200-499. For target groups with a
-  /// protocol of GENEVE, the range is 200-399.
+  /// TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range is 200-599. For target
+  /// groups with a protocol of HTTP or HTTPS, the range is 200-499. For target
+  /// groups with a protocol of GENEVE, the range is 200-399.
   ///
   /// Parameter [port] :
   /// The port on which the targets receive traffic. This port is used unless
@@ -765,10 +784,11 @@ class ElasticLoadBalancingV2 {
   /// Parameter [protocol] :
   /// The protocol to use for routing traffic to the targets. For Application
   /// Load Balancers, the supported protocols are HTTP and HTTPS. For Network
-  /// Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. For
-  /// Gateway Load Balancers, the supported protocol is GENEVE. A TCP_UDP
-  /// listener must be associated with a TCP_UDP target group. If the target is
-  /// a Lambda function, this parameter does not apply.
+  /// Load Balancers, the supported protocols are TCP, TLS, UDP, TCP_UDP, QUIC,
+  /// or TCP_QUIC. For Gateway Load Balancers, the supported protocol is GENEVE.
+  /// A TCP_UDP listener must be associated with a TCP_UDP target group. A
+  /// TCP_QUIC listener must be associated with a TCP_QUIC target group. If the
+  /// target is a Lambda function, this parameter does not apply.
   ///
   /// Parameter [protocolVersion] :
   /// [HTTP/HTTPS protocol] The protocol version. Specify <code>GRPC</code> to
@@ -778,6 +798,10 @@ class ElasticLoadBalancingV2 {
   ///
   /// Parameter [tags] :
   /// The tags to assign to the target group.
+  ///
+  /// Parameter [targetControlPort] :
+  /// The port on which the target control agent and application load balancer
+  /// exchange management traffic for the target optimizer feature.
   ///
   /// Parameter [targetType] :
   /// The type of target that you must specify when registering targets with
@@ -808,9 +832,9 @@ class ElasticLoadBalancingV2 {
   /// Parameter [unhealthyThresholdCount] :
   /// The number of consecutive health check failures required before
   /// considering a target unhealthy. The range is 2-10. If the target group
-  /// protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For
-  /// target groups with a protocol of GENEVE, the default is 2. If the target
-  /// type is <code>lambda</code>, the default is 5.
+  /// protocol is TCP, TCP_UDP, UDP, TLS, QUIC, TCP_QUIC, HTTP or HTTPS, the
+  /// default is 2. For target groups with a protocol of GENEVE, the default is
+  /// 2. If the target type is <code>lambda</code>, the default is 5.
   ///
   /// Parameter [vpcId] :
   /// The identifier of the virtual private cloud (VPC). If the target is a
@@ -831,6 +855,7 @@ class ElasticLoadBalancingV2 {
     ProtocolEnum? protocol,
     String? protocolVersion,
     List<Tag>? tags,
+    int? targetControlPort,
     TargetTypeEnum? targetType,
     int? unhealthyThresholdCount,
     String? vpcId,
@@ -856,6 +881,12 @@ class ElasticLoadBalancingV2 {
     _s.validateNumRange(
       'port',
       port,
+      1,
+      65535,
+    );
+    _s.validateNumRange(
+      'targetControlPort',
+      targetControlPort,
       1,
       65535,
     );
@@ -893,6 +924,8 @@ class ElasticLoadBalancingV2 {
           for (var i1 = 0; i1 < tags.length; i1++)
             for (var e3 in tags[i1].toQueryMap().entries)
               'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+      if (targetControlPort != null)
+        'TargetControlPort': targetControlPort.toString(),
       if (targetType != null) 'TargetType': targetType.value,
       if (unhealthyThresholdCount != null)
         'UnhealthyThresholdCount': unhealthyThresholdCount.toString(),
@@ -912,12 +945,16 @@ class ElasticLoadBalancingV2 {
 
   /// Creates a trust store.
   ///
-  /// May throw [DuplicateTrustStoreNameException].
-  /// May throw [TooManyTrustStoresException].
-  /// May throw [InvalidCaCertificatesBundleException].
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/mutual-authentication.html">Mutual
+  /// TLS for Application Load Balancers</a>.
+  ///
   /// May throw [CaCertificatesBundleNotFoundException].
-  /// May throw [TooManyTagsException].
   /// May throw [DuplicateTagKeysException].
+  /// May throw [DuplicateTrustStoreNameException].
+  /// May throw [InvalidCaCertificatesBundleException].
+  /// May throw [TooManyTagsException].
+  /// May throw [TooManyTrustStoresException].
   ///
   /// Parameter [caCertificatesBundleS3Bucket] :
   /// The Amazon S3 bucket for the ca certificates bundle.
@@ -928,7 +965,7 @@ class ElasticLoadBalancingV2 {
   /// Parameter [name] :
   /// The name of the trust store.
   ///
-  /// This name must be unique per region and cannot be changed after creation.
+  /// This name must be unique per region and can't be changed after creation.
   ///
   /// Parameter [caCertificatesBundleS3ObjectVersion] :
   /// The Amazon S3 object version for the ca certificates bundle. If undefined
@@ -1037,8 +1074,8 @@ class ElasticLoadBalancingV2 {
   ///
   /// You can't delete the default rule.
   ///
-  /// May throw [RuleNotFoundException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [RuleNotFoundException].
   ///
   /// Parameter [ruleArn] :
   /// The Amazon Resource Name (ARN) of the rule.
@@ -1061,9 +1098,9 @@ class ElasticLoadBalancingV2 {
 
   /// Deletes a shared trust store association.
   ///
-  /// May throw [TrustStoreNotFoundException].
   /// May throw [DeleteAssociationSameAccountException].
   /// May throw [TrustStoreAssociationNotFoundException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -1120,8 +1157,8 @@ class ElasticLoadBalancingV2 {
 
   /// Deletes a trust store.
   ///
-  /// May throw [TrustStoreNotFoundException].
   /// May throw [TrustStoreInUseException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [trustStoreArn] :
   /// The Amazon Resource Name (ARN) of the trust store.
@@ -1156,26 +1193,26 @@ class ElasticLoadBalancingV2 {
   /// <ul>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay">
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/edit-target-group-attributes.html#deregistration-delay">
   /// Deregistration delay</a> in the <i>Application Load Balancers User
   /// Guide</i>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#deregistration-delay">
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/edit-target-group-attributes.html#deregistration-delay">
   /// Deregistration delay</a> in the <i>Network Load Balancers User Guide</i>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#deregistration-delay">
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/edit-target-group-attributes.html#deregistration-delay">
   /// Deregistration delay</a> in the <i>Gateway Load Balancers User Guide</i>
   /// </li>
   /// </ul>
   /// Note: If the specified target does not exist, the action returns
   /// successfully.
   ///
-  /// May throw [TargetGroupNotFoundException].
   /// May throw [InvalidTargetException].
+  /// May throw [TargetGroupNotFoundException].
   ///
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
@@ -1263,6 +1300,30 @@ class ElasticLoadBalancingV2 {
     return DescribeAccountLimitsOutput.fromXml($result);
   }
 
+  /// Describes the capacity reservation status for the specified load balancer.
+  ///
+  /// May throw [LoadBalancerNotFoundException].
+  ///
+  /// Parameter [loadBalancerArn] :
+  /// The Amazon Resource Name (ARN) of the load balancer.
+  Future<DescribeCapacityReservationOutput> describeCapacityReservation({
+    required String loadBalancerArn,
+  }) async {
+    final $request = <String, String>{
+      'LoadBalancerArn': loadBalancerArn,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeCapacityReservation',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeCapacityReservationResult',
+    );
+    return DescribeCapacityReservationOutput.fromXml($result);
+  }
+
   /// Describes the attributes for the specified listener.
   ///
   /// May throw [ListenerNotFoundException].
@@ -1295,9 +1356,9 @@ class ElasticLoadBalancingV2 {
   /// once with <code>IsDefault</code> set to false).
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#https-listener-certificates">SSL
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/https-listener-certificates.html">SSL
   /// certificates</a> in the <i>Application Load Balancers Guide</i> or <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#tls-listener-certificate">Server
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/tls-listener-certificates.html">Server
   /// certificates</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// May throw [ListenerNotFoundException].
@@ -1498,7 +1559,7 @@ class ElasticLoadBalancingV2 {
   }
 
   /// Describes the specified rules or the rules for the specified listener. You
-  /// must specify either a listener or one or more rules.
+  /// must specify either a listener or rules.
   ///
   /// May throw [ListenerNotFoundException].
   /// May throw [RuleNotFoundException].
@@ -1554,9 +1615,9 @@ class ElasticLoadBalancingV2 {
   /// Describes the specified policies or all policies used for SSL negotiation.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
-  /// policies</a> in the <i>Application Load Balancers Guide</i> or <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html">Security
+  /// policies</a> in the <i>Application Load Balancers Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html">Security
   /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// May throw [SSLPolicyNotFoundException].
@@ -1614,10 +1675,10 @@ class ElasticLoadBalancingV2 {
   /// Load Balancers, Gateway Load Balancers, target groups, listeners, or
   /// rules.
   ///
-  /// May throw [LoadBalancerNotFoundException].
-  /// May throw [TargetGroupNotFoundException].
   /// May throw [ListenerNotFoundException].
+  /// May throw [LoadBalancerNotFoundException].
   /// May throw [RuleNotFoundException].
+  /// May throw [TargetGroupNotFoundException].
   /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [resourceArns] :
@@ -1757,9 +1818,9 @@ class ElasticLoadBalancingV2 {
 
   /// Describes the health of the specified targets or all of your targets.
   ///
+  /// May throw [HealthUnavailableException].
   /// May throw [InvalidTargetException].
   /// May throw [TargetGroupNotFoundException].
-  /// May throw [HealthUnavailableException].
   ///
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
@@ -1846,8 +1907,8 @@ class ElasticLoadBalancingV2 {
   /// Describes the revocation files in use by the specified trust store or
   /// revocation files.
   ///
-  /// May throw [TrustStoreNotFoundException].
   /// May throw [RevocationIdNotFoundException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [trustStoreArn] :
   /// The Amazon Resource Name (ARN) of the trust store.
@@ -2007,8 +2068,8 @@ class ElasticLoadBalancingV2 {
   ///
   /// This action returns a pre-signed S3 URI which is active for ten minutes.
   ///
-  /// May throw [TrustStoreNotFoundException].
   /// May throw [RevocationIdNotFoundException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [revocationId] :
   /// The revocation ID of the revocation file.
@@ -2035,6 +2096,96 @@ class ElasticLoadBalancingV2 {
     return GetTrustStoreRevocationContentOutput.fromXml($result);
   }
 
+  /// Modifies the capacity reservation of the specified load balancer.
+  ///
+  /// When modifying capacity reservation, you must include at least one
+  /// <code>MinimumLoadBalancerCapacity</code> or
+  /// <code>ResetCapacityReservation</code>.
+  ///
+  /// May throw [CapacityDecreaseRequestsLimitExceededException].
+  /// May throw [CapacityReservationPendingException].
+  /// May throw [CapacityUnitsLimitExceededException].
+  /// May throw [InsufficientCapacityException].
+  /// May throw [InvalidConfigurationRequestException].
+  /// May throw [LoadBalancerNotFoundException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [PriorRequestNotCompleteException].
+  ///
+  /// Parameter [loadBalancerArn] :
+  /// The Amazon Resource Name (ARN) of the load balancer.
+  ///
+  /// Parameter [minimumLoadBalancerCapacity] :
+  /// The minimum load balancer capacity reserved.
+  ///
+  /// Parameter [resetCapacityReservation] :
+  /// Resets the capacity reservation.
+  Future<ModifyCapacityReservationOutput> modifyCapacityReservation({
+    required String loadBalancerArn,
+    MinimumLoadBalancerCapacity? minimumLoadBalancerCapacity,
+    bool? resetCapacityReservation,
+  }) async {
+    final $request = <String, String>{
+      'LoadBalancerArn': loadBalancerArn,
+      if (minimumLoadBalancerCapacity != null)
+        for (var e1 in minimumLoadBalancerCapacity.toQueryMap().entries)
+          'MinimumLoadBalancerCapacity.${e1.key}': e1.value,
+      if (resetCapacityReservation != null)
+        'ResetCapacityReservation': resetCapacityReservation.toString(),
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyCapacityReservation',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ModifyCapacityReservationResult',
+    );
+    return ModifyCapacityReservationOutput.fromXml($result);
+  }
+
+  /// [Application Load Balancers] Modify the IP pool associated to a load
+  /// balancer.
+  ///
+  /// May throw [LoadBalancerNotFoundException].
+  ///
+  /// Parameter [loadBalancerArn] :
+  /// The Amazon Resource Name (ARN) of the load balancer.
+  ///
+  /// Parameter [ipamPools] :
+  /// The IPAM pools to be modified.
+  ///
+  /// Parameter [removeIpamPools] :
+  /// Remove the IP pools in use by the load balancer.
+  Future<ModifyIpPoolsOutput> modifyIpPools({
+    required String loadBalancerArn,
+    IpamPools? ipamPools,
+    List<RemoveIpamPoolEnum>? removeIpamPools,
+  }) async {
+    final $request = <String, String>{
+      'LoadBalancerArn': loadBalancerArn,
+      if (ipamPools != null)
+        for (var e1 in ipamPools.toQueryMap().entries)
+          'IpamPools.${e1.key}': e1.value,
+      if (removeIpamPools != null)
+        if (removeIpamPools.isEmpty)
+          'RemoveIpamPools': ''
+        else
+          for (var i1 = 0; i1 < removeIpamPools.length; i1++)
+            'RemoveIpamPools.member.${i1 + 1}': removeIpamPools[i1].value,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyIpPools',
+      version: '2015-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'ModifyIpPoolsResult',
+    );
+    return ModifyIpPoolsOutput.fromXml($result);
+  }
+
   /// Replaces the specified properties of the specified listener. Any
   /// properties that you do not specify remain unchanged.
   ///
@@ -2047,25 +2198,25 @@ class ElasticLoadBalancingV2 {
   /// a list, you must provide the entire list. For example, to add an action,
   /// specify a list with the current actions plus the new action.
   ///
-  /// May throw [DuplicateListenerException].
-  /// May throw [TooManyListenersException].
-  /// May throw [TooManyCertificatesException].
-  /// May throw [ListenerNotFoundException].
-  /// May throw [TargetGroupNotFoundException].
-  /// May throw [TargetGroupAssociationLimitException].
-  /// May throw [IncompatibleProtocolsException].
-  /// May throw [SSLPolicyNotFoundException].
+  /// May throw [ALPNPolicyNotSupportedException].
   /// May throw [CertificateNotFoundException].
+  /// May throw [DuplicateListenerException].
+  /// May throw [IncompatibleProtocolsException].
   /// May throw [InvalidConfigurationRequestException].
-  /// May throw [UnsupportedProtocolException].
+  /// May throw [InvalidLoadBalancerActionException].
+  /// May throw [ListenerNotFoundException].
+  /// May throw [SSLPolicyNotFoundException].
+  /// May throw [TargetGroupAssociationLimitException].
+  /// May throw [TargetGroupNotFoundException].
+  /// May throw [TooManyActionsException].
+  /// May throw [TooManyCertificatesException].
+  /// May throw [TooManyListenersException].
   /// May throw [TooManyRegistrationsForTargetIdException].
   /// May throw [TooManyTargetsException].
-  /// May throw [TooManyActionsException].
-  /// May throw [InvalidLoadBalancerActionException].
   /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
-  /// May throw [ALPNPolicyNotSupportedException].
   /// May throw [TrustStoreNotFoundException].
   /// May throw [TrustStoreNotReadyException].
+  /// May throw [UnsupportedProtocolException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
@@ -2093,7 +2244,7 @@ class ElasticLoadBalancingV2 {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies">ALPN
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html#alpn-policies">ALPN
   /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// Parameter [certificates] :
@@ -2105,27 +2256,28 @@ class ElasticLoadBalancingV2 {
   /// The actions for the default rule.
   ///
   /// Parameter [mutualAuthentication] :
-  /// The mutual authentication configuration information.
+  /// [HTTPS listeners] The mutual authentication configuration information.
   ///
   /// Parameter [port] :
-  /// The port for connections from clients to the load balancer. You cannot
+  /// The port for connections from clients to the load balancer. You can't
   /// specify a port for a Gateway Load Balancer.
   ///
   /// Parameter [protocol] :
   /// The protocol for connections from clients to the load balancer.
   /// Application Load Balancers support the HTTP and HTTPS protocols. Network
-  /// Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t
-  /// change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You
-  /// cannot specify a protocol for a Gateway Load Balancer.
+  /// Load Balancers support the TCP, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC
+  /// protocols. You can’t change the protocol to UDP, TCP_UDP, QUIC, or
+  /// TCP_QUIC if dual-stack mode is enabled. You can't specify a protocol for a
+  /// Gateway Load Balancer.
   ///
   /// Parameter [sslPolicy] :
   /// [HTTPS and TLS listeners] The security policy that defines which protocols
   /// and ciphers are supported.
   ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/describe-ssl-policies.html">Security
   /// policies</a> in the <i>Application Load Balancers Guide</i> or <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/describe-ssl-policies.html">Security
   /// policies</a> in the <i>Network Load Balancers Guide</i>.
   Future<ModifyListenerOutput> modifyListener({
     required String listenerArn,
@@ -2186,8 +2338,8 @@ class ElasticLoadBalancingV2 {
 
   /// Modifies the specified attributes of the specified listener.
   ///
-  /// May throw [ListenerNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
+  /// May throw [ListenerNotFoundException].
   ///
   /// Parameter [attributes] :
   /// The listener attributes.
@@ -2226,8 +2378,8 @@ class ElasticLoadBalancingV2 {
   /// call fails. Any existing attributes that you do not modify retain their
   /// current values.
   ///
-  /// May throw [LoadBalancerNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
+  /// May throw [LoadBalancerNotFoundException].
   ///
   /// Parameter [attributes] :
   /// The load balancer attributes.
@@ -2266,17 +2418,17 @@ class ElasticLoadBalancingV2 {
   /// a list, you must provide the entire list. For example, to add an action,
   /// specify a list with the current actions plus the new action.
   ///
-  /// May throw [TargetGroupAssociationLimitException].
   /// May throw [IncompatibleProtocolsException].
-  /// May throw [RuleNotFoundException].
+  /// May throw [InvalidLoadBalancerActionException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [RuleNotFoundException].
+  /// May throw [TargetGroupAssociationLimitException].
+  /// May throw [TargetGroupNotFoundException].
+  /// May throw [TooManyActionsException].
   /// May throw [TooManyRegistrationsForTargetIdException].
   /// May throw [TooManyTargetsException].
-  /// May throw [TargetGroupNotFoundException].
-  /// May throw [UnsupportedProtocolException].
-  /// May throw [TooManyActionsException].
-  /// May throw [InvalidLoadBalancerActionException].
   /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
+  /// May throw [UnsupportedProtocolException].
   ///
   /// Parameter [ruleArn] :
   /// The Amazon Resource Name (ARN) of the rule.
@@ -2286,10 +2438,22 @@ class ElasticLoadBalancingV2 {
   ///
   /// Parameter [conditions] :
   /// The conditions.
+  ///
+  /// Parameter [resetTransforms] :
+  /// Indicates whether to remove all transforms from the rule. If you specify
+  /// <code>ResetTransforms</code>, you can't specify <code>Transforms</code>.
+  ///
+  /// Parameter [transforms] :
+  /// The transforms to apply to requests that match this rule. You can add one
+  /// host header rewrite transform and one URL rewrite transform. If you
+  /// specify <code>Transforms</code>, you can't specify
+  /// <code>ResetTransforms</code>.
   Future<ModifyRuleOutput> modifyRule({
     required String ruleArn,
     List<Action>? actions,
     List<RuleCondition>? conditions,
+    bool? resetTransforms,
+    List<RuleTransform>? transforms,
   }) async {
     final $request = <String, String>{
       'RuleArn': ruleArn,
@@ -2307,6 +2471,15 @@ class ElasticLoadBalancingV2 {
           for (var i1 = 0; i1 < conditions.length; i1++)
             for (var e3 in conditions[i1].toQueryMap().entries)
               'Conditions.member.${i1 + 1}.${e3.key}': e3.value,
+      if (resetTransforms != null)
+        'ResetTransforms': resetTransforms.toString(),
+      if (transforms != null)
+        if (transforms.isEmpty)
+          'Transforms': ''
+        else
+          for (var i1 = 0; i1 < transforms.length; i1++)
+            for (var e3 in transforms[i1].toQueryMap().entries)
+              'Transforms.member.${i1 + 1}.${e3.key}': e3.value,
     };
     final $result = await _protocol.send(
       $request,
@@ -2323,14 +2496,17 @@ class ElasticLoadBalancingV2 {
   /// Modifies the health checks used when evaluating the health state of the
   /// targets in the specified target group.
   ///
-  /// May throw [TargetGroupNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
+  /// May throw [TargetGroupNotFoundException].
   ///
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
   ///
   /// Parameter [healthCheckEnabled] :
-  /// Indicates whether health checks are enabled.
+  /// Indicates whether health checks are enabled. If the target type is
+  /// <code>lambda</code>, health checks are disabled by default but can be
+  /// enabled. If the target type is <code>instance</code>, <code>ip</code>, or
+  /// <code>alb</code>, health checks are always enabled and can't be disabled.
   ///
   /// Parameter [healthCheckIntervalSeconds] :
   /// The approximate amount of time, in seconds, between health checks of an
@@ -2356,7 +2532,8 @@ class ElasticLoadBalancingV2 {
   /// protocol is not supported for health checks if the protocol of the target
   /// group is HTTP or HTTPS. It is supported for health checks only if the
   /// protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE,
-  /// TLS, UDP, and TCP_UDP protocols are not supported for health checks.
+  /// TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols are not supported for
+  /// health checks.
   ///
   /// Parameter [healthCheckTimeoutSeconds] :
   /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no
@@ -2446,8 +2623,8 @@ class ElasticLoadBalancingV2 {
 
   /// Modifies the specified attributes of the specified target group.
   ///
-  /// May throw [TargetGroupNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
+  /// May throw [TargetGroupNotFoundException].
   ///
   /// Parameter [attributes] :
   /// The target group attributes.
@@ -2481,9 +2658,9 @@ class ElasticLoadBalancingV2 {
 
   /// Update the ca certificate bundle for the specified trust store.
   ///
-  /// May throw [TrustStoreNotFoundException].
-  /// May throw [InvalidCaCertificatesBundleException].
   /// May throw [CaCertificatesBundleNotFoundException].
+  /// May throw [InvalidCaCertificatesBundleException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [caCertificatesBundleS3Bucket] :
   /// The Amazon S3 bucket for the ca certificates bundle.
@@ -2534,15 +2711,30 @@ class ElasticLoadBalancingV2 {
   /// EC2 instance or IP address with the same target group multiple times using
   /// different ports.
   ///
-  /// With a Network Load Balancer, you cannot register instances by instance ID
-  /// if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1,
-  /// CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of
-  /// these types by IP address.
+  /// For more information, see the following:
   ///
-  /// May throw [TargetGroupNotFoundException].
-  /// May throw [TooManyTargetsException].
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/target-group-register-targets.html">Register
+  /// targets for your Application Load Balancer</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/target-group-register-targets.html">Register
+  /// targets for your Network Load Balancer</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-group-register-targets.html">Register
+  /// targets for your Gateway Load Balancer</a>
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [InvalidTargetException].
+  /// May throw [TargetGroupNotFoundException].
   /// May throw [TooManyRegistrationsForTargetIdException].
+  /// May throw [TooManyTargetsException].
   ///
   /// Parameter [targetGroupArn] :
   /// The Amazon Resource Name (ARN) of the target group.
@@ -2615,10 +2807,10 @@ class ElasticLoadBalancingV2 {
   /// Balancers, Network Load Balancers, Gateway Load Balancers, target groups,
   /// listeners, or rules.
   ///
-  /// May throw [LoadBalancerNotFoundException].
-  /// May throw [TargetGroupNotFoundException].
   /// May throw [ListenerNotFoundException].
+  /// May throw [LoadBalancerNotFoundException].
   /// May throw [RuleNotFoundException].
+  /// May throw [TargetGroupNotFoundException].
   /// May throw [TooManyTagsException].
   /// May throw [TrustStoreNotFoundException].
   ///
@@ -2656,8 +2848,8 @@ class ElasticLoadBalancingV2 {
 
   /// Removes the specified revocation file from the specified trust store.
   ///
-  /// May throw [TrustStoreNotFoundException].
   /// May throw [RevocationIdNotFoundException].
+  /// May throw [TrustStoreNotFoundException].
   ///
   /// Parameter [revocationIds] :
   /// The revocation IDs of the revocation files you want to remove.
@@ -2690,32 +2882,26 @@ class ElasticLoadBalancingV2 {
   /// Sets the type of IP addresses used by the subnets of the specified load
   /// balancer.
   ///
-  /// May throw [LoadBalancerNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
   /// May throw [InvalidSubnetException].
+  /// May throw [LoadBalancerNotFoundException].
   ///
   /// Parameter [ipAddressType] :
-  /// Note: Internal load balancers must use the <code>ipv4</code> IP address
-  /// type.
+  /// The IP address type. Internal load balancers must use <code>ipv4</code>.
   ///
-  /// [Application Load Balancers] The IP address type. The possible values are
-  /// <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for
-  /// IPv4 and IPv6 addresses), and <code>dualstack-without-public-ipv4</code>
-  /// (for IPv6 only public addresses, with private IPv4 and IPv6 addresses).
+  /// [Application Load Balancers] The possible values are <code>ipv4</code>
+  /// (IPv4 addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
+  /// <code>dualstack-without-public-ipv4</code> (public IPv6 addresses and
+  /// private IPv4 and IPv6 addresses).
   ///
-  /// Note: Application Load Balancer authentication only supports IPv4
-  /// addresses when connecting to an Identity Provider (IdP) or Amazon Cognito
-  /// endpoint. Without a public IPv4 address the load balancer cannot complete
-  /// the authentication process, resulting in HTTP 500 errors.
+  /// Application Load Balancer authentication supports IPv4 addresses only when
+  /// connecting to an Identity Provider (IdP) or Amazon Cognito endpoint.
+  /// Without a public IPv4 address the load balancer can't complete the
+  /// authentication process, resulting in HTTP 500 errors.
   ///
-  /// [Network Load Balancers] The IP address type. The possible values are
-  /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
-  /// (for IPv4 and IPv6 addresses). You can’t specify <code>dualstack</code>
-  /// for a load balancer with a UDP or TCP_UDP listener.
-  ///
-  /// [Gateway Load Balancers] The IP address type. The possible values are
-  /// <code>ipv4</code> (for only IPv4 addresses) and <code>dualstack</code>
-  /// (for IPv4 and IPv6 addresses).
+  /// [Network Load Balancers and Gateway Load Balancers] The possible values
+  /// are <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4
+  /// and IPv6 addresses).
   ///
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
@@ -2745,9 +2931,9 @@ class ElasticLoadBalancingV2 {
   /// the new order. Any existing rules that you do not specify retain their
   /// current priority.
   ///
-  /// May throw [RuleNotFoundException].
-  /// May throw [PriorityInUseException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [PriorityInUseException].
+  /// May throw [RuleNotFoundException].
   ///
   /// Parameter [rulePriorities] :
   /// The rule priorities.
@@ -2783,9 +2969,9 @@ class ElasticLoadBalancingV2 {
   ///
   /// You can't associate a security group with a Gateway Load Balancer.
   ///
-  /// May throw [LoadBalancerNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
   /// May throw [InvalidSecurityGroupException].
+  /// May throw [LoadBalancerNotFoundException].
   ///
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
@@ -2796,7 +2982,8 @@ class ElasticLoadBalancingV2 {
   /// Parameter [enforceSecurityGroupInboundRulesOnPrivateLinkTraffic] :
   /// Indicates whether to evaluate inbound security group rules for traffic
   /// sent to a Network Load Balancer through Amazon Web Services PrivateLink.
-  /// The default is <code>on</code>.
+  /// Applies only if the load balancer has an associated security group. The
+  /// default is <code>on</code>.
   Future<SetSecurityGroupsOutput> setSecurityGroups({
     required String loadBalancerArn,
     required List<String> securityGroups,
@@ -2830,42 +3017,40 @@ class ElasticLoadBalancingV2 {
   /// specified Application Load Balancer, Network Load Balancer or Gateway Load
   /// Balancer. The specified subnets replace the previously enabled subnets.
   ///
-  /// When you specify subnets for a Network Load Balancer, or Gateway Load
-  /// Balancer you must include all subnets that were enabled previously, with
-  /// their existing configurations, plus any additional subnets.
-  ///
-  /// May throw [LoadBalancerNotFoundException].
-  /// May throw [InvalidConfigurationRequestException].
-  /// May throw [SubnetNotFoundException].
-  /// May throw [InvalidSubnetException].
   /// May throw [AllocationIdNotFoundException].
   /// May throw [AvailabilityZoneNotSupportedException].
+  /// May throw [CapacityReservationPendingException].
+  /// May throw [InvalidConfigurationRequestException].
+  /// May throw [InvalidSubnetException].
+  /// May throw [LoadBalancerNotFoundException].
+  /// May throw [SubnetNotFoundException].
   ///
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
   ///
+  /// Parameter [enablePrefixForIpv6SourceNat] :
+  /// [Network Load Balancers with UDP listeners] Indicates whether to use an
+  /// IPv6 prefix from each subnet for source NAT. The IP address type must be
+  /// <code>dualstack</code>. The default value is <code>off</code>.
+  ///
   /// Parameter [ipAddressType] :
-  /// [Application Load Balancers] The IP address type. The possible values are
-  /// <code>ipv4</code> (for only IPv4 addresses), <code>dualstack</code> (for
-  /// IPv4 and IPv6 addresses), and <code>dualstack-without-public-ipv4</code>
-  /// (for IPv6 only public addresses, with private IPv4 and IPv6 addresses).
+  /// The IP address type.
   ///
-  /// [Network Load Balancers] The type of IP addresses used by the subnets for
-  /// your load balancer. The possible values are <code>ipv4</code> (for IPv4
-  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses). You
-  /// can’t specify <code>dualstack</code> for a load balancer with a UDP or
-  /// TCP_UDP listener.
+  /// [Application Load Balancers] The possible values are <code>ipv4</code>
+  /// (IPv4 addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
+  /// <code>dualstack-without-public-ipv4</code> (public IPv6 addresses and
+  /// private IPv4 and IPv6 addresses).
   ///
-  /// [Gateway Load Balancers] The type of IP addresses used by the subnets for
-  /// your load balancer. The possible values are <code>ipv4</code> (for IPv4
-  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses).
+  /// [Network Load Balancers and Gateway Load Balancers] The possible values
+  /// are <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4
+  /// and IPv6 addresses).
   ///
   /// Parameter [subnetMappings] :
   /// The IDs of the public subnets. You can specify only one subnet per
   /// Availability Zone. You must specify either subnets or subnet mappings.
   ///
   /// [Application Load Balancers] You must specify subnets from at least two
-  /// Availability Zones. You cannot specify Elastic IP addresses for your
+  /// Availability Zones. You can't specify Elastic IP addresses for your
   /// subnets.
   ///
   /// [Application Load Balancers on Outposts] You must specify one Outpost
@@ -2901,15 +3086,20 @@ class ElasticLoadBalancingV2 {
   /// Availability Zones.
   ///
   /// [Gateway Load Balancers] You can specify subnets from one or more
-  /// Availability Zones.
+  /// Availability Zones. You must include all subnets that were enabled
+  /// previously, with their existing configurations, plus any additional
+  /// subnets.
   Future<SetSubnetsOutput> setSubnets({
     required String loadBalancerArn,
+    EnablePrefixForIpv6SourceNatEnum? enablePrefixForIpv6SourceNat,
     IpAddressType? ipAddressType,
     List<SubnetMapping>? subnetMappings,
     List<String>? subnets,
   }) async {
     final $request = <String, String>{
       'LoadBalancerArn': loadBalancerArn,
+      if (enablePrefixForIpv6SourceNat != null)
+        'EnablePrefixForIpv6SourceNat': enablePrefixForIpv6SourceNat.value,
       if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
       if (subnetMappings != null)
         if (subnetMappings.isEmpty)
@@ -2936,177 +3126,6 @@ class ElasticLoadBalancingV2 {
     );
     return SetSubnetsOutput.fromXml($result);
   }
-}
-
-/// Information about an action.
-///
-/// Each rule must include exactly one of the following types of actions:
-/// <code>forward</code>, <code>fixed-response</code>, or <code>redirect</code>,
-/// and it must be the last action to be performed.
-class Action {
-  /// The type of action.
-  final ActionTypeEnum type;
-
-  /// [HTTPS listeners] Information for using Amazon Cognito to authenticate
-  /// users. Specify only when <code>Type</code> is
-  /// <code>authenticate-cognito</code>.
-  final AuthenticateCognitoActionConfig? authenticateCognitoConfig;
-
-  /// [HTTPS listeners] Information about an identity provider that is compliant
-  /// with OpenID Connect (OIDC). Specify only when <code>Type</code> is
-  /// <code>authenticate-oidc</code>.
-  final AuthenticateOidcActionConfig? authenticateOidcConfig;
-
-  /// [Application Load Balancer] Information for creating an action that returns
-  /// a custom HTTP response. Specify only when <code>Type</code> is
-  /// <code>fixed-response</code>.
-  final FixedResponseActionConfig? fixedResponseConfig;
-
-  /// Information for creating an action that distributes requests among one or
-  /// more target groups. For Network Load Balancers, you can specify a single
-  /// target group. Specify only when <code>Type</code> is <code>forward</code>.
-  /// If you specify both <code>ForwardConfig</code> and
-  /// <code>TargetGroupArn</code>, you can specify only one target group using
-  /// <code>ForwardConfig</code> and it must be the same target group specified in
-  /// <code>TargetGroupArn</code>.
-  final ForwardActionConfig? forwardConfig;
-
-  /// The order for the action. This value is required for rules with multiple
-  /// actions. The action with the lowest value for order is performed first.
-  final int? order;
-
-  /// [Application Load Balancer] Information for creating a redirect action.
-  /// Specify only when <code>Type</code> is <code>redirect</code>.
-  final RedirectActionConfig? redirectConfig;
-
-  /// The Amazon Resource Name (ARN) of the target group. Specify only when
-  /// <code>Type</code> is <code>forward</code> and you want to route to a single
-  /// target group. To route to one or more target groups, use
-  /// <code>ForwardConfig</code> instead.
-  final String? targetGroupArn;
-
-  Action({
-    required this.type,
-    this.authenticateCognitoConfig,
-    this.authenticateOidcConfig,
-    this.fixedResponseConfig,
-    this.forwardConfig,
-    this.order,
-    this.redirectConfig,
-    this.targetGroupArn,
-  });
-  factory Action.fromXml(_s.XmlElement elem) {
-    return Action(
-      type: _s
-          .extractXmlStringValue(elem, 'Type')!
-          .let(ActionTypeEnum.fromString),
-      authenticateCognitoConfig: _s
-          .extractXmlChild(elem, 'AuthenticateCognitoConfig')
-          ?.let(AuthenticateCognitoActionConfig.fromXml),
-      authenticateOidcConfig: _s
-          .extractXmlChild(elem, 'AuthenticateOidcConfig')
-          ?.let(AuthenticateOidcActionConfig.fromXml),
-      fixedResponseConfig: _s
-          .extractXmlChild(elem, 'FixedResponseConfig')
-          ?.let(FixedResponseActionConfig.fromXml),
-      forwardConfig: _s
-          .extractXmlChild(elem, 'ForwardConfig')
-          ?.let(ForwardActionConfig.fromXml),
-      order: _s.extractXmlIntValue(elem, 'Order'),
-      redirectConfig: _s
-          .extractXmlChild(elem, 'RedirectConfig')
-          ?.let(RedirectActionConfig.fromXml),
-      targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final type = this.type;
-    final authenticateCognitoConfig = this.authenticateCognitoConfig;
-    final authenticateOidcConfig = this.authenticateOidcConfig;
-    final fixedResponseConfig = this.fixedResponseConfig;
-    final forwardConfig = this.forwardConfig;
-    final order = this.order;
-    final redirectConfig = this.redirectConfig;
-    final targetGroupArn = this.targetGroupArn;
-    return {
-      'Type': type.value,
-      if (authenticateCognitoConfig != null)
-        'AuthenticateCognitoConfig': authenticateCognitoConfig,
-      if (authenticateOidcConfig != null)
-        'AuthenticateOidcConfig': authenticateOidcConfig,
-      if (fixedResponseConfig != null)
-        'FixedResponseConfig': fixedResponseConfig,
-      if (forwardConfig != null) 'ForwardConfig': forwardConfig,
-      if (order != null) 'Order': order,
-      if (redirectConfig != null) 'RedirectConfig': redirectConfig,
-      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final type = this.type;
-    final authenticateCognitoConfig = this.authenticateCognitoConfig;
-    final authenticateOidcConfig = this.authenticateOidcConfig;
-    final fixedResponseConfig = this.fixedResponseConfig;
-    final forwardConfig = this.forwardConfig;
-    final order = this.order;
-    final redirectConfig = this.redirectConfig;
-    final targetGroupArn = this.targetGroupArn;
-    return {
-      'Type': type.value,
-      if (authenticateCognitoConfig != null)
-        for (var e1 in authenticateCognitoConfig.toQueryMap().entries)
-          'AuthenticateCognitoConfig.${e1.key}': e1.value,
-      if (authenticateOidcConfig != null)
-        for (var e1 in authenticateOidcConfig.toQueryMap().entries)
-          'AuthenticateOidcConfig.${e1.key}': e1.value,
-      if (fixedResponseConfig != null)
-        for (var e1 in fixedResponseConfig.toQueryMap().entries)
-          'FixedResponseConfig.${e1.key}': e1.value,
-      if (forwardConfig != null)
-        for (var e1 in forwardConfig.toQueryMap().entries)
-          'ForwardConfig.${e1.key}': e1.value,
-      if (order != null) 'Order': order.toString(),
-      if (redirectConfig != null)
-        for (var e1 in redirectConfig.toQueryMap().entries)
-          'RedirectConfig.${e1.key}': e1.value,
-      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
-    };
-  }
-}
-
-class ActionTypeEnum {
-  static const forward = ActionTypeEnum._('forward');
-  static const authenticateOidc = ActionTypeEnum._('authenticate-oidc');
-  static const authenticateCognito = ActionTypeEnum._('authenticate-cognito');
-  static const redirect = ActionTypeEnum._('redirect');
-  static const fixedResponse = ActionTypeEnum._('fixed-response');
-
-  final String value;
-
-  const ActionTypeEnum._(this.value);
-
-  static const values = [
-    forward,
-    authenticateOidc,
-    authenticateCognito,
-    redirect,
-    fixedResponse
-  ];
-
-  static ActionTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ActionTypeEnum._(value));
-
-  @override
-  bool operator ==(other) => other is ActionTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AddListenerCertificatesOutput {
@@ -3167,578 +3186,6 @@ class AddTrustStoreRevocationsOutput {
     return {
       if (trustStoreRevocations != null)
         'TrustStoreRevocations': trustStoreRevocations,
-    };
-  }
-}
-
-/// Information about anomaly detection and mitigation.
-class AnomalyDetection {
-  /// Indicates whether anomaly mitigation is in progress.
-  final MitigationInEffectEnum? mitigationInEffect;
-
-  /// The latest anomaly detection result.
-  final AnomalyResultEnum? result;
-
-  AnomalyDetection({
-    this.mitigationInEffect,
-    this.result,
-  });
-  factory AnomalyDetection.fromXml(_s.XmlElement elem) {
-    return AnomalyDetection(
-      mitigationInEffect: _s
-          .extractXmlStringValue(elem, 'MitigationInEffect')
-          ?.let(MitigationInEffectEnum.fromString),
-      result: _s
-          .extractXmlStringValue(elem, 'Result')
-          ?.let(AnomalyResultEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mitigationInEffect = this.mitigationInEffect;
-    final result = this.result;
-    return {
-      if (mitigationInEffect != null)
-        'MitigationInEffect': mitigationInEffect.value,
-      if (result != null) 'Result': result.value,
-    };
-  }
-}
-
-class AnomalyResultEnum {
-  static const anomalous = AnomalyResultEnum._('anomalous');
-  static const normal = AnomalyResultEnum._('normal');
-
-  final String value;
-
-  const AnomalyResultEnum._(this.value);
-
-  static const values = [anomalous, normal];
-
-  static AnomalyResultEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AnomalyResultEnum._(value));
-
-  @override
-  bool operator ==(other) => other is AnomalyResultEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AuthenticateCognitoActionConditionalBehaviorEnum {
-  static const deny =
-      AuthenticateCognitoActionConditionalBehaviorEnum._('deny');
-  static const allow =
-      AuthenticateCognitoActionConditionalBehaviorEnum._('allow');
-  static const authenticate =
-      AuthenticateCognitoActionConditionalBehaviorEnum._('authenticate');
-
-  final String value;
-
-  const AuthenticateCognitoActionConditionalBehaviorEnum._(this.value);
-
-  static const values = [deny, allow, authenticate];
-
-  static AuthenticateCognitoActionConditionalBehaviorEnum fromString(
-          String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              AuthenticateCognitoActionConditionalBehaviorEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthenticateCognitoActionConditionalBehaviorEnum &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Request parameters to use when integrating with Amazon Cognito to
-/// authenticate users.
-class AuthenticateCognitoActionConfig {
-  /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool.
-  final String userPoolArn;
-
-  /// The ID of the Amazon Cognito user pool client.
-  final String userPoolClientId;
-
-  /// The domain prefix or fully-qualified domain name of the Amazon Cognito user
-  /// pool.
-  final String userPoolDomain;
-
-  /// The query parameters (up to 10) to include in the redirect request to the
-  /// authorization endpoint.
-  final Map<String, String>? authenticationRequestExtraParams;
-
-  /// The behavior if the user is not authenticated. The following are possible
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// deny<code/> - Return an HTTP 401 Unauthorized error.
-  /// </li>
-  /// <li>
-  /// allow<code/> - Allow the request to be forwarded to the target.
-  /// </li>
-  /// <li>
-  /// authenticate<code/> - Redirect the request to the IdP authorization
-  /// endpoint. This is the default value.
-  /// </li>
-  /// </ul>
-  final AuthenticateCognitoActionConditionalBehaviorEnum?
-      onUnauthenticatedRequest;
-
-  /// The set of user claims to be requested from the IdP. The default is
-  /// <code>openid</code>.
-  ///
-  /// To verify which scope values your IdP supports and how to separate multiple
-  /// values, see the documentation for your IdP.
-  final String? scope;
-
-  /// The name of the cookie used to maintain session information. The default is
-  /// AWSELBAuthSessionCookie.
-  final String? sessionCookieName;
-
-  /// The maximum duration of the authentication session, in seconds. The default
-  /// is 604800 seconds (7 days).
-  final int? sessionTimeout;
-
-  AuthenticateCognitoActionConfig({
-    required this.userPoolArn,
-    required this.userPoolClientId,
-    required this.userPoolDomain,
-    this.authenticationRequestExtraParams,
-    this.onUnauthenticatedRequest,
-    this.scope,
-    this.sessionCookieName,
-    this.sessionTimeout,
-  });
-  factory AuthenticateCognitoActionConfig.fromXml(_s.XmlElement elem) {
-    return AuthenticateCognitoActionConfig(
-      userPoolArn: _s.extractXmlStringValue(elem, 'UserPoolArn')!,
-      userPoolClientId: _s.extractXmlStringValue(elem, 'UserPoolClientId')!,
-      userPoolDomain: _s.extractXmlStringValue(elem, 'UserPoolDomain')!,
-      authenticationRequestExtraParams: Map.fromEntries(
-        elem
-                .getElement('AuthenticationRequestExtraParams')
-                ?.findElements('entry')
-                .map(
-                  (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!,
-                    _s.extractXmlStringValue(c, 'value')!,
-                  ),
-                ) ??
-            {},
-      ),
-      onUnauthenticatedRequest: _s
-          .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
-          ?.let(AuthenticateCognitoActionConditionalBehaviorEnum.fromString),
-      scope: _s.extractXmlStringValue(elem, 'Scope'),
-      sessionCookieName: _s.extractXmlStringValue(elem, 'SessionCookieName'),
-      sessionTimeout: _s.extractXmlIntValue(elem, 'SessionTimeout'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final userPoolArn = this.userPoolArn;
-    final userPoolClientId = this.userPoolClientId;
-    final userPoolDomain = this.userPoolDomain;
-    final authenticationRequestExtraParams =
-        this.authenticationRequestExtraParams;
-    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
-    final scope = this.scope;
-    final sessionCookieName = this.sessionCookieName;
-    final sessionTimeout = this.sessionTimeout;
-    return {
-      'UserPoolArn': userPoolArn,
-      'UserPoolClientId': userPoolClientId,
-      'UserPoolDomain': userPoolDomain,
-      if (authenticationRequestExtraParams != null)
-        'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
-      if (onUnauthenticatedRequest != null)
-        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
-      if (scope != null) 'Scope': scope,
-      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
-      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final userPoolArn = this.userPoolArn;
-    final userPoolClientId = this.userPoolClientId;
-    final userPoolDomain = this.userPoolDomain;
-    final authenticationRequestExtraParams =
-        this.authenticationRequestExtraParams;
-    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
-    final scope = this.scope;
-    final sessionCookieName = this.sessionCookieName;
-    final sessionTimeout = this.sessionTimeout;
-    return {
-      'UserPoolArn': userPoolArn,
-      'UserPoolClientId': userPoolClientId,
-      'UserPoolDomain': userPoolDomain,
-      if (authenticationRequestExtraParams != null)
-        for (var e1 in authenticationRequestExtraParams.entries
-            .toList()
-            .asMap()
-            .entries) ...{
-          'AuthenticationRequestExtraParams.entry.${e1.key + 1}.key':
-              e1.value.key,
-          'AuthenticationRequestExtraParams.entry.${e1.key + 1}.value':
-              e1.value.value,
-        },
-      if (onUnauthenticatedRequest != null)
-        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
-      if (scope != null) 'Scope': scope,
-      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
-      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout.toString(),
-    };
-  }
-}
-
-class AuthenticateOidcActionConditionalBehaviorEnum {
-  static const deny = AuthenticateOidcActionConditionalBehaviorEnum._('deny');
-  static const allow = AuthenticateOidcActionConditionalBehaviorEnum._('allow');
-  static const authenticate =
-      AuthenticateOidcActionConditionalBehaviorEnum._('authenticate');
-
-  final String value;
-
-  const AuthenticateOidcActionConditionalBehaviorEnum._(this.value);
-
-  static const values = [deny, allow, authenticate];
-
-  static AuthenticateOidcActionConditionalBehaviorEnum fromString(
-          String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AuthenticateOidcActionConditionalBehaviorEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AuthenticateOidcActionConditionalBehaviorEnum &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Request parameters when using an identity provider (IdP) that is compliant
-/// with OpenID Connect (OIDC) to authenticate users.
-class AuthenticateOidcActionConfig {
-  /// The authorization endpoint of the IdP. This must be a full URL, including
-  /// the HTTPS protocol, the domain, and the path.
-  final String authorizationEndpoint;
-
-  /// The OAuth 2.0 client identifier.
-  final String clientId;
-
-  /// The OIDC issuer identifier of the IdP. This must be a full URL, including
-  /// the HTTPS protocol, the domain, and the path.
-  final String issuer;
-
-  /// The token endpoint of the IdP. This must be a full URL, including the HTTPS
-  /// protocol, the domain, and the path.
-  final String tokenEndpoint;
-
-  /// The user info endpoint of the IdP. This must be a full URL, including the
-  /// HTTPS protocol, the domain, and the path.
-  final String userInfoEndpoint;
-
-  /// The query parameters (up to 10) to include in the redirect request to the
-  /// authorization endpoint.
-  final Map<String, String>? authenticationRequestExtraParams;
-
-  /// The OAuth 2.0 client secret. This parameter is required if you are creating
-  /// a rule. If you are modifying a rule, you can omit this parameter if you set
-  /// <code>UseExistingClientSecret</code> to true.
-  final String? clientSecret;
-
-  /// The behavior if the user is not authenticated. The following are possible
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// deny<code/> - Return an HTTP 401 Unauthorized error.
-  /// </li>
-  /// <li>
-  /// allow<code/> - Allow the request to be forwarded to the target.
-  /// </li>
-  /// <li>
-  /// authenticate<code/> - Redirect the request to the IdP authorization
-  /// endpoint. This is the default value.
-  /// </li>
-  /// </ul>
-  final AuthenticateOidcActionConditionalBehaviorEnum? onUnauthenticatedRequest;
-
-  /// The set of user claims to be requested from the IdP. The default is
-  /// <code>openid</code>.
-  ///
-  /// To verify which scope values your IdP supports and how to separate multiple
-  /// values, see the documentation for your IdP.
-  final String? scope;
-
-  /// The name of the cookie used to maintain session information. The default is
-  /// AWSELBAuthSessionCookie.
-  final String? sessionCookieName;
-
-  /// The maximum duration of the authentication session, in seconds. The default
-  /// is 604800 seconds (7 days).
-  final int? sessionTimeout;
-
-  /// Indicates whether to use the existing client secret when modifying a rule.
-  /// If you are creating a rule, you can omit this parameter or set it to false.
-  final bool? useExistingClientSecret;
-
-  AuthenticateOidcActionConfig({
-    required this.authorizationEndpoint,
-    required this.clientId,
-    required this.issuer,
-    required this.tokenEndpoint,
-    required this.userInfoEndpoint,
-    this.authenticationRequestExtraParams,
-    this.clientSecret,
-    this.onUnauthenticatedRequest,
-    this.scope,
-    this.sessionCookieName,
-    this.sessionTimeout,
-    this.useExistingClientSecret,
-  });
-  factory AuthenticateOidcActionConfig.fromXml(_s.XmlElement elem) {
-    return AuthenticateOidcActionConfig(
-      authorizationEndpoint:
-          _s.extractXmlStringValue(elem, 'AuthorizationEndpoint')!,
-      clientId: _s.extractXmlStringValue(elem, 'ClientId')!,
-      issuer: _s.extractXmlStringValue(elem, 'Issuer')!,
-      tokenEndpoint: _s.extractXmlStringValue(elem, 'TokenEndpoint')!,
-      userInfoEndpoint: _s.extractXmlStringValue(elem, 'UserInfoEndpoint')!,
-      authenticationRequestExtraParams: Map.fromEntries(
-        elem
-                .getElement('AuthenticationRequestExtraParams')
-                ?.findElements('entry')
-                .map(
-                  (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!,
-                    _s.extractXmlStringValue(c, 'value')!,
-                  ),
-                ) ??
-            {},
-      ),
-      clientSecret: _s.extractXmlStringValue(elem, 'ClientSecret'),
-      onUnauthenticatedRequest: _s
-          .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
-          ?.let(AuthenticateOidcActionConditionalBehaviorEnum.fromString),
-      scope: _s.extractXmlStringValue(elem, 'Scope'),
-      sessionCookieName: _s.extractXmlStringValue(elem, 'SessionCookieName'),
-      sessionTimeout: _s.extractXmlIntValue(elem, 'SessionTimeout'),
-      useExistingClientSecret:
-          _s.extractXmlBoolValue(elem, 'UseExistingClientSecret'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizationEndpoint = this.authorizationEndpoint;
-    final clientId = this.clientId;
-    final issuer = this.issuer;
-    final tokenEndpoint = this.tokenEndpoint;
-    final userInfoEndpoint = this.userInfoEndpoint;
-    final authenticationRequestExtraParams =
-        this.authenticationRequestExtraParams;
-    final clientSecret = this.clientSecret;
-    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
-    final scope = this.scope;
-    final sessionCookieName = this.sessionCookieName;
-    final sessionTimeout = this.sessionTimeout;
-    final useExistingClientSecret = this.useExistingClientSecret;
-    return {
-      'AuthorizationEndpoint': authorizationEndpoint,
-      'ClientId': clientId,
-      'Issuer': issuer,
-      'TokenEndpoint': tokenEndpoint,
-      'UserInfoEndpoint': userInfoEndpoint,
-      if (authenticationRequestExtraParams != null)
-        'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
-      if (clientSecret != null) 'ClientSecret': clientSecret,
-      if (onUnauthenticatedRequest != null)
-        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
-      if (scope != null) 'Scope': scope,
-      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
-      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
-      if (useExistingClientSecret != null)
-        'UseExistingClientSecret': useExistingClientSecret,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final authorizationEndpoint = this.authorizationEndpoint;
-    final clientId = this.clientId;
-    final issuer = this.issuer;
-    final tokenEndpoint = this.tokenEndpoint;
-    final userInfoEndpoint = this.userInfoEndpoint;
-    final authenticationRequestExtraParams =
-        this.authenticationRequestExtraParams;
-    final clientSecret = this.clientSecret;
-    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
-    final scope = this.scope;
-    final sessionCookieName = this.sessionCookieName;
-    final sessionTimeout = this.sessionTimeout;
-    final useExistingClientSecret = this.useExistingClientSecret;
-    return {
-      'AuthorizationEndpoint': authorizationEndpoint,
-      'ClientId': clientId,
-      'Issuer': issuer,
-      'TokenEndpoint': tokenEndpoint,
-      'UserInfoEndpoint': userInfoEndpoint,
-      if (authenticationRequestExtraParams != null)
-        for (var e1 in authenticationRequestExtraParams.entries
-            .toList()
-            .asMap()
-            .entries) ...{
-          'AuthenticationRequestExtraParams.entry.${e1.key + 1}.key':
-              e1.value.key,
-          'AuthenticationRequestExtraParams.entry.${e1.key + 1}.value':
-              e1.value.value,
-        },
-      if (clientSecret != null) 'ClientSecret': clientSecret,
-      if (onUnauthenticatedRequest != null)
-        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
-      if (scope != null) 'Scope': scope,
-      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
-      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout.toString(),
-      if (useExistingClientSecret != null)
-        'UseExistingClientSecret': useExistingClientSecret.toString(),
-    };
-  }
-}
-
-/// Information about an Availability Zone.
-class AvailabilityZone {
-  /// [Network Load Balancers] If you need static IP addresses for your load
-  /// balancer, you can specify one Elastic IP address per Availability Zone when
-  /// you create an internal-facing load balancer. For internal load balancers,
-  /// you can specify a private IP address from the IPv4 range of the subnet.
-  final List<LoadBalancerAddress>? loadBalancerAddresses;
-
-  /// [Application Load Balancers on Outposts] The ID of the Outpost.
-  final String? outpostId;
-
-  /// The ID of the subnet. You can specify one subnet per Availability Zone.
-  final String? subnetId;
-
-  /// The name of the Availability Zone.
-  final String? zoneName;
-
-  AvailabilityZone({
-    this.loadBalancerAddresses,
-    this.outpostId,
-    this.subnetId,
-    this.zoneName,
-  });
-  factory AvailabilityZone.fromXml(_s.XmlElement elem) {
-    return AvailabilityZone(
-      loadBalancerAddresses: _s
-          .extractXmlChild(elem, 'LoadBalancerAddresses')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(LoadBalancerAddress.fromXml)
-              .toList()),
-      outpostId: _s.extractXmlStringValue(elem, 'OutpostId'),
-      subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
-      zoneName: _s.extractXmlStringValue(elem, 'ZoneName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loadBalancerAddresses = this.loadBalancerAddresses;
-    final outpostId = this.outpostId;
-    final subnetId = this.subnetId;
-    final zoneName = this.zoneName;
-    return {
-      if (loadBalancerAddresses != null)
-        'LoadBalancerAddresses': loadBalancerAddresses,
-      if (outpostId != null) 'OutpostId': outpostId,
-      if (subnetId != null) 'SubnetId': subnetId,
-      if (zoneName != null) 'ZoneName': zoneName,
-    };
-  }
-}
-
-/// Information about an SSL server certificate.
-class Certificate {
-  /// The Amazon Resource Name (ARN) of the certificate.
-  final String? certificateArn;
-
-  /// Indicates whether the certificate is the default certificate. Do not set
-  /// this value when specifying a certificate as an input. This value is not
-  /// included in the output when describing a listener, but is included when
-  /// describing listener certificates.
-  final bool? isDefault;
-
-  Certificate({
-    this.certificateArn,
-    this.isDefault,
-  });
-  factory Certificate.fromXml(_s.XmlElement elem) {
-    return Certificate(
-      certificateArn: _s.extractXmlStringValue(elem, 'CertificateArn'),
-      isDefault: _s.extractXmlBoolValue(elem, 'IsDefault'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final isDefault = this.isDefault;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (isDefault != null) 'IsDefault': isDefault,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final certificateArn = this.certificateArn;
-    final isDefault = this.isDefault;
-    return {
-      if (certificateArn != null) 'CertificateArn': certificateArn,
-      if (isDefault != null) 'IsDefault': isDefault.toString(),
-    };
-  }
-}
-
-/// Information about a cipher used in a policy.
-class Cipher {
-  /// The name of the cipher.
-  final String? name;
-
-  /// The priority of the cipher.
-  final int? priority;
-
-  Cipher({
-    this.name,
-    this.priority,
-  });
-  factory Cipher.fromXml(_s.XmlElement elem) {
-    return Cipher(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      priority: _s.extractXmlIntValue(elem, 'Priority'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final priority = this.priority;
-    return {
-      if (name != null) 'Name': name,
-      if (priority != null) 'Priority': priority,
     };
   }
 }
@@ -3970,6 +3417,60 @@ class DescribeAccountLimitsOutput {
     return {
       if (limits != null) 'Limits': limits,
       if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class DescribeCapacityReservationOutput {
+  /// The state of the capacity reservation.
+  final List<ZonalCapacityReservationState>? capacityReservationState;
+
+  /// The amount of daily capacity decreases remaining.
+  final int? decreaseRequestsRemaining;
+
+  /// The last time the capacity reservation was modified.
+  final DateTime? lastModifiedTime;
+
+  /// The requested minimum capacity reservation for the load balancer
+  final MinimumLoadBalancerCapacity? minimumLoadBalancerCapacity;
+
+  DescribeCapacityReservationOutput({
+    this.capacityReservationState,
+    this.decreaseRequestsRemaining,
+    this.lastModifiedTime,
+    this.minimumLoadBalancerCapacity,
+  });
+  factory DescribeCapacityReservationOutput.fromXml(_s.XmlElement elem) {
+    return DescribeCapacityReservationOutput(
+      capacityReservationState: _s
+          .extractXmlChild(elem, 'CapacityReservationState')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(ZonalCapacityReservationState.fromXml)
+              .toList()),
+      decreaseRequestsRemaining:
+          _s.extractXmlIntValue(elem, 'DecreaseRequestsRemaining'),
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
+      minimumLoadBalancerCapacity: _s
+          .extractXmlChild(elem, 'MinimumLoadBalancerCapacity')
+          ?.let(MinimumLoadBalancerCapacity.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityReservationState = this.capacityReservationState;
+    final decreaseRequestsRemaining = this.decreaseRequestsRemaining;
+    final lastModifiedTime = this.lastModifiedTime;
+    final minimumLoadBalancerCapacity = this.minimumLoadBalancerCapacity;
+    return {
+      if (capacityReservationState != null)
+        'CapacityReservationState': capacityReservationState,
+      if (decreaseRequestsRemaining != null)
+        'DecreaseRequestsRemaining': decreaseRequestsRemaining,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': iso8601ToJson(lastModifiedTime),
+      if (minimumLoadBalancerCapacity != null)
+        'MinimumLoadBalancerCapacity': minimumLoadBalancerCapacity,
     };
   }
 }
@@ -4247,32 +3748,6 @@ class DescribeTargetGroupsOutput {
   }
 }
 
-class DescribeTargetHealthInputIncludeEnum {
-  static const anomalyDetection =
-      DescribeTargetHealthInputIncludeEnum._('AnomalyDetection');
-  static const all = DescribeTargetHealthInputIncludeEnum._('All');
-
-  final String value;
-
-  const DescribeTargetHealthInputIncludeEnum._(this.value);
-
-  static const values = [anomalyDetection, all];
-
-  static DescribeTargetHealthInputIncludeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DescribeTargetHealthInputIncludeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DescribeTargetHealthInputIncludeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DescribeTargetHealthOutput {
   /// Information about the health of the targets.
   final List<TargetHealthDescription>? targetHealthDescriptions;
@@ -4331,53 +3806,6 @@ class DescribeTrustStoreAssociationsOutput {
       if (nextMarker != null) 'NextMarker': nextMarker,
       if (trustStoreAssociations != null)
         'TrustStoreAssociations': trustStoreAssociations,
-    };
-  }
-}
-
-/// Information about the revocations used by a trust store.
-class DescribeTrustStoreRevocation {
-  /// The number of revoked certificates.
-  final int? numberOfRevokedEntries;
-
-  /// The revocation ID of a revocation file in use.
-  final int? revocationId;
-
-  /// The type of revocation file.
-  final RevocationType? revocationType;
-
-  /// The Amazon Resource Name (ARN) of the trust store.
-  final String? trustStoreArn;
-
-  DescribeTrustStoreRevocation({
-    this.numberOfRevokedEntries,
-    this.revocationId,
-    this.revocationType,
-    this.trustStoreArn,
-  });
-  factory DescribeTrustStoreRevocation.fromXml(_s.XmlElement elem) {
-    return DescribeTrustStoreRevocation(
-      numberOfRevokedEntries:
-          _s.extractXmlIntValue(elem, 'NumberOfRevokedEntries'),
-      revocationId: _s.extractXmlIntValue(elem, 'RevocationId'),
-      revocationType: _s
-          .extractXmlStringValue(elem, 'RevocationType')
-          ?.let(RevocationType.fromString),
-      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final numberOfRevokedEntries = this.numberOfRevokedEntries;
-    final revocationId = this.revocationId;
-    final revocationType = this.revocationType;
-    final trustStoreArn = this.trustStoreArn;
-    return {
-      if (numberOfRevokedEntries != null)
-        'NumberOfRevokedEntries': numberOfRevokedEntries,
-      if (revocationId != null) 'RevocationId': revocationId,
-      if (revocationType != null) 'RevocationType': revocationType.value,
-      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
     };
   }
 }
@@ -4447,138 +3875,6 @@ class DescribeTrustStoresOutput {
   }
 }
 
-class EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
-  static const on =
-      EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._('on');
-  static const off =
-      EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._('off');
-
-  final String value;
-
-  const EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._(this.value);
-
-  static const values = [on, off];
-
-  static EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum fromString(
-          String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () =>
-              EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._(
-                  value));
-
-  @override
-  bool operator ==(other) =>
-      other is EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an action that returns a custom HTTP response.
-class FixedResponseActionConfig {
-  /// The HTTP response code (2XX, 4XX, or 5XX).
-  final String statusCode;
-
-  /// The content type.
-  ///
-  /// Valid Values: text/plain | text/css | text/html | application/javascript |
-  /// application/json
-  final String? contentType;
-
-  /// The message.
-  final String? messageBody;
-
-  FixedResponseActionConfig({
-    required this.statusCode,
-    this.contentType,
-    this.messageBody,
-  });
-  factory FixedResponseActionConfig.fromXml(_s.XmlElement elem) {
-    return FixedResponseActionConfig(
-      statusCode: _s.extractXmlStringValue(elem, 'StatusCode')!,
-      contentType: _s.extractXmlStringValue(elem, 'ContentType'),
-      messageBody: _s.extractXmlStringValue(elem, 'MessageBody'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final statusCode = this.statusCode;
-    final contentType = this.contentType;
-    final messageBody = this.messageBody;
-    return {
-      'StatusCode': statusCode,
-      if (contentType != null) 'ContentType': contentType,
-      if (messageBody != null) 'MessageBody': messageBody,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final statusCode = this.statusCode;
-    final contentType = this.contentType;
-    final messageBody = this.messageBody;
-    return {
-      'StatusCode': statusCode,
-      if (contentType != null) 'ContentType': contentType,
-      if (messageBody != null) 'MessageBody': messageBody,
-    };
-  }
-}
-
-/// Information about a forward action.
-class ForwardActionConfig {
-  /// The target group stickiness for the rule.
-  final TargetGroupStickinessConfig? targetGroupStickinessConfig;
-
-  /// The target groups. For Network Load Balancers, you can specify a single
-  /// target group.
-  final List<TargetGroupTuple>? targetGroups;
-
-  ForwardActionConfig({
-    this.targetGroupStickinessConfig,
-    this.targetGroups,
-  });
-  factory ForwardActionConfig.fromXml(_s.XmlElement elem) {
-    return ForwardActionConfig(
-      targetGroupStickinessConfig: _s
-          .extractXmlChild(elem, 'TargetGroupStickinessConfig')
-          ?.let(TargetGroupStickinessConfig.fromXml),
-      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
-          elem.findElements('member').map(TargetGroupTuple.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetGroupStickinessConfig = this.targetGroupStickinessConfig;
-    final targetGroups = this.targetGroups;
-    return {
-      if (targetGroupStickinessConfig != null)
-        'TargetGroupStickinessConfig': targetGroupStickinessConfig,
-      if (targetGroups != null) 'TargetGroups': targetGroups,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final targetGroupStickinessConfig = this.targetGroupStickinessConfig;
-    final targetGroups = this.targetGroups;
-    return {
-      if (targetGroupStickinessConfig != null)
-        for (var e1 in targetGroupStickinessConfig.toQueryMap().entries)
-          'TargetGroupStickinessConfig.${e1.key}': e1.value,
-      if (targetGroups != null)
-        if (targetGroups.isEmpty)
-          'TargetGroups': ''
-        else
-          for (var i1 = 0; i1 < targetGroups.length; i1++)
-            for (var e3 in targetGroups[i1].toQueryMap().entries)
-              'TargetGroups.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
 class GetResourcePolicyOutput {
   /// The content of the resource policy.
   final String? policy;
@@ -4642,1036 +3938,77 @@ class GetTrustStoreRevocationContentOutput {
   }
 }
 
-/// Information about a host header condition.
-class HostHeaderConditionConfig {
-  /// The host names. The maximum size of each name is 128 characters. The
-  /// comparison is case insensitive. The following wildcard characters are
-  /// supported: * (matches 0 or more characters) and ? (matches exactly 1
-  /// character).
-  ///
-  /// If you specify multiple strings, the condition is satisfied if one of the
-  /// strings matches the host name.
-  final List<String>? values;
+class ModifyCapacityReservationOutput {
+  /// The state of the capacity reservation.
+  final List<ZonalCapacityReservationState>? capacityReservationState;
 
-  HostHeaderConditionConfig({
-    this.values,
+  /// The amount of daily capacity decreases remaining.
+  final int? decreaseRequestsRemaining;
+
+  /// The last time the capacity reservation was modified.
+  final DateTime? lastModifiedTime;
+
+  /// The requested minimum capacity reservation for the load balancer
+  final MinimumLoadBalancerCapacity? minimumLoadBalancerCapacity;
+
+  ModifyCapacityReservationOutput({
+    this.capacityReservationState,
+    this.decreaseRequestsRemaining,
+    this.lastModifiedTime,
+    this.minimumLoadBalancerCapacity,
   });
-  factory HostHeaderConditionConfig.fromXml(_s.XmlElement elem) {
-    return HostHeaderConditionConfig(
-      values: _s
-          .extractXmlChild(elem, 'Values')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final values = this.values;
-    return {
-      if (values != null) 'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final values = this.values;
-    return {
-      if (values != null)
-        if (values.isEmpty)
-          'Values': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            'Values.member.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-/// Information about an HTTP header condition.
-///
-/// There is a set of standard HTTP header fields. You can also define custom
-/// HTTP header fields.
-class HttpHeaderConditionConfig {
-  /// The name of the HTTP header field. The maximum size is 40 characters. The
-  /// header name is case insensitive. The allowed characters are specified by RFC
-  /// 7230. Wildcards are not supported.
-  ///
-  /// You can't use an HTTP header condition to specify the host header. Use
-  /// <a>HostHeaderConditionConfig</a> to specify a host header condition.
-  final String? httpHeaderName;
-
-  /// The strings to compare against the value of the HTTP header. The maximum
-  /// size of each string is 128 characters. The comparison strings are case
-  /// insensitive. The following wildcard characters are supported: * (matches 0
-  /// or more characters) and ? (matches exactly 1 character).
-  ///
-  /// If the same header appears multiple times in the request, we search them in
-  /// order until a match is found.
-  ///
-  /// If you specify multiple strings, the condition is satisfied if one of the
-  /// strings matches the value of the HTTP header. To require that all of the
-  /// strings are a match, create one condition per string.
-  final List<String>? values;
-
-  HttpHeaderConditionConfig({
-    this.httpHeaderName,
-    this.values,
-  });
-  factory HttpHeaderConditionConfig.fromXml(_s.XmlElement elem) {
-    return HttpHeaderConditionConfig(
-      httpHeaderName: _s.extractXmlStringValue(elem, 'HttpHeaderName'),
-      values: _s
-          .extractXmlChild(elem, 'Values')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final httpHeaderName = this.httpHeaderName;
-    final values = this.values;
-    return {
-      if (httpHeaderName != null) 'HttpHeaderName': httpHeaderName,
-      if (values != null) 'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final httpHeaderName = this.httpHeaderName;
-    final values = this.values;
-    return {
-      if (httpHeaderName != null) 'HttpHeaderName': httpHeaderName,
-      if (values != null)
-        if (values.isEmpty)
-          'Values': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            'Values.member.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-/// Information about an HTTP method condition.
-///
-/// HTTP defines a set of request methods, also referred to as HTTP verbs. For
-/// more information, see the <a
-/// href="https://www.iana.org/assignments/http-methods/http-methods.xhtml">HTTP
-/// Method Registry</a>. You can also define custom HTTP methods.
-class HttpRequestMethodConditionConfig {
-  /// The name of the request method. The maximum size is 40 characters. The
-  /// allowed characters are A-Z, hyphen (-), and underscore (_). The comparison
-  /// is case sensitive. Wildcards are not supported; therefore, the method name
-  /// must be an exact match.
-  ///
-  /// If you specify multiple strings, the condition is satisfied if one of the
-  /// strings matches the HTTP request method. We recommend that you route GET and
-  /// HEAD requests in the same way, because the response to a HEAD request may be
-  /// cached.
-  final List<String>? values;
-
-  HttpRequestMethodConditionConfig({
-    this.values,
-  });
-  factory HttpRequestMethodConditionConfig.fromXml(_s.XmlElement elem) {
-    return HttpRequestMethodConditionConfig(
-      values: _s
-          .extractXmlChild(elem, 'Values')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final values = this.values;
-    return {
-      if (values != null) 'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final values = this.values;
-    return {
-      if (values != null)
-        if (values.isEmpty)
-          'Values': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            'Values.member.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-class IpAddressType {
-  static const ipv4 = IpAddressType._('ipv4');
-  static const dualstack = IpAddressType._('dualstack');
-  static const dualstackWithoutPublicIpv4 =
-      IpAddressType._('dualstack-without-public-ipv4');
-
-  final String value;
-
-  const IpAddressType._(this.value);
-
-  static const values = [ipv4, dualstack, dualstackWithoutPublicIpv4];
-
-  static IpAddressType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IpAddressType._(value));
-
-  @override
-  bool operator ==(other) => other is IpAddressType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an Elastic Load Balancing resource limit for your Amazon
-/// Web Services account.
-///
-/// For more information, see the following:
-///
-/// <ul>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
-/// for your Application Load Balancers</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html">Quotas
-/// for your Network Load Balancers</a>
-/// </li>
-/// <li>
-/// <a
-/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html">Quotas
-/// for your Gateway Load Balancers</a>
-/// </li>
-/// </ul>
-class Limit {
-  /// The maximum value of the limit.
-  final String? max;
-
-  /// The name of the limit. The possible values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// application-load-balancers
-  /// </li>
-  /// <li>
-  /// condition-values-per-alb-rule
-  /// </li>
-  /// <li>
-  /// condition-wildcards-per-alb-rule
-  /// </li>
-  /// <li>
-  /// gateway-load-balancers
-  /// </li>
-  /// <li>
-  /// gateway-load-balancers-per-vpc
-  /// </li>
-  /// <li>
-  /// geneve-target-groups
-  /// </li>
-  /// <li>
-  /// listeners-per-application-load-balancer
-  /// </li>
-  /// <li>
-  /// listeners-per-network-load-balancer
-  /// </li>
-  /// <li>
-  /// network-load-balancers
-  /// </li>
-  /// <li>
-  /// rules-per-application-load-balancer
-  /// </li>
-  /// <li>
-  /// target-groups
-  /// </li>
-  /// <li>
-  /// target-groups-per-action-on-application-load-balancer
-  /// </li>
-  /// <li>
-  /// target-groups-per-action-on-network-load-balancer
-  /// </li>
-  /// <li>
-  /// target-groups-per-application-load-balancer
-  /// </li>
-  /// <li>
-  /// targets-per-application-load-balancer
-  /// </li>
-  /// <li>
-  /// targets-per-availability-zone-per-gateway-load-balancer
-  /// </li>
-  /// <li>
-  /// targets-per-availability-zone-per-network-load-balancer
-  /// </li>
-  /// <li>
-  /// targets-per-network-load-balancer
-  /// </li>
-  /// </ul>
-  final String? name;
-
-  Limit({
-    this.max,
-    this.name,
-  });
-  factory Limit.fromXml(_s.XmlElement elem) {
-    return Limit(
-      max: _s.extractXmlStringValue(elem, 'Max'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final max = this.max;
-    final name = this.name;
-    return {
-      if (max != null) 'Max': max,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Information about a listener.
-class Listener {
-  /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN)
-  /// policy.
-  final List<String>? alpnPolicy;
-
-  /// [HTTPS or TLS listener] The default certificate for the listener.
-  final List<Certificate>? certificates;
-
-  /// The default actions for the listener.
-  final List<Action>? defaultActions;
-
-  /// The Amazon Resource Name (ARN) of the listener.
-  final String? listenerArn;
-
-  /// The Amazon Resource Name (ARN) of the load balancer.
-  final String? loadBalancerArn;
-
-  /// The mutual authentication configuration information.
-  final MutualAuthenticationAttributes? mutualAuthentication;
-
-  /// The port on which the load balancer is listening.
-  final int? port;
-
-  /// The protocol for connections from clients to the load balancer.
-  final ProtocolEnum? protocol;
-
-  /// [HTTPS or TLS listener] The security policy that defines which protocols and
-  /// ciphers are supported.
-  final String? sslPolicy;
-
-  Listener({
-    this.alpnPolicy,
-    this.certificates,
-    this.defaultActions,
-    this.listenerArn,
-    this.loadBalancerArn,
-    this.mutualAuthentication,
-    this.port,
-    this.protocol,
-    this.sslPolicy,
-  });
-  factory Listener.fromXml(_s.XmlElement elem) {
-    return Listener(
-      alpnPolicy: _s
-          .extractXmlChild(elem, 'AlpnPolicy')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) =>
-          elem.findElements('member').map(Certificate.fromXml).toList()),
-      defaultActions: _s.extractXmlChild(elem, 'DefaultActions')?.let(
-          (elem) => elem.findElements('member').map(Action.fromXml).toList()),
-      listenerArn: _s.extractXmlStringValue(elem, 'ListenerArn'),
-      loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
-      mutualAuthentication: _s
-          .extractXmlChild(elem, 'MutualAuthentication')
-          ?.let(MutualAuthenticationAttributes.fromXml),
-      port: _s.extractXmlIntValue(elem, 'Port'),
-      protocol: _s
-          .extractXmlStringValue(elem, 'Protocol')
-          ?.let(ProtocolEnum.fromString),
-      sslPolicy: _s.extractXmlStringValue(elem, 'SslPolicy'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alpnPolicy = this.alpnPolicy;
-    final certificates = this.certificates;
-    final defaultActions = this.defaultActions;
-    final listenerArn = this.listenerArn;
-    final loadBalancerArn = this.loadBalancerArn;
-    final mutualAuthentication = this.mutualAuthentication;
-    final port = this.port;
-    final protocol = this.protocol;
-    final sslPolicy = this.sslPolicy;
-    return {
-      if (alpnPolicy != null) 'AlpnPolicy': alpnPolicy,
-      if (certificates != null) 'Certificates': certificates,
-      if (defaultActions != null) 'DefaultActions': defaultActions,
-      if (listenerArn != null) 'ListenerArn': listenerArn,
-      if (loadBalancerArn != null) 'LoadBalancerArn': loadBalancerArn,
-      if (mutualAuthentication != null)
-        'MutualAuthentication': mutualAuthentication,
-      if (port != null) 'Port': port,
-      if (protocol != null) 'Protocol': protocol.value,
-      if (sslPolicy != null) 'SslPolicy': sslPolicy,
-    };
-  }
-}
-
-/// Information about a listener attribute.
-class ListenerAttribute {
-  /// The name of the attribute.
-  ///
-  /// The following attribute is supported by Network Load Balancers, and Gateway
-  /// Load Balancers.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>tcp.idle_timeout.seconds</code> - The tcp idle timeout value, in
-  /// seconds. The valid range is 60-6000 seconds. The default is 350 seconds.
-  /// </li>
-  /// </ul>
-  final String? key;
-
-  /// The value of the attribute.
-  final String? value;
-
-  ListenerAttribute({
-    this.key,
-    this.value,
-  });
-  factory ListenerAttribute.fromXml(_s.XmlElement elem) {
-    return ListenerAttribute(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Information about a load balancer.
-class LoadBalancer {
-  /// The subnets for the load balancer.
-  final List<AvailabilityZone>? availabilityZones;
-
-  /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
-  final String? canonicalHostedZoneId;
-
-  /// The date and time the load balancer was created.
-  final DateTime? createdTime;
-
-  /// [Application Load Balancers on Outposts] The ID of the customer-owned
-  /// address pool.
-  final String? customerOwnedIpv4Pool;
-
-  /// The public DNS name of the load balancer.
-  final String? dNSName;
-
-  /// Indicates whether to evaluate inbound security group rules for traffic sent
-  /// to a Network Load Balancer through Amazon Web Services PrivateLink.
-  final String? enforceSecurityGroupInboundRulesOnPrivateLinkTraffic;
-
-  /// [Application Load Balancers] The type of IP addresses used for public or
-  /// private connections by the subnets attached to your load balancer. The
-  /// possible values are <code>ipv4</code> (for only IPv4 addresses),
-  /// <code>dualstack</code> (for IPv4 and IPv6 addresses), and
-  /// <code>dualstack-without-public-ipv4</code> (for IPv6 only public addresses,
-  /// with private IPv4 and IPv6 addresses).
-  ///
-  /// [Network Load Balancers and Gateway Load Balancers] The type of IP addresses
-  /// used for public or private connections by the subnets attached to your load
-  /// balancer. The possible values are <code>ipv4</code> (for only IPv4
-  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses).
-  final IpAddressType? ipAddressType;
-
-  /// The Amazon Resource Name (ARN) of the load balancer.
-  final String? loadBalancerArn;
-
-  /// The name of the load balancer.
-  final String? loadBalancerName;
-
-  /// The nodes of an Internet-facing load balancer have public IP addresses. The
-  /// DNS name of an Internet-facing load balancer is publicly resolvable to the
-  /// public IP addresses of the nodes. Therefore, Internet-facing load balancers
-  /// can route requests from clients over the internet.
-  ///
-  /// The nodes of an internal load balancer have only private IP addresses. The
-  /// DNS name of an internal load balancer is publicly resolvable to the private
-  /// IP addresses of the nodes. Therefore, internal load balancers can route
-  /// requests only from clients with access to the VPC for the load balancer.
-  final LoadBalancerSchemeEnum? scheme;
-
-  /// The IDs of the security groups for the load balancer.
-  final List<String>? securityGroups;
-
-  /// The state of the load balancer.
-  final LoadBalancerState? state;
-
-  /// The type of load balancer.
-  final LoadBalancerTypeEnum? type;
-
-  /// The ID of the VPC for the load balancer.
-  final String? vpcId;
-
-  LoadBalancer({
-    this.availabilityZones,
-    this.canonicalHostedZoneId,
-    this.createdTime,
-    this.customerOwnedIpv4Pool,
-    this.dNSName,
-    this.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
-    this.ipAddressType,
-    this.loadBalancerArn,
-    this.loadBalancerName,
-    this.scheme,
-    this.securityGroups,
-    this.state,
-    this.type,
-    this.vpcId,
-  });
-  factory LoadBalancer.fromXml(_s.XmlElement elem) {
-    return LoadBalancer(
-      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
-          (elem) => elem
+  factory ModifyCapacityReservationOutput.fromXml(_s.XmlElement elem) {
+    return ModifyCapacityReservationOutput(
+      capacityReservationState: _s
+          .extractXmlChild(elem, 'CapacityReservationState')
+          ?.let((elem) => elem
               .findElements('member')
-              .map(AvailabilityZone.fromXml)
+              .map(ZonalCapacityReservationState.fromXml)
               .toList()),
-      canonicalHostedZoneId:
-          _s.extractXmlStringValue(elem, 'CanonicalHostedZoneId'),
-      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
-      customerOwnedIpv4Pool:
-          _s.extractXmlStringValue(elem, 'CustomerOwnedIpv4Pool'),
-      dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
-      enforceSecurityGroupInboundRulesOnPrivateLinkTraffic:
-          _s.extractXmlStringValue(
-              elem, 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic'),
-      ipAddressType: _s
-          .extractXmlStringValue(elem, 'IpAddressType')
-          ?.let(IpAddressType.fromString),
-      loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
-      loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
-      scheme: _s
-          .extractXmlStringValue(elem, 'Scheme')
-          ?.let(LoadBalancerSchemeEnum.fromString),
-      securityGroups: _s
-          .extractXmlChild(elem, 'SecurityGroups')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      state: _s.extractXmlChild(elem, 'State')?.let(LoadBalancerState.fromXml),
-      type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.let(LoadBalancerTypeEnum.fromString),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+      decreaseRequestsRemaining:
+          _s.extractXmlIntValue(elem, 'DecreaseRequestsRemaining'),
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
+      minimumLoadBalancerCapacity: _s
+          .extractXmlChild(elem, 'MinimumLoadBalancerCapacity')
+          ?.let(MinimumLoadBalancerCapacity.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final availabilityZones = this.availabilityZones;
-    final canonicalHostedZoneId = this.canonicalHostedZoneId;
-    final createdTime = this.createdTime;
-    final customerOwnedIpv4Pool = this.customerOwnedIpv4Pool;
-    final dNSName = this.dNSName;
-    final enforceSecurityGroupInboundRulesOnPrivateLinkTraffic =
-        this.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic;
-    final ipAddressType = this.ipAddressType;
-    final loadBalancerArn = this.loadBalancerArn;
-    final loadBalancerName = this.loadBalancerName;
-    final scheme = this.scheme;
-    final securityGroups = this.securityGroups;
-    final state = this.state;
-    final type = this.type;
-    final vpcId = this.vpcId;
+    final capacityReservationState = this.capacityReservationState;
+    final decreaseRequestsRemaining = this.decreaseRequestsRemaining;
+    final lastModifiedTime = this.lastModifiedTime;
+    final minimumLoadBalancerCapacity = this.minimumLoadBalancerCapacity;
     return {
-      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
-      if (canonicalHostedZoneId != null)
-        'CanonicalHostedZoneId': canonicalHostedZoneId,
-      if (createdTime != null) 'CreatedTime': iso8601ToJson(createdTime),
-      if (customerOwnedIpv4Pool != null)
-        'CustomerOwnedIpv4Pool': customerOwnedIpv4Pool,
-      if (dNSName != null) 'DNSName': dNSName,
-      if (enforceSecurityGroupInboundRulesOnPrivateLinkTraffic != null)
-        'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic':
-            enforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
-      if (loadBalancerArn != null) 'LoadBalancerArn': loadBalancerArn,
-      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
-      if (scheme != null) 'Scheme': scheme.value,
-      if (securityGroups != null) 'SecurityGroups': securityGroups,
-      if (state != null) 'State': state,
-      if (type != null) 'Type': type.value,
-      if (vpcId != null) 'VpcId': vpcId,
+      if (capacityReservationState != null)
+        'CapacityReservationState': capacityReservationState,
+      if (decreaseRequestsRemaining != null)
+        'DecreaseRequestsRemaining': decreaseRequestsRemaining,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': iso8601ToJson(lastModifiedTime),
+      if (minimumLoadBalancerCapacity != null)
+        'MinimumLoadBalancerCapacity': minimumLoadBalancerCapacity,
     };
   }
 }
 
-/// Information about a static IP address for a load balancer.
-class LoadBalancerAddress {
-  /// [Network Load Balancers] The allocation ID of the Elastic IP address for an
-  /// internal-facing load balancer.
-  final String? allocationId;
+class ModifyIpPoolsOutput {
+  /// The IPAM pool ID.
+  final IpamPools? ipamPools;
 
-  /// [Network Load Balancers] The IPv6 address.
-  final String? iPv6Address;
-
-  /// The static IP address.
-  final String? ipAddress;
-
-  /// [Network Load Balancers] The private IPv4 address for an internal load
-  /// balancer.
-  final String? privateIPv4Address;
-
-  LoadBalancerAddress({
-    this.allocationId,
-    this.iPv6Address,
-    this.ipAddress,
-    this.privateIPv4Address,
+  ModifyIpPoolsOutput({
+    this.ipamPools,
   });
-  factory LoadBalancerAddress.fromXml(_s.XmlElement elem) {
-    return LoadBalancerAddress(
-      allocationId: _s.extractXmlStringValue(elem, 'AllocationId'),
-      iPv6Address: _s.extractXmlStringValue(elem, 'IPv6Address'),
-      ipAddress: _s.extractXmlStringValue(elem, 'IpAddress'),
-      privateIPv4Address: _s.extractXmlStringValue(elem, 'PrivateIPv4Address'),
+  factory ModifyIpPoolsOutput.fromXml(_s.XmlElement elem) {
+    return ModifyIpPoolsOutput(
+      ipamPools: _s.extractXmlChild(elem, 'IpamPools')?.let(IpamPools.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final allocationId = this.allocationId;
-    final iPv6Address = this.iPv6Address;
-    final ipAddress = this.ipAddress;
-    final privateIPv4Address = this.privateIPv4Address;
+    final ipamPools = this.ipamPools;
     return {
-      if (allocationId != null) 'AllocationId': allocationId,
-      if (iPv6Address != null) 'IPv6Address': iPv6Address,
-      if (ipAddress != null) 'IpAddress': ipAddress,
-      if (privateIPv4Address != null) 'PrivateIPv4Address': privateIPv4Address,
-    };
-  }
-}
-
-/// Information about a load balancer attribute.
-class LoadBalancerAttribute {
-  /// The name of the attribute.
-  ///
-  /// The following attributes are supported by all load balancers:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>deletion_protection.enabled</code> - Indicates whether deletion
-  /// protection is enabled. The value is <code>true</code> or <code>false</code>.
-  /// The default is <code>false</code>.
-  /// </li>
-  /// <li>
-  /// <code>load_balancing.cross_zone.enabled</code> - Indicates whether
-  /// cross-zone load balancing is enabled. The possible values are
-  /// <code>true</code> and <code>false</code>. The default for Network Load
-  /// Balancers and Gateway Load Balancers is <code>false</code>. The default for
-  /// Application Load Balancers is <code>true</code>, and cannot be changed.
-  /// </li>
-  /// </ul>
-  /// The following attributes are supported by both Application Load Balancers
-  /// and Network Load Balancers:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>access_logs.s3.enabled</code> - Indicates whether access logs are
-  /// enabled. The value is <code>true</code> or <code>false</code>. The default
-  /// is <code>false</code>.
-  /// </li>
-  /// <li>
-  /// <code>access_logs.s3.bucket</code> - The name of the S3 bucket for the
-  /// access logs. This attribute is required if access logs are enabled. The
-  /// bucket must exist in the same region as the load balancer and have a bucket
-  /// policy that grants Elastic Load Balancing permissions to write to the
-  /// bucket.
-  /// </li>
-  /// <li>
-  /// <code>access_logs.s3.prefix</code> - The prefix for the location in the S3
-  /// bucket for the access logs.
-  /// </li>
-  /// <li>
-  /// <code>ipv6.deny_all_igw_traffic</code> - Blocks internet gateway (IGW)
-  /// access to the load balancer. It is set to <code>false</code> for
-  /// internet-facing load balancers and <code>true</code> for internal load
-  /// balancers, preventing unintended access to your internal load balancer
-  /// through an internet gateway.
-  /// </li>
-  /// </ul>
-  /// The following attributes are supported by only Application Load Balancers:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>idle_timeout.timeout_seconds</code> - The idle timeout value, in
-  /// seconds. The valid range is 1-4000 seconds. The default is 60 seconds.
-  /// </li>
-  /// <li>
-  /// <code>client_keep_alive.seconds</code> - The client keep alive value, in
-  /// seconds. The valid range is 60-604800 seconds. The default is 3600 seconds.
-  /// </li>
-  /// <li>
-  /// <code>connection_logs.s3.enabled</code> - Indicates whether connection logs
-  /// are enabled. The value is <code>true</code> or <code>false</code>. The
-  /// default is <code>false</code>.
-  /// </li>
-  /// <li>
-  /// <code>connection_logs.s3.bucket</code> - The name of the S3 bucket for the
-  /// connection logs. This attribute is required if connection logs are enabled.
-  /// The bucket must exist in the same region as the load balancer and have a
-  /// bucket policy that grants Elastic Load Balancing permissions to write to the
-  /// bucket.
-  /// </li>
-  /// <li>
-  /// <code>connection_logs.s3.prefix</code> - The prefix for the location in the
-  /// S3 bucket for the connection logs.
-  /// </li>
-  /// <li>
-  /// <code>routing.http.desync_mitigation_mode</code> - Determines how the load
-  /// balancer handles requests that might pose a security risk to your
-  /// application. The possible values are <code>monitor</code>,
-  /// <code>defensive</code>, and <code>strictest</code>. The default is
-  /// <code>defensive</code>.
-  /// </li>
-  /// <li>
-  /// <code>routing.http.drop_invalid_header_fields.enabled</code> - Indicates
-  /// whether HTTP headers with invalid header fields are removed by the load
-  /// balancer (<code>true</code>) or routed to targets (<code>false</code>). The
-  /// default is <code>false</code>.
-  /// </li>
-  /// <li>
-  /// <code>routing.http.preserve_host_header.enabled</code> - Indicates whether
-  /// the Application Load Balancer should preserve the <code>Host</code> header
-  /// in the HTTP request and send it to the target without any change. The
-  /// possible values are <code>true</code> and <code>false</code>. The default is
-  /// <code>false</code>.
-  /// </li>
-  /// <li>
-  /// <code>routing.http.x_amzn_tls_version_and_cipher_suite.enabled</code> -
-  /// Indicates whether the two headers (<code>x-amzn-tls-version</code> and
-  /// <code>x-amzn-tls-cipher-suite</code>), which contain information about the
-  /// negotiated TLS version and cipher suite, are added to the client request
-  /// before sending it to the target. The <code>x-amzn-tls-version</code> header
-  /// has information about the TLS protocol version negotiated with the client,
-  /// and the <code>x-amzn-tls-cipher-suite</code> header has information about
-  /// the cipher suite negotiated with the client. Both headers are in OpenSSL
-  /// format. The possible values for the attribute are <code>true</code> and
-  /// <code>false</code>. The default is <code>false</code>.
-  /// </li>
-  /// <li>
-  /// <code>routing.http.xff_client_port.enabled</code> - Indicates whether the
-  /// <code>X-Forwarded-For</code> header should preserve the source port that the
-  /// client used to connect to the load balancer. The possible values are
-  /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
-  /// </li>
-  /// <li>
-  /// <code>routing.http.xff_header_processing.mode</code> - Enables you to
-  /// modify, preserve, or remove the <code>X-Forwarded-For</code> header in the
-  /// HTTP request before the Application Load Balancer sends the request to the
-  /// target. The possible values are <code>append</code>, <code>preserve</code>,
-  /// and <code>remove</code>. The default is <code>append</code>.
-  ///
-  /// <ul>
-  /// <li>
-  /// If the value is <code>append</code>, the Application Load Balancer adds the
-  /// client IP address (of the last hop) to the <code>X-Forwarded-For</code>
-  /// header in the HTTP request before it sends it to targets.
-  /// </li>
-  /// <li>
-  /// If the value is <code>preserve</code> the Application Load Balancer
-  /// preserves the <code>X-Forwarded-For</code> header in the HTTP request, and
-  /// sends it to targets without any change.
-  /// </li>
-  /// <li>
-  /// If the value is <code>remove</code>, the Application Load Balancer removes
-  /// the <code>X-Forwarded-For</code> header in the HTTP request before it sends
-  /// it to targets.
-  /// </li>
-  /// </ul> </li>
-  /// <li>
-  /// <code>routing.http2.enabled</code> - Indicates whether HTTP/2 is enabled.
-  /// The possible values are <code>true</code> and <code>false</code>. The
-  /// default is <code>true</code>. Elastic Load Balancing requires that message
-  /// header names contain only alphanumeric characters and hyphens.
-  /// </li>
-  /// <li>
-  /// <code>waf.fail_open.enabled</code> - Indicates whether to allow a
-  /// WAF-enabled load balancer to route requests to targets if it is unable to
-  /// forward the request to Amazon Web Services WAF. The possible values are
-  /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
-  /// </li>
-  /// </ul>
-  /// The following attributes are supported by only Network Load Balancers:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>dns_record.client_routing_policy</code> - Indicates how traffic is
-  /// distributed among the load balancer Availability Zones. The possible values
-  /// are <code>availability_zone_affinity</code> with 100 percent zonal affinity,
-  /// <code>partial_availability_zone_affinity</code> with 85 percent zonal
-  /// affinity, and <code>any_availability_zone</code> with 0 percent zonal
-  /// affinity.
-  /// </li>
-  /// </ul>
-  final String? key;
-
-  /// The value of the attribute.
-  final String? value;
-
-  LoadBalancerAttribute({
-    this.key,
-    this.value,
-  });
-  factory LoadBalancerAttribute.fromXml(_s.XmlElement elem) {
-    return LoadBalancerAttribute(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class LoadBalancerSchemeEnum {
-  static const internetFacing = LoadBalancerSchemeEnum._('internet-facing');
-  static const internal = LoadBalancerSchemeEnum._('internal');
-
-  final String value;
-
-  const LoadBalancerSchemeEnum._(this.value);
-
-  static const values = [internetFacing, internal];
-
-  static LoadBalancerSchemeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LoadBalancerSchemeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LoadBalancerSchemeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the state of the load balancer.
-class LoadBalancerState {
-  /// The state code. The initial state of the load balancer is
-  /// <code>provisioning</code>. After the load balancer is fully set up and ready
-  /// to route traffic, its state is <code>active</code>. If load balancer is
-  /// routing traffic but does not have the resources it needs to scale, its state
-  /// is<code>active_impaired</code>. If the load balancer could not be set up,
-  /// its state is <code>failed</code>.
-  final LoadBalancerStateEnum? code;
-
-  /// A description of the state.
-  final String? reason;
-
-  LoadBalancerState({
-    this.code,
-    this.reason,
-  });
-  factory LoadBalancerState.fromXml(_s.XmlElement elem) {
-    return LoadBalancerState(
-      code: _s
-          .extractXmlStringValue(elem, 'Code')
-          ?.let(LoadBalancerStateEnum.fromString),
-      reason: _s.extractXmlStringValue(elem, 'Reason'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final reason = this.reason;
-    return {
-      if (code != null) 'Code': code.value,
-      if (reason != null) 'Reason': reason,
-    };
-  }
-}
-
-class LoadBalancerStateEnum {
-  static const active = LoadBalancerStateEnum._('active');
-  static const provisioning = LoadBalancerStateEnum._('provisioning');
-  static const activeImpaired = LoadBalancerStateEnum._('active_impaired');
-  static const failed = LoadBalancerStateEnum._('failed');
-
-  final String value;
-
-  const LoadBalancerStateEnum._(this.value);
-
-  static const values = [active, provisioning, activeImpaired, failed];
-
-  static LoadBalancerStateEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LoadBalancerStateEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LoadBalancerStateEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LoadBalancerTypeEnum {
-  static const application = LoadBalancerTypeEnum._('application');
-  static const network = LoadBalancerTypeEnum._('network');
-  static const gateway = LoadBalancerTypeEnum._('gateway');
-
-  final String value;
-
-  const LoadBalancerTypeEnum._(this.value);
-
-  static const values = [application, network, gateway];
-
-  static LoadBalancerTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LoadBalancerTypeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LoadBalancerTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The codes to use when checking for a successful response from a target. If
-/// the protocol version is gRPC, these are gRPC codes. Otherwise, these are
-/// HTTP codes.
-class Matcher {
-  /// You can specify values between 0 and 99. You can specify multiple values
-  /// (for example, "0,1") or a range of values (for example, "0-5"). The default
-  /// value is 12.
-  final String? grpcCode;
-
-  /// For Application Load Balancers, you can specify values between 200 and 499,
-  /// with the default value being 200. You can specify multiple values (for
-  /// example, "200,202") or a range of values (for example, "200-299").
-  ///
-  /// For Network Load Balancers, you can specify values between 200 and 599, with
-  /// the default value being 200-399. You can specify multiple values (for
-  /// example, "200,202") or a range of values (for example, "200-299").
-  ///
-  /// For Gateway Load Balancers, this must be "200–399".
-  ///
-  /// Note that when using shorthand syntax, some values such as commas need to be
-  /// escaped.
-  final String? httpCode;
-
-  Matcher({
-    this.grpcCode,
-    this.httpCode,
-  });
-  factory Matcher.fromXml(_s.XmlElement elem) {
-    return Matcher(
-      grpcCode: _s.extractXmlStringValue(elem, 'GrpcCode'),
-      httpCode: _s.extractXmlStringValue(elem, 'HttpCode'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final grpcCode = this.grpcCode;
-    final httpCode = this.httpCode;
-    return {
-      if (grpcCode != null) 'GrpcCode': grpcCode,
-      if (httpCode != null) 'HttpCode': httpCode,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final grpcCode = this.grpcCode;
-    final httpCode = this.httpCode;
-    return {
-      if (grpcCode != null) 'GrpcCode': grpcCode,
-      if (httpCode != null) 'HttpCode': httpCode,
-    };
-  }
-}
-
-class MitigationInEffectEnum {
-  static const yes = MitigationInEffectEnum._('yes');
-  static const no = MitigationInEffectEnum._('no');
-
-  final String value;
-
-  const MitigationInEffectEnum._(this.value);
-
-  static const values = [yes, no];
-
-  static MitigationInEffectEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MitigationInEffectEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MitigationInEffectEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ModifyListenerAttributesOutput {
-  /// Information about the listener attributes.
-  final List<ListenerAttribute>? attributes;
-
-  ModifyListenerAttributesOutput({
-    this.attributes,
-  });
-  factory ModifyListenerAttributesOutput.fromXml(_s.XmlElement elem) {
-    return ModifyListenerAttributesOutput(
-      attributes: _s.extractXmlChild(elem, 'Attributes')?.let((elem) =>
-          elem.findElements('member').map(ListenerAttribute.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
-    return {
-      if (attributes != null) 'Attributes': attributes,
+      if (ipamPools != null) 'IpamPools': ipamPools,
     };
   }
 }
@@ -5694,6 +4031,28 @@ class ModifyListenerOutput {
     final listeners = this.listeners;
     return {
       if (listeners != null) 'Listeners': listeners,
+    };
+  }
+}
+
+class ModifyListenerAttributesOutput {
+  /// Information about the listener attributes.
+  final List<ListenerAttribute>? attributes;
+
+  ModifyListenerAttributesOutput({
+    this.attributes,
+  });
+  factory ModifyListenerAttributesOutput.fromXml(_s.XmlElement elem) {
+    return ModifyListenerAttributesOutput(
+      attributes: _s.extractXmlChild(elem, 'Attributes')?.let((elem) =>
+          elem.findElements('member').map(ListenerAttribute.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    return {
+      if (attributes != null) 'Attributes': attributes,
     };
   }
 }
@@ -5744,6 +4103,28 @@ class ModifyRuleOutput {
   }
 }
 
+class ModifyTargetGroupOutput {
+  /// Information about the modified target group.
+  final List<TargetGroup>? targetGroups;
+
+  ModifyTargetGroupOutput({
+    this.targetGroups,
+  });
+  factory ModifyTargetGroupOutput.fromXml(_s.XmlElement elem) {
+    return ModifyTargetGroupOutput(
+      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
+          elem.findElements('member').map(TargetGroup.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetGroups = this.targetGroups;
+    return {
+      if (targetGroups != null) 'TargetGroups': targetGroups,
+    };
+  }
+}
+
 class ModifyTargetGroupAttributesOutput {
   /// Information about the target group attributes.
   final List<TargetGroupAttribute>? attributes;
@@ -5768,28 +4149,6 @@ class ModifyTargetGroupAttributesOutput {
   }
 }
 
-class ModifyTargetGroupOutput {
-  /// Information about the modified target group.
-  final List<TargetGroup>? targetGroups;
-
-  ModifyTargetGroupOutput({
-    this.targetGroups,
-  });
-  factory ModifyTargetGroupOutput.fromXml(_s.XmlElement elem) {
-    return ModifyTargetGroupOutput(
-      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
-          elem.findElements('member').map(TargetGroup.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetGroups = this.targetGroups;
-    return {
-      if (targetGroups != null) 'TargetGroups': targetGroups,
-    };
-  }
-}
-
 class ModifyTrustStoreOutput {
   /// Information about the modified trust store.
   final List<TrustStore>? trustStores;
@@ -5810,369 +4169,6 @@ class ModifyTrustStoreOutput {
       if (trustStores != null) 'TrustStores': trustStores,
     };
   }
-}
-
-/// Information about the mutual authentication attributes of a listener.
-class MutualAuthenticationAttributes {
-  /// Indicates whether expired client certificates are ignored.
-  final bool? ignoreClientCertificateExpiry;
-
-  /// The client certificate handling method. Options are <code>off</code>,
-  /// <code>passthrough</code> or <code>verify</code>. The default value is
-  /// <code>off</code>.
-  final String? mode;
-
-  /// The Amazon Resource Name (ARN) of the trust store.
-  final String? trustStoreArn;
-
-  /// Indicates a shared trust stores association status.
-  final TrustStoreAssociationStatusEnum? trustStoreAssociationStatus;
-
-  MutualAuthenticationAttributes({
-    this.ignoreClientCertificateExpiry,
-    this.mode,
-    this.trustStoreArn,
-    this.trustStoreAssociationStatus,
-  });
-  factory MutualAuthenticationAttributes.fromXml(_s.XmlElement elem) {
-    return MutualAuthenticationAttributes(
-      ignoreClientCertificateExpiry:
-          _s.extractXmlBoolValue(elem, 'IgnoreClientCertificateExpiry'),
-      mode: _s.extractXmlStringValue(elem, 'Mode'),
-      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
-      trustStoreAssociationStatus: _s
-          .extractXmlStringValue(elem, 'TrustStoreAssociationStatus')
-          ?.let(TrustStoreAssociationStatusEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ignoreClientCertificateExpiry = this.ignoreClientCertificateExpiry;
-    final mode = this.mode;
-    final trustStoreArn = this.trustStoreArn;
-    final trustStoreAssociationStatus = this.trustStoreAssociationStatus;
-    return {
-      if (ignoreClientCertificateExpiry != null)
-        'IgnoreClientCertificateExpiry': ignoreClientCertificateExpiry,
-      if (mode != null) 'Mode': mode,
-      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
-      if (trustStoreAssociationStatus != null)
-        'TrustStoreAssociationStatus': trustStoreAssociationStatus.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final ignoreClientCertificateExpiry = this.ignoreClientCertificateExpiry;
-    final mode = this.mode;
-    final trustStoreArn = this.trustStoreArn;
-    final trustStoreAssociationStatus = this.trustStoreAssociationStatus;
-    return {
-      if (ignoreClientCertificateExpiry != null)
-        'IgnoreClientCertificateExpiry':
-            ignoreClientCertificateExpiry.toString(),
-      if (mode != null) 'Mode': mode,
-      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
-      if (trustStoreAssociationStatus != null)
-        'TrustStoreAssociationStatus': trustStoreAssociationStatus.value,
-    };
-  }
-}
-
-/// Information about a path pattern condition.
-class PathPatternConditionConfig {
-  /// The path patterns to compare against the request URL. The maximum size of
-  /// each string is 128 characters. The comparison is case sensitive. The
-  /// following wildcard characters are supported: * (matches 0 or more
-  /// characters) and ? (matches exactly 1 character).
-  ///
-  /// If you specify multiple strings, the condition is satisfied if one of them
-  /// matches the request URL. The path pattern is compared only to the path of
-  /// the URL, not to its query string. To compare against the query string, use
-  /// <a>QueryStringConditionConfig</a>.
-  final List<String>? values;
-
-  PathPatternConditionConfig({
-    this.values,
-  });
-  factory PathPatternConditionConfig.fromXml(_s.XmlElement elem) {
-    return PathPatternConditionConfig(
-      values: _s
-          .extractXmlChild(elem, 'Values')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final values = this.values;
-    return {
-      if (values != null) 'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final values = this.values;
-    return {
-      if (values != null)
-        if (values.isEmpty)
-          'Values': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            'Values.member.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-class ProtocolEnum {
-  static const http = ProtocolEnum._('HTTP');
-  static const https = ProtocolEnum._('HTTPS');
-  static const tcp = ProtocolEnum._('TCP');
-  static const tls = ProtocolEnum._('TLS');
-  static const udp = ProtocolEnum._('UDP');
-  static const tcpUdp = ProtocolEnum._('TCP_UDP');
-  static const geneve = ProtocolEnum._('GENEVE');
-
-  final String value;
-
-  const ProtocolEnum._(this.value);
-
-  static const values = [http, https, tcp, tls, udp, tcpUdp, geneve];
-
-  static ProtocolEnum fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ProtocolEnum._(value));
-
-  @override
-  bool operator ==(other) => other is ProtocolEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a query string condition.
-///
-/// The query string component of a URI starts after the first '?' character and
-/// is terminated by either a '#' character or the end of the URI. A typical
-/// query string contains key/value pairs separated by '&amp;' characters. The
-/// allowed characters are specified by RFC 3986. Any character can be
-/// percentage encoded.
-class QueryStringConditionConfig {
-  /// The key/value pairs or values to find in the query string. The maximum size
-  /// of each string is 128 characters. The comparison is case insensitive. The
-  /// following wildcard characters are supported: * (matches 0 or more
-  /// characters) and ? (matches exactly 1 character). To search for a literal '*'
-  /// or '?' character in a query string, you must escape these characters in
-  /// <code>Values</code> using a '\' character.
-  ///
-  /// If you specify multiple key/value pairs or values, the condition is
-  /// satisfied if one of them is found in the query string.
-  final List<QueryStringKeyValuePair>? values;
-
-  QueryStringConditionConfig({
-    this.values,
-  });
-  factory QueryStringConditionConfig.fromXml(_s.XmlElement elem) {
-    return QueryStringConditionConfig(
-      values: _s.extractXmlChild(elem, 'Values')?.let((elem) => elem
-          .findElements('member')
-          .map(QueryStringKeyValuePair.fromXml)
-          .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final values = this.values;
-    return {
-      if (values != null) 'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final values = this.values;
-    return {
-      if (values != null)
-        if (values.isEmpty)
-          'Values': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            for (var e3 in values[i1].toQueryMap().entries)
-              'Values.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
-/// Information about a key/value pair.
-class QueryStringKeyValuePair {
-  /// The key. You can omit the key.
-  final String? key;
-
-  /// The value.
-  final String? value;
-
-  QueryStringKeyValuePair({
-    this.key,
-    this.value,
-  });
-  factory QueryStringKeyValuePair.fromXml(_s.XmlElement elem) {
-    return QueryStringKeyValuePair(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Information about a redirect action.
-///
-/// A URI consists of the following components:
-/// protocol://hostname:port/path?query. You must modify at least one of the
-/// following components to avoid a redirect loop: protocol, hostname, port, or
-/// path. Any components that you do not modify retain their original values.
-///
-/// You can reuse URI components using the following reserved keywords:
-///
-/// <ul>
-/// <li>
-/// #{protocol}
-/// </li>
-/// <li>
-/// #{host}
-/// </li>
-/// <li>
-/// #{port}
-/// </li>
-/// <li>
-/// #{path} (the leading "/" is removed)
-/// </li>
-/// <li>
-/// #{query}
-/// </li>
-/// </ul>
-/// For example, you can change the path to "/new/#{path}", the hostname to
-/// "example.#{host}", or the query to "#{query}&amp;value=xyz".
-class RedirectActionConfig {
-  /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or
-  /// temporary (HTTP 302).
-  final RedirectActionStatusCodeEnum statusCode;
-
-  /// The hostname. This component is not percent-encoded. The hostname can
-  /// contain #{host}.
-  final String? host;
-
-  /// The absolute path, starting with the leading "/". This component is not
-  /// percent-encoded. The path can contain #{host}, #{path}, and #{port}.
-  final String? path;
-
-  /// The port. You can specify a value from 1 to 65535 or #{port}.
-  final String? port;
-
-  /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect
-  /// HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You cannot redirect HTTPS
-  /// to HTTP.
-  final String? protocol;
-
-  /// The query parameters, URL-encoded when necessary, but not percent-encoded.
-  /// Do not include the leading "?", as it is automatically added. You can
-  /// specify any of the reserved keywords.
-  final String? query;
-
-  RedirectActionConfig({
-    required this.statusCode,
-    this.host,
-    this.path,
-    this.port,
-    this.protocol,
-    this.query,
-  });
-  factory RedirectActionConfig.fromXml(_s.XmlElement elem) {
-    return RedirectActionConfig(
-      statusCode: _s
-          .extractXmlStringValue(elem, 'StatusCode')!
-          .let(RedirectActionStatusCodeEnum.fromString),
-      host: _s.extractXmlStringValue(elem, 'Host'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-      port: _s.extractXmlStringValue(elem, 'Port'),
-      protocol: _s.extractXmlStringValue(elem, 'Protocol'),
-      query: _s.extractXmlStringValue(elem, 'Query'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final statusCode = this.statusCode;
-    final host = this.host;
-    final path = this.path;
-    final port = this.port;
-    final protocol = this.protocol;
-    final query = this.query;
-    return {
-      'StatusCode': statusCode.value,
-      if (host != null) 'Host': host,
-      if (path != null) 'Path': path,
-      if (port != null) 'Port': port,
-      if (protocol != null) 'Protocol': protocol,
-      if (query != null) 'Query': query,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final statusCode = this.statusCode;
-    final host = this.host;
-    final path = this.path;
-    final port = this.port;
-    final protocol = this.protocol;
-    final query = this.query;
-    return {
-      'StatusCode': statusCode.value,
-      if (host != null) 'Host': host,
-      if (path != null) 'Path': path,
-      if (port != null) 'Port': port,
-      if (protocol != null) 'Protocol': protocol,
-      if (query != null) 'Query': query,
-    };
-  }
-}
-
-class RedirectActionStatusCodeEnum {
-  static const http_301 = RedirectActionStatusCodeEnum._('HTTP_301');
-  static const http_302 = RedirectActionStatusCodeEnum._('HTTP_302');
-
-  final String value;
-
-  const RedirectActionStatusCodeEnum._(this.value);
-
-  static const values = [http_301, http_302];
-
-  static RedirectActionStatusCodeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RedirectActionStatusCodeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RedirectActionStatusCodeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class RegisterTargetsOutput {
@@ -6224,376 +4220,6 @@ class RemoveTrustStoreRevocationsOutput {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Information about a revocation file.
-class RevocationContent {
-  /// The type of revocation file.
-  final RevocationType? revocationType;
-
-  /// The Amazon S3 bucket for the revocation file.
-  final String? s3Bucket;
-
-  /// The Amazon S3 path for the revocation file.
-  final String? s3Key;
-
-  /// The Amazon S3 object version of the revocation file.
-  final String? s3ObjectVersion;
-
-  RevocationContent({
-    this.revocationType,
-    this.s3Bucket,
-    this.s3Key,
-    this.s3ObjectVersion,
-  });
-
-  Map<String, dynamic> toJson() {
-    final revocationType = this.revocationType;
-    final s3Bucket = this.s3Bucket;
-    final s3Key = this.s3Key;
-    final s3ObjectVersion = this.s3ObjectVersion;
-    return {
-      if (revocationType != null) 'RevocationType': revocationType.value,
-      if (s3Bucket != null) 'S3Bucket': s3Bucket,
-      if (s3Key != null) 'S3Key': s3Key,
-      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final revocationType = this.revocationType;
-    final s3Bucket = this.s3Bucket;
-    final s3Key = this.s3Key;
-    final s3ObjectVersion = this.s3ObjectVersion;
-    return {
-      if (revocationType != null) 'RevocationType': revocationType.value,
-      if (s3Bucket != null) 'S3Bucket': s3Bucket,
-      if (s3Key != null) 'S3Key': s3Key,
-      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
-    };
-  }
-}
-
-class RevocationType {
-  static const crl = RevocationType._('CRL');
-
-  final String value;
-
-  const RevocationType._(this.value);
-
-  static const values = [crl];
-
-  static RevocationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RevocationType._(value));
-
-  @override
-  bool operator ==(other) => other is RevocationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a rule.
-class Rule {
-  /// The actions. Each rule must include exactly one of the following types of
-  /// actions: <code>forward</code>, <code>redirect</code>, or
-  /// <code>fixed-response</code>, and it must be the last action to be performed.
-  final List<Action>? actions;
-
-  /// The conditions. Each rule can include zero or one of the following
-  /// conditions: <code>http-request-method</code>, <code>host-header</code>,
-  /// <code>path-pattern</code>, and <code>source-ip</code>, and zero or more of
-  /// the following conditions: <code>http-header</code> and
-  /// <code>query-string</code>.
-  final List<RuleCondition>? conditions;
-
-  /// Indicates whether this is the default rule.
-  final bool? isDefault;
-
-  /// The priority.
-  final String? priority;
-
-  /// The Amazon Resource Name (ARN) of the rule.
-  final String? ruleArn;
-
-  Rule({
-    this.actions,
-    this.conditions,
-    this.isDefault,
-    this.priority,
-    this.ruleArn,
-  });
-  factory Rule.fromXml(_s.XmlElement elem) {
-    return Rule(
-      actions: _s.extractXmlChild(elem, 'Actions')?.let(
-          (elem) => elem.findElements('member').map(Action.fromXml).toList()),
-      conditions: _s.extractXmlChild(elem, 'Conditions')?.let((elem) =>
-          elem.findElements('member').map(RuleCondition.fromXml).toList()),
-      isDefault: _s.extractXmlBoolValue(elem, 'IsDefault'),
-      priority: _s.extractXmlStringValue(elem, 'Priority'),
-      ruleArn: _s.extractXmlStringValue(elem, 'RuleArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actions = this.actions;
-    final conditions = this.conditions;
-    final isDefault = this.isDefault;
-    final priority = this.priority;
-    final ruleArn = this.ruleArn;
-    return {
-      if (actions != null) 'Actions': actions,
-      if (conditions != null) 'Conditions': conditions,
-      if (isDefault != null) 'IsDefault': isDefault,
-      if (priority != null) 'Priority': priority,
-      if (ruleArn != null) 'RuleArn': ruleArn,
-    };
-  }
-}
-
-/// Information about a condition for a rule.
-///
-/// Each rule can optionally include up to one of each of the following
-/// conditions: <code>http-request-method</code>, <code>host-header</code>,
-/// <code>path-pattern</code>, and <code>source-ip</code>. Each rule can also
-/// optionally include one or more of each of the following conditions:
-/// <code>http-header</code> and <code>query-string</code>. Note that the value
-/// for a condition cannot be empty.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
-/// for your Application Load Balancers</a>.
-class RuleCondition {
-  /// The field in the HTTP request. The following are the possible values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>http-header</code>
-  /// </li>
-  /// <li>
-  /// <code>http-request-method</code>
-  /// </li>
-  /// <li>
-  /// <code>host-header</code>
-  /// </li>
-  /// <li>
-  /// <code>path-pattern</code>
-  /// </li>
-  /// <li>
-  /// <code>query-string</code>
-  /// </li>
-  /// <li>
-  /// <code>source-ip</code>
-  /// </li>
-  /// </ul>
-  final String? field;
-
-  /// Information for a host header condition. Specify only when
-  /// <code>Field</code> is <code>host-header</code>.
-  final HostHeaderConditionConfig? hostHeaderConfig;
-
-  /// Information for an HTTP header condition. Specify only when
-  /// <code>Field</code> is <code>http-header</code>.
-  final HttpHeaderConditionConfig? httpHeaderConfig;
-
-  /// Information for an HTTP method condition. Specify only when
-  /// <code>Field</code> is <code>http-request-method</code>.
-  final HttpRequestMethodConditionConfig? httpRequestMethodConfig;
-
-  /// Information for a path pattern condition. Specify only when
-  /// <code>Field</code> is <code>path-pattern</code>.
-  final PathPatternConditionConfig? pathPatternConfig;
-
-  /// Information for a query string condition. Specify only when
-  /// <code>Field</code> is <code>query-string</code>.
-  final QueryStringConditionConfig? queryStringConfig;
-
-  /// Information for a source IP condition. Specify only when <code>Field</code>
-  /// is <code>source-ip</code>.
-  final SourceIpConditionConfig? sourceIpConfig;
-
-  /// The condition value. Specify only when <code>Field</code> is
-  /// <code>host-header</code> or <code>path-pattern</code>. Alternatively, to
-  /// specify multiple host names or multiple path patterns, use
-  /// <code>HostHeaderConfig</code> or <code>PathPatternConfig</code>.
-  ///
-  /// If <code>Field</code> is <code>host-header</code> and you are not using
-  /// <code>HostHeaderConfig</code>, you can specify a single host name (for
-  /// example, my.example.com) in <code>Values</code>. A host name is case
-  /// insensitive, can be up to 128 characters in length, and can contain any of
-  /// the following characters.
-  ///
-  /// <ul>
-  /// <li>
-  /// A-Z, a-z, 0-9
-  /// </li>
-  /// <li>
-  /// - .
-  /// </li>
-  /// <li>
-  /// * (matches 0 or more characters)
-  /// </li>
-  /// <li>
-  /// ? (matches exactly 1 character)
-  /// </li>
-  /// </ul>
-  /// If <code>Field</code> is <code>path-pattern</code> and you are not using
-  /// <code>PathPatternConfig</code>, you can specify a single path pattern (for
-  /// example, /img/*) in <code>Values</code>. A path pattern is case-sensitive,
-  /// can be up to 128 characters in length, and can contain any of the following
-  /// characters.
-  ///
-  /// <ul>
-  /// <li>
-  /// A-Z, a-z, 0-9
-  /// </li>
-  /// <li>
-  /// _ - . $ / ~ " ' @ : +
-  /// </li>
-  /// <li>
-  /// &amp; (using &amp;amp;)
-  /// </li>
-  /// <li>
-  /// * (matches 0 or more characters)
-  /// </li>
-  /// <li>
-  /// ? (matches exactly 1 character)
-  /// </li>
-  /// </ul>
-  final List<String>? values;
-
-  RuleCondition({
-    this.field,
-    this.hostHeaderConfig,
-    this.httpHeaderConfig,
-    this.httpRequestMethodConfig,
-    this.pathPatternConfig,
-    this.queryStringConfig,
-    this.sourceIpConfig,
-    this.values,
-  });
-  factory RuleCondition.fromXml(_s.XmlElement elem) {
-    return RuleCondition(
-      field: _s.extractXmlStringValue(elem, 'Field'),
-      hostHeaderConfig: _s
-          .extractXmlChild(elem, 'HostHeaderConfig')
-          ?.let(HostHeaderConditionConfig.fromXml),
-      httpHeaderConfig: _s
-          .extractXmlChild(elem, 'HttpHeaderConfig')
-          ?.let(HttpHeaderConditionConfig.fromXml),
-      httpRequestMethodConfig: _s
-          .extractXmlChild(elem, 'HttpRequestMethodConfig')
-          ?.let(HttpRequestMethodConditionConfig.fromXml),
-      pathPatternConfig: _s
-          .extractXmlChild(elem, 'PathPatternConfig')
-          ?.let(PathPatternConditionConfig.fromXml),
-      queryStringConfig: _s
-          .extractXmlChild(elem, 'QueryStringConfig')
-          ?.let(QueryStringConditionConfig.fromXml),
-      sourceIpConfig: _s
-          .extractXmlChild(elem, 'SourceIpConfig')
-          ?.let(SourceIpConditionConfig.fromXml),
-      values: _s
-          .extractXmlChild(elem, 'Values')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final field = this.field;
-    final hostHeaderConfig = this.hostHeaderConfig;
-    final httpHeaderConfig = this.httpHeaderConfig;
-    final httpRequestMethodConfig = this.httpRequestMethodConfig;
-    final pathPatternConfig = this.pathPatternConfig;
-    final queryStringConfig = this.queryStringConfig;
-    final sourceIpConfig = this.sourceIpConfig;
-    final values = this.values;
-    return {
-      if (field != null) 'Field': field,
-      if (hostHeaderConfig != null) 'HostHeaderConfig': hostHeaderConfig,
-      if (httpHeaderConfig != null) 'HttpHeaderConfig': httpHeaderConfig,
-      if (httpRequestMethodConfig != null)
-        'HttpRequestMethodConfig': httpRequestMethodConfig,
-      if (pathPatternConfig != null) 'PathPatternConfig': pathPatternConfig,
-      if (queryStringConfig != null) 'QueryStringConfig': queryStringConfig,
-      if (sourceIpConfig != null) 'SourceIpConfig': sourceIpConfig,
-      if (values != null) 'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final field = this.field;
-    final hostHeaderConfig = this.hostHeaderConfig;
-    final httpHeaderConfig = this.httpHeaderConfig;
-    final httpRequestMethodConfig = this.httpRequestMethodConfig;
-    final pathPatternConfig = this.pathPatternConfig;
-    final queryStringConfig = this.queryStringConfig;
-    final sourceIpConfig = this.sourceIpConfig;
-    final values = this.values;
-    return {
-      if (field != null) 'Field': field,
-      if (hostHeaderConfig != null)
-        for (var e1 in hostHeaderConfig.toQueryMap().entries)
-          'HostHeaderConfig.${e1.key}': e1.value,
-      if (httpHeaderConfig != null)
-        for (var e1 in httpHeaderConfig.toQueryMap().entries)
-          'HttpHeaderConfig.${e1.key}': e1.value,
-      if (httpRequestMethodConfig != null)
-        for (var e1 in httpRequestMethodConfig.toQueryMap().entries)
-          'HttpRequestMethodConfig.${e1.key}': e1.value,
-      if (pathPatternConfig != null)
-        for (var e1 in pathPatternConfig.toQueryMap().entries)
-          'PathPatternConfig.${e1.key}': e1.value,
-      if (queryStringConfig != null)
-        for (var e1 in queryStringConfig.toQueryMap().entries)
-          'QueryStringConfig.${e1.key}': e1.value,
-      if (sourceIpConfig != null)
-        for (var e1 in sourceIpConfig.toQueryMap().entries)
-          'SourceIpConfig.${e1.key}': e1.value,
-      if (values != null)
-        if (values.isEmpty)
-          'Values': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            'Values.member.${i1 + 1}': values[i1],
-    };
-  }
-}
-
-/// Information about the priorities for the rules for a listener.
-class RulePriorityPair {
-  /// The rule priority.
-  final int? priority;
-
-  /// The Amazon Resource Name (ARN) of the rule.
-  final String? ruleArn;
-
-  RulePriorityPair({
-    this.priority,
-    this.ruleArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final priority = this.priority;
-    final ruleArn = this.ruleArn;
-    return {
-      if (priority != null) 'Priority': priority,
-      if (ruleArn != null) 'RuleArn': ruleArn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final priority = this.priority;
-    final ruleArn = this.ruleArn;
-    return {
-      if (priority != null) 'Priority': priority.toString(),
-      if (ruleArn != null) 'RuleArn': ruleArn,
-    };
   }
 }
 
@@ -6685,15 +4311,16 @@ class SetSubnetsOutput {
   /// Information about the subnets.
   final List<AvailabilityZone>? availabilityZones;
 
-  /// [Application Load Balancers] The IP address type.
-  ///
-  /// [Network Load Balancers] The IP address type.
-  ///
-  /// [Gateway Load Balancers] The IP address type.
+  /// [Network Load Balancers] Indicates whether to use an IPv6 prefix from each
+  /// subnet for source NAT.
+  final EnablePrefixForIpv6SourceNatEnum? enablePrefixForIpv6SourceNat;
+
+  /// The IP address type.
   final IpAddressType? ipAddressType;
 
   SetSubnetsOutput({
     this.availabilityZones,
+    this.enablePrefixForIpv6SourceNat,
     this.ipAddressType,
   });
   factory SetSubnetsOutput.fromXml(_s.XmlElement elem) {
@@ -6703,6 +4330,9 @@ class SetSubnetsOutput {
               .findElements('member')
               .map(AvailabilityZone.fromXml)
               .toList()),
+      enablePrefixForIpv6SourceNat: _s
+          .extractXmlStringValue(elem, 'EnablePrefixForIpv6SourceNat')
+          ?.let(EnablePrefixForIpv6SourceNatEnum.fromString),
       ipAddressType: _s
           .extractXmlStringValue(elem, 'IpAddressType')
           ?.let(IpAddressType.fromString),
@@ -6711,10 +4341,2135 @@ class SetSubnetsOutput {
 
   Map<String, dynamic> toJson() {
     final availabilityZones = this.availabilityZones;
+    final enablePrefixForIpv6SourceNat = this.enablePrefixForIpv6SourceNat;
     final ipAddressType = this.ipAddressType;
     return {
       if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (enablePrefixForIpv6SourceNat != null)
+        'EnablePrefixForIpv6SourceNat': enablePrefixForIpv6SourceNat.value,
       if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+    };
+  }
+}
+
+class IpAddressType {
+  static const ipv4 = IpAddressType._('ipv4');
+  static const dualstack = IpAddressType._('dualstack');
+  static const dualstackWithoutPublicIpv4 =
+      IpAddressType._('dualstack-without-public-ipv4');
+
+  final String value;
+
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4, dualstack, dualstackWithoutPublicIpv4];
+
+  static IpAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EnablePrefixForIpv6SourceNatEnum {
+  static const on = EnablePrefixForIpv6SourceNatEnum._('on');
+  static const off = EnablePrefixForIpv6SourceNatEnum._('off');
+
+  final String value;
+
+  const EnablePrefixForIpv6SourceNatEnum._(this.value);
+
+  static const values = [on, off];
+
+  static EnablePrefixForIpv6SourceNatEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnablePrefixForIpv6SourceNatEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnablePrefixForIpv6SourceNatEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an Availability Zone.
+class AvailabilityZone {
+  /// [Network Load Balancers] If you need static IP addresses for your load
+  /// balancer, you can specify one Elastic IP address per Availability Zone when
+  /// you create an internal-facing load balancer. For internal load balancers,
+  /// you can specify a private IP address from the IPv4 range of the subnet.
+  final List<LoadBalancerAddress>? loadBalancerAddresses;
+
+  /// [Application Load Balancers on Outposts] The ID of the Outpost.
+  final String? outpostId;
+
+  /// [Network Load Balancers with UDP listeners] The IPv6 prefixes to use for
+  /// source NAT. For each subnet, specify an IPv6 prefix (/80 netmask) from the
+  /// subnet CIDR block or <code>auto_assigned</code> to use an IPv6 prefix
+  /// selected at random from the subnet CIDR block.
+  final List<String>? sourceNatIpv6Prefixes;
+
+  /// The ID of the subnet. You can specify one subnet per Availability Zone.
+  final String? subnetId;
+
+  /// The name of the Availability Zone.
+  final String? zoneName;
+
+  AvailabilityZone({
+    this.loadBalancerAddresses,
+    this.outpostId,
+    this.sourceNatIpv6Prefixes,
+    this.subnetId,
+    this.zoneName,
+  });
+  factory AvailabilityZone.fromXml(_s.XmlElement elem) {
+    return AvailabilityZone(
+      loadBalancerAddresses: _s
+          .extractXmlChild(elem, 'LoadBalancerAddresses')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(LoadBalancerAddress.fromXml)
+              .toList()),
+      outpostId: _s.extractXmlStringValue(elem, 'OutpostId'),
+      sourceNatIpv6Prefixes: _s
+          .extractXmlChild(elem, 'SourceNatIpv6Prefixes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
+      zoneName: _s.extractXmlStringValue(elem, 'ZoneName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loadBalancerAddresses = this.loadBalancerAddresses;
+    final outpostId = this.outpostId;
+    final sourceNatIpv6Prefixes = this.sourceNatIpv6Prefixes;
+    final subnetId = this.subnetId;
+    final zoneName = this.zoneName;
+    return {
+      if (loadBalancerAddresses != null)
+        'LoadBalancerAddresses': loadBalancerAddresses,
+      if (outpostId != null) 'OutpostId': outpostId,
+      if (sourceNatIpv6Prefixes != null)
+        'SourceNatIpv6Prefixes': sourceNatIpv6Prefixes,
+      if (subnetId != null) 'SubnetId': subnetId,
+      if (zoneName != null) 'ZoneName': zoneName,
+    };
+  }
+}
+
+/// Information about a static IP address for a load balancer.
+class LoadBalancerAddress {
+  /// [Network Load Balancers] The allocation ID of the Elastic IP address for an
+  /// internal-facing load balancer.
+  final String? allocationId;
+
+  /// [Network Load Balancers] The IPv6 address.
+  final String? iPv6Address;
+
+  /// The static IP address.
+  final String? ipAddress;
+
+  /// [Network Load Balancers] The private IPv4 address for an internal load
+  /// balancer.
+  final String? privateIPv4Address;
+
+  LoadBalancerAddress({
+    this.allocationId,
+    this.iPv6Address,
+    this.ipAddress,
+    this.privateIPv4Address,
+  });
+  factory LoadBalancerAddress.fromXml(_s.XmlElement elem) {
+    return LoadBalancerAddress(
+      allocationId: _s.extractXmlStringValue(elem, 'AllocationId'),
+      iPv6Address: _s.extractXmlStringValue(elem, 'IPv6Address'),
+      ipAddress: _s.extractXmlStringValue(elem, 'IpAddress'),
+      privateIPv4Address: _s.extractXmlStringValue(elem, 'PrivateIPv4Address'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocationId = this.allocationId;
+    final iPv6Address = this.iPv6Address;
+    final ipAddress = this.ipAddress;
+    final privateIPv4Address = this.privateIPv4Address;
+    return {
+      if (allocationId != null) 'AllocationId': allocationId,
+      if (iPv6Address != null) 'IPv6Address': iPv6Address,
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (privateIPv4Address != null) 'PrivateIPv4Address': privateIPv4Address,
+    };
+  }
+}
+
+/// Information about a subnet mapping.
+class SubnetMapping {
+  /// [Network Load Balancers] The allocation ID of the Elastic IP address for an
+  /// internet-facing load balancer.
+  final String? allocationId;
+
+  /// [Network Load Balancers] The IPv6 address.
+  final String? iPv6Address;
+
+  /// [Network Load Balancers] The private IPv4 address for an internal load
+  /// balancer.
+  final String? privateIPv4Address;
+
+  /// [Network Load Balancers with UDP listeners] The IPv6 prefix to use for
+  /// source NAT. Specify an IPv6 prefix (/80 netmask) from the subnet CIDR block
+  /// or <code>auto_assigned</code> to use an IPv6 prefix selected at random from
+  /// the subnet CIDR block.
+  final String? sourceNatIpv6Prefix;
+
+  /// The ID of the subnet.
+  final String? subnetId;
+
+  SubnetMapping({
+    this.allocationId,
+    this.iPv6Address,
+    this.privateIPv4Address,
+    this.sourceNatIpv6Prefix,
+    this.subnetId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final allocationId = this.allocationId;
+    final iPv6Address = this.iPv6Address;
+    final privateIPv4Address = this.privateIPv4Address;
+    final sourceNatIpv6Prefix = this.sourceNatIpv6Prefix;
+    final subnetId = this.subnetId;
+    return {
+      if (allocationId != null) 'AllocationId': allocationId,
+      if (iPv6Address != null) 'IPv6Address': iPv6Address,
+      if (privateIPv4Address != null) 'PrivateIPv4Address': privateIPv4Address,
+      if (sourceNatIpv6Prefix != null)
+        'SourceNatIpv6Prefix': sourceNatIpv6Prefix,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final allocationId = this.allocationId;
+    final iPv6Address = this.iPv6Address;
+    final privateIPv4Address = this.privateIPv4Address;
+    final sourceNatIpv6Prefix = this.sourceNatIpv6Prefix;
+    final subnetId = this.subnetId;
+    return {
+      if (allocationId != null) 'AllocationId': allocationId,
+      if (iPv6Address != null) 'IPv6Address': iPv6Address,
+      if (privateIPv4Address != null) 'PrivateIPv4Address': privateIPv4Address,
+      if (sourceNatIpv6Prefix != null)
+        'SourceNatIpv6Prefix': sourceNatIpv6Prefix,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
+}
+
+class EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum {
+  static const on =
+      EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._('on');
+  static const off =
+      EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._('off');
+
+  final String value;
+
+  const EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._(this.value);
+
+  static const values = [on, off];
+
+  static EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum._(
+                  value));
+
+  @override
+  bool operator ==(other) =>
+      other is EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a rule.
+class Rule {
+  /// The actions. Each rule must include exactly one of the following types of
+  /// actions: <code>forward</code>, <code>redirect</code>, or
+  /// <code>fixed-response</code>, and it must be the last action to be performed.
+  final List<Action>? actions;
+
+  /// The conditions. Each rule can include zero or one of the following
+  /// conditions: <code>http-request-method</code>, <code>host-header</code>,
+  /// <code>path-pattern</code>, and <code>source-ip</code>, and zero or more of
+  /// the following conditions: <code>http-header</code> and
+  /// <code>query-string</code>.
+  final List<RuleCondition>? conditions;
+
+  /// Indicates whether this is the default rule.
+  final bool? isDefault;
+
+  /// The priority.
+  final String? priority;
+
+  /// The Amazon Resource Name (ARN) of the rule.
+  final String? ruleArn;
+
+  /// The transforms for the rule.
+  final List<RuleTransform>? transforms;
+
+  Rule({
+    this.actions,
+    this.conditions,
+    this.isDefault,
+    this.priority,
+    this.ruleArn,
+    this.transforms,
+  });
+  factory Rule.fromXml(_s.XmlElement elem) {
+    return Rule(
+      actions: _s.extractXmlChild(elem, 'Actions')?.let(
+          (elem) => elem.findElements('member').map(Action.fromXml).toList()),
+      conditions: _s.extractXmlChild(elem, 'Conditions')?.let((elem) =>
+          elem.findElements('member').map(RuleCondition.fromXml).toList()),
+      isDefault: _s.extractXmlBoolValue(elem, 'IsDefault'),
+      priority: _s.extractXmlStringValue(elem, 'Priority'),
+      ruleArn: _s.extractXmlStringValue(elem, 'RuleArn'),
+      transforms: _s.extractXmlChild(elem, 'Transforms')?.let((elem) =>
+          elem.findElements('member').map(RuleTransform.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final conditions = this.conditions;
+    final isDefault = this.isDefault;
+    final priority = this.priority;
+    final ruleArn = this.ruleArn;
+    final transforms = this.transforms;
+    return {
+      if (actions != null) 'Actions': actions,
+      if (conditions != null) 'Conditions': conditions,
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (priority != null) 'Priority': priority,
+      if (ruleArn != null) 'RuleArn': ruleArn,
+      if (transforms != null) 'Transforms': transforms,
+    };
+  }
+}
+
+/// Information about a transform to apply to requests that match a rule.
+/// Transforms are applied to requests before they are sent to targets.
+class RuleTransform {
+  /// The type of transform.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>host-header-rewrite</code> - Rewrite the host header.
+  /// </li>
+  /// <li>
+  /// <code>url-rewrite</code> - Rewrite the request URL.
+  /// </li>
+  /// </ul>
+  final TransformTypeEnum type;
+
+  /// Information about a host header rewrite transform. This transform modifies
+  /// the host header in an HTTP request. Specify only when <code>Type</code> is
+  /// <code>host-header-rewrite</code>.
+  final HostHeaderRewriteConfig? hostHeaderRewriteConfig;
+
+  /// Information about a URL rewrite transform. This transform modifies the
+  /// request URL. Specify only when <code>Type</code> is
+  /// <code>url-rewrite</code>.
+  final UrlRewriteConfig? urlRewriteConfig;
+
+  RuleTransform({
+    required this.type,
+    this.hostHeaderRewriteConfig,
+    this.urlRewriteConfig,
+  });
+  factory RuleTransform.fromXml(_s.XmlElement elem) {
+    return RuleTransform(
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(TransformTypeEnum.fromString),
+      hostHeaderRewriteConfig: _s
+          .extractXmlChild(elem, 'HostHeaderRewriteConfig')
+          ?.let(HostHeaderRewriteConfig.fromXml),
+      urlRewriteConfig: _s
+          .extractXmlChild(elem, 'UrlRewriteConfig')
+          ?.let(UrlRewriteConfig.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final hostHeaderRewriteConfig = this.hostHeaderRewriteConfig;
+    final urlRewriteConfig = this.urlRewriteConfig;
+    return {
+      'Type': type.value,
+      if (hostHeaderRewriteConfig != null)
+        'HostHeaderRewriteConfig': hostHeaderRewriteConfig,
+      if (urlRewriteConfig != null) 'UrlRewriteConfig': urlRewriteConfig,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final type = this.type;
+    final hostHeaderRewriteConfig = this.hostHeaderRewriteConfig;
+    final urlRewriteConfig = this.urlRewriteConfig;
+    return {
+      'Type': type.value,
+      if (hostHeaderRewriteConfig != null)
+        for (var e1 in hostHeaderRewriteConfig.toQueryMap().entries)
+          'HostHeaderRewriteConfig.${e1.key}': e1.value,
+      if (urlRewriteConfig != null)
+        for (var e1 in urlRewriteConfig.toQueryMap().entries)
+          'UrlRewriteConfig.${e1.key}': e1.value,
+    };
+  }
+}
+
+class TransformTypeEnum {
+  static const hostHeaderRewrite = TransformTypeEnum._('host-header-rewrite');
+  static const urlRewrite = TransformTypeEnum._('url-rewrite');
+
+  final String value;
+
+  const TransformTypeEnum._(this.value);
+
+  static const values = [hostHeaderRewrite, urlRewrite];
+
+  static TransformTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransformTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is TransformTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a host header rewrite transform. This transform matches a
+/// pattern in the host header in an HTTP request and replaces it with the
+/// specified string.
+class HostHeaderRewriteConfig {
+  /// The host header rewrite transform. Each transform consists of a regular
+  /// expression to match and a replacement string.
+  final List<RewriteConfig>? rewrites;
+
+  HostHeaderRewriteConfig({
+    this.rewrites,
+  });
+  factory HostHeaderRewriteConfig.fromXml(_s.XmlElement elem) {
+    return HostHeaderRewriteConfig(
+      rewrites: _s.extractXmlChild(elem, 'Rewrites')?.let((elem) =>
+          elem.findElements('member').map(RewriteConfig.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rewrites = this.rewrites;
+    return {
+      if (rewrites != null) 'Rewrites': rewrites,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final rewrites = this.rewrites;
+    return {
+      if (rewrites != null)
+        if (rewrites.isEmpty)
+          'Rewrites': ''
+        else
+          for (var i1 = 0; i1 < rewrites.length; i1++)
+            for (var e3 in rewrites[i1].toQueryMap().entries)
+              'Rewrites.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Information about a URL rewrite transform. This transform matches a pattern
+/// in the request URL and replaces it with the specified string.
+class UrlRewriteConfig {
+  /// The URL rewrite transform to apply to the request. The transform consists of
+  /// a regular expression to match and a replacement string.
+  final List<RewriteConfig>? rewrites;
+
+  UrlRewriteConfig({
+    this.rewrites,
+  });
+  factory UrlRewriteConfig.fromXml(_s.XmlElement elem) {
+    return UrlRewriteConfig(
+      rewrites: _s.extractXmlChild(elem, 'Rewrites')?.let((elem) =>
+          elem.findElements('member').map(RewriteConfig.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rewrites = this.rewrites;
+    return {
+      if (rewrites != null) 'Rewrites': rewrites,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final rewrites = this.rewrites;
+    return {
+      if (rewrites != null)
+        if (rewrites.isEmpty)
+          'Rewrites': ''
+        else
+          for (var i1 = 0; i1 < rewrites.length; i1++)
+            for (var e3 in rewrites[i1].toQueryMap().entries)
+              'Rewrites.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Information about a rewrite transform. This transform matches a pattern and
+/// replaces it with the specified string.
+class RewriteConfig {
+  /// The regular expression to match in the input string. The maximum length of
+  /// the string is 1,024 characters.
+  final String regex;
+
+  /// The replacement string to use when rewriting the matched input. The maximum
+  /// length of the string is 1,024 characters. You can specify capture groups in
+  /// the regular expression (for example, $1 and $2).
+  final String replace;
+
+  RewriteConfig({
+    required this.regex,
+    required this.replace,
+  });
+  factory RewriteConfig.fromXml(_s.XmlElement elem) {
+    return RewriteConfig(
+      regex: _s.extractXmlStringValue(elem, 'Regex')!,
+      replace: _s.extractXmlStringValue(elem, 'Replace')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regex = this.regex;
+    final replace = this.replace;
+    return {
+      'Regex': regex,
+      'Replace': replace,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final regex = this.regex;
+    final replace = this.replace;
+    return {
+      'Regex': regex,
+      'Replace': replace,
+    };
+  }
+}
+
+/// Information about an action.
+///
+/// Each rule must include exactly one of the following routing actions:
+/// <code>forward</code>, <code>fixed-response</code>, or <code>redirect</code>,
+/// and it must be the last action to be performed.
+///
+/// Optionally, a rule for an HTTPS listener can also include one of the
+/// following user authentication actions: <code>authenticate-oidc</code>,
+/// <code>authenticate-cognito</code>, or <code>jwt-validation</code>.
+class Action {
+  /// The type of action.
+  final ActionTypeEnum type;
+
+  /// [HTTPS listeners] Information for using Amazon Cognito to authenticate
+  /// users. Specify only when <code>Type</code> is
+  /// <code>authenticate-cognito</code>.
+  final AuthenticateCognitoActionConfig? authenticateCognitoConfig;
+
+  /// [HTTPS listeners] Information about an identity provider that is compliant
+  /// with OpenID Connect (OIDC). Specify only when <code>Type</code> is
+  /// <code>authenticate-oidc</code>.
+  final AuthenticateOidcActionConfig? authenticateOidcConfig;
+
+  /// [Application Load Balancer] Information for creating an action that returns
+  /// a custom HTTP response. Specify only when <code>Type</code> is
+  /// <code>fixed-response</code>.
+  final FixedResponseActionConfig? fixedResponseConfig;
+
+  /// Information for creating an action that distributes requests among multiple
+  /// target groups. Specify only when <code>Type</code> is <code>forward</code>.
+  ///
+  /// If you specify both <code>ForwardConfig</code> and
+  /// <code>TargetGroupArn</code>, you can specify only one target group using
+  /// <code>ForwardConfig</code> and it must be the same target group specified in
+  /// <code>TargetGroupArn</code>.
+  final ForwardActionConfig? forwardConfig;
+
+  /// [HTTPS listeners] Information for validating JWT access tokens in client
+  /// requests. Specify only when <code>Type</code> is
+  /// <code>jwt-validation</code>.
+  final JwtValidationActionConfig? jwtValidationConfig;
+
+  /// The order for the action. This value is required for rules with multiple
+  /// actions. The action with the lowest value for order is performed first.
+  final int? order;
+
+  /// [Application Load Balancer] Information for creating a redirect action.
+  /// Specify only when <code>Type</code> is <code>redirect</code>.
+  final RedirectActionConfig? redirectConfig;
+
+  /// The Amazon Resource Name (ARN) of the target group. Specify only when
+  /// <code>Type</code> is <code>forward</code> and you want to route to a single
+  /// target group. To route to multiple target groups, you must use
+  /// <code>ForwardConfig</code> instead.
+  final String? targetGroupArn;
+
+  Action({
+    required this.type,
+    this.authenticateCognitoConfig,
+    this.authenticateOidcConfig,
+    this.fixedResponseConfig,
+    this.forwardConfig,
+    this.jwtValidationConfig,
+    this.order,
+    this.redirectConfig,
+    this.targetGroupArn,
+  });
+  factory Action.fromXml(_s.XmlElement elem) {
+    return Action(
+      type: _s
+          .extractXmlStringValue(elem, 'Type')!
+          .let(ActionTypeEnum.fromString),
+      authenticateCognitoConfig: _s
+          .extractXmlChild(elem, 'AuthenticateCognitoConfig')
+          ?.let(AuthenticateCognitoActionConfig.fromXml),
+      authenticateOidcConfig: _s
+          .extractXmlChild(elem, 'AuthenticateOidcConfig')
+          ?.let(AuthenticateOidcActionConfig.fromXml),
+      fixedResponseConfig: _s
+          .extractXmlChild(elem, 'FixedResponseConfig')
+          ?.let(FixedResponseActionConfig.fromXml),
+      forwardConfig: _s
+          .extractXmlChild(elem, 'ForwardConfig')
+          ?.let(ForwardActionConfig.fromXml),
+      jwtValidationConfig: _s
+          .extractXmlChild(elem, 'JwtValidationConfig')
+          ?.let(JwtValidationActionConfig.fromXml),
+      order: _s.extractXmlIntValue(elem, 'Order'),
+      redirectConfig: _s
+          .extractXmlChild(elem, 'RedirectConfig')
+          ?.let(RedirectActionConfig.fromXml),
+      targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final authenticateCognitoConfig = this.authenticateCognitoConfig;
+    final authenticateOidcConfig = this.authenticateOidcConfig;
+    final fixedResponseConfig = this.fixedResponseConfig;
+    final forwardConfig = this.forwardConfig;
+    final jwtValidationConfig = this.jwtValidationConfig;
+    final order = this.order;
+    final redirectConfig = this.redirectConfig;
+    final targetGroupArn = this.targetGroupArn;
+    return {
+      'Type': type.value,
+      if (authenticateCognitoConfig != null)
+        'AuthenticateCognitoConfig': authenticateCognitoConfig,
+      if (authenticateOidcConfig != null)
+        'AuthenticateOidcConfig': authenticateOidcConfig,
+      if (fixedResponseConfig != null)
+        'FixedResponseConfig': fixedResponseConfig,
+      if (forwardConfig != null) 'ForwardConfig': forwardConfig,
+      if (jwtValidationConfig != null)
+        'JwtValidationConfig': jwtValidationConfig,
+      if (order != null) 'Order': order,
+      if (redirectConfig != null) 'RedirectConfig': redirectConfig,
+      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final type = this.type;
+    final authenticateCognitoConfig = this.authenticateCognitoConfig;
+    final authenticateOidcConfig = this.authenticateOidcConfig;
+    final fixedResponseConfig = this.fixedResponseConfig;
+    final forwardConfig = this.forwardConfig;
+    final jwtValidationConfig = this.jwtValidationConfig;
+    final order = this.order;
+    final redirectConfig = this.redirectConfig;
+    final targetGroupArn = this.targetGroupArn;
+    return {
+      'Type': type.value,
+      if (authenticateCognitoConfig != null)
+        for (var e1 in authenticateCognitoConfig.toQueryMap().entries)
+          'AuthenticateCognitoConfig.${e1.key}': e1.value,
+      if (authenticateOidcConfig != null)
+        for (var e1 in authenticateOidcConfig.toQueryMap().entries)
+          'AuthenticateOidcConfig.${e1.key}': e1.value,
+      if (fixedResponseConfig != null)
+        for (var e1 in fixedResponseConfig.toQueryMap().entries)
+          'FixedResponseConfig.${e1.key}': e1.value,
+      if (forwardConfig != null)
+        for (var e1 in forwardConfig.toQueryMap().entries)
+          'ForwardConfig.${e1.key}': e1.value,
+      if (jwtValidationConfig != null)
+        for (var e1 in jwtValidationConfig.toQueryMap().entries)
+          'JwtValidationConfig.${e1.key}': e1.value,
+      if (order != null) 'Order': order.toString(),
+      if (redirectConfig != null)
+        for (var e1 in redirectConfig.toQueryMap().entries)
+          'RedirectConfig.${e1.key}': e1.value,
+      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
+    };
+  }
+}
+
+class ActionTypeEnum {
+  static const forward = ActionTypeEnum._('forward');
+  static const authenticateOidc = ActionTypeEnum._('authenticate-oidc');
+  static const authenticateCognito = ActionTypeEnum._('authenticate-cognito');
+  static const redirect = ActionTypeEnum._('redirect');
+  static const fixedResponse = ActionTypeEnum._('fixed-response');
+  static const jwtValidation = ActionTypeEnum._('jwt-validation');
+
+  final String value;
+
+  const ActionTypeEnum._(this.value);
+
+  static const values = [
+    forward,
+    authenticateOidc,
+    authenticateCognito,
+    redirect,
+    fixedResponse,
+    jwtValidation
+  ];
+
+  static ActionTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActionTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ActionTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Request parameters when using an identity provider (IdP) that is compliant
+/// with OpenID Connect (OIDC) to authenticate users.
+class AuthenticateOidcActionConfig {
+  /// The authorization endpoint of the IdP. This must be a full URL, including
+  /// the HTTPS protocol, the domain, and the path.
+  final String authorizationEndpoint;
+
+  /// The OAuth 2.0 client identifier.
+  final String clientId;
+
+  /// The OIDC issuer identifier of the IdP. This must be a full URL, including
+  /// the HTTPS protocol, the domain, and the path.
+  final String issuer;
+
+  /// The token endpoint of the IdP. This must be a full URL, including the HTTPS
+  /// protocol, the domain, and the path.
+  final String tokenEndpoint;
+
+  /// The user info endpoint of the IdP. This must be a full URL, including the
+  /// HTTPS protocol, the domain, and the path.
+  final String userInfoEndpoint;
+
+  /// The query parameters (up to 10) to include in the redirect request to the
+  /// authorization endpoint.
+  final Map<String, String>? authenticationRequestExtraParams;
+
+  /// The OAuth 2.0 client secret. This parameter is required if you are creating
+  /// a rule. If you are modifying a rule, you can omit this parameter if you set
+  /// <code>UseExistingClientSecret</code> to true.
+  final String? clientSecret;
+
+  /// The behavior if the user is not authenticated. The following are possible
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// deny<code></code> - Return an HTTP 401 Unauthorized error.
+  /// </li>
+  /// <li>
+  /// allow<code></code> - Allow the request to be forwarded to the target.
+  /// </li>
+  /// <li>
+  /// authenticate<code></code> - Redirect the request to the IdP authorization
+  /// endpoint. This is the default value.
+  /// </li>
+  /// </ul>
+  final AuthenticateOidcActionConditionalBehaviorEnum? onUnauthenticatedRequest;
+
+  /// The set of user claims to be requested from the IdP. The default is
+  /// <code>openid</code>.
+  ///
+  /// To verify which scope values your IdP supports and how to separate multiple
+  /// values, see the documentation for your IdP.
+  final String? scope;
+
+  /// The name of the cookie used to maintain session information. The default is
+  /// AWSELBAuthSessionCookie.
+  final String? sessionCookieName;
+
+  /// The maximum duration of the authentication session, in seconds. The default
+  /// is 604800 seconds (7 days).
+  final int? sessionTimeout;
+
+  /// Indicates whether to use the existing client secret when modifying a rule.
+  /// If you are creating a rule, you can omit this parameter or set it to false.
+  final bool? useExistingClientSecret;
+
+  AuthenticateOidcActionConfig({
+    required this.authorizationEndpoint,
+    required this.clientId,
+    required this.issuer,
+    required this.tokenEndpoint,
+    required this.userInfoEndpoint,
+    this.authenticationRequestExtraParams,
+    this.clientSecret,
+    this.onUnauthenticatedRequest,
+    this.scope,
+    this.sessionCookieName,
+    this.sessionTimeout,
+    this.useExistingClientSecret,
+  });
+  factory AuthenticateOidcActionConfig.fromXml(_s.XmlElement elem) {
+    return AuthenticateOidcActionConfig(
+      authorizationEndpoint:
+          _s.extractXmlStringValue(elem, 'AuthorizationEndpoint')!,
+      clientId: _s.extractXmlStringValue(elem, 'ClientId')!,
+      issuer: _s.extractXmlStringValue(elem, 'Issuer')!,
+      tokenEndpoint: _s.extractXmlStringValue(elem, 'TokenEndpoint')!,
+      userInfoEndpoint: _s.extractXmlStringValue(elem, 'UserInfoEndpoint')!,
+      authenticationRequestExtraParams: Map.fromEntries(
+        elem
+                .getElement('AuthenticationRequestExtraParams')
+                ?.findElements('entry')
+                .map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
+      clientSecret: _s.extractXmlStringValue(elem, 'ClientSecret'),
+      onUnauthenticatedRequest: _s
+          .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
+          ?.let(AuthenticateOidcActionConditionalBehaviorEnum.fromString),
+      scope: _s.extractXmlStringValue(elem, 'Scope'),
+      sessionCookieName: _s.extractXmlStringValue(elem, 'SessionCookieName'),
+      sessionTimeout: _s.extractXmlIntValue(elem, 'SessionTimeout'),
+      useExistingClientSecret:
+          _s.extractXmlBoolValue(elem, 'UseExistingClientSecret'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationEndpoint = this.authorizationEndpoint;
+    final clientId = this.clientId;
+    final issuer = this.issuer;
+    final tokenEndpoint = this.tokenEndpoint;
+    final userInfoEndpoint = this.userInfoEndpoint;
+    final authenticationRequestExtraParams =
+        this.authenticationRequestExtraParams;
+    final clientSecret = this.clientSecret;
+    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
+    final scope = this.scope;
+    final sessionCookieName = this.sessionCookieName;
+    final sessionTimeout = this.sessionTimeout;
+    final useExistingClientSecret = this.useExistingClientSecret;
+    return {
+      'AuthorizationEndpoint': authorizationEndpoint,
+      'ClientId': clientId,
+      'Issuer': issuer,
+      'TokenEndpoint': tokenEndpoint,
+      'UserInfoEndpoint': userInfoEndpoint,
+      if (authenticationRequestExtraParams != null)
+        'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
+      if (clientSecret != null) 'ClientSecret': clientSecret,
+      if (onUnauthenticatedRequest != null)
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
+      if (scope != null) 'Scope': scope,
+      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
+      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
+      if (useExistingClientSecret != null)
+        'UseExistingClientSecret': useExistingClientSecret,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final authorizationEndpoint = this.authorizationEndpoint;
+    final clientId = this.clientId;
+    final issuer = this.issuer;
+    final tokenEndpoint = this.tokenEndpoint;
+    final userInfoEndpoint = this.userInfoEndpoint;
+    final authenticationRequestExtraParams =
+        this.authenticationRequestExtraParams;
+    final clientSecret = this.clientSecret;
+    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
+    final scope = this.scope;
+    final sessionCookieName = this.sessionCookieName;
+    final sessionTimeout = this.sessionTimeout;
+    final useExistingClientSecret = this.useExistingClientSecret;
+    return {
+      'AuthorizationEndpoint': authorizationEndpoint,
+      'ClientId': clientId,
+      'Issuer': issuer,
+      'TokenEndpoint': tokenEndpoint,
+      'UserInfoEndpoint': userInfoEndpoint,
+      if (authenticationRequestExtraParams != null)
+        for (var e1 in authenticationRequestExtraParams.entries
+            .toList()
+            .asMap()
+            .entries) ...{
+          'AuthenticationRequestExtraParams.entry.${e1.key + 1}.key':
+              e1.value.key,
+          'AuthenticationRequestExtraParams.entry.${e1.key + 1}.value':
+              e1.value.value,
+        },
+      if (clientSecret != null) 'ClientSecret': clientSecret,
+      if (onUnauthenticatedRequest != null)
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
+      if (scope != null) 'Scope': scope,
+      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
+      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout.toString(),
+      if (useExistingClientSecret != null)
+        'UseExistingClientSecret': useExistingClientSecret.toString(),
+    };
+  }
+}
+
+/// Request parameters to use when integrating with Amazon Cognito to
+/// authenticate users.
+class AuthenticateCognitoActionConfig {
+  /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool.
+  final String userPoolArn;
+
+  /// The ID of the Amazon Cognito user pool client.
+  final String userPoolClientId;
+
+  /// The domain prefix or fully-qualified domain name of the Amazon Cognito user
+  /// pool.
+  final String userPoolDomain;
+
+  /// The query parameters (up to 10) to include in the redirect request to the
+  /// authorization endpoint.
+  final Map<String, String>? authenticationRequestExtraParams;
+
+  /// The behavior if the user is not authenticated. The following are possible
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// deny<code></code> - Return an HTTP 401 Unauthorized error.
+  /// </li>
+  /// <li>
+  /// allow<code></code> - Allow the request to be forwarded to the target.
+  /// </li>
+  /// <li>
+  /// authenticate<code></code> - Redirect the request to the IdP authorization
+  /// endpoint. This is the default value.
+  /// </li>
+  /// </ul>
+  final AuthenticateCognitoActionConditionalBehaviorEnum?
+      onUnauthenticatedRequest;
+
+  /// The set of user claims to be requested from the IdP. The default is
+  /// <code>openid</code>.
+  ///
+  /// To verify which scope values your IdP supports and how to separate multiple
+  /// values, see the documentation for your IdP.
+  final String? scope;
+
+  /// The name of the cookie used to maintain session information. The default is
+  /// AWSELBAuthSessionCookie.
+  final String? sessionCookieName;
+
+  /// The maximum duration of the authentication session, in seconds. The default
+  /// is 604800 seconds (7 days).
+  final int? sessionTimeout;
+
+  AuthenticateCognitoActionConfig({
+    required this.userPoolArn,
+    required this.userPoolClientId,
+    required this.userPoolDomain,
+    this.authenticationRequestExtraParams,
+    this.onUnauthenticatedRequest,
+    this.scope,
+    this.sessionCookieName,
+    this.sessionTimeout,
+  });
+  factory AuthenticateCognitoActionConfig.fromXml(_s.XmlElement elem) {
+    return AuthenticateCognitoActionConfig(
+      userPoolArn: _s.extractXmlStringValue(elem, 'UserPoolArn')!,
+      userPoolClientId: _s.extractXmlStringValue(elem, 'UserPoolClientId')!,
+      userPoolDomain: _s.extractXmlStringValue(elem, 'UserPoolDomain')!,
+      authenticationRequestExtraParams: Map.fromEntries(
+        elem
+                .getElement('AuthenticationRequestExtraParams')
+                ?.findElements('entry')
+                .map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
+      ),
+      onUnauthenticatedRequest: _s
+          .extractXmlStringValue(elem, 'OnUnauthenticatedRequest')
+          ?.let(AuthenticateCognitoActionConditionalBehaviorEnum.fromString),
+      scope: _s.extractXmlStringValue(elem, 'Scope'),
+      sessionCookieName: _s.extractXmlStringValue(elem, 'SessionCookieName'),
+      sessionTimeout: _s.extractXmlIntValue(elem, 'SessionTimeout'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userPoolArn = this.userPoolArn;
+    final userPoolClientId = this.userPoolClientId;
+    final userPoolDomain = this.userPoolDomain;
+    final authenticationRequestExtraParams =
+        this.authenticationRequestExtraParams;
+    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
+    final scope = this.scope;
+    final sessionCookieName = this.sessionCookieName;
+    final sessionTimeout = this.sessionTimeout;
+    return {
+      'UserPoolArn': userPoolArn,
+      'UserPoolClientId': userPoolClientId,
+      'UserPoolDomain': userPoolDomain,
+      if (authenticationRequestExtraParams != null)
+        'AuthenticationRequestExtraParams': authenticationRequestExtraParams,
+      if (onUnauthenticatedRequest != null)
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
+      if (scope != null) 'Scope': scope,
+      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
+      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final userPoolArn = this.userPoolArn;
+    final userPoolClientId = this.userPoolClientId;
+    final userPoolDomain = this.userPoolDomain;
+    final authenticationRequestExtraParams =
+        this.authenticationRequestExtraParams;
+    final onUnauthenticatedRequest = this.onUnauthenticatedRequest;
+    final scope = this.scope;
+    final sessionCookieName = this.sessionCookieName;
+    final sessionTimeout = this.sessionTimeout;
+    return {
+      'UserPoolArn': userPoolArn,
+      'UserPoolClientId': userPoolClientId,
+      'UserPoolDomain': userPoolDomain,
+      if (authenticationRequestExtraParams != null)
+        for (var e1 in authenticationRequestExtraParams.entries
+            .toList()
+            .asMap()
+            .entries) ...{
+          'AuthenticationRequestExtraParams.entry.${e1.key + 1}.key':
+              e1.value.key,
+          'AuthenticationRequestExtraParams.entry.${e1.key + 1}.value':
+              e1.value.value,
+        },
+      if (onUnauthenticatedRequest != null)
+        'OnUnauthenticatedRequest': onUnauthenticatedRequest.value,
+      if (scope != null) 'Scope': scope,
+      if (sessionCookieName != null) 'SessionCookieName': sessionCookieName,
+      if (sessionTimeout != null) 'SessionTimeout': sessionTimeout.toString(),
+    };
+  }
+}
+
+/// Information about a redirect action.
+///
+/// A URI consists of the following components:
+/// protocol://hostname:port/path?query. You must modify at least one of the
+/// following components to avoid a redirect loop: protocol, hostname, port, or
+/// path. Any components that you do not modify retain their original values.
+///
+/// You can reuse URI components using the following reserved keywords:
+///
+/// <ul>
+/// <li>
+/// #{protocol}
+/// </li>
+/// <li>
+/// #{host}
+/// </li>
+/// <li>
+/// #{port}
+/// </li>
+/// <li>
+/// #{path} (the leading "/" is removed)
+/// </li>
+/// <li>
+/// #{query}
+/// </li>
+/// </ul>
+/// For example, you can change the path to "/new/#{path}", the hostname to
+/// "example.#{host}", or the query to "#{query}&value=xyz".
+class RedirectActionConfig {
+  /// The HTTP redirect code. The redirect is either permanent (HTTP 301) or
+  /// temporary (HTTP 302).
+  final RedirectActionStatusCodeEnum statusCode;
+
+  /// The hostname. This component is not percent-encoded. The hostname can
+  /// contain #{host}.
+  final String? host;
+
+  /// The absolute path, starting with the leading "/". This component is not
+  /// percent-encoded. The path can contain #{host}, #{path}, and #{port}.
+  final String? path;
+
+  /// The port. You can specify a value from 1 to 65535 or #{port}.
+  final String? port;
+
+  /// The protocol. You can specify HTTP, HTTPS, or #{protocol}. You can redirect
+  /// HTTP to HTTP, HTTP to HTTPS, and HTTPS to HTTPS. You can't redirect HTTPS to
+  /// HTTP.
+  final String? protocol;
+
+  /// The query parameters, URL-encoded when necessary, but not percent-encoded.
+  /// Do not include the leading "?", as it is automatically added. You can
+  /// specify any of the reserved keywords.
+  final String? query;
+
+  RedirectActionConfig({
+    required this.statusCode,
+    this.host,
+    this.path,
+    this.port,
+    this.protocol,
+    this.query,
+  });
+  factory RedirectActionConfig.fromXml(_s.XmlElement elem) {
+    return RedirectActionConfig(
+      statusCode: _s
+          .extractXmlStringValue(elem, 'StatusCode')!
+          .let(RedirectActionStatusCodeEnum.fromString),
+      host: _s.extractXmlStringValue(elem, 'Host'),
+      path: _s.extractXmlStringValue(elem, 'Path'),
+      port: _s.extractXmlStringValue(elem, 'Port'),
+      protocol: _s.extractXmlStringValue(elem, 'Protocol'),
+      query: _s.extractXmlStringValue(elem, 'Query'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statusCode = this.statusCode;
+    final host = this.host;
+    final path = this.path;
+    final port = this.port;
+    final protocol = this.protocol;
+    final query = this.query;
+    return {
+      'StatusCode': statusCode.value,
+      if (host != null) 'Host': host,
+      if (path != null) 'Path': path,
+      if (port != null) 'Port': port,
+      if (protocol != null) 'Protocol': protocol,
+      if (query != null) 'Query': query,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final statusCode = this.statusCode;
+    final host = this.host;
+    final path = this.path;
+    final port = this.port;
+    final protocol = this.protocol;
+    final query = this.query;
+    return {
+      'StatusCode': statusCode.value,
+      if (host != null) 'Host': host,
+      if (path != null) 'Path': path,
+      if (port != null) 'Port': port,
+      if (protocol != null) 'Protocol': protocol,
+      if (query != null) 'Query': query,
+    };
+  }
+}
+
+/// Information about an action that returns a custom HTTP response.
+class FixedResponseActionConfig {
+  /// The HTTP response code (2XX, 4XX, or 5XX).
+  final String statusCode;
+
+  /// The content type.
+  ///
+  /// Valid Values: text/plain | text/css | text/html | application/javascript |
+  /// application/json
+  final String? contentType;
+
+  /// The message.
+  final String? messageBody;
+
+  FixedResponseActionConfig({
+    required this.statusCode,
+    this.contentType,
+    this.messageBody,
+  });
+  factory FixedResponseActionConfig.fromXml(_s.XmlElement elem) {
+    return FixedResponseActionConfig(
+      statusCode: _s.extractXmlStringValue(elem, 'StatusCode')!,
+      contentType: _s.extractXmlStringValue(elem, 'ContentType'),
+      messageBody: _s.extractXmlStringValue(elem, 'MessageBody'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statusCode = this.statusCode;
+    final contentType = this.contentType;
+    final messageBody = this.messageBody;
+    return {
+      'StatusCode': statusCode,
+      if (contentType != null) 'ContentType': contentType,
+      if (messageBody != null) 'MessageBody': messageBody,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final statusCode = this.statusCode;
+    final contentType = this.contentType;
+    final messageBody = this.messageBody;
+    return {
+      'StatusCode': statusCode,
+      if (contentType != null) 'ContentType': contentType,
+      if (messageBody != null) 'MessageBody': messageBody,
+    };
+  }
+}
+
+/// Information about a forward action.
+class ForwardActionConfig {
+  /// The target group stickiness for the rule.
+  final TargetGroupStickinessConfig? targetGroupStickinessConfig;
+
+  /// The target groups.
+  final List<TargetGroupTuple>? targetGroups;
+
+  ForwardActionConfig({
+    this.targetGroupStickinessConfig,
+    this.targetGroups,
+  });
+  factory ForwardActionConfig.fromXml(_s.XmlElement elem) {
+    return ForwardActionConfig(
+      targetGroupStickinessConfig: _s
+          .extractXmlChild(elem, 'TargetGroupStickinessConfig')
+          ?.let(TargetGroupStickinessConfig.fromXml),
+      targetGroups: _s.extractXmlChild(elem, 'TargetGroups')?.let((elem) =>
+          elem.findElements('member').map(TargetGroupTuple.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetGroupStickinessConfig = this.targetGroupStickinessConfig;
+    final targetGroups = this.targetGroups;
+    return {
+      if (targetGroupStickinessConfig != null)
+        'TargetGroupStickinessConfig': targetGroupStickinessConfig,
+      if (targetGroups != null) 'TargetGroups': targetGroups,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final targetGroupStickinessConfig = this.targetGroupStickinessConfig;
+    final targetGroups = this.targetGroups;
+    return {
+      if (targetGroupStickinessConfig != null)
+        for (var e1 in targetGroupStickinessConfig.toQueryMap().entries)
+          'TargetGroupStickinessConfig.${e1.key}': e1.value,
+      if (targetGroups != null)
+        if (targetGroups.isEmpty)
+          'TargetGroups': ''
+        else
+          for (var i1 = 0; i1 < targetGroups.length; i1++)
+            for (var e3 in targetGroups[i1].toQueryMap().entries)
+              'TargetGroups.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Information about a JSON Web Token (JWT) validation action.
+class JwtValidationActionConfig {
+  /// The issuer of the JWT. The maximum length is 256 characters.
+  final String issuer;
+
+  /// The JSON Web Key Set (JWKS) endpoint. This endpoint contains JSON Web Keys
+  /// (JWK) that are used to validate signatures from the provider.
+  ///
+  /// This must be a full URL, including the HTTPS protocol, the domain, and the
+  /// path. The maximum length is 256 characters.
+  final String jwksEndpoint;
+
+  /// Additional claims to validate. The maximum size of the list is 10. We
+  /// validate the <code>exp</code>, <code>iss</code>, <code>nbf</code>, and
+  /// <code>iat</code> claims by default.
+  final List<JwtValidationActionAdditionalClaim>? additionalClaims;
+
+  JwtValidationActionConfig({
+    required this.issuer,
+    required this.jwksEndpoint,
+    this.additionalClaims,
+  });
+  factory JwtValidationActionConfig.fromXml(_s.XmlElement elem) {
+    return JwtValidationActionConfig(
+      issuer: _s.extractXmlStringValue(elem, 'Issuer')!,
+      jwksEndpoint: _s.extractXmlStringValue(elem, 'JwksEndpoint')!,
+      additionalClaims: _s.extractXmlChild(elem, 'AdditionalClaims')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(JwtValidationActionAdditionalClaim.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final issuer = this.issuer;
+    final jwksEndpoint = this.jwksEndpoint;
+    final additionalClaims = this.additionalClaims;
+    return {
+      'Issuer': issuer,
+      'JwksEndpoint': jwksEndpoint,
+      if (additionalClaims != null) 'AdditionalClaims': additionalClaims,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final issuer = this.issuer;
+    final jwksEndpoint = this.jwksEndpoint;
+    final additionalClaims = this.additionalClaims;
+    return {
+      'Issuer': issuer,
+      'JwksEndpoint': jwksEndpoint,
+      if (additionalClaims != null)
+        if (additionalClaims.isEmpty)
+          'AdditionalClaims': ''
+        else
+          for (var i1 = 0; i1 < additionalClaims.length; i1++)
+            for (var e3 in additionalClaims[i1].toQueryMap().entries)
+              'AdditionalClaims.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Information about an additional claim to validate.
+class JwtValidationActionAdditionalClaim {
+  /// The format of the claim value.
+  final JwtValidationActionAdditionalClaimFormatEnum format;
+
+  /// The name of the claim. You can't specify <code>exp</code>, <code>iss</code>,
+  /// <code>nbf</code>, or <code>iat</code> because we validate them by default.
+  final String name;
+
+  /// The claim value. The maximum size of the list is 10. Each value can be up to
+  /// 256 characters in length. If the format is
+  /// <code>space-separated-values</code>, the values can't include spaces.
+  final List<String> values;
+
+  JwtValidationActionAdditionalClaim({
+    required this.format,
+    required this.name,
+    required this.values,
+  });
+  factory JwtValidationActionAdditionalClaim.fromXml(_s.XmlElement elem) {
+    return JwtValidationActionAdditionalClaim(
+      format: _s
+          .extractXmlStringValue(elem, 'Format')!
+          .let(JwtValidationActionAdditionalClaimFormatEnum.fromString),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      values: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Values')!, 'member'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Format': format.value,
+      'Name': name,
+      'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final format = this.format;
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Format': format.value,
+      'Name': name,
+      if (values.isEmpty)
+        'Values': ''
+      else
+        for (var i1 = 0; i1 < values.length; i1++)
+          'Values.member.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+class JwtValidationActionAdditionalClaimFormatEnum {
+  static const singleString =
+      JwtValidationActionAdditionalClaimFormatEnum._('single-string');
+  static const stringArray =
+      JwtValidationActionAdditionalClaimFormatEnum._('string-array');
+  static const spaceSeparatedValues =
+      JwtValidationActionAdditionalClaimFormatEnum._('space-separated-values');
+
+  final String value;
+
+  const JwtValidationActionAdditionalClaimFormatEnum._(this.value);
+
+  static const values = [singleString, stringArray, spaceSeparatedValues];
+
+  static JwtValidationActionAdditionalClaimFormatEnum fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JwtValidationActionAdditionalClaimFormatEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is JwtValidationActionAdditionalClaimFormatEnum &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the target group stickiness for a rule.
+class TargetGroupStickinessConfig {
+  /// [Application Load Balancers] The time period, in seconds, during which
+  /// requests from a client should be routed to the same target group. The range
+  /// is 1-604800 seconds (7 days). You must specify this value when enabling
+  /// target group stickiness.
+  final int? durationSeconds;
+
+  /// Indicates whether target group stickiness is enabled.
+  final bool? enabled;
+
+  TargetGroupStickinessConfig({
+    this.durationSeconds,
+    this.enabled,
+  });
+  factory TargetGroupStickinessConfig.fromXml(_s.XmlElement elem) {
+    return TargetGroupStickinessConfig(
+      durationSeconds: _s.extractXmlIntValue(elem, 'DurationSeconds'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationSeconds = this.durationSeconds;
+    final enabled = this.enabled;
+    return {
+      if (durationSeconds != null) 'DurationSeconds': durationSeconds,
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final durationSeconds = this.durationSeconds;
+    final enabled = this.enabled;
+    return {
+      if (durationSeconds != null)
+        'DurationSeconds': durationSeconds.toString(),
+      if (enabled != null) 'Enabled': enabled.toString(),
+    };
+  }
+}
+
+/// Information about how traffic will be distributed between multiple target
+/// groups in a forward rule.
+class TargetGroupTuple {
+  /// The Amazon Resource Name (ARN) of the target group.
+  final String? targetGroupArn;
+
+  /// The weight. The range is 0 to 999.
+  final int? weight;
+
+  TargetGroupTuple({
+    this.targetGroupArn,
+    this.weight,
+  });
+  factory TargetGroupTuple.fromXml(_s.XmlElement elem) {
+    return TargetGroupTuple(
+      targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
+      weight: _s.extractXmlIntValue(elem, 'Weight'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetGroupArn = this.targetGroupArn;
+    final weight = this.weight;
+    return {
+      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
+      if (weight != null) 'Weight': weight,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final targetGroupArn = this.targetGroupArn;
+    final weight = this.weight;
+    return {
+      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
+      if (weight != null) 'Weight': weight.toString(),
+    };
+  }
+}
+
+class RedirectActionStatusCodeEnum {
+  static const http_301 = RedirectActionStatusCodeEnum._('HTTP_301');
+  static const http_302 = RedirectActionStatusCodeEnum._('HTTP_302');
+
+  final String value;
+
+  const RedirectActionStatusCodeEnum._(this.value);
+
+  static const values = [http_301, http_302];
+
+  static RedirectActionStatusCodeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RedirectActionStatusCodeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RedirectActionStatusCodeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AuthenticateCognitoActionConditionalBehaviorEnum {
+  static const deny =
+      AuthenticateCognitoActionConditionalBehaviorEnum._('deny');
+  static const allow =
+      AuthenticateCognitoActionConditionalBehaviorEnum._('allow');
+  static const authenticate =
+      AuthenticateCognitoActionConditionalBehaviorEnum._('authenticate');
+
+  final String value;
+
+  const AuthenticateCognitoActionConditionalBehaviorEnum._(this.value);
+
+  static const values = [deny, allow, authenticate];
+
+  static AuthenticateCognitoActionConditionalBehaviorEnum fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              AuthenticateCognitoActionConditionalBehaviorEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticateCognitoActionConditionalBehaviorEnum &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AuthenticateOidcActionConditionalBehaviorEnum {
+  static const deny = AuthenticateOidcActionConditionalBehaviorEnum._('deny');
+  static const allow = AuthenticateOidcActionConditionalBehaviorEnum._('allow');
+  static const authenticate =
+      AuthenticateOidcActionConditionalBehaviorEnum._('authenticate');
+
+  final String value;
+
+  const AuthenticateOidcActionConditionalBehaviorEnum._(this.value);
+
+  static const values = [deny, allow, authenticate];
+
+  static AuthenticateOidcActionConditionalBehaviorEnum fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AuthenticateOidcActionConditionalBehaviorEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AuthenticateOidcActionConditionalBehaviorEnum &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a condition for a rule.
+///
+/// Each rule can optionally include up to one of each of the following
+/// conditions: <code>http-request-method</code>, <code>host-header</code>,
+/// <code>path-pattern</code>, and <code>source-ip</code>. Each rule can also
+/// optionally include one or more of each of the following conditions:
+/// <code>http-header</code> and <code>query-string</code>. Note that the value
+/// for a condition can't be empty.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
+/// for your Application Load Balancers</a>.
+class RuleCondition {
+  /// The field in the HTTP request. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>http-header</code>
+  /// </li>
+  /// <li>
+  /// <code>http-request-method</code>
+  /// </li>
+  /// <li>
+  /// <code>host-header</code>
+  /// </li>
+  /// <li>
+  /// <code>path-pattern</code>
+  /// </li>
+  /// <li>
+  /// <code>query-string</code>
+  /// </li>
+  /// <li>
+  /// <code>source-ip</code>
+  /// </li>
+  /// </ul>
+  final String? field;
+
+  /// Information for a host header condition. Specify only when
+  /// <code>Field</code> is <code>host-header</code>.
+  final HostHeaderConditionConfig? hostHeaderConfig;
+
+  /// Information for an HTTP header condition. Specify only when
+  /// <code>Field</code> is <code>http-header</code>.
+  final HttpHeaderConditionConfig? httpHeaderConfig;
+
+  /// Information for an HTTP method condition. Specify only when
+  /// <code>Field</code> is <code>http-request-method</code>.
+  final HttpRequestMethodConditionConfig? httpRequestMethodConfig;
+
+  /// Information for a path pattern condition. Specify only when
+  /// <code>Field</code> is <code>path-pattern</code>.
+  final PathPatternConditionConfig? pathPatternConfig;
+
+  /// Information for a query string condition. Specify only when
+  /// <code>Field</code> is <code>query-string</code>.
+  final QueryStringConditionConfig? queryStringConfig;
+
+  /// The regular expressions to match against the condition field. The maximum
+  /// length of each string is 128 characters. Specify only when
+  /// <code>Field</code> is <code>http-header</code>, <code>host-header</code>, or
+  /// <code>path-pattern</code>.
+  final List<String>? regexValues;
+
+  /// Information for a source IP condition. Specify only when <code>Field</code>
+  /// is <code>source-ip</code>.
+  final SourceIpConditionConfig? sourceIpConfig;
+
+  /// The condition value. Specify only when <code>Field</code> is
+  /// <code>host-header</code> or <code>path-pattern</code>. Alternatively, to
+  /// specify multiple host names or multiple path patterns, use
+  /// <code>HostHeaderConfig</code> or <code>PathPatternConfig</code>.
+  ///
+  /// If <code>Field</code> is <code>host-header</code> and you are not using
+  /// <code>HostHeaderConfig</code>, you can specify a single host name (for
+  /// example, my.example.com) in <code>Values</code>. A host name is case
+  /// insensitive, can be up to 128 characters in length, and can contain any of
+  /// the following characters.
+  ///
+  /// <ul>
+  /// <li>
+  /// A-Z, a-z, 0-9
+  /// </li>
+  /// <li>
+  /// - .
+  /// </li>
+  /// <li>
+  /// * (matches 0 or more characters)
+  /// </li>
+  /// <li>
+  /// ? (matches exactly 1 character)
+  /// </li>
+  /// </ul>
+  /// If <code>Field</code> is <code>path-pattern</code> and you are not using
+  /// <code>PathPatternConfig</code>, you can specify a single path pattern (for
+  /// example, /img/*) in <code>Values</code>. A path pattern is case-sensitive,
+  /// can be up to 128 characters in length, and can contain any of the following
+  /// characters.
+  ///
+  /// <ul>
+  /// <li>
+  /// A-Z, a-z, 0-9
+  /// </li>
+  /// <li>
+  /// _ - . $ / ~ " ' @ : +
+  /// </li>
+  /// <li>
+  /// & (using &amp;)
+  /// </li>
+  /// <li>
+  /// * (matches 0 or more characters)
+  /// </li>
+  /// <li>
+  /// ? (matches exactly 1 character)
+  /// </li>
+  /// </ul>
+  final List<String>? values;
+
+  RuleCondition({
+    this.field,
+    this.hostHeaderConfig,
+    this.httpHeaderConfig,
+    this.httpRequestMethodConfig,
+    this.pathPatternConfig,
+    this.queryStringConfig,
+    this.regexValues,
+    this.sourceIpConfig,
+    this.values,
+  });
+  factory RuleCondition.fromXml(_s.XmlElement elem) {
+    return RuleCondition(
+      field: _s.extractXmlStringValue(elem, 'Field'),
+      hostHeaderConfig: _s
+          .extractXmlChild(elem, 'HostHeaderConfig')
+          ?.let(HostHeaderConditionConfig.fromXml),
+      httpHeaderConfig: _s
+          .extractXmlChild(elem, 'HttpHeaderConfig')
+          ?.let(HttpHeaderConditionConfig.fromXml),
+      httpRequestMethodConfig: _s
+          .extractXmlChild(elem, 'HttpRequestMethodConfig')
+          ?.let(HttpRequestMethodConditionConfig.fromXml),
+      pathPatternConfig: _s
+          .extractXmlChild(elem, 'PathPatternConfig')
+          ?.let(PathPatternConditionConfig.fromXml),
+      queryStringConfig: _s
+          .extractXmlChild(elem, 'QueryStringConfig')
+          ?.let(QueryStringConditionConfig.fromXml),
+      regexValues: _s
+          .extractXmlChild(elem, 'RegexValues')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      sourceIpConfig: _s
+          .extractXmlChild(elem, 'SourceIpConfig')
+          ?.let(SourceIpConditionConfig.fromXml),
+      values: _s
+          .extractXmlChild(elem, 'Values')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final field = this.field;
+    final hostHeaderConfig = this.hostHeaderConfig;
+    final httpHeaderConfig = this.httpHeaderConfig;
+    final httpRequestMethodConfig = this.httpRequestMethodConfig;
+    final pathPatternConfig = this.pathPatternConfig;
+    final queryStringConfig = this.queryStringConfig;
+    final regexValues = this.regexValues;
+    final sourceIpConfig = this.sourceIpConfig;
+    final values = this.values;
+    return {
+      if (field != null) 'Field': field,
+      if (hostHeaderConfig != null) 'HostHeaderConfig': hostHeaderConfig,
+      if (httpHeaderConfig != null) 'HttpHeaderConfig': httpHeaderConfig,
+      if (httpRequestMethodConfig != null)
+        'HttpRequestMethodConfig': httpRequestMethodConfig,
+      if (pathPatternConfig != null) 'PathPatternConfig': pathPatternConfig,
+      if (queryStringConfig != null) 'QueryStringConfig': queryStringConfig,
+      if (regexValues != null) 'RegexValues': regexValues,
+      if (sourceIpConfig != null) 'SourceIpConfig': sourceIpConfig,
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final field = this.field;
+    final hostHeaderConfig = this.hostHeaderConfig;
+    final httpHeaderConfig = this.httpHeaderConfig;
+    final httpRequestMethodConfig = this.httpRequestMethodConfig;
+    final pathPatternConfig = this.pathPatternConfig;
+    final queryStringConfig = this.queryStringConfig;
+    final regexValues = this.regexValues;
+    final sourceIpConfig = this.sourceIpConfig;
+    final values = this.values;
+    return {
+      if (field != null) 'Field': field,
+      if (hostHeaderConfig != null)
+        for (var e1 in hostHeaderConfig.toQueryMap().entries)
+          'HostHeaderConfig.${e1.key}': e1.value,
+      if (httpHeaderConfig != null)
+        for (var e1 in httpHeaderConfig.toQueryMap().entries)
+          'HttpHeaderConfig.${e1.key}': e1.value,
+      if (httpRequestMethodConfig != null)
+        for (var e1 in httpRequestMethodConfig.toQueryMap().entries)
+          'HttpRequestMethodConfig.${e1.key}': e1.value,
+      if (pathPatternConfig != null)
+        for (var e1 in pathPatternConfig.toQueryMap().entries)
+          'PathPatternConfig.${e1.key}': e1.value,
+      if (queryStringConfig != null)
+        for (var e1 in queryStringConfig.toQueryMap().entries)
+          'QueryStringConfig.${e1.key}': e1.value,
+      if (regexValues != null)
+        if (regexValues.isEmpty)
+          'RegexValues': ''
+        else
+          for (var i1 = 0; i1 < regexValues.length; i1++)
+            'RegexValues.member.${i1 + 1}': regexValues[i1],
+      if (sourceIpConfig != null)
+        for (var e1 in sourceIpConfig.toQueryMap().entries)
+          'SourceIpConfig.${e1.key}': e1.value,
+      if (values != null)
+        if (values.isEmpty)
+          'Values': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            'Values.member.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+/// Information about a host header condition.
+class HostHeaderConditionConfig {
+  /// The regular expressions to compare against the host header. The maximum
+  /// length of each string is 128 characters.
+  final List<String>? regexValues;
+
+  /// The host names. The maximum length of each string is 128 characters. The
+  /// comparison is case insensitive. The following wildcard characters are
+  /// supported: * (matches 0 or more characters) and ? (matches exactly 1
+  /// character). You must include at least one "." character. You can include
+  /// only alphabetical characters after the final "." character.
+  ///
+  /// If you specify multiple strings, the condition is satisfied if one of the
+  /// strings matches the host name.
+  final List<String>? values;
+
+  HostHeaderConditionConfig({
+    this.regexValues,
+    this.values,
+  });
+  factory HostHeaderConditionConfig.fromXml(_s.XmlElement elem) {
+    return HostHeaderConditionConfig(
+      regexValues: _s
+          .extractXmlChild(elem, 'RegexValues')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      values: _s
+          .extractXmlChild(elem, 'Values')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regexValues = this.regexValues;
+    final values = this.values;
+    return {
+      if (regexValues != null) 'RegexValues': regexValues,
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final regexValues = this.regexValues;
+    final values = this.values;
+    return {
+      if (regexValues != null)
+        if (regexValues.isEmpty)
+          'RegexValues': ''
+        else
+          for (var i1 = 0; i1 < regexValues.length; i1++)
+            'RegexValues.member.${i1 + 1}': regexValues[i1],
+      if (values != null)
+        if (values.isEmpty)
+          'Values': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            'Values.member.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+/// Information about a path pattern condition.
+class PathPatternConditionConfig {
+  /// The regular expressions to compare against the request URL. The maximum
+  /// length of each string is 128 characters.
+  final List<String>? regexValues;
+
+  /// The path patterns to compare against the request URL. The maximum length of
+  /// each string is 128 characters. The comparison is case sensitive. The
+  /// following wildcard characters are supported: * (matches 0 or more
+  /// characters) and ? (matches exactly 1 character).
+  ///
+  /// If you specify multiple strings, the condition is satisfied if one of them
+  /// matches the request URL. The path pattern is compared only to the path of
+  /// the URL, not to its query string. To compare against the query string, use a
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#query-string-conditions">query
+  /// string condition</a>.
+  final List<String>? values;
+
+  PathPatternConditionConfig({
+    this.regexValues,
+    this.values,
+  });
+  factory PathPatternConditionConfig.fromXml(_s.XmlElement elem) {
+    return PathPatternConditionConfig(
+      regexValues: _s
+          .extractXmlChild(elem, 'RegexValues')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      values: _s
+          .extractXmlChild(elem, 'Values')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regexValues = this.regexValues;
+    final values = this.values;
+    return {
+      if (regexValues != null) 'RegexValues': regexValues,
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final regexValues = this.regexValues;
+    final values = this.values;
+    return {
+      if (regexValues != null)
+        if (regexValues.isEmpty)
+          'RegexValues': ''
+        else
+          for (var i1 = 0; i1 < regexValues.length; i1++)
+            'RegexValues.member.${i1 + 1}': regexValues[i1],
+      if (values != null)
+        if (values.isEmpty)
+          'Values': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            'Values.member.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+/// Information about an HTTP header condition.
+///
+/// There is a set of standard HTTP header fields. You can also define custom
+/// HTTP header fields.
+class HttpHeaderConditionConfig {
+  /// The name of the HTTP header field. The maximum length is 40 characters. The
+  /// header name is case insensitive. The allowed characters are specified by RFC
+  /// 7230. Wildcards are not supported.
+  ///
+  /// You can't use an HTTP header condition to specify the host header. Instead,
+  /// use a <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#host-conditions">host
+  /// condition</a>.
+  final String? httpHeaderName;
+
+  /// The regular expression to compare against the HTTP header. The maximum
+  /// length of each string is 128 characters.
+  final List<String>? regexValues;
+
+  /// The strings to compare against the value of the HTTP header. The maximum
+  /// length of each string is 128 characters. The comparison strings are case
+  /// insensitive. The following wildcard characters are supported: * (matches 0
+  /// or more characters) and ? (matches exactly 1 character).
+  ///
+  /// If the same header appears multiple times in the request, we search them in
+  /// order until a match is found.
+  ///
+  /// If you specify multiple strings, the condition is satisfied if one of the
+  /// strings matches the value of the HTTP header. To require that all of the
+  /// strings are a match, create one condition per string.
+  final List<String>? values;
+
+  HttpHeaderConditionConfig({
+    this.httpHeaderName,
+    this.regexValues,
+    this.values,
+  });
+  factory HttpHeaderConditionConfig.fromXml(_s.XmlElement elem) {
+    return HttpHeaderConditionConfig(
+      httpHeaderName: _s.extractXmlStringValue(elem, 'HttpHeaderName'),
+      regexValues: _s
+          .extractXmlChild(elem, 'RegexValues')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      values: _s
+          .extractXmlChild(elem, 'Values')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpHeaderName = this.httpHeaderName;
+    final regexValues = this.regexValues;
+    final values = this.values;
+    return {
+      if (httpHeaderName != null) 'HttpHeaderName': httpHeaderName,
+      if (regexValues != null) 'RegexValues': regexValues,
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final httpHeaderName = this.httpHeaderName;
+    final regexValues = this.regexValues;
+    final values = this.values;
+    return {
+      if (httpHeaderName != null) 'HttpHeaderName': httpHeaderName,
+      if (regexValues != null)
+        if (regexValues.isEmpty)
+          'RegexValues': ''
+        else
+          for (var i1 = 0; i1 < regexValues.length; i1++)
+            'RegexValues.member.${i1 + 1}': regexValues[i1],
+      if (values != null)
+        if (values.isEmpty)
+          'Values': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            'Values.member.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+/// Information about a query string condition.
+///
+/// The query string component of a URI starts after the first '?' character and
+/// is terminated by either a '#' character or the end of the URI. A typical
+/// query string contains key/value pairs separated by '&' characters. The
+/// allowed characters are specified by RFC 3986. Any character can be
+/// percentage encoded.
+class QueryStringConditionConfig {
+  /// The key/value pairs or values to find in the query string. The maximum
+  /// length of each string is 128 characters. The comparison is case insensitive.
+  /// The following wildcard characters are supported: * (matches 0 or more
+  /// characters) and ? (matches exactly 1 character). To search for a literal '*'
+  /// or '?' character in a query string, you must escape these characters in
+  /// <code>Values</code> using a '\' character.
+  ///
+  /// If you specify multiple key/value pairs or values, the condition is
+  /// satisfied if one of them is found in the query string.
+  final List<QueryStringKeyValuePair>? values;
+
+  QueryStringConditionConfig({
+    this.values,
+  });
+  factory QueryStringConditionConfig.fromXml(_s.XmlElement elem) {
+    return QueryStringConditionConfig(
+      values: _s.extractXmlChild(elem, 'Values')?.let((elem) => elem
+          .findElements('member')
+          .map(QueryStringKeyValuePair.fromXml)
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final values = this.values;
+    return {
+      if (values != null)
+        if (values.isEmpty)
+          'Values': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            for (var e3 in values[i1].toQueryMap().entries)
+              'Values.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Information about an HTTP method condition.
+///
+/// HTTP defines a set of request methods, also referred to as HTTP verbs. For
+/// more information, see the <a
+/// href="https://www.iana.org/assignments/http-methods/http-methods.xhtml">HTTP
+/// Method Registry</a>. You can also define custom HTTP methods.
+class HttpRequestMethodConditionConfig {
+  /// The name of the request method. The maximum length is 40 characters. The
+  /// allowed characters are A-Z, hyphen (-), and underscore (_). The comparison
+  /// is case sensitive. Wildcards are not supported; therefore, the method name
+  /// must be an exact match.
+  ///
+  /// If you specify multiple strings, the condition is satisfied if one of the
+  /// strings matches the HTTP request method. We recommend that you route GET and
+  /// HEAD requests in the same way, because the response to a HEAD request may be
+  /// cached.
+  final List<String>? values;
+
+  HttpRequestMethodConditionConfig({
+    this.values,
+  });
+  factory HttpRequestMethodConditionConfig.fromXml(_s.XmlElement elem) {
+    return HttpRequestMethodConditionConfig(
+      values: _s
+          .extractXmlChild(elem, 'Values')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final values = this.values;
+    return {
+      if (values != null)
+        if (values.isEmpty)
+          'Values': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            'Values.member.${i1 + 1}': values[i1],
     };
   }
 }
@@ -6731,8 +6486,9 @@ class SourceIpConditionConfig {
   /// If you specify multiple addresses, the condition is satisfied if the source
   /// IP address of the request matches one of the CIDR blocks. This condition is
   /// not satisfied by the addresses in the X-Forwarded-For header. To search for
-  /// addresses in the X-Forwarded-For header, use
-  /// <a>HttpHeaderConditionConfig</a>.
+  /// addresses in the X-Forwarded-For header, use an <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#http-header-conditions">HTTP
+  /// header condition</a>.
   ///
   /// The total number of values must be less than, or equal to five.
   final List<String>? values;
@@ -6768,120 +6524,21 @@ class SourceIpConditionConfig {
   }
 }
 
-/// Information about a policy used for SSL negotiation.
-class SslPolicy {
-  /// The ciphers.
-  final List<Cipher>? ciphers;
+/// Information about a key/value pair.
+class QueryStringKeyValuePair {
+  /// The key. You can omit the key.
+  final String? key;
 
-  /// The name of the policy.
-  final String? name;
-
-  /// The protocols.
-  final List<String>? sslProtocols;
-
-  /// The supported load balancers.
-  final List<String>? supportedLoadBalancerTypes;
-
-  SslPolicy({
-    this.ciphers,
-    this.name,
-    this.sslProtocols,
-    this.supportedLoadBalancerTypes,
-  });
-  factory SslPolicy.fromXml(_s.XmlElement elem) {
-    return SslPolicy(
-      ciphers: _s.extractXmlChild(elem, 'Ciphers')?.let(
-          (elem) => elem.findElements('member').map(Cipher.fromXml).toList()),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      sslProtocols: _s
-          .extractXmlChild(elem, 'SslProtocols')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      supportedLoadBalancerTypes: _s
-          .extractXmlChild(elem, 'SupportedLoadBalancerTypes')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ciphers = this.ciphers;
-    final name = this.name;
-    final sslProtocols = this.sslProtocols;
-    final supportedLoadBalancerTypes = this.supportedLoadBalancerTypes;
-    return {
-      if (ciphers != null) 'Ciphers': ciphers,
-      if (name != null) 'Name': name,
-      if (sslProtocols != null) 'SslProtocols': sslProtocols,
-      if (supportedLoadBalancerTypes != null)
-        'SupportedLoadBalancerTypes': supportedLoadBalancerTypes,
-    };
-  }
-}
-
-/// Information about a subnet mapping.
-class SubnetMapping {
-  /// [Network Load Balancers] The allocation ID of the Elastic IP address for an
-  /// internet-facing load balancer.
-  final String? allocationId;
-
-  /// [Network Load Balancers] The IPv6 address.
-  final String? iPv6Address;
-
-  /// [Network Load Balancers] The private IPv4 address for an internal load
-  /// balancer.
-  final String? privateIPv4Address;
-
-  /// The ID of the subnet.
-  final String? subnetId;
-
-  SubnetMapping({
-    this.allocationId,
-    this.iPv6Address,
-    this.privateIPv4Address,
-    this.subnetId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final allocationId = this.allocationId;
-    final iPv6Address = this.iPv6Address;
-    final privateIPv4Address = this.privateIPv4Address;
-    final subnetId = this.subnetId;
-    return {
-      if (allocationId != null) 'AllocationId': allocationId,
-      if (iPv6Address != null) 'IPv6Address': iPv6Address,
-      if (privateIPv4Address != null) 'PrivateIPv4Address': privateIPv4Address,
-      if (subnetId != null) 'SubnetId': subnetId,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final allocationId = this.allocationId;
-    final iPv6Address = this.iPv6Address;
-    final privateIPv4Address = this.privateIPv4Address;
-    final subnetId = this.subnetId;
-    return {
-      if (allocationId != null) 'AllocationId': allocationId,
-      if (iPv6Address != null) 'IPv6Address': iPv6Address,
-      if (privateIPv4Address != null) 'PrivateIPv4Address': privateIPv4Address,
-      if (subnetId != null) 'SubnetId': subnetId,
-    };
-  }
-}
-
-/// Information about a tag.
-class Tag {
-  /// The key of the tag.
-  final String key;
-
-  /// The value of the tag.
+  /// The value.
   final String? value;
 
-  Tag({
-    required this.key,
+  QueryStringKeyValuePair({
+    this.key,
     this.value,
   });
-  factory Tag.fromXml(_s.XmlElement elem) {
-    return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key')!,
+  factory QueryStringKeyValuePair.fromXml(_s.XmlElement elem) {
+    return QueryStringKeyValuePair(
+      key: _s.extractXmlStringValue(elem, 'Key'),
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
@@ -6890,7 +6547,7 @@ class Tag {
     final key = this.key;
     final value = this.value;
     return {
-      'Key': key,
+      if (key != null) 'Key': key,
       if (value != null) 'Value': value,
     };
   }
@@ -6899,38 +6556,81 @@ class Tag {
     final key = this.key;
     final value = this.value;
     return {
-      'Key': key,
+      if (key != null) 'Key': key,
       if (value != null) 'Value': value,
     };
   }
 }
 
-/// The tags associated with a resource.
-class TagDescription {
-  /// The Amazon Resource Name (ARN) of the resource.
-  final String? resourceArn;
+/// Information about the priorities for the rules for a listener.
+class RulePriorityPair {
+  /// The rule priority.
+  final int? priority;
 
-  /// Information about the tags.
-  final List<Tag>? tags;
+  /// The Amazon Resource Name (ARN) of the rule.
+  final String? ruleArn;
 
-  TagDescription({
-    this.resourceArn,
-    this.tags,
+  RulePriorityPair({
+    this.priority,
+    this.ruleArn,
   });
-  factory TagDescription.fromXml(_s.XmlElement elem) {
-    return TagDescription(
-      resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
+
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final ruleArn = this.ruleArn;
+    return {
+      if (priority != null) 'Priority': priority,
+      if (ruleArn != null) 'RuleArn': ruleArn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final priority = this.priority;
+    final ruleArn = this.ruleArn;
+    return {
+      if (priority != null) 'Priority': priority.toString(),
+      if (ruleArn != null) 'RuleArn': ruleArn,
+    };
+  }
+}
+
+/// Information about an SSL server certificate.
+class Certificate {
+  /// The Amazon Resource Name (ARN) of the certificate.
+  final String? certificateArn;
+
+  /// Indicates whether the certificate is the default certificate. Do not set
+  /// this value when specifying a certificate as an input. This value is not
+  /// included in the output when describing a listener, but is included when
+  /// describing listener certificates.
+  final bool? isDefault;
+
+  Certificate({
+    this.certificateArn,
+    this.isDefault,
+  });
+  factory Certificate.fromXml(_s.XmlElement elem) {
+    return Certificate(
+      certificateArn: _s.extractXmlStringValue(elem, 'CertificateArn'),
+      isDefault: _s.extractXmlBoolValue(elem, 'IsDefault'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final resourceArn = this.resourceArn;
-    final tags = this.tags;
+    final certificateArn = this.certificateArn;
+    final isDefault = this.isDefault;
     return {
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (tags != null) 'Tags': tags,
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (isDefault != null) 'IsDefault': isDefault,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final certificateArn = this.certificateArn;
+    final isDefault = this.isDefault;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (isDefault != null) 'IsDefault': isDefault.toString(),
     };
   }
 }
@@ -6977,16 +6677,29 @@ class TargetDescription {
   /// is a Lambda function.
   final int? port;
 
+  /// The server ID for the targets. This value is required if the protocol is
+  /// <code>QUIC</code> or <code>TCP_QUIC</code> and can't be used with other
+  /// protocols.
+  ///
+  /// The ID consists of the <code>0x</code> prefix followed by 16 hexadecimal
+  /// characters. Any letters must be lowercase. The value must be unique at the
+  /// listener level. You can't modify the server ID for a registered target. You
+  /// must deregister the target and then provide a new server ID when you
+  /// register the target again.
+  final String? quicServerId;
+
   TargetDescription({
     required this.id,
     this.availabilityZone,
     this.port,
+    this.quicServerId,
   });
   factory TargetDescription.fromXml(_s.XmlElement elem) {
     return TargetDescription(
       id: _s.extractXmlStringValue(elem, 'Id')!,
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
       port: _s.extractXmlIntValue(elem, 'Port'),
+      quicServerId: _s.extractXmlStringValue(elem, 'QuicServerId'),
     );
   }
 
@@ -6994,10 +6707,12 @@ class TargetDescription {
     final id = this.id;
     final availabilityZone = this.availabilityZone;
     final port = this.port;
+    final quicServerId = this.quicServerId;
     return {
       'Id': id,
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (port != null) 'Port': port,
+      if (quicServerId != null) 'QuicServerId': quicServerId,
     };
   }
 
@@ -7005,188 +6720,93 @@ class TargetDescription {
     final id = this.id;
     final availabilityZone = this.availabilityZone;
     final port = this.port;
+    final quicServerId = this.quicServerId;
     return {
       'Id': id,
       if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
       if (port != null) 'Port': port.toString(),
+      if (quicServerId != null) 'QuicServerId': quicServerId,
     };
   }
 }
 
-/// Information about a target group.
-class TargetGroup {
-  /// Indicates whether health checks are enabled.
-  final bool? healthCheckEnabled;
+/// Information about a trust store.
+class TrustStore {
+  /// The name of the trust store.
+  final String? name;
 
-  /// The approximate amount of time, in seconds, between health checks of an
-  /// individual target.
-  final int? healthCheckIntervalSeconds;
+  /// The number of ca certificates in the trust store.
+  final int? numberOfCaCertificates;
 
-  /// The destination for health checks on the targets.
-  final String? healthCheckPath;
+  /// The current status of the trust store.
+  final TrustStoreStatus? status;
 
-  /// The port to use to connect with the target.
-  final String? healthCheckPort;
+  /// The number of revoked certificates in the trust store.
+  final int? totalRevokedEntries;
 
-  /// The protocol to use to connect with the target. The GENEVE, TLS, UDP, and
-  /// TCP_UDP protocols are not supported for health checks.
-  final ProtocolEnum? healthCheckProtocol;
+  /// The Amazon Resource Name (ARN) of the trust store.
+  final String? trustStoreArn;
 
-  /// The amount of time, in seconds, during which no response means a failed
-  /// health check.
-  final int? healthCheckTimeoutSeconds;
-
-  /// The number of consecutive health checks successes required before
-  /// considering an unhealthy target healthy.
-  final int? healthyThresholdCount;
-
-  /// The type of IP address used for this target group. The possible values are
-  /// <code>ipv4</code> and <code>ipv6</code>. This is an optional parameter. If
-  /// not specified, the IP address type defaults to <code>ipv4</code>.
-  final TargetGroupIpAddressTypeEnum? ipAddressType;
-
-  /// The Amazon Resource Name (ARN) of the load balancer that routes traffic to
-  /// this target group. You can use each target group with only one load
-  /// balancer.
-  final List<String>? loadBalancerArns;
-
-  /// The HTTP or gRPC codes to use when checking for a successful response from a
-  /// target.
-  final Matcher? matcher;
-
-  /// The port on which the targets are listening. This parameter is not used if
-  /// the target is a Lambda function.
-  final int? port;
-
-  /// The protocol to use for routing traffic to the targets.
-  final ProtocolEnum? protocol;
-
-  /// [HTTP/HTTPS protocol] The protocol version. The possible values are
-  /// <code>GRPC</code>, <code>HTTP1</code>, and <code>HTTP2</code>.
-  final String? protocolVersion;
-
-  /// The Amazon Resource Name (ARN) of the target group.
-  final String? targetGroupArn;
-
-  /// The name of the target group.
-  final String? targetGroupName;
-
-  /// The type of target that you must specify when registering targets with this
-  /// target group. The possible values are <code>instance</code> (register
-  /// targets by instance ID), <code>ip</code> (register targets by IP address),
-  /// <code>lambda</code> (register a single Lambda function as a target), or
-  /// <code>alb</code> (register a single Application Load Balancer as a target).
-  final TargetTypeEnum? targetType;
-
-  /// The number of consecutive health check failures required before considering
-  /// the target unhealthy.
-  final int? unhealthyThresholdCount;
-
-  /// The ID of the VPC for the targets.
-  final String? vpcId;
-
-  TargetGroup({
-    this.healthCheckEnabled,
-    this.healthCheckIntervalSeconds,
-    this.healthCheckPath,
-    this.healthCheckPort,
-    this.healthCheckProtocol,
-    this.healthCheckTimeoutSeconds,
-    this.healthyThresholdCount,
-    this.ipAddressType,
-    this.loadBalancerArns,
-    this.matcher,
-    this.port,
-    this.protocol,
-    this.protocolVersion,
-    this.targetGroupArn,
-    this.targetGroupName,
-    this.targetType,
-    this.unhealthyThresholdCount,
-    this.vpcId,
+  TrustStore({
+    this.name,
+    this.numberOfCaCertificates,
+    this.status,
+    this.totalRevokedEntries,
+    this.trustStoreArn,
   });
-  factory TargetGroup.fromXml(_s.XmlElement elem) {
-    return TargetGroup(
-      healthCheckEnabled: _s.extractXmlBoolValue(elem, 'HealthCheckEnabled'),
-      healthCheckIntervalSeconds:
-          _s.extractXmlIntValue(elem, 'HealthCheckIntervalSeconds'),
-      healthCheckPath: _s.extractXmlStringValue(elem, 'HealthCheckPath'),
-      healthCheckPort: _s.extractXmlStringValue(elem, 'HealthCheckPort'),
-      healthCheckProtocol: _s
-          .extractXmlStringValue(elem, 'HealthCheckProtocol')
-          ?.let(ProtocolEnum.fromString),
-      healthCheckTimeoutSeconds:
-          _s.extractXmlIntValue(elem, 'HealthCheckTimeoutSeconds'),
-      healthyThresholdCount:
-          _s.extractXmlIntValue(elem, 'HealthyThresholdCount'),
-      ipAddressType: _s
-          .extractXmlStringValue(elem, 'IpAddressType')
-          ?.let(TargetGroupIpAddressTypeEnum.fromString),
-      loadBalancerArns: _s
-          .extractXmlChild(elem, 'LoadBalancerArns')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      matcher: _s.extractXmlChild(elem, 'Matcher')?.let(Matcher.fromXml),
-      port: _s.extractXmlIntValue(elem, 'Port'),
-      protocol: _s
-          .extractXmlStringValue(elem, 'Protocol')
-          ?.let(ProtocolEnum.fromString),
-      protocolVersion: _s.extractXmlStringValue(elem, 'ProtocolVersion'),
-      targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
-      targetGroupName: _s.extractXmlStringValue(elem, 'TargetGroupName'),
-      targetType: _s
-          .extractXmlStringValue(elem, 'TargetType')
-          ?.let(TargetTypeEnum.fromString),
-      unhealthyThresholdCount:
-          _s.extractXmlIntValue(elem, 'UnhealthyThresholdCount'),
-      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+  factory TrustStore.fromXml(_s.XmlElement elem) {
+    return TrustStore(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      numberOfCaCertificates:
+          _s.extractXmlIntValue(elem, 'NumberOfCaCertificates'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(TrustStoreStatus.fromString),
+      totalRevokedEntries: _s.extractXmlIntValue(elem, 'TotalRevokedEntries'),
+      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final healthCheckEnabled = this.healthCheckEnabled;
-    final healthCheckIntervalSeconds = this.healthCheckIntervalSeconds;
-    final healthCheckPath = this.healthCheckPath;
-    final healthCheckPort = this.healthCheckPort;
-    final healthCheckProtocol = this.healthCheckProtocol;
-    final healthCheckTimeoutSeconds = this.healthCheckTimeoutSeconds;
-    final healthyThresholdCount = this.healthyThresholdCount;
-    final ipAddressType = this.ipAddressType;
-    final loadBalancerArns = this.loadBalancerArns;
-    final matcher = this.matcher;
-    final port = this.port;
-    final protocol = this.protocol;
-    final protocolVersion = this.protocolVersion;
-    final targetGroupArn = this.targetGroupArn;
-    final targetGroupName = this.targetGroupName;
-    final targetType = this.targetType;
-    final unhealthyThresholdCount = this.unhealthyThresholdCount;
-    final vpcId = this.vpcId;
+    final name = this.name;
+    final numberOfCaCertificates = this.numberOfCaCertificates;
+    final status = this.status;
+    final totalRevokedEntries = this.totalRevokedEntries;
+    final trustStoreArn = this.trustStoreArn;
     return {
-      if (healthCheckEnabled != null) 'HealthCheckEnabled': healthCheckEnabled,
-      if (healthCheckIntervalSeconds != null)
-        'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
-      if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
-      if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
-      if (healthCheckProtocol != null)
-        'HealthCheckProtocol': healthCheckProtocol.value,
-      if (healthCheckTimeoutSeconds != null)
-        'HealthCheckTimeoutSeconds': healthCheckTimeoutSeconds,
-      if (healthyThresholdCount != null)
-        'HealthyThresholdCount': healthyThresholdCount,
-      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
-      if (loadBalancerArns != null) 'LoadBalancerArns': loadBalancerArns,
-      if (matcher != null) 'Matcher': matcher,
-      if (port != null) 'Port': port,
-      if (protocol != null) 'Protocol': protocol.value,
-      if (protocolVersion != null) 'ProtocolVersion': protocolVersion,
-      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
-      if (targetGroupName != null) 'TargetGroupName': targetGroupName,
-      if (targetType != null) 'TargetType': targetType.value,
-      if (unhealthyThresholdCount != null)
-        'UnhealthyThresholdCount': unhealthyThresholdCount,
-      if (vpcId != null) 'VpcId': vpcId,
+      if (name != null) 'Name': name,
+      if (numberOfCaCertificates != null)
+        'NumberOfCaCertificates': numberOfCaCertificates,
+      if (status != null) 'Status': status.value,
+      if (totalRevokedEntries != null)
+        'TotalRevokedEntries': totalRevokedEntries,
+      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
     };
   }
+}
+
+class TrustStoreStatus {
+  static const active = TrustStoreStatus._('ACTIVE');
+  static const creating = TrustStoreStatus._('CREATING');
+
+  final String value;
+
+  const TrustStoreStatus._(this.value);
+
+  static const values = [active, creating];
+
+  static TrustStoreStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrustStoreStatus._(value));
+
+  @override
+  bool operator ==(other) => other is TrustStoreStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about a target group attribute.
@@ -7242,7 +6862,7 @@ class TargetGroupAttribute {
   /// healthy targets is below this value, mark the zone as unhealthy in DNS, so
   /// that traffic is routed only to healthy zones. The possible values are
   /// <code>off</code> or an integer from 1 to the maximum number of targets. The
-  /// default is <code>off</code>.
+  /// default is 1.
   /// </li>
   /// <li>
   /// <code>target_group_health.dns_failover.minimum_healthy_targets.percentage</code>
@@ -7341,7 +6961,7 @@ class TargetGroupAttribute {
   /// preservation is enabled. The value is <code>true</code> or
   /// <code>false</code>. The default is disabled if the target group type is IP
   /// address and the target group protocol is TCP or TLS. Otherwise, the default
-  /// is enabled. Client IP preservation cannot be disabled for UDP and TCP_UDP
+  /// is enabled. Client IP preservation can't be disabled for UDP and TCP_UDP
   /// target groups.
   /// </li>
   /// <li>
@@ -7353,7 +6973,8 @@ class TargetGroupAttribute {
   /// <code>target_health_state.unhealthy.connection_termination.enabled</code> -
   /// Indicates whether the load balancer terminates connections to unhealthy
   /// targets. The value is <code>true</code> or <code>false</code>. The default
-  /// is <code>true</code>.
+  /// is <code>true</code>. This attribute can't be enabled for UDP and TCP_UDP
+  /// target groups.
   /// </li>
   /// <li>
   /// <code>target_health_state.unhealthy.draining_interval_seconds</code> - The
@@ -7385,7 +7006,7 @@ class TargetGroupAttribute {
   /// values are <code>rebalance</code> and <code>no_rebalance</code>. The default
   /// is <code>no_rebalance</code>. The two attributes
   /// (<code>target_failover.on_deregistration</code> and
-  /// <code>target_failover.on_unhealthy</code>) cannot be set independently. The
+  /// <code>target_failover.on_unhealthy</code>) can't be set independently. The
   /// value you set for both attributes must be the same.
   /// </li>
   /// </ul>
@@ -7424,6 +7045,307 @@ class TargetGroupAttribute {
   }
 }
 
+/// Information about a target group.
+class TargetGroup {
+  /// Indicates whether health checks are enabled.
+  final bool? healthCheckEnabled;
+
+  /// The approximate amount of time, in seconds, between health checks of an
+  /// individual target.
+  final int? healthCheckIntervalSeconds;
+
+  /// The destination for health checks on the targets.
+  final String? healthCheckPath;
+
+  /// The port to use to connect with the target.
+  final String? healthCheckPort;
+
+  /// The protocol to use to connect with the target. The GENEVE, TLS, UDP, and
+  /// TCP_UDP protocols are not supported for health checks.
+  final ProtocolEnum? healthCheckProtocol;
+
+  /// The amount of time, in seconds, during which no response means a failed
+  /// health check.
+  final int? healthCheckTimeoutSeconds;
+
+  /// The number of consecutive health checks successes required before
+  /// considering an unhealthy target healthy.
+  final int? healthyThresholdCount;
+
+  /// The IP address type. The default value is <code>ipv4</code>.
+  final TargetGroupIpAddressTypeEnum? ipAddressType;
+
+  /// The Amazon Resource Name (ARN) of the load balancer that routes traffic to
+  /// this target group. You can use each target group with only one load
+  /// balancer.
+  final List<String>? loadBalancerArns;
+
+  /// The HTTP or gRPC codes to use when checking for a successful response from a
+  /// target.
+  final Matcher? matcher;
+
+  /// The port on which the targets are listening. This parameter is not used if
+  /// the target is a Lambda function.
+  final int? port;
+
+  /// The protocol to use for routing traffic to the targets.
+  final ProtocolEnum? protocol;
+
+  /// [HTTP/HTTPS protocol] The protocol version. The possible values are
+  /// <code>GRPC</code>, <code>HTTP1</code>, and <code>HTTP2</code>.
+  final String? protocolVersion;
+
+  /// The port on which the target control agent and application load balancer
+  /// exchange management traffic for the target optimizer feature.
+  final int? targetControlPort;
+
+  /// The Amazon Resource Name (ARN) of the target group.
+  final String? targetGroupArn;
+
+  /// The name of the target group.
+  final String? targetGroupName;
+
+  /// The type of target that you must specify when registering targets with this
+  /// target group. The possible values are <code>instance</code> (register
+  /// targets by instance ID), <code>ip</code> (register targets by IP address),
+  /// <code>lambda</code> (register a single Lambda function as a target), or
+  /// <code>alb</code> (register a single Application Load Balancer as a target).
+  final TargetTypeEnum? targetType;
+
+  /// The number of consecutive health check failures required before considering
+  /// the target unhealthy.
+  final int? unhealthyThresholdCount;
+
+  /// The ID of the VPC for the targets.
+  final String? vpcId;
+
+  TargetGroup({
+    this.healthCheckEnabled,
+    this.healthCheckIntervalSeconds,
+    this.healthCheckPath,
+    this.healthCheckPort,
+    this.healthCheckProtocol,
+    this.healthCheckTimeoutSeconds,
+    this.healthyThresholdCount,
+    this.ipAddressType,
+    this.loadBalancerArns,
+    this.matcher,
+    this.port,
+    this.protocol,
+    this.protocolVersion,
+    this.targetControlPort,
+    this.targetGroupArn,
+    this.targetGroupName,
+    this.targetType,
+    this.unhealthyThresholdCount,
+    this.vpcId,
+  });
+  factory TargetGroup.fromXml(_s.XmlElement elem) {
+    return TargetGroup(
+      healthCheckEnabled: _s.extractXmlBoolValue(elem, 'HealthCheckEnabled'),
+      healthCheckIntervalSeconds:
+          _s.extractXmlIntValue(elem, 'HealthCheckIntervalSeconds'),
+      healthCheckPath: _s.extractXmlStringValue(elem, 'HealthCheckPath'),
+      healthCheckPort: _s.extractXmlStringValue(elem, 'HealthCheckPort'),
+      healthCheckProtocol: _s
+          .extractXmlStringValue(elem, 'HealthCheckProtocol')
+          ?.let(ProtocolEnum.fromString),
+      healthCheckTimeoutSeconds:
+          _s.extractXmlIntValue(elem, 'HealthCheckTimeoutSeconds'),
+      healthyThresholdCount:
+          _s.extractXmlIntValue(elem, 'HealthyThresholdCount'),
+      ipAddressType: _s
+          .extractXmlStringValue(elem, 'IpAddressType')
+          ?.let(TargetGroupIpAddressTypeEnum.fromString),
+      loadBalancerArns: _s
+          .extractXmlChild(elem, 'LoadBalancerArns')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      matcher: _s.extractXmlChild(elem, 'Matcher')?.let(Matcher.fromXml),
+      port: _s.extractXmlIntValue(elem, 'Port'),
+      protocol: _s
+          .extractXmlStringValue(elem, 'Protocol')
+          ?.let(ProtocolEnum.fromString),
+      protocolVersion: _s.extractXmlStringValue(elem, 'ProtocolVersion'),
+      targetControlPort: _s.extractXmlIntValue(elem, 'TargetControlPort'),
+      targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
+      targetGroupName: _s.extractXmlStringValue(elem, 'TargetGroupName'),
+      targetType: _s
+          .extractXmlStringValue(elem, 'TargetType')
+          ?.let(TargetTypeEnum.fromString),
+      unhealthyThresholdCount:
+          _s.extractXmlIntValue(elem, 'UnhealthyThresholdCount'),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheckEnabled = this.healthCheckEnabled;
+    final healthCheckIntervalSeconds = this.healthCheckIntervalSeconds;
+    final healthCheckPath = this.healthCheckPath;
+    final healthCheckPort = this.healthCheckPort;
+    final healthCheckProtocol = this.healthCheckProtocol;
+    final healthCheckTimeoutSeconds = this.healthCheckTimeoutSeconds;
+    final healthyThresholdCount = this.healthyThresholdCount;
+    final ipAddressType = this.ipAddressType;
+    final loadBalancerArns = this.loadBalancerArns;
+    final matcher = this.matcher;
+    final port = this.port;
+    final protocol = this.protocol;
+    final protocolVersion = this.protocolVersion;
+    final targetControlPort = this.targetControlPort;
+    final targetGroupArn = this.targetGroupArn;
+    final targetGroupName = this.targetGroupName;
+    final targetType = this.targetType;
+    final unhealthyThresholdCount = this.unhealthyThresholdCount;
+    final vpcId = this.vpcId;
+    return {
+      if (healthCheckEnabled != null) 'HealthCheckEnabled': healthCheckEnabled,
+      if (healthCheckIntervalSeconds != null)
+        'HealthCheckIntervalSeconds': healthCheckIntervalSeconds,
+      if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
+      if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
+      if (healthCheckProtocol != null)
+        'HealthCheckProtocol': healthCheckProtocol.value,
+      if (healthCheckTimeoutSeconds != null)
+        'HealthCheckTimeoutSeconds': healthCheckTimeoutSeconds,
+      if (healthyThresholdCount != null)
+        'HealthyThresholdCount': healthyThresholdCount,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+      if (loadBalancerArns != null) 'LoadBalancerArns': loadBalancerArns,
+      if (matcher != null) 'Matcher': matcher,
+      if (port != null) 'Port': port,
+      if (protocol != null) 'Protocol': protocol.value,
+      if (protocolVersion != null) 'ProtocolVersion': protocolVersion,
+      if (targetControlPort != null) 'TargetControlPort': targetControlPort,
+      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
+      if (targetGroupName != null) 'TargetGroupName': targetGroupName,
+      if (targetType != null) 'TargetType': targetType.value,
+      if (unhealthyThresholdCount != null)
+        'UnhealthyThresholdCount': unhealthyThresholdCount,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+class ProtocolEnum {
+  static const http = ProtocolEnum._('HTTP');
+  static const https = ProtocolEnum._('HTTPS');
+  static const tcp = ProtocolEnum._('TCP');
+  static const tls = ProtocolEnum._('TLS');
+  static const udp = ProtocolEnum._('UDP');
+  static const tcpUdp = ProtocolEnum._('TCP_UDP');
+  static const geneve = ProtocolEnum._('GENEVE');
+  static const quic = ProtocolEnum._('QUIC');
+  static const tcpQuic = ProtocolEnum._('TCP_QUIC');
+
+  final String value;
+
+  const ProtocolEnum._(this.value);
+
+  static const values = [
+    http,
+    https,
+    tcp,
+    tls,
+    udp,
+    tcpUdp,
+    geneve,
+    quic,
+    tcpQuic
+  ];
+
+  static ProtocolEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ProtocolEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ProtocolEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The codes to use when checking for a successful response from a target. If
+/// the protocol version is gRPC, these are gRPC codes. Otherwise, these are
+/// HTTP codes.
+class Matcher {
+  /// You can specify values between 0 and 99. You can specify multiple values
+  /// (for example, "0,1") or a range of values (for example, "0-5"). The default
+  /// value is 12.
+  final String? grpcCode;
+
+  /// For Application Load Balancers, you can specify values between 200 and 499,
+  /// with the default value being 200. You can specify multiple values (for
+  /// example, "200,202") or a range of values (for example, "200-299").
+  ///
+  /// For Network Load Balancers, you can specify values between 200 and 599, with
+  /// the default value being 200-399. You can specify multiple values (for
+  /// example, "200,202") or a range of values (for example, "200-299").
+  ///
+  /// For Gateway Load Balancers, this must be "200–399".
+  ///
+  /// Note that when using shorthand syntax, some values such as commas need to be
+  /// escaped.
+  final String? httpCode;
+
+  Matcher({
+    this.grpcCode,
+    this.httpCode,
+  });
+  factory Matcher.fromXml(_s.XmlElement elem) {
+    return Matcher(
+      grpcCode: _s.extractXmlStringValue(elem, 'GrpcCode'),
+      httpCode: _s.extractXmlStringValue(elem, 'HttpCode'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grpcCode = this.grpcCode;
+    final httpCode = this.httpCode;
+    return {
+      if (grpcCode != null) 'GrpcCode': grpcCode,
+      if (httpCode != null) 'HttpCode': httpCode,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final grpcCode = this.grpcCode;
+    final httpCode = this.httpCode;
+    return {
+      if (grpcCode != null) 'GrpcCode': grpcCode,
+      if (httpCode != null) 'HttpCode': httpCode,
+    };
+  }
+}
+
+class TargetTypeEnum {
+  static const instance = TargetTypeEnum._('instance');
+  static const ip = TargetTypeEnum._('ip');
+  static const lambda = TargetTypeEnum._('lambda');
+  static const alb = TargetTypeEnum._('alb');
+
+  final String value;
+
+  const TargetTypeEnum._(this.value);
+
+  static const values = [instance, ip, lambda, alb];
+
+  static TargetTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is TargetTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class TargetGroupIpAddressTypeEnum {
   static const ipv4 = TargetGroupIpAddressTypeEnum._('ipv4');
   static const ipv6 = TargetGroupIpAddressTypeEnum._('ipv6');
@@ -7449,81 +7371,925 @@ class TargetGroupIpAddressTypeEnum {
   String toString() => value;
 }
 
-/// Information about the target group stickiness for a rule.
-class TargetGroupStickinessConfig {
-  /// The time period, in seconds, during which requests from a client should be
-  /// routed to the same target group. The range is 1-604800 seconds (7 days).
-  final int? durationSeconds;
+/// Information about a load balancer attribute.
+class LoadBalancerAttribute {
+  /// The name of the attribute.
+  ///
+  /// The following attributes are supported by all load balancers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>deletion_protection.enabled</code> - Indicates whether deletion
+  /// protection is enabled. The value is <code>true</code> or <code>false</code>.
+  /// The default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>load_balancing.cross_zone.enabled</code> - Indicates whether
+  /// cross-zone load balancing is enabled. The possible values are
+  /// <code>true</code> and <code>false</code>. The default for Network Load
+  /// Balancers and Gateway Load Balancers is <code>false</code>. The default for
+  /// Application Load Balancers is <code>true</code>, and can't be changed.
+  /// </li>
+  /// </ul>
+  /// The following attributes are supported by both Application Load Balancers
+  /// and Network Load Balancers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>access_logs.s3.enabled</code> - Indicates whether access logs are
+  /// enabled. The value is <code>true</code> or <code>false</code>. The default
+  /// is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>access_logs.s3.bucket</code> - The name of the S3 bucket for the
+  /// access logs. This attribute is required if access logs are enabled. The
+  /// bucket must exist in the same region as the load balancer and have a bucket
+  /// policy that grants Elastic Load Balancing permissions to write to the
+  /// bucket.
+  /// </li>
+  /// <li>
+  /// <code>access_logs.s3.prefix</code> - The prefix for the location in the S3
+  /// bucket for the access logs.
+  /// </li>
+  /// <li>
+  /// <code>ipv6.deny_all_igw_traffic</code> - Blocks internet gateway (IGW)
+  /// access to the load balancer. It is set to <code>false</code> for
+  /// internet-facing load balancers and <code>true</code> for internal load
+  /// balancers, preventing unintended access to your internal load balancer
+  /// through an internet gateway.
+  /// </li>
+  /// <li>
+  /// <code>zonal_shift.config.enabled</code> - Indicates whether zonal shift is
+  /// enabled. The possible values are <code>true</code> and <code>false</code>.
+  /// The default is <code>false</code>.
+  /// </li>
+  /// </ul>
+  /// The following attributes are supported by only Application Load Balancers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>idle_timeout.timeout_seconds</code> - The idle timeout value, in
+  /// seconds. The valid range is 1-4000 seconds. The default is 60 seconds.
+  /// </li>
+  /// <li>
+  /// <code>client_keep_alive.seconds</code> - The client keep alive value, in
+  /// seconds. The valid range is 60-604800 seconds. The default is 3600 seconds.
+  /// </li>
+  /// <li>
+  /// <code>connection_logs.s3.enabled</code> - Indicates whether connection logs
+  /// are enabled. The value is <code>true</code> or <code>false</code>. The
+  /// default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>connection_logs.s3.bucket</code> - The name of the S3 bucket for the
+  /// connection logs. This attribute is required if connection logs are enabled.
+  /// The bucket must exist in the same region as the load balancer and have a
+  /// bucket policy that grants Elastic Load Balancing permissions to write to the
+  /// bucket.
+  /// </li>
+  /// <li>
+  /// <code>connection_logs.s3.prefix</code> - The prefix for the location in the
+  /// S3 bucket for the connection logs.
+  /// </li>
+  /// <li>
+  /// <code>health_check_logs.s3.enabled</code> - Indicates whether health check
+  /// logs are enabled. The value is <code>true</code> or <code>false</code>. The
+  /// default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>health_check_logs.s3.bucket</code> - The name of the S3 bucket for the
+  /// health check logs. This attribute is required if health check logs are
+  /// enabled. The bucket must exist in the same region as the load balancer and
+  /// have a bucket policy that grants Elastic Load Balancing permissions to write
+  /// to the bucket.
+  /// </li>
+  /// <li>
+  /// <code>health_check_logs.s3.prefix</code> - The prefix for the location in
+  /// the S3 bucket for the health check logs.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.desync_mitigation_mode</code> - Determines how the load
+  /// balancer handles requests that might pose a security risk to your
+  /// application. The possible values are <code>monitor</code>,
+  /// <code>defensive</code>, and <code>strictest</code>. The default is
+  /// <code>defensive</code>.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.drop_invalid_header_fields.enabled</code> - Indicates
+  /// whether HTTP headers with invalid header fields are removed by the load
+  /// balancer (<code>true</code>) or routed to targets (<code>false</code>). The
+  /// default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.preserve_host_header.enabled</code> - Indicates whether
+  /// the Application Load Balancer should preserve the <code>Host</code> header
+  /// in the HTTP request and send it to the target without any change. The
+  /// possible values are <code>true</code> and <code>false</code>. The default is
+  /// <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.x_amzn_tls_version_and_cipher_suite.enabled</code> -
+  /// Indicates whether the two headers (<code>x-amzn-tls-version</code> and
+  /// <code>x-amzn-tls-cipher-suite</code>), which contain information about the
+  /// negotiated TLS version and cipher suite, are added to the client request
+  /// before sending it to the target. The <code>x-amzn-tls-version</code> header
+  /// has information about the TLS protocol version negotiated with the client,
+  /// and the <code>x-amzn-tls-cipher-suite</code> header has information about
+  /// the cipher suite negotiated with the client. Both headers are in OpenSSL
+  /// format. The possible values for the attribute are <code>true</code> and
+  /// <code>false</code>. The default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.xff_client_port.enabled</code> - Indicates whether the
+  /// <code>X-Forwarded-For</code> header should preserve the source port that the
+  /// client used to connect to the load balancer. The possible values are
+  /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.xff_header_processing.mode</code> - Enables you to
+  /// modify, preserve, or remove the <code>X-Forwarded-For</code> header in the
+  /// HTTP request before the Application Load Balancer sends the request to the
+  /// target. The possible values are <code>append</code>, <code>preserve</code>,
+  /// and <code>remove</code>. The default is <code>append</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// If the value is <code>append</code>, the Application Load Balancer adds the
+  /// client IP address (of the last hop) to the <code>X-Forwarded-For</code>
+  /// header in the HTTP request before it sends it to targets.
+  /// </li>
+  /// <li>
+  /// If the value is <code>preserve</code> the Application Load Balancer
+  /// preserves the <code>X-Forwarded-For</code> header in the HTTP request, and
+  /// sends it to targets without any change.
+  /// </li>
+  /// <li>
+  /// If the value is <code>remove</code>, the Application Load Balancer removes
+  /// the <code>X-Forwarded-For</code> header in the HTTP request before it sends
+  /// it to targets.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>routing.http2.enabled</code> - Indicates whether clients can connect
+  /// to the load balancer using HTTP/2. If <code>true</code>, clients can connect
+  /// using HTTP/2 or HTTP/1.1. However, all client requests are subject to the
+  /// stricter HTTP/2 header validation rules. For example, message header names
+  /// must contain only alphanumeric characters and hyphens. If
+  /// <code>false</code>, clients must connect using HTTP/1.1. The default is
+  /// <code>true</code>.
+  /// </li>
+  /// <li>
+  /// <code>waf.fail_open.enabled</code> - Indicates whether to allow a
+  /// WAF-enabled load balancer to route requests to targets if it is unable to
+  /// forward the request to Amazon Web Services WAF. The possible values are
+  /// <code>true</code> and <code>false</code>. The default is <code>false</code>.
+  /// </li>
+  /// </ul>
+  /// The following attributes are supported by only Network Load Balancers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>dns_record.client_routing_policy</code> - Indicates how traffic is
+  /// distributed among the load balancer Availability Zones. The possible values
+  /// are <code>availability_zone_affinity</code> with 100 percent zonal affinity,
+  /// <code>partial_availability_zone_affinity</code> with 85 percent zonal
+  /// affinity, and <code>any_availability_zone</code> with 0 percent zonal
+  /// affinity.
+  /// </li>
+  /// <li>
+  /// <code>secondary_ips.auto_assigned.per_subnet</code> - The number of
+  /// secondary IP addresses to configure for your load balancer nodes. Use to
+  /// address port allocation errors if you can't add targets. The valid range is
+  /// 0 to 7. The default is 0. After you set this value, you can't decrease it.
+  /// </li>
+  /// </ul>
+  final String? key;
 
-  /// Indicates whether target group stickiness is enabled.
-  final bool? enabled;
+  /// The value of the attribute.
+  final String? value;
 
-  TargetGroupStickinessConfig({
-    this.durationSeconds,
-    this.enabled,
+  LoadBalancerAttribute({
+    this.key,
+    this.value,
   });
-  factory TargetGroupStickinessConfig.fromXml(_s.XmlElement elem) {
-    return TargetGroupStickinessConfig(
-      durationSeconds: _s.extractXmlIntValue(elem, 'DurationSeconds'),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+  factory LoadBalancerAttribute.fromXml(_s.XmlElement elem) {
+    return LoadBalancerAttribute(
+      key: _s.extractXmlStringValue(elem, 'Key'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final durationSeconds = this.durationSeconds;
-    final enabled = this.enabled;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (durationSeconds != null) 'DurationSeconds': durationSeconds,
-      if (enabled != null) 'Enabled': enabled,
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final durationSeconds = this.durationSeconds;
-    final enabled = this.enabled;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (durationSeconds != null)
-        'DurationSeconds': durationSeconds.toString(),
-      if (enabled != null) 'Enabled': enabled.toString(),
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
     };
   }
 }
 
-/// Information about how traffic will be distributed between multiple target
-/// groups in a forward rule.
-class TargetGroupTuple {
-  /// The Amazon Resource Name (ARN) of the target group.
-  final String? targetGroupArn;
+/// Information about a listener attribute.
+class ListenerAttribute {
+  /// The name of the attribute.
+  ///
+  /// The following attribute is supported by Network Load Balancers, and Gateway
+  /// Load Balancers.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tcp.idle_timeout.seconds</code> - The tcp idle timeout value, in
+  /// seconds. The valid range is 60-6000 seconds. The default is 350 seconds.
+  /// </li>
+  /// </ul>
+  /// The following attributes are only supported by Application Load Balancers.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>routing.http.request.x_amzn_mtls_clientcert_serial_number.header_name</code>
+  /// - Enables you to modify the header name of the
+  /// <b>X-Amzn-Mtls-Clientcert-Serial-Number</b> HTTP request header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.request.x_amzn_mtls_clientcert_issuer.header_name</code>
+  /// - Enables you to modify the header name of the
+  /// <b>X-Amzn-Mtls-Clientcert-Issuer</b> HTTP request header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.request.x_amzn_mtls_clientcert_subject.header_name</code>
+  /// - Enables you to modify the header name of the
+  /// <b>X-Amzn-Mtls-Clientcert-Subject</b> HTTP request header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.request.x_amzn_mtls_clientcert_validity.header_name</code>
+  /// - Enables you to modify the header name of the
+  /// <b>X-Amzn-Mtls-Clientcert-Validity</b> HTTP request header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.request.x_amzn_mtls_clientcert_leaf.header_name</code> -
+  /// Enables you to modify the header name of the
+  /// <b>X-Amzn-Mtls-Clientcert-Leaf</b> HTTP request header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.request.x_amzn_mtls_clientcert.header_name</code> -
+  /// Enables you to modify the header name of the <b>X-Amzn-Mtls-Clientcert</b>
+  /// HTTP request header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.request.x_amzn_tls_version.header_name</code> - Enables
+  /// you to modify the header name of the <b>X-Amzn-Tls-Version</b> HTTP request
+  /// header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.request.x_amzn_tls_cipher_suite.header_name</code> -
+  /// Enables you to modify the header name of the <b>X-Amzn-Tls-Cipher-Suite</b>
+  /// HTTP request header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.server.enabled</code> - Enables you to allow or
+  /// remove the HTTP response server header.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.strict_transport_security.header_value</code> -
+  /// Informs browsers that the site should only be accessed using HTTPS, and that
+  /// any future attempts to access it using HTTP should automatically be
+  /// converted to HTTPS.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.access_control_allow_origin.header_value</code>
+  /// - Specifies which origins are allowed to access the server.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.access_control_allow_methods.header_value</code>
+  /// - Returns which HTTP methods are allowed when accessing the server from a
+  /// different origin.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.access_control_allow_headers.header_value</code>
+  /// - Specifies which headers can be used during the request.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.access_control_allow_credentials.header_value</code>
+  /// - Indicates whether the browser should include credentials such as cookies
+  /// or authentication when making requests.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.access_control_expose_headers.header_value</code>
+  /// - Returns which headers the browser can expose to the requesting client.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.access_control_max_age.header_value</code> -
+  /// Specifies how long the results of a preflight request can be cached, in
+  /// seconds.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.content_security_policy.header_value</code> -
+  /// Specifies restrictions enforced by the browser to help minimize the risk of
+  /// certain types of security threats.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.x_content_type_options.header_value</code> -
+  /// Indicates whether the MIME types advertised in the <b>Content-Type</b>
+  /// headers should be followed and not be changed.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.response.x_frame_options.header_value</code> - Indicates
+  /// whether the browser is allowed to render a page in a <b>frame</b>,
+  /// <b>iframe</b>, <b>embed</b> or <b>object</b>.
+  /// </li>
+  /// </ul>
+  final String? key;
 
-  /// The weight. The range is 0 to 999.
-  final int? weight;
+  /// The value of the attribute.
+  final String? value;
 
-  TargetGroupTuple({
-    this.targetGroupArn,
-    this.weight,
+  ListenerAttribute({
+    this.key,
+    this.value,
   });
-  factory TargetGroupTuple.fromXml(_s.XmlElement elem) {
-    return TargetGroupTuple(
-      targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
-      weight: _s.extractXmlIntValue(elem, 'Weight'),
+  factory ListenerAttribute.fromXml(_s.XmlElement elem) {
+    return ListenerAttribute(
+      key: _s.extractXmlStringValue(elem, 'Key'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final targetGroupArn = this.targetGroupArn;
-    final weight = this.weight;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
-      if (weight != null) 'Weight': weight,
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final targetGroupArn = this.targetGroupArn;
-    final weight = this.weight;
+    final key = this.key;
+    final value = this.value;
     return {
-      if (targetGroupArn != null) 'TargetGroupArn': targetGroupArn,
-      if (weight != null) 'Weight': weight.toString(),
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about a listener.
+class Listener {
+  /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN)
+  /// policy.
+  final List<String>? alpnPolicy;
+
+  /// [HTTPS or TLS listener] The default certificate for the listener.
+  final List<Certificate>? certificates;
+
+  /// The default actions for the listener.
+  final List<Action>? defaultActions;
+
+  /// The Amazon Resource Name (ARN) of the listener.
+  final String? listenerArn;
+
+  /// The Amazon Resource Name (ARN) of the load balancer.
+  final String? loadBalancerArn;
+
+  /// The mutual authentication configuration information.
+  final MutualAuthenticationAttributes? mutualAuthentication;
+
+  /// The port on which the load balancer is listening.
+  final int? port;
+
+  /// The protocol for connections from clients to the load balancer.
+  final ProtocolEnum? protocol;
+
+  /// [HTTPS or TLS listener] The security policy that defines which protocols and
+  /// ciphers are supported.
+  final String? sslPolicy;
+
+  Listener({
+    this.alpnPolicy,
+    this.certificates,
+    this.defaultActions,
+    this.listenerArn,
+    this.loadBalancerArn,
+    this.mutualAuthentication,
+    this.port,
+    this.protocol,
+    this.sslPolicy,
+  });
+  factory Listener.fromXml(_s.XmlElement elem) {
+    return Listener(
+      alpnPolicy: _s
+          .extractXmlChild(elem, 'AlpnPolicy')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) =>
+          elem.findElements('member').map(Certificate.fromXml).toList()),
+      defaultActions: _s.extractXmlChild(elem, 'DefaultActions')?.let(
+          (elem) => elem.findElements('member').map(Action.fromXml).toList()),
+      listenerArn: _s.extractXmlStringValue(elem, 'ListenerArn'),
+      loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
+      mutualAuthentication: _s
+          .extractXmlChild(elem, 'MutualAuthentication')
+          ?.let(MutualAuthenticationAttributes.fromXml),
+      port: _s.extractXmlIntValue(elem, 'Port'),
+      protocol: _s
+          .extractXmlStringValue(elem, 'Protocol')
+          ?.let(ProtocolEnum.fromString),
+      sslPolicy: _s.extractXmlStringValue(elem, 'SslPolicy'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alpnPolicy = this.alpnPolicy;
+    final certificates = this.certificates;
+    final defaultActions = this.defaultActions;
+    final listenerArn = this.listenerArn;
+    final loadBalancerArn = this.loadBalancerArn;
+    final mutualAuthentication = this.mutualAuthentication;
+    final port = this.port;
+    final protocol = this.protocol;
+    final sslPolicy = this.sslPolicy;
+    return {
+      if (alpnPolicy != null) 'AlpnPolicy': alpnPolicy,
+      if (certificates != null) 'Certificates': certificates,
+      if (defaultActions != null) 'DefaultActions': defaultActions,
+      if (listenerArn != null) 'ListenerArn': listenerArn,
+      if (loadBalancerArn != null) 'LoadBalancerArn': loadBalancerArn,
+      if (mutualAuthentication != null)
+        'MutualAuthentication': mutualAuthentication,
+      if (port != null) 'Port': port,
+      if (protocol != null) 'Protocol': protocol.value,
+      if (sslPolicy != null) 'SslPolicy': sslPolicy,
+    };
+  }
+}
+
+/// Information about the mutual authentication attributes of a listener.
+class MutualAuthenticationAttributes {
+  /// Indicates whether trust store CA certificate names are advertised.
+  final AdvertiseTrustStoreCaNamesEnum? advertiseTrustStoreCaNames;
+
+  /// Indicates whether expired client certificates are ignored.
+  final bool? ignoreClientCertificateExpiry;
+
+  /// The client certificate handling method. Options are <code>off</code>,
+  /// <code>passthrough</code> or <code>verify</code>. The default value is
+  /// <code>off</code>.
+  final String? mode;
+
+  /// The Amazon Resource Name (ARN) of the trust store.
+  final String? trustStoreArn;
+
+  /// Indicates a shared trust stores association status.
+  final TrustStoreAssociationStatusEnum? trustStoreAssociationStatus;
+
+  MutualAuthenticationAttributes({
+    this.advertiseTrustStoreCaNames,
+    this.ignoreClientCertificateExpiry,
+    this.mode,
+    this.trustStoreArn,
+    this.trustStoreAssociationStatus,
+  });
+  factory MutualAuthenticationAttributes.fromXml(_s.XmlElement elem) {
+    return MutualAuthenticationAttributes(
+      advertiseTrustStoreCaNames: _s
+          .extractXmlStringValue(elem, 'AdvertiseTrustStoreCaNames')
+          ?.let(AdvertiseTrustStoreCaNamesEnum.fromString),
+      ignoreClientCertificateExpiry:
+          _s.extractXmlBoolValue(elem, 'IgnoreClientCertificateExpiry'),
+      mode: _s.extractXmlStringValue(elem, 'Mode'),
+      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
+      trustStoreAssociationStatus: _s
+          .extractXmlStringValue(elem, 'TrustStoreAssociationStatus')
+          ?.let(TrustStoreAssociationStatusEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final advertiseTrustStoreCaNames = this.advertiseTrustStoreCaNames;
+    final ignoreClientCertificateExpiry = this.ignoreClientCertificateExpiry;
+    final mode = this.mode;
+    final trustStoreArn = this.trustStoreArn;
+    final trustStoreAssociationStatus = this.trustStoreAssociationStatus;
+    return {
+      if (advertiseTrustStoreCaNames != null)
+        'AdvertiseTrustStoreCaNames': advertiseTrustStoreCaNames.value,
+      if (ignoreClientCertificateExpiry != null)
+        'IgnoreClientCertificateExpiry': ignoreClientCertificateExpiry,
+      if (mode != null) 'Mode': mode,
+      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
+      if (trustStoreAssociationStatus != null)
+        'TrustStoreAssociationStatus': trustStoreAssociationStatus.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final advertiseTrustStoreCaNames = this.advertiseTrustStoreCaNames;
+    final ignoreClientCertificateExpiry = this.ignoreClientCertificateExpiry;
+    final mode = this.mode;
+    final trustStoreArn = this.trustStoreArn;
+    final trustStoreAssociationStatus = this.trustStoreAssociationStatus;
+    return {
+      if (advertiseTrustStoreCaNames != null)
+        'AdvertiseTrustStoreCaNames': advertiseTrustStoreCaNames.value,
+      if (ignoreClientCertificateExpiry != null)
+        'IgnoreClientCertificateExpiry':
+            ignoreClientCertificateExpiry.toString(),
+      if (mode != null) 'Mode': mode,
+      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
+      if (trustStoreAssociationStatus != null)
+        'TrustStoreAssociationStatus': trustStoreAssociationStatus.value,
+    };
+  }
+}
+
+class TrustStoreAssociationStatusEnum {
+  static const active = TrustStoreAssociationStatusEnum._('active');
+  static const removed = TrustStoreAssociationStatusEnum._('removed');
+
+  final String value;
+
+  const TrustStoreAssociationStatusEnum._(this.value);
+
+  static const values = [active, removed];
+
+  static TrustStoreAssociationStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TrustStoreAssociationStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TrustStoreAssociationStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AdvertiseTrustStoreCaNamesEnum {
+  static const on = AdvertiseTrustStoreCaNamesEnum._('on');
+  static const off = AdvertiseTrustStoreCaNamesEnum._('off');
+
+  final String value;
+
+  const AdvertiseTrustStoreCaNamesEnum._(this.value);
+
+  static const values = [on, off];
+
+  static AdvertiseTrustStoreCaNamesEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AdvertiseTrustStoreCaNamesEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AdvertiseTrustStoreCaNamesEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An IPAM pool is a collection of IP address CIDRs. IPAM pools enable you to
+/// organize your IP addresses according to your routing and security needs.
+class IpamPools {
+  /// The ID of the IPv4 IPAM pool.
+  final String? ipv4IpamPoolId;
+
+  IpamPools({
+    this.ipv4IpamPoolId,
+  });
+  factory IpamPools.fromXml(_s.XmlElement elem) {
+    return IpamPools(
+      ipv4IpamPoolId: _s.extractXmlStringValue(elem, 'Ipv4IpamPoolId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv4IpamPoolId = this.ipv4IpamPoolId;
+    return {
+      if (ipv4IpamPoolId != null) 'Ipv4IpamPoolId': ipv4IpamPoolId,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final ipv4IpamPoolId = this.ipv4IpamPoolId;
+    return {
+      if (ipv4IpamPoolId != null) 'Ipv4IpamPoolId': ipv4IpamPoolId,
+    };
+  }
+}
+
+class RemoveIpamPoolEnum {
+  static const ipv4 = RemoveIpamPoolEnum._('ipv4');
+
+  final String value;
+
+  const RemoveIpamPoolEnum._(this.value);
+
+  static const values = [ipv4];
+
+  static RemoveIpamPoolEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RemoveIpamPoolEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RemoveIpamPoolEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The minimum capacity for a load balancer.
+class MinimumLoadBalancerCapacity {
+  /// The number of capacity units.
+  final int? capacityUnits;
+
+  MinimumLoadBalancerCapacity({
+    this.capacityUnits,
+  });
+  factory MinimumLoadBalancerCapacity.fromXml(_s.XmlElement elem) {
+    return MinimumLoadBalancerCapacity(
+      capacityUnits: _s.extractXmlIntValue(elem, 'CapacityUnits'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityUnits = this.capacityUnits;
+    return {
+      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final capacityUnits = this.capacityUnits;
+    return {
+      if (capacityUnits != null) 'CapacityUnits': capacityUnits.toString(),
+    };
+  }
+}
+
+/// The capacity reservation status for each Availability Zone.
+class ZonalCapacityReservationState {
+  /// Information about the Availability Zone.
+  final String? availabilityZone;
+
+  /// The number of effective capacity units.
+  final double? effectiveCapacityUnits;
+
+  /// The state of the capacity reservation.
+  final CapacityReservationStatus? state;
+
+  ZonalCapacityReservationState({
+    this.availabilityZone,
+    this.effectiveCapacityUnits,
+    this.state,
+  });
+  factory ZonalCapacityReservationState.fromXml(_s.XmlElement elem) {
+    return ZonalCapacityReservationState(
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      effectiveCapacityUnits:
+          _s.extractXmlDoubleValue(elem, 'EffectiveCapacityUnits'),
+      state: _s
+          .extractXmlChild(elem, 'State')
+          ?.let(CapacityReservationStatus.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final effectiveCapacityUnits = this.effectiveCapacityUnits;
+    final state = this.state;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (effectiveCapacityUnits != null)
+        'EffectiveCapacityUnits': effectiveCapacityUnits,
+      if (state != null) 'State': state,
+    };
+  }
+}
+
+/// The status of a capacity reservation.
+class CapacityReservationStatus {
+  /// The status code.
+  final CapacityReservationStateEnum? code;
+
+  /// The reason code for the status.
+  final String? reason;
+
+  CapacityReservationStatus({
+    this.code,
+    this.reason,
+  });
+  factory CapacityReservationStatus.fromXml(_s.XmlElement elem) {
+    return CapacityReservationStatus(
+      code: _s
+          .extractXmlStringValue(elem, 'Code')
+          ?.let(CapacityReservationStateEnum.fromString),
+      reason: _s.extractXmlStringValue(elem, 'Reason'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final reason = this.reason;
+    return {
+      if (code != null) 'Code': code.value,
+      if (reason != null) 'Reason': reason,
+    };
+  }
+}
+
+class CapacityReservationStateEnum {
+  static const provisioned = CapacityReservationStateEnum._('provisioned');
+  static const pending = CapacityReservationStateEnum._('pending');
+  static const rebalancing = CapacityReservationStateEnum._('rebalancing');
+  static const failed = CapacityReservationStateEnum._('failed');
+
+  final String value;
+
+  const CapacityReservationStateEnum._(this.value);
+
+  static const values = [provisioned, pending, rebalancing, failed];
+
+  static CapacityReservationStateEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityReservationStateEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationStateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the revocations used by a trust store.
+class DescribeTrustStoreRevocation {
+  /// The number of revoked certificates.
+  final int? numberOfRevokedEntries;
+
+  /// The revocation ID of a revocation file in use.
+  final int? revocationId;
+
+  /// The type of revocation file.
+  final RevocationType? revocationType;
+
+  /// The Amazon Resource Name (ARN) of the trust store.
+  final String? trustStoreArn;
+
+  DescribeTrustStoreRevocation({
+    this.numberOfRevokedEntries,
+    this.revocationId,
+    this.revocationType,
+    this.trustStoreArn,
+  });
+  factory DescribeTrustStoreRevocation.fromXml(_s.XmlElement elem) {
+    return DescribeTrustStoreRevocation(
+      numberOfRevokedEntries:
+          _s.extractXmlIntValue(elem, 'NumberOfRevokedEntries'),
+      revocationId: _s.extractXmlIntValue(elem, 'RevocationId'),
+      revocationType: _s
+          .extractXmlStringValue(elem, 'RevocationType')
+          ?.let(RevocationType.fromString),
+      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfRevokedEntries = this.numberOfRevokedEntries;
+    final revocationId = this.revocationId;
+    final revocationType = this.revocationType;
+    final trustStoreArn = this.trustStoreArn;
+    return {
+      if (numberOfRevokedEntries != null)
+        'NumberOfRevokedEntries': numberOfRevokedEntries,
+      if (revocationId != null) 'RevocationId': revocationId,
+      if (revocationType != null) 'RevocationType': revocationType.value,
+      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
+    };
+  }
+}
+
+class RevocationType {
+  static const crl = RevocationType._('CRL');
+
+  final String value;
+
+  const RevocationType._(this.value);
+
+  static const values = [crl];
+
+  static RevocationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RevocationType._(value));
+
+  @override
+  bool operator ==(other) => other is RevocationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the resources a trust store is associated with.
+class TrustStoreAssociation {
+  /// The Amazon Resource Name (ARN) of the resource.
+  final String? resourceArn;
+
+  TrustStoreAssociation({
+    this.resourceArn,
+  });
+  factory TrustStoreAssociation.fromXml(_s.XmlElement elem) {
+    return TrustStoreAssociation(
+      resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    return {
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+    };
+  }
+}
+
+/// Information about the health of a target.
+class TargetHealthDescription {
+  /// The administrative override information for the target.
+  final AdministrativeOverride? administrativeOverride;
+
+  /// The anomaly detection result for the target.
+  ///
+  /// If no anomalies were detected, the result is <code>normal</code>.
+  ///
+  /// If anomalies were detected, the result is <code>anomalous</code>.
+  final AnomalyDetection? anomalyDetection;
+
+  /// The port to use to connect with the target.
+  final String? healthCheckPort;
+
+  /// The description of the target.
+  final TargetDescription? target;
+
+  /// The health information for the target.
+  final TargetHealth? targetHealth;
+
+  TargetHealthDescription({
+    this.administrativeOverride,
+    this.anomalyDetection,
+    this.healthCheckPort,
+    this.target,
+    this.targetHealth,
+  });
+  factory TargetHealthDescription.fromXml(_s.XmlElement elem) {
+    return TargetHealthDescription(
+      administrativeOverride: _s
+          .extractXmlChild(elem, 'AdministrativeOverride')
+          ?.let(AdministrativeOverride.fromXml),
+      anomalyDetection: _s
+          .extractXmlChild(elem, 'AnomalyDetection')
+          ?.let(AnomalyDetection.fromXml),
+      healthCheckPort: _s.extractXmlStringValue(elem, 'HealthCheckPort'),
+      target:
+          _s.extractXmlChild(elem, 'Target')?.let(TargetDescription.fromXml),
+      targetHealth:
+          _s.extractXmlChild(elem, 'TargetHealth')?.let(TargetHealth.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final administrativeOverride = this.administrativeOverride;
+    final anomalyDetection = this.anomalyDetection;
+    final healthCheckPort = this.healthCheckPort;
+    final target = this.target;
+    final targetHealth = this.targetHealth;
+    return {
+      if (administrativeOverride != null)
+        'AdministrativeOverride': administrativeOverride,
+      if (anomalyDetection != null) 'AnomalyDetection': anomalyDetection,
+      if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
+      if (target != null) 'Target': target,
+      if (targetHealth != null) 'TargetHealth': targetHealth,
     };
   }
 }
@@ -7558,12 +8324,10 @@ class TargetHealth {
   /// <ul>
   /// <li>
   /// <code>Target.ResponseCodeMismatch</code> - The health checks did not return
-  /// an expected HTTP code. Applies only to Application Load Balancers and
-  /// Gateway Load Balancers.
+  /// an expected HTTP code.
   /// </li>
   /// <li>
-  /// <code>Target.Timeout</code> - The health check requests timed out. Applies
-  /// only to Application Load Balancers and Gateway Load Balancers.
+  /// <code>Target.Timeout</code> - The health check requests timed out.
   /// </li>
   /// <li>
   /// <code>Target.FailedHealthChecks</code> - The load balancer received an error
@@ -7572,7 +8336,7 @@ class TargetHealth {
   /// </li>
   /// <li>
   /// <code>Elb.InternalError</code> - The health checks failed due to an internal
-  /// error. Applies only to Application Load Balancers.
+  /// error.
   /// </li>
   /// </ul>
   /// If the target state is <code>unused</code>, the reason code can be one of
@@ -7612,11 +8376,11 @@ class TargetHealth {
   /// <ul>
   /// <li>
   /// <code>Target.HealthCheckDisabled</code> - Health checks are disabled for the
-  /// target group. Applies only to Application Load Balancers.
+  /// target group.
   /// </li>
   /// <li>
   /// <code>Elb.InternalError</code> - Target health is unavailable due to an
-  /// internal error. Applies only to Network Load Balancers.
+  /// internal error.
   /// </li>
   /// </ul>
   final TargetHealthReasonEnum? reason;
@@ -7653,55 +8417,241 @@ class TargetHealth {
   }
 }
 
-/// Information about the health of a target.
-class TargetHealthDescription {
-  /// The anomaly detection result for the target.
-  ///
-  /// If no anomalies were detected, the result is <code>normal</code>.
-  ///
-  /// If anomalies were detected, the result is <code>anomalous</code>.
-  final AnomalyDetection? anomalyDetection;
+/// Information about anomaly detection and mitigation.
+class AnomalyDetection {
+  /// Indicates whether anomaly mitigation is in progress.
+  final MitigationInEffectEnum? mitigationInEffect;
 
-  /// The port to use to connect with the target.
-  final String? healthCheckPort;
+  /// The latest anomaly detection result.
+  final AnomalyResultEnum? result;
 
-  /// The description of the target.
-  final TargetDescription? target;
-
-  /// The health information for the target.
-  final TargetHealth? targetHealth;
-
-  TargetHealthDescription({
-    this.anomalyDetection,
-    this.healthCheckPort,
-    this.target,
-    this.targetHealth,
+  AnomalyDetection({
+    this.mitigationInEffect,
+    this.result,
   });
-  factory TargetHealthDescription.fromXml(_s.XmlElement elem) {
-    return TargetHealthDescription(
-      anomalyDetection: _s
-          .extractXmlChild(elem, 'AnomalyDetection')
-          ?.let(AnomalyDetection.fromXml),
-      healthCheckPort: _s.extractXmlStringValue(elem, 'HealthCheckPort'),
-      target:
-          _s.extractXmlChild(elem, 'Target')?.let(TargetDescription.fromXml),
-      targetHealth:
-          _s.extractXmlChild(elem, 'TargetHealth')?.let(TargetHealth.fromXml),
+  factory AnomalyDetection.fromXml(_s.XmlElement elem) {
+    return AnomalyDetection(
+      mitigationInEffect: _s
+          .extractXmlStringValue(elem, 'MitigationInEffect')
+          ?.let(MitigationInEffectEnum.fromString),
+      result: _s
+          .extractXmlStringValue(elem, 'Result')
+          ?.let(AnomalyResultEnum.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final anomalyDetection = this.anomalyDetection;
-    final healthCheckPort = this.healthCheckPort;
-    final target = this.target;
-    final targetHealth = this.targetHealth;
+    final mitigationInEffect = this.mitigationInEffect;
+    final result = this.result;
     return {
-      if (anomalyDetection != null) 'AnomalyDetection': anomalyDetection,
-      if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
-      if (target != null) 'Target': target,
-      if (targetHealth != null) 'TargetHealth': targetHealth,
+      if (mitigationInEffect != null)
+        'MitigationInEffect': mitigationInEffect.value,
+      if (result != null) 'Result': result.value,
     };
   }
+}
+
+/// Information about the override status applied to a target.
+class AdministrativeOverride {
+  /// A description of the override state that provides additional details.
+  final String? description;
+
+  /// The reason code for the state.
+  final TargetAdministrativeOverrideReasonEnum? reason;
+
+  /// The state of the override.
+  final TargetAdministrativeOverrideStateEnum? state;
+
+  AdministrativeOverride({
+    this.description,
+    this.reason,
+    this.state,
+  });
+  factory AdministrativeOverride.fromXml(_s.XmlElement elem) {
+    return AdministrativeOverride(
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      reason: _s
+          .extractXmlStringValue(elem, 'Reason')
+          ?.let(TargetAdministrativeOverrideReasonEnum.fromString),
+      state: _s
+          .extractXmlStringValue(elem, 'State')
+          ?.let(TargetAdministrativeOverrideStateEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final reason = this.reason;
+    final state = this.state;
+    return {
+      if (description != null) 'Description': description,
+      if (reason != null) 'Reason': reason.value,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class TargetAdministrativeOverrideStateEnum {
+  static const unknown = TargetAdministrativeOverrideStateEnum._('unknown');
+  static const noOverride =
+      TargetAdministrativeOverrideStateEnum._('no_override');
+  static const zonalShiftActive =
+      TargetAdministrativeOverrideStateEnum._('zonal_shift_active');
+  static const zonalShiftDelegatedToDns =
+      TargetAdministrativeOverrideStateEnum._('zonal_shift_delegated_to_dns');
+
+  final String value;
+
+  const TargetAdministrativeOverrideStateEnum._(this.value);
+
+  static const values = [
+    unknown,
+    noOverride,
+    zonalShiftActive,
+    zonalShiftDelegatedToDns
+  ];
+
+  static TargetAdministrativeOverrideStateEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetAdministrativeOverrideStateEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetAdministrativeOverrideStateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TargetAdministrativeOverrideReasonEnum {
+  static const administrativeOverrideUnknown =
+      TargetAdministrativeOverrideReasonEnum._(
+          'AdministrativeOverride.Unknown');
+  static const administrativeOverrideNoOverride =
+      TargetAdministrativeOverrideReasonEnum._(
+          'AdministrativeOverride.NoOverride');
+  static const administrativeOverrideZonalShiftActive =
+      TargetAdministrativeOverrideReasonEnum._(
+          'AdministrativeOverride.ZonalShiftActive');
+  static const administrativeOverrideZonalShiftDelegatedToDns =
+      TargetAdministrativeOverrideReasonEnum._(
+          'AdministrativeOverride.ZonalShiftDelegatedToDns');
+
+  final String value;
+
+  const TargetAdministrativeOverrideReasonEnum._(this.value);
+
+  static const values = [
+    administrativeOverrideUnknown,
+    administrativeOverrideNoOverride,
+    administrativeOverrideZonalShiftActive,
+    administrativeOverrideZonalShiftDelegatedToDns
+  ];
+
+  static TargetAdministrativeOverrideReasonEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetAdministrativeOverrideReasonEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetAdministrativeOverrideReasonEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AnomalyResultEnum {
+  static const anomalous = AnomalyResultEnum._('anomalous');
+  static const normal = AnomalyResultEnum._('normal');
+
+  final String value;
+
+  const AnomalyResultEnum._(this.value);
+
+  static const values = [anomalous, normal];
+
+  static AnomalyResultEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AnomalyResultEnum._(value));
+
+  @override
+  bool operator ==(other) => other is AnomalyResultEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MitigationInEffectEnum {
+  static const yes = MitigationInEffectEnum._('yes');
+  static const no = MitigationInEffectEnum._('no');
+
+  final String value;
+
+  const MitigationInEffectEnum._(this.value);
+
+  static const values = [yes, no];
+
+  static MitigationInEffectEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MitigationInEffectEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MitigationInEffectEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TargetHealthStateEnum {
+  static const initial = TargetHealthStateEnum._('initial');
+  static const healthy = TargetHealthStateEnum._('healthy');
+  static const unhealthy = TargetHealthStateEnum._('unhealthy');
+  static const unhealthyDraining =
+      TargetHealthStateEnum._('unhealthy.draining');
+  static const unused = TargetHealthStateEnum._('unused');
+  static const draining = TargetHealthStateEnum._('draining');
+  static const unavailable = TargetHealthStateEnum._('unavailable');
+
+  final String value;
+
+  const TargetHealthStateEnum._(this.value);
+
+  static const values = [
+    initial,
+    healthy,
+    unhealthy,
+    unhealthyDraining,
+    unused,
+    draining,
+    unavailable
+  ];
+
+  static TargetHealthStateEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetHealthStateEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TargetHealthStateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class TargetHealthReasonEnum {
@@ -7760,37 +8710,24 @@ class TargetHealthReasonEnum {
   String toString() => value;
 }
 
-class TargetHealthStateEnum {
-  static const initial = TargetHealthStateEnum._('initial');
-  static const healthy = TargetHealthStateEnum._('healthy');
-  static const unhealthy = TargetHealthStateEnum._('unhealthy');
-  static const unhealthyDraining =
-      TargetHealthStateEnum._('unhealthy.draining');
-  static const unused = TargetHealthStateEnum._('unused');
-  static const draining = TargetHealthStateEnum._('draining');
-  static const unavailable = TargetHealthStateEnum._('unavailable');
+class DescribeTargetHealthInputIncludeEnum {
+  static const anomalyDetection =
+      DescribeTargetHealthInputIncludeEnum._('AnomalyDetection');
+  static const all = DescribeTargetHealthInputIncludeEnum._('All');
 
   final String value;
 
-  const TargetHealthStateEnum._(this.value);
+  const DescribeTargetHealthInputIncludeEnum._(this.value);
 
-  static const values = [
-    initial,
-    healthy,
-    unhealthy,
-    unhealthyDraining,
-    unused,
-    draining,
-    unavailable
-  ];
+  static const values = [anomalyDetection, all];
 
-  static TargetHealthStateEnum fromString(String value) =>
+  static DescribeTargetHealthInputIncludeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TargetHealthStateEnum._(value));
+          orElse: () => DescribeTargetHealthInputIncludeEnum._(value));
 
   @override
   bool operator ==(other) =>
-      other is TargetHealthStateEnum && other.value == value;
+      other is DescribeTargetHealthInputIncludeEnum && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7799,132 +8736,488 @@ class TargetHealthStateEnum {
   String toString() => value;
 }
 
-class TargetTypeEnum {
-  static const instance = TargetTypeEnum._('instance');
-  static const ip = TargetTypeEnum._('ip');
-  static const lambda = TargetTypeEnum._('lambda');
-  static const alb = TargetTypeEnum._('alb');
-
-  final String value;
-
-  const TargetTypeEnum._(this.value);
-
-  static const values = [instance, ip, lambda, alb];
-
-  static TargetTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TargetTypeEnum._(value));
-
-  @override
-  bool operator ==(other) => other is TargetTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a trust store.
-class TrustStore {
-  /// The name of the trust store.
-  final String? name;
-
-  /// The number of ca certificates in the trust store.
-  final int? numberOfCaCertificates;
-
-  /// The current status of the trust store.
-  final TrustStoreStatus? status;
-
-  /// The number of revoked certificates in the trust store.
-  final int? totalRevokedEntries;
-
-  /// The Amazon Resource Name (ARN) of the trust store.
-  final String? trustStoreArn;
-
-  TrustStore({
-    this.name,
-    this.numberOfCaCertificates,
-    this.status,
-    this.totalRevokedEntries,
-    this.trustStoreArn,
-  });
-  factory TrustStore.fromXml(_s.XmlElement elem) {
-    return TrustStore(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      numberOfCaCertificates:
-          _s.extractXmlIntValue(elem, 'NumberOfCaCertificates'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(TrustStoreStatus.fromString),
-      totalRevokedEntries: _s.extractXmlIntValue(elem, 'TotalRevokedEntries'),
-      trustStoreArn: _s.extractXmlStringValue(elem, 'TrustStoreArn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final numberOfCaCertificates = this.numberOfCaCertificates;
-    final status = this.status;
-    final totalRevokedEntries = this.totalRevokedEntries;
-    final trustStoreArn = this.trustStoreArn;
-    return {
-      if (name != null) 'Name': name,
-      if (numberOfCaCertificates != null)
-        'NumberOfCaCertificates': numberOfCaCertificates,
-      if (status != null) 'Status': status.value,
-      if (totalRevokedEntries != null)
-        'TotalRevokedEntries': totalRevokedEntries,
-      if (trustStoreArn != null) 'TrustStoreArn': trustStoreArn,
-    };
-  }
-}
-
-/// Information about the resources a trust store is associated with.
-class TrustStoreAssociation {
+/// The tags associated with a resource.
+class TagDescription {
   /// The Amazon Resource Name (ARN) of the resource.
   final String? resourceArn;
 
-  TrustStoreAssociation({
+  /// Information about the tags.
+  final List<Tag>? tags;
+
+  TagDescription({
     this.resourceArn,
+    this.tags,
   });
-  factory TrustStoreAssociation.fromXml(_s.XmlElement elem) {
-    return TrustStoreAssociation(
+  factory TagDescription.fromXml(_s.XmlElement elem) {
+    return TagDescription(
       resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let(
+          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
     final resourceArn = this.resourceArn;
+    final tags = this.tags;
     return {
       if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
 
-class TrustStoreAssociationStatusEnum {
-  static const active = TrustStoreAssociationStatusEnum._('active');
-  static const removed = TrustStoreAssociationStatusEnum._('removed');
+/// Information about a tag.
+class Tag {
+  /// The key of the tag.
+  final String key;
+
+  /// The value of the tag.
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.value,
+  });
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about a policy used for SSL negotiation.
+class SslPolicy {
+  /// The ciphers.
+  final List<Cipher>? ciphers;
+
+  /// The name of the policy.
+  final String? name;
+
+  /// The protocols.
+  final List<String>? sslProtocols;
+
+  /// The supported load balancers.
+  final List<String>? supportedLoadBalancerTypes;
+
+  SslPolicy({
+    this.ciphers,
+    this.name,
+    this.sslProtocols,
+    this.supportedLoadBalancerTypes,
+  });
+  factory SslPolicy.fromXml(_s.XmlElement elem) {
+    return SslPolicy(
+      ciphers: _s.extractXmlChild(elem, 'Ciphers')?.let(
+          (elem) => elem.findElements('member').map(Cipher.fromXml).toList()),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      sslProtocols: _s
+          .extractXmlChild(elem, 'SslProtocols')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      supportedLoadBalancerTypes: _s
+          .extractXmlChild(elem, 'SupportedLoadBalancerTypes')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ciphers = this.ciphers;
+    final name = this.name;
+    final sslProtocols = this.sslProtocols;
+    final supportedLoadBalancerTypes = this.supportedLoadBalancerTypes;
+    return {
+      if (ciphers != null) 'Ciphers': ciphers,
+      if (name != null) 'Name': name,
+      if (sslProtocols != null) 'SslProtocols': sslProtocols,
+      if (supportedLoadBalancerTypes != null)
+        'SupportedLoadBalancerTypes': supportedLoadBalancerTypes,
+    };
+  }
+}
+
+/// Information about a cipher used in a policy.
+class Cipher {
+  /// The name of the cipher.
+  final String? name;
+
+  /// The priority of the cipher.
+  final int? priority;
+
+  Cipher({
+    this.name,
+    this.priority,
+  });
+  factory Cipher.fromXml(_s.XmlElement elem) {
+    return Cipher(
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      priority: _s.extractXmlIntValue(elem, 'Priority'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final priority = this.priority;
+    return {
+      if (name != null) 'Name': name,
+      if (priority != null) 'Priority': priority,
+    };
+  }
+}
+
+class LoadBalancerTypeEnum {
+  static const application = LoadBalancerTypeEnum._('application');
+  static const network = LoadBalancerTypeEnum._('network');
+  static const gateway = LoadBalancerTypeEnum._('gateway');
 
   final String value;
 
-  const TrustStoreAssociationStatusEnum._(this.value);
+  const LoadBalancerTypeEnum._(this.value);
 
-  static const values = [active, removed];
+  static const values = [application, network, gateway];
 
-  static TrustStoreAssociationStatusEnum fromString(String value) =>
+  static LoadBalancerTypeEnum fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TrustStoreAssociationStatusEnum._(value));
+          orElse: () => LoadBalancerTypeEnum._(value));
 
   @override
   bool operator ==(other) =>
-      other is TrustStoreAssociationStatusEnum && other.value == value;
+      other is LoadBalancerTypeEnum && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Information about a load balancer.
+class LoadBalancer {
+  /// The subnets for the load balancer.
+  final List<AvailabilityZone>? availabilityZones;
+
+  /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
+  final String? canonicalHostedZoneId;
+
+  /// The date and time the load balancer was created.
+  final DateTime? createdTime;
+
+  /// [Application Load Balancers on Outposts] The ID of the customer-owned
+  /// address pool.
+  final String? customerOwnedIpv4Pool;
+
+  /// The public DNS name of the load balancer.
+  final String? dNSName;
+
+  /// [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6
+  /// prefix from each subnet for source NAT. The IP address type must be
+  /// <code>dualstack</code>. The default value is <code>off</code>.
+  final EnablePrefixForIpv6SourceNatEnum? enablePrefixForIpv6SourceNat;
+
+  /// Indicates whether to evaluate inbound security group rules for traffic sent
+  /// to a Network Load Balancer through Amazon Web Services PrivateLink.
+  final String? enforceSecurityGroupInboundRulesOnPrivateLinkTraffic;
+
+  /// The type of IP addresses used for public or private connections by the
+  /// subnets attached to your load balancer.
+  ///
+  /// [Application Load Balancers] The possible values are <code>ipv4</code> (IPv4
+  /// addresses), <code>dualstack</code> (IPv4 and IPv6 addresses), and
+  /// <code>dualstack-without-public-ipv4</code> (public IPv6 addresses and
+  /// private IPv4 and IPv6 addresses).
+  ///
+  /// [Network Load Balancers and Gateway Load Balancers] The possible values are
+  /// <code>ipv4</code> (IPv4 addresses) and <code>dualstack</code> (IPv4 and IPv6
+  /// addresses).
+  final IpAddressType? ipAddressType;
+
+  /// [Application Load Balancers] The IPAM pool in use by the load balancer, if
+  /// configured.
+  final IpamPools? ipamPools;
+
+  /// The Amazon Resource Name (ARN) of the load balancer.
+  final String? loadBalancerArn;
+
+  /// The name of the load balancer.
+  final String? loadBalancerName;
+
+  /// The nodes of an Internet-facing load balancer have public IP addresses. The
+  /// DNS name of an Internet-facing load balancer is publicly resolvable to the
+  /// public IP addresses of the nodes. Therefore, Internet-facing load balancers
+  /// can route requests from clients over the internet.
+  ///
+  /// The nodes of an internal load balancer have only private IP addresses. The
+  /// DNS name of an internal load balancer is publicly resolvable to the private
+  /// IP addresses of the nodes. Therefore, internal load balancers can route
+  /// requests only from clients with access to the VPC for the load balancer.
+  final LoadBalancerSchemeEnum? scheme;
+
+  /// The IDs of the security groups for the load balancer.
+  final List<String>? securityGroups;
+
+  /// The state of the load balancer.
+  final LoadBalancerState? state;
+
+  /// The type of load balancer.
+  final LoadBalancerTypeEnum? type;
+
+  /// The ID of the VPC for the load balancer.
+  final String? vpcId;
+
+  LoadBalancer({
+    this.availabilityZones,
+    this.canonicalHostedZoneId,
+    this.createdTime,
+    this.customerOwnedIpv4Pool,
+    this.dNSName,
+    this.enablePrefixForIpv6SourceNat,
+    this.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
+    this.ipAddressType,
+    this.ipamPools,
+    this.loadBalancerArn,
+    this.loadBalancerName,
+    this.scheme,
+    this.securityGroups,
+    this.state,
+    this.type,
+    this.vpcId,
+  });
+  factory LoadBalancer.fromXml(_s.XmlElement elem) {
+    return LoadBalancer(
+      availabilityZones: _s.extractXmlChild(elem, 'AvailabilityZones')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(AvailabilityZone.fromXml)
+              .toList()),
+      canonicalHostedZoneId:
+          _s.extractXmlStringValue(elem, 'CanonicalHostedZoneId'),
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
+      customerOwnedIpv4Pool:
+          _s.extractXmlStringValue(elem, 'CustomerOwnedIpv4Pool'),
+      dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
+      enablePrefixForIpv6SourceNat: _s
+          .extractXmlStringValue(elem, 'EnablePrefixForIpv6SourceNat')
+          ?.let(EnablePrefixForIpv6SourceNatEnum.fromString),
+      enforceSecurityGroupInboundRulesOnPrivateLinkTraffic:
+          _s.extractXmlStringValue(
+              elem, 'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic'),
+      ipAddressType: _s
+          .extractXmlStringValue(elem, 'IpAddressType')
+          ?.let(IpAddressType.fromString),
+      ipamPools: _s.extractXmlChild(elem, 'IpamPools')?.let(IpamPools.fromXml),
+      loadBalancerArn: _s.extractXmlStringValue(elem, 'LoadBalancerArn'),
+      loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
+      scheme: _s
+          .extractXmlStringValue(elem, 'Scheme')
+          ?.let(LoadBalancerSchemeEnum.fromString),
+      securityGroups: _s
+          .extractXmlChild(elem, 'SecurityGroups')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      state: _s.extractXmlChild(elem, 'State')?.let(LoadBalancerState.fromXml),
+      type: _s
+          .extractXmlStringValue(elem, 'Type')
+          ?.let(LoadBalancerTypeEnum.fromString),
+      vpcId: _s.extractXmlStringValue(elem, 'VpcId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final canonicalHostedZoneId = this.canonicalHostedZoneId;
+    final createdTime = this.createdTime;
+    final customerOwnedIpv4Pool = this.customerOwnedIpv4Pool;
+    final dNSName = this.dNSName;
+    final enablePrefixForIpv6SourceNat = this.enablePrefixForIpv6SourceNat;
+    final enforceSecurityGroupInboundRulesOnPrivateLinkTraffic =
+        this.enforceSecurityGroupInboundRulesOnPrivateLinkTraffic;
+    final ipAddressType = this.ipAddressType;
+    final ipamPools = this.ipamPools;
+    final loadBalancerArn = this.loadBalancerArn;
+    final loadBalancerName = this.loadBalancerName;
+    final scheme = this.scheme;
+    final securityGroups = this.securityGroups;
+    final state = this.state;
+    final type = this.type;
+    final vpcId = this.vpcId;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (canonicalHostedZoneId != null)
+        'CanonicalHostedZoneId': canonicalHostedZoneId,
+      if (createdTime != null) 'CreatedTime': iso8601ToJson(createdTime),
+      if (customerOwnedIpv4Pool != null)
+        'CustomerOwnedIpv4Pool': customerOwnedIpv4Pool,
+      if (dNSName != null) 'DNSName': dNSName,
+      if (enablePrefixForIpv6SourceNat != null)
+        'EnablePrefixForIpv6SourceNat': enablePrefixForIpv6SourceNat.value,
+      if (enforceSecurityGroupInboundRulesOnPrivateLinkTraffic != null)
+        'EnforceSecurityGroupInboundRulesOnPrivateLinkTraffic':
+            enforceSecurityGroupInboundRulesOnPrivateLinkTraffic,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+      if (ipamPools != null) 'IpamPools': ipamPools,
+      if (loadBalancerArn != null) 'LoadBalancerArn': loadBalancerArn,
+      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
+      if (scheme != null) 'Scheme': scheme.value,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (state != null) 'State': state,
+      if (type != null) 'Type': type.value,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+class LoadBalancerSchemeEnum {
+  static const internetFacing = LoadBalancerSchemeEnum._('internet-facing');
+  static const internal = LoadBalancerSchemeEnum._('internal');
+
+  final String value;
+
+  const LoadBalancerSchemeEnum._(this.value);
+
+  static const values = [internetFacing, internal];
+
+  static LoadBalancerSchemeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LoadBalancerSchemeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LoadBalancerSchemeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the state of the load balancer.
+class LoadBalancerState {
+  /// The state code. The initial state of the load balancer is
+  /// <code>provisioning</code>. After the load balancer is fully set up and ready
+  /// to route traffic, its state is <code>active</code>. If load balancer is
+  /// routing traffic but does not have the resources it needs to scale, its state
+  /// is<code>active_impaired</code>. If the load balancer could not be set up,
+  /// its state is <code>failed</code>.
+  final LoadBalancerStateEnum? code;
+
+  /// A description of the state.
+  final String? reason;
+
+  LoadBalancerState({
+    this.code,
+    this.reason,
+  });
+  factory LoadBalancerState.fromXml(_s.XmlElement elem) {
+    return LoadBalancerState(
+      code: _s
+          .extractXmlStringValue(elem, 'Code')
+          ?.let(LoadBalancerStateEnum.fromString),
+      reason: _s.extractXmlStringValue(elem, 'Reason'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final reason = this.reason;
+    return {
+      if (code != null) 'Code': code.value,
+      if (reason != null) 'Reason': reason,
+    };
+  }
+}
+
+class LoadBalancerStateEnum {
+  static const active = LoadBalancerStateEnum._('active');
+  static const provisioning = LoadBalancerStateEnum._('provisioning');
+  static const activeImpaired = LoadBalancerStateEnum._('active_impaired');
+  static const failed = LoadBalancerStateEnum._('failed');
+
+  final String value;
+
+  const LoadBalancerStateEnum._(this.value);
+
+  static const values = [active, provisioning, activeImpaired, failed];
+
+  static LoadBalancerStateEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LoadBalancerStateEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LoadBalancerStateEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an Elastic Load Balancing resource limit for your Amazon
+/// Web Services account.
+///
+/// For more information, see the following:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
+/// for your Application Load Balancers</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html">Quotas
+/// for your Network Load Balancers</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html">Quotas
+/// for your Gateway Load Balancers</a>
+/// </li>
+/// </ul>
+class Limit {
+  /// The maximum value of the limit.
+  final String? max;
+
+  /// The name of the limit.
+  final String? name;
+
+  Limit({
+    this.max,
+    this.name,
+  });
+  factory Limit.fromXml(_s.XmlElement elem) {
+    return Limit(
+      max: _s.extractXmlStringValue(elem, 'Max'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final name = this.name;
+    return {
+      if (max != null) 'Max': max,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Information about a revocation file in use by a trust store.
@@ -7974,28 +9267,52 @@ class TrustStoreRevocation {
   }
 }
 
-class TrustStoreStatus {
-  static const active = TrustStoreStatus._('ACTIVE');
-  static const creating = TrustStoreStatus._('CREATING');
+/// Information about a revocation file.
+class RevocationContent {
+  /// The type of revocation file.
+  final RevocationType? revocationType;
 
-  final String value;
+  /// The Amazon S3 bucket for the revocation file.
+  final String? s3Bucket;
 
-  const TrustStoreStatus._(this.value);
+  /// The Amazon S3 path for the revocation file.
+  final String? s3Key;
 
-  static const values = [active, creating];
+  /// The Amazon S3 object version of the revocation file.
+  final String? s3ObjectVersion;
 
-  static TrustStoreStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TrustStoreStatus._(value));
+  RevocationContent({
+    this.revocationType,
+    this.s3Bucket,
+    this.s3Key,
+    this.s3ObjectVersion,
+  });
 
-  @override
-  bool operator ==(other) => other is TrustStoreStatus && other.value == value;
+  Map<String, dynamic> toJson() {
+    final revocationType = this.revocationType;
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    final s3ObjectVersion = this.s3ObjectVersion;
+    return {
+      if (revocationType != null) 'RevocationType': revocationType.value,
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
+    };
+  }
 
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, String> toQueryMap() {
+    final revocationType = this.revocationType;
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    final s3ObjectVersion = this.s3ObjectVersion;
+    return {
+      if (revocationType != null) 'RevocationType': revocationType.value,
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
+    };
+  }
 }
 
 class ALPNPolicyNotSupportedException extends _s.GenericAwsException {
@@ -8027,6 +9344,32 @@ class CaCertificatesBundleNotFoundException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'CaCertificatesBundleNotFoundException',
+            message: message);
+}
+
+class CapacityDecreaseRequestsLimitExceededException
+    extends _s.GenericAwsException {
+  CapacityDecreaseRequestsLimitExceededException(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'CapacityDecreaseRequestsLimitExceededException',
+            message: message);
+}
+
+class CapacityReservationPendingException extends _s.GenericAwsException {
+  CapacityReservationPendingException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CapacityReservationPendingException',
+            message: message);
+}
+
+class CapacityUnitsLimitExceededException extends _s.GenericAwsException {
+  CapacityUnitsLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'CapacityUnitsLimitExceededException',
             message: message);
 }
 
@@ -8088,6 +9431,14 @@ class IncompatibleProtocolsException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'IncompatibleProtocolsException',
+            message: message);
+}
+
+class InsufficientCapacityException extends _s.GenericAwsException {
+  InsufficientCapacityException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InsufficientCapacityException',
             message: message);
 }
 
@@ -8164,6 +9515,14 @@ class OperationNotPermittedException extends _s.GenericAwsException {
       : super(
             type: type,
             code: 'OperationNotPermittedException',
+            message: message);
+}
+
+class PriorRequestNotCompleteException extends _s.GenericAwsException {
+  PriorRequestNotCompleteException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'PriorRequestNotCompleteException',
             message: message);
 }
 
@@ -8345,6 +9704,13 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AvailabilityZoneNotSupportedException(type: type, message: message),
   'CaCertificatesBundleNotFoundException': (type, message) =>
       CaCertificatesBundleNotFoundException(type: type, message: message),
+  'CapacityDecreaseRequestsLimitExceededException': (type, message) =>
+      CapacityDecreaseRequestsLimitExceededException(
+          type: type, message: message),
+  'CapacityReservationPendingException': (type, message) =>
+      CapacityReservationPendingException(type: type, message: message),
+  'CapacityUnitsLimitExceededException': (type, message) =>
+      CapacityUnitsLimitExceededException(type: type, message: message),
   'CertificateNotFoundException': (type, message) =>
       CertificateNotFoundException(type: type, message: message),
   'DeleteAssociationSameAccountException': (type, message) =>
@@ -8363,6 +9729,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       HealthUnavailableException(type: type, message: message),
   'IncompatibleProtocolsException': (type, message) =>
       IncompatibleProtocolsException(type: type, message: message),
+  'InsufficientCapacityException': (type, message) =>
+      InsufficientCapacityException(type: type, message: message),
   'InvalidCaCertificatesBundleException': (type, message) =>
       InvalidCaCertificatesBundleException(type: type, message: message),
   'InvalidConfigurationRequestException': (type, message) =>
@@ -8385,6 +9753,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       LoadBalancerNotFoundException(type: type, message: message),
   'OperationNotPermittedException': (type, message) =>
       OperationNotPermittedException(type: type, message: message),
+  'PriorRequestNotCompleteException': (type, message) =>
+      PriorRequestNotCompleteException(type: type, message: message),
   'PriorityInUseException': (type, message) =>
       PriorityInUseException(type: type, message: message),
   'ResourceInUseException': (type, message) =>

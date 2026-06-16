@@ -61,8 +61,8 @@ class DirectConnect {
   /// Accepts a proposal request to attach a virtual private gateway or transit
   /// gateway to a Direct Connect gateway.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [associatedGatewayOwnerAccount] :
   /// The ID of the Amazon Web Services account that owns the virtual private
@@ -124,8 +124,8 @@ class DirectConnect {
   /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [bandwidth] :
   /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
@@ -145,7 +145,6 @@ class DirectConnect {
   ///
   /// Parameter [vlan] :
   /// The dedicated VLAN provisioned to the connection.
-  @Deprecated('Deprecated')
   Future<Connection> allocateConnectionOnInterconnect({
     required String bandwidth,
     required String connectionName,
@@ -187,10 +186,10 @@ class DirectConnect {
   /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [bandwidth] :
   /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
@@ -253,10 +252,10 @@ class DirectConnect {
   /// interface is in the <code>Confirming</code> state and is not available to
   /// handle traffic.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection on which the private virtual interface is
@@ -311,10 +310,10 @@ class DirectConnect {
   /// and customer address. IPv6 addresses are automatically assigned from the
   /// Amazon pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection on which the public virtual interface is
@@ -365,10 +364,10 @@ class DirectConnect {
   /// been completed, the transit virtual interface is in the
   /// <code>requested</code> state and is not available to handle traffic.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection on which the transit virtual interface is
@@ -427,8 +426,8 @@ class DirectConnect {
   /// different LAG, the hosted connections remain associated with the original
   /// LAG.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -468,8 +467,8 @@ class DirectConnect {
   /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the hosted connection.
@@ -500,7 +499,7 @@ class DirectConnect {
   }
 
   /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity
-  /// Association Key (CAK) pair with an Direct Connect dedicated connection.
+  /// Association Key (CAK) pair with a Direct Connect connection.
   ///
   /// You must supply either the <code>secretARN,</code> or the CKN/CAK
   /// (<code>ckn</code> and <code>cak</code>) pair in the request.
@@ -510,18 +509,18 @@ class DirectConnect {
   /// pre-shared CKN/CAK key considerations </a> in the <i>Direct Connect User
   /// Guide</i>.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
-  /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
-  /// (dxlag-xxxx).
+  /// The ID of the dedicated connection (dxcon-xxxx), interconnect
+  /// (dxcon-xxxx), or LAG (dxlag-xxxx).
   ///
-  /// You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve
-  /// connection ID.
+  /// You can use <a>DescribeConnections</a>, <a>DescribeInterconnects</a>, or
+  /// <a>DescribeLags</a> to retrieve connection ID.
   ///
   /// Parameter [cak] :
-  /// The MAC Security (MACsec) CAK to associate with the dedicated connection.
+  /// The MAC Security (MACsec) CAK to associate with the connection.
   ///
   /// You can create the CKN/CAK pair using an industry standard tool.
   ///
@@ -532,7 +531,7 @@ class DirectConnect {
   /// parameter.
   ///
   /// Parameter [ckn] :
-  /// The MAC Security (MACsec) CKN to associate with the dedicated connection.
+  /// The MAC Security (MACsec) CKN to associate with the connection.
   ///
   /// You can create the CKN/CAK pair using an industry standard tool.
   ///
@@ -544,7 +543,7 @@ class DirectConnect {
   ///
   /// Parameter [secretARN] :
   /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
-  /// associate with the dedicated connection.
+  /// associate with the connection.
   ///
   /// You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve
   /// the MAC Security (MACsec) secret key.
@@ -593,8 +592,8 @@ class DirectConnect {
   /// to which the virtual interface is currently associated. Additionally, the
   /// requester must own the connection or LAG for the association.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the LAG or connection.
@@ -631,8 +630,8 @@ class DirectConnect {
   /// <code>Ordering</code> state, and remains in this state until the owner
   /// confirms creation of the hosted connection.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the hosted connection.
@@ -660,8 +659,8 @@ class DirectConnect {
   /// The confirmation of the terms of agreement when creating the
   /// connection/link aggregation group (LAG).
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [agreementName] :
   /// The name of the customer agreement.
@@ -693,8 +692,8 @@ class DirectConnect {
   /// is created and attached to the specified virtual private gateway or Direct
   /// Connect gateway, and is made available to handle traffic.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
@@ -737,8 +736,8 @@ class DirectConnect {
   /// After the virtual interface owner makes this call, the specified virtual
   /// interface is created and made available to handle traffic.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
@@ -770,8 +769,8 @@ class DirectConnect {
   /// specified transit virtual interface is created and made available to
   /// handle traffic.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway.
@@ -828,8 +827,8 @@ class DirectConnect {
   /// For a public virtual interface, the Autonomous System Number (ASN) must be
   /// private or already on the allow list for the virtual interface.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [newBGPPeer] :
   /// Information about the BGP peer.
@@ -875,10 +874,10 @@ class DirectConnect {
   /// specified LAG. If there are no available ports on the endpoint, the
   /// request fails and no connection is created.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [bandwidth] :
   /// The bandwidth of the connection.
@@ -899,10 +898,10 @@ class DirectConnect {
   /// Indicates whether you want the connection to support MAC Security
   /// (MACsec).
   ///
-  /// MAC Security (MACsec) is only available on dedicated connections. For
-  /// information about MAC Security (MACsec) prerequisties, see <a
-  /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites">MACsec
-  /// prerequisties</a> in the <i>Direct Connect User Guide</i>.
+  /// MAC Security (MACsec) is unavailable on hosted connections. For
+  /// information about MAC Security (MACsec) prerequisites, see <a
+  /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/MACSec.html">MAC
+  /// Security in Direct Connect</a> in the <i>Direct Connect User Guide</i>.
   ///
   /// Parameter [tags] :
   /// The tags to associate with the lag.
@@ -948,8 +947,8 @@ class DirectConnect {
   /// to a VPC in any Region, regardless of the Region in which the virtual
   /// interfaces are located, and pass traffic between them.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [directConnectGatewayName] :
   /// The name of the Direct Connect gateway.
@@ -959,9 +958,13 @@ class DirectConnect {
   /// configured on the Amazon side of the connection. The ASN must be in the
   /// private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The
   /// default is 64512.
+  ///
+  /// Parameter [tags] :
+  /// The key-value pair tags associated with the request.
   Future<CreateDirectConnectGatewayResult> createDirectConnectGateway({
     required String directConnectGatewayName,
     int? amazonSideAsn,
+    List<Tag>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -976,6 +979,7 @@ class DirectConnect {
       payload: {
         'directConnectGatewayName': directConnectGatewayName,
         if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
+        if (tags != null) 'tags': tags,
       },
     );
 
@@ -986,8 +990,8 @@ class DirectConnect {
   /// private gateway. The virtual private gateway must be attached to a VPC and
   /// must not be associated with another Direct Connect gateway.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway.
@@ -1044,8 +1048,8 @@ class DirectConnect {
   /// You can associate a Direct Connect gateway and virtual private gateway or
   /// transit gateway that is owned by any Amazon Web Services account.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway.
@@ -1125,10 +1129,10 @@ class DirectConnect {
   /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [bandwidth] :
   /// The port bandwidth, in Gbps. The possible values are 1, 10, and 100.
@@ -1145,6 +1149,10 @@ class DirectConnect {
   /// Parameter [providerName] :
   /// The name of the service provider associated with the interconnect.
   ///
+  /// Parameter [requestMACSec] :
+  /// Indicates whether you want the interconnect to support MAC Security
+  /// (MACsec).
+  ///
   /// Parameter [tags] :
   /// The tags to associate with the interconnect.
   Future<Interconnect> createInterconnect({
@@ -1153,6 +1161,7 @@ class DirectConnect {
     required String location,
     String? lagId,
     String? providerName,
+    bool? requestMACSec,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -1171,6 +1180,7 @@ class DirectConnect {
         'location': location,
         if (lagId != null) 'lagId': lagId,
         if (providerName != null) 'providerName': providerName,
+        if (requestMACSec != null) 'requestMACSec': requestMACSec,
         if (tags != null) 'tags': tags,
       },
     );
@@ -1206,10 +1216,10 @@ class DirectConnect {
   /// sub-connections. For a LAG owned by a partner, any associated virtual
   /// interfaces cannot be directly configured.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [connectionsBandwidth] :
   /// The bandwidth of the individual physical dedicated connections bundled by
@@ -1303,10 +1313,10 @@ class DirectConnect {
   /// call <a>DescribeConnections</a>. To check whether your virtual interface
   /// supports jumbo frames, call <a>DescribeVirtualInterfaces</a>.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -1346,10 +1356,10 @@ class DirectConnect {
   /// <code>amazon</code> address fields blank to use auto-assigned IPv6 space.
   /// Custom IPv6 addresses are not supported.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -1399,10 +1409,10 @@ class DirectConnect {
   /// call <a>DescribeConnections</a>. To check whether your virtual interface
   /// supports jumbo frames, call <a>DescribeVirtualInterfaces</a>.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -1437,12 +1447,48 @@ class DirectConnect {
   ///
   /// You cannot delete the last BGP peer from a virtual interface.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [asn] :
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
+  /// The autonomous system number (ASN). The valid range is from 1 to
+  /// 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide
+  /// a number greater than the maximum, an error is returned. Use
+  /// <code>asnLong</code> instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// Parameter [asnLong] :
+  /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual
+  /// interface. The valid range is from 1 to 4294967294 for BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [bgpPeerId] :
   /// The ID of the BGP peer.
@@ -1454,6 +1500,7 @@ class DirectConnect {
   /// The ID of the virtual interface.
   Future<DeleteBGPPeerResponse> deleteBGPPeer({
     int? asn,
+    int? asnLong,
     String? bgpPeerId,
     String? customerAddress,
     String? virtualInterfaceId,
@@ -1470,6 +1517,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         if (asn != null) 'asn': asn,
+        if (asnLong != null) 'asnLong': asnLong,
         if (bgpPeerId != null) 'bgpPeerId': bgpPeerId,
         if (customerAddress != null) 'customerAddress': customerAddress,
         if (virtualInterfaceId != null)
@@ -1487,8 +1535,8 @@ class DirectConnect {
   /// with the Direct Connect location, you must cancel your service with them
   /// separately.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -1518,8 +1566,8 @@ class DirectConnect {
   /// disassociate all virtual private gateways associated with the Direct
   /// Connect gateway.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway.
@@ -1553,8 +1601,8 @@ class DirectConnect {
   /// <code>virtualGatewayId</code> and <code>directConnectGatewayId</code> to
   /// delete an association.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [associationId] :
   /// The ID of the Direct Connect gateway association.
@@ -1595,8 +1643,8 @@ class DirectConnect {
   /// Deletes the association proposal request between the specified Direct
   /// Connect gateway and virtual private gateway or transit gateway.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [proposalId] :
   /// The ID of the proposal.
@@ -1629,8 +1677,8 @@ class DirectConnect {
   /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [interconnectId] :
   /// The ID of the interconnect.
@@ -1658,8 +1706,8 @@ class DirectConnect {
   /// Deletes the specified link aggregation group (LAG). You cannot delete a
   /// LAG if it has active virtual interfaces or hosted connections.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [lagId] :
   /// The ID of the LAG.
@@ -1686,8 +1734,8 @@ class DirectConnect {
 
   /// Deletes a virtual interface.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
@@ -1725,8 +1773,8 @@ class DirectConnect {
   /// Cross Connects at Direct Connect Locations</a> in the <i>Direct Connect
   /// User Guide</i>.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -1740,7 +1788,6 @@ class DirectConnect {
   /// connectivity on your behalf. If you specify this parameter, the LOA-CFA
   /// lists the provider name alongside your company name as the requester of
   /// the cross connect.
-  @Deprecated('Deprecated')
   Future<DescribeConnectionLoaResponse> describeConnectionLoa({
     required String connectionId,
     LoaContentType? loaContentType,
@@ -1768,13 +1815,26 @@ class DirectConnect {
 
   /// Displays the specified connection or all connections in this Region.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
   Future<Connections> describeConnections({
     String? connectionId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1788,6 +1848,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         if (connectionId != null) 'connectionId': connectionId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -1803,12 +1865,11 @@ class DirectConnect {
   /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [interconnectId] :
   /// The ID of the interconnect.
-  @Deprecated('Deprecated')
   Future<Connections> describeConnectionsOnInterconnect({
     required String interconnectId,
   }) async {
@@ -1833,8 +1894,8 @@ class DirectConnect {
   /// Get and view a list of customer agreements, along with their signed status
   /// and whether the customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   Future<DescribeCustomerMetadataResponse> describeCustomerMetadata() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1854,8 +1915,8 @@ class DirectConnect {
   /// Describes one or more association proposals for connection between a
   /// virtual private gateway or transit gateway and a Direct Connect gateway.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [associatedGatewayId] :
   /// The ID of the associated gateway.
@@ -1943,10 +2004,22 @@ class DirectConnect {
   /// The response contains the association between the Direct Connect gateway
   /// and transit gateway.
   /// </li>
+  /// <li>
+  /// A Direct Connect gateway and a virtual private gateway
+  ///
+  /// The response contains the association between the Direct Connect gateway
+  /// and virtual private gateway.
+  /// </li>
+  /// <li>
+  /// A Direct Connect gateway association to a Cloud WAN core network
+  ///
+  /// The response contains the Cloud WAN core network ID that the Direct
+  /// Connect gateway is associated to.
+  /// </li>
   /// </ul>
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [associatedGatewayId] :
   /// The ID of the associated gateway.
@@ -2014,8 +2087,8 @@ class DirectConnect {
   /// response contains the attachment between the Direct Connect gateway and
   /// the virtual interface.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway.
@@ -2067,8 +2140,8 @@ class DirectConnect {
   /// Lists all your Direct Connect gateways or only the specified Direct
   /// Connect gateway. Deleted Direct Connect gateways are not returned.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway.
@@ -2115,13 +2188,26 @@ class DirectConnect {
   /// Intended for use by Direct Connect Partners only.
   /// </note>
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the interconnect or LAG.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
   Future<Connections> describeHostedConnections({
     required String connectionId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2135,6 +2221,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2153,8 +2241,8 @@ class DirectConnect {
   /// Cross Connects at Direct Connect Locations</a> in the <i>Direct Connect
   /// User Guide</i>.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [interconnectId] :
   /// The ID of the interconnect.
@@ -2167,7 +2255,6 @@ class DirectConnect {
   /// The name of the service provider who establishes connectivity on your
   /// behalf. If you supply this parameter, the LOA-CFA lists the provider name
   /// alongside your company name as the requester of the cross connect.
-  @Deprecated('Deprecated')
   Future<DescribeInterconnectLoaResponse> describeInterconnectLoa({
     required String interconnectId,
     LoaContentType? loaContentType,
@@ -2196,13 +2283,26 @@ class DirectConnect {
   /// Lists the interconnects owned by the Amazon Web Services account or only
   /// the specified interconnect.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [interconnectId] :
   /// The ID of the interconnect.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
   Future<Interconnects> describeInterconnects({
     String? interconnectId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2216,6 +2316,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         if (interconnectId != null) 'interconnectId': interconnectId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2224,13 +2326,26 @@ class DirectConnect {
 
   /// Describes all your link aggregation groups (LAG) or the specified LAG.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [lagId] :
   /// The ID of the LAG.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
   Future<Lags> describeLags({
     String? lagId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2244,6 +2359,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         if (lagId != null) 'lagId': lagId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
       },
     );
 
@@ -2260,8 +2377,8 @@ class DirectConnect {
   /// Cross Connects at Direct Connect Locations</a> in the <i>Direct Connect
   /// User Guide</i>.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of a connection, LAG, or interconnect.
@@ -2303,8 +2420,8 @@ class DirectConnect {
   /// Region. These are the locations that can be selected when calling
   /// <a>CreateConnection</a> or <a>CreateInterconnect</a>.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   Future<Locations> describeLocations() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2323,8 +2440,8 @@ class DirectConnect {
 
   /// Details about the router.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
@@ -2359,8 +2476,8 @@ class DirectConnect {
 
   /// Describes the tags associated with the specified Direct Connect resources.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [resourceArns] :
   /// The Amazon Resource Names (ARNs) of the resources.
@@ -2396,8 +2513,8 @@ class DirectConnect {
   /// You can create one or more Direct Connect private virtual interfaces
   /// linked to a virtual private gateway.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   Future<VirtualGateways> describeVirtualGateways() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2424,16 +2541,41 @@ class DirectConnect {
   /// A virtual interface (VLAN) transmits the traffic between the Direct
   /// Connect location and the customer network.
   ///
-  /// May throw [DirectConnectServerException].
+  /// <ul>
+  /// <li>
+  /// If you're using an <code>asn</code>, the response includes ASN value in
+  /// both the <code>asn</code> and <code>asnLong</code> fields.
+  /// </li>
+  /// <li>
+  /// If you're using <code>asnLong</code>, the response returns a value of
+  /// <code>0</code> (zero) for the <code>asn</code> attribute because it
+  /// exceeds the highest ASN value of 2,147,483,647 that it can support
+  /// </li>
+  /// </ul>
+  ///
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// If <code>MaxResults</code> is given a value larger than 100, only 100
+  /// results are returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
   ///
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
   Future<VirtualInterfaces> describeVirtualInterfaces({
     String? connectionId,
+    int? maxResults,
+    String? nextToken,
     String? virtualInterfaceId,
   }) async {
     final headers = <String, String>{
@@ -2448,6 +2590,8 @@ class DirectConnect {
       headers: headers,
       payload: {
         if (connectionId != null) 'connectionId': connectionId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
         if (virtualInterfaceId != null)
           'virtualInterfaceId': virtualInterfaceId,
       },
@@ -2470,8 +2614,8 @@ class DirectConnect {
   /// disassociated, the LAG continues to exist as an empty LAG with no physical
   /// connections.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
   /// The ID of the connection.
@@ -2501,18 +2645,18 @@ class DirectConnect {
     return Connection.fromJson(jsonResponse.body);
   }
 
-  /// Removes the association between a MAC Security (MACsec) security key and
-  /// an Direct Connect dedicated connection.
+  /// Removes the association between a MAC Security (MACsec) security key and a
+  /// Direct Connect connection.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
-  /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
-  /// (dxlag-xxxx).
+  /// The ID of the dedicated connection (dxcon-xxxx), interconnect
+  /// (dxcon-xxxx), or LAG (dxlag-xxxx).
   ///
-  /// You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve
-  /// connection ID.
+  /// You can use <a>DescribeConnections</a>, <a>DescribeInterconnects</a>, or
+  /// <a>DescribeLags</a> to retrieve connection ID.
   ///
   /// Parameter [secretARN] :
   /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
@@ -2544,8 +2688,8 @@ class DirectConnect {
 
   /// Lists the virtual interface failover test history.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [bgpPeers] :
   /// The BGP peers that were placed in the DOWN state during the virtual
@@ -2618,8 +2762,8 @@ class DirectConnect {
   /// If you need to stop the test before the test interval completes, use <a
   /// href="https://docs.aws.amazon.com/directconnect/latest/APIReference/API_StopBgpFailoverTest.html">StopBgpFailoverTest</a>.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface you want to test.
@@ -2661,8 +2805,8 @@ class DirectConnect {
 
   /// Stops the virtual interface failover test.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface you no longer want to test.
@@ -2694,10 +2838,10 @@ class DirectConnect {
   /// key is already associated with the resource, this action updates its
   /// value.
   ///
+  /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
-  /// May throw [DirectConnectServerException].
-  /// May throw [DirectConnectClientException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -2727,8 +2871,8 @@ class DirectConnect {
 
   /// Removes one or more tags from the specified Direct Connect resource.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -2756,7 +2900,7 @@ class DirectConnect {
     );
   }
 
-  /// Updates the Direct Connect dedicated connection configuration.
+  /// Updates the Direct Connect connection configuration.
   ///
   /// You can update the following parameters for a connection:
   ///
@@ -2769,11 +2913,11 @@ class DirectConnect {
   /// </li>
   /// </ul>
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [connectionId] :
-  /// The ID of the dedicated connection.
+  /// The ID of the connection.
   ///
   /// You can use <a>DescribeConnections</a> to retrieve the connection ID.
   ///
@@ -2812,8 +2956,8 @@ class DirectConnect {
 
   /// Updates the name of a current Direct Connect gateway.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway to update.
@@ -2848,8 +2992,8 @@ class DirectConnect {
   ///
   /// Add or remove prefixes from the association.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [addAllowedPrefixesToDirectConnectGateway] :
   /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
@@ -2918,8 +3062,8 @@ class DirectConnect {
   /// below the threshold and become non-operational.
   /// </note>
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [lagId] :
   /// The ID of the LAG.
@@ -2974,8 +3118,8 @@ class DirectConnect {
   /// call <a>DescribeConnections</a>. To check whether your virtual interface
   /// supports jumbo frames, call <a>DescribeVirtualInterfaces</a>.
   ///
-  /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
+  /// May throw [DirectConnectServerException].
   ///
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual private interface.
@@ -3049,28 +3193,556 @@ class AcceptDirectConnectGatewayAssociationProposalResult {
   }
 }
 
-class AddressFamily {
-  static const ipv4 = AddressFamily._('ipv4');
-  static const ipv6 = AddressFamily._('ipv6');
+/// Information about an Direct Connect connection.
+class Connection {
+  /// The Direct Connect endpoint on which the physical connection terminates.
+  final String? awsDevice;
 
-  final String value;
+  /// The Direct Connect endpoint that terminates the physical connection.
+  final String? awsDeviceV2;
 
-  const AddressFamily._(this.value);
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
 
-  static const values = [ipv4, ipv6];
+  /// The bandwidth of the connection.
+  final String? bandwidth;
 
-  static AddressFamily fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AddressFamily._(value));
+  /// The ID of the connection.
+  final String? connectionId;
 
-  @override
-  bool operator ==(other) => other is AddressFamily && other.value == value;
+  /// The name of the connection.
+  final String? connectionName;
 
-  @override
-  int get hashCode => value.hashCode;
+  /// The state of the connection. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ordering</code>: The initial state of a hosted connection provisioned
+  /// on an interconnect. The connection stays in the ordering state until the
+  /// owner of the hosted connection confirms or declines the connection order.
+  /// </li>
+  /// <li>
+  /// <code>requested</code>: The initial state of a standard connection. The
+  /// connection stays in the requested state until the Letter of Authorization
+  /// (LOA) is sent to the customer.
+  /// </li>
+  /// <li>
+  /// <code>pending</code>: The connection has been approved and is being
+  /// initialized.
+  /// </li>
+  /// <li>
+  /// <code>available</code>: The network link is up and the connection is ready
+  /// for use.
+  /// </li>
+  /// <li>
+  /// <code>down</code>: The network link is down.
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>: The connection is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>deleted</code>: The connection has been deleted.
+  /// </li>
+  /// <li>
+  /// <code>rejected</code>: A hosted connection in the <code>ordering</code>
+  /// state enters the <code>rejected</code> state if it is deleted by the
+  /// customer.
+  /// </li>
+  /// <li>
+  /// <code>unknown</code>: The state of the connection is not available.
+  /// </li>
+  /// </ul>
+  final ConnectionState? connectionState;
 
-  @override
-  String toString() => value;
+  /// The MAC Security (MACsec) connection encryption mode.
+  ///
+  /// The valid values are <code>no_encrypt</code>, <code>should_encrypt</code>,
+  /// and <code>must_encrypt</code>.
+  final String? encryptionMode;
+
+  /// Indicates whether the connection supports a secondary BGP peer in the same
+  /// address family (IPv4/IPv6).
+  final HasLogicalRedundancy? hasLogicalRedundancy;
+
+  /// Indicates whether jumbo frames are supported.
+  final bool? jumboFrameCapable;
+
+  /// The ID of the LAG.
+  final String? lagId;
+
+  /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
+  final DateTime? loaIssueTime;
+
+  /// The location of the connection.
+  final String? location;
+
+  /// Indicates whether the connection supports MAC Security (MACsec).
+  final bool? macSecCapable;
+
+  /// The MAC Security (MACsec) security keys associated with the connection.
+  final List<MacSecKey>? macSecKeys;
+
+  /// The ID of the Amazon Web Services account that owns the connection.
+  final String? ownerAccount;
+
+  /// Indicates whether the interconnect hosting this connection supports MAC
+  /// Security (MACsec).
+  final bool? partnerInterconnectMacSecCapable;
+
+  /// The name of the Direct Connect service provider associated with the
+  /// connection.
+  final String? partnerName;
+
+  /// The MAC Security (MACsec) port link status of the connection.
+  ///
+  /// The valid values are <code>Encryption Up</code>, which means that there is
+  /// an active Connection Key Name, or <code>Encryption Down</code>.
+  final String? portEncryptionStatus;
+
+  /// The name of the service provider associated with the connection.
+  final String? providerName;
+
+  /// The Amazon Web Services Region where the connection is located.
+  final String? region;
+
+  /// The tags associated with the connection.
+  final List<Tag>? tags;
+
+  /// The ID of the VLAN.
+  final int? vlan;
+
+  Connection({
+    this.awsDevice,
+    this.awsDeviceV2,
+    this.awsLogicalDeviceId,
+    this.bandwidth,
+    this.connectionId,
+    this.connectionName,
+    this.connectionState,
+    this.encryptionMode,
+    this.hasLogicalRedundancy,
+    this.jumboFrameCapable,
+    this.lagId,
+    this.loaIssueTime,
+    this.location,
+    this.macSecCapable,
+    this.macSecKeys,
+    this.ownerAccount,
+    this.partnerInterconnectMacSecCapable,
+    this.partnerName,
+    this.portEncryptionStatus,
+    this.providerName,
+    this.region,
+    this.tags,
+    this.vlan,
+  });
+
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      awsDevice: json['awsDevice'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
+      bandwidth: json['bandwidth'] as String?,
+      connectionId: json['connectionId'] as String?,
+      connectionName: json['connectionName'] as String?,
+      connectionState:
+          (json['connectionState'] as String?)?.let(ConnectionState.fromString),
+      encryptionMode: json['encryptionMode'] as String?,
+      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
+          ?.let(HasLogicalRedundancy.fromString),
+      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
+      lagId: json['lagId'] as String?,
+      loaIssueTime: timeStampFromJson(json['loaIssueTime']),
+      location: json['location'] as String?,
+      macSecCapable: json['macSecCapable'] as bool?,
+      macSecKeys: (json['macSecKeys'] as List?)
+          ?.nonNulls
+          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ownerAccount: json['ownerAccount'] as String?,
+      partnerInterconnectMacSecCapable:
+          json['partnerInterconnectMacSecCapable'] as bool?,
+      partnerName: json['partnerName'] as String?,
+      portEncryptionStatus: json['portEncryptionStatus'] as String?,
+      providerName: json['providerName'] as String?,
+      region: json['region'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vlan: json['vlan'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsDevice = this.awsDevice;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
+    final bandwidth = this.bandwidth;
+    final connectionId = this.connectionId;
+    final connectionName = this.connectionName;
+    final connectionState = this.connectionState;
+    final encryptionMode = this.encryptionMode;
+    final hasLogicalRedundancy = this.hasLogicalRedundancy;
+    final jumboFrameCapable = this.jumboFrameCapable;
+    final lagId = this.lagId;
+    final loaIssueTime = this.loaIssueTime;
+    final location = this.location;
+    final macSecCapable = this.macSecCapable;
+    final macSecKeys = this.macSecKeys;
+    final ownerAccount = this.ownerAccount;
+    final partnerInterconnectMacSecCapable =
+        this.partnerInterconnectMacSecCapable;
+    final partnerName = this.partnerName;
+    final portEncryptionStatus = this.portEncryptionStatus;
+    final providerName = this.providerName;
+    final region = this.region;
+    final tags = this.tags;
+    final vlan = this.vlan;
+    return {
+      if (awsDevice != null) 'awsDevice': awsDevice,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
+      if (bandwidth != null) 'bandwidth': bandwidth,
+      if (connectionId != null) 'connectionId': connectionId,
+      if (connectionName != null) 'connectionName': connectionName,
+      if (connectionState != null) 'connectionState': connectionState.value,
+      if (encryptionMode != null) 'encryptionMode': encryptionMode,
+      if (hasLogicalRedundancy != null)
+        'hasLogicalRedundancy': hasLogicalRedundancy.value,
+      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
+      if (lagId != null) 'lagId': lagId,
+      if (loaIssueTime != null)
+        'loaIssueTime': unixTimestampToJson(loaIssueTime),
+      if (location != null) 'location': location,
+      if (macSecCapable != null) 'macSecCapable': macSecCapable,
+      if (macSecKeys != null) 'macSecKeys': macSecKeys,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (partnerInterconnectMacSecCapable != null)
+        'partnerInterconnectMacSecCapable': partnerInterconnectMacSecCapable,
+      if (partnerName != null) 'partnerName': partnerName,
+      if (portEncryptionStatus != null)
+        'portEncryptionStatus': portEncryptionStatus,
+      if (providerName != null) 'providerName': providerName,
+      if (region != null) 'region': region,
+      if (tags != null) 'tags': tags,
+      if (vlan != null) 'vlan': vlan,
+    };
+  }
+}
+
+/// Information about a virtual interface.
+class VirtualInterface {
+  /// The address family for the BGP peer.
+  final AddressFamily? addressFamily;
+
+  /// The IP address assigned to the Amazon interface.
+  final String? amazonAddress;
+
+  /// The autonomous system number (AS) for the Amazon side of the connection.
+  final int? amazonSideAsn;
+
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asn;
+
+  /// The long ASN for the virtual interface. The valid range is from 1 to
+  /// 4294967294 for BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asnLong;
+
+  /// The authentication key for BGP configuration. This string has a minimum
+  /// length of 6 characters and and a maximun lenth of 80 characters.
+  final String? authKey;
+
+  /// The Direct Connect endpoint that terminates the physical connection.
+  final String? awsDeviceV2;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
+
+  /// The BGP peers configured on this virtual interface.
+  final List<BGPPeer>? bgpPeers;
+
+  /// The ID of the connection.
+  final String? connectionId;
+
+  /// The IP address assigned to the customer interface.
+  final String? customerAddress;
+
+  /// The customer router configuration.
+  final String? customerRouterConfig;
+
+  /// The ID of the Direct Connect gateway.
+  final String? directConnectGatewayId;
+
+  /// Indicates whether jumbo frames are supported.
+  final bool? jumboFrameCapable;
+
+  /// The location of the connection.
+  final String? location;
+
+  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
+  /// and 8500. The default value is 1500
+  final int? mtu;
+
+  /// The ID of the Amazon Web Services account that owns the virtual interface.
+  final String? ownerAccount;
+
+  /// The Amazon Web Services Region where the virtual interface is located.
+  final String? region;
+
+  /// The routes to be advertised to the Amazon Web Services network in this
+  /// Region. Applies to public virtual interfaces.
+  final List<RouteFilterPrefix>? routeFilterPrefixes;
+
+  /// Indicates whether SiteLink is enabled.
+  final bool? siteLinkEnabled;
+
+  /// The tags associated with the virtual interface.
+  final List<Tag>? tags;
+
+  /// The ID of the virtual private gateway. Applies only to private virtual
+  /// interfaces.
+  final String? virtualGatewayId;
+
+  /// The ID of the virtual interface.
+  final String? virtualInterfaceId;
+
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
+  final String? virtualInterfaceName;
+
+  /// The state of the virtual interface. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>confirming</code>: The creation of the virtual interface is pending
+  /// confirmation from the virtual interface owner. If the owner of the virtual
+  /// interface is different from the owner of the connection on which it is
+  /// provisioned, then the virtual interface will remain in this state until it
+  /// is confirmed by the virtual interface owner.
+  /// </li>
+  /// <li>
+  /// <code>verifying</code>: This state only applies to public virtual
+  /// interfaces. Each public virtual interface needs validation before the
+  /// virtual interface can be created.
+  /// </li>
+  /// <li>
+  /// <code>pending</code>: A virtual interface is in this state from the time
+  /// that it is created until the virtual interface is ready to forward traffic.
+  /// </li>
+  /// <li>
+  /// <code>available</code>: A virtual interface that is able to forward traffic.
+  /// </li>
+  /// <li>
+  /// <code>down</code>: A virtual interface that is BGP down.
+  /// </li>
+  /// <li>
+  /// <code>testing</code>: A virtual interface is in this state immediately after
+  /// calling <a>StartBgpFailoverTest</a> and remains in this state during the
+  /// duration of the test.
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>: A virtual interface is in this state immediately
+  /// after calling <a>DeleteVirtualInterface</a> until it can no longer forward
+  /// traffic.
+  /// </li>
+  /// <li>
+  /// <code>deleted</code>: A virtual interface that cannot forward traffic.
+  /// </li>
+  /// <li>
+  /// <code>rejected</code>: The virtual interface owner has declined creation of
+  /// the virtual interface. If a virtual interface in the <code>Confirming</code>
+  /// state is deleted by the virtual interface owner, the virtual interface
+  /// enters the <code>Rejected</code> state.
+  /// </li>
+  /// <li>
+  /// <code>unknown</code>: The state of the virtual interface is not available.
+  /// </li>
+  /// </ul>
+  final VirtualInterfaceState? virtualInterfaceState;
+
+  /// The type of virtual interface. The possible values are <code>private</code>,
+  /// <code>public</code> and <code>transit</code>.
+  final String? virtualInterfaceType;
+
+  /// The ID of the VLAN.
+  final int? vlan;
+
+  VirtualInterface({
+    this.addressFamily,
+    this.amazonAddress,
+    this.amazonSideAsn,
+    this.asn,
+    this.asnLong,
+    this.authKey,
+    this.awsDeviceV2,
+    this.awsLogicalDeviceId,
+    this.bgpPeers,
+    this.connectionId,
+    this.customerAddress,
+    this.customerRouterConfig,
+    this.directConnectGatewayId,
+    this.jumboFrameCapable,
+    this.location,
+    this.mtu,
+    this.ownerAccount,
+    this.region,
+    this.routeFilterPrefixes,
+    this.siteLinkEnabled,
+    this.tags,
+    this.virtualGatewayId,
+    this.virtualInterfaceId,
+    this.virtualInterfaceName,
+    this.virtualInterfaceState,
+    this.virtualInterfaceType,
+    this.vlan,
+  });
+
+  factory VirtualInterface.fromJson(Map<String, dynamic> json) {
+    return VirtualInterface(
+      addressFamily:
+          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
+      amazonAddress: json['amazonAddress'] as String?,
+      amazonSideAsn: json['amazonSideAsn'] as int?,
+      asn: json['asn'] as int?,
+      asnLong: json['asnLong'] as int?,
+      authKey: json['authKey'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
+      bgpPeers: (json['bgpPeers'] as List?)
+          ?.nonNulls
+          .map((e) => BGPPeer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      connectionId: json['connectionId'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+      customerRouterConfig: json['customerRouterConfig'] as String?,
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
+      location: json['location'] as String?,
+      mtu: json['mtu'] as int?,
+      ownerAccount: json['ownerAccount'] as String?,
+      region: json['region'] as String?,
+      routeFilterPrefixes: (json['routeFilterPrefixes'] as List?)
+          ?.nonNulls
+          .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      siteLinkEnabled: json['siteLinkEnabled'] as bool?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      virtualGatewayId: json['virtualGatewayId'] as String?,
+      virtualInterfaceId: json['virtualInterfaceId'] as String?,
+      virtualInterfaceName: json['virtualInterfaceName'] as String?,
+      virtualInterfaceState: (json['virtualInterfaceState'] as String?)
+          ?.let(VirtualInterfaceState.fromString),
+      virtualInterfaceType: json['virtualInterfaceType'] as String?,
+      vlan: json['vlan'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final amazonSideAsn = this.amazonSideAsn;
+    final asn = this.asn;
+    final asnLong = this.asnLong;
+    final authKey = this.authKey;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
+    final bgpPeers = this.bgpPeers;
+    final connectionId = this.connectionId;
+    final customerAddress = this.customerAddress;
+    final customerRouterConfig = this.customerRouterConfig;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final jumboFrameCapable = this.jumboFrameCapable;
+    final location = this.location;
+    final mtu = this.mtu;
+    final ownerAccount = this.ownerAccount;
+    final region = this.region;
+    final routeFilterPrefixes = this.routeFilterPrefixes;
+    final siteLinkEnabled = this.siteLinkEnabled;
+    final tags = this.tags;
+    final virtualGatewayId = this.virtualGatewayId;
+    final virtualInterfaceId = this.virtualInterfaceId;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final virtualInterfaceState = this.virtualInterfaceState;
+    final virtualInterfaceType = this.virtualInterfaceType;
+    final vlan = this.vlan;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
+      if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
+      if (authKey != null) 'authKey': authKey,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
+      if (bgpPeers != null) 'bgpPeers': bgpPeers,
+      if (connectionId != null) 'connectionId': connectionId,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (customerRouterConfig != null)
+        'customerRouterConfig': customerRouterConfig,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
+      if (location != null) 'location': location,
+      if (mtu != null) 'mtu': mtu,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (region != null) 'region': region,
+      if (routeFilterPrefixes != null)
+        'routeFilterPrefixes': routeFilterPrefixes,
+      if (siteLinkEnabled != null) 'siteLinkEnabled': siteLinkEnabled,
+      if (tags != null) 'tags': tags,
+      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
+      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
+      if (virtualInterfaceName != null)
+        'virtualInterfaceName': virtualInterfaceName,
+      if (virtualInterfaceState != null)
+        'virtualInterfaceState': virtualInterfaceState.value,
+      if (virtualInterfaceType != null)
+        'virtualInterfaceType': virtualInterfaceType,
+      if (vlan != null) 'vlan': vlan,
+    };
+  }
 }
 
 class AllocateTransitVirtualInterfaceResult {
@@ -3100,12 +3772,11 @@ class AllocateTransitVirtualInterfaceResult {
 }
 
 class AssociateMacSecKeyResponse {
-  /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
-  /// (dxlag-xxxx).
+  /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx),
+  /// or LAG (dxlag-xxxx).
   final String? connectionId;
 
-  /// The MAC Security (MACsec) security keys associated with the dedicated
-  /// connection.
+  /// The MAC Security (MACsec) security keys associated with the connection.
   final List<MacSecKey>? macSecKeys;
 
   AssociateMacSecKeyResponse({
@@ -3131,228 +3802,6 @@ class AssociateMacSecKeyResponse {
       if (macSecKeys != null) 'macSecKeys': macSecKeys,
     };
   }
-}
-
-/// Information about the associated gateway.
-class AssociatedGateway {
-  /// The ID of the associated gateway.
-  final String? id;
-
-  /// The ID of the Amazon Web Services account that owns the associated virtual
-  /// private gateway or transit gateway.
-  final String? ownerAccount;
-
-  /// The Region where the associated gateway is located.
-  final String? region;
-
-  /// The type of associated gateway.
-  final GatewayType? type;
-
-  AssociatedGateway({
-    this.id,
-    this.ownerAccount,
-    this.region,
-    this.type,
-  });
-
-  factory AssociatedGateway.fromJson(Map<String, dynamic> json) {
-    return AssociatedGateway(
-      id: json['id'] as String?,
-      ownerAccount: json['ownerAccount'] as String?,
-      region: json['region'] as String?,
-      type: (json['type'] as String?)?.let(GatewayType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final ownerAccount = this.ownerAccount;
-    final region = this.region;
-    final type = this.type;
-    return {
-      if (id != null) 'id': id,
-      if (ownerAccount != null) 'ownerAccount': ownerAccount,
-      if (region != null) 'region': region,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// Information about a BGP peer.
-class BGPPeer {
-  /// The address family for the BGP peer.
-  final AddressFamily? addressFamily;
-
-  /// The IP address assigned to the Amazon interface.
-  final String? amazonAddress;
-
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
-  final int? asn;
-
-  /// The authentication key for BGP configuration. This string has a minimum
-  /// length of 6 characters and and a maximun lenth of 80 characters.
-  final String? authKey;
-
-  /// The Direct Connect endpoint that terminates the BGP peer.
-  final String? awsDeviceV2;
-
-  /// The Direct Connect endpoint that terminates the logical connection. This
-  /// device might be different than the device that terminates the physical
-  /// connection.
-  final String? awsLogicalDeviceId;
-
-  /// The ID of the BGP peer.
-  final String? bgpPeerId;
-
-  /// The state of the BGP peer. The following are the possible values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>verifying</code>: The BGP peering addresses or ASN require validation
-  /// before the BGP peer can be created. This state applies only to public
-  /// virtual interfaces.
-  /// </li>
-  /// <li>
-  /// <code>pending</code>: The BGP peer is created, and remains in this state
-  /// until it is ready to be established.
-  /// </li>
-  /// <li>
-  /// <code>available</code>: The BGP peer is ready to be established.
-  /// </li>
-  /// <li>
-  /// <code>deleting</code>: The BGP peer is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>deleted</code>: The BGP peer is deleted and cannot be established.
-  /// </li>
-  /// </ul>
-  final BGPPeerState? bgpPeerState;
-
-  /// The status of the BGP peer. The following are the possible values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>up</code>: The BGP peer is established. This state does not indicate
-  /// the state of the routing function. Ensure that you are receiving routes over
-  /// the BGP session.
-  /// </li>
-  /// <li>
-  /// <code>down</code>: The BGP peer is down.
-  /// </li>
-  /// <li>
-  /// <code>unknown</code>: The BGP peer status is not available.
-  /// </li>
-  /// </ul>
-  final BGPStatus? bgpStatus;
-
-  /// The IP address assigned to the customer interface.
-  final String? customerAddress;
-
-  BGPPeer({
-    this.addressFamily,
-    this.amazonAddress,
-    this.asn,
-    this.authKey,
-    this.awsDeviceV2,
-    this.awsLogicalDeviceId,
-    this.bgpPeerId,
-    this.bgpPeerState,
-    this.bgpStatus,
-    this.customerAddress,
-  });
-
-  factory BGPPeer.fromJson(Map<String, dynamic> json) {
-    return BGPPeer(
-      addressFamily:
-          (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
-      amazonAddress: json['amazonAddress'] as String?,
-      asn: json['asn'] as int?,
-      authKey: json['authKey'] as String?,
-      awsDeviceV2: json['awsDeviceV2'] as String?,
-      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
-      bgpPeerId: json['bgpPeerId'] as String?,
-      bgpPeerState:
-          (json['bgpPeerState'] as String?)?.let(BGPPeerState.fromString),
-      bgpStatus: (json['bgpStatus'] as String?)?.let(BGPStatus.fromString),
-      customerAddress: json['customerAddress'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final addressFamily = this.addressFamily;
-    final amazonAddress = this.amazonAddress;
-    final asn = this.asn;
-    final authKey = this.authKey;
-    final awsDeviceV2 = this.awsDeviceV2;
-    final awsLogicalDeviceId = this.awsLogicalDeviceId;
-    final bgpPeerId = this.bgpPeerId;
-    final bgpPeerState = this.bgpPeerState;
-    final bgpStatus = this.bgpStatus;
-    final customerAddress = this.customerAddress;
-    return {
-      if (addressFamily != null) 'addressFamily': addressFamily.value,
-      if (amazonAddress != null) 'amazonAddress': amazonAddress,
-      if (asn != null) 'asn': asn,
-      if (authKey != null) 'authKey': authKey,
-      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
-      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
-      if (bgpPeerId != null) 'bgpPeerId': bgpPeerId,
-      if (bgpPeerState != null) 'bgpPeerState': bgpPeerState.value,
-      if (bgpStatus != null) 'bgpStatus': bgpStatus.value,
-      if (customerAddress != null) 'customerAddress': customerAddress,
-    };
-  }
-}
-
-class BGPPeerState {
-  static const verifying = BGPPeerState._('verifying');
-  static const pending = BGPPeerState._('pending');
-  static const available = BGPPeerState._('available');
-  static const deleting = BGPPeerState._('deleting');
-  static const deleted = BGPPeerState._('deleted');
-
-  final String value;
-
-  const BGPPeerState._(this.value);
-
-  static const values = [verifying, pending, available, deleting, deleted];
-
-  static BGPPeerState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BGPPeerState._(value));
-
-  @override
-  bool operator ==(other) => other is BGPPeerState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class BGPStatus {
-  static const up = BGPStatus._('up');
-  static const down = BGPStatus._('down');
-  static const unknown = BGPStatus._('unknown');
-
-  final String value;
-
-  const BGPStatus._(this.value);
-
-  static const values = [up, down, unknown];
-
-  static BGPStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BGPStatus._(value));
-
-  @override
-  bool operator ==(other) => other is BGPStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ConfirmConnectionResponse {
@@ -3466,6 +3915,11 @@ class ConfirmPrivateVirtualInterfaceResponse {
   /// <code>down</code>: A virtual interface that is BGP down.
   /// </li>
   /// <li>
+  /// <code>testing</code>: A virtual interface is in this state immediately after
+  /// calling <a>StartBgpFailoverTest</a> and remains in this state during the
+  /// duration of the test.
+  /// </li>
+  /// <li>
   /// <code>deleting</code>: A virtual interface is in this state immediately
   /// after calling <a>DeleteVirtualInterface</a> until it can no longer forward
   /// traffic.
@@ -3531,6 +3985,11 @@ class ConfirmPublicVirtualInterfaceResponse {
   /// </li>
   /// <li>
   /// <code>down</code>: A virtual interface that is BGP down.
+  /// </li>
+  /// <li>
+  /// <code>testing</code>: A virtual interface is in this state immediately after
+  /// calling <a>StartBgpFailoverTest</a> and remains in this state during the
+  /// duration of the test.
   /// </li>
   /// <li>
   /// <code>deleting</code>: A virtual interface is in this state immediately
@@ -3600,6 +4059,11 @@ class ConfirmTransitVirtualInterfaceResponse {
   /// <code>down</code>: A virtual interface that is BGP down.
   /// </li>
   /// <li>
+  /// <code>testing</code>: A virtual interface is in this state immediately after
+  /// calling <a>StartBgpFailoverTest</a> and remains in this state during the
+  /// duration of the test.
+  /// </li>
+  /// <li>
   /// <code>deleting</code>: A virtual interface is in this state immediately
   /// after calling <a>DeleteVirtualInterface</a> until it can no longer forward
   /// traffic.
@@ -3640,301 +4104,6 @@ class ConfirmTransitVirtualInterfaceResponse {
   }
 }
 
-/// Information about an Direct Connect connection.
-class Connection {
-  /// The Direct Connect endpoint on which the physical connection terminates.
-  final String? awsDevice;
-
-  /// The Direct Connect endpoint that terminates the physical connection.
-  final String? awsDeviceV2;
-
-  /// The Direct Connect endpoint that terminates the logical connection. This
-  /// device might be different than the device that terminates the physical
-  /// connection.
-  final String? awsLogicalDeviceId;
-
-  /// The bandwidth of the connection.
-  final String? bandwidth;
-
-  /// The ID of the connection.
-  final String? connectionId;
-
-  /// The name of the connection.
-  final String? connectionName;
-
-  /// The state of the connection. The following are the possible values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ordering</code>: The initial state of a hosted connection provisioned
-  /// on an interconnect. The connection stays in the ordering state until the
-  /// owner of the hosted connection confirms or declines the connection order.
-  /// </li>
-  /// <li>
-  /// <code>requested</code>: The initial state of a standard connection. The
-  /// connection stays in the requested state until the Letter of Authorization
-  /// (LOA) is sent to the customer.
-  /// </li>
-  /// <li>
-  /// <code>pending</code>: The connection has been approved and is being
-  /// initialized.
-  /// </li>
-  /// <li>
-  /// <code>available</code>: The network link is up and the connection is ready
-  /// for use.
-  /// </li>
-  /// <li>
-  /// <code>down</code>: The network link is down.
-  /// </li>
-  /// <li>
-  /// <code>deleting</code>: The connection is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>deleted</code>: The connection has been deleted.
-  /// </li>
-  /// <li>
-  /// <code>rejected</code>: A hosted connection in the <code>ordering</code>
-  /// state enters the <code>rejected</code> state if it is deleted by the
-  /// customer.
-  /// </li>
-  /// <li>
-  /// <code>unknown</code>: The state of the connection is not available.
-  /// </li>
-  /// </ul>
-  final ConnectionState? connectionState;
-
-  /// The MAC Security (MACsec) connection encryption mode.
-  ///
-  /// The valid values are <code>no_encrypt</code>, <code>should_encrypt</code>,
-  /// and <code>must_encrypt</code>.
-  final String? encryptionMode;
-
-  /// Indicates whether the connection supports a secondary BGP peer in the same
-  /// address family (IPv4/IPv6).
-  final HasLogicalRedundancy? hasLogicalRedundancy;
-
-  /// Indicates whether jumbo frames are supported.
-  final bool? jumboFrameCapable;
-
-  /// The ID of the LAG.
-  final String? lagId;
-
-  /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
-  final DateTime? loaIssueTime;
-
-  /// The location of the connection.
-  final String? location;
-
-  /// Indicates whether the connection supports MAC Security (MACsec).
-  final bool? macSecCapable;
-
-  /// The MAC Security (MACsec) security keys associated with the connection.
-  final List<MacSecKey>? macSecKeys;
-
-  /// The ID of the Amazon Web Services account that owns the connection.
-  final String? ownerAccount;
-
-  /// The name of the Direct Connect service provider associated with the
-  /// connection.
-  final String? partnerName;
-
-  /// The MAC Security (MACsec) port link status of the connection.
-  ///
-  /// The valid values are <code>Encryption Up</code>, which means that there is
-  /// an active Connection Key Name, or <code>Encryption Down</code>.
-  final String? portEncryptionStatus;
-
-  /// The name of the service provider associated with the connection.
-  final String? providerName;
-
-  /// The Amazon Web Services Region where the connection is located.
-  final String? region;
-
-  /// The tags associated with the connection.
-  final List<Tag>? tags;
-
-  /// The ID of the VLAN.
-  final int? vlan;
-
-  Connection({
-    this.awsDevice,
-    this.awsDeviceV2,
-    this.awsLogicalDeviceId,
-    this.bandwidth,
-    this.connectionId,
-    this.connectionName,
-    this.connectionState,
-    this.encryptionMode,
-    this.hasLogicalRedundancy,
-    this.jumboFrameCapable,
-    this.lagId,
-    this.loaIssueTime,
-    this.location,
-    this.macSecCapable,
-    this.macSecKeys,
-    this.ownerAccount,
-    this.partnerName,
-    this.portEncryptionStatus,
-    this.providerName,
-    this.region,
-    this.tags,
-    this.vlan,
-  });
-
-  factory Connection.fromJson(Map<String, dynamic> json) {
-    return Connection(
-      awsDevice: json['awsDevice'] as String?,
-      awsDeviceV2: json['awsDeviceV2'] as String?,
-      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
-      bandwidth: json['bandwidth'] as String?,
-      connectionId: json['connectionId'] as String?,
-      connectionName: json['connectionName'] as String?,
-      connectionState:
-          (json['connectionState'] as String?)?.let(ConnectionState.fromString),
-      encryptionMode: json['encryptionMode'] as String?,
-      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
-          ?.let(HasLogicalRedundancy.fromString),
-      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
-      lagId: json['lagId'] as String?,
-      loaIssueTime: timeStampFromJson(json['loaIssueTime']),
-      location: json['location'] as String?,
-      macSecCapable: json['macSecCapable'] as bool?,
-      macSecKeys: (json['macSecKeys'] as List?)
-          ?.nonNulls
-          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      ownerAccount: json['ownerAccount'] as String?,
-      partnerName: json['partnerName'] as String?,
-      portEncryptionStatus: json['portEncryptionStatus'] as String?,
-      providerName: json['providerName'] as String?,
-      region: json['region'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vlan: json['vlan'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsDevice = this.awsDevice;
-    final awsDeviceV2 = this.awsDeviceV2;
-    final awsLogicalDeviceId = this.awsLogicalDeviceId;
-    final bandwidth = this.bandwidth;
-    final connectionId = this.connectionId;
-    final connectionName = this.connectionName;
-    final connectionState = this.connectionState;
-    final encryptionMode = this.encryptionMode;
-    final hasLogicalRedundancy = this.hasLogicalRedundancy;
-    final jumboFrameCapable = this.jumboFrameCapable;
-    final lagId = this.lagId;
-    final loaIssueTime = this.loaIssueTime;
-    final location = this.location;
-    final macSecCapable = this.macSecCapable;
-    final macSecKeys = this.macSecKeys;
-    final ownerAccount = this.ownerAccount;
-    final partnerName = this.partnerName;
-    final portEncryptionStatus = this.portEncryptionStatus;
-    final providerName = this.providerName;
-    final region = this.region;
-    final tags = this.tags;
-    final vlan = this.vlan;
-    return {
-      if (awsDevice != null) 'awsDevice': awsDevice,
-      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
-      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
-      if (bandwidth != null) 'bandwidth': bandwidth,
-      if (connectionId != null) 'connectionId': connectionId,
-      if (connectionName != null) 'connectionName': connectionName,
-      if (connectionState != null) 'connectionState': connectionState.value,
-      if (encryptionMode != null) 'encryptionMode': encryptionMode,
-      if (hasLogicalRedundancy != null)
-        'hasLogicalRedundancy': hasLogicalRedundancy.value,
-      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
-      if (lagId != null) 'lagId': lagId,
-      if (loaIssueTime != null)
-        'loaIssueTime': unixTimestampToJson(loaIssueTime),
-      if (location != null) 'location': location,
-      if (macSecCapable != null) 'macSecCapable': macSecCapable,
-      if (macSecKeys != null) 'macSecKeys': macSecKeys,
-      if (ownerAccount != null) 'ownerAccount': ownerAccount,
-      if (partnerName != null) 'partnerName': partnerName,
-      if (portEncryptionStatus != null)
-        'portEncryptionStatus': portEncryptionStatus,
-      if (providerName != null) 'providerName': providerName,
-      if (region != null) 'region': region,
-      if (tags != null) 'tags': tags,
-      if (vlan != null) 'vlan': vlan,
-    };
-  }
-}
-
-class ConnectionState {
-  static const ordering = ConnectionState._('ordering');
-  static const requested = ConnectionState._('requested');
-  static const pending = ConnectionState._('pending');
-  static const available = ConnectionState._('available');
-  static const down = ConnectionState._('down');
-  static const deleting = ConnectionState._('deleting');
-  static const deleted = ConnectionState._('deleted');
-  static const rejected = ConnectionState._('rejected');
-  static const unknown = ConnectionState._('unknown');
-
-  final String value;
-
-  const ConnectionState._(this.value);
-
-  static const values = [
-    ordering,
-    requested,
-    pending,
-    available,
-    down,
-    deleting,
-    deleted,
-    rejected,
-    unknown
-  ];
-
-  static ConnectionState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionState._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Connections {
-  /// The connections.
-  final List<Connection>? connections;
-
-  Connections({
-    this.connections,
-  });
-
-  factory Connections.fromJson(Map<String, dynamic> json) {
-    return Connections(
-      connections: (json['connections'] as List?)
-          ?.nonNulls
-          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connections = this.connections;
-    return {
-      if (connections != null) 'connections': connections,
-    };
-  }
-}
-
 class CreateBGPPeerResponse {
   /// The virtual interface.
   final VirtualInterface? virtualInterface;
@@ -3956,6 +4125,62 @@ class CreateBGPPeerResponse {
     final virtualInterface = this.virtualInterface;
     return {
       if (virtualInterface != null) 'virtualInterface': virtualInterface,
+    };
+  }
+}
+
+class CreateDirectConnectGatewayResult {
+  /// The Direct Connect gateway.
+  final DirectConnectGateway? directConnectGateway;
+
+  CreateDirectConnectGatewayResult({
+    this.directConnectGateway,
+  });
+
+  factory CreateDirectConnectGatewayResult.fromJson(Map<String, dynamic> json) {
+    return CreateDirectConnectGatewayResult(
+      directConnectGateway: json['directConnectGateway'] != null
+          ? DirectConnectGateway.fromJson(
+              json['directConnectGateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGateway = this.directConnectGateway;
+    return {
+      if (directConnectGateway != null)
+        'directConnectGateway': directConnectGateway,
+    };
+  }
+}
+
+class CreateDirectConnectGatewayAssociationResult {
+  /// The association to be created.
+  final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
+
+  CreateDirectConnectGatewayAssociationResult({
+    this.directConnectGatewayAssociation,
+  });
+
+  factory CreateDirectConnectGatewayAssociationResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateDirectConnectGatewayAssociationResult(
+      directConnectGatewayAssociation:
+          json['directConnectGatewayAssociation'] != null
+              ? DirectConnectGatewayAssociation.fromJson(
+                  json['directConnectGatewayAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociation =
+        this.directConnectGatewayAssociation;
+    return {
+      if (directConnectGatewayAssociation != null)
+        'directConnectGatewayAssociation': directConnectGatewayAssociation,
     };
   }
 }
@@ -3992,58 +4217,414 @@ class CreateDirectConnectGatewayAssociationProposalResult {
   }
 }
 
-class CreateDirectConnectGatewayAssociationResult {
-  /// The association to be created.
-  final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
+/// Information about an interconnect.
+class Interconnect {
+  /// The Direct Connect endpoint on which the physical connection terminates.
+  final String? awsDevice;
 
-  CreateDirectConnectGatewayAssociationResult({
-    this.directConnectGatewayAssociation,
+  /// The Direct Connect endpoint that terminates the physical connection.
+  final String? awsDeviceV2;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
+
+  /// The bandwidth of the connection.
+  final String? bandwidth;
+
+  /// The MAC Security (MACsec) encryption mode.
+  ///
+  /// The valid values are <code>no_encrypt</code>, <code>should_encrypt</code>,
+  /// and <code>must_encrypt</code>.
+  final String? encryptionMode;
+
+  /// Indicates whether the interconnect supports a secondary BGP in the same
+  /// address family (IPv4/IPv6).
+  final HasLogicalRedundancy? hasLogicalRedundancy;
+
+  /// The ID of the interconnect.
+  final String? interconnectId;
+
+  /// The name of the interconnect.
+  final String? interconnectName;
+
+  /// The state of the interconnect. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>requested</code>: The initial state of an interconnect. The
+  /// interconnect stays in the requested state until the Letter of Authorization
+  /// (LOA) is sent to the customer.
+  /// </li>
+  /// <li>
+  /// <code>pending</code>: The interconnect is approved, and is being
+  /// initialized.
+  /// </li>
+  /// <li>
+  /// <code>available</code>: The network link is up, and the interconnect is
+  /// ready for use.
+  /// </li>
+  /// <li>
+  /// <code>down</code>: The network link is down.
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>: The interconnect is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>deleted</code>: The interconnect is deleted.
+  /// </li>
+  /// <li>
+  /// <code>unknown</code>: The state of the interconnect is not available.
+  /// </li>
+  /// </ul>
+  final InterconnectState? interconnectState;
+
+  /// Indicates whether jumbo frames are supported.
+  final bool? jumboFrameCapable;
+
+  /// The ID of the LAG.
+  final String? lagId;
+
+  /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
+  final DateTime? loaIssueTime;
+
+  /// The location of the connection.
+  final String? location;
+
+  /// Indicates whether the interconnect supports MAC Security (MACsec).
+  final bool? macSecCapable;
+
+  /// The MAC Security (MACsec) security keys.
+  final List<MacSecKey>? macSecKeys;
+
+  /// The MAC Security (MACsec) port link status.
+  ///
+  /// The valid values are <code>Encryption Up</code>, which means that there is
+  /// an active Connection Key Name, or <code>Encryption Down</code>.
+  final String? portEncryptionStatus;
+
+  /// The name of the service provider associated with the interconnect.
+  final String? providerName;
+
+  /// The Amazon Web Services Region where the connection is located.
+  final String? region;
+
+  /// The tags associated with the interconnect.
+  final List<Tag>? tags;
+
+  Interconnect({
+    this.awsDevice,
+    this.awsDeviceV2,
+    this.awsLogicalDeviceId,
+    this.bandwidth,
+    this.encryptionMode,
+    this.hasLogicalRedundancy,
+    this.interconnectId,
+    this.interconnectName,
+    this.interconnectState,
+    this.jumboFrameCapable,
+    this.lagId,
+    this.loaIssueTime,
+    this.location,
+    this.macSecCapable,
+    this.macSecKeys,
+    this.portEncryptionStatus,
+    this.providerName,
+    this.region,
+    this.tags,
   });
 
-  factory CreateDirectConnectGatewayAssociationResult.fromJson(
-      Map<String, dynamic> json) {
-    return CreateDirectConnectGatewayAssociationResult(
-      directConnectGatewayAssociation:
-          json['directConnectGatewayAssociation'] != null
-              ? DirectConnectGatewayAssociation.fromJson(
-                  json['directConnectGatewayAssociation']
-                      as Map<String, dynamic>)
-              : null,
+  factory Interconnect.fromJson(Map<String, dynamic> json) {
+    return Interconnect(
+      awsDevice: json['awsDevice'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
+      bandwidth: json['bandwidth'] as String?,
+      encryptionMode: json['encryptionMode'] as String?,
+      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
+          ?.let(HasLogicalRedundancy.fromString),
+      interconnectId: json['interconnectId'] as String?,
+      interconnectName: json['interconnectName'] as String?,
+      interconnectState: (json['interconnectState'] as String?)
+          ?.let(InterconnectState.fromString),
+      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
+      lagId: json['lagId'] as String?,
+      loaIssueTime: timeStampFromJson(json['loaIssueTime']),
+      location: json['location'] as String?,
+      macSecCapable: json['macSecCapable'] as bool?,
+      macSecKeys: (json['macSecKeys'] as List?)
+          ?.nonNulls
+          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      portEncryptionStatus: json['portEncryptionStatus'] as String?,
+      providerName: json['providerName'] as String?,
+      region: json['region'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final directConnectGatewayAssociation =
-        this.directConnectGatewayAssociation;
+    final awsDevice = this.awsDevice;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
+    final bandwidth = this.bandwidth;
+    final encryptionMode = this.encryptionMode;
+    final hasLogicalRedundancy = this.hasLogicalRedundancy;
+    final interconnectId = this.interconnectId;
+    final interconnectName = this.interconnectName;
+    final interconnectState = this.interconnectState;
+    final jumboFrameCapable = this.jumboFrameCapable;
+    final lagId = this.lagId;
+    final loaIssueTime = this.loaIssueTime;
+    final location = this.location;
+    final macSecCapable = this.macSecCapable;
+    final macSecKeys = this.macSecKeys;
+    final portEncryptionStatus = this.portEncryptionStatus;
+    final providerName = this.providerName;
+    final region = this.region;
+    final tags = this.tags;
     return {
-      if (directConnectGatewayAssociation != null)
-        'directConnectGatewayAssociation': directConnectGatewayAssociation,
+      if (awsDevice != null) 'awsDevice': awsDevice,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
+      if (bandwidth != null) 'bandwidth': bandwidth,
+      if (encryptionMode != null) 'encryptionMode': encryptionMode,
+      if (hasLogicalRedundancy != null)
+        'hasLogicalRedundancy': hasLogicalRedundancy.value,
+      if (interconnectId != null) 'interconnectId': interconnectId,
+      if (interconnectName != null) 'interconnectName': interconnectName,
+      if (interconnectState != null)
+        'interconnectState': interconnectState.value,
+      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
+      if (lagId != null) 'lagId': lagId,
+      if (loaIssueTime != null)
+        'loaIssueTime': unixTimestampToJson(loaIssueTime),
+      if (location != null) 'location': location,
+      if (macSecCapable != null) 'macSecCapable': macSecCapable,
+      if (macSecKeys != null) 'macSecKeys': macSecKeys,
+      if (portEncryptionStatus != null)
+        'portEncryptionStatus': portEncryptionStatus,
+      if (providerName != null) 'providerName': providerName,
+      if (region != null) 'region': region,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-class CreateDirectConnectGatewayResult {
-  /// The Direct Connect gateway.
-  final DirectConnectGateway? directConnectGateway;
+/// Information about a link aggregation group (LAG).
+class Lag {
+  /// Indicates whether the LAG can host other connections.
+  final bool? allowsHostedConnections;
 
-  CreateDirectConnectGatewayResult({
-    this.directConnectGateway,
+  /// The Direct Connect endpoint that hosts the LAG.
+  final String? awsDevice;
+
+  /// The Direct Connect endpoint that hosts the LAG.
+  final String? awsDeviceV2;
+
+  /// The Direct Connect endpoint that terminates the logical connection. This
+  /// device might be different than the device that terminates the physical
+  /// connection.
+  final String? awsLogicalDeviceId;
+
+  /// The connections bundled by the LAG.
+  final List<Connection>? connections;
+
+  /// The individual bandwidth of the physical connections bundled by the LAG. The
+  /// possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
+  final String? connectionsBandwidth;
+
+  /// The LAG MAC Security (MACsec) encryption mode.
+  ///
+  /// The valid values are <code>no_encrypt</code>, <code>should_encrypt</code>,
+  /// and <code>must_encrypt</code>.
+  final String? encryptionMode;
+
+  /// Indicates whether the LAG supports a secondary BGP peer in the same address
+  /// family (IPv4/IPv6).
+  final HasLogicalRedundancy? hasLogicalRedundancy;
+
+  /// Indicates whether jumbo frames are supported.
+  final bool? jumboFrameCapable;
+
+  /// The ID of the LAG.
+  final String? lagId;
+
+  /// The name of the LAG.
+  final String? lagName;
+
+  /// The state of the LAG. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>requested</code>: The initial state of a LAG. The LAG stays in the
+  /// requested state until the Letter of Authorization (LOA) is available.
+  /// </li>
+  /// <li>
+  /// <code>pending</code>: The LAG has been approved and is being initialized.
+  /// </li>
+  /// <li>
+  /// <code>available</code>: The network link is established and the LAG is ready
+  /// for use.
+  /// </li>
+  /// <li>
+  /// <code>down</code>: The network link is down.
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>: The LAG is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>deleted</code>: The LAG is deleted.
+  /// </li>
+  /// <li>
+  /// <code>unknown</code>: The state of the LAG is not available.
+  /// </li>
+  /// </ul>
+  final LagState? lagState;
+
+  /// The location of the LAG.
+  final String? location;
+
+  /// Indicates whether the LAG supports MAC Security (MACsec).
+  final bool? macSecCapable;
+
+  /// The MAC Security (MACsec) security keys associated with the LAG.
+  final List<MacSecKey>? macSecKeys;
+
+  /// The minimum number of physical dedicated connections that must be
+  /// operational for the LAG itself to be operational.
+  final int? minimumLinks;
+
+  /// The number of physical dedicated connections initially provisioned and
+  /// bundled by the LAG. You can have a maximum of four connections when the port
+  /// speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps or 400
+  /// Gbps.
+  final int? numberOfConnections;
+
+  /// The ID of the Amazon Web Services account that owns the LAG.
+  final String? ownerAccount;
+
+  /// The name of the service provider associated with the LAG.
+  final String? providerName;
+
+  /// The Amazon Web Services Region where the connection is located.
+  final String? region;
+
+  /// The tags associated with the LAG.
+  final List<Tag>? tags;
+
+  Lag({
+    this.allowsHostedConnections,
+    this.awsDevice,
+    this.awsDeviceV2,
+    this.awsLogicalDeviceId,
+    this.connections,
+    this.connectionsBandwidth,
+    this.encryptionMode,
+    this.hasLogicalRedundancy,
+    this.jumboFrameCapable,
+    this.lagId,
+    this.lagName,
+    this.lagState,
+    this.location,
+    this.macSecCapable,
+    this.macSecKeys,
+    this.minimumLinks,
+    this.numberOfConnections,
+    this.ownerAccount,
+    this.providerName,
+    this.region,
+    this.tags,
   });
 
-  factory CreateDirectConnectGatewayResult.fromJson(Map<String, dynamic> json) {
-    return CreateDirectConnectGatewayResult(
-      directConnectGateway: json['directConnectGateway'] != null
-          ? DirectConnectGateway.fromJson(
-              json['directConnectGateway'] as Map<String, dynamic>)
-          : null,
+  factory Lag.fromJson(Map<String, dynamic> json) {
+    return Lag(
+      allowsHostedConnections: json['allowsHostedConnections'] as bool?,
+      awsDevice: json['awsDevice'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
+      connections: (json['connections'] as List?)
+          ?.nonNulls
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      connectionsBandwidth: json['connectionsBandwidth'] as String?,
+      encryptionMode: json['encryptionMode'] as String?,
+      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
+          ?.let(HasLogicalRedundancy.fromString),
+      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
+      lagId: json['lagId'] as String?,
+      lagName: json['lagName'] as String?,
+      lagState: (json['lagState'] as String?)?.let(LagState.fromString),
+      location: json['location'] as String?,
+      macSecCapable: json['macSecCapable'] as bool?,
+      macSecKeys: (json['macSecKeys'] as List?)
+          ?.nonNulls
+          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      minimumLinks: json['minimumLinks'] as int?,
+      numberOfConnections: json['numberOfConnections'] as int?,
+      ownerAccount: json['ownerAccount'] as String?,
+      providerName: json['providerName'] as String?,
+      region: json['region'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final directConnectGateway = this.directConnectGateway;
+    final allowsHostedConnections = this.allowsHostedConnections;
+    final awsDevice = this.awsDevice;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final awsLogicalDeviceId = this.awsLogicalDeviceId;
+    final connections = this.connections;
+    final connectionsBandwidth = this.connectionsBandwidth;
+    final encryptionMode = this.encryptionMode;
+    final hasLogicalRedundancy = this.hasLogicalRedundancy;
+    final jumboFrameCapable = this.jumboFrameCapable;
+    final lagId = this.lagId;
+    final lagName = this.lagName;
+    final lagState = this.lagState;
+    final location = this.location;
+    final macSecCapable = this.macSecCapable;
+    final macSecKeys = this.macSecKeys;
+    final minimumLinks = this.minimumLinks;
+    final numberOfConnections = this.numberOfConnections;
+    final ownerAccount = this.ownerAccount;
+    final providerName = this.providerName;
+    final region = this.region;
+    final tags = this.tags;
     return {
-      if (directConnectGateway != null)
-        'directConnectGateway': directConnectGateway,
+      if (allowsHostedConnections != null)
+        'allowsHostedConnections': allowsHostedConnections,
+      if (awsDevice != null) 'awsDevice': awsDevice,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
+      if (connections != null) 'connections': connections,
+      if (connectionsBandwidth != null)
+        'connectionsBandwidth': connectionsBandwidth,
+      if (encryptionMode != null) 'encryptionMode': encryptionMode,
+      if (hasLogicalRedundancy != null)
+        'hasLogicalRedundancy': hasLogicalRedundancy.value,
+      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
+      if (lagId != null) 'lagId': lagId,
+      if (lagName != null) 'lagName': lagName,
+      if (lagState != null) 'lagState': lagState.value,
+      if (location != null) 'location': location,
+      if (macSecCapable != null) 'macSecCapable': macSecCapable,
+      if (macSecKeys != null) 'macSecKeys': macSecKeys,
+      if (minimumLinks != null) 'minimumLinks': minimumLinks,
+      if (numberOfConnections != null)
+        'numberOfConnections': numberOfConnections,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (providerName != null) 'providerName': providerName,
+      if (region != null) 'region': region,
+      if (tags != null) 'tags': tags,
     };
   }
 }
@@ -4074,37 +4655,6 @@ class CreateTransitVirtualInterfaceResult {
   }
 }
 
-/// The name and status of a customer agreement.
-class CustomerAgreement {
-  /// The name of the agreement.
-  final String? agreementName;
-
-  /// The status of the customer agreement. This will be either
-  /// <code>signed</code> or <code>unsigned</code>
-  final String? status;
-
-  CustomerAgreement({
-    this.agreementName,
-    this.status,
-  });
-
-  factory CustomerAgreement.fromJson(Map<String, dynamic> json) {
-    return CustomerAgreement(
-      agreementName: json['agreementName'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final agreementName = this.agreementName;
-    final status = this.status;
-    return {
-      if (agreementName != null) 'agreementName': agreementName,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
 class DeleteBGPPeerResponse {
   /// The virtual interface.
   final VirtualInterface? virtualInterface;
@@ -4130,34 +4680,28 @@ class DeleteBGPPeerResponse {
   }
 }
 
-class DeleteDirectConnectGatewayAssociationProposalResult {
-  /// The ID of the associated gateway.
-  final DirectConnectGatewayAssociationProposal?
-      directConnectGatewayAssociationProposal;
+class DeleteDirectConnectGatewayResult {
+  /// The Direct Connect gateway.
+  final DirectConnectGateway? directConnectGateway;
 
-  DeleteDirectConnectGatewayAssociationProposalResult({
-    this.directConnectGatewayAssociationProposal,
+  DeleteDirectConnectGatewayResult({
+    this.directConnectGateway,
   });
 
-  factory DeleteDirectConnectGatewayAssociationProposalResult.fromJson(
-      Map<String, dynamic> json) {
-    return DeleteDirectConnectGatewayAssociationProposalResult(
-      directConnectGatewayAssociationProposal:
-          json['directConnectGatewayAssociationProposal'] != null
-              ? DirectConnectGatewayAssociationProposal.fromJson(
-                  json['directConnectGatewayAssociationProposal']
-                      as Map<String, dynamic>)
-              : null,
+  factory DeleteDirectConnectGatewayResult.fromJson(Map<String, dynamic> json) {
+    return DeleteDirectConnectGatewayResult(
+      directConnectGateway: json['directConnectGateway'] != null
+          ? DirectConnectGateway.fromJson(
+              json['directConnectGateway'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final directConnectGatewayAssociationProposal =
-        this.directConnectGatewayAssociationProposal;
+    final directConnectGateway = this.directConnectGateway;
     return {
-      if (directConnectGatewayAssociationProposal != null)
-        'directConnectGatewayAssociationProposal':
-            directConnectGatewayAssociationProposal,
+      if (directConnectGateway != null)
+        'directConnectGateway': directConnectGateway,
     };
   }
 }
@@ -4192,28 +4736,34 @@ class DeleteDirectConnectGatewayAssociationResult {
   }
 }
 
-class DeleteDirectConnectGatewayResult {
-  /// The Direct Connect gateway.
-  final DirectConnectGateway? directConnectGateway;
+class DeleteDirectConnectGatewayAssociationProposalResult {
+  /// The ID of the associated gateway.
+  final DirectConnectGatewayAssociationProposal?
+      directConnectGatewayAssociationProposal;
 
-  DeleteDirectConnectGatewayResult({
-    this.directConnectGateway,
+  DeleteDirectConnectGatewayAssociationProposalResult({
+    this.directConnectGatewayAssociationProposal,
   });
 
-  factory DeleteDirectConnectGatewayResult.fromJson(Map<String, dynamic> json) {
-    return DeleteDirectConnectGatewayResult(
-      directConnectGateway: json['directConnectGateway'] != null
-          ? DirectConnectGateway.fromJson(
-              json['directConnectGateway'] as Map<String, dynamic>)
-          : null,
+  factory DeleteDirectConnectGatewayAssociationProposalResult.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteDirectConnectGatewayAssociationProposalResult(
+      directConnectGatewayAssociationProposal:
+          json['directConnectGatewayAssociationProposal'] != null
+              ? DirectConnectGatewayAssociationProposal.fromJson(
+                  json['directConnectGatewayAssociationProposal']
+                      as Map<String, dynamic>)
+              : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final directConnectGateway = this.directConnectGateway;
+    final directConnectGatewayAssociationProposal =
+        this.directConnectGatewayAssociationProposal;
     return {
-      if (directConnectGateway != null)
-        'directConnectGateway': directConnectGateway,
+      if (directConnectGatewayAssociationProposal != null)
+        'directConnectGatewayAssociationProposal':
+            directConnectGatewayAssociationProposal,
     };
   }
 }
@@ -4297,6 +4847,11 @@ class DeleteVirtualInterfaceResponse {
   /// <code>down</code>: A virtual interface that is BGP down.
   /// </li>
   /// <li>
+  /// <code>testing</code>: A virtual interface is in this state immediately after
+  /// calling <a>StartBgpFailoverTest</a> and remains in this state during the
+  /// duration of the test.
+  /// </li>
+  /// <li>
   /// <code>deleting</code>: A virtual interface is in this state immediately
   /// after calling <a>DeleteVirtualInterface</a> until it can no longer forward
   /// traffic.
@@ -4356,6 +4911,39 @@ class DescribeConnectionLoaResponse {
     final loa = this.loa;
     return {
       if (loa != null) 'loa': loa,
+    };
+  }
+}
+
+class Connections {
+  /// The connections.
+  final List<Connection>? connections;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  Connections({
+    this.connections,
+    this.nextToken,
+  });
+
+  factory Connections.fromJson(Map<String, dynamic> json) {
+    return Connections(
+      connections: (json['connections'] as List?)
+          ?.nonNulls
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    final nextToken = this.nextToken;
+    return {
+      if (connections != null) 'connections': connections,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
 }
@@ -4580,6 +5168,130 @@ class DescribeInterconnectLoaResponse {
   }
 }
 
+class Interconnects {
+  /// The interconnects.
+  final List<Interconnect>? interconnects;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  Interconnects({
+    this.interconnects,
+    this.nextToken,
+  });
+
+  factory Interconnects.fromJson(Map<String, dynamic> json) {
+    return Interconnects(
+      interconnects: (json['interconnects'] as List?)
+          ?.nonNulls
+          .map((e) => Interconnect.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interconnects = this.interconnects;
+    final nextToken = this.nextToken;
+    return {
+      if (interconnects != null) 'interconnects': interconnects,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class Lags {
+  /// The LAGs.
+  final List<Lag>? lags;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  Lags({
+    this.lags,
+    this.nextToken,
+  });
+
+  factory Lags.fromJson(Map<String, dynamic> json) {
+    return Lags(
+      lags: (json['lags'] as List?)
+          ?.nonNulls
+          .map((e) => Lag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lags = this.lags;
+    final nextToken = this.nextToken;
+    return {
+      if (lags != null) 'lags': lags,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Information about a Letter of Authorization - Connecting Facility Assignment
+/// (LOA-CFA) for a connection.
+class Loa {
+  /// The binary contents of the LOA-CFA document.
+  final Uint8List? loaContent;
+
+  /// The standard media type for the LOA-CFA document. The only supported value
+  /// is application/pdf.
+  final LoaContentType? loaContentType;
+
+  Loa({
+    this.loaContent,
+    this.loaContentType,
+  });
+
+  factory Loa.fromJson(Map<String, dynamic> json) {
+    return Loa(
+      loaContent: _s.decodeNullableUint8List(json['loaContent'] as String?),
+      loaContentType:
+          (json['loaContentType'] as String?)?.let(LoaContentType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loaContent = this.loaContent;
+    final loaContentType = this.loaContentType;
+    return {
+      if (loaContent != null) 'loaContent': base64Encode(loaContent),
+      if (loaContentType != null) 'loaContentType': loaContentType.value,
+    };
+  }
+}
+
+class Locations {
+  /// The locations.
+  final List<Location>? locations;
+
+  Locations({
+    this.locations,
+  });
+
+  factory Locations.fromJson(Map<String, dynamic> json) {
+    return Locations(
+      locations: (json['locations'] as List?)
+          ?.nonNulls
+          .map((e) => Location.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locations = this.locations;
+    return {
+      if (locations != null) 'locations': locations,
+    };
+  }
+}
+
 class DescribeRouterConfigurationResponse {
   /// The customer router configuration.
   final String? customerRouterConfig;
@@ -4653,85 +5365,266 @@ class DescribeTagsResponse {
   }
 }
 
-/// Information about a Direct Connect gateway, which enables you to connect
-/// virtual interfaces and virtual private gateway or transit gateways.
-class DirectConnectGateway {
-  /// The autonomous system number (ASN) for the Amazon side of the connection.
-  final int? amazonSideAsn;
+class VirtualGateways {
+  /// The virtual private gateways.
+  final List<VirtualGateway>? virtualGateways;
 
-  /// The ID of the Direct Connect gateway.
-  final String? directConnectGatewayId;
-
-  /// The name of the Direct Connect gateway.
-  final String? directConnectGatewayName;
-
-  /// The state of the Direct Connect gateway. The following are the possible
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>pending</code>: The initial state after calling
-  /// <a>CreateDirectConnectGateway</a>.
-  /// </li>
-  /// <li>
-  /// <code>available</code>: The Direct Connect gateway is ready for use.
-  /// </li>
-  /// <li>
-  /// <code>deleting</code>: The initial state after calling
-  /// <a>DeleteDirectConnectGateway</a>.
-  /// </li>
-  /// <li>
-  /// <code>deleted</code>: The Direct Connect gateway is deleted and cannot pass
-  /// traffic.
-  /// </li>
-  /// </ul>
-  final DirectConnectGatewayState? directConnectGatewayState;
-
-  /// The ID of the Amazon Web Services account that owns the Direct Connect
-  /// gateway.
-  final String? ownerAccount;
-
-  /// The error message if the state of an object failed to advance.
-  final String? stateChangeError;
-
-  DirectConnectGateway({
-    this.amazonSideAsn,
-    this.directConnectGatewayId,
-    this.directConnectGatewayName,
-    this.directConnectGatewayState,
-    this.ownerAccount,
-    this.stateChangeError,
+  VirtualGateways({
+    this.virtualGateways,
   });
 
-  factory DirectConnectGateway.fromJson(Map<String, dynamic> json) {
-    return DirectConnectGateway(
-      amazonSideAsn: json['amazonSideAsn'] as int?,
-      directConnectGatewayId: json['directConnectGatewayId'] as String?,
-      directConnectGatewayName: json['directConnectGatewayName'] as String?,
-      directConnectGatewayState: (json['directConnectGatewayState'] as String?)
-          ?.let(DirectConnectGatewayState.fromString),
-      ownerAccount: json['ownerAccount'] as String?,
-      stateChangeError: json['stateChangeError'] as String?,
+  factory VirtualGateways.fromJson(Map<String, dynamic> json) {
+    return VirtualGateways(
+      virtualGateways: (json['virtualGateways'] as List?)
+          ?.nonNulls
+          .map((e) => VirtualGateway.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final amazonSideAsn = this.amazonSideAsn;
-    final directConnectGatewayId = this.directConnectGatewayId;
-    final directConnectGatewayName = this.directConnectGatewayName;
-    final directConnectGatewayState = this.directConnectGatewayState;
-    final ownerAccount = this.ownerAccount;
-    final stateChangeError = this.stateChangeError;
+    final virtualGateways = this.virtualGateways;
     return {
-      if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
-      if (directConnectGatewayId != null)
-        'directConnectGatewayId': directConnectGatewayId,
-      if (directConnectGatewayName != null)
-        'directConnectGatewayName': directConnectGatewayName,
-      if (directConnectGatewayState != null)
-        'directConnectGatewayState': directConnectGatewayState.value,
-      if (ownerAccount != null) 'ownerAccount': ownerAccount,
-      if (stateChangeError != null) 'stateChangeError': stateChangeError,
+      if (virtualGateways != null) 'virtualGateways': virtualGateways,
+    };
+  }
+}
+
+class VirtualInterfaces {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  /// The virtual interfaces
+  final List<VirtualInterface>? virtualInterfaces;
+
+  VirtualInterfaces({
+    this.nextToken,
+    this.virtualInterfaces,
+  });
+
+  factory VirtualInterfaces.fromJson(Map<String, dynamic> json) {
+    return VirtualInterfaces(
+      nextToken: json['nextToken'] as String?,
+      virtualInterfaces: (json['virtualInterfaces'] as List?)
+          ?.nonNulls
+          .map((e) => VirtualInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final virtualInterfaces = this.virtualInterfaces;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (virtualInterfaces != null) 'virtualInterfaces': virtualInterfaces,
+    };
+  }
+}
+
+class DisassociateMacSecKeyResponse {
+  /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx),
+  /// or LAG (dxlag-xxxx).
+  final String? connectionId;
+
+  /// The MAC Security (MACsec) security keys no longer associated with the
+  /// connection.
+  final List<MacSecKey>? macSecKeys;
+
+  DisassociateMacSecKeyResponse({
+    this.connectionId,
+    this.macSecKeys,
+  });
+
+  factory DisassociateMacSecKeyResponse.fromJson(Map<String, dynamic> json) {
+    return DisassociateMacSecKeyResponse(
+      connectionId: json['connectionId'] as String?,
+      macSecKeys: (json['macSecKeys'] as List?)
+          ?.nonNulls
+          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionId = this.connectionId;
+    final macSecKeys = this.macSecKeys;
+    return {
+      if (connectionId != null) 'connectionId': connectionId,
+      if (macSecKeys != null) 'macSecKeys': macSecKeys,
+    };
+  }
+}
+
+class ListVirtualInterfaceTestHistoryResponse {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String? nextToken;
+
+  /// The ID of the tested virtual interface.
+  final List<VirtualInterfaceTestHistory>? virtualInterfaceTestHistory;
+
+  ListVirtualInterfaceTestHistoryResponse({
+    this.nextToken,
+    this.virtualInterfaceTestHistory,
+  });
+
+  factory ListVirtualInterfaceTestHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListVirtualInterfaceTestHistoryResponse(
+      nextToken: json['nextToken'] as String?,
+      virtualInterfaceTestHistory: (json['virtualInterfaceTestHistory']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              VirtualInterfaceTestHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final virtualInterfaceTestHistory = this.virtualInterfaceTestHistory;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (virtualInterfaceTestHistory != null)
+        'virtualInterfaceTestHistory': virtualInterfaceTestHistory,
+    };
+  }
+}
+
+class StartBgpFailoverTestResponse {
+  /// Information about the virtual interface failover test.
+  final VirtualInterfaceTestHistory? virtualInterfaceTest;
+
+  StartBgpFailoverTestResponse({
+    this.virtualInterfaceTest,
+  });
+
+  factory StartBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) {
+    return StartBgpFailoverTestResponse(
+      virtualInterfaceTest: json['virtualInterfaceTest'] != null
+          ? VirtualInterfaceTestHistory.fromJson(
+              json['virtualInterfaceTest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceTest = this.virtualInterfaceTest;
+    return {
+      if (virtualInterfaceTest != null)
+        'virtualInterfaceTest': virtualInterfaceTest,
+    };
+  }
+}
+
+class StopBgpFailoverTestResponse {
+  /// Information about the virtual interface failover test.
+  final VirtualInterfaceTestHistory? virtualInterfaceTest;
+
+  StopBgpFailoverTestResponse({
+    this.virtualInterfaceTest,
+  });
+
+  factory StopBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) {
+    return StopBgpFailoverTestResponse(
+      virtualInterfaceTest: json['virtualInterfaceTest'] != null
+          ? VirtualInterfaceTestHistory.fromJson(
+              json['virtualInterfaceTest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceTest = this.virtualInterfaceTest;
+    return {
+      if (virtualInterfaceTest != null)
+        'virtualInterfaceTest': virtualInterfaceTest,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDirectConnectGatewayResponse {
+  /// Informaiton about a Direct Connect gateway, which enables you to connect
+  /// virtual interfaces and virtual private gateways or transit gateways.
+  final DirectConnectGateway? directConnectGateway;
+
+  UpdateDirectConnectGatewayResponse({
+    this.directConnectGateway,
+  });
+
+  factory UpdateDirectConnectGatewayResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateDirectConnectGatewayResponse(
+      directConnectGateway: json['directConnectGateway'] != null
+          ? DirectConnectGateway.fromJson(
+              json['directConnectGateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGateway = this.directConnectGateway;
+    return {
+      if (directConnectGateway != null)
+        'directConnectGateway': directConnectGateway,
+    };
+  }
+}
+
+class UpdateDirectConnectGatewayAssociationResult {
+  /// Information about an association between a Direct Connect gateway and a
+  /// virtual private gateway or transit gateway.
+  final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
+
+  UpdateDirectConnectGatewayAssociationResult({
+    this.directConnectGatewayAssociation,
+  });
+
+  factory UpdateDirectConnectGatewayAssociationResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateDirectConnectGatewayAssociationResult(
+      directConnectGatewayAssociation:
+          json['directConnectGatewayAssociation'] != null
+              ? DirectConnectGatewayAssociation.fromJson(
+                  json['directConnectGatewayAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociation =
+        this.directConnectGatewayAssociation;
+    return {
+      if (directConnectGatewayAssociation != null)
+        'directConnectGatewayAssociation': directConnectGatewayAssociation,
     };
   }
 }
@@ -4741,6 +5634,10 @@ class DirectConnectGateway {
 class DirectConnectGatewayAssociation {
   /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
   final List<RouteFilterPrefix>? allowedPrefixesToDirectConnectGateway;
+
+  /// The ID of the Cloud WAN core network associated with the Direct Connect
+  /// gateway attachment.
+  final AssociatedCoreNetwork? associatedCoreNetwork;
 
   /// Information about the associated gateway.
   final AssociatedGateway? associatedGateway;
@@ -4800,6 +5697,7 @@ class DirectConnectGatewayAssociation {
 
   DirectConnectGatewayAssociation({
     this.allowedPrefixesToDirectConnectGateway,
+    this.associatedCoreNetwork,
     this.associatedGateway,
     this.associationId,
     this.associationState,
@@ -4818,6 +5716,10 @@ class DirectConnectGatewayAssociation {
               ?.nonNulls
               .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
               .toList(),
+      associatedCoreNetwork: json['associatedCoreNetwork'] != null
+          ? AssociatedCoreNetwork.fromJson(
+              json['associatedCoreNetwork'] as Map<String, dynamic>)
+          : null,
       associatedGateway: json['associatedGateway'] != null
           ? AssociatedGateway.fromJson(
               json['associatedGateway'] as Map<String, dynamic>)
@@ -4838,6 +5740,7 @@ class DirectConnectGatewayAssociation {
   Map<String, dynamic> toJson() {
     final allowedPrefixesToDirectConnectGateway =
         this.allowedPrefixesToDirectConnectGateway;
+    final associatedCoreNetwork = this.associatedCoreNetwork;
     final associatedGateway = this.associatedGateway;
     final associationId = this.associationId;
     final associationState = this.associationState;
@@ -4852,6 +5755,8 @@ class DirectConnectGatewayAssociation {
       if (allowedPrefixesToDirectConnectGateway != null)
         'allowedPrefixesToDirectConnectGateway':
             allowedPrefixesToDirectConnectGateway,
+      if (associatedCoreNetwork != null)
+        'associatedCoreNetwork': associatedCoreNetwork,
       if (associatedGateway != null) 'associatedGateway': associatedGateway,
       if (associationId != null) 'associationId': associationId,
       if (associationState != null) 'associationState': associationState.value,
@@ -4867,143 +5772,6 @@ class DirectConnectGatewayAssociation {
         'virtualGatewayRegion': virtualGatewayRegion,
     };
   }
-}
-
-/// Information about the proposal request to attach a virtual private gateway
-/// to a Direct Connect gateway.
-class DirectConnectGatewayAssociationProposal {
-  /// Information about the associated gateway.
-  final AssociatedGateway? associatedGateway;
-
-  /// The ID of the Direct Connect gateway.
-  final String? directConnectGatewayId;
-
-  /// The ID of the Amazon Web Services account that owns the Direct Connect
-  /// gateway.
-  final String? directConnectGatewayOwnerAccount;
-
-  /// The existing Amazon VPC prefixes advertised to the Direct Connect gateway.
-  final List<RouteFilterPrefix>? existingAllowedPrefixesToDirectConnectGateway;
-
-  /// The ID of the association proposal.
-  final String? proposalId;
-
-  /// The state of the proposal. The following are possible values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>accepted</code>: The proposal has been accepted. The Direct Connect
-  /// gateway association is available to use in this state.
-  /// </li>
-  /// <li>
-  /// <code>deleted</code>: The proposal has been deleted by the owner that made
-  /// the proposal. The Direct Connect gateway association cannot be used in this
-  /// state.
-  /// </li>
-  /// <li>
-  /// <code>requested</code>: The proposal has been requested. The Direct Connect
-  /// gateway association cannot be used in this state.
-  /// </li>
-  /// </ul>
-  final DirectConnectGatewayAssociationProposalState? proposalState;
-
-  /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
-  final List<RouteFilterPrefix>? requestedAllowedPrefixesToDirectConnectGateway;
-
-  DirectConnectGatewayAssociationProposal({
-    this.associatedGateway,
-    this.directConnectGatewayId,
-    this.directConnectGatewayOwnerAccount,
-    this.existingAllowedPrefixesToDirectConnectGateway,
-    this.proposalId,
-    this.proposalState,
-    this.requestedAllowedPrefixesToDirectConnectGateway,
-  });
-
-  factory DirectConnectGatewayAssociationProposal.fromJson(
-      Map<String, dynamic> json) {
-    return DirectConnectGatewayAssociationProposal(
-      associatedGateway: json['associatedGateway'] != null
-          ? AssociatedGateway.fromJson(
-              json['associatedGateway'] as Map<String, dynamic>)
-          : null,
-      directConnectGatewayId: json['directConnectGatewayId'] as String?,
-      directConnectGatewayOwnerAccount:
-          json['directConnectGatewayOwnerAccount'] as String?,
-      existingAllowedPrefixesToDirectConnectGateway:
-          (json['existingAllowedPrefixesToDirectConnectGateway'] as List?)
-              ?.nonNulls
-              .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      proposalId: json['proposalId'] as String?,
-      proposalState: (json['proposalState'] as String?)
-          ?.let(DirectConnectGatewayAssociationProposalState.fromString),
-      requestedAllowedPrefixesToDirectConnectGateway:
-          (json['requestedAllowedPrefixesToDirectConnectGateway'] as List?)
-              ?.nonNulls
-              .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associatedGateway = this.associatedGateway;
-    final directConnectGatewayId = this.directConnectGatewayId;
-    final directConnectGatewayOwnerAccount =
-        this.directConnectGatewayOwnerAccount;
-    final existingAllowedPrefixesToDirectConnectGateway =
-        this.existingAllowedPrefixesToDirectConnectGateway;
-    final proposalId = this.proposalId;
-    final proposalState = this.proposalState;
-    final requestedAllowedPrefixesToDirectConnectGateway =
-        this.requestedAllowedPrefixesToDirectConnectGateway;
-    return {
-      if (associatedGateway != null) 'associatedGateway': associatedGateway,
-      if (directConnectGatewayId != null)
-        'directConnectGatewayId': directConnectGatewayId,
-      if (directConnectGatewayOwnerAccount != null)
-        'directConnectGatewayOwnerAccount': directConnectGatewayOwnerAccount,
-      if (existingAllowedPrefixesToDirectConnectGateway != null)
-        'existingAllowedPrefixesToDirectConnectGateway':
-            existingAllowedPrefixesToDirectConnectGateway,
-      if (proposalId != null) 'proposalId': proposalId,
-      if (proposalState != null) 'proposalState': proposalState.value,
-      if (requestedAllowedPrefixesToDirectConnectGateway != null)
-        'requestedAllowedPrefixesToDirectConnectGateway':
-            requestedAllowedPrefixesToDirectConnectGateway,
-    };
-  }
-}
-
-class DirectConnectGatewayAssociationProposalState {
-  static const requested =
-      DirectConnectGatewayAssociationProposalState._('requested');
-  static const accepted =
-      DirectConnectGatewayAssociationProposalState._('accepted');
-  static const deleted =
-      DirectConnectGatewayAssociationProposalState._('deleted');
-
-  final String value;
-
-  const DirectConnectGatewayAssociationProposalState._(this.value);
-
-  static const values = [requested, accepted, deleted];
-
-  static DirectConnectGatewayAssociationProposalState fromString(
-          String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DirectConnectGatewayAssociationProposalState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DirectConnectGatewayAssociationProposalState &&
-      other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DirectConnectGatewayAssociationState {
@@ -5036,6 +5804,669 @@ class DirectConnectGatewayAssociationState {
   @override
   bool operator ==(other) =>
       other is DirectConnectGatewayAssociationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the associated gateway.
+class AssociatedGateway {
+  /// The ID of the associated gateway.
+  final String? id;
+
+  /// The ID of the Amazon Web Services account that owns the associated virtual
+  /// private gateway or transit gateway.
+  final String? ownerAccount;
+
+  /// The Region where the associated gateway is located.
+  final String? region;
+
+  /// The type of associated gateway.
+  final GatewayType? type;
+
+  AssociatedGateway({
+    this.id,
+    this.ownerAccount,
+    this.region,
+    this.type,
+  });
+
+  factory AssociatedGateway.fromJson(Map<String, dynamic> json) {
+    return AssociatedGateway(
+      id: json['id'] as String?,
+      ownerAccount: json['ownerAccount'] as String?,
+      region: json['region'] as String?,
+      type: (json['type'] as String?)?.let(GatewayType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final ownerAccount = this.ownerAccount;
+    final region = this.region;
+    final type = this.type;
+    return {
+      if (id != null) 'id': id,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (region != null) 'region': region,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+/// The Amazon Web Services Cloud WAN core network that the Direct Connect
+/// gateway is associated to. This is only returned when a Direct Connect
+/// gateway is associated to a Cloud WAN core network.
+class AssociatedCoreNetwork {
+  /// the ID of the Direct Connect gateway attachment.
+  final String? attachmentId;
+
+  /// The ID of the Cloud WAN core network that the Direct Connect gateway is
+  /// associated to.
+  final String? id;
+
+  /// The account owner of the Cloud WAN core network.
+  final String? ownerAccount;
+
+  AssociatedCoreNetwork({
+    this.attachmentId,
+    this.id,
+    this.ownerAccount,
+  });
+
+  factory AssociatedCoreNetwork.fromJson(Map<String, dynamic> json) {
+    return AssociatedCoreNetwork(
+      attachmentId: json['attachmentId'] as String?,
+      id: json['id'] as String?,
+      ownerAccount: json['ownerAccount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final id = this.id;
+    final ownerAccount = this.ownerAccount;
+    return {
+      if (attachmentId != null) 'attachmentId': attachmentId,
+      if (id != null) 'id': id,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+    };
+  }
+}
+
+/// Information about a route filter prefix that a customer can advertise
+/// through Border Gateway Protocol (BGP) over a public virtual interface.
+class RouteFilterPrefix {
+  /// The CIDR block for the advertised route. Separate multiple routes using
+  /// commas. An IPv6 CIDR must use /64 or shorter.
+  final String? cidr;
+
+  RouteFilterPrefix({
+    this.cidr,
+  });
+
+  factory RouteFilterPrefix.fromJson(Map<String, dynamic> json) {
+    return RouteFilterPrefix(
+      cidr: json['cidr'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    return {
+      if (cidr != null) 'cidr': cidr,
+    };
+  }
+}
+
+class GatewayType {
+  static const virtualPrivateGateway = GatewayType._('virtualPrivateGateway');
+  static const transitGateway = GatewayType._('transitGateway');
+
+  final String value;
+
+  const GatewayType._(this.value);
+
+  static const values = [virtualPrivateGateway, transitGateway];
+
+  static GatewayType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GatewayType._(value));
+
+  @override
+  bool operator ==(other) => other is GatewayType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a Direct Connect gateway, which enables you to connect
+/// virtual interfaces and virtual private gateway or transit gateways.
+class DirectConnectGateway {
+  /// The autonomous system number (AS) for the Amazon side of the connection.
+  final int? amazonSideAsn;
+
+  /// The ID of the Direct Connect gateway.
+  final String? directConnectGatewayId;
+
+  /// The name of the Direct Connect gateway.
+  final String? directConnectGatewayName;
+
+  /// The state of the Direct Connect gateway. The following are the possible
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>pending</code>: The initial state after calling
+  /// <a>CreateDirectConnectGateway</a>.
+  /// </li>
+  /// <li>
+  /// <code>available</code>: The Direct Connect gateway is ready for use.
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>: The initial state after calling
+  /// <a>DeleteDirectConnectGateway</a>.
+  /// </li>
+  /// <li>
+  /// <code>deleted</code>: The Direct Connect gateway is deleted and cannot pass
+  /// traffic.
+  /// </li>
+  /// </ul>
+  final DirectConnectGatewayState? directConnectGatewayState;
+
+  /// The ID of the Amazon Web Services account that owns the Direct Connect
+  /// gateway.
+  final String? ownerAccount;
+
+  /// The error message if the state of an object failed to advance.
+  final String? stateChangeError;
+
+  /// Information about a tag.
+  final List<Tag>? tags;
+
+  DirectConnectGateway({
+    this.amazonSideAsn,
+    this.directConnectGatewayId,
+    this.directConnectGatewayName,
+    this.directConnectGatewayState,
+    this.ownerAccount,
+    this.stateChangeError,
+    this.tags,
+  });
+
+  factory DirectConnectGateway.fromJson(Map<String, dynamic> json) {
+    return DirectConnectGateway(
+      amazonSideAsn: json['amazonSideAsn'] as int?,
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      directConnectGatewayName: json['directConnectGatewayName'] as String?,
+      directConnectGatewayState: (json['directConnectGatewayState'] as String?)
+          ?.let(DirectConnectGatewayState.fromString),
+      ownerAccount: json['ownerAccount'] as String?,
+      stateChangeError: json['stateChangeError'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amazonSideAsn = this.amazonSideAsn;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final directConnectGatewayName = this.directConnectGatewayName;
+    final directConnectGatewayState = this.directConnectGatewayState;
+    final ownerAccount = this.ownerAccount;
+    final stateChangeError = this.stateChangeError;
+    final tags = this.tags;
+    return {
+      if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (directConnectGatewayName != null)
+        'directConnectGatewayName': directConnectGatewayName,
+      if (directConnectGatewayState != null)
+        'directConnectGatewayState': directConnectGatewayState.value,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (stateChangeError != null) 'stateChangeError': stateChangeError,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class DirectConnectGatewayState {
+  static const pending = DirectConnectGatewayState._('pending');
+  static const available = DirectConnectGatewayState._('available');
+  static const deleting = DirectConnectGatewayState._('deleting');
+  static const deleted = DirectConnectGatewayState._('deleted');
+
+  final String value;
+
+  const DirectConnectGatewayState._(this.value);
+
+  static const values = [pending, available, deleting, deleted];
+
+  static DirectConnectGatewayState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DirectConnectGatewayState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectConnectGatewayState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a tag.
+class Tag {
+  /// The key.
+  final String key;
+
+  /// The value.
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['key'] as String?) ?? '',
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+/// Information about the virtual interface failover test.
+class VirtualInterfaceTestHistory {
+  /// The BGP peers that were put in the DOWN state as part of the virtual
+  /// interface failover test.
+  final List<String>? bgpPeers;
+
+  /// The time that the virtual interface moves out of the DOWN state.
+  final DateTime? endTime;
+
+  /// The owner ID of the tested virtual interface.
+  final String? ownerAccount;
+
+  /// The time that the virtual interface moves to the DOWN state.
+  final DateTime? startTime;
+
+  /// The status of the virtual interface failover test.
+  final String? status;
+
+  /// The time that the virtual interface failover test ran in minutes.
+  final int? testDurationInMinutes;
+
+  /// The ID of the virtual interface failover test.
+  final String? testId;
+
+  /// The ID of the tested virtual interface.
+  final String? virtualInterfaceId;
+
+  VirtualInterfaceTestHistory({
+    this.bgpPeers,
+    this.endTime,
+    this.ownerAccount,
+    this.startTime,
+    this.status,
+    this.testDurationInMinutes,
+    this.testId,
+    this.virtualInterfaceId,
+  });
+
+  factory VirtualInterfaceTestHistory.fromJson(Map<String, dynamic> json) {
+    return VirtualInterfaceTestHistory(
+      bgpPeers: (json['bgpPeers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      endTime: timeStampFromJson(json['endTime']),
+      ownerAccount: json['ownerAccount'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      status: json['status'] as String?,
+      testDurationInMinutes: json['testDurationInMinutes'] as int?,
+      testId: json['testId'] as String?,
+      virtualInterfaceId: json['virtualInterfaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bgpPeers = this.bgpPeers;
+    final endTime = this.endTime;
+    final ownerAccount = this.ownerAccount;
+    final startTime = this.startTime;
+    final status = this.status;
+    final testDurationInMinutes = this.testDurationInMinutes;
+    final testId = this.testId;
+    final virtualInterfaceId = this.virtualInterfaceId;
+    return {
+      if (bgpPeers != null) 'bgpPeers': bgpPeers,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status,
+      if (testDurationInMinutes != null)
+        'testDurationInMinutes': testDurationInMinutes,
+      if (testId != null) 'testId': testId,
+      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
+    };
+  }
+}
+
+/// Information about the MAC Security (MACsec) secret key.
+class MacSecKey {
+  /// The Connection Key Name (CKN) for the MAC Security secret key.
+  final String? ckn;
+
+  /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
+  final String? secretARN;
+
+  /// The date that the MAC Security (MACsec) secret key takes effect. The value
+  /// is displayed in UTC format.
+  final String? startOn;
+
+  /// The state of the MAC Security (MACsec) secret key.
+  ///
+  /// The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>associating</code>: The MAC Security (MACsec) secret key is being
+  /// validated and not yet associated with the connection or LAG.
+  /// </li>
+  /// <li>
+  /// <code>associated</code>: The MAC Security (MACsec) secret key is validated
+  /// and associated with the connection or LAG.
+  /// </li>
+  /// <li>
+  /// <code>disassociating</code>: The MAC Security (MACsec) secret key is being
+  /// disassociated from the connection or LAG
+  /// </li>
+  /// <li>
+  /// <code>disassociated</code>: The MAC Security (MACsec) secret key is no
+  /// longer associated with the connection or LAG.
+  /// </li>
+  /// </ul>
+  final String? state;
+
+  MacSecKey({
+    this.ckn,
+    this.secretARN,
+    this.startOn,
+    this.state,
+  });
+
+  factory MacSecKey.fromJson(Map<String, dynamic> json) {
+    return MacSecKey(
+      ckn: json['ckn'] as String?,
+      secretARN: json['secretARN'] as String?,
+      startOn: json['startOn'] as String?,
+      state: json['state'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ckn = this.ckn;
+    final secretARN = this.secretARN;
+    final startOn = this.startOn;
+    final state = this.state;
+    return {
+      if (ckn != null) 'ckn': ckn,
+      if (secretARN != null) 'secretARN': secretARN,
+      if (startOn != null) 'startOn': startOn,
+      if (state != null) 'state': state,
+    };
+  }
+}
+
+/// Information about a virtual private gateway for a private virtual interface.
+class VirtualGateway {
+  /// The ID of the virtual private gateway.
+  final String? virtualGatewayId;
+
+  /// The state of the virtual private gateway. The following are the possible
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>pending</code>: Initial state after creating the virtual private
+  /// gateway.
+  /// </li>
+  /// <li>
+  /// <code>available</code>: Ready for use by a private virtual interface.
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>: Initial state after deleting the virtual private
+  /// gateway.
+  /// </li>
+  /// <li>
+  /// <code>deleted</code>: The virtual private gateway is deleted. The private
+  /// virtual interface is unable to send traffic over this gateway.
+  /// </li>
+  /// </ul>
+  final String? virtualGatewayState;
+
+  VirtualGateway({
+    this.virtualGatewayId,
+    this.virtualGatewayState,
+  });
+
+  factory VirtualGateway.fromJson(Map<String, dynamic> json) {
+    return VirtualGateway(
+      virtualGatewayId: json['virtualGatewayId'] as String?,
+      virtualGatewayState: json['virtualGatewayState'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualGatewayId = this.virtualGatewayId;
+    final virtualGatewayState = this.virtualGatewayState;
+    return {
+      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
+      if (virtualGatewayState != null)
+        'virtualGatewayState': virtualGatewayState,
+    };
+  }
+}
+
+/// Information about a tag associated with an Direct Connect resource.
+class ResourceTag {
+  /// The Amazon Resource Name (ARN) of the resource.
+  final String? resourceArn;
+
+  /// The tags.
+  final List<Tag>? tags;
+
+  ResourceTag({
+    this.resourceArn,
+    this.tags,
+  });
+
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      resourceArn: json['resourceArn'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final tags = this.tags;
+    return {
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Information about the virtual router.
+class RouterType {
+  /// The virtual interface router platform.
+  final String? platform;
+
+  /// Identifies the router by a combination of vendor, platform, and software
+  /// version. For example, <code>CiscoSystemsInc-2900SeriesRouters-IOS124</code>.
+  final String? routerTypeIdentifier;
+
+  /// The router software.
+  final String? software;
+
+  /// The vendor for the virtual interface's router.
+  final String? vendor;
+
+  /// The template for the virtual interface's router.
+  final String? xsltTemplateName;
+
+  /// The MAC Security (MACsec) template for the virtual interface's router.
+  final String? xsltTemplateNameForMacSec;
+
+  RouterType({
+    this.platform,
+    this.routerTypeIdentifier,
+    this.software,
+    this.vendor,
+    this.xsltTemplateName,
+    this.xsltTemplateNameForMacSec,
+  });
+
+  factory RouterType.fromJson(Map<String, dynamic> json) {
+    return RouterType(
+      platform: json['platform'] as String?,
+      routerTypeIdentifier: json['routerTypeIdentifier'] as String?,
+      software: json['software'] as String?,
+      vendor: json['vendor'] as String?,
+      xsltTemplateName: json['xsltTemplateName'] as String?,
+      xsltTemplateNameForMacSec: json['xsltTemplateNameForMacSec'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final platform = this.platform;
+    final routerTypeIdentifier = this.routerTypeIdentifier;
+    final software = this.software;
+    final vendor = this.vendor;
+    final xsltTemplateName = this.xsltTemplateName;
+    final xsltTemplateNameForMacSec = this.xsltTemplateNameForMacSec;
+    return {
+      if (platform != null) 'platform': platform,
+      if (routerTypeIdentifier != null)
+        'routerTypeIdentifier': routerTypeIdentifier,
+      if (software != null) 'software': software,
+      if (vendor != null) 'vendor': vendor,
+      if (xsltTemplateName != null) 'xsltTemplateName': xsltTemplateName,
+      if (xsltTemplateNameForMacSec != null)
+        'xsltTemplateNameForMacSec': xsltTemplateNameForMacSec,
+    };
+  }
+}
+
+/// Information about an Direct Connect location.
+class Location {
+  /// The available MAC Security (MACsec) port speeds for the location.
+  final List<String>? availableMacSecPortSpeeds;
+
+  /// The available port speeds for the location.
+  final List<String>? availablePortSpeeds;
+
+  /// The name of the service provider for the location.
+  final List<String>? availableProviders;
+
+  /// The code for the location.
+  final String? locationCode;
+
+  /// The name of the location. This includes the name of the colocation partner
+  /// and the physical site of the building.
+  final String? locationName;
+
+  /// The Amazon Web Services Region for the location.
+  final String? region;
+
+  Location({
+    this.availableMacSecPortSpeeds,
+    this.availablePortSpeeds,
+    this.availableProviders,
+    this.locationCode,
+    this.locationName,
+    this.region,
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      availableMacSecPortSpeeds: (json['availableMacSecPortSpeeds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      availablePortSpeeds: (json['availablePortSpeeds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      availableProviders: (json['availableProviders'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      locationCode: json['locationCode'] as String?,
+      locationName: json['locationName'] as String?,
+      region: json['region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availableMacSecPortSpeeds = this.availableMacSecPortSpeeds;
+    final availablePortSpeeds = this.availablePortSpeeds;
+    final availableProviders = this.availableProviders;
+    final locationCode = this.locationCode;
+    final locationName = this.locationName;
+    final region = this.region;
+    return {
+      if (availableMacSecPortSpeeds != null)
+        'availableMacSecPortSpeeds': availableMacSecPortSpeeds,
+      if (availablePortSpeeds != null)
+        'availablePortSpeeds': availablePortSpeeds,
+      if (availableProviders != null) 'availableProviders': availableProviders,
+      if (locationCode != null) 'locationCode': locationCode,
+      if (locationName != null) 'locationName': locationName,
+      if (region != null) 'region': region,
+    };
+  }
+}
+
+class LoaContentType {
+  static const applicationPdf = LoaContentType._('application/pdf');
+
+  final String value;
+
+  const LoaContentType._(this.value);
+
+  static const values = [applicationPdf];
+
+  static LoaContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LoaContentType._(value));
+
+  @override
+  bool operator ==(other) => other is LoaContentType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -5190,274 +6621,241 @@ class DirectConnectGatewayAttachmentType {
   String toString() => value;
 }
 
-class DirectConnectGatewayState {
-  static const pending = DirectConnectGatewayState._('pending');
-  static const available = DirectConnectGatewayState._('available');
-  static const deleting = DirectConnectGatewayState._('deleting');
-  static const deleted = DirectConnectGatewayState._('deleted');
+/// Information about the proposal request to attach a virtual private gateway
+/// to a Direct Connect gateway.
+class DirectConnectGatewayAssociationProposal {
+  /// Information about the associated gateway.
+  final AssociatedGateway? associatedGateway;
 
-  final String value;
+  /// The ID of the Direct Connect gateway.
+  final String? directConnectGatewayId;
 
-  const DirectConnectGatewayState._(this.value);
+  /// The ID of the Amazon Web Services account that owns the Direct Connect
+  /// gateway.
+  final String? directConnectGatewayOwnerAccount;
 
-  static const values = [pending, available, deleting, deleted];
+  /// The existing Amazon VPC prefixes advertised to the Direct Connect gateway.
+  final List<RouteFilterPrefix>? existingAllowedPrefixesToDirectConnectGateway;
 
-  static DirectConnectGatewayState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DirectConnectGatewayState._(value));
+  /// The ID of the association proposal.
+  final String? proposalId;
 
-  @override
-  bool operator ==(other) =>
-      other is DirectConnectGatewayState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DisassociateMacSecKeyResponse {
-  /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
-  /// (dxlag-xxxx).
-  final String? connectionId;
-
-  /// The MAC Security (MACsec) security keys no longer associated with the
-  /// dedicated connection.
-  final List<MacSecKey>? macSecKeys;
-
-  DisassociateMacSecKeyResponse({
-    this.connectionId,
-    this.macSecKeys,
-  });
-
-  factory DisassociateMacSecKeyResponse.fromJson(Map<String, dynamic> json) {
-    return DisassociateMacSecKeyResponse(
-      connectionId: json['connectionId'] as String?,
-      macSecKeys: (json['macSecKeys'] as List?)
-          ?.nonNulls
-          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionId = this.connectionId;
-    final macSecKeys = this.macSecKeys;
-    return {
-      if (connectionId != null) 'connectionId': connectionId,
-      if (macSecKeys != null) 'macSecKeys': macSecKeys,
-    };
-  }
-}
-
-class GatewayType {
-  static const virtualPrivateGateway = GatewayType._('virtualPrivateGateway');
-  static const transitGateway = GatewayType._('transitGateway');
-
-  final String value;
-
-  const GatewayType._(this.value);
-
-  static const values = [virtualPrivateGateway, transitGateway];
-
-  static GatewayType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => GatewayType._(value));
-
-  @override
-  bool operator ==(other) => other is GatewayType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class HasLogicalRedundancy {
-  static const unknown = HasLogicalRedundancy._('unknown');
-  static const yes = HasLogicalRedundancy._('yes');
-  static const no = HasLogicalRedundancy._('no');
-
-  final String value;
-
-  const HasLogicalRedundancy._(this.value);
-
-  static const values = [unknown, yes, no];
-
-  static HasLogicalRedundancy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HasLogicalRedundancy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is HasLogicalRedundancy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an interconnect.
-class Interconnect {
-  /// The Direct Connect endpoint on which the physical connection terminates.
-  final String? awsDevice;
-
-  /// The Direct Connect endpoint that terminates the physical connection.
-  final String? awsDeviceV2;
-
-  /// The Direct Connect endpoint that terminates the logical connection. This
-  /// device might be different than the device that terminates the physical
-  /// connection.
-  final String? awsLogicalDeviceId;
-
-  /// The bandwidth of the connection.
-  final String? bandwidth;
-
-  /// Indicates whether the interconnect supports a secondary BGP in the same
-  /// address family (IPv4/IPv6).
-  final HasLogicalRedundancy? hasLogicalRedundancy;
-
-  /// The ID of the interconnect.
-  final String? interconnectId;
-
-  /// The name of the interconnect.
-  final String? interconnectName;
-
-  /// The state of the interconnect. The following are the possible values:
+  /// The state of the proposal. The following are possible values:
   ///
   /// <ul>
   /// <li>
-  /// <code>requested</code>: The initial state of an interconnect. The
-  /// interconnect stays in the requested state until the Letter of Authorization
-  /// (LOA) is sent to the customer.
+  /// <code>accepted</code>: The proposal has been accepted. The Direct Connect
+  /// gateway association is available to use in this state.
   /// </li>
   /// <li>
-  /// <code>pending</code>: The interconnect is approved, and is being
-  /// initialized.
+  /// <code>deleted</code>: The proposal has been deleted by the owner that made
+  /// the proposal. The Direct Connect gateway association cannot be used in this
+  /// state.
   /// </li>
   /// <li>
-  /// <code>available</code>: The network link is up, and the interconnect is
-  /// ready for use.
-  /// </li>
-  /// <li>
-  /// <code>down</code>: The network link is down.
-  /// </li>
-  /// <li>
-  /// <code>deleting</code>: The interconnect is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>deleted</code>: The interconnect is deleted.
-  /// </li>
-  /// <li>
-  /// <code>unknown</code>: The state of the interconnect is not available.
+  /// <code>requested</code>: The proposal has been requested. The Direct Connect
+  /// gateway association cannot be used in this state.
   /// </li>
   /// </ul>
-  final InterconnectState? interconnectState;
+  final DirectConnectGatewayAssociationProposalState? proposalState;
 
-  /// Indicates whether jumbo frames are supported.
-  final bool? jumboFrameCapable;
+  /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
+  final List<RouteFilterPrefix>? requestedAllowedPrefixesToDirectConnectGateway;
 
-  /// The ID of the LAG.
-  final String? lagId;
-
-  /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
-  final DateTime? loaIssueTime;
-
-  /// The location of the connection.
-  final String? location;
-
-  /// The name of the service provider associated with the interconnect.
-  final String? providerName;
-
-  /// The Amazon Web Services Region where the connection is located.
-  final String? region;
-
-  /// The tags associated with the interconnect.
-  final List<Tag>? tags;
-
-  Interconnect({
-    this.awsDevice,
-    this.awsDeviceV2,
-    this.awsLogicalDeviceId,
-    this.bandwidth,
-    this.hasLogicalRedundancy,
-    this.interconnectId,
-    this.interconnectName,
-    this.interconnectState,
-    this.jumboFrameCapable,
-    this.lagId,
-    this.loaIssueTime,
-    this.location,
-    this.providerName,
-    this.region,
-    this.tags,
+  DirectConnectGatewayAssociationProposal({
+    this.associatedGateway,
+    this.directConnectGatewayId,
+    this.directConnectGatewayOwnerAccount,
+    this.existingAllowedPrefixesToDirectConnectGateway,
+    this.proposalId,
+    this.proposalState,
+    this.requestedAllowedPrefixesToDirectConnectGateway,
   });
 
-  factory Interconnect.fromJson(Map<String, dynamic> json) {
-    return Interconnect(
-      awsDevice: json['awsDevice'] as String?,
-      awsDeviceV2: json['awsDeviceV2'] as String?,
-      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
-      bandwidth: json['bandwidth'] as String?,
-      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
-          ?.let(HasLogicalRedundancy.fromString),
-      interconnectId: json['interconnectId'] as String?,
-      interconnectName: json['interconnectName'] as String?,
-      interconnectState: (json['interconnectState'] as String?)
-          ?.let(InterconnectState.fromString),
-      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
-      lagId: json['lagId'] as String?,
-      loaIssueTime: timeStampFromJson(json['loaIssueTime']),
-      location: json['location'] as String?,
-      providerName: json['providerName'] as String?,
-      region: json['region'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory DirectConnectGatewayAssociationProposal.fromJson(
+      Map<String, dynamic> json) {
+    return DirectConnectGatewayAssociationProposal(
+      associatedGateway: json['associatedGateway'] != null
+          ? AssociatedGateway.fromJson(
+              json['associatedGateway'] as Map<String, dynamic>)
+          : null,
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      directConnectGatewayOwnerAccount:
+          json['directConnectGatewayOwnerAccount'] as String?,
+      existingAllowedPrefixesToDirectConnectGateway:
+          (json['existingAllowedPrefixesToDirectConnectGateway'] as List?)
+              ?.nonNulls
+              .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      proposalId: json['proposalId'] as String?,
+      proposalState: (json['proposalState'] as String?)
+          ?.let(DirectConnectGatewayAssociationProposalState.fromString),
+      requestedAllowedPrefixesToDirectConnectGateway:
+          (json['requestedAllowedPrefixesToDirectConnectGateway'] as List?)
+              ?.nonNulls
+              .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final awsDevice = this.awsDevice;
-    final awsDeviceV2 = this.awsDeviceV2;
-    final awsLogicalDeviceId = this.awsLogicalDeviceId;
-    final bandwidth = this.bandwidth;
-    final hasLogicalRedundancy = this.hasLogicalRedundancy;
-    final interconnectId = this.interconnectId;
-    final interconnectName = this.interconnectName;
-    final interconnectState = this.interconnectState;
-    final jumboFrameCapable = this.jumboFrameCapable;
-    final lagId = this.lagId;
-    final loaIssueTime = this.loaIssueTime;
-    final location = this.location;
-    final providerName = this.providerName;
-    final region = this.region;
-    final tags = this.tags;
+    final associatedGateway = this.associatedGateway;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final directConnectGatewayOwnerAccount =
+        this.directConnectGatewayOwnerAccount;
+    final existingAllowedPrefixesToDirectConnectGateway =
+        this.existingAllowedPrefixesToDirectConnectGateway;
+    final proposalId = this.proposalId;
+    final proposalState = this.proposalState;
+    final requestedAllowedPrefixesToDirectConnectGateway =
+        this.requestedAllowedPrefixesToDirectConnectGateway;
     return {
-      if (awsDevice != null) 'awsDevice': awsDevice,
-      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
-      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
-      if (bandwidth != null) 'bandwidth': bandwidth,
-      if (hasLogicalRedundancy != null)
-        'hasLogicalRedundancy': hasLogicalRedundancy.value,
-      if (interconnectId != null) 'interconnectId': interconnectId,
-      if (interconnectName != null) 'interconnectName': interconnectName,
-      if (interconnectState != null)
-        'interconnectState': interconnectState.value,
-      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
-      if (lagId != null) 'lagId': lagId,
-      if (loaIssueTime != null)
-        'loaIssueTime': unixTimestampToJson(loaIssueTime),
-      if (location != null) 'location': location,
-      if (providerName != null) 'providerName': providerName,
-      if (region != null) 'region': region,
-      if (tags != null) 'tags': tags,
+      if (associatedGateway != null) 'associatedGateway': associatedGateway,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (directConnectGatewayOwnerAccount != null)
+        'directConnectGatewayOwnerAccount': directConnectGatewayOwnerAccount,
+      if (existingAllowedPrefixesToDirectConnectGateway != null)
+        'existingAllowedPrefixesToDirectConnectGateway':
+            existingAllowedPrefixesToDirectConnectGateway,
+      if (proposalId != null) 'proposalId': proposalId,
+      if (proposalState != null) 'proposalState': proposalState.value,
+      if (requestedAllowedPrefixesToDirectConnectGateway != null)
+        'requestedAllowedPrefixesToDirectConnectGateway':
+            requestedAllowedPrefixesToDirectConnectGateway,
     };
   }
+}
+
+class DirectConnectGatewayAssociationProposalState {
+  static const requested =
+      DirectConnectGatewayAssociationProposalState._('requested');
+  static const accepted =
+      DirectConnectGatewayAssociationProposalState._('accepted');
+  static const deleted =
+      DirectConnectGatewayAssociationProposalState._('deleted');
+
+  final String value;
+
+  const DirectConnectGatewayAssociationProposalState._(this.value);
+
+  static const values = [requested, accepted, deleted];
+
+  static DirectConnectGatewayAssociationProposalState fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DirectConnectGatewayAssociationProposalState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DirectConnectGatewayAssociationProposalState &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class NniPartnerType {
+  static const v1 = NniPartnerType._('v1');
+  static const v2 = NniPartnerType._('v2');
+  static const nonPartner = NniPartnerType._('nonPartner');
+
+  final String value;
+
+  const NniPartnerType._(this.value);
+
+  static const values = [v1, v2, nonPartner];
+
+  static NniPartnerType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NniPartnerType._(value));
+
+  @override
+  bool operator ==(other) => other is NniPartnerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The name and status of a customer agreement.
+class CustomerAgreement {
+  /// The name of the agreement.
+  final String? agreementName;
+
+  /// The status of the customer agreement. This will be either
+  /// <code>signed</code> or <code>unsigned</code>
+  final String? status;
+
+  CustomerAgreement({
+    this.agreementName,
+    this.status,
+  });
+
+  factory CustomerAgreement.fromJson(Map<String, dynamic> json) {
+    return CustomerAgreement(
+      agreementName: json['agreementName'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final agreementName = this.agreementName;
+    final status = this.status;
+    return {
+      if (agreementName != null) 'agreementName': agreementName,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+class VirtualInterfaceState {
+  static const confirming = VirtualInterfaceState._('confirming');
+  static const verifying = VirtualInterfaceState._('verifying');
+  static const pending = VirtualInterfaceState._('pending');
+  static const available = VirtualInterfaceState._('available');
+  static const down = VirtualInterfaceState._('down');
+  static const testing = VirtualInterfaceState._('testing');
+  static const deleting = VirtualInterfaceState._('deleting');
+  static const deleted = VirtualInterfaceState._('deleted');
+  static const rejected = VirtualInterfaceState._('rejected');
+  static const unknown = VirtualInterfaceState._('unknown');
+
+  final String value;
+
+  const VirtualInterfaceState._(this.value);
+
+  static const values = [
+    confirming,
+    verifying,
+    pending,
+    available,
+    down,
+    testing,
+    deleting,
+    deleted,
+    rejected,
+    unknown
+  ];
+
+  static VirtualInterfaceState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualInterfaceState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualInterfaceState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class InterconnectState {
@@ -5497,241 +6895,388 @@ class InterconnectState {
   String toString() => value;
 }
 
-class Interconnects {
-  /// The interconnects.
-  final List<Interconnect>? interconnects;
+/// Information about a transit virtual interface.
+class NewTransitVirtualInterface {
+  /// The address family for the BGP peer.
+  final AddressFamily? addressFamily;
 
-  Interconnects({
-    this.interconnects,
+  /// The IP address assigned to the Amazon interface.
+  final String? amazonAddress;
+
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asn;
+
+  /// The long ASN for a new transit virtual interface.The valid range is from 1
+  /// to 4294967294 for BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asnLong;
+
+  /// The authentication key for BGP configuration. This string has a minimum
+  /// length of 6 characters and and a maximun lenth of 80 characters.
+  final String? authKey;
+
+  /// The IP address assigned to the customer interface.
+  final String? customerAddress;
+
+  /// The ID of the Direct Connect gateway.
+  final String? directConnectGatewayId;
+
+  /// Indicates whether to enable or disable SiteLink.
+  final bool? enableSiteLink;
+
+  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
+  /// and 8500. The default value is 1500.
+  final int? mtu;
+
+  /// The tags associated with the transitive virtual interface.
+  final List<Tag>? tags;
+
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
+  final String? virtualInterfaceName;
+
+  /// The ID of the VLAN.
+  final int? vlan;
+
+  NewTransitVirtualInterface({
+    this.addressFamily,
+    this.amazonAddress,
+    this.asn,
+    this.asnLong,
+    this.authKey,
+    this.customerAddress,
+    this.directConnectGatewayId,
+    this.enableSiteLink,
+    this.mtu,
+    this.tags,
+    this.virtualInterfaceName,
+    this.vlan,
   });
 
-  factory Interconnects.fromJson(Map<String, dynamic> json) {
-    return Interconnects(
-      interconnects: (json['interconnects'] as List?)
-          ?.nonNulls
-          .map((e) => Interconnect.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final interconnects = this.interconnects;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final asnLong = this.asnLong;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final enableSiteLink = this.enableSiteLink;
+    final mtu = this.mtu;
+    final tags = this.tags;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
     return {
-      if (interconnects != null) 'interconnects': interconnects,
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
+      if (mtu != null) 'mtu': mtu,
+      if (tags != null) 'tags': tags,
+      if (virtualInterfaceName != null)
+        'virtualInterfaceName': virtualInterfaceName,
+      if (vlan != null) 'vlan': vlan,
     };
   }
 }
 
-/// Information about a link aggregation group (LAG).
-class Lag {
-  /// Indicates whether the LAG can host other connections.
-  final bool? allowsHostedConnections;
+class AddressFamily {
+  static const ipv4 = AddressFamily._('ipv4');
+  static const ipv6 = AddressFamily._('ipv6');
 
-  /// The Direct Connect endpoint that hosts the LAG.
-  final String? awsDevice;
+  final String value;
 
-  /// The Direct Connect endpoint that hosts the LAG.
-  final String? awsDeviceV2;
+  const AddressFamily._(this.value);
 
-  /// The Direct Connect endpoint that terminates the logical connection. This
-  /// device might be different than the device that terminates the physical
-  /// connection.
-  final String? awsLogicalDeviceId;
+  static const values = [ipv4, ipv6];
 
-  /// The connections bundled by the LAG.
-  final List<Connection>? connections;
+  static AddressFamily fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AddressFamily._(value));
 
-  /// The individual bandwidth of the physical connections bundled by the LAG. The
-  /// possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
-  final String? connectionsBandwidth;
+  @override
+  bool operator ==(other) => other is AddressFamily && other.value == value;
 
-  /// The LAG MAC Security (MACsec) encryption mode.
-  ///
-  /// The valid values are <code>no_encrypt</code>, <code>should_encrypt</code>,
-  /// and <code>must_encrypt</code>.
-  final String? encryptionMode;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// Indicates whether the LAG supports a secondary BGP peer in the same address
-  /// family (IPv4/IPv6).
-  final HasLogicalRedundancy? hasLogicalRedundancy;
+  @override
+  String toString() => value;
+}
 
-  /// Indicates whether jumbo frames are supported.
-  final bool? jumboFrameCapable;
+/// Information about a public virtual interface.
+class NewPublicVirtualInterface {
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
+  final String virtualInterfaceName;
 
-  /// The ID of the LAG.
-  final String? lagId;
+  /// The ID of the VLAN.
+  final int vlan;
 
-  /// The name of the LAG.
-  final String? lagName;
+  /// The address family for the BGP peer.
+  final AddressFamily? addressFamily;
 
-  /// The state of the LAG. The following are the possible values:
+  /// The IP address assigned to the Amazon interface.
+  final String? amazonAddress;
+
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   ///
   /// <ul>
   /// <li>
-  /// <code>requested</code>: The initial state of a LAG. The LAG stays in the
-  /// requested state until the Letter of Authorization (LOA) is available.
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
   /// </li>
   /// <li>
-  /// <code>pending</code>: The LAG has been approved and is being initialized.
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asn;
+
+  /// The long ASN for a new public virtual interface. The valid range is from 1
+  /// to 4294967294 for BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
   /// </li>
   /// <li>
-  /// <code>available</code>: The network link is established and the LAG is ready
-  /// for use.
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
   /// </li>
-  /// <li>
-  /// <code>down</code>: The network link is down.
-  /// </li>
-  /// <li>
-  /// <code>deleting</code>: The LAG is being deleted.
-  /// </li>
-  /// <li>
-  /// <code>deleted</code>: The LAG is deleted.
-  /// </li>
-  /// <li>
-  /// <code>unknown</code>: The state of the LAG is not available.
-  /// </li>
-  /// </ul>
-  final LagState? lagState;
+  /// </ul> </note>
+  final int? asnLong;
 
-  /// The location of the LAG.
-  final String? location;
+  /// The authentication key for BGP configuration. This string has a minimum
+  /// length of 6 characters and and a maximun lenth of 80 characters.
+  final String? authKey;
 
-  /// Indicates whether the LAG supports MAC Security (MACsec).
-  final bool? macSecCapable;
+  /// The IP address assigned to the customer interface.
+  final String? customerAddress;
 
-  /// The MAC Security (MACsec) security keys associated with the LAG.
-  final List<MacSecKey>? macSecKeys;
+  /// The routes to be advertised to the Amazon Web Services network in this
+  /// Region. Applies to public virtual interfaces.
+  final List<RouteFilterPrefix>? routeFilterPrefixes;
 
-  /// The minimum number of physical dedicated connections that must be
-  /// operational for the LAG itself to be operational.
-  final int? minimumLinks;
-
-  /// The number of physical dedicated connections initially provisioned and
-  /// bundled by the LAG. You can have a maximum of four connections when the port
-  /// speed is 1 Gbps or 10 Gbps, or two when the port speed is 100 Gbps or 400
-  /// Gbps.
-  final int? numberOfConnections;
-
-  /// The ID of the Amazon Web Services account that owns the LAG.
-  final String? ownerAccount;
-
-  /// The name of the service provider associated with the LAG.
-  final String? providerName;
-
-  /// The Amazon Web Services Region where the connection is located.
-  final String? region;
-
-  /// The tags associated with the LAG.
+  /// The tags associated with the public virtual interface.
   final List<Tag>? tags;
 
-  Lag({
-    this.allowsHostedConnections,
-    this.awsDevice,
-    this.awsDeviceV2,
-    this.awsLogicalDeviceId,
-    this.connections,
-    this.connectionsBandwidth,
-    this.encryptionMode,
-    this.hasLogicalRedundancy,
-    this.jumboFrameCapable,
-    this.lagId,
-    this.lagName,
-    this.lagState,
-    this.location,
-    this.macSecCapable,
-    this.macSecKeys,
-    this.minimumLinks,
-    this.numberOfConnections,
-    this.ownerAccount,
-    this.providerName,
-    this.region,
+  NewPublicVirtualInterface({
+    required this.virtualInterfaceName,
+    required this.vlan,
+    this.addressFamily,
+    this.amazonAddress,
+    this.asn,
+    this.asnLong,
+    this.authKey,
+    this.customerAddress,
+    this.routeFilterPrefixes,
     this.tags,
   });
 
-  factory Lag.fromJson(Map<String, dynamic> json) {
-    return Lag(
-      allowsHostedConnections: json['allowsHostedConnections'] as bool?,
-      awsDevice: json['awsDevice'] as String?,
-      awsDeviceV2: json['awsDeviceV2'] as String?,
-      awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
-      connections: (json['connections'] as List?)
-          ?.nonNulls
-          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      connectionsBandwidth: json['connectionsBandwidth'] as String?,
-      encryptionMode: json['encryptionMode'] as String?,
-      hasLogicalRedundancy: (json['hasLogicalRedundancy'] as String?)
-          ?.let(HasLogicalRedundancy.fromString),
-      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
-      lagId: json['lagId'] as String?,
-      lagName: json['lagName'] as String?,
-      lagState: (json['lagState'] as String?)?.let(LagState.fromString),
-      location: json['location'] as String?,
-      macSecCapable: json['macSecCapable'] as bool?,
-      macSecKeys: (json['macSecKeys'] as List?)
-          ?.nonNulls
-          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      minimumLinks: json['minimumLinks'] as int?,
-      numberOfConnections: json['numberOfConnections'] as int?,
-      ownerAccount: json['ownerAccount'] as String?,
-      providerName: json['providerName'] as String?,
-      region: json['region'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final allowsHostedConnections = this.allowsHostedConnections;
-    final awsDevice = this.awsDevice;
-    final awsDeviceV2 = this.awsDeviceV2;
-    final awsLogicalDeviceId = this.awsLogicalDeviceId;
-    final connections = this.connections;
-    final connectionsBandwidth = this.connectionsBandwidth;
-    final encryptionMode = this.encryptionMode;
-    final hasLogicalRedundancy = this.hasLogicalRedundancy;
-    final jumboFrameCapable = this.jumboFrameCapable;
-    final lagId = this.lagId;
-    final lagName = this.lagName;
-    final lagState = this.lagState;
-    final location = this.location;
-    final macSecCapable = this.macSecCapable;
-    final macSecKeys = this.macSecKeys;
-    final minimumLinks = this.minimumLinks;
-    final numberOfConnections = this.numberOfConnections;
-    final ownerAccount = this.ownerAccount;
-    final providerName = this.providerName;
-    final region = this.region;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final asnLong = this.asnLong;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final routeFilterPrefixes = this.routeFilterPrefixes;
     final tags = this.tags;
     return {
-      if (allowsHostedConnections != null)
-        'allowsHostedConnections': allowsHostedConnections,
-      if (awsDevice != null) 'awsDevice': awsDevice,
-      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
-      if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
-      if (connections != null) 'connections': connections,
-      if (connectionsBandwidth != null)
-        'connectionsBandwidth': connectionsBandwidth,
-      if (encryptionMode != null) 'encryptionMode': encryptionMode,
-      if (hasLogicalRedundancy != null)
-        'hasLogicalRedundancy': hasLogicalRedundancy.value,
-      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
-      if (lagId != null) 'lagId': lagId,
-      if (lagName != null) 'lagName': lagName,
-      if (lagState != null) 'lagState': lagState.value,
-      if (location != null) 'location': location,
-      if (macSecCapable != null) 'macSecCapable': macSecCapable,
-      if (macSecKeys != null) 'macSecKeys': macSecKeys,
-      if (minimumLinks != null) 'minimumLinks': minimumLinks,
-      if (numberOfConnections != null)
-        'numberOfConnections': numberOfConnections,
-      if (ownerAccount != null) 'ownerAccount': ownerAccount,
-      if (providerName != null) 'providerName': providerName,
-      if (region != null) 'region': region,
+      'virtualInterfaceName': virtualInterfaceName,
+      'vlan': vlan,
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (routeFilterPrefixes != null)
+        'routeFilterPrefixes': routeFilterPrefixes,
       if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Information about a private virtual interface.
+class NewPrivateVirtualInterface {
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
+  final String virtualInterfaceName;
+
+  /// The ID of the VLAN.
+  final int vlan;
+
+  /// The address family for the BGP peer.
+  final AddressFamily? addressFamily;
+
+  /// The IP address assigned to the Amazon interface.
+  final String? amazonAddress;
+
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  /// The valid values are 1-2147483646.
+  final int? asn;
+
+  /// The long ASN for a new private virtual interface. The valid range is from 1
+  /// to 4294967294 for BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asnLong;
+
+  /// The authentication key for BGP configuration. This string has a minimum
+  /// length of 6 characters and and a maximun lenth of 80 characters.
+  final String? authKey;
+
+  /// The IP address assigned to the customer interface.
+  final String? customerAddress;
+
+  /// The ID of the Direct Connect gateway.
+  final String? directConnectGatewayId;
+
+  /// Indicates whether to enable or disable SiteLink.
+  final bool? enableSiteLink;
+
+  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
+  /// and 8500. The default value is 1500.
+  final int? mtu;
+
+  /// The tags associated with the private virtual interface.
+  final List<Tag>? tags;
+
+  /// The ID of the virtual private gateway.
+  final String? virtualGatewayId;
+
+  NewPrivateVirtualInterface({
+    required this.virtualInterfaceName,
+    required this.vlan,
+    this.addressFamily,
+    this.amazonAddress,
+    this.asn,
+    this.asnLong,
+    this.authKey,
+    this.customerAddress,
+    this.directConnectGatewayId,
+    this.enableSiteLink,
+    this.mtu,
+    this.tags,
+    this.virtualGatewayId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final asnLong = this.asnLong;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final enableSiteLink = this.enableSiteLink;
+    final mtu = this.mtu;
+    final tags = this.tags;
+    final virtualGatewayId = this.virtualGatewayId;
+    return {
+      'virtualInterfaceName': virtualInterfaceName,
+      'vlan': vlan,
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
+      if (mtu != null) 'mtu': mtu,
+      if (tags != null) 'tags': tags,
+      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
     };
   }
 }
@@ -5772,283 +7317,30 @@ class LagState {
   String toString() => value;
 }
 
-class Lags {
-  /// The LAGs.
-  final List<Lag>? lags;
-
-  Lags({
-    this.lags,
-  });
-
-  factory Lags.fromJson(Map<String, dynamic> json) {
-    return Lags(
-      lags: (json['lags'] as List?)
-          ?.nonNulls
-          .map((e) => Lag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lags = this.lags;
-    return {
-      if (lags != null) 'lags': lags,
-    };
-  }
-}
-
-class ListVirtualInterfaceTestHistoryResponse {
-  /// The token to use to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
-  final String? nextToken;
-
-  /// The ID of the tested virtual interface.
-  final List<VirtualInterfaceTestHistory>? virtualInterfaceTestHistory;
-
-  ListVirtualInterfaceTestHistoryResponse({
-    this.nextToken,
-    this.virtualInterfaceTestHistory,
-  });
-
-  factory ListVirtualInterfaceTestHistoryResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListVirtualInterfaceTestHistoryResponse(
-      nextToken: json['nextToken'] as String?,
-      virtualInterfaceTestHistory: (json['virtualInterfaceTestHistory']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              VirtualInterfaceTestHistory.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final virtualInterfaceTestHistory = this.virtualInterfaceTestHistory;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (virtualInterfaceTestHistory != null)
-        'virtualInterfaceTestHistory': virtualInterfaceTestHistory,
-    };
-  }
-}
-
-/// Information about a Letter of Authorization - Connecting Facility Assignment
-/// (LOA-CFA) for a connection.
-class Loa {
-  /// The binary contents of the LOA-CFA document.
-  final Uint8List? loaContent;
-
-  /// The standard media type for the LOA-CFA document. The only supported value
-  /// is application/pdf.
-  final LoaContentType? loaContentType;
-
-  Loa({
-    this.loaContent,
-    this.loaContentType,
-  });
-
-  factory Loa.fromJson(Map<String, dynamic> json) {
-    return Loa(
-      loaContent: _s.decodeNullableUint8List(json['loaContent'] as String?),
-      loaContentType:
-          (json['loaContentType'] as String?)?.let(LoaContentType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loaContent = this.loaContent;
-    final loaContentType = this.loaContentType;
-    return {
-      if (loaContent != null) 'loaContent': base64Encode(loaContent),
-      if (loaContentType != null) 'loaContentType': loaContentType.value,
-    };
-  }
-}
-
-class LoaContentType {
-  static const applicationPdf = LoaContentType._('application/pdf');
+class HasLogicalRedundancy {
+  static const unknown = HasLogicalRedundancy._('unknown');
+  static const yes = HasLogicalRedundancy._('yes');
+  static const no = HasLogicalRedundancy._('no');
 
   final String value;
 
-  const LoaContentType._(this.value);
+  const HasLogicalRedundancy._(this.value);
 
-  static const values = [applicationPdf];
+  static const values = [unknown, yes, no];
 
-  static LoaContentType fromString(String value) =>
+  static HasLogicalRedundancy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => LoaContentType._(value));
+          orElse: () => HasLogicalRedundancy._(value));
 
   @override
-  bool operator ==(other) => other is LoaContentType && other.value == value;
+  bool operator ==(other) =>
+      other is HasLogicalRedundancy && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-/// Information about an Direct Connect location.
-class Location {
-  /// The available MAC Security (MACsec) port speeds for the location.
-  final List<String>? availableMacSecPortSpeeds;
-
-  /// The available port speeds for the location.
-  final List<String>? availablePortSpeeds;
-
-  /// The name of the service provider for the location.
-  final List<String>? availableProviders;
-
-  /// The code for the location.
-  final String? locationCode;
-
-  /// The name of the location. This includes the name of the colocation partner
-  /// and the physical site of the building.
-  final String? locationName;
-
-  /// The Amazon Web Services Region for the location.
-  final String? region;
-
-  Location({
-    this.availableMacSecPortSpeeds,
-    this.availablePortSpeeds,
-    this.availableProviders,
-    this.locationCode,
-    this.locationName,
-    this.region,
-  });
-
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
-      availableMacSecPortSpeeds: (json['availableMacSecPortSpeeds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      availablePortSpeeds: (json['availablePortSpeeds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      availableProviders: (json['availableProviders'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      locationCode: json['locationCode'] as String?,
-      locationName: json['locationName'] as String?,
-      region: json['region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final availableMacSecPortSpeeds = this.availableMacSecPortSpeeds;
-    final availablePortSpeeds = this.availablePortSpeeds;
-    final availableProviders = this.availableProviders;
-    final locationCode = this.locationCode;
-    final locationName = this.locationName;
-    final region = this.region;
-    return {
-      if (availableMacSecPortSpeeds != null)
-        'availableMacSecPortSpeeds': availableMacSecPortSpeeds,
-      if (availablePortSpeeds != null)
-        'availablePortSpeeds': availablePortSpeeds,
-      if (availableProviders != null) 'availableProviders': availableProviders,
-      if (locationCode != null) 'locationCode': locationCode,
-      if (locationName != null) 'locationName': locationName,
-      if (region != null) 'region': region,
-    };
-  }
-}
-
-class Locations {
-  /// The locations.
-  final List<Location>? locations;
-
-  Locations({
-    this.locations,
-  });
-
-  factory Locations.fromJson(Map<String, dynamic> json) {
-    return Locations(
-      locations: (json['locations'] as List?)
-          ?.nonNulls
-          .map((e) => Location.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final locations = this.locations;
-    return {
-      if (locations != null) 'locations': locations,
-    };
-  }
-}
-
-/// Information about the MAC Security (MACsec) secret key.
-class MacSecKey {
-  /// The Connection Key Name (CKN) for the MAC Security secret key.
-  final String? ckn;
-
-  /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
-  final String? secretARN;
-
-  /// The date that the MAC Security (MACsec) secret key takes effect. The value
-  /// is displayed in UTC format.
-  final String? startOn;
-
-  /// The state of the MAC Security (MACsec) secret key.
-  ///
-  /// The possible values are:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>associating</code>: The MAC Security (MACsec) secret key is being
-  /// validated and not yet associated with the connection or LAG.
-  /// </li>
-  /// <li>
-  /// <code>associated</code>: The MAC Security (MACsec) secret key is validated
-  /// and associated with the connection or LAG.
-  /// </li>
-  /// <li>
-  /// <code>disassociating</code>: The MAC Security (MACsec) secret key is being
-  /// disassociated from the connection or LAG
-  /// </li>
-  /// <li>
-  /// <code>disassociated</code>: The MAC Security (MACsec) secret key is no
-  /// longer associated with the connection or LAG.
-  /// </li>
-  /// </ul>
-  final String? state;
-
-  MacSecKey({
-    this.ckn,
-    this.secretARN,
-    this.startOn,
-    this.state,
-  });
-
-  factory MacSecKey.fromJson(Map<String, dynamic> json) {
-    return MacSecKey(
-      ckn: json['ckn'] as String?,
-      secretARN: json['secretARN'] as String?,
-      startOn: json['startOn'] as String?,
-      state: json['state'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ckn = this.ckn;
-    final secretARN = this.secretARN;
-    final startOn = this.startOn;
-    final state = this.state;
-    return {
-      if (ckn != null) 'ckn': ckn,
-      if (secretARN != null) 'secretARN': secretARN,
-      if (startOn != null) 'startOn': startOn,
-      if (state != null) 'state': state,
-    };
-  }
 }
 
 /// Information about a new BGP peer.
@@ -6059,9 +7351,14 @@ class NewBGPPeer {
   /// The IP address assigned to the Amazon interface.
   final String? amazonAddress;
 
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
   final int? asn;
+
+  /// The long ASN for a new BGP peer. The valid range is from 1 to 4294967294.
+  final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
@@ -6074,6 +7371,7 @@ class NewBGPPeer {
     this.addressFamily,
     this.amazonAddress,
     this.asn,
+    this.asnLong,
     this.authKey,
     this.customerAddress,
   });
@@ -6082,413 +7380,59 @@ class NewBGPPeer {
     final addressFamily = this.addressFamily;
     final amazonAddress = this.amazonAddress;
     final asn = this.asn;
+    final asnLong = this.asnLong;
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
     return {
       if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
     };
   }
 }
 
-/// Information about a private virtual interface.
-class NewPrivateVirtualInterface {
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
-  ///
-  /// The valid values are 1-2147483647.
-  final int asn;
+class ConnectionState {
+  static const ordering = ConnectionState._('ordering');
+  static const requested = ConnectionState._('requested');
+  static const pending = ConnectionState._('pending');
+  static const available = ConnectionState._('available');
+  static const down = ConnectionState._('down');
+  static const deleting = ConnectionState._('deleting');
+  static const deleted = ConnectionState._('deleted');
+  static const rejected = ConnectionState._('rejected');
+  static const unknown = ConnectionState._('unknown');
 
-  /// The name of the virtual interface assigned by the customer network. The name
-  /// has a maximum of 100 characters. The following are valid characters: a-z,
-  /// 0-9 and a hyphen (-).
-  final String virtualInterfaceName;
+  final String value;
 
-  /// The ID of the VLAN.
-  final int vlan;
+  const ConnectionState._(this.value);
 
-  /// The address family for the BGP peer.
-  final AddressFamily? addressFamily;
+  static const values = [
+    ordering,
+    requested,
+    pending,
+    available,
+    down,
+    deleting,
+    deleted,
+    rejected,
+    unknown
+  ];
 
-  /// The IP address assigned to the Amazon interface.
-  final String? amazonAddress;
+  static ConnectionState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionState._(value));
 
-  /// The authentication key for BGP configuration. This string has a minimum
-  /// length of 6 characters and and a maximun lenth of 80 characters.
-  final String? authKey;
+  @override
+  bool operator ==(other) => other is ConnectionState && other.value == value;
 
-  /// The IP address assigned to the customer interface.
-  final String? customerAddress;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// The ID of the Direct Connect gateway.
-  final String? directConnectGatewayId;
-
-  /// Indicates whether to enable or disable SiteLink.
-  final bool? enableSiteLink;
-
-  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
-  /// and 8500. The default value is 1500.
-  final int? mtu;
-
-  /// The tags associated with the private virtual interface.
-  final List<Tag>? tags;
-
-  /// The ID of the virtual private gateway.
-  final String? virtualGatewayId;
-
-  NewPrivateVirtualInterface({
-    required this.asn,
-    required this.virtualInterfaceName,
-    required this.vlan,
-    this.addressFamily,
-    this.amazonAddress,
-    this.authKey,
-    this.customerAddress,
-    this.directConnectGatewayId,
-    this.enableSiteLink,
-    this.mtu,
-    this.tags,
-    this.virtualGatewayId,
-  });
-
-  Map<String, dynamic> toJson() {
-    final asn = this.asn;
-    final virtualInterfaceName = this.virtualInterfaceName;
-    final vlan = this.vlan;
-    final addressFamily = this.addressFamily;
-    final amazonAddress = this.amazonAddress;
-    final authKey = this.authKey;
-    final customerAddress = this.customerAddress;
-    final directConnectGatewayId = this.directConnectGatewayId;
-    final enableSiteLink = this.enableSiteLink;
-    final mtu = this.mtu;
-    final tags = this.tags;
-    final virtualGatewayId = this.virtualGatewayId;
-    return {
-      'asn': asn,
-      'virtualInterfaceName': virtualInterfaceName,
-      'vlan': vlan,
-      if (addressFamily != null) 'addressFamily': addressFamily.value,
-      if (amazonAddress != null) 'amazonAddress': amazonAddress,
-      if (authKey != null) 'authKey': authKey,
-      if (customerAddress != null) 'customerAddress': customerAddress,
-      if (directConnectGatewayId != null)
-        'directConnectGatewayId': directConnectGatewayId,
-      if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
-      if (mtu != null) 'mtu': mtu,
-      if (tags != null) 'tags': tags,
-      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
-    };
-  }
-}
-
-/// Information about a private virtual interface to be provisioned on a
-/// connection.
-class NewPrivateVirtualInterfaceAllocation {
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
-  ///
-  /// The valid values are 1-2147483647.
-  final int asn;
-
-  /// The name of the virtual interface assigned by the customer network. The name
-  /// has a maximum of 100 characters. The following are valid characters: a-z,
-  /// 0-9 and a hyphen (-).
-  final String virtualInterfaceName;
-
-  /// The ID of the VLAN.
-  final int vlan;
-
-  /// The address family for the BGP peer.
-  final AddressFamily? addressFamily;
-
-  /// The IP address assigned to the Amazon interface.
-  final String? amazonAddress;
-
-  /// The authentication key for BGP configuration. This string has a minimum
-  /// length of 6 characters and and a maximun lenth of 80 characters.
-  final String? authKey;
-
-  /// The IP address assigned to the customer interface.
-  final String? customerAddress;
-
-  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
-  /// and 8500. The default value is 1500.
-  final int? mtu;
-
-  /// The tags associated with the private virtual interface.
-  final List<Tag>? tags;
-
-  NewPrivateVirtualInterfaceAllocation({
-    required this.asn,
-    required this.virtualInterfaceName,
-    required this.vlan,
-    this.addressFamily,
-    this.amazonAddress,
-    this.authKey,
-    this.customerAddress,
-    this.mtu,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final asn = this.asn;
-    final virtualInterfaceName = this.virtualInterfaceName;
-    final vlan = this.vlan;
-    final addressFamily = this.addressFamily;
-    final amazonAddress = this.amazonAddress;
-    final authKey = this.authKey;
-    final customerAddress = this.customerAddress;
-    final mtu = this.mtu;
-    final tags = this.tags;
-    return {
-      'asn': asn,
-      'virtualInterfaceName': virtualInterfaceName,
-      'vlan': vlan,
-      if (addressFamily != null) 'addressFamily': addressFamily.value,
-      if (amazonAddress != null) 'amazonAddress': amazonAddress,
-      if (authKey != null) 'authKey': authKey,
-      if (customerAddress != null) 'customerAddress': customerAddress,
-      if (mtu != null) 'mtu': mtu,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Information about a public virtual interface.
-class NewPublicVirtualInterface {
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
-  ///
-  /// The valid values are 1-2147483647.
-  final int asn;
-
-  /// The name of the virtual interface assigned by the customer network. The name
-  /// has a maximum of 100 characters. The following are valid characters: a-z,
-  /// 0-9 and a hyphen (-).
-  final String virtualInterfaceName;
-
-  /// The ID of the VLAN.
-  final int vlan;
-
-  /// The address family for the BGP peer.
-  final AddressFamily? addressFamily;
-
-  /// The IP address assigned to the Amazon interface.
-  final String? amazonAddress;
-
-  /// The authentication key for BGP configuration. This string has a minimum
-  /// length of 6 characters and and a maximun lenth of 80 characters.
-  final String? authKey;
-
-  /// The IP address assigned to the customer interface.
-  final String? customerAddress;
-
-  /// The routes to be advertised to the Amazon Web Services network in this
-  /// Region. Applies to public virtual interfaces.
-  final List<RouteFilterPrefix>? routeFilterPrefixes;
-
-  /// The tags associated with the public virtual interface.
-  final List<Tag>? tags;
-
-  NewPublicVirtualInterface({
-    required this.asn,
-    required this.virtualInterfaceName,
-    required this.vlan,
-    this.addressFamily,
-    this.amazonAddress,
-    this.authKey,
-    this.customerAddress,
-    this.routeFilterPrefixes,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final asn = this.asn;
-    final virtualInterfaceName = this.virtualInterfaceName;
-    final vlan = this.vlan;
-    final addressFamily = this.addressFamily;
-    final amazonAddress = this.amazonAddress;
-    final authKey = this.authKey;
-    final customerAddress = this.customerAddress;
-    final routeFilterPrefixes = this.routeFilterPrefixes;
-    final tags = this.tags;
-    return {
-      'asn': asn,
-      'virtualInterfaceName': virtualInterfaceName,
-      'vlan': vlan,
-      if (addressFamily != null) 'addressFamily': addressFamily.value,
-      if (amazonAddress != null) 'amazonAddress': amazonAddress,
-      if (authKey != null) 'authKey': authKey,
-      if (customerAddress != null) 'customerAddress': customerAddress,
-      if (routeFilterPrefixes != null)
-        'routeFilterPrefixes': routeFilterPrefixes,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Information about a public virtual interface to be provisioned on a
-/// connection.
-class NewPublicVirtualInterfaceAllocation {
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
-  ///
-  /// The valid values are 1-2147483647.
-  final int asn;
-
-  /// The name of the virtual interface assigned by the customer network. The name
-  /// has a maximum of 100 characters. The following are valid characters: a-z,
-  /// 0-9 and a hyphen (-).
-  final String virtualInterfaceName;
-
-  /// The ID of the VLAN.
-  final int vlan;
-
-  /// The address family for the BGP peer.
-  final AddressFamily? addressFamily;
-
-  /// The IP address assigned to the Amazon interface.
-  final String? amazonAddress;
-
-  /// The authentication key for BGP configuration. This string has a minimum
-  /// length of 6 characters and and a maximun lenth of 80 characters.
-  final String? authKey;
-
-  /// The IP address assigned to the customer interface.
-  final String? customerAddress;
-
-  /// The routes to be advertised to the Amazon Web Services network in this
-  /// Region. Applies to public virtual interfaces.
-  final List<RouteFilterPrefix>? routeFilterPrefixes;
-
-  /// The tags associated with the public virtual interface.
-  final List<Tag>? tags;
-
-  NewPublicVirtualInterfaceAllocation({
-    required this.asn,
-    required this.virtualInterfaceName,
-    required this.vlan,
-    this.addressFamily,
-    this.amazonAddress,
-    this.authKey,
-    this.customerAddress,
-    this.routeFilterPrefixes,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final asn = this.asn;
-    final virtualInterfaceName = this.virtualInterfaceName;
-    final vlan = this.vlan;
-    final addressFamily = this.addressFamily;
-    final amazonAddress = this.amazonAddress;
-    final authKey = this.authKey;
-    final customerAddress = this.customerAddress;
-    final routeFilterPrefixes = this.routeFilterPrefixes;
-    final tags = this.tags;
-    return {
-      'asn': asn,
-      'virtualInterfaceName': virtualInterfaceName,
-      'vlan': vlan,
-      if (addressFamily != null) 'addressFamily': addressFamily.value,
-      if (amazonAddress != null) 'amazonAddress': amazonAddress,
-      if (authKey != null) 'authKey': authKey,
-      if (customerAddress != null) 'customerAddress': customerAddress,
-      if (routeFilterPrefixes != null)
-        'routeFilterPrefixes': routeFilterPrefixes,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Information about a transit virtual interface.
-class NewTransitVirtualInterface {
-  /// The address family for the BGP peer.
-  final AddressFamily? addressFamily;
-
-  /// The IP address assigned to the Amazon interface.
-  final String? amazonAddress;
-
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
-  ///
-  /// The valid values are 1-2147483647.
-  final int? asn;
-
-  /// The authentication key for BGP configuration. This string has a minimum
-  /// length of 6 characters and and a maximun lenth of 80 characters.
-  final String? authKey;
-
-  /// The IP address assigned to the customer interface.
-  final String? customerAddress;
-
-  /// The ID of the Direct Connect gateway.
-  final String? directConnectGatewayId;
-
-  /// Indicates whether to enable or disable SiteLink.
-  final bool? enableSiteLink;
-
-  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
-  /// and 8500. The default value is 1500.
-  final int? mtu;
-
-  /// The tags associated with the transitive virtual interface.
-  final List<Tag>? tags;
-
-  /// The name of the virtual interface assigned by the customer network. The name
-  /// has a maximum of 100 characters. The following are valid characters: a-z,
-  /// 0-9 and a hyphen (-).
-  final String? virtualInterfaceName;
-
-  /// The ID of the VLAN.
-  final int? vlan;
-
-  NewTransitVirtualInterface({
-    this.addressFamily,
-    this.amazonAddress,
-    this.asn,
-    this.authKey,
-    this.customerAddress,
-    this.directConnectGatewayId,
-    this.enableSiteLink,
-    this.mtu,
-    this.tags,
-    this.virtualInterfaceName,
-    this.vlan,
-  });
-
-  Map<String, dynamic> toJson() {
-    final addressFamily = this.addressFamily;
-    final amazonAddress = this.amazonAddress;
-    final asn = this.asn;
-    final authKey = this.authKey;
-    final customerAddress = this.customerAddress;
-    final directConnectGatewayId = this.directConnectGatewayId;
-    final enableSiteLink = this.enableSiteLink;
-    final mtu = this.mtu;
-    final tags = this.tags;
-    final virtualInterfaceName = this.virtualInterfaceName;
-    final vlan = this.vlan;
-    return {
-      if (addressFamily != null) 'addressFamily': addressFamily.value,
-      if (amazonAddress != null) 'amazonAddress': amazonAddress,
-      if (asn != null) 'asn': asn,
-      if (authKey != null) 'authKey': authKey,
-      if (customerAddress != null) 'customerAddress': customerAddress,
-      if (directConnectGatewayId != null)
-        'directConnectGatewayId': directConnectGatewayId,
-      if (enableSiteLink != null) 'enableSiteLink': enableSiteLink,
-      if (mtu != null) 'mtu': mtu,
-      if (tags != null) 'tags': tags,
-      if (virtualInterfaceName != null)
-        'virtualInterfaceName': virtualInterfaceName,
-      if (vlan != null) 'vlan': vlan,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
 /// Information about a transit virtual interface to be provisioned on a
@@ -6500,11 +7444,46 @@ class NewTransitVirtualInterfaceAllocation {
   /// The IP address assigned to the Amazon interface.
   final String? amazonAddress;
 
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   ///
-  /// The valid values are 1-2147483647.
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  /// The valid values are 1-2147483646.
   final int? asn;
+
+  /// The ASN when allocating a new transit virtual interface. The valid range is
+  /// from 1 to 4294967294 for BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
@@ -6532,6 +7511,7 @@ class NewTransitVirtualInterfaceAllocation {
     this.addressFamily,
     this.amazonAddress,
     this.asn,
+    this.asnLong,
     this.authKey,
     this.customerAddress,
     this.mtu,
@@ -6544,6 +7524,7 @@ class NewTransitVirtualInterfaceAllocation {
     final addressFamily = this.addressFamily;
     final amazonAddress = this.amazonAddress;
     final asn = this.asn;
+    final asnLong = this.asnLong;
     final authKey = this.authKey;
     final customerAddress = this.customerAddress;
     final mtu = this.mtu;
@@ -6554,6 +7535,7 @@ class NewTransitVirtualInterfaceAllocation {
       if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
       if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
       if (authKey != null) 'authKey': authKey,
       if (customerAddress != null) 'customerAddress': customerAddress,
       if (mtu != null) 'mtu': mtu,
@@ -6565,412 +7547,171 @@ class NewTransitVirtualInterfaceAllocation {
   }
 }
 
-class NniPartnerType {
-  static const v1 = NniPartnerType._('v1');
-  static const v2 = NniPartnerType._('v2');
-  static const nonPartner = NniPartnerType._('nonPartner');
+/// Information about a public virtual interface to be provisioned on a
+/// connection.
+class NewPublicVirtualInterfaceAllocation {
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
+  final String virtualInterfaceName;
 
-  final String value;
+  /// The ID of the VLAN.
+  final int vlan;
 
-  const NniPartnerType._(this.value);
-
-  static const values = [v1, v2, nonPartner];
-
-  static NniPartnerType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NniPartnerType._(value));
-
-  @override
-  bool operator ==(other) => other is NniPartnerType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a tag associated with an Direct Connect resource.
-class ResourceTag {
-  /// The Amazon Resource Name (ARN) of the resource.
-  final String? resourceArn;
-
-  /// The tags.
-  final List<Tag>? tags;
-
-  ResourceTag({
-    this.resourceArn,
-    this.tags,
-  });
-
-  factory ResourceTag.fromJson(Map<String, dynamic> json) {
-    return ResourceTag(
-      resourceArn: json['resourceArn'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceArn = this.resourceArn;
-    final tags = this.tags;
-    return {
-      if (resourceArn != null) 'resourceArn': resourceArn,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Information about a route filter prefix that a customer can advertise
-/// through Border Gateway Protocol (BGP) over a public virtual interface.
-class RouteFilterPrefix {
-  /// The CIDR block for the advertised route. Separate multiple routes using
-  /// commas. An IPv6 CIDR must use /64 or shorter.
-  final String? cidr;
-
-  RouteFilterPrefix({
-    this.cidr,
-  });
-
-  factory RouteFilterPrefix.fromJson(Map<String, dynamic> json) {
-    return RouteFilterPrefix(
-      cidr: json['cidr'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cidr = this.cidr;
-    return {
-      if (cidr != null) 'cidr': cidr,
-    };
-  }
-}
-
-/// Information about the virtual router.
-class RouterType {
-  /// The virtual interface router platform.
-  final String? platform;
-
-  /// Identifies the router by a combination of vendor, platform, and software
-  /// version. For example, <code>CiscoSystemsInc-2900SeriesRouters-IOS124</code>.
-  final String? routerTypeIdentifier;
-
-  /// The router software.
-  final String? software;
-
-  /// The vendor for the virtual interface's router.
-  final String? vendor;
-
-  /// The template for the virtual interface's router.
-  final String? xsltTemplateName;
-
-  /// The MAC Security (MACsec) template for the virtual interface's router.
-  final String? xsltTemplateNameForMacSec;
-
-  RouterType({
-    this.platform,
-    this.routerTypeIdentifier,
-    this.software,
-    this.vendor,
-    this.xsltTemplateName,
-    this.xsltTemplateNameForMacSec,
-  });
-
-  factory RouterType.fromJson(Map<String, dynamic> json) {
-    return RouterType(
-      platform: json['platform'] as String?,
-      routerTypeIdentifier: json['routerTypeIdentifier'] as String?,
-      software: json['software'] as String?,
-      vendor: json['vendor'] as String?,
-      xsltTemplateName: json['xsltTemplateName'] as String?,
-      xsltTemplateNameForMacSec: json['xsltTemplateNameForMacSec'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final platform = this.platform;
-    final routerTypeIdentifier = this.routerTypeIdentifier;
-    final software = this.software;
-    final vendor = this.vendor;
-    final xsltTemplateName = this.xsltTemplateName;
-    final xsltTemplateNameForMacSec = this.xsltTemplateNameForMacSec;
-    return {
-      if (platform != null) 'platform': platform,
-      if (routerTypeIdentifier != null)
-        'routerTypeIdentifier': routerTypeIdentifier,
-      if (software != null) 'software': software,
-      if (vendor != null) 'vendor': vendor,
-      if (xsltTemplateName != null) 'xsltTemplateName': xsltTemplateName,
-      if (xsltTemplateNameForMacSec != null)
-        'xsltTemplateNameForMacSec': xsltTemplateNameForMacSec,
-    };
-  }
-}
-
-class StartBgpFailoverTestResponse {
-  /// Information about the virtual interface failover test.
-  final VirtualInterfaceTestHistory? virtualInterfaceTest;
-
-  StartBgpFailoverTestResponse({
-    this.virtualInterfaceTest,
-  });
-
-  factory StartBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) {
-    return StartBgpFailoverTestResponse(
-      virtualInterfaceTest: json['virtualInterfaceTest'] != null
-          ? VirtualInterfaceTestHistory.fromJson(
-              json['virtualInterfaceTest'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final virtualInterfaceTest = this.virtualInterfaceTest;
-    return {
-      if (virtualInterfaceTest != null)
-        'virtualInterfaceTest': virtualInterfaceTest,
-    };
-  }
-}
-
-class StopBgpFailoverTestResponse {
-  /// Information about the virtual interface failover test.
-  final VirtualInterfaceTestHistory? virtualInterfaceTest;
-
-  StopBgpFailoverTestResponse({
-    this.virtualInterfaceTest,
-  });
-
-  factory StopBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) {
-    return StopBgpFailoverTestResponse(
-      virtualInterfaceTest: json['virtualInterfaceTest'] != null
-          ? VirtualInterfaceTestHistory.fromJson(
-              json['virtualInterfaceTest'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final virtualInterfaceTest = this.virtualInterfaceTest;
-    return {
-      if (virtualInterfaceTest != null)
-        'virtualInterfaceTest': virtualInterfaceTest,
-    };
-  }
-}
-
-/// Information about a tag.
-class Tag {
-  /// The key.
-  final String key;
-
-  /// The value.
-  final String? value;
-
-  Tag({
-    required this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['key'] as String?) ?? '',
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'key': key,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDirectConnectGatewayAssociationResult {
-  /// Information about an association between a Direct Connect gateway and a
-  /// virtual private gateway or transit gateway.
-  final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
-
-  UpdateDirectConnectGatewayAssociationResult({
-    this.directConnectGatewayAssociation,
-  });
-
-  factory UpdateDirectConnectGatewayAssociationResult.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateDirectConnectGatewayAssociationResult(
-      directConnectGatewayAssociation:
-          json['directConnectGatewayAssociation'] != null
-              ? DirectConnectGatewayAssociation.fromJson(
-                  json['directConnectGatewayAssociation']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final directConnectGatewayAssociation =
-        this.directConnectGatewayAssociation;
-    return {
-      if (directConnectGatewayAssociation != null)
-        'directConnectGatewayAssociation': directConnectGatewayAssociation,
-    };
-  }
-}
-
-class UpdateDirectConnectGatewayResponse {
-  /// Informaiton about a Direct Connect gateway, which enables you to connect
-  /// virtual interfaces and virtual private gateways or transit gateways.
-  final DirectConnectGateway? directConnectGateway;
-
-  UpdateDirectConnectGatewayResponse({
-    this.directConnectGateway,
-  });
-
-  factory UpdateDirectConnectGatewayResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateDirectConnectGatewayResponse(
-      directConnectGateway: json['directConnectGateway'] != null
-          ? DirectConnectGateway.fromJson(
-              json['directConnectGateway'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final directConnectGateway = this.directConnectGateway;
-    return {
-      if (directConnectGateway != null)
-        'directConnectGateway': directConnectGateway,
-    };
-  }
-}
-
-/// Information about a virtual private gateway for a private virtual interface.
-class VirtualGateway {
-  /// The ID of the virtual private gateway.
-  final String? virtualGatewayId;
-
-  /// The state of the virtual private gateway. The following are the possible
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>pending</code>: Initial state after creating the virtual private
-  /// gateway.
-  /// </li>
-  /// <li>
-  /// <code>available</code>: Ready for use by a private virtual interface.
-  /// </li>
-  /// <li>
-  /// <code>deleting</code>: Initial state after deleting the virtual private
-  /// gateway.
-  /// </li>
-  /// <li>
-  /// <code>deleted</code>: The virtual private gateway is deleted. The private
-  /// virtual interface is unable to send traffic over this gateway.
-  /// </li>
-  /// </ul>
-  final String? virtualGatewayState;
-
-  VirtualGateway({
-    this.virtualGatewayId,
-    this.virtualGatewayState,
-  });
-
-  factory VirtualGateway.fromJson(Map<String, dynamic> json) {
-    return VirtualGateway(
-      virtualGatewayId: json['virtualGatewayId'] as String?,
-      virtualGatewayState: json['virtualGatewayState'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final virtualGatewayId = this.virtualGatewayId;
-    final virtualGatewayState = this.virtualGatewayState;
-    return {
-      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
-      if (virtualGatewayState != null)
-        'virtualGatewayState': virtualGatewayState,
-    };
-  }
-}
-
-class VirtualGateways {
-  /// The virtual private gateways.
-  final List<VirtualGateway>? virtualGateways;
-
-  VirtualGateways({
-    this.virtualGateways,
-  });
-
-  factory VirtualGateways.fromJson(Map<String, dynamic> json) {
-    return VirtualGateways(
-      virtualGateways: (json['virtualGateways'] as List?)
-          ?.nonNulls
-          .map((e) => VirtualGateway.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final virtualGateways = this.virtualGateways;
-    return {
-      if (virtualGateways != null) 'virtualGateways': virtualGateways,
-    };
-  }
-}
-
-/// Information about a virtual interface.
-class VirtualInterface {
   /// The address family for the BGP peer.
   final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
   final String? amazonAddress;
 
-  /// The autonomous system number (ASN) for the Amazon side of the connection.
-  final int? amazonSideAsn;
-
-  /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
-  /// configuration.
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
   ///
-  /// The valid values are 1-2147483647.
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  /// The valid values are 1-2147483646.
   final int? asn;
+
+  /// The ASN when allocating a new public virtual interface. The valid range is
+  /// from 1 to 4294967294 for BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asnLong;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
   final String? authKey;
 
-  /// The Direct Connect endpoint that terminates the physical connection.
+  /// The IP address assigned to the customer interface.
+  final String? customerAddress;
+
+  /// The routes to be advertised to the Amazon Web Services network in this
+  /// Region. Applies to public virtual interfaces.
+  final List<RouteFilterPrefix>? routeFilterPrefixes;
+
+  /// The tags associated with the public virtual interface.
+  final List<Tag>? tags;
+
+  NewPublicVirtualInterfaceAllocation({
+    required this.virtualInterfaceName,
+    required this.vlan,
+    this.addressFamily,
+    this.amazonAddress,
+    this.asn,
+    this.asnLong,
+    this.authKey,
+    this.customerAddress,
+    this.routeFilterPrefixes,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final asnLong = this.asnLong;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final routeFilterPrefixes = this.routeFilterPrefixes;
+    final tags = this.tags;
+    return {
+      'virtualInterfaceName': virtualInterfaceName,
+      'vlan': vlan,
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (routeFilterPrefixes != null)
+        'routeFilterPrefixes': routeFilterPrefixes,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Information about a BGP peer.
+class BGPPeer {
+  /// The address family for the BGP peer.
+  final AddressFamily? addressFamily;
+
+  /// The IP address assigned to the Amazon interface.
+  final String? amazonAddress;
+
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asn;
+
+  /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for
+  /// BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asnLong;
+
+  /// The authentication key for BGP configuration. This string has a minimum
+  /// length of 6 characters and and a maximun lenth of 80 characters.
+  final String? authKey;
+
+  /// The Direct Connect endpoint that terminates the BGP peer.
   final String? awsDeviceV2;
 
   /// The Direct Connect endpoint that terminates the logical connection. This
@@ -6978,280 +7719,131 @@ class VirtualInterface {
   /// connection.
   final String? awsLogicalDeviceId;
 
-  /// The BGP peers configured on this virtual interface.
-  final List<BGPPeer>? bgpPeers;
+  /// The ID of the BGP peer.
+  final String? bgpPeerId;
 
-  /// The ID of the connection.
-  final String? connectionId;
+  /// The state of the BGP peer. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>verifying</code>: The BGP peering addresses or ASN require validation
+  /// before the BGP peer can be created. This state applies only to public
+  /// virtual interfaces.
+  /// </li>
+  /// <li>
+  /// <code>pending</code>: The BGP peer is created, and remains in this state
+  /// until it is ready to be established.
+  /// </li>
+  /// <li>
+  /// <code>available</code>: The BGP peer is ready to be established.
+  /// </li>
+  /// <li>
+  /// <code>deleting</code>: The BGP peer is being deleted.
+  /// </li>
+  /// <li>
+  /// <code>deleted</code>: The BGP peer is deleted and cannot be established.
+  /// </li>
+  /// </ul>
+  final BGPPeerState? bgpPeerState;
+
+  /// The status of the BGP peer. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>up</code>: The BGP peer is established. This state does not indicate
+  /// the state of the routing function. Ensure that you are receiving routes over
+  /// the BGP session.
+  /// </li>
+  /// <li>
+  /// <code>down</code>: The BGP peer is down.
+  /// </li>
+  /// <li>
+  /// <code>unknown</code>: The BGP peer status is not available.
+  /// </li>
+  /// </ul>
+  final BGPStatus? bgpStatus;
 
   /// The IP address assigned to the customer interface.
   final String? customerAddress;
 
-  /// The customer router configuration.
-  final String? customerRouterConfig;
-
-  /// The ID of the Direct Connect gateway.
-  final String? directConnectGatewayId;
-
-  /// Indicates whether jumbo frames are supported.
-  final bool? jumboFrameCapable;
-
-  /// The location of the connection.
-  final String? location;
-
-  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
-  /// and 8500. The default value is 1500
-  final int? mtu;
-
-  /// The ID of the Amazon Web Services account that owns the virtual interface.
-  final String? ownerAccount;
-
-  /// The Amazon Web Services Region where the virtual interface is located.
-  final String? region;
-
-  /// The routes to be advertised to the Amazon Web Services network in this
-  /// Region. Applies to public virtual interfaces.
-  final List<RouteFilterPrefix>? routeFilterPrefixes;
-
-  /// Indicates whether SiteLink is enabled.
-  final bool? siteLinkEnabled;
-
-  /// The tags associated with the virtual interface.
-  final List<Tag>? tags;
-
-  /// The ID of the virtual private gateway. Applies only to private virtual
-  /// interfaces.
-  final String? virtualGatewayId;
-
-  /// The ID of the virtual interface.
-  final String? virtualInterfaceId;
-
-  /// The name of the virtual interface assigned by the customer network. The name
-  /// has a maximum of 100 characters. The following are valid characters: a-z,
-  /// 0-9 and a hyphen (-).
-  final String? virtualInterfaceName;
-
-  /// The state of the virtual interface. The following are the possible values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>confirming</code>: The creation of the virtual interface is pending
-  /// confirmation from the virtual interface owner. If the owner of the virtual
-  /// interface is different from the owner of the connection on which it is
-  /// provisioned, then the virtual interface will remain in this state until it
-  /// is confirmed by the virtual interface owner.
-  /// </li>
-  /// <li>
-  /// <code>verifying</code>: This state only applies to public virtual
-  /// interfaces. Each public virtual interface needs validation before the
-  /// virtual interface can be created.
-  /// </li>
-  /// <li>
-  /// <code>pending</code>: A virtual interface is in this state from the time
-  /// that it is created until the virtual interface is ready to forward traffic.
-  /// </li>
-  /// <li>
-  /// <code>available</code>: A virtual interface that is able to forward traffic.
-  /// </li>
-  /// <li>
-  /// <code>down</code>: A virtual interface that is BGP down.
-  /// </li>
-  /// <li>
-  /// <code>deleting</code>: A virtual interface is in this state immediately
-  /// after calling <a>DeleteVirtualInterface</a> until it can no longer forward
-  /// traffic.
-  /// </li>
-  /// <li>
-  /// <code>deleted</code>: A virtual interface that cannot forward traffic.
-  /// </li>
-  /// <li>
-  /// <code>rejected</code>: The virtual interface owner has declined creation of
-  /// the virtual interface. If a virtual interface in the <code>Confirming</code>
-  /// state is deleted by the virtual interface owner, the virtual interface
-  /// enters the <code>Rejected</code> state.
-  /// </li>
-  /// <li>
-  /// <code>unknown</code>: The state of the virtual interface is not available.
-  /// </li>
-  /// </ul>
-  final VirtualInterfaceState? virtualInterfaceState;
-
-  /// The type of virtual interface. The possible values are <code>private</code>,
-  /// <code>public</code> and <code>transit</code>.
-  final String? virtualInterfaceType;
-
-  /// The ID of the VLAN.
-  final int? vlan;
-
-  VirtualInterface({
+  BGPPeer({
     this.addressFamily,
     this.amazonAddress,
-    this.amazonSideAsn,
     this.asn,
+    this.asnLong,
     this.authKey,
     this.awsDeviceV2,
     this.awsLogicalDeviceId,
-    this.bgpPeers,
-    this.connectionId,
+    this.bgpPeerId,
+    this.bgpPeerState,
+    this.bgpStatus,
     this.customerAddress,
-    this.customerRouterConfig,
-    this.directConnectGatewayId,
-    this.jumboFrameCapable,
-    this.location,
-    this.mtu,
-    this.ownerAccount,
-    this.region,
-    this.routeFilterPrefixes,
-    this.siteLinkEnabled,
-    this.tags,
-    this.virtualGatewayId,
-    this.virtualInterfaceId,
-    this.virtualInterfaceName,
-    this.virtualInterfaceState,
-    this.virtualInterfaceType,
-    this.vlan,
   });
 
-  factory VirtualInterface.fromJson(Map<String, dynamic> json) {
-    return VirtualInterface(
+  factory BGPPeer.fromJson(Map<String, dynamic> json) {
+    return BGPPeer(
       addressFamily:
           (json['addressFamily'] as String?)?.let(AddressFamily.fromString),
       amazonAddress: json['amazonAddress'] as String?,
-      amazonSideAsn: json['amazonSideAsn'] as int?,
       asn: json['asn'] as int?,
+      asnLong: json['asnLong'] as int?,
       authKey: json['authKey'] as String?,
       awsDeviceV2: json['awsDeviceV2'] as String?,
       awsLogicalDeviceId: json['awsLogicalDeviceId'] as String?,
-      bgpPeers: (json['bgpPeers'] as List?)
-          ?.nonNulls
-          .map((e) => BGPPeer.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      connectionId: json['connectionId'] as String?,
+      bgpPeerId: json['bgpPeerId'] as String?,
+      bgpPeerState:
+          (json['bgpPeerState'] as String?)?.let(BGPPeerState.fromString),
+      bgpStatus: (json['bgpStatus'] as String?)?.let(BGPStatus.fromString),
       customerAddress: json['customerAddress'] as String?,
-      customerRouterConfig: json['customerRouterConfig'] as String?,
-      directConnectGatewayId: json['directConnectGatewayId'] as String?,
-      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
-      location: json['location'] as String?,
-      mtu: json['mtu'] as int?,
-      ownerAccount: json['ownerAccount'] as String?,
-      region: json['region'] as String?,
-      routeFilterPrefixes: (json['routeFilterPrefixes'] as List?)
-          ?.nonNulls
-          .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      siteLinkEnabled: json['siteLinkEnabled'] as bool?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      virtualGatewayId: json['virtualGatewayId'] as String?,
-      virtualInterfaceId: json['virtualInterfaceId'] as String?,
-      virtualInterfaceName: json['virtualInterfaceName'] as String?,
-      virtualInterfaceState: (json['virtualInterfaceState'] as String?)
-          ?.let(VirtualInterfaceState.fromString),
-      virtualInterfaceType: json['virtualInterfaceType'] as String?,
-      vlan: json['vlan'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final addressFamily = this.addressFamily;
     final amazonAddress = this.amazonAddress;
-    final amazonSideAsn = this.amazonSideAsn;
     final asn = this.asn;
+    final asnLong = this.asnLong;
     final authKey = this.authKey;
     final awsDeviceV2 = this.awsDeviceV2;
     final awsLogicalDeviceId = this.awsLogicalDeviceId;
-    final bgpPeers = this.bgpPeers;
-    final connectionId = this.connectionId;
+    final bgpPeerId = this.bgpPeerId;
+    final bgpPeerState = this.bgpPeerState;
+    final bgpStatus = this.bgpStatus;
     final customerAddress = this.customerAddress;
-    final customerRouterConfig = this.customerRouterConfig;
-    final directConnectGatewayId = this.directConnectGatewayId;
-    final jumboFrameCapable = this.jumboFrameCapable;
-    final location = this.location;
-    final mtu = this.mtu;
-    final ownerAccount = this.ownerAccount;
-    final region = this.region;
-    final routeFilterPrefixes = this.routeFilterPrefixes;
-    final siteLinkEnabled = this.siteLinkEnabled;
-    final tags = this.tags;
-    final virtualGatewayId = this.virtualGatewayId;
-    final virtualInterfaceId = this.virtualInterfaceId;
-    final virtualInterfaceName = this.virtualInterfaceName;
-    final virtualInterfaceState = this.virtualInterfaceState;
-    final virtualInterfaceType = this.virtualInterfaceType;
-    final vlan = this.vlan;
     return {
       if (addressFamily != null) 'addressFamily': addressFamily.value,
       if (amazonAddress != null) 'amazonAddress': amazonAddress,
-      if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
       if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
       if (authKey != null) 'authKey': authKey,
       if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
       if (awsLogicalDeviceId != null) 'awsLogicalDeviceId': awsLogicalDeviceId,
-      if (bgpPeers != null) 'bgpPeers': bgpPeers,
-      if (connectionId != null) 'connectionId': connectionId,
+      if (bgpPeerId != null) 'bgpPeerId': bgpPeerId,
+      if (bgpPeerState != null) 'bgpPeerState': bgpPeerState.value,
+      if (bgpStatus != null) 'bgpStatus': bgpStatus.value,
       if (customerAddress != null) 'customerAddress': customerAddress,
-      if (customerRouterConfig != null)
-        'customerRouterConfig': customerRouterConfig,
-      if (directConnectGatewayId != null)
-        'directConnectGatewayId': directConnectGatewayId,
-      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
-      if (location != null) 'location': location,
-      if (mtu != null) 'mtu': mtu,
-      if (ownerAccount != null) 'ownerAccount': ownerAccount,
-      if (region != null) 'region': region,
-      if (routeFilterPrefixes != null)
-        'routeFilterPrefixes': routeFilterPrefixes,
-      if (siteLinkEnabled != null) 'siteLinkEnabled': siteLinkEnabled,
-      if (tags != null) 'tags': tags,
-      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
-      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
-      if (virtualInterfaceName != null)
-        'virtualInterfaceName': virtualInterfaceName,
-      if (virtualInterfaceState != null)
-        'virtualInterfaceState': virtualInterfaceState.value,
-      if (virtualInterfaceType != null)
-        'virtualInterfaceType': virtualInterfaceType,
-      if (vlan != null) 'vlan': vlan,
     };
   }
 }
 
-class VirtualInterfaceState {
-  static const confirming = VirtualInterfaceState._('confirming');
-  static const verifying = VirtualInterfaceState._('verifying');
-  static const pending = VirtualInterfaceState._('pending');
-  static const available = VirtualInterfaceState._('available');
-  static const down = VirtualInterfaceState._('down');
-  static const deleting = VirtualInterfaceState._('deleting');
-  static const deleted = VirtualInterfaceState._('deleted');
-  static const rejected = VirtualInterfaceState._('rejected');
-  static const unknown = VirtualInterfaceState._('unknown');
+class BGPPeerState {
+  static const verifying = BGPPeerState._('verifying');
+  static const pending = BGPPeerState._('pending');
+  static const available = BGPPeerState._('available');
+  static const deleting = BGPPeerState._('deleting');
+  static const deleted = BGPPeerState._('deleted');
 
   final String value;
 
-  const VirtualInterfaceState._(this.value);
+  const BGPPeerState._(this.value);
 
-  static const values = [
-    confirming,
-    verifying,
-    pending,
-    available,
-    down,
-    deleting,
-    deleted,
-    rejected,
-    unknown
-  ];
+  static const values = [verifying, pending, available, deleting, deleted];
 
-  static VirtualInterfaceState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VirtualInterfaceState._(value));
+  static BGPPeerState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BGPPeerState._(value));
 
   @override
-  bool operator ==(other) =>
-      other is VirtualInterfaceState && other.value == value;
+  bool operator ==(other) => other is BGPPeerState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7260,104 +7852,137 @@ class VirtualInterfaceState {
   String toString() => value;
 }
 
-/// Information about the virtual interface failover test.
-class VirtualInterfaceTestHistory {
-  /// The BGP peers that were put in the DOWN state as part of the virtual
-  /// interface failover test.
-  final List<String>? bgpPeers;
+class BGPStatus {
+  static const up = BGPStatus._('up');
+  static const down = BGPStatus._('down');
+  static const unknown = BGPStatus._('unknown');
 
-  /// The time that the virtual interface moves out of the DOWN state.
-  final DateTime? endTime;
+  final String value;
 
-  /// The owner ID of the tested virtual interface.
-  final String? ownerAccount;
+  const BGPStatus._(this.value);
 
-  /// The time that the virtual interface moves to the DOWN state.
-  final DateTime? startTime;
+  static const values = [up, down, unknown];
 
-  /// The status of the virtual interface failover test.
-  final String? status;
+  static BGPStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BGPStatus._(value));
 
-  /// The time that the virtual interface failover test ran in minutes.
-  final int? testDurationInMinutes;
+  @override
+  bool operator ==(other) => other is BGPStatus && other.value == value;
 
-  /// The ID of the virtual interface failover test.
-  final String? testId;
+  @override
+  int get hashCode => value.hashCode;
 
-  /// The ID of the tested virtual interface.
-  final String? virtualInterfaceId;
-
-  VirtualInterfaceTestHistory({
-    this.bgpPeers,
-    this.endTime,
-    this.ownerAccount,
-    this.startTime,
-    this.status,
-    this.testDurationInMinutes,
-    this.testId,
-    this.virtualInterfaceId,
-  });
-
-  factory VirtualInterfaceTestHistory.fromJson(Map<String, dynamic> json) {
-    return VirtualInterfaceTestHistory(
-      bgpPeers: (json['bgpPeers'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      endTime: timeStampFromJson(json['endTime']),
-      ownerAccount: json['ownerAccount'] as String?,
-      startTime: timeStampFromJson(json['startTime']),
-      status: json['status'] as String?,
-      testDurationInMinutes: json['testDurationInMinutes'] as int?,
-      testId: json['testId'] as String?,
-      virtualInterfaceId: json['virtualInterfaceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bgpPeers = this.bgpPeers;
-    final endTime = this.endTime;
-    final ownerAccount = this.ownerAccount;
-    final startTime = this.startTime;
-    final status = this.status;
-    final testDurationInMinutes = this.testDurationInMinutes;
-    final testId = this.testId;
-    final virtualInterfaceId = this.virtualInterfaceId;
-    return {
-      if (bgpPeers != null) 'bgpPeers': bgpPeers,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
-      if (ownerAccount != null) 'ownerAccount': ownerAccount,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status,
-      if (testDurationInMinutes != null)
-        'testDurationInMinutes': testDurationInMinutes,
-      if (testId != null) 'testId': testId,
-      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
-class VirtualInterfaces {
-  /// The virtual interfaces
-  final List<VirtualInterface>? virtualInterfaces;
+/// Information about a private virtual interface to be provisioned on a
+/// connection.
+class NewPrivateVirtualInterfaceAllocation {
+  /// The name of the virtual interface assigned by the customer network. The name
+  /// has a maximum of 100 characters. The following are valid characters: a-z,
+  /// 0-9 and a hyphen (-).
+  final String virtualInterfaceName;
 
-  VirtualInterfaces({
-    this.virtualInterfaces,
+  /// The ID of the VLAN.
+  final int vlan;
+
+  /// The address family for the BGP peer.
+  final AddressFamily? addressFamily;
+
+  /// The IP address assigned to the Amazon interface.
+  final String? amazonAddress;
+
+  /// The autonomous system number (ASN). The valid range is from 1 to 2147483646
+  /// for Border Gateway Protocol (BGP) configuration. If you provide a number
+  /// greater than the maximum, an error is returned. Use <code>asnLong</code>
+  /// instead.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  /// The valid values are 1-2147483646.
+  final int? asn;
+
+  /// The ASN when allocating a new private virtual interface. The valid range is
+  /// from 1 to 4294967294 for BGP configuration.
+  /// <note>
+  /// You can use <code>asnLong</code> or <code>asn</code>, but not both. We
+  /// recommend using <code>asnLong</code> as it supports a greater pool of
+  /// numbers.
+  ///
+  /// <ul>
+  /// <li>
+  /// The <code>asnLong</code> attribute accepts both ASN and long ASN ranges.
+  /// </li>
+  /// <li>
+  /// If you provide a value in the same API call for both <code>asn</code> and
+  /// <code>asnLong</code>, the API will only accept the value for
+  /// <code>asnLong</code>.
+  /// </li>
+  /// </ul> </note>
+  final int? asnLong;
+
+  /// The authentication key for BGP configuration. This string has a minimum
+  /// length of 6 characters and and a maximun lenth of 80 characters.
+  final String? authKey;
+
+  /// The IP address assigned to the customer interface.
+  final String? customerAddress;
+
+  /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
+  /// and 8500. The default value is 1500.
+  final int? mtu;
+
+  /// The tags associated with the private virtual interface.
+  final List<Tag>? tags;
+
+  NewPrivateVirtualInterfaceAllocation({
+    required this.virtualInterfaceName,
+    required this.vlan,
+    this.addressFamily,
+    this.amazonAddress,
+    this.asn,
+    this.asnLong,
+    this.authKey,
+    this.customerAddress,
+    this.mtu,
+    this.tags,
   });
 
-  factory VirtualInterfaces.fromJson(Map<String, dynamic> json) {
-    return VirtualInterfaces(
-      virtualInterfaces: (json['virtualInterfaces'] as List?)
-          ?.nonNulls
-          .map((e) => VirtualInterface.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final virtualInterfaces = this.virtualInterfaces;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final asnLong = this.asnLong;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final mtu = this.mtu;
+    final tags = this.tags;
     return {
-      if (virtualInterfaces != null) 'virtualInterfaces': virtualInterfaces,
+      'virtualInterfaceName': virtualInterfaceName,
+      'vlan': vlan,
+      if (addressFamily != null) 'addressFamily': addressFamily.value,
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (asnLong != null) 'asnLong': asnLong,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (mtu != null) 'mtu': mtu,
+      if (tags != null) 'tags': tags,
     };
   }
 }

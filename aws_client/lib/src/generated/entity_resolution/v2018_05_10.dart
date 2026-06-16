@@ -50,7 +50,6 @@ class EntityResolution {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'entityresolution',
-            signingName: 'entityresolution',
           ),
           region: region,
           credentials: credentials,
@@ -70,11 +69,11 @@ class EntityResolution {
   /// Adds a policy statement object. To retrieve a list of existing policy
   /// statements, use the <code>GetPolicy</code> API.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [action] :
@@ -169,13 +168,16 @@ class EntityResolution {
   /// Creates an <code>IdMappingWorkflow</code> object which stores the
   /// configuration of the data processing job to be run. Each
   /// <code>IdMappingWorkflow</code> must have a unique workflow name. To modify
-  /// an existing workflow, use the <code>UpdateIdMappingWorkflow</code> API.
+  /// an existing workflow, use the UpdateIdMappingWorkflow API.
+  /// <important>
+  /// Incremental processing is not supported for ID mapping workflows.
+  /// </important>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ExceedsLimitException].
   /// May throw [ConflictException].
+  /// May throw [ExceedsLimitException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [idMappingTechniques] :
@@ -193,9 +195,12 @@ class EntityResolution {
   /// Parameter [description] :
   /// A description of the workflow.
   ///
+  /// Parameter [incrementalRunConfig] :
+  /// The incremental run configuration for the ID mapping workflow.
+  ///
   /// Parameter [outputSourceConfig] :
   /// A list of <code>IdMappingWorkflowOutputSource</code> objects, each of
-  /// which contains fields <code>OutputS3Path</code> and <code>Output</code>.
+  /// which contains fields <code>outputS3Path</code> and <code>KMSArn</code>.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
@@ -209,6 +214,7 @@ class EntityResolution {
     required List<IdMappingWorkflowInputSource> inputSourceConfig,
     required String workflowName,
     String? description,
+    IdMappingIncrementalRunConfig? incrementalRunConfig,
     List<IdMappingWorkflowOutputSource>? outputSourceConfig,
     String? roleArn,
     Map<String, String>? tags,
@@ -218,6 +224,8 @@ class EntityResolution {
       'inputSourceConfig': inputSourceConfig,
       'workflowName': workflowName,
       if (description != null) 'description': description,
+      if (incrementalRunConfig != null)
+        'incrementalRunConfig': incrementalRunConfig,
       if (outputSourceConfig != null) 'outputSourceConfig': outputSourceConfig,
       if (roleArn != null) 'roleArn': roleArn,
       if (tags != null) 'tags': tags,
@@ -233,14 +241,14 @@ class EntityResolution {
 
   /// Creates an ID namespace object which will help customers provide metadata
   /// explaining their dataset and how to use it. Each ID namespace must have a
-  /// unique name. To modify an existing ID namespace, use the
-  /// <code>UpdateIdNamespace</code> API.
+  /// unique name. To modify an existing ID namespace, use the UpdateIdNamespace
+  /// API.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ExceedsLimitException].
   /// May throw [ConflictException].
+  /// May throw [ExceedsLimitException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [idNamespaceName] :
@@ -303,17 +311,20 @@ class EntityResolution {
     return CreateIdNamespaceOutput.fromJson(response);
   }
 
-  /// Creates a <code>MatchingWorkflow</code> object which stores the
-  /// configuration of the data processing job to be run. It is important to
-  /// note that there should not be a pre-existing <code>MatchingWorkflow</code>
-  /// with the same name. To modify an existing workflow, utilize the
-  /// <code>UpdateMatchingWorkflow</code> API.
+  /// Creates a matching workflow that defines the configuration for a data
+  /// processing job. The workflow name must be unique. To modify an existing
+  /// workflow, use <code>UpdateMatchingWorkflow</code>.
+  /// <important>
+  /// For workflows where <code>resolutionType</code> is
+  /// <code>ML_MATCHING</code> or <code>PROVIDER</code>, incremental processing
+  /// is not supported.
+  /// </important>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ExceedsLimitException].
   /// May throw [ConflictException].
+  /// May throw [ExceedsLimitException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [inputSourceConfig] :
@@ -322,8 +333,8 @@ class EntityResolution {
   ///
   /// Parameter [outputSourceConfig] :
   /// A list of <code>OutputSource</code> objects, each of which contains fields
-  /// <code>OutputS3Path</code>, <code>ApplyNormalization</code>, and
-  /// <code>Output</code>.
+  /// <code>outputS3Path</code>, <code>applyNormalization</code>,
+  /// <code>KMSArn</code>, and <code>output</code>.
   ///
   /// Parameter [resolutionTechniques] :
   /// An object which defines the <code>resolutionType</code> and the
@@ -342,8 +353,14 @@ class EntityResolution {
   /// A description of the workflow.
   ///
   /// Parameter [incrementalRunConfig] :
-  /// An object which defines an incremental run type and has only
-  /// <code>incrementalRunType</code> as a field.
+  /// Optional. An object that defines the incremental run type. This object
+  /// contains only the <code>incrementalRunType</code> field, which appears as
+  /// "Automatic" in the console.
+  /// <important>
+  /// For workflows where <code>resolutionType</code> is
+  /// <code>ML_MATCHING</code> or <code>PROVIDER</code>, incremental processing
+  /// is not supported.
+  /// </important>
   ///
   /// Parameter [tags] :
   /// The tags used to organize, track, or control access for this resource.
@@ -382,11 +399,11 @@ class EntityResolution {
   /// Resolution with some metadata about the table, such as the attribute types
   /// of the columns and which columns to match on.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ExceedsLimitException].
   /// May throw [ConflictException].
+  /// May throw [ExceedsLimitException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [mappedInputFields] :
@@ -429,10 +446,10 @@ class EntityResolution {
   /// operation will succeed even if a workflow with the given name does not
   /// exist.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [workflowName] :
@@ -451,9 +468,9 @@ class EntityResolution {
 
   /// Deletes the <code>IdNamespace</code> with a given name.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [idNamespaceName] :
@@ -474,10 +491,10 @@ class EntityResolution {
   /// operation will succeed even if a workflow with the given name does not
   /// exist.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [workflowName] :
@@ -496,11 +513,11 @@ class EntityResolution {
 
   /// Deletes the policy statement.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
@@ -529,10 +546,10 @@ class EntityResolution {
   /// that references the <code>SchemaMapping</code> in the workflow's
   /// <code>InputSourceConfig</code>.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [schemaName] :
@@ -549,13 +566,77 @@ class EntityResolution {
     return DeleteSchemaMappingOutput.fromJson(response);
   }
 
-  /// Gets the status, metrics, and errors (if there are any) that are
-  /// associated with a job.
+  /// Generates or retrieves Match IDs for records using a rule-based matching
+  /// workflow. When you call this operation, it processes your records against
+  /// the workflow's matching rules to identify potential matches. For existing
+  /// records, it retrieves their Match IDs and associated rules. For records
+  /// without matches, it generates new Match IDs. The operation saves results
+  /// to Amazon S3.
   ///
-  /// May throw [ThrottlingException].
+  /// The processing type (<code>processingType</code>) you choose affects both
+  /// the accuracy and response time of the operation. Additional charges apply
+  /// for each API call, whether made through the Entity Resolution console or
+  /// directly via the API. The rule-based matching workflow must exist and be
+  /// active before calling this operation.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [records] :
+  /// The records to match.
+  ///
+  /// Parameter [workflowName] :
+  /// The name of the rule-based matching workflow.
+  ///
+  /// Parameter [processingType] :
+  /// The processing mode that determines how Match IDs are generated and
+  /// results are saved. Each mode provides different levels of accuracy,
+  /// response time, and completeness of results.
+  ///
+  /// If not specified, defaults to <code>CONSISTENT</code>.
+  ///
+  /// <code>CONSISTENT</code>: Performs immediate lookup and matching against
+  /// all existing records, with results saved synchronously. Provides highest
+  /// accuracy but slower response time.
+  ///
+  /// <code>EVENTUAL</code> (shown as <i>Background</i> in the console):
+  /// Performs initial match ID lookup or generation immediately, with record
+  /// updates processed asynchronously in the background. Offers faster initial
+  /// response time, with complete matching results available later in S3.
+  ///
+  /// <code>EVENTUAL_NO_LOOKUP</code> (shown as <i>Quick ID generation</i> in
+  /// the console): Generates new match IDs without checking existing matches,
+  /// with updates processed asynchronously. Provides fastest response time but
+  /// should only be used for records known to be unique.
+  Future<GenerateMatchIdOutput> generateMatchId({
+    required List<Record> records,
+    required String workflowName,
+    ProcessingType? processingType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'records': records,
+      if (processingType != null) 'processingType': processingType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/matchingworkflows/${Uri.encodeComponent(workflowName)}/generateMatches',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GenerateMatchIdOutput.fromJson(response);
+  }
+
+  /// Returns the status, metrics, and errors (if there are any) that are
+  /// associated with a job.
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [jobId] :
@@ -580,10 +661,10 @@ class EntityResolution {
   /// Returns the <code>IdMappingWorkflow</code> with a given name, if it
   /// exists.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [workflowName] :
@@ -602,10 +683,10 @@ class EntityResolution {
 
   /// Returns the <code>IdNamespace</code> with a given name, if it exists.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [idNamespaceName] :
@@ -623,12 +704,15 @@ class EntityResolution {
   }
 
   /// Returns the corresponding Match ID of a customer record if the record has
-  /// been processed.
+  /// been processed in a rule-based matching workflow.
   ///
-  /// May throw [ThrottlingException].
+  /// You can call this API as a dry run of an incremental load on the
+  /// rule-based matching workflow.
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [record] :
@@ -662,13 +746,13 @@ class EntityResolution {
     return GetMatchIdOutput.fromJson(response);
   }
 
-  /// Gets the status, metrics, and errors (if there are any) that are
+  /// Returns the status, metrics, and errors (if there are any) that are
   /// associated with a job.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [jobId] :
@@ -692,10 +776,10 @@ class EntityResolution {
 
   /// Returns the <code>MatchingWorkflow</code> with a given name, if it exists.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [workflowName] :
@@ -714,10 +798,10 @@ class EntityResolution {
 
   /// Returns the resource-based policy.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
@@ -737,10 +821,10 @@ class EntityResolution {
 
   /// Returns the <code>ProviderService</code> of a given name.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [providerName] :
@@ -765,10 +849,10 @@ class EntityResolution {
 
   /// Returns the SchemaMapping of a given name.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [schemaName] :
@@ -787,10 +871,10 @@ class EntityResolution {
 
   /// Lists all ID mapping jobs for a given workflow.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [workflowName] :
@@ -806,12 +890,6 @@ class EntityResolution {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      25,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -830,9 +908,9 @@ class EntityResolution {
   /// Returns a list of all the <code>IdMappingWorkflows</code> that have been
   /// created for an Amazon Web Services account.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -844,12 +922,6 @@ class EntityResolution {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      25,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -866,9 +938,9 @@ class EntityResolution {
 
   /// Returns a list of all ID namespaces.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -880,12 +952,6 @@ class EntityResolution {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      25,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -902,10 +968,10 @@ class EntityResolution {
 
   /// Lists all jobs for a given workflow.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [workflowName] :
@@ -921,12 +987,6 @@ class EntityResolution {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      25,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -945,9 +1005,9 @@ class EntityResolution {
   /// Returns a list of all the <code>MatchingWorkflows</code> that have been
   /// created for an Amazon Web Services account.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -959,12 +1019,6 @@ class EntityResolution {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      25,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -982,9 +1036,9 @@ class EntityResolution {
   /// Returns a list of all the <code>ProviderServices</code> that are available
   /// in this Amazon Web Services Region.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -1000,12 +1054,6 @@ class EntityResolution {
     String? nextToken,
     String? providerName,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      15,
-      25,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1024,9 +1072,9 @@ class EntityResolution {
   /// Returns a list of all the <code>SchemaMappings</code> that have been
   /// created for an Amazon Web Services account.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
@@ -1038,12 +1086,6 @@ class EntityResolution {
     int? maxResults,
     String? nextToken,
   }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      25,
-    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -1082,11 +1124,11 @@ class EntityResolution {
 
   /// Updates the resource-based policy.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [arn] :
@@ -1127,24 +1169,42 @@ class EntityResolution {
   /// previously been created using the <code>CreateIdMappingWorkflow</code>
   /// endpoint.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ExceedsLimitException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ExceedsLimitException].
-  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [workflowName] :
   /// The name of the ID mapping job to be retrieved.
   ///
+  /// Parameter [jobType] :
+  /// The job type for the ID mapping job.
+  ///
+  /// If the <code>jobType</code> value is set to <code>INCREMENTAL</code>, only
+  /// new or changed data is processed since the last job run. This is the
+  /// default value if the <code>CreateIdMappingWorkflow</code> API is
+  /// configured with an <code>incrementalRunConfig</code>.
+  ///
+  /// If the <code>jobType</code> value is set to <code>BATCH</code>, all data
+  /// is processed from the input source, regardless of previous job runs. This
+  /// is the default value if the <code>CreateIdMappingWorkflow</code> API isn't
+  /// configured with an <code>incrementalRunConfig</code>.
+  ///
+  /// If the <code>jobType</code> value is set to <code>DELETE_ONLY</code>, only
+  /// deletion requests from <code>BatchDeleteUniqueIds</code> are processed.
+  ///
   /// Parameter [outputSourceConfig] :
   /// A list of <code>OutputSource</code> objects.
   Future<StartIdMappingJobOutput> startIdMappingJob({
     required String workflowName,
+    JobType? jobType,
     List<IdMappingJobOutputSource>? outputSourceConfig,
   }) async {
     final $payload = <String, dynamic>{
+      if (jobType != null) 'jobType': jobType.value,
       if (outputSourceConfig != null) 'outputSourceConfig': outputSourceConfig,
     };
     final response = await _protocol.send(
@@ -1161,12 +1221,12 @@ class EntityResolution {
   /// previously been created using the <code>CreateMatchingWorkflow</code>
   /// endpoint.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ExceedsLimitException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ExceedsLimitException].
-  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [workflowName] :
@@ -1250,15 +1310,18 @@ class EntityResolution {
   }
 
   /// Updates an existing <code>IdMappingWorkflow</code>. This method is
-  /// identical to <code>CreateIdMappingWorkflow</code>, except it uses an HTTP
+  /// identical to CreateIdMappingWorkflow, except it uses an HTTP
   /// <code>PUT</code> request instead of a <code>POST</code> request, and the
   /// <code>IdMappingWorkflow</code> must already exist for the method to
   /// succeed.
+  /// <important>
+  /// Incremental processing is not supported for ID mapping workflows.
+  /// </important>
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [idMappingTechniques] :
@@ -1275,9 +1338,12 @@ class EntityResolution {
   /// Parameter [description] :
   /// A description of the workflow.
   ///
+  /// Parameter [incrementalRunConfig] :
+  /// The incremental run configuration for the update ID mapping workflow.
+  ///
   /// Parameter [outputSourceConfig] :
   /// A list of <code>OutputSource</code> objects, each of which contains fields
-  /// <code>OutputS3Path</code> and <code>KMSArn</code>.
+  /// <code>outputS3Path</code> and <code>KMSArn</code>.
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
@@ -1287,6 +1353,7 @@ class EntityResolution {
     required List<IdMappingWorkflowInputSource> inputSourceConfig,
     required String workflowName,
     String? description,
+    IdMappingIncrementalRunConfig? incrementalRunConfig,
     List<IdMappingWorkflowOutputSource>? outputSourceConfig,
     String? roleArn,
   }) async {
@@ -1294,6 +1361,8 @@ class EntityResolution {
       'idMappingTechniques': idMappingTechniques,
       'inputSourceConfig': inputSourceConfig,
       if (description != null) 'description': description,
+      if (incrementalRunConfig != null)
+        'incrementalRunConfig': incrementalRunConfig,
       if (outputSourceConfig != null) 'outputSourceConfig': outputSourceConfig,
       if (roleArn != null) 'roleArn': roleArn,
     };
@@ -1308,10 +1377,10 @@ class EntityResolution {
 
   /// Updates an existing ID namespace.
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [idNamespaceName] :
@@ -1356,16 +1425,18 @@ class EntityResolution {
     return UpdateIdNamespaceOutput.fromJson(response);
   }
 
-  /// Updates an existing <code>MatchingWorkflow</code>. This method is
-  /// identical to <code>CreateMatchingWorkflow</code>, except it uses an HTTP
-  /// <code>PUT</code> request instead of a <code>POST</code> request, and the
-  /// <code>MatchingWorkflow</code> must already exist for the method to
-  /// succeed.
+  /// Updates an existing matching workflow. The workflow must already exist for
+  /// this operation to succeed.
+  /// <important>
+  /// For workflows where <code>resolutionType</code> is
+  /// <code>ML_MATCHING</code> or <code>PROVIDER</code>, incremental processing
+  /// is not supported.
+  /// </important>
   ///
-  /// May throw [ThrottlingException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [inputSourceConfig] :
@@ -1374,8 +1445,8 @@ class EntityResolution {
   ///
   /// Parameter [outputSourceConfig] :
   /// A list of <code>OutputSource</code> objects, each of which contains fields
-  /// <code>OutputS3Path</code>, <code>ApplyNormalization</code>, and
-  /// <code>Output</code>.
+  /// <code>outputS3Path</code>, <code>applyNormalization</code>,
+  /// <code>KMSArn</code>, and <code>output</code>.
   ///
   /// Parameter [resolutionTechniques] :
   /// An object which defines the <code>resolutionType</code> and the
@@ -1393,8 +1464,14 @@ class EntityResolution {
   /// A description of the workflow.
   ///
   /// Parameter [incrementalRunConfig] :
-  /// An object which defines an incremental run type and has only
-  /// <code>incrementalRunType</code> as a field.
+  /// Optional. An object that defines the incremental run type. This object
+  /// contains only the <code>incrementalRunType</code> field, which appears as
+  /// "Automatic" in the console.
+  /// <important>
+  /// For workflows where <code>resolutionType</code> is
+  /// <code>ML_MATCHING</code> or <code>PROVIDER</code>, incremental processing
+  /// is not supported.
+  /// </important>
   Future<UpdateMatchingWorkflowOutput> updateMatchingWorkflow({
     required List<InputSource> inputSourceConfig,
     required List<OutputSource> outputSourceConfig,
@@ -1428,11 +1505,11 @@ class EntityResolution {
   /// can't update a schema mapping if it's associated with a workflow.
   /// </note>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [mappedInputFields] :
@@ -1501,31 +1578,6 @@ class AddPolicyStatementOutput {
       if (policy != null) 'policy': policy,
     };
   }
-}
-
-class AttributeMatchingModel {
-  static const oneToOne = AttributeMatchingModel._('ONE_TO_ONE');
-  static const manyToMany = AttributeMatchingModel._('MANY_TO_MANY');
-
-  final String value;
-
-  const AttributeMatchingModel._(this.value);
-
-  static const values = [oneToOne, manyToMany];
-
-  static AttributeMatchingModel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AttributeMatchingModel._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AttributeMatchingModel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class BatchDeleteUniqueIdOutput {
@@ -1601,8 +1653,11 @@ class CreateIdMappingWorkflowOutput {
   /// A description of the workflow.
   final String? description;
 
+  /// The incremental run configuration for the ID mapping workflow.
+  final IdMappingIncrementalRunConfig? incrementalRunConfig;
+
   /// A list of <code>IdMappingWorkflowOutputSource</code> objects, each of which
-  /// contains fields <code>OutputS3Path</code> and <code>Output</code>.
+  /// contains fields <code>outputS3Path</code> and <code>KMSArn</code>.
   final List<IdMappingWorkflowOutputSource>? outputSourceConfig;
 
   /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
@@ -1615,6 +1670,7 @@ class CreateIdMappingWorkflowOutput {
     required this.workflowArn,
     required this.workflowName,
     this.description,
+    this.incrementalRunConfig,
     this.outputSourceConfig,
     this.roleArn,
   });
@@ -1632,6 +1688,10 @@ class CreateIdMappingWorkflowOutput {
       workflowArn: (json['workflowArn'] as String?) ?? '',
       workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
+      incrementalRunConfig: json['incrementalRunConfig'] != null
+          ? IdMappingIncrementalRunConfig.fromJson(
+              json['incrementalRunConfig'] as Map<String, dynamic>)
+          : null,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -1647,6 +1707,7 @@ class CreateIdMappingWorkflowOutput {
     final workflowArn = this.workflowArn;
     final workflowName = this.workflowName;
     final description = this.description;
+    final incrementalRunConfig = this.incrementalRunConfig;
     final outputSourceConfig = this.outputSourceConfig;
     final roleArn = this.roleArn;
     return {
@@ -1655,6 +1716,8 @@ class CreateIdMappingWorkflowOutput {
       'workflowArn': workflowArn,
       'workflowName': workflowName,
       if (description != null) 'description': description,
+      if (incrementalRunConfig != null)
+        'incrementalRunConfig': incrementalRunConfig,
       if (outputSourceConfig != null) 'outputSourceConfig': outputSourceConfig,
       if (roleArn != null) 'roleArn': roleArn,
     };
@@ -1776,8 +1839,8 @@ class CreateMatchingWorkflowOutput {
   final List<InputSource> inputSourceConfig;
 
   /// A list of <code>OutputSource</code> objects, each of which contains fields
-  /// <code>OutputS3Path</code>, <code>ApplyNormalization</code>, and
-  /// <code>Output</code>.
+  /// <code>outputS3Path</code>, <code>applyNormalization</code>,
+  /// <code>KMSArn</code>, and <code>output</code>.
   final List<OutputSource> outputSourceConfig;
 
   /// An object which defines the <code>resolutionType</code> and the
@@ -2033,141 +2096,37 @@ class DeleteSchemaMappingOutput {
   }
 }
 
-/// The Delete Unique Id error.
-class DeleteUniqueIdError {
-  /// The error type for the batch delete unique ID operation.
-  final DeleteUniqueIdErrorType errorType;
+class GenerateMatchIdOutput {
+  /// The records that didn't receive a generated Match ID.
+  final List<FailedRecord> failedRecords;
 
-  /// The unique ID that could not be deleted.
-  final String uniqueId;
+  /// The match groups from the generated match ID.
+  final List<MatchGroup> matchGroups;
 
-  DeleteUniqueIdError({
-    required this.errorType,
-    required this.uniqueId,
+  GenerateMatchIdOutput({
+    required this.failedRecords,
+    required this.matchGroups,
   });
 
-  factory DeleteUniqueIdError.fromJson(Map<String, dynamic> json) {
-    return DeleteUniqueIdError(
-      errorType: DeleteUniqueIdErrorType.fromString(
-          (json['errorType'] as String?) ?? ''),
-      uniqueId: (json['uniqueId'] as String?) ?? '',
+  factory GenerateMatchIdOutput.fromJson(Map<String, dynamic> json) {
+    return GenerateMatchIdOutput(
+      failedRecords: ((json['failedRecords'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => FailedRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      matchGroups: ((json['matchGroups'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => MatchGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final errorType = this.errorType;
-    final uniqueId = this.uniqueId;
+    final failedRecords = this.failedRecords;
+    final matchGroups = this.matchGroups;
     return {
-      'errorType': errorType.value,
-      'uniqueId': uniqueId,
-    };
-  }
-}
-
-class DeleteUniqueIdErrorType {
-  static const serviceError = DeleteUniqueIdErrorType._('SERVICE_ERROR');
-  static const validationError = DeleteUniqueIdErrorType._('VALIDATION_ERROR');
-
-  final String value;
-
-  const DeleteUniqueIdErrorType._(this.value);
-
-  static const values = [serviceError, validationError];
-
-  static DeleteUniqueIdErrorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeleteUniqueIdErrorType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeleteUniqueIdErrorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeleteUniqueIdStatus {
-  static const completed = DeleteUniqueIdStatus._('COMPLETED');
-  static const accepted = DeleteUniqueIdStatus._('ACCEPTED');
-
-  final String value;
-
-  const DeleteUniqueIdStatus._(this.value);
-
-  static const values = [completed, accepted];
-
-  static DeleteUniqueIdStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeleteUniqueIdStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeleteUniqueIdStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The deleted unique ID.
-class DeletedUniqueId {
-  /// The unique ID of the deleted item.
-  final String uniqueId;
-
-  DeletedUniqueId({
-    required this.uniqueId,
-  });
-
-  factory DeletedUniqueId.fromJson(Map<String, dynamic> json) {
-    return DeletedUniqueId(
-      uniqueId: (json['uniqueId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final uniqueId = this.uniqueId;
-    return {
-      'uniqueId': uniqueId,
-    };
-  }
-}
-
-class Document {
-  Document();
-
-  factory Document.fromJson(Map<String, dynamic> _) {
-    return Document();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An object containing an error message, if there was an error.
-class ErrorDetails {
-  /// The error message from the job, if there is one.
-  final String? errorMessage;
-
-  ErrorDetails({
-    this.errorMessage,
-  });
-
-  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
-    return ErrorDetails(
-      errorMessage: json['errorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorMessage = this.errorMessage;
-    return {
-      if (errorMessage != null) 'errorMessage': errorMessage,
+      'failedRecords': failedRecords,
+      'matchGroups': matchGroups,
     };
   }
 }
@@ -2186,6 +2145,20 @@ class GetIdMappingJobOutput {
   final DateTime? endTime;
   final ErrorDetails? errorDetails;
 
+  /// The job type of the ID mapping job.
+  ///
+  /// A value of <code>INCREMENTAL</code> indicates that only new or changed data
+  /// was processed since the last job run. This is the default job type if the
+  /// workflow was created with an <code>incrementalRunConfig</code>.
+  ///
+  /// A value of <code>BATCH</code> indicates that all data was processed from the
+  /// input source, regardless of previous job runs. This is the default job type
+  /// if the workflow wasn't created with an <code>incrementalRunConfig</code>.
+  ///
+  /// A value of <code>DELETE_ONLY</code> indicates that only deletion requests
+  /// from <code>BatchDeleteUniqueIds</code> were processed.
+  final JobType? jobType;
+
   /// Metrics associated with the execution, specifically total records processed,
   /// unique IDs generated, and records the execution skipped.
   final IdMappingJobMetrics? metrics;
@@ -2199,6 +2172,7 @@ class GetIdMappingJobOutput {
     required this.status,
     this.endTime,
     this.errorDetails,
+    this.jobType,
     this.metrics,
     this.outputSourceConfig,
   });
@@ -2212,6 +2186,7 @@ class GetIdMappingJobOutput {
       errorDetails: json['errorDetails'] != null
           ? ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>)
           : null,
+      jobType: (json['jobType'] as String?)?.let(JobType.fromString),
       metrics: json['metrics'] != null
           ? IdMappingJobMetrics.fromJson(
               json['metrics'] as Map<String, dynamic>)
@@ -2230,6 +2205,7 @@ class GetIdMappingJobOutput {
     final status = this.status;
     final endTime = this.endTime;
     final errorDetails = this.errorDetails;
+    final jobType = this.jobType;
     final metrics = this.metrics;
     final outputSourceConfig = this.outputSourceConfig;
     return {
@@ -2238,6 +2214,7 @@ class GetIdMappingJobOutput {
       'status': status.value,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (errorDetails != null) 'errorDetails': errorDetails,
+      if (jobType != null) 'jobType': jobType.value,
       if (metrics != null) 'metrics': metrics,
       if (outputSourceConfig != null) 'outputSourceConfig': outputSourceConfig,
     };
@@ -2269,8 +2246,11 @@ class GetIdMappingWorkflowOutput {
   /// A description of the workflow.
   final String? description;
 
+  /// The incremental run configuration for the ID mapping workflow.
+  final IdMappingIncrementalRunConfig? incrementalRunConfig;
+
   /// A list of <code>OutputSource</code> objects, each of which contains fields
-  /// <code>OutputS3Path</code> and <code>KMSArn</code>.
+  /// <code>outputS3Path</code> and <code>KMSArn</code>.
   final List<IdMappingWorkflowOutputSource>? outputSourceConfig;
 
   /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
@@ -2288,6 +2268,7 @@ class GetIdMappingWorkflowOutput {
     required this.workflowArn,
     required this.workflowName,
     this.description,
+    this.incrementalRunConfig,
     this.outputSourceConfig,
     this.roleArn,
     this.tags,
@@ -2308,6 +2289,10 @@ class GetIdMappingWorkflowOutput {
       workflowArn: (json['workflowArn'] as String?) ?? '',
       workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
+      incrementalRunConfig: json['incrementalRunConfig'] != null
+          ? IdMappingIncrementalRunConfig.fromJson(
+              json['incrementalRunConfig'] as Map<String, dynamic>)
+          : null,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -2327,6 +2312,7 @@ class GetIdMappingWorkflowOutput {
     final workflowArn = this.workflowArn;
     final workflowName = this.workflowName;
     final description = this.description;
+    final incrementalRunConfig = this.incrementalRunConfig;
     final outputSourceConfig = this.outputSourceConfig;
     final roleArn = this.roleArn;
     final tags = this.tags;
@@ -2338,6 +2324,8 @@ class GetIdMappingWorkflowOutput {
       'workflowArn': workflowArn,
       'workflowName': workflowName,
       if (description != null) 'description': description,
+      if (incrementalRunConfig != null)
+        'incrementalRunConfig': incrementalRunConfig,
       if (outputSourceConfig != null) 'outputSourceConfig': outputSourceConfig,
       if (roleArn != null) 'roleArn': roleArn,
       if (tags != null) 'tags': tags,
@@ -2484,7 +2472,7 @@ class GetMatchIdOutput {
 }
 
 class GetMatchingJobOutput {
-  /// The ID of the job.
+  /// The unique identifier of the matching job.
   final String jobId;
 
   /// The time at which the job was started.
@@ -2564,8 +2552,8 @@ class GetMatchingWorkflowOutput {
   final List<InputSource> inputSourceConfig;
 
   /// A list of <code>OutputSource</code> objects, each of which contains fields
-  /// <code>OutputS3Path</code>, <code>ApplyNormalization</code>, and
-  /// <code>Output</code>.
+  /// <code>outputS3Path</code>, <code>applyNormalization</code>,
+  /// <code>KMSArn</code>, and <code>output</code>.
   final List<OutputSource> outputSourceConfig;
 
   /// An object which defines the <code>resolutionType</code> and the
@@ -2860,7 +2848,7 @@ class GetSchemaMappingOutput {
 
   /// A list of <code>MappedInputFields</code>. Each <code>MappedInputField</code>
   /// corresponds to a column the source data table, and contains column name plus
-  /// additional information Venice uses for matching.
+  /// additional information Entity Resolution uses for matching.
   final List<SchemaInputAttribute> mappedInputFields;
 
   /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
@@ -2925,892 +2913,6 @@ class GetSchemaMappingOutput {
       'updatedAt': unixTimestampToJson(updatedAt),
       if (description != null) 'description': description,
       if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// An object containing <code>InputRecords</code>,
-/// <code>RecordsNotProcessed</code>, <code>TotalRecordsProcessed</code>,
-/// <code>TotalMappedRecords</code>, <code>TotalMappedSourceRecords</code>, and
-/// <code>TotalMappedTargetRecords</code>.
-class IdMappingJobMetrics {
-  /// The total number of records that were input for processing.
-  final int? inputRecords;
-
-  /// The total number of records that did not get processed.
-  final int? recordsNotProcessed;
-
-  /// The total number of records that were mapped.
-  final int? totalMappedRecords;
-
-  /// The total number of mapped source records.
-  final int? totalMappedSourceRecords;
-
-  /// The total number of distinct mapped target records.
-  final int? totalMappedTargetRecords;
-
-  /// The total number of records that were processed.
-  final int? totalRecordsProcessed;
-
-  IdMappingJobMetrics({
-    this.inputRecords,
-    this.recordsNotProcessed,
-    this.totalMappedRecords,
-    this.totalMappedSourceRecords,
-    this.totalMappedTargetRecords,
-    this.totalRecordsProcessed,
-  });
-
-  factory IdMappingJobMetrics.fromJson(Map<String, dynamic> json) {
-    return IdMappingJobMetrics(
-      inputRecords: json['inputRecords'] as int?,
-      recordsNotProcessed: json['recordsNotProcessed'] as int?,
-      totalMappedRecords: json['totalMappedRecords'] as int?,
-      totalMappedSourceRecords: json['totalMappedSourceRecords'] as int?,
-      totalMappedTargetRecords: json['totalMappedTargetRecords'] as int?,
-      totalRecordsProcessed: json['totalRecordsProcessed'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputRecords = this.inputRecords;
-    final recordsNotProcessed = this.recordsNotProcessed;
-    final totalMappedRecords = this.totalMappedRecords;
-    final totalMappedSourceRecords = this.totalMappedSourceRecords;
-    final totalMappedTargetRecords = this.totalMappedTargetRecords;
-    final totalRecordsProcessed = this.totalRecordsProcessed;
-    return {
-      if (inputRecords != null) 'inputRecords': inputRecords,
-      if (recordsNotProcessed != null)
-        'recordsNotProcessed': recordsNotProcessed,
-      if (totalMappedRecords != null) 'totalMappedRecords': totalMappedRecords,
-      if (totalMappedSourceRecords != null)
-        'totalMappedSourceRecords': totalMappedSourceRecords,
-      if (totalMappedTargetRecords != null)
-        'totalMappedTargetRecords': totalMappedTargetRecords,
-      if (totalRecordsProcessed != null)
-        'totalRecordsProcessed': totalRecordsProcessed,
-    };
-  }
-}
-
-/// An object containing <code>KMSArn</code>, <code>OutputS3Path</code>, and
-/// <code>RoleARN</code>.
-class IdMappingJobOutputSource {
-  /// The S3 path to which Entity Resolution will write the output table.
-  final String outputS3Path;
-
-  /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  /// this role to access Amazon Web Services resources on your behalf as part of
-  /// workflow execution.
-  final String roleArn;
-
-  /// Customer KMS ARN for encryption at rest. If not provided, system will use an
-  /// Entity Resolution managed KMS key.
-  final String? kMSArn;
-
-  IdMappingJobOutputSource({
-    required this.outputS3Path,
-    required this.roleArn,
-    this.kMSArn,
-  });
-
-  factory IdMappingJobOutputSource.fromJson(Map<String, dynamic> json) {
-    return IdMappingJobOutputSource(
-      outputS3Path: (json['outputS3Path'] as String?) ?? '',
-      roleArn: (json['roleArn'] as String?) ?? '',
-      kMSArn: json['KMSArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final outputS3Path = this.outputS3Path;
-    final roleArn = this.roleArn;
-    final kMSArn = this.kMSArn;
-    return {
-      'outputS3Path': outputS3Path,
-      'roleArn': roleArn,
-      if (kMSArn != null) 'KMSArn': kMSArn,
-    };
-  }
-}
-
-/// An object that defines the list of matching rules to run in an ID mapping
-/// workflow.
-class IdMappingRuleBasedProperties {
-  /// The comparison type. You can either choose <code>ONE_TO_ONE</code> or
-  /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
-  ///
-  /// If you choose <code>MANY_TO_MANY</code>, the system can match attributes
-  /// across the sub-types of an attribute type. For example, if the value of the
-  /// <code>Email</code> field of Profile A matches the value of the
-  /// <code>BusinessEmail</code> field of Profile B, the two profiles are matched
-  /// on the <code>Email</code> attribute type.
-  ///
-  /// If you choose <code>ONE_TO_ONE</code>, the system can only match attributes
-  /// if the sub-types are an exact match. For example, for the <code>Email</code>
-  /// attribute type, the system will only consider it a match if the value of the
-  /// <code>Email</code> field of Profile A matches the value of the
-  /// <code>Email</code> field of Profile B.
-  final AttributeMatchingModel attributeMatchingModel;
-
-  /// The type of matching record that is allowed to be used in an ID mapping
-  /// workflow.
-  ///
-  /// If the value is set to <code>ONE_SOURCE_TO_ONE_TARGET</code>, only one
-  /// record in the source can be matched to the same record in the target.
-  ///
-  /// If the value is set to <code>MANY_SOURCE_TO_ONE_TARGET</code>, multiple
-  /// records in the source can be matched to one record in the target.
-  final RecordMatchingModel recordMatchingModel;
-
-  /// The set of rules you can use in an ID mapping workflow. The limitations
-  /// specified for the source or target to define the match rules must be
-  /// compatible.
-  final IdMappingWorkflowRuleDefinitionType ruleDefinitionType;
-
-  /// The rules that can be used for ID mapping.
-  final List<Rule>? rules;
-
-  IdMappingRuleBasedProperties({
-    required this.attributeMatchingModel,
-    required this.recordMatchingModel,
-    required this.ruleDefinitionType,
-    this.rules,
-  });
-
-  factory IdMappingRuleBasedProperties.fromJson(Map<String, dynamic> json) {
-    return IdMappingRuleBasedProperties(
-      attributeMatchingModel: AttributeMatchingModel.fromString(
-          (json['attributeMatchingModel'] as String?) ?? ''),
-      recordMatchingModel: RecordMatchingModel.fromString(
-          (json['recordMatchingModel'] as String?) ?? ''),
-      ruleDefinitionType: IdMappingWorkflowRuleDefinitionType.fromString(
-          (json['ruleDefinitionType'] as String?) ?? ''),
-      rules: (json['rules'] as List?)
-          ?.nonNulls
-          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeMatchingModel = this.attributeMatchingModel;
-    final recordMatchingModel = this.recordMatchingModel;
-    final ruleDefinitionType = this.ruleDefinitionType;
-    final rules = this.rules;
-    return {
-      'attributeMatchingModel': attributeMatchingModel.value,
-      'recordMatchingModel': recordMatchingModel.value,
-      'ruleDefinitionType': ruleDefinitionType.value,
-      if (rules != null) 'rules': rules,
-    };
-  }
-}
-
-/// An object which defines the ID mapping technique and any additional
-/// configurations.
-class IdMappingTechniques {
-  /// The type of ID mapping.
-  final IdMappingType idMappingType;
-
-  /// An object which defines any additional configurations required by the
-  /// provider service.
-  final ProviderProperties? providerProperties;
-
-  /// An object which defines any additional configurations required by rule-based
-  /// matching.
-  final IdMappingRuleBasedProperties? ruleBasedProperties;
-
-  IdMappingTechniques({
-    required this.idMappingType,
-    this.providerProperties,
-    this.ruleBasedProperties,
-  });
-
-  factory IdMappingTechniques.fromJson(Map<String, dynamic> json) {
-    return IdMappingTechniques(
-      idMappingType:
-          IdMappingType.fromString((json['idMappingType'] as String?) ?? ''),
-      providerProperties: json['providerProperties'] != null
-          ? ProviderProperties.fromJson(
-              json['providerProperties'] as Map<String, dynamic>)
-          : null,
-      ruleBasedProperties: json['ruleBasedProperties'] != null
-          ? IdMappingRuleBasedProperties.fromJson(
-              json['ruleBasedProperties'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final idMappingType = this.idMappingType;
-    final providerProperties = this.providerProperties;
-    final ruleBasedProperties = this.ruleBasedProperties;
-    return {
-      'idMappingType': idMappingType.value,
-      if (providerProperties != null) 'providerProperties': providerProperties,
-      if (ruleBasedProperties != null)
-        'ruleBasedProperties': ruleBasedProperties,
-    };
-  }
-}
-
-class IdMappingType {
-  static const provider = IdMappingType._('PROVIDER');
-  static const ruleBased = IdMappingType._('RULE_BASED');
-
-  final String value;
-
-  const IdMappingType._(this.value);
-
-  static const values = [provider, ruleBased];
-
-  static IdMappingType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IdMappingType._(value));
-
-  @override
-  bool operator ==(other) => other is IdMappingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object containing <code>InputSourceARN</code>, <code>SchemaName</code>,
-/// and <code>Type</code>.
-class IdMappingWorkflowInputSource {
-  /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the
-  /// input source table.
-  final String inputSourceARN;
-
-  /// The name of the schema to be retrieved.
-  final String? schemaName;
-
-  /// The type of ID namespace. There are two types: <code>SOURCE</code> and
-  /// <code>TARGET</code>.
-  ///
-  /// The <code>SOURCE</code> contains configurations for <code>sourceId</code>
-  /// data that will be processed in an ID mapping workflow.
-  ///
-  /// The <code>TARGET</code> contains a configuration of <code>targetId</code>
-  /// which all <code>sourceIds</code> will resolve to.
-  final IdNamespaceType? type;
-
-  IdMappingWorkflowInputSource({
-    required this.inputSourceARN,
-    this.schemaName,
-    this.type,
-  });
-
-  factory IdMappingWorkflowInputSource.fromJson(Map<String, dynamic> json) {
-    return IdMappingWorkflowInputSource(
-      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
-      schemaName: json['schemaName'] as String?,
-      type: (json['type'] as String?)?.let(IdNamespaceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputSourceARN = this.inputSourceARN;
-    final schemaName = this.schemaName;
-    final type = this.type;
-    return {
-      'inputSourceARN': inputSourceARN,
-      if (schemaName != null) 'schemaName': schemaName,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-/// The output source for the ID mapping workflow.
-class IdMappingWorkflowOutputSource {
-  /// The S3 path to which Entity Resolution will write the output table.
-  final String outputS3Path;
-
-  /// Customer KMS ARN for encryption at rest. If not provided, system will use an
-  /// Entity Resolution managed KMS key.
-  final String? kMSArn;
-
-  IdMappingWorkflowOutputSource({
-    required this.outputS3Path,
-    this.kMSArn,
-  });
-
-  factory IdMappingWorkflowOutputSource.fromJson(Map<String, dynamic> json) {
-    return IdMappingWorkflowOutputSource(
-      outputS3Path: (json['outputS3Path'] as String?) ?? '',
-      kMSArn: json['KMSArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final outputS3Path = this.outputS3Path;
-    final kMSArn = this.kMSArn;
-    return {
-      'outputS3Path': outputS3Path,
-      if (kMSArn != null) 'KMSArn': kMSArn,
-    };
-  }
-}
-
-class IdMappingWorkflowRuleDefinitionType {
-  static const source = IdMappingWorkflowRuleDefinitionType._('SOURCE');
-  static const target = IdMappingWorkflowRuleDefinitionType._('TARGET');
-
-  final String value;
-
-  const IdMappingWorkflowRuleDefinitionType._(this.value);
-
-  static const values = [source, target];
-
-  static IdMappingWorkflowRuleDefinitionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IdMappingWorkflowRuleDefinitionType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IdMappingWorkflowRuleDefinitionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A list of <code>IdMappingWorkflowSummary</code> objects, each of which
-/// contain the fields <code>WorkflowName</code>, <code>WorkflowArn</code>,
-/// <code>CreatedAt</code>, and <code>UpdatedAt</code>.
-class IdMappingWorkflowSummary {
-  /// The timestamp of when the workflow was created.
-  final DateTime createdAt;
-
-  /// The timestamp of when the workflow was last updated.
-  final DateTime updatedAt;
-
-  /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
-  /// <code>IdMappingWorkflow</code>.
-  final String workflowArn;
-
-  /// The name of the workflow.
-  final String workflowName;
-
-  IdMappingWorkflowSummary({
-    required this.createdAt,
-    required this.updatedAt,
-    required this.workflowArn,
-    required this.workflowName,
-  });
-
-  factory IdMappingWorkflowSummary.fromJson(Map<String, dynamic> json) {
-    return IdMappingWorkflowSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-      workflowArn: (json['workflowArn'] as String?) ?? '',
-      workflowName: (json['workflowName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final updatedAt = this.updatedAt;
-    final workflowArn = this.workflowArn;
-    final workflowName = this.workflowName;
-    return {
-      'createdAt': unixTimestampToJson(createdAt),
-      'updatedAt': unixTimestampToJson(updatedAt),
-      'workflowArn': workflowArn,
-      'workflowName': workflowName,
-    };
-  }
-}
-
-/// The settings for the ID namespace for the ID mapping workflow job.
-class IdNamespaceIdMappingWorkflowMetadata {
-  /// The type of ID mapping.
-  final IdMappingType idMappingType;
-
-  IdNamespaceIdMappingWorkflowMetadata({
-    required this.idMappingType,
-  });
-
-  factory IdNamespaceIdMappingWorkflowMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return IdNamespaceIdMappingWorkflowMetadata(
-      idMappingType:
-          IdMappingType.fromString((json['idMappingType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final idMappingType = this.idMappingType;
-    return {
-      'idMappingType': idMappingType.value,
-    };
-  }
-}
-
-/// An object containing <code>IdMappingType</code>,
-/// <code>ProviderProperties</code>, and <code>RuleBasedProperties</code>.
-class IdNamespaceIdMappingWorkflowProperties {
-  /// The type of ID mapping.
-  final IdMappingType idMappingType;
-
-  /// An object which defines any additional configurations required by the
-  /// provider service.
-  final NamespaceProviderProperties? providerProperties;
-
-  /// An object which defines any additional configurations required by rule-based
-  /// matching.
-  final NamespaceRuleBasedProperties? ruleBasedProperties;
-
-  IdNamespaceIdMappingWorkflowProperties({
-    required this.idMappingType,
-    this.providerProperties,
-    this.ruleBasedProperties,
-  });
-
-  factory IdNamespaceIdMappingWorkflowProperties.fromJson(
-      Map<String, dynamic> json) {
-    return IdNamespaceIdMappingWorkflowProperties(
-      idMappingType:
-          IdMappingType.fromString((json['idMappingType'] as String?) ?? ''),
-      providerProperties: json['providerProperties'] != null
-          ? NamespaceProviderProperties.fromJson(
-              json['providerProperties'] as Map<String, dynamic>)
-          : null,
-      ruleBasedProperties: json['ruleBasedProperties'] != null
-          ? NamespaceRuleBasedProperties.fromJson(
-              json['ruleBasedProperties'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final idMappingType = this.idMappingType;
-    final providerProperties = this.providerProperties;
-    final ruleBasedProperties = this.ruleBasedProperties;
-    return {
-      'idMappingType': idMappingType.value,
-      if (providerProperties != null) 'providerProperties': providerProperties,
-      if (ruleBasedProperties != null)
-        'ruleBasedProperties': ruleBasedProperties,
-    };
-  }
-}
-
-/// An object containing <code>InputSourceARN</code> and
-/// <code>SchemaName</code>.
-class IdNamespaceInputSource {
-  /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the
-  /// input source table.
-  final String inputSourceARN;
-
-  /// The name of the schema.
-  final String? schemaName;
-
-  IdNamespaceInputSource({
-    required this.inputSourceARN,
-    this.schemaName,
-  });
-
-  factory IdNamespaceInputSource.fromJson(Map<String, dynamic> json) {
-    return IdNamespaceInputSource(
-      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
-      schemaName: json['schemaName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputSourceARN = this.inputSourceARN;
-    final schemaName = this.schemaName;
-    return {
-      'inputSourceARN': inputSourceARN,
-      if (schemaName != null) 'schemaName': schemaName,
-    };
-  }
-}
-
-/// A summary of ID namespaces.
-class IdNamespaceSummary {
-  /// The timestamp of when the ID namespace was created.
-  final DateTime createdAt;
-
-  /// The Amazon Resource Name (ARN) of the ID namespace.
-  final String idNamespaceArn;
-
-  /// The name of the ID namespace.
-  final String idNamespaceName;
-
-  /// The type of ID namespace. There are two types: <code>SOURCE</code> and
-  /// <code>TARGET</code>.
-  ///
-  /// The <code>SOURCE</code> contains configurations for <code>sourceId</code>
-  /// data that will be processed in an ID mapping workflow.
-  ///
-  /// The <code>TARGET</code> contains a configuration of <code>targetId</code>
-  /// which all <code>sourceIds</code> will resolve to.
-  final IdNamespaceType type;
-
-  /// The timestamp of when the ID namespace was last updated.
-  final DateTime updatedAt;
-
-  /// The description of the ID namespace.
-  final String? description;
-
-  /// An object which defines any additional configurations required by the ID
-  /// mapping workflow.
-  final List<IdNamespaceIdMappingWorkflowMetadata>? idMappingWorkflowProperties;
-
-  IdNamespaceSummary({
-    required this.createdAt,
-    required this.idNamespaceArn,
-    required this.idNamespaceName,
-    required this.type,
-    required this.updatedAt,
-    this.description,
-    this.idMappingWorkflowProperties,
-  });
-
-  factory IdNamespaceSummary.fromJson(Map<String, dynamic> json) {
-    return IdNamespaceSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      idNamespaceArn: (json['idNamespaceArn'] as String?) ?? '',
-      idNamespaceName: (json['idNamespaceName'] as String?) ?? '',
-      type: IdNamespaceType.fromString((json['type'] as String?) ?? ''),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-      description: json['description'] as String?,
-      idMappingWorkflowProperties:
-          (json['idMappingWorkflowProperties'] as List?)
-              ?.nonNulls
-              .map((e) => IdNamespaceIdMappingWorkflowMetadata.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final idNamespaceArn = this.idNamespaceArn;
-    final idNamespaceName = this.idNamespaceName;
-    final type = this.type;
-    final updatedAt = this.updatedAt;
-    final description = this.description;
-    final idMappingWorkflowProperties = this.idMappingWorkflowProperties;
-    return {
-      'createdAt': unixTimestampToJson(createdAt),
-      'idNamespaceArn': idNamespaceArn,
-      'idNamespaceName': idNamespaceName,
-      'type': type.value,
-      'updatedAt': unixTimestampToJson(updatedAt),
-      if (description != null) 'description': description,
-      if (idMappingWorkflowProperties != null)
-        'idMappingWorkflowProperties': idMappingWorkflowProperties,
-    };
-  }
-}
-
-class IdNamespaceType {
-  static const source = IdNamespaceType._('SOURCE');
-  static const target = IdNamespaceType._('TARGET');
-
-  final String value;
-
-  const IdNamespaceType._(this.value);
-
-  static const values = [source, target];
-
-  static IdNamespaceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IdNamespaceType._(value));
-
-  @override
-  bool operator ==(other) => other is IdNamespaceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object which defines an incremental run type and has only
-/// <code>incrementalRunType</code> as a field.
-class IncrementalRunConfig {
-  /// The type of incremental run. It takes only one value:
-  /// <code>IMMEDIATE</code>.
-  final IncrementalRunType? incrementalRunType;
-
-  IncrementalRunConfig({
-    this.incrementalRunType,
-  });
-
-  factory IncrementalRunConfig.fromJson(Map<String, dynamic> json) {
-    return IncrementalRunConfig(
-      incrementalRunType: (json['incrementalRunType'] as String?)
-          ?.let(IncrementalRunType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final incrementalRunType = this.incrementalRunType;
-    return {
-      if (incrementalRunType != null)
-        'incrementalRunType': incrementalRunType.value,
-    };
-  }
-}
-
-class IncrementalRunType {
-  static const immediate = IncrementalRunType._('IMMEDIATE');
-
-  final String value;
-
-  const IncrementalRunType._(this.value);
-
-  static const values = [immediate];
-
-  static IncrementalRunType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IncrementalRunType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is IncrementalRunType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object containing <code>InputSourceARN</code>, <code>SchemaName</code>,
-/// and <code>ApplyNormalization</code>.
-class InputSource {
-  /// An Glue table Amazon Resource Name (ARN) for the input source table.
-  final String inputSourceARN;
-
-  /// The name of the schema to be retrieved.
-  final String schemaName;
-
-  /// Normalizes the attributes defined in the schema in the input data. For
-  /// example, if an attribute has an <code>AttributeType</code> of
-  /// <code>PHONE_NUMBER</code>, and the data in the input table is in a format of
-  /// 1234567890, Entity Resolution will normalize this field in the output to
-  /// (123)-456-7890.
-  final bool? applyNormalization;
-
-  InputSource({
-    required this.inputSourceARN,
-    required this.schemaName,
-    this.applyNormalization,
-  });
-
-  factory InputSource.fromJson(Map<String, dynamic> json) {
-    return InputSource(
-      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
-      schemaName: (json['schemaName'] as String?) ?? '',
-      applyNormalization: json['applyNormalization'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputSourceARN = this.inputSourceARN;
-    final schemaName = this.schemaName;
-    final applyNormalization = this.applyNormalization;
-    return {
-      'inputSourceARN': inputSourceARN,
-      'schemaName': schemaName,
-      if (applyNormalization != null) 'applyNormalization': applyNormalization,
-    };
-  }
-}
-
-/// The Amazon S3 location that temporarily stores your data while it processes.
-/// Your information won't be saved permanently.
-class IntermediateSourceConfiguration {
-  /// The Amazon S3 location (bucket and prefix). For example:
-  /// <code>s3://provider_bucket/DOC-EXAMPLE-BUCKET</code>
-  final String intermediateS3Path;
-
-  IntermediateSourceConfiguration({
-    required this.intermediateS3Path,
-  });
-
-  factory IntermediateSourceConfiguration.fromJson(Map<String, dynamic> json) {
-    return IntermediateSourceConfiguration(
-      intermediateS3Path: (json['intermediateS3Path'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final intermediateS3Path = this.intermediateS3Path;
-    return {
-      'intermediateS3Path': intermediateS3Path,
-    };
-  }
-}
-
-/// An object containing <code>InputRecords</code>,
-/// <code>TotalRecordsProcessed</code>, <code>MatchIDs</code>, and
-/// <code>RecordsNotProcessed</code>.
-class JobMetrics {
-  /// The total number of input records.
-  final int? inputRecords;
-
-  /// The total number of <code>matchID</code>s generated.
-  final int? matchIDs;
-
-  /// The total number of records that did not get processed.
-  final int? recordsNotProcessed;
-
-  /// The total number of records processed.
-  final int? totalRecordsProcessed;
-
-  JobMetrics({
-    this.inputRecords,
-    this.matchIDs,
-    this.recordsNotProcessed,
-    this.totalRecordsProcessed,
-  });
-
-  factory JobMetrics.fromJson(Map<String, dynamic> json) {
-    return JobMetrics(
-      inputRecords: json['inputRecords'] as int?,
-      matchIDs: json['matchIDs'] as int?,
-      recordsNotProcessed: json['recordsNotProcessed'] as int?,
-      totalRecordsProcessed: json['totalRecordsProcessed'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final inputRecords = this.inputRecords;
-    final matchIDs = this.matchIDs;
-    final recordsNotProcessed = this.recordsNotProcessed;
-    final totalRecordsProcessed = this.totalRecordsProcessed;
-    return {
-      if (inputRecords != null) 'inputRecords': inputRecords,
-      if (matchIDs != null) 'matchIDs': matchIDs,
-      if (recordsNotProcessed != null)
-        'recordsNotProcessed': recordsNotProcessed,
-      if (totalRecordsProcessed != null)
-        'totalRecordsProcessed': totalRecordsProcessed,
-    };
-  }
-}
-
-/// An object containing <code>KMSArn</code>, <code>OutputS3Path</code>, and
-/// <code>RoleArn</code>.
-class JobOutputSource {
-  /// The S3 path to which Entity Resolution will write the output table.
-  final String outputS3Path;
-
-  /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
-  /// this role to access Amazon Web Services resources on your behalf as part of
-  /// workflow execution.
-  final String roleArn;
-
-  /// Customer KMS ARN for encryption at rest. If not provided, system will use an
-  /// Entity Resolution managed KMS key.
-  final String? kMSArn;
-
-  JobOutputSource({
-    required this.outputS3Path,
-    required this.roleArn,
-    this.kMSArn,
-  });
-
-  factory JobOutputSource.fromJson(Map<String, dynamic> json) {
-    return JobOutputSource(
-      outputS3Path: (json['outputS3Path'] as String?) ?? '',
-      roleArn: (json['roleArn'] as String?) ?? '',
-      kMSArn: json['KMSArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final outputS3Path = this.outputS3Path;
-    final roleArn = this.roleArn;
-    final kMSArn = this.kMSArn;
-    return {
-      'outputS3Path': outputS3Path,
-      'roleArn': roleArn,
-      if (kMSArn != null) 'KMSArn': kMSArn,
-    };
-  }
-}
-
-class JobStatus {
-  static const running = JobStatus._('RUNNING');
-  static const succeeded = JobStatus._('SUCCEEDED');
-  static const failed = JobStatus._('FAILED');
-  static const queued = JobStatus._('QUEUED');
-
-  final String value;
-
-  const JobStatus._(this.value);
-
-  static const values = [running, succeeded, failed, queued];
-
-  static JobStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
-
-  @override
-  bool operator ==(other) => other is JobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object containing the <code>JobId</code>, <code>Status</code>,
-/// <code>StartTime</code>, and <code>EndTime</code> of a job.
-class JobSummary {
-  /// The ID of the job.
-  final String jobId;
-
-  /// The time at which the job was started.
-  final DateTime startTime;
-
-  /// The current status of the job.
-  final JobStatus status;
-
-  /// The time at which the job has finished.
-  final DateTime? endTime;
-
-  JobSummary({
-    required this.jobId,
-    required this.startTime,
-    required this.status,
-    this.endTime,
-  });
-
-  factory JobSummary.fromJson(Map<String, dynamic> json) {
-    return JobSummary(
-      jobId: (json['jobId'] as String?) ?? '',
-      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
-      status: JobStatus.fromString((json['status'] as String?) ?? ''),
-      endTime: timeStampFromJson(json['endTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final startTime = this.startTime;
-    final status = this.status;
-    final endTime = this.endTime;
-    return {
-      'jobId': jobId,
-      'startTime': unixTimestampToJson(startTime),
-      'status': status.value,
-      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
     };
   }
 }
@@ -3951,8 +3053,9 @@ class ListMatchingWorkflowsOutput {
   final String? nextToken;
 
   /// A list of <code>MatchingWorkflowSummary</code> objects, each of which
-  /// contain the fields <code>WorkflowName</code>, <code>WorkflowArn</code>,
-  /// <code>CreatedAt</code>, and <code>UpdatedAt</code>.
+  /// contain the fields <code>workflowName</code>, <code>workflowArn</code>,
+  /// <code>resolutionType</code>, <code>createdAt</code>, and
+  /// <code>updatedAt</code>.
   final List<MatchingWorkflowSummary>? workflowSummaries;
 
   ListMatchingWorkflowsOutput({
@@ -4073,645 +3176,6 @@ class ListTagsForResourceOutput {
   }
 }
 
-class MatchPurpose {
-  static const identifierGeneration = MatchPurpose._('IDENTIFIER_GENERATION');
-  static const indexing = MatchPurpose._('INDEXING');
-
-  final String value;
-
-  const MatchPurpose._(this.value);
-
-  static const values = [identifierGeneration, indexing];
-
-  static MatchPurpose fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MatchPurpose._(value));
-
-  @override
-  bool operator ==(other) => other is MatchPurpose && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A list of <code>MatchingWorkflowSummary</code> objects, each of which
-/// contain the fields <code>WorkflowName</code>, <code>WorkflowArn</code>,
-/// <code>CreatedAt</code>, <code>UpdatedAt</code>.
-class MatchingWorkflowSummary {
-  /// The timestamp of when the workflow was created.
-  final DateTime createdAt;
-
-  /// The method that has been specified for data matching, either using matching
-  /// provided by Entity Resolution or through a provider service.
-  final ResolutionType resolutionType;
-
-  /// The timestamp of when the workflow was last updated.
-  final DateTime updatedAt;
-
-  /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
-  /// <code>MatchingWorkflow</code>.
-  final String workflowArn;
-
-  /// The name of the workflow.
-  final String workflowName;
-
-  MatchingWorkflowSummary({
-    required this.createdAt,
-    required this.resolutionType,
-    required this.updatedAt,
-    required this.workflowArn,
-    required this.workflowName,
-  });
-
-  factory MatchingWorkflowSummary.fromJson(Map<String, dynamic> json) {
-    return MatchingWorkflowSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      resolutionType:
-          ResolutionType.fromString((json['resolutionType'] as String?) ?? ''),
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-      workflowArn: (json['workflowArn'] as String?) ?? '',
-      workflowName: (json['workflowName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final resolutionType = this.resolutionType;
-    final updatedAt = this.updatedAt;
-    final workflowArn = this.workflowArn;
-    final workflowName = this.workflowName;
-    return {
-      'createdAt': unixTimestampToJson(createdAt),
-      'resolutionType': resolutionType.value,
-      'updatedAt': unixTimestampToJson(updatedAt),
-      'workflowArn': workflowArn,
-      'workflowName': workflowName,
-    };
-  }
-}
-
-/// An object containing <code>ProviderConfiguration</code> and
-/// <code>ProviderServiceArn</code>.
-class NamespaceProviderProperties {
-  /// The Amazon Resource Name (ARN) of the provider service.
-  final String providerServiceArn;
-
-  /// An object which defines any additional configurations required by the
-  /// provider service.
-  final Document? providerConfiguration;
-
-  NamespaceProviderProperties({
-    required this.providerServiceArn,
-    this.providerConfiguration,
-  });
-
-  factory NamespaceProviderProperties.fromJson(Map<String, dynamic> json) {
-    return NamespaceProviderProperties(
-      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
-      providerConfiguration: json['providerConfiguration'] != null
-          ? Document.fromJson(
-              json['providerConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final providerServiceArn = this.providerServiceArn;
-    final providerConfiguration = this.providerConfiguration;
-    return {
-      'providerServiceArn': providerServiceArn,
-      if (providerConfiguration != null)
-        'providerConfiguration': providerConfiguration,
-    };
-  }
-}
-
-/// The rule-based properties of an ID namespace. These properties define how
-/// the ID namespace can be used in an ID mapping workflow.
-class NamespaceRuleBasedProperties {
-  /// The comparison type. You can either choose <code>ONE_TO_ONE</code> or
-  /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
-  ///
-  /// If you choose <code>MANY_TO_MANY</code>, the system can match attributes
-  /// across the sub-types of an attribute type. For example, if the value of the
-  /// <code>Email</code> field of Profile A matches the value of
-  /// <code>BusinessEmail</code> field of Profile B, the two profiles are matched
-  /// on the <code>Email</code> attribute type.
-  ///
-  /// If you choose <code>ONE_TO_ONE</code>, the system can only match attributes
-  /// if the sub-types are an exact match. For example, for the <code>Email</code>
-  /// attribute type, the system will only consider it a match if the value of the
-  /// <code>Email</code> field of Profile A matches the value of the
-  /// <code>Email</code> field of Profile B.
-  final AttributeMatchingModel? attributeMatchingModel;
-
-  /// The type of matching record that is allowed to be used in an ID mapping
-  /// workflow.
-  ///
-  /// If the value is set to <code>ONE_SOURCE_TO_ONE_TARGET</code>, only one
-  /// record in the source is matched to one record in the target.
-  ///
-  /// If the value is set to <code>MANY_SOURCE_TO_ONE_TARGET</code>, all matching
-  /// records in the source are matched to one record in the target.
-  final List<RecordMatchingModel>? recordMatchingModels;
-
-  /// The sets of rules you can use in an ID mapping workflow. The limitations
-  /// specified for the source and target must be compatible.
-  final List<IdMappingWorkflowRuleDefinitionType>? ruleDefinitionTypes;
-
-  /// The rules for the ID namespace.
-  final List<Rule>? rules;
-
-  NamespaceRuleBasedProperties({
-    this.attributeMatchingModel,
-    this.recordMatchingModels,
-    this.ruleDefinitionTypes,
-    this.rules,
-  });
-
-  factory NamespaceRuleBasedProperties.fromJson(Map<String, dynamic> json) {
-    return NamespaceRuleBasedProperties(
-      attributeMatchingModel: (json['attributeMatchingModel'] as String?)
-          ?.let(AttributeMatchingModel.fromString),
-      recordMatchingModels: (json['recordMatchingModels'] as List?)
-          ?.nonNulls
-          .map((e) => RecordMatchingModel.fromString((e as String)))
-          .toList(),
-      ruleDefinitionTypes: (json['ruleDefinitionTypes'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              IdMappingWorkflowRuleDefinitionType.fromString((e as String)))
-          .toList(),
-      rules: (json['rules'] as List?)
-          ?.nonNulls
-          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeMatchingModel = this.attributeMatchingModel;
-    final recordMatchingModels = this.recordMatchingModels;
-    final ruleDefinitionTypes = this.ruleDefinitionTypes;
-    final rules = this.rules;
-    return {
-      if (attributeMatchingModel != null)
-        'attributeMatchingModel': attributeMatchingModel.value,
-      if (recordMatchingModels != null)
-        'recordMatchingModels':
-            recordMatchingModels.map((e) => e.value).toList(),
-      if (ruleDefinitionTypes != null)
-        'ruleDefinitionTypes': ruleDefinitionTypes.map((e) => e.value).toList(),
-      if (rules != null) 'rules': rules,
-    };
-  }
-}
-
-/// A list of <code>OutputAttribute</code> objects, each of which have the
-/// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
-/// selects a column to be included in the output table, and whether the values
-/// of the column should be hashed.
-class OutputAttribute {
-  /// A name of a column to be written to the output. This must be an
-  /// <code>InputField</code> name in the schema mapping.
-  final String name;
-
-  /// Enables the ability to hash the column values in the output.
-  final bool? hashed;
-
-  OutputAttribute({
-    required this.name,
-    this.hashed,
-  });
-
-  factory OutputAttribute.fromJson(Map<String, dynamic> json) {
-    return OutputAttribute(
-      name: (json['name'] as String?) ?? '',
-      hashed: json['hashed'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final hashed = this.hashed;
-    return {
-      'name': name,
-      if (hashed != null) 'hashed': hashed,
-    };
-  }
-}
-
-/// A list of <code>OutputAttribute</code> objects, each of which have the
-/// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
-/// selects a column to be included in the output table, and whether the values
-/// of the column should be hashed.
-class OutputSource {
-  /// A list of <code>OutputAttribute</code> objects, each of which have the
-  /// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
-  /// selects a column to be included in the output table, and whether the values
-  /// of the column should be hashed.
-  final List<OutputAttribute> output;
-
-  /// The S3 path to which Entity Resolution will write the output table.
-  final String outputS3Path;
-
-  /// Customer KMS ARN for encryption at rest. If not provided, system will use an
-  /// Entity Resolution managed KMS key.
-  final String? kMSArn;
-
-  /// Normalizes the attributes defined in the schema in the input data. For
-  /// example, if an attribute has an <code>AttributeType</code> of
-  /// <code>PHONE_NUMBER</code>, and the data in the input table is in a format of
-  /// 1234567890, Entity Resolution will normalize this field in the output to
-  /// (123)-456-7890.
-  final bool? applyNormalization;
-
-  OutputSource({
-    required this.output,
-    required this.outputS3Path,
-    this.kMSArn,
-    this.applyNormalization,
-  });
-
-  factory OutputSource.fromJson(Map<String, dynamic> json) {
-    return OutputSource(
-      output: ((json['output'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => OutputAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      outputS3Path: (json['outputS3Path'] as String?) ?? '',
-      kMSArn: json['KMSArn'] as String?,
-      applyNormalization: json['applyNormalization'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final output = this.output;
-    final outputS3Path = this.outputS3Path;
-    final kMSArn = this.kMSArn;
-    final applyNormalization = this.applyNormalization;
-    return {
-      'output': output,
-      'outputS3Path': outputS3Path,
-      if (kMSArn != null) 'KMSArn': kMSArn,
-      if (applyNormalization != null) 'applyNormalization': applyNormalization,
-    };
-  }
-}
-
-/// The input schema supported by provider service.
-class ProviderComponentSchema {
-  /// The provider schema attributes.
-  final List<ProviderSchemaAttribute>? providerSchemaAttributes;
-
-  /// Input schema for the provider service.
-  final List<List<String>>? schemas;
-
-  ProviderComponentSchema({
-    this.providerSchemaAttributes,
-    this.schemas,
-  });
-
-  factory ProviderComponentSchema.fromJson(Map<String, dynamic> json) {
-    return ProviderComponentSchema(
-      providerSchemaAttributes: (json['providerSchemaAttributes'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ProviderSchemaAttribute.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      schemas: (json['schemas'] as List?)
-          ?.nonNulls
-          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final providerSchemaAttributes = this.providerSchemaAttributes;
-    final schemas = this.schemas;
-    return {
-      if (providerSchemaAttributes != null)
-        'providerSchemaAttributes': providerSchemaAttributes,
-      if (schemas != null) 'schemas': schemas,
-    };
-  }
-}
-
-/// The required configuration fields to use with the provider service.
-class ProviderEndpointConfiguration {
-  /// The identifiers of the provider service, from Data Exchange.
-  final ProviderMarketplaceConfiguration? marketplaceConfiguration;
-
-  ProviderEndpointConfiguration({
-    this.marketplaceConfiguration,
-  });
-
-  factory ProviderEndpointConfiguration.fromJson(Map<String, dynamic> json) {
-    return ProviderEndpointConfiguration(
-      marketplaceConfiguration: json['marketplaceConfiguration'] != null
-          ? ProviderMarketplaceConfiguration.fromJson(
-              json['marketplaceConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marketplaceConfiguration = this.marketplaceConfiguration;
-    return {
-      if (marketplaceConfiguration != null)
-        'marketplaceConfiguration': marketplaceConfiguration,
-    };
-  }
-}
-
-/// The provider configuration required for different ID namespace types.
-class ProviderIdNameSpaceConfiguration {
-  /// The description of the ID namespace.
-  final String? description;
-
-  /// Configurations required for the source ID namespace.
-  final Document? providerSourceConfigurationDefinition;
-
-  /// Configurations required for the target ID namespace.
-  final Document? providerTargetConfigurationDefinition;
-
-  ProviderIdNameSpaceConfiguration({
-    this.description,
-    this.providerSourceConfigurationDefinition,
-    this.providerTargetConfigurationDefinition,
-  });
-
-  factory ProviderIdNameSpaceConfiguration.fromJson(Map<String, dynamic> json) {
-    return ProviderIdNameSpaceConfiguration(
-      description: json['description'] as String?,
-      providerSourceConfigurationDefinition:
-          json['providerSourceConfigurationDefinition'] != null
-              ? Document.fromJson(json['providerSourceConfigurationDefinition']
-                  as Map<String, dynamic>)
-              : null,
-      providerTargetConfigurationDefinition:
-          json['providerTargetConfigurationDefinition'] != null
-              ? Document.fromJson(json['providerTargetConfigurationDefinition']
-                  as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final description = this.description;
-    final providerSourceConfigurationDefinition =
-        this.providerSourceConfigurationDefinition;
-    final providerTargetConfigurationDefinition =
-        this.providerTargetConfigurationDefinition;
-    return {
-      if (description != null) 'description': description,
-      if (providerSourceConfigurationDefinition != null)
-        'providerSourceConfigurationDefinition':
-            providerSourceConfigurationDefinition,
-      if (providerTargetConfigurationDefinition != null)
-        'providerTargetConfigurationDefinition':
-            providerTargetConfigurationDefinition,
-    };
-  }
-}
-
-/// The required configuration fields to give intermediate access to a provider
-/// service.
-class ProviderIntermediateDataAccessConfiguration {
-  /// The Amazon Web Services account that provider can use to read or write data
-  /// into the customer's intermediate S3 bucket.
-  final List<String>? awsAccountIds;
-
-  /// The S3 bucket actions that the provider requires permission for.
-  final List<String>? requiredBucketActions;
-
-  ProviderIntermediateDataAccessConfiguration({
-    this.awsAccountIds,
-    this.requiredBucketActions,
-  });
-
-  factory ProviderIntermediateDataAccessConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ProviderIntermediateDataAccessConfiguration(
-      awsAccountIds: (json['awsAccountIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      requiredBucketActions: (json['requiredBucketActions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final awsAccountIds = this.awsAccountIds;
-    final requiredBucketActions = this.requiredBucketActions;
-    return {
-      if (awsAccountIds != null) 'awsAccountIds': awsAccountIds,
-      if (requiredBucketActions != null)
-        'requiredBucketActions': requiredBucketActions,
-    };
-  }
-}
-
-/// The identifiers of the provider service, from Data Exchange.
-class ProviderMarketplaceConfiguration {
-  /// The asset ID on Data Exchange.
-  final String assetId;
-
-  /// The dataset ID on Data Exchange.
-  final String dataSetId;
-
-  /// The listing ID on Data Exchange.
-  final String listingId;
-
-  /// The revision ID on Data Exchange.
-  final String revisionId;
-
-  ProviderMarketplaceConfiguration({
-    required this.assetId,
-    required this.dataSetId,
-    required this.listingId,
-    required this.revisionId,
-  });
-
-  factory ProviderMarketplaceConfiguration.fromJson(Map<String, dynamic> json) {
-    return ProviderMarketplaceConfiguration(
-      assetId: (json['assetId'] as String?) ?? '',
-      dataSetId: (json['dataSetId'] as String?) ?? '',
-      listingId: (json['listingId'] as String?) ?? '',
-      revisionId: (json['revisionId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final assetId = this.assetId;
-    final dataSetId = this.dataSetId;
-    final listingId = this.listingId;
-    final revisionId = this.revisionId;
-    return {
-      'assetId': assetId,
-      'dataSetId': dataSetId,
-      'listingId': listingId,
-      'revisionId': revisionId,
-    };
-  }
-}
-
-/// An object containing the <code>providerServiceARN</code>,
-/// <code>intermediateSourceConfiguration</code>, and
-/// <code>providerConfiguration</code>.
-class ProviderProperties {
-  /// The ARN of the provider service.
-  final String providerServiceArn;
-
-  /// The Amazon S3 location that temporarily stores your data while it processes.
-  /// Your information won't be saved permanently.
-  final IntermediateSourceConfiguration? intermediateSourceConfiguration;
-
-  /// The required configuration fields to use with the provider service.
-  final Document? providerConfiguration;
-
-  ProviderProperties({
-    required this.providerServiceArn,
-    this.intermediateSourceConfiguration,
-    this.providerConfiguration,
-  });
-
-  factory ProviderProperties.fromJson(Map<String, dynamic> json) {
-    return ProviderProperties(
-      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
-      intermediateSourceConfiguration:
-          json['intermediateSourceConfiguration'] != null
-              ? IntermediateSourceConfiguration.fromJson(
-                  json['intermediateSourceConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      providerConfiguration: json['providerConfiguration'] != null
-          ? Document.fromJson(
-              json['providerConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final providerServiceArn = this.providerServiceArn;
-    final intermediateSourceConfiguration =
-        this.intermediateSourceConfiguration;
-    final providerConfiguration = this.providerConfiguration;
-    return {
-      'providerServiceArn': providerServiceArn,
-      if (intermediateSourceConfiguration != null)
-        'intermediateSourceConfiguration': intermediateSourceConfiguration,
-      if (providerConfiguration != null)
-        'providerConfiguration': providerConfiguration,
-    };
-  }
-}
-
-/// The provider schema attribute.
-class ProviderSchemaAttribute {
-  /// The field name.
-  final String fieldName;
-
-  /// The type of the provider schema attribute.
-  final SchemaAttributeType type;
-
-  /// The hashing attribute of the provider schema.
-  final bool? hashing;
-
-  /// The sub type of the provider schema attribute.
-  final String? subType;
-
-  ProviderSchemaAttribute({
-    required this.fieldName,
-    required this.type,
-    this.hashing,
-    this.subType,
-  });
-
-  factory ProviderSchemaAttribute.fromJson(Map<String, dynamic> json) {
-    return ProviderSchemaAttribute(
-      fieldName: (json['fieldName'] as String?) ?? '',
-      type: SchemaAttributeType.fromString((json['type'] as String?) ?? ''),
-      hashing: json['hashing'] as bool?,
-      subType: json['subType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fieldName = this.fieldName;
-    final type = this.type;
-    final hashing = this.hashing;
-    final subType = this.subType;
-    return {
-      'fieldName': fieldName,
-      'type': type.value,
-      if (hashing != null) 'hashing': hashing,
-      if (subType != null) 'subType': subType,
-    };
-  }
-}
-
-/// A list of <code>ProviderService</code> objects, each of which contain the
-/// fields <code>providerName</code>, <code>providerServiceArn</code>,
-/// <code>providerServiceName</code>, and <code>providerServiceType</code>.
-class ProviderServiceSummary {
-  /// The name of the provider. This name is typically the company name.
-  final String providerName;
-
-  /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
-  /// <code>providerService</code>.
-  final String providerServiceArn;
-
-  /// The display name of the provider service.
-  final String providerServiceDisplayName;
-
-  /// The name of the product that the provider service provides.
-  final String providerServiceName;
-
-  /// The type of provider service.
-  final ServiceType providerServiceType;
-
-  ProviderServiceSummary({
-    required this.providerName,
-    required this.providerServiceArn,
-    required this.providerServiceDisplayName,
-    required this.providerServiceName,
-    required this.providerServiceType,
-  });
-
-  factory ProviderServiceSummary.fromJson(Map<String, dynamic> json) {
-    return ProviderServiceSummary(
-      providerName: (json['providerName'] as String?) ?? '',
-      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
-      providerServiceDisplayName:
-          (json['providerServiceDisplayName'] as String?) ?? '',
-      providerServiceName: (json['providerServiceName'] as String?) ?? '',
-      providerServiceType: ServiceType.fromString(
-          (json['providerServiceType'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final providerName = this.providerName;
-    final providerServiceArn = this.providerServiceArn;
-    final providerServiceDisplayName = this.providerServiceDisplayName;
-    final providerServiceName = this.providerServiceName;
-    final providerServiceType = this.providerServiceType;
-    return {
-      'providerName': providerName,
-      'providerServiceArn': providerServiceArn,
-      'providerServiceDisplayName': providerServiceDisplayName,
-      'providerServiceName': providerServiceName,
-      'providerServiceType': providerServiceType.value,
-    };
-  }
-}
-
 class PutPolicyOutput {
   /// The Entity Resolution resource ARN.
   final String arn;
@@ -4748,440 +3212,37 @@ class PutPolicyOutput {
   }
 }
 
-class RecordMatchingModel {
-  static const oneSourceToOneTarget =
-      RecordMatchingModel._('ONE_SOURCE_TO_ONE_TARGET');
-  static const manySourceToOneTarget =
-      RecordMatchingModel._('MANY_SOURCE_TO_ONE_TARGET');
-
-  final String value;
-
-  const RecordMatchingModel._(this.value);
-
-  static const values = [oneSourceToOneTarget, manySourceToOneTarget];
-
-  static RecordMatchingModel fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecordMatchingModel._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RecordMatchingModel && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object which defines the <code>resolutionType</code> and the
-/// <code>ruleBasedProperties</code>.
-class ResolutionTechniques {
-  /// The type of matching. There are three types of matching:
-  /// <code>RULE_MATCHING</code>, <code>ML_MATCHING</code>, and
-  /// <code>PROVIDER</code>.
-  final ResolutionType resolutionType;
-
-  /// The properties of the provider service.
-  final ProviderProperties? providerProperties;
-
-  /// An object which defines the list of matching rules to run and has a field
-  /// <code>Rules</code>, which is a list of rule objects.
-  final RuleBasedProperties? ruleBasedProperties;
-
-  ResolutionTechniques({
-    required this.resolutionType,
-    this.providerProperties,
-    this.ruleBasedProperties,
-  });
-
-  factory ResolutionTechniques.fromJson(Map<String, dynamic> json) {
-    return ResolutionTechniques(
-      resolutionType:
-          ResolutionType.fromString((json['resolutionType'] as String?) ?? ''),
-      providerProperties: json['providerProperties'] != null
-          ? ProviderProperties.fromJson(
-              json['providerProperties'] as Map<String, dynamic>)
-          : null,
-      ruleBasedProperties: json['ruleBasedProperties'] != null
-          ? RuleBasedProperties.fromJson(
-              json['ruleBasedProperties'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resolutionType = this.resolutionType;
-    final providerProperties = this.providerProperties;
-    final ruleBasedProperties = this.ruleBasedProperties;
-    return {
-      'resolutionType': resolutionType.value,
-      if (providerProperties != null) 'providerProperties': providerProperties,
-      if (ruleBasedProperties != null)
-        'ruleBasedProperties': ruleBasedProperties,
-    };
-  }
-}
-
-class ResolutionType {
-  static const ruleMatching = ResolutionType._('RULE_MATCHING');
-  static const mlMatching = ResolutionType._('ML_MATCHING');
-  static const provider = ResolutionType._('PROVIDER');
-
-  final String value;
-
-  const ResolutionType._(this.value);
-
-  static const values = [ruleMatching, mlMatching, provider];
-
-  static ResolutionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResolutionType._(value));
-
-  @override
-  bool operator ==(other) => other is ResolutionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object containing <code>RuleName</code>, and <code>MatchingKeys</code>.
-class Rule {
-  /// A list of <code>MatchingKeys</code>. The <code>MatchingKeys</code> must have
-  /// been defined in the <code>SchemaMapping</code>. Two records are considered
-  /// to match according to this rule if all of the <code>MatchingKeys</code>
-  /// match.
-  final List<String> matchingKeys;
-
-  /// A name for the matching rule.
-  final String ruleName;
-
-  Rule({
-    required this.matchingKeys,
-    required this.ruleName,
-  });
-
-  factory Rule.fromJson(Map<String, dynamic> json) {
-    return Rule(
-      matchingKeys: ((json['matchingKeys'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      ruleName: (json['ruleName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final matchingKeys = this.matchingKeys;
-    final ruleName = this.ruleName;
-    return {
-      'matchingKeys': matchingKeys,
-      'ruleName': ruleName,
-    };
-  }
-}
-
-/// An object which defines the list of matching rules to run in a matching
-/// workflow. RuleBasedProperties contain a <code>Rules</code> field, which is a
-/// list of rule objects.
-class RuleBasedProperties {
-  /// The comparison type. You can either choose <code>ONE_TO_ONE</code> or
-  /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
-  ///
-  /// If you choose <code>MANY_TO_MANY</code>, the system can match attributes
-  /// across the sub-types of an attribute type. For example, if the value of the
-  /// <code>Email</code> field of Profile A and the value of
-  /// <code>BusinessEmail</code> field of Profile B matches, the two profiles are
-  /// matched on the <code>Email</code> attribute type.
-  ///
-  /// If you choose <code>ONE_TO_ONE</code>, the system can only match attributes
-  /// if the sub-types are an exact match. For example, for the <code>Email</code>
-  /// attribute type, the system will only consider it a match if the value of the
-  /// <code>Email</code> field of Profile A matches the value of the
-  /// <code>Email</code> field of Profile B.
-  final AttributeMatchingModel attributeMatchingModel;
-
-  /// A list of <code>Rule</code> objects, each of which have fields
-  /// <code>RuleName</code> and <code>MatchingKeys</code>.
-  final List<Rule> rules;
-
-  /// An indicator of whether to generate IDs and index the data or not.
-  ///
-  /// If you choose <code>IDENTIFIER_GENERATION</code>, the process generates IDs
-  /// and indexes the data.
-  ///
-  /// If you choose <code>INDEXING</code>, the process indexes the data without
-  /// generating IDs.
-  final MatchPurpose? matchPurpose;
-
-  RuleBasedProperties({
-    required this.attributeMatchingModel,
-    required this.rules,
-    this.matchPurpose,
-  });
-
-  factory RuleBasedProperties.fromJson(Map<String, dynamic> json) {
-    return RuleBasedProperties(
-      attributeMatchingModel: AttributeMatchingModel.fromString(
-          (json['attributeMatchingModel'] as String?) ?? ''),
-      rules: ((json['rules'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      matchPurpose:
-          (json['matchPurpose'] as String?)?.let(MatchPurpose.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final attributeMatchingModel = this.attributeMatchingModel;
-    final rules = this.rules;
-    final matchPurpose = this.matchPurpose;
-    return {
-      'attributeMatchingModel': attributeMatchingModel.value,
-      'rules': rules,
-      if (matchPurpose != null) 'matchPurpose': matchPurpose.value,
-    };
-  }
-}
-
-class SchemaAttributeType {
-  static const name = SchemaAttributeType._('NAME');
-  static const nameFirst = SchemaAttributeType._('NAME_FIRST');
-  static const nameMiddle = SchemaAttributeType._('NAME_MIDDLE');
-  static const nameLast = SchemaAttributeType._('NAME_LAST');
-  static const address = SchemaAttributeType._('ADDRESS');
-  static const addressStreet1 = SchemaAttributeType._('ADDRESS_STREET1');
-  static const addressStreet2 = SchemaAttributeType._('ADDRESS_STREET2');
-  static const addressStreet3 = SchemaAttributeType._('ADDRESS_STREET3');
-  static const addressCity = SchemaAttributeType._('ADDRESS_CITY');
-  static const addressState = SchemaAttributeType._('ADDRESS_STATE');
-  static const addressCountry = SchemaAttributeType._('ADDRESS_COUNTRY');
-  static const addressPostalcode = SchemaAttributeType._('ADDRESS_POSTALCODE');
-  static const phone = SchemaAttributeType._('PHONE');
-  static const phoneNumber = SchemaAttributeType._('PHONE_NUMBER');
-  static const phoneCountrycode = SchemaAttributeType._('PHONE_COUNTRYCODE');
-  static const emailAddress = SchemaAttributeType._('EMAIL_ADDRESS');
-  static const uniqueId = SchemaAttributeType._('UNIQUE_ID');
-  static const date = SchemaAttributeType._('DATE');
-  static const string = SchemaAttributeType._('STRING');
-  static const providerId = SchemaAttributeType._('PROVIDER_ID');
-
-  final String value;
-
-  const SchemaAttributeType._(this.value);
-
-  static const values = [
-    name,
-    nameFirst,
-    nameMiddle,
-    nameLast,
-    address,
-    addressStreet1,
-    addressStreet2,
-    addressStreet3,
-    addressCity,
-    addressState,
-    addressCountry,
-    addressPostalcode,
-    phone,
-    phoneNumber,
-    phoneCountrycode,
-    emailAddress,
-    uniqueId,
-    date,
-    string,
-    providerId
-  ];
-
-  static SchemaAttributeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SchemaAttributeType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SchemaAttributeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An object containing <code>FieldName</code>, <code>Type</code>,
-/// <code>GroupName</code>, <code>MatchKey</code>, <code>Hashing</code>, and
-/// <code>SubType</code>.
-class SchemaInputAttribute {
-  /// A string containing the field name.
-  final String fieldName;
-
-  /// The type of the attribute, selected from a list of values.
-  final SchemaAttributeType type;
-
-  /// A string that instructs Entity Resolution to combine several columns into a
-  /// unified column with the identical attribute type.
-  ///
-  /// For example, when working with columns such as <code>first_name</code>,
-  /// <code>middle_name</code>, and <code>last_name</code>, assigning them a
-  /// common <code>groupName</code> will prompt Entity Resolution to concatenate
-  /// them into a single value.
-  final String? groupName;
-
-  /// Indicates if the column values are hashed in the schema input. If the value
-  /// is set to <code>TRUE</code>, the column values are hashed. If the value is
-  /// set to <code>FALSE</code>, the column values are cleartext.
-  final bool? hashed;
-
-  /// A key that allows grouping of multiple input attributes into a unified
-  /// matching group.
-  ///
-  /// For example, consider a scenario where the source table contains various
-  /// addresses, such as <code>business_address</code> and
-  /// <code>shipping_address</code>. By assigning a <code>matchKey</code> called
-  /// <code>address</code> to both attributes, Entity Resolution will match
-  /// records across these fields to create a consolidated matching group.
-  ///
-  /// If no <code>matchKey</code> is specified for a column, it won't be utilized
-  /// for matching purposes but will still be included in the output table.
-  final String? matchKey;
-
-  /// The subtype of the attribute, selected from a list of values.
-  final String? subType;
-
-  SchemaInputAttribute({
-    required this.fieldName,
-    required this.type,
-    this.groupName,
-    this.hashed,
-    this.matchKey,
-    this.subType,
-  });
-
-  factory SchemaInputAttribute.fromJson(Map<String, dynamic> json) {
-    return SchemaInputAttribute(
-      fieldName: (json['fieldName'] as String?) ?? '',
-      type: SchemaAttributeType.fromString((json['type'] as String?) ?? ''),
-      groupName: json['groupName'] as String?,
-      hashed: json['hashed'] as bool?,
-      matchKey: json['matchKey'] as String?,
-      subType: json['subType'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fieldName = this.fieldName;
-    final type = this.type;
-    final groupName = this.groupName;
-    final hashed = this.hashed;
-    final matchKey = this.matchKey;
-    final subType = this.subType;
-    return {
-      'fieldName': fieldName,
-      'type': type.value,
-      if (groupName != null) 'groupName': groupName,
-      if (hashed != null) 'hashed': hashed,
-      if (matchKey != null) 'matchKey': matchKey,
-      if (subType != null) 'subType': subType,
-    };
-  }
-}
-
-/// An object containing <code>SchemaName</code>, <code>SchemaArn</code>,
-/// <code>CreatedAt</code>, and<code>UpdatedAt</code>.
-class SchemaMappingSummary {
-  /// The timestamp of when the <code>SchemaMapping</code> was created.
-  final DateTime createdAt;
-
-  /// Specifies whether the schema mapping has been applied to a workflow.
-  final bool hasWorkflows;
-
-  /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
-  /// <code>SchemaMapping</code>.
-  final String schemaArn;
-
-  /// The name of the schema.
-  final String schemaName;
-
-  /// The timestamp of when the <code>SchemaMapping</code> was last updated.
-  final DateTime updatedAt;
-
-  SchemaMappingSummary({
-    required this.createdAt,
-    required this.hasWorkflows,
-    required this.schemaArn,
-    required this.schemaName,
-    required this.updatedAt,
-  });
-
-  factory SchemaMappingSummary.fromJson(Map<String, dynamic> json) {
-    return SchemaMappingSummary(
-      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
-      hasWorkflows: (json['hasWorkflows'] as bool?) ?? false,
-      schemaArn: (json['schemaArn'] as String?) ?? '',
-      schemaName: (json['schemaName'] as String?) ?? '',
-      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdAt = this.createdAt;
-    final hasWorkflows = this.hasWorkflows;
-    final schemaArn = this.schemaArn;
-    final schemaName = this.schemaName;
-    final updatedAt = this.updatedAt;
-    return {
-      'createdAt': unixTimestampToJson(createdAt),
-      'hasWorkflows': hasWorkflows,
-      'schemaArn': schemaArn,
-      'schemaName': schemaName,
-      'updatedAt': unixTimestampToJson(updatedAt),
-    };
-  }
-}
-
-class ServiceType {
-  static const assignment = ServiceType._('ASSIGNMENT');
-  static const idMapping = ServiceType._('ID_MAPPING');
-
-  final String value;
-
-  const ServiceType._(this.value);
-
-  static const values = [assignment, idMapping];
-
-  static ServiceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
-
-  @override
-  bool operator ==(other) => other is ServiceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class StartIdMappingJobOutput {
   /// The ID of the job.
   final String jobId;
+
+  /// The job type for the started ID mapping job.
+  ///
+  /// A value of <code>INCREMENTAL</code> indicates that only new or changed data
+  /// was processed since the last job run. This is the default job type if the
+  /// workflow was created with an <code>incrementalRunConfig</code>.
+  ///
+  /// A value of <code>BATCH</code> indicates that all data was processed from the
+  /// input source, regardless of previous job runs. This is the default job type
+  /// if the workflow wasn't created with an <code>incrementalRunConfig</code>.
+  ///
+  /// A value of <code>DELETE_ONLY</code> indicates that only deletion requests
+  /// from <code>BatchDeleteUniqueIds</code> were processed.
+  final JobType? jobType;
 
   /// A list of <code>OutputSource</code> objects.
   final List<IdMappingJobOutputSource>? outputSourceConfig;
 
   StartIdMappingJobOutput({
     required this.jobId,
+    this.jobType,
     this.outputSourceConfig,
   });
 
   factory StartIdMappingJobOutput.fromJson(Map<String, dynamic> json) {
     return StartIdMappingJobOutput(
       jobId: (json['jobId'] as String?) ?? '',
+      jobType: (json['jobType'] as String?)?.let(JobType.fromString),
       outputSourceConfig: (json['outputSourceConfig'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -5192,9 +3253,11 @@ class StartIdMappingJobOutput {
 
   Map<String, dynamic> toJson() {
     final jobId = this.jobId;
+    final jobType = this.jobType;
     final outputSourceConfig = this.outputSourceConfig;
     return {
       'jobId': jobId,
+      if (jobType != null) 'jobType': jobType.value,
       if (outputSourceConfig != null) 'outputSourceConfig': outputSourceConfig,
     };
   }
@@ -5220,30 +3283,6 @@ class StartMatchingJobOutput {
       'jobId': jobId,
     };
   }
-}
-
-class StatementEffect {
-  static const allow = StatementEffect._('Allow');
-  static const deny = StatementEffect._('Deny');
-
-  final String value;
-
-  const StatementEffect._(this.value);
-
-  static const values = [allow, deny];
-
-  static StatementEffect fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StatementEffect._(value));
-
-  @override
-  bool operator ==(other) => other is StatementEffect && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class TagResourceOutput {
@@ -5289,8 +3328,11 @@ class UpdateIdMappingWorkflowOutput {
   /// A description of the workflow.
   final String? description;
 
+  /// The incremental run configuration for the update ID mapping workflow output.
+  final IdMappingIncrementalRunConfig? incrementalRunConfig;
+
   /// A list of <code>OutputSource</code> objects, each of which contains fields
-  /// <code>OutputS3Path</code> and <code>KMSArn</code>.
+  /// <code>outputS3Path</code> and <code>KMSArn</code>.
   final List<IdMappingWorkflowOutputSource>? outputSourceConfig;
 
   /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
@@ -5303,6 +3345,7 @@ class UpdateIdMappingWorkflowOutput {
     required this.workflowArn,
     required this.workflowName,
     this.description,
+    this.incrementalRunConfig,
     this.outputSourceConfig,
     this.roleArn,
   });
@@ -5320,6 +3363,10 @@ class UpdateIdMappingWorkflowOutput {
       workflowArn: (json['workflowArn'] as String?) ?? '',
       workflowName: (json['workflowName'] as String?) ?? '',
       description: json['description'] as String?,
+      incrementalRunConfig: json['incrementalRunConfig'] != null
+          ? IdMappingIncrementalRunConfig.fromJson(
+              json['incrementalRunConfig'] as Map<String, dynamic>)
+          : null,
       outputSourceConfig: (json['outputSourceConfig'] as List?)
           ?.nonNulls
           .map((e) =>
@@ -5335,6 +3382,7 @@ class UpdateIdMappingWorkflowOutput {
     final workflowArn = this.workflowArn;
     final workflowName = this.workflowName;
     final description = this.description;
+    final incrementalRunConfig = this.incrementalRunConfig;
     final outputSourceConfig = this.outputSourceConfig;
     final roleArn = this.roleArn;
     return {
@@ -5343,6 +3391,8 @@ class UpdateIdMappingWorkflowOutput {
       'workflowArn': workflowArn,
       'workflowName': workflowName,
       if (description != null) 'description': description,
+      if (incrementalRunConfig != null)
+        'incrementalRunConfig': incrementalRunConfig,
       if (outputSourceConfig != null) 'outputSourceConfig': outputSourceConfig,
       if (roleArn != null) 'roleArn': roleArn,
     };
@@ -5456,12 +3506,12 @@ class UpdateMatchingWorkflowOutput {
   final List<InputSource> inputSourceConfig;
 
   /// A list of <code>OutputSource</code> objects, each of which contains fields
-  /// <code>OutputS3Path</code>, <code>ApplyNormalization</code>, and
-  /// <code>Output</code>.
+  /// <code>outputS3Path</code>, <code>applyNormalization</code>,
+  /// <code>KMSArn</code>, and <code>output</code>.
   final List<OutputSource> outputSourceConfig;
 
   /// An object which defines the <code>resolutionType</code> and the
-  /// <code>ruleBasedProperties</code>
+  /// <code>ruleBasedProperties</code>.
   final ResolutionTechniques resolutionTechniques;
 
   /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
@@ -5578,6 +3628,2737 @@ class UpdateSchemaMappingOutput {
       'schemaName': schemaName,
       if (description != null) 'description': description,
     };
+  }
+}
+
+/// A configuration object for defining input data fields in Entity Resolution.
+/// The <code>SchemaInputAttribute</code> specifies how individual fields in
+/// your input data should be processed and matched.
+class SchemaInputAttribute {
+  /// A string containing the field name.
+  final String fieldName;
+
+  /// The type of the attribute, selected from a list of values.
+  ///
+  /// LiveRamp supports: <code>NAME</code> | <code>NAME_FIRST</code> |
+  /// <code>NAME_MIDDLE</code> | <code>NAME_LAST</code> | <code>ADDRESS</code> |
+  /// <code>ADDRESS_STREET1</code> | <code>ADDRESS_STREET2</code> |
+  /// <code>ADDRESS_STREET3</code> | <code>ADDRESS_CITY</code> |
+  /// <code>ADDRESS_STATE</code> | <code>ADDRESS_COUNTRY</code> |
+  /// <code>ADDRESS_POSTALCODE</code> | <code>PHONE</code> |
+  /// <code>PHONE_NUMBER</code> | <code>EMAIL_ADDRESS</code> |
+  /// <code>UNIQUE_ID</code> | <code>PROVIDER_ID</code>
+  ///
+  /// TransUnion supports: <code>NAME</code> | <code>NAME_FIRST</code> |
+  /// <code>NAME_LAST</code> | <code>ADDRESS</code> | <code>ADDRESS_CITY</code> |
+  /// <code>ADDRESS_STATE</code> | <code>ADDRESS_COUNTRY</code> |
+  /// <code>ADDRESS_POSTALCODE</code> | <code>PHONE_NUMBER</code> |
+  /// <code>EMAIL_ADDRESS</code> | <code>UNIQUE_ID</code> | <code>IPV4</code> |
+  /// <code>IPV6</code> | <code>MAID</code>
+  ///
+  /// Unified ID 2.0 supports: <code>PHONE_NUMBER</code> |
+  /// <code>EMAIL_ADDRESS</code> | <code>UNIQUE_ID</code>
+  /// <note>
+  /// Normalization is only supported for <code>NAME</code>, <code>ADDRESS</code>,
+  /// <code>PHONE</code>, and <code>EMAIL_ADDRESS</code>.
+  ///
+  /// If you want to normalize <code>NAME_FIRST</code>, <code>NAME_MIDDLE</code>,
+  /// and <code>NAME_LAST</code>, you must group them by assigning them to the
+  /// <code>NAME</code> <code>groupName</code>.
+  ///
+  /// If you want to normalize <code>ADDRESS_STREET1</code>,
+  /// <code>ADDRESS_STREET2</code>, <code>ADDRESS_STREET3</code>,
+  /// <code>ADDRESS_CITY</code>, <code>ADDRESS_STATE</code>,
+  /// <code>ADDRESS_COUNTRY</code>, and <code>ADDRESS_POSTALCODE</code>, you must
+  /// group them by assigning them to the <code>ADDRESS</code>
+  /// <code>groupName</code>.
+  ///
+  /// If you want to normalize <code>PHONE_NUMBER</code> and
+  /// <code>PHONE_COUNTRYCODE</code>, you must group them by assigning them to the
+  /// <code>PHONE</code> <code>groupName</code>.
+  /// </note>
+  final SchemaAttributeType type;
+
+  /// A string that instructs Entity Resolution to combine several columns into a
+  /// unified column with the identical attribute type.
+  ///
+  /// For example, when working with columns such as <code>NAME_FIRST</code>,
+  /// <code>NAME_MIDDLE</code>, and <code>NAME_LAST</code>, assigning them a
+  /// common <code>groupName</code> will prompt Entity Resolution to concatenate
+  /// them into a single value.
+  final String? groupName;
+
+  /// Indicates if the column values are hashed in the schema input.
+  ///
+  /// If the value is set to <code>TRUE</code>, the column values are hashed.
+  ///
+  /// If the value is set to <code>FALSE</code>, the column values are cleartext.
+  final bool? hashed;
+
+  /// A key that allows grouping of multiple input attributes into a unified
+  /// matching group.
+  ///
+  /// For example, consider a scenario where the source table contains various
+  /// addresses, such as <code>business_address</code> and
+  /// <code>shipping_address</code>. By assigning a <code>matchKey</code> called
+  /// <code>address</code> to both attributes, Entity Resolution will match
+  /// records across these fields to create a consolidated matching group.
+  ///
+  /// If no <code>matchKey</code> is specified for a column, it won't be utilized
+  /// for matching purposes but will still be included in the output table.
+  final String? matchKey;
+
+  /// The subtype of the attribute, selected from a list of values.
+  final String? subType;
+
+  SchemaInputAttribute({
+    required this.fieldName,
+    required this.type,
+    this.groupName,
+    this.hashed,
+    this.matchKey,
+    this.subType,
+  });
+
+  factory SchemaInputAttribute.fromJson(Map<String, dynamic> json) {
+    return SchemaInputAttribute(
+      fieldName: (json['fieldName'] as String?) ?? '',
+      type: SchemaAttributeType.fromString((json['type'] as String?) ?? ''),
+      groupName: json['groupName'] as String?,
+      hashed: json['hashed'] as bool?,
+      matchKey: json['matchKey'] as String?,
+      subType: json['subType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final type = this.type;
+    final groupName = this.groupName;
+    final hashed = this.hashed;
+    final matchKey = this.matchKey;
+    final subType = this.subType;
+    return {
+      'fieldName': fieldName,
+      'type': type.value,
+      if (groupName != null) 'groupName': groupName,
+      if (hashed != null) 'hashed': hashed,
+      if (matchKey != null) 'matchKey': matchKey,
+      if (subType != null) 'subType': subType,
+    };
+  }
+}
+
+class SchemaAttributeType {
+  static const name = SchemaAttributeType._('NAME');
+  static const nameFirst = SchemaAttributeType._('NAME_FIRST');
+  static const nameMiddle = SchemaAttributeType._('NAME_MIDDLE');
+  static const nameLast = SchemaAttributeType._('NAME_LAST');
+  static const address = SchemaAttributeType._('ADDRESS');
+  static const addressStreet1 = SchemaAttributeType._('ADDRESS_STREET1');
+  static const addressStreet2 = SchemaAttributeType._('ADDRESS_STREET2');
+  static const addressStreet3 = SchemaAttributeType._('ADDRESS_STREET3');
+  static const addressCity = SchemaAttributeType._('ADDRESS_CITY');
+  static const addressState = SchemaAttributeType._('ADDRESS_STATE');
+  static const addressCountry = SchemaAttributeType._('ADDRESS_COUNTRY');
+  static const addressPostalcode = SchemaAttributeType._('ADDRESS_POSTALCODE');
+  static const phone = SchemaAttributeType._('PHONE');
+  static const phoneNumber = SchemaAttributeType._('PHONE_NUMBER');
+  static const phoneCountrycode = SchemaAttributeType._('PHONE_COUNTRYCODE');
+  static const emailAddress = SchemaAttributeType._('EMAIL_ADDRESS');
+  static const uniqueId = SchemaAttributeType._('UNIQUE_ID');
+  static const date = SchemaAttributeType._('DATE');
+  static const string = SchemaAttributeType._('STRING');
+  static const providerId = SchemaAttributeType._('PROVIDER_ID');
+  static const ipv4 = SchemaAttributeType._('IPV4');
+  static const ipv6 = SchemaAttributeType._('IPV6');
+  static const maid = SchemaAttributeType._('MAID');
+
+  final String value;
+
+  const SchemaAttributeType._(this.value);
+
+  static const values = [
+    name,
+    nameFirst,
+    nameMiddle,
+    nameLast,
+    address,
+    addressStreet1,
+    addressStreet2,
+    addressStreet3,
+    addressCity,
+    addressState,
+    addressCountry,
+    addressPostalcode,
+    phone,
+    phoneNumber,
+    phoneCountrycode,
+    emailAddress,
+    uniqueId,
+    date,
+    string,
+    providerId,
+    ipv4,
+    ipv6,
+    maid
+  ];
+
+  static SchemaAttributeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SchemaAttributeType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SchemaAttributeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object which defines the <code>resolutionType</code> and the
+/// <code>ruleBasedProperties</code>.
+class ResolutionTechniques {
+  /// The type of matching workflow to create. Specify one of the following types:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>RULE_MATCHING</code>: Match records using configurable rule-based
+  /// criteria
+  /// </li>
+  /// <li>
+  /// <code>ML_MATCHING</code>: Match records using machine learning models
+  /// </li>
+  /// <li>
+  /// <code>PROVIDER</code>: Match records using a third-party matching provider
+  /// </li>
+  /// </ul>
+  final ResolutionType resolutionType;
+
+  /// The properties of the provider service.
+  final ProviderProperties? providerProperties;
+
+  /// An object which defines the list of matching rules to run and has a field
+  /// <code>rules</code>, which is a list of rule objects.
+  final RuleBasedProperties? ruleBasedProperties;
+
+  /// An object containing the <code>rules</code> for a matching workflow.
+  final RuleConditionProperties? ruleConditionProperties;
+
+  ResolutionTechniques({
+    required this.resolutionType,
+    this.providerProperties,
+    this.ruleBasedProperties,
+    this.ruleConditionProperties,
+  });
+
+  factory ResolutionTechniques.fromJson(Map<String, dynamic> json) {
+    return ResolutionTechniques(
+      resolutionType:
+          ResolutionType.fromString((json['resolutionType'] as String?) ?? ''),
+      providerProperties: json['providerProperties'] != null
+          ? ProviderProperties.fromJson(
+              json['providerProperties'] as Map<String, dynamic>)
+          : null,
+      ruleBasedProperties: json['ruleBasedProperties'] != null
+          ? RuleBasedProperties.fromJson(
+              json['ruleBasedProperties'] as Map<String, dynamic>)
+          : null,
+      ruleConditionProperties: json['ruleConditionProperties'] != null
+          ? RuleConditionProperties.fromJson(
+              json['ruleConditionProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolutionType = this.resolutionType;
+    final providerProperties = this.providerProperties;
+    final ruleBasedProperties = this.ruleBasedProperties;
+    final ruleConditionProperties = this.ruleConditionProperties;
+    return {
+      'resolutionType': resolutionType.value,
+      if (providerProperties != null) 'providerProperties': providerProperties,
+      if (ruleBasedProperties != null)
+        'ruleBasedProperties': ruleBasedProperties,
+      if (ruleConditionProperties != null)
+        'ruleConditionProperties': ruleConditionProperties,
+    };
+  }
+}
+
+/// Optional. An object that defines the incremental run type. This object
+/// contains only the <code>incrementalRunType</code> field, which appears as
+/// "Automatic" in the console.
+/// <important>
+/// For workflows where <code>resolutionType</code> is <code>ML_MATCHING</code>
+/// or <code>PROVIDER</code>, incremental processing is not supported.
+/// </important>
+class IncrementalRunConfig {
+  /// The type of incremental run. The only valid value is <code>IMMEDIATE</code>.
+  /// This appears as "Automatic" in the console.
+  /// <important>
+  /// For workflows where <code>resolutionType</code> is <code>ML_MATCHING</code>
+  /// or <code>PROVIDER</code>, incremental processing is not supported.
+  /// </important>
+  final IncrementalRunType? incrementalRunType;
+
+  IncrementalRunConfig({
+    this.incrementalRunType,
+  });
+
+  factory IncrementalRunConfig.fromJson(Map<String, dynamic> json) {
+    return IncrementalRunConfig(
+      incrementalRunType: (json['incrementalRunType'] as String?)
+          ?.let(IncrementalRunType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final incrementalRunType = this.incrementalRunType;
+    return {
+      if (incrementalRunType != null)
+        'incrementalRunType': incrementalRunType.value,
+    };
+  }
+}
+
+class IncrementalRunType {
+  static const immediate = IncrementalRunType._('IMMEDIATE');
+
+  final String value;
+
+  const IncrementalRunType._(this.value);
+
+  static const values = [immediate];
+
+  static IncrementalRunType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IncrementalRunType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IncrementalRunType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResolutionType {
+  static const ruleMatching = ResolutionType._('RULE_MATCHING');
+  static const mlMatching = ResolutionType._('ML_MATCHING');
+  static const provider = ResolutionType._('PROVIDER');
+
+  final String value;
+
+  const ResolutionType._(this.value);
+
+  static const values = [ruleMatching, mlMatching, provider];
+
+  static ResolutionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResolutionType._(value));
+
+  @override
+  bool operator ==(other) => other is ResolutionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object which defines the list of matching rules to run in a matching
+/// workflow.
+class RuleBasedProperties {
+  /// The comparison type. You can choose <code>ONE_TO_ONE</code> or
+  /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
+  ///
+  /// If you choose <code>ONE_TO_ONE</code>, the system can only match attributes
+  /// if the sub-types are an exact match. For example, for the <code>Email</code>
+  /// attribute type, the system will only consider it a match if the value of the
+  /// <code>Email</code> field of Profile A matches the value of the
+  /// <code>Email</code> field of Profile B.
+  ///
+  /// If you choose <code>MANY_TO_MANY</code>, the system can match attributes
+  /// across the sub-types of an attribute type. For example, if the value of the
+  /// <code>Email</code> field of Profile A and the value of
+  /// <code>BusinessEmail</code> field of Profile B matches, the two profiles are
+  /// matched on the <code>Email</code> attribute type.
+  final AttributeMatchingModel attributeMatchingModel;
+
+  /// A list of <code>Rule</code> objects, each of which have fields
+  /// <code>RuleName</code> and <code>MatchingKeys</code>.
+  final List<Rule> rules;
+
+  /// An indicator of whether to generate IDs and index the data or not.
+  ///
+  /// If you choose <code>IDENTIFIER_GENERATION</code>, the process generates IDs
+  /// and indexes the data.
+  ///
+  /// If you choose <code>INDEXING</code>, the process indexes the data without
+  /// generating IDs.
+  final MatchPurpose? matchPurpose;
+
+  RuleBasedProperties({
+    required this.attributeMatchingModel,
+    required this.rules,
+    this.matchPurpose,
+  });
+
+  factory RuleBasedProperties.fromJson(Map<String, dynamic> json) {
+    return RuleBasedProperties(
+      attributeMatchingModel: AttributeMatchingModel.fromString(
+          (json['attributeMatchingModel'] as String?) ?? ''),
+      rules: ((json['rules'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      matchPurpose:
+          (json['matchPurpose'] as String?)?.let(MatchPurpose.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeMatchingModel = this.attributeMatchingModel;
+    final rules = this.rules;
+    final matchPurpose = this.matchPurpose;
+    return {
+      'attributeMatchingModel': attributeMatchingModel.value,
+      'rules': rules,
+      if (matchPurpose != null) 'matchPurpose': matchPurpose.value,
+    };
+  }
+}
+
+/// The properties of a rule condition that provides the ability to use more
+/// complex syntax.
+class RuleConditionProperties {
+  /// A list of rule objects, each of which have fields <code>ruleName</code> and
+  /// <code>condition</code>.
+  final List<RuleCondition> rules;
+
+  /// An object that contains configuration settings for the matching process.
+  final MatchingConfig? matchingConfig;
+
+  RuleConditionProperties({
+    required this.rules,
+    this.matchingConfig,
+  });
+
+  factory RuleConditionProperties.fromJson(Map<String, dynamic> json) {
+    return RuleConditionProperties(
+      rules: ((json['rules'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RuleCondition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      matchingConfig: json['matchingConfig'] != null
+          ? MatchingConfig.fromJson(
+              json['matchingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    final matchingConfig = this.matchingConfig;
+    return {
+      'rules': rules,
+      if (matchingConfig != null) 'matchingConfig': matchingConfig,
+    };
+  }
+}
+
+/// An object containing the <code>providerServiceARN</code>,
+/// <code>intermediateSourceConfiguration</code>, and
+/// <code>providerConfiguration</code>.
+class ProviderProperties {
+  /// The ARN of the provider service.
+  final String providerServiceArn;
+
+  /// The Amazon S3 location that temporarily stores your data while it processes.
+  /// Your information won't be saved permanently.
+  final IntermediateSourceConfiguration? intermediateSourceConfiguration;
+
+  /// The required configuration fields to use with the provider service.
+  final Document? providerConfiguration;
+
+  ProviderProperties({
+    required this.providerServiceArn,
+    this.intermediateSourceConfiguration,
+    this.providerConfiguration,
+  });
+
+  factory ProviderProperties.fromJson(Map<String, dynamic> json) {
+    return ProviderProperties(
+      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
+      intermediateSourceConfiguration:
+          json['intermediateSourceConfiguration'] != null
+              ? IntermediateSourceConfiguration.fromJson(
+                  json['intermediateSourceConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      providerConfiguration: json['providerConfiguration'] != null
+          ? Document.fromJson(
+              json['providerConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final providerServiceArn = this.providerServiceArn;
+    final intermediateSourceConfiguration =
+        this.intermediateSourceConfiguration;
+    final providerConfiguration = this.providerConfiguration;
+    return {
+      'providerServiceArn': providerServiceArn,
+      if (intermediateSourceConfiguration != null)
+        'intermediateSourceConfiguration': intermediateSourceConfiguration,
+      if (providerConfiguration != null)
+        'providerConfiguration': providerConfiguration,
+    };
+  }
+}
+
+/// The Amazon S3 location that temporarily stores your data while it processes.
+/// Your information won't be saved permanently.
+class IntermediateSourceConfiguration {
+  /// The Amazon S3 location (bucket and prefix). For example:
+  /// <code>s3://provider_bucket/DOC-EXAMPLE-BUCKET</code>
+  final String intermediateS3Path;
+
+  IntermediateSourceConfiguration({
+    required this.intermediateS3Path,
+  });
+
+  factory IntermediateSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return IntermediateSourceConfiguration(
+      intermediateS3Path: (json['intermediateS3Path'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intermediateS3Path = this.intermediateS3Path;
+    return {
+      'intermediateS3Path': intermediateS3Path,
+    };
+  }
+}
+
+/// An object that contains configuration settings for the matching process in a
+/// rule-based matching workflow.
+class MatchingConfig {
+  /// Enables transitive matching for the rule-based matching workflow. When
+  /// enabled, records that match through different rules are grouped together
+  /// into the same match group.
+  final bool? enableTransitiveMatching;
+
+  MatchingConfig({
+    this.enableTransitiveMatching,
+  });
+
+  factory MatchingConfig.fromJson(Map<String, dynamic> json) {
+    return MatchingConfig(
+      enableTransitiveMatching: json['enableTransitiveMatching'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableTransitiveMatching = this.enableTransitiveMatching;
+    return {
+      if (enableTransitiveMatching != null)
+        'enableTransitiveMatching': enableTransitiveMatching,
+    };
+  }
+}
+
+/// An object that defines the <code>ruleCondition</code> and the
+/// <code>ruleName</code> to use in a matching workflow.
+class RuleCondition {
+  /// A statement that specifies the conditions for a matching rule.
+  ///
+  /// If your data is accurate, use an Exact matching function: <code>Exact</code>
+  /// or <code>ExactManyToMany</code>.
+  ///
+  /// If your data has variations in spelling or pronunciation, use a Fuzzy
+  /// matching function: <code>Cosine</code>, <code>Levenshtein</code>, or
+  /// <code>Soundex</code>.
+  ///
+  /// Use operators if you want to combine (<code>AND</code>), separate
+  /// (<code>OR</code>), or group matching functions <code>(...)</code>.
+  ///
+  /// For example: <code>(Cosine(a, 10) AND Exact(b, true)) OR ExactManyToMany(c,
+  /// d)</code>
+  final String condition;
+
+  /// A name for the matching rule.
+  ///
+  /// For example: <code>Rule1</code>
+  final String ruleName;
+
+  RuleCondition({
+    required this.condition,
+    required this.ruleName,
+  });
+
+  factory RuleCondition.fromJson(Map<String, dynamic> json) {
+    return RuleCondition(
+      condition: (json['condition'] as String?) ?? '',
+      ruleName: (json['ruleName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final condition = this.condition;
+    final ruleName = this.ruleName;
+    return {
+      'condition': condition,
+      'ruleName': ruleName,
+    };
+  }
+}
+
+class AttributeMatchingModel {
+  static const oneToOne = AttributeMatchingModel._('ONE_TO_ONE');
+  static const manyToMany = AttributeMatchingModel._('MANY_TO_MANY');
+
+  final String value;
+
+  const AttributeMatchingModel._(this.value);
+
+  static const values = [oneToOne, manyToMany];
+
+  static AttributeMatchingModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AttributeMatchingModel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AttributeMatchingModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MatchPurpose {
+  static const identifierGeneration = MatchPurpose._('IDENTIFIER_GENERATION');
+  static const indexing = MatchPurpose._('INDEXING');
+
+  final String value;
+
+  const MatchPurpose._(this.value);
+
+  static const values = [identifierGeneration, indexing];
+
+  static MatchPurpose fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MatchPurpose._(value));
+
+  @override
+  bool operator ==(other) => other is MatchPurpose && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object containing the <code>ruleName</code> and
+/// <code>matchingKeys</code>.
+class Rule {
+  /// A list of <code>MatchingKeys</code>. The <code>MatchingKeys</code> must have
+  /// been defined in the <code>SchemaMapping</code>. Two records are considered
+  /// to match according to this rule if all of the <code>MatchingKeys</code>
+  /// match.
+  final List<String> matchingKeys;
+
+  /// A name for the matching rule.
+  final String ruleName;
+
+  Rule({
+    required this.matchingKeys,
+    required this.ruleName,
+  });
+
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      matchingKeys: ((json['matchingKeys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      ruleName: (json['ruleName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchingKeys = this.matchingKeys;
+    final ruleName = this.ruleName;
+    return {
+      'matchingKeys': matchingKeys,
+      'ruleName': ruleName,
+    };
+  }
+}
+
+/// A list of <code>OutputAttribute</code> objects, each of which have the
+/// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
+/// selects a column to be included in the output table, and whether the values
+/// of the column should be hashed.
+class OutputSource {
+  /// A list of <code>OutputAttribute</code> objects, each of which have the
+  /// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
+  /// selects a column to be included in the output table, and whether the values
+  /// of the column should be hashed.
+  final List<OutputAttribute> output;
+
+  /// Customer KMS ARN for encryption at rest. If not provided, system will use an
+  /// Entity Resolution managed KMS key.
+  final String? kMSArn;
+
+  /// Normalizes the attributes defined in the schema in the input data. For
+  /// example, if an attribute has an <code>AttributeType</code> of
+  /// <code>PHONE_NUMBER</code>, and the data in the input table is in a format of
+  /// 1234567890, Entity Resolution will normalize this field in the output to
+  /// (123)-456-7890.
+  final bool? applyNormalization;
+
+  /// Specifies the Customer Profiles integration configuration for sending
+  /// matched output directly to Customer Profiles. When configured, Entity
+  /// Resolution automatically creates and updates customer profiles based on
+  /// match clusters, eliminating the need for manual Amazon S3 integration setup.
+  final CustomerProfilesIntegrationConfig? customerProfilesIntegrationConfig;
+
+  /// The S3 path to which Entity Resolution will write the output table.
+  final String? outputS3Path;
+
+  OutputSource({
+    required this.output,
+    this.kMSArn,
+    this.applyNormalization,
+    this.customerProfilesIntegrationConfig,
+    this.outputS3Path,
+  });
+
+  factory OutputSource.fromJson(Map<String, dynamic> json) {
+    return OutputSource(
+      output: ((json['output'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => OutputAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      kMSArn: json['KMSArn'] as String?,
+      applyNormalization: json['applyNormalization'] as bool?,
+      customerProfilesIntegrationConfig:
+          json['customerProfilesIntegrationConfig'] != null
+              ? CustomerProfilesIntegrationConfig.fromJson(
+                  json['customerProfilesIntegrationConfig']
+                      as Map<String, dynamic>)
+              : null,
+      outputS3Path: json['outputS3Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final output = this.output;
+    final kMSArn = this.kMSArn;
+    final applyNormalization = this.applyNormalization;
+    final customerProfilesIntegrationConfig =
+        this.customerProfilesIntegrationConfig;
+    final outputS3Path = this.outputS3Path;
+    return {
+      'output': output,
+      if (kMSArn != null) 'KMSArn': kMSArn,
+      if (applyNormalization != null) 'applyNormalization': applyNormalization,
+      if (customerProfilesIntegrationConfig != null)
+        'customerProfilesIntegrationConfig': customerProfilesIntegrationConfig,
+      if (outputS3Path != null) 'outputS3Path': outputS3Path,
+    };
+  }
+}
+
+/// Specifies the configuration for integrating with Customer Profiles. This
+/// configuration enables Entity Resolution to send matched output directly to
+/// Customer Profiles instead of Amazon S3, creating a unified customer view by
+/// automatically updating customer profiles based on match clusters.
+class CustomerProfilesIntegrationConfig {
+  /// The Amazon Resource Name (ARN) of the Customer Profiles domain where the
+  /// matched output will be sent.
+  final String domainArn;
+
+  /// The Amazon Resource Name (ARN) of the Customer Profiles object type that
+  /// defines the structure for the matched customer data.
+  final String objectTypeArn;
+
+  CustomerProfilesIntegrationConfig({
+    required this.domainArn,
+    required this.objectTypeArn,
+  });
+
+  factory CustomerProfilesIntegrationConfig.fromJson(
+      Map<String, dynamic> json) {
+    return CustomerProfilesIntegrationConfig(
+      domainArn: (json['domainArn'] as String?) ?? '',
+      objectTypeArn: (json['objectTypeArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainArn = this.domainArn;
+    final objectTypeArn = this.objectTypeArn;
+    return {
+      'domainArn': domainArn,
+      'objectTypeArn': objectTypeArn,
+    };
+  }
+}
+
+/// A list of <code>OutputAttribute</code> objects, each of which have the
+/// fields <code>Name</code> and <code>Hashed</code>. Each of these objects
+/// selects a column to be included in the output table, and whether the values
+/// of the column should be hashed.
+class OutputAttribute {
+  /// A name of a column to be written to the output. This must be an
+  /// <code>InputField</code> name in the schema mapping.
+  final String name;
+
+  /// Enables the ability to hash the column values in the output.
+  final bool? hashed;
+
+  OutputAttribute({
+    required this.name,
+    this.hashed,
+  });
+
+  factory OutputAttribute.fromJson(Map<String, dynamic> json) {
+    return OutputAttribute(
+      name: (json['name'] as String?) ?? '',
+      hashed: json['hashed'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final hashed = this.hashed;
+    return {
+      'name': name,
+      if (hashed != null) 'hashed': hashed,
+    };
+  }
+}
+
+/// An object containing <code>inputSourceARN</code>, <code>schemaName</code>,
+/// and <code>applyNormalization</code>.
+class InputSource {
+  /// An Glue table Amazon Resource Name (ARN) for the input source table.
+  final String inputSourceARN;
+
+  /// The name of the schema to be retrieved.
+  final String schemaName;
+
+  /// Normalizes the attributes defined in the schema in the input data. For
+  /// example, if an attribute has an <code>AttributeType</code> of
+  /// <code>PHONE_NUMBER</code>, and the data in the input table is in a format of
+  /// 1234567890, Entity Resolution will normalize this field in the output to
+  /// (123)-456-7890.
+  final bool? applyNormalization;
+
+  InputSource({
+    required this.inputSourceARN,
+    required this.schemaName,
+    this.applyNormalization,
+  });
+
+  factory InputSource.fromJson(Map<String, dynamic> json) {
+    return InputSource(
+      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
+      schemaName: (json['schemaName'] as String?) ?? '',
+      applyNormalization: json['applyNormalization'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputSourceARN = this.inputSourceARN;
+    final schemaName = this.schemaName;
+    final applyNormalization = this.applyNormalization;
+    return {
+      'inputSourceARN': inputSourceARN,
+      'schemaName': schemaName,
+      if (applyNormalization != null) 'applyNormalization': applyNormalization,
+    };
+  }
+}
+
+class IdNamespaceType {
+  static const source = IdNamespaceType._('SOURCE');
+  static const target = IdNamespaceType._('TARGET');
+
+  final String value;
+
+  const IdNamespaceType._(this.value);
+
+  static const values = [source, target];
+
+  static IdNamespaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IdNamespaceType._(value));
+
+  @override
+  bool operator ==(other) => other is IdNamespaceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object containing <code>idMappingType</code>,
+/// <code>providerProperties</code>, and <code>ruleBasedProperties</code>.
+class IdNamespaceIdMappingWorkflowProperties {
+  /// The type of ID mapping.
+  final IdMappingType idMappingType;
+
+  /// An object which defines any additional configurations required by the
+  /// provider service.
+  final NamespaceProviderProperties? providerProperties;
+
+  /// An object which defines any additional configurations required by rule-based
+  /// matching.
+  final NamespaceRuleBasedProperties? ruleBasedProperties;
+
+  IdNamespaceIdMappingWorkflowProperties({
+    required this.idMappingType,
+    this.providerProperties,
+    this.ruleBasedProperties,
+  });
+
+  factory IdNamespaceIdMappingWorkflowProperties.fromJson(
+      Map<String, dynamic> json) {
+    return IdNamespaceIdMappingWorkflowProperties(
+      idMappingType:
+          IdMappingType.fromString((json['idMappingType'] as String?) ?? ''),
+      providerProperties: json['providerProperties'] != null
+          ? NamespaceProviderProperties.fromJson(
+              json['providerProperties'] as Map<String, dynamic>)
+          : null,
+      ruleBasedProperties: json['ruleBasedProperties'] != null
+          ? NamespaceRuleBasedProperties.fromJson(
+              json['ruleBasedProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingType = this.idMappingType;
+    final providerProperties = this.providerProperties;
+    final ruleBasedProperties = this.ruleBasedProperties;
+    return {
+      'idMappingType': idMappingType.value,
+      if (providerProperties != null) 'providerProperties': providerProperties,
+      if (ruleBasedProperties != null)
+        'ruleBasedProperties': ruleBasedProperties,
+    };
+  }
+}
+
+class IdMappingType {
+  static const provider = IdMappingType._('PROVIDER');
+  static const ruleBased = IdMappingType._('RULE_BASED');
+
+  final String value;
+
+  const IdMappingType._(this.value);
+
+  static const values = [provider, ruleBased];
+
+  static IdMappingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IdMappingType._(value));
+
+  @override
+  bool operator ==(other) => other is IdMappingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The rule-based properties of an ID namespace. These properties define how
+/// the ID namespace can be used in an ID mapping workflow.
+class NamespaceRuleBasedProperties {
+  /// The comparison type. You can either choose <code>ONE_TO_ONE</code> or
+  /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
+  ///
+  /// If you choose <code>ONE_TO_ONE</code>, the system can only match attributes
+  /// if the sub-types are an exact match. For example, for the <code>Email</code>
+  /// attribute type, the system will only consider it a match if the value of the
+  /// <code>Email</code> field of Profile A matches the value of the
+  /// <code>Email</code> field of Profile B.
+  ///
+  /// If you choose <code>MANY_TO_MANY</code>, the system can match attributes
+  /// across the sub-types of an attribute type. For example, if the value of the
+  /// <code>Email</code> field of Profile A matches the value of
+  /// <code>BusinessEmail</code> field of Profile B, the two profiles are matched
+  /// on the <code>Email</code> attribute type.
+  final AttributeMatchingModel? attributeMatchingModel;
+
+  /// The type of matching record that is allowed to be used in an ID mapping
+  /// workflow.
+  ///
+  /// If the value is set to <code>ONE_SOURCE_TO_ONE_TARGET</code>, only one
+  /// record in the source is matched to one record in the target.
+  ///
+  /// If the value is set to <code>MANY_SOURCE_TO_ONE_TARGET</code>, all matching
+  /// records in the source are matched to one record in the target.
+  final List<RecordMatchingModel>? recordMatchingModels;
+
+  /// The sets of rules you can use in an ID mapping workflow. The limitations
+  /// specified for the source and target must be compatible.
+  final List<IdMappingWorkflowRuleDefinitionType>? ruleDefinitionTypes;
+
+  /// The rules for the ID namespace.
+  final List<Rule>? rules;
+
+  NamespaceRuleBasedProperties({
+    this.attributeMatchingModel,
+    this.recordMatchingModels,
+    this.ruleDefinitionTypes,
+    this.rules,
+  });
+
+  factory NamespaceRuleBasedProperties.fromJson(Map<String, dynamic> json) {
+    return NamespaceRuleBasedProperties(
+      attributeMatchingModel: (json['attributeMatchingModel'] as String?)
+          ?.let(AttributeMatchingModel.fromString),
+      recordMatchingModels: (json['recordMatchingModels'] as List?)
+          ?.nonNulls
+          .map((e) => RecordMatchingModel.fromString((e as String)))
+          .toList(),
+      ruleDefinitionTypes: (json['ruleDefinitionTypes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              IdMappingWorkflowRuleDefinitionType.fromString((e as String)))
+          .toList(),
+      rules: (json['rules'] as List?)
+          ?.nonNulls
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeMatchingModel = this.attributeMatchingModel;
+    final recordMatchingModels = this.recordMatchingModels;
+    final ruleDefinitionTypes = this.ruleDefinitionTypes;
+    final rules = this.rules;
+    return {
+      if (attributeMatchingModel != null)
+        'attributeMatchingModel': attributeMatchingModel.value,
+      if (recordMatchingModels != null)
+        'recordMatchingModels':
+            recordMatchingModels.map((e) => e.value).toList(),
+      if (ruleDefinitionTypes != null)
+        'ruleDefinitionTypes': ruleDefinitionTypes.map((e) => e.value).toList(),
+      if (rules != null) 'rules': rules,
+    };
+  }
+}
+
+/// An object containing <code>providerConfiguration</code> and
+/// <code>providerServiceArn</code>.
+class NamespaceProviderProperties {
+  /// The Amazon Resource Name (ARN) of the provider service.
+  final String providerServiceArn;
+
+  /// An object which defines any additional configurations required by the
+  /// provider service.
+  final Document? providerConfiguration;
+
+  NamespaceProviderProperties({
+    required this.providerServiceArn,
+    this.providerConfiguration,
+  });
+
+  factory NamespaceProviderProperties.fromJson(Map<String, dynamic> json) {
+    return NamespaceProviderProperties(
+      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
+      providerConfiguration: json['providerConfiguration'] != null
+          ? Document.fromJson(
+              json['providerConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final providerServiceArn = this.providerServiceArn;
+    final providerConfiguration = this.providerConfiguration;
+    return {
+      'providerServiceArn': providerServiceArn,
+      if (providerConfiguration != null)
+        'providerConfiguration': providerConfiguration,
+    };
+  }
+}
+
+class RecordMatchingModel {
+  static const oneSourceToOneTarget =
+      RecordMatchingModel._('ONE_SOURCE_TO_ONE_TARGET');
+  static const manySourceToOneTarget =
+      RecordMatchingModel._('MANY_SOURCE_TO_ONE_TARGET');
+
+  final String value;
+
+  const RecordMatchingModel._(this.value);
+
+  static const values = [oneSourceToOneTarget, manySourceToOneTarget];
+
+  static RecordMatchingModel fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecordMatchingModel._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RecordMatchingModel && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IdMappingWorkflowRuleDefinitionType {
+  static const source = IdMappingWorkflowRuleDefinitionType._('SOURCE');
+  static const target = IdMappingWorkflowRuleDefinitionType._('TARGET');
+
+  final String value;
+
+  const IdMappingWorkflowRuleDefinitionType._(this.value);
+
+  static const values = [source, target];
+
+  static IdMappingWorkflowRuleDefinitionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IdMappingWorkflowRuleDefinitionType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IdMappingWorkflowRuleDefinitionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object containing <code>inputSourceARN</code> and
+/// <code>schemaName</code>.
+class IdNamespaceInputSource {
+  /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the
+  /// input source table.
+  final String inputSourceARN;
+
+  /// The name of the schema.
+  final String? schemaName;
+
+  IdNamespaceInputSource({
+    required this.inputSourceARN,
+    this.schemaName,
+  });
+
+  factory IdNamespaceInputSource.fromJson(Map<String, dynamic> json) {
+    return IdNamespaceInputSource(
+      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
+      schemaName: json['schemaName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputSourceARN = this.inputSourceARN;
+    final schemaName = this.schemaName;
+    return {
+      'inputSourceARN': inputSourceARN,
+      if (schemaName != null) 'schemaName': schemaName,
+    };
+  }
+}
+
+/// An object which defines the ID mapping technique and any additional
+/// configurations.
+class IdMappingTechniques {
+  /// The type of ID mapping.
+  final IdMappingType idMappingType;
+
+  /// An object which defines any additional configurations required by the
+  /// provider service.
+  final ProviderProperties? providerProperties;
+
+  /// An object which defines any additional configurations required by rule-based
+  /// matching.
+  final IdMappingRuleBasedProperties? ruleBasedProperties;
+
+  IdMappingTechniques({
+    required this.idMappingType,
+    this.providerProperties,
+    this.ruleBasedProperties,
+  });
+
+  factory IdMappingTechniques.fromJson(Map<String, dynamic> json) {
+    return IdMappingTechniques(
+      idMappingType:
+          IdMappingType.fromString((json['idMappingType'] as String?) ?? ''),
+      providerProperties: json['providerProperties'] != null
+          ? ProviderProperties.fromJson(
+              json['providerProperties'] as Map<String, dynamic>)
+          : null,
+      ruleBasedProperties: json['ruleBasedProperties'] != null
+          ? IdMappingRuleBasedProperties.fromJson(
+              json['ruleBasedProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingType = this.idMappingType;
+    final providerProperties = this.providerProperties;
+    final ruleBasedProperties = this.ruleBasedProperties;
+    return {
+      'idMappingType': idMappingType.value,
+      if (providerProperties != null) 'providerProperties': providerProperties,
+      if (ruleBasedProperties != null)
+        'ruleBasedProperties': ruleBasedProperties,
+    };
+  }
+}
+
+/// Incremental run configuration for an ID mapping workflow.
+class IdMappingIncrementalRunConfig {
+  /// The incremental run type for an ID mapping workflow.
+  ///
+  /// It takes only one value: <code>ON_DEMAND</code>. This setting runs the ID
+  /// mapping workflow when it's manually triggered through the
+  /// <code>StartIdMappingJob</code> API.
+  final IdMappingIncrementalRunType? incrementalRunType;
+
+  IdMappingIncrementalRunConfig({
+    this.incrementalRunType,
+  });
+
+  factory IdMappingIncrementalRunConfig.fromJson(Map<String, dynamic> json) {
+    return IdMappingIncrementalRunConfig(
+      incrementalRunType: (json['incrementalRunType'] as String?)
+          ?.let(IdMappingIncrementalRunType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final incrementalRunType = this.incrementalRunType;
+    return {
+      if (incrementalRunType != null)
+        'incrementalRunType': incrementalRunType.value,
+    };
+  }
+}
+
+class IdMappingIncrementalRunType {
+  static const onDemand = IdMappingIncrementalRunType._('ON_DEMAND');
+
+  final String value;
+
+  const IdMappingIncrementalRunType._(this.value);
+
+  static const values = [onDemand];
+
+  static IdMappingIncrementalRunType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IdMappingIncrementalRunType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is IdMappingIncrementalRunType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that defines the list of matching rules to run in an ID mapping
+/// workflow.
+class IdMappingRuleBasedProperties {
+  /// The comparison type. You can either choose <code>ONE_TO_ONE</code> or
+  /// <code>MANY_TO_MANY</code> as the <code>attributeMatchingModel</code>.
+  ///
+  /// If you choose <code>ONE_TO_ONE</code>, the system can only match attributes
+  /// if the sub-types are an exact match. For example, for the <code>Email</code>
+  /// attribute type, the system will only consider it a match if the value of the
+  /// <code>Email</code> field of Profile A matches the value of the
+  /// <code>Email</code> field of Profile B.
+  ///
+  /// If you choose <code>MANY_TO_MANY</code>, the system can match attributes
+  /// across the sub-types of an attribute type. For example, if the value of the
+  /// <code>Email</code> field of Profile A matches the value of the
+  /// <code>BusinessEmail</code> field of Profile B, the two profiles are matched
+  /// on the <code>Email</code> attribute type.
+  final AttributeMatchingModel attributeMatchingModel;
+
+  /// The type of matching record that is allowed to be used in an ID mapping
+  /// workflow.
+  ///
+  /// If the value is set to <code>ONE_SOURCE_TO_ONE_TARGET</code>, only one
+  /// record in the source can be matched to the same record in the target.
+  ///
+  /// If the value is set to <code>MANY_SOURCE_TO_ONE_TARGET</code>, multiple
+  /// records in the source can be matched to one record in the target.
+  final RecordMatchingModel recordMatchingModel;
+
+  /// The set of rules you can use in an ID mapping workflow. The limitations
+  /// specified for the source or target to define the match rules must be
+  /// compatible.
+  final IdMappingWorkflowRuleDefinitionType ruleDefinitionType;
+
+  /// The rules that can be used for ID mapping.
+  final List<Rule>? rules;
+
+  IdMappingRuleBasedProperties({
+    required this.attributeMatchingModel,
+    required this.recordMatchingModel,
+    required this.ruleDefinitionType,
+    this.rules,
+  });
+
+  factory IdMappingRuleBasedProperties.fromJson(Map<String, dynamic> json) {
+    return IdMappingRuleBasedProperties(
+      attributeMatchingModel: AttributeMatchingModel.fromString(
+          (json['attributeMatchingModel'] as String?) ?? ''),
+      recordMatchingModel: RecordMatchingModel.fromString(
+          (json['recordMatchingModel'] as String?) ?? ''),
+      ruleDefinitionType: IdMappingWorkflowRuleDefinitionType.fromString(
+          (json['ruleDefinitionType'] as String?) ?? ''),
+      rules: (json['rules'] as List?)
+          ?.nonNulls
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeMatchingModel = this.attributeMatchingModel;
+    final recordMatchingModel = this.recordMatchingModel;
+    final ruleDefinitionType = this.ruleDefinitionType;
+    final rules = this.rules;
+    return {
+      'attributeMatchingModel': attributeMatchingModel.value,
+      'recordMatchingModel': recordMatchingModel.value,
+      'ruleDefinitionType': ruleDefinitionType.value,
+      if (rules != null) 'rules': rules,
+    };
+  }
+}
+
+/// The output source for the ID mapping workflow.
+class IdMappingWorkflowOutputSource {
+  /// The S3 path to which Entity Resolution will write the output table.
+  final String outputS3Path;
+
+  /// Customer KMS ARN for encryption at rest. If not provided, system will use an
+  /// Entity Resolution managed KMS key.
+  final String? kMSArn;
+
+  IdMappingWorkflowOutputSource({
+    required this.outputS3Path,
+    this.kMSArn,
+  });
+
+  factory IdMappingWorkflowOutputSource.fromJson(Map<String, dynamic> json) {
+    return IdMappingWorkflowOutputSource(
+      outputS3Path: (json['outputS3Path'] as String?) ?? '',
+      kMSArn: json['KMSArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputS3Path = this.outputS3Path;
+    final kMSArn = this.kMSArn;
+    return {
+      'outputS3Path': outputS3Path,
+      if (kMSArn != null) 'KMSArn': kMSArn,
+    };
+  }
+}
+
+/// An object containing <code>inputSourceARN</code>, <code>schemaName</code>,
+/// and <code>type</code>.
+class IdMappingWorkflowInputSource {
+  /// An Glue table Amazon Resource Name (ARN) or a matching workflow ARN for the
+  /// input source table.
+  final String inputSourceARN;
+
+  /// The name of the schema to be retrieved.
+  final String? schemaName;
+
+  /// The type of ID namespace. There are two types: <code>SOURCE</code> and
+  /// <code>TARGET</code>.
+  ///
+  /// The <code>SOURCE</code> contains configurations for <code>sourceId</code>
+  /// data that will be processed in an ID mapping workflow.
+  ///
+  /// The <code>TARGET</code> contains a configuration of <code>targetId</code>
+  /// which all <code>sourceIds</code> will resolve to.
+  final IdNamespaceType? type;
+
+  IdMappingWorkflowInputSource({
+    required this.inputSourceARN,
+    this.schemaName,
+    this.type,
+  });
+
+  factory IdMappingWorkflowInputSource.fromJson(Map<String, dynamic> json) {
+    return IdMappingWorkflowInputSource(
+      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
+      schemaName: json['schemaName'] as String?,
+      type: (json['type'] as String?)?.let(IdNamespaceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputSourceARN = this.inputSourceARN;
+    final schemaName = this.schemaName;
+    final type = this.type;
+    return {
+      'inputSourceARN': inputSourceARN,
+      if (schemaName != null) 'schemaName': schemaName,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class JobType {
+  static const batch = JobType._('BATCH');
+  static const incremental = JobType._('INCREMENTAL');
+  static const deleteOnly = JobType._('DELETE_ONLY');
+
+  final String value;
+
+  const JobType._(this.value);
+
+  static const values = [batch, incremental, deleteOnly];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object containing <code>KMSArn</code>, <code>outputS3Path</code>, and
+/// <code>roleARN</code>.
+class IdMappingJobOutputSource {
+  /// The S3 path to which Entity Resolution will write the output table.
+  final String outputS3Path;
+
+  /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
+  /// this role to access Amazon Web Services resources on your behalf as part of
+  /// workflow execution.
+  final String roleArn;
+
+  /// Customer KMS ARN for encryption at rest. If not provided, system will use an
+  /// Entity Resolution managed KMS key.
+  final String? kMSArn;
+
+  IdMappingJobOutputSource({
+    required this.outputS3Path,
+    required this.roleArn,
+    this.kMSArn,
+  });
+
+  factory IdMappingJobOutputSource.fromJson(Map<String, dynamic> json) {
+    return IdMappingJobOutputSource(
+      outputS3Path: (json['outputS3Path'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      kMSArn: json['KMSArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputS3Path = this.outputS3Path;
+    final roleArn = this.roleArn;
+    final kMSArn = this.kMSArn;
+    return {
+      'outputS3Path': outputS3Path,
+      'roleArn': roleArn,
+      if (kMSArn != null) 'KMSArn': kMSArn,
+    };
+  }
+}
+
+/// An object containing <code>schemaName</code>, <code>schemaArn</code>,
+/// <code>createdAt</code>, <code>updatedAt</code>, and
+/// <code>hasWorkflows</code>.
+class SchemaMappingSummary {
+  /// The timestamp of when the <code>SchemaMapping</code> was created.
+  final DateTime createdAt;
+
+  /// Specifies whether the schema mapping has been applied to a workflow.
+  final bool hasWorkflows;
+
+  /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
+  /// <code>SchemaMapping</code>.
+  final String schemaArn;
+
+  /// The name of the schema.
+  final String schemaName;
+
+  /// The timestamp of when the <code>SchemaMapping</code> was last updated.
+  final DateTime updatedAt;
+
+  SchemaMappingSummary({
+    required this.createdAt,
+    required this.hasWorkflows,
+    required this.schemaArn,
+    required this.schemaName,
+    required this.updatedAt,
+  });
+
+  factory SchemaMappingSummary.fromJson(Map<String, dynamic> json) {
+    return SchemaMappingSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      hasWorkflows: (json['hasWorkflows'] as bool?) ?? false,
+      schemaArn: (json['schemaArn'] as String?) ?? '',
+      schemaName: (json['schemaName'] as String?) ?? '',
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final hasWorkflows = this.hasWorkflows;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final updatedAt = this.updatedAt;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'hasWorkflows': hasWorkflows,
+      'schemaArn': schemaArn,
+      'schemaName': schemaName,
+      'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
+}
+
+/// A list of <code>ProviderService</code> objects, each of which contain the
+/// fields <code>providerName</code>, <code>providerServiceArn</code>,
+/// <code>providerServiceName</code>, and <code>providerServiceType</code>.
+class ProviderServiceSummary {
+  /// The name of the provider. This name is typically the company name.
+  final String providerName;
+
+  /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
+  /// <code>providerService</code>.
+  final String providerServiceArn;
+
+  /// The display name of the provider service.
+  final String providerServiceDisplayName;
+
+  /// The name of the product that the provider service provides.
+  final String providerServiceName;
+
+  /// The type of provider service.
+  final ServiceType providerServiceType;
+
+  ProviderServiceSummary({
+    required this.providerName,
+    required this.providerServiceArn,
+    required this.providerServiceDisplayName,
+    required this.providerServiceName,
+    required this.providerServiceType,
+  });
+
+  factory ProviderServiceSummary.fromJson(Map<String, dynamic> json) {
+    return ProviderServiceSummary(
+      providerName: (json['providerName'] as String?) ?? '',
+      providerServiceArn: (json['providerServiceArn'] as String?) ?? '',
+      providerServiceDisplayName:
+          (json['providerServiceDisplayName'] as String?) ?? '',
+      providerServiceName: (json['providerServiceName'] as String?) ?? '',
+      providerServiceType: ServiceType.fromString(
+          (json['providerServiceType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final providerName = this.providerName;
+    final providerServiceArn = this.providerServiceArn;
+    final providerServiceDisplayName = this.providerServiceDisplayName;
+    final providerServiceName = this.providerServiceName;
+    final providerServiceType = this.providerServiceType;
+    return {
+      'providerName': providerName,
+      'providerServiceArn': providerServiceArn,
+      'providerServiceDisplayName': providerServiceDisplayName,
+      'providerServiceName': providerServiceName,
+      'providerServiceType': providerServiceType.value,
+    };
+  }
+}
+
+class ServiceType {
+  static const assignment = ServiceType._('ASSIGNMENT');
+  static const idMapping = ServiceType._('ID_MAPPING');
+
+  final String value;
+
+  const ServiceType._(this.value);
+
+  static const values = [assignment, idMapping];
+
+  static ServiceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServiceType._(value));
+
+  @override
+  bool operator ==(other) => other is ServiceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A list of <code>MatchingWorkflowSummary</code> objects, each of which
+/// contain the fields <code>workflowName</code>, <code>workflowArn</code>,
+/// <code>resolutionType</code>, <code>createdAt</code>, <code>updatedAt</code>.
+class MatchingWorkflowSummary {
+  /// The timestamp of when the workflow was created.
+  final DateTime createdAt;
+
+  /// The method that has been specified for data matching, either using matching
+  /// provided by Entity Resolution or through a provider service.
+  final ResolutionType resolutionType;
+
+  /// The timestamp of when the workflow was last updated.
+  final DateTime updatedAt;
+
+  /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
+  /// <code>MatchingWorkflow</code>.
+  final String workflowArn;
+
+  /// The name of the workflow.
+  final String workflowName;
+
+  MatchingWorkflowSummary({
+    required this.createdAt,
+    required this.resolutionType,
+    required this.updatedAt,
+    required this.workflowArn,
+    required this.workflowName,
+  });
+
+  factory MatchingWorkflowSummary.fromJson(Map<String, dynamic> json) {
+    return MatchingWorkflowSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      resolutionType:
+          ResolutionType.fromString((json['resolutionType'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final resolutionType = this.resolutionType;
+    final updatedAt = this.updatedAt;
+    final workflowArn = this.workflowArn;
+    final workflowName = this.workflowName;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'resolutionType': resolutionType.value,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'workflowArn': workflowArn,
+      'workflowName': workflowName,
+    };
+  }
+}
+
+/// An object containing the <code>jobId</code>, <code>status</code>,
+/// <code>startTime</code>, and <code>endTime</code> of a job.
+class JobSummary {
+  /// The ID of the job.
+  final String jobId;
+
+  /// The time at which the job was started.
+  final DateTime startTime;
+
+  /// The current status of the job.
+  final JobStatus status;
+
+  /// The time at which the job has finished.
+  final DateTime? endTime;
+
+  JobSummary({
+    required this.jobId,
+    required this.startTime,
+    required this.status,
+    this.endTime,
+  });
+
+  factory JobSummary.fromJson(Map<String, dynamic> json) {
+    return JobSummary(
+      jobId: (json['jobId'] as String?) ?? '',
+      startTime: nonNullableTimeStampFromJson(json['startTime'] ?? 0),
+      status: JobStatus.fromString((json['status'] as String?) ?? ''),
+      endTime: timeStampFromJson(json['endTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final startTime = this.startTime;
+    final status = this.status;
+    final endTime = this.endTime;
+    return {
+      'jobId': jobId,
+      'startTime': unixTimestampToJson(startTime),
+      'status': status.value,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+    };
+  }
+}
+
+class JobStatus {
+  static const running = JobStatus._('RUNNING');
+  static const succeeded = JobStatus._('SUCCEEDED');
+  static const failed = JobStatus._('FAILED');
+  static const queued = JobStatus._('QUEUED');
+
+  final String value;
+
+  const JobStatus._(this.value);
+
+  static const values = [running, succeeded, failed, queued];
+
+  static JobStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobStatus._(value));
+
+  @override
+  bool operator ==(other) => other is JobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A summary of ID namespaces.
+class IdNamespaceSummary {
+  /// The timestamp of when the ID namespace was created.
+  final DateTime createdAt;
+
+  /// The Amazon Resource Name (ARN) of the ID namespace.
+  final String idNamespaceArn;
+
+  /// The name of the ID namespace.
+  final String idNamespaceName;
+
+  /// The type of ID namespace. There are two types: <code>SOURCE</code> and
+  /// <code>TARGET</code>.
+  ///
+  /// The <code>SOURCE</code> contains configurations for <code>sourceId</code>
+  /// data that will be processed in an ID mapping workflow.
+  ///
+  /// The <code>TARGET</code> contains a configuration of <code>targetId</code>
+  /// which all <code>sourceIds</code> will resolve to.
+  final IdNamespaceType type;
+
+  /// The timestamp of when the ID namespace was last updated.
+  final DateTime updatedAt;
+
+  /// The description of the ID namespace.
+  final String? description;
+
+  /// An object which defines any additional configurations required by the ID
+  /// mapping workflow.
+  final List<IdNamespaceIdMappingWorkflowMetadata>? idMappingWorkflowProperties;
+
+  IdNamespaceSummary({
+    required this.createdAt,
+    required this.idNamespaceArn,
+    required this.idNamespaceName,
+    required this.type,
+    required this.updatedAt,
+    this.description,
+    this.idMappingWorkflowProperties,
+  });
+
+  factory IdNamespaceSummary.fromJson(Map<String, dynamic> json) {
+    return IdNamespaceSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      idNamespaceArn: (json['idNamespaceArn'] as String?) ?? '',
+      idNamespaceName: (json['idNamespaceName'] as String?) ?? '',
+      type: IdNamespaceType.fromString((json['type'] as String?) ?? ''),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      description: json['description'] as String?,
+      idMappingWorkflowProperties:
+          (json['idMappingWorkflowProperties'] as List?)
+              ?.nonNulls
+              .map((e) => IdNamespaceIdMappingWorkflowMetadata.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final idNamespaceArn = this.idNamespaceArn;
+    final idNamespaceName = this.idNamespaceName;
+    final type = this.type;
+    final updatedAt = this.updatedAt;
+    final description = this.description;
+    final idMappingWorkflowProperties = this.idMappingWorkflowProperties;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'idNamespaceArn': idNamespaceArn,
+      'idNamespaceName': idNamespaceName,
+      'type': type.value,
+      'updatedAt': unixTimestampToJson(updatedAt),
+      if (description != null) 'description': description,
+      if (idMappingWorkflowProperties != null)
+        'idMappingWorkflowProperties': idMappingWorkflowProperties,
+    };
+  }
+}
+
+/// The settings for the ID namespace for the ID mapping workflow job.
+class IdNamespaceIdMappingWorkflowMetadata {
+  /// The type of ID mapping.
+  final IdMappingType idMappingType;
+
+  IdNamespaceIdMappingWorkflowMetadata({
+    required this.idMappingType,
+  });
+
+  factory IdNamespaceIdMappingWorkflowMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return IdNamespaceIdMappingWorkflowMetadata(
+      idMappingType:
+          IdMappingType.fromString((json['idMappingType'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idMappingType = this.idMappingType;
+    return {
+      'idMappingType': idMappingType.value,
+    };
+  }
+}
+
+/// A list of <code>IdMappingWorkflowSummary</code> objects, each of which
+/// contain the fields <code>WorkflowName</code>, <code>WorkflowArn</code>,
+/// <code>CreatedAt</code>, and <code>UpdatedAt</code>.
+class IdMappingWorkflowSummary {
+  /// The timestamp of when the workflow was created.
+  final DateTime createdAt;
+
+  /// The timestamp of when the workflow was last updated.
+  final DateTime updatedAt;
+
+  /// The ARN (Amazon Resource Name) that Entity Resolution generated for the
+  /// <code>IdMappingWorkflow</code>.
+  final String workflowArn;
+
+  /// The name of the workflow.
+  final String workflowName;
+
+  IdMappingWorkflowSummary({
+    required this.createdAt,
+    required this.updatedAt,
+    required this.workflowArn,
+    required this.workflowName,
+  });
+
+  factory IdMappingWorkflowSummary.fromJson(Map<String, dynamic> json) {
+    return IdMappingWorkflowSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] ?? 0),
+      updatedAt: nonNullableTimeStampFromJson(json['updatedAt'] ?? 0),
+      workflowArn: (json['workflowArn'] as String?) ?? '',
+      workflowName: (json['workflowName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final updatedAt = this.updatedAt;
+    final workflowArn = this.workflowArn;
+    final workflowName = this.workflowName;
+    return {
+      'createdAt': unixTimestampToJson(createdAt),
+      'updatedAt': unixTimestampToJson(updatedAt),
+      'workflowArn': workflowArn,
+      'workflowName': workflowName,
+    };
+  }
+}
+
+/// The provider configuration required for different ID namespace types.
+class ProviderIdNameSpaceConfiguration {
+  /// The description of the ID namespace.
+  final String? description;
+
+  /// Configurations required for the source ID namespace.
+  final Document? providerSourceConfigurationDefinition;
+
+  /// Configurations required for the target ID namespace.
+  final Document? providerTargetConfigurationDefinition;
+
+  ProviderIdNameSpaceConfiguration({
+    this.description,
+    this.providerSourceConfigurationDefinition,
+    this.providerTargetConfigurationDefinition,
+  });
+
+  factory ProviderIdNameSpaceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProviderIdNameSpaceConfiguration(
+      description: json['description'] as String?,
+      providerSourceConfigurationDefinition:
+          json['providerSourceConfigurationDefinition'] != null
+              ? Document.fromJson(json['providerSourceConfigurationDefinition']
+                  as Map<String, dynamic>)
+              : null,
+      providerTargetConfigurationDefinition:
+          json['providerTargetConfigurationDefinition'] != null
+              ? Document.fromJson(json['providerTargetConfigurationDefinition']
+                  as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final providerSourceConfigurationDefinition =
+        this.providerSourceConfigurationDefinition;
+    final providerTargetConfigurationDefinition =
+        this.providerTargetConfigurationDefinition;
+    return {
+      if (description != null) 'description': description,
+      if (providerSourceConfigurationDefinition != null)
+        'providerSourceConfigurationDefinition':
+            providerSourceConfigurationDefinition,
+      if (providerTargetConfigurationDefinition != null)
+        'providerTargetConfigurationDefinition':
+            providerTargetConfigurationDefinition,
+    };
+  }
+}
+
+/// The required configuration fields to use with the provider service.
+class ProviderEndpointConfiguration {
+  /// The identifiers of the provider service, from Data Exchange.
+  final ProviderMarketplaceConfiguration? marketplaceConfiguration;
+
+  ProviderEndpointConfiguration({
+    this.marketplaceConfiguration,
+  });
+
+  factory ProviderEndpointConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProviderEndpointConfiguration(
+      marketplaceConfiguration: json['marketplaceConfiguration'] != null
+          ? ProviderMarketplaceConfiguration.fromJson(
+              json['marketplaceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marketplaceConfiguration = this.marketplaceConfiguration;
+    return {
+      if (marketplaceConfiguration != null)
+        'marketplaceConfiguration': marketplaceConfiguration,
+    };
+  }
+}
+
+/// The required configuration fields to give intermediate access to a provider
+/// service.
+class ProviderIntermediateDataAccessConfiguration {
+  /// The Amazon Web Services account that provider can use to read or write data
+  /// into the customer's intermediate S3 bucket.
+  final List<String>? awsAccountIds;
+
+  /// The S3 bucket actions that the provider requires permission for.
+  final List<String>? requiredBucketActions;
+
+  ProviderIntermediateDataAccessConfiguration({
+    this.awsAccountIds,
+    this.requiredBucketActions,
+  });
+
+  factory ProviderIntermediateDataAccessConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ProviderIntermediateDataAccessConfiguration(
+      awsAccountIds: (json['awsAccountIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      requiredBucketActions: (json['requiredBucketActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountIds = this.awsAccountIds;
+    final requiredBucketActions = this.requiredBucketActions;
+    return {
+      if (awsAccountIds != null) 'awsAccountIds': awsAccountIds,
+      if (requiredBucketActions != null)
+        'requiredBucketActions': requiredBucketActions,
+    };
+  }
+}
+
+/// The input schema supported by provider service.
+class ProviderComponentSchema {
+  /// The provider schema attributes.
+  final List<ProviderSchemaAttribute>? providerSchemaAttributes;
+
+  /// Input schema for the provider service.
+  final List<List<String>>? schemas;
+
+  ProviderComponentSchema({
+    this.providerSchemaAttributes,
+    this.schemas,
+  });
+
+  factory ProviderComponentSchema.fromJson(Map<String, dynamic> json) {
+    return ProviderComponentSchema(
+      providerSchemaAttributes: (json['providerSchemaAttributes'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ProviderSchemaAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      schemas: (json['schemas'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List).nonNulls.map((e) => e as String).toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final providerSchemaAttributes = this.providerSchemaAttributes;
+    final schemas = this.schemas;
+    return {
+      if (providerSchemaAttributes != null)
+        'providerSchemaAttributes': providerSchemaAttributes,
+      if (schemas != null) 'schemas': schemas,
+    };
+  }
+}
+
+/// The provider schema attribute.
+class ProviderSchemaAttribute {
+  /// The field name.
+  final String fieldName;
+
+  /// The type of the provider schema attribute.
+  ///
+  /// LiveRamp supports: <code>NAME</code> | <code>NAME_FIRST</code> |
+  /// <code>NAME_MIDDLE</code> | <code>NAME_LAST</code> | <code>ADDRESS</code> |
+  /// <code>ADDRESS_STREET1</code> | <code>ADDRESS_STREET2</code> |
+  /// <code>ADDRESS_STREET3</code> | <code>ADDRESS_CITY</code> |
+  /// <code>ADDRESS_STATE</code> | <code>ADDRESS_COUNTRY</code> |
+  /// <code>ADDRESS_POSTALCODE</code> | <code>PHONE</code> |
+  /// <code>PHONE_NUMBER</code> | <code>EMAIL_ADDRESS</code> |
+  /// <code>UNIQUE_ID</code> | <code>PROVIDER_ID</code>
+  ///
+  /// TransUnion supports: <code>NAME</code> | <code>NAME_FIRST</code> |
+  /// <code>NAME_LAST</code> | <code>ADDRESS</code> | <code>ADDRESS_CITY</code> |
+  /// <code>ADDRESS_STATE</code> | <code>ADDRESS_COUNTRY</code> |
+  /// <code>ADDRESS_POSTALCODE</code> | <code>PHONE_NUMBER</code> |
+  /// <code>EMAIL_ADDRESS</code> | <code>UNIQUE_ID</code> | <code>DATE</code> |
+  /// <code>IPV4</code> | <code>IPV6</code> | <code>MAID</code>
+  ///
+  /// Unified ID 2.0 supports: <code>PHONE_NUMBER</code> |
+  /// <code>EMAIL_ADDRESS</code> | <code>UNIQUE_ID</code>
+  final SchemaAttributeType type;
+
+  /// The hashing attribute of the provider schema.
+  final bool? hashing;
+
+  /// The sub type of the provider schema attribute.
+  final String? subType;
+
+  ProviderSchemaAttribute({
+    required this.fieldName,
+    required this.type,
+    this.hashing,
+    this.subType,
+  });
+
+  factory ProviderSchemaAttribute.fromJson(Map<String, dynamic> json) {
+    return ProviderSchemaAttribute(
+      fieldName: (json['fieldName'] as String?) ?? '',
+      type: SchemaAttributeType.fromString((json['type'] as String?) ?? ''),
+      hashing: json['hashing'] as bool?,
+      subType: json['subType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final type = this.type;
+    final hashing = this.hashing;
+    final subType = this.subType;
+    return {
+      'fieldName': fieldName,
+      'type': type.value,
+      if (hashing != null) 'hashing': hashing,
+      if (subType != null) 'subType': subType,
+    };
+  }
+}
+
+/// The identifiers of the provider service, from Data Exchange.
+class ProviderMarketplaceConfiguration {
+  /// The asset ID on Data Exchange.
+  final String assetId;
+
+  /// The dataset ID on Data Exchange.
+  final String dataSetId;
+
+  /// The listing ID on Data Exchange.
+  final String listingId;
+
+  /// The revision ID on Data Exchange.
+  final String revisionId;
+
+  ProviderMarketplaceConfiguration({
+    required this.assetId,
+    required this.dataSetId,
+    required this.listingId,
+    required this.revisionId,
+  });
+
+  factory ProviderMarketplaceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ProviderMarketplaceConfiguration(
+      assetId: (json['assetId'] as String?) ?? '',
+      dataSetId: (json['dataSetId'] as String?) ?? '',
+      listingId: (json['listingId'] as String?) ?? '',
+      revisionId: (json['revisionId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assetId = this.assetId;
+    final dataSetId = this.dataSetId;
+    final listingId = this.listingId;
+    final revisionId = this.revisionId;
+    return {
+      'assetId': assetId,
+      'dataSetId': dataSetId,
+      'listingId': listingId,
+      'revisionId': revisionId,
+    };
+  }
+}
+
+/// An object containing <code>inputRecords</code>,
+/// <code>totalRecordsProcessed</code>, <code>matchIDs</code>, and
+/// <code>recordsNotProcessed</code>.
+class JobMetrics {
+  /// The number of records processed that were marked for deletion
+  /// (<code>DELETE</code> = True) in the input file. This metric tracks records
+  /// flagged for removal during the job execution.
+  final int? deleteRecordsProcessed;
+
+  /// The total number of input records.
+  final int? inputRecords;
+
+  /// The total number of <code>matchID</code>s generated.
+  final int? matchIDs;
+
+  /// The total number of records that did not get processed.
+  final int? recordsNotProcessed;
+
+  /// The total number of records processed.
+  final int? totalRecordsProcessed;
+
+  JobMetrics({
+    this.deleteRecordsProcessed,
+    this.inputRecords,
+    this.matchIDs,
+    this.recordsNotProcessed,
+    this.totalRecordsProcessed,
+  });
+
+  factory JobMetrics.fromJson(Map<String, dynamic> json) {
+    return JobMetrics(
+      deleteRecordsProcessed: json['deleteRecordsProcessed'] as int?,
+      inputRecords: json['inputRecords'] as int?,
+      matchIDs: json['matchIDs'] as int?,
+      recordsNotProcessed: json['recordsNotProcessed'] as int?,
+      totalRecordsProcessed: json['totalRecordsProcessed'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteRecordsProcessed = this.deleteRecordsProcessed;
+    final inputRecords = this.inputRecords;
+    final matchIDs = this.matchIDs;
+    final recordsNotProcessed = this.recordsNotProcessed;
+    final totalRecordsProcessed = this.totalRecordsProcessed;
+    return {
+      if (deleteRecordsProcessed != null)
+        'deleteRecordsProcessed': deleteRecordsProcessed,
+      if (inputRecords != null) 'inputRecords': inputRecords,
+      if (matchIDs != null) 'matchIDs': matchIDs,
+      if (recordsNotProcessed != null)
+        'recordsNotProcessed': recordsNotProcessed,
+      if (totalRecordsProcessed != null)
+        'totalRecordsProcessed': totalRecordsProcessed,
+    };
+  }
+}
+
+/// An object containing an error message, if there was an error.
+class ErrorDetails {
+  /// The error message from the job, if there is one.
+  final String? errorMessage;
+
+  ErrorDetails({
+    this.errorMessage,
+  });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// An object containing <code>KMSArn</code>, <code>outputS3Path</code>, and
+/// <code>roleArn</code>.
+class JobOutputSource {
+  /// The S3 path to which Entity Resolution will write the output table.
+  final String outputS3Path;
+
+  /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
+  /// this role to access Amazon Web Services resources on your behalf as part of
+  /// workflow execution.
+  final String roleArn;
+
+  /// Customer KMS ARN for encryption at rest. If not provided, system will use an
+  /// Entity Resolution managed KMS key.
+  final String? kMSArn;
+
+  JobOutputSource({
+    required this.outputS3Path,
+    required this.roleArn,
+    this.kMSArn,
+  });
+
+  factory JobOutputSource.fromJson(Map<String, dynamic> json) {
+    return JobOutputSource(
+      outputS3Path: (json['outputS3Path'] as String?) ?? '',
+      roleArn: (json['roleArn'] as String?) ?? '',
+      kMSArn: json['KMSArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputS3Path = this.outputS3Path;
+    final roleArn = this.roleArn;
+    final kMSArn = this.kMSArn;
+    return {
+      'outputS3Path': outputS3Path,
+      'roleArn': roleArn,
+      if (kMSArn != null) 'KMSArn': kMSArn,
+    };
+  }
+}
+
+/// An object that contains metrics about an ID mapping job, including counts of
+/// input records, processed records, and mapped records between source and
+/// target identifiers.
+class IdMappingJobMetrics {
+  /// The number of records processed that were marked for deletion in the input
+  /// file using the DELETE schema mapping field. These are the records to be
+  /// removed from the ID mapping table.
+  final int? deleteRecordsProcessed;
+
+  /// The total number of records that were input for processing.
+  final int? inputRecords;
+
+  /// The number of mapped records removed.
+  final int? mappedRecordsRemoved;
+
+  /// The number of source records removed due to ID mapping.
+  final int? mappedSourceRecordsRemoved;
+
+  /// The number of mapped target records removed.
+  final int? mappedTargetRecordsRemoved;
+
+  /// The number of new mapped records.
+  final int? newMappedRecords;
+
+  /// The number of new source records mapped.
+  final int? newMappedSourceRecords;
+
+  /// The number of new mapped target records.
+  final int? newMappedTargetRecords;
+
+  /// The number of new unique records processed in the current job run, after
+  /// removing duplicates. This metric excludes deletion-related records.
+  /// Duplicates are determined by the field marked as UNIQUE_ID in your schema
+  /// mapping. Records sharing the same value in this field are considered
+  /// duplicates. For example, if your current run processes five new records with
+  /// the same UNIQUE_ID value, they would count as one new unique record in this
+  /// metric.
+  final int? newUniqueRecordsLoaded;
+
+  /// The total number of records that did not get processed.
+  final int? recordsNotProcessed;
+
+  /// The total number of records that were mapped.
+  final int? totalMappedRecords;
+
+  /// The total number of mapped source records.
+  final int? totalMappedSourceRecords;
+
+  /// The total number of distinct mapped target records.
+  final int? totalMappedTargetRecords;
+
+  /// The total number of records that were processed.
+  final int? totalRecordsProcessed;
+
+  /// The number of de-duplicated processed records across all runs, excluding
+  /// deletion-related records. Duplicates are determined by the field marked as
+  /// UNIQUE_ID in your schema mapping. Records sharing the same value in this
+  /// field are considered duplicates. For example, if you specified "customer_id"
+  /// as a UNIQUE_ID field and had three records with the same customer_id value,
+  /// they would count as one unique record in this metric.
+  final int? uniqueRecordsLoaded;
+
+  IdMappingJobMetrics({
+    this.deleteRecordsProcessed,
+    this.inputRecords,
+    this.mappedRecordsRemoved,
+    this.mappedSourceRecordsRemoved,
+    this.mappedTargetRecordsRemoved,
+    this.newMappedRecords,
+    this.newMappedSourceRecords,
+    this.newMappedTargetRecords,
+    this.newUniqueRecordsLoaded,
+    this.recordsNotProcessed,
+    this.totalMappedRecords,
+    this.totalMappedSourceRecords,
+    this.totalMappedTargetRecords,
+    this.totalRecordsProcessed,
+    this.uniqueRecordsLoaded,
+  });
+
+  factory IdMappingJobMetrics.fromJson(Map<String, dynamic> json) {
+    return IdMappingJobMetrics(
+      deleteRecordsProcessed: json['deleteRecordsProcessed'] as int?,
+      inputRecords: json['inputRecords'] as int?,
+      mappedRecordsRemoved: json['mappedRecordsRemoved'] as int?,
+      mappedSourceRecordsRemoved: json['mappedSourceRecordsRemoved'] as int?,
+      mappedTargetRecordsRemoved: json['mappedTargetRecordsRemoved'] as int?,
+      newMappedRecords: json['newMappedRecords'] as int?,
+      newMappedSourceRecords: json['newMappedSourceRecords'] as int?,
+      newMappedTargetRecords: json['newMappedTargetRecords'] as int?,
+      newUniqueRecordsLoaded: json['newUniqueRecordsLoaded'] as int?,
+      recordsNotProcessed: json['recordsNotProcessed'] as int?,
+      totalMappedRecords: json['totalMappedRecords'] as int?,
+      totalMappedSourceRecords: json['totalMappedSourceRecords'] as int?,
+      totalMappedTargetRecords: json['totalMappedTargetRecords'] as int?,
+      totalRecordsProcessed: json['totalRecordsProcessed'] as int?,
+      uniqueRecordsLoaded: json['uniqueRecordsLoaded'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteRecordsProcessed = this.deleteRecordsProcessed;
+    final inputRecords = this.inputRecords;
+    final mappedRecordsRemoved = this.mappedRecordsRemoved;
+    final mappedSourceRecordsRemoved = this.mappedSourceRecordsRemoved;
+    final mappedTargetRecordsRemoved = this.mappedTargetRecordsRemoved;
+    final newMappedRecords = this.newMappedRecords;
+    final newMappedSourceRecords = this.newMappedSourceRecords;
+    final newMappedTargetRecords = this.newMappedTargetRecords;
+    final newUniqueRecordsLoaded = this.newUniqueRecordsLoaded;
+    final recordsNotProcessed = this.recordsNotProcessed;
+    final totalMappedRecords = this.totalMappedRecords;
+    final totalMappedSourceRecords = this.totalMappedSourceRecords;
+    final totalMappedTargetRecords = this.totalMappedTargetRecords;
+    final totalRecordsProcessed = this.totalRecordsProcessed;
+    final uniqueRecordsLoaded = this.uniqueRecordsLoaded;
+    return {
+      if (deleteRecordsProcessed != null)
+        'deleteRecordsProcessed': deleteRecordsProcessed,
+      if (inputRecords != null) 'inputRecords': inputRecords,
+      if (mappedRecordsRemoved != null)
+        'mappedRecordsRemoved': mappedRecordsRemoved,
+      if (mappedSourceRecordsRemoved != null)
+        'mappedSourceRecordsRemoved': mappedSourceRecordsRemoved,
+      if (mappedTargetRecordsRemoved != null)
+        'mappedTargetRecordsRemoved': mappedTargetRecordsRemoved,
+      if (newMappedRecords != null) 'newMappedRecords': newMappedRecords,
+      if (newMappedSourceRecords != null)
+        'newMappedSourceRecords': newMappedSourceRecords,
+      if (newMappedTargetRecords != null)
+        'newMappedTargetRecords': newMappedTargetRecords,
+      if (newUniqueRecordsLoaded != null)
+        'newUniqueRecordsLoaded': newUniqueRecordsLoaded,
+      if (recordsNotProcessed != null)
+        'recordsNotProcessed': recordsNotProcessed,
+      if (totalMappedRecords != null) 'totalMappedRecords': totalMappedRecords,
+      if (totalMappedSourceRecords != null)
+        'totalMappedSourceRecords': totalMappedSourceRecords,
+      if (totalMappedTargetRecords != null)
+        'totalMappedTargetRecords': totalMappedTargetRecords,
+      if (totalRecordsProcessed != null)
+        'totalRecordsProcessed': totalRecordsProcessed,
+      if (uniqueRecordsLoaded != null)
+        'uniqueRecordsLoaded': uniqueRecordsLoaded,
+    };
+  }
+}
+
+/// The record that didn't generate a Match ID.
+class FailedRecord {
+  /// The error message for the record that didn't generate a Match ID.
+  final String errorMessage;
+
+  /// The input source ARN of the record that didn't generate a Match ID.
+  final String inputSourceARN;
+
+  /// The unique ID of the record that didn't generate a Match ID.
+  final String uniqueId;
+
+  FailedRecord({
+    required this.errorMessage,
+    required this.inputSourceARN,
+    required this.uniqueId,
+  });
+
+  factory FailedRecord.fromJson(Map<String, dynamic> json) {
+    return FailedRecord(
+      errorMessage: (json['errorMessage'] as String?) ?? '',
+      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
+      uniqueId: (json['uniqueId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final inputSourceARN = this.inputSourceARN;
+    final uniqueId = this.uniqueId;
+    return {
+      'errorMessage': errorMessage,
+      'inputSourceARN': inputSourceARN,
+      'uniqueId': uniqueId,
+    };
+  }
+}
+
+/// The match group.
+class MatchGroup {
+  /// The match ID.
+  final String matchId;
+
+  /// The match rule of the match group.
+  final String matchRule;
+
+  /// The matched records.
+  final List<MatchedRecord> records;
+
+  MatchGroup({
+    required this.matchId,
+    required this.matchRule,
+    required this.records,
+  });
+
+  factory MatchGroup.fromJson(Map<String, dynamic> json) {
+    return MatchGroup(
+      matchId: (json['matchId'] as String?) ?? '',
+      matchRule: (json['matchRule'] as String?) ?? '',
+      records: ((json['records'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => MatchedRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchId = this.matchId;
+    final matchRule = this.matchRule;
+    final records = this.records;
+    return {
+      'matchId': matchId,
+      'matchRule': matchRule,
+      'records': records,
+    };
+  }
+}
+
+/// The matched record.
+class MatchedRecord {
+  /// The input source ARN of the matched record.
+  final String inputSourceARN;
+
+  /// The record ID of the matched record.
+  final String recordId;
+
+  MatchedRecord({
+    required this.inputSourceARN,
+    required this.recordId,
+  });
+
+  factory MatchedRecord.fromJson(Map<String, dynamic> json) {
+    return MatchedRecord(
+      inputSourceARN: (json['inputSourceARN'] as String?) ?? '',
+      recordId: (json['recordId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputSourceARN = this.inputSourceARN;
+    final recordId = this.recordId;
+    return {
+      'inputSourceARN': inputSourceARN,
+      'recordId': recordId,
+    };
+  }
+}
+
+class ProcessingType {
+  static const consistent = ProcessingType._('CONSISTENT');
+  static const eventual = ProcessingType._('EVENTUAL');
+  static const eventualNoLookup = ProcessingType._('EVENTUAL_NO_LOOKUP');
+
+  final String value;
+
+  const ProcessingType._(this.value);
+
+  static const values = [consistent, eventual, eventualNoLookup];
+
+  static ProcessingType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ProcessingType._(value));
+
+  @override
+  bool operator ==(other) => other is ProcessingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The record.
+class Record {
+  /// The input source ARN of the record.
+  final String inputSourceARN;
+
+  /// The record's attribute map.
+  final Map<String, String> recordAttributeMap;
+
+  /// The unique ID of the record.
+  final String uniqueId;
+
+  Record({
+    required this.inputSourceARN,
+    required this.recordAttributeMap,
+    required this.uniqueId,
+  });
+
+  Map<String, dynamic> toJson() {
+    final inputSourceARN = this.inputSourceARN;
+    final recordAttributeMap = this.recordAttributeMap;
+    final uniqueId = this.uniqueId;
+    return {
+      'inputSourceARN': inputSourceARN,
+      'recordAttributeMap': recordAttributeMap,
+      'uniqueId': uniqueId,
+    };
+  }
+}
+
+class DeleteUniqueIdStatus {
+  static const completed = DeleteUniqueIdStatus._('COMPLETED');
+  static const accepted = DeleteUniqueIdStatus._('ACCEPTED');
+
+  final String value;
+
+  const DeleteUniqueIdStatus._(this.value);
+
+  static const values = [completed, accepted];
+
+  static DeleteUniqueIdStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeleteUniqueIdStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeleteUniqueIdStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The deleted unique ID.
+class DeletedUniqueId {
+  /// The unique ID of the deleted item.
+  final String uniqueId;
+
+  DeletedUniqueId({
+    required this.uniqueId,
+  });
+
+  factory DeletedUniqueId.fromJson(Map<String, dynamic> json) {
+    return DeletedUniqueId(
+      uniqueId: (json['uniqueId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uniqueId = this.uniqueId;
+    return {
+      'uniqueId': uniqueId,
+    };
+  }
+}
+
+/// The error information provided when the delete unique ID operation doesn't
+/// complete.
+class DeleteUniqueIdError {
+  /// The error type for the delete unique ID operation.
+  ///
+  /// The <code>SERVICE_ERROR</code> value indicates that an internal service-side
+  /// problem occurred during the deletion operation.
+  ///
+  /// The <code>VALIDATION_ERROR</code> value indicates that the deletion
+  /// operation couldn't complete because of invalid input parameters or data.
+  final DeleteUniqueIdErrorType errorType;
+
+  /// The unique ID that couldn't be deleted.
+  final String uniqueId;
+
+  DeleteUniqueIdError({
+    required this.errorType,
+    required this.uniqueId,
+  });
+
+  factory DeleteUniqueIdError.fromJson(Map<String, dynamic> json) {
+    return DeleteUniqueIdError(
+      errorType: DeleteUniqueIdErrorType.fromString(
+          (json['errorType'] as String?) ?? ''),
+      uniqueId: (json['uniqueId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorType = this.errorType;
+    final uniqueId = this.uniqueId;
+    return {
+      'errorType': errorType.value,
+      'uniqueId': uniqueId,
+    };
+  }
+}
+
+class DeleteUniqueIdErrorType {
+  static const serviceError = DeleteUniqueIdErrorType._('SERVICE_ERROR');
+  static const validationError = DeleteUniqueIdErrorType._('VALIDATION_ERROR');
+
+  final String value;
+
+  const DeleteUniqueIdErrorType._(this.value);
+
+  static const values = [serviceError, validationError];
+
+  static DeleteUniqueIdErrorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeleteUniqueIdErrorType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeleteUniqueIdErrorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StatementEffect {
+  static const allow = StatementEffect._('Allow');
+  static const deny = StatementEffect._('Deny');
+
+  final String value;
+
+  const StatementEffect._(this.value);
+
+  static const values = [allow, deny];
+
+  static StatementEffect fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StatementEffect._(value));
+
+  @override
+  bool operator ==(other) => other is StatementEffect && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Document {
+  Document();
+
+  factory Document.fromJson(Map<String, dynamic> _) {
+    return Document();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 

@@ -47,14 +47,14 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// FreeRTOS and AWS IoT Device Management.
 ///
 /// With Signer and the Notation CLI from the <a
-/// href="https://notaryproject.dev/">Notary&#x2028; Project</a>, you can sign
-/// container images stored in a container registry such as Amazon Elastic
-/// Container Registry (ECR). The signatures are stored in the registry
-/// alongside the images, where they are available for verifying image
-/// authenticity and integrity.
+/// href="https://notaryproject.dev/">Notary Project</a>, you can sign container
+/// images stored in a container registry such as Amazon Elastic Container
+/// Registry (ECR). The signatures are stored in the registry alongside the
+/// images, where they are available for verifying image authenticity and
+/// integrity.
 ///
 /// For more information about Signer, see the <a
-/// href="https://docs.aws.amazon.com/signer/latest/developerguide/Welcome.html">AWS
+/// href="http://docs.aws.amazon.com/signer/latest/developerguide/Welcome.html">AWS
 /// Signer Developer Guide</a>.
 class Signer {
   final _s.RestJsonProtocol _protocol;
@@ -68,7 +68,6 @@ class Signer {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'signer',
-            signingName: 'signer',
           ),
           region: region,
           credentials: credentials,
@@ -87,20 +86,20 @@ class Signer {
 
   /// Adds cross-account permissions to a signing profile.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceLimitExceededException].
   /// May throw [ConflictException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceLimitExceededException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [action] :
   /// For cross-account signing. Grant a designated account permission to
   /// perform one or more of the following actions. Each action is associated
   /// with a specific API's operations. For more information about cross-account
   /// signing, see <a
-  /// href="https://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html">Using
+  /// href="http://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html">Using
   /// cross-account signing with signing profiles</a> in the <i>AWS Signer
   /// Developer Guide</i>.
   ///
@@ -168,12 +167,15 @@ class Signer {
   /// Changes the state of an <code>ACTIVE</code> signing profile to
   /// <code>CANCELED</code>. A canceled profile is still viewable with the
   /// <code>ListSigningProfiles</code> operation, but it cannot perform new
-  /// signing jobs, and is deleted two years after cancelation.
+  /// signing jobs. See <a
+  /// href="https://docs.aws.amazon.com/signer/latest/developerguide/retention.html">Data
+  /// Retention</a> for more information on scheduled deletion of a canceled
+  /// signing profile.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [profileName] :
   /// The name of the signing profile to be canceled.
@@ -192,10 +194,10 @@ class Signer {
   /// by using the <code>jobId</code> value that is returned by the
   /// <a>StartSigningJob</a> operation.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [jobId] :
   /// The ID of the signing job on input.
@@ -214,10 +216,10 @@ class Signer {
   /// Retrieves the revocation status of one or more of the signing profile,
   /// signing job, and signing certificate.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [certificateHashes] :
   /// A list of composite signed hashes that identify certificates.
@@ -232,15 +234,14 @@ class Signer {
   /// <code>openssl asn1parse -in childCert.pem -strparse 4 -out
   /// childCert.tbs</code>
   ///
-  /// <code>openssl sha384 &lt; childCert.tbs -binary &gt;
-  /// childCertTbsHash</code>
+  /// <code>openssl sha384 < childCert.tbs -binary > childCertTbsHash</code>
   ///
   /// <code>openssl asn1parse -in parentCert.pem -strparse 4 -out
   /// parentCert.tbs</code>
   ///
-  /// <code>openssl sha384 &lt; parentCert.tbs -binary &gt; parentCertTbsHash
-  /// xxd -p childCertTbsHash &gt; certificateHash.hex xxd -p parentCertTbsHash
-  /// &gt;&gt; certificateHash.hex</code>
+  /// <code>openssl sha384 < parentCert.tbs -binary > parentCertTbsHash xxd -p
+  /// childCertTbsHash > certificateHash.hex xxd -p parentCertTbsHash >>
+  /// certificateHash.hex</code>
   ///
   /// <code>cat certificateHash.hex | tr -d '\n'</code>
   ///
@@ -281,10 +282,10 @@ class Signer {
 
   /// Returns information on a specific signing platform.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [platformId] :
   /// The ID of the target signing platform.
@@ -302,10 +303,10 @@ class Signer {
 
   /// Returns information on a specific signing profile.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [profileName] :
   /// The name of the target signing profile.
@@ -331,11 +332,11 @@ class Signer {
 
   /// Lists the cross-account permissions associated with a signing profile.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileName] :
   /// Name of the signing profile containing the cross-account permissions.
@@ -370,10 +371,10 @@ class Signer {
   /// in the <code>nextToken</code> parameter until all of your signing jobs
   /// have been returned.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [isRevoked] :
   /// Filters results to return only signing jobs with revoked signatures.
@@ -465,10 +466,10 @@ class Signer {
   /// in the <code>nextToken</code> parameter until all of your signing jobs
   /// have been returned.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [category] :
   /// The category type of a signing platform.
@@ -529,8 +530,8 @@ class Signer {
   /// have been returned.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [includeCanceled] :
   /// Designates whether to include profiles with the status of
@@ -585,8 +586,8 @@ class Signer {
 
   /// Returns a list of the tags associated with a signing profile resource.
   ///
-  /// May throw [InternalServiceErrorException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServiceErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   ///
@@ -607,11 +608,11 @@ class Signer {
   /// Creates a signing profile. A signing profile is a code-signing template
   /// that can be used to carry out a pre-defined signing job.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [platformId] :
   /// The ID of the signing platform to be created.
@@ -668,12 +669,12 @@ class Signer {
 
   /// Removes cross-account permissions from a signing profile.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [profileName] :
   /// A human-readable name for the signing profile with permissions to be
@@ -703,14 +704,14 @@ class Signer {
     return RemoveProfilePermissionResponse.fromJson(response);
   }
 
-  /// Changes the state of a signing job to REVOKED. This indicates that the
-  /// signature is no longer valid.
+  /// Changes the state of a signing job to <code>REVOKED</code>. This indicates
+  /// that the signature is no longer valid.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceErrorException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServiceErrorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [jobId] :
   /// ID of the signing job to be revoked.
@@ -737,15 +738,20 @@ class Signer {
     );
   }
 
-  /// Changes the state of a signing profile to REVOKED. This indicates that
-  /// signatures generated using the signing profile after an effective start
-  /// date are no longer valid.
+  /// Changes the state of a signing profile to <code>REVOKED</code>. This
+  /// indicates that signatures generated using the signing profile after an
+  /// effective start date are no longer valid. A revoked profile is still
+  /// viewable with the <code>ListSigningProfiles</code> operation, but it
+  /// cannot perform new signing jobs. See <a
+  /// href="https://docs.aws.amazon.com/signer/latest/developerguide/retention.html">Data
+  /// Retention</a> for more information on scheduled deletion of a revoked
+  /// signing profile.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceErrorException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServiceErrorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [effectiveTime] :
   /// A timestamp for when revocation of a Signing Profile should become
@@ -782,11 +788,11 @@ class Signer {
 
   /// Signs a binary payload and returns a signature envelope.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [payload] :
   /// Specifies the object digest (hash) to sign.
@@ -822,8 +828,8 @@ class Signer {
   }
 
   /// Initiates a signing job to be performed on the code provided. Signing jobs
-  /// are viewable by the <code>ListSigningJobs</code> operation for two years
-  /// after they are performed. Note the following requirements:
+  /// are viewable by the <code>ListSigningJobs</code> operation. Note the
+  /// following requirements:
   ///
   /// <ul>
   /// <li>
@@ -857,12 +863,12 @@ class Signer {
   /// For a Java example that shows how to use this action, see <a
   /// href="https://docs.aws.amazon.com/signer/latest/developerguide/api-startsigningjob.html">StartSigningJob</a>.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [TooManyRequestsException].
-  /// May throw [InternalServiceErrorException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [destination] :
   /// The S3 bucket in which to save your signed object. The destination
@@ -909,8 +915,8 @@ class Signer {
   /// key and an optional value. To specify the signing profile, use its Amazon
   /// Resource Name (ARN). To specify the tag, use a key-value pair.
   ///
-  /// May throw [InternalServiceErrorException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServiceErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   ///
@@ -937,8 +943,8 @@ class Signer {
   /// Removes one or more tags from a signing profile. To remove the tags,
   /// specify a list of tag keys.
   ///
-  /// May throw [InternalServiceErrorException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServiceErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
   ///
@@ -984,28 +990,6 @@ class AddProfilePermissionResponse {
       if (revisionId != null) 'revisionId': revisionId,
     };
   }
-}
-
-class Category {
-  static const awsIoT = Category._('AWSIoT');
-
-  final String value;
-
-  const Category._(this.value);
-
-  static const values = [awsIoT];
-
-  static Category fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Category._(value));
-
-  @override
-  bool operator ==(other) => other is Category && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class DescribeSigningJobResponse {
@@ -1173,84 +1157,6 @@ class DescribeSigningJobResponse {
       if (source != null) 'source': source,
       if (status != null) 'status': status.value,
       if (statusReason != null) 'statusReason': statusReason,
-    };
-  }
-}
-
-/// Points to an <code>S3Destination</code> object that contains information
-/// about your S3 bucket.
-class Destination {
-  /// The <code>S3Destination</code> object.
-  final S3Destination? s3;
-
-  Destination({
-    this.s3,
-  });
-
-  Map<String, dynamic> toJson() {
-    final s3 = this.s3;
-    return {
-      if (s3 != null) 's3': s3,
-    };
-  }
-}
-
-class EncryptionAlgorithm {
-  static const rsa = EncryptionAlgorithm._('RSA');
-  static const ecdsa = EncryptionAlgorithm._('ECDSA');
-
-  final String value;
-
-  const EncryptionAlgorithm._(this.value);
-
-  static const values = [rsa, ecdsa];
-
-  static EncryptionAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionAlgorithm._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EncryptionAlgorithm && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The encryption algorithm options that are available to a code-signing job.
-class EncryptionAlgorithmOptions {
-  /// The set of accepted encryption algorithms that are allowed in a code-signing
-  /// job.
-  final List<EncryptionAlgorithm> allowedValues;
-
-  /// The default encryption algorithm that is used by a code-signing job.
-  final EncryptionAlgorithm defaultValue;
-
-  EncryptionAlgorithmOptions({
-    required this.allowedValues,
-    required this.defaultValue,
-  });
-
-  factory EncryptionAlgorithmOptions.fromJson(Map<String, dynamic> json) {
-    return EncryptionAlgorithmOptions(
-      allowedValues: ((json['allowedValues'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EncryptionAlgorithm.fromString((e as String)))
-          .toList(),
-      defaultValue: EncryptionAlgorithm.fromString(
-          (json['defaultValue'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedValues = this.allowedValues;
-    final defaultValue = this.defaultValue;
-    return {
-      'allowedValues': allowedValues.map((e) => e.value).toList(),
-      'defaultValue': defaultValue.value,
     };
   }
 }
@@ -1498,88 +1404,6 @@ class GetSigningProfileResponse {
   }
 }
 
-class HashAlgorithm {
-  static const sha1 = HashAlgorithm._('SHA1');
-  static const sha256 = HashAlgorithm._('SHA256');
-
-  final String value;
-
-  const HashAlgorithm._(this.value);
-
-  static const values = [sha1, sha256];
-
-  static HashAlgorithm fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HashAlgorithm._(value));
-
-  @override
-  bool operator ==(other) => other is HashAlgorithm && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The hash algorithms that are available to a code-signing job.
-class HashAlgorithmOptions {
-  /// The set of accepted hash algorithms allowed in a code-signing job.
-  final List<HashAlgorithm> allowedValues;
-
-  /// The default hash algorithm that is used in a code-signing job.
-  final HashAlgorithm defaultValue;
-
-  HashAlgorithmOptions({
-    required this.allowedValues,
-    required this.defaultValue,
-  });
-
-  factory HashAlgorithmOptions.fromJson(Map<String, dynamic> json) {
-    return HashAlgorithmOptions(
-      allowedValues: ((json['allowedValues'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => HashAlgorithm.fromString((e as String)))
-          .toList(),
-      defaultValue:
-          HashAlgorithm.fromString((json['defaultValue'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowedValues = this.allowedValues;
-    final defaultValue = this.defaultValue;
-    return {
-      'allowedValues': allowedValues.map((e) => e.value).toList(),
-      'defaultValue': defaultValue.value,
-    };
-  }
-}
-
-class ImageFormat {
-  static const json = ImageFormat._('JSON');
-  static const jSONEmbedded = ImageFormat._('JSONEmbedded');
-  static const jSONDetached = ImageFormat._('JSONDetached');
-
-  final String value;
-
-  const ImageFormat._(this.value);
-
-  static const values = [json, jSONEmbedded, jSONDetached];
-
-  static ImageFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ImageFormat._(value));
-
-  @override
-  bool operator ==(other) => other is ImageFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListProfilePermissionsResponse {
   /// String for specifying the next set of paginated results.
   final String? nextToken;
@@ -1747,50 +1571,6 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// A cross-account permission for a signing profile.
-class Permission {
-  /// An AWS Signer action permitted as part of cross-account permissions.
-  final String? action;
-
-  /// The AWS principal that has been granted a cross-account permission.
-  final String? principal;
-
-  /// The signing profile version that a permission applies to.
-  final String? profileVersion;
-
-  /// A unique identifier for a cross-account permission statement.
-  final String? statementId;
-
-  Permission({
-    this.action,
-    this.principal,
-    this.profileVersion,
-    this.statementId,
-  });
-
-  factory Permission.fromJson(Map<String, dynamic> json) {
-    return Permission(
-      action: json['action'] as String?,
-      principal: json['principal'] as String?,
-      profileVersion: json['profileVersion'] as String?,
-      statementId: json['statementId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final action = this.action;
-    final principal = this.principal;
-    final profileVersion = this.profileVersion;
-    final statementId = this.statementId;
-    return {
-      if (action != null) 'action': action,
-      if (principal != null) 'principal': principal,
-      if (profileVersion != null) 'profileVersion': profileVersion,
-      if (statementId != null) 'statementId': statementId,
-    };
-  }
-}
-
 class PutSigningProfileResponse {
   /// The Amazon Resource Name (ARN) of the signing profile created.
   final String? arn;
@@ -1849,98 +1629,6 @@ class RemoveProfilePermissionResponse {
   }
 }
 
-/// The name and prefix of the Amazon S3 bucket where AWS Signer saves your
-/// signed objects.
-class S3Destination {
-  /// Name of the S3 bucket.
-  final String? bucketName;
-
-  /// An S3 prefix that you can use to limit responses to those that begin with
-  /// the specified prefix.
-  final String? prefix;
-
-  S3Destination({
-    this.bucketName,
-    this.prefix,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final prefix = this.prefix;
-    return {
-      if (bucketName != null) 'bucketName': bucketName,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-/// The Amazon S3 bucket name and key where Signer saved your signed code image.
-class S3SignedObject {
-  /// Name of the S3 bucket.
-  final String? bucketName;
-
-  /// Key name that uniquely identifies a signed code image in your bucket.
-  final String? key;
-
-  S3SignedObject({
-    this.bucketName,
-    this.key,
-  });
-
-  factory S3SignedObject.fromJson(Map<String, dynamic> json) {
-    return S3SignedObject(
-      bucketName: json['bucketName'] as String?,
-      key: json['key'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final key = this.key;
-    return {
-      if (bucketName != null) 'bucketName': bucketName,
-      if (key != null) 'key': key,
-    };
-  }
-}
-
-/// Information about the Amazon S3 bucket where you saved your unsigned code.
-class S3Source {
-  /// Name of the S3 bucket.
-  final String bucketName;
-
-  /// Key name of the bucket object that contains your unsigned code.
-  final String key;
-
-  /// Version of your source image in your version enabled S3 bucket.
-  final String version;
-
-  S3Source({
-    required this.bucketName,
-    required this.key,
-    required this.version,
-  });
-
-  factory S3Source.fromJson(Map<String, dynamic> json) {
-    return S3Source(
-      bucketName: (json['bucketName'] as String?) ?? '',
-      key: (json['key'] as String?) ?? '',
-      version: (json['version'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final key = this.key;
-    final version = this.version;
-    return {
-      'bucketName': bucketName,
-      'key': key,
-      'version': version,
-    };
-  }
-}
-
 class SignPayloadResponse {
   /// Unique identifier of the signing job.
   final String? jobId;
@@ -1985,6 +1673,189 @@ class SignPayloadResponse {
   }
 }
 
+class StartSigningJobResponse {
+  /// The ID of your signing job.
+  final String? jobId;
+
+  /// The AWS account ID of the signing job owner.
+  final String? jobOwner;
+
+  StartSigningJobResponse({
+    this.jobId,
+    this.jobOwner,
+  });
+
+  factory StartSigningJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartSigningJobResponse(
+      jobId: json['jobId'] as String?,
+      jobOwner: json['jobOwner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobOwner = this.jobOwner;
+    return {
+      if (jobId != null) 'jobId': jobId,
+      if (jobOwner != null) 'jobOwner': jobOwner,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// An <code>S3Source</code> object that contains information about the S3
+/// bucket where you saved your unsigned code.
+class Source {
+  /// The <code>S3Source</code> object.
+  final S3Source? s3;
+
+  Source({
+    this.s3,
+  });
+
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+      s3: json['s3'] != null
+          ? S3Source.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 's3': s3,
+    };
+  }
+}
+
+/// Points to an <code>S3Destination</code> object that contains information
+/// about your S3 bucket.
+class Destination {
+  /// The <code>S3Destination</code> object.
+  final S3Destination? s3;
+
+  Destination({
+    this.s3,
+  });
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 's3': s3,
+    };
+  }
+}
+
+/// The name and prefix of the Amazon S3 bucket where AWS Signer saves your
+/// signed objects.
+class S3Destination {
+  /// Name of the S3 bucket.
+  final String? bucketName;
+
+  /// An S3 prefix that you can use to limit responses to those that begin with
+  /// the specified prefix.
+  final String? prefix;
+
+  S3Destination({
+    this.bucketName,
+    this.prefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// Information about the Amazon S3 bucket where you saved your unsigned code.
+class S3Source {
+  /// Name of the S3 bucket.
+  final String bucketName;
+
+  /// Key name of the bucket object that contains your unsigned code.
+  final String key;
+
+  /// Version of your source image in your version enabled S3 bucket.
+  final String version;
+
+  S3Source({
+    required this.bucketName,
+    required this.key,
+    required this.version,
+  });
+
+  factory S3Source.fromJson(Map<String, dynamic> json) {
+    return S3Source(
+      bucketName: (json['bucketName'] as String?) ?? '',
+      key: (json['key'] as String?) ?? '',
+      version: (json['version'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final key = this.key;
+    final version = this.version;
+    return {
+      'bucketName': bucketName,
+      'key': key,
+      'version': version,
+    };
+  }
+}
+
+/// The ACM certificate that is used to sign your code.
+class SigningMaterial {
+  /// The Amazon Resource Name (ARN) of the certificates that is used to sign your
+  /// code.
+  final String certificateArn;
+
+  SigningMaterial({
+    required this.certificateArn,
+  });
+
+  factory SigningMaterial.fromJson(Map<String, dynamic> json) {
+    return SigningMaterial(
+      certificateArn: (json['certificateArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    return {
+      'certificateArn': certificateArn,
+    };
+  }
+}
+
 /// The validity period for a signing job.
 class SignatureValidityPeriod {
   /// The time unit for signature validity.
@@ -2015,62 +1886,46 @@ class SignatureValidityPeriod {
   }
 }
 
-/// Points to an <code>S3SignedObject</code> object that contains information
-/// about your signed code image.
-class SignedObject {
-  /// The <code>S3SignedObject</code>.
-  final S3SignedObject? s3;
+/// Any overrides that are applied to the signing configuration of a signing
+/// platform.
+class SigningPlatformOverrides {
+  /// A signing configuration that overrides the default encryption or hash
+  /// algorithm of a signing job.
+  final SigningConfigurationOverrides? signingConfiguration;
 
-  SignedObject({
-    this.s3,
+  /// A signed image is a JSON object. When overriding the default signing
+  /// platform configuration, a customer can select either of two signing formats,
+  /// <code>JSONEmbedded</code> or <code>JSONDetached</code>. (A third format
+  /// value, <code>JSON</code>, is reserved for future use.) With
+  /// <code>JSONEmbedded</code>, the signing image has the payload embedded in it.
+  /// With <code>JSONDetached</code>, the payload is not be embedded in the
+  /// signing image.
+  final ImageFormat? signingImageFormat;
+
+  SigningPlatformOverrides({
+    this.signingConfiguration,
+    this.signingImageFormat,
   });
 
-  factory SignedObject.fromJson(Map<String, dynamic> json) {
-    return SignedObject(
-      s3: json['s3'] != null
-          ? S3SignedObject.fromJson(json['s3'] as Map<String, dynamic>)
+  factory SigningPlatformOverrides.fromJson(Map<String, dynamic> json) {
+    return SigningPlatformOverrides(
+      signingConfiguration: json['signingConfiguration'] != null
+          ? SigningConfigurationOverrides.fromJson(
+              json['signingConfiguration'] as Map<String, dynamic>)
           : null,
+      signingImageFormat:
+          (json['signingImageFormat'] as String?)?.let(ImageFormat.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final s3 = this.s3;
+    final signingConfiguration = this.signingConfiguration;
+    final signingImageFormat = this.signingImageFormat;
     return {
-      if (s3 != null) 's3': s3,
-    };
-  }
-}
-
-/// The configuration of a signing operation.
-class SigningConfiguration {
-  /// The encryption algorithm options that are available for a code-signing job.
-  final EncryptionAlgorithmOptions encryptionAlgorithmOptions;
-
-  /// The hash algorithm options that are available for a code-signing job.
-  final HashAlgorithmOptions hashAlgorithmOptions;
-
-  SigningConfiguration({
-    required this.encryptionAlgorithmOptions,
-    required this.hashAlgorithmOptions,
-  });
-
-  factory SigningConfiguration.fromJson(Map<String, dynamic> json) {
-    return SigningConfiguration(
-      encryptionAlgorithmOptions: EncryptionAlgorithmOptions.fromJson(
-          (json['encryptionAlgorithmOptions'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      hashAlgorithmOptions: HashAlgorithmOptions.fromJson(
-          (json['hashAlgorithmOptions'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final encryptionAlgorithmOptions = this.encryptionAlgorithmOptions;
-    final hashAlgorithmOptions = this.hashAlgorithmOptions;
-    return {
-      'encryptionAlgorithmOptions': encryptionAlgorithmOptions,
-      'hashAlgorithmOptions': hashAlgorithmOptions,
+      if (signingConfiguration != null)
+        'signingConfiguration': signingConfiguration,
+      if (signingImageFormat != null)
+        'signingImageFormat': signingImageFormat.value,
     };
   }
 }
@@ -2111,6 +1966,376 @@ class SigningConfigurationOverrides {
   }
 }
 
+class ImageFormat {
+  static const json = ImageFormat._('JSON');
+  static const jSONEmbedded = ImageFormat._('JSONEmbedded');
+  static const jSONDetached = ImageFormat._('JSONDetached');
+
+  final String value;
+
+  const ImageFormat._(this.value);
+
+  static const values = [json, jSONEmbedded, jSONDetached];
+
+  static ImageFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImageFormat._(value));
+
+  @override
+  bool operator ==(other) => other is ImageFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EncryptionAlgorithm {
+  static const rsa = EncryptionAlgorithm._('RSA');
+  static const ecdsa = EncryptionAlgorithm._('ECDSA');
+
+  final String value;
+
+  const EncryptionAlgorithm._(this.value);
+
+  static const values = [rsa, ecdsa];
+
+  static EncryptionAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionAlgorithm._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EncryptionAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HashAlgorithm {
+  static const sha1 = HashAlgorithm._('SHA1');
+  static const sha256 = HashAlgorithm._('SHA256');
+
+  final String value;
+
+  const HashAlgorithm._(this.value);
+
+  static const values = [sha1, sha256];
+
+  static HashAlgorithm fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HashAlgorithm._(value));
+
+  @override
+  bool operator ==(other) => other is HashAlgorithm && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ValidityType {
+  static const days = ValidityType._('DAYS');
+  static const months = ValidityType._('MONTHS');
+  static const years = ValidityType._('YEARS');
+
+  final String value;
+
+  const ValidityType._(this.value);
+
+  static const values = [days, months, years];
+
+  static ValidityType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ValidityType._(value));
+
+  @override
+  bool operator ==(other) => other is ValidityType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the ACM certificates and signing configuration
+/// parameters that can be used by a given code signing user.
+class SigningProfile {
+  /// The Amazon Resource Name (ARN) for the signing profile.
+  final String? arn;
+
+  /// The name of the signing platform.
+  final String? platformDisplayName;
+
+  /// The ID of a platform that is available for use by a signing profile.
+  final String? platformId;
+
+  /// The name of the signing profile.
+  final String? profileName;
+
+  /// The version of a signing profile.
+  final String? profileVersion;
+
+  /// The ARN of a signing profile, including the profile version.
+  final String? profileVersionArn;
+
+  /// The validity period for a signing job created using this signing profile.
+  final SignatureValidityPeriod? signatureValidityPeriod;
+
+  /// The ACM certificate that is available for use by a signing profile.
+  final SigningMaterial? signingMaterial;
+
+  /// The parameters that are available for use by a Signer user.
+  final Map<String, String>? signingParameters;
+
+  /// The status of a signing profile.
+  final SigningProfileStatus? status;
+
+  /// A list of tags associated with the signing profile.
+  final Map<String, String>? tags;
+
+  SigningProfile({
+    this.arn,
+    this.platformDisplayName,
+    this.platformId,
+    this.profileName,
+    this.profileVersion,
+    this.profileVersionArn,
+    this.signatureValidityPeriod,
+    this.signingMaterial,
+    this.signingParameters,
+    this.status,
+    this.tags,
+  });
+
+  factory SigningProfile.fromJson(Map<String, dynamic> json) {
+    return SigningProfile(
+      arn: json['arn'] as String?,
+      platformDisplayName: json['platformDisplayName'] as String?,
+      platformId: json['platformId'] as String?,
+      profileName: json['profileName'] as String?,
+      profileVersion: json['profileVersion'] as String?,
+      profileVersionArn: json['profileVersionArn'] as String?,
+      signatureValidityPeriod: json['signatureValidityPeriod'] != null
+          ? SignatureValidityPeriod.fromJson(
+              json['signatureValidityPeriod'] as Map<String, dynamic>)
+          : null,
+      signingMaterial: json['signingMaterial'] != null
+          ? SigningMaterial.fromJson(
+              json['signingMaterial'] as Map<String, dynamic>)
+          : null,
+      signingParameters: (json['signingParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      status: (json['status'] as String?)?.let(SigningProfileStatus.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final platformDisplayName = this.platformDisplayName;
+    final platformId = this.platformId;
+    final profileName = this.profileName;
+    final profileVersion = this.profileVersion;
+    final profileVersionArn = this.profileVersionArn;
+    final signatureValidityPeriod = this.signatureValidityPeriod;
+    final signingMaterial = this.signingMaterial;
+    final signingParameters = this.signingParameters;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (platformDisplayName != null)
+        'platformDisplayName': platformDisplayName,
+      if (platformId != null) 'platformId': platformId,
+      if (profileName != null) 'profileName': profileName,
+      if (profileVersion != null) 'profileVersion': profileVersion,
+      if (profileVersionArn != null) 'profileVersionArn': profileVersionArn,
+      if (signatureValidityPeriod != null)
+        'signatureValidityPeriod': signatureValidityPeriod,
+      if (signingMaterial != null) 'signingMaterial': signingMaterial,
+      if (signingParameters != null) 'signingParameters': signingParameters,
+      if (status != null) 'status': status.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class SigningProfileStatus {
+  static const active = SigningProfileStatus._('Active');
+  static const canceled = SigningProfileStatus._('Canceled');
+  static const revoked = SigningProfileStatus._('Revoked');
+
+  final String value;
+
+  const SigningProfileStatus._(this.value);
+
+  static const values = [active, canceled, revoked];
+
+  static SigningProfileStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SigningProfileStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SigningProfileStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the signing configurations and parameters that
+/// are used to perform a code-signing job.
+class SigningPlatform {
+  /// The category of a signing platform.
+  final Category? category;
+
+  /// The display name of a signing platform.
+  final String? displayName;
+
+  /// The maximum size (in MB) of code that can be signed by a signing platform.
+  final int? maxSizeInMB;
+
+  /// Any partner entities linked to a signing platform.
+  final String? partner;
+
+  /// The ID of a signing platform.
+  final String? platformId;
+
+  /// Indicates whether revocation is supported for the platform.
+  final bool? revocationSupported;
+
+  /// The configuration of a signing platform. This includes the designated hash
+  /// algorithm and encryption algorithm of a signing platform.
+  final SigningConfiguration? signingConfiguration;
+  final SigningImageFormat? signingImageFormat;
+
+  /// The types of targets that can be signed by a signing platform.
+  final String? target;
+
+  SigningPlatform({
+    this.category,
+    this.displayName,
+    this.maxSizeInMB,
+    this.partner,
+    this.platformId,
+    this.revocationSupported,
+    this.signingConfiguration,
+    this.signingImageFormat,
+    this.target,
+  });
+
+  factory SigningPlatform.fromJson(Map<String, dynamic> json) {
+    return SigningPlatform(
+      category: (json['category'] as String?)?.let(Category.fromString),
+      displayName: json['displayName'] as String?,
+      maxSizeInMB: json['maxSizeInMB'] as int?,
+      partner: json['partner'] as String?,
+      platformId: json['platformId'] as String?,
+      revocationSupported: json['revocationSupported'] as bool?,
+      signingConfiguration: json['signingConfiguration'] != null
+          ? SigningConfiguration.fromJson(
+              json['signingConfiguration'] as Map<String, dynamic>)
+          : null,
+      signingImageFormat: json['signingImageFormat'] != null
+          ? SigningImageFormat.fromJson(
+              json['signingImageFormat'] as Map<String, dynamic>)
+          : null,
+      target: json['target'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final displayName = this.displayName;
+    final maxSizeInMB = this.maxSizeInMB;
+    final partner = this.partner;
+    final platformId = this.platformId;
+    final revocationSupported = this.revocationSupported;
+    final signingConfiguration = this.signingConfiguration;
+    final signingImageFormat = this.signingImageFormat;
+    final target = this.target;
+    return {
+      if (category != null) 'category': category.value,
+      if (displayName != null) 'displayName': displayName,
+      if (maxSizeInMB != null) 'maxSizeInMB': maxSizeInMB,
+      if (partner != null) 'partner': partner,
+      if (platformId != null) 'platformId': platformId,
+      if (revocationSupported != null)
+        'revocationSupported': revocationSupported,
+      if (signingConfiguration != null)
+        'signingConfiguration': signingConfiguration,
+      if (signingImageFormat != null) 'signingImageFormat': signingImageFormat,
+      if (target != null) 'target': target,
+    };
+  }
+}
+
+class Category {
+  static const awsIoT = Category._('AWSIoT');
+
+  final String value;
+
+  const Category._(this.value);
+
+  static const values = [awsIoT];
+
+  static Category fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Category._(value));
+
+  @override
+  bool operator ==(other) => other is Category && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of a signing operation.
+class SigningConfiguration {
+  /// The encryption algorithm options that are available for a code-signing job.
+  final EncryptionAlgorithmOptions encryptionAlgorithmOptions;
+
+  /// The hash algorithm options that are available for a code-signing job.
+  final HashAlgorithmOptions hashAlgorithmOptions;
+
+  SigningConfiguration({
+    required this.encryptionAlgorithmOptions,
+    required this.hashAlgorithmOptions,
+  });
+
+  factory SigningConfiguration.fromJson(Map<String, dynamic> json) {
+    return SigningConfiguration(
+      encryptionAlgorithmOptions: EncryptionAlgorithmOptions.fromJson(
+          (json['encryptionAlgorithmOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      hashAlgorithmOptions: HashAlgorithmOptions.fromJson(
+          (json['hashAlgorithmOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionAlgorithmOptions = this.encryptionAlgorithmOptions;
+    final hashAlgorithmOptions = this.hashAlgorithmOptions;
+    return {
+      'encryptionAlgorithmOptions': encryptionAlgorithmOptions,
+      'hashAlgorithmOptions': hashAlgorithmOptions,
+    };
+  }
+}
+
 /// The image format of a AWS Signer platform or profile.
 class SigningImageFormat {
   /// The default format of a signing image.
@@ -2141,6 +2366,75 @@ class SigningImageFormat {
     return {
       'defaultFormat': defaultFormat.value,
       'supportedFormats': supportedFormats.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// The encryption algorithm options that are available to a code-signing job.
+class EncryptionAlgorithmOptions {
+  /// The set of accepted encryption algorithms that are allowed in a code-signing
+  /// job.
+  final List<EncryptionAlgorithm> allowedValues;
+
+  /// The default encryption algorithm that is used by a code-signing job.
+  final EncryptionAlgorithm defaultValue;
+
+  EncryptionAlgorithmOptions({
+    required this.allowedValues,
+    required this.defaultValue,
+  });
+
+  factory EncryptionAlgorithmOptions.fromJson(Map<String, dynamic> json) {
+    return EncryptionAlgorithmOptions(
+      allowedValues: ((json['allowedValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EncryptionAlgorithm.fromString((e as String)))
+          .toList(),
+      defaultValue: EncryptionAlgorithm.fromString(
+          (json['defaultValue'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final defaultValue = this.defaultValue;
+    return {
+      'allowedValues': allowedValues.map((e) => e.value).toList(),
+      'defaultValue': defaultValue.value,
+    };
+  }
+}
+
+/// The hash algorithms that are available to a code-signing job.
+class HashAlgorithmOptions {
+  /// The set of accepted hash algorithms allowed in a code-signing job.
+  final List<HashAlgorithm> allowedValues;
+
+  /// The default hash algorithm that is used in a code-signing job.
+  final HashAlgorithm defaultValue;
+
+  HashAlgorithmOptions({
+    required this.allowedValues,
+    required this.defaultValue,
+  });
+
+  factory HashAlgorithmOptions.fromJson(Map<String, dynamic> json) {
+    return HashAlgorithmOptions(
+      allowedValues: ((json['allowedValues'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => HashAlgorithm.fromString((e as String)))
+          .toList(),
+      defaultValue:
+          HashAlgorithm.fromString((json['defaultValue'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final defaultValue = this.defaultValue;
+    return {
+      'allowedValues': allowedValues.map((e) => e.value).toList(),
+      'defaultValue': defaultValue.value,
     };
   }
 }
@@ -2271,298 +2565,127 @@ class SigningJob {
   }
 }
 
-/// Revocation information for a signing job.
-class SigningJobRevocationRecord {
-  /// A caller-supplied reason for revocation.
-  final String? reason;
+/// Points to an <code>S3SignedObject</code> object that contains information
+/// about your signed code image.
+class SignedObject {
+  /// The <code>S3SignedObject</code>.
+  final S3SignedObject? s3;
 
-  /// The time of revocation.
-  final DateTime? revokedAt;
-
-  /// The identity of the revoker.
-  final String? revokedBy;
-
-  SigningJobRevocationRecord({
-    this.reason,
-    this.revokedAt,
-    this.revokedBy,
+  SignedObject({
+    this.s3,
   });
 
-  factory SigningJobRevocationRecord.fromJson(Map<String, dynamic> json) {
-    return SigningJobRevocationRecord(
-      reason: json['reason'] as String?,
-      revokedAt: timeStampFromJson(json['revokedAt']),
-      revokedBy: json['revokedBy'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reason = this.reason;
-    final revokedAt = this.revokedAt;
-    final revokedBy = this.revokedBy;
-    return {
-      if (reason != null) 'reason': reason,
-      if (revokedAt != null) 'revokedAt': unixTimestampToJson(revokedAt),
-      if (revokedBy != null) 'revokedBy': revokedBy,
-    };
-  }
-}
-
-/// The ACM certificate that is used to sign your code.
-class SigningMaterial {
-  /// The Amazon Resource Name (ARN) of the certificates that is used to sign your
-  /// code.
-  final String certificateArn;
-
-  SigningMaterial({
-    required this.certificateArn,
-  });
-
-  factory SigningMaterial.fromJson(Map<String, dynamic> json) {
-    return SigningMaterial(
-      certificateArn: (json['certificateArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    return {
-      'certificateArn': certificateArn,
-    };
-  }
-}
-
-/// Contains information about the signing configurations and parameters that
-/// are used to perform a code-signing job.
-class SigningPlatform {
-  /// The category of a signing platform.
-  final Category? category;
-
-  /// The display name of a signing platform.
-  final String? displayName;
-
-  /// The maximum size (in MB) of code that can be signed by a signing platform.
-  final int? maxSizeInMB;
-
-  /// Any partner entities linked to a signing platform.
-  final String? partner;
-
-  /// The ID of a signing platform.
-  final String? platformId;
-
-  /// Indicates whether revocation is supported for the platform.
-  final bool? revocationSupported;
-
-  /// The configuration of a signing platform. This includes the designated hash
-  /// algorithm and encryption algorithm of a signing platform.
-  final SigningConfiguration? signingConfiguration;
-  final SigningImageFormat? signingImageFormat;
-
-  /// The types of targets that can be signed by a signing platform.
-  final String? target;
-
-  SigningPlatform({
-    this.category,
-    this.displayName,
-    this.maxSizeInMB,
-    this.partner,
-    this.platformId,
-    this.revocationSupported,
-    this.signingConfiguration,
-    this.signingImageFormat,
-    this.target,
-  });
-
-  factory SigningPlatform.fromJson(Map<String, dynamic> json) {
-    return SigningPlatform(
-      category: (json['category'] as String?)?.let(Category.fromString),
-      displayName: json['displayName'] as String?,
-      maxSizeInMB: json['maxSizeInMB'] as int?,
-      partner: json['partner'] as String?,
-      platformId: json['platformId'] as String?,
-      revocationSupported: json['revocationSupported'] as bool?,
-      signingConfiguration: json['signingConfiguration'] != null
-          ? SigningConfiguration.fromJson(
-              json['signingConfiguration'] as Map<String, dynamic>)
+  factory SignedObject.fromJson(Map<String, dynamic> json) {
+    return SignedObject(
+      s3: json['s3'] != null
+          ? S3SignedObject.fromJson(json['s3'] as Map<String, dynamic>)
           : null,
-      signingImageFormat: json['signingImageFormat'] != null
-          ? SigningImageFormat.fromJson(
-              json['signingImageFormat'] as Map<String, dynamic>)
-          : null,
-      target: json['target'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final category = this.category;
-    final displayName = this.displayName;
-    final maxSizeInMB = this.maxSizeInMB;
-    final partner = this.partner;
-    final platformId = this.platformId;
-    final revocationSupported = this.revocationSupported;
-    final signingConfiguration = this.signingConfiguration;
-    final signingImageFormat = this.signingImageFormat;
-    final target = this.target;
+    final s3 = this.s3;
     return {
-      if (category != null) 'category': category.value,
-      if (displayName != null) 'displayName': displayName,
-      if (maxSizeInMB != null) 'maxSizeInMB': maxSizeInMB,
-      if (partner != null) 'partner': partner,
-      if (platformId != null) 'platformId': platformId,
-      if (revocationSupported != null)
-        'revocationSupported': revocationSupported,
-      if (signingConfiguration != null)
-        'signingConfiguration': signingConfiguration,
-      if (signingImageFormat != null) 'signingImageFormat': signingImageFormat,
-      if (target != null) 'target': target,
+      if (s3 != null) 's3': s3,
     };
   }
 }
 
-/// Any overrides that are applied to the signing configuration of a signing
-/// platform.
-class SigningPlatformOverrides {
-  /// A signing configuration that overrides the default encryption or hash
-  /// algorithm of a signing job.
-  final SigningConfigurationOverrides? signingConfiguration;
+class SigningStatus {
+  static const inProgress = SigningStatus._('InProgress');
+  static const failed = SigningStatus._('Failed');
+  static const succeeded = SigningStatus._('Succeeded');
 
-  /// A signed image is a JSON object. When overriding the default signing
-  /// platform configuration, a customer can select either of two signing formats,
-  /// <code>JSONEmbedded</code> or <code>JSONDetached</code>. (A third format
-  /// value, <code>JSON</code>, is reserved for future use.) With
-  /// <code>JSONEmbedded</code>, the signing image has the payload embedded in it.
-  /// With <code>JSONDetached</code>, the payload is not be embedded in the
-  /// signing image.
-  final ImageFormat? signingImageFormat;
+  final String value;
 
-  SigningPlatformOverrides({
-    this.signingConfiguration,
-    this.signingImageFormat,
+  const SigningStatus._(this.value);
+
+  static const values = [inProgress, failed, succeeded];
+
+  static SigningStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SigningStatus._(value));
+
+  @override
+  bool operator ==(other) => other is SigningStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The Amazon S3 bucket name and key where Signer saved your signed code image.
+class S3SignedObject {
+  /// Name of the S3 bucket.
+  final String? bucketName;
+
+  /// Key name that uniquely identifies a signed code image in your bucket.
+  final String? key;
+
+  S3SignedObject({
+    this.bucketName,
+    this.key,
   });
 
-  factory SigningPlatformOverrides.fromJson(Map<String, dynamic> json) {
-    return SigningPlatformOverrides(
-      signingConfiguration: json['signingConfiguration'] != null
-          ? SigningConfigurationOverrides.fromJson(
-              json['signingConfiguration'] as Map<String, dynamic>)
-          : null,
-      signingImageFormat:
-          (json['signingImageFormat'] as String?)?.let(ImageFormat.fromString),
+  factory S3SignedObject.fromJson(Map<String, dynamic> json) {
+    return S3SignedObject(
+      bucketName: json['bucketName'] as String?,
+      key: json['key'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final signingConfiguration = this.signingConfiguration;
-    final signingImageFormat = this.signingImageFormat;
+    final bucketName = this.bucketName;
+    final key = this.key;
     return {
-      if (signingConfiguration != null)
-        'signingConfiguration': signingConfiguration,
-      if (signingImageFormat != null)
-        'signingImageFormat': signingImageFormat.value,
+      if (bucketName != null) 'bucketName': bucketName,
+      if (key != null) 'key': key,
     };
   }
 }
 
-/// Contains information about the ACM certificates and signing configuration
-/// parameters that can be used by a given code signing user.
-class SigningProfile {
-  /// The Amazon Resource Name (ARN) for the signing profile.
-  final String? arn;
+/// A cross-account permission for a signing profile.
+class Permission {
+  /// An AWS Signer action permitted as part of cross-account permissions.
+  final String? action;
 
-  /// The name of the signing platform.
-  final String? platformDisplayName;
+  /// The AWS principal that has been granted a cross-account permission.
+  final String? principal;
 
-  /// The ID of a platform that is available for use by a signing profile.
-  final String? platformId;
-
-  /// The name of the signing profile.
-  final String? profileName;
-
-  /// The version of a signing profile.
+  /// The signing profile version that a permission applies to.
   final String? profileVersion;
 
-  /// The ARN of a signing profile, including the profile version.
-  final String? profileVersionArn;
+  /// A unique identifier for a cross-account permission statement.
+  final String? statementId;
 
-  /// The validity period for a signing job created using this signing profile.
-  final SignatureValidityPeriod? signatureValidityPeriod;
-
-  /// The ACM certificate that is available for use by a signing profile.
-  final SigningMaterial? signingMaterial;
-
-  /// The parameters that are available for use by a Signer user.
-  final Map<String, String>? signingParameters;
-
-  /// The status of a signing profile.
-  final SigningProfileStatus? status;
-
-  /// A list of tags associated with the signing profile.
-  final Map<String, String>? tags;
-
-  SigningProfile({
-    this.arn,
-    this.platformDisplayName,
-    this.platformId,
-    this.profileName,
+  Permission({
+    this.action,
+    this.principal,
     this.profileVersion,
-    this.profileVersionArn,
-    this.signatureValidityPeriod,
-    this.signingMaterial,
-    this.signingParameters,
-    this.status,
-    this.tags,
+    this.statementId,
   });
 
-  factory SigningProfile.fromJson(Map<String, dynamic> json) {
-    return SigningProfile(
-      arn: json['arn'] as String?,
-      platformDisplayName: json['platformDisplayName'] as String?,
-      platformId: json['platformId'] as String?,
-      profileName: json['profileName'] as String?,
+  factory Permission.fromJson(Map<String, dynamic> json) {
+    return Permission(
+      action: json['action'] as String?,
+      principal: json['principal'] as String?,
       profileVersion: json['profileVersion'] as String?,
-      profileVersionArn: json['profileVersionArn'] as String?,
-      signatureValidityPeriod: json['signatureValidityPeriod'] != null
-          ? SignatureValidityPeriod.fromJson(
-              json['signatureValidityPeriod'] as Map<String, dynamic>)
-          : null,
-      signingMaterial: json['signingMaterial'] != null
-          ? SigningMaterial.fromJson(
-              json['signingMaterial'] as Map<String, dynamic>)
-          : null,
-      signingParameters: (json['signingParameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      status: (json['status'] as String?)?.let(SigningProfileStatus.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+      statementId: json['statementId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final platformDisplayName = this.platformDisplayName;
-    final platformId = this.platformId;
-    final profileName = this.profileName;
+    final action = this.action;
+    final principal = this.principal;
     final profileVersion = this.profileVersion;
-    final profileVersionArn = this.profileVersionArn;
-    final signatureValidityPeriod = this.signatureValidityPeriod;
-    final signingMaterial = this.signingMaterial;
-    final signingParameters = this.signingParameters;
-    final status = this.status;
-    final tags = this.tags;
+    final statementId = this.statementId;
     return {
-      if (arn != null) 'arn': arn,
-      if (platformDisplayName != null)
-        'platformDisplayName': platformDisplayName,
-      if (platformId != null) 'platformId': platformId,
-      if (profileName != null) 'profileName': profileName,
+      if (action != null) 'action': action,
+      if (principal != null) 'principal': principal,
       if (profileVersion != null) 'profileVersion': profileVersion,
-      if (profileVersionArn != null) 'profileVersionArn': profileVersionArn,
-      if (signatureValidityPeriod != null)
-        'signatureValidityPeriod': signatureValidityPeriod,
-      if (signingMaterial != null) 'signingMaterial': signingMaterial,
-      if (signingParameters != null) 'signingParameters': signingParameters,
-      if (status != null) 'status': status.value,
-      if (tags != null) 'tags': tags,
+      if (statementId != null) 'statementId': statementId,
     };
   }
 }
@@ -2606,158 +2729,41 @@ class SigningProfileRevocationRecord {
   }
 }
 
-class SigningProfileStatus {
-  static const active = SigningProfileStatus._('Active');
-  static const canceled = SigningProfileStatus._('Canceled');
-  static const revoked = SigningProfileStatus._('Revoked');
+/// Revocation information for a signing job.
+class SigningJobRevocationRecord {
+  /// A caller-supplied reason for revocation.
+  final String? reason;
 
-  final String value;
+  /// The time of revocation.
+  final DateTime? revokedAt;
 
-  const SigningProfileStatus._(this.value);
+  /// The identity of the revoker.
+  final String? revokedBy;
 
-  static const values = [active, canceled, revoked];
-
-  static SigningProfileStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SigningProfileStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SigningProfileStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SigningStatus {
-  static const inProgress = SigningStatus._('InProgress');
-  static const failed = SigningStatus._('Failed');
-  static const succeeded = SigningStatus._('Succeeded');
-
-  final String value;
-
-  const SigningStatus._(this.value);
-
-  static const values = [inProgress, failed, succeeded];
-
-  static SigningStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SigningStatus._(value));
-
-  @override
-  bool operator ==(other) => other is SigningStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An <code>S3Source</code> object that contains information about the S3
-/// bucket where you saved your unsigned code.
-class Source {
-  /// The <code>S3Source</code> object.
-  final S3Source? s3;
-
-  Source({
-    this.s3,
+  SigningJobRevocationRecord({
+    this.reason,
+    this.revokedAt,
+    this.revokedBy,
   });
 
-  factory Source.fromJson(Map<String, dynamic> json) {
-    return Source(
-      s3: json['s3'] != null
-          ? S3Source.fromJson(json['s3'] as Map<String, dynamic>)
-          : null,
+  factory SigningJobRevocationRecord.fromJson(Map<String, dynamic> json) {
+    return SigningJobRevocationRecord(
+      reason: json['reason'] as String?,
+      revokedAt: timeStampFromJson(json['revokedAt']),
+      revokedBy: json['revokedBy'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final s3 = this.s3;
+    final reason = this.reason;
+    final revokedAt = this.revokedAt;
+    final revokedBy = this.revokedBy;
     return {
-      if (s3 != null) 's3': s3,
+      if (reason != null) 'reason': reason,
+      if (revokedAt != null) 'revokedAt': unixTimestampToJson(revokedAt),
+      if (revokedBy != null) 'revokedBy': revokedBy,
     };
   }
-}
-
-class StartSigningJobResponse {
-  /// The ID of your signing job.
-  final String? jobId;
-
-  /// The AWS account ID of the signing job owner.
-  final String? jobOwner;
-
-  StartSigningJobResponse({
-    this.jobId,
-    this.jobOwner,
-  });
-
-  factory StartSigningJobResponse.fromJson(Map<String, dynamic> json) {
-    return StartSigningJobResponse(
-      jobId: json['jobId'] as String?,
-      jobOwner: json['jobOwner'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    final jobOwner = this.jobOwner;
-    return {
-      if (jobId != null) 'jobId': jobId,
-      if (jobOwner != null) 'jobOwner': jobOwner,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class ValidityType {
-  static const days = ValidityType._('DAYS');
-  static const months = ValidityType._('MONTHS');
-  static const years = ValidityType._('YEARS');
-
-  final String value;
-
-  const ValidityType._(this.value);
-
-  static const values = [days, months, years];
-
-  static ValidityType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ValidityType._(value));
-
-  @override
-  bool operator ==(other) => other is ValidityType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

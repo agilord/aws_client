@@ -1,4 +1,4 @@
-import 'package:aws_client/cloud_watch_2010_08_01.dart';
+import 'package:aws_client/cloud_watch.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

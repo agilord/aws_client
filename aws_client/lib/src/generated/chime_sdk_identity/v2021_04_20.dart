@@ -66,10 +66,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [name] :
   /// The name of the <code>AppInstance</code>.
@@ -125,10 +125,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceAdminArn] :
   /// The ARN of the administrator of the current <code>AppInstance</code>.
@@ -160,10 +160,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code> request.
@@ -216,10 +216,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code> request.
@@ -276,10 +276,10 @@ class ChimeSdkIdentity {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -302,10 +302,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceAdminArn] :
   /// The ARN of the <code>AppInstance</code>'s administrator.
@@ -331,10 +331,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceBotArn] :
   /// The ARN of the <code>AppInstanceBot</code> being deleted.
@@ -356,10 +356,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the user request being deleted.
@@ -379,10 +379,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
@@ -406,10 +406,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -429,10 +429,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceAdminArn] :
   /// The ARN of the <code>AppInstanceAdmin</code>.
@@ -457,11 +457,11 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [NotFoundException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceBotArn] :
   /// The ARN of the <code>AppInstanceBot</code>.
@@ -482,10 +482,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
@@ -506,10 +506,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
@@ -535,10 +535,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -561,10 +561,10 @@ class ChimeSdkIdentity {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -607,10 +607,10 @@ class ChimeSdkIdentity {
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -647,15 +647,55 @@ class ChimeSdkIdentity {
     return ListAppInstanceBotsResponse.fromJson(response);
   }
 
+  /// Lists all Amazon Chime <code>AppInstance</code>s created under a single
+  /// AWS account.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of <code>AppInstance</code>s that you want to return.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API requests until you reach the maximum
+  /// number of <code>AppInstances</code>.
+  Future<ListAppInstancesResponse> listAppInstances({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/app-instances',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAppInstancesResponse.fromJson(response);
+  }
+
   /// Lists all the <code>AppInstanceUserEndpoints</code> created under a single
   /// <code>AppInstanceUser</code>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
@@ -697,10 +737,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -737,54 +777,14 @@ class ChimeSdkIdentity {
     return ListAppInstanceUsersResponse.fromJson(response);
   }
 
-  /// Lists all Amazon Chime <code>AppInstance</code>s created under a single
-  /// AWS account.
-  ///
-  /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [ThrottledClientException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of <code>AppInstance</code>s that you want to return.
-  ///
-  /// Parameter [nextToken] :
-  /// The token passed by previous API requests until you reach the maximum
-  /// number of <code>AppInstances</code>.
-  Future<ListAppInstancesResponse> listAppInstances({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'max-results': [maxResults.toString()],
-      if (nextToken != null) 'next-token': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/app-instances',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListAppInstancesResponse.fromJson(response);
-  }
-
   /// Lists the tags applied to an Amazon Chime SDK identity resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource.
@@ -809,10 +809,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -851,10 +851,10 @@ class ChimeSdkIdentity {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
@@ -889,10 +889,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
@@ -965,11 +965,11 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
   /// May throw [ResourceLimitExceededException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The resource ARN.
@@ -997,10 +997,10 @@ class ChimeSdkIdentity {
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
   ///
   /// Parameter [resourceARN] :
   /// The resource ARN.
@@ -1028,10 +1028,10 @@ class ChimeSdkIdentity {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
   /// The ARN of the <code>AppInstance</code>.
@@ -1065,10 +1065,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceBotArn] :
   /// The ARN of the <code>AppInstanceBot</code>.
@@ -1109,10 +1109,10 @@ class ChimeSdkIdentity {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   /// May throw [ResourceLimitExceededException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
@@ -1147,10 +1147,10 @@ class ChimeSdkIdentity {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the <code>AppInstanceUser</code>.
@@ -1187,679 +1187,24 @@ class ChimeSdkIdentity {
   }
 }
 
-class AllowMessages {
-  static const all = AllowMessages._('ALL');
-  static const none = AllowMessages._('NONE');
-
-  final String value;
-
-  const AllowMessages._(this.value);
-
-  static const values = [all, none];
-
-  static AllowMessages fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AllowMessages._(value));
-
-  @override
-  bool operator ==(other) => other is AllowMessages && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The details of an <code>AppInstance</code>, an instance of an Amazon Chime
-/// SDK messaging application.
-class AppInstance {
-  /// The ARN of the messaging instance.
+class CreateAppInstanceResponse {
+  /// The Amazon Resource Number (ARN) of the <code>AppInstance</code>.
   final String? appInstanceArn;
 
-  /// The time at which an <code>AppInstance</code> was created. In epoch
-  /// milliseconds.
-  final DateTime? createdTimestamp;
-
-  /// The time an <code>AppInstance</code> was last updated. In epoch
-  /// milliseconds.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The metadata of an <code>AppInstance</code>.
-  final String? metadata;
-
-  /// The name of an <code>AppInstance</code>.
-  final String? name;
-
-  AppInstance({
+  CreateAppInstanceResponse({
     this.appInstanceArn,
-    this.createdTimestamp,
-    this.lastUpdatedTimestamp,
-    this.metadata,
-    this.name,
   });
 
-  factory AppInstance.fromJson(Map<String, dynamic> json) {
-    return AppInstance(
+  factory CreateAppInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAppInstanceResponse(
       appInstanceArn: json['AppInstanceArn'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      metadata: json['Metadata'] as String?,
-      name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final appInstanceArn = this.appInstanceArn;
-    final createdTimestamp = this.createdTimestamp;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final metadata = this.metadata;
-    final name = this.name;
     return {
       if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (metadata != null) 'Metadata': metadata,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// The name and ARN of the admin for the <code>AppInstance</code>.
-class AppInstanceAdmin {
-  /// The <code>AppInstanceAdmin</code> data.
-  final Identity? admin;
-
-  /// The ARN of the <code>AppInstance</code> for which the user is an
-  /// administrator.
-  final String? appInstanceArn;
-
-  /// The time at which an administrator was created.
-  final DateTime? createdTimestamp;
-
-  AppInstanceAdmin({
-    this.admin,
-    this.appInstanceArn,
-    this.createdTimestamp,
-  });
-
-  factory AppInstanceAdmin.fromJson(Map<String, dynamic> json) {
-    return AppInstanceAdmin(
-      admin: json['Admin'] != null
-          ? Identity.fromJson(json['Admin'] as Map<String, dynamic>)
-          : null,
-      appInstanceArn: json['AppInstanceArn'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final admin = this.admin;
-    final appInstanceArn = this.appInstanceArn;
-    final createdTimestamp = this.createdTimestamp;
-    return {
-      if (admin != null) 'Admin': admin,
-      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-    };
-  }
-}
-
-/// Summary of the details of an <code>AppInstanceAdmin</code>.
-class AppInstanceAdminSummary {
-  /// The details of the <code>AppInstanceAdmin</code>.
-  final Identity? admin;
-
-  AppInstanceAdminSummary({
-    this.admin,
-  });
-
-  factory AppInstanceAdminSummary.fromJson(Map<String, dynamic> json) {
-    return AppInstanceAdminSummary(
-      admin: json['Admin'] != null
-          ? Identity.fromJson(json['Admin'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final admin = this.admin;
-    return {
-      if (admin != null) 'Admin': admin,
-    };
-  }
-}
-
-/// An Amazon Lex V2 chat bot created under an <code>AppInstance</code>.
-class AppInstanceBot {
-  /// The ARN of the AppInstanceBot.
-  final String? appInstanceBotArn;
-
-  /// The data processing instructions for an AppInstanceBot.
-  final Configuration? configuration;
-
-  /// The time at which the <code>AppInstanceBot</code> was created.
-  final DateTime? createdTimestamp;
-
-  /// The time at which the <code>AppInstanceBot</code> was last updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The metadata for an AppInstanceBot.
-  final String? metadata;
-
-  /// The name of the AppInstanceBot.
-  final String? name;
-
-  AppInstanceBot({
-    this.appInstanceBotArn,
-    this.configuration,
-    this.createdTimestamp,
-    this.lastUpdatedTimestamp,
-    this.metadata,
-    this.name,
-  });
-
-  factory AppInstanceBot.fromJson(Map<String, dynamic> json) {
-    return AppInstanceBot(
-      appInstanceBotArn: json['AppInstanceBotArn'] as String?,
-      configuration: json['Configuration'] != null
-          ? Configuration.fromJson(
-              json['Configuration'] as Map<String, dynamic>)
-          : null,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      metadata: json['Metadata'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstanceBotArn = this.appInstanceBotArn;
-    final configuration = this.configuration;
-    final createdTimestamp = this.createdTimestamp;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final metadata = this.metadata;
-    final name = this.name;
-    return {
-      if (appInstanceBotArn != null) 'AppInstanceBotArn': appInstanceBotArn,
-      if (configuration != null) 'Configuration': configuration,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (metadata != null) 'Metadata': metadata,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// High-level information about an AppInstanceBot.
-class AppInstanceBotSummary {
-  /// The ARN of the AppInstanceBot.
-  final String? appInstanceBotArn;
-
-  /// The metadata of the AppInstanceBot.
-  final String? metadata;
-
-  /// The name of the AppInstanceBox.
-  final String? name;
-
-  AppInstanceBotSummary({
-    this.appInstanceBotArn,
-    this.metadata,
-    this.name,
-  });
-
-  factory AppInstanceBotSummary.fromJson(Map<String, dynamic> json) {
-    return AppInstanceBotSummary(
-      appInstanceBotArn: json['AppInstanceBotArn'] as String?,
-      metadata: json['Metadata'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstanceBotArn = this.appInstanceBotArn;
-    final metadata = this.metadata;
-    final name = this.name;
-    return {
-      if (appInstanceBotArn != null) 'AppInstanceBotArn': appInstanceBotArn,
-      if (metadata != null) 'Metadata': metadata,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// The details of the data-retention settings for an <code>AppInstance</code>.
-class AppInstanceRetentionSettings {
-  /// The length of time in days to retain the messages in a channel.
-  final ChannelRetentionSettings? channelRetentionSettings;
-
-  AppInstanceRetentionSettings({
-    this.channelRetentionSettings,
-  });
-
-  factory AppInstanceRetentionSettings.fromJson(Map<String, dynamic> json) {
-    return AppInstanceRetentionSettings(
-      channelRetentionSettings: json['ChannelRetentionSettings'] != null
-          ? ChannelRetentionSettings.fromJson(
-              json['ChannelRetentionSettings'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelRetentionSettings = this.channelRetentionSettings;
-    return {
-      if (channelRetentionSettings != null)
-        'ChannelRetentionSettings': channelRetentionSettings,
-    };
-  }
-}
-
-/// Summary of the data for an <code>AppInstance</code>.
-class AppInstanceSummary {
-  /// The <code>AppInstance</code> ARN.
-  final String? appInstanceArn;
-
-  /// The metadata of the <code>AppInstance</code>.
-  final String? metadata;
-
-  /// The name of the <code>AppInstance</code>.
-  final String? name;
-
-  AppInstanceSummary({
-    this.appInstanceArn,
-    this.metadata,
-    this.name,
-  });
-
-  factory AppInstanceSummary.fromJson(Map<String, dynamic> json) {
-    return AppInstanceSummary(
-      appInstanceArn: json['AppInstanceArn'] as String?,
-      metadata: json['Metadata'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstanceArn = this.appInstanceArn;
-    final metadata = this.metadata;
-    final name = this.name;
-    return {
-      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
-      if (metadata != null) 'Metadata': metadata,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// The details of an <code>AppInstanceUser</code>.
-class AppInstanceUser {
-  /// The ARN of the <code>AppInstanceUser</code>.
-  final String? appInstanceUserArn;
-
-  /// The time at which the <code>AppInstanceUser</code> was created.
-  final DateTime? createdTimestamp;
-
-  /// The interval after which an <code>AppInstanceUser</code> is automatically
-  /// deleted.
-  final ExpirationSettings? expirationSettings;
-
-  /// The time at which the <code>AppInstanceUser</code> was last updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The metadata of the <code>AppInstanceUser</code>.
-  final String? metadata;
-
-  /// The name of the <code>AppInstanceUser</code>.
-  final String? name;
-
-  AppInstanceUser({
-    this.appInstanceUserArn,
-    this.createdTimestamp,
-    this.expirationSettings,
-    this.lastUpdatedTimestamp,
-    this.metadata,
-    this.name,
-  });
-
-  factory AppInstanceUser.fromJson(Map<String, dynamic> json) {
-    return AppInstanceUser(
-      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      expirationSettings: json['ExpirationSettings'] != null
-          ? ExpirationSettings.fromJson(
-              json['ExpirationSettings'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      metadata: json['Metadata'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstanceUserArn = this.appInstanceUserArn;
-    final createdTimestamp = this.createdTimestamp;
-    final expirationSettings = this.expirationSettings;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final metadata = this.metadata;
-    final name = this.name;
-    return {
-      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (expirationSettings != null) 'ExpirationSettings': expirationSettings,
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (metadata != null) 'Metadata': metadata,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// An endpoint under an Amazon Chime <code>AppInstanceUser</code> that receives
-/// messages for a user. For push notifications, the endpoint is a mobile device
-/// used to receive mobile push notifications for a user.
-class AppInstanceUserEndpoint {
-  /// Boolean that controls whether the <code>AppInstanceUserEndpoint</code> is
-  /// opted in to receive messages. <code>ALL</code> indicates the endpoint will
-  /// receive all messages. <code>NONE</code> indicates the endpoint will receive
-  /// no messages.
-  final AllowMessages? allowMessages;
-
-  /// The ARN of the <code>AppInstanceUser</code>.
-  final String? appInstanceUserArn;
-
-  /// The time at which an <code>AppInstanceUserEndpoint</code> was created.
-  final DateTime? createdTimestamp;
-
-  /// The attributes of an <code>Endpoint</code>.
-  final EndpointAttributes? endpointAttributes;
-
-  /// The unique identifier of the <code>AppInstanceUserEndpoint</code>.
-  final String? endpointId;
-
-  /// A read-only field that represents the state of an
-  /// <code>AppInstanceUserEndpoint</code>. Supported values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ACTIVE</code>: The <code>AppInstanceUserEndpoint</code> is active and
-  /// able to receive messages. When <code>ACTIVE</code>, the
-  /// <code>EndpointStatusReason</code> remains empty.
-  /// </li>
-  /// <li>
-  /// <code>INACTIVE</code>: The <code>AppInstanceUserEndpoint</code> is inactive
-  /// and can't receive message. When <code>INACTIVE</code>, the corresponding
-  /// reason will be conveyed through <code>EndpointStatusReason</code>.
-  /// </li>
-  /// <li>
-  /// <code>INVALID_DEVICE_TOKEN</code> indicates that an
-  /// <code>AppInstanceUserEndpoint</code> is <code>INACTIVE</code> due to invalid
-  /// device token
-  /// </li>
-  /// <li>
-  /// <code>INVALID_PINPOINT_ARN</code> indicates that an
-  /// <code>AppInstanceUserEndpoint</code> is <code>INACTIVE</code> due to an
-  /// invalid pinpoint ARN that was input through the <code>ResourceArn</code>
-  /// field.
-  /// </li>
-  /// </ul>
-  final EndpointState? endpointState;
-
-  /// The time at which an <code>AppInstanceUserEndpoint</code> was last updated.
-  final DateTime? lastUpdatedTimestamp;
-
-  /// The name of the <code>AppInstanceUserEndpoint</code>.
-  final String? name;
-
-  /// The ARN of the resource to which the endpoint belongs.
-  final String? resourceArn;
-
-  /// The type of the <code>AppInstanceUserEndpoint</code>.
-  final AppInstanceUserEndpointType? type;
-
-  AppInstanceUserEndpoint({
-    this.allowMessages,
-    this.appInstanceUserArn,
-    this.createdTimestamp,
-    this.endpointAttributes,
-    this.endpointId,
-    this.endpointState,
-    this.lastUpdatedTimestamp,
-    this.name,
-    this.resourceArn,
-    this.type,
-  });
-
-  factory AppInstanceUserEndpoint.fromJson(Map<String, dynamic> json) {
-    return AppInstanceUserEndpoint(
-      allowMessages:
-          (json['AllowMessages'] as String?)?.let(AllowMessages.fromString),
-      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
-      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
-      endpointAttributes: json['EndpointAttributes'] != null
-          ? EndpointAttributes.fromJson(
-              json['EndpointAttributes'] as Map<String, dynamic>)
-          : null,
-      endpointId: json['EndpointId'] as String?,
-      endpointState: json['EndpointState'] != null
-          ? EndpointState.fromJson(
-              json['EndpointState'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
-      name: json['Name'] as String?,
-      resourceArn: json['ResourceArn'] as String?,
-      type: (json['Type'] as String?)
-          ?.let(AppInstanceUserEndpointType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowMessages = this.allowMessages;
-    final appInstanceUserArn = this.appInstanceUserArn;
-    final createdTimestamp = this.createdTimestamp;
-    final endpointAttributes = this.endpointAttributes;
-    final endpointId = this.endpointId;
-    final endpointState = this.endpointState;
-    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
-    final name = this.name;
-    final resourceArn = this.resourceArn;
-    final type = this.type;
-    return {
-      if (allowMessages != null) 'AllowMessages': allowMessages.value,
-      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
-      if (createdTimestamp != null)
-        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
-      if (endpointAttributes != null) 'EndpointAttributes': endpointAttributes,
-      if (endpointId != null) 'EndpointId': endpointId,
-      if (endpointState != null) 'EndpointState': endpointState,
-      if (lastUpdatedTimestamp != null)
-        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
-      if (name != null) 'Name': name,
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// Summary of the details of an <code>AppInstanceUserEndpoint</code>.
-class AppInstanceUserEndpointSummary {
-  /// BBoolean that controls whether the <code>AppInstanceUserEndpoint</code> is
-  /// opted in to receive messages. <code>ALL</code> indicates the endpoint will
-  /// receive all messages. <code>NONE</code> indicates the endpoint will receive
-  /// no messages.
-  final AllowMessages? allowMessages;
-
-  /// The ARN of the <code>AppInstanceUser</code>.
-  final String? appInstanceUserArn;
-
-  /// The unique identifier of the <code>AppInstanceUserEndpoint</code>.
-  final String? endpointId;
-
-  /// A read-only field that represent the state of an
-  /// <code>AppInstanceUserEndpoint</code>.
-  final EndpointState? endpointState;
-
-  /// The name of the <code>AppInstanceUserEndpoint</code>.
-  final String? name;
-
-  /// The type of the <code>AppInstanceUserEndpoint</code>.
-  final AppInstanceUserEndpointType? type;
-
-  AppInstanceUserEndpointSummary({
-    this.allowMessages,
-    this.appInstanceUserArn,
-    this.endpointId,
-    this.endpointState,
-    this.name,
-    this.type,
-  });
-
-  factory AppInstanceUserEndpointSummary.fromJson(Map<String, dynamic> json) {
-    return AppInstanceUserEndpointSummary(
-      allowMessages:
-          (json['AllowMessages'] as String?)?.let(AllowMessages.fromString),
-      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
-      endpointId: json['EndpointId'] as String?,
-      endpointState: json['EndpointState'] != null
-          ? EndpointState.fromJson(
-              json['EndpointState'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      type: (json['Type'] as String?)
-          ?.let(AppInstanceUserEndpointType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowMessages = this.allowMessages;
-    final appInstanceUserArn = this.appInstanceUserArn;
-    final endpointId = this.endpointId;
-    final endpointState = this.endpointState;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (allowMessages != null) 'AllowMessages': allowMessages.value,
-      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
-      if (endpointId != null) 'EndpointId': endpointId,
-      if (endpointState != null) 'EndpointState': endpointState,
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class AppInstanceUserEndpointType {
-  static const apns = AppInstanceUserEndpointType._('APNS');
-  static const apnsSandbox = AppInstanceUserEndpointType._('APNS_SANDBOX');
-  static const gcm = AppInstanceUserEndpointType._('GCM');
-
-  final String value;
-
-  const AppInstanceUserEndpointType._(this.value);
-
-  static const values = [apns, apnsSandbox, gcm];
-
-  static AppInstanceUserEndpointType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AppInstanceUserEndpointType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AppInstanceUserEndpointType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary of the details of an <code>AppInstanceUser</code>.
-class AppInstanceUserSummary {
-  /// The ARN of the <code>AppInstanceUser</code>.
-  final String? appInstanceUserArn;
-
-  /// The metadata of the <code>AppInstanceUser</code>.
-  final String? metadata;
-
-  /// The name of an <code>AppInstanceUser</code>.
-  final String? name;
-
-  AppInstanceUserSummary({
-    this.appInstanceUserArn,
-    this.metadata,
-    this.name,
-  });
-
-  factory AppInstanceUserSummary.fromJson(Map<String, dynamic> json) {
-    return AppInstanceUserSummary(
-      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
-      metadata: json['Metadata'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstanceUserArn = this.appInstanceUserArn;
-    final metadata = this.metadata;
-    final name = this.name;
-    return {
-      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
-      if (metadata != null) 'Metadata': metadata,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// The details of the retention settings for a channel.
-class ChannelRetentionSettings {
-  /// The time in days to retain the messages in a channel.
-  final int? retentionDays;
-
-  ChannelRetentionSettings({
-    this.retentionDays,
-  });
-
-  factory ChannelRetentionSettings.fromJson(Map<String, dynamic> json) {
-    return ChannelRetentionSettings(
-      retentionDays: json['RetentionDays'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final retentionDays = this.retentionDays;
-    return {
-      if (retentionDays != null) 'RetentionDays': retentionDays,
-    };
-  }
-}
-
-/// A structure that contains configuration data.
-class Configuration {
-  /// The configuration for an Amazon Lex V2 bot.
-  final LexConfiguration lex;
-
-  Configuration({
-    required this.lex,
-  });
-
-  factory Configuration.fromJson(Map<String, dynamic> json) {
-    return Configuration(
-      lex: LexConfiguration.fromJson(
-          (json['Lex'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lex = this.lex;
-    return {
-      'Lex': lex,
     };
   }
 }
@@ -1919,28 +1264,6 @@ class CreateAppInstanceBotResponse {
   }
 }
 
-class CreateAppInstanceResponse {
-  /// The Amazon Resource Number (ARN) of the <code>AppInstance</code>.
-  final String? appInstanceArn;
-
-  CreateAppInstanceResponse({
-    this.appInstanceArn,
-  });
-
-  factory CreateAppInstanceResponse.fromJson(Map<String, dynamic> json) {
-    return CreateAppInstanceResponse(
-      appInstanceArn: json['AppInstanceArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstanceArn = this.appInstanceArn;
-    return {
-      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
-    };
-  }
-}
-
 class CreateAppInstanceUserResponse {
   /// The user's ARN.
   final String? appInstanceUserArn;
@@ -1959,6 +1282,31 @@ class CreateAppInstanceUserResponse {
     final appInstanceUserArn = this.appInstanceUserArn;
     return {
       if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+    };
+  }
+}
+
+class DescribeAppInstanceResponse {
+  /// The ARN, metadata, created and last-updated timestamps, and the name of the
+  /// <code>AppInstance</code>. All timestamps use epoch milliseconds.
+  final AppInstance? appInstance;
+
+  DescribeAppInstanceResponse({
+    this.appInstance,
+  });
+
+  factory DescribeAppInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAppInstanceResponse(
+      appInstance: json['AppInstance'] != null
+          ? AppInstance.fromJson(json['AppInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstance = this.appInstance;
+    return {
+      if (appInstance != null) 'AppInstance': appInstance,
     };
   }
 }
@@ -2015,27 +1363,27 @@ class DescribeAppInstanceBotResponse {
   }
 }
 
-class DescribeAppInstanceResponse {
-  /// The ARN, metadata, created and last-updated timestamps, and the name of the
-  /// <code>AppInstance</code>. All timestamps use epoch milliseconds.
-  final AppInstance? appInstance;
+class DescribeAppInstanceUserResponse {
+  /// The name of the <code>AppInstanceUser</code>.
+  final AppInstanceUser? appInstanceUser;
 
-  DescribeAppInstanceResponse({
-    this.appInstance,
+  DescribeAppInstanceUserResponse({
+    this.appInstanceUser,
   });
 
-  factory DescribeAppInstanceResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAppInstanceResponse(
-      appInstance: json['AppInstance'] != null
-          ? AppInstance.fromJson(json['AppInstance'] as Map<String, dynamic>)
+  factory DescribeAppInstanceUserResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAppInstanceUserResponse(
+      appInstanceUser: json['AppInstanceUser'] != null
+          ? AppInstanceUser.fromJson(
+              json['AppInstanceUser'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appInstance = this.appInstance;
+    final appInstanceUser = this.appInstanceUser;
     return {
-      if (appInstance != null) 'AppInstance': appInstance,
+      if (appInstanceUser != null) 'AppInstanceUser': appInstanceUser,
     };
   }
 }
@@ -2066,226 +1414,6 @@ class DescribeAppInstanceUserEndpointResponse {
     return {
       if (appInstanceUserEndpoint != null)
         'AppInstanceUserEndpoint': appInstanceUserEndpoint,
-    };
-  }
-}
-
-class DescribeAppInstanceUserResponse {
-  /// The name of the <code>AppInstanceUser</code>.
-  final AppInstanceUser? appInstanceUser;
-
-  DescribeAppInstanceUserResponse({
-    this.appInstanceUser,
-  });
-
-  factory DescribeAppInstanceUserResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAppInstanceUserResponse(
-      appInstanceUser: json['AppInstanceUser'] != null
-          ? AppInstanceUser.fromJson(
-              json['AppInstanceUser'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstanceUser = this.appInstanceUser;
-    return {
-      if (appInstanceUser != null) 'AppInstanceUser': appInstanceUser,
-    };
-  }
-}
-
-/// The attributes of an <code>Endpoint</code>.
-class EndpointAttributes {
-  /// The device token for the GCM, APNS, and APNS_SANDBOX endpoint types.
-  final String deviceToken;
-
-  /// The VOIP device token for the APNS and APNS_SANDBOX endpoint types.
-  final String? voipDeviceToken;
-
-  EndpointAttributes({
-    required this.deviceToken,
-    this.voipDeviceToken,
-  });
-
-  factory EndpointAttributes.fromJson(Map<String, dynamic> json) {
-    return EndpointAttributes(
-      deviceToken: (json['DeviceToken'] as String?) ?? '',
-      voipDeviceToken: json['VoipDeviceToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deviceToken = this.deviceToken;
-    final voipDeviceToken = this.voipDeviceToken;
-    return {
-      'DeviceToken': deviceToken,
-      if (voipDeviceToken != null) 'VoipDeviceToken': voipDeviceToken,
-    };
-  }
-}
-
-/// A read-only field that represents the state of an
-/// <code>AppInstanceUserEndpoint</code>. Supported values:
-///
-/// <ul>
-/// <li>
-/// <code>ACTIVE</code>: The <code>AppInstanceUserEndpoint</code> is active and
-/// able to receive messages. When <code>ACTIVE</code>, the
-/// <code>EndpointStatusReason</code> remains empty.
-/// </li>
-/// <li>
-/// <code>INACTIVE</code>: The <code>AppInstanceUserEndpoint</code> is inactive
-/// and can't receive message. When INACTIVE, the corresponding reason will be
-/// conveyed through EndpointStatusReason.
-/// </li>
-/// <li>
-/// <code>INVALID_DEVICE_TOKEN</code> indicates that an
-/// <code>AppInstanceUserEndpoint</code> is <code>INACTIVE</code> due to invalid
-/// device token
-/// </li>
-/// <li>
-/// <code>INVALID_PINPOINT_ARN</code> indicates that an
-/// <code>AppInstanceUserEndpoint</code> is <code>INACTIVE</code> due to an
-/// invalid pinpoint ARN that was input through the <code>ResourceArn</code>
-/// field.
-/// </li>
-/// </ul>
-class EndpointState {
-  /// Enum that indicates the Status of an <code>AppInstanceUserEndpoint</code>.
-  final EndpointStatus status;
-
-  /// The reason for the <code>EndpointStatus</code>.
-  final EndpointStatusReason? statusReason;
-
-  EndpointState({
-    required this.status,
-    this.statusReason,
-  });
-
-  factory EndpointState.fromJson(Map<String, dynamic> json) {
-    return EndpointState(
-      status: EndpointStatus.fromString((json['Status'] as String?) ?? ''),
-      statusReason: (json['StatusReason'] as String?)
-          ?.let(EndpointStatusReason.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    final statusReason = this.statusReason;
-    return {
-      'Status': status.value,
-      if (statusReason != null) 'StatusReason': statusReason.value,
-    };
-  }
-}
-
-class EndpointStatus {
-  static const active = EndpointStatus._('ACTIVE');
-  static const inactive = EndpointStatus._('INACTIVE');
-
-  final String value;
-
-  const EndpointStatus._(this.value);
-
-  static const values = [active, inactive];
-
-  static EndpointStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EndpointStatus._(value));
-
-  @override
-  bool operator ==(other) => other is EndpointStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EndpointStatusReason {
-  static const invalidDeviceToken =
-      EndpointStatusReason._('INVALID_DEVICE_TOKEN');
-  static const invalidPinpointArn =
-      EndpointStatusReason._('INVALID_PINPOINT_ARN');
-
-  final String value;
-
-  const EndpointStatusReason._(this.value);
-
-  static const values = [invalidDeviceToken, invalidPinpointArn];
-
-  static EndpointStatusReason fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EndpointStatusReason._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EndpointStatusReason && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ExpirationCriterion {
-  static const createdTimestamp = ExpirationCriterion._('CREATED_TIMESTAMP');
-
-  final String value;
-
-  const ExpirationCriterion._(this.value);
-
-  static const values = [createdTimestamp];
-
-  static ExpirationCriterion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ExpirationCriterion._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ExpirationCriterion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Determines the interval after which an <code>AppInstanceUser</code> is
-/// automatically deleted.
-class ExpirationSettings {
-  /// Specifies the conditions under which an <code>AppInstanceUser</code> will
-  /// expire.
-  final ExpirationCriterion expirationCriterion;
-
-  /// The period in days after which an <code>AppInstanceUser</code> will be
-  /// automatically deleted.
-  final int expirationDays;
-
-  ExpirationSettings({
-    required this.expirationCriterion,
-    required this.expirationDays,
-  });
-
-  factory ExpirationSettings.fromJson(Map<String, dynamic> json) {
-    return ExpirationSettings(
-      expirationCriterion: ExpirationCriterion.fromString(
-          (json['ExpirationCriterion'] as String?) ?? ''),
-      expirationDays: (json['ExpirationDays'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final expirationCriterion = this.expirationCriterion;
-    final expirationDays = this.expirationDays;
-    return {
-      'ExpirationCriterion': expirationCriterion.value,
-      'ExpirationDays': expirationDays,
     };
   }
 }
@@ -2324,160 +1452,6 @@ class GetAppInstanceRetentionSettingsResponse {
       if (initiateDeletionTimestamp != null)
         'InitiateDeletionTimestamp':
             unixTimestampToJson(initiateDeletionTimestamp),
-    };
-  }
-}
-
-/// The details of a user or bot.
-class Identity {
-  /// The ARN in an Identity.
-  final String? arn;
-
-  /// The name in an Identity.
-  final String? name;
-
-  Identity({
-    this.arn,
-    this.name,
-  });
-
-  factory Identity.fromJson(Map<String, dynamic> json) {
-    return Identity(
-      arn: json['Arn'] as String?,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (name != null) 'Name': name,
-    };
-  }
-}
-
-/// Specifies the type of message that triggers a bot.
-class InvokedBy {
-  /// Sets standard messages as the bot trigger. For standard messages:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ALL</code>: The bot processes all standard messages.
-  /// </li>
-  /// <li>
-  /// <code>AUTO</code>: The bot responds to ALL messages when the channel has one
-  /// other non-hidden member, and responds to MENTIONS when the channel has more
-  /// than one other non-hidden member.
-  /// </li>
-  /// <li>
-  /// <code>MENTIONS</code>: The bot processes all standard messages that have a
-  /// message attribute with <code>CHIME.mentions</code> and a value of the bot
-  /// ARN.
-  /// </li>
-  /// <li>
-  /// <code>NONE</code>: The bot processes no standard messages.
-  /// </li>
-  /// </ul>
-  final StandardMessages standardMessages;
-
-  /// Sets targeted messages as the bot trigger. For targeted messages:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ALL</code>: The bot processes all <code>TargetedMessages</code> sent
-  /// to it. The bot then responds with a targeted message back to the sender.
-  /// </li>
-  /// <li>
-  /// <code>NONE</code>: The bot processes no targeted messages.
-  /// </li>
-  /// </ul>
-  final TargetedMessages targetedMessages;
-
-  InvokedBy({
-    required this.standardMessages,
-    required this.targetedMessages,
-  });
-
-  factory InvokedBy.fromJson(Map<String, dynamic> json) {
-    return InvokedBy(
-      standardMessages: StandardMessages.fromString(
-          (json['StandardMessages'] as String?) ?? ''),
-      targetedMessages: TargetedMessages.fromString(
-          (json['TargetedMessages'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final standardMessages = this.standardMessages;
-    final targetedMessages = this.targetedMessages;
-    return {
-      'StandardMessages': standardMessages.value,
-      'TargetedMessages': targetedMessages.value,
-    };
-  }
-}
-
-/// The configuration for an Amazon Lex V2 bot.
-class LexConfiguration {
-  /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format:
-  /// <code>arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS</code>
-  final String lexBotAliasArn;
-
-  /// Identifies the Amazon Lex V2 bot's language and locale. The string must
-  /// match one of the supported locales in Amazon Lex V2. All of the intents,
-  /// slot types, and slots used in the bot must have the same locale. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html">Supported
-  /// languages</a> in the <i>Amazon Lex V2 Developer Guide</i>.
-  final String localeId;
-
-  /// Specifies the type of message that triggers a bot.
-  final InvokedBy? invokedBy;
-
-  /// <important>
-  /// <b>Deprecated</b>. Use <code>InvokedBy</code> instead.
-  /// </important>
-  /// Determines whether the Amazon Lex V2 bot responds to all standard messages.
-  /// Control messages are not supported.
-  final RespondsTo? respondsTo;
-
-  /// The name of the welcome intent configured in the Amazon Lex V2 bot.
-  final String? welcomeIntent;
-
-  LexConfiguration({
-    required this.lexBotAliasArn,
-    required this.localeId,
-    this.invokedBy,
-    this.respondsTo,
-    this.welcomeIntent,
-  });
-
-  factory LexConfiguration.fromJson(Map<String, dynamic> json) {
-    return LexConfiguration(
-      lexBotAliasArn: (json['LexBotAliasArn'] as String?) ?? '',
-      localeId: (json['LocaleId'] as String?) ?? '',
-      invokedBy: json['InvokedBy'] != null
-          ? InvokedBy.fromJson(json['InvokedBy'] as Map<String, dynamic>)
-          : null,
-      respondsTo: (json['RespondsTo'] as String?)?.let(RespondsTo.fromString),
-      welcomeIntent: json['WelcomeIntent'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lexBotAliasArn = this.lexBotAliasArn;
-    final localeId = this.localeId;
-    final invokedBy = this.invokedBy;
-    final respondsTo = this.respondsTo;
-    final welcomeIntent = this.welcomeIntent;
-    return {
-      'LexBotAliasArn': lexBotAliasArn,
-      'LocaleId': localeId,
-      if (invokedBy != null) 'InvokedBy': invokedBy,
-      if (respondsTo != null) 'RespondsTo': respondsTo.value,
-      if (welcomeIntent != null) 'WelcomeIntent': welcomeIntent,
     };
   }
 }
@@ -2563,6 +1537,39 @@ class ListAppInstanceBotsResponse {
   }
 }
 
+class ListAppInstancesResponse {
+  /// The information for each <code>AppInstance</code>.
+  final List<AppInstanceSummary>? appInstances;
+
+  /// The token passed by previous API requests until the maximum number of
+  /// <code>AppInstance</code>s is reached.
+  final String? nextToken;
+
+  ListAppInstancesResponse({
+    this.appInstances,
+    this.nextToken,
+  });
+
+  factory ListAppInstancesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppInstancesResponse(
+      appInstances: (json['AppInstances'] as List?)
+          ?.nonNulls
+          .map((e) => AppInstanceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstances = this.appInstances;
+    final nextToken = this.nextToken;
+    return {
+      if (appInstances != null) 'AppInstances': appInstances,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListAppInstanceUserEndpointsResponse {
   /// The information for each requested <code>AppInstanceUserEndpoint</code>.
   final List<AppInstanceUserEndpointSummary>? appInstanceUserEndpoints;
@@ -2635,39 +1642,6 @@ class ListAppInstanceUsersResponse {
     return {
       if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
       if (appInstanceUsers != null) 'AppInstanceUsers': appInstanceUsers,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListAppInstancesResponse {
-  /// The information for each <code>AppInstance</code>.
-  final List<AppInstanceSummary>? appInstances;
-
-  /// The token passed by previous API requests until the maximum number of
-  /// <code>AppInstance</code>s is reached.
-  final String? nextToken;
-
-  ListAppInstancesResponse({
-    this.appInstances,
-    this.nextToken,
-  });
-
-  factory ListAppInstancesResponse.fromJson(Map<String, dynamic> json) {
-    return ListAppInstancesResponse(
-      appInstances: (json['AppInstances'] as List?)
-          ?.nonNulls
-          .map((e) => AppInstanceSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final appInstances = this.appInstances;
-    final nextToken = this.nextToken;
-    return {
-      if (appInstances != null) 'AppInstances': appInstances,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -2799,6 +1773,213 @@ class RegisterAppInstanceUserEndpointResponse {
   }
 }
 
+class UpdateAppInstanceResponse {
+  /// The ARN of the <code>AppInstance</code>.
+  final String? appInstanceArn;
+
+  UpdateAppInstanceResponse({
+    this.appInstanceArn,
+  });
+
+  factory UpdateAppInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppInstanceResponse(
+      appInstanceArn: json['AppInstanceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceArn = this.appInstanceArn;
+    return {
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+    };
+  }
+}
+
+class UpdateAppInstanceBotResponse {
+  /// The ARN of the <code>AppInstanceBot</code>.
+  final String? appInstanceBotArn;
+
+  UpdateAppInstanceBotResponse({
+    this.appInstanceBotArn,
+  });
+
+  factory UpdateAppInstanceBotResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppInstanceBotResponse(
+      appInstanceBotArn: json['AppInstanceBotArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceBotArn = this.appInstanceBotArn;
+    return {
+      if (appInstanceBotArn != null) 'AppInstanceBotArn': appInstanceBotArn,
+    };
+  }
+}
+
+class UpdateAppInstanceUserResponse {
+  /// The ARN of the <code>AppInstanceUser</code>.
+  final String? appInstanceUserArn;
+
+  UpdateAppInstanceUserResponse({
+    this.appInstanceUserArn,
+  });
+
+  factory UpdateAppInstanceUserResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppInstanceUserResponse(
+      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserArn = this.appInstanceUserArn;
+    return {
+      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+    };
+  }
+}
+
+class UpdateAppInstanceUserEndpointResponse {
+  /// The ARN of the <code>AppInstanceUser</code>.
+  final String? appInstanceUserArn;
+
+  /// The unique identifier of the <code>AppInstanceUserEndpoint</code>.
+  final String? endpointId;
+
+  UpdateAppInstanceUserEndpointResponse({
+    this.appInstanceUserArn,
+    this.endpointId,
+  });
+
+  factory UpdateAppInstanceUserEndpointResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAppInstanceUserEndpointResponse(
+      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+      endpointId: json['EndpointId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserArn = this.appInstanceUserArn;
+    final endpointId = this.endpointId;
+    return {
+      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+      if (endpointId != null) 'EndpointId': endpointId,
+    };
+  }
+}
+
+class AllowMessages {
+  static const all = AllowMessages._('ALL');
+  static const none = AllowMessages._('NONE');
+
+  final String value;
+
+  const AllowMessages._(this.value);
+
+  static const values = [all, none];
+
+  static AllowMessages fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AllowMessages._(value));
+
+  @override
+  bool operator ==(other) => other is AllowMessages && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A structure that contains configuration data.
+class Configuration {
+  /// The configuration for an Amazon Lex V2 bot.
+  final LexConfiguration lex;
+
+  Configuration({
+    required this.lex,
+  });
+
+  factory Configuration.fromJson(Map<String, dynamic> json) {
+    return Configuration(
+      lex: LexConfiguration.fromJson(
+          (json['Lex'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lex = this.lex;
+    return {
+      'Lex': lex,
+    };
+  }
+}
+
+/// The configuration for an Amazon Lex V2 bot.
+class LexConfiguration {
+  /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format:
+  /// <code>arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS</code>
+  final String lexBotAliasArn;
+
+  /// Identifies the Amazon Lex V2 bot's language and locale. The string must
+  /// match one of the supported locales in Amazon Lex V2. All of the intents,
+  /// slot types, and slots used in the bot must have the same locale. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html">Supported
+  /// languages</a> in the <i>Amazon Lex V2 Developer Guide</i>.
+  final String localeId;
+
+  /// Specifies the type of message that triggers a bot.
+  final InvokedBy? invokedBy;
+
+  /// <important>
+  /// <b>Deprecated</b>. Use <code>InvokedBy</code> instead.
+  /// </important>
+  /// Determines whether the Amazon Lex V2 bot responds to all standard messages.
+  /// Control messages are not supported.
+  final RespondsTo? respondsTo;
+
+  /// The name of the welcome intent configured in the Amazon Lex V2 bot.
+  final String? welcomeIntent;
+
+  LexConfiguration({
+    required this.lexBotAliasArn,
+    required this.localeId,
+    this.invokedBy,
+    this.respondsTo,
+    this.welcomeIntent,
+  });
+
+  factory LexConfiguration.fromJson(Map<String, dynamic> json) {
+    return LexConfiguration(
+      lexBotAliasArn: (json['LexBotAliasArn'] as String?) ?? '',
+      localeId: (json['LocaleId'] as String?) ?? '',
+      invokedBy: json['InvokedBy'] != null
+          ? InvokedBy.fromJson(json['InvokedBy'] as Map<String, dynamic>)
+          : null,
+      respondsTo: (json['RespondsTo'] as String?)?.let(RespondsTo.fromString),
+      welcomeIntent: json['WelcomeIntent'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lexBotAliasArn = this.lexBotAliasArn;
+    final localeId = this.localeId;
+    final invokedBy = this.invokedBy;
+    final respondsTo = this.respondsTo;
+    final welcomeIntent = this.welcomeIntent;
+    return {
+      'LexBotAliasArn': lexBotAliasArn,
+      'LocaleId': localeId,
+      if (invokedBy != null) 'InvokedBy': invokedBy,
+      if (respondsTo != null) 'RespondsTo': respondsTo.value,
+      if (welcomeIntent != null) 'WelcomeIntent': welcomeIntent,
+    };
+  }
+}
+
 class RespondsTo {
   static const standardMessages = RespondsTo._('STANDARD_MESSAGES');
 
@@ -2821,6 +2002,67 @@ class RespondsTo {
   String toString() => value;
 }
 
+/// Specifies the type of message that triggers a bot.
+class InvokedBy {
+  /// Sets standard messages as the bot trigger. For standard messages:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL</code>: The bot processes all standard messages.
+  /// </li>
+  /// <li>
+  /// <code>AUTO</code>: The bot responds to ALL messages when the channel has one
+  /// other non-hidden member, and responds to MENTIONS when the channel has more
+  /// than one other non-hidden member.
+  /// </li>
+  /// <li>
+  /// <code>MENTIONS</code>: The bot processes all standard messages that have a
+  /// message attribute with <code>CHIME.mentions</code> and a value of the bot
+  /// ARN.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: The bot processes no standard messages.
+  /// </li>
+  /// </ul>
+  final StandardMessages standardMessages;
+
+  /// Sets targeted messages as the bot trigger. For targeted messages:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL</code>: The bot processes all <code>TargetedMessages</code> sent
+  /// to it. The bot then responds with a targeted message back to the sender.
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>: The bot processes no targeted messages.
+  /// </li>
+  /// </ul>
+  final TargetedMessages targetedMessages;
+
+  InvokedBy({
+    required this.standardMessages,
+    required this.targetedMessages,
+  });
+
+  factory InvokedBy.fromJson(Map<String, dynamic> json) {
+    return InvokedBy(
+      standardMessages: StandardMessages.fromString(
+          (json['StandardMessages'] as String?) ?? ''),
+      targetedMessages: TargetedMessages.fromString(
+          (json['TargetedMessages'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final standardMessages = this.standardMessages;
+    final targetedMessages = this.targetedMessages;
+    return {
+      'StandardMessages': standardMessages.value,
+      'TargetedMessages': targetedMessages.value,
+    };
+  }
+}
+
 class StandardMessages {
   static const auto = StandardMessages._('AUTO');
   static const all = StandardMessages._('ALL');
@@ -2839,6 +2081,30 @@ class StandardMessages {
 
   @override
   bool operator ==(other) => other is StandardMessages && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TargetedMessages {
+  static const all = TargetedMessages._('ALL');
+  static const none = TargetedMessages._('NONE');
+
+  final String value;
+
+  const TargetedMessages._(this.value);
+
+  static const values = [all, none];
+
+  static TargetedMessages fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TargetedMessages._(value));
+
+  @override
+  bool operator ==(other) => other is TargetedMessages && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2877,22 +2143,24 @@ class Tag {
   }
 }
 
-class TargetedMessages {
-  static const all = TargetedMessages._('ALL');
-  static const none = TargetedMessages._('NONE');
+class AppInstanceUserEndpointType {
+  static const apns = AppInstanceUserEndpointType._('APNS');
+  static const apnsSandbox = AppInstanceUserEndpointType._('APNS_SANDBOX');
+  static const gcm = AppInstanceUserEndpointType._('GCM');
 
   final String value;
 
-  const TargetedMessages._(this.value);
+  const AppInstanceUserEndpointType._(this.value);
 
-  static const values = [all, none];
+  static const values = [apns, apnsSandbox, gcm];
 
-  static TargetedMessages fromString(String value) =>
+  static AppInstanceUserEndpointType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => TargetedMessages._(value));
+          orElse: () => AppInstanceUserEndpointType._(value));
 
   @override
-  bool operator ==(other) => other is TargetedMessages && other.value == value;
+  bool operator ==(other) =>
+      other is AppInstanceUserEndpointType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -2901,98 +2169,830 @@ class TargetedMessages {
   String toString() => value;
 }
 
-class UpdateAppInstanceBotResponse {
-  /// The ARN of the <code>AppInstanceBot</code>.
-  final String? appInstanceBotArn;
+/// The attributes of an <code>Endpoint</code>.
+class EndpointAttributes {
+  /// The device token for the GCM, APNS, and APNS_SANDBOX endpoint types.
+  final String deviceToken;
 
-  UpdateAppInstanceBotResponse({
-    this.appInstanceBotArn,
+  /// The VOIP device token for the APNS and APNS_SANDBOX endpoint types.
+  final String? voipDeviceToken;
+
+  EndpointAttributes({
+    required this.deviceToken,
+    this.voipDeviceToken,
   });
 
-  factory UpdateAppInstanceBotResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAppInstanceBotResponse(
-      appInstanceBotArn: json['AppInstanceBotArn'] as String?,
+  factory EndpointAttributes.fromJson(Map<String, dynamic> json) {
+    return EndpointAttributes(
+      deviceToken: (json['DeviceToken'] as String?) ?? '',
+      voipDeviceToken: json['VoipDeviceToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appInstanceBotArn = this.appInstanceBotArn;
+    final deviceToken = this.deviceToken;
+    final voipDeviceToken = this.voipDeviceToken;
     return {
-      if (appInstanceBotArn != null) 'AppInstanceBotArn': appInstanceBotArn,
+      'DeviceToken': deviceToken,
+      if (voipDeviceToken != null) 'VoipDeviceToken': voipDeviceToken,
     };
   }
 }
 
-class UpdateAppInstanceResponse {
-  /// The ARN of the <code>AppInstance</code>.
-  final String? appInstanceArn;
+/// Determines the interval after which an <code>AppInstanceUser</code> is
+/// automatically deleted.
+class ExpirationSettings {
+  /// Specifies the conditions under which an <code>AppInstanceUser</code> will
+  /// expire.
+  final ExpirationCriterion expirationCriterion;
 
-  UpdateAppInstanceResponse({
-    this.appInstanceArn,
+  /// The period in days after which an <code>AppInstanceUser</code> will be
+  /// automatically deleted.
+  final int expirationDays;
+
+  ExpirationSettings({
+    required this.expirationCriterion,
+    required this.expirationDays,
   });
 
-  factory UpdateAppInstanceResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAppInstanceResponse(
-      appInstanceArn: json['AppInstanceArn'] as String?,
+  factory ExpirationSettings.fromJson(Map<String, dynamic> json) {
+    return ExpirationSettings(
+      expirationCriterion: ExpirationCriterion.fromString(
+          (json['ExpirationCriterion'] as String?) ?? ''),
+      expirationDays: (json['ExpirationDays'] as int?) ?? 0,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final appInstanceArn = this.appInstanceArn;
+    final expirationCriterion = this.expirationCriterion;
+    final expirationDays = this.expirationDays;
     return {
-      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      'ExpirationCriterion': expirationCriterion.value,
+      'ExpirationDays': expirationDays,
     };
   }
 }
 
-class UpdateAppInstanceUserEndpointResponse {
+class ExpirationCriterion {
+  static const createdTimestamp = ExpirationCriterion._('CREATED_TIMESTAMP');
+
+  final String value;
+
+  const ExpirationCriterion._(this.value);
+
+  static const values = [createdTimestamp];
+
+  static ExpirationCriterion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ExpirationCriterion._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ExpirationCriterion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of the data-retention settings for an <code>AppInstance</code>.
+class AppInstanceRetentionSettings {
+  /// The length of time in days to retain the messages in a channel.
+  final ChannelRetentionSettings? channelRetentionSettings;
+
+  AppInstanceRetentionSettings({
+    this.channelRetentionSettings,
+  });
+
+  factory AppInstanceRetentionSettings.fromJson(Map<String, dynamic> json) {
+    return AppInstanceRetentionSettings(
+      channelRetentionSettings: json['ChannelRetentionSettings'] != null
+          ? ChannelRetentionSettings.fromJson(
+              json['ChannelRetentionSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelRetentionSettings = this.channelRetentionSettings;
+    return {
+      if (channelRetentionSettings != null)
+        'ChannelRetentionSettings': channelRetentionSettings,
+    };
+  }
+}
+
+/// The details of the retention settings for a channel.
+class ChannelRetentionSettings {
+  /// The time in days to retain the messages in a channel.
+  final int? retentionDays;
+
+  ChannelRetentionSettings({
+    this.retentionDays,
+  });
+
+  factory ChannelRetentionSettings.fromJson(Map<String, dynamic> json) {
+    return ChannelRetentionSettings(
+      retentionDays: json['RetentionDays'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retentionDays = this.retentionDays;
+    return {
+      if (retentionDays != null) 'RetentionDays': retentionDays,
+    };
+  }
+}
+
+/// Summary of the details of an <code>AppInstanceUser</code>.
+class AppInstanceUserSummary {
+  /// The ARN of the <code>AppInstanceUser</code>.
+  final String? appInstanceUserArn;
+
+  /// The metadata of the <code>AppInstanceUser</code>.
+  final String? metadata;
+
+  /// The name of an <code>AppInstanceUser</code>.
+  final String? name;
+
+  AppInstanceUserSummary({
+    this.appInstanceUserArn,
+    this.metadata,
+    this.name,
+  });
+
+  factory AppInstanceUserSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceUserSummary(
+      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserArn = this.appInstanceUserArn;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Summary of the details of an <code>AppInstanceUserEndpoint</code>.
+class AppInstanceUserEndpointSummary {
+  /// BBoolean that controls whether the <code>AppInstanceUserEndpoint</code> is
+  /// opted in to receive messages. <code>ALL</code> indicates the endpoint will
+  /// receive all messages. <code>NONE</code> indicates the endpoint will receive
+  /// no messages.
+  final AllowMessages? allowMessages;
+
   /// The ARN of the <code>AppInstanceUser</code>.
   final String? appInstanceUserArn;
 
   /// The unique identifier of the <code>AppInstanceUserEndpoint</code>.
   final String? endpointId;
 
-  UpdateAppInstanceUserEndpointResponse({
+  /// A read-only field that represent the state of an
+  /// <code>AppInstanceUserEndpoint</code>.
+  final EndpointState? endpointState;
+
+  /// The name of the <code>AppInstanceUserEndpoint</code>.
+  final String? name;
+
+  /// The type of the <code>AppInstanceUserEndpoint</code>.
+  final AppInstanceUserEndpointType? type;
+
+  AppInstanceUserEndpointSummary({
+    this.allowMessages,
     this.appInstanceUserArn,
     this.endpointId,
+    this.endpointState,
+    this.name,
+    this.type,
   });
 
-  factory UpdateAppInstanceUserEndpointResponse.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateAppInstanceUserEndpointResponse(
+  factory AppInstanceUserEndpointSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceUserEndpointSummary(
+      allowMessages:
+          (json['AllowMessages'] as String?)?.let(AllowMessages.fromString),
       appInstanceUserArn: json['AppInstanceUserArn'] as String?,
       endpointId: json['EndpointId'] as String?,
+      endpointState: json['EndpointState'] != null
+          ? EndpointState.fromJson(
+              json['EndpointState'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)
+          ?.let(AppInstanceUserEndpointType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final allowMessages = this.allowMessages;
     final appInstanceUserArn = this.appInstanceUserArn;
     final endpointId = this.endpointId;
+    final endpointState = this.endpointState;
+    final name = this.name;
+    final type = this.type;
     return {
+      if (allowMessages != null) 'AllowMessages': allowMessages.value,
       if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
       if (endpointId != null) 'EndpointId': endpointId,
+      if (endpointState != null) 'EndpointState': endpointState,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.value,
     };
   }
 }
 
-class UpdateAppInstanceUserResponse {
+/// A read-only field that represents the state of an
+/// <code>AppInstanceUserEndpoint</code>. Supported values:
+///
+/// <ul>
+/// <li>
+/// <code>ACTIVE</code>: The <code>AppInstanceUserEndpoint</code> is active and
+/// able to receive messages. When <code>ACTIVE</code>, the
+/// <code>EndpointStatusReason</code> remains empty.
+/// </li>
+/// <li>
+/// <code>INACTIVE</code>: The <code>AppInstanceUserEndpoint</code> is inactive
+/// and can't receive message. When INACTIVE, the corresponding reason will be
+/// conveyed through EndpointStatusReason.
+/// </li>
+/// <li>
+/// <code>INVALID_DEVICE_TOKEN</code> indicates that an
+/// <code>AppInstanceUserEndpoint</code> is <code>INACTIVE</code> due to invalid
+/// device token
+/// </li>
+/// <li>
+/// <code>INVALID_PINPOINT_ARN</code> indicates that an
+/// <code>AppInstanceUserEndpoint</code> is <code>INACTIVE</code> due to an
+/// invalid pinpoint ARN that was input through the <code>ResourceArn</code>
+/// field.
+/// </li>
+/// </ul>
+class EndpointState {
+  /// Enum that indicates the Status of an <code>AppInstanceUserEndpoint</code>.
+  final EndpointStatus status;
+
+  /// The reason for the <code>EndpointStatus</code>.
+  final EndpointStatusReason? statusReason;
+
+  EndpointState({
+    required this.status,
+    this.statusReason,
+  });
+
+  factory EndpointState.fromJson(Map<String, dynamic> json) {
+    return EndpointState(
+      status: EndpointStatus.fromString((json['Status'] as String?) ?? ''),
+      statusReason: (json['StatusReason'] as String?)
+          ?.let(EndpointStatusReason.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason.value,
+    };
+  }
+}
+
+class EndpointStatus {
+  static const active = EndpointStatus._('ACTIVE');
+  static const inactive = EndpointStatus._('INACTIVE');
+
+  final String value;
+
+  const EndpointStatus._(this.value);
+
+  static const values = [active, inactive];
+
+  static EndpointStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EndpointStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EndpointStatusReason {
+  static const invalidDeviceToken =
+      EndpointStatusReason._('INVALID_DEVICE_TOKEN');
+  static const invalidPinpointArn =
+      EndpointStatusReason._('INVALID_PINPOINT_ARN');
+
+  final String value;
+
+  const EndpointStatusReason._(this.value);
+
+  static const values = [invalidDeviceToken, invalidPinpointArn];
+
+  static EndpointStatusReason fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EndpointStatusReason._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is EndpointStatusReason && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Summary of the data for an <code>AppInstance</code>.
+class AppInstanceSummary {
+  /// The <code>AppInstance</code> ARN.
+  final String? appInstanceArn;
+
+  /// The metadata of the <code>AppInstance</code>.
+  final String? metadata;
+
+  /// The name of the <code>AppInstance</code>.
+  final String? name;
+
+  AppInstanceSummary({
+    this.appInstanceArn,
+    this.metadata,
+    this.name,
+  });
+
+  factory AppInstanceSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceSummary(
+      appInstanceArn: json['AppInstanceArn'] as String?,
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceArn = this.appInstanceArn;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// High-level information about an AppInstanceBot.
+class AppInstanceBotSummary {
+  /// The ARN of the AppInstanceBot.
+  final String? appInstanceBotArn;
+
+  /// The metadata of the AppInstanceBot.
+  final String? metadata;
+
+  /// The name of the AppInstanceBox.
+  final String? name;
+
+  AppInstanceBotSummary({
+    this.appInstanceBotArn,
+    this.metadata,
+    this.name,
+  });
+
+  factory AppInstanceBotSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceBotSummary(
+      appInstanceBotArn: json['AppInstanceBotArn'] as String?,
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceBotArn = this.appInstanceBotArn;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceBotArn != null) 'AppInstanceBotArn': appInstanceBotArn,
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// Summary of the details of an <code>AppInstanceAdmin</code>.
+class AppInstanceAdminSummary {
+  /// The details of the <code>AppInstanceAdmin</code>.
+  final Identity? admin;
+
+  AppInstanceAdminSummary({
+    this.admin,
+  });
+
+  factory AppInstanceAdminSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceAdminSummary(
+      admin: json['Admin'] != null
+          ? Identity.fromJson(json['Admin'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final admin = this.admin;
+    return {
+      if (admin != null) 'Admin': admin,
+    };
+  }
+}
+
+/// The details of a user or bot.
+class Identity {
+  /// The ARN in an Identity.
+  final String? arn;
+
+  /// The name in an Identity.
+  final String? name;
+
+  Identity({
+    this.arn,
+    this.name,
+  });
+
+  factory Identity.fromJson(Map<String, dynamic> json) {
+    return Identity(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// An endpoint under an Amazon Chime <code>AppInstanceUser</code> that receives
+/// messages for a user. For push notifications, the endpoint is a mobile device
+/// used to receive mobile push notifications for a user.
+class AppInstanceUserEndpoint {
+  /// Boolean that controls whether the <code>AppInstanceUserEndpoint</code> is
+  /// opted in to receive messages. <code>ALL</code> indicates the endpoint will
+  /// receive all messages. <code>NONE</code> indicates the endpoint will receive
+  /// no messages.
+  final AllowMessages? allowMessages;
+
   /// The ARN of the <code>AppInstanceUser</code>.
   final String? appInstanceUserArn;
 
-  UpdateAppInstanceUserResponse({
+  /// The time at which an <code>AppInstanceUserEndpoint</code> was created.
+  final DateTime? createdTimestamp;
+
+  /// The attributes of an <code>Endpoint</code>.
+  final EndpointAttributes? endpointAttributes;
+
+  /// The unique identifier of the <code>AppInstanceUserEndpoint</code>.
+  final String? endpointId;
+
+  /// A read-only field that represents the state of an
+  /// <code>AppInstanceUserEndpoint</code>. Supported values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ACTIVE</code>: The <code>AppInstanceUserEndpoint</code> is active and
+  /// able to receive messages. When <code>ACTIVE</code>, the
+  /// <code>EndpointStatusReason</code> remains empty.
+  /// </li>
+  /// <li>
+  /// <code>INACTIVE</code>: The <code>AppInstanceUserEndpoint</code> is inactive
+  /// and can't receive message. When <code>INACTIVE</code>, the corresponding
+  /// reason will be conveyed through <code>EndpointStatusReason</code>.
+  /// </li>
+  /// <li>
+  /// <code>INVALID_DEVICE_TOKEN</code> indicates that an
+  /// <code>AppInstanceUserEndpoint</code> is <code>INACTIVE</code> due to invalid
+  /// device token
+  /// </li>
+  /// <li>
+  /// <code>INVALID_PINPOINT_ARN</code> indicates that an
+  /// <code>AppInstanceUserEndpoint</code> is <code>INACTIVE</code> due to an
+  /// invalid pinpoint ARN that was input through the <code>ResourceArn</code>
+  /// field.
+  /// </li>
+  /// </ul>
+  final EndpointState? endpointState;
+
+  /// The time at which an <code>AppInstanceUserEndpoint</code> was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The name of the <code>AppInstanceUserEndpoint</code>.
+  final String? name;
+
+  /// The ARN of the resource to which the endpoint belongs.
+  final String? resourceArn;
+
+  /// The type of the <code>AppInstanceUserEndpoint</code>.
+  final AppInstanceUserEndpointType? type;
+
+  AppInstanceUserEndpoint({
+    this.allowMessages,
     this.appInstanceUserArn,
+    this.createdTimestamp,
+    this.endpointAttributes,
+    this.endpointId,
+    this.endpointState,
+    this.lastUpdatedTimestamp,
+    this.name,
+    this.resourceArn,
+    this.type,
   });
 
-  factory UpdateAppInstanceUserResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateAppInstanceUserResponse(
+  factory AppInstanceUserEndpoint.fromJson(Map<String, dynamic> json) {
+    return AppInstanceUserEndpoint(
+      allowMessages:
+          (json['AllowMessages'] as String?)?.let(AllowMessages.fromString),
       appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      endpointAttributes: json['EndpointAttributes'] != null
+          ? EndpointAttributes.fromJson(
+              json['EndpointAttributes'] as Map<String, dynamic>)
+          : null,
+      endpointId: json['EndpointId'] as String?,
+      endpointState: json['EndpointState'] != null
+          ? EndpointState.fromJson(
+              json['EndpointState'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      name: json['Name'] as String?,
+      resourceArn: json['ResourceArn'] as String?,
+      type: (json['Type'] as String?)
+          ?.let(AppInstanceUserEndpointType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowMessages = this.allowMessages;
+    final appInstanceUserArn = this.appInstanceUserArn;
+    final createdTimestamp = this.createdTimestamp;
+    final endpointAttributes = this.endpointAttributes;
+    final endpointId = this.endpointId;
+    final endpointState = this.endpointState;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final name = this.name;
+    final resourceArn = this.resourceArn;
+    final type = this.type;
+    return {
+      if (allowMessages != null) 'AllowMessages': allowMessages.value,
+      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (endpointAttributes != null) 'EndpointAttributes': endpointAttributes,
+      if (endpointId != null) 'EndpointId': endpointId,
+      if (endpointState != null) 'EndpointState': endpointState,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (name != null) 'Name': name,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// The details of an <code>AppInstanceUser</code>.
+class AppInstanceUser {
+  /// The ARN of the <code>AppInstanceUser</code>.
+  final String? appInstanceUserArn;
+
+  /// The time at which the <code>AppInstanceUser</code> was created.
+  final DateTime? createdTimestamp;
+
+  /// The interval after which an <code>AppInstanceUser</code> is automatically
+  /// deleted.
+  final ExpirationSettings? expirationSettings;
+
+  /// The time at which the <code>AppInstanceUser</code> was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The metadata of the <code>AppInstanceUser</code>.
+  final String? metadata;
+
+  /// The name of the <code>AppInstanceUser</code>.
+  final String? name;
+
+  AppInstanceUser({
+    this.appInstanceUserArn,
+    this.createdTimestamp,
+    this.expirationSettings,
+    this.lastUpdatedTimestamp,
+    this.metadata,
+    this.name,
+  });
+
+  factory AppInstanceUser.fromJson(Map<String, dynamic> json) {
+    return AppInstanceUser(
+      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      expirationSettings: json['ExpirationSettings'] != null
+          ? ExpirationSettings.fromJson(
+              json['ExpirationSettings'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final appInstanceUserArn = this.appInstanceUserArn;
+    final createdTimestamp = this.createdTimestamp;
+    final expirationSettings = this.expirationSettings;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final metadata = this.metadata;
+    final name = this.name;
     return {
       if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (expirationSettings != null) 'ExpirationSettings': expirationSettings,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// An Amazon Lex V2 chat bot created under an <code>AppInstance</code>.
+class AppInstanceBot {
+  /// The ARN of the AppInstanceBot.
+  final String? appInstanceBotArn;
+
+  /// The data processing instructions for an AppInstanceBot.
+  final Configuration? configuration;
+
+  /// The time at which the <code>AppInstanceBot</code> was created.
+  final DateTime? createdTimestamp;
+
+  /// The time at which the <code>AppInstanceBot</code> was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The metadata for an AppInstanceBot.
+  final String? metadata;
+
+  /// The name of the AppInstanceBot.
+  final String? name;
+
+  AppInstanceBot({
+    this.appInstanceBotArn,
+    this.configuration,
+    this.createdTimestamp,
+    this.lastUpdatedTimestamp,
+    this.metadata,
+    this.name,
+  });
+
+  factory AppInstanceBot.fromJson(Map<String, dynamic> json) {
+    return AppInstanceBot(
+      appInstanceBotArn: json['AppInstanceBotArn'] as String?,
+      configuration: json['Configuration'] != null
+          ? Configuration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceBotArn = this.appInstanceBotArn;
+    final configuration = this.configuration;
+    final createdTimestamp = this.createdTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceBotArn != null) 'AppInstanceBotArn': appInstanceBotArn,
+      if (configuration != null) 'Configuration': configuration,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
+}
+
+/// The name and ARN of the admin for the <code>AppInstance</code>.
+class AppInstanceAdmin {
+  /// The <code>AppInstanceAdmin</code> data.
+  final Identity? admin;
+
+  /// The ARN of the <code>AppInstance</code> for which the user is an
+  /// administrator.
+  final String? appInstanceArn;
+
+  /// The time at which an administrator was created.
+  final DateTime? createdTimestamp;
+
+  AppInstanceAdmin({
+    this.admin,
+    this.appInstanceArn,
+    this.createdTimestamp,
+  });
+
+  factory AppInstanceAdmin.fromJson(Map<String, dynamic> json) {
+    return AppInstanceAdmin(
+      admin: json['Admin'] != null
+          ? Identity.fromJson(json['Admin'] as Map<String, dynamic>)
+          : null,
+      appInstanceArn: json['AppInstanceArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final admin = this.admin;
+    final appInstanceArn = this.appInstanceArn;
+    final createdTimestamp = this.createdTimestamp;
+    return {
+      if (admin != null) 'Admin': admin,
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+    };
+  }
+}
+
+/// The details of an <code>AppInstance</code>, an instance of an Amazon Chime
+/// SDK messaging application.
+class AppInstance {
+  /// The ARN of the messaging instance.
+  final String? appInstanceArn;
+
+  /// The time at which an <code>AppInstance</code> was created. In epoch
+  /// milliseconds.
+  final DateTime? createdTimestamp;
+
+  /// The time an <code>AppInstance</code> was last updated. In epoch
+  /// milliseconds.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// The metadata of an <code>AppInstance</code>.
+  final String? metadata;
+
+  /// The name of an <code>AppInstance</code>.
+  final String? name;
+
+  AppInstance({
+    this.appInstanceArn,
+    this.createdTimestamp,
+    this.lastUpdatedTimestamp,
+    this.metadata,
+    this.name,
+  });
+
+  factory AppInstance.fromJson(Map<String, dynamic> json) {
+    return AppInstance(
+      appInstanceArn: json['AppInstanceArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceArn = this.appInstanceArn;
+    final createdTimestamp = this.createdTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
     };
   }
 }

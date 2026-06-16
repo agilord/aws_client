@@ -32,7 +32,6 @@ class KinesisVideoWebRtcStorage {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'kinesisvideo',
-            signingName: 'kinesisvideo',
           ),
           region: region,
           credentials: credentials,
@@ -111,9 +110,9 @@ class KinesisVideoWebRtcStorage {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [channelArn] :
@@ -152,9 +151,9 @@ class KinesisVideoWebRtcStorage {
   /// <code>clientId</code> that's found in the join session request, the new
   /// request takes precedence.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [ClientLimitExceededException].
   /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [channelArn] :

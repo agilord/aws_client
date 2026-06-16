@@ -31,6 +31,13 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/">What
 /// is Amazon Web Services IoT FleetWise?</a> in the <i>Amazon Web Services IoT
 /// FleetWise Developer Guide</i>.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
 class IoTFleetWise {
   final _s.JsonProtocol _protocol;
   IoTFleetWise({
@@ -43,7 +50,6 @@ class IoTFleetWise {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'iotfleetwise',
-            signingName: 'iotfleetwise',
           ),
           region: region,
           credentials: credentials,
@@ -60,41 +66,6 @@ class IoTFleetWise {
     _protocol.close();
   }
 
-  /// Adds, or associates, a vehicle with a fleet.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [fleetId] :
-  /// The ID of a fleet.
-  ///
-  /// Parameter [vehicleName] :
-  /// The unique ID of the vehicle to associate with the fleet.
-  Future<void> associateVehicleFleet({
-    required String fleetId,
-    required String vehicleName,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.AssociateVehicleFleet'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'fleetId': fleetId,
-        'vehicleName': vehicleName,
-      },
-    );
-  }
-
   /// Creates a group, or batch, of vehicles.
   /// <note>
   /// You must specify a decoder manifest and a vehicle model (model manifest)
@@ -105,11 +76,11 @@ class IoTFleetWise {
   /// multiple vehicles (AWS CLI)</a> in the <i>Amazon Web Services IoT
   /// FleetWise Developer Guide</i>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [LimitExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [vehicles] :
   /// A list of information about each vehicle to create. For more information,
@@ -145,10 +116,11 @@ class IoTFleetWise {
   /// multiple vehicles (AWS CLI)</a> in the <i>Amazon Web Services IoT
   /// FleetWise Developer Guide</i>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [vehicles] :
   /// A list of information about the vehicles to update. For more information,
@@ -174,830 +146,14 @@ class IoTFleetWise {
     return BatchUpdateVehicleResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an orchestration of data collection rules. The Amazon Web Services
-  /// IoT FleetWise Edge Agent software running in vehicles uses campaigns to
-  /// decide how to collect and transfer data to the cloud. You create campaigns
-  /// in the cloud. After you or your team approve campaigns, Amazon Web
-  /// Services IoT FleetWise automatically deploys them to vehicles.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html">Collect
-  /// and transfer data with campaigns</a> in the <i>Amazon Web Services IoT
-  /// FleetWise Developer Guide</i>.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [collectionScheme] :
-  /// The data collection scheme associated with the campaign. You can specify a
-  /// scheme that collects data based on time or an event.
-  ///
-  /// Parameter [name] :
-  /// The name of the campaign to create.
-  ///
-  /// Parameter [signalCatalogArn] :
-  /// The Amazon Resource Name (ARN) of the signal catalog to associate with the
-  /// campaign.
-  ///
-  /// Parameter [targetArn] :
-  /// The ARN of the vehicle or fleet to deploy a campaign to.
-  ///
-  /// Parameter [compression] :
-  /// (Optional) Whether to compress signals before transmitting data to Amazon
-  /// Web Services IoT FleetWise. If you don't want to compress the signals, use
-  /// <code>OFF</code>. If it's not specified, <code>SNAPPY</code> is used.
-  ///
-  /// Default: <code>SNAPPY</code>
-  ///
-  /// Parameter [dataDestinationConfigs] :
-  /// The destination where the campaign sends data. You can choose to send data
-  /// to be stored in Amazon S3 or Amazon Timestream.
-  ///
-  /// Amazon S3 optimizes the cost of data storage and provides additional
-  /// mechanisms to use vehicle data, such as data lakes, centralized data
-  /// storage, data processing pipelines, and analytics. Amazon Web Services IoT
-  /// FleetWise supports at-least-once file delivery to S3. Your vehicle data is
-  /// stored on multiple Amazon Web Services IoT FleetWise servers for
-  /// redundancy and high availability.
-  ///
-  /// You can use Amazon Timestream to access and analyze time series data, and
-  /// Timestream to query vehicle data so that you can identify trends and
-  /// patterns.
-  ///
-  /// Parameter [dataExtraDimensions] :
-  /// (Optional) A list of vehicle attributes to associate with a campaign.
-  ///
-  /// Enrich the data with specified vehicle attributes. For example, add
-  /// <code>make</code> and <code>model</code> to the campaign, and Amazon Web
-  /// Services IoT FleetWise will associate the data with those attributes as
-  /// dimensions in Amazon Timestream. You can then query the data against
-  /// <code>make</code> and <code>model</code>.
-  ///
-  /// Default: An empty array
-  ///
-  /// Parameter [description] :
-  /// An optional description of the campaign to help identify its purpose.
-  ///
-  /// Parameter [diagnosticsMode] :
-  /// (Optional) Option for a vehicle to send diagnostic trouble codes to Amazon
-  /// Web Services IoT FleetWise. If you want to send diagnostic trouble codes,
-  /// use <code>SEND_ACTIVE_DTCS</code>. If it's not specified, <code>OFF</code>
-  /// is used.
-  ///
-  /// Default: <code>OFF</code>
-  ///
-  /// Parameter [expiryTime] :
-  /// (Optional) The time the campaign expires, in seconds since epoch (January
-  /// 1, 1970 at midnight UTC time). Vehicle data isn't collected after the
-  /// campaign expires.
-  ///
-  /// Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
-  ///
-  /// Parameter [postTriggerCollectionDuration] :
-  /// (Optional) How long (in milliseconds) to collect raw data after a
-  /// triggering event initiates the collection. If it's not specified,
-  /// <code>0</code> is used.
-  ///
-  /// Default: <code>0</code>
-  ///
-  /// Parameter [priority] :
-  /// (Optional) A number indicating the priority of one campaign over another
-  /// campaign for a certain vehicle or fleet. A campaign with the lowest value
-  /// is deployed to vehicles before any other campaigns. If it's not specified,
-  /// <code>0</code> is used.
-  ///
-  /// Default: <code>0</code>
-  ///
-  /// Parameter [signalsToCollect] :
-  /// (Optional) A list of information about signals to collect.
-  ///
-  /// Parameter [spoolingMode] :
-  /// (Optional) Whether to store collected data after a vehicle lost a
-  /// connection with the cloud. After a connection is re-established, the data
-  /// is automatically forwarded to Amazon Web Services IoT FleetWise. If you
-  /// want to store collected data when a vehicle loses connection with the
-  /// cloud, use <code>TO_DISK</code>. If it's not specified, <code>OFF</code>
-  /// is used.
-  ///
-  /// Default: <code>OFF</code>
-  ///
-  /// Parameter [startTime] :
-  /// (Optional) The time, in milliseconds, to deliver a campaign after it was
-  /// approved. If it's not specified, <code>0</code> is used.
-  ///
-  /// Default: <code>0</code>
-  ///
-  /// Parameter [tags] :
-  /// Metadata that can be used to manage the campaign.
-  Future<CreateCampaignResponse> createCampaign({
-    required CollectionScheme collectionScheme,
-    required String name,
-    required String signalCatalogArn,
-    required String targetArn,
-    Compression? compression,
-    List<DataDestinationConfig>? dataDestinationConfigs,
-    List<String>? dataExtraDimensions,
-    String? description,
-    DiagnosticsMode? diagnosticsMode,
-    DateTime? expiryTime,
-    int? postTriggerCollectionDuration,
-    int? priority,
-    List<SignalInformation>? signalsToCollect,
-    SpoolingMode? spoolingMode,
-    DateTime? startTime,
-    List<Tag>? tags,
-  }) async {
-    _s.validateNumRange(
-      'postTriggerCollectionDuration',
-      postTriggerCollectionDuration,
-      0,
-      4294967295,
-    );
-    _s.validateNumRange(
-      'priority',
-      priority,
-      0,
-      1152921504606846976,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateCampaign'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'collectionScheme': collectionScheme,
-        'name': name,
-        'signalCatalogArn': signalCatalogArn,
-        'targetArn': targetArn,
-        if (compression != null) 'compression': compression.value,
-        if (dataDestinationConfigs != null)
-          'dataDestinationConfigs': dataDestinationConfigs,
-        if (dataExtraDimensions != null)
-          'dataExtraDimensions': dataExtraDimensions,
-        if (description != null) 'description': description,
-        if (diagnosticsMode != null) 'diagnosticsMode': diagnosticsMode.value,
-        if (expiryTime != null) 'expiryTime': unixTimestampToJson(expiryTime),
-        if (postTriggerCollectionDuration != null)
-          'postTriggerCollectionDuration': postTriggerCollectionDuration,
-        if (priority != null) 'priority': priority,
-        if (signalsToCollect != null) 'signalsToCollect': signalsToCollect,
-        if (spoolingMode != null) 'spoolingMode': spoolingMode.value,
-        if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-        if (tags != null) 'tags': tags,
-      },
-    );
-
-    return CreateCampaignResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Creates the decoder manifest associated with a model manifest. To create a
-  /// decoder manifest, the following must be true:
-  ///
-  /// <ul>
-  /// <li>
-  /// Every signal decoder has a unique name.
-  /// </li>
-  /// <li>
-  /// Each signal decoder is associated with a network interface.
-  /// </li>
-  /// <li>
-  /// Each network interface has a unique ID.
-  /// </li>
-  /// <li>
-  /// The signal decoders are specified in the model manifest.
-  /// </li>
-  /// </ul>
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [DecoderManifestValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [modelManifestArn] :
-  /// The Amazon Resource Name (ARN) of the vehicle model (model manifest).
-  ///
-  /// Parameter [name] :
-  /// The unique name of the decoder manifest to create.
-  ///
-  /// Parameter [description] :
-  /// A brief description of the decoder manifest.
-  ///
-  /// Parameter [networkInterfaces] :
-  /// A list of information about available network interfaces.
-  ///
-  /// Parameter [signalDecoders] :
-  /// A list of information about signal decoders.
-  ///
-  /// Parameter [tags] :
-  /// Metadata that can be used to manage the decoder manifest.
-  Future<CreateDecoderManifestResponse> createDecoderManifest({
-    required String modelManifestArn,
-    required String name,
-    String? description,
-    List<NetworkInterface>? networkInterfaces,
-    List<SignalDecoder>? signalDecoders,
-    List<Tag>? tags,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateDecoderManifest'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'modelManifestArn': modelManifestArn,
-        'name': name,
-        if (description != null) 'description': description,
-        if (networkInterfaces != null) 'networkInterfaces': networkInterfaces,
-        if (signalDecoders != null) 'signalDecoders': signalDecoders,
-        if (tags != null) 'tags': tags,
-      },
-    );
-
-    return CreateDecoderManifestResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Creates a fleet that represents a group of vehicles.
-  /// <note>
-  /// You must create both a signal catalog and vehicles before you can create a
-  /// fleet.
-  /// </note>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleets.html">Fleets</a>
-  /// in the <i>Amazon Web Services IoT FleetWise Developer Guide</i>.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [fleetId] :
-  /// The unique ID of the fleet to create.
-  ///
-  /// Parameter [signalCatalogArn] :
-  /// The Amazon Resource Name (ARN) of a signal catalog.
-  ///
-  /// Parameter [description] :
-  /// A brief description of the fleet to create.
-  ///
-  /// Parameter [tags] :
-  /// Metadata that can be used to manage the fleet.
-  Future<CreateFleetResponse> createFleet({
-    required String fleetId,
-    required String signalCatalogArn,
-    String? description,
-    List<Tag>? tags,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateFleet'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'fleetId': fleetId,
-        'signalCatalogArn': signalCatalogArn,
-        if (description != null) 'description': description,
-        if (tags != null) 'tags': tags,
-      },
-    );
-
-    return CreateFleetResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Creates a vehicle model (model manifest) that specifies signals
-  /// (attributes, branches, sensors, and actuators).
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/vehicle-models.html">Vehicle
-  /// models</a> in the <i>Amazon Web Services IoT FleetWise Developer
-  /// Guide</i>.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InvalidSignalsException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the vehicle model to create.
-  ///
-  /// Parameter [nodes] :
-  /// A list of nodes, which are a general abstraction of signals.
-  ///
-  /// Parameter [signalCatalogArn] :
-  /// The Amazon Resource Name (ARN) of a signal catalog.
-  ///
-  /// Parameter [description] :
-  /// A brief description of the vehicle model.
-  ///
-  /// Parameter [tags] :
-  /// Metadata that can be used to manage the vehicle model.
-  Future<CreateModelManifestResponse> createModelManifest({
-    required String name,
-    required List<String> nodes,
-    required String signalCatalogArn,
-    String? description,
-    List<Tag>? tags,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateModelManifest'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-        'nodes': nodes,
-        'signalCatalogArn': signalCatalogArn,
-        if (description != null) 'description': description,
-        if (tags != null) 'tags': tags,
-      },
-    );
-
-    return CreateModelManifestResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Creates a collection of standardized signals that can be reused to create
-  /// vehicle models.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidNodeException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InvalidSignalsException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the signal catalog to create.
-  ///
-  /// Parameter [description] :
-  /// A brief description of the signal catalog.
-  ///
-  /// Parameter [nodes] :
-  /// A list of information about nodes, which are a general abstraction of
-  /// signals. For more information, see the API data type.
-  ///
-  /// Parameter [tags] :
-  /// Metadata that can be used to manage the signal catalog.
-  Future<CreateSignalCatalogResponse> createSignalCatalog({
-    required String name,
-    String? description,
-    List<Node>? nodes,
-    List<Tag>? tags,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateSignalCatalog'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-        if (description != null) 'description': description,
-        if (nodes != null) 'nodes': nodes,
-        if (tags != null) 'tags': tags,
-      },
-    );
-
-    return CreateSignalCatalogResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Creates a vehicle, which is an instance of a vehicle model (model
-  /// manifest). Vehicles created from the same vehicle model consist of the
-  /// same signals inherited from the vehicle model.
-  /// <note>
-  /// If you have an existing Amazon Web Services IoT thing, you can use Amazon
-  /// Web Services IoT FleetWise to create a vehicle and collect data from your
-  /// thing.
-  /// </note>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicle-cli.html">Create
-  /// a vehicle (AWS CLI)</a> in the <i>Amazon Web Services IoT FleetWise
-  /// Developer Guide</i>.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [decoderManifestArn] :
-  /// The ARN of a decoder manifest.
-  ///
-  /// Parameter [modelManifestArn] :
-  /// The Amazon Resource Name ARN of a vehicle model.
-  ///
-  /// Parameter [vehicleName] :
-  /// The unique ID of the vehicle to create.
-  ///
-  /// Parameter [associationBehavior] :
-  /// An option to create a new Amazon Web Services IoT thing when creating a
-  /// vehicle, or to validate an existing Amazon Web Services IoT thing as a
-  /// vehicle.
-  ///
-  /// Default: <code/>
-  ///
-  /// Parameter [attributes] :
-  /// Static information about a vehicle in a key-value pair. For example:
-  /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
-  ///
-  /// A campaign must include the keys (attribute names) in
-  /// <code>dataExtraDimensions</code> for them to display in Amazon Timestream.
-  ///
-  /// Parameter [tags] :
-  /// Metadata that can be used to manage the vehicle.
-  Future<CreateVehicleResponse> createVehicle({
-    required String decoderManifestArn,
-    required String modelManifestArn,
-    required String vehicleName,
-    VehicleAssociationBehavior? associationBehavior,
-    Map<String, String>? attributes,
-    List<Tag>? tags,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateVehicle'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'decoderManifestArn': decoderManifestArn,
-        'modelManifestArn': modelManifestArn,
-        'vehicleName': vehicleName,
-        if (associationBehavior != null)
-          'associationBehavior': associationBehavior.value,
-        if (attributes != null) 'attributes': attributes,
-        if (tags != null) 'tags': tags,
-      },
-    );
-
-    return CreateVehicleResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Deletes a data collection campaign. Deleting a campaign suspends all data
-  /// collection and removes it from any vehicles.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the campaign to delete.
-  Future<DeleteCampaignResponse> deleteCampaign({
-    required String name,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteCampaign'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-      },
-    );
-
-    return DeleteCampaignResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Deletes a decoder manifest. You can't delete a decoder manifest if it has
-  /// vehicles associated with it.
-  /// <note>
-  /// If the decoder manifest is successfully deleted, Amazon Web Services IoT
-  /// FleetWise sends back an HTTP 200 response with an empty body.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the decoder manifest to delete.
-  Future<DeleteDecoderManifestResponse> deleteDecoderManifest({
-    required String name,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteDecoderManifest'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-      },
-    );
-
-    return DeleteDecoderManifestResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Deletes a fleet. Before you delete a fleet, all vehicles must be
-  /// dissociated from the fleet. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html">Delete
-  /// a fleet (AWS CLI)</a> in the <i>Amazon Web Services IoT FleetWise
-  /// Developer Guide</i>.
-  /// <note>
-  /// If the fleet is successfully deleted, Amazon Web Services IoT FleetWise
-  /// sends back an HTTP 200 response with an empty body.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [fleetId] :
-  /// The ID of the fleet to delete.
-  Future<DeleteFleetResponse> deleteFleet({
-    required String fleetId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteFleet'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'fleetId': fleetId,
-      },
-    );
-
-    return DeleteFleetResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Deletes a vehicle model (model manifest).
-  /// <note>
-  /// If the vehicle model is successfully deleted, Amazon Web Services IoT
-  /// FleetWise sends back an HTTP 200 response with an empty body.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the model manifest to delete.
-  Future<DeleteModelManifestResponse> deleteModelManifest({
-    required String name,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteModelManifest'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-      },
-    );
-
-    return DeleteModelManifestResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Deletes a signal catalog.
-  /// <note>
-  /// If the signal catalog is successfully deleted, Amazon Web Services IoT
-  /// FleetWise sends back an HTTP 200 response with an empty body.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the signal catalog to delete.
-  Future<DeleteSignalCatalogResponse> deleteSignalCatalog({
-    required String name,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteSignalCatalog'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-      },
-    );
-
-    return DeleteSignalCatalogResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Deletes a vehicle and removes it from any campaigns.
-  /// <note>
-  /// If the vehicle is successfully deleted, Amazon Web Services IoT FleetWise
-  /// sends back an HTTP 200 response with an empty body.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [vehicleName] :
-  /// The ID of the vehicle to delete.
-  Future<DeleteVehicleResponse> deleteVehicle({
-    required String vehicleName,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteVehicle'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'vehicleName': vehicleName,
-      },
-    );
-
-    return DeleteVehicleResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Removes, or disassociates, a vehicle from a fleet. Disassociating a
-  /// vehicle from a fleet doesn't delete the vehicle.
-  /// <note>
-  /// If the vehicle is successfully dissociated from a fleet, Amazon Web
-  /// Services IoT FleetWise sends back an HTTP 200 response with an empty body.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [fleetId] :
-  /// The unique ID of a fleet.
-  ///
-  /// Parameter [vehicleName] :
-  /// The unique ID of the vehicle to disassociate from the fleet.
-  Future<void> disassociateVehicleFleet({
-    required String fleetId,
-    required String vehicleName,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.DisassociateVehicleFleet'
-    };
-    await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'fleetId': fleetId,
-        'vehicleName': vehicleName,
-      },
-    );
-  }
-
-  /// Retrieves information about a campaign.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the campaign to retrieve information about.
-  Future<GetCampaignResponse> getCampaign({
-    required String name,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.GetCampaign'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-      },
-    );
-
-    return GetCampaignResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves information about a created decoder manifest.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the decoder manifest to retrieve information about.
-  Future<GetDecoderManifestResponse> getDecoderManifest({
-    required String name,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.GetDecoderManifest'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-      },
-    );
-
-    return GetDecoderManifestResponse.fromJson(jsonResponse.body);
-  }
-
   /// Retrieves the encryption configuration for resources and data in Amazon
   /// Web Services IoT FleetWise.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   Future<GetEncryptionConfigurationResponse>
       getEncryptionConfiguration() async {
     final headers = <String, String>{
@@ -1015,42 +171,10 @@ class IoTFleetWise {
     return GetEncryptionConfigurationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves information about a fleet.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [fleetId] :
-  /// The ID of the fleet to retrieve information about.
-  Future<GetFleetResponse> getFleet({
-    required String fleetId,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.GetFleet'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'fleetId': fleetId,
-      },
-    );
-
-    return GetFleetResponse.fromJson(jsonResponse.body);
-  }
-
   /// Retrieves the logging options.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
   Future<GetLoggingOptionsResponse> getLoggingOptions() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1067,37 +191,6 @@ class IoTFleetWise {
     return GetLoggingOptionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves information about a vehicle model (model manifest).
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the vehicle model to retrieve information about.
-  Future<GetModelManifestResponse> getModelManifest({
-    required String name,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.GetModelManifest'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-      },
-    );
-
-    return GetModelManifestResponse.fromJson(jsonResponse.body);
-  }
-
   /// Retrieves information about the status of registering your Amazon Web
   /// Services account, IAM, and Amazon Timestream resources so that Amazon Web
   /// Services IoT FleetWise can transfer your vehicle data to the Amazon Web
@@ -1110,11 +203,11 @@ class IoTFleetWise {
   /// This API operation doesn't require input parameters.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   Future<GetRegisterAccountStatusResponse> getRegisterAccountStatus() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1131,82 +224,20 @@ class IoTFleetWise {
     return GetRegisterAccountStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves information about a signal catalog.
+  /// Retrieves information about the status of campaigns, decoder manifests, or
+  /// state templates associated with a vehicle.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the signal catalog to retrieve information about.
-  Future<GetSignalCatalogResponse> getSignalCatalog({
-    required String name,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.GetSignalCatalog'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-      },
-    );
-
-    return GetSignalCatalogResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves information about a vehicle.
-  ///
-  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [vehicleName] :
-  /// The ID of the vehicle to retrieve information about.
-  Future<GetVehicleResponse> getVehicle({
-    required String vehicleName,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.GetVehicle'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'vehicleName': vehicleName,
-      },
-    );
-
-    return GetVehicleResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves information about the status of a vehicle with any associated
-  /// campaigns.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [vehicleName] :
   /// The ID of the vehicle to retrieve information about.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
+  /// The maximum number of items to return, between 1 and 100, inclusive. This
+  /// parameter is only supported for resources of type <code>CAMPAIGN</code>.
   ///
   /// Parameter [nextToken] :
   /// A pagination token for the next set of results.
@@ -1215,7 +246,8 @@ class IoTFleetWise {
   /// returned, and a <code>nextToken</code> pagination token is returned in the
   /// response. To retrieve the next set of results, reissue the search request
   /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
+  /// response does not contain a pagination token value. This parameter is only
+  /// supported for resources of type <code>CAMPAIGN</code>.
   Future<GetVehicleStatusResponse> getVehicleStatus({
     required String vehicleName,
     int? maxResults,
@@ -1247,684 +279,13 @@ class IoTFleetWise {
     return GetVehicleStatusResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a decoder manifest using your existing CAN DBC file from your
-  /// local device.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [DecoderManifestValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InvalidSignalsException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the decoder manifest to import.
-  ///
-  /// Parameter [networkFileDefinitions] :
-  /// The file to load into an Amazon Web Services account.
-  Future<ImportDecoderManifestResponse> importDecoderManifest({
-    required String name,
-    required List<NetworkFileDefinition> networkFileDefinitions,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ImportDecoderManifest'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-        'networkFileDefinitions': networkFileDefinitions,
-      },
-    );
-
-    return ImportDecoderManifestResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Creates a signal catalog using your existing VSS formatted content from
-  /// your local device.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [InvalidSignalsException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the signal catalog to import.
-  ///
-  /// Parameter [description] :
-  /// A brief description of the signal catalog.
-  ///
-  /// Parameter [tags] :
-  /// Metadata that can be used to manage the signal catalog.
-  ///
-  /// Parameter [vss] :
-  /// The contents of the Vehicle Signal Specification (VSS) configuration. VSS
-  /// is a precise language used to describe and model signals in vehicle
-  /// networks.
-  Future<ImportSignalCatalogResponse> importSignalCatalog({
-    required String name,
-    String? description,
-    List<Tag>? tags,
-    FormattedVss? vss,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ImportSignalCatalog'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-        if (description != null) 'description': description,
-        if (tags != null) 'tags': tags,
-        if (vss != null) 'vss': vss,
-      },
-    );
-
-    return ImportSignalCatalogResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Lists information about created campaigns.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  ///
-  /// Parameter [status] :
-  /// Optional parameter to filter the results by the status of each created
-  /// campaign in your account. The status can be one of: <code>CREATING</code>,
-  /// <code>WAITING_FOR_APPROVAL</code>, <code>RUNNING</code>, or
-  /// <code>SUSPENDED</code>.
-  Future<ListCampaignsResponse> listCampaigns({
-    int? maxResults,
-    String? nextToken,
-    String? status,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListCampaigns'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status,
-      },
-    );
-
-    return ListCampaignsResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Lists the network interfaces specified in a decoder manifest.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the decoder manifest to list information about.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListDecoderManifestNetworkInterfacesResponse>
-      listDecoderManifestNetworkInterfaces({
-    required String name,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'IoTAutobahnControlPlane.ListDecoderManifestNetworkInterfaces'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListDecoderManifestNetworkInterfacesResponse.fromJson(
-        jsonResponse.body);
-  }
-
-  /// A list of information about signal decoders specified in a decoder
-  /// manifest.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the decoder manifest to list information about.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListDecoderManifestSignalsResponse> listDecoderManifestSignals({
-    required String name,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListDecoderManifestSignals'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListDecoderManifestSignalsResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Lists decoder manifests.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [modelManifestArn] :
-  /// The Amazon Resource Name (ARN) of a vehicle model (model manifest)
-  /// associated with the decoder manifest.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListDecoderManifestsResponse> listDecoderManifests({
-    int? maxResults,
-    String? modelManifestArn,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListDecoderManifests'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListDecoderManifestsResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves information for each created fleet in an Amazon Web Services
-  /// account.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListFleetsResponse> listFleets({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListFleets'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListFleetsResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves a list of IDs for all fleets that the vehicle is associated
-  /// with.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [vehicleName] :
-  /// The ID of the vehicle to retrieve information about.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListFleetsForVehicleResponse> listFleetsForVehicle({
-    required String vehicleName,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListFleetsForVehicle'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'vehicleName': vehicleName,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListFleetsForVehicleResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Lists information about nodes specified in a vehicle model (model
-  /// manifest).
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the vehicle model to list information about.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListModelManifestNodesResponse> listModelManifestNodes({
-    required String name,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListModelManifestNodes'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListModelManifestNodesResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves a list of vehicle models (model manifests).
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  ///
-  /// Parameter [signalCatalogArn] :
-  /// The ARN of a signal catalog. If you specify a signal catalog, only the
-  /// vehicle models associated with it are returned.
-  Future<ListModelManifestsResponse> listModelManifests({
-    int? maxResults,
-    String? nextToken,
-    String? signalCatalogArn,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListModelManifests'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
-      },
-    );
-
-    return ListModelManifestsResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Lists of information about the signals (nodes) specified in a signal
-  /// catalog.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [name] :
-  /// The name of the signal catalog to list information about.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  ///
-  /// Parameter [signalNodeType] :
-  /// The type of node in the signal catalog.
-  Future<ListSignalCatalogNodesResponse> listSignalCatalogNodes({
-    required String name,
-    int? maxResults,
-    String? nextToken,
-    SignalNodeType? signalNodeType,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListSignalCatalogNodes'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'name': name,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (signalNodeType != null) 'signalNodeType': signalNodeType.value,
-      },
-    );
-
-    return ListSignalCatalogNodesResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Lists all the created signal catalogs in an Amazon Web Services account.
-  ///
-  /// You can use to list information about each signal (node) specified in a
-  /// signal catalog.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListSignalCatalogsResponse> listSignalCatalogs({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListSignalCatalogs'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListSignalCatalogsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Lists the tags (metadata) you have assigned to the resource.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource.
@@ -1949,136 +310,6 @@ class IoTFleetWise {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves a list of summaries of created vehicles.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [attributeNames] :
-  /// The fully qualified names of the attributes. For example, the fully
-  /// qualified name of an attribute might be
-  /// <code>Vehicle.Body.Engine.Type</code>.
-  ///
-  /// Parameter [attributeValues] :
-  /// Static information about a vehicle attribute value in string format. For
-  /// example:
-  ///
-  /// <code>"1.3 L R2"</code>
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [modelManifestArn] :
-  /// The Amazon Resource Name (ARN) of a vehicle model (model manifest). You
-  /// can use this optional parameter to list only the vehicles created from a
-  /// certain vehicle model.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListVehiclesResponse> listVehicles({
-    List<String>? attributeNames,
-    List<String>? attributeValues,
-    int? maxResults,
-    String? modelManifestArn,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListVehicles'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (attributeNames != null) 'attributeNames': attributeNames,
-        if (attributeValues != null) 'attributeValues': attributeValues,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListVehiclesResponse.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves a list of summaries of all vehicles associated with a fleet.
-  /// <note>
-  /// This API operation uses pagination. Specify the <code>nextToken</code>
-  /// parameter in the request to return more results.
-  /// </note>
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [fleetId] :
-  /// The ID of a fleet.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return, between 1 and 100, inclusive.
-  ///
-  /// Parameter [nextToken] :
-  /// A pagination token for the next set of results.
-  ///
-  /// If the results of a search are large, only a portion of the results are
-  /// returned, and a <code>nextToken</code> pagination token is returned in the
-  /// response. To retrieve the next set of results, reissue the search request
-  /// and include the returned token. When all results have been returned, the
-  /// response does not contain a pagination token value.
-  Future<ListVehiclesInFleetResponse> listVehiclesInFleet({
-    required String fleetId,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'IoTAutobahnControlPlane.ListVehiclesInFleet'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'fleetId': fleetId,
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-      },
-    );
-
-    return ListVehiclesInFleetResponse.fromJson(jsonResponse.body);
-  }
-
   /// Creates or updates the encryption configuration. Amazon Web Services IoT
   /// FleetWise can encrypt your data and resources using an Amazon Web Services
   /// managed key. Or, you can use a KMS key that you own and manage. For more
@@ -2087,12 +318,12 @@ class IoTFleetWise {
   /// encryption</a> in the <i>Amazon Web Services IoT FleetWise Developer
   /// Guide</i>.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [encryptionType] :
   /// The type of encryption. Choose <code>KMS_BASED_ENCRYPTION</code> to use a
@@ -2126,12 +357,11 @@ class IoTFleetWise {
 
   /// Creates or updates the logging option.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [cloudWatchLogDelivery] :
   /// Creates or updates the log delivery option to Amazon CloudWatch Logs.
@@ -2195,12 +425,12 @@ class IoTFleetWise {
   /// and typically does, contain many users and roles.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [iamResources] :
   /// The IAM resource that allows Amazon Web Services IoT FleetWise to send
@@ -2232,11 +462,11 @@ class IoTFleetWise {
   /// Adds to or modifies the tags of the given resource. Tags are metadata
   /// which can be used to manage a resource.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource.
@@ -2266,11 +496,11 @@ class IoTFleetWise {
 
   /// Removes the given tags (metadata) from the resource.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the resource.
@@ -2298,14 +528,259 @@ class IoTFleetWise {
     );
   }
 
-  /// Updates a campaign.
+  /// Creates an orchestration of data collection rules. The Amazon Web Services
+  /// IoT FleetWise Edge Agent software running in vehicles uses campaigns to
+  /// decide how to collect and transfer data to the cloud. You create campaigns
+  /// in the cloud. After you or your team approve campaigns, Amazon Web
+  /// Services IoT FleetWise automatically deploys them to vehicles.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html">Collect
+  /// and transfer data with campaigns</a> in the <i>Amazon Web Services IoT
+  /// FleetWise Developer Guide</i>.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [collectionScheme] :
+  /// The data collection scheme associated with the campaign. You can specify a
+  /// scheme that collects data based on time or an event.
+  ///
+  /// Parameter [name] :
+  /// The name of the campaign to create.
+  ///
+  /// Parameter [signalCatalogArn] :
+  /// The Amazon Resource Name (ARN) of the signal catalog to associate with the
+  /// campaign.
+  ///
+  /// Parameter [targetArn] :
+  /// The ARN of the vehicle or fleet to deploy a campaign to.
+  ///
+  /// Parameter [compression] :
+  /// Determines whether to compress signals before transmitting data to Amazon
+  /// Web Services IoT FleetWise. If you don't want to compress the signals, use
+  /// <code>OFF</code>. If it's not specified, <code>SNAPPY</code> is used.
+  ///
+  /// Default: <code>SNAPPY</code>
+  ///
+  /// Parameter [dataDestinationConfigs] :
+  /// The destination where the campaign sends data. You can send data to an
+  /// MQTT topic, or store it in Amazon S3 or Amazon Timestream.
+  ///
+  /// MQTT is the publish/subscribe messaging protocol used by Amazon Web
+  /// Services IoT to communicate with your devices.
+  ///
+  /// Amazon S3 optimizes the cost of data storage and provides additional
+  /// mechanisms to use vehicle data, such as data lakes, centralized data
+  /// storage, data processing pipelines, and analytics. Amazon Web Services IoT
+  /// FleetWise supports at-least-once file delivery to S3. Your vehicle data is
+  /// stored on multiple Amazon Web Services IoT FleetWise servers for
+  /// redundancy and high availability.
+  ///
+  /// You can use Amazon Timestream to access and analyze time series data, and
+  /// Timestream to query vehicle data so that you can identify trends and
+  /// patterns.
+  ///
+  /// Parameter [dataExtraDimensions] :
+  /// A list of vehicle attributes to associate with a campaign.
+  ///
+  /// Enrich the data with specified vehicle attributes. For example, add
+  /// <code>make</code> and <code>model</code> to the campaign, and Amazon Web
+  /// Services IoT FleetWise will associate the data with those attributes as
+  /// dimensions in Amazon Timestream. You can then query the data against
+  /// <code>make</code> and <code>model</code>.
+  ///
+  /// Default: An empty array
+  ///
+  /// Parameter [dataPartitions] :
+  /// The data partitions associated with the signals collected from the
+  /// vehicle.
+  ///
+  /// Parameter [description] :
+  /// An optional description of the campaign to help identify its purpose.
+  ///
+  /// Parameter [diagnosticsMode] :
+  /// Option for a vehicle to send diagnostic trouble codes to Amazon Web
+  /// Services IoT FleetWise. If you want to send diagnostic trouble codes, use
+  /// <code>SEND_ACTIVE_DTCS</code>. If it's not specified, <code>OFF</code> is
+  /// used.
+  ///
+  /// Default: <code>OFF</code>
+  ///
+  /// Parameter [expiryTime] :
+  /// The time the campaign expires, in seconds since epoch (January 1, 1970 at
+  /// midnight UTC time). Vehicle data isn't collected after the campaign
+  /// expires.
+  ///
+  /// Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
+  ///
+  /// Parameter [postTriggerCollectionDuration] :
+  /// How long (in milliseconds) to collect raw data after a triggering event
+  /// initiates the collection. If it's not specified, <code>0</code> is used.
+  ///
+  /// Default: <code>0</code>
+  ///
+  /// Parameter [priority] :
+  /// A number indicating the priority of one campaign over another campaign for
+  /// a certain vehicle or fleet. A campaign with the lowest value is deployed
+  /// to vehicles before any other campaigns. If it's not specified,
+  /// <code>0</code> is used.
+  ///
+  /// Default: <code>0</code>
+  ///
+  /// Parameter [signalsToCollect] :
+  /// A list of information about signals to collect.
+  /// <note>
+  /// If you upload a signal as a condition in a data partition for a campaign,
+  /// then those same signals must be included in <code>signalsToCollect</code>.
+  /// </note>
+  ///
+  /// Parameter [signalsToFetch] :
+  /// A list of information about signals to fetch.
+  ///
+  /// Parameter [spoolingMode] :
+  /// Determines whether to store collected data after a vehicle lost a
+  /// connection with the cloud. After a connection is re-established, the data
+  /// is automatically forwarded to Amazon Web Services IoT FleetWise. If you
+  /// want to store collected data when a vehicle loses connection with the
+  /// cloud, use <code>TO_DISK</code>. If it's not specified, <code>OFF</code>
+  /// is used.
+  ///
+  /// Default: <code>OFF</code>
+  ///
+  /// Parameter [startTime] :
+  /// The time, in milliseconds, to deliver a campaign after it was approved. If
+  /// it's not specified, <code>0</code> is used.
+  ///
+  /// Default: <code>0</code>
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the campaign.
+  Future<CreateCampaignResponse> createCampaign({
+    required CollectionScheme collectionScheme,
+    required String name,
+    required String signalCatalogArn,
+    required String targetArn,
+    Compression? compression,
+    List<DataDestinationConfig>? dataDestinationConfigs,
+    List<String>? dataExtraDimensions,
+    List<DataPartition>? dataPartitions,
+    String? description,
+    DiagnosticsMode? diagnosticsMode,
+    DateTime? expiryTime,
+    int? postTriggerCollectionDuration,
+    int? priority,
+    List<SignalInformation>? signalsToCollect,
+    List<SignalFetchInformation>? signalsToFetch,
+    SpoolingMode? spoolingMode,
+    DateTime? startTime,
+    List<Tag>? tags,
+  }) async {
+    _s.validateNumRange(
+      'postTriggerCollectionDuration',
+      postTriggerCollectionDuration,
+      0,
+      4294967295,
+    );
+    _s.validateNumRange(
+      'priority',
+      priority,
+      0,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateCampaign'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'collectionScheme': collectionScheme,
+        'name': name,
+        'signalCatalogArn': signalCatalogArn,
+        'targetArn': targetArn,
+        if (compression != null) 'compression': compression.value,
+        if (dataDestinationConfigs != null)
+          'dataDestinationConfigs': dataDestinationConfigs,
+        if (dataExtraDimensions != null)
+          'dataExtraDimensions': dataExtraDimensions,
+        if (dataPartitions != null) 'dataPartitions': dataPartitions,
+        if (description != null) 'description': description,
+        if (diagnosticsMode != null) 'diagnosticsMode': diagnosticsMode.value,
+        if (expiryTime != null) 'expiryTime': unixTimestampToJson(expiryTime),
+        if (postTriggerCollectionDuration != null)
+          'postTriggerCollectionDuration': postTriggerCollectionDuration,
+        if (priority != null) 'priority': priority,
+        if (signalsToCollect != null) 'signalsToCollect': signalsToCollect,
+        if (signalsToFetch != null) 'signalsToFetch': signalsToFetch,
+        if (spoolingMode != null) 'spoolingMode': spoolingMode.value,
+        if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateCampaignResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a campaign.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the campaign to retrieve information about.
+  Future<GetCampaignResponse> getCampaign({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.GetCampaign'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return GetCampaignResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a campaign.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [action] :
   /// Specifies how to update a campaign. The action can be one of the
@@ -2369,23 +844,248 @@ class IoTFleetWise {
     return UpdateCampaignResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes a data collection campaign. Deleting a campaign suspends all data
+  /// collection and removes it from any vehicles.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the campaign to delete.
+  Future<DeleteCampaignResponse> deleteCampaign({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteCampaign'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return DeleteCampaignResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists information about created campaigns.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [listResponseScope] :
+  /// When you set the <code>listResponseScope</code> parameter to
+  /// <code>METADATA_ONLY</code>, the list response includes: campaign name,
+  /// Amazon Resource Name (ARN), creation time, and last modification time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  ///
+  /// Parameter [status] :
+  /// An optional parameter to filter the results by the status of each created
+  /// campaign in your account. The status can be one of: <code>CREATING</code>,
+  /// <code>WAITING_FOR_APPROVAL</code>, <code>RUNNING</code>, or
+  /// <code>SUSPENDED</code>.
+  Future<ListCampaignsResponse> listCampaigns({
+    ListResponseScope? listResponseScope,
+    int? maxResults,
+    String? nextToken,
+    String? status,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListCampaigns'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (listResponseScope != null)
+          'listResponseScope': listResponseScope.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (status != null) 'status': status,
+      },
+    );
+
+    return ListCampaignsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates the decoder manifest associated with a model manifest. To create a
+  /// decoder manifest, the following must be true:
+  ///
+  /// <ul>
+  /// <li>
+  /// Every signal decoder has a unique name.
+  /// </li>
+  /// <li>
+  /// Each signal decoder is associated with a network interface.
+  /// </li>
+  /// <li>
+  /// Each network interface has a unique ID.
+  /// </li>
+  /// <li>
+  /// The signal decoders are specified in the model manifest.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [DecoderManifestValidationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [modelManifestArn] :
+  /// The Amazon Resource Name (ARN) of the vehicle model (model manifest).
+  ///
+  /// Parameter [name] :
+  /// The unique name of the decoder manifest to create.
+  ///
+  /// Parameter [defaultForUnmappedSignals] :
+  /// Use default decoders for all unmapped signals in the model. You don't need
+  /// to provide any detailed decoding information.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  ///
+  /// Parameter [description] :
+  /// A brief description of the decoder manifest.
+  ///
+  /// Parameter [networkInterfaces] :
+  /// A list of information about available network interfaces.
+  ///
+  /// Parameter [signalDecoders] :
+  /// A list of information about signal decoders.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the decoder manifest.
+  Future<CreateDecoderManifestResponse> createDecoderManifest({
+    required String modelManifestArn,
+    required String name,
+    DefaultForUnmappedSignalsType? defaultForUnmappedSignals,
+    String? description,
+    List<NetworkInterface>? networkInterfaces,
+    List<SignalDecoder>? signalDecoders,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateDecoderManifest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'modelManifestArn': modelManifestArn,
+        'name': name,
+        if (defaultForUnmappedSignals != null)
+          'defaultForUnmappedSignals': defaultForUnmappedSignals.value,
+        if (description != null) 'description': description,
+        if (networkInterfaces != null) 'networkInterfaces': networkInterfaces,
+        if (signalDecoders != null) 'signalDecoders': signalDecoders,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateDecoderManifestResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a created decoder manifest.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the decoder manifest to retrieve information about.
+  Future<GetDecoderManifestResponse> getDecoderManifest({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.GetDecoderManifest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return GetDecoderManifestResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates a decoder manifest.
   ///
   /// A decoder manifest can only be updated when the status is
   /// <code>DRAFT</code>. Only <code>ACTIVE</code> decoder manifests can be
   /// associated with vehicles.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
   /// May throw [DecoderManifestValidationException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
   /// The name of the decoder manifest to update.
+  ///
+  /// Parameter [defaultForUnmappedSignals] :
+  /// Use default decoders for all unmapped signals in the model. You don't need
+  /// to provide any detailed decoding information.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
   ///
   /// Parameter [description] :
   /// A brief description of the decoder manifest to update.
@@ -2418,6 +1118,7 @@ class IoTFleetWise {
   /// you can edit the decoder manifest.
   Future<UpdateDecoderManifestResponse> updateDecoderManifest({
     required String name,
+    DefaultForUnmappedSignalsType? defaultForUnmappedSignals,
     String? description,
     List<NetworkInterface>? networkInterfacesToAdd,
     List<String>? networkInterfacesToRemove,
@@ -2439,6 +1140,8 @@ class IoTFleetWise {
       headers: headers,
       payload: {
         'name': name,
+        if (defaultForUnmappedSignals != null)
+          'defaultForUnmappedSignals': defaultForUnmappedSignals.value,
         if (description != null) 'description': description,
         if (networkInterfacesToAdd != null)
           'networkInterfacesToAdd': networkInterfacesToAdd,
@@ -2459,18 +1162,358 @@ class IoTFleetWise {
     return UpdateDecoderManifestResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates the description of an existing fleet.
-  /// <note>
-  /// If the fleet is successfully updated, Amazon Web Services IoT FleetWise
-  /// sends back an HTTP 200 response with an empty HTTP body.
-  /// </note>
+  /// Deletes a decoder manifest. You can't delete a decoder manifest if it has
+  /// vehicles associated with it.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the decoder manifest to delete.
+  Future<DeleteDecoderManifestResponse> deleteDecoderManifest({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteDecoderManifest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return DeleteDecoderManifestResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists decoder manifests.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [listResponseScope] :
+  /// When you set the <code>listResponseScope</code> parameter to
+  /// <code>METADATA_ONLY</code>, the list response includes: decoder manifest
+  /// name, Amazon Resource Name (ARN), creation time, and last modification
+  /// time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [modelManifestArn] :
+  /// The Amazon Resource Name (ARN) of a vehicle model (model manifest)
+  /// associated with the decoder manifest.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListDecoderManifestsResponse> listDecoderManifests({
+    ListResponseScope? listResponseScope,
+    int? maxResults,
+    String? modelManifestArn,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListDecoderManifests'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (listResponseScope != null)
+          'listResponseScope': listResponseScope.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListDecoderManifestsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a decoder manifest using your existing CAN DBC file from your
+  /// local device.
+  ///
+  /// The CAN signal name must be unique and not repeated across CAN message
+  /// definitions in a .dbc file.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [DecoderManifestValidationException].
+  /// May throw [InvalidSignalsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the decoder manifest to import.
+  ///
+  /// Parameter [networkFileDefinitions] :
+  /// The file to load into an Amazon Web Services account.
+  Future<ImportDecoderManifestResponse> importDecoderManifest({
+    required String name,
+    required List<NetworkFileDefinition> networkFileDefinitions,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ImportDecoderManifest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        'networkFileDefinitions': networkFileDefinitions,
+      },
+    );
+
+    return ImportDecoderManifestResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the network interfaces specified in a decoder manifest.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the decoder manifest to list information about.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListDecoderManifestNetworkInterfacesResponse>
+      listDecoderManifestNetworkInterfaces({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'IoTAutobahnControlPlane.ListDecoderManifestNetworkInterfaces'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListDecoderManifestNetworkInterfacesResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// A list of information about signal decoders specified in a decoder
+  /// manifest.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the decoder manifest to list information about.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListDecoderManifestSignalsResponse> listDecoderManifestSignals({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListDecoderManifestSignals'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListDecoderManifestSignalsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a fleet that represents a group of vehicles.
+  /// <note>
+  /// You must create both a signal catalog and vehicles before you can create a
+  /// fleet.
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleets.html">Fleets</a>
+  /// in the <i>Amazon Web Services IoT FleetWise Developer Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [fleetId] :
+  /// The unique ID of the fleet to create.
+  ///
+  /// Parameter [signalCatalogArn] :
+  /// The Amazon Resource Name (ARN) of a signal catalog.
+  ///
+  /// Parameter [description] :
+  /// A brief description of the fleet to create.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the fleet.
+  Future<CreateFleetResponse> createFleet({
+    required String fleetId,
+    required String signalCatalogArn,
+    String? description,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateFleet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'fleetId': fleetId,
+        'signalCatalogArn': signalCatalogArn,
+        if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateFleetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a fleet.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [fleetId] :
+  /// The ID of the fleet to retrieve information about.
+  Future<GetFleetResponse> getFleet({
+    required String fleetId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.GetFleet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'fleetId': fleetId,
+      },
+    );
+
+    return GetFleetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the description of an existing fleet.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [fleetId] :
   /// The ID of the fleet to update.
@@ -2500,16 +1543,257 @@ class IoTFleetWise {
     return UpdateFleetResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes a fleet. Before you delete a fleet, all vehicles must be
+  /// dissociated from the fleet. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html">Delete
+  /// a fleet (AWS CLI)</a> in the <i>Amazon Web Services IoT FleetWise
+  /// Developer Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [fleetId] :
+  /// The ID of the fleet to delete.
+  Future<DeleteFleetResponse> deleteFleet({
+    required String fleetId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteFleet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'fleetId': fleetId,
+      },
+    );
+
+    return DeleteFleetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information for each created fleet in an Amazon Web Services
+  /// account.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [listResponseScope] :
+  /// When you set the <code>listResponseScope</code> parameter to
+  /// <code>METADATA_ONLY</code>, the list response includes: fleet ID, Amazon
+  /// Resource Name (ARN), creation time, and last modification time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListFleetsResponse> listFleets({
+    ListResponseScope? listResponseScope,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListFleets'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (listResponseScope != null)
+          'listResponseScope': listResponseScope.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListFleetsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of summaries of all vehicles associated with a fleet.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [fleetId] :
+  /// The ID of a fleet.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListVehiclesInFleetResponse> listVehiclesInFleet({
+    required String fleetId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListVehiclesInFleet'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'fleetId': fleetId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListVehiclesInFleetResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a vehicle model (model manifest) that specifies signals
+  /// (attributes, branches, sensors, and actuators).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/vehicle-models.html">Vehicle
+  /// models</a> in the <i>Amazon Web Services IoT FleetWise Developer
+  /// Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InvalidSignalsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the vehicle model to create.
+  ///
+  /// Parameter [nodes] :
+  /// A list of nodes, which are a general abstraction of signals.
+  ///
+  /// Parameter [signalCatalogArn] :
+  /// The Amazon Resource Name (ARN) of a signal catalog.
+  ///
+  /// Parameter [description] :
+  /// A brief description of the vehicle model.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the vehicle model.
+  Future<CreateModelManifestResponse> createModelManifest({
+    required String name,
+    required List<String> nodes,
+    required String signalCatalogArn,
+    String? description,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateModelManifest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        'nodes': nodes,
+        'signalCatalogArn': signalCatalogArn,
+        if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateModelManifestResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a vehicle model (model manifest).
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the vehicle model to retrieve information about.
+  Future<GetModelManifestResponse> getModelManifest({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.GetModelManifest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return GetModelManifestResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates a vehicle model (model manifest). If created vehicles are
   /// associated with a vehicle model, it can't be updated.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidSignalsException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidSignalsException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [name] :
   /// The name of the vehicle model to update.
@@ -2558,17 +1842,253 @@ class IoTFleetWise {
     return UpdateModelManifestResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates a signal catalog.
+  /// Deletes a vehicle model (model manifest).
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidNodeException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InvalidSignalsException].
+  ///
+  /// Parameter [name] :
+  /// The name of the model manifest to delete.
+  Future<DeleteModelManifestResponse> deleteModelManifest({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteModelManifest'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return DeleteModelManifestResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of vehicle models (model manifests).
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [listResponseScope] :
+  /// When you set the <code>listResponseScope</code> parameter to
+  /// <code>METADATA_ONLY</code>, the list response includes: model manifest
+  /// name, Amazon Resource Name (ARN), creation time, and last modification
+  /// time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  ///
+  /// Parameter [signalCatalogArn] :
+  /// The ARN of a signal catalog. If you specify a signal catalog, only the
+  /// vehicle models associated with it are returned.
+  Future<ListModelManifestsResponse> listModelManifests({
+    ListResponseScope? listResponseScope,
+    int? maxResults,
+    String? nextToken,
+    String? signalCatalogArn,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListModelManifests'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (listResponseScope != null)
+          'listResponseScope': listResponseScope.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
+      },
+    );
+
+    return ListModelManifestsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists information about nodes specified in a vehicle model (model
+  /// manifest).
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the vehicle model to list information about.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListModelManifestNodesResponse> listModelManifestNodes({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListModelManifestNodes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListModelManifestNodesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a collection of standardized signals that can be reused to create
+  /// vehicle models.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InvalidNodeException].
+  /// May throw [InvalidSignalsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the signal catalog to create.
+  ///
+  /// Parameter [description] :
+  /// A brief description of the signal catalog.
+  ///
+  /// Parameter [nodes] :
+  /// A list of information about nodes, which are a general abstraction of
+  /// signals. For more information, see the API data type.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the signal catalog.
+  Future<CreateSignalCatalogResponse> createSignalCatalog({
+    required String name,
+    String? description,
+    List<Node>? nodes,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateSignalCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (description != null) 'description': description,
+        if (nodes != null) 'nodes': nodes,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateSignalCatalogResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a signal catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the signal catalog to retrieve information about.
+  Future<GetSignalCatalogResponse> getSignalCatalog({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.GetSignalCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return GetSignalCatalogResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a signal catalog.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidNodeException].
+  /// May throw [InvalidSignalsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the signal catalog to update.
@@ -2614,14 +2134,643 @@ class IoTFleetWise {
     return UpdateSignalCatalogResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates a vehicle.
+  /// Deletes a signal catalog.
   ///
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the signal catalog to delete.
+  Future<DeleteSignalCatalogResponse> deleteSignalCatalog({
+    required String name,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteSignalCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+      },
+    );
+
+    return DeleteSignalCatalogResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all the created signal catalogs in an Amazon Web Services account.
+  ///
+  /// You can use to list information about each signal (node) specified in a
+  /// signal catalog.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListSignalCatalogsResponse> listSignalCatalogs({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListSignalCatalogs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListSignalCatalogsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a signal catalog using your existing VSS formatted content from
+  /// your local device.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidSignalsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the signal catalog to import.
+  ///
+  /// Parameter [description] :
+  /// A brief description of the signal catalog.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the signal catalog.
+  ///
+  /// Parameter [vss] :
+  /// The contents of the Vehicle Signal Specification (VSS) configuration. VSS
+  /// is a precise language used to describe and model signals in vehicle
+  /// networks.
+  Future<ImportSignalCatalogResponse> importSignalCatalog({
+    required String name,
+    String? description,
+    List<Tag>? tags,
+    FormattedVss? vss,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ImportSignalCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (description != null) 'description': description,
+        if (tags != null) 'tags': tags,
+        if (vss != null) 'vss': vss,
+      },
+    );
+
+    return ImportSignalCatalogResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists of information about the signals (nodes) specified in a signal
+  /// catalog.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the signal catalog to list information about.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  ///
+  /// Parameter [signalNodeType] :
+  /// The type of node in the signal catalog.
+  Future<ListSignalCatalogNodesResponse> listSignalCatalogNodes({
+    required String name,
+    int? maxResults,
+    String? nextToken,
+    SignalNodeType? signalNodeType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListSignalCatalogNodes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (signalNodeType != null) 'signalNodeType': signalNodeType.value,
+      },
+    );
+
+    return ListSignalCatalogNodesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a state template. State templates contain state properties, which
+  /// are signals that belong to a signal catalog that is synchronized between
+  /// the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services
+  /// Cloud.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidSignalsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [name] :
+  /// The name of the state template.
+  ///
+  /// Parameter [signalCatalogArn] :
+  /// The ARN of the signal catalog associated with the state template.
+  ///
+  /// Parameter [stateTemplateProperties] :
+  /// A list of signals from which data is collected. The state template
+  /// properties contain the fully qualified names of the signals.
+  ///
+  /// Parameter [dataExtraDimensions] :
+  /// A list of vehicle attributes to associate with the payload published on
+  /// the state template's MQTT topic. (See <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data">
+  /// Processing last known state vehicle data using MQTT messaging</a>). For
+  /// example, if you add <code>Vehicle.Attributes.Make</code> and
+  /// <code>Vehicle.Attributes.Model</code> attributes, Amazon Web Services IoT
+  /// FleetWise will enrich the protobuf encoded payload with those attributes
+  /// in the <code>extraDimensions</code> field.
+  ///
+  /// Parameter [description] :
+  /// A brief description of the state template.
+  ///
+  /// Parameter [metadataExtraDimensions] :
+  /// A list of vehicle attributes to associate with user properties of the
+  /// messages published on the state template's MQTT topic. (See <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data">
+  /// Processing last known state vehicle data using MQTT messaging</a>). For
+  /// example, if you add <code>Vehicle.Attributes.Make</code> and
+  /// <code>Vehicle.Attributes.Model</code> attributes, Amazon Web Services IoT
+  /// FleetWise will include these attributes as User Properties with the MQTT
+  /// message.
+  ///
+  /// Default: An empty array
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the state template.
+  Future<CreateStateTemplateResponse> createStateTemplate({
+    required String name,
+    required String signalCatalogArn,
+    required List<String> stateTemplateProperties,
+    List<String>? dataExtraDimensions,
+    String? description,
+    List<String>? metadataExtraDimensions,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateStateTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'name': name,
+        'signalCatalogArn': signalCatalogArn,
+        'stateTemplateProperties': stateTemplateProperties,
+        if (dataExtraDimensions != null)
+          'dataExtraDimensions': dataExtraDimensions,
+        if (description != null) 'description': description,
+        if (metadataExtraDimensions != null)
+          'metadataExtraDimensions': metadataExtraDimensions,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateStateTemplateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a state template.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique ID of the state template.
+  Future<GetStateTemplateResponse> getStateTemplate({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.GetStateTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identifier': identifier,
+      },
+    );
+
+    return GetStateTemplateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a state template.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [InvalidSignalsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique ID of the state template.
+  ///
+  /// Parameter [dataExtraDimensions] :
+  /// A list of vehicle attributes to associate with the payload published on
+  /// the state template's MQTT topic. (See <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data">
+  /// Processing last known state vehicle data using MQTT messaging</a>). For
+  /// example, if you add <code>Vehicle.Attributes.Make</code> and
+  /// <code>Vehicle.Attributes.Model</code> attributes, Amazon Web Services IoT
+  /// FleetWise will enrich the protobuf encoded payload with those attributes
+  /// in the <code>extraDimensions</code> field.
+  ///
+  /// Default: An empty array
+  ///
+  /// Parameter [description] :
+  /// A brief description of the state template.
+  ///
+  /// Parameter [metadataExtraDimensions] :
+  /// A list of vehicle attributes to associate with user properties of the
+  /// messages published on the state template's MQTT topic. (See <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/process-visualize-data.html#process-last-known-state-vehicle-data">
+  /// Processing last known state vehicle data using MQTT messaging</a>). For
+  /// example, if you add <code>Vehicle.Attributes.Make</code> and
+  /// <code>Vehicle.Attributes.Model</code> attributes, Amazon Web Services IoT
+  /// FleetWise will include these attributes as User Properties with the MQTT
+  /// message.
+  ///
+  /// Parameter [stateTemplatePropertiesToAdd] :
+  /// Add signals from which data is collected as part of the state template.
+  ///
+  /// Parameter [stateTemplatePropertiesToRemove] :
+  /// Remove signals from which data is collected as part of the state template.
+  Future<UpdateStateTemplateResponse> updateStateTemplate({
+    required String identifier,
+    List<String>? dataExtraDimensions,
+    String? description,
+    List<String>? metadataExtraDimensions,
+    List<String>? stateTemplatePropertiesToAdd,
+    List<String>? stateTemplatePropertiesToRemove,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.UpdateStateTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identifier': identifier,
+        if (dataExtraDimensions != null)
+          'dataExtraDimensions': dataExtraDimensions,
+        if (description != null) 'description': description,
+        if (metadataExtraDimensions != null)
+          'metadataExtraDimensions': metadataExtraDimensions,
+        if (stateTemplatePropertiesToAdd != null)
+          'stateTemplatePropertiesToAdd': stateTemplatePropertiesToAdd,
+        if (stateTemplatePropertiesToRemove != null)
+          'stateTemplatePropertiesToRemove': stateTemplatePropertiesToRemove,
+      },
+    );
+
+    return UpdateStateTemplateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a state template.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identifier] :
+  /// The unique ID of the state template.
+  Future<DeleteStateTemplateResponse> deleteStateTemplate({
+    required String identifier,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteStateTemplate'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'identifier': identifier,
+      },
+    );
+
+    return DeleteStateTemplateResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Lists information about created state templates.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [listResponseScope] :
+  /// When you set the <code>listResponseScope</code> parameter to
+  /// <code>METADATA_ONLY</code>, the list response includes: state template ID,
+  /// Amazon Resource Name (ARN), creation time, and last modification time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to retrieve the next set of results, or <code>null</code> if
+  /// there are no more results.
+  Future<ListStateTemplatesResponse> listStateTemplates({
+    ListResponseScope? listResponseScope,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListStateTemplates'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (listResponseScope != null)
+          'listResponseScope': listResponseScope.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListStateTemplatesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a vehicle, which is an instance of a vehicle model (model
+  /// manifest). Vehicles created from the same vehicle model consist of the
+  /// same signals inherited from the vehicle model.
+  /// <note>
+  /// If you have an existing Amazon Web Services IoT thing, you can use Amazon
+  /// Web Services IoT FleetWise to create a vehicle and collect data from your
+  /// thing.
+  /// </note>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicle-cli.html">Create
+  /// a vehicle (AWS CLI)</a> in the <i>Amazon Web Services IoT FleetWise
+  /// Developer Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [decoderManifestArn] :
+  /// The ARN of a decoder manifest.
+  ///
+  /// Parameter [modelManifestArn] :
+  /// The Amazon Resource Name ARN of a vehicle model.
+  ///
+  /// Parameter [vehicleName] :
+  /// The unique ID of the vehicle to create.
+  ///
+  /// Parameter [associationBehavior] :
+  /// An option to create a new Amazon Web Services IoT thing when creating a
+  /// vehicle, or to validate an existing Amazon Web Services IoT thing as a
+  /// vehicle.
+  ///
+  /// Default: <code/>
+  ///
+  /// Parameter [attributes] :
+  /// Static information about a vehicle in a key-value pair. For example:
+  /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
+  ///
+  /// To use attributes with Campaigns or State Templates, you must include them
+  /// using the request parameters <code>dataExtraDimensions</code> and/or
+  /// <code>metadataExtraDimensions</code> (for state templates only) when
+  /// creating your campaign/state template.
+  ///
+  /// Parameter [stateTemplates] :
+  /// Associate state templates with the vehicle. You can monitor the last known
+  /// state of the vehicle in near real time.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the vehicle.
+  Future<CreateVehicleResponse> createVehicle({
+    required String decoderManifestArn,
+    required String modelManifestArn,
+    required String vehicleName,
+    VehicleAssociationBehavior? associationBehavior,
+    Map<String, String>? attributes,
+    List<StateTemplateAssociation>? stateTemplates,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.CreateVehicle'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'decoderManifestArn': decoderManifestArn,
+        'modelManifestArn': modelManifestArn,
+        'vehicleName': vehicleName,
+        if (associationBehavior != null)
+          'associationBehavior': associationBehavior.value,
+        if (attributes != null) 'attributes': attributes,
+        if (stateTemplates != null) 'stateTemplates': stateTemplates,
+        if (tags != null) 'tags': tags,
+      },
+    );
+
+    return CreateVehicleResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a vehicle.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [vehicleName] :
+  /// The ID of the vehicle to retrieve information about.
+  Future<GetVehicleResponse> getVehicle({
+    required String vehicleName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.GetVehicle'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'vehicleName': vehicleName,
+      },
+    );
+
+    return GetVehicleResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a vehicle.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [vehicleName] :
   /// The unique ID of the vehicle to update.
@@ -2644,12 +2793,25 @@ class IoTFleetWise {
   ///
   /// Parameter [modelManifestArn] :
   /// The ARN of a vehicle model (model manifest) associated with the vehicle.
+  ///
+  /// Parameter [stateTemplatesToAdd] :
+  /// Associate state templates with the vehicle.
+  ///
+  /// Parameter [stateTemplatesToRemove] :
+  /// Remove state templates from the vehicle.
+  ///
+  /// Parameter [stateTemplatesToUpdate] :
+  /// Change the <code>stateTemplateUpdateStrategy</code> of state templates
+  /// already associated with the vehicle.
   Future<UpdateVehicleResponse> updateVehicle({
     required String vehicleName,
     UpdateMode? attributeUpdateMode,
     Map<String, String>? attributes,
     String? decoderManifestArn,
     String? modelManifestArn,
+    List<StateTemplateAssociation>? stateTemplatesToAdd,
+    List<String>? stateTemplatesToRemove,
+    List<StateTemplateAssociation>? stateTemplatesToUpdate,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2669,10 +2831,3235 @@ class IoTFleetWise {
         if (decoderManifestArn != null)
           'decoderManifestArn': decoderManifestArn,
         if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
+        if (stateTemplatesToAdd != null)
+          'stateTemplatesToAdd': stateTemplatesToAdd,
+        if (stateTemplatesToRemove != null)
+          'stateTemplatesToRemove': stateTemplatesToRemove,
+        if (stateTemplatesToUpdate != null)
+          'stateTemplatesToUpdate': stateTemplatesToUpdate,
       },
     );
 
     return UpdateVehicleResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a vehicle and removes it from any campaigns.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [vehicleName] :
+  /// The ID of the vehicle to delete.
+  Future<DeleteVehicleResponse> deleteVehicle({
+    required String vehicleName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.DeleteVehicle'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'vehicleName': vehicleName,
+      },
+    );
+
+    return DeleteVehicleResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list of summaries of created vehicles.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [attributeNames] :
+  /// The fully qualified names of the attributes. You can use this optional
+  /// parameter to list the vehicles containing all the attributes in the
+  /// request. For example, <code>attributeNames</code> could be
+  /// "<code>Vehicle.Body.Engine.Type, Vehicle.Color</code>" and the
+  /// corresponding <code>attributeValues</code> could be "<code>1.3 L R2,
+  /// Blue</code>" . In this case, the API will filter vehicles with an
+  /// attribute name <code>Vehicle.Body.Engine.Type</code> that contains a value
+  /// of <code>1.3 L R2</code> AND an attribute name <code>Vehicle.Color</code>
+  /// that contains a value of "<code>Blue</code>". A request must contain
+  /// unique values for the <code>attributeNames</code> filter and the matching
+  /// number of <code>attributeValues</code> filters to return the subset of
+  /// vehicles that match the attributes filter condition.
+  ///
+  /// Parameter [attributeValues] :
+  /// Static information about a vehicle attribute value in string format. You
+  /// can use this optional parameter in conjunction with
+  /// <code>attributeNames</code> to list the vehicles containing all the
+  /// <code>attributeValues</code> corresponding to the
+  /// <code>attributeNames</code> filter. For example,
+  /// <code>attributeValues</code> could be "<code>1.3 L R2, Blue</code>" and
+  /// the corresponding <code>attributeNames</code> filter could be
+  /// "<code>Vehicle.Body.Engine.Type, Vehicle.Color</code>". In this case, the
+  /// API will filter vehicles with attribute name
+  /// <code>Vehicle.Body.Engine.Type</code> that contains a value of <code>1.3 L
+  /// R2</code> AND an attribute name <code>Vehicle.Color</code> that contains a
+  /// value of "<code>Blue</code>". A request must contain unique values for the
+  /// <code>attributeNames</code> filter and the matching number of
+  /// <code>attributeValues</code> filter to return the subset of vehicles that
+  /// match the attributes filter condition.
+  ///
+  /// Parameter [listResponseScope] :
+  /// When you set the <code>listResponseScope</code> parameter to
+  /// <code>METADATA_ONLY</code>, the list response includes: vehicle name,
+  /// Amazon Resource Name (ARN), creation time, and last modification time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [modelManifestArn] :
+  /// The Amazon Resource Name (ARN) of a vehicle model (model manifest). You
+  /// can use this optional parameter to list only the vehicles created from a
+  /// certain vehicle model.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListVehiclesResponse> listVehicles({
+    List<String>? attributeNames,
+    List<String>? attributeValues,
+    ListResponseScope? listResponseScope,
+    int? maxResults,
+    String? modelManifestArn,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListVehicles'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (attributeNames != null) 'attributeNames': attributeNames,
+        if (attributeValues != null) 'attributeValues': attributeValues,
+        if (listResponseScope != null)
+          'listResponseScope': listResponseScope.value,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListVehiclesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Adds, or associates, a vehicle with a fleet.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [fleetId] :
+  /// The ID of a fleet.
+  ///
+  /// Parameter [vehicleName] :
+  /// The unique ID of the vehicle to associate with the fleet.
+  Future<void> associateVehicleFleet({
+    required String fleetId,
+    required String vehicleName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.AssociateVehicleFleet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'fleetId': fleetId,
+        'vehicleName': vehicleName,
+      },
+    );
+  }
+
+  /// Removes, or disassociates, a vehicle from a fleet. Disassociating a
+  /// vehicle from a fleet doesn't delete the vehicle.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [fleetId] :
+  /// The unique ID of a fleet.
+  ///
+  /// Parameter [vehicleName] :
+  /// The unique ID of the vehicle to disassociate from the fleet.
+  Future<void> disassociateVehicleFleet({
+    required String fleetId,
+    required String vehicleName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.DisassociateVehicleFleet'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'fleetId': fleetId,
+        'vehicleName': vehicleName,
+      },
+    );
+  }
+
+  /// Retrieves a list of IDs for all fleets that the vehicle is associated
+  /// with.
+  /// <note>
+  /// This API operation uses pagination. Specify the <code>nextToken</code>
+  /// parameter in the request to return more results.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [vehicleName] :
+  /// The ID of the vehicle to retrieve information about.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return, between 1 and 100, inclusive.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token for the next set of results.
+  ///
+  /// If the results of a search are large, only a portion of the results are
+  /// returned, and a <code>nextToken</code> pagination token is returned in the
+  /// response. To retrieve the next set of results, reissue the search request
+  /// and include the returned token. When all results have been returned, the
+  /// response does not contain a pagination token value.
+  Future<ListFleetsForVehicleResponse> listFleetsForVehicle({
+    required String vehicleName,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'IoTAutobahnControlPlane.ListFleetsForVehicle'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'vehicleName': vehicleName,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return ListFleetsForVehicleResponse.fromJson(jsonResponse.body);
+  }
+}
+
+class BatchCreateVehicleResponse {
+  /// A list of information about creation errors, or an empty list if there
+  /// aren't any errors.
+  final List<CreateVehicleError>? errors;
+
+  /// A list of information about a batch of created vehicles. For more
+  /// information, see the API data type.
+  final List<CreateVehicleResponseItem>? vehicles;
+
+  BatchCreateVehicleResponse({
+    this.errors,
+    this.vehicles,
+  });
+
+  factory BatchCreateVehicleResponse.fromJson(Map<String, dynamic> json) {
+    return BatchCreateVehicleResponse(
+      errors: (json['errors'] as List?)
+          ?.nonNulls
+          .map((e) => CreateVehicleError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vehicles: (json['vehicles'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              CreateVehicleResponseItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final vehicles = this.vehicles;
+    return {
+      if (errors != null) 'errors': errors,
+      if (vehicles != null) 'vehicles': vehicles,
+    };
+  }
+}
+
+class BatchUpdateVehicleResponse {
+  /// A list of information about errors returned while updating a batch of
+  /// vehicles, or, if there aren't any errors, an empty list.
+  final List<UpdateVehicleError>? errors;
+
+  /// A list of information about the batch of updated vehicles.
+  /// <note>
+  /// This list contains only unique IDs for the vehicles that were updated.
+  /// </note>
+  final List<UpdateVehicleResponseItem>? vehicles;
+
+  BatchUpdateVehicleResponse({
+    this.errors,
+    this.vehicles,
+  });
+
+  factory BatchUpdateVehicleResponse.fromJson(Map<String, dynamic> json) {
+    return BatchUpdateVehicleResponse(
+      errors: (json['errors'] as List?)
+          ?.nonNulls
+          .map((e) => UpdateVehicleError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vehicles: (json['vehicles'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              UpdateVehicleResponseItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final vehicles = this.vehicles;
+    return {
+      if (errors != null) 'errors': errors,
+      if (vehicles != null) 'vehicles': vehicles,
+    };
+  }
+}
+
+class GetEncryptionConfigurationResponse {
+  /// The encryption status.
+  final EncryptionStatus encryptionStatus;
+
+  /// The type of encryption. Set to <code>KMS_BASED_ENCRYPTION</code> to use a
+  /// KMS key that you own and manage. Set to
+  /// <code>FLEETWISE_DEFAULT_ENCRYPTION</code> to use an Amazon Web Services
+  /// managed key that is owned by the Amazon Web Services IoT FleetWise service
+  /// account.
+  final EncryptionType encryptionType;
+
+  /// The time when encryption was configured in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime? creationTime;
+
+  /// The error message that describes why encryption settings couldn't be
+  /// configured, if applicable.
+  final String? errorMessage;
+
+  /// The ID of the KMS key that is used for encryption.
+  final String? kmsKeyId;
+
+  /// The time when encryption was last updated in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime? lastModificationTime;
+
+  GetEncryptionConfigurationResponse({
+    required this.encryptionStatus,
+    required this.encryptionType,
+    this.creationTime,
+    this.errorMessage,
+    this.kmsKeyId,
+    this.lastModificationTime,
+  });
+
+  factory GetEncryptionConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetEncryptionConfigurationResponse(
+      encryptionStatus: EncryptionStatus.fromString(
+          (json['encryptionStatus'] as String?) ?? ''),
+      encryptionType:
+          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
+      creationTime: timeStampFromJson(json['creationTime']),
+      errorMessage: json['errorMessage'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionStatus = this.encryptionStatus;
+    final encryptionType = this.encryptionType;
+    final creationTime = this.creationTime;
+    final errorMessage = this.errorMessage;
+    final kmsKeyId = this.kmsKeyId;
+    final lastModificationTime = this.lastModificationTime;
+    return {
+      'encryptionStatus': encryptionStatus.value,
+      'encryptionType': encryptionType.value,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (lastModificationTime != null)
+        'lastModificationTime': unixTimestampToJson(lastModificationTime),
+    };
+  }
+}
+
+class GetLoggingOptionsResponse {
+  /// Returns information about log delivery to Amazon CloudWatch Logs.
+  final CloudWatchLogDeliveryOptions cloudWatchLogDelivery;
+
+  GetLoggingOptionsResponse({
+    required this.cloudWatchLogDelivery,
+  });
+
+  factory GetLoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetLoggingOptionsResponse(
+      cloudWatchLogDelivery: CloudWatchLogDeliveryOptions.fromJson(
+          (json['cloudWatchLogDelivery'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogDelivery = this.cloudWatchLogDelivery;
+    return {
+      'cloudWatchLogDelivery': cloudWatchLogDelivery,
+    };
+  }
+}
+
+class GetRegisterAccountStatusResponse {
+  /// The status of registering your account and resources. The status can be one
+  /// of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>REGISTRATION_SUCCESS</code> - The Amazon Web Services resource is
+  /// successfully registered.
+  /// </li>
+  /// <li>
+  /// <code>REGISTRATION_PENDING</code> - Amazon Web Services IoT FleetWise is
+  /// processing the registration request. This process takes approximately five
+  /// minutes to complete.
+  /// </li>
+  /// <li>
+  /// <code>REGISTRATION_FAILURE</code> - Amazon Web Services IoT FleetWise can't
+  /// register the AWS resource. Try again later.
+  /// </li>
+  /// </ul>
+  final RegistrationStatus accountStatus;
+
+  /// The time the account was registered, in seconds since epoch (January 1, 1970
+  /// at midnight UTC time).
+  final DateTime creationTime;
+
+  /// The unique ID of the Amazon Web Services account, provided at account
+  /// creation.
+  final String customerAccountId;
+
+  /// Information about the registered IAM resources or errors, if any.
+  final IamRegistrationResponse iamRegistrationResponse;
+
+  /// The time this registration was last updated, in seconds since epoch (January
+  /// 1, 1970 at midnight UTC time).
+  final DateTime lastModificationTime;
+
+  /// Information about the registered Amazon Timestream resources or errors, if
+  /// any.
+  final TimestreamRegistrationResponse? timestreamRegistrationResponse;
+
+  GetRegisterAccountStatusResponse({
+    required this.accountStatus,
+    required this.creationTime,
+    required this.customerAccountId,
+    required this.iamRegistrationResponse,
+    required this.lastModificationTime,
+    this.timestreamRegistrationResponse,
+  });
+
+  factory GetRegisterAccountStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegisterAccountStatusResponse(
+      accountStatus: RegistrationStatus.fromString(
+          (json['accountStatus'] as String?) ?? ''),
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      customerAccountId: (json['customerAccountId'] as String?) ?? '',
+      iamRegistrationResponse: IamRegistrationResponse.fromJson(
+          (json['iamRegistrationResponse'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      timestreamRegistrationResponse: json['timestreamRegistrationResponse'] !=
+              null
+          ? TimestreamRegistrationResponse.fromJson(
+              json['timestreamRegistrationResponse'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountStatus = this.accountStatus;
+    final creationTime = this.creationTime;
+    final customerAccountId = this.customerAccountId;
+    final iamRegistrationResponse = this.iamRegistrationResponse;
+    final lastModificationTime = this.lastModificationTime;
+    final timestreamRegistrationResponse = this.timestreamRegistrationResponse;
+    return {
+      'accountStatus': accountStatus.value,
+      'creationTime': unixTimestampToJson(creationTime),
+      'customerAccountId': customerAccountId,
+      'iamRegistrationResponse': iamRegistrationResponse,
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (timestreamRegistrationResponse != null)
+        'timestreamRegistrationResponse': timestreamRegistrationResponse,
+    };
+  }
+}
+
+class GetVehicleStatusResponse {
+  /// Lists information about the state of the vehicle with deployed campaigns.
+  final List<VehicleStatus>? campaigns;
+
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  GetVehicleStatusResponse({
+    this.campaigns,
+    this.nextToken,
+  });
+
+  factory GetVehicleStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetVehicleStatusResponse(
+      campaigns: (json['campaigns'] as List?)
+          ?.nonNulls
+          .map((e) => VehicleStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaigns = this.campaigns;
+    final nextToken = this.nextToken;
+    return {
+      if (campaigns != null) 'campaigns': campaigns,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The list of tags assigned to the resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class PutEncryptionConfigurationResponse {
+  /// The encryption status.
+  final EncryptionStatus encryptionStatus;
+
+  /// The type of encryption. Set to <code>KMS_BASED_ENCRYPTION</code> to use an
+  /// KMS key that you own and manage. Set to
+  /// <code>FLEETWISE_DEFAULT_ENCRYPTION</code> to use an Amazon Web Services
+  /// managed key that is owned by the Amazon Web Services IoT FleetWise service
+  /// account.
+  final EncryptionType encryptionType;
+
+  /// The ID of the KMS key that is used for encryption.
+  final String? kmsKeyId;
+
+  PutEncryptionConfigurationResponse({
+    required this.encryptionStatus,
+    required this.encryptionType,
+    this.kmsKeyId,
+  });
+
+  factory PutEncryptionConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return PutEncryptionConfigurationResponse(
+      encryptionStatus: EncryptionStatus.fromString(
+          (json['encryptionStatus'] as String?) ?? ''),
+      encryptionType:
+          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
+      kmsKeyId: json['kmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionStatus = this.encryptionStatus;
+    final encryptionType = this.encryptionType;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'encryptionStatus': encryptionStatus.value,
+      'encryptionType': encryptionType.value,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
+}
+
+class PutLoggingOptionsResponse {
+  PutLoggingOptionsResponse();
+
+  factory PutLoggingOptionsResponse.fromJson(Map<String, dynamic> _) {
+    return PutLoggingOptionsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RegisterAccountResponse {
+  /// The time the account was registered, in seconds since epoch (January 1, 1970
+  /// at midnight UTC time).
+  final DateTime creationTime;
+
+  /// The registered IAM resource that allows Amazon Web Services IoT FleetWise to
+  /// send data to Amazon Timestream.
+  final IamResources iamResources;
+
+  /// The time this registration was last updated, in seconds since epoch (January
+  /// 1, 1970 at midnight UTC time).
+  final DateTime lastModificationTime;
+
+  /// The status of registering your Amazon Web Services account, IAM role, and
+  /// Timestream resources.
+  final RegistrationStatus registerAccountStatus;
+  final TimestreamResources? timestreamResources;
+
+  RegisterAccountResponse({
+    required this.creationTime,
+    required this.iamResources,
+    required this.lastModificationTime,
+    required this.registerAccountStatus,
+    this.timestreamResources,
+  });
+
+  factory RegisterAccountResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterAccountResponse(
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      iamResources: IamResources.fromJson(
+          (json['iamResources'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      registerAccountStatus: RegistrationStatus.fromString(
+          (json['registerAccountStatus'] as String?) ?? ''),
+      timestreamResources: json['timestreamResources'] != null
+          ? TimestreamResources.fromJson(
+              json['timestreamResources'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final iamResources = this.iamResources;
+    final lastModificationTime = this.lastModificationTime;
+    final registerAccountStatus = this.registerAccountStatus;
+    final timestreamResources = this.timestreamResources;
+    return {
+      'creationTime': unixTimestampToJson(creationTime),
+      'iamResources': iamResources,
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      'registerAccountStatus': registerAccountStatus.value,
+      if (timestreamResources != null)
+        'timestreamResources': timestreamResources,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class CreateCampaignResponse {
+  /// The ARN of the created campaign.
+  final String? arn;
+
+  /// The name of the created campaign.
+  final String? name;
+
+  CreateCampaignResponse({
+    this.arn,
+    this.name,
+  });
+
+  factory CreateCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCampaignResponse(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class GetCampaignResponse {
+  /// The Amazon Resource Name (ARN) of the campaign.
+  final String? arn;
+
+  /// Information about the data collection scheme associated with the campaign.
+  final CollectionScheme? collectionScheme;
+
+  /// Whether to compress signals before transmitting data to Amazon Web Services
+  /// IoT FleetWise. If <code>OFF</code> is specified, the signals aren't
+  /// compressed. If it's not specified, <code>SNAPPY</code> is used.
+  final Compression? compression;
+
+  /// The time the campaign was created in seconds since epoch (January 1, 1970 at
+  /// midnight UTC time).
+  final DateTime? creationTime;
+
+  /// The destination where the campaign sends data. You can send data to an MQTT
+  /// topic, or store it in Amazon S3 or Amazon Timestream.
+  ///
+  /// MQTT is the publish/subscribe messaging protocol used by Amazon Web Services
+  /// IoT to communicate with your devices.
+  ///
+  /// Amazon S3 optimizes the cost of data storage and provides additional
+  /// mechanisms to use vehicle data, such as data lakes, centralized data
+  /// storage, data processing pipelines, and analytics.
+  ///
+  /// You can use Amazon Timestream to access and analyze time series data, and
+  /// Timestream to query vehicle data so that you can identify trends and
+  /// patterns.
+  final List<DataDestinationConfig>? dataDestinationConfigs;
+
+  /// A list of vehicle attributes associated with the campaign.
+  final List<String>? dataExtraDimensions;
+
+  /// The data partitions associated with the signals collected from the vehicle.
+  final List<DataPartition>? dataPartitions;
+
+  /// The description of the campaign.
+  final String? description;
+
+  /// Option for a vehicle to send diagnostic trouble codes to Amazon Web Services
+  /// IoT FleetWise.
+  final DiagnosticsMode? diagnosticsMode;
+
+  /// The time the campaign expires, in seconds since epoch (January 1, 1970 at
+  /// midnight UTC time). Vehicle data won't be collected after the campaign
+  /// expires.
+  final DateTime? expiryTime;
+
+  /// The last time the campaign was modified.
+  final DateTime? lastModificationTime;
+
+  /// The name of the campaign.
+  final String? name;
+
+  /// How long (in seconds) to collect raw data after a triggering event initiates
+  /// the collection.
+  final int? postTriggerCollectionDuration;
+
+  /// A number indicating the priority of one campaign over another campaign for a
+  /// certain vehicle or fleet. A campaign with the lowest value is deployed to
+  /// vehicles before any other campaigns.
+  final int? priority;
+
+  /// The ARN of a signal catalog.
+  final String? signalCatalogArn;
+
+  /// Information about a list of signals to collect data on.
+  final List<SignalInformation>? signalsToCollect;
+
+  /// Information about a list of signals to fetch data from.
+  final List<SignalFetchInformation>? signalsToFetch;
+
+  /// Whether to store collected data after a vehicle lost a connection with the
+  /// cloud. After a connection is re-established, the data is automatically
+  /// forwarded to Amazon Web Services IoT FleetWise.
+  final SpoolingMode? spoolingMode;
+
+  /// The time, in milliseconds, to deliver a campaign after it was approved.
+  final DateTime? startTime;
+
+  /// The state of the campaign. The status can be one of: <code>CREATING</code>,
+  /// <code>WAITING_FOR_APPROVAL</code>, <code>RUNNING</code>, and
+  /// <code>SUSPENDED</code>.
+  final CampaignStatus? status;
+
+  /// The ARN of the vehicle or the fleet targeted by the campaign.
+  final String? targetArn;
+
+  GetCampaignResponse({
+    this.arn,
+    this.collectionScheme,
+    this.compression,
+    this.creationTime,
+    this.dataDestinationConfigs,
+    this.dataExtraDimensions,
+    this.dataPartitions,
+    this.description,
+    this.diagnosticsMode,
+    this.expiryTime,
+    this.lastModificationTime,
+    this.name,
+    this.postTriggerCollectionDuration,
+    this.priority,
+    this.signalCatalogArn,
+    this.signalsToCollect,
+    this.signalsToFetch,
+    this.spoolingMode,
+    this.startTime,
+    this.status,
+    this.targetArn,
+  });
+
+  factory GetCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return GetCampaignResponse(
+      arn: json['arn'] as String?,
+      collectionScheme: json['collectionScheme'] != null
+          ? CollectionScheme.fromJson(
+              json['collectionScheme'] as Map<String, dynamic>)
+          : null,
+      compression:
+          (json['compression'] as String?)?.let(Compression.fromString),
+      creationTime: timeStampFromJson(json['creationTime']),
+      dataDestinationConfigs: (json['dataDestinationConfigs'] as List?)
+          ?.nonNulls
+          .map((e) => DataDestinationConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataExtraDimensions: (json['dataExtraDimensions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      dataPartitions: (json['dataPartitions'] as List?)
+          ?.nonNulls
+          .map((e) => DataPartition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      diagnosticsMode:
+          (json['diagnosticsMode'] as String?)?.let(DiagnosticsMode.fromString),
+      expiryTime: timeStampFromJson(json['expiryTime']),
+      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
+      name: json['name'] as String?,
+      postTriggerCollectionDuration:
+          json['postTriggerCollectionDuration'] as int?,
+      priority: json['priority'] as int?,
+      signalCatalogArn: json['signalCatalogArn'] as String?,
+      signalsToCollect: (json['signalsToCollect'] as List?)
+          ?.nonNulls
+          .map((e) => SignalInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      signalsToFetch: (json['signalsToFetch'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => SignalFetchInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      spoolingMode:
+          (json['spoolingMode'] as String?)?.let(SpoolingMode.fromString),
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.let(CampaignStatus.fromString),
+      targetArn: json['targetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final collectionScheme = this.collectionScheme;
+    final compression = this.compression;
+    final creationTime = this.creationTime;
+    final dataDestinationConfigs = this.dataDestinationConfigs;
+    final dataExtraDimensions = this.dataExtraDimensions;
+    final dataPartitions = this.dataPartitions;
+    final description = this.description;
+    final diagnosticsMode = this.diagnosticsMode;
+    final expiryTime = this.expiryTime;
+    final lastModificationTime = this.lastModificationTime;
+    final name = this.name;
+    final postTriggerCollectionDuration = this.postTriggerCollectionDuration;
+    final priority = this.priority;
+    final signalCatalogArn = this.signalCatalogArn;
+    final signalsToCollect = this.signalsToCollect;
+    final signalsToFetch = this.signalsToFetch;
+    final spoolingMode = this.spoolingMode;
+    final startTime = this.startTime;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    return {
+      if (arn != null) 'arn': arn,
+      if (collectionScheme != null) 'collectionScheme': collectionScheme,
+      if (compression != null) 'compression': compression.value,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (dataDestinationConfigs != null)
+        'dataDestinationConfigs': dataDestinationConfigs,
+      if (dataExtraDimensions != null)
+        'dataExtraDimensions': dataExtraDimensions,
+      if (dataPartitions != null) 'dataPartitions': dataPartitions,
+      if (description != null) 'description': description,
+      if (diagnosticsMode != null) 'diagnosticsMode': diagnosticsMode.value,
+      if (expiryTime != null) 'expiryTime': unixTimestampToJson(expiryTime),
+      if (lastModificationTime != null)
+        'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (name != null) 'name': name,
+      if (postTriggerCollectionDuration != null)
+        'postTriggerCollectionDuration': postTriggerCollectionDuration,
+      if (priority != null) 'priority': priority,
+      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
+      if (signalsToCollect != null) 'signalsToCollect': signalsToCollect,
+      if (signalsToFetch != null) 'signalsToFetch': signalsToFetch,
+      if (spoolingMode != null) 'spoolingMode': spoolingMode.value,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.value,
+      if (targetArn != null) 'targetArn': targetArn,
+    };
+  }
+}
+
+class UpdateCampaignResponse {
+  /// The Amazon Resource Name (ARN) of the campaign.
+  final String? arn;
+
+  /// The name of the updated campaign.
+  final String? name;
+
+  /// The state of a campaign. The status can be one of:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - Amazon Web Services IoT FleetWise is processing your
+  /// request to create the campaign.
+  /// </li>
+  /// <li>
+  /// <code>WAITING_FOR_APPROVAL</code> - After you create a campaign, it enters
+  /// this state. Use the API operation to approve the campaign for deployment to
+  /// the target vehicle or fleet.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> - The campaign is active.
+  /// </li>
+  /// <li>
+  /// <code>SUSPENDED</code> - The campaign is suspended. To resume the campaign,
+  /// use the API operation.
+  /// </li>
+  /// </ul>
+  final CampaignStatus? status;
+
+  UpdateCampaignResponse({
+    this.arn,
+    this.name,
+    this.status,
+  });
+
+  factory UpdateCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateCampaignResponse(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(CampaignStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class DeleteCampaignResponse {
+  /// The Amazon Resource Name (ARN) of the deleted campaign.
+  /// <note>
+  /// The ARN isn’t returned if a campaign doesn’t exist.
+  /// </note>
+  final String? arn;
+
+  /// The name of the deleted campaign.
+  final String? name;
+
+  DeleteCampaignResponse({
+    this.arn,
+    this.name,
+  });
+
+  factory DeleteCampaignResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteCampaignResponse(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class ListCampaignsResponse {
+  /// A summary of information about each campaign.
+  final List<CampaignSummary>? campaignSummaries;
+
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  ListCampaignsResponse({
+    this.campaignSummaries,
+    this.nextToken,
+  });
+
+  factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCampaignsResponse(
+      campaignSummaries: (json['campaignSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaignSummaries = this.campaignSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (campaignSummaries != null) 'campaignSummaries': campaignSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class CreateDecoderManifestResponse {
+  /// The ARN of the created decoder manifest.
+  final String arn;
+
+  /// The name of the created decoder manifest.
+  final String name;
+
+  CreateDecoderManifestResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory CreateDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDecoderManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class GetDecoderManifestResponse {
+  /// The Amazon Resource Name (ARN) of the decoder manifest.
+  final String arn;
+
+  /// The time the decoder manifest was created in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime creationTime;
+
+  /// The time the decoder manifest was last updated in seconds since epoch
+  /// (January 1, 1970 at midnight UTC time).
+  final DateTime lastModificationTime;
+
+  /// The name of the decoder manifest.
+  final String name;
+
+  /// A brief description of the decoder manifest.
+  final String? description;
+
+  /// The detailed message for the decoder manifest. When a decoder manifest is in
+  /// an <code>INVALID</code> status, the message contains detailed reason and
+  /// help information.
+  final String? message;
+
+  /// The ARN of a vehicle model (model manifest) associated with the decoder
+  /// manifest.
+  final String? modelManifestArn;
+
+  /// The state of the decoder manifest. If the status is <code>ACTIVE</code>, the
+  /// decoder manifest can't be edited. If the status is marked
+  /// <code>DRAFT</code>, you can edit the decoder manifest.
+  final ManifestStatus? status;
+
+  GetDecoderManifestResponse({
+    required this.arn,
+    required this.creationTime,
+    required this.lastModificationTime,
+    required this.name,
+    this.description,
+    this.message,
+    this.modelManifestArn,
+    this.status,
+  });
+
+  factory GetDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
+    return GetDecoderManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+      message: json['message'] as String?,
+      modelManifestArn: json['modelManifestArn'] as String?,
+      status: (json['status'] as String?)?.let(ManifestStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final name = this.name;
+    final description = this.description;
+    final message = this.message;
+    final modelManifestArn = this.modelManifestArn;
+    final status = this.status;
+    return {
+      'arn': arn,
+      'creationTime': unixTimestampToJson(creationTime),
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      'name': name,
+      if (description != null) 'description': description,
+      if (message != null) 'message': message,
+      if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class UpdateDecoderManifestResponse {
+  /// The Amazon Resource Name (ARN) of the updated decoder manifest.
+  final String arn;
+
+  /// The name of the updated decoder manifest.
+  final String name;
+
+  UpdateDecoderManifestResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory UpdateDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDecoderManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class DeleteDecoderManifestResponse {
+  /// The Amazon Resource Name (ARN) of the deleted decoder manifest.
+  final String arn;
+
+  /// The name of the deleted decoder manifest.
+  final String name;
+
+  DeleteDecoderManifestResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory DeleteDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDecoderManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class ListDecoderManifestsResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// A list of information about each decoder manifest.
+  final List<DecoderManifestSummary>? summaries;
+
+  ListDecoderManifestsResponse({
+    this.nextToken,
+    this.summaries,
+  });
+
+  factory ListDecoderManifestsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDecoderManifestsResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => DecoderManifestSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
+}
+
+class ImportDecoderManifestResponse {
+  /// The Amazon Resource Name (ARN) of the decoder manifest that was imported.
+  final String arn;
+
+  /// The name of the imported decoder manifest.
+  final String name;
+
+  ImportDecoderManifestResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory ImportDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
+    return ImportDecoderManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class ListDecoderManifestNetworkInterfacesResponse {
+  /// A list of information about network interfaces.
+  final List<NetworkInterface>? networkInterfaces;
+
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  ListDecoderManifestNetworkInterfacesResponse({
+    this.networkInterfaces,
+    this.nextToken,
+  });
+
+  factory ListDecoderManifestNetworkInterfacesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDecoderManifestNetworkInterfacesResponse(
+      networkInterfaces: (json['networkInterfaces'] as List?)
+          ?.nonNulls
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInterfaces = this.networkInterfaces;
+    final nextToken = this.nextToken;
+    return {
+      if (networkInterfaces != null) 'networkInterfaces': networkInterfaces,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListDecoderManifestSignalsResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// Information about a list of signals to decode.
+  final List<SignalDecoder>? signalDecoders;
+
+  ListDecoderManifestSignalsResponse({
+    this.nextToken,
+    this.signalDecoders,
+  });
+
+  factory ListDecoderManifestSignalsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListDecoderManifestSignalsResponse(
+      nextToken: json['nextToken'] as String?,
+      signalDecoders: (json['signalDecoders'] as List?)
+          ?.nonNulls
+          .map((e) => SignalDecoder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final signalDecoders = this.signalDecoders;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (signalDecoders != null) 'signalDecoders': signalDecoders,
+    };
+  }
+}
+
+class CreateFleetResponse {
+  /// The ARN of the created fleet.
+  final String arn;
+
+  /// The ID of the created fleet.
+  final String id;
+
+  CreateFleetResponse({
+    required this.arn,
+    required this.id,
+  });
+
+  factory CreateFleetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFleetResponse(
+      arn: (json['arn'] as String?) ?? '',
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      'arn': arn,
+      'id': id,
+    };
+  }
+}
+
+class GetFleetResponse {
+  /// The Amazon Resource Name (ARN) of the fleet.
+  final String arn;
+
+  /// The time the fleet was created in seconds since epoch (January 1, 1970 at
+  /// midnight UTC time).
+  final DateTime creationTime;
+
+  /// The ID of the fleet.
+  final String id;
+
+  /// The time the fleet was last updated, in seconds since epoch (January 1, 1970
+  /// at midnight UTC time).
+  final DateTime lastModificationTime;
+
+  /// The ARN of a signal catalog associated with the fleet.
+  final String signalCatalogArn;
+
+  /// A brief description of the fleet.
+  final String? description;
+
+  GetFleetResponse({
+    required this.arn,
+    required this.creationTime,
+    required this.id,
+    required this.lastModificationTime,
+    required this.signalCatalogArn,
+    this.description,
+  });
+
+  factory GetFleetResponse.fromJson(Map<String, dynamic> json) {
+    return GetFleetResponse(
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      signalCatalogArn: (json['signalCatalogArn'] as String?) ?? '',
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final lastModificationTime = this.lastModificationTime;
+    final signalCatalogArn = this.signalCatalogArn;
+    final description = this.description;
+    return {
+      'arn': arn,
+      'creationTime': unixTimestampToJson(creationTime),
+      'id': id,
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      'signalCatalogArn': signalCatalogArn,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+class UpdateFleetResponse {
+  /// The Amazon Resource Name (ARN) of the updated fleet.
+  final String? arn;
+
+  /// The ID of the updated fleet.
+  final String? id;
+
+  UpdateFleetResponse({
+    this.arn,
+    this.id,
+  });
+
+  factory UpdateFleetResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFleetResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+class DeleteFleetResponse {
+  /// The Amazon Resource Name (ARN) of the deleted fleet.
+  final String? arn;
+
+  /// The ID of the deleted fleet.
+  final String? id;
+
+  DeleteFleetResponse({
+    this.arn,
+    this.id,
+  });
+
+  factory DeleteFleetResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFleetResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+class ListFleetsResponse {
+  /// A list of information for each fleet.
+  final List<FleetSummary>? fleetSummaries;
+
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  ListFleetsResponse({
+    this.fleetSummaries,
+    this.nextToken,
+  });
+
+  factory ListFleetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFleetsResponse(
+      fleetSummaries: (json['fleetSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => FleetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleetSummaries = this.fleetSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (fleetSummaries != null) 'fleetSummaries': fleetSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListVehiclesInFleetResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// A list of vehicles associated with the fleet.
+  final List<String>? vehicles;
+
+  ListVehiclesInFleetResponse({
+    this.nextToken,
+    this.vehicles,
+  });
+
+  factory ListVehiclesInFleetResponse.fromJson(Map<String, dynamic> json) {
+    return ListVehiclesInFleetResponse(
+      nextToken: json['nextToken'] as String?,
+      vehicles: (json['vehicles'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final vehicles = this.vehicles;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (vehicles != null) 'vehicles': vehicles,
+    };
+  }
+}
+
+class CreateModelManifestResponse {
+  /// The ARN of the created vehicle model.
+  final String arn;
+
+  /// The name of the created vehicle model.
+  final String name;
+
+  CreateModelManifestResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory CreateModelManifestResponse.fromJson(Map<String, dynamic> json) {
+    return CreateModelManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class GetModelManifestResponse {
+  /// The Amazon Resource Name (ARN) of the vehicle model.
+  final String arn;
+
+  /// The time the vehicle model was created, in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime creationTime;
+
+  /// The last time the vehicle model was modified.
+  final DateTime lastModificationTime;
+
+  /// The name of the vehicle model.
+  final String name;
+
+  /// A brief description of the vehicle model.
+  final String? description;
+
+  /// The ARN of the signal catalog associated with the vehicle model.
+  final String? signalCatalogArn;
+
+  /// The state of the vehicle model. If the status is <code>ACTIVE</code>, the
+  /// vehicle model can't be edited. You can edit the vehicle model if the status
+  /// is marked <code>DRAFT</code>.
+  final ManifestStatus? status;
+
+  GetModelManifestResponse({
+    required this.arn,
+    required this.creationTime,
+    required this.lastModificationTime,
+    required this.name,
+    this.description,
+    this.signalCatalogArn,
+    this.status,
+  });
+
+  factory GetModelManifestResponse.fromJson(Map<String, dynamic> json) {
+    return GetModelManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+      signalCatalogArn: json['signalCatalogArn'] as String?,
+      status: (json['status'] as String?)?.let(ManifestStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final name = this.name;
+    final description = this.description;
+    final signalCatalogArn = this.signalCatalogArn;
+    final status = this.status;
+    return {
+      'arn': arn,
+      'creationTime': unixTimestampToJson(creationTime),
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      'name': name,
+      if (description != null) 'description': description,
+      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class UpdateModelManifestResponse {
+  /// The Amazon Resource Name (ARN) of the updated vehicle model.
+  final String arn;
+
+  /// The name of the updated vehicle model.
+  final String name;
+
+  UpdateModelManifestResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory UpdateModelManifestResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateModelManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class DeleteModelManifestResponse {
+  /// The Amazon Resource Name (ARN) of the deleted model manifest.
+  final String arn;
+
+  /// The name of the deleted model manifest.
+  final String name;
+
+  DeleteModelManifestResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory DeleteModelManifestResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteModelManifestResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class ListModelManifestsResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// A list of information about vehicle models.
+  final List<ModelManifestSummary>? summaries;
+
+  ListModelManifestsResponse({
+    this.nextToken,
+    this.summaries,
+  });
+
+  factory ListModelManifestsResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelManifestsResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.nonNulls
+          .map((e) => ModelManifestSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
+}
+
+class ListModelManifestNodesResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// A list of information about nodes.
+  final List<Node>? nodes;
+
+  ListModelManifestNodesResponse({
+    this.nextToken,
+    this.nodes,
+  });
+
+  factory ListModelManifestNodesResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelManifestNodesResponse(
+      nextToken: json['nextToken'] as String?,
+      nodes: (json['nodes'] as List?)
+          ?.nonNulls
+          .map((e) => Node.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final nodes = this.nodes;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (nodes != null) 'nodes': nodes,
+    };
+  }
+}
+
+class CreateSignalCatalogResponse {
+  /// The ARN of the created signal catalog.
+  final String arn;
+
+  /// The name of the created signal catalog.
+  final String name;
+
+  CreateSignalCatalogResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory CreateSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSignalCatalogResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class GetSignalCatalogResponse {
+  /// The Amazon Resource Name (ARN) of the signal catalog.
+  final String arn;
+
+  /// The time the signal catalog was created in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime creationTime;
+
+  /// The last time the signal catalog was modified.
+  final DateTime lastModificationTime;
+
+  /// The name of the signal catalog.
+  final String name;
+
+  /// A brief description of the signal catalog.
+  final String? description;
+
+  /// The total number of network nodes specified in a signal catalog.
+  final NodeCounts? nodeCounts;
+
+  GetSignalCatalogResponse({
+    required this.arn,
+    required this.creationTime,
+    required this.lastModificationTime,
+    required this.name,
+    this.description,
+    this.nodeCounts,
+  });
+
+  factory GetSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
+    return GetSignalCatalogResponse(
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      name: (json['name'] as String?) ?? '',
+      description: json['description'] as String?,
+      nodeCounts: json['nodeCounts'] != null
+          ? NodeCounts.fromJson(json['nodeCounts'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final name = this.name;
+    final description = this.description;
+    final nodeCounts = this.nodeCounts;
+    return {
+      'arn': arn,
+      'creationTime': unixTimestampToJson(creationTime),
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      'name': name,
+      if (description != null) 'description': description,
+      if (nodeCounts != null) 'nodeCounts': nodeCounts,
+    };
+  }
+}
+
+class UpdateSignalCatalogResponse {
+  /// The ARN of the updated signal catalog.
+  final String arn;
+
+  /// The name of the updated signal catalog.
+  final String name;
+
+  UpdateSignalCatalogResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory UpdateSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSignalCatalogResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class DeleteSignalCatalogResponse {
+  /// The Amazon Resource Name (ARN) of the deleted signal catalog.
+  final String arn;
+
+  /// The name of the deleted signal catalog.
+  final String name;
+
+  DeleteSignalCatalogResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory DeleteSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSignalCatalogResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class ListSignalCatalogsResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// A list of information about each signal catalog.
+  final List<SignalCatalogSummary>? summaries;
+
+  ListSignalCatalogsResponse({
+    this.nextToken,
+    this.summaries,
+  });
+
+  factory ListSignalCatalogsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSignalCatalogsResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.nonNulls
+          .map((e) => SignalCatalogSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
+}
+
+class ImportSignalCatalogResponse {
+  /// The Amazon Resource Name (ARN) of the imported signal catalog.
+  final String arn;
+
+  /// The name of the imported signal catalog.
+  final String name;
+
+  ImportSignalCatalogResponse({
+    required this.arn,
+    required this.name,
+  });
+
+  factory ImportSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
+    return ImportSignalCatalogResponse(
+      arn: (json['arn'] as String?) ?? '',
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
+}
+
+class ListSignalCatalogNodesResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// A list of information about nodes.
+  final List<Node>? nodes;
+
+  ListSignalCatalogNodesResponse({
+    this.nextToken,
+    this.nodes,
+  });
+
+  factory ListSignalCatalogNodesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSignalCatalogNodesResponse(
+      nextToken: json['nextToken'] as String?,
+      nodes: (json['nodes'] as List?)
+          ?.nonNulls
+          .map((e) => Node.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final nodes = this.nodes;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (nodes != null) 'nodes': nodes,
+    };
+  }
+}
+
+class CreateStateTemplateResponse {
+  /// The Amazon Resource Name (ARN) of the state template.
+  final String? arn;
+
+  /// The unique ID of the state template.
+  final String? id;
+
+  /// The name of the state template.
+  final String? name;
+
+  CreateStateTemplateResponse({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory CreateStateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateStateTemplateResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class GetStateTemplateResponse {
+  /// The Amazon Resource Name (ARN) of the state template.
+  final String? arn;
+
+  /// The time the state template was created in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime? creationTime;
+
+  /// A list of vehicle attributes associated with the payload published on the
+  /// state template's MQTT topic.
+  ///
+  /// Default: An empty array
+  final List<String>? dataExtraDimensions;
+
+  /// A brief description of the state template.
+  final String? description;
+
+  /// The unique ID of the state template.
+  final String? id;
+
+  /// The time the state template was last updated in seconds since epoch (January
+  /// 1, 1970 at midnight UTC time).
+  final DateTime? lastModificationTime;
+
+  /// A list of vehicle attributes to associate with user properties of the
+  /// messages published on the state template's MQTT topic.
+  ///
+  /// Default: An empty array
+  final List<String>? metadataExtraDimensions;
+
+  /// The name of the state template.
+  final String? name;
+
+  /// The ARN of the signal catalog associated with the state template.
+  final String? signalCatalogArn;
+
+  /// A list of signals from which data is collected. The state template
+  /// properties contain the fully qualified names of the signals.
+  final List<String>? stateTemplateProperties;
+
+  GetStateTemplateResponse({
+    this.arn,
+    this.creationTime,
+    this.dataExtraDimensions,
+    this.description,
+    this.id,
+    this.lastModificationTime,
+    this.metadataExtraDimensions,
+    this.name,
+    this.signalCatalogArn,
+    this.stateTemplateProperties,
+  });
+
+  factory GetStateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return GetStateTemplateResponse(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      dataExtraDimensions: (json['dataExtraDimensions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
+      metadataExtraDimensions: (json['metadataExtraDimensions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String?,
+      signalCatalogArn: json['signalCatalogArn'] as String?,
+      stateTemplateProperties: (json['stateTemplateProperties'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final dataExtraDimensions = this.dataExtraDimensions;
+    final description = this.description;
+    final id = this.id;
+    final lastModificationTime = this.lastModificationTime;
+    final metadataExtraDimensions = this.metadataExtraDimensions;
+    final name = this.name;
+    final signalCatalogArn = this.signalCatalogArn;
+    final stateTemplateProperties = this.stateTemplateProperties;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (dataExtraDimensions != null)
+        'dataExtraDimensions': dataExtraDimensions,
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastModificationTime != null)
+        'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (metadataExtraDimensions != null)
+        'metadataExtraDimensions': metadataExtraDimensions,
+      if (name != null) 'name': name,
+      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
+      if (stateTemplateProperties != null)
+        'stateTemplateProperties': stateTemplateProperties,
+    };
+  }
+}
+
+class UpdateStateTemplateResponse {
+  /// The Amazon Resource Name (ARN) of the state template.
+  final String? arn;
+
+  /// The unique ID of the state template.
+  final String? id;
+
+  /// The name of the state template.
+  final String? name;
+
+  UpdateStateTemplateResponse({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory UpdateStateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateStateTemplateResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class DeleteStateTemplateResponse {
+  /// The Amazon Resource Name (ARN) of the state template.
+  final String? arn;
+
+  /// The unique ID of the state template.
+  final String? id;
+
+  /// The name of the state template.
+  final String? name;
+
+  DeleteStateTemplateResponse({
+    this.arn,
+    this.id,
+    this.name,
+  });
+
+  factory DeleteStateTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteStateTemplateResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+class ListStateTemplatesResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// A list of information about each state template.
+  final List<StateTemplateSummary>? summaries;
+
+  ListStateTemplatesResponse({
+    this.nextToken,
+    this.summaries,
+  });
+
+  factory ListStateTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListStateTemplatesResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.nonNulls
+          .map((e) => StateTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
+}
+
+class CreateVehicleResponse {
+  /// The ARN of the created vehicle.
+  final String? arn;
+
+  /// The ARN of a created or validated Amazon Web Services IoT thing.
+  final String? thingArn;
+
+  /// The unique ID of the created vehicle.
+  final String? vehicleName;
+
+  CreateVehicleResponse({
+    this.arn,
+    this.thingArn,
+    this.vehicleName,
+  });
+
+  factory CreateVehicleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVehicleResponse(
+      arn: json['arn'] as String?,
+      thingArn: json['thingArn'] as String?,
+      vehicleName: json['vehicleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final thingArn = this.thingArn;
+    final vehicleName = this.vehicleName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (vehicleName != null) 'vehicleName': vehicleName,
+    };
+  }
+}
+
+class GetVehicleResponse {
+  /// The Amazon Resource Name (ARN) of the vehicle to retrieve information about.
+  final String? arn;
+
+  /// Static information about a vehicle in a key-value pair. For example:
+  ///
+  /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
+  final Map<String, String>? attributes;
+
+  /// The time the vehicle was created in seconds since epoch (January 1, 1970 at
+  /// midnight UTC time).
+  final DateTime? creationTime;
+
+  /// The ARN of a decoder manifest associated with the vehicle.
+  final String? decoderManifestArn;
+
+  /// The time the vehicle was last updated in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime? lastModificationTime;
+
+  /// The ARN of a vehicle model (model manifest) associated with the vehicle.
+  final String? modelManifestArn;
+
+  /// State templates associated with the vehicle.
+  final List<StateTemplateAssociation>? stateTemplates;
+
+  /// The ID of the vehicle.
+  final String? vehicleName;
+
+  GetVehicleResponse({
+    this.arn,
+    this.attributes,
+    this.creationTime,
+    this.decoderManifestArn,
+    this.lastModificationTime,
+    this.modelManifestArn,
+    this.stateTemplates,
+    this.vehicleName,
+  });
+
+  factory GetVehicleResponse.fromJson(Map<String, dynamic> json) {
+    return GetVehicleResponse(
+      arn: json['arn'] as String?,
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      creationTime: timeStampFromJson(json['creationTime']),
+      decoderManifestArn: json['decoderManifestArn'] as String?,
+      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
+      modelManifestArn: json['modelManifestArn'] as String?,
+      stateTemplates: (json['stateTemplates'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              StateTemplateAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vehicleName: json['vehicleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attributes = this.attributes;
+    final creationTime = this.creationTime;
+    final decoderManifestArn = this.decoderManifestArn;
+    final lastModificationTime = this.lastModificationTime;
+    final modelManifestArn = this.modelManifestArn;
+    final stateTemplates = this.stateTemplates;
+    final vehicleName = this.vehicleName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (attributes != null) 'attributes': attributes,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (decoderManifestArn != null) 'decoderManifestArn': decoderManifestArn,
+      if (lastModificationTime != null)
+        'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
+      if (stateTemplates != null) 'stateTemplates': stateTemplates,
+      if (vehicleName != null) 'vehicleName': vehicleName,
+    };
+  }
+}
+
+class UpdateVehicleResponse {
+  /// The ARN of the updated vehicle.
+  final String? arn;
+
+  /// The ID of the updated vehicle.
+  final String? vehicleName;
+
+  UpdateVehicleResponse({
+    this.arn,
+    this.vehicleName,
+  });
+
+  factory UpdateVehicleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVehicleResponse(
+      arn: json['arn'] as String?,
+      vehicleName: json['vehicleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final vehicleName = this.vehicleName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (vehicleName != null) 'vehicleName': vehicleName,
+    };
+  }
+}
+
+class DeleteVehicleResponse {
+  /// The Amazon Resource Name (ARN) of the deleted vehicle.
+  final String arn;
+
+  /// The ID of the deleted vehicle.
+  final String vehicleName;
+
+  DeleteVehicleResponse({
+    required this.arn,
+    required this.vehicleName,
+  });
+
+  factory DeleteVehicleResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteVehicleResponse(
+      arn: (json['arn'] as String?) ?? '',
+      vehicleName: (json['vehicleName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final vehicleName = this.vehicleName;
+    return {
+      'arn': arn,
+      'vehicleName': vehicleName,
+    };
+  }
+}
+
+class ListVehiclesResponse {
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  /// A list of vehicles and information about them.
+  final List<VehicleSummary>? vehicleSummaries;
+
+  ListVehiclesResponse({
+    this.nextToken,
+    this.vehicleSummaries,
+  });
+
+  factory ListVehiclesResponse.fromJson(Map<String, dynamic> json) {
+    return ListVehiclesResponse(
+      nextToken: json['nextToken'] as String?,
+      vehicleSummaries: (json['vehicleSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => VehicleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final vehicleSummaries = this.vehicleSummaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (vehicleSummaries != null) 'vehicleSummaries': vehicleSummaries,
+    };
+  }
+}
+
+class AssociateVehicleFleetResponse {
+  AssociateVehicleFleetResponse();
+
+  factory AssociateVehicleFleetResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateVehicleFleetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DisassociateVehicleFleetResponse {
+  DisassociateVehicleFleetResponse();
+
+  factory DisassociateVehicleFleetResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateVehicleFleetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class ListFleetsForVehicleResponse {
+  /// A list of fleet IDs that the vehicle is associated with.
+  final List<String>? fleets;
+
+  /// The token to retrieve the next set of results, or <code>null</code> if there
+  /// are no more results.
+  final String? nextToken;
+
+  ListFleetsForVehicleResponse({
+    this.fleets,
+    this.nextToken,
+  });
+
+  factory ListFleetsForVehicleResponse.fromJson(Map<String, dynamic> json) {
+    return ListFleetsForVehicleResponse(
+      fleets:
+          (json['fleets'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fleets = this.fleets;
+    final nextToken = this.nextToken;
+    return {
+      if (fleets != null) 'fleets': fleets,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+/// Information about a vehicle.
+///
+/// To return this information about vehicles in your account, you can use the
+/// API operation.
+class VehicleSummary {
+  /// The Amazon Resource Name (ARN) of the vehicle.
+  final String arn;
+
+  /// The time the vehicle was created in seconds since epoch (January 1, 1970 at
+  /// midnight UTC time).
+  final DateTime creationTime;
+
+  /// The ARN of a decoder manifest associated with the vehicle.
+  final String decoderManifestArn;
+
+  /// The time the vehicle was last updated in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime lastModificationTime;
+
+  /// The ARN of a vehicle model (model manifest) associated with the vehicle.
+  final String modelManifestArn;
+
+  /// The unique ID of the vehicle.
+  final String vehicleName;
+
+  /// Static information about a vehicle in a key-value pair. For example:
+  ///
+  /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
+  final Map<String, String>? attributes;
+
+  VehicleSummary({
+    required this.arn,
+    required this.creationTime,
+    required this.decoderManifestArn,
+    required this.lastModificationTime,
+    required this.modelManifestArn,
+    required this.vehicleName,
+    this.attributes,
+  });
+
+  factory VehicleSummary.fromJson(Map<String, dynamic> json) {
+    return VehicleSummary(
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      decoderManifestArn: (json['decoderManifestArn'] as String?) ?? '',
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      modelManifestArn: (json['modelManifestArn'] as String?) ?? '',
+      vehicleName: (json['vehicleName'] as String?) ?? '',
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final decoderManifestArn = this.decoderManifestArn;
+    final lastModificationTime = this.lastModificationTime;
+    final modelManifestArn = this.modelManifestArn;
+    final vehicleName = this.vehicleName;
+    final attributes = this.attributes;
+    return {
+      'arn': arn,
+      'creationTime': unixTimestampToJson(creationTime),
+      'decoderManifestArn': decoderManifestArn,
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      'modelManifestArn': modelManifestArn,
+      'vehicleName': vehicleName,
+      if (attributes != null) 'attributes': attributes,
+    };
+  }
+}
+
+class ListResponseScope {
+  static const metadataOnly = ListResponseScope._('METADATA_ONLY');
+
+  final String value;
+
+  const ListResponseScope._(this.value);
+
+  static const values = [metadataOnly];
+
+  static ListResponseScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListResponseScope._(value));
+
+  @override
+  bool operator ==(other) => other is ListResponseScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UpdateMode {
+  static const overwrite = UpdateMode._('Overwrite');
+  static const merge = UpdateMode._('Merge');
+
+  final String value;
+
+  const UpdateMode._(this.value);
+
+  static const values = [overwrite, merge];
+
+  static UpdateMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => UpdateMode._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The state template associated with a vehicle. State templates contain state
+/// properties, which are signals that belong to a signal catalog that is
+/// synchronized between the Amazon Web Services IoT FleetWise Edge and the
+/// Amazon Web Services Cloud.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class StateTemplateAssociation {
+  /// The unique ID of the state template.
+  final String identifier;
+  final StateTemplateUpdateStrategy stateTemplateUpdateStrategy;
+
+  StateTemplateAssociation({
+    required this.identifier,
+    required this.stateTemplateUpdateStrategy,
+  });
+
+  factory StateTemplateAssociation.fromJson(Map<String, dynamic> json) {
+    return StateTemplateAssociation(
+      identifier: (json['identifier'] as String?) ?? '',
+      stateTemplateUpdateStrategy: StateTemplateUpdateStrategy.fromJson(
+          (json['stateTemplateUpdateStrategy'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final stateTemplateUpdateStrategy = this.stateTemplateUpdateStrategy;
+    return {
+      'identifier': identifier,
+      'stateTemplateUpdateStrategy': stateTemplateUpdateStrategy,
+    };
+  }
+}
+
+/// The update strategy for the state template. Vehicles associated with the
+/// state template can stream telemetry data with either an
+/// <code>onChange</code> or <code>periodic</code> update strategy.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class StateTemplateUpdateStrategy {
+  final OnChangeStateTemplateUpdateStrategy? onChange;
+  final PeriodicStateTemplateUpdateStrategy? periodic;
+
+  StateTemplateUpdateStrategy({
+    this.onChange,
+    this.periodic,
+  });
+
+  factory StateTemplateUpdateStrategy.fromJson(Map<String, dynamic> json) {
+    return StateTemplateUpdateStrategy(
+      onChange: json['onChange'] != null
+          ? OnChangeStateTemplateUpdateStrategy.fromJson(
+              json['onChange'] as Map<String, dynamic>)
+          : null,
+      periodic: json['periodic'] != null
+          ? PeriodicStateTemplateUpdateStrategy.fromJson(
+              json['periodic'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onChange = this.onChange;
+    final periodic = this.periodic;
+    return {
+      if (onChange != null) 'onChange': onChange,
+      if (periodic != null) 'periodic': periodic,
+    };
+  }
+}
+
+/// Vehicles associated with the state template will stream telemetry data
+/// during a specified time period.
+class PeriodicStateTemplateUpdateStrategy {
+  final TimePeriod stateTemplateUpdateRate;
+
+  PeriodicStateTemplateUpdateStrategy({
+    required this.stateTemplateUpdateRate,
+  });
+
+  factory PeriodicStateTemplateUpdateStrategy.fromJson(
+      Map<String, dynamic> json) {
+    return PeriodicStateTemplateUpdateStrategy(
+      stateTemplateUpdateRate: TimePeriod.fromJson(
+          (json['stateTemplateUpdateRate'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stateTemplateUpdateRate = this.stateTemplateUpdateRate;
+    return {
+      'stateTemplateUpdateRate': stateTemplateUpdateRate,
+    };
+  }
+}
+
+/// Vehicles associated with the state template will stream telemetry data when
+/// there is a change.
+class OnChangeStateTemplateUpdateStrategy {
+  OnChangeStateTemplateUpdateStrategy();
+
+  factory OnChangeStateTemplateUpdateStrategy.fromJson(Map<String, dynamic> _) {
+    return OnChangeStateTemplateUpdateStrategy();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// The length of time between state template updates.
+class TimePeriod {
+  /// A unit of time.
+  final TimeUnit unit;
+
+  /// A number of time units.
+  final int value;
+
+  TimePeriod({
+    required this.unit,
+    required this.value,
+  });
+
+  factory TimePeriod.fromJson(Map<String, dynamic> json) {
+    return TimePeriod(
+      unit: TimeUnit.fromString((json['unit'] as String?) ?? ''),
+      value: (json['value'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'unit': unit.value,
+      'value': value,
+    };
+  }
+}
+
+class TimeUnit {
+  static const millisecond = TimeUnit._('MILLISECOND');
+  static const second = TimeUnit._('SECOND');
+  static const minute = TimeUnit._('MINUTE');
+  static const hour = TimeUnit._('HOUR');
+
+  final String value;
+
+  const TimeUnit._(this.value);
+
+  static const values = [millisecond, second, minute, hour];
+
+  static TimeUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TimeUnit._(value));
+
+  @override
+  bool operator ==(other) => other is TimeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class VehicleAssociationBehavior {
+  static const createIotThing = VehicleAssociationBehavior._('CreateIotThing');
+  static const validateIotThingExists =
+      VehicleAssociationBehavior._('ValidateIotThingExists');
+
+  final String value;
+
+  const VehicleAssociationBehavior._(this.value);
+
+  static const values = [createIotThing, validateIotThingExists];
+
+  static VehicleAssociationBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VehicleAssociationBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VehicleAssociationBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A set of key/value pairs that are used to manage the resource.
+class Tag {
+  /// The tag's key.
+  final String key;
+
+  /// The tag's value.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Information about a state template.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class StateTemplateSummary {
+  /// The Amazon Resource Name (ARN) of the state template.
+  final String? arn;
+
+  /// The time the state template was created, in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime? creationTime;
+
+  /// A brief description of the state template.
+  final String? description;
+
+  /// The unique ID of the state template.
+  final String? id;
+
+  /// The time the state template was last updated, in seconds since epoch
+  /// (January 1, 1970 at midnight UTC time).
+  final DateTime? lastModificationTime;
+
+  /// The name of the state template.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the signal catalog associated with the
+  /// state template.
+  final String? signalCatalogArn;
+
+  StateTemplateSummary({
+    this.arn,
+    this.creationTime,
+    this.description,
+    this.id,
+    this.lastModificationTime,
+    this.name,
+    this.signalCatalogArn,
+  });
+
+  factory StateTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return StateTemplateSummary(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      id: json['id'] as String?,
+      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
+      name: json['name'] as String?,
+      signalCatalogArn: json['signalCatalogArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final id = this.id;
+    final lastModificationTime = this.lastModificationTime;
+    final name = this.name;
+    final signalCatalogArn = this.signalCatalogArn;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'description': description,
+      if (id != null) 'id': id,
+      if (lastModificationTime != null)
+        'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (name != null) 'name': name,
+      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
+    };
+  }
+}
+
+/// A general abstraction of a signal. A node can be specified as an actuator,
+/// attribute, branch, or sensor.
+class Node {
+  /// Information about a node specified as an actuator.
+  /// <note>
+  /// An actuator is a digital representation of a vehicle device.
+  /// </note>
+  final Actuator? actuator;
+
+  /// Information about a node specified as an attribute.
+  /// <note>
+  /// An attribute represents static information about a vehicle.
+  /// </note>
+  final Attribute? attribute;
+
+  /// Information about a node specified as a branch.
+  /// <note>
+  /// A group of signals that are defined in a hierarchical structure.
+  /// </note>
+  final Branch? branch;
+
+  /// Represents a member of the complex data structure. The <code>datatype</code>
+  /// of the property can be either primitive or another <code>struct</code>.
+  final CustomProperty? property;
+  final Sensor? sensor;
+
+  /// Represents a complex or higher-order data structure.
+  final CustomStruct? struct;
+
+  Node({
+    this.actuator,
+    this.attribute,
+    this.branch,
+    this.property,
+    this.sensor,
+    this.struct,
+  });
+
+  factory Node.fromJson(Map<String, dynamic> json) {
+    return Node(
+      actuator: json['actuator'] != null
+          ? Actuator.fromJson(json['actuator'] as Map<String, dynamic>)
+          : null,
+      attribute: json['attribute'] != null
+          ? Attribute.fromJson(json['attribute'] as Map<String, dynamic>)
+          : null,
+      branch: json['branch'] != null
+          ? Branch.fromJson(json['branch'] as Map<String, dynamic>)
+          : null,
+      property: json['property'] != null
+          ? CustomProperty.fromJson(json['property'] as Map<String, dynamic>)
+          : null,
+      sensor: json['sensor'] != null
+          ? Sensor.fromJson(json['sensor'] as Map<String, dynamic>)
+          : null,
+      struct: json['struct'] != null
+          ? CustomStruct.fromJson(json['struct'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actuator = this.actuator;
+    final attribute = this.attribute;
+    final branch = this.branch;
+    final property = this.property;
+    final sensor = this.sensor;
+    final struct = this.struct;
+    return {
+      if (actuator != null) 'actuator': actuator,
+      if (attribute != null) 'attribute': attribute,
+      if (branch != null) 'branch': branch,
+      if (property != null) 'property': property,
+      if (sensor != null) 'sensor': sensor,
+      if (struct != null) 'struct': struct,
+    };
+  }
+}
+
+/// A group of signals that are defined in a hierarchical structure.
+class Branch {
+  /// The fully qualified name of the branch. For example, the fully qualified
+  /// name of a branch might be <code>Vehicle.Body.Engine</code>.
+  final String fullyQualifiedName;
+
+  /// A comment in addition to the description.
+  final String? comment;
+
+  /// The deprecation message for the node or the branch that was moved or
+  /// deleted.
+  final String? deprecationMessage;
+
+  /// A brief description of the branch.
+  final String? description;
+
+  Branch({
+    required this.fullyQualifiedName,
+    this.comment,
+    this.deprecationMessage,
+    this.description,
+  });
+
+  factory Branch.fromJson(Map<String, dynamic> json) {
+    return Branch(
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
+      comment: json['comment'] as String?,
+      deprecationMessage: json['deprecationMessage'] as String?,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fullyQualifiedName = this.fullyQualifiedName;
+    final comment = this.comment;
+    final deprecationMessage = this.deprecationMessage;
+    final description = this.description;
+    return {
+      'fullyQualifiedName': fullyQualifiedName,
+      if (comment != null) 'comment': comment,
+      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
+      if (description != null) 'description': description,
+    };
+  }
+}
+
+/// An input component that reports the environmental condition of a vehicle.
+/// <note>
+/// You can collect data about fluid levels, temperatures, vibrations, or
+/// battery voltage from sensors.
+/// </note>
+class Sensor {
+  /// The specified data type of the sensor.
+  final NodeDataType dataType;
+
+  /// The fully qualified name of the sensor. For example, the fully qualified
+  /// name of a sensor might be <code>Vehicle.Body.Engine.Battery</code>.
+  final String fullyQualifiedName;
+
+  /// A list of possible values a sensor can take.
+  final List<String>? allowedValues;
+
+  /// A comment in addition to the description.
+  final String? comment;
+
+  /// The deprecation message for the node or the branch that was moved or
+  /// deleted.
+  final String? deprecationMessage;
+
+  /// A brief description of a sensor.
+  final String? description;
+
+  /// The specified possible maximum value of the sensor.
+  final double? max;
+
+  /// The specified possible minimum value of the sensor.
+  final double? min;
+
+  /// The fully qualified name of the struct node for a sensor if the data type of
+  /// the actuator is <code>Struct</code> or <code>StructArray</code>. For
+  /// example, the struct fully qualified name of a sensor might be
+  /// <code>Vehicle.ADAS.CameraStruct</code>.
+  final String? structFullyQualifiedName;
+
+  /// The scientific unit of measurement for data collected by the sensor.
+  final String? unit;
+
+  Sensor({
+    required this.dataType,
+    required this.fullyQualifiedName,
+    this.allowedValues,
+    this.comment,
+    this.deprecationMessage,
+    this.description,
+    this.max,
+    this.min,
+    this.structFullyQualifiedName,
+    this.unit,
+  });
+
+  factory Sensor.fromJson(Map<String, dynamic> json) {
+    return Sensor(
+      dataType: NodeDataType.fromString((json['dataType'] as String?) ?? ''),
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
+      allowedValues: (json['allowedValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      comment: json['comment'] as String?,
+      deprecationMessage: json['deprecationMessage'] as String?,
+      description: json['description'] as String?,
+      max: json['max'] as double?,
+      min: json['min'] as double?,
+      structFullyQualifiedName: json['structFullyQualifiedName'] as String?,
+      unit: json['unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final fullyQualifiedName = this.fullyQualifiedName;
+    final allowedValues = this.allowedValues;
+    final comment = this.comment;
+    final deprecationMessage = this.deprecationMessage;
+    final description = this.description;
+    final max = this.max;
+    final min = this.min;
+    final structFullyQualifiedName = this.structFullyQualifiedName;
+    final unit = this.unit;
+    return {
+      'dataType': dataType.value,
+      'fullyQualifiedName': fullyQualifiedName,
+      if (allowedValues != null) 'allowedValues': allowedValues,
+      if (comment != null) 'comment': comment,
+      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
+      if (description != null) 'description': description,
+      if (max != null) 'max': max,
+      if (min != null) 'min': min,
+      if (structFullyQualifiedName != null)
+        'structFullyQualifiedName': structFullyQualifiedName,
+      if (unit != null) 'unit': unit,
+    };
   }
 }
 
@@ -2784,18 +6171,6 @@ class Actuator {
   }
 }
 
-class AssociateVehicleFleetResponse {
-  AssociateVehicleFleetResponse();
-
-  factory AssociateVehicleFleetResponse.fromJson(Map<String, dynamic> _) {
-    return AssociateVehicleFleetResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
 /// A signal that represents static information about the vehicle, such as
 /// engine type or manufacturing date.
 class Attribute {
@@ -2895,88 +6270,11 @@ class Attribute {
   }
 }
 
-class BatchCreateVehicleResponse {
-  /// A list of information about creation errors, or an empty list if there
-  /// aren't any errors.
-  final List<CreateVehicleError>? errors;
-
-  /// A list of information about a batch of created vehicles. For more
-  /// information, see the API data type.
-  final List<CreateVehicleResponseItem>? vehicles;
-
-  BatchCreateVehicleResponse({
-    this.errors,
-    this.vehicles,
-  });
-
-  factory BatchCreateVehicleResponse.fromJson(Map<String, dynamic> json) {
-    return BatchCreateVehicleResponse(
-      errors: (json['errors'] as List?)
-          ?.nonNulls
-          .map((e) => CreateVehicleError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vehicles: (json['vehicles'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              CreateVehicleResponseItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    final vehicles = this.vehicles;
-    return {
-      if (errors != null) 'errors': errors,
-      if (vehicles != null) 'vehicles': vehicles,
-    };
-  }
-}
-
-class BatchUpdateVehicleResponse {
-  /// A list of information about errors returned while updating a batch of
-  /// vehicles, or, if there aren't any errors, an empty list.
-  final List<UpdateVehicleError>? errors;
-
-  /// A list of information about the batch of updated vehicles.
-  /// <note>
-  /// This list contains only unique IDs for the vehicles that were updated.
-  /// </note>
-  final List<UpdateVehicleResponseItem>? vehicles;
-
-  BatchUpdateVehicleResponse({
-    this.errors,
-    this.vehicles,
-  });
-
-  factory BatchUpdateVehicleResponse.fromJson(Map<String, dynamic> json) {
-    return BatchUpdateVehicleResponse(
-      errors: (json['errors'] as List?)
-          ?.nonNulls
-          .map((e) => UpdateVehicleError.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      vehicles: (json['vehicles'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              UpdateVehicleResponseItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errors = this.errors;
-    final vehicles = this.vehicles;
-    return {
-      if (errors != null) 'errors': errors,
-      if (vehicles != null) 'vehicles': vehicles,
-    };
-  }
-}
-
-/// A group of signals that are defined in a hierarchical structure.
-class Branch {
-  /// The fully qualified name of the branch. For example, the fully qualified
-  /// name of a branch might be <code>Vehicle.Body.Engine</code>.
+/// The custom structure represents a complex or higher-order data structure.
+class CustomStruct {
+  /// The fully qualified name of the custom structure. For example, the fully
+  /// qualified name of a custom structure might be
+  /// <code>ComplexDataTypes.VehicleDataTypes.SVMCamera</code>.
   final String fullyQualifiedName;
 
   /// A comment in addition to the description.
@@ -2986,18 +6284,18 @@ class Branch {
   /// deleted.
   final String? deprecationMessage;
 
-  /// A brief description of the branch.
+  /// A brief description of the custom structure.
   final String? description;
 
-  Branch({
+  CustomStruct({
     required this.fullyQualifiedName,
     this.comment,
     this.deprecationMessage,
     this.description,
   });
 
-  factory Branch.fromJson(Map<String, dynamic> json) {
-    return Branch(
+  factory CustomStruct.fromJson(Map<String, dynamic> json) {
+    return CustomStruct(
       fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
       comment: json['comment'] as String?,
       deprecationMessage: json['deprecationMessage'] as String?,
@@ -3015,734 +6313,6 @@ class Branch {
       if (comment != null) 'comment': comment,
       if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
       if (description != null) 'description': description,
-    };
-  }
-}
-
-class CampaignStatus {
-  static const creating = CampaignStatus._('CREATING');
-  static const waitingForApproval = CampaignStatus._('WAITING_FOR_APPROVAL');
-  static const running = CampaignStatus._('RUNNING');
-  static const suspended = CampaignStatus._('SUSPENDED');
-
-  final String value;
-
-  const CampaignStatus._(this.value);
-
-  static const values = [creating, waitingForApproval, running, suspended];
-
-  static CampaignStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CampaignStatus._(value));
-
-  @override
-  bool operator ==(other) => other is CampaignStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a campaign.
-///
-/// You can use the API operation to return this information about multiple
-/// created campaigns.
-class CampaignSummary {
-  /// The time the campaign was created.
-  final DateTime creationTime;
-
-  /// The last time the campaign was modified.
-  final DateTime lastModificationTime;
-
-  /// The Amazon Resource Name (ARN) of a campaign.
-  final String? arn;
-
-  /// The description of the campaign.
-  final String? description;
-
-  /// The name of a campaign.
-  final String? name;
-
-  /// The ARN of the signal catalog associated with the campaign.
-  final String? signalCatalogArn;
-
-  /// The state of a campaign. The status can be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - Amazon Web Services IoT FleetWise is processing your
-  /// request to create the campaign.
-  /// </li>
-  /// <li>
-  /// <code>WAITING_FOR_APPROVAL</code> - After a campaign is created, it enters
-  /// the <code>WAITING_FOR_APPROVAL</code> state. To allow Amazon Web Services
-  /// IoT FleetWise to deploy the campaign to the target vehicle or fleet, use the
-  /// API operation to approve the campaign.
-  /// </li>
-  /// <li>
-  /// <code>RUNNING</code> - The campaign is active.
-  /// </li>
-  /// <li>
-  /// <code>SUSPENDED</code> - The campaign is suspended. To resume the campaign,
-  /// use the API operation.
-  /// </li>
-  /// </ul>
-  final CampaignStatus? status;
-
-  /// The ARN of a vehicle or fleet to which the campaign is deployed.
-  final String? targetArn;
-
-  CampaignSummary({
-    required this.creationTime,
-    required this.lastModificationTime,
-    this.arn,
-    this.description,
-    this.name,
-    this.signalCatalogArn,
-    this.status,
-    this.targetArn,
-  });
-
-  factory CampaignSummary.fromJson(Map<String, dynamic> json) {
-    return CampaignSummary(
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      name: json['name'] as String?,
-      signalCatalogArn: json['signalCatalogArn'] as String?,
-      status: (json['status'] as String?)?.let(CampaignStatus.fromString),
-      targetArn: json['targetArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final lastModificationTime = this.lastModificationTime;
-    final arn = this.arn;
-    final description = this.description;
-    final name = this.name;
-    final signalCatalogArn = this.signalCatalogArn;
-    final status = this.status;
-    final targetArn = this.targetArn;
-    return {
-      'creationTime': unixTimestampToJson(creationTime),
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (name != null) 'name': name,
-      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
-      if (status != null) 'status': status.value,
-      if (targetArn != null) 'targetArn': targetArn,
-    };
-  }
-}
-
-/// Configurations used to create a decoder manifest.
-class CanDbcDefinition {
-  /// A list of DBC files. You can upload only one DBC file for each network
-  /// interface and specify up to five (inclusive) files in the list. The DBC file
-  /// can be a maximum size of 200 MB.
-  final List<Uint8List> canDbcFiles;
-
-  /// Contains information about a network interface.
-  final String networkInterface;
-
-  /// Pairs every signal specified in your vehicle model with a signal decoder.
-  final Map<String, String>? signalsMap;
-
-  CanDbcDefinition({
-    required this.canDbcFiles,
-    required this.networkInterface,
-    this.signalsMap,
-  });
-
-  Map<String, dynamic> toJson() {
-    final canDbcFiles = this.canDbcFiles;
-    final networkInterface = this.networkInterface;
-    final signalsMap = this.signalsMap;
-    return {
-      'canDbcFiles': canDbcFiles.map(base64Encode).toList(),
-      'networkInterface': networkInterface,
-      if (signalsMap != null) 'signalsMap': signalsMap,
-    };
-  }
-}
-
-/// A single controller area network (CAN) device interface.
-class CanInterface {
-  /// The unique name of the interface.
-  final String name;
-
-  /// The name of the communication protocol for the interface.
-  final String? protocolName;
-
-  /// The version of the communication protocol for the interface.
-  final String? protocolVersion;
-
-  CanInterface({
-    required this.name,
-    this.protocolName,
-    this.protocolVersion,
-  });
-
-  factory CanInterface.fromJson(Map<String, dynamic> json) {
-    return CanInterface(
-      name: (json['name'] as String?) ?? '',
-      protocolName: json['protocolName'] as String?,
-      protocolVersion: json['protocolVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final protocolName = this.protocolName;
-    final protocolVersion = this.protocolVersion;
-    return {
-      'name': name,
-      if (protocolName != null) 'protocolName': protocolName,
-      if (protocolVersion != null) 'protocolVersion': protocolVersion,
-    };
-  }
-}
-
-/// Information about a single controller area network (CAN) signal and the
-/// messages it receives and transmits.
-class CanSignal {
-  /// A multiplier used to decode the CAN message.
-  final double factor;
-
-  /// Whether the byte ordering of a CAN message is big-endian.
-  final bool isBigEndian;
-
-  /// Whether the message data is specified as a signed value.
-  final bool isSigned;
-
-  /// How many bytes of data are in the message.
-  final int length;
-
-  /// The ID of the message.
-  final int messageId;
-
-  /// The offset used to calculate the signal value. Combined with factor, the
-  /// calculation is <code>value = raw_value * factor + offset</code>.
-  final double offset;
-
-  /// Indicates the beginning of the CAN signal. This should always be the least
-  /// significant bit (LSB).
-  ///
-  /// This value might be different from the value in a DBC file. For little
-  /// endian signals, <code>startBit</code> is the same value as in the DBC file.
-  /// For big endian signals in a DBC file, the start bit is the most significant
-  /// bit (MSB). You will have to calculate the LSB instead and pass it as the
-  /// <code>startBit</code>.
-  final int startBit;
-
-  /// The name of the signal.
-  final String? name;
-
-  CanSignal({
-    required this.factor,
-    required this.isBigEndian,
-    required this.isSigned,
-    required this.length,
-    required this.messageId,
-    required this.offset,
-    required this.startBit,
-    this.name,
-  });
-
-  factory CanSignal.fromJson(Map<String, dynamic> json) {
-    return CanSignal(
-      factor: (json['factor'] as double?) ?? 0,
-      isBigEndian: (json['isBigEndian'] as bool?) ?? false,
-      isSigned: (json['isSigned'] as bool?) ?? false,
-      length: (json['length'] as int?) ?? 0,
-      messageId: (json['messageId'] as int?) ?? 0,
-      offset: (json['offset'] as double?) ?? 0,
-      startBit: (json['startBit'] as int?) ?? 0,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final factor = this.factor;
-    final isBigEndian = this.isBigEndian;
-    final isSigned = this.isSigned;
-    final length = this.length;
-    final messageId = this.messageId;
-    final offset = this.offset;
-    final startBit = this.startBit;
-    final name = this.name;
-    return {
-      'factor': factor,
-      'isBigEndian': isBigEndian,
-      'isSigned': isSigned,
-      'length': length,
-      'messageId': messageId,
-      'offset': offset,
-      'startBit': startBit,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// The log delivery option to send data to Amazon CloudWatch Logs.
-class CloudWatchLogDeliveryOptions {
-  /// The type of log to send data to Amazon CloudWatch Logs.
-  final LogType logType;
-
-  /// The Amazon CloudWatch Logs group the operation sends data to.
-  final String? logGroupName;
-
-  CloudWatchLogDeliveryOptions({
-    required this.logType,
-    this.logGroupName,
-  });
-
-  factory CloudWatchLogDeliveryOptions.fromJson(Map<String, dynamic> json) {
-    return CloudWatchLogDeliveryOptions(
-      logType: LogType.fromString((json['logType'] as String?) ?? ''),
-      logGroupName: json['logGroupName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logType = this.logType;
-    final logGroupName = this.logGroupName;
-    return {
-      'logType': logType.value,
-      if (logGroupName != null) 'logGroupName': logGroupName,
-    };
-  }
-}
-
-/// Specifies what data to collect and how often or when to collect it.
-class CollectionScheme {
-  /// Information about a collection scheme that uses a simple logical expression
-  /// to recognize what data to collect.
-  final ConditionBasedCollectionScheme? conditionBasedCollectionScheme;
-
-  /// Information about a collection scheme that uses a time period to decide how
-  /// often to collect data.
-  final TimeBasedCollectionScheme? timeBasedCollectionScheme;
-
-  CollectionScheme({
-    this.conditionBasedCollectionScheme,
-    this.timeBasedCollectionScheme,
-  });
-
-  factory CollectionScheme.fromJson(Map<String, dynamic> json) {
-    return CollectionScheme(
-      conditionBasedCollectionScheme: json['conditionBasedCollectionScheme'] !=
-              null
-          ? ConditionBasedCollectionScheme.fromJson(
-              json['conditionBasedCollectionScheme'] as Map<String, dynamic>)
-          : null,
-      timeBasedCollectionScheme: json['timeBasedCollectionScheme'] != null
-          ? TimeBasedCollectionScheme.fromJson(
-              json['timeBasedCollectionScheme'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final conditionBasedCollectionScheme = this.conditionBasedCollectionScheme;
-    final timeBasedCollectionScheme = this.timeBasedCollectionScheme;
-    return {
-      if (conditionBasedCollectionScheme != null)
-        'conditionBasedCollectionScheme': conditionBasedCollectionScheme,
-      if (timeBasedCollectionScheme != null)
-        'timeBasedCollectionScheme': timeBasedCollectionScheme,
-    };
-  }
-}
-
-class Compression {
-  static const off = Compression._('OFF');
-  static const snappy = Compression._('SNAPPY');
-
-  final String value;
-
-  const Compression._(this.value);
-
-  static const values = [off, snappy];
-
-  static Compression fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Compression._(value));
-
-  @override
-  bool operator ==(other) => other is Compression && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a collection scheme that uses a simple logical expression
-/// to recognize what data to collect.
-class ConditionBasedCollectionScheme {
-  /// The logical expression used to recognize what data to collect. For example,
-  /// <code>$variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0</code>.
-  final String expression;
-
-  /// Specifies the version of the conditional expression language.
-  final int? conditionLanguageVersion;
-
-  /// The minimum duration of time between two triggering events to collect data,
-  /// in milliseconds.
-  /// <note>
-  /// If a signal changes often, you might want to collect data at a slower rate.
-  /// </note>
-  final int? minimumTriggerIntervalMs;
-
-  /// Whether to collect data for all triggering events (<code>ALWAYS</code>).
-  /// Specify (<code>RISING_EDGE</code>), or specify only when the condition first
-  /// evaluates to false. For example, triggering on "AirbagDeployed"; Users
-  /// aren't interested on triggering when the airbag is already exploded; they
-  /// only care about the change from not deployed =&gt; deployed.
-  final TriggerMode? triggerMode;
-
-  ConditionBasedCollectionScheme({
-    required this.expression,
-    this.conditionLanguageVersion,
-    this.minimumTriggerIntervalMs,
-    this.triggerMode,
-  });
-
-  factory ConditionBasedCollectionScheme.fromJson(Map<String, dynamic> json) {
-    return ConditionBasedCollectionScheme(
-      expression: (json['expression'] as String?) ?? '',
-      conditionLanguageVersion: json['conditionLanguageVersion'] as int?,
-      minimumTriggerIntervalMs: json['minimumTriggerIntervalMs'] as int?,
-      triggerMode:
-          (json['triggerMode'] as String?)?.let(TriggerMode.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final expression = this.expression;
-    final conditionLanguageVersion = this.conditionLanguageVersion;
-    final minimumTriggerIntervalMs = this.minimumTriggerIntervalMs;
-    final triggerMode = this.triggerMode;
-    return {
-      'expression': expression,
-      if (conditionLanguageVersion != null)
-        'conditionLanguageVersion': conditionLanguageVersion,
-      if (minimumTriggerIntervalMs != null)
-        'minimumTriggerIntervalMs': minimumTriggerIntervalMs,
-      if (triggerMode != null) 'triggerMode': triggerMode.value,
-    };
-  }
-}
-
-class CreateCampaignResponse {
-  /// The ARN of the created campaign.
-  final String? arn;
-
-  /// The name of the created campaign.
-  final String? name;
-
-  CreateCampaignResponse({
-    this.arn,
-    this.name,
-  });
-
-  factory CreateCampaignResponse.fromJson(Map<String, dynamic> json) {
-    return CreateCampaignResponse(
-      arn: json['arn'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class CreateDecoderManifestResponse {
-  /// The ARN of the created decoder manifest.
-  final String arn;
-
-  /// The name of the created decoder manifest.
-  final String name;
-
-  CreateDecoderManifestResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory CreateDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
-    return CreateDecoderManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class CreateFleetResponse {
-  /// The ARN of the created fleet.
-  final String arn;
-
-  /// The ID of the created fleet.
-  final String id;
-
-  CreateFleetResponse({
-    required this.arn,
-    required this.id,
-  });
-
-  factory CreateFleetResponse.fromJson(Map<String, dynamic> json) {
-    return CreateFleetResponse(
-      arn: (json['arn'] as String?) ?? '',
-      id: (json['id'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    return {
-      'arn': arn,
-      'id': id,
-    };
-  }
-}
-
-class CreateModelManifestResponse {
-  /// The ARN of the created vehicle model.
-  final String arn;
-
-  /// The name of the created vehicle model.
-  final String name;
-
-  CreateModelManifestResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory CreateModelManifestResponse.fromJson(Map<String, dynamic> json) {
-    return CreateModelManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class CreateSignalCatalogResponse {
-  /// The ARN of the created signal catalog.
-  final String arn;
-
-  /// The name of the created signal catalog.
-  final String name;
-
-  CreateSignalCatalogResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory CreateSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
-    return CreateSignalCatalogResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-/// An HTTP error resulting from creating a vehicle.
-class CreateVehicleError {
-  /// An HTTP error code.
-  final String? code;
-
-  /// A description of the HTTP error.
-  final String? message;
-
-  /// The ID of the vehicle with the error.
-  final String? vehicleName;
-
-  CreateVehicleError({
-    this.code,
-    this.message,
-    this.vehicleName,
-  });
-
-  factory CreateVehicleError.fromJson(Map<String, dynamic> json) {
-    return CreateVehicleError(
-      code: json['code'] as String?,
-      message: json['message'] as String?,
-      vehicleName: json['vehicleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    final vehicleName = this.vehicleName;
-    return {
-      if (code != null) 'code': code,
-      if (message != null) 'message': message,
-      if (vehicleName != null) 'vehicleName': vehicleName,
-    };
-  }
-}
-
-/// Information about the vehicle to create.
-class CreateVehicleRequestItem {
-  /// The Amazon Resource Name (ARN) of a decoder manifest associated with the
-  /// vehicle to create.
-  final String decoderManifestArn;
-
-  /// The ARN of the vehicle model (model manifest) to create the vehicle from.
-  final String modelManifestArn;
-
-  /// The unique ID of the vehicle to create.
-  final String vehicleName;
-
-  /// An option to create a new Amazon Web Services IoT thing when creating a
-  /// vehicle, or to validate an existing thing as a vehicle.
-  final VehicleAssociationBehavior? associationBehavior;
-
-  /// Static information about a vehicle in a key-value pair. For example:
-  /// <code>"engine Type"</code> : <code>"v6"</code>
-  final Map<String, String>? attributes;
-
-  /// Metadata which can be used to manage the vehicle.
-  final List<Tag>? tags;
-
-  CreateVehicleRequestItem({
-    required this.decoderManifestArn,
-    required this.modelManifestArn,
-    required this.vehicleName,
-    this.associationBehavior,
-    this.attributes,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final decoderManifestArn = this.decoderManifestArn;
-    final modelManifestArn = this.modelManifestArn;
-    final vehicleName = this.vehicleName;
-    final associationBehavior = this.associationBehavior;
-    final attributes = this.attributes;
-    final tags = this.tags;
-    return {
-      'decoderManifestArn': decoderManifestArn,
-      'modelManifestArn': modelManifestArn,
-      'vehicleName': vehicleName,
-      if (associationBehavior != null)
-        'associationBehavior': associationBehavior.value,
-      if (attributes != null) 'attributes': attributes,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class CreateVehicleResponse {
-  /// The ARN of the created vehicle.
-  final String? arn;
-
-  /// The ARN of a created or validated Amazon Web Services IoT thing.
-  final String? thingArn;
-
-  /// The unique ID of the created vehicle.
-  final String? vehicleName;
-
-  CreateVehicleResponse({
-    this.arn,
-    this.thingArn,
-    this.vehicleName,
-  });
-
-  factory CreateVehicleResponse.fromJson(Map<String, dynamic> json) {
-    return CreateVehicleResponse(
-      arn: json['arn'] as String?,
-      thingArn: json['thingArn'] as String?,
-      vehicleName: json['vehicleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final thingArn = this.thingArn;
-    final vehicleName = this.vehicleName;
-    return {
-      if (arn != null) 'arn': arn,
-      if (thingArn != null) 'thingArn': thingArn,
-      if (vehicleName != null) 'vehicleName': vehicleName,
-    };
-  }
-}
-
-/// Information about a created vehicle.
-class CreateVehicleResponseItem {
-  /// The ARN of the created vehicle.
-  final String? arn;
-
-  /// The ARN of a created or validated Amazon Web Services IoT thing.
-  final String? thingArn;
-
-  /// The unique ID of the vehicle to create.
-  final String? vehicleName;
-
-  CreateVehicleResponseItem({
-    this.arn,
-    this.thingArn,
-    this.vehicleName,
-  });
-
-  factory CreateVehicleResponseItem.fromJson(Map<String, dynamic> json) {
-    return CreateVehicleResponseItem(
-      arn: json['arn'] as String?,
-      thingArn: json['thingArn'] as String?,
-      vehicleName: json['vehicleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final thingArn = this.thingArn;
-    final vehicleName = this.vehicleName;
-    return {
-      if (arn != null) 'arn': arn,
-      if (thingArn != null) 'thingArn': thingArn,
-      if (vehicleName != null) 'vehicleName': vehicleName,
     };
   }
 }
@@ -3818,2274 +6388,6 @@ class CustomProperty {
         'structFullyQualifiedName': structFullyQualifiedName,
     };
   }
-}
-
-/// The custom structure represents a complex or higher-order data structure.
-class CustomStruct {
-  /// The fully qualified name of the custom structure. For example, the fully
-  /// qualified name of a custom structure might be
-  /// <code>ComplexDataTypes.VehicleDataTypes.SVMCamera</code>.
-  final String fullyQualifiedName;
-
-  /// A comment in addition to the description.
-  final String? comment;
-
-  /// The deprecation message for the node or the branch that was moved or
-  /// deleted.
-  final String? deprecationMessage;
-
-  /// A brief description of the custom structure.
-  final String? description;
-
-  CustomStruct({
-    required this.fullyQualifiedName,
-    this.comment,
-    this.deprecationMessage,
-    this.description,
-  });
-
-  factory CustomStruct.fromJson(Map<String, dynamic> json) {
-    return CustomStruct(
-      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
-      comment: json['comment'] as String?,
-      deprecationMessage: json['deprecationMessage'] as String?,
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fullyQualifiedName = this.fullyQualifiedName;
-    final comment = this.comment;
-    final deprecationMessage = this.deprecationMessage;
-    final description = this.description;
-    return {
-      'fullyQualifiedName': fullyQualifiedName,
-      if (comment != null) 'comment': comment,
-      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-/// The destination where the Amazon Web Services IoT FleetWise campaign sends
-/// data. You can send data to be stored in Amazon S3 or Amazon Timestream.
-class DataDestinationConfig {
-  /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign
-  /// sends data.
-  final S3Config? s3Config;
-
-  /// The Amazon Timestream table where the campaign sends data.
-  final TimestreamConfig? timestreamConfig;
-
-  DataDestinationConfig({
-    this.s3Config,
-    this.timestreamConfig,
-  });
-
-  factory DataDestinationConfig.fromJson(Map<String, dynamic> json) {
-    return DataDestinationConfig(
-      s3Config: json['s3Config'] != null
-          ? S3Config.fromJson(json['s3Config'] as Map<String, dynamic>)
-          : null,
-      timestreamConfig: json['timestreamConfig'] != null
-          ? TimestreamConfig.fromJson(
-              json['timestreamConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Config = this.s3Config;
-    final timestreamConfig = this.timestreamConfig;
-    return {
-      if (s3Config != null) 's3Config': s3Config,
-      if (timestreamConfig != null) 'timestreamConfig': timestreamConfig,
-    };
-  }
-}
-
-class DataFormat {
-  static const json = DataFormat._('JSON');
-  static const parquet = DataFormat._('PARQUET');
-
-  final String value;
-
-  const DataFormat._(this.value);
-
-  static const values = [json, parquet];
-
-  static DataFormat fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DataFormat._(value));
-
-  @override
-  bool operator ==(other) => other is DataFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a created decoder manifest. You can use the API operation
-/// to return this information about multiple decoder manifests.
-class DecoderManifestSummary {
-  /// The time the decoder manifest was created in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime creationTime;
-
-  /// The time the decoder manifest was last updated in seconds since epoch
-  /// (January 1, 1970 at midnight UTC time).
-  final DateTime lastModificationTime;
-
-  /// The ARN of a vehicle model (model manifest) associated with the decoder
-  /// manifest.
-  final String? arn;
-
-  /// A brief description of the decoder manifest.
-  final String? description;
-
-  /// The detailed message for the decoder manifest. When a decoder manifest is in
-  /// an <code>INVALID</code> status, the message contains detailed reason and
-  /// help information.
-  final String? message;
-
-  /// The ARN of a vehicle model (model manifest) associated with the decoder
-  /// manifest.
-  final String? modelManifestArn;
-
-  /// The name of the decoder manifest.
-  final String? name;
-
-  /// The state of the decoder manifest. If the status is <code>ACTIVE</code>, the
-  /// decoder manifest can't be edited. If the status is marked
-  /// <code>DRAFT</code>, you can edit the decoder manifest.
-  final ManifestStatus? status;
-
-  DecoderManifestSummary({
-    required this.creationTime,
-    required this.lastModificationTime,
-    this.arn,
-    this.description,
-    this.message,
-    this.modelManifestArn,
-    this.name,
-    this.status,
-  });
-
-  factory DecoderManifestSummary.fromJson(Map<String, dynamic> json) {
-    return DecoderManifestSummary(
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      message: json['message'] as String?,
-      modelManifestArn: json['modelManifestArn'] as String?,
-      name: json['name'] as String?,
-      status: (json['status'] as String?)?.let(ManifestStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final lastModificationTime = this.lastModificationTime;
-    final arn = this.arn;
-    final description = this.description;
-    final message = this.message;
-    final modelManifestArn = this.modelManifestArn;
-    final name = this.name;
-    final status = this.status;
-    return {
-      'creationTime': unixTimestampToJson(creationTime),
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (message != null) 'message': message,
-      if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class DeleteCampaignResponse {
-  /// The Amazon Resource Name (ARN) of the deleted campaign.
-  /// <note>
-  /// The ARN isn’t returned if a campaign doesn’t exist.
-  /// </note>
-  final String? arn;
-
-  /// The name of the deleted campaign.
-  final String? name;
-
-  DeleteCampaignResponse({
-    this.arn,
-    this.name,
-  });
-
-  factory DeleteCampaignResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteCampaignResponse(
-      arn: json['arn'] as String?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-class DeleteDecoderManifestResponse {
-  /// The Amazon Resource Name (ARN) of the deleted decoder manifest.
-  final String arn;
-
-  /// The name of the deleted decoder manifest.
-  final String name;
-
-  DeleteDecoderManifestResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory DeleteDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteDecoderManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class DeleteFleetResponse {
-  /// The Amazon Resource Name (ARN) of the deleted fleet.
-  final String? arn;
-
-  /// The ID of the deleted fleet.
-  final String? id;
-
-  DeleteFleetResponse({
-    this.arn,
-    this.id,
-  });
-
-  factory DeleteFleetResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteFleetResponse(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-class DeleteModelManifestResponse {
-  /// The Amazon Resource Name (ARN) of the deleted model manifest.
-  final String arn;
-
-  /// The name of the deleted model manifest.
-  final String name;
-
-  DeleteModelManifestResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory DeleteModelManifestResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteModelManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class DeleteSignalCatalogResponse {
-  /// The Amazon Resource Name (ARN) of the deleted signal catalog.
-  final String arn;
-
-  /// The name of the deleted signal catalog.
-  final String name;
-
-  DeleteSignalCatalogResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory DeleteSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteSignalCatalogResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class DeleteVehicleResponse {
-  /// The Amazon Resource Name (ARN) of the deleted vehicle.
-  final String arn;
-
-  /// The ID of the deleted vehicle.
-  final String vehicleName;
-
-  DeleteVehicleResponse({
-    required this.arn,
-    required this.vehicleName,
-  });
-
-  factory DeleteVehicleResponse.fromJson(Map<String, dynamic> json) {
-    return DeleteVehicleResponse(
-      arn: (json['arn'] as String?) ?? '',
-      vehicleName: (json['vehicleName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final vehicleName = this.vehicleName;
-    return {
-      'arn': arn,
-      'vehicleName': vehicleName,
-    };
-  }
-}
-
-class DiagnosticsMode {
-  static const off = DiagnosticsMode._('OFF');
-  static const sendActiveDtcs = DiagnosticsMode._('SEND_ACTIVE_DTCS');
-
-  final String value;
-
-  const DiagnosticsMode._(this.value);
-
-  static const values = [off, sendActiveDtcs];
-
-  static DiagnosticsMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DiagnosticsMode._(value));
-
-  @override
-  bool operator ==(other) => other is DiagnosticsMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DisassociateVehicleFleetResponse {
-  DisassociateVehicleFleetResponse();
-
-  factory DisassociateVehicleFleetResponse.fromJson(Map<String, dynamic> _) {
-    return DisassociateVehicleFleetResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class EncryptionStatus {
-  static const pending = EncryptionStatus._('PENDING');
-  static const success = EncryptionStatus._('SUCCESS');
-  static const failure = EncryptionStatus._('FAILURE');
-
-  final String value;
-
-  const EncryptionStatus._(this.value);
-
-  static const values = [pending, success, failure];
-
-  static EncryptionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EncryptionType {
-  static const kmsBasedEncryption = EncryptionType._('KMS_BASED_ENCRYPTION');
-  static const fleetwiseDefaultEncryption =
-      EncryptionType._('FLEETWISE_DEFAULT_ENCRYPTION');
-
-  final String value;
-
-  const EncryptionType._(this.value);
-
-  static const values = [kmsBasedEncryption, fleetwiseDefaultEncryption];
-
-  static EncryptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionType._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a fleet.
-///
-/// You can use the API operation to return this information about multiple
-/// fleets.
-class FleetSummary {
-  /// The Amazon Resource Name (ARN) of the fleet.
-  final String arn;
-
-  /// The time the fleet was created, in seconds since epoch (January 1, 1970 at
-  /// midnight UTC time).
-  final DateTime creationTime;
-
-  /// The unique ID of the fleet.
-  final String id;
-
-  /// The ARN of the signal catalog associated with the fleet.
-  final String signalCatalogArn;
-
-  /// A brief description of the fleet.
-  final String? description;
-
-  /// The time the fleet was last updated in seconds since epoch (January 1, 1970
-  /// at midnight UTC time).
-  final DateTime? lastModificationTime;
-
-  FleetSummary({
-    required this.arn,
-    required this.creationTime,
-    required this.id,
-    required this.signalCatalogArn,
-    this.description,
-    this.lastModificationTime,
-  });
-
-  factory FleetSummary.fromJson(Map<String, dynamic> json) {
-    return FleetSummary(
-      arn: (json['arn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      id: (json['id'] as String?) ?? '',
-      signalCatalogArn: (json['signalCatalogArn'] as String?) ?? '',
-      description: json['description'] as String?,
-      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final id = this.id;
-    final signalCatalogArn = this.signalCatalogArn;
-    final description = this.description;
-    final lastModificationTime = this.lastModificationTime;
-    return {
-      'arn': arn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'id': id,
-      'signalCatalogArn': signalCatalogArn,
-      if (description != null) 'description': description,
-      if (lastModificationTime != null)
-        'lastModificationTime': unixTimestampToJson(lastModificationTime),
-    };
-  }
-}
-
-/// <a
-/// href="https://www.w3.org/auto/wg/wiki/Vehicle_Signal_Specification_(VSS)/Vehicle_Data_Spec">Vehicle
-/// Signal Specification (VSS)</a> is a precise language used to describe and
-/// model signals in vehicle networks. The JSON file collects signal
-/// specificiations in a VSS format.
-class FormattedVss {
-  /// Provides the VSS in JSON format.
-  final String? vssJson;
-
-  FormattedVss({
-    this.vssJson,
-  });
-
-  Map<String, dynamic> toJson() {
-    final vssJson = this.vssJson;
-    return {
-      if (vssJson != null) 'vssJson': vssJson,
-    };
-  }
-}
-
-class GetCampaignResponse {
-  /// The Amazon Resource Name (ARN) of the campaign.
-  final String? arn;
-
-  /// Information about the data collection scheme associated with the campaign.
-  final CollectionScheme? collectionScheme;
-
-  /// Whether to compress signals before transmitting data to Amazon Web Services
-  /// IoT FleetWise. If <code>OFF</code> is specified, the signals aren't
-  /// compressed. If it's not specified, <code>SNAPPY</code> is used.
-  final Compression? compression;
-
-  /// The time the campaign was created in seconds since epoch (January 1, 1970 at
-  /// midnight UTC time).
-  final DateTime? creationTime;
-
-  /// The destination where the campaign sends data. You can choose to send data
-  /// to be stored in Amazon S3 or Amazon Timestream.
-  ///
-  /// Amazon S3 optimizes the cost of data storage and provides additional
-  /// mechanisms to use vehicle data, such as data lakes, centralized data
-  /// storage, data processing pipelines, and analytics.
-  ///
-  /// You can use Amazon Timestream to access and analyze time series data, and
-  /// Timestream to query vehicle data so that you can identify trends and
-  /// patterns.
-  final List<DataDestinationConfig>? dataDestinationConfigs;
-
-  /// A list of vehicle attributes associated with the campaign.
-  final List<String>? dataExtraDimensions;
-
-  /// The description of the campaign.
-  final String? description;
-
-  /// Option for a vehicle to send diagnostic trouble codes to Amazon Web Services
-  /// IoT FleetWise.
-  final DiagnosticsMode? diagnosticsMode;
-
-  /// The time the campaign expires, in seconds since epoch (January 1, 1970 at
-  /// midnight UTC time). Vehicle data won't be collected after the campaign
-  /// expires.
-  final DateTime? expiryTime;
-
-  /// The last time the campaign was modified.
-  final DateTime? lastModificationTime;
-
-  /// The name of the campaign.
-  final String? name;
-
-  /// How long (in seconds) to collect raw data after a triggering event initiates
-  /// the collection.
-  final int? postTriggerCollectionDuration;
-
-  /// A number indicating the priority of one campaign over another campaign for a
-  /// certain vehicle or fleet. A campaign with the lowest value is deployed to
-  /// vehicles before any other campaigns.
-  final int? priority;
-
-  /// The ARN of a signal catalog.
-  final String? signalCatalogArn;
-
-  /// Information about a list of signals to collect data on.
-  final List<SignalInformation>? signalsToCollect;
-
-  /// Whether to store collected data after a vehicle lost a connection with the
-  /// cloud. After a connection is re-established, the data is automatically
-  /// forwarded to Amazon Web Services IoT FleetWise.
-  final SpoolingMode? spoolingMode;
-
-  /// The time, in milliseconds, to deliver a campaign after it was approved.
-  final DateTime? startTime;
-
-  /// The state of the campaign. The status can be one of: <code>CREATING</code>,
-  /// <code>WAITING_FOR_APPROVAL</code>, <code>RUNNING</code>, and
-  /// <code>SUSPENDED</code>.
-  final CampaignStatus? status;
-
-  /// The ARN of the vehicle or the fleet targeted by the campaign.
-  final String? targetArn;
-
-  GetCampaignResponse({
-    this.arn,
-    this.collectionScheme,
-    this.compression,
-    this.creationTime,
-    this.dataDestinationConfigs,
-    this.dataExtraDimensions,
-    this.description,
-    this.diagnosticsMode,
-    this.expiryTime,
-    this.lastModificationTime,
-    this.name,
-    this.postTriggerCollectionDuration,
-    this.priority,
-    this.signalCatalogArn,
-    this.signalsToCollect,
-    this.spoolingMode,
-    this.startTime,
-    this.status,
-    this.targetArn,
-  });
-
-  factory GetCampaignResponse.fromJson(Map<String, dynamic> json) {
-    return GetCampaignResponse(
-      arn: json['arn'] as String?,
-      collectionScheme: json['collectionScheme'] != null
-          ? CollectionScheme.fromJson(
-              json['collectionScheme'] as Map<String, dynamic>)
-          : null,
-      compression:
-          (json['compression'] as String?)?.let(Compression.fromString),
-      creationTime: timeStampFromJson(json['creationTime']),
-      dataDestinationConfigs: (json['dataDestinationConfigs'] as List?)
-          ?.nonNulls
-          .map((e) => DataDestinationConfig.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      dataExtraDimensions: (json['dataExtraDimensions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      description: json['description'] as String?,
-      diagnosticsMode:
-          (json['diagnosticsMode'] as String?)?.let(DiagnosticsMode.fromString),
-      expiryTime: timeStampFromJson(json['expiryTime']),
-      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
-      name: json['name'] as String?,
-      postTriggerCollectionDuration:
-          json['postTriggerCollectionDuration'] as int?,
-      priority: json['priority'] as int?,
-      signalCatalogArn: json['signalCatalogArn'] as String?,
-      signalsToCollect: (json['signalsToCollect'] as List?)
-          ?.nonNulls
-          .map((e) => SignalInformation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      spoolingMode:
-          (json['spoolingMode'] as String?)?.let(SpoolingMode.fromString),
-      startTime: timeStampFromJson(json['startTime']),
-      status: (json['status'] as String?)?.let(CampaignStatus.fromString),
-      targetArn: json['targetArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final collectionScheme = this.collectionScheme;
-    final compression = this.compression;
-    final creationTime = this.creationTime;
-    final dataDestinationConfigs = this.dataDestinationConfigs;
-    final dataExtraDimensions = this.dataExtraDimensions;
-    final description = this.description;
-    final diagnosticsMode = this.diagnosticsMode;
-    final expiryTime = this.expiryTime;
-    final lastModificationTime = this.lastModificationTime;
-    final name = this.name;
-    final postTriggerCollectionDuration = this.postTriggerCollectionDuration;
-    final priority = this.priority;
-    final signalCatalogArn = this.signalCatalogArn;
-    final signalsToCollect = this.signalsToCollect;
-    final spoolingMode = this.spoolingMode;
-    final startTime = this.startTime;
-    final status = this.status;
-    final targetArn = this.targetArn;
-    return {
-      if (arn != null) 'arn': arn,
-      if (collectionScheme != null) 'collectionScheme': collectionScheme,
-      if (compression != null) 'compression': compression.value,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (dataDestinationConfigs != null)
-        'dataDestinationConfigs': dataDestinationConfigs,
-      if (dataExtraDimensions != null)
-        'dataExtraDimensions': dataExtraDimensions,
-      if (description != null) 'description': description,
-      if (diagnosticsMode != null) 'diagnosticsMode': diagnosticsMode.value,
-      if (expiryTime != null) 'expiryTime': unixTimestampToJson(expiryTime),
-      if (lastModificationTime != null)
-        'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (name != null) 'name': name,
-      if (postTriggerCollectionDuration != null)
-        'postTriggerCollectionDuration': postTriggerCollectionDuration,
-      if (priority != null) 'priority': priority,
-      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
-      if (signalsToCollect != null) 'signalsToCollect': signalsToCollect,
-      if (spoolingMode != null) 'spoolingMode': spoolingMode.value,
-      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
-      if (status != null) 'status': status.value,
-      if (targetArn != null) 'targetArn': targetArn,
-    };
-  }
-}
-
-class GetDecoderManifestResponse {
-  /// The Amazon Resource Name (ARN) of the decoder manifest.
-  final String arn;
-
-  /// The time the decoder manifest was created in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime creationTime;
-
-  /// The time the decoder manifest was last updated in seconds since epoch
-  /// (January 1, 1970 at midnight UTC time).
-  final DateTime lastModificationTime;
-
-  /// The name of the decoder manifest.
-  final String name;
-
-  /// A brief description of the decoder manifest.
-  final String? description;
-
-  /// The detailed message for the decoder manifest. When a decoder manifest is in
-  /// an <code>INVALID</code> status, the message contains detailed reason and
-  /// help information.
-  final String? message;
-
-  /// The ARN of a vehicle model (model manifest) associated with the decoder
-  /// manifest.
-  final String? modelManifestArn;
-
-  /// The state of the decoder manifest. If the status is <code>ACTIVE</code>, the
-  /// decoder manifest can't be edited. If the status is marked
-  /// <code>DRAFT</code>, you can edit the decoder manifest.
-  final ManifestStatus? status;
-
-  GetDecoderManifestResponse({
-    required this.arn,
-    required this.creationTime,
-    required this.lastModificationTime,
-    required this.name,
-    this.description,
-    this.message,
-    this.modelManifestArn,
-    this.status,
-  });
-
-  factory GetDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
-    return GetDecoderManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      description: json['description'] as String?,
-      message: json['message'] as String?,
-      modelManifestArn: json['modelManifestArn'] as String?,
-      status: (json['status'] as String?)?.let(ManifestStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final lastModificationTime = this.lastModificationTime;
-    final name = this.name;
-    final description = this.description;
-    final message = this.message;
-    final modelManifestArn = this.modelManifestArn;
-    final status = this.status;
-    return {
-      'arn': arn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      'name': name,
-      if (description != null) 'description': description,
-      if (message != null) 'message': message,
-      if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class GetEncryptionConfigurationResponse {
-  /// The encryption status.
-  final EncryptionStatus encryptionStatus;
-
-  /// The type of encryption. Set to <code>KMS_BASED_ENCRYPTION</code> to use a
-  /// KMS key that you own and manage. Set to
-  /// <code>FLEETWISE_DEFAULT_ENCRYPTION</code> to use an Amazon Web Services
-  /// managed key that is owned by the Amazon Web Services IoT FleetWise service
-  /// account.
-  final EncryptionType encryptionType;
-
-  /// The time when encryption was configured in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime? creationTime;
-
-  /// The error message that describes why encryption settings couldn't be
-  /// configured, if applicable.
-  final String? errorMessage;
-
-  /// The ID of the KMS key that is used for encryption.
-  final String? kmsKeyId;
-
-  /// The time when encryption was last updated in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime? lastModificationTime;
-
-  GetEncryptionConfigurationResponse({
-    required this.encryptionStatus,
-    required this.encryptionType,
-    this.creationTime,
-    this.errorMessage,
-    this.kmsKeyId,
-    this.lastModificationTime,
-  });
-
-  factory GetEncryptionConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetEncryptionConfigurationResponse(
-      encryptionStatus: EncryptionStatus.fromString(
-          (json['encryptionStatus'] as String?) ?? ''),
-      encryptionType:
-          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
-      creationTime: timeStampFromJson(json['creationTime']),
-      errorMessage: json['errorMessage'] as String?,
-      kmsKeyId: json['kmsKeyId'] as String?,
-      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final encryptionStatus = this.encryptionStatus;
-    final encryptionType = this.encryptionType;
-    final creationTime = this.creationTime;
-    final errorMessage = this.errorMessage;
-    final kmsKeyId = this.kmsKeyId;
-    final lastModificationTime = this.lastModificationTime;
-    return {
-      'encryptionStatus': encryptionStatus.value,
-      'encryptionType': encryptionType.value,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-      if (lastModificationTime != null)
-        'lastModificationTime': unixTimestampToJson(lastModificationTime),
-    };
-  }
-}
-
-class GetFleetResponse {
-  /// The Amazon Resource Name (ARN) of the fleet.
-  final String arn;
-
-  /// The time the fleet was created in seconds since epoch (January 1, 1970 at
-  /// midnight UTC time).
-  final DateTime creationTime;
-
-  /// The ID of the fleet.
-  final String id;
-
-  /// The time the fleet was last updated, in seconds since epoch (January 1, 1970
-  /// at midnight UTC time).
-  final DateTime lastModificationTime;
-
-  /// The ARN of a signal catalog associated with the fleet.
-  final String signalCatalogArn;
-
-  /// A brief description of the fleet.
-  final String? description;
-
-  GetFleetResponse({
-    required this.arn,
-    required this.creationTime,
-    required this.id,
-    required this.lastModificationTime,
-    required this.signalCatalogArn,
-    this.description,
-  });
-
-  factory GetFleetResponse.fromJson(Map<String, dynamic> json) {
-    return GetFleetResponse(
-      arn: (json['arn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      id: (json['id'] as String?) ?? '',
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      signalCatalogArn: (json['signalCatalogArn'] as String?) ?? '',
-      description: json['description'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final id = this.id;
-    final lastModificationTime = this.lastModificationTime;
-    final signalCatalogArn = this.signalCatalogArn;
-    final description = this.description;
-    return {
-      'arn': arn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'id': id,
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      'signalCatalogArn': signalCatalogArn,
-      if (description != null) 'description': description,
-    };
-  }
-}
-
-class GetLoggingOptionsResponse {
-  /// Returns information about log delivery to Amazon CloudWatch Logs.
-  final CloudWatchLogDeliveryOptions cloudWatchLogDelivery;
-
-  GetLoggingOptionsResponse({
-    required this.cloudWatchLogDelivery,
-  });
-
-  factory GetLoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
-    return GetLoggingOptionsResponse(
-      cloudWatchLogDelivery: CloudWatchLogDeliveryOptions.fromJson(
-          (json['cloudWatchLogDelivery'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchLogDelivery = this.cloudWatchLogDelivery;
-    return {
-      'cloudWatchLogDelivery': cloudWatchLogDelivery,
-    };
-  }
-}
-
-class GetModelManifestResponse {
-  /// The Amazon Resource Name (ARN) of the vehicle model.
-  final String arn;
-
-  /// The time the vehicle model was created, in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime creationTime;
-
-  /// The last time the vehicle model was modified.
-  final DateTime lastModificationTime;
-
-  /// The name of the vehicle model.
-  final String name;
-
-  /// A brief description of the vehicle model.
-  final String? description;
-
-  /// The ARN of the signal catalog associated with the vehicle model.
-  final String? signalCatalogArn;
-
-  /// The state of the vehicle model. If the status is <code>ACTIVE</code>, the
-  /// vehicle model can't be edited. You can edit the vehicle model if the status
-  /// is marked <code>DRAFT</code>.
-  final ManifestStatus? status;
-
-  GetModelManifestResponse({
-    required this.arn,
-    required this.creationTime,
-    required this.lastModificationTime,
-    required this.name,
-    this.description,
-    this.signalCatalogArn,
-    this.status,
-  });
-
-  factory GetModelManifestResponse.fromJson(Map<String, dynamic> json) {
-    return GetModelManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      description: json['description'] as String?,
-      signalCatalogArn: json['signalCatalogArn'] as String?,
-      status: (json['status'] as String?)?.let(ManifestStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final lastModificationTime = this.lastModificationTime;
-    final name = this.name;
-    final description = this.description;
-    final signalCatalogArn = this.signalCatalogArn;
-    final status = this.status;
-    return {
-      'arn': arn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      'name': name,
-      if (description != null) 'description': description,
-      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class GetRegisterAccountStatusResponse {
-  /// The status of registering your account and resources. The status can be one
-  /// of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>REGISTRATION_SUCCESS</code> - The Amazon Web Services resource is
-  /// successfully registered.
-  /// </li>
-  /// <li>
-  /// <code>REGISTRATION_PENDING</code> - Amazon Web Services IoT FleetWise is
-  /// processing the registration request. This process takes approximately five
-  /// minutes to complete.
-  /// </li>
-  /// <li>
-  /// <code>REGISTRATION_FAILURE</code> - Amazon Web Services IoT FleetWise can't
-  /// register the AWS resource. Try again later.
-  /// </li>
-  /// </ul>
-  final RegistrationStatus accountStatus;
-
-  /// The time the account was registered, in seconds since epoch (January 1, 1970
-  /// at midnight UTC time).
-  final DateTime creationTime;
-
-  /// The unique ID of the Amazon Web Services account, provided at account
-  /// creation.
-  final String customerAccountId;
-
-  /// Information about the registered IAM resources or errors, if any.
-  final IamRegistrationResponse iamRegistrationResponse;
-
-  /// The time this registration was last updated, in seconds since epoch (January
-  /// 1, 1970 at midnight UTC time).
-  final DateTime lastModificationTime;
-
-  /// Information about the registered Amazon Timestream resources or errors, if
-  /// any.
-  final TimestreamRegistrationResponse? timestreamRegistrationResponse;
-
-  GetRegisterAccountStatusResponse({
-    required this.accountStatus,
-    required this.creationTime,
-    required this.customerAccountId,
-    required this.iamRegistrationResponse,
-    required this.lastModificationTime,
-    this.timestreamRegistrationResponse,
-  });
-
-  factory GetRegisterAccountStatusResponse.fromJson(Map<String, dynamic> json) {
-    return GetRegisterAccountStatusResponse(
-      accountStatus: RegistrationStatus.fromString(
-          (json['accountStatus'] as String?) ?? ''),
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      customerAccountId: (json['customerAccountId'] as String?) ?? '',
-      iamRegistrationResponse: IamRegistrationResponse.fromJson(
-          (json['iamRegistrationResponse'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      timestreamRegistrationResponse: json['timestreamRegistrationResponse'] !=
-              null
-          ? TimestreamRegistrationResponse.fromJson(
-              json['timestreamRegistrationResponse'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountStatus = this.accountStatus;
-    final creationTime = this.creationTime;
-    final customerAccountId = this.customerAccountId;
-    final iamRegistrationResponse = this.iamRegistrationResponse;
-    final lastModificationTime = this.lastModificationTime;
-    final timestreamRegistrationResponse = this.timestreamRegistrationResponse;
-    return {
-      'accountStatus': accountStatus.value,
-      'creationTime': unixTimestampToJson(creationTime),
-      'customerAccountId': customerAccountId,
-      'iamRegistrationResponse': iamRegistrationResponse,
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (timestreamRegistrationResponse != null)
-        'timestreamRegistrationResponse': timestreamRegistrationResponse,
-    };
-  }
-}
-
-class GetSignalCatalogResponse {
-  /// The Amazon Resource Name (ARN) of the signal catalog.
-  final String arn;
-
-  /// The time the signal catalog was created in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime creationTime;
-
-  /// The last time the signal catalog was modified.
-  final DateTime lastModificationTime;
-
-  /// The name of the signal catalog.
-  final String name;
-
-  /// A brief description of the signal catalog.
-  final String? description;
-
-  /// The total number of network nodes specified in a signal catalog.
-  final NodeCounts? nodeCounts;
-
-  GetSignalCatalogResponse({
-    required this.arn,
-    required this.creationTime,
-    required this.lastModificationTime,
-    required this.name,
-    this.description,
-    this.nodeCounts,
-  });
-
-  factory GetSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
-    return GetSignalCatalogResponse(
-      arn: (json['arn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      name: (json['name'] as String?) ?? '',
-      description: json['description'] as String?,
-      nodeCounts: json['nodeCounts'] != null
-          ? NodeCounts.fromJson(json['nodeCounts'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final lastModificationTime = this.lastModificationTime;
-    final name = this.name;
-    final description = this.description;
-    final nodeCounts = this.nodeCounts;
-    return {
-      'arn': arn,
-      'creationTime': unixTimestampToJson(creationTime),
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      'name': name,
-      if (description != null) 'description': description,
-      if (nodeCounts != null) 'nodeCounts': nodeCounts,
-    };
-  }
-}
-
-class GetVehicleResponse {
-  /// The Amazon Resource Name (ARN) of the vehicle to retrieve information about.
-  final String? arn;
-
-  /// Static information about a vehicle in a key-value pair. For example:
-  ///
-  /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
-  final Map<String, String>? attributes;
-
-  /// The time the vehicle was created in seconds since epoch (January 1, 1970 at
-  /// midnight UTC time).
-  final DateTime? creationTime;
-
-  /// The ARN of a decoder manifest associated with the vehicle.
-  final String? decoderManifestArn;
-
-  /// The time the vehicle was last updated in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime? lastModificationTime;
-
-  /// The ARN of a vehicle model (model manifest) associated with the vehicle.
-  final String? modelManifestArn;
-
-  /// The ID of the vehicle.
-  final String? vehicleName;
-
-  GetVehicleResponse({
-    this.arn,
-    this.attributes,
-    this.creationTime,
-    this.decoderManifestArn,
-    this.lastModificationTime,
-    this.modelManifestArn,
-    this.vehicleName,
-  });
-
-  factory GetVehicleResponse.fromJson(Map<String, dynamic> json) {
-    return GetVehicleResponse(
-      arn: json['arn'] as String?,
-      attributes: (json['attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      creationTime: timeStampFromJson(json['creationTime']),
-      decoderManifestArn: json['decoderManifestArn'] as String?,
-      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
-      modelManifestArn: json['modelManifestArn'] as String?,
-      vehicleName: json['vehicleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final attributes = this.attributes;
-    final creationTime = this.creationTime;
-    final decoderManifestArn = this.decoderManifestArn;
-    final lastModificationTime = this.lastModificationTime;
-    final modelManifestArn = this.modelManifestArn;
-    final vehicleName = this.vehicleName;
-    return {
-      if (arn != null) 'arn': arn,
-      if (attributes != null) 'attributes': attributes,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (decoderManifestArn != null) 'decoderManifestArn': decoderManifestArn,
-      if (lastModificationTime != null)
-        'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
-      if (vehicleName != null) 'vehicleName': vehicleName,
-    };
-  }
-}
-
-class GetVehicleStatusResponse {
-  /// Lists information about the state of the vehicle with deployed campaigns.
-  final List<VehicleStatus>? campaigns;
-
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  GetVehicleStatusResponse({
-    this.campaigns,
-    this.nextToken,
-  });
-
-  factory GetVehicleStatusResponse.fromJson(Map<String, dynamic> json) {
-    return GetVehicleStatusResponse(
-      campaigns: (json['campaigns'] as List?)
-          ?.nonNulls
-          .map((e) => VehicleStatus.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaigns = this.campaigns;
-    final nextToken = this.nextToken;
-    return {
-      if (campaigns != null) 'campaigns': campaigns,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-/// Information about registering an Identity and Access Management (IAM)
-/// resource so Amazon Web Services IoT FleetWise edge agent software can
-/// transfer your vehicle data to Amazon Timestream.
-class IamRegistrationResponse {
-  /// The status of registering your IAM resource. The status can be one of
-  /// <code>REGISTRATION_SUCCESS</code>, <code>REGISTRATION_PENDING</code>,
-  /// <code>REGISTRATION_FAILURE</code>.
-  final RegistrationStatus registrationStatus;
-
-  /// The Amazon Resource Name (ARN) of the IAM role to register.
-  final String roleArn;
-
-  /// A message associated with a registration error.
-  final String? errorMessage;
-
-  IamRegistrationResponse({
-    required this.registrationStatus,
-    required this.roleArn,
-    this.errorMessage,
-  });
-
-  factory IamRegistrationResponse.fromJson(Map<String, dynamic> json) {
-    return IamRegistrationResponse(
-      registrationStatus: RegistrationStatus.fromString(
-          (json['registrationStatus'] as String?) ?? ''),
-      roleArn: (json['roleArn'] as String?) ?? '',
-      errorMessage: json['errorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final registrationStatus = this.registrationStatus;
-    final roleArn = this.roleArn;
-    final errorMessage = this.errorMessage;
-    return {
-      'registrationStatus': registrationStatus.value,
-      'roleArn': roleArn,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-    };
-  }
-}
-
-/// The IAM resource that enables Amazon Web Services IoT FleetWise edge agent
-/// software to send data to Amazon Timestream.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
-/// roles</a> in the <i>Identity and Access Management User Guide</i>.
-class IamResources {
-  /// The Amazon Resource Name (ARN) of the IAM resource that allows Amazon Web
-  /// Services IoT FleetWise to send data to Amazon Timestream. For example,
-  /// <code>arn:aws:iam::123456789012:role/SERVICE-ROLE-ARN</code>.
-  final String roleArn;
-
-  IamResources({
-    required this.roleArn,
-  });
-
-  factory IamResources.fromJson(Map<String, dynamic> json) {
-    return IamResources(
-      roleArn: (json['roleArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    return {
-      'roleArn': roleArn,
-    };
-  }
-}
-
-class ImportDecoderManifestResponse {
-  /// The Amazon Resource Name (ARN) of the decoder manifest that was imported.
-  final String arn;
-
-  /// The name of the imported decoder manifest.
-  final String name;
-
-  ImportDecoderManifestResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory ImportDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
-    return ImportDecoderManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class ImportSignalCatalogResponse {
-  /// The Amazon Resource Name (ARN) of the imported signal catalog.
-  final String arn;
-
-  /// The name of the imported signal catalog.
-  final String name;
-
-  ImportSignalCatalogResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory ImportSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
-    return ImportSignalCatalogResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class ListCampaignsResponse {
-  /// A summary of information about each campaign.
-  final List<CampaignSummary>? campaignSummaries;
-
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  ListCampaignsResponse({
-    this.campaignSummaries,
-    this.nextToken,
-  });
-
-  factory ListCampaignsResponse.fromJson(Map<String, dynamic> json) {
-    return ListCampaignsResponse(
-      campaignSummaries: (json['campaignSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => CampaignSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaignSummaries = this.campaignSummaries;
-    final nextToken = this.nextToken;
-    return {
-      if (campaignSummaries != null) 'campaignSummaries': campaignSummaries,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListDecoderManifestNetworkInterfacesResponse {
-  /// A list of information about network interfaces.
-  final List<NetworkInterface>? networkInterfaces;
-
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  ListDecoderManifestNetworkInterfacesResponse({
-    this.networkInterfaces,
-    this.nextToken,
-  });
-
-  factory ListDecoderManifestNetworkInterfacesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListDecoderManifestNetworkInterfacesResponse(
-      networkInterfaces: (json['networkInterfaces'] as List?)
-          ?.nonNulls
-          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final networkInterfaces = this.networkInterfaces;
-    final nextToken = this.nextToken;
-    return {
-      if (networkInterfaces != null) 'networkInterfaces': networkInterfaces,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListDecoderManifestSignalsResponse {
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  /// Information about a list of signals to decode.
-  final List<SignalDecoder>? signalDecoders;
-
-  ListDecoderManifestSignalsResponse({
-    this.nextToken,
-    this.signalDecoders,
-  });
-
-  factory ListDecoderManifestSignalsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListDecoderManifestSignalsResponse(
-      nextToken: json['nextToken'] as String?,
-      signalDecoders: (json['signalDecoders'] as List?)
-          ?.nonNulls
-          .map((e) => SignalDecoder.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final signalDecoders = this.signalDecoders;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (signalDecoders != null) 'signalDecoders': signalDecoders,
-    };
-  }
-}
-
-class ListDecoderManifestsResponse {
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  /// A list of information about each decoder manifest.
-  final List<DecoderManifestSummary>? summaries;
-
-  ListDecoderManifestsResponse({
-    this.nextToken,
-    this.summaries,
-  });
-
-  factory ListDecoderManifestsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDecoderManifestsResponse(
-      nextToken: json['nextToken'] as String?,
-      summaries: (json['summaries'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => DecoderManifestSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final summaries = this.summaries;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (summaries != null) 'summaries': summaries,
-    };
-  }
-}
-
-class ListFleetsForVehicleResponse {
-  /// A list of fleet IDs that the vehicle is associated with.
-  final List<String>? fleets;
-
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  ListFleetsForVehicleResponse({
-    this.fleets,
-    this.nextToken,
-  });
-
-  factory ListFleetsForVehicleResponse.fromJson(Map<String, dynamic> json) {
-    return ListFleetsForVehicleResponse(
-      fleets:
-          (json['fleets'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fleets = this.fleets;
-    final nextToken = this.nextToken;
-    return {
-      if (fleets != null) 'fleets': fleets,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListFleetsResponse {
-  /// A list of information for each fleet.
-  final List<FleetSummary>? fleetSummaries;
-
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  ListFleetsResponse({
-    this.fleetSummaries,
-    this.nextToken,
-  });
-
-  factory ListFleetsResponse.fromJson(Map<String, dynamic> json) {
-    return ListFleetsResponse(
-      fleetSummaries: (json['fleetSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => FleetSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fleetSummaries = this.fleetSummaries;
-    final nextToken = this.nextToken;
-    return {
-      if (fleetSummaries != null) 'fleetSummaries': fleetSummaries,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListModelManifestNodesResponse {
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  /// A list of information about nodes.
-  final List<Node>? nodes;
-
-  ListModelManifestNodesResponse({
-    this.nextToken,
-    this.nodes,
-  });
-
-  factory ListModelManifestNodesResponse.fromJson(Map<String, dynamic> json) {
-    return ListModelManifestNodesResponse(
-      nextToken: json['nextToken'] as String?,
-      nodes: (json['nodes'] as List?)
-          ?.nonNulls
-          .map((e) => Node.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final nodes = this.nodes;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (nodes != null) 'nodes': nodes,
-    };
-  }
-}
-
-class ListModelManifestsResponse {
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  /// A list of information about vehicle models.
-  final List<ModelManifestSummary>? summaries;
-
-  ListModelManifestsResponse({
-    this.nextToken,
-    this.summaries,
-  });
-
-  factory ListModelManifestsResponse.fromJson(Map<String, dynamic> json) {
-    return ListModelManifestsResponse(
-      nextToken: json['nextToken'] as String?,
-      summaries: (json['summaries'] as List?)
-          ?.nonNulls
-          .map((e) => ModelManifestSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final summaries = this.summaries;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (summaries != null) 'summaries': summaries,
-    };
-  }
-}
-
-class ListSignalCatalogNodesResponse {
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  /// A list of information about nodes.
-  final List<Node>? nodes;
-
-  ListSignalCatalogNodesResponse({
-    this.nextToken,
-    this.nodes,
-  });
-
-  factory ListSignalCatalogNodesResponse.fromJson(Map<String, dynamic> json) {
-    return ListSignalCatalogNodesResponse(
-      nextToken: json['nextToken'] as String?,
-      nodes: (json['nodes'] as List?)
-          ?.nonNulls
-          .map((e) => Node.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final nodes = this.nodes;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (nodes != null) 'nodes': nodes,
-    };
-  }
-}
-
-class ListSignalCatalogsResponse {
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  /// A list of information about each signal catalog.
-  final List<SignalCatalogSummary>? summaries;
-
-  ListSignalCatalogsResponse({
-    this.nextToken,
-    this.summaries,
-  });
-
-  factory ListSignalCatalogsResponse.fromJson(Map<String, dynamic> json) {
-    return ListSignalCatalogsResponse(
-      nextToken: json['nextToken'] as String?,
-      summaries: (json['summaries'] as List?)
-          ?.nonNulls
-          .map((e) => SignalCatalogSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final summaries = this.summaries;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (summaries != null) 'summaries': summaries,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The list of tags assigned to the resource.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class ListVehiclesInFleetResponse {
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  /// A list of vehicles associated with the fleet.
-  final List<String>? vehicles;
-
-  ListVehiclesInFleetResponse({
-    this.nextToken,
-    this.vehicles,
-  });
-
-  factory ListVehiclesInFleetResponse.fromJson(Map<String, dynamic> json) {
-    return ListVehiclesInFleetResponse(
-      nextToken: json['nextToken'] as String?,
-      vehicles: (json['vehicles'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final vehicles = this.vehicles;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (vehicles != null) 'vehicles': vehicles,
-    };
-  }
-}
-
-class ListVehiclesResponse {
-  /// The token to retrieve the next set of results, or <code>null</code> if there
-  /// are no more results.
-  final String? nextToken;
-
-  /// A list of vehicles and information about them.
-  final List<VehicleSummary>? vehicleSummaries;
-
-  ListVehiclesResponse({
-    this.nextToken,
-    this.vehicleSummaries,
-  });
-
-  factory ListVehiclesResponse.fromJson(Map<String, dynamic> json) {
-    return ListVehiclesResponse(
-      nextToken: json['nextToken'] as String?,
-      vehicleSummaries: (json['vehicleSummaries'] as List?)
-          ?.nonNulls
-          .map((e) => VehicleSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final vehicleSummaries = this.vehicleSummaries;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (vehicleSummaries != null) 'vehicleSummaries': vehicleSummaries,
-    };
-  }
-}
-
-class LogType {
-  static const off = LogType._('OFF');
-  static const error = LogType._('ERROR');
-
-  final String value;
-
-  const LogType._(this.value);
-
-  static const values = [off, error];
-
-  static LogType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
-
-  @override
-  bool operator ==(other) => other is LogType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ManifestStatus {
-  static const active = ManifestStatus._('ACTIVE');
-  static const draft = ManifestStatus._('DRAFT');
-  static const invalid = ManifestStatus._('INVALID');
-  static const validating = ManifestStatus._('VALIDATING');
-
-  final String value;
-
-  const ManifestStatus._(this.value);
-
-  static const values = [active, draft, invalid, validating];
-
-  static ManifestStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ManifestStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ManifestStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The decoding information for a specific message which support higher order
-/// data types.
-class MessageSignal {
-  /// The structured message for the message signal. It can be defined with either
-  /// a <code>primitiveMessageDefinition</code>,
-  /// <code>structuredMessageListDefinition</code>, or
-  /// <code>structuredMessageDefinition</code> recursively.
-  final StructuredMessage structuredMessage;
-
-  /// The topic name for the message signal. It corresponds to topics in ROS 2.
-  final String topicName;
-
-  MessageSignal({
-    required this.structuredMessage,
-    required this.topicName,
-  });
-
-  factory MessageSignal.fromJson(Map<String, dynamic> json) {
-    return MessageSignal(
-      structuredMessage: StructuredMessage.fromJson(
-          (json['structuredMessage'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      topicName: (json['topicName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final structuredMessage = this.structuredMessage;
-    final topicName = this.topicName;
-    return {
-      'structuredMessage': structuredMessage,
-      'topicName': topicName,
-    };
-  }
-}
-
-/// Information about a vehicle model (model manifest). You can use the API
-/// operation to return this information about multiple vehicle models.
-class ModelManifestSummary {
-  /// The time the vehicle model was created, in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime creationTime;
-
-  /// The time the vehicle model was last updated, in seconds since epoch (January
-  /// 1, 1970 at midnight UTC time).
-  final DateTime lastModificationTime;
-
-  /// The Amazon Resource Name (ARN) of the vehicle model.
-  final String? arn;
-
-  /// A brief description of the vehicle model.
-  final String? description;
-
-  /// The name of the vehicle model.
-  final String? name;
-
-  /// The ARN of the signal catalog associated with the vehicle model.
-  final String? signalCatalogArn;
-
-  /// The state of the vehicle model. If the status is <code>ACTIVE</code>, the
-  /// vehicle model can't be edited. If the status is <code>DRAFT</code>, you can
-  /// edit the vehicle model.
-  final ManifestStatus? status;
-
-  ModelManifestSummary({
-    required this.creationTime,
-    required this.lastModificationTime,
-    this.arn,
-    this.description,
-    this.name,
-    this.signalCatalogArn,
-    this.status,
-  });
-
-  factory ModelManifestSummary.fromJson(Map<String, dynamic> json) {
-    return ModelManifestSummary(
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      arn: json['arn'] as String?,
-      description: json['description'] as String?,
-      name: json['name'] as String?,
-      signalCatalogArn: json['signalCatalogArn'] as String?,
-      status: (json['status'] as String?)?.let(ManifestStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final lastModificationTime = this.lastModificationTime;
-    final arn = this.arn;
-    final description = this.description;
-    final name = this.name;
-    final signalCatalogArn = this.signalCatalogArn;
-    final status = this.status;
-    return {
-      'creationTime': unixTimestampToJson(creationTime),
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (arn != null) 'arn': arn,
-      if (description != null) 'description': description,
-      if (name != null) 'name': name,
-      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-/// Specifications for defining a vehicle network.
-class NetworkFileDefinition {
-  /// Information, including CAN DBC files, about the configurations used to
-  /// create a decoder manifest.
-  final CanDbcDefinition? canDbc;
-
-  NetworkFileDefinition({
-    this.canDbc,
-  });
-
-  Map<String, dynamic> toJson() {
-    final canDbc = this.canDbc;
-    return {
-      if (canDbc != null) 'canDbc': canDbc,
-    };
-  }
-}
-
-/// Represents a node and its specifications in an in-vehicle communication
-/// network. All signal decoders must be associated with a network node.
-///
-/// To return this information about all the network interfaces specified in a
-/// decoder manifest, use the API operation.
-class NetworkInterface {
-  /// The ID of the network interface.
-  final String interfaceId;
-
-  /// The network protocol for the vehicle. For example, <code>CAN_SIGNAL</code>
-  /// specifies a protocol that defines how data is communicated between
-  /// electronic control units (ECUs). <code>OBD_SIGNAL</code> specifies a
-  /// protocol that defines how self-diagnostic data is communicated between ECUs.
-  final NetworkInterfaceType type;
-
-  /// Information about a network interface specified by the Controller Area
-  /// Network (CAN) protocol.
-  final CanInterface? canInterface;
-
-  /// Information about a network interface specified by the On-board diagnostic
-  /// (OBD) II protocol.
-  final ObdInterface? obdInterface;
-
-  /// The vehicle middleware defined as a type of network interface. Examples of
-  /// vehicle middleware include <code>ROS2</code> and <code>SOME/IP</code>.
-  final VehicleMiddleware? vehicleMiddleware;
-
-  NetworkInterface({
-    required this.interfaceId,
-    required this.type,
-    this.canInterface,
-    this.obdInterface,
-    this.vehicleMiddleware,
-  });
-
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
-    return NetworkInterface(
-      interfaceId: (json['interfaceId'] as String?) ?? '',
-      type: NetworkInterfaceType.fromString((json['type'] as String?) ?? ''),
-      canInterface: json['canInterface'] != null
-          ? CanInterface.fromJson(json['canInterface'] as Map<String, dynamic>)
-          : null,
-      obdInterface: json['obdInterface'] != null
-          ? ObdInterface.fromJson(json['obdInterface'] as Map<String, dynamic>)
-          : null,
-      vehicleMiddleware: json['vehicleMiddleware'] != null
-          ? VehicleMiddleware.fromJson(
-              json['vehicleMiddleware'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final interfaceId = this.interfaceId;
-    final type = this.type;
-    final canInterface = this.canInterface;
-    final obdInterface = this.obdInterface;
-    final vehicleMiddleware = this.vehicleMiddleware;
-    return {
-      'interfaceId': interfaceId,
-      'type': type.value,
-      if (canInterface != null) 'canInterface': canInterface,
-      if (obdInterface != null) 'obdInterface': obdInterface,
-      if (vehicleMiddleware != null) 'vehicleMiddleware': vehicleMiddleware,
-    };
-  }
-}
-
-class NetworkInterfaceType {
-  static const canInterface = NetworkInterfaceType._('CAN_INTERFACE');
-  static const obdInterface = NetworkInterfaceType._('OBD_INTERFACE');
-  static const vehicleMiddleware = NetworkInterfaceType._('VEHICLE_MIDDLEWARE');
-
-  final String value;
-
-  const NetworkInterfaceType._(this.value);
-
-  static const values = [canInterface, obdInterface, vehicleMiddleware];
-
-  static NetworkInterfaceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NetworkInterfaceType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is NetworkInterfaceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A general abstraction of a signal. A node can be specified as an actuator,
-/// attribute, branch, or sensor.
-class Node {
-  /// Information about a node specified as an actuator.
-  /// <note>
-  /// An actuator is a digital representation of a vehicle device.
-  /// </note>
-  final Actuator? actuator;
-
-  /// Information about a node specified as an attribute.
-  /// <note>
-  /// An attribute represents static information about a vehicle.
-  /// </note>
-  final Attribute? attribute;
-
-  /// Information about a node specified as a branch.
-  /// <note>
-  /// A group of signals that are defined in a hierarchical structure.
-  /// </note>
-  final Branch? branch;
-
-  /// Represents a member of the complex data structure. The <code>datatype</code>
-  /// of the property can be either primitive or another <code>struct</code>.
-  final CustomProperty? property;
-  final Sensor? sensor;
-
-  /// Represents a complex or higher-order data structure.
-  final CustomStruct? struct;
-
-  Node({
-    this.actuator,
-    this.attribute,
-    this.branch,
-    this.property,
-    this.sensor,
-    this.struct,
-  });
-
-  factory Node.fromJson(Map<String, dynamic> json) {
-    return Node(
-      actuator: json['actuator'] != null
-          ? Actuator.fromJson(json['actuator'] as Map<String, dynamic>)
-          : null,
-      attribute: json['attribute'] != null
-          ? Attribute.fromJson(json['attribute'] as Map<String, dynamic>)
-          : null,
-      branch: json['branch'] != null
-          ? Branch.fromJson(json['branch'] as Map<String, dynamic>)
-          : null,
-      property: json['property'] != null
-          ? CustomProperty.fromJson(json['property'] as Map<String, dynamic>)
-          : null,
-      sensor: json['sensor'] != null
-          ? Sensor.fromJson(json['sensor'] as Map<String, dynamic>)
-          : null,
-      struct: json['struct'] != null
-          ? CustomStruct.fromJson(json['struct'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actuator = this.actuator;
-    final attribute = this.attribute;
-    final branch = this.branch;
-    final property = this.property;
-    final sensor = this.sensor;
-    final struct = this.struct;
-    return {
-      if (actuator != null) 'actuator': actuator,
-      if (attribute != null) 'attribute': attribute,
-      if (branch != null) 'branch': branch,
-      if (property != null) 'property': property,
-      if (sensor != null) 'sensor': sensor,
-      if (struct != null) 'struct': struct,
-    };
-  }
-}
-
-/// Information about the number of nodes and node types in a vehicle network.
-class NodeCounts {
-  /// The total number of nodes in a vehicle network that represent actuators.
-  final int? totalActuators;
-
-  /// The total number of nodes in a vehicle network that represent attributes.
-  final int? totalAttributes;
-
-  /// The total number of nodes in a vehicle network that represent branches.
-  final int? totalBranches;
-
-  /// The total number of nodes in a vehicle network.
-  final int? totalNodes;
-
-  /// The total properties for the node.
-  final int? totalProperties;
-
-  /// The total number of nodes in a vehicle network that represent sensors.
-  final int? totalSensors;
-
-  /// The total structure for the node.
-  final int? totalStructs;
-
-  NodeCounts({
-    this.totalActuators,
-    this.totalAttributes,
-    this.totalBranches,
-    this.totalNodes,
-    this.totalProperties,
-    this.totalSensors,
-    this.totalStructs,
-  });
-
-  factory NodeCounts.fromJson(Map<String, dynamic> json) {
-    return NodeCounts(
-      totalActuators: json['totalActuators'] as int?,
-      totalAttributes: json['totalAttributes'] as int?,
-      totalBranches: json['totalBranches'] as int?,
-      totalNodes: json['totalNodes'] as int?,
-      totalProperties: json['totalProperties'] as int?,
-      totalSensors: json['totalSensors'] as int?,
-      totalStructs: json['totalStructs'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final totalActuators = this.totalActuators;
-    final totalAttributes = this.totalAttributes;
-    final totalBranches = this.totalBranches;
-    final totalNodes = this.totalNodes;
-    final totalProperties = this.totalProperties;
-    final totalSensors = this.totalSensors;
-    final totalStructs = this.totalStructs;
-    return {
-      if (totalActuators != null) 'totalActuators': totalActuators,
-      if (totalAttributes != null) 'totalAttributes': totalAttributes,
-      if (totalBranches != null) 'totalBranches': totalBranches,
-      if (totalNodes != null) 'totalNodes': totalNodes,
-      if (totalProperties != null) 'totalProperties': totalProperties,
-      if (totalSensors != null) 'totalSensors': totalSensors,
-      if (totalStructs != null) 'totalStructs': totalStructs,
-    };
-  }
-}
-
-class NodeDataEncoding {
-  static const binary = NodeDataEncoding._('BINARY');
-  static const typed = NodeDataEncoding._('TYPED');
-
-  final String value;
-
-  const NodeDataEncoding._(this.value);
-
-  static const values = [binary, typed];
-
-  static NodeDataEncoding fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NodeDataEncoding._(value));
-
-  @override
-  bool operator ==(other) => other is NodeDataEncoding && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class NodeDataType {
@@ -6168,70 +6470,574 @@ class NodeDataType {
   String toString() => value;
 }
 
-/// A network interface that specifies the On-board diagnostic (OBD) II network
-/// protocol.
-class ObdInterface {
-  /// The name of the interface.
-  final String name;
+class NodeDataEncoding {
+  static const binary = NodeDataEncoding._('BINARY');
+  static const typed = NodeDataEncoding._('TYPED');
 
-  /// The ID of the message requesting vehicle data.
-  final int requestMessageId;
+  final String value;
 
-  /// The maximum number message requests per diagnostic trouble code per second.
-  final int? dtcRequestIntervalSeconds;
+  const NodeDataEncoding._(this.value);
 
-  /// Whether the vehicle has a transmission control module (TCM).
-  final bool? hasTransmissionEcu;
+  static const values = [binary, typed];
 
-  /// The standard OBD II PID.
-  final String? obdStandard;
+  static NodeDataEncoding fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NodeDataEncoding._(value));
 
-  /// The maximum number message requests per second.
-  final int? pidRequestIntervalSeconds;
+  @override
+  bool operator ==(other) => other is NodeDataEncoding && other.value == value;
 
-  /// Whether to use extended IDs in the message.
-  final bool? useExtendedIds;
+  @override
+  int get hashCode => value.hashCode;
 
-  ObdInterface({
-    required this.name,
-    required this.requestMessageId,
-    this.dtcRequestIntervalSeconds,
-    this.hasTransmissionEcu,
-    this.obdStandard,
-    this.pidRequestIntervalSeconds,
-    this.useExtendedIds,
+  @override
+  String toString() => value;
+}
+
+class SignalNodeType {
+  static const sensor = SignalNodeType._('SENSOR');
+  static const actuator = SignalNodeType._('ACTUATOR');
+  static const attribute = SignalNodeType._('ATTRIBUTE');
+  static const branch = SignalNodeType._('BRANCH');
+  static const customStruct = SignalNodeType._('CUSTOM_STRUCT');
+  static const customProperty = SignalNodeType._('CUSTOM_PROPERTY');
+
+  final String value;
+
+  const SignalNodeType._(this.value);
+
+  static const values = [
+    sensor,
+    actuator,
+    attribute,
+    branch,
+    customStruct,
+    customProperty
+  ];
+
+  static SignalNodeType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SignalNodeType._(value));
+
+  @override
+  bool operator ==(other) => other is SignalNodeType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// <a
+/// href="https://www.w3.org/auto/wg/wiki/Vehicle_Signal_Specification_(VSS)/Vehicle_Data_Spec">Vehicle
+/// Signal Specification (VSS)</a> is a precise language used to describe and
+/// model signals in vehicle networks. The JSON file collects signal
+/// specificiations in a VSS format.
+class FormattedVss {
+  /// Provides the VSS in JSON format.
+  final String? vssJson;
+
+  FormattedVss({
+    this.vssJson,
   });
 
-  factory ObdInterface.fromJson(Map<String, dynamic> json) {
-    return ObdInterface(
-      name: (json['name'] as String?) ?? '',
-      requestMessageId: (json['requestMessageId'] as int?) ?? 0,
-      dtcRequestIntervalSeconds: json['dtcRequestIntervalSeconds'] as int?,
-      hasTransmissionEcu: json['hasTransmissionEcu'] as bool?,
-      obdStandard: json['obdStandard'] as String?,
-      pidRequestIntervalSeconds: json['pidRequestIntervalSeconds'] as int?,
-      useExtendedIds: json['useExtendedIds'] as bool?,
+  Map<String, dynamic> toJson() {
+    final vssJson = this.vssJson;
+    return {
+      if (vssJson != null) 'vssJson': vssJson,
+    };
+  }
+}
+
+/// Information about a collection of standardized signals, which can be
+/// attributes, branches, sensors, or actuators.
+class SignalCatalogSummary {
+  /// The Amazon Resource Name (ARN) of the signal catalog.
+  final String? arn;
+
+  /// The time the signal catalog was created in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime? creationTime;
+
+  /// The time the signal catalog was last updated in seconds since epoch (January
+  /// 1, 1970 at midnight UTC time).
+  final DateTime? lastModificationTime;
+
+  /// The name of the signal catalog.
+  final String? name;
+
+  SignalCatalogSummary({
+    this.arn,
+    this.creationTime,
+    this.lastModificationTime,
+    this.name,
+  });
+
+  factory SignalCatalogSummary.fromJson(Map<String, dynamic> json) {
+    return SignalCatalogSummary(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
+      name: json['name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
     final name = this.name;
-    final requestMessageId = this.requestMessageId;
-    final dtcRequestIntervalSeconds = this.dtcRequestIntervalSeconds;
-    final hasTransmissionEcu = this.hasTransmissionEcu;
-    final obdStandard = this.obdStandard;
-    final pidRequestIntervalSeconds = this.pidRequestIntervalSeconds;
-    final useExtendedIds = this.useExtendedIds;
     return {
-      'name': name,
-      'requestMessageId': requestMessageId,
-      if (dtcRequestIntervalSeconds != null)
-        'dtcRequestIntervalSeconds': dtcRequestIntervalSeconds,
-      if (hasTransmissionEcu != null) 'hasTransmissionEcu': hasTransmissionEcu,
-      if (obdStandard != null) 'obdStandard': obdStandard,
-      if (pidRequestIntervalSeconds != null)
-        'pidRequestIntervalSeconds': pidRequestIntervalSeconds,
-      if (useExtendedIds != null) 'useExtendedIds': useExtendedIds,
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (lastModificationTime != null)
+        'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Information about the number of nodes and node types in a vehicle network.
+class NodeCounts {
+  /// The total number of nodes in a vehicle network that represent actuators.
+  final int? totalActuators;
+
+  /// The total number of nodes in a vehicle network that represent attributes.
+  final int? totalAttributes;
+
+  /// The total number of nodes in a vehicle network that represent branches.
+  final int? totalBranches;
+
+  /// The total number of nodes in a vehicle network.
+  final int? totalNodes;
+
+  /// The total properties for the node.
+  final int? totalProperties;
+
+  /// The total number of nodes in a vehicle network that represent sensors.
+  final int? totalSensors;
+
+  /// The total structure for the node.
+  final int? totalStructs;
+
+  NodeCounts({
+    this.totalActuators,
+    this.totalAttributes,
+    this.totalBranches,
+    this.totalNodes,
+    this.totalProperties,
+    this.totalSensors,
+    this.totalStructs,
+  });
+
+  factory NodeCounts.fromJson(Map<String, dynamic> json) {
+    return NodeCounts(
+      totalActuators: json['totalActuators'] as int?,
+      totalAttributes: json['totalAttributes'] as int?,
+      totalBranches: json['totalBranches'] as int?,
+      totalNodes: json['totalNodes'] as int?,
+      totalProperties: json['totalProperties'] as int?,
+      totalSensors: json['totalSensors'] as int?,
+      totalStructs: json['totalStructs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final totalActuators = this.totalActuators;
+    final totalAttributes = this.totalAttributes;
+    final totalBranches = this.totalBranches;
+    final totalNodes = this.totalNodes;
+    final totalProperties = this.totalProperties;
+    final totalSensors = this.totalSensors;
+    final totalStructs = this.totalStructs;
+    return {
+      if (totalActuators != null) 'totalActuators': totalActuators,
+      if (totalAttributes != null) 'totalAttributes': totalAttributes,
+      if (totalBranches != null) 'totalBranches': totalBranches,
+      if (totalNodes != null) 'totalNodes': totalNodes,
+      if (totalProperties != null) 'totalProperties': totalProperties,
+      if (totalSensors != null) 'totalSensors': totalSensors,
+      if (totalStructs != null) 'totalStructs': totalStructs,
+    };
+  }
+}
+
+/// Information about a vehicle model (model manifest). You can use the API
+/// operation to return this information about multiple vehicle models.
+class ModelManifestSummary {
+  /// The time the vehicle model was created, in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime creationTime;
+
+  /// The time the vehicle model was last updated, in seconds since epoch (January
+  /// 1, 1970 at midnight UTC time).
+  final DateTime lastModificationTime;
+
+  /// The Amazon Resource Name (ARN) of the vehicle model.
+  final String? arn;
+
+  /// A brief description of the vehicle model.
+  final String? description;
+
+  /// The name of the vehicle model.
+  final String? name;
+
+  /// The ARN of the signal catalog associated with the vehicle model.
+  final String? signalCatalogArn;
+
+  /// The state of the vehicle model. If the status is <code>ACTIVE</code>, the
+  /// vehicle model can't be edited. If the status is <code>DRAFT</code>, you can
+  /// edit the vehicle model.
+  final ManifestStatus? status;
+
+  ModelManifestSummary({
+    required this.creationTime,
+    required this.lastModificationTime,
+    this.arn,
+    this.description,
+    this.name,
+    this.signalCatalogArn,
+    this.status,
+  });
+
+  factory ModelManifestSummary.fromJson(Map<String, dynamic> json) {
+    return ModelManifestSummary(
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      signalCatalogArn: json['signalCatalogArn'] as String?,
+      status: (json['status'] as String?)?.let(ManifestStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final arn = this.arn;
+    final description = this.description;
+    final name = this.name;
+    final signalCatalogArn = this.signalCatalogArn;
+    final status = this.status;
+    return {
+      'creationTime': unixTimestampToJson(creationTime),
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class ManifestStatus {
+  static const active = ManifestStatus._('ACTIVE');
+  static const draft = ManifestStatus._('DRAFT');
+  static const invalid = ManifestStatus._('INVALID');
+  static const validating = ManifestStatus._('VALIDATING');
+
+  final String value;
+
+  const ManifestStatus._(this.value);
+
+  static const values = [active, draft, invalid, validating];
+
+  static ManifestStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ManifestStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ManifestStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a fleet.
+///
+/// You can use the API operation to return this information about multiple
+/// fleets.
+class FleetSummary {
+  /// The Amazon Resource Name (ARN) of the fleet.
+  final String arn;
+
+  /// The time the fleet was created, in seconds since epoch (January 1, 1970 at
+  /// midnight UTC time).
+  final DateTime creationTime;
+
+  /// The unique ID of the fleet.
+  final String id;
+
+  /// The ARN of the signal catalog associated with the fleet.
+  final String signalCatalogArn;
+
+  /// A brief description of the fleet.
+  final String? description;
+
+  /// The time the fleet was last updated in seconds since epoch (January 1, 1970
+  /// at midnight UTC time).
+  final DateTime? lastModificationTime;
+
+  FleetSummary({
+    required this.arn,
+    required this.creationTime,
+    required this.id,
+    required this.signalCatalogArn,
+    this.description,
+    this.lastModificationTime,
+  });
+
+  factory FleetSummary.fromJson(Map<String, dynamic> json) {
+    return FleetSummary(
+      arn: (json['arn'] as String?) ?? '',
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      id: (json['id'] as String?) ?? '',
+      signalCatalogArn: (json['signalCatalogArn'] as String?) ?? '',
+      description: json['description'] as String?,
+      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final signalCatalogArn = this.signalCatalogArn;
+    final description = this.description;
+    final lastModificationTime = this.lastModificationTime;
+    return {
+      'arn': arn,
+      'creationTime': unixTimestampToJson(creationTime),
+      'id': id,
+      'signalCatalogArn': signalCatalogArn,
+      if (description != null) 'description': description,
+      if (lastModificationTime != null)
+        'lastModificationTime': unixTimestampToJson(lastModificationTime),
+    };
+  }
+}
+
+/// Information about a signal decoder.
+class SignalDecoder {
+  /// The fully qualified name of a signal decoder as defined in a vehicle model.
+  final String fullyQualifiedName;
+
+  /// The ID of a network interface that specifies what network protocol a vehicle
+  /// follows.
+  final String interfaceId;
+
+  /// The network protocol for the vehicle. For example, <code>CAN_SIGNAL</code>
+  /// specifies a protocol that defines how data is communicated between
+  /// electronic control units (ECUs). <code>OBD_SIGNAL</code> specifies a
+  /// protocol that defines how self-diagnostic data is communicated between ECUs.
+  final SignalDecoderType type;
+
+  /// Information about signal decoder using the Controller Area Network (CAN)
+  /// protocol.
+  final CanSignal? canSignal;
+
+  /// Information about a <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CustomDecodingSignal.html">custom
+  /// signal decoder</a>.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  final CustomDecodingSignal? customDecodingSignal;
+
+  /// The decoding information for a specific message which supports higher order
+  /// data types.
+  final MessageSignal? messageSignal;
+
+  /// Information about signal decoder using the on-board diagnostic (OBD) II
+  /// protocol.
+  final ObdSignal? obdSignal;
+
+  SignalDecoder({
+    required this.fullyQualifiedName,
+    required this.interfaceId,
+    required this.type,
+    this.canSignal,
+    this.customDecodingSignal,
+    this.messageSignal,
+    this.obdSignal,
+  });
+
+  factory SignalDecoder.fromJson(Map<String, dynamic> json) {
+    return SignalDecoder(
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
+      interfaceId: (json['interfaceId'] as String?) ?? '',
+      type: SignalDecoderType.fromString((json['type'] as String?) ?? ''),
+      canSignal: json['canSignal'] != null
+          ? CanSignal.fromJson(json['canSignal'] as Map<String, dynamic>)
+          : null,
+      customDecodingSignal: json['customDecodingSignal'] != null
+          ? CustomDecodingSignal.fromJson(
+              json['customDecodingSignal'] as Map<String, dynamic>)
+          : null,
+      messageSignal: json['messageSignal'] != null
+          ? MessageSignal.fromJson(
+              json['messageSignal'] as Map<String, dynamic>)
+          : null,
+      obdSignal: json['obdSignal'] != null
+          ? ObdSignal.fromJson(json['obdSignal'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fullyQualifiedName = this.fullyQualifiedName;
+    final interfaceId = this.interfaceId;
+    final type = this.type;
+    final canSignal = this.canSignal;
+    final customDecodingSignal = this.customDecodingSignal;
+    final messageSignal = this.messageSignal;
+    final obdSignal = this.obdSignal;
+    return {
+      'fullyQualifiedName': fullyQualifiedName,
+      'interfaceId': interfaceId,
+      'type': type.value,
+      if (canSignal != null) 'canSignal': canSignal,
+      if (customDecodingSignal != null)
+        'customDecodingSignal': customDecodingSignal,
+      if (messageSignal != null) 'messageSignal': messageSignal,
+      if (obdSignal != null) 'obdSignal': obdSignal,
+    };
+  }
+}
+
+class SignalDecoderType {
+  static const canSignal = SignalDecoderType._('CAN_SIGNAL');
+  static const obdSignal = SignalDecoderType._('OBD_SIGNAL');
+  static const messageSignal = SignalDecoderType._('MESSAGE_SIGNAL');
+  static const customDecodingSignal =
+      SignalDecoderType._('CUSTOM_DECODING_SIGNAL');
+
+  final String value;
+
+  const SignalDecoderType._(this.value);
+
+  static const values = [
+    canSignal,
+    obdSignal,
+    messageSignal,
+    customDecodingSignal
+  ];
+
+  static SignalDecoderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SignalDecoderType._(value));
+
+  @override
+  bool operator ==(other) => other is SignalDecoderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a single controller area network (CAN) signal and the
+/// messages it receives and transmits.
+class CanSignal {
+  /// A multiplier used to decode the CAN message.
+  final double factor;
+
+  /// Whether the byte ordering of a CAN message is big-endian.
+  final bool isBigEndian;
+
+  /// Determines whether the message is signed (<code>true</code>) or not
+  /// (<code>false</code>). If it's signed, the message can represent both
+  /// positive and negative numbers. The <code>isSigned</code> parameter only
+  /// applies to the <code>INTEGER</code> raw signal type, and it doesn't affect
+  /// the <code>FLOATING_POINT</code> raw signal type.
+  final bool isSigned;
+
+  /// How many bytes of data are in the message.
+  final int length;
+
+  /// The ID of the message.
+  final int messageId;
+
+  /// The offset used to calculate the signal value. Combined with factor, the
+  /// calculation is <code>value = raw_value * factor + offset</code>.
+  final double offset;
+
+  /// Indicates the beginning of the CAN signal. This should always be the least
+  /// significant bit (LSB).
+  ///
+  /// This value might be different from the value in a DBC file. For little
+  /// endian signals, <code>startBit</code> is the same value as in the DBC file.
+  /// For big endian signals in a DBC file, the start bit is the most significant
+  /// bit (MSB). You will have to calculate the LSB instead and pass it as the
+  /// <code>startBit</code>.
+  final int startBit;
+
+  /// The name of the signal.
+  final String? name;
+
+  /// The value type of the signal. The default value is <code>INTEGER</code>.
+  final SignalValueType? signalValueType;
+
+  CanSignal({
+    required this.factor,
+    required this.isBigEndian,
+    required this.isSigned,
+    required this.length,
+    required this.messageId,
+    required this.offset,
+    required this.startBit,
+    this.name,
+    this.signalValueType,
+  });
+
+  factory CanSignal.fromJson(Map<String, dynamic> json) {
+    return CanSignal(
+      factor: (json['factor'] as double?) ?? 0,
+      isBigEndian: (json['isBigEndian'] as bool?) ?? false,
+      isSigned: (json['isSigned'] as bool?) ?? false,
+      length: (json['length'] as int?) ?? 0,
+      messageId: (json['messageId'] as int?) ?? 0,
+      offset: (json['offset'] as double?) ?? 0,
+      startBit: (json['startBit'] as int?) ?? 0,
+      name: json['name'] as String?,
+      signalValueType:
+          (json['signalValueType'] as String?)?.let(SignalValueType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final factor = this.factor;
+    final isBigEndian = this.isBigEndian;
+    final isSigned = this.isSigned;
+    final length = this.length;
+    final messageId = this.messageId;
+    final offset = this.offset;
+    final startBit = this.startBit;
+    final name = this.name;
+    final signalValueType = this.signalValueType;
+    return {
+      'factor': factor,
+      'isBigEndian': isBigEndian,
+      'isSigned': isSigned,
+      'length': length,
+      'messageId': messageId,
+      'offset': offset,
+      'startBit': startBit,
+      if (name != null) 'name': name,
+      if (signalValueType != null) 'signalValueType': signalValueType.value,
     };
   }
 }
@@ -6267,6 +7073,17 @@ class ObdSignal {
   /// The number of positions to shift bits in the message.
   final int? bitRightShift;
 
+  /// Determines whether the message is signed (<code>true</code>) or not
+  /// (<code>false</code>). If it's signed, the message can represent both
+  /// positive and negative numbers. The <code>isSigned</code> parameter only
+  /// applies to the <code>INTEGER</code> raw signal type, and it doesn't affect
+  /// the <code>FLOATING_POINT</code> raw signal type. The default value is
+  /// <code>false</code>.
+  final bool? isSigned;
+
+  /// The value type of the signal. The default value is <code>INTEGER</code>.
+  final SignalValueType? signalValueType;
+
   ObdSignal({
     required this.byteLength,
     required this.offset,
@@ -6277,6 +7094,8 @@ class ObdSignal {
     required this.startByte,
     this.bitMaskLength,
     this.bitRightShift,
+    this.isSigned,
+    this.signalValueType,
   });
 
   factory ObdSignal.fromJson(Map<String, dynamic> json) {
@@ -6290,6 +7109,9 @@ class ObdSignal {
       startByte: (json['startByte'] as int?) ?? 0,
       bitMaskLength: json['bitMaskLength'] as int?,
       bitRightShift: json['bitRightShift'] as int?,
+      isSigned: json['isSigned'] as bool?,
+      signalValueType:
+          (json['signalValueType'] as String?)?.let(SignalValueType.fromString),
     );
   }
 
@@ -6303,6 +7125,8 @@ class ObdSignal {
     final startByte = this.startByte;
     final bitMaskLength = this.bitMaskLength;
     final bitRightShift = this.bitRightShift;
+    final isSigned = this.isSigned;
+    final signalValueType = this.signalValueType;
     return {
       'byteLength': byteLength,
       'offset': offset,
@@ -6313,6 +7137,133 @@ class ObdSignal {
       'startByte': startByte,
       if (bitMaskLength != null) 'bitMaskLength': bitMaskLength,
       if (bitRightShift != null) 'bitRightShift': bitRightShift,
+      if (isSigned != null) 'isSigned': isSigned,
+      if (signalValueType != null) 'signalValueType': signalValueType.value,
+    };
+  }
+}
+
+/// The decoding information for a specific message which support higher order
+/// data types.
+class MessageSignal {
+  /// The structured message for the message signal. It can be defined with either
+  /// a <code>primitiveMessageDefinition</code>,
+  /// <code>structuredMessageListDefinition</code>, or
+  /// <code>structuredMessageDefinition</code> recursively.
+  final StructuredMessage structuredMessage;
+
+  /// The topic name for the message signal. It corresponds to topics in ROS 2.
+  final String topicName;
+
+  MessageSignal({
+    required this.structuredMessage,
+    required this.topicName,
+  });
+
+  factory MessageSignal.fromJson(Map<String, dynamic> json) {
+    return MessageSignal(
+      structuredMessage: StructuredMessage.fromJson(
+          (json['structuredMessage'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      topicName: (json['topicName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final structuredMessage = this.structuredMessage;
+    final topicName = this.topicName;
+    return {
+      'structuredMessage': structuredMessage,
+      'topicName': topicName,
+    };
+  }
+}
+
+/// Information about signals using a custom decoding protocol as defined by the
+/// customer.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class CustomDecodingSignal {
+  /// The ID of the signal.
+  final String id;
+
+  CustomDecodingSignal({
+    required this.id,
+  });
+
+  factory CustomDecodingSignal.fromJson(Map<String, dynamic> json) {
+    return CustomDecodingSignal(
+      id: (json['id'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      'id': id,
+    };
+  }
+}
+
+/// The structured message for the message signal. It can be defined with either
+/// a <code>primitiveMessageDefinition</code>,
+/// <code>structuredMessageListDefinition</code>, or
+/// <code>structuredMessageDefinition</code> recursively.
+class StructuredMessage {
+  /// Represents a primitive type node of the complex data structure.
+  final PrimitiveMessageDefinition? primitiveMessageDefinition;
+
+  /// Represents a struct type node of the complex data structure.
+  final List<StructuredMessageFieldNameAndDataTypePair>?
+      structuredMessageDefinition;
+
+  /// Represents a list type node of the complex data structure.
+  final StructuredMessageListDefinition? structuredMessageListDefinition;
+
+  StructuredMessage({
+    this.primitiveMessageDefinition,
+    this.structuredMessageDefinition,
+    this.structuredMessageListDefinition,
+  });
+
+  factory StructuredMessage.fromJson(Map<String, dynamic> json) {
+    return StructuredMessage(
+      primitiveMessageDefinition: json['primitiveMessageDefinition'] != null
+          ? PrimitiveMessageDefinition.fromJson(
+              json['primitiveMessageDefinition'] as Map<String, dynamic>)
+          : null,
+      structuredMessageDefinition:
+          (json['structuredMessageDefinition'] as List?)
+              ?.nonNulls
+              .map((e) => StructuredMessageFieldNameAndDataTypePair.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      structuredMessageListDefinition:
+          json['structuredMessageListDefinition'] != null
+              ? StructuredMessageListDefinition.fromJson(
+                  json['structuredMessageListDefinition']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final primitiveMessageDefinition = this.primitiveMessageDefinition;
+    final structuredMessageDefinition = this.structuredMessageDefinition;
+    final structuredMessageListDefinition =
+        this.structuredMessageListDefinition;
+    return {
+      if (primitiveMessageDefinition != null)
+        'primitiveMessageDefinition': primitiveMessageDefinition,
+      if (structuredMessageDefinition != null)
+        'structuredMessageDefinition': structuredMessageDefinition,
+      if (structuredMessageListDefinition != null)
+        'structuredMessageListDefinition': structuredMessageListDefinition,
     };
   }
 }
@@ -6346,59 +7297,119 @@ class PrimitiveMessageDefinition {
   }
 }
 
-class PutEncryptionConfigurationResponse {
-  /// The encryption status.
-  final EncryptionStatus encryptionStatus;
+/// Represents a list type node of the complex data structure.
+class StructuredMessageListDefinition {
+  /// The type of list of the structured message list definition.
+  final StructuredMessageListType listType;
 
-  /// The type of encryption. Set to <code>KMS_BASED_ENCRYPTION</code> to use an
-  /// KMS key that you own and manage. Set to
-  /// <code>FLEETWISE_DEFAULT_ENCRYPTION</code> to use an Amazon Web Services
-  /// managed key that is owned by the Amazon Web Services IoT FleetWise service
-  /// account.
-  final EncryptionType encryptionType;
+  /// The member type of the structured message list definition.
+  final StructuredMessage memberType;
 
-  /// The ID of the KMS key that is used for encryption.
-  final String? kmsKeyId;
+  /// The name of the structured message list definition.
+  final String name;
 
-  PutEncryptionConfigurationResponse({
-    required this.encryptionStatus,
-    required this.encryptionType,
-    this.kmsKeyId,
+  /// The capacity of the structured message list definition when the list type is
+  /// <code>FIXED_CAPACITY</code> or <code>DYNAMIC_BOUNDED_CAPACITY</code>.
+  final int? capacity;
+
+  StructuredMessageListDefinition({
+    required this.listType,
+    required this.memberType,
+    required this.name,
+    this.capacity,
   });
 
-  factory PutEncryptionConfigurationResponse.fromJson(
-      Map<String, dynamic> json) {
-    return PutEncryptionConfigurationResponse(
-      encryptionStatus: EncryptionStatus.fromString(
-          (json['encryptionStatus'] as String?) ?? ''),
-      encryptionType:
-          EncryptionType.fromString((json['encryptionType'] as String?) ?? ''),
-      kmsKeyId: json['kmsKeyId'] as String?,
+  factory StructuredMessageListDefinition.fromJson(Map<String, dynamic> json) {
+    return StructuredMessageListDefinition(
+      listType: StructuredMessageListType.fromString(
+          (json['listType'] as String?) ?? ''),
+      memberType: StructuredMessage.fromJson(
+          (json['memberType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['name'] as String?) ?? '',
+      capacity: json['capacity'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final encryptionStatus = this.encryptionStatus;
-    final encryptionType = this.encryptionType;
-    final kmsKeyId = this.kmsKeyId;
+    final listType = this.listType;
+    final memberType = this.memberType;
+    final name = this.name;
+    final capacity = this.capacity;
     return {
-      'encryptionStatus': encryptionStatus.value,
-      'encryptionType': encryptionType.value,
-      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      'listType': listType.value,
+      'memberType': memberType,
+      'name': name,
+      if (capacity != null) 'capacity': capacity,
     };
   }
 }
 
-class PutLoggingOptionsResponse {
-  PutLoggingOptionsResponse();
+/// Represents a <code>StructureMessageName</code> to <code>DataType</code> map
+/// element.
+class StructuredMessageFieldNameAndDataTypePair {
+  /// The data type.
+  final StructuredMessage dataType;
 
-  factory PutLoggingOptionsResponse.fromJson(Map<String, dynamic> _) {
-    return PutLoggingOptionsResponse();
+  /// The field name of the structured message. It determines how a data value is
+  /// referenced in the target language.
+  final String fieldName;
+
+  StructuredMessageFieldNameAndDataTypePair({
+    required this.dataType,
+    required this.fieldName,
+  });
+
+  factory StructuredMessageFieldNameAndDataTypePair.fromJson(
+      Map<String, dynamic> json) {
+    return StructuredMessageFieldNameAndDataTypePair(
+      dataType: StructuredMessage.fromJson(
+          (json['dataType'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      fieldName: (json['fieldName'] as String?) ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final dataType = this.dataType;
+    final fieldName = this.fieldName;
+    return {
+      'dataType': dataType,
+      'fieldName': fieldName,
+    };
   }
+}
+
+class StructuredMessageListType {
+  static const fixedCapacity = StructuredMessageListType._('FIXED_CAPACITY');
+  static const dynamicUnboundedCapacity =
+      StructuredMessageListType._('DYNAMIC_UNBOUNDED_CAPACITY');
+  static const dynamicBoundedCapacity =
+      StructuredMessageListType._('DYNAMIC_BOUNDED_CAPACITY');
+
+  final String value;
+
+  const StructuredMessageListType._(this.value);
+
+  static const values = [
+    fixedCapacity,
+    dynamicUnboundedCapacity,
+    dynamicBoundedCapacity
+  ];
+
+  static StructuredMessageListType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StructuredMessageListType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StructuredMessageListType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Represents a ROS 2 compliant primitive type message of the complex data
@@ -6503,97 +7514,1263 @@ class ROS2PrimitiveType {
   String toString() => value;
 }
 
-class RegisterAccountResponse {
-  /// The time the account was registered, in seconds since epoch (January 1, 1970
-  /// at midnight UTC time).
-  final DateTime creationTime;
-
-  /// The registered IAM resource that allows Amazon Web Services IoT FleetWise to
-  /// send data to Amazon Timestream.
-  final IamResources iamResources;
-
-  /// The time this registration was last updated, in seconds since epoch (January
-  /// 1, 1970 at midnight UTC time).
-  final DateTime lastModificationTime;
-
-  /// The status of registering your Amazon Web Services account, IAM role, and
-  /// Timestream resources.
-  final RegistrationStatus registerAccountStatus;
-  final TimestreamResources? timestreamResources;
-
-  RegisterAccountResponse({
-    required this.creationTime,
-    required this.iamResources,
-    required this.lastModificationTime,
-    required this.registerAccountStatus,
-    this.timestreamResources,
-  });
-
-  factory RegisterAccountResponse.fromJson(Map<String, dynamic> json) {
-    return RegisterAccountResponse(
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      iamResources: IamResources.fromJson(
-          (json['iamResources'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      registerAccountStatus: RegistrationStatus.fromString(
-          (json['registerAccountStatus'] as String?) ?? ''),
-      timestreamResources: json['timestreamResources'] != null
-          ? TimestreamResources.fromJson(
-              json['timestreamResources'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final iamResources = this.iamResources;
-    final lastModificationTime = this.lastModificationTime;
-    final registerAccountStatus = this.registerAccountStatus;
-    final timestreamResources = this.timestreamResources;
-    return {
-      'creationTime': unixTimestampToJson(creationTime),
-      'iamResources': iamResources,
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      'registerAccountStatus': registerAccountStatus.value,
-      if (timestreamResources != null)
-        'timestreamResources': timestreamResources,
-    };
-  }
-}
-
-class RegistrationStatus {
-  static const registrationPending =
-      RegistrationStatus._('REGISTRATION_PENDING');
-  static const registrationSuccess =
-      RegistrationStatus._('REGISTRATION_SUCCESS');
-  static const registrationFailure =
-      RegistrationStatus._('REGISTRATION_FAILURE');
+class SignalValueType {
+  static const integer = SignalValueType._('INTEGER');
+  static const floatingPoint = SignalValueType._('FLOATING_POINT');
 
   final String value;
 
-  const RegistrationStatus._(this.value);
+  const SignalValueType._(this.value);
 
-  static const values = [
-    registrationPending,
-    registrationSuccess,
-    registrationFailure
-  ];
+  static const values = [integer, floatingPoint];
 
-  static RegistrationStatus fromString(String value) =>
+  static SignalValueType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => RegistrationStatus._(value));
+          orElse: () => SignalValueType._(value));
 
   @override
-  bool operator ==(other) =>
-      other is RegistrationStatus && other.value == value;
+  bool operator ==(other) => other is SignalValueType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Represents a node and its specifications in an in-vehicle communication
+/// network. All signal decoders must be associated with a network node.
+///
+/// To return this information about all the network interfaces specified in a
+/// decoder manifest, use the API operation.
+class NetworkInterface {
+  /// The ID of the network interface.
+  final String interfaceId;
+
+  /// The network protocol for the vehicle. For example, <code>CAN_SIGNAL</code>
+  /// specifies a protocol that defines how data is communicated between
+  /// electronic control units (ECUs). <code>OBD_SIGNAL</code> specifies a
+  /// protocol that defines how self-diagnostic data is communicated between ECUs.
+  final NetworkInterfaceType type;
+
+  /// Information about a network interface specified by the Controller Area
+  /// Network (CAN) protocol.
+  final CanInterface? canInterface;
+
+  /// Information about a <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CustomDecodingInterface.html">custom
+  /// network interface</a>.
+  final CustomDecodingInterface? customDecodingInterface;
+
+  /// Information about a network interface specified by the on-board diagnostic
+  /// (OBD) II protocol.
+  final ObdInterface? obdInterface;
+
+  /// The vehicle middleware defined as a type of network interface. Examples of
+  /// vehicle middleware include <code>ROS2</code> and <code>SOME/IP</code>.
+  final VehicleMiddleware? vehicleMiddleware;
+
+  NetworkInterface({
+    required this.interfaceId,
+    required this.type,
+    this.canInterface,
+    this.customDecodingInterface,
+    this.obdInterface,
+    this.vehicleMiddleware,
+  });
+
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      interfaceId: (json['interfaceId'] as String?) ?? '',
+      type: NetworkInterfaceType.fromString((json['type'] as String?) ?? ''),
+      canInterface: json['canInterface'] != null
+          ? CanInterface.fromJson(json['canInterface'] as Map<String, dynamic>)
+          : null,
+      customDecodingInterface: json['customDecodingInterface'] != null
+          ? CustomDecodingInterface.fromJson(
+              json['customDecodingInterface'] as Map<String, dynamic>)
+          : null,
+      obdInterface: json['obdInterface'] != null
+          ? ObdInterface.fromJson(json['obdInterface'] as Map<String, dynamic>)
+          : null,
+      vehicleMiddleware: json['vehicleMiddleware'] != null
+          ? VehicleMiddleware.fromJson(
+              json['vehicleMiddleware'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interfaceId = this.interfaceId;
+    final type = this.type;
+    final canInterface = this.canInterface;
+    final customDecodingInterface = this.customDecodingInterface;
+    final obdInterface = this.obdInterface;
+    final vehicleMiddleware = this.vehicleMiddleware;
+    return {
+      'interfaceId': interfaceId,
+      'type': type.value,
+      if (canInterface != null) 'canInterface': canInterface,
+      if (customDecodingInterface != null)
+        'customDecodingInterface': customDecodingInterface,
+      if (obdInterface != null) 'obdInterface': obdInterface,
+      if (vehicleMiddleware != null) 'vehicleMiddleware': vehicleMiddleware,
+    };
+  }
+}
+
+class NetworkInterfaceType {
+  static const canInterface = NetworkInterfaceType._('CAN_INTERFACE');
+  static const obdInterface = NetworkInterfaceType._('OBD_INTERFACE');
+  static const vehicleMiddleware = NetworkInterfaceType._('VEHICLE_MIDDLEWARE');
+  static const customDecodingInterface =
+      NetworkInterfaceType._('CUSTOM_DECODING_INTERFACE');
+
+  final String value;
+
+  const NetworkInterfaceType._(this.value);
+
+  static const values = [
+    canInterface,
+    obdInterface,
+    vehicleMiddleware,
+    customDecodingInterface
+  ];
+
+  static NetworkInterfaceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkInterfaceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkInterfaceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A single controller area network (CAN) device interface.
+class CanInterface {
+  /// The unique name of the interface.
+  final String name;
+
+  /// The name of the communication protocol for the interface.
+  final String? protocolName;
+
+  /// The version of the communication protocol for the interface.
+  final String? protocolVersion;
+
+  CanInterface({
+    required this.name,
+    this.protocolName,
+    this.protocolVersion,
+  });
+
+  factory CanInterface.fromJson(Map<String, dynamic> json) {
+    return CanInterface(
+      name: (json['name'] as String?) ?? '',
+      protocolName: json['protocolName'] as String?,
+      protocolVersion: json['protocolVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final protocolName = this.protocolName;
+    final protocolVersion = this.protocolVersion;
+    return {
+      'name': name,
+      if (protocolName != null) 'protocolName': protocolName,
+      if (protocolVersion != null) 'protocolVersion': protocolVersion,
+    };
+  }
+}
+
+/// A network interface that specifies the on-board diagnostic (OBD) II network
+/// protocol.
+class ObdInterface {
+  /// The name of the interface.
+  final String name;
+
+  /// The ID of the message requesting vehicle data.
+  final int requestMessageId;
+
+  /// The maximum number message requests per diagnostic trouble code per second.
+  final int? dtcRequestIntervalSeconds;
+
+  /// Whether the vehicle has a transmission control module (TCM).
+  final bool? hasTransmissionEcu;
+
+  /// The standard OBD II PID.
+  final String? obdStandard;
+
+  /// The maximum number message requests per second.
+  final int? pidRequestIntervalSeconds;
+
+  /// Whether to use extended IDs in the message.
+  final bool? useExtendedIds;
+
+  ObdInterface({
+    required this.name,
+    required this.requestMessageId,
+    this.dtcRequestIntervalSeconds,
+    this.hasTransmissionEcu,
+    this.obdStandard,
+    this.pidRequestIntervalSeconds,
+    this.useExtendedIds,
+  });
+
+  factory ObdInterface.fromJson(Map<String, dynamic> json) {
+    return ObdInterface(
+      name: (json['name'] as String?) ?? '',
+      requestMessageId: (json['requestMessageId'] as int?) ?? 0,
+      dtcRequestIntervalSeconds: json['dtcRequestIntervalSeconds'] as int?,
+      hasTransmissionEcu: json['hasTransmissionEcu'] as bool?,
+      obdStandard: json['obdStandard'] as String?,
+      pidRequestIntervalSeconds: json['pidRequestIntervalSeconds'] as int?,
+      useExtendedIds: json['useExtendedIds'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final requestMessageId = this.requestMessageId;
+    final dtcRequestIntervalSeconds = this.dtcRequestIntervalSeconds;
+    final hasTransmissionEcu = this.hasTransmissionEcu;
+    final obdStandard = this.obdStandard;
+    final pidRequestIntervalSeconds = this.pidRequestIntervalSeconds;
+    final useExtendedIds = this.useExtendedIds;
+    return {
+      'name': name,
+      'requestMessageId': requestMessageId,
+      if (dtcRequestIntervalSeconds != null)
+        'dtcRequestIntervalSeconds': dtcRequestIntervalSeconds,
+      if (hasTransmissionEcu != null) 'hasTransmissionEcu': hasTransmissionEcu,
+      if (obdStandard != null) 'obdStandard': obdStandard,
+      if (pidRequestIntervalSeconds != null)
+        'pidRequestIntervalSeconds': pidRequestIntervalSeconds,
+      if (useExtendedIds != null) 'useExtendedIds': useExtendedIds,
+    };
+  }
+}
+
+/// The vehicle middleware defined as a type of network interface. Examples of
+/// vehicle middleware include <code>ROS2</code> and <code>SOME/IP</code>.
+class VehicleMiddleware {
+  /// The name of the vehicle middleware.
+  final String name;
+
+  /// The protocol name of the vehicle middleware.
+  final VehicleMiddlewareProtocol protocolName;
+
+  VehicleMiddleware({
+    required this.name,
+    required this.protocolName,
+  });
+
+  factory VehicleMiddleware.fromJson(Map<String, dynamic> json) {
+    return VehicleMiddleware(
+      name: (json['name'] as String?) ?? '',
+      protocolName: VehicleMiddlewareProtocol.fromString(
+          (json['protocolName'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final protocolName = this.protocolName;
+    return {
+      'name': name,
+      'protocolName': protocolName.value,
+    };
+  }
+}
+
+/// Represents a custom network interface as defined by the customer.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class CustomDecodingInterface {
+  /// The name of the interface.
+  final String name;
+
+  CustomDecodingInterface({
+    required this.name,
+  });
+
+  factory CustomDecodingInterface.fromJson(Map<String, dynamic> json) {
+    return CustomDecodingInterface(
+      name: (json['name'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
+}
+
+class VehicleMiddlewareProtocol {
+  static const ros_2 = VehicleMiddlewareProtocol._('ROS_2');
+
+  final String value;
+
+  const VehicleMiddlewareProtocol._(this.value);
+
+  static const values = [ros_2];
+
+  static VehicleMiddlewareProtocol fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VehicleMiddlewareProtocol._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VehicleMiddlewareProtocol && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifications for defining a vehicle network.
+class NetworkFileDefinition {
+  /// Information, including CAN DBC files, about the configurations used to
+  /// create a decoder manifest.
+  final CanDbcDefinition? canDbc;
+
+  NetworkFileDefinition({
+    this.canDbc,
+  });
+
+  Map<String, dynamic> toJson() {
+    final canDbc = this.canDbc;
+    return {
+      if (canDbc != null) 'canDbc': canDbc,
+    };
+  }
+}
+
+/// Configurations used to create a decoder manifest.
+class CanDbcDefinition {
+  /// A list of DBC files. You can upload only one DBC file for each network
+  /// interface and specify up to five (inclusive) files in the list. The DBC file
+  /// can be a maximum size of 200 MB.
+  final List<Uint8List> canDbcFiles;
+
+  /// Contains information about a network interface.
+  final String networkInterface;
+
+  /// Pairs every signal specified in your vehicle model with a signal decoder.
+  final Map<String, String>? signalsMap;
+
+  CanDbcDefinition({
+    required this.canDbcFiles,
+    required this.networkInterface,
+    this.signalsMap,
+  });
+
+  Map<String, dynamic> toJson() {
+    final canDbcFiles = this.canDbcFiles;
+    final networkInterface = this.networkInterface;
+    final signalsMap = this.signalsMap;
+    return {
+      'canDbcFiles': canDbcFiles.map(base64Encode).toList(),
+      'networkInterface': networkInterface,
+      if (signalsMap != null) 'signalsMap': signalsMap,
+    };
+  }
+}
+
+/// Information about a created decoder manifest. You can use the API operation
+/// to return this information about multiple decoder manifests.
+class DecoderManifestSummary {
+  /// The time the decoder manifest was created in seconds since epoch (January 1,
+  /// 1970 at midnight UTC time).
+  final DateTime creationTime;
+
+  /// The time the decoder manifest was last updated in seconds since epoch
+  /// (January 1, 1970 at midnight UTC time).
+  final DateTime lastModificationTime;
+
+  /// The ARN of a vehicle model (model manifest) associated with the decoder
+  /// manifest.
+  final String? arn;
+
+  /// A brief description of the decoder manifest.
+  final String? description;
+
+  /// The detailed message for the decoder manifest. When a decoder manifest is in
+  /// an <code>INVALID</code> status, the message contains detailed reason and
+  /// help information.
+  final String? message;
+
+  /// The ARN of a vehicle model (model manifest) associated with the decoder
+  /// manifest.
+  final String? modelManifestArn;
+
+  /// The name of the decoder manifest.
+  final String? name;
+
+  /// The state of the decoder manifest. If the status is <code>ACTIVE</code>, the
+  /// decoder manifest can't be edited. If the status is marked
+  /// <code>DRAFT</code>, you can edit the decoder manifest.
+  final ManifestStatus? status;
+
+  DecoderManifestSummary({
+    required this.creationTime,
+    required this.lastModificationTime,
+    this.arn,
+    this.description,
+    this.message,
+    this.modelManifestArn,
+    this.name,
+    this.status,
+  });
+
+  factory DecoderManifestSummary.fromJson(Map<String, dynamic> json) {
+    return DecoderManifestSummary(
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      message: json['message'] as String?,
+      modelManifestArn: json['modelManifestArn'] as String?,
+      name: json['name'] as String?,
+      status: (json['status'] as String?)?.let(ManifestStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final arn = this.arn;
+    final description = this.description;
+    final message = this.message;
+    final modelManifestArn = this.modelManifestArn;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'creationTime': unixTimestampToJson(creationTime),
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (message != null) 'message': message,
+      if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status.value,
+    };
+  }
+}
+
+class DefaultForUnmappedSignalsType {
+  static const customDecoding =
+      DefaultForUnmappedSignalsType._('CUSTOM_DECODING');
+
+  final String value;
+
+  const DefaultForUnmappedSignalsType._(this.value);
+
+  static const values = [customDecoding];
+
+  static DefaultForUnmappedSignalsType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DefaultForUnmappedSignalsType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DefaultForUnmappedSignalsType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a campaign.
+///
+/// You can use the API operation to return this information about multiple
+/// created campaigns.
+class CampaignSummary {
+  /// The time the campaign was created.
+  final DateTime creationTime;
+
+  /// The last time the campaign was modified.
+  final DateTime lastModificationTime;
+
+  /// The Amazon Resource Name (ARN) of a campaign.
+  final String? arn;
+
+  /// The description of the campaign.
+  final String? description;
+
+  /// The name of a campaign.
+  final String? name;
+
+  /// The ARN of the signal catalog associated with the campaign.
+  final String? signalCatalogArn;
+
+  /// The state of a campaign. The status can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - Amazon Web Services IoT FleetWise is processing your
+  /// request to create the campaign.
+  /// </li>
+  /// <li>
+  /// <code>WAITING_FOR_APPROVAL</code> - After a campaign is created, it enters
+  /// the <code>WAITING_FOR_APPROVAL</code> state. To allow Amazon Web Services
+  /// IoT FleetWise to deploy the campaign to the target vehicle or fleet, use the
+  /// API operation to approve the campaign.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code> - The campaign is active.
+  /// </li>
+  /// <li>
+  /// <code>SUSPENDED</code> - The campaign is suspended. To resume the campaign,
+  /// use the API operation.
+  /// </li>
+  /// </ul>
+  final CampaignStatus? status;
+
+  /// The ARN of a vehicle or fleet to which the campaign is deployed.
+  final String? targetArn;
+
+  CampaignSummary({
+    required this.creationTime,
+    required this.lastModificationTime,
+    this.arn,
+    this.description,
+    this.name,
+    this.signalCatalogArn,
+    this.status,
+    this.targetArn,
+  });
+
+  factory CampaignSummary.fromJson(Map<String, dynamic> json) {
+    return CampaignSummary(
+      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
+      lastModificationTime:
+          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      signalCatalogArn: json['signalCatalogArn'] as String?,
+      status: (json['status'] as String?)?.let(CampaignStatus.fromString),
+      targetArn: json['targetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastModificationTime = this.lastModificationTime;
+    final arn = this.arn;
+    final description = this.description;
+    final name = this.name;
+    final signalCatalogArn = this.signalCatalogArn;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    return {
+      'creationTime': unixTimestampToJson(creationTime),
+      'lastModificationTime': unixTimestampToJson(lastModificationTime),
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (signalCatalogArn != null) 'signalCatalogArn': signalCatalogArn,
+      if (status != null) 'status': status.value,
+      if (targetArn != null) 'targetArn': targetArn,
+    };
+  }
+}
+
+class CampaignStatus {
+  static const creating = CampaignStatus._('CREATING');
+  static const waitingForApproval = CampaignStatus._('WAITING_FOR_APPROVAL');
+  static const running = CampaignStatus._('RUNNING');
+  static const suspended = CampaignStatus._('SUSPENDED');
+
+  final String value;
+
+  const CampaignStatus._(this.value);
+
+  static const values = [creating, waitingForApproval, running, suspended];
+
+  static CampaignStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CampaignStatus._(value));
+
+  @override
+  bool operator ==(other) => other is CampaignStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UpdateCampaignAction {
+  static const approve = UpdateCampaignAction._('APPROVE');
+  static const suspend = UpdateCampaignAction._('SUSPEND');
+  static const resume = UpdateCampaignAction._('RESUME');
+  static const update = UpdateCampaignAction._('UPDATE');
+
+  final String value;
+
+  const UpdateCampaignAction._(this.value);
+
+  static const values = [approve, suspend, resume, update];
+
+  static UpdateCampaignAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateCampaignAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is UpdateCampaignAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DiagnosticsMode {
+  static const off = DiagnosticsMode._('OFF');
+  static const sendActiveDtcs = DiagnosticsMode._('SEND_ACTIVE_DTCS');
+
+  final String value;
+
+  const DiagnosticsMode._(this.value);
+
+  static const values = [off, sendActiveDtcs];
+
+  static DiagnosticsMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DiagnosticsMode._(value));
+
+  @override
+  bool operator ==(other) => other is DiagnosticsMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SpoolingMode {
+  static const off = SpoolingMode._('OFF');
+  static const toDisk = SpoolingMode._('TO_DISK');
+
+  final String value;
+
+  const SpoolingMode._(this.value);
+
+  static const values = [off, toDisk];
+
+  static SpoolingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SpoolingMode._(value));
+
+  @override
+  bool operator ==(other) => other is SpoolingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class Compression {
+  static const off = Compression._('OFF');
+  static const snappy = Compression._('SNAPPY');
+
+  final String value;
+
+  const Compression._(this.value);
+
+  static const values = [off, snappy];
+
+  static Compression fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Compression._(value));
+
+  @override
+  bool operator ==(other) => other is Compression && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies what data to collect and how often or when to collect it.
+class CollectionScheme {
+  /// Information about a collection scheme that uses a simple logical expression
+  /// to recognize what data to collect.
+  final ConditionBasedCollectionScheme? conditionBasedCollectionScheme;
+
+  /// Information about a collection scheme that uses a time period to decide how
+  /// often to collect data.
+  final TimeBasedCollectionScheme? timeBasedCollectionScheme;
+
+  CollectionScheme({
+    this.conditionBasedCollectionScheme,
+    this.timeBasedCollectionScheme,
+  });
+
+  factory CollectionScheme.fromJson(Map<String, dynamic> json) {
+    return CollectionScheme(
+      conditionBasedCollectionScheme: json['conditionBasedCollectionScheme'] !=
+              null
+          ? ConditionBasedCollectionScheme.fromJson(
+              json['conditionBasedCollectionScheme'] as Map<String, dynamic>)
+          : null,
+      timeBasedCollectionScheme: json['timeBasedCollectionScheme'] != null
+          ? TimeBasedCollectionScheme.fromJson(
+              json['timeBasedCollectionScheme'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditionBasedCollectionScheme = this.conditionBasedCollectionScheme;
+    final timeBasedCollectionScheme = this.timeBasedCollectionScheme;
+    return {
+      if (conditionBasedCollectionScheme != null)
+        'conditionBasedCollectionScheme': conditionBasedCollectionScheme,
+      if (timeBasedCollectionScheme != null)
+        'timeBasedCollectionScheme': timeBasedCollectionScheme,
+    };
+  }
+}
+
+/// Information about the signal to be fetched.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class SignalFetchInformation {
+  /// The actions to be performed by the signal fetch.
+  final List<String> actions;
+
+  /// The fully qualified name of the signal to be fetched.
+  final String fullyQualifiedName;
+
+  /// The configuration of the signal fetch operation.
+  final SignalFetchConfig signalFetchConfig;
+
+  /// The version of the condition language used.
+  final int? conditionLanguageVersion;
+
+  SignalFetchInformation({
+    required this.actions,
+    required this.fullyQualifiedName,
+    required this.signalFetchConfig,
+    this.conditionLanguageVersion,
+  });
+
+  factory SignalFetchInformation.fromJson(Map<String, dynamic> json) {
+    return SignalFetchInformation(
+      actions: ((json['actions'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
+      signalFetchConfig: SignalFetchConfig.fromJson(
+          (json['signalFetchConfig'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      conditionLanguageVersion: json['conditionLanguageVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final fullyQualifiedName = this.fullyQualifiedName;
+    final signalFetchConfig = this.signalFetchConfig;
+    final conditionLanguageVersion = this.conditionLanguageVersion;
+    return {
+      'actions': actions,
+      'fullyQualifiedName': fullyQualifiedName,
+      'signalFetchConfig': signalFetchConfig,
+      if (conditionLanguageVersion != null)
+        'conditionLanguageVersion': conditionLanguageVersion,
+    };
+  }
+}
+
+/// The configuration of the signal fetch operation.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class SignalFetchConfig {
+  /// The configuration of a condition-based signal fetch operation.
+  final ConditionBasedSignalFetchConfig? conditionBased;
+
+  /// The configuration of a time-based signal fetch operation.
+  final TimeBasedSignalFetchConfig? timeBased;
+
+  SignalFetchConfig({
+    this.conditionBased,
+    this.timeBased,
+  });
+
+  factory SignalFetchConfig.fromJson(Map<String, dynamic> json) {
+    return SignalFetchConfig(
+      conditionBased: json['conditionBased'] != null
+          ? ConditionBasedSignalFetchConfig.fromJson(
+              json['conditionBased'] as Map<String, dynamic>)
+          : null,
+      timeBased: json['timeBased'] != null
+          ? TimeBasedSignalFetchConfig.fromJson(
+              json['timeBased'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditionBased = this.conditionBased;
+    final timeBased = this.timeBased;
+    return {
+      if (conditionBased != null) 'conditionBased': conditionBased,
+      if (timeBased != null) 'timeBased': timeBased,
+    };
+  }
+}
+
+/// Used to configure a frequency-based vehicle signal fetch.
+class TimeBasedSignalFetchConfig {
+  /// The frequency with which the signal fetch will be executed.
+  final int executionFrequencyMs;
+
+  TimeBasedSignalFetchConfig({
+    required this.executionFrequencyMs,
+  });
+
+  factory TimeBasedSignalFetchConfig.fromJson(Map<String, dynamic> json) {
+    return TimeBasedSignalFetchConfig(
+      executionFrequencyMs: (json['executionFrequencyMs'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionFrequencyMs = this.executionFrequencyMs;
+    return {
+      'executionFrequencyMs': executionFrequencyMs,
+    };
+  }
+}
+
+/// Specifies the condition under which a signal fetch occurs.
+class ConditionBasedSignalFetchConfig {
+  /// The condition that must be satisfied to trigger a signal fetch.
+  final String conditionExpression;
+
+  /// Indicates the mode in which the signal fetch is triggered.
+  final TriggerMode triggerMode;
+
+  ConditionBasedSignalFetchConfig({
+    required this.conditionExpression,
+    required this.triggerMode,
+  });
+
+  factory ConditionBasedSignalFetchConfig.fromJson(Map<String, dynamic> json) {
+    return ConditionBasedSignalFetchConfig(
+      conditionExpression: (json['conditionExpression'] as String?) ?? '',
+      triggerMode:
+          TriggerMode.fromString((json['triggerMode'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditionExpression = this.conditionExpression;
+    final triggerMode = this.triggerMode;
+    return {
+      'conditionExpression': conditionExpression,
+      'triggerMode': triggerMode.value,
+    };
+  }
+}
+
+class TriggerMode {
+  static const always = TriggerMode._('ALWAYS');
+  static const risingEdge = TriggerMode._('RISING_EDGE');
+
+  final String value;
+
+  const TriggerMode._(this.value);
+
+  static const values = [always, risingEdge];
+
+  static TriggerMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TriggerMode._(value));
+
+  @override
+  bool operator ==(other) => other is TriggerMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration for signal data storage and upload options. You can only
+/// specify these options when the campaign's spooling mode is
+/// <code>TO_DISK</code>.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class DataPartition {
+  /// The ID of the data partition. The data partition ID must be unique within a
+  /// campaign. You can establish a data partition as the default partition for a
+  /// campaign by using <code>default</code> as the ID.
+  final String id;
+
+  /// The storage options for a data partition.
+  final DataPartitionStorageOptions storageOptions;
+
+  /// The upload options for the data partition.
+  final DataPartitionUploadOptions? uploadOptions;
+
+  DataPartition({
+    required this.id,
+    required this.storageOptions,
+    this.uploadOptions,
+  });
+
+  factory DataPartition.fromJson(Map<String, dynamic> json) {
+    return DataPartition(
+      id: (json['id'] as String?) ?? '',
+      storageOptions: DataPartitionStorageOptions.fromJson(
+          (json['storageOptions'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      uploadOptions: json['uploadOptions'] != null
+          ? DataPartitionUploadOptions.fromJson(
+              json['uploadOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final storageOptions = this.storageOptions;
+    final uploadOptions = this.uploadOptions;
+    return {
+      'id': id,
+      'storageOptions': storageOptions,
+      if (uploadOptions != null) 'uploadOptions': uploadOptions,
+    };
+  }
+}
+
+/// Size, time, and location options for the data partition.
+class DataPartitionStorageOptions {
+  /// The maximum storage size of the data stored in the data partition.
+  /// <note>
+  /// Newer data overwrites older data when the partition reaches the maximum
+  /// size.
+  /// </note>
+  final StorageMaximumSize maximumSize;
+
+  /// The amount of time that data in this partition will be kept on disk.
+  ///
+  /// <ul>
+  /// <li>
+  /// After the designated amount of time passes, the data can be removed, but
+  /// it's not guaranteed to be removed.
+  /// </li>
+  /// <li>
+  /// Before the time expires, data in this partition can still be deleted if the
+  /// partition reaches its configured maximum size.
+  /// </li>
+  /// <li>
+  /// Newer data will overwrite older data when the partition reaches the maximum
+  /// size.
+  /// </li>
+  /// </ul>
+  final StorageMinimumTimeToLive minimumTimeToLive;
+
+  /// The folder name for the data partition under the campaign storage folder.
+  final String storageLocation;
+
+  DataPartitionStorageOptions({
+    required this.maximumSize,
+    required this.minimumTimeToLive,
+    required this.storageLocation,
+  });
+
+  factory DataPartitionStorageOptions.fromJson(Map<String, dynamic> json) {
+    return DataPartitionStorageOptions(
+      maximumSize: StorageMaximumSize.fromJson(
+          (json['maximumSize'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      minimumTimeToLive: StorageMinimumTimeToLive.fromJson(
+          (json['minimumTimeToLive'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      storageLocation: (json['storageLocation'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumSize = this.maximumSize;
+    final minimumTimeToLive = this.minimumTimeToLive;
+    final storageLocation = this.storageLocation;
+    return {
+      'maximumSize': maximumSize,
+      'minimumTimeToLive': minimumTimeToLive,
+      'storageLocation': storageLocation,
+    };
+  }
+}
+
+/// The upload options for the data partition. If upload options are specified,
+/// you must also specify storage options. See <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DataPartitionStorageOptions.html">DataPartitionStorageOptions</a>.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class DataPartitionUploadOptions {
+  /// The logical expression used to recognize what data to collect. For example,
+  /// <code>$variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0</code>.
+  final String expression;
+
+  /// The version of the condition language. Defaults to the most recent condition
+  /// language version.
+  final int? conditionLanguageVersion;
+
+  DataPartitionUploadOptions({
+    required this.expression,
+    this.conditionLanguageVersion,
+  });
+
+  factory DataPartitionUploadOptions.fromJson(Map<String, dynamic> json) {
+    return DataPartitionUploadOptions(
+      expression: (json['expression'] as String?) ?? '',
+      conditionLanguageVersion: json['conditionLanguageVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final conditionLanguageVersion = this.conditionLanguageVersion;
+    return {
+      'expression': expression,
+      if (conditionLanguageVersion != null)
+        'conditionLanguageVersion': conditionLanguageVersion,
+    };
+  }
+}
+
+/// The maximum storage size for the data partition.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class StorageMaximumSize {
+  /// The data type of the data to store.
+  final StorageMaximumSizeUnit unit;
+
+  /// The maximum amount of time to store data.
+  final int value;
+
+  StorageMaximumSize({
+    required this.unit,
+    required this.value,
+  });
+
+  factory StorageMaximumSize.fromJson(Map<String, dynamic> json) {
+    return StorageMaximumSize(
+      unit: StorageMaximumSizeUnit.fromString((json['unit'] as String?) ?? ''),
+      value: (json['value'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'unit': unit.value,
+      'value': value,
+    };
+  }
+}
+
+/// Information about the minimum amount of time that data will be kept.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class StorageMinimumTimeToLive {
+  /// The time increment type.
+  final StorageMinimumTimeToLiveUnit unit;
+
+  /// The minimum amount of time to store the data.
+  final int value;
+
+  StorageMinimumTimeToLive({
+    required this.unit,
+    required this.value,
+  });
+
+  factory StorageMinimumTimeToLive.fromJson(Map<String, dynamic> json) {
+    return StorageMinimumTimeToLive(
+      unit: StorageMinimumTimeToLiveUnit.fromString(
+          (json['unit'] as String?) ?? ''),
+      value: (json['value'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'unit': unit.value,
+      'value': value,
+    };
+  }
+}
+
+class StorageMinimumTimeToLiveUnit {
+  static const hours = StorageMinimumTimeToLiveUnit._('HOURS');
+  static const days = StorageMinimumTimeToLiveUnit._('DAYS');
+  static const weeks = StorageMinimumTimeToLiveUnit._('WEEKS');
+
+  final String value;
+
+  const StorageMinimumTimeToLiveUnit._(this.value);
+
+  static const values = [hours, days, weeks];
+
+  static StorageMinimumTimeToLiveUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StorageMinimumTimeToLiveUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageMinimumTimeToLiveUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StorageMaximumSizeUnit {
+  static const mb = StorageMaximumSizeUnit._('MB');
+  static const gb = StorageMaximumSizeUnit._('GB');
+  static const tb = StorageMaximumSizeUnit._('TB');
+
+  final String value;
+
+  const StorageMaximumSizeUnit._(this.value);
+
+  static const values = [mb, gb, tb];
+
+  static StorageMaximumSizeUnit fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StorageMaximumSizeUnit._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageMaximumSizeUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The destination where the campaign sends data. You can send data to an MQTT
+/// topic, or store it in Amazon S3 or Amazon Timestream.
+class DataDestinationConfig {
+  /// The MQTT topic to which the Amazon Web Services IoT FleetWise campaign
+  /// routes data.
+  /// <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  final MqttTopicConfig? mqttTopicConfig;
+
+  /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign
+  /// sends data.
+  final S3Config? s3Config;
+
+  /// The Amazon Timestream table where the campaign sends data.
+  final TimestreamConfig? timestreamConfig;
+
+  DataDestinationConfig({
+    this.mqttTopicConfig,
+    this.s3Config,
+    this.timestreamConfig,
+  });
+
+  factory DataDestinationConfig.fromJson(Map<String, dynamic> json) {
+    return DataDestinationConfig(
+      mqttTopicConfig: json['mqttTopicConfig'] != null
+          ? MqttTopicConfig.fromJson(
+              json['mqttTopicConfig'] as Map<String, dynamic>)
+          : null,
+      s3Config: json['s3Config'] != null
+          ? S3Config.fromJson(json['s3Config'] as Map<String, dynamic>)
+          : null,
+      timestreamConfig: json['timestreamConfig'] != null
+          ? TimestreamConfig.fromJson(
+              json['timestreamConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mqttTopicConfig = this.mqttTopicConfig;
+    final s3Config = this.s3Config;
+    final timestreamConfig = this.timestreamConfig;
+    return {
+      if (mqttTopicConfig != null) 'mqttTopicConfig': mqttTopicConfig,
+      if (s3Config != null) 's3Config': s3Config,
+      if (timestreamConfig != null) 'timestreamConfig': timestreamConfig,
+    };
+  }
 }
 
 /// The Amazon S3 bucket where the Amazon Web Services IoT FleetWise campaign
@@ -6621,9 +8798,9 @@ class S3Config {
   /// </ul>
   final DataFormat? dataFormat;
 
-  /// (Optional) Enter an S3 bucket prefix. The prefix is the string of characters
-  /// after the bucket name and before the object name. You can use the prefix to
-  /// organize data stored in Amazon S3 buckets. For more information, see <a
+  /// Enter an S3 bucket prefix. The prefix is the string of characters after the
+  /// bucket name and before the object name. You can use the prefix to organize
+  /// data stored in Amazon S3 buckets. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html">Organizing
   /// objects using prefixes</a> in the <i>Amazon Simple Storage Service User
   /// Guide</i>.
@@ -6672,617 +8849,6 @@ class S3Config {
   }
 }
 
-/// An input component that reports the environmental condition of a vehicle.
-/// <note>
-/// You can collect data about fluid levels, temperatures, vibrations, or
-/// battery voltage from sensors.
-/// </note>
-class Sensor {
-  /// The specified data type of the sensor.
-  final NodeDataType dataType;
-
-  /// The fully qualified name of the sensor. For example, the fully qualified
-  /// name of a sensor might be <code>Vehicle.Body.Engine.Battery</code>.
-  final String fullyQualifiedName;
-
-  /// A list of possible values a sensor can take.
-  final List<String>? allowedValues;
-
-  /// A comment in addition to the description.
-  final String? comment;
-
-  /// The deprecation message for the node or the branch that was moved or
-  /// deleted.
-  final String? deprecationMessage;
-
-  /// A brief description of a sensor.
-  final String? description;
-
-  /// The specified possible maximum value of the sensor.
-  final double? max;
-
-  /// The specified possible minimum value of the sensor.
-  final double? min;
-
-  /// The fully qualified name of the struct node for a sensor if the data type of
-  /// the actuator is <code>Struct</code> or <code>StructArray</code>. For
-  /// example, the struct fully qualified name of a sensor might be
-  /// <code>Vehicle.ADAS.CameraStruct</code>.
-  final String? structFullyQualifiedName;
-
-  /// The scientific unit of measurement for data collected by the sensor.
-  final String? unit;
-
-  Sensor({
-    required this.dataType,
-    required this.fullyQualifiedName,
-    this.allowedValues,
-    this.comment,
-    this.deprecationMessage,
-    this.description,
-    this.max,
-    this.min,
-    this.structFullyQualifiedName,
-    this.unit,
-  });
-
-  factory Sensor.fromJson(Map<String, dynamic> json) {
-    return Sensor(
-      dataType: NodeDataType.fromString((json['dataType'] as String?) ?? ''),
-      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
-      allowedValues: (json['allowedValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      comment: json['comment'] as String?,
-      deprecationMessage: json['deprecationMessage'] as String?,
-      description: json['description'] as String?,
-      max: json['max'] as double?,
-      min: json['min'] as double?,
-      structFullyQualifiedName: json['structFullyQualifiedName'] as String?,
-      unit: json['unit'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final fullyQualifiedName = this.fullyQualifiedName;
-    final allowedValues = this.allowedValues;
-    final comment = this.comment;
-    final deprecationMessage = this.deprecationMessage;
-    final description = this.description;
-    final max = this.max;
-    final min = this.min;
-    final structFullyQualifiedName = this.structFullyQualifiedName;
-    final unit = this.unit;
-    return {
-      'dataType': dataType.value,
-      'fullyQualifiedName': fullyQualifiedName,
-      if (allowedValues != null) 'allowedValues': allowedValues,
-      if (comment != null) 'comment': comment,
-      if (deprecationMessage != null) 'deprecationMessage': deprecationMessage,
-      if (description != null) 'description': description,
-      if (max != null) 'max': max,
-      if (min != null) 'min': min,
-      if (structFullyQualifiedName != null)
-        'structFullyQualifiedName': structFullyQualifiedName,
-      if (unit != null) 'unit': unit,
-    };
-  }
-}
-
-/// Information about a collection of standardized signals, which can be
-/// attributes, branches, sensors, or actuators.
-class SignalCatalogSummary {
-  /// The Amazon Resource Name (ARN) of the signal catalog.
-  final String? arn;
-
-  /// The time the signal catalog was created in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime? creationTime;
-
-  /// The time the signal catalog was last updated in seconds since epoch (January
-  /// 1, 1970 at midnight UTC time).
-  final DateTime? lastModificationTime;
-
-  /// The name of the signal catalog.
-  final String? name;
-
-  SignalCatalogSummary({
-    this.arn,
-    this.creationTime,
-    this.lastModificationTime,
-    this.name,
-  });
-
-  factory SignalCatalogSummary.fromJson(Map<String, dynamic> json) {
-    return SignalCatalogSummary(
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      lastModificationTime: timeStampFromJson(json['lastModificationTime']),
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final lastModificationTime = this.lastModificationTime;
-    final name = this.name;
-    return {
-      if (arn != null) 'arn': arn,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (lastModificationTime != null)
-        'lastModificationTime': unixTimestampToJson(lastModificationTime),
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Information about a signal decoder.
-class SignalDecoder {
-  /// The fully qualified name of a signal decoder as defined in a vehicle model.
-  final String fullyQualifiedName;
-
-  /// The ID of a network interface that specifies what network protocol a vehicle
-  /// follows.
-  final String interfaceId;
-
-  /// The network protocol for the vehicle. For example, <code>CAN_SIGNAL</code>
-  /// specifies a protocol that defines how data is communicated between
-  /// electronic control units (ECUs). <code>OBD_SIGNAL</code> specifies a
-  /// protocol that defines how self-diagnostic data is communicated between ECUs.
-  final SignalDecoderType type;
-
-  /// Information about signal decoder using the Controller Area Network (CAN)
-  /// protocol.
-  final CanSignal? canSignal;
-
-  /// The decoding information for a specific message which supports higher order
-  /// data types.
-  final MessageSignal? messageSignal;
-
-  /// Information about signal decoder using the On-board diagnostic (OBD) II
-  /// protocol.
-  final ObdSignal? obdSignal;
-
-  SignalDecoder({
-    required this.fullyQualifiedName,
-    required this.interfaceId,
-    required this.type,
-    this.canSignal,
-    this.messageSignal,
-    this.obdSignal,
-  });
-
-  factory SignalDecoder.fromJson(Map<String, dynamic> json) {
-    return SignalDecoder(
-      fullyQualifiedName: (json['fullyQualifiedName'] as String?) ?? '',
-      interfaceId: (json['interfaceId'] as String?) ?? '',
-      type: SignalDecoderType.fromString((json['type'] as String?) ?? ''),
-      canSignal: json['canSignal'] != null
-          ? CanSignal.fromJson(json['canSignal'] as Map<String, dynamic>)
-          : null,
-      messageSignal: json['messageSignal'] != null
-          ? MessageSignal.fromJson(
-              json['messageSignal'] as Map<String, dynamic>)
-          : null,
-      obdSignal: json['obdSignal'] != null
-          ? ObdSignal.fromJson(json['obdSignal'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fullyQualifiedName = this.fullyQualifiedName;
-    final interfaceId = this.interfaceId;
-    final type = this.type;
-    final canSignal = this.canSignal;
-    final messageSignal = this.messageSignal;
-    final obdSignal = this.obdSignal;
-    return {
-      'fullyQualifiedName': fullyQualifiedName,
-      'interfaceId': interfaceId,
-      'type': type.value,
-      if (canSignal != null) 'canSignal': canSignal,
-      if (messageSignal != null) 'messageSignal': messageSignal,
-      if (obdSignal != null) 'obdSignal': obdSignal,
-    };
-  }
-}
-
-class SignalDecoderType {
-  static const canSignal = SignalDecoderType._('CAN_SIGNAL');
-  static const obdSignal = SignalDecoderType._('OBD_SIGNAL');
-  static const messageSignal = SignalDecoderType._('MESSAGE_SIGNAL');
-
-  final String value;
-
-  const SignalDecoderType._(this.value);
-
-  static const values = [canSignal, obdSignal, messageSignal];
-
-  static SignalDecoderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SignalDecoderType._(value));
-
-  @override
-  bool operator ==(other) => other is SignalDecoderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a signal.
-class SignalInformation {
-  /// The name of the signal.
-  final String name;
-
-  /// The maximum number of samples to collect.
-  final int? maxSampleCount;
-
-  /// The minimum duration of time (in milliseconds) between two triggering events
-  /// to collect data.
-  /// <note>
-  /// If a signal changes often, you might want to collect data at a slower rate.
-  /// </note>
-  final int? minimumSamplingIntervalMs;
-
-  SignalInformation({
-    required this.name,
-    this.maxSampleCount,
-    this.minimumSamplingIntervalMs,
-  });
-
-  factory SignalInformation.fromJson(Map<String, dynamic> json) {
-    return SignalInformation(
-      name: (json['name'] as String?) ?? '',
-      maxSampleCount: json['maxSampleCount'] as int?,
-      minimumSamplingIntervalMs: json['minimumSamplingIntervalMs'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final maxSampleCount = this.maxSampleCount;
-    final minimumSamplingIntervalMs = this.minimumSamplingIntervalMs;
-    return {
-      'name': name,
-      if (maxSampleCount != null) 'maxSampleCount': maxSampleCount,
-      if (minimumSamplingIntervalMs != null)
-        'minimumSamplingIntervalMs': minimumSamplingIntervalMs,
-    };
-  }
-}
-
-class SignalNodeType {
-  static const sensor = SignalNodeType._('SENSOR');
-  static const actuator = SignalNodeType._('ACTUATOR');
-  static const attribute = SignalNodeType._('ATTRIBUTE');
-  static const branch = SignalNodeType._('BRANCH');
-  static const customStruct = SignalNodeType._('CUSTOM_STRUCT');
-  static const customProperty = SignalNodeType._('CUSTOM_PROPERTY');
-
-  final String value;
-
-  const SignalNodeType._(this.value);
-
-  static const values = [
-    sensor,
-    actuator,
-    attribute,
-    branch,
-    customStruct,
-    customProperty
-  ];
-
-  static SignalNodeType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SignalNodeType._(value));
-
-  @override
-  bool operator ==(other) => other is SignalNodeType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class SpoolingMode {
-  static const off = SpoolingMode._('OFF');
-  static const toDisk = SpoolingMode._('TO_DISK');
-
-  final String value;
-
-  const SpoolingMode._(this.value);
-
-  static const values = [off, toDisk];
-
-  static SpoolingMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SpoolingMode._(value));
-
-  @override
-  bool operator ==(other) => other is SpoolingMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StorageCompressionFormat {
-  static const none = StorageCompressionFormat._('NONE');
-  static const gzip = StorageCompressionFormat._('GZIP');
-
-  final String value;
-
-  const StorageCompressionFormat._(this.value);
-
-  static const values = [none, gzip];
-
-  static StorageCompressionFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StorageCompressionFormat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StorageCompressionFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The structured message for the message signal. It can be defined with either
-/// a <code>primitiveMessageDefinition</code>,
-/// <code>structuredMessageListDefinition</code>, or
-/// <code>structuredMessageDefinition</code> recursively.
-class StructuredMessage {
-  /// Represents a primitive type node of the complex data structure.
-  final PrimitiveMessageDefinition? primitiveMessageDefinition;
-
-  /// Represents a struct type node of the complex data structure.
-  final List<StructuredMessageFieldNameAndDataTypePair>?
-      structuredMessageDefinition;
-
-  /// Represents a list type node of the complex data structure.
-  final StructuredMessageListDefinition? structuredMessageListDefinition;
-
-  StructuredMessage({
-    this.primitiveMessageDefinition,
-    this.structuredMessageDefinition,
-    this.structuredMessageListDefinition,
-  });
-
-  factory StructuredMessage.fromJson(Map<String, dynamic> json) {
-    return StructuredMessage(
-      primitiveMessageDefinition: json['primitiveMessageDefinition'] != null
-          ? PrimitiveMessageDefinition.fromJson(
-              json['primitiveMessageDefinition'] as Map<String, dynamic>)
-          : null,
-      structuredMessageDefinition:
-          (json['structuredMessageDefinition'] as List?)
-              ?.nonNulls
-              .map((e) => StructuredMessageFieldNameAndDataTypePair.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      structuredMessageListDefinition:
-          json['structuredMessageListDefinition'] != null
-              ? StructuredMessageListDefinition.fromJson(
-                  json['structuredMessageListDefinition']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final primitiveMessageDefinition = this.primitiveMessageDefinition;
-    final structuredMessageDefinition = this.structuredMessageDefinition;
-    final structuredMessageListDefinition =
-        this.structuredMessageListDefinition;
-    return {
-      if (primitiveMessageDefinition != null)
-        'primitiveMessageDefinition': primitiveMessageDefinition,
-      if (structuredMessageDefinition != null)
-        'structuredMessageDefinition': structuredMessageDefinition,
-      if (structuredMessageListDefinition != null)
-        'structuredMessageListDefinition': structuredMessageListDefinition,
-    };
-  }
-}
-
-/// Represents a <code>StructureMessageName</code> to <code>DataType</code> map
-/// element.
-class StructuredMessageFieldNameAndDataTypePair {
-  /// The data type.
-  final StructuredMessage dataType;
-
-  /// The field name of the structured message. It determines how a data value is
-  /// referenced in the target language.
-  final String fieldName;
-
-  StructuredMessageFieldNameAndDataTypePair({
-    required this.dataType,
-    required this.fieldName,
-  });
-
-  factory StructuredMessageFieldNameAndDataTypePair.fromJson(
-      Map<String, dynamic> json) {
-    return StructuredMessageFieldNameAndDataTypePair(
-      dataType: StructuredMessage.fromJson(
-          (json['dataType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      fieldName: (json['fieldName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataType = this.dataType;
-    final fieldName = this.fieldName;
-    return {
-      'dataType': dataType,
-      'fieldName': fieldName,
-    };
-  }
-}
-
-/// Represents a list type node of the complex data structure.
-class StructuredMessageListDefinition {
-  /// The type of list of the structured message list definition.
-  final StructuredMessageListType listType;
-
-  /// The member type of the structured message list definition.
-  final StructuredMessage memberType;
-
-  /// The name of the structured message list definition.
-  final String name;
-
-  /// The capacity of the structured message list definition when the list type is
-  /// <code>FIXED_CAPACITY</code> or <code>DYNAMIC_BOUNDED_CAPACITY</code>.
-  final int? capacity;
-
-  StructuredMessageListDefinition({
-    required this.listType,
-    required this.memberType,
-    required this.name,
-    this.capacity,
-  });
-
-  factory StructuredMessageListDefinition.fromJson(Map<String, dynamic> json) {
-    return StructuredMessageListDefinition(
-      listType: StructuredMessageListType.fromString(
-          (json['listType'] as String?) ?? ''),
-      memberType: StructuredMessage.fromJson(
-          (json['memberType'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      name: (json['name'] as String?) ?? '',
-      capacity: json['capacity'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final listType = this.listType;
-    final memberType = this.memberType;
-    final name = this.name;
-    final capacity = this.capacity;
-    return {
-      'listType': listType.value,
-      'memberType': memberType,
-      'name': name,
-      if (capacity != null) 'capacity': capacity,
-    };
-  }
-}
-
-class StructuredMessageListType {
-  static const fixedCapacity = StructuredMessageListType._('FIXED_CAPACITY');
-  static const dynamicUnboundedCapacity =
-      StructuredMessageListType._('DYNAMIC_UNBOUNDED_CAPACITY');
-  static const dynamicBoundedCapacity =
-      StructuredMessageListType._('DYNAMIC_BOUNDED_CAPACITY');
-
-  final String value;
-
-  const StructuredMessageListType._(this.value);
-
-  static const values = [
-    fixedCapacity,
-    dynamicUnboundedCapacity,
-    dynamicBoundedCapacity
-  ];
-
-  static StructuredMessageListType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StructuredMessageListType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is StructuredMessageListType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A set of key/value pairs that are used to manage the resource.
-class Tag {
-  /// The tag's key.
-  final String key;
-
-  /// The tag's value.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about a collection scheme that uses a time period to decide how
-/// often to collect data.
-class TimeBasedCollectionScheme {
-  /// The time period (in milliseconds) to decide how often to collect data. For
-  /// example, if the time period is <code>60000</code>, the Edge Agent software
-  /// collects data once every minute.
-  final int periodMs;
-
-  TimeBasedCollectionScheme({
-    required this.periodMs,
-  });
-
-  factory TimeBasedCollectionScheme.fromJson(Map<String, dynamic> json) {
-    return TimeBasedCollectionScheme(
-      periodMs: (json['periodMs'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final periodMs = this.periodMs;
-    return {
-      'periodMs': periodMs,
-    };
-  }
-}
-
 /// The Amazon Timestream table where the Amazon Web Services IoT FleetWise
 /// campaign sends data. Timestream stores and organizes data to optimize query
 /// processing time and to reduce storage costs. For more information, see <a
@@ -7317,6 +8883,535 @@ class TimestreamConfig {
       'timestreamTableArn': timestreamTableArn,
     };
   }
+}
+
+/// The MQTT topic to which the Amazon Web Services IoT FleetWise campaign
+/// routes data. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html">Device
+/// communication protocols</a> in the <i>Amazon Web Services IoT Core Developer
+/// Guide</i>.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class MqttTopicConfig {
+  /// The ARN of the role that grants Amazon Web Services IoT FleetWise permission
+  /// to access and act on messages sent to the MQTT topic.
+  final String executionRoleArn;
+
+  /// The ARN of the MQTT topic.
+  final String mqttTopicArn;
+
+  MqttTopicConfig({
+    required this.executionRoleArn,
+    required this.mqttTopicArn,
+  });
+
+  factory MqttTopicConfig.fromJson(Map<String, dynamic> json) {
+    return MqttTopicConfig(
+      executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
+      mqttTopicArn: (json['mqttTopicArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionRoleArn = this.executionRoleArn;
+    final mqttTopicArn = this.mqttTopicArn;
+    return {
+      'executionRoleArn': executionRoleArn,
+      'mqttTopicArn': mqttTopicArn,
+    };
+  }
+}
+
+class DataFormat {
+  static const json = DataFormat._('JSON');
+  static const parquet = DataFormat._('PARQUET');
+
+  final String value;
+
+  const DataFormat._(this.value);
+
+  static const values = [json, parquet];
+
+  static DataFormat fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DataFormat._(value));
+
+  @override
+  bool operator ==(other) => other is DataFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StorageCompressionFormat {
+  static const none = StorageCompressionFormat._('NONE');
+  static const gzip = StorageCompressionFormat._('GZIP');
+
+  final String value;
+
+  const StorageCompressionFormat._(this.value);
+
+  static const values = [none, gzip];
+
+  static StorageCompressionFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StorageCompressionFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is StorageCompressionFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a collection scheme that uses a time period to decide how
+/// often to collect data.
+class TimeBasedCollectionScheme {
+  /// The time period (in milliseconds) to decide how often to collect data. For
+  /// example, if the time period is <code>60000</code>, the Edge Agent software
+  /// collects data once every minute.
+  final int periodMs;
+
+  TimeBasedCollectionScheme({
+    required this.periodMs,
+  });
+
+  factory TimeBasedCollectionScheme.fromJson(Map<String, dynamic> json) {
+    return TimeBasedCollectionScheme(
+      periodMs: (json['periodMs'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final periodMs = this.periodMs;
+    return {
+      'periodMs': periodMs,
+    };
+  }
+}
+
+/// Information about a collection scheme that uses a simple logical expression
+/// to recognize what data to collect.
+class ConditionBasedCollectionScheme {
+  /// The logical expression used to recognize what data to collect. For example,
+  /// <code>$variable.`Vehicle.OutsideAirTemperature` &gt;= 105.0</code>.
+  final String expression;
+
+  /// Specifies the version of the conditional expression language.
+  final int? conditionLanguageVersion;
+
+  /// The minimum duration of time between two triggering events to collect data,
+  /// in milliseconds.
+  /// <note>
+  /// If a signal changes often, you might want to collect data at a slower rate.
+  /// </note>
+  final int? minimumTriggerIntervalMs;
+
+  /// Whether to collect data for all triggering events (<code>ALWAYS</code>).
+  /// Specify (<code>RISING_EDGE</code>), or specify only when the condition first
+  /// evaluates to false. For example, triggering on "AirbagDeployed"; Users
+  /// aren't interested on triggering when the airbag is already exploded; they
+  /// only care about the change from not deployed =&gt; deployed.
+  final TriggerMode? triggerMode;
+
+  ConditionBasedCollectionScheme({
+    required this.expression,
+    this.conditionLanguageVersion,
+    this.minimumTriggerIntervalMs,
+    this.triggerMode,
+  });
+
+  factory ConditionBasedCollectionScheme.fromJson(Map<String, dynamic> json) {
+    return ConditionBasedCollectionScheme(
+      expression: (json['expression'] as String?) ?? '',
+      conditionLanguageVersion: json['conditionLanguageVersion'] as int?,
+      minimumTriggerIntervalMs: json['minimumTriggerIntervalMs'] as int?,
+      triggerMode:
+          (json['triggerMode'] as String?)?.let(TriggerMode.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final conditionLanguageVersion = this.conditionLanguageVersion;
+    final minimumTriggerIntervalMs = this.minimumTriggerIntervalMs;
+    final triggerMode = this.triggerMode;
+    return {
+      'expression': expression,
+      if (conditionLanguageVersion != null)
+        'conditionLanguageVersion': conditionLanguageVersion,
+      if (minimumTriggerIntervalMs != null)
+        'minimumTriggerIntervalMs': minimumTriggerIntervalMs,
+      if (triggerMode != null) 'triggerMode': triggerMode.value,
+    };
+  }
+}
+
+/// Information about a signal.
+class SignalInformation {
+  /// The name of the signal.
+  final String name;
+
+  /// The ID of the data partition this signal is associated with.
+  ///
+  /// The ID must match one of the IDs provided in <code>dataPartitions</code>.
+  /// This is accomplished either by specifying a particular data partition ID or
+  /// by using <code>default</code> for an established default partition. You can
+  /// establish a default partition in the <code>DataPartition</code> data type.
+  /// <note>
+  /// If you upload a signal as a condition for a campaign's data partition, the
+  /// same signal must be included in <code>signalsToCollect</code>.
+  /// </note> <important>
+  /// Access to certain Amazon Web Services IoT FleetWise features is currently
+  /// gated. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+  /// Web Services Region and feature availability</a> in the <i>Amazon Web
+  /// Services IoT FleetWise Developer Guide</i>.
+  /// </important>
+  final String? dataPartitionId;
+
+  /// The maximum number of samples to collect.
+  final int? maxSampleCount;
+
+  /// The minimum duration of time (in milliseconds) between two triggering events
+  /// to collect data.
+  /// <note>
+  /// If a signal changes often, you might want to collect data at a slower rate.
+  /// </note>
+  final int? minimumSamplingIntervalMs;
+
+  SignalInformation({
+    required this.name,
+    this.dataPartitionId,
+    this.maxSampleCount,
+    this.minimumSamplingIntervalMs,
+  });
+
+  factory SignalInformation.fromJson(Map<String, dynamic> json) {
+    return SignalInformation(
+      name: (json['name'] as String?) ?? '',
+      dataPartitionId: json['dataPartitionId'] as String?,
+      maxSampleCount: json['maxSampleCount'] as int?,
+      minimumSamplingIntervalMs: json['minimumSamplingIntervalMs'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final dataPartitionId = this.dataPartitionId;
+    final maxSampleCount = this.maxSampleCount;
+    final minimumSamplingIntervalMs = this.minimumSamplingIntervalMs;
+    return {
+      'name': name,
+      if (dataPartitionId != null) 'dataPartitionId': dataPartitionId,
+      if (maxSampleCount != null) 'maxSampleCount': maxSampleCount,
+      if (minimumSamplingIntervalMs != null)
+        'minimumSamplingIntervalMs': minimumSamplingIntervalMs,
+    };
+  }
+}
+
+class RegistrationStatus {
+  static const registrationPending =
+      RegistrationStatus._('REGISTRATION_PENDING');
+  static const registrationSuccess =
+      RegistrationStatus._('REGISTRATION_SUCCESS');
+  static const registrationFailure =
+      RegistrationStatus._('REGISTRATION_FAILURE');
+
+  final String value;
+
+  const RegistrationStatus._(this.value);
+
+  static const values = [
+    registrationPending,
+    registrationSuccess,
+    registrationFailure
+  ];
+
+  static RegistrationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RegistrationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RegistrationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The registered Amazon Timestream resources that Amazon Web Services IoT
+/// FleetWise edge agent software can transfer your vehicle data to.
+class TimestreamResources {
+  /// The name of the registered Amazon Timestream database.
+  final String timestreamDatabaseName;
+
+  /// The name of the registered Amazon Timestream database table.
+  final String timestreamTableName;
+
+  TimestreamResources({
+    required this.timestreamDatabaseName,
+    required this.timestreamTableName,
+  });
+
+  factory TimestreamResources.fromJson(Map<String, dynamic> json) {
+    return TimestreamResources(
+      timestreamDatabaseName: (json['timestreamDatabaseName'] as String?) ?? '',
+      timestreamTableName: (json['timestreamTableName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestreamDatabaseName = this.timestreamDatabaseName;
+    final timestreamTableName = this.timestreamTableName;
+    return {
+      'timestreamDatabaseName': timestreamDatabaseName,
+      'timestreamTableName': timestreamTableName,
+    };
+  }
+}
+
+/// The IAM resource that enables Amazon Web Services IoT FleetWise edge agent
+/// software to send data to Amazon Timestream.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
+/// roles</a> in the <i>Identity and Access Management User Guide</i>.
+class IamResources {
+  /// The Amazon Resource Name (ARN) of the IAM resource that allows Amazon Web
+  /// Services IoT FleetWise to send data to Amazon Timestream. For example,
+  /// <code>arn:aws:iam::123456789012:role/SERVICE-ROLE-ARN</code>.
+  final String roleArn;
+
+  IamResources({
+    required this.roleArn,
+  });
+
+  factory IamResources.fromJson(Map<String, dynamic> json) {
+    return IamResources(
+      roleArn: (json['roleArn'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    return {
+      'roleArn': roleArn,
+    };
+  }
+}
+
+/// The log delivery option to send data to Amazon CloudWatch Logs.
+class CloudWatchLogDeliveryOptions {
+  /// The type of log to send data to Amazon CloudWatch Logs.
+  final LogType logType;
+
+  /// The Amazon CloudWatch Logs group the operation sends data to.
+  final String? logGroupName;
+
+  CloudWatchLogDeliveryOptions({
+    required this.logType,
+    this.logGroupName,
+  });
+
+  factory CloudWatchLogDeliveryOptions.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLogDeliveryOptions(
+      logType: LogType.fromString((json['logType'] as String?) ?? ''),
+      logGroupName: json['logGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logType = this.logType;
+    final logGroupName = this.logGroupName;
+    return {
+      'logType': logType.value,
+      if (logGroupName != null) 'logGroupName': logGroupName,
+    };
+  }
+}
+
+class LogType {
+  static const off = LogType._('OFF');
+  static const error = LogType._('ERROR');
+
+  final String value;
+
+  const LogType._(this.value);
+
+  static const values = [off, error];
+
+  static LogType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LogType._(value));
+
+  @override
+  bool operator ==(other) => other is LogType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EncryptionStatus {
+  static const pending = EncryptionStatus._('PENDING');
+  static const success = EncryptionStatus._('SUCCESS');
+  static const failure = EncryptionStatus._('FAILURE');
+
+  final String value;
+
+  const EncryptionStatus._(this.value);
+
+  static const values = [pending, success, failure];
+
+  static EncryptionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class EncryptionType {
+  static const kmsBasedEncryption = EncryptionType._('KMS_BASED_ENCRYPTION');
+  static const fleetwiseDefaultEncryption =
+      EncryptionType._('FLEETWISE_DEFAULT_ENCRYPTION');
+
+  final String value;
+
+  const EncryptionType._(this.value);
+
+  static const values = [kmsBasedEncryption, fleetwiseDefaultEncryption];
+
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionType._(value));
+
+  @override
+  bool operator ==(other) => other is EncryptionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a campaign associated with a vehicle.
+class VehicleStatus {
+  /// The name of a campaign.
+  final String? campaignName;
+
+  /// The status of a campaign, which can be one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATED</code> - The campaign exists but is not yet approved.
+  /// </li>
+  /// <li>
+  /// <code>READY</code> - The campaign is approved but has not been deployed to
+  /// the vehicle. Data has not arrived at the vehicle yet.
+  /// </li>
+  /// <li>
+  /// <code>HEALTHY</code> - The campaign is deployed to the vehicle.
+  /// </li>
+  /// <li>
+  /// <code>SUSPENDED</code> - The campaign is suspended and data collection is
+  /// paused.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The campaign is being removed from the vehicle.
+  /// </li>
+  /// <li>
+  /// <code>READY_FOR_CHECKIN</code> - The campaign is approved and waiting for
+  /// vehicle check-in before deployment.
+  /// </li>
+  /// </ul>
+  final VehicleState? status;
+
+  /// The unique ID of the vehicle.
+  final String? vehicleName;
+
+  VehicleStatus({
+    this.campaignName,
+    this.status,
+    this.vehicleName,
+  });
+
+  factory VehicleStatus.fromJson(Map<String, dynamic> json) {
+    return VehicleStatus(
+      campaignName: json['campaignName'] as String?,
+      status: (json['status'] as String?)?.let(VehicleState.fromString),
+      vehicleName: json['vehicleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaignName = this.campaignName;
+    final status = this.status;
+    final vehicleName = this.vehicleName;
+    return {
+      if (campaignName != null) 'campaignName': campaignName,
+      if (status != null) 'status': status.value,
+      if (vehicleName != null) 'vehicleName': vehicleName,
+    };
+  }
+}
+
+class VehicleState {
+  static const created = VehicleState._('CREATED');
+  static const ready = VehicleState._('READY');
+  static const healthy = VehicleState._('HEALTHY');
+  static const suspended = VehicleState._('SUSPENDED');
+  static const deleting = VehicleState._('DELETING');
+  static const readyForCheckin = VehicleState._('READY_FOR_CHECKIN');
+
+  final String value;
+
+  const VehicleState._(this.value);
+
+  static const values = [
+    created,
+    ready,
+    healthy,
+    suspended,
+    deleting,
+    readyForCheckin
+  ];
+
+  static VehicleState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => VehicleState._(value));
+
+  @override
+  bool operator ==(other) => other is VehicleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about the registered Amazon Timestream resources or errors, if
@@ -7382,290 +9477,44 @@ class TimestreamRegistrationResponse {
   }
 }
 
-/// The registered Amazon Timestream resources that Amazon Web Services IoT
-/// FleetWise edge agent software can transfer your vehicle data to.
-class TimestreamResources {
-  /// The name of the registered Amazon Timestream database.
-  final String timestreamDatabaseName;
+/// Information about registering an Identity and Access Management (IAM)
+/// resource so Amazon Web Services IoT FleetWise edge agent software can
+/// transfer your vehicle data to Amazon Timestream.
+class IamRegistrationResponse {
+  /// The status of registering your IAM resource. The status can be one of
+  /// <code>REGISTRATION_SUCCESS</code>, <code>REGISTRATION_PENDING</code>,
+  /// <code>REGISTRATION_FAILURE</code>.
+  final RegistrationStatus registrationStatus;
 
-  /// The name of the registered Amazon Timestream database table.
-  final String timestreamTableName;
+  /// The Amazon Resource Name (ARN) of the IAM role to register.
+  final String roleArn;
 
-  TimestreamResources({
-    required this.timestreamDatabaseName,
-    required this.timestreamTableName,
+  /// A message associated with a registration error.
+  final String? errorMessage;
+
+  IamRegistrationResponse({
+    required this.registrationStatus,
+    required this.roleArn,
+    this.errorMessage,
   });
 
-  factory TimestreamResources.fromJson(Map<String, dynamic> json) {
-    return TimestreamResources(
-      timestreamDatabaseName: (json['timestreamDatabaseName'] as String?) ?? '',
-      timestreamTableName: (json['timestreamTableName'] as String?) ?? '',
+  factory IamRegistrationResponse.fromJson(Map<String, dynamic> json) {
+    return IamRegistrationResponse(
+      registrationStatus: RegistrationStatus.fromString(
+          (json['registrationStatus'] as String?) ?? ''),
+      roleArn: (json['roleArn'] as String?) ?? '',
+      errorMessage: json['errorMessage'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final timestreamDatabaseName = this.timestreamDatabaseName;
-    final timestreamTableName = this.timestreamTableName;
+    final registrationStatus = this.registrationStatus;
+    final roleArn = this.roleArn;
+    final errorMessage = this.errorMessage;
     return {
-      'timestreamDatabaseName': timestreamDatabaseName,
-      'timestreamTableName': timestreamTableName,
-    };
-  }
-}
-
-class TriggerMode {
-  static const always = TriggerMode._('ALWAYS');
-  static const risingEdge = TriggerMode._('RISING_EDGE');
-
-  final String value;
-
-  const TriggerMode._(this.value);
-
-  static const values = [always, risingEdge];
-
-  static TriggerMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TriggerMode._(value));
-
-  @override
-  bool operator ==(other) => other is TriggerMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateCampaignAction {
-  static const approve = UpdateCampaignAction._('APPROVE');
-  static const suspend = UpdateCampaignAction._('SUSPEND');
-  static const resume = UpdateCampaignAction._('RESUME');
-  static const update = UpdateCampaignAction._('UPDATE');
-
-  final String value;
-
-  const UpdateCampaignAction._(this.value);
-
-  static const values = [approve, suspend, resume, update];
-
-  static UpdateCampaignAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UpdateCampaignAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is UpdateCampaignAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UpdateCampaignResponse {
-  /// The Amazon Resource Name (ARN) of the campaign.
-  final String? arn;
-
-  /// The name of the updated campaign.
-  final String? name;
-
-  /// The state of a campaign. The status can be one of:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - Amazon Web Services IoT FleetWise is processing your
-  /// request to create the campaign.
-  /// </li>
-  /// <li>
-  /// <code>WAITING_FOR_APPROVAL</code> - After a campaign is created, it enters
-  /// the <code>WAITING_FOR_APPROVAL</code> state. To allow Amazon Web Services
-  /// IoT FleetWise to deploy the campaign to the target vehicle or fleet, use the
-  /// API operation to approve the campaign.
-  /// </li>
-  /// <li>
-  /// <code>RUNNING</code> - The campaign is active.
-  /// </li>
-  /// <li>
-  /// <code>SUSPENDED</code> - The campaign is suspended. To resume the campaign,
-  /// use the API operation.
-  /// </li>
-  /// </ul>
-  final CampaignStatus? status;
-
-  UpdateCampaignResponse({
-    this.arn,
-    this.name,
-    this.status,
-  });
-
-  factory UpdateCampaignResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateCampaignResponse(
-      arn: json['arn'] as String?,
-      name: json['name'] as String?,
-      status: (json['status'] as String?)?.let(CampaignStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (arn != null) 'arn': arn,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status.value,
-    };
-  }
-}
-
-class UpdateDecoderManifestResponse {
-  /// The Amazon Resource Name (ARN) of the updated decoder manifest.
-  final String arn;
-
-  /// The name of the updated decoder manifest.
-  final String name;
-
-  UpdateDecoderManifestResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory UpdateDecoderManifestResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateDecoderManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class UpdateFleetResponse {
-  /// The Amazon Resource Name (ARN) of the updated fleet.
-  final String? arn;
-
-  /// The ID of the updated fleet.
-  final String? id;
-
-  UpdateFleetResponse({
-    this.arn,
-    this.id,
-  });
-
-  factory UpdateFleetResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateFleetResponse(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-    };
-  }
-}
-
-class UpdateMode {
-  static const overwrite = UpdateMode._('Overwrite');
-  static const merge = UpdateMode._('Merge');
-
-  final String value;
-
-  const UpdateMode._(this.value);
-
-  static const values = [overwrite, merge];
-
-  static UpdateMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => UpdateMode._(value));
-
-  @override
-  bool operator ==(other) => other is UpdateMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UpdateModelManifestResponse {
-  /// The Amazon Resource Name (ARN) of the updated vehicle model.
-  final String arn;
-
-  /// The name of the updated vehicle model.
-  final String name;
-
-  UpdateModelManifestResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory UpdateModelManifestResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateModelManifestResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
-    };
-  }
-}
-
-class UpdateSignalCatalogResponse {
-  /// The ARN of the updated signal catalog.
-  final String arn;
-
-  /// The name of the updated signal catalog.
-  final String name;
-
-  UpdateSignalCatalogResponse({
-    required this.arn,
-    required this.name,
-  });
-
-  factory UpdateSignalCatalogResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateSignalCatalogResponse(
-      arn: (json['arn'] as String?) ?? '',
-      name: (json['name'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final name = this.name;
-    return {
-      'arn': arn,
-      'name': name,
+      'registrationStatus': registrationStatus.value,
+      'roleArn': roleArn,
+      if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
 }
@@ -7707,86 +9556,6 @@ class UpdateVehicleError {
   }
 }
 
-/// Information about the vehicle to update.
-class UpdateVehicleRequestItem {
-  /// The unique ID of the vehicle to update.
-  final String vehicleName;
-
-  /// The method the specified attributes will update the existing attributes on
-  /// the vehicle. Use<code>Overwite</code> to replace the vehicle attributes with
-  /// the specified attributes. Or use <code>Merge</code> to combine all
-  /// attributes.
-  ///
-  /// This is required if attributes are present in the input.
-  final UpdateMode? attributeUpdateMode;
-
-  /// Static information about a vehicle in a key-value pair. For example:
-  ///
-  /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
-  final Map<String, String>? attributes;
-
-  /// The ARN of the signal decoder manifest associated with the vehicle to
-  /// update.
-  final String? decoderManifestArn;
-
-  /// The ARN of the vehicle model (model manifest) associated with the vehicle to
-  /// update.
-  final String? modelManifestArn;
-
-  UpdateVehicleRequestItem({
-    required this.vehicleName,
-    this.attributeUpdateMode,
-    this.attributes,
-    this.decoderManifestArn,
-    this.modelManifestArn,
-  });
-
-  Map<String, dynamic> toJson() {
-    final vehicleName = this.vehicleName;
-    final attributeUpdateMode = this.attributeUpdateMode;
-    final attributes = this.attributes;
-    final decoderManifestArn = this.decoderManifestArn;
-    final modelManifestArn = this.modelManifestArn;
-    return {
-      'vehicleName': vehicleName,
-      if (attributeUpdateMode != null)
-        'attributeUpdateMode': attributeUpdateMode.value,
-      if (attributes != null) 'attributes': attributes,
-      if (decoderManifestArn != null) 'decoderManifestArn': decoderManifestArn,
-      if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
-    };
-  }
-}
-
-class UpdateVehicleResponse {
-  /// The ARN of the updated vehicle.
-  final String? arn;
-
-  /// The ID of the updated vehicle.
-  final String? vehicleName;
-
-  UpdateVehicleResponse({
-    this.arn,
-    this.vehicleName,
-  });
-
-  factory UpdateVehicleResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateVehicleResponse(
-      arn: json['arn'] as String?,
-      vehicleName: json['vehicleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final vehicleName = this.vehicleName;
-    return {
-      if (arn != null) 'arn': arn,
-      if (vehicleName != null) 'vehicleName': vehicleName,
-    };
-  }
-}
-
 /// Information about the updated vehicle.
 class UpdateVehicleResponseItem {
   /// The Amazon Resource Name (ARN) of the updated vehicle.
@@ -7817,243 +9586,216 @@ class UpdateVehicleResponseItem {
   }
 }
 
-class VehicleAssociationBehavior {
-  static const createIotThing = VehicleAssociationBehavior._('CreateIotThing');
-  static const validateIotThingExists =
-      VehicleAssociationBehavior._('ValidateIotThingExists');
-
-  final String value;
-
-  const VehicleAssociationBehavior._(this.value);
-
-  static const values = [createIotThing, validateIotThingExists];
-
-  static VehicleAssociationBehavior fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VehicleAssociationBehavior._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VehicleAssociationBehavior && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The vehicle middleware defined as a type of network interface. Examples of
-/// vehicle middleware include <code>ROS2</code> and <code>SOME/IP</code>.
-class VehicleMiddleware {
-  /// The name of the vehicle middleware.
-  final String name;
-
-  /// The protocol name of the vehicle middleware.
-  final VehicleMiddlewareProtocol protocolName;
-
-  VehicleMiddleware({
-    required this.name,
-    required this.protocolName,
-  });
-
-  factory VehicleMiddleware.fromJson(Map<String, dynamic> json) {
-    return VehicleMiddleware(
-      name: (json['name'] as String?) ?? '',
-      protocolName: VehicleMiddlewareProtocol.fromString(
-          (json['protocolName'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final protocolName = this.protocolName;
-    return {
-      'name': name,
-      'protocolName': protocolName.value,
-    };
-  }
-}
-
-class VehicleMiddlewareProtocol {
-  static const ros_2 = VehicleMiddlewareProtocol._('ROS_2');
-
-  final String value;
-
-  const VehicleMiddlewareProtocol._(this.value);
-
-  static const values = [ros_2];
-
-  static VehicleMiddlewareProtocol fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VehicleMiddlewareProtocol._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VehicleMiddlewareProtocol && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class VehicleState {
-  static const created = VehicleState._('CREATED');
-  static const ready = VehicleState._('READY');
-  static const healthy = VehicleState._('HEALTHY');
-  static const suspended = VehicleState._('SUSPENDED');
-  static const deleting = VehicleState._('DELETING');
-
-  final String value;
-
-  const VehicleState._(this.value);
-
-  static const values = [created, ready, healthy, suspended, deleting];
-
-  static VehicleState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => VehicleState._(value));
-
-  @override
-  bool operator ==(other) => other is VehicleState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the state of a vehicle and how it relates to the status of
-/// a campaign.
-class VehicleStatus {
-  /// The name of a campaign.
-  final String? campaignName;
-
-  /// The state of a vehicle, which can be one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATED</code> - Amazon Web Services IoT FleetWise sucessfully created
-  /// the vehicle.
-  /// </li>
-  /// <li>
-  /// <code>READY</code> - The vehicle is ready to receive a campaign deployment.
-  /// </li>
-  /// <li>
-  /// <code>HEALTHY</code> - A campaign deployment was delivered to the vehicle.
-  /// </li>
-  /// <li>
-  /// <code>SUSPENDED</code> - A campaign associated with the vehicle was
-  /// suspended and data collection was paused.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> - Amazon Web Services IoT FleetWise is removing a
-  /// campaign from the vehicle.
-  /// </li>
-  /// </ul>
-  final VehicleState? status;
-
-  /// The unique ID of the vehicle.
-  final String? vehicleName;
-
-  VehicleStatus({
-    this.campaignName,
-    this.status,
-    this.vehicleName,
-  });
-
-  factory VehicleStatus.fromJson(Map<String, dynamic> json) {
-    return VehicleStatus(
-      campaignName: json['campaignName'] as String?,
-      status: (json['status'] as String?)?.let(VehicleState.fromString),
-      vehicleName: json['vehicleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaignName = this.campaignName;
-    final status = this.status;
-    final vehicleName = this.vehicleName;
-    return {
-      if (campaignName != null) 'campaignName': campaignName,
-      if (status != null) 'status': status.value,
-      if (vehicleName != null) 'vehicleName': vehicleName,
-    };
-  }
-}
-
-/// Information about a vehicle.
-///
-/// To return this information about vehicles in your account, you can use the
-/// API operation.
-class VehicleSummary {
-  /// The Amazon Resource Name (ARN) of the vehicle.
-  final String arn;
-
-  /// The time the vehicle was created in seconds since epoch (January 1, 1970 at
-  /// midnight UTC time).
-  final DateTime creationTime;
-
-  /// The ARN of a decoder manifest associated with the vehicle.
-  final String decoderManifestArn;
-
-  /// The time the vehicle was last updated in seconds since epoch (January 1,
-  /// 1970 at midnight UTC time).
-  final DateTime lastModificationTime;
-
-  /// The ARN of a vehicle model (model manifest) associated with the vehicle.
-  final String modelManifestArn;
-
-  /// The unique ID of the vehicle.
+/// Information about the vehicle to update.
+/// <important>
+/// Access to certain Amazon Web Services IoT FleetWise features is currently
+/// gated. For more information, see <a
+/// href="https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html">Amazon
+/// Web Services Region and feature availability</a> in the <i>Amazon Web
+/// Services IoT FleetWise Developer Guide</i>.
+/// </important>
+class UpdateVehicleRequestItem {
+  /// The unique ID of the vehicle to update.
   final String vehicleName;
+
+  /// The method the specified attributes will update the existing attributes on
+  /// the vehicle. Use<code>Overwite</code> to replace the vehicle attributes with
+  /// the specified attributes. Or use <code>Merge</code> to combine all
+  /// attributes.
+  ///
+  /// This is required if attributes are present in the input.
+  final UpdateMode? attributeUpdateMode;
 
   /// Static information about a vehicle in a key-value pair. For example:
   ///
   /// <code>"engineType"</code> : <code>"1.3 L R2"</code>
   final Map<String, String>? attributes;
 
-  VehicleSummary({
-    required this.arn,
-    required this.creationTime,
-    required this.decoderManifestArn,
-    required this.lastModificationTime,
-    required this.modelManifestArn,
+  /// The ARN of the signal decoder manifest associated with the vehicle to
+  /// update.
+  final String? decoderManifestArn;
+
+  /// The ARN of the vehicle model (model manifest) associated with the vehicle to
+  /// update.
+  final String? modelManifestArn;
+
+  /// Associate additional state templates to track the state of the vehicle.
+  /// State templates determine which signal updates the vehicle sends to the
+  /// cloud.
+  final List<StateTemplateAssociation>? stateTemplatesToAdd;
+
+  /// Remove existing state template associations from the vehicle.
+  final List<String>? stateTemplatesToRemove;
+
+  /// Change the <code>stateTemplateUpdateStrategy</code> of state templates
+  /// already associated with the vehicle.
+  final List<StateTemplateAssociation>? stateTemplatesToUpdate;
+
+  UpdateVehicleRequestItem({
     required this.vehicleName,
+    this.attributeUpdateMode,
     this.attributes,
+    this.decoderManifestArn,
+    this.modelManifestArn,
+    this.stateTemplatesToAdd,
+    this.stateTemplatesToRemove,
+    this.stateTemplatesToUpdate,
   });
 
-  factory VehicleSummary.fromJson(Map<String, dynamic> json) {
-    return VehicleSummary(
-      arn: (json['arn'] as String?) ?? '',
-      creationTime: nonNullableTimeStampFromJson(json['creationTime'] ?? 0),
-      decoderManifestArn: (json['decoderManifestArn'] as String?) ?? '',
-      lastModificationTime:
-          nonNullableTimeStampFromJson(json['lastModificationTime'] ?? 0),
-      modelManifestArn: (json['modelManifestArn'] as String?) ?? '',
-      vehicleName: (json['vehicleName'] as String?) ?? '',
-      attributes: (json['attributes'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
+  Map<String, dynamic> toJson() {
+    final vehicleName = this.vehicleName;
+    final attributeUpdateMode = this.attributeUpdateMode;
+    final attributes = this.attributes;
+    final decoderManifestArn = this.decoderManifestArn;
+    final modelManifestArn = this.modelManifestArn;
+    final stateTemplatesToAdd = this.stateTemplatesToAdd;
+    final stateTemplatesToRemove = this.stateTemplatesToRemove;
+    final stateTemplatesToUpdate = this.stateTemplatesToUpdate;
+    return {
+      'vehicleName': vehicleName,
+      if (attributeUpdateMode != null)
+        'attributeUpdateMode': attributeUpdateMode.value,
+      if (attributes != null) 'attributes': attributes,
+      if (decoderManifestArn != null) 'decoderManifestArn': decoderManifestArn,
+      if (modelManifestArn != null) 'modelManifestArn': modelManifestArn,
+      if (stateTemplatesToAdd != null)
+        'stateTemplatesToAdd': stateTemplatesToAdd,
+      if (stateTemplatesToRemove != null)
+        'stateTemplatesToRemove': stateTemplatesToRemove,
+      if (stateTemplatesToUpdate != null)
+        'stateTemplatesToUpdate': stateTemplatesToUpdate,
+    };
+  }
+}
+
+/// An HTTP error resulting from creating a vehicle.
+class CreateVehicleError {
+  /// An HTTP error code.
+  final String? code;
+
+  /// A description of the HTTP error.
+  final String? message;
+
+  /// The ID of the vehicle with the error.
+  final String? vehicleName;
+
+  CreateVehicleError({
+    this.code,
+    this.message,
+    this.vehicleName,
+  });
+
+  factory CreateVehicleError.fromJson(Map<String, dynamic> json) {
+    return CreateVehicleError(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+      vehicleName: json['vehicleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final vehicleName = this.vehicleName;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+      if (vehicleName != null) 'vehicleName': vehicleName,
+    };
+  }
+}
+
+/// Information about a created vehicle.
+class CreateVehicleResponseItem {
+  /// The ARN of the created vehicle.
+  final String? arn;
+
+  /// The ARN of a created or validated Amazon Web Services IoT thing.
+  final String? thingArn;
+
+  /// The unique ID of the vehicle to create.
+  final String? vehicleName;
+
+  CreateVehicleResponseItem({
+    this.arn,
+    this.thingArn,
+    this.vehicleName,
+  });
+
+  factory CreateVehicleResponseItem.fromJson(Map<String, dynamic> json) {
+    return CreateVehicleResponseItem(
+      arn: json['arn'] as String?,
+      thingArn: json['thingArn'] as String?,
+      vehicleName: json['vehicleName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final arn = this.arn;
-    final creationTime = this.creationTime;
+    final thingArn = this.thingArn;
+    final vehicleName = this.vehicleName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (vehicleName != null) 'vehicleName': vehicleName,
+    };
+  }
+}
+
+/// Information about the vehicle to create.
+class CreateVehicleRequestItem {
+  /// The Amazon Resource Name (ARN) of a decoder manifest associated with the
+  /// vehicle to create.
+  final String decoderManifestArn;
+
+  /// The ARN of the vehicle model (model manifest) to create the vehicle from.
+  final String modelManifestArn;
+
+  /// The unique ID of the vehicle to create.
+  final String vehicleName;
+
+  /// An option to create a new Amazon Web Services IoT thing when creating a
+  /// vehicle, or to validate an existing thing as a vehicle.
+  final VehicleAssociationBehavior? associationBehavior;
+
+  /// Static information about a vehicle in a key-value pair. For example:
+  /// <code>"engine Type"</code> : <code>"v6"</code>
+  final Map<String, String>? attributes;
+
+  /// Associate state templates to track the state of the vehicle. State templates
+  /// determine which signal updates the vehicle sends to the cloud.
+  final List<StateTemplateAssociation>? stateTemplates;
+
+  /// Metadata which can be used to manage the vehicle.
+  final List<Tag>? tags;
+
+  CreateVehicleRequestItem({
+    required this.decoderManifestArn,
+    required this.modelManifestArn,
+    required this.vehicleName,
+    this.associationBehavior,
+    this.attributes,
+    this.stateTemplates,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
     final decoderManifestArn = this.decoderManifestArn;
-    final lastModificationTime = this.lastModificationTime;
     final modelManifestArn = this.modelManifestArn;
     final vehicleName = this.vehicleName;
+    final associationBehavior = this.associationBehavior;
     final attributes = this.attributes;
+    final stateTemplates = this.stateTemplates;
+    final tags = this.tags;
     return {
-      'arn': arn,
-      'creationTime': unixTimestampToJson(creationTime),
       'decoderManifestArn': decoderManifestArn,
-      'lastModificationTime': unixTimestampToJson(lastModificationTime),
       'modelManifestArn': modelManifestArn,
       'vehicleName': vehicleName,
+      if (associationBehavior != null)
+        'associationBehavior': associationBehavior.value,
       if (attributes != null) 'attributes': attributes,
+      if (stateTemplates != null) 'stateTemplates': stateTemplates,
+      if (tags != null) 'tags': tags,
     };
   }
 }

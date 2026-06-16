@@ -77,8 +77,8 @@ class CloudHsm {
   /// Each tag consists of a key and a value. Tag keys must be unique to each
   /// resource.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourceArn] :
@@ -86,7 +86,6 @@ class CloudHsm {
   ///
   /// Parameter [tagList] :
   /// One or more tags.
-  @Deprecated('This API is deprecated.')
   Future<AddTagsToResourceResponse> addTagsToResource({
     required String resourceArn,
     required List<Tag> tagList,
@@ -129,13 +128,12 @@ class CloudHsm {
   /// Creates a high-availability partition group. A high-availability partition
   /// group is a group of partitions that spans multiple physical HSMs.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [label] :
   /// The label of the new high-availability partition group.
-  @Deprecated('This API is deprecated.')
   Future<CreateHapgResponse> createHapg({
     required String label,
   }) async {
@@ -188,8 +186,8 @@ class CloudHsm {
   /// <code>RUNNING</code>.
   /// </important>
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [iamRoleArn] :
@@ -218,7 +216,6 @@ class CloudHsm {
   /// Parameter [syslogIp] :
   /// The IP address for the syslog monitoring server. The AWS CloudHSM service
   /// only supports one syslog monitoring server.
-  @Deprecated('This API is deprecated.')
   Future<CreateHsmResponse> createHsm({
     required String iamRoleArn,
     required String sshKey,
@@ -272,8 +269,8 @@ class CloudHsm {
   ///
   /// Creates an HSM client.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [certificate] :
@@ -282,7 +279,6 @@ class CloudHsm {
   ///
   /// Parameter [label] :
   /// The label for the client.
-  @Deprecated('This API is deprecated.')
   Future<CreateLunaClientResponse> createLunaClient({
     required String certificate,
     String? label,
@@ -324,13 +320,12 @@ class CloudHsm {
   ///
   /// Deletes a high-availability partition group.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [hapgArn] :
   /// The ARN of the high-availability partition group to delete.
-  @Deprecated('This API is deprecated.')
   Future<DeleteHapgResponse> deleteHapg({
     required String hapgArn,
   }) async {
@@ -371,13 +366,12 @@ class CloudHsm {
   /// Deletes an HSM. After completion, this operation cannot be undone and your
   /// key material cannot be recovered.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [hsmArn] :
   /// The ARN of the HSM to delete.
-  @Deprecated('This API is deprecated.')
   Future<DeleteHsmResponse> deleteHsm({
     required String hsmArn,
   }) async {
@@ -417,13 +411,12 @@ class CloudHsm {
   ///
   /// Deletes a client.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [clientArn] :
   /// The ARN of the client to delete.
-  @Deprecated('This API is deprecated.')
   Future<DeleteLunaClientResponse> deleteLunaClient({
     required String clientArn,
   }) async {
@@ -463,13 +456,12 @@ class CloudHsm {
   ///
   /// Retrieves information about a high-availability partition group.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [hapgArn] :
   /// The ARN of the high-availability partition group to describe.
-  @Deprecated('This API is deprecated.')
   Future<DescribeHapgResponse> describeHapg({
     required String hapgArn,
   }) async {
@@ -510,8 +502,8 @@ class CloudHsm {
   /// Retrieves information about an HSM. You can identify the HSM by its ARN or
   /// its serial number.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [hsmArn] :
@@ -521,7 +513,6 @@ class CloudHsm {
   /// Parameter [hsmSerialNumber] :
   /// The serial number of the HSM. Either the <code>HsmArn</code> or the
   /// <code>HsmSerialNumber</code> parameter must be specified.
-  @Deprecated('This API is deprecated.')
   Future<DescribeHsmResponse> describeHsm({
     String? hsmArn,
     String? hsmSerialNumber,
@@ -563,8 +554,8 @@ class CloudHsm {
   ///
   /// Retrieves information about an HSM client.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [certificateFingerprint] :
@@ -572,7 +563,6 @@ class CloudHsm {
   ///
   /// Parameter [clientArn] :
   /// The ARN of the client.
-  @Deprecated('This API is deprecated.')
   Future<DescribeLunaClientResponse> describeLunaClient({
     String? certificateFingerprint,
     String? clientArn,
@@ -616,8 +606,8 @@ class CloudHsm {
   /// Gets the configuration files necessary to connect to all high availability
   /// partition groups the client is associated with.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [clientArn] :
@@ -629,7 +619,6 @@ class CloudHsm {
   /// Parameter [hapgList] :
   /// A list of ARNs that identify the high-availability partition groups that
   /// are associated with the client.
-  @Deprecated('This API is deprecated.')
   Future<GetConfigResponse> getConfig({
     required String clientArn,
     required ClientVersion clientVersion,
@@ -673,10 +662,9 @@ class CloudHsm {
   ///
   /// Lists the Availability Zones that have available AWS CloudHSM capacity.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
-  @Deprecated('This API is deprecated.')
   Future<ListAvailableZonesResponse> listAvailableZones() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -717,14 +705,13 @@ class CloudHsm {
   /// pass in the next call to <code>ListHapgs</code> to retrieve the next set
   /// of items.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [nextToken] :
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListHapgs</code>. Pass null if this is the first call.
-  @Deprecated('This API is deprecated.')
   Future<ListHapgsResponse> listHapgs({
     String? nextToken,
   }) async {
@@ -771,14 +758,13 @@ class CloudHsm {
   /// pass in the next call to <code>ListHsms</code> to retrieve the next set of
   /// items.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [nextToken] :
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListHsms</code>. Pass null if this is the first call.
-  @Deprecated('This API is deprecated.')
   Future<ListHsmsResponse> listHsms({
     String? nextToken,
   }) async {
@@ -824,14 +810,13 @@ class CloudHsm {
   /// pass in the next call to <code>ListLunaClients</code> to retrieve the next
   /// set of items.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [nextToken] :
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListLunaClients</code>. Pass null if this is the first call.
-  @Deprecated('This API is deprecated.')
   Future<ListLunaClientsResponse> listLunaClients({
     String? nextToken,
   }) async {
@@ -871,13 +856,12 @@ class CloudHsm {
   ///
   /// Returns a list of all tags for the specified AWS CloudHSM resource.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
-  @Deprecated('This API is deprecated.')
   Future<ListTagsForResourceResponse> listTagsForResource({
     required String resourceArn,
   }) async {
@@ -917,8 +901,8 @@ class CloudHsm {
   ///
   /// Modifies an existing high-availability partition group.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [hapgArn] :
@@ -930,7 +914,6 @@ class CloudHsm {
   /// Parameter [partitionSerialList] :
   /// The list of partition serial numbers to make members of the
   /// high-availability partition group.
-  @Deprecated('This API is deprecated.')
   Future<ModifyHapgResponse> modifyHapg({
     required String hapgArn,
     String? label,
@@ -982,8 +965,8 @@ class CloudHsm {
   /// during a maintenance window.
   /// </important>
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [hsmArn] :
@@ -1010,7 +993,6 @@ class CloudHsm {
   /// Parameter [syslogIp] :
   /// The new IP address for the syslog monitoring server. The AWS CloudHSM
   /// service only supports one syslog monitoring server.
-  @Deprecated('This API is deprecated.')
   Future<ModifyHsmResponse> modifyHsm({
     required String hsmArn,
     String? eniIp,
@@ -1070,7 +1052,6 @@ class CloudHsm {
   ///
   /// Parameter [clientArn] :
   /// The ARN of the client.
-  @Deprecated('This API is deprecated.')
   Future<ModifyLunaClientResponse> modifyLunaClient({
     required String certificate,
     required String clientArn,
@@ -1115,8 +1096,8 @@ class CloudHsm {
   /// To remove a tag, specify only the tag key to remove (not the value). To
   /// overwrite the value for an existing tag, use <a>AddTagsToResource</a>.
   ///
-  /// May throw [CloudHsmServiceException].
   /// May throw [CloudHsmInternalException].
+  /// May throw [CloudHsmServiceException].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourceArn] :
@@ -1127,7 +1108,6 @@ class CloudHsm {
   ///
   /// Specify only the tag key to remove (not the value). To overwrite the value
   /// for an existing tag, use <a>AddTagsToResource</a>.
-  @Deprecated('This API is deprecated.')
   Future<RemoveTagsFromResourceResponse> removeTagsFromResource({
     required String resourceArn,
     required List<String> tagKeyList,
@@ -1172,56 +1152,6 @@ class AddTagsToResourceResponse {
       'Status': status,
     };
   }
-}
-
-class ClientVersion {
-  static const $5_1 = ClientVersion._('5.1');
-  static const $5_3 = ClientVersion._('5.3');
-
-  final String value;
-
-  const ClientVersion._(this.value);
-
-  static const values = [$5_1, $5_3];
-
-  static ClientVersion fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ClientVersion._(value));
-
-  @override
-  bool operator ==(other) => other is ClientVersion && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class CloudHsmObjectState {
-  static const ready = CloudHsmObjectState._('READY');
-  static const updating = CloudHsmObjectState._('UPDATING');
-  static const degraded = CloudHsmObjectState._('DEGRADED');
-
-  final String value;
-
-  const CloudHsmObjectState._(this.value);
-
-  static const values = [ready, updating, degraded];
-
-  static CloudHsmObjectState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CloudHsmObjectState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CloudHsmObjectState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Contains the output of the <a>CreateHAPartitionGroup</a> action.
@@ -1369,13 +1299,13 @@ class DescribeHapgResponse {
   /// The serial number of the high-availability partition group.
   final String? hapgSerial;
 
-  /// <p/>
+  ///
   final List<String>? hsmsLastActionFailed;
 
-  /// <p/>
+  ///
   final List<String>? hsmsPendingDeletion;
 
-  /// <p/>
+  ///
   final List<String>? hsmsPendingRegistration;
 
   /// The label for the high-availability partition group.
@@ -1714,42 +1644,6 @@ class GetConfigResponse {
   }
 }
 
-class HsmStatus {
-  static const pending = HsmStatus._('PENDING');
-  static const running = HsmStatus._('RUNNING');
-  static const updating = HsmStatus._('UPDATING');
-  static const suspended = HsmStatus._('SUSPENDED');
-  static const terminating = HsmStatus._('TERMINATING');
-  static const terminated = HsmStatus._('TERMINATED');
-  static const degraded = HsmStatus._('DEGRADED');
-
-  final String value;
-
-  const HsmStatus._(this.value);
-
-  static const values = [
-    pending,
-    running,
-    updating,
-    suspended,
-    terminating,
-    terminated,
-    degraded
-  ];
-
-  static HsmStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => HsmStatus._(value));
-
-  @override
-  bool operator ==(other) => other is HsmStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListAvailableZonesResponse {
   /// The list of Availability Zones that have available AWS CloudHSM capacity.
   final List<String>? aZList;
@@ -1985,6 +1879,97 @@ class RemoveTagsFromResourceResponse {
   }
 }
 
+/// A key-value pair that identifies or specifies metadata about an AWS CloudHSM
+/// resource.
+class Tag {
+  /// The key of the tag.
+  final String key;
+
+  /// The value of the tag.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class ClientVersion {
+  static const $5_1 = ClientVersion._('5.1');
+  static const $5_3 = ClientVersion._('5.3');
+
+  final String value;
+
+  const ClientVersion._(this.value);
+
+  static const values = [$5_1, $5_3];
+
+  static ClientVersion fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClientVersion._(value));
+
+  @override
+  bool operator ==(other) => other is ClientVersion && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class HsmStatus {
+  static const pending = HsmStatus._('PENDING');
+  static const running = HsmStatus._('RUNNING');
+  static const updating = HsmStatus._('UPDATING');
+  static const suspended = HsmStatus._('SUSPENDED');
+  static const terminating = HsmStatus._('TERMINATING');
+  static const terminated = HsmStatus._('TERMINATED');
+  static const degraded = HsmStatus._('DEGRADED');
+
+  final String value;
+
+  const HsmStatus._(this.value);
+
+  static const values = [
+    pending,
+    running,
+    updating,
+    suspended,
+    terminating,
+    terminated,
+    degraded
+  ];
+
+  static HsmStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => HsmStatus._(value));
+
+  @override
+  bool operator ==(other) => other is HsmStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Specifies the type of subscription for the HSM.
 ///
 /// <ul>
@@ -2018,35 +2003,30 @@ class SubscriptionType {
   String toString() => value;
 }
 
-/// A key-value pair that identifies or specifies metadata about an AWS CloudHSM
-/// resource.
-class Tag {
-  /// The key of the tag.
-  final String key;
+class CloudHsmObjectState {
+  static const ready = CloudHsmObjectState._('READY');
+  static const updating = CloudHsmObjectState._('UPDATING');
+  static const degraded = CloudHsmObjectState._('DEGRADED');
 
-  /// The value of the tag.
   final String value;
 
-  Tag({
-    required this.key,
-    required this.value,
-  });
+  const CloudHsmObjectState._(this.value);
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
+  static const values = [ready, updating, degraded];
 
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
+  static CloudHsmObjectState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CloudHsmObjectState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CloudHsmObjectState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class CloudHsmInternalException extends _s.GenericAwsException {

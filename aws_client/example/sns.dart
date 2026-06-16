@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aws_client/sns_2010_03_31.dart';
+import 'package:aws_client/sns.dart';
 
 void main() async {
   final service = Sns(region: 'us-east-2');

@@ -35,7 +35,6 @@ class BackupGateway {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'backup-gateway',
-            signingName: 'backup-gateway',
           ),
           region: region,
           credentials: credentials,
@@ -52,30 +51,19 @@ class BackupGateway {
     _protocol.close();
   }
 
-  /// Associates a backup gateway with your server. After you complete the
-  /// association process, you can back up and restore your VMs through the
-  /// gateway.
+  /// Lists the tags applied to the resource identified by its Amazon Resource
+  /// Name (ARN).
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
   ///
-  /// Parameter [gatewayArn] :
-  /// The Amazon Resource Name (ARN) of the gateway. Use the
-  /// <code>ListGateways</code> operation to return a list of gateways for your
-  /// account and Amazon Web Services Region.
-  ///
-  /// Parameter [serverArn] :
-  /// The Amazon Resource Name (ARN) of the server that hosts your virtual
-  /// machines.
-  Future<AssociateGatewayToServerOutput> associateGatewayToServer({
-    required String gatewayArn,
-    required String serverArn,
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource's tags to list.
+  Future<ListTagsForResourceOutput> listTagsForResource({
+    required String resourceArn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.AssociateGatewayToServer'
+      'X-Amz-Target': 'BackupOnPremises_v20210101.ListTagsForResource'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -84,20 +72,79 @@ class BackupGateway {
       // TODO queryParams
       headers: headers,
       payload: {
-        'GatewayArn': gatewayArn,
-        'ServerArn': serverArn,
+        'ResourceArn': resourceArn,
       },
     );
 
-    return AssociateGatewayToServerOutput.fromJson(jsonResponse.body);
+    return ListTagsForResourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Tag the resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the resource to tag.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to assign to the resource.
+  Future<TagResourceOutput> tagResource({
+    required String resourceARN,
+    required List<Tag> tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.TagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'Tags': tags,
+      },
+    );
+
+    return TagResourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Removes tags from the resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
+  ///
+  /// Parameter [tagKeys] :
+  /// The list of tag keys specifying which tags to remove.
+  Future<UntagResourceOutput> untagResource({
+    required String resourceARN,
+    required List<String> tagKeys,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.UntagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'TagKeys': tagKeys,
+      },
+    );
+
+    return UntagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a backup gateway. After you create a gateway, you can associate it
   /// with a server using the <code>AssociateGatewayToServer</code> operation.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [activationKey] :
   /// The activation key of the created gateway.
@@ -138,143 +185,9 @@ class BackupGateway {
     return CreateGatewayOutput.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a backup gateway.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [gatewayArn] :
-  /// The Amazon Resource Name (ARN) of the gateway to delete.
-  Future<DeleteGatewayOutput> deleteGateway({
-    required String gatewayArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.DeleteGateway'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'GatewayArn': gatewayArn,
-      },
-    );
-
-    return DeleteGatewayOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Deletes a hypervisor.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [hypervisorArn] :
-  /// The Amazon Resource Name (ARN) of the hypervisor to delete.
-  Future<DeleteHypervisorOutput> deleteHypervisor({
-    required String hypervisorArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.DeleteHypervisor'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'HypervisorArn': hypervisorArn,
-      },
-    );
-
-    return DeleteHypervisorOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Disassociates a backup gateway from the specified server. After the
-  /// disassociation process finishes, the gateway can no longer access the
-  /// virtual machines on the server.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [gatewayArn] :
-  /// The Amazon Resource Name (ARN) of the gateway to disassociate.
-  Future<DisassociateGatewayFromServerOutput> disassociateGatewayFromServer({
-    required String gatewayArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.DisassociateGatewayFromServer'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'GatewayArn': gatewayArn,
-      },
-    );
-
-    return DisassociateGatewayFromServerOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Retrieves the bandwidth rate limit schedule for a specified gateway. By
-  /// default, gateways do not have bandwidth rate limit schedules, which means
-  /// no bandwidth rate limiting is in effect. Use this to get a gateway's
-  /// bandwidth rate limit schedule.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [gatewayArn] :
-  /// The Amazon Resource Name (ARN) of the gateway. Use the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html">
-  /// <code>ListGateways</code> </a> operation to return a list of gateways for
-  /// your account and Amazon Web Services Region.
-  Future<GetBandwidthRateLimitScheduleOutput> getBandwidthRateLimitSchedule({
-    required String gatewayArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.GetBandwidthRateLimitSchedule'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'GatewayArn': gatewayArn,
-      },
-    );
-
-    return GetBandwidthRateLimitScheduleOutput.fromJson(jsonResponse.body);
-  }
-
   /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [gatewayArn] :
   /// The Amazon Resource Name (ARN) of the gateway.
@@ -299,140 +212,24 @@ class BackupGateway {
     return GetGatewayOutput.fromJson(jsonResponse.body);
   }
 
-  /// This action requests information about the specified hypervisor to which
-  /// the gateway will connect. A hypervisor is hardware, software, or firmware
-  /// that creates and manages virtual machines, and allocates resources to
-  /// them.
+  /// Updates a gateway's name. Specify which gateway to update using the Amazon
+  /// Resource Name (ARN) of the gateway in your request.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [hypervisorArn] :
-  /// The Amazon Resource Name (ARN) of the hypervisor.
-  Future<GetHypervisorOutput> getHypervisor({
-    required String hypervisorArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.GetHypervisor'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'HypervisorArn': hypervisorArn,
-      },
-    );
-
-    return GetHypervisorOutput.fromJson(jsonResponse.body);
-  }
-
-  /// This action retrieves the property mappings for the specified hypervisor.
-  /// A hypervisor property mapping displays the relationship of entity
-  /// properties available from the on-premises hypervisor to the properties
-  /// available in Amazon Web Services.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [hypervisorArn] :
-  /// The Amazon Resource Name (ARN) of the hypervisor.
-  Future<GetHypervisorPropertyMappingsOutput> getHypervisorPropertyMappings({
-    required String hypervisorArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.GetHypervisorPropertyMappings'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'HypervisorArn': hypervisorArn,
-      },
-    );
-
-    return GetHypervisorPropertyMappingsOutput.fromJson(jsonResponse.body);
-  }
-
-  /// By providing the ARN (Amazon Resource Name), this API returns the virtual
-  /// machine.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the virtual machine.
-  Future<GetVirtualMachineOutput> getVirtualMachine({
-    required String resourceArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.GetVirtualMachine'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
-    );
-
-    return GetVirtualMachineOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Connect to a hypervisor by importing its configuration.
-  ///
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
   ///
-  /// Parameter [host] :
-  /// The server host of the hypervisor. This can be either an IP address or a
-  /// fully-qualified domain name (FQDN).
+  /// Parameter [gatewayArn] :
+  /// The Amazon Resource Name (ARN) of the gateway to update.
   ///
-  /// Parameter [name] :
-  /// The name of the hypervisor.
-  ///
-  /// Parameter [kmsKeyArn] :
-  /// The Key Management Service for the hypervisor.
-  ///
-  /// Parameter [password] :
-  /// The password for the hypervisor.
-  ///
-  /// Parameter [tags] :
-  /// The tags of the hypervisor configuration to import.
-  ///
-  /// Parameter [username] :
-  /// The username for the hypervisor.
-  Future<ImportHypervisorConfigurationOutput> importHypervisorConfiguration({
-    required String host,
-    required String name,
-    String? kmsKeyArn,
-    String? password,
-    List<Tag>? tags,
-    String? username,
+  /// Parameter [gatewayDisplayName] :
+  /// The updated display name of the gateway.
+  Future<UpdateGatewayInformationOutput> updateGatewayInformation({
+    required String gatewayArn,
+    String? gatewayDisplayName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.ImportHypervisorConfiguration'
+      'X-Amz-Target': 'BackupOnPremises_v20210101.UpdateGatewayInformation'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -441,25 +238,45 @@ class BackupGateway {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Host': host,
-        'Name': name,
-        if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
-        if (password != null) 'Password': password,
-        if (tags != null) 'Tags': tags,
-        if (username != null) 'Username': username,
+        'GatewayArn': gatewayArn,
+        if (gatewayDisplayName != null)
+          'GatewayDisplayName': gatewayDisplayName,
       },
     );
 
-    return ImportHypervisorConfigurationOutput.fromJson(jsonResponse.body);
+    return UpdateGatewayInformationOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a backup gateway.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [gatewayArn] :
+  /// The Amazon Resource Name (ARN) of the gateway to delete.
+  Future<DeleteGatewayOutput> deleteGateway({
+    required String gatewayArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.DeleteGateway'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GatewayArn': gatewayArn,
+      },
+    );
+
+    return DeleteGatewayOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists backup gateways owned by an Amazon Web Services account in an Amazon
   /// Web Services Region. The returned list is ordered by gateway Amazon
   /// Resource Name (ARN).
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of gateways to list.
@@ -498,156 +315,58 @@ class BackupGateway {
     return ListGatewaysOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists your hypervisors.
+  /// Associates a backup gateway with your server. After you complete the
+  /// association process, you can back up and restore your VMs through the
+  /// gateway.
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of hypervisors to list.
-  ///
-  /// Parameter [nextToken] :
-  /// The next item following a partial list of returned resources. For example,
-  /// if a request is made to return <code>maxResults</code> number of
-  /// resources, <code>NextToken</code> allows you to return more items in your
-  /// list starting at the location pointed to by the next token.
-  Future<ListHypervisorsOutput> listHypervisors({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.ListHypervisors'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListHypervisorsOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Lists the tags applied to the resource identified by its Amazon Resource
-  /// Name (ARN).
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource's tags to list.
-  Future<ListTagsForResourceOutput> listTagsForResource({
-    required String resourceArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.ListTagsForResource'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceArn': resourceArn,
-      },
-    );
-
-    return ListTagsForResourceOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Lists your virtual machines.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [hypervisorArn] :
-  /// The Amazon Resource Name (ARN) of the hypervisor connected to your virtual
-  /// machine.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of virtual machines to list.
-  ///
-  /// Parameter [nextToken] :
-  /// The next item following a partial list of returned resources. For example,
-  /// if a request is made to return <code>maxResults</code> number of
-  /// resources, <code>NextToken</code> allows you to return more items in your
-  /// list starting at the location pointed to by the next token.
-  Future<ListVirtualMachinesOutput> listVirtualMachines({
-    String? hypervisorArn,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.ListVirtualMachines'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-      },
-    );
-
-    return ListVirtualMachinesOutput.fromJson(jsonResponse.body);
-  }
-
-  /// This action sets the bandwidth rate limit schedule for a specified
-  /// gateway. By default, gateways do not have a bandwidth rate limit schedule,
-  /// which means no bandwidth rate limiting is in effect. Use this to initiate
-  /// a gateway's bandwidth rate limit schedule.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [bandwidthRateLimitIntervals] :
-  /// An array containing bandwidth rate limit schedule intervals for a gateway.
-  /// When no bandwidth rate limit intervals have been scheduled, the array is
-  /// empty.
+  /// May throw [ConflictException].
   ///
   /// Parameter [gatewayArn] :
-  /// The Amazon Resource Name (ARN) of the gateway. Use the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html">
-  /// <code>ListGateways</code> </a> operation to return a list of gateways for
-  /// your account and Amazon Web Services Region.
-  Future<PutBandwidthRateLimitScheduleOutput> putBandwidthRateLimitSchedule({
-    required List<BandwidthRateLimitInterval> bandwidthRateLimitIntervals,
+  /// The Amazon Resource Name (ARN) of the gateway. Use the
+  /// <code>ListGateways</code> operation to return a list of gateways for your
+  /// account and Amazon Web Services Region.
+  ///
+  /// Parameter [serverArn] :
+  /// The Amazon Resource Name (ARN) of the server that hosts your virtual
+  /// machines.
+  Future<AssociateGatewayToServerOutput> associateGatewayToServer({
+    required String gatewayArn,
+    required String serverArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.AssociateGatewayToServer'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GatewayArn': gatewayArn,
+        'ServerArn': serverArn,
+      },
+    );
+
+    return AssociateGatewayToServerOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Disassociates a backup gateway from the specified server. After the
+  /// disassociation process finishes, the gateway can no longer access the
+  /// virtual machines on the server.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [gatewayArn] :
+  /// The Amazon Resource Name (ARN) of the gateway to disassociate.
+  Future<DisassociateGatewayFromServerOutput> disassociateGatewayFromServer({
     required String gatewayArn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.PutBandwidthRateLimitSchedule'
+      'X-Amz-Target': 'BackupOnPremises_v20210101.DisassociateGatewayFromServer'
     };
     final jsonResponse = await _protocol.send(
       method: 'POST',
@@ -656,67 +375,17 @@ class BackupGateway {
       // TODO queryParams
       headers: headers,
       payload: {
-        'BandwidthRateLimitIntervals': bandwidthRateLimitIntervals,
         'GatewayArn': gatewayArn,
       },
     );
 
-    return PutBandwidthRateLimitScheduleOutput.fromJson(jsonResponse.body);
-  }
-
-  /// This action sets the property mappings for the specified hypervisor. A
-  /// hypervisor property mapping displays the relationship of entity properties
-  /// available from the on-premises hypervisor to the properties available in
-  /// Amazon Web Services.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [hypervisorArn] :
-  /// The Amazon Resource Name (ARN) of the hypervisor.
-  ///
-  /// Parameter [iamRoleArn] :
-  /// The Amazon Resource Name (ARN) of the IAM role.
-  ///
-  /// Parameter [vmwareToAwsTagMappings] :
-  /// This action requests the mappings of on-premises VMware tags to the Amazon
-  /// Web Services tags.
-  Future<PutHypervisorPropertyMappingsOutput> putHypervisorPropertyMappings({
-    required String hypervisorArn,
-    required String iamRoleArn,
-    required List<VmwareToAwsTagMapping> vmwareToAwsTagMappings,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.PutHypervisorPropertyMappings'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'HypervisorArn': hypervisorArn,
-        'IamRoleArn': iamRoleArn,
-        'VmwareToAwsTagMappings': vmwareToAwsTagMappings,
-      },
-    );
-
-    return PutHypervisorPropertyMappingsOutput.fromJson(jsonResponse.body);
+    return DisassociateGatewayFromServerOutput.fromJson(jsonResponse.body);
   }
 
   /// Set the maintenance start time for a gateway.
   ///
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
-  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [gatewayArn] :
   /// The Amazon Resource Name (ARN) for the gateway, used to specify its
@@ -790,83 +459,11 @@ class BackupGateway {
     return PutMaintenanceStartTimeOutput.fromJson(jsonResponse.body);
   }
 
-  /// This action sends a request to sync metadata across the specified virtual
-  /// machines.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [hypervisorArn] :
-  /// The Amazon Resource Name (ARN) of the hypervisor.
-  Future<StartVirtualMachinesMetadataSyncOutput>
-      startVirtualMachinesMetadataSync({
-    required String hypervisorArn,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target':
-          'BackupOnPremises_v20210101.StartVirtualMachinesMetadataSync'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'HypervisorArn': hypervisorArn,
-      },
-    );
-
-    return StartVirtualMachinesMetadataSyncOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Tag the resource.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [resourceARN] :
-  /// The Amazon Resource Name (ARN) of the resource to tag.
-  ///
-  /// Parameter [tags] :
-  /// A list of tags to assign to the resource.
-  Future<TagResourceOutput> tagResource({
-    required String resourceARN,
-    required List<Tag> tags,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.TagResource'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'Tags': tags,
-      },
-    );
-
-    return TagResourceOutput.fromJson(jsonResponse.body);
-  }
-
   /// Tests your hypervisor configuration to validate that backup gateway can
   /// connect with the hypervisor and its resources.
   ///
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
-  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [gatewayArn] :
   /// The Amazon Resource Name (ARN) of the gateway to the hypervisor to test.
@@ -905,79 +502,6 @@ class BackupGateway {
     );
   }
 
-  /// Removes tags from the resource.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [resourceARN] :
-  /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
-  ///
-  /// Parameter [tagKeys] :
-  /// The list of tag keys specifying which tags to remove.
-  Future<UntagResourceOutput> untagResource({
-    required String resourceARN,
-    required List<String> tagKeys,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.UntagResource'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'ResourceARN': resourceARN,
-        'TagKeys': tagKeys,
-      },
-    );
-
-    return UntagResourceOutput.fromJson(jsonResponse.body);
-  }
-
-  /// Updates a gateway's name. Specify which gateway to update using the Amazon
-  /// Resource Name (ARN) of the gateway in your request.
-  ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
-  ///
-  /// Parameter [gatewayArn] :
-  /// The Amazon Resource Name (ARN) of the gateway to update.
-  ///
-  /// Parameter [gatewayDisplayName] :
-  /// The updated display name of the gateway.
-  Future<UpdateGatewayInformationOutput> updateGatewayInformation({
-    required String gatewayArn,
-    String? gatewayDisplayName,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.0',
-      'X-Amz-Target': 'BackupOnPremises_v20210101.UpdateGatewayInformation'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'GatewayArn': gatewayArn,
-        if (gatewayDisplayName != null)
-          'GatewayDisplayName': gatewayDisplayName,
-      },
-    );
-
-    return UpdateGatewayInformationOutput.fromJson(jsonResponse.body);
-  }
-
   /// Updates the gateway virtual machine (VM) software. The request immediately
   /// triggers the software update.
   /// <note>
@@ -985,10 +509,7 @@ class BackupGateway {
   /// immediately. However, it might take some time for the update to complete.
   /// </note>
   ///
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [gatewayArn] :
   /// The Amazon Resource Name (ARN) of the gateway to be updated.
@@ -1013,16 +534,170 @@ class BackupGateway {
     return UpdateGatewaySoftwareNowOutput.fromJson(jsonResponse.body);
   }
 
+  /// This action sets the bandwidth rate limit schedule for a specified
+  /// gateway. By default, gateways do not have a bandwidth rate limit schedule,
+  /// which means no bandwidth rate limiting is in effect. Use this to initiate
+  /// a gateway's bandwidth rate limit schedule.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [bandwidthRateLimitIntervals] :
+  /// An array containing bandwidth rate limit schedule intervals for a gateway.
+  /// When no bandwidth rate limit intervals have been scheduled, the array is
+  /// empty.
+  ///
+  /// Parameter [gatewayArn] :
+  /// The Amazon Resource Name (ARN) of the gateway. Use the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html">
+  /// <code>ListGateways</code> </a> operation to return a list of gateways for
+  /// your account and Amazon Web Services Region.
+  Future<PutBandwidthRateLimitScheduleOutput> putBandwidthRateLimitSchedule({
+    required List<BandwidthRateLimitInterval> bandwidthRateLimitIntervals,
+    required String gatewayArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.PutBandwidthRateLimitSchedule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BandwidthRateLimitIntervals': bandwidthRateLimitIntervals,
+        'GatewayArn': gatewayArn,
+      },
+    );
+
+    return PutBandwidthRateLimitScheduleOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the bandwidth rate limit schedule for a specified gateway. By
+  /// default, gateways do not have bandwidth rate limit schedules, which means
+  /// no bandwidth rate limiting is in effect. Use this to get a gateway's
+  /// bandwidth rate limit schedule.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [gatewayArn] :
+  /// The Amazon Resource Name (ARN) of the gateway. Use the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html">
+  /// <code>ListGateways</code> </a> operation to return a list of gateways for
+  /// your account and Amazon Web Services Region.
+  Future<GetBandwidthRateLimitScheduleOutput> getBandwidthRateLimitSchedule({
+    required String gatewayArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.GetBandwidthRateLimitSchedule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'GatewayArn': gatewayArn,
+      },
+    );
+
+    return GetBandwidthRateLimitScheduleOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Connect to a hypervisor by importing its configuration.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [host] :
+  /// The server host of the hypervisor. This can be either an IP address or a
+  /// fully-qualified domain name (FQDN).
+  ///
+  /// Parameter [name] :
+  /// The name of the hypervisor.
+  ///
+  /// Parameter [kmsKeyArn] :
+  /// The Key Management Service for the hypervisor.
+  ///
+  /// Parameter [password] :
+  /// The password for the hypervisor.
+  ///
+  /// Parameter [tags] :
+  /// The tags of the hypervisor configuration to import.
+  ///
+  /// Parameter [username] :
+  /// The username for the hypervisor.
+  Future<ImportHypervisorConfigurationOutput> importHypervisorConfiguration({
+    required String host,
+    required String name,
+    String? kmsKeyArn,
+    String? password,
+    List<Tag>? tags,
+    String? username,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.ImportHypervisorConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Host': host,
+        'Name': name,
+        if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+        if (password != null) 'Password': password,
+        if (tags != null) 'Tags': tags,
+        if (username != null) 'Username': username,
+      },
+    );
+
+    return ImportHypervisorConfigurationOutput.fromJson(jsonResponse.body);
+  }
+
+  /// This action requests information about the specified hypervisor to which
+  /// the gateway will connect. A hypervisor is hardware, software, or firmware
+  /// that creates and manages virtual machines, and allocates resources to
+  /// them.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [hypervisorArn] :
+  /// The Amazon Resource Name (ARN) of the hypervisor.
+  Future<GetHypervisorOutput> getHypervisor({
+    required String hypervisorArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.GetHypervisor'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'HypervisorArn': hypervisorArn,
+      },
+    );
+
+    return GetHypervisorOutput.fromJson(jsonResponse.body);
+  }
+
   /// Updates a hypervisor metadata, including its host, username, and password.
   /// Specify which hypervisor to update using the Amazon Resource Name (ARN) of
   /// the hypervisor in your request.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ThrottlingException].
   ///
   /// Parameter [hypervisorArn] :
   /// The Amazon Resource Name (ARN) of the hypervisor to update.
@@ -1073,108 +748,325 @@ class BackupGateway {
 
     return UpdateHypervisorOutput.fromJson(jsonResponse.body);
   }
+
+  /// Deletes a hypervisor.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [hypervisorArn] :
+  /// The Amazon Resource Name (ARN) of the hypervisor to delete.
+  Future<DeleteHypervisorOutput> deleteHypervisor({
+    required String hypervisorArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.DeleteHypervisor'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'HypervisorArn': hypervisorArn,
+      },
+    );
+
+    return DeleteHypervisorOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists your hypervisors.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of hypervisors to list.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>maxResults</code> number of
+  /// resources, <code>NextToken</code> allows you to return more items in your
+  /// list starting at the location pointed to by the next token.
+  Future<ListHypervisorsOutput> listHypervisors({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.ListHypervisors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListHypervisorsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// This action sends a request to sync metadata across the specified virtual
+  /// machines.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [hypervisorArn] :
+  /// The Amazon Resource Name (ARN) of the hypervisor.
+  Future<StartVirtualMachinesMetadataSyncOutput>
+      startVirtualMachinesMetadataSync({
+    required String hypervisorArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target':
+          'BackupOnPremises_v20210101.StartVirtualMachinesMetadataSync'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'HypervisorArn': hypervisorArn,
+      },
+    );
+
+    return StartVirtualMachinesMetadataSyncOutput.fromJson(jsonResponse.body);
+  }
+
+  /// This action sets the property mappings for the specified hypervisor. A
+  /// hypervisor property mapping displays the relationship of entity properties
+  /// available from the hypervisor to the properties available in Amazon Web
+  /// Services.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [hypervisorArn] :
+  /// The Amazon Resource Name (ARN) of the hypervisor.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The Amazon Resource Name (ARN) of the IAM role.
+  ///
+  /// Parameter [vmwareToAwsTagMappings] :
+  /// This action requests the mappings of VMware tags to the Amazon Web
+  /// Services tags.
+  Future<PutHypervisorPropertyMappingsOutput> putHypervisorPropertyMappings({
+    required String hypervisorArn,
+    required String iamRoleArn,
+    required List<VmwareToAwsTagMapping> vmwareToAwsTagMappings,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.PutHypervisorPropertyMappings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'HypervisorArn': hypervisorArn,
+        'IamRoleArn': iamRoleArn,
+        'VmwareToAwsTagMappings': vmwareToAwsTagMappings,
+      },
+    );
+
+    return PutHypervisorPropertyMappingsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// This action retrieves the property mappings for the specified hypervisor.
+  /// A hypervisor property mapping displays the relationship of entity
+  /// properties available from the hypervisor to the properties available in
+  /// Amazon Web Services.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [hypervisorArn] :
+  /// The Amazon Resource Name (ARN) of the hypervisor.
+  Future<GetHypervisorPropertyMappingsOutput> getHypervisorPropertyMappings({
+    required String hypervisorArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.GetHypervisorPropertyMappings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'HypervisorArn': hypervisorArn,
+      },
+    );
+
+    return GetHypervisorPropertyMappingsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// By providing the ARN (Amazon Resource Name), this API returns the virtual
+  /// machine.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the virtual machine.
+  Future<GetVirtualMachineOutput> getVirtualMachine({
+    required String resourceArn,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.GetVirtualMachine'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceArn': resourceArn,
+      },
+    );
+
+    return GetVirtualMachineOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists your virtual machines.
+  ///
+  /// Parameter [hypervisorArn] :
+  /// The Amazon Resource Name (ARN) of the hypervisor connected to your virtual
+  /// machine.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of virtual machines to list.
+  ///
+  /// Parameter [nextToken] :
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>maxResults</code> number of
+  /// resources, <code>NextToken</code> allows you to return more items in your
+  /// list starting at the location pointed to by the next token.
+  Future<ListVirtualMachinesOutput> listVirtualMachines({
+    String? hypervisorArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'BackupOnPremises_v20210101.ListVirtualMachines'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListVirtualMachinesOutput.fromJson(jsonResponse.body);
+  }
 }
 
-class AssociateGatewayToServerOutput {
-  /// The Amazon Resource Name (ARN) of a gateway.
-  final String? gatewayArn;
+class ListTagsForResourceOutput {
+  /// The Amazon Resource Name (ARN) of the resource's tags that you listed.
+  final String? resourceArn;
 
-  AssociateGatewayToServerOutput({
-    this.gatewayArn,
+  /// A list of the resource's tags.
+  final List<Tag>? tags;
+
+  ListTagsForResourceOutput({
+    this.resourceArn,
+    this.tags,
   });
 
-  factory AssociateGatewayToServerOutput.fromJson(Map<String, dynamic> json) {
-    return AssociateGatewayToServerOutput(
-      gatewayArn: json['GatewayArn'] as String?,
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      resourceArn: json['ResourceArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final gatewayArn = this.gatewayArn;
+    final resourceArn = this.resourceArn;
+    final tags = this.tags;
     return {
-      if (gatewayArn != null) 'GatewayArn': gatewayArn,
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
 
-/// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate
-/// limit schedule consists of one or more bandwidth rate limit intervals. A
-/// bandwidth rate limit interval defines a period of time on one or more days
-/// of the week, during which bandwidth rate limits are specified for uploading,
-/// downloading, or both.
-class BandwidthRateLimitInterval {
-  /// The days of the week component of the bandwidth rate limit interval,
-  /// represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6
-  /// represents Saturday.
-  final List<int> daysOfWeek;
+class TagResourceOutput {
+  /// The Amazon Resource Name (ARN) of the resource you tagged.
+  final String? resourceARN;
 
-  /// The hour of the day to end the bandwidth rate limit interval.
-  final int endHourOfDay;
-
-  /// The minute of the hour to end the bandwidth rate limit interval.
-  /// <important>
-  /// The bandwidth rate limit interval ends at the end of the minute. To end an
-  /// interval at the end of an hour, use the value <code>59</code>.
-  /// </important>
-  final int endMinuteOfHour;
-
-  /// The hour of the day to start the bandwidth rate limit interval.
-  final int startHourOfDay;
-
-  /// The minute of the hour to start the bandwidth rate limit interval. The
-  /// interval begins at the start of that minute. To begin an interval exactly at
-  /// the start of the hour, use the value <code>0</code>.
-  final int startMinuteOfHour;
-
-  /// The average upload rate limit component of the bandwidth rate limit
-  /// interval, in bits per second. This field does not appear in the response if
-  /// the upload rate limit is not set.
-  /// <note>
-  /// For Backup Gateway, the minimum value is <code>(Value)</code>.
-  /// </note>
-  final int? averageUploadRateLimitInBitsPerSec;
-
-  BandwidthRateLimitInterval({
-    required this.daysOfWeek,
-    required this.endHourOfDay,
-    required this.endMinuteOfHour,
-    required this.startHourOfDay,
-    required this.startMinuteOfHour,
-    this.averageUploadRateLimitInBitsPerSec,
+  TagResourceOutput({
+    this.resourceARN,
   });
 
-  factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
-    return BandwidthRateLimitInterval(
-      daysOfWeek: ((json['DaysOfWeek'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as int)
-          .toList(),
-      endHourOfDay: (json['EndHourOfDay'] as int?) ?? 0,
-      endMinuteOfHour: (json['EndMinuteOfHour'] as int?) ?? 0,
-      startHourOfDay: (json['StartHourOfDay'] as int?) ?? 0,
-      startMinuteOfHour: (json['StartMinuteOfHour'] as int?) ?? 0,
-      averageUploadRateLimitInBitsPerSec:
-          json['AverageUploadRateLimitInBitsPerSec'] as int?,
+  factory TagResourceOutput.fromJson(Map<String, dynamic> json) {
+    return TagResourceOutput(
+      resourceARN: json['ResourceARN'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final daysOfWeek = this.daysOfWeek;
-    final endHourOfDay = this.endHourOfDay;
-    final endMinuteOfHour = this.endMinuteOfHour;
-    final startHourOfDay = this.startHourOfDay;
-    final startMinuteOfHour = this.startMinuteOfHour;
-    final averageUploadRateLimitInBitsPerSec =
-        this.averageUploadRateLimitInBitsPerSec;
+    final resourceARN = this.resourceARN;
     return {
-      'DaysOfWeek': daysOfWeek,
-      'EndHourOfDay': endHourOfDay,
-      'EndMinuteOfHour': endMinuteOfHour,
-      'StartHourOfDay': startHourOfDay,
-      'StartMinuteOfHour': startMinuteOfHour,
-      if (averageUploadRateLimitInBitsPerSec != null)
-        'AverageUploadRateLimitInBitsPerSec':
-            averageUploadRateLimitInBitsPerSec,
+      if (resourceARN != null) 'ResourceARN': resourceARN,
+    };
+  }
+}
+
+class UntagResourceOutput {
+  /// The Amazon Resource Name (ARN) of the resource from which you removed tags.
+  final String? resourceARN;
+
+  UntagResourceOutput({
+    this.resourceARN,
+  });
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) {
+    return UntagResourceOutput(
+      resourceARN: json['ResourceARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    return {
+      if (resourceARN != null) 'ResourceARN': resourceARN,
     };
   }
 }
@@ -1189,6 +1081,52 @@ class CreateGatewayOutput {
 
   factory CreateGatewayOutput.fromJson(Map<String, dynamic> json) {
     return CreateGatewayOutput(
+      gatewayArn: json['GatewayArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayArn = this.gatewayArn;
+    return {
+      if (gatewayArn != null) 'GatewayArn': gatewayArn,
+    };
+  }
+}
+
+class GetGatewayOutput {
+  /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
+  final GatewayDetails? gateway;
+
+  GetGatewayOutput({
+    this.gateway,
+  });
+
+  factory GetGatewayOutput.fromJson(Map<String, dynamic> json) {
+    return GetGatewayOutput(
+      gateway: json['Gateway'] != null
+          ? GatewayDetails.fromJson(json['Gateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gateway = this.gateway;
+    return {
+      if (gateway != null) 'Gateway': gateway,
+    };
+  }
+}
+
+class UpdateGatewayInformationOutput {
+  /// The Amazon Resource Name (ARN) of the gateway you updated.
+  final String? gatewayArn;
+
+  UpdateGatewayInformationOutput({
+    this.gatewayArn,
+  });
+
+  factory UpdateGatewayInformationOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGatewayInformationOutput(
       gatewayArn: json['GatewayArn'] as String?,
     );
   }
@@ -1223,24 +1161,59 @@ class DeleteGatewayOutput {
   }
 }
 
-class DeleteHypervisorOutput {
-  /// The Amazon Resource Name (ARN) of the hypervisor you deleted.
-  final String? hypervisorArn;
+class ListGatewaysOutput {
+  /// A list of your gateways.
+  final List<Gateway>? gateways;
 
-  DeleteHypervisorOutput({
-    this.hypervisorArn,
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>maxResults</code> number of resources,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  ListGatewaysOutput({
+    this.gateways,
+    this.nextToken,
   });
 
-  factory DeleteHypervisorOutput.fromJson(Map<String, dynamic> json) {
-    return DeleteHypervisorOutput(
-      hypervisorArn: json['HypervisorArn'] as String?,
+  factory ListGatewaysOutput.fromJson(Map<String, dynamic> json) {
+    return ListGatewaysOutput(
+      gateways: (json['Gateways'] as List?)
+          ?.nonNulls
+          .map((e) => Gateway.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final hypervisorArn = this.hypervisorArn;
+    final gateways = this.gateways;
+    final nextToken = this.nextToken;
     return {
-      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
+      if (gateways != null) 'Gateways': gateways,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class AssociateGatewayToServerOutput {
+  /// The Amazon Resource Name (ARN) of a gateway.
+  final String? gatewayArn;
+
+  AssociateGatewayToServerOutput({
+    this.gatewayArn,
+  });
+
+  factory AssociateGatewayToServerOutput.fromJson(Map<String, dynamic> json) {
+    return AssociateGatewayToServerOutput(
+      gatewayArn: json['GatewayArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayArn = this.gatewayArn;
+    return {
+      if (gatewayArn != null) 'GatewayArn': gatewayArn,
     };
   }
 }
@@ -1268,171 +1241,87 @@ class DisassociateGatewayFromServerOutput {
   }
 }
 
-/// A gateway is an Backup Gateway appliance that runs on the customer's network
-/// to provide seamless connectivity to backup storage in the Amazon Web
-/// Services Cloud.
-class Gateway {
-  /// The Amazon Resource Name (ARN) of the gateway. Use the
-  /// <code>ListGateways</code> operation to return a list of gateways for your
-  /// account and Amazon Web Services Region.
+class PutMaintenanceStartTimeOutput {
+  /// The Amazon Resource Name (ARN) of a gateway for which you set the
+  /// maintenance start time.
   final String? gatewayArn;
 
-  /// The display name of the gateway.
-  final String? gatewayDisplayName;
-
-  /// The type of the gateway.
-  final GatewayType? gatewayType;
-
-  /// The hypervisor ID of the gateway.
-  final String? hypervisorId;
-
-  /// The last time Backup gateway communicated with the gateway, in Unix format
-  /// and UTC time.
-  final DateTime? lastSeenTime;
-
-  Gateway({
+  PutMaintenanceStartTimeOutput({
     this.gatewayArn,
-    this.gatewayDisplayName,
-    this.gatewayType,
-    this.hypervisorId,
-    this.lastSeenTime,
   });
 
-  factory Gateway.fromJson(Map<String, dynamic> json) {
-    return Gateway(
+  factory PutMaintenanceStartTimeOutput.fromJson(Map<String, dynamic> json) {
+    return PutMaintenanceStartTimeOutput(
       gatewayArn: json['GatewayArn'] as String?,
-      gatewayDisplayName: json['GatewayDisplayName'] as String?,
-      gatewayType:
-          (json['GatewayType'] as String?)?.let(GatewayType.fromString),
-      hypervisorId: json['HypervisorId'] as String?,
-      lastSeenTime: timeStampFromJson(json['LastSeenTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
     final gatewayArn = this.gatewayArn;
-    final gatewayDisplayName = this.gatewayDisplayName;
-    final gatewayType = this.gatewayType;
-    final hypervisorId = this.hypervisorId;
-    final lastSeenTime = this.lastSeenTime;
     return {
       if (gatewayArn != null) 'GatewayArn': gatewayArn,
-      if (gatewayDisplayName != null) 'GatewayDisplayName': gatewayDisplayName,
-      if (gatewayType != null) 'GatewayType': gatewayType.value,
-      if (hypervisorId != null) 'HypervisorId': hypervisorId,
-      if (lastSeenTime != null)
-        'LastSeenTime': unixTimestampToJson(lastSeenTime),
     };
   }
 }
 
-/// The details of gateway.
-class GatewayDetails {
-  /// The Amazon Resource Name (ARN) of the gateway. Use the
-  /// <code>ListGateways</code> operation to return a list of gateways for your
-  /// account and Amazon Web Services Region.
+class TestHypervisorConfigurationOutput {
+  TestHypervisorConfigurationOutput();
+
+  factory TestHypervisorConfigurationOutput.fromJson(Map<String, dynamic> _) {
+    return TestHypervisorConfigurationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateGatewaySoftwareNowOutput {
+  /// The Amazon Resource Name (ARN) of the gateway you updated.
   final String? gatewayArn;
 
-  /// The display name of the gateway.
-  final String? gatewayDisplayName;
-
-  /// The type of the gateway type.
-  final GatewayType? gatewayType;
-
-  /// The hypervisor ID of the gateway.
-  final String? hypervisorId;
-
-  /// Details showing the last time Backup gateway communicated with the cloud, in
-  /// Unix format and UTC time.
-  final DateTime? lastSeenTime;
-
-  /// Returns your gateway's weekly maintenance start time including the day and
-  /// time of the week. Note that values are in terms of the gateway's time zone.
-  /// Can be weekly or monthly.
-  final MaintenanceStartTime? maintenanceStartTime;
-
-  /// Details showing the next update availability time of the gateway.
-  final DateTime? nextUpdateAvailabilityTime;
-
-  /// The DNS name for the virtual private cloud (VPC) endpoint the gateway uses
-  /// to connect to the cloud for backup gateway.
-  final String? vpcEndpoint;
-
-  GatewayDetails({
+  UpdateGatewaySoftwareNowOutput({
     this.gatewayArn,
-    this.gatewayDisplayName,
-    this.gatewayType,
-    this.hypervisorId,
-    this.lastSeenTime,
-    this.maintenanceStartTime,
-    this.nextUpdateAvailabilityTime,
-    this.vpcEndpoint,
   });
 
-  factory GatewayDetails.fromJson(Map<String, dynamic> json) {
-    return GatewayDetails(
+  factory UpdateGatewaySoftwareNowOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGatewaySoftwareNowOutput(
       gatewayArn: json['GatewayArn'] as String?,
-      gatewayDisplayName: json['GatewayDisplayName'] as String?,
-      gatewayType:
-          (json['GatewayType'] as String?)?.let(GatewayType.fromString),
-      hypervisorId: json['HypervisorId'] as String?,
-      lastSeenTime: timeStampFromJson(json['LastSeenTime']),
-      maintenanceStartTime: json['MaintenanceStartTime'] != null
-          ? MaintenanceStartTime.fromJson(
-              json['MaintenanceStartTime'] as Map<String, dynamic>)
-          : null,
-      nextUpdateAvailabilityTime:
-          timeStampFromJson(json['NextUpdateAvailabilityTime']),
-      vpcEndpoint: json['VpcEndpoint'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final gatewayArn = this.gatewayArn;
-    final gatewayDisplayName = this.gatewayDisplayName;
-    final gatewayType = this.gatewayType;
-    final hypervisorId = this.hypervisorId;
-    final lastSeenTime = this.lastSeenTime;
-    final maintenanceStartTime = this.maintenanceStartTime;
-    final nextUpdateAvailabilityTime = this.nextUpdateAvailabilityTime;
-    final vpcEndpoint = this.vpcEndpoint;
     return {
       if (gatewayArn != null) 'GatewayArn': gatewayArn,
-      if (gatewayDisplayName != null) 'GatewayDisplayName': gatewayDisplayName,
-      if (gatewayType != null) 'GatewayType': gatewayType.value,
-      if (hypervisorId != null) 'HypervisorId': hypervisorId,
-      if (lastSeenTime != null)
-        'LastSeenTime': unixTimestampToJson(lastSeenTime),
-      if (maintenanceStartTime != null)
-        'MaintenanceStartTime': maintenanceStartTime,
-      if (nextUpdateAvailabilityTime != null)
-        'NextUpdateAvailabilityTime':
-            unixTimestampToJson(nextUpdateAvailabilityTime),
-      if (vpcEndpoint != null) 'VpcEndpoint': vpcEndpoint,
     };
   }
 }
 
-class GatewayType {
-  static const backupVm = GatewayType._('BACKUP_VM');
+class PutBandwidthRateLimitScheduleOutput {
+  /// The Amazon Resource Name (ARN) of the gateway. Use the <a
+  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html">
+  /// <code>ListGateways</code> </a> operation to return a list of gateways for
+  /// your account and Amazon Web Services Region.
+  final String? gatewayArn;
 
-  final String value;
+  PutBandwidthRateLimitScheduleOutput({
+    this.gatewayArn,
+  });
 
-  const GatewayType._(this.value);
+  factory PutBandwidthRateLimitScheduleOutput.fromJson(
+      Map<String, dynamic> json) {
+    return PutBandwidthRateLimitScheduleOutput(
+      gatewayArn: json['GatewayArn'] as String?,
+    );
+  }
 
-  static const values = [backupVm];
-
-  static GatewayType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => GatewayType._(value));
-
-  @override
-  bool operator ==(other) => other is GatewayType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final gatewayArn = this.gatewayArn;
+    return {
+      if (gatewayArn != null) 'GatewayArn': gatewayArn,
+    };
+  }
 }
 
 class GetBandwidthRateLimitScheduleOutput {
@@ -1476,26 +1365,25 @@ class GetBandwidthRateLimitScheduleOutput {
   }
 }
 
-class GetGatewayOutput {
-  /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
-  final GatewayDetails? gateway;
+class ImportHypervisorConfigurationOutput {
+  /// The Amazon Resource Name (ARN) of the hypervisor you disassociated.
+  final String? hypervisorArn;
 
-  GetGatewayOutput({
-    this.gateway,
+  ImportHypervisorConfigurationOutput({
+    this.hypervisorArn,
   });
 
-  factory GetGatewayOutput.fromJson(Map<String, dynamic> json) {
-    return GetGatewayOutput(
-      gateway: json['Gateway'] != null
-          ? GatewayDetails.fromJson(json['Gateway'] as Map<String, dynamic>)
-          : null,
+  factory ImportHypervisorConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ImportHypervisorConfigurationOutput(
+      hypervisorArn: json['HypervisorArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final gateway = this.gateway;
+    final hypervisorArn = this.hypervisorArn;
     return {
-      if (gateway != null) 'Gateway': gateway,
+      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
     };
   }
 }
@@ -1525,6 +1413,132 @@ class GetHypervisorOutput {
   }
 }
 
+class UpdateHypervisorOutput {
+  /// The Amazon Resource Name (ARN) of the hypervisor you updated.
+  final String? hypervisorArn;
+
+  UpdateHypervisorOutput({
+    this.hypervisorArn,
+  });
+
+  factory UpdateHypervisorOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateHypervisorOutput(
+      hypervisorArn: json['HypervisorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hypervisorArn = this.hypervisorArn;
+    return {
+      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
+    };
+  }
+}
+
+class DeleteHypervisorOutput {
+  /// The Amazon Resource Name (ARN) of the hypervisor you deleted.
+  final String? hypervisorArn;
+
+  DeleteHypervisorOutput({
+    this.hypervisorArn,
+  });
+
+  factory DeleteHypervisorOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteHypervisorOutput(
+      hypervisorArn: json['HypervisorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hypervisorArn = this.hypervisorArn;
+    return {
+      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
+    };
+  }
+}
+
+class ListHypervisorsOutput {
+  /// A list of your <code>Hypervisor</code> objects, ordered by their Amazon
+  /// Resource Names (ARNs).
+  final List<Hypervisor>? hypervisors;
+
+  /// The next item following a partial list of returned resources. For example,
+  /// if a request is made to return <code>maxResults</code> number of resources,
+  /// <code>NextToken</code> allows you to return more items in your list starting
+  /// at the location pointed to by the next token.
+  final String? nextToken;
+
+  ListHypervisorsOutput({
+    this.hypervisors,
+    this.nextToken,
+  });
+
+  factory ListHypervisorsOutput.fromJson(Map<String, dynamic> json) {
+    return ListHypervisorsOutput(
+      hypervisors: (json['Hypervisors'] as List?)
+          ?.nonNulls
+          .map((e) => Hypervisor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hypervisors = this.hypervisors;
+    final nextToken = this.nextToken;
+    return {
+      if (hypervisors != null) 'Hypervisors': hypervisors,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class StartVirtualMachinesMetadataSyncOutput {
+  /// The Amazon Resource Name (ARN) of the hypervisor.
+  final String? hypervisorArn;
+
+  StartVirtualMachinesMetadataSyncOutput({
+    this.hypervisorArn,
+  });
+
+  factory StartVirtualMachinesMetadataSyncOutput.fromJson(
+      Map<String, dynamic> json) {
+    return StartVirtualMachinesMetadataSyncOutput(
+      hypervisorArn: json['HypervisorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hypervisorArn = this.hypervisorArn;
+    return {
+      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
+    };
+  }
+}
+
+class PutHypervisorPropertyMappingsOutput {
+  /// The Amazon Resource Name (ARN) of the hypervisor.
+  final String? hypervisorArn;
+
+  PutHypervisorPropertyMappingsOutput({
+    this.hypervisorArn,
+  });
+
+  factory PutHypervisorPropertyMappingsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return PutHypervisorPropertyMappingsOutput(
+      hypervisorArn: json['HypervisorArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hypervisorArn = this.hypervisorArn;
+    return {
+      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
+    };
+  }
+}
+
 class GetHypervisorPropertyMappingsOutput {
   /// The Amazon Resource Name (ARN) of the hypervisor.
   final String? hypervisorArn;
@@ -1532,8 +1546,8 @@ class GetHypervisorPropertyMappingsOutput {
   /// The Amazon Resource Name (ARN) of the IAM role.
   final String? iamRoleArn;
 
-  /// This is a display of the mappings of on-premises VMware tags to the Amazon
-  /// Web Services tags.
+  /// This is a display of the mappings of VMware tags to the Amazon Web Services
+  /// tags.
   final List<VmwareToAwsTagMapping>? vmwareToAwsTagMappings;
 
   GetHypervisorPropertyMappingsOutput({
@@ -1593,308 +1607,6 @@ class GetVirtualMachineOutput {
   }
 }
 
-/// Represents the hypervisor's permissions to which the gateway will connect.
-///
-/// A hypervisor is hardware, software, or firmware that creates and manages
-/// virtual machines, and allocates resources to them.
-class Hypervisor {
-  /// The server host of the hypervisor. This can be either an IP address or a
-  /// fully-qualified domain name (FQDN).
-  final String? host;
-
-  /// The Amazon Resource Name (ARN) of the hypervisor.
-  final String? hypervisorArn;
-
-  /// The Amazon Resource Name (ARN) of the Key Management Service used to encrypt
-  /// the hypervisor.
-  final String? kmsKeyArn;
-
-  /// The name of the hypervisor.
-  final String? name;
-
-  /// The state of the hypervisor.
-  final HypervisorState? state;
-
-  Hypervisor({
-    this.host,
-    this.hypervisorArn,
-    this.kmsKeyArn,
-    this.name,
-    this.state,
-  });
-
-  factory Hypervisor.fromJson(Map<String, dynamic> json) {
-    return Hypervisor(
-      host: json['Host'] as String?,
-      hypervisorArn: json['HypervisorArn'] as String?,
-      kmsKeyArn: json['KmsKeyArn'] as String?,
-      name: json['Name'] as String?,
-      state: (json['State'] as String?)?.let(HypervisorState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final host = this.host;
-    final hypervisorArn = this.hypervisorArn;
-    final kmsKeyArn = this.kmsKeyArn;
-    final name = this.name;
-    final state = this.state;
-    return {
-      if (host != null) 'Host': host,
-      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
-      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
-      if (name != null) 'Name': name,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-/// These are the details of the specified hypervisor. A hypervisor is hardware,
-/// software, or firmware that creates and manages virtual machines, and
-/// allocates resources to them.
-class HypervisorDetails {
-  /// The server host of the hypervisor. This can be either an IP address or a
-  /// fully-qualified domain name (FQDN).
-  final String? host;
-
-  /// The Amazon Resource Name (ARN) of the hypervisor.
-  final String? hypervisorArn;
-
-  /// The Amazon Resource Name (ARN) of the KMS used to encrypt the hypervisor.
-  final String? kmsKeyArn;
-
-  /// This is the time when the most recent successful sync of metadata occurred.
-  final DateTime? lastSuccessfulMetadataSyncTime;
-
-  /// This is the most recent status for the indicated metadata sync.
-  final SyncMetadataStatus? latestMetadataSyncStatus;
-
-  /// This is the most recent status for the indicated metadata sync.
-  final String? latestMetadataSyncStatusMessage;
-
-  /// The Amazon Resource Name (ARN) of the group of gateways within the requested
-  /// log.
-  final String? logGroupArn;
-
-  /// This is the name of the specified hypervisor.
-  final String? name;
-
-  /// This is the current state of the specified hypervisor.
-  ///
-  /// The possible states are <code>PENDING</code>, <code>ONLINE</code>,
-  /// <code>OFFLINE</code>, or <code>ERROR</code>.
-  final HypervisorState? state;
-
-  HypervisorDetails({
-    this.host,
-    this.hypervisorArn,
-    this.kmsKeyArn,
-    this.lastSuccessfulMetadataSyncTime,
-    this.latestMetadataSyncStatus,
-    this.latestMetadataSyncStatusMessage,
-    this.logGroupArn,
-    this.name,
-    this.state,
-  });
-
-  factory HypervisorDetails.fromJson(Map<String, dynamic> json) {
-    return HypervisorDetails(
-      host: json['Host'] as String?,
-      hypervisorArn: json['HypervisorArn'] as String?,
-      kmsKeyArn: json['KmsKeyArn'] as String?,
-      lastSuccessfulMetadataSyncTime:
-          timeStampFromJson(json['LastSuccessfulMetadataSyncTime']),
-      latestMetadataSyncStatus: (json['LatestMetadataSyncStatus'] as String?)
-          ?.let(SyncMetadataStatus.fromString),
-      latestMetadataSyncStatusMessage:
-          json['LatestMetadataSyncStatusMessage'] as String?,
-      logGroupArn: json['LogGroupArn'] as String?,
-      name: json['Name'] as String?,
-      state: (json['State'] as String?)?.let(HypervisorState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final host = this.host;
-    final hypervisorArn = this.hypervisorArn;
-    final kmsKeyArn = this.kmsKeyArn;
-    final lastSuccessfulMetadataSyncTime = this.lastSuccessfulMetadataSyncTime;
-    final latestMetadataSyncStatus = this.latestMetadataSyncStatus;
-    final latestMetadataSyncStatusMessage =
-        this.latestMetadataSyncStatusMessage;
-    final logGroupArn = this.logGroupArn;
-    final name = this.name;
-    final state = this.state;
-    return {
-      if (host != null) 'Host': host,
-      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
-      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
-      if (lastSuccessfulMetadataSyncTime != null)
-        'LastSuccessfulMetadataSyncTime':
-            unixTimestampToJson(lastSuccessfulMetadataSyncTime),
-      if (latestMetadataSyncStatus != null)
-        'LatestMetadataSyncStatus': latestMetadataSyncStatus.value,
-      if (latestMetadataSyncStatusMessage != null)
-        'LatestMetadataSyncStatusMessage': latestMetadataSyncStatusMessage,
-      if (logGroupArn != null) 'LogGroupArn': logGroupArn,
-      if (name != null) 'Name': name,
-      if (state != null) 'State': state.value,
-    };
-  }
-}
-
-class HypervisorState {
-  static const pending = HypervisorState._('PENDING');
-  static const online = HypervisorState._('ONLINE');
-  static const offline = HypervisorState._('OFFLINE');
-  static const error = HypervisorState._('ERROR');
-
-  final String value;
-
-  const HypervisorState._(this.value);
-
-  static const values = [pending, online, offline, error];
-
-  static HypervisorState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => HypervisorState._(value));
-
-  @override
-  bool operator ==(other) => other is HypervisorState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ImportHypervisorConfigurationOutput {
-  /// The Amazon Resource Name (ARN) of the hypervisor you disassociated.
-  final String? hypervisorArn;
-
-  ImportHypervisorConfigurationOutput({
-    this.hypervisorArn,
-  });
-
-  factory ImportHypervisorConfigurationOutput.fromJson(
-      Map<String, dynamic> json) {
-    return ImportHypervisorConfigurationOutput(
-      hypervisorArn: json['HypervisorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hypervisorArn = this.hypervisorArn;
-    return {
-      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
-    };
-  }
-}
-
-class ListGatewaysOutput {
-  /// A list of your gateways.
-  final List<Gateway>? gateways;
-
-  /// The next item following a partial list of returned resources. For example,
-  /// if a request is made to return <code>maxResults</code> number of resources,
-  /// <code>NextToken</code> allows you to return more items in your list starting
-  /// at the location pointed to by the next token.
-  final String? nextToken;
-
-  ListGatewaysOutput({
-    this.gateways,
-    this.nextToken,
-  });
-
-  factory ListGatewaysOutput.fromJson(Map<String, dynamic> json) {
-    return ListGatewaysOutput(
-      gateways: (json['Gateways'] as List?)
-          ?.nonNulls
-          .map((e) => Gateway.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gateways = this.gateways;
-    final nextToken = this.nextToken;
-    return {
-      if (gateways != null) 'Gateways': gateways,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListHypervisorsOutput {
-  /// A list of your <code>Hypervisor</code> objects, ordered by their Amazon
-  /// Resource Names (ARNs).
-  final List<Hypervisor>? hypervisors;
-
-  /// The next item following a partial list of returned resources. For example,
-  /// if a request is made to return <code>maxResults</code> number of resources,
-  /// <code>NextToken</code> allows you to return more items in your list starting
-  /// at the location pointed to by the next token.
-  final String? nextToken;
-
-  ListHypervisorsOutput({
-    this.hypervisors,
-    this.nextToken,
-  });
-
-  factory ListHypervisorsOutput.fromJson(Map<String, dynamic> json) {
-    return ListHypervisorsOutput(
-      hypervisors: (json['Hypervisors'] as List?)
-          ?.nonNulls
-          .map((e) => Hypervisor.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hypervisors = this.hypervisors;
-    final nextToken = this.nextToken;
-    return {
-      if (hypervisors != null) 'Hypervisors': hypervisors,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceOutput {
-  /// The Amazon Resource Name (ARN) of the resource's tags that you listed.
-  final String? resourceArn;
-
-  /// A list of the resource's tags.
-  final List<Tag>? tags;
-
-  ListTagsForResourceOutput({
-    this.resourceArn,
-    this.tags,
-  });
-
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceOutput(
-      resourceArn: json['ResourceArn'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceArn = this.resourceArn;
-    final tags = this.tags;
-    return {
-      if (resourceArn != null) 'ResourceArn': resourceArn,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
 class ListVirtualMachinesOutput {
   /// The next item following a partial list of returned resources. For example,
   /// if a request is made to return <code>maxResults</code> number of resources,
@@ -1927,338 +1639,6 @@ class ListVirtualMachinesOutput {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (virtualMachines != null) 'VirtualMachines': virtualMachines,
-    };
-  }
-}
-
-/// This is your gateway's weekly maintenance start time including the day and
-/// time of the week. Note that values are in terms of the gateway's time zone.
-/// Can be weekly or monthly.
-class MaintenanceStartTime {
-  /// The hour component of the maintenance start time represented as <i>hh</i>,
-  /// where <i>hh</i> is the hour (0 to 23). The hour of the day is in the time
-  /// zone of the gateway.
-  final int hourOfDay;
-
-  /// The minute component of the maintenance start time represented as <i>mm</i>,
-  /// where <i>mm</i> is the minute (0 to 59). The minute of the hour is in the
-  /// time zone of the gateway.
-  final int minuteOfHour;
-
-  /// The day of the month component of the maintenance start time represented as
-  /// an ordinal number from 1 to 28, where 1 represents the first day of the
-  /// month and 28 represents the last day of the month.
-  final int? dayOfMonth;
-
-  /// An ordinal number between 0 and 6 that represents the day of the week, where
-  /// 0 represents Sunday and 6 represents Saturday. The day of week is in the
-  /// time zone of the gateway.
-  final int? dayOfWeek;
-
-  MaintenanceStartTime({
-    required this.hourOfDay,
-    required this.minuteOfHour,
-    this.dayOfMonth,
-    this.dayOfWeek,
-  });
-
-  factory MaintenanceStartTime.fromJson(Map<String, dynamic> json) {
-    return MaintenanceStartTime(
-      hourOfDay: (json['HourOfDay'] as int?) ?? 0,
-      minuteOfHour: (json['MinuteOfHour'] as int?) ?? 0,
-      dayOfMonth: json['DayOfMonth'] as int?,
-      dayOfWeek: json['DayOfWeek'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hourOfDay = this.hourOfDay;
-    final minuteOfHour = this.minuteOfHour;
-    final dayOfMonth = this.dayOfMonth;
-    final dayOfWeek = this.dayOfWeek;
-    return {
-      'HourOfDay': hourOfDay,
-      'MinuteOfHour': minuteOfHour,
-      if (dayOfMonth != null) 'DayOfMonth': dayOfMonth,
-      if (dayOfWeek != null) 'DayOfWeek': dayOfWeek,
-    };
-  }
-}
-
-class PutBandwidthRateLimitScheduleOutput {
-  /// The Amazon Resource Name (ARN) of the gateway. Use the <a
-  /// href="https://docs.aws.amazon.com/aws-backup/latest/devguide/API_BGW_ListGateways.html">
-  /// <code>ListGateways</code> </a> operation to return a list of gateways for
-  /// your account and Amazon Web Services Region.
-  final String? gatewayArn;
-
-  PutBandwidthRateLimitScheduleOutput({
-    this.gatewayArn,
-  });
-
-  factory PutBandwidthRateLimitScheduleOutput.fromJson(
-      Map<String, dynamic> json) {
-    return PutBandwidthRateLimitScheduleOutput(
-      gatewayArn: json['GatewayArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gatewayArn = this.gatewayArn;
-    return {
-      if (gatewayArn != null) 'GatewayArn': gatewayArn,
-    };
-  }
-}
-
-class PutHypervisorPropertyMappingsOutput {
-  /// The Amazon Resource Name (ARN) of the hypervisor.
-  final String? hypervisorArn;
-
-  PutHypervisorPropertyMappingsOutput({
-    this.hypervisorArn,
-  });
-
-  factory PutHypervisorPropertyMappingsOutput.fromJson(
-      Map<String, dynamic> json) {
-    return PutHypervisorPropertyMappingsOutput(
-      hypervisorArn: json['HypervisorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hypervisorArn = this.hypervisorArn;
-    return {
-      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
-    };
-  }
-}
-
-class PutMaintenanceStartTimeOutput {
-  /// The Amazon Resource Name (ARN) of a gateway for which you set the
-  /// maintenance start time.
-  final String? gatewayArn;
-
-  PutMaintenanceStartTimeOutput({
-    this.gatewayArn,
-  });
-
-  factory PutMaintenanceStartTimeOutput.fromJson(Map<String, dynamic> json) {
-    return PutMaintenanceStartTimeOutput(
-      gatewayArn: json['GatewayArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gatewayArn = this.gatewayArn;
-    return {
-      if (gatewayArn != null) 'GatewayArn': gatewayArn,
-    };
-  }
-}
-
-class StartVirtualMachinesMetadataSyncOutput {
-  /// The Amazon Resource Name (ARN) of the hypervisor.
-  final String? hypervisorArn;
-
-  StartVirtualMachinesMetadataSyncOutput({
-    this.hypervisorArn,
-  });
-
-  factory StartVirtualMachinesMetadataSyncOutput.fromJson(
-      Map<String, dynamic> json) {
-    return StartVirtualMachinesMetadataSyncOutput(
-      hypervisorArn: json['HypervisorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hypervisorArn = this.hypervisorArn;
-    return {
-      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
-    };
-  }
-}
-
-class SyncMetadataStatus {
-  static const created = SyncMetadataStatus._('CREATED');
-  static const running = SyncMetadataStatus._('RUNNING');
-  static const failed = SyncMetadataStatus._('FAILED');
-  static const partiallyFailed = SyncMetadataStatus._('PARTIALLY_FAILED');
-  static const succeeded = SyncMetadataStatus._('SUCCEEDED');
-
-  final String value;
-
-  const SyncMetadataStatus._(this.value);
-
-  static const values = [created, running, failed, partiallyFailed, succeeded];
-
-  static SyncMetadataStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => SyncMetadataStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is SyncMetadataStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A key-value pair you can use to manage, filter, and search for your
-/// resources. Allowed characters include UTF-8 letters, numbers, spaces, and
-/// the following characters: + - = . _ : /.
-class Tag {
-  /// The key part of a tag's key-value pair. The key can't start with
-  /// <code>aws:</code>.
-  final String key;
-
-  /// The value part of a tag's key-value pair.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceOutput {
-  /// The Amazon Resource Name (ARN) of the resource you tagged.
-  final String? resourceARN;
-
-  TagResourceOutput({
-    this.resourceARN,
-  });
-
-  factory TagResourceOutput.fromJson(Map<String, dynamic> json) {
-    return TagResourceOutput(
-      resourceARN: json['ResourceARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-    };
-  }
-}
-
-class TestHypervisorConfigurationOutput {
-  TestHypervisorConfigurationOutput();
-
-  factory TestHypervisorConfigurationOutput.fromJson(Map<String, dynamic> _) {
-    return TestHypervisorConfigurationOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceOutput {
-  /// The Amazon Resource Name (ARN) of the resource from which you removed tags.
-  final String? resourceARN;
-
-  UntagResourceOutput({
-    this.resourceARN,
-  });
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) {
-    return UntagResourceOutput(
-      resourceARN: json['ResourceARN'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-    };
-  }
-}
-
-class UpdateGatewayInformationOutput {
-  /// The Amazon Resource Name (ARN) of the gateway you updated.
-  final String? gatewayArn;
-
-  UpdateGatewayInformationOutput({
-    this.gatewayArn,
-  });
-
-  factory UpdateGatewayInformationOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateGatewayInformationOutput(
-      gatewayArn: json['GatewayArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gatewayArn = this.gatewayArn;
-    return {
-      if (gatewayArn != null) 'GatewayArn': gatewayArn,
-    };
-  }
-}
-
-class UpdateGatewaySoftwareNowOutput {
-  /// The Amazon Resource Name (ARN) of the gateway you updated.
-  final String? gatewayArn;
-
-  UpdateGatewaySoftwareNowOutput({
-    this.gatewayArn,
-  });
-
-  factory UpdateGatewaySoftwareNowOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateGatewaySoftwareNowOutput(
-      gatewayArn: json['GatewayArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final gatewayArn = this.gatewayArn;
-    return {
-      if (gatewayArn != null) 'GatewayArn': gatewayArn,
-    };
-  }
-}
-
-class UpdateHypervisorOutput {
-  /// The Amazon Resource Name (ARN) of the hypervisor you updated.
-  final String? hypervisorArn;
-
-  UpdateHypervisorOutput({
-    this.hypervisorArn,
-  });
-
-  factory UpdateHypervisorOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateHypervisorOutput(
-      hypervisorArn: json['HypervisorArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hypervisorArn = this.hypervisorArn;
-    return {
-      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
     };
   }
 }
@@ -2440,8 +1820,8 @@ class VmwareTag {
   }
 }
 
-/// This displays the mapping of on-premises VMware tags to the corresponding
-/// Amazon Web Services tags.
+/// This displays the mapping of VMware tags to the corresponding Amazon Web
+/// Services tags.
 class VmwareToAwsTagMapping {
   /// The key part of the Amazon Web Services tag's key-value pair.
   final String awsTagKey;
@@ -2485,6 +1865,559 @@ class VmwareToAwsTagMapping {
   }
 }
 
+/// Represents the hypervisor's permissions to which the gateway will connect.
+///
+/// A hypervisor is hardware, software, or firmware that creates and manages
+/// virtual machines, and allocates resources to them.
+class Hypervisor {
+  /// The server host of the hypervisor. This can be either an IP address or a
+  /// fully-qualified domain name (FQDN).
+  final String? host;
+
+  /// The Amazon Resource Name (ARN) of the hypervisor.
+  final String? hypervisorArn;
+
+  /// The Amazon Resource Name (ARN) of the Key Management Service used to encrypt
+  /// the hypervisor.
+  final String? kmsKeyArn;
+
+  /// The name of the hypervisor.
+  final String? name;
+
+  /// The state of the hypervisor.
+  final HypervisorState? state;
+
+  Hypervisor({
+    this.host,
+    this.hypervisorArn,
+    this.kmsKeyArn,
+    this.name,
+    this.state,
+  });
+
+  factory Hypervisor.fromJson(Map<String, dynamic> json) {
+    return Hypervisor(
+      host: json['Host'] as String?,
+      hypervisorArn: json['HypervisorArn'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.let(HypervisorState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final host = this.host;
+    final hypervisorArn = this.hypervisorArn;
+    final kmsKeyArn = this.kmsKeyArn;
+    final name = this.name;
+    final state = this.state;
+    return {
+      if (host != null) 'Host': host,
+      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class HypervisorState {
+  static const pending = HypervisorState._('PENDING');
+  static const online = HypervisorState._('ONLINE');
+  static const offline = HypervisorState._('OFFLINE');
+  static const error = HypervisorState._('ERROR');
+
+  final String value;
+
+  const HypervisorState._(this.value);
+
+  static const values = [pending, online, offline, error];
+
+  static HypervisorState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => HypervisorState._(value));
+
+  @override
+  bool operator ==(other) => other is HypervisorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// These are the details of the specified hypervisor. A hypervisor is hardware,
+/// software, or firmware that creates and manages virtual machines, and
+/// allocates resources to them.
+class HypervisorDetails {
+  /// The server host of the hypervisor. This can be either an IP address or a
+  /// fully-qualified domain name (FQDN).
+  final String? host;
+
+  /// The Amazon Resource Name (ARN) of the hypervisor.
+  final String? hypervisorArn;
+
+  /// The Amazon Resource Name (ARN) of the KMS used to encrypt the hypervisor.
+  final String? kmsKeyArn;
+
+  /// This is the time when the most recent successful sync of metadata occurred.
+  final DateTime? lastSuccessfulMetadataSyncTime;
+
+  /// This is the most recent status for the indicated metadata sync.
+  final SyncMetadataStatus? latestMetadataSyncStatus;
+
+  /// This is the most recent status for the indicated metadata sync.
+  final String? latestMetadataSyncStatusMessage;
+
+  /// The Amazon Resource Name (ARN) of the group of gateways within the requested
+  /// log.
+  final String? logGroupArn;
+
+  /// This is the name of the specified hypervisor.
+  final String? name;
+
+  /// This is the current state of the specified hypervisor.
+  ///
+  /// The possible states are <code>PENDING</code>, <code>ONLINE</code>,
+  /// <code>OFFLINE</code>, or <code>ERROR</code>.
+  final HypervisorState? state;
+
+  HypervisorDetails({
+    this.host,
+    this.hypervisorArn,
+    this.kmsKeyArn,
+    this.lastSuccessfulMetadataSyncTime,
+    this.latestMetadataSyncStatus,
+    this.latestMetadataSyncStatusMessage,
+    this.logGroupArn,
+    this.name,
+    this.state,
+  });
+
+  factory HypervisorDetails.fromJson(Map<String, dynamic> json) {
+    return HypervisorDetails(
+      host: json['Host'] as String?,
+      hypervisorArn: json['HypervisorArn'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      lastSuccessfulMetadataSyncTime:
+          timeStampFromJson(json['LastSuccessfulMetadataSyncTime']),
+      latestMetadataSyncStatus: (json['LatestMetadataSyncStatus'] as String?)
+          ?.let(SyncMetadataStatus.fromString),
+      latestMetadataSyncStatusMessage:
+          json['LatestMetadataSyncStatusMessage'] as String?,
+      logGroupArn: json['LogGroupArn'] as String?,
+      name: json['Name'] as String?,
+      state: (json['State'] as String?)?.let(HypervisorState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final host = this.host;
+    final hypervisorArn = this.hypervisorArn;
+    final kmsKeyArn = this.kmsKeyArn;
+    final lastSuccessfulMetadataSyncTime = this.lastSuccessfulMetadataSyncTime;
+    final latestMetadataSyncStatus = this.latestMetadataSyncStatus;
+    final latestMetadataSyncStatusMessage =
+        this.latestMetadataSyncStatusMessage;
+    final logGroupArn = this.logGroupArn;
+    final name = this.name;
+    final state = this.state;
+    return {
+      if (host != null) 'Host': host,
+      if (hypervisorArn != null) 'HypervisorArn': hypervisorArn,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (lastSuccessfulMetadataSyncTime != null)
+        'LastSuccessfulMetadataSyncTime':
+            unixTimestampToJson(lastSuccessfulMetadataSyncTime),
+      if (latestMetadataSyncStatus != null)
+        'LatestMetadataSyncStatus': latestMetadataSyncStatus.value,
+      if (latestMetadataSyncStatusMessage != null)
+        'LatestMetadataSyncStatusMessage': latestMetadataSyncStatusMessage,
+      if (logGroupArn != null) 'LogGroupArn': logGroupArn,
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state.value,
+    };
+  }
+}
+
+class SyncMetadataStatus {
+  static const created = SyncMetadataStatus._('CREATED');
+  static const running = SyncMetadataStatus._('RUNNING');
+  static const failed = SyncMetadataStatus._('FAILED');
+  static const partiallyFailed = SyncMetadataStatus._('PARTIALLY_FAILED');
+  static const succeeded = SyncMetadataStatus._('SUCCEEDED');
+
+  final String value;
+
+  const SyncMetadataStatus._(this.value);
+
+  static const values = [created, running, failed, partiallyFailed, succeeded];
+
+  static SyncMetadataStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => SyncMetadataStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is SyncMetadataStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A key-value pair you can use to manage, filter, and search for your
+/// resources. Allowed characters include UTF-8 letters, numbers, and the
+/// following characters: + - = . _ : /. Spaces are not allowed in tag values.
+class Tag {
+  /// The key part of a tag's key-value pair. The key can't start with
+  /// <code>aws:</code>.
+  final String key;
+
+  /// The value part of a tag's key-value pair.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Describes a bandwidth rate limit interval for a gateway. A bandwidth rate
+/// limit schedule consists of one or more bandwidth rate limit intervals. A
+/// bandwidth rate limit interval defines a period of time on one or more days
+/// of the week, during which bandwidth rate limits are specified for uploading,
+/// downloading, or both.
+class BandwidthRateLimitInterval {
+  /// The days of the week component of the bandwidth rate limit interval,
+  /// represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6
+  /// represents Saturday.
+  final List<int> daysOfWeek;
+
+  /// The hour of the day to end the bandwidth rate limit interval.
+  final int endHourOfDay;
+
+  /// The minute of the hour to end the bandwidth rate limit interval.
+  /// <important>
+  /// The bandwidth rate limit interval ends at the end of the minute. To end an
+  /// interval at the end of an hour, use the value <code>59</code>.
+  /// </important>
+  final int endMinuteOfHour;
+
+  /// The hour of the day to start the bandwidth rate limit interval.
+  final int startHourOfDay;
+
+  /// The minute of the hour to start the bandwidth rate limit interval. The
+  /// interval begins at the start of that minute. To begin an interval exactly at
+  /// the start of the hour, use the value <code>0</code>.
+  final int startMinuteOfHour;
+
+  /// The average upload rate limit component of the bandwidth rate limit
+  /// interval, in bits per second. This field does not appear in the response if
+  /// the upload rate limit is not set.
+  final int? averageUploadRateLimitInBitsPerSec;
+
+  BandwidthRateLimitInterval({
+    required this.daysOfWeek,
+    required this.endHourOfDay,
+    required this.endMinuteOfHour,
+    required this.startHourOfDay,
+    required this.startMinuteOfHour,
+    this.averageUploadRateLimitInBitsPerSec,
+  });
+
+  factory BandwidthRateLimitInterval.fromJson(Map<String, dynamic> json) {
+    return BandwidthRateLimitInterval(
+      daysOfWeek: ((json['DaysOfWeek'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as int)
+          .toList(),
+      endHourOfDay: (json['EndHourOfDay'] as int?) ?? 0,
+      endMinuteOfHour: (json['EndMinuteOfHour'] as int?) ?? 0,
+      startHourOfDay: (json['StartHourOfDay'] as int?) ?? 0,
+      startMinuteOfHour: (json['StartMinuteOfHour'] as int?) ?? 0,
+      averageUploadRateLimitInBitsPerSec:
+          json['AverageUploadRateLimitInBitsPerSec'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final daysOfWeek = this.daysOfWeek;
+    final endHourOfDay = this.endHourOfDay;
+    final endMinuteOfHour = this.endMinuteOfHour;
+    final startHourOfDay = this.startHourOfDay;
+    final startMinuteOfHour = this.startMinuteOfHour;
+    final averageUploadRateLimitInBitsPerSec =
+        this.averageUploadRateLimitInBitsPerSec;
+    return {
+      'DaysOfWeek': daysOfWeek,
+      'EndHourOfDay': endHourOfDay,
+      'EndMinuteOfHour': endMinuteOfHour,
+      'StartHourOfDay': startHourOfDay,
+      'StartMinuteOfHour': startMinuteOfHour,
+      if (averageUploadRateLimitInBitsPerSec != null)
+        'AverageUploadRateLimitInBitsPerSec':
+            averageUploadRateLimitInBitsPerSec,
+    };
+  }
+}
+
+/// A gateway is an Backup Gateway appliance that runs on the customer's network
+/// to provide seamless connectivity to backup storage in the Amazon Web
+/// Services Cloud.
+class Gateway {
+  /// The Amazon Resource Name (ARN) of the gateway. Use the
+  /// <code>ListGateways</code> operation to return a list of gateways for your
+  /// account and Amazon Web Services Region.
+  final String? gatewayArn;
+
+  /// The display name of the gateway.
+  final String? gatewayDisplayName;
+
+  /// The type of the gateway.
+  final GatewayType? gatewayType;
+
+  /// The hypervisor ID of the gateway.
+  final String? hypervisorId;
+
+  /// The last time Backup gateway communicated with the gateway, in Unix format
+  /// and UTC time.
+  final DateTime? lastSeenTime;
+
+  Gateway({
+    this.gatewayArn,
+    this.gatewayDisplayName,
+    this.gatewayType,
+    this.hypervisorId,
+    this.lastSeenTime,
+  });
+
+  factory Gateway.fromJson(Map<String, dynamic> json) {
+    return Gateway(
+      gatewayArn: json['GatewayArn'] as String?,
+      gatewayDisplayName: json['GatewayDisplayName'] as String?,
+      gatewayType:
+          (json['GatewayType'] as String?)?.let(GatewayType.fromString),
+      hypervisorId: json['HypervisorId'] as String?,
+      lastSeenTime: timeStampFromJson(json['LastSeenTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayArn = this.gatewayArn;
+    final gatewayDisplayName = this.gatewayDisplayName;
+    final gatewayType = this.gatewayType;
+    final hypervisorId = this.hypervisorId;
+    final lastSeenTime = this.lastSeenTime;
+    return {
+      if (gatewayArn != null) 'GatewayArn': gatewayArn,
+      if (gatewayDisplayName != null) 'GatewayDisplayName': gatewayDisplayName,
+      if (gatewayType != null) 'GatewayType': gatewayType.value,
+      if (hypervisorId != null) 'HypervisorId': hypervisorId,
+      if (lastSeenTime != null)
+        'LastSeenTime': unixTimestampToJson(lastSeenTime),
+    };
+  }
+}
+
+class GatewayType {
+  static const backupVm = GatewayType._('BACKUP_VM');
+
+  final String value;
+
+  const GatewayType._(this.value);
+
+  static const values = [backupVm];
+
+  static GatewayType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => GatewayType._(value));
+
+  @override
+  bool operator ==(other) => other is GatewayType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The details of gateway.
+class GatewayDetails {
+  /// Date after which this gateway will not receive software updates for new
+  /// features and bug fixes.
+  final DateTime? deprecationDate;
+
+  /// The Amazon Resource Name (ARN) of the gateway. Use the
+  /// <code>ListGateways</code> operation to return a list of gateways for your
+  /// account and Amazon Web Services Region.
+  final String? gatewayArn;
+
+  /// The display name of the gateway.
+  final String? gatewayDisplayName;
+
+  /// The type of the gateway type.
+  final GatewayType? gatewayType;
+
+  /// The hypervisor ID of the gateway.
+  final String? hypervisorId;
+
+  /// Details showing the last time Backup gateway communicated with the cloud, in
+  /// Unix format and UTC time.
+  final DateTime? lastSeenTime;
+
+  /// Returns your gateway's weekly maintenance start time including the day and
+  /// time of the week. Note that values are in terms of the gateway's time zone.
+  /// Can be weekly or monthly.
+  final MaintenanceStartTime? maintenanceStartTime;
+
+  /// Details showing the next update availability time of the gateway.
+  final DateTime? nextUpdateAvailabilityTime;
+
+  /// The version number of the software running on the gateway appliance.
+  final String? softwareVersion;
+
+  /// The DNS name for the virtual private cloud (VPC) endpoint the gateway uses
+  /// to connect to the cloud for backup gateway.
+  final String? vpcEndpoint;
+
+  GatewayDetails({
+    this.deprecationDate,
+    this.gatewayArn,
+    this.gatewayDisplayName,
+    this.gatewayType,
+    this.hypervisorId,
+    this.lastSeenTime,
+    this.maintenanceStartTime,
+    this.nextUpdateAvailabilityTime,
+    this.softwareVersion,
+    this.vpcEndpoint,
+  });
+
+  factory GatewayDetails.fromJson(Map<String, dynamic> json) {
+    return GatewayDetails(
+      deprecationDate: timeStampFromJson(json['DeprecationDate']),
+      gatewayArn: json['GatewayArn'] as String?,
+      gatewayDisplayName: json['GatewayDisplayName'] as String?,
+      gatewayType:
+          (json['GatewayType'] as String?)?.let(GatewayType.fromString),
+      hypervisorId: json['HypervisorId'] as String?,
+      lastSeenTime: timeStampFromJson(json['LastSeenTime']),
+      maintenanceStartTime: json['MaintenanceStartTime'] != null
+          ? MaintenanceStartTime.fromJson(
+              json['MaintenanceStartTime'] as Map<String, dynamic>)
+          : null,
+      nextUpdateAvailabilityTime:
+          timeStampFromJson(json['NextUpdateAvailabilityTime']),
+      softwareVersion: json['SoftwareVersion'] as String?,
+      vpcEndpoint: json['VpcEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deprecationDate = this.deprecationDate;
+    final gatewayArn = this.gatewayArn;
+    final gatewayDisplayName = this.gatewayDisplayName;
+    final gatewayType = this.gatewayType;
+    final hypervisorId = this.hypervisorId;
+    final lastSeenTime = this.lastSeenTime;
+    final maintenanceStartTime = this.maintenanceStartTime;
+    final nextUpdateAvailabilityTime = this.nextUpdateAvailabilityTime;
+    final softwareVersion = this.softwareVersion;
+    final vpcEndpoint = this.vpcEndpoint;
+    return {
+      if (deprecationDate != null)
+        'DeprecationDate': unixTimestampToJson(deprecationDate),
+      if (gatewayArn != null) 'GatewayArn': gatewayArn,
+      if (gatewayDisplayName != null) 'GatewayDisplayName': gatewayDisplayName,
+      if (gatewayType != null) 'GatewayType': gatewayType.value,
+      if (hypervisorId != null) 'HypervisorId': hypervisorId,
+      if (lastSeenTime != null)
+        'LastSeenTime': unixTimestampToJson(lastSeenTime),
+      if (maintenanceStartTime != null)
+        'MaintenanceStartTime': maintenanceStartTime,
+      if (nextUpdateAvailabilityTime != null)
+        'NextUpdateAvailabilityTime':
+            unixTimestampToJson(nextUpdateAvailabilityTime),
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
+      if (vpcEndpoint != null) 'VpcEndpoint': vpcEndpoint,
+    };
+  }
+}
+
+/// This is your gateway's weekly maintenance start time including the day and
+/// time of the week. Note that values are in terms of the gateway's time zone.
+/// Can be weekly or monthly.
+class MaintenanceStartTime {
+  /// The hour component of the maintenance start time represented as <i>hh</i>,
+  /// where <i>hh</i> is the hour (0 to 23). The hour of the day is in the time
+  /// zone of the gateway.
+  final int hourOfDay;
+
+  /// The minute component of the maintenance start time represented as <i>mm</i>,
+  /// where <i>mm</i> is the minute (0 to 59). The minute of the hour is in the
+  /// time zone of the gateway.
+  final int minuteOfHour;
+
+  /// The day of the month component of the maintenance start time represented as
+  /// an ordinal number from 1 to 28, where 1 represents the first day of the
+  /// month and 28 represents the last day of the month.
+  final int? dayOfMonth;
+
+  /// An ordinal number between 0 and 6 that represents the day of the week, where
+  /// 0 represents Sunday and 6 represents Saturday. The day of week is in the
+  /// time zone of the gateway.
+  final int? dayOfWeek;
+
+  MaintenanceStartTime({
+    required this.hourOfDay,
+    required this.minuteOfHour,
+    this.dayOfMonth,
+    this.dayOfWeek,
+  });
+
+  factory MaintenanceStartTime.fromJson(Map<String, dynamic> json) {
+    return MaintenanceStartTime(
+      hourOfDay: (json['HourOfDay'] as int?) ?? 0,
+      minuteOfHour: (json['MinuteOfHour'] as int?) ?? 0,
+      dayOfMonth: json['DayOfMonth'] as int?,
+      dayOfWeek: json['DayOfWeek'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hourOfDay = this.hourOfDay;
+    final minuteOfHour = this.minuteOfHour;
+    final dayOfMonth = this.dayOfMonth;
+    final dayOfWeek = this.dayOfWeek;
+    return {
+      'HourOfDay': hourOfDay,
+      'MinuteOfHour': minuteOfHour,
+      if (dayOfMonth != null) 'DayOfMonth': dayOfMonth,
+      if (dayOfWeek != null) 'DayOfWeek': dayOfWeek,
+    };
+  }
+}
+
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
@@ -2495,24 +2428,9 @@ class ConflictException extends _s.GenericAwsException {
       : super(type: type, code: 'ConflictException', message: message);
 }
 
-class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String? type, String? message})
-      : super(type: type, code: 'InternalServerException', message: message);
-}
-
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
-}
-
-class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String? type, String? message})
-      : super(type: type, code: 'ThrottlingException', message: message);
-}
-
-class ValidationException extends _s.GenericAwsException {
-  ValidationException({String? type, String? message})
-      : super(type: type, code: 'ValidationException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -2520,12 +2438,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
-  'InternalServerException': (type, message) =>
-      InternalServerException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
-  'ThrottlingException': (type, message) =>
-      ThrottlingException(type: type, message: message),
-  'ValidationException': (type, message) =>
-      ValidationException(type: type, message: message),
 };

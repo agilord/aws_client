@@ -146,7 +146,17 @@ class ResourceGroupsTaggingApi {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// For the list of services whose resources you can tag using the Resource
+  /// Groups Tagging API, see <a
+  /// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html">Services
+  /// that support the Resource Groups Tagging API</a>. If an Amazon Web
+  /// Services service isn't listed on that page, you might still be able to tag
+  /// that service's resources by using that service's native tagging operations
+  /// instead of using Resource Groups Tagging API operations. All tagged
+  /// resources, whether the tagging used the Resource Groups Tagging API or
+  /// not, are returned by the <code>Get*</code> operation.
+  /// </note>
   /// You can specify multiple resource types by using a comma separated array.
   /// The array can include up to 100 items. Note that the length constraint
   /// requirement applies to each resource type filter.
@@ -227,11 +237,20 @@ class ResourceGroupsTaggingApi {
   /// response parameter value as an input to the next request until you recieve
   /// a <code>null</code> value. A null value for <code>PaginationToken</code>
   /// indicates that there are no more results waiting to be returned.
+  /// <note>
+  /// <code>GetResources</code> does not return untagged resources.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottledException].
+  /// To find untagged resources in your account, use Amazon Web Services
+  /// Resource Explorer with a query that uses <code>tag:none</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html">
+  /// Search query syntax reference for Resource Explorer</a>.
+  /// </note>
+  ///
   /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
   /// May throw [PaginationTokenExpiredException].
+  /// May throw [ThrottledException].
   ///
   /// Parameter [excludeCompliantResources] :
   /// Specifies whether to exclude resources that are compliant with the tag
@@ -254,10 +273,20 @@ class ResourceGroupsTaggingApi {
   ///
   /// Parameter [resourceARNList] :
   /// Specifies a list of ARNs of resources for which you want to retrieve tag
-  /// data. You can't specify both this parameter and any of the pagination
-  /// parameters (<code>ResourcesPerPage</code>, <code>TagsPerPage</code>,
-  /// <code>PaginationToken</code>) in the same request. If you specify both,
+  /// data.
+  ///
+  /// You can't specify both this parameter and the
+  /// <code>ResourceTypeFilters</code> parameter in the same request. If you do,
   /// you get an <code>Invalid Parameter</code> exception.
+  ///
+  /// You can't specify both this parameter and the <code>TagFilters</code>
+  /// parameter in the same request. If you do, you get an <code>Invalid
+  /// Parameter</code> exception.
+  ///
+  /// You can't specify both this parameter and any of the pagination parameters
+  /// (<code>ResourcesPerPage</code>, <code>TagsPerPage</code>,
+  /// <code>PaginationToken</code>) in the same request. If you do, you get an
+  /// <code>Invalid Parameter</code> exception.
   ///
   /// If a resource specified by this parameter doesn't exist, it doesn't
   /// generate an error; it simply isn't included in the response.
@@ -271,16 +300,27 @@ class ResourceGroupsTaggingApi {
   /// Parameter [resourceTypeFilters] :
   /// Specifies the resource types that you want included in the response. The
   /// format of each resource type is <code>service[:resourceType]</code>. For
-  /// example, specifying a resource type of <code>ec2</code> returns all Amazon
-  /// EC2 resources (which includes EC2 instances). Specifying a resource type
-  /// of <code>ec2:instance</code> returns only EC2 instances.
+  /// example, specifying a service of <code>ec2</code> returns all Amazon EC2
+  /// resources (which includes EC2 instances). Specifying a resource type of
+  /// <code>ec2:instance</code> returns only EC2 instances.
+  ///
+  /// You can't specify both this parameter and the <code>ResourceArnList</code>
+  /// parameter in the same request. If you do, you get an <code>Invalid
+  /// Parameter</code> exception.
   ///
   /// The string for each service name and resource type is the same as that
-  /// embedded in a resource's Amazon Resource Name (ARN). For the list of
-  /// services whose resources you can use in this parameter, see <a
+  /// embedded in a resource's Amazon Resource Name (ARN).
+  /// <note>
+  /// For the list of services whose resources you can tag using the Resource
+  /// Groups Tagging API, see <a
   /// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/supported-services.html">Services
-  /// that support the Resource Groups Tagging API</a>.
-  ///
+  /// that support the Resource Groups Tagging API</a>. If an Amazon Web
+  /// Services service isn't listed on that page, you might still be able to tag
+  /// that service's resources by using that service's native tagging operations
+  /// instead of using Resource Groups Tagging API operations. All tagged
+  /// resources, whether the tagging used the Resource Groups Tagging API or
+  /// not, are returned by the <code>Get*</code> operation.
+  /// </note>
   /// You can specify multiple resource types by using an array. The array can
   /// include up to 100 items. Note that the length constraint requirement
   /// applies to each resource type filter. For example, the following string
@@ -303,14 +343,18 @@ class ResourceGroupsTaggingApi {
   /// key with values optional. A request can include up to 50 keys, and each
   /// key can include up to 20 values.
   ///
+  /// You can't specify both this parameter and the <code>ResourceArnList</code>
+  /// parameter in the same request. If you do, you get an <code>Invalid
+  /// Parameter</code> exception.
+  ///
   /// Note the following when deciding how to use TagFilters:
   ///
   /// <ul>
   /// <li>
   /// If you <i>don't</i> specify a <code>TagFilter</code>, the response
   /// includes all resources that are currently tagged or ever had a tag.
-  /// Resources that currently don't have tags are shown with an empty tag set,
-  /// like this: <code>"Tags": []</code>.
+  /// Resources that were previously tagged, <i>but do not currently</i> have
+  /// tags, are shown with an empty tag set, like this: <code>"Tags": []</code>.
   /// </li>
   /// <li>
   /// If you specify more than one filter in a single request, the response
@@ -326,9 +370,9 @@ class ResourceGroupsTaggingApi {
   /// that are tagged with that key, with any or no value.
   ///
   /// For example, for the following filters: <code>filter1=
-  /// {keyA,{value1}}</code>,
-  /// <code>filter2={keyB,{value2,value3,value4}}</code>, <code>filter3=
-  /// {keyC}</code>:
+  /// {key1,{value1}}</code>,
+  /// <code>filter2={key2,{value2,value3,value4}}</code>, <code>filter3=
+  /// {key3}</code>:
   ///
   /// <ul>
   /// <li>
@@ -423,10 +467,10 @@ class ResourceGroupsTaggingApi {
   /// a <code>null</code> value. A null value for <code>PaginationToken</code>
   /// indicates that there are no more results waiting to be returned.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottledException].
   /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
   /// May throw [PaginationTokenExpiredException].
+  /// May throw [ThrottledException].
   ///
   /// Parameter [paginationToken] :
   /// Specifies a <code>PaginationToken</code> response value from a previous
@@ -464,10 +508,10 @@ class ResourceGroupsTaggingApi {
   /// a <code>null</code> value. A null value for <code>PaginationToken</code>
   /// indicates that there are no more results waiting to be returned.
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [ThrottledException].
   /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
   /// May throw [PaginationTokenExpiredException].
+  /// May throw [ThrottledException].
   ///
   /// Parameter [key] :
   /// Specifies the tag key for which you want to list all existing values that
@@ -501,6 +545,52 @@ class ResourceGroupsTaggingApi {
     return GetTagValuesOutput.fromJson(jsonResponse.body);
   }
 
+  /// Lists the required tags for supported resource types in an Amazon Web
+  /// Services account.
+  ///
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidParameterException].
+  /// May throw [PaginationTokenExpiredException].
+  /// May throw [ThrottledException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of required tags.
+  ///
+  /// Parameter [nextToken] :
+  /// A token for requesting another page of required tags if the
+  /// <code>NextToken</code> response element indicates that more required tags
+  /// are available. Use the value of the returned <code>NextToken</code>
+  /// element in your request until the token comes back as null. Pass null if
+  /// this is the first call.
+  Future<ListRequiredTagsOutput> listRequiredTags({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ResourceGroupsTaggingAPI_20170126.ListRequiredTags'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListRequiredTagsOutput.fromJson(jsonResponse.body);
+  }
+
   /// Generates a report that lists all tagged resources in the accounts across
   /// your organization and tells whether each resource is compliant with the
   /// effective tag policy. Compliance data is refreshed daily. The report is
@@ -508,10 +598,24 @@ class ResourceGroupsTaggingApi {
   ///
   /// The generated report is saved to the following location:
   ///
-  /// <code>s3://example-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv</code>
+  /// <code>s3://amzn-s3-demo-bucket/AwsTagPolicies/o-exampleorgid/YYYY-MM-ddTHH:mm:ssZ/report.csv</code>
+  ///
+  /// For more information about evaluating resource compliance with tag
+  /// policies, including the required permissions, review <a
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#tag-policies-permissions-org">Permissions
+  /// for evaluating organization-wide compliance</a> in the <i>Tagging Amazon
+  /// Web Services Resources and Tag Editor</i> user guide.
   ///
   /// You can call this operation only from the organization's management
   /// account and from the us-east-1 Region.
+  ///
+  /// If the account associated with the identity used to call
+  /// <code>StartReportCreation</code> is different from the account that owns
+  /// the Amazon S3 bucket, there must be a bucket policy attached to the bucket
+  /// to provide access. For more information, review <a
+  /// href="https://docs.aws.amazon.com/tag-editor/latest/userguide/tag-policies-orgs.html#bucket-policy">Amazon
+  /// S3 bucket policy for report storage</a> in the <i>Tagging Amazon Web
+  /// Services Resources and Tag Editor</i> user guide.
   ///
   /// May throw [ConcurrentModificationException].
   /// May throw [ConstraintViolationException].
@@ -523,10 +627,10 @@ class ResourceGroupsTaggingApi {
   /// The name of the Amazon S3 bucket where the report will be stored; for
   /// example:
   ///
-  /// <code>awsexamplebucket</code>
+  /// <code>amzn-s3-demo-bucket</code>
   ///
   /// For more information on S3 bucket requirements, including an example
-  /// bucket policy, see the example S3 bucket policy on this page.
+  /// bucket policy, see the example Amazon S3 bucket policy on this page.
   Future<void> startReportCreation({
     required String s3Bucket,
   }) async {
@@ -573,6 +677,18 @@ class ResourceGroupsTaggingApi {
   /// service that the resource belongs to as well as permissions for adding
   /// tags. For more information, see the documentation for each service.
   /// </li>
+  /// <li>
+  /// When you use the <a
+  /// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/overview.html">Amazon
+  /// Web Services Resource Groups Tagging API</a> to update tags for Amazon Web
+  /// Services CloudFormation stack sets, Amazon Web Services calls the <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStack.html">Amazon
+  /// Web Services CloudFormation <code>UpdateStack</code> </a> operation. This
+  /// operation may initiate additional resource property updates in addition to
+  /// the desired tag updates. To avoid unexpected resource updates, Amazon Web
+  /// Services recommends that you only apply or update tags to your
+  /// CloudFormation stack sets using Amazon Web Services CloudFormation.
+  /// </li>
   /// </ul> <important>
   /// Do not store personally identifiable information (PII) or other
   /// confidential or sensitive information in tags. We use tags to provide you
@@ -589,16 +705,22 @@ class ResourceGroupsTaggingApi {
   ///
   /// <ul>
   /// <li>
-  /// <code>tag:TagResource</code>
+  /// <code>tag:TagResources</code>
   /// </li>
   /// <li>
   /// <code>ec2:CreateTags</code>
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// In addition, some services might have specific requirements for tagging
+  /// some types of resources. For example, to tag an Amazon S3 bucket, you must
+  /// also have the <code>s3:GetBucketTagging</code> permission. If the expected
+  /// minimum permissions don't work, check the documentation for that service's
+  /// tagging APIs for more information.
+  /// </note>
   ///
+  /// May throw [InternalServiceException].
   /// May throw [InvalidParameterException].
   /// May throw [ThrottledException].
-  /// May throw [InternalServiceException].
   ///
   /// Parameter [resourceARNList] :
   /// Specifies the list of ARNs of the resources that you want to apply tags
@@ -663,16 +785,22 @@ class ResourceGroupsTaggingApi {
   ///
   /// <ul>
   /// <li>
-  /// <code>tag:UntagResource</code>
+  /// <code>tag:UntagResources</code>
   /// </li>
   /// <li>
   /// <code>ec2:DeleteTags</code>
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// In addition, some services might have specific requirements for untagging
+  /// some types of resources. For example, to untag Amazon Web Services Glue
+  /// Connection, you must also have the <code>glue:GetConnection</code>
+  /// permission. If the expected minimum permissions don't work, check the
+  /// documentation for that service's tagging APIs for more information.
+  /// </note>
   ///
+  /// May throw [InternalServiceException].
   /// May throw [InvalidParameterException].
   /// May throw [ThrottledException].
-  /// May throw [InternalServiceException].
   ///
   /// Parameter [resourceARNList] :
   /// Specifies a list of ARNs of the resources that you want to remove tags
@@ -711,59 +839,15 @@ class ResourceGroupsTaggingApi {
   }
 }
 
-/// Information that shows whether a resource is compliant with the effective
-/// tag policy, including details on any noncompliant tag keys.
-class ComplianceDetails {
-  /// Whether a resource is compliant with the effective tag policy.
-  final bool? complianceStatus;
-
-  /// These are keys defined in the effective policy that are on the resource with
-  /// either incorrect case treatment or noncompliant values.
-  final List<String>? keysWithNoncompliantValues;
-
-  /// These tag keys on the resource are noncompliant with the effective tag
-  /// policy.
-  final List<String>? noncompliantKeys;
-
-  ComplianceDetails({
-    this.complianceStatus,
-    this.keysWithNoncompliantValues,
-    this.noncompliantKeys,
-  });
-
-  factory ComplianceDetails.fromJson(Map<String, dynamic> json) {
-    return ComplianceDetails(
-      complianceStatus: json['ComplianceStatus'] as bool?,
-      keysWithNoncompliantValues: (json['KeysWithNoncompliantValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      noncompliantKeys: (json['NoncompliantKeys'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final complianceStatus = this.complianceStatus;
-    final keysWithNoncompliantValues = this.keysWithNoncompliantValues;
-    final noncompliantKeys = this.noncompliantKeys;
-    return {
-      if (complianceStatus != null) 'ComplianceStatus': complianceStatus,
-      if (keysWithNoncompliantValues != null)
-        'KeysWithNoncompliantValues': keysWithNoncompliantValues,
-      if (noncompliantKeys != null) 'NoncompliantKeys': noncompliantKeys,
-    };
-  }
-}
-
 class DescribeReportCreationOutput {
   /// Details of the common errors that all operations return.
   final String? errorMessage;
 
   /// The path to the Amazon S3 bucket where the report was stored on creation.
   final String? s3Location;
+
+  /// The date and time that the report was started.
+  final String? startDate;
 
   /// Reports the status of the operation.
   ///
@@ -791,6 +875,7 @@ class DescribeReportCreationOutput {
   DescribeReportCreationOutput({
     this.errorMessage,
     this.s3Location,
+    this.startDate,
     this.status,
   });
 
@@ -798,6 +883,7 @@ class DescribeReportCreationOutput {
     return DescribeReportCreationOutput(
       errorMessage: json['ErrorMessage'] as String?,
       s3Location: json['S3Location'] as String?,
+      startDate: json['StartDate'] as String?,
       status: json['Status'] as String?,
     );
   }
@@ -805,108 +891,13 @@ class DescribeReportCreationOutput {
   Map<String, dynamic> toJson() {
     final errorMessage = this.errorMessage;
     final s3Location = this.s3Location;
+    final startDate = this.startDate;
     final status = this.status;
     return {
       if (errorMessage != null) 'ErrorMessage': errorMessage,
       if (s3Location != null) 'S3Location': s3Location,
+      if (startDate != null) 'StartDate': startDate,
       if (status != null) 'Status': status,
-    };
-  }
-}
-
-class ErrorCode {
-  static const internalServiceException =
-      ErrorCode._('InternalServiceException');
-  static const invalidParameterException =
-      ErrorCode._('InvalidParameterException');
-
-  final String value;
-
-  const ErrorCode._(this.value);
-
-  static const values = [internalServiceException, invalidParameterException];
-
-  static ErrorCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
-
-  @override
-  bool operator ==(other) => other is ErrorCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the errors that are returned for each failed resource.
-/// This information can include <code>InternalServiceException</code> and
-/// <code>InvalidParameterException</code> errors. It can also include any valid
-/// error code returned by the Amazon Web Services service that hosts the
-/// resource that the ARN key represents.
-///
-/// The following are common error codes that you might receive from other
-/// Amazon Web Services services:
-///
-/// <ul>
-/// <li>
-/// <b>InternalServiceException</b> – This can mean that the Resource Groups
-/// Tagging API didn't receive a response from another Amazon Web Services
-/// service. It can also mean that the resource type in the request is not
-/// supported by the Resource Groups Tagging API. In these cases, it's safe to
-/// retry the request and then call <a
-/// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html">GetResources</a>
-/// to verify the changes.
-/// </li>
-/// <li>
-/// <b>AccessDeniedException</b> – This can mean that you need permission to
-/// call the tagging operations in the Amazon Web Services service that contains
-/// the resource. For example, to use the Resource Groups Tagging API to tag a
-/// Amazon CloudWatch alarm resource, you need permission to call both <a
-/// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_TagResources.html">
-/// <code>TagResources</code> </a> <i>and</i> <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">
-/// <code>TagResource</code> </a> in the CloudWatch API.
-/// </li>
-/// </ul>
-/// For more information on errors that are generated from other Amazon Web
-/// Services services, see the documentation for that service.
-class FailureInfo {
-  /// The code of the common error. Valid values include
-  /// <code>InternalServiceException</code>,
-  /// <code>InvalidParameterException</code>, and any valid error code returned by
-  /// the Amazon Web Services service that hosts the resource that you want to
-  /// tag.
-  final ErrorCode? errorCode;
-
-  /// The message of the common error.
-  final String? errorMessage;
-
-  /// The HTTP status code of the common error.
-  final int? statusCode;
-
-  FailureInfo({
-    this.errorCode,
-    this.errorMessage,
-    this.statusCode,
-  });
-
-  factory FailureInfo.fromJson(Map<String, dynamic> json) {
-    return FailureInfo(
-      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
-      errorMessage: json['ErrorMessage'] as String?,
-      statusCode: json['StatusCode'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final statusCode = this.statusCode;
-    return {
-      if (errorCode != null) 'ErrorCode': errorCode.value,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (statusCode != null) 'StatusCode': statusCode,
     };
   }
 }
@@ -1051,29 +1042,251 @@ class GetTagValuesOutput {
   }
 }
 
-class GroupByAttribute {
-  static const targetId = GroupByAttribute._('TARGET_ID');
-  static const region = GroupByAttribute._('REGION');
-  static const resourceType = GroupByAttribute._('RESOURCE_TYPE');
+class ListRequiredTagsOutput {
+  /// A token for requesting another page of required tags if the
+  /// <code>NextToken</code> response element indicates that more required tags
+  /// are available. Use the value of the returned <code>NextToken</code> element
+  /// in your request until the token comes back as null. Pass null if this is the
+  /// first call.
+  final String? nextToken;
+
+  /// The required tags.
+  final List<RequiredTag>? requiredTags;
+
+  ListRequiredTagsOutput({
+    this.nextToken,
+    this.requiredTags,
+  });
+
+  factory ListRequiredTagsOutput.fromJson(Map<String, dynamic> json) {
+    return ListRequiredTagsOutput(
+      nextToken: json['NextToken'] as String?,
+      requiredTags: (json['RequiredTags'] as List?)
+          ?.nonNulls
+          .map((e) => RequiredTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final requiredTags = this.requiredTags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (requiredTags != null) 'RequiredTags': requiredTags,
+    };
+  }
+}
+
+class StartReportCreationOutput {
+  StartReportCreationOutput();
+
+  factory StartReportCreationOutput.fromJson(Map<String, dynamic> _) {
+    return StartReportCreationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TagResourcesOutput {
+  /// A map containing a key-value pair for each failed item that couldn't be
+  /// tagged. The key is the ARN of the failed resource. The value is a
+  /// <code>FailureInfo</code> object that contains an error code, a status code,
+  /// and an error message. If there are no errors, the
+  /// <code>FailedResourcesMap</code> is empty.
+  final Map<String, FailureInfo>? failedResourcesMap;
+
+  TagResourcesOutput({
+    this.failedResourcesMap,
+  });
+
+  factory TagResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return TagResourcesOutput(
+      failedResourcesMap: (json['FailedResourcesMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, FailureInfo.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedResourcesMap = this.failedResourcesMap;
+    return {
+      if (failedResourcesMap != null) 'FailedResourcesMap': failedResourcesMap,
+    };
+  }
+}
+
+class UntagResourcesOutput {
+  /// A map containing a key-value pair for each failed item that couldn't be
+  /// untagged. The key is the ARN of the failed resource. The value is a
+  /// <code>FailureInfo</code> object that contains an error code, a status code,
+  /// and an error message. If there are no errors, the
+  /// <code>FailedResourcesMap</code> is empty.
+  final Map<String, FailureInfo>? failedResourcesMap;
+
+  UntagResourcesOutput({
+    this.failedResourcesMap,
+  });
+
+  factory UntagResourcesOutput.fromJson(Map<String, dynamic> json) {
+    return UntagResourcesOutput(
+      failedResourcesMap: (json['FailedResourcesMap'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, FailureInfo.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedResourcesMap = this.failedResourcesMap;
+    return {
+      if (failedResourcesMap != null) 'FailedResourcesMap': failedResourcesMap,
+    };
+  }
+}
+
+/// Information about the errors that are returned for each failed resource.
+/// This information can include <code>InternalServiceException</code> and
+/// <code>InvalidParameterException</code> errors. It can also include any valid
+/// error code returned by the Amazon Web Services service that hosts the
+/// resource that the ARN key represents.
+///
+/// The following are common error codes that you might receive from other
+/// Amazon Web Services services:
+///
+/// <ul>
+/// <li>
+/// <b>InternalServiceException</b> – This can mean that the Resource Groups
+/// Tagging API didn't receive a response from another Amazon Web Services
+/// service. It can also mean that the resource type in the request is not
+/// supported by the Resource Groups Tagging API. In these cases, it's safe to
+/// retry the request and then call <a
+/// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html">GetResources</a>
+/// to verify the changes.
+/// </li>
+/// <li>
+/// <b>AccessDeniedException</b> – This can mean that you need permission to
+/// call the tagging operations in the Amazon Web Services service that contains
+/// the resource. For example, to use the Resource Groups Tagging API to tag a
+/// Amazon CloudWatch alarm resource, you need permission to call both <a
+/// href="https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_TagResources.html">
+/// <code>TagResources</code> </a> <i>and</i> <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">
+/// <code>TagResource</code> </a> in the CloudWatch API.
+/// </li>
+/// </ul>
+/// For more information on errors that are generated from other Amazon Web
+/// Services services, see the documentation for that service.
+class FailureInfo {
+  /// The code of the common error. Valid values include
+  /// <code>InternalServiceException</code>,
+  /// <code>InvalidParameterException</code>, and any valid error code returned by
+  /// the Amazon Web Services service that hosts the resource that you want to
+  /// tag.
+  final ErrorCode? errorCode;
+
+  /// The message of the common error.
+  final String? errorMessage;
+
+  /// The HTTP status code of the common error.
+  final int? statusCode;
+
+  FailureInfo({
+    this.errorCode,
+    this.errorMessage,
+    this.statusCode,
+  });
+
+  factory FailureInfo.fromJson(Map<String, dynamic> json) {
+    return FailureInfo(
+      errorCode: (json['ErrorCode'] as String?)?.let(ErrorCode.fromString),
+      errorMessage: json['ErrorMessage'] as String?,
+      statusCode: json['StatusCode'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final statusCode = this.statusCode;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.value,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (statusCode != null) 'StatusCode': statusCode,
+    };
+  }
+}
+
+class ErrorCode {
+  static const internalServiceException =
+      ErrorCode._('InternalServiceException');
+  static const invalidParameterException =
+      ErrorCode._('InvalidParameterException');
 
   final String value;
 
-  const GroupByAttribute._(this.value);
+  const ErrorCode._(this.value);
 
-  static const values = [targetId, region, resourceType];
+  static const values = [internalServiceException, invalidParameterException];
 
-  static GroupByAttribute fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => GroupByAttribute._(value));
+  static ErrorCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ErrorCode._(value));
 
   @override
-  bool operator ==(other) => other is GroupByAttribute && other.value == value;
+  bool operator ==(other) => other is ErrorCode && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Information that describes the required tags for a given resource type.
+class RequiredTag {
+  /// Describes the CloudFormation resource type assigned the required tag keys.
+  final List<String>? cloudFormationResourceTypes;
+
+  /// These tag keys are marked as <code>required</code> in the
+  /// <code>report_required_tag_for</code> block of the effective tag policy.
+  final List<String>? reportingTagKeys;
+
+  /// Describes the resource type for the required tag keys.
+  final String? resourceType;
+
+  RequiredTag({
+    this.cloudFormationResourceTypes,
+    this.reportingTagKeys,
+    this.resourceType,
+  });
+
+  factory RequiredTag.fromJson(Map<String, dynamic> json) {
+    return RequiredTag(
+      cloudFormationResourceTypes:
+          (json['CloudFormationResourceTypes'] as List?)
+              ?.nonNulls
+              .map((e) => e as String)
+              .toList(),
+      reportingTagKeys: (json['ReportingTagKeys'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      resourceType: json['ResourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFormationResourceTypes = this.cloudFormationResourceTypes;
+    final reportingTagKeys = this.reportingTagKeys;
+    final resourceType = this.resourceType;
+    return {
+      if (cloudFormationResourceTypes != null)
+        'CloudFormationResourceTypes': cloudFormationResourceTypes,
+      if (reportingTagKeys != null) 'ReportingTagKeys': reportingTagKeys,
+      if (resourceType != null) 'ResourceType': resourceType,
+    };
+  }
 }
 
 /// A list of resource ARNs and the tags (keys and values) that are associated
@@ -1122,77 +1335,61 @@ class ResourceTagMapping {
   }
 }
 
-class StartReportCreationOutput {
-  StartReportCreationOutput();
+/// Information that shows whether a resource is compliant with the effective
+/// tag policy, including details on any noncompliant tag keys.
+class ComplianceDetails {
+  /// Whether a resource is compliant with the effective tag policy.
+  final bool? complianceStatus;
 
-  factory StartReportCreationOutput.fromJson(Map<String, dynamic> _) {
-    return StartReportCreationOutput();
-  }
+  /// These are keys defined in the effective policy that are on the resource with
+  /// either incorrect case treatment or noncompliant values.
+  final List<String>? keysWithNoncompliantValues;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// These tag keys are defined as required in the
+  /// <code>report_required_tag_for</code> block of the effective tag policy, but
+  /// are missing from the resource.
+  final List<String>? missingTagKeys;
 
-/// A count of noncompliant resources.
-class Summary {
-  /// The timestamp that shows when this summary was generated in this Region.
-  final String? lastUpdated;
+  /// These tag keys on the resource are noncompliant with the effective tag
+  /// policy.
+  final List<String>? noncompliantKeys;
 
-  /// The count of noncompliant resources.
-  final int? nonCompliantResources;
-
-  /// The Amazon Web Services Region that the summary applies to.
-  final String? region;
-
-  /// The Amazon Web Services resource type.
-  final String? resourceType;
-
-  /// The account identifier or the root identifier of the organization. If you
-  /// don't know the root ID, you can call the Organizations <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/APIReference/API_ListRoots.html">ListRoots</a>
-  /// API.
-  final String? targetId;
-
-  /// Whether the target is an account, an OU, or the organization root.
-  final TargetIdType? targetIdType;
-
-  Summary({
-    this.lastUpdated,
-    this.nonCompliantResources,
-    this.region,
-    this.resourceType,
-    this.targetId,
-    this.targetIdType,
+  ComplianceDetails({
+    this.complianceStatus,
+    this.keysWithNoncompliantValues,
+    this.missingTagKeys,
+    this.noncompliantKeys,
   });
 
-  factory Summary.fromJson(Map<String, dynamic> json) {
-    return Summary(
-      lastUpdated: json['LastUpdated'] as String?,
-      nonCompliantResources: json['NonCompliantResources'] as int?,
-      region: json['Region'] as String?,
-      resourceType: json['ResourceType'] as String?,
-      targetId: json['TargetId'] as String?,
-      targetIdType:
-          (json['TargetIdType'] as String?)?.let(TargetIdType.fromString),
+  factory ComplianceDetails.fromJson(Map<String, dynamic> json) {
+    return ComplianceDetails(
+      complianceStatus: json['ComplianceStatus'] as bool?,
+      keysWithNoncompliantValues: (json['KeysWithNoncompliantValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      missingTagKeys: (json['MissingTagKeys'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      noncompliantKeys: (json['NoncompliantKeys'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lastUpdated = this.lastUpdated;
-    final nonCompliantResources = this.nonCompliantResources;
-    final region = this.region;
-    final resourceType = this.resourceType;
-    final targetId = this.targetId;
-    final targetIdType = this.targetIdType;
+    final complianceStatus = this.complianceStatus;
+    final keysWithNoncompliantValues = this.keysWithNoncompliantValues;
+    final missingTagKeys = this.missingTagKeys;
+    final noncompliantKeys = this.noncompliantKeys;
     return {
-      if (lastUpdated != null) 'LastUpdated': lastUpdated,
-      if (nonCompliantResources != null)
-        'NonCompliantResources': nonCompliantResources,
-      if (region != null) 'Region': region,
-      if (resourceType != null) 'ResourceType': resourceType,
-      if (targetId != null) 'TargetId': targetId,
-      if (targetIdType != null) 'TargetIdType': targetIdType.value,
+      if (complianceStatus != null) 'ComplianceStatus': complianceStatus,
+      if (keysWithNoncompliantValues != null)
+        'KeysWithNoncompliantValues': keysWithNoncompliantValues,
+      if (missingTagKeys != null) 'MissingTagKeys': missingTagKeys,
+      if (noncompliantKeys != null) 'NoncompliantKeys': noncompliantKeys,
     };
   }
 }
@@ -1260,30 +1457,65 @@ class TagFilter {
   }
 }
 
-class TagResourcesOutput {
-  /// A map containing a key-value pair for each failed item that couldn't be
-  /// tagged. The key is the ARN of the failed resource. The value is a
-  /// <code>FailureInfo</code> object that contains an error code, a status code,
-  /// and an error message. If there are no errors, the
-  /// <code>FailedResourcesMap</code> is empty.
-  final Map<String, FailureInfo>? failedResourcesMap;
+/// A count of noncompliant resources.
+class Summary {
+  /// The timestamp that shows when this summary was generated in this Region.
+  final String? lastUpdated;
 
-  TagResourcesOutput({
-    this.failedResourcesMap,
+  /// The count of noncompliant resources.
+  final int? nonCompliantResources;
+
+  /// The Amazon Web Services Region that the summary applies to.
+  final String? region;
+
+  /// The Amazon Web Services resource type.
+  final String? resourceType;
+
+  /// The account identifier or the root identifier of the organization. If you
+  /// don't know the root ID, you can call the Organizations <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/APIReference/API_ListRoots.html">ListRoots</a>
+  /// API.
+  final String? targetId;
+
+  /// Whether the target is an account, an OU, or the organization root.
+  final TargetIdType? targetIdType;
+
+  Summary({
+    this.lastUpdated,
+    this.nonCompliantResources,
+    this.region,
+    this.resourceType,
+    this.targetId,
+    this.targetIdType,
   });
 
-  factory TagResourcesOutput.fromJson(Map<String, dynamic> json) {
-    return TagResourcesOutput(
-      failedResourcesMap: (json['FailedResourcesMap'] as Map<String, dynamic>?)
-          ?.map((k, e) =>
-              MapEntry(k, FailureInfo.fromJson(e as Map<String, dynamic>))),
+  factory Summary.fromJson(Map<String, dynamic> json) {
+    return Summary(
+      lastUpdated: json['LastUpdated'] as String?,
+      nonCompliantResources: json['NonCompliantResources'] as int?,
+      region: json['Region'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      targetId: json['TargetId'] as String?,
+      targetIdType:
+          (json['TargetIdType'] as String?)?.let(TargetIdType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final failedResourcesMap = this.failedResourcesMap;
+    final lastUpdated = this.lastUpdated;
+    final nonCompliantResources = this.nonCompliantResources;
+    final region = this.region;
+    final resourceType = this.resourceType;
+    final targetId = this.targetId;
+    final targetIdType = this.targetIdType;
     return {
-      if (failedResourcesMap != null) 'FailedResourcesMap': failedResourcesMap,
+      if (lastUpdated != null) 'LastUpdated': lastUpdated,
+      if (nonCompliantResources != null)
+        'NonCompliantResources': nonCompliantResources,
+      if (region != null) 'Region': region,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (targetId != null) 'TargetId': targetId,
+      if (targetIdType != null) 'TargetIdType': targetIdType.value,
     };
   }
 }
@@ -1312,32 +1544,29 @@ class TargetIdType {
   String toString() => value;
 }
 
-class UntagResourcesOutput {
-  /// A map containing a key-value pair for each failed item that couldn't be
-  /// untagged. The key is the ARN of the failed resource. The value is a
-  /// <code>FailureInfo</code> object that contains an error code, a status code,
-  /// and an error message. If there are no errors, the
-  /// <code>FailedResourcesMap</code> is empty.
-  final Map<String, FailureInfo>? failedResourcesMap;
+class GroupByAttribute {
+  static const targetId = GroupByAttribute._('TARGET_ID');
+  static const region = GroupByAttribute._('REGION');
+  static const resourceType = GroupByAttribute._('RESOURCE_TYPE');
 
-  UntagResourcesOutput({
-    this.failedResourcesMap,
-  });
+  final String value;
 
-  factory UntagResourcesOutput.fromJson(Map<String, dynamic> json) {
-    return UntagResourcesOutput(
-      failedResourcesMap: (json['FailedResourcesMap'] as Map<String, dynamic>?)
-          ?.map((k, e) =>
-              MapEntry(k, FailureInfo.fromJson(e as Map<String, dynamic>))),
-    );
-  }
+  const GroupByAttribute._(this.value);
 
-  Map<String, dynamic> toJson() {
-    final failedResourcesMap = this.failedResourcesMap;
-    return {
-      if (failedResourcesMap != null) 'FailedResourcesMap': failedResourcesMap,
-    };
-  }
+  static const values = [targetId, region, resourceType];
+
+  static GroupByAttribute fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => GroupByAttribute._(value));
+
+  @override
+  bool operator ==(other) => other is GroupByAttribute && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {

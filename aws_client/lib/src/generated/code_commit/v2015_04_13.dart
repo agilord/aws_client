@@ -60,18 +60,18 @@ class CodeCommit {
   /// approval rule that matches the template contents is created for all pull
   /// requests in that repository.
   ///
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
-  /// May throw [InvalidApprovalRuleTemplateNameException].
   /// May throw [ApprovalRuleTemplateDoesNotExistException].
-  /// May throw [MaximumRuleTemplatesAssociatedWithRepositoryException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [MaximumRuleTemplatesAssociatedWithRepositoryException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [approvalRuleTemplateName] :
   /// The name for the approval rule template.
@@ -103,16 +103,16 @@ class CodeCommit {
   /// Creates an association between an approval rule template and one or more
   /// specified repositories.
   ///
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
-  /// May throw [InvalidApprovalRuleTemplateNameException].
   /// May throw [ApprovalRuleTemplateDoesNotExistException].
-  /// May throw [RepositoryNamesRequiredException].
-  /// May throw [MaximumRepositoryNamesExceededException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
+  /// May throw [MaximumRepositoryNamesExceededException].
+  /// May throw [RepositoryNamesRequiredException].
   ///
   /// Parameter [approvalRuleTemplateName] :
   /// The name of the template you want to associate with one or more
@@ -154,27 +154,27 @@ class CodeCommit {
   /// merge of two commit specifiers using the squash or three-way merge
   /// strategy.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [MergeOptionRequiredException].
-  /// May throw [InvalidMergeOptionException].
-  /// May throw [InvalidContinuationTokenException].
-  /// May throw [CommitRequiredException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidCommitException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [InvalidMaxConflictFilesException].
-  /// May throw [InvalidMaxMergeHunksException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [CommitRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxConflictFilesException].
+  /// May throw [InvalidMaxMergeHunksException].
+  /// May throw [InvalidMergeOptionException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [MergeOptionRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -261,16 +261,16 @@ class CodeCommit {
   /// Removes the association between an approval rule template and one or more
   /// specified repositories.
   ///
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
-  /// May throw [InvalidApprovalRuleTemplateNameException].
   /// May throw [ApprovalRuleTemplateDoesNotExistException].
-  /// May throw [RepositoryNamesRequiredException].
-  /// May throw [MaximumRepositoryNamesExceededException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
+  /// May throw [MaximumRepositoryNamesExceededException].
+  /// May throw [RepositoryNamesRequiredException].
   ///
   /// Parameter [approvalRuleTemplateName] :
   /// The name of the template that you want to disassociate from one or more
@@ -312,16 +312,16 @@ class CodeCommit {
   /// Returns information about the contents of one or more commits in a
   /// repository.
   ///
-  /// May throw [CommitIdsListRequiredException].
   /// May throw [CommitIdsLimitExceededException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [CommitIdsListRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [commitIds] :
   /// The full commit IDs of the commits to get information about.
@@ -365,14 +365,14 @@ class CodeCommit {
   /// on a webpage.
   /// </note>
   ///
-  /// May throw [RepositoryNamesRequiredException].
-  /// May throw [MaximumRepositoryNamesExceededException].
-  /// May throw [InvalidRepositoryNameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [MaximumRepositoryNamesExceededException].
+  /// May throw [RepositoryNamesRequiredException].
   ///
   /// Parameter [repositoryNames] :
   /// The names of the repositories to get information about.
@@ -408,12 +408,12 @@ class CodeCommit {
   /// that meet the conditions of the template. For more information, see
   /// <a>AssociateApprovalRuleTemplateWithRepository</a>.
   ///
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
-  /// May throw [InvalidApprovalRuleTemplateNameException].
-  /// May throw [ApprovalRuleTemplateNameAlreadyExistsException].
   /// May throw [ApprovalRuleTemplateContentRequiredException].
+  /// May throw [ApprovalRuleTemplateNameAlreadyExistsException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [InvalidApprovalRuleTemplateContentException].
   /// May throw [InvalidApprovalRuleTemplateDescriptionException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
   /// May throw [NumberOfRuleTemplatesExceededException].
   ///
   /// Parameter [approvalRuleTemplateContent] :
@@ -502,20 +502,20 @@ class CodeCommit {
   /// branch. To do this, call the update default branch operation.
   /// </note>
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [BranchNameRequiredException].
   /// May throw [BranchNameExistsException].
-  /// May throw [InvalidBranchNameException].
-  /// May throw [CommitIdRequiredException].
+  /// May throw [BranchNameRequiredException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidCommitIdException].
+  /// May throw [CommitIdRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [branchName] :
   /// The name of the new branch to create.
@@ -550,44 +550,44 @@ class CodeCommit {
 
   /// Creates a commit for a repository on the tip of a specified branch.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [ParentCommitIdRequiredException].
-  /// May throw [InvalidParentCommitIdException].
-  /// May throw [ParentCommitDoesNotExistException].
-  /// May throw [ParentCommitIdOutdatedException].
-  /// May throw [BranchNameRequiredException].
-  /// May throw [InvalidBranchNameException].
   /// May throw [BranchDoesNotExistException].
   /// May throw [BranchNameIsTagNameException].
-  /// May throw [FileEntryRequiredException].
-  /// May throw [MaximumFileEntriesExceededException].
-  /// May throw [PutFileEntryConflictException].
-  /// May throw [SourceFileOrContentRequiredException].
-  /// May throw [FileContentAndSourceFileSpecifiedException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [SamePathRequestException].
-  /// May throw [FileDoesNotExistException].
-  /// May throw [FileContentSizeLimitExceededException].
-  /// May throw [FolderContentSizeLimitExceededException].
-  /// May throw [InvalidDeletionParameterException].
-  /// May throw [RestrictedSourceFileException].
-  /// May throw [FileModeRequiredException].
-  /// May throw [InvalidFileModeException].
-  /// May throw [NameLengthExceededException].
-  /// May throw [InvalidEmailException].
+  /// May throw [BranchNameRequiredException].
   /// May throw [CommitMessageLengthExceededException].
+  /// May throw [DirectoryNameConflictsWithFileNameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
-  /// May throw [NoChangeException].
+  /// May throw [FileContentAndSourceFileSpecifiedException].
+  /// May throw [FileContentSizeLimitExceededException].
+  /// May throw [FileDoesNotExistException].
+  /// May throw [FileEntryRequiredException].
+  /// May throw [FileModeRequiredException].
   /// May throw [FileNameConflictsWithDirectoryNameException].
-  /// May throw [DirectoryNameConflictsWithFileNameException].
   /// May throw [FilePathConflictsWithSubmodulePathException].
+  /// May throw [FolderContentSizeLimitExceededException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidDeletionParameterException].
+  /// May throw [InvalidEmailException].
+  /// May throw [InvalidFileModeException].
+  /// May throw [InvalidParentCommitIdException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [MaximumFileEntriesExceededException].
+  /// May throw [NameLengthExceededException].
+  /// May throw [NoChangeException].
+  /// May throw [ParentCommitDoesNotExistException].
+  /// May throw [ParentCommitIdOutdatedException].
+  /// May throw [ParentCommitIdRequiredException].
+  /// May throw [PathRequiredException].
+  /// May throw [PutFileEntryConflictException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [RestrictedSourceFileException].
+  /// May throw [SamePathRequestException].
+  /// May throw [SourceFileOrContentRequiredException].
   ///
   /// Parameter [branchName] :
   /// The name of the branch where you create the commit.
@@ -665,31 +665,31 @@ class CodeCommit {
 
   /// Creates a pull request in the specified repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [ClientRequestTokenRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
-  /// May throw [ClientRequestTokenRequiredException].
-  /// May throw [InvalidClientRequestTokenException].
   /// May throw [IdempotencyParameterMismatchException].
-  /// May throw [ReferenceNameRequiredException].
-  /// May throw [InvalidReferenceNameException].
-  /// May throw [ReferenceDoesNotExistException].
-  /// May throw [ReferenceTypeNotSupportedException].
-  /// May throw [TitleRequiredException].
-  /// May throw [InvalidTitleException].
+  /// May throw [InvalidClientRequestTokenException].
   /// May throw [InvalidDescriptionException].
-  /// May throw [TargetsRequiredException].
-  /// May throw [InvalidTargetsException].
-  /// May throw [TargetRequiredException].
+  /// May throw [InvalidReferenceNameException].
+  /// May throw [InvalidRepositoryNameException].
   /// May throw [InvalidTargetException].
-  /// May throw [MultipleRepositoriesInPullRequestException].
+  /// May throw [InvalidTargetsException].
+  /// May throw [InvalidTitleException].
   /// May throw [MaximumOpenPullRequestsExceededException].
+  /// May throw [MultipleRepositoriesInPullRequestException].
+  /// May throw [ReferenceDoesNotExistException].
+  /// May throw [ReferenceNameRequiredException].
+  /// May throw [ReferenceTypeNotSupportedException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   /// May throw [SourceAndDestinationAreSameException].
+  /// May throw [TargetRequiredException].
+  /// May throw [TargetsRequiredException].
+  /// May throw [TitleRequiredException].
   ///
   /// Parameter [targets] :
   /// The targets for the pull request, including the source of the code to be
@@ -744,21 +744,21 @@ class CodeCommit {
 
   /// Creates an approval rule for a pull request.
   ///
-  /// May throw [ApprovalRuleNameRequiredException].
-  /// May throw [InvalidApprovalRuleNameException].
-  /// May throw [ApprovalRuleNameAlreadyExistsException].
   /// May throw [ApprovalRuleContentRequiredException].
-  /// May throw [InvalidApprovalRuleContentException].
-  /// May throw [NumberOfRulesExceededException].
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [ApprovalRuleNameAlreadyExistsException].
+  /// May throw [ApprovalRuleNameRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalRuleContentException].
+  /// May throw [InvalidApprovalRuleNameException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [NumberOfRulesExceededException].
+  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
   ///
   /// Parameter [approvalRuleContent] :
   /// The content of the approval rule, including the number of approvals needed
@@ -836,23 +836,23 @@ class CodeCommit {
 
   /// Creates a new, empty repository.
   ///
-  /// May throw [RepositoryNameExistsException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [InvalidRepositoryDescriptionException].
-  /// May throw [RepositoryLimitExceededException].
-  /// May throw [OperationNotAllowedException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
-  /// May throw [EncryptionKeyNotFoundException].
-  /// May throw [EncryptionKeyUnavailableException].
   /// May throw [EncryptionKeyInvalidIdException].
   /// May throw [EncryptionKeyInvalidUsageException].
-  /// May throw [InvalidTagsMapException].
-  /// May throw [TooManyTagsException].
+  /// May throw [EncryptionKeyNotFoundException].
+  /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryDescriptionException].
+  /// May throw [InvalidRepositoryNameException].
   /// May throw [InvalidSystemTagUsageException].
+  /// May throw [InvalidTagsMapException].
+  /// May throw [OperationNotAllowedException].
+  /// May throw [RepositoryLimitExceededException].
+  /// May throw [RepositoryNameExistsException].
+  /// May throw [RepositoryNameRequiredException].
   /// May throw [TagPolicyException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the new repository to be created.
@@ -928,42 +928,42 @@ class CodeCommit {
   /// you must specify its commit ID or otherwise reference it.
   /// </note>
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [CommitRequiredException].
-  /// May throw [InvalidCommitException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [MergeOptionRequiredException].
-  /// May throw [InvalidMergeOptionException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [InvalidConflictResolutionException].
-  /// May throw [ManualMergeRequiredException].
-  /// May throw [MaximumConflictResolutionEntriesExceededException].
-  /// May throw [MultipleConflictResolutionEntriesException].
-  /// May throw [ReplacementTypeRequiredException].
-  /// May throw [InvalidReplacementTypeException].
-  /// May throw [ReplacementContentRequiredException].
-  /// May throw [InvalidReplacementContentException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [FileContentSizeLimitExceededException].
-  /// May throw [FolderContentSizeLimitExceededException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
-  /// May throw [ConcurrentReferenceUpdateException].
-  /// May throw [FileModeRequiredException].
-  /// May throw [InvalidFileModeException].
-  /// May throw [NameLengthExceededException].
-  /// May throw [InvalidEmailException].
   /// May throw [CommitMessageLengthExceededException].
+  /// May throw [CommitRequiredException].
+  /// May throw [ConcurrentReferenceUpdateException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FileContentSizeLimitExceededException].
+  /// May throw [FileModeRequiredException].
+  /// May throw [FolderContentSizeLimitExceededException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidEmailException].
+  /// May throw [InvalidFileModeException].
+  /// May throw [InvalidMergeOptionException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidReplacementContentException].
+  /// May throw [InvalidReplacementTypeException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [ManualMergeRequiredException].
+  /// May throw [MaximumConflictResolutionEntriesExceededException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [MergeOptionRequiredException].
+  /// May throw [MultipleConflictResolutionEntriesException].
+  /// May throw [NameLengthExceededException].
+  /// May throw [PathRequiredException].
+  /// May throw [ReplacementContentRequiredException].
+  /// May throw [ReplacementTypeRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -1058,9 +1058,9 @@ class CodeCommit {
   /// Deletes a specified approval rule template. Deleting a template does not
   /// remove approval rules on pull requests already created with the template.
   ///
+  /// May throw [ApprovalRuleTemplateInUseException].
   /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [InvalidApprovalRuleTemplateNameException].
-  /// May throw [ApprovalRuleTemplateInUseException].
   ///
   /// Parameter [approvalRuleTemplateName] :
   /// The name of the approval rule template to delete.
@@ -1088,17 +1088,17 @@ class CodeCommit {
   /// Deletes a branch from a repository, unless that branch is the default
   /// branch for the repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
   /// May throw [BranchNameRequiredException].
-  /// May throw [InvalidBranchNameException].
   /// May throw [DefaultBranchCannotBeDeletedException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [branchName] :
   /// The name of the branch to delete.
@@ -1131,10 +1131,10 @@ class CodeCommit {
   /// Deletes the content of a comment made on a change, file, or commit in a
   /// repository.
   ///
+  /// May throw [CommentDeletedException].
   /// May throw [CommentDoesNotExistException].
   /// May throw [CommentIdRequiredException].
   /// May throw [InvalidCommentIdException].
-  /// May throw [CommentDeletedException].
   ///
   /// Parameter [commentId] :
   /// The unique, system-generated ID of the comment. To get this ID, use
@@ -1164,28 +1164,28 @@ class CodeCommit {
   /// the branch that contains the revision. The file still exists in the
   /// commits earlier to the commit that contains the deletion.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [ParentCommitIdRequiredException].
-  /// May throw [InvalidParentCommitIdException].
-  /// May throw [ParentCommitDoesNotExistException].
-  /// May throw [ParentCommitIdOutdatedException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [FileDoesNotExistException].
-  /// May throw [BranchNameRequiredException].
-  /// May throw [InvalidBranchNameException].
   /// May throw [BranchDoesNotExistException].
   /// May throw [BranchNameIsTagNameException].
-  /// May throw [NameLengthExceededException].
-  /// May throw [InvalidEmailException].
+  /// May throw [BranchNameRequiredException].
   /// May throw [CommitMessageLengthExceededException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FileDoesNotExistException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidEmailException].
+  /// May throw [InvalidParentCommitIdException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [NameLengthExceededException].
+  /// May throw [ParentCommitDoesNotExistException].
+  /// May throw [ParentCommitIdOutdatedException].
+  /// May throw [ParentCommitIdRequiredException].
+  /// May throw [PathRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [branchName] :
   /// The name of the branch where the commit that deletes the file is made.
@@ -1266,18 +1266,18 @@ class CodeCommit {
   /// where the pull request was created. You cannot delete an approval rule
   /// from a merged or closed pull request.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [PullRequestAlreadyClosedException].
   /// May throw [ApprovalRuleNameRequiredException].
-  /// May throw [InvalidApprovalRuleNameException].
   /// May throw [CannotDeleteApprovalRuleFromTemplateException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalRuleNameException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
   ///
   /// Parameter [approvalRuleName] :
   /// The name of the approval rule you want to delete.
@@ -1316,13 +1316,13 @@ class CodeCommit {
   /// repository fail.
   /// </important>
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository to delete.
@@ -1352,29 +1352,29 @@ class CodeCommit {
   /// strategy. If the merge option for the attempted merge is specified as
   /// FAST_FORWARD_MERGE, an exception is thrown.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [MergeOptionRequiredException].
-  /// May throw [InvalidMergeOptionException].
-  /// May throw [InvalidContinuationTokenException].
-  /// May throw [CommitRequiredException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidCommitException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [FileDoesNotExistException].
-  /// May throw [InvalidMaxMergeHunksException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [CommitRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FileDoesNotExistException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxMergeHunksException].
+  /// May throw [InvalidMergeOptionException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [MergeOptionRequiredException].
+  /// May throw [PathRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -1454,19 +1454,19 @@ class CodeCommit {
 
   /// Returns information about one or more pull request events.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidPullRequestEventTypeException].
-  /// May throw [InvalidActorArnException].
   /// May throw [ActorDoesNotExistException].
-  /// May throw [InvalidMaxResultsException].
-  /// May throw [InvalidContinuationTokenException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidActorArnException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidPullRequestEventTypeException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request. To get this ID, use
@@ -1525,17 +1525,17 @@ class CodeCommit {
   /// delete any approval rules previously created for pull requests through the
   /// template association.
   ///
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
-  /// May throw [InvalidApprovalRuleTemplateNameException].
   /// May throw [ApprovalRuleTemplateDoesNotExistException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [approvalRuleTemplateName] :
   /// The name of the approval rule template to disassociate from a specified
@@ -1568,17 +1568,17 @@ class CodeCommit {
   /// Evaluates whether a pull request has met all the conditions specified in
   /// its associated approval rules.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidRevisionIdException].
-  /// May throw [RevisionIdRequiredException].
-  /// May throw [RevisionNotCurrentException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRevisionIdException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [RevisionIdRequiredException].
+  /// May throw [RevisionNotCurrentException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request you want to evaluate.
@@ -1612,9 +1612,9 @@ class CodeCommit {
 
   /// Returns information about a specified approval rule template.
   ///
+  /// May throw [ApprovalRuleTemplateDoesNotExistException].
   /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [InvalidApprovalRuleTemplateNameException].
-  /// May throw [ApprovalRuleTemplateDoesNotExistException].
   ///
   /// Parameter [approvalRuleTemplateName] :
   /// The name of the approval rule template for which you want to get
@@ -1642,18 +1642,18 @@ class CodeCommit {
 
   /// Returns the base-64 encoded content of an individual blob in a repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [BlobIdRequiredException].
-  /// May throw [InvalidBlobIdException].
   /// May throw [BlobIdDoesNotExistException].
+  /// May throw [BlobIdRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
   /// May throw [FileTooLargeException].
+  /// May throw [InvalidBlobIdException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [blobId] :
   /// The ID of the blob, which is its SHA-1 pointer.
@@ -1686,17 +1686,17 @@ class CodeCommit {
   /// Returns information about a repository branch, including its name and the
   /// last commit ID.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [BranchNameRequiredException].
-  /// May throw [InvalidBranchNameException].
   /// May throw [BranchDoesNotExistException].
+  /// May throw [BranchNameRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [branchName] :
   /// The name of the branch for which you want to retrieve information.
@@ -1735,15 +1735,15 @@ class CodeCommit {
   /// identities, use GetCommentReactions.
   /// </note>
   ///
-  /// May throw [CommentDoesNotExistException].
   /// May throw [CommentDeletedException].
+  /// May throw [CommentDoesNotExistException].
   /// May throw [CommentIdRequiredException].
-  /// May throw [InvalidCommentIdException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommentIdException].
   ///
   /// Parameter [commentId] :
   /// The unique, system-generated ID of the comment. To get this ID, use
@@ -1772,13 +1772,13 @@ class CodeCommit {
   /// Returns information about reactions to a specified comment ID. Reactions
   /// from users who have been deleted will not be included in the count.
   ///
+  /// May throw [CommentDeletedException].
   /// May throw [CommentDoesNotExistException].
   /// May throw [CommentIdRequiredException].
   /// May throw [InvalidCommentIdException].
-  /// May throw [InvalidReactionUserArnException].
-  /// May throw [InvalidMaxResultsException].
   /// May throw [InvalidContinuationTokenException].
-  /// May throw [CommentDeletedException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidReactionUserArnException].
   ///
   /// Parameter [commentId] :
   /// The ID of the comment for which you want to get reactions information.
@@ -1829,19 +1829,19 @@ class CodeCommit {
   /// identities, use GetCommentReactions.
   /// </note>
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [CommitIdRequiredException].
-  /// May throw [InvalidCommitIdException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidMaxResultsException].
-  /// May throw [InvalidContinuationTokenException].
+  /// May throw [CommitIdRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [afterCommitId] :
   /// To establish the directionality of the comparison, the full commit ID of
@@ -1897,23 +1897,23 @@ class CodeCommit {
   /// identities, use GetCommentReactions.
   /// </note>
   ///
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [CommitIdRequiredException].
-  /// May throw [InvalidCommitIdException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidMaxResultsException].
-  /// May throw [InvalidContinuationTokenException].
-  /// May throw [RepositoryNotAssociatedWithPullRequestException].
+  /// May throw [CommitIdRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [RepositoryNotAssociatedWithPullRequestException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request. To get this ID, use
@@ -1978,17 +1978,17 @@ class CodeCommit {
   /// Returns information about a commit, including commit message and committer
   /// information.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [CommitIdRequiredException].
-  /// May throw [InvalidCommitIdException].
   /// May throw [CommitIdDoesNotExistException].
+  /// May throw [CommitIdRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [commitId] :
   /// The commit ID. Commit IDs are the full SHA ID of the commit.
@@ -2022,22 +2022,22 @@ class CodeCommit {
   /// (such as a branch, tag, HEAD, commit ID, or other fully qualified
   /// reference). Results can be limited to a specified path.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [InvalidContinuationTokenException].
-  /// May throw [InvalidMaxResultsException].
-  /// May throw [InvalidCommitIdException].
-  /// May throw [CommitRequiredException].
-  /// May throw [InvalidCommitException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidPathException].
-  /// May throw [PathDoesNotExistException].
+  /// May throw [CommitRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [PathDoesNotExistException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [afterCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -2108,20 +2108,20 @@ class CodeCommit {
 
   /// Returns the base-64 encoded contents of a specified file and its metadata.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidCommitException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [FileDoesNotExistException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FileDoesNotExistException].
   /// May throw [FileTooLargeException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [PathRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [filePath] :
   /// The fully qualified path to the file, including the full name and
@@ -2163,19 +2163,19 @@ class CodeCommit {
 
   /// Returns the contents of a specified folder in a repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidCommitException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [FolderDoesNotExistException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FolderDoesNotExistException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [PathRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [folderPath] :
   /// The fully qualified path to the folder whose contents are returned,
@@ -2219,19 +2219,19 @@ class CodeCommit {
 
   /// Returns information about a specified merge commit.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [CommitRequiredException].
-  /// May throw [InvalidCommitException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [CommitRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -2291,28 +2291,28 @@ class CodeCommit {
   /// Returns information about merge conflicts between the before and after
   /// commit IDs for a pull request in a repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [MergeOptionRequiredException].
-  /// May throw [InvalidMergeOptionException].
-  /// May throw [InvalidContinuationTokenException].
-  /// May throw [CommitRequiredException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidCommitException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [InvalidMaxConflictFilesException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidDestinationCommitSpecifierException].
-  /// May throw [InvalidSourceCommitSpecifierException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [CommitRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidDestinationCommitSpecifierException].
+  /// May throw [InvalidMaxConflictFilesException].
+  /// May throw [InvalidMergeOptionException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [InvalidSourceCommitSpecifierException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [MergeOptionRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -2388,22 +2388,22 @@ class CodeCommit {
   /// specified branches. For details about why a merge option is not available,
   /// use GetMergeConflicts or DescribeMergeConflicts.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [CommitRequiredException].
   /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidCommitException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [CommitRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -2462,14 +2462,14 @@ class CodeCommit {
 
   /// Gets information about a pull request in a specified repository.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request. To get this ID, use
@@ -2499,16 +2499,16 @@ class CodeCommit {
   /// Approval states only apply to pull requests that have one or more approval
   /// rules applied to them.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidRevisionIdException].
-  /// May throw [RevisionIdRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRevisionIdException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [RevisionIdRequiredException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID for the pull request.
@@ -2543,16 +2543,16 @@ class CodeCommit {
   /// of the user or identity that overrode the rules and their requirements for
   /// the pull request.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidRevisionIdException].
-  /// May throw [RevisionIdRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRevisionIdException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [RevisionIdRequiredException].
   ///
   /// Parameter [pullRequestId] :
   /// The ID of the pull request for which you want to get information about
@@ -2594,14 +2594,14 @@ class CodeCommit {
   /// on a webpage.
   /// </note>
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository to get information about.
@@ -2628,14 +2628,14 @@ class CodeCommit {
 
   /// Gets information about triggers configured for a repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository for which the trigger is configured.
@@ -2665,8 +2665,8 @@ class CodeCommit {
   /// Region is not specified, the Amazon Web Services Region where you are
   /// signed in is used.
   ///
-  /// May throw [InvalidMaxResultsException].
   /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
   ///
   /// Parameter [maxResults] :
   /// A non-zero, non-negative integer used to limit the number of returned
@@ -2701,16 +2701,16 @@ class CodeCommit {
   /// Lists all approval rule templates that are associated with a specified
   /// repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidMaxResultsException].
-  /// May throw [InvalidContinuationTokenException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository for which you want to list all associated
@@ -2753,15 +2753,15 @@ class CodeCommit {
 
   /// Gets information about one or more branches in a repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
   /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository that contains the branches.
@@ -2793,20 +2793,20 @@ class CodeCommit {
 
   /// Retrieves a list of commits and changes to a specified file.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidContinuationTokenException].
-  /// May throw [InvalidMaxResultsException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [CommitRequiredException].
-  /// May throw [InvalidCommitException].
   /// May throw [CommitDoesNotExistException].
+  /// May throw [CommitRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [filePath] :
   /// The full path of the file whose history you want to retrieve, including
@@ -2859,19 +2859,19 @@ class CodeCommit {
   /// Returns a list of pull requests for a specified repository. The return
   /// list can be refined by pull request status or pull request author ARN.
   ///
-  /// May throw [InvalidPullRequestStatusException].
-  /// May throw [InvalidAuthorArnException].
   /// May throw [AuthorDoesNotExistException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidMaxResultsException].
-  /// May throw [InvalidContinuationTokenException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidAuthorArnException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
+  /// May throw [InvalidPullRequestStatusException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository for which you want to list pull requests.
@@ -2924,9 +2924,9 @@ class CodeCommit {
 
   /// Gets information about one or more repositories.
   ///
-  /// May throw [InvalidSortByException].
-  /// May throw [InvalidOrderException].
   /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidOrderException].
+  /// May throw [InvalidSortByException].
   ///
   /// Parameter [nextToken] :
   /// An enumeration token that allows the operation to batch the results of the
@@ -2967,16 +2967,16 @@ class CodeCommit {
   /// Lists all repositories associated with the specified approval rule
   /// template.
   ///
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
-  /// May throw [InvalidApprovalRuleTemplateNameException].
   /// May throw [ApprovalRuleTemplateDoesNotExistException].
-  /// May throw [InvalidMaxResultsException].
-  /// May throw [InvalidContinuationTokenException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
+  /// May throw [InvalidContinuationTokenException].
+  /// May throw [InvalidMaxResultsException].
   ///
   /// Parameter [approvalRuleTemplateName] :
   /// The name of the approval rule template for which you want to list
@@ -3023,10 +3023,10 @@ class CodeCommit {
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats">CodeCommit
   /// Resources and Operations</a> in the<i> CodeCommit User Guide</i>.
   ///
-  /// May throw [RepositoryDoesNotExistException].
   /// May throw [InvalidRepositoryNameException].
-  /// May throw [ResourceArnRequiredException].
   /// May throw [InvalidResourceArnException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [ResourceArnRequiredException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource for which you want to get
@@ -3060,25 +3060,25 @@ class CodeCommit {
 
   /// Merges two branches using the fast-forward merge strategy.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [CommitRequiredException].
-  /// May throw [InvalidCommitException].
-  /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidTargetBranchException].
-  /// May throw [InvalidBranchNameException].
-  /// May throw [BranchNameRequiredException].
-  /// May throw [BranchNameIsTagNameException].
   /// May throw [BranchDoesNotExistException].
-  /// May throw [ManualMergeRequiredException].
+  /// May throw [BranchNameIsTagNameException].
+  /// May throw [BranchNameRequiredException].
+  /// May throw [CommitDoesNotExistException].
+  /// May throw [CommitRequiredException].
   /// May throw [ConcurrentReferenceUpdateException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [InvalidTargetBranchException].
+  /// May throw [ManualMergeRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -3122,45 +3122,45 @@ class CodeCommit {
 
   /// Merges two branches using the squash merge strategy.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [CommitRequiredException].
-  /// May throw [InvalidCommitException].
-  /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidTargetBranchException].
-  /// May throw [InvalidBranchNameException].
-  /// May throw [BranchNameRequiredException].
-  /// May throw [BranchNameIsTagNameException].
   /// May throw [BranchDoesNotExistException].
-  /// May throw [ManualMergeRequiredException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [InvalidConflictResolutionException].
-  /// May throw [MaximumConflictResolutionEntriesExceededException].
-  /// May throw [MultipleConflictResolutionEntriesException].
-  /// May throw [ReplacementTypeRequiredException].
-  /// May throw [InvalidReplacementTypeException].
-  /// May throw [ReplacementContentRequiredException].
-  /// May throw [InvalidReplacementContentException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [FileContentSizeLimitExceededException].
-  /// May throw [FolderContentSizeLimitExceededException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
-  /// May throw [FileModeRequiredException].
-  /// May throw [InvalidFileModeException].
-  /// May throw [NameLengthExceededException].
-  /// May throw [InvalidEmailException].
+  /// May throw [BranchNameIsTagNameException].
+  /// May throw [BranchNameRequiredException].
+  /// May throw [CommitDoesNotExistException].
   /// May throw [CommitMessageLengthExceededException].
+  /// May throw [CommitRequiredException].
   /// May throw [ConcurrentReferenceUpdateException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FileContentSizeLimitExceededException].
+  /// May throw [FileModeRequiredException].
+  /// May throw [FolderContentSizeLimitExceededException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidEmailException].
+  /// May throw [InvalidFileModeException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidReplacementContentException].
+  /// May throw [InvalidReplacementTypeException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [InvalidTargetBranchException].
+  /// May throw [ManualMergeRequiredException].
+  /// May throw [MaximumConflictResolutionEntriesExceededException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [MultipleConflictResolutionEntriesException].
+  /// May throw [NameLengthExceededException].
+  /// May throw [PathRequiredException].
+  /// May throw [ReplacementContentRequiredException].
+  /// May throw [ReplacementTypeRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -3254,45 +3254,45 @@ class CodeCommit {
 
   /// Merges two specified branches using the three-way merge strategy.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [CommitRequiredException].
-  /// May throw [InvalidCommitException].
-  /// May throw [CommitDoesNotExistException].
-  /// May throw [InvalidTargetBranchException].
-  /// May throw [InvalidBranchNameException].
-  /// May throw [BranchNameRequiredException].
-  /// May throw [BranchNameIsTagNameException].
   /// May throw [BranchDoesNotExistException].
-  /// May throw [ManualMergeRequiredException].
-  /// May throw [ConcurrentReferenceUpdateException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [InvalidConflictResolutionException].
-  /// May throw [MaximumConflictResolutionEntriesExceededException].
-  /// May throw [MultipleConflictResolutionEntriesException].
-  /// May throw [ReplacementTypeRequiredException].
-  /// May throw [InvalidReplacementTypeException].
-  /// May throw [ReplacementContentRequiredException].
-  /// May throw [InvalidReplacementContentException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [FileContentSizeLimitExceededException].
-  /// May throw [FolderContentSizeLimitExceededException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
-  /// May throw [FileModeRequiredException].
-  /// May throw [InvalidFileModeException].
-  /// May throw [NameLengthExceededException].
-  /// May throw [InvalidEmailException].
+  /// May throw [BranchNameIsTagNameException].
+  /// May throw [BranchNameRequiredException].
+  /// May throw [CommitDoesNotExistException].
   /// May throw [CommitMessageLengthExceededException].
+  /// May throw [CommitRequiredException].
+  /// May throw [ConcurrentReferenceUpdateException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FileContentSizeLimitExceededException].
+  /// May throw [FileModeRequiredException].
+  /// May throw [FolderContentSizeLimitExceededException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidCommitException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidEmailException].
+  /// May throw [InvalidFileModeException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidReplacementContentException].
+  /// May throw [InvalidReplacementTypeException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [InvalidTargetBranchException].
+  /// May throw [ManualMergeRequiredException].
+  /// May throw [MaximumConflictResolutionEntriesExceededException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [MultipleConflictResolutionEntriesException].
+  /// May throw [NameLengthExceededException].
+  /// May throw [PathRequiredException].
+  /// May throw [ReplacementContentRequiredException].
+  /// May throw [ReplacementTypeRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [destinationCommitSpecifier] :
   /// The branch, tag, HEAD, or other fully qualified reference used to identify
@@ -3389,25 +3389,25 @@ class CodeCommit {
   /// fast-forward merge strategy. If the merge is successful, it closes the
   /// pull request.
   ///
-  /// May throw [ManualMergeRequiredException].
-  /// May throw [PullRequestAlreadyClosedException].
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [TipOfSourceReferenceIsDifferentException].
-  /// May throw [ReferenceDoesNotExistException].
-  /// May throw [InvalidCommitIdException].
-  /// May throw [RepositoryNotAssociatedWithPullRequestException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
   /// May throw [ConcurrentReferenceUpdateException].
-  /// May throw [PullRequestApprovalRulesNotSatisfiedException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [ManualMergeRequiredException].
+  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestApprovalRulesNotSatisfiedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [ReferenceDoesNotExistException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [RepositoryNotAssociatedWithPullRequestException].
+  /// May throw [TipOfSourceReferenceIsDifferentException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request. To get this ID, use
@@ -3451,44 +3451,44 @@ class CodeCommit {
   /// squash merge strategy. If the merge is successful, it closes the pull
   /// request.
   ///
-  /// May throw [PullRequestAlreadyClosedException].
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [InvalidCommitIdException].
-  /// May throw [ManualMergeRequiredException].
-  /// May throw [TipOfSourceReferenceIsDifferentException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [NameLengthExceededException].
-  /// May throw [InvalidEmailException].
   /// May throw [CommitMessageLengthExceededException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [InvalidConflictResolutionException].
-  /// May throw [ReplacementTypeRequiredException].
-  /// May throw [InvalidReplacementTypeException].
-  /// May throw [MultipleConflictResolutionEntriesException].
-  /// May throw [ReplacementContentRequiredException].
-  /// May throw [MaximumConflictResolutionEntriesExceededException].
   /// May throw [ConcurrentReferenceUpdateException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [InvalidFileModeException].
-  /// May throw [InvalidReplacementContentException].
-  /// May throw [FileContentSizeLimitExceededException].
-  /// May throw [FolderContentSizeLimitExceededException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [RepositoryNotAssociatedWithPullRequestException].
-  /// May throw [PullRequestApprovalRulesNotSatisfiedException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FileContentSizeLimitExceededException].
+  /// May throw [FolderContentSizeLimitExceededException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidEmailException].
+  /// May throw [InvalidFileModeException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidReplacementContentException].
+  /// May throw [InvalidReplacementTypeException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [ManualMergeRequiredException].
+  /// May throw [MaximumConflictResolutionEntriesExceededException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [MultipleConflictResolutionEntriesException].
+  /// May throw [NameLengthExceededException].
+  /// May throw [PathRequiredException].
+  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestApprovalRulesNotSatisfiedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [ReplacementContentRequiredException].
+  /// May throw [ReplacementTypeRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [RepositoryNotAssociatedWithPullRequestException].
+  /// May throw [TipOfSourceReferenceIsDifferentException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request. To get this ID, use
@@ -3582,44 +3582,44 @@ class CodeCommit {
   /// three-way merge strategy. If the merge is successful, it closes the pull
   /// request.
   ///
-  /// May throw [PullRequestAlreadyClosedException].
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [InvalidCommitIdException].
-  /// May throw [ManualMergeRequiredException].
-  /// May throw [TipOfSourceReferenceIsDifferentException].
-  /// May throw [TipsDivergenceExceededException].
-  /// May throw [NameLengthExceededException].
-  /// May throw [InvalidEmailException].
   /// May throw [CommitMessageLengthExceededException].
-  /// May throw [InvalidConflictDetailLevelException].
-  /// May throw [InvalidConflictResolutionStrategyException].
-  /// May throw [InvalidConflictResolutionException].
-  /// May throw [ReplacementTypeRequiredException].
-  /// May throw [InvalidReplacementTypeException].
-  /// May throw [MultipleConflictResolutionEntriesException].
-  /// May throw [ReplacementContentRequiredException].
-  /// May throw [MaximumConflictResolutionEntriesExceededException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [InvalidFileModeException].
-  /// May throw [InvalidReplacementContentException].
-  /// May throw [FileContentSizeLimitExceededException].
-  /// May throw [FolderContentSizeLimitExceededException].
-  /// May throw [MaximumFileContentToLoadExceededException].
-  /// May throw [MaximumItemsToCompareExceededException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [RepositoryNotAssociatedWithPullRequestException].
   /// May throw [ConcurrentReferenceUpdateException].
-  /// May throw [PullRequestApprovalRulesNotSatisfiedException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [FileContentSizeLimitExceededException].
+  /// May throw [FolderContentSizeLimitExceededException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidConflictDetailLevelException].
+  /// May throw [InvalidConflictResolutionException].
+  /// May throw [InvalidConflictResolutionStrategyException].
+  /// May throw [InvalidEmailException].
+  /// May throw [InvalidFileModeException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidReplacementContentException].
+  /// May throw [InvalidReplacementTypeException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [ManualMergeRequiredException].
+  /// May throw [MaximumConflictResolutionEntriesExceededException].
+  /// May throw [MaximumFileContentToLoadExceededException].
+  /// May throw [MaximumItemsToCompareExceededException].
+  /// May throw [MultipleConflictResolutionEntriesException].
+  /// May throw [NameLengthExceededException].
+  /// May throw [PathRequiredException].
+  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestApprovalRulesNotSatisfiedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [ReplacementContentRequiredException].
+  /// May throw [ReplacementTypeRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [RepositoryNotAssociatedWithPullRequestException].
+  /// May throw [TipOfSourceReferenceIsDifferentException].
+  /// May throw [TipsDivergenceExceededException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request. To get this ID, use
@@ -3711,21 +3711,21 @@ class CodeCommit {
   /// Sets aside (overrides) all approval rule requirements for a specified pull
   /// request.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidRevisionIdException].
-  /// May throw [RevisionIdRequiredException].
-  /// May throw [InvalidOverrideStatusException].
-  /// May throw [OverrideStatusRequiredException].
-  /// May throw [OverrideAlreadySetException].
-  /// May throw [RevisionNotCurrentException].
-  /// May throw [PullRequestAlreadyClosedException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidOverrideStatusException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRevisionIdException].
+  /// May throw [OverrideAlreadySetException].
+  /// May throw [OverrideStatusRequiredException].
+  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [RevisionIdRequiredException].
+  /// May throw [RevisionNotCurrentException].
   ///
   /// Parameter [overrideStatus] :
   /// Whether you want to set aside approval rule requirements for the pull
@@ -3766,30 +3766,29 @@ class CodeCommit {
 
   /// Posts a comment on the comparison between two commits.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
+  /// May throw [BeforeCommitIdAndAfterCommitIdAreSameException].
   /// May throw [ClientRequestTokenRequiredException].
-  /// May throw [InvalidClientRequestTokenException].
-  /// May throw [IdempotencyParameterMismatchException].
   /// May throw [CommentContentRequiredException].
   /// May throw [CommentContentSizeLimitExceededException].
-  /// May throw [InvalidFileLocationException].
-  /// May throw [InvalidRelativeFileVersionEnumException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidFilePositionException].
+  /// May throw [CommitDoesNotExistException].
   /// May throw [CommitIdRequiredException].
-  /// May throw [InvalidCommitIdException].
-  /// May throw [BeforeCommitIdAndAfterCommitIdAreSameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
-  /// May throw [CommitDoesNotExistException].
+  /// May throw [IdempotencyParameterMismatchException].
+  /// May throw [InvalidClientRequestTokenException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidFileLocationException].
+  /// May throw [InvalidFilePositionException].
   /// May throw [InvalidPathException].
+  /// May throw [InvalidRelativeFileVersionEnumException].
+  /// May throw [InvalidRepositoryNameException].
   /// May throw [PathDoesNotExistException].
   /// May throw [PathRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [afterCommitId] :
   /// To establish the directionality of the comparison, the full commit ID of
@@ -3850,34 +3849,33 @@ class CodeCommit {
 
   /// Posts a comment on a pull request.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [RepositoryNotAssociatedWithPullRequestException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
+  /// May throw [BeforeCommitIdAndAfterCommitIdAreSameException].
   /// May throw [ClientRequestTokenRequiredException].
-  /// May throw [InvalidClientRequestTokenException].
-  /// May throw [IdempotencyParameterMismatchException].
   /// May throw [CommentContentRequiredException].
   /// May throw [CommentContentSizeLimitExceededException].
-  /// May throw [InvalidFileLocationException].
-  /// May throw [InvalidRelativeFileVersionEnumException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidFilePositionException].
+  /// May throw [CommitDoesNotExistException].
   /// May throw [CommitIdRequiredException].
-  /// May throw [InvalidCommitIdException].
-  /// May throw [BeforeCommitIdAndAfterCommitIdAreSameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
-  /// May throw [CommitDoesNotExistException].
+  /// May throw [IdempotencyParameterMismatchException].
+  /// May throw [InvalidClientRequestTokenException].
+  /// May throw [InvalidCommitIdException].
+  /// May throw [InvalidFileLocationException].
+  /// May throw [InvalidFilePositionException].
   /// May throw [InvalidPathException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRelativeFileVersionEnumException].
+  /// May throw [InvalidRepositoryNameException].
   /// May throw [PathDoesNotExistException].
   /// May throw [PathRequiredException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [RepositoryNotAssociatedWithPullRequestException].
   ///
   /// Parameter [afterCommitId] :
   /// The full commit ID of the commit in the source branch that is the current
@@ -3948,12 +3946,12 @@ class CodeCommit {
   /// commits or a pull request.
   ///
   /// May throw [ClientRequestTokenRequiredException].
-  /// May throw [InvalidClientRequestTokenException].
-  /// May throw [IdempotencyParameterMismatchException].
   /// May throw [CommentContentRequiredException].
   /// May throw [CommentContentSizeLimitExceededException].
   /// May throw [CommentDoesNotExistException].
   /// May throw [CommentIdRequiredException].
+  /// May throw [IdempotencyParameterMismatchException].
+  /// May throw [InvalidClientRequestTokenException].
   /// May throw [InvalidCommentIdException].
   ///
   /// Parameter [content] :
@@ -4001,13 +3999,13 @@ class CodeCommit {
   /// reaction for yourself. You cannot add, modify, or delete a reaction for
   /// another user.
   ///
+  /// May throw [CommentDeletedException].
   /// May throw [CommentDoesNotExistException].
   /// May throw [CommentIdRequiredException].
   /// May throw [InvalidCommentIdException].
   /// May throw [InvalidReactionValueException].
-  /// May throw [ReactionValueRequiredException].
   /// May throw [ReactionLimitExceededException].
-  /// May throw [CommentDeletedException].
+  /// May throw [ReactionValueRequiredException].
   ///
   /// Parameter [commentId] :
   /// The ID of the comment to which you want to add or update a reaction.
@@ -4043,36 +4041,36 @@ class CodeCommit {
   /// Adds or updates a file in a branch in an CodeCommit repository, and
   /// generates a commit for the addition in the specified branch.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [ParentCommitIdRequiredException].
-  /// May throw [InvalidParentCommitIdException].
-  /// May throw [ParentCommitDoesNotExistException].
-  /// May throw [ParentCommitIdOutdatedException].
-  /// May throw [FileContentRequiredException].
-  /// May throw [FileContentSizeLimitExceededException].
-  /// May throw [FolderContentSizeLimitExceededException].
-  /// May throw [PathRequiredException].
-  /// May throw [InvalidPathException].
-  /// May throw [BranchNameRequiredException].
-  /// May throw [InvalidBranchNameException].
   /// May throw [BranchDoesNotExistException].
   /// May throw [BranchNameIsTagNameException].
-  /// May throw [InvalidFileModeException].
-  /// May throw [NameLengthExceededException].
-  /// May throw [InvalidEmailException].
+  /// May throw [BranchNameRequiredException].
   /// May throw [CommitMessageLengthExceededException].
-  /// May throw [InvalidDeletionParameterException].
+  /// May throw [DirectoryNameConflictsWithFileNameException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
-  /// May throw [SameFileContentException].
+  /// May throw [FileContentRequiredException].
+  /// May throw [FileContentSizeLimitExceededException].
   /// May throw [FileNameConflictsWithDirectoryNameException].
-  /// May throw [DirectoryNameConflictsWithFileNameException].
   /// May throw [FilePathConflictsWithSubmodulePathException].
+  /// May throw [FolderContentSizeLimitExceededException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidDeletionParameterException].
+  /// May throw [InvalidEmailException].
+  /// May throw [InvalidFileModeException].
+  /// May throw [InvalidParentCommitIdException].
+  /// May throw [InvalidPathException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [NameLengthExceededException].
+  /// May throw [ParentCommitDoesNotExistException].
+  /// May throw [ParentCommitIdOutdatedException].
+  /// May throw [ParentCommitIdRequiredException].
+  /// May throw [PathRequiredException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [SameFileContentException].
   ///
   /// Parameter [branchName] :
   /// The name of the branch where you want to add or update the file. If this
@@ -4155,27 +4153,27 @@ class CodeCommit {
 
   /// Replaces all triggers for a repository. Used to create or delete triggers.
   ///
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryTriggersListRequiredException].
-  /// May throw [MaximumRepositoryTriggersExceededException].
-  /// May throw [InvalidRepositoryTriggerNameException].
-  /// May throw [InvalidRepositoryTriggerDestinationArnException].
-  /// May throw [InvalidRepositoryTriggerRegionException].
-  /// May throw [InvalidRepositoryTriggerCustomDataException].
-  /// May throw [MaximumBranchesExceededException].
-  /// May throw [InvalidRepositoryTriggerBranchNameException].
-  /// May throw [InvalidRepositoryTriggerEventsException].
-  /// May throw [RepositoryTriggerNameRequiredException].
-  /// May throw [RepositoryTriggerDestinationArnRequiredException].
-  /// May throw [RepositoryTriggerBranchNameListRequiredException].
-  /// May throw [RepositoryTriggerEventsListRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [InvalidRepositoryTriggerBranchNameException].
+  /// May throw [InvalidRepositoryTriggerCustomDataException].
+  /// May throw [InvalidRepositoryTriggerDestinationArnException].
+  /// May throw [InvalidRepositoryTriggerEventsException].
+  /// May throw [InvalidRepositoryTriggerNameException].
+  /// May throw [InvalidRepositoryTriggerRegionException].
+  /// May throw [MaximumBranchesExceededException].
+  /// May throw [MaximumRepositoryTriggersExceededException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [RepositoryTriggerBranchNameListRequiredException].
+  /// May throw [RepositoryTriggerDestinationArnRequiredException].
+  /// May throw [RepositoryTriggerEventsListRequiredException].
+  /// May throw [RepositoryTriggerNameRequiredException].
+  /// May throw [RepositoryTriggersListRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository where you want to create or update the trigger.
@@ -4210,15 +4208,15 @@ class CodeCommit {
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats">CodeCommit
   /// Resources and Operations</a> in the <i>CodeCommit User Guide</i>.
   ///
-  /// May throw [RepositoryDoesNotExistException].
   /// May throw [InvalidRepositoryNameException].
-  /// May throw [ResourceArnRequiredException].
   /// May throw [InvalidResourceArnException].
-  /// May throw [TagsMapRequiredException].
-  /// May throw [InvalidTagsMapException].
-  /// May throw [TooManyTagsException].
   /// May throw [InvalidSystemTagUsageException].
+  /// May throw [InvalidTagsMapException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [ResourceArnRequiredException].
   /// May throw [TagPolicyException].
+  /// May throw [TagsMapRequiredException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to which you want to add or
@@ -4252,27 +4250,27 @@ class CodeCommit {
   /// sends data from the last commit. If no data is available, sample data is
   /// generated.
   ///
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [RepositoryTriggersListRequiredException].
-  /// May throw [MaximumRepositoryTriggersExceededException].
-  /// May throw [InvalidRepositoryTriggerNameException].
-  /// May throw [InvalidRepositoryTriggerDestinationArnException].
-  /// May throw [InvalidRepositoryTriggerRegionException].
-  /// May throw [InvalidRepositoryTriggerCustomDataException].
-  /// May throw [MaximumBranchesExceededException].
-  /// May throw [InvalidRepositoryTriggerBranchNameException].
-  /// May throw [InvalidRepositoryTriggerEventsException].
-  /// May throw [RepositoryTriggerNameRequiredException].
-  /// May throw [RepositoryTriggerDestinationArnRequiredException].
-  /// May throw [RepositoryTriggerBranchNameListRequiredException].
-  /// May throw [RepositoryTriggerEventsListRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [InvalidRepositoryTriggerBranchNameException].
+  /// May throw [InvalidRepositoryTriggerCustomDataException].
+  /// May throw [InvalidRepositoryTriggerDestinationArnException].
+  /// May throw [InvalidRepositoryTriggerEventsException].
+  /// May throw [InvalidRepositoryTriggerNameException].
+  /// May throw [InvalidRepositoryTriggerRegionException].
+  /// May throw [MaximumBranchesExceededException].
+  /// May throw [MaximumRepositoryTriggersExceededException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
+  /// May throw [RepositoryTriggerBranchNameListRequiredException].
+  /// May throw [RepositoryTriggerDestinationArnRequiredException].
+  /// May throw [RepositoryTriggerEventsListRequiredException].
+  /// May throw [RepositoryTriggerNameRequiredException].
+  /// May throw [RepositoryTriggersListRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository in which to test the triggers.
@@ -4307,15 +4305,15 @@ class CodeCommit {
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats">CodeCommit
   /// Resources and Operations</a> in the <i>CodeCommit User Guide</i>.
   ///
-  /// May throw [RepositoryDoesNotExistException].
   /// May throw [InvalidRepositoryNameException].
-  /// May throw [ResourceArnRequiredException].
   /// May throw [InvalidResourceArnException].
-  /// May throw [TagKeysListRequiredException].
-  /// May throw [InvalidTagKeysListException].
-  /// May throw [TooManyTagsException].
   /// May throw [InvalidSystemTagUsageException].
+  /// May throw [InvalidTagKeysListException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [ResourceArnRequiredException].
+  /// May throw [TagKeysListRequiredException].
   /// May throw [TagPolicyException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to which you want to remove
@@ -4348,12 +4346,12 @@ class CodeCommit {
   /// number of required approvals, the membership of the approval rule, and
   /// whether an approval pool is defined.
   ///
-  /// May throw [InvalidApprovalRuleTemplateNameException].
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
-  /// May throw [ApprovalRuleTemplateDoesNotExistException].
-  /// May throw [InvalidApprovalRuleTemplateContentException].
-  /// May throw [InvalidRuleContentSha256Exception].
   /// May throw [ApprovalRuleTemplateContentRequiredException].
+  /// May throw [ApprovalRuleTemplateDoesNotExistException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
+  /// May throw [InvalidApprovalRuleTemplateContentException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
+  /// May throw [InvalidRuleContentSha256Exception].
   ///
   /// Parameter [approvalRuleTemplateName] :
   /// The name of the approval rule template where you want to update the
@@ -4395,10 +4393,10 @@ class CodeCommit {
 
   /// Updates the description for a specified approval rule template.
   ///
-  /// May throw [InvalidApprovalRuleTemplateNameException].
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [ApprovalRuleTemplateDoesNotExistException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [InvalidApprovalRuleTemplateDescriptionException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
   ///
   /// Parameter [approvalRuleTemplateDescription] :
   /// The updated description of the approval rule template.
@@ -4433,10 +4431,10 @@ class CodeCommit {
 
   /// Updates the name of a specified approval rule template.
   ///
-  /// May throw [InvalidApprovalRuleTemplateNameException].
-  /// May throw [ApprovalRuleTemplateNameRequiredException].
   /// May throw [ApprovalRuleTemplateDoesNotExistException].
   /// May throw [ApprovalRuleTemplateNameAlreadyExistsException].
+  /// May throw [ApprovalRuleTemplateNameRequiredException].
+  /// May throw [InvalidApprovalRuleTemplateNameException].
   ///
   /// Parameter [newApprovalRuleTemplateName] :
   /// The new name you want to apply to the approval rule template.
@@ -4470,11 +4468,11 @@ class CodeCommit {
   ///
   /// May throw [CommentContentRequiredException].
   /// May throw [CommentContentSizeLimitExceededException].
+  /// May throw [CommentDeletedException].
   /// May throw [CommentDoesNotExistException].
   /// May throw [CommentIdRequiredException].
-  /// May throw [InvalidCommentIdException].
   /// May throw [CommentNotCreatedByCallerException].
-  /// May throw [CommentDeletedException].
+  /// May throw [InvalidCommentIdException].
   ///
   /// Parameter [commentId] :
   /// The system-generated ID of the comment you want to update. To get this ID,
@@ -4513,17 +4511,17 @@ class CodeCommit {
   /// branch did not change.
   /// </note>
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [BranchNameRequiredException].
-  /// May throw [InvalidBranchNameException].
   /// May throw [BranchDoesNotExistException].
+  /// May throw [BranchNameRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidBranchNameException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [defaultBranchName] :
   /// The name of the branch to set as the default branch.
@@ -4556,22 +4554,22 @@ class CodeCommit {
   /// request. For example, you can change the number of required approvers and
   /// the approval pool for approvers.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [PullRequestAlreadyClosedException].
-  /// May throw [ApprovalRuleNameRequiredException].
-  /// May throw [InvalidApprovalRuleNameException].
-  /// May throw [ApprovalRuleDoesNotExistException].
-  /// May throw [InvalidRuleContentSha256Exception].
   /// May throw [ApprovalRuleContentRequiredException].
-  /// May throw [InvalidApprovalRuleContentException].
+  /// May throw [ApprovalRuleDoesNotExistException].
+  /// May throw [ApprovalRuleNameRequiredException].
   /// May throw [CannotModifyApprovalRuleFromTemplateException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalRuleContentException].
+  /// May throw [InvalidApprovalRuleNameException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRuleContentSha256Exception].
+  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
   ///
   /// Parameter [approvalRuleName] :
   /// The name of the approval rule you want to update.
@@ -4656,22 +4654,22 @@ class CodeCommit {
   /// Updates the state of a user's approval on a pull request. The user is
   /// derived from the signed-in account when the request is made.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidRevisionIdException].
-  /// May throw [RevisionIdRequiredException].
-  /// May throw [InvalidApprovalStateException].
   /// May throw [ApprovalStateRequiredException].
-  /// May throw [PullRequestCannotBeApprovedByAuthorException].
-  /// May throw [RevisionNotCurrentException].
-  /// May throw [PullRequestAlreadyClosedException].
-  /// May throw [MaximumNumberOfApprovalsExceededException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidApprovalStateException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidRevisionIdException].
+  /// May throw [MaximumNumberOfApprovalsExceededException].
+  /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestCannotBeApprovedByAuthorException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [RevisionIdRequiredException].
+  /// May throw [RevisionNotCurrentException].
   ///
   /// Parameter [approvalState] :
   /// The approval state to associate with the user on the pull request.
@@ -4706,11 +4704,11 @@ class CodeCommit {
 
   /// Replaces the contents of the description of a pull request.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
   /// May throw [InvalidDescriptionException].
+  /// May throw [InvalidPullRequestIdException].
   /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
   ///
   /// Parameter [description] :
   /// The updated content of the description for the pull request. This content
@@ -4744,17 +4742,17 @@ class CodeCommit {
 
   /// Updates the status of a pull request.
   ///
-  /// May throw [PullRequestDoesNotExistException].
-  /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [InvalidPullRequestStatusUpdateException].
-  /// May throw [InvalidPullRequestStatusException].
-  /// May throw [PullRequestStatusRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidPullRequestIdException].
+  /// May throw [InvalidPullRequestStatusException].
+  /// May throw [InvalidPullRequestStatusUpdateException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [PullRequestStatusRequiredException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request. To get this ID, use
@@ -4789,12 +4787,12 @@ class CodeCommit {
 
   /// Replaces the title of a pull request.
   ///
-  /// May throw [PullRequestDoesNotExistException].
   /// May throw [InvalidPullRequestIdException].
-  /// May throw [PullRequestIdRequiredException].
-  /// May throw [TitleRequiredException].
   /// May throw [InvalidTitleException].
   /// May throw [PullRequestAlreadyClosedException].
+  /// May throw [PullRequestDoesNotExistException].
+  /// May throw [PullRequestIdRequiredException].
+  /// May throw [TitleRequiredException].
   ///
   /// Parameter [pullRequestId] :
   /// The system-generated ID of the pull request. To get this ID, use
@@ -4835,15 +4833,15 @@ class CodeCommit {
   /// on a webpage.
   /// </note>
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [InvalidRepositoryDescriptionException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
   /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryDescriptionException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository to set or change the comment or description
@@ -4877,17 +4875,17 @@ class CodeCommit {
   /// Updates the Key Management Service encryption key used to encrypt and
   /// decrypt a CodeCommit repository.
   ///
-  /// May throw [RepositoryNameRequiredException].
-  /// May throw [RepositoryDoesNotExistException].
-  /// May throw [InvalidRepositoryNameException].
-  /// May throw [EncryptionKeyRequiredException].
   /// May throw [EncryptionIntegrityChecksFailedException].
   /// May throw [EncryptionKeyAccessDeniedException].
+  /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyInvalidIdException].
   /// May throw [EncryptionKeyInvalidUsageException].
-  /// May throw [EncryptionKeyDisabledException].
   /// May throw [EncryptionKeyNotFoundException].
+  /// May throw [EncryptionKeyRequiredException].
   /// May throw [EncryptionKeyUnavailableException].
+  /// May throw [InvalidRepositoryNameException].
+  /// May throw [RepositoryDoesNotExistException].
+  /// May throw [RepositoryNameRequiredException].
   ///
   /// Parameter [kmsKeyId] :
   /// The ID of the encryption key. You can view the ID of an encryption key in
@@ -4931,10 +4929,10 @@ class CodeCommit {
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html">Quotas</a>
   /// in the CodeCommit User Guide.
   ///
+  /// May throw [InvalidRepositoryNameException].
   /// May throw [RepositoryDoesNotExistException].
   /// May throw [RepositoryNameExistsException].
   /// May throw [RepositoryNameRequiredException].
-  /// May throw [InvalidRepositoryNameException].
   ///
   /// Parameter [newName] :
   /// The new name for the repository.
@@ -4960,368 +4958,6 @@ class CodeCommit {
         'oldName': oldName,
       },
     );
-  }
-}
-
-/// Returns information about a specific approval on a pull request.
-class Approval {
-  /// The state of the approval, APPROVE or REVOKE. REVOKE states are not stored.
-  final ApprovalState? approvalState;
-
-  /// The Amazon Resource Name (ARN) of the user.
-  final String? userArn;
-
-  Approval({
-    this.approvalState,
-    this.userArn,
-  });
-
-  factory Approval.fromJson(Map<String, dynamic> json) {
-    return Approval(
-      approvalState:
-          (json['approvalState'] as String?)?.let(ApprovalState.fromString),
-      userArn: json['userArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approvalState = this.approvalState;
-    final userArn = this.userArn;
-    return {
-      if (approvalState != null) 'approvalState': approvalState.value,
-      if (userArn != null) 'userArn': userArn,
-    };
-  }
-}
-
-/// Returns information about an approval rule.
-class ApprovalRule {
-  /// The content of the approval rule.
-  final String? approvalRuleContent;
-
-  /// The system-generated ID of the approval rule.
-  final String? approvalRuleId;
-
-  /// The name of the approval rule.
-  final String? approvalRuleName;
-
-  /// The date the approval rule was created, in timestamp format.
-  final DateTime? creationDate;
-
-  /// The date the approval rule was most recently changed, in timestamp format.
-  final DateTime? lastModifiedDate;
-
-  /// The Amazon Resource Name (ARN) of the user who made the most recent changes
-  /// to the approval rule.
-  final String? lastModifiedUser;
-
-  /// The approval rule template used to create the rule.
-  final OriginApprovalRuleTemplate? originApprovalRuleTemplate;
-
-  /// The SHA-256 hash signature for the content of the approval rule.
-  final String? ruleContentSha256;
-
-  ApprovalRule({
-    this.approvalRuleContent,
-    this.approvalRuleId,
-    this.approvalRuleName,
-    this.creationDate,
-    this.lastModifiedDate,
-    this.lastModifiedUser,
-    this.originApprovalRuleTemplate,
-    this.ruleContentSha256,
-  });
-
-  factory ApprovalRule.fromJson(Map<String, dynamic> json) {
-    return ApprovalRule(
-      approvalRuleContent: json['approvalRuleContent'] as String?,
-      approvalRuleId: json['approvalRuleId'] as String?,
-      approvalRuleName: json['approvalRuleName'] as String?,
-      creationDate: timeStampFromJson(json['creationDate']),
-      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
-      lastModifiedUser: json['lastModifiedUser'] as String?,
-      originApprovalRuleTemplate: json['originApprovalRuleTemplate'] != null
-          ? OriginApprovalRuleTemplate.fromJson(
-              json['originApprovalRuleTemplate'] as Map<String, dynamic>)
-          : null,
-      ruleContentSha256: json['ruleContentSha256'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approvalRuleContent = this.approvalRuleContent;
-    final approvalRuleId = this.approvalRuleId;
-    final approvalRuleName = this.approvalRuleName;
-    final creationDate = this.creationDate;
-    final lastModifiedDate = this.lastModifiedDate;
-    final lastModifiedUser = this.lastModifiedUser;
-    final originApprovalRuleTemplate = this.originApprovalRuleTemplate;
-    final ruleContentSha256 = this.ruleContentSha256;
-    return {
-      if (approvalRuleContent != null)
-        'approvalRuleContent': approvalRuleContent,
-      if (approvalRuleId != null) 'approvalRuleId': approvalRuleId,
-      if (approvalRuleName != null) 'approvalRuleName': approvalRuleName,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (lastModifiedDate != null)
-        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (lastModifiedUser != null) 'lastModifiedUser': lastModifiedUser,
-      if (originApprovalRuleTemplate != null)
-        'originApprovalRuleTemplate': originApprovalRuleTemplate,
-      if (ruleContentSha256 != null) 'ruleContentSha256': ruleContentSha256,
-    };
-  }
-}
-
-/// Returns information about an event for an approval rule.
-class ApprovalRuleEventMetadata {
-  /// The content of the approval rule.
-  final String? approvalRuleContent;
-
-  /// The system-generated ID of the approval rule.
-  final String? approvalRuleId;
-
-  /// The name of the approval rule.
-  final String? approvalRuleName;
-
-  ApprovalRuleEventMetadata({
-    this.approvalRuleContent,
-    this.approvalRuleId,
-    this.approvalRuleName,
-  });
-
-  factory ApprovalRuleEventMetadata.fromJson(Map<String, dynamic> json) {
-    return ApprovalRuleEventMetadata(
-      approvalRuleContent: json['approvalRuleContent'] as String?,
-      approvalRuleId: json['approvalRuleId'] as String?,
-      approvalRuleName: json['approvalRuleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approvalRuleContent = this.approvalRuleContent;
-    final approvalRuleId = this.approvalRuleId;
-    final approvalRuleName = this.approvalRuleName;
-    return {
-      if (approvalRuleContent != null)
-        'approvalRuleContent': approvalRuleContent,
-      if (approvalRuleId != null) 'approvalRuleId': approvalRuleId,
-      if (approvalRuleName != null) 'approvalRuleName': approvalRuleName,
-    };
-  }
-}
-
-/// Returns information about an override event for approval rules for a pull
-/// request.
-class ApprovalRuleOverriddenEventMetadata {
-  /// The status of the override event.
-  final OverrideStatus? overrideStatus;
-
-  /// The revision ID of the pull request when the override event occurred.
-  final String? revisionId;
-
-  ApprovalRuleOverriddenEventMetadata({
-    this.overrideStatus,
-    this.revisionId,
-  });
-
-  factory ApprovalRuleOverriddenEventMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return ApprovalRuleOverriddenEventMetadata(
-      overrideStatus:
-          (json['overrideStatus'] as String?)?.let(OverrideStatus.fromString),
-      revisionId: json['revisionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final overrideStatus = this.overrideStatus;
-    final revisionId = this.revisionId;
-    return {
-      if (overrideStatus != null) 'overrideStatus': overrideStatus.value,
-      if (revisionId != null) 'revisionId': revisionId,
-    };
-  }
-}
-
-/// Returns information about an approval rule template.
-class ApprovalRuleTemplate {
-  /// The content of the approval rule template.
-  final String? approvalRuleTemplateContent;
-
-  /// The description of the approval rule template.
-  final String? approvalRuleTemplateDescription;
-
-  /// The system-generated ID of the approval rule template.
-  final String? approvalRuleTemplateId;
-
-  /// The name of the approval rule template.
-  final String? approvalRuleTemplateName;
-
-  /// The date the approval rule template was created, in timestamp format.
-  final DateTime? creationDate;
-
-  /// The date the approval rule template was most recently changed, in timestamp
-  /// format.
-  final DateTime? lastModifiedDate;
-
-  /// The Amazon Resource Name (ARN) of the user who made the most recent changes
-  /// to the approval rule template.
-  final String? lastModifiedUser;
-
-  /// The SHA-256 hash signature for the content of the approval rule template.
-  final String? ruleContentSha256;
-
-  ApprovalRuleTemplate({
-    this.approvalRuleTemplateContent,
-    this.approvalRuleTemplateDescription,
-    this.approvalRuleTemplateId,
-    this.approvalRuleTemplateName,
-    this.creationDate,
-    this.lastModifiedDate,
-    this.lastModifiedUser,
-    this.ruleContentSha256,
-  });
-
-  factory ApprovalRuleTemplate.fromJson(Map<String, dynamic> json) {
-    return ApprovalRuleTemplate(
-      approvalRuleTemplateContent:
-          json['approvalRuleTemplateContent'] as String?,
-      approvalRuleTemplateDescription:
-          json['approvalRuleTemplateDescription'] as String?,
-      approvalRuleTemplateId: json['approvalRuleTemplateId'] as String?,
-      approvalRuleTemplateName: json['approvalRuleTemplateName'] as String?,
-      creationDate: timeStampFromJson(json['creationDate']),
-      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
-      lastModifiedUser: json['lastModifiedUser'] as String?,
-      ruleContentSha256: json['ruleContentSha256'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approvalRuleTemplateContent = this.approvalRuleTemplateContent;
-    final approvalRuleTemplateDescription =
-        this.approvalRuleTemplateDescription;
-    final approvalRuleTemplateId = this.approvalRuleTemplateId;
-    final approvalRuleTemplateName = this.approvalRuleTemplateName;
-    final creationDate = this.creationDate;
-    final lastModifiedDate = this.lastModifiedDate;
-    final lastModifiedUser = this.lastModifiedUser;
-    final ruleContentSha256 = this.ruleContentSha256;
-    return {
-      if (approvalRuleTemplateContent != null)
-        'approvalRuleTemplateContent': approvalRuleTemplateContent,
-      if (approvalRuleTemplateDescription != null)
-        'approvalRuleTemplateDescription': approvalRuleTemplateDescription,
-      if (approvalRuleTemplateId != null)
-        'approvalRuleTemplateId': approvalRuleTemplateId,
-      if (approvalRuleTemplateName != null)
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (lastModifiedDate != null)
-        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (lastModifiedUser != null) 'lastModifiedUser': lastModifiedUser,
-      if (ruleContentSha256 != null) 'ruleContentSha256': ruleContentSha256,
-    };
-  }
-}
-
-class ApprovalState {
-  static const approve = ApprovalState._('APPROVE');
-  static const revoke = ApprovalState._('REVOKE');
-
-  final String value;
-
-  const ApprovalState._(this.value);
-
-  static const values = [approve, revoke];
-
-  static ApprovalState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApprovalState._(value));
-
-  @override
-  bool operator ==(other) => other is ApprovalState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns information about a change in the approval state for a pull request.
-class ApprovalStateChangedEventMetadata {
-  /// The approval status for the pull request.
-  final ApprovalState? approvalStatus;
-
-  /// The revision ID of the pull request when the approval state changed.
-  final String? revisionId;
-
-  ApprovalStateChangedEventMetadata({
-    this.approvalStatus,
-    this.revisionId,
-  });
-
-  factory ApprovalStateChangedEventMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return ApprovalStateChangedEventMetadata(
-      approvalStatus:
-          (json['approvalStatus'] as String?)?.let(ApprovalState.fromString),
-      revisionId: json['revisionId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approvalStatus = this.approvalStatus;
-    final revisionId = this.revisionId;
-    return {
-      if (approvalStatus != null) 'approvalStatus': approvalStatus.value,
-      if (revisionId != null) 'revisionId': revisionId,
-    };
-  }
-}
-
-/// Returns information about errors in a
-/// BatchAssociateApprovalRuleTemplateWithRepositories operation.
-class BatchAssociateApprovalRuleTemplateWithRepositoriesError {
-  /// An error code that specifies whether the repository name was not valid or
-  /// not found.
-  final String? errorCode;
-
-  /// An error message that provides details about why the repository name was not
-  /// found or not valid.
-  final String? errorMessage;
-
-  /// The name of the repository where the association was not made.
-  final String? repositoryName;
-
-  BatchAssociateApprovalRuleTemplateWithRepositoriesError({
-    this.errorCode,
-    this.errorMessage,
-    this.repositoryName,
-  });
-
-  factory BatchAssociateApprovalRuleTemplateWithRepositoriesError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchAssociateApprovalRuleTemplateWithRepositoriesError(
-      errorCode: json['errorCode'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final repositoryName = this.repositoryName;
-    return {
-      if (errorCode != null) 'errorCode': errorCode,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
   }
 }
 
@@ -5362,43 +4998,6 @@ class BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
     return {
       'associatedRepositoryNames': associatedRepositoryNames,
       'errors': errors,
-    };
-  }
-}
-
-/// Returns information about errors in a BatchDescribeMergeConflicts operation.
-class BatchDescribeMergeConflictsError {
-  /// The name of the exception.
-  final String exceptionName;
-
-  /// The path to the file.
-  final String filePath;
-
-  /// The message provided by the exception.
-  final String message;
-
-  BatchDescribeMergeConflictsError({
-    required this.exceptionName,
-    required this.filePath,
-    required this.message,
-  });
-
-  factory BatchDescribeMergeConflictsError.fromJson(Map<String, dynamic> json) {
-    return BatchDescribeMergeConflictsError(
-      exceptionName: (json['exceptionName'] as String?) ?? '',
-      filePath: (json['filePath'] as String?) ?? '',
-      message: (json['message'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exceptionName = this.exceptionName;
-    final filePath = this.filePath;
-    final message = this.message;
-    return {
-      'exceptionName': exceptionName,
-      'filePath': filePath,
-      'message': message,
     };
   }
 }
@@ -5473,48 +5072,6 @@ class BatchDescribeMergeConflictsOutput {
   }
 }
 
-/// Returns information about errors in a
-/// BatchDisassociateApprovalRuleTemplateFromRepositories operation.
-class BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
-  /// An error code that specifies whether the repository name was not valid or
-  /// not found.
-  final String? errorCode;
-
-  /// An error message that provides details about why the repository name was
-  /// either not found or not valid.
-  final String? errorMessage;
-
-  /// The name of the repository where the association with the template was not
-  /// able to be removed.
-  final String? repositoryName;
-
-  BatchDisassociateApprovalRuleTemplateFromRepositoriesError({
-    this.errorCode,
-    this.errorMessage,
-    this.repositoryName,
-  });
-
-  factory BatchDisassociateApprovalRuleTemplateFromRepositoriesError.fromJson(
-      Map<String, dynamic> json) {
-    return BatchDisassociateApprovalRuleTemplateFromRepositoriesError(
-      errorCode: json['errorCode'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final repositoryName = this.repositoryName;
-    return {
-      if (errorCode != null) 'errorCode': errorCode,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
 class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
   /// A list of repository names that have had their association with the template
   /// removed.
@@ -5551,45 +5108,6 @@ class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
     return {
       'disassociatedRepositoryNames': disassociatedRepositoryNames,
       'errors': errors,
-    };
-  }
-}
-
-/// Returns information about errors in a BatchGetCommits operation.
-class BatchGetCommitsError {
-  /// A commit ID that either could not be found or was not in a valid format.
-  final String? commitId;
-
-  /// An error code that specifies whether the commit ID was not valid or not
-  /// found.
-  final String? errorCode;
-
-  /// An error message that provides detail about why the commit ID either was not
-  /// found or was not valid.
-  final String? errorMessage;
-
-  BatchGetCommitsError({
-    this.commitId,
-    this.errorCode,
-    this.errorMessage,
-  });
-
-  factory BatchGetCommitsError.fromJson(Map<String, dynamic> json) {
-    return BatchGetCommitsError(
-      commitId: json['commitId'] as String?,
-      errorCode: json['errorCode'] as String?,
-      errorMessage: json['errorMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final commitId = this.commitId;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      if (commitId != null) 'commitId': commitId,
-      if (errorCode != null) 'errorCode': errorCode,
-      if (errorMessage != null) 'errorMessage': errorMessage,
     };
   }
 }
@@ -5631,97 +5149,6 @@ class BatchGetCommitsOutput {
       if (errors != null) 'errors': errors,
     };
   }
-}
-
-/// Returns information about errors in a BatchGetRepositories operation.
-class BatchGetRepositoriesError {
-  /// An error code that specifies the type of failure.
-  final BatchGetRepositoriesErrorCodeEnum? errorCode;
-
-  /// An error message that provides detail about why the repository either was
-  /// not found or was not in a valid state.
-  final String? errorMessage;
-
-  /// The ID of a repository that either could not be found or was not in a valid
-  /// state.
-  final String? repositoryId;
-
-  /// The name of a repository that either could not be found or was not in a
-  /// valid state.
-  final String? repositoryName;
-
-  BatchGetRepositoriesError({
-    this.errorCode,
-    this.errorMessage,
-    this.repositoryId,
-    this.repositoryName,
-  });
-
-  factory BatchGetRepositoriesError.fromJson(Map<String, dynamic> json) {
-    return BatchGetRepositoriesError(
-      errorCode: (json['errorCode'] as String?)
-          ?.let(BatchGetRepositoriesErrorCodeEnum.fromString),
-      errorMessage: json['errorMessage'] as String?,
-      repositoryId: json['repositoryId'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final repositoryId = this.repositoryId;
-    final repositoryName = this.repositoryName;
-    return {
-      if (errorCode != null) 'errorCode': errorCode.value,
-      if (errorMessage != null) 'errorMessage': errorMessage,
-      if (repositoryId != null) 'repositoryId': repositoryId,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-class BatchGetRepositoriesErrorCodeEnum {
-  static const encryptionIntegrityChecksFailedException =
-      BatchGetRepositoriesErrorCodeEnum._(
-          'EncryptionIntegrityChecksFailedException');
-  static const encryptionKeyAccessDeniedException =
-      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyAccessDeniedException');
-  static const encryptionKeyDisabledException =
-      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyDisabledException');
-  static const encryptionKeyNotFoundException =
-      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyNotFoundException');
-  static const encryptionKeyUnavailableException =
-      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyUnavailableException');
-  static const repositoryDoesNotExistException =
-      BatchGetRepositoriesErrorCodeEnum._('RepositoryDoesNotExistException');
-
-  final String value;
-
-  const BatchGetRepositoriesErrorCodeEnum._(this.value);
-
-  static const values = [
-    encryptionIntegrityChecksFailedException,
-    encryptionKeyAccessDeniedException,
-    encryptionKeyDisabledException,
-    encryptionKeyNotFoundException,
-    encryptionKeyUnavailableException,
-    repositoryDoesNotExistException
-  ];
-
-  static BatchGetRepositoriesErrorCodeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchGetRepositoriesErrorCodeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchGetRepositoriesErrorCodeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Represents the output of a batch get repositories operation.
@@ -5771,680 +5198,6 @@ class BatchGetRepositoriesOutput {
         'repositoriesNotFound': repositoriesNotFound,
     };
   }
-}
-
-/// Returns information about a specific Git blob object.
-class BlobMetadata {
-  /// The full ID of the blob.
-  final String? blobId;
-
-  /// The file mode permissions of the blob. File mode permission codes include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>100644</code> indicates read/write
-  /// </li>
-  /// <li>
-  /// <code>100755</code> indicates read/write/execute
-  /// </li>
-  /// <li>
-  /// <code>160000</code> indicates a submodule
-  /// </li>
-  /// <li>
-  /// <code>120000</code> indicates a symlink
-  /// </li>
-  /// </ul>
-  final String? mode;
-
-  /// The path to the blob and associated file name, if any.
-  final String? path;
-
-  BlobMetadata({
-    this.blobId,
-    this.mode,
-    this.path,
-  });
-
-  factory BlobMetadata.fromJson(Map<String, dynamic> json) {
-    return BlobMetadata(
-      blobId: json['blobId'] as String?,
-      mode: json['mode'] as String?,
-      path: json['path'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blobId = this.blobId;
-    final mode = this.mode;
-    final path = this.path;
-    return {
-      if (blobId != null) 'blobId': blobId,
-      if (mode != null) 'mode': mode,
-      if (path != null) 'path': path,
-    };
-  }
-}
-
-/// Returns information about a branch.
-class BranchInfo {
-  /// The name of the branch.
-  final String? branchName;
-
-  /// The ID of the last commit made to the branch.
-  final String? commitId;
-
-  BranchInfo({
-    this.branchName,
-    this.commitId,
-  });
-
-  factory BranchInfo.fromJson(Map<String, dynamic> json) {
-    return BranchInfo(
-      branchName: json['branchName'] as String?,
-      commitId: json['commitId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final branchName = this.branchName;
-    final commitId = this.commitId;
-    return {
-      if (branchName != null) 'branchName': branchName,
-      if (commitId != null) 'commitId': commitId,
-    };
-  }
-}
-
-class ChangeTypeEnum {
-  static const a = ChangeTypeEnum._('A');
-  static const m = ChangeTypeEnum._('M');
-  static const d = ChangeTypeEnum._('D');
-
-  final String value;
-
-  const ChangeTypeEnum._(this.value);
-
-  static const values = [a, m, d];
-
-  static ChangeTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ChangeTypeEnum._(value));
-
-  @override
-  bool operator ==(other) => other is ChangeTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns information about a specific comment.
-class Comment {
-  /// The Amazon Resource Name (ARN) of the person who posted the comment.
-  final String? authorArn;
-
-  /// The emoji reactions to a comment, if any, submitted by the user whose
-  /// credentials are associated with the call to the API.
-  final List<String>? callerReactions;
-
-  /// A unique, client-generated idempotency token that, when provided in a
-  /// request, ensures the request cannot be repeated with a changed parameter. If
-  /// a request is received with the same parameters and a token is included, the
-  /// request returns information about the initial request that used that token.
-  final String? clientRequestToken;
-
-  /// The system-generated comment ID.
-  final String? commentId;
-
-  /// The content of the comment.
-  final String? content;
-
-  /// The date and time the comment was created, in timestamp format.
-  final DateTime? creationDate;
-
-  /// A Boolean value indicating whether the comment has been deleted.
-  final bool? deleted;
-
-  /// The ID of the comment for which this comment is a reply, if any.
-  final String? inReplyTo;
-
-  /// The date and time the comment was most recently modified, in timestamp
-  /// format.
-  final DateTime? lastModifiedDate;
-
-  /// A string to integer map that represents the number of individual users who
-  /// have responded to a comment with the specified reactions.
-  final Map<String, int>? reactionCounts;
-
-  Comment({
-    this.authorArn,
-    this.callerReactions,
-    this.clientRequestToken,
-    this.commentId,
-    this.content,
-    this.creationDate,
-    this.deleted,
-    this.inReplyTo,
-    this.lastModifiedDate,
-    this.reactionCounts,
-  });
-
-  factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment(
-      authorArn: json['authorArn'] as String?,
-      callerReactions: (json['callerReactions'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      clientRequestToken: json['clientRequestToken'] as String?,
-      commentId: json['commentId'] as String?,
-      content: json['content'] as String?,
-      creationDate: timeStampFromJson(json['creationDate']),
-      deleted: json['deleted'] as bool?,
-      inReplyTo: json['inReplyTo'] as String?,
-      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
-      reactionCounts: (json['reactionCounts'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as int)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorArn = this.authorArn;
-    final callerReactions = this.callerReactions;
-    final clientRequestToken = this.clientRequestToken;
-    final commentId = this.commentId;
-    final content = this.content;
-    final creationDate = this.creationDate;
-    final deleted = this.deleted;
-    final inReplyTo = this.inReplyTo;
-    final lastModifiedDate = this.lastModifiedDate;
-    final reactionCounts = this.reactionCounts;
-    return {
-      if (authorArn != null) 'authorArn': authorArn,
-      if (callerReactions != null) 'callerReactions': callerReactions,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (commentId != null) 'commentId': commentId,
-      if (content != null) 'content': content,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (deleted != null) 'deleted': deleted,
-      if (inReplyTo != null) 'inReplyTo': inReplyTo,
-      if (lastModifiedDate != null)
-        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (reactionCounts != null) 'reactionCounts': reactionCounts,
-    };
-  }
-}
-
-/// Returns information about comments on the comparison between two commits.
-class CommentsForComparedCommit {
-  /// The full blob ID of the commit used to establish the after of the
-  /// comparison.
-  final String? afterBlobId;
-
-  /// The full commit ID of the commit used to establish the after of the
-  /// comparison.
-  final String? afterCommitId;
-
-  /// The full blob ID of the commit used to establish the before of the
-  /// comparison.
-  final String? beforeBlobId;
-
-  /// The full commit ID of the commit used to establish the before of the
-  /// comparison.
-  final String? beforeCommitId;
-
-  /// An array of comment objects. Each comment object contains information about
-  /// a comment on the comparison between commits.
-  final List<Comment>? comments;
-
-  /// Location information about the comment on the comparison, including the file
-  /// name, line number, and whether the version of the file where the comment was
-  /// made is BEFORE or AFTER.
-  final Location? location;
-
-  /// The name of the repository that contains the compared commits.
-  final String? repositoryName;
-
-  CommentsForComparedCommit({
-    this.afterBlobId,
-    this.afterCommitId,
-    this.beforeBlobId,
-    this.beforeCommitId,
-    this.comments,
-    this.location,
-    this.repositoryName,
-  });
-
-  factory CommentsForComparedCommit.fromJson(Map<String, dynamic> json) {
-    return CommentsForComparedCommit(
-      afterBlobId: json['afterBlobId'] as String?,
-      afterCommitId: json['afterCommitId'] as String?,
-      beforeBlobId: json['beforeBlobId'] as String?,
-      beforeCommitId: json['beforeCommitId'] as String?,
-      comments: (json['comments'] as List?)
-          ?.nonNulls
-          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      location: json['location'] != null
-          ? Location.fromJson(json['location'] as Map<String, dynamic>)
-          : null,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final afterBlobId = this.afterBlobId;
-    final afterCommitId = this.afterCommitId;
-    final beforeBlobId = this.beforeBlobId;
-    final beforeCommitId = this.beforeCommitId;
-    final comments = this.comments;
-    final location = this.location;
-    final repositoryName = this.repositoryName;
-    return {
-      if (afterBlobId != null) 'afterBlobId': afterBlobId,
-      if (afterCommitId != null) 'afterCommitId': afterCommitId,
-      if (beforeBlobId != null) 'beforeBlobId': beforeBlobId,
-      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
-      if (comments != null) 'comments': comments,
-      if (location != null) 'location': location,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-/// Returns information about comments on a pull request.
-class CommentsForPullRequest {
-  /// The full blob ID of the file on which you want to comment on the source
-  /// commit.
-  final String? afterBlobId;
-
-  /// The full commit ID of the commit that was the tip of the source branch at
-  /// the time the comment was made.
-  final String? afterCommitId;
-
-  /// The full blob ID of the file on which you want to comment on the destination
-  /// commit.
-  final String? beforeBlobId;
-
-  /// The full commit ID of the commit that was the tip of the destination branch
-  /// when the pull request was created. This commit is superceded by the after
-  /// commit in the source branch when and if you merge the source branch into the
-  /// destination branch.
-  final String? beforeCommitId;
-
-  /// An array of comment objects. Each comment object contains information about
-  /// a comment on the pull request.
-  final List<Comment>? comments;
-
-  /// Location information about the comment on the pull request, including the
-  /// file name, line number, and whether the version of the file where the
-  /// comment was made is BEFORE (destination branch) or AFTER (source branch).
-  final Location? location;
-
-  /// The system-generated ID of the pull request.
-  final String? pullRequestId;
-
-  /// The name of the repository that contains the pull request.
-  final String? repositoryName;
-
-  CommentsForPullRequest({
-    this.afterBlobId,
-    this.afterCommitId,
-    this.beforeBlobId,
-    this.beforeCommitId,
-    this.comments,
-    this.location,
-    this.pullRequestId,
-    this.repositoryName,
-  });
-
-  factory CommentsForPullRequest.fromJson(Map<String, dynamic> json) {
-    return CommentsForPullRequest(
-      afterBlobId: json['afterBlobId'] as String?,
-      afterCommitId: json['afterCommitId'] as String?,
-      beforeBlobId: json['beforeBlobId'] as String?,
-      beforeCommitId: json['beforeCommitId'] as String?,
-      comments: (json['comments'] as List?)
-          ?.nonNulls
-          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      location: json['location'] != null
-          ? Location.fromJson(json['location'] as Map<String, dynamic>)
-          : null,
-      pullRequestId: json['pullRequestId'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final afterBlobId = this.afterBlobId;
-    final afterCommitId = this.afterCommitId;
-    final beforeBlobId = this.beforeBlobId;
-    final beforeCommitId = this.beforeCommitId;
-    final comments = this.comments;
-    final location = this.location;
-    final pullRequestId = this.pullRequestId;
-    final repositoryName = this.repositoryName;
-    return {
-      if (afterBlobId != null) 'afterBlobId': afterBlobId,
-      if (afterCommitId != null) 'afterCommitId': afterCommitId,
-      if (beforeBlobId != null) 'beforeBlobId': beforeBlobId,
-      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
-      if (comments != null) 'comments': comments,
-      if (location != null) 'location': location,
-      if (pullRequestId != null) 'pullRequestId': pullRequestId,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-/// Returns information about a specific commit.
-class Commit {
-  /// Any other data associated with the specified commit.
-  final String? additionalData;
-
-  /// Information about the author of the specified commit. Information includes
-  /// the date in timestamp format with GMT offset, the name of the author, and
-  /// the email address for the author, as configured in Git.
-  final UserInfo? author;
-
-  /// The full SHA ID of the specified commit.
-  final String? commitId;
-
-  /// Information about the person who committed the specified commit, also known
-  /// as the committer. Information includes the date in timestamp format with GMT
-  /// offset, the name of the committer, and the email address for the committer,
-  /// as configured in Git.
-  ///
-  /// For more information about the difference between an author and a committer
-  /// in Git, see <a href="http://git-scm.com/book/ch2-3.html">Viewing the Commit
-  /// History</a> in Pro Git by Scott Chacon and Ben Straub.
-  final UserInfo? committer;
-
-  /// The commit message associated with the specified commit.
-  final String? message;
-
-  /// A list of parent commits for the specified commit. Each parent commit ID is
-  /// the full commit ID.
-  final List<String>? parents;
-
-  /// Tree information for the specified commit.
-  final String? treeId;
-
-  Commit({
-    this.additionalData,
-    this.author,
-    this.commitId,
-    this.committer,
-    this.message,
-    this.parents,
-    this.treeId,
-  });
-
-  factory Commit.fromJson(Map<String, dynamic> json) {
-    return Commit(
-      additionalData: json['additionalData'] as String?,
-      author: json['author'] != null
-          ? UserInfo.fromJson(json['author'] as Map<String, dynamic>)
-          : null,
-      commitId: json['commitId'] as String?,
-      committer: json['committer'] != null
-          ? UserInfo.fromJson(json['committer'] as Map<String, dynamic>)
-          : null,
-      message: json['message'] as String?,
-      parents:
-          (json['parents'] as List?)?.nonNulls.map((e) => e as String).toList(),
-      treeId: json['treeId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalData = this.additionalData;
-    final author = this.author;
-    final commitId = this.commitId;
-    final committer = this.committer;
-    final message = this.message;
-    final parents = this.parents;
-    final treeId = this.treeId;
-    return {
-      if (additionalData != null) 'additionalData': additionalData,
-      if (author != null) 'author': author,
-      if (commitId != null) 'commitId': commitId,
-      if (committer != null) 'committer': committer,
-      if (message != null) 'message': message,
-      if (parents != null) 'parents': parents,
-      if (treeId != null) 'treeId': treeId,
-    };
-  }
-}
-
-/// Information about conflicts in a merge operation.
-class Conflict {
-  /// Metadata about a conflict in a merge operation.
-  final ConflictMetadata? conflictMetadata;
-
-  /// A list of hunks that contain the differences between files or lines causing
-  /// the conflict.
-  final List<MergeHunk>? mergeHunks;
-
-  Conflict({
-    this.conflictMetadata,
-    this.mergeHunks,
-  });
-
-  factory Conflict.fromJson(Map<String, dynamic> json) {
-    return Conflict(
-      conflictMetadata: json['conflictMetadata'] != null
-          ? ConflictMetadata.fromJson(
-              json['conflictMetadata'] as Map<String, dynamic>)
-          : null,
-      mergeHunks: (json['mergeHunks'] as List?)
-          ?.nonNulls
-          .map((e) => MergeHunk.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final conflictMetadata = this.conflictMetadata;
-    final mergeHunks = this.mergeHunks;
-    return {
-      if (conflictMetadata != null) 'conflictMetadata': conflictMetadata,
-      if (mergeHunks != null) 'mergeHunks': mergeHunks,
-    };
-  }
-}
-
-class ConflictDetailLevelTypeEnum {
-  static const fileLevel = ConflictDetailLevelTypeEnum._('FILE_LEVEL');
-  static const lineLevel = ConflictDetailLevelTypeEnum._('LINE_LEVEL');
-
-  final String value;
-
-  const ConflictDetailLevelTypeEnum._(this.value);
-
-  static const values = [fileLevel, lineLevel];
-
-  static ConflictDetailLevelTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConflictDetailLevelTypeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConflictDetailLevelTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the metadata for a conflict in a merge operation.
-class ConflictMetadata {
-  /// A boolean value indicating whether there are conflicts in the content of a
-  /// file.
-  final bool? contentConflict;
-
-  /// A boolean value indicating whether there are conflicts in the file mode of a
-  /// file.
-  final bool? fileModeConflict;
-
-  /// The file modes of the file in the source, destination, and base of the
-  /// merge.
-  final FileModes? fileModes;
-
-  /// The path of the file that contains conflicts.
-  final String? filePath;
-
-  /// The file sizes of the file in the source, destination, and base of the
-  /// merge.
-  final FileSizes? fileSizes;
-
-  /// A boolean value (true or false) indicating whether the file is binary or
-  /// textual in the source, destination, and base of the merge.
-  final IsBinaryFile? isBinaryFile;
-
-  /// Whether an add, modify, or delete operation caused the conflict between the
-  /// source and destination of the merge.
-  final MergeOperations? mergeOperations;
-
-  /// The number of conflicts, including both hunk conflicts and metadata
-  /// conflicts.
-  final int? numberOfConflicts;
-
-  /// A boolean value (true or false) indicating whether there are conflicts
-  /// between the branches in the object type of a file, folder, or submodule.
-  final bool? objectTypeConflict;
-
-  /// Information about any object type conflicts in a merge operation.
-  final ObjectTypes? objectTypes;
-
-  ConflictMetadata({
-    this.contentConflict,
-    this.fileModeConflict,
-    this.fileModes,
-    this.filePath,
-    this.fileSizes,
-    this.isBinaryFile,
-    this.mergeOperations,
-    this.numberOfConflicts,
-    this.objectTypeConflict,
-    this.objectTypes,
-  });
-
-  factory ConflictMetadata.fromJson(Map<String, dynamic> json) {
-    return ConflictMetadata(
-      contentConflict: json['contentConflict'] as bool?,
-      fileModeConflict: json['fileModeConflict'] as bool?,
-      fileModes: json['fileModes'] != null
-          ? FileModes.fromJson(json['fileModes'] as Map<String, dynamic>)
-          : null,
-      filePath: json['filePath'] as String?,
-      fileSizes: json['fileSizes'] != null
-          ? FileSizes.fromJson(json['fileSizes'] as Map<String, dynamic>)
-          : null,
-      isBinaryFile: json['isBinaryFile'] != null
-          ? IsBinaryFile.fromJson(json['isBinaryFile'] as Map<String, dynamic>)
-          : null,
-      mergeOperations: json['mergeOperations'] != null
-          ? MergeOperations.fromJson(
-              json['mergeOperations'] as Map<String, dynamic>)
-          : null,
-      numberOfConflicts: json['numberOfConflicts'] as int?,
-      objectTypeConflict: json['objectTypeConflict'] as bool?,
-      objectTypes: json['objectTypes'] != null
-          ? ObjectTypes.fromJson(json['objectTypes'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentConflict = this.contentConflict;
-    final fileModeConflict = this.fileModeConflict;
-    final fileModes = this.fileModes;
-    final filePath = this.filePath;
-    final fileSizes = this.fileSizes;
-    final isBinaryFile = this.isBinaryFile;
-    final mergeOperations = this.mergeOperations;
-    final numberOfConflicts = this.numberOfConflicts;
-    final objectTypeConflict = this.objectTypeConflict;
-    final objectTypes = this.objectTypes;
-    return {
-      if (contentConflict != null) 'contentConflict': contentConflict,
-      if (fileModeConflict != null) 'fileModeConflict': fileModeConflict,
-      if (fileModes != null) 'fileModes': fileModes,
-      if (filePath != null) 'filePath': filePath,
-      if (fileSizes != null) 'fileSizes': fileSizes,
-      if (isBinaryFile != null) 'isBinaryFile': isBinaryFile,
-      if (mergeOperations != null) 'mergeOperations': mergeOperations,
-      if (numberOfConflicts != null) 'numberOfConflicts': numberOfConflicts,
-      if (objectTypeConflict != null) 'objectTypeConflict': objectTypeConflict,
-      if (objectTypes != null) 'objectTypes': objectTypes,
-    };
-  }
-}
-
-/// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
-/// when resolving conflicts during a merge.
-class ConflictResolution {
-  /// Files to be deleted as part of the merge conflict resolution.
-  final List<DeleteFileEntry>? deleteFiles;
-
-  /// Files to have content replaced as part of the merge conflict resolution.
-  final List<ReplaceContentEntry>? replaceContents;
-
-  /// File modes that are set as part of the merge conflict resolution.
-  final List<SetFileModeEntry>? setFileModes;
-
-  ConflictResolution({
-    this.deleteFiles,
-    this.replaceContents,
-    this.setFileModes,
-  });
-
-  Map<String, dynamic> toJson() {
-    final deleteFiles = this.deleteFiles;
-    final replaceContents = this.replaceContents;
-    final setFileModes = this.setFileModes;
-    return {
-      if (deleteFiles != null) 'deleteFiles': deleteFiles,
-      if (replaceContents != null) 'replaceContents': replaceContents,
-      if (setFileModes != null) 'setFileModes': setFileModes,
-    };
-  }
-}
-
-class ConflictResolutionStrategyTypeEnum {
-  static const none = ConflictResolutionStrategyTypeEnum._('NONE');
-  static const acceptSource =
-      ConflictResolutionStrategyTypeEnum._('ACCEPT_SOURCE');
-  static const acceptDestination =
-      ConflictResolutionStrategyTypeEnum._('ACCEPT_DESTINATION');
-  static const automerge = ConflictResolutionStrategyTypeEnum._('AUTOMERGE');
-
-  final String value;
-
-  const ConflictResolutionStrategyTypeEnum._(this.value);
-
-  static const values = [none, acceptSource, acceptDestination, automerge];
-
-  static ConflictResolutionStrategyTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConflictResolutionStrategyTypeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ConflictResolutionStrategyTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateApprovalRuleTemplateOutput {
@@ -6531,6 +5284,30 @@ class CreateCommitOutput {
   }
 }
 
+class CreatePullRequestOutput {
+  /// Information about the newly created pull request.
+  final PullRequest pullRequest;
+
+  CreatePullRequestOutput({
+    required this.pullRequest,
+  });
+
+  factory CreatePullRequestOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePullRequestOutput(
+      pullRequest: PullRequest.fromJson(
+          (json['pullRequest'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      'pullRequest': pullRequest,
+    };
+  }
+}
+
 class CreatePullRequestApprovalRuleOutput {
   /// Information about the created approval rule.
   final ApprovalRule approvalRule;
@@ -6552,30 +5329,6 @@ class CreatePullRequestApprovalRuleOutput {
     final approvalRule = this.approvalRule;
     return {
       'approvalRule': approvalRule,
-    };
-  }
-}
-
-class CreatePullRequestOutput {
-  /// Information about the newly created pull request.
-  final PullRequest pullRequest;
-
-  CreatePullRequestOutput({
-    required this.pullRequest,
-  });
-
-  factory CreatePullRequestOutput.fromJson(Map<String, dynamic> json) {
-    return CreatePullRequestOutput(
-      pullRequest: PullRequest.fromJson(
-          (json['pullRequest'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pullRequest = this.pullRequest;
-    return {
-      'pullRequest': pullRequest,
     };
   }
 }
@@ -6706,23 +5459,6 @@ class DeleteCommentContentOutput {
     final comment = this.comment;
     return {
       if (comment != null) 'comment': comment,
-    };
-  }
-}
-
-/// A file that is deleted as part of a commit.
-class DeleteFileEntry {
-  /// The full path of the file to be deleted, including the name of the file.
-  final String filePath;
-
-  DeleteFileEntry({
-    required this.filePath,
-  });
-
-  Map<String, dynamic> toJson() {
-    final filePath = this.filePath;
-    return {
-      'filePath': filePath,
     };
   }
 }
@@ -6921,51 +5657,6 @@ class DescribePullRequestEventsOutput {
   }
 }
 
-/// Returns information about a set of differences for a commit specifier.
-class Difference {
-  /// Information about an <code>afterBlob</code> data type object, including the
-  /// ID, the file mode permission code, and the path.
-  final BlobMetadata? afterBlob;
-
-  /// Information about a <code>beforeBlob</code> data type object, including the
-  /// ID, the file mode permission code, and the path.
-  final BlobMetadata? beforeBlob;
-
-  /// Whether the change type of the difference is an addition (A), deletion (D),
-  /// or modification (M).
-  final ChangeTypeEnum? changeType;
-
-  Difference({
-    this.afterBlob,
-    this.beforeBlob,
-    this.changeType,
-  });
-
-  factory Difference.fromJson(Map<String, dynamic> json) {
-    return Difference(
-      afterBlob: json['afterBlob'] != null
-          ? BlobMetadata.fromJson(json['afterBlob'] as Map<String, dynamic>)
-          : null,
-      beforeBlob: json['beforeBlob'] != null
-          ? BlobMetadata.fromJson(json['beforeBlob'] as Map<String, dynamic>)
-          : null,
-      changeType:
-          (json['changeType'] as String?)?.let(ChangeTypeEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final afterBlob = this.afterBlob;
-    final beforeBlob = this.beforeBlob;
-    final changeType = this.changeType;
-    return {
-      if (afterBlob != null) 'afterBlob': afterBlob,
-      if (beforeBlob != null) 'beforeBlob': beforeBlob,
-      if (changeType != null) 'changeType': changeType.value,
-    };
-  }
-}
-
 class EvaluatePullRequestApprovalRulesOutput {
   /// The result of the evaluation, including the names of the rules whose
   /// conditions have been met (if any), the names of the rules whose conditions
@@ -6991,334 +5682,6 @@ class EvaluatePullRequestApprovalRulesOutput {
     final evaluation = this.evaluation;
     return {
       'evaluation': evaluation,
-    };
-  }
-}
-
-/// Returns information about the approval rules applied to a pull request and
-/// whether conditions have been met.
-class Evaluation {
-  /// The names of the approval rules that have not had their conditions met.
-  final List<String>? approvalRulesNotSatisfied;
-
-  /// The names of the approval rules that have had their conditions met.
-  final List<String>? approvalRulesSatisfied;
-
-  /// Whether the state of the pull request is approved.
-  final bool? approved;
-
-  /// Whether the approval rule requirements for the pull request have been
-  /// overridden and no longer need to be met.
-  final bool? overridden;
-
-  Evaluation({
-    this.approvalRulesNotSatisfied,
-    this.approvalRulesSatisfied,
-    this.approved,
-    this.overridden,
-  });
-
-  factory Evaluation.fromJson(Map<String, dynamic> json) {
-    return Evaluation(
-      approvalRulesNotSatisfied: (json['approvalRulesNotSatisfied'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      approvalRulesSatisfied: (json['approvalRulesSatisfied'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      approved: json['approved'] as bool?,
-      overridden: json['overridden'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approvalRulesNotSatisfied = this.approvalRulesNotSatisfied;
-    final approvalRulesSatisfied = this.approvalRulesSatisfied;
-    final approved = this.approved;
-    final overridden = this.overridden;
-    return {
-      if (approvalRulesNotSatisfied != null)
-        'approvalRulesNotSatisfied': approvalRulesNotSatisfied,
-      if (approvalRulesSatisfied != null)
-        'approvalRulesSatisfied': approvalRulesSatisfied,
-      if (approved != null) 'approved': approved,
-      if (overridden != null) 'overridden': overridden,
-    };
-  }
-}
-
-/// Returns information about a file in a repository.
-class File {
-  /// The fully qualified path to the file in the repository.
-  final String? absolutePath;
-
-  /// The blob ID that contains the file information.
-  final String? blobId;
-
-  /// The extrapolated file mode permissions for the file. Valid values include
-  /// EXECUTABLE and NORMAL.
-  final FileModeTypeEnum? fileMode;
-
-  /// The relative path of the file from the folder where the query originated.
-  final String? relativePath;
-
-  File({
-    this.absolutePath,
-    this.blobId,
-    this.fileMode,
-    this.relativePath,
-  });
-
-  factory File.fromJson(Map<String, dynamic> json) {
-    return File(
-      absolutePath: json['absolutePath'] as String?,
-      blobId: json['blobId'] as String?,
-      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
-      relativePath: json['relativePath'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absolutePath = this.absolutePath;
-    final blobId = this.blobId;
-    final fileMode = this.fileMode;
-    final relativePath = this.relativePath;
-    return {
-      if (absolutePath != null) 'absolutePath': absolutePath,
-      if (blobId != null) 'blobId': blobId,
-      if (fileMode != null) 'fileMode': fileMode.value,
-      if (relativePath != null) 'relativePath': relativePath,
-    };
-  }
-}
-
-/// A file to be added, updated, or deleted as part of a commit.
-class FileMetadata {
-  /// The full path to the file to be added or updated, including the name of the
-  /// file.
-  final String? absolutePath;
-
-  /// The blob ID that contains the file information.
-  final String? blobId;
-
-  /// The extrapolated file mode permissions for the file. Valid values include
-  /// EXECUTABLE and NORMAL.
-  final FileModeTypeEnum? fileMode;
-
-  FileMetadata({
-    this.absolutePath,
-    this.blobId,
-    this.fileMode,
-  });
-
-  factory FileMetadata.fromJson(Map<String, dynamic> json) {
-    return FileMetadata(
-      absolutePath: json['absolutePath'] as String?,
-      blobId: json['blobId'] as String?,
-      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absolutePath = this.absolutePath;
-    final blobId = this.blobId;
-    final fileMode = this.fileMode;
-    return {
-      if (absolutePath != null) 'absolutePath': absolutePath,
-      if (blobId != null) 'blobId': blobId,
-      if (fileMode != null) 'fileMode': fileMode.value,
-    };
-  }
-}
-
-class FileModeTypeEnum {
-  static const executable = FileModeTypeEnum._('EXECUTABLE');
-  static const normal = FileModeTypeEnum._('NORMAL');
-  static const symlink = FileModeTypeEnum._('SYMLINK');
-
-  final String value;
-
-  const FileModeTypeEnum._(this.value);
-
-  static const values = [executable, normal, symlink];
-
-  static FileModeTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => FileModeTypeEnum._(value));
-
-  @override
-  bool operator ==(other) => other is FileModeTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about file modes in a merge or pull request.
-class FileModes {
-  /// The file mode of a file in the base of a merge or pull request.
-  final FileModeTypeEnum? base;
-
-  /// The file mode of a file in the destination of a merge or pull request.
-  final FileModeTypeEnum? destination;
-
-  /// The file mode of a file in the source of a merge or pull request.
-  final FileModeTypeEnum? source;
-
-  FileModes({
-    this.base,
-    this.destination,
-    this.source,
-  });
-
-  factory FileModes.fromJson(Map<String, dynamic> json) {
-    return FileModes(
-      base: (json['base'] as String?)?.let(FileModeTypeEnum.fromString),
-      destination:
-          (json['destination'] as String?)?.let(FileModeTypeEnum.fromString),
-      source: (json['source'] as String?)?.let(FileModeTypeEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final base = this.base;
-    final destination = this.destination;
-    final source = this.source;
-    return {
-      if (base != null) 'base': base.value,
-      if (destination != null) 'destination': destination.value,
-      if (source != null) 'source': source.value,
-    };
-  }
-}
-
-/// Information about the size of files in a merge or pull request.
-class FileSizes {
-  /// The size of a file in the base of a merge or pull request.
-  final int? base;
-
-  /// The size of a file in the destination of a merge or pull request.
-  final int? destination;
-
-  /// The size of a file in the source of a merge or pull request.
-  final int? source;
-
-  FileSizes({
-    this.base,
-    this.destination,
-    this.source,
-  });
-
-  factory FileSizes.fromJson(Map<String, dynamic> json) {
-    return FileSizes(
-      base: json['base'] as int?,
-      destination: json['destination'] as int?,
-      source: json['source'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final base = this.base;
-    final destination = this.destination;
-    final source = this.source;
-    return {
-      if (base != null) 'base': base,
-      if (destination != null) 'destination': destination,
-      if (source != null) 'source': source,
-    };
-  }
-}
-
-/// Information about a version of a file.
-class FileVersion {
-  /// The blob ID of the object that represents the content of the file in this
-  /// version.
-  final String? blobId;
-  final Commit? commit;
-
-  /// The name and path of the file at which this blob is indexed which contains
-  /// the data for this version of the file. This value will vary between file
-  /// versions if a file is renamed or if its path changes.
-  final String? path;
-
-  /// An array of commit IDs that contain more recent versions of this file. If
-  /// there are no additional versions of the file, this array will be empty.
-  final List<String>? revisionChildren;
-
-  FileVersion({
-    this.blobId,
-    this.commit,
-    this.path,
-    this.revisionChildren,
-  });
-
-  factory FileVersion.fromJson(Map<String, dynamic> json) {
-    return FileVersion(
-      blobId: json['blobId'] as String?,
-      commit: json['commit'] != null
-          ? Commit.fromJson(json['commit'] as Map<String, dynamic>)
-          : null,
-      path: json['path'] as String?,
-      revisionChildren: (json['revisionChildren'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final blobId = this.blobId;
-    final commit = this.commit;
-    final path = this.path;
-    final revisionChildren = this.revisionChildren;
-    return {
-      if (blobId != null) 'blobId': blobId,
-      if (commit != null) 'commit': commit,
-      if (path != null) 'path': path,
-      if (revisionChildren != null) 'revisionChildren': revisionChildren,
-    };
-  }
-}
-
-/// Returns information about a folder in a repository.
-class Folder {
-  /// The fully qualified path of the folder in the repository.
-  final String? absolutePath;
-
-  /// The relative path of the specified folder from the folder where the query
-  /// originated.
-  final String? relativePath;
-
-  /// The full SHA-1 pointer of the tree information for the commit that contains
-  /// the folder.
-  final String? treeId;
-
-  Folder({
-    this.absolutePath,
-    this.relativePath,
-    this.treeId,
-  });
-
-  factory Folder.fromJson(Map<String, dynamic> json) {
-    return Folder(
-      absolutePath: json['absolutePath'] as String?,
-      relativePath: json['relativePath'] as String?,
-      treeId: json['treeId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absolutePath = this.absolutePath;
-    final relativePath = this.relativePath;
-    final treeId = this.treeId;
-    return {
-      if (absolutePath != null) 'absolutePath': absolutePath,
-      if (relativePath != null) 'relativePath': relativePath,
-      if (treeId != null) 'treeId': treeId,
     };
   }
 }
@@ -7891,6 +6254,30 @@ class GetMergeOptionsOutput {
   }
 }
 
+class GetPullRequestOutput {
+  /// Information about the specified pull request.
+  final PullRequest pullRequest;
+
+  GetPullRequestOutput({
+    required this.pullRequest,
+  });
+
+  factory GetPullRequestOutput.fromJson(Map<String, dynamic> json) {
+    return GetPullRequestOutput(
+      pullRequest: PullRequest.fromJson(
+          (json['pullRequest'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      'pullRequest': pullRequest,
+    };
+  }
+}
+
 class GetPullRequestApprovalStatesOutput {
   /// Information about users who have approved the pull request.
   final List<Approval>? approvals;
@@ -7913,30 +6300,6 @@ class GetPullRequestApprovalStatesOutput {
     final approvals = this.approvals;
     return {
       if (approvals != null) 'approvals': approvals,
-    };
-  }
-}
-
-class GetPullRequestOutput {
-  /// Information about the specified pull request.
-  final PullRequest pullRequest;
-
-  GetPullRequestOutput({
-    required this.pullRequest,
-  });
-
-  factory GetPullRequestOutput.fromJson(Map<String, dynamic> json) {
-    return GetPullRequestOutput(
-      pullRequest: PullRequest.fromJson(
-          (json['pullRequest'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pullRequest = this.pullRequest;
-    return {
-      'pullRequest': pullRequest,
     };
   }
 }
@@ -8028,47 +6391,6 @@ class GetRepositoryTriggersOutput {
     return {
       if (configurationId != null) 'configurationId': configurationId,
       if (triggers != null) 'triggers': triggers,
-    };
-  }
-}
-
-/// Information about whether a file is binary or textual in a merge or pull
-/// request operation.
-class IsBinaryFile {
-  /// The binary or non-binary status of a file in the base of a merge or pull
-  /// request.
-  final bool? base;
-
-  /// The binary or non-binary status of a file in the destination of a merge or
-  /// pull request.
-  final bool? destination;
-
-  /// The binary or non-binary status of file in the source of a merge or pull
-  /// request.
-  final bool? source;
-
-  IsBinaryFile({
-    this.base,
-    this.destination,
-    this.source,
-  });
-
-  factory IsBinaryFile.fromJson(Map<String, dynamic> json) {
-    return IsBinaryFile(
-      base: json['base'] as bool?,
-      destination: json['destination'] as bool?,
-      source: json['source'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final base = this.base;
-    final destination = this.destination;
-    final source = this.source;
-    return {
-      if (base != null) 'base': base,
-      if (destination != null) 'destination': destination,
-      if (source != null) 'source': source,
     };
   }
 }
@@ -8242,41 +6564,6 @@ class ListPullRequestsOutput {
   }
 }
 
-class ListRepositoriesForApprovalRuleTemplateOutput {
-  /// An enumeration token that allows the operation to batch the next results of
-  /// the operation.
-  final String? nextToken;
-
-  /// A list of repository names that are associated with the specified approval
-  /// rule template.
-  final List<String>? repositoryNames;
-
-  ListRepositoriesForApprovalRuleTemplateOutput({
-    this.nextToken,
-    this.repositoryNames,
-  });
-
-  factory ListRepositoriesForApprovalRuleTemplateOutput.fromJson(
-      Map<String, dynamic> json) {
-    return ListRepositoriesForApprovalRuleTemplateOutput(
-      nextToken: json['nextToken'] as String?,
-      repositoryNames: (json['repositoryNames'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final repositoryNames = this.repositoryNames;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (repositoryNames != null) 'repositoryNames': repositoryNames,
-    };
-  }
-}
-
 /// Represents the output of a list repositories operation.
 class ListRepositoriesOutput {
   /// An enumeration token that allows the operation to batch the results of the
@@ -8313,6 +6600,41 @@ class ListRepositoriesOutput {
   }
 }
 
+class ListRepositoriesForApprovalRuleTemplateOutput {
+  /// An enumeration token that allows the operation to batch the next results of
+  /// the operation.
+  final String? nextToken;
+
+  /// A list of repository names that are associated with the specified approval
+  /// rule template.
+  final List<String>? repositoryNames;
+
+  ListRepositoriesForApprovalRuleTemplateOutput({
+    this.nextToken,
+    this.repositoryNames,
+  });
+
+  factory ListRepositoriesForApprovalRuleTemplateOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListRepositoriesForApprovalRuleTemplateOutput(
+      nextToken: json['nextToken'] as String?,
+      repositoryNames: (json['repositoryNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final repositoryNames = this.repositoryNames;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (repositoryNames != null) 'repositoryNames': repositoryNames,
+    };
+  }
+}
+
 class ListTagsForResourceOutput {
   /// An enumeration token that allows the operation to batch the next results of
   /// the operation.
@@ -8340,48 +6662,6 @@ class ListTagsForResourceOutput {
     return {
       if (nextToken != null) 'nextToken': nextToken,
       if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Returns information about the location of a change or comment in the
-/// comparison between two commits or a pull request.
-class Location {
-  /// The name of the file being compared, including its extension and
-  /// subdirectory, if any.
-  final String? filePath;
-
-  /// The position of a change in a compared file, in line number format.
-  final int? filePosition;
-
-  /// In a comparison of commits or a pull request, whether the change is in the
-  /// before or after of that comparison.
-  final RelativeFileVersionEnum? relativeFileVersion;
-
-  Location({
-    this.filePath,
-    this.filePosition,
-    this.relativeFileVersion,
-  });
-
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
-      filePath: json['filePath'] as String?,
-      filePosition: json['filePosition'] as int?,
-      relativeFileVersion: (json['relativeFileVersion'] as String?)
-          ?.let(RelativeFileVersionEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final filePath = this.filePath;
-    final filePosition = this.filePosition;
-    final relativeFileVersion = this.relativeFileVersion;
-    return {
-      if (filePath != null) 'filePath': filePath,
-      if (filePosition != null) 'filePosition': filePosition,
-      if (relativeFileVersion != null)
-        'relativeFileVersion': relativeFileVersion.value,
     };
   }
 }
@@ -8473,206 +6753,6 @@ class MergeBranchesByThreeWayOutput {
   }
 }
 
-/// Information about merge hunks in a merge or pull request operation.
-class MergeHunk {
-  /// Information about the merge hunk in the base of a merge or pull request.
-  final MergeHunkDetail? base;
-
-  /// Information about the merge hunk in the destination of a merge or pull
-  /// request.
-  final MergeHunkDetail? destination;
-
-  /// A Boolean value indicating whether a combination of hunks contains a
-  /// conflict. Conflicts occur when the same file or the same lines in a file
-  /// were modified in both the source and destination of a merge or pull request.
-  /// Valid values include true, false, and null. True when the hunk represents a
-  /// conflict and one or more files contains a line conflict. File mode conflicts
-  /// in a merge do not set this to true.
-  final bool? isConflict;
-
-  /// Information about the merge hunk in the source of a merge or pull request.
-  final MergeHunkDetail? source;
-
-  MergeHunk({
-    this.base,
-    this.destination,
-    this.isConflict,
-    this.source,
-  });
-
-  factory MergeHunk.fromJson(Map<String, dynamic> json) {
-    return MergeHunk(
-      base: json['base'] != null
-          ? MergeHunkDetail.fromJson(json['base'] as Map<String, dynamic>)
-          : null,
-      destination: json['destination'] != null
-          ? MergeHunkDetail.fromJson(
-              json['destination'] as Map<String, dynamic>)
-          : null,
-      isConflict: json['isConflict'] as bool?,
-      source: json['source'] != null
-          ? MergeHunkDetail.fromJson(json['source'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final base = this.base;
-    final destination = this.destination;
-    final isConflict = this.isConflict;
-    final source = this.source;
-    return {
-      if (base != null) 'base': base,
-      if (destination != null) 'destination': destination,
-      if (isConflict != null) 'isConflict': isConflict,
-      if (source != null) 'source': source,
-    };
-  }
-}
-
-/// Information about the details of a merge hunk that contains a conflict in a
-/// merge or pull request operation.
-class MergeHunkDetail {
-  /// The end position of the hunk in the merge result.
-  final int? endLine;
-
-  /// The base-64 encoded content of the hunk merged region that might contain a
-  /// conflict.
-  final String? hunkContent;
-
-  /// The start position of the hunk in the merge result.
-  final int? startLine;
-
-  MergeHunkDetail({
-    this.endLine,
-    this.hunkContent,
-    this.startLine,
-  });
-
-  factory MergeHunkDetail.fromJson(Map<String, dynamic> json) {
-    return MergeHunkDetail(
-      endLine: json['endLine'] as int?,
-      hunkContent: json['hunkContent'] as String?,
-      startLine: json['startLine'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endLine = this.endLine;
-    final hunkContent = this.hunkContent;
-    final startLine = this.startLine;
-    return {
-      if (endLine != null) 'endLine': endLine,
-      if (hunkContent != null) 'hunkContent': hunkContent,
-      if (startLine != null) 'startLine': startLine,
-    };
-  }
-}
-
-/// Returns information about a merge or potential merge between a source
-/// reference and a destination reference in a pull request.
-class MergeMetadata {
-  /// A Boolean value indicating whether the merge has been made.
-  final bool? isMerged;
-
-  /// The commit ID for the merge commit, if any.
-  final String? mergeCommitId;
-
-  /// The merge strategy used in the merge.
-  final MergeOptionTypeEnum? mergeOption;
-
-  /// The Amazon Resource Name (ARN) of the user who merged the branches.
-  final String? mergedBy;
-
-  MergeMetadata({
-    this.isMerged,
-    this.mergeCommitId,
-    this.mergeOption,
-    this.mergedBy,
-  });
-
-  factory MergeMetadata.fromJson(Map<String, dynamic> json) {
-    return MergeMetadata(
-      isMerged: json['isMerged'] as bool?,
-      mergeCommitId: json['mergeCommitId'] as String?,
-      mergeOption:
-          (json['mergeOption'] as String?)?.let(MergeOptionTypeEnum.fromString),
-      mergedBy: json['mergedBy'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isMerged = this.isMerged;
-    final mergeCommitId = this.mergeCommitId;
-    final mergeOption = this.mergeOption;
-    final mergedBy = this.mergedBy;
-    return {
-      if (isMerged != null) 'isMerged': isMerged,
-      if (mergeCommitId != null) 'mergeCommitId': mergeCommitId,
-      if (mergeOption != null) 'mergeOption': mergeOption.value,
-      if (mergedBy != null) 'mergedBy': mergedBy,
-    };
-  }
-}
-
-/// Information about the file operation conflicts in a merge operation.
-class MergeOperations {
-  /// The operation on a file in the destination of a merge or pull request.
-  final ChangeTypeEnum? destination;
-
-  /// The operation (add, modify, or delete) on a file in the source of a merge or
-  /// pull request.
-  final ChangeTypeEnum? source;
-
-  MergeOperations({
-    this.destination,
-    this.source,
-  });
-
-  factory MergeOperations.fromJson(Map<String, dynamic> json) {
-    return MergeOperations(
-      destination:
-          (json['destination'] as String?)?.let(ChangeTypeEnum.fromString),
-      source: (json['source'] as String?)?.let(ChangeTypeEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destination = this.destination;
-    final source = this.source;
-    return {
-      if (destination != null) 'destination': destination.value,
-      if (source != null) 'source': source.value,
-    };
-  }
-}
-
-class MergeOptionTypeEnum {
-  static const fastForwardMerge = MergeOptionTypeEnum._('FAST_FORWARD_MERGE');
-  static const squashMerge = MergeOptionTypeEnum._('SQUASH_MERGE');
-  static const threeWayMerge = MergeOptionTypeEnum._('THREE_WAY_MERGE');
-
-  final String value;
-
-  const MergeOptionTypeEnum._(this.value);
-
-  static const values = [fastForwardMerge, squashMerge, threeWayMerge];
-
-  static MergeOptionTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MergeOptionTypeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MergeOptionTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class MergePullRequestByFastForwardOutput {
   /// Information about the specified pull request, including the merge.
   final PullRequest? pullRequest;
@@ -8742,150 +6822,6 @@ class MergePullRequestByThreeWayOutput {
       if (pullRequest != null) 'pullRequest': pullRequest,
     };
   }
-}
-
-class ObjectTypeEnum {
-  static const file = ObjectTypeEnum._('FILE');
-  static const directory = ObjectTypeEnum._('DIRECTORY');
-  static const gitLink = ObjectTypeEnum._('GIT_LINK');
-  static const symbolicLink = ObjectTypeEnum._('SYMBOLIC_LINK');
-
-  final String value;
-
-  const ObjectTypeEnum._(this.value);
-
-  static const values = [file, directory, gitLink, symbolicLink];
-
-  static ObjectTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObjectTypeEnum._(value));
-
-  @override
-  bool operator ==(other) => other is ObjectTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the type of an object in a merge operation.
-class ObjectTypes {
-  /// The type of the object in the base commit of the merge.
-  final ObjectTypeEnum? base;
-
-  /// The type of the object in the destination branch.
-  final ObjectTypeEnum? destination;
-
-  /// The type of the object in the source branch.
-  final ObjectTypeEnum? source;
-
-  ObjectTypes({
-    this.base,
-    this.destination,
-    this.source,
-  });
-
-  factory ObjectTypes.fromJson(Map<String, dynamic> json) {
-    return ObjectTypes(
-      base: (json['base'] as String?)?.let(ObjectTypeEnum.fromString),
-      destination:
-          (json['destination'] as String?)?.let(ObjectTypeEnum.fromString),
-      source: (json['source'] as String?)?.let(ObjectTypeEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final base = this.base;
-    final destination = this.destination;
-    final source = this.source;
-    return {
-      if (base != null) 'base': base.value,
-      if (destination != null) 'destination': destination.value,
-      if (source != null) 'source': source.value,
-    };
-  }
-}
-
-class OrderEnum {
-  static const ascending = OrderEnum._('ascending');
-  static const descending = OrderEnum._('descending');
-
-  final String value;
-
-  const OrderEnum._(this.value);
-
-  static const values = [ascending, descending];
-
-  static OrderEnum fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => OrderEnum._(value));
-
-  @override
-  bool operator ==(other) => other is OrderEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns information about the template that created the approval rule for a
-/// pull request.
-class OriginApprovalRuleTemplate {
-  /// The ID of the template that created the approval rule.
-  final String? approvalRuleTemplateId;
-
-  /// The name of the template that created the approval rule.
-  final String? approvalRuleTemplateName;
-
-  OriginApprovalRuleTemplate({
-    this.approvalRuleTemplateId,
-    this.approvalRuleTemplateName,
-  });
-
-  factory OriginApprovalRuleTemplate.fromJson(Map<String, dynamic> json) {
-    return OriginApprovalRuleTemplate(
-      approvalRuleTemplateId: json['approvalRuleTemplateId'] as String?,
-      approvalRuleTemplateName: json['approvalRuleTemplateName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approvalRuleTemplateId = this.approvalRuleTemplateId;
-    final approvalRuleTemplateName = this.approvalRuleTemplateName;
-    return {
-      if (approvalRuleTemplateId != null)
-        'approvalRuleTemplateId': approvalRuleTemplateId,
-      if (approvalRuleTemplateName != null)
-        'approvalRuleTemplateName': approvalRuleTemplateName,
-    };
-  }
-}
-
-class OverrideStatus {
-  static const $override = OverrideStatus._('OVERRIDE');
-  static const revoke = OverrideStatus._('REVOKE');
-
-  final String value;
-
-  const OverrideStatus._(this.value);
-
-  static const values = [$override, revoke];
-
-  static OverrideStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => OverrideStatus._(value));
-
-  @override
-  bool operator ==(other) => other is OverrideStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class PostCommentForComparedCommitOutput {
@@ -9062,628 +6998,6 @@ class PostCommentReplyOutput {
   }
 }
 
-/// Returns information about a pull request.
-class PullRequest {
-  /// The approval rules applied to the pull request.
-  final List<ApprovalRule>? approvalRules;
-
-  /// The Amazon Resource Name (ARN) of the user who created the pull request.
-  final String? authorArn;
-
-  /// A unique, client-generated idempotency token that, when provided in a
-  /// request, ensures the request cannot be repeated with a changed parameter. If
-  /// a request is received with the same parameters and a token is included, the
-  /// request returns information about the initial request that used that token.
-  final String? clientRequestToken;
-
-  /// The date and time the pull request was originally created, in timestamp
-  /// format.
-  final DateTime? creationDate;
-
-  /// The user-defined description of the pull request. This description can be
-  /// used to clarify what should be reviewed and other details of the request.
-  final String? description;
-
-  /// The day and time of the last user or system activity on the pull request, in
-  /// timestamp format.
-  final DateTime? lastActivityDate;
-
-  /// The system-generated ID of the pull request.
-  final String? pullRequestId;
-
-  /// The status of the pull request. Pull request status can only change from
-  /// <code>OPEN</code> to <code>CLOSED</code>.
-  final PullRequestStatusEnum? pullRequestStatus;
-
-  /// The targets of the pull request, including the source branch and destination
-  /// branch for the pull request.
-  final List<PullRequestTarget>? pullRequestTargets;
-
-  /// The system-generated revision ID for the pull request.
-  final String? revisionId;
-
-  /// The user-defined title of the pull request. This title is displayed in the
-  /// list of pull requests to other repository users.
-  final String? title;
-
-  PullRequest({
-    this.approvalRules,
-    this.authorArn,
-    this.clientRequestToken,
-    this.creationDate,
-    this.description,
-    this.lastActivityDate,
-    this.pullRequestId,
-    this.pullRequestStatus,
-    this.pullRequestTargets,
-    this.revisionId,
-    this.title,
-  });
-
-  factory PullRequest.fromJson(Map<String, dynamic> json) {
-    return PullRequest(
-      approvalRules: (json['approvalRules'] as List?)
-          ?.nonNulls
-          .map((e) => ApprovalRule.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      authorArn: json['authorArn'] as String?,
-      clientRequestToken: json['clientRequestToken'] as String?,
-      creationDate: timeStampFromJson(json['creationDate']),
-      description: json['description'] as String?,
-      lastActivityDate: timeStampFromJson(json['lastActivityDate']),
-      pullRequestId: json['pullRequestId'] as String?,
-      pullRequestStatus: (json['pullRequestStatus'] as String?)
-          ?.let(PullRequestStatusEnum.fromString),
-      pullRequestTargets: (json['pullRequestTargets'] as List?)
-          ?.nonNulls
-          .map((e) => PullRequestTarget.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      revisionId: json['revisionId'] as String?,
-      title: json['title'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approvalRules = this.approvalRules;
-    final authorArn = this.authorArn;
-    final clientRequestToken = this.clientRequestToken;
-    final creationDate = this.creationDate;
-    final description = this.description;
-    final lastActivityDate = this.lastActivityDate;
-    final pullRequestId = this.pullRequestId;
-    final pullRequestStatus = this.pullRequestStatus;
-    final pullRequestTargets = this.pullRequestTargets;
-    final revisionId = this.revisionId;
-    final title = this.title;
-    return {
-      if (approvalRules != null) 'approvalRules': approvalRules,
-      if (authorArn != null) 'authorArn': authorArn,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (description != null) 'description': description,
-      if (lastActivityDate != null)
-        'lastActivityDate': unixTimestampToJson(lastActivityDate),
-      if (pullRequestId != null) 'pullRequestId': pullRequestId,
-      if (pullRequestStatus != null)
-        'pullRequestStatus': pullRequestStatus.value,
-      if (pullRequestTargets != null) 'pullRequestTargets': pullRequestTargets,
-      if (revisionId != null) 'revisionId': revisionId,
-      if (title != null) 'title': title,
-    };
-  }
-}
-
-/// Metadata about the pull request that is used when comparing the pull request
-/// source with its destination.
-class PullRequestCreatedEventMetadata {
-  /// The commit ID of the tip of the branch specified as the destination branch
-  /// when the pull request was created.
-  final String? destinationCommitId;
-
-  /// The commit ID of the most recent commit that the source branch and the
-  /// destination branch have in common.
-  final String? mergeBase;
-
-  /// The name of the repository where the pull request was created.
-  final String? repositoryName;
-
-  /// The commit ID on the source branch used when the pull request was created.
-  final String? sourceCommitId;
-
-  PullRequestCreatedEventMetadata({
-    this.destinationCommitId,
-    this.mergeBase,
-    this.repositoryName,
-    this.sourceCommitId,
-  });
-
-  factory PullRequestCreatedEventMetadata.fromJson(Map<String, dynamic> json) {
-    return PullRequestCreatedEventMetadata(
-      destinationCommitId: json['destinationCommitId'] as String?,
-      mergeBase: json['mergeBase'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-      sourceCommitId: json['sourceCommitId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationCommitId = this.destinationCommitId;
-    final mergeBase = this.mergeBase;
-    final repositoryName = this.repositoryName;
-    final sourceCommitId = this.sourceCommitId;
-    return {
-      if (destinationCommitId != null)
-        'destinationCommitId': destinationCommitId,
-      if (mergeBase != null) 'mergeBase': mergeBase,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-      if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
-    };
-  }
-}
-
-/// Returns information about a pull request event.
-class PullRequestEvent {
-  /// The Amazon Resource Name (ARN) of the user whose actions resulted in the
-  /// event. Examples include updating the pull request with more commits or
-  /// changing the status of a pull request.
-  final String? actorArn;
-
-  /// Information about a pull request event.
-  final ApprovalRuleEventMetadata? approvalRuleEventMetadata;
-
-  /// Information about an approval rule override event for a pull request.
-  final ApprovalRuleOverriddenEventMetadata?
-      approvalRuleOverriddenEventMetadata;
-
-  /// Information about an approval state change for a pull request.
-  final ApprovalStateChangedEventMetadata? approvalStateChangedEventMetadata;
-
-  /// The day and time of the pull request event, in timestamp format.
-  final DateTime? eventDate;
-
-  /// Information about the source and destination branches for the pull request.
-  final PullRequestCreatedEventMetadata? pullRequestCreatedEventMetadata;
-
-  /// The type of the pull request event (for example, a status change event
-  /// (PULL_REQUEST_STATUS_CHANGED) or update event
-  /// (PULL_REQUEST_SOURCE_REFERENCE_UPDATED)).
-  final PullRequestEventType? pullRequestEventType;
-
-  /// The system-generated ID of the pull request.
-  final String? pullRequestId;
-
-  /// Information about the change in mergability state for the pull request
-  /// event.
-  final PullRequestMergedStateChangedEventMetadata?
-      pullRequestMergedStateChangedEventMetadata;
-
-  /// Information about the updated source branch for the pull request event.
-  final PullRequestSourceReferenceUpdatedEventMetadata?
-      pullRequestSourceReferenceUpdatedEventMetadata;
-
-  /// Information about the change in status for the pull request event.
-  final PullRequestStatusChangedEventMetadata?
-      pullRequestStatusChangedEventMetadata;
-
-  PullRequestEvent({
-    this.actorArn,
-    this.approvalRuleEventMetadata,
-    this.approvalRuleOverriddenEventMetadata,
-    this.approvalStateChangedEventMetadata,
-    this.eventDate,
-    this.pullRequestCreatedEventMetadata,
-    this.pullRequestEventType,
-    this.pullRequestId,
-    this.pullRequestMergedStateChangedEventMetadata,
-    this.pullRequestSourceReferenceUpdatedEventMetadata,
-    this.pullRequestStatusChangedEventMetadata,
-  });
-
-  factory PullRequestEvent.fromJson(Map<String, dynamic> json) {
-    return PullRequestEvent(
-      actorArn: json['actorArn'] as String?,
-      approvalRuleEventMetadata: json['approvalRuleEventMetadata'] != null
-          ? ApprovalRuleEventMetadata.fromJson(
-              json['approvalRuleEventMetadata'] as Map<String, dynamic>)
-          : null,
-      approvalRuleOverriddenEventMetadata:
-          json['approvalRuleOverriddenEventMetadata'] != null
-              ? ApprovalRuleOverriddenEventMetadata.fromJson(
-                  json['approvalRuleOverriddenEventMetadata']
-                      as Map<String, dynamic>)
-              : null,
-      approvalStateChangedEventMetadata:
-          json['approvalStateChangedEventMetadata'] != null
-              ? ApprovalStateChangedEventMetadata.fromJson(
-                  json['approvalStateChangedEventMetadata']
-                      as Map<String, dynamic>)
-              : null,
-      eventDate: timeStampFromJson(json['eventDate']),
-      pullRequestCreatedEventMetadata:
-          json['pullRequestCreatedEventMetadata'] != null
-              ? PullRequestCreatedEventMetadata.fromJson(
-                  json['pullRequestCreatedEventMetadata']
-                      as Map<String, dynamic>)
-              : null,
-      pullRequestEventType: (json['pullRequestEventType'] as String?)
-          ?.let(PullRequestEventType.fromString),
-      pullRequestId: json['pullRequestId'] as String?,
-      pullRequestMergedStateChangedEventMetadata:
-          json['pullRequestMergedStateChangedEventMetadata'] != null
-              ? PullRequestMergedStateChangedEventMetadata.fromJson(
-                  json['pullRequestMergedStateChangedEventMetadata']
-                      as Map<String, dynamic>)
-              : null,
-      pullRequestSourceReferenceUpdatedEventMetadata:
-          json['pullRequestSourceReferenceUpdatedEventMetadata'] != null
-              ? PullRequestSourceReferenceUpdatedEventMetadata.fromJson(
-                  json['pullRequestSourceReferenceUpdatedEventMetadata']
-                      as Map<String, dynamic>)
-              : null,
-      pullRequestStatusChangedEventMetadata:
-          json['pullRequestStatusChangedEventMetadata'] != null
-              ? PullRequestStatusChangedEventMetadata.fromJson(
-                  json['pullRequestStatusChangedEventMetadata']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actorArn = this.actorArn;
-    final approvalRuleEventMetadata = this.approvalRuleEventMetadata;
-    final approvalRuleOverriddenEventMetadata =
-        this.approvalRuleOverriddenEventMetadata;
-    final approvalStateChangedEventMetadata =
-        this.approvalStateChangedEventMetadata;
-    final eventDate = this.eventDate;
-    final pullRequestCreatedEventMetadata =
-        this.pullRequestCreatedEventMetadata;
-    final pullRequestEventType = this.pullRequestEventType;
-    final pullRequestId = this.pullRequestId;
-    final pullRequestMergedStateChangedEventMetadata =
-        this.pullRequestMergedStateChangedEventMetadata;
-    final pullRequestSourceReferenceUpdatedEventMetadata =
-        this.pullRequestSourceReferenceUpdatedEventMetadata;
-    final pullRequestStatusChangedEventMetadata =
-        this.pullRequestStatusChangedEventMetadata;
-    return {
-      if (actorArn != null) 'actorArn': actorArn,
-      if (approvalRuleEventMetadata != null)
-        'approvalRuleEventMetadata': approvalRuleEventMetadata,
-      if (approvalRuleOverriddenEventMetadata != null)
-        'approvalRuleOverriddenEventMetadata':
-            approvalRuleOverriddenEventMetadata,
-      if (approvalStateChangedEventMetadata != null)
-        'approvalStateChangedEventMetadata': approvalStateChangedEventMetadata,
-      if (eventDate != null) 'eventDate': unixTimestampToJson(eventDate),
-      if (pullRequestCreatedEventMetadata != null)
-        'pullRequestCreatedEventMetadata': pullRequestCreatedEventMetadata,
-      if (pullRequestEventType != null)
-        'pullRequestEventType': pullRequestEventType.value,
-      if (pullRequestId != null) 'pullRequestId': pullRequestId,
-      if (pullRequestMergedStateChangedEventMetadata != null)
-        'pullRequestMergedStateChangedEventMetadata':
-            pullRequestMergedStateChangedEventMetadata,
-      if (pullRequestSourceReferenceUpdatedEventMetadata != null)
-        'pullRequestSourceReferenceUpdatedEventMetadata':
-            pullRequestSourceReferenceUpdatedEventMetadata,
-      if (pullRequestStatusChangedEventMetadata != null)
-        'pullRequestStatusChangedEventMetadata':
-            pullRequestStatusChangedEventMetadata,
-    };
-  }
-}
-
-class PullRequestEventType {
-  static const pullRequestCreated =
-      PullRequestEventType._('PULL_REQUEST_CREATED');
-  static const pullRequestStatusChanged =
-      PullRequestEventType._('PULL_REQUEST_STATUS_CHANGED');
-  static const pullRequestSourceReferenceUpdated =
-      PullRequestEventType._('PULL_REQUEST_SOURCE_REFERENCE_UPDATED');
-  static const pullRequestMergeStateChanged =
-      PullRequestEventType._('PULL_REQUEST_MERGE_STATE_CHANGED');
-  static const pullRequestApprovalRuleCreated =
-      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_CREATED');
-  static const pullRequestApprovalRuleUpdated =
-      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_UPDATED');
-  static const pullRequestApprovalRuleDeleted =
-      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_DELETED');
-  static const pullRequestApprovalRuleOverridden =
-      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN');
-  static const pullRequestApprovalStateChanged =
-      PullRequestEventType._('PULL_REQUEST_APPROVAL_STATE_CHANGED');
-
-  final String value;
-
-  const PullRequestEventType._(this.value);
-
-  static const values = [
-    pullRequestCreated,
-    pullRequestStatusChanged,
-    pullRequestSourceReferenceUpdated,
-    pullRequestMergeStateChanged,
-    pullRequestApprovalRuleCreated,
-    pullRequestApprovalRuleUpdated,
-    pullRequestApprovalRuleDeleted,
-    pullRequestApprovalRuleOverridden,
-    pullRequestApprovalStateChanged
-  ];
-
-  static PullRequestEventType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PullRequestEventType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PullRequestEventType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns information about the change in the merge state for a pull request
-/// event.
-class PullRequestMergedStateChangedEventMetadata {
-  /// The name of the branch that the pull request is merged into.
-  final String? destinationReference;
-
-  /// Information about the merge state change event.
-  final MergeMetadata? mergeMetadata;
-
-  /// The name of the repository where the pull request was created.
-  final String? repositoryName;
-
-  PullRequestMergedStateChangedEventMetadata({
-    this.destinationReference,
-    this.mergeMetadata,
-    this.repositoryName,
-  });
-
-  factory PullRequestMergedStateChangedEventMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return PullRequestMergedStateChangedEventMetadata(
-      destinationReference: json['destinationReference'] as String?,
-      mergeMetadata: json['mergeMetadata'] != null
-          ? MergeMetadata.fromJson(
-              json['mergeMetadata'] as Map<String, dynamic>)
-          : null,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationReference = this.destinationReference;
-    final mergeMetadata = this.mergeMetadata;
-    final repositoryName = this.repositoryName;
-    return {
-      if (destinationReference != null)
-        'destinationReference': destinationReference,
-      if (mergeMetadata != null) 'mergeMetadata': mergeMetadata,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-/// Information about an update to the source branch of a pull request.
-class PullRequestSourceReferenceUpdatedEventMetadata {
-  /// The full commit ID of the commit in the source branch that was the tip of
-  /// the branch at the time the pull request was updated.
-  final String? afterCommitId;
-
-  /// The full commit ID of the commit in the destination branch that was the tip
-  /// of the branch at the time the pull request was updated.
-  final String? beforeCommitId;
-
-  /// The commit ID of the most recent commit that the source branch and the
-  /// destination branch have in common.
-  final String? mergeBase;
-
-  /// The name of the repository where the pull request was updated.
-  final String? repositoryName;
-
-  PullRequestSourceReferenceUpdatedEventMetadata({
-    this.afterCommitId,
-    this.beforeCommitId,
-    this.mergeBase,
-    this.repositoryName,
-  });
-
-  factory PullRequestSourceReferenceUpdatedEventMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return PullRequestSourceReferenceUpdatedEventMetadata(
-      afterCommitId: json['afterCommitId'] as String?,
-      beforeCommitId: json['beforeCommitId'] as String?,
-      mergeBase: json['mergeBase'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final afterCommitId = this.afterCommitId;
-    final beforeCommitId = this.beforeCommitId;
-    final mergeBase = this.mergeBase;
-    final repositoryName = this.repositoryName;
-    return {
-      if (afterCommitId != null) 'afterCommitId': afterCommitId,
-      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
-      if (mergeBase != null) 'mergeBase': mergeBase,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-/// Information about a change to the status of a pull request.
-class PullRequestStatusChangedEventMetadata {
-  /// The changed status of the pull request.
-  final PullRequestStatusEnum? pullRequestStatus;
-
-  PullRequestStatusChangedEventMetadata({
-    this.pullRequestStatus,
-  });
-
-  factory PullRequestStatusChangedEventMetadata.fromJson(
-      Map<String, dynamic> json) {
-    return PullRequestStatusChangedEventMetadata(
-      pullRequestStatus: (json['pullRequestStatus'] as String?)
-          ?.let(PullRequestStatusEnum.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final pullRequestStatus = this.pullRequestStatus;
-    return {
-      if (pullRequestStatus != null)
-        'pullRequestStatus': pullRequestStatus.value,
-    };
-  }
-}
-
-class PullRequestStatusEnum {
-  static const open = PullRequestStatusEnum._('OPEN');
-  static const closed = PullRequestStatusEnum._('CLOSED');
-
-  final String value;
-
-  const PullRequestStatusEnum._(this.value);
-
-  static const values = [open, closed];
-
-  static PullRequestStatusEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PullRequestStatusEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PullRequestStatusEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns information about a pull request target.
-class PullRequestTarget {
-  /// The full commit ID that is the tip of the destination branch. This is the
-  /// commit where the pull request was or will be merged.
-  final String? destinationCommit;
-
-  /// The branch of the repository where the pull request changes are merged. Also
-  /// known as the destination branch.
-  final String? destinationReference;
-
-  /// The commit ID of the most recent commit that the source branch and the
-  /// destination branch have in common.
-  final String? mergeBase;
-
-  /// Returns metadata about the state of the merge, including whether the merge
-  /// has been made.
-  final MergeMetadata? mergeMetadata;
-
-  /// The name of the repository that contains the pull request source and
-  /// destination branches.
-  final String? repositoryName;
-
-  /// The full commit ID of the tip of the source branch used to create the pull
-  /// request. If the pull request branch is updated by a push while the pull
-  /// request is open, the commit ID changes to reflect the new tip of the branch.
-  final String? sourceCommit;
-
-  /// The branch of the repository that contains the changes for the pull request.
-  /// Also known as the source branch.
-  final String? sourceReference;
-
-  PullRequestTarget({
-    this.destinationCommit,
-    this.destinationReference,
-    this.mergeBase,
-    this.mergeMetadata,
-    this.repositoryName,
-    this.sourceCommit,
-    this.sourceReference,
-  });
-
-  factory PullRequestTarget.fromJson(Map<String, dynamic> json) {
-    return PullRequestTarget(
-      destinationCommit: json['destinationCommit'] as String?,
-      destinationReference: json['destinationReference'] as String?,
-      mergeBase: json['mergeBase'] as String?,
-      mergeMetadata: json['mergeMetadata'] != null
-          ? MergeMetadata.fromJson(
-              json['mergeMetadata'] as Map<String, dynamic>)
-          : null,
-      repositoryName: json['repositoryName'] as String?,
-      sourceCommit: json['sourceCommit'] as String?,
-      sourceReference: json['sourceReference'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationCommit = this.destinationCommit;
-    final destinationReference = this.destinationReference;
-    final mergeBase = this.mergeBase;
-    final mergeMetadata = this.mergeMetadata;
-    final repositoryName = this.repositoryName;
-    final sourceCommit = this.sourceCommit;
-    final sourceReference = this.sourceReference;
-    return {
-      if (destinationCommit != null) 'destinationCommit': destinationCommit,
-      if (destinationReference != null)
-        'destinationReference': destinationReference,
-      if (mergeBase != null) 'mergeBase': mergeBase,
-      if (mergeMetadata != null) 'mergeMetadata': mergeMetadata,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-      if (sourceCommit != null) 'sourceCommit': sourceCommit,
-      if (sourceReference != null) 'sourceReference': sourceReference,
-    };
-  }
-}
-
-/// Information about a file added or updated as part of a commit.
-class PutFileEntry {
-  /// The full path to the file in the repository, including the name of the file.
-  final String filePath;
-
-  /// The content of the file, if a source file is not specified.
-  final Uint8List? fileContent;
-
-  /// The extrapolated file mode permissions for the file. Valid values include
-  /// EXECUTABLE and NORMAL.
-  final FileModeTypeEnum? fileMode;
-
-  /// The name and full path of the file that contains the changes you want to
-  /// make as part of the commit, if you are not providing the file content
-  /// directly.
-  final SourceFileSpecifier? sourceFile;
-
-  PutFileEntry({
-    required this.filePath,
-    this.fileContent,
-    this.fileMode,
-    this.sourceFile,
-  });
-
-  Map<String, dynamic> toJson() {
-    final filePath = this.filePath;
-    final fileContent = this.fileContent;
-    final fileMode = this.fileMode;
-    final sourceFile = this.sourceFile;
-    return {
-      'filePath': filePath,
-      if (fileContent != null) 'fileContent': base64Encode(fileContent),
-      if (fileMode != null) 'fileMode': fileMode.value,
-      if (sourceFile != null) 'sourceFile': sourceFile,
-    };
-  }
-}
-
 class PutFileOutput {
   /// The ID of the blob, which is its SHA-1 pointer.
   final String blobId;
@@ -9740,637 +7054,6 @@ class PutRepositoryTriggersOutput {
     final configurationId = this.configurationId;
     return {
       if (configurationId != null) 'configurationId': configurationId,
-    };
-  }
-}
-
-/// Information about the reaction values provided by users on a comment.
-class ReactionForComment {
-  /// The reaction for a specified comment.
-  final ReactionValueFormats? reaction;
-
-  /// The Amazon Resource Names (ARNs) of users who have provided reactions to the
-  /// comment.
-  final List<String>? reactionUsers;
-
-  /// A numerical count of users who reacted with the specified emoji whose
-  /// identities have been subsequently deleted from IAM. While these IAM users or
-  /// roles no longer exist, the reactions might still appear in total reaction
-  /// counts.
-  final int? reactionsFromDeletedUsersCount;
-
-  ReactionForComment({
-    this.reaction,
-    this.reactionUsers,
-    this.reactionsFromDeletedUsersCount,
-  });
-
-  factory ReactionForComment.fromJson(Map<String, dynamic> json) {
-    return ReactionForComment(
-      reaction: json['reaction'] != null
-          ? ReactionValueFormats.fromJson(
-              json['reaction'] as Map<String, dynamic>)
-          : null,
-      reactionUsers: (json['reactionUsers'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      reactionsFromDeletedUsersCount:
-          json['reactionsFromDeletedUsersCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reaction = this.reaction;
-    final reactionUsers = this.reactionUsers;
-    final reactionsFromDeletedUsersCount = this.reactionsFromDeletedUsersCount;
-    return {
-      if (reaction != null) 'reaction': reaction,
-      if (reactionUsers != null) 'reactionUsers': reactionUsers,
-      if (reactionsFromDeletedUsersCount != null)
-        'reactionsFromDeletedUsersCount': reactionsFromDeletedUsersCount,
-    };
-  }
-}
-
-/// Information about the values for reactions to a comment. CodeCommit supports
-/// a limited set of reactions.
-class ReactionValueFormats {
-  /// The Emoji Version 1.0 graphic of the reaction. These graphics are
-  /// interpreted slightly differently on different operating systems.
-  final String? emoji;
-
-  /// The emoji short code for the reaction. Short codes are interpreted slightly
-  /// differently on different operating systems.
-  final String? shortCode;
-
-  /// The Unicode codepoint for the reaction.
-  final String? unicode;
-
-  ReactionValueFormats({
-    this.emoji,
-    this.shortCode,
-    this.unicode,
-  });
-
-  factory ReactionValueFormats.fromJson(Map<String, dynamic> json) {
-    return ReactionValueFormats(
-      emoji: json['emoji'] as String?,
-      shortCode: json['shortCode'] as String?,
-      unicode: json['unicode'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final emoji = this.emoji;
-    final shortCode = this.shortCode;
-    final unicode = this.unicode;
-    return {
-      if (emoji != null) 'emoji': emoji,
-      if (shortCode != null) 'shortCode': shortCode,
-      if (unicode != null) 'unicode': unicode,
-    };
-  }
-}
-
-class RelativeFileVersionEnum {
-  static const before = RelativeFileVersionEnum._('BEFORE');
-  static const after = RelativeFileVersionEnum._('AFTER');
-
-  final String value;
-
-  const RelativeFileVersionEnum._(this.value);
-
-  static const values = [before, after];
-
-  static RelativeFileVersionEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RelativeFileVersionEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RelativeFileVersionEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a replacement content entry in the conflict of a merge or
-/// pull request operation.
-class ReplaceContentEntry {
-  /// The path of the conflicting file.
-  final String filePath;
-
-  /// The replacement type to use when determining how to resolve the conflict.
-  final ReplacementTypeEnum replacementType;
-
-  /// The base-64 encoded content to use when the replacement type is
-  /// USE_NEW_CONTENT.
-  final Uint8List? content;
-
-  /// The file mode to apply during conflict resoltion.
-  final FileModeTypeEnum? fileMode;
-
-  ReplaceContentEntry({
-    required this.filePath,
-    required this.replacementType,
-    this.content,
-    this.fileMode,
-  });
-
-  Map<String, dynamic> toJson() {
-    final filePath = this.filePath;
-    final replacementType = this.replacementType;
-    final content = this.content;
-    final fileMode = this.fileMode;
-    return {
-      'filePath': filePath,
-      'replacementType': replacementType.value,
-      if (content != null) 'content': base64Encode(content),
-      if (fileMode != null) 'fileMode': fileMode.value,
-    };
-  }
-}
-
-class ReplacementTypeEnum {
-  static const keepBase = ReplacementTypeEnum._('KEEP_BASE');
-  static const keepSource = ReplacementTypeEnum._('KEEP_SOURCE');
-  static const keepDestination = ReplacementTypeEnum._('KEEP_DESTINATION');
-  static const useNewContent = ReplacementTypeEnum._('USE_NEW_CONTENT');
-
-  final String value;
-
-  const ReplacementTypeEnum._(this.value);
-
-  static const values = [keepBase, keepSource, keepDestination, useNewContent];
-
-  static ReplacementTypeEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReplacementTypeEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReplacementTypeEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a repository.
-class RepositoryMetadata {
-  /// The Amazon Resource Name (ARN) of the repository.
-  final String? arn;
-
-  /// The ID of the Amazon Web Services account associated with the repository.
-  final String? accountId;
-
-  /// The URL to use for cloning the repository over HTTPS.
-  final String? cloneUrlHttp;
-
-  /// The URL to use for cloning the repository over SSH.
-  final String? cloneUrlSsh;
-
-  /// The date and time the repository was created, in timestamp format.
-  final DateTime? creationDate;
-
-  /// The repository's default branch name.
-  final String? defaultBranch;
-
-  /// The ID of the Key Management Service encryption key used to encrypt and
-  /// decrypt the repository.
-  final String? kmsKeyId;
-
-  /// The date and time the repository was last modified, in timestamp format.
-  final DateTime? lastModifiedDate;
-
-  /// A comment or description about the repository.
-  final String? repositoryDescription;
-
-  /// The ID of the repository.
-  final String? repositoryId;
-
-  /// The repository's name.
-  final String? repositoryName;
-
-  RepositoryMetadata({
-    this.arn,
-    this.accountId,
-    this.cloneUrlHttp,
-    this.cloneUrlSsh,
-    this.creationDate,
-    this.defaultBranch,
-    this.kmsKeyId,
-    this.lastModifiedDate,
-    this.repositoryDescription,
-    this.repositoryId,
-    this.repositoryName,
-  });
-
-  factory RepositoryMetadata.fromJson(Map<String, dynamic> json) {
-    return RepositoryMetadata(
-      arn: json['Arn'] as String?,
-      accountId: json['accountId'] as String?,
-      cloneUrlHttp: json['cloneUrlHttp'] as String?,
-      cloneUrlSsh: json['cloneUrlSsh'] as String?,
-      creationDate: timeStampFromJson(json['creationDate']),
-      defaultBranch: json['defaultBranch'] as String?,
-      kmsKeyId: json['kmsKeyId'] as String?,
-      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
-      repositoryDescription: json['repositoryDescription'] as String?,
-      repositoryId: json['repositoryId'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final accountId = this.accountId;
-    final cloneUrlHttp = this.cloneUrlHttp;
-    final cloneUrlSsh = this.cloneUrlSsh;
-    final creationDate = this.creationDate;
-    final defaultBranch = this.defaultBranch;
-    final kmsKeyId = this.kmsKeyId;
-    final lastModifiedDate = this.lastModifiedDate;
-    final repositoryDescription = this.repositoryDescription;
-    final repositoryId = this.repositoryId;
-    final repositoryName = this.repositoryName;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (accountId != null) 'accountId': accountId,
-      if (cloneUrlHttp != null) 'cloneUrlHttp': cloneUrlHttp,
-      if (cloneUrlSsh != null) 'cloneUrlSsh': cloneUrlSsh,
-      if (creationDate != null)
-        'creationDate': unixTimestampToJson(creationDate),
-      if (defaultBranch != null) 'defaultBranch': defaultBranch,
-      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-      if (lastModifiedDate != null)
-        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
-      if (repositoryDescription != null)
-        'repositoryDescription': repositoryDescription,
-      if (repositoryId != null) 'repositoryId': repositoryId,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-/// Information about a repository name and ID.
-class RepositoryNameIdPair {
-  /// The ID associated with the repository.
-  final String? repositoryId;
-
-  /// The name associated with the repository.
-  final String? repositoryName;
-
-  RepositoryNameIdPair({
-    this.repositoryId,
-    this.repositoryName,
-  });
-
-  factory RepositoryNameIdPair.fromJson(Map<String, dynamic> json) {
-    return RepositoryNameIdPair(
-      repositoryId: json['repositoryId'] as String?,
-      repositoryName: json['repositoryName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final repositoryId = this.repositoryId;
-    final repositoryName = this.repositoryName;
-    return {
-      if (repositoryId != null) 'repositoryId': repositoryId,
-      if (repositoryName != null) 'repositoryName': repositoryName,
-    };
-  }
-}
-
-/// Information about a trigger for a repository.
-/// <note>
-/// If you want to receive notifications about repository events, consider using
-/// notifications instead of triggers. For more information, see <a
-/// href="https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-repository-email.html">Configuring
-/// notifications for repository events</a>.
-/// </note>
-class RepositoryTrigger {
-  /// The ARN of the resource that is the target for a trigger (for example, the
-  /// ARN of a topic in Amazon SNS).
-  final String destinationArn;
-
-  /// The repository events that cause the trigger to run actions in another
-  /// service, such as sending a notification through Amazon SNS.
-  /// <note>
-  /// The valid value "all" cannot be used with any other values.
-  /// </note>
-  final List<RepositoryTriggerEventEnum> events;
-
-  /// The name of the trigger.
-  final String name;
-
-  /// The branches to be included in the trigger configuration. If you specify an
-  /// empty array, the trigger applies to all branches.
-  /// <note>
-  /// Although no content is required in the array, you must include the array
-  /// itself.
-  /// </note>
-  final List<String>? branches;
-
-  /// Any custom data associated with the trigger to be included in the
-  /// information sent to the target of the trigger.
-  final String? customData;
-
-  RepositoryTrigger({
-    required this.destinationArn,
-    required this.events,
-    required this.name,
-    this.branches,
-    this.customData,
-  });
-
-  factory RepositoryTrigger.fromJson(Map<String, dynamic> json) {
-    return RepositoryTrigger(
-      destinationArn: (json['destinationArn'] as String?) ?? '',
-      events: ((json['events'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => RepositoryTriggerEventEnum.fromString((e as String)))
-          .toList(),
-      name: (json['name'] as String?) ?? '',
-      branches: (json['branches'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      customData: json['customData'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final destinationArn = this.destinationArn;
-    final events = this.events;
-    final name = this.name;
-    final branches = this.branches;
-    final customData = this.customData;
-    return {
-      'destinationArn': destinationArn,
-      'events': events.map((e) => e.value).toList(),
-      'name': name,
-      if (branches != null) 'branches': branches,
-      if (customData != null) 'customData': customData,
-    };
-  }
-}
-
-class RepositoryTriggerEventEnum {
-  static const all = RepositoryTriggerEventEnum._('all');
-  static const updateReference =
-      RepositoryTriggerEventEnum._('updateReference');
-  static const createReference =
-      RepositoryTriggerEventEnum._('createReference');
-  static const deleteReference =
-      RepositoryTriggerEventEnum._('deleteReference');
-
-  final String value;
-
-  const RepositoryTriggerEventEnum._(this.value);
-
-  static const values = [
-    all,
-    updateReference,
-    createReference,
-    deleteReference
-  ];
-
-  static RepositoryTriggerEventEnum fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RepositoryTriggerEventEnum._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RepositoryTriggerEventEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A trigger failed to run.
-class RepositoryTriggerExecutionFailure {
-  /// Message information about the trigger that did not run.
-  final String? failureMessage;
-
-  /// The name of the trigger that did not run.
-  final String? trigger;
-
-  RepositoryTriggerExecutionFailure({
-    this.failureMessage,
-    this.trigger,
-  });
-
-  factory RepositoryTriggerExecutionFailure.fromJson(
-      Map<String, dynamic> json) {
-    return RepositoryTriggerExecutionFailure(
-      failureMessage: json['failureMessage'] as String?,
-      trigger: json['trigger'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failureMessage = this.failureMessage;
-    final trigger = this.trigger;
-    return {
-      if (failureMessage != null) 'failureMessage': failureMessage,
-      if (trigger != null) 'trigger': trigger,
-    };
-  }
-}
-
-/// Information about the file mode changes.
-class SetFileModeEntry {
-  /// The file mode for the file.
-  final FileModeTypeEnum fileMode;
-
-  /// The full path to the file, including the name of the file.
-  final String filePath;
-
-  SetFileModeEntry({
-    required this.fileMode,
-    required this.filePath,
-  });
-
-  Map<String, dynamic> toJson() {
-    final fileMode = this.fileMode;
-    final filePath = this.filePath;
-    return {
-      'fileMode': fileMode.value,
-      'filePath': filePath,
-    };
-  }
-}
-
-class SortByEnum {
-  static const repositoryName = SortByEnum._('repositoryName');
-  static const lastModifiedDate = SortByEnum._('lastModifiedDate');
-
-  final String value;
-
-  const SortByEnum._(this.value);
-
-  static const values = [repositoryName, lastModifiedDate];
-
-  static SortByEnum fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortByEnum._(value));
-
-  @override
-  bool operator ==(other) => other is SortByEnum && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a source file that is part of changes made in a commit.
-class SourceFileSpecifier {
-  /// The full path to the file, including the name of the file.
-  final String filePath;
-
-  /// Whether to remove the source file from the parent commit.
-  final bool? isMove;
-
-  SourceFileSpecifier({
-    required this.filePath,
-    this.isMove,
-  });
-
-  Map<String, dynamic> toJson() {
-    final filePath = this.filePath;
-    final isMove = this.isMove;
-    return {
-      'filePath': filePath,
-      if (isMove != null) 'isMove': isMove,
-    };
-  }
-}
-
-/// Returns information about a submodule reference in a repository folder.
-class SubModule {
-  /// The fully qualified path to the folder that contains the reference to the
-  /// submodule.
-  final String? absolutePath;
-
-  /// The commit ID that contains the reference to the submodule.
-  final String? commitId;
-
-  /// The relative path of the submodule from the folder where the query
-  /// originated.
-  final String? relativePath;
-
-  SubModule({
-    this.absolutePath,
-    this.commitId,
-    this.relativePath,
-  });
-
-  factory SubModule.fromJson(Map<String, dynamic> json) {
-    return SubModule(
-      absolutePath: json['absolutePath'] as String?,
-      commitId: json['commitId'] as String?,
-      relativePath: json['relativePath'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absolutePath = this.absolutePath;
-    final commitId = this.commitId;
-    final relativePath = this.relativePath;
-    return {
-      if (absolutePath != null) 'absolutePath': absolutePath,
-      if (commitId != null) 'commitId': commitId,
-      if (relativePath != null) 'relativePath': relativePath,
-    };
-  }
-}
-
-/// Returns information about a symbolic link in a repository folder.
-class SymbolicLink {
-  /// The fully qualified path to the folder that contains the symbolic link.
-  final String? absolutePath;
-
-  /// The blob ID that contains the information about the symbolic link.
-  final String? blobId;
-
-  /// The file mode permissions of the blob that cotains information about the
-  /// symbolic link.
-  final FileModeTypeEnum? fileMode;
-
-  /// The relative path of the symbolic link from the folder where the query
-  /// originated.
-  final String? relativePath;
-
-  SymbolicLink({
-    this.absolutePath,
-    this.blobId,
-    this.fileMode,
-    this.relativePath,
-  });
-
-  factory SymbolicLink.fromJson(Map<String, dynamic> json) {
-    return SymbolicLink(
-      absolutePath: json['absolutePath'] as String?,
-      blobId: json['blobId'] as String?,
-      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
-      relativePath: json['relativePath'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final absolutePath = this.absolutePath;
-    final blobId = this.blobId;
-    final fileMode = this.fileMode;
-    final relativePath = this.relativePath;
-    return {
-      if (absolutePath != null) 'absolutePath': absolutePath,
-      if (blobId != null) 'blobId': blobId,
-      if (fileMode != null) 'fileMode': fileMode.value,
-      if (relativePath != null) 'relativePath': relativePath,
-    };
-  }
-}
-
-/// Returns information about a target for a pull request.
-class Target {
-  /// The name of the repository that contains the pull request.
-  final String repositoryName;
-
-  /// The branch of the repository that contains the changes for the pull request.
-  /// Also known as the source branch.
-  final String sourceReference;
-
-  /// The branch of the repository where the pull request changes are merged. Also
-  /// known as the destination branch.
-  final String? destinationReference;
-
-  Target({
-    required this.repositoryName,
-    required this.sourceReference,
-    this.destinationReference,
-  });
-
-  Map<String, dynamic> toJson() {
-    final repositoryName = this.repositoryName;
-    final sourceReference = this.sourceReference;
-    final destinationReference = this.destinationReference;
-    return {
-      'repositoryName': repositoryName,
-      'sourceReference': sourceReference,
-      if (destinationReference != null)
-        'destinationReference': destinationReference,
     };
   }
 }
@@ -10649,6 +7332,1261 @@ class UpdateRepositoryEncryptionKeyOutput {
   }
 }
 
+/// Returns information about a pull request.
+class PullRequest {
+  /// The approval rules applied to the pull request.
+  final List<ApprovalRule>? approvalRules;
+
+  /// The Amazon Resource Name (ARN) of the user who created the pull request.
+  final String? authorArn;
+
+  /// A unique, client-generated idempotency token that, when provided in a
+  /// request, ensures the request cannot be repeated with a changed parameter. If
+  /// a request is received with the same parameters and a token is included, the
+  /// request returns information about the initial request that used that token.
+  final String? clientRequestToken;
+
+  /// The date and time the pull request was originally created, in timestamp
+  /// format.
+  final DateTime? creationDate;
+
+  /// The user-defined description of the pull request. This description can be
+  /// used to clarify what should be reviewed and other details of the request.
+  final String? description;
+
+  /// The day and time of the last user or system activity on the pull request, in
+  /// timestamp format.
+  final DateTime? lastActivityDate;
+
+  /// The system-generated ID of the pull request.
+  final String? pullRequestId;
+
+  /// The status of the pull request. Pull request status can only change from
+  /// <code>OPEN</code> to <code>CLOSED</code>.
+  final PullRequestStatusEnum? pullRequestStatus;
+
+  /// The targets of the pull request, including the source branch and destination
+  /// branch for the pull request.
+  final List<PullRequestTarget>? pullRequestTargets;
+
+  /// The system-generated revision ID for the pull request.
+  final String? revisionId;
+
+  /// The user-defined title of the pull request. This title is displayed in the
+  /// list of pull requests to other repository users.
+  final String? title;
+
+  PullRequest({
+    this.approvalRules,
+    this.authorArn,
+    this.clientRequestToken,
+    this.creationDate,
+    this.description,
+    this.lastActivityDate,
+    this.pullRequestId,
+    this.pullRequestStatus,
+    this.pullRequestTargets,
+    this.revisionId,
+    this.title,
+  });
+
+  factory PullRequest.fromJson(Map<String, dynamic> json) {
+    return PullRequest(
+      approvalRules: (json['approvalRules'] as List?)
+          ?.nonNulls
+          .map((e) => ApprovalRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      authorArn: json['authorArn'] as String?,
+      clientRequestToken: json['clientRequestToken'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      lastActivityDate: timeStampFromJson(json['lastActivityDate']),
+      pullRequestId: json['pullRequestId'] as String?,
+      pullRequestStatus: (json['pullRequestStatus'] as String?)
+          ?.let(PullRequestStatusEnum.fromString),
+      pullRequestTargets: (json['pullRequestTargets'] as List?)
+          ?.nonNulls
+          .map((e) => PullRequestTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      revisionId: json['revisionId'] as String?,
+      title: json['title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRules = this.approvalRules;
+    final authorArn = this.authorArn;
+    final clientRequestToken = this.clientRequestToken;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final lastActivityDate = this.lastActivityDate;
+    final pullRequestId = this.pullRequestId;
+    final pullRequestStatus = this.pullRequestStatus;
+    final pullRequestTargets = this.pullRequestTargets;
+    final revisionId = this.revisionId;
+    final title = this.title;
+    return {
+      if (approvalRules != null) 'approvalRules': approvalRules,
+      if (authorArn != null) 'authorArn': authorArn,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'description': description,
+      if (lastActivityDate != null)
+        'lastActivityDate': unixTimestampToJson(lastActivityDate),
+      if (pullRequestId != null) 'pullRequestId': pullRequestId,
+      if (pullRequestStatus != null)
+        'pullRequestStatus': pullRequestStatus.value,
+      if (pullRequestTargets != null) 'pullRequestTargets': pullRequestTargets,
+      if (revisionId != null) 'revisionId': revisionId,
+      if (title != null) 'title': title,
+    };
+  }
+}
+
+class PullRequestStatusEnum {
+  static const open = PullRequestStatusEnum._('OPEN');
+  static const closed = PullRequestStatusEnum._('CLOSED');
+
+  final String value;
+
+  const PullRequestStatusEnum._(this.value);
+
+  static const values = [open, closed];
+
+  static PullRequestStatusEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PullRequestStatusEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PullRequestStatusEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns information about an approval rule.
+class ApprovalRule {
+  /// The content of the approval rule.
+  final String? approvalRuleContent;
+
+  /// The system-generated ID of the approval rule.
+  final String? approvalRuleId;
+
+  /// The name of the approval rule.
+  final String? approvalRuleName;
+
+  /// The date the approval rule was created, in timestamp format.
+  final DateTime? creationDate;
+
+  /// The date the approval rule was most recently changed, in timestamp format.
+  final DateTime? lastModifiedDate;
+
+  /// The Amazon Resource Name (ARN) of the user who made the most recent changes
+  /// to the approval rule.
+  final String? lastModifiedUser;
+
+  /// The approval rule template used to create the rule.
+  final OriginApprovalRuleTemplate? originApprovalRuleTemplate;
+
+  /// The SHA-256 hash signature for the content of the approval rule.
+  final String? ruleContentSha256;
+
+  ApprovalRule({
+    this.approvalRuleContent,
+    this.approvalRuleId,
+    this.approvalRuleName,
+    this.creationDate,
+    this.lastModifiedDate,
+    this.lastModifiedUser,
+    this.originApprovalRuleTemplate,
+    this.ruleContentSha256,
+  });
+
+  factory ApprovalRule.fromJson(Map<String, dynamic> json) {
+    return ApprovalRule(
+      approvalRuleContent: json['approvalRuleContent'] as String?,
+      approvalRuleId: json['approvalRuleId'] as String?,
+      approvalRuleName: json['approvalRuleName'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      lastModifiedUser: json['lastModifiedUser'] as String?,
+      originApprovalRuleTemplate: json['originApprovalRuleTemplate'] != null
+          ? OriginApprovalRuleTemplate.fromJson(
+              json['originApprovalRuleTemplate'] as Map<String, dynamic>)
+          : null,
+      ruleContentSha256: json['ruleContentSha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleContent = this.approvalRuleContent;
+    final approvalRuleId = this.approvalRuleId;
+    final approvalRuleName = this.approvalRuleName;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final lastModifiedUser = this.lastModifiedUser;
+    final originApprovalRuleTemplate = this.originApprovalRuleTemplate;
+    final ruleContentSha256 = this.ruleContentSha256;
+    return {
+      if (approvalRuleContent != null)
+        'approvalRuleContent': approvalRuleContent,
+      if (approvalRuleId != null) 'approvalRuleId': approvalRuleId,
+      if (approvalRuleName != null) 'approvalRuleName': approvalRuleName,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (lastModifiedUser != null) 'lastModifiedUser': lastModifiedUser,
+      if (originApprovalRuleTemplate != null)
+        'originApprovalRuleTemplate': originApprovalRuleTemplate,
+      if (ruleContentSha256 != null) 'ruleContentSha256': ruleContentSha256,
+    };
+  }
+}
+
+/// Returns information about the template that created the approval rule for a
+/// pull request.
+class OriginApprovalRuleTemplate {
+  /// The ID of the template that created the approval rule.
+  final String? approvalRuleTemplateId;
+
+  /// The name of the template that created the approval rule.
+  final String? approvalRuleTemplateName;
+
+  OriginApprovalRuleTemplate({
+    this.approvalRuleTemplateId,
+    this.approvalRuleTemplateName,
+  });
+
+  factory OriginApprovalRuleTemplate.fromJson(Map<String, dynamic> json) {
+    return OriginApprovalRuleTemplate(
+      approvalRuleTemplateId: json['approvalRuleTemplateId'] as String?,
+      approvalRuleTemplateName: json['approvalRuleTemplateName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplateId = this.approvalRuleTemplateId;
+    final approvalRuleTemplateName = this.approvalRuleTemplateName;
+    return {
+      if (approvalRuleTemplateId != null)
+        'approvalRuleTemplateId': approvalRuleTemplateId,
+      if (approvalRuleTemplateName != null)
+        'approvalRuleTemplateName': approvalRuleTemplateName,
+    };
+  }
+}
+
+/// Returns information about a pull request target.
+class PullRequestTarget {
+  /// The full commit ID that is the tip of the destination branch. This is the
+  /// commit where the pull request was or will be merged.
+  final String? destinationCommit;
+
+  /// The branch of the repository where the pull request changes are merged. Also
+  /// known as the destination branch.
+  final String? destinationReference;
+
+  /// The commit ID of the most recent commit that the source branch and the
+  /// destination branch have in common.
+  final String? mergeBase;
+
+  /// Returns metadata about the state of the merge, including whether the merge
+  /// has been made.
+  final MergeMetadata? mergeMetadata;
+
+  /// The name of the repository that contains the pull request source and
+  /// destination branches.
+  final String? repositoryName;
+
+  /// The full commit ID of the tip of the source branch used to create the pull
+  /// request. If the pull request branch is updated by a push while the pull
+  /// request is open, the commit ID changes to reflect the new tip of the branch.
+  final String? sourceCommit;
+
+  /// The branch of the repository that contains the changes for the pull request.
+  /// Also known as the source branch.
+  final String? sourceReference;
+
+  PullRequestTarget({
+    this.destinationCommit,
+    this.destinationReference,
+    this.mergeBase,
+    this.mergeMetadata,
+    this.repositoryName,
+    this.sourceCommit,
+    this.sourceReference,
+  });
+
+  factory PullRequestTarget.fromJson(Map<String, dynamic> json) {
+    return PullRequestTarget(
+      destinationCommit: json['destinationCommit'] as String?,
+      destinationReference: json['destinationReference'] as String?,
+      mergeBase: json['mergeBase'] as String?,
+      mergeMetadata: json['mergeMetadata'] != null
+          ? MergeMetadata.fromJson(
+              json['mergeMetadata'] as Map<String, dynamic>)
+          : null,
+      repositoryName: json['repositoryName'] as String?,
+      sourceCommit: json['sourceCommit'] as String?,
+      sourceReference: json['sourceReference'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationCommit = this.destinationCommit;
+    final destinationReference = this.destinationReference;
+    final mergeBase = this.mergeBase;
+    final mergeMetadata = this.mergeMetadata;
+    final repositoryName = this.repositoryName;
+    final sourceCommit = this.sourceCommit;
+    final sourceReference = this.sourceReference;
+    return {
+      if (destinationCommit != null) 'destinationCommit': destinationCommit,
+      if (destinationReference != null)
+        'destinationReference': destinationReference,
+      if (mergeBase != null) 'mergeBase': mergeBase,
+      if (mergeMetadata != null) 'mergeMetadata': mergeMetadata,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (sourceCommit != null) 'sourceCommit': sourceCommit,
+      if (sourceReference != null) 'sourceReference': sourceReference,
+    };
+  }
+}
+
+/// Returns information about a merge or potential merge between a source
+/// reference and a destination reference in a pull request.
+class MergeMetadata {
+  /// A Boolean value indicating whether the merge has been made.
+  final bool? isMerged;
+
+  /// The commit ID for the merge commit, if any.
+  final String? mergeCommitId;
+
+  /// The merge strategy used in the merge.
+  final MergeOptionTypeEnum? mergeOption;
+
+  /// The Amazon Resource Name (ARN) of the user who merged the branches.
+  final String? mergedBy;
+
+  MergeMetadata({
+    this.isMerged,
+    this.mergeCommitId,
+    this.mergeOption,
+    this.mergedBy,
+  });
+
+  factory MergeMetadata.fromJson(Map<String, dynamic> json) {
+    return MergeMetadata(
+      isMerged: json['isMerged'] as bool?,
+      mergeCommitId: json['mergeCommitId'] as String?,
+      mergeOption:
+          (json['mergeOption'] as String?)?.let(MergeOptionTypeEnum.fromString),
+      mergedBy: json['mergedBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isMerged = this.isMerged;
+    final mergeCommitId = this.mergeCommitId;
+    final mergeOption = this.mergeOption;
+    final mergedBy = this.mergedBy;
+    return {
+      if (isMerged != null) 'isMerged': isMerged,
+      if (mergeCommitId != null) 'mergeCommitId': mergeCommitId,
+      if (mergeOption != null) 'mergeOption': mergeOption.value,
+      if (mergedBy != null) 'mergedBy': mergedBy,
+    };
+  }
+}
+
+class MergeOptionTypeEnum {
+  static const fastForwardMerge = MergeOptionTypeEnum._('FAST_FORWARD_MERGE');
+  static const squashMerge = MergeOptionTypeEnum._('SQUASH_MERGE');
+  static const threeWayMerge = MergeOptionTypeEnum._('THREE_WAY_MERGE');
+
+  final String value;
+
+  const MergeOptionTypeEnum._(this.value);
+
+  static const values = [fastForwardMerge, squashMerge, threeWayMerge];
+
+  static MergeOptionTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MergeOptionTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MergeOptionTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApprovalState {
+  static const approve = ApprovalState._('APPROVE');
+  static const revoke = ApprovalState._('REVOKE');
+
+  final String value;
+
+  const ApprovalState._(this.value);
+
+  static const values = [approve, revoke];
+
+  static ApprovalState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApprovalState._(value));
+
+  @override
+  bool operator ==(other) => other is ApprovalState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns information about a specific comment.
+class Comment {
+  /// The Amazon Resource Name (ARN) of the person who posted the comment.
+  final String? authorArn;
+
+  /// The emoji reactions to a comment, if any, submitted by the user whose
+  /// credentials are associated with the call to the API.
+  final List<String>? callerReactions;
+
+  /// A unique, client-generated idempotency token that, when provided in a
+  /// request, ensures the request cannot be repeated with a changed parameter. If
+  /// a request is received with the same parameters and a token is included, the
+  /// request returns information about the initial request that used that token.
+  final String? clientRequestToken;
+
+  /// The system-generated comment ID.
+  final String? commentId;
+
+  /// The content of the comment.
+  final String? content;
+
+  /// The date and time the comment was created, in timestamp format.
+  final DateTime? creationDate;
+
+  /// A Boolean value indicating whether the comment has been deleted.
+  final bool? deleted;
+
+  /// The ID of the comment for which this comment is a reply, if any.
+  final String? inReplyTo;
+
+  /// The date and time the comment was most recently modified, in timestamp
+  /// format.
+  final DateTime? lastModifiedDate;
+
+  /// A string to integer map that represents the number of individual users who
+  /// have responded to a comment with the specified reactions.
+  final Map<String, int>? reactionCounts;
+
+  Comment({
+    this.authorArn,
+    this.callerReactions,
+    this.clientRequestToken,
+    this.commentId,
+    this.content,
+    this.creationDate,
+    this.deleted,
+    this.inReplyTo,
+    this.lastModifiedDate,
+    this.reactionCounts,
+  });
+
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      authorArn: json['authorArn'] as String?,
+      callerReactions: (json['callerReactions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      clientRequestToken: json['clientRequestToken'] as String?,
+      commentId: json['commentId'] as String?,
+      content: json['content'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      deleted: json['deleted'] as bool?,
+      inReplyTo: json['inReplyTo'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      reactionCounts: (json['reactionCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorArn = this.authorArn;
+    final callerReactions = this.callerReactions;
+    final clientRequestToken = this.clientRequestToken;
+    final commentId = this.commentId;
+    final content = this.content;
+    final creationDate = this.creationDate;
+    final deleted = this.deleted;
+    final inReplyTo = this.inReplyTo;
+    final lastModifiedDate = this.lastModifiedDate;
+    final reactionCounts = this.reactionCounts;
+    return {
+      if (authorArn != null) 'authorArn': authorArn,
+      if (callerReactions != null) 'callerReactions': callerReactions,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (commentId != null) 'commentId': commentId,
+      if (content != null) 'content': content,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (deleted != null) 'deleted': deleted,
+      if (inReplyTo != null) 'inReplyTo': inReplyTo,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (reactionCounts != null) 'reactionCounts': reactionCounts,
+    };
+  }
+}
+
+/// Returns information about an approval rule template.
+class ApprovalRuleTemplate {
+  /// The content of the approval rule template.
+  final String? approvalRuleTemplateContent;
+
+  /// The description of the approval rule template.
+  final String? approvalRuleTemplateDescription;
+
+  /// The system-generated ID of the approval rule template.
+  final String? approvalRuleTemplateId;
+
+  /// The name of the approval rule template.
+  final String? approvalRuleTemplateName;
+
+  /// The date the approval rule template was created, in timestamp format.
+  final DateTime? creationDate;
+
+  /// The date the approval rule template was most recently changed, in timestamp
+  /// format.
+  final DateTime? lastModifiedDate;
+
+  /// The Amazon Resource Name (ARN) of the user who made the most recent changes
+  /// to the approval rule template.
+  final String? lastModifiedUser;
+
+  /// The SHA-256 hash signature for the content of the approval rule template.
+  final String? ruleContentSha256;
+
+  ApprovalRuleTemplate({
+    this.approvalRuleTemplateContent,
+    this.approvalRuleTemplateDescription,
+    this.approvalRuleTemplateId,
+    this.approvalRuleTemplateName,
+    this.creationDate,
+    this.lastModifiedDate,
+    this.lastModifiedUser,
+    this.ruleContentSha256,
+  });
+
+  factory ApprovalRuleTemplate.fromJson(Map<String, dynamic> json) {
+    return ApprovalRuleTemplate(
+      approvalRuleTemplateContent:
+          json['approvalRuleTemplateContent'] as String?,
+      approvalRuleTemplateDescription:
+          json['approvalRuleTemplateDescription'] as String?,
+      approvalRuleTemplateId: json['approvalRuleTemplateId'] as String?,
+      approvalRuleTemplateName: json['approvalRuleTemplateName'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      lastModifiedUser: json['lastModifiedUser'] as String?,
+      ruleContentSha256: json['ruleContentSha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplateContent = this.approvalRuleTemplateContent;
+    final approvalRuleTemplateDescription =
+        this.approvalRuleTemplateDescription;
+    final approvalRuleTemplateId = this.approvalRuleTemplateId;
+    final approvalRuleTemplateName = this.approvalRuleTemplateName;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final lastModifiedUser = this.lastModifiedUser;
+    final ruleContentSha256 = this.ruleContentSha256;
+    return {
+      if (approvalRuleTemplateContent != null)
+        'approvalRuleTemplateContent': approvalRuleTemplateContent,
+      if (approvalRuleTemplateDescription != null)
+        'approvalRuleTemplateDescription': approvalRuleTemplateDescription,
+      if (approvalRuleTemplateId != null)
+        'approvalRuleTemplateId': approvalRuleTemplateId,
+      if (approvalRuleTemplateName != null)
+        'approvalRuleTemplateName': approvalRuleTemplateName,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (lastModifiedUser != null) 'lastModifiedUser': lastModifiedUser,
+      if (ruleContentSha256 != null) 'ruleContentSha256': ruleContentSha256,
+    };
+  }
+}
+
+/// A trigger failed to run.
+class RepositoryTriggerExecutionFailure {
+  /// Message information about the trigger that did not run.
+  final String? failureMessage;
+
+  /// The name of the trigger that did not run.
+  final String? trigger;
+
+  RepositoryTriggerExecutionFailure({
+    this.failureMessage,
+    this.trigger,
+  });
+
+  factory RepositoryTriggerExecutionFailure.fromJson(
+      Map<String, dynamic> json) {
+    return RepositoryTriggerExecutionFailure(
+      failureMessage: json['failureMessage'] as String?,
+      trigger: json['trigger'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureMessage = this.failureMessage;
+    final trigger = this.trigger;
+    return {
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (trigger != null) 'trigger': trigger,
+    };
+  }
+}
+
+/// Information about a trigger for a repository.
+/// <note>
+/// If you want to receive notifications about repository events, consider using
+/// notifications instead of triggers. For more information, see <a
+/// href="https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-repository-email.html">Configuring
+/// notifications for repository events</a>.
+/// </note>
+class RepositoryTrigger {
+  /// The ARN of the resource that is the target for a trigger (for example, the
+  /// ARN of a topic in Amazon SNS).
+  final String destinationArn;
+
+  /// The repository events that cause the trigger to run actions in another
+  /// service, such as sending a notification through Amazon SNS.
+  /// <note>
+  /// The valid value "all" cannot be used with any other values.
+  /// </note>
+  final List<RepositoryTriggerEventEnum> events;
+
+  /// The name of the trigger.
+  final String name;
+
+  /// The branches to be included in the trigger configuration. If you specify an
+  /// empty array, the trigger applies to all branches.
+  /// <note>
+  /// Although no content is required in the array, you must include the array
+  /// itself.
+  /// </note>
+  final List<String>? branches;
+
+  /// Any custom data associated with the trigger to be included in the
+  /// information sent to the target of the trigger.
+  final String? customData;
+
+  RepositoryTrigger({
+    required this.destinationArn,
+    required this.events,
+    required this.name,
+    this.branches,
+    this.customData,
+  });
+
+  factory RepositoryTrigger.fromJson(Map<String, dynamic> json) {
+    return RepositoryTrigger(
+      destinationArn: (json['destinationArn'] as String?) ?? '',
+      events: ((json['events'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => RepositoryTriggerEventEnum.fromString((e as String)))
+          .toList(),
+      name: (json['name'] as String?) ?? '',
+      branches: (json['branches'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      customData: json['customData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationArn = this.destinationArn;
+    final events = this.events;
+    final name = this.name;
+    final branches = this.branches;
+    final customData = this.customData;
+    return {
+      'destinationArn': destinationArn,
+      'events': events.map((e) => e.value).toList(),
+      'name': name,
+      if (branches != null) 'branches': branches,
+      if (customData != null) 'customData': customData,
+    };
+  }
+}
+
+class RepositoryTriggerEventEnum {
+  static const all = RepositoryTriggerEventEnum._('all');
+  static const updateReference =
+      RepositoryTriggerEventEnum._('updateReference');
+  static const createReference =
+      RepositoryTriggerEventEnum._('createReference');
+  static const deleteReference =
+      RepositoryTriggerEventEnum._('deleteReference');
+
+  final String value;
+
+  const RepositoryTriggerEventEnum._(this.value);
+
+  static const values = [
+    all,
+    updateReference,
+    createReference,
+    deleteReference
+  ];
+
+  static RepositoryTriggerEventEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RepositoryTriggerEventEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RepositoryTriggerEventEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class FileModeTypeEnum {
+  static const executable = FileModeTypeEnum._('EXECUTABLE');
+  static const normal = FileModeTypeEnum._('NORMAL');
+  static const symlink = FileModeTypeEnum._('SYMLINK');
+
+  final String value;
+
+  const FileModeTypeEnum._(this.value);
+
+  static const values = [executable, normal, symlink];
+
+  static FileModeTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => FileModeTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is FileModeTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns information about the location of a change or comment in the
+/// comparison between two commits or a pull request.
+class Location {
+  /// The name of the file being compared, including its extension and
+  /// subdirectory, if any.
+  final String? filePath;
+
+  /// The position of a change in a compared file, in line number format.
+  final int? filePosition;
+
+  /// In a comparison of commits or a pull request, whether the change is in the
+  /// before or after of that comparison.
+  final RelativeFileVersionEnum? relativeFileVersion;
+
+  Location({
+    this.filePath,
+    this.filePosition,
+    this.relativeFileVersion,
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      filePath: json['filePath'] as String?,
+      filePosition: json['filePosition'] as int?,
+      relativeFileVersion: (json['relativeFileVersion'] as String?)
+          ?.let(RelativeFileVersionEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final filePosition = this.filePosition;
+    final relativeFileVersion = this.relativeFileVersion;
+    return {
+      if (filePath != null) 'filePath': filePath,
+      if (filePosition != null) 'filePosition': filePosition,
+      if (relativeFileVersion != null)
+        'relativeFileVersion': relativeFileVersion.value,
+    };
+  }
+}
+
+class RelativeFileVersionEnum {
+  static const before = RelativeFileVersionEnum._('BEFORE');
+  static const after = RelativeFileVersionEnum._('AFTER');
+
+  final String value;
+
+  const RelativeFileVersionEnum._(this.value);
+
+  static const values = [before, after];
+
+  static RelativeFileVersionEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RelativeFileVersionEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RelativeFileVersionEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OverrideStatus {
+  static const $override = OverrideStatus._('OVERRIDE');
+  static const revoke = OverrideStatus._('REVOKE');
+
+  final String value;
+
+  const OverrideStatus._(this.value);
+
+  static const values = [$override, revoke];
+
+  static OverrideStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OverrideStatus._(value));
+
+  @override
+  bool operator ==(other) => other is OverrideStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConflictDetailLevelTypeEnum {
+  static const fileLevel = ConflictDetailLevelTypeEnum._('FILE_LEVEL');
+  static const lineLevel = ConflictDetailLevelTypeEnum._('LINE_LEVEL');
+
+  final String value;
+
+  const ConflictDetailLevelTypeEnum._(this.value);
+
+  static const values = [fileLevel, lineLevel];
+
+  static ConflictDetailLevelTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConflictDetailLevelTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConflictDetailLevelTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConflictResolutionStrategyTypeEnum {
+  static const none = ConflictResolutionStrategyTypeEnum._('NONE');
+  static const acceptSource =
+      ConflictResolutionStrategyTypeEnum._('ACCEPT_SOURCE');
+  static const acceptDestination =
+      ConflictResolutionStrategyTypeEnum._('ACCEPT_DESTINATION');
+  static const automerge = ConflictResolutionStrategyTypeEnum._('AUTOMERGE');
+
+  final String value;
+
+  const ConflictResolutionStrategyTypeEnum._(this.value);
+
+  static const values = [none, acceptSource, acceptDestination, automerge];
+
+  static ConflictResolutionStrategyTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConflictResolutionStrategyTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConflictResolutionStrategyTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
+/// when resolving conflicts during a merge.
+class ConflictResolution {
+  /// Files to be deleted as part of the merge conflict resolution.
+  final List<DeleteFileEntry>? deleteFiles;
+
+  /// Files to have content replaced as part of the merge conflict resolution.
+  final List<ReplaceContentEntry>? replaceContents;
+
+  /// File modes that are set as part of the merge conflict resolution.
+  final List<SetFileModeEntry>? setFileModes;
+
+  ConflictResolution({
+    this.deleteFiles,
+    this.replaceContents,
+    this.setFileModes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final deleteFiles = this.deleteFiles;
+    final replaceContents = this.replaceContents;
+    final setFileModes = this.setFileModes;
+    return {
+      if (deleteFiles != null) 'deleteFiles': deleteFiles,
+      if (replaceContents != null) 'replaceContents': replaceContents,
+      if (setFileModes != null) 'setFileModes': setFileModes,
+    };
+  }
+}
+
+/// Information about the file mode changes.
+class SetFileModeEntry {
+  /// The file mode for the file.
+  final FileModeTypeEnum fileMode;
+
+  /// The full path to the file, including the name of the file.
+  final String filePath;
+
+  SetFileModeEntry({
+    required this.fileMode,
+    required this.filePath,
+  });
+
+  Map<String, dynamic> toJson() {
+    final fileMode = this.fileMode;
+    final filePath = this.filePath;
+    return {
+      'fileMode': fileMode.value,
+      'filePath': filePath,
+    };
+  }
+}
+
+/// A file that is deleted as part of a commit.
+class DeleteFileEntry {
+  /// The full path of the file to be deleted, including the name of the file.
+  final String filePath;
+
+  DeleteFileEntry({
+    required this.filePath,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    return {
+      'filePath': filePath,
+    };
+  }
+}
+
+/// Information about a replacement content entry in the conflict of a merge or
+/// pull request operation.
+class ReplaceContentEntry {
+  /// The path of the conflicting file.
+  final String filePath;
+
+  /// The replacement type to use when determining how to resolve the conflict.
+  final ReplacementTypeEnum replacementType;
+
+  /// The base-64 encoded content to use when the replacement type is
+  /// USE_NEW_CONTENT.
+  final Uint8List? content;
+
+  /// The file mode to apply during conflict resoltion.
+  final FileModeTypeEnum? fileMode;
+
+  ReplaceContentEntry({
+    required this.filePath,
+    required this.replacementType,
+    this.content,
+    this.fileMode,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final replacementType = this.replacementType;
+    final content = this.content;
+    final fileMode = this.fileMode;
+    return {
+      'filePath': filePath,
+      'replacementType': replacementType.value,
+      if (content != null) 'content': base64Encode(content),
+      if (fileMode != null) 'fileMode': fileMode.value,
+    };
+  }
+}
+
+class ReplacementTypeEnum {
+  static const keepBase = ReplacementTypeEnum._('KEEP_BASE');
+  static const keepSource = ReplacementTypeEnum._('KEEP_SOURCE');
+  static const keepDestination = ReplacementTypeEnum._('KEEP_DESTINATION');
+  static const useNewContent = ReplacementTypeEnum._('USE_NEW_CONTENT');
+
+  final String value;
+
+  const ReplacementTypeEnum._(this.value);
+
+  static const values = [keepBase, keepSource, keepDestination, useNewContent];
+
+  static ReplacementTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplacementTypeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplacementTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a repository name and ID.
+class RepositoryNameIdPair {
+  /// The ID associated with the repository.
+  final String? repositoryId;
+
+  /// The name associated with the repository.
+  final String? repositoryName;
+
+  RepositoryNameIdPair({
+    this.repositoryId,
+    this.repositoryName,
+  });
+
+  factory RepositoryNameIdPair.fromJson(Map<String, dynamic> json) {
+    return RepositoryNameIdPair(
+      repositoryId: json['repositoryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryId = this.repositoryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (repositoryId != null) 'repositoryId': repositoryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+class SortByEnum {
+  static const repositoryName = SortByEnum._('repositoryName');
+  static const lastModifiedDate = SortByEnum._('lastModifiedDate');
+
+  final String value;
+
+  const SortByEnum._(this.value);
+
+  static const values = [repositoryName, lastModifiedDate];
+
+  static SortByEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortByEnum._(value));
+
+  @override
+  bool operator ==(other) => other is SortByEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class OrderEnum {
+  static const ascending = OrderEnum._('ascending');
+  static const descending = OrderEnum._('descending');
+
+  final String value;
+
+  const OrderEnum._(this.value);
+
+  static const values = [ascending, descending];
+
+  static OrderEnum fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => OrderEnum._(value));
+
+  @override
+  bool operator ==(other) => other is OrderEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a version of a file.
+class FileVersion {
+  /// The blob ID of the object that represents the content of the file in this
+  /// version.
+  final String? blobId;
+  final Commit? commit;
+
+  /// The name and path of the file at which this blob is indexed which contains
+  /// the data for this version of the file. This value will vary between file
+  /// versions if a file is renamed or if its path changes.
+  final String? path;
+
+  /// An array of commit IDs that contain more recent versions of this file. If
+  /// there are no additional versions of the file, this array will be empty.
+  final List<String>? revisionChildren;
+
+  FileVersion({
+    this.blobId,
+    this.commit,
+    this.path,
+    this.revisionChildren,
+  });
+
+  factory FileVersion.fromJson(Map<String, dynamic> json) {
+    return FileVersion(
+      blobId: json['blobId'] as String?,
+      commit: json['commit'] != null
+          ? Commit.fromJson(json['commit'] as Map<String, dynamic>)
+          : null,
+      path: json['path'] as String?,
+      revisionChildren: (json['revisionChildren'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blobId = this.blobId;
+    final commit = this.commit;
+    final path = this.path;
+    final revisionChildren = this.revisionChildren;
+    return {
+      if (blobId != null) 'blobId': blobId,
+      if (commit != null) 'commit': commit,
+      if (path != null) 'path': path,
+      if (revisionChildren != null) 'revisionChildren': revisionChildren,
+    };
+  }
+}
+
+/// Returns information about a specific commit.
+class Commit {
+  /// Any other data associated with the specified commit.
+  final String? additionalData;
+
+  /// Information about the author of the specified commit. Information includes
+  /// the date in timestamp format with GMT offset, the name of the author, and
+  /// the email address for the author, as configured in Git.
+  final UserInfo? author;
+
+  /// The full SHA ID of the specified commit.
+  final String? commitId;
+
+  /// Information about the person who committed the specified commit, also known
+  /// as the committer. Information includes the date in timestamp format with GMT
+  /// offset, the name of the committer, and the email address for the committer,
+  /// as configured in Git.
+  ///
+  /// For more information about the difference between an author and a committer
+  /// in Git, see <a href="http://git-scm.com/book/ch2-3.html">Viewing the Commit
+  /// History</a> in Pro Git by Scott Chacon and Ben Straub.
+  final UserInfo? committer;
+
+  /// The commit message associated with the specified commit.
+  final String? message;
+
+  /// A list of parent commits for the specified commit. Each parent commit ID is
+  /// the full commit ID.
+  final List<String>? parents;
+
+  /// Tree information for the specified commit.
+  final String? treeId;
+
+  Commit({
+    this.additionalData,
+    this.author,
+    this.commitId,
+    this.committer,
+    this.message,
+    this.parents,
+    this.treeId,
+  });
+
+  factory Commit.fromJson(Map<String, dynamic> json) {
+    return Commit(
+      additionalData: json['additionalData'] as String?,
+      author: json['author'] != null
+          ? UserInfo.fromJson(json['author'] as Map<String, dynamic>)
+          : null,
+      commitId: json['commitId'] as String?,
+      committer: json['committer'] != null
+          ? UserInfo.fromJson(json['committer'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      parents:
+          (json['parents'] as List?)?.nonNulls.map((e) => e as String).toList(),
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalData = this.additionalData;
+    final author = this.author;
+    final commitId = this.commitId;
+    final committer = this.committer;
+    final message = this.message;
+    final parents = this.parents;
+    final treeId = this.treeId;
+    return {
+      if (additionalData != null) 'additionalData': additionalData,
+      if (author != null) 'author': author,
+      if (commitId != null) 'commitId': commitId,
+      if (committer != null) 'committer': committer,
+      if (message != null) 'message': message,
+      if (parents != null) 'parents': parents,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
+}
+
 /// Information about the user who made a specified commit.
 class UserInfo {
   /// The date when the specified commit was commited, in timestamp format with
@@ -10683,6 +8621,2066 @@ class UserInfo {
       if (date != null) 'date': date,
       if (email != null) 'email': email,
       if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Information about a repository.
+class RepositoryMetadata {
+  /// The Amazon Resource Name (ARN) of the repository.
+  final String? arn;
+
+  /// The ID of the Amazon Web Services account associated with the repository.
+  final String? accountId;
+
+  /// The URL to use for cloning the repository over HTTPS.
+  final String? cloneUrlHttp;
+
+  /// The URL to use for cloning the repository over SSH.
+  final String? cloneUrlSsh;
+
+  /// The date and time the repository was created, in timestamp format.
+  final DateTime? creationDate;
+
+  /// The repository's default branch name.
+  final String? defaultBranch;
+
+  /// The ID of the Key Management Service encryption key used to encrypt and
+  /// decrypt the repository.
+  final String? kmsKeyId;
+
+  /// The date and time the repository was last modified, in timestamp format.
+  final DateTime? lastModifiedDate;
+
+  /// A comment or description about the repository.
+  final String? repositoryDescription;
+
+  /// The ID of the repository.
+  final String? repositoryId;
+
+  /// The repository's name.
+  final String? repositoryName;
+
+  RepositoryMetadata({
+    this.arn,
+    this.accountId,
+    this.cloneUrlHttp,
+    this.cloneUrlSsh,
+    this.creationDate,
+    this.defaultBranch,
+    this.kmsKeyId,
+    this.lastModifiedDate,
+    this.repositoryDescription,
+    this.repositoryId,
+    this.repositoryName,
+  });
+
+  factory RepositoryMetadata.fromJson(Map<String, dynamic> json) {
+    return RepositoryMetadata(
+      arn: json['Arn'] as String?,
+      accountId: json['accountId'] as String?,
+      cloneUrlHttp: json['cloneUrlHttp'] as String?,
+      cloneUrlSsh: json['cloneUrlSsh'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      defaultBranch: json['defaultBranch'] as String?,
+      kmsKeyId: json['kmsKeyId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      repositoryDescription: json['repositoryDescription'] as String?,
+      repositoryId: json['repositoryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final accountId = this.accountId;
+    final cloneUrlHttp = this.cloneUrlHttp;
+    final cloneUrlSsh = this.cloneUrlSsh;
+    final creationDate = this.creationDate;
+    final defaultBranch = this.defaultBranch;
+    final kmsKeyId = this.kmsKeyId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final repositoryDescription = this.repositoryDescription;
+    final repositoryId = this.repositoryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (accountId != null) 'accountId': accountId,
+      if (cloneUrlHttp != null) 'cloneUrlHttp': cloneUrlHttp,
+      if (cloneUrlSsh != null) 'cloneUrlSsh': cloneUrlSsh,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (defaultBranch != null) 'defaultBranch': defaultBranch,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (repositoryDescription != null)
+        'repositoryDescription': repositoryDescription,
+      if (repositoryId != null) 'repositoryId': repositoryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// Returns information about a specific approval on a pull request.
+class Approval {
+  /// The state of the approval, APPROVE or REVOKE. REVOKE states are not stored.
+  final ApprovalState? approvalState;
+
+  /// The Amazon Resource Name (ARN) of the user.
+  final String? userArn;
+
+  Approval({
+    this.approvalState,
+    this.userArn,
+  });
+
+  factory Approval.fromJson(Map<String, dynamic> json) {
+    return Approval(
+      approvalState:
+          (json['approvalState'] as String?)?.let(ApprovalState.fromString),
+      userArn: json['userArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalState = this.approvalState;
+    final userArn = this.userArn;
+    return {
+      if (approvalState != null) 'approvalState': approvalState.value,
+      if (userArn != null) 'userArn': userArn,
+    };
+  }
+}
+
+/// Information about the metadata for a conflict in a merge operation.
+class ConflictMetadata {
+  /// A boolean value indicating whether there are conflicts in the content of a
+  /// file.
+  final bool? contentConflict;
+
+  /// A boolean value indicating whether there are conflicts in the file mode of a
+  /// file.
+  final bool? fileModeConflict;
+
+  /// The file modes of the file in the source, destination, and base of the
+  /// merge.
+  final FileModes? fileModes;
+
+  /// The path of the file that contains conflicts.
+  final String? filePath;
+
+  /// The file sizes of the file in the source, destination, and base of the
+  /// merge.
+  final FileSizes? fileSizes;
+
+  /// A boolean value (true or false) indicating whether the file is binary or
+  /// textual in the source, destination, and base of the merge.
+  final IsBinaryFile? isBinaryFile;
+
+  /// Whether an add, modify, or delete operation caused the conflict between the
+  /// source and destination of the merge.
+  final MergeOperations? mergeOperations;
+
+  /// The number of conflicts, including both hunk conflicts and metadata
+  /// conflicts.
+  final int? numberOfConflicts;
+
+  /// A boolean value (true or false) indicating whether there are conflicts
+  /// between the branches in the object type of a file, folder, or submodule.
+  final bool? objectTypeConflict;
+
+  /// Information about any object type conflicts in a merge operation.
+  final ObjectTypes? objectTypes;
+
+  ConflictMetadata({
+    this.contentConflict,
+    this.fileModeConflict,
+    this.fileModes,
+    this.filePath,
+    this.fileSizes,
+    this.isBinaryFile,
+    this.mergeOperations,
+    this.numberOfConflicts,
+    this.objectTypeConflict,
+    this.objectTypes,
+  });
+
+  factory ConflictMetadata.fromJson(Map<String, dynamic> json) {
+    return ConflictMetadata(
+      contentConflict: json['contentConflict'] as bool?,
+      fileModeConflict: json['fileModeConflict'] as bool?,
+      fileModes: json['fileModes'] != null
+          ? FileModes.fromJson(json['fileModes'] as Map<String, dynamic>)
+          : null,
+      filePath: json['filePath'] as String?,
+      fileSizes: json['fileSizes'] != null
+          ? FileSizes.fromJson(json['fileSizes'] as Map<String, dynamic>)
+          : null,
+      isBinaryFile: json['isBinaryFile'] != null
+          ? IsBinaryFile.fromJson(json['isBinaryFile'] as Map<String, dynamic>)
+          : null,
+      mergeOperations: json['mergeOperations'] != null
+          ? MergeOperations.fromJson(
+              json['mergeOperations'] as Map<String, dynamic>)
+          : null,
+      numberOfConflicts: json['numberOfConflicts'] as int?,
+      objectTypeConflict: json['objectTypeConflict'] as bool?,
+      objectTypes: json['objectTypes'] != null
+          ? ObjectTypes.fromJson(json['objectTypes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentConflict = this.contentConflict;
+    final fileModeConflict = this.fileModeConflict;
+    final fileModes = this.fileModes;
+    final filePath = this.filePath;
+    final fileSizes = this.fileSizes;
+    final isBinaryFile = this.isBinaryFile;
+    final mergeOperations = this.mergeOperations;
+    final numberOfConflicts = this.numberOfConflicts;
+    final objectTypeConflict = this.objectTypeConflict;
+    final objectTypes = this.objectTypes;
+    return {
+      if (contentConflict != null) 'contentConflict': contentConflict,
+      if (fileModeConflict != null) 'fileModeConflict': fileModeConflict,
+      if (fileModes != null) 'fileModes': fileModes,
+      if (filePath != null) 'filePath': filePath,
+      if (fileSizes != null) 'fileSizes': fileSizes,
+      if (isBinaryFile != null) 'isBinaryFile': isBinaryFile,
+      if (mergeOperations != null) 'mergeOperations': mergeOperations,
+      if (numberOfConflicts != null) 'numberOfConflicts': numberOfConflicts,
+      if (objectTypeConflict != null) 'objectTypeConflict': objectTypeConflict,
+      if (objectTypes != null) 'objectTypes': objectTypes,
+    };
+  }
+}
+
+/// Information about the size of files in a merge or pull request.
+class FileSizes {
+  /// The size of a file in the base of a merge or pull request.
+  final int? base;
+
+  /// The size of a file in the destination of a merge or pull request.
+  final int? destination;
+
+  /// The size of a file in the source of a merge or pull request.
+  final int? source;
+
+  FileSizes({
+    this.base,
+    this.destination,
+    this.source,
+  });
+
+  factory FileSizes.fromJson(Map<String, dynamic> json) {
+    return FileSizes(
+      base: json['base'] as int?,
+      destination: json['destination'] as int?,
+      source: json['source'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base,
+      if (destination != null) 'destination': destination,
+      if (source != null) 'source': source,
+    };
+  }
+}
+
+/// Information about file modes in a merge or pull request.
+class FileModes {
+  /// The file mode of a file in the base of a merge or pull request.
+  final FileModeTypeEnum? base;
+
+  /// The file mode of a file in the destination of a merge or pull request.
+  final FileModeTypeEnum? destination;
+
+  /// The file mode of a file in the source of a merge or pull request.
+  final FileModeTypeEnum? source;
+
+  FileModes({
+    this.base,
+    this.destination,
+    this.source,
+  });
+
+  factory FileModes.fromJson(Map<String, dynamic> json) {
+    return FileModes(
+      base: (json['base'] as String?)?.let(FileModeTypeEnum.fromString),
+      destination:
+          (json['destination'] as String?)?.let(FileModeTypeEnum.fromString),
+      source: (json['source'] as String?)?.let(FileModeTypeEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base.value,
+      if (destination != null) 'destination': destination.value,
+      if (source != null) 'source': source.value,
+    };
+  }
+}
+
+/// Information about the type of an object in a merge operation.
+class ObjectTypes {
+  /// The type of the object in the base commit of the merge.
+  final ObjectTypeEnum? base;
+
+  /// The type of the object in the destination branch.
+  final ObjectTypeEnum? destination;
+
+  /// The type of the object in the source branch.
+  final ObjectTypeEnum? source;
+
+  ObjectTypes({
+    this.base,
+    this.destination,
+    this.source,
+  });
+
+  factory ObjectTypes.fromJson(Map<String, dynamic> json) {
+    return ObjectTypes(
+      base: (json['base'] as String?)?.let(ObjectTypeEnum.fromString),
+      destination:
+          (json['destination'] as String?)?.let(ObjectTypeEnum.fromString),
+      source: (json['source'] as String?)?.let(ObjectTypeEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base.value,
+      if (destination != null) 'destination': destination.value,
+      if (source != null) 'source': source.value,
+    };
+  }
+}
+
+/// Information about whether a file is binary or textual in a merge or pull
+/// request operation.
+class IsBinaryFile {
+  /// The binary or non-binary status of a file in the base of a merge or pull
+  /// request.
+  final bool? base;
+
+  /// The binary or non-binary status of a file in the destination of a merge or
+  /// pull request.
+  final bool? destination;
+
+  /// The binary or non-binary status of file in the source of a merge or pull
+  /// request.
+  final bool? source;
+
+  IsBinaryFile({
+    this.base,
+    this.destination,
+    this.source,
+  });
+
+  factory IsBinaryFile.fromJson(Map<String, dynamic> json) {
+    return IsBinaryFile(
+      base: json['base'] as bool?,
+      destination: json['destination'] as bool?,
+      source: json['source'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base,
+      if (destination != null) 'destination': destination,
+      if (source != null) 'source': source,
+    };
+  }
+}
+
+/// Information about the file operation conflicts in a merge operation.
+class MergeOperations {
+  /// The operation on a file in the destination of a merge or pull request.
+  final ChangeTypeEnum? destination;
+
+  /// The operation (add, modify, or delete) on a file in the source of a merge or
+  /// pull request.
+  final ChangeTypeEnum? source;
+
+  MergeOperations({
+    this.destination,
+    this.source,
+  });
+
+  factory MergeOperations.fromJson(Map<String, dynamic> json) {
+    return MergeOperations(
+      destination:
+          (json['destination'] as String?)?.let(ChangeTypeEnum.fromString),
+      source: (json['source'] as String?)?.let(ChangeTypeEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (destination != null) 'destination': destination.value,
+      if (source != null) 'source': source.value,
+    };
+  }
+}
+
+class ChangeTypeEnum {
+  static const a = ChangeTypeEnum._('A');
+  static const m = ChangeTypeEnum._('M');
+  static const d = ChangeTypeEnum._('D');
+
+  final String value;
+
+  const ChangeTypeEnum._(this.value);
+
+  static const values = [a, m, d];
+
+  static ChangeTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ChangeTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ChangeTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ObjectTypeEnum {
+  static const file = ObjectTypeEnum._('FILE');
+  static const directory = ObjectTypeEnum._('DIRECTORY');
+  static const gitLink = ObjectTypeEnum._('GIT_LINK');
+  static const symbolicLink = ObjectTypeEnum._('SYMBOLIC_LINK');
+
+  final String value;
+
+  const ObjectTypeEnum._(this.value);
+
+  static const values = [file, directory, gitLink, symbolicLink];
+
+  static ObjectTypeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectTypeEnum._(value));
+
+  @override
+  bool operator ==(other) => other is ObjectTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns information about a submodule reference in a repository folder.
+class SubModule {
+  /// The fully qualified path to the folder that contains the reference to the
+  /// submodule.
+  final String? absolutePath;
+
+  /// The commit ID that contains the reference to the submodule.
+  final String? commitId;
+
+  /// The relative path of the submodule from the folder where the query
+  /// originated.
+  final String? relativePath;
+
+  SubModule({
+    this.absolutePath,
+    this.commitId,
+    this.relativePath,
+  });
+
+  factory SubModule.fromJson(Map<String, dynamic> json) {
+    return SubModule(
+      absolutePath: json['absolutePath'] as String?,
+      commitId: json['commitId'] as String?,
+      relativePath: json['relativePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final commitId = this.commitId;
+    final relativePath = this.relativePath;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (commitId != null) 'commitId': commitId,
+      if (relativePath != null) 'relativePath': relativePath,
+    };
+  }
+}
+
+/// Returns information about a symbolic link in a repository folder.
+class SymbolicLink {
+  /// The fully qualified path to the folder that contains the symbolic link.
+  final String? absolutePath;
+
+  /// The blob ID that contains the information about the symbolic link.
+  final String? blobId;
+
+  /// The file mode permissions of the blob that cotains information about the
+  /// symbolic link.
+  final FileModeTypeEnum? fileMode;
+
+  /// The relative path of the symbolic link from the folder where the query
+  /// originated.
+  final String? relativePath;
+
+  SymbolicLink({
+    this.absolutePath,
+    this.blobId,
+    this.fileMode,
+    this.relativePath,
+  });
+
+  factory SymbolicLink.fromJson(Map<String, dynamic> json) {
+    return SymbolicLink(
+      absolutePath: json['absolutePath'] as String?,
+      blobId: json['blobId'] as String?,
+      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
+      relativePath: json['relativePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final blobId = this.blobId;
+    final fileMode = this.fileMode;
+    final relativePath = this.relativePath;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (blobId != null) 'blobId': blobId,
+      if (fileMode != null) 'fileMode': fileMode.value,
+      if (relativePath != null) 'relativePath': relativePath,
+    };
+  }
+}
+
+/// Returns information about a file in a repository.
+class File {
+  /// The fully qualified path to the file in the repository.
+  final String? absolutePath;
+
+  /// The blob ID that contains the file information.
+  final String? blobId;
+
+  /// The extrapolated file mode permissions for the file. Valid values include
+  /// EXECUTABLE and NORMAL.
+  final FileModeTypeEnum? fileMode;
+
+  /// The relative path of the file from the folder where the query originated.
+  final String? relativePath;
+
+  File({
+    this.absolutePath,
+    this.blobId,
+    this.fileMode,
+    this.relativePath,
+  });
+
+  factory File.fromJson(Map<String, dynamic> json) {
+    return File(
+      absolutePath: json['absolutePath'] as String?,
+      blobId: json['blobId'] as String?,
+      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
+      relativePath: json['relativePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final blobId = this.blobId;
+    final fileMode = this.fileMode;
+    final relativePath = this.relativePath;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (blobId != null) 'blobId': blobId,
+      if (fileMode != null) 'fileMode': fileMode.value,
+      if (relativePath != null) 'relativePath': relativePath,
+    };
+  }
+}
+
+/// Returns information about a folder in a repository.
+class Folder {
+  /// The fully qualified path of the folder in the repository.
+  final String? absolutePath;
+
+  /// The relative path of the specified folder from the folder where the query
+  /// originated.
+  final String? relativePath;
+
+  /// The full SHA-1 pointer of the tree information for the commit that contains
+  /// the folder.
+  final String? treeId;
+
+  Folder({
+    this.absolutePath,
+    this.relativePath,
+    this.treeId,
+  });
+
+  factory Folder.fromJson(Map<String, dynamic> json) {
+    return Folder(
+      absolutePath: json['absolutePath'] as String?,
+      relativePath: json['relativePath'] as String?,
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final relativePath = this.relativePath;
+    final treeId = this.treeId;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (relativePath != null) 'relativePath': relativePath,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
+}
+
+/// Returns information about a set of differences for a commit specifier.
+class Difference {
+  /// Information about an <code>afterBlob</code> data type object, including the
+  /// ID, the file mode permission code, and the path.
+  final BlobMetadata? afterBlob;
+
+  /// Information about a <code>beforeBlob</code> data type object, including the
+  /// ID, the file mode permission code, and the path.
+  final BlobMetadata? beforeBlob;
+
+  /// Whether the change type of the difference is an addition (A), deletion (D),
+  /// or modification (M).
+  final ChangeTypeEnum? changeType;
+
+  Difference({
+    this.afterBlob,
+    this.beforeBlob,
+    this.changeType,
+  });
+
+  factory Difference.fromJson(Map<String, dynamic> json) {
+    return Difference(
+      afterBlob: json['afterBlob'] != null
+          ? BlobMetadata.fromJson(json['afterBlob'] as Map<String, dynamic>)
+          : null,
+      beforeBlob: json['beforeBlob'] != null
+          ? BlobMetadata.fromJson(json['beforeBlob'] as Map<String, dynamic>)
+          : null,
+      changeType:
+          (json['changeType'] as String?)?.let(ChangeTypeEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterBlob = this.afterBlob;
+    final beforeBlob = this.beforeBlob;
+    final changeType = this.changeType;
+    return {
+      if (afterBlob != null) 'afterBlob': afterBlob,
+      if (beforeBlob != null) 'beforeBlob': beforeBlob,
+      if (changeType != null) 'changeType': changeType.value,
+    };
+  }
+}
+
+/// Returns information about a specific Git blob object.
+class BlobMetadata {
+  /// The full ID of the blob.
+  final String? blobId;
+
+  /// The file mode permissions of the blob. File mode permission codes include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>100644</code> indicates read/write
+  /// </li>
+  /// <li>
+  /// <code>100755</code> indicates read/write/execute
+  /// </li>
+  /// <li>
+  /// <code>160000</code> indicates a submodule
+  /// </li>
+  /// <li>
+  /// <code>120000</code> indicates a symlink
+  /// </li>
+  /// </ul>
+  final String? mode;
+
+  /// The path to the blob and associated file name, if any.
+  final String? path;
+
+  BlobMetadata({
+    this.blobId,
+    this.mode,
+    this.path,
+  });
+
+  factory BlobMetadata.fromJson(Map<String, dynamic> json) {
+    return BlobMetadata(
+      blobId: json['blobId'] as String?,
+      mode: json['mode'] as String?,
+      path: json['path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blobId = this.blobId;
+    final mode = this.mode;
+    final path = this.path;
+    return {
+      if (blobId != null) 'blobId': blobId,
+      if (mode != null) 'mode': mode,
+      if (path != null) 'path': path,
+    };
+  }
+}
+
+/// Returns information about comments on a pull request.
+class CommentsForPullRequest {
+  /// The full blob ID of the file on which you want to comment on the source
+  /// commit.
+  final String? afterBlobId;
+
+  /// The full commit ID of the commit that was the tip of the source branch at
+  /// the time the comment was made.
+  final String? afterCommitId;
+
+  /// The full blob ID of the file on which you want to comment on the destination
+  /// commit.
+  final String? beforeBlobId;
+
+  /// The full commit ID of the commit that was the tip of the destination branch
+  /// when the pull request was created. This commit is superceded by the after
+  /// commit in the source branch when and if you merge the source branch into the
+  /// destination branch.
+  final String? beforeCommitId;
+
+  /// An array of comment objects. Each comment object contains information about
+  /// a comment on the pull request.
+  final List<Comment>? comments;
+
+  /// Location information about the comment on the pull request, including the
+  /// file name, line number, and whether the version of the file where the
+  /// comment was made is BEFORE (destination branch) or AFTER (source branch).
+  final Location? location;
+
+  /// The system-generated ID of the pull request.
+  final String? pullRequestId;
+
+  /// The name of the repository that contains the pull request.
+  final String? repositoryName;
+
+  CommentsForPullRequest({
+    this.afterBlobId,
+    this.afterCommitId,
+    this.beforeBlobId,
+    this.beforeCommitId,
+    this.comments,
+    this.location,
+    this.pullRequestId,
+    this.repositoryName,
+  });
+
+  factory CommentsForPullRequest.fromJson(Map<String, dynamic> json) {
+    return CommentsForPullRequest(
+      afterBlobId: json['afterBlobId'] as String?,
+      afterCommitId: json['afterCommitId'] as String?,
+      beforeBlobId: json['beforeBlobId'] as String?,
+      beforeCommitId: json['beforeCommitId'] as String?,
+      comments: (json['comments'] as List?)
+          ?.nonNulls
+          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      pullRequestId: json['pullRequestId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterBlobId = this.afterBlobId;
+    final afterCommitId = this.afterCommitId;
+    final beforeBlobId = this.beforeBlobId;
+    final beforeCommitId = this.beforeCommitId;
+    final comments = this.comments;
+    final location = this.location;
+    final pullRequestId = this.pullRequestId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (afterBlobId != null) 'afterBlobId': afterBlobId,
+      if (afterCommitId != null) 'afterCommitId': afterCommitId,
+      if (beforeBlobId != null) 'beforeBlobId': beforeBlobId,
+      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+      if (comments != null) 'comments': comments,
+      if (location != null) 'location': location,
+      if (pullRequestId != null) 'pullRequestId': pullRequestId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// Returns information about comments on the comparison between two commits.
+class CommentsForComparedCommit {
+  /// The full blob ID of the commit used to establish the after of the
+  /// comparison.
+  final String? afterBlobId;
+
+  /// The full commit ID of the commit used to establish the after of the
+  /// comparison.
+  final String? afterCommitId;
+
+  /// The full blob ID of the commit used to establish the before of the
+  /// comparison.
+  final String? beforeBlobId;
+
+  /// The full commit ID of the commit used to establish the before of the
+  /// comparison.
+  final String? beforeCommitId;
+
+  /// An array of comment objects. Each comment object contains information about
+  /// a comment on the comparison between commits.
+  final List<Comment>? comments;
+
+  /// Location information about the comment on the comparison, including the file
+  /// name, line number, and whether the version of the file where the comment was
+  /// made is BEFORE or AFTER.
+  final Location? location;
+
+  /// The name of the repository that contains the compared commits.
+  final String? repositoryName;
+
+  CommentsForComparedCommit({
+    this.afterBlobId,
+    this.afterCommitId,
+    this.beforeBlobId,
+    this.beforeCommitId,
+    this.comments,
+    this.location,
+    this.repositoryName,
+  });
+
+  factory CommentsForComparedCommit.fromJson(Map<String, dynamic> json) {
+    return CommentsForComparedCommit(
+      afterBlobId: json['afterBlobId'] as String?,
+      afterCommitId: json['afterCommitId'] as String?,
+      beforeBlobId: json['beforeBlobId'] as String?,
+      beforeCommitId: json['beforeCommitId'] as String?,
+      comments: (json['comments'] as List?)
+          ?.nonNulls
+          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterBlobId = this.afterBlobId;
+    final afterCommitId = this.afterCommitId;
+    final beforeBlobId = this.beforeBlobId;
+    final beforeCommitId = this.beforeCommitId;
+    final comments = this.comments;
+    final location = this.location;
+    final repositoryName = this.repositoryName;
+    return {
+      if (afterBlobId != null) 'afterBlobId': afterBlobId,
+      if (afterCommitId != null) 'afterCommitId': afterCommitId,
+      if (beforeBlobId != null) 'beforeBlobId': beforeBlobId,
+      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+      if (comments != null) 'comments': comments,
+      if (location != null) 'location': location,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// Information about the reaction values provided by users on a comment.
+class ReactionForComment {
+  /// The reaction for a specified comment.
+  final ReactionValueFormats? reaction;
+
+  /// The Amazon Resource Names (ARNs) of users who have provided reactions to the
+  /// comment.
+  final List<String>? reactionUsers;
+
+  /// A numerical count of users who reacted with the specified emoji whose
+  /// identities have been subsequently deleted from IAM. While these IAM users or
+  /// roles no longer exist, the reactions might still appear in total reaction
+  /// counts.
+  final int? reactionsFromDeletedUsersCount;
+
+  ReactionForComment({
+    this.reaction,
+    this.reactionUsers,
+    this.reactionsFromDeletedUsersCount,
+  });
+
+  factory ReactionForComment.fromJson(Map<String, dynamic> json) {
+    return ReactionForComment(
+      reaction: json['reaction'] != null
+          ? ReactionValueFormats.fromJson(
+              json['reaction'] as Map<String, dynamic>)
+          : null,
+      reactionUsers: (json['reactionUsers'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      reactionsFromDeletedUsersCount:
+          json['reactionsFromDeletedUsersCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reaction = this.reaction;
+    final reactionUsers = this.reactionUsers;
+    final reactionsFromDeletedUsersCount = this.reactionsFromDeletedUsersCount;
+    return {
+      if (reaction != null) 'reaction': reaction,
+      if (reactionUsers != null) 'reactionUsers': reactionUsers,
+      if (reactionsFromDeletedUsersCount != null)
+        'reactionsFromDeletedUsersCount': reactionsFromDeletedUsersCount,
+    };
+  }
+}
+
+/// Information about the values for reactions to a comment. CodeCommit supports
+/// a limited set of reactions.
+class ReactionValueFormats {
+  /// The Emoji Version 1.0 graphic of the reaction. These graphics are
+  /// interpreted slightly differently on different operating systems.
+  final String? emoji;
+
+  /// The emoji short code for the reaction. Short codes are interpreted slightly
+  /// differently on different operating systems.
+  final String? shortCode;
+
+  /// The Unicode codepoint for the reaction.
+  final String? unicode;
+
+  ReactionValueFormats({
+    this.emoji,
+    this.shortCode,
+    this.unicode,
+  });
+
+  factory ReactionValueFormats.fromJson(Map<String, dynamic> json) {
+    return ReactionValueFormats(
+      emoji: json['emoji'] as String?,
+      shortCode: json['shortCode'] as String?,
+      unicode: json['unicode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emoji = this.emoji;
+    final shortCode = this.shortCode;
+    final unicode = this.unicode;
+    return {
+      if (emoji != null) 'emoji': emoji,
+      if (shortCode != null) 'shortCode': shortCode,
+      if (unicode != null) 'unicode': unicode,
+    };
+  }
+}
+
+/// Returns information about a branch.
+class BranchInfo {
+  /// The name of the branch.
+  final String? branchName;
+
+  /// The ID of the last commit made to the branch.
+  final String? commitId;
+
+  BranchInfo({
+    this.branchName,
+    this.commitId,
+  });
+
+  factory BranchInfo.fromJson(Map<String, dynamic> json) {
+    return BranchInfo(
+      branchName: json['branchName'] as String?,
+      commitId: json['commitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branchName = this.branchName;
+    final commitId = this.commitId;
+    return {
+      if (branchName != null) 'branchName': branchName,
+      if (commitId != null) 'commitId': commitId,
+    };
+  }
+}
+
+/// Returns information about the approval rules applied to a pull request and
+/// whether conditions have been met.
+class Evaluation {
+  /// The names of the approval rules that have not had their conditions met.
+  final List<String>? approvalRulesNotSatisfied;
+
+  /// The names of the approval rules that have had their conditions met.
+  final List<String>? approvalRulesSatisfied;
+
+  /// Whether the state of the pull request is approved.
+  final bool? approved;
+
+  /// Whether the approval rule requirements for the pull request have been
+  /// overridden and no longer need to be met.
+  final bool? overridden;
+
+  Evaluation({
+    this.approvalRulesNotSatisfied,
+    this.approvalRulesSatisfied,
+    this.approved,
+    this.overridden,
+  });
+
+  factory Evaluation.fromJson(Map<String, dynamic> json) {
+    return Evaluation(
+      approvalRulesNotSatisfied: (json['approvalRulesNotSatisfied'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      approvalRulesSatisfied: (json['approvalRulesSatisfied'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      approved: json['approved'] as bool?,
+      overridden: json['overridden'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRulesNotSatisfied = this.approvalRulesNotSatisfied;
+    final approvalRulesSatisfied = this.approvalRulesSatisfied;
+    final approved = this.approved;
+    final overridden = this.overridden;
+    return {
+      if (approvalRulesNotSatisfied != null)
+        'approvalRulesNotSatisfied': approvalRulesNotSatisfied,
+      if (approvalRulesSatisfied != null)
+        'approvalRulesSatisfied': approvalRulesSatisfied,
+      if (approved != null) 'approved': approved,
+      if (overridden != null) 'overridden': overridden,
+    };
+  }
+}
+
+/// Returns information about a pull request event.
+class PullRequestEvent {
+  /// The Amazon Resource Name (ARN) of the user whose actions resulted in the
+  /// event. Examples include updating the pull request with more commits or
+  /// changing the status of a pull request.
+  final String? actorArn;
+
+  /// Information about a pull request event.
+  final ApprovalRuleEventMetadata? approvalRuleEventMetadata;
+
+  /// Information about an approval rule override event for a pull request.
+  final ApprovalRuleOverriddenEventMetadata?
+      approvalRuleOverriddenEventMetadata;
+
+  /// Information about an approval state change for a pull request.
+  final ApprovalStateChangedEventMetadata? approvalStateChangedEventMetadata;
+
+  /// The day and time of the pull request event, in timestamp format.
+  final DateTime? eventDate;
+
+  /// Information about the source and destination branches for the pull request.
+  final PullRequestCreatedEventMetadata? pullRequestCreatedEventMetadata;
+
+  /// The type of the pull request event (for example, a status change event
+  /// (PULL_REQUEST_STATUS_CHANGED) or update event
+  /// (PULL_REQUEST_SOURCE_REFERENCE_UPDATED)).
+  final PullRequestEventType? pullRequestEventType;
+
+  /// The system-generated ID of the pull request.
+  final String? pullRequestId;
+
+  /// Information about the change in mergability state for the pull request
+  /// event.
+  final PullRequestMergedStateChangedEventMetadata?
+      pullRequestMergedStateChangedEventMetadata;
+
+  /// Information about the updated source branch for the pull request event.
+  final PullRequestSourceReferenceUpdatedEventMetadata?
+      pullRequestSourceReferenceUpdatedEventMetadata;
+
+  /// Information about the change in status for the pull request event.
+  final PullRequestStatusChangedEventMetadata?
+      pullRequestStatusChangedEventMetadata;
+
+  PullRequestEvent({
+    this.actorArn,
+    this.approvalRuleEventMetadata,
+    this.approvalRuleOverriddenEventMetadata,
+    this.approvalStateChangedEventMetadata,
+    this.eventDate,
+    this.pullRequestCreatedEventMetadata,
+    this.pullRequestEventType,
+    this.pullRequestId,
+    this.pullRequestMergedStateChangedEventMetadata,
+    this.pullRequestSourceReferenceUpdatedEventMetadata,
+    this.pullRequestStatusChangedEventMetadata,
+  });
+
+  factory PullRequestEvent.fromJson(Map<String, dynamic> json) {
+    return PullRequestEvent(
+      actorArn: json['actorArn'] as String?,
+      approvalRuleEventMetadata: json['approvalRuleEventMetadata'] != null
+          ? ApprovalRuleEventMetadata.fromJson(
+              json['approvalRuleEventMetadata'] as Map<String, dynamic>)
+          : null,
+      approvalRuleOverriddenEventMetadata:
+          json['approvalRuleOverriddenEventMetadata'] != null
+              ? ApprovalRuleOverriddenEventMetadata.fromJson(
+                  json['approvalRuleOverriddenEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      approvalStateChangedEventMetadata:
+          json['approvalStateChangedEventMetadata'] != null
+              ? ApprovalStateChangedEventMetadata.fromJson(
+                  json['approvalStateChangedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      eventDate: timeStampFromJson(json['eventDate']),
+      pullRequestCreatedEventMetadata:
+          json['pullRequestCreatedEventMetadata'] != null
+              ? PullRequestCreatedEventMetadata.fromJson(
+                  json['pullRequestCreatedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      pullRequestEventType: (json['pullRequestEventType'] as String?)
+          ?.let(PullRequestEventType.fromString),
+      pullRequestId: json['pullRequestId'] as String?,
+      pullRequestMergedStateChangedEventMetadata:
+          json['pullRequestMergedStateChangedEventMetadata'] != null
+              ? PullRequestMergedStateChangedEventMetadata.fromJson(
+                  json['pullRequestMergedStateChangedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      pullRequestSourceReferenceUpdatedEventMetadata:
+          json['pullRequestSourceReferenceUpdatedEventMetadata'] != null
+              ? PullRequestSourceReferenceUpdatedEventMetadata.fromJson(
+                  json['pullRequestSourceReferenceUpdatedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      pullRequestStatusChangedEventMetadata:
+          json['pullRequestStatusChangedEventMetadata'] != null
+              ? PullRequestStatusChangedEventMetadata.fromJson(
+                  json['pullRequestStatusChangedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actorArn = this.actorArn;
+    final approvalRuleEventMetadata = this.approvalRuleEventMetadata;
+    final approvalRuleOverriddenEventMetadata =
+        this.approvalRuleOverriddenEventMetadata;
+    final approvalStateChangedEventMetadata =
+        this.approvalStateChangedEventMetadata;
+    final eventDate = this.eventDate;
+    final pullRequestCreatedEventMetadata =
+        this.pullRequestCreatedEventMetadata;
+    final pullRequestEventType = this.pullRequestEventType;
+    final pullRequestId = this.pullRequestId;
+    final pullRequestMergedStateChangedEventMetadata =
+        this.pullRequestMergedStateChangedEventMetadata;
+    final pullRequestSourceReferenceUpdatedEventMetadata =
+        this.pullRequestSourceReferenceUpdatedEventMetadata;
+    final pullRequestStatusChangedEventMetadata =
+        this.pullRequestStatusChangedEventMetadata;
+    return {
+      if (actorArn != null) 'actorArn': actorArn,
+      if (approvalRuleEventMetadata != null)
+        'approvalRuleEventMetadata': approvalRuleEventMetadata,
+      if (approvalRuleOverriddenEventMetadata != null)
+        'approvalRuleOverriddenEventMetadata':
+            approvalRuleOverriddenEventMetadata,
+      if (approvalStateChangedEventMetadata != null)
+        'approvalStateChangedEventMetadata': approvalStateChangedEventMetadata,
+      if (eventDate != null) 'eventDate': unixTimestampToJson(eventDate),
+      if (pullRequestCreatedEventMetadata != null)
+        'pullRequestCreatedEventMetadata': pullRequestCreatedEventMetadata,
+      if (pullRequestEventType != null)
+        'pullRequestEventType': pullRequestEventType.value,
+      if (pullRequestId != null) 'pullRequestId': pullRequestId,
+      if (pullRequestMergedStateChangedEventMetadata != null)
+        'pullRequestMergedStateChangedEventMetadata':
+            pullRequestMergedStateChangedEventMetadata,
+      if (pullRequestSourceReferenceUpdatedEventMetadata != null)
+        'pullRequestSourceReferenceUpdatedEventMetadata':
+            pullRequestSourceReferenceUpdatedEventMetadata,
+      if (pullRequestStatusChangedEventMetadata != null)
+        'pullRequestStatusChangedEventMetadata':
+            pullRequestStatusChangedEventMetadata,
+    };
+  }
+}
+
+class PullRequestEventType {
+  static const pullRequestCreated =
+      PullRequestEventType._('PULL_REQUEST_CREATED');
+  static const pullRequestStatusChanged =
+      PullRequestEventType._('PULL_REQUEST_STATUS_CHANGED');
+  static const pullRequestSourceReferenceUpdated =
+      PullRequestEventType._('PULL_REQUEST_SOURCE_REFERENCE_UPDATED');
+  static const pullRequestMergeStateChanged =
+      PullRequestEventType._('PULL_REQUEST_MERGE_STATE_CHANGED');
+  static const pullRequestApprovalRuleCreated =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_CREATED');
+  static const pullRequestApprovalRuleUpdated =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_UPDATED');
+  static const pullRequestApprovalRuleDeleted =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_DELETED');
+  static const pullRequestApprovalRuleOverridden =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN');
+  static const pullRequestApprovalStateChanged =
+      PullRequestEventType._('PULL_REQUEST_APPROVAL_STATE_CHANGED');
+
+  final String value;
+
+  const PullRequestEventType._(this.value);
+
+  static const values = [
+    pullRequestCreated,
+    pullRequestStatusChanged,
+    pullRequestSourceReferenceUpdated,
+    pullRequestMergeStateChanged,
+    pullRequestApprovalRuleCreated,
+    pullRequestApprovalRuleUpdated,
+    pullRequestApprovalRuleDeleted,
+    pullRequestApprovalRuleOverridden,
+    pullRequestApprovalStateChanged
+  ];
+
+  static PullRequestEventType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PullRequestEventType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PullRequestEventType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Metadata about the pull request that is used when comparing the pull request
+/// source with its destination.
+class PullRequestCreatedEventMetadata {
+  /// The commit ID of the tip of the branch specified as the destination branch
+  /// when the pull request was created.
+  final String? destinationCommitId;
+
+  /// The commit ID of the most recent commit that the source branch and the
+  /// destination branch have in common.
+  final String? mergeBase;
+
+  /// The name of the repository where the pull request was created.
+  final String? repositoryName;
+
+  /// The commit ID on the source branch used when the pull request was created.
+  final String? sourceCommitId;
+
+  PullRequestCreatedEventMetadata({
+    this.destinationCommitId,
+    this.mergeBase,
+    this.repositoryName,
+    this.sourceCommitId,
+  });
+
+  factory PullRequestCreatedEventMetadata.fromJson(Map<String, dynamic> json) {
+    return PullRequestCreatedEventMetadata(
+      destinationCommitId: json['destinationCommitId'] as String?,
+      mergeBase: json['mergeBase'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      sourceCommitId: json['sourceCommitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationCommitId = this.destinationCommitId;
+    final mergeBase = this.mergeBase;
+    final repositoryName = this.repositoryName;
+    final sourceCommitId = this.sourceCommitId;
+    return {
+      if (destinationCommitId != null)
+        'destinationCommitId': destinationCommitId,
+      if (mergeBase != null) 'mergeBase': mergeBase,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
+    };
+  }
+}
+
+/// Information about a change to the status of a pull request.
+class PullRequestStatusChangedEventMetadata {
+  /// The changed status of the pull request.
+  final PullRequestStatusEnum? pullRequestStatus;
+
+  PullRequestStatusChangedEventMetadata({
+    this.pullRequestStatus,
+  });
+
+  factory PullRequestStatusChangedEventMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return PullRequestStatusChangedEventMetadata(
+      pullRequestStatus: (json['pullRequestStatus'] as String?)
+          ?.let(PullRequestStatusEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequestStatus = this.pullRequestStatus;
+    return {
+      if (pullRequestStatus != null)
+        'pullRequestStatus': pullRequestStatus.value,
+    };
+  }
+}
+
+/// Information about an update to the source branch of a pull request.
+class PullRequestSourceReferenceUpdatedEventMetadata {
+  /// The full commit ID of the commit in the source branch that was the tip of
+  /// the branch at the time the pull request was updated.
+  final String? afterCommitId;
+
+  /// The full commit ID of the commit in the destination branch that was the tip
+  /// of the branch at the time the pull request was updated.
+  final String? beforeCommitId;
+
+  /// The commit ID of the most recent commit that the source branch and the
+  /// destination branch have in common.
+  final String? mergeBase;
+
+  /// The name of the repository where the pull request was updated.
+  final String? repositoryName;
+
+  PullRequestSourceReferenceUpdatedEventMetadata({
+    this.afterCommitId,
+    this.beforeCommitId,
+    this.mergeBase,
+    this.repositoryName,
+  });
+
+  factory PullRequestSourceReferenceUpdatedEventMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return PullRequestSourceReferenceUpdatedEventMetadata(
+      afterCommitId: json['afterCommitId'] as String?,
+      beforeCommitId: json['beforeCommitId'] as String?,
+      mergeBase: json['mergeBase'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterCommitId = this.afterCommitId;
+    final beforeCommitId = this.beforeCommitId;
+    final mergeBase = this.mergeBase;
+    final repositoryName = this.repositoryName;
+    return {
+      if (afterCommitId != null) 'afterCommitId': afterCommitId,
+      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+      if (mergeBase != null) 'mergeBase': mergeBase,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// Returns information about the change in the merge state for a pull request
+/// event.
+class PullRequestMergedStateChangedEventMetadata {
+  /// The name of the branch that the pull request is merged into.
+  final String? destinationReference;
+
+  /// Information about the merge state change event.
+  final MergeMetadata? mergeMetadata;
+
+  /// The name of the repository where the pull request was created.
+  final String? repositoryName;
+
+  PullRequestMergedStateChangedEventMetadata({
+    this.destinationReference,
+    this.mergeMetadata,
+    this.repositoryName,
+  });
+
+  factory PullRequestMergedStateChangedEventMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return PullRequestMergedStateChangedEventMetadata(
+      destinationReference: json['destinationReference'] as String?,
+      mergeMetadata: json['mergeMetadata'] != null
+          ? MergeMetadata.fromJson(
+              json['mergeMetadata'] as Map<String, dynamic>)
+          : null,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationReference = this.destinationReference;
+    final mergeMetadata = this.mergeMetadata;
+    final repositoryName = this.repositoryName;
+    return {
+      if (destinationReference != null)
+        'destinationReference': destinationReference,
+      if (mergeMetadata != null) 'mergeMetadata': mergeMetadata,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// Returns information about an event for an approval rule.
+class ApprovalRuleEventMetadata {
+  /// The content of the approval rule.
+  final String? approvalRuleContent;
+
+  /// The system-generated ID of the approval rule.
+  final String? approvalRuleId;
+
+  /// The name of the approval rule.
+  final String? approvalRuleName;
+
+  ApprovalRuleEventMetadata({
+    this.approvalRuleContent,
+    this.approvalRuleId,
+    this.approvalRuleName,
+  });
+
+  factory ApprovalRuleEventMetadata.fromJson(Map<String, dynamic> json) {
+    return ApprovalRuleEventMetadata(
+      approvalRuleContent: json['approvalRuleContent'] as String?,
+      approvalRuleId: json['approvalRuleId'] as String?,
+      approvalRuleName: json['approvalRuleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleContent = this.approvalRuleContent;
+    final approvalRuleId = this.approvalRuleId;
+    final approvalRuleName = this.approvalRuleName;
+    return {
+      if (approvalRuleContent != null)
+        'approvalRuleContent': approvalRuleContent,
+      if (approvalRuleId != null) 'approvalRuleId': approvalRuleId,
+      if (approvalRuleName != null) 'approvalRuleName': approvalRuleName,
+    };
+  }
+}
+
+/// Returns information about a change in the approval state for a pull request.
+class ApprovalStateChangedEventMetadata {
+  /// The approval status for the pull request.
+  final ApprovalState? approvalStatus;
+
+  /// The revision ID of the pull request when the approval state changed.
+  final String? revisionId;
+
+  ApprovalStateChangedEventMetadata({
+    this.approvalStatus,
+    this.revisionId,
+  });
+
+  factory ApprovalStateChangedEventMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return ApprovalStateChangedEventMetadata(
+      approvalStatus:
+          (json['approvalStatus'] as String?)?.let(ApprovalState.fromString),
+      revisionId: json['revisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalStatus = this.approvalStatus;
+    final revisionId = this.revisionId;
+    return {
+      if (approvalStatus != null) 'approvalStatus': approvalStatus.value,
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+  }
+}
+
+/// Returns information about an override event for approval rules for a pull
+/// request.
+class ApprovalRuleOverriddenEventMetadata {
+  /// The status of the override event.
+  final OverrideStatus? overrideStatus;
+
+  /// The revision ID of the pull request when the override event occurred.
+  final String? revisionId;
+
+  ApprovalRuleOverriddenEventMetadata({
+    this.overrideStatus,
+    this.revisionId,
+  });
+
+  factory ApprovalRuleOverriddenEventMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return ApprovalRuleOverriddenEventMetadata(
+      overrideStatus:
+          (json['overrideStatus'] as String?)?.let(OverrideStatus.fromString),
+      revisionId: json['revisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final overrideStatus = this.overrideStatus;
+    final revisionId = this.revisionId;
+    return {
+      if (overrideStatus != null) 'overrideStatus': overrideStatus.value,
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+  }
+}
+
+/// Information about merge hunks in a merge or pull request operation.
+class MergeHunk {
+  /// Information about the merge hunk in the base of a merge or pull request.
+  final MergeHunkDetail? base;
+
+  /// Information about the merge hunk in the destination of a merge or pull
+  /// request.
+  final MergeHunkDetail? destination;
+
+  /// A Boolean value indicating whether a combination of hunks contains a
+  /// conflict. Conflicts occur when the same file or the same lines in a file
+  /// were modified in both the source and destination of a merge or pull request.
+  /// Valid values include true, false, and null. True when the hunk represents a
+  /// conflict and one or more files contains a line conflict. File mode conflicts
+  /// in a merge do not set this to true.
+  final bool? isConflict;
+
+  /// Information about the merge hunk in the source of a merge or pull request.
+  final MergeHunkDetail? source;
+
+  MergeHunk({
+    this.base,
+    this.destination,
+    this.isConflict,
+    this.source,
+  });
+
+  factory MergeHunk.fromJson(Map<String, dynamic> json) {
+    return MergeHunk(
+      base: json['base'] != null
+          ? MergeHunkDetail.fromJson(json['base'] as Map<String, dynamic>)
+          : null,
+      destination: json['destination'] != null
+          ? MergeHunkDetail.fromJson(
+              json['destination'] as Map<String, dynamic>)
+          : null,
+      isConflict: json['isConflict'] as bool?,
+      source: json['source'] != null
+          ? MergeHunkDetail.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final isConflict = this.isConflict;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base,
+      if (destination != null) 'destination': destination,
+      if (isConflict != null) 'isConflict': isConflict,
+      if (source != null) 'source': source,
+    };
+  }
+}
+
+/// Information about the details of a merge hunk that contains a conflict in a
+/// merge or pull request operation.
+class MergeHunkDetail {
+  /// The end position of the hunk in the merge result.
+  final int? endLine;
+
+  /// The base-64 encoded content of the hunk merged region that might contain a
+  /// conflict.
+  final String? hunkContent;
+
+  /// The start position of the hunk in the merge result.
+  final int? startLine;
+
+  MergeHunkDetail({
+    this.endLine,
+    this.hunkContent,
+    this.startLine,
+  });
+
+  factory MergeHunkDetail.fromJson(Map<String, dynamic> json) {
+    return MergeHunkDetail(
+      endLine: json['endLine'] as int?,
+      hunkContent: json['hunkContent'] as String?,
+      startLine: json['startLine'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endLine = this.endLine;
+    final hunkContent = this.hunkContent;
+    final startLine = this.startLine;
+    return {
+      if (endLine != null) 'endLine': endLine,
+      if (hunkContent != null) 'hunkContent': hunkContent,
+      if (startLine != null) 'startLine': startLine,
+    };
+  }
+}
+
+/// Returns information about a target for a pull request.
+class Target {
+  /// The name of the repository that contains the pull request.
+  final String repositoryName;
+
+  /// The branch of the repository that contains the changes for the pull request.
+  /// Also known as the source branch.
+  final String sourceReference;
+
+  /// The branch of the repository where the pull request changes are merged. Also
+  /// known as the destination branch.
+  final String? destinationReference;
+
+  Target({
+    required this.repositoryName,
+    required this.sourceReference,
+    this.destinationReference,
+  });
+
+  Map<String, dynamic> toJson() {
+    final repositoryName = this.repositoryName;
+    final sourceReference = this.sourceReference;
+    final destinationReference = this.destinationReference;
+    return {
+      'repositoryName': repositoryName,
+      'sourceReference': sourceReference,
+      if (destinationReference != null)
+        'destinationReference': destinationReference,
+    };
+  }
+}
+
+/// A file to be added, updated, or deleted as part of a commit.
+class FileMetadata {
+  /// The full path to the file to be added or updated, including the name of the
+  /// file.
+  final String? absolutePath;
+
+  /// The blob ID that contains the file information.
+  final String? blobId;
+
+  /// The extrapolated file mode permissions for the file. Valid values include
+  /// EXECUTABLE and NORMAL.
+  final FileModeTypeEnum? fileMode;
+
+  FileMetadata({
+    this.absolutePath,
+    this.blobId,
+    this.fileMode,
+  });
+
+  factory FileMetadata.fromJson(Map<String, dynamic> json) {
+    return FileMetadata(
+      absolutePath: json['absolutePath'] as String?,
+      blobId: json['blobId'] as String?,
+      fileMode: (json['fileMode'] as String?)?.let(FileModeTypeEnum.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final blobId = this.blobId;
+    final fileMode = this.fileMode;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (blobId != null) 'blobId': blobId,
+      if (fileMode != null) 'fileMode': fileMode.value,
+    };
+  }
+}
+
+/// Information about a file added or updated as part of a commit.
+class PutFileEntry {
+  /// The full path to the file in the repository, including the name of the file.
+  final String filePath;
+
+  /// The content of the file, if a source file is not specified.
+  final Uint8List? fileContent;
+
+  /// The extrapolated file mode permissions for the file. Valid values include
+  /// EXECUTABLE and NORMAL.
+  final FileModeTypeEnum? fileMode;
+
+  /// The name and full path of the file that contains the changes you want to
+  /// make as part of the commit, if you are not providing the file content
+  /// directly.
+  final SourceFileSpecifier? sourceFile;
+
+  PutFileEntry({
+    required this.filePath,
+    this.fileContent,
+    this.fileMode,
+    this.sourceFile,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final fileContent = this.fileContent;
+    final fileMode = this.fileMode;
+    final sourceFile = this.sourceFile;
+    return {
+      'filePath': filePath,
+      if (fileContent != null) 'fileContent': base64Encode(fileContent),
+      if (fileMode != null) 'fileMode': fileMode.value,
+      if (sourceFile != null) 'sourceFile': sourceFile,
+    };
+  }
+}
+
+/// Information about a source file that is part of changes made in a commit.
+class SourceFileSpecifier {
+  /// The full path to the file, including the name of the file.
+  final String filePath;
+
+  /// Whether to remove the source file from the parent commit.
+  final bool? isMove;
+
+  SourceFileSpecifier({
+    required this.filePath,
+    this.isMove,
+  });
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final isMove = this.isMove;
+    return {
+      'filePath': filePath,
+      if (isMove != null) 'isMove': isMove,
+    };
+  }
+}
+
+/// Returns information about errors in a BatchGetRepositories operation.
+class BatchGetRepositoriesError {
+  /// An error code that specifies the type of failure.
+  final BatchGetRepositoriesErrorCodeEnum? errorCode;
+
+  /// An error message that provides detail about why the repository either was
+  /// not found or was not in a valid state.
+  final String? errorMessage;
+
+  /// The ID of a repository that either could not be found or was not in a valid
+  /// state.
+  final String? repositoryId;
+
+  /// The name of a repository that either could not be found or was not in a
+  /// valid state.
+  final String? repositoryName;
+
+  BatchGetRepositoriesError({
+    this.errorCode,
+    this.errorMessage,
+    this.repositoryId,
+    this.repositoryName,
+  });
+
+  factory BatchGetRepositoriesError.fromJson(Map<String, dynamic> json) {
+    return BatchGetRepositoriesError(
+      errorCode: (json['errorCode'] as String?)
+          ?.let(BatchGetRepositoriesErrorCodeEnum.fromString),
+      errorMessage: json['errorMessage'] as String?,
+      repositoryId: json['repositoryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final repositoryId = this.repositoryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (errorCode != null) 'errorCode': errorCode.value,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (repositoryId != null) 'repositoryId': repositoryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+class BatchGetRepositoriesErrorCodeEnum {
+  static const encryptionIntegrityChecksFailedException =
+      BatchGetRepositoriesErrorCodeEnum._(
+          'EncryptionIntegrityChecksFailedException');
+  static const encryptionKeyAccessDeniedException =
+      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyAccessDeniedException');
+  static const encryptionKeyDisabledException =
+      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyDisabledException');
+  static const encryptionKeyNotFoundException =
+      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyNotFoundException');
+  static const encryptionKeyUnavailableException =
+      BatchGetRepositoriesErrorCodeEnum._('EncryptionKeyUnavailableException');
+  static const repositoryDoesNotExistException =
+      BatchGetRepositoriesErrorCodeEnum._('RepositoryDoesNotExistException');
+
+  final String value;
+
+  const BatchGetRepositoriesErrorCodeEnum._(this.value);
+
+  static const values = [
+    encryptionIntegrityChecksFailedException,
+    encryptionKeyAccessDeniedException,
+    encryptionKeyDisabledException,
+    encryptionKeyNotFoundException,
+    encryptionKeyUnavailableException,
+    repositoryDoesNotExistException
+  ];
+
+  static BatchGetRepositoriesErrorCodeEnum fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchGetRepositoriesErrorCodeEnum._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchGetRepositoriesErrorCodeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns information about errors in a BatchGetCommits operation.
+class BatchGetCommitsError {
+  /// A commit ID that either could not be found or was not in a valid format.
+  final String? commitId;
+
+  /// An error code that specifies whether the commit ID was not valid or not
+  /// found.
+  final String? errorCode;
+
+  /// An error message that provides detail about why the commit ID either was not
+  /// found or was not valid.
+  final String? errorMessage;
+
+  BatchGetCommitsError({
+    this.commitId,
+    this.errorCode,
+    this.errorMessage,
+  });
+
+  factory BatchGetCommitsError.fromJson(Map<String, dynamic> json) {
+    return BatchGetCommitsError(
+      commitId: json['commitId'] as String?,
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
+}
+
+/// Returns information about errors in a
+/// BatchDisassociateApprovalRuleTemplateFromRepositories operation.
+class BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
+  /// An error code that specifies whether the repository name was not valid or
+  /// not found.
+  final String? errorCode;
+
+  /// An error message that provides details about why the repository name was
+  /// either not found or not valid.
+  final String? errorMessage;
+
+  /// The name of the repository where the association with the template was not
+  /// able to be removed.
+  final String? repositoryName;
+
+  BatchDisassociateApprovalRuleTemplateFromRepositoriesError({
+    this.errorCode,
+    this.errorMessage,
+    this.repositoryName,
+  });
+
+  factory BatchDisassociateApprovalRuleTemplateFromRepositoriesError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchDisassociateApprovalRuleTemplateFromRepositoriesError(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final repositoryName = this.repositoryName;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
+}
+
+/// Returns information about errors in a BatchDescribeMergeConflicts operation.
+class BatchDescribeMergeConflictsError {
+  /// The name of the exception.
+  final String exceptionName;
+
+  /// The path to the file.
+  final String filePath;
+
+  /// The message provided by the exception.
+  final String message;
+
+  BatchDescribeMergeConflictsError({
+    required this.exceptionName,
+    required this.filePath,
+    required this.message,
+  });
+
+  factory BatchDescribeMergeConflictsError.fromJson(Map<String, dynamic> json) {
+    return BatchDescribeMergeConflictsError(
+      exceptionName: (json['exceptionName'] as String?) ?? '',
+      filePath: (json['filePath'] as String?) ?? '',
+      message: (json['message'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exceptionName = this.exceptionName;
+    final filePath = this.filePath;
+    final message = this.message;
+    return {
+      'exceptionName': exceptionName,
+      'filePath': filePath,
+      'message': message,
+    };
+  }
+}
+
+/// Information about conflicts in a merge operation.
+class Conflict {
+  /// Metadata about a conflict in a merge operation.
+  final ConflictMetadata? conflictMetadata;
+
+  /// A list of hunks that contain the differences between files or lines causing
+  /// the conflict.
+  final List<MergeHunk>? mergeHunks;
+
+  Conflict({
+    this.conflictMetadata,
+    this.mergeHunks,
+  });
+
+  factory Conflict.fromJson(Map<String, dynamic> json) {
+    return Conflict(
+      conflictMetadata: json['conflictMetadata'] != null
+          ? ConflictMetadata.fromJson(
+              json['conflictMetadata'] as Map<String, dynamic>)
+          : null,
+      mergeHunks: (json['mergeHunks'] as List?)
+          ?.nonNulls
+          .map((e) => MergeHunk.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conflictMetadata = this.conflictMetadata;
+    final mergeHunks = this.mergeHunks;
+    return {
+      if (conflictMetadata != null) 'conflictMetadata': conflictMetadata,
+      if (mergeHunks != null) 'mergeHunks': mergeHunks,
+    };
+  }
+}
+
+/// Returns information about errors in a
+/// BatchAssociateApprovalRuleTemplateWithRepositories operation.
+class BatchAssociateApprovalRuleTemplateWithRepositoriesError {
+  /// An error code that specifies whether the repository name was not valid or
+  /// not found.
+  final String? errorCode;
+
+  /// An error message that provides details about why the repository name was not
+  /// found or not valid.
+  final String? errorMessage;
+
+  /// The name of the repository where the association was not made.
+  final String? repositoryName;
+
+  BatchAssociateApprovalRuleTemplateWithRepositoriesError({
+    this.errorCode,
+    this.errorMessage,
+    this.repositoryName,
+  });
+
+  factory BatchAssociateApprovalRuleTemplateWithRepositoriesError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchAssociateApprovalRuleTemplateWithRepositoriesError(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final repositoryName = this.repositoryName;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (repositoryName != null) 'repositoryName': repositoryName,
     };
   }
 }

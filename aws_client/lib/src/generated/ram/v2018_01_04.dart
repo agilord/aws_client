@@ -73,16 +73,16 @@ class Ram {
   /// resource share are available to interact with in the relevant Amazon Web
   /// Services Management Consoles and tools.
   ///
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidClientTokenException].
   /// May throw [MalformedArnException].
   /// May throw [OperationNotPermittedException].
-  /// May throw [ResourceShareInvitationArnNotFoundException].
   /// May throw [ResourceShareInvitationAlreadyAcceptedException].
   /// May throw [ResourceShareInvitationAlreadyRejectedException].
+  /// May throw [ResourceShareInvitationArnNotFoundException].
   /// May throw [ResourceShareInvitationExpiredException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [InvalidClientTokenException].
-  /// May throw [IdempotentParameterMismatchException].
   ///
   /// Parameter [resourceShareInvitationArn] :
   /// The <a
@@ -121,24 +121,23 @@ class Ram {
     return AcceptResourceShareInvitationResponse.fromJson(response);
   }
 
-  /// Adds the specified list of principals and list of resources to a resource
-  /// share. Principals that already have access to this resource share
-  /// immediately receive access to the added resources. Newly added principals
-  /// immediately receive access to the resources shared in this resource share.
+  /// Adds the specified list of principals, resources, and source constraints
+  /// to a resource share. Principals that already have access to this resource
+  /// share immediately receive access to the added resources. Newly added
+  /// principals immediately receive access to the resources shared in this
+  /// resource share.
   ///
   /// May throw [IdempotentParameterMismatchException].
-  /// May throw [UnknownResourceException].
-  /// May throw [InvalidStateTransitionException].
-  /// May throw [ResourceShareLimitExceededException].
-  /// May throw [MalformedArnException].
-  /// May throw [InvalidStateTransitionException].
   /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidStateTransitionException].
+  /// May throw [MalformedArnException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceShareLimitExceededException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [UnknownResourceException].
   /// May throw [ThrottlingException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [resourceShareArn] :
   /// Specifies the <a
@@ -194,6 +193,10 @@ class Ram {
   /// An ARN of an IAM user, for example:
   /// <code>iam::123456789012user/username</code>
   /// </li>
+  /// <li>
+  /// A service principal name, for example:
+  /// <code>service-id.amazonaws.com</code>
+  /// </li>
   /// </ul> <note>
   /// Not all resource types can be shared with IAM roles and users. For more
   /// information, see <a
@@ -209,8 +212,13 @@ class Ram {
   /// can be <code>null</code> if you want to add only principals.
   ///
   /// Parameter [sources] :
-  /// Specifies from which source accounts the service principal has access to
-  /// the resources in this resource share.
+  /// Specifies source constraints (accounts, ARNs, organization IDs, or
+  /// organization paths) that limit when service principals can access
+  /// resources in this resource share. When a service principal attempts to
+  /// access a shared resource, validation is performed to ensure the request
+  /// originates from one of the specified sources. This helps prevent confused
+  /// deputy attacks by applying constraints on where service principals can
+  /// access resources from.
   Future<AssociateResourceShareResponse> associateResourceShare({
     required String resourceShareArn,
     String? clientToken,
@@ -240,13 +248,13 @@ class Ram {
   /// if there are currently no resources of that resource type currently in the
   /// resource share.
   ///
-  /// May throw [MalformedArnException].
-  /// May throw [UnknownResourceException].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidClientTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [OperationNotPermittedException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [permissionArn] :
   /// Specifies the <a
@@ -334,16 +342,16 @@ class Ram {
   /// you can attach to resource shares. It is created in the Amazon Web
   /// Services Region in which you call the operation.
   ///
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidPolicyException].
+  /// May throw [MalformedPolicyTemplateException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [PermissionAlreadyExistsException].
+  /// May throw [PermissionLimitExceededException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [PermissionAlreadyExistsException].
-  /// May throw [MalformedPolicyTemplateException].
-  /// May throw [InvalidClientTokenException].
-  /// May throw [PermissionLimitExceededException].
-  /// May throw [IdempotentParameterMismatchException].
   ///
   /// Parameter [name] :
   /// Specifies the name of the customer managed permission. The name must be
@@ -386,11 +394,12 @@ class Ram {
   /// Specifies the name of the resource type that this customer managed
   /// permission applies to.
   ///
-  /// The format is <code>
-  /// <i>&lt;service-code&gt;</i>:<i>&lt;resource-type&gt;</i> </code> and is
-  /// not case sensitive. For example, to specify an Amazon EC2 Subnet, you can
-  /// use the string <code>ec2:subnet</code>. To see the list of valid values
-  /// for this parameter, query the <a>ListResourceTypes</a> operation.
+  /// The format is <code> <i><service-code></i>:<i><resource-type></i> </code>
+  /// and is case sensitive. For example, to specify an Amazon EC2 Subnet, you
+  /// can use the string <code>ec2:Subnet</code>. To see the list of valid
+  /// values for this parameter, query the <a>ListResourceTypes</a> operation.
+  /// This value must match the display name of the resource (available in
+  /// <code>ListResourceTypes</code>).
   ///
   /// Parameter [clientToken] :
   /// Specifies a unique, case-sensitive identifier that you provide to ensure
@@ -445,16 +454,16 @@ class Ram {
   /// versions, then you must delete one of the existing versions before you can
   /// create a new one.
   ///
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
   /// May throw [InvalidPolicyException].
+  /// May throw [MalformedArnException].
+  /// May throw [MalformedPolicyTemplateException].
+  /// May throw [PermissionVersionsLimitExceededException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
   /// May throw [UnknownResourceException].
-  /// May throw [MalformedPolicyTemplateException].
-  /// May throw [MalformedArnException].
-  /// May throw [InvalidClientTokenException].
-  /// May throw [IdempotentParameterMismatchException].
-  /// May throw [PermissionVersionsLimitExceededException].
   ///
   /// Parameter [permissionArn] :
   /// Specifies the <a
@@ -532,8 +541,9 @@ class Ram {
   /// Creates a resource share. You can provide a list of the <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs)</a> for the resources that you want to share, a list
-  /// of principals you want to share the resources with, and the permissions to
-  /// grant those principals.
+  /// of principals you want to share the resources with, the permissions to
+  /// grant those principals, and optionally source constraints to enhance
+  /// security for service principal sharing.
   /// <note>
   /// Sharing a resource makes it available for use by principals outside of the
   /// Amazon Web Services account that created the resource. Sharing doesn't
@@ -542,17 +552,18 @@ class Ram {
   /// </note>
   ///
   /// May throw [IdempotentParameterMismatchException].
-  /// May throw [InvalidStateTransitionException].
-  /// May throw [UnknownResourceException].
-  /// May throw [MalformedArnException].
   /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidStateTransitionException].
+  /// May throw [MalformedArnException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ResourceShareLimitExceededException].
-  /// May throw [TagPolicyViolationException].
-  /// May throw [TagLimitExceededException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [TagLimitExceededException].
+  /// May throw [TagPolicyViolationException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [name] :
   /// Specifies the name of the resource share.
@@ -618,6 +629,10 @@ class Ram {
   /// An ARN of an IAM user, for example:
   /// <code>iam::123456789012user/username</code>
   /// </li>
+  /// <li>
+  /// A service principal name, for example:
+  /// <code>service-id.amazonaws.com</code>
+  /// </li>
   /// </ul> <note>
   /// Not all resource types can be shared with IAM roles and users. For more
   /// information, see <a
@@ -630,9 +645,17 @@ class Ram {
   /// Specifies a list of one or more ARNs of the resources to associate with
   /// the resource share.
   ///
+  /// Parameter [resourceShareConfiguration] :
+  /// Specifies the configuration of this resource share.
+  ///
   /// Parameter [sources] :
-  /// Specifies from which source accounts the service principal has access to
-  /// the resources in this resource share.
+  /// Specifies source constraints (accounts, ARNs, organization IDs, or
+  /// organization paths) that limit when service principals can access
+  /// resources in this resource share. When a service principal attempts to
+  /// access a shared resource, validation is performed to ensure the request
+  /// originates from one of the specified sources. This helps prevent confused
+  /// deputy attacks by applying constraints on where service principals can
+  /// access resources from.
   ///
   /// Parameter [tags] :
   /// Specifies one or more tags to attach to the resource share itself. It
@@ -645,6 +668,7 @@ class Ram {
     List<String>? permissionArns,
     List<String>? principals,
     List<String>? resourceArns,
+    ResourceShareConfiguration? resourceShareConfiguration,
     List<String>? sources,
     List<Tag>? tags,
   }) async {
@@ -656,6 +680,8 @@ class Ram {
       if (permissionArns != null) 'permissionArns': permissionArns,
       if (principals != null) 'principals': principals,
       if (resourceArns != null) 'resourceArns': resourceArns,
+      if (resourceShareConfiguration != null)
+        'resourceShareConfiguration': resourceShareConfiguration,
       if (sources != null) 'sources': sources,
       if (tags != null) 'tags': tags,
     };
@@ -674,13 +700,13 @@ class Ram {
   /// share. The operation deletes all versions associated with the customer
   /// managed permission.
   ///
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidClientTokenException].
   /// May throw [MalformedArnException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [UnknownResourceException].
-  /// May throw [InvalidClientTokenException].
-  /// May throw [IdempotentParameterMismatchException].
   ///
   /// Parameter [permissionArn] :
   /// Specifies the <a
@@ -728,14 +754,14 @@ class Ram {
   /// If a customer managed permission has the maximum of 5 versions, then you
   /// must delete at least one version before you can create another.
   ///
-  /// May throw [MalformedArnException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [UnknownResourceException].
-  /// May throw [InvalidClientTokenException].
-  /// May throw [IdempotentParameterMismatchException].
   ///
   /// Parameter [permissionArn] :
   /// Specifies the <a
@@ -801,15 +827,16 @@ class Ram {
   /// resource share.
   /// </important>
   ///
-  /// May throw [OperationNotPermittedException].
   /// May throw [IdempotentParameterMismatchException].
-  /// May throw [InvalidStateTransitionException].
-  /// May throw [UnknownResourceException].
-  /// May throw [MalformedArnException].
   /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidStateTransitionException].
+  /// May throw [MalformedArnException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [resourceShareArn] :
   /// Specifies the <a
@@ -849,18 +876,19 @@ class Ram {
     return DeleteResourceShareResponse.fromJson(response);
   }
 
-  /// Removes the specified principals or resources from participating in the
-  /// specified resource share.
+  /// Removes the specified principals, resources, or source constraints from
+  /// participating in the specified resource share.
   ///
   /// May throw [IdempotentParameterMismatchException].
-  /// May throw [ResourceShareLimitExceededException].
-  /// May throw [MalformedArnException].
-  /// May throw [InvalidStateTransitionException].
   /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidStateTransitionException].
+  /// May throw [MalformedArnException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceShareLimitExceededException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   /// May throw [UnknownResourceException].
   ///
   /// Parameter [resourceShareArn] :
@@ -913,6 +941,10 @@ class Ram {
   /// An ARN of an IAM user, for example:
   /// <code>iam::123456789012user/username</code>
   /// </li>
+  /// <li>
+  /// A service principal name, for example:
+  /// <code>service-id.amazonaws.com</code>
+  /// </li>
   /// </ul> <note>
   /// Not all resource types can be shared with IAM roles and users. For more
   /// information, see <a
@@ -929,8 +961,11 @@ class Ram {
   /// are no longer shared with principals associated with the resource share.
   ///
   /// Parameter [sources] :
-  /// Specifies from which source accounts the service principal no longer has
-  /// access to the resources in this resource share.
+  /// Specifies source constraints (accounts, ARNs, organization IDs, or
+  /// organization paths) to remove from the resource share. This enables
+  /// granular management of source constraints while maintaining service
+  /// principal associations. At least one source must remain when service
+  /// principals are present.
   Future<DisassociateResourceShareResponse> disassociateResourceShare({
     required String resourceShareArn,
     String? clientToken,
@@ -959,14 +994,14 @@ class Ram {
   /// resource share only if there are currently no resources of the relevant
   /// resource type currently attached to the resource share.
   ///
-  /// May throw [MalformedArnException].
-  /// May throw [UnknownResourceException].
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidClientTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidStateTransitionException].
+  /// May throw [MalformedArnException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [OperationNotPermittedException].
-  /// May throw [InvalidStateTransitionException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [permissionArn] :
   /// The <a
@@ -1029,7 +1064,8 @@ class Ram {
   ///
   /// You must call this operation from an IAM role or user in the
   /// organization's management account.
-  /// <p/>
+  ///
+  ///
   ///
   /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
@@ -1049,10 +1085,10 @@ class Ram {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [MalformedArnException].
-  /// May throw [UnknownResourceException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [OperationNotPermittedException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [permissionArn] :
   /// Specifies the <a
@@ -1088,10 +1124,18 @@ class Ram {
 
   /// Retrieves the resource policies for the specified resources that you own
   /// and have shared.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [MalformedArnException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
   /// May throw [ResourceArnNotFoundException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
@@ -1152,14 +1196,22 @@ class Ram {
 
   /// Retrieves the lists of resources and principals that associated for
   /// resource shares that you own.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [UnknownResourceException].
-  /// May throw [MalformedArnException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [associationType] :
   /// Specifies whether you want to retrieve the associations that involve a
@@ -1259,15 +1311,23 @@ class Ram {
 
   /// Retrieves details about invitations that you have received for resource
   /// shares.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [ResourceShareInvitationArnNotFoundException].
   /// May throw [InvalidMaxResultsException].
-  /// May throw [MalformedArnException].
-  /// May throw [UnknownResourceException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
+  /// May throw [ResourceShareInvitationArnNotFoundException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [maxResults] :
   /// Specifies the total number of results that you want included on each page
@@ -1329,13 +1389,21 @@ class Ram {
 
   /// Retrieves details about the resource shares that you own or that are
   /// shared with you.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [UnknownResourceException].
-  /// May throw [MalformedArnException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [resourceOwner] :
   /// Specifies that you want to retrieve details of only those resource shares
@@ -1440,16 +1508,24 @@ class Ram {
   /// which the invitation is still <code>PENDING</code>. That means that you
   /// haven't accepted or rejected the invitation and the invitation hasn't
   /// expired.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [MalformedArnException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
-  /// May throw [ServerInternalException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ResourceShareInvitationArnNotFoundException].
+  /// May throw [MalformedArnException].
   /// May throw [MissingRequiredParameterException].
   /// May throw [ResourceShareInvitationAlreadyRejectedException].
+  /// May throw [ResourceShareInvitationArnNotFoundException].
   /// May throw [ResourceShareInvitationExpiredException].
+  /// May throw [ServerInternalException].
+  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [resourceShareInvitationArn] :
   /// Specifies the <a
@@ -1527,10 +1603,18 @@ class Ram {
   /// Lists information about the managed permission and its associations to any
   /// resource shares that use this managed permission. This lets you see which
   /// resource shares use which versions of the specified managed permission.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
+  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
   /// May throw [MalformedArnException].
-  /// May throw [InvalidNextTokenException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
   ///
@@ -1620,75 +1704,22 @@ class Ram {
     return ListPermissionAssociationsResponse.fromJson(response);
   }
 
-  /// Lists the available versions of the specified RAM permission.
-  ///
-  /// May throw [MalformedArnException].
-  /// May throw [UnknownResourceException].
-  /// May throw [InvalidNextTokenException].
-  /// May throw [ServerInternalException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [OperationNotPermittedException].
-  /// May throw [InvalidParameterException].
-  ///
-  /// Parameter [permissionArn] :
-  /// Specifies the <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the RAM permission whose versions you want to
-  /// list. You can use the <code>permissionVersion</code> parameter on the
-  /// <a>AssociateResourceSharePermission</a> operation to specify a non-default
-  /// version to attach.
-  ///
-  /// Parameter [maxResults] :
-  /// Specifies the total number of results that you want included on each page
-  /// of the response. If you do not include this parameter, it defaults to a
-  /// value that is specific to the operation. If additional items exist beyond
-  /// the number you specify, the <code>NextToken</code> response element is
-  /// returned with a value (not null). Include the specified value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that the service might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
-  ///
-  /// Parameter [nextToken] :
-  /// Specifies that you want to receive the next page of results. Valid only if
-  /// you received a <code>NextToken</code> response in the previous request. If
-  /// you did, it indicates that more output is available. Set this parameter to
-  /// the value provided by the previous call's <code>NextToken</code> response
-  /// to request the next page of results.
-  Future<ListPermissionVersionsResponse> listPermissionVersions({
-    required String permissionArn,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    final $payload = <String, dynamic>{
-      'permissionArn': permissionArn,
-      if (maxResults != null) 'maxResults': maxResults,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/listpermissionversions',
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListPermissionVersionsResponse.fromJson(response);
-  }
-
   /// Retrieves a list of available RAM permissions that you can use for the
   /// supported resource types.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [InvalidParameterException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [OperationNotPermittedException].
   ///
   /// Parameter [maxResults] :
   /// Specifies the total number of results that you want included on each page
@@ -1760,15 +1791,92 @@ class Ram {
     return ListPermissionsResponse.fromJson(response);
   }
 
-  /// Lists the principals that you are sharing resources with or that are
-  /// sharing resources with you.
+  /// Lists the available versions of the specified RAM permission.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [MalformedArnException].
-  /// May throw [UnknownResourceException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
+  ///
+  /// Parameter [permissionArn] :
+  /// Specifies the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the RAM permission whose versions you want to
+  /// list. You can use the <code>permissionVersion</code> parameter on the
+  /// <a>AssociateResourceSharePermission</a> operation to specify a non-default
+  /// version to attach.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the total number of results that you want included on each page
+  /// of the response. If you do not include this parameter, it defaults to a
+  /// value that is specific to the operation. If additional items exist beyond
+  /// the number you specify, the <code>NextToken</code> response element is
+  /// returned with a value (not null). Include the specified value as the
+  /// <code>NextToken</code> request parameter in the next call to the operation
+  /// to get the next part of the results. Note that the service might return
+  /// fewer results than the maximum even when there are more results available.
+  /// You should check <code>NextToken</code> after every operation to ensure
+  /// that you receive all of the results.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies that you want to receive the next page of results. Valid only if
+  /// you received a <code>NextToken</code> response in the previous request. If
+  /// you did, it indicates that more output is available. Set this parameter to
+  /// the value provided by the previous call's <code>NextToken</code> response
+  /// to request the next page of results.
+  Future<ListPermissionVersionsResponse> listPermissionVersions({
+    required String permissionArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $payload = <String, dynamic>{
+      'permissionArn': permissionArn,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listpermissionversions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPermissionVersionsResponse.fromJson(response);
+  }
+
+  /// Lists the principals that you are sharing resources with or that are
+  /// sharing resources with you.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
+  ///
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
+  /// May throw [ServerInternalException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [resourceOwner] :
   /// Specifies that you want to list information for only resource shares that
@@ -1832,6 +1940,10 @@ class Ram {
   /// An ARN of an IAM user, for example:
   /// <code>iam::123456789012user/username</code>
   /// </li>
+  /// <li>
+  /// A service principal name, for example:
+  /// <code>service-id.amazonaws.com</code>
+  /// </li>
   /// </ul> <note>
   /// Not all resource types can be shared with IAM roles and users. For more
   /// information, see <a
@@ -1892,11 +2004,19 @@ class Ram {
 
   /// Retrieves the current status of the asynchronous tasks performed by RAM
   /// when you perform the <a>ReplacePermissionAssociationsWork</a> operation.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [ServerInternalException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [ServerInternalException].
+  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [maxResults] :
   /// Specifies the total number of results that you want included on each page
@@ -1953,15 +2073,153 @@ class Ram {
     return ListReplacePermissionAssociationsWorkResponse.fromJson(response);
   }
 
-  /// Lists the RAM permissions that are associated with a resource share.
+  /// Lists the resources that you added to a resource share or the resources
+  /// that are shared with you.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
   ///
-  /// May throw [InvalidParameterException].
-  /// May throw [MalformedArnException].
-  /// May throw [UnknownResourceException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidResourceTypeException].
+  /// May throw [MalformedArnException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
+  ///
+  /// Parameter [resourceOwner] :
+  /// Specifies that you want to list only the resource shares that match the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>SELF</code> </b> – resources that your account shares with other
+  /// accounts
+  /// </li>
+  /// <li>
+  /// <b> <code>OTHER-ACCOUNTS</code> </b> – resources that other accounts share
+  /// with your account
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the total number of results that you want included on each page
+  /// of the response. If you do not include this parameter, it defaults to a
+  /// value that is specific to the operation. If additional items exist beyond
+  /// the number you specify, the <code>NextToken</code> response element is
+  /// returned with a value (not null). Include the specified value as the
+  /// <code>NextToken</code> request parameter in the next call to the operation
+  /// to get the next part of the results. Note that the service might return
+  /// fewer results than the maximum even when there are more results available.
+  /// You should check <code>NextToken</code> after every operation to ensure
+  /// that you receive all of the results.
+  ///
+  /// Parameter [nextToken] :
+  /// Specifies that you want to receive the next page of results. Valid only if
+  /// you received a <code>NextToken</code> response in the previous request. If
+  /// you did, it indicates that more output is available. Set this parameter to
+  /// the value provided by the previous call's <code>NextToken</code> response
+  /// to request the next page of results.
+  ///
+  /// Parameter [principal] :
+  /// Specifies that you want to list only the resource shares that are
+  /// associated with the specified principal.
+  ///
+  /// Parameter [resourceArns] :
+  /// Specifies that you want to list only the resource shares that include
+  /// resources with the specified <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a>.
+  ///
+  /// Parameter [resourceRegionScope] :
+  /// Specifies that you want the results to include only resources that have
+  /// the specified scope.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL</code> – the results include both global and regional resources
+  /// or resource types.
+  /// </li>
+  /// <li>
+  /// <code>GLOBAL</code> – the results include only global resources or
+  /// resource types.
+  /// </li>
+  /// <li>
+  /// <code>REGIONAL</code> – the results include only regional resources or
+  /// resource types.
+  /// </li>
+  /// </ul>
+  /// The default value is <code>ALL</code>.
+  ///
+  /// Parameter [resourceShareArns] :
+  /// Specifies that you want to list only resources in the resource shares
+  /// identified by the specified <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a>.
+  ///
+  /// Parameter [resourceType] :
+  /// Specifies that you want to list only the resource shares that include
+  /// resources of the specified resource type.
+  ///
+  /// For valid values, query the <a>ListResourceTypes</a> operation.
+  Future<ListResourcesResponse> listResources({
+    required ResourceOwner resourceOwner,
+    int? maxResults,
+    String? nextToken,
+    String? principal,
+    List<String>? resourceArns,
+    ResourceRegionScopeFilter? resourceRegionScope,
+    List<String>? resourceShareArns,
+    String? resourceType,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final $payload = <String, dynamic>{
+      'resourceOwner': resourceOwner.value,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (principal != null) 'principal': principal,
+      if (resourceArns != null) 'resourceArns': resourceArns,
+      if (resourceRegionScope != null)
+        'resourceRegionScope': resourceRegionScope.value,
+      if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
+      if (resourceType != null) 'resourceType': resourceType,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listresources',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListResourcesResponse.fromJson(response);
+  }
+
+  /// Lists the RAM permissions that are associated with a resource share.
+  /// <note>
+  /// Always check the <code>NextToken</code> response parameter for a
+  /// <code>null</code> value when calling a paginated operation. These
+  /// operations can occasionally return an empty set of results even when there
+  /// are more results available. The <code>NextToken</code> response parameter
+  /// value is <code>null</code> <i>only</i> when there are no more results to
+  /// display.
+  /// </note>
+  ///
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
   /// May throw [OperationNotPermittedException].
+  /// May throw [ServerInternalException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [resourceShareArn] :
   /// Specifies the <a
@@ -2083,101 +2341,51 @@ class Ram {
     return ListResourceTypesResponse.fromJson(response);
   }
 
-  /// Lists the resources that you added to a resource share or the resources
-  /// that are shared with you.
+  /// Lists source associations for resource shares. Source associations control
+  /// which sources can be used with service principals in resource shares. This
+  /// operation provides visibility into source associations for resource share
+  /// owners.
   ///
-  /// May throw [InvalidResourceTypeException].
-  /// May throw [UnknownResourceException].
-  /// May throw [MalformedArnException].
+  /// You can filter the results by resource share Amazon Resource Name (ARN),
+  /// source ID, source type, or association status. We recommend using
+  /// pagination to ensure that the operation returns quickly and successfully.
+  ///
   /// May throw [InvalidNextTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
-  /// Parameter [resourceOwner] :
-  /// Specifies that you want to list only the resource shares that match the
-  /// following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>SELF</code> </b> – resources that your account shares with other
-  /// accounts
-  /// </li>
-  /// <li>
-  /// <b> <code>OTHER-ACCOUNTS</code> </b> – resources that other accounts share
-  /// with your account
-  /// </li>
-  /// </ul>
+  /// Parameter [associationStatus] :
+  /// The status of the source associations that you want to retrieve.
   ///
   /// Parameter [maxResults] :
-  /// Specifies the total number of results that you want included on each page
-  /// of the response. If you do not include this parameter, it defaults to a
-  /// value that is specific to the operation. If additional items exist beyond
-  /// the number you specify, the <code>NextToken</code> response element is
-  /// returned with a value (not null). Include the specified value as the
-  /// <code>NextToken</code> request parameter in the next call to the operation
-  /// to get the next part of the results. Note that the service might return
-  /// fewer results than the maximum even when there are more results available.
-  /// You should check <code>NextToken</code> after every operation to ensure
-  /// that you receive all of the results.
+  /// The maximum number of results to return in a single call. To retrieve the
+  /// remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
   ///
   /// Parameter [nextToken] :
-  /// Specifies that you want to receive the next page of results. Valid only if
-  /// you received a <code>NextToken</code> response in the previous request. If
-  /// you did, it indicates that more output is available. Set this parameter to
-  /// the value provided by the previous call's <code>NextToken</code> response
-  /// to request the next page of results.
-  ///
-  /// Parameter [principal] :
-  /// Specifies that you want to list only the resource shares that are
-  /// associated with the specified principal.
-  ///
-  /// Parameter [resourceArns] :
-  /// Specifies that you want to list only the resource shares that include
-  /// resources with the specified <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs)</a>.
-  ///
-  /// Parameter [resourceRegionScope] :
-  /// Specifies that you want the results to include only resources that have
-  /// the specified scope.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ALL</code> – the results include both global and regional resources
-  /// or resource types.
-  /// </li>
-  /// <li>
-  /// <code>GLOBAL</code> – the results include only global resources or
-  /// resource types.
-  /// </li>
-  /// <li>
-  /// <code>REGIONAL</code> – the results include only regional resources or
-  /// resource types.
-  /// </li>
-  /// </ul>
-  /// The default value is <code>ALL</code>.
+  /// The pagination token that indicates the next set of results to retrieve.
   ///
   /// Parameter [resourceShareArns] :
-  /// Specifies that you want to list only resources in the resource shares
-  /// identified by the specified <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs)</a>.
+  /// The Amazon Resource Names (ARNs) of the resource shares for which you want
+  /// to retrieve source associations.
   ///
-  /// Parameter [resourceType] :
-  /// Specifies that you want to list only the resource shares that include
-  /// resources of the specified resource type.
+  /// Parameter [sourceId] :
+  /// The identifier of the source for which you want to retrieve associations.
+  /// This can be an account ID, Amazon Resource Name (ARN), organization ID, or
+  /// organization path.
   ///
-  /// For valid values, query the <a>ListResourceTypes</a> operation.
-  Future<ListResourcesResponse> listResources({
-    required ResourceOwner resourceOwner,
+  /// Parameter [sourceType] :
+  /// The type of source for which you want to retrieve associations.
+  Future<ListSourceAssociationsResponse> listSourceAssociations({
+    ResourceShareAssociationStatus? associationStatus,
     int? maxResults,
     String? nextToken,
-    String? principal,
-    List<String>? resourceArns,
-    ResourceRegionScopeFilter? resourceRegionScope,
     List<String>? resourceShareArns,
-    String? resourceType,
+    String? sourceId,
+    String? sourceType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2186,23 +2394,21 @@ class Ram {
       500,
     );
     final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner.value,
+      if (associationStatus != null)
+        'associationStatus': associationStatus.value,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (principal != null) 'principal': principal,
-      if (resourceArns != null) 'resourceArns': resourceArns,
-      if (resourceRegionScope != null)
-        'resourceRegionScope': resourceRegionScope.value,
       if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
-      if (resourceType != null) 'resourceType': resourceType,
+      if (sourceId != null) 'sourceId': sourceId,
+      if (sourceType != null) 'sourceType': sourceType,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/listresources',
+      requestUri: '/listsourceassociations',
       exceptionFnMap: _exceptionFns,
     );
-    return ListResourcesResponse.fromJson(response);
+    return ListSourceAssociationsResponse.fromJson(response);
   }
 
   /// When you attach a resource-based policy to a resource, RAM automatically
@@ -2243,10 +2449,11 @@ class Ram {
   /// </li>
   /// </ul> </note>
   ///
-  /// May throw [MalformedArnException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidPolicyException].
+  /// May throw [MalformedArnException].
   /// May throw [MissingRequiredParameterException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
   /// May throw [UnknownResourceException].
@@ -2319,15 +2526,15 @@ class Ram {
   /// <code>CREATED_FROM_POLICY</code> permission, then this operation fails.
   /// </important>
   ///
-  /// May throw [MalformedArnException].
-  /// May throw [ResourceShareLimitExceededException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [InvalidParameterException].
+  /// May throw [InvalidStateTransitionException].
+  /// May throw [MalformedArnException].
   /// May throw [MissingRequiredParameterException].
+  /// May throw [OperationNotPermittedException].
+  /// May throw [ResourceShareLimitExceededException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
   /// May throw [UnknownResourceException].
-  /// May throw [InvalidStateTransitionException].
   /// May throw [UnmatchedPolicyPermissionException].
   ///
   /// Parameter [resourceShareArn] :
@@ -2354,16 +2561,16 @@ class Ram {
   /// Rejects an invitation to a resource share from another Amazon Web Services
   /// account.
   ///
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidClientTokenException].
   /// May throw [MalformedArnException].
   /// May throw [OperationNotPermittedException].
-  /// May throw [ResourceShareInvitationArnNotFoundException].
   /// May throw [ResourceShareInvitationAlreadyAcceptedException].
   /// May throw [ResourceShareInvitationAlreadyRejectedException].
+  /// May throw [ResourceShareInvitationArnNotFoundException].
   /// May throw [ResourceShareInvitationExpiredException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [InvalidClientTokenException].
-  /// May throw [IdempotentParameterMismatchException].
   ///
   /// Parameter [resourceShareInvitationArn] :
   /// Specifies the <a
@@ -2422,14 +2629,14 @@ class Ram {
   /// the resource-based policy on all affected resource types.
   /// </important>
   ///
-  /// May throw [MalformedArnException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
+  /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
-  /// May throw [OperationNotPermittedException].
   /// May throw [UnknownResourceException].
-  /// May throw [InvalidClientTokenException].
-  /// May throw [IdempotentParameterMismatchException].
   ///
   /// Parameter [fromPermissionArn] :
   /// Specifies the <a
@@ -2492,13 +2699,13 @@ class Ram {
   /// their original permission version, but you can use
   /// <a>ReplacePermissionAssociations</a> to update them.
   ///
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
   /// May throw [MalformedArnException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
   /// May throw [UnknownResourceException].
-  /// May throw [InvalidClientTokenException].
-  /// May throw [IdempotentParameterMismatchException].
   ///
   /// Parameter [permissionArn] :
   /// Specifies the <a
@@ -2554,12 +2761,12 @@ class Ram {
   ///
   /// May throw [InvalidParameterException].
   /// May throw [MalformedArnException].
-  /// May throw [UnknownResourceException].
-  /// May throw [TagLimitExceededException].
   /// May throw [ResourceArnNotFoundException].
-  /// May throw [TagPolicyViolationException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [TagLimitExceededException].
+  /// May throw [TagPolicyViolationException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [tags] :
   /// A list of one or more tag key and value pairs. The tag key must be present
@@ -2600,11 +2807,11 @@ class Ram {
   /// Removes the specified tag key and value pairs from the specified resource
   /// share or managed permission.
   ///
-  /// May throw [UnknownResourceException].
   /// May throw [InvalidParameterException].
   /// May throw [MalformedArnException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [tagKeys] :
   /// Specifies a list of one or more tag keys that you want to remove.
@@ -2644,14 +2851,14 @@ class Ram {
   /// Modifies some of the properties of the specified resource share.
   ///
   /// May throw [IdempotentParameterMismatchException].
-  /// May throw [MissingRequiredParameterException].
-  /// May throw [UnknownResourceException].
-  /// May throw [MalformedArnException].
   /// May throw [InvalidClientTokenException].
   /// May throw [InvalidParameterException].
+  /// May throw [MalformedArnException].
+  /// May throw [MissingRequiredParameterException].
   /// May throw [OperationNotPermittedException].
   /// May throw [ServerInternalException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnknownResourceException].
   ///
   /// Parameter [resourceShareArn] :
   /// Specifies the <a
@@ -2741,41 +2948,6 @@ class AcceptResourceShareInvitationResponse {
   }
 }
 
-class AssociateResourceSharePermissionResponse {
-  /// The idempotency identifier associated with this request. If you want to
-  /// repeat the same operation in an idempotent manner then you must include this
-  /// value in the <code>clientToken</code> request parameter of that later call.
-  /// All other parameters must also have the same values that you used in the
-  /// first call.
-  final String? clientToken;
-
-  /// A return value of <code>true</code> indicates that the request succeeded. A
-  /// value of <code>false</code> indicates that the request failed.
-  final bool? returnValue;
-
-  AssociateResourceSharePermissionResponse({
-    this.clientToken,
-    this.returnValue,
-  });
-
-  factory AssociateResourceSharePermissionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return AssociateResourceSharePermissionResponse(
-      clientToken: json['clientToken'] as String?,
-      returnValue: json['returnValue'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientToken = this.clientToken;
-    final returnValue = this.returnValue;
-    return {
-      if (clientToken != null) 'clientToken': clientToken,
-      if (returnValue != null) 'returnValue': returnValue,
-    };
-  }
-}
-
 class AssociateResourceShareResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -2814,129 +2986,37 @@ class AssociateResourceShareResponse {
   }
 }
 
-/// An object that describes a managed permission associated with a resource
-/// share.
-class AssociatedPermission {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the associated managed permission.
-  final String? arn;
+class AssociateResourceSharePermissionResponse {
+  /// The idempotency identifier associated with this request. If you want to
+  /// repeat the same operation in an idempotent manner then you must include this
+  /// value in the <code>clientToken</code> request parameter of that later call.
+  /// All other parameters must also have the same values that you used in the
+  /// first call.
+  final String? clientToken;
 
-  /// Indicates whether the associated resource share is using the default version
-  /// of the permission.
-  final bool? defaultVersion;
+  /// A return value of <code>true</code> indicates that the request succeeded. A
+  /// value of <code>false</code> indicates that the request failed.
+  final bool? returnValue;
 
-  /// Indicates what features are available for this resource share. This
-  /// parameter can have one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>STANDARD</b> – A resource share that supports all functionality. These
-  /// resource shares are visible to all principals you share the resource share
-  /// with. You can modify these resource shares in RAM using the console or APIs.
-  /// This resource share might have been created by RAM, or it might have been
-  /// <b>CREATED_FROM_POLICY</b> and then promoted.
-  /// </li>
-  /// <li>
-  /// <b>CREATED_FROM_POLICY</b> – The customer manually shared a resource by
-  /// attaching a resource-based policy. That policy did not match any existing
-  /// managed permissions, so RAM created this customer managed permission
-  /// automatically on the customer's behalf based on the attached policy
-  /// document. This type of resource share is visible only to the Amazon Web
-  /// Services account that created it. You can't modify it in RAM unless you
-  /// promote it. For more information, see
-  /// <a>PromoteResourceShareCreatedFromPolicy</a>.
-  /// </li>
-  /// <li>
-  /// <b>PROMOTING_TO_STANDARD</b> – This resource share was originally
-  /// <code>CREATED_FROM_POLICY</code>, but the customer ran the
-  /// <a>PromoteResourceShareCreatedFromPolicy</a> and that operation is still in
-  /// progress. This value changes to <code>STANDARD</code> when complete.
-  /// </li>
-  /// </ul>
-  final PermissionFeatureSet? featureSet;
-
-  /// The date and time when the association between the permission and the
-  /// resource share was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The version of the permission currently associated with the resource share.
-  final String? permissionVersion;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of a resource share associated with this permission.
-  final String? resourceShareArn;
-
-  /// The resource type to which this permission applies.
-  final String? resourceType;
-
-  /// The current status of the association between the permission and the
-  /// resource share. The following are the possible values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ATTACHABLE</code> – This permission or version can be associated with
-  /// resource shares.
-  /// </li>
-  /// <li>
-  /// <code>UNATTACHABLE</code> – This permission or version can't currently be
-  /// associated with resource shares.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> – This permission or version is in the process of
-  /// being deleted.
-  /// </li>
-  /// <li>
-  /// <code>DELETED</code> – This permission or version is deleted.
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  AssociatedPermission({
-    this.arn,
-    this.defaultVersion,
-    this.featureSet,
-    this.lastUpdatedTime,
-    this.permissionVersion,
-    this.resourceShareArn,
-    this.resourceType,
-    this.status,
+  AssociateResourceSharePermissionResponse({
+    this.clientToken,
+    this.returnValue,
   });
 
-  factory AssociatedPermission.fromJson(Map<String, dynamic> json) {
-    return AssociatedPermission(
-      arn: json['arn'] as String?,
-      defaultVersion: json['defaultVersion'] as bool?,
-      featureSet:
-          (json['featureSet'] as String?)?.let(PermissionFeatureSet.fromString),
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      permissionVersion: json['permissionVersion'] as String?,
-      resourceShareArn: json['resourceShareArn'] as String?,
-      resourceType: json['resourceType'] as String?,
-      status: json['status'] as String?,
+  factory AssociateResourceSharePermissionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateResourceSharePermissionResponse(
+      clientToken: json['clientToken'] as String?,
+      returnValue: json['returnValue'] as bool?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final defaultVersion = this.defaultVersion;
-    final featureSet = this.featureSet;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final permissionVersion = this.permissionVersion;
-    final resourceShareArn = this.resourceShareArn;
-    final resourceType = this.resourceType;
-    final status = this.status;
+    final clientToken = this.clientToken;
+    final returnValue = this.returnValue;
     return {
-      if (arn != null) 'arn': arn,
-      if (defaultVersion != null) 'defaultVersion': defaultVersion,
-      if (featureSet != null) 'featureSet': featureSet.value,
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (permissionVersion != null) 'permissionVersion': permissionVersion,
-      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
-      if (resourceType != null) 'resourceType': resourceType,
-      if (status != null) 'status': status,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (returnValue != null) 'returnValue': returnValue,
     };
   }
 }
@@ -3165,41 +3245,6 @@ class DeleteResourceShareResponse {
   }
 }
 
-class DisassociateResourceSharePermissionResponse {
-  /// The idempotency identifier associated with this request. If you want to
-  /// repeat the same operation in an idempotent manner then you must include this
-  /// value in the <code>clientToken</code> request parameter of that later call.
-  /// All other parameters must also have the same values that you used in the
-  /// first call.
-  final String? clientToken;
-
-  /// A return value of <code>true</code> indicates that the request succeeded. A
-  /// value of <code>false</code> indicates that the request failed.
-  final bool? returnValue;
-
-  DisassociateResourceSharePermissionResponse({
-    this.clientToken,
-    this.returnValue,
-  });
-
-  factory DisassociateResourceSharePermissionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DisassociateResourceSharePermissionResponse(
-      clientToken: json['clientToken'] as String?,
-      returnValue: json['returnValue'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientToken = this.clientToken;
-    final returnValue = this.returnValue;
-    return {
-      if (clientToken != null) 'clientToken': clientToken,
-      if (returnValue != null) 'returnValue': returnValue,
-    };
-  }
-}
-
 class DisassociateResourceShareResponse {
   /// The idempotency identifier associated with this request. If you want to
   /// repeat the same operation in an idempotent manner then you must include this
@@ -3236,6 +3281,41 @@ class DisassociateResourceShareResponse {
       if (clientToken != null) 'clientToken': clientToken,
       if (resourceShareAssociations != null)
         'resourceShareAssociations': resourceShareAssociations,
+    };
+  }
+}
+
+class DisassociateResourceSharePermissionResponse {
+  /// The idempotency identifier associated with this request. If you want to
+  /// repeat the same operation in an idempotent manner then you must include this
+  /// value in the <code>clientToken</code> request parameter of that later call.
+  /// All other parameters must also have the same values that you used in the
+  /// first call.
+  final String? clientToken;
+
+  /// A return value of <code>true</code> indicates that the request succeeded. A
+  /// value of <code>false</code> indicates that the request failed.
+  final bool? returnValue;
+
+  DisassociateResourceSharePermissionResponse({
+    this.clientToken,
+    this.returnValue,
+  });
+
+  factory DisassociateResourceSharePermissionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateResourceSharePermissionResponse(
+      clientToken: json['clientToken'] as String?,
+      returnValue: json['returnValue'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final returnValue = this.returnValue;
+    return {
+      if (clientToken != null) 'clientToken': clientToken,
+      if (returnValue != null) 'returnValue': returnValue,
     };
   }
 }
@@ -3520,44 +3600,6 @@ class ListPermissionAssociationsResponse {
   }
 }
 
-class ListPermissionVersionsResponse {
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
-  final String? nextToken;
-
-  /// An array of objects that contain details for each of the available versions.
-  final List<ResourceSharePermissionSummary>? permissions;
-
-  ListPermissionVersionsResponse({
-    this.nextToken,
-    this.permissions,
-  });
-
-  factory ListPermissionVersionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListPermissionVersionsResponse(
-      nextToken: json['nextToken'] as String?,
-      permissions: (json['permissions'] as List?)
-          ?.nonNulls
-          .map((e) => ResourceSharePermissionSummary.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final permissions = this.permissions;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (permissions != null) 'permissions': permissions,
-    };
-  }
-}
-
 class ListPermissionsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3577,6 +3619,44 @@ class ListPermissionsResponse {
 
   factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) {
     return ListPermissionsResponse(
+      nextToken: json['nextToken'] as String?,
+      permissions: (json['permissions'] as List?)
+          ?.nonNulls
+          .map((e) => ResourceSharePermissionSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final permissions = this.permissions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (permissions != null) 'permissions': permissions,
+    };
+  }
+}
+
+class ListPermissionVersionsResponse {
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  /// An array of objects that contain details for each of the available versions.
+  final List<ResourceSharePermissionSummary>? permissions;
+
+  ListPermissionVersionsResponse({
+    this.nextToken,
+    this.permissions,
+  });
+
+  factory ListPermissionVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPermissionVersionsResponse(
       nextToken: json['nextToken'] as String?,
       permissions: (json['permissions'] as List?)
           ?.nonNulls
@@ -3677,6 +3757,43 @@ class ListReplacePermissionAssociationsWorkResponse {
   }
 }
 
+class ListResourcesResponse {
+  /// If present, this value indicates that more output is available than is
+  /// included in the current response. Use this value in the
+  /// <code>NextToken</code> request parameter in a subsequent call to the
+  /// operation to get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back as <code>null</code>.
+  /// This indicates that this is the last page of results.
+  final String? nextToken;
+
+  /// An array of objects that contain information about the resources.
+  final List<Resource>? resources;
+
+  ListResourcesResponse({
+    this.nextToken,
+    this.resources,
+  });
+
+  factory ListResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourcesResponse(
+      nextToken: json['nextToken'] as String?,
+      resources: (json['resources'] as List?)
+          ?.nonNulls
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final resources = this.resources;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resources != null) 'resources': resources,
+    };
+  }
+}
+
 class ListResourceSharePermissionsResponse {
   /// If present, this value indicates that more output is available than is
   /// included in the current response. Use this value in the
@@ -3756,211 +3873,35 @@ class ListResourceTypesResponse {
   }
 }
 
-class ListResourcesResponse {
-  /// If present, this value indicates that more output is available than is
-  /// included in the current response. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to get the next part of the output. You should repeat this until
-  /// the <code>NextToken</code> response element comes back as <code>null</code>.
-  /// This indicates that this is the last page of results.
+class ListSourceAssociationsResponse {
+  /// The pagination token to use to retrieve the next page of results. This value
+  /// is <code>null</code> when there are no more results to return.
   final String? nextToken;
 
-  /// An array of objects that contain information about the resources.
-  final List<Resource>? resources;
+  /// Information about the source associations.
+  final List<AssociatedSource>? sourceAssociations;
 
-  ListResourcesResponse({
+  ListSourceAssociationsResponse({
     this.nextToken,
-    this.resources,
+    this.sourceAssociations,
   });
 
-  factory ListResourcesResponse.fromJson(Map<String, dynamic> json) {
-    return ListResourcesResponse(
+  factory ListSourceAssociationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSourceAssociationsResponse(
       nextToken: json['nextToken'] as String?,
-      resources: (json['resources'] as List?)
+      sourceAssociations: (json['sourceAssociations'] as List?)
           ?.nonNulls
-          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .map((e) => AssociatedSource.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
     final nextToken = this.nextToken;
-    final resources = this.resources;
+    final sourceAssociations = this.sourceAssociations;
     return {
       if (nextToken != null) 'nextToken': nextToken,
-      if (resources != null) 'resources': resources,
-    };
-  }
-}
-
-class PermissionFeatureSet {
-  static const createdFromPolicy =
-      PermissionFeatureSet._('CREATED_FROM_POLICY');
-  static const promotingToStandard =
-      PermissionFeatureSet._('PROMOTING_TO_STANDARD');
-  static const standard = PermissionFeatureSet._('STANDARD');
-
-  final String value;
-
-  const PermissionFeatureSet._(this.value);
-
-  static const values = [createdFromPolicy, promotingToStandard, standard];
-
-  static PermissionFeatureSet fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PermissionFeatureSet._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PermissionFeatureSet && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PermissionStatus {
-  static const attachable = PermissionStatus._('ATTACHABLE');
-  static const unattachable = PermissionStatus._('UNATTACHABLE');
-  static const deleting = PermissionStatus._('DELETING');
-  static const deleted = PermissionStatus._('DELETED');
-
-  final String value;
-
-  const PermissionStatus._(this.value);
-
-  static const values = [attachable, unattachable, deleting, deleted];
-
-  static PermissionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PermissionStatus._(value));
-
-  @override
-  bool operator ==(other) => other is PermissionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PermissionType {
-  static const customerManaged = PermissionType._('CUSTOMER_MANAGED');
-  static const awsManaged = PermissionType._('AWS_MANAGED');
-
-  final String value;
-
-  const PermissionType._(this.value);
-
-  static const values = [customerManaged, awsManaged];
-
-  static PermissionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PermissionType._(value));
-
-  @override
-  bool operator ==(other) => other is PermissionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PermissionTypeFilter {
-  static const all = PermissionTypeFilter._('ALL');
-  static const awsManaged = PermissionTypeFilter._('AWS_MANAGED');
-  static const customerManaged = PermissionTypeFilter._('CUSTOMER_MANAGED');
-
-  final String value;
-
-  const PermissionTypeFilter._(this.value);
-
-  static const values = [all, awsManaged, customerManaged];
-
-  static PermissionTypeFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PermissionTypeFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PermissionTypeFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a principal for use with Resource Access Manager.
-class Principal {
-  /// The date and time when the principal was associated with the resource share.
-  final DateTime? creationTime;
-
-  /// Indicates the relationship between the Amazon Web Services account the
-  /// principal belongs to and the account that owns the resource share:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>True</code> – The two accounts belong to same organization.
-  /// </li>
-  /// <li>
-  /// <code>False</code> – The two accounts do not belong to the same
-  /// organization.
-  /// </li>
-  /// </ul>
-  final bool? external;
-
-  /// The ID of the principal that can be associated with a resource share.
-  final String? id;
-
-  /// The date and time when the association between the resource share and the
-  /// principal was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of a resource share the principal is associated
-  /// with.
-  final String? resourceShareArn;
-
-  Principal({
-    this.creationTime,
-    this.external,
-    this.id,
-    this.lastUpdatedTime,
-    this.resourceShareArn,
-  });
-
-  factory Principal.fromJson(Map<String, dynamic> json) {
-    return Principal(
-      creationTime: timeStampFromJson(json['creationTime']),
-      external: json['external'] as bool?,
-      id: json['id'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      resourceShareArn: json['resourceShareArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final external = this.external;
-    final id = this.id;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final resourceShareArn = this.resourceShareArn;
-    return {
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (external != null) 'external': external,
-      if (id != null) 'id': id,
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
+      if (sourceAssociations != null) 'sourceAssociations': sourceAssociations,
     };
   }
 }
@@ -4106,6 +4047,370 @@ class ReplacePermissionAssociationsResponse {
   }
 }
 
+class SetDefaultPermissionVersionResponse {
+  /// The idempotency identifier associated with this request. If you want to
+  /// repeat the same operation in an idempotent manner then you must include this
+  /// value in the <code>clientToken</code> request parameter of that later call.
+  /// All other parameters must also have the same values that you used in the
+  /// first call.
+  final String? clientToken;
+
+  /// A boolean value that indicates whether the operation was successful.
+  final bool? returnValue;
+
+  SetDefaultPermissionVersionResponse({
+    this.clientToken,
+    this.returnValue,
+  });
+
+  factory SetDefaultPermissionVersionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SetDefaultPermissionVersionResponse(
+      clientToken: json['clientToken'] as String?,
+      returnValue: json['returnValue'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final returnValue = this.returnValue;
+    return {
+      if (clientToken != null) 'clientToken': clientToken,
+      if (returnValue != null) 'returnValue': returnValue,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateResourceShareResponse {
+  /// The idempotency identifier associated with this request. If you want to
+  /// repeat the same operation in an idempotent manner then you must include this
+  /// value in the <code>clientToken</code> request parameter of that later call.
+  /// All other parameters must also have the same values that you used in the
+  /// first call.
+  final String? clientToken;
+
+  /// Information about the resource share.
+  final ResourceShare? resourceShare;
+
+  UpdateResourceShareResponse({
+    this.clientToken,
+    this.resourceShare,
+  });
+
+  factory UpdateResourceShareResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateResourceShareResponse(
+      clientToken: json['clientToken'] as String?,
+      resourceShare: json['resourceShare'] != null
+          ? ResourceShare.fromJson(
+              json['resourceShare'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientToken = this.clientToken;
+    final resourceShare = this.resourceShare;
+    return {
+      if (clientToken != null) 'clientToken': clientToken,
+      if (resourceShare != null) 'resourceShare': resourceShare,
+    };
+  }
+}
+
+/// Describes a resource share in RAM.
+class ResourceShare {
+  /// Indicates whether principals outside your organization in Organizations can
+  /// be associated with a resource share.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>True</code> – the resource share can be shared with any Amazon Web
+  /// Services account.
+  /// </li>
+  /// <li>
+  /// <code>False</code> – the resource share can be shared with only accounts in
+  /// the same organization as the account that owns the resource share.
+  /// </li>
+  /// </ul>
+  final bool? allowExternalPrincipals;
+
+  /// The date and time when the resource share was created.
+  final DateTime? creationTime;
+
+  /// Indicates what features are available for this resource share. This
+  /// parameter can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>STANDARD</b> – A resource share that supports all functionality. These
+  /// resource shares are visible to all principals you share the resource share
+  /// with. You can modify these resource shares in RAM using the console or APIs.
+  /// This resource share might have been created by RAM, or it might have been
+  /// <b>CREATED_FROM_POLICY</b> and then promoted.
+  /// </li>
+  /// <li>
+  /// <b>CREATED_FROM_POLICY</b> – The customer manually shared a resource by
+  /// attaching a resource-based policy. That policy did not match any existing
+  /// managed permissions, so RAM created this customer managed permission
+  /// automatically on the customer's behalf based on the attached policy
+  /// document. This type of resource share is visible only to the Amazon Web
+  /// Services account that created it. You can't modify it in RAM unless you
+  /// promote it. For more information, see
+  /// <a>PromoteResourceShareCreatedFromPolicy</a>.
+  /// </li>
+  /// <li>
+  /// <b>PROMOTING_TO_STANDARD</b> – This resource share was originally
+  /// <code>CREATED_FROM_POLICY</code>, but the customer ran the
+  /// <a>PromoteResourceShareCreatedFromPolicy</a> and that operation is still in
+  /// progress. This value changes to <code>STANDARD</code> when complete.
+  /// </li>
+  /// </ul>
+  final ResourceShareFeatureSet? featureSet;
+
+  /// The date and time when the resource share was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The name of the resource share.
+  final String? name;
+
+  /// The ID of the Amazon Web Services account that owns the resource share.
+  final String? owningAccountId;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the resource share
+  final String? resourceShareArn;
+
+  /// The configuration of the resource share
+  final ResourceShareConfiguration? resourceShareConfiguration;
+
+  /// The current status of the resource share.
+  final ResourceShareStatus? status;
+
+  /// A message about the status of the resource share.
+  final String? statusMessage;
+
+  /// The tag key and value pairs attached to the resource share.
+  final List<Tag>? tags;
+
+  ResourceShare({
+    this.allowExternalPrincipals,
+    this.creationTime,
+    this.featureSet,
+    this.lastUpdatedTime,
+    this.name,
+    this.owningAccountId,
+    this.resourceShareArn,
+    this.resourceShareConfiguration,
+    this.status,
+    this.statusMessage,
+    this.tags,
+  });
+
+  factory ResourceShare.fromJson(Map<String, dynamic> json) {
+    return ResourceShare(
+      allowExternalPrincipals: json['allowExternalPrincipals'] as bool?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      featureSet: (json['featureSet'] as String?)
+          ?.let(ResourceShareFeatureSet.fromString),
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      name: json['name'] as String?,
+      owningAccountId: json['owningAccountId'] as String?,
+      resourceShareArn: json['resourceShareArn'] as String?,
+      resourceShareConfiguration: json['resourceShareConfiguration'] != null
+          ? ResourceShareConfiguration.fromJson(
+              json['resourceShareConfiguration'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.let(ResourceShareStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowExternalPrincipals = this.allowExternalPrincipals;
+    final creationTime = this.creationTime;
+    final featureSet = this.featureSet;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final owningAccountId = this.owningAccountId;
+    final resourceShareArn = this.resourceShareArn;
+    final resourceShareConfiguration = this.resourceShareConfiguration;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    return {
+      if (allowExternalPrincipals != null)
+        'allowExternalPrincipals': allowExternalPrincipals,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (featureSet != null) 'featureSet': featureSet.value,
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (name != null) 'name': name,
+      if (owningAccountId != null) 'owningAccountId': owningAccountId,
+      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
+      if (resourceShareConfiguration != null)
+        'resourceShareConfiguration': resourceShareConfiguration,
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class ResourceShareStatus {
+  static const pending = ResourceShareStatus._('PENDING');
+  static const active = ResourceShareStatus._('ACTIVE');
+  static const failed = ResourceShareStatus._('FAILED');
+  static const deleting = ResourceShareStatus._('DELETING');
+  static const deleted = ResourceShareStatus._('DELETED');
+
+  final String value;
+
+  const ResourceShareStatus._(this.value);
+
+  static const values = [pending, active, failed, deleting, deleted];
+
+  static ResourceShareStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceShareStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceShareFeatureSet {
+  static const createdFromPolicy =
+      ResourceShareFeatureSet._('CREATED_FROM_POLICY');
+  static const promotingToStandard =
+      ResourceShareFeatureSet._('PROMOTING_TO_STANDARD');
+  static const standard = ResourceShareFeatureSet._('STANDARD');
+
+  final String value;
+
+  const ResourceShareFeatureSet._(this.value);
+
+  static const values = [createdFromPolicy, promotingToStandard, standard];
+
+  static ResourceShareFeatureSet fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceShareFeatureSet._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareFeatureSet && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The configuration of the resource share
+class ResourceShareConfiguration {
+  /// Specifies whether the consumer account retains access to the resource share
+  /// after leaving the organization.
+  final bool? retainSharingOnAccountLeaveOrganization;
+
+  ResourceShareConfiguration({
+    this.retainSharingOnAccountLeaveOrganization,
+  });
+
+  factory ResourceShareConfiguration.fromJson(Map<String, dynamic> json) {
+    return ResourceShareConfiguration(
+      retainSharingOnAccountLeaveOrganization:
+          json['retainSharingOnAccountLeaveOrganization'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retainSharingOnAccountLeaveOrganization =
+        this.retainSharingOnAccountLeaveOrganization;
+    return {
+      if (retainSharingOnAccountLeaveOrganization != null)
+        'retainSharingOnAccountLeaveOrganization':
+            retainSharingOnAccountLeaveOrganization,
+    };
+  }
+}
+
+/// A structure containing a tag. A tag is metadata that you can attach to your
+/// resources to help organize and categorize them. You can also use them to
+/// help you secure your resources. For more information, see <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Controlling
+/// access to Amazon Web Services resources using tags</a>.
+///
+/// For more information about tags, see <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+/// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+/// Reference Guide</i>.
+class Tag {
+  /// The key, or name, attached to the tag. Every tag must have a key. Key names
+  /// are case sensitive.
+  final String? key;
+
+  /// The string value attached to the tag. The value can be an empty string. Key
+  /// values are case sensitive.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
 /// A structure that represents the background work that RAM performs when you
 /// invoke the <a>ReplacePermissionAssociations</a> operation.
 class ReplacePermissionAssociationsWork {
@@ -4244,528 +4549,6 @@ class ReplacePermissionAssociationsWorkStatus {
   String toString() => value;
 }
 
-/// Describes a resource associated with a resource share in RAM.
-class Resource {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the resource.
-  final String? arn;
-
-  /// The date and time when the resource was associated with the resource share.
-  final DateTime? creationTime;
-
-  /// The date an time when the association between the resource and the resource
-  /// share was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the resource group. This value is available only
-  /// if the resource is part of a resource group.
-  final String? resourceGroupArn;
-
-  /// Specifies the scope of visibility of this resource:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>REGIONAL</b> – The resource can be accessed only by using requests that
-  /// target the Amazon Web Services Region in which the resource exists.
-  /// </li>
-  /// <li>
-  /// <b>GLOBAL</b> – The resource can be accessed from any Amazon Web Services
-  /// Region.
-  /// </li>
-  /// </ul>
-  final ResourceRegionScope? resourceRegionScope;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the resource share this resource is associated
-  /// with.
-  final String? resourceShareArn;
-
-  /// The current status of the resource.
-  final ResourceStatus? status;
-
-  /// A message about the status of the resource.
-  final String? statusMessage;
-
-  /// The resource type. This takes the form of:
-  /// <code>service-code</code>:<code>resource-code</code>, and is
-  /// case-insensitive. For example, an Amazon EC2 Subnet would be represented by
-  /// the string <code>ec2:subnet</code>.
-  final String? type;
-
-  Resource({
-    this.arn,
-    this.creationTime,
-    this.lastUpdatedTime,
-    this.resourceGroupArn,
-    this.resourceRegionScope,
-    this.resourceShareArn,
-    this.status,
-    this.statusMessage,
-    this.type,
-  });
-
-  factory Resource.fromJson(Map<String, dynamic> json) {
-    return Resource(
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      resourceGroupArn: json['resourceGroupArn'] as String?,
-      resourceRegionScope: (json['resourceRegionScope'] as String?)
-          ?.let(ResourceRegionScope.fromString),
-      resourceShareArn: json['resourceShareArn'] as String?,
-      status: (json['status'] as String?)?.let(ResourceStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-      type: json['type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final resourceGroupArn = this.resourceGroupArn;
-    final resourceRegionScope = this.resourceRegionScope;
-    final resourceShareArn = this.resourceShareArn;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final type = this.type;
-    return {
-      if (arn != null) 'arn': arn,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (resourceGroupArn != null) 'resourceGroupArn': resourceGroupArn,
-      if (resourceRegionScope != null)
-        'resourceRegionScope': resourceRegionScope.value,
-      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-      if (type != null) 'type': type,
-    };
-  }
-}
-
-class ResourceOwner {
-  static const self = ResourceOwner._('SELF');
-  static const otherAccounts = ResourceOwner._('OTHER-ACCOUNTS');
-
-  final String value;
-
-  const ResourceOwner._(this.value);
-
-  static const values = [self, otherAccounts];
-
-  static ResourceOwner fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceOwner._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceOwner && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceRegionScope {
-  static const regional = ResourceRegionScope._('REGIONAL');
-  static const global = ResourceRegionScope._('GLOBAL');
-
-  final String value;
-
-  const ResourceRegionScope._(this.value);
-
-  static const values = [regional, global];
-
-  static ResourceRegionScope fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceRegionScope._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceRegionScope && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceRegionScopeFilter {
-  static const all = ResourceRegionScopeFilter._('ALL');
-  static const regional = ResourceRegionScopeFilter._('REGIONAL');
-  static const global = ResourceRegionScopeFilter._('GLOBAL');
-
-  final String value;
-
-  const ResourceRegionScopeFilter._(this.value);
-
-  static const values = [all, regional, global];
-
-  static ResourceRegionScopeFilter fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceRegionScopeFilter._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceRegionScopeFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a resource share in RAM.
-class ResourceShare {
-  /// Indicates whether principals outside your organization in Organizations can
-  /// be associated with a resource share.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>True</code> – the resource share can be shared with any Amazon Web
-  /// Services account.
-  /// </li>
-  /// <li>
-  /// <code>False</code> – the resource share can be shared with only accounts in
-  /// the same organization as the account that owns the resource share.
-  /// </li>
-  /// </ul>
-  final bool? allowExternalPrincipals;
-
-  /// The date and time when the resource share was created.
-  final DateTime? creationTime;
-
-  /// Indicates what features are available for this resource share. This
-  /// parameter can have one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>STANDARD</b> – A resource share that supports all functionality. These
-  /// resource shares are visible to all principals you share the resource share
-  /// with. You can modify these resource shares in RAM using the console or APIs.
-  /// This resource share might have been created by RAM, or it might have been
-  /// <b>CREATED_FROM_POLICY</b> and then promoted.
-  /// </li>
-  /// <li>
-  /// <b>CREATED_FROM_POLICY</b> – The customer manually shared a resource by
-  /// attaching a resource-based policy. That policy did not match any existing
-  /// managed permissions, so RAM created this customer managed permission
-  /// automatically on the customer's behalf based on the attached policy
-  /// document. This type of resource share is visible only to the Amazon Web
-  /// Services account that created it. You can't modify it in RAM unless you
-  /// promote it. For more information, see
-  /// <a>PromoteResourceShareCreatedFromPolicy</a>.
-  /// </li>
-  /// <li>
-  /// <b>PROMOTING_TO_STANDARD</b> – This resource share was originally
-  /// <code>CREATED_FROM_POLICY</code>, but the customer ran the
-  /// <a>PromoteResourceShareCreatedFromPolicy</a> and that operation is still in
-  /// progress. This value changes to <code>STANDARD</code> when complete.
-  /// </li>
-  /// </ul>
-  final ResourceShareFeatureSet? featureSet;
-
-  /// The date and time when the resource share was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The name of the resource share.
-  final String? name;
-
-  /// The ID of the Amazon Web Services account that owns the resource share.
-  final String? owningAccountId;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the resource share
-  final String? resourceShareArn;
-
-  /// The current status of the resource share.
-  final ResourceShareStatus? status;
-
-  /// A message about the status of the resource share.
-  final String? statusMessage;
-
-  /// The tag key and value pairs attached to the resource share.
-  final List<Tag>? tags;
-
-  ResourceShare({
-    this.allowExternalPrincipals,
-    this.creationTime,
-    this.featureSet,
-    this.lastUpdatedTime,
-    this.name,
-    this.owningAccountId,
-    this.resourceShareArn,
-    this.status,
-    this.statusMessage,
-    this.tags,
-  });
-
-  factory ResourceShare.fromJson(Map<String, dynamic> json) {
-    return ResourceShare(
-      allowExternalPrincipals: json['allowExternalPrincipals'] as bool?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      featureSet: (json['featureSet'] as String?)
-          ?.let(ResourceShareFeatureSet.fromString),
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      name: json['name'] as String?,
-      owningAccountId: json['owningAccountId'] as String?,
-      resourceShareArn: json['resourceShareArn'] as String?,
-      status: (json['status'] as String?)?.let(ResourceShareStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final allowExternalPrincipals = this.allowExternalPrincipals;
-    final creationTime = this.creationTime;
-    final featureSet = this.featureSet;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final name = this.name;
-    final owningAccountId = this.owningAccountId;
-    final resourceShareArn = this.resourceShareArn;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    final tags = this.tags;
-    return {
-      if (allowExternalPrincipals != null)
-        'allowExternalPrincipals': allowExternalPrincipals,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (featureSet != null) 'featureSet': featureSet.value,
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (name != null) 'name': name,
-      if (owningAccountId != null) 'owningAccountId': owningAccountId,
-      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Describes an association between a resource share and either a principal or
-/// a resource.
-class ResourceShareAssociation {
-  /// The associated entity. This can be either of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// For a resource association, this is the <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the resource.
-  /// </li>
-  /// <li>
-  /// For principal associations, this is one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// The ID of an Amazon Web Services account
-  /// </li>
-  /// <li>
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of an organization in Organizations
-  /// </li>
-  /// <li>
-  /// The ARN of an organizational unit (OU) in Organizations
-  /// </li>
-  /// <li>
-  /// The ARN of an IAM role
-  /// </li>
-  /// <li>
-  /// The ARN of an IAM user
-  /// </li>
-  /// </ul> </li>
-  /// </ul>
-  final String? associatedEntity;
-
-  /// The type of entity included in this association.
-  final ResourceShareAssociationType? associationType;
-
-  /// The date and time when the association was created.
-  final DateTime? creationTime;
-
-  /// Indicates whether the principal belongs to the same organization in
-  /// Organizations as the Amazon Web Services account that owns the resource
-  /// share.
-  final bool? external;
-
-  /// The date and time when the association was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the resource share.
-  final String? resourceShareArn;
-
-  /// The name of the resource share.
-  final String? resourceShareName;
-
-  /// The current status of the association.
-  final ResourceShareAssociationStatus? status;
-
-  /// A message about the status of the association.
-  final String? statusMessage;
-
-  ResourceShareAssociation({
-    this.associatedEntity,
-    this.associationType,
-    this.creationTime,
-    this.external,
-    this.lastUpdatedTime,
-    this.resourceShareArn,
-    this.resourceShareName,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory ResourceShareAssociation.fromJson(Map<String, dynamic> json) {
-    return ResourceShareAssociation(
-      associatedEntity: json['associatedEntity'] as String?,
-      associationType: (json['associationType'] as String?)
-          ?.let(ResourceShareAssociationType.fromString),
-      creationTime: timeStampFromJson(json['creationTime']),
-      external: json['external'] as bool?,
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      resourceShareArn: json['resourceShareArn'] as String?,
-      resourceShareName: json['resourceShareName'] as String?,
-      status: (json['status'] as String?)
-          ?.let(ResourceShareAssociationStatus.fromString),
-      statusMessage: json['statusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final associatedEntity = this.associatedEntity;
-    final associationType = this.associationType;
-    final creationTime = this.creationTime;
-    final external = this.external;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final resourceShareArn = this.resourceShareArn;
-    final resourceShareName = this.resourceShareName;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (associatedEntity != null) 'associatedEntity': associatedEntity,
-      if (associationType != null) 'associationType': associationType.value,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (external != null) 'external': external,
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
-      if (resourceShareName != null) 'resourceShareName': resourceShareName,
-      if (status != null) 'status': status.value,
-      if (statusMessage != null) 'statusMessage': statusMessage,
-    };
-  }
-}
-
-class ResourceShareAssociationStatus {
-  static const associating = ResourceShareAssociationStatus._('ASSOCIATING');
-  static const associated = ResourceShareAssociationStatus._('ASSOCIATED');
-  static const failed = ResourceShareAssociationStatus._('FAILED');
-  static const disassociating =
-      ResourceShareAssociationStatus._('DISASSOCIATING');
-  static const disassociated =
-      ResourceShareAssociationStatus._('DISASSOCIATED');
-
-  final String value;
-
-  const ResourceShareAssociationStatus._(this.value);
-
-  static const values = [
-    associating,
-    associated,
-    failed,
-    disassociating,
-    disassociated
-  ];
-
-  static ResourceShareAssociationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceShareAssociationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceShareAssociationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceShareAssociationType {
-  static const principal = ResourceShareAssociationType._('PRINCIPAL');
-  static const resource = ResourceShareAssociationType._('RESOURCE');
-
-  final String value;
-
-  const ResourceShareAssociationType._(this.value);
-
-  static const values = [principal, resource];
-
-  static ResourceShareAssociationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceShareAssociationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceShareAssociationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ResourceShareFeatureSet {
-  static const createdFromPolicy =
-      ResourceShareFeatureSet._('CREATED_FROM_POLICY');
-  static const promotingToStandard =
-      ResourceShareFeatureSet._('PROMOTING_TO_STANDARD');
-  static const standard = ResourceShareFeatureSet._('STANDARD');
-
-  final String value;
-
-  const ResourceShareFeatureSet._(this.value);
-
-  static const values = [createdFromPolicy, promotingToStandard, standard];
-
-  static ResourceShareFeatureSet fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceShareFeatureSet._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ResourceShareFeatureSet && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Describes an invitation for an Amazon Web Services account to join a
 /// resource share.
 class ResourceShareInvitation {
@@ -4887,6 +4670,988 @@ class ResourceShareInvitationStatus {
 
   @override
   String toString() => value;
+}
+
+/// Describes an association between a resource share and either a principal or
+/// a resource.
+class ResourceShareAssociation {
+  /// The associated entity. This can be either of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// For a resource association, this is the <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the resource.
+  /// </li>
+  /// <li>
+  /// For principal associations, this is one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The ID of an Amazon Web Services account
+  /// </li>
+  /// <li>
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of an organization in Organizations
+  /// </li>
+  /// <li>
+  /// The ARN of an organizational unit (OU) in Organizations
+  /// </li>
+  /// <li>
+  /// The ARN of an IAM role
+  /// </li>
+  /// <li>
+  /// The ARN of an IAM user
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final String? associatedEntity;
+
+  /// The type of entity included in this association.
+  final ResourceShareAssociationType? associationType;
+
+  /// The date and time when the association was created.
+  final DateTime? creationTime;
+
+  /// Indicates whether the principal belongs to the same organization in
+  /// Organizations as the Amazon Web Services account that owns the resource
+  /// share.
+  final bool? external;
+
+  /// The date and time when the association was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the resource share.
+  final String? resourceShareArn;
+
+  /// The name of the resource share.
+  final String? resourceShareName;
+
+  /// The current status of the association.
+  final ResourceShareAssociationStatus? status;
+
+  /// A message about the status of the association.
+  final String? statusMessage;
+
+  ResourceShareAssociation({
+    this.associatedEntity,
+    this.associationType,
+    this.creationTime,
+    this.external,
+    this.lastUpdatedTime,
+    this.resourceShareArn,
+    this.resourceShareName,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory ResourceShareAssociation.fromJson(Map<String, dynamic> json) {
+    return ResourceShareAssociation(
+      associatedEntity: json['associatedEntity'] as String?,
+      associationType: (json['associationType'] as String?)
+          ?.let(ResourceShareAssociationType.fromString),
+      creationTime: timeStampFromJson(json['creationTime']),
+      external: json['external'] as bool?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      resourceShareArn: json['resourceShareArn'] as String?,
+      resourceShareName: json['resourceShareName'] as String?,
+      status: (json['status'] as String?)
+          ?.let(ResourceShareAssociationStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedEntity = this.associatedEntity;
+    final associationType = this.associationType;
+    final creationTime = this.creationTime;
+    final external = this.external;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final resourceShareArn = this.resourceShareArn;
+    final resourceShareName = this.resourceShareName;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (associatedEntity != null) 'associatedEntity': associatedEntity,
+      if (associationType != null) 'associationType': associationType.value,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (external != null) 'external': external,
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
+      if (resourceShareName != null) 'resourceShareName': resourceShareName,
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
+}
+
+class ResourceShareAssociationType {
+  static const principal = ResourceShareAssociationType._('PRINCIPAL');
+  static const resource = ResourceShareAssociationType._('RESOURCE');
+  static const source = ResourceShareAssociationType._('SOURCE');
+
+  final String value;
+
+  const ResourceShareAssociationType._(this.value);
+
+  static const values = [principal, resource, source];
+
+  static ResourceShareAssociationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceShareAssociationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareAssociationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceShareAssociationStatus {
+  static const associating = ResourceShareAssociationStatus._('ASSOCIATING');
+  static const associated = ResourceShareAssociationStatus._('ASSOCIATED');
+  static const failed = ResourceShareAssociationStatus._('FAILED');
+  static const disassociating =
+      ResourceShareAssociationStatus._('DISASSOCIATING');
+  static const disassociated =
+      ResourceShareAssociationStatus._('DISASSOCIATED');
+  static const suspended = ResourceShareAssociationStatus._('SUSPENDED');
+  static const suspending = ResourceShareAssociationStatus._('SUSPENDING');
+  static const restoring = ResourceShareAssociationStatus._('RESTORING');
+
+  final String value;
+
+  const ResourceShareAssociationStatus._(this.value);
+
+  static const values = [
+    associating,
+    associated,
+    failed,
+    disassociating,
+    disassociated,
+    suspended,
+    suspending,
+    restoring
+  ];
+
+  static ResourceShareAssociationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceShareAssociationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceShareAssociationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about an RAM permission.
+class ResourceSharePermissionSummary {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the permission you want information about.
+  final String? arn;
+
+  /// The date and time when the permission was created.
+  final DateTime? creationTime;
+
+  /// Specifies whether the version of the managed permission used by this
+  /// resource share is the default version for this managed permission.
+  final bool? defaultVersion;
+
+  /// Indicates what features are available for this resource share. This
+  /// parameter can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>STANDARD</b> – A resource share that supports all functionality. These
+  /// resource shares are visible to all principals you share the resource share
+  /// with. You can modify these resource shares in RAM using the console or APIs.
+  /// This resource share might have been created by RAM, or it might have been
+  /// <b>CREATED_FROM_POLICY</b> and then promoted.
+  /// </li>
+  /// <li>
+  /// <b>CREATED_FROM_POLICY</b> – The customer manually shared a resource by
+  /// attaching a resource-based policy. That policy did not match any existing
+  /// managed permissions, so RAM created this customer managed permission
+  /// automatically on the customer's behalf based on the attached policy
+  /// document. This type of resource share is visible only to the Amazon Web
+  /// Services account that created it. You can't modify it in RAM unless you
+  /// promote it. For more information, see
+  /// <a>PromoteResourceShareCreatedFromPolicy</a>.
+  /// </li>
+  /// <li>
+  /// <b>PROMOTING_TO_STANDARD</b> – This resource share was originally
+  /// <code>CREATED_FROM_POLICY</code>, but the customer ran the
+  /// <a>PromoteResourceShareCreatedFromPolicy</a> and that operation is still in
+  /// progress. This value changes to <code>STANDARD</code> when complete.
+  /// </li>
+  /// </ul>
+  final PermissionFeatureSet? featureSet;
+
+  /// Specifies whether the managed permission associated with this resource share
+  /// is the default managed permission for all resources of this resource type.
+  final bool? isResourceTypeDefault;
+
+  /// The date and time when the permission was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The name of this managed permission.
+  final String? name;
+
+  /// The type of managed permission. This can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS_MANAGED</code> – Amazon Web Services created and manages this
+  /// managed permission. You can associate it with your resource shares, but you
+  /// can't modify it.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOMER_MANAGED</code> – You, or another principal in your account
+  /// created this managed permission. You can associate it with your resource
+  /// shares and create new versions that have different permissions.
+  /// </li>
+  /// </ul>
+  final PermissionType? permissionType;
+
+  /// The type of resource to which this permission applies. This takes the form
+  /// of: <code>service-code</code>:<code>resource-code</code>, and is
+  /// case-insensitive. For example, an Amazon EC2 Subnet would be represented by
+  /// the string <code>ec2:subnet</code>.
+  final String? resourceType;
+
+  /// The current status of the permission.
+  final String? status;
+
+  /// A list of the tag key value pairs currently attached to the permission.
+  final List<Tag>? tags;
+
+  /// The version of the permission associated with this resource share.
+  final String? version;
+
+  ResourceSharePermissionSummary({
+    this.arn,
+    this.creationTime,
+    this.defaultVersion,
+    this.featureSet,
+    this.isResourceTypeDefault,
+    this.lastUpdatedTime,
+    this.name,
+    this.permissionType,
+    this.resourceType,
+    this.status,
+    this.tags,
+    this.version,
+  });
+
+  factory ResourceSharePermissionSummary.fromJson(Map<String, dynamic> json) {
+    return ResourceSharePermissionSummary(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      defaultVersion: json['defaultVersion'] as bool?,
+      featureSet:
+          (json['featureSet'] as String?)?.let(PermissionFeatureSet.fromString),
+      isResourceTypeDefault: json['isResourceTypeDefault'] as bool?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      name: json['name'] as String?,
+      permissionType:
+          (json['permissionType'] as String?)?.let(PermissionType.fromString),
+      resourceType: json['resourceType'] as String?,
+      status: json['status'] as String?,
+      tags: (json['tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final defaultVersion = this.defaultVersion;
+    final featureSet = this.featureSet;
+    final isResourceTypeDefault = this.isResourceTypeDefault;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final permissionType = this.permissionType;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final tags = this.tags;
+    final version = this.version;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (defaultVersion != null) 'defaultVersion': defaultVersion,
+      if (featureSet != null) 'featureSet': featureSet.value,
+      if (isResourceTypeDefault != null)
+        'isResourceTypeDefault': isResourceTypeDefault,
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (name != null) 'name': name,
+      if (permissionType != null) 'permissionType': permissionType.value,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (status != null) 'status': status,
+      if (tags != null) 'tags': tags,
+      if (version != null) 'version': version,
+    };
+  }
+}
+
+class PermissionType {
+  static const customerManaged = PermissionType._('CUSTOMER_MANAGED');
+  static const awsManaged = PermissionType._('AWS_MANAGED');
+
+  final String value;
+
+  const PermissionType._(this.value);
+
+  static const values = [customerManaged, awsManaged];
+
+  static PermissionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionType._(value));
+
+  @override
+  bool operator ==(other) => other is PermissionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PermissionFeatureSet {
+  static const createdFromPolicy =
+      PermissionFeatureSet._('CREATED_FROM_POLICY');
+  static const promotingToStandard =
+      PermissionFeatureSet._('PROMOTING_TO_STANDARD');
+  static const standard = PermissionFeatureSet._('STANDARD');
+
+  final String value;
+
+  const PermissionFeatureSet._(this.value);
+
+  static const values = [createdFromPolicy, promotingToStandard, standard];
+
+  static PermissionFeatureSet fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionFeatureSet._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionFeatureSet && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a source association in a resource share. Source
+/// associations control which sources can be used with service principals.
+class AssociatedSource {
+  /// The date and time when the source association was created.
+  final DateTime? creationTime;
+
+  /// The date and time when the source association was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The Amazon Resource Name (ARN) of the resource share that contains the
+  /// source association.
+  final String? resourceShareArn;
+
+  /// The identifier of the source. This can be an account ID, Amazon Resource
+  /// Name (ARN), organization ID, or organization path.
+  final String? sourceId;
+
+  /// The type of source.
+  final String? sourceType;
+
+  /// The current status of the source association.
+  final String? status;
+
+  /// A message about the status of the source association.
+  final String? statusMessage;
+
+  AssociatedSource({
+    this.creationTime,
+    this.lastUpdatedTime,
+    this.resourceShareArn,
+    this.sourceId,
+    this.sourceType,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory AssociatedSource.fromJson(Map<String, dynamic> json) {
+    return AssociatedSource(
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      resourceShareArn: json['resourceShareArn'] as String?,
+      sourceId: json['sourceId'] as String?,
+      sourceType: json['sourceType'] as String?,
+      status: json['status'] as String?,
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final resourceShareArn = this.resourceShareArn;
+    final sourceId = this.sourceId;
+    final sourceType = this.sourceType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
+      if (sourceId != null) 'sourceId': sourceId,
+      if (sourceType != null) 'sourceType': sourceType,
+      if (status != null) 'status': status,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
+}
+
+/// Information about a shareable resource type and the Amazon Web Services
+/// service to which resources of that type belong.
+class ServiceNameAndResourceType {
+  /// Specifies the scope of visibility of resources of this type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>REGIONAL</b> – The resource can be accessed only by using requests that
+  /// target the Amazon Web Services Region in which the resource exists.
+  /// </li>
+  /// <li>
+  /// <b>GLOBAL</b> – The resource can be accessed from any Amazon Web Services
+  /// Region.
+  /// </li>
+  /// </ul>
+  final ResourceRegionScope? resourceRegionScope;
+
+  /// The type of the resource. This takes the form of:
+  /// <code>service-code</code>:<code>resource-code</code>, and is
+  /// case-insensitive. For example, an Amazon EC2 Subnet would be represented by
+  /// the string <code>ec2:subnet</code>.
+  final String? resourceType;
+
+  /// The name of the Amazon Web Services service to which resources of this type
+  /// belong.
+  final String? serviceName;
+
+  ServiceNameAndResourceType({
+    this.resourceRegionScope,
+    this.resourceType,
+    this.serviceName,
+  });
+
+  factory ServiceNameAndResourceType.fromJson(Map<String, dynamic> json) {
+    return ServiceNameAndResourceType(
+      resourceRegionScope: (json['resourceRegionScope'] as String?)
+          ?.let(ResourceRegionScope.fromString),
+      resourceType: json['resourceType'] as String?,
+      serviceName: json['serviceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceRegionScope = this.resourceRegionScope;
+    final resourceType = this.resourceType;
+    final serviceName = this.serviceName;
+    return {
+      if (resourceRegionScope != null)
+        'resourceRegionScope': resourceRegionScope.value,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
+}
+
+class ResourceRegionScope {
+  static const regional = ResourceRegionScope._('REGIONAL');
+  static const global = ResourceRegionScope._('GLOBAL');
+
+  final String value;
+
+  const ResourceRegionScope._(this.value);
+
+  static const values = [regional, global];
+
+  static ResourceRegionScope fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceRegionScope._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceRegionScope && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceRegionScopeFilter {
+  static const all = ResourceRegionScopeFilter._('ALL');
+  static const regional = ResourceRegionScopeFilter._('REGIONAL');
+  static const global = ResourceRegionScopeFilter._('GLOBAL');
+
+  final String value;
+
+  const ResourceRegionScopeFilter._(this.value);
+
+  static const values = [all, regional, global];
+
+  static ResourceRegionScopeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceRegionScopeFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ResourceRegionScopeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a resource associated with a resource share in RAM.
+class Resource {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the resource.
+  final String? arn;
+
+  /// The date and time when the resource was associated with the resource share.
+  final DateTime? creationTime;
+
+  /// The date an time when the association between the resource and the resource
+  /// share was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the resource group. This value is available only
+  /// if the resource is part of a resource group.
+  final String? resourceGroupArn;
+
+  /// Specifies the scope of visibility of this resource:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>REGIONAL</b> – The resource can be accessed only by using requests that
+  /// target the Amazon Web Services Region in which the resource exists.
+  /// </li>
+  /// <li>
+  /// <b>GLOBAL</b> – The resource can be accessed from any Amazon Web Services
+  /// Region.
+  /// </li>
+  /// </ul>
+  final ResourceRegionScope? resourceRegionScope;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the resource share this resource is associated
+  /// with.
+  final String? resourceShareArn;
+
+  /// The current status of the resource.
+  final ResourceStatus? status;
+
+  /// A message about the status of the resource.
+  final String? statusMessage;
+
+  /// The resource type. This takes the form of:
+  /// <code>service-code</code>:<code>resource-code</code>, and is
+  /// case-insensitive. For example, an Amazon EC2 Subnet would be represented by
+  /// the string <code>ec2:subnet</code>.
+  final String? type;
+
+  Resource({
+    this.arn,
+    this.creationTime,
+    this.lastUpdatedTime,
+    this.resourceGroupArn,
+    this.resourceRegionScope,
+    this.resourceShareArn,
+    this.status,
+    this.statusMessage,
+    this.type,
+  });
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      resourceGroupArn: json['resourceGroupArn'] as String?,
+      resourceRegionScope: (json['resourceRegionScope'] as String?)
+          ?.let(ResourceRegionScope.fromString),
+      resourceShareArn: json['resourceShareArn'] as String?,
+      status: (json['status'] as String?)?.let(ResourceStatus.fromString),
+      statusMessage: json['statusMessage'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final resourceGroupArn = this.resourceGroupArn;
+    final resourceRegionScope = this.resourceRegionScope;
+    final resourceShareArn = this.resourceShareArn;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (resourceGroupArn != null) 'resourceGroupArn': resourceGroupArn,
+      if (resourceRegionScope != null)
+        'resourceRegionScope': resourceRegionScope.value,
+      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
+      if (status != null) 'status': status.value,
+      if (statusMessage != null) 'statusMessage': statusMessage,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+class ResourceStatus {
+  static const available = ResourceStatus._('AVAILABLE');
+  static const zonalResourceInaccessible =
+      ResourceStatus._('ZONAL_RESOURCE_INACCESSIBLE');
+  static const limitExceeded = ResourceStatus._('LIMIT_EXCEEDED');
+  static const unavailable = ResourceStatus._('UNAVAILABLE');
+  static const pending = ResourceStatus._('PENDING');
+
+  final String value;
+
+  const ResourceStatus._(this.value);
+
+  static const values = [
+    available,
+    zonalResourceInaccessible,
+    limitExceeded,
+    unavailable,
+    pending
+  ];
+
+  static ResourceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ResourceOwner {
+  static const self = ResourceOwner._('SELF');
+  static const otherAccounts = ResourceOwner._('OTHER-ACCOUNTS');
+
+  final String value;
+
+  const ResourceOwner._(this.value);
+
+  static const values = [self, otherAccounts];
+
+  static ResourceOwner fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceOwner._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceOwner && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a principal for use with Resource Access Manager.
+class Principal {
+  /// The date and time when the principal was associated with the resource share.
+  final DateTime? creationTime;
+
+  /// Indicates the relationship between the Amazon Web Services account the
+  /// principal belongs to and the account that owns the resource share:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>True</code> – The two accounts belong to same organization.
+  /// </li>
+  /// <li>
+  /// <code>False</code> – The two accounts do not belong to the same
+  /// organization.
+  /// </li>
+  /// </ul>
+  final bool? external;
+
+  /// The ID of the principal that can be associated with a resource share.
+  final String? id;
+
+  /// The date and time when the association between the resource share and the
+  /// principal was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of a resource share the principal is associated
+  /// with.
+  final String? resourceShareArn;
+
+  Principal({
+    this.creationTime,
+    this.external,
+    this.id,
+    this.lastUpdatedTime,
+    this.resourceShareArn,
+  });
+
+  factory Principal.fromJson(Map<String, dynamic> json) {
+    return Principal(
+      creationTime: timeStampFromJson(json['creationTime']),
+      external: json['external'] as bool?,
+      id: json['id'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      resourceShareArn: json['resourceShareArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final external = this.external;
+    final id = this.id;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final resourceShareArn = this.resourceShareArn;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (external != null) 'external': external,
+      if (id != null) 'id': id,
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
+    };
+  }
+}
+
+class PermissionTypeFilter {
+  static const all = PermissionTypeFilter._('ALL');
+  static const awsManaged = PermissionTypeFilter._('AWS_MANAGED');
+  static const customerManaged = PermissionTypeFilter._('CUSTOMER_MANAGED');
+
+  final String value;
+
+  const PermissionTypeFilter._(this.value);
+
+  static const values = [all, awsManaged, customerManaged];
+
+  static PermissionTypeFilter fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PermissionTypeFilter._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PermissionTypeFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that describes a managed permission associated with a resource
+/// share.
+class AssociatedPermission {
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of the associated managed permission.
+  final String? arn;
+
+  /// Indicates whether the associated resource share is using the default version
+  /// of the permission.
+  final bool? defaultVersion;
+
+  /// Indicates what features are available for this resource share. This
+  /// parameter can have one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>STANDARD</b> – A resource share that supports all functionality. These
+  /// resource shares are visible to all principals you share the resource share
+  /// with. You can modify these resource shares in RAM using the console or APIs.
+  /// This resource share might have been created by RAM, or it might have been
+  /// <b>CREATED_FROM_POLICY</b> and then promoted.
+  /// </li>
+  /// <li>
+  /// <b>CREATED_FROM_POLICY</b> – The customer manually shared a resource by
+  /// attaching a resource-based policy. That policy did not match any existing
+  /// managed permissions, so RAM created this customer managed permission
+  /// automatically on the customer's behalf based on the attached policy
+  /// document. This type of resource share is visible only to the Amazon Web
+  /// Services account that created it. You can't modify it in RAM unless you
+  /// promote it. For more information, see
+  /// <a>PromoteResourceShareCreatedFromPolicy</a>.
+  /// </li>
+  /// <li>
+  /// <b>PROMOTING_TO_STANDARD</b> – This resource share was originally
+  /// <code>CREATED_FROM_POLICY</code>, but the customer ran the
+  /// <a>PromoteResourceShareCreatedFromPolicy</a> and that operation is still in
+  /// progress. This value changes to <code>STANDARD</code> when complete.
+  /// </li>
+  /// </ul>
+  final PermissionFeatureSet? featureSet;
+
+  /// The date and time when the association between the permission and the
+  /// resource share was last updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The version of the permission currently associated with the resource share.
+  final String? permissionVersion;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Name (ARN)</a> of a resource share associated with this permission.
+  final String? resourceShareArn;
+
+  /// The resource type to which this permission applies.
+  final String? resourceType;
+
+  /// The current status of the association between the permission and the
+  /// resource share. The following are the possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ATTACHABLE</code> – This permission or version can be associated with
+  /// resource shares.
+  /// </li>
+  /// <li>
+  /// <code>UNATTACHABLE</code> – This permission or version can't currently be
+  /// associated with resource shares.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> – This permission or version is in the process of
+  /// being deleted.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> – This permission or version is deleted.
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  AssociatedPermission({
+    this.arn,
+    this.defaultVersion,
+    this.featureSet,
+    this.lastUpdatedTime,
+    this.permissionVersion,
+    this.resourceShareArn,
+    this.resourceType,
+    this.status,
+  });
+
+  factory AssociatedPermission.fromJson(Map<String, dynamic> json) {
+    return AssociatedPermission(
+      arn: json['arn'] as String?,
+      defaultVersion: json['defaultVersion'] as bool?,
+      featureSet:
+          (json['featureSet'] as String?)?.let(PermissionFeatureSet.fromString),
+      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+      permissionVersion: json['permissionVersion'] as String?,
+      resourceShareArn: json['resourceShareArn'] as String?,
+      resourceType: json['resourceType'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final defaultVersion = this.defaultVersion;
+    final featureSet = this.featureSet;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final permissionVersion = this.permissionVersion;
+    final resourceShareArn = this.resourceShareArn;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (defaultVersion != null) 'defaultVersion': defaultVersion,
+      if (featureSet != null) 'featureSet': featureSet.value,
+      if (lastUpdatedTime != null)
+        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (permissionVersion != null) 'permissionVersion': permissionVersion,
+      if (resourceShareArn != null) 'resourceShareArn': resourceShareArn,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// A tag key and optional list of possible values that you can use to filter
+/// results for tagged resources.
+/// <note>
+/// Multiple tag filters are evaluated as an OR condition.
+/// </note>
+class TagFilter {
+  /// The tag key. This must have a valid string value and can't be empty.
+  final String? tagKey;
+
+  /// A list of zero or more tag values. If no values are provided, then the
+  /// filter matches any tag with the specified key, regardless of its value.
+  final List<String>? tagValues;
+
+  TagFilter({
+    this.tagKey,
+    this.tagValues,
+  });
+
+  Map<String, dynamic> toJson() {
+    final tagKey = this.tagKey;
+    final tagValues = this.tagValues;
+    return {
+      if (tagKey != null) 'tagKey': tagKey,
+      if (tagValues != null) 'tagValues': tagValues,
+    };
+  }
 }
 
 /// Information about a RAM managed permission.
@@ -5070,436 +5835,30 @@ class ResourceSharePermissionDetail {
   }
 }
 
-/// Information about an RAM permission.
-class ResourceSharePermissionSummary {
-  /// The <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Name (ARN)</a> of the permission you want information about.
-  final String? arn;
-
-  /// The date and time when the permission was created.
-  final DateTime? creationTime;
-
-  /// Specifies whether the version of the managed permission used by this
-  /// resource share is the default version for this managed permission.
-  final bool? defaultVersion;
-
-  /// Indicates what features are available for this resource share. This
-  /// parameter can have one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>STANDARD</b> – A resource share that supports all functionality. These
-  /// resource shares are visible to all principals you share the resource share
-  /// with. You can modify these resource shares in RAM using the console or APIs.
-  /// This resource share might have been created by RAM, or it might have been
-  /// <b>CREATED_FROM_POLICY</b> and then promoted.
-  /// </li>
-  /// <li>
-  /// <b>CREATED_FROM_POLICY</b> – The customer manually shared a resource by
-  /// attaching a resource-based policy. That policy did not match any existing
-  /// managed permissions, so RAM created this customer managed permission
-  /// automatically on the customer's behalf based on the attached policy
-  /// document. This type of resource share is visible only to the Amazon Web
-  /// Services account that created it. You can't modify it in RAM unless you
-  /// promote it. For more information, see
-  /// <a>PromoteResourceShareCreatedFromPolicy</a>.
-  /// </li>
-  /// <li>
-  /// <b>PROMOTING_TO_STANDARD</b> – This resource share was originally
-  /// <code>CREATED_FROM_POLICY</code>, but the customer ran the
-  /// <a>PromoteResourceShareCreatedFromPolicy</a> and that operation is still in
-  /// progress. This value changes to <code>STANDARD</code> when complete.
-  /// </li>
-  /// </ul>
-  final PermissionFeatureSet? featureSet;
-
-  /// Specifies whether the managed permission associated with this resource share
-  /// is the default managed permission for all resources of this resource type.
-  final bool? isResourceTypeDefault;
-
-  /// The date and time when the permission was last updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The name of this managed permission.
-  final String? name;
-
-  /// The type of managed permission. This can be one of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>AWS_MANAGED</code> – Amazon Web Services created and manages this
-  /// managed permission. You can associate it with your resource shares, but you
-  /// can't modify it.
-  /// </li>
-  /// <li>
-  /// <code>CUSTOMER_MANAGED</code> – You, or another principal in your account
-  /// created this managed permission. You can associate it with your resource
-  /// shares and create new versions that have different permissions.
-  /// </li>
-  /// </ul>
-  final PermissionType? permissionType;
-
-  /// The type of resource to which this permission applies. This takes the form
-  /// of: <code>service-code</code>:<code>resource-code</code>, and is
-  /// case-insensitive. For example, an Amazon EC2 Subnet would be represented by
-  /// the string <code>ec2:subnet</code>.
-  final String? resourceType;
-
-  /// The current status of the permission.
-  final String? status;
-
-  /// A list of the tag key value pairs currently attached to the permission.
-  final List<Tag>? tags;
-
-  /// The version of the permission associated with this resource share.
-  final String? version;
-
-  ResourceSharePermissionSummary({
-    this.arn,
-    this.creationTime,
-    this.defaultVersion,
-    this.featureSet,
-    this.isResourceTypeDefault,
-    this.lastUpdatedTime,
-    this.name,
-    this.permissionType,
-    this.resourceType,
-    this.status,
-    this.tags,
-    this.version,
-  });
-
-  factory ResourceSharePermissionSummary.fromJson(Map<String, dynamic> json) {
-    return ResourceSharePermissionSummary(
-      arn: json['arn'] as String?,
-      creationTime: timeStampFromJson(json['creationTime']),
-      defaultVersion: json['defaultVersion'] as bool?,
-      featureSet:
-          (json['featureSet'] as String?)?.let(PermissionFeatureSet.fromString),
-      isResourceTypeDefault: json['isResourceTypeDefault'] as bool?,
-      lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
-      name: json['name'] as String?,
-      permissionType:
-          (json['permissionType'] as String?)?.let(PermissionType.fromString),
-      resourceType: json['resourceType'] as String?,
-      status: json['status'] as String?,
-      tags: (json['tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      version: json['version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final defaultVersion = this.defaultVersion;
-    final featureSet = this.featureSet;
-    final isResourceTypeDefault = this.isResourceTypeDefault;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final name = this.name;
-    final permissionType = this.permissionType;
-    final resourceType = this.resourceType;
-    final status = this.status;
-    final tags = this.tags;
-    final version = this.version;
-    return {
-      if (arn != null) 'arn': arn,
-      if (creationTime != null)
-        'creationTime': unixTimestampToJson(creationTime),
-      if (defaultVersion != null) 'defaultVersion': defaultVersion,
-      if (featureSet != null) 'featureSet': featureSet.value,
-      if (isResourceTypeDefault != null)
-        'isResourceTypeDefault': isResourceTypeDefault,
-      if (lastUpdatedTime != null)
-        'lastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (name != null) 'name': name,
-      if (permissionType != null) 'permissionType': permissionType.value,
-      if (resourceType != null) 'resourceType': resourceType,
-      if (status != null) 'status': status,
-      if (tags != null) 'tags': tags,
-      if (version != null) 'version': version,
-    };
-  }
-}
-
-class ResourceShareStatus {
-  static const pending = ResourceShareStatus._('PENDING');
-  static const active = ResourceShareStatus._('ACTIVE');
-  static const failed = ResourceShareStatus._('FAILED');
-  static const deleting = ResourceShareStatus._('DELETING');
-  static const deleted = ResourceShareStatus._('DELETED');
+class PermissionStatus {
+  static const attachable = PermissionStatus._('ATTACHABLE');
+  static const unattachable = PermissionStatus._('UNATTACHABLE');
+  static const deleting = PermissionStatus._('DELETING');
+  static const deleted = PermissionStatus._('DELETED');
 
   final String value;
 
-  const ResourceShareStatus._(this.value);
+  const PermissionStatus._(this.value);
 
-  static const values = [pending, active, failed, deleting, deleted];
+  static const values = [attachable, unattachable, deleting, deleted];
 
-  static ResourceShareStatus fromString(String value) =>
+  static PermissionStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceShareStatus._(value));
+          orElse: () => PermissionStatus._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ResourceShareStatus && other.value == value;
+  bool operator ==(other) => other is PermissionStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-class ResourceStatus {
-  static const available = ResourceStatus._('AVAILABLE');
-  static const zonalResourceInaccessible =
-      ResourceStatus._('ZONAL_RESOURCE_INACCESSIBLE');
-  static const limitExceeded = ResourceStatus._('LIMIT_EXCEEDED');
-  static const unavailable = ResourceStatus._('UNAVAILABLE');
-  static const pending = ResourceStatus._('PENDING');
-
-  final String value;
-
-  const ResourceStatus._(this.value);
-
-  static const values = [
-    available,
-    zonalResourceInaccessible,
-    limitExceeded,
-    unavailable,
-    pending
-  ];
-
-  static ResourceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about a shareable resource type and the Amazon Web Services
-/// service to which resources of that type belong.
-class ServiceNameAndResourceType {
-  /// Specifies the scope of visibility of resources of this type:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>REGIONAL</b> – The resource can be accessed only by using requests that
-  /// target the Amazon Web Services Region in which the resource exists.
-  /// </li>
-  /// <li>
-  /// <b>GLOBAL</b> – The resource can be accessed from any Amazon Web Services
-  /// Region.
-  /// </li>
-  /// </ul>
-  final ResourceRegionScope? resourceRegionScope;
-
-  /// The type of the resource. This takes the form of:
-  /// <code>service-code</code>:<code>resource-code</code>, and is
-  /// case-insensitive. For example, an Amazon EC2 Subnet would be represented by
-  /// the string <code>ec2:subnet</code>.
-  final String? resourceType;
-
-  /// The name of the Amazon Web Services service to which resources of this type
-  /// belong.
-  final String? serviceName;
-
-  ServiceNameAndResourceType({
-    this.resourceRegionScope,
-    this.resourceType,
-    this.serviceName,
-  });
-
-  factory ServiceNameAndResourceType.fromJson(Map<String, dynamic> json) {
-    return ServiceNameAndResourceType(
-      resourceRegionScope: (json['resourceRegionScope'] as String?)
-          ?.let(ResourceRegionScope.fromString),
-      resourceType: json['resourceType'] as String?,
-      serviceName: json['serviceName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceRegionScope = this.resourceRegionScope;
-    final resourceType = this.resourceType;
-    final serviceName = this.serviceName;
-    return {
-      if (resourceRegionScope != null)
-        'resourceRegionScope': resourceRegionScope.value,
-      if (resourceType != null) 'resourceType': resourceType,
-      if (serviceName != null) 'serviceName': serviceName,
-    };
-  }
-}
-
-class SetDefaultPermissionVersionResponse {
-  /// The idempotency identifier associated with this request. If you want to
-  /// repeat the same operation in an idempotent manner then you must include this
-  /// value in the <code>clientToken</code> request parameter of that later call.
-  /// All other parameters must also have the same values that you used in the
-  /// first call.
-  final String? clientToken;
-
-  /// A boolean value that indicates whether the operation was successful.
-  final bool? returnValue;
-
-  SetDefaultPermissionVersionResponse({
-    this.clientToken,
-    this.returnValue,
-  });
-
-  factory SetDefaultPermissionVersionResponse.fromJson(
-      Map<String, dynamic> json) {
-    return SetDefaultPermissionVersionResponse(
-      clientToken: json['clientToken'] as String?,
-      returnValue: json['returnValue'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientToken = this.clientToken;
-    final returnValue = this.returnValue;
-    return {
-      if (clientToken != null) 'clientToken': clientToken,
-      if (returnValue != null) 'returnValue': returnValue,
-    };
-  }
-}
-
-/// A structure containing a tag. A tag is metadata that you can attach to your
-/// resources to help organize and categorize them. You can also use them to
-/// help you secure your resources. For more information, see <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Controlling
-/// access to Amazon Web Services resources using tags</a>.
-///
-/// For more information about tags, see <a
-/// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-/// Amazon Web Services resources</a> in the <i>Amazon Web Services General
-/// Reference Guide</i>.
-class Tag {
-  /// The key, or name, attached to the tag. Every tag must have a key. Key names
-  /// are case sensitive.
-  final String? key;
-
-  /// The string value attached to the tag. The value can be an empty string. Key
-  /// values are case sensitive.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['key'] as String?,
-      value: json['value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'key': key,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// A tag key and optional list of possible values that you can use to filter
-/// results for tagged resources.
-class TagFilter {
-  /// The tag key. This must have a valid string value and can't be empty.
-  final String? tagKey;
-
-  /// A list of zero or more tag values. If no values are provided, then the
-  /// filter matches any tag with the specified key, regardless of its value.
-  final List<String>? tagValues;
-
-  TagFilter({
-    this.tagKey,
-    this.tagValues,
-  });
-
-  Map<String, dynamic> toJson() {
-    final tagKey = this.tagKey;
-    final tagValues = this.tagValues;
-    return {
-      if (tagKey != null) 'tagKey': tagKey,
-      if (tagValues != null) 'tagValues': tagValues,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateResourceShareResponse {
-  /// The idempotency identifier associated with this request. If you want to
-  /// repeat the same operation in an idempotent manner then you must include this
-  /// value in the <code>clientToken</code> request parameter of that later call.
-  /// All other parameters must also have the same values that you used in the
-  /// first call.
-  final String? clientToken;
-
-  /// Information about the resource share.
-  final ResourceShare? resourceShare;
-
-  UpdateResourceShareResponse({
-    this.clientToken,
-    this.resourceShare,
-  });
-
-  factory UpdateResourceShareResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateResourceShareResponse(
-      clientToken: json['clientToken'] as String?,
-      resourceShare: json['resourceShare'] != null
-          ? ResourceShare.fromJson(
-              json['resourceShare'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clientToken = this.clientToken;
-    final resourceShare = this.resourceShare;
-    return {
-      if (clientToken != null) 'clientToken': clientToken,
-      if (resourceShare != null) 'resourceShare': resourceShare,
-    };
-  }
 }
 
 class IdempotentParameterMismatchException extends _s.GenericAwsException {

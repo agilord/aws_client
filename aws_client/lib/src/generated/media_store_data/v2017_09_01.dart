@@ -55,13 +55,12 @@ class MediaStoreData {
   /// Deletes an object at the specified path.
   ///
   /// May throw [ContainerNotFoundException].
-  /// May throw [ObjectNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ObjectNotFoundException].
   ///
   /// Parameter [path] :
   /// The path (including the file name) where the object is stored in the
-  /// container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file
-  /// name&gt;
+  /// container. Format: <folder name>/<folder name>/<file name>
   Future<void> deleteObject({
     required String path,
   }) async {
@@ -76,13 +75,12 @@ class MediaStoreData {
   /// Gets the headers for an object at the specified path.
   ///
   /// May throw [ContainerNotFoundException].
-  /// May throw [ObjectNotFoundException].
   /// May throw [InternalServerError].
+  /// May throw [ObjectNotFoundException].
   ///
   /// Parameter [path] :
   /// The path (including the file name) where the object is stored in the
-  /// container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file
-  /// name&gt;
+  /// container. Format: <folder name>/<folder name>/<file name>
   Future<DescribeObjectResponse> describeObject({
     required String path,
   }) async {
@@ -111,14 +109,13 @@ class MediaStoreData {
   /// downloads the object even if it’s still uploading the object.
   ///
   /// May throw [ContainerNotFoundException].
+  /// May throw [InternalServerError].
   /// May throw [ObjectNotFoundException].
   /// May throw [RequestedRangeNotSatisfiableException].
-  /// May throw [InternalServerError].
   ///
   /// Parameter [path] :
   /// The path (including the file name) where the object is stored in the
-  /// container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file
-  /// name&gt;
+  /// container. Format: <folder name>/<folder name>/<file name>
   ///
   /// For example, to upload the file <code>mlaw.avi</code> to the folder path
   /// <code>premium\canada</code> in the container <code>movies</code>, enter
@@ -211,8 +208,8 @@ class MediaStoreData {
   /// Tokens expire after 15 minutes.
   ///
   /// Parameter [path] :
-  /// The path in the container from which to retrieve items. Format: &lt;folder
-  /// name&gt;/&lt;folder name&gt;/&lt;file name&gt;
+  /// The path in the container from which to retrieve items. Format: <folder
+  /// name>/<folder name>/<file name>
   Future<ListItemsResponse> listItems({
     int? maxResults,
     String? nextToken,
@@ -251,8 +248,7 @@ class MediaStoreData {
   ///
   /// Parameter [path] :
   /// The path (including the file name) where the object is stored in the
-  /// container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file
-  /// name&gt;
+  /// container. Format: <folder name>/<folder name>/<file name>
   ///
   /// For example, to upload the file <code>mlaw.avi</code> to the folder path
   /// <code>premium\canada</code> in the container <code>movies</code>, enter
@@ -440,88 +436,6 @@ class GetObjectResponse {
   }
 }
 
-/// A metadata entry for a folder or object.
-class Item {
-  /// The length of the item in bytes.
-  final int? contentLength;
-
-  /// The content type of the item.
-  final String? contentType;
-
-  /// The ETag that represents a unique instance of the item.
-  final String? eTag;
-
-  /// The date and time that the item was last modified.
-  final DateTime? lastModified;
-
-  /// The name of the item.
-  final String? name;
-
-  /// The item type (folder or object).
-  final ItemType? type;
-
-  Item({
-    this.contentLength,
-    this.contentType,
-    this.eTag,
-    this.lastModified,
-    this.name,
-    this.type,
-  });
-
-  factory Item.fromJson(Map<String, dynamic> json) {
-    return Item(
-      contentLength: json['ContentLength'] as int?,
-      contentType: json['ContentType'] as String?,
-      eTag: json['ETag'] as String?,
-      lastModified: timeStampFromJson(json['LastModified']),
-      name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.let(ItemType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentLength = this.contentLength;
-    final contentType = this.contentType;
-    final eTag = this.eTag;
-    final lastModified = this.lastModified;
-    final name = this.name;
-    final type = this.type;
-    return {
-      if (contentLength != null) 'ContentLength': contentLength,
-      if (contentType != null) 'ContentType': contentType,
-      if (eTag != null) 'ETag': eTag,
-      if (lastModified != null)
-        'LastModified': unixTimestampToJson(lastModified),
-      if (name != null) 'Name': name,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class ItemType {
-  static const object = ItemType._('OBJECT');
-  static const folder = ItemType._('FOLDER');
-
-  final String value;
-
-  const ItemType._(this.value);
-
-  static const values = [object, folder];
-
-  static ItemType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ItemType._(value));
-
-  @override
-  bool operator ==(other) => other is ItemType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ListItemsResponse {
   /// The metadata entries for the folders and objects at the requested path.
   final List<Item>? items;
@@ -635,6 +549,88 @@ class UploadAvailability {
   @override
   bool operator ==(other) =>
       other is UploadAvailability && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A metadata entry for a folder or object.
+class Item {
+  /// The length of the item in bytes.
+  final int? contentLength;
+
+  /// The content type of the item.
+  final String? contentType;
+
+  /// The ETag that represents a unique instance of the item.
+  final String? eTag;
+
+  /// The date and time that the item was last modified.
+  final DateTime? lastModified;
+
+  /// The name of the item.
+  final String? name;
+
+  /// The item type (folder or object).
+  final ItemType? type;
+
+  Item({
+    this.contentLength,
+    this.contentType,
+    this.eTag,
+    this.lastModified,
+    this.name,
+    this.type,
+  });
+
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      contentLength: json['ContentLength'] as int?,
+      contentType: json['ContentType'] as String?,
+      eTag: json['ETag'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.let(ItemType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentLength = this.contentLength;
+    final contentType = this.contentType;
+    final eTag = this.eTag;
+    final lastModified = this.lastModified;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (contentLength != null) 'ContentLength': contentLength,
+      if (contentType != null) 'ContentType': contentType,
+      if (eTag != null) 'ETag': eTag,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ItemType {
+  static const object = ItemType._('OBJECT');
+  static const folder = ItemType._('FOLDER');
+
+  final String value;
+
+  const ItemType._(this.value);
+
+  static const values = [object, folder];
+
+  static ItemType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ItemType._(value));
+
+  @override
+  bool operator ==(other) => other is ItemType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;

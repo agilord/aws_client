@@ -65,15 +65,16 @@ class Efs {
   /// information provided by the NFS client. The file system path is exposed as
   /// the access point's root directory. Applications using the access point can
   /// only access data in the application's own directory and any
-  /// subdirectories. To learn more, see <a
+  /// subdirectories. A file system can have a maximum of 10,000 access points
+  /// unless you request an increase. To learn more, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">Mounting
   /// a file system using EFS access points</a>.
   /// <note>
   /// If multiple requests to create access points on the same file system are
-  /// sent in quick succession, and the file system is near the limit of 1,000
-  /// access points, you may experience a throttling response for these
-  /// requests. This is to ensure that the file system does not exceed the
-  /// stated access point limit.
+  /// sent in quick succession, and the file system is near the limit of access
+  /// points, you may experience a throttling response for these requests. This
+  /// is to ensure that the file system does not exceed the stated access point
+  /// limit.
   /// </note>
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:CreateAccessPoint</code> action.
@@ -87,12 +88,12 @@ class Efs {
   /// href="https://docs.aws.amazon.com/efs/latest/ug/using-tags-efs.html#supported-iam-actions-tagging.html">Granting
   /// permissions to tag resources during creation</a>.
   ///
-  /// May throw [BadRequest].
   /// May throw [AccessPointAlreadyExists].
+  /// May throw [AccessPointLimitExceeded].
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
   /// May throw [IncorrectFileSystemLifeCycleState].
   /// May throw [InternalServerError].
-  /// May throw [FileSystemNotFound].
-  /// May throw [AccessPointLimitExceeded].
   /// May throw [ThrottlingException].
   ///
   /// Parameter [fileSystemId] :
@@ -110,11 +111,11 @@ class Efs {
   /// Specifies the directory on the EFS file system that the access point
   /// exposes as the root directory of your file system to NFS clients using the
   /// access point. The clients using the access point can only access the root
-  /// directory and below. If the <code>RootDirectory</code> &gt;
-  /// <code>Path</code> specified does not exist, Amazon EFS creates it and
-  /// applies the <code>CreationInfo</code> settings when a client connects to
-  /// an access point. When specifying a <code>RootDirectory</code>, you must
-  /// provide the <code>Path</code>, and the <code>CreationInfo</code>.
+  /// directory and below. If the <code>RootDirectory</code> > <code>Path</code>
+  /// specified does not exist, Amazon EFS creates it and applies the
+  /// <code>CreationInfo</code> settings when a client connects to an access
+  /// point. When specifying a <code>RootDirectory</code>, you must provide the
+  /// <code>Path</code>, and the <code>CreationInfo</code>.
   ///
   /// Amazon EFS creates a root directory only if you have provided the
   /// CreationInfo: OwnUid, OwnGID, and permissions for the directory. If you do
@@ -193,18 +194,15 @@ class Efs {
   /// </note>
   /// This operation accepts an optional <code>PerformanceMode</code> parameter
   /// that you choose for your file system. We recommend
-  /// <code>generalPurpose</code> performance mode for all file systems. File
-  /// systems using the <code>maxIO</code> mode is a previous generation
-  /// performance type that is designed for highly parallelized workloads that
-  /// can tolerate higher latencies than the General Purpose mode. Max I/O mode
-  /// is not supported for One Zone file systems or file systems that use
-  /// Elastic throughput.
-  /// <important>
-  /// Due to the higher per-operation latencies with Max I/O, we recommend using
-  /// General Purpose performance mode for all file systems.
-  /// </important>
-  /// The performance mode can't be changed after the file system has been
-  /// created. For more information, see <a
+  /// <code>generalPurpose</code> <code>PerformanceMode</code> for all file
+  /// systems. The <code>maxIO</code> mode is a previous generation performance
+  /// type that is designed for highly parallelized workloads that can tolerate
+  /// higher latencies than the <code>generalPurpose</code> mode.
+  /// <code>MaxIO</code> mode is not supported for One Zone file systems or file
+  /// systems that use Elastic throughput.
+  ///
+  /// The <code>PerformanceMode</code> can't be changed after the file system
+  /// has been created. For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html">Amazon
   /// EFS performance modes</a>.
   ///
@@ -233,20 +231,20 @@ class Efs {
   /// permissions to tag resources during creation</a>.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemAlreadyExists].
   /// May throw [FileSystemLimitExceeded].
   /// May throw [InsufficientThroughputCapacity].
+  /// May throw [InternalServerError].
   /// May throw [ThroughputLimitExceeded].
   /// May throw [UnsupportedAvailabilityZone].
   ///
   /// Parameter [availabilityZoneName] :
-  /// Used to create a One Zone file system. It specifies the Amazon Web
-  /// Services Availability Zone in which to create the file system. Use the
-  /// format <code>us-east-1a</code> to specify the Availability Zone. For more
+  /// For One Zone file systems, specify the Amazon Web Services Availability
+  /// Zone in which to create the file system. Use the format
+  /// <code>us-east-1a</code> to specify the Availability Zone. For more
   /// information about One Zone file systems, see <a
-  /// href="https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html">Using
-  /// EFS storage classes</a> in the <i>Amazon EFS User Guide</i>.
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/availability-durability.html#file-system-type">EFS
+  /// file system types</a> in the <i>Amazon EFS User Guide</i>.
   /// <note>
   /// One Zone file systems are not available in all Availability Zones in
   /// Amazon Web Services Regions where Amazon EFS is available.
@@ -312,7 +310,7 @@ class Efs {
   /// </important>
   ///
   /// Parameter [performanceMode] :
-  /// The Performance mode of the file system. We recommend
+  /// The performance mode of the file system. We recommend
   /// <code>generalPurpose</code> performance mode for all file systems. File
   /// systems using the <code>maxIO</code> performance mode can scale to higher
   /// levels of aggregate throughput and operations per second with a tradeoff
@@ -370,7 +368,7 @@ class Efs {
     _s.validateNumRange(
       'provisionedThroughputInMibps',
       provisionedThroughputInMibps,
-      1,
+      1.0,
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
@@ -520,11 +518,11 @@ class Efs {
   /// Zones. There are cost considerations for using a file system in an
   /// Availability Zone through a mount target created in another Availability
   /// Zone. For more information, see <a
-  /// href="http://aws.amazon.com/efs/">Amazon EFS</a>. In addition, by always
-  /// using a mount target local to the instance's Availability Zone, you
-  /// eliminate a partial failure scenario. If the Availability Zone in which
-  /// your mount target is created goes down, then you can't access your file
-  /// system through that mount target.
+  /// href="http://aws.amazon.com/efs/pricing/">Amazon EFS pricing</a>. In
+  /// addition, by always using a mount target local to the instance's
+  /// Availability Zone, you eliminate a partial failure scenario. If the
+  /// Availability Zone in which your mount target is created goes down, then
+  /// you can't access your file system through that mount target.
   ///
   /// This operation requires permissions for the following action on the file
   /// system:
@@ -549,19 +547,19 @@ class Efs {
   /// </li>
   /// </ul>
   ///
+  /// May throw [AvailabilityZonesMismatch].
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [IncorrectFileSystemLifeCycleState].
-  /// May throw [MountTargetConflict].
-  /// May throw [SubnetNotFound].
-  /// May throw [NoFreeAddressesInSubnet].
+  /// May throw [InternalServerError].
   /// May throw [IpAddressInUse].
+  /// May throw [MountTargetConflict].
   /// May throw [NetworkInterfaceLimitExceeded].
+  /// May throw [NoFreeAddressesInSubnet].
   /// May throw [SecurityGroupLimitExceeded].
   /// May throw [SecurityGroupNotFound].
+  /// May throw [SubnetNotFound].
   /// May throw [UnsupportedAvailabilityZone].
-  /// May throw [AvailabilityZonesMismatch].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the file system for which to create the mount target.
@@ -572,21 +570,54 @@ class Efs {
   /// Availability Zone.
   ///
   /// Parameter [ipAddress] :
-  /// Valid IPv4 address within the address range of the specified subnet.
+  /// If the IP address type for the mount target is IPv4, then specify the IPv4
+  /// address within the address range of the specified subnet.
+  ///
+  /// Parameter [ipAddressType] :
+  /// Specify the type of IP address of the mount target you are creating.
+  /// Options are IPv4, dual stack, or IPv6. If you don’t specify an
+  /// IpAddressType, then IPv4 is used.
+  ///
+  /// <ul>
+  /// <li>
+  /// IPV4_ONLY – Create mount target with IPv4 only subnet or dual-stack
+  /// subnet.
+  /// </li>
+  /// <li>
+  /// DUAL_STACK – Create mount target with dual-stack subnet.
+  /// </li>
+  /// <li>
+  /// IPV6_ONLY – Create mount target with IPv6 only subnet.
+  /// </li>
+  /// </ul> <note>
+  /// Creating IPv6 mount target only ENI in dual-stack subnet is not supported.
+  /// </note>
+  ///
+  /// Parameter [ipv6Address] :
+  /// If the IP address type for the mount target is IPv6, then specify the IPv6
+  /// address within the address range of the specified subnet.
   ///
   /// Parameter [securityGroups] :
-  /// Up to five VPC security group IDs, of the form <code>sg-xxxxxxxx</code>.
-  /// These must be for the same VPC as subnet specified.
+  /// VPC security group IDs, of the form <code>sg-xxxxxxxx</code>. These must
+  /// be for the same VPC as the subnet specified. The maximum number of
+  /// security groups depends on account quota. For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html">Amazon
+  /// VPC Quotas</a> in the <i>Amazon VPC User Guide</i> (see the <b>Security
+  /// Groups</b> table).
   Future<MountTargetDescription> createMountTarget({
     required String fileSystemId,
     required String subnetId,
     String? ipAddress,
+    IpAddressType? ipAddressType,
+    String? ipv6Address,
     List<String>? securityGroups,
   }) async {
     final $payload = <String, dynamic>{
       'FileSystemId': fileSystemId,
       'SubnetId': subnetId,
       if (ipAddress != null) 'IpAddress': ipAddress,
+      if (ipAddressType != null) 'IpAddressType': ipAddressType.value,
+      if (ipv6Address != null) 'Ipv6Address': ipv6Address,
       if (securityGroups != null) 'SecurityGroups': securityGroups,
     };
     final response = await _protocol.send(
@@ -598,108 +629,48 @@ class Efs {
     return MountTargetDescription.fromJson(response);
   }
 
-  /// Creates a replication configuration that replicates an existing EFS file
-  /// system to a new, read-only file system. For more information, see <a
+  /// Creates a replication conﬁguration to either a new or existing EFS file
+  /// system. For more information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html">Amazon
   /// EFS replication</a> in the <i>Amazon EFS User Guide</i>. The replication
   /// configuration specifies the following:
   ///
   /// <ul>
   /// <li>
-  /// <b>Source file system</b> – The EFS file system that you want replicated.
-  /// The source file system cannot be a destination file system in an existing
-  /// replication configuration.
+  /// <b>Source file system</b> – The EFS file system that you want to
+  /// replicate.
   /// </li>
   /// <li>
-  /// <b>Amazon Web Services Region</b> – The Amazon Web Services Region in
-  /// which the destination file system is created. Amazon EFS replication is
-  /// available in all Amazon Web Services Regions in which EFS is available.
-  /// The Region must be enabled. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable">Managing
-  /// Amazon Web Services Regions</a> in the <i>Amazon Web Services General
-  /// Reference Reference Guide</i>.
-  /// </li>
-  /// <li>
-  /// <b>Destination file system configuration</b> – The configuration of the
-  /// destination file system to which the source file system will be
-  /// replicated. There can only be one destination file system in a replication
-  /// configuration.
-  ///
-  /// Parameters for the replication configuration include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>File system ID</b> – The ID of the destination file system for the
-  /// replication. If no ID is provided, then EFS creates a new file system with
-  /// the default settings. For existing file systems, the file system's
-  /// replication overwrite protection must be disabled. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-replication#replicate-existing-destination">
-  /// Replicating to an existing file system</a>.
-  /// </li>
-  /// <li>
-  /// <b>Availability Zone</b> – If you want the destination file system to use
-  /// One Zone storage, you must specify the Availability Zone to create the
-  /// file system in. For more information, see <a
-  /// href="https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html"> EFS
-  /// file system types</a> in the <i>Amazon EFS User Guide</i>.
-  /// </li>
-  /// <li>
-  /// <b>Encryption</b> – All destination file systems are created with
-  /// encryption at rest enabled. You can specify the Key Management Service
-  /// (KMS) key that is used to encrypt the destination file system. If you
-  /// don't specify a KMS key, your service-managed KMS key for Amazon EFS is
-  /// used.
+  /// <b>Destination file system</b> – The destination file system to which the
+  /// source file system is replicated. There can only be one destination file
+  /// system in a replication configuration.
   /// <note>
-  /// After the file system is created, you cannot change the KMS key.
-  /// </note> </li>
-  /// </ul> </li>
-  /// </ul> <note>
-  /// After the file system is created, you cannot change the KMS key.
+  /// A file system can be part of only one replication configuration.
   /// </note>
-  /// For new destination file systems, the following properties are set by
-  /// default:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Performance mode</b> - The destination file system's performance mode
-  /// matches that of the source file system, unless the destination file system
-  /// uses EFS One Zone storage. In that case, the General Purpose performance
-  /// mode is used. The performance mode cannot be changed.
-  /// </li>
-  /// <li>
-  /// <b>Throughput mode</b> - The destination file system's throughput mode
-  /// matches that of the source file system. After the file system is created,
-  /// you can modify the throughput mode.
+  /// The destination parameters for the replication configuration depend on
+  /// whether you are replicating to a new file system or to an existing file
+  /// system, and if you are replicating across Amazon Web Services accounts.
+  /// See <a>DestinationToCreate</a> for more information.
   /// </li>
   /// </ul>
-  /// <ul>
-  /// <li>
-  /// <b>Lifecycle management</b> – Lifecycle management is not enabled on the
-  /// destination file system. After the destination file system is created, you
-  /// can enable lifecycle management.
-  /// </li>
-  /// <li>
-  /// <b>Automatic backups</b> – Automatic daily backups are enabled on the
-  /// destination file system. After the file system is created, you can change
-  /// this setting.
-  /// </li>
-  /// </ul>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html">Amazon
-  /// EFS replication</a> in the <i>Amazon EFS User Guide</i>.
+  /// This operation requires permissions for the
+  /// <code>elasticfilesystem:CreateReplicationConfiguration</code> action.
+  /// Additionally, other permissions are required depending on how you are
+  /// replicating file systems. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html#efs-replication-permissions">Required
+  /// permissions for replication</a> in the <i>Amazon EFS User Guide</i>.
   ///
   /// May throw [BadRequest].
-  /// May throw [IncorrectFileSystemLifeCycleState].
-  /// May throw [ValidationException].
-  /// May throw [ReplicationNotFound].
-  /// May throw [FileSystemNotFound].
-  /// May throw [UnsupportedAvailabilityZone].
-  /// May throw [FileSystemLimitExceeded].
-  /// May throw [InsufficientThroughputCapacity].
-  /// May throw [ThroughputLimitExceeded].
   /// May throw [ConflictException].
+  /// May throw [FileSystemLimitExceeded].
+  /// May throw [FileSystemNotFound].
+  /// May throw [IncorrectFileSystemLifeCycleState].
+  /// May throw [InsufficientThroughputCapacity].
   /// May throw [InternalServerError].
+  /// May throw [ReplicationNotFound].
+  /// May throw [ThroughputLimitExceeded].
+  /// May throw [UnsupportedAvailabilityZone].
+  /// May throw [ValidationException].
   ///
   /// Parameter [destinations] :
   /// An array of destination configuration objects. Only one destination
@@ -741,8 +712,8 @@ class Efs {
   /// <code>elasticfilesystem:CreateTags</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the file system whose tags you want to modify (String). This
@@ -751,7 +722,6 @@ class Efs {
   /// Parameter [tags] :
   /// An array of <code>Tag</code> objects to add. Each <code>Tag</code> object
   /// is a key-value pair.
-  @Deprecated('Use TagResource.')
   Future<void> createTags({
     required String fileSystemId,
     required List<Tag> tags,
@@ -776,9 +746,9 @@ class Efs {
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DeleteAccessPoint</code> action.
   ///
+  /// May throw [AccessPointNotFound].
   /// May throw [BadRequest].
   /// May throw [InternalServerError].
-  /// May throw [AccessPointNotFound].
   ///
   /// Parameter [accessPointId] :
   /// The ID of the access point that you want to delete.
@@ -802,7 +772,7 @@ class Efs {
   /// you can delete an EFS file system. This step is performed for you when you
   /// use the Amazon Web Services console to delete a file system.
   /// <note>
-  /// You cannot delete a file system that is part of an EFS Replication
+  /// You cannot delete a file system that is part of an EFS replication
   /// configuration. You need to delete the replication configuration first.
   /// </note>
   /// You can't delete a file system that is in use. That is, if the file system
@@ -820,9 +790,9 @@ class Efs {
   /// <code>elasticfilesystem:DeleteFileSystem</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
-  /// May throw [FileSystemNotFound].
   /// May throw [FileSystemInUse].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the file system you want to delete.
@@ -849,9 +819,9 @@ class Efs {
   /// <code>elasticfilesystem:DeleteFileSystemPolicy</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [IncorrectFileSystemLifeCycleState].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [fileSystemId] :
   /// Specifies the EFS file system for which to delete the
@@ -903,8 +873,8 @@ class Efs {
   /// </ul>
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [DependencyTimeout].
+  /// May throw [InternalServerError].
   /// May throw [MountTargetNotFound].
   ///
   /// Parameter [mountTargetId] :
@@ -933,20 +903,45 @@ class Efs {
   /// <code>elasticfilesystem:DeleteReplicationConfiguration</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   /// May throw [ReplicationNotFound].
   ///
   /// Parameter [sourceFileSystemId] :
   /// The ID of the source file system in the replication configuration.
+  ///
+  /// Parameter [deletionMode] :
+  /// When replicating across Amazon Web Services accounts or across Amazon Web
+  /// Services Regions, Amazon EFS deletes the replication configuration from
+  /// both the source and destination account or Region
+  /// (<code>ALL_CONFIGURATIONS</code>) by default. If there's a configuration
+  /// or permissions issue that prevents Amazon EFS from deleting the
+  /// replication configuration from both sides, you can use the
+  /// <code>LOCAL_CONFIGURATION_ONLY</code> mode to delete the replication
+  /// configuration from only the local side (the account or Region from which
+  /// the delete is performed).
+  /// <note>
+  /// Only use the <code>LOCAL_CONFIGURATION_ONLY</code> mode in the case that
+  /// Amazon EFS is unable to delete the replication configuration in both the
+  /// source and destination account or Region. Deleting the local configuration
+  /// leaves the configuration in the other account or Region unrecoverable.
+  ///
+  /// Additionally, do not use this mode for same-account, same-region
+  /// replication as doing so results in a BadRequest exception error.
+  /// </note>
   Future<void> deleteReplicationConfiguration({
     required String sourceFileSystemId,
+    DeletionMode? deletionMode,
   }) async {
+    final $query = <String, List<String>>{
+      if (deletionMode != null) 'deletionMode': [deletionMode.value],
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/2015-02-01/file-systems/${Uri.encodeComponent(sourceFileSystemId)}/replication-configuration',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -966,15 +961,14 @@ class Efs {
   /// <code>elasticfilesystem:DeleteTags</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the file system whose tags you want to delete (String).
   ///
   /// Parameter [tagKeys] :
   /// A list of tag keys to delete.
-  @Deprecated('Use UntagResource.')
   Future<void> deleteTags({
     required String fileSystemId,
     required List<String> tagKeys,
@@ -1000,10 +994,10 @@ class Efs {
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DescribeAccessPoints</code> action.
   ///
-  /// May throw [BadRequest].
-  /// May throw [InternalServerError].
-  /// May throw [FileSystemNotFound].
   /// May throw [AccessPointNotFound].
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [accessPointId] :
   /// (Optional) Specifies an EFS access point to describe in the response;
@@ -1116,8 +1110,8 @@ class Efs {
   /// <code>elasticfilesystem:DescribeFileSystemPolicy</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   /// May throw [PolicyNotFound].
   ///
   /// Parameter [fileSystemId] :
@@ -1165,8 +1159,8 @@ class Efs {
   /// <code>elasticfilesystem:DescribeFileSystems</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [creationToken] :
   /// (Optional) Restricts the list to the file system with this creation token
@@ -1215,7 +1209,7 @@ class Efs {
   }
 
   /// Returns the current <code>LifecycleConfiguration</code> object for the
-  /// specified Amazon EFS file system. Lifecycle management uses the
+  /// specified EFS file system. Lifecycle management uses the
   /// <code>LifecycleConfiguration</code> object to identify when to move files
   /// between storage classes. For a file system without a
   /// <code>LifecycleConfiguration</code> object, the call returns an empty
@@ -1224,9 +1218,9 @@ class Efs {
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DescribeLifecycleConfiguration</code> operation.
   ///
-  /// May throw [InternalServerError].
   /// May throw [BadRequest].
   /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the file system whose <code>LifecycleConfiguration</code> object
@@ -1244,45 +1238,6 @@ class Efs {
     return LifecycleConfigurationDescription.fromJson(response);
   }
 
-  /// Returns the security groups currently in effect for a mount target. This
-  /// operation requires that the network interface of the mount target has been
-  /// created and the lifecycle state of the mount target is not
-  /// <code>deleted</code>.
-  ///
-  /// This operation requires permissions for the following actions:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>elasticfilesystem:DescribeMountTargetSecurityGroups</code> action on
-  /// the mount target's file system.
-  /// </li>
-  /// <li>
-  /// <code>ec2:DescribeNetworkInterfaceAttribute</code> action on the mount
-  /// target's network interface.
-  /// </li>
-  /// </ul>
-  ///
-  /// May throw [BadRequest].
-  /// May throw [InternalServerError].
-  /// May throw [MountTargetNotFound].
-  /// May throw [IncorrectMountTargetState].
-  ///
-  /// Parameter [mountTargetId] :
-  /// The ID of the mount target whose security groups you want to retrieve.
-  Future<DescribeMountTargetSecurityGroupsResponse>
-      describeMountTargetSecurityGroups({
-    required String mountTargetId,
-  }) async {
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId)}/security-groups',
-      exceptionFnMap: _exceptionFns,
-    );
-    return DescribeMountTargetSecurityGroupsResponse.fromJson(response);
-  }
-
   /// Returns the descriptions of all the current mount targets, or a specific
   /// mount target, for a file system. When requesting all of the current mount
   /// targets, the order of mount targets returned in the response is
@@ -1294,11 +1249,11 @@ class Efs {
   /// file system of the mount target that you specify in
   /// <code>MountTargetId</code>.
   ///
-  /// May throw [BadRequest].
-  /// May throw [InternalServerError].
-  /// May throw [FileSystemNotFound].
-  /// May throw [MountTargetNotFound].
   /// May throw [AccessPointNotFound].
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
+  /// May throw [MountTargetNotFound].
   ///
   /// Parameter [accessPointId] :
   /// (Optional) The ID of the access point whose mount targets that you want to
@@ -1358,6 +1313,45 @@ class Efs {
     return DescribeMountTargetsResponse.fromJson(response);
   }
 
+  /// Returns the security groups currently in effect for a mount target. This
+  /// operation requires that the network interface of the mount target has been
+  /// created and the lifecycle state of the mount target is not
+  /// <code>deleted</code>.
+  ///
+  /// This operation requires permissions for the following actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>elasticfilesystem:DescribeMountTargetSecurityGroups</code> action on
+  /// the mount target's file system.
+  /// </li>
+  /// <li>
+  /// <code>ec2:DescribeNetworkInterfaceAttribute</code> action on the mount
+  /// target's network interface.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [BadRequest].
+  /// May throw [IncorrectMountTargetState].
+  /// May throw [InternalServerError].
+  /// May throw [MountTargetNotFound].
+  ///
+  /// Parameter [mountTargetId] :
+  /// The ID of the mount target whose security groups you want to retrieve.
+  Future<DescribeMountTargetSecurityGroupsResponse>
+      describeMountTargetSecurityGroups({
+    required String mountTargetId,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId)}/security-groups',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeMountTargetSecurityGroupsResponse.fromJson(response);
+  }
+
   /// Retrieves the replication configuration for a specific file system. If a
   /// file system is not specified, all of the replication configurations for
   /// the Amazon Web Services account in an Amazon Web Services Region are
@@ -1371,7 +1365,9 @@ class Efs {
   ///
   /// Parameter [fileSystemId] :
   /// You can retrieve the replication configuration for a specific file system
-  /// by providing its file system ID.
+  /// by providing its file system ID. For cross-account,cross-region
+  /// replication, an account can only describe the replication configuration
+  /// for a file system in its own Region.
   ///
   /// Parameter [maxResults] :
   /// (Optional) To limit the number of objects returned in a response, you can
@@ -1422,8 +1418,8 @@ class Efs {
   /// <code>elasticfilesystem:DescribeTags</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the file system whose tag set you want to retrieve.
@@ -1438,7 +1434,6 @@ class Efs {
   /// response. Currently, this number is automatically set to 100, and other
   /// values are ignored. The response is paginated at 100 per page if you have
   /// more than 100 tags.
-  @Deprecated('Use ListTagsForResource.')
   Future<DescribeTagsResponse> describeTags({
     required String fileSystemId,
     String? marker,
@@ -1457,7 +1452,7 @@ class Efs {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-02-01/tags/${Uri.encodeComponent(fileSystemId)}/',
+      requestUri: '/2015-02-01/tags/${Uri.encodeComponent(fileSystemId)}',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
@@ -1470,10 +1465,10 @@ class Efs {
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:DescribeAccessPoints</code> action.
   ///
-  /// May throw [BadRequest].
-  /// May throw [InternalServerError].
-  /// May throw [FileSystemNotFound].
   /// May throw [AccessPointNotFound].
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [resourceId] :
   /// Specifies the EFS resource you want to retrieve tags for. You can retrieve
@@ -1537,9 +1532,9 @@ class Efs {
   /// </ul>
   ///
   /// May throw [BadRequest].
+  /// May throw [IncorrectMountTargetState].
   /// May throw [InternalServerError].
   /// May throw [MountTargetNotFound].
-  /// May throw [IncorrectMountTargetState].
   /// May throw [SecurityGroupLimitExceeded].
   /// May throw [SecurityGroupNotFound].
   ///
@@ -1547,7 +1542,7 @@ class Efs {
   /// The ID of the mount target whose security groups you want to modify.
   ///
   /// Parameter [securityGroups] :
-  /// An array of up to five VPC security group IDs.
+  /// An array of VPC security group IDs.
   Future<void> modifyMountTargetSecurityGroups({
     required String mountTargetId,
     List<String>? securityGroups,
@@ -1647,8 +1642,8 @@ class Efs {
   /// 20,000 character limit. When an explicit policy is set, it overrides the
   /// default policy. For more information about the default file system policy,
   /// see <a
-  /// href="https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy">Default
-  /// EFS File System Policy</a>.
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy">
+  /// Default EFS file system policy</a>.
   /// <note>
   /// EFS file system policies have a 20,000 character limit.
   /// </note>
@@ -1656,10 +1651,10 @@ class Efs {
   /// <code>elasticfilesystem:PutFileSystemPolicy</code> action.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
-  /// May throw [InvalidPolicyException].
   /// May throw [IncorrectFileSystemLifeCycleState].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidPolicyException].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the EFS file system that you want to create or update the
@@ -1670,8 +1665,8 @@ class Efs {
   /// formatted policy definition. EFS file system policies have a 20,000
   /// character limit. To find out more about the elements that make up a file
   /// system policy, see <a
-  /// href="https://docs.aws.amazon.com/efs/latest/ug/access-control-overview.html#access-control-manage-access-intro-resource-policies">EFS
-  /// Resource-based Policies</a>.
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/security_iam_service-with-iam.html#security_iam_service-with-iam-resource-based-policies">Resource-based
+  /// policies within Amazon EFS</a>.
   ///
   /// Parameter [bypassPolicyLockoutSafetyCheck] :
   /// (Optional) A boolean that specifies whether or not to bypass the
@@ -1723,7 +1718,7 @@ class Efs {
   /// must be later than TransitionToIA.
   /// <note>
   /// The Archive storage class is available only for file systems that use the
-  /// Elastic Throughput mode and the General Purpose Performance mode.
+  /// Elastic throughput mode and the General Purpose performance mode.
   /// </note> </li>
   /// </ul>
   /// <ul>
@@ -1750,7 +1745,7 @@ class Efs {
   /// <ul>
   /// <li>
   /// The ID for the file system for which you are enabling, disabling, or
-  /// modifying Lifecycle management.
+  /// modifying lifecycle management.
   /// </li>
   /// <li>
   /// A <code>LifecyclePolicies</code> array of <code>LifecyclePolicy</code>
@@ -1771,9 +1766,9 @@ class Efs {
   /// created the encrypted file system.
   ///
   /// May throw [BadRequest].
-  /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [IncorrectFileSystemLifeCycleState].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [fileSystemId] :
   /// The ID of the file system for which you are creating the
@@ -1782,8 +1777,8 @@ class Efs {
   /// Parameter [lifecyclePolicies] :
   /// An array of <code>LifecyclePolicy</code> objects that define the file
   /// system's <code>LifecycleConfiguration</code> object. A
-  /// <code>LifecycleConfiguration</code> object informs EFS Lifecycle
-  /// management of the following:
+  /// <code>LifecycleConfiguration</code> object informs lifecycle management of
+  /// the following:
   ///
   /// <ul>
   /// <li>
@@ -1801,7 +1796,7 @@ class Efs {
   /// must be later than TransitionToIA.
   /// <note>
   /// The Archive storage class is available only for file systems that use the
-  /// Elastic Throughput mode and the General Purpose Performance mode.
+  /// Elastic throughput mode and the General Purpose performance mode.
   /// </note> </li>
   /// <li>
   /// <b> <code>TransitionToPrimaryStorageClass</code> </b> – Whether to move
@@ -1841,10 +1836,10 @@ class Efs {
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:TagResource</code> action.
   ///
-  /// May throw [BadRequest].
-  /// May throw [InternalServerError].
-  /// May throw [FileSystemNotFound].
   /// May throw [AccessPointNotFound].
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [resourceId] :
   /// The ID specifying the EFS resource that you want to create a tag for.
@@ -1874,10 +1869,10 @@ class Efs {
   /// This operation requires permissions for the
   /// <code>elasticfilesystem:UntagResource</code> action.
   ///
-  /// May throw [BadRequest].
-  /// May throw [InternalServerError].
-  /// May throw [FileSystemNotFound].
   /// May throw [AccessPointNotFound].
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
   ///
   /// Parameter [resourceId] :
   /// Specifies the EFS resource that you want to remove tags from.
@@ -1940,7 +1935,7 @@ class Efs {
     _s.validateNumRange(
       'provisionedThroughputInMibps',
       provisionedThroughputInMibps,
-      1,
+      1.0,
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
@@ -1968,8 +1963,8 @@ class Efs {
   /// May throw [IncorrectFileSystemLifeCycleState].
   /// May throw [InsufficientThroughputCapacity].
   /// May throw [InternalServerError].
-  /// May throw [ThroughputLimitExceeded].
   /// May throw [ReplicationAlreadyExists].
+  /// May throw [ThroughputLimitExceeded].
   /// May throw [TooManyRequests].
   ///
   /// Parameter [fileSystemId] :
@@ -1996,7 +1991,7 @@ class Efs {
   /// </li>
   /// </ul>
   /// If the replication configuration is deleted, the file system's replication
-  /// overwrite protection is re-enabled, the file system becomes writeable.
+  /// overwrite protection is re-enabled and the file system becomes writeable.
   Future<FileSystemProtectionDescription> updateFileSystemProtection({
     required String fileSystemId,
     ReplicationOverwriteProtection? replicationOverwriteProtection,
@@ -2117,535 +2112,6 @@ class AccessPointDescription {
   }
 }
 
-/// The backup policy for the file system used to create automatic daily
-/// backups. If status has a value of <code>ENABLED</code>, the file system is
-/// being automatically backed up. For more information, see <a
-/// href="https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#automatic-backups">Automatic
-/// backups</a>.
-class BackupPolicy {
-  /// Describes the status of the file system's backup policy.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b> <code>ENABLED</code> </b> – EFS is automatically backing up the file
-  /// system.
-  /// </li>
-  /// <li>
-  /// <b> <code>ENABLING</code> </b> – EFS is turning on automatic backups for the
-  /// file system.
-  /// </li>
-  /// <li>
-  /// <b> <code>DISABLED</code> </b> – Automatic back ups are turned off for the
-  /// file system.
-  /// </li>
-  /// <li>
-  /// <b> <code>DISABLING</code> </b> – EFS is turning off automatic backups for
-  /// the file system.
-  /// </li>
-  /// </ul>
-  final Status status;
-
-  BackupPolicy({
-    required this.status,
-  });
-
-  factory BackupPolicy.fromJson(Map<String, dynamic> json) {
-    return BackupPolicy(
-      status: Status.fromString((json['Status'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final status = this.status;
-    return {
-      'Status': status.value,
-    };
-  }
-}
-
-class BackupPolicyDescription {
-  /// Describes the file system's backup policy, indicating whether automatic
-  /// backups are turned on or off.
-  final BackupPolicy? backupPolicy;
-
-  BackupPolicyDescription({
-    this.backupPolicy,
-  });
-
-  factory BackupPolicyDescription.fromJson(Map<String, dynamic> json) {
-    return BackupPolicyDescription(
-      backupPolicy: json['BackupPolicy'] != null
-          ? BackupPolicy.fromJson(json['BackupPolicy'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final backupPolicy = this.backupPolicy;
-    return {
-      if (backupPolicy != null) 'BackupPolicy': backupPolicy,
-    };
-  }
-}
-
-/// Required if the <code>RootDirectory</code> &gt; <code>Path</code> specified
-/// does not exist. Specifies the POSIX IDs and permissions to apply to the
-/// access point's <code>RootDirectory</code> &gt; <code>Path</code>. If the
-/// access point root directory does not exist, EFS creates it with these
-/// settings when a client connects to the access point. When specifying
-/// <code>CreationInfo</code>, you must include values for all properties.
-///
-/// Amazon EFS creates a root directory only if you have provided the
-/// CreationInfo: OwnUid, OwnGID, and permissions for the directory. If you do
-/// not provide this information, Amazon EFS does not create the root directory.
-/// If the root directory does not exist, attempts to mount using the access
-/// point will fail.
-/// <important>
-/// If you do not provide <code>CreationInfo</code> and the specified
-/// <code>RootDirectory</code> does not exist, attempts to mount the file system
-/// using the access point will fail.
-/// </important>
-class CreationInfo {
-  /// Specifies the POSIX group ID to apply to the <code>RootDirectory</code>.
-  /// Accepts values from 0 to 2^32 (4294967295).
-  final int ownerGid;
-
-  /// Specifies the POSIX user ID to apply to the <code>RootDirectory</code>.
-  /// Accepts values from 0 to 2^32 (4294967295).
-  final int ownerUid;
-
-  /// Specifies the POSIX permissions to apply to the <code>RootDirectory</code>,
-  /// in the format of an octal number representing the file's mode bits.
-  final String permissions;
-
-  CreationInfo({
-    required this.ownerGid,
-    required this.ownerUid,
-    required this.permissions,
-  });
-
-  factory CreationInfo.fromJson(Map<String, dynamic> json) {
-    return CreationInfo(
-      ownerGid: (json['OwnerGid'] as int?) ?? 0,
-      ownerUid: (json['OwnerUid'] as int?) ?? 0,
-      permissions: (json['Permissions'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ownerGid = this.ownerGid;
-    final ownerUid = this.ownerUid;
-    final permissions = this.permissions;
-    return {
-      'OwnerGid': ownerGid,
-      'OwnerUid': ownerUid,
-      'Permissions': permissions,
-    };
-  }
-}
-
-class DescribeAccessPointsResponse {
-  /// An array of access point descriptions.
-  final List<AccessPointDescription>? accessPoints;
-
-  /// Present if there are more access points than returned in the response. You
-  /// can use the NextMarker in the subsequent request to fetch the additional
-  /// descriptions.
-  final String? nextToken;
-
-  DescribeAccessPointsResponse({
-    this.accessPoints,
-    this.nextToken,
-  });
-
-  factory DescribeAccessPointsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeAccessPointsResponse(
-      accessPoints: (json['AccessPoints'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => AccessPointDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accessPoints = this.accessPoints;
-    final nextToken = this.nextToken;
-    return {
-      if (accessPoints != null) 'AccessPoints': accessPoints,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class DescribeAccountPreferencesResponse {
-  /// Present if there are more records than returned in the response. You can use
-  /// the <code>NextToken</code> in the subsequent request to fetch the additional
-  /// descriptions.
-  final String? nextToken;
-
-  /// Describes the resource ID preference setting for the Amazon Web Services
-  /// account associated with the user making the request, in the current Amazon
-  /// Web Services Region.
-  final ResourceIdPreference? resourceIdPreference;
-
-  DescribeAccountPreferencesResponse({
-    this.nextToken,
-    this.resourceIdPreference,
-  });
-
-  factory DescribeAccountPreferencesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeAccountPreferencesResponse(
-      nextToken: json['NextToken'] as String?,
-      resourceIdPreference: json['ResourceIdPreference'] != null
-          ? ResourceIdPreference.fromJson(
-              json['ResourceIdPreference'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final resourceIdPreference = this.resourceIdPreference;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (resourceIdPreference != null)
-        'ResourceIdPreference': resourceIdPreference,
-    };
-  }
-}
-
-class DescribeFileSystemsResponse {
-  /// An array of file system descriptions.
-  final List<FileSystemDescription>? fileSystems;
-
-  /// Present if provided by caller in the request (String).
-  final String? marker;
-
-  /// Present if there are more file systems than returned in the response
-  /// (String). You can use the <code>NextMarker</code> in the subsequent request
-  /// to fetch the descriptions.
-  final String? nextMarker;
-
-  DescribeFileSystemsResponse({
-    this.fileSystems,
-    this.marker,
-    this.nextMarker,
-  });
-
-  factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeFileSystemsResponse(
-      fileSystems: (json['FileSystems'] as List?)
-          ?.nonNulls
-          .map((e) => FileSystemDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      marker: json['Marker'] as String?,
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fileSystems = this.fileSystems;
-    final marker = this.marker;
-    final nextMarker = this.nextMarker;
-    return {
-      if (fileSystems != null) 'FileSystems': fileSystems,
-      if (marker != null) 'Marker': marker,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class DescribeMountTargetSecurityGroupsResponse {
-  /// An array of security groups.
-  final List<String> securityGroups;
-
-  DescribeMountTargetSecurityGroupsResponse({
-    required this.securityGroups,
-  });
-
-  factory DescribeMountTargetSecurityGroupsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeMountTargetSecurityGroupsResponse(
-      securityGroups: ((json['SecurityGroups'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroups = this.securityGroups;
-    return {
-      'SecurityGroups': securityGroups,
-    };
-  }
-}
-
-/// <p/>
-class DescribeMountTargetsResponse {
-  /// If the request included the <code>Marker</code>, the response returns that
-  /// value in this field.
-  final String? marker;
-
-  /// Returns the file system's mount targets as an array of
-  /// <code>MountTargetDescription</code> objects.
-  final List<MountTargetDescription>? mountTargets;
-
-  /// If a value is present, there are more mount targets to return. In a
-  /// subsequent request, you can provide <code>Marker</code> in your request with
-  /// this value to retrieve the next set of mount targets.
-  final String? nextMarker;
-
-  DescribeMountTargetsResponse({
-    this.marker,
-    this.mountTargets,
-    this.nextMarker,
-  });
-
-  factory DescribeMountTargetsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeMountTargetsResponse(
-      marker: json['Marker'] as String?,
-      mountTargets: (json['MountTargets'] as List?)
-          ?.nonNulls
-          .map(
-              (e) => MountTargetDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final marker = this.marker;
-    final mountTargets = this.mountTargets;
-    final nextMarker = this.nextMarker;
-    return {
-      if (marker != null) 'Marker': marker,
-      if (mountTargets != null) 'MountTargets': mountTargets,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-class DescribeReplicationConfigurationsResponse {
-  /// You can use the <code>NextToken</code> from the previous response in a
-  /// subsequent request to fetch the additional descriptions.
-  final String? nextToken;
-
-  /// The collection of replication configurations that is returned.
-  final List<ReplicationConfigurationDescription>? replications;
-
-  DescribeReplicationConfigurationsResponse({
-    this.nextToken,
-    this.replications,
-  });
-
-  factory DescribeReplicationConfigurationsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeReplicationConfigurationsResponse(
-      nextToken: json['NextToken'] as String?,
-      replications: (json['Replications'] as List?)
-          ?.nonNulls
-          .map((e) => ReplicationConfigurationDescription.fromJson(
-              e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final replications = this.replications;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (replications != null) 'Replications': replications,
-    };
-  }
-}
-
-/// <p/>
-class DescribeTagsResponse {
-  /// Returns tags associated with the file system as an array of <code>Tag</code>
-  /// objects.
-  final List<Tag> tags;
-
-  /// If the request included a <code>Marker</code>, the response returns that
-  /// value in this field.
-  final String? marker;
-
-  /// If a value is present, there are more tags to return. In a subsequent
-  /// request, you can provide the value of <code>NextMarker</code> as the value
-  /// of the <code>Marker</code> parameter in your next request to retrieve the
-  /// next set of tags.
-  final String? nextMarker;
-
-  DescribeTagsResponse({
-    required this.tags,
-    this.marker,
-    this.nextMarker,
-  });
-
-  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeTagsResponse(
-      tags: ((json['Tags'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      marker: json['Marker'] as String?,
-      nextMarker: json['NextMarker'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    final marker = this.marker;
-    final nextMarker = this.nextMarker;
-    return {
-      'Tags': tags,
-      if (marker != null) 'Marker': marker,
-      if (nextMarker != null) 'NextMarker': nextMarker,
-    };
-  }
-}
-
-/// Describes the destination file system in the replication configuration.
-class Destination {
-  /// The ID of the destination Amazon EFS file system.
-  final String fileSystemId;
-
-  /// The Amazon Web Services Region in which the destination file system is
-  /// located.
-  final String region;
-
-  /// Describes the status of the destination EFS file system.
-  ///
-  /// <ul>
-  /// <li>
-  /// The <code>Paused</code> state occurs as a result of opting out of the source
-  /// or destination Region after the replication configuration was created. To
-  /// resume replication for the file system, you need to again opt in to the
-  /// Amazon Web Services Region. For more information, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable">Managing
-  /// Amazon Web Services Regions</a> in the <i>Amazon Web Services General
-  /// Reference Guide</i>.
-  /// </li>
-  /// <li>
-  /// The <code>Error</code> state occurs when either the source or the
-  /// destination file system (or both) is in a failed state and is unrecoverable.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#restoring-backup-efsmonitoring-replication-status.html">Monitoring
-  /// replication status</a> in the <i>Amazon EFS User Guide</i>. You must delete
-  /// the replication configuration, and then restore the most recent backup of
-  /// the failed file system (either the source or the destination) to a new file
-  /// system.
-  /// </li>
-  /// </ul>
-  final ReplicationStatus status;
-
-  /// The time when the most recent sync was successfully completed on the
-  /// destination file system. Any changes to data on the source file system that
-  /// occurred before this time have been successfully replicated to the
-  /// destination file system. Any changes that occurred after this time might not
-  /// be fully replicated.
-  final DateTime? lastReplicatedTimestamp;
-
-  Destination({
-    required this.fileSystemId,
-    required this.region,
-    required this.status,
-    this.lastReplicatedTimestamp,
-  });
-
-  factory Destination.fromJson(Map<String, dynamic> json) {
-    return Destination(
-      fileSystemId: (json['FileSystemId'] as String?) ?? '',
-      region: (json['Region'] as String?) ?? '',
-      status: ReplicationStatus.fromString((json['Status'] as String?) ?? ''),
-      lastReplicatedTimestamp:
-          timeStampFromJson(json['LastReplicatedTimestamp']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fileSystemId = this.fileSystemId;
-    final region = this.region;
-    final status = this.status;
-    final lastReplicatedTimestamp = this.lastReplicatedTimestamp;
-    return {
-      'FileSystemId': fileSystemId,
-      'Region': region,
-      'Status': status.value,
-      if (lastReplicatedTimestamp != null)
-        'LastReplicatedTimestamp': unixTimestampToJson(lastReplicatedTimestamp),
-    };
-  }
-}
-
-/// Describes the new or existing destination file system for the replication
-/// configuration.
-class DestinationToCreate {
-  /// To create a file system that uses One Zone storage, specify the name of the
-  /// Availability Zone in which to create the destination file system.
-  final String? availabilityZoneName;
-
-  /// The ID of the file system to use for the destination. The file system's
-  /// replication overwrite replication must be disabled. If you do not provide an
-  /// ID, then EFS creates a new file system for the replication destination.
-  final String? fileSystemId;
-
-  /// Specify the Key Management Service (KMS) key that you want to use to encrypt
-  /// the destination file system. If you do not specify a KMS key, Amazon EFS
-  /// uses your default KMS key for Amazon EFS,
-  /// <code>/aws/elasticfilesystem</code>. This ID can be in one of the following
-  /// formats:
-  ///
-  /// <ul>
-  /// <li>
-  /// Key ID - The unique identifier of the key, for example
-  /// <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// ARN - The Amazon Resource Name (ARN) for the key, for example
-  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
-  /// </li>
-  /// <li>
-  /// Key alias - A previously created display name for a key, for example
-  /// <code>alias/projectKey1</code>.
-  /// </li>
-  /// <li>
-  /// Key alias ARN - The ARN for a key alias, for example
-  /// <code>arn:aws:kms:us-west-2:444455556666:alias/projectKey1</code>.
-  /// </li>
-  /// </ul>
-  final String? kmsKeyId;
-
-  /// To create a file system that uses Regional storage, specify the Amazon Web
-  /// Services Region in which to create the destination file system.
-  final String? region;
-
-  DestinationToCreate({
-    this.availabilityZoneName,
-    this.fileSystemId,
-    this.kmsKeyId,
-    this.region,
-  });
-
-  Map<String, dynamic> toJson() {
-    final availabilityZoneName = this.availabilityZoneName;
-    final fileSystemId = this.fileSystemId;
-    final kmsKeyId = this.kmsKeyId;
-    final region = this.region;
-    return {
-      if (availabilityZoneName != null)
-        'AvailabilityZoneName': availabilityZoneName,
-      if (fileSystemId != null) 'FileSystemId': fileSystemId,
-      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (region != null) 'Region': region,
-    };
-  }
-}
-
 /// A description of the file system.
 class FileSystemDescription {
   /// The time that the file system was created, in seconds (since
@@ -2668,7 +2134,7 @@ class FileSystemDescription {
   /// The Amazon Web Services account that created the file system.
   final String ownerId;
 
-  /// The Performance mode of the file system.
+  /// The performance mode of the file system.
   final PerformanceMode performanceMode;
 
   /// The latest known metered size (in bytes) of data stored in the file system,
@@ -2832,6 +2298,282 @@ class FileSystemDescription {
   }
 }
 
+/// Provides a description of a mount target.
+class MountTargetDescription {
+  /// The ID of the file system for which the mount target is intended.
+  final String fileSystemId;
+
+  /// Lifecycle state of the mount target.
+  final LifeCycleState lifeCycleState;
+
+  /// System-assigned mount target ID.
+  final String mountTargetId;
+
+  /// The ID of the mount target's subnet.
+  final String subnetId;
+
+  /// The unique and consistent identifier of the Availability Zone that the mount
+  /// target resides in. For example, <code>use1-az1</code> is an AZ ID for the
+  /// us-east-1 Region and it has the same location in every Amazon Web Services
+  /// account.
+  final String? availabilityZoneId;
+
+  /// The name of the Availability Zone in which the mount target is located.
+  /// Availability Zones are independently mapped to names for each Amazon Web
+  /// Services account. For example, the Availability Zone <code>us-east-1a</code>
+  /// for your Amazon Web Services account might not be the same location as
+  /// <code>us-east-1a</code> for another Amazon Web Services account.
+  final String? availabilityZoneName;
+
+  /// Address at which the file system can be mounted by using the mount target.
+  final String? ipAddress;
+
+  /// The IPv6 address for the mount target.
+  final String? ipv6Address;
+
+  /// The ID of the network interface that Amazon EFS created when it created the
+  /// mount target.
+  final String? networkInterfaceId;
+
+  /// Amazon Web Services account ID that owns the resource.
+  final String? ownerId;
+
+  /// The virtual private cloud (VPC) ID that the mount target is configured in.
+  final String? vpcId;
+
+  MountTargetDescription({
+    required this.fileSystemId,
+    required this.lifeCycleState,
+    required this.mountTargetId,
+    required this.subnetId,
+    this.availabilityZoneId,
+    this.availabilityZoneName,
+    this.ipAddress,
+    this.ipv6Address,
+    this.networkInterfaceId,
+    this.ownerId,
+    this.vpcId,
+  });
+
+  factory MountTargetDescription.fromJson(Map<String, dynamic> json) {
+    return MountTargetDescription(
+      fileSystemId: (json['FileSystemId'] as String?) ?? '',
+      lifeCycleState:
+          LifeCycleState.fromString((json['LifeCycleState'] as String?) ?? ''),
+      mountTargetId: (json['MountTargetId'] as String?) ?? '',
+      subnetId: (json['SubnetId'] as String?) ?? '',
+      availabilityZoneId: json['AvailabilityZoneId'] as String?,
+      availabilityZoneName: json['AvailabilityZoneName'] as String?,
+      ipAddress: json['IpAddress'] as String?,
+      ipv6Address: json['Ipv6Address'] as String?,
+      networkInterfaceId: json['NetworkInterfaceId'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSystemId = this.fileSystemId;
+    final lifeCycleState = this.lifeCycleState;
+    final mountTargetId = this.mountTargetId;
+    final subnetId = this.subnetId;
+    final availabilityZoneId = this.availabilityZoneId;
+    final availabilityZoneName = this.availabilityZoneName;
+    final ipAddress = this.ipAddress;
+    final ipv6Address = this.ipv6Address;
+    final networkInterfaceId = this.networkInterfaceId;
+    final ownerId = this.ownerId;
+    final vpcId = this.vpcId;
+    return {
+      'FileSystemId': fileSystemId,
+      'LifeCycleState': lifeCycleState.value,
+      'MountTargetId': mountTargetId,
+      'SubnetId': subnetId,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
+      if (availabilityZoneName != null)
+        'AvailabilityZoneName': availabilityZoneName,
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (ipv6Address != null) 'Ipv6Address': ipv6Address,
+      if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
+}
+
+/// Describes the replication configuration for a specific file system.
+class ReplicationConfigurationDescription {
+  /// Describes when the replication configuration was created.
+  final DateTime creationTime;
+
+  /// An array of destination objects. Only one destination object is supported.
+  final List<Destination> destinations;
+
+  /// The Amazon Resource Name (ARN) of the original source EFS file system in the
+  /// replication configuration.
+  final String originalSourceFileSystemArn;
+
+  /// The Amazon Resource Name (ARN) of the current source file system in the
+  /// replication configuration.
+  final String sourceFileSystemArn;
+
+  /// The ID of the source Amazon EFS file system that is being replicated.
+  final String sourceFileSystemId;
+
+  /// The Amazon Web Services Region in which the source EFS file system is
+  /// located.
+  final String sourceFileSystemRegion;
+
+  /// ID of the Amazon Web Services account in which the source file system
+  /// resides.
+  final String? sourceFileSystemOwnerId;
+
+  ReplicationConfigurationDescription({
+    required this.creationTime,
+    required this.destinations,
+    required this.originalSourceFileSystemArn,
+    required this.sourceFileSystemArn,
+    required this.sourceFileSystemId,
+    required this.sourceFileSystemRegion,
+    this.sourceFileSystemOwnerId,
+  });
+
+  factory ReplicationConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return ReplicationConfigurationDescription(
+      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
+      destinations: ((json['Destinations'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Destination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      originalSourceFileSystemArn:
+          (json['OriginalSourceFileSystemArn'] as String?) ?? '',
+      sourceFileSystemArn: (json['SourceFileSystemArn'] as String?) ?? '',
+      sourceFileSystemId: (json['SourceFileSystemId'] as String?) ?? '',
+      sourceFileSystemRegion: (json['SourceFileSystemRegion'] as String?) ?? '',
+      sourceFileSystemOwnerId: json['SourceFileSystemOwnerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final destinations = this.destinations;
+    final originalSourceFileSystemArn = this.originalSourceFileSystemArn;
+    final sourceFileSystemArn = this.sourceFileSystemArn;
+    final sourceFileSystemId = this.sourceFileSystemId;
+    final sourceFileSystemRegion = this.sourceFileSystemRegion;
+    final sourceFileSystemOwnerId = this.sourceFileSystemOwnerId;
+    return {
+      'CreationTime': unixTimestampToJson(creationTime),
+      'Destinations': destinations,
+      'OriginalSourceFileSystemArn': originalSourceFileSystemArn,
+      'SourceFileSystemArn': sourceFileSystemArn,
+      'SourceFileSystemId': sourceFileSystemId,
+      'SourceFileSystemRegion': sourceFileSystemRegion,
+      if (sourceFileSystemOwnerId != null)
+        'SourceFileSystemOwnerId': sourceFileSystemOwnerId,
+    };
+  }
+}
+
+class DescribeAccessPointsResponse {
+  /// An array of access point descriptions.
+  final List<AccessPointDescription>? accessPoints;
+
+  /// Present if there are more access points than returned in the response. You
+  /// can use the NextMarker in the subsequent request to fetch the additional
+  /// descriptions.
+  final String? nextToken;
+
+  DescribeAccessPointsResponse({
+    this.accessPoints,
+    this.nextToken,
+  });
+
+  factory DescribeAccessPointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAccessPointsResponse(
+      accessPoints: (json['AccessPoints'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => AccessPointDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPoints = this.accessPoints;
+    final nextToken = this.nextToken;
+    return {
+      if (accessPoints != null) 'AccessPoints': accessPoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeAccountPreferencesResponse {
+  /// Present if there are more records than returned in the response. You can use
+  /// the <code>NextToken</code> in the subsequent request to fetch the additional
+  /// descriptions.
+  final String? nextToken;
+
+  /// Describes the resource ID preference setting for the Amazon Web Services
+  /// account associated with the user making the request, in the current Amazon
+  /// Web Services Region.
+  final ResourceIdPreference? resourceIdPreference;
+
+  DescribeAccountPreferencesResponse({
+    this.nextToken,
+    this.resourceIdPreference,
+  });
+
+  factory DescribeAccountPreferencesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAccountPreferencesResponse(
+      nextToken: json['NextToken'] as String?,
+      resourceIdPreference: json['ResourceIdPreference'] != null
+          ? ResourceIdPreference.fromJson(
+              json['ResourceIdPreference'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final resourceIdPreference = this.resourceIdPreference;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceIdPreference != null)
+        'ResourceIdPreference': resourceIdPreference,
+    };
+  }
+}
+
+class BackupPolicyDescription {
+  /// Describes the file system's backup policy, indicating whether automatic
+  /// backups are turned on or off.
+  final BackupPolicy? backupPolicy;
+
+  BackupPolicyDescription({
+    this.backupPolicy,
+  });
+
+  factory BackupPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return BackupPolicyDescription(
+      backupPolicy: json['BackupPolicy'] != null
+          ? BackupPolicy.fromJson(json['BackupPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupPolicy = this.backupPolicy;
+    return {
+      if (backupPolicy != null) 'BackupPolicy': backupPolicy,
+    };
+  }
+}
+
 class FileSystemPolicyDescription {
   /// Specifies the EFS file system to which the <code>FileSystemPolicy</code>
   /// applies.
@@ -2862,6 +2604,284 @@ class FileSystemPolicyDescription {
   }
 }
 
+class DescribeFileSystemsResponse {
+  /// An array of file system descriptions.
+  final List<FileSystemDescription>? fileSystems;
+
+  /// Present if provided by caller in the request (String).
+  final String? marker;
+
+  /// Present if there are more file systems than returned in the response
+  /// (String). You can use the <code>NextMarker</code> in the subsequent request
+  /// to fetch the descriptions.
+  final String? nextMarker;
+
+  DescribeFileSystemsResponse({
+    this.fileSystems,
+    this.marker,
+    this.nextMarker,
+  });
+
+  factory DescribeFileSystemsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFileSystemsResponse(
+      fileSystems: (json['FileSystems'] as List?)
+          ?.nonNulls
+          .map((e) => FileSystemDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSystems = this.fileSystems;
+    final marker = this.marker;
+    final nextMarker = this.nextMarker;
+    return {
+      if (fileSystems != null) 'FileSystems': fileSystems,
+      if (marker != null) 'Marker': marker,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class LifecycleConfigurationDescription {
+  /// An array of lifecycle management policies. EFS supports a maximum of one
+  /// policy per file system.
+  final List<LifecyclePolicy>? lifecyclePolicies;
+
+  LifecycleConfigurationDescription({
+    this.lifecyclePolicies,
+  });
+
+  factory LifecycleConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return LifecycleConfigurationDescription(
+      lifecyclePolicies: (json['LifecyclePolicies'] as List?)
+          ?.nonNulls
+          .map((e) => LifecyclePolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicies = this.lifecyclePolicies;
+    return {
+      if (lifecyclePolicies != null) 'LifecyclePolicies': lifecyclePolicies,
+    };
+  }
+}
+
+///
+class DescribeMountTargetsResponse {
+  /// If the request included the <code>Marker</code>, the response returns that
+  /// value in this field.
+  final String? marker;
+
+  /// Returns the file system's mount targets as an array of
+  /// <code>MountTargetDescription</code> objects.
+  final List<MountTargetDescription>? mountTargets;
+
+  /// If a value is present, there are more mount targets to return. In a
+  /// subsequent request, you can provide <code>Marker</code> in your request with
+  /// this value to retrieve the next set of mount targets.
+  final String? nextMarker;
+
+  DescribeMountTargetsResponse({
+    this.marker,
+    this.mountTargets,
+    this.nextMarker,
+  });
+
+  factory DescribeMountTargetsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeMountTargetsResponse(
+      marker: json['Marker'] as String?,
+      mountTargets: (json['MountTargets'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => MountTargetDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final mountTargets = this.mountTargets;
+    final nextMarker = this.nextMarker;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (mountTargets != null) 'MountTargets': mountTargets,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class DescribeMountTargetSecurityGroupsResponse {
+  /// An array of security groups.
+  final List<String> securityGroups;
+
+  DescribeMountTargetSecurityGroupsResponse({
+    required this.securityGroups,
+  });
+
+  factory DescribeMountTargetSecurityGroupsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeMountTargetSecurityGroupsResponse(
+      securityGroups: ((json['SecurityGroups'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroups = this.securityGroups;
+    return {
+      'SecurityGroups': securityGroups,
+    };
+  }
+}
+
+class DescribeReplicationConfigurationsResponse {
+  /// You can use the <code>NextToken</code> from the previous response in a
+  /// subsequent request to fetch the additional descriptions.
+  final String? nextToken;
+
+  /// The collection of replication configurations that is returned.
+  final List<ReplicationConfigurationDescription>? replications;
+
+  DescribeReplicationConfigurationsResponse({
+    this.nextToken,
+    this.replications,
+  });
+
+  factory DescribeReplicationConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeReplicationConfigurationsResponse(
+      nextToken: json['NextToken'] as String?,
+      replications: (json['Replications'] as List?)
+          ?.nonNulls
+          .map((e) => ReplicationConfigurationDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final replications = this.replications;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (replications != null) 'Replications': replications,
+    };
+  }
+}
+
+///
+class DescribeTagsResponse {
+  /// Returns tags associated with the file system as an array of <code>Tag</code>
+  /// objects.
+  final List<Tag> tags;
+
+  /// If the request included a <code>Marker</code>, the response returns that
+  /// value in this field.
+  final String? marker;
+
+  /// If a value is present, there are more tags to return. In a subsequent
+  /// request, you can provide the value of <code>NextMarker</code> as the value
+  /// of the <code>Marker</code> parameter in your next request to retrieve the
+  /// next set of tags.
+  final String? nextMarker;
+
+  DescribeTagsResponse({
+    required this.tags,
+    this.marker,
+    this.nextMarker,
+  });
+
+  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTagsResponse(
+      tags: ((json['Tags'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final marker = this.marker;
+    final nextMarker = this.nextMarker;
+    return {
+      'Tags': tags,
+      if (marker != null) 'Marker': marker,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// <code>NextToken</code> is present if the response payload is paginated. You
+  /// can use <code>NextToken</code> in a subsequent request to fetch the next
+  /// page of access point descriptions.
+  final String? nextToken;
+
+  /// An array of the tags for the specified EFS resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.nextToken,
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class PutAccountPreferencesResponse {
+  final ResourceIdPreference? resourceIdPreference;
+
+  PutAccountPreferencesResponse({
+    this.resourceIdPreference,
+  });
+
+  factory PutAccountPreferencesResponse.fromJson(Map<String, dynamic> json) {
+    return PutAccountPreferencesResponse(
+      resourceIdPreference: json['ResourceIdPreference'] != null
+          ? ResourceIdPreference.fromJson(
+              json['ResourceIdPreference'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceIdPreference = this.resourceIdPreference;
+    return {
+      if (resourceIdPreference != null)
+        'ResourceIdPreference': resourceIdPreference,
+    };
+  }
+}
+
 /// Describes the protection on a file system.
 class FileSystemProtectionDescription {
   /// The status of the file system's replication overwrite protection.
@@ -2880,7 +2900,7 @@ class FileSystemProtectionDescription {
   /// <li>
   /// <code>REPLICATING</code> – The file system is being used as the destination
   /// file system in a replication configuration. The file system is read-only and
-  /// is only modified only by EFS replication.
+  /// is modified only by EFS replication.
   /// </li>
   /// </ul>
   /// If the replication configuration is deleted, the file system's replication
@@ -2906,6 +2926,738 @@ class FileSystemProtectionDescription {
         'ReplicationOverwriteProtection': replicationOverwriteProtection.value,
     };
   }
+}
+
+class ReplicationOverwriteProtection {
+  static const enabled = ReplicationOverwriteProtection._('ENABLED');
+  static const disabled = ReplicationOverwriteProtection._('DISABLED');
+  static const replicating = ReplicationOverwriteProtection._('REPLICATING');
+
+  final String value;
+
+  const ReplicationOverwriteProtection._(this.value);
+
+  static const values = [enabled, disabled, replicating];
+
+  static ReplicationOverwriteProtection fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationOverwriteProtection._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ReplicationOverwriteProtection && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ThroughputMode {
+  static const bursting = ThroughputMode._('bursting');
+  static const provisioned = ThroughputMode._('provisioned');
+  static const elastic = ThroughputMode._('elastic');
+
+  final String value;
+
+  const ThroughputMode._(this.value);
+
+  static const values = [bursting, provisioned, elastic];
+
+  static ThroughputMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ThroughputMode._(value));
+
+  @override
+  bool operator ==(other) => other is ThroughputMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A tag is a key-value pair. Allowed characters are letters, white space, and
+/// numbers that can be represented in UTF-8, and the following
+/// characters:<code> + - = . _ : /</code>.
+class Tag {
+  /// The tag key (String). The key can't start with <code>aws:</code>.
+  final String key;
+
+  /// The value of the tag key.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+/// Describes a policy used by lifecycle management that specifies when to
+/// transition files into and out of storage classes. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html">Managing
+/// file system storage</a>.
+/// <note>
+/// When using the <code>put-lifecycle-configuration</code> CLI command or the
+/// <code>PutLifecycleConfiguration</code> API action, Amazon EFS requires that
+/// each <code>LifecyclePolicy</code> object have only a single transition. This
+/// means that in a request body, <code>LifecyclePolicies</code> must be
+/// structured as an array of <code>LifecyclePolicy</code> objects, one object
+/// for each transition. For more information, see the request examples in
+/// <a>PutLifecycleConfiguration</a>.
+/// </note>
+class LifecyclePolicy {
+  /// The number of days after files were last accessed in primary storage (the
+  /// Standard storage class) at which to move them to Archive storage. Metadata
+  /// operations such as listing the contents of a directory don't count as file
+  /// access events.
+  final TransitionToArchiveRules? transitionToArchive;
+
+  /// The number of days after files were last accessed in primary storage (the
+  /// Standard storage class) at which to move them to Infrequent Access (IA)
+  /// storage. Metadata operations such as listing the contents of a directory
+  /// don't count as file access events.
+  final TransitionToIARules? transitionToIA;
+
+  /// Whether to move files back to primary (Standard) storage after they are
+  /// accessed in IA or Archive storage. Metadata operations such as listing the
+  /// contents of a directory don't count as file access events.
+  final TransitionToPrimaryStorageClassRules? transitionToPrimaryStorageClass;
+
+  LifecyclePolicy({
+    this.transitionToArchive,
+    this.transitionToIA,
+    this.transitionToPrimaryStorageClass,
+  });
+
+  factory LifecyclePolicy.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicy(
+      transitionToArchive: (json['TransitionToArchive'] as String?)
+          ?.let(TransitionToArchiveRules.fromString),
+      transitionToIA: (json['TransitionToIA'] as String?)
+          ?.let(TransitionToIARules.fromString),
+      transitionToPrimaryStorageClass:
+          (json['TransitionToPrimaryStorageClass'] as String?)
+              ?.let(TransitionToPrimaryStorageClassRules.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitionToArchive = this.transitionToArchive;
+    final transitionToIA = this.transitionToIA;
+    final transitionToPrimaryStorageClass =
+        this.transitionToPrimaryStorageClass;
+    return {
+      if (transitionToArchive != null)
+        'TransitionToArchive': transitionToArchive.value,
+      if (transitionToIA != null) 'TransitionToIA': transitionToIA.value,
+      if (transitionToPrimaryStorageClass != null)
+        'TransitionToPrimaryStorageClass':
+            transitionToPrimaryStorageClass.value,
+    };
+  }
+}
+
+class TransitionToIARules {
+  static const after_7Days = TransitionToIARules._('AFTER_7_DAYS');
+  static const after_14Days = TransitionToIARules._('AFTER_14_DAYS');
+  static const after_30Days = TransitionToIARules._('AFTER_30_DAYS');
+  static const after_60Days = TransitionToIARules._('AFTER_60_DAYS');
+  static const after_90Days = TransitionToIARules._('AFTER_90_DAYS');
+  static const after_1Day = TransitionToIARules._('AFTER_1_DAY');
+  static const after_180Days = TransitionToIARules._('AFTER_180_DAYS');
+  static const after_270Days = TransitionToIARules._('AFTER_270_DAYS');
+  static const after_365Days = TransitionToIARules._('AFTER_365_DAYS');
+
+  final String value;
+
+  const TransitionToIARules._(this.value);
+
+  static const values = [
+    after_7Days,
+    after_14Days,
+    after_30Days,
+    after_60Days,
+    after_90Days,
+    after_1Day,
+    after_180Days,
+    after_270Days,
+    after_365Days
+  ];
+
+  static TransitionToIARules fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransitionToIARules._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitionToIARules && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TransitionToPrimaryStorageClassRules {
+  static const after_1Access =
+      TransitionToPrimaryStorageClassRules._('AFTER_1_ACCESS');
+
+  final String value;
+
+  const TransitionToPrimaryStorageClassRules._(this.value);
+
+  static const values = [after_1Access];
+
+  static TransitionToPrimaryStorageClassRules fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransitionToPrimaryStorageClassRules._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitionToPrimaryStorageClassRules && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TransitionToArchiveRules {
+  static const after_1Day = TransitionToArchiveRules._('AFTER_1_DAY');
+  static const after_7Days = TransitionToArchiveRules._('AFTER_7_DAYS');
+  static const after_14Days = TransitionToArchiveRules._('AFTER_14_DAYS');
+  static const after_30Days = TransitionToArchiveRules._('AFTER_30_DAYS');
+  static const after_60Days = TransitionToArchiveRules._('AFTER_60_DAYS');
+  static const after_90Days = TransitionToArchiveRules._('AFTER_90_DAYS');
+  static const after_180Days = TransitionToArchiveRules._('AFTER_180_DAYS');
+  static const after_270Days = TransitionToArchiveRules._('AFTER_270_DAYS');
+  static const after_365Days = TransitionToArchiveRules._('AFTER_365_DAYS');
+
+  final String value;
+
+  const TransitionToArchiveRules._(this.value);
+
+  static const values = [
+    after_1Day,
+    after_7Days,
+    after_14Days,
+    after_30Days,
+    after_60Days,
+    after_90Days,
+    after_180Days,
+    after_270Days,
+    after_365Days
+  ];
+
+  static TransitionToArchiveRules fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TransitionToArchiveRules._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TransitionToArchiveRules && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The backup policy for the file system used to create automatic daily
+/// backups. If status has a value of <code>ENABLED</code>, the file system is
+/// being automatically backed up. For more information, see <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#automatic-backups">Automatic
+/// backups</a>.
+class BackupPolicy {
+  /// Describes the status of the file system's backup policy.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b> <code>ENABLED</code> </b> – EFS is automatically backing up the file
+  /// system.
+  /// </li>
+  /// <li>
+  /// <b> <code>ENABLING</code> </b> – EFS is turning on automatic backups for the
+  /// file system.
+  /// </li>
+  /// <li>
+  /// <b> <code>DISABLED</code> </b> – Automatic back ups are turned off for the
+  /// file system.
+  /// </li>
+  /// <li>
+  /// <b> <code>DISABLING</code> </b> – EFS is turning off automatic backups for
+  /// the file system.
+  /// </li>
+  /// </ul>
+  final Status status;
+
+  BackupPolicy({
+    required this.status,
+  });
+
+  factory BackupPolicy.fromJson(Map<String, dynamic> json) {
+    return BackupPolicy(
+      status: Status.fromString((json['Status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.value,
+    };
+  }
+}
+
+class Status {
+  static const enabled = Status._('ENABLED');
+  static const enabling = Status._('ENABLING');
+  static const disabled = Status._('DISABLED');
+  static const disabling = Status._('DISABLING');
+
+  final String value;
+
+  const Status._(this.value);
+
+  static const values = [enabled, enabling, disabled, disabling];
+
+  static Status fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
+
+  @override
+  bool operator ==(other) => other is Status && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the resource type and its ID preference for the user's Amazon Web
+/// Services account, in the current Amazon Web Services Region.
+class ResourceIdPreference {
+  /// Identifies the EFS resource ID preference, either <code>LONG_ID</code> (17
+  /// characters) or <code>SHORT_ID</code> (8 characters).
+  final ResourceIdType? resourceIdType;
+
+  /// Identifies the Amazon EFS resources to which the ID preference setting
+  /// applies, <code>FILE_SYSTEM</code> and <code>MOUNT_TARGET</code>.
+  final List<Resource>? resources;
+
+  ResourceIdPreference({
+    this.resourceIdType,
+    this.resources,
+  });
+
+  factory ResourceIdPreference.fromJson(Map<String, dynamic> json) {
+    return ResourceIdPreference(
+      resourceIdType:
+          (json['ResourceIdType'] as String?)?.let(ResourceIdType.fromString),
+      resources: (json['Resources'] as List?)
+          ?.nonNulls
+          .map((e) => Resource.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceIdType = this.resourceIdType;
+    final resources = this.resources;
+    return {
+      if (resourceIdType != null) 'ResourceIdType': resourceIdType.value,
+      if (resources != null)
+        'Resources': resources.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// A preference indicating a choice to use 63bit/32bit IDs for all applicable
+/// resources.
+class ResourceIdType {
+  static const longId = ResourceIdType._('LONG_ID');
+  static const shortId = ResourceIdType._('SHORT_ID');
+
+  final String value;
+
+  const ResourceIdType._(this.value);
+
+  static const values = [longId, shortId];
+
+  static ResourceIdType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ResourceIdType._(value));
+
+  @override
+  bool operator ==(other) => other is ResourceIdType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An EFS resource, for example a file system or a mount target.
+class Resource {
+  static const fileSystem = Resource._('FILE_SYSTEM');
+  static const mountTarget = Resource._('MOUNT_TARGET');
+
+  final String value;
+
+  const Resource._(this.value);
+
+  static const values = [fileSystem, mountTarget];
+
+  static Resource fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Resource._(value));
+
+  @override
+  bool operator ==(other) => other is Resource && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeletionMode {
+  static const allConfigurations = DeletionMode._('ALL_CONFIGURATIONS');
+  static const localConfigurationOnly =
+      DeletionMode._('LOCAL_CONFIGURATION_ONLY');
+
+  final String value;
+
+  const DeletionMode._(this.value);
+
+  static const values = [allConfigurations, localConfigurationOnly];
+
+  static DeletionMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeletionMode._(value));
+
+  @override
+  bool operator ==(other) => other is DeletionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the destination file system in the replication configuration.
+class Destination {
+  /// The ID of the destination Amazon EFS file system.
+  final String fileSystemId;
+
+  /// The Amazon Web Services Region in which the destination file system is
+  /// located.
+  final String region;
+
+  /// Describes the status of the replication configuration. For more information
+  /// about replication status, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#restoring-backup-efsmonitoring-replication-status.html">Viewing
+  /// replication details</a> in the <i>Amazon EFS User Guide</i>.
+  final ReplicationStatus status;
+
+  /// The time when the most recent sync was successfully completed on the
+  /// destination file system. Any changes to data on the source file system that
+  /// occurred before this time have been successfully replicated to the
+  /// destination file system. Any changes that occurred after this time might not
+  /// be fully replicated.
+  final DateTime? lastReplicatedTimestamp;
+
+  /// ID of the Amazon Web Services account in which the destination file system
+  /// resides.
+  final String? ownerId;
+
+  /// Amazon Resource Name (ARN) of the IAM role in the source account that allows
+  /// Amazon EFS to perform replication on its behalf. This is optional for
+  /// same-account replication and required for cross-account replication.
+  final String? roleArn;
+
+  /// Message that provides details about the <code>PAUSED</code> or
+  /// <code>ERRROR</code> state of the replication destination configuration. For
+  /// more information about replication status messages, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#restoring-backup-efsmonitoring-replication-status.html">Viewing
+  /// replication details</a> in the <i>Amazon EFS User Guide</i>.
+  final String? statusMessage;
+
+  Destination({
+    required this.fileSystemId,
+    required this.region,
+    required this.status,
+    this.lastReplicatedTimestamp,
+    this.ownerId,
+    this.roleArn,
+    this.statusMessage,
+  });
+
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      fileSystemId: (json['FileSystemId'] as String?) ?? '',
+      region: (json['Region'] as String?) ?? '',
+      status: ReplicationStatus.fromString((json['Status'] as String?) ?? ''),
+      lastReplicatedTimestamp:
+          timeStampFromJson(json['LastReplicatedTimestamp']),
+      ownerId: json['OwnerId'] as String?,
+      roleArn: json['RoleArn'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileSystemId = this.fileSystemId;
+    final region = this.region;
+    final status = this.status;
+    final lastReplicatedTimestamp = this.lastReplicatedTimestamp;
+    final ownerId = this.ownerId;
+    final roleArn = this.roleArn;
+    final statusMessage = this.statusMessage;
+    return {
+      'FileSystemId': fileSystemId,
+      'Region': region,
+      'Status': status.value,
+      if (lastReplicatedTimestamp != null)
+        'LastReplicatedTimestamp': unixTimestampToJson(lastReplicatedTimestamp),
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class ReplicationStatus {
+  static const enabled = ReplicationStatus._('ENABLED');
+  static const enabling = ReplicationStatus._('ENABLING');
+  static const deleting = ReplicationStatus._('DELETING');
+  static const error = ReplicationStatus._('ERROR');
+  static const paused = ReplicationStatus._('PAUSED');
+  static const pausing = ReplicationStatus._('PAUSING');
+
+  final String value;
+
+  const ReplicationStatus._(this.value);
+
+  static const values = [enabled, enabling, deleting, error, paused, pausing];
+
+  static ReplicationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ReplicationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ReplicationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the new or existing destination file system for the replication
+/// configuration.
+///
+/// <ul>
+/// <li>
+/// If you want to replicate to a new file system, do not specify the File
+/// System ID for the destination file system. Amazon EFS creates a new, empty
+/// file system. For One Zone storage, specify the Availability Zone to create
+/// the file system in. To use an Key Management Service key other than the
+/// default KMS key, then specify it. For more information, see <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/create-replication.html">Configuring
+/// replication to new Amazon EFS file system</a> in the <i>Amazon EFS User
+/// Guide</i>.
+/// <note>
+/// After the file system is created, you cannot change the KMS key or the
+/// performance mode.
+/// </note> </li>
+/// <li>
+/// If you want to replicate to an existing file system that's in the same
+/// account as the source file system, then you need to provide the ID or Amazon
+/// Resource Name (ARN) of the file system to which to replicate. The file
+/// system's replication overwrite protection must be disabled. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/efs-replication#replicate-existing-destination">Replicating
+/// to an existing file system</a> in the <i>Amazon EFS User Guide</i>.
+/// </li>
+/// <li>
+/// If you are replicating the file system to a file system that's in a
+/// different account than the source file system (cross-account replication),
+/// you need to provide the ARN for the file system and the IAM role that allows
+/// Amazon EFS to perform replication on the destination account. The file
+/// system's replication overwrite protection must be disabled. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/efs/latest/ug/cross-account-replication.html">Replicating
+/// across Amazon Web Services accounts</a> in the <i>Amazon EFS User Guide</i>.
+/// </li>
+/// </ul>
+class DestinationToCreate {
+  /// To create a file system that uses One Zone storage, specify the name of the
+  /// Availability Zone in which to create the destination file system.
+  final String? availabilityZoneName;
+
+  /// The ID or ARN of the file system to use for the destination. For
+  /// cross-account replication, this must be an ARN. The file system's
+  /// replication overwrite replication must be disabled. If no ID or ARN is
+  /// specified, then a new file system is created.
+  /// <note>
+  /// When you initially configure replication to an existing file system, Amazon
+  /// EFS writes data to or removes existing data from the destination file system
+  /// to match data in the source file system. If you don't want to change data in
+  /// the destination file system, then you should replicate to a new file system
+  /// instead. For more information, see <a
+  /// href="https://docs.aws.amazon.com/efs/latest/ug/create-replication.html">https://docs.aws.amazon.com/efs/latest/ug/create-replication.html</a>.
+  /// </note>
+  final String? fileSystemId;
+
+  /// Specify the Key Management Service (KMS) key that you want to use to encrypt
+  /// the destination file system. If you do not specify a KMS key, Amazon EFS
+  /// uses your default KMS key for Amazon EFS,
+  /// <code>/aws/elasticfilesystem</code>. This ID can be in one of the following
+  /// formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ID - The unique identifier of the key, for example
+  /// <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// </li>
+  /// <li>
+  /// ARN - The ARN for the key, for example
+  /// <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.
+  /// </li>
+  /// <li>
+  /// Key alias - A previously created display name for a key, for example
+  /// <code>alias/projectKey1</code>.
+  /// </li>
+  /// <li>
+  /// Key alias ARN - The ARN for a key alias, for example
+  /// <code>arn:aws:kms:us-west-2:444455556666:alias/projectKey1</code>.
+  /// </li>
+  /// </ul>
+  final String? kmsKeyId;
+
+  /// To create a file system that uses Regional storage, specify the Amazon Web
+  /// Services Region in which to create the destination file system. The Region
+  /// must be enabled for the Amazon Web Services account that owns the source
+  /// file system. For more information, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable">Managing
+  /// Amazon Web Services Regions</a> in the <i>Amazon Web Services General
+  /// Reference Reference Guide</i>.
+  final String? region;
+
+  /// Amazon Resource Name (ARN) of the IAM role in the source account that allows
+  /// Amazon EFS to perform replication on its behalf. This is optional for
+  /// same-account replication and required for cross-account replication.
+  final String? roleArn;
+
+  DestinationToCreate({
+    this.availabilityZoneName,
+    this.fileSystemId,
+    this.kmsKeyId,
+    this.region,
+    this.roleArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final availabilityZoneName = this.availabilityZoneName;
+    final fileSystemId = this.fileSystemId;
+    final kmsKeyId = this.kmsKeyId;
+    final region = this.region;
+    final roleArn = this.roleArn;
+    return {
+      if (availabilityZoneName != null)
+        'AvailabilityZoneName': availabilityZoneName,
+      if (fileSystemId != null) 'FileSystemId': fileSystemId,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (region != null) 'Region': region,
+      if (roleArn != null) 'RoleArn': roleArn,
+    };
+  }
+}
+
+class LifeCycleState {
+  static const creating = LifeCycleState._('creating');
+  static const available = LifeCycleState._('available');
+  static const updating = LifeCycleState._('updating');
+  static const deleting = LifeCycleState._('deleting');
+  static const deleted = LifeCycleState._('deleted');
+  static const error = LifeCycleState._('error');
+
+  final String value;
+
+  const LifeCycleState._(this.value);
+
+  static const values = [
+    creating,
+    available,
+    updating,
+    deleting,
+    deleted,
+    error
+  ];
+
+  static LifeCycleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifeCycleState._(value));
+
+  @override
+  bool operator ==(other) => other is LifeCycleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class IpAddressType {
+  static const ipv4Only = IpAddressType._('IPV4_ONLY');
+  static const ipv6Only = IpAddressType._('IPV6_ONLY');
+  static const dualStack = IpAddressType._('DUAL_STACK');
+
+  final String value;
+
+  const IpAddressType._(this.value);
+
+  static const values = [ipv4Only, ipv6Only, dualStack];
+
+  static IpAddressType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IpAddressType._(value));
+
+  @override
+  bool operator ==(other) => other is IpAddressType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// The latest known metered size (in bytes) of data stored in the file system,
@@ -2967,264 +3719,6 @@ class FileSystemSize {
       if (valueInArchive != null) 'ValueInArchive': valueInArchive,
       if (valueInIA != null) 'ValueInIA': valueInIA,
       if (valueInStandard != null) 'ValueInStandard': valueInStandard,
-    };
-  }
-}
-
-class LifeCycleState {
-  static const creating = LifeCycleState._('creating');
-  static const available = LifeCycleState._('available');
-  static const updating = LifeCycleState._('updating');
-  static const deleting = LifeCycleState._('deleting');
-  static const deleted = LifeCycleState._('deleted');
-  static const error = LifeCycleState._('error');
-
-  final String value;
-
-  const LifeCycleState._(this.value);
-
-  static const values = [
-    creating,
-    available,
-    updating,
-    deleting,
-    deleted,
-    error
-  ];
-
-  static LifeCycleState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LifeCycleState._(value));
-
-  @override
-  bool operator ==(other) => other is LifeCycleState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LifecycleConfigurationDescription {
-  /// An array of lifecycle management policies. EFS supports a maximum of one
-  /// policy per file system.
-  final List<LifecyclePolicy>? lifecyclePolicies;
-
-  LifecycleConfigurationDescription({
-    this.lifecyclePolicies,
-  });
-
-  factory LifecycleConfigurationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return LifecycleConfigurationDescription(
-      lifecyclePolicies: (json['LifecyclePolicies'] as List?)
-          ?.nonNulls
-          .map((e) => LifecyclePolicy.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lifecyclePolicies = this.lifecyclePolicies;
-    return {
-      if (lifecyclePolicies != null) 'LifecyclePolicies': lifecyclePolicies,
-    };
-  }
-}
-
-/// Describes a policy used by Lifecycle management that specifies when to
-/// transition files into and out of storage classes. For more information, see
-/// <a
-/// href="https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html">Managing
-/// file system storage</a>.
-/// <note>
-/// When using the <code>put-lifecycle-configuration</code> CLI command or the
-/// <code>PutLifecycleConfiguration</code> API action, Amazon EFS requires that
-/// each <code>LifecyclePolicy</code> object have only a single transition. This
-/// means that in a request body, <code>LifecyclePolicies</code> must be
-/// structured as an array of <code>LifecyclePolicy</code> objects, one object
-/// for each transition. For more information, see the request examples in
-/// <a>PutLifecycleConfiguration</a>.
-/// </note>
-class LifecyclePolicy {
-  /// The number of days after files were last accessed in primary storage (the
-  /// Standard storage class) files at which to move them to Archive storage.
-  /// Metadata operations such as listing the contents of a directory don't count
-  /// as file access events.
-  final TransitionToArchiveRules? transitionToArchive;
-
-  /// The number of days after files were last accessed in primary storage (the
-  /// Standard storage class) at which to move them to Infrequent Access (IA)
-  /// storage. Metadata operations such as listing the contents of a directory
-  /// don't count as file access events.
-  final TransitionToIARules? transitionToIA;
-
-  /// Whether to move files back to primary (Standard) storage after they are
-  /// accessed in IA or Archive storage. Metadata operations such as listing the
-  /// contents of a directory don't count as file access events.
-  final TransitionToPrimaryStorageClassRules? transitionToPrimaryStorageClass;
-
-  LifecyclePolicy({
-    this.transitionToArchive,
-    this.transitionToIA,
-    this.transitionToPrimaryStorageClass,
-  });
-
-  factory LifecyclePolicy.fromJson(Map<String, dynamic> json) {
-    return LifecyclePolicy(
-      transitionToArchive: (json['TransitionToArchive'] as String?)
-          ?.let(TransitionToArchiveRules.fromString),
-      transitionToIA: (json['TransitionToIA'] as String?)
-          ?.let(TransitionToIARules.fromString),
-      transitionToPrimaryStorageClass:
-          (json['TransitionToPrimaryStorageClass'] as String?)
-              ?.let(TransitionToPrimaryStorageClassRules.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final transitionToArchive = this.transitionToArchive;
-    final transitionToIA = this.transitionToIA;
-    final transitionToPrimaryStorageClass =
-        this.transitionToPrimaryStorageClass;
-    return {
-      if (transitionToArchive != null)
-        'TransitionToArchive': transitionToArchive.value,
-      if (transitionToIA != null) 'TransitionToIA': transitionToIA.value,
-      if (transitionToPrimaryStorageClass != null)
-        'TransitionToPrimaryStorageClass':
-            transitionToPrimaryStorageClass.value,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// <code>NextToken</code> is present if the response payload is paginated. You
-  /// can use <code>NextToken</code> in a subsequent request to fetch the next
-  /// page of access point descriptions.
-  final String? nextToken;
-
-  /// An array of the tags for the specified EFS resource.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.nextToken,
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      nextToken: json['NextToken'] as String?,
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final tags = this.tags;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Provides a description of a mount target.
-class MountTargetDescription {
-  /// The ID of the file system for which the mount target is intended.
-  final String fileSystemId;
-
-  /// Lifecycle state of the mount target.
-  final LifeCycleState lifeCycleState;
-
-  /// System-assigned mount target ID.
-  final String mountTargetId;
-
-  /// The ID of the mount target's subnet.
-  final String subnetId;
-
-  /// The unique and consistent identifier of the Availability Zone that the mount
-  /// target resides in. For example, <code>use1-az1</code> is an AZ ID for the
-  /// us-east-1 Region and it has the same location in every Amazon Web Services
-  /// account.
-  final String? availabilityZoneId;
-
-  /// The name of the Availability Zone in which the mount target is located.
-  /// Availability Zones are independently mapped to names for each Amazon Web
-  /// Services account. For example, the Availability Zone <code>us-east-1a</code>
-  /// for your Amazon Web Services account might not be the same location as
-  /// <code>us-east-1a</code> for another Amazon Web Services account.
-  final String? availabilityZoneName;
-
-  /// Address at which the file system can be mounted by using the mount target.
-  final String? ipAddress;
-
-  /// The ID of the network interface that Amazon EFS created when it created the
-  /// mount target.
-  final String? networkInterfaceId;
-
-  /// Amazon Web Services account ID that owns the resource.
-  final String? ownerId;
-
-  /// The virtual private cloud (VPC) ID that the mount target is configured in.
-  final String? vpcId;
-
-  MountTargetDescription({
-    required this.fileSystemId,
-    required this.lifeCycleState,
-    required this.mountTargetId,
-    required this.subnetId,
-    this.availabilityZoneId,
-    this.availabilityZoneName,
-    this.ipAddress,
-    this.networkInterfaceId,
-    this.ownerId,
-    this.vpcId,
-  });
-
-  factory MountTargetDescription.fromJson(Map<String, dynamic> json) {
-    return MountTargetDescription(
-      fileSystemId: (json['FileSystemId'] as String?) ?? '',
-      lifeCycleState:
-          LifeCycleState.fromString((json['LifeCycleState'] as String?) ?? ''),
-      mountTargetId: (json['MountTargetId'] as String?) ?? '',
-      subnetId: (json['SubnetId'] as String?) ?? '',
-      availabilityZoneId: json['AvailabilityZoneId'] as String?,
-      availabilityZoneName: json['AvailabilityZoneName'] as String?,
-      ipAddress: json['IpAddress'] as String?,
-      networkInterfaceId: json['NetworkInterfaceId'] as String?,
-      ownerId: json['OwnerId'] as String?,
-      vpcId: json['VpcId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fileSystemId = this.fileSystemId;
-    final lifeCycleState = this.lifeCycleState;
-    final mountTargetId = this.mountTargetId;
-    final subnetId = this.subnetId;
-    final availabilityZoneId = this.availabilityZoneId;
-    final availabilityZoneName = this.availabilityZoneName;
-    final ipAddress = this.ipAddress;
-    final networkInterfaceId = this.networkInterfaceId;
-    final ownerId = this.ownerId;
-    final vpcId = this.vpcId;
-    return {
-      'FileSystemId': fileSystemId,
-      'LifeCycleState': lifeCycleState.value,
-      'MountTargetId': mountTargetId,
-      'SubnetId': subnetId,
-      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
-      if (availabilityZoneName != null)
-        'AvailabilityZoneName': availabilityZoneName,
-      if (ipAddress != null) 'IpAddress': ipAddress,
-      if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
-      if (ownerId != null) 'OwnerId': ownerId,
-      if (vpcId != null) 'VpcId': vpcId,
     };
   }
 }
@@ -3298,255 +3792,22 @@ class PosixUser {
   }
 }
 
-class PutAccountPreferencesResponse {
-  final ResourceIdPreference? resourceIdPreference;
-
-  PutAccountPreferencesResponse({
-    this.resourceIdPreference,
-  });
-
-  factory PutAccountPreferencesResponse.fromJson(Map<String, dynamic> json) {
-    return PutAccountPreferencesResponse(
-      resourceIdPreference: json['ResourceIdPreference'] != null
-          ? ResourceIdPreference.fromJson(
-              json['ResourceIdPreference'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceIdPreference = this.resourceIdPreference;
-    return {
-      if (resourceIdPreference != null)
-        'ResourceIdPreference': resourceIdPreference,
-    };
-  }
-}
-
-/// Describes the replication configuration for a specific file system.
-class ReplicationConfigurationDescription {
-  /// Describes when the replication configuration was created.
-  final DateTime creationTime;
-
-  /// An array of destination objects. Only one destination object is supported.
-  final List<Destination> destinations;
-
-  /// The Amazon Resource Name (ARN) of the original source EFS file system in the
-  /// replication configuration.
-  final String originalSourceFileSystemArn;
-
-  /// The Amazon Resource Name (ARN) of the current source file system in the
-  /// replication configuration.
-  final String sourceFileSystemArn;
-
-  /// The ID of the source Amazon EFS file system that is being replicated.
-  final String sourceFileSystemId;
-
-  /// The Amazon Web Services Region in which the source EFS file system is
-  /// located.
-  final String sourceFileSystemRegion;
-
-  ReplicationConfigurationDescription({
-    required this.creationTime,
-    required this.destinations,
-    required this.originalSourceFileSystemArn,
-    required this.sourceFileSystemArn,
-    required this.sourceFileSystemId,
-    required this.sourceFileSystemRegion,
-  });
-
-  factory ReplicationConfigurationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return ReplicationConfigurationDescription(
-      creationTime: nonNullableTimeStampFromJson(json['CreationTime'] ?? 0),
-      destinations: ((json['Destinations'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Destination.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      originalSourceFileSystemArn:
-          (json['OriginalSourceFileSystemArn'] as String?) ?? '',
-      sourceFileSystemArn: (json['SourceFileSystemArn'] as String?) ?? '',
-      sourceFileSystemId: (json['SourceFileSystemId'] as String?) ?? '',
-      sourceFileSystemRegion: (json['SourceFileSystemRegion'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final destinations = this.destinations;
-    final originalSourceFileSystemArn = this.originalSourceFileSystemArn;
-    final sourceFileSystemArn = this.sourceFileSystemArn;
-    final sourceFileSystemId = this.sourceFileSystemId;
-    final sourceFileSystemRegion = this.sourceFileSystemRegion;
-    return {
-      'CreationTime': unixTimestampToJson(creationTime),
-      'Destinations': destinations,
-      'OriginalSourceFileSystemArn': originalSourceFileSystemArn,
-      'SourceFileSystemArn': sourceFileSystemArn,
-      'SourceFileSystemId': sourceFileSystemId,
-      'SourceFileSystemRegion': sourceFileSystemRegion,
-    };
-  }
-}
-
-class ReplicationOverwriteProtection {
-  static const enabled = ReplicationOverwriteProtection._('ENABLED');
-  static const disabled = ReplicationOverwriteProtection._('DISABLED');
-  static const replicating = ReplicationOverwriteProtection._('REPLICATING');
-
-  final String value;
-
-  const ReplicationOverwriteProtection._(this.value);
-
-  static const values = [enabled, disabled, replicating];
-
-  static ReplicationOverwriteProtection fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReplicationOverwriteProtection._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ReplicationOverwriteProtection && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ReplicationStatus {
-  static const enabled = ReplicationStatus._('ENABLED');
-  static const enabling = ReplicationStatus._('ENABLING');
-  static const deleting = ReplicationStatus._('DELETING');
-  static const error = ReplicationStatus._('ERROR');
-  static const paused = ReplicationStatus._('PAUSED');
-  static const pausing = ReplicationStatus._('PAUSING');
-
-  final String value;
-
-  const ReplicationStatus._(this.value);
-
-  static const values = [enabled, enabling, deleting, error, paused, pausing];
-
-  static ReplicationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ReplicationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ReplicationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// An EFS resource, for example a file system or a mount target.
-class Resource {
-  static const fileSystem = Resource._('FILE_SYSTEM');
-  static const mountTarget = Resource._('MOUNT_TARGET');
-
-  final String value;
-
-  const Resource._(this.value);
-
-  static const values = [fileSystem, mountTarget];
-
-  static Resource fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Resource._(value));
-
-  @override
-  bool operator ==(other) => other is Resource && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the resource type and its ID preference for the user's Amazon Web
-/// Services account, in the current Amazon Web Services Region.
-class ResourceIdPreference {
-  /// Identifies the EFS resource ID preference, either <code>LONG_ID</code> (17
-  /// characters) or <code>SHORT_ID</code> (8 characters).
-  final ResourceIdType? resourceIdType;
-
-  /// Identifies the Amazon EFS resources to which the ID preference setting
-  /// applies, <code>FILE_SYSTEM</code> and <code>MOUNT_TARGET</code>.
-  final List<Resource>? resources;
-
-  ResourceIdPreference({
-    this.resourceIdType,
-    this.resources,
-  });
-
-  factory ResourceIdPreference.fromJson(Map<String, dynamic> json) {
-    return ResourceIdPreference(
-      resourceIdType:
-          (json['ResourceIdType'] as String?)?.let(ResourceIdType.fromString),
-      resources: (json['Resources'] as List?)
-          ?.nonNulls
-          .map((e) => Resource.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceIdType = this.resourceIdType;
-    final resources = this.resources;
-    return {
-      if (resourceIdType != null) 'ResourceIdType': resourceIdType.value,
-      if (resources != null)
-        'Resources': resources.map((e) => e.value).toList(),
-    };
-  }
-}
-
-/// A preference indicating a choice to use 63bit/32bit IDs for all applicable
-/// resources.
-class ResourceIdType {
-  static const longId = ResourceIdType._('LONG_ID');
-  static const shortId = ResourceIdType._('SHORT_ID');
-
-  final String value;
-
-  const ResourceIdType._(this.value);
-
-  static const values = [longId, shortId];
-
-  static ResourceIdType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ResourceIdType._(value));
-
-  @override
-  bool operator ==(other) => other is ResourceIdType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 /// Specifies the directory on the Amazon EFS file system that the access point
 /// provides access to. The access point exposes the specified file system path
 /// as the root directory of your file system to applications using the access
 /// point. NFS clients using the access point can only access data in the access
-/// point's <code>RootDirectory</code> and it's subdirectories.
+/// point's <code>RootDirectory</code> and its subdirectories.
 class RootDirectory {
   /// (Optional) Specifies the POSIX IDs and permissions to apply to the access
-  /// point's <code>RootDirectory</code>. If the <code>RootDirectory</code> &gt;
+  /// point's <code>RootDirectory</code>. If the <code>RootDirectory</code> >
   /// <code>Path</code> specified does not exist, EFS creates the root directory
   /// using the <code>CreationInfo</code> settings when a client connects to an
   /// access point. When specifying the <code>CreationInfo</code>, you must
   /// provide values for all properties.
   /// <important>
   /// If you do not provide <code>CreationInfo</code> and the specified
-  /// <code>RootDirectory</code> &gt; <code>Path</code> does not exist, attempts
-  /// to mount the file system using the access point will fail.
+  /// <code>RootDirectory</code> > <code>Path</code> does not exist, attempts to
+  /// mount the file system using the access point will fail.
   /// </important>
   final CreationInfo? creationInfo;
 
@@ -3580,195 +3841,60 @@ class RootDirectory {
   }
 }
 
-class Status {
-  static const enabled = Status._('ENABLED');
-  static const enabling = Status._('ENABLING');
-  static const disabled = Status._('DISABLED');
-  static const disabling = Status._('DISABLING');
+/// Required if the <code>RootDirectory</code> > <code>Path</code> specified
+/// does not exist. Specifies the POSIX IDs and permissions to apply to the
+/// access point's <code>RootDirectory</code> > <code>Path</code>. If the access
+/// point root directory does not exist, EFS creates it with these settings when
+/// a client connects to the access point. When specifying
+/// <code>CreationInfo</code>, you must include values for all properties.
+///
+/// Amazon EFS creates a root directory only if you have provided the
+/// CreationInfo: OwnUid, OwnGID, and permissions for the directory. If you do
+/// not provide this information, Amazon EFS does not create the root directory.
+/// If the root directory does not exist, attempts to mount using the access
+/// point will fail.
+/// <important>
+/// If you do not provide <code>CreationInfo</code> and the specified
+/// <code>RootDirectory</code> does not exist, attempts to mount the file system
+/// using the access point will fail.
+/// </important>
+class CreationInfo {
+  /// Specifies the POSIX group ID to apply to the <code>RootDirectory</code>.
+  /// Accepts values from 0 to 2^32 (4294967295).
+  final int ownerGid;
 
-  final String value;
+  /// Specifies the POSIX user ID to apply to the <code>RootDirectory</code>.
+  /// Accepts values from 0 to 2^32 (4294967295).
+  final int ownerUid;
 
-  const Status._(this.value);
+  /// Specifies the POSIX permissions to apply to the <code>RootDirectory</code>,
+  /// in the format of an octal number representing the file's mode bits.
+  final String permissions;
 
-  static const values = [enabled, enabling, disabled, disabling];
-
-  static Status fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Status._(value));
-
-  @override
-  bool operator ==(other) => other is Status && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A tag is a key-value pair. Allowed characters are letters, white space, and
-/// numbers that can be represented in UTF-8, and the following
-/// characters:<code> + - = . _ : /</code>.
-class Tag {
-  /// The tag key (String). The key can't start with <code>aws:</code>.
-  final String key;
-
-  /// The value of the tag key.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
+  CreationInfo({
+    required this.ownerGid,
+    required this.ownerUid,
+    required this.permissions,
   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
+  factory CreationInfo.fromJson(Map<String, dynamic> json) {
+    return CreationInfo(
+      ownerGid: (json['OwnerGid'] as int?) ?? 0,
+      ownerUid: (json['OwnerUid'] as int?) ?? 0,
+      permissions: (json['Permissions'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
+    final ownerGid = this.ownerGid;
+    final ownerUid = this.ownerUid;
+    final permissions = this.permissions;
     return {
-      'Key': key,
-      'Value': value,
+      'OwnerGid': ownerGid,
+      'OwnerUid': ownerUid,
+      'Permissions': permissions,
     };
   }
-}
-
-class ThroughputMode {
-  static const bursting = ThroughputMode._('bursting');
-  static const provisioned = ThroughputMode._('provisioned');
-  static const elastic = ThroughputMode._('elastic');
-
-  final String value;
-
-  const ThroughputMode._(this.value);
-
-  static const values = [bursting, provisioned, elastic];
-
-  static ThroughputMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ThroughputMode._(value));
-
-  @override
-  bool operator ==(other) => other is ThroughputMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TransitionToArchiveRules {
-  static const after_1Day = TransitionToArchiveRules._('AFTER_1_DAY');
-  static const after_7Days = TransitionToArchiveRules._('AFTER_7_DAYS');
-  static const after_14Days = TransitionToArchiveRules._('AFTER_14_DAYS');
-  static const after_30Days = TransitionToArchiveRules._('AFTER_30_DAYS');
-  static const after_60Days = TransitionToArchiveRules._('AFTER_60_DAYS');
-  static const after_90Days = TransitionToArchiveRules._('AFTER_90_DAYS');
-  static const after_180Days = TransitionToArchiveRules._('AFTER_180_DAYS');
-  static const after_270Days = TransitionToArchiveRules._('AFTER_270_DAYS');
-  static const after_365Days = TransitionToArchiveRules._('AFTER_365_DAYS');
-
-  final String value;
-
-  const TransitionToArchiveRules._(this.value);
-
-  static const values = [
-    after_1Day,
-    after_7Days,
-    after_14Days,
-    after_30Days,
-    after_60Days,
-    after_90Days,
-    after_180Days,
-    after_270Days,
-    after_365Days
-  ];
-
-  static TransitionToArchiveRules fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TransitionToArchiveRules._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TransitionToArchiveRules && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TransitionToIARules {
-  static const after_7Days = TransitionToIARules._('AFTER_7_DAYS');
-  static const after_14Days = TransitionToIARules._('AFTER_14_DAYS');
-  static const after_30Days = TransitionToIARules._('AFTER_30_DAYS');
-  static const after_60Days = TransitionToIARules._('AFTER_60_DAYS');
-  static const after_90Days = TransitionToIARules._('AFTER_90_DAYS');
-  static const after_1Day = TransitionToIARules._('AFTER_1_DAY');
-  static const after_180Days = TransitionToIARules._('AFTER_180_DAYS');
-  static const after_270Days = TransitionToIARules._('AFTER_270_DAYS');
-  static const after_365Days = TransitionToIARules._('AFTER_365_DAYS');
-
-  final String value;
-
-  const TransitionToIARules._(this.value);
-
-  static const values = [
-    after_7Days,
-    after_14Days,
-    after_30Days,
-    after_60Days,
-    after_90Days,
-    after_1Day,
-    after_180Days,
-    after_270Days,
-    after_365Days
-  ];
-
-  static TransitionToIARules fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TransitionToIARules._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TransitionToIARules && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TransitionToPrimaryStorageClassRules {
-  static const after_1Access =
-      TransitionToPrimaryStorageClassRules._('AFTER_1_ACCESS');
-
-  final String value;
-
-  const TransitionToPrimaryStorageClassRules._(this.value);
-
-  static const values = [after_1Access];
-
-  static TransitionToPrimaryStorageClassRules fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TransitionToPrimaryStorageClassRules._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TransitionToPrimaryStorageClassRules && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AccessPointAlreadyExists extends _s.GenericAwsException {

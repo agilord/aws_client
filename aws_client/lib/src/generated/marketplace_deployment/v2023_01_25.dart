@@ -25,8 +25,8 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// Quick Launch simplifies and reduces the time, resources, and steps required
 /// to configure, deploy, and launch a products. The AWS Marketplace Deployment
 /// Service provides sellers with a secure method for passing deployment
-/// parameters (for example, API keys and external IDs) to buyers during the
-/// Quick Launch experience.
+/// parameters, such as API keys and external IDs, to buyers during the Quick
+/// Launch experience.
 class MarketplaceDeployment {
   final _s.RestJsonProtocol _protocol;
   MarketplaceDeployment({
@@ -58,11 +58,11 @@ class MarketplaceDeployment {
 
   /// Lists all tags that have been added to a deployment parameter resource.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) associated with the deployment parameter
@@ -79,23 +79,85 @@ class MarketplaceDeployment {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// Tags a resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) associated with the resource you want to
+  /// tag.
+  ///
+  /// Parameter [tags] :
+  /// A map of key-value pairs, where each pair represents a tag present on the
+  /// resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes a tag or list of tags from a resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) associated with the resource you want to
+  /// remove the tag from.
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of key names of tags to be removed.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Creates or updates a deployment parameter and is targeted by
   /// <code>catalog</code> and <code>agreementId</code>.
   ///
-  /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [agreementId] :
   /// The unique identifier of the agreement.
   ///
   /// Parameter [catalog] :
-  /// The catalog related to the request. Fixed value: <code>AWS
-  /// Marketplace</code>
+  /// The catalog related to the request. Fixed value:
+  /// <code>AWSMarketplace</code>
   ///
   /// Parameter [deploymentParameter] :
   /// The deployment parameter targeted to the acceptor of an agreement for
@@ -108,6 +170,10 @@ class MarketplaceDeployment {
   /// Parameter [clientToken] :
   /// The idempotency token for deployment parameters. A unique identifier for
   /// the new version.
+  /// <note>
+  /// This field is not required if you're calling using an AWS SDK. Otherwise,
+  /// a <code>clientToken</code> must be provided with the request.
+  /// </note>
   ///
   /// Parameter [expirationDate] :
   /// The date when deployment parameters expire and are scheduled for deletion.
@@ -142,95 +208,6 @@ class MarketplaceDeployment {
     );
     return PutDeploymentParameterResponse.fromJson(response);
   }
-
-  /// Tags a resource.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) associated with the resource you want to
-  /// tag.
-  ///
-  /// Parameter [tags] :
-  /// A map of key-value pairs, where each pair represents a tag present on the
-  /// resource.
-  Future<void> tagResource({
-    required String resourceArn,
-    Map<String, String>? tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      if (tags != null) 'tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Removes a tag or list of tags from a resource.
-  ///
-  /// May throw [ThrottlingException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) associated with the resource you want to
-  /// remove the tag from.
-  ///
-  /// Parameter [tagKeys] :
-  /// A list of key names of tags to be removed.
-  Future<void> untagResource({
-    required String resourceArn,
-    required List<String> tagKeys,
-  }) async {
-    final $query = <String, List<String>>{
-      'tagKeys': tagKeys,
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-}
-
-/// The shape containing the requested deployment parameter name and
-/// secretString.
-class DeploymentParameterInput {
-  /// The desired name of the deployment parameter. This is the identifier on
-  /// which deployment parameters are keyed for a given buyer and product. If this
-  /// name matches an existing deployment parameter, this request will update the
-  /// existing resource.
-  final String name;
-
-  /// The text to encrypt and store in the secret.
-  final String secretString;
-
-  DeploymentParameterInput({
-    required this.name,
-    required this.secretString,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final secretString = this.secretString;
-    return {
-      'name': name,
-      'secretString': secretString,
-    };
-  }
 }
 
 class ListTagsForResourceResponse {
@@ -254,6 +231,30 @@ class ListTagsForResourceResponse {
     return {
       if (tags != null) 'tags': tags,
     };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -304,27 +305,35 @@ class PutDeploymentParameterResponse {
   }
 }
 
-class TagResourceResponse {
-  TagResourceResponse();
+/// The shape containing the requested deployment parameter name and
+/// secretString.
+/// <note>
+/// To support AWS CloudFormation dynamic references to this resource using
+/// Quick Launch, this value must match a parameter defined in the
+/// CloudFormation templated provided to buyers.
+/// </note>
+class DeploymentParameterInput {
+  /// The desired name of the deployment parameter. This is the identifier on
+  /// which deployment parameters are keyed for a given buyer and product. If this
+  /// name matches an existing deployment parameter, this request will update the
+  /// existing resource.
+  final String name;
 
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
+  /// The text to encrypt and store in the secret.
+  final String secretString;
+
+  DeploymentParameterInput({
+    required this.name,
+    required this.secretString,
+  });
 
   Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
+    final name = this.name;
+    final secretString = this.secretString;
+    return {
+      'name': name,
+      'secretString': secretString,
+    };
   }
 }
 

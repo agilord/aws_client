@@ -47,7 +47,6 @@ class SimSpaceWeaver {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'simspaceweaver',
-            signingName: 'simspaceweaver',
           ),
           region: region,
           credentials: credentials,
@@ -62,299 +61,6 @@ class SimSpaceWeaver {
   /// do so can cause the Dart process to hang.
   void close() {
     _protocol.close();
-  }
-
-  /// Creates a snapshot of the specified simulation. A snapshot is a file that
-  /// contains simulation state data at a specific time. The state data saved in
-  /// a snapshot includes entity data from the State Fabric, the simulation
-  /// configuration specified in the schema, and the clock tick number. You can
-  /// use the snapshot to initialize a new simulation. For more information
-  /// about snapshots, see <a
-  /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html">Snapshots</a>
-  /// in the <i>SimSpace Weaver User Guide</i>.
-  ///
-  /// You specify a <code>Destination</code> when you create a snapshot. The
-  /// <code>Destination</code> is the name of an Amazon S3 bucket and an
-  /// optional <code>ObjectKeyPrefix</code>. The <code>ObjectKeyPrefix</code> is
-  /// usually the name of a folder in the bucket. SimSpace Weaver creates a
-  /// <code>snapshot</code> folder inside the <code>Destination</code> and
-  /// places the snapshot file there.
-  ///
-  /// The snapshot file is an Amazon S3 object. It has an object key with the
-  /// form: <code>
-  /// <i>object-key-prefix</i>/snapshot/<i>simulation-name</i>-<i>YYMMdd</i>-<i>HHmm</i>-<i>ss</i>.zip</code>,
-  /// where:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code> <i>YY</i> </code> is the 2-digit year
-  /// </li>
-  /// <li>
-  /// <code> <i>MM</i> </code> is the 2-digit month
-  /// </li>
-  /// <li>
-  /// <code> <i>dd</i> </code> is the 2-digit day of the month
-  /// </li>
-  /// <li>
-  /// <code> <i>HH</i> </code> is the 2-digit hour (24-hour clock)
-  /// </li>
-  /// <li>
-  /// <code> <i>mm</i> </code> is the 2-digit minutes
-  /// </li>
-  /// <li>
-  /// <code> <i>ss</i> </code> is the 2-digit seconds
-  /// </li>
-  /// </ul>
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [destination] :
-  /// The Amazon S3 bucket and optional folder (object key prefix) where
-  /// SimSpace Weaver creates the snapshot file.
-  ///
-  /// The Amazon S3 bucket must be in the same Amazon Web Services Region as the
-  /// simulation.
-  ///
-  /// Parameter [simulation] :
-  /// The name of the simulation.
-  Future<void> createSnapshot({
-    required S3Destination destination,
-    required String simulation,
-  }) async {
-    final $payload = <String, dynamic>{
-      'Destination': destination,
-      'Simulation': simulation,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/createsnapshot',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes the instance of the given custom app.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [app] :
-  /// The name of the app.
-  ///
-  /// Parameter [domain] :
-  /// The name of the domain of the app.
-  ///
-  /// Parameter [simulation] :
-  /// The name of the simulation of the app.
-  Future<void> deleteApp({
-    required String app,
-    required String domain,
-    required String simulation,
-  }) async {
-    final $query = <String, List<String>>{
-      'app': [app],
-      'domain': [domain],
-      'simulation': [simulation],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/deleteapp',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Deletes all SimSpace Weaver resources assigned to the given simulation.
-  /// <note>
-  /// Your simulation uses resources in other Amazon Web Services. This API
-  /// operation doesn't delete resources in other Amazon Web Services.
-  /// </note>
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [simulation] :
-  /// The name of the simulation.
-  Future<void> deleteSimulation({
-    required String simulation,
-  }) async {
-    final $query = <String, List<String>>{
-      'simulation': [simulation],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/deletesimulation',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Returns the state of the given custom app.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [app] :
-  /// The name of the app.
-  ///
-  /// Parameter [domain] :
-  /// The name of the domain of the app.
-  ///
-  /// Parameter [simulation] :
-  /// The name of the simulation of the app.
-  Future<DescribeAppOutput> describeApp({
-    required String app,
-    required String domain,
-    required String simulation,
-  }) async {
-    final $query = <String, List<String>>{
-      'app': [app],
-      'domain': [domain],
-      'simulation': [simulation],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/describeapp',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return DescribeAppOutput.fromJson(response);
-  }
-
-  /// Returns the current state of the given simulation.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [simulation] :
-  /// The name of the simulation.
-  Future<DescribeSimulationOutput> describeSimulation({
-    required String simulation,
-  }) async {
-    final $query = <String, List<String>>{
-      'simulation': [simulation],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/describesimulation',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return DescribeSimulationOutput.fromJson(response);
-  }
-
-  /// Lists all custom apps or service apps for the given simulation and domain.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [simulation] :
-  /// The name of the simulation that you want to list apps for.
-  ///
-  /// Parameter [domain] :
-  /// The name of the domain that you want to list apps for.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of apps to list.
-  ///
-  /// Parameter [nextToken] :
-  /// If SimSpace Weaver returns <code>nextToken</code>, then there are more
-  /// results available. The value of <code>nextToken</code> is a unique
-  /// pagination token for each page. To retrieve the next page, call the
-  /// operation again using the returned token. Keep all other arguments
-  /// unchanged. If no results remain, then <code>nextToken</code> is set to
-  /// <code>null</code>. Each pagination token expires after 24 hours. If you
-  /// provide a token that isn't valid, then you receive an <i>HTTP 400
-  /// ValidationException</i> error.
-  Future<ListAppsOutput> listApps({
-    required String simulation,
-    String? domain,
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    final $query = <String, List<String>>{
-      'simulation': [simulation],
-      if (domain != null) 'domain': [domain],
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/listapps',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListAppsOutput.fromJson(response);
-  }
-
-  /// Lists the SimSpace Weaver simulations in the Amazon Web Services account
-  /// used to make the API call.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of simulations to list.
-  ///
-  /// Parameter [nextToken] :
-  /// If SimSpace Weaver returns <code>nextToken</code>, then there are more
-  /// results available. The value of <code>nextToken</code> is a unique
-  /// pagination token for each page. To retrieve the next page, call the
-  /// operation again using the returned token. Keep all other arguments
-  /// unchanged. If no results remain, then <code>nextToken</code> is set to
-  /// <code>null</code>. Each pagination token expires after 24 hours. If you
-  /// provide a token that isn't valid, then you receive an <i>HTTP 400
-  /// ValidationException</i> error.
-  Future<ListSimulationsOutput> listSimulations({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      1152921504606846976,
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'maxResults': [maxResults.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/listsimulations',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListSimulationsOutput.fromJson(response);
   }
 
   /// Lists all tags on a SimSpace Weaver resource.
@@ -380,77 +86,70 @@ class SimSpaceWeaver {
     return ListTagsForResourceOutput.fromJson(response);
   }
 
-  /// Starts a custom app with the configuration specified in the simulation
-  /// schema.
-  ///
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [domain] :
-  /// The name of the domain of the app.
-  ///
-  /// Parameter [name] :
-  /// The name of the app.
-  ///
-  /// Parameter [simulation] :
-  /// The name of the simulation of the app.
-  ///
-  /// Parameter [clientToken] :
-  /// A value that you provide to ensure that repeated calls to this API
-  /// operation using the same parameters complete only once. A
-  /// <code>ClientToken</code> is also known as an <i>idempotency token</i>. A
-  /// <code>ClientToken</code> expires after 24 hours.
-  ///
-  /// Parameter [description] :
-  /// The description of the app.
-  Future<StartAppOutput> startApp({
-    required String domain,
-    required String name,
-    required String simulation,
-    String? clientToken,
-    String? description,
-    LaunchOverrides? launchOverrides,
-  }) async {
-    final $payload = <String, dynamic>{
-      'Domain': domain,
-      'Name': name,
-      'Simulation': simulation,
-      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
-      if (description != null) 'Description': description,
-      if (launchOverrides != null) 'LaunchOverrides': launchOverrides,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/startapp',
-      exceptionFnMap: _exceptionFns,
-    );
-    return StartAppOutput.fromJson(response);
-  }
-
-  /// Starts the simulation clock.
+  /// Adds tags to a SimSpace Weaver resource. For more information about tags,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
+  /// May throw [TooManyTagsException].
   /// May throw [ValidationException].
-  /// May throw [ConflictException].
   ///
-  /// Parameter [simulation] :
-  /// The name of the simulation.
-  Future<void> startClock({
-    required String simulation,
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to add tags
+  /// to. For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags to apply to the resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     final $payload = <String, dynamic>{
-      'Simulation': simulation,
+      'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/startclock',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes tags from a SimSpace Weaver resource. For more information about
+  /// tags, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
+  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to remove
+  /// tags from. For more information about ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of tag keys to remove from the resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -464,11 +163,11 @@ class SimSpaceWeaver {
   /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html">Snapshots</a>
   /// in the <i>SimSpace Weaver User Guide</i>.
   ///
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the simulation.
@@ -562,14 +261,411 @@ class SimSpaceWeaver {
     return StartSimulationOutput.fromJson(response);
   }
 
+  /// Returns the current state of the given simulation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation.
+  Future<DescribeSimulationOutput> describeSimulation({
+    required String simulation,
+  }) async {
+    final $query = <String, List<String>>{
+      'simulation': [simulation],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/describesimulation',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeSimulationOutput.fromJson(response);
+  }
+
+  /// Stops the given simulation.
+  /// <important>
+  /// You can't restart a simulation after you stop it. If you want to restart a
+  /// simulation, then you must stop it, delete it, and start a new instance of
+  /// it.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation.
+  Future<void> stopSimulation({
+    required String simulation,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Simulation': simulation,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/stopsimulation',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes all SimSpace Weaver resources assigned to the given simulation.
+  /// <note>
+  /// Your simulation uses resources in other Amazon Web Services. This API
+  /// operation doesn't delete resources in other Amazon Web Services.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation.
+  Future<void> deleteSimulation({
+    required String simulation,
+  }) async {
+    final $query = <String, List<String>>{
+      'simulation': [simulation],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/deletesimulation',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Lists the SimSpace Weaver simulations in the Amazon Web Services account
+  /// used to make the API call.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of simulations to list.
+  ///
+  /// Parameter [nextToken] :
+  /// If SimSpace Weaver returns <code>nextToken</code>, then there are more
+  /// results available. The value of <code>nextToken</code> is a unique
+  /// pagination token for each page. To retrieve the next page, call the
+  /// operation again using the returned token. Keep all other arguments
+  /// unchanged. If no results remain, then <code>nextToken</code> is set to
+  /// <code>null</code>. Each pagination token expires after 24 hours. If you
+  /// provide a token that isn't valid, then you receive an <i>HTTP 400
+  /// ValidationException</i> error.
+  Future<ListSimulationsOutput> listSimulations({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/listsimulations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSimulationsOutput.fromJson(response);
+  }
+
+  /// Creates a snapshot of the specified simulation. A snapshot is a file that
+  /// contains simulation state data at a specific time. The state data saved in
+  /// a snapshot includes entity data from the State Fabric, the simulation
+  /// configuration specified in the schema, and the clock tick number. You can
+  /// use the snapshot to initialize a new simulation. For more information
+  /// about snapshots, see <a
+  /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html">Snapshots</a>
+  /// in the <i>SimSpace Weaver User Guide</i>.
+  ///
+  /// You specify a <code>Destination</code> when you create a snapshot. The
+  /// <code>Destination</code> is the name of an Amazon S3 bucket and an
+  /// optional <code>ObjectKeyPrefix</code>. The <code>ObjectKeyPrefix</code> is
+  /// usually the name of a folder in the bucket. SimSpace Weaver creates a
+  /// <code>snapshot</code> folder inside the <code>Destination</code> and
+  /// places the snapshot file there.
+  ///
+  /// The snapshot file is an Amazon S3 object. It has an object key with the
+  /// form: <code>
+  /// <i>object-key-prefix</i>/snapshot/<i>simulation-name</i>-<i>YYMMdd</i>-<i>HHmm</i>-<i>ss</i>.zip</code>,
+  /// where:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code> <i>YY</i> </code> is the 2-digit year
+  /// </li>
+  /// <li>
+  /// <code> <i>MM</i> </code> is the 2-digit month
+  /// </li>
+  /// <li>
+  /// <code> <i>dd</i> </code> is the 2-digit day of the month
+  /// </li>
+  /// <li>
+  /// <code> <i>HH</i> </code> is the 2-digit hour (24-hour clock)
+  /// </li>
+  /// <li>
+  /// <code> <i>mm</i> </code> is the 2-digit minutes
+  /// </li>
+  /// <li>
+  /// <code> <i>ss</i> </code> is the 2-digit seconds
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [destination] :
+  /// The Amazon S3 bucket and optional folder (object key prefix) where
+  /// SimSpace Weaver creates the snapshot file.
+  ///
+  /// The Amazon S3 bucket must be in the same Amazon Web Services Region as the
+  /// simulation.
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation.
+  Future<void> createSnapshot({
+    required S3Destination destination,
+    required String simulation,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Destination': destination,
+      'Simulation': simulation,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/createsnapshot',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the instance of the given custom app.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [app] :
+  /// The name of the app.
+  ///
+  /// Parameter [domain] :
+  /// The name of the domain of the app.
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation of the app.
+  Future<void> deleteApp({
+    required String app,
+    required String domain,
+    required String simulation,
+  }) async {
+    final $query = <String, List<String>>{
+      'app': [app],
+      'domain': [domain],
+      'simulation': [simulation],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/deleteapp',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Returns the state of the given custom app.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [app] :
+  /// The name of the app.
+  ///
+  /// Parameter [domain] :
+  /// The name of the domain of the app.
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation of the app.
+  Future<DescribeAppOutput> describeApp({
+    required String app,
+    required String domain,
+    required String simulation,
+  }) async {
+    final $query = <String, List<String>>{
+      'app': [app],
+      'domain': [domain],
+      'simulation': [simulation],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/describeapp',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAppOutput.fromJson(response);
+  }
+
+  /// Lists all custom apps or service apps for the given simulation and domain.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation that you want to list apps for.
+  ///
+  /// Parameter [domain] :
+  /// The name of the domain that you want to list apps for.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of apps to list.
+  ///
+  /// Parameter [nextToken] :
+  /// If SimSpace Weaver returns <code>nextToken</code>, then there are more
+  /// results available. The value of <code>nextToken</code> is a unique
+  /// pagination token for each page. To retrieve the next page, call the
+  /// operation again using the returned token. Keep all other arguments
+  /// unchanged. If no results remain, then <code>nextToken</code> is set to
+  /// <code>null</code>. Each pagination token expires after 24 hours. If you
+  /// provide a token that isn't valid, then you receive an <i>HTTP 400
+  /// ValidationException</i> error.
+  Future<ListAppsOutput> listApps({
+    required String simulation,
+    String? domain,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    final $query = <String, List<String>>{
+      'simulation': [simulation],
+      if (domain != null) 'domain': [domain],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/listapps',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAppsOutput.fromJson(response);
+  }
+
+  /// Starts a custom app with the configuration specified in the simulation
+  /// schema.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domain] :
+  /// The name of the domain of the app.
+  ///
+  /// Parameter [name] :
+  /// The name of the app.
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation of the app.
+  ///
+  /// Parameter [clientToken] :
+  /// A value that you provide to ensure that repeated calls to this API
+  /// operation using the same parameters complete only once. A
+  /// <code>ClientToken</code> is also known as an <i>idempotency token</i>. A
+  /// <code>ClientToken</code> expires after 24 hours.
+  ///
+  /// Parameter [description] :
+  /// The description of the app.
+  Future<StartAppOutput> startApp({
+    required String domain,
+    required String name,
+    required String simulation,
+    String? clientToken,
+    String? description,
+    LaunchOverrides? launchOverrides,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Domain': domain,
+      'Name': name,
+      'Simulation': simulation,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (launchOverrides != null) 'LaunchOverrides': launchOverrides,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/startapp',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartAppOutput.fromJson(response);
+  }
+
+  /// Starts the simulation clock.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [simulation] :
+  /// The name of the simulation.
+  Future<void> startClock({
+    required String simulation,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Simulation': simulation,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/startclock',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Stops the given custom app and shuts down all of its allocated compute
   /// resources.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [app] :
   /// The name of the app.
@@ -599,11 +695,11 @@ class SimSpaceWeaver {
 
   /// Stops the simulation clock.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
   /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [simulation] :
   /// The name of the simulation.
@@ -620,195 +716,36 @@ class SimSpaceWeaver {
       exceptionFnMap: _exceptionFns,
     );
   }
-
-  /// Stops the given simulation.
-  /// <important>
-  /// You can't restart a simulation after you stop it. If you want to restart a
-  /// simulation, then you must stop it, delete it, and start a new instance of
-  /// it.
-  /// </important>
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
-  /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
-  /// May throw [ConflictException].
-  ///
-  /// Parameter [simulation] :
-  /// The name of the simulation.
-  Future<void> stopSimulation({
-    required String simulation,
-  }) async {
-    final $payload = <String, dynamic>{
-      'Simulation': simulation,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/stopsimulation',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Adds tags to a SimSpace Weaver resource. For more information about tags,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  ///
-  /// May throw [TooManyTagsException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource that you want to add tags
-  /// to. For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  ///
-  /// Parameter [tags] :
-  /// A list of tags to apply to the resource.
-  Future<void> tagResource({
-    required String resourceArn,
-    required Map<String, String> tags,
-  }) async {
-    final $payload = <String, dynamic>{
-      'Tags': tags,
-    };
-    final response = await _protocol.send(
-      payload: $payload,
-      method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      exceptionFnMap: _exceptionFns,
-    );
-  }
-
-  /// Removes tags from a SimSpace Weaver resource. For more information about
-  /// tags, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html">Tagging
-  /// Amazon Web Services resources</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  ///
-  /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) of the resource that you want to remove
-  /// tags from. For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  ///
-  /// Parameter [tagKeys] :
-  /// A list of tag keys to remove from the resource.
-  Future<void> untagResource({
-    required String resourceArn,
-    required List<String> tagKeys,
-  }) async {
-    final $query = <String, List<String>>{
-      'tagKeys': tagKeys,
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-  }
 }
 
-class ClockStatus {
-  static const unknown = ClockStatus._('UNKNOWN');
-  static const starting = ClockStatus._('STARTING');
-  static const started = ClockStatus._('STARTED');
-  static const stopping = ClockStatus._('STOPPING');
-  static const stopped = ClockStatus._('STOPPED');
+class ListTagsForResourceOutput {
+  /// The list of tags for the resource.
+  final Map<String, String>? tags;
 
-  final String value;
-
-  const ClockStatus._(this.value);
-
-  static const values = [unknown, starting, started, stopping, stopped];
-
-  static ClockStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ClockStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ClockStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ClockTargetStatus {
-  static const unknown = ClockTargetStatus._('UNKNOWN');
-  static const started = ClockTargetStatus._('STARTED');
-  static const stopped = ClockTargetStatus._('STOPPED');
-
-  final String value;
-
-  const ClockTargetStatus._(this.value);
-
-  static const values = [unknown, started, stopped];
-
-  static ClockTargetStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ClockTargetStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ClockTargetStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The Amazon CloudWatch Logs log group for the simulation. For more
-/// information about log groups, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
-/// with log groups and log streams</a> in the <i>Amazon CloudWatch Logs User
-/// Guide</i>.
-class CloudWatchLogsLogGroup {
-  /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log group for
-  /// the simulation. For more information about ARNs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i>. For more information about log groups, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
-  /// with log groups and log streams</a> in the <i>Amazon CloudWatch Logs User
-  /// Guide</i>.
-  final String? logGroupArn;
-
-  CloudWatchLogsLogGroup({
-    this.logGroupArn,
+  ListTagsForResourceOutput({
+    this.tags,
   });
 
-  factory CloudWatchLogsLogGroup.fromJson(Map<String, dynamic> json) {
-    return CloudWatchLogsLogGroup(
-      logGroupArn: json['LogGroupArn'] as String?,
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final logGroupArn = this.logGroupArn;
+    final tags = this.tags;
     return {
-      if (logGroupArn != null) 'LogGroupArn': logGroupArn,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
 
-class CreateSnapshotOutput {
-  CreateSnapshotOutput();
+class TagResourceOutput {
+  TagResourceOutput();
 
-  factory CreateSnapshotOutput.fromJson(Map<String, dynamic> _) {
-    return CreateSnapshotOutput();
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
   }
 
   Map<String, dynamic> toJson() {
@@ -816,11 +753,11 @@ class CreateSnapshotOutput {
   }
 }
 
-class DeleteAppOutput {
-  DeleteAppOutput();
+class UntagResourceOutput {
+  UntagResourceOutput();
 
-  factory DeleteAppOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteAppOutput();
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
   }
 
   Map<String, dynamic> toJson() {
@@ -828,91 +765,44 @@ class DeleteAppOutput {
   }
 }
 
-class DeleteSimulationOutput {
-  DeleteSimulationOutput();
+class StartSimulationOutput {
+  /// The Amazon Resource Name (ARN) of the simulation. For more information about
+  /// ARNs, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? arn;
 
-  factory DeleteSimulationOutput.fromJson(Map<String, dynamic> _) {
-    return DeleteSimulationOutput();
-  }
+  /// The time when the simulation was created, expressed as the number of seconds
+  /// and milliseconds in UTC since the Unix epoch (0:0:0.000, January 1, 1970).
+  final DateTime? creationTime;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// A universally unique identifier (UUID) for this simulation.
+  final String? executionId;
 
-class DescribeAppOutput {
-  /// The description of the app.
-  final String? description;
-
-  /// The name of the domain of the app.
-  final String? domain;
-
-  /// Information about the network endpoint for the custom app. You can use the
-  /// endpoint to connect to the custom app.
-  final SimulationAppEndpointInfo? endpointInfo;
-  final LaunchOverrides? launchOverrides;
-
-  /// The name of the app.
-  final String? name;
-
-  /// The name of the simulation of the app.
-  final String? simulation;
-
-  /// The current lifecycle state of the custom app.
-  final SimulationAppStatus? status;
-
-  /// The desired lifecycle state of the custom app.
-  final SimulationAppTargetStatus? targetStatus;
-
-  DescribeAppOutput({
-    this.description,
-    this.domain,
-    this.endpointInfo,
-    this.launchOverrides,
-    this.name,
-    this.simulation,
-    this.status,
-    this.targetStatus,
+  StartSimulationOutput({
+    this.arn,
+    this.creationTime,
+    this.executionId,
   });
 
-  factory DescribeAppOutput.fromJson(Map<String, dynamic> json) {
-    return DescribeAppOutput(
-      description: json['Description'] as String?,
-      domain: json['Domain'] as String?,
-      endpointInfo: json['EndpointInfo'] != null
-          ? SimulationAppEndpointInfo.fromJson(
-              json['EndpointInfo'] as Map<String, dynamic>)
-          : null,
-      launchOverrides: json['LaunchOverrides'] != null
-          ? LaunchOverrides.fromJson(
-              json['LaunchOverrides'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-      simulation: json['Simulation'] as String?,
-      status: (json['Status'] as String?)?.let(SimulationAppStatus.fromString),
-      targetStatus: (json['TargetStatus'] as String?)
-          ?.let(SimulationAppTargetStatus.fromString),
+  factory StartSimulationOutput.fromJson(Map<String, dynamic> json) {
+    return StartSimulationOutput(
+      arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      executionId: json['ExecutionId'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final description = this.description;
-    final domain = this.domain;
-    final endpointInfo = this.endpointInfo;
-    final launchOverrides = this.launchOverrides;
-    final name = this.name;
-    final simulation = this.simulation;
-    final status = this.status;
-    final targetStatus = this.targetStatus;
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final executionId = this.executionId;
     return {
-      if (description != null) 'Description': description,
-      if (domain != null) 'Domain': domain,
-      if (endpointInfo != null) 'EndpointInfo': endpointInfo,
-      if (launchOverrides != null) 'LaunchOverrides': launchOverrides,
-      if (name != null) 'Name': name,
-      if (simulation != null) 'Simulation': simulation,
-      if (status != null) 'Status': status.value,
-      if (targetStatus != null) 'TargetStatus': targetStatus.value,
+      if (arn != null) 'Arn': arn,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (executionId != null) 'ExecutionId': executionId,
     };
   }
 }
@@ -1074,152 +964,27 @@ class DescribeSimulationOutput {
   }
 }
 
-/// A collection of app instances that run the same executable app code and have
-/// the same launch options and commands.
-///
-/// For more information about domains, see <a
-/// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains">Key
-/// concepts: Domains</a> in the <i>SimSpace Weaver User Guide</i>.
-class Domain {
-  /// The type of lifecycle management for apps in the domain. Indicates whether
-  /// apps in this domain are <i>managed</i> (SimSpace Weaver starts and stops the
-  /// apps) or <i>unmanaged</i> (you must start and stop the apps).
-  /// <p class="title"> <b>Lifecycle types</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>PerWorker</code> – Managed: SimSpace Weaver starts one app on each
-  /// worker.
-  /// </li>
-  /// <li>
-  /// <code>BySpatialSubdivision</code> – Managed: SimSpace Weaver starts one app
-  /// for each spatial partition.
-  /// </li>
-  /// <li>
-  /// <code>ByRequest</code> – Unmanaged: You use the <code>StartApp</code> API to
-  /// start the apps and use the <code>StopApp</code> API to stop the apps.
-  /// </li>
-  /// </ul>
-  final LifecycleManagementStrategy? lifecycle;
+class StopSimulationOutput {
+  StopSimulationOutput();
 
-  /// The name of the domain.
-  final String? name;
-
-  Domain({
-    this.lifecycle,
-    this.name,
-  });
-
-  factory Domain.fromJson(Map<String, dynamic> json) {
-    return Domain(
-      lifecycle: (json['Lifecycle'] as String?)
-          ?.let(LifecycleManagementStrategy.fromString),
-      name: json['Name'] as String?,
-    );
+  factory StopSimulationOutput.fromJson(Map<String, dynamic> _) {
+    return StopSimulationOutput();
   }
 
   Map<String, dynamic> toJson() {
-    final lifecycle = this.lifecycle;
-    final name = this.name;
-    return {
-      if (lifecycle != null) 'Lifecycle': lifecycle.value,
-      if (name != null) 'Name': name,
-    };
+    return {};
   }
 }
 
-/// Options that apply when the app starts. These options override default
-/// behavior.
-class LaunchOverrides {
-  /// App launch commands and command line parameters that override the launch
-  /// command configured in the simulation schema.
-  final List<String>? launchCommands;
+class DeleteSimulationOutput {
+  DeleteSimulationOutput();
 
-  LaunchOverrides({
-    this.launchCommands,
-  });
-
-  factory LaunchOverrides.fromJson(Map<String, dynamic> json) {
-    return LaunchOverrides(
-      launchCommands: (json['LaunchCommands'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
+  factory DeleteSimulationOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteSimulationOutput();
   }
 
   Map<String, dynamic> toJson() {
-    final launchCommands = this.launchCommands;
-    return {
-      if (launchCommands != null) 'LaunchCommands': launchCommands,
-    };
-  }
-}
-
-class LifecycleManagementStrategy {
-  static const unknown = LifecycleManagementStrategy._('Unknown');
-  static const perWorker = LifecycleManagementStrategy._('PerWorker');
-  static const bySpatialSubdivision =
-      LifecycleManagementStrategy._('BySpatialSubdivision');
-  static const byRequest = LifecycleManagementStrategy._('ByRequest');
-
-  final String value;
-
-  const LifecycleManagementStrategy._(this.value);
-
-  static const values = [unknown, perWorker, bySpatialSubdivision, byRequest];
-
-  static LifecycleManagementStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LifecycleManagementStrategy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is LifecycleManagementStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListAppsOutput {
-  /// The list of apps for the given simulation and domain.
-  final List<SimulationAppMetadata>? apps;
-
-  /// If SimSpace Weaver returns <code>nextToken</code>, then there are more
-  /// results available. The value of <code>nextToken</code> is a unique
-  /// pagination token for each page. To retrieve the next page, call the
-  /// operation again using the returned token. Keep all other arguments
-  /// unchanged. If no results remain, then <code>nextToken</code> is set to
-  /// <code>null</code>. Each pagination token expires after 24 hours. If you
-  /// provide a token that isn't valid, then you receive an <i>HTTP 400
-  /// ValidationException</i> error.
-  final String? nextToken;
-
-  ListAppsOutput({
-    this.apps,
-    this.nextToken,
-  });
-
-  factory ListAppsOutput.fromJson(Map<String, dynamic> json) {
-    return ListAppsOutput(
-      apps: (json['Apps'] as List?)
-          ?.nonNulls
-          .map((e) => SimulationAppMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apps = this.apps;
-    final nextToken = this.nextToken;
-    return {
-      if (apps != null) 'Apps': apps,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
+    return {};
   }
 }
 
@@ -1262,238 +1027,242 @@ class ListSimulationsOutput {
   }
 }
 
-class ListTagsForResourceOutput {
-  /// The list of tags for the resource.
-  final Map<String, String>? tags;
+class CreateSnapshotOutput {
+  CreateSnapshotOutput();
 
-  ListTagsForResourceOutput({
-    this.tags,
-  });
-
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceOutput(
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
+  factory CreateSnapshotOutput.fromJson(Map<String, dynamic> _) {
+    return CreateSnapshotOutput();
   }
 
   Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
+    return {};
   }
 }
 
-/// A collection of additional state information, such as domain and clock
-/// configuration.
-class LiveSimulationState {
-  /// A list of simulation clocks.
-  /// <note>
-  /// At this time, a simulation has only one clock.
-  /// </note>
-  final List<SimulationClock>? clocks;
+class DeleteAppOutput {
+  DeleteAppOutput();
 
-  /// A list of domains for the simulation. For more information about domains,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains">Key
-  /// concepts: Domains</a> in the <i>SimSpace Weaver User Guide</i>.
-  final List<Domain>? domains;
-
-  LiveSimulationState({
-    this.clocks,
-    this.domains,
-  });
-
-  factory LiveSimulationState.fromJson(Map<String, dynamic> json) {
-    return LiveSimulationState(
-      clocks: (json['Clocks'] as List?)
-          ?.nonNulls
-          .map((e) => SimulationClock.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      domains: (json['Domains'] as List?)
-          ?.nonNulls
-          .map((e) => Domain.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  factory DeleteAppOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteAppOutput();
   }
 
   Map<String, dynamic> toJson() {
-    final clocks = this.clocks;
-    final domains = this.domains;
-    return {
-      if (clocks != null) 'Clocks': clocks,
-      if (domains != null) 'Domains': domains,
-    };
+    return {};
   }
 }
 
-/// The location where SimSpace Weaver sends simulation log data.
-class LogDestination {
-  /// An Amazon CloudWatch Logs log group that stores simulation log data. For
-  /// more information about log groups, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
-  /// with log groups and log streams</a> in the <i>Amazon CloudWatch Logs User
-  /// Guide</i>.
-  final CloudWatchLogsLogGroup? cloudWatchLogsLogGroup;
+class DescribeAppOutput {
+  /// The description of the app.
+  final String? description;
 
-  LogDestination({
-    this.cloudWatchLogsLogGroup,
+  /// The name of the domain of the app.
+  final String? domain;
+
+  /// Information about the network endpoint for the custom app. You can use the
+  /// endpoint to connect to the custom app.
+  final SimulationAppEndpointInfo? endpointInfo;
+  final LaunchOverrides? launchOverrides;
+
+  /// The name of the app.
+  final String? name;
+
+  /// The name of the simulation of the app.
+  final String? simulation;
+
+  /// The current lifecycle state of the custom app.
+  final SimulationAppStatus? status;
+
+  /// The desired lifecycle state of the custom app.
+  final SimulationAppTargetStatus? targetStatus;
+
+  DescribeAppOutput({
+    this.description,
+    this.domain,
+    this.endpointInfo,
+    this.launchOverrides,
+    this.name,
+    this.simulation,
+    this.status,
+    this.targetStatus,
   });
 
-  factory LogDestination.fromJson(Map<String, dynamic> json) {
-    return LogDestination(
-      cloudWatchLogsLogGroup: json['CloudWatchLogsLogGroup'] != null
-          ? CloudWatchLogsLogGroup.fromJson(
-              json['CloudWatchLogsLogGroup'] as Map<String, dynamic>)
+  factory DescribeAppOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAppOutput(
+      description: json['Description'] as String?,
+      domain: json['Domain'] as String?,
+      endpointInfo: json['EndpointInfo'] != null
+          ? SimulationAppEndpointInfo.fromJson(
+              json['EndpointInfo'] as Map<String, dynamic>)
           : null,
+      launchOverrides: json['LaunchOverrides'] != null
+          ? LaunchOverrides.fromJson(
+              json['LaunchOverrides'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      simulation: json['Simulation'] as String?,
+      status: (json['Status'] as String?)?.let(SimulationAppStatus.fromString),
+      targetStatus: (json['TargetStatus'] as String?)
+          ?.let(SimulationAppTargetStatus.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final cloudWatchLogsLogGroup = this.cloudWatchLogsLogGroup;
+    final description = this.description;
+    final domain = this.domain;
+    final endpointInfo = this.endpointInfo;
+    final launchOverrides = this.launchOverrides;
+    final name = this.name;
+    final simulation = this.simulation;
+    final status = this.status;
+    final targetStatus = this.targetStatus;
     return {
-      if (cloudWatchLogsLogGroup != null)
-        'CloudWatchLogsLogGroup': cloudWatchLogsLogGroup,
+      if (description != null) 'Description': description,
+      if (domain != null) 'Domain': domain,
+      if (endpointInfo != null) 'EndpointInfo': endpointInfo,
+      if (launchOverrides != null) 'LaunchOverrides': launchOverrides,
+      if (name != null) 'Name': name,
+      if (simulation != null) 'Simulation': simulation,
+      if (status != null) 'Status': status.value,
+      if (targetStatus != null) 'TargetStatus': targetStatus.value,
     };
   }
 }
 
-/// The logging configuration for a simulation.
-class LoggingConfiguration {
-  /// A list of the locations where SimSpace Weaver sends simulation log data.
-  final List<LogDestination>? destinations;
+class ListAppsOutput {
+  /// The list of apps for the given simulation and domain.
+  final List<SimulationAppMetadata>? apps;
 
-  LoggingConfiguration({
-    this.destinations,
+  /// If SimSpace Weaver returns <code>nextToken</code>, then there are more
+  /// results available. The value of <code>nextToken</code> is a unique
+  /// pagination token for each page. To retrieve the next page, call the
+  /// operation again using the returned token. Keep all other arguments
+  /// unchanged. If no results remain, then <code>nextToken</code> is set to
+  /// <code>null</code>. Each pagination token expires after 24 hours. If you
+  /// provide a token that isn't valid, then you receive an <i>HTTP 400
+  /// ValidationException</i> error.
+  final String? nextToken;
+
+  ListAppsOutput({
+    this.apps,
+    this.nextToken,
   });
 
-  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
-    return LoggingConfiguration(
-      destinations: (json['Destinations'] as List?)
+  factory ListAppsOutput.fromJson(Map<String, dynamic> json) {
+    return ListAppsOutput(
+      apps: (json['Apps'] as List?)
           ?.nonNulls
-          .map((e) => LogDestination.fromJson(e as Map<String, dynamic>))
+          .map((e) => SimulationAppMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apps = this.apps;
+    final nextToken = this.nextToken;
+    return {
+      if (apps != null) 'Apps': apps,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class StartAppOutput {
+  /// The name of the domain of the app.
+  final String? domain;
+
+  /// The name of the app.
+  final String? name;
+
+  /// The name of the simulation of the app.
+  final String? simulation;
+
+  StartAppOutput({
+    this.domain,
+    this.name,
+    this.simulation,
+  });
+
+  factory StartAppOutput.fromJson(Map<String, dynamic> json) {
+    return StartAppOutput(
+      domain: json['Domain'] as String?,
+      name: json['Name'] as String?,
+      simulation: json['Simulation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    final name = this.name;
+    final simulation = this.simulation;
+    return {
+      if (domain != null) 'Domain': domain,
+      if (name != null) 'Name': name,
+      if (simulation != null) 'Simulation': simulation,
+    };
+  }
+}
+
+class StartClockOutput {
+  StartClockOutput();
+
+  factory StartClockOutput.fromJson(Map<String, dynamic> _) {
+    return StartClockOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StopAppOutput {
+  StopAppOutput();
+
+  factory StopAppOutput.fromJson(Map<String, dynamic> _) {
+    return StopAppOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StopClockOutput {
+  StopClockOutput();
+
+  factory StopClockOutput.fromJson(Map<String, dynamic> _) {
+    return StopClockOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Options that apply when the app starts. These options override default
+/// behavior.
+class LaunchOverrides {
+  /// App launch commands and command line parameters that override the launch
+  /// command configured in the simulation schema.
+  final List<String>? launchCommands;
+
+  LaunchOverrides({
+    this.launchCommands,
+  });
+
+  factory LaunchOverrides.fromJson(Map<String, dynamic> json) {
+    return LaunchOverrides(
+      launchCommands: (json['LaunchCommands'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final destinations = this.destinations;
+    final launchCommands = this.launchCommands;
     return {
-      if (destinations != null) 'Destinations': destinations,
-    };
-  }
-}
-
-/// An Amazon S3 bucket and optional folder (object key prefix) where SimSpace
-/// Weaver creates a file.
-class S3Destination {
-  /// The name of an Amazon S3 bucket. For more information about buckets, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
-  /// configuring, and working with Amazon S3 buckets</a> in the <i>Amazon Simple
-  /// Storage Service User Guide</i>.
-  final String bucketName;
-
-  /// A string prefix for an Amazon S3 object key. It's usually a folder name. For
-  /// more information about folders in Amazon S3, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html">Organizing
-  /// objects in the Amazon S3 console using folders</a> in the <i>Amazon Simple
-  /// Storage Service User Guide</i>.
-  final String? objectKeyPrefix;
-
-  S3Destination({
-    required this.bucketName,
-    this.objectKeyPrefix,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final objectKeyPrefix = this.objectKeyPrefix;
-    return {
-      'BucketName': bucketName,
-      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
-    };
-  }
-}
-
-/// A location in Amazon Simple Storage Service (Amazon S3) where SimSpace
-/// Weaver stores simulation data, such as your app .zip files and schema file.
-/// For more information about Amazon S3, see the <a
-/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">
-/// <i>Amazon Simple Storage Service User Guide</i> </a>.
-class S3Location {
-  /// The name of an Amazon S3 bucket. For more information about buckets, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
-  /// configuring, and working with Amazon S3 buckets</a> in the <i>Amazon Simple
-  /// Storage Service User Guide</i>.
-  final String bucketName;
-
-  /// The key name of an object in Amazon S3. For more information about Amazon S3
-  /// objects and object keys, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/uploading-downloading-objects.html">Uploading,
-  /// downloading, and working with objects in Amazon S3</a> in the <i>Amazon
-  /// Simple Storage Service User Guide</i>.
-  final String objectKey;
-
-  S3Location({
-    required this.bucketName,
-    required this.objectKey,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      bucketName: (json['BucketName'] as String?) ?? '',
-      objectKey: (json['ObjectKey'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final objectKey = this.objectKey;
-    return {
-      'BucketName': bucketName,
-      'ObjectKey': objectKey,
-    };
-  }
-}
-
-/// Information about the network endpoint that you can use to connect to your
-/// custom or service app. For more information about SimSpace Weaver apps, see
-/// <a
-/// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_apps">Key
-/// concepts: Apps</a> in the <i>SimSpace Weaver User Guide</i>..
-class SimulationAppEndpointInfo {
-  /// The IP address of the app. SimSpace Weaver dynamically assigns this IP
-  /// address when the app starts.
-  final String? address;
-
-  /// The inbound TCP/UDP port numbers of the app. The combination of an IP
-  /// address and a port number form a network endpoint.
-  final List<SimulationAppPortMapping>? ingressPortMappings;
-
-  SimulationAppEndpointInfo({
-    this.address,
-    this.ingressPortMappings,
-  });
-
-  factory SimulationAppEndpointInfo.fromJson(Map<String, dynamic> json) {
-    return SimulationAppEndpointInfo(
-      address: json['Address'] as String?,
-      ingressPortMappings: (json['IngressPortMappings'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SimulationAppPortMapping.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final address = this.address;
-    final ingressPortMappings = this.ingressPortMappings;
-    return {
-      if (address != null) 'Address': address,
-      if (ingressPortMappings != null)
-        'IngressPortMappings': ingressPortMappings,
+      if (launchCommands != null) 'LaunchCommands': launchCommands,
     };
   }
 }
@@ -1548,43 +1317,6 @@ class SimulationAppMetadata {
       if (simulation != null) 'Simulation': simulation,
       if (status != null) 'Status': status.value,
       if (targetStatus != null) 'TargetStatus': targetStatus.value,
-    };
-  }
-}
-
-/// A collection of TCP/UDP ports for a custom or service app.
-class SimulationAppPortMapping {
-  /// The TCP/UDP port number of the running app. SimSpace Weaver dynamically
-  /// assigns this port number when the app starts. SimSpace Weaver maps the
-  /// <code>Declared</code> port to the <code>Actual</code> port. Clients connect
-  /// to the app using the app's IP address and the <code>Actual</code> port
-  /// number.
-  final int? actual;
-
-  /// The TCP/UDP port number of the app, declared in the simulation schema.
-  /// SimSpace Weaver maps the <code>Declared</code> port to the
-  /// <code>Actual</code> port. The source code for the app should bind to the
-  /// <code>Declared</code> port.
-  final int? declared;
-
-  SimulationAppPortMapping({
-    this.actual,
-    this.declared,
-  });
-
-  factory SimulationAppPortMapping.fromJson(Map<String, dynamic> json) {
-    return SimulationAppPortMapping(
-      actual: json['Actual'] as int?,
-      declared: json['Declared'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final actual = this.actual;
-    final declared = this.declared;
-    return {
-      if (actual != null) 'Actual': actual,
-      if (declared != null) 'Declared': declared,
     };
   }
 }
@@ -1644,33 +1376,111 @@ class SimulationAppTargetStatus {
   String toString() => value;
 }
 
-/// Status information about the simulation clock.
-class SimulationClock {
-  /// The current status of the simulation clock.
-  final ClockStatus? status;
+/// Information about the network endpoint that you can use to connect to your
+/// custom or service app. For more information about SimSpace Weaver apps, see
+/// <a
+/// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_apps">Key
+/// concepts: Apps</a> in the <i>SimSpace Weaver User Guide</i>..
+class SimulationAppEndpointInfo {
+  /// The IP address of the app. SimSpace Weaver dynamically assigns this IP
+  /// address when the app starts.
+  final String? address;
 
-  /// The desired status of the simulation clock.
-  final ClockTargetStatus? targetStatus;
+  /// The inbound TCP/UDP port numbers of the app. The combination of an IP
+  /// address and a port number form a network endpoint.
+  final List<SimulationAppPortMapping>? ingressPortMappings;
 
-  SimulationClock({
-    this.status,
-    this.targetStatus,
+  SimulationAppEndpointInfo({
+    this.address,
+    this.ingressPortMappings,
   });
 
-  factory SimulationClock.fromJson(Map<String, dynamic> json) {
-    return SimulationClock(
-      status: (json['Status'] as String?)?.let(ClockStatus.fromString),
-      targetStatus:
-          (json['TargetStatus'] as String?)?.let(ClockTargetStatus.fromString),
+  factory SimulationAppEndpointInfo.fromJson(Map<String, dynamic> json) {
+    return SimulationAppEndpointInfo(
+      address: json['Address'] as String?,
+      ingressPortMappings: (json['IngressPortMappings'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SimulationAppPortMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final status = this.status;
-    final targetStatus = this.targetStatus;
+    final address = this.address;
+    final ingressPortMappings = this.ingressPortMappings;
     return {
-      if (status != null) 'Status': status.value,
-      if (targetStatus != null) 'TargetStatus': targetStatus.value,
+      if (address != null) 'Address': address,
+      if (ingressPortMappings != null)
+        'IngressPortMappings': ingressPortMappings,
+    };
+  }
+}
+
+/// A collection of TCP/UDP ports for a custom or service app.
+class SimulationAppPortMapping {
+  /// The TCP/UDP port number of the running app. SimSpace Weaver dynamically
+  /// assigns this port number when the app starts. SimSpace Weaver maps the
+  /// <code>Declared</code> port to the <code>Actual</code> port. Clients connect
+  /// to the app using the app's IP address and the <code>Actual</code> port
+  /// number.
+  final int? actual;
+
+  /// The TCP/UDP port number of the app, declared in the simulation schema.
+  /// SimSpace Weaver maps the <code>Declared</code> port to the
+  /// <code>Actual</code> port. The source code for the app should bind to the
+  /// <code>Declared</code> port.
+  final int? declared;
+
+  SimulationAppPortMapping({
+    this.actual,
+    this.declared,
+  });
+
+  factory SimulationAppPortMapping.fromJson(Map<String, dynamic> json) {
+    return SimulationAppPortMapping(
+      actual: json['Actual'] as int?,
+      declared: json['Declared'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actual = this.actual;
+    final declared = this.declared;
+    return {
+      if (actual != null) 'Actual': actual,
+      if (declared != null) 'Declared': declared,
+    };
+  }
+}
+
+/// An Amazon S3 bucket and optional folder (object key prefix) where SimSpace
+/// Weaver creates a file.
+class S3Destination {
+  /// The name of an Amazon S3 bucket. For more information about buckets, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
+  /// configuring, and working with Amazon S3 buckets</a> in the <i>Amazon Simple
+  /// Storage Service User Guide</i>.
+  final String bucketName;
+
+  /// A string prefix for an Amazon S3 object key. It's usually a folder name. For
+  /// more information about folders in Amazon S3, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html">Organizing
+  /// objects in the Amazon S3 console using folders</a> in the <i>Amazon Simple
+  /// Storage Service User Guide</i>.
+  final String? objectKeyPrefix;
+
+  S3Destination({
+    required this.bucketName,
+    this.objectKeyPrefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    return {
+      'BucketName': bucketName,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
     };
   }
 }
@@ -1801,153 +1611,342 @@ class SimulationTargetStatus {
   String toString() => value;
 }
 
-class StartAppOutput {
-  /// The name of the domain of the app.
-  final String? domain;
+/// A location in Amazon Simple Storage Service (Amazon S3) where SimSpace
+/// Weaver stores simulation data, such as your app .zip files and schema file.
+/// For more information about Amazon S3, see the <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html">
+/// <i>Amazon Simple Storage Service User Guide</i> </a>.
+class S3Location {
+  /// The name of an Amazon S3 bucket. For more information about buckets, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html">Creating,
+  /// configuring, and working with Amazon S3 buckets</a> in the <i>Amazon Simple
+  /// Storage Service User Guide</i>.
+  final String bucketName;
 
-  /// The name of the app.
+  /// The key name of an object in Amazon S3. For more information about Amazon S3
+  /// objects and object keys, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/uploading-downloading-objects.html">Uploading,
+  /// downloading, and working with objects in Amazon S3</a> in the <i>Amazon
+  /// Simple Storage Service User Guide</i>.
+  final String objectKey;
+
+  S3Location({
+    required this.bucketName,
+    required this.objectKey,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucketName: (json['BucketName'] as String?) ?? '',
+      objectKey: (json['ObjectKey'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectKey = this.objectKey;
+    return {
+      'BucketName': bucketName,
+      'ObjectKey': objectKey,
+    };
+  }
+}
+
+/// The logging configuration for a simulation.
+class LoggingConfiguration {
+  /// A list of the locations where SimSpace Weaver sends simulation log data.
+  final List<LogDestination>? destinations;
+
+  LoggingConfiguration({
+    this.destinations,
+  });
+
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      destinations: (json['Destinations'] as List?)
+          ?.nonNulls
+          .map((e) => LogDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinations = this.destinations;
+    return {
+      if (destinations != null) 'Destinations': destinations,
+    };
+  }
+}
+
+/// A collection of additional state information, such as domain and clock
+/// configuration.
+class LiveSimulationState {
+  /// A list of simulation clocks.
+  /// <note>
+  /// At this time, a simulation has only one clock.
+  /// </note>
+  final List<SimulationClock>? clocks;
+
+  /// A list of domains for the simulation. For more information about domains,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains">Key
+  /// concepts: Domains</a> in the <i>SimSpace Weaver User Guide</i>.
+  final List<Domain>? domains;
+
+  LiveSimulationState({
+    this.clocks,
+    this.domains,
+  });
+
+  factory LiveSimulationState.fromJson(Map<String, dynamic> json) {
+    return LiveSimulationState(
+      clocks: (json['Clocks'] as List?)
+          ?.nonNulls
+          .map((e) => SimulationClock.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      domains: (json['Domains'] as List?)
+          ?.nonNulls
+          .map((e) => Domain.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clocks = this.clocks;
+    final domains = this.domains;
+    return {
+      if (clocks != null) 'Clocks': clocks,
+      if (domains != null) 'Domains': domains,
+    };
+  }
+}
+
+/// Status information about the simulation clock.
+class SimulationClock {
+  /// The current status of the simulation clock.
+  final ClockStatus? status;
+
+  /// The desired status of the simulation clock.
+  final ClockTargetStatus? targetStatus;
+
+  SimulationClock({
+    this.status,
+    this.targetStatus,
+  });
+
+  factory SimulationClock.fromJson(Map<String, dynamic> json) {
+    return SimulationClock(
+      status: (json['Status'] as String?)?.let(ClockStatus.fromString),
+      targetStatus:
+          (json['TargetStatus'] as String?)?.let(ClockTargetStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final targetStatus = this.targetStatus;
+    return {
+      if (status != null) 'Status': status.value,
+      if (targetStatus != null) 'TargetStatus': targetStatus.value,
+    };
+  }
+}
+
+class ClockStatus {
+  static const unknown = ClockStatus._('UNKNOWN');
+  static const starting = ClockStatus._('STARTING');
+  static const started = ClockStatus._('STARTED');
+  static const stopping = ClockStatus._('STOPPING');
+  static const stopped = ClockStatus._('STOPPED');
+
+  final String value;
+
+  const ClockStatus._(this.value);
+
+  static const values = [unknown, starting, started, stopping, stopped];
+
+  static ClockStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ClockStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ClockStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ClockTargetStatus {
+  static const unknown = ClockTargetStatus._('UNKNOWN');
+  static const started = ClockTargetStatus._('STARTED');
+  static const stopped = ClockTargetStatus._('STOPPED');
+
+  final String value;
+
+  const ClockTargetStatus._(this.value);
+
+  static const values = [unknown, started, stopped];
+
+  static ClockTargetStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ClockTargetStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ClockTargetStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A collection of app instances that run the same executable app code and have
+/// the same launch options and commands.
+///
+/// For more information about domains, see <a
+/// href="https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains">Key
+/// concepts: Domains</a> in the <i>SimSpace Weaver User Guide</i>.
+class Domain {
+  /// The type of lifecycle management for apps in the domain. Indicates whether
+  /// apps in this domain are <i>managed</i> (SimSpace Weaver starts and stops the
+  /// apps) or <i>unmanaged</i> (you must start and stop the apps).
+  /// <p class="title"> <b>Lifecycle types</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PerWorker</code> – Managed: SimSpace Weaver starts one app on each
+  /// worker.
+  /// </li>
+  /// <li>
+  /// <code>BySpatialSubdivision</code> – Managed: SimSpace Weaver starts one app
+  /// for each spatial partition.
+  /// </li>
+  /// <li>
+  /// <code>ByRequest</code> – Unmanaged: You use the <code>StartApp</code> API to
+  /// start the apps and use the <code>StopApp</code> API to stop the apps.
+  /// </li>
+  /// </ul>
+  final LifecycleManagementStrategy? lifecycle;
+
+  /// The name of the domain.
   final String? name;
 
-  /// The name of the simulation of the app.
-  final String? simulation;
-
-  StartAppOutput({
-    this.domain,
+  Domain({
+    this.lifecycle,
     this.name,
-    this.simulation,
   });
 
-  factory StartAppOutput.fromJson(Map<String, dynamic> json) {
-    return StartAppOutput(
-      domain: json['Domain'] as String?,
+  factory Domain.fromJson(Map<String, dynamic> json) {
+    return Domain(
+      lifecycle: (json['Lifecycle'] as String?)
+          ?.let(LifecycleManagementStrategy.fromString),
       name: json['Name'] as String?,
-      simulation: json['Simulation'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final domain = this.domain;
+    final lifecycle = this.lifecycle;
     final name = this.name;
-    final simulation = this.simulation;
     return {
-      if (domain != null) 'Domain': domain,
+      if (lifecycle != null) 'Lifecycle': lifecycle.value,
       if (name != null) 'Name': name,
-      if (simulation != null) 'Simulation': simulation,
     };
   }
 }
 
-class StartClockOutput {
-  StartClockOutput();
+class LifecycleManagementStrategy {
+  static const unknown = LifecycleManagementStrategy._('Unknown');
+  static const perWorker = LifecycleManagementStrategy._('PerWorker');
+  static const bySpatialSubdivision =
+      LifecycleManagementStrategy._('BySpatialSubdivision');
+  static const byRequest = LifecycleManagementStrategy._('ByRequest');
 
-  factory StartClockOutput.fromJson(Map<String, dynamic> _) {
-    return StartClockOutput();
+  final String value;
+
+  const LifecycleManagementStrategy._(this.value);
+
+  static const values = [unknown, perWorker, bySpatialSubdivision, byRequest];
+
+  static LifecycleManagementStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecycleManagementStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LifecycleManagementStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The location where SimSpace Weaver sends simulation log data.
+class LogDestination {
+  /// An Amazon CloudWatch Logs log group that stores simulation log data. For
+  /// more information about log groups, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
+  /// with log groups and log streams</a> in the <i>Amazon CloudWatch Logs User
+  /// Guide</i>.
+  final CloudWatchLogsLogGroup? cloudWatchLogsLogGroup;
+
+  LogDestination({
+    this.cloudWatchLogsLogGroup,
+  });
+
+  factory LogDestination.fromJson(Map<String, dynamic> json) {
+    return LogDestination(
+      cloudWatchLogsLogGroup: json['CloudWatchLogsLogGroup'] != null
+          ? CloudWatchLogsLogGroup.fromJson(
+              json['CloudWatchLogsLogGroup'] as Map<String, dynamic>)
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    final cloudWatchLogsLogGroup = this.cloudWatchLogsLogGroup;
+    return {
+      if (cloudWatchLogsLogGroup != null)
+        'CloudWatchLogsLogGroup': cloudWatchLogsLogGroup,
+    };
   }
 }
 
-class StartSimulationOutput {
-  /// The Amazon Resource Name (ARN) of the simulation. For more information about
-  /// ARNs, see <a
+/// The Amazon CloudWatch Logs log group for the simulation. For more
+/// information about log groups, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
+/// with log groups and log streams</a> in the <i>Amazon CloudWatch Logs User
+/// Guide</i>.
+class CloudWatchLogsLogGroup {
+  /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log group for
+  /// the simulation. For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
   /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
-  /// Reference</i>.
-  final String? arn;
+  /// Reference</i>. For more information about log groups, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html">Working
+  /// with log groups and log streams</a> in the <i>Amazon CloudWatch Logs User
+  /// Guide</i>.
+  final String? logGroupArn;
 
-  /// The time when the simulation was created, expressed as the number of seconds
-  /// and milliseconds in UTC since the Unix epoch (0:0:0.000, January 1, 1970).
-  final DateTime? creationTime;
-
-  /// A universally unique identifier (UUID) for this simulation.
-  final String? executionId;
-
-  StartSimulationOutput({
-    this.arn,
-    this.creationTime,
-    this.executionId,
+  CloudWatchLogsLogGroup({
+    this.logGroupArn,
   });
 
-  factory StartSimulationOutput.fromJson(Map<String, dynamic> json) {
-    return StartSimulationOutput(
-      arn: json['Arn'] as String?,
-      creationTime: timeStampFromJson(json['CreationTime']),
-      executionId: json['ExecutionId'] as String?,
+  factory CloudWatchLogsLogGroup.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLogsLogGroup(
+      logGroupArn: json['LogGroupArn'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationTime = this.creationTime;
-    final executionId = this.executionId;
+    final logGroupArn = this.logGroupArn;
     return {
-      if (arn != null) 'Arn': arn,
-      if (creationTime != null)
-        'CreationTime': unixTimestampToJson(creationTime),
-      if (executionId != null) 'ExecutionId': executionId,
+      if (logGroupArn != null) 'LogGroupArn': logGroupArn,
     };
-  }
-}
-
-class StopAppOutput {
-  StopAppOutput();
-
-  factory StopAppOutput.fromJson(Map<String, dynamic> _) {
-    return StopAppOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class StopClockOutput {
-  StopClockOutput();
-
-  factory StopClockOutput.fromJson(Map<String, dynamic> _) {
-    return StopClockOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class StopSimulationOutput {
-  StopSimulationOutput();
-
-  factory StopSimulationOutput.fromJson(Map<String, dynamic> _) {
-    return StopSimulationOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TagResourceOutput {
-  TagResourceOutput();
-
-  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return TagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 

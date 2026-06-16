@@ -36,7 +36,6 @@ class Panorama {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'panorama',
-            signingName: 'panorama',
           ),
           region: region,
           credentials: credentials,
@@ -55,10 +54,10 @@ class Panorama {
 
   /// Creates an application instance and deploys it to a device.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [defaultRuntimeContextDevice] :
   /// A device's ID.
@@ -117,11 +116,11 @@ class Panorama {
   /// Creates a job to run on a device. A job can update a device's software or
   /// reboot it.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceIds] :
   /// ID of target device.
@@ -152,10 +151,10 @@ class Panorama {
 
   /// Creates a camera stream node.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [nodeName] :
   /// A name for the node.
@@ -206,10 +205,10 @@ class Panorama {
 
   /// Creates a package and storage location in an Amazon S3 access point.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [packageName] :
   /// A name for the package.
@@ -235,10 +234,10 @@ class Panorama {
 
   /// Imports a node package.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [clientToken] :
   /// A client token for the package import job.
@@ -279,11 +278,11 @@ class Panorama {
 
   /// Deletes a device.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// The device's ID.
@@ -306,11 +305,11 @@ class Panorama {
   /// Panorama API.
   /// </note>
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [packageId] :
   /// The package's ID.
@@ -336,11 +335,11 @@ class Panorama {
 
   /// Deregisters a package version.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [packageId] :
   /// A package ID.
@@ -380,11 +379,11 @@ class Panorama {
 
   /// Returns information about an application instance on a device.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationInstanceId] :
   /// The application instance's ID.
@@ -404,11 +403,11 @@ class Panorama {
   /// Returns information about an application instance's configuration
   /// manifest.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationInstanceId] :
   /// The application instance's ID.
@@ -428,10 +427,10 @@ class Panorama {
 
   /// Returns information about a device.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// The device's ID.
@@ -449,11 +448,11 @@ class Panorama {
 
   /// Returns information about a device job.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [jobId] :
   /// The job's ID.
@@ -471,11 +470,11 @@ class Panorama {
 
   /// Returns information about a node.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [nodeId] :
   /// The node's ID.
@@ -501,10 +500,10 @@ class Panorama {
 
   /// Returns information about a job to create a camera stream node.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [jobId] :
   /// The job's ID.
@@ -522,11 +521,11 @@ class Panorama {
 
   /// Returns information about a package.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [packageId] :
   /// The package's ID.
@@ -544,10 +543,10 @@ class Panorama {
 
   /// Returns information about a package import job.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [jobId] :
   /// The job's ID.
@@ -565,11 +564,11 @@ class Panorama {
 
   /// Returns information about a package version.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [packageId] :
   /// The version's ID.
@@ -734,10 +733,10 @@ class Panorama {
 
   /// Returns a list of devices.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceAggregatedStatusFilter] :
   /// Filter based on a device's status.
@@ -793,11 +792,11 @@ class Panorama {
 
   /// Returns a list of jobs.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// Filter results by the job's target device ID.
@@ -836,10 +835,10 @@ class Panorama {
 
   /// Returns a list of camera stream node jobs.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of node from template jobs to return in one page of
@@ -875,8 +874,8 @@ class Panorama {
   /// Returns a list of nodes.
   ///
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [category] :
   /// Search for nodes by category.
@@ -935,10 +934,10 @@ class Panorama {
 
   /// Returns a list of package import jobs.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of package import jobs to return in one page of
@@ -973,11 +972,11 @@ class Panorama {
 
   /// Returns a list of packages.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of packages to return in one page of results.
@@ -1011,9 +1010,9 @@ class Panorama {
 
   /// Returns a list of tags for a resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The resource's ARN.
@@ -1036,11 +1035,11 @@ class Panorama {
   /// the device within 5 minutes. Use the included USB storage device and
   /// connect it to the USB 3.0 port next to the HDMI output.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// A name for the device.
@@ -1077,10 +1076,10 @@ class Panorama {
 
   /// Registers a package version.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [packageId] :
   /// A package ID.
@@ -1118,11 +1117,11 @@ class Panorama {
 
   /// Removes an application instance.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationInstanceId] :
   /// An application instance ID.
@@ -1140,10 +1139,10 @@ class Panorama {
 
   /// Signal camera nodes to stop or resume.
   ///
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ServiceQuotaExceededException].
   /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [applicationInstanceId] :
   /// An application instance ID.
@@ -1170,9 +1169,9 @@ class Panorama {
 
   /// Tags a resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The resource's ARN.
@@ -1196,9 +1195,9 @@ class Panorama {
 
   /// Removes tags from a resource.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The resource's ARN.
@@ -1223,11 +1222,11 @@ class Panorama {
 
   /// Updates a device's metadata.
   ///
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [deviceId] :
   /// The device's ID.
@@ -1249,249 +1248,6 @@ class Panorama {
     );
     return UpdateDeviceMetadataResponse.fromJson(response);
   }
-}
-
-/// Details about a beta appliance software update.
-class AlternateSoftwareMetadata {
-  /// The appliance software version.
-  final String? version;
-
-  AlternateSoftwareMetadata({
-    this.version,
-  });
-
-  factory AlternateSoftwareMetadata.fromJson(Map<String, dynamic> json) {
-    return AlternateSoftwareMetadata(
-      version: json['Version'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final version = this.version;
-    return {
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-/// An application instance on a device.
-class ApplicationInstance {
-  /// The application instance's ID.
-  final String? applicationInstanceId;
-
-  /// The application instance's ARN.
-  final String? arn;
-
-  /// When the application instance was created.
-  final DateTime? createdTime;
-
-  /// The device's ID.
-  final String? defaultRuntimeContextDevice;
-
-  /// The device's name.
-  final String? defaultRuntimeContextDeviceName;
-
-  /// The application instance's description.
-  final String? description;
-
-  /// The application instance's health status.
-  final ApplicationInstanceHealthStatus? healthStatus;
-
-  /// The application instance's name.
-  final String? name;
-
-  /// The application's state.
-  final List<ReportedRuntimeContextState>? runtimeContextStates;
-
-  /// The application instance's status.
-  final ApplicationInstanceStatus? status;
-
-  /// The application instance's status description.
-  final String? statusDescription;
-
-  /// The application instance's tags.
-  final Map<String, String>? tags;
-
-  ApplicationInstance({
-    this.applicationInstanceId,
-    this.arn,
-    this.createdTime,
-    this.defaultRuntimeContextDevice,
-    this.defaultRuntimeContextDeviceName,
-    this.description,
-    this.healthStatus,
-    this.name,
-    this.runtimeContextStates,
-    this.status,
-    this.statusDescription,
-    this.tags,
-  });
-
-  factory ApplicationInstance.fromJson(Map<String, dynamic> json) {
-    return ApplicationInstance(
-      applicationInstanceId: json['ApplicationInstanceId'] as String?,
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      defaultRuntimeContextDevice:
-          json['DefaultRuntimeContextDevice'] as String?,
-      defaultRuntimeContextDeviceName:
-          json['DefaultRuntimeContextDeviceName'] as String?,
-      description: json['Description'] as String?,
-      healthStatus: (json['HealthStatus'] as String?)
-          ?.let(ApplicationInstanceHealthStatus.fromString),
-      name: json['Name'] as String?,
-      runtimeContextStates: (json['RuntimeContextStates'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              ReportedRuntimeContextState.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      status: (json['Status'] as String?)
-          ?.let(ApplicationInstanceStatus.fromString),
-      statusDescription: json['StatusDescription'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationInstanceId = this.applicationInstanceId;
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final defaultRuntimeContextDevice = this.defaultRuntimeContextDevice;
-    final defaultRuntimeContextDeviceName =
-        this.defaultRuntimeContextDeviceName;
-    final description = this.description;
-    final healthStatus = this.healthStatus;
-    final name = this.name;
-    final runtimeContextStates = this.runtimeContextStates;
-    final status = this.status;
-    final statusDescription = this.statusDescription;
-    final tags = this.tags;
-    return {
-      if (applicationInstanceId != null)
-        'ApplicationInstanceId': applicationInstanceId,
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (defaultRuntimeContextDevice != null)
-        'DefaultRuntimeContextDevice': defaultRuntimeContextDevice,
-      if (defaultRuntimeContextDeviceName != null)
-        'DefaultRuntimeContextDeviceName': defaultRuntimeContextDeviceName,
-      if (description != null) 'Description': description,
-      if (healthStatus != null) 'HealthStatus': healthStatus.value,
-      if (name != null) 'Name': name,
-      if (runtimeContextStates != null)
-        'RuntimeContextStates': runtimeContextStates,
-      if (status != null) 'Status': status.value,
-      if (statusDescription != null) 'StatusDescription': statusDescription,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class ApplicationInstanceHealthStatus {
-  static const running = ApplicationInstanceHealthStatus._('RUNNING');
-  static const error = ApplicationInstanceHealthStatus._('ERROR');
-  static const notAvailable =
-      ApplicationInstanceHealthStatus._('NOT_AVAILABLE');
-
-  final String value;
-
-  const ApplicationInstanceHealthStatus._(this.value);
-
-  static const values = [running, error, notAvailable];
-
-  static ApplicationInstanceHealthStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationInstanceHealthStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApplicationInstanceHealthStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ApplicationInstanceStatus {
-  static const deploymentPending =
-      ApplicationInstanceStatus._('DEPLOYMENT_PENDING');
-  static const deploymentRequested =
-      ApplicationInstanceStatus._('DEPLOYMENT_REQUESTED');
-  static const deploymentInProgress =
-      ApplicationInstanceStatus._('DEPLOYMENT_IN_PROGRESS');
-  static const deploymentError =
-      ApplicationInstanceStatus._('DEPLOYMENT_ERROR');
-  static const deploymentSucceeded =
-      ApplicationInstanceStatus._('DEPLOYMENT_SUCCEEDED');
-  static const removalPending = ApplicationInstanceStatus._('REMOVAL_PENDING');
-  static const removalRequested =
-      ApplicationInstanceStatus._('REMOVAL_REQUESTED');
-  static const removalInProgress =
-      ApplicationInstanceStatus._('REMOVAL_IN_PROGRESS');
-  static const removalFailed = ApplicationInstanceStatus._('REMOVAL_FAILED');
-  static const removalSucceeded =
-      ApplicationInstanceStatus._('REMOVAL_SUCCEEDED');
-  static const deploymentFailed =
-      ApplicationInstanceStatus._('DEPLOYMENT_FAILED');
-
-  final String value;
-
-  const ApplicationInstanceStatus._(this.value);
-
-  static const values = [
-    deploymentPending,
-    deploymentRequested,
-    deploymentInProgress,
-    deploymentError,
-    deploymentSucceeded,
-    removalPending,
-    removalRequested,
-    removalInProgress,
-    removalFailed,
-    removalSucceeded,
-    deploymentFailed
-  ];
-
-  static ApplicationInstanceStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ApplicationInstanceStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ApplicationInstanceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ConnectionType {
-  static const staticIp = ConnectionType._('STATIC_IP');
-  static const dhcp = ConnectionType._('DHCP');
-
-  final String value;
-
-  const ConnectionType._(this.value);
-
-  static const values = [staticIp, dhcp];
-
-  static ConnectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionType._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateApplicationInstanceResponse {
@@ -1565,28 +1321,6 @@ class CreateNodeFromTemplateJobResponse {
   }
 }
 
-class CreatePackageImportJobResponse {
-  /// The job's ID.
-  final String jobId;
-
-  CreatePackageImportJobResponse({
-    required this.jobId,
-  });
-
-  factory CreatePackageImportJobResponse.fromJson(Map<String, dynamic> json) {
-    return CreatePackageImportJobResponse(
-      jobId: (json['JobId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobId = this.jobId;
-    return {
-      'JobId': jobId,
-    };
-  }
-}
-
 class CreatePackageResponse {
   /// The package's storage location.
   final StorageLocation storageLocation;
@@ -1621,6 +1355,28 @@ class CreatePackageResponse {
       'StorageLocation': storageLocation,
       if (arn != null) 'Arn': arn,
       if (packageId != null) 'PackageId': packageId,
+    };
+  }
+}
+
+class CreatePackageImportJobResponse {
+  /// The job's ID.
+  final String jobId;
+
+  CreatePackageImportJobResponse({
+    required this.jobId,
+  });
+
+  factory CreatePackageImportJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePackageImportJobResponse(
+      jobId: (json['JobId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      'JobId': jobId,
     };
   }
 }
@@ -1668,90 +1424,6 @@ class DeregisterPackageVersionResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-class DescribeApplicationInstanceDetailsResponse {
-  /// The application instance's ID.
-  final String? applicationInstanceId;
-
-  /// The ID of the application instance that this instance replaced.
-  final String? applicationInstanceIdToReplace;
-
-  /// When the application instance was created.
-  final DateTime? createdTime;
-
-  /// The application instance's default runtime context device.
-  final String? defaultRuntimeContextDevice;
-
-  /// The application instance's description.
-  final String? description;
-
-  /// Parameter overrides for the configuration manifest.
-  final ManifestOverridesPayload? manifestOverridesPayload;
-
-  /// The application instance's configuration manifest.
-  final ManifestPayload? manifestPayload;
-
-  /// The application instance's name.
-  final String? name;
-
-  DescribeApplicationInstanceDetailsResponse({
-    this.applicationInstanceId,
-    this.applicationInstanceIdToReplace,
-    this.createdTime,
-    this.defaultRuntimeContextDevice,
-    this.description,
-    this.manifestOverridesPayload,
-    this.manifestPayload,
-    this.name,
-  });
-
-  factory DescribeApplicationInstanceDetailsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeApplicationInstanceDetailsResponse(
-      applicationInstanceId: json['ApplicationInstanceId'] as String?,
-      applicationInstanceIdToReplace:
-          json['ApplicationInstanceIdToReplace'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      defaultRuntimeContextDevice:
-          json['DefaultRuntimeContextDevice'] as String?,
-      description: json['Description'] as String?,
-      manifestOverridesPayload: json['ManifestOverridesPayload'] != null
-          ? ManifestOverridesPayload.fromJson(
-              json['ManifestOverridesPayload'] as Map<String, dynamic>)
-          : null,
-      manifestPayload: json['ManifestPayload'] != null
-          ? ManifestPayload.fromJson(
-              json['ManifestPayload'] as Map<String, dynamic>)
-          : null,
-      name: json['Name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationInstanceId = this.applicationInstanceId;
-    final applicationInstanceIdToReplace = this.applicationInstanceIdToReplace;
-    final createdTime = this.createdTime;
-    final defaultRuntimeContextDevice = this.defaultRuntimeContextDevice;
-    final description = this.description;
-    final manifestOverridesPayload = this.manifestOverridesPayload;
-    final manifestPayload = this.manifestPayload;
-    final name = this.name;
-    return {
-      if (applicationInstanceId != null)
-        'ApplicationInstanceId': applicationInstanceId,
-      if (applicationInstanceIdToReplace != null)
-        'ApplicationInstanceIdToReplace': applicationInstanceIdToReplace,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (defaultRuntimeContextDevice != null)
-        'DefaultRuntimeContextDevice': defaultRuntimeContextDevice,
-      if (description != null) 'Description': description,
-      if (manifestOverridesPayload != null)
-        'ManifestOverridesPayload': manifestOverridesPayload,
-      if (manifestPayload != null) 'ManifestPayload': manifestPayload,
-      if (name != null) 'Name': name,
-    };
   }
 }
 
@@ -1893,80 +1565,86 @@ class DescribeApplicationInstanceResponse {
   }
 }
 
-class DescribeDeviceJobResponse {
-  /// When the job was created.
+class DescribeApplicationInstanceDetailsResponse {
+  /// The application instance's ID.
+  final String? applicationInstanceId;
+
+  /// The ID of the application instance that this instance replaced.
+  final String? applicationInstanceIdToReplace;
+
+  /// When the application instance was created.
   final DateTime? createdTime;
 
-  /// The device's ARN.
-  final String? deviceArn;
+  /// The application instance's default runtime context device.
+  final String? defaultRuntimeContextDevice;
 
-  /// The device's ID.
-  final String? deviceId;
+  /// The application instance's description.
+  final String? description;
 
-  /// The device's name.
-  final String? deviceName;
+  /// Parameter overrides for the configuration manifest.
+  final ManifestOverridesPayload? manifestOverridesPayload;
 
-  /// The device's type.
-  final DeviceType? deviceType;
+  /// The application instance's configuration manifest.
+  final ManifestPayload? manifestPayload;
 
-  /// For an OTA job, the target version of the device software.
-  final String? imageVersion;
+  /// The application instance's name.
+  final String? name;
 
-  /// The job's ID.
-  final String? jobId;
-
-  /// The job's type.
-  final JobType? jobType;
-
-  /// The job's status.
-  final UpdateProgress? status;
-
-  DescribeDeviceJobResponse({
+  DescribeApplicationInstanceDetailsResponse({
+    this.applicationInstanceId,
+    this.applicationInstanceIdToReplace,
     this.createdTime,
-    this.deviceArn,
-    this.deviceId,
-    this.deviceName,
-    this.deviceType,
-    this.imageVersion,
-    this.jobId,
-    this.jobType,
-    this.status,
+    this.defaultRuntimeContextDevice,
+    this.description,
+    this.manifestOverridesPayload,
+    this.manifestPayload,
+    this.name,
   });
 
-  factory DescribeDeviceJobResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeDeviceJobResponse(
+  factory DescribeApplicationInstanceDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeApplicationInstanceDetailsResponse(
+      applicationInstanceId: json['ApplicationInstanceId'] as String?,
+      applicationInstanceIdToReplace:
+          json['ApplicationInstanceIdToReplace'] as String?,
       createdTime: timeStampFromJson(json['CreatedTime']),
-      deviceArn: json['DeviceArn'] as String?,
-      deviceId: json['DeviceId'] as String?,
-      deviceName: json['DeviceName'] as String?,
-      deviceType: (json['DeviceType'] as String?)?.let(DeviceType.fromString),
-      imageVersion: json['ImageVersion'] as String?,
-      jobId: json['JobId'] as String?,
-      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
-      status: (json['Status'] as String?)?.let(UpdateProgress.fromString),
+      defaultRuntimeContextDevice:
+          json['DefaultRuntimeContextDevice'] as String?,
+      description: json['Description'] as String?,
+      manifestOverridesPayload: json['ManifestOverridesPayload'] != null
+          ? ManifestOverridesPayload.fromJson(
+              json['ManifestOverridesPayload'] as Map<String, dynamic>)
+          : null,
+      manifestPayload: json['ManifestPayload'] != null
+          ? ManifestPayload.fromJson(
+              json['ManifestPayload'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final applicationInstanceId = this.applicationInstanceId;
+    final applicationInstanceIdToReplace = this.applicationInstanceIdToReplace;
     final createdTime = this.createdTime;
-    final deviceArn = this.deviceArn;
-    final deviceId = this.deviceId;
-    final deviceName = this.deviceName;
-    final deviceType = this.deviceType;
-    final imageVersion = this.imageVersion;
-    final jobId = this.jobId;
-    final jobType = this.jobType;
-    final status = this.status;
+    final defaultRuntimeContextDevice = this.defaultRuntimeContextDevice;
+    final description = this.description;
+    final manifestOverridesPayload = this.manifestOverridesPayload;
+    final manifestPayload = this.manifestPayload;
+    final name = this.name;
     return {
+      if (applicationInstanceId != null)
+        'ApplicationInstanceId': applicationInstanceId,
+      if (applicationInstanceIdToReplace != null)
+        'ApplicationInstanceIdToReplace': applicationInstanceIdToReplace,
       if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (deviceArn != null) 'DeviceArn': deviceArn,
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (deviceName != null) 'DeviceName': deviceName,
-      if (deviceType != null) 'DeviceType': deviceType.value,
-      if (imageVersion != null) 'ImageVersion': imageVersion,
-      if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.value,
-      if (status != null) 'Status': status.value,
+      if (defaultRuntimeContextDevice != null)
+        'DefaultRuntimeContextDevice': defaultRuntimeContextDevice,
+      if (description != null) 'Description': description,
+      if (manifestOverridesPayload != null)
+        'ManifestOverridesPayload': manifestOverridesPayload,
+      if (manifestPayload != null) 'ManifestPayload': manifestPayload,
+      if (name != null) 'Name': name,
     };
   }
 }
@@ -2152,111 +1830,80 @@ class DescribeDeviceResponse {
   }
 }
 
-class DescribeNodeFromTemplateJobResponse {
+class DescribeDeviceJobResponse {
   /// When the job was created.
-  final DateTime createdTime;
+  final DateTime? createdTime;
+
+  /// The device's ARN.
+  final String? deviceArn;
+
+  /// The device's ID.
+  final String? deviceId;
+
+  /// The device's name.
+  final String? deviceName;
+
+  /// The device's type.
+  final DeviceType? deviceType;
+
+  /// For an OTA job, the target version of the device software.
+  final String? imageVersion;
 
   /// The job's ID.
-  final String jobId;
+  final String? jobId;
 
-  /// When the job was updated.
-  final DateTime lastUpdatedTime;
-
-  /// The node's name.
-  final String nodeName;
-
-  /// The job's output package name.
-  final String outputPackageName;
-
-  /// The job's output package version.
-  final String outputPackageVersion;
+  /// The job's type.
+  final JobType? jobType;
 
   /// The job's status.
-  final NodeFromTemplateJobStatus status;
+  final UpdateProgress? status;
 
-  /// The job's status message.
-  final String statusMessage;
-
-  /// The job's template parameters.
-  final Map<String, String> templateParameters;
-
-  /// The job's template type.
-  final TemplateType templateType;
-
-  /// The job's tags.
-  final List<JobResourceTags>? jobTags;
-
-  /// The node's description.
-  final String? nodeDescription;
-
-  DescribeNodeFromTemplateJobResponse({
-    required this.createdTime,
-    required this.jobId,
-    required this.lastUpdatedTime,
-    required this.nodeName,
-    required this.outputPackageName,
-    required this.outputPackageVersion,
-    required this.status,
-    required this.statusMessage,
-    required this.templateParameters,
-    required this.templateType,
-    this.jobTags,
-    this.nodeDescription,
+  DescribeDeviceJobResponse({
+    this.createdTime,
+    this.deviceArn,
+    this.deviceId,
+    this.deviceName,
+    this.deviceType,
+    this.imageVersion,
+    this.jobId,
+    this.jobType,
+    this.status,
   });
 
-  factory DescribeNodeFromTemplateJobResponse.fromJson(
-      Map<String, dynamic> json) {
-    return DescribeNodeFromTemplateJobResponse(
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
-      jobId: (json['JobId'] as String?) ?? '',
-      lastUpdatedTime:
-          nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
-      nodeName: (json['NodeName'] as String?) ?? '',
-      outputPackageName: (json['OutputPackageName'] as String?) ?? '',
-      outputPackageVersion: (json['OutputPackageVersion'] as String?) ?? '',
-      status: NodeFromTemplateJobStatus.fromString(
-          (json['Status'] as String?) ?? ''),
-      statusMessage: (json['StatusMessage'] as String?) ?? '',
-      templateParameters:
-          ((json['TemplateParameters'] as Map<String, dynamic>?) ??
-                  const <String, dynamic>{})
-              .map((k, e) => MapEntry(k, e as String)),
-      templateType:
-          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
-      jobTags: (json['JobTags'] as List?)
-          ?.nonNulls
-          .map((e) => JobResourceTags.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nodeDescription: json['NodeDescription'] as String?,
+  factory DescribeDeviceJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDeviceJobResponse(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      deviceArn: json['DeviceArn'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      deviceName: json['DeviceName'] as String?,
+      deviceType: (json['DeviceType'] as String?)?.let(DeviceType.fromString),
+      imageVersion: json['ImageVersion'] as String?,
+      jobId: json['JobId'] as String?,
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
+      status: (json['Status'] as String?)?.let(UpdateProgress.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final createdTime = this.createdTime;
+    final deviceArn = this.deviceArn;
+    final deviceId = this.deviceId;
+    final deviceName = this.deviceName;
+    final deviceType = this.deviceType;
+    final imageVersion = this.imageVersion;
     final jobId = this.jobId;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final nodeName = this.nodeName;
-    final outputPackageName = this.outputPackageName;
-    final outputPackageVersion = this.outputPackageVersion;
+    final jobType = this.jobType;
     final status = this.status;
-    final statusMessage = this.statusMessage;
-    final templateParameters = this.templateParameters;
-    final templateType = this.templateType;
-    final jobTags = this.jobTags;
-    final nodeDescription = this.nodeDescription;
     return {
-      'CreatedTime': unixTimestampToJson(createdTime),
-      'JobId': jobId,
-      'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      'NodeName': nodeName,
-      'OutputPackageName': outputPackageName,
-      'OutputPackageVersion': outputPackageVersion,
-      'Status': status.value,
-      'StatusMessage': statusMessage,
-      'TemplateParameters': templateParameters,
-      'TemplateType': templateType.value,
-      if (jobTags != null) 'JobTags': jobTags,
-      if (nodeDescription != null) 'NodeDescription': nodeDescription,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (deviceArn != null) 'DeviceArn': deviceArn,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (deviceType != null) 'DeviceType': deviceType.value,
+      if (imageVersion != null) 'ImageVersion': imageVersion,
+      if (jobId != null) 'JobId': jobId,
+      if (jobType != null) 'JobType': jobType.value,
+      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -2377,6 +2024,198 @@ class DescribeNodeResponse {
   }
 }
 
+class DescribeNodeFromTemplateJobResponse {
+  /// When the job was created.
+  final DateTime createdTime;
+
+  /// The job's ID.
+  final String jobId;
+
+  /// When the job was updated.
+  final DateTime lastUpdatedTime;
+
+  /// The node's name.
+  final String nodeName;
+
+  /// The job's output package name.
+  final String outputPackageName;
+
+  /// The job's output package version.
+  final String outputPackageVersion;
+
+  /// The job's status.
+  final NodeFromTemplateJobStatus status;
+
+  /// The job's status message.
+  final String statusMessage;
+
+  /// The job's template parameters.
+  final Map<String, String> templateParameters;
+
+  /// The job's template type.
+  final TemplateType templateType;
+
+  /// The job's tags.
+  final List<JobResourceTags>? jobTags;
+
+  /// The node's description.
+  final String? nodeDescription;
+
+  DescribeNodeFromTemplateJobResponse({
+    required this.createdTime,
+    required this.jobId,
+    required this.lastUpdatedTime,
+    required this.nodeName,
+    required this.outputPackageName,
+    required this.outputPackageVersion,
+    required this.status,
+    required this.statusMessage,
+    required this.templateParameters,
+    required this.templateType,
+    this.jobTags,
+    this.nodeDescription,
+  });
+
+  factory DescribeNodeFromTemplateJobResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeNodeFromTemplateJobResponse(
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      jobId: (json['JobId'] as String?) ?? '',
+      lastUpdatedTime:
+          nonNullableTimeStampFromJson(json['LastUpdatedTime'] ?? 0),
+      nodeName: (json['NodeName'] as String?) ?? '',
+      outputPackageName: (json['OutputPackageName'] as String?) ?? '',
+      outputPackageVersion: (json['OutputPackageVersion'] as String?) ?? '',
+      status: NodeFromTemplateJobStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      statusMessage: (json['StatusMessage'] as String?) ?? '',
+      templateParameters:
+          ((json['TemplateParameters'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      templateType:
+          TemplateType.fromString((json['TemplateType'] as String?) ?? ''),
+      jobTags: (json['JobTags'] as List?)
+          ?.nonNulls
+          .map((e) => JobResourceTags.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nodeDescription: json['NodeDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final jobId = this.jobId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final nodeName = this.nodeName;
+    final outputPackageName = this.outputPackageName;
+    final outputPackageVersion = this.outputPackageVersion;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final templateParameters = this.templateParameters;
+    final templateType = this.templateType;
+    final jobTags = this.jobTags;
+    final nodeDescription = this.nodeDescription;
+    return {
+      'CreatedTime': unixTimestampToJson(createdTime),
+      'JobId': jobId,
+      'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      'NodeName': nodeName,
+      'OutputPackageName': outputPackageName,
+      'OutputPackageVersion': outputPackageVersion,
+      'Status': status.value,
+      'StatusMessage': statusMessage,
+      'TemplateParameters': templateParameters,
+      'TemplateType': templateType.value,
+      if (jobTags != null) 'JobTags': jobTags,
+      if (nodeDescription != null) 'NodeDescription': nodeDescription,
+    };
+  }
+}
+
+class DescribePackageResponse {
+  /// The package's ARN.
+  final String arn;
+
+  /// When the package was created.
+  final DateTime createdTime;
+
+  /// The package's ID.
+  final String packageId;
+
+  /// The package's name.
+  final String packageName;
+
+  /// The package's storage location.
+  final StorageLocation storageLocation;
+
+  /// The package's tags.
+  final Map<String, String> tags;
+
+  /// ARNs of accounts that have read access to the package.
+  final List<String>? readAccessPrincipalArns;
+
+  /// ARNs of accounts that have write access to the package.
+  final List<String>? writeAccessPrincipalArns;
+
+  DescribePackageResponse({
+    required this.arn,
+    required this.createdTime,
+    required this.packageId,
+    required this.packageName,
+    required this.storageLocation,
+    required this.tags,
+    this.readAccessPrincipalArns,
+    this.writeAccessPrincipalArns,
+  });
+
+  factory DescribePackageResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePackageResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
+      packageId: (json['PackageId'] as String?) ?? '',
+      packageName: (json['PackageName'] as String?) ?? '',
+      storageLocation: StorageLocation.fromJson(
+          (json['StorageLocation'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      tags:
+          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      readAccessPrincipalArns: (json['ReadAccessPrincipalArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      writeAccessPrincipalArns: (json['WriteAccessPrincipalArns'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final packageId = this.packageId;
+    final packageName = this.packageName;
+    final storageLocation = this.storageLocation;
+    final tags = this.tags;
+    final readAccessPrincipalArns = this.readAccessPrincipalArns;
+    final writeAccessPrincipalArns = this.writeAccessPrincipalArns;
+    return {
+      'Arn': arn,
+      'CreatedTime': unixTimestampToJson(createdTime),
+      'PackageId': packageId,
+      'PackageName': packageName,
+      'StorageLocation': storageLocation,
+      'Tags': tags,
+      if (readAccessPrincipalArns != null)
+        'ReadAccessPrincipalArns': readAccessPrincipalArns,
+      if (writeAccessPrincipalArns != null)
+        'WriteAccessPrincipalArns': writeAccessPrincipalArns,
+    };
+  }
+}
+
 class DescribePackageImportJobResponse {
   /// When the job was created.
   final DateTime createdTime;
@@ -2481,89 +2320,6 @@ class DescribePackageImportJobResponse {
   }
 }
 
-class DescribePackageResponse {
-  /// The package's ARN.
-  final String arn;
-
-  /// When the package was created.
-  final DateTime createdTime;
-
-  /// The package's ID.
-  final String packageId;
-
-  /// The package's name.
-  final String packageName;
-
-  /// The package's storage location.
-  final StorageLocation storageLocation;
-
-  /// The package's tags.
-  final Map<String, String> tags;
-
-  /// ARNs of accounts that have read access to the package.
-  final List<String>? readAccessPrincipalArns;
-
-  /// ARNs of accounts that have write access to the package.
-  final List<String>? writeAccessPrincipalArns;
-
-  DescribePackageResponse({
-    required this.arn,
-    required this.createdTime,
-    required this.packageId,
-    required this.packageName,
-    required this.storageLocation,
-    required this.tags,
-    this.readAccessPrincipalArns,
-    this.writeAccessPrincipalArns,
-  });
-
-  factory DescribePackageResponse.fromJson(Map<String, dynamic> json) {
-    return DescribePackageResponse(
-      arn: (json['Arn'] as String?) ?? '',
-      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] ?? 0),
-      packageId: (json['PackageId'] as String?) ?? '',
-      packageName: (json['PackageName'] as String?) ?? '',
-      storageLocation: StorageLocation.fromJson(
-          (json['StorageLocation'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      tags:
-          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
-              .map((k, e) => MapEntry(k, e as String)),
-      readAccessPrincipalArns: (json['ReadAccessPrincipalArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      writeAccessPrincipalArns: (json['WriteAccessPrincipalArns'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final packageId = this.packageId;
-    final packageName = this.packageName;
-    final storageLocation = this.storageLocation;
-    final tags = this.tags;
-    final readAccessPrincipalArns = this.readAccessPrincipalArns;
-    final writeAccessPrincipalArns = this.writeAccessPrincipalArns;
-    return {
-      'Arn': arn,
-      'CreatedTime': unixTimestampToJson(createdTime),
-      'PackageId': packageId,
-      'PackageName': packageName,
-      'StorageLocation': storageLocation,
-      'Tags': tags,
-      if (readAccessPrincipalArns != null)
-        'ReadAccessPrincipalArns': readAccessPrincipalArns,
-      if (writeAccessPrincipalArns != null)
-        'WriteAccessPrincipalArns': writeAccessPrincipalArns,
-    };
-  }
-}
-
 class DescribePackageVersionResponse {
   /// Whether the version is the latest available.
   final bool isLatestPatch;
@@ -2647,645 +2403,6 @@ class DescribePackageVersionResponse {
       if (registeredTime != null)
         'RegisteredTime': unixTimestampToJson(registeredTime),
       if (statusDescription != null) 'StatusDescription': statusDescription,
-    };
-  }
-}
-
-class DesiredState {
-  static const running = DesiredState._('RUNNING');
-  static const stopped = DesiredState._('STOPPED');
-  static const removed = DesiredState._('REMOVED');
-
-  final String value;
-
-  const DesiredState._(this.value);
-
-  static const values = [running, stopped, removed];
-
-  static DesiredState fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DesiredState._(value));
-
-  @override
-  bool operator ==(other) => other is DesiredState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A device.
-class Device {
-  /// The device's maker.
-  final DeviceBrand? brand;
-
-  /// When the device was created.
-  final DateTime? createdTime;
-
-  /// A device's current software.
-  final String? currentSoftware;
-
-  /// A description for the device.
-  final String? description;
-
-  /// A device's aggregated status. Including the device's connection status,
-  /// provisioning status, and lease status.
-  final DeviceAggregatedStatus? deviceAggregatedStatus;
-
-  /// The device's ID.
-  final String? deviceId;
-
-  /// When the device was updated.
-  final DateTime? lastUpdatedTime;
-
-  /// A device's latest job. Includes the target image version, and the update job
-  /// status.
-  final LatestDeviceJob? latestDeviceJob;
-
-  /// The device's lease expiration time.
-  final DateTime? leaseExpirationTime;
-
-  /// The device's name.
-  final String? name;
-
-  /// The device's provisioning status.
-  final DeviceStatus? provisioningStatus;
-
-  /// The device's tags.
-  final Map<String, String>? tags;
-
-  /// The device's type.
-  final DeviceType? type;
-
-  Device({
-    this.brand,
-    this.createdTime,
-    this.currentSoftware,
-    this.description,
-    this.deviceAggregatedStatus,
-    this.deviceId,
-    this.lastUpdatedTime,
-    this.latestDeviceJob,
-    this.leaseExpirationTime,
-    this.name,
-    this.provisioningStatus,
-    this.tags,
-    this.type,
-  });
-
-  factory Device.fromJson(Map<String, dynamic> json) {
-    return Device(
-      brand: (json['Brand'] as String?)?.let(DeviceBrand.fromString),
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      currentSoftware: json['CurrentSoftware'] as String?,
-      description: json['Description'] as String?,
-      deviceAggregatedStatus: (json['DeviceAggregatedStatus'] as String?)
-          ?.let(DeviceAggregatedStatus.fromString),
-      deviceId: json['DeviceId'] as String?,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      latestDeviceJob: json['LatestDeviceJob'] != null
-          ? LatestDeviceJob.fromJson(
-              json['LatestDeviceJob'] as Map<String, dynamic>)
-          : null,
-      leaseExpirationTime: timeStampFromJson(json['LeaseExpirationTime']),
-      name: json['Name'] as String?,
-      provisioningStatus:
-          (json['ProvisioningStatus'] as String?)?.let(DeviceStatus.fromString),
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      type: (json['Type'] as String?)?.let(DeviceType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final brand = this.brand;
-    final createdTime = this.createdTime;
-    final currentSoftware = this.currentSoftware;
-    final description = this.description;
-    final deviceAggregatedStatus = this.deviceAggregatedStatus;
-    final deviceId = this.deviceId;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final latestDeviceJob = this.latestDeviceJob;
-    final leaseExpirationTime = this.leaseExpirationTime;
-    final name = this.name;
-    final provisioningStatus = this.provisioningStatus;
-    final tags = this.tags;
-    final type = this.type;
-    return {
-      if (brand != null) 'Brand': brand.value,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (currentSoftware != null) 'CurrentSoftware': currentSoftware,
-      if (description != null) 'Description': description,
-      if (deviceAggregatedStatus != null)
-        'DeviceAggregatedStatus': deviceAggregatedStatus.value,
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (latestDeviceJob != null) 'LatestDeviceJob': latestDeviceJob,
-      if (leaseExpirationTime != null)
-        'LeaseExpirationTime': unixTimestampToJson(leaseExpirationTime),
-      if (name != null) 'Name': name,
-      if (provisioningStatus != null)
-        'ProvisioningStatus': provisioningStatus.value,
-      if (tags != null) 'Tags': tags,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class DeviceAggregatedStatus {
-  static const error = DeviceAggregatedStatus._('ERROR');
-  static const awaitingProvisioning =
-      DeviceAggregatedStatus._('AWAITING_PROVISIONING');
-  static const pending = DeviceAggregatedStatus._('PENDING');
-  static const failed = DeviceAggregatedStatus._('FAILED');
-  static const deleting = DeviceAggregatedStatus._('DELETING');
-  static const online = DeviceAggregatedStatus._('ONLINE');
-  static const offline = DeviceAggregatedStatus._('OFFLINE');
-  static const leaseExpired = DeviceAggregatedStatus._('LEASE_EXPIRED');
-  static const updateNeeded = DeviceAggregatedStatus._('UPDATE_NEEDED');
-  static const rebooting = DeviceAggregatedStatus._('REBOOTING');
-
-  final String value;
-
-  const DeviceAggregatedStatus._(this.value);
-
-  static const values = [
-    error,
-    awaitingProvisioning,
-    pending,
-    failed,
-    deleting,
-    online,
-    offline,
-    leaseExpired,
-    updateNeeded,
-    rebooting
-  ];
-
-  static DeviceAggregatedStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceAggregatedStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeviceAggregatedStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeviceBrand {
-  static const awsPanorama = DeviceBrand._('AWS_PANORAMA');
-  static const lenovo = DeviceBrand._('LENOVO');
-
-  final String value;
-
-  const DeviceBrand._(this.value);
-
-  static const values = [awsPanorama, lenovo];
-
-  static DeviceBrand fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DeviceBrand._(value));
-
-  @override
-  bool operator ==(other) => other is DeviceBrand && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeviceConnectionStatus {
-  static const online = DeviceConnectionStatus._('ONLINE');
-  static const offline = DeviceConnectionStatus._('OFFLINE');
-  static const awaitingCredentials =
-      DeviceConnectionStatus._('AWAITING_CREDENTIALS');
-  static const notAvailable = DeviceConnectionStatus._('NOT_AVAILABLE');
-  static const error = DeviceConnectionStatus._('ERROR');
-
-  final String value;
-
-  const DeviceConnectionStatus._(this.value);
-
-  static const values = [
-    online,
-    offline,
-    awaitingCredentials,
-    notAvailable,
-    error
-  ];
-
-  static DeviceConnectionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceConnectionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeviceConnectionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A job that runs on a device.
-class DeviceJob {
-  /// When the job was created.
-  final DateTime? createdTime;
-
-  /// The ID of the target device.
-  final String? deviceId;
-
-  /// The name of the target device
-  final String? deviceName;
-
-  /// The job's ID.
-  final String? jobId;
-
-  /// The job's type.
-  final JobType? jobType;
-
-  DeviceJob({
-    this.createdTime,
-    this.deviceId,
-    this.deviceName,
-    this.jobId,
-    this.jobType,
-  });
-
-  factory DeviceJob.fromJson(Map<String, dynamic> json) {
-    return DeviceJob(
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      deviceId: json['DeviceId'] as String?,
-      deviceName: json['DeviceName'] as String?,
-      jobId: json['JobId'] as String?,
-      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final deviceId = this.deviceId;
-    final deviceName = this.deviceName;
-    final jobId = this.jobId;
-    final jobType = this.jobType;
-    return {
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (deviceName != null) 'DeviceName': deviceName,
-      if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.value,
-    };
-  }
-}
-
-/// A job's configuration.
-class DeviceJobConfig {
-  /// A configuration for an over-the-air (OTA) upgrade. Required for OTA jobs.
-  final OTAJobConfig? oTAJobConfig;
-
-  DeviceJobConfig({
-    this.oTAJobConfig,
-  });
-
-  Map<String, dynamic> toJson() {
-    final oTAJobConfig = this.oTAJobConfig;
-    return {
-      if (oTAJobConfig != null) 'OTAJobConfig': oTAJobConfig,
-    };
-  }
-}
-
-class DeviceReportedStatus {
-  static const stopping = DeviceReportedStatus._('STOPPING');
-  static const stopped = DeviceReportedStatus._('STOPPED');
-  static const stopError = DeviceReportedStatus._('STOP_ERROR');
-  static const removalFailed = DeviceReportedStatus._('REMOVAL_FAILED');
-  static const removalInProgress =
-      DeviceReportedStatus._('REMOVAL_IN_PROGRESS');
-  static const starting = DeviceReportedStatus._('STARTING');
-  static const running = DeviceReportedStatus._('RUNNING');
-  static const installError = DeviceReportedStatus._('INSTALL_ERROR');
-  static const launched = DeviceReportedStatus._('LAUNCHED');
-  static const launchError = DeviceReportedStatus._('LAUNCH_ERROR');
-  static const installInProgress =
-      DeviceReportedStatus._('INSTALL_IN_PROGRESS');
-
-  final String value;
-
-  const DeviceReportedStatus._(this.value);
-
-  static const values = [
-    stopping,
-    stopped,
-    stopError,
-    removalFailed,
-    removalInProgress,
-    starting,
-    running,
-    installError,
-    launched,
-    launchError,
-    installInProgress
-  ];
-
-  static DeviceReportedStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DeviceReportedStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is DeviceReportedStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeviceStatus {
-  static const awaitingProvisioning = DeviceStatus._('AWAITING_PROVISIONING');
-  static const pending = DeviceStatus._('PENDING');
-  static const succeeded = DeviceStatus._('SUCCEEDED');
-  static const failed = DeviceStatus._('FAILED');
-  static const error = DeviceStatus._('ERROR');
-  static const deleting = DeviceStatus._('DELETING');
-
-  final String value;
-
-  const DeviceStatus._(this.value);
-
-  static const values = [
-    awaitingProvisioning,
-    pending,
-    succeeded,
-    failed,
-    error,
-    deleting
-  ];
-
-  static DeviceStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DeviceStatus._(value));
-
-  @override
-  bool operator ==(other) => other is DeviceStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DeviceType {
-  static const panoramaApplianceDeveloperKit =
-      DeviceType._('PANORAMA_APPLIANCE_DEVELOPER_KIT');
-  static const panoramaAppliance = DeviceType._('PANORAMA_APPLIANCE');
-
-  final String value;
-
-  const DeviceType._(this.value);
-
-  static const values = [panoramaApplianceDeveloperKit, panoramaAppliance];
-
-  static DeviceType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DeviceType._(value));
-
-  @override
-  bool operator ==(other) => other is DeviceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A device's network configuration.
-class EthernetPayload {
-  /// How the device gets an IP address.
-  final ConnectionType connectionType;
-
-  /// Network configuration for a static IP connection.
-  final StaticIpConnectionInfo? staticIpConnectionInfo;
-
-  EthernetPayload({
-    required this.connectionType,
-    this.staticIpConnectionInfo,
-  });
-
-  factory EthernetPayload.fromJson(Map<String, dynamic> json) {
-    return EthernetPayload(
-      connectionType:
-          ConnectionType.fromString((json['ConnectionType'] as String?) ?? ''),
-      staticIpConnectionInfo: json['StaticIpConnectionInfo'] != null
-          ? StaticIpConnectionInfo.fromJson(
-              json['StaticIpConnectionInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionType = this.connectionType;
-    final staticIpConnectionInfo = this.staticIpConnectionInfo;
-    return {
-      'ConnectionType': connectionType.value,
-      if (staticIpConnectionInfo != null)
-        'StaticIpConnectionInfo': staticIpConnectionInfo,
-    };
-  }
-}
-
-/// A device's Ethernet status.
-class EthernetStatus {
-  /// The device's connection status.
-  final NetworkConnectionStatus? connectionStatus;
-
-  /// The device's physical address.
-  final String? hwAddress;
-
-  /// The device's IP address.
-  final String? ipAddress;
-
-  EthernetStatus({
-    this.connectionStatus,
-    this.hwAddress,
-    this.ipAddress,
-  });
-
-  factory EthernetStatus.fromJson(Map<String, dynamic> json) {
-    return EthernetStatus(
-      connectionStatus: (json['ConnectionStatus'] as String?)
-          ?.let(NetworkConnectionStatus.fromString),
-      hwAddress: json['HwAddress'] as String?,
-      ipAddress: json['IpAddress'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final connectionStatus = this.connectionStatus;
-    final hwAddress = this.hwAddress;
-    final ipAddress = this.ipAddress;
-    return {
-      if (connectionStatus != null) 'ConnectionStatus': connectionStatus.value,
-      if (hwAddress != null) 'HwAddress': hwAddress,
-      if (ipAddress != null) 'IpAddress': ipAddress,
-    };
-  }
-}
-
-/// A job for a device.
-class Job {
-  /// The target device's ID.
-  final String? deviceId;
-
-  /// The job's ID.
-  final String? jobId;
-
-  Job({
-    this.deviceId,
-    this.jobId,
-  });
-
-  factory Job.fromJson(Map<String, dynamic> json) {
-    return Job(
-      deviceId: json['DeviceId'] as String?,
-      jobId: json['JobId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deviceId = this.deviceId;
-    final jobId = this.jobId;
-    return {
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (jobId != null) 'JobId': jobId,
-    };
-  }
-}
-
-/// Tags for a job.
-class JobResourceTags {
-  /// The job's type.
-  final JobResourceType resourceType;
-
-  /// The job's tags.
-  final Map<String, String> tags;
-
-  JobResourceTags({
-    required this.resourceType,
-    required this.tags,
-  });
-
-  factory JobResourceTags.fromJson(Map<String, dynamic> json) {
-    return JobResourceTags(
-      resourceType:
-          JobResourceType.fromString((json['ResourceType'] as String?) ?? ''),
-      tags:
-          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
-              .map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceType = this.resourceType;
-    final tags = this.tags;
-    return {
-      'ResourceType': resourceType.value,
-      'Tags': tags,
-    };
-  }
-}
-
-class JobResourceType {
-  static const package = JobResourceType._('PACKAGE');
-
-  final String value;
-
-  const JobResourceType._(this.value);
-
-  static const values = [package];
-
-  static JobResourceType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => JobResourceType._(value));
-
-  @override
-  bool operator ==(other) => other is JobResourceType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class JobType {
-  static const ota = JobType._('OTA');
-  static const reboot = JobType._('REBOOT');
-
-  final String value;
-
-  const JobType._(this.value);
-
-  static const values = [ota, reboot];
-
-  static JobType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
-
-  @override
-  bool operator ==(other) => other is JobType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Returns information about the latest device job.
-class LatestDeviceJob {
-  /// The target version of the device software.
-  final String? imageVersion;
-
-  /// The job's type.
-  final JobType? jobType;
-
-  /// Status of the latest device job.
-  final UpdateProgress? status;
-
-  LatestDeviceJob({
-    this.imageVersion,
-    this.jobType,
-    this.status,
-  });
-
-  factory LatestDeviceJob.fromJson(Map<String, dynamic> json) {
-    return LatestDeviceJob(
-      imageVersion: json['ImageVersion'] as String?,
-      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
-      status: (json['Status'] as String?)?.let(UpdateProgress.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final imageVersion = this.imageVersion;
-    final jobType = this.jobType;
-    final status = this.status;
-    return {
-      if (imageVersion != null) 'ImageVersion': imageVersion,
-      if (jobType != null) 'JobType': jobType.value,
-      if (status != null) 'Status': status.value,
     };
   }
 }
@@ -3389,38 +2506,6 @@ class ListApplicationInstancesResponse {
   }
 }
 
-class ListDevicesJobsResponse {
-  /// A list of jobs.
-  final List<DeviceJob>? deviceJobs;
-
-  /// A pagination token that's included if more results are available.
-  final String? nextToken;
-
-  ListDevicesJobsResponse({
-    this.deviceJobs,
-    this.nextToken,
-  });
-
-  factory ListDevicesJobsResponse.fromJson(Map<String, dynamic> json) {
-    return ListDevicesJobsResponse(
-      deviceJobs: (json['DeviceJobs'] as List?)
-          ?.nonNulls
-          .map((e) => DeviceJob.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['NextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deviceJobs = this.deviceJobs;
-    final nextToken = this.nextToken;
-    return {
-      if (deviceJobs != null) 'DeviceJobs': deviceJobs,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
 class ListDevicesResponse {
   /// A list of devices.
   final List<Device> devices;
@@ -3453,31 +2538,36 @@ class ListDevicesResponse {
   }
 }
 
-class ListDevicesSortBy {
-  static const deviceId = ListDevicesSortBy._('DEVICE_ID');
-  static const createdTime = ListDevicesSortBy._('CREATED_TIME');
-  static const name = ListDevicesSortBy._('NAME');
-  static const deviceAggregatedStatus =
-      ListDevicesSortBy._('DEVICE_AGGREGATED_STATUS');
+class ListDevicesJobsResponse {
+  /// A list of jobs.
+  final List<DeviceJob>? deviceJobs;
 
-  final String value;
+  /// A pagination token that's included if more results are available.
+  final String? nextToken;
 
-  const ListDevicesSortBy._(this.value);
+  ListDevicesJobsResponse({
+    this.deviceJobs,
+    this.nextToken,
+  });
 
-  static const values = [deviceId, createdTime, name, deviceAggregatedStatus];
+  factory ListDevicesJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDevicesJobsResponse(
+      deviceJobs: (json['DeviceJobs'] as List?)
+          ?.nonNulls
+          .map((e) => DeviceJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
 
-  static ListDevicesSortBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ListDevicesSortBy._(value));
-
-  @override
-  bool operator ==(other) => other is ListDevicesSortBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final deviceJobs = this.deviceJobs;
+    final nextToken = this.nextToken;
+    return {
+      if (deviceJobs != null) 'DeviceJobs': deviceJobs,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 class ListNodeFromTemplateJobsResponse {
@@ -3632,76 +2722,222 @@ class ListTagsForResourceResponse {
   }
 }
 
-/// Parameter overrides for an application instance. This is a JSON document
-/// that has a single key (<code>PayloadData</code>) where the value is an
-/// escaped string representation of the overrides document.
-class ManifestOverridesPayload {
-  /// The overrides document.
-  final String? payloadData;
+class ProvisionDeviceResponse {
+  /// The device's ARN.
+  final String arn;
 
-  ManifestOverridesPayload({
-    this.payloadData,
+  /// The device's status.
+  final DeviceStatus status;
+
+  /// The device's configuration bundle.
+  final Uint8List? certificates;
+
+  /// The device's ID.
+  final String? deviceId;
+
+  /// The device's IoT thing name.
+  final String? iotThingName;
+
+  ProvisionDeviceResponse({
+    required this.arn,
+    required this.status,
+    this.certificates,
+    this.deviceId,
+    this.iotThingName,
   });
 
-  factory ManifestOverridesPayload.fromJson(Map<String, dynamic> json) {
-    return ManifestOverridesPayload(
-      payloadData: json['PayloadData'] as String?,
+  factory ProvisionDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return ProvisionDeviceResponse(
+      arn: (json['Arn'] as String?) ?? '',
+      status: DeviceStatus.fromString((json['Status'] as String?) ?? ''),
+      certificates: _s.decodeNullableUint8List(json['Certificates'] as String?),
+      deviceId: json['DeviceId'] as String?,
+      iotThingName: json['IotThingName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final payloadData = this.payloadData;
+    final arn = this.arn;
+    final status = this.status;
+    final certificates = this.certificates;
+    final deviceId = this.deviceId;
+    final iotThingName = this.iotThingName;
     return {
-      if (payloadData != null) 'PayloadData': payloadData,
+      'Arn': arn,
+      'Status': status.value,
+      if (certificates != null) 'Certificates': base64Encode(certificates),
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (iotThingName != null) 'IotThingName': iotThingName,
     };
   }
 }
 
-/// A application verion's manifest file. This is a JSON document that has a
-/// single key (<code>PayloadData</code>) where the value is an escaped string
-/// representation of the application manifest (<code>graph.json</code>). This
-/// file is located in the <code>graphs</code> folder in your application
-/// source.
-class ManifestPayload {
-  /// The application manifest.
-  final String? payloadData;
+class RegisterPackageVersionResponse {
+  RegisterPackageVersionResponse();
 
-  ManifestPayload({
-    this.payloadData,
+  factory RegisterPackageVersionResponse.fromJson(Map<String, dynamic> _) {
+    return RegisterPackageVersionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RemoveApplicationInstanceResponse {
+  RemoveApplicationInstanceResponse();
+
+  factory RemoveApplicationInstanceResponse.fromJson(Map<String, dynamic> _) {
+    return RemoveApplicationInstanceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class SignalApplicationInstanceNodeInstancesResponse {
+  /// An application instance ID.
+  final String applicationInstanceId;
+
+  SignalApplicationInstanceNodeInstancesResponse({
+    required this.applicationInstanceId,
   });
 
-  factory ManifestPayload.fromJson(Map<String, dynamic> json) {
-    return ManifestPayload(
-      payloadData: json['PayloadData'] as String?,
+  factory SignalApplicationInstanceNodeInstancesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SignalApplicationInstanceNodeInstancesResponse(
+      applicationInstanceId: (json['ApplicationInstanceId'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final payloadData = this.payloadData;
+    final applicationInstanceId = this.applicationInstanceId;
     return {
-      if (payloadData != null) 'PayloadData': payloadData,
+      'ApplicationInstanceId': applicationInstanceId,
     };
   }
 }
 
-class NetworkConnectionStatus {
-  static const connected = NetworkConnectionStatus._('CONNECTED');
-  static const notConnected = NetworkConnectionStatus._('NOT_CONNECTED');
-  static const connecting = NetworkConnectionStatus._('CONNECTING');
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateDeviceMetadataResponse {
+  /// The device's ID.
+  final String? deviceId;
+
+  UpdateDeviceMetadataResponse({
+    this.deviceId,
+  });
+
+  factory UpdateDeviceMetadataResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDeviceMetadataResponse(
+      deviceId: json['DeviceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceId = this.deviceId;
+    return {
+      if (deviceId != null) 'DeviceId': deviceId,
+    };
+  }
+}
+
+/// A signal to a camera node to start or stop processing video.
+class NodeSignal {
+  /// The camera node's name, from the application manifest.
+  final String nodeInstanceId;
+
+  /// The signal value.
+  final NodeSignalValue signal;
+
+  NodeSignal({
+    required this.nodeInstanceId,
+    required this.signal,
+  });
+
+  Map<String, dynamic> toJson() {
+    final nodeInstanceId = this.nodeInstanceId;
+    final signal = this.signal;
+    return {
+      'NodeInstanceId': nodeInstanceId,
+      'Signal': signal.value,
+    };
+  }
+}
+
+class NodeSignalValue {
+  static const pause = NodeSignalValue._('PAUSE');
+  static const resume = NodeSignalValue._('RESUME');
 
   final String value;
 
-  const NetworkConnectionStatus._(this.value);
+  const NodeSignalValue._(this.value);
 
-  static const values = [connected, notConnected, connecting];
+  static const values = [pause, resume];
 
-  static NetworkConnectionStatus fromString(String value) =>
+  static NodeSignalValue fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => NetworkConnectionStatus._(value));
+          orElse: () => NodeSignalValue._(value));
 
   @override
-  bool operator ==(other) =>
-      other is NetworkConnectionStatus && other.value == value;
+  bool operator ==(other) => other is NodeSignalValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeviceStatus {
+  static const awaitingProvisioning = DeviceStatus._('AWAITING_PROVISIONING');
+  static const pending = DeviceStatus._('PENDING');
+  static const succeeded = DeviceStatus._('SUCCEEDED');
+  static const failed = DeviceStatus._('FAILED');
+  static const error = DeviceStatus._('ERROR');
+  static const deleting = DeviceStatus._('DELETING');
+
+  final String value;
+
+  const DeviceStatus._(this.value);
+
+  static const values = [
+    awaitingProvisioning,
+    pending,
+    succeeded,
+    failed,
+    error,
+    deleting
+  ];
+
+  static DeviceStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceStatus._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3753,57 +2989,303 @@ class NetworkPayload {
   }
 }
 
-/// The network status of a device.
-class NetworkStatus {
-  /// The status of Ethernet port 0.
-  final EthernetStatus? ethernet0Status;
+/// A device's network configuration.
+class EthernetPayload {
+  /// How the device gets an IP address.
+  final ConnectionType connectionType;
 
-  /// The status of Ethernet port 1.
-  final EthernetStatus? ethernet1Status;
+  /// Network configuration for a static IP connection.
+  final StaticIpConnectionInfo? staticIpConnectionInfo;
 
-  /// When the network status changed.
-  final DateTime? lastUpdatedTime;
-
-  /// Details about a network time protocol (NTP) server connection.
-  final NtpStatus? ntpStatus;
-
-  NetworkStatus({
-    this.ethernet0Status,
-    this.ethernet1Status,
-    this.lastUpdatedTime,
-    this.ntpStatus,
+  EthernetPayload({
+    required this.connectionType,
+    this.staticIpConnectionInfo,
   });
 
-  factory NetworkStatus.fromJson(Map<String, dynamic> json) {
-    return NetworkStatus(
-      ethernet0Status: json['Ethernet0Status'] != null
-          ? EthernetStatus.fromJson(
-              json['Ethernet0Status'] as Map<String, dynamic>)
-          : null,
-      ethernet1Status: json['Ethernet1Status'] != null
-          ? EthernetStatus.fromJson(
-              json['Ethernet1Status'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      ntpStatus: json['NtpStatus'] != null
-          ? NtpStatus.fromJson(json['NtpStatus'] as Map<String, dynamic>)
+  factory EthernetPayload.fromJson(Map<String, dynamic> json) {
+    return EthernetPayload(
+      connectionType:
+          ConnectionType.fromString((json['ConnectionType'] as String?) ?? ''),
+      staticIpConnectionInfo: json['StaticIpConnectionInfo'] != null
+          ? StaticIpConnectionInfo.fromJson(
+              json['StaticIpConnectionInfo'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final ethernet0Status = this.ethernet0Status;
-    final ethernet1Status = this.ethernet1Status;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final ntpStatus = this.ntpStatus;
+    final connectionType = this.connectionType;
+    final staticIpConnectionInfo = this.staticIpConnectionInfo;
     return {
-      if (ethernet0Status != null) 'Ethernet0Status': ethernet0Status,
-      if (ethernet1Status != null) 'Ethernet1Status': ethernet1Status,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (ntpStatus != null) 'NtpStatus': ntpStatus,
+      'ConnectionType': connectionType.value,
+      if (staticIpConnectionInfo != null)
+        'StaticIpConnectionInfo': staticIpConnectionInfo,
     };
   }
+}
+
+/// Network time protocol (NTP) server settings. Use this option to connect to
+/// local NTP servers instead of <code>pool.ntp.org</code>.
+class NtpPayload {
+  /// NTP servers to use, in order of preference.
+  final List<String> ntpServers;
+
+  NtpPayload({
+    required this.ntpServers,
+  });
+
+  factory NtpPayload.fromJson(Map<String, dynamic> json) {
+    return NtpPayload(
+      ntpServers: ((json['NtpServers'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ntpServers = this.ntpServers;
+    return {
+      'NtpServers': ntpServers,
+    };
+  }
+}
+
+class ConnectionType {
+  static const staticIp = ConnectionType._('STATIC_IP');
+  static const dhcp = ConnectionType._('DHCP');
+
+  final String value;
+
+  const ConnectionType._(this.value);
+
+  static const values = [staticIp, dhcp];
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A static IP configuration.
+class StaticIpConnectionInfo {
+  /// The connection's default gateway.
+  final String defaultGateway;
+
+  /// The connection's DNS address.
+  final List<String> dns;
+
+  /// The connection's IP address.
+  final String ipAddress;
+
+  /// The connection's DNS mask.
+  final String mask;
+
+  StaticIpConnectionInfo({
+    required this.defaultGateway,
+    required this.dns,
+    required this.ipAddress,
+    required this.mask,
+  });
+
+  factory StaticIpConnectionInfo.fromJson(Map<String, dynamic> json) {
+    return StaticIpConnectionInfo(
+      defaultGateway: (json['DefaultGateway'] as String?) ?? '',
+      dns: ((json['Dns'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      ipAddress: (json['IpAddress'] as String?) ?? '',
+      mask: (json['Mask'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultGateway = this.defaultGateway;
+    final dns = this.dns;
+    final ipAddress = this.ipAddress;
+    final mask = this.mask;
+    return {
+      'DefaultGateway': defaultGateway,
+      'Dns': dns,
+      'IpAddress': ipAddress,
+      'Mask': mask,
+    };
+  }
+}
+
+/// A package summary.
+class PackageListItem {
+  /// The package's ARN.
+  final String? arn;
+
+  /// When the package was created.
+  final DateTime? createdTime;
+
+  /// The package's ID.
+  final String? packageId;
+
+  /// The package's name.
+  final String? packageName;
+
+  /// The package's tags.
+  final Map<String, String>? tags;
+
+  PackageListItem({
+    this.arn,
+    this.createdTime,
+    this.packageId,
+    this.packageName,
+    this.tags,
+  });
+
+  factory PackageListItem.fromJson(Map<String, dynamic> json) {
+    return PackageListItem(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      packageId: json['PackageId'] as String?,
+      packageName: json['PackageName'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final packageId = this.packageId;
+    final packageName = this.packageName;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (packageId != null) 'PackageId': packageId,
+      if (packageName != null) 'PackageName': packageName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A job to import a package version.
+class PackageImportJob {
+  /// When the job was created.
+  final DateTime? createdTime;
+
+  /// The job's ID.
+  final String? jobId;
+
+  /// The job's type.
+  final PackageImportJobType? jobType;
+
+  /// When the job was updated.
+  final DateTime? lastUpdatedTime;
+
+  /// The job's status.
+  final PackageImportJobStatus? status;
+
+  /// The job's status message.
+  final String? statusMessage;
+
+  PackageImportJob({
+    this.createdTime,
+    this.jobId,
+    this.jobType,
+    this.lastUpdatedTime,
+    this.status,
+    this.statusMessage,
+  });
+
+  factory PackageImportJob.fromJson(Map<String, dynamic> json) {
+    return PackageImportJob(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      jobId: json['JobId'] as String?,
+      jobType:
+          (json['JobType'] as String?)?.let(PackageImportJobType.fromString),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      status:
+          (json['Status'] as String?)?.let(PackageImportJobStatus.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final jobId = this.jobId;
+    final jobType = this.jobType;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (jobId != null) 'JobId': jobId,
+      if (jobType != null) 'JobType': jobType.value,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (status != null) 'Status': status.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class PackageImportJobType {
+  static const nodePackageVersion =
+      PackageImportJobType._('NODE_PACKAGE_VERSION');
+  static const marketplaceNodePackageVersion =
+      PackageImportJobType._('MARKETPLACE_NODE_PACKAGE_VERSION');
+
+  final String value;
+
+  const PackageImportJobType._(this.value);
+
+  static const values = [nodePackageVersion, marketplaceNodePackageVersion];
+
+  static PackageImportJobType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackageImportJobType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageImportJobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PackageImportJobStatus {
+  static const pending = PackageImportJobStatus._('PENDING');
+  static const succeeded = PackageImportJobStatus._('SUCCEEDED');
+  static const failed = PackageImportJobStatus._('FAILED');
+
+  final String value;
+
+  const PackageImportJobStatus._(this.value);
+
+  static const values = [pending, succeeded, failed];
+
+  static PackageImportJobStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackageImportJobStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageImportJobStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// An application node that represents a camera stream, a model, code, or
@@ -3985,6 +3467,28 @@ class NodeFromTemplateJob {
   }
 }
 
+class TemplateType {
+  static const rtspCameraStream = TemplateType._('RTSP_CAMERA_STREAM');
+
+  final String value;
+
+  const TemplateType._(this.value);
+
+  static const values = [rtspCameraStream];
+
+  static TemplateType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TemplateType._(value));
+
+  @override
+  bool operator ==(other) => other is TemplateType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 class NodeFromTemplateJobStatus {
   static const pending = NodeFromTemplateJobStatus._('PENDING');
   static const succeeded = NodeFromTemplateJobStatus._('SUCCEEDED');
@@ -4011,55 +3515,764 @@ class NodeFromTemplateJobStatus {
   String toString() => value;
 }
 
-/// A node input port.
-class NodeInputPort {
-  /// The input port's default value.
-  final String? defaultValue;
+/// A job that runs on a device.
+class DeviceJob {
+  /// When the job was created.
+  final DateTime? createdTime;
 
-  /// The input port's description.
-  final String? description;
+  /// The ID of the target device.
+  final String? deviceId;
 
-  /// The input port's max connections.
-  final int? maxConnections;
+  /// The name of the target device
+  final String? deviceName;
 
-  /// The input port's name.
-  final String? name;
+  /// The job's ID.
+  final String? jobId;
 
-  /// The input port's type.
-  final PortType? type;
+  /// The job's type.
+  final JobType? jobType;
 
-  NodeInputPort({
-    this.defaultValue,
-    this.description,
-    this.maxConnections,
-    this.name,
-    this.type,
+  DeviceJob({
+    this.createdTime,
+    this.deviceId,
+    this.deviceName,
+    this.jobId,
+    this.jobType,
   });
 
-  factory NodeInputPort.fromJson(Map<String, dynamic> json) {
-    return NodeInputPort(
-      defaultValue: json['DefaultValue'] as String?,
-      description: json['Description'] as String?,
-      maxConnections: json['MaxConnections'] as int?,
-      name: json['Name'] as String?,
-      type: (json['Type'] as String?)?.let(PortType.fromString),
+  factory DeviceJob.fromJson(Map<String, dynamic> json) {
+    return DeviceJob(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      deviceId: json['DeviceId'] as String?,
+      deviceName: json['DeviceName'] as String?,
+      jobId: json['JobId'] as String?,
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final defaultValue = this.defaultValue;
+    final createdTime = this.createdTime;
+    final deviceId = this.deviceId;
+    final deviceName = this.deviceName;
+    final jobId = this.jobId;
+    final jobType = this.jobType;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (jobId != null) 'JobId': jobId,
+      if (jobType != null) 'JobType': jobType.value,
+    };
+  }
+}
+
+class JobType {
+  static const ota = JobType._('OTA');
+  static const reboot = JobType._('REBOOT');
+
+  final String value;
+
+  const JobType._(this.value);
+
+  static const values = [ota, reboot];
+
+  static JobType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => JobType._(value));
+
+  @override
+  bool operator ==(other) => other is JobType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A device.
+class Device {
+  /// The device's maker.
+  final DeviceBrand? brand;
+
+  /// When the device was created.
+  final DateTime? createdTime;
+
+  /// A device's current software.
+  final String? currentSoftware;
+
+  /// A description for the device.
+  final String? description;
+
+  /// A device's aggregated status. Including the device's connection status,
+  /// provisioning status, and lease status.
+  final DeviceAggregatedStatus? deviceAggregatedStatus;
+
+  /// The device's ID.
+  final String? deviceId;
+
+  /// When the device was updated.
+  final DateTime? lastUpdatedTime;
+
+  /// A device's latest job. Includes the target image version, and the update job
+  /// status.
+  final LatestDeviceJob? latestDeviceJob;
+
+  /// The device's lease expiration time.
+  final DateTime? leaseExpirationTime;
+
+  /// The device's name.
+  final String? name;
+
+  /// The device's provisioning status.
+  final DeviceStatus? provisioningStatus;
+
+  /// The device's tags.
+  final Map<String, String>? tags;
+
+  /// The device's type.
+  final DeviceType? type;
+
+  Device({
+    this.brand,
+    this.createdTime,
+    this.currentSoftware,
+    this.description,
+    this.deviceAggregatedStatus,
+    this.deviceId,
+    this.lastUpdatedTime,
+    this.latestDeviceJob,
+    this.leaseExpirationTime,
+    this.name,
+    this.provisioningStatus,
+    this.tags,
+    this.type,
+  });
+
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      brand: (json['Brand'] as String?)?.let(DeviceBrand.fromString),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      currentSoftware: json['CurrentSoftware'] as String?,
+      description: json['Description'] as String?,
+      deviceAggregatedStatus: (json['DeviceAggregatedStatus'] as String?)
+          ?.let(DeviceAggregatedStatus.fromString),
+      deviceId: json['DeviceId'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      latestDeviceJob: json['LatestDeviceJob'] != null
+          ? LatestDeviceJob.fromJson(
+              json['LatestDeviceJob'] as Map<String, dynamic>)
+          : null,
+      leaseExpirationTime: timeStampFromJson(json['LeaseExpirationTime']),
+      name: json['Name'] as String?,
+      provisioningStatus:
+          (json['ProvisioningStatus'] as String?)?.let(DeviceStatus.fromString),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: (json['Type'] as String?)?.let(DeviceType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brand = this.brand;
+    final createdTime = this.createdTime;
+    final currentSoftware = this.currentSoftware;
     final description = this.description;
-    final maxConnections = this.maxConnections;
+    final deviceAggregatedStatus = this.deviceAggregatedStatus;
+    final deviceId = this.deviceId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final latestDeviceJob = this.latestDeviceJob;
+    final leaseExpirationTime = this.leaseExpirationTime;
     final name = this.name;
+    final provisioningStatus = this.provisioningStatus;
+    final tags = this.tags;
     final type = this.type;
     return {
-      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (brand != null) 'Brand': brand.value,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (currentSoftware != null) 'CurrentSoftware': currentSoftware,
       if (description != null) 'Description': description,
-      if (maxConnections != null) 'MaxConnections': maxConnections,
+      if (deviceAggregatedStatus != null)
+        'DeviceAggregatedStatus': deviceAggregatedStatus.value,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (latestDeviceJob != null) 'LatestDeviceJob': latestDeviceJob,
+      if (leaseExpirationTime != null)
+        'LeaseExpirationTime': unixTimestampToJson(leaseExpirationTime),
       if (name != null) 'Name': name,
+      if (provisioningStatus != null)
+        'ProvisioningStatus': provisioningStatus.value,
+      if (tags != null) 'Tags': tags,
       if (type != null) 'Type': type.value,
     };
   }
+}
+
+class DeviceBrand {
+  static const awsPanorama = DeviceBrand._('AWS_PANORAMA');
+  static const lenovo = DeviceBrand._('LENOVO');
+
+  final String value;
+
+  const DeviceBrand._(this.value);
+
+  static const values = [awsPanorama, lenovo];
+
+  static DeviceBrand fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceBrand._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceBrand && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeviceType {
+  static const panoramaApplianceDeveloperKit =
+      DeviceType._('PANORAMA_APPLIANCE_DEVELOPER_KIT');
+  static const panoramaAppliance = DeviceType._('PANORAMA_APPLIANCE');
+
+  final String value;
+
+  const DeviceType._(this.value);
+
+  static const values = [panoramaApplianceDeveloperKit, panoramaAppliance];
+
+  static DeviceType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DeviceType._(value));
+
+  @override
+  bool operator ==(other) => other is DeviceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Returns information about the latest device job.
+class LatestDeviceJob {
+  /// The target version of the device software.
+  final String? imageVersion;
+
+  /// The job's type.
+  final JobType? jobType;
+
+  /// Status of the latest device job.
+  final UpdateProgress? status;
+
+  LatestDeviceJob({
+    this.imageVersion,
+    this.jobType,
+    this.status,
+  });
+
+  factory LatestDeviceJob.fromJson(Map<String, dynamic> json) {
+    return LatestDeviceJob(
+      imageVersion: json['ImageVersion'] as String?,
+      jobType: (json['JobType'] as String?)?.let(JobType.fromString),
+      status: (json['Status'] as String?)?.let(UpdateProgress.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageVersion = this.imageVersion;
+    final jobType = this.jobType;
+    final status = this.status;
+    return {
+      if (imageVersion != null) 'ImageVersion': imageVersion,
+      if (jobType != null) 'JobType': jobType.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class DeviceAggregatedStatus {
+  static const error = DeviceAggregatedStatus._('ERROR');
+  static const awaitingProvisioning =
+      DeviceAggregatedStatus._('AWAITING_PROVISIONING');
+  static const pending = DeviceAggregatedStatus._('PENDING');
+  static const failed = DeviceAggregatedStatus._('FAILED');
+  static const deleting = DeviceAggregatedStatus._('DELETING');
+  static const online = DeviceAggregatedStatus._('ONLINE');
+  static const offline = DeviceAggregatedStatus._('OFFLINE');
+  static const leaseExpired = DeviceAggregatedStatus._('LEASE_EXPIRED');
+  static const updateNeeded = DeviceAggregatedStatus._('UPDATE_NEEDED');
+  static const rebooting = DeviceAggregatedStatus._('REBOOTING');
+
+  final String value;
+
+  const DeviceAggregatedStatus._(this.value);
+
+  static const values = [
+    error,
+    awaitingProvisioning,
+    pending,
+    failed,
+    deleting,
+    online,
+    offline,
+    leaseExpired,
+    updateNeeded,
+    rebooting
+  ];
+
+  static DeviceAggregatedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceAggregatedStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceAggregatedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class UpdateProgress {
+  static const pending = UpdateProgress._('PENDING');
+  static const inProgress = UpdateProgress._('IN_PROGRESS');
+  static const verifying = UpdateProgress._('VERIFYING');
+  static const rebooting = UpdateProgress._('REBOOTING');
+  static const downloading = UpdateProgress._('DOWNLOADING');
+  static const completed = UpdateProgress._('COMPLETED');
+  static const failed = UpdateProgress._('FAILED');
+
+  final String value;
+
+  const UpdateProgress._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    verifying,
+    rebooting,
+    downloading,
+    completed,
+    failed
+  ];
+
+  static UpdateProgress fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => UpdateProgress._(value));
+
+  @override
+  bool operator ==(other) => other is UpdateProgress && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ListDevicesSortBy {
+  static const deviceId = ListDevicesSortBy._('DEVICE_ID');
+  static const createdTime = ListDevicesSortBy._('CREATED_TIME');
+  static const name = ListDevicesSortBy._('NAME');
+  static const deviceAggregatedStatus =
+      ListDevicesSortBy._('DEVICE_AGGREGATED_STATUS');
+
+  final String value;
+
+  const ListDevicesSortBy._(this.value);
+
+  static const values = [deviceId, createdTime, name, deviceAggregatedStatus];
+
+  static ListDevicesSortBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ListDevicesSortBy._(value));
+
+  @override
+  bool operator ==(other) => other is ListDevicesSortBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SortOrder {
+  static const ascending = SortOrder._('ASCENDING');
+  static const descending = SortOrder._('DESCENDING');
+
+  final String value;
+
+  const SortOrder._(this.value);
+
+  static const values = [ascending, descending];
+
+  static SortOrder fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
+
+  @override
+  bool operator ==(other) => other is SortOrder && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An application instance on a device.
+class ApplicationInstance {
+  /// The application instance's ID.
+  final String? applicationInstanceId;
+
+  /// The application instance's ARN.
+  final String? arn;
+
+  /// When the application instance was created.
+  final DateTime? createdTime;
+
+  /// The device's ID.
+  final String? defaultRuntimeContextDevice;
+
+  /// The device's name.
+  final String? defaultRuntimeContextDeviceName;
+
+  /// The application instance's description.
+  final String? description;
+
+  /// The application instance's health status.
+  final ApplicationInstanceHealthStatus? healthStatus;
+
+  /// The application instance's name.
+  final String? name;
+
+  /// The application's state.
+  final List<ReportedRuntimeContextState>? runtimeContextStates;
+
+  /// The application instance's status.
+  final ApplicationInstanceStatus? status;
+
+  /// The application instance's status description.
+  final String? statusDescription;
+
+  /// The application instance's tags.
+  final Map<String, String>? tags;
+
+  ApplicationInstance({
+    this.applicationInstanceId,
+    this.arn,
+    this.createdTime,
+    this.defaultRuntimeContextDevice,
+    this.defaultRuntimeContextDeviceName,
+    this.description,
+    this.healthStatus,
+    this.name,
+    this.runtimeContextStates,
+    this.status,
+    this.statusDescription,
+    this.tags,
+  });
+
+  factory ApplicationInstance.fromJson(Map<String, dynamic> json) {
+    return ApplicationInstance(
+      applicationInstanceId: json['ApplicationInstanceId'] as String?,
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      defaultRuntimeContextDevice:
+          json['DefaultRuntimeContextDevice'] as String?,
+      defaultRuntimeContextDeviceName:
+          json['DefaultRuntimeContextDeviceName'] as String?,
+      description: json['Description'] as String?,
+      healthStatus: (json['HealthStatus'] as String?)
+          ?.let(ApplicationInstanceHealthStatus.fromString),
+      name: json['Name'] as String?,
+      runtimeContextStates: (json['RuntimeContextStates'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ReportedRuntimeContextState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)
+          ?.let(ApplicationInstanceStatus.fromString),
+      statusDescription: json['StatusDescription'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationInstanceId = this.applicationInstanceId;
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final defaultRuntimeContextDevice = this.defaultRuntimeContextDevice;
+    final defaultRuntimeContextDeviceName =
+        this.defaultRuntimeContextDeviceName;
+    final description = this.description;
+    final healthStatus = this.healthStatus;
+    final name = this.name;
+    final runtimeContextStates = this.runtimeContextStates;
+    final status = this.status;
+    final statusDescription = this.statusDescription;
+    final tags = this.tags;
+    return {
+      if (applicationInstanceId != null)
+        'ApplicationInstanceId': applicationInstanceId,
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (defaultRuntimeContextDevice != null)
+        'DefaultRuntimeContextDevice': defaultRuntimeContextDevice,
+      if (defaultRuntimeContextDeviceName != null)
+        'DefaultRuntimeContextDeviceName': defaultRuntimeContextDeviceName,
+      if (description != null) 'Description': description,
+      if (healthStatus != null) 'HealthStatus': healthStatus.value,
+      if (name != null) 'Name': name,
+      if (runtimeContextStates != null)
+        'RuntimeContextStates': runtimeContextStates,
+      if (status != null) 'Status': status.value,
+      if (statusDescription != null) 'StatusDescription': statusDescription,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class ApplicationInstanceStatus {
+  static const deploymentPending =
+      ApplicationInstanceStatus._('DEPLOYMENT_PENDING');
+  static const deploymentRequested =
+      ApplicationInstanceStatus._('DEPLOYMENT_REQUESTED');
+  static const deploymentInProgress =
+      ApplicationInstanceStatus._('DEPLOYMENT_IN_PROGRESS');
+  static const deploymentError =
+      ApplicationInstanceStatus._('DEPLOYMENT_ERROR');
+  static const deploymentSucceeded =
+      ApplicationInstanceStatus._('DEPLOYMENT_SUCCEEDED');
+  static const removalPending = ApplicationInstanceStatus._('REMOVAL_PENDING');
+  static const removalRequested =
+      ApplicationInstanceStatus._('REMOVAL_REQUESTED');
+  static const removalInProgress =
+      ApplicationInstanceStatus._('REMOVAL_IN_PROGRESS');
+  static const removalFailed = ApplicationInstanceStatus._('REMOVAL_FAILED');
+  static const removalSucceeded =
+      ApplicationInstanceStatus._('REMOVAL_SUCCEEDED');
+  static const deploymentFailed =
+      ApplicationInstanceStatus._('DEPLOYMENT_FAILED');
+
+  final String value;
+
+  const ApplicationInstanceStatus._(this.value);
+
+  static const values = [
+    deploymentPending,
+    deploymentRequested,
+    deploymentInProgress,
+    deploymentError,
+    deploymentSucceeded,
+    removalPending,
+    removalRequested,
+    removalInProgress,
+    removalFailed,
+    removalSucceeded,
+    deploymentFailed
+  ];
+
+  static ApplicationInstanceStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationInstanceStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationInstanceStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ApplicationInstanceHealthStatus {
+  static const running = ApplicationInstanceHealthStatus._('RUNNING');
+  static const error = ApplicationInstanceHealthStatus._('ERROR');
+  static const notAvailable =
+      ApplicationInstanceHealthStatus._('NOT_AVAILABLE');
+
+  final String value;
+
+  const ApplicationInstanceHealthStatus._(this.value);
+
+  static const values = [running, error, notAvailable];
+
+  static ApplicationInstanceHealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ApplicationInstanceHealthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ApplicationInstanceHealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An application instance's state.
+class ReportedRuntimeContextState {
+  /// The application's desired state.
+  final DesiredState desiredState;
+
+  /// The application's reported status.
+  final DeviceReportedStatus deviceReportedStatus;
+
+  /// When the device reported the application's state.
+  final DateTime deviceReportedTime;
+
+  /// The device's name.
+  final String runtimeContextName;
+
+  ReportedRuntimeContextState({
+    required this.desiredState,
+    required this.deviceReportedStatus,
+    required this.deviceReportedTime,
+    required this.runtimeContextName,
+  });
+
+  factory ReportedRuntimeContextState.fromJson(Map<String, dynamic> json) {
+    return ReportedRuntimeContextState(
+      desiredState:
+          DesiredState.fromString((json['DesiredState'] as String?) ?? ''),
+      deviceReportedStatus: DeviceReportedStatus.fromString(
+          (json['DeviceReportedStatus'] as String?) ?? ''),
+      deviceReportedTime:
+          nonNullableTimeStampFromJson(json['DeviceReportedTime'] ?? 0),
+      runtimeContextName: (json['RuntimeContextName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final desiredState = this.desiredState;
+    final deviceReportedStatus = this.deviceReportedStatus;
+    final deviceReportedTime = this.deviceReportedTime;
+    final runtimeContextName = this.runtimeContextName;
+    return {
+      'DesiredState': desiredState.value,
+      'DeviceReportedStatus': deviceReportedStatus.value,
+      'DeviceReportedTime': unixTimestampToJson(deviceReportedTime),
+      'RuntimeContextName': runtimeContextName,
+    };
+  }
+}
+
+class DesiredState {
+  static const running = DesiredState._('RUNNING');
+  static const stopped = DesiredState._('STOPPED');
+  static const removed = DesiredState._('REMOVED');
+
+  final String value;
+
+  const DesiredState._(this.value);
+
+  static const values = [running, stopped, removed];
+
+  static DesiredState fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DesiredState._(value));
+
+  @override
+  bool operator ==(other) => other is DesiredState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DeviceReportedStatus {
+  static const stopping = DeviceReportedStatus._('STOPPING');
+  static const stopped = DeviceReportedStatus._('STOPPED');
+  static const stopError = DeviceReportedStatus._('STOP_ERROR');
+  static const removalFailed = DeviceReportedStatus._('REMOVAL_FAILED');
+  static const removalInProgress =
+      DeviceReportedStatus._('REMOVAL_IN_PROGRESS');
+  static const starting = DeviceReportedStatus._('STARTING');
+  static const running = DeviceReportedStatus._('RUNNING');
+  static const installError = DeviceReportedStatus._('INSTALL_ERROR');
+  static const launched = DeviceReportedStatus._('LAUNCHED');
+  static const launchError = DeviceReportedStatus._('LAUNCH_ERROR');
+  static const installInProgress =
+      DeviceReportedStatus._('INSTALL_IN_PROGRESS');
+
+  final String value;
+
+  const DeviceReportedStatus._(this.value);
+
+  static const values = [
+    stopping,
+    stopped,
+    stopError,
+    removalFailed,
+    removalInProgress,
+    starting,
+    running,
+    installError,
+    launched,
+    launchError,
+    installInProgress
+  ];
+
+  static DeviceReportedStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceReportedStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceReportedStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StatusFilter {
+  static const deploymentSucceeded = StatusFilter._('DEPLOYMENT_SUCCEEDED');
+  static const deploymentError = StatusFilter._('DEPLOYMENT_ERROR');
+  static const removalSucceeded = StatusFilter._('REMOVAL_SUCCEEDED');
+  static const removalFailed = StatusFilter._('REMOVAL_FAILED');
+  static const processingDeployment = StatusFilter._('PROCESSING_DEPLOYMENT');
+  static const processingRemoval = StatusFilter._('PROCESSING_REMOVAL');
+  static const deploymentFailed = StatusFilter._('DEPLOYMENT_FAILED');
+
+  final String value;
+
+  const StatusFilter._(this.value);
+
+  static const values = [
+    deploymentSucceeded,
+    deploymentError,
+    removalSucceeded,
+    removalFailed,
+    processingDeployment,
+    processingRemoval,
+    deploymentFailed
+  ];
+
+  static StatusFilter fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusFilter._(value));
+
+  @override
+  bool operator ==(other) => other is StatusFilter && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A node instance.
@@ -4156,6 +4369,407 @@ class NodeInstanceStatus {
   String toString() => value;
 }
 
+/// A package object.
+class PackageObject {
+  /// The object's name.
+  final String name;
+
+  /// The object's package version.
+  final String packageVersion;
+
+  /// The object's patch version.
+  final String patchVersion;
+
+  PackageObject({
+    required this.name,
+    required this.packageVersion,
+    required this.patchVersion,
+  });
+
+  factory PackageObject.fromJson(Map<String, dynamic> json) {
+    return PackageObject(
+      name: (json['Name'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
+      patchVersion: (json['PatchVersion'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final packageVersion = this.packageVersion;
+    final patchVersion = this.patchVersion;
+    return {
+      'Name': name,
+      'PackageVersion': packageVersion,
+      'PatchVersion': patchVersion,
+    };
+  }
+}
+
+class PackageVersionStatus {
+  static const registerPending = PackageVersionStatus._('REGISTER_PENDING');
+  static const registerCompleted = PackageVersionStatus._('REGISTER_COMPLETED');
+  static const failed = PackageVersionStatus._('FAILED');
+  static const deleting = PackageVersionStatus._('DELETING');
+
+  final String value;
+
+  const PackageVersionStatus._(this.value);
+
+  static const values = [registerPending, registerCompleted, failed, deleting];
+
+  static PackageVersionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PackageVersionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PackageVersionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A configuration for a package import job.
+class PackageImportJobInputConfig {
+  /// The package version's input configuration.
+  final PackageVersionInputConfig? packageVersionInputConfig;
+
+  PackageImportJobInputConfig({
+    this.packageVersionInputConfig,
+  });
+
+  factory PackageImportJobInputConfig.fromJson(Map<String, dynamic> json) {
+    return PackageImportJobInputConfig(
+      packageVersionInputConfig: json['PackageVersionInputConfig'] != null
+          ? PackageVersionInputConfig.fromJson(
+              json['PackageVersionInputConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final packageVersionInputConfig = this.packageVersionInputConfig;
+    return {
+      if (packageVersionInputConfig != null)
+        'PackageVersionInputConfig': packageVersionInputConfig,
+    };
+  }
+}
+
+/// An output configuration for a package import job.
+class PackageImportJobOutputConfig {
+  /// The package version's output configuration.
+  final PackageVersionOutputConfig? packageVersionOutputConfig;
+
+  PackageImportJobOutputConfig({
+    this.packageVersionOutputConfig,
+  });
+
+  factory PackageImportJobOutputConfig.fromJson(Map<String, dynamic> json) {
+    return PackageImportJobOutputConfig(
+      packageVersionOutputConfig: json['PackageVersionOutputConfig'] != null
+          ? PackageVersionOutputConfig.fromJson(
+              json['PackageVersionOutputConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final packageVersionOutputConfig = this.packageVersionOutputConfig;
+    return {
+      if (packageVersionOutputConfig != null)
+        'PackageVersionOutputConfig': packageVersionOutputConfig,
+    };
+  }
+}
+
+/// Results of a package import job.
+class PackageImportJobOutput {
+  /// The package's output location.
+  final OutPutS3Location outputS3Location;
+
+  /// The package's ID.
+  final String packageId;
+
+  /// The package's version.
+  final String packageVersion;
+
+  /// The package's patch version.
+  final String patchVersion;
+
+  PackageImportJobOutput({
+    required this.outputS3Location,
+    required this.packageId,
+    required this.packageVersion,
+    required this.patchVersion,
+  });
+
+  factory PackageImportJobOutput.fromJson(Map<String, dynamic> json) {
+    return PackageImportJobOutput(
+      outputS3Location: OutPutS3Location.fromJson(
+          (json['OutputS3Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      packageId: (json['PackageId'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
+      patchVersion: (json['PatchVersion'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputS3Location = this.outputS3Location;
+    final packageId = this.packageId;
+    final packageVersion = this.packageVersion;
+    final patchVersion = this.patchVersion;
+    return {
+      'OutputS3Location': outputS3Location,
+      'PackageId': packageId,
+      'PackageVersion': packageVersion,
+      'PatchVersion': patchVersion,
+    };
+  }
+}
+
+/// Tags for a job.
+class JobResourceTags {
+  /// The job's type.
+  final JobResourceType resourceType;
+
+  /// The job's tags.
+  final Map<String, String> tags;
+
+  JobResourceTags({
+    required this.resourceType,
+    required this.tags,
+  });
+
+  factory JobResourceTags.fromJson(Map<String, dynamic> json) {
+    return JobResourceTags(
+      resourceType:
+          JobResourceType.fromString((json['ResourceType'] as String?) ?? ''),
+      tags:
+          ((json['Tags'] as Map<String, dynamic>?) ?? const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceType = this.resourceType;
+    final tags = this.tags;
+    return {
+      'ResourceType': resourceType.value,
+      'Tags': tags,
+    };
+  }
+}
+
+class JobResourceType {
+  static const package = JobResourceType._('PACKAGE');
+
+  final String value;
+
+  const JobResourceType._(this.value);
+
+  static const values = [package];
+
+  static JobResourceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => JobResourceType._(value));
+
+  @override
+  bool operator ==(other) => other is JobResourceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The location of an output object in Amazon S3.
+class OutPutS3Location {
+  /// The object's bucket.
+  final String bucketName;
+
+  /// The object's key.
+  final String objectKey;
+
+  OutPutS3Location({
+    required this.bucketName,
+    required this.objectKey,
+  });
+
+  factory OutPutS3Location.fromJson(Map<String, dynamic> json) {
+    return OutPutS3Location(
+      bucketName: (json['BucketName'] as String?) ?? '',
+      objectKey: (json['ObjectKey'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectKey = this.objectKey;
+    return {
+      'BucketName': bucketName,
+      'ObjectKey': objectKey,
+    };
+  }
+}
+
+/// A package version output configuration.
+class PackageVersionOutputConfig {
+  /// The output's package name.
+  final String packageName;
+
+  /// The output's package version.
+  final String packageVersion;
+
+  /// Indicates that the version is recommended for all users.
+  final bool? markLatest;
+
+  PackageVersionOutputConfig({
+    required this.packageName,
+    required this.packageVersion,
+    this.markLatest,
+  });
+
+  factory PackageVersionOutputConfig.fromJson(Map<String, dynamic> json) {
+    return PackageVersionOutputConfig(
+      packageName: (json['PackageName'] as String?) ?? '',
+      packageVersion: (json['PackageVersion'] as String?) ?? '',
+      markLatest: json['MarkLatest'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final packageName = this.packageName;
+    final packageVersion = this.packageVersion;
+    final markLatest = this.markLatest;
+    return {
+      'PackageName': packageName,
+      'PackageVersion': packageVersion,
+      if (markLatest != null) 'MarkLatest': markLatest,
+    };
+  }
+}
+
+/// A package version input configuration.
+class PackageVersionInputConfig {
+  /// A location in Amazon S3.
+  final S3Location s3Location;
+
+  PackageVersionInputConfig({
+    required this.s3Location,
+  });
+
+  factory PackageVersionInputConfig.fromJson(Map<String, dynamic> json) {
+    return PackageVersionInputConfig(
+      s3Location: S3Location.fromJson(
+          (json['S3Location'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    return {
+      'S3Location': s3Location,
+    };
+  }
+}
+
+/// A location in Amazon S3.
+class S3Location {
+  /// A bucket name.
+  final String bucketName;
+
+  /// An object key.
+  final String objectKey;
+
+  /// The bucket's Region.
+  final String? region;
+
+  S3Location({
+    required this.bucketName,
+    required this.objectKey,
+    this.region,
+  });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucketName: (json['BucketName'] as String?) ?? '',
+      objectKey: (json['ObjectKey'] as String?) ?? '',
+      region: json['Region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectKey = this.objectKey;
+    final region = this.region;
+    return {
+      'BucketName': bucketName,
+      'ObjectKey': objectKey,
+      if (region != null) 'Region': region,
+    };
+  }
+}
+
+/// A storage location.
+class StorageLocation {
+  /// The location's binary prefix.
+  final String binaryPrefixLocation;
+
+  /// The location's bucket.
+  final String bucket;
+
+  /// The location's generated prefix.
+  final String generatedPrefixLocation;
+
+  /// The location's manifest prefix.
+  final String manifestPrefixLocation;
+
+  /// The location's repo prefix.
+  final String repoPrefixLocation;
+
+  StorageLocation({
+    required this.binaryPrefixLocation,
+    required this.bucket,
+    required this.generatedPrefixLocation,
+    required this.manifestPrefixLocation,
+    required this.repoPrefixLocation,
+  });
+
+  factory StorageLocation.fromJson(Map<String, dynamic> json) {
+    return StorageLocation(
+      binaryPrefixLocation: (json['BinaryPrefixLocation'] as String?) ?? '',
+      bucket: (json['Bucket'] as String?) ?? '',
+      generatedPrefixLocation:
+          (json['GeneratedPrefixLocation'] as String?) ?? '',
+      manifestPrefixLocation: (json['ManifestPrefixLocation'] as String?) ?? '',
+      repoPrefixLocation: (json['RepoPrefixLocation'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final binaryPrefixLocation = this.binaryPrefixLocation;
+    final bucket = this.bucket;
+    final generatedPrefixLocation = this.generatedPrefixLocation;
+    final manifestPrefixLocation = this.manifestPrefixLocation;
+    final repoPrefixLocation = this.repoPrefixLocation;
+    return {
+      'BinaryPrefixLocation': binaryPrefixLocation,
+      'Bucket': bucket,
+      'GeneratedPrefixLocation': generatedPrefixLocation,
+      'ManifestPrefixLocation': manifestPrefixLocation,
+      'RepoPrefixLocation': repoPrefixLocation,
+    };
+  }
+}
+
 /// A node interface.
 class NodeInterface {
   /// The node interface's inputs.
@@ -4229,45 +4843,24 @@ class NodeOutputPort {
   }
 }
 
-/// A signal to a camera node to start or stop processing video.
-class NodeSignal {
-  /// The camera node's name, from the application manifest.
-  final String nodeInstanceId;
-
-  /// The signal value.
-  final NodeSignalValue signal;
-
-  NodeSignal({
-    required this.nodeInstanceId,
-    required this.signal,
-  });
-
-  Map<String, dynamic> toJson() {
-    final nodeInstanceId = this.nodeInstanceId;
-    final signal = this.signal;
-    return {
-      'NodeInstanceId': nodeInstanceId,
-      'Signal': signal.value,
-    };
-  }
-}
-
-class NodeSignalValue {
-  static const pause = NodeSignalValue._('PAUSE');
-  static const resume = NodeSignalValue._('RESUME');
+class PortType {
+  static const boolean = PortType._('BOOLEAN');
+  static const string = PortType._('STRING');
+  static const int32 = PortType._('INT32');
+  static const float32 = PortType._('FLOAT32');
+  static const media = PortType._('MEDIA');
 
   final String value;
 
-  const NodeSignalValue._(this.value);
+  const PortType._(this.value);
 
-  static const values = [pause, resume];
+  static const values = [boolean, string, int32, float32, media];
 
-  static NodeSignalValue fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => NodeSignalValue._(value));
+  static PortType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => PortType._(value));
 
   @override
-  bool operator ==(other) => other is NodeSignalValue && other.value == value;
+  bool operator ==(other) => other is PortType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4276,29 +4869,202 @@ class NodeSignalValue {
   String toString() => value;
 }
 
-/// Network time protocol (NTP) server settings. Use this option to connect to
-/// local NTP servers instead of <code>pool.ntp.org</code>.
-class NtpPayload {
-  /// NTP servers to use, in order of preference.
-  final List<String> ntpServers;
+/// A node input port.
+class NodeInputPort {
+  /// The input port's default value.
+  final String? defaultValue;
 
-  NtpPayload({
-    required this.ntpServers,
+  /// The input port's description.
+  final String? description;
+
+  /// The input port's max connections.
+  final int? maxConnections;
+
+  /// The input port's name.
+  final String? name;
+
+  /// The input port's type.
+  final PortType? type;
+
+  NodeInputPort({
+    this.defaultValue,
+    this.description,
+    this.maxConnections,
+    this.name,
+    this.type,
   });
 
-  factory NtpPayload.fromJson(Map<String, dynamic> json) {
-    return NtpPayload(
-      ntpServers: ((json['NtpServers'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
+  factory NodeInputPort.fromJson(Map<String, dynamic> json) {
+    return NodeInputPort(
+      defaultValue: json['DefaultValue'] as String?,
+      description: json['Description'] as String?,
+      maxConnections: json['MaxConnections'] as int?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.let(PortType.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final ntpServers = this.ntpServers;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final maxConnections = this.maxConnections;
+    final name = this.name;
+    final type = this.type;
     return {
-      'NtpServers': ntpServers,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (description != null) 'Description': description,
+      if (maxConnections != null) 'MaxConnections': maxConnections,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class DeviceConnectionStatus {
+  static const online = DeviceConnectionStatus._('ONLINE');
+  static const offline = DeviceConnectionStatus._('OFFLINE');
+  static const awaitingCredentials =
+      DeviceConnectionStatus._('AWAITING_CREDENTIALS');
+  static const notAvailable = DeviceConnectionStatus._('NOT_AVAILABLE');
+  static const error = DeviceConnectionStatus._('ERROR');
+
+  final String value;
+
+  const DeviceConnectionStatus._(this.value);
+
+  static const values = [
+    online,
+    offline,
+    awaitingCredentials,
+    notAvailable,
+    error
+  ];
+
+  static DeviceConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DeviceConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is DeviceConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The network status of a device.
+class NetworkStatus {
+  /// The status of Ethernet port 0.
+  final EthernetStatus? ethernet0Status;
+
+  /// The status of Ethernet port 1.
+  final EthernetStatus? ethernet1Status;
+
+  /// When the network status changed.
+  final DateTime? lastUpdatedTime;
+
+  /// Details about a network time protocol (NTP) server connection.
+  final NtpStatus? ntpStatus;
+
+  NetworkStatus({
+    this.ethernet0Status,
+    this.ethernet1Status,
+    this.lastUpdatedTime,
+    this.ntpStatus,
+  });
+
+  factory NetworkStatus.fromJson(Map<String, dynamic> json) {
+    return NetworkStatus(
+      ethernet0Status: json['Ethernet0Status'] != null
+          ? EthernetStatus.fromJson(
+              json['Ethernet0Status'] as Map<String, dynamic>)
+          : null,
+      ethernet1Status: json['Ethernet1Status'] != null
+          ? EthernetStatus.fromJson(
+              json['Ethernet1Status'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      ntpStatus: json['NtpStatus'] != null
+          ? NtpStatus.fromJson(json['NtpStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ethernet0Status = this.ethernet0Status;
+    final ethernet1Status = this.ethernet1Status;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final ntpStatus = this.ntpStatus;
+    return {
+      if (ethernet0Status != null) 'Ethernet0Status': ethernet0Status,
+      if (ethernet1Status != null) 'Ethernet1Status': ethernet1Status,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (ntpStatus != null) 'NtpStatus': ntpStatus,
+    };
+  }
+}
+
+/// Details about a beta appliance software update.
+class AlternateSoftwareMetadata {
+  /// The appliance software version.
+  final String? version;
+
+  AlternateSoftwareMetadata({
+    this.version,
+  });
+
+  factory AlternateSoftwareMetadata.fromJson(Map<String, dynamic> json) {
+    return AlternateSoftwareMetadata(
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// A device's Ethernet status.
+class EthernetStatus {
+  /// The device's connection status.
+  final NetworkConnectionStatus? connectionStatus;
+
+  /// The device's physical address.
+  final String? hwAddress;
+
+  /// The device's IP address.
+  final String? ipAddress;
+
+  EthernetStatus({
+    this.connectionStatus,
+    this.hwAddress,
+    this.ipAddress,
+  });
+
+  factory EthernetStatus.fromJson(Map<String, dynamic> json) {
+    return EthernetStatus(
+      connectionStatus: (json['ConnectionStatus'] as String?)
+          ?.let(NetworkConnectionStatus.fromString),
+      hwAddress: json['HwAddress'] as String?,
+      ipAddress: json['IpAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionStatus = this.connectionStatus;
+    final hwAddress = this.hwAddress;
+    final ipAddress = this.ipAddress;
+    return {
+      if (connectionStatus != null) 'ConnectionStatus': connectionStatus.value,
+      if (hwAddress != null) 'HwAddress': hwAddress,
+      if (ipAddress != null) 'IpAddress': ipAddress,
     };
   }
 }
@@ -4341,6 +5107,131 @@ class NtpStatus {
   }
 }
 
+class NetworkConnectionStatus {
+  static const connected = NetworkConnectionStatus._('CONNECTED');
+  static const notConnected = NetworkConnectionStatus._('NOT_CONNECTED');
+  static const connecting = NetworkConnectionStatus._('CONNECTING');
+
+  final String value;
+
+  const NetworkConnectionStatus._(this.value);
+
+  static const values = [connected, notConnected, connecting];
+
+  static NetworkConnectionStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => NetworkConnectionStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is NetworkConnectionStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A application verion's manifest file. This is a JSON document that has a
+/// single key (<code>PayloadData</code>) where the value is an escaped string
+/// representation of the application manifest (<code>graph.json</code>). This
+/// file is located in the <code>graphs</code> folder in your application
+/// source.
+class ManifestPayload {
+  /// The application manifest.
+  final String? payloadData;
+
+  ManifestPayload({
+    this.payloadData,
+  });
+
+  factory ManifestPayload.fromJson(Map<String, dynamic> json) {
+    return ManifestPayload(
+      payloadData: json['PayloadData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final payloadData = this.payloadData;
+    return {
+      if (payloadData != null) 'PayloadData': payloadData,
+    };
+  }
+}
+
+/// Parameter overrides for an application instance. This is a JSON document
+/// that has a single key (<code>PayloadData</code>) where the value is an
+/// escaped string representation of the overrides document.
+class ManifestOverridesPayload {
+  /// The overrides document.
+  final String? payloadData;
+
+  ManifestOverridesPayload({
+    this.payloadData,
+  });
+
+  factory ManifestOverridesPayload.fromJson(Map<String, dynamic> json) {
+    return ManifestOverridesPayload(
+      payloadData: json['PayloadData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final payloadData = this.payloadData;
+    return {
+      if (payloadData != null) 'PayloadData': payloadData,
+    };
+  }
+}
+
+/// A job for a device.
+class Job {
+  /// The target device's ID.
+  final String? deviceId;
+
+  /// The job's ID.
+  final String? jobId;
+
+  Job({
+    this.deviceId,
+    this.jobId,
+  });
+
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
+      deviceId: json['DeviceId'] as String?,
+      jobId: json['JobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceId = this.deviceId;
+    final jobId = this.jobId;
+    return {
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (jobId != null) 'JobId': jobId,
+    };
+  }
+}
+
+/// A job's configuration.
+class DeviceJobConfig {
+  /// A configuration for an over-the-air (OTA) upgrade. Required for OTA jobs.
+  final OTAJobConfig? oTAJobConfig;
+
+  DeviceJobConfig({
+    this.oTAJobConfig,
+  });
+
+  Map<String, dynamic> toJson() {
+    final oTAJobConfig = this.oTAJobConfig;
+    return {
+      if (oTAJobConfig != null) 'OTAJobConfig': oTAJobConfig,
+    };
+  }
+}
+
 /// An over-the-air update (OTA) job configuration.
 class OTAJobConfig {
   /// The target version of the device software.
@@ -4363,898 +5254,6 @@ class OTAJobConfig {
         'AllowMajorVersionUpdate': allowMajorVersionUpdate,
     };
   }
-}
-
-/// The location of an output object in Amazon S3.
-class OutPutS3Location {
-  /// The object's bucket.
-  final String bucketName;
-
-  /// The object's key.
-  final String objectKey;
-
-  OutPutS3Location({
-    required this.bucketName,
-    required this.objectKey,
-  });
-
-  factory OutPutS3Location.fromJson(Map<String, dynamic> json) {
-    return OutPutS3Location(
-      bucketName: (json['BucketName'] as String?) ?? '',
-      objectKey: (json['ObjectKey'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final objectKey = this.objectKey;
-    return {
-      'BucketName': bucketName,
-      'ObjectKey': objectKey,
-    };
-  }
-}
-
-/// A job to import a package version.
-class PackageImportJob {
-  /// When the job was created.
-  final DateTime? createdTime;
-
-  /// The job's ID.
-  final String? jobId;
-
-  /// The job's type.
-  final PackageImportJobType? jobType;
-
-  /// When the job was updated.
-  final DateTime? lastUpdatedTime;
-
-  /// The job's status.
-  final PackageImportJobStatus? status;
-
-  /// The job's status message.
-  final String? statusMessage;
-
-  PackageImportJob({
-    this.createdTime,
-    this.jobId,
-    this.jobType,
-    this.lastUpdatedTime,
-    this.status,
-    this.statusMessage,
-  });
-
-  factory PackageImportJob.fromJson(Map<String, dynamic> json) {
-    return PackageImportJob(
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      jobId: json['JobId'] as String?,
-      jobType:
-          (json['JobType'] as String?)?.let(PackageImportJobType.fromString),
-      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
-      status:
-          (json['Status'] as String?)?.let(PackageImportJobStatus.fromString),
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final jobId = this.jobId;
-    final jobType = this.jobType;
-    final lastUpdatedTime = this.lastUpdatedTime;
-    final status = this.status;
-    final statusMessage = this.statusMessage;
-    return {
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (jobId != null) 'JobId': jobId,
-      if (jobType != null) 'JobType': jobType.value,
-      if (lastUpdatedTime != null)
-        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
-      if (status != null) 'Status': status.value,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-/// A configuration for a package import job.
-class PackageImportJobInputConfig {
-  /// The package version's input configuration.
-  final PackageVersionInputConfig? packageVersionInputConfig;
-
-  PackageImportJobInputConfig({
-    this.packageVersionInputConfig,
-  });
-
-  factory PackageImportJobInputConfig.fromJson(Map<String, dynamic> json) {
-    return PackageImportJobInputConfig(
-      packageVersionInputConfig: json['PackageVersionInputConfig'] != null
-          ? PackageVersionInputConfig.fromJson(
-              json['PackageVersionInputConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final packageVersionInputConfig = this.packageVersionInputConfig;
-    return {
-      if (packageVersionInputConfig != null)
-        'PackageVersionInputConfig': packageVersionInputConfig,
-    };
-  }
-}
-
-/// Results of a package import job.
-class PackageImportJobOutput {
-  /// The package's output location.
-  final OutPutS3Location outputS3Location;
-
-  /// The package's ID.
-  final String packageId;
-
-  /// The package's version.
-  final String packageVersion;
-
-  /// The package's patch version.
-  final String patchVersion;
-
-  PackageImportJobOutput({
-    required this.outputS3Location,
-    required this.packageId,
-    required this.packageVersion,
-    required this.patchVersion,
-  });
-
-  factory PackageImportJobOutput.fromJson(Map<String, dynamic> json) {
-    return PackageImportJobOutput(
-      outputS3Location: OutPutS3Location.fromJson(
-          (json['OutputS3Location'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      packageId: (json['PackageId'] as String?) ?? '',
-      packageVersion: (json['PackageVersion'] as String?) ?? '',
-      patchVersion: (json['PatchVersion'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final outputS3Location = this.outputS3Location;
-    final packageId = this.packageId;
-    final packageVersion = this.packageVersion;
-    final patchVersion = this.patchVersion;
-    return {
-      'OutputS3Location': outputS3Location,
-      'PackageId': packageId,
-      'PackageVersion': packageVersion,
-      'PatchVersion': patchVersion,
-    };
-  }
-}
-
-/// An output configuration for a package import job.
-class PackageImportJobOutputConfig {
-  /// The package version's output configuration.
-  final PackageVersionOutputConfig? packageVersionOutputConfig;
-
-  PackageImportJobOutputConfig({
-    this.packageVersionOutputConfig,
-  });
-
-  factory PackageImportJobOutputConfig.fromJson(Map<String, dynamic> json) {
-    return PackageImportJobOutputConfig(
-      packageVersionOutputConfig: json['PackageVersionOutputConfig'] != null
-          ? PackageVersionOutputConfig.fromJson(
-              json['PackageVersionOutputConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final packageVersionOutputConfig = this.packageVersionOutputConfig;
-    return {
-      if (packageVersionOutputConfig != null)
-        'PackageVersionOutputConfig': packageVersionOutputConfig,
-    };
-  }
-}
-
-class PackageImportJobStatus {
-  static const pending = PackageImportJobStatus._('PENDING');
-  static const succeeded = PackageImportJobStatus._('SUCCEEDED');
-  static const failed = PackageImportJobStatus._('FAILED');
-
-  final String value;
-
-  const PackageImportJobStatus._(this.value);
-
-  static const values = [pending, succeeded, failed];
-
-  static PackageImportJobStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PackageImportJobStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PackageImportJobStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PackageImportJobType {
-  static const nodePackageVersion =
-      PackageImportJobType._('NODE_PACKAGE_VERSION');
-  static const marketplaceNodePackageVersion =
-      PackageImportJobType._('MARKETPLACE_NODE_PACKAGE_VERSION');
-
-  final String value;
-
-  const PackageImportJobType._(this.value);
-
-  static const values = [nodePackageVersion, marketplaceNodePackageVersion];
-
-  static PackageImportJobType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PackageImportJobType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PackageImportJobType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A package summary.
-class PackageListItem {
-  /// The package's ARN.
-  final String? arn;
-
-  /// When the package was created.
-  final DateTime? createdTime;
-
-  /// The package's ID.
-  final String? packageId;
-
-  /// The package's name.
-  final String? packageName;
-
-  /// The package's tags.
-  final Map<String, String>? tags;
-
-  PackageListItem({
-    this.arn,
-    this.createdTime,
-    this.packageId,
-    this.packageName,
-    this.tags,
-  });
-
-  factory PackageListItem.fromJson(Map<String, dynamic> json) {
-    return PackageListItem(
-      arn: json['Arn'] as String?,
-      createdTime: timeStampFromJson(json['CreatedTime']),
-      packageId: json['PackageId'] as String?,
-      packageName: json['PackageName'] as String?,
-      tags: (json['Tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdTime = this.createdTime;
-    final packageId = this.packageId;
-    final packageName = this.packageName;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
-      if (packageId != null) 'PackageId': packageId,
-      if (packageName != null) 'PackageName': packageName,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// A package object.
-class PackageObject {
-  /// The object's name.
-  final String name;
-
-  /// The object's package version.
-  final String packageVersion;
-
-  /// The object's patch version.
-  final String patchVersion;
-
-  PackageObject({
-    required this.name,
-    required this.packageVersion,
-    required this.patchVersion,
-  });
-
-  factory PackageObject.fromJson(Map<String, dynamic> json) {
-    return PackageObject(
-      name: (json['Name'] as String?) ?? '',
-      packageVersion: (json['PackageVersion'] as String?) ?? '',
-      patchVersion: (json['PatchVersion'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final packageVersion = this.packageVersion;
-    final patchVersion = this.patchVersion;
-    return {
-      'Name': name,
-      'PackageVersion': packageVersion,
-      'PatchVersion': patchVersion,
-    };
-  }
-}
-
-/// A package version input configuration.
-class PackageVersionInputConfig {
-  /// A location in Amazon S3.
-  final S3Location s3Location;
-
-  PackageVersionInputConfig({
-    required this.s3Location,
-  });
-
-  factory PackageVersionInputConfig.fromJson(Map<String, dynamic> json) {
-    return PackageVersionInputConfig(
-      s3Location: S3Location.fromJson(
-          (json['S3Location'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Location = this.s3Location;
-    return {
-      'S3Location': s3Location,
-    };
-  }
-}
-
-/// A package version output configuration.
-class PackageVersionOutputConfig {
-  /// The output's package name.
-  final String packageName;
-
-  /// The output's package version.
-  final String packageVersion;
-
-  /// Indicates that the version is recommended for all users.
-  final bool? markLatest;
-
-  PackageVersionOutputConfig({
-    required this.packageName,
-    required this.packageVersion,
-    this.markLatest,
-  });
-
-  factory PackageVersionOutputConfig.fromJson(Map<String, dynamic> json) {
-    return PackageVersionOutputConfig(
-      packageName: (json['PackageName'] as String?) ?? '',
-      packageVersion: (json['PackageVersion'] as String?) ?? '',
-      markLatest: json['MarkLatest'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final packageName = this.packageName;
-    final packageVersion = this.packageVersion;
-    final markLatest = this.markLatest;
-    return {
-      'PackageName': packageName,
-      'PackageVersion': packageVersion,
-      if (markLatest != null) 'MarkLatest': markLatest,
-    };
-  }
-}
-
-class PackageVersionStatus {
-  static const registerPending = PackageVersionStatus._('REGISTER_PENDING');
-  static const registerCompleted = PackageVersionStatus._('REGISTER_COMPLETED');
-  static const failed = PackageVersionStatus._('FAILED');
-  static const deleting = PackageVersionStatus._('DELETING');
-
-  final String value;
-
-  const PackageVersionStatus._(this.value);
-
-  static const values = [registerPending, registerCompleted, failed, deleting];
-
-  static PackageVersionStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PackageVersionStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PackageVersionStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PortType {
-  static const boolean = PortType._('BOOLEAN');
-  static const string = PortType._('STRING');
-  static const int32 = PortType._('INT32');
-  static const float32 = PortType._('FLOAT32');
-  static const media = PortType._('MEDIA');
-
-  final String value;
-
-  const PortType._(this.value);
-
-  static const values = [boolean, string, int32, float32, media];
-
-  static PortType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => PortType._(value));
-
-  @override
-  bool operator ==(other) => other is PortType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ProvisionDeviceResponse {
-  /// The device's ARN.
-  final String arn;
-
-  /// The device's status.
-  final DeviceStatus status;
-
-  /// The device's configuration bundle.
-  final Uint8List? certificates;
-
-  /// The device's ID.
-  final String? deviceId;
-
-  /// The device's IoT thing name.
-  final String? iotThingName;
-
-  ProvisionDeviceResponse({
-    required this.arn,
-    required this.status,
-    this.certificates,
-    this.deviceId,
-    this.iotThingName,
-  });
-
-  factory ProvisionDeviceResponse.fromJson(Map<String, dynamic> json) {
-    return ProvisionDeviceResponse(
-      arn: (json['Arn'] as String?) ?? '',
-      status: DeviceStatus.fromString((json['Status'] as String?) ?? ''),
-      certificates: _s.decodeNullableUint8List(json['Certificates'] as String?),
-      deviceId: json['DeviceId'] as String?,
-      iotThingName: json['IotThingName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final status = this.status;
-    final certificates = this.certificates;
-    final deviceId = this.deviceId;
-    final iotThingName = this.iotThingName;
-    return {
-      'Arn': arn,
-      'Status': status.value,
-      if (certificates != null) 'Certificates': base64Encode(certificates),
-      if (deviceId != null) 'DeviceId': deviceId,
-      if (iotThingName != null) 'IotThingName': iotThingName,
-    };
-  }
-}
-
-class RegisterPackageVersionResponse {
-  RegisterPackageVersionResponse();
-
-  factory RegisterPackageVersionResponse.fromJson(Map<String, dynamic> _) {
-    return RegisterPackageVersionResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class RemoveApplicationInstanceResponse {
-  RemoveApplicationInstanceResponse();
-
-  factory RemoveApplicationInstanceResponse.fromJson(Map<String, dynamic> _) {
-    return RemoveApplicationInstanceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// An application instance's state.
-class ReportedRuntimeContextState {
-  /// The application's desired state.
-  final DesiredState desiredState;
-
-  /// The application's reported status.
-  final DeviceReportedStatus deviceReportedStatus;
-
-  /// When the device reported the application's state.
-  final DateTime deviceReportedTime;
-
-  /// The device's name.
-  final String runtimeContextName;
-
-  ReportedRuntimeContextState({
-    required this.desiredState,
-    required this.deviceReportedStatus,
-    required this.deviceReportedTime,
-    required this.runtimeContextName,
-  });
-
-  factory ReportedRuntimeContextState.fromJson(Map<String, dynamic> json) {
-    return ReportedRuntimeContextState(
-      desiredState:
-          DesiredState.fromString((json['DesiredState'] as String?) ?? ''),
-      deviceReportedStatus: DeviceReportedStatus.fromString(
-          (json['DeviceReportedStatus'] as String?) ?? ''),
-      deviceReportedTime:
-          nonNullableTimeStampFromJson(json['DeviceReportedTime'] ?? 0),
-      runtimeContextName: (json['RuntimeContextName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final desiredState = this.desiredState;
-    final deviceReportedStatus = this.deviceReportedStatus;
-    final deviceReportedTime = this.deviceReportedTime;
-    final runtimeContextName = this.runtimeContextName;
-    return {
-      'DesiredState': desiredState.value,
-      'DeviceReportedStatus': deviceReportedStatus.value,
-      'DeviceReportedTime': unixTimestampToJson(deviceReportedTime),
-      'RuntimeContextName': runtimeContextName,
-    };
-  }
-}
-
-/// A location in Amazon S3.
-class S3Location {
-  /// A bucket name.
-  final String bucketName;
-
-  /// An object key.
-  final String objectKey;
-
-  /// The bucket's Region.
-  final String? region;
-
-  S3Location({
-    required this.bucketName,
-    required this.objectKey,
-    this.region,
-  });
-
-  factory S3Location.fromJson(Map<String, dynamic> json) {
-    return S3Location(
-      bucketName: (json['BucketName'] as String?) ?? '',
-      objectKey: (json['ObjectKey'] as String?) ?? '',
-      region: json['Region'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketName = this.bucketName;
-    final objectKey = this.objectKey;
-    final region = this.region;
-    return {
-      'BucketName': bucketName,
-      'ObjectKey': objectKey,
-      if (region != null) 'Region': region,
-    };
-  }
-}
-
-class SignalApplicationInstanceNodeInstancesResponse {
-  /// An application instance ID.
-  final String applicationInstanceId;
-
-  SignalApplicationInstanceNodeInstancesResponse({
-    required this.applicationInstanceId,
-  });
-
-  factory SignalApplicationInstanceNodeInstancesResponse.fromJson(
-      Map<String, dynamic> json) {
-    return SignalApplicationInstanceNodeInstancesResponse(
-      applicationInstanceId: (json['ApplicationInstanceId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationInstanceId = this.applicationInstanceId;
-    return {
-      'ApplicationInstanceId': applicationInstanceId,
-    };
-  }
-}
-
-class SortOrder {
-  static const ascending = SortOrder._('ASCENDING');
-  static const descending = SortOrder._('DESCENDING');
-
-  final String value;
-
-  const SortOrder._(this.value);
-
-  static const values = [ascending, descending];
-
-  static SortOrder fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => SortOrder._(value));
-
-  @override
-  bool operator ==(other) => other is SortOrder && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A static IP configuration.
-class StaticIpConnectionInfo {
-  /// The connection's default gateway.
-  final String defaultGateway;
-
-  /// The connection's DNS address.
-  final List<String> dns;
-
-  /// The connection's IP address.
-  final String ipAddress;
-
-  /// The connection's DNS mask.
-  final String mask;
-
-  StaticIpConnectionInfo({
-    required this.defaultGateway,
-    required this.dns,
-    required this.ipAddress,
-    required this.mask,
-  });
-
-  factory StaticIpConnectionInfo.fromJson(Map<String, dynamic> json) {
-    return StaticIpConnectionInfo(
-      defaultGateway: (json['DefaultGateway'] as String?) ?? '',
-      dns: ((json['Dns'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      ipAddress: (json['IpAddress'] as String?) ?? '',
-      mask: (json['Mask'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultGateway = this.defaultGateway;
-    final dns = this.dns;
-    final ipAddress = this.ipAddress;
-    final mask = this.mask;
-    return {
-      'DefaultGateway': defaultGateway,
-      'Dns': dns,
-      'IpAddress': ipAddress,
-      'Mask': mask,
-    };
-  }
-}
-
-class StatusFilter {
-  static const deploymentSucceeded = StatusFilter._('DEPLOYMENT_SUCCEEDED');
-  static const deploymentError = StatusFilter._('DEPLOYMENT_ERROR');
-  static const removalSucceeded = StatusFilter._('REMOVAL_SUCCEEDED');
-  static const removalFailed = StatusFilter._('REMOVAL_FAILED');
-  static const processingDeployment = StatusFilter._('PROCESSING_DEPLOYMENT');
-  static const processingRemoval = StatusFilter._('PROCESSING_REMOVAL');
-  static const deploymentFailed = StatusFilter._('DEPLOYMENT_FAILED');
-
-  final String value;
-
-  const StatusFilter._(this.value);
-
-  static const values = [
-    deploymentSucceeded,
-    deploymentError,
-    removalSucceeded,
-    removalFailed,
-    processingDeployment,
-    processingRemoval,
-    deploymentFailed
-  ];
-
-  static StatusFilter fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StatusFilter._(value));
-
-  @override
-  bool operator ==(other) => other is StatusFilter && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A storage location.
-class StorageLocation {
-  /// The location's binary prefix.
-  final String binaryPrefixLocation;
-
-  /// The location's bucket.
-  final String bucket;
-
-  /// The location's generated prefix.
-  final String generatedPrefixLocation;
-
-  /// The location's manifest prefix.
-  final String manifestPrefixLocation;
-
-  /// The location's repo prefix.
-  final String repoPrefixLocation;
-
-  StorageLocation({
-    required this.binaryPrefixLocation,
-    required this.bucket,
-    required this.generatedPrefixLocation,
-    required this.manifestPrefixLocation,
-    required this.repoPrefixLocation,
-  });
-
-  factory StorageLocation.fromJson(Map<String, dynamic> json) {
-    return StorageLocation(
-      binaryPrefixLocation: (json['BinaryPrefixLocation'] as String?) ?? '',
-      bucket: (json['Bucket'] as String?) ?? '',
-      generatedPrefixLocation:
-          (json['GeneratedPrefixLocation'] as String?) ?? '',
-      manifestPrefixLocation: (json['ManifestPrefixLocation'] as String?) ?? '',
-      repoPrefixLocation: (json['RepoPrefixLocation'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final binaryPrefixLocation = this.binaryPrefixLocation;
-    final bucket = this.bucket;
-    final generatedPrefixLocation = this.generatedPrefixLocation;
-    final manifestPrefixLocation = this.manifestPrefixLocation;
-    final repoPrefixLocation = this.repoPrefixLocation;
-    return {
-      'BinaryPrefixLocation': binaryPrefixLocation,
-      'Bucket': bucket,
-      'GeneratedPrefixLocation': generatedPrefixLocation,
-      'ManifestPrefixLocation': manifestPrefixLocation,
-      'RepoPrefixLocation': repoPrefixLocation,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class TemplateType {
-  static const rtspCameraStream = TemplateType._('RTSP_CAMERA_STREAM');
-
-  final String value;
-
-  const TemplateType._(this.value);
-
-  static const values = [rtspCameraStream];
-
-  static TemplateType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TemplateType._(value));
-
-  @override
-  bool operator ==(other) => other is TemplateType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateDeviceMetadataResponse {
-  /// The device's ID.
-  final String? deviceId;
-
-  UpdateDeviceMetadataResponse({
-    this.deviceId,
-  });
-
-  factory UpdateDeviceMetadataResponse.fromJson(Map<String, dynamic> json) {
-    return UpdateDeviceMetadataResponse(
-      deviceId: json['DeviceId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deviceId = this.deviceId;
-    return {
-      if (deviceId != null) 'DeviceId': deviceId,
-    };
-  }
-}
-
-class UpdateProgress {
-  static const pending = UpdateProgress._('PENDING');
-  static const inProgress = UpdateProgress._('IN_PROGRESS');
-  static const verifying = UpdateProgress._('VERIFYING');
-  static const rebooting = UpdateProgress._('REBOOTING');
-  static const downloading = UpdateProgress._('DOWNLOADING');
-  static const completed = UpdateProgress._('COMPLETED');
-  static const failed = UpdateProgress._('FAILED');
-
-  final String value;
-
-  const UpdateProgress._(this.value);
-
-  static const values = [
-    pending,
-    inProgress,
-    verifying,
-    rebooting,
-    downloading,
-    completed,
-    failed
-  ];
-
-  static UpdateProgress fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => UpdateProgress._(value));
-
-  @override
-  bool operator ==(other) => other is UpdateProgress && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

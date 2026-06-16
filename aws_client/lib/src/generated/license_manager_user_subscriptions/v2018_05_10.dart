@@ -34,7 +34,6 @@ class LicenseManagerUserSubscriptions {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'license-manager-user-subscriptions',
-            signingName: 'license-manager-user-subscriptions',
           ),
           region: region,
           credentials: credentials,
@@ -63,36 +62,42 @@ class LicenseManagerUserSubscriptions {
   /// Guide</i>.
   /// </note>
   ///
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identityProvider] :
-  /// The identity provider of the user.
+  /// The identity provider for the user.
   ///
   /// Parameter [instanceId] :
-  /// The ID of the EC2 instance, which provides user-based subscriptions.
+  /// The ID of the EC2 instance that provides the user-based subscription.
   ///
   /// Parameter [username] :
-  /// The user name from the identity provider for the user.
+  /// The user name from the identity provider.
   ///
   /// Parameter [domain] :
-  /// The domain name of the user.
+  /// The domain name of the Active Directory that contains information for the
+  /// user to associate.
+  ///
+  /// Parameter [tags] :
+  /// The tags that apply for the user association.
   Future<AssociateUserResponse> associateUser({
     required IdentityProvider identityProvider,
     required String instanceId,
     required String username,
     String? domain,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'IdentityProvider': identityProvider,
       'InstanceId': instanceId,
       'Username': username,
       if (domain != null) 'Domain': domain,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -103,28 +108,120 @@ class LicenseManagerUserSubscriptions {
     return AssociateUserResponse.fromJson(response);
   }
 
-  /// Deregisters the identity provider from providing user-based subscriptions.
+  /// Creates a network endpoint for the Remote Desktop Services (RDS) license
+  /// server.
   ///
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identityProviderArn] :
+  /// The Amazon Resource Name (ARN) that identifies the
+  /// <code>IdentityProvider</code> resource that contains details about a
+  /// registered identity provider. In the case of Active Directory, that can be
+  /// a self-managed Active Directory or an Amazon Web Services Managed Active
+  /// Directory that contains user identity details.
+  ///
+  /// Parameter [licenseServerSettings] :
+  /// The <code>LicenseServerSettings</code> resource to create for the
+  /// endpoint. The settings include the type of license server and the Secrets
+  /// Manager secret that enables administrators to add or remove users
+  /// associated with the license server.
+  ///
+  /// Parameter [tags] :
+  /// The tags that apply for the license server endpoint.
+  Future<CreateLicenseServerEndpointResponse> createLicenseServerEndpoint({
+    required String identityProviderArn,
+    required LicenseServerSettings licenseServerSettings,
+    Map<String, String>? tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'IdentityProviderArn': identityProviderArn,
+      'LicenseServerSettings': licenseServerSettings,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/license-server/CreateLicenseServerEndpoint',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateLicenseServerEndpointResponse.fromJson(response);
+  }
+
+  /// Deletes a <code>LicenseServerEndpoint</code> resource.
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [licenseServerEndpointArn] :
+  /// The Amazon Resource Name (ARN) that identifies the
+  /// <code>LicenseServerEndpoint</code> resource to delete.
+  ///
+  /// Parameter [serverType] :
+  /// The type of License Server that the delete request refers to.
+  Future<DeleteLicenseServerEndpointResponse> deleteLicenseServerEndpoint({
+    required String licenseServerEndpointArn,
+    required ServerType serverType,
+  }) async {
+    final $payload = <String, dynamic>{
+      'LicenseServerEndpointArn': licenseServerEndpointArn,
+      'ServerType': serverType.value,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/license-server/DeleteLicenseServerEndpoint',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteLicenseServerEndpointResponse.fromJson(response);
+  }
+
+  /// Deregisters the Active Directory identity provider from License Manager
+  /// user-based subscriptions.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identityProvider] :
-  /// An object that specifies details for the identity provider.
+  /// An object that specifies details for the Active Directory identity
+  /// provider.
+  ///
+  /// Parameter [identityProviderArn] :
+  /// The Amazon Resource Name (ARN) that identifies the identity provider to
+  /// deregister.
   ///
   /// Parameter [product] :
   /// The name of the user-based subscription product.
+  ///
+  /// Valid values: <code>VISUAL_STUDIO_ENTERPRISE</code> |
+  /// <code>VISUAL_STUDIO_PROFESSIONAL</code> |
+  /// <code>OFFICE_PROFESSIONAL_PLUS</code> |
+  /// <code>REMOTE_DESKTOP_SERVICES</code>
   Future<DeregisterIdentityProviderResponse> deregisterIdentityProvider({
-    required IdentityProvider identityProvider,
-    required String product,
+    IdentityProvider? identityProvider,
+    String? identityProviderArn,
+    String? product,
   }) async {
     final $payload = <String, dynamic>{
-      'IdentityProvider': identityProvider,
-      'Product': product,
+      if (identityProvider != null) 'IdentityProvider': identityProvider,
+      if (identityProviderArn != null)
+        'IdentityProviderArn': identityProviderArn,
+      if (product != null) 'Product': product,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -138,36 +235,44 @@ class LicenseManagerUserSubscriptions {
   /// Disassociates the user from an EC2 instance providing user-based
   /// subscriptions.
   ///
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [identityProvider] :
-  /// An object that specifies details for the identity provider.
-  ///
-  /// Parameter [instanceId] :
-  /// The ID of the EC2 instance, which provides user-based subscriptions.
-  ///
-  /// Parameter [username] :
-  /// The user name from the identity provider for the user.
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [domain] :
-  /// The domain name of the user.
+  /// The domain name of the Active Directory that contains information for the
+  /// user to disassociate.
+  ///
+  /// Parameter [identityProvider] :
+  /// An object that specifies details for the Active Directory identity
+  /// provider.
+  ///
+  /// Parameter [instanceId] :
+  /// The ID of the EC2 instance which provides user-based subscriptions.
+  ///
+  /// Parameter [instanceUserArn] :
+  /// The Amazon Resource Name (ARN) of the user to disassociate from the EC2
+  /// instance.
+  ///
+  /// Parameter [username] :
+  /// The user name from the Active Directory identity provider for the user.
   Future<DisassociateUserResponse> disassociateUser({
-    required IdentityProvider identityProvider,
-    required String instanceId,
-    required String username,
     String? domain,
+    IdentityProvider? identityProvider,
+    String? instanceId,
+    String? instanceUserArn,
+    String? username,
   }) async {
     final $payload = <String, dynamic>{
-      'IdentityProvider': identityProvider,
-      'InstanceId': instanceId,
-      'Username': username,
       if (domain != null) 'Domain': domain,
+      if (identityProvider != null) 'IdentityProvider': identityProvider,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (instanceUserArn != null) 'InstanceUserArn': instanceUserArn,
+      if (username != null) 'Username': username,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -178,26 +283,42 @@ class LicenseManagerUserSubscriptions {
     return DisassociateUserResponse.fromJson(response);
   }
 
-  /// Lists the identity providers for user-based subscriptions.
+  /// Lists the Active Directory identity providers for user-based
+  /// subscriptions.
   ///
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [filters] :
+  /// You can use the following filters to streamline results:
+  ///
+  /// <ul>
+  /// <li>
+  /// Product
+  /// </li>
+  /// <li>
+  /// DirectoryId
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of results to return in a single call.
+  /// The maximum number of results to return from a single request.
   ///
   /// Parameter [nextToken] :
-  /// Token for the next set of results.
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
   Future<ListIdentityProvidersResponse> listIdentityProviders({
+    List<Filter>? filters,
     int? maxResults,
     String? nextToken,
   }) async {
     final $payload = <String, dynamic>{
+      if (filters != null) 'Filters': filters,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -212,23 +333,32 @@ class LicenseManagerUserSubscriptions {
 
   /// Lists the EC2 instances providing user-based subscriptions.
   ///
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filters] :
-  /// An array of structures that you can use to filter the results to those
-  /// that match one or more sets of key-value pairs that you specify.
+  /// You can use the following filters to streamline results:
+  ///
+  /// <ul>
+  /// <li>
+  /// Status
+  /// </li>
+  /// <li>
+  /// InstanceId
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of results to return in a single call.
+  /// The maximum number of results to return from a single request.
   ///
   /// Parameter [nextToken] :
-  /// Token for the next set of results.
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
   Future<ListInstancesResponse> listInstances({
     List<Filter>? filters,
     int? maxResults,
@@ -248,45 +378,105 @@ class LicenseManagerUserSubscriptions {
     return ListInstancesResponse.fromJson(response);
   }
 
-  /// Lists the user-based subscription products available from an identity
-  /// provider.
+  /// List the Remote Desktop Services (RDS) License Server endpoints
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [identityProvider] :
-  /// An object that specifies details for the identity provider.
-  ///
-  /// Parameter [product] :
-  /// The name of the user-based subscription product.
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [filters] :
-  /// An array of structures that you can use to filter the results to those
-  /// that match one or more sets of key-value pairs that you specify.
+  /// You can use the following filters to streamline results:
+  ///
+  /// <ul>
+  /// <li>
+  /// IdentityProviderArn
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of results to return in a single call.
+  /// The maximum number of results to return from a single request.
   ///
   /// Parameter [nextToken] :
-  /// Token for the next set of results.
-  Future<ListProductSubscriptionsResponse> listProductSubscriptions({
-    required IdentityProvider identityProvider,
-    required String product,
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
+  Future<ListLicenseServerEndpointsResponse> listLicenseServerEndpoints({
     List<Filter>? filters,
     int? maxResults,
     String? nextToken,
   }) async {
     final $payload = <String, dynamic>{
-      'IdentityProvider': identityProvider,
-      'Product': product,
       if (filters != null) 'Filters': filters,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/license-server/ListLicenseServerEndpoints',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLicenseServerEndpointsResponse.fromJson(response);
+  }
+
+  /// Lists the user-based subscription products available from an identity
+  /// provider.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [identityProvider] :
+  /// An object that specifies details for the identity provider.
+  ///
+  /// Parameter [filters] :
+  /// You can use the following filters to streamline results:
+  ///
+  /// <ul>
+  /// <li>
+  /// Status
+  /// </li>
+  /// <li>
+  /// Username
+  /// </li>
+  /// <li>
+  /// Domain
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return from a single request.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
+  ///
+  /// Parameter [product] :
+  /// The name of the user-based subscription product.
+  ///
+  /// Valid values: <code>VISUAL_STUDIO_ENTERPRISE</code> |
+  /// <code>VISUAL_STUDIO_PROFESSIONAL</code> |
+  /// <code>OFFICE_PROFESSIONAL_PLUS</code> |
+  /// <code>REMOTE_DESKTOP_SERVICES</code>
+  Future<ListProductSubscriptionsResponse> listProductSubscriptions({
+    required IdentityProvider identityProvider,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    String? product,
+  }) async {
+    final $payload = <String, dynamic>{
+      'IdentityProvider': identityProvider,
+      if (filters != null) 'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (product != null) 'Product': product,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -297,15 +487,36 @@ class LicenseManagerUserSubscriptions {
     return ListProductSubscriptionsResponse.fromJson(response);
   }
 
-  /// Lists user associations for an identity provider.
+  /// Returns the list of tags for the specified resource.
   ///
-  /// May throw [ServiceQuotaExceededException].
-  /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource whose tags you want to
+  /// retrieve.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Lists user associations for an identity provider.
+  ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identityProvider] :
   /// An object that specifies details for the identity provider.
@@ -314,14 +525,26 @@ class LicenseManagerUserSubscriptions {
   /// The ID of the EC2 instance, which provides user-based subscriptions.
   ///
   /// Parameter [filters] :
-  /// An array of structures that you can use to filter the results to those
-  /// that match one or more sets of key-value pairs that you specify.
+  /// You can use the following filters to streamline results:
+  ///
+  /// <ul>
+  /// <li>
+  /// Status
+  /// </li>
+  /// <li>
+  /// Username
+  /// </li>
+  /// <li>
+  /// Domain
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of results to return in a single call.
+  /// The maximum number of results to return from a single request.
   ///
   /// Parameter [nextToken] :
-  /// Token for the next set of results.
+  /// A token to specify where to start paginating. This is the nextToken from a
+  /// previously truncated response.
   Future<ListUserAssociationsResponse> listUserAssociations({
     required IdentityProvider identityProvider,
     required String instanceId,
@@ -347,32 +570,42 @@ class LicenseManagerUserSubscriptions {
 
   /// Registers an identity provider for user-based subscriptions.
   ///
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identityProvider] :
-  /// An object that specifies details for the identity provider.
+  /// An object that specifies details for the identity provider to register.
   ///
   /// Parameter [product] :
   /// The name of the user-based subscription product.
   ///
+  /// Valid values: <code>VISUAL_STUDIO_ENTERPRISE</code> |
+  /// <code>VISUAL_STUDIO_PROFESSIONAL</code> |
+  /// <code>OFFICE_PROFESSIONAL_PLUS</code> |
+  /// <code>REMOTE_DESKTOP_SERVICES</code>
+  ///
   /// Parameter [settings] :
   /// The registered identity provider’s product related configuration settings
   /// such as the subnets to provision VPC endpoints.
+  ///
+  /// Parameter [tags] :
+  /// The tags that apply to the identity provider's registration.
   Future<RegisterIdentityProviderResponse> registerIdentityProvider({
     required IdentityProvider identityProvider,
     required String product,
     Settings? settings,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'IdentityProvider': identityProvider,
       'Product': product,
       if (settings != null) 'Settings': settings,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -395,13 +628,13 @@ class LicenseManagerUserSubscriptions {
   /// Guide</i>.
   /// </note>
   ///
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [identityProvider] :
   /// An object that specifies details for the identity provider.
@@ -409,22 +642,33 @@ class LicenseManagerUserSubscriptions {
   /// Parameter [product] :
   /// The name of the user-based subscription product.
   ///
+  /// Valid values: <code>VISUAL_STUDIO_ENTERPRISE</code> |
+  /// <code>VISUAL_STUDIO_PROFESSIONAL</code> |
+  /// <code>OFFICE_PROFESSIONAL_PLUS</code> |
+  /// <code>REMOTE_DESKTOP_SERVICES</code>
+  ///
   /// Parameter [username] :
   /// The user name from the identity provider of the user.
   ///
   /// Parameter [domain] :
-  /// The domain name of the user.
+  /// The domain name of the Active Directory that contains the user for whom to
+  /// start the product subscription.
+  ///
+  /// Parameter [tags] :
+  /// The tags that apply to the product subscription.
   Future<StartProductSubscriptionResponse> startProductSubscription({
     required IdentityProvider identityProvider,
     required String product,
     required String username,
     String? domain,
+    Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'IdentityProvider': identityProvider,
       'Product': product,
       'Username': username,
       if (domain != null) 'Domain': domain,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -438,13 +682,17 @@ class LicenseManagerUserSubscriptions {
   /// Stops a product subscription for a user with the specified identity
   /// provider.
   ///
-  /// May throw [ServiceQuotaExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [domain] :
+  /// The domain name of the Active Directory that contains the user for whom to
+  /// stop the product subscription.
   ///
   /// Parameter [identityProvider] :
   /// An object that specifies details for the identity provider.
@@ -452,22 +700,29 @@ class LicenseManagerUserSubscriptions {
   /// Parameter [product] :
   /// The name of the user-based subscription product.
   ///
+  /// Valid values: <code>VISUAL_STUDIO_ENTERPRISE</code> |
+  /// <code>VISUAL_STUDIO_PROFESSIONAL</code> |
+  /// <code>OFFICE_PROFESSIONAL_PLUS</code> |
+  /// <code>REMOTE_DESKTOP_SERVICES</code>
+  ///
+  /// Parameter [productUserArn] :
+  /// The Amazon Resource Name (ARN) of the product user.
+  ///
   /// Parameter [username] :
   /// The user name from the identity provider for the user.
-  ///
-  /// Parameter [domain] :
-  /// The domain name of the user.
   Future<StopProductSubscriptionResponse> stopProductSubscription({
-    required IdentityProvider identityProvider,
-    required String product,
-    required String username,
     String? domain,
+    IdentityProvider? identityProvider,
+    String? product,
+    String? productUserArn,
+    String? username,
   }) async {
     final $payload = <String, dynamic>{
-      'IdentityProvider': identityProvider,
-      'Product': product,
-      'Username': username,
       if (domain != null) 'Domain': domain,
+      if (identityProvider != null) 'IdentityProvider': identityProvider,
+      if (product != null) 'Product': product,
+      if (productUserArn != null) 'ProductUserArn': productUserArn,
+      if (username != null) 'Username': username,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -478,16 +733,66 @@ class LicenseManagerUserSubscriptions {
     return StopProductSubscriptionResponse.fromJson(response);
   }
 
+  /// Adds tags to a resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to tag.
+  ///
+  /// Parameter [tags] :
+  /// The tags to apply to the specified resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    final $payload = <String, dynamic>{
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes tags from a resource.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to remove
+  /// tags from.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag keys to remove from the resource.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates additional product configuration settings for the registered
   /// identity provider.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
   /// May throw [AccessDeniedException].
-  ///
-  /// Parameter [product] :
-  /// The name of the user-based subscription product.
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [updateSettings] :
   /// Updates the registered identity provider’s product related configuration
@@ -505,16 +810,30 @@ class LicenseManagerUserSubscriptions {
   /// Security group ID which permits traffic to the VPC endpoints.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [identityProviderArn] :
+  /// The Amazon Resource Name (ARN) of the identity provider to update.
+  ///
+  /// Parameter [product] :
+  /// The name of the user-based subscription product.
+  ///
+  /// Valid values: <code>VISUAL_STUDIO_ENTERPRISE</code> |
+  /// <code>VISUAL_STUDIO_PROFESSIONAL</code> |
+  /// <code>OFFICE_PROFESSIONAL_PLUS</code> |
+  /// <code>REMOTE_DESKTOP_SERVICES</code>
   Future<UpdateIdentityProviderSettingsResponse>
       updateIdentityProviderSettings({
-    required IdentityProvider identityProvider,
-    required String product,
     required UpdateSettings updateSettings,
+    IdentityProvider? identityProvider,
+    String? identityProviderArn,
+    String? product,
   }) async {
     final $payload = <String, dynamic>{
-      'IdentityProvider': identityProvider,
-      'Product': product,
       'UpdateSettings': updateSettings,
+      if (identityProvider != null) 'IdentityProvider': identityProvider,
+      if (identityProviderArn != null)
+        'IdentityProviderArn': identityProviderArn,
+      if (product != null) 'Product': product,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -523,29 +842,6 @@ class LicenseManagerUserSubscriptions {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIdentityProviderSettingsResponse.fromJson(response);
-  }
-}
-
-/// Details about an Active Directory identity provider.
-class ActiveDirectoryIdentityProvider {
-  /// The directory ID for an Active Directory identity provider.
-  final String? directoryId;
-
-  ActiveDirectoryIdentityProvider({
-    this.directoryId,
-  });
-
-  factory ActiveDirectoryIdentityProvider.fromJson(Map<String, dynamic> json) {
-    return ActiveDirectoryIdentityProvider(
-      directoryId: json['DirectoryId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final directoryId = this.directoryId;
-    return {
-      if (directoryId != null) 'DirectoryId': directoryId,
-    };
   }
 }
 
@@ -569,6 +865,67 @@ class AssociateUserResponse {
     final instanceUserSummary = this.instanceUserSummary;
     return {
       'InstanceUserSummary': instanceUserSummary,
+    };
+  }
+}
+
+class CreateLicenseServerEndpointResponse {
+  /// The Amazon Resource Name (ARN) of the identity provider specified in the
+  /// request.
+  final String? identityProviderArn;
+
+  /// The ARN of the <code>LicenseServerEndpoint</code> resource.
+  final String? licenseServerEndpointArn;
+
+  CreateLicenseServerEndpointResponse({
+    this.identityProviderArn,
+    this.licenseServerEndpointArn,
+  });
+
+  factory CreateLicenseServerEndpointResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateLicenseServerEndpointResponse(
+      identityProviderArn: json['IdentityProviderArn'] as String?,
+      licenseServerEndpointArn: json['LicenseServerEndpointArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityProviderArn = this.identityProviderArn;
+    final licenseServerEndpointArn = this.licenseServerEndpointArn;
+    return {
+      if (identityProviderArn != null)
+        'IdentityProviderArn': identityProviderArn,
+      if (licenseServerEndpointArn != null)
+        'LicenseServerEndpointArn': licenseServerEndpointArn,
+    };
+  }
+}
+
+class DeleteLicenseServerEndpointResponse {
+  /// Shows details from the <code>LicenseServerEndpoint</code> resource that was
+  /// deleted.
+  final LicenseServerEndpoint? licenseServerEndpoint;
+
+  DeleteLicenseServerEndpointResponse({
+    this.licenseServerEndpoint,
+  });
+
+  factory DeleteLicenseServerEndpointResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteLicenseServerEndpointResponse(
+      licenseServerEndpoint: json['LicenseServerEndpoint'] != null
+          ? LicenseServerEndpoint.fromJson(
+              json['LicenseServerEndpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final licenseServerEndpoint = this.licenseServerEndpoint;
+    return {
+      if (licenseServerEndpoint != null)
+        'LicenseServerEndpoint': licenseServerEndpoint,
     };
   }
 }
@@ -622,256 +979,16 @@ class DisassociateUserResponse {
   }
 }
 
-/// A filter name and value pair that is used to return more specific results
-/// from a describe operation. Filters can be used to match a set of resources
-/// by specific criteria, such as tags, attributes, or IDs.
-class Filter {
-  /// The name of an attribute to use as a filter.
-  final String? attribute;
-
-  /// The type of search (For example, eq, geq, leq)
-  final String? operation;
-
-  /// Value of the filter.
-  final String? value;
-
-  Filter({
-    this.attribute,
-    this.operation,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final attribute = this.attribute;
-    final operation = this.operation;
-    final value = this.value;
-    return {
-      if (attribute != null) 'Attribute': attribute,
-      if (operation != null) 'Operation': operation,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Details about an identity provider.
-class IdentityProvider {
-  /// An object that details an Active Directory identity provider.
-  final ActiveDirectoryIdentityProvider? activeDirectoryIdentityProvider;
-
-  IdentityProvider({
-    this.activeDirectoryIdentityProvider,
-  });
-
-  factory IdentityProvider.fromJson(Map<String, dynamic> json) {
-    return IdentityProvider(
-      activeDirectoryIdentityProvider:
-          json['ActiveDirectoryIdentityProvider'] != null
-              ? ActiveDirectoryIdentityProvider.fromJson(
-                  json['ActiveDirectoryIdentityProvider']
-                      as Map<String, dynamic>)
-              : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activeDirectoryIdentityProvider =
-        this.activeDirectoryIdentityProvider;
-    return {
-      if (activeDirectoryIdentityProvider != null)
-        'ActiveDirectoryIdentityProvider': activeDirectoryIdentityProvider,
-    };
-  }
-}
-
-/// Describes an identity provider.
-class IdentityProviderSummary {
-  /// An object that specifies details for the identity provider.
-  final IdentityProvider identityProvider;
-
-  /// The name of the user-based subscription product.
-  final String product;
-
-  /// An object that details the registered identity provider’s product related
-  /// configuration settings such as the subnets to provision VPC endpoints.
-  final Settings settings;
-
-  /// The status of an identity provider.
-  final String status;
-
-  /// The failure message associated with an identity provider.
-  final String? failureMessage;
-
-  IdentityProviderSummary({
-    required this.identityProvider,
-    required this.product,
-    required this.settings,
-    required this.status,
-    this.failureMessage,
-  });
-
-  factory IdentityProviderSummary.fromJson(Map<String, dynamic> json) {
-    return IdentityProviderSummary(
-      identityProvider: IdentityProvider.fromJson(
-          (json['IdentityProvider'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      product: (json['Product'] as String?) ?? '',
-      settings: Settings.fromJson((json['Settings'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-      status: (json['Status'] as String?) ?? '',
-      failureMessage: json['FailureMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityProvider = this.identityProvider;
-    final product = this.product;
-    final settings = this.settings;
-    final status = this.status;
-    final failureMessage = this.failureMessage;
-    return {
-      'IdentityProvider': identityProvider,
-      'Product': product,
-      'Settings': settings,
-      'Status': status,
-      if (failureMessage != null) 'FailureMessage': failureMessage,
-    };
-  }
-}
-
-/// Describes an EC2 instance providing user-based subscriptions.
-class InstanceSummary {
-  /// The ID of the EC2 instance, which provides user-based subscriptions.
-  final String instanceId;
-
-  /// A list of provided user-based subscription products.
-  final List<String> products;
-
-  /// The status of an EC2 instance resource.
-  final String status;
-
-  /// The date of the last status check.
-  final String? lastStatusCheckDate;
-
-  /// The status message for an EC2 instance.
-  final String? statusMessage;
-
-  InstanceSummary({
-    required this.instanceId,
-    required this.products,
-    required this.status,
-    this.lastStatusCheckDate,
-    this.statusMessage,
-  });
-
-  factory InstanceSummary.fromJson(Map<String, dynamic> json) {
-    return InstanceSummary(
-      instanceId: (json['InstanceId'] as String?) ?? '',
-      products: ((json['Products'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      status: (json['Status'] as String?) ?? '',
-      lastStatusCheckDate: json['LastStatusCheckDate'] as String?,
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceId = this.instanceId;
-    final products = this.products;
-    final status = this.status;
-    final lastStatusCheckDate = this.lastStatusCheckDate;
-    final statusMessage = this.statusMessage;
-    return {
-      'InstanceId': instanceId,
-      'Products': products,
-      'Status': status,
-      if (lastStatusCheckDate != null)
-        'LastStatusCheckDate': lastStatusCheckDate,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-/// Describes users of an EC2 instance providing user-based subscriptions.
-class InstanceUserSummary {
-  /// An object that specifies details for the identity provider.
-  final IdentityProvider identityProvider;
-
-  /// The ID of the EC2 instance, which provides user-based subscriptions.
-  final String instanceId;
-
-  /// The status of a user associated with an EC2 instance.
-  final String status;
-
-  /// The user name from the identity provider for the user.
-  final String username;
-
-  /// The date a user was associated with an EC2 instance.
-  final String? associationDate;
-
-  /// The date a user was disassociated from an EC2 instance.
-  final String? disassociationDate;
-
-  /// The domain name of the user.
-  final String? domain;
-
-  /// The status message for users of an EC2 instance.
-  final String? statusMessage;
-
-  InstanceUserSummary({
-    required this.identityProvider,
-    required this.instanceId,
-    required this.status,
-    required this.username,
-    this.associationDate,
-    this.disassociationDate,
-    this.domain,
-    this.statusMessage,
-  });
-
-  factory InstanceUserSummary.fromJson(Map<String, dynamic> json) {
-    return InstanceUserSummary(
-      identityProvider: IdentityProvider.fromJson(
-          (json['IdentityProvider'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      instanceId: (json['InstanceId'] as String?) ?? '',
-      status: (json['Status'] as String?) ?? '',
-      username: (json['Username'] as String?) ?? '',
-      associationDate: json['AssociationDate'] as String?,
-      disassociationDate: json['DisassociationDate'] as String?,
-      domain: json['Domain'] as String?,
-      statusMessage: json['StatusMessage'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityProvider = this.identityProvider;
-    final instanceId = this.instanceId;
-    final status = this.status;
-    final username = this.username;
-    final associationDate = this.associationDate;
-    final disassociationDate = this.disassociationDate;
-    final domain = this.domain;
-    final statusMessage = this.statusMessage;
-    return {
-      'IdentityProvider': identityProvider,
-      'InstanceId': instanceId,
-      'Status': status,
-      'Username': username,
-      if (associationDate != null) 'AssociationDate': associationDate,
-      if (disassociationDate != null) 'DisassociationDate': disassociationDate,
-      if (domain != null) 'Domain': domain,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
 class ListIdentityProvidersResponse {
-  /// Metadata that describes the list identity providers operation.
+  /// An array of <code>IdentityProviderSummary</code> resources that contain
+  /// details about the Active Directory identity providers that meet the request
+  /// criteria.
   final List<IdentityProviderSummary> identityProviderSummaries;
 
-  /// Token for the next set of results.
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
   final String? nextToken;
 
   ListIdentityProvidersResponse({
@@ -902,10 +1019,15 @@ class ListIdentityProvidersResponse {
 }
 
 class ListInstancesResponse {
-  /// Metadata that describes the list instances operation.
+  /// An array of <code>InstanceSummary</code> resources that contain details
+  /// about the instances that provide user-based subscriptions and also meet the
+  /// request criteria.
   final List<InstanceSummary>? instanceSummaries;
 
-  /// Token for the next set of results.
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
   final String? nextToken;
 
   ListInstancesResponse({
@@ -933,8 +1055,50 @@ class ListInstancesResponse {
   }
 }
 
+class ListLicenseServerEndpointsResponse {
+  /// An array of <code>LicenseServerEndpoint</code> resources that contain
+  /// detailed information about the RDS License Servers that meet the request
+  /// criteria.
+  final List<LicenseServerEndpoint>? licenseServerEndpoints;
+
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
+  final String? nextToken;
+
+  ListLicenseServerEndpointsResponse({
+    this.licenseServerEndpoints,
+    this.nextToken,
+  });
+
+  factory ListLicenseServerEndpointsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListLicenseServerEndpointsResponse(
+      licenseServerEndpoints: (json['LicenseServerEndpoints'] as List?)
+          ?.nonNulls
+          .map((e) => LicenseServerEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final licenseServerEndpoints = this.licenseServerEndpoints;
+    final nextToken = this.nextToken;
+    return {
+      if (licenseServerEndpoints != null)
+        'LicenseServerEndpoints': licenseServerEndpoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListProductSubscriptionsResponse {
-  /// Token for the next set of results.
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
   final String? nextToken;
 
   /// Metadata that describes the list product subscriptions operation.
@@ -966,11 +1130,37 @@ class ListProductSubscriptionsResponse {
   }
 }
 
+class ListTagsForResourceResponse {
+  /// The tags for the specified resource.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
 class ListUserAssociationsResponse {
   /// Metadata that describes the list user association operation.
   final List<InstanceUserSummary>? instanceUserSummaries;
 
-  /// Token for the next set of results.
+  /// The next token used for paginated responses. When this field isn't empty,
+  /// there are additional elements that the service hasn't included in this
+  /// request. Use this token with the next request to retrieve additional
+  /// objects.
   final String? nextToken;
 
   ListUserAssociationsResponse({
@@ -999,82 +1189,6 @@ class ListUserAssociationsResponse {
   }
 }
 
-/// The summary of the user-based subscription products for a user.
-class ProductUserSummary {
-  /// An object that specifies details for the identity provider.
-  final IdentityProvider identityProvider;
-
-  /// The name of the user-based subscription product.
-  final String product;
-
-  /// The status of a product for a user.
-  final String status;
-
-  /// The user name from the identity provider of the user.
-  final String username;
-
-  /// The domain name of the user.
-  final String? domain;
-
-  /// The status message for a product for a user.
-  final String? statusMessage;
-
-  /// The end date of a subscription.
-  final String? subscriptionEndDate;
-
-  /// The start date of a subscription.
-  final String? subscriptionStartDate;
-
-  ProductUserSummary({
-    required this.identityProvider,
-    required this.product,
-    required this.status,
-    required this.username,
-    this.domain,
-    this.statusMessage,
-    this.subscriptionEndDate,
-    this.subscriptionStartDate,
-  });
-
-  factory ProductUserSummary.fromJson(Map<String, dynamic> json) {
-    return ProductUserSummary(
-      identityProvider: IdentityProvider.fromJson(
-          (json['IdentityProvider'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      product: (json['Product'] as String?) ?? '',
-      status: (json['Status'] as String?) ?? '',
-      username: (json['Username'] as String?) ?? '',
-      domain: json['Domain'] as String?,
-      statusMessage: json['StatusMessage'] as String?,
-      subscriptionEndDate: json['SubscriptionEndDate'] as String?,
-      subscriptionStartDate: json['SubscriptionStartDate'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identityProvider = this.identityProvider;
-    final product = this.product;
-    final status = this.status;
-    final username = this.username;
-    final domain = this.domain;
-    final statusMessage = this.statusMessage;
-    final subscriptionEndDate = this.subscriptionEndDate;
-    final subscriptionStartDate = this.subscriptionStartDate;
-    return {
-      'IdentityProvider': identityProvider,
-      'Product': product,
-      'Status': status,
-      'Username': username,
-      if (domain != null) 'Domain': domain,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-      if (subscriptionEndDate != null)
-        'SubscriptionEndDate': subscriptionEndDate,
-      if (subscriptionStartDate != null)
-        'SubscriptionStartDate': subscriptionStartDate,
-    };
-  }
-}
-
 class RegisterIdentityProviderResponse {
   /// Metadata that describes the results of an identity provider operation.
   final IdentityProviderSummary identityProviderSummary;
@@ -1095,43 +1209,6 @@ class RegisterIdentityProviderResponse {
     final identityProviderSummary = this.identityProviderSummary;
     return {
       'IdentityProviderSummary': identityProviderSummary,
-    };
-  }
-}
-
-/// The registered identity provider’s product related configuration settings
-/// such as the subnets to provision VPC endpoints, and the security group ID
-/// that is associated with the VPC endpoints. The security group should permit
-/// inbound TCP port 1688 communication from resources in the VPC.
-class Settings {
-  /// A security group ID that allows inbound TCP port 1688 communication between
-  /// resources in your VPC and the VPC endpoint for activation servers.
-  final String securityGroupId;
-
-  /// The subnets defined for the registered identity provider.
-  final List<String> subnets;
-
-  Settings({
-    required this.securityGroupId,
-    required this.subnets,
-  });
-
-  factory Settings.fromJson(Map<String, dynamic> json) {
-    return Settings(
-      securityGroupId: (json['SecurityGroupId'] as String?) ?? '',
-      subnets: ((json['Subnets'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final securityGroupId = this.securityGroupId;
-    final subnets = this.subnets;
-    return {
-      'SecurityGroupId': securityGroupId,
-      'Subnets': subnets,
     };
   }
 }
@@ -1184,6 +1261,30 @@ class StopProductSubscriptionResponse {
   }
 }
 
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateIdentityProviderSettingsResponse {
   final IdentityProviderSummary identityProviderSummary;
 
@@ -1204,6 +1305,375 @@ class UpdateIdentityProviderSettingsResponse {
     final identityProviderSummary = this.identityProviderSummary;
     return {
       'IdentityProviderSummary': identityProviderSummary,
+    };
+  }
+}
+
+/// Describes an identity provider.
+class IdentityProviderSummary {
+  /// The <code>IdentityProvider</code> resource contains information about an
+  /// identity provider.
+  final IdentityProvider identityProvider;
+
+  /// The name of the user-based subscription product.
+  final String product;
+
+  /// The <code>Settings</code> resource contains details about the registered
+  /// identity provider’s product related configuration settings, such as the
+  /// subnets to provision VPC endpoints.
+  final Settings settings;
+
+  /// The status of the identity provider.
+  final String status;
+
+  /// The failure message associated with an identity provider.
+  final String? failureMessage;
+
+  /// The Amazon Resource Name (ARN) of the identity provider.
+  final String? identityProviderArn;
+
+  /// The AWS Account ID of the owner of this resource.
+  final String? ownerAccountId;
+
+  IdentityProviderSummary({
+    required this.identityProvider,
+    required this.product,
+    required this.settings,
+    required this.status,
+    this.failureMessage,
+    this.identityProviderArn,
+    this.ownerAccountId,
+  });
+
+  factory IdentityProviderSummary.fromJson(Map<String, dynamic> json) {
+    return IdentityProviderSummary(
+      identityProvider: IdentityProvider.fromJson(
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      product: (json['Product'] as String?) ?? '',
+      settings: Settings.fromJson((json['Settings'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      status: (json['Status'] as String?) ?? '',
+      failureMessage: json['FailureMessage'] as String?,
+      identityProviderArn: json['IdentityProviderArn'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityProvider = this.identityProvider;
+    final product = this.product;
+    final settings = this.settings;
+    final status = this.status;
+    final failureMessage = this.failureMessage;
+    final identityProviderArn = this.identityProviderArn;
+    final ownerAccountId = this.ownerAccountId;
+    return {
+      'IdentityProvider': identityProvider,
+      'Product': product,
+      'Settings': settings,
+      'Status': status,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+      if (identityProviderArn != null)
+        'IdentityProviderArn': identityProviderArn,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+    };
+  }
+}
+
+/// Refers to an identity provider.
+class IdentityProvider {
+  /// The <code>ActiveDirectoryIdentityProvider</code> resource contains settings
+  /// and other details about a specific Active Directory identity provider.
+  final ActiveDirectoryIdentityProvider? activeDirectoryIdentityProvider;
+
+  IdentityProvider({
+    this.activeDirectoryIdentityProvider,
+  });
+
+  factory IdentityProvider.fromJson(Map<String, dynamic> json) {
+    return IdentityProvider(
+      activeDirectoryIdentityProvider:
+          json['ActiveDirectoryIdentityProvider'] != null
+              ? ActiveDirectoryIdentityProvider.fromJson(
+                  json['ActiveDirectoryIdentityProvider']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeDirectoryIdentityProvider =
+        this.activeDirectoryIdentityProvider;
+    return {
+      if (activeDirectoryIdentityProvider != null)
+        'ActiveDirectoryIdentityProvider': activeDirectoryIdentityProvider,
+    };
+  }
+}
+
+/// The registered identity provider’s product related configuration settings
+/// such as the subnets to provision VPC endpoints, and the security group ID
+/// that is associated with the VPC endpoints. The security group should permit
+/// inbound TCP port 1688 communication from resources in the VPC.
+class Settings {
+  /// A security group ID that allows inbound TCP port 1688 communication between
+  /// resources in your VPC and the VPC endpoint for activation servers.
+  final String securityGroupId;
+
+  /// The subnets defined for the registered identity provider.
+  final List<String> subnets;
+
+  Settings({
+    required this.securityGroupId,
+    required this.subnets,
+  });
+
+  factory Settings.fromJson(Map<String, dynamic> json) {
+    return Settings(
+      securityGroupId: (json['SecurityGroupId'] as String?) ?? '',
+      subnets: ((json['Subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupId = this.securityGroupId;
+    final subnets = this.subnets;
+    return {
+      'SecurityGroupId': securityGroupId,
+      'Subnets': subnets,
+    };
+  }
+}
+
+/// Details about an Active Directory identity provider.
+class ActiveDirectoryIdentityProvider {
+  /// The <code>ActiveDirectorySettings</code> resource contains details about the
+  /// Active Directory, including network access details such as domain name and
+  /// IP addresses, and the credential provider for user administration.
+  final ActiveDirectorySettings? activeDirectorySettings;
+
+  /// The type of Active Directory – either a self-managed Active Directory or an
+  /// Amazon Web Services Managed Active Directory.
+  final ActiveDirectoryType? activeDirectoryType;
+
+  /// The directory ID for an Active Directory identity provider.
+  final String? directoryId;
+
+  /// Whether this directory is shared from an Amazon Web Services Managed Active
+  /// Directory. The default value is false.
+  final bool? isSharedActiveDirectory;
+
+  ActiveDirectoryIdentityProvider({
+    this.activeDirectorySettings,
+    this.activeDirectoryType,
+    this.directoryId,
+    this.isSharedActiveDirectory,
+  });
+
+  factory ActiveDirectoryIdentityProvider.fromJson(Map<String, dynamic> json) {
+    return ActiveDirectoryIdentityProvider(
+      activeDirectorySettings: json['ActiveDirectorySettings'] != null
+          ? ActiveDirectorySettings.fromJson(
+              json['ActiveDirectorySettings'] as Map<String, dynamic>)
+          : null,
+      activeDirectoryType: (json['ActiveDirectoryType'] as String?)
+          ?.let(ActiveDirectoryType.fromString),
+      directoryId: json['DirectoryId'] as String?,
+      isSharedActiveDirectory: json['IsSharedActiveDirectory'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeDirectorySettings = this.activeDirectorySettings;
+    final activeDirectoryType = this.activeDirectoryType;
+    final directoryId = this.directoryId;
+    final isSharedActiveDirectory = this.isSharedActiveDirectory;
+    return {
+      if (activeDirectorySettings != null)
+        'ActiveDirectorySettings': activeDirectorySettings,
+      if (activeDirectoryType != null)
+        'ActiveDirectoryType': activeDirectoryType.value,
+      if (directoryId != null) 'DirectoryId': directoryId,
+      if (isSharedActiveDirectory != null)
+        'IsSharedActiveDirectory': isSharedActiveDirectory,
+    };
+  }
+}
+
+/// Contains network access and credential details that are needed for user
+/// administration in the Active Directory.
+class ActiveDirectorySettings {
+  /// Points to the <code>CredentialsProvider</code> resource that contains
+  /// information about the credential provider for user administration.
+  final CredentialsProvider? domainCredentialsProvider;
+
+  /// A list of domain IPv4 addresses that are used for the Active Directory.
+  final List<String>? domainIpv4List;
+
+  /// A list of domain IPv6 addresses that are used for the Active Directory.
+  final List<String>? domainIpv6List;
+
+  /// The domain name for the Active Directory.
+  final String? domainName;
+
+  /// The <code>DomainNetworkSettings</code> resource contains an array of subnets
+  /// that apply for the Active Directory.
+  final DomainNetworkSettings? domainNetworkSettings;
+
+  ActiveDirectorySettings({
+    this.domainCredentialsProvider,
+    this.domainIpv4List,
+    this.domainIpv6List,
+    this.domainName,
+    this.domainNetworkSettings,
+  });
+
+  factory ActiveDirectorySettings.fromJson(Map<String, dynamic> json) {
+    return ActiveDirectorySettings(
+      domainCredentialsProvider: json['DomainCredentialsProvider'] != null
+          ? CredentialsProvider.fromJson(
+              json['DomainCredentialsProvider'] as Map<String, dynamic>)
+          : null,
+      domainIpv4List: (json['DomainIpv4List'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      domainIpv6List: (json['DomainIpv6List'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      domainName: json['DomainName'] as String?,
+      domainNetworkSettings: json['DomainNetworkSettings'] != null
+          ? DomainNetworkSettings.fromJson(
+              json['DomainNetworkSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainCredentialsProvider = this.domainCredentialsProvider;
+    final domainIpv4List = this.domainIpv4List;
+    final domainIpv6List = this.domainIpv6List;
+    final domainName = this.domainName;
+    final domainNetworkSettings = this.domainNetworkSettings;
+    return {
+      if (domainCredentialsProvider != null)
+        'DomainCredentialsProvider': domainCredentialsProvider,
+      if (domainIpv4List != null) 'DomainIpv4List': domainIpv4List,
+      if (domainIpv6List != null) 'DomainIpv6List': domainIpv6List,
+      if (domainName != null) 'DomainName': domainName,
+      if (domainNetworkSettings != null)
+        'DomainNetworkSettings': domainNetworkSettings,
+    };
+  }
+}
+
+class ActiveDirectoryType {
+  static const selfManaged = ActiveDirectoryType._('SELF_MANAGED');
+  static const awsManaged = ActiveDirectoryType._('AWS_MANAGED');
+
+  final String value;
+
+  const ActiveDirectoryType._(this.value);
+
+  static const values = [selfManaged, awsManaged];
+
+  static ActiveDirectoryType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActiveDirectoryType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ActiveDirectoryType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Contains information about the credential provider for user administration.
+class CredentialsProvider {
+  /// Identifies the Secrets Manager secret that contains credentials needed for
+  /// user administration in the Active Directory.
+  final SecretsManagerCredentialsProvider? secretsManagerCredentialsProvider;
+
+  CredentialsProvider({
+    this.secretsManagerCredentialsProvider,
+  });
+
+  factory CredentialsProvider.fromJson(Map<String, dynamic> json) {
+    return CredentialsProvider(
+      secretsManagerCredentialsProvider:
+          json['SecretsManagerCredentialsProvider'] != null
+              ? SecretsManagerCredentialsProvider.fromJson(
+                  json['SecretsManagerCredentialsProvider']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretsManagerCredentialsProvider =
+        this.secretsManagerCredentialsProvider;
+    return {
+      if (secretsManagerCredentialsProvider != null)
+        'SecretsManagerCredentialsProvider': secretsManagerCredentialsProvider,
+    };
+  }
+}
+
+/// Contains network settings for the Active Directory domain.
+class DomainNetworkSettings {
+  /// Contains a list of subnets that apply for the Active Directory domain.
+  final List<String> subnets;
+
+  DomainNetworkSettings({
+    required this.subnets,
+  });
+
+  factory DomainNetworkSettings.fromJson(Map<String, dynamic> json) {
+    return DomainNetworkSettings(
+      subnets: ((json['Subnets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnets = this.subnets;
+    return {
+      'Subnets': subnets,
+    };
+  }
+}
+
+/// Contains a credentials secret that's stored in Secrets Manager.
+class SecretsManagerCredentialsProvider {
+  /// The ID of the Secrets Manager secret that contains credentials.
+  final String? secretId;
+
+  SecretsManagerCredentialsProvider({
+    this.secretId,
+  });
+
+  factory SecretsManagerCredentialsProvider.fromJson(
+      Map<String, dynamic> json) {
+    return SecretsManagerCredentialsProvider(
+      secretId: json['SecretId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final secretId = this.secretId;
+    return {
+      if (secretId != null) 'SecretId': secretId,
     };
   }
 }
@@ -1236,6 +1706,597 @@ class UpdateSettings {
       'AddSubnets': addSubnets,
       'RemoveSubnets': removeSubnets,
       if (securityGroupId != null) 'SecurityGroupId': securityGroupId,
+    };
+  }
+}
+
+/// A summary of the user-based subscription products for a specific user.
+class ProductUserSummary {
+  /// An object that specifies details for the identity provider.
+  final IdentityProvider identityProvider;
+
+  /// The name of the user-based subscription product.
+  final String product;
+
+  /// The status of a product for this user.
+  final String status;
+
+  /// The user name from the identity provider for this product user.
+  final String username;
+
+  /// The domain name of the Active Directory that contains the user information
+  /// for the product subscription.
+  final String? domain;
+
+  /// The Amazon Resource Name (ARN) for this product user.
+  final String? productUserArn;
+
+  /// The status message for a product for this user.
+  final String? statusMessage;
+
+  /// The end date of a subscription.
+  final String? subscriptionEndDate;
+
+  /// The start date of a subscription.
+  final String? subscriptionStartDate;
+
+  ProductUserSummary({
+    required this.identityProvider,
+    required this.product,
+    required this.status,
+    required this.username,
+    this.domain,
+    this.productUserArn,
+    this.statusMessage,
+    this.subscriptionEndDate,
+    this.subscriptionStartDate,
+  });
+
+  factory ProductUserSummary.fromJson(Map<String, dynamic> json) {
+    return ProductUserSummary(
+      identityProvider: IdentityProvider.fromJson(
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      product: (json['Product'] as String?) ?? '',
+      status: (json['Status'] as String?) ?? '',
+      username: (json['Username'] as String?) ?? '',
+      domain: json['Domain'] as String?,
+      productUserArn: json['ProductUserArn'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      subscriptionEndDate: json['SubscriptionEndDate'] as String?,
+      subscriptionStartDate: json['SubscriptionStartDate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityProvider = this.identityProvider;
+    final product = this.product;
+    final status = this.status;
+    final username = this.username;
+    final domain = this.domain;
+    final productUserArn = this.productUserArn;
+    final statusMessage = this.statusMessage;
+    final subscriptionEndDate = this.subscriptionEndDate;
+    final subscriptionStartDate = this.subscriptionStartDate;
+    return {
+      'IdentityProvider': identityProvider,
+      'Product': product,
+      'Status': status,
+      'Username': username,
+      if (domain != null) 'Domain': domain,
+      if (productUserArn != null) 'ProductUserArn': productUserArn,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (subscriptionEndDate != null)
+        'SubscriptionEndDate': subscriptionEndDate,
+      if (subscriptionStartDate != null)
+        'SubscriptionStartDate': subscriptionStartDate,
+    };
+  }
+}
+
+/// Describes users of an EC2 instance providing user-based subscriptions.
+class InstanceUserSummary {
+  /// The <code>IdentityProvider</code> resource specifies details about the
+  /// identity provider.
+  final IdentityProvider identityProvider;
+
+  /// The ID of the EC2 instance that provides user-based subscriptions.
+  final String instanceId;
+
+  /// The status of a user associated with an EC2 instance.
+  final String status;
+
+  /// The user name from the identity provider for the user.
+  final String username;
+
+  /// The date a user was associated with an EC2 instance.
+  final String? associationDate;
+
+  /// The date a user was disassociated from an EC2 instance.
+  final String? disassociationDate;
+
+  /// The domain name of the Active Directory that contains the user information
+  /// for the product subscription.
+  final String? domain;
+
+  /// The Amazon Resource Name (ARN) that identifies the instance user.
+  final String? instanceUserArn;
+
+  /// The status message for users of an EC2 instance.
+  final String? statusMessage;
+
+  InstanceUserSummary({
+    required this.identityProvider,
+    required this.instanceId,
+    required this.status,
+    required this.username,
+    this.associationDate,
+    this.disassociationDate,
+    this.domain,
+    this.instanceUserArn,
+    this.statusMessage,
+  });
+
+  factory InstanceUserSummary.fromJson(Map<String, dynamic> json) {
+    return InstanceUserSummary(
+      identityProvider: IdentityProvider.fromJson(
+          (json['IdentityProvider'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      instanceId: (json['InstanceId'] as String?) ?? '',
+      status: (json['Status'] as String?) ?? '',
+      username: (json['Username'] as String?) ?? '',
+      associationDate: json['AssociationDate'] as String?,
+      disassociationDate: json['DisassociationDate'] as String?,
+      domain: json['Domain'] as String?,
+      instanceUserArn: json['InstanceUserArn'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityProvider = this.identityProvider;
+    final instanceId = this.instanceId;
+    final status = this.status;
+    final username = this.username;
+    final associationDate = this.associationDate;
+    final disassociationDate = this.disassociationDate;
+    final domain = this.domain;
+    final instanceUserArn = this.instanceUserArn;
+    final statusMessage = this.statusMessage;
+    return {
+      'IdentityProvider': identityProvider,
+      'InstanceId': instanceId,
+      'Status': status,
+      'Username': username,
+      if (associationDate != null) 'AssociationDate': associationDate,
+      if (disassociationDate != null) 'DisassociationDate': disassociationDate,
+      if (domain != null) 'Domain': domain,
+      if (instanceUserArn != null) 'InstanceUserArn': instanceUserArn,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// A filter name and value pair that is used to return more specific results
+/// from a describe or list operation. You can use filters can be used to match
+/// a set of resources by specific criteria, such as tags, attributes, or IDs.
+class Filter {
+  /// The name of an attribute to use as a filter.
+  final String? attribute;
+
+  /// The type of search (For example, eq, geq, leq)
+  final String? operation;
+
+  /// Value of the filter.
+  final String? value;
+
+  Filter({
+    this.attribute,
+    this.operation,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final operation = this.operation;
+    final value = this.value;
+    return {
+      if (attribute != null) 'Attribute': attribute,
+      if (operation != null) 'Operation': operation,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Contains details about a network endpoint for a Remote Desktop Services
+/// (RDS) license server.
+class LicenseServerEndpoint {
+  /// The timestamp when License Manager created the license server endpoint.
+  final DateTime? creationTime;
+
+  /// The Amazon Resource Name (ARN) of the identity provider that's associated
+  /// with the RDS license server endpoint.
+  final String? identityProviderArn;
+
+  /// The ARN of the <code>ServerEndpoint</code> resource for the RDS license
+  /// server.
+  final String? licenseServerEndpointArn;
+
+  /// The ID of the license server endpoint.
+  final String? licenseServerEndpointId;
+
+  /// The current state of the provisioning process for the RDS license server
+  /// endpoint
+  final LicenseServerEndpointProvisioningStatus?
+      licenseServerEndpointProvisioningStatus;
+
+  /// An array of <code>LicenseServer</code> resources that represent the license
+  /// servers that are accessed through this endpoint.
+  final List<LicenseServer>? licenseServers;
+
+  /// The <code>ServerEndpoint</code> resource contains the network address of the
+  /// RDS license server endpoint.
+  final ServerEndpoint? serverEndpoint;
+
+  /// The type of license server.
+  final ServerType? serverType;
+
+  /// The message associated with the provisioning status, if there is one.
+  final String? statusMessage;
+
+  LicenseServerEndpoint({
+    this.creationTime,
+    this.identityProviderArn,
+    this.licenseServerEndpointArn,
+    this.licenseServerEndpointId,
+    this.licenseServerEndpointProvisioningStatus,
+    this.licenseServers,
+    this.serverEndpoint,
+    this.serverType,
+    this.statusMessage,
+  });
+
+  factory LicenseServerEndpoint.fromJson(Map<String, dynamic> json) {
+    return LicenseServerEndpoint(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      identityProviderArn: json['IdentityProviderArn'] as String?,
+      licenseServerEndpointArn: json['LicenseServerEndpointArn'] as String?,
+      licenseServerEndpointId: json['LicenseServerEndpointId'] as String?,
+      licenseServerEndpointProvisioningStatus:
+          (json['LicenseServerEndpointProvisioningStatus'] as String?)
+              ?.let(LicenseServerEndpointProvisioningStatus.fromString),
+      licenseServers: (json['LicenseServers'] as List?)
+          ?.nonNulls
+          .map((e) => LicenseServer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serverEndpoint: json['ServerEndpoint'] != null
+          ? ServerEndpoint.fromJson(
+              json['ServerEndpoint'] as Map<String, dynamic>)
+          : null,
+      serverType: (json['ServerType'] as String?)?.let(ServerType.fromString),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final identityProviderArn = this.identityProviderArn;
+    final licenseServerEndpointArn = this.licenseServerEndpointArn;
+    final licenseServerEndpointId = this.licenseServerEndpointId;
+    final licenseServerEndpointProvisioningStatus =
+        this.licenseServerEndpointProvisioningStatus;
+    final licenseServers = this.licenseServers;
+    final serverEndpoint = this.serverEndpoint;
+    final serverType = this.serverType;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (identityProviderArn != null)
+        'IdentityProviderArn': identityProviderArn,
+      if (licenseServerEndpointArn != null)
+        'LicenseServerEndpointArn': licenseServerEndpointArn,
+      if (licenseServerEndpointId != null)
+        'LicenseServerEndpointId': licenseServerEndpointId,
+      if (licenseServerEndpointProvisioningStatus != null)
+        'LicenseServerEndpointProvisioningStatus':
+            licenseServerEndpointProvisioningStatus.value,
+      if (licenseServers != null) 'LicenseServers': licenseServers,
+      if (serverEndpoint != null) 'ServerEndpoint': serverEndpoint,
+      if (serverType != null) 'ServerType': serverType.value,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+class ServerType {
+  static const rdsSal = ServerType._('RDS_SAL');
+
+  final String value;
+
+  const ServerType._(this.value);
+
+  static const values = [rdsSal];
+
+  static ServerType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ServerType._(value));
+
+  @override
+  bool operator ==(other) => other is ServerType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A network endpoint through which you can access one or more servers.
+class ServerEndpoint {
+  /// The network address of the endpoint.
+  final String? endpoint;
+
+  ServerEndpoint({
+    this.endpoint,
+  });
+
+  factory ServerEndpoint.fromJson(Map<String, dynamic> json) {
+    return ServerEndpoint(
+      endpoint: json['Endpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      if (endpoint != null) 'Endpoint': endpoint,
+    };
+  }
+}
+
+class LicenseServerEndpointProvisioningStatus {
+  static const provisioning =
+      LicenseServerEndpointProvisioningStatus._('PROVISIONING');
+  static const provisioningFailed =
+      LicenseServerEndpointProvisioningStatus._('PROVISIONING_FAILED');
+  static const provisioned =
+      LicenseServerEndpointProvisioningStatus._('PROVISIONED');
+  static const deleting = LicenseServerEndpointProvisioningStatus._('DELETING');
+  static const deletionFailed =
+      LicenseServerEndpointProvisioningStatus._('DELETION_FAILED');
+  static const deleted = LicenseServerEndpointProvisioningStatus._('DELETED');
+
+  final String value;
+
+  const LicenseServerEndpointProvisioningStatus._(this.value);
+
+  static const values = [
+    provisioning,
+    provisioningFailed,
+    provisioned,
+    deleting,
+    deletionFailed,
+    deleted
+  ];
+
+  static LicenseServerEndpointProvisioningStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LicenseServerEndpointProvisioningStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseServerEndpointProvisioningStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about a Remote Desktop Services (RDS) license server.
+class LicenseServer {
+  /// The health status of the RDS license server.
+  final LicenseServerHealthStatus? healthStatus;
+
+  /// A list of domain IPv4 addresses that are used for the RDS license server.
+  final String? ipv4Address;
+
+  /// A list of domain IPv6 addresses that are used for the RDS license server.
+  final String? ipv6Address;
+
+  /// The current state of the provisioning process for the RDS license server.
+  final LicenseServerEndpointProvisioningStatus? provisioningStatus;
+
+  LicenseServer({
+    this.healthStatus,
+    this.ipv4Address,
+    this.ipv6Address,
+    this.provisioningStatus,
+  });
+
+  factory LicenseServer.fromJson(Map<String, dynamic> json) {
+    return LicenseServer(
+      healthStatus: (json['HealthStatus'] as String?)
+          ?.let(LicenseServerHealthStatus.fromString),
+      ipv4Address: json['Ipv4Address'] as String?,
+      ipv6Address: json['Ipv6Address'] as String?,
+      provisioningStatus: (json['ProvisioningStatus'] as String?)
+          ?.let(LicenseServerEndpointProvisioningStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthStatus = this.healthStatus;
+    final ipv4Address = this.ipv4Address;
+    final ipv6Address = this.ipv6Address;
+    final provisioningStatus = this.provisioningStatus;
+    return {
+      if (healthStatus != null) 'HealthStatus': healthStatus.value,
+      if (ipv4Address != null) 'Ipv4Address': ipv4Address,
+      if (ipv6Address != null) 'Ipv6Address': ipv6Address,
+      if (provisioningStatus != null)
+        'ProvisioningStatus': provisioningStatus.value,
+    };
+  }
+}
+
+class LicenseServerHealthStatus {
+  static const healthy = LicenseServerHealthStatus._('HEALTHY');
+  static const unhealthy = LicenseServerHealthStatus._('UNHEALTHY');
+  static const notApplicable = LicenseServerHealthStatus._('NOT_APPLICABLE');
+
+  final String value;
+
+  const LicenseServerHealthStatus._(this.value);
+
+  static const values = [healthy, unhealthy, notApplicable];
+
+  static LicenseServerHealthStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LicenseServerHealthStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is LicenseServerHealthStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes an EC2 instance providing user-based subscriptions.
+class InstanceSummary {
+  /// The ID of the EC2 instance, which provides user-based subscriptions.
+  final String instanceId;
+
+  /// A list of provided user-based subscription products.
+  final List<String> products;
+
+  /// The status of an EC2 instance resource.
+  final String status;
+
+  /// The <code>IdentityProvider</code> resource specifies details about the
+  /// identity provider.
+  final IdentityProvider? identityProvider;
+
+  /// The date of the last status check.
+  final String? lastStatusCheckDate;
+
+  /// The AWS Account ID of the owner of this resource.
+  final String? ownerAccountId;
+
+  /// The status message for an EC2 instance.
+  final String? statusMessage;
+
+  InstanceSummary({
+    required this.instanceId,
+    required this.products,
+    required this.status,
+    this.identityProvider,
+    this.lastStatusCheckDate,
+    this.ownerAccountId,
+    this.statusMessage,
+  });
+
+  factory InstanceSummary.fromJson(Map<String, dynamic> json) {
+    return InstanceSummary(
+      instanceId: (json['InstanceId'] as String?) ?? '',
+      products: ((json['Products'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      status: (json['Status'] as String?) ?? '',
+      identityProvider: json['IdentityProvider'] != null
+          ? IdentityProvider.fromJson(
+              json['IdentityProvider'] as Map<String, dynamic>)
+          : null,
+      lastStatusCheckDate: json['LastStatusCheckDate'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceId = this.instanceId;
+    final products = this.products;
+    final status = this.status;
+    final identityProvider = this.identityProvider;
+    final lastStatusCheckDate = this.lastStatusCheckDate;
+    final ownerAccountId = this.ownerAccountId;
+    final statusMessage = this.statusMessage;
+    return {
+      'InstanceId': instanceId,
+      'Products': products,
+      'Status': status,
+      if (identityProvider != null) 'IdentityProvider': identityProvider,
+      if (lastStatusCheckDate != null)
+        'LastStatusCheckDate': lastStatusCheckDate,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
+}
+
+/// The settings to configure your license server.
+class LicenseServerSettings {
+  /// The <code>ServerSettings</code> resource contains the settings for your
+  /// server.
+  final ServerSettings serverSettings;
+
+  /// The type of license server.
+  final ServerType serverType;
+
+  LicenseServerSettings({
+    required this.serverSettings,
+    required this.serverType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final serverSettings = this.serverSettings;
+    final serverType = this.serverType;
+    return {
+      'ServerSettings': serverSettings,
+      'ServerType': serverType.value,
+    };
+  }
+}
+
+/// Contains settings for a specific server.
+class ServerSettings {
+  /// The <code>RdsSalSettings</code> resource contains settings to configure a
+  /// specific Remote Desktop Services (RDS) license server.
+  final RdsSalSettings? rdsSalSettings;
+
+  ServerSettings({
+    this.rdsSalSettings,
+  });
+
+  Map<String, dynamic> toJson() {
+    final rdsSalSettings = this.rdsSalSettings;
+    return {
+      if (rdsSalSettings != null) 'RdsSalSettings': rdsSalSettings,
+    };
+  }
+}
+
+/// Server settings that are specific to a Remote Desktop Services (RDS) license
+/// server.
+class RdsSalSettings {
+  /// The <code>CredentialsProvider</code> resource contains a reference to the
+  /// credentials provider that's used for RDS license server user administration.
+  final CredentialsProvider rdsSalCredentialsProvider;
+
+  RdsSalSettings({
+    required this.rdsSalCredentialsProvider,
+  });
+
+  Map<String, dynamic> toJson() {
+    final rdsSalCredentialsProvider = this.rdsSalCredentialsProvider;
+    return {
+      'RdsSalCredentialsProvider': rdsSalCredentialsProvider,
     };
   }
 }

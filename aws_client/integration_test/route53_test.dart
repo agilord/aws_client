@@ -1,4 +1,4 @@
-import 'package:aws_client/route_53_2013_04_01.dart';
+import 'package:aws_client/route_53.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

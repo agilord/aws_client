@@ -35,7 +35,6 @@ class RdsData {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'rds-data',
-            signingName: 'rds-data',
           ),
           region: region,
           credentials: credentials,
@@ -75,19 +74,21 @@ class RdsData {
   /// response data, the call is terminated.
   /// </note>
   ///
-  /// May throw [SecretsErrorException].
-  /// May throw [HttpEndpointNotEnabledException].
-  /// May throw [DatabaseErrorException].
-  /// May throw [DatabaseUnavailableException].
-  /// May throw [TransactionNotFoundException].
-  /// May throw [InvalidSecretException].
-  /// May throw [ServiceUnavailableError].
-  /// May throw [ForbiddenException].
-  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [StatementTimeoutException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseNotFoundException].
+  /// May throw [DatabaseResumingException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [HttpEndpointNotEnabledException].
   /// May throw [InternalServerErrorException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [InvalidSecretException].
+  /// May throw [SecretsErrorException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [StatementTimeoutException].
+  /// May throw [TransactionNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -175,25 +176,27 @@ class RdsData {
   /// minutes. If a transaction times out before it's committed, it's rolled
   /// back automatically.
   ///
-  /// DDL statements inside a transaction cause an implicit commit. We recommend
-  /// that you run each DDL statement in a separate
+  /// For Aurora MySQL, DDL statements inside a transaction cause an implicit
+  /// commit. We recommend that you run each MySQL DDL statement in a separate
   /// <code>ExecuteStatement</code> call with <code>continueAfterTimeout</code>
   /// enabled.
   /// </note>
   ///
-  /// May throw [SecretsErrorException].
-  /// May throw [HttpEndpointNotEnabledException].
-  /// May throw [DatabaseErrorException].
-  /// May throw [DatabaseUnavailableException].
-  /// May throw [TransactionNotFoundException].
-  /// May throw [InvalidSecretException].
-  /// May throw [ServiceUnavailableError].
-  /// May throw [ForbiddenException].
-  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [StatementTimeoutException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseNotFoundException].
+  /// May throw [DatabaseResumingException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [HttpEndpointNotEnabledException].
   /// May throw [InternalServerErrorException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [InvalidSecretException].
+  /// May throw [SecretsErrorException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [StatementTimeoutException].
+  /// May throw [TransactionNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -230,20 +233,21 @@ class RdsData {
   /// Ends a SQL transaction started with the <code>BeginTransaction</code>
   /// operation and commits the changes.
   ///
-  /// May throw [SecretsErrorException].
-  /// May throw [HttpEndpointNotEnabledException].
-  /// May throw [DatabaseErrorException].
-  /// May throw [DatabaseUnavailableException].
-  /// May throw [TransactionNotFoundException].
-  /// May throw [InvalidSecretException].
-  /// May throw [ServiceUnavailableError].
-  /// May throw [ForbiddenException].
-  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [StatementTimeoutException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseNotFoundException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [HttpEndpointNotEnabledException].
   /// May throw [InternalServerErrorException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [InvalidSecretException].
   /// May throw [NotFoundException].
+  /// May throw [SecretsErrorException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [StatementTimeoutException].
+  /// May throw [TransactionNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -274,16 +278,16 @@ class RdsData {
 
   /// Runs one or more SQL statements.
   /// <note>
-  /// This operation isn't supported for Aurora PostgreSQL Serverless v2 and
-  /// provisioned DB clusters, and for Aurora Serverless v1 DB clusters, the
-  /// operation is deprecated. Use the <code>BatchExecuteStatement</code> or
+  /// This operation isn't supported for Aurora Serverless v2 and provisioned DB
+  /// clusters. For Aurora Serverless v1 DB clusters, the operation is
+  /// deprecated. Use the <code>BatchExecuteStatement</code> or
   /// <code>ExecuteStatement</code> operation.
   /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [ServiceUnavailableError].
   ///
   /// Parameter [awsSecretStoreArn] :
@@ -310,8 +314,6 @@ class RdsData {
   ///
   /// Parameter [schema] :
   /// The name of the database schema.
-  @Deprecated(
-      'The ExecuteSql API is deprecated, please use the ExecuteStatement API.')
   Future<ExecuteSqlResponse> executeSql({
     required String awsSecretStoreArn,
     required String dbClusterOrInstanceArn,
@@ -345,19 +347,21 @@ class RdsData {
   /// is terminated.
   /// </note>
   ///
-  /// May throw [SecretsErrorException].
-  /// May throw [HttpEndpointNotEnabledException].
-  /// May throw [DatabaseErrorException].
-  /// May throw [DatabaseUnavailableException].
-  /// May throw [TransactionNotFoundException].
-  /// May throw [InvalidSecretException].
-  /// May throw [ServiceUnavailableError].
-  /// May throw [ForbiddenException].
-  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [StatementTimeoutException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseNotFoundException].
+  /// May throw [DatabaseResumingException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [HttpEndpointNotEnabledException].
   /// May throw [InternalServerErrorException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [InvalidSecretException].
+  /// May throw [SecretsErrorException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [StatementTimeoutException].
+  /// May throw [TransactionNotFoundException].
   /// May throw [UnsupportedResultException].
   ///
   /// Parameter [resourceArn] :
@@ -370,6 +374,18 @@ class RdsData {
   /// For information about creating the secret, see <a
   /// href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html">Create
   /// a database secret</a>.
+  /// <note>
+  /// When you use the CLI on Linux to reference a secret created in the RDS
+  /// console, the ARN might include special characters like
+  /// <code>rds!cluster</code>. If you enclose the ARN in double quotes, the
+  /// <code>!</code> character might trigger a shell expansion error, such as
+  /// <code>-bash: !cluster: event not found</code>. To avoid this, escape the
+  /// exclamation mark (\!) in the ARN or enclose the entire ARN in single
+  /// quotes (') instead of double quotes.
+  ///
+  /// Alternatively, disable shell history expansion by running <code>set
+  /// +H</code> before you execute the command.
+  /// </note>
   ///
   /// Parameter [sql] :
   /// The SQL statement to run.
@@ -464,20 +480,21 @@ class RdsData {
   /// Performs a rollback of a transaction. Rolling back a transaction cancels
   /// its changes.
   ///
-  /// May throw [SecretsErrorException].
-  /// May throw [HttpEndpointNotEnabledException].
-  /// May throw [DatabaseErrorException].
-  /// May throw [DatabaseUnavailableException].
-  /// May throw [TransactionNotFoundException].
-  /// May throw [InvalidSecretException].
-  /// May throw [ServiceUnavailableError].
-  /// May throw [ForbiddenException].
-  /// May throw [DatabaseNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [BadRequestException].
-  /// May throw [StatementTimeoutException].
+  /// May throw [DatabaseErrorException].
+  /// May throw [DatabaseNotFoundException].
+  /// May throw [DatabaseUnavailableException].
+  /// May throw [ForbiddenException].
+  /// May throw [HttpEndpointNotEnabledException].
   /// May throw [InternalServerErrorException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [InvalidSecretException].
   /// May throw [NotFoundException].
+  /// May throw [SecretsErrorException].
+  /// May throw [ServiceUnavailableError].
+  /// May throw [StatementTimeoutException].
+  /// May throw [TransactionNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -504,70 +521,6 @@ class RdsData {
       exceptionFnMap: _exceptionFns,
     );
     return RollbackTransactionResponse.fromJson(response);
-  }
-}
-
-/// Contains an array.
-class ArrayValue {
-  /// An array of arrays.
-  final List<ArrayValue>? arrayValues;
-
-  /// An array of Boolean values.
-  final List<bool>? booleanValues;
-
-  /// An array of floating-point numbers.
-  final List<double>? doubleValues;
-
-  /// An array of integers.
-  final List<int>? longValues;
-
-  /// An array of strings.
-  final List<String>? stringValues;
-
-  ArrayValue({
-    this.arrayValues,
-    this.booleanValues,
-    this.doubleValues,
-    this.longValues,
-    this.stringValues,
-  });
-
-  factory ArrayValue.fromJson(Map<String, dynamic> json) {
-    return ArrayValue(
-      arrayValues: (json['arrayValues'] as List?)
-          ?.nonNulls
-          .map((e) => ArrayValue.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      booleanValues: (json['booleanValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as bool)
-          .toList(),
-      doubleValues: (json['doubleValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as double)
-          .toList(),
-      longValues:
-          (json['longValues'] as List?)?.nonNulls.map((e) => e as int).toList(),
-      stringValues: (json['stringValues'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arrayValues = this.arrayValues;
-    final booleanValues = this.booleanValues;
-    final doubleValues = this.doubleValues;
-    final longValues = this.longValues;
-    final stringValues = this.stringValues;
-    return {
-      if (arrayValues != null) 'arrayValues': arrayValues,
-      if (booleanValues != null) 'booleanValues': booleanValues,
-      if (doubleValues != null) 'doubleValues': doubleValues,
-      if (longValues != null) 'longValues': longValues,
-      if (stringValues != null) 'stringValues': stringValues,
-    };
   }
 }
 
@@ -618,6 +571,292 @@ class BeginTransactionResponse {
     final transactionId = this.transactionId;
     return {
       if (transactionId != null) 'transactionId': transactionId,
+    };
+  }
+}
+
+/// The response elements represent the output of a commit transaction request.
+class CommitTransactionResponse {
+  /// The status of the commit operation.
+  final String? transactionStatus;
+
+  CommitTransactionResponse({
+    this.transactionStatus,
+  });
+
+  factory CommitTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return CommitTransactionResponse(
+      transactionStatus: json['transactionStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionStatus = this.transactionStatus;
+    return {
+      if (transactionStatus != null) 'transactionStatus': transactionStatus,
+    };
+  }
+}
+
+/// The response elements represent the output of a request to run one or more
+/// SQL statements.
+class ExecuteSqlResponse {
+  /// The results of the SQL statement or statements.
+  final List<SqlStatementResult>? sqlStatementResults;
+
+  ExecuteSqlResponse({
+    this.sqlStatementResults,
+  });
+
+  factory ExecuteSqlResponse.fromJson(Map<String, dynamic> json) {
+    return ExecuteSqlResponse(
+      sqlStatementResults: (json['sqlStatementResults'] as List?)
+          ?.nonNulls
+          .map((e) => SqlStatementResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sqlStatementResults = this.sqlStatementResults;
+    return {
+      if (sqlStatementResults != null)
+        'sqlStatementResults': sqlStatementResults,
+    };
+  }
+}
+
+/// The response elements represent the output of a request to run a SQL
+/// statement against a database.
+class ExecuteStatementResponse {
+  /// Metadata for the columns included in the results. This field is blank if the
+  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
+  final List<ColumnMetadata>? columnMetadata;
+
+  /// A string value that represents the result set of a <code>SELECT</code>
+  /// statement in JSON format. This value is only present when the
+  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
+  ///
+  /// The size limit for this field is currently 10 MB. If the JSON-formatted
+  /// string representing the result set requires more than 10 MB, the call
+  /// returns an error.
+  final String? formattedRecords;
+
+  /// Values for fields generated during a DML request.
+  /// <note>
+  /// The <code>generatedFields</code> data isn't supported by Aurora PostgreSQL.
+  /// To get the values of generated fields, use the <code>RETURNING</code>
+  /// clause. For more information, see <a
+  /// href="https://www.postgresql.org/docs/10/dml-returning.html">Returning Data
+  /// From Modified Rows</a> in the PostgreSQL documentation.
+  /// </note>
+  final List<Field>? generatedFields;
+
+  /// The number of records updated by the request.
+  final int? numberOfRecordsUpdated;
+
+  /// The records returned by the SQL statement. This field is blank if the
+  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
+  final List<List<Field>>? records;
+
+  ExecuteStatementResponse({
+    this.columnMetadata,
+    this.formattedRecords,
+    this.generatedFields,
+    this.numberOfRecordsUpdated,
+    this.records,
+  });
+
+  factory ExecuteStatementResponse.fromJson(Map<String, dynamic> json) {
+    return ExecuteStatementResponse(
+      columnMetadata: (json['columnMetadata'] as List?)
+          ?.nonNulls
+          .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      formattedRecords: json['formattedRecords'] as String?,
+      generatedFields: (json['generatedFields'] as List?)
+          ?.nonNulls
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      numberOfRecordsUpdated: json['numberOfRecordsUpdated'] as int?,
+      records: (json['records'] as List?)
+          ?.nonNulls
+          .map((e) => (e as List)
+              .nonNulls
+              .map((e) => Field.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnMetadata = this.columnMetadata;
+    final formattedRecords = this.formattedRecords;
+    final generatedFields = this.generatedFields;
+    final numberOfRecordsUpdated = this.numberOfRecordsUpdated;
+    final records = this.records;
+    return {
+      if (columnMetadata != null) 'columnMetadata': columnMetadata,
+      if (formattedRecords != null) 'formattedRecords': formattedRecords,
+      if (generatedFields != null) 'generatedFields': generatedFields,
+      if (numberOfRecordsUpdated != null)
+        'numberOfRecordsUpdated': numberOfRecordsUpdated,
+      if (records != null) 'records': records,
+    };
+  }
+}
+
+/// The response elements represent the output of a request to perform a
+/// rollback of a transaction.
+class RollbackTransactionResponse {
+  /// The status of the rollback operation.
+  final String? transactionStatus;
+
+  RollbackTransactionResponse({
+    this.transactionStatus,
+  });
+
+  factory RollbackTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return RollbackTransactionResponse(
+      transactionStatus: json['transactionStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionStatus = this.transactionStatus;
+    return {
+      if (transactionStatus != null) 'transactionStatus': transactionStatus,
+    };
+  }
+}
+
+/// Contains a value.
+class Field {
+  /// An array of values.
+  final ArrayValue? arrayValue;
+
+  /// A value of BLOB data type.
+  final Uint8List? blobValue;
+
+  /// A value of Boolean data type.
+  final bool? booleanValue;
+
+  /// A value of double data type.
+  final double? doubleValue;
+
+  /// A NULL value.
+  final bool? isNull;
+
+  /// A value of long data type.
+  final int? longValue;
+
+  /// A value of string data type.
+  final String? stringValue;
+
+  Field({
+    this.arrayValue,
+    this.blobValue,
+    this.booleanValue,
+    this.doubleValue,
+    this.isNull,
+    this.longValue,
+    this.stringValue,
+  });
+
+  factory Field.fromJson(Map<String, dynamic> json) {
+    return Field(
+      arrayValue: json['arrayValue'] != null
+          ? ArrayValue.fromJson(json['arrayValue'] as Map<String, dynamic>)
+          : null,
+      blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
+      booleanValue: json['booleanValue'] as bool?,
+      doubleValue: json['doubleValue'] as double?,
+      isNull: json['isNull'] as bool?,
+      longValue: json['longValue'] as int?,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arrayValue = this.arrayValue;
+    final blobValue = this.blobValue;
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final isNull = this.isNull;
+    final longValue = this.longValue;
+    final stringValue = this.stringValue;
+    return {
+      if (arrayValue != null) 'arrayValue': arrayValue,
+      if (blobValue != null) 'blobValue': base64Encode(blobValue),
+      if (booleanValue != null) 'booleanValue': booleanValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (isNull != null) 'isNull': isNull,
+      if (longValue != null) 'longValue': longValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
+}
+
+/// Contains an array.
+class ArrayValue {
+  /// An array of arrays. Can contain null values.
+  final List<ArrayValue>? arrayValues;
+
+  /// An array of Boolean values. Can contain null values.
+  final List<bool>? booleanValues;
+
+  /// An array of floating-point numbers. Can contain null values.
+  final List<double>? doubleValues;
+
+  /// An array of integers. Can contain null values.
+  final List<int>? longValues;
+
+  /// An array of strings. Can contain null values.
+  final List<String>? stringValues;
+
+  ArrayValue({
+    this.arrayValues,
+    this.booleanValues,
+    this.doubleValues,
+    this.longValues,
+    this.stringValues,
+  });
+
+  factory ArrayValue.fromJson(Map<String, dynamic> json) {
+    return ArrayValue(
+      arrayValues: (json['arrayValues'] as List?)
+          ?.nonNulls
+          .map((e) => ArrayValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      booleanValues: (json['booleanValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as bool)
+          .toList(),
+      doubleValues: (json['doubleValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as double)
+          .toList(),
+      longValues:
+          (json['longValues'] as List?)?.nonNulls.map((e) => e as int).toList(),
+      stringValues: (json['stringValues'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arrayValues = this.arrayValues;
+    final booleanValues = this.booleanValues;
+    final doubleValues = this.doubleValues;
+    final longValues = this.longValues;
+    final stringValues = this.stringValues;
+    return {
+      if (arrayValues != null) 'arrayValues': arrayValues,
+      if (booleanValues != null) 'booleanValues': booleanValues,
+      if (doubleValues != null) 'doubleValues': doubleValues,
+      if (longValues != null) 'longValues': longValues,
+      if (stringValues != null) 'stringValues': stringValues,
     };
   }
 }
@@ -737,279 +976,38 @@ class ColumnMetadata {
   }
 }
 
-/// The response elements represent the output of a commit transaction request.
-class CommitTransactionResponse {
-  /// The status of the commit operation.
-  final String? transactionStatus;
-
-  CommitTransactionResponse({
-    this.transactionStatus,
-  });
-
-  factory CommitTransactionResponse.fromJson(Map<String, dynamic> json) {
-    return CommitTransactionResponse(
-      transactionStatus: json['transactionStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final transactionStatus = this.transactionStatus;
-    return {
-      if (transactionStatus != null) 'transactionStatus': transactionStatus,
-    };
-  }
-}
-
-class DecimalReturnType {
-  static const string = DecimalReturnType._('STRING');
-  static const doubleOrLong = DecimalReturnType._('DOUBLE_OR_LONG');
-
-  final String value;
-
-  const DecimalReturnType._(this.value);
-
-  static const values = [string, doubleOrLong];
-
-  static DecimalReturnType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DecimalReturnType._(value));
-
-  @override
-  bool operator ==(other) => other is DecimalReturnType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The response elements represent the output of a request to run one or more
-/// SQL statements.
-class ExecuteSqlResponse {
-  /// The results of the SQL statement or statements.
-  final List<SqlStatementResult>? sqlStatementResults;
-
-  ExecuteSqlResponse({
-    this.sqlStatementResults,
-  });
-
-  factory ExecuteSqlResponse.fromJson(Map<String, dynamic> json) {
-    return ExecuteSqlResponse(
-      sqlStatementResults: (json['sqlStatementResults'] as List?)
-          ?.nonNulls
-          .map((e) => SqlStatementResult.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final sqlStatementResults = this.sqlStatementResults;
-    return {
-      if (sqlStatementResults != null)
-        'sqlStatementResults': sqlStatementResults,
-    };
-  }
-}
-
-/// The response elements represent the output of a request to run a SQL
-/// statement against a database.
-class ExecuteStatementResponse {
-  /// Metadata for the columns included in the results. This field is blank if the
-  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
-  final List<ColumnMetadata>? columnMetadata;
-
-  /// A string value that represents the result set of a <code>SELECT</code>
-  /// statement in JSON format. This value is only present when the
-  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
-  ///
-  /// The size limit for this field is currently 10 MB. If the JSON-formatted
-  /// string representing the result set requires more than 10 MB, the call
-  /// returns an error.
-  final String? formattedRecords;
-
-  /// Values for fields generated during a DML request.
+/// Options that control how the result set is returned.
+class ResultSetOptions {
+  /// A value that indicates how a field of <code>DECIMAL</code> type is
+  /// represented in the response. The value of <code>STRING</code>, the default,
+  /// specifies that it is converted to a String value. The value of
+  /// <code>DOUBLE_OR_LONG</code> specifies that it is converted to a Long value
+  /// if its scale is 0, or to a Double value otherwise.
   /// <note>
-  /// The <code>generatedFields</code> data isn't supported by Aurora PostgreSQL.
-  /// To get the values of generated fields, use the <code>RETURNING</code>
-  /// clause. For more information, see <a
-  /// href="https://www.postgresql.org/docs/10/dml-returning.html">Returning Data
-  /// From Modified Rows</a> in the PostgreSQL documentation.
+  /// Conversion to Double or Long can result in roundoff errors due to precision
+  /// loss. We recommend converting to String, especially when working with
+  /// currency values.
   /// </note>
-  final List<Field>? generatedFields;
+  final DecimalReturnType? decimalReturnType;
 
-  /// The number of records updated by the request.
-  final int? numberOfRecordsUpdated;
+  /// A value that indicates how a field of <code>LONG</code> type is represented.
+  /// Allowed values are <code>LONG</code> and <code>STRING</code>. The default is
+  /// <code>LONG</code>. Specify <code>STRING</code> if the length or precision of
+  /// numeric values might cause truncation or rounding errors.
+  final LongReturnType? longReturnType;
 
-  /// The records returned by the SQL statement. This field is blank if the
-  /// <code>formatRecordsAs</code> parameter is set to <code>JSON</code>.
-  final List<List<Field>>? records;
-
-  ExecuteStatementResponse({
-    this.columnMetadata,
-    this.formattedRecords,
-    this.generatedFields,
-    this.numberOfRecordsUpdated,
-    this.records,
+  ResultSetOptions({
+    this.decimalReturnType,
+    this.longReturnType,
   });
 
-  factory ExecuteStatementResponse.fromJson(Map<String, dynamic> json) {
-    return ExecuteStatementResponse(
-      columnMetadata: (json['columnMetadata'] as List?)
-          ?.nonNulls
-          .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      formattedRecords: json['formattedRecords'] as String?,
-      generatedFields: (json['generatedFields'] as List?)
-          ?.nonNulls
-          .map((e) => Field.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      numberOfRecordsUpdated: json['numberOfRecordsUpdated'] as int?,
-      records: (json['records'] as List?)
-          ?.nonNulls
-          .map((e) => (e as List)
-              .nonNulls
-              .map((e) => Field.fromJson(e as Map<String, dynamic>))
-              .toList())
-          .toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final columnMetadata = this.columnMetadata;
-    final formattedRecords = this.formattedRecords;
-    final generatedFields = this.generatedFields;
-    final numberOfRecordsUpdated = this.numberOfRecordsUpdated;
-    final records = this.records;
+    final decimalReturnType = this.decimalReturnType;
+    final longReturnType = this.longReturnType;
     return {
-      if (columnMetadata != null) 'columnMetadata': columnMetadata,
-      if (formattedRecords != null) 'formattedRecords': formattedRecords,
-      if (generatedFields != null) 'generatedFields': generatedFields,
-      if (numberOfRecordsUpdated != null)
-        'numberOfRecordsUpdated': numberOfRecordsUpdated,
-      if (records != null) 'records': records,
-    };
-  }
-}
-
-/// Contains a value.
-class Field {
-  /// An array of values.
-  final ArrayValue? arrayValue;
-
-  /// A value of BLOB data type.
-  final Uint8List? blobValue;
-
-  /// A value of Boolean data type.
-  final bool? booleanValue;
-
-  /// A value of double data type.
-  final double? doubleValue;
-
-  /// A NULL value.
-  final bool? isNull;
-
-  /// A value of long data type.
-  final int? longValue;
-
-  /// A value of string data type.
-  final String? stringValue;
-
-  Field({
-    this.arrayValue,
-    this.blobValue,
-    this.booleanValue,
-    this.doubleValue,
-    this.isNull,
-    this.longValue,
-    this.stringValue,
-  });
-
-  factory Field.fromJson(Map<String, dynamic> json) {
-    return Field(
-      arrayValue: json['arrayValue'] != null
-          ? ArrayValue.fromJson(json['arrayValue'] as Map<String, dynamic>)
-          : null,
-      blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
-      booleanValue: json['booleanValue'] as bool?,
-      doubleValue: json['doubleValue'] as double?,
-      isNull: json['isNull'] as bool?,
-      longValue: json['longValue'] as int?,
-      stringValue: json['stringValue'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arrayValue = this.arrayValue;
-    final blobValue = this.blobValue;
-    final booleanValue = this.booleanValue;
-    final doubleValue = this.doubleValue;
-    final isNull = this.isNull;
-    final longValue = this.longValue;
-    final stringValue = this.stringValue;
-    return {
-      if (arrayValue != null) 'arrayValue': arrayValue,
-      if (blobValue != null) 'blobValue': base64Encode(blobValue),
-      if (booleanValue != null) 'booleanValue': booleanValue,
-      if (doubleValue != null) 'doubleValue': doubleValue,
-      if (isNull != null) 'isNull': isNull,
-      if (longValue != null) 'longValue': longValue,
-      if (stringValue != null) 'stringValue': stringValue,
-    };
-  }
-}
-
-class LongReturnType {
-  static const string = LongReturnType._('STRING');
-  static const long = LongReturnType._('LONG');
-
-  final String value;
-
-  const LongReturnType._(this.value);
-
-  static const values = [string, long];
-
-  static LongReturnType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LongReturnType._(value));
-
-  @override
-  bool operator ==(other) => other is LongReturnType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A record returned by a call.
-/// <note>
-/// This data structure is only used with the deprecated <code>ExecuteSql</code>
-/// operation. Use the <code>BatchExecuteStatement</code> or
-/// <code>ExecuteStatement</code> operation instead.
-/// </note>
-class Record {
-  /// The values returned in the record.
-  final List<Value>? values;
-
-  Record({
-    this.values,
-  });
-
-  factory Record.fromJson(Map<String, dynamic> json) {
-    return Record(
-      values: (json['values'] as List?)
-          ?.nonNulls
-          .map((e) => Value.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final values = this.values;
-    return {
-      if (values != null) 'values': values,
+      if (decimalReturnType != null)
+        'decimalReturnType': decimalReturnType.value,
+      if (longReturnType != null) 'longReturnType': longReturnType.value,
     };
   }
 }
@@ -1036,6 +1034,179 @@ class RecordsFormatType {
 
   @override
   String toString() => value;
+}
+
+class DecimalReturnType {
+  static const string = DecimalReturnType._('STRING');
+  static const doubleOrLong = DecimalReturnType._('DOUBLE_OR_LONG');
+
+  final String value;
+
+  const DecimalReturnType._(this.value);
+
+  static const values = [string, doubleOrLong];
+
+  static DecimalReturnType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DecimalReturnType._(value));
+
+  @override
+  bool operator ==(other) => other is DecimalReturnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LongReturnType {
+  static const string = LongReturnType._('STRING');
+  static const long = LongReturnType._('LONG');
+
+  final String value;
+
+  const LongReturnType._(this.value);
+
+  static const values = [string, long];
+
+  static LongReturnType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LongReturnType._(value));
+
+  @override
+  bool operator ==(other) => other is LongReturnType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A parameter used in a SQL statement.
+class SqlParameter {
+  /// The name of the parameter.
+  final String? name;
+
+  /// A hint that specifies the correct object type for data type mapping.
+  /// Possible values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DATE</code> - The corresponding <code>String</code> parameter value is
+  /// sent as an object of <code>DATE</code> type to the database. The accepted
+  /// format is <code>YYYY-MM-DD</code>.
+  /// </li>
+  /// <li>
+  /// <code>DECIMAL</code> - The corresponding <code>String</code> parameter value
+  /// is sent as an object of <code>DECIMAL</code> type to the database.
+  /// </li>
+  /// <li>
+  /// <code>JSON</code> - The corresponding <code>String</code> parameter value is
+  /// sent as an object of <code>JSON</code> type to the database.
+  /// </li>
+  /// <li>
+  /// <code>TIME</code> - The corresponding <code>String</code> parameter value is
+  /// sent as an object of <code>TIME</code> type to the database. The accepted
+  /// format is <code>HH:MM:SS[.FFF]</code>.
+  /// </li>
+  /// <li>
+  /// <code>TIMESTAMP</code> - The corresponding <code>String</code> parameter
+  /// value is sent as an object of <code>TIMESTAMP</code> type to the database.
+  /// The accepted format is <code>YYYY-MM-DD HH:MM:SS[.FFF]</code>.
+  /// </li>
+  /// <li>
+  /// <code>UUID</code> - The corresponding <code>String</code> parameter value is
+  /// sent as an object of <code>UUID</code> type to the database.
+  /// </li>
+  /// </ul>
+  final TypeHint? typeHint;
+
+  /// The value of the parameter.
+  final Field? value;
+
+  SqlParameter({
+    this.name,
+    this.typeHint,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final typeHint = this.typeHint;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name,
+      if (typeHint != null) 'typeHint': typeHint.value,
+      if (value != null) 'value': value,
+    };
+  }
+}
+
+class TypeHint {
+  static const json = TypeHint._('JSON');
+  static const uuid = TypeHint._('UUID');
+  static const timestamp = TypeHint._('TIMESTAMP');
+  static const date = TypeHint._('DATE');
+  static const time = TypeHint._('TIME');
+  static const decimal = TypeHint._('DECIMAL');
+
+  final String value;
+
+  const TypeHint._(this.value);
+
+  static const values = [json, uuid, timestamp, date, time, decimal];
+
+  static TypeHint fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TypeHint._(value));
+
+  @override
+  bool operator ==(other) => other is TypeHint && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The result of a SQL statement.
+/// <note>
+/// This data structure is only used with the deprecated <code>ExecuteSql</code>
+/// operation. Use the <code>BatchExecuteStatement</code> or
+/// <code>ExecuteStatement</code> operation instead.
+/// </note>
+class SqlStatementResult {
+  /// The number of records updated by a SQL statement.
+  final int? numberOfRecordsUpdated;
+
+  /// The result set of the SQL statement.
+  final ResultFrame? resultFrame;
+
+  SqlStatementResult({
+    this.numberOfRecordsUpdated,
+    this.resultFrame,
+  });
+
+  factory SqlStatementResult.fromJson(Map<String, dynamic> json) {
+    return SqlStatementResult(
+      numberOfRecordsUpdated: json['numberOfRecordsUpdated'] as int?,
+      resultFrame: json['resultFrame'] != null
+          ? ResultFrame.fromJson(json['resultFrame'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfRecordsUpdated = this.numberOfRecordsUpdated;
+    final resultFrame = this.resultFrame;
+    return {
+      if (numberOfRecordsUpdated != null)
+        'numberOfRecordsUpdated': numberOfRecordsUpdated,
+      if (resultFrame != null) 'resultFrame': resultFrame,
+    };
+  }
 }
 
 /// The result set returned by a SQL statement.
@@ -1112,181 +1283,23 @@ class ResultSetMetadata {
   }
 }
 
-/// Options that control how the result set is returned.
-class ResultSetOptions {
-  /// A value that indicates how a field of <code>DECIMAL</code> type is
-  /// represented in the response. The value of <code>STRING</code>, the default,
-  /// specifies that it is converted to a String value. The value of
-  /// <code>DOUBLE_OR_LONG</code> specifies that it is converted to a Long value
-  /// if its scale is 0, or to a Double value otherwise.
-  /// <note>
-  /// Conversion to Double or Long can result in roundoff errors due to precision
-  /// loss. We recommend converting to String, especially when working with
-  /// currency values.
-  /// </note>
-  final DecimalReturnType? decimalReturnType;
-
-  /// A value that indicates how a field of <code>LONG</code> type is represented.
-  /// Allowed values are <code>LONG</code> and <code>STRING</code>. The default is
-  /// <code>LONG</code>. Specify <code>STRING</code> if the length or precision of
-  /// numeric values might cause truncation or rounding errors.
-  final LongReturnType? longReturnType;
-
-  ResultSetOptions({
-    this.decimalReturnType,
-    this.longReturnType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final decimalReturnType = this.decimalReturnType;
-    final longReturnType = this.longReturnType;
-    return {
-      if (decimalReturnType != null)
-        'decimalReturnType': decimalReturnType.value,
-      if (longReturnType != null) 'longReturnType': longReturnType.value,
-    };
-  }
-}
-
-/// The response elements represent the output of a request to perform a
-/// rollback of a transaction.
-class RollbackTransactionResponse {
-  /// The status of the rollback operation.
-  final String? transactionStatus;
-
-  RollbackTransactionResponse({
-    this.transactionStatus,
-  });
-
-  factory RollbackTransactionResponse.fromJson(Map<String, dynamic> json) {
-    return RollbackTransactionResponse(
-      transactionStatus: json['transactionStatus'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final transactionStatus = this.transactionStatus;
-    return {
-      if (transactionStatus != null) 'transactionStatus': transactionStatus,
-    };
-  }
-}
-
-/// A parameter used in a SQL statement.
-class SqlParameter {
-  /// The name of the parameter.
-  final String? name;
-
-  /// A hint that specifies the correct object type for data type mapping.
-  /// Possible values are as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>DATE</code> - The corresponding <code>String</code> parameter value is
-  /// sent as an object of <code>DATE</code> type to the database. The accepted
-  /// format is <code>YYYY-MM-DD</code>.
-  /// </li>
-  /// <li>
-  /// <code>DECIMAL</code> - The corresponding <code>String</code> parameter value
-  /// is sent as an object of <code>DECIMAL</code> type to the database.
-  /// </li>
-  /// <li>
-  /// <code>JSON</code> - The corresponding <code>String</code> parameter value is
-  /// sent as an object of <code>JSON</code> type to the database.
-  /// </li>
-  /// <li>
-  /// <code>TIME</code> - The corresponding <code>String</code> parameter value is
-  /// sent as an object of <code>TIME</code> type to the database. The accepted
-  /// format is <code>HH:MM:SS[.FFF]</code>.
-  /// </li>
-  /// <li>
-  /// <code>TIMESTAMP</code> - The corresponding <code>String</code> parameter
-  /// value is sent as an object of <code>TIMESTAMP</code> type to the database.
-  /// The accepted format is <code>YYYY-MM-DD HH:MM:SS[.FFF]</code>.
-  /// </li>
-  /// <li>
-  /// <code>UUID</code> - The corresponding <code>String</code> parameter value is
-  /// sent as an object of <code>UUID</code> type to the database.
-  /// </li>
-  /// </ul>
-  final TypeHint? typeHint;
-
-  /// The value of the parameter.
-  final Field? value;
-
-  SqlParameter({
-    this.name,
-    this.typeHint,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final typeHint = this.typeHint;
-    final value = this.value;
-    return {
-      if (name != null) 'name': name,
-      if (typeHint != null) 'typeHint': typeHint.value,
-      if (value != null) 'value': value,
-    };
-  }
-}
-
-/// The result of a SQL statement.
+/// A record returned by a call.
 /// <note>
 /// This data structure is only used with the deprecated <code>ExecuteSql</code>
 /// operation. Use the <code>BatchExecuteStatement</code> or
 /// <code>ExecuteStatement</code> operation instead.
 /// </note>
-class SqlStatementResult {
-  /// The number of records updated by a SQL statement.
-  final int? numberOfRecordsUpdated;
+class Record {
+  /// The values returned in the record.
+  final List<Value>? values;
 
-  /// The result set of the SQL statement.
-  final ResultFrame? resultFrame;
-
-  SqlStatementResult({
-    this.numberOfRecordsUpdated,
-    this.resultFrame,
+  Record({
+    this.values,
   });
 
-  factory SqlStatementResult.fromJson(Map<String, dynamic> json) {
-    return SqlStatementResult(
-      numberOfRecordsUpdated: json['numberOfRecordsUpdated'] as int?,
-      resultFrame: json['resultFrame'] != null
-          ? ResultFrame.fromJson(json['resultFrame'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final numberOfRecordsUpdated = this.numberOfRecordsUpdated;
-    final resultFrame = this.resultFrame;
-    return {
-      if (numberOfRecordsUpdated != null)
-        'numberOfRecordsUpdated': numberOfRecordsUpdated,
-      if (resultFrame != null) 'resultFrame': resultFrame,
-    };
-  }
-}
-
-/// A structure value returned by a call.
-/// <note>
-/// This data structure is only used with the deprecated <code>ExecuteSql</code>
-/// operation. Use the <code>BatchExecuteStatement</code> or
-/// <code>ExecuteStatement</code> operation instead.
-/// </note>
-class StructValue {
-  /// The attributes returned in the record.
-  final List<Value>? attributes;
-
-  StructValue({
-    this.attributes,
-  });
-
-  factory StructValue.fromJson(Map<String, dynamic> json) {
-    return StructValue(
-      attributes: (json['attributes'] as List?)
+  factory Record.fromJson(Map<String, dynamic> json) {
+    return Record(
+      values: (json['values'] as List?)
           ?.nonNulls
           .map((e) => Value.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -1294,62 +1307,9 @@ class StructValue {
   }
 
   Map<String, dynamic> toJson() {
-    final attributes = this.attributes;
+    final values = this.values;
     return {
-      if (attributes != null) 'attributes': attributes,
-    };
-  }
-}
-
-class TypeHint {
-  static const json = TypeHint._('JSON');
-  static const uuid = TypeHint._('UUID');
-  static const timestamp = TypeHint._('TIMESTAMP');
-  static const date = TypeHint._('DATE');
-  static const time = TypeHint._('TIME');
-  static const decimal = TypeHint._('DECIMAL');
-
-  final String value;
-
-  const TypeHint._(this.value);
-
-  static const values = [json, uuid, timestamp, date, time, decimal];
-
-  static TypeHint fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TypeHint._(value));
-
-  @override
-  bool operator ==(other) => other is TypeHint && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The response elements represent the results of an update.
-class UpdateResult {
-  /// Values for fields generated during the request.
-  final List<Field>? generatedFields;
-
-  UpdateResult({
-    this.generatedFields,
-  });
-
-  factory UpdateResult.fromJson(Map<String, dynamic> json) {
-    return UpdateResult(
-      generatedFields: (json['generatedFields'] as List?)
-          ?.nonNulls
-          .map((e) => Field.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final generatedFields = this.generatedFields;
-    return {
-      if (generatedFields != null) 'generatedFields': generatedFields,
+      if (values != null) 'values': values,
     };
   }
 }
@@ -1450,6 +1410,63 @@ class Value {
   }
 }
 
+/// A structure value returned by a call.
+/// <note>
+/// This data structure is only used with the deprecated <code>ExecuteSql</code>
+/// operation. Use the <code>BatchExecuteStatement</code> or
+/// <code>ExecuteStatement</code> operation instead.
+/// </note>
+class StructValue {
+  /// The attributes returned in the record.
+  final List<Value>? attributes;
+
+  StructValue({
+    this.attributes,
+  });
+
+  factory StructValue.fromJson(Map<String, dynamic> json) {
+    return StructValue(
+      attributes: (json['attributes'] as List?)
+          ?.nonNulls
+          .map((e) => Value.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    return {
+      if (attributes != null) 'attributes': attributes,
+    };
+  }
+}
+
+/// The response elements represent the results of an update.
+class UpdateResult {
+  /// Values for fields generated during the request.
+  final List<Field>? generatedFields;
+
+  UpdateResult({
+    this.generatedFields,
+  });
+
+  factory UpdateResult.fromJson(Map<String, dynamic> json) {
+    return UpdateResult(
+      generatedFields: (json['generatedFields'] as List?)
+          ?.nonNulls
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final generatedFields = this.generatedFields;
+    return {
+      if (generatedFields != null) 'generatedFields': generatedFields,
+    };
+  }
+}
+
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
@@ -1468,6 +1485,11 @@ class DatabaseErrorException extends _s.GenericAwsException {
 class DatabaseNotFoundException extends _s.GenericAwsException {
   DatabaseNotFoundException({String? type, String? message})
       : super(type: type, code: 'DatabaseNotFoundException', message: message);
+}
+
+class DatabaseResumingException extends _s.GenericAwsException {
+  DatabaseResumingException({String? type, String? message})
+      : super(type: type, code: 'DatabaseResumingException', message: message);
 }
 
 class DatabaseUnavailableException extends _s.GenericAwsException {
@@ -1493,6 +1515,14 @@ class InternalServerErrorException extends _s.GenericAwsException {
   InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
+}
+
+class InvalidResourceStateException extends _s.GenericAwsException {
+  InvalidResourceStateException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'InvalidResourceStateException',
+            message: message);
 }
 
 class InvalidSecretException extends _s.GenericAwsException {
@@ -1540,6 +1570,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DatabaseErrorException(type: type, message: message),
   'DatabaseNotFoundException': (type, message) =>
       DatabaseNotFoundException(type: type, message: message),
+  'DatabaseResumingException': (type, message) =>
+      DatabaseResumingException(type: type, message: message),
   'DatabaseUnavailableException': (type, message) =>
       DatabaseUnavailableException(type: type, message: message),
   'ForbiddenException': (type, message) =>
@@ -1548,6 +1580,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       HttpEndpointNotEnabledException(type: type, message: message),
   'InternalServerErrorException': (type, message) =>
       InternalServerErrorException(type: type, message: message),
+  'InvalidResourceStateException': (type, message) =>
+      InvalidResourceStateException(type: type, message: message),
   'InvalidSecretException': (type, message) =>
       InvalidSecretException(type: type, message: message),
   'NotFoundException': (type, message) =>

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:aws_client/s3_2006_03_01.dart';
+import 'package:aws_client/s3.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

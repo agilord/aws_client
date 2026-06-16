@@ -20,9 +20,13 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// Amazon EC2 Auto Scaling is designed to automatically launch and terminate
-/// EC2 instances based on user-defined scaling policies, scheduled actions, and
-/// health checks.
+/// The <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html">DescribeAutoScalingGroups</a>
+/// API operation might be throttled when retrieving details for an Auto Scaling
+/// group that contains many instances. By default, this operation returns
+/// details for all instances in the group. To help prevent throttling, you can
+/// set the <code>IncludeInstances</code> parameter to <code>false</code> to
+/// exclude instance details from the response.
 class AutoScaling {
   final _s.QueryProtocol _protocol;
 
@@ -100,8 +104,69 @@ class AutoScaling {
   }
 
   /// <note>
-  /// This API operation is superseded by <a>AttachTrafficSources</a>, which can
-  /// attach multiple traffic sources types. We recommend using
+  /// This API operation is superseded by <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html">AttachTrafficSources</a>,
+  /// which can attach multiple traffic sources types. We recommend using
+  /// <code>AttachTrafficSources</code> to simplify how you manage traffic
+  /// sources. However, we continue to support <code>AttachLoadBalancers</code>.
+  /// You can use both the original <code>AttachLoadBalancers</code> API
+  /// operation and <code>AttachTrafficSources</code> on the same Auto Scaling
+  /// group.
+  /// </note>
+  /// Attaches one or more Classic Load Balancers to the specified Auto Scaling
+  /// group. Amazon EC2 Auto Scaling registers the running instances with these
+  /// Classic Load Balancers.
+  ///
+  /// To describe the load balancers for an Auto Scaling group, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API. To detach a load balancer from the Auto Scaling group, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachLoadBalancers.html">DetachLoadBalancers</a>
+  /// API.
+  ///
+  /// This operation is additive and does not detach existing Classic Load
+  /// Balancers or target groups from the Auto Scaling group.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html">Use
+  /// Elastic Load Balancing to distribute traffic across the instances in your
+  /// Auto Scaling group</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
+  /// May throw [InstanceRefreshInProgressFault].
+  /// May throw [ResourceContentionFault].
+  /// May throw [ServiceLinkedRoleFailure].
+  ///
+  /// Parameter [autoScalingGroupName] :
+  /// The name of the Auto Scaling group.
+  ///
+  /// Parameter [loadBalancerNames] :
+  /// The names of the load balancers. You can specify up to 10 load balancers.
+  Future<void> attachLoadBalancers({
+    required String autoScalingGroupName,
+    required List<String> loadBalancerNames,
+  }) async {
+    final $request = <String, String>{
+      'AutoScalingGroupName': autoScalingGroupName,
+      if (loadBalancerNames.isEmpty)
+        'LoadBalancerNames': ''
+      else
+        for (var i1 = 0; i1 < loadBalancerNames.length; i1++)
+          'LoadBalancerNames.member.${i1 + 1}': loadBalancerNames[i1],
+    };
+    await _protocol.send(
+      $request,
+      action: 'AttachLoadBalancers',
+      version: '2011-01-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'AttachLoadBalancersResult',
+    );
+  }
+
+  /// <note>
+  /// This API operation is superseded by <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html">AttachTrafficSources</a>,
+  /// which can attach multiple traffic sources types. We recommend using
   /// <code>AttachTrafficSources</code> to simplify how you manage traffic
   /// sources. However, we continue to support
   /// <code>AttachLoadBalancerTargetGroups</code>. You can use both the original
@@ -125,10 +190,11 @@ class AutoScaling {
   /// Gateway Load Balancer - Operates at the network layer (layer 3).
   /// </li>
   /// </ul>
-  /// To describe the target groups for an Auto Scaling group, call the
-  /// <a>DescribeLoadBalancerTargetGroups</a> API. To detach the target group
-  /// from the Auto Scaling group, call the
-  /// <a>DetachLoadBalancerTargetGroups</a> API.
+  /// To describe the target groups for an Auto Scaling group, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancerTargetGroups.html">DescribeLoadBalancerTargetGroups</a>
+  /// API. To detach the target group from the Auto Scaling group, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachLoadBalancerTargetGroups.html">DetachLoadBalancerTargetGroups</a>
+  /// API.
   ///
   /// This operation is additive and does not detach existing target groups or
   /// Classic Load Balancers from the Auto Scaling group.
@@ -138,6 +204,7 @@ class AutoScaling {
   /// Elastic Load Balancing to distribute traffic across the instances in your
   /// Auto Scaling group</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
+  /// May throw [InstanceRefreshInProgressFault].
   /// May throw [ResourceContentionFault].
   /// May throw [ServiceLinkedRoleFailure].
   ///
@@ -173,62 +240,6 @@ class AutoScaling {
     );
   }
 
-  /// <note>
-  /// This API operation is superseded by <a>AttachTrafficSources</a>, which can
-  /// attach multiple traffic sources types. We recommend using
-  /// <code>AttachTrafficSources</code> to simplify how you manage traffic
-  /// sources. However, we continue to support <code>AttachLoadBalancers</code>.
-  /// You can use both the original <code>AttachLoadBalancers</code> API
-  /// operation and <code>AttachTrafficSources</code> on the same Auto Scaling
-  /// group.
-  /// </note>
-  /// Attaches one or more Classic Load Balancers to the specified Auto Scaling
-  /// group. Amazon EC2 Auto Scaling registers the running instances with these
-  /// Classic Load Balancers.
-  ///
-  /// To describe the load balancers for an Auto Scaling group, call the
-  /// <a>DescribeLoadBalancers</a> API. To detach a load balancer from the Auto
-  /// Scaling group, call the <a>DetachLoadBalancers</a> API.
-  ///
-  /// This operation is additive and does not detach existing Classic Load
-  /// Balancers or target groups from the Auto Scaling group.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html">Use
-  /// Elastic Load Balancing to distribute traffic across the instances in your
-  /// Auto Scaling group</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-  ///
-  /// May throw [ResourceContentionFault].
-  /// May throw [ServiceLinkedRoleFailure].
-  ///
-  /// Parameter [autoScalingGroupName] :
-  /// The name of the Auto Scaling group.
-  ///
-  /// Parameter [loadBalancerNames] :
-  /// The names of the load balancers. You can specify up to 10 load balancers.
-  Future<void> attachLoadBalancers({
-    required String autoScalingGroupName,
-    required List<String> loadBalancerNames,
-  }) async {
-    final $request = <String, String>{
-      'AutoScalingGroupName': autoScalingGroupName,
-      if (loadBalancerNames.isEmpty)
-        'LoadBalancerNames': ''
-      else
-        for (var i1 = 0; i1 < loadBalancerNames.length; i1++)
-          'LoadBalancerNames.member.${i1 + 1}': loadBalancerNames[i1],
-    };
-    await _protocol.send(
-      $request,
-      action: 'AttachLoadBalancers',
-      version: '2011-01-01',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'AttachLoadBalancersResult',
-    );
-  }
-
   /// Attaches one or more traffic sources to the specified Auto Scaling group.
   ///
   /// You can use any of the following as traffic sources for an Auto Scaling
@@ -254,11 +265,15 @@ class AutoScaling {
   /// This operation is additive and does not detach existing traffic sources
   /// from the Auto Scaling group.
   ///
-  /// After the operation completes, use the <a>DescribeTrafficSources</a> API
-  /// to return details about the state of the attachments between traffic
+  /// After the operation completes, use the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html">DescribeTrafficSources</a>
+  /// API to return details about the state of the attachments between traffic
   /// sources and your Auto Scaling group. To detach a traffic source from the
-  /// Auto Scaling group, call the <a>DetachTrafficSources</a> API.
+  /// Auto Scaling group, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachTrafficSources.html">DetachTrafficSources</a>
+  /// API.
   ///
+  /// May throw [InstanceRefreshInProgressFault].
   /// May throw [ResourceContentionFault].
   /// May throw [ServiceLinkedRoleFailure].
   ///
@@ -268,9 +283,18 @@ class AutoScaling {
   /// Parameter [trafficSources] :
   /// The unique identifiers of one or more traffic sources. You can specify up
   /// to 10 traffic sources.
+  ///
+  /// Parameter [skipZonalShiftValidation] :
+  /// If you enable zonal shift with cross-zone disabled load balancers,
+  /// capacity could become imbalanced across Availability Zones. To skip the
+  /// validation, specify <code>true</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html">Auto
+  /// Scaling group zonal shift</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
   Future<void> attachTrafficSources({
     required String autoScalingGroupName,
     required List<TrafficSourceIdentifier> trafficSources,
+    bool? skipZonalShiftValidation,
   }) async {
     final $request = <String, String>{
       'AutoScalingGroupName': autoScalingGroupName,
@@ -280,6 +304,8 @@ class AutoScaling {
         for (var i1 = 0; i1 < trafficSources.length; i1++)
           for (var e3 in trafficSources[i1].toQueryMap().entries)
             'TrafficSources.member.${i1 + 1}.${e3.key}': e3.value,
+      if (skipZonalShiftValidation != null)
+        'SkipZonalShiftValidation': skipZonalShiftValidation.toString(),
     };
     await _protocol.send(
       $request,
@@ -376,20 +402,32 @@ class AutoScaling {
   /// instances in your Auto Scaling group after you make configuration changes.
   ///
   /// When you cancel an instance refresh, this does not roll back any changes
-  /// that it made. Use the <a>RollbackInstanceRefresh</a> API to roll back
-  /// instead.
+  /// that it made. Use the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RollbackInstanceRefresh.html">RollbackInstanceRefresh</a>
+  /// API to roll back instead.
   ///
+  /// May throw [ActiveInstanceRefreshNotFoundFault].
   /// May throw [LimitExceededFault].
   /// May throw [ResourceContentionFault].
-  /// May throw [ActiveInstanceRefreshNotFoundFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
+  ///
+  /// Parameter [waitForTransitioningInstances] :
+  /// When cancelling an instance refresh, this indicates whether to wait for
+  /// in-flight launches and terminations to complete. The default is true.
+  ///
+  /// When set to false, Amazon EC2 Auto Scaling cancels the instance refresh
+  /// without waiting for any pending launches or terminations to complete.
   Future<CancelInstanceRefreshAnswer> cancelInstanceRefresh({
     required String autoScalingGroupName,
+    bool? waitForTransitioningInstances,
   }) async {
     final $request = <String, String>{
       'AutoScalingGroupName': autoScalingGroupName,
+      if (waitForTransitioningInstances != null)
+        'WaitForTransitioningInstances':
+            waitForTransitioningInstances.toString(),
     };
     final $result = await _protocol.send(
       $request,
@@ -434,7 +472,9 @@ class AutoScaling {
   /// </li>
   /// <li>
   /// <b>If you finish before the timeout period ends, send a callback by using
-  /// the <a>CompleteLifecycleAction</a> API call.</b>
+  /// the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CompleteLifecycleAction.html">CompleteLifecycleAction</a>
+  /// API call.</b>
   /// </li> </ol>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/completing-lifecycle-hooks.html">Complete
@@ -493,8 +533,9 @@ class AutoScaling {
   /// Creates an Auto Scaling group with the specified name and attributes.
   ///
   /// If you exceed your maximum limit of Auto Scaling groups, the call fails.
-  /// To query this limit, call the <a>DescribeAccountLimits</a> API. For
-  /// information about updating this limit, see <a
+  /// To query this limit, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html">DescribeAccountLimits</a>
+  /// API. For information about updating this limit, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-quotas.html">Quotas
   /// for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
@@ -541,6 +582,17 @@ class AutoScaling {
   /// Parameter [minSize] :
   /// The minimum size of the group.
   ///
+  /// Parameter [availabilityZoneDistribution] :
+  /// The instance capacity distribution across Availability Zones.
+  ///
+  /// Parameter [availabilityZoneIds] :
+  /// A list of Availability Zone IDs where the Auto Scaling group can launch
+  /// instances. You cannot specify both AvailabilityZones and
+  /// AvailabilityZoneIds in the same request.
+  ///
+  /// Parameter [availabilityZoneImpairmentPolicy] :
+  /// The policy for Availability Zone impairment.
+  ///
   /// Parameter [availabilityZones] :
   /// A list of Availability Zones where instances in the Auto Scaling group can
   /// be created. Used for launching into the default VPC subnet in each
@@ -558,6 +610,9 @@ class AutoScaling {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html">Use
   /// Capacity Rebalancing to handle Amazon EC2 Spot Interruptions</a> in the in
   /// the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
+  /// Parameter [capacityReservationSpecification] :
+  /// The capacity reservation specification for the Auto Scaling group.
   ///
   /// Parameter [context] :
   /// Reserved.
@@ -597,6 +652,25 @@ class AutoScaling {
   /// value of <code>0</code> or other nominal value.
   /// </important>
   /// Default: None
+  ///
+  /// Parameter [deletionProtection] :
+  /// The deletion protection setting for the Auto Scaling group. This setting
+  /// helps safeguard your Auto Scaling group and its instances by controlling
+  /// whether the <code>DeleteAutoScalingGroup</code> operation is allowed. When
+  /// deletion protection is enabled, users cannot delete the Auto Scaling group
+  /// according to the specified protection level until the setting is changed
+  /// back to a less restrictive level.
+  ///
+  /// The valid values are <code>none</code>,
+  /// <code>prevent-force-deletion</code>, and
+  /// <code>prevent-all-deletion</code>.
+  ///
+  /// Default: <code>none</code>
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html">
+  /// Configure deletion protection for your Amazon EC2 Auto Scaling
+  /// resources</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
   /// Parameter [desiredCapacity] :
   /// The desired capacity is the initial capacity of the Auto Scaling group at
@@ -655,6 +729,22 @@ class AutoScaling {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html">Create
   /// an Auto Scaling group using parameters from an existing instance</a> in
   /// the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
+  /// Parameter [instanceLifecyclePolicy] :
+  /// The instance lifecycle policy for the Auto Scaling group. This policy
+  /// controls instance behavior when an instance transitions through its
+  /// lifecycle states. Configure retention triggers to specify when instances
+  /// should move to a <code>Retained</code> state instead of automatic
+  /// termination.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html">
+  /// Control instance retention with instance lifecycle policies</a> in the
+  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+  /// <note>
+  /// Instances in a Retained state will continue to incur standard EC2 charges
+  /// until terminated.
+  /// </note>
   ///
   /// Parameter [instanceMaintenancePolicy] :
   /// An instance maintenance policy. For more information, see <a
@@ -722,7 +812,7 @@ class AutoScaling {
   /// The name of the placement group into which to launch your instances. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
-  /// groups</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  /// groups</a> in the <i>Amazon EC2 User Guide</i>.
   /// <note>
   /// A <i>cluster</i> placement group is a logical grouping of instances within
   /// a single Availability Zone. You cannot specify multiple Availability Zones
@@ -737,6 +827,14 @@ class AutoScaling {
   /// does not exist. For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html">Service-linked
   /// roles</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
+  /// Parameter [skipZonalShiftValidation] :
+  /// If you enable zonal shift with cross-zone disabled load balancers,
+  /// capacity could become imbalanced across Availability Zones. To skip the
+  /// validation, specify <code>true</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html">Auto
+  /// Scaling group zonal shift</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
   ///
   /// Parameter [tags] :
   /// One or more tags. You can tag your Auto Scaling group and propagate the
@@ -789,16 +887,22 @@ class AutoScaling {
     required String autoScalingGroupName,
     required int maxSize,
     required int minSize,
+    AvailabilityZoneDistribution? availabilityZoneDistribution,
+    List<String>? availabilityZoneIds,
+    AvailabilityZoneImpairmentPolicy? availabilityZoneImpairmentPolicy,
     List<String>? availabilityZones,
     bool? capacityRebalance,
+    CapacityReservationSpecification? capacityReservationSpecification,
     String? context,
     int? defaultCooldown,
     int? defaultInstanceWarmup,
+    DeletionProtection? deletionProtection,
     int? desiredCapacity,
     String? desiredCapacityType,
     int? healthCheckGracePeriod,
     String? healthCheckType,
     String? instanceId,
+    InstanceLifecyclePolicy? instanceLifecyclePolicy,
     InstanceMaintenancePolicy? instanceMaintenancePolicy,
     String? launchConfigurationName,
     LaunchTemplateSpecification? launchTemplate,
@@ -809,6 +913,7 @@ class AutoScaling {
     bool? newInstancesProtectedFromScaleIn,
     String? placementGroup,
     String? serviceLinkedRoleARN,
+    bool? skipZonalShiftValidation,
     List<Tag>? tags,
     List<String>? targetGroupARNs,
     List<String>? terminationPolicies,
@@ -819,6 +924,18 @@ class AutoScaling {
       'AutoScalingGroupName': autoScalingGroupName,
       'MaxSize': maxSize.toString(),
       'MinSize': minSize.toString(),
+      if (availabilityZoneDistribution != null)
+        for (var e1 in availabilityZoneDistribution.toQueryMap().entries)
+          'AvailabilityZoneDistribution.${e1.key}': e1.value,
+      if (availabilityZoneIds != null)
+        if (availabilityZoneIds.isEmpty)
+          'AvailabilityZoneIds': ''
+        else
+          for (var i1 = 0; i1 < availabilityZoneIds.length; i1++)
+            'AvailabilityZoneIds.member.${i1 + 1}': availabilityZoneIds[i1],
+      if (availabilityZoneImpairmentPolicy != null)
+        for (var e1 in availabilityZoneImpairmentPolicy.toQueryMap().entries)
+          'AvailabilityZoneImpairmentPolicy.${e1.key}': e1.value,
       if (availabilityZones != null)
         if (availabilityZones.isEmpty)
           'AvailabilityZones': ''
@@ -827,11 +944,16 @@ class AutoScaling {
             'AvailabilityZones.member.${i1 + 1}': availabilityZones[i1],
       if (capacityRebalance != null)
         'CapacityRebalance': capacityRebalance.toString(),
+      if (capacityReservationSpecification != null)
+        for (var e1 in capacityReservationSpecification.toQueryMap().entries)
+          'CapacityReservationSpecification.${e1.key}': e1.value,
       if (context != null) 'Context': context,
       if (defaultCooldown != null)
         'DefaultCooldown': defaultCooldown.toString(),
       if (defaultInstanceWarmup != null)
         'DefaultInstanceWarmup': defaultInstanceWarmup.toString(),
+      if (deletionProtection != null)
+        'DeletionProtection': deletionProtection.value,
       if (desiredCapacity != null)
         'DesiredCapacity': desiredCapacity.toString(),
       if (desiredCapacityType != null)
@@ -840,6 +962,9 @@ class AutoScaling {
         'HealthCheckGracePeriod': healthCheckGracePeriod.toString(),
       if (healthCheckType != null) 'HealthCheckType': healthCheckType,
       if (instanceId != null) 'InstanceId': instanceId,
+      if (instanceLifecyclePolicy != null)
+        for (var e1 in instanceLifecyclePolicy.toQueryMap().entries)
+          'InstanceLifecyclePolicy.${e1.key}': e1.value,
       if (instanceMaintenancePolicy != null)
         for (var e1 in instanceMaintenancePolicy.toQueryMap().entries)
           'InstanceMaintenancePolicy.${e1.key}': e1.value,
@@ -874,6 +999,8 @@ class AutoScaling {
       if (placementGroup != null) 'PlacementGroup': placementGroup,
       if (serviceLinkedRoleARN != null)
         'ServiceLinkedRoleARN': serviceLinkedRoleARN,
+      if (skipZonalShiftValidation != null)
+        'SkipZonalShiftValidation': skipZonalShiftValidation.toString(),
       if (tags != null)
         if (tags.isEmpty)
           'Tags': ''
@@ -915,8 +1042,9 @@ class AutoScaling {
   /// Creates a launch configuration.
   ///
   /// If you exceed your maximum limit of launch configurations, the call fails.
-  /// To query this limit, call the <a>DescribeAccountLimits</a> API. For
-  /// information about updating this limit, see <a
+  /// To query this limit, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAccountLimits.html">DescribeAccountLimits</a>
+  /// API. For information about updating this limit, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-quotas.html">Quotas
   /// for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling User
   /// Guide</i>.
@@ -965,8 +1093,7 @@ class AutoScaling {
   /// to the instances at launch. By default, the block devices specified in the
   /// block device mapping for the AMI are used. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html">Block
-  /// device mappings</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
+  /// device mappings</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Parameter [classicLinkVPCId] :
   /// Available for backward compatibility.
@@ -983,8 +1110,7 @@ class AutoScaling {
   /// optimization for an instance type that is not EBS-optimized by default.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
-  /// EBS-optimized instances</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
+  /// EBS-optimized instances</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// The default value is <code>false</code>.
   ///
@@ -1000,7 +1126,7 @@ class AutoScaling {
   /// The ID of the Amazon Machine Image (AMI) that was assigned during
   /// registration. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html">Find
-  /// a Linux AMI</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  /// a Linux AMI</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// If you specify <code>InstanceId</code>, an <code>ImageId</code> is not
   /// required.
@@ -1037,8 +1163,7 @@ class AutoScaling {
   /// Specifies the instance type of the EC2 instance. For information about
   /// available instance types, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes">Available
-  /// instance types</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
+  /// instance types</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// If you specify <code>InstanceId</code>, an <code>InstanceType</code> is
   /// not required.
@@ -1049,15 +1174,14 @@ class AutoScaling {
   /// We recommend that you use PV-GRUB instead of kernels and RAM disks. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html">User
-  /// provided kernels</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
+  /// provided kernels</a> in the <i>Amazon EC2 User Guide</i>.
   /// </note>
   ///
   /// Parameter [keyName] :
   /// The name of the key pair. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
-  /// EC2 key pairs and Amazon EC2 instances</a> in the <i>Amazon EC2 User Guide
-  /// for Linux Instances</i>.
+  /// EC2 key pairs and Amazon EC2 instances</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
   ///
   /// Parameter [metadataOptions] :
   /// The metadata options for the instances. For more information, see <a
@@ -1084,8 +1208,7 @@ class AutoScaling {
   /// We recommend that you use PV-GRUB instead of kernels and RAM disks. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html">User
-  /// provided kernels</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
+  /// provided kernels</a> in the <i>Amazon EC2 User Guide</i>.
   /// </note>
   ///
   /// Parameter [securityGroups] :
@@ -1205,8 +1328,8 @@ class AutoScaling {
   /// Auto Scaling groups and instances</a> in the <i>Amazon EC2 Auto Scaling
   /// User Guide</i>.
   ///
-  /// May throw [LimitExceededFault].
   /// May throw [AlreadyExistsFault].
+  /// May throw [LimitExceededFault].
   /// May throw [ResourceContentionFault].
   /// May throw [ResourceInUseFault].
   ///
@@ -1241,13 +1364,17 @@ class AutoScaling {
   /// has a warm pool, the force delete option also deletes the warm pool.
   ///
   /// To remove instances from the Auto Scaling group before deleting it, call
-  /// the <a>DetachInstances</a> API with the list of instances and the option
-  /// to decrement the desired capacity. This ensures that Amazon EC2 Auto
-  /// Scaling does not launch replacement instances.
+  /// the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachInstances.html">DetachInstances</a>
+  /// API with the list of instances and the option to decrement the desired
+  /// capacity. This ensures that Amazon EC2 Auto Scaling does not launch
+  /// replacement instances.
   ///
   /// To terminate all instances before deleting the Auto Scaling group, call
-  /// the <a>UpdateAutoScalingGroup</a> API and set the minimum size and desired
-  /// capacity of the Auto Scaling group to zero.
+  /// the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_UpdateAutoScalingGroup.html">UpdateAutoScalingGroup</a>
+  /// API and set the minimum size and desired capacity of the Auto Scaling
+  /// group to zero.
   ///
   /// If the group has scaling policies, deleting the group deletes the
   /// policies, the underlying alarm actions, and any alarm that no longer has
@@ -1258,9 +1385,9 @@ class AutoScaling {
   /// your Auto Scaling infrastructure</a> in the <i>Amazon EC2 Auto Scaling
   /// User Guide</i>.
   ///
-  /// May throw [ScalingActivityInProgressFault].
-  /// May throw [ResourceInUseFault].
   /// May throw [ResourceContentionFault].
+  /// May throw [ResourceInUseFault].
+  /// May throw [ScalingActivityInProgressFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -1294,8 +1421,8 @@ class AutoScaling {
   /// When this call completes, the launch configuration is no longer available
   /// for use.
   ///
-  /// May throw [ResourceInUseFault].
   /// May throw [ResourceContentionFault].
+  /// May throw [ResourceInUseFault].
   ///
   /// Parameter [launchConfigurationName] :
   /// The name of the launch configuration.
@@ -1475,8 +1602,8 @@ class AutoScaling {
   ///
   /// May throw [LimitExceededFault].
   /// May throw [ResourceContentionFault].
-  /// May throw [ScalingActivityInProgressFault].
   /// May throw [ResourceInUseFault].
+  /// May throw [ScalingActivityInProgressFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -1573,7 +1700,9 @@ class AutoScaling {
   ///
   /// This operation also returns information about instances in Auto Scaling
   /// groups. To retrieve information about the instances in a warm pool, you
-  /// must call the <a>DescribeWarmPool</a> API.
+  /// must call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeWarmPool.html">DescribeWarmPool</a>
+  /// API.
   ///
   /// May throw [InvalidNextToken].
   /// May throw [ResourceContentionFault].
@@ -1588,6 +1717,11 @@ class AutoScaling {
   /// Parameter [filters] :
   /// One or more filters to limit the results based on specific tags.
   ///
+  /// Parameter [includeInstances] :
+  /// Specifies whether to include information about Amazon EC2 instances in the
+  /// response. When set to <code>true</code> (default), the response includes
+  /// instance details.
+  ///
   /// Parameter [maxRecords] :
   /// The maximum number of items to return with this call. The default value is
   /// <code>50</code> and the maximum value is <code>100</code>.
@@ -1598,6 +1732,7 @@ class AutoScaling {
   Future<AutoScalingGroupsType> describeAutoScalingGroups({
     List<String>? autoScalingGroupNames,
     List<Filter>? filters,
+    bool? includeInstances,
     int? maxRecords,
     String? nextToken,
   }) async {
@@ -1615,6 +1750,8 @@ class AutoScaling {
           for (var i1 = 0; i1 < filters.length; i1++)
             for (var e3 in filters[i1].toQueryMap().entries)
               'Filters.member.${i1 + 1}.${e3.key}': e3.value,
+      if (includeInstances != null)
+        'IncludeInstances': includeInstances.toString(),
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -1805,34 +1942,6 @@ class AutoScaling {
     return LaunchConfigurationsType.fromXml($result);
   }
 
-  /// Describes the available types of lifecycle hooks.
-  ///
-  /// The following hook types are supported:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>autoscaling:EC2_INSTANCE_LAUNCHING</code>
-  /// </li>
-  /// <li>
-  /// <code>autoscaling:EC2_INSTANCE_TERMINATING</code>
-  /// </li>
-  /// </ul>
-  ///
-  /// May throw [ResourceContentionFault].
-  Future<DescribeLifecycleHookTypesAnswer> describeLifecycleHookTypes() async {
-    final $request = <String, String>{};
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeLifecycleHookTypes',
-      version: '2011-01-01',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeLifecycleHookTypesResult',
-    );
-    return DescribeLifecycleHookTypesAnswer.fromXml($result);
-  }
-
   /// Gets information about the lifecycle hooks for the specified Auto Scaling
   /// group.
   ///
@@ -1869,9 +1978,121 @@ class AutoScaling {
     return DescribeLifecycleHooksAnswer.fromXml($result);
   }
 
+  /// Describes the available types of lifecycle hooks.
+  ///
+  /// The following hook types are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>autoscaling:EC2_INSTANCE_LAUNCHING</code>
+  /// </li>
+  /// <li>
+  /// <code>autoscaling:EC2_INSTANCE_TERMINATING</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ResourceContentionFault].
+  Future<DescribeLifecycleHookTypesAnswer> describeLifecycleHookTypes() async {
+    final $request = <String, String>{};
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeLifecycleHookTypes',
+      version: '2011-01-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeLifecycleHookTypesResult',
+    );
+    return DescribeLifecycleHookTypesAnswer.fromXml($result);
+  }
+
   /// <note>
-  /// This API operation is superseded by <a>DescribeTrafficSources</a>, which
-  /// can describe multiple traffic sources types. We recommend using
+  /// This API operation is superseded by <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html">DescribeTrafficSources</a>,
+  /// which can describe multiple traffic sources types. We recommend using
+  /// <code>DescribeTrafficSources</code> to simplify how you manage traffic
+  /// sources. However, we continue to support
+  /// <code>DescribeLoadBalancers</code>. You can use both the original
+  /// <code>DescribeLoadBalancers</code> API operation and
+  /// <code>DescribeTrafficSources</code> on the same Auto Scaling group.
+  /// </note>
+  /// Gets information about the load balancers for the specified Auto Scaling
+  /// group.
+  ///
+  /// This operation describes only Classic Load Balancers. If you have
+  /// Application Load Balancers, Network Load Balancers, or Gateway Load
+  /// Balancers, use the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancerTargetGroups.html">DescribeLoadBalancerTargetGroups</a>
+  /// API instead.
+  ///
+  /// To determine the attachment status of the load balancer, use the
+  /// <code>State</code> element in the response. When you attach a load
+  /// balancer to an Auto Scaling group, the initial <code>State</code> value is
+  /// <code>Adding</code>. The state transitions to <code>Added</code> after all
+  /// Auto Scaling instances are registered with the load balancer. If Elastic
+  /// Load Balancing health checks are enabled for the Auto Scaling group, the
+  /// state transitions to <code>InService</code> after at least one Auto
+  /// Scaling instance passes the health check. When the load balancer is in the
+  /// <code>InService</code> state, Amazon EC2 Auto Scaling can terminate and
+  /// replace any instances that are reported as unhealthy. If no registered
+  /// instances pass the health checks, the load balancer doesn't enter the
+  /// <code>InService</code> state.
+  ///
+  /// Load balancers also have an <code>InService</code> state if you attach
+  /// them in the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html">CreateAutoScalingGroup</a>
+  /// API call. If your load balancer state is <code>InService</code>, but it is
+  /// not working properly, check the scaling activities by calling <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html">DescribeScalingActivities</a>
+  /// and take any corrective actions necessary.
+  ///
+  /// For help with failed health checks, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html">Troubleshooting
+  /// Amazon EC2 Auto Scaling: Health checks</a> in the <i>Amazon EC2 Auto
+  /// Scaling User Guide</i>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html">Use
+  /// Elastic Load Balancing to distribute traffic across the instances in your
+  /// Auto Scaling group</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
+  /// May throw [InvalidNextToken].
+  /// May throw [ResourceContentionFault].
+  ///
+  /// Parameter [autoScalingGroupName] :
+  /// The name of the Auto Scaling group.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of items to return with this call. The default value is
+  /// <code>100</code> and the maximum value is <code>100</code>.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of items to return. (You received this token
+  /// from a previous call.)
+  Future<DescribeLoadBalancersResponse> describeLoadBalancers({
+    required String autoScalingGroupName,
+    int? maxRecords,
+    String? nextToken,
+  }) async {
+    final $request = <String, String>{
+      'AutoScalingGroupName': autoScalingGroupName,
+      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeLoadBalancers',
+      version: '2011-01-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DescribeLoadBalancersResult',
+    );
+    return DescribeLoadBalancersResponse.fromXml($result);
+  }
+
+  /// <note>
+  /// This API operation is superseded by <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html">DescribeTrafficSources</a>,
+  /// which can describe multiple traffic sources types. We recommend using
   /// <code>DetachTrafficSources</code> to simplify how you manage traffic
   /// sources. However, we continue to support
   /// <code>DescribeLoadBalancerTargetGroups</code>. You can use both the
@@ -1895,10 +2116,12 @@ class AutoScaling {
   /// <code>InService</code> state.
   ///
   /// Target groups also have an <code>InService</code> state if you attach them
-  /// in the <a>CreateAutoScalingGroup</a> API call. If your target group state
-  /// is <code>InService</code>, but it is not working properly, check the
-  /// scaling activities by calling <a>DescribeScalingActivities</a> and take
-  /// any corrective actions necessary.
+  /// in the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html">CreateAutoScalingGroup</a>
+  /// API call. If your target group state is <code>InService</code>, but it is
+  /// not working properly, check the scaling activities by calling <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html">DescribeScalingActivities</a>
+  /// and take any corrective actions necessary.
   ///
   /// For help with failed health checks, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html">Troubleshooting
@@ -1909,12 +2132,14 @@ class AutoScaling {
   /// Auto Scaling group</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   /// <note>
   /// You can use this operation to describe target groups that were attached by
-  /// using <a>AttachLoadBalancerTargetGroups</a>, but not for target groups
-  /// that were attached by using <a>AttachTrafficSources</a>.
+  /// using <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachLoadBalancerTargetGroups.html">AttachLoadBalancerTargetGroups</a>,
+  /// but not for target groups that were attached by using <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html">AttachTrafficSources</a>.
   /// </note>
   ///
-  /// May throw [ResourceContentionFault].
   /// May throw [InvalidNextToken].
+  /// May throw [ResourceContentionFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -1947,84 +2172,6 @@ class AutoScaling {
       resultWrapper: 'DescribeLoadBalancerTargetGroupsResult',
     );
     return DescribeLoadBalancerTargetGroupsResponse.fromXml($result);
-  }
-
-  /// <note>
-  /// This API operation is superseded by <a>DescribeTrafficSources</a>, which
-  /// can describe multiple traffic sources types. We recommend using
-  /// <code>DescribeTrafficSources</code> to simplify how you manage traffic
-  /// sources. However, we continue to support
-  /// <code>DescribeLoadBalancers</code>. You can use both the original
-  /// <code>DescribeLoadBalancers</code> API operation and
-  /// <code>DescribeTrafficSources</code> on the same Auto Scaling group.
-  /// </note>
-  /// Gets information about the load balancers for the specified Auto Scaling
-  /// group.
-  ///
-  /// This operation describes only Classic Load Balancers. If you have
-  /// Application Load Balancers, Network Load Balancers, or Gateway Load
-  /// Balancers, use the <a>DescribeLoadBalancerTargetGroups</a> API instead.
-  ///
-  /// To determine the attachment status of the load balancer, use the
-  /// <code>State</code> element in the response. When you attach a load
-  /// balancer to an Auto Scaling group, the initial <code>State</code> value is
-  /// <code>Adding</code>. The state transitions to <code>Added</code> after all
-  /// Auto Scaling instances are registered with the load balancer. If Elastic
-  /// Load Balancing health checks are enabled for the Auto Scaling group, the
-  /// state transitions to <code>InService</code> after at least one Auto
-  /// Scaling instance passes the health check. When the load balancer is in the
-  /// <code>InService</code> state, Amazon EC2 Auto Scaling can terminate and
-  /// replace any instances that are reported as unhealthy. If no registered
-  /// instances pass the health checks, the load balancer doesn't enter the
-  /// <code>InService</code> state.
-  ///
-  /// Load balancers also have an <code>InService</code> state if you attach
-  /// them in the <a>CreateAutoScalingGroup</a> API call. If your load balancer
-  /// state is <code>InService</code>, but it is not working properly, check the
-  /// scaling activities by calling <a>DescribeScalingActivities</a> and take
-  /// any corrective actions necessary.
-  ///
-  /// For help with failed health checks, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ts-as-healthchecks.html">Troubleshooting
-  /// Amazon EC2 Auto Scaling: Health checks</a> in the <i>Amazon EC2 Auto
-  /// Scaling User Guide</i>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html">Use
-  /// Elastic Load Balancing to distribute traffic across the instances in your
-  /// Auto Scaling group</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-  ///
-  /// May throw [ResourceContentionFault].
-  /// May throw [InvalidNextToken].
-  ///
-  /// Parameter [autoScalingGroupName] :
-  /// The name of the Auto Scaling group.
-  ///
-  /// Parameter [maxRecords] :
-  /// The maximum number of items to return with this call. The default value is
-  /// <code>100</code> and the maximum value is <code>100</code>.
-  ///
-  /// Parameter [nextToken] :
-  /// The token for the next set of items to return. (You received this token
-  /// from a previous call.)
-  Future<DescribeLoadBalancersResponse> describeLoadBalancers({
-    required String autoScalingGroupName,
-    int? maxRecords,
-    String? nextToken,
-  }) async {
-    final $request = <String, String>{
-      'AutoScalingGroupName': autoScalingGroupName,
-      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeLoadBalancers',
-      version: '2011-01-01',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeLoadBalancersResult',
-    );
-    return DescribeLoadBalancersResponse.fromXml($result);
   }
 
   /// Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
@@ -2177,15 +2324,61 @@ class AutoScaling {
   /// May throw [ResourceContentionFault].
   ///
   /// Parameter [activityIds] :
-  /// The activity IDs of the desired scaling activities. If you omit this
-  /// property, all activities for the past six weeks are described. If unknown
-  /// activities are requested, they are ignored with no error. If you specify
-  /// an Auto Scaling group, the results are limited to that group.
+  /// The activity IDs of the desired scaling activities. If unknown activity
+  /// IDs are requested, they are ignored with no error. Only activities started
+  /// within the last six weeks can be returned regardless of the activity IDs
+  /// specified. If other filters are specified with the request, only results
+  /// matching all filter criteria can be returned.
   ///
   /// Array Members: Maximum number of 50 IDs.
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
+  /// <important>
+  /// Omitting this property performs an account-wide operation, which can
+  /// result in slower or timed-out requests.
+  /// </important>
+  ///
+  /// Parameter [filters] :
+  /// One or more filters to limit the results based on specific criteria. The
+  /// following filters are supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>StartTimeLowerBound</code> - The earliest scaling activities to
+  /// return based on the activity start time. Scaling activities with a start
+  /// time earlier than this value are not included in the results. Only
+  /// activities started within the last six weeks can be returned regardless of
+  /// the value specified.
+  /// </li>
+  /// <li>
+  /// <code>StartTimeUpperBound</code> - The latest scaling activities to return
+  /// based on the activity start time. Scaling activities with a start time
+  /// later than this value are not included in the results. Only activities
+  /// started within the last six weeks can be returned regardless of the value
+  /// specified.
+  /// </li>
+  /// <li>
+  /// <code>Status</code> - The <code>StatusCode</code> value of the scaling
+  /// activity. This filter can only be used in combination with the
+  /// <code>AutoScalingGroupName</code> parameter. For valid
+  /// <code>StatusCode</code> values, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html">Activity</a>
+  /// in the <i>Amazon EC2 Auto Scaling API Reference</i>.
+  /// </li>
+  /// </ul>
+  /// <code>StartTimeLowerBound</code> and <code>StartTimeUpperBound</code>
+  /// accept ISO 8601 formatted timestamps. Timestamps without a timezone offset
+  /// are assumed to be UTC.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>2000-01-18T08:15:00Z</code>
+  /// </li>
+  /// <li>
+  /// <code>2000-01-18T16:15:00+08:00</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [includeDeletedGroups] :
   /// Indicates whether to include scaling activity from deleted Auto Scaling
@@ -2201,6 +2394,7 @@ class AutoScaling {
   Future<ActivitiesType> describeScalingActivities({
     List<String>? activityIds,
     String? autoScalingGroupName,
+    List<Filter>? filters,
     bool? includeDeletedGroups,
     int? maxRecords,
     String? nextToken,
@@ -2214,6 +2408,13 @@ class AutoScaling {
             'ActivityIds.member.${i1 + 1}': activityIds[i1],
       if (autoScalingGroupName != null)
         'AutoScalingGroupName': autoScalingGroupName,
+      if (filters != null)
+        if (filters.isEmpty)
+          'Filters': ''
+        else
+          for (var i1 = 0; i1 < filters.length; i1++)
+            for (var e3 in filters[i1].toQueryMap().entries)
+              'Filters.member.${i1 + 1}.${e3.key}': e3.value,
       if (includeDeletedGroups != null)
         'IncludeDeletedGroups': includeDeletedGroups.toString(),
       if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
@@ -2231,8 +2432,11 @@ class AutoScaling {
     return ActivitiesType.fromXml($result);
   }
 
-  /// Describes the scaling process types for use with the
-  /// <a>ResumeProcesses</a> and <a>SuspendProcesses</a> APIs.
+  /// Describes the scaling process types for use with the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_ResumeProcesses.html">ResumeProcesses</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_SuspendProcesses.html">SuspendProcesses</a>
+  /// APIs.
   ///
   /// May throw [ResourceContentionFault].
   Future<ProcessesType> describeScalingProcessTypes() async {
@@ -2253,7 +2457,9 @@ class AutoScaling {
   /// not reached their end time.
   ///
   /// To describe the scaling activities for scheduled actions that have already
-  /// run, call the <a>DescribeScalingActivities</a> API.
+  /// run, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html">DescribeScalingActivities</a>
+  /// API.
   ///
   /// May throw [InvalidNextToken].
   /// May throw [ResourceContentionFault].
@@ -2408,8 +2614,8 @@ class AutoScaling {
   /// If you do not provide a traffic source type, then the results include all
   /// the traffic sources for the specified Auto Scaling group.
   ///
-  /// May throw [ResourceContentionFault].
   /// May throw [InvalidNextToken].
+  /// May throw [ResourceContentionFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -2563,8 +2769,65 @@ class AutoScaling {
   }
 
   /// <note>
-  /// This API operation is superseded by <a>DetachTrafficSources</a>, which can
-  /// detach multiple traffic sources types. We recommend using
+  /// This API operation is superseded by <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachTrafficSources.html">DetachTrafficSources</a>,
+  /// which can detach multiple traffic sources types. We recommend using
+  /// <code>DetachTrafficSources</code> to simplify how you manage traffic
+  /// sources. However, we continue to support <code>DetachLoadBalancers</code>.
+  /// You can use both the original <code>DetachLoadBalancers</code> API
+  /// operation and <code>DetachTrafficSources</code> on the same Auto Scaling
+  /// group.
+  /// </note>
+  /// Detaches one or more Classic Load Balancers from the specified Auto
+  /// Scaling group.
+  ///
+  /// This operation detaches only Classic Load Balancers. If you have
+  /// Application Load Balancers, Network Load Balancers, or Gateway Load
+  /// Balancers, use the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachLoadBalancerTargetGroups.html">DetachLoadBalancerTargetGroups</a>
+  /// API instead.
+  ///
+  /// When you detach a load balancer, it enters the <code>Removing</code> state
+  /// while deregistering the instances in the group. When all instances are
+  /// deregistered, then you can no longer describe the load balancer using the
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API call. The instances remain running.
+  ///
+  /// May throw [ResourceContentionFault].
+  ///
+  /// Parameter [autoScalingGroupName] :
+  /// The name of the Auto Scaling group.
+  ///
+  /// Parameter [loadBalancerNames] :
+  /// The names of the load balancers. You can specify up to 10 load balancers.
+  Future<void> detachLoadBalancers({
+    required String autoScalingGroupName,
+    required List<String> loadBalancerNames,
+  }) async {
+    final $request = <String, String>{
+      'AutoScalingGroupName': autoScalingGroupName,
+      if (loadBalancerNames.isEmpty)
+        'LoadBalancerNames': ''
+      else
+        for (var i1 = 0; i1 < loadBalancerNames.length; i1++)
+          'LoadBalancerNames.member.${i1 + 1}': loadBalancerNames[i1],
+    };
+    await _protocol.send(
+      $request,
+      action: 'DetachLoadBalancers',
+      version: '2011-01-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'DetachLoadBalancersResult',
+    );
+  }
+
+  /// <note>
+  /// This API operation is superseded by <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DetachTrafficSources.html">DetachTrafficSources</a>,
+  /// which can detach multiple traffic sources types. We recommend using
   /// <code>DetachTrafficSources</code> to simplify how you manage traffic
   /// sources. However, we continue to support
   /// <code>DetachLoadBalancerTargetGroups</code>. You can use both the original
@@ -2576,12 +2839,15 @@ class AutoScaling {
   /// When you detach a target group, it enters the <code>Removing</code> state
   /// while deregistering the instances in the group. When all instances are
   /// deregistered, then you can no longer describe the target group using the
-  /// <a>DescribeLoadBalancerTargetGroups</a> API call. The instances remain
-  /// running.
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLoadBalancerTargetGroups.html">DescribeLoadBalancerTargetGroups</a>
+  /// API call. The instances remain running.
   /// <note>
   /// You can use this operation to detach target groups that were attached by
-  /// using <a>AttachLoadBalancerTargetGroups</a>, but not for target groups
-  /// that were attached by using <a>AttachTrafficSources</a>.
+  /// using <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachLoadBalancerTargetGroups.html">AttachLoadBalancerTargetGroups</a>,
+  /// but not for target groups that were attached by using <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_AttachTrafficSources.html">AttachTrafficSources</a>.
   /// </note>
   ///
   /// May throw [ResourceContentionFault].
@@ -2615,64 +2881,15 @@ class AutoScaling {
     );
   }
 
-  /// <note>
-  /// This API operation is superseded by <a>DetachTrafficSources</a>, which can
-  /// detach multiple traffic sources types. We recommend using
-  /// <code>DetachTrafficSources</code> to simplify how you manage traffic
-  /// sources. However, we continue to support <code>DetachLoadBalancers</code>.
-  /// You can use both the original <code>DetachLoadBalancers</code> API
-  /// operation and <code>DetachTrafficSources</code> on the same Auto Scaling
-  /// group.
-  /// </note>
-  /// Detaches one or more Classic Load Balancers from the specified Auto
-  /// Scaling group.
-  ///
-  /// This operation detaches only Classic Load Balancers. If you have
-  /// Application Load Balancers, Network Load Balancers, or Gateway Load
-  /// Balancers, use the <a>DetachLoadBalancerTargetGroups</a> API instead.
-  ///
-  /// When you detach a load balancer, it enters the <code>Removing</code> state
-  /// while deregistering the instances in the group. When all instances are
-  /// deregistered, then you can no longer describe the load balancer using the
-  /// <a>DescribeLoadBalancers</a> API call. The instances remain running.
-  ///
-  /// May throw [ResourceContentionFault].
-  ///
-  /// Parameter [autoScalingGroupName] :
-  /// The name of the Auto Scaling group.
-  ///
-  /// Parameter [loadBalancerNames] :
-  /// The names of the load balancers. You can specify up to 10 load balancers.
-  Future<void> detachLoadBalancers({
-    required String autoScalingGroupName,
-    required List<String> loadBalancerNames,
-  }) async {
-    final $request = <String, String>{
-      'AutoScalingGroupName': autoScalingGroupName,
-      if (loadBalancerNames.isEmpty)
-        'LoadBalancerNames': ''
-      else
-        for (var i1 = 0; i1 < loadBalancerNames.length; i1++)
-          'LoadBalancerNames.member.${i1 + 1}': loadBalancerNames[i1],
-    };
-    await _protocol.send(
-      $request,
-      action: 'DetachLoadBalancers',
-      version: '2011-01-01',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DetachLoadBalancersResult',
-    );
-  }
-
   /// Detaches one or more traffic sources from the specified Auto Scaling
   /// group.
   ///
   /// When you detach a traffic source, it enters the <code>Removing</code>
   /// state while deregistering the instances in the group. When all instances
   /// are deregistered, then you can no longer describe the traffic source using
-  /// the <a>DescribeTrafficSources</a> API call. The instances continue to run.
+  /// the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTrafficSources.html">DescribeTrafficSources</a>
+  /// API call. The instances continue to run.
   ///
   /// May throw [ResourceContentionFault].
   ///
@@ -2985,8 +3202,8 @@ class AutoScaling {
   /// Executes the specified policy. This can be useful for testing the design
   /// of your scaling policy.
   ///
-  /// May throw [ScalingActivityInProgressFault].
   /// May throw [ResourceContentionFault].
+  /// May throw [ScalingActivityInProgressFault].
   ///
   /// Parameter [policyName] :
   /// The name or ARN of the policy.
@@ -3150,6 +3367,99 @@ class AutoScaling {
     return GetPredictiveScalingForecastAnswer.fromXml($result);
   }
 
+  /// Launches a specified number of instances in an Auto Scaling group. Returns
+  /// instance IDs and other details if launch is successful or error details if
+  /// launch is unsuccessful.
+  ///
+  /// May throw [IdempotentParameterMismatchError].
+  /// May throw [ResourceContentionFault].
+  ///
+  /// Parameter [autoScalingGroupName] :
+  /// The name of the Auto Scaling group to launch instances into.
+  ///
+  /// Parameter [requestedCapacity] :
+  /// The number of instances to launch. Although this value can exceed 100 for
+  /// instance weights, the actual instance count is limited to 100 instances
+  /// per launch.
+  ///
+  /// Parameter [availabilityZoneIds] :
+  /// A list of Availability Zone IDs where instances should be launched. Must
+  /// match or be included in the group's AZ configuration. You cannot specify
+  /// both AvailabilityZones and AvailabilityZoneIds. Required for multi-AZ
+  /// groups, optional for single-AZ groups.
+  ///
+  /// Parameter [availabilityZones] :
+  /// The Availability Zones for the instance launch. Must match or be included
+  /// in the Auto Scaling group's Availability Zone configuration. Either
+  /// <code>AvailabilityZones</code> or <code>SubnetIds</code> must be specified
+  /// for groups with multiple Availability Zone configurations.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier to ensure idempotency of the request.
+  ///
+  /// Parameter [retryStrategy] :
+  /// Specifies whether to retry asynchronously if the synchronous launch fails.
+  /// Valid values are NONE (default, no async retry) and
+  /// RETRY_WITH_GROUP_CONFIGURATION (increase desired capacity and retry with
+  /// group configuration).
+  ///
+  /// Parameter [subnetIds] :
+  /// The subnet IDs for the instance launch. Either
+  /// <code>AvailabilityZones</code> or <code>SubnetIds</code> must be
+  /// specified. If both are specified, the subnets must reside in the specified
+  /// Availability Zones.
+  Future<LaunchInstancesResult> launchInstances({
+    required String autoScalingGroupName,
+    required int requestedCapacity,
+    List<String>? availabilityZoneIds,
+    List<String>? availabilityZones,
+    String? clientToken,
+    RetryStrategy? retryStrategy,
+    List<String>? subnetIds,
+  }) async {
+    _s.validateNumRange(
+      'requestedCapacity',
+      requestedCapacity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $request = <String, String>{
+      'AutoScalingGroupName': autoScalingGroupName,
+      'RequestedCapacity': requestedCapacity.toString(),
+      if (availabilityZoneIds != null)
+        if (availabilityZoneIds.isEmpty)
+          'AvailabilityZoneIds': ''
+        else
+          for (var i1 = 0; i1 < availabilityZoneIds.length; i1++)
+            'AvailabilityZoneIds.member.${i1 + 1}': availabilityZoneIds[i1],
+      if (availabilityZones != null)
+        if (availabilityZones.isEmpty)
+          'AvailabilityZones': ''
+        else
+          for (var i1 = 0; i1 < availabilityZones.length; i1++)
+            'AvailabilityZones.member.${i1 + 1}': availabilityZones[i1],
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (retryStrategy != null) 'RetryStrategy': retryStrategy.value,
+      if (subnetIds != null)
+        if (subnetIds.isEmpty)
+          'SubnetIds': ''
+        else
+          for (var i1 = 0; i1 < subnetIds.length; i1++)
+            'SubnetIds.member.${i1 + 1}': subnetIds[i1],
+    };
+    final $result = await _protocol.send(
+      $request,
+      action: 'LaunchInstances',
+      version: '2011-01-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      resultWrapper: 'LaunchInstancesResult',
+    );
+    return LaunchInstancesResult.fromXml($result);
+  }
+
   /// Creates or updates a lifecycle hook for the specified Auto Scaling group.
   ///
   /// Lifecycle hooks let you create solutions that are aware of events in the
@@ -3180,12 +3490,15 @@ class AutoScaling {
   /// </li>
   /// <li>
   /// If you need more time, record the lifecycle action heartbeat to keep the
-  /// instance in a wait state using the <a>RecordLifecycleActionHeartbeat</a>
+  /// instance in a wait state using the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RecordLifecycleActionHeartbeat.html">RecordLifecycleActionHeartbeat</a>
   /// API call.
   /// </li>
   /// <li>
   /// If you finish before the timeout period ends, send a callback by using the
-  /// <a>CompleteLifecycleAction</a> API call.
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CompleteLifecycleAction.html">CompleteLifecycleAction</a>
+  /// API call.
   /// </li> </ol>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
@@ -3195,10 +3508,12 @@ class AutoScaling {
   /// If you exceed your maximum limit of lifecycle hooks, which by default is
   /// 50 per Auto Scaling group, the call fails.
   ///
-  /// You can view the lifecycle hooks for an Auto Scaling group using the
-  /// <a>DescribeLifecycleHooks</a> API call. If you are no longer using a
-  /// lifecycle hook, you can delete it by calling the
-  /// <a>DeleteLifecycleHook</a> API.
+  /// You can view the lifecycle hooks for an Auto Scaling group using the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeLifecycleHooks.html">DescribeLifecycleHooks</a>
+  /// API call. If you are no longer using a lifecycle hook, you can delete it
+  /// by calling the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteLifecycleHook.html">DeleteLifecycleHook</a>
+  /// API.
   ///
   /// May throw [LimitExceededFault].
   /// May throw [ResourceContentionFault].
@@ -3323,8 +3638,9 @@ class AutoScaling {
   ///
   /// Parameter [notificationTypes] :
   /// The type of event that causes the notification to be sent. To query the
-  /// notification types supported by Amazon EC2 Auto Scaling, call the
-  /// <a>DescribeAutoScalingNotificationTypes</a> API.
+  /// notification types supported by Amazon EC2 Auto Scaling, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingNotificationTypes.html">DescribeAutoScalingNotificationTypes</a>
+  /// API.
   ///
   /// Parameter [topicARN] :
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
@@ -3369,9 +3685,12 @@ class AutoScaling {
   /// scaling for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling
   /// User Guide</i>.
   ///
-  /// You can view the scaling policies for an Auto Scaling group using the
-  /// <a>DescribePolicies</a> API call. If you are no longer using a scaling
-  /// policy, you can delete it by calling the <a>DeletePolicy</a> API.
+  /// You can view the scaling policies for an Auto Scaling group using the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribePolicies.html">DescribePolicies</a>
+  /// API call. If you are no longer using a scaling policy, you can delete it
+  /// by calling the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeletePolicy.html">DeletePolicy</a>
+  /// API.
   ///
   /// May throw [LimitExceededFault].
   /// May throw [ResourceContentionFault].
@@ -3604,10 +3923,12 @@ class AutoScaling {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scheduled-scaling.html">Scheduled
   /// scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
-  /// You can view the scheduled actions for an Auto Scaling group using the
-  /// <a>DescribeScheduledActions</a> API call. If you are no longer using a
-  /// scheduled action, you can delete it by calling the
-  /// <a>DeleteScheduledAction</a> API.
+  /// You can view the scheduled actions for an Auto Scaling group using the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScheduledActions.html">DescribeScheduledActions</a>
+  /// API call. If you are no longer using a scheduled action, you can delete it
+  /// by calling the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteScheduledAction.html">DeleteScheduledAction</a>
+  /// API.
   ///
   /// If you try to schedule your action in the past, Amazon EC2 Auto Scaling
   /// returns an error message.
@@ -3719,15 +4040,19 @@ class AutoScaling {
   /// This operation must be called from the Region in which the Auto Scaling
   /// group was created.
   ///
-  /// You can view the instances in the warm pool using the
-  /// <a>DescribeWarmPool</a> API call. If you are no longer using a warm pool,
-  /// you can delete it by calling the <a>DeleteWarmPool</a> API.
+  /// You can view the instances in the warm pool using the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeWarmPool.html">DescribeWarmPool</a>
+  /// API call. If you are no longer using a warm pool, you can delete it by
+  /// calling the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteWarmPool.html">DeleteWarmPool</a>
+  /// API.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html">Warm
   /// pools for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling
   /// User Guide</i>.
   ///
+  /// May throw [InstanceRefreshInProgressFault].
   /// May throw [LimitExceededFault].
   /// May throw [ResourceContentionFault].
   ///
@@ -3814,7 +4139,9 @@ class AutoScaling {
 
   /// Records a heartbeat for the lifecycle action associated with the specified
   /// token or instance. This extends the timeout by the length of time defined
-  /// using the <a>PutLifecycleHook</a> API call.
+  /// using the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PutLifecycleHook.html">PutLifecycleHook</a>
+  /// API call.
   ///
   /// This step is a part of the procedure for adding a lifecycle hook to an
   /// Auto Scaling group:
@@ -3844,7 +4171,9 @@ class AutoScaling {
   /// </li>
   /// <li>
   /// If you finish before the timeout period ends, send a callback by using the
-  /// <a>CompleteLifecycleAction</a> API call.
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CompleteLifecycleAction.html">CompleteLifecycleAction</a>
+  /// API call.
   /// </li> </ol>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
@@ -3899,8 +4228,8 @@ class AutoScaling {
   /// and resume Amazon EC2 Auto Scaling processes</a> in the <i>Amazon EC2 Auto
   /// Scaling User Guide</i>.
   ///
-  /// May throw [ResourceInUseFault].
   /// May throw [ResourceContentionFault].
+  /// May throw [ResourceInUseFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -3990,13 +4319,14 @@ class AutoScaling {
   /// </ul>
   /// When you receive a successful response from this operation, Amazon EC2
   /// Auto Scaling immediately begins replacing instances. You can check the
-  /// status of this operation through the <a>DescribeInstanceRefreshes</a> API
-  /// operation.
+  /// status of this operation through the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeInstanceRefreshes.html">DescribeInstanceRefreshes</a>
+  /// API operation.
   ///
-  /// May throw [LimitExceededFault].
-  /// May throw [ResourceContentionFault].
   /// May throw [ActiveInstanceRefreshNotFoundFault].
   /// May throw [IrreversibleInstanceRefreshFault].
+  /// May throw [LimitExceededFault].
+  /// May throw [ResourceContentionFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -4029,8 +4359,8 @@ class AutoScaling {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-manually.html">Manual
   /// scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
-  /// May throw [ScalingActivityInProgressFault].
   /// May throw [ResourceContentionFault].
+  /// May throw [ScalingActivityInProgressFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -4174,28 +4504,33 @@ class AutoScaling {
   ///
   /// If successful, the request's response contains a unique ID that you can
   /// use to track the progress of the instance refresh. To query its status,
-  /// call the <a>DescribeInstanceRefreshes</a> API. To describe the instance
-  /// refreshes that have already run, call the <a>DescribeInstanceRefreshes</a>
-  /// API. To cancel an instance refresh that is in progress, use the
-  /// <a>CancelInstanceRefresh</a> API.
+  /// call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeInstanceRefreshes.html">DescribeInstanceRefreshes</a>
+  /// API. To describe the instance refreshes that have already run, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeInstanceRefreshes.html">DescribeInstanceRefreshes</a>
+  /// API. To cancel an instance refresh that is in progress, use the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CancelInstanceRefresh.html">CancelInstanceRefresh</a>
+  /// API.
   ///
   /// An instance refresh might fail for several reasons, such as EC2 launch
   /// failures, misconfigured health checks, or not ignoring or allowing the
   /// termination of instances that are in <code>Standby</code> state or
   /// protected from scale in. You can monitor for failed EC2 launches using the
-  /// scaling activities. To find the scaling activities, call the
-  /// <a>DescribeScalingActivities</a> API.
+  /// scaling activities. To find the scaling activities, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html">DescribeScalingActivities</a>
+  /// API.
   ///
   /// If you enable auto rollback, your Auto Scaling group will be rolled back
   /// automatically when the instance refresh fails. You can enable this feature
   /// before starting an instance refresh by specifying the
   /// <code>AutoRollback</code> property in the instance refresh preferences.
-  /// Otherwise, to roll back an instance refresh before it finishes, use the
-  /// <a>RollbackInstanceRefresh</a> API.
+  /// Otherwise, to roll back an instance refresh before it finishes, use the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_RollbackInstanceRefresh.html">RollbackInstanceRefresh</a>
+  /// API.
   ///
+  /// May throw [InstanceRefreshInProgressFault].
   /// May throw [LimitExceededFault].
   /// May throw [ResourceContentionFault].
-  /// May throw [InstanceRefreshInProgressFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -4238,10 +4573,13 @@ class AutoScaling {
   /// <li>
   /// Skip matching
   /// </li>
+  /// <li>
+  /// Bake time
+  /// </li>
   /// </ul>
   ///
   /// Parameter [strategy] :
-  /// The strategy to use for the instance refresh. The only valid value is
+  /// The strategy to use for the instance refresh. The default value is
   /// <code>Rolling</code>.
   Future<StartInstanceRefreshAnswer> startInstanceRefresh({
     required String autoScalingGroupName,
@@ -4281,11 +4619,12 @@ class AutoScaling {
   /// and resume Amazon EC2 Auto Scaling processes</a> in the <i>Amazon EC2 Auto
   /// Scaling User Guide</i>.
   ///
-  /// To resume processes that have been suspended, call the
-  /// <a>ResumeProcesses</a> API.
+  /// To resume processes that have been suspended, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_ResumeProcesses.html">ResumeProcesses</a>
+  /// API.
   ///
-  /// May throw [ResourceInUseFault].
   /// May throw [ResourceContentionFault].
+  /// May throw [ResourceInUseFault].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
@@ -4366,8 +4705,8 @@ class AutoScaling {
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-manually.html">Manual
   /// scaling</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
-  /// May throw [ScalingActivityInProgressFault].
   /// May throw [ResourceContentionFault].
+  /// May throw [ScalingActivityInProgressFault].
   ///
   /// Parameter [instanceId] :
   /// The ID of the instance.
@@ -4443,27 +4782,51 @@ class AutoScaling {
   /// <code>DesiredCapacity</code> to the new <code>MaxSize</code> value.
   /// </li>
   /// </ul>
-  /// To see which properties have been set, call the
-  /// <a>DescribeAutoScalingGroups</a> API. To view the scaling policies for an
-  /// Auto Scaling group, call the <a>DescribePolicies</a> API. If the group has
-  /// scaling policies, you can update them by calling the
-  /// <a>PutScalingPolicy</a> API.
+  /// To see which properties have been set, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html">DescribeAutoScalingGroups</a>
+  /// API. To view the scaling policies for an Auto Scaling group, call the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribePolicies.html">DescribePolicies</a>
+  /// API. If the group has scaling policies, you can update them by calling the
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PutScalingPolicy.html">PutScalingPolicy</a>
+  /// API.
   ///
-  /// May throw [ScalingActivityInProgressFault].
   /// May throw [ResourceContentionFault].
+  /// May throw [ScalingActivityInProgressFault].
   /// May throw [ServiceLinkedRoleFailure].
   ///
   /// Parameter [autoScalingGroupName] :
   /// The name of the Auto Scaling group.
   ///
+  /// Parameter [availabilityZoneDistribution] :
+  /// The instance capacity distribution across Availability Zones.
+  ///
+  /// Parameter [availabilityZoneIds] :
+  /// A list of Availability Zone IDs for the Auto Scaling group. You cannot
+  /// specify both AvailabilityZones and AvailabilityZoneIds in the same
+  /// request.
+  ///
+  /// Parameter [availabilityZoneImpairmentPolicy] :
+  /// The policy for Availability Zone impairment.
+  ///
   /// Parameter [availabilityZones] :
   /// One or more Availability Zones for the group.
   ///
   /// Parameter [capacityRebalance] :
-  /// Enables or disables Capacity Rebalancing. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html">Use
-  /// Capacity Rebalancing to handle Amazon EC2 Spot Interruptions</a> in the
+  /// Enables or disables Capacity Rebalancing. If Capacity Rebalancing is
+  /// disabled, proactive replacement of at-risk Spot Instances does not occur.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html">Capacity
+  /// Rebalancing in Auto Scaling to replace at-risk Spot Instances</a> in the
   /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+  /// <note>
+  /// To suspend rebalancing across Availability Zones, use the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_SuspendedProcess.html">SuspendProcesses</a>
+  /// API.
+  /// </note>
+  ///
+  /// Parameter [capacityReservationSpecification] :
+  /// The capacity reservation specification for the Auto Scaling group.
   ///
   /// Parameter [context] :
   /// Reserved.
@@ -4500,6 +4863,25 @@ class AutoScaling {
   /// recommend keeping the default instance warmup enabled by specifying a
   /// value of <code>0</code> or other nominal value.
   /// </important>
+  ///
+  /// Parameter [deletionProtection] :
+  /// The deletion protection setting for the Auto Scaling group. This setting
+  /// helps safeguard your Auto Scaling group and its instances by controlling
+  /// whether the <code>DeleteAutoScalingGroup</code> operation is allowed. When
+  /// deletion protection is enabled, users cannot delete the Auto Scaling group
+  /// according to the specified protection level until the setting is changed
+  /// back to a less restrictive level.
+  ///
+  /// The valid values are <code>none</code>,
+  /// <code>prevent-force-deletion</code>, and
+  /// <code>prevent-all-deletion</code>.
+  ///
+  /// Default: <code>none</code>
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/resource-deletion-protection.html">
+  /// Configure deletion protection for your Amazon EC2 Auto Scaling
+  /// resources</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
   /// Parameter [desiredCapacity] :
   /// The desired capacity is the initial capacity of the Auto Scaling group
@@ -4543,6 +4925,18 @@ class AutoScaling {
   ///
   /// Only specify <code>EC2</code> if you must clear a value that was
   /// previously set.
+  ///
+  /// Parameter [instanceLifecyclePolicy] :
+  /// The instance lifecycle policy for the Auto Scaling group. This policy
+  /// controls instance behavior when an instance transitions through its
+  /// lifecycle states. Configure retention triggers to specify when instances
+  /// should move to a <code>Retained</code> state instead of automatic
+  /// termination.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html">
+  /// Control instance retention with instance lifecycle policies</a> in the
+  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
   ///
   /// Parameter [instanceMaintenancePolicy] :
   /// An instance maintenance policy. For more information, see <a
@@ -4601,9 +4995,11 @@ class AutoScaling {
   ///
   /// Parameter [placementGroup] :
   /// The name of an existing placement group into which to launch your
-  /// instances. For more information, see <a
+  /// instances. To remove the placement group setting, pass an empty string for
+  /// <code>placement-group</code>. For more information about placement groups,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
-  /// groups</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  /// groups</a> in the <i>Amazon EC2 User Guide</i>.
   /// <note>
   /// A <i>cluster</i> placement group is a logical grouping of instances within
   /// a single Availability Zone. You cannot specify multiple Availability Zones
@@ -4616,6 +5012,14 @@ class AutoScaling {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html">Service-linked
   /// roles</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  ///
+  /// Parameter [skipZonalShiftValidation] :
+  /// If you enable zonal shift with cross-zone disabled load balancers,
+  /// capacity could become imbalanced across Availability Zones. To skip the
+  /// validation, specify <code>true</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html">Auto
+  /// Scaling group zonal shift</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
   ///
   /// Parameter [terminationPolicies] :
   /// A policy or a list of policies that are used to select the instances to
@@ -4638,15 +5042,21 @@ class AutoScaling {
   /// in those Availability Zones.
   Future<void> updateAutoScalingGroup({
     required String autoScalingGroupName,
+    AvailabilityZoneDistribution? availabilityZoneDistribution,
+    List<String>? availabilityZoneIds,
+    AvailabilityZoneImpairmentPolicy? availabilityZoneImpairmentPolicy,
     List<String>? availabilityZones,
     bool? capacityRebalance,
+    CapacityReservationSpecification? capacityReservationSpecification,
     String? context,
     int? defaultCooldown,
     int? defaultInstanceWarmup,
+    DeletionProtection? deletionProtection,
     int? desiredCapacity,
     String? desiredCapacityType,
     int? healthCheckGracePeriod,
     String? healthCheckType,
+    InstanceLifecyclePolicy? instanceLifecyclePolicy,
     InstanceMaintenancePolicy? instanceMaintenancePolicy,
     String? launchConfigurationName,
     LaunchTemplateSpecification? launchTemplate,
@@ -4657,11 +5067,24 @@ class AutoScaling {
     bool? newInstancesProtectedFromScaleIn,
     String? placementGroup,
     String? serviceLinkedRoleARN,
+    bool? skipZonalShiftValidation,
     List<String>? terminationPolicies,
     String? vPCZoneIdentifier,
   }) async {
     final $request = <String, String>{
       'AutoScalingGroupName': autoScalingGroupName,
+      if (availabilityZoneDistribution != null)
+        for (var e1 in availabilityZoneDistribution.toQueryMap().entries)
+          'AvailabilityZoneDistribution.${e1.key}': e1.value,
+      if (availabilityZoneIds != null)
+        if (availabilityZoneIds.isEmpty)
+          'AvailabilityZoneIds': ''
+        else
+          for (var i1 = 0; i1 < availabilityZoneIds.length; i1++)
+            'AvailabilityZoneIds.member.${i1 + 1}': availabilityZoneIds[i1],
+      if (availabilityZoneImpairmentPolicy != null)
+        for (var e1 in availabilityZoneImpairmentPolicy.toQueryMap().entries)
+          'AvailabilityZoneImpairmentPolicy.${e1.key}': e1.value,
       if (availabilityZones != null)
         if (availabilityZones.isEmpty)
           'AvailabilityZones': ''
@@ -4670,11 +5093,16 @@ class AutoScaling {
             'AvailabilityZones.member.${i1 + 1}': availabilityZones[i1],
       if (capacityRebalance != null)
         'CapacityRebalance': capacityRebalance.toString(),
+      if (capacityReservationSpecification != null)
+        for (var e1 in capacityReservationSpecification.toQueryMap().entries)
+          'CapacityReservationSpecification.${e1.key}': e1.value,
       if (context != null) 'Context': context,
       if (defaultCooldown != null)
         'DefaultCooldown': defaultCooldown.toString(),
       if (defaultInstanceWarmup != null)
         'DefaultInstanceWarmup': defaultInstanceWarmup.toString(),
+      if (deletionProtection != null)
+        'DeletionProtection': deletionProtection.value,
       if (desiredCapacity != null)
         'DesiredCapacity': desiredCapacity.toString(),
       if (desiredCapacityType != null)
@@ -4682,6 +5110,9 @@ class AutoScaling {
       if (healthCheckGracePeriod != null)
         'HealthCheckGracePeriod': healthCheckGracePeriod.toString(),
       if (healthCheckType != null) 'HealthCheckType': healthCheckType,
+      if (instanceLifecyclePolicy != null)
+        for (var e1 in instanceLifecyclePolicy.toQueryMap().entries)
+          'InstanceLifecyclePolicy.${e1.key}': e1.value,
       if (instanceMaintenancePolicy != null)
         for (var e1 in instanceMaintenancePolicy.toQueryMap().entries)
           'InstanceMaintenancePolicy.${e1.key}': e1.value,
@@ -4703,6 +5134,8 @@ class AutoScaling {
       if (placementGroup != null) 'PlacementGroup': placementGroup,
       if (serviceLinkedRoleARN != null)
         'ServiceLinkedRoleARN': serviceLinkedRoleARN,
+      if (skipZonalShiftValidation != null)
+        'SkipZonalShiftValidation': skipZonalShiftValidation.toString(),
       if (terminationPolicies != null)
         if (terminationPolicies.isEmpty)
           'TerminationPolicies': ''
@@ -4722,421 +5155,16 @@ class AutoScaling {
   }
 }
 
-/// Specifies the minimum and maximum for the <code>AcceleratorCount</code>
-/// object when you specify <a>InstanceRequirements</a> for an Auto Scaling
-/// group.
-class AcceleratorCountRequest {
-  /// The maximum value.
-  final int? max;
-
-  /// The minimum value.
-  final int? min;
-
-  AcceleratorCountRequest({
-    this.max,
-    this.min,
-  });
-  factory AcceleratorCountRequest.fromXml(_s.XmlElement elem) {
-    return AcceleratorCountRequest(
-      max: _s.extractXmlIntValue(elem, 'Max'),
-      min: _s.extractXmlIntValue(elem, 'Min'),
-    );
+class AttachLoadBalancersResultType {
+  AttachLoadBalancersResultType();
+  factory AttachLoadBalancersResultType.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return AttachLoadBalancersResultType();
   }
 
   Map<String, dynamic> toJson() {
-    final max = this.max;
-    final min = this.min;
-    return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final max = this.max;
-    final min = this.min;
-    return {
-      if (max != null) 'Max': max.toString(),
-      if (min != null) 'Min': min.toString(),
-    };
-  }
-}
-
-class AcceleratorManufacturer {
-  static const nvidia = AcceleratorManufacturer._('nvidia');
-  static const amd = AcceleratorManufacturer._('amd');
-  static const amazonWebServices =
-      AcceleratorManufacturer._('amazon-web-services');
-  static const xilinx = AcceleratorManufacturer._('xilinx');
-
-  final String value;
-
-  const AcceleratorManufacturer._(this.value);
-
-  static const values = [nvidia, amd, amazonWebServices, xilinx];
-
-  static AcceleratorManufacturer fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AcceleratorManufacturer._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AcceleratorManufacturer && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class AcceleratorName {
-  static const a100 = AcceleratorName._('a100');
-  static const v100 = AcceleratorName._('v100');
-  static const k80 = AcceleratorName._('k80');
-  static const t4 = AcceleratorName._('t4');
-  static const m60 = AcceleratorName._('m60');
-  static const radeonProV520 = AcceleratorName._('radeon-pro-v520');
-  static const vu9p = AcceleratorName._('vu9p');
-
-  final String value;
-
-  const AcceleratorName._(this.value);
-
-  static const values = [a100, v100, k80, t4, m60, radeonProV520, vu9p];
-
-  static AcceleratorName fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AcceleratorName._(value));
-
-  @override
-  bool operator ==(other) => other is AcceleratorName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the minimum and maximum for the
-/// <code>AcceleratorTotalMemoryMiB</code> object when you specify
-/// <a>InstanceRequirements</a> for an Auto Scaling group.
-class AcceleratorTotalMemoryMiBRequest {
-  /// The memory maximum in MiB.
-  final int? max;
-
-  /// The memory minimum in MiB.
-  final int? min;
-
-  AcceleratorTotalMemoryMiBRequest({
-    this.max,
-    this.min,
-  });
-  factory AcceleratorTotalMemoryMiBRequest.fromXml(_s.XmlElement elem) {
-    return AcceleratorTotalMemoryMiBRequest(
-      max: _s.extractXmlIntValue(elem, 'Max'),
-      min: _s.extractXmlIntValue(elem, 'Min'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final max = this.max;
-    final min = this.min;
-    return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final max = this.max;
-    final min = this.min;
-    return {
-      if (max != null) 'Max': max.toString(),
-      if (min != null) 'Min': min.toString(),
-    };
-  }
-}
-
-class AcceleratorType {
-  static const gpu = AcceleratorType._('gpu');
-  static const fpga = AcceleratorType._('fpga');
-  static const inference = AcceleratorType._('inference');
-
-  final String value;
-
-  const AcceleratorType._(this.value);
-
-  static const values = [gpu, fpga, inference];
-
-  static AcceleratorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AcceleratorType._(value));
-
-  @override
-  bool operator ==(other) => other is AcceleratorType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ActivitiesType {
-  /// The scaling activities. Activities are sorted by start time. Activities
-  /// still in progress are described first.
-  final List<Activity> activities;
-
-  /// A string that indicates that the response contains more items than can be
-  /// returned in a single response. To receive additional items, specify this
-  /// string for the <code>NextToken</code> value when requesting the next set of
-  /// items. This value is null when there are no more items to return.
-  final String? nextToken;
-
-  ActivitiesType({
-    required this.activities,
-    this.nextToken,
-  });
-  factory ActivitiesType.fromXml(_s.XmlElement elem) {
-    return ActivitiesType(
-      activities: _s
-          .extractXmlChild(elem, 'Activities')!
-          .findElements('member')
-          .map(Activity.fromXml)
-          .toList(),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activities = this.activities;
-    final nextToken = this.nextToken;
-    return {
-      'Activities': activities,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Describes scaling activity, which is a long-running process that represents
-/// a change to your Auto Scaling group, such as changing its size or replacing
-/// an instance.
-class Activity {
-  /// The ID of the activity.
-  final String activityId;
-
-  /// The name of the Auto Scaling group.
-  final String autoScalingGroupName;
-
-  /// The reason the activity began.
-  final String cause;
-
-  /// The start time of the activity.
-  final DateTime startTime;
-
-  /// The current status of the activity.
-  final ScalingActivityStatusCode statusCode;
-
-  /// The Amazon Resource Name (ARN) of the Auto Scaling group.
-  final String? autoScalingGroupARN;
-
-  /// The state of the Auto Scaling group, which is either <code>InService</code>
-  /// or <code>Deleted</code>.
-  final String? autoScalingGroupState;
-
-  /// A friendly, more verbose description of the activity.
-  final String? description;
-
-  /// The details about the activity.
-  final String? details;
-
-  /// The end time of the activity.
-  final DateTime? endTime;
-
-  /// A value between 0 and 100 that indicates the progress of the activity.
-  final int? progress;
-
-  /// A friendly, more verbose description of the activity status.
-  final String? statusMessage;
-
-  Activity({
-    required this.activityId,
-    required this.autoScalingGroupName,
-    required this.cause,
-    required this.startTime,
-    required this.statusCode,
-    this.autoScalingGroupARN,
-    this.autoScalingGroupState,
-    this.description,
-    this.details,
-    this.endTime,
-    this.progress,
-    this.statusMessage,
-  });
-  factory Activity.fromXml(_s.XmlElement elem) {
-    return Activity(
-      activityId: _s.extractXmlStringValue(elem, 'ActivityId')!,
-      autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
-      cause: _s.extractXmlStringValue(elem, 'Cause')!,
-      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime')!,
-      statusCode: _s
-          .extractXmlStringValue(elem, 'StatusCode')!
-          .let(ScalingActivityStatusCode.fromString),
-      autoScalingGroupARN:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupARN'),
-      autoScalingGroupState:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupState'),
-      description: _s.extractXmlStringValue(elem, 'Description'),
-      details: _s.extractXmlStringValue(elem, 'Details'),
-      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
-      progress: _s.extractXmlIntValue(elem, 'Progress'),
-      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activityId = this.activityId;
-    final autoScalingGroupName = this.autoScalingGroupName;
-    final cause = this.cause;
-    final startTime = this.startTime;
-    final statusCode = this.statusCode;
-    final autoScalingGroupARN = this.autoScalingGroupARN;
-    final autoScalingGroupState = this.autoScalingGroupState;
-    final description = this.description;
-    final details = this.details;
-    final endTime = this.endTime;
-    final progress = this.progress;
-    final statusMessage = this.statusMessage;
-    return {
-      'ActivityId': activityId,
-      'AutoScalingGroupName': autoScalingGroupName,
-      'Cause': cause,
-      'StartTime': iso8601ToJson(startTime),
-      'StatusCode': statusCode.value,
-      if (autoScalingGroupARN != null)
-        'AutoScalingGroupARN': autoScalingGroupARN,
-      if (autoScalingGroupState != null)
-        'AutoScalingGroupState': autoScalingGroupState,
-      if (description != null) 'Description': description,
-      if (details != null) 'Details': details,
-      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
-      if (progress != null) 'Progress': progress,
-      if (statusMessage != null) 'StatusMessage': statusMessage,
-    };
-  }
-}
-
-class ActivityType {
-  /// A scaling activity.
-  final Activity? activity;
-
-  ActivityType({
-    this.activity,
-  });
-  factory ActivityType.fromXml(_s.XmlElement elem) {
-    return ActivityType(
-      activity: _s.extractXmlChild(elem, 'Activity')?.let(Activity.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activity = this.activity;
-    return {
-      if (activity != null) 'Activity': activity,
-    };
-  }
-}
-
-/// Describes a policy adjustment type.
-class AdjustmentType {
-  /// The policy adjustment type. The valid values are
-  /// <code>ChangeInCapacity</code>, <code>ExactCapacity</code>, and
-  /// <code>PercentChangeInCapacity</code>.
-  final String? adjustmentType;
-
-  AdjustmentType({
-    this.adjustmentType,
-  });
-  factory AdjustmentType.fromXml(_s.XmlElement elem) {
-    return AdjustmentType(
-      adjustmentType: _s.extractXmlStringValue(elem, 'AdjustmentType'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final adjustmentType = this.adjustmentType;
-    return {
-      if (adjustmentType != null) 'AdjustmentType': adjustmentType,
-    };
-  }
-}
-
-/// Describes an alarm.
-class Alarm {
-  /// The Amazon Resource Name (ARN) of the alarm.
-  final String? alarmARN;
-
-  /// The name of the alarm.
-  final String? alarmName;
-
-  Alarm({
-    this.alarmARN,
-    this.alarmName,
-  });
-  factory Alarm.fromXml(_s.XmlElement elem) {
-    return Alarm(
-      alarmARN: _s.extractXmlStringValue(elem, 'AlarmARN'),
-      alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alarmARN = this.alarmARN;
-    final alarmName = this.alarmName;
-    return {
-      if (alarmARN != null) 'AlarmARN': alarmARN,
-      if (alarmName != null) 'AlarmName': alarmName,
-    };
-  }
-}
-
-/// Specifies the CloudWatch alarm specification to use in an instance refresh.
-class AlarmSpecification {
-  /// The names of one or more CloudWatch alarms to monitor for the instance
-  /// refresh. You can specify up to 10 alarms.
-  final List<String>? alarms;
-
-  AlarmSpecification({
-    this.alarms,
-  });
-  factory AlarmSpecification.fromXml(_s.XmlElement elem) {
-    return AlarmSpecification(
-      alarms: _s
-          .extractXmlChild(elem, 'Alarms')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alarms = this.alarms;
-    return {
-      if (alarms != null) 'Alarms': alarms,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final alarms = this.alarms;
-    return {
-      if (alarms != null)
-        if (alarms.isEmpty)
-          'Alarms': ''
-        else
-          for (var i1 = 0; i1 < alarms.length; i1++)
-            'Alarms.member.${i1 + 1}': alarms[i1],
-    };
+    return {};
   }
 }
 
@@ -5146,19 +5174,6 @@ class AttachLoadBalancerTargetGroupsResultType {
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return AttachLoadBalancerTargetGroupsResultType();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class AttachLoadBalancersResultType {
-  AttachLoadBalancersResultType();
-  factory AttachLoadBalancersResultType.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return AttachLoadBalancersResultType();
   }
 
   Map<String, dynamic> toJson() {
@@ -5176,571 +5191,6 @@ class AttachTrafficSourcesResultType {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Describes an Auto Scaling group.
-class AutoScalingGroup {
-  /// The name of the Auto Scaling group.
-  final String autoScalingGroupName;
-
-  /// One or more Availability Zones for the group.
-  final List<String> availabilityZones;
-
-  /// The date and time the group was created.
-  final DateTime createdTime;
-
-  /// The duration of the default cooldown period, in seconds.
-  final int defaultCooldown;
-
-  /// The desired size of the group.
-  final int desiredCapacity;
-
-  /// A comma-separated value string of one or more health check types.
-  final String healthCheckType;
-
-  /// The maximum size of the group.
-  final int maxSize;
-
-  /// The minimum size of the group.
-  final int minSize;
-
-  /// The Amazon Resource Name (ARN) of the Auto Scaling group.
-  final String? autoScalingGroupARN;
-
-  /// Indicates whether Capacity Rebalancing is enabled.
-  final bool? capacityRebalance;
-
-  /// Reserved.
-  final String? context;
-
-  /// The duration of the default instance warmup, in seconds.
-  final int? defaultInstanceWarmup;
-
-  /// The unit of measurement for the value specified for desired capacity. Amazon
-  /// EC2 Auto Scaling supports <code>DesiredCapacityType</code> for
-  /// attribute-based instance type selection only.
-  final String? desiredCapacityType;
-
-  /// The metrics enabled for the group.
-  final List<EnabledMetric>? enabledMetrics;
-
-  /// The duration of the health check grace period, in seconds.
-  final int? healthCheckGracePeriod;
-
-  /// An instance maintenance policy.
-  final InstanceMaintenancePolicy? instanceMaintenancePolicy;
-
-  /// The EC2 instances associated with the group.
-  final List<Instance>? instances;
-
-  /// The name of the associated launch configuration.
-  final String? launchConfigurationName;
-
-  /// The launch template for the group.
-  final LaunchTemplateSpecification? launchTemplate;
-
-  /// One or more load balancers associated with the group.
-  final List<String>? loadBalancerNames;
-
-  /// The maximum amount of time, in seconds, that an instance can be in service.
-  ///
-  /// Valid Range: Minimum value of 0.
-  final int? maxInstanceLifetime;
-
-  /// The mixed instances policy for the group.
-  final MixedInstancesPolicy? mixedInstancesPolicy;
-
-  /// Indicates whether newly launched instances are protected from termination by
-  /// Amazon EC2 Auto Scaling when scaling in.
-  final bool? newInstancesProtectedFromScaleIn;
-
-  /// The name of the placement group into which to launch your instances, if any.
-  final String? placementGroup;
-
-  /// The predicted capacity of the group when it has a predictive scaling policy.
-  final int? predictedCapacity;
-
-  /// The Amazon Resource Name (ARN) of the service-linked role that the Auto
-  /// Scaling group uses to call other Amazon Web Services on your behalf.
-  final String? serviceLinkedRoleARN;
-
-  /// The current state of the group when the <a>DeleteAutoScalingGroup</a>
-  /// operation is in progress.
-  final String? status;
-
-  /// The suspended processes associated with the group.
-  final List<SuspendedProcess>? suspendedProcesses;
-
-  /// The tags for the group.
-  final List<TagDescription>? tags;
-
-  /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
-  final List<String>? targetGroupARNs;
-
-  /// The termination policies for the group.
-  final List<String>? terminationPolicies;
-
-  /// The traffic sources associated with this Auto Scaling group.
-  final List<TrafficSourceIdentifier>? trafficSources;
-
-  /// One or more subnet IDs, if applicable, separated by commas.
-  final String? vPCZoneIdentifier;
-
-  /// The warm pool for the group.
-  final WarmPoolConfiguration? warmPoolConfiguration;
-
-  /// The current size of the warm pool.
-  final int? warmPoolSize;
-
-  AutoScalingGroup({
-    required this.autoScalingGroupName,
-    required this.availabilityZones,
-    required this.createdTime,
-    required this.defaultCooldown,
-    required this.desiredCapacity,
-    required this.healthCheckType,
-    required this.maxSize,
-    required this.minSize,
-    this.autoScalingGroupARN,
-    this.capacityRebalance,
-    this.context,
-    this.defaultInstanceWarmup,
-    this.desiredCapacityType,
-    this.enabledMetrics,
-    this.healthCheckGracePeriod,
-    this.instanceMaintenancePolicy,
-    this.instances,
-    this.launchConfigurationName,
-    this.launchTemplate,
-    this.loadBalancerNames,
-    this.maxInstanceLifetime,
-    this.mixedInstancesPolicy,
-    this.newInstancesProtectedFromScaleIn,
-    this.placementGroup,
-    this.predictedCapacity,
-    this.serviceLinkedRoleARN,
-    this.status,
-    this.suspendedProcesses,
-    this.tags,
-    this.targetGroupARNs,
-    this.terminationPolicies,
-    this.trafficSources,
-    this.vPCZoneIdentifier,
-    this.warmPoolConfiguration,
-    this.warmPoolSize,
-  });
-  factory AutoScalingGroup.fromXml(_s.XmlElement elem) {
-    return AutoScalingGroup(
-      autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
-      availabilityZones: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'AvailabilityZones')!, 'member'),
-      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime')!,
-      defaultCooldown: _s.extractXmlIntValue(elem, 'DefaultCooldown')!,
-      desiredCapacity: _s.extractXmlIntValue(elem, 'DesiredCapacity')!,
-      healthCheckType: _s.extractXmlStringValue(elem, 'HealthCheckType')!,
-      maxSize: _s.extractXmlIntValue(elem, 'MaxSize')!,
-      minSize: _s.extractXmlIntValue(elem, 'MinSize')!,
-      autoScalingGroupARN:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupARN'),
-      capacityRebalance: _s.extractXmlBoolValue(elem, 'CapacityRebalance'),
-      context: _s.extractXmlStringValue(elem, 'Context'),
-      defaultInstanceWarmup:
-          _s.extractXmlIntValue(elem, 'DefaultInstanceWarmup'),
-      desiredCapacityType:
-          _s.extractXmlStringValue(elem, 'DesiredCapacityType'),
-      enabledMetrics: _s.extractXmlChild(elem, 'EnabledMetrics')?.let((elem) =>
-          elem.findElements('member').map(EnabledMetric.fromXml).toList()),
-      healthCheckGracePeriod:
-          _s.extractXmlIntValue(elem, 'HealthCheckGracePeriod'),
-      instanceMaintenancePolicy: _s
-          .extractXmlChild(elem, 'InstanceMaintenancePolicy')
-          ?.let(InstanceMaintenancePolicy.fromXml),
-      instances: _s.extractXmlChild(elem, 'Instances')?.let(
-          (elem) => elem.findElements('member').map(Instance.fromXml).toList()),
-      launchConfigurationName:
-          _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
-      launchTemplate: _s
-          .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let(LaunchTemplateSpecification.fromXml),
-      loadBalancerNames: _s
-          .extractXmlChild(elem, 'LoadBalancerNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      maxInstanceLifetime: _s.extractXmlIntValue(elem, 'MaxInstanceLifetime'),
-      mixedInstancesPolicy: _s
-          .extractXmlChild(elem, 'MixedInstancesPolicy')
-          ?.let(MixedInstancesPolicy.fromXml),
-      newInstancesProtectedFromScaleIn:
-          _s.extractXmlBoolValue(elem, 'NewInstancesProtectedFromScaleIn'),
-      placementGroup: _s.extractXmlStringValue(elem, 'PlacementGroup'),
-      predictedCapacity: _s.extractXmlIntValue(elem, 'PredictedCapacity'),
-      serviceLinkedRoleARN:
-          _s.extractXmlStringValue(elem, 'ServiceLinkedRoleARN'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      suspendedProcesses: _s.extractXmlChild(elem, 'SuspendedProcesses')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(SuspendedProcess.fromXml)
-              .toList()),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map(TagDescription.fromXml).toList()),
-      targetGroupARNs: _s
-          .extractXmlChild(elem, 'TargetGroupARNs')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      terminationPolicies: _s
-          .extractXmlChild(elem, 'TerminationPolicies')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      trafficSources: _s.extractXmlChild(elem, 'TrafficSources')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map(TrafficSourceIdentifier.fromXml)
-              .toList()),
-      vPCZoneIdentifier: _s.extractXmlStringValue(elem, 'VPCZoneIdentifier'),
-      warmPoolConfiguration: _s
-          .extractXmlChild(elem, 'WarmPoolConfiguration')
-          ?.let(WarmPoolConfiguration.fromXml),
-      warmPoolSize: _s.extractXmlIntValue(elem, 'WarmPoolSize'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingGroupName = this.autoScalingGroupName;
-    final availabilityZones = this.availabilityZones;
-    final createdTime = this.createdTime;
-    final defaultCooldown = this.defaultCooldown;
-    final desiredCapacity = this.desiredCapacity;
-    final healthCheckType = this.healthCheckType;
-    final maxSize = this.maxSize;
-    final minSize = this.minSize;
-    final autoScalingGroupARN = this.autoScalingGroupARN;
-    final capacityRebalance = this.capacityRebalance;
-    final context = this.context;
-    final defaultInstanceWarmup = this.defaultInstanceWarmup;
-    final desiredCapacityType = this.desiredCapacityType;
-    final enabledMetrics = this.enabledMetrics;
-    final healthCheckGracePeriod = this.healthCheckGracePeriod;
-    final instanceMaintenancePolicy = this.instanceMaintenancePolicy;
-    final instances = this.instances;
-    final launchConfigurationName = this.launchConfigurationName;
-    final launchTemplate = this.launchTemplate;
-    final loadBalancerNames = this.loadBalancerNames;
-    final maxInstanceLifetime = this.maxInstanceLifetime;
-    final mixedInstancesPolicy = this.mixedInstancesPolicy;
-    final newInstancesProtectedFromScaleIn =
-        this.newInstancesProtectedFromScaleIn;
-    final placementGroup = this.placementGroup;
-    final predictedCapacity = this.predictedCapacity;
-    final serviceLinkedRoleARN = this.serviceLinkedRoleARN;
-    final status = this.status;
-    final suspendedProcesses = this.suspendedProcesses;
-    final tags = this.tags;
-    final targetGroupARNs = this.targetGroupARNs;
-    final terminationPolicies = this.terminationPolicies;
-    final trafficSources = this.trafficSources;
-    final vPCZoneIdentifier = this.vPCZoneIdentifier;
-    final warmPoolConfiguration = this.warmPoolConfiguration;
-    final warmPoolSize = this.warmPoolSize;
-    return {
-      'AutoScalingGroupName': autoScalingGroupName,
-      'AvailabilityZones': availabilityZones,
-      'CreatedTime': iso8601ToJson(createdTime),
-      'DefaultCooldown': defaultCooldown,
-      'DesiredCapacity': desiredCapacity,
-      'HealthCheckType': healthCheckType,
-      'MaxSize': maxSize,
-      'MinSize': minSize,
-      if (autoScalingGroupARN != null)
-        'AutoScalingGroupARN': autoScalingGroupARN,
-      if (capacityRebalance != null) 'CapacityRebalance': capacityRebalance,
-      if (context != null) 'Context': context,
-      if (defaultInstanceWarmup != null)
-        'DefaultInstanceWarmup': defaultInstanceWarmup,
-      if (desiredCapacityType != null)
-        'DesiredCapacityType': desiredCapacityType,
-      if (enabledMetrics != null) 'EnabledMetrics': enabledMetrics,
-      if (healthCheckGracePeriod != null)
-        'HealthCheckGracePeriod': healthCheckGracePeriod,
-      if (instanceMaintenancePolicy != null)
-        'InstanceMaintenancePolicy': instanceMaintenancePolicy,
-      if (instances != null) 'Instances': instances,
-      if (launchConfigurationName != null)
-        'LaunchConfigurationName': launchConfigurationName,
-      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
-      if (loadBalancerNames != null) 'LoadBalancerNames': loadBalancerNames,
-      if (maxInstanceLifetime != null)
-        'MaxInstanceLifetime': maxInstanceLifetime,
-      if (mixedInstancesPolicy != null)
-        'MixedInstancesPolicy': mixedInstancesPolicy,
-      if (newInstancesProtectedFromScaleIn != null)
-        'NewInstancesProtectedFromScaleIn': newInstancesProtectedFromScaleIn,
-      if (placementGroup != null) 'PlacementGroup': placementGroup,
-      if (predictedCapacity != null) 'PredictedCapacity': predictedCapacity,
-      if (serviceLinkedRoleARN != null)
-        'ServiceLinkedRoleARN': serviceLinkedRoleARN,
-      if (status != null) 'Status': status,
-      if (suspendedProcesses != null) 'SuspendedProcesses': suspendedProcesses,
-      if (tags != null) 'Tags': tags,
-      if (targetGroupARNs != null) 'TargetGroupARNs': targetGroupARNs,
-      if (terminationPolicies != null)
-        'TerminationPolicies': terminationPolicies,
-      if (trafficSources != null) 'TrafficSources': trafficSources,
-      if (vPCZoneIdentifier != null) 'VPCZoneIdentifier': vPCZoneIdentifier,
-      if (warmPoolConfiguration != null)
-        'WarmPoolConfiguration': warmPoolConfiguration,
-      if (warmPoolSize != null) 'WarmPoolSize': warmPoolSize,
-    };
-  }
-}
-
-class AutoScalingGroupsType {
-  /// The groups.
-  final List<AutoScalingGroup> autoScalingGroups;
-
-  /// A string that indicates that the response contains more items than can be
-  /// returned in a single response. To receive additional items, specify this
-  /// string for the <code>NextToken</code> value when requesting the next set of
-  /// items. This value is null when there are no more items to return.
-  final String? nextToken;
-
-  AutoScalingGroupsType({
-    required this.autoScalingGroups,
-    this.nextToken,
-  });
-  factory AutoScalingGroupsType.fromXml(_s.XmlElement elem) {
-    return AutoScalingGroupsType(
-      autoScalingGroups: _s
-          .extractXmlChild(elem, 'AutoScalingGroups')!
-          .findElements('member')
-          .map(AutoScalingGroup.fromXml)
-          .toList(),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingGroups = this.autoScalingGroups;
-    final nextToken = this.nextToken;
-    return {
-      'AutoScalingGroups': autoScalingGroups,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Describes an EC2 instance associated with an Auto Scaling group.
-class AutoScalingInstanceDetails {
-  /// The name of the Auto Scaling group for the instance.
-  final String autoScalingGroupName;
-
-  /// The Availability Zone for the instance.
-  final String availabilityZone;
-
-  /// The last reported health status of this instance. <code>Healthy</code> means
-  /// that the instance is healthy and should remain in service.
-  /// <code>Unhealthy</code> means that the instance is unhealthy and Amazon EC2
-  /// Auto Scaling should terminate and replace it.
-  final String healthStatus;
-
-  /// The ID of the instance.
-  final String instanceId;
-
-  /// The lifecycle state for the instance. The <code>Quarantined</code> state is
-  /// not used. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html">Amazon
-  /// EC2 Auto Scaling instance lifecycle</a> in the <i>Amazon EC2 Auto Scaling
-  /// User Guide</i>.
-  ///
-  /// Valid values: <code>Pending</code> | <code>Pending:Wait</code> |
-  /// <code>Pending:Proceed</code> | <code>Quarantined</code> |
-  /// <code>InService</code> | <code>Terminating</code> |
-  /// <code>Terminating:Wait</code> | <code>Terminating:Proceed</code> |
-  /// <code>Terminated</code> | <code>Detaching</code> | <code>Detached</code> |
-  /// <code>EnteringStandby</code> | <code>Standby</code> |
-  /// <code>Warmed:Pending</code> | <code>Warmed:Pending:Wait</code> |
-  /// <code>Warmed:Pending:Proceed</code> | <code>Warmed:Terminating</code> |
-  /// <code>Warmed:Terminating:Wait</code> |
-  /// <code>Warmed:Terminating:Proceed</code> | <code>Warmed:Terminated</code> |
-  /// <code>Warmed:Stopped</code> | <code>Warmed:Running</code>
-  final String lifecycleState;
-
-  /// Indicates whether the instance is protected from termination by Amazon EC2
-  /// Auto Scaling when scaling in.
-  final bool protectedFromScaleIn;
-
-  /// The instance type of the EC2 instance.
-  final String? instanceType;
-
-  /// The launch configuration used to launch the instance. This value is not
-  /// available if you attached the instance to the Auto Scaling group.
-  final String? launchConfigurationName;
-
-  /// The launch template for the instance.
-  final LaunchTemplateSpecification? launchTemplate;
-
-  /// The number of capacity units contributed by the instance based on its
-  /// instance type.
-  ///
-  /// Valid Range: Minimum value of 1. Maximum value of 999.
-  final String? weightedCapacity;
-
-  AutoScalingInstanceDetails({
-    required this.autoScalingGroupName,
-    required this.availabilityZone,
-    required this.healthStatus,
-    required this.instanceId,
-    required this.lifecycleState,
-    required this.protectedFromScaleIn,
-    this.instanceType,
-    this.launchConfigurationName,
-    this.launchTemplate,
-    this.weightedCapacity,
-  });
-  factory AutoScalingInstanceDetails.fromXml(_s.XmlElement elem) {
-    return AutoScalingInstanceDetails(
-      autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
-      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone')!,
-      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus')!,
-      instanceId: _s.extractXmlStringValue(elem, 'InstanceId')!,
-      lifecycleState: _s.extractXmlStringValue(elem, 'LifecycleState')!,
-      protectedFromScaleIn:
-          _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn')!,
-      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
-      launchConfigurationName:
-          _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
-      launchTemplate: _s
-          .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let(LaunchTemplateSpecification.fromXml),
-      weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingGroupName = this.autoScalingGroupName;
-    final availabilityZone = this.availabilityZone;
-    final healthStatus = this.healthStatus;
-    final instanceId = this.instanceId;
-    final lifecycleState = this.lifecycleState;
-    final protectedFromScaleIn = this.protectedFromScaleIn;
-    final instanceType = this.instanceType;
-    final launchConfigurationName = this.launchConfigurationName;
-    final launchTemplate = this.launchTemplate;
-    final weightedCapacity = this.weightedCapacity;
-    return {
-      'AutoScalingGroupName': autoScalingGroupName,
-      'AvailabilityZone': availabilityZone,
-      'HealthStatus': healthStatus,
-      'InstanceId': instanceId,
-      'LifecycleState': lifecycleState,
-      'ProtectedFromScaleIn': protectedFromScaleIn,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (launchConfigurationName != null)
-        'LaunchConfigurationName': launchConfigurationName,
-      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
-      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
-    };
-  }
-}
-
-class AutoScalingInstancesType {
-  /// The instances.
-  final List<AutoScalingInstanceDetails>? autoScalingInstances;
-
-  /// A string that indicates that the response contains more items than can be
-  /// returned in a single response. To receive additional items, specify this
-  /// string for the <code>NextToken</code> value when requesting the next set of
-  /// items. This value is null when there are no more items to return.
-  final String? nextToken;
-
-  AutoScalingInstancesType({
-    this.autoScalingInstances,
-    this.nextToken,
-  });
-  factory AutoScalingInstancesType.fromXml(_s.XmlElement elem) {
-    return AutoScalingInstancesType(
-      autoScalingInstances: _s
-          .extractXmlChild(elem, 'AutoScalingInstances')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(AutoScalingInstanceDetails.fromXml)
-              .toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingInstances = this.autoScalingInstances;
-    final nextToken = this.nextToken;
-    return {
-      if (autoScalingInstances != null)
-        'AutoScalingInstances': autoScalingInstances,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class BareMetal {
-  static const included = BareMetal._('included');
-  static const excluded = BareMetal._('excluded');
-  static const required = BareMetal._('required');
-
-  final String value;
-
-  const BareMetal._(this.value);
-
-  static const values = [included, excluded, required];
-
-  static BareMetal fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => BareMetal._(value));
-
-  @override
-  bool operator ==(other) => other is BareMetal && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the minimum and maximum for the
-/// <code>BaselineEbsBandwidthMbps</code> object when you specify
-/// <a>InstanceRequirements</a> for an Auto Scaling group.
-class BaselineEbsBandwidthMbpsRequest {
-  /// The maximum value in Mbps.
-  final int? max;
-
-  /// The minimum value in Mbps.
-  final int? min;
-
-  BaselineEbsBandwidthMbpsRequest({
-    this.max,
-    this.min,
-  });
-  factory BaselineEbsBandwidthMbpsRequest.fromXml(_s.XmlElement elem) {
-    return BaselineEbsBandwidthMbpsRequest(
-      max: _s.extractXmlIntValue(elem, 'Max'),
-      min: _s.extractXmlIntValue(elem, 'Min'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final max = this.max;
-    final min = this.min;
-    return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final max = this.max;
-    final min = this.min;
-    return {
-      if (max != null) 'Max': max.toString(),
-      if (min != null) 'Min': min.toString(),
-    };
   }
 }
 
@@ -5802,107 +5252,6 @@ class BatchPutScheduledUpdateGroupActionAnswer {
   }
 }
 
-/// Describes a block device mapping.
-class BlockDeviceMapping {
-  /// The device name assigned to the volume (for example, <code>/dev/sdh</code>
-  /// or <code>xvdh</code>). For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html">Device
-  /// naming on Linux instances</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
-  /// <note>
-  /// To define a block device mapping, set the device name and exactly one of the
-  /// following properties: <code>Ebs</code>, <code>NoDevice</code>, or
-  /// <code>VirtualName</code>.
-  /// </note>
-  final String deviceName;
-
-  /// Information to attach an EBS volume to an instance at launch.
-  final Ebs? ebs;
-
-  /// Setting this value to <code>true</code> prevents a volume that is included
-  /// in the block device mapping of the AMI from being mapped to the specified
-  /// device name at launch.
-  ///
-  /// If <code>NoDevice</code> is <code>true</code> for the root device, instances
-  /// might fail the EC2 health check. In that case, Amazon EC2 Auto Scaling
-  /// launches replacement instances.
-  final bool? noDevice;
-
-  /// The name of the instance store volume (virtual device) to attach to an
-  /// instance at launch. The name must be in the form ephemeral<i>X</i> where
-  /// <i>X</i> is a number starting from zero (0), for example,
-  /// <code>ephemeral0</code>.
-  final String? virtualName;
-
-  BlockDeviceMapping({
-    required this.deviceName,
-    this.ebs,
-    this.noDevice,
-    this.virtualName,
-  });
-  factory BlockDeviceMapping.fromXml(_s.XmlElement elem) {
-    return BlockDeviceMapping(
-      deviceName: _s.extractXmlStringValue(elem, 'DeviceName')!,
-      ebs: _s.extractXmlChild(elem, 'Ebs')?.let(Ebs.fromXml),
-      noDevice: _s.extractXmlBoolValue(elem, 'NoDevice'),
-      virtualName: _s.extractXmlStringValue(elem, 'VirtualName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deviceName = this.deviceName;
-    final ebs = this.ebs;
-    final noDevice = this.noDevice;
-    final virtualName = this.virtualName;
-    return {
-      'DeviceName': deviceName,
-      if (ebs != null) 'Ebs': ebs,
-      if (noDevice != null) 'NoDevice': noDevice,
-      if (virtualName != null) 'VirtualName': virtualName,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final deviceName = this.deviceName;
-    final ebs = this.ebs;
-    final noDevice = this.noDevice;
-    final virtualName = this.virtualName;
-    return {
-      'DeviceName': deviceName,
-      if (ebs != null)
-        for (var e1 in ebs.toQueryMap().entries) 'Ebs.${e1.key}': e1.value,
-      if (noDevice != null) 'NoDevice': noDevice.toString(),
-      if (virtualName != null) 'VirtualName': virtualName,
-    };
-  }
-}
-
-class BurstablePerformance {
-  static const included = BurstablePerformance._('included');
-  static const excluded = BurstablePerformance._('excluded');
-  static const required = BurstablePerformance._('required');
-
-  final String value;
-
-  const BurstablePerformance._(this.value);
-
-  static const values = [included, excluded, required];
-
-  static BurstablePerformance fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BurstablePerformance._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BurstablePerformance && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class CancelInstanceRefreshAnswer {
   /// The instance refresh ID associated with the request. This is the unique ID
   /// assigned to the instance refresh when it was started.
@@ -5925,40 +5274,6 @@ class CancelInstanceRefreshAnswer {
   }
 }
 
-/// A <code>GetPredictiveScalingForecast</code> call returns the capacity
-/// forecast for a predictive scaling policy. This structure includes the data
-/// points for that capacity forecast, along with the timestamps of those data
-/// points.
-class CapacityForecast {
-  /// The timestamps for the data points, in UTC format.
-  final List<DateTime> timestamps;
-
-  /// The values of the data points.
-  final List<double> values;
-
-  CapacityForecast({
-    required this.timestamps,
-    required this.values,
-  });
-  factory CapacityForecast.fromXml(_s.XmlElement elem) {
-    return CapacityForecast(
-      timestamps: _s.extractXmlDateTimeListValues(
-          _s.extractXmlChild(elem, 'Timestamps')!, 'member'),
-      values: _s.extractXmlDoubleListValues(
-          _s.extractXmlChild(elem, 'Values')!, 'member'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timestamps = this.timestamps;
-    final values = this.values;
-    return {
-      'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
-    };
-  }
-}
-
 class CompleteLifecycleActionAnswer {
   CompleteLifecycleActionAnswer();
   factory CompleteLifecycleActionAnswer.fromXml(
@@ -5969,164 +5284,6 @@ class CompleteLifecycleActionAnswer {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-class CpuManufacturer {
-  static const intel = CpuManufacturer._('intel');
-  static const amd = CpuManufacturer._('amd');
-  static const amazonWebServices = CpuManufacturer._('amazon-web-services');
-
-  final String value;
-
-  const CpuManufacturer._(this.value);
-
-  static const values = [intel, amd, amazonWebServices];
-
-  static CpuManufacturer fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CpuManufacturer._(value));
-
-  @override
-  bool operator ==(other) => other is CpuManufacturer && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a CloudWatch metric of your choosing for a target tracking
-/// scaling policy to use with Amazon EC2 Auto Scaling.
-///
-/// To create your customized metric specification:
-///
-/// <ul>
-/// <li>
-/// Add values for each required property from CloudWatch. You can use an
-/// existing metric, or a new metric that you create. To use your own metric,
-/// you must first publish the metric to CloudWatch. For more information, see
-/// <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publish
-/// custom metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
-/// </li>
-/// <li>
-/// Choose a metric that changes proportionally with capacity. The value of the
-/// metric should increase or decrease in inverse proportion to the number of
-/// capacity units. That is, the value of the metric should decrease when
-/// capacity increases.
-/// </li>
-/// </ul>
-/// For more information about the CloudWatch terminology below, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
-/// CloudWatch concepts</a>.
-/// <note>
-/// Each individual service provides information about the metrics, namespace,
-/// and dimensions they use. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
-/// Web Services services that publish CloudWatch metrics</a> in the <i>Amazon
-/// CloudWatch User Guide</i>.
-/// </note>
-class CustomizedMetricSpecification {
-  /// The dimensions of the metric.
-  ///
-  /// Conditional: If you published your metric with dimensions, you must specify
-  /// the same dimensions in your scaling policy.
-  final List<MetricDimension>? dimensions;
-
-  /// The name of the metric. To get the exact metric name, namespace, and
-  /// dimensions, inspect the <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html">Metric</a>
-  /// object that is returned by a call to <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
-  final String? metricName;
-
-  /// The metrics to include in the target tracking scaling policy, as a metric
-  /// data query. This can include both raw metric and metric math expressions.
-  final List<TargetTrackingMetricDataQuery>? metrics;
-
-  /// The namespace of the metric.
-  final String? namespace;
-
-  /// The statistic of the metric.
-  final MetricStatistic? statistic;
-
-  /// The unit of the metric. For a complete list of the units that CloudWatch
-  /// supports, see the <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">MetricDatum</a>
-  /// data type in the <i>Amazon CloudWatch API Reference</i>.
-  final String? unit;
-
-  CustomizedMetricSpecification({
-    this.dimensions,
-    this.metricName,
-    this.metrics,
-    this.namespace,
-    this.statistic,
-    this.unit,
-  });
-  factory CustomizedMetricSpecification.fromXml(_s.XmlElement elem) {
-    return CustomizedMetricSpecification(
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
-          elem.findElements('member').map(MetricDimension.fromXml).toList()),
-      metricName: _s.extractXmlStringValue(elem, 'MetricName'),
-      metrics: _s.extractXmlChild(elem, 'Metrics')?.let((elem) => elem
-          .findElements('member')
-          .map(TargetTrackingMetricDataQuery.fromXml)
-          .toList()),
-      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
-      statistic: _s
-          .extractXmlStringValue(elem, 'Statistic')
-          ?.let(MetricStatistic.fromString),
-      unit: _s.extractXmlStringValue(elem, 'Unit'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensions = this.dimensions;
-    final metricName = this.metricName;
-    final metrics = this.metrics;
-    final namespace = this.namespace;
-    final statistic = this.statistic;
-    final unit = this.unit;
-    return {
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (metricName != null) 'MetricName': metricName,
-      if (metrics != null) 'Metrics': metrics,
-      if (namespace != null) 'Namespace': namespace,
-      if (statistic != null) 'Statistic': statistic.value,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final dimensions = this.dimensions;
-    final metricName = this.metricName;
-    final metrics = this.metrics;
-    final namespace = this.namespace;
-    final statistic = this.statistic;
-    final unit = this.unit;
-    return {
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (metricName != null) 'MetricName': metricName,
-      if (metrics != null)
-        if (metrics.isEmpty)
-          'Metrics': ''
-        else
-          for (var i1 = 0; i1 < metrics.length; i1++)
-            for (var e3 in metrics[i1].toQueryMap().entries)
-              'Metrics.member.${i1 + 1}.${e3.key}': e3.value,
-      if (namespace != null) 'Namespace': namespace,
-      if (statistic != null) 'Statistic': statistic.value,
-      if (unit != null) 'Unit': unit,
-    };
   }
 }
 
@@ -6232,6 +5389,78 @@ class DescribeAdjustmentTypesAnswer {
   }
 }
 
+class AutoScalingGroupsType {
+  /// The groups.
+  final List<AutoScalingGroup> autoScalingGroups;
+
+  /// A string that indicates that the response contains more items than can be
+  /// returned in a single response. To receive additional items, specify this
+  /// string for the <code>NextToken</code> value when requesting the next set of
+  /// items. This value is null when there are no more items to return.
+  final String? nextToken;
+
+  AutoScalingGroupsType({
+    required this.autoScalingGroups,
+    this.nextToken,
+  });
+  factory AutoScalingGroupsType.fromXml(_s.XmlElement elem) {
+    return AutoScalingGroupsType(
+      autoScalingGroups: _s
+          .extractXmlChild(elem, 'AutoScalingGroups')!
+          .findElements('member')
+          .map(AutoScalingGroup.fromXml)
+          .toList(),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingGroups = this.autoScalingGroups;
+    final nextToken = this.nextToken;
+    return {
+      'AutoScalingGroups': autoScalingGroups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class AutoScalingInstancesType {
+  /// The instances.
+  final List<AutoScalingInstanceDetails>? autoScalingInstances;
+
+  /// A string that indicates that the response contains more items than can be
+  /// returned in a single response. To receive additional items, specify this
+  /// string for the <code>NextToken</code> value when requesting the next set of
+  /// items. This value is null when there are no more items to return.
+  final String? nextToken;
+
+  AutoScalingInstancesType({
+    this.autoScalingInstances,
+    this.nextToken,
+  });
+  factory AutoScalingInstancesType.fromXml(_s.XmlElement elem) {
+    return AutoScalingInstancesType(
+      autoScalingInstances: _s
+          .extractXmlChild(elem, 'AutoScalingInstances')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(AutoScalingInstanceDetails.fromXml)
+              .toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingInstances = this.autoScalingInstances;
+    final nextToken = this.nextToken;
+    return {
+      if (autoScalingInstances != null)
+        'AutoScalingInstances': autoScalingInstances,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class DescribeAutoScalingNotificationTypesAnswer {
   /// The notification types.
   final List<String>? autoScalingNotificationTypes;
@@ -6293,6 +5522,63 @@ class DescribeInstanceRefreshesAnswer {
   }
 }
 
+class LaunchConfigurationsType {
+  /// The launch configurations.
+  final List<LaunchConfiguration> launchConfigurations;
+
+  /// A string that indicates that the response contains more items than can be
+  /// returned in a single response. To receive additional items, specify this
+  /// string for the <code>NextToken</code> value when requesting the next set of
+  /// items. This value is null when there are no more items to return.
+  final String? nextToken;
+
+  LaunchConfigurationsType({
+    required this.launchConfigurations,
+    this.nextToken,
+  });
+  factory LaunchConfigurationsType.fromXml(_s.XmlElement elem) {
+    return LaunchConfigurationsType(
+      launchConfigurations: _s
+          .extractXmlChild(elem, 'LaunchConfigurations')!
+          .findElements('member')
+          .map(LaunchConfiguration.fromXml)
+          .toList(),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchConfigurations = this.launchConfigurations;
+    final nextToken = this.nextToken;
+    return {
+      'LaunchConfigurations': launchConfigurations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeLifecycleHooksAnswer {
+  /// The lifecycle hooks for the specified group.
+  final List<LifecycleHook>? lifecycleHooks;
+
+  DescribeLifecycleHooksAnswer({
+    this.lifecycleHooks,
+  });
+  factory DescribeLifecycleHooksAnswer.fromXml(_s.XmlElement elem) {
+    return DescribeLifecycleHooksAnswer(
+      lifecycleHooks: _s.extractXmlChild(elem, 'LifecycleHooks')?.let((elem) =>
+          elem.findElements('member').map(LifecycleHook.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecycleHooks = this.lifecycleHooks;
+    return {
+      if (lifecycleHooks != null) 'LifecycleHooks': lifecycleHooks,
+    };
+  }
+}
+
 class DescribeLifecycleHookTypesAnswer {
   /// The lifecycle hook types.
   final List<String>? lifecycleHookTypes;
@@ -6316,24 +5602,34 @@ class DescribeLifecycleHookTypesAnswer {
   }
 }
 
-class DescribeLifecycleHooksAnswer {
-  /// The lifecycle hooks for the specified group.
-  final List<LifecycleHook>? lifecycleHooks;
+class DescribeLoadBalancersResponse {
+  /// The load balancers.
+  final List<LoadBalancerState>? loadBalancers;
 
-  DescribeLifecycleHooksAnswer({
-    this.lifecycleHooks,
+  /// A string that indicates that the response contains more items than can be
+  /// returned in a single response. To receive additional items, specify this
+  /// string for the <code>NextToken</code> value when requesting the next set of
+  /// items. This value is null when there are no more items to return.
+  final String? nextToken;
+
+  DescribeLoadBalancersResponse({
+    this.loadBalancers,
+    this.nextToken,
   });
-  factory DescribeLifecycleHooksAnswer.fromXml(_s.XmlElement elem) {
-    return DescribeLifecycleHooksAnswer(
-      lifecycleHooks: _s.extractXmlChild(elem, 'LifecycleHooks')?.let((elem) =>
-          elem.findElements('member').map(LifecycleHook.fromXml).toList()),
+  factory DescribeLoadBalancersResponse.fromXml(_s.XmlElement elem) {
+    return DescribeLoadBalancersResponse(
+      loadBalancers: _s.extractXmlChild(elem, 'LoadBalancers')?.let((elem) =>
+          elem.findElements('member').map(LoadBalancerState.fromXml).toList()),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final lifecycleHooks = this.lifecycleHooks;
+    final loadBalancers = this.loadBalancers;
+    final nextToken = this.nextToken;
     return {
-      if (lifecycleHooks != null) 'LifecycleHooks': lifecycleHooks,
+      if (loadBalancers != null) 'LoadBalancers': loadBalancers,
+      if (nextToken != null) 'NextToken': nextToken,
     };
   }
 }
@@ -6370,38 +5666,6 @@ class DescribeLoadBalancerTargetGroupsResponse {
     return {
       if (loadBalancerTargetGroups != null)
         'LoadBalancerTargetGroups': loadBalancerTargetGroups,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class DescribeLoadBalancersResponse {
-  /// The load balancers.
-  final List<LoadBalancerState>? loadBalancers;
-
-  /// A string that indicates that the response contains more items than can be
-  /// returned in a single response. To receive additional items, specify this
-  /// string for the <code>NextToken</code> value when requesting the next set of
-  /// items. This value is null when there are no more items to return.
-  final String? nextToken;
-
-  DescribeLoadBalancersResponse({
-    this.loadBalancers,
-    this.nextToken,
-  });
-  factory DescribeLoadBalancersResponse.fromXml(_s.XmlElement elem) {
-    return DescribeLoadBalancersResponse(
-      loadBalancers: _s.extractXmlChild(elem, 'LoadBalancers')?.let((elem) =>
-          elem.findElements('member').map(LoadBalancerState.fromXml).toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loadBalancers = this.loadBalancers;
-    final nextToken = this.nextToken;
-    return {
-      if (loadBalancers != null) 'LoadBalancers': loadBalancers,
       if (nextToken != null) 'NextToken': nextToken,
     };
   }
@@ -6473,6 +5737,166 @@ class DescribeNotificationConfigurationsAnswer {
     return {
       'NotificationConfigurations': notificationConfigurations,
       if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class PoliciesType {
+  /// A string that indicates that the response contains more items than can be
+  /// returned in a single response. To receive additional items, specify this
+  /// string for the <code>NextToken</code> value when requesting the next set of
+  /// items. This value is null when there are no more items to return.
+  final String? nextToken;
+
+  /// The scaling policies.
+  final List<ScalingPolicy>? scalingPolicies;
+
+  PoliciesType({
+    this.nextToken,
+    this.scalingPolicies,
+  });
+  factory PoliciesType.fromXml(_s.XmlElement elem) {
+    return PoliciesType(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      scalingPolicies: _s.extractXmlChild(elem, 'ScalingPolicies')?.let(
+          (elem) =>
+              elem.findElements('member').map(ScalingPolicy.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final scalingPolicies = this.scalingPolicies;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (scalingPolicies != null) 'ScalingPolicies': scalingPolicies,
+    };
+  }
+}
+
+class ActivitiesType {
+  /// The scaling activities. Activities are sorted by start time. Activities
+  /// still in progress are described first.
+  final List<Activity> activities;
+
+  /// A string that indicates that the response contains more items than can be
+  /// returned in a single response. To receive additional items, specify this
+  /// string for the <code>NextToken</code> value when requesting the next set of
+  /// items. This value is null when there are no more items to return.
+  final String? nextToken;
+
+  ActivitiesType({
+    required this.activities,
+    this.nextToken,
+  });
+  factory ActivitiesType.fromXml(_s.XmlElement elem) {
+    return ActivitiesType(
+      activities: _s
+          .extractXmlChild(elem, 'Activities')!
+          .findElements('member')
+          .map(Activity.fromXml)
+          .toList(),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activities = this.activities;
+    final nextToken = this.nextToken;
+    return {
+      'Activities': activities,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ProcessesType {
+  /// The names of the process types.
+  final List<ProcessType>? processes;
+
+  ProcessesType({
+    this.processes,
+  });
+  factory ProcessesType.fromXml(_s.XmlElement elem) {
+    return ProcessesType(
+      processes: _s.extractXmlChild(elem, 'Processes')?.let((elem) =>
+          elem.findElements('member').map(ProcessType.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final processes = this.processes;
+    return {
+      if (processes != null) 'Processes': processes,
+    };
+  }
+}
+
+class ScheduledActionsType {
+  /// A string that indicates that the response contains more items than can be
+  /// returned in a single response. To receive additional items, specify this
+  /// string for the <code>NextToken</code> value when requesting the next set of
+  /// items. This value is null when there are no more items to return.
+  final String? nextToken;
+
+  /// The scheduled actions.
+  final List<ScheduledUpdateGroupAction>? scheduledUpdateGroupActions;
+
+  ScheduledActionsType({
+    this.nextToken,
+    this.scheduledUpdateGroupActions,
+  });
+  factory ScheduledActionsType.fromXml(_s.XmlElement elem) {
+    return ScheduledActionsType(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      scheduledUpdateGroupActions: _s
+          .extractXmlChild(elem, 'ScheduledUpdateGroupActions')
+          ?.let((elem) => elem
+              .findElements('member')
+              .map(ScheduledUpdateGroupAction.fromXml)
+              .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final scheduledUpdateGroupActions = this.scheduledUpdateGroupActions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (scheduledUpdateGroupActions != null)
+        'ScheduledUpdateGroupActions': scheduledUpdateGroupActions,
+    };
+  }
+}
+
+class TagsType {
+  /// A string that indicates that the response contains more items than can be
+  /// returned in a single response. To receive additional items, specify this
+  /// string for the <code>NextToken</code> value when requesting the next set of
+  /// items. This value is null when there are no more items to return.
+  final String? nextToken;
+
+  /// One or more tags.
+  final List<TagDescription>? tags;
+
+  TagsType({
+    this.nextToken,
+    this.tags,
+  });
+  factory TagsType.fromXml(_s.XmlElement elem) {
+    return TagsType(
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map(TagDescription.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -6579,68 +6003,6 @@ class DescribeWarmPoolAnswer {
   }
 }
 
-/// Describes the desired configuration for an instance refresh.
-///
-/// If you specify a desired configuration, you must specify either a
-/// <code>LaunchTemplate</code> or a <code>MixedInstancesPolicy</code>.
-class DesiredConfiguration {
-  /// Describes the launch template and the version of the launch template that
-  /// Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more
-  /// information about launch templates, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html">Launch
-  /// templates</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-  final LaunchTemplateSpecification? launchTemplate;
-
-  /// Use this structure to launch multiple instance types and On-Demand Instances
-  /// and Spot Instances within a single Auto Scaling group.
-  ///
-  /// A mixed instances policy contains information that Amazon EC2 Auto Scaling
-  /// can use to launch instances and help optimize your costs. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html">Auto
-  /// Scaling groups with multiple instance types and purchase options</a> in the
-  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
-  final MixedInstancesPolicy? mixedInstancesPolicy;
-
-  DesiredConfiguration({
-    this.launchTemplate,
-    this.mixedInstancesPolicy,
-  });
-  factory DesiredConfiguration.fromXml(_s.XmlElement elem) {
-    return DesiredConfiguration(
-      launchTemplate: _s
-          .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let(LaunchTemplateSpecification.fromXml),
-      mixedInstancesPolicy: _s
-          .extractXmlChild(elem, 'MixedInstancesPolicy')
-          ?.let(MixedInstancesPolicy.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final launchTemplate = this.launchTemplate;
-    final mixedInstancesPolicy = this.mixedInstancesPolicy;
-    return {
-      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
-      if (mixedInstancesPolicy != null)
-        'MixedInstancesPolicy': mixedInstancesPolicy,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final launchTemplate = this.launchTemplate;
-    final mixedInstancesPolicy = this.mixedInstancesPolicy;
-    return {
-      if (launchTemplate != null)
-        for (var e1 in launchTemplate.toQueryMap().entries)
-          'LaunchTemplate.${e1.key}': e1.value,
-      if (mixedInstancesPolicy != null)
-        for (var e1 in mixedInstancesPolicy.toQueryMap().entries)
-          'MixedInstancesPolicy.${e1.key}': e1.value,
-    };
-  }
-}
-
 class DetachInstancesAnswer {
   /// The activities related to detaching the instances from the Auto Scaling
   /// group.
@@ -6664,12 +6026,12 @@ class DetachInstancesAnswer {
   }
 }
 
-class DetachLoadBalancerTargetGroupsResultType {
-  DetachLoadBalancerTargetGroupsResultType();
-  factory DetachLoadBalancerTargetGroupsResultType.fromXml(
+class DetachLoadBalancersResultType {
+  DetachLoadBalancersResultType();
+  factory DetachLoadBalancersResultType.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
-    return DetachLoadBalancerTargetGroupsResultType();
+    return DetachLoadBalancersResultType();
   }
 
   Map<String, dynamic> toJson() {
@@ -6677,12 +6039,12 @@ class DetachLoadBalancerTargetGroupsResultType {
   }
 }
 
-class DetachLoadBalancersResultType {
-  DetachLoadBalancersResultType();
-  factory DetachLoadBalancersResultType.fromXml(
+class DetachLoadBalancerTargetGroupsResultType {
+  DetachLoadBalancerTargetGroupsResultType();
+  factory DetachLoadBalancerTargetGroupsResultType.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
-    return DetachLoadBalancersResultType();
+    return DetachLoadBalancerTargetGroupsResultType();
   }
 
   Map<String, dynamic> toJson() {
@@ -6700,262 +6062,6 @@ class DetachTrafficSourcesResultType {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// Describes information used to set up an Amazon EBS volume specified in a
-/// block device mapping.
-class Ebs {
-  /// Indicates whether the volume is deleted on instance termination. For Amazon
-  /// EC2 Auto Scaling, the default value is <code>true</code>.
-  final bool? deleteOnTermination;
-
-  /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can
-  /// only be attached to instances that support Amazon EBS encryption. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html">Requirements
-  /// for Amazon EBS encryption</a> in the <i>Amazon EBS User Guide</i>. If your
-  /// AMI uses encrypted volumes, you can also only launch it on supported
-  /// instance types.
-  /// <note>
-  /// If you are creating a volume from a snapshot, you cannot create an
-  /// unencrypted volume from an encrypted snapshot. Also, you cannot specify a
-  /// KMS key ID when using a launch configuration.
-  ///
-  /// If you enable encryption by default, the EBS volumes that you create are
-  /// always encrypted, either using the Amazon Web Services managed KMS key or a
-  /// customer-managed KMS key, regardless of whether the snapshot was encrypted.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-data-protection.html#encryption">Use
-  /// Amazon Web Services KMS keys to encrypt Amazon EBS volumes</a> in the
-  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
-  /// </note>
-  final bool? encrypted;
-
-  /// The number of input/output (I/O) operations per second (IOPS) to provision
-  /// for the volume. For <code>gp3</code> and <code>io1</code> volumes, this
-  /// represents the number of IOPS that are provisioned for the volume. For
-  /// <code>gp2</code> volumes, this represents the baseline performance of the
-  /// volume and the rate at which the volume accumulates I/O credits for
-  /// bursting.
-  ///
-  /// The following are the supported values for each volume type:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>gp3</code>: 3,000-16,000 IOPS
-  /// </li>
-  /// <li>
-  /// <code>io1</code>: 100-64,000 IOPS
-  /// </li>
-  /// </ul>
-  /// For <code>io1</code> volumes, we guarantee 64,000 IOPS only for <a
-  /// href="https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html">Instances
-  /// built on the Amazon Web Services Nitro System</a>. Other instance families
-  /// guarantee performance up to 32,000 IOPS.
-  ///
-  /// <code>Iops</code> is supported when the volume type is <code>gp3</code> or
-  /// <code>io1</code> and required only when the volume type is <code>io1</code>.
-  /// (Not used with <code>standard</code>, <code>gp2</code>, <code>st1</code>, or
-  /// <code>sc1</code> volumes.)
-  final int? iops;
-
-  /// The snapshot ID of the volume to use.
-  ///
-  /// You must specify either a <code>VolumeSize</code> or a
-  /// <code>SnapshotId</code>.
-  final String? snapshotId;
-
-  /// The throughput (MiBps) to provision for a <code>gp3</code> volume.
-  final int? throughput;
-
-  /// The volume size, in GiBs. The following are the supported volumes sizes for
-  /// each volume type:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>gp2</code> and <code>gp3</code>: 1-16,384
-  /// </li>
-  /// <li>
-  /// <code>io1</code>: 4-16,384
-  /// </li>
-  /// <li>
-  /// <code>st1</code> and <code>sc1</code>: 125-16,384
-  /// </li>
-  /// <li>
-  /// <code>standard</code>: 1-1,024
-  /// </li>
-  /// </ul>
-  /// You must specify either a <code>SnapshotId</code> or a
-  /// <code>VolumeSize</code>. If you specify both <code>SnapshotId</code> and
-  /// <code>VolumeSize</code>, the volume size must be equal or greater than the
-  /// size of the snapshot.
-  final int? volumeSize;
-
-  /// The volume type. For more information, see <a
-  /// href="https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html">Amazon
-  /// EBS volume types</a> in the <i>Amazon EBS User Guide</i>.
-  ///
-  /// Valid values: <code>standard</code> | <code>io1</code> | <code>gp2</code> |
-  /// <code>st1</code> | <code>sc1</code> | <code>gp3</code>
-  final String? volumeType;
-
-  Ebs({
-    this.deleteOnTermination,
-    this.encrypted,
-    this.iops,
-    this.snapshotId,
-    this.throughput,
-    this.volumeSize,
-    this.volumeType,
-  });
-  factory Ebs.fromXml(_s.XmlElement elem) {
-    return Ebs(
-      deleteOnTermination: _s.extractXmlBoolValue(elem, 'DeleteOnTermination'),
-      encrypted: _s.extractXmlBoolValue(elem, 'Encrypted'),
-      iops: _s.extractXmlIntValue(elem, 'Iops'),
-      snapshotId: _s.extractXmlStringValue(elem, 'SnapshotId'),
-      throughput: _s.extractXmlIntValue(elem, 'Throughput'),
-      volumeSize: _s.extractXmlIntValue(elem, 'VolumeSize'),
-      volumeType: _s.extractXmlStringValue(elem, 'VolumeType'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final deleteOnTermination = this.deleteOnTermination;
-    final encrypted = this.encrypted;
-    final iops = this.iops;
-    final snapshotId = this.snapshotId;
-    final throughput = this.throughput;
-    final volumeSize = this.volumeSize;
-    final volumeType = this.volumeType;
-    return {
-      if (deleteOnTermination != null)
-        'DeleteOnTermination': deleteOnTermination,
-      if (encrypted != null) 'Encrypted': encrypted,
-      if (iops != null) 'Iops': iops,
-      if (snapshotId != null) 'SnapshotId': snapshotId,
-      if (throughput != null) 'Throughput': throughput,
-      if (volumeSize != null) 'VolumeSize': volumeSize,
-      if (volumeType != null) 'VolumeType': volumeType,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final deleteOnTermination = this.deleteOnTermination;
-    final encrypted = this.encrypted;
-    final iops = this.iops;
-    final snapshotId = this.snapshotId;
-    final throughput = this.throughput;
-    final volumeSize = this.volumeSize;
-    final volumeType = this.volumeType;
-    return {
-      if (deleteOnTermination != null)
-        'DeleteOnTermination': deleteOnTermination.toString(),
-      if (encrypted != null) 'Encrypted': encrypted.toString(),
-      if (iops != null) 'Iops': iops.toString(),
-      if (snapshotId != null) 'SnapshotId': snapshotId,
-      if (throughput != null) 'Throughput': throughput.toString(),
-      if (volumeSize != null) 'VolumeSize': volumeSize.toString(),
-      if (volumeType != null) 'VolumeType': volumeType,
-    };
-  }
-}
-
-/// Describes an enabled Auto Scaling group metric.
-class EnabledMetric {
-  /// The granularity of the metric. The only valid value is <code>1Minute</code>.
-  final String? granularity;
-
-  /// One of the following metrics:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>GroupMinSize</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupMaxSize</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupDesiredCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupInServiceInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupPendingInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupStandbyInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupTerminatingInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupTotalInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupInServiceCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupPendingCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupStandbyCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupTerminatingCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupTotalCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolDesiredCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolWarmedCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolPendingCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolTerminatingCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolTotalCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupAndWarmPoolDesiredCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupAndWarmPoolTotalCapacity</code>
-  /// </li>
-  /// </ul>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html">Amazon
-  /// CloudWatch metrics for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto
-  /// Scaling User Guide</i>.
-  final String? metric;
-
-  EnabledMetric({
-    this.granularity,
-    this.metric,
-  });
-  factory EnabledMetric.fromXml(_s.XmlElement elem) {
-    return EnabledMetric(
-      granularity: _s.extractXmlStringValue(elem, 'Granularity'),
-      metric: _s.extractXmlStringValue(elem, 'Metric'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final granularity = this.granularity;
-    final metric = this.metric;
-    return {
-      if (granularity != null) 'Granularity': granularity,
-      if (metric != null) 'Metric': metric,
-    };
   }
 }
 
@@ -7003,146 +6109,6 @@ class ExitStandbyAnswer {
   }
 }
 
-/// Describes a scheduled action that could not be created, updated, or deleted.
-class FailedScheduledUpdateGroupActionRequest {
-  /// The name of the scheduled action.
-  final String scheduledActionName;
-
-  /// The error code.
-  final String? errorCode;
-
-  /// The error message accompanying the error code.
-  final String? errorMessage;
-
-  FailedScheduledUpdateGroupActionRequest({
-    required this.scheduledActionName,
-    this.errorCode,
-    this.errorMessage,
-  });
-  factory FailedScheduledUpdateGroupActionRequest.fromXml(_s.XmlElement elem) {
-    return FailedScheduledUpdateGroupActionRequest(
-      scheduledActionName:
-          _s.extractXmlStringValue(elem, 'ScheduledActionName')!,
-      errorCode: _s.extractXmlStringValue(elem, 'ErrorCode'),
-      errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scheduledActionName = this.scheduledActionName;
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    return {
-      'ScheduledActionName': scheduledActionName,
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-    };
-  }
-}
-
-/// Describes a filter that is used to return a more specific list of results
-/// from a describe operation.
-///
-/// If you specify multiple filters, the filters are automatically logically
-/// joined with an <code>AND</code>, and the request returns only the results
-/// that match all of the specified filters.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html">Tag
-/// Auto Scaling groups and instances</a> in the <i>Amazon EC2 Auto Scaling User
-/// Guide</i>.
-class Filter {
-  /// The name of the filter.
-  ///
-  /// The valid values for <code>Name</code> depend on which API operation you're
-  /// using with the filter (<a>DescribeAutoScalingGroups</a> or
-  /// <a>DescribeTags</a>).
-  ///
-  /// <b>DescribeAutoScalingGroups</b>
-  ///
-  /// Valid values for <code>Name</code> include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>tag-key</code> - Accepts tag keys. The results only include
-  /// information about the Auto Scaling groups associated with these tag keys.
-  /// </li>
-  /// <li>
-  /// <code>tag-value</code> - Accepts tag values. The results only include
-  /// information about the Auto Scaling groups associated with these tag values.
-  /// </li>
-  /// <li>
-  /// <code>tag:&lt;key&gt;</code> - Accepts the key/value combination of the tag.
-  /// Use the tag key in the filter name and the tag value as the filter value.
-  /// The results only include information about the Auto Scaling groups
-  /// associated with the specified key/value combination.
-  /// </li>
-  /// </ul>
-  /// <b>DescribeTags</b>
-  ///
-  /// Valid values for <code>Name</code> include the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>auto-scaling-group</code> - Accepts the names of Auto Scaling groups.
-  /// The results only include information about the tags associated with these
-  /// Auto Scaling groups.
-  /// </li>
-  /// <li>
-  /// <code>key</code> - Accepts tag keys. The results only include information
-  /// about the tags associated with these tag keys.
-  /// </li>
-  /// <li>
-  /// <code>value</code> - Accepts tag values. The results only include
-  /// information about the tags associated with these tag values.
-  /// </li>
-  /// <li>
-  /// <code>propagate-at-launch</code> - Accepts a Boolean value, which specifies
-  /// whether tags propagate to instances at launch. The results only include
-  /// information about the tags associated with the specified Boolean value.
-  /// </li>
-  /// </ul>
-  final String? name;
-
-  /// One or more filter values. Filter values are case-sensitive.
-  ///
-  /// If you specify multiple values for a filter, the values are automatically
-  /// logically joined with an <code>OR</code>, and the request returns all
-  /// results that match any of the specified values. For example, specify
-  /// "tag:environment" for the filter name and "production,development" for the
-  /// filter values to find Auto Scaling groups with the tag
-  /// "environment=production" or "environment=development".
-  final List<String>? values;
-
-  Filter({
-    this.name,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      if (name != null) 'Name': name,
-      if (values != null) 'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      if (name != null) 'Name': name,
-      if (values != null)
-        if (values.isEmpty)
-          'Values': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            'Values.member.${i1 + 1}': values[i1],
-    };
-  }
-}
-
 class GetPredictiveScalingForecastAnswer {
   /// The capacity forecast.
   final CapacityForecast capacityForecast;
@@ -7183,125 +6149,334 @@ class GetPredictiveScalingForecastAnswer {
   }
 }
 
-/// Describes an EC2 instance.
-class Instance {
-  /// The Availability Zone in which the instance is running.
-  final String availabilityZone;
+class LaunchInstancesResult {
+  /// The name of the Auto Scaling group where the instances were launched.
+  final String? autoScalingGroupName;
 
-  /// The last reported health status of the instance. <code>Healthy</code> means
-  /// that the instance is healthy and should remain in service.
-  /// <code>Unhealthy</code> means that the instance is unhealthy and that Amazon
-  /// EC2 Auto Scaling should terminate and replace it.
-  final String healthStatus;
+  /// The idempotency token used for the request, either customer-specified or
+  /// auto-generated.
+  final String? clientToken;
 
-  /// The ID of the instance.
-  final String instanceId;
+  /// A list of errors encountered during the launch attempt including details
+  /// about failed instance launches with their corresponding error codes and
+  /// messages.
+  final List<LaunchInstancesError>? errors;
 
-  /// A description of the current lifecycle state. The <code>Quarantined</code>
-  /// state is not used. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html">Amazon
-  /// EC2 Auto Scaling instance lifecycle</a> in the <i>Amazon EC2 Auto Scaling
-  /// User Guide</i>.
-  final LifecycleState lifecycleState;
+  /// A list of successfully launched instances including details such as instance
+  /// type, Availability Zone, subnet, lifecycle state, and instance IDs.
+  final List<InstanceCollection>? instances;
 
-  /// Indicates whether the instance is protected from termination by Amazon EC2
-  /// Auto Scaling when scaling in.
-  final bool protectedFromScaleIn;
-
-  /// The instance type of the EC2 instance.
-  final String? instanceType;
-
-  /// The launch configuration associated with the instance.
-  final String? launchConfigurationName;
-
-  /// The launch template for the instance.
-  final LaunchTemplateSpecification? launchTemplate;
-
-  /// The number of capacity units contributed by the instance based on its
-  /// instance type.
-  ///
-  /// Valid Range: Minimum value of 1. Maximum value of 999.
-  final String? weightedCapacity;
-
-  Instance({
-    required this.availabilityZone,
-    required this.healthStatus,
-    required this.instanceId,
-    required this.lifecycleState,
-    required this.protectedFromScaleIn,
-    this.instanceType,
-    this.launchConfigurationName,
-    this.launchTemplate,
-    this.weightedCapacity,
+  LaunchInstancesResult({
+    this.autoScalingGroupName,
+    this.clientToken,
+    this.errors,
+    this.instances,
   });
-  factory Instance.fromXml(_s.XmlElement elem) {
-    return Instance(
-      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone')!,
-      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus')!,
-      instanceId: _s.extractXmlStringValue(elem, 'InstanceId')!,
-      lifecycleState: _s
-          .extractXmlStringValue(elem, 'LifecycleState')!
-          .let(LifecycleState.fromString),
-      protectedFromScaleIn:
-          _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn')!,
-      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
-      launchConfigurationName:
-          _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
-      launchTemplate: _s
-          .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let(LaunchTemplateSpecification.fromXml),
-      weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
+  factory LaunchInstancesResult.fromXml(_s.XmlElement elem) {
+    return LaunchInstancesResult(
+      autoScalingGroupName:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
+      clientToken: _s.extractXmlStringValue(elem, 'ClientToken'),
+      errors: _s.extractXmlChild(elem, 'Errors')?.let((elem) => elem
+          .findElements('member')
+          .map(LaunchInstancesError.fromXml)
+          .toList()),
+      instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
+          elem.findElements('member').map(InstanceCollection.fromXml).toList()),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final availabilityZone = this.availabilityZone;
-    final healthStatus = this.healthStatus;
-    final instanceId = this.instanceId;
-    final lifecycleState = this.lifecycleState;
-    final protectedFromScaleIn = this.protectedFromScaleIn;
-    final instanceType = this.instanceType;
-    final launchConfigurationName = this.launchConfigurationName;
-    final launchTemplate = this.launchTemplate;
-    final weightedCapacity = this.weightedCapacity;
+    final autoScalingGroupName = this.autoScalingGroupName;
+    final clientToken = this.clientToken;
+    final errors = this.errors;
+    final instances = this.instances;
     return {
-      'AvailabilityZone': availabilityZone,
-      'HealthStatus': healthStatus,
-      'InstanceId': instanceId,
-      'LifecycleState': lifecycleState.value,
-      'ProtectedFromScaleIn': protectedFromScaleIn,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (launchConfigurationName != null)
-        'LaunchConfigurationName': launchConfigurationName,
-      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
-      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
+      if (autoScalingGroupName != null)
+        'AutoScalingGroupName': autoScalingGroupName,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (errors != null) 'Errors': errors,
+      if (instances != null) 'Instances': instances,
     };
   }
 }
 
-class InstanceGeneration {
-  static const current = InstanceGeneration._('current');
-  static const previous = InstanceGeneration._('previous');
+class PutLifecycleHookAnswer {
+  PutLifecycleHookAnswer();
+  factory PutLifecycleHookAnswer.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return PutLifecycleHookAnswer();
+  }
 
-  final String value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  const InstanceGeneration._(this.value);
+/// Contains the output of PutScalingPolicy.
+class PolicyARNType {
+  /// The CloudWatch alarms created for the target tracking scaling policy.
+  final List<Alarm>? alarms;
 
-  static const values = [current, previous];
+  /// The Amazon Resource Name (ARN) of the policy.
+  final String? policyARN;
 
-  static InstanceGeneration fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceGeneration._(value));
+  PolicyARNType({
+    this.alarms,
+    this.policyARN,
+  });
+  factory PolicyARNType.fromXml(_s.XmlElement elem) {
+    return PolicyARNType(
+      alarms: _s.extractXmlChild(elem, 'Alarms')?.let(
+          (elem) => elem.findElements('member').map(Alarm.fromXml).toList()),
+      policyARN: _s.extractXmlStringValue(elem, 'PolicyARN'),
+    );
+  }
 
-  @override
-  bool operator ==(other) =>
-      other is InstanceGeneration && other.value == value;
+  Map<String, dynamic> toJson() {
+    final alarms = this.alarms;
+    final policyARN = this.policyARN;
+    return {
+      if (alarms != null) 'Alarms': alarms,
+      if (policyARN != null) 'PolicyARN': policyARN,
+    };
+  }
+}
 
-  @override
-  int get hashCode => value.hashCode;
+class PutWarmPoolAnswer {
+  PutWarmPoolAnswer();
+  factory PutWarmPoolAnswer.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return PutWarmPoolAnswer();
+  }
 
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RecordLifecycleActionHeartbeatAnswer {
+  RecordLifecycleActionHeartbeatAnswer();
+  factory RecordLifecycleActionHeartbeatAnswer.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return RecordLifecycleActionHeartbeatAnswer();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class RollbackInstanceRefreshAnswer {
+  /// The instance refresh ID associated with the request. This is the unique ID
+  /// assigned to the instance refresh when it was started.
+  final String? instanceRefreshId;
+
+  RollbackInstanceRefreshAnswer({
+    this.instanceRefreshId,
+  });
+  factory RollbackInstanceRefreshAnswer.fromXml(_s.XmlElement elem) {
+    return RollbackInstanceRefreshAnswer(
+      instanceRefreshId: _s.extractXmlStringValue(elem, 'InstanceRefreshId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceRefreshId = this.instanceRefreshId;
+    return {
+      if (instanceRefreshId != null) 'InstanceRefreshId': instanceRefreshId,
+    };
+  }
+}
+
+class SetInstanceProtectionAnswer {
+  SetInstanceProtectionAnswer();
+  factory SetInstanceProtectionAnswer.fromXml(
+      // ignore: avoid_unused_constructor_parameters
+      _s.XmlElement elem) {
+    return SetInstanceProtectionAnswer();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartInstanceRefreshAnswer {
+  /// A unique ID for tracking the progress of the instance refresh.
+  final String? instanceRefreshId;
+
+  StartInstanceRefreshAnswer({
+    this.instanceRefreshId,
+  });
+  factory StartInstanceRefreshAnswer.fromXml(_s.XmlElement elem) {
+    return StartInstanceRefreshAnswer(
+      instanceRefreshId: _s.extractXmlStringValue(elem, 'InstanceRefreshId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceRefreshId = this.instanceRefreshId;
+    return {
+      if (instanceRefreshId != null) 'InstanceRefreshId': instanceRefreshId,
+    };
+  }
+}
+
+class ActivityType {
+  /// A scaling activity.
+  final Activity? activity;
+
+  ActivityType({
+    this.activity,
+  });
+  factory ActivityType.fromXml(_s.XmlElement elem) {
+    return ActivityType(
+      activity: _s.extractXmlChild(elem, 'Activity')?.let(Activity.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activity = this.activity;
+    return {
+      if (activity != null) 'Activity': activity,
+    };
+  }
+}
+
+/// Describes the launch template and the version of the launch template that
+/// Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more
+/// information about launch templates, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html">Launch
+/// templates</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+class LaunchTemplateSpecification {
+  /// The ID of the launch template. To get the template ID, use the Amazon EC2 <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html">DescribeLaunchTemplates</a>
+  /// API operation. New launch templates can be created using the Amazon EC2 <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html">CreateLaunchTemplate</a>
+  /// API.
+  ///
+  /// Conditional: You must specify either a <code>LaunchTemplateId</code> or a
+  /// <code>LaunchTemplateName</code>.
+  final String? launchTemplateId;
+
+  /// The name of the launch template. To get the template name, use the Amazon
+  /// EC2 <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html">DescribeLaunchTemplates</a>
+  /// API operation. New launch templates can be created using the Amazon EC2 <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html">CreateLaunchTemplate</a>
+  /// API.
+  ///
+  /// Conditional: You must specify either a <code>LaunchTemplateId</code> or a
+  /// <code>LaunchTemplateName</code>.
+  final String? launchTemplateName;
+
+  /// The version number, <code>$Latest</code>, or <code>$Default</code>. To get
+  /// the version number, use the Amazon EC2 <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplateVersions.html">DescribeLaunchTemplateVersions</a>
+  /// API operation. New launch template versions can be created using the Amazon
+  /// EC2 <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplateVersion.html">CreateLaunchTemplateVersion</a>
+  /// API. If the value is <code>$Latest</code>, Amazon EC2 Auto Scaling selects
+  /// the latest version of the launch template when launching instances. If the
+  /// value is <code>$Default</code>, Amazon EC2 Auto Scaling selects the default
+  /// version of the launch template when launching instances. The default value
+  /// is <code>$Default</code>.
+  final String? version;
+
+  LaunchTemplateSpecification({
+    this.launchTemplateId,
+    this.launchTemplateName,
+    this.version,
+  });
+  factory LaunchTemplateSpecification.fromXml(_s.XmlElement elem) {
+    return LaunchTemplateSpecification(
+      launchTemplateId: _s.extractXmlStringValue(elem, 'LaunchTemplateId'),
+      launchTemplateName: _s.extractXmlStringValue(elem, 'LaunchTemplateName'),
+      version: _s.extractXmlStringValue(elem, 'Version'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchTemplateId = this.launchTemplateId;
+    final launchTemplateName = this.launchTemplateName;
+    final version = this.version;
+    return {
+      if (launchTemplateId != null) 'LaunchTemplateId': launchTemplateId,
+      if (launchTemplateName != null) 'LaunchTemplateName': launchTemplateName,
+      if (version != null) 'Version': version,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final launchTemplateId = this.launchTemplateId;
+    final launchTemplateName = this.launchTemplateName;
+    final version = this.version;
+    return {
+      if (launchTemplateId != null) 'LaunchTemplateId': launchTemplateId,
+      if (launchTemplateName != null) 'LaunchTemplateName': launchTemplateName,
+      if (version != null) 'Version': version,
+    };
+  }
+}
+
+/// Use this structure to launch multiple instance types and On-Demand Instances
+/// and Spot Instances within a single Auto Scaling group.
+///
+/// A mixed instances policy contains information that Amazon EC2 Auto Scaling
+/// can use to launch instances and help optimize your costs. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html">Auto
+/// Scaling groups with multiple instance types and purchase options</a> in the
+/// <i>Amazon EC2 Auto Scaling User Guide</i>.
+class MixedInstancesPolicy {
+  /// The instances distribution.
+  final InstancesDistribution? instancesDistribution;
+
+  /// One or more launch templates and the instance types (overrides) that are
+  /// used to launch EC2 instances to fulfill On-Demand and Spot capacities.
+  final LaunchTemplate? launchTemplate;
+
+  MixedInstancesPolicy({
+    this.instancesDistribution,
+    this.launchTemplate,
+  });
+  factory MixedInstancesPolicy.fromXml(_s.XmlElement elem) {
+    return MixedInstancesPolicy(
+      instancesDistribution: _s
+          .extractXmlChild(elem, 'InstancesDistribution')
+          ?.let(InstancesDistribution.fromXml),
+      launchTemplate: _s
+          .extractXmlChild(elem, 'LaunchTemplate')
+          ?.let(LaunchTemplate.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancesDistribution = this.instancesDistribution;
+    final launchTemplate = this.launchTemplate;
+    return {
+      if (instancesDistribution != null)
+        'InstancesDistribution': instancesDistribution,
+      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final instancesDistribution = this.instancesDistribution;
+    final launchTemplate = this.launchTemplate;
+    return {
+      if (instancesDistribution != null)
+        for (var e1 in instancesDistribution.toQueryMap().entries)
+          'InstancesDistribution.${e1.key}': e1.value,
+      if (launchTemplate != null)
+        for (var e1 in launchTemplate.toQueryMap().entries)
+          'LaunchTemplate.${e1.key}': e1.value,
+    };
+  }
 }
 
 /// Describes an instance maintenance policy.
@@ -7364,431 +6539,245 @@ class InstanceMaintenancePolicy {
   }
 }
 
-class InstanceMetadataEndpointState {
-  static const disabled = InstanceMetadataEndpointState._('disabled');
-  static const enabled = InstanceMetadataEndpointState._('enabled');
-
-  final String value;
-
-  const InstanceMetadataEndpointState._(this.value);
-
-  static const values = [disabled, enabled];
-
-  static InstanceMetadataEndpointState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceMetadataEndpointState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InstanceMetadataEndpointState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class InstanceMetadataHttpTokensState {
-  static const optional = InstanceMetadataHttpTokensState._('optional');
-  static const required = InstanceMetadataHttpTokensState._('required');
-
-  final String value;
-
-  const InstanceMetadataHttpTokensState._(this.value);
-
-  static const values = [optional, required];
-
-  static InstanceMetadataHttpTokensState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceMetadataHttpTokensState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is InstanceMetadataHttpTokensState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The metadata options for the instances. For more information, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds">Configure
-/// the instance metadata options</a> in the <i>Amazon EC2 Auto Scaling User
-/// Guide</i>.
-class InstanceMetadataOptions {
-  /// This parameter enables or disables the HTTP metadata endpoint on your
-  /// instances. If the parameter is not specified, the default state is
-  /// <code>enabled</code>.
-  /// <note>
-  /// If you specify a value of <code>disabled</code>, you will not be able to
-  /// access your instance metadata.
-  /// </note>
-  final InstanceMetadataEndpointState? httpEndpoint;
-
-  /// The desired HTTP PUT response hop limit for instance metadata requests. The
-  /// larger the number, the further instance metadata requests can travel.
-  ///
-  /// Default: 1
-  final int? httpPutResponseHopLimit;
-
-  /// The state of token usage for your instance metadata requests. If the
-  /// parameter is not specified in the request, the default state is
-  /// <code>optional</code>.
-  ///
-  /// If the state is <code>optional</code>, you can choose to retrieve instance
-  /// metadata with or without a signed token header on your request. If you
-  /// retrieve the IAM role credentials without a token, the version 1.0 role
-  /// credentials are returned. If you retrieve the IAM role credentials using a
-  /// valid signed token, the version 2.0 role credentials are returned.
-  ///
-  /// If the state is <code>required</code>, you must send a signed token header
-  /// with any instance metadata retrieval requests. In this state, retrieving the
-  /// IAM role credentials always returns the version 2.0 credentials; the version
-  /// 1.0 credentials are not available.
-  final InstanceMetadataHttpTokensState? httpTokens;
-
-  InstanceMetadataOptions({
-    this.httpEndpoint,
-    this.httpPutResponseHopLimit,
-    this.httpTokens,
-  });
-  factory InstanceMetadataOptions.fromXml(_s.XmlElement elem) {
-    return InstanceMetadataOptions(
-      httpEndpoint: _s
-          .extractXmlStringValue(elem, 'HttpEndpoint')
-          ?.let(InstanceMetadataEndpointState.fromString),
-      httpPutResponseHopLimit:
-          _s.extractXmlIntValue(elem, 'HttpPutResponseHopLimit'),
-      httpTokens: _s
-          .extractXmlStringValue(elem, 'HttpTokens')
-          ?.let(InstanceMetadataHttpTokensState.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final httpEndpoint = this.httpEndpoint;
-    final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
-    final httpTokens = this.httpTokens;
-    return {
-      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.value,
-      if (httpPutResponseHopLimit != null)
-        'HttpPutResponseHopLimit': httpPutResponseHopLimit,
-      if (httpTokens != null) 'HttpTokens': httpTokens.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final httpEndpoint = this.httpEndpoint;
-    final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
-    final httpTokens = this.httpTokens;
-    return {
-      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.value,
-      if (httpPutResponseHopLimit != null)
-        'HttpPutResponseHopLimit': httpPutResponseHopLimit.toString(),
-      if (httpTokens != null) 'HttpTokens': httpTokens.value,
-    };
-  }
-}
-
-/// Describes whether detailed monitoring is enabled for the Auto Scaling
-/// instances.
-class InstanceMonitoring {
-  /// If <code>true</code>, detailed monitoring is enabled. Otherwise, basic
-  /// monitoring is enabled.
-  final bool? enabled;
-
-  InstanceMonitoring({
-    this.enabled,
-  });
-  factory InstanceMonitoring.fromXml(_s.XmlElement elem) {
-    return InstanceMonitoring(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    return {
-      if (enabled != null) 'Enabled': enabled,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final enabled = this.enabled;
-    return {
-      if (enabled != null) 'Enabled': enabled.toString(),
-    };
-  }
-}
-
-/// Describes an instance refresh for an Auto Scaling group.
-class InstanceRefresh {
-  /// The name of the Auto Scaling group.
-  final String? autoScalingGroupName;
-
-  /// Describes the desired configuration for the instance refresh.
-  final DesiredConfiguration? desiredConfiguration;
-
-  /// The date and time at which the instance refresh ended.
-  final DateTime? endTime;
-
-  /// The instance refresh ID.
-  final String? instanceRefreshId;
-
-  /// The number of instances remaining to update before the instance refresh is
-  /// complete.
-  /// <note>
-  /// If you roll back the instance refresh, <code>InstancesToUpdate</code> shows
-  /// you the number of instances that were not yet updated by the instance
-  /// refresh. Therefore, these instances don't need to be replaced as part of the
-  /// rollback.
-  /// </note>
-  final int? instancesToUpdate;
-
-  /// The percentage of the instance refresh that is complete. For each instance
-  /// replacement, Amazon EC2 Auto Scaling tracks the instance's health status and
-  /// warm-up time. When the instance's health status changes to healthy and the
-  /// specified warm-up time passes, the instance is considered updated and is
-  /// added to the percentage complete.
-  /// <note>
-  /// <code>PercentageComplete</code> does not include instances that are replaced
-  /// during a rollback. This value gradually goes back down to zero during a
-  /// rollback.
-  /// </note>
-  final int? percentageComplete;
-
-  /// The preferences for an instance refresh.
-  final RefreshPreferences? preferences;
-
-  /// Additional progress details for an Auto Scaling group that has a warm pool.
-  final InstanceRefreshProgressDetails? progressDetails;
-
-  /// The rollback details.
-  final RollbackDetails? rollbackDetails;
-
-  /// The date and time at which the instance refresh began.
-  final DateTime? startTime;
-
-  /// The current status for the instance refresh operation:
+/// Describes an Availability Zone distribution.
+class AvailabilityZoneDistribution {
+  /// If launches fail in an Availability Zone, the following strategies are
+  /// available. The default is <code>balanced-best-effort</code>.
   ///
   /// <ul>
   /// <li>
-  /// <code>Pending</code> - The request was created, but the instance refresh has
-  /// not started.
+  /// <code>balanced-only</code> - If launches fail in an Availability Zone, Auto
+  /// Scaling will continue to attempt to launch in the unhealthy zone to preserve
+  /// a balanced distribution.
   /// </li>
   /// <li>
-  /// <code>InProgress</code> - An instance refresh is in progress.
-  /// </li>
-  /// <li>
-  /// <code>Successful</code> - An instance refresh completed successfully.
-  /// </li>
-  /// <li>
-  /// <code>Failed</code> - An instance refresh failed to complete. You can
-  /// troubleshoot using the status reason and the scaling activities.
-  /// </li>
-  /// <li>
-  /// <code>Cancelling</code> - An ongoing instance refresh is being cancelled.
-  /// </li>
-  /// <li>
-  /// <code>Cancelled</code> - The instance refresh is cancelled.
-  /// </li>
-  /// <li>
-  /// <code>RollbackInProgress</code> - An instance refresh is being rolled back.
-  /// </li>
-  /// <li>
-  /// <code>RollbackFailed</code> - The rollback failed to complete. You can
-  /// troubleshoot using the status reason and the scaling activities.
-  /// </li>
-  /// <li>
-  /// <code>RollbackSuccessful</code> - The rollback completed successfully.
+  /// <code>balanced-best-effort</code> - If launches fail in an Availability
+  /// Zone, Auto Scaling will attempt to launch in another healthy Availability
+  /// Zone instead.
   /// </li>
   /// </ul>
-  final InstanceRefreshStatus? status;
+  final CapacityDistributionStrategy? capacityDistributionStrategy;
 
-  /// The explanation for the specific status assigned to this operation.
-  final String? statusReason;
-
-  InstanceRefresh({
-    this.autoScalingGroupName,
-    this.desiredConfiguration,
-    this.endTime,
-    this.instanceRefreshId,
-    this.instancesToUpdate,
-    this.percentageComplete,
-    this.preferences,
-    this.progressDetails,
-    this.rollbackDetails,
-    this.startTime,
-    this.status,
-    this.statusReason,
+  AvailabilityZoneDistribution({
+    this.capacityDistributionStrategy,
   });
-  factory InstanceRefresh.fromXml(_s.XmlElement elem) {
-    return InstanceRefresh(
-      autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
-      desiredConfiguration: _s
-          .extractXmlChild(elem, 'DesiredConfiguration')
-          ?.let(DesiredConfiguration.fromXml),
-      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
-      instanceRefreshId: _s.extractXmlStringValue(elem, 'InstanceRefreshId'),
-      instancesToUpdate: _s.extractXmlIntValue(elem, 'InstancesToUpdate'),
-      percentageComplete: _s.extractXmlIntValue(elem, 'PercentageComplete'),
-      preferences: _s
-          .extractXmlChild(elem, 'Preferences')
-          ?.let(RefreshPreferences.fromXml),
-      progressDetails: _s
-          .extractXmlChild(elem, 'ProgressDetails')
-          ?.let(InstanceRefreshProgressDetails.fromXml),
-      rollbackDetails: _s
-          .extractXmlChild(elem, 'RollbackDetails')
-          ?.let(RollbackDetails.fromXml),
-      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(InstanceRefreshStatus.fromString),
-      statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
+  factory AvailabilityZoneDistribution.fromXml(_s.XmlElement elem) {
+    return AvailabilityZoneDistribution(
+      capacityDistributionStrategy: _s
+          .extractXmlStringValue(elem, 'CapacityDistributionStrategy')
+          ?.let(CapacityDistributionStrategy.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final autoScalingGroupName = this.autoScalingGroupName;
-    final desiredConfiguration = this.desiredConfiguration;
-    final endTime = this.endTime;
-    final instanceRefreshId = this.instanceRefreshId;
-    final instancesToUpdate = this.instancesToUpdate;
-    final percentageComplete = this.percentageComplete;
-    final preferences = this.preferences;
-    final progressDetails = this.progressDetails;
-    final rollbackDetails = this.rollbackDetails;
-    final startTime = this.startTime;
-    final status = this.status;
-    final statusReason = this.statusReason;
+    final capacityDistributionStrategy = this.capacityDistributionStrategy;
     return {
-      if (autoScalingGroupName != null)
-        'AutoScalingGroupName': autoScalingGroupName,
-      if (desiredConfiguration != null)
-        'DesiredConfiguration': desiredConfiguration,
-      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
-      if (instanceRefreshId != null) 'InstanceRefreshId': instanceRefreshId,
-      if (instancesToUpdate != null) 'InstancesToUpdate': instancesToUpdate,
-      if (percentageComplete != null) 'PercentageComplete': percentageComplete,
-      if (preferences != null) 'Preferences': preferences,
-      if (progressDetails != null) 'ProgressDetails': progressDetails,
-      if (rollbackDetails != null) 'RollbackDetails': rollbackDetails,
-      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
-      if (status != null) 'Status': status.value,
-      if (statusReason != null) 'StatusReason': statusReason,
+      if (capacityDistributionStrategy != null)
+        'CapacityDistributionStrategy': capacityDistributionStrategy.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final capacityDistributionStrategy = this.capacityDistributionStrategy;
+    return {
+      if (capacityDistributionStrategy != null)
+        'CapacityDistributionStrategy': capacityDistributionStrategy.value,
     };
   }
 }
 
-/// Reports progress on replacing instances that are in the Auto Scaling group.
-class InstanceRefreshLivePoolProgress {
-  /// The number of instances remaining to update.
-  final int? instancesToUpdate;
+/// Describes an Availability Zone impairment policy.
+class AvailabilityZoneImpairmentPolicy {
+  /// Specifies the health check behavior for the impaired Availability Zone in an
+  /// active zonal shift. If you select <code>Replace unhealthy</code>, instances
+  /// that appear unhealthy will be replaced in all Availability Zones. If you
+  /// select <code>Ignore unhealthy</code>, instances will not be replaced in the
+  /// Availability Zone with the active zonal shift. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-zonal-shift.html">Auto
+  /// Scaling group zonal shift</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
+  final ImpairedZoneHealthCheckBehavior? impairedZoneHealthCheckBehavior;
 
-  /// The percentage of instances in the Auto Scaling group that have been
-  /// replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the
-  /// instance's health status and warm-up time. When the instance's health status
-  /// changes to healthy and the specified warm-up time passes, the instance is
-  /// considered updated and is added to the percentage complete.
-  final int? percentageComplete;
+  /// If <code>true</code>, enable zonal shift for your Auto Scaling group.
+  final bool? zonalShiftEnabled;
 
-  InstanceRefreshLivePoolProgress({
-    this.instancesToUpdate,
-    this.percentageComplete,
+  AvailabilityZoneImpairmentPolicy({
+    this.impairedZoneHealthCheckBehavior,
+    this.zonalShiftEnabled,
   });
-  factory InstanceRefreshLivePoolProgress.fromXml(_s.XmlElement elem) {
-    return InstanceRefreshLivePoolProgress(
-      instancesToUpdate: _s.extractXmlIntValue(elem, 'InstancesToUpdate'),
-      percentageComplete: _s.extractXmlIntValue(elem, 'PercentageComplete'),
+  factory AvailabilityZoneImpairmentPolicy.fromXml(_s.XmlElement elem) {
+    return AvailabilityZoneImpairmentPolicy(
+      impairedZoneHealthCheckBehavior: _s
+          .extractXmlStringValue(elem, 'ImpairedZoneHealthCheckBehavior')
+          ?.let(ImpairedZoneHealthCheckBehavior.fromString),
+      zonalShiftEnabled: _s.extractXmlBoolValue(elem, 'ZonalShiftEnabled'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final instancesToUpdate = this.instancesToUpdate;
-    final percentageComplete = this.percentageComplete;
+    final impairedZoneHealthCheckBehavior =
+        this.impairedZoneHealthCheckBehavior;
+    final zonalShiftEnabled = this.zonalShiftEnabled;
     return {
-      if (instancesToUpdate != null) 'InstancesToUpdate': instancesToUpdate,
-      if (percentageComplete != null) 'PercentageComplete': percentageComplete,
+      if (impairedZoneHealthCheckBehavior != null)
+        'ImpairedZoneHealthCheckBehavior':
+            impairedZoneHealthCheckBehavior.value,
+      if (zonalShiftEnabled != null) 'ZonalShiftEnabled': zonalShiftEnabled,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final impairedZoneHealthCheckBehavior =
+        this.impairedZoneHealthCheckBehavior;
+    final zonalShiftEnabled = this.zonalShiftEnabled;
+    return {
+      if (impairedZoneHealthCheckBehavior != null)
+        'ImpairedZoneHealthCheckBehavior':
+            impairedZoneHealthCheckBehavior.value,
+      if (zonalShiftEnabled != null)
+        'ZonalShiftEnabled': zonalShiftEnabled.toString(),
     };
   }
 }
 
-/// Reports progress on replacing instances in an Auto Scaling group that has a
-/// warm pool. This includes separate details for instances in the warm pool and
-/// instances in the Auto Scaling group (the live pool).
-class InstanceRefreshProgressDetails {
-  /// Reports progress on replacing instances that are in the Auto Scaling group.
-  final InstanceRefreshLivePoolProgress? livePoolProgress;
+/// Describes the Capacity Reservation preference and targeting options. If you
+/// specify <code>open</code> or <code>none</code> for
+/// <code>CapacityReservationPreference</code>, do not specify a
+/// <code>CapacityReservationTarget</code>.
+class CapacityReservationSpecification {
+  /// The capacity reservation preference. The following options are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>capacity-reservations-only</code> - Auto Scaling will only launch
+  /// instances into a Capacity Reservation or Capacity Reservation resource
+  /// group. If capacity isn't available, instances will fail to launch.
+  /// </li>
+  /// <li>
+  /// <code>capacity-reservations-first</code> - Auto Scaling will try to launch
+  /// instances into a Capacity Reservation or Capacity Reservation resource group
+  /// first. If capacity isn't available, instances will run in On-Demand
+  /// capacity.
+  /// </li>
+  /// <li>
+  /// <code>none</code> - Auto Scaling will not launch instances into a Capacity
+  /// Reservation. Instances will run in On-Demand capacity.
+  /// </li>
+  /// <li>
+  /// <code>default</code> - Auto Scaling uses the Capacity Reservation preference
+  /// from your launch template or an open Capacity Reservation.
+  /// </li>
+  /// </ul>
+  final CapacityReservationPreference? capacityReservationPreference;
 
-  /// Reports progress on replacing instances that are in the warm pool.
-  final InstanceRefreshWarmPoolProgress? warmPoolProgress;
+  /// Describes a target Capacity Reservation or Capacity Reservation resource
+  /// group.
+  final CapacityReservationTarget? capacityReservationTarget;
 
-  InstanceRefreshProgressDetails({
-    this.livePoolProgress,
-    this.warmPoolProgress,
+  CapacityReservationSpecification({
+    this.capacityReservationPreference,
+    this.capacityReservationTarget,
   });
-  factory InstanceRefreshProgressDetails.fromXml(_s.XmlElement elem) {
-    return InstanceRefreshProgressDetails(
-      livePoolProgress: _s
-          .extractXmlChild(elem, 'LivePoolProgress')
-          ?.let(InstanceRefreshLivePoolProgress.fromXml),
-      warmPoolProgress: _s
-          .extractXmlChild(elem, 'WarmPoolProgress')
-          ?.let(InstanceRefreshWarmPoolProgress.fromXml),
+  factory CapacityReservationSpecification.fromXml(_s.XmlElement elem) {
+    return CapacityReservationSpecification(
+      capacityReservationPreference: _s
+          .extractXmlStringValue(elem, 'CapacityReservationPreference')
+          ?.let(CapacityReservationPreference.fromString),
+      capacityReservationTarget: _s
+          .extractXmlChild(elem, 'CapacityReservationTarget')
+          ?.let(CapacityReservationTarget.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final livePoolProgress = this.livePoolProgress;
-    final warmPoolProgress = this.warmPoolProgress;
+    final capacityReservationPreference = this.capacityReservationPreference;
+    final capacityReservationTarget = this.capacityReservationTarget;
     return {
-      if (livePoolProgress != null) 'LivePoolProgress': livePoolProgress,
-      if (warmPoolProgress != null) 'WarmPoolProgress': warmPoolProgress,
+      if (capacityReservationPreference != null)
+        'CapacityReservationPreference': capacityReservationPreference.value,
+      if (capacityReservationTarget != null)
+        'CapacityReservationTarget': capacityReservationTarget,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final capacityReservationPreference = this.capacityReservationPreference;
+    final capacityReservationTarget = this.capacityReservationTarget;
+    return {
+      if (capacityReservationPreference != null)
+        'CapacityReservationPreference': capacityReservationPreference.value,
+      if (capacityReservationTarget != null)
+        for (var e1 in capacityReservationTarget.toQueryMap().entries)
+          'CapacityReservationTarget.${e1.key}': e1.value,
     };
   }
 }
 
-class InstanceRefreshStatus {
-  static const pending = InstanceRefreshStatus._('Pending');
-  static const inProgress = InstanceRefreshStatus._('InProgress');
-  static const successful = InstanceRefreshStatus._('Successful');
-  static const failed = InstanceRefreshStatus._('Failed');
-  static const cancelling = InstanceRefreshStatus._('Cancelling');
-  static const cancelled = InstanceRefreshStatus._('Cancelled');
-  static const rollbackInProgress =
-      InstanceRefreshStatus._('RollbackInProgress');
-  static const rollbackFailed = InstanceRefreshStatus._('RollbackFailed');
-  static const rollbackSuccessful =
-      InstanceRefreshStatus._('RollbackSuccessful');
+/// The instance lifecycle policy for the Auto Scaling group. This policy
+/// controls instance behavior when an instance transitions through its
+/// lifecycle states. Configure retention triggers to specify when instances
+/// should move to a <code>Retained</code> state instead of automatic
+/// termination.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html">
+/// Control instance retention with instance lifecycle policies</a> in the
+/// <i>Amazon EC2 Auto Scaling User Guide</i>.
+class InstanceLifecyclePolicy {
+  /// Specifies the conditions that trigger instance retention behavior. These
+  /// triggers determine when instances should move to a <code>Retained</code>
+  /// state instead of automatic termination. This allows you to maintain control
+  /// over instance management when lifecycles transition and operations fail.
+  final RetentionTriggers? retentionTriggers;
+
+  InstanceLifecyclePolicy({
+    this.retentionTriggers,
+  });
+  factory InstanceLifecyclePolicy.fromXml(_s.XmlElement elem) {
+    return InstanceLifecyclePolicy(
+      retentionTriggers: _s
+          .extractXmlChild(elem, 'RetentionTriggers')
+          ?.let(RetentionTriggers.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retentionTriggers = this.retentionTriggers;
+    return {
+      if (retentionTriggers != null) 'RetentionTriggers': retentionTriggers,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final retentionTriggers = this.retentionTriggers;
+    return {
+      if (retentionTriggers != null)
+        for (var e1 in retentionTriggers.toQueryMap().entries)
+          'RetentionTriggers.${e1.key}': e1.value,
+    };
+  }
+}
+
+class DeletionProtection {
+  static const none = DeletionProtection._('none');
+  static const preventForceDeletion =
+      DeletionProtection._('prevent-force-deletion');
+  static const preventAllDeletion =
+      DeletionProtection._('prevent-all-deletion');
 
   final String value;
 
-  const InstanceRefreshStatus._(this.value);
+  const DeletionProtection._(this.value);
 
-  static const values = [
-    pending,
-    inProgress,
-    successful,
-    failed,
-    cancelling,
-    cancelled,
-    rollbackInProgress,
-    rollbackFailed,
-    rollbackSuccessful
-  ];
+  static const values = [none, preventForceDeletion, preventAllDeletion];
 
-  static InstanceRefreshStatus fromString(String value) =>
+  static DeletionProtection fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => InstanceRefreshStatus._(value));
+          orElse: () => DeletionProtection._(value));
 
   @override
   bool operator ==(other) =>
-      other is InstanceRefreshStatus && other.value == value;
+      other is DeletionProtection && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -7797,35 +6786,616 @@ class InstanceRefreshStatus {
   String toString() => value;
 }
 
-/// Reports progress on replacing instances that are in the warm pool.
-class InstanceRefreshWarmPoolProgress {
-  /// The number of instances remaining to update.
-  final int? instancesToUpdate;
+/// Defines the specific triggers that cause instances to be retained in a
+/// Retained state rather than terminated. Each trigger corresponds to a
+/// different failure scenario during the instance lifecycle. This allows
+/// fine-grained control over when to preserve instances for manual
+/// intervention.
+class RetentionTriggers {
+  /// Specifies the action when a termination lifecycle hook is abandoned due to
+  /// failure, timeout, or explicit abandonment (calling CompleteLifecycleAction).
+  ///
+  /// Set to <code>retain</code> to move instances to a retained state. Set to
+  /// <code>terminate</code> for default termination behavior.
+  ///
+  /// Retained instances don't count toward desired capacity and remain until you
+  /// call <code>TerminateInstanceInAutoScalingGroup</code>.
+  final RetentionAction? terminateHookAbandon;
 
-  /// The percentage of instances in the warm pool that have been replaced. For
-  /// each instance replacement, Amazon EC2 Auto Scaling tracks the instance's
-  /// health status and warm-up time. When the instance's health status changes to
-  /// healthy and the specified warm-up time passes, the instance is considered
-  /// updated and is added to the percentage complete.
-  final int? percentageComplete;
-
-  InstanceRefreshWarmPoolProgress({
-    this.instancesToUpdate,
-    this.percentageComplete,
+  RetentionTriggers({
+    this.terminateHookAbandon,
   });
-  factory InstanceRefreshWarmPoolProgress.fromXml(_s.XmlElement elem) {
-    return InstanceRefreshWarmPoolProgress(
-      instancesToUpdate: _s.extractXmlIntValue(elem, 'InstancesToUpdate'),
-      percentageComplete: _s.extractXmlIntValue(elem, 'PercentageComplete'),
+  factory RetentionTriggers.fromXml(_s.XmlElement elem) {
+    return RetentionTriggers(
+      terminateHookAbandon: _s
+          .extractXmlStringValue(elem, 'TerminateHookAbandon')
+          ?.let(RetentionAction.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final instancesToUpdate = this.instancesToUpdate;
-    final percentageComplete = this.percentageComplete;
+    final terminateHookAbandon = this.terminateHookAbandon;
     return {
-      if (instancesToUpdate != null) 'InstancesToUpdate': instancesToUpdate,
-      if (percentageComplete != null) 'PercentageComplete': percentageComplete,
+      if (terminateHookAbandon != null)
+        'TerminateHookAbandon': terminateHookAbandon.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final terminateHookAbandon = this.terminateHookAbandon;
+    return {
+      if (terminateHookAbandon != null)
+        'TerminateHookAbandon': terminateHookAbandon.value,
+    };
+  }
+}
+
+class RetentionAction {
+  static const retain = RetentionAction._('retain');
+  static const terminate = RetentionAction._('terminate');
+
+  final String value;
+
+  const RetentionAction._(this.value);
+
+  static const values = [retain, terminate];
+
+  static RetentionAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RetentionAction._(value));
+
+  @override
+  bool operator ==(other) => other is RetentionAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CapacityReservationPreference {
+  static const capacityReservationsOnly =
+      CapacityReservationPreference._('capacity-reservations-only');
+  static const capacityReservationsFirst =
+      CapacityReservationPreference._('capacity-reservations-first');
+  static const none = CapacityReservationPreference._('none');
+  static const $default = CapacityReservationPreference._('default');
+
+  final String value;
+
+  const CapacityReservationPreference._(this.value);
+
+  static const values = [
+    capacityReservationsOnly,
+    capacityReservationsFirst,
+    none,
+    $default
+  ];
+
+  static CapacityReservationPreference fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityReservationPreference._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityReservationPreference && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The target for the Capacity Reservation. Specify Capacity Reservations IDs
+/// or Capacity Reservation resource group ARNs.
+class CapacityReservationTarget {
+  /// The Capacity Reservation IDs to launch instances into.
+  final List<String>? capacityReservationIds;
+
+  /// The resource group ARNs of the Capacity Reservation to launch instances
+  /// into.
+  final List<String>? capacityReservationResourceGroupArns;
+
+  CapacityReservationTarget({
+    this.capacityReservationIds,
+    this.capacityReservationResourceGroupArns,
+  });
+  factory CapacityReservationTarget.fromXml(_s.XmlElement elem) {
+    return CapacityReservationTarget(
+      capacityReservationIds: _s
+          .extractXmlChild(elem, 'CapacityReservationIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      capacityReservationResourceGroupArns: _s
+          .extractXmlChild(elem, 'CapacityReservationResourceGroupArns')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityReservationIds = this.capacityReservationIds;
+    final capacityReservationResourceGroupArns =
+        this.capacityReservationResourceGroupArns;
+    return {
+      if (capacityReservationIds != null)
+        'CapacityReservationIds': capacityReservationIds,
+      if (capacityReservationResourceGroupArns != null)
+        'CapacityReservationResourceGroupArns':
+            capacityReservationResourceGroupArns,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final capacityReservationIds = this.capacityReservationIds;
+    final capacityReservationResourceGroupArns =
+        this.capacityReservationResourceGroupArns;
+    return {
+      if (capacityReservationIds != null)
+        if (capacityReservationIds.isEmpty)
+          'CapacityReservationIds': ''
+        else
+          for (var i1 = 0; i1 < capacityReservationIds.length; i1++)
+            'CapacityReservationIds.member.${i1 + 1}':
+                capacityReservationIds[i1],
+      if (capacityReservationResourceGroupArns != null)
+        if (capacityReservationResourceGroupArns.isEmpty)
+          'CapacityReservationResourceGroupArns': ''
+        else
+          for (var i1 = 0;
+              i1 < capacityReservationResourceGroupArns.length;
+              i1++)
+            'CapacityReservationResourceGroupArns.member.${i1 + 1}':
+                capacityReservationResourceGroupArns[i1],
+    };
+  }
+}
+
+class ImpairedZoneHealthCheckBehavior {
+  static const replaceUnhealthy =
+      ImpairedZoneHealthCheckBehavior._('ReplaceUnhealthy');
+  static const ignoreUnhealthy =
+      ImpairedZoneHealthCheckBehavior._('IgnoreUnhealthy');
+
+  final String value;
+
+  const ImpairedZoneHealthCheckBehavior._(this.value);
+
+  static const values = [replaceUnhealthy, ignoreUnhealthy];
+
+  static ImpairedZoneHealthCheckBehavior fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ImpairedZoneHealthCheckBehavior._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ImpairedZoneHealthCheckBehavior && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CapacityDistributionStrategy {
+  static const balancedOnly = CapacityDistributionStrategy._('balanced-only');
+  static const balancedBestEffort =
+      CapacityDistributionStrategy._('balanced-best-effort');
+
+  final String value;
+
+  const CapacityDistributionStrategy._(this.value);
+
+  static const values = [balancedOnly, balancedBestEffort];
+
+  static CapacityDistributionStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CapacityDistributionStrategy._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CapacityDistributionStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Use this structure to specify the launch templates and instance types
+/// (overrides) for a mixed instances policy.
+class LaunchTemplate {
+  /// The launch template.
+  final LaunchTemplateSpecification? launchTemplateSpecification;
+
+  /// Any properties that you specify override the same properties in the launch
+  /// template.
+  final List<LaunchTemplateOverrides>? overrides;
+
+  LaunchTemplate({
+    this.launchTemplateSpecification,
+    this.overrides,
+  });
+  factory LaunchTemplate.fromXml(_s.XmlElement elem) {
+    return LaunchTemplate(
+      launchTemplateSpecification: _s
+          .extractXmlChild(elem, 'LaunchTemplateSpecification')
+          ?.let(LaunchTemplateSpecification.fromXml),
+      overrides: _s.extractXmlChild(elem, 'Overrides')?.let((elem) => elem
+          .findElements('member')
+          .map(LaunchTemplateOverrides.fromXml)
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchTemplateSpecification = this.launchTemplateSpecification;
+    final overrides = this.overrides;
+    return {
+      if (launchTemplateSpecification != null)
+        'LaunchTemplateSpecification': launchTemplateSpecification,
+      if (overrides != null) 'Overrides': overrides,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final launchTemplateSpecification = this.launchTemplateSpecification;
+    final overrides = this.overrides;
+    return {
+      if (launchTemplateSpecification != null)
+        for (var e1 in launchTemplateSpecification.toQueryMap().entries)
+          'LaunchTemplateSpecification.${e1.key}': e1.value,
+      if (overrides != null)
+        if (overrides.isEmpty)
+          'Overrides': ''
+        else
+          for (var i1 = 0; i1 < overrides.length; i1++)
+            for (var e3 in overrides[i1].toQueryMap().entries)
+              'Overrides.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Use this structure to specify the distribution of On-Demand Instances and
+/// Spot Instances and the allocation strategies used to fulfill On-Demand and
+/// Spot capacities for a mixed instances policy.
+class InstancesDistribution {
+  /// The allocation strategy to apply to your On-Demand Instances when they are
+  /// launched. Possible instance types are determined by the launch template
+  /// overrides that you specify.
+  ///
+  /// The following lists the valid values:
+  /// <dl> <dt>lowest-price</dt> <dd>
+  /// Uses price to determine which instance types are the highest priority,
+  /// launching the lowest priced instance types within an Availability Zone
+  /// first. This is the default value for Auto Scaling groups that specify <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>.
+  /// </dd> <dt>prioritized</dt> <dd>
+  /// You set the order of instance types for the launch template overrides from
+  /// highest to lowest priority (from first to last in the list). Amazon EC2 Auto
+  /// Scaling launches your highest priority instance types first. If all your
+  /// On-Demand capacity cannot be fulfilled using your highest priority instance
+  /// type, then Amazon EC2 Auto Scaling launches the remaining capacity using the
+  /// second priority instance type, and so on. This is the default value for Auto
+  /// Scaling groups that don't specify <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+  /// and cannot be used for groups that do.
+  /// </dd> </dl>
+  final String? onDemandAllocationStrategy;
+
+  /// The minimum amount of the Auto Scaling group's capacity that must be
+  /// fulfilled by On-Demand Instances. This base portion is launched first as
+  /// your group scales.
+  ///
+  /// This number has the same unit of measurement as the group's desired
+  /// capacity. If you change the default unit of measurement (number of
+  /// instances) by specifying weighted capacity values in your launch template
+  /// overrides list, or by changing the default desired capacity type setting of
+  /// the group, you must specify this number using the same unit of measurement.
+  ///
+  /// Default: 0
+  final int? onDemandBaseCapacity;
+
+  /// Controls the percentages of On-Demand Instances and Spot Instances for your
+  /// additional capacity beyond <code>OnDemandBaseCapacity</code>. Expressed as a
+  /// number (for example, 20 specifies 20% On-Demand Instances, 80% Spot
+  /// Instances). If set to 100, only On-Demand Instances are used.
+  ///
+  /// Default: 100
+  final int? onDemandPercentageAboveBaseCapacity;
+
+  /// The allocation strategy to apply to your Spot Instances when they are
+  /// launched. Possible instance types are determined by the launch template
+  /// overrides that you specify.
+  ///
+  /// The following lists the valid values:
+  /// <dl> <dt>capacity-optimized</dt> <dd>
+  /// Requests Spot Instances using pools that are optimally chosen based on the
+  /// available Spot capacity. This strategy has the lowest risk of interruption.
+  /// To give certain instance types a higher chance of launching first, use
+  /// <code>capacity-optimized-prioritized</code>.
+  /// </dd> <dt>capacity-optimized-prioritized</dt> <dd>
+  /// You set the order of instance types for the launch template overrides from
+  /// highest to lowest priority (from first to last in the list). Amazon EC2 Auto
+  /// Scaling honors the instance type priorities on a best effort basis but
+  /// optimizes for capacity first. Note that if the On-Demand allocation strategy
+  /// is set to <code>prioritized</code>, the same priority is applied when
+  /// fulfilling On-Demand capacity. This is not a valid value for Auto Scaling
+  /// groups that specify <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>.
+  /// </dd> <dt>lowest-price</dt> <dd>
+  /// Requests Spot Instances using the lowest priced pools within an Availability
+  /// Zone, across the number of Spot pools that you specify for the
+  /// <code>SpotInstancePools</code> property. To ensure that your desired
+  /// capacity is met, you might receive Spot Instances from several pools. This
+  /// is the default value, but it might lead to high interruption rates because
+  /// this strategy only considers instance price and not available capacity.
+  /// </dd> <dt>price-capacity-optimized (recommended)</dt> <dd>
+  /// The price and capacity optimized allocation strategy looks at both price and
+  /// capacity to select the Spot Instance pools that are the least likely to be
+  /// interrupted and have the lowest possible price.
+  /// </dd> </dl>
+  final String? spotAllocationStrategy;
+
+  /// The number of Spot Instance pools across which to allocate your Spot
+  /// Instances. The Spot pools are determined from the different instance types
+  /// in the overrides. Valid only when the <code>SpotAllocationStrategy</code> is
+  /// <code>lowest-price</code>. Value must be in the range of 1–20.
+  ///
+  /// Default: 2
+  final int? spotInstancePools;
+
+  /// The maximum price per unit hour that you are willing to pay for a Spot
+  /// Instance. If your maximum price is lower than the Spot price for the
+  /// instance types that you selected, your Spot Instances are not launched. We
+  /// do not recommend specifying a maximum price because it can lead to increased
+  /// interruptions. When Spot Instances launch, you pay the current Spot price.
+  /// To remove a maximum price that you previously set, include the property but
+  /// specify an empty string ("") for the value.
+  /// <important>
+  /// If you specify a maximum price, your instances will be interrupted more
+  /// frequently than if you do not specify one.
+  /// </important>
+  /// Valid Range: Minimum value of 0.001
+  final String? spotMaxPrice;
+
+  InstancesDistribution({
+    this.onDemandAllocationStrategy,
+    this.onDemandBaseCapacity,
+    this.onDemandPercentageAboveBaseCapacity,
+    this.spotAllocationStrategy,
+    this.spotInstancePools,
+    this.spotMaxPrice,
+  });
+  factory InstancesDistribution.fromXml(_s.XmlElement elem) {
+    return InstancesDistribution(
+      onDemandAllocationStrategy:
+          _s.extractXmlStringValue(elem, 'OnDemandAllocationStrategy'),
+      onDemandBaseCapacity: _s.extractXmlIntValue(elem, 'OnDemandBaseCapacity'),
+      onDemandPercentageAboveBaseCapacity:
+          _s.extractXmlIntValue(elem, 'OnDemandPercentageAboveBaseCapacity'),
+      spotAllocationStrategy:
+          _s.extractXmlStringValue(elem, 'SpotAllocationStrategy'),
+      spotInstancePools: _s.extractXmlIntValue(elem, 'SpotInstancePools'),
+      spotMaxPrice: _s.extractXmlStringValue(elem, 'SpotMaxPrice'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onDemandAllocationStrategy = this.onDemandAllocationStrategy;
+    final onDemandBaseCapacity = this.onDemandBaseCapacity;
+    final onDemandPercentageAboveBaseCapacity =
+        this.onDemandPercentageAboveBaseCapacity;
+    final spotAllocationStrategy = this.spotAllocationStrategy;
+    final spotInstancePools = this.spotInstancePools;
+    final spotMaxPrice = this.spotMaxPrice;
+    return {
+      if (onDemandAllocationStrategy != null)
+        'OnDemandAllocationStrategy': onDemandAllocationStrategy,
+      if (onDemandBaseCapacity != null)
+        'OnDemandBaseCapacity': onDemandBaseCapacity,
+      if (onDemandPercentageAboveBaseCapacity != null)
+        'OnDemandPercentageAboveBaseCapacity':
+            onDemandPercentageAboveBaseCapacity,
+      if (spotAllocationStrategy != null)
+        'SpotAllocationStrategy': spotAllocationStrategy,
+      if (spotInstancePools != null) 'SpotInstancePools': spotInstancePools,
+      if (spotMaxPrice != null) 'SpotMaxPrice': spotMaxPrice,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final onDemandAllocationStrategy = this.onDemandAllocationStrategy;
+    final onDemandBaseCapacity = this.onDemandBaseCapacity;
+    final onDemandPercentageAboveBaseCapacity =
+        this.onDemandPercentageAboveBaseCapacity;
+    final spotAllocationStrategy = this.spotAllocationStrategy;
+    final spotInstancePools = this.spotInstancePools;
+    final spotMaxPrice = this.spotMaxPrice;
+    return {
+      if (onDemandAllocationStrategy != null)
+        'OnDemandAllocationStrategy': onDemandAllocationStrategy,
+      if (onDemandBaseCapacity != null)
+        'OnDemandBaseCapacity': onDemandBaseCapacity.toString(),
+      if (onDemandPercentageAboveBaseCapacity != null)
+        'OnDemandPercentageAboveBaseCapacity':
+            onDemandPercentageAboveBaseCapacity.toString(),
+      if (spotAllocationStrategy != null)
+        'SpotAllocationStrategy': spotAllocationStrategy,
+      if (spotInstancePools != null)
+        'SpotInstancePools': spotInstancePools.toString(),
+      if (spotMaxPrice != null) 'SpotMaxPrice': spotMaxPrice,
+    };
+  }
+}
+
+/// Use this structure to let Amazon EC2 Auto Scaling do the following when the
+/// Auto Scaling group has a mixed instances policy:
+///
+/// <ul>
+/// <li>
+/// Override the instance type that is specified in the launch template.
+/// </li>
+/// <li>
+/// Use multiple instance types.
+/// </li>
+/// </ul>
+/// Specify the instance types that you want, or define your instance
+/// requirements instead and let Amazon EC2 Auto Scaling provision the available
+/// instance types that meet your requirements. This can provide Amazon EC2 Auto
+/// Scaling with a larger selection of instance types to choose from when
+/// fulfilling Spot and On-Demand capacities. You can view which instance types
+/// are matched before you apply the instance requirements to your Auto Scaling
+/// group.
+///
+/// After you define your instance requirements, you don't have to keep updating
+/// these settings to get new EC2 instance types automatically. Amazon EC2 Auto
+/// Scaling uses the instance requirements of the Auto Scaling group to
+/// determine whether a new EC2 instance type can be used.
+class LaunchTemplateOverrides {
+  /// The ID of the Amazon Machine Image (AMI) to use for instances launched with
+  /// this override. When using Instance Refresh with
+  /// <code>ReplaceRootVolume</code> strategy, this specifies the AMI for root
+  /// volume replacement operations.
+  ///
+  /// For <code>ReplaceRootVolume</code> operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// All overrides in the <code>MixedInstancesPolicy</code> must specify an
+  /// ImageId
+  /// </li>
+  /// <li>
+  /// The AMI must contain only a single root volume
+  /// </li>
+  /// <li>
+  /// Root volume replacement doesn't support multi-volume AMIs
+  /// </li>
+  /// </ul>
+  final String? imageId;
+
+  /// The instance requirements. Amazon EC2 Auto Scaling uses your specified
+  /// requirements to identify instance types. Then, it uses your On-Demand and
+  /// Spot allocation strategies to launch instances from these instance types.
+  ///
+  /// You can specify up to four separate sets of instance requirements per Auto
+  /// Scaling group. This is useful for provisioning instances from different
+  /// Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this,
+  /// create the AMIs and create a new launch template for each AMI. Then, create
+  /// a compatible set of instance requirements for each launch template.
+  /// <note>
+  /// If you specify <code>InstanceRequirements</code>, you can't specify
+  /// <code>InstanceType</code>.
+  /// </note>
+  final InstanceRequirements? instanceRequirements;
+
+  /// The instance type, such as <code>m3.xlarge</code>. You must specify an
+  /// instance type that is supported in your requested Region and Availability
+  /// Zones. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
+  /// types</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// You can specify up to 40 instance types per Auto Scaling group.
+  final String? instanceType;
+
+  /// Provides a launch template for the specified instance type or set of
+  /// instance requirements. For example, some instance types might require a
+  /// launch template with a different AMI. If not provided, Amazon EC2 Auto
+  /// Scaling uses the launch template that's specified in the
+  /// <code>LaunchTemplate</code> definition. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups-launch-template-overrides.html">Specifying
+  /// a different launch template for an instance type</a> in the <i>Amazon EC2
+  /// Auto Scaling User Guide</i>.
+  ///
+  /// You can specify up to 20 launch templates per Auto Scaling group. The launch
+  /// templates specified in the overrides and in the <code>LaunchTemplate</code>
+  /// definition count towards this limit.
+  final LaunchTemplateSpecification? launchTemplateSpecification;
+
+  /// If you provide a list of instance types to use, you can specify the number
+  /// of capacity units provided by each instance type in terms of virtual CPUs,
+  /// memory, storage, throughput, or other relative performance characteristic.
+  /// When a Spot or On-Demand Instance is launched, the capacity units count
+  /// toward the desired capacity. Amazon EC2 Auto Scaling launches instances
+  /// until the desired capacity is totally fulfilled, even if this results in an
+  /// overage. For example, if there are two units remaining to fulfill capacity,
+  /// and Amazon EC2 Auto Scaling can only launch an instance with a
+  /// <code>WeightedCapacity</code> of five units, the instance is launched, and
+  /// the desired capacity is exceeded by three units. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups-instance-weighting.html">Configure
+  /// an Auto Scaling group to use instance weights</a> in the <i>Amazon EC2 Auto
+  /// Scaling User Guide</i>. Value must be in the range of 1–999.
+  ///
+  /// If you specify a value for <code>WeightedCapacity</code> for one instance
+  /// type, you must specify a value for <code>WeightedCapacity</code> for all of
+  /// them.
+  /// <important>
+  /// Every Auto Scaling group has three size parameters
+  /// (<code>DesiredCapacity</code>, <code>MaxSize</code>, and
+  /// <code>MinSize</code>). Usually, you set these sizes based on a specific
+  /// number of instances. However, if you configure a mixed instances policy that
+  /// defines weights for the instance types, you must specify these sizes with
+  /// the same units that you use for weighting instances.
+  /// </important>
+  final String? weightedCapacity;
+
+  LaunchTemplateOverrides({
+    this.imageId,
+    this.instanceRequirements,
+    this.instanceType,
+    this.launchTemplateSpecification,
+    this.weightedCapacity,
+  });
+  factory LaunchTemplateOverrides.fromXml(_s.XmlElement elem) {
+    return LaunchTemplateOverrides(
+      imageId: _s.extractXmlStringValue(elem, 'ImageId'),
+      instanceRequirements: _s
+          .extractXmlChild(elem, 'InstanceRequirements')
+          ?.let(InstanceRequirements.fromXml),
+      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
+      launchTemplateSpecification: _s
+          .extractXmlChild(elem, 'LaunchTemplateSpecification')
+          ?.let(LaunchTemplateSpecification.fromXml),
+      weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    final instanceRequirements = this.instanceRequirements;
+    final instanceType = this.instanceType;
+    final launchTemplateSpecification = this.launchTemplateSpecification;
+    final weightedCapacity = this.weightedCapacity;
+    return {
+      if (imageId != null) 'ImageId': imageId,
+      if (instanceRequirements != null)
+        'InstanceRequirements': instanceRequirements,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (launchTemplateSpecification != null)
+        'LaunchTemplateSpecification': launchTemplateSpecification,
+      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final imageId = this.imageId;
+    final instanceRequirements = this.instanceRequirements;
+    final instanceType = this.instanceType;
+    final launchTemplateSpecification = this.launchTemplateSpecification;
+    final weightedCapacity = this.weightedCapacity;
+    return {
+      if (imageId != null) 'ImageId': imageId,
+      if (instanceRequirements != null)
+        for (var e1 in instanceRequirements.toQueryMap().entries)
+          'InstanceRequirements.${e1.key}': e1.value,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (launchTemplateSpecification != null)
+        for (var e1 in launchTemplateSpecification.toQueryMap().entries)
+          'LaunchTemplateSpecification.${e1.key}': e1.value,
+      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
     };
   }
 }
@@ -7865,8 +7435,8 @@ class InstanceRefreshWarmPoolProgress {
 /// instance types match your attributes before you apply them to your Auto
 /// Scaling group, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-get-instance-types-from-instance-requirements">Preview
-/// instance types with specified attributes</a> in the <i>Amazon EC2 User Guide
-/// for Linux Instances</i>.
+/// instance types with specified attributes</a> in the <i>Amazon EC2 User
+/// Guide</i>.
 class InstanceRequirements {
   /// The minimum and maximum instance memory size for an instance type, in MiB.
   final MemoryMiBRequest memoryMiB;
@@ -7984,17 +7554,18 @@ class InstanceRequirements {
   /// The minimum and maximum baseline bandwidth performance for an instance type,
   /// in Mbps. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
-  /// EBS–optimized instances</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
+  /// EBS–optimized instances</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Default: No minimum or maximum limits
   final BaselineEbsBandwidthMbpsRequest? baselineEbsBandwidthMbps;
 
+  /// The baseline performance factors for the instance requirements.
+  final BaselinePerformanceFactorsRequest? baselinePerformanceFactors;
+
   /// Indicates whether burstable performance instance types are included,
   /// excluded, or required. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
-  /// performance instances</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
+  /// performance instances</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Default: <code>excluded</code>
   final BurstablePerformance? burstablePerformance;
@@ -8011,6 +7582,9 @@ class InstanceRequirements {
   /// <li>
   /// For instance types with Amazon Web Services CPUs, specify
   /// <code>amazon-web-services</code>.
+  /// </li>
+  /// <li>
+  /// For instance types with Apple CPUs, specify <code>apple</code>.
   /// </li>
   /// </ul> <note>
   /// Don't confuse the CPU hardware manufacturer with the CPU hardware
@@ -8048,7 +7622,7 @@ class InstanceRequirements {
   /// use. This typically includes the latest two to three generations in each
   /// instance family. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
-  /// types</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  /// types</a> in the <i>Amazon EC2 User Guide</i>.
   /// </li>
   /// <li>
   /// For previous generation instance types, specify <code>previous</code>.
@@ -8060,8 +7634,7 @@ class InstanceRequirements {
   /// Indicates whether instance types with instance store volumes are included,
   /// excluded, or required. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html">Amazon
-  /// EC2 instance store</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
+  /// EC2 instance store</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// Default: <code>included</code>
   final LocalStorage? localStorage;
@@ -8203,6 +7776,7 @@ class InstanceRequirements {
     this.allowedInstanceTypes,
     this.bareMetal,
     this.baselineEbsBandwidthMbps,
+    this.baselinePerformanceFactors,
     this.burstablePerformance,
     this.cpuManufacturers,
     this.excludedInstanceTypes,
@@ -8255,6 +7829,9 @@ class InstanceRequirements {
       baselineEbsBandwidthMbps: _s
           .extractXmlChild(elem, 'BaselineEbsBandwidthMbps')
           ?.let(BaselineEbsBandwidthMbpsRequest.fromXml),
+      baselinePerformanceFactors: _s
+          .extractXmlChild(elem, 'BaselinePerformanceFactors')
+          ?.let(BaselinePerformanceFactorsRequest.fromXml),
       burstablePerformance: _s
           .extractXmlStringValue(elem, 'BurstablePerformance')
           ?.let(BurstablePerformance.fromString),
@@ -8313,6 +7890,7 @@ class InstanceRequirements {
     final allowedInstanceTypes = this.allowedInstanceTypes;
     final bareMetal = this.bareMetal;
     final baselineEbsBandwidthMbps = this.baselineEbsBandwidthMbps;
+    final baselinePerformanceFactors = this.baselinePerformanceFactors;
     final burstablePerformance = this.burstablePerformance;
     final cpuManufacturers = this.cpuManufacturers;
     final excludedInstanceTypes = this.excludedInstanceTypes;
@@ -8348,6 +7926,8 @@ class InstanceRequirements {
       if (bareMetal != null) 'BareMetal': bareMetal.value,
       if (baselineEbsBandwidthMbps != null)
         'BaselineEbsBandwidthMbps': baselineEbsBandwidthMbps,
+      if (baselinePerformanceFactors != null)
+        'BaselinePerformanceFactors': baselinePerformanceFactors,
       if (burstablePerformance != null)
         'BurstablePerformance': burstablePerformance.value,
       if (cpuManufacturers != null)
@@ -8391,6 +7971,7 @@ class InstanceRequirements {
     final allowedInstanceTypes = this.allowedInstanceTypes;
     final bareMetal = this.bareMetal;
     final baselineEbsBandwidthMbps = this.baselineEbsBandwidthMbps;
+    final baselinePerformanceFactors = this.baselinePerformanceFactors;
     final burstablePerformance = this.burstablePerformance;
     final cpuManufacturers = this.cpuManufacturers;
     final excludedInstanceTypes = this.excludedInstanceTypes;
@@ -8448,6 +8029,9 @@ class InstanceRequirements {
       if (baselineEbsBandwidthMbps != null)
         for (var e1 in baselineEbsBandwidthMbps.toQueryMap().entries)
           'BaselineEbsBandwidthMbps.${e1.key}': e1.value,
+      if (baselinePerformanceFactors != null)
+        for (var e1 in baselinePerformanceFactors.toQueryMap().entries)
+          'BaselinePerformanceFactors.${e1.key}': e1.value,
       if (burstablePerformance != null)
         'BurstablePerformance': burstablePerformance.value,
       if (cpuManufacturers != null)
@@ -8503,1283 +8087,51 @@ class InstanceRequirements {
   }
 }
 
-/// Describes an instance reuse policy for a warm pool.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html">Warm
-/// pools for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling User
-/// Guide</i>.
-class InstanceReusePolicy {
-  /// Specifies whether instances in the Auto Scaling group can be returned to the
-  /// warm pool on scale in.
-  final bool? reuseOnScaleIn;
-
-  InstanceReusePolicy({
-    this.reuseOnScaleIn,
-  });
-  factory InstanceReusePolicy.fromXml(_s.XmlElement elem) {
-    return InstanceReusePolicy(
-      reuseOnScaleIn: _s.extractXmlBoolValue(elem, 'ReuseOnScaleIn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final reuseOnScaleIn = this.reuseOnScaleIn;
-    return {
-      if (reuseOnScaleIn != null) 'ReuseOnScaleIn': reuseOnScaleIn,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final reuseOnScaleIn = this.reuseOnScaleIn;
-    return {
-      if (reuseOnScaleIn != null) 'ReuseOnScaleIn': reuseOnScaleIn.toString(),
-    };
-  }
-}
-
-/// Use this structure to specify the distribution of On-Demand Instances and
-/// Spot Instances and the allocation strategies used to fulfill On-Demand and
-/// Spot capacities for a mixed instances policy.
-class InstancesDistribution {
-  /// The allocation strategy to apply to your On-Demand Instances when they are
-  /// launched. Possible instance types are determined by the launch template
-  /// overrides that you specify.
-  ///
-  /// The following lists the valid values:
-  /// <dl> <dt>lowest-price</dt> <dd>
-  /// Uses price to determine which instance types are the highest priority,
-  /// launching the lowest priced instance types within an Availability Zone
-  /// first. This is the default value for Auto Scaling groups that specify
-  /// <a>InstanceRequirements</a>.
-  /// </dd> <dt>prioritized</dt> <dd>
-  /// You set the order of instance types for the launch template overrides from
-  /// highest to lowest priority (from first to last in the list). Amazon EC2 Auto
-  /// Scaling launches your highest priority instance types first. If all your
-  /// On-Demand capacity cannot be fulfilled using your highest priority instance
-  /// type, then Amazon EC2 Auto Scaling launches the remaining capacity using the
-  /// second priority instance type, and so on. This is the default value for Auto
-  /// Scaling groups that don't specify <a>InstanceRequirements</a> and cannot be
-  /// used for groups that do.
-  /// </dd> </dl>
-  final String? onDemandAllocationStrategy;
-
-  /// The minimum amount of the Auto Scaling group's capacity that must be
-  /// fulfilled by On-Demand Instances. This base portion is launched first as
-  /// your group scales.
-  ///
-  /// This number has the same unit of measurement as the group's desired
-  /// capacity. If you change the default unit of measurement (number of
-  /// instances) by specifying weighted capacity values in your launch template
-  /// overrides list, or by changing the default desired capacity type setting of
-  /// the group, you must specify this number using the same unit of measurement.
-  ///
-  /// Default: 0
-  final int? onDemandBaseCapacity;
-
-  /// Controls the percentages of On-Demand Instances and Spot Instances for your
-  /// additional capacity beyond <code>OnDemandBaseCapacity</code>. Expressed as a
-  /// number (for example, 20 specifies 20% On-Demand Instances, 80% Spot
-  /// Instances). If set to 100, only On-Demand Instances are used.
-  ///
-  /// Default: 100
-  final int? onDemandPercentageAboveBaseCapacity;
-
-  /// The allocation strategy to apply to your Spot Instances when they are
-  /// launched. Possible instance types are determined by the launch template
-  /// overrides that you specify.
-  ///
-  /// The following lists the valid values:
-  /// <dl> <dt>capacity-optimized</dt> <dd>
-  /// Requests Spot Instances using pools that are optimally chosen based on the
-  /// available Spot capacity. This strategy has the lowest risk of interruption.
-  /// To give certain instance types a higher chance of launching first, use
-  /// <code>capacity-optimized-prioritized</code>.
-  /// </dd> <dt>capacity-optimized-prioritized</dt> <dd>
-  /// You set the order of instance types for the launch template overrides from
-  /// highest to lowest priority (from first to last in the list). Amazon EC2 Auto
-  /// Scaling honors the instance type priorities on a best effort basis but
-  /// optimizes for capacity first. Note that if the On-Demand allocation strategy
-  /// is set to <code>prioritized</code>, the same priority is applied when
-  /// fulfilling On-Demand capacity. This is not a valid value for Auto Scaling
-  /// groups that specify <a>InstanceRequirements</a>.
-  /// </dd> <dt>lowest-price</dt> <dd>
-  /// Requests Spot Instances using the lowest priced pools within an Availability
-  /// Zone, across the number of Spot pools that you specify for the
-  /// <code>SpotInstancePools</code> property. To ensure that your desired
-  /// capacity is met, you might receive Spot Instances from several pools. This
-  /// is the default value, but it might lead to high interruption rates because
-  /// this strategy only considers instance price and not available capacity.
-  /// </dd> <dt>price-capacity-optimized (recommended)</dt> <dd>
-  /// The price and capacity optimized allocation strategy looks at both price and
-  /// capacity to select the Spot Instance pools that are the least likely to be
-  /// interrupted and have the lowest possible price.
-  /// </dd> </dl>
-  final String? spotAllocationStrategy;
-
-  /// The number of Spot Instance pools across which to allocate your Spot
-  /// Instances. The Spot pools are determined from the different instance types
-  /// in the overrides. Valid only when the <code>SpotAllocationStrategy</code> is
-  /// <code>lowest-price</code>. Value must be in the range of 1–20.
-  ///
-  /// Default: 2
-  final int? spotInstancePools;
-
-  /// The maximum price per unit hour that you are willing to pay for a Spot
-  /// Instance. If your maximum price is lower than the Spot price for the
-  /// instance types that you selected, your Spot Instances are not launched. We
-  /// do not recommend specifying a maximum price because it can lead to increased
-  /// interruptions. When Spot Instances launch, you pay the current Spot price.
-  /// To remove a maximum price that you previously set, include the property but
-  /// specify an empty string ("") for the value.
-  /// <important>
-  /// If you specify a maximum price, your instances will be interrupted more
-  /// frequently than if you do not specify one.
-  /// </important>
-  /// Valid Range: Minimum value of 0.001
-  final String? spotMaxPrice;
-
-  InstancesDistribution({
-    this.onDemandAllocationStrategy,
-    this.onDemandBaseCapacity,
-    this.onDemandPercentageAboveBaseCapacity,
-    this.spotAllocationStrategy,
-    this.spotInstancePools,
-    this.spotMaxPrice,
-  });
-  factory InstancesDistribution.fromXml(_s.XmlElement elem) {
-    return InstancesDistribution(
-      onDemandAllocationStrategy:
-          _s.extractXmlStringValue(elem, 'OnDemandAllocationStrategy'),
-      onDemandBaseCapacity: _s.extractXmlIntValue(elem, 'OnDemandBaseCapacity'),
-      onDemandPercentageAboveBaseCapacity:
-          _s.extractXmlIntValue(elem, 'OnDemandPercentageAboveBaseCapacity'),
-      spotAllocationStrategy:
-          _s.extractXmlStringValue(elem, 'SpotAllocationStrategy'),
-      spotInstancePools: _s.extractXmlIntValue(elem, 'SpotInstancePools'),
-      spotMaxPrice: _s.extractXmlStringValue(elem, 'SpotMaxPrice'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final onDemandAllocationStrategy = this.onDemandAllocationStrategy;
-    final onDemandBaseCapacity = this.onDemandBaseCapacity;
-    final onDemandPercentageAboveBaseCapacity =
-        this.onDemandPercentageAboveBaseCapacity;
-    final spotAllocationStrategy = this.spotAllocationStrategy;
-    final spotInstancePools = this.spotInstancePools;
-    final spotMaxPrice = this.spotMaxPrice;
-    return {
-      if (onDemandAllocationStrategy != null)
-        'OnDemandAllocationStrategy': onDemandAllocationStrategy,
-      if (onDemandBaseCapacity != null)
-        'OnDemandBaseCapacity': onDemandBaseCapacity,
-      if (onDemandPercentageAboveBaseCapacity != null)
-        'OnDemandPercentageAboveBaseCapacity':
-            onDemandPercentageAboveBaseCapacity,
-      if (spotAllocationStrategy != null)
-        'SpotAllocationStrategy': spotAllocationStrategy,
-      if (spotInstancePools != null) 'SpotInstancePools': spotInstancePools,
-      if (spotMaxPrice != null) 'SpotMaxPrice': spotMaxPrice,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final onDemandAllocationStrategy = this.onDemandAllocationStrategy;
-    final onDemandBaseCapacity = this.onDemandBaseCapacity;
-    final onDemandPercentageAboveBaseCapacity =
-        this.onDemandPercentageAboveBaseCapacity;
-    final spotAllocationStrategy = this.spotAllocationStrategy;
-    final spotInstancePools = this.spotInstancePools;
-    final spotMaxPrice = this.spotMaxPrice;
-    return {
-      if (onDemandAllocationStrategy != null)
-        'OnDemandAllocationStrategy': onDemandAllocationStrategy,
-      if (onDemandBaseCapacity != null)
-        'OnDemandBaseCapacity': onDemandBaseCapacity.toString(),
-      if (onDemandPercentageAboveBaseCapacity != null)
-        'OnDemandPercentageAboveBaseCapacity':
-            onDemandPercentageAboveBaseCapacity.toString(),
-      if (spotAllocationStrategy != null)
-        'SpotAllocationStrategy': spotAllocationStrategy,
-      if (spotInstancePools != null)
-        'SpotInstancePools': spotInstancePools.toString(),
-      if (spotMaxPrice != null) 'SpotMaxPrice': spotMaxPrice,
-    };
-  }
-}
-
-/// Describes a launch configuration.
-class LaunchConfiguration {
-  /// The creation date and time for the launch configuration.
-  final DateTime createdTime;
-
-  /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2
-  /// instances. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html">Find
-  /// a Linux AMI</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
-  final String imageId;
-
-  /// The instance type for the instances. For information about available
-  /// instance types, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes">Available
-  /// instance types</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
-  final String instanceType;
-
-  /// The name of the launch configuration.
-  final String launchConfigurationName;
-
-  /// Specifies whether to assign a public IPv4 address to the group's instances.
-  /// If the instance is launched into a default subnet, the default is to assign
-  /// a public IPv4 address, unless you disabled the option to assign a public
-  /// IPv4 address on the subnet. If the instance is launched into a nondefault
-  /// subnet, the default is not to assign a public IPv4 address, unless you
-  /// enabled the option to assign a public IPv4 address on the subnet. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html">Provide
-  /// network connectivity for your Auto Scaling instances using Amazon VPC</a> in
-  /// the <i>Amazon EC2 Auto Scaling User Guide</i>.
-  final bool? associatePublicIpAddress;
-
-  /// The block device mapping entries that define the block devices to attach to
-  /// the instances at launch. By default, the block devices specified in the
-  /// block device mapping for the AMI are used. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html">Block
-  /// device mappings</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
-  final List<BlockDeviceMapping>? blockDeviceMappings;
-
-  /// Available for backward compatibility.
-  final String? classicLinkVPCId;
-
-  /// Available for backward compatibility.
-  final List<String>? classicLinkVPCSecurityGroups;
-
-  /// Specifies whether the launch configuration is optimized for EBS I/O
-  /// (<code>true</code>) or not (<code>false</code>). For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
-  /// EBS-optimized instances</a> in the <i>Amazon EC2 User Guide for Linux
-  /// Instances</i>.
-  final bool? ebsOptimized;
-
-  /// The name or the Amazon Resource Name (ARN) of the instance profile
-  /// associated with the IAM role for the instance. The instance profile contains
-  /// the IAM role. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/us-iam-role.html">IAM
-  /// role for applications that run on Amazon EC2 instances</a> in the <i>Amazon
-  /// EC2 Auto Scaling User Guide</i>.
-  final String? iamInstanceProfile;
-
-  /// Controls whether instances in this group are launched with detailed
-  /// (<code>true</code>) or basic (<code>false</code>) monitoring.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html">Configure
-  /// monitoring for Auto Scaling instances</a> in the <i>Amazon EC2 Auto Scaling
-  /// User Guide</i>.
-  final InstanceMonitoring? instanceMonitoring;
-
-  /// The ID of the kernel associated with the AMI.
-  final String? kernelId;
-
-  /// The name of the key pair.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
-  /// EC2 key pairs and Amazon EC2 instances</a> in the <i>Amazon EC2 User Guide
-  /// for Linux Instances</i>.
-  final String? keyName;
-
-  /// The Amazon Resource Name (ARN) of the launch configuration.
-  final String? launchConfigurationARN;
-
-  /// The metadata options for the instances. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds">Configure
-  /// the instance metadata options</a> in the <i>Amazon EC2 Auto Scaling User
-  /// Guide</i>.
-  final InstanceMetadataOptions? metadataOptions;
-
-  /// The tenancy of the instance, either <code>default</code> or
-  /// <code>dedicated</code>. An instance with <code>dedicated</code> tenancy runs
-  /// on isolated, single-tenant hardware and can only be launched into a VPC.
-  final String? placementTenancy;
-
-  /// The ID of the RAM disk associated with the AMI.
-  final String? ramdiskId;
-
-  /// A list that contains the security groups to assign to the instances in the
-  /// Auto Scaling group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html">Control
-  /// traffic to your Amazon Web Services resources using security groups</a> in
-  /// the <i>Amazon Virtual Private Cloud User Guide</i>.
-  final List<String>? securityGroups;
-
-  /// The maximum hourly price to be paid for any Spot Instance launched to
-  /// fulfill the request. Spot Instances are launched when the price you specify
-  /// exceeds the current Spot price. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-spot-instances.html">Requesting
-  /// Spot Instances for fault-tolerant and flexible applications</a> in the
-  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
-  final String? spotPrice;
-
-  /// The user data to make available to the launched EC2 instances. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
-  /// metadata and user data</a> (Linux) and <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html">Instance
-  /// metadata and user data</a> (Windows). If you are using a command line tool,
-  /// base64-encoding is performed for you, and you can load the text from a file.
-  /// Otherwise, you must provide base64-encoded text. User data is limited to 16
-  /// KB.
-  final String? userData;
-
-  LaunchConfiguration({
-    required this.createdTime,
-    required this.imageId,
-    required this.instanceType,
-    required this.launchConfigurationName,
-    this.associatePublicIpAddress,
-    this.blockDeviceMappings,
-    this.classicLinkVPCId,
-    this.classicLinkVPCSecurityGroups,
-    this.ebsOptimized,
-    this.iamInstanceProfile,
-    this.instanceMonitoring,
-    this.kernelId,
-    this.keyName,
-    this.launchConfigurationARN,
-    this.metadataOptions,
-    this.placementTenancy,
-    this.ramdiskId,
-    this.securityGroups,
-    this.spotPrice,
-    this.userData,
-  });
-  factory LaunchConfiguration.fromXml(_s.XmlElement elem) {
-    return LaunchConfiguration(
-      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime')!,
-      imageId: _s.extractXmlStringValue(elem, 'ImageId')!,
-      instanceType: _s.extractXmlStringValue(elem, 'InstanceType')!,
-      launchConfigurationName:
-          _s.extractXmlStringValue(elem, 'LaunchConfigurationName')!,
-      associatePublicIpAddress:
-          _s.extractXmlBoolValue(elem, 'AssociatePublicIpAddress'),
-      blockDeviceMappings: _s.extractXmlChild(elem, 'BlockDeviceMappings')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(BlockDeviceMapping.fromXml)
-              .toList()),
-      classicLinkVPCId: _s.extractXmlStringValue(elem, 'ClassicLinkVPCId'),
-      classicLinkVPCSecurityGroups: _s
-          .extractXmlChild(elem, 'ClassicLinkVPCSecurityGroups')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      ebsOptimized: _s.extractXmlBoolValue(elem, 'EbsOptimized'),
-      iamInstanceProfile: _s.extractXmlStringValue(elem, 'IamInstanceProfile'),
-      instanceMonitoring: _s
-          .extractXmlChild(elem, 'InstanceMonitoring')
-          ?.let(InstanceMonitoring.fromXml),
-      kernelId: _s.extractXmlStringValue(elem, 'KernelId'),
-      keyName: _s.extractXmlStringValue(elem, 'KeyName'),
-      launchConfigurationARN:
-          _s.extractXmlStringValue(elem, 'LaunchConfigurationARN'),
-      metadataOptions: _s
-          .extractXmlChild(elem, 'MetadataOptions')
-          ?.let(InstanceMetadataOptions.fromXml),
-      placementTenancy: _s.extractXmlStringValue(elem, 'PlacementTenancy'),
-      ramdiskId: _s.extractXmlStringValue(elem, 'RamdiskId'),
-      securityGroups: _s
-          .extractXmlChild(elem, 'SecurityGroups')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      spotPrice: _s.extractXmlStringValue(elem, 'SpotPrice'),
-      userData: _s.extractXmlStringValue(elem, 'UserData'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdTime = this.createdTime;
-    final imageId = this.imageId;
-    final instanceType = this.instanceType;
-    final launchConfigurationName = this.launchConfigurationName;
-    final associatePublicIpAddress = this.associatePublicIpAddress;
-    final blockDeviceMappings = this.blockDeviceMappings;
-    final classicLinkVPCId = this.classicLinkVPCId;
-    final classicLinkVPCSecurityGroups = this.classicLinkVPCSecurityGroups;
-    final ebsOptimized = this.ebsOptimized;
-    final iamInstanceProfile = this.iamInstanceProfile;
-    final instanceMonitoring = this.instanceMonitoring;
-    final kernelId = this.kernelId;
-    final keyName = this.keyName;
-    final launchConfigurationARN = this.launchConfigurationARN;
-    final metadataOptions = this.metadataOptions;
-    final placementTenancy = this.placementTenancy;
-    final ramdiskId = this.ramdiskId;
-    final securityGroups = this.securityGroups;
-    final spotPrice = this.spotPrice;
-    final userData = this.userData;
-    return {
-      'CreatedTime': iso8601ToJson(createdTime),
-      'ImageId': imageId,
-      'InstanceType': instanceType,
-      'LaunchConfigurationName': launchConfigurationName,
-      if (associatePublicIpAddress != null)
-        'AssociatePublicIpAddress': associatePublicIpAddress,
-      if (blockDeviceMappings != null)
-        'BlockDeviceMappings': blockDeviceMappings,
-      if (classicLinkVPCId != null) 'ClassicLinkVPCId': classicLinkVPCId,
-      if (classicLinkVPCSecurityGroups != null)
-        'ClassicLinkVPCSecurityGroups': classicLinkVPCSecurityGroups,
-      if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
-      if (iamInstanceProfile != null) 'IamInstanceProfile': iamInstanceProfile,
-      if (instanceMonitoring != null) 'InstanceMonitoring': instanceMonitoring,
-      if (kernelId != null) 'KernelId': kernelId,
-      if (keyName != null) 'KeyName': keyName,
-      if (launchConfigurationARN != null)
-        'LaunchConfigurationARN': launchConfigurationARN,
-      if (metadataOptions != null) 'MetadataOptions': metadataOptions,
-      if (placementTenancy != null) 'PlacementTenancy': placementTenancy,
-      if (ramdiskId != null) 'RamdiskId': ramdiskId,
-      if (securityGroups != null) 'SecurityGroups': securityGroups,
-      if (spotPrice != null) 'SpotPrice': spotPrice,
-      if (userData != null) 'UserData': userData,
-    };
-  }
-}
-
-class LaunchConfigurationsType {
-  /// The launch configurations.
-  final List<LaunchConfiguration> launchConfigurations;
-
-  /// A string that indicates that the response contains more items than can be
-  /// returned in a single response. To receive additional items, specify this
-  /// string for the <code>NextToken</code> value when requesting the next set of
-  /// items. This value is null when there are no more items to return.
-  final String? nextToken;
-
-  LaunchConfigurationsType({
-    required this.launchConfigurations,
-    this.nextToken,
-  });
-  factory LaunchConfigurationsType.fromXml(_s.XmlElement elem) {
-    return LaunchConfigurationsType(
-      launchConfigurations: _s
-          .extractXmlChild(elem, 'LaunchConfigurations')!
-          .findElements('member')
-          .map(LaunchConfiguration.fromXml)
-          .toList(),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final launchConfigurations = this.launchConfigurations;
-    final nextToken = this.nextToken;
-    return {
-      'LaunchConfigurations': launchConfigurations,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// Use this structure to specify the launch templates and instance types
-/// (overrides) for a mixed instances policy.
-class LaunchTemplate {
-  /// The launch template.
-  final LaunchTemplateSpecification? launchTemplateSpecification;
-
-  /// Any properties that you specify override the same properties in the launch
-  /// template.
-  final List<LaunchTemplateOverrides>? overrides;
-
-  LaunchTemplate({
-    this.launchTemplateSpecification,
-    this.overrides,
-  });
-  factory LaunchTemplate.fromXml(_s.XmlElement elem) {
-    return LaunchTemplate(
-      launchTemplateSpecification: _s
-          .extractXmlChild(elem, 'LaunchTemplateSpecification')
-          ?.let(LaunchTemplateSpecification.fromXml),
-      overrides: _s.extractXmlChild(elem, 'Overrides')?.let((elem) => elem
-          .findElements('member')
-          .map(LaunchTemplateOverrides.fromXml)
-          .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final launchTemplateSpecification = this.launchTemplateSpecification;
-    final overrides = this.overrides;
-    return {
-      if (launchTemplateSpecification != null)
-        'LaunchTemplateSpecification': launchTemplateSpecification,
-      if (overrides != null) 'Overrides': overrides,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final launchTemplateSpecification = this.launchTemplateSpecification;
-    final overrides = this.overrides;
-    return {
-      if (launchTemplateSpecification != null)
-        for (var e1 in launchTemplateSpecification.toQueryMap().entries)
-          'LaunchTemplateSpecification.${e1.key}': e1.value,
-      if (overrides != null)
-        if (overrides.isEmpty)
-          'Overrides': ''
-        else
-          for (var i1 = 0; i1 < overrides.length; i1++)
-            for (var e3 in overrides[i1].toQueryMap().entries)
-              'Overrides.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
-/// Use this structure to let Amazon EC2 Auto Scaling do the following when the
-/// Auto Scaling group has a mixed instances policy:
-///
-/// <ul>
-/// <li>
-/// Override the instance type that is specified in the launch template.
-/// </li>
-/// <li>
-/// Use multiple instance types.
-/// </li>
-/// </ul>
-/// Specify the instance types that you want, or define your instance
-/// requirements instead and let Amazon EC2 Auto Scaling provision the available
-/// instance types that meet your requirements. This can provide Amazon EC2 Auto
-/// Scaling with a larger selection of instance types to choose from when
-/// fulfilling Spot and On-Demand capacities. You can view which instance types
-/// are matched before you apply the instance requirements to your Auto Scaling
-/// group.
-///
-/// After you define your instance requirements, you don't have to keep updating
-/// these settings to get new EC2 instance types automatically. Amazon EC2 Auto
-/// Scaling uses the instance requirements of the Auto Scaling group to
-/// determine whether a new EC2 instance type can be used.
-class LaunchTemplateOverrides {
-  /// The instance requirements. Amazon EC2 Auto Scaling uses your specified
-  /// requirements to identify instance types. Then, it uses your On-Demand and
-  /// Spot allocation strategies to launch instances from these instance types.
-  ///
-  /// You can specify up to four separate sets of instance requirements per Auto
-  /// Scaling group. This is useful for provisioning instances from different
-  /// Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this,
-  /// create the AMIs and create a new launch template for each AMI. Then, create
-  /// a compatible set of instance requirements for each launch template.
-  /// <note>
-  /// If you specify <code>InstanceRequirements</code>, you can't specify
-  /// <code>InstanceType</code>.
-  /// </note>
-  final InstanceRequirements? instanceRequirements;
-
-  /// The instance type, such as <code>m3.xlarge</code>. You must specify an
-  /// instance type that is supported in your requested Region and Availability
-  /// Zones. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
-  /// types</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
-  ///
-  /// You can specify up to 40 instance types per Auto Scaling group.
-  final String? instanceType;
-
-  /// Provides a launch template for the specified instance type or set of
-  /// instance requirements. For example, some instance types might require a
-  /// launch template with a different AMI. If not provided, Amazon EC2 Auto
-  /// Scaling uses the launch template that's specified in the
-  /// <code>LaunchTemplate</code> definition. For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups-launch-template-overrides.html">Specifying
-  /// a different launch template for an instance type</a> in the <i>Amazon EC2
-  /// Auto Scaling User Guide</i>.
-  ///
-  /// You can specify up to 20 launch templates per Auto Scaling group. The launch
-  /// templates specified in the overrides and in the <code>LaunchTemplate</code>
-  /// definition count towards this limit.
-  final LaunchTemplateSpecification? launchTemplateSpecification;
-
-  /// If you provide a list of instance types to use, you can specify the number
-  /// of capacity units provided by each instance type in terms of virtual CPUs,
-  /// memory, storage, throughput, or other relative performance characteristic.
-  /// When a Spot or On-Demand Instance is launched, the capacity units count
-  /// toward the desired capacity. Amazon EC2 Auto Scaling launches instances
-  /// until the desired capacity is totally fulfilled, even if this results in an
-  /// overage. For example, if there are two units remaining to fulfill capacity,
-  /// and Amazon EC2 Auto Scaling can only launch an instance with a
-  /// <code>WeightedCapacity</code> of five units, the instance is launched, and
-  /// the desired capacity is exceeded by three units. For more information, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups-instance-weighting.html">Configure
-  /// an Auto Scaling group to use instance weights</a> in the <i>Amazon EC2 Auto
-  /// Scaling User Guide</i>. Value must be in the range of 1–999.
-  ///
-  /// If you specify a value for <code>WeightedCapacity</code> for one instance
-  /// type, you must specify a value for <code>WeightedCapacity</code> for all of
-  /// them.
-  /// <important>
-  /// Every Auto Scaling group has three size parameters
-  /// (<code>DesiredCapacity</code>, <code>MaxSize</code>, and
-  /// <code>MinSize</code>). Usually, you set these sizes based on a specific
-  /// number of instances. However, if you configure a mixed instances policy that
-  /// defines weights for the instance types, you must specify these sizes with
-  /// the same units that you use for weighting instances.
-  /// </important>
-  final String? weightedCapacity;
-
-  LaunchTemplateOverrides({
-    this.instanceRequirements,
-    this.instanceType,
-    this.launchTemplateSpecification,
-    this.weightedCapacity,
-  });
-  factory LaunchTemplateOverrides.fromXml(_s.XmlElement elem) {
-    return LaunchTemplateOverrides(
-      instanceRequirements: _s
-          .extractXmlChild(elem, 'InstanceRequirements')
-          ?.let(InstanceRequirements.fromXml),
-      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
-      launchTemplateSpecification: _s
-          .extractXmlChild(elem, 'LaunchTemplateSpecification')
-          ?.let(LaunchTemplateSpecification.fromXml),
-      weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceRequirements = this.instanceRequirements;
-    final instanceType = this.instanceType;
-    final launchTemplateSpecification = this.launchTemplateSpecification;
-    final weightedCapacity = this.weightedCapacity;
-    return {
-      if (instanceRequirements != null)
-        'InstanceRequirements': instanceRequirements,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (launchTemplateSpecification != null)
-        'LaunchTemplateSpecification': launchTemplateSpecification,
-      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final instanceRequirements = this.instanceRequirements;
-    final instanceType = this.instanceType;
-    final launchTemplateSpecification = this.launchTemplateSpecification;
-    final weightedCapacity = this.weightedCapacity;
-    return {
-      if (instanceRequirements != null)
-        for (var e1 in instanceRequirements.toQueryMap().entries)
-          'InstanceRequirements.${e1.key}': e1.value,
-      if (instanceType != null) 'InstanceType': instanceType,
-      if (launchTemplateSpecification != null)
-        for (var e1 in launchTemplateSpecification.toQueryMap().entries)
-          'LaunchTemplateSpecification.${e1.key}': e1.value,
-      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
-    };
-  }
-}
-
-/// Describes the launch template and the version of the launch template that
-/// Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more
-/// information about launch templates, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html">Launch
-/// templates</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-class LaunchTemplateSpecification {
-  /// The ID of the launch template. To get the template ID, use the Amazon EC2 <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html">DescribeLaunchTemplates</a>
-  /// API operation. New launch templates can be created using the Amazon EC2 <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html">CreateLaunchTemplate</a>
-  /// API.
-  ///
-  /// Conditional: You must specify either a <code>LaunchTemplateId</code> or a
-  /// <code>LaunchTemplateName</code>.
-  final String? launchTemplateId;
-
-  /// The name of the launch template. To get the template name, use the Amazon
-  /// EC2 <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplates.html">DescribeLaunchTemplates</a>
-  /// API operation. New launch templates can be created using the Amazon EC2 <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplate.html">CreateLaunchTemplate</a>
-  /// API.
-  ///
-  /// Conditional: You must specify either a <code>LaunchTemplateId</code> or a
-  /// <code>LaunchTemplateName</code>.
-  final String? launchTemplateName;
-
-  /// The version number, <code>$Latest</code>, or <code>$Default</code>. To get
-  /// the version number, use the Amazon EC2 <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeLaunchTemplateVersions.html">DescribeLaunchTemplateVersions</a>
-  /// API operation. New launch template versions can be created using the Amazon
-  /// EC2 <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateLaunchTemplateVersion.html">CreateLaunchTemplateVersion</a>
-  /// API. If the value is <code>$Latest</code>, Amazon EC2 Auto Scaling selects
-  /// the latest version of the launch template when launching instances. If the
-  /// value is <code>$Default</code>, Amazon EC2 Auto Scaling selects the default
-  /// version of the launch template when launching instances. The default value
-  /// is <code>$Default</code>.
-  final String? version;
-
-  LaunchTemplateSpecification({
-    this.launchTemplateId,
-    this.launchTemplateName,
-    this.version,
-  });
-  factory LaunchTemplateSpecification.fromXml(_s.XmlElement elem) {
-    return LaunchTemplateSpecification(
-      launchTemplateId: _s.extractXmlStringValue(elem, 'LaunchTemplateId'),
-      launchTemplateName: _s.extractXmlStringValue(elem, 'LaunchTemplateName'),
-      version: _s.extractXmlStringValue(elem, 'Version'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final launchTemplateId = this.launchTemplateId;
-    final launchTemplateName = this.launchTemplateName;
-    final version = this.version;
-    return {
-      if (launchTemplateId != null) 'LaunchTemplateId': launchTemplateId,
-      if (launchTemplateName != null) 'LaunchTemplateName': launchTemplateName,
-      if (version != null) 'Version': version,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final launchTemplateId = this.launchTemplateId;
-    final launchTemplateName = this.launchTemplateName;
-    final version = this.version;
-    return {
-      if (launchTemplateId != null) 'LaunchTemplateId': launchTemplateId,
-      if (launchTemplateName != null) 'LaunchTemplateName': launchTemplateName,
-      if (version != null) 'Version': version,
-    };
-  }
-}
-
-/// Describes a lifecycle hook. A lifecycle hook lets you create solutions that
-/// are aware of events in the Auto Scaling instance lifecycle, and then perform
-/// a custom action on instances when the corresponding lifecycle event occurs.
-class LifecycleHook {
-  /// The name of the Auto Scaling group for the lifecycle hook.
-  final String? autoScalingGroupName;
-
-  /// The action the Auto Scaling group takes when the lifecycle hook timeout
-  /// elapses or if an unexpected failure occurs.
-  ///
-  /// Valid values: <code>CONTINUE</code> | <code>ABANDON</code>
-  final String? defaultResult;
-
-  /// The maximum time, in seconds, that an instance can remain in a wait state.
-  /// The maximum is 172800 seconds (48 hours) or 100 times
-  /// <code>HeartbeatTimeout</code>, whichever is smaller.
-  final int? globalTimeout;
-
-  /// The maximum time, in seconds, that can elapse before the lifecycle hook
-  /// times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling performs
-  /// the action that you specified in the <code>DefaultResult</code> property.
-  final int? heartbeatTimeout;
-
-  /// The name of the lifecycle hook.
-  final String? lifecycleHookName;
-
-  /// The lifecycle transition.
-  ///
-  /// Valid values: <code>autoscaling:EC2_INSTANCE_LAUNCHING</code> |
-  /// <code>autoscaling:EC2_INSTANCE_TERMINATING</code>
-  final String? lifecycleTransition;
-
-  /// Additional information that is included any time Amazon EC2 Auto Scaling
-  /// sends a message to the notification target.
-  final String? notificationMetadata;
-
-  /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to
-  /// when an instance is in a wait state for the lifecycle hook.
-  final String? notificationTargetARN;
-
-  /// The ARN of the IAM role that allows the Auto Scaling group to publish to the
-  /// specified notification target (an Amazon SNS topic or an Amazon SQS queue).
-  final String? roleARN;
-
-  LifecycleHook({
-    this.autoScalingGroupName,
-    this.defaultResult,
-    this.globalTimeout,
-    this.heartbeatTimeout,
-    this.lifecycleHookName,
-    this.lifecycleTransition,
-    this.notificationMetadata,
-    this.notificationTargetARN,
-    this.roleARN,
-  });
-  factory LifecycleHook.fromXml(_s.XmlElement elem) {
-    return LifecycleHook(
-      autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
-      defaultResult: _s.extractXmlStringValue(elem, 'DefaultResult'),
-      globalTimeout: _s.extractXmlIntValue(elem, 'GlobalTimeout'),
-      heartbeatTimeout: _s.extractXmlIntValue(elem, 'HeartbeatTimeout'),
-      lifecycleHookName: _s.extractXmlStringValue(elem, 'LifecycleHookName'),
-      lifecycleTransition:
-          _s.extractXmlStringValue(elem, 'LifecycleTransition'),
-      notificationMetadata:
-          _s.extractXmlStringValue(elem, 'NotificationMetadata'),
-      notificationTargetARN:
-          _s.extractXmlStringValue(elem, 'NotificationTargetARN'),
-      roleARN: _s.extractXmlStringValue(elem, 'RoleARN'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScalingGroupName = this.autoScalingGroupName;
-    final defaultResult = this.defaultResult;
-    final globalTimeout = this.globalTimeout;
-    final heartbeatTimeout = this.heartbeatTimeout;
-    final lifecycleHookName = this.lifecycleHookName;
-    final lifecycleTransition = this.lifecycleTransition;
-    final notificationMetadata = this.notificationMetadata;
-    final notificationTargetARN = this.notificationTargetARN;
-    final roleARN = this.roleARN;
-    return {
-      if (autoScalingGroupName != null)
-        'AutoScalingGroupName': autoScalingGroupName,
-      if (defaultResult != null) 'DefaultResult': defaultResult,
-      if (globalTimeout != null) 'GlobalTimeout': globalTimeout,
-      if (heartbeatTimeout != null) 'HeartbeatTimeout': heartbeatTimeout,
-      if (lifecycleHookName != null) 'LifecycleHookName': lifecycleHookName,
-      if (lifecycleTransition != null)
-        'LifecycleTransition': lifecycleTransition,
-      if (notificationMetadata != null)
-        'NotificationMetadata': notificationMetadata,
-      if (notificationTargetARN != null)
-        'NotificationTargetARN': notificationTargetARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-/// Describes information used to specify a lifecycle hook for an Auto Scaling
-/// group.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
-/// EC2 Auto Scaling lifecycle hooks</a> in the <i>Amazon EC2 Auto Scaling User
-/// Guide</i>.
-class LifecycleHookSpecification {
-  /// The name of the lifecycle hook.
-  final String lifecycleHookName;
-
-  /// The lifecycle transition. For Auto Scaling groups, there are two major
-  /// lifecycle transitions.
-  ///
-  /// <ul>
-  /// <li>
-  /// To create a lifecycle hook for scale-out events, specify
-  /// <code>autoscaling:EC2_INSTANCE_LAUNCHING</code>.
-  /// </li>
-  /// <li>
-  /// To create a lifecycle hook for scale-in events, specify
-  /// <code>autoscaling:EC2_INSTANCE_TERMINATING</code>.
-  /// </li>
-  /// </ul>
-  final String lifecycleTransition;
-
-  /// The action the Auto Scaling group takes when the lifecycle hook timeout
-  /// elapses or if an unexpected failure occurs. The default value is
-  /// <code>ABANDON</code>.
-  ///
-  /// Valid values: <code>CONTINUE</code> | <code>ABANDON</code>
-  final String? defaultResult;
-
-  /// The maximum time, in seconds, that can elapse before the lifecycle hook
-  /// times out. The range is from <code>30</code> to <code>7200</code> seconds.
-  /// The default value is <code>3600</code> seconds (1 hour).
-  final int? heartbeatTimeout;
-
-  /// Additional information that you want to include any time Amazon EC2 Auto
-  /// Scaling sends a message to the notification target.
-  final String? notificationMetadata;
-
-  /// The Amazon Resource Name (ARN) of the notification target that Amazon EC2
-  /// Auto Scaling sends notifications to when an instance is in a wait state for
-  /// the lifecycle hook. You can specify an Amazon SNS topic or an Amazon SQS
-  /// queue.
-  final String? notificationTargetARN;
-
-  /// The ARN of the IAM role that allows the Auto Scaling group to publish to the
-  /// specified notification target. For information about creating this role, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/prepare-for-lifecycle-notifications.html">Prepare
-  /// to add a lifecycle hook to your Auto Scaling group</a> in the <i>Amazon EC2
-  /// Auto Scaling User Guide</i>.
-  ///
-  /// Valid only if the notification target is an Amazon SNS topic or an Amazon
-  /// SQS queue.
-  final String? roleARN;
-
-  LifecycleHookSpecification({
-    required this.lifecycleHookName,
-    required this.lifecycleTransition,
-    this.defaultResult,
-    this.heartbeatTimeout,
-    this.notificationMetadata,
-    this.notificationTargetARN,
-    this.roleARN,
-  });
-
-  Map<String, dynamic> toJson() {
-    final lifecycleHookName = this.lifecycleHookName;
-    final lifecycleTransition = this.lifecycleTransition;
-    final defaultResult = this.defaultResult;
-    final heartbeatTimeout = this.heartbeatTimeout;
-    final notificationMetadata = this.notificationMetadata;
-    final notificationTargetARN = this.notificationTargetARN;
-    final roleARN = this.roleARN;
-    return {
-      'LifecycleHookName': lifecycleHookName,
-      'LifecycleTransition': lifecycleTransition,
-      if (defaultResult != null) 'DefaultResult': defaultResult,
-      if (heartbeatTimeout != null) 'HeartbeatTimeout': heartbeatTimeout,
-      if (notificationMetadata != null)
-        'NotificationMetadata': notificationMetadata,
-      if (notificationTargetARN != null)
-        'NotificationTargetARN': notificationTargetARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final lifecycleHookName = this.lifecycleHookName;
-    final lifecycleTransition = this.lifecycleTransition;
-    final defaultResult = this.defaultResult;
-    final heartbeatTimeout = this.heartbeatTimeout;
-    final notificationMetadata = this.notificationMetadata;
-    final notificationTargetARN = this.notificationTargetARN;
-    final roleARN = this.roleARN;
-    return {
-      'LifecycleHookName': lifecycleHookName,
-      'LifecycleTransition': lifecycleTransition,
-      if (defaultResult != null) 'DefaultResult': defaultResult,
-      if (heartbeatTimeout != null)
-        'HeartbeatTimeout': heartbeatTimeout.toString(),
-      if (notificationMetadata != null)
-        'NotificationMetadata': notificationMetadata,
-      if (notificationTargetARN != null)
-        'NotificationTargetARN': notificationTargetARN,
-      if (roleARN != null) 'RoleARN': roleARN,
-    };
-  }
-}
-
-class LifecycleState {
-  static const pending = LifecycleState._('Pending');
-  static const pendingWait = LifecycleState._('Pending:Wait');
-  static const pendingProceed = LifecycleState._('Pending:Proceed');
-  static const quarantined = LifecycleState._('Quarantined');
-  static const inService = LifecycleState._('InService');
-  static const terminating = LifecycleState._('Terminating');
-  static const terminatingWait = LifecycleState._('Terminating:Wait');
-  static const terminatingProceed = LifecycleState._('Terminating:Proceed');
-  static const terminated = LifecycleState._('Terminated');
-  static const detaching = LifecycleState._('Detaching');
-  static const detached = LifecycleState._('Detached');
-  static const enteringStandby = LifecycleState._('EnteringStandby');
-  static const standby = LifecycleState._('Standby');
-  static const warmedPending = LifecycleState._('Warmed:Pending');
-  static const warmedPendingWait = LifecycleState._('Warmed:Pending:Wait');
-  static const warmedPendingProceed =
-      LifecycleState._('Warmed:Pending:Proceed');
-  static const warmedTerminating = LifecycleState._('Warmed:Terminating');
-  static const warmedTerminatingWait =
-      LifecycleState._('Warmed:Terminating:Wait');
-  static const warmedTerminatingProceed =
-      LifecycleState._('Warmed:Terminating:Proceed');
-  static const warmedTerminated = LifecycleState._('Warmed:Terminated');
-  static const warmedStopped = LifecycleState._('Warmed:Stopped');
-  static const warmedRunning = LifecycleState._('Warmed:Running');
-  static const warmedHibernated = LifecycleState._('Warmed:Hibernated');
-
-  final String value;
-
-  const LifecycleState._(this.value);
-
-  static const values = [
-    pending,
-    pendingWait,
-    pendingProceed,
-    quarantined,
-    inService,
-    terminating,
-    terminatingWait,
-    terminatingProceed,
-    terminated,
-    detaching,
-    detached,
-    enteringStandby,
-    standby,
-    warmedPending,
-    warmedPendingWait,
-    warmedPendingProceed,
-    warmedTerminating,
-    warmedTerminatingWait,
-    warmedTerminatingProceed,
-    warmedTerminated,
-    warmedStopped,
-    warmedRunning,
-    warmedHibernated
-  ];
-
-  static LifecycleState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LifecycleState._(value));
-
-  @override
-  bool operator ==(other) => other is LifecycleState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the state of a Classic Load Balancer.
-class LoadBalancerState {
-  /// The name of the load balancer.
-  final String? loadBalancerName;
-
-  /// One of the following load balancer states:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Adding</code> - The Auto Scaling instances are being registered with
-  /// the load balancer.
-  /// </li>
-  /// <li>
-  /// <code>Added</code> - All Auto Scaling instances are registered with the load
-  /// balancer.
-  /// </li>
-  /// <li>
-  /// <code>InService</code> - At least one Auto Scaling instance passed an
-  /// <code>ELB</code> health check.
-  /// </li>
-  /// <li>
-  /// <code>Removing</code> - The Auto Scaling instances are being deregistered
-  /// from the load balancer. If connection draining is enabled, Elastic Load
-  /// Balancing waits for in-flight requests to complete before deregistering the
-  /// instances.
-  /// </li>
-  /// <li>
-  /// <code>Removed</code> - All Auto Scaling instances are deregistered from the
-  /// load balancer.
-  /// </li>
-  /// </ul>
-  final String? state;
-
-  LoadBalancerState({
-    this.loadBalancerName,
-    this.state,
-  });
-  factory LoadBalancerState.fromXml(_s.XmlElement elem) {
-    return LoadBalancerState(
-      loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
-      state: _s.extractXmlStringValue(elem, 'State'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loadBalancerName = this.loadBalancerName;
-    final state = this.state;
-    return {
-      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
-      if (state != null) 'State': state,
-    };
-  }
-}
-
-/// Describes the state of a target group.
-class LoadBalancerTargetGroupState {
-  /// The Amazon Resource Name (ARN) of the target group.
-  final String? loadBalancerTargetGroupARN;
-
-  /// The state of the target group.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Adding</code> - The Auto Scaling instances are being registered with
-  /// the target group.
-  /// </li>
-  /// <li>
-  /// <code>Added</code> - All Auto Scaling instances are registered with the
-  /// target group.
-  /// </li>
-  /// <li>
-  /// <code>InService</code> - At least one Auto Scaling instance passed an
-  /// <code>ELB</code> health check.
-  /// </li>
-  /// <li>
-  /// <code>Removing</code> - The Auto Scaling instances are being deregistered
-  /// from the target group. If connection draining is enabled, Elastic Load
-  /// Balancing waits for in-flight requests to complete before deregistering the
-  /// instances.
-  /// </li>
-  /// <li>
-  /// <code>Removed</code> - All Auto Scaling instances are deregistered from the
-  /// target group.
-  /// </li>
-  /// </ul>
-  final String? state;
-
-  LoadBalancerTargetGroupState({
-    this.loadBalancerTargetGroupARN,
-    this.state,
-  });
-  factory LoadBalancerTargetGroupState.fromXml(_s.XmlElement elem) {
-    return LoadBalancerTargetGroupState(
-      loadBalancerTargetGroupARN:
-          _s.extractXmlStringValue(elem, 'LoadBalancerTargetGroupARN'),
-      state: _s.extractXmlStringValue(elem, 'State'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final loadBalancerTargetGroupARN = this.loadBalancerTargetGroupARN;
-    final state = this.state;
-    return {
-      if (loadBalancerTargetGroupARN != null)
-        'LoadBalancerTargetGroupARN': loadBalancerTargetGroupARN,
-      if (state != null) 'State': state,
-    };
-  }
-}
-
-/// A <code>GetPredictiveScalingForecast</code> call returns the load forecast
-/// for a predictive scaling policy. This structure includes the data points for
-/// that load forecast, along with the timestamps of those data points and the
-/// metric specification.
-class LoadForecast {
-  /// The metric specification for the load forecast.
-  final PredictiveScalingMetricSpecification metricSpecification;
-
-  /// The timestamps for the data points, in UTC format.
-  final List<DateTime> timestamps;
-
-  /// The values of the data points.
-  final List<double> values;
-
-  LoadForecast({
-    required this.metricSpecification,
-    required this.timestamps,
-    required this.values,
-  });
-  factory LoadForecast.fromXml(_s.XmlElement elem) {
-    return LoadForecast(
-      metricSpecification: PredictiveScalingMetricSpecification.fromXml(
-          _s.extractXmlChild(elem, 'MetricSpecification')!),
-      timestamps: _s.extractXmlDateTimeListValues(
-          _s.extractXmlChild(elem, 'Timestamps')!, 'member'),
-      values: _s.extractXmlDoubleListValues(
-          _s.extractXmlChild(elem, 'Values')!, 'member'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricSpecification = this.metricSpecification;
-    final timestamps = this.timestamps;
-    final values = this.values;
-    return {
-      'MetricSpecification': metricSpecification,
-      'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      'Values': values,
-    };
-  }
-}
-
-class LocalStorage {
-  static const included = LocalStorage._('included');
-  static const excluded = LocalStorage._('excluded');
-  static const required = LocalStorage._('required');
-
-  final String value;
-
-  const LocalStorage._(this.value);
-
-  static const values = [included, excluded, required];
-
-  static LocalStorage fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => LocalStorage._(value));
-
-  @override
-  bool operator ==(other) => other is LocalStorage && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class LocalStorageType {
-  static const hdd = LocalStorageType._('hdd');
-  static const ssd = LocalStorageType._('ssd');
-
-  final String value;
-
-  const LocalStorageType._(this.value);
-
-  static const values = [hdd, ssd];
-
-  static LocalStorageType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => LocalStorageType._(value));
-
-  @override
-  bool operator ==(other) => other is LocalStorageType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the minimum and maximum for the <code>MemoryGiBPerVCpu</code>
-/// object when you specify <a>InstanceRequirements</a> for an Auto Scaling
-/// group.
-class MemoryGiBPerVCpuRequest {
-  /// The memory maximum in GiB.
-  final double? max;
-
-  /// The memory minimum in GiB.
-  final double? min;
-
-  MemoryGiBPerVCpuRequest({
+/// Specifies the minimum and maximum for the <code>VCpuCount</code> object when
+/// you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
+class VCpuCountRequest {
+  /// The minimum number of vCPUs.
+  final int min;
+
+  /// The maximum number of vCPUs.
+  final int? max;
+
+  VCpuCountRequest({
+    required this.min,
     this.max,
-    this.min,
   });
-  factory MemoryGiBPerVCpuRequest.fromXml(_s.XmlElement elem) {
-    return MemoryGiBPerVCpuRequest(
-      max: _s.extractXmlDoubleValue(elem, 'Max'),
-      min: _s.extractXmlDoubleValue(elem, 'Min'),
+  factory VCpuCountRequest.fromXml(_s.XmlElement elem) {
+    return VCpuCountRequest(
+      min: _s.extractXmlIntValue(elem, 'Min')!,
+      max: _s.extractXmlIntValue(elem, 'Max'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final max = this.max;
     final min = this.min;
+    final max = this.max;
     return {
+      'Min': min,
       if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final max = this.max;
     final min = this.min;
+    final max = this.max;
     return {
+      'Min': min.toString(),
       if (max != null) 'Max': max.toString(),
-      if (min != null) 'Min': min.toString(),
     };
   }
 }
 
 /// Specifies the minimum and maximum for the <code>MemoryMiB</code> object when
-/// you specify <a>InstanceRequirements</a> for an Auto Scaling group.
+/// you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
 class MemoryMiBRequest {
   /// The memory minimum in MiB.
   final int min;
@@ -9817,437 +8169,89 @@ class MemoryMiBRequest {
   }
 }
 
-/// Represents a specific metric.
-class Metric {
-  /// The name of the metric.
-  final String metricName;
+/// Specifies the minimum and maximum for the <code>MemoryGiBPerVCpu</code>
+/// object when you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
+class MemoryGiBPerVCpuRequest {
+  /// The memory maximum in GiB.
+  final double? max;
 
-  /// The namespace of the metric. For more information, see the table in <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
-  /// Web Services services that publish CloudWatch metrics </a> in the <i>Amazon
-  /// CloudWatch User Guide</i>.
-  final String namespace;
+  /// The memory minimum in GiB.
+  final double? min;
 
-  /// The dimensions for the metric. For the list of available dimensions, see the
-  /// Amazon Web Services documentation available from the table in <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
-  /// Web Services services that publish CloudWatch metrics </a> in the <i>Amazon
-  /// CloudWatch User Guide</i>.
-  ///
-  /// Conditional: If you published your metric with dimensions, you must specify
-  /// the same dimensions in your scaling policy.
-  final List<MetricDimension>? dimensions;
-
-  Metric({
-    required this.metricName,
-    required this.namespace,
-    this.dimensions,
+  MemoryGiBPerVCpuRequest({
+    this.max,
+    this.min,
   });
-  factory Metric.fromXml(_s.XmlElement elem) {
-    return Metric(
-      metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
-      namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
-          elem.findElements('member').map(MetricDimension.fromXml).toList()),
+  factory MemoryGiBPerVCpuRequest.fromXml(_s.XmlElement elem) {
+    return MemoryGiBPerVCpuRequest(
+      max: _s.extractXmlDoubleValue(elem, 'Max'),
+      min: _s.extractXmlDoubleValue(elem, 'Min'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    final dimensions = this.dimensions;
+    final max = this.max;
+    final min = this.min;
     return {
-      'MetricName': metricName,
-      'Namespace': namespace,
-      if (dimensions != null) 'Dimensions': dimensions,
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    final dimensions = this.dimensions;
+    final max = this.max;
+    final min = this.min;
     return {
-      'MetricName': metricName,
-      'Namespace': namespace,
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
+      if (max != null) 'Max': max.toString(),
+      if (min != null) 'Min': min.toString(),
     };
   }
 }
 
-/// Describes a metric.
-class MetricCollectionType {
-  /// One of the following metrics:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>GroupMinSize</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupMaxSize</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupDesiredCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupInServiceInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupPendingInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupStandbyInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupTerminatingInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupTotalInstances</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupInServiceCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupPendingCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupStandbyCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupTerminatingCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupTotalCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolDesiredCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolWarmedCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolPendingCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolTerminatingCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>WarmPoolTotalCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupAndWarmPoolDesiredCapacity</code>
-  /// </li>
-  /// <li>
-  /// <code>GroupAndWarmPoolTotalCapacity</code>
-  /// </li>
-  /// </ul>
-  final String? metric;
-
-  MetricCollectionType({
-    this.metric,
-  });
-  factory MetricCollectionType.fromXml(_s.XmlElement elem) {
-    return MetricCollectionType(
-      metric: _s.extractXmlStringValue(elem, 'Metric'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metric = this.metric;
-    return {
-      if (metric != null) 'Metric': metric,
-    };
-  }
-}
-
-/// The metric data to return. Also defines whether this call is returning data
-/// for one metric only, or whether it is performing a math expression on the
-/// values of returned metric statistics to create a new time series. A time
-/// series is a series of data points, each of which is associated with a
-/// timestamp.
-///
-/// For more information and examples, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/predictive-scaling-customized-metric-specification.html">Advanced
-/// predictive scaling policy configurations using custom metrics</a> in the
-/// <i>Amazon EC2 Auto Scaling User Guide</i>.
-class MetricDataQuery {
-  /// A short name that identifies the object's results in the response. This name
-  /// must be unique among all <code>MetricDataQuery</code> objects specified for
-  /// a single scaling policy. If you are performing math expressions on this set
-  /// of data, this name represents that data and can serve as a variable in the
-  /// mathematical expression. The valid characters are letters, numbers, and
-  /// underscores. The first character must be a lowercase letter.
-  final String id;
-
-  /// The math expression to perform on the returned data, if this object is
-  /// performing a math expression. This expression can use the <code>Id</code> of
-  /// the other metrics to refer to those metrics, and can also use the
-  /// <code>Id</code> of other expressions to use the result of those expressions.
-  ///
-  /// Conditional: Within each <code>MetricDataQuery</code> object, you must
-  /// specify either <code>Expression</code> or <code>MetricStat</code>, but not
-  /// both.
-  final String? expression;
-
-  /// A human-readable label for this metric or expression. This is especially
-  /// useful if this is a math expression, so that you know what the value
-  /// represents.
-  final String? label;
-
-  /// Information about the metric data to return.
-  ///
-  /// Conditional: Within each <code>MetricDataQuery</code> object, you must
-  /// specify either <code>Expression</code> or <code>MetricStat</code>, but not
-  /// both.
-  final MetricStat? metricStat;
-
-  /// Indicates whether to return the timestamps and raw data values of this
-  /// metric.
-  ///
-  /// If you use any math expressions, specify <code>true</code> for this value
-  /// for only the final math expression that the metric specification is based
-  /// on. You must specify <code>false</code> for <code>ReturnData</code> for all
-  /// the other metrics and expressions used in the metric specification.
-  ///
-  /// If you are only retrieving metrics and not performing any math expressions,
-  /// do not specify anything for <code>ReturnData</code>. This sets it to its
-  /// default (<code>true</code>).
-  final bool? returnData;
-
-  MetricDataQuery({
-    required this.id,
-    this.expression,
-    this.label,
-    this.metricStat,
-    this.returnData,
-  });
-  factory MetricDataQuery.fromXml(_s.XmlElement elem) {
-    return MetricDataQuery(
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      expression: _s.extractXmlStringValue(elem, 'Expression'),
-      label: _s.extractXmlStringValue(elem, 'Label'),
-      metricStat:
-          _s.extractXmlChild(elem, 'MetricStat')?.let(MetricStat.fromXml),
-      returnData: _s.extractXmlBoolValue(elem, 'ReturnData'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final expression = this.expression;
-    final label = this.label;
-    final metricStat = this.metricStat;
-    final returnData = this.returnData;
-    return {
-      'Id': id,
-      if (expression != null) 'Expression': expression,
-      if (label != null) 'Label': label,
-      if (metricStat != null) 'MetricStat': metricStat,
-      if (returnData != null) 'ReturnData': returnData,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final id = this.id;
-    final expression = this.expression;
-    final label = this.label;
-    final metricStat = this.metricStat;
-    final returnData = this.returnData;
-    return {
-      'Id': id,
-      if (expression != null) 'Expression': expression,
-      if (label != null) 'Label': label,
-      if (metricStat != null)
-        for (var e1 in metricStat.toQueryMap().entries)
-          'MetricStat.${e1.key}': e1.value,
-      if (returnData != null) 'ReturnData': returnData.toString(),
-    };
-  }
-}
-
-/// Describes the dimension of a metric.
-class MetricDimension {
-  /// The name of the dimension.
-  final String name;
-
-  /// The value of the dimension.
-  final String value;
-
-  MetricDimension({
-    required this.name,
-    required this.value,
-  });
-  factory MetricDimension.fromXml(_s.XmlElement elem) {
-    return MetricDimension(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      value: _s.extractXmlStringValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-}
-
-/// Describes a granularity of a metric.
-class MetricGranularityType {
-  /// The granularity. The only valid value is <code>1Minute</code>.
-  final String? granularity;
-
-  MetricGranularityType({
-    this.granularity,
-  });
-  factory MetricGranularityType.fromXml(_s.XmlElement elem) {
-    return MetricGranularityType(
-      granularity: _s.extractXmlStringValue(elem, 'Granularity'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final granularity = this.granularity;
-    return {
-      if (granularity != null) 'Granularity': granularity,
-    };
-  }
-}
-
-/// This structure defines the CloudWatch metric to return, along with the
-/// statistic and unit.
-///
-/// For more information about the CloudWatch terminology below, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
-/// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
-class MetricStat {
-  /// The CloudWatch metric to return, including the metric name, namespace, and
-  /// dimensions. To get the exact metric name, namespace, and dimensions, inspect
-  /// the <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html">Metric</a>
-  /// object that is returned by a call to <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
-  final Metric metric;
-
-  /// The statistic to return. It can include any CloudWatch statistic or extended
-  /// statistic. For a list of valid values, see the table in <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic">Statistics</a>
-  /// in the <i>Amazon CloudWatch User Guide</i>.
-  ///
-  /// The most commonly used metrics for predictive scaling are
-  /// <code>Average</code> and <code>Sum</code>.
-  final String stat;
-
-  /// The unit to use for the returned data points. For a complete list of the
-  /// units that CloudWatch supports, see the <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">MetricDatum</a>
-  /// data type in the <i>Amazon CloudWatch API Reference</i>.
-  final String? unit;
-
-  MetricStat({
-    required this.metric,
-    required this.stat,
-    this.unit,
-  });
-  factory MetricStat.fromXml(_s.XmlElement elem) {
-    return MetricStat(
-      metric: Metric.fromXml(_s.extractXmlChild(elem, 'Metric')!),
-      stat: _s.extractXmlStringValue(elem, 'Stat')!,
-      unit: _s.extractXmlStringValue(elem, 'Unit'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metric = this.metric;
-    final stat = this.stat;
-    final unit = this.unit;
-    return {
-      'Metric': metric,
-      'Stat': stat,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final metric = this.metric;
-    final stat = this.stat;
-    final unit = this.unit;
-    return {
-      for (var e1 in metric.toQueryMap().entries) 'Metric.${e1.key}': e1.value,
-      'Stat': stat,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-}
-
-class MetricStatistic {
-  static const average = MetricStatistic._('Average');
-  static const minimum = MetricStatistic._('Minimum');
-  static const maximum = MetricStatistic._('Maximum');
-  static const sampleCount = MetricStatistic._('SampleCount');
-  static const sum = MetricStatistic._('Sum');
+class BareMetal {
+  static const included = BareMetal._('included');
+  static const excluded = BareMetal._('excluded');
+  static const required = BareMetal._('required');
 
   final String value;
 
-  const MetricStatistic._(this.value);
+  const BareMetal._(this.value);
 
-  static const values = [average, minimum, maximum, sampleCount, sum];
+  static const values = [included, excluded, required];
 
-  static MetricStatistic fromString(String value) =>
+  static BareMetal fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => BareMetal._(value));
+
+  @override
+  bool operator ==(other) => other is BareMetal && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class BurstablePerformance {
+  static const included = BurstablePerformance._('included');
+  static const excluded = BurstablePerformance._('excluded');
+  static const required = BurstablePerformance._('required');
+
+  final String value;
+
+  const BurstablePerformance._(this.value);
+
+  static const values = [included, excluded, required];
+
+  static BurstablePerformance fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => MetricStatistic._(value));
+          orElse: () => BurstablePerformance._(value));
 
   @override
-  bool operator ==(other) => other is MetricStatistic && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class MetricType {
-  static const aSGAverageCPUUtilization =
-      MetricType._('ASGAverageCPUUtilization');
-  static const aSGAverageNetworkIn = MetricType._('ASGAverageNetworkIn');
-  static const aSGAverageNetworkOut = MetricType._('ASGAverageNetworkOut');
-  static const aLBRequestCountPerTarget =
-      MetricType._('ALBRequestCountPerTarget');
-
-  final String value;
-
-  const MetricType._(this.value);
-
-  static const values = [
-    aSGAverageCPUUtilization,
-    aSGAverageNetworkIn,
-    aSGAverageNetworkOut,
-    aLBRequestCountPerTarget
-  ];
-
-  static MetricType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
-
-  @override
-  bool operator ==(other) => other is MetricType && other.value == value;
+  bool operator ==(other) =>
+      other is BurstablePerformance && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -10256,65 +8260,239 @@ class MetricType {
   String toString() => value;
 }
 
-/// Use this structure to launch multiple instance types and On-Demand Instances
-/// and Spot Instances within a single Auto Scaling group.
-///
-/// A mixed instances policy contains information that Amazon EC2 Auto Scaling
-/// can use to launch instances and help optimize your costs. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html">Auto
-/// Scaling groups with multiple instance types and purchase options</a> in the
-/// <i>Amazon EC2 Auto Scaling User Guide</i>.
-class MixedInstancesPolicy {
-  /// The instances distribution.
-  final InstancesDistribution? instancesDistribution;
+/// Specifies the minimum and maximum for the <code>NetworkInterfaceCount</code>
+/// object when you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
+class NetworkInterfaceCountRequest {
+  /// The maximum number of network interfaces.
+  final int? max;
 
-  /// One or more launch templates and the instance types (overrides) that are
-  /// used to launch EC2 instances to fulfill On-Demand and Spot capacities.
-  final LaunchTemplate? launchTemplate;
+  /// The minimum number of network interfaces.
+  final int? min;
 
-  MixedInstancesPolicy({
-    this.instancesDistribution,
-    this.launchTemplate,
+  NetworkInterfaceCountRequest({
+    this.max,
+    this.min,
   });
-  factory MixedInstancesPolicy.fromXml(_s.XmlElement elem) {
-    return MixedInstancesPolicy(
-      instancesDistribution: _s
-          .extractXmlChild(elem, 'InstancesDistribution')
-          ?.let(InstancesDistribution.fromXml),
-      launchTemplate: _s
-          .extractXmlChild(elem, 'LaunchTemplate')
-          ?.let(LaunchTemplate.fromXml),
+  factory NetworkInterfaceCountRequest.fromXml(_s.XmlElement elem) {
+    return NetworkInterfaceCountRequest(
+      max: _s.extractXmlIntValue(elem, 'Max'),
+      min: _s.extractXmlIntValue(elem, 'Min'),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final instancesDistribution = this.instancesDistribution;
-    final launchTemplate = this.launchTemplate;
+    final max = this.max;
+    final min = this.min;
     return {
-      if (instancesDistribution != null)
-        'InstancesDistribution': instancesDistribution,
-      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final instancesDistribution = this.instancesDistribution;
-    final launchTemplate = this.launchTemplate;
+    final max = this.max;
+    final min = this.min;
     return {
-      if (instancesDistribution != null)
-        for (var e1 in instancesDistribution.toQueryMap().entries)
-          'InstancesDistribution.${e1.key}': e1.value,
-      if (launchTemplate != null)
-        for (var e1 in launchTemplate.toQueryMap().entries)
-          'LaunchTemplate.${e1.key}': e1.value,
+      if (max != null) 'Max': max.toString(),
+      if (min != null) 'Min': min.toString(),
+    };
+  }
+}
+
+class LocalStorage {
+  static const included = LocalStorage._('included');
+  static const excluded = LocalStorage._('excluded');
+  static const required = LocalStorage._('required');
+
+  final String value;
+
+  const LocalStorage._(this.value);
+
+  static const values = [included, excluded, required];
+
+  static LocalStorage fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => LocalStorage._(value));
+
+  @override
+  bool operator ==(other) => other is LocalStorage && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the minimum and maximum for the <code>TotalLocalStorageGB</code>
+/// object when you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
+class TotalLocalStorageGBRequest {
+  /// The storage maximum in GB.
+  final double? max;
+
+  /// The storage minimum in GB.
+  final double? min;
+
+  TotalLocalStorageGBRequest({
+    this.max,
+    this.min,
+  });
+  factory TotalLocalStorageGBRequest.fromXml(_s.XmlElement elem) {
+    return TotalLocalStorageGBRequest(
+      max: _s.extractXmlDoubleValue(elem, 'Max'),
+      min: _s.extractXmlDoubleValue(elem, 'Min'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max.toString(),
+      if (min != null) 'Min': min.toString(),
+    };
+  }
+}
+
+/// Specifies the minimum and maximum for the
+/// <code>BaselineEbsBandwidthMbps</code> object when you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
+class BaselineEbsBandwidthMbpsRequest {
+  /// The maximum value in Mbps.
+  final int? max;
+
+  /// The minimum value in Mbps.
+  final int? min;
+
+  BaselineEbsBandwidthMbpsRequest({
+    this.max,
+    this.min,
+  });
+  factory BaselineEbsBandwidthMbpsRequest.fromXml(_s.XmlElement elem) {
+    return BaselineEbsBandwidthMbpsRequest(
+      max: _s.extractXmlIntValue(elem, 'Max'),
+      min: _s.extractXmlIntValue(elem, 'Min'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max.toString(),
+      if (min != null) 'Min': min.toString(),
+    };
+  }
+}
+
+/// Specifies the minimum and maximum for the <code>AcceleratorCount</code>
+/// object when you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
+class AcceleratorCountRequest {
+  /// The maximum value.
+  final int? max;
+
+  /// The minimum value.
+  final int? min;
+
+  AcceleratorCountRequest({
+    this.max,
+    this.min,
+  });
+  factory AcceleratorCountRequest.fromXml(_s.XmlElement elem) {
+    return AcceleratorCountRequest(
+      max: _s.extractXmlIntValue(elem, 'Max'),
+      min: _s.extractXmlIntValue(elem, 'Min'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max.toString(),
+      if (min != null) 'Min': min.toString(),
+    };
+  }
+}
+
+/// Specifies the minimum and maximum for the
+/// <code>AcceleratorTotalMemoryMiB</code> object when you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
+class AcceleratorTotalMemoryMiBRequest {
+  /// The memory maximum in MiB.
+  final int? max;
+
+  /// The memory minimum in MiB.
+  final int? min;
+
+  AcceleratorTotalMemoryMiBRequest({
+    this.max,
+    this.min,
+  });
+  factory AcceleratorTotalMemoryMiBRequest.fromXml(_s.XmlElement elem) {
+    return AcceleratorTotalMemoryMiBRequest(
+      max: _s.extractXmlIntValue(elem, 'Max'),
+      min: _s.extractXmlIntValue(elem, 'Min'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max,
+      if (min != null) 'Min': min,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final max = this.max;
+    final min = this.min;
+    return {
+      if (max != null) 'Max': max.toString(),
+      if (min != null) 'Min': min.toString(),
     };
   }
 }
 
 /// Specifies the minimum and maximum for the <code>NetworkBandwidthGbps</code>
-/// object when you specify <a>InstanceRequirements</a> for an Auto Scaling
-/// group.
+/// object when you specify <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html">InstanceRequirements</a>
+/// for an Auto Scaling group.
 /// <note>
 /// Setting the minimum bandwidth does not guarantee that your instance will
 /// achieve the minimum bandwidth. Amazon EC2 will identify instance types that
@@ -10322,8 +8500,7 @@ class MixedInstancesPolicy {
 /// instance might go below the specified minimum at times. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth">Available
-/// instance bandwidth</a> in the <i>Amazon EC2 User Guide for Linux
-/// Instances</i>.
+/// instance bandwidth</a> in the <i>Amazon EC2 User Guide</i>.
 /// </note>
 class NetworkBandwidthGbpsRequest {
   /// The maximum amount of network bandwidth, in gigabits per second (Gbps).
@@ -10362,356 +8539,1096 @@ class NetworkBandwidthGbpsRequest {
   }
 }
 
-/// Specifies the minimum and maximum for the <code>NetworkInterfaceCount</code>
-/// object when you specify <a>InstanceRequirements</a> for an Auto Scaling
-/// group.
-class NetworkInterfaceCountRequest {
-  /// The maximum number of network interfaces.
-  final int? max;
+/// The baseline performance to consider, using an instance family as a baseline
+/// reference. The instance family establishes the lowest acceptable level of
+/// performance. Auto Scaling uses this baseline to guide instance type
+/// selection, but there is no guarantee that the selected instance types will
+/// always exceed the baseline for every application.
+///
+/// Currently, this parameter only supports CPU performance as a baseline
+/// performance factor. For example, specifying <code>c6i</code> uses the CPU
+/// performance of the <code>c6i</code> family as the baseline reference.
+class BaselinePerformanceFactorsRequest {
+  /// The CPU performance to consider, using an instance family as the baseline
+  /// reference.
+  final CpuPerformanceFactorRequest? cpu;
 
-  /// The minimum number of network interfaces.
-  final int? min;
-
-  NetworkInterfaceCountRequest({
-    this.max,
-    this.min,
+  BaselinePerformanceFactorsRequest({
+    this.cpu,
   });
-  factory NetworkInterfaceCountRequest.fromXml(_s.XmlElement elem) {
-    return NetworkInterfaceCountRequest(
-      max: _s.extractXmlIntValue(elem, 'Max'),
-      min: _s.extractXmlIntValue(elem, 'Min'),
+  factory BaselinePerformanceFactorsRequest.fromXml(_s.XmlElement elem) {
+    return BaselinePerformanceFactorsRequest(
+      cpu: _s
+          .extractXmlChild(elem, 'Cpu')
+          ?.let(CpuPerformanceFactorRequest.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final max = this.max;
-    final min = this.min;
+    final cpu = this.cpu;
     return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
+      if (cpu != null) 'Cpu': cpu,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final max = this.max;
-    final min = this.min;
+    final cpu = this.cpu;
     return {
-      if (max != null) 'Max': max.toString(),
-      if (min != null) 'Min': min.toString(),
+      if (cpu != null)
+        for (var e1 in cpu.toQueryMap().entries) 'Cpu.${e1.key}': e1.value,
     };
   }
 }
 
-/// Describes a notification.
-class NotificationConfiguration {
-  /// The name of the Auto Scaling group.
-  final String? autoScalingGroupName;
+/// The CPU performance to consider, using an instance family as the baseline
+/// reference.
+class CpuPerformanceFactorRequest {
+  /// Specify an instance family to use as the baseline reference for CPU
+  /// performance. All instance types that match your specified attributes will be
+  /// compared against the CPU performance of the referenced instance family,
+  /// regardless of CPU manufacturer or architecture differences.
+  /// <note>
+  /// Currently only one instance family can be specified in the list.
+  /// </note>
+  final List<PerformanceFactorReferenceRequest>? references;
 
-  /// One of the following event notification types:
+  CpuPerformanceFactorRequest({
+    this.references,
+  });
+  factory CpuPerformanceFactorRequest.fromXml(_s.XmlElement elem) {
+    return CpuPerformanceFactorRequest(
+      references: _s.extractXmlChild(elem, 'Reference')?.let((elem) => elem
+          .findElements('item')
+          .map(PerformanceFactorReferenceRequest.fromXml)
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final references = this.references;
+    return {
+      if (references != null) 'Reference': references,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final references = this.references;
+    return {
+      if (references != null)
+        if (references.isEmpty)
+          'Reference': ''
+        else
+          for (var i1 = 0; i1 < references.length; i1++)
+            for (var e3 in references[i1].toQueryMap().entries)
+              'Reference.item.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Specify an instance family to use as the baseline reference for CPU
+/// performance. All instance types that All instance types that match your
+/// specified attributes will be compared against the CPU performance of the
+/// referenced instance family, regardless of CPU manufacturer or architecture
+/// differences.
+/// <note>
+/// Currently only one instance family can be specified in the list.
+/// </note>
+class PerformanceFactorReferenceRequest {
+  /// The instance family to use as a baseline reference.
+  /// <note>
+  /// Make sure that you specify the correct value for the instance family. The
+  /// instance family is everything before the period (.) in the instance type
+  /// name. For example, in the instance <code>c6i.large</code>, the instance
+  /// family is <code>c6i</code>, not <code>c6</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html">Amazon
+  /// EC2 instance type naming conventions</a> in <i>Amazon EC2 Instance
+  /// Types</i>.
+  /// </note>
+  /// The following instance types are <i>not supported</i> for performance
+  /// protection.
   ///
   /// <ul>
   /// <li>
-  /// <code>autoscaling:EC2_INSTANCE_LAUNCH</code>
+  /// <code>c1</code>
   /// </li>
   /// <li>
-  /// <code>autoscaling:EC2_INSTANCE_LAUNCH_ERROR</code>
+  /// <code>g3| g3s</code>
   /// </li>
   /// <li>
-  /// <code>autoscaling:EC2_INSTANCE_TERMINATE</code>
+  /// <code>hpc7g</code>
   /// </li>
   /// <li>
-  /// <code>autoscaling:EC2_INSTANCE_TERMINATE_ERROR</code>
+  /// <code>m1| m2</code>
   /// </li>
   /// <li>
-  /// <code>autoscaling:TEST_NOTIFICATION</code>
+  /// <code>mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro</code>
+  /// </li>
+  /// <li>
+  /// <code>p3dn | p4d | p5</code>
+  /// </li>
+  /// <li>
+  /// <code>t1</code>
+  /// </li>
+  /// <li>
+  /// <code>u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb |
+  /// u7in-16tb | u7in-24tb | u7in-32tb</code>
   /// </li>
   /// </ul>
-  final String? notificationType;
+  /// If you performance protection by specifying a supported instance family, the
+  /// returned instance types will exclude the preceding unsupported instance
+  /// families.
+  ///
+  /// If you specify an unsupported instance family as a value for baseline
+  /// performance, the API returns an empty response.
+  final String? instanceFamily;
 
-  /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
-  final String? topicARN;
-
-  NotificationConfiguration({
-    this.autoScalingGroupName,
-    this.notificationType,
-    this.topicARN,
+  PerformanceFactorReferenceRequest({
+    this.instanceFamily,
   });
-  factory NotificationConfiguration.fromXml(_s.XmlElement elem) {
-    return NotificationConfiguration(
+  factory PerformanceFactorReferenceRequest.fromXml(_s.XmlElement elem) {
+    return PerformanceFactorReferenceRequest(
+      instanceFamily: _s.extractXmlStringValue(elem, 'InstanceFamily'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceFamily = this.instanceFamily;
+    return {
+      if (instanceFamily != null) 'InstanceFamily': instanceFamily,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final instanceFamily = this.instanceFamily;
+    return {
+      if (instanceFamily != null) 'InstanceFamily': instanceFamily,
+    };
+  }
+}
+
+class AcceleratorName {
+  static const a100 = AcceleratorName._('a100');
+  static const v100 = AcceleratorName._('v100');
+  static const k80 = AcceleratorName._('k80');
+  static const t4 = AcceleratorName._('t4');
+  static const m60 = AcceleratorName._('m60');
+  static const radeonProV520 = AcceleratorName._('radeon-pro-v520');
+  static const vu9p = AcceleratorName._('vu9p');
+
+  final String value;
+
+  const AcceleratorName._(this.value);
+
+  static const values = [a100, v100, k80, t4, m60, radeonProV520, vu9p];
+
+  static AcceleratorName fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceleratorName._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorName && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AcceleratorManufacturer {
+  static const nvidia = AcceleratorManufacturer._('nvidia');
+  static const amd = AcceleratorManufacturer._('amd');
+  static const amazonWebServices =
+      AcceleratorManufacturer._('amazon-web-services');
+  static const xilinx = AcceleratorManufacturer._('xilinx');
+
+  final String value;
+
+  const AcceleratorManufacturer._(this.value);
+
+  static const values = [nvidia, amd, amazonWebServices, xilinx];
+
+  static AcceleratorManufacturer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceleratorManufacturer._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcceleratorManufacturer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AcceleratorType {
+  static const gpu = AcceleratorType._('gpu');
+  static const fpga = AcceleratorType._('fpga');
+  static const inference = AcceleratorType._('inference');
+
+  final String value;
+
+  const AcceleratorType._(this.value);
+
+  static const values = [gpu, fpga, inference];
+
+  static AcceleratorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceleratorType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceleratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class LocalStorageType {
+  static const hdd = LocalStorageType._('hdd');
+  static const ssd = LocalStorageType._('ssd');
+
+  final String value;
+
+  const LocalStorageType._(this.value);
+
+  static const values = [hdd, ssd];
+
+  static LocalStorageType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LocalStorageType._(value));
+
+  @override
+  bool operator ==(other) => other is LocalStorageType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InstanceGeneration {
+  static const current = InstanceGeneration._('current');
+  static const previous = InstanceGeneration._('previous');
+
+  final String value;
+
+  const InstanceGeneration._(this.value);
+
+  static const values = [current, previous];
+
+  static InstanceGeneration fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceGeneration._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceGeneration && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class CpuManufacturer {
+  static const intel = CpuManufacturer._('intel');
+  static const amd = CpuManufacturer._('amd');
+  static const amazonWebServices = CpuManufacturer._('amazon-web-services');
+  static const apple = CpuManufacturer._('apple');
+
+  final String value;
+
+  const CpuManufacturer._(this.value);
+
+  static const values = [intel, amd, amazonWebServices, apple];
+
+  static CpuManufacturer fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CpuManufacturer._(value));
+
+  @override
+  bool operator ==(other) => other is CpuManufacturer && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes scaling activity, which is a long-running process that represents
+/// a change to your Auto Scaling group, such as changing its size or replacing
+/// an instance.
+class Activity {
+  /// The ID of the activity.
+  final String activityId;
+
+  /// The name of the Auto Scaling group.
+  final String autoScalingGroupName;
+
+  /// The reason the activity began.
+  final String cause;
+
+  /// The start time of the activity.
+  final DateTime startTime;
+
+  /// The current status of the activity.
+  final ScalingActivityStatusCode statusCode;
+
+  /// The Amazon Resource Name (ARN) of the Auto Scaling group.
+  final String? autoScalingGroupARN;
+
+  /// The state of the Auto Scaling group, which is either <code>InService</code>
+  /// or <code>Deleted</code>.
+  final String? autoScalingGroupState;
+
+  /// A friendly, more verbose description of the activity.
+  final String? description;
+
+  /// The details about the activity.
+  final String? details;
+
+  /// The end time of the activity.
+  final DateTime? endTime;
+
+  /// A value between 0 and 100 that indicates the progress of the activity.
+  final int? progress;
+
+  /// A friendly, more verbose description of the activity status.
+  final String? statusMessage;
+
+  Activity({
+    required this.activityId,
+    required this.autoScalingGroupName,
+    required this.cause,
+    required this.startTime,
+    required this.statusCode,
+    this.autoScalingGroupARN,
+    this.autoScalingGroupState,
+    this.description,
+    this.details,
+    this.endTime,
+    this.progress,
+    this.statusMessage,
+  });
+  factory Activity.fromXml(_s.XmlElement elem) {
+    return Activity(
+      activityId: _s.extractXmlStringValue(elem, 'ActivityId')!,
       autoScalingGroupName:
-          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
-      notificationType: _s.extractXmlStringValue(elem, 'NotificationType'),
-      topicARN: _s.extractXmlStringValue(elem, 'TopicARN'),
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
+      cause: _s.extractXmlStringValue(elem, 'Cause')!,
+      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime')!,
+      statusCode: _s
+          .extractXmlStringValue(elem, 'StatusCode')!
+          .let(ScalingActivityStatusCode.fromString),
+      autoScalingGroupARN:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupARN'),
+      autoScalingGroupState:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupState'),
+      description: _s.extractXmlStringValue(elem, 'Description'),
+      details: _s.extractXmlStringValue(elem, 'Details'),
+      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
+      progress: _s.extractXmlIntValue(elem, 'Progress'),
+      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
     final autoScalingGroupName = this.autoScalingGroupName;
-    final notificationType = this.notificationType;
-    final topicARN = this.topicARN;
+    final cause = this.cause;
+    final startTime = this.startTime;
+    final statusCode = this.statusCode;
+    final autoScalingGroupARN = this.autoScalingGroupARN;
+    final autoScalingGroupState = this.autoScalingGroupState;
+    final description = this.description;
+    final details = this.details;
+    final endTime = this.endTime;
+    final progress = this.progress;
+    final statusMessage = this.statusMessage;
     return {
-      if (autoScalingGroupName != null)
-        'AutoScalingGroupName': autoScalingGroupName,
-      if (notificationType != null) 'NotificationType': notificationType,
-      if (topicARN != null) 'TopicARN': topicARN,
+      'ActivityId': activityId,
+      'AutoScalingGroupName': autoScalingGroupName,
+      'Cause': cause,
+      'StartTime': iso8601ToJson(startTime),
+      'StatusCode': statusCode.value,
+      if (autoScalingGroupARN != null)
+        'AutoScalingGroupARN': autoScalingGroupARN,
+      if (autoScalingGroupState != null)
+        'AutoScalingGroupState': autoScalingGroupState,
+      if (description != null) 'Description': description,
+      if (details != null) 'Details': details,
+      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
+      if (progress != null) 'Progress': progress,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
     };
   }
 }
 
-class PoliciesType {
-  /// A string that indicates that the response contains more items than can be
-  /// returned in a single response. To receive additional items, specify this
-  /// string for the <code>NextToken</code> value when requesting the next set of
-  /// items. This value is null when there are no more items to return.
-  final String? nextToken;
+class ScalingActivityStatusCode {
+  static const pendingSpotBidPlacement =
+      ScalingActivityStatusCode._('PendingSpotBidPlacement');
+  static const waitingForSpotInstanceRequestId =
+      ScalingActivityStatusCode._('WaitingForSpotInstanceRequestId');
+  static const waitingForSpotInstanceId =
+      ScalingActivityStatusCode._('WaitingForSpotInstanceId');
+  static const waitingForInstanceId =
+      ScalingActivityStatusCode._('WaitingForInstanceId');
+  static const preInService = ScalingActivityStatusCode._('PreInService');
+  static const inProgress = ScalingActivityStatusCode._('InProgress');
+  static const waitingForELBConnectionDraining =
+      ScalingActivityStatusCode._('WaitingForELBConnectionDraining');
+  static const midLifecycleAction =
+      ScalingActivityStatusCode._('MidLifecycleAction');
+  static const waitingForInstanceWarmup =
+      ScalingActivityStatusCode._('WaitingForInstanceWarmup');
+  static const successful = ScalingActivityStatusCode._('Successful');
+  static const failed = ScalingActivityStatusCode._('Failed');
+  static const cancelled = ScalingActivityStatusCode._('Cancelled');
+  static const waitingForConnectionDraining =
+      ScalingActivityStatusCode._('WaitingForConnectionDraining');
+  static const waitingForInPlaceUpdateToStart =
+      ScalingActivityStatusCode._('WaitingForInPlaceUpdateToStart');
+  static const waitingForInPlaceUpdateToFinalize =
+      ScalingActivityStatusCode._('WaitingForInPlaceUpdateToFinalize');
+  static const inPlaceUpdateInProgress =
+      ScalingActivityStatusCode._('InPlaceUpdateInProgress');
 
-  /// The scaling policies.
-  final List<ScalingPolicy>? scalingPolicies;
+  final String value;
 
-  PoliciesType({
-    this.nextToken,
-    this.scalingPolicies,
+  const ScalingActivityStatusCode._(this.value);
+
+  static const values = [
+    pendingSpotBidPlacement,
+    waitingForSpotInstanceRequestId,
+    waitingForSpotInstanceId,
+    waitingForInstanceId,
+    preInService,
+    inProgress,
+    waitingForELBConnectionDraining,
+    midLifecycleAction,
+    waitingForInstanceWarmup,
+    successful,
+    failed,
+    cancelled,
+    waitingForConnectionDraining,
+    waitingForInPlaceUpdateToStart,
+    waitingForInPlaceUpdateToFinalize,
+    inPlaceUpdateInProgress
+  ];
+
+  static ScalingActivityStatusCode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScalingActivityStatusCode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScalingActivityStatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class RefreshStrategy {
+  static const rolling = RefreshStrategy._('Rolling');
+  static const replaceRootVolume = RefreshStrategy._('ReplaceRootVolume');
+
+  final String value;
+
+  const RefreshStrategy._(this.value);
+
+  static const values = [rolling, replaceRootVolume];
+
+  static RefreshStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RefreshStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is RefreshStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the desired configuration for an instance refresh.
+///
+/// If you specify a desired configuration, you must specify either a
+/// <code>LaunchTemplate</code> or a <code>MixedInstancesPolicy</code>.
+class DesiredConfiguration {
+  /// Describes the launch template and the version of the launch template that
+  /// Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more
+  /// information about launch templates, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-templates.html">Launch
+  /// templates</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  final LaunchTemplateSpecification? launchTemplate;
+
+  /// Use this structure to launch multiple instance types and On-Demand Instances
+  /// and Spot Instances within a single Auto Scaling group.
+  ///
+  /// A mixed instances policy contains information that Amazon EC2 Auto Scaling
+  /// can use to launch instances and help optimize your costs. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html">Auto
+  /// Scaling groups with multiple instance types and purchase options</a> in the
+  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+  final MixedInstancesPolicy? mixedInstancesPolicy;
+
+  DesiredConfiguration({
+    this.launchTemplate,
+    this.mixedInstancesPolicy,
   });
-  factory PoliciesType.fromXml(_s.XmlElement elem) {
-    return PoliciesType(
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      scalingPolicies: _s.extractXmlChild(elem, 'ScalingPolicies')?.let(
-          (elem) =>
-              elem.findElements('member').map(ScalingPolicy.fromXml).toList()),
+  factory DesiredConfiguration.fromXml(_s.XmlElement elem) {
+    return DesiredConfiguration(
+      launchTemplate: _s
+          .extractXmlChild(elem, 'LaunchTemplate')
+          ?.let(LaunchTemplateSpecification.fromXml),
+      mixedInstancesPolicy: _s
+          .extractXmlChild(elem, 'MixedInstancesPolicy')
+          ?.let(MixedInstancesPolicy.fromXml),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final scalingPolicies = this.scalingPolicies;
+    final launchTemplate = this.launchTemplate;
+    final mixedInstancesPolicy = this.mixedInstancesPolicy;
     return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (scalingPolicies != null) 'ScalingPolicies': scalingPolicies,
+      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
+      if (mixedInstancesPolicy != null)
+        'MixedInstancesPolicy': mixedInstancesPolicy,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final launchTemplate = this.launchTemplate;
+    final mixedInstancesPolicy = this.mixedInstancesPolicy;
+    return {
+      if (launchTemplate != null)
+        for (var e1 in launchTemplate.toQueryMap().entries)
+          'LaunchTemplate.${e1.key}': e1.value,
+      if (mixedInstancesPolicy != null)
+        for (var e1 in mixedInstancesPolicy.toQueryMap().entries)
+          'MixedInstancesPolicy.${e1.key}': e1.value,
     };
   }
 }
 
-/// Contains the output of PutScalingPolicy.
-class PolicyARNType {
-  /// The CloudWatch alarms created for the target tracking scaling policy.
-  final List<Alarm>? alarms;
+/// Describes the preferences for an instance refresh.
+class RefreshPreferences {
+  /// (Optional) The CloudWatch alarm specification. CloudWatch alarms can be used
+  /// to identify any issues and fail the operation if an alarm threshold is met.
+  final AlarmSpecification? alarmSpecification;
 
-  /// The Amazon Resource Name (ARN) of the policy.
-  final String? policyARN;
+  /// (Optional) Indicates whether to roll back the Auto Scaling group to its
+  /// previous configuration if the instance refresh fails or a CloudWatch alarm
+  /// threshold is met. The default is <code>false</code>.
+  ///
+  /// A rollback is not supported in the following situations:
+  ///
+  /// <ul>
+  /// <li>
+  /// There is no desired configuration specified for the instance refresh.
+  /// </li>
+  /// <li>
+  /// The Auto Scaling group has a launch template that uses an Amazon Web
+  /// Services Systems Manager parameter instead of an AMI ID for the
+  /// <code>ImageId</code> property.
+  /// </li>
+  /// <li>
+  /// The Auto Scaling group uses the launch template's <code>$Latest</code> or
+  /// <code>$Default</code> version.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-refresh-rollback.html">Undo
+  /// changes with a rollback</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
+  final bool? autoRollback;
 
-  PolicyARNType({
-    this.alarms,
-    this.policyARN,
+  /// The amount of time, in seconds, to wait at the end of an instance refresh
+  /// before the instance refresh is considered complete.
+  final int? bakeTime;
+
+  /// (Optional) The amount of time, in seconds, to wait after a checkpoint before
+  /// continuing. This property is optional, but if you specify a value for it,
+  /// you must also specify a value for <code>CheckpointPercentages</code>. If you
+  /// specify a value for <code>CheckpointPercentages</code> and not for
+  /// <code>CheckpointDelay</code>, the <code>CheckpointDelay</code> defaults to
+  /// <code>3600</code> (1 hour).
+  final int? checkpointDelay;
+
+  /// (Optional) Threshold values for each checkpoint in ascending order. Each
+  /// number must be unique. To replace all instances in the Auto Scaling group,
+  /// the last number in the array must be <code>100</code>.
+  ///
+  /// For usage examples, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-adding-checkpoints-instance-refresh.html">Add
+  /// checkpoints to an instance refresh</a> in the <i>Amazon EC2 Auto Scaling
+  /// User Guide</i>.
+  final List<int>? checkpointPercentages;
+
+  /// A time period, in seconds, during which an instance refresh waits before
+  /// moving on to replacing the next instance after a new instance enters the
+  /// <code>InService</code> state.
+  ///
+  /// This property is not required for normal usage. Instead, use the
+  /// <code>DefaultInstanceWarmup</code> property of the Auto Scaling group. The
+  /// <code>InstanceWarmup</code> and <code>DefaultInstanceWarmup</code>
+  /// properties work the same way. Only specify this property if you must
+  /// override the <code>DefaultInstanceWarmup</code> property.
+  ///
+  /// If you do not specify this property, the instance warmup by default is the
+  /// value of the <code>DefaultInstanceWarmup</code> property, if defined (which
+  /// is recommended in all cases), or the <code>HealthCheckGracePeriod</code>
+  /// property otherwise.
+  final int? instanceWarmup;
+
+  /// Specifies the maximum percentage of the group that can be in service and
+  /// healthy, or pending, to support your workload when replacing instances. The
+  /// value is expressed as a percentage of the desired capacity of the Auto
+  /// Scaling group. Value range is 100 to 200.
+  ///
+  /// If you specify <code>MaxHealthyPercentage</code>, you must also specify
+  /// <code>MinHealthyPercentage</code>, and the difference between them cannot be
+  /// greater than 100. A larger range increases the number of instances that can
+  /// be replaced at the same time.
+  ///
+  /// If you do not specify this property, the default is 100 percent, or the
+  /// percentage set in the instance maintenance policy for the Auto Scaling
+  /// group, if defined.
+  final int? maxHealthyPercentage;
+
+  /// Specifies the minimum percentage of the group to keep in service, healthy,
+  /// and ready to use to support your workload to allow the operation to
+  /// continue. The value is expressed as a percentage of the desired capacity of
+  /// the Auto Scaling group. Value range is 0 to 100.
+  ///
+  /// If you do not specify this property, the default is 90 percent, or the
+  /// percentage set in the instance maintenance policy for the Auto Scaling
+  /// group, if defined.
+  final int? minHealthyPercentage;
+
+  /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if
+  /// instances protected from scale in are found.
+  ///
+  /// The following lists the valid values:
+  /// <dl> <dt>Refresh</dt> <dd>
+  /// Amazon EC2 Auto Scaling replaces instances that are protected from scale in.
+  /// </dd> <dt>Ignore</dt> <dd>
+  /// Amazon EC2 Auto Scaling ignores instances that are protected from scale in
+  /// and continues to replace instances that are not protected.
+  /// </dd> <dt>Wait (default)</dt> <dd>
+  /// Amazon EC2 Auto Scaling waits one hour for you to remove scale-in
+  /// protection. Otherwise, the instance refresh will fail.
+  /// </dd> </dl>
+  final ScaleInProtectedInstances? scaleInProtectedInstances;
+
+  /// (Optional) Indicates whether skip matching is enabled. If enabled
+  /// (<code>true</code>), then Amazon EC2 Auto Scaling skips replacing instances
+  /// that match the desired configuration. If no desired configuration is
+  /// specified, then it skips replacing instances that have the same launch
+  /// template and instance types that the Auto Scaling group was using before the
+  /// start of the instance refresh. The default is <code>false</code>.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-refresh-skip-matching.html">Use
+  /// an instance refresh with skip matching</a> in the <i>Amazon EC2 Auto Scaling
+  /// User Guide</i>.
+  final bool? skipMatching;
+
+  /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if
+  /// instances in <code>Standby</code> state are found.
+  ///
+  /// The following lists the valid values:
+  /// <dl> <dt>Terminate</dt> <dd>
+  /// Amazon EC2 Auto Scaling terminates instances that are in
+  /// <code>Standby</code>.
+  /// </dd> <dt>Ignore</dt> <dd>
+  /// Amazon EC2 Auto Scaling ignores instances that are in <code>Standby</code>
+  /// and continues to replace instances that are in the <code>InService</code>
+  /// state.
+  /// </dd> <dt>Wait (default)</dt> <dd>
+  /// Amazon EC2 Auto Scaling waits one hour for you to return the instances to
+  /// service. Otherwise, the instance refresh will fail.
+  /// </dd> </dl>
+  final StandbyInstances? standbyInstances;
+
+  RefreshPreferences({
+    this.alarmSpecification,
+    this.autoRollback,
+    this.bakeTime,
+    this.checkpointDelay,
+    this.checkpointPercentages,
+    this.instanceWarmup,
+    this.maxHealthyPercentage,
+    this.minHealthyPercentage,
+    this.scaleInProtectedInstances,
+    this.skipMatching,
+    this.standbyInstances,
   });
-  factory PolicyARNType.fromXml(_s.XmlElement elem) {
-    return PolicyARNType(
-      alarms: _s.extractXmlChild(elem, 'Alarms')?.let(
-          (elem) => elem.findElements('member').map(Alarm.fromXml).toList()),
-      policyARN: _s.extractXmlStringValue(elem, 'PolicyARN'),
+  factory RefreshPreferences.fromXml(_s.XmlElement elem) {
+    return RefreshPreferences(
+      alarmSpecification: _s
+          .extractXmlChild(elem, 'AlarmSpecification')
+          ?.let(AlarmSpecification.fromXml),
+      autoRollback: _s.extractXmlBoolValue(elem, 'AutoRollback'),
+      bakeTime: _s.extractXmlIntValue(elem, 'BakeTime'),
+      checkpointDelay: _s.extractXmlIntValue(elem, 'CheckpointDelay'),
+      checkpointPercentages: _s
+          .extractXmlChild(elem, 'CheckpointPercentages')
+          ?.let((elem) => _s.extractXmlIntListValues(elem, 'member')),
+      instanceWarmup: _s.extractXmlIntValue(elem, 'InstanceWarmup'),
+      maxHealthyPercentage: _s.extractXmlIntValue(elem, 'MaxHealthyPercentage'),
+      minHealthyPercentage: _s.extractXmlIntValue(elem, 'MinHealthyPercentage'),
+      scaleInProtectedInstances: _s
+          .extractXmlStringValue(elem, 'ScaleInProtectedInstances')
+          ?.let(ScaleInProtectedInstances.fromString),
+      skipMatching: _s.extractXmlBoolValue(elem, 'SkipMatching'),
+      standbyInstances: _s
+          .extractXmlStringValue(elem, 'StandbyInstances')
+          ?.let(StandbyInstances.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmSpecification = this.alarmSpecification;
+    final autoRollback = this.autoRollback;
+    final bakeTime = this.bakeTime;
+    final checkpointDelay = this.checkpointDelay;
+    final checkpointPercentages = this.checkpointPercentages;
+    final instanceWarmup = this.instanceWarmup;
+    final maxHealthyPercentage = this.maxHealthyPercentage;
+    final minHealthyPercentage = this.minHealthyPercentage;
+    final scaleInProtectedInstances = this.scaleInProtectedInstances;
+    final skipMatching = this.skipMatching;
+    final standbyInstances = this.standbyInstances;
+    return {
+      if (alarmSpecification != null) 'AlarmSpecification': alarmSpecification,
+      if (autoRollback != null) 'AutoRollback': autoRollback,
+      if (bakeTime != null) 'BakeTime': bakeTime,
+      if (checkpointDelay != null) 'CheckpointDelay': checkpointDelay,
+      if (checkpointPercentages != null)
+        'CheckpointPercentages': checkpointPercentages,
+      if (instanceWarmup != null) 'InstanceWarmup': instanceWarmup,
+      if (maxHealthyPercentage != null)
+        'MaxHealthyPercentage': maxHealthyPercentage,
+      if (minHealthyPercentage != null)
+        'MinHealthyPercentage': minHealthyPercentage,
+      if (scaleInProtectedInstances != null)
+        'ScaleInProtectedInstances': scaleInProtectedInstances.value,
+      if (skipMatching != null) 'SkipMatching': skipMatching,
+      if (standbyInstances != null) 'StandbyInstances': standbyInstances.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final alarmSpecification = this.alarmSpecification;
+    final autoRollback = this.autoRollback;
+    final bakeTime = this.bakeTime;
+    final checkpointDelay = this.checkpointDelay;
+    final checkpointPercentages = this.checkpointPercentages;
+    final instanceWarmup = this.instanceWarmup;
+    final maxHealthyPercentage = this.maxHealthyPercentage;
+    final minHealthyPercentage = this.minHealthyPercentage;
+    final scaleInProtectedInstances = this.scaleInProtectedInstances;
+    final skipMatching = this.skipMatching;
+    final standbyInstances = this.standbyInstances;
+    return {
+      if (alarmSpecification != null)
+        for (var e1 in alarmSpecification.toQueryMap().entries)
+          'AlarmSpecification.${e1.key}': e1.value,
+      if (autoRollback != null) 'AutoRollback': autoRollback.toString(),
+      if (bakeTime != null) 'BakeTime': bakeTime.toString(),
+      if (checkpointDelay != null)
+        'CheckpointDelay': checkpointDelay.toString(),
+      if (checkpointPercentages != null)
+        if (checkpointPercentages.isEmpty)
+          'CheckpointPercentages': ''
+        else
+          for (var i1 = 0; i1 < checkpointPercentages.length; i1++)
+            'CheckpointPercentages.member.${i1 + 1}':
+                checkpointPercentages[i1].toString(),
+      if (instanceWarmup != null) 'InstanceWarmup': instanceWarmup.toString(),
+      if (maxHealthyPercentage != null)
+        'MaxHealthyPercentage': maxHealthyPercentage.toString(),
+      if (minHealthyPercentage != null)
+        'MinHealthyPercentage': minHealthyPercentage.toString(),
+      if (scaleInProtectedInstances != null)
+        'ScaleInProtectedInstances': scaleInProtectedInstances.value,
+      if (skipMatching != null) 'SkipMatching': skipMatching.toString(),
+      if (standbyInstances != null) 'StandbyInstances': standbyInstances.value,
+    };
+  }
+}
+
+class ScaleInProtectedInstances {
+  static const refresh = ScaleInProtectedInstances._('Refresh');
+  static const ignore = ScaleInProtectedInstances._('Ignore');
+  static const wait = ScaleInProtectedInstances._('Wait');
+
+  final String value;
+
+  const ScaleInProtectedInstances._(this.value);
+
+  static const values = [refresh, ignore, wait];
+
+  static ScaleInProtectedInstances fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ScaleInProtectedInstances._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ScaleInProtectedInstances && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class StandbyInstances {
+  static const terminate = StandbyInstances._('Terminate');
+  static const ignore = StandbyInstances._('Ignore');
+  static const wait = StandbyInstances._('Wait');
+
+  final String value;
+
+  const StandbyInstances._(this.value);
+
+  static const values = [terminate, ignore, wait];
+
+  static StandbyInstances fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => StandbyInstances._(value));
+
+  @override
+  bool operator ==(other) => other is StandbyInstances && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Specifies the CloudWatch alarm specification to use in an instance refresh.
+class AlarmSpecification {
+  /// The names of one or more CloudWatch alarms to monitor for the instance
+  /// refresh. You can specify up to 10 alarms.
+  final List<String>? alarms;
+
+  AlarmSpecification({
+    this.alarms,
+  });
+  factory AlarmSpecification.fromXml(_s.XmlElement elem) {
+    return AlarmSpecification(
+      alarms: _s
+          .extractXmlChild(elem, 'Alarms')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
 
   Map<String, dynamic> toJson() {
     final alarms = this.alarms;
-    final policyARN = this.policyARN;
     return {
       if (alarms != null) 'Alarms': alarms,
-      if (policyARN != null) 'PolicyARN': policyARN,
-    };
-  }
-}
-
-class PredefinedLoadMetricType {
-  static const aSGTotalCPUUtilization =
-      PredefinedLoadMetricType._('ASGTotalCPUUtilization');
-  static const aSGTotalNetworkIn =
-      PredefinedLoadMetricType._('ASGTotalNetworkIn');
-  static const aSGTotalNetworkOut =
-      PredefinedLoadMetricType._('ASGTotalNetworkOut');
-  static const aLBTargetGroupRequestCount =
-      PredefinedLoadMetricType._('ALBTargetGroupRequestCount');
-
-  final String value;
-
-  const PredefinedLoadMetricType._(this.value);
-
-  static const values = [
-    aSGTotalCPUUtilization,
-    aSGTotalNetworkIn,
-    aSGTotalNetworkOut,
-    aLBTargetGroupRequestCount
-  ];
-
-  static PredefinedLoadMetricType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PredefinedLoadMetricType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PredefinedLoadMetricType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class PredefinedMetricPairType {
-  static const aSGCPUUtilization =
-      PredefinedMetricPairType._('ASGCPUUtilization');
-  static const aSGNetworkIn = PredefinedMetricPairType._('ASGNetworkIn');
-  static const aSGNetworkOut = PredefinedMetricPairType._('ASGNetworkOut');
-  static const aLBRequestCount = PredefinedMetricPairType._('ALBRequestCount');
-
-  final String value;
-
-  const PredefinedMetricPairType._(this.value);
-
-  static const values = [
-    aSGCPUUtilization,
-    aSGNetworkIn,
-    aSGNetworkOut,
-    aLBRequestCount
-  ];
-
-  static PredefinedMetricPairType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PredefinedMetricPairType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PredefinedMetricPairType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a predefined metric for a target tracking scaling policy to use
-/// with Amazon EC2 Auto Scaling.
-class PredefinedMetricSpecification {
-  /// The metric type. The following predefined metrics are available:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>ASGAverageCPUUtilization</code> - Average CPU utilization of the Auto
-  /// Scaling group.
-  /// </li>
-  /// <li>
-  /// <code>ASGAverageNetworkIn</code> - Average number of bytes received on all
-  /// network interfaces by the Auto Scaling group.
-  /// </li>
-  /// <li>
-  /// <code>ASGAverageNetworkOut</code> - Average number of bytes sent out on all
-  /// network interfaces by the Auto Scaling group.
-  /// </li>
-  /// <li>
-  /// <code>ALBRequestCountPerTarget</code> - Average Application Load Balancer
-  /// request count per target for your Auto Scaling group.
-  /// </li>
-  /// </ul>
-  final MetricType predefinedMetricType;
-
-  /// A label that uniquely identifies a specific Application Load Balancer target
-  /// group from which to determine the average request count served by your Auto
-  /// Scaling group. You can't specify a resource label unless the target group is
-  /// attached to the Auto Scaling group.
-  ///
-  /// You create the resource label by appending the final portion of the load
-  /// balancer ARN and the final portion of the target group ARN into a single
-  /// value, separated by a forward slash (/). The format of the resource label
-  /// is:
-  ///
-  /// <code>app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff</code>.
-  ///
-  /// Where:
-  ///
-  /// <ul>
-  /// <li>
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion
-  /// of the load balancer ARN
-  /// </li>
-  /// <li>
-  /// targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final
-  /// portion of the target group ARN.
-  /// </li>
-  /// </ul>
-  /// To find the ARN for an Application Load Balancer, use the <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// API operation. To find the ARN for the target group, use the <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
-  /// API operation.
-  final String? resourceLabel;
-
-  PredefinedMetricSpecification({
-    required this.predefinedMetricType,
-    this.resourceLabel,
-  });
-  factory PredefinedMetricSpecification.fromXml(_s.XmlElement elem) {
-    return PredefinedMetricSpecification(
-      predefinedMetricType: _s
-          .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .let(MetricType.fromString),
-      resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predefinedMetricType = this.predefinedMetricType;
-    final resourceLabel = this.resourceLabel;
-    return {
-      'PredefinedMetricType': predefinedMetricType.value,
-      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
     };
   }
 
   Map<String, String> toQueryMap() {
-    final predefinedMetricType = this.predefinedMetricType;
-    final resourceLabel = this.resourceLabel;
+    final alarms = this.alarms;
     return {
-      'PredefinedMetricType': predefinedMetricType.value,
-      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+      if (alarms != null)
+        if (alarms.isEmpty)
+          'Alarms': ''
+        else
+          for (var i1 = 0; i1 < alarms.length; i1++)
+            'Alarms.member.${i1 + 1}': alarms[i1],
     };
   }
 }
 
-class PredefinedScalingMetricType {
-  static const aSGAverageCPUUtilization =
-      PredefinedScalingMetricType._('ASGAverageCPUUtilization');
-  static const aSGAverageNetworkIn =
-      PredefinedScalingMetricType._('ASGAverageNetworkIn');
-  static const aSGAverageNetworkOut =
-      PredefinedScalingMetricType._('ASGAverageNetworkOut');
-  static const aLBRequestCountPerTarget =
-      PredefinedScalingMetricType._('ALBRequestCountPerTarget');
+class WarmPoolState {
+  static const stopped = WarmPoolState._('Stopped');
+  static const running = WarmPoolState._('Running');
+  static const hibernated = WarmPoolState._('Hibernated');
 
   final String value;
 
-  const PredefinedScalingMetricType._(this.value);
+  const WarmPoolState._(this.value);
 
-  static const values = [
-    aSGAverageCPUUtilization,
-    aSGAverageNetworkIn,
-    aSGAverageNetworkOut,
-    aLBRequestCountPerTarget
-  ];
+  static const values = [stopped, running, hibernated];
 
-  static PredefinedScalingMetricType fromString(String value) =>
+  static WarmPoolState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => PredefinedScalingMetricType._(value));
+          orElse: () => WarmPoolState._(value));
 
   @override
-  bool operator ==(other) =>
-      other is PredefinedScalingMetricType && other.value == value;
+  bool operator ==(other) => other is WarmPoolState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Describes an instance reuse policy for a warm pool.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-warm-pools.html">Warm
+/// pools for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto Scaling User
+/// Guide</i>.
+class InstanceReusePolicy {
+  /// Specifies whether instances in the Auto Scaling group can be returned to the
+  /// warm pool on scale in.
+  final bool? reuseOnScaleIn;
+
+  InstanceReusePolicy({
+    this.reuseOnScaleIn,
+  });
+  factory InstanceReusePolicy.fromXml(_s.XmlElement elem) {
+    return InstanceReusePolicy(
+      reuseOnScaleIn: _s.extractXmlBoolValue(elem, 'ReuseOnScaleIn'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reuseOnScaleIn = this.reuseOnScaleIn;
+    return {
+      if (reuseOnScaleIn != null) 'ReuseOnScaleIn': reuseOnScaleIn,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final reuseOnScaleIn = this.reuseOnScaleIn;
+    return {
+      if (reuseOnScaleIn != null) 'ReuseOnScaleIn': reuseOnScaleIn.toString(),
+    };
+  }
+}
+
+/// Describes an alarm.
+class Alarm {
+  /// The Amazon Resource Name (ARN) of the alarm.
+  final String? alarmARN;
+
+  /// The name of the alarm.
+  final String? alarmName;
+
+  Alarm({
+    this.alarmARN,
+    this.alarmName,
+  });
+  factory Alarm.fromXml(_s.XmlElement elem) {
+    return Alarm(
+      alarmARN: _s.extractXmlStringValue(elem, 'AlarmARN'),
+      alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmARN = this.alarmARN;
+    final alarmName = this.alarmName;
+    return {
+      if (alarmARN != null) 'AlarmARN': alarmARN,
+      if (alarmName != null) 'AlarmName': alarmName,
+    };
+  }
+}
+
+/// Represents a target tracking scaling policy configuration to use with Amazon
+/// EC2 Auto Scaling.
+class TargetTrackingConfiguration {
+  /// The target value for the metric.
+  /// <note>
+  /// Some metrics are based on a count instead of a percentage, such as the
+  /// request count for an Application Load Balancer or the number of messages in
+  /// an SQS queue. If the scaling policy specifies one of these metrics, specify
+  /// the target utilization as the optimal average request or message count per
+  /// instance during any one-minute interval.
+  /// </note>
+  final double targetValue;
+
+  /// A customized metric. You must specify either a predefined metric or a
+  /// customized metric.
+  final CustomizedMetricSpecification? customizedMetricSpecification;
+
+  /// Indicates whether scaling in by the target tracking scaling policy is
+  /// disabled. If scaling in is disabled, the target tracking scaling policy
+  /// doesn't remove instances from the Auto Scaling group. Otherwise, the target
+  /// tracking scaling policy can remove instances from the Auto Scaling group.
+  /// The default is <code>false</code>.
+  final bool? disableScaleIn;
+
+  /// A predefined metric. You must specify either a predefined metric or a
+  /// customized metric.
+  final PredefinedMetricSpecification? predefinedMetricSpecification;
+
+  TargetTrackingConfiguration({
+    required this.targetValue,
+    this.customizedMetricSpecification,
+    this.disableScaleIn,
+    this.predefinedMetricSpecification,
+  });
+  factory TargetTrackingConfiguration.fromXml(_s.XmlElement elem) {
+    return TargetTrackingConfiguration(
+      targetValue: _s.extractXmlDoubleValue(elem, 'TargetValue')!,
+      customizedMetricSpecification: _s
+          .extractXmlChild(elem, 'CustomizedMetricSpecification')
+          ?.let(CustomizedMetricSpecification.fromXml),
+      disableScaleIn: _s.extractXmlBoolValue(elem, 'DisableScaleIn'),
+      predefinedMetricSpecification: _s
+          .extractXmlChild(elem, 'PredefinedMetricSpecification')
+          ?.let(PredefinedMetricSpecification.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetValue = this.targetValue;
+    final customizedMetricSpecification = this.customizedMetricSpecification;
+    final disableScaleIn = this.disableScaleIn;
+    final predefinedMetricSpecification = this.predefinedMetricSpecification;
+    return {
+      'TargetValue': targetValue,
+      if (customizedMetricSpecification != null)
+        'CustomizedMetricSpecification': customizedMetricSpecification,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
+      if (predefinedMetricSpecification != null)
+        'PredefinedMetricSpecification': predefinedMetricSpecification,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final targetValue = this.targetValue;
+    final customizedMetricSpecification = this.customizedMetricSpecification;
+    final disableScaleIn = this.disableScaleIn;
+    final predefinedMetricSpecification = this.predefinedMetricSpecification;
+    return {
+      'TargetValue': targetValue.toString(),
+      if (customizedMetricSpecification != null)
+        for (var e1 in customizedMetricSpecification.toQueryMap().entries)
+          'CustomizedMetricSpecification.${e1.key}': e1.value,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn.toString(),
+      if (predefinedMetricSpecification != null)
+        for (var e1 in predefinedMetricSpecification.toQueryMap().entries)
+          'PredefinedMetricSpecification.${e1.key}': e1.value,
+    };
+  }
 }
 
 /// Represents a predictive scaling policy configuration to use with Amazon EC2
@@ -10848,125 +9765,29 @@ class PredictiveScalingConfiguration {
   }
 }
 
-/// Describes a customized capacity metric for a predictive scaling policy.
-class PredictiveScalingCustomizedCapacityMetric {
-  /// One or more metric data queries to provide the data points for a capacity
-  /// metric. Use multiple metric data queries only if you are performing a math
-  /// expression on returned data.
-  final List<MetricDataQuery> metricDataQueries;
+class PredictiveScalingMode {
+  static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
+  static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
 
-  PredictiveScalingCustomizedCapacityMetric({
-    required this.metricDataQueries,
-  });
-  factory PredictiveScalingCustomizedCapacityMetric.fromXml(
-      _s.XmlElement elem) {
-    return PredictiveScalingCustomizedCapacityMetric(
-      metricDataQueries: _s
-          .extractXmlChild(elem, 'MetricDataQueries')!
-          .findElements('member')
-          .map(MetricDataQuery.fromXml)
-          .toList(),
-    );
-  }
+  final String value;
 
-  Map<String, dynamic> toJson() {
-    final metricDataQueries = this.metricDataQueries;
-    return {
-      'MetricDataQueries': metricDataQueries,
-    };
-  }
+  const PredictiveScalingMode._(this.value);
 
-  Map<String, String> toQueryMap() {
-    final metricDataQueries = this.metricDataQueries;
-    return {
-      if (metricDataQueries.isEmpty)
-        'MetricDataQueries': ''
-      else
-        for (var i1 = 0; i1 < metricDataQueries.length; i1++)
-          for (var e3 in metricDataQueries[i1].toQueryMap().entries)
-            'MetricDataQueries.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
+  static const values = [forecastAndScale, forecastOnly];
 
-/// Describes a custom load metric for a predictive scaling policy.
-class PredictiveScalingCustomizedLoadMetric {
-  /// One or more metric data queries to provide the data points for a load
-  /// metric. Use multiple metric data queries only if you are performing a math
-  /// expression on returned data.
-  final List<MetricDataQuery> metricDataQueries;
+  static PredictiveScalingMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredictiveScalingMode._(value));
 
-  PredictiveScalingCustomizedLoadMetric({
-    required this.metricDataQueries,
-  });
-  factory PredictiveScalingCustomizedLoadMetric.fromXml(_s.XmlElement elem) {
-    return PredictiveScalingCustomizedLoadMetric(
-      metricDataQueries: _s
-          .extractXmlChild(elem, 'MetricDataQueries')!
-          .findElements('member')
-          .map(MetricDataQuery.fromXml)
-          .toList(),
-    );
-  }
+  @override
+  bool operator ==(other) =>
+      other is PredictiveScalingMode && other.value == value;
 
-  Map<String, dynamic> toJson() {
-    final metricDataQueries = this.metricDataQueries;
-    return {
-      'MetricDataQueries': metricDataQueries,
-    };
-  }
+  @override
+  int get hashCode => value.hashCode;
 
-  Map<String, String> toQueryMap() {
-    final metricDataQueries = this.metricDataQueries;
-    return {
-      if (metricDataQueries.isEmpty)
-        'MetricDataQueries': ''
-      else
-        for (var i1 = 0; i1 < metricDataQueries.length; i1++)
-          for (var e3 in metricDataQueries[i1].toQueryMap().entries)
-            'MetricDataQueries.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
-/// Describes a custom scaling metric for a predictive scaling policy.
-class PredictiveScalingCustomizedScalingMetric {
-  /// One or more metric data queries to provide the data points for a scaling
-  /// metric. Use multiple metric data queries only if you are performing a math
-  /// expression on returned data.
-  final List<MetricDataQuery> metricDataQueries;
-
-  PredictiveScalingCustomizedScalingMetric({
-    required this.metricDataQueries,
-  });
-  factory PredictiveScalingCustomizedScalingMetric.fromXml(_s.XmlElement elem) {
-    return PredictiveScalingCustomizedScalingMetric(
-      metricDataQueries: _s
-          .extractXmlChild(elem, 'MetricDataQueries')!
-          .findElements('member')
-          .map(MetricDataQuery.fromXml)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricDataQueries = this.metricDataQueries;
-    return {
-      'MetricDataQueries': metricDataQueries,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final metricDataQueries = this.metricDataQueries;
-    return {
-      if (metricDataQueries.isEmpty)
-        'MetricDataQueries': ''
-      else
-        for (var i1 = 0; i1 < metricDataQueries.length; i1++)
-          for (var e3 in metricDataQueries[i1].toQueryMap().entries)
-            'MetricDataQueries.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
+  @override
+  String toString() => value;
 }
 
 class PredictiveScalingMaxCapacityBreachBehavior {
@@ -11190,103 +10011,6 @@ class PredictiveScalingMetricSpecification {
   }
 }
 
-class PredictiveScalingMode {
-  static const forecastAndScale = PredictiveScalingMode._('ForecastAndScale');
-  static const forecastOnly = PredictiveScalingMode._('ForecastOnly');
-
-  final String value;
-
-  const PredictiveScalingMode._(this.value);
-
-  static const values = [forecastAndScale, forecastOnly];
-
-  static PredictiveScalingMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PredictiveScalingMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is PredictiveScalingMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes a load metric for a predictive scaling policy.
-///
-/// When returned in the output of <code>DescribePolicies</code>, it indicates
-/// that a predictive scaling policy uses individually specified load and
-/// scaling metrics instead of a metric pair.
-class PredictiveScalingPredefinedLoadMetric {
-  /// The metric type.
-  final PredefinedLoadMetricType predefinedMetricType;
-
-  /// A label that uniquely identifies a specific Application Load Balancer target
-  /// group from which to determine the request count served by your Auto Scaling
-  /// group. You can't specify a resource label unless the target group is
-  /// attached to the Auto Scaling group.
-  ///
-  /// You create the resource label by appending the final portion of the load
-  /// balancer ARN and the final portion of the target group ARN into a single
-  /// value, separated by a forward slash (/). The format of the resource label
-  /// is:
-  ///
-  /// <code>app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff</code>.
-  ///
-  /// Where:
-  ///
-  /// <ul>
-  /// <li>
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion
-  /// of the load balancer ARN
-  /// </li>
-  /// <li>
-  /// targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final
-  /// portion of the target group ARN.
-  /// </li>
-  /// </ul>
-  /// To find the ARN for an Application Load Balancer, use the <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// API operation. To find the ARN for the target group, use the <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
-  /// API operation.
-  final String? resourceLabel;
-
-  PredictiveScalingPredefinedLoadMetric({
-    required this.predefinedMetricType,
-    this.resourceLabel,
-  });
-  factory PredictiveScalingPredefinedLoadMetric.fromXml(_s.XmlElement elem) {
-    return PredictiveScalingPredefinedLoadMetric(
-      predefinedMetricType: _s
-          .extractXmlStringValue(elem, 'PredefinedMetricType')!
-          .let(PredefinedLoadMetricType.fromString),
-      resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final predefinedMetricType = this.predefinedMetricType;
-    final resourceLabel = this.resourceLabel;
-    return {
-      'PredefinedMetricType': predefinedMetricType.value,
-      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final predefinedMetricType = this.predefinedMetricType;
-    final resourceLabel = this.resourceLabel;
-    return {
-      'PredefinedMetricType': predefinedMetricType.value,
-      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
-    };
-  }
-}
-
 /// Represents a metric pair for a predictive scaling policy.
 class PredictiveScalingPredefinedMetricPair {
   /// Indicates which metrics to use. There are two different types of metrics for
@@ -11312,12 +10036,12 @@ class PredictiveScalingPredefinedMetricPair {
   ///
   /// <ul>
   /// <li>
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion
-  /// of the load balancer ARN
+  /// app/<load-balancer-name>/<load-balancer-id> is the final portion of the load
+  /// balancer ARN
   /// </li>
   /// <li>
-  /// targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final
-  /// portion of the target group ARN.
+  /// targetgroup/<target-group-name>/<target-group-id> is the final portion of
+  /// the target group ARN.
   /// </li>
   /// </ul>
   /// To find the ARN for an Application Load Balancer, use the <a
@@ -11384,12 +10108,12 @@ class PredictiveScalingPredefinedScalingMetric {
   ///
   /// <ul>
   /// <li>
-  /// app/&lt;load-balancer-name&gt;/&lt;load-balancer-id&gt; is the final portion
-  /// of the load balancer ARN
+  /// app/<load-balancer-name>/<load-balancer-id> is the final portion of the load
+  /// balancer ARN
   /// </li>
   /// <li>
-  /// targetgroup/&lt;target-group-name&gt;/&lt;target-group-id&gt; is the final
-  /// portion of the target group ARN.
+  /// targetgroup/<target-group-name>/<target-group-id> is the final portion of
+  /// the target group ARN.
   /// </li>
   /// </ul>
   /// To find the ARN for an Application Load Balancer, use the <a
@@ -11427,6 +10151,2189 @@ class PredictiveScalingPredefinedScalingMetric {
     return {
       'PredefinedMetricType': predefinedMetricType.value,
       if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
+}
+
+/// Describes a load metric for a predictive scaling policy.
+///
+/// When returned in the output of <code>DescribePolicies</code>, it indicates
+/// that a predictive scaling policy uses individually specified load and
+/// scaling metrics instead of a metric pair.
+class PredictiveScalingPredefinedLoadMetric {
+  /// The metric type.
+  final PredefinedLoadMetricType predefinedMetricType;
+
+  /// A label that uniquely identifies a specific Application Load Balancer target
+  /// group from which to determine the request count served by your Auto Scaling
+  /// group. You can't specify a resource label unless the target group is
+  /// attached to the Auto Scaling group.
+  ///
+  /// You create the resource label by appending the final portion of the load
+  /// balancer ARN and the final portion of the target group ARN into a single
+  /// value, separated by a forward slash (/). The format of the resource label
+  /// is:
+  ///
+  /// <code>app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff</code>.
+  ///
+  /// Where:
+  ///
+  /// <ul>
+  /// <li>
+  /// app/<load-balancer-name>/<load-balancer-id> is the final portion of the load
+  /// balancer ARN
+  /// </li>
+  /// <li>
+  /// targetgroup/<target-group-name>/<target-group-id> is the final portion of
+  /// the target group ARN.
+  /// </li>
+  /// </ul>
+  /// To find the ARN for an Application Load Balancer, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API operation. To find the ARN for the target group, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
+  /// API operation.
+  final String? resourceLabel;
+
+  PredictiveScalingPredefinedLoadMetric({
+    required this.predefinedMetricType,
+    this.resourceLabel,
+  });
+  factory PredictiveScalingPredefinedLoadMetric.fromXml(_s.XmlElement elem) {
+    return PredictiveScalingPredefinedLoadMetric(
+      predefinedMetricType: _s
+          .extractXmlStringValue(elem, 'PredefinedMetricType')!
+          .let(PredefinedLoadMetricType.fromString),
+      resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predefinedMetricType = this.predefinedMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedMetricType': predefinedMetricType.value,
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final predefinedMetricType = this.predefinedMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedMetricType': predefinedMetricType.value,
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
+}
+
+/// Describes a custom scaling metric for a predictive scaling policy.
+class PredictiveScalingCustomizedScalingMetric {
+  /// One or more metric data queries to provide the data points for a scaling
+  /// metric. Use multiple metric data queries only if you are performing a math
+  /// expression on returned data.
+  final List<MetricDataQuery> metricDataQueries;
+
+  PredictiveScalingCustomizedScalingMetric({
+    required this.metricDataQueries,
+  });
+  factory PredictiveScalingCustomizedScalingMetric.fromXml(_s.XmlElement elem) {
+    return PredictiveScalingCustomizedScalingMetric(
+      metricDataQueries: _s
+          .extractXmlChild(elem, 'MetricDataQueries')!
+          .findElements('member')
+          .map(MetricDataQuery.fromXml)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDataQueries = this.metricDataQueries;
+    return {
+      'MetricDataQueries': metricDataQueries,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final metricDataQueries = this.metricDataQueries;
+    return {
+      if (metricDataQueries.isEmpty)
+        'MetricDataQueries': ''
+      else
+        for (var i1 = 0; i1 < metricDataQueries.length; i1++)
+          for (var e3 in metricDataQueries[i1].toQueryMap().entries)
+            'MetricDataQueries.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Describes a custom load metric for a predictive scaling policy.
+class PredictiveScalingCustomizedLoadMetric {
+  /// One or more metric data queries to provide the data points for a load
+  /// metric. Use multiple metric data queries only if you are performing a math
+  /// expression on returned data.
+  final List<MetricDataQuery> metricDataQueries;
+
+  PredictiveScalingCustomizedLoadMetric({
+    required this.metricDataQueries,
+  });
+  factory PredictiveScalingCustomizedLoadMetric.fromXml(_s.XmlElement elem) {
+    return PredictiveScalingCustomizedLoadMetric(
+      metricDataQueries: _s
+          .extractXmlChild(elem, 'MetricDataQueries')!
+          .findElements('member')
+          .map(MetricDataQuery.fromXml)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDataQueries = this.metricDataQueries;
+    return {
+      'MetricDataQueries': metricDataQueries,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final metricDataQueries = this.metricDataQueries;
+    return {
+      if (metricDataQueries.isEmpty)
+        'MetricDataQueries': ''
+      else
+        for (var i1 = 0; i1 < metricDataQueries.length; i1++)
+          for (var e3 in metricDataQueries[i1].toQueryMap().entries)
+            'MetricDataQueries.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Describes a customized capacity metric for a predictive scaling policy.
+class PredictiveScalingCustomizedCapacityMetric {
+  /// One or more metric data queries to provide the data points for a capacity
+  /// metric. Use multiple metric data queries only if you are performing a math
+  /// expression on returned data.
+  final List<MetricDataQuery> metricDataQueries;
+
+  PredictiveScalingCustomizedCapacityMetric({
+    required this.metricDataQueries,
+  });
+  factory PredictiveScalingCustomizedCapacityMetric.fromXml(
+      _s.XmlElement elem) {
+    return PredictiveScalingCustomizedCapacityMetric(
+      metricDataQueries: _s
+          .extractXmlChild(elem, 'MetricDataQueries')!
+          .findElements('member')
+          .map(MetricDataQuery.fromXml)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDataQueries = this.metricDataQueries;
+    return {
+      'MetricDataQueries': metricDataQueries,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final metricDataQueries = this.metricDataQueries;
+    return {
+      if (metricDataQueries.isEmpty)
+        'MetricDataQueries': ''
+      else
+        for (var i1 = 0; i1 < metricDataQueries.length; i1++)
+          for (var e3 in metricDataQueries[i1].toQueryMap().entries)
+            'MetricDataQueries.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// The metric data to return. Also defines whether this call is returning data
+/// for one metric only, or whether it is performing a math expression on the
+/// values of returned metric statistics to create a new time series. A time
+/// series is a series of data points, each of which is associated with a
+/// timestamp.
+///
+/// For more information and examples, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/predictive-scaling-customized-metric-specification.html">Advanced
+/// predictive scaling policy configurations using custom metrics</a> in the
+/// <i>Amazon EC2 Auto Scaling User Guide</i>.
+class MetricDataQuery {
+  /// A short name that identifies the object's results in the response. This name
+  /// must be unique among all <code>MetricDataQuery</code> objects specified for
+  /// a single scaling policy. If you are performing math expressions on this set
+  /// of data, this name represents that data and can serve as a variable in the
+  /// mathematical expression. The valid characters are letters, numbers, and
+  /// underscores. The first character must be a lowercase letter.
+  final String id;
+
+  /// The math expression to perform on the returned data, if this object is
+  /// performing a math expression. This expression can use the <code>Id</code> of
+  /// the other metrics to refer to those metrics, and can also use the
+  /// <code>Id</code> of other expressions to use the result of those expressions.
+  ///
+  /// Conditional: Within each <code>MetricDataQuery</code> object, you must
+  /// specify either <code>Expression</code> or <code>MetricStat</code>, but not
+  /// both.
+  final String? expression;
+
+  /// A human-readable label for this metric or expression. This is especially
+  /// useful if this is a math expression, so that you know what the value
+  /// represents.
+  final String? label;
+
+  /// Information about the metric data to return.
+  ///
+  /// Conditional: Within each <code>MetricDataQuery</code> object, you must
+  /// specify either <code>Expression</code> or <code>MetricStat</code>, but not
+  /// both.
+  final MetricStat? metricStat;
+
+  /// Indicates whether to return the timestamps and raw data values of this
+  /// metric.
+  ///
+  /// If you use any math expressions, specify <code>true</code> for this value
+  /// for only the final math expression that the metric specification is based
+  /// on. You must specify <code>false</code> for <code>ReturnData</code> for all
+  /// the other metrics and expressions used in the metric specification.
+  ///
+  /// If you are only retrieving metrics and not performing any math expressions,
+  /// do not specify anything for <code>ReturnData</code>. This sets it to its
+  /// default (<code>true</code>).
+  final bool? returnData;
+
+  MetricDataQuery({
+    required this.id,
+    this.expression,
+    this.label,
+    this.metricStat,
+    this.returnData,
+  });
+  factory MetricDataQuery.fromXml(_s.XmlElement elem) {
+    return MetricDataQuery(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      expression: _s.extractXmlStringValue(elem, 'Expression'),
+      label: _s.extractXmlStringValue(elem, 'Label'),
+      metricStat:
+          _s.extractXmlChild(elem, 'MetricStat')?.let(MetricStat.fromXml),
+      returnData: _s.extractXmlBoolValue(elem, 'ReturnData'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final expression = this.expression;
+    final label = this.label;
+    final metricStat = this.metricStat;
+    final returnData = this.returnData;
+    return {
+      'Id': id,
+      if (expression != null) 'Expression': expression,
+      if (label != null) 'Label': label,
+      if (metricStat != null) 'MetricStat': metricStat,
+      if (returnData != null) 'ReturnData': returnData,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final id = this.id;
+    final expression = this.expression;
+    final label = this.label;
+    final metricStat = this.metricStat;
+    final returnData = this.returnData;
+    return {
+      'Id': id,
+      if (expression != null) 'Expression': expression,
+      if (label != null) 'Label': label,
+      if (metricStat != null)
+        for (var e1 in metricStat.toQueryMap().entries)
+          'MetricStat.${e1.key}': e1.value,
+      if (returnData != null) 'ReturnData': returnData.toString(),
+    };
+  }
+}
+
+/// This structure defines the CloudWatch metric to return, along with the
+/// statistic and unit.
+///
+/// For more information about the CloudWatch terminology below, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
+/// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+class MetricStat {
+  /// The CloudWatch metric to return, including the metric name, namespace, and
+  /// dimensions. To get the exact metric name, namespace, and dimensions, inspect
+  /// the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html">Metric</a>
+  /// object that is returned by a call to <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
+  final Metric metric;
+
+  /// The statistic to return. It can include any CloudWatch statistic or extended
+  /// statistic. For a list of valid values, see the table in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic">Statistics</a>
+  /// in the <i>Amazon CloudWatch User Guide</i>.
+  ///
+  /// The most commonly used metrics for predictive scaling are
+  /// <code>Average</code> and <code>Sum</code>.
+  final String stat;
+
+  /// The unit to use for the returned data points. For a complete list of the
+  /// units that CloudWatch supports, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">MetricDatum</a>
+  /// data type in the <i>Amazon CloudWatch API Reference</i>.
+  final String? unit;
+
+  MetricStat({
+    required this.metric,
+    required this.stat,
+    this.unit,
+  });
+  factory MetricStat.fromXml(_s.XmlElement elem) {
+    return MetricStat(
+      metric: Metric.fromXml(_s.extractXmlChild(elem, 'Metric')!),
+      stat: _s.extractXmlStringValue(elem, 'Stat')!,
+      unit: _s.extractXmlStringValue(elem, 'Unit'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final stat = this.stat;
+    final unit = this.unit;
+    return {
+      'Metric': metric,
+      'Stat': stat,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final metric = this.metric;
+    final stat = this.stat;
+    final unit = this.unit;
+    return {
+      for (var e1 in metric.toQueryMap().entries) 'Metric.${e1.key}': e1.value,
+      'Stat': stat,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+/// Represents a specific metric.
+class Metric {
+  /// The name of the metric.
+  final String metricName;
+
+  /// The namespace of the metric. For more information, see the table in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
+  /// Web Services services that publish CloudWatch metrics </a> in the <i>Amazon
+  /// CloudWatch User Guide</i>.
+  final String namespace;
+
+  /// The dimensions for the metric. For the list of available dimensions, see the
+  /// Amazon Web Services documentation available from the table in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
+  /// Web Services services that publish CloudWatch metrics </a> in the <i>Amazon
+  /// CloudWatch User Guide</i>.
+  ///
+  /// Conditional: If you published your metric with dimensions, you must specify
+  /// the same dimensions in your scaling policy.
+  final List<MetricDimension>? dimensions;
+
+  Metric({
+    required this.metricName,
+    required this.namespace,
+    this.dimensions,
+  });
+  factory Metric.fromXml(_s.XmlElement elem) {
+    return Metric(
+      metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
+      namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('member').map(MetricDimension.fromXml).toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final dimensions = this.dimensions;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+      if (dimensions != null) 'Dimensions': dimensions,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final dimensions = this.dimensions;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+      if (dimensions != null)
+        if (dimensions.isEmpty)
+          'Dimensions': ''
+        else
+          for (var i1 = 0; i1 < dimensions.length; i1++)
+            for (var e3 in dimensions[i1].toQueryMap().entries)
+              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
+    };
+  }
+}
+
+/// Describes the dimension of a metric.
+class MetricDimension {
+  /// The name of the dimension.
+  final String name;
+
+  /// The value of the dimension.
+  final String value;
+
+  MetricDimension({
+    required this.name,
+    required this.value,
+  });
+  factory MetricDimension.fromXml(_s.XmlElement elem) {
+    return MetricDimension(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+class PredefinedLoadMetricType {
+  static const aSGTotalCPUUtilization =
+      PredefinedLoadMetricType._('ASGTotalCPUUtilization');
+  static const aSGTotalNetworkIn =
+      PredefinedLoadMetricType._('ASGTotalNetworkIn');
+  static const aSGTotalNetworkOut =
+      PredefinedLoadMetricType._('ASGTotalNetworkOut');
+  static const aLBTargetGroupRequestCount =
+      PredefinedLoadMetricType._('ALBTargetGroupRequestCount');
+
+  final String value;
+
+  const PredefinedLoadMetricType._(this.value);
+
+  static const values = [
+    aSGTotalCPUUtilization,
+    aSGTotalNetworkIn,
+    aSGTotalNetworkOut,
+    aLBTargetGroupRequestCount
+  ];
+
+  static PredefinedLoadMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredefinedLoadMetricType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredefinedLoadMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PredefinedScalingMetricType {
+  static const aSGAverageCPUUtilization =
+      PredefinedScalingMetricType._('ASGAverageCPUUtilization');
+  static const aSGAverageNetworkIn =
+      PredefinedScalingMetricType._('ASGAverageNetworkIn');
+  static const aSGAverageNetworkOut =
+      PredefinedScalingMetricType._('ASGAverageNetworkOut');
+  static const aLBRequestCountPerTarget =
+      PredefinedScalingMetricType._('ALBRequestCountPerTarget');
+
+  final String value;
+
+  const PredefinedScalingMetricType._(this.value);
+
+  static const values = [
+    aSGAverageCPUUtilization,
+    aSGAverageNetworkIn,
+    aSGAverageNetworkOut,
+    aLBRequestCountPerTarget
+  ];
+
+  static PredefinedScalingMetricType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredefinedScalingMetricType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredefinedScalingMetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class PredefinedMetricPairType {
+  static const aSGCPUUtilization =
+      PredefinedMetricPairType._('ASGCPUUtilization');
+  static const aSGNetworkIn = PredefinedMetricPairType._('ASGNetworkIn');
+  static const aSGNetworkOut = PredefinedMetricPairType._('ASGNetworkOut');
+  static const aLBRequestCount = PredefinedMetricPairType._('ALBRequestCount');
+
+  final String value;
+
+  const PredefinedMetricPairType._(this.value);
+
+  static const values = [
+    aSGCPUUtilization,
+    aSGNetworkIn,
+    aSGNetworkOut,
+    aLBRequestCount
+  ];
+
+  static PredefinedMetricPairType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PredefinedMetricPairType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is PredefinedMetricPairType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents a predefined metric for a target tracking scaling policy to use
+/// with Amazon EC2 Auto Scaling.
+class PredefinedMetricSpecification {
+  /// The metric type. The following predefined metrics are available:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASGAverageCPUUtilization</code> - Average CPU utilization of the Auto
+  /// Scaling group.
+  /// </li>
+  /// <li>
+  /// <code>ASGAverageNetworkIn</code> - Average number of bytes received on all
+  /// network interfaces by the Auto Scaling group.
+  /// </li>
+  /// <li>
+  /// <code>ASGAverageNetworkOut</code> - Average number of bytes sent out on all
+  /// network interfaces by the Auto Scaling group.
+  /// </li>
+  /// <li>
+  /// <code>ALBRequestCountPerTarget</code> - Average Application Load Balancer
+  /// request count per target for your Auto Scaling group.
+  /// </li>
+  /// </ul>
+  final MetricType predefinedMetricType;
+
+  /// A label that uniquely identifies a specific Application Load Balancer target
+  /// group from which to determine the average request count served by your Auto
+  /// Scaling group. You can't specify a resource label unless the target group is
+  /// attached to the Auto Scaling group.
+  ///
+  /// You create the resource label by appending the final portion of the load
+  /// balancer ARN and the final portion of the target group ARN into a single
+  /// value, separated by a forward slash (/). The format of the resource label
+  /// is:
+  ///
+  /// <code>app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff</code>.
+  ///
+  /// Where:
+  ///
+  /// <ul>
+  /// <li>
+  /// app/<load-balancer-name>/<load-balancer-id> is the final portion of the load
+  /// balancer ARN
+  /// </li>
+  /// <li>
+  /// targetgroup/<target-group-name>/<target-group-id> is the final portion of
+  /// the target group ARN.
+  /// </li>
+  /// </ul>
+  /// To find the ARN for an Application Load Balancer, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API operation. To find the ARN for the target group, use the <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
+  /// API operation.
+  final String? resourceLabel;
+
+  PredefinedMetricSpecification({
+    required this.predefinedMetricType,
+    this.resourceLabel,
+  });
+  factory PredefinedMetricSpecification.fromXml(_s.XmlElement elem) {
+    return PredefinedMetricSpecification(
+      predefinedMetricType: _s
+          .extractXmlStringValue(elem, 'PredefinedMetricType')!
+          .let(MetricType.fromString),
+      resourceLabel: _s.extractXmlStringValue(elem, 'ResourceLabel'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predefinedMetricType = this.predefinedMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedMetricType': predefinedMetricType.value,
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final predefinedMetricType = this.predefinedMetricType;
+    final resourceLabel = this.resourceLabel;
+    return {
+      'PredefinedMetricType': predefinedMetricType.value,
+      if (resourceLabel != null) 'ResourceLabel': resourceLabel,
+    };
+  }
+}
+
+/// Represents a CloudWatch metric of your choosing for a target tracking
+/// scaling policy to use with Amazon EC2 Auto Scaling.
+///
+/// To create your customized metric specification:
+///
+/// <ul>
+/// <li>
+/// Add values for each required property from CloudWatch. You can use an
+/// existing metric, or a new metric that you create. To use your own metric,
+/// you must first publish the metric to CloudWatch. For more information, see
+/// <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publish
+/// custom metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
+/// </li>
+/// <li>
+/// Choose a metric that changes proportionally with capacity. The value of the
+/// metric should increase or decrease in inverse proportion to the number of
+/// capacity units. That is, the value of the metric should decrease when
+/// capacity increases.
+/// </li>
+/// </ul>
+/// For more information about the CloudWatch terminology below, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
+/// CloudWatch concepts</a>.
+/// <note>
+/// Each individual service provides information about the metrics, namespace,
+/// and dimensions they use. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html">Amazon
+/// Web Services services that publish CloudWatch metrics</a> in the <i>Amazon
+/// CloudWatch User Guide</i>.
+/// </note>
+class CustomizedMetricSpecification {
+  /// The dimensions of the metric.
+  ///
+  /// Conditional: If you published your metric with dimensions, you must specify
+  /// the same dimensions in your scaling policy.
+  final List<MetricDimension>? dimensions;
+
+  /// The name of the metric. To get the exact metric name, namespace, and
+  /// dimensions, inspect the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html">Metric</a>
+  /// object that is returned by a call to <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
+  final String? metricName;
+
+  /// The metrics to include in the target tracking scaling policy, as a metric
+  /// data query. This can include both raw metric and metric math expressions.
+  final List<TargetTrackingMetricDataQuery>? metrics;
+
+  /// The namespace of the metric.
+  final String? namespace;
+
+  /// The period of the metric in seconds. The default value is 60. Accepted
+  /// values are 10, 30, and 60. For high resolution metric, set the value to less
+  /// than 60. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html">Create
+  /// a target tracking policy using high-resolution metrics for faster
+  /// response</a>.
+  final int? period;
+
+  /// The statistic of the metric.
+  final MetricStatistic? statistic;
+
+  /// The unit of the metric. For a complete list of the units that CloudWatch
+  /// supports, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">MetricDatum</a>
+  /// data type in the <i>Amazon CloudWatch API Reference</i>.
+  final String? unit;
+
+  CustomizedMetricSpecification({
+    this.dimensions,
+    this.metricName,
+    this.metrics,
+    this.namespace,
+    this.period,
+    this.statistic,
+    this.unit,
+  });
+  factory CustomizedMetricSpecification.fromXml(_s.XmlElement elem) {
+    return CustomizedMetricSpecification(
+      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
+          elem.findElements('member').map(MetricDimension.fromXml).toList()),
+      metricName: _s.extractXmlStringValue(elem, 'MetricName'),
+      metrics: _s.extractXmlChild(elem, 'Metrics')?.let((elem) => elem
+          .findElements('member')
+          .map(TargetTrackingMetricDataQuery.fromXml)
+          .toList()),
+      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
+      period: _s.extractXmlIntValue(elem, 'Period'),
+      statistic: _s
+          .extractXmlStringValue(elem, 'Statistic')
+          ?.let(MetricStatistic.fromString),
+      unit: _s.extractXmlStringValue(elem, 'Unit'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final metricName = this.metricName;
+    final metrics = this.metrics;
+    final namespace = this.namespace;
+    final period = this.period;
+    final statistic = this.statistic;
+    final unit = this.unit;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (metricName != null) 'MetricName': metricName,
+      if (metrics != null) 'Metrics': metrics,
+      if (namespace != null) 'Namespace': namespace,
+      if (period != null) 'Period': period,
+      if (statistic != null) 'Statistic': statistic.value,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final dimensions = this.dimensions;
+    final metricName = this.metricName;
+    final metrics = this.metrics;
+    final namespace = this.namespace;
+    final period = this.period;
+    final statistic = this.statistic;
+    final unit = this.unit;
+    return {
+      if (dimensions != null)
+        if (dimensions.isEmpty)
+          'Dimensions': ''
+        else
+          for (var i1 = 0; i1 < dimensions.length; i1++)
+            for (var e3 in dimensions[i1].toQueryMap().entries)
+              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
+      if (metricName != null) 'MetricName': metricName,
+      if (metrics != null)
+        if (metrics.isEmpty)
+          'Metrics': ''
+        else
+          for (var i1 = 0; i1 < metrics.length; i1++)
+            for (var e3 in metrics[i1].toQueryMap().entries)
+              'Metrics.member.${i1 + 1}.${e3.key}': e3.value,
+      if (namespace != null) 'Namespace': namespace,
+      if (period != null) 'Period': period.toString(),
+      if (statistic != null) 'Statistic': statistic.value,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+class MetricStatistic {
+  static const average = MetricStatistic._('Average');
+  static const minimum = MetricStatistic._('Minimum');
+  static const maximum = MetricStatistic._('Maximum');
+  static const sampleCount = MetricStatistic._('SampleCount');
+  static const sum = MetricStatistic._('Sum');
+
+  final String value;
+
+  const MetricStatistic._(this.value);
+
+  static const values = [average, minimum, maximum, sampleCount, sum];
+
+  static MetricStatistic fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricStatistic._(value));
+
+  @override
+  bool operator ==(other) => other is MetricStatistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The metric data to return. Also defines whether this call is returning data
+/// for one metric only, or whether it is performing a math expression on the
+/// values of returned metric statistics to create a new time series. A time
+/// series is a series of data points, each of which is associated with a
+/// timestamp.
+class TargetTrackingMetricDataQuery {
+  /// A short name that identifies the object's results in the response. This name
+  /// must be unique among all <code>TargetTrackingMetricDataQuery</code> objects
+  /// specified for a single scaling policy. If you are performing math
+  /// expressions on this set of data, this name represents that data and can
+  /// serve as a variable in the mathematical expression. The valid characters are
+  /// letters, numbers, and underscores. The first character must be a lowercase
+  /// letter.
+  final String id;
+
+  /// The math expression to perform on the returned data, if this object is
+  /// performing a math expression. This expression can use the <code>Id</code> of
+  /// the other metrics to refer to those metrics, and can also use the
+  /// <code>Id</code> of other expressions to use the result of those expressions.
+  ///
+  /// Conditional: Within each <code>TargetTrackingMetricDataQuery</code> object,
+  /// you must specify either <code>Expression</code> or <code>MetricStat</code>,
+  /// but not both.
+  final String? expression;
+
+  /// A human-readable label for this metric or expression. This is especially
+  /// useful if this is a math expression, so that you know what the value
+  /// represents.
+  final String? label;
+
+  /// Information about the metric data to return.
+  ///
+  /// Conditional: Within each <code>TargetTrackingMetricDataQuery</code> object,
+  /// you must specify either <code>Expression</code> or <code>MetricStat</code>,
+  /// but not both.
+  final TargetTrackingMetricStat? metricStat;
+
+  /// The period of the metric in seconds. The default value is 60. Accepted
+  /// values are 10, 30, and 60. For high resolution metric, set the value to less
+  /// than 60. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html">Create
+  /// a target tracking policy using high-resolution metrics for faster
+  /// response</a>.
+  final int? period;
+
+  /// Indicates whether to return the timestamps and raw data values of this
+  /// metric.
+  ///
+  /// If you use any math expressions, specify <code>true</code> for this value
+  /// for only the final math expression that the metric specification is based
+  /// on. You must specify <code>false</code> for <code>ReturnData</code> for all
+  /// the other metrics and expressions used in the metric specification.
+  ///
+  /// If you are only retrieving metrics and not performing any math expressions,
+  /// do not specify anything for <code>ReturnData</code>. This sets it to its
+  /// default (<code>true</code>).
+  final bool? returnData;
+
+  TargetTrackingMetricDataQuery({
+    required this.id,
+    this.expression,
+    this.label,
+    this.metricStat,
+    this.period,
+    this.returnData,
+  });
+  factory TargetTrackingMetricDataQuery.fromXml(_s.XmlElement elem) {
+    return TargetTrackingMetricDataQuery(
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      expression: _s.extractXmlStringValue(elem, 'Expression'),
+      label: _s.extractXmlStringValue(elem, 'Label'),
+      metricStat: _s
+          .extractXmlChild(elem, 'MetricStat')
+          ?.let(TargetTrackingMetricStat.fromXml),
+      period: _s.extractXmlIntValue(elem, 'Period'),
+      returnData: _s.extractXmlBoolValue(elem, 'ReturnData'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final expression = this.expression;
+    final label = this.label;
+    final metricStat = this.metricStat;
+    final period = this.period;
+    final returnData = this.returnData;
+    return {
+      'Id': id,
+      if (expression != null) 'Expression': expression,
+      if (label != null) 'Label': label,
+      if (metricStat != null) 'MetricStat': metricStat,
+      if (period != null) 'Period': period,
+      if (returnData != null) 'ReturnData': returnData,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final id = this.id;
+    final expression = this.expression;
+    final label = this.label;
+    final metricStat = this.metricStat;
+    final period = this.period;
+    final returnData = this.returnData;
+    return {
+      'Id': id,
+      if (expression != null) 'Expression': expression,
+      if (label != null) 'Label': label,
+      if (metricStat != null)
+        for (var e1 in metricStat.toQueryMap().entries)
+          'MetricStat.${e1.key}': e1.value,
+      if (period != null) 'Period': period.toString(),
+      if (returnData != null) 'ReturnData': returnData.toString(),
+    };
+  }
+}
+
+/// This structure defines the CloudWatch metric to return, along with the
+/// statistic and unit.
+///
+/// For more information about the CloudWatch terminology below, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
+/// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
+class TargetTrackingMetricStat {
+  /// The metric to use.
+  final Metric metric;
+
+  /// The statistic to return. It can include any CloudWatch statistic or extended
+  /// statistic. For a list of valid values, see the table in <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic">Statistics</a>
+  /// in the <i>Amazon CloudWatch User Guide</i>.
+  ///
+  /// The most commonly used metric for scaling is <code>Average</code>.
+  final String stat;
+
+  /// The period of the metric in seconds. The default value is 60. Accepted
+  /// values are 10, 30, and 60. For high resolution metric, set the value to less
+  /// than 60. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/policy-creating-high-resolution-metrics.html">Create
+  /// a target tracking policy using high-resolution metrics for faster
+  /// response</a>.
+  final int? period;
+
+  /// The unit to use for the returned data points. For a complete list of the
+  /// units that CloudWatch supports, see the <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">MetricDatum</a>
+  /// data type in the <i>Amazon CloudWatch API Reference</i>.
+  final String? unit;
+
+  TargetTrackingMetricStat({
+    required this.metric,
+    required this.stat,
+    this.period,
+    this.unit,
+  });
+  factory TargetTrackingMetricStat.fromXml(_s.XmlElement elem) {
+    return TargetTrackingMetricStat(
+      metric: Metric.fromXml(_s.extractXmlChild(elem, 'Metric')!),
+      stat: _s.extractXmlStringValue(elem, 'Stat')!,
+      period: _s.extractXmlIntValue(elem, 'Period'),
+      unit: _s.extractXmlStringValue(elem, 'Unit'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final stat = this.stat;
+    final period = this.period;
+    final unit = this.unit;
+    return {
+      'Metric': metric,
+      'Stat': stat,
+      if (period != null) 'Period': period,
+      if (unit != null) 'Unit': unit,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final metric = this.metric;
+    final stat = this.stat;
+    final period = this.period;
+    final unit = this.unit;
+    return {
+      for (var e1 in metric.toQueryMap().entries) 'Metric.${e1.key}': e1.value,
+      'Stat': stat,
+      if (period != null) 'Period': period.toString(),
+      if (unit != null) 'Unit': unit,
+    };
+  }
+}
+
+class MetricType {
+  static const aSGAverageCPUUtilization =
+      MetricType._('ASGAverageCPUUtilization');
+  static const aSGAverageNetworkIn = MetricType._('ASGAverageNetworkIn');
+  static const aSGAverageNetworkOut = MetricType._('ASGAverageNetworkOut');
+  static const aLBRequestCountPerTarget =
+      MetricType._('ALBRequestCountPerTarget');
+
+  final String value;
+
+  const MetricType._(this.value);
+
+  static const values = [
+    aSGAverageCPUUtilization,
+    aSGAverageNetworkIn,
+    aSGAverageNetworkOut,
+    aLBRequestCountPerTarget
+  ];
+
+  static MetricType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricType._(value));
+
+  @override
+  bool operator ==(other) => other is MetricType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes information used to create a step adjustment for a step scaling
+/// policy.
+///
+/// For the following examples, suppose that you have an alarm with a breach
+/// threshold of 50:
+///
+/// <ul>
+/// <li>
+/// To trigger the adjustment when the metric is greater than or equal to 50 and
+/// less than 60, specify a lower bound of 0 and an upper bound of 10.
+/// </li>
+/// <li>
+/// To trigger the adjustment when the metric is greater than 40 and less than
+/// or equal to 50, specify a lower bound of -10 and an upper bound of 0.
+/// </li>
+/// </ul>
+/// There are a few rules for the step adjustments for your step policy:
+///
+/// <ul>
+/// <li>
+/// The ranges of your step adjustments can't overlap or have a gap.
+/// </li>
+/// <li>
+/// At most, one step adjustment can have a null lower bound. If one step
+/// adjustment has a negative lower bound, then there must be a step adjustment
+/// with a null lower bound.
+/// </li>
+/// <li>
+/// At most, one step adjustment can have a null upper bound. If one step
+/// adjustment has a positive upper bound, then there must be a step adjustment
+/// with a null upper bound.
+/// </li>
+/// <li>
+/// The upper and lower bound can't be null in the same step adjustment.
+/// </li>
+/// </ul>
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-steps">Step
+/// adjustments</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+class StepAdjustment {
+  /// The amount by which to scale, based on the specified adjustment type. A
+  /// positive value adds to the current capacity while a negative number removes
+  /// from the current capacity. For exact capacity, you must specify a
+  /// non-negative value.
+  final int scalingAdjustment;
+
+  /// The lower bound for the difference between the alarm threshold and the
+  /// CloudWatch metric. If the metric value is above the breach threshold, the
+  /// lower bound is inclusive (the metric must be greater than or equal to the
+  /// threshold plus the lower bound). Otherwise, it is exclusive (the metric must
+  /// be greater than the threshold plus the lower bound). A null value indicates
+  /// negative infinity.
+  final double? metricIntervalLowerBound;
+
+  /// The upper bound for the difference between the alarm threshold and the
+  /// CloudWatch metric. If the metric value is above the breach threshold, the
+  /// upper bound is exclusive (the metric must be less than the threshold plus
+  /// the upper bound). Otherwise, it is inclusive (the metric must be less than
+  /// or equal to the threshold plus the upper bound). A null value indicates
+  /// positive infinity.
+  ///
+  /// The upper bound must be greater than the lower bound.
+  final double? metricIntervalUpperBound;
+
+  StepAdjustment({
+    required this.scalingAdjustment,
+    this.metricIntervalLowerBound,
+    this.metricIntervalUpperBound,
+  });
+  factory StepAdjustment.fromXml(_s.XmlElement elem) {
+    return StepAdjustment(
+      scalingAdjustment: _s.extractXmlIntValue(elem, 'ScalingAdjustment')!,
+      metricIntervalLowerBound:
+          _s.extractXmlDoubleValue(elem, 'MetricIntervalLowerBound'),
+      metricIntervalUpperBound:
+          _s.extractXmlDoubleValue(elem, 'MetricIntervalUpperBound'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scalingAdjustment = this.scalingAdjustment;
+    final metricIntervalLowerBound = this.metricIntervalLowerBound;
+    final metricIntervalUpperBound = this.metricIntervalUpperBound;
+    return {
+      'ScalingAdjustment': scalingAdjustment,
+      if (metricIntervalLowerBound != null)
+        'MetricIntervalLowerBound': metricIntervalLowerBound,
+      if (metricIntervalUpperBound != null)
+        'MetricIntervalUpperBound': metricIntervalUpperBound,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final scalingAdjustment = this.scalingAdjustment;
+    final metricIntervalLowerBound = this.metricIntervalLowerBound;
+    final metricIntervalUpperBound = this.metricIntervalUpperBound;
+    return {
+      'ScalingAdjustment': scalingAdjustment.toString(),
+      if (metricIntervalLowerBound != null)
+        'MetricIntervalLowerBound': metricIntervalLowerBound.toString(),
+      if (metricIntervalUpperBound != null)
+        'MetricIntervalUpperBound': metricIntervalUpperBound.toString(),
+    };
+  }
+}
+
+/// Contains details about errors encountered during instance launch attempts.
+class LaunchInstancesError {
+  /// The Availability Zone where the instance launch was attempted.
+  final String? availabilityZone;
+
+  /// The Availability Zone ID where the launch error occurred.
+  final String? availabilityZoneId;
+
+  /// The error code representing the type of error encountered (e.g.,
+  /// InsufficientInstanceCapacity).
+  final String? errorCode;
+
+  /// A descriptive message providing details about the error encountered during
+  /// the launch attempt.
+  final String? errorMessage;
+
+  /// The instance type that failed to launch.
+  final String? instanceType;
+
+  /// The market type (On-Demand or Spot) that encountered the launch error.
+  final String? marketType;
+
+  /// The subnet ID where the instance launch was attempted.
+  final String? subnetId;
+
+  LaunchInstancesError({
+    this.availabilityZone,
+    this.availabilityZoneId,
+    this.errorCode,
+    this.errorMessage,
+    this.instanceType,
+    this.marketType,
+    this.subnetId,
+  });
+  factory LaunchInstancesError.fromXml(_s.XmlElement elem) {
+    return LaunchInstancesError(
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      availabilityZoneId: _s.extractXmlStringValue(elem, 'AvailabilityZoneId'),
+      errorCode: _s.extractXmlStringValue(elem, 'ErrorCode'),
+      errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
+      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
+      marketType: _s.extractXmlStringValue(elem, 'MarketType'),
+      subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneId = this.availabilityZoneId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final instanceType = this.instanceType;
+    final marketType = this.marketType;
+    final subnetId = this.subnetId;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (marketType != null) 'MarketType': marketType,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
+}
+
+/// Contains details about a collection of instances launched in the Auto
+/// Scaling group.
+class InstanceCollection {
+  /// The Availability Zone where the instances were launched.
+  final String? availabilityZone;
+
+  /// The Availability Zone ID where the instances in this collection were
+  /// launched.
+  final String? availabilityZoneId;
+
+  /// A list of instance IDs for the successfully launched instances.
+  final List<String>? instanceIds;
+
+  /// The instance type of the launched instances.
+  final String? instanceType;
+
+  /// The market type for the instances (On-Demand or Spot).
+  final String? marketType;
+
+  /// The ID of the subnet where the instances were launched.
+  final String? subnetId;
+
+  InstanceCollection({
+    this.availabilityZone,
+    this.availabilityZoneId,
+    this.instanceIds,
+    this.instanceType,
+    this.marketType,
+    this.subnetId,
+  });
+  factory InstanceCollection.fromXml(_s.XmlElement elem) {
+    return InstanceCollection(
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      availabilityZoneId: _s.extractXmlStringValue(elem, 'AvailabilityZoneId'),
+      instanceIds: _s
+          .extractXmlChild(elem, 'InstanceIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
+      marketType: _s.extractXmlStringValue(elem, 'MarketType'),
+      subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneId = this.availabilityZoneId;
+    final instanceIds = this.instanceIds;
+    final instanceType = this.instanceType;
+    final marketType = this.marketType;
+    final subnetId = this.subnetId;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
+      if (instanceIds != null) 'InstanceIds': instanceIds,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (marketType != null) 'MarketType': marketType,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
+}
+
+class RetryStrategy {
+  static const retryWithGroupConfiguration =
+      RetryStrategy._('retry-with-group-configuration');
+  static const none = RetryStrategy._('none');
+
+  final String value;
+
+  const RetryStrategy._(this.value);
+
+  static const values = [retryWithGroupConfiguration, none];
+
+  static RetryStrategy fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RetryStrategy._(value));
+
+  @override
+  bool operator ==(other) => other is RetryStrategy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A <code>GetPredictiveScalingForecast</code> call returns the capacity
+/// forecast for a predictive scaling policy. This structure includes the data
+/// points for that capacity forecast, along with the timestamps of those data
+/// points.
+class CapacityForecast {
+  /// The timestamps for the data points, in UTC format.
+  final List<DateTime> timestamps;
+
+  /// The values of the data points.
+  final List<double> values;
+
+  CapacityForecast({
+    required this.timestamps,
+    required this.values,
+  });
+  factory CapacityForecast.fromXml(_s.XmlElement elem) {
+    return CapacityForecast(
+      timestamps: _s.extractXmlDateTimeListValues(
+          _s.extractXmlChild(elem, 'Timestamps')!, 'member'),
+      values: _s.extractXmlDoubleListValues(
+          _s.extractXmlChild(elem, 'Values')!, 'member'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamps = this.timestamps;
+    final values = this.values;
+    return {
+      'Timestamps': timestamps.map(unixTimestampToJson).toList(),
+      'Values': values,
+    };
+  }
+}
+
+/// A <code>GetPredictiveScalingForecast</code> call returns the load forecast
+/// for a predictive scaling policy. This structure includes the data points for
+/// that load forecast, along with the timestamps of those data points and the
+/// metric specification.
+class LoadForecast {
+  /// The metric specification for the load forecast.
+  final PredictiveScalingMetricSpecification metricSpecification;
+
+  /// The timestamps for the data points, in UTC format.
+  final List<DateTime> timestamps;
+
+  /// The values of the data points.
+  final List<double> values;
+
+  LoadForecast({
+    required this.metricSpecification,
+    required this.timestamps,
+    required this.values,
+  });
+  factory LoadForecast.fromXml(_s.XmlElement elem) {
+    return LoadForecast(
+      metricSpecification: PredictiveScalingMetricSpecification.fromXml(
+          _s.extractXmlChild(elem, 'MetricSpecification')!),
+      timestamps: _s.extractXmlDateTimeListValues(
+          _s.extractXmlChild(elem, 'Timestamps')!, 'member'),
+      values: _s.extractXmlDoubleListValues(
+          _s.extractXmlChild(elem, 'Values')!, 'member'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricSpecification = this.metricSpecification;
+    final timestamps = this.timestamps;
+    final values = this.values;
+    return {
+      'MetricSpecification': metricSpecification,
+      'Timestamps': timestamps.map(unixTimestampToJson).toList(),
+      'Values': values,
+    };
+  }
+}
+
+/// Identifying information for a traffic source.
+class TrafficSourceIdentifier {
+  /// Identifies the traffic source.
+  ///
+  /// For Application Load Balancers, Gateway Load Balancers, Network Load
+  /// Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for
+  /// a target group in this account and Region. For Classic Load Balancers, this
+  /// will be the name of the Classic Load Balancer in this account and Region.
+  ///
+  /// For example:
+  ///
+  /// <ul>
+  /// <li>
+  /// Application Load Balancer ARN:
+  /// <code>arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/1234567890123456</code>
+  /// </li>
+  /// <li>
+  /// Classic Load Balancer name: <code>my-classic-load-balancer</code>
+  /// </li>
+  /// <li>
+  /// VPC Lattice ARN:
+  /// <code>arn:aws:vpc-lattice:us-west-2:123456789012:targetgroup/tg-1234567890123456</code>
+  /// </li>
+  /// </ul>
+  /// To get the ARN of a target group for a Application Load Balancer, Gateway
+  /// Load Balancer, or Network Load Balancer, or the name of a Classic Load
+  /// Balancer, use the Elastic Load Balancing <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
+  /// API operations.
+  ///
+  /// To get the ARN of a target group for VPC Lattice, use the VPC Lattice <a
+  /// href="https://docs.aws.amazon.com/vpc-lattice/latest/APIReference/API_GetTargetGroup.html">GetTargetGroup</a>
+  /// API operation.
+  final String identifier;
+
+  /// Provides additional context for the value of <code>Identifier</code>.
+  ///
+  /// The following lists the valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>elb</code> if <code>Identifier</code> is the name of a Classic Load
+  /// Balancer.
+  /// </li>
+  /// <li>
+  /// <code>elbv2</code> if <code>Identifier</code> is the ARN of an Application
+  /// Load Balancer, Gateway Load Balancer, or Network Load Balancer target group.
+  /// </li>
+  /// <li>
+  /// <code>vpc-lattice</code> if <code>Identifier</code> is the ARN of a VPC
+  /// Lattice target group.
+  /// </li>
+  /// </ul>
+  /// Required if the identifier is the name of a Classic Load Balancer.
+  final String? type;
+
+  TrafficSourceIdentifier({
+    required this.identifier,
+    this.type,
+  });
+  factory TrafficSourceIdentifier.fromXml(_s.XmlElement elem) {
+    return TrafficSourceIdentifier(
+      identifier: _s.extractXmlStringValue(elem, 'Identifier')!,
+      type: _s.extractXmlStringValue(elem, 'Type'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final type = this.type;
+    return {
+      'Identifier': identifier,
+      if (type != null) 'Type': type,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final identifier = this.identifier;
+    final type = this.type;
+    return {
+      'Identifier': identifier,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Describes a warm pool configuration.
+class WarmPoolConfiguration {
+  /// The instance reuse policy.
+  final InstanceReusePolicy? instanceReusePolicy;
+
+  /// The maximum number of instances that are allowed to be in the warm pool or
+  /// in any state except <code>Terminated</code> for the Auto Scaling group.
+  final int? maxGroupPreparedCapacity;
+
+  /// The minimum number of instances to maintain in the warm pool.
+  final int? minSize;
+
+  /// The instance state to transition to after the lifecycle actions are
+  /// complete.
+  final WarmPoolState? poolState;
+
+  /// The status of a warm pool that is marked for deletion.
+  final WarmPoolStatus? status;
+
+  WarmPoolConfiguration({
+    this.instanceReusePolicy,
+    this.maxGroupPreparedCapacity,
+    this.minSize,
+    this.poolState,
+    this.status,
+  });
+  factory WarmPoolConfiguration.fromXml(_s.XmlElement elem) {
+    return WarmPoolConfiguration(
+      instanceReusePolicy: _s
+          .extractXmlChild(elem, 'InstanceReusePolicy')
+          ?.let(InstanceReusePolicy.fromXml),
+      maxGroupPreparedCapacity:
+          _s.extractXmlIntValue(elem, 'MaxGroupPreparedCapacity'),
+      minSize: _s.extractXmlIntValue(elem, 'MinSize'),
+      poolState: _s
+          .extractXmlStringValue(elem, 'PoolState')
+          ?.let(WarmPoolState.fromString),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(WarmPoolStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceReusePolicy = this.instanceReusePolicy;
+    final maxGroupPreparedCapacity = this.maxGroupPreparedCapacity;
+    final minSize = this.minSize;
+    final poolState = this.poolState;
+    final status = this.status;
+    return {
+      if (instanceReusePolicy != null)
+        'InstanceReusePolicy': instanceReusePolicy,
+      if (maxGroupPreparedCapacity != null)
+        'MaxGroupPreparedCapacity': maxGroupPreparedCapacity,
+      if (minSize != null) 'MinSize': minSize,
+      if (poolState != null) 'PoolState': poolState.value,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+/// Describes an EC2 instance.
+class Instance {
+  /// The Availability Zone in which the instance is running.
+  final String availabilityZone;
+
+  /// The last reported health status of the instance. <code>Healthy</code> means
+  /// that the instance is healthy and should remain in service.
+  /// <code>Unhealthy</code> means that the instance is unhealthy and that Amazon
+  /// EC2 Auto Scaling should terminate and replace it.
+  final String healthStatus;
+
+  /// The ID of the instance.
+  final String instanceId;
+
+  /// A description of the current lifecycle state. The <code>Quarantined</code>
+  /// state is not used. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html">Amazon
+  /// EC2 Auto Scaling instance lifecycle</a> in the <i>Amazon EC2 Auto Scaling
+  /// User Guide</i>.
+  final LifecycleState lifecycleState;
+
+  /// Indicates whether the instance is protected from termination by Amazon EC2
+  /// Auto Scaling when scaling in.
+  final bool protectedFromScaleIn;
+
+  /// The Availability Zone ID where the instance was launched.
+  final String? availabilityZoneId;
+
+  /// The ID of the Amazon Machine Image (AMI) used for the instance's current
+  /// root volume. This value reflects the most recent AMI applied to the
+  /// instance, including updates made through root volume replacement operations.
+  ///
+  /// This field appears for:
+  ///
+  /// <ul>
+  /// <li>
+  /// Instances with root volume replacements through Instance Refresh
+  /// </li>
+  /// <li>
+  /// Instances launched with AMI overrides
+  /// </li>
+  /// </ul>
+  /// This field won't appear for:
+  ///
+  /// <ul>
+  /// <li>
+  /// Existing instances launched from Launch Templates without overrides
+  /// </li>
+  /// <li>
+  /// Existing instances that didn’t have their root volume replaced through
+  /// Instance Refresh
+  /// </li>
+  /// </ul>
+  final String? imageId;
+
+  /// The instance type of the EC2 instance.
+  final String? instanceType;
+
+  /// The launch configuration associated with the instance.
+  final String? launchConfigurationName;
+
+  /// The launch template for the instance.
+  final LaunchTemplateSpecification? launchTemplate;
+
+  /// The number of capacity units contributed by the instance based on its
+  /// instance type.
+  ///
+  /// Valid Range: Minimum value of 1. Maximum value of 999.
+  final String? weightedCapacity;
+
+  Instance({
+    required this.availabilityZone,
+    required this.healthStatus,
+    required this.instanceId,
+    required this.lifecycleState,
+    required this.protectedFromScaleIn,
+    this.availabilityZoneId,
+    this.imageId,
+    this.instanceType,
+    this.launchConfigurationName,
+    this.launchTemplate,
+    this.weightedCapacity,
+  });
+  factory Instance.fromXml(_s.XmlElement elem) {
+    return Instance(
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone')!,
+      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus')!,
+      instanceId: _s.extractXmlStringValue(elem, 'InstanceId')!,
+      lifecycleState: _s
+          .extractXmlStringValue(elem, 'LifecycleState')!
+          .let(LifecycleState.fromString),
+      protectedFromScaleIn:
+          _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn')!,
+      availabilityZoneId: _s.extractXmlStringValue(elem, 'AvailabilityZoneId'),
+      imageId: _s.extractXmlStringValue(elem, 'ImageId'),
+      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
+      launchConfigurationName:
+          _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
+      launchTemplate: _s
+          .extractXmlChild(elem, 'LaunchTemplate')
+          ?.let(LaunchTemplateSpecification.fromXml),
+      weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final healthStatus = this.healthStatus;
+    final instanceId = this.instanceId;
+    final lifecycleState = this.lifecycleState;
+    final protectedFromScaleIn = this.protectedFromScaleIn;
+    final availabilityZoneId = this.availabilityZoneId;
+    final imageId = this.imageId;
+    final instanceType = this.instanceType;
+    final launchConfigurationName = this.launchConfigurationName;
+    final launchTemplate = this.launchTemplate;
+    final weightedCapacity = this.weightedCapacity;
+    return {
+      'AvailabilityZone': availabilityZone,
+      'HealthStatus': healthStatus,
+      'InstanceId': instanceId,
+      'LifecycleState': lifecycleState.value,
+      'ProtectedFromScaleIn': protectedFromScaleIn,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
+      if (imageId != null) 'ImageId': imageId,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (launchConfigurationName != null)
+        'LaunchConfigurationName': launchConfigurationName,
+      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
+      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
+    };
+  }
+}
+
+class LifecycleState {
+  static const pending = LifecycleState._('Pending');
+  static const pendingWait = LifecycleState._('Pending:Wait');
+  static const pendingProceed = LifecycleState._('Pending:Proceed');
+  static const quarantined = LifecycleState._('Quarantined');
+  static const inService = LifecycleState._('InService');
+  static const terminating = LifecycleState._('Terminating');
+  static const terminatingWait = LifecycleState._('Terminating:Wait');
+  static const terminatingProceed = LifecycleState._('Terminating:Proceed');
+  static const terminatingRetained = LifecycleState._('Terminating:Retained');
+  static const terminated = LifecycleState._('Terminated');
+  static const detaching = LifecycleState._('Detaching');
+  static const detached = LifecycleState._('Detached');
+  static const enteringStandby = LifecycleState._('EnteringStandby');
+  static const standby = LifecycleState._('Standby');
+  static const replacingRootVolume = LifecycleState._('ReplacingRootVolume');
+  static const replacingRootVolumeWait =
+      LifecycleState._('ReplacingRootVolume:Wait');
+  static const replacingRootVolumeProceed =
+      LifecycleState._('ReplacingRootVolume:Proceed');
+  static const rootVolumeReplaced = LifecycleState._('RootVolumeReplaced');
+  static const warmedPending = LifecycleState._('Warmed:Pending');
+  static const warmedPendingWait = LifecycleState._('Warmed:Pending:Wait');
+  static const warmedPendingProceed =
+      LifecycleState._('Warmed:Pending:Proceed');
+  static const warmedPendingRetained =
+      LifecycleState._('Warmed:Pending:Retained');
+  static const warmedTerminating = LifecycleState._('Warmed:Terminating');
+  static const warmedTerminatingWait =
+      LifecycleState._('Warmed:Terminating:Wait');
+  static const warmedTerminatingProceed =
+      LifecycleState._('Warmed:Terminating:Proceed');
+  static const warmedTerminatingRetained =
+      LifecycleState._('Warmed:Terminating:Retained');
+  static const warmedTerminated = LifecycleState._('Warmed:Terminated');
+  static const warmedStopped = LifecycleState._('Warmed:Stopped');
+  static const warmedRunning = LifecycleState._('Warmed:Running');
+  static const warmedHibernated = LifecycleState._('Warmed:Hibernated');
+
+  final String value;
+
+  const LifecycleState._(this.value);
+
+  static const values = [
+    pending,
+    pendingWait,
+    pendingProceed,
+    quarantined,
+    inService,
+    terminating,
+    terminatingWait,
+    terminatingProceed,
+    terminatingRetained,
+    terminated,
+    detaching,
+    detached,
+    enteringStandby,
+    standby,
+    replacingRootVolume,
+    replacingRootVolumeWait,
+    replacingRootVolumeProceed,
+    rootVolumeReplaced,
+    warmedPending,
+    warmedPendingWait,
+    warmedPendingProceed,
+    warmedPendingRetained,
+    warmedTerminating,
+    warmedTerminatingWait,
+    warmedTerminatingProceed,
+    warmedTerminatingRetained,
+    warmedTerminated,
+    warmedStopped,
+    warmedRunning,
+    warmedHibernated
+  ];
+
+  static LifecycleState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => LifecycleState._(value));
+
+  @override
+  bool operator ==(other) => other is LifecycleState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class WarmPoolStatus {
+  static const pendingDelete = WarmPoolStatus._('PendingDelete');
+
+  final String value;
+
+  const WarmPoolStatus._(this.value);
+
+  static const values = [pendingDelete];
+
+  static WarmPoolStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => WarmPoolStatus._(value));
+
+  @override
+  bool operator ==(other) => other is WarmPoolStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes the state of a traffic source.
+class TrafficSourceState {
+  /// The unique identifier of the traffic source.
+  final String? identifier;
+
+  /// Describes the current state of a traffic source.
+  ///
+  /// The state values are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Adding</code> - The Auto Scaling instances are being registered with
+  /// the load balancer or target group.
+  /// </li>
+  /// <li>
+  /// <code>Added</code> - All Auto Scaling instances are registered with the load
+  /// balancer or target group.
+  /// </li>
+  /// <li>
+  /// <code>InService</code> - For an Elastic Load Balancing load balancer or
+  /// target group, at least one Auto Scaling instance passed an <code>ELB</code>
+  /// health check. For VPC Lattice, at least one Auto Scaling instance passed an
+  /// <code>VPC_LATTICE</code> health check.
+  /// </li>
+  /// <li>
+  /// <code>Removing</code> - The Auto Scaling instances are being deregistered
+  /// from the load balancer or target group. If connection draining
+  /// (deregistration delay) is enabled, Elastic Load Balancing or VPC Lattice
+  /// waits for in-flight requests to complete before deregistering the instances.
+  /// </li>
+  /// <li>
+  /// <code>Removed</code> - All Auto Scaling instances are deregistered from the
+  /// load balancer or target group.
+  /// </li>
+  /// </ul>
+  final String? state;
+
+  /// This is replaced by <code>Identifier</code>.
+  final String? trafficSource;
+
+  /// Provides additional context for the value of <code>Identifier</code>.
+  ///
+  /// The following lists the valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>elb</code> if <code>Identifier</code> is the name of a Classic Load
+  /// Balancer.
+  /// </li>
+  /// <li>
+  /// <code>elbv2</code> if <code>Identifier</code> is the ARN of an Application
+  /// Load Balancer, Gateway Load Balancer, or Network Load Balancer target group.
+  /// </li>
+  /// <li>
+  /// <code>vpc-lattice</code> if <code>Identifier</code> is the ARN of a VPC
+  /// Lattice target group.
+  /// </li>
+  /// </ul>
+  /// Required if the identifier is the name of a Classic Load Balancer.
+  final String? type;
+
+  TrafficSourceState({
+    this.identifier,
+    this.state,
+    this.trafficSource,
+    this.type,
+  });
+  factory TrafficSourceState.fromXml(_s.XmlElement elem) {
+    return TrafficSourceState(
+      identifier: _s.extractXmlStringValue(elem, 'Identifier'),
+      state: _s.extractXmlStringValue(elem, 'State'),
+      trafficSource: _s.extractXmlStringValue(elem, 'TrafficSource'),
+      type: _s.extractXmlStringValue(elem, 'Type'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identifier = this.identifier;
+    final state = this.state;
+    final trafficSource = this.trafficSource;
+    final type = this.type;
+    return {
+      if (identifier != null) 'Identifier': identifier,
+      if (state != null) 'State': state,
+      if (trafficSource != null) 'TrafficSource': trafficSource,
+      if (type != null) 'Type': type,
+    };
+  }
+}
+
+/// Describes a tag for an Auto Scaling group.
+class TagDescription {
+  /// The tag key.
+  final String? key;
+
+  /// Determines whether the tag is added to new instances as they are launched in
+  /// the group.
+  final bool? propagateAtLaunch;
+
+  /// The name of the group.
+  final String? resourceId;
+
+  /// The type of resource. The only supported value is
+  /// <code>auto-scaling-group</code>.
+  final String? resourceType;
+
+  /// The tag value.
+  final String? value;
+
+  TagDescription({
+    this.key,
+    this.propagateAtLaunch,
+    this.resourceId,
+    this.resourceType,
+    this.value,
+  });
+  factory TagDescription.fromXml(_s.XmlElement elem) {
+    return TagDescription(
+      key: _s.extractXmlStringValue(elem, 'Key'),
+      propagateAtLaunch: _s.extractXmlBoolValue(elem, 'PropagateAtLaunch'),
+      resourceId: _s.extractXmlStringValue(elem, 'ResourceId'),
+      resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
+      value: _s.extractXmlStringValue(elem, 'Value'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final propagateAtLaunch = this.propagateAtLaunch;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (propagateAtLaunch != null) 'PropagateAtLaunch': propagateAtLaunch,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Describes a filter that is used to return a more specific list of results
+/// from a describe operation.
+///
+/// If you specify multiple filters, the filters are automatically logically
+/// joined with an <code>AND</code>, and the request returns only the results
+/// that match all of the specified filters.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html">Tag
+/// Auto Scaling groups and instances</a> in the <i>Amazon EC2 Auto Scaling User
+/// Guide</i>.
+class Filter {
+  /// The name of the filter.
+  ///
+  /// The valid values for <code>Name</code> depend on which API operation you're
+  /// using with the filter.
+  ///
+  /// <b> <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html">DescribeAutoScalingGroups</a>
+  /// </b>
+  ///
+  /// Valid values for <code>Name</code> include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>tag-key</code> - Accepts tag keys. The results only include
+  /// information about the Auto Scaling groups associated with these tag keys.
+  /// </li>
+  /// <li>
+  /// <code>tag-value</code> - Accepts tag values. The results only include
+  /// information about the Auto Scaling groups associated with these tag values.
+  /// </li>
+  /// <li>
+  /// <code>tag:<key></code> - Accepts the key/value combination of the tag. Use
+  /// the tag key in the filter name and the tag value as the filter value. The
+  /// results only include information about the Auto Scaling groups associated
+  /// with the specified key/value combination.
+  /// </li>
+  /// </ul>
+  /// <b> <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTags.html">DescribeTags</a>
+  /// </b>
+  ///
+  /// Valid values for <code>Name</code> include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>auto-scaling-group</code> - Accepts the names of Auto Scaling groups.
+  /// The results only include information about the tags associated with these
+  /// Auto Scaling groups.
+  /// </li>
+  /// <li>
+  /// <code>key</code> - Accepts tag keys. The results only include information
+  /// about the tags associated with these tag keys.
+  /// </li>
+  /// <li>
+  /// <code>value</code> - Accepts tag values. The results only include
+  /// information about the tags associated with these tag values.
+  /// </li>
+  /// <li>
+  /// <code>propagate-at-launch</code> - Accepts a Boolean value, which specifies
+  /// whether tags propagate to instances at launch. The results only include
+  /// information about the tags associated with the specified Boolean value.
+  /// </li>
+  /// </ul>
+  /// <b> <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html">DescribeScalingActivities</a>
+  /// </b>
+  ///
+  /// Valid values for <code>Name</code> include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>StartTimeLowerBound</code> - The earliest scaling activities to return
+  /// based on the activity start time. Scaling activities with a start time
+  /// earlier than this value are not included in the results. Only activities
+  /// started within the last six weeks can be returned regardless of the value
+  /// specified.
+  /// </li>
+  /// <li>
+  /// <code>StartTimeUpperBound</code> - The latest scaling activities to return
+  /// based on the activity start time. Scaling activities with a start time later
+  /// than this value are not included in the results. Only activities started
+  /// within the last six weeks can be returned regardless of the value specified.
+  /// </li>
+  /// <li>
+  /// <code>Status</code> - The <code>StatusCode</code> value of the scaling
+  /// activity. This filter can only be used in combination with the
+  /// <code>AutoScalingGroupName</code> parameter. For valid
+  /// <code>StatusCode</code> values, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html">Activity</a>
+  /// in the <i>Amazon EC2 Auto Scaling API Reference</i>.
+  /// </li>
+  /// </ul>
+  /// <code>StartTimeLowerBound</code> and <code>StartTimeUpperBound</code> accept
+  /// ISO 8601 formatted timestamps. Timestamps without a timezone offset are
+  /// assumed to be UTC.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>2000-01-18T08:15:00Z</code>
+  /// </li>
+  /// <li>
+  /// <code>2000-01-18T16:15:00+08:00</code>
+  /// </li>
+  /// </ul>
+  final String? name;
+
+  /// One or more filter values. Filter values are case-sensitive.
+  ///
+  /// If you specify multiple values for a filter, the values are automatically
+  /// logically joined with an <code>OR</code>, and the request returns all
+  /// results that match any of the specified values.
+  ///
+  /// <b>DescribeAutoScalingGroups example:</b> Specify "tag:environment" for the
+  /// filter name and "production,development" for the filter values to find Auto
+  /// Scaling groups with the tag "environment=production" or
+  /// "environment=development".
+  ///
+  /// <b>DescribeScalingActivities example:</b> Specify "Status" for the filter
+  /// name and "Successful,Failed" for the filter values to find scaling
+  /// activities with a status of either "Successful" or "Failed".
+  final List<String>? values;
+
+  Filter({
+    this.name,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'Name': name,
+      if (values != null)
+        if (values.isEmpty)
+          'Values': ''
+        else
+          for (var i1 = 0; i1 < values.length; i1++)
+            'Values.member.${i1 + 1}': values[i1],
+    };
+  }
+}
+
+/// Describes a scheduled scaling action.
+class ScheduledUpdateGroupAction {
+  /// The name of the Auto Scaling group.
+  final String? autoScalingGroupName;
+
+  /// The desired capacity is the initial capacity of the Auto Scaling group after
+  /// the scheduled action runs and the capacity it attempts to maintain.
+  final int? desiredCapacity;
+
+  /// The date and time in UTC for the recurring schedule to end. For example,
+  /// <code>"2019-06-01T00:00:00Z"</code>.
+  final DateTime? endTime;
+
+  /// The maximum size of the Auto Scaling group.
+  final int? maxSize;
+
+  /// The minimum size of the Auto Scaling group.
+  final int? minSize;
+
+  /// The recurring schedule for the action, in Unix cron syntax format.
+  ///
+  /// When <code>StartTime</code> and <code>EndTime</code> are specified with
+  /// <code>Recurrence</code>, they form the boundaries of when the recurring
+  /// action starts and stops.
+  final String? recurrence;
+
+  /// The Amazon Resource Name (ARN) of the scheduled action.
+  final String? scheduledActionARN;
+
+  /// The name of the scheduled action.
+  final String? scheduledActionName;
+
+  /// The date and time in UTC for this action to start. For example,
+  /// <code>"2019-06-01T00:00:00Z"</code>.
+  final DateTime? startTime;
+
+  /// This property is no longer used.
+  final DateTime? time;
+
+  /// The time zone for the cron expression.
+  final String? timeZone;
+
+  ScheduledUpdateGroupAction({
+    this.autoScalingGroupName,
+    this.desiredCapacity,
+    this.endTime,
+    this.maxSize,
+    this.minSize,
+    this.recurrence,
+    this.scheduledActionARN,
+    this.scheduledActionName,
+    this.startTime,
+    this.time,
+    this.timeZone,
+  });
+  factory ScheduledUpdateGroupAction.fromXml(_s.XmlElement elem) {
+    return ScheduledUpdateGroupAction(
+      autoScalingGroupName:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
+      desiredCapacity: _s.extractXmlIntValue(elem, 'DesiredCapacity'),
+      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
+      maxSize: _s.extractXmlIntValue(elem, 'MaxSize'),
+      minSize: _s.extractXmlIntValue(elem, 'MinSize'),
+      recurrence: _s.extractXmlStringValue(elem, 'Recurrence'),
+      scheduledActionARN: _s.extractXmlStringValue(elem, 'ScheduledActionARN'),
+      scheduledActionName:
+          _s.extractXmlStringValue(elem, 'ScheduledActionName'),
+      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
+      time: _s.extractXmlDateTimeValue(elem, 'Time'),
+      timeZone: _s.extractXmlStringValue(elem, 'TimeZone'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingGroupName = this.autoScalingGroupName;
+    final desiredCapacity = this.desiredCapacity;
+    final endTime = this.endTime;
+    final maxSize = this.maxSize;
+    final minSize = this.minSize;
+    final recurrence = this.recurrence;
+    final scheduledActionARN = this.scheduledActionARN;
+    final scheduledActionName = this.scheduledActionName;
+    final startTime = this.startTime;
+    final time = this.time;
+    final timeZone = this.timeZone;
+    return {
+      if (autoScalingGroupName != null)
+        'AutoScalingGroupName': autoScalingGroupName,
+      if (desiredCapacity != null) 'DesiredCapacity': desiredCapacity,
+      if (endTime != null) 'EndTime': iso8601ToJson(endTime),
+      if (maxSize != null) 'MaxSize': maxSize,
+      if (minSize != null) 'MinSize': minSize,
+      if (recurrence != null) 'Recurrence': recurrence,
+      if (scheduledActionARN != null) 'ScheduledActionARN': scheduledActionARN,
+      if (scheduledActionName != null)
+        'ScheduledActionName': scheduledActionName,
+      if (startTime != null) 'StartTime': iso8601ToJson(startTime),
+      if (time != null) 'Time': iso8601ToJson(time),
+      if (timeZone != null) 'TimeZone': timeZone,
     };
   }
 }
@@ -11485,497 +12392,6 @@ class ProcessType {
       'ProcessName': processName,
     };
   }
-}
-
-class ProcessesType {
-  /// The names of the process types.
-  final List<ProcessType>? processes;
-
-  ProcessesType({
-    this.processes,
-  });
-  factory ProcessesType.fromXml(_s.XmlElement elem) {
-    return ProcessesType(
-      processes: _s.extractXmlChild(elem, 'Processes')?.let((elem) =>
-          elem.findElements('member').map(ProcessType.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final processes = this.processes;
-    return {
-      if (processes != null) 'Processes': processes,
-    };
-  }
-}
-
-class PutLifecycleHookAnswer {
-  PutLifecycleHookAnswer();
-  factory PutLifecycleHookAnswer.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return PutLifecycleHookAnswer();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class PutWarmPoolAnswer {
-  PutWarmPoolAnswer();
-  factory PutWarmPoolAnswer.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return PutWarmPoolAnswer();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class RecordLifecycleActionHeartbeatAnswer {
-  RecordLifecycleActionHeartbeatAnswer();
-  factory RecordLifecycleActionHeartbeatAnswer.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return RecordLifecycleActionHeartbeatAnswer();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Describes the preferences for an instance refresh.
-class RefreshPreferences {
-  /// (Optional) The CloudWatch alarm specification. CloudWatch alarms can be used
-  /// to identify any issues and fail the operation if an alarm threshold is met.
-  final AlarmSpecification? alarmSpecification;
-
-  /// (Optional) Indicates whether to roll back the Auto Scaling group to its
-  /// previous configuration if the instance refresh fails or a CloudWatch alarm
-  /// threshold is met. The default is <code>false</code>.
-  ///
-  /// A rollback is not supported in the following situations:
-  ///
-  /// <ul>
-  /// <li>
-  /// There is no desired configuration specified for the instance refresh.
-  /// </li>
-  /// <li>
-  /// The Auto Scaling group has a launch template that uses an Amazon Web
-  /// Services Systems Manager parameter instead of an AMI ID for the
-  /// <code>ImageId</code> property.
-  /// </li>
-  /// <li>
-  /// The Auto Scaling group uses the launch template's <code>$Latest</code> or
-  /// <code>$Default</code> version.
-  /// </li>
-  /// </ul>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-refresh-rollback.html">Undo
-  /// changes with a rollback</a> in the <i>Amazon EC2 Auto Scaling User
-  /// Guide</i>.
-  final bool? autoRollback;
-
-  /// (Optional) The amount of time, in seconds, to wait after a checkpoint before
-  /// continuing. This property is optional, but if you specify a value for it,
-  /// you must also specify a value for <code>CheckpointPercentages</code>. If you
-  /// specify a value for <code>CheckpointPercentages</code> and not for
-  /// <code>CheckpointDelay</code>, the <code>CheckpointDelay</code> defaults to
-  /// <code>3600</code> (1 hour).
-  final int? checkpointDelay;
-
-  /// (Optional) Threshold values for each checkpoint in ascending order. Each
-  /// number must be unique. To replace all instances in the Auto Scaling group,
-  /// the last number in the array must be <code>100</code>.
-  ///
-  /// For usage examples, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-adding-checkpoints-instance-refresh.html">Add
-  /// checkpoints to an instance refresh</a> in the <i>Amazon EC2 Auto Scaling
-  /// User Guide</i>.
-  final List<int>? checkpointPercentages;
-
-  /// A time period, in seconds, during which an instance refresh waits before
-  /// moving on to replacing the next instance after a new instance enters the
-  /// <code>InService</code> state.
-  ///
-  /// This property is not required for normal usage. Instead, use the
-  /// <code>DefaultInstanceWarmup</code> property of the Auto Scaling group. The
-  /// <code>InstanceWarmup</code> and <code>DefaultInstanceWarmup</code>
-  /// properties work the same way. Only specify this property if you must
-  /// override the <code>DefaultInstanceWarmup</code> property.
-  ///
-  /// If you do not specify this property, the instance warmup by default is the
-  /// value of the <code>DefaultInstanceWarmup</code> property, if defined (which
-  /// is recommended in all cases), or the <code>HealthCheckGracePeriod</code>
-  /// property otherwise.
-  final int? instanceWarmup;
-
-  /// Specifies the maximum percentage of the group that can be in service and
-  /// healthy, or pending, to support your workload when replacing instances. The
-  /// value is expressed as a percentage of the desired capacity of the Auto
-  /// Scaling group. Value range is 100 to 200.
-  ///
-  /// If you specify <code>MaxHealthyPercentage</code>, you must also specify
-  /// <code>MinHealthyPercentage</code>, and the difference between them cannot be
-  /// greater than 100. A larger range increases the number of instances that can
-  /// be replaced at the same time.
-  ///
-  /// If you do not specify this property, the default is 100 percent, or the
-  /// percentage set in the instance maintenance policy for the Auto Scaling
-  /// group, if defined.
-  final int? maxHealthyPercentage;
-
-  /// Specifies the minimum percentage of the group to keep in service, healthy,
-  /// and ready to use to support your workload to allow the operation to
-  /// continue. The value is expressed as a percentage of the desired capacity of
-  /// the Auto Scaling group. Value range is 0 to 100.
-  ///
-  /// If you do not specify this property, the default is 90 percent, or the
-  /// percentage set in the instance maintenance policy for the Auto Scaling
-  /// group, if defined.
-  final int? minHealthyPercentage;
-
-  /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if
-  /// instances protected from scale in are found.
-  ///
-  /// The following lists the valid values:
-  /// <dl> <dt>Refresh</dt> <dd>
-  /// Amazon EC2 Auto Scaling replaces instances that are protected from scale in.
-  /// </dd> <dt>Ignore</dt> <dd>
-  /// Amazon EC2 Auto Scaling ignores instances that are protected from scale in
-  /// and continues to replace instances that are not protected.
-  /// </dd> <dt>Wait (default)</dt> <dd>
-  /// Amazon EC2 Auto Scaling waits one hour for you to remove scale-in
-  /// protection. Otherwise, the instance refresh will fail.
-  /// </dd> </dl>
-  final ScaleInProtectedInstances? scaleInProtectedInstances;
-
-  /// (Optional) Indicates whether skip matching is enabled. If enabled
-  /// (<code>true</code>), then Amazon EC2 Auto Scaling skips replacing instances
-  /// that match the desired configuration. If no desired configuration is
-  /// specified, then it skips replacing instances that have the same launch
-  /// template and instance types that the Auto Scaling group was using before the
-  /// start of the instance refresh. The default is <code>false</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-refresh-skip-matching.html">Use
-  /// an instance refresh with skip matching</a> in the <i>Amazon EC2 Auto Scaling
-  /// User Guide</i>.
-  final bool? skipMatching;
-
-  /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if
-  /// instances in <code>Standby</code> state are found.
-  ///
-  /// The following lists the valid values:
-  /// <dl> <dt>Terminate</dt> <dd>
-  /// Amazon EC2 Auto Scaling terminates instances that are in
-  /// <code>Standby</code>.
-  /// </dd> <dt>Ignore</dt> <dd>
-  /// Amazon EC2 Auto Scaling ignores instances that are in <code>Standby</code>
-  /// and continues to replace instances that are in the <code>InService</code>
-  /// state.
-  /// </dd> <dt>Wait (default)</dt> <dd>
-  /// Amazon EC2 Auto Scaling waits one hour for you to return the instances to
-  /// service. Otherwise, the instance refresh will fail.
-  /// </dd> </dl>
-  final StandbyInstances? standbyInstances;
-
-  RefreshPreferences({
-    this.alarmSpecification,
-    this.autoRollback,
-    this.checkpointDelay,
-    this.checkpointPercentages,
-    this.instanceWarmup,
-    this.maxHealthyPercentage,
-    this.minHealthyPercentage,
-    this.scaleInProtectedInstances,
-    this.skipMatching,
-    this.standbyInstances,
-  });
-  factory RefreshPreferences.fromXml(_s.XmlElement elem) {
-    return RefreshPreferences(
-      alarmSpecification: _s
-          .extractXmlChild(elem, 'AlarmSpecification')
-          ?.let(AlarmSpecification.fromXml),
-      autoRollback: _s.extractXmlBoolValue(elem, 'AutoRollback'),
-      checkpointDelay: _s.extractXmlIntValue(elem, 'CheckpointDelay'),
-      checkpointPercentages: _s
-          .extractXmlChild(elem, 'CheckpointPercentages')
-          ?.let((elem) => _s.extractXmlIntListValues(elem, 'member')),
-      instanceWarmup: _s.extractXmlIntValue(elem, 'InstanceWarmup'),
-      maxHealthyPercentage: _s.extractXmlIntValue(elem, 'MaxHealthyPercentage'),
-      minHealthyPercentage: _s.extractXmlIntValue(elem, 'MinHealthyPercentage'),
-      scaleInProtectedInstances: _s
-          .extractXmlStringValue(elem, 'ScaleInProtectedInstances')
-          ?.let(ScaleInProtectedInstances.fromString),
-      skipMatching: _s.extractXmlBoolValue(elem, 'SkipMatching'),
-      standbyInstances: _s
-          .extractXmlStringValue(elem, 'StandbyInstances')
-          ?.let(StandbyInstances.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alarmSpecification = this.alarmSpecification;
-    final autoRollback = this.autoRollback;
-    final checkpointDelay = this.checkpointDelay;
-    final checkpointPercentages = this.checkpointPercentages;
-    final instanceWarmup = this.instanceWarmup;
-    final maxHealthyPercentage = this.maxHealthyPercentage;
-    final minHealthyPercentage = this.minHealthyPercentage;
-    final scaleInProtectedInstances = this.scaleInProtectedInstances;
-    final skipMatching = this.skipMatching;
-    final standbyInstances = this.standbyInstances;
-    return {
-      if (alarmSpecification != null) 'AlarmSpecification': alarmSpecification,
-      if (autoRollback != null) 'AutoRollback': autoRollback,
-      if (checkpointDelay != null) 'CheckpointDelay': checkpointDelay,
-      if (checkpointPercentages != null)
-        'CheckpointPercentages': checkpointPercentages,
-      if (instanceWarmup != null) 'InstanceWarmup': instanceWarmup,
-      if (maxHealthyPercentage != null)
-        'MaxHealthyPercentage': maxHealthyPercentage,
-      if (minHealthyPercentage != null)
-        'MinHealthyPercentage': minHealthyPercentage,
-      if (scaleInProtectedInstances != null)
-        'ScaleInProtectedInstances': scaleInProtectedInstances.value,
-      if (skipMatching != null) 'SkipMatching': skipMatching,
-      if (standbyInstances != null) 'StandbyInstances': standbyInstances.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final alarmSpecification = this.alarmSpecification;
-    final autoRollback = this.autoRollback;
-    final checkpointDelay = this.checkpointDelay;
-    final checkpointPercentages = this.checkpointPercentages;
-    final instanceWarmup = this.instanceWarmup;
-    final maxHealthyPercentage = this.maxHealthyPercentage;
-    final minHealthyPercentage = this.minHealthyPercentage;
-    final scaleInProtectedInstances = this.scaleInProtectedInstances;
-    final skipMatching = this.skipMatching;
-    final standbyInstances = this.standbyInstances;
-    return {
-      if (alarmSpecification != null)
-        for (var e1 in alarmSpecification.toQueryMap().entries)
-          'AlarmSpecification.${e1.key}': e1.value,
-      if (autoRollback != null) 'AutoRollback': autoRollback.toString(),
-      if (checkpointDelay != null)
-        'CheckpointDelay': checkpointDelay.toString(),
-      if (checkpointPercentages != null)
-        if (checkpointPercentages.isEmpty)
-          'CheckpointPercentages': ''
-        else
-          for (var i1 = 0; i1 < checkpointPercentages.length; i1++)
-            'CheckpointPercentages.member.${i1 + 1}':
-                checkpointPercentages[i1].toString(),
-      if (instanceWarmup != null) 'InstanceWarmup': instanceWarmup.toString(),
-      if (maxHealthyPercentage != null)
-        'MaxHealthyPercentage': maxHealthyPercentage.toString(),
-      if (minHealthyPercentage != null)
-        'MinHealthyPercentage': minHealthyPercentage.toString(),
-      if (scaleInProtectedInstances != null)
-        'ScaleInProtectedInstances': scaleInProtectedInstances.value,
-      if (skipMatching != null) 'SkipMatching': skipMatching.toString(),
-      if (standbyInstances != null) 'StandbyInstances': standbyInstances.value,
-    };
-  }
-}
-
-class RefreshStrategy {
-  static const rolling = RefreshStrategy._('Rolling');
-
-  final String value;
-
-  const RefreshStrategy._(this.value);
-
-  static const values = [rolling];
-
-  static RefreshStrategy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RefreshStrategy._(value));
-
-  @override
-  bool operator ==(other) => other is RefreshStrategy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about an instance refresh rollback.
-class RollbackDetails {
-  /// Indicates the value of <code>InstancesToUpdate</code> at the time the
-  /// rollback started.
-  final int? instancesToUpdateOnRollback;
-
-  /// Indicates the value of <code>PercentageComplete</code> at the time the
-  /// rollback started.
-  final int? percentageCompleteOnRollback;
-
-  /// Reports progress on replacing instances in an Auto Scaling group that has a
-  /// warm pool. This includes separate details for instances in the warm pool and
-  /// instances in the Auto Scaling group (the live pool).
-  final InstanceRefreshProgressDetails? progressDetailsOnRollback;
-
-  /// The reason for this instance refresh rollback (for example, whether a manual
-  /// or automatic rollback was initiated).
-  final String? rollbackReason;
-
-  /// The date and time at which the rollback began.
-  final DateTime? rollbackStartTime;
-
-  RollbackDetails({
-    this.instancesToUpdateOnRollback,
-    this.percentageCompleteOnRollback,
-    this.progressDetailsOnRollback,
-    this.rollbackReason,
-    this.rollbackStartTime,
-  });
-  factory RollbackDetails.fromXml(_s.XmlElement elem) {
-    return RollbackDetails(
-      instancesToUpdateOnRollback:
-          _s.extractXmlIntValue(elem, 'InstancesToUpdateOnRollback'),
-      percentageCompleteOnRollback:
-          _s.extractXmlIntValue(elem, 'PercentageCompleteOnRollback'),
-      progressDetailsOnRollback: _s
-          .extractXmlChild(elem, 'ProgressDetailsOnRollback')
-          ?.let(InstanceRefreshProgressDetails.fromXml),
-      rollbackReason: _s.extractXmlStringValue(elem, 'RollbackReason'),
-      rollbackStartTime: _s.extractXmlDateTimeValue(elem, 'RollbackStartTime'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instancesToUpdateOnRollback = this.instancesToUpdateOnRollback;
-    final percentageCompleteOnRollback = this.percentageCompleteOnRollback;
-    final progressDetailsOnRollback = this.progressDetailsOnRollback;
-    final rollbackReason = this.rollbackReason;
-    final rollbackStartTime = this.rollbackStartTime;
-    return {
-      if (instancesToUpdateOnRollback != null)
-        'InstancesToUpdateOnRollback': instancesToUpdateOnRollback,
-      if (percentageCompleteOnRollback != null)
-        'PercentageCompleteOnRollback': percentageCompleteOnRollback,
-      if (progressDetailsOnRollback != null)
-        'ProgressDetailsOnRollback': progressDetailsOnRollback,
-      if (rollbackReason != null) 'RollbackReason': rollbackReason,
-      if (rollbackStartTime != null)
-        'RollbackStartTime': iso8601ToJson(rollbackStartTime),
-    };
-  }
-}
-
-class RollbackInstanceRefreshAnswer {
-  /// The instance refresh ID associated with the request. This is the unique ID
-  /// assigned to the instance refresh when it was started.
-  final String? instanceRefreshId;
-
-  RollbackInstanceRefreshAnswer({
-    this.instanceRefreshId,
-  });
-  factory RollbackInstanceRefreshAnswer.fromXml(_s.XmlElement elem) {
-    return RollbackInstanceRefreshAnswer(
-      instanceRefreshId: _s.extractXmlStringValue(elem, 'InstanceRefreshId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceRefreshId = this.instanceRefreshId;
-    return {
-      if (instanceRefreshId != null) 'InstanceRefreshId': instanceRefreshId,
-    };
-  }
-}
-
-class ScaleInProtectedInstances {
-  static const refresh = ScaleInProtectedInstances._('Refresh');
-  static const ignore = ScaleInProtectedInstances._('Ignore');
-  static const wait = ScaleInProtectedInstances._('Wait');
-
-  final String value;
-
-  const ScaleInProtectedInstances._(this.value);
-
-  static const values = [refresh, ignore, wait];
-
-  static ScaleInProtectedInstances fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScaleInProtectedInstances._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScaleInProtectedInstances && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ScalingActivityStatusCode {
-  static const pendingSpotBidPlacement =
-      ScalingActivityStatusCode._('PendingSpotBidPlacement');
-  static const waitingForSpotInstanceRequestId =
-      ScalingActivityStatusCode._('WaitingForSpotInstanceRequestId');
-  static const waitingForSpotInstanceId =
-      ScalingActivityStatusCode._('WaitingForSpotInstanceId');
-  static const waitingForInstanceId =
-      ScalingActivityStatusCode._('WaitingForInstanceId');
-  static const preInService = ScalingActivityStatusCode._('PreInService');
-  static const inProgress = ScalingActivityStatusCode._('InProgress');
-  static const waitingForELBConnectionDraining =
-      ScalingActivityStatusCode._('WaitingForELBConnectionDraining');
-  static const midLifecycleAction =
-      ScalingActivityStatusCode._('MidLifecycleAction');
-  static const waitingForInstanceWarmup =
-      ScalingActivityStatusCode._('WaitingForInstanceWarmup');
-  static const successful = ScalingActivityStatusCode._('Successful');
-  static const failed = ScalingActivityStatusCode._('Failed');
-  static const cancelled = ScalingActivityStatusCode._('Cancelled');
-  static const waitingForConnectionDraining =
-      ScalingActivityStatusCode._('WaitingForConnectionDraining');
-
-  final String value;
-
-  const ScalingActivityStatusCode._(this.value);
-
-  static const values = [
-    pendingSpotBidPlacement,
-    waitingForSpotInstanceRequestId,
-    waitingForSpotInstanceId,
-    waitingForInstanceId,
-    preInService,
-    inProgress,
-    waitingForELBConnectionDraining,
-    midLifecycleAction,
-    waitingForInstanceWarmup,
-    successful,
-    failed,
-    cancelled,
-    waitingForConnectionDraining
-  ];
-
-  static ScalingActivityStatusCode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ScalingActivityStatusCode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ScalingActivityStatusCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Describes a scaling policy.
@@ -12154,148 +12570,2314 @@ class ScalingPolicy {
   }
 }
 
-class ScheduledActionsType {
-  /// A string that indicates that the response contains more items than can be
-  /// returned in a single response. To receive additional items, specify this
-  /// string for the <code>NextToken</code> value when requesting the next set of
-  /// items. This value is null when there are no more items to return.
-  final String? nextToken;
-
-  /// The scheduled actions.
-  final List<ScheduledUpdateGroupAction>? scheduledUpdateGroupActions;
-
-  ScheduledActionsType({
-    this.nextToken,
-    this.scheduledUpdateGroupActions,
-  });
-  factory ScheduledActionsType.fromXml(_s.XmlElement elem) {
-    return ScheduledActionsType(
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      scheduledUpdateGroupActions: _s
-          .extractXmlChild(elem, 'ScheduledUpdateGroupActions')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(ScheduledUpdateGroupAction.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final scheduledUpdateGroupActions = this.scheduledUpdateGroupActions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (scheduledUpdateGroupActions != null)
-        'ScheduledUpdateGroupActions': scheduledUpdateGroupActions,
-    };
-  }
-}
-
-/// Describes a scheduled scaling action.
-class ScheduledUpdateGroupAction {
+/// Describes a notification.
+class NotificationConfiguration {
   /// The name of the Auto Scaling group.
   final String? autoScalingGroupName;
 
-  /// The desired capacity is the initial capacity of the Auto Scaling group after
-  /// the scheduled action runs and the capacity it attempts to maintain.
-  final int? desiredCapacity;
-
-  /// The date and time in UTC for the recurring schedule to end. For example,
-  /// <code>"2019-06-01T00:00:00Z"</code>.
-  final DateTime? endTime;
-
-  /// The maximum size of the Auto Scaling group.
-  final int? maxSize;
-
-  /// The minimum size of the Auto Scaling group.
-  final int? minSize;
-
-  /// The recurring schedule for the action, in Unix cron syntax format.
+  /// One of the following event notification types:
   ///
-  /// When <code>StartTime</code> and <code>EndTime</code> are specified with
-  /// <code>Recurrence</code>, they form the boundaries of when the recurring
-  /// action starts and stops.
-  final String? recurrence;
+  /// <ul>
+  /// <li>
+  /// <code>autoscaling:EC2_INSTANCE_LAUNCH</code>
+  /// </li>
+  /// <li>
+  /// <code>autoscaling:EC2_INSTANCE_LAUNCH_ERROR</code>
+  /// </li>
+  /// <li>
+  /// <code>autoscaling:EC2_INSTANCE_TERMINATE</code>
+  /// </li>
+  /// <li>
+  /// <code>autoscaling:EC2_INSTANCE_TERMINATE_ERROR</code>
+  /// </li>
+  /// <li>
+  /// <code>autoscaling:TEST_NOTIFICATION</code>
+  /// </li>
+  /// </ul>
+  final String? notificationType;
 
-  /// The Amazon Resource Name (ARN) of the scheduled action.
-  final String? scheduledActionARN;
+  /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
+  final String? topicARN;
 
-  /// The name of the scheduled action.
-  final String? scheduledActionName;
-
-  /// The date and time in UTC for this action to start. For example,
-  /// <code>"2019-06-01T00:00:00Z"</code>.
-  final DateTime? startTime;
-
-  /// This property is no longer used.
-  final DateTime? time;
-
-  /// The time zone for the cron expression.
-  final String? timeZone;
-
-  ScheduledUpdateGroupAction({
+  NotificationConfiguration({
     this.autoScalingGroupName,
-    this.desiredCapacity,
-    this.endTime,
-    this.maxSize,
-    this.minSize,
-    this.recurrence,
-    this.scheduledActionARN,
-    this.scheduledActionName,
-    this.startTime,
-    this.time,
-    this.timeZone,
+    this.notificationType,
+    this.topicARN,
   });
-  factory ScheduledUpdateGroupAction.fromXml(_s.XmlElement elem) {
-    return ScheduledUpdateGroupAction(
+  factory NotificationConfiguration.fromXml(_s.XmlElement elem) {
+    return NotificationConfiguration(
       autoScalingGroupName:
           _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
-      desiredCapacity: _s.extractXmlIntValue(elem, 'DesiredCapacity'),
-      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
-      maxSize: _s.extractXmlIntValue(elem, 'MaxSize'),
-      minSize: _s.extractXmlIntValue(elem, 'MinSize'),
-      recurrence: _s.extractXmlStringValue(elem, 'Recurrence'),
-      scheduledActionARN: _s.extractXmlStringValue(elem, 'ScheduledActionARN'),
-      scheduledActionName:
-          _s.extractXmlStringValue(elem, 'ScheduledActionName'),
-      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
-      time: _s.extractXmlDateTimeValue(elem, 'Time'),
-      timeZone: _s.extractXmlStringValue(elem, 'TimeZone'),
+      notificationType: _s.extractXmlStringValue(elem, 'NotificationType'),
+      topicARN: _s.extractXmlStringValue(elem, 'TopicARN'),
     );
   }
 
   Map<String, dynamic> toJson() {
     final autoScalingGroupName = this.autoScalingGroupName;
-    final desiredCapacity = this.desiredCapacity;
-    final endTime = this.endTime;
-    final maxSize = this.maxSize;
-    final minSize = this.minSize;
-    final recurrence = this.recurrence;
-    final scheduledActionARN = this.scheduledActionARN;
-    final scheduledActionName = this.scheduledActionName;
-    final startTime = this.startTime;
-    final time = this.time;
-    final timeZone = this.timeZone;
+    final notificationType = this.notificationType;
+    final topicARN = this.topicARN;
     return {
       if (autoScalingGroupName != null)
         'AutoScalingGroupName': autoScalingGroupName,
-      if (desiredCapacity != null) 'DesiredCapacity': desiredCapacity,
+      if (notificationType != null) 'NotificationType': notificationType,
+      if (topicARN != null) 'TopicARN': topicARN,
+    };
+  }
+}
+
+/// Describes a granularity of a metric.
+class MetricGranularityType {
+  /// The granularity. The only valid value is <code>1Minute</code>.
+  final String? granularity;
+
+  MetricGranularityType({
+    this.granularity,
+  });
+  factory MetricGranularityType.fromXml(_s.XmlElement elem) {
+    return MetricGranularityType(
+      granularity: _s.extractXmlStringValue(elem, 'Granularity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final granularity = this.granularity;
+    return {
+      if (granularity != null) 'Granularity': granularity,
+    };
+  }
+}
+
+/// Describes a metric.
+class MetricCollectionType {
+  /// One of the following metrics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>GroupMinSize</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupMaxSize</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupDesiredCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupInServiceInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupPendingInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupStandbyInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupTerminatingInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupTotalInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupInServiceCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupPendingCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupStandbyCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupTerminatingCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupTotalCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolDesiredCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolWarmedCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolPendingCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolTerminatingCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolTotalCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupAndWarmPoolDesiredCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupAndWarmPoolTotalCapacity</code>
+  /// </li>
+  /// </ul>
+  final String? metric;
+
+  MetricCollectionType({
+    this.metric,
+  });
+  factory MetricCollectionType.fromXml(_s.XmlElement elem) {
+    return MetricCollectionType(
+      metric: _s.extractXmlStringValue(elem, 'Metric'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    return {
+      if (metric != null) 'Metric': metric,
+    };
+  }
+}
+
+/// Describes the state of a target group.
+class LoadBalancerTargetGroupState {
+  /// The Amazon Resource Name (ARN) of the target group.
+  final String? loadBalancerTargetGroupARN;
+
+  /// The state of the target group.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Adding</code> - The Auto Scaling instances are being registered with
+  /// the target group.
+  /// </li>
+  /// <li>
+  /// <code>Added</code> - All Auto Scaling instances are registered with the
+  /// target group.
+  /// </li>
+  /// <li>
+  /// <code>InService</code> - At least one Auto Scaling instance passed an
+  /// <code>ELB</code> health check.
+  /// </li>
+  /// <li>
+  /// <code>Removing</code> - The Auto Scaling instances are being deregistered
+  /// from the target group. If connection draining is enabled, Elastic Load
+  /// Balancing waits for in-flight requests to complete before deregistering the
+  /// instances.
+  /// </li>
+  /// <li>
+  /// <code>Removed</code> - All Auto Scaling instances are deregistered from the
+  /// target group.
+  /// </li>
+  /// </ul>
+  final String? state;
+
+  LoadBalancerTargetGroupState({
+    this.loadBalancerTargetGroupARN,
+    this.state,
+  });
+  factory LoadBalancerTargetGroupState.fromXml(_s.XmlElement elem) {
+    return LoadBalancerTargetGroupState(
+      loadBalancerTargetGroupARN:
+          _s.extractXmlStringValue(elem, 'LoadBalancerTargetGroupARN'),
+      state: _s.extractXmlStringValue(elem, 'State'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loadBalancerTargetGroupARN = this.loadBalancerTargetGroupARN;
+    final state = this.state;
+    return {
+      if (loadBalancerTargetGroupARN != null)
+        'LoadBalancerTargetGroupARN': loadBalancerTargetGroupARN,
+      if (state != null) 'State': state,
+    };
+  }
+}
+
+/// Describes the state of a Classic Load Balancer.
+class LoadBalancerState {
+  /// The name of the load balancer.
+  final String? loadBalancerName;
+
+  /// One of the following load balancer states:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Adding</code> - The Auto Scaling instances are being registered with
+  /// the load balancer.
+  /// </li>
+  /// <li>
+  /// <code>Added</code> - All Auto Scaling instances are registered with the load
+  /// balancer.
+  /// </li>
+  /// <li>
+  /// <code>InService</code> - At least one Auto Scaling instance passed an
+  /// <code>ELB</code> health check.
+  /// </li>
+  /// <li>
+  /// <code>Removing</code> - The Auto Scaling instances are being deregistered
+  /// from the load balancer. If connection draining is enabled, Elastic Load
+  /// Balancing waits for in-flight requests to complete before deregistering the
+  /// instances.
+  /// </li>
+  /// <li>
+  /// <code>Removed</code> - All Auto Scaling instances are deregistered from the
+  /// load balancer.
+  /// </li>
+  /// </ul>
+  final String? state;
+
+  LoadBalancerState({
+    this.loadBalancerName,
+    this.state,
+  });
+  factory LoadBalancerState.fromXml(_s.XmlElement elem) {
+    return LoadBalancerState(
+      loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
+      state: _s.extractXmlStringValue(elem, 'State'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loadBalancerName = this.loadBalancerName;
+    final state = this.state;
+    return {
+      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
+      if (state != null) 'State': state,
+    };
+  }
+}
+
+/// Describes a lifecycle hook. A lifecycle hook lets you create solutions that
+/// are aware of events in the Auto Scaling instance lifecycle, and then perform
+/// a custom action on instances when the corresponding lifecycle event occurs.
+class LifecycleHook {
+  /// The name of the Auto Scaling group for the lifecycle hook.
+  final String? autoScalingGroupName;
+
+  /// The action the Auto Scaling group takes when the lifecycle hook timeout
+  /// elapses or if an unexpected failure occurs.
+  ///
+  /// Valid values: <code>CONTINUE</code> | <code>ABANDON</code>
+  final String? defaultResult;
+
+  /// The maximum time, in seconds, that an instance can remain in a wait state.
+  /// The maximum is 172800 seconds (48 hours) or 100 times
+  /// <code>HeartbeatTimeout</code>, whichever is smaller.
+  final int? globalTimeout;
+
+  /// The maximum time, in seconds, that can elapse before the lifecycle hook
+  /// times out. If the lifecycle hook times out, Amazon EC2 Auto Scaling performs
+  /// the action that you specified in the <code>DefaultResult</code> property.
+  final int? heartbeatTimeout;
+
+  /// The name of the lifecycle hook.
+  final String? lifecycleHookName;
+
+  /// The lifecycle transition.
+  ///
+  /// Valid values: <code>autoscaling:EC2_INSTANCE_LAUNCHING</code> |
+  /// <code>autoscaling:EC2_INSTANCE_TERMINATING</code>
+  final String? lifecycleTransition;
+
+  /// Additional information that is included any time Amazon EC2 Auto Scaling
+  /// sends a message to the notification target.
+  final String? notificationMetadata;
+
+  /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to
+  /// when an instance is in a wait state for the lifecycle hook.
+  final String? notificationTargetARN;
+
+  /// The ARN of the IAM role that allows the Auto Scaling group to publish to the
+  /// specified notification target (an Amazon SNS topic or an Amazon SQS queue).
+  final String? roleARN;
+
+  LifecycleHook({
+    this.autoScalingGroupName,
+    this.defaultResult,
+    this.globalTimeout,
+    this.heartbeatTimeout,
+    this.lifecycleHookName,
+    this.lifecycleTransition,
+    this.notificationMetadata,
+    this.notificationTargetARN,
+    this.roleARN,
+  });
+  factory LifecycleHook.fromXml(_s.XmlElement elem) {
+    return LifecycleHook(
+      autoScalingGroupName:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
+      defaultResult: _s.extractXmlStringValue(elem, 'DefaultResult'),
+      globalTimeout: _s.extractXmlIntValue(elem, 'GlobalTimeout'),
+      heartbeatTimeout: _s.extractXmlIntValue(elem, 'HeartbeatTimeout'),
+      lifecycleHookName: _s.extractXmlStringValue(elem, 'LifecycleHookName'),
+      lifecycleTransition:
+          _s.extractXmlStringValue(elem, 'LifecycleTransition'),
+      notificationMetadata:
+          _s.extractXmlStringValue(elem, 'NotificationMetadata'),
+      notificationTargetARN:
+          _s.extractXmlStringValue(elem, 'NotificationTargetARN'),
+      roleARN: _s.extractXmlStringValue(elem, 'RoleARN'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingGroupName = this.autoScalingGroupName;
+    final defaultResult = this.defaultResult;
+    final globalTimeout = this.globalTimeout;
+    final heartbeatTimeout = this.heartbeatTimeout;
+    final lifecycleHookName = this.lifecycleHookName;
+    final lifecycleTransition = this.lifecycleTransition;
+    final notificationMetadata = this.notificationMetadata;
+    final notificationTargetARN = this.notificationTargetARN;
+    final roleARN = this.roleARN;
+    return {
+      if (autoScalingGroupName != null)
+        'AutoScalingGroupName': autoScalingGroupName,
+      if (defaultResult != null) 'DefaultResult': defaultResult,
+      if (globalTimeout != null) 'GlobalTimeout': globalTimeout,
+      if (heartbeatTimeout != null) 'HeartbeatTimeout': heartbeatTimeout,
+      if (lifecycleHookName != null) 'LifecycleHookName': lifecycleHookName,
+      if (lifecycleTransition != null)
+        'LifecycleTransition': lifecycleTransition,
+      if (notificationMetadata != null)
+        'NotificationMetadata': notificationMetadata,
+      if (notificationTargetARN != null)
+        'NotificationTargetARN': notificationTargetARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
+}
+
+/// Describes a launch configuration.
+class LaunchConfiguration {
+  /// The creation date and time for the launch configuration.
+  final DateTime createdTime;
+
+  /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2
+  /// instances. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html">Find
+  /// a Linux AMI</a> in the <i>Amazon EC2 User Guide</i>.
+  final String imageId;
+
+  /// The instance type for the instances. For information about available
+  /// instance types, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes">Available
+  /// instance types</a> in the <i>Amazon EC2 User Guide</i>.
+  final String instanceType;
+
+  /// The name of the launch configuration.
+  final String launchConfigurationName;
+
+  /// Specifies whether to assign a public IPv4 address to the group's instances.
+  /// If the instance is launched into a default subnet, the default is to assign
+  /// a public IPv4 address, unless you disabled the option to assign a public
+  /// IPv4 address on the subnet. If the instance is launched into a nondefault
+  /// subnet, the default is not to assign a public IPv4 address, unless you
+  /// enabled the option to assign a public IPv4 address on the subnet. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html">Provide
+  /// network connectivity for your Auto Scaling instances using Amazon VPC</a> in
+  /// the <i>Amazon EC2 Auto Scaling User Guide</i>.
+  final bool? associatePublicIpAddress;
+
+  /// The block device mapping entries that define the block devices to attach to
+  /// the instances at launch. By default, the block devices specified in the
+  /// block device mapping for the AMI are used. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html">Block
+  /// device mappings</a> in the <i>Amazon EC2 User Guide</i>.
+  final List<BlockDeviceMapping>? blockDeviceMappings;
+
+  /// Available for backward compatibility.
+  final String? classicLinkVPCId;
+
+  /// Available for backward compatibility.
+  final List<String>? classicLinkVPCSecurityGroups;
+
+  /// Specifies whether the launch configuration is optimized for EBS I/O
+  /// (<code>true</code>) or not (<code>false</code>). For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html">Amazon
+  /// EBS-optimized instances</a> in the <i>Amazon EC2 User Guide</i>.
+  final bool? ebsOptimized;
+
+  /// The name or the Amazon Resource Name (ARN) of the instance profile
+  /// associated with the IAM role for the instance. The instance profile contains
+  /// the IAM role. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/us-iam-role.html">IAM
+  /// role for applications that run on Amazon EC2 instances</a> in the <i>Amazon
+  /// EC2 Auto Scaling User Guide</i>.
+  final String? iamInstanceProfile;
+
+  /// Controls whether instances in this group are launched with detailed
+  /// (<code>true</code>) or basic (<code>false</code>) monitoring.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html">Configure
+  /// monitoring for Auto Scaling instances</a> in the <i>Amazon EC2 Auto Scaling
+  /// User Guide</i>.
+  final InstanceMonitoring? instanceMonitoring;
+
+  /// The ID of the kernel associated with the AMI.
+  final String? kernelId;
+
+  /// The name of the key pair.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Amazon
+  /// EC2 key pairs and Amazon EC2 instances</a> in the <i>Amazon EC2 User
+  /// Guide</i>.
+  final String? keyName;
+
+  /// The Amazon Resource Name (ARN) of the launch configuration.
+  final String? launchConfigurationARN;
+
+  /// The metadata options for the instances. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds">Configure
+  /// the instance metadata options</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
+  final InstanceMetadataOptions? metadataOptions;
+
+  /// The tenancy of the instance, either <code>default</code> or
+  /// <code>dedicated</code>. An instance with <code>dedicated</code> tenancy runs
+  /// on isolated, single-tenant hardware and can only be launched into a VPC.
+  final String? placementTenancy;
+
+  /// The ID of the RAM disk associated with the AMI.
+  final String? ramdiskId;
+
+  /// A list that contains the security groups to assign to the instances in the
+  /// Auto Scaling group. For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html">Control
+  /// traffic to your Amazon Web Services resources using security groups</a> in
+  /// the <i>Amazon Virtual Private Cloud User Guide</i>.
+  final List<String>? securityGroups;
+
+  /// The maximum hourly price to be paid for any Spot Instance launched to
+  /// fulfill the request. Spot Instances are launched when the price you specify
+  /// exceeds the current Spot price. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-spot-instances.html">Requesting
+  /// Spot Instances for fault-tolerant and flexible applications</a> in the
+  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+  final String? spotPrice;
+
+  /// The user data to make available to the launched EC2 instances. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
+  /// metadata and user data</a> in the <i>Amazon EC2 User Guide</i>. If you are
+  /// using a command line tool, base64-encoding is performed for you, and you can
+  /// load the text from a file. Otherwise, you must provide base64-encoded text.
+  /// User data is limited to 16 KB.
+  final String? userData;
+
+  LaunchConfiguration({
+    required this.createdTime,
+    required this.imageId,
+    required this.instanceType,
+    required this.launchConfigurationName,
+    this.associatePublicIpAddress,
+    this.blockDeviceMappings,
+    this.classicLinkVPCId,
+    this.classicLinkVPCSecurityGroups,
+    this.ebsOptimized,
+    this.iamInstanceProfile,
+    this.instanceMonitoring,
+    this.kernelId,
+    this.keyName,
+    this.launchConfigurationARN,
+    this.metadataOptions,
+    this.placementTenancy,
+    this.ramdiskId,
+    this.securityGroups,
+    this.spotPrice,
+    this.userData,
+  });
+  factory LaunchConfiguration.fromXml(_s.XmlElement elem) {
+    return LaunchConfiguration(
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime')!,
+      imageId: _s.extractXmlStringValue(elem, 'ImageId')!,
+      instanceType: _s.extractXmlStringValue(elem, 'InstanceType')!,
+      launchConfigurationName:
+          _s.extractXmlStringValue(elem, 'LaunchConfigurationName')!,
+      associatePublicIpAddress:
+          _s.extractXmlBoolValue(elem, 'AssociatePublicIpAddress'),
+      blockDeviceMappings: _s.extractXmlChild(elem, 'BlockDeviceMappings')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(BlockDeviceMapping.fromXml)
+              .toList()),
+      classicLinkVPCId: _s.extractXmlStringValue(elem, 'ClassicLinkVPCId'),
+      classicLinkVPCSecurityGroups: _s
+          .extractXmlChild(elem, 'ClassicLinkVPCSecurityGroups')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      ebsOptimized: _s.extractXmlBoolValue(elem, 'EbsOptimized'),
+      iamInstanceProfile: _s.extractXmlStringValue(elem, 'IamInstanceProfile'),
+      instanceMonitoring: _s
+          .extractXmlChild(elem, 'InstanceMonitoring')
+          ?.let(InstanceMonitoring.fromXml),
+      kernelId: _s.extractXmlStringValue(elem, 'KernelId'),
+      keyName: _s.extractXmlStringValue(elem, 'KeyName'),
+      launchConfigurationARN:
+          _s.extractXmlStringValue(elem, 'LaunchConfigurationARN'),
+      metadataOptions: _s
+          .extractXmlChild(elem, 'MetadataOptions')
+          ?.let(InstanceMetadataOptions.fromXml),
+      placementTenancy: _s.extractXmlStringValue(elem, 'PlacementTenancy'),
+      ramdiskId: _s.extractXmlStringValue(elem, 'RamdiskId'),
+      securityGroups: _s
+          .extractXmlChild(elem, 'SecurityGroups')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      spotPrice: _s.extractXmlStringValue(elem, 'SpotPrice'),
+      userData: _s.extractXmlStringValue(elem, 'UserData'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final imageId = this.imageId;
+    final instanceType = this.instanceType;
+    final launchConfigurationName = this.launchConfigurationName;
+    final associatePublicIpAddress = this.associatePublicIpAddress;
+    final blockDeviceMappings = this.blockDeviceMappings;
+    final classicLinkVPCId = this.classicLinkVPCId;
+    final classicLinkVPCSecurityGroups = this.classicLinkVPCSecurityGroups;
+    final ebsOptimized = this.ebsOptimized;
+    final iamInstanceProfile = this.iamInstanceProfile;
+    final instanceMonitoring = this.instanceMonitoring;
+    final kernelId = this.kernelId;
+    final keyName = this.keyName;
+    final launchConfigurationARN = this.launchConfigurationARN;
+    final metadataOptions = this.metadataOptions;
+    final placementTenancy = this.placementTenancy;
+    final ramdiskId = this.ramdiskId;
+    final securityGroups = this.securityGroups;
+    final spotPrice = this.spotPrice;
+    final userData = this.userData;
+    return {
+      'CreatedTime': iso8601ToJson(createdTime),
+      'ImageId': imageId,
+      'InstanceType': instanceType,
+      'LaunchConfigurationName': launchConfigurationName,
+      if (associatePublicIpAddress != null)
+        'AssociatePublicIpAddress': associatePublicIpAddress,
+      if (blockDeviceMappings != null)
+        'BlockDeviceMappings': blockDeviceMappings,
+      if (classicLinkVPCId != null) 'ClassicLinkVPCId': classicLinkVPCId,
+      if (classicLinkVPCSecurityGroups != null)
+        'ClassicLinkVPCSecurityGroups': classicLinkVPCSecurityGroups,
+      if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
+      if (iamInstanceProfile != null) 'IamInstanceProfile': iamInstanceProfile,
+      if (instanceMonitoring != null) 'InstanceMonitoring': instanceMonitoring,
+      if (kernelId != null) 'KernelId': kernelId,
+      if (keyName != null) 'KeyName': keyName,
+      if (launchConfigurationARN != null)
+        'LaunchConfigurationARN': launchConfigurationARN,
+      if (metadataOptions != null) 'MetadataOptions': metadataOptions,
+      if (placementTenancy != null) 'PlacementTenancy': placementTenancy,
+      if (ramdiskId != null) 'RamdiskId': ramdiskId,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (spotPrice != null) 'SpotPrice': spotPrice,
+      if (userData != null) 'UserData': userData,
+    };
+  }
+}
+
+/// Describes whether detailed monitoring is enabled for the Auto Scaling
+/// instances.
+class InstanceMonitoring {
+  /// If <code>true</code>, detailed monitoring is enabled. Otherwise, basic
+  /// monitoring is enabled.
+  final bool? enabled;
+
+  InstanceMonitoring({
+    this.enabled,
+  });
+  factory InstanceMonitoring.fromXml(_s.XmlElement elem) {
+    return InstanceMonitoring(
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled.toString(),
+    };
+  }
+}
+
+/// The metadata options for the instances. For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds">Configure
+/// the instance metadata options</a> in the <i>Amazon EC2 Auto Scaling User
+/// Guide</i>.
+class InstanceMetadataOptions {
+  /// This parameter enables or disables the HTTP metadata endpoint on your
+  /// instances. If the parameter is not specified, the default state is
+  /// <code>enabled</code>.
+  /// <note>
+  /// If you specify a value of <code>disabled</code>, you will not be able to
+  /// access your instance metadata.
+  /// </note>
+  final InstanceMetadataEndpointState? httpEndpoint;
+
+  /// The desired HTTP PUT response hop limit for instance metadata requests. The
+  /// larger the number, the further instance metadata requests can travel.
+  ///
+  /// Default: 1
+  final int? httpPutResponseHopLimit;
+
+  /// The state of token usage for your instance metadata requests. If the
+  /// parameter is not specified in the request, the default state is
+  /// <code>optional</code>.
+  ///
+  /// If the state is <code>optional</code>, you can choose to retrieve instance
+  /// metadata with or without a signed token header on your request. If you
+  /// retrieve the IAM role credentials without a token, the version 1.0 role
+  /// credentials are returned. If you retrieve the IAM role credentials using a
+  /// valid signed token, the version 2.0 role credentials are returned.
+  ///
+  /// If the state is <code>required</code>, you must send a signed token header
+  /// with any instance metadata retrieval requests. In this state, retrieving the
+  /// IAM role credentials always returns the version 2.0 credentials; the version
+  /// 1.0 credentials are not available.
+  final InstanceMetadataHttpTokensState? httpTokens;
+
+  InstanceMetadataOptions({
+    this.httpEndpoint,
+    this.httpPutResponseHopLimit,
+    this.httpTokens,
+  });
+  factory InstanceMetadataOptions.fromXml(_s.XmlElement elem) {
+    return InstanceMetadataOptions(
+      httpEndpoint: _s
+          .extractXmlStringValue(elem, 'HttpEndpoint')
+          ?.let(InstanceMetadataEndpointState.fromString),
+      httpPutResponseHopLimit:
+          _s.extractXmlIntValue(elem, 'HttpPutResponseHopLimit'),
+      httpTokens: _s
+          .extractXmlStringValue(elem, 'HttpTokens')
+          ?.let(InstanceMetadataHttpTokensState.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpEndpoint = this.httpEndpoint;
+    final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
+    final httpTokens = this.httpTokens;
+    return {
+      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.value,
+      if (httpPutResponseHopLimit != null)
+        'HttpPutResponseHopLimit': httpPutResponseHopLimit,
+      if (httpTokens != null) 'HttpTokens': httpTokens.value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final httpEndpoint = this.httpEndpoint;
+    final httpPutResponseHopLimit = this.httpPutResponseHopLimit;
+    final httpTokens = this.httpTokens;
+    return {
+      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint.value,
+      if (httpPutResponseHopLimit != null)
+        'HttpPutResponseHopLimit': httpPutResponseHopLimit.toString(),
+      if (httpTokens != null) 'HttpTokens': httpTokens.value,
+    };
+  }
+}
+
+class InstanceMetadataHttpTokensState {
+  static const optional = InstanceMetadataHttpTokensState._('optional');
+  static const required = InstanceMetadataHttpTokensState._('required');
+
+  final String value;
+
+  const InstanceMetadataHttpTokensState._(this.value);
+
+  static const values = [optional, required];
+
+  static InstanceMetadataHttpTokensState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceMetadataHttpTokensState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMetadataHttpTokensState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class InstanceMetadataEndpointState {
+  static const disabled = InstanceMetadataEndpointState._('disabled');
+  static const enabled = InstanceMetadataEndpointState._('enabled');
+
+  final String value;
+
+  const InstanceMetadataEndpointState._(this.value);
+
+  static const values = [disabled, enabled];
+
+  static InstanceMetadataEndpointState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceMetadataEndpointState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceMetadataEndpointState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Describes a block device mapping.
+class BlockDeviceMapping {
+  /// The device name assigned to the volume (for example, <code>/dev/sdh</code>
+  /// or <code>xvdh</code>). For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html">Device
+  /// naming on Linux instances</a> in the <i>Amazon EC2 User Guide</i>.
+  /// <note>
+  /// To define a block device mapping, set the device name and exactly one of the
+  /// following properties: <code>Ebs</code>, <code>NoDevice</code>, or
+  /// <code>VirtualName</code>.
+  /// </note>
+  final String deviceName;
+
+  /// Information to attach an EBS volume to an instance at launch.
+  final Ebs? ebs;
+
+  /// Setting this value to <code>true</code> prevents a volume that is included
+  /// in the block device mapping of the AMI from being mapped to the specified
+  /// device name at launch.
+  ///
+  /// If <code>NoDevice</code> is <code>true</code> for the root device, instances
+  /// might fail the EC2 health check. In that case, Amazon EC2 Auto Scaling
+  /// launches replacement instances.
+  final bool? noDevice;
+
+  /// The name of the instance store volume (virtual device) to attach to an
+  /// instance at launch. The name must be in the form ephemeral<i>X</i> where
+  /// <i>X</i> is a number starting from zero (0), for example,
+  /// <code>ephemeral0</code>.
+  final String? virtualName;
+
+  BlockDeviceMapping({
+    required this.deviceName,
+    this.ebs,
+    this.noDevice,
+    this.virtualName,
+  });
+  factory BlockDeviceMapping.fromXml(_s.XmlElement elem) {
+    return BlockDeviceMapping(
+      deviceName: _s.extractXmlStringValue(elem, 'DeviceName')!,
+      ebs: _s.extractXmlChild(elem, 'Ebs')?.let(Ebs.fromXml),
+      noDevice: _s.extractXmlBoolValue(elem, 'NoDevice'),
+      virtualName: _s.extractXmlStringValue(elem, 'VirtualName'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceName = this.deviceName;
+    final ebs = this.ebs;
+    final noDevice = this.noDevice;
+    final virtualName = this.virtualName;
+    return {
+      'DeviceName': deviceName,
+      if (ebs != null) 'Ebs': ebs,
+      if (noDevice != null) 'NoDevice': noDevice,
+      if (virtualName != null) 'VirtualName': virtualName,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final deviceName = this.deviceName;
+    final ebs = this.ebs;
+    final noDevice = this.noDevice;
+    final virtualName = this.virtualName;
+    return {
+      'DeviceName': deviceName,
+      if (ebs != null)
+        for (var e1 in ebs.toQueryMap().entries) 'Ebs.${e1.key}': e1.value,
+      if (noDevice != null) 'NoDevice': noDevice.toString(),
+      if (virtualName != null) 'VirtualName': virtualName,
+    };
+  }
+}
+
+/// Describes information used to set up an Amazon EBS volume specified in a
+/// block device mapping.
+class Ebs {
+  /// Indicates whether the volume is deleted on instance termination. For Amazon
+  /// EC2 Auto Scaling, the default value is <code>true</code>.
+  final bool? deleteOnTermination;
+
+  /// Specifies whether the volume should be encrypted. Encrypted EBS volumes can
+  /// only be attached to instances that support Amazon EBS encryption. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html">Requirements
+  /// for Amazon EBS encryption</a> in the <i>Amazon EBS User Guide</i>. If your
+  /// AMI uses encrypted volumes, you can also only launch it on supported
+  /// instance types.
+  /// <note>
+  /// If you are creating a volume from a snapshot, you cannot create an
+  /// unencrypted volume from an encrypted snapshot. Also, you cannot specify a
+  /// KMS key ID when using a launch configuration.
+  ///
+  /// If you enable encryption by default, the EBS volumes that you create are
+  /// always encrypted, either using the Amazon Web Services managed KMS key or a
+  /// customer-managed KMS key, regardless of whether the snapshot was encrypted.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-data-protection.html#encryption">Use
+  /// Amazon Web Services KMS keys to encrypt Amazon EBS volumes</a> in the
+  /// <i>Amazon EC2 Auto Scaling User Guide</i>.
+  /// </note>
+  final bool? encrypted;
+
+  /// The number of input/output (I/O) operations per second (IOPS) to provision
+  /// for the volume. For <code>gp3</code> and <code>io1</code> volumes, this
+  /// represents the number of IOPS that are provisioned for the volume. For
+  /// <code>gp2</code> volumes, this represents the baseline performance of the
+  /// volume and the rate at which the volume accumulates I/O credits for
+  /// bursting.
+  ///
+  /// The following are the supported values for each volume type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp3</code>: 3,000-16,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io1</code>: 100-64,000 IOPS
+  /// </li>
+  /// </ul>
+  /// For <code>io1</code> volumes, we guarantee 64,000 IOPS only for <a
+  /// href="https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html">Instances
+  /// built on the Amazon Web Services Nitro System</a>. Other instance families
+  /// guarantee performance up to 32,000 IOPS.
+  ///
+  /// <code>Iops</code> is supported when the volume type is <code>gp3</code> or
+  /// <code>io1</code> and required only when the volume type is <code>io1</code>.
+  /// (Not used with <code>standard</code>, <code>gp2</code>, <code>st1</code>, or
+  /// <code>sc1</code> volumes.)
+  final int? iops;
+
+  /// The snapshot ID of the volume to use.
+  ///
+  /// You must specify either a <code>VolumeSize</code> or a
+  /// <code>SnapshotId</code>.
+  final String? snapshotId;
+
+  /// The throughput (MiBps) to provision for a <code>gp3</code> volume.
+  final int? throughput;
+
+  /// The volume size, in GiBs. The following are the supported volumes sizes for
+  /// each volume type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp2</code> and <code>gp3</code>: 1-16,384
+  /// </li>
+  /// <li>
+  /// <code>io1</code>: 4-16,384
+  /// </li>
+  /// <li>
+  /// <code>st1</code> and <code>sc1</code>: 125-16,384
+  /// </li>
+  /// <li>
+  /// <code>standard</code>: 1-1,024
+  /// </li>
+  /// </ul>
+  /// You must specify either a <code>SnapshotId</code> or a
+  /// <code>VolumeSize</code>. If you specify both <code>SnapshotId</code> and
+  /// <code>VolumeSize</code>, the volume size must be equal or greater than the
+  /// size of the snapshot.
+  final int? volumeSize;
+
+  /// The volume type. For more information, see <a
+  /// href="https://docs.aws.amazon.com/ebs/latest/userguide/ebs-volume-types.html">Amazon
+  /// EBS volume types</a> in the <i>Amazon EBS User Guide</i>.
+  ///
+  /// Valid values: <code>standard</code> | <code>io1</code> | <code>gp2</code> |
+  /// <code>st1</code> | <code>sc1</code> | <code>gp3</code>
+  final String? volumeType;
+
+  Ebs({
+    this.deleteOnTermination,
+    this.encrypted,
+    this.iops,
+    this.snapshotId,
+    this.throughput,
+    this.volumeSize,
+    this.volumeType,
+  });
+  factory Ebs.fromXml(_s.XmlElement elem) {
+    return Ebs(
+      deleteOnTermination: _s.extractXmlBoolValue(elem, 'DeleteOnTermination'),
+      encrypted: _s.extractXmlBoolValue(elem, 'Encrypted'),
+      iops: _s.extractXmlIntValue(elem, 'Iops'),
+      snapshotId: _s.extractXmlStringValue(elem, 'SnapshotId'),
+      throughput: _s.extractXmlIntValue(elem, 'Throughput'),
+      volumeSize: _s.extractXmlIntValue(elem, 'VolumeSize'),
+      volumeType: _s.extractXmlStringValue(elem, 'VolumeType'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteOnTermination = this.deleteOnTermination;
+    final encrypted = this.encrypted;
+    final iops = this.iops;
+    final snapshotId = this.snapshotId;
+    final throughput = this.throughput;
+    final volumeSize = this.volumeSize;
+    final volumeType = this.volumeType;
+    return {
+      if (deleteOnTermination != null)
+        'DeleteOnTermination': deleteOnTermination,
+      if (encrypted != null) 'Encrypted': encrypted,
+      if (iops != null) 'Iops': iops,
+      if (snapshotId != null) 'SnapshotId': snapshotId,
+      if (throughput != null) 'Throughput': throughput,
+      if (volumeSize != null) 'VolumeSize': volumeSize,
+      if (volumeType != null) 'VolumeType': volumeType,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final deleteOnTermination = this.deleteOnTermination;
+    final encrypted = this.encrypted;
+    final iops = this.iops;
+    final snapshotId = this.snapshotId;
+    final throughput = this.throughput;
+    final volumeSize = this.volumeSize;
+    final volumeType = this.volumeType;
+    return {
+      if (deleteOnTermination != null)
+        'DeleteOnTermination': deleteOnTermination.toString(),
+      if (encrypted != null) 'Encrypted': encrypted.toString(),
+      if (iops != null) 'Iops': iops.toString(),
+      if (snapshotId != null) 'SnapshotId': snapshotId,
+      if (throughput != null) 'Throughput': throughput.toString(),
+      if (volumeSize != null) 'VolumeSize': volumeSize.toString(),
+      if (volumeType != null) 'VolumeType': volumeType,
+    };
+  }
+}
+
+/// Describes an instance refresh for an Auto Scaling group.
+class InstanceRefresh {
+  /// The name of the Auto Scaling group.
+  final String? autoScalingGroupName;
+
+  /// Describes the desired configuration for the instance refresh.
+  final DesiredConfiguration? desiredConfiguration;
+
+  /// The date and time at which the instance refresh ended.
+  final DateTime? endTime;
+
+  /// The instance refresh ID.
+  final String? instanceRefreshId;
+
+  /// The number of instances remaining to update before the instance refresh is
+  /// complete.
+  /// <note>
+  /// If you roll back the instance refresh, <code>InstancesToUpdate</code> shows
+  /// you the number of instances that were not yet updated by the instance
+  /// refresh. Therefore, these instances don't need to be replaced as part of the
+  /// rollback.
+  /// </note>
+  final int? instancesToUpdate;
+
+  /// The percentage of the instance refresh that is complete. For each instance
+  /// replacement, Amazon EC2 Auto Scaling tracks the instance's health status and
+  /// warm-up time. When the instance's health status changes to healthy and the
+  /// specified warm-up time passes, the instance is considered updated and is
+  /// added to the percentage complete.
+  /// <note>
+  /// <code>PercentageComplete</code> does not include instances that are replaced
+  /// during a rollback. This value gradually goes back down to zero during a
+  /// rollback.
+  /// </note>
+  final int? percentageComplete;
+
+  /// The preferences for an instance refresh.
+  final RefreshPreferences? preferences;
+
+  /// Additional progress details for an Auto Scaling group that has a warm pool.
+  final InstanceRefreshProgressDetails? progressDetails;
+
+  /// The rollback details.
+  final RollbackDetails? rollbackDetails;
+
+  /// The date and time at which the instance refresh began.
+  final DateTime? startTime;
+
+  /// The current status for the instance refresh operation:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Pending</code> - The request was created, but the instance refresh has
+  /// not started.
+  /// </li>
+  /// <li>
+  /// <code>InProgress</code> - An instance refresh is in progress.
+  /// </li>
+  /// <li>
+  /// <code>Successful</code> - An instance refresh completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>Failed</code> - An instance refresh failed to complete. You can
+  /// troubleshoot using the status reason and the scaling activities.
+  /// </li>
+  /// <li>
+  /// <code>Cancelling</code> - An ongoing instance refresh is being cancelled.
+  /// </li>
+  /// <li>
+  /// <code>Cancelled</code> - The instance refresh is cancelled.
+  /// </li>
+  /// <li>
+  /// <code>RollbackInProgress</code> - An instance refresh is being rolled back.
+  /// </li>
+  /// <li>
+  /// <code>RollbackFailed</code> - The rollback failed to complete. You can
+  /// troubleshoot using the status reason and the scaling activities.
+  /// </li>
+  /// <li>
+  /// <code>RollbackSuccessful</code> - The rollback completed successfully.
+  /// </li>
+  /// <li>
+  /// <code>Baking</code> - Waiting the specified bake time after an instance
+  /// refresh has finished updating instances.
+  /// </li>
+  /// </ul>
+  final InstanceRefreshStatus? status;
+
+  /// The explanation for the specific status assigned to this operation.
+  final String? statusReason;
+
+  /// The strategy to use for the instance refresh. This determines how instances
+  /// in the Auto Scaling group are updated. Default is Rolling.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Rolling</code> – Terminates instances and launches replacements in
+  /// batches
+  /// </li>
+  /// <li>
+  /// <code>ReplaceRootVolume</code> – Updates instances by replacing only the
+  /// root volume without terminating the instance
+  /// </li>
+  /// </ul>
+  final RefreshStrategy? strategy;
+
+  InstanceRefresh({
+    this.autoScalingGroupName,
+    this.desiredConfiguration,
+    this.endTime,
+    this.instanceRefreshId,
+    this.instancesToUpdate,
+    this.percentageComplete,
+    this.preferences,
+    this.progressDetails,
+    this.rollbackDetails,
+    this.startTime,
+    this.status,
+    this.statusReason,
+    this.strategy,
+  });
+  factory InstanceRefresh.fromXml(_s.XmlElement elem) {
+    return InstanceRefresh(
+      autoScalingGroupName:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName'),
+      desiredConfiguration: _s
+          .extractXmlChild(elem, 'DesiredConfiguration')
+          ?.let(DesiredConfiguration.fromXml),
+      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime'),
+      instanceRefreshId: _s.extractXmlStringValue(elem, 'InstanceRefreshId'),
+      instancesToUpdate: _s.extractXmlIntValue(elem, 'InstancesToUpdate'),
+      percentageComplete: _s.extractXmlIntValue(elem, 'PercentageComplete'),
+      preferences: _s
+          .extractXmlChild(elem, 'Preferences')
+          ?.let(RefreshPreferences.fromXml),
+      progressDetails: _s
+          .extractXmlChild(elem, 'ProgressDetails')
+          ?.let(InstanceRefreshProgressDetails.fromXml),
+      rollbackDetails: _s
+          .extractXmlChild(elem, 'RollbackDetails')
+          ?.let(RollbackDetails.fromXml),
+      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime'),
+      status: _s
+          .extractXmlStringValue(elem, 'Status')
+          ?.let(InstanceRefreshStatus.fromString),
+      statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
+      strategy: _s
+          .extractXmlStringValue(elem, 'Strategy')
+          ?.let(RefreshStrategy.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingGroupName = this.autoScalingGroupName;
+    final desiredConfiguration = this.desiredConfiguration;
+    final endTime = this.endTime;
+    final instanceRefreshId = this.instanceRefreshId;
+    final instancesToUpdate = this.instancesToUpdate;
+    final percentageComplete = this.percentageComplete;
+    final preferences = this.preferences;
+    final progressDetails = this.progressDetails;
+    final rollbackDetails = this.rollbackDetails;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final strategy = this.strategy;
+    return {
+      if (autoScalingGroupName != null)
+        'AutoScalingGroupName': autoScalingGroupName,
+      if (desiredConfiguration != null)
+        'DesiredConfiguration': desiredConfiguration,
       if (endTime != null) 'EndTime': iso8601ToJson(endTime),
-      if (maxSize != null) 'MaxSize': maxSize,
-      if (minSize != null) 'MinSize': minSize,
-      if (recurrence != null) 'Recurrence': recurrence,
-      if (scheduledActionARN != null) 'ScheduledActionARN': scheduledActionARN,
-      if (scheduledActionName != null)
-        'ScheduledActionName': scheduledActionName,
+      if (instanceRefreshId != null) 'InstanceRefreshId': instanceRefreshId,
+      if (instancesToUpdate != null) 'InstancesToUpdate': instancesToUpdate,
+      if (percentageComplete != null) 'PercentageComplete': percentageComplete,
+      if (preferences != null) 'Preferences': preferences,
+      if (progressDetails != null) 'ProgressDetails': progressDetails,
+      if (rollbackDetails != null) 'RollbackDetails': rollbackDetails,
       if (startTime != null) 'StartTime': iso8601ToJson(startTime),
-      if (time != null) 'Time': iso8601ToJson(time),
-      if (timeZone != null) 'TimeZone': timeZone,
+      if (status != null) 'Status': status.value,
+      if (statusReason != null) 'StatusReason': statusReason,
+      if (strategy != null) 'Strategy': strategy.value,
+    };
+  }
+}
+
+class InstanceRefreshStatus {
+  static const pending = InstanceRefreshStatus._('Pending');
+  static const inProgress = InstanceRefreshStatus._('InProgress');
+  static const successful = InstanceRefreshStatus._('Successful');
+  static const failed = InstanceRefreshStatus._('Failed');
+  static const cancelling = InstanceRefreshStatus._('Cancelling');
+  static const cancelled = InstanceRefreshStatus._('Cancelled');
+  static const rollbackInProgress =
+      InstanceRefreshStatus._('RollbackInProgress');
+  static const rollbackFailed = InstanceRefreshStatus._('RollbackFailed');
+  static const rollbackSuccessful =
+      InstanceRefreshStatus._('RollbackSuccessful');
+  static const baking = InstanceRefreshStatus._('Baking');
+
+  final String value;
+
+  const InstanceRefreshStatus._(this.value);
+
+  static const values = [
+    pending,
+    inProgress,
+    successful,
+    failed,
+    cancelling,
+    cancelled,
+    rollbackInProgress,
+    rollbackFailed,
+    rollbackSuccessful,
+    baking
+  ];
+
+  static InstanceRefreshStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => InstanceRefreshStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is InstanceRefreshStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Reports progress on replacing instances in an Auto Scaling group that has a
+/// warm pool. This includes separate details for instances in the warm pool and
+/// instances in the Auto Scaling group (the live pool).
+class InstanceRefreshProgressDetails {
+  /// Reports progress on replacing instances that are in the Auto Scaling group.
+  final InstanceRefreshLivePoolProgress? livePoolProgress;
+
+  /// Reports progress on replacing instances that are in the warm pool.
+  final InstanceRefreshWarmPoolProgress? warmPoolProgress;
+
+  InstanceRefreshProgressDetails({
+    this.livePoolProgress,
+    this.warmPoolProgress,
+  });
+  factory InstanceRefreshProgressDetails.fromXml(_s.XmlElement elem) {
+    return InstanceRefreshProgressDetails(
+      livePoolProgress: _s
+          .extractXmlChild(elem, 'LivePoolProgress')
+          ?.let(InstanceRefreshLivePoolProgress.fromXml),
+      warmPoolProgress: _s
+          .extractXmlChild(elem, 'WarmPoolProgress')
+          ?.let(InstanceRefreshWarmPoolProgress.fromXml),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final livePoolProgress = this.livePoolProgress;
+    final warmPoolProgress = this.warmPoolProgress;
+    return {
+      if (livePoolProgress != null) 'LivePoolProgress': livePoolProgress,
+      if (warmPoolProgress != null) 'WarmPoolProgress': warmPoolProgress,
+    };
+  }
+}
+
+/// Details about an instance refresh rollback.
+class RollbackDetails {
+  /// Indicates the value of <code>InstancesToUpdate</code> at the time the
+  /// rollback started.
+  final int? instancesToUpdateOnRollback;
+
+  /// Indicates the value of <code>PercentageComplete</code> at the time the
+  /// rollback started.
+  final int? percentageCompleteOnRollback;
+
+  /// Reports progress on replacing instances in an Auto Scaling group that has a
+  /// warm pool. This includes separate details for instances in the warm pool and
+  /// instances in the Auto Scaling group (the live pool).
+  final InstanceRefreshProgressDetails? progressDetailsOnRollback;
+
+  /// The reason for this instance refresh rollback (for example, whether a manual
+  /// or automatic rollback was initiated).
+  final String? rollbackReason;
+
+  /// The date and time at which the rollback began.
+  final DateTime? rollbackStartTime;
+
+  RollbackDetails({
+    this.instancesToUpdateOnRollback,
+    this.percentageCompleteOnRollback,
+    this.progressDetailsOnRollback,
+    this.rollbackReason,
+    this.rollbackStartTime,
+  });
+  factory RollbackDetails.fromXml(_s.XmlElement elem) {
+    return RollbackDetails(
+      instancesToUpdateOnRollback:
+          _s.extractXmlIntValue(elem, 'InstancesToUpdateOnRollback'),
+      percentageCompleteOnRollback:
+          _s.extractXmlIntValue(elem, 'PercentageCompleteOnRollback'),
+      progressDetailsOnRollback: _s
+          .extractXmlChild(elem, 'ProgressDetailsOnRollback')
+          ?.let(InstanceRefreshProgressDetails.fromXml),
+      rollbackReason: _s.extractXmlStringValue(elem, 'RollbackReason'),
+      rollbackStartTime: _s.extractXmlDateTimeValue(elem, 'RollbackStartTime'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancesToUpdateOnRollback = this.instancesToUpdateOnRollback;
+    final percentageCompleteOnRollback = this.percentageCompleteOnRollback;
+    final progressDetailsOnRollback = this.progressDetailsOnRollback;
+    final rollbackReason = this.rollbackReason;
+    final rollbackStartTime = this.rollbackStartTime;
+    return {
+      if (instancesToUpdateOnRollback != null)
+        'InstancesToUpdateOnRollback': instancesToUpdateOnRollback,
+      if (percentageCompleteOnRollback != null)
+        'PercentageCompleteOnRollback': percentageCompleteOnRollback,
+      if (progressDetailsOnRollback != null)
+        'ProgressDetailsOnRollback': progressDetailsOnRollback,
+      if (rollbackReason != null) 'RollbackReason': rollbackReason,
+      if (rollbackStartTime != null)
+        'RollbackStartTime': iso8601ToJson(rollbackStartTime),
+    };
+  }
+}
+
+/// Reports progress on replacing instances that are in the Auto Scaling group.
+class InstanceRefreshLivePoolProgress {
+  /// The number of instances remaining to update.
+  final int? instancesToUpdate;
+
+  /// The percentage of instances in the Auto Scaling group that have been
+  /// replaced. For each instance replacement, Amazon EC2 Auto Scaling tracks the
+  /// instance's health status and warm-up time. When the instance's health status
+  /// changes to healthy and the specified warm-up time passes, the instance is
+  /// considered updated and is added to the percentage complete.
+  final int? percentageComplete;
+
+  InstanceRefreshLivePoolProgress({
+    this.instancesToUpdate,
+    this.percentageComplete,
+  });
+  factory InstanceRefreshLivePoolProgress.fromXml(_s.XmlElement elem) {
+    return InstanceRefreshLivePoolProgress(
+      instancesToUpdate: _s.extractXmlIntValue(elem, 'InstancesToUpdate'),
+      percentageComplete: _s.extractXmlIntValue(elem, 'PercentageComplete'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancesToUpdate = this.instancesToUpdate;
+    final percentageComplete = this.percentageComplete;
+    return {
+      if (instancesToUpdate != null) 'InstancesToUpdate': instancesToUpdate,
+      if (percentageComplete != null) 'PercentageComplete': percentageComplete,
+    };
+  }
+}
+
+/// Reports progress on replacing instances that are in the warm pool.
+class InstanceRefreshWarmPoolProgress {
+  /// The number of instances remaining to update.
+  final int? instancesToUpdate;
+
+  /// The percentage of instances in the warm pool that have been replaced. For
+  /// each instance replacement, Amazon EC2 Auto Scaling tracks the instance's
+  /// health status and warm-up time. When the instance's health status changes to
+  /// healthy and the specified warm-up time passes, the instance is considered
+  /// updated and is added to the percentage complete.
+  final int? percentageComplete;
+
+  InstanceRefreshWarmPoolProgress({
+    this.instancesToUpdate,
+    this.percentageComplete,
+  });
+  factory InstanceRefreshWarmPoolProgress.fromXml(_s.XmlElement elem) {
+    return InstanceRefreshWarmPoolProgress(
+      instancesToUpdate: _s.extractXmlIntValue(elem, 'InstancesToUpdate'),
+      percentageComplete: _s.extractXmlIntValue(elem, 'PercentageComplete'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancesToUpdate = this.instancesToUpdate;
+    final percentageComplete = this.percentageComplete;
+    return {
+      if (instancesToUpdate != null) 'InstancesToUpdate': instancesToUpdate,
+      if (percentageComplete != null) 'PercentageComplete': percentageComplete,
+    };
+  }
+}
+
+/// Describes an EC2 instance associated with an Auto Scaling group.
+class AutoScalingInstanceDetails {
+  /// The name of the Auto Scaling group for the instance.
+  final String autoScalingGroupName;
+
+  /// The Availability Zone for the instance.
+  final String availabilityZone;
+
+  /// The last reported health status of this instance. <code>Healthy</code> means
+  /// that the instance is healthy and should remain in service.
+  /// <code>Unhealthy</code> means that the instance is unhealthy and Amazon EC2
+  /// Auto Scaling should terminate and replace it.
+  final String healthStatus;
+
+  /// The ID of the instance.
+  final String instanceId;
+
+  /// The lifecycle state for the instance. The <code>Quarantined</code> state is
+  /// not used. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html">Amazon
+  /// EC2 Auto Scaling instance lifecycle</a> in the <i>Amazon EC2 Auto Scaling
+  /// User Guide</i>.
+  ///
+  /// Valid values: <code>Pending</code> | <code>Pending:Wait</code> |
+  /// <code>Pending:Proceed</code> | <code>Quarantined</code> |
+  /// <code>InService</code> | <code>Terminating</code> |
+  /// <code>Terminating:Wait</code> | <code>Terminating:Proceed</code> |
+  /// <code>Terminating:Retained</code> | <code>Terminated</code> |
+  /// <code>Detaching</code> | <code>Detached</code> |
+  /// <code>EnteringStandby</code> | <code>Standby</code> |
+  /// <code>ReplacingRootVolume</code> | <code>ReplacingRootVolume:Wait</code> |
+  /// <code>ReplacingRootVolume:Proceed</code> | <code>RootVolumeReplaced</code> |
+  /// <code>Warmed:Pending</code> | <code>Warmed:Pending:Wait</code> |
+  /// <code>Warmed:Pending:Proceed</code> | <code>Warmed:Pending:Retained</code> |
+  /// <code>Warmed:Terminating</code> | <code>Warmed:Terminating:Wait</code> |
+  /// <code>Warmed:Terminating:Proceed</code> |
+  /// <code>Warmed:Terminating:Retained</code> | <code>Warmed:Terminated</code> |
+  /// <code>Warmed:Stopped</code> | <code>Warmed:Running</code> |
+  /// <code>Warmed:Hibernated</code>
+  final String lifecycleState;
+
+  /// Indicates whether the instance is protected from termination by Amazon EC2
+  /// Auto Scaling when scaling in.
+  final bool protectedFromScaleIn;
+
+  /// The Availability Zone ID where the instance is located.
+  final String? availabilityZoneId;
+
+  /// The ID of the Amazon Machine Image (AMI) associated with the instance. This
+  /// field shows the current AMI ID of the instance's root volume. It may differ
+  /// from the original AMI used when the instance was first launched.
+  ///
+  /// This field appears for:
+  ///
+  /// <ul>
+  /// <li>
+  /// Instances with root volume replacements through Instance Refresh
+  /// </li>
+  /// <li>
+  /// Instances launched with AMI overrides
+  /// </li>
+  /// </ul>
+  /// This field won't appear for:
+  ///
+  /// <ul>
+  /// <li>
+  /// Existing instances launched from Launch Templates without overrides
+  /// </li>
+  /// <li>
+  /// Existing instances that didn’t have their root volume replaced through
+  /// Instance Refresh
+  /// </li>
+  /// </ul>
+  final String? imageId;
+
+  /// The instance type of the EC2 instance.
+  final String? instanceType;
+
+  /// The launch configuration used to launch the instance. This value is not
+  /// available if you attached the instance to the Auto Scaling group.
+  final String? launchConfigurationName;
+
+  /// The launch template for the instance.
+  final LaunchTemplateSpecification? launchTemplate;
+
+  /// The number of capacity units contributed by the instance based on its
+  /// instance type.
+  ///
+  /// Valid Range: Minimum value of 1. Maximum value of 999.
+  final String? weightedCapacity;
+
+  AutoScalingInstanceDetails({
+    required this.autoScalingGroupName,
+    required this.availabilityZone,
+    required this.healthStatus,
+    required this.instanceId,
+    required this.lifecycleState,
+    required this.protectedFromScaleIn,
+    this.availabilityZoneId,
+    this.imageId,
+    this.instanceType,
+    this.launchConfigurationName,
+    this.launchTemplate,
+    this.weightedCapacity,
+  });
+  factory AutoScalingInstanceDetails.fromXml(_s.XmlElement elem) {
+    return AutoScalingInstanceDetails(
+      autoScalingGroupName:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
+      availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone')!,
+      healthStatus: _s.extractXmlStringValue(elem, 'HealthStatus')!,
+      instanceId: _s.extractXmlStringValue(elem, 'InstanceId')!,
+      lifecycleState: _s.extractXmlStringValue(elem, 'LifecycleState')!,
+      protectedFromScaleIn:
+          _s.extractXmlBoolValue(elem, 'ProtectedFromScaleIn')!,
+      availabilityZoneId: _s.extractXmlStringValue(elem, 'AvailabilityZoneId'),
+      imageId: _s.extractXmlStringValue(elem, 'ImageId'),
+      instanceType: _s.extractXmlStringValue(elem, 'InstanceType'),
+      launchConfigurationName:
+          _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
+      launchTemplate: _s
+          .extractXmlChild(elem, 'LaunchTemplate')
+          ?.let(LaunchTemplateSpecification.fromXml),
+      weightedCapacity: _s.extractXmlStringValue(elem, 'WeightedCapacity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingGroupName = this.autoScalingGroupName;
+    final availabilityZone = this.availabilityZone;
+    final healthStatus = this.healthStatus;
+    final instanceId = this.instanceId;
+    final lifecycleState = this.lifecycleState;
+    final protectedFromScaleIn = this.protectedFromScaleIn;
+    final availabilityZoneId = this.availabilityZoneId;
+    final imageId = this.imageId;
+    final instanceType = this.instanceType;
+    final launchConfigurationName = this.launchConfigurationName;
+    final launchTemplate = this.launchTemplate;
+    final weightedCapacity = this.weightedCapacity;
+    return {
+      'AutoScalingGroupName': autoScalingGroupName,
+      'AvailabilityZone': availabilityZone,
+      'HealthStatus': healthStatus,
+      'InstanceId': instanceId,
+      'LifecycleState': lifecycleState,
+      'ProtectedFromScaleIn': protectedFromScaleIn,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
+      if (imageId != null) 'ImageId': imageId,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (launchConfigurationName != null)
+        'LaunchConfigurationName': launchConfigurationName,
+      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
+      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
+    };
+  }
+}
+
+/// Describes an Auto Scaling group.
+class AutoScalingGroup {
+  /// The name of the Auto Scaling group.
+  final String autoScalingGroupName;
+
+  /// One or more Availability Zones for the Auto Scaling group.
+  final List<String> availabilityZones;
+
+  /// The date and time the Auto Scaling group was created.
+  final DateTime createdTime;
+
+  /// The duration of the default cooldown period, in seconds, for the Auto
+  /// Scaling group.
+  final int defaultCooldown;
+
+  /// The desired size of the Auto Scaling group.
+  final int desiredCapacity;
+
+  /// One or more comma-separated health check types for the Auto Scaling group.
+  final String healthCheckType;
+
+  /// The maximum size of the Auto Scaling group.
+  final int maxSize;
+
+  /// The minimum size of the Auto Scaling group.
+  final int minSize;
+
+  /// The Amazon Resource Name (ARN) of the Auto Scaling group.
+  final String? autoScalingGroupARN;
+
+  /// The EC2 instance capacity distribution across Availability Zones for the
+  /// Auto Scaling group.
+  final AvailabilityZoneDistribution? availabilityZoneDistribution;
+
+  /// The Availability Zone IDs where the Auto Scaling group can launch instances.
+  final List<String>? availabilityZoneIds;
+
+  /// The Availability Zone impairment policy for the Auto Scaling group.
+  final AvailabilityZoneImpairmentPolicy? availabilityZoneImpairmentPolicy;
+
+  /// Indicates whether Capacity Rebalancing is enabled.
+  final bool? capacityRebalance;
+
+  /// The capacity reservation specification for the Auto Scaling group.
+  final CapacityReservationSpecification? capacityReservationSpecification;
+
+  /// Reserved.
+  final String? context;
+
+  /// The duration of the default EC2 instance warmup time, in seconds, for the
+  /// Auto Scaling group.
+  final int? defaultInstanceWarmup;
+
+  /// The deletion protection setting for the Auto Scaling group.
+  final DeletionProtection? deletionProtection;
+
+  /// The unit of measurement for the value specified for desired capacity. Amazon
+  /// EC2 Auto Scaling supports <code>DesiredCapacityType</code> for
+  /// attribute-based instance type selection only.
+  final String? desiredCapacityType;
+
+  /// The metrics enabled for the Auto Scaling group.
+  final List<EnabledMetric>? enabledMetrics;
+
+  /// The duration of the health check grace period, in seconds, for the Auto
+  /// Scaling group.
+  final int? healthCheckGracePeriod;
+
+  /// The instance lifecycle policy for the Auto Scaling group.
+  final InstanceLifecyclePolicy? instanceLifecyclePolicy;
+
+  /// An instance maintenance policy.
+  final InstanceMaintenancePolicy? instanceMaintenancePolicy;
+
+  /// The EC2 instances associated with the Auto Scaling group.
+  final List<Instance>? instances;
+
+  /// The name of the associated launch configuration for the Auto Scaling group.
+  final String? launchConfigurationName;
+
+  /// The launch template for the Auto Scaling group.
+  final LaunchTemplateSpecification? launchTemplate;
+
+  /// One or more load balancers associated with the group.
+  final List<String>? loadBalancerNames;
+
+  /// The maximum amount of time, in seconds, that an EC2 instance can be in
+  /// service for the Auto Scaling group.
+  final int? maxInstanceLifetime;
+
+  /// The mixed instances policy for the group.
+  final MixedInstancesPolicy? mixedInstancesPolicy;
+
+  /// Indicates whether newly launched EC2 instances are protected from
+  /// termination when scaling in for the Auto Scaling group.
+  ///
+  /// For more information about preventing instances from terminating on scale
+  /// in, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html">Use
+  /// instance scale-in protection</a> in the <i>Amazon EC2 Auto Scaling User
+  /// Guide</i>.
+  final bool? newInstancesProtectedFromScaleIn;
+
+  /// The name of the placement group into which to launch EC2 instances for the
+  /// Auto Scaling group.
+  final String? placementGroup;
+
+  /// The predicted capacity of the group when it has a predictive scaling policy.
+  final int? predictedCapacity;
+
+  /// The Amazon Resource Name (ARN) of the service-linked role that the Auto
+  /// Scaling group uses to call other Amazon Web Services on your behalf.
+  final String? serviceLinkedRoleARN;
+
+  /// The current state of the Auto Scaling group when the <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteAutoScalingGroup.html">DeleteAutoScalingGroup</a>
+  /// operation is in progress.
+  final String? status;
+
+  /// The suspended processes associated with the Auto Scaling group.
+  final List<SuspendedProcess>? suspendedProcesses;
+
+  /// The tags for the Auto Scaling group.
+  final List<TagDescription>? tags;
+
+  /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
+  final List<String>? targetGroupARNs;
+
+  /// The termination policies for the Auto Scaling group.
+  final List<String>? terminationPolicies;
+
+  /// The traffic sources associated with this Auto Scaling group.
+  final List<TrafficSourceIdentifier>? trafficSources;
+
+  /// One or more comma-separated subnet IDs for the Auto Scaling group.
+  final String? vPCZoneIdentifier;
+
+  /// The warm pool for the group.
+  final WarmPoolConfiguration? warmPoolConfiguration;
+
+  /// The current size of the warm pool.
+  final int? warmPoolSize;
+
+  AutoScalingGroup({
+    required this.autoScalingGroupName,
+    required this.availabilityZones,
+    required this.createdTime,
+    required this.defaultCooldown,
+    required this.desiredCapacity,
+    required this.healthCheckType,
+    required this.maxSize,
+    required this.minSize,
+    this.autoScalingGroupARN,
+    this.availabilityZoneDistribution,
+    this.availabilityZoneIds,
+    this.availabilityZoneImpairmentPolicy,
+    this.capacityRebalance,
+    this.capacityReservationSpecification,
+    this.context,
+    this.defaultInstanceWarmup,
+    this.deletionProtection,
+    this.desiredCapacityType,
+    this.enabledMetrics,
+    this.healthCheckGracePeriod,
+    this.instanceLifecyclePolicy,
+    this.instanceMaintenancePolicy,
+    this.instances,
+    this.launchConfigurationName,
+    this.launchTemplate,
+    this.loadBalancerNames,
+    this.maxInstanceLifetime,
+    this.mixedInstancesPolicy,
+    this.newInstancesProtectedFromScaleIn,
+    this.placementGroup,
+    this.predictedCapacity,
+    this.serviceLinkedRoleARN,
+    this.status,
+    this.suspendedProcesses,
+    this.tags,
+    this.targetGroupARNs,
+    this.terminationPolicies,
+    this.trafficSources,
+    this.vPCZoneIdentifier,
+    this.warmPoolConfiguration,
+    this.warmPoolSize,
+  });
+  factory AutoScalingGroup.fromXml(_s.XmlElement elem) {
+    return AutoScalingGroup(
+      autoScalingGroupName:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupName')!,
+      availabilityZones: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'AvailabilityZones')!, 'member'),
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime')!,
+      defaultCooldown: _s.extractXmlIntValue(elem, 'DefaultCooldown')!,
+      desiredCapacity: _s.extractXmlIntValue(elem, 'DesiredCapacity')!,
+      healthCheckType: _s.extractXmlStringValue(elem, 'HealthCheckType')!,
+      maxSize: _s.extractXmlIntValue(elem, 'MaxSize')!,
+      minSize: _s.extractXmlIntValue(elem, 'MinSize')!,
+      autoScalingGroupARN:
+          _s.extractXmlStringValue(elem, 'AutoScalingGroupARN'),
+      availabilityZoneDistribution: _s
+          .extractXmlChild(elem, 'AvailabilityZoneDistribution')
+          ?.let(AvailabilityZoneDistribution.fromXml),
+      availabilityZoneIds: _s
+          .extractXmlChild(elem, 'AvailabilityZoneIds')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      availabilityZoneImpairmentPolicy: _s
+          .extractXmlChild(elem, 'AvailabilityZoneImpairmentPolicy')
+          ?.let(AvailabilityZoneImpairmentPolicy.fromXml),
+      capacityRebalance: _s.extractXmlBoolValue(elem, 'CapacityRebalance'),
+      capacityReservationSpecification: _s
+          .extractXmlChild(elem, 'CapacityReservationSpecification')
+          ?.let(CapacityReservationSpecification.fromXml),
+      context: _s.extractXmlStringValue(elem, 'Context'),
+      defaultInstanceWarmup:
+          _s.extractXmlIntValue(elem, 'DefaultInstanceWarmup'),
+      deletionProtection: _s
+          .extractXmlStringValue(elem, 'DeletionProtection')
+          ?.let(DeletionProtection.fromString),
+      desiredCapacityType:
+          _s.extractXmlStringValue(elem, 'DesiredCapacityType'),
+      enabledMetrics: _s.extractXmlChild(elem, 'EnabledMetrics')?.let((elem) =>
+          elem.findElements('member').map(EnabledMetric.fromXml).toList()),
+      healthCheckGracePeriod:
+          _s.extractXmlIntValue(elem, 'HealthCheckGracePeriod'),
+      instanceLifecyclePolicy: _s
+          .extractXmlChild(elem, 'InstanceLifecyclePolicy')
+          ?.let(InstanceLifecyclePolicy.fromXml),
+      instanceMaintenancePolicy: _s
+          .extractXmlChild(elem, 'InstanceMaintenancePolicy')
+          ?.let(InstanceMaintenancePolicy.fromXml),
+      instances: _s.extractXmlChild(elem, 'Instances')?.let(
+          (elem) => elem.findElements('member').map(Instance.fromXml).toList()),
+      launchConfigurationName:
+          _s.extractXmlStringValue(elem, 'LaunchConfigurationName'),
+      launchTemplate: _s
+          .extractXmlChild(elem, 'LaunchTemplate')
+          ?.let(LaunchTemplateSpecification.fromXml),
+      loadBalancerNames: _s
+          .extractXmlChild(elem, 'LoadBalancerNames')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      maxInstanceLifetime: _s.extractXmlIntValue(elem, 'MaxInstanceLifetime'),
+      mixedInstancesPolicy: _s
+          .extractXmlChild(elem, 'MixedInstancesPolicy')
+          ?.let(MixedInstancesPolicy.fromXml),
+      newInstancesProtectedFromScaleIn:
+          _s.extractXmlBoolValue(elem, 'NewInstancesProtectedFromScaleIn'),
+      placementGroup: _s.extractXmlStringValue(elem, 'PlacementGroup'),
+      predictedCapacity: _s.extractXmlIntValue(elem, 'PredictedCapacity'),
+      serviceLinkedRoleARN:
+          _s.extractXmlStringValue(elem, 'ServiceLinkedRoleARN'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      suspendedProcesses: _s.extractXmlChild(elem, 'SuspendedProcesses')?.let(
+          (elem) => elem
+              .findElements('member')
+              .map(SuspendedProcess.fromXml)
+              .toList()),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map(TagDescription.fromXml).toList()),
+      targetGroupARNs: _s
+          .extractXmlChild(elem, 'TargetGroupARNs')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      terminationPolicies: _s
+          .extractXmlChild(elem, 'TerminationPolicies')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      trafficSources: _s.extractXmlChild(elem, 'TrafficSources')?.let((elem) =>
+          elem
+              .findElements('member')
+              .map(TrafficSourceIdentifier.fromXml)
+              .toList()),
+      vPCZoneIdentifier: _s.extractXmlStringValue(elem, 'VPCZoneIdentifier'),
+      warmPoolConfiguration: _s
+          .extractXmlChild(elem, 'WarmPoolConfiguration')
+          ?.let(WarmPoolConfiguration.fromXml),
+      warmPoolSize: _s.extractXmlIntValue(elem, 'WarmPoolSize'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingGroupName = this.autoScalingGroupName;
+    final availabilityZones = this.availabilityZones;
+    final createdTime = this.createdTime;
+    final defaultCooldown = this.defaultCooldown;
+    final desiredCapacity = this.desiredCapacity;
+    final healthCheckType = this.healthCheckType;
+    final maxSize = this.maxSize;
+    final minSize = this.minSize;
+    final autoScalingGroupARN = this.autoScalingGroupARN;
+    final availabilityZoneDistribution = this.availabilityZoneDistribution;
+    final availabilityZoneIds = this.availabilityZoneIds;
+    final availabilityZoneImpairmentPolicy =
+        this.availabilityZoneImpairmentPolicy;
+    final capacityRebalance = this.capacityRebalance;
+    final capacityReservationSpecification =
+        this.capacityReservationSpecification;
+    final context = this.context;
+    final defaultInstanceWarmup = this.defaultInstanceWarmup;
+    final deletionProtection = this.deletionProtection;
+    final desiredCapacityType = this.desiredCapacityType;
+    final enabledMetrics = this.enabledMetrics;
+    final healthCheckGracePeriod = this.healthCheckGracePeriod;
+    final instanceLifecyclePolicy = this.instanceLifecyclePolicy;
+    final instanceMaintenancePolicy = this.instanceMaintenancePolicy;
+    final instances = this.instances;
+    final launchConfigurationName = this.launchConfigurationName;
+    final launchTemplate = this.launchTemplate;
+    final loadBalancerNames = this.loadBalancerNames;
+    final maxInstanceLifetime = this.maxInstanceLifetime;
+    final mixedInstancesPolicy = this.mixedInstancesPolicy;
+    final newInstancesProtectedFromScaleIn =
+        this.newInstancesProtectedFromScaleIn;
+    final placementGroup = this.placementGroup;
+    final predictedCapacity = this.predictedCapacity;
+    final serviceLinkedRoleARN = this.serviceLinkedRoleARN;
+    final status = this.status;
+    final suspendedProcesses = this.suspendedProcesses;
+    final tags = this.tags;
+    final targetGroupARNs = this.targetGroupARNs;
+    final terminationPolicies = this.terminationPolicies;
+    final trafficSources = this.trafficSources;
+    final vPCZoneIdentifier = this.vPCZoneIdentifier;
+    final warmPoolConfiguration = this.warmPoolConfiguration;
+    final warmPoolSize = this.warmPoolSize;
+    return {
+      'AutoScalingGroupName': autoScalingGroupName,
+      'AvailabilityZones': availabilityZones,
+      'CreatedTime': iso8601ToJson(createdTime),
+      'DefaultCooldown': defaultCooldown,
+      'DesiredCapacity': desiredCapacity,
+      'HealthCheckType': healthCheckType,
+      'MaxSize': maxSize,
+      'MinSize': minSize,
+      if (autoScalingGroupARN != null)
+        'AutoScalingGroupARN': autoScalingGroupARN,
+      if (availabilityZoneDistribution != null)
+        'AvailabilityZoneDistribution': availabilityZoneDistribution,
+      if (availabilityZoneIds != null)
+        'AvailabilityZoneIds': availabilityZoneIds,
+      if (availabilityZoneImpairmentPolicy != null)
+        'AvailabilityZoneImpairmentPolicy': availabilityZoneImpairmentPolicy,
+      if (capacityRebalance != null) 'CapacityRebalance': capacityRebalance,
+      if (capacityReservationSpecification != null)
+        'CapacityReservationSpecification': capacityReservationSpecification,
+      if (context != null) 'Context': context,
+      if (defaultInstanceWarmup != null)
+        'DefaultInstanceWarmup': defaultInstanceWarmup,
+      if (deletionProtection != null)
+        'DeletionProtection': deletionProtection.value,
+      if (desiredCapacityType != null)
+        'DesiredCapacityType': desiredCapacityType,
+      if (enabledMetrics != null) 'EnabledMetrics': enabledMetrics,
+      if (healthCheckGracePeriod != null)
+        'HealthCheckGracePeriod': healthCheckGracePeriod,
+      if (instanceLifecyclePolicy != null)
+        'InstanceLifecyclePolicy': instanceLifecyclePolicy,
+      if (instanceMaintenancePolicy != null)
+        'InstanceMaintenancePolicy': instanceMaintenancePolicy,
+      if (instances != null) 'Instances': instances,
+      if (launchConfigurationName != null)
+        'LaunchConfigurationName': launchConfigurationName,
+      if (launchTemplate != null) 'LaunchTemplate': launchTemplate,
+      if (loadBalancerNames != null) 'LoadBalancerNames': loadBalancerNames,
+      if (maxInstanceLifetime != null)
+        'MaxInstanceLifetime': maxInstanceLifetime,
+      if (mixedInstancesPolicy != null)
+        'MixedInstancesPolicy': mixedInstancesPolicy,
+      if (newInstancesProtectedFromScaleIn != null)
+        'NewInstancesProtectedFromScaleIn': newInstancesProtectedFromScaleIn,
+      if (placementGroup != null) 'PlacementGroup': placementGroup,
+      if (predictedCapacity != null) 'PredictedCapacity': predictedCapacity,
+      if (serviceLinkedRoleARN != null)
+        'ServiceLinkedRoleARN': serviceLinkedRoleARN,
+      if (status != null) 'Status': status,
+      if (suspendedProcesses != null) 'SuspendedProcesses': suspendedProcesses,
+      if (tags != null) 'Tags': tags,
+      if (targetGroupARNs != null) 'TargetGroupARNs': targetGroupARNs,
+      if (terminationPolicies != null)
+        'TerminationPolicies': terminationPolicies,
+      if (trafficSources != null) 'TrafficSources': trafficSources,
+      if (vPCZoneIdentifier != null) 'VPCZoneIdentifier': vPCZoneIdentifier,
+      if (warmPoolConfiguration != null)
+        'WarmPoolConfiguration': warmPoolConfiguration,
+      if (warmPoolSize != null) 'WarmPoolSize': warmPoolSize,
+    };
+  }
+}
+
+/// Describes an enabled Auto Scaling group metric.
+class EnabledMetric {
+  /// The granularity of the metric. The only valid value is <code>1Minute</code>.
+  final String? granularity;
+
+  /// One of the following metrics:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>GroupMinSize</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupMaxSize</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupDesiredCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupInServiceInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupPendingInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupStandbyInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupTerminatingInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupTotalInstances</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupInServiceCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupPendingCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupStandbyCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupTerminatingCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupTotalCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolDesiredCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolWarmedCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolPendingCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolTerminatingCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>WarmPoolTotalCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupAndWarmPoolDesiredCapacity</code>
+  /// </li>
+  /// <li>
+  /// <code>GroupAndWarmPoolTotalCapacity</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-metrics.html">Amazon
+  /// CloudWatch metrics for Amazon EC2 Auto Scaling</a> in the <i>Amazon EC2 Auto
+  /// Scaling User Guide</i>.
+  final String? metric;
+
+  EnabledMetric({
+    this.granularity,
+    this.metric,
+  });
+  factory EnabledMetric.fromXml(_s.XmlElement elem) {
+    return EnabledMetric(
+      granularity: _s.extractXmlStringValue(elem, 'Granularity'),
+      metric: _s.extractXmlStringValue(elem, 'Metric'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final granularity = this.granularity;
+    final metric = this.metric;
+    return {
+      if (granularity != null) 'Granularity': granularity,
+      if (metric != null) 'Metric': metric,
+    };
+  }
+}
+
+/// Describes an auto scaling process that has been suspended.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html#process-types">Types
+/// of processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
+class SuspendedProcess {
+  /// The name of the suspended process.
+  final String? processName;
+
+  /// The reason that the process was suspended.
+  final String? suspensionReason;
+
+  SuspendedProcess({
+    this.processName,
+    this.suspensionReason,
+  });
+  factory SuspendedProcess.fromXml(_s.XmlElement elem) {
+    return SuspendedProcess(
+      processName: _s.extractXmlStringValue(elem, 'ProcessName'),
+      suspensionReason: _s.extractXmlStringValue(elem, 'SuspensionReason'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final processName = this.processName;
+    final suspensionReason = this.suspensionReason;
+    return {
+      if (processName != null) 'ProcessName': processName,
+      if (suspensionReason != null) 'SuspensionReason': suspensionReason,
+    };
+  }
+}
+
+/// Describes a policy adjustment type.
+class AdjustmentType {
+  /// The policy adjustment type. The valid values are
+  /// <code>ChangeInCapacity</code>, <code>ExactCapacity</code>, and
+  /// <code>PercentChangeInCapacity</code>.
+  final String? adjustmentType;
+
+  AdjustmentType({
+    this.adjustmentType,
+  });
+  factory AdjustmentType.fromXml(_s.XmlElement elem) {
+    return AdjustmentType(
+      adjustmentType: _s.extractXmlStringValue(elem, 'AdjustmentType'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adjustmentType = this.adjustmentType;
+    return {
+      if (adjustmentType != null) 'AdjustmentType': adjustmentType,
+    };
+  }
+}
+
+/// Describes a tag for an Auto Scaling group.
+class Tag {
+  /// The tag key.
+  final String key;
+
+  /// Determines whether the tag is added to new instances as they are launched in
+  /// the group.
+  final bool? propagateAtLaunch;
+
+  /// The name of the Auto Scaling group.
+  final String? resourceId;
+
+  /// The type of resource. The only supported value is
+  /// <code>auto-scaling-group</code>.
+  final String? resourceType;
+
+  /// The tag value.
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.propagateAtLaunch,
+    this.resourceId,
+    this.resourceType,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final propagateAtLaunch = this.propagateAtLaunch;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (propagateAtLaunch != null) 'PropagateAtLaunch': propagateAtLaunch,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final key = this.key;
+    final propagateAtLaunch = this.propagateAtLaunch;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (propagateAtLaunch != null)
+        'PropagateAtLaunch': propagateAtLaunch.toString(),
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Describes information used to specify a lifecycle hook for an Auto Scaling
+/// group.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/lifecycle-hooks.html">Amazon
+/// EC2 Auto Scaling lifecycle hooks</a> in the <i>Amazon EC2 Auto Scaling User
+/// Guide</i>.
+class LifecycleHookSpecification {
+  /// The name of the lifecycle hook.
+  final String lifecycleHookName;
+
+  /// The lifecycle transition. For Auto Scaling groups, there are two major
+  /// lifecycle transitions.
+  ///
+  /// <ul>
+  /// <li>
+  /// To create a lifecycle hook for scale-out events, specify
+  /// <code>autoscaling:EC2_INSTANCE_LAUNCHING</code>.
+  /// </li>
+  /// <li>
+  /// To create a lifecycle hook for scale-in events, specify
+  /// <code>autoscaling:EC2_INSTANCE_TERMINATING</code>.
+  /// </li>
+  /// </ul>
+  final String lifecycleTransition;
+
+  /// The action the Auto Scaling group takes when the lifecycle hook timeout
+  /// elapses or if an unexpected failure occurs. The default value is
+  /// <code>ABANDON</code>.
+  ///
+  /// Valid values: <code>CONTINUE</code> | <code>ABANDON</code>
+  final String? defaultResult;
+
+  /// The maximum time, in seconds, that can elapse before the lifecycle hook
+  /// times out. The range is from <code>30</code> to <code>7200</code> seconds.
+  /// The default value is <code>3600</code> seconds (1 hour).
+  final int? heartbeatTimeout;
+
+  /// Additional information that you want to include any time Amazon EC2 Auto
+  /// Scaling sends a message to the notification target.
+  final String? notificationMetadata;
+
+  /// The Amazon Resource Name (ARN) of the notification target that Amazon EC2
+  /// Auto Scaling sends notifications to when an instance is in a wait state for
+  /// the lifecycle hook. You can specify an Amazon SNS topic or an Amazon SQS
+  /// queue.
+  final String? notificationTargetARN;
+
+  /// The ARN of the IAM role that allows the Auto Scaling group to publish to the
+  /// specified notification target. For information about creating this role, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/prepare-for-lifecycle-notifications.html">Prepare
+  /// to add a lifecycle hook to your Auto Scaling group</a> in the <i>Amazon EC2
+  /// Auto Scaling User Guide</i>.
+  ///
+  /// Valid only if the notification target is an Amazon SNS topic or an Amazon
+  /// SQS queue.
+  final String? roleARN;
+
+  LifecycleHookSpecification({
+    required this.lifecycleHookName,
+    required this.lifecycleTransition,
+    this.defaultResult,
+    this.heartbeatTimeout,
+    this.notificationMetadata,
+    this.notificationTargetARN,
+    this.roleARN,
+  });
+
+  Map<String, dynamic> toJson() {
+    final lifecycleHookName = this.lifecycleHookName;
+    final lifecycleTransition = this.lifecycleTransition;
+    final defaultResult = this.defaultResult;
+    final heartbeatTimeout = this.heartbeatTimeout;
+    final notificationMetadata = this.notificationMetadata;
+    final notificationTargetARN = this.notificationTargetARN;
+    final roleARN = this.roleARN;
+    return {
+      'LifecycleHookName': lifecycleHookName,
+      'LifecycleTransition': lifecycleTransition,
+      if (defaultResult != null) 'DefaultResult': defaultResult,
+      if (heartbeatTimeout != null) 'HeartbeatTimeout': heartbeatTimeout,
+      if (notificationMetadata != null)
+        'NotificationMetadata': notificationMetadata,
+      if (notificationTargetARN != null)
+        'NotificationTargetARN': notificationTargetARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
+
+  Map<String, String> toQueryMap() {
+    final lifecycleHookName = this.lifecycleHookName;
+    final lifecycleTransition = this.lifecycleTransition;
+    final defaultResult = this.defaultResult;
+    final heartbeatTimeout = this.heartbeatTimeout;
+    final notificationMetadata = this.notificationMetadata;
+    final notificationTargetARN = this.notificationTargetARN;
+    final roleARN = this.roleARN;
+    return {
+      'LifecycleHookName': lifecycleHookName,
+      'LifecycleTransition': lifecycleTransition,
+      if (defaultResult != null) 'DefaultResult': defaultResult,
+      if (heartbeatTimeout != null)
+        'HeartbeatTimeout': heartbeatTimeout.toString(),
+      if (notificationMetadata != null)
+        'NotificationMetadata': notificationMetadata,
+      if (notificationTargetARN != null)
+        'NotificationTargetARN': notificationTargetARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
+}
+
+/// Describes a scheduled action that could not be created, updated, or deleted.
+class FailedScheduledUpdateGroupActionRequest {
+  /// The name of the scheduled action.
+  final String scheduledActionName;
+
+  /// The error code.
+  final String? errorCode;
+
+  /// The error message accompanying the error code.
+  final String? errorMessage;
+
+  FailedScheduledUpdateGroupActionRequest({
+    required this.scheduledActionName,
+    this.errorCode,
+    this.errorMessage,
+  });
+  factory FailedScheduledUpdateGroupActionRequest.fromXml(_s.XmlElement elem) {
+    return FailedScheduledUpdateGroupActionRequest(
+      scheduledActionName:
+          _s.extractXmlStringValue(elem, 'ScheduledActionName')!,
+      errorCode: _s.extractXmlStringValue(elem, 'ErrorCode'),
+      errorMessage: _s.extractXmlStringValue(elem, 'ErrorMessage'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledActionName = this.scheduledActionName;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      'ScheduledActionName': scheduledActionName,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
     };
   }
 }
 
 /// Describes information used for one or more scheduled scaling action updates
-/// in a <a>BatchPutScheduledUpdateGroupAction</a> operation.
+/// in a <a
+/// href="https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_BatchPutScheduledUpdateGroupAction.html">BatchPutScheduledUpdateGroupAction</a>
+/// operation.
 class ScheduledUpdateGroupActionRequest {
   /// The name of the scaling action.
   final String scheduledActionName;
@@ -12402,955 +14984,6 @@ class ScheduledUpdateGroupActionRequest {
   }
 }
 
-class SetInstanceProtectionAnswer {
-  SetInstanceProtectionAnswer();
-  factory SetInstanceProtectionAnswer.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return SetInstanceProtectionAnswer();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class StandbyInstances {
-  static const terminate = StandbyInstances._('Terminate');
-  static const ignore = StandbyInstances._('Ignore');
-  static const wait = StandbyInstances._('Wait');
-
-  final String value;
-
-  const StandbyInstances._(this.value);
-
-  static const values = [terminate, ignore, wait];
-
-  static StandbyInstances fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => StandbyInstances._(value));
-
-  @override
-  bool operator ==(other) => other is StandbyInstances && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartInstanceRefreshAnswer {
-  /// A unique ID for tracking the progress of the instance refresh.
-  final String? instanceRefreshId;
-
-  StartInstanceRefreshAnswer({
-    this.instanceRefreshId,
-  });
-  factory StartInstanceRefreshAnswer.fromXml(_s.XmlElement elem) {
-    return StartInstanceRefreshAnswer(
-      instanceRefreshId: _s.extractXmlStringValue(elem, 'InstanceRefreshId'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceRefreshId = this.instanceRefreshId;
-    return {
-      if (instanceRefreshId != null) 'InstanceRefreshId': instanceRefreshId,
-    };
-  }
-}
-
-/// Describes information used to create a step adjustment for a step scaling
-/// policy.
-///
-/// For the following examples, suppose that you have an alarm with a breach
-/// threshold of 50:
-///
-/// <ul>
-/// <li>
-/// To trigger the adjustment when the metric is greater than or equal to 50 and
-/// less than 60, specify a lower bound of 0 and an upper bound of 10.
-/// </li>
-/// <li>
-/// To trigger the adjustment when the metric is greater than 40 and less than
-/// or equal to 50, specify a lower bound of -10 and an upper bound of 0.
-/// </li>
-/// </ul>
-/// There are a few rules for the step adjustments for your step policy:
-///
-/// <ul>
-/// <li>
-/// The ranges of your step adjustments can't overlap or have a gap.
-/// </li>
-/// <li>
-/// At most, one step adjustment can have a null lower bound. If one step
-/// adjustment has a negative lower bound, then there must be a step adjustment
-/// with a null lower bound.
-/// </li>
-/// <li>
-/// At most, one step adjustment can have a null upper bound. If one step
-/// adjustment has a positive upper bound, then there must be a step adjustment
-/// with a null upper bound.
-/// </li>
-/// <li>
-/// The upper and lower bound can't be null in the same step adjustment.
-/// </li>
-/// </ul>
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-steps">Step
-/// adjustments</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-class StepAdjustment {
-  /// The amount by which to scale, based on the specified adjustment type. A
-  /// positive value adds to the current capacity while a negative number removes
-  /// from the current capacity. For exact capacity, you must specify a
-  /// non-negative value.
-  final int scalingAdjustment;
-
-  /// The lower bound for the difference between the alarm threshold and the
-  /// CloudWatch metric. If the metric value is above the breach threshold, the
-  /// lower bound is inclusive (the metric must be greater than or equal to the
-  /// threshold plus the lower bound). Otherwise, it is exclusive (the metric must
-  /// be greater than the threshold plus the lower bound). A null value indicates
-  /// negative infinity.
-  final double? metricIntervalLowerBound;
-
-  /// The upper bound for the difference between the alarm threshold and the
-  /// CloudWatch metric. If the metric value is above the breach threshold, the
-  /// upper bound is exclusive (the metric must be less than the threshold plus
-  /// the upper bound). Otherwise, it is inclusive (the metric must be less than
-  /// or equal to the threshold plus the upper bound). A null value indicates
-  /// positive infinity.
-  ///
-  /// The upper bound must be greater than the lower bound.
-  final double? metricIntervalUpperBound;
-
-  StepAdjustment({
-    required this.scalingAdjustment,
-    this.metricIntervalLowerBound,
-    this.metricIntervalUpperBound,
-  });
-  factory StepAdjustment.fromXml(_s.XmlElement elem) {
-    return StepAdjustment(
-      scalingAdjustment: _s.extractXmlIntValue(elem, 'ScalingAdjustment')!,
-      metricIntervalLowerBound:
-          _s.extractXmlDoubleValue(elem, 'MetricIntervalLowerBound'),
-      metricIntervalUpperBound:
-          _s.extractXmlDoubleValue(elem, 'MetricIntervalUpperBound'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final scalingAdjustment = this.scalingAdjustment;
-    final metricIntervalLowerBound = this.metricIntervalLowerBound;
-    final metricIntervalUpperBound = this.metricIntervalUpperBound;
-    return {
-      'ScalingAdjustment': scalingAdjustment,
-      if (metricIntervalLowerBound != null)
-        'MetricIntervalLowerBound': metricIntervalLowerBound,
-      if (metricIntervalUpperBound != null)
-        'MetricIntervalUpperBound': metricIntervalUpperBound,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final scalingAdjustment = this.scalingAdjustment;
-    final metricIntervalLowerBound = this.metricIntervalLowerBound;
-    final metricIntervalUpperBound = this.metricIntervalUpperBound;
-    return {
-      'ScalingAdjustment': scalingAdjustment.toString(),
-      if (metricIntervalLowerBound != null)
-        'MetricIntervalLowerBound': metricIntervalLowerBound.toString(),
-      if (metricIntervalUpperBound != null)
-        'MetricIntervalUpperBound': metricIntervalUpperBound.toString(),
-    };
-  }
-}
-
-/// Describes an auto scaling process that has been suspended.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-suspend-resume-processes.html#process-types">Types
-/// of processes</a> in the <i>Amazon EC2 Auto Scaling User Guide</i>.
-class SuspendedProcess {
-  /// The name of the suspended process.
-  final String? processName;
-
-  /// The reason that the process was suspended.
-  final String? suspensionReason;
-
-  SuspendedProcess({
-    this.processName,
-    this.suspensionReason,
-  });
-  factory SuspendedProcess.fromXml(_s.XmlElement elem) {
-    return SuspendedProcess(
-      processName: _s.extractXmlStringValue(elem, 'ProcessName'),
-      suspensionReason: _s.extractXmlStringValue(elem, 'SuspensionReason'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final processName = this.processName;
-    final suspensionReason = this.suspensionReason;
-    return {
-      if (processName != null) 'ProcessName': processName,
-      if (suspensionReason != null) 'SuspensionReason': suspensionReason,
-    };
-  }
-}
-
-/// Describes a tag for an Auto Scaling group.
-class Tag {
-  /// The tag key.
-  final String key;
-
-  /// Determines whether the tag is added to new instances as they are launched in
-  /// the group.
-  final bool? propagateAtLaunch;
-
-  /// The name of the Auto Scaling group.
-  final String? resourceId;
-
-  /// The type of resource. The only supported value is
-  /// <code>auto-scaling-group</code>.
-  final String? resourceType;
-
-  /// The tag value.
-  final String? value;
-
-  Tag({
-    required this.key,
-    this.propagateAtLaunch,
-    this.resourceId,
-    this.resourceType,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final propagateAtLaunch = this.propagateAtLaunch;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final value = this.value;
-    return {
-      'Key': key,
-      if (propagateAtLaunch != null) 'PropagateAtLaunch': propagateAtLaunch,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType,
-      if (value != null) 'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final key = this.key;
-    final propagateAtLaunch = this.propagateAtLaunch;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final value = this.value;
-    return {
-      'Key': key,
-      if (propagateAtLaunch != null)
-        'PropagateAtLaunch': propagateAtLaunch.toString(),
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Describes a tag for an Auto Scaling group.
-class TagDescription {
-  /// The tag key.
-  final String? key;
-
-  /// Determines whether the tag is added to new instances as they are launched in
-  /// the group.
-  final bool? propagateAtLaunch;
-
-  /// The name of the group.
-  final String? resourceId;
-
-  /// The type of resource. The only supported value is
-  /// <code>auto-scaling-group</code>.
-  final String? resourceType;
-
-  /// The tag value.
-  final String? value;
-
-  TagDescription({
-    this.key,
-    this.propagateAtLaunch,
-    this.resourceId,
-    this.resourceType,
-    this.value,
-  });
-  factory TagDescription.fromXml(_s.XmlElement elem) {
-    return TagDescription(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      propagateAtLaunch: _s.extractXmlBoolValue(elem, 'PropagateAtLaunch'),
-      resourceId: _s.extractXmlStringValue(elem, 'ResourceId'),
-      resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final propagateAtLaunch = this.propagateAtLaunch;
-    final resourceId = this.resourceId;
-    final resourceType = this.resourceType;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (propagateAtLaunch != null) 'PropagateAtLaunch': propagateAtLaunch,
-      if (resourceId != null) 'ResourceId': resourceId,
-      if (resourceType != null) 'ResourceType': resourceType,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class TagsType {
-  /// A string that indicates that the response contains more items than can be
-  /// returned in a single response. To receive additional items, specify this
-  /// string for the <code>NextToken</code> value when requesting the next set of
-  /// items. This value is null when there are no more items to return.
-  final String? nextToken;
-
-  /// One or more tags.
-  final List<TagDescription>? tags;
-
-  TagsType({
-    this.nextToken,
-    this.tags,
-  });
-  factory TagsType.fromXml(_s.XmlElement elem) {
-    return TagsType(
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map(TagDescription.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final tags = this.tags;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Represents a target tracking scaling policy configuration to use with Amazon
-/// EC2 Auto Scaling.
-class TargetTrackingConfiguration {
-  /// The target value for the metric.
-  /// <note>
-  /// Some metrics are based on a count instead of a percentage, such as the
-  /// request count for an Application Load Balancer or the number of messages in
-  /// an SQS queue. If the scaling policy specifies one of these metrics, specify
-  /// the target utilization as the optimal average request or message count per
-  /// instance during any one-minute interval.
-  /// </note>
-  final double targetValue;
-
-  /// A customized metric. You must specify either a predefined metric or a
-  /// customized metric.
-  final CustomizedMetricSpecification? customizedMetricSpecification;
-
-  /// Indicates whether scaling in by the target tracking scaling policy is
-  /// disabled. If scaling in is disabled, the target tracking scaling policy
-  /// doesn't remove instances from the Auto Scaling group. Otherwise, the target
-  /// tracking scaling policy can remove instances from the Auto Scaling group.
-  /// The default is <code>false</code>.
-  final bool? disableScaleIn;
-
-  /// A predefined metric. You must specify either a predefined metric or a
-  /// customized metric.
-  final PredefinedMetricSpecification? predefinedMetricSpecification;
-
-  TargetTrackingConfiguration({
-    required this.targetValue,
-    this.customizedMetricSpecification,
-    this.disableScaleIn,
-    this.predefinedMetricSpecification,
-  });
-  factory TargetTrackingConfiguration.fromXml(_s.XmlElement elem) {
-    return TargetTrackingConfiguration(
-      targetValue: _s.extractXmlDoubleValue(elem, 'TargetValue')!,
-      customizedMetricSpecification: _s
-          .extractXmlChild(elem, 'CustomizedMetricSpecification')
-          ?.let(CustomizedMetricSpecification.fromXml),
-      disableScaleIn: _s.extractXmlBoolValue(elem, 'DisableScaleIn'),
-      predefinedMetricSpecification: _s
-          .extractXmlChild(elem, 'PredefinedMetricSpecification')
-          ?.let(PredefinedMetricSpecification.fromXml),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final targetValue = this.targetValue;
-    final customizedMetricSpecification = this.customizedMetricSpecification;
-    final disableScaleIn = this.disableScaleIn;
-    final predefinedMetricSpecification = this.predefinedMetricSpecification;
-    return {
-      'TargetValue': targetValue,
-      if (customizedMetricSpecification != null)
-        'CustomizedMetricSpecification': customizedMetricSpecification,
-      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
-      if (predefinedMetricSpecification != null)
-        'PredefinedMetricSpecification': predefinedMetricSpecification,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final targetValue = this.targetValue;
-    final customizedMetricSpecification = this.customizedMetricSpecification;
-    final disableScaleIn = this.disableScaleIn;
-    final predefinedMetricSpecification = this.predefinedMetricSpecification;
-    return {
-      'TargetValue': targetValue.toString(),
-      if (customizedMetricSpecification != null)
-        for (var e1 in customizedMetricSpecification.toQueryMap().entries)
-          'CustomizedMetricSpecification.${e1.key}': e1.value,
-      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn.toString(),
-      if (predefinedMetricSpecification != null)
-        for (var e1 in predefinedMetricSpecification.toQueryMap().entries)
-          'PredefinedMetricSpecification.${e1.key}': e1.value,
-    };
-  }
-}
-
-/// The metric data to return. Also defines whether this call is returning data
-/// for one metric only, or whether it is performing a math expression on the
-/// values of returned metric statistics to create a new time series. A time
-/// series is a series of data points, each of which is associated with a
-/// timestamp.
-class TargetTrackingMetricDataQuery {
-  /// A short name that identifies the object's results in the response. This name
-  /// must be unique among all <code>TargetTrackingMetricDataQuery</code> objects
-  /// specified for a single scaling policy. If you are performing math
-  /// expressions on this set of data, this name represents that data and can
-  /// serve as a variable in the mathematical expression. The valid characters are
-  /// letters, numbers, and underscores. The first character must be a lowercase
-  /// letter.
-  final String id;
-
-  /// The math expression to perform on the returned data, if this object is
-  /// performing a math expression. This expression can use the <code>Id</code> of
-  /// the other metrics to refer to those metrics, and can also use the
-  /// <code>Id</code> of other expressions to use the result of those expressions.
-  ///
-  /// Conditional: Within each <code>TargetTrackingMetricDataQuery</code> object,
-  /// you must specify either <code>Expression</code> or <code>MetricStat</code>,
-  /// but not both.
-  final String? expression;
-
-  /// A human-readable label for this metric or expression. This is especially
-  /// useful if this is a math expression, so that you know what the value
-  /// represents.
-  final String? label;
-
-  /// Information about the metric data to return.
-  ///
-  /// Conditional: Within each <code>TargetTrackingMetricDataQuery</code> object,
-  /// you must specify either <code>Expression</code> or <code>MetricStat</code>,
-  /// but not both.
-  final TargetTrackingMetricStat? metricStat;
-
-  /// Indicates whether to return the timestamps and raw data values of this
-  /// metric.
-  ///
-  /// If you use any math expressions, specify <code>true</code> for this value
-  /// for only the final math expression that the metric specification is based
-  /// on. You must specify <code>false</code> for <code>ReturnData</code> for all
-  /// the other metrics and expressions used in the metric specification.
-  ///
-  /// If you are only retrieving metrics and not performing any math expressions,
-  /// do not specify anything for <code>ReturnData</code>. This sets it to its
-  /// default (<code>true</code>).
-  final bool? returnData;
-
-  TargetTrackingMetricDataQuery({
-    required this.id,
-    this.expression,
-    this.label,
-    this.metricStat,
-    this.returnData,
-  });
-  factory TargetTrackingMetricDataQuery.fromXml(_s.XmlElement elem) {
-    return TargetTrackingMetricDataQuery(
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      expression: _s.extractXmlStringValue(elem, 'Expression'),
-      label: _s.extractXmlStringValue(elem, 'Label'),
-      metricStat: _s
-          .extractXmlChild(elem, 'MetricStat')
-          ?.let(TargetTrackingMetricStat.fromXml),
-      returnData: _s.extractXmlBoolValue(elem, 'ReturnData'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final expression = this.expression;
-    final label = this.label;
-    final metricStat = this.metricStat;
-    final returnData = this.returnData;
-    return {
-      'Id': id,
-      if (expression != null) 'Expression': expression,
-      if (label != null) 'Label': label,
-      if (metricStat != null) 'MetricStat': metricStat,
-      if (returnData != null) 'ReturnData': returnData,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final id = this.id;
-    final expression = this.expression;
-    final label = this.label;
-    final metricStat = this.metricStat;
-    final returnData = this.returnData;
-    return {
-      'Id': id,
-      if (expression != null) 'Expression': expression,
-      if (label != null) 'Label': label,
-      if (metricStat != null)
-        for (var e1 in metricStat.toQueryMap().entries)
-          'MetricStat.${e1.key}': e1.value,
-      if (returnData != null) 'ReturnData': returnData.toString(),
-    };
-  }
-}
-
-/// This structure defines the CloudWatch metric to return, along with the
-/// statistic and unit.
-///
-/// For more information about the CloudWatch terminology below, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html">Amazon
-/// CloudWatch concepts</a> in the <i>Amazon CloudWatch User Guide</i>.
-class TargetTrackingMetricStat {
-  /// The metric to use.
-  final Metric metric;
-
-  /// The statistic to return. It can include any CloudWatch statistic or extended
-  /// statistic. For a list of valid values, see the table in <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic">Statistics</a>
-  /// in the <i>Amazon CloudWatch User Guide</i>.
-  ///
-  /// The most commonly used metric for scaling is <code>Average</code>.
-  final String stat;
-
-  /// The unit to use for the returned data points. For a complete list of the
-  /// units that CloudWatch supports, see the <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html">MetricDatum</a>
-  /// data type in the <i>Amazon CloudWatch API Reference</i>.
-  final String? unit;
-
-  TargetTrackingMetricStat({
-    required this.metric,
-    required this.stat,
-    this.unit,
-  });
-  factory TargetTrackingMetricStat.fromXml(_s.XmlElement elem) {
-    return TargetTrackingMetricStat(
-      metric: Metric.fromXml(_s.extractXmlChild(elem, 'Metric')!),
-      stat: _s.extractXmlStringValue(elem, 'Stat')!,
-      unit: _s.extractXmlStringValue(elem, 'Unit'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metric = this.metric;
-    final stat = this.stat;
-    final unit = this.unit;
-    return {
-      'Metric': metric,
-      'Stat': stat,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final metric = this.metric;
-    final stat = this.stat;
-    final unit = this.unit;
-    return {
-      for (var e1 in metric.toQueryMap().entries) 'Metric.${e1.key}': e1.value,
-      'Stat': stat,
-      if (unit != null) 'Unit': unit,
-    };
-  }
-}
-
-/// Specifies the minimum and maximum for the <code>TotalLocalStorageGB</code>
-/// object when you specify <a>InstanceRequirements</a> for an Auto Scaling
-/// group.
-class TotalLocalStorageGBRequest {
-  /// The storage maximum in GB.
-  final double? max;
-
-  /// The storage minimum in GB.
-  final double? min;
-
-  TotalLocalStorageGBRequest({
-    this.max,
-    this.min,
-  });
-  factory TotalLocalStorageGBRequest.fromXml(_s.XmlElement elem) {
-    return TotalLocalStorageGBRequest(
-      max: _s.extractXmlDoubleValue(elem, 'Max'),
-      min: _s.extractXmlDoubleValue(elem, 'Min'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final max = this.max;
-    final min = this.min;
-    return {
-      if (max != null) 'Max': max,
-      if (min != null) 'Min': min,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final max = this.max;
-    final min = this.min;
-    return {
-      if (max != null) 'Max': max.toString(),
-      if (min != null) 'Min': min.toString(),
-    };
-  }
-}
-
-/// Identifying information for a traffic source.
-class TrafficSourceIdentifier {
-  /// Identifies the traffic source.
-  ///
-  /// For Application Load Balancers, Gateway Load Balancers, Network Load
-  /// Balancers, and VPC Lattice, this will be the Amazon Resource Name (ARN) for
-  /// a target group in this account and Region. For Classic Load Balancers, this
-  /// will be the name of the Classic Load Balancer in this account and Region.
-  ///
-  /// For example:
-  ///
-  /// <ul>
-  /// <li>
-  /// Application Load Balancer ARN:
-  /// <code>arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/1234567890123456</code>
-  /// </li>
-  /// <li>
-  /// Classic Load Balancer name: <code>my-classic-load-balancer</code>
-  /// </li>
-  /// <li>
-  /// VPC Lattice ARN:
-  /// <code>arn:aws:vpc-lattice:us-west-2:123456789012:targetgroup/tg-1234567890123456</code>
-  /// </li>
-  /// </ul>
-  /// To get the ARN of a target group for a Application Load Balancer, Gateway
-  /// Load Balancer, or Network Load Balancer, or the name of a Classic Load
-  /// Balancer, use the Elastic Load Balancing <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeTargetGroups.html">DescribeTargetGroups</a>
-  /// and <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_DescribeLoadBalancers.html">DescribeLoadBalancers</a>
-  /// API operations.
-  ///
-  /// To get the ARN of a target group for VPC Lattice, use the VPC Lattice <a
-  /// href="https://docs.aws.amazon.com/vpc-lattice/latest/APIReference/API_GetTargetGroup.html">GetTargetGroup</a>
-  /// API operation.
-  final String identifier;
-
-  /// Provides additional context for the value of <code>Identifier</code>.
-  ///
-  /// The following lists the valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>elb</code> if <code>Identifier</code> is the name of a Classic Load
-  /// Balancer.
-  /// </li>
-  /// <li>
-  /// <code>elbv2</code> if <code>Identifier</code> is the ARN of an Application
-  /// Load Balancer, Gateway Load Balancer, or Network Load Balancer target group.
-  /// </li>
-  /// <li>
-  /// <code>vpc-lattice</code> if <code>Identifier</code> is the ARN of a VPC
-  /// Lattice target group.
-  /// </li>
-  /// </ul>
-  /// Required if the identifier is the name of a Classic Load Balancer.
-  final String? type;
-
-  TrafficSourceIdentifier({
-    required this.identifier,
-    this.type,
-  });
-  factory TrafficSourceIdentifier.fromXml(_s.XmlElement elem) {
-    return TrafficSourceIdentifier(
-      identifier: _s.extractXmlStringValue(elem, 'Identifier')!,
-      type: _s.extractXmlStringValue(elem, 'Type'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identifier = this.identifier;
-    final type = this.type;
-    return {
-      'Identifier': identifier,
-      if (type != null) 'Type': type,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final identifier = this.identifier;
-    final type = this.type;
-    return {
-      'Identifier': identifier,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Describes the state of a traffic source.
-class TrafficSourceState {
-  /// The unique identifier of the traffic source.
-  final String? identifier;
-
-  /// Describes the current state of a traffic source.
-  ///
-  /// The state values are as follows:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>Adding</code> - The Auto Scaling instances are being registered with
-  /// the load balancer or target group.
-  /// </li>
-  /// <li>
-  /// <code>Added</code> - All Auto Scaling instances are registered with the load
-  /// balancer or target group.
-  /// </li>
-  /// <li>
-  /// <code>InService</code> - For an Elastic Load Balancing load balancer or
-  /// target group, at least one Auto Scaling instance passed an <code>ELB</code>
-  /// health check. For VPC Lattice, at least one Auto Scaling instance passed an
-  /// <code>VPC_LATTICE</code> health check.
-  /// </li>
-  /// <li>
-  /// <code>Removing</code> - The Auto Scaling instances are being deregistered
-  /// from the load balancer or target group. If connection draining
-  /// (deregistration delay) is enabled, Elastic Load Balancing or VPC Lattice
-  /// waits for in-flight requests to complete before deregistering the instances.
-  /// </li>
-  /// <li>
-  /// <code>Removed</code> - All Auto Scaling instances are deregistered from the
-  /// load balancer or target group.
-  /// </li>
-  /// </ul>
-  final String? state;
-
-  /// This is replaced by <code>Identifier</code>.
-  final String? trafficSource;
-
-  /// Provides additional context for the value of <code>Identifier</code>.
-  ///
-  /// The following lists the valid values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>elb</code> if <code>Identifier</code> is the name of a Classic Load
-  /// Balancer.
-  /// </li>
-  /// <li>
-  /// <code>elbv2</code> if <code>Identifier</code> is the ARN of an Application
-  /// Load Balancer, Gateway Load Balancer, or Network Load Balancer target group.
-  /// </li>
-  /// <li>
-  /// <code>vpc-lattice</code> if <code>Identifier</code> is the ARN of a VPC
-  /// Lattice target group.
-  /// </li>
-  /// </ul>
-  /// Required if the identifier is the name of a Classic Load Balancer.
-  final String? type;
-
-  TrafficSourceState({
-    this.identifier,
-    this.state,
-    this.trafficSource,
-    this.type,
-  });
-  factory TrafficSourceState.fromXml(_s.XmlElement elem) {
-    return TrafficSourceState(
-      identifier: _s.extractXmlStringValue(elem, 'Identifier'),
-      state: _s.extractXmlStringValue(elem, 'State'),
-      trafficSource: _s.extractXmlStringValue(elem, 'TrafficSource'),
-      type: _s.extractXmlStringValue(elem, 'Type'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final identifier = this.identifier;
-    final state = this.state;
-    final trafficSource = this.trafficSource;
-    final type = this.type;
-    return {
-      if (identifier != null) 'Identifier': identifier,
-      if (state != null) 'State': state,
-      if (trafficSource != null) 'TrafficSource': trafficSource,
-      if (type != null) 'Type': type,
-    };
-  }
-}
-
-/// Specifies the minimum and maximum for the <code>VCpuCount</code> object when
-/// you specify <a>InstanceRequirements</a> for an Auto Scaling group.
-class VCpuCountRequest {
-  /// The minimum number of vCPUs.
-  final int min;
-
-  /// The maximum number of vCPUs.
-  final int? max;
-
-  VCpuCountRequest({
-    required this.min,
-    this.max,
-  });
-  factory VCpuCountRequest.fromXml(_s.XmlElement elem) {
-    return VCpuCountRequest(
-      min: _s.extractXmlIntValue(elem, 'Min')!,
-      max: _s.extractXmlIntValue(elem, 'Max'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final min = this.min;
-    final max = this.max;
-    return {
-      'Min': min,
-      if (max != null) 'Max': max,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final min = this.min;
-    final max = this.max;
-    return {
-      'Min': min.toString(),
-      if (max != null) 'Max': max.toString(),
-    };
-  }
-}
-
-/// Describes a warm pool configuration.
-class WarmPoolConfiguration {
-  /// The instance reuse policy.
-  final InstanceReusePolicy? instanceReusePolicy;
-
-  /// The maximum number of instances that are allowed to be in the warm pool or
-  /// in any state except <code>Terminated</code> for the Auto Scaling group.
-  final int? maxGroupPreparedCapacity;
-
-  /// The minimum number of instances to maintain in the warm pool.
-  final int? minSize;
-
-  /// The instance state to transition to after the lifecycle actions are
-  /// complete.
-  final WarmPoolState? poolState;
-
-  /// The status of a warm pool that is marked for deletion.
-  final WarmPoolStatus? status;
-
-  WarmPoolConfiguration({
-    this.instanceReusePolicy,
-    this.maxGroupPreparedCapacity,
-    this.minSize,
-    this.poolState,
-    this.status,
-  });
-  factory WarmPoolConfiguration.fromXml(_s.XmlElement elem) {
-    return WarmPoolConfiguration(
-      instanceReusePolicy: _s
-          .extractXmlChild(elem, 'InstanceReusePolicy')
-          ?.let(InstanceReusePolicy.fromXml),
-      maxGroupPreparedCapacity:
-          _s.extractXmlIntValue(elem, 'MaxGroupPreparedCapacity'),
-      minSize: _s.extractXmlIntValue(elem, 'MinSize'),
-      poolState: _s
-          .extractXmlStringValue(elem, 'PoolState')
-          ?.let(WarmPoolState.fromString),
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.let(WarmPoolStatus.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final instanceReusePolicy = this.instanceReusePolicy;
-    final maxGroupPreparedCapacity = this.maxGroupPreparedCapacity;
-    final minSize = this.minSize;
-    final poolState = this.poolState;
-    final status = this.status;
-    return {
-      if (instanceReusePolicy != null)
-        'InstanceReusePolicy': instanceReusePolicy,
-      if (maxGroupPreparedCapacity != null)
-        'MaxGroupPreparedCapacity': maxGroupPreparedCapacity,
-      if (minSize != null) 'MinSize': minSize,
-      if (poolState != null) 'PoolState': poolState.value,
-      if (status != null) 'Status': status.value,
-    };
-  }
-}
-
-class WarmPoolState {
-  static const stopped = WarmPoolState._('Stopped');
-  static const running = WarmPoolState._('Running');
-  static const hibernated = WarmPoolState._('Hibernated');
-
-  final String value;
-
-  const WarmPoolState._(this.value);
-
-  static const values = [stopped, running, hibernated];
-
-  static WarmPoolState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WarmPoolState._(value));
-
-  @override
-  bool operator ==(other) => other is WarmPoolState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class WarmPoolStatus {
-  static const pendingDelete = WarmPoolStatus._('PendingDelete');
-
-  final String value;
-
-  const WarmPoolStatus._(this.value);
-
-  static const values = [pendingDelete];
-
-  static WarmPoolStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => WarmPoolStatus._(value));
-
-  @override
-  bool operator ==(other) => other is WarmPoolStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ActiveInstanceRefreshNotFoundFault extends _s.GenericAwsException {
   ActiveInstanceRefreshNotFoundFault({String? type, String? message})
       : super(
@@ -13362,6 +14995,14 @@ class ActiveInstanceRefreshNotFoundFault extends _s.GenericAwsException {
 class AlreadyExistsFault extends _s.GenericAwsException {
   AlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsFault', message: message);
+}
+
+class IdempotentParameterMismatchError extends _s.GenericAwsException {
+  IdempotentParameterMismatchError({String? type, String? message})
+      : super(
+            type: type,
+            code: 'IdempotentParameterMismatchError',
+            message: message);
 }
 
 class InstanceRefreshInProgressFault extends _s.GenericAwsException {
@@ -13418,6 +15059,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ActiveInstanceRefreshNotFoundFault(type: type, message: message),
   'AlreadyExistsFault': (type, message) =>
       AlreadyExistsFault(type: type, message: message),
+  'IdempotentParameterMismatchError': (type, message) =>
+      IdempotentParameterMismatchError(type: type, message: message),
   'InstanceRefreshInProgressFault': (type, message) =>
       InstanceRefreshInProgressFault(type: type, message: message),
   'InvalidNextToken': (type, message) =>

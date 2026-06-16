@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aws_client/lambda_2015_03_31.dart';
+import 'package:aws_client/lambda.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

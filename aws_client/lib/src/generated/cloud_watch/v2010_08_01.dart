@@ -37,15 +37,14 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 /// system-wide visibility into resource utilization, application performance,
 /// and operational health.
 class CloudWatch {
-  final _s.QueryProtocol _protocol;
-
+  final _s.JsonProtocol _protocol;
   CloudWatch({
     required String region,
     _s.AwsClientCredentials? credentials,
     _s.AwsClientCredentialsProvider? credentialsProvider,
     _s.Client? client,
     String? endpointUrl,
-  }) : _protocol = _s.QueryProtocol(
+  }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'monitoring',
@@ -65,15 +64,52 @@ class CloudWatch {
     _protocol.close();
   }
 
+  /// Deletes a specific alarm mute rule.
+  ///
+  /// When you delete a mute rule, any alarms that are currently being muted by
+  /// that rule are immediately unmuted. If those alarms are in an ALARM state,
+  /// their configured actions will trigger.
+  ///
+  /// This operation is idempotent. If you delete a mute rule that does not
+  /// exist, the operation succeeds without returning an error.
+  ///
+  /// <b>Permissions</b>
+  ///
+  /// To delete a mute rule, you need the
+  /// <code>cloudwatch:DeleteAlarmMuteRule</code> permission on the alarm mute
+  /// rule resource.
+  ///
+  /// Parameter [alarmMuteRuleName] :
+  /// The name of the alarm mute rule to delete.
+  Future<void> deleteAlarmMuteRule({
+    required String alarmMuteRuleName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DeleteAlarmMuteRule'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmMuteRuleName': alarmMuteRuleName,
+      },
+    );
+  }
+
   /// Deletes the specified alarms. You can delete up to 100 alarms in one
   /// operation. However, this total can include no more than one composite
   /// alarm. For example, you could delete 99 metric alarms and one composite
   /// alarms with one operation, but you can't delete two composite alarms with
   /// one operation.
   ///
-  /// If you specify an incorrect alarm name or make any other error in the
-  /// operation, no alarms are deleted. To confirm that alarms were deleted
-  /// successfully, you can use the <a
+  /// If you specify any incorrect alarm names, the alarms you specify with
+  /// correct names are still deleted. Other syntax errors might result in no
+  /// alarms being deleted. To confirm that alarms were deleted successfully,
+  /// you can use the <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html">DescribeAlarms</a>
   /// operation after using <code>DeleteAlarms</code>.
   /// <note>
@@ -100,20 +136,19 @@ class CloudWatch {
   Future<void> deleteAlarms({
     required List<String> alarmNames,
   }) async {
-    final $request = <String, String>{
-      if (alarmNames.isEmpty)
-        'AlarmNames': ''
-      else
-        for (var i1 = 0; i1 < alarmNames.length; i1++)
-          'AlarmNames.member.${i1 + 1}': alarmNames[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DeleteAlarms'
     };
     await _protocol.send(
-      $request,
-      action: 'DeleteAlarms',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmNames': alarmNames,
+      },
     );
   }
 
@@ -122,11 +157,11 @@ class CloudWatch {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Anomaly_Detection_Alarm.html#Delete_Anomaly_Detection_Model">Deleting
   /// an anomaly detection model</a> in the <i>CloudWatch User Guide</i>.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingRequiredParameterException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [dimensions] :
   /// The metric dimensions associated with the anomaly detection model to
@@ -202,63 +237,55 @@ class CloudWatch {
     SingleMetricAnomalyDetector? singleMetricAnomalyDetector,
     String? stat,
   }) async {
-    final $request = <String, String>{
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (metricMathAnomalyDetector != null)
-        for (var e1 in metricMathAnomalyDetector.toQueryMap().entries)
-          'MetricMathAnomalyDetector.${e1.key}': e1.value,
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-      if (singleMetricAnomalyDetector != null)
-        for (var e1 in singleMetricAnomalyDetector.toQueryMap().entries)
-          'SingleMetricAnomalyDetector.${e1.key}': e1.value,
-      if (stat != null) 'Stat': stat,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DeleteAnomalyDetector'
     };
     await _protocol.send(
-      $request,
-      action: 'DeleteAnomalyDetector',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DeleteAnomalyDetectorResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (dimensions != null) 'Dimensions': dimensions,
+        if (metricMathAnomalyDetector != null)
+          'MetricMathAnomalyDetector': metricMathAnomalyDetector,
+        if (metricName != null) 'MetricName': metricName,
+        if (namespace != null) 'Namespace': namespace,
+        if (singleMetricAnomalyDetector != null)
+          'SingleMetricAnomalyDetector': singleMetricAnomalyDetector,
+        if (stat != null) 'Stat': stat,
+      },
     );
   }
 
   /// Deletes all dashboards that you specify. You can specify up to 100
-  /// dashboards to delete. If there is an error during this call, no dashboards
-  /// are deleted.
+  /// dashboards to delete. If there is an error during this call, the operation
+  /// attempts to delete as many dashboards as possible.
   ///
-  /// May throw [InvalidParameterValueException].
-  /// May throw [DashboardNotFoundError].
+  /// May throw [ConflictException].
   /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [dashboardNames] :
   /// The dashboards to be deleted. This parameter is required.
   Future<void> deleteDashboards({
     required List<String> dashboardNames,
   }) async {
-    final $request = <String, String>{
-      if (dashboardNames.isEmpty)
-        'DashboardNames': ''
-      else
-        for (var i1 = 0; i1 < dashboardNames.length; i1++)
-          'DashboardNames.member.${i1 + 1}': dashboardNames[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DeleteDashboards'
     };
     await _protocol.send(
-      $request,
-      action: 'DeleteDashboards',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DeleteDashboardsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DashboardNames': dashboardNames,
+      },
     );
   }
 
@@ -278,23 +305,22 @@ class CloudWatch {
   Future<DeleteInsightRulesOutput> deleteInsightRules({
     required List<String> ruleNames,
   }) async {
-    final $request = <String, String>{
-      if (ruleNames.isEmpty)
-        'RuleNames': ''
-      else
-        for (var i1 = 0; i1 < ruleNames.length; i1++)
-          'RuleNames.member.${i1 + 1}': ruleNames[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DeleteInsightRules'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DeleteInsightRules',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DeleteInsightRulesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RuleNames': ruleNames,
+      },
     );
-    return DeleteInsightRulesOutput.fromXml($result);
+
+    return DeleteInsightRulesOutput.fromJson(jsonResponse.body);
   }
 
   /// Permanently deletes the metric stream that you specify.
@@ -308,18 +334,56 @@ class CloudWatch {
   Future<void> deleteMetricStream({
     required String name,
   }) async {
-    final $request = <String, String>{
-      'Name': name,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DeleteMetricStream'
     };
     await _protocol.send(
-      $request,
-      action: 'DeleteMetricStream',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DeleteMetricStreamResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
     );
+  }
+
+  /// Returns the information of the current alarm contributors that are in
+  /// <code>ALARM</code> state. This operation returns details about the
+  /// individual time series that contribute to the alarm's state.
+  ///
+  /// May throw [InvalidNextToken].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [alarmName] :
+  /// The name of the alarm for which to retrieve contributor information.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned by a previous call to indicate that there is more data
+  /// available.
+  Future<DescribeAlarmContributorsOutput> describeAlarmContributors({
+    required String alarmName,
+    String? nextToken,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DescribeAlarmContributors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmName': alarmName,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeAlarmContributorsOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the history for the specified alarm. You can filter the results
@@ -337,6 +401,10 @@ class CloudWatch {
   /// scope.
   ///
   /// May throw [InvalidNextToken].
+  ///
+  /// Parameter [alarmContributorId] :
+  /// The unique identifier of a specific alarm contributor to filter the alarm
+  /// history results.
   ///
   /// Parameter [alarmName] :
   /// The name of the alarm.
@@ -368,6 +436,7 @@ class CloudWatch {
   /// Parameter [startDate] :
   /// The starting date to retrieve alarm history.
   Future<DescribeAlarmHistoryOutput> describeAlarmHistory({
+    String? alarmContributorId,
     String? alarmName,
     List<AlarmType>? alarmTypes,
     DateTime? endDate,
@@ -383,31 +452,32 @@ class CloudWatch {
       1,
       100,
     );
-    final $request = <String, String>{
-      if (alarmName != null) 'AlarmName': alarmName,
-      if (alarmTypes != null)
-        if (alarmTypes.isEmpty)
-          'AlarmTypes': ''
-        else
-          for (var i1 = 0; i1 < alarmTypes.length; i1++)
-            'AlarmTypes.member.${i1 + 1}': alarmTypes[i1].value,
-      if (endDate != null) 'EndDate': _s.iso8601ToJson(endDate),
-      if (historyItemType != null) 'HistoryItemType': historyItemType.value,
-      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
-      if (nextToken != null) 'NextToken': nextToken,
-      if (scanBy != null) 'ScanBy': scanBy.value,
-      if (startDate != null) 'StartDate': _s.iso8601ToJson(startDate),
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DescribeAlarmHistory'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeAlarmHistory',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeAlarmHistoryResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (alarmContributorId != null)
+          'AlarmContributorId': alarmContributorId,
+        if (alarmName != null) 'AlarmName': alarmName,
+        if (alarmTypes != null)
+          'AlarmTypes': alarmTypes.map((e) => e.value).toList(),
+        if (endDate != null) 'EndDate': unixTimestampToJson(endDate),
+        if (historyItemType != null) 'HistoryItemType': historyItemType.value,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (scanBy != null) 'ScanBy': scanBy.value,
+        if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+      },
     );
-    return DescribeAlarmHistoryOutput.fromXml($result);
+
+    return DescribeAlarmHistoryOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the specified alarms. You can filter the results by specifying a
@@ -515,38 +585,33 @@ class CloudWatch {
       1,
       100,
     );
-    final $request = <String, String>{
-      if (actionPrefix != null) 'ActionPrefix': actionPrefix,
-      if (alarmNamePrefix != null) 'AlarmNamePrefix': alarmNamePrefix,
-      if (alarmNames != null)
-        if (alarmNames.isEmpty)
-          'AlarmNames': ''
-        else
-          for (var i1 = 0; i1 < alarmNames.length; i1++)
-            'AlarmNames.member.${i1 + 1}': alarmNames[i1],
-      if (alarmTypes != null)
-        if (alarmTypes.isEmpty)
-          'AlarmTypes': ''
-        else
-          for (var i1 = 0; i1 < alarmTypes.length; i1++)
-            'AlarmTypes.member.${i1 + 1}': alarmTypes[i1].value,
-      if (childrenOfAlarmName != null)
-        'ChildrenOfAlarmName': childrenOfAlarmName,
-      if (maxRecords != null) 'MaxRecords': maxRecords.toString(),
-      if (nextToken != null) 'NextToken': nextToken,
-      if (parentsOfAlarmName != null) 'ParentsOfAlarmName': parentsOfAlarmName,
-      if (stateValue != null) 'StateValue': stateValue.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DescribeAlarms'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeAlarms',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeAlarmsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (actionPrefix != null) 'ActionPrefix': actionPrefix,
+        if (alarmNamePrefix != null) 'AlarmNamePrefix': alarmNamePrefix,
+        if (alarmNames != null) 'AlarmNames': alarmNames,
+        if (alarmTypes != null)
+          'AlarmTypes': alarmTypes.map((e) => e.value).toList(),
+        if (childrenOfAlarmName != null)
+          'ChildrenOfAlarmName': childrenOfAlarmName,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (parentsOfAlarmName != null)
+          'ParentsOfAlarmName': parentsOfAlarmName,
+        if (stateValue != null) 'StateValue': stateValue.value,
+      },
     );
-    return DescribeAlarmsOutput.fromXml($result);
+
+    return DescribeAlarmsOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the alarms for the specified metric. To filter the results,
@@ -596,31 +661,28 @@ class CloudWatch {
       1,
       1152921504606846976,
     );
-    final $request = <String, String>{
-      'MetricName': metricName,
-      'Namespace': namespace,
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
-      if (period != null) 'Period': period.toString(),
-      if (statistic != null) 'Statistic': statistic.value,
-      if (unit != null) 'Unit': unit.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DescribeAlarmsForMetric'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeAlarmsForMetric',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeAlarmsForMetricResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MetricName': metricName,
+        'Namespace': namespace,
+        if (dimensions != null) 'Dimensions': dimensions,
+        if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
+        if (period != null) 'Period': period,
+        if (statistic != null) 'Statistic': statistic.value,
+        if (unit != null) 'Unit': unit.value,
+      },
     );
-    return DescribeAlarmsForMetricOutput.fromXml($result);
+
+    return DescribeAlarmsForMetricOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists the anomaly detection models that you have created in your account.
@@ -631,10 +693,10 @@ class CloudWatch {
   /// the <code>AnomalyDetectorTypes</code> array. This will return all metric
   /// math anomaly detectors in your account.
   ///
-  /// May throw [InvalidNextToken].
   /// May throw [InternalServiceFault].
-  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidNextToken].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [anomalyDetectorTypes] :
   /// The anomaly detector types to request when using
@@ -681,36 +743,29 @@ class CloudWatch {
       1,
       1152921504606846976,
     );
-    final $request = <String, String>{
-      if (anomalyDetectorTypes != null)
-        if (anomalyDetectorTypes.isEmpty)
-          'AnomalyDetectorTypes': ''
-        else
-          for (var i1 = 0; i1 < anomalyDetectorTypes.length; i1++)
-            'AnomalyDetectorTypes.member.${i1 + 1}':
-                anomalyDetectorTypes[i1].value,
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (maxResults != null) 'MaxResults': maxResults.toString(),
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-      if (nextToken != null) 'NextToken': nextToken,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DescribeAnomalyDetectors'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeAnomalyDetectors',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeAnomalyDetectorsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (anomalyDetectorTypes != null)
+          'AnomalyDetectorTypes':
+              anomalyDetectorTypes.map((e) => e.value).toList(),
+        if (dimensions != null) 'Dimensions': dimensions,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (metricName != null) 'MetricName': metricName,
+        if (namespace != null) 'Namespace': namespace,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
     );
-    return DescribeAnomalyDetectorsOutput.fromXml($result);
+
+    return DescribeAnomalyDetectorsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of all the Contributor Insights rules in your account.
@@ -738,20 +793,23 @@ class CloudWatch {
       1,
       500,
     );
-    final $request = <String, String>{
-      if (maxResults != null) 'MaxResults': maxResults.toString(),
-      if (nextToken != null) 'NextToken': nextToken,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DescribeInsightRules'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DescribeInsightRules',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DescribeInsightRulesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
     );
-    return DescribeInsightRulesOutput.fromXml($result);
+
+    return DescribeInsightRulesOutput.fromJson(jsonResponse.body);
   }
 
   /// Disables the actions for the specified alarms. When an alarm's actions are
@@ -762,20 +820,19 @@ class CloudWatch {
   Future<void> disableAlarmActions({
     required List<String> alarmNames,
   }) async {
-    final $request = <String, String>{
-      if (alarmNames.isEmpty)
-        'AlarmNames': ''
-      else
-        for (var i1 = 0; i1 < alarmNames.length; i1++)
-          'AlarmNames.member.${i1 + 1}': alarmNames[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DisableAlarmActions'
     };
     await _protocol.send(
-      $request,
-      action: 'DisableAlarmActions',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmNames': alarmNames,
+      },
     );
   }
 
@@ -792,23 +849,22 @@ class CloudWatch {
   Future<DisableInsightRulesOutput> disableInsightRules({
     required List<String> ruleNames,
   }) async {
-    final $request = <String, String>{
-      if (ruleNames.isEmpty)
-        'RuleNames': ''
-      else
-        for (var i1 = 0; i1 < ruleNames.length; i1++)
-          'RuleNames.member.${i1 + 1}': ruleNames[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.DisableInsightRules'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'DisableInsightRules',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'DisableInsightRulesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RuleNames': ruleNames,
+      },
     );
-    return DisableInsightRulesOutput.fromXml($result);
+
+    return DisableInsightRulesOutput.fromJson(jsonResponse.body);
   }
 
   /// Enables the actions for the specified alarms.
@@ -818,20 +874,19 @@ class CloudWatch {
   Future<void> enableAlarmActions({
     required List<String> alarmNames,
   }) async {
-    final $request = <String, String>{
-      if (alarmNames.isEmpty)
-        'AlarmNames': ''
-      else
-        for (var i1 = 0; i1 < alarmNames.length; i1++)
-          'AlarmNames.member.${i1 + 1}': alarmNames[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.EnableAlarmActions'
     };
     await _protocol.send(
-      $request,
-      action: 'EnableAlarmActions',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmNames': alarmNames,
+      },
     );
   }
 
@@ -839,8 +894,8 @@ class CloudWatch {
   /// they immediately begin analyzing log data.
   ///
   /// May throw [InvalidParameterValueException].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [LimitExceededException].
+  /// May throw [MissingRequiredParameterException].
   ///
   /// Parameter [ruleNames] :
   /// An array of the rule names to enable. If you need to find out the names of
@@ -849,23 +904,73 @@ class CloudWatch {
   Future<EnableInsightRulesOutput> enableInsightRules({
     required List<String> ruleNames,
   }) async {
-    final $request = <String, String>{
-      if (ruleNames.isEmpty)
-        'RuleNames': ''
-      else
-        for (var i1 = 0; i1 < ruleNames.length; i1++)
-          'RuleNames.member.${i1 + 1}': ruleNames[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.EnableInsightRules'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'EnableInsightRules',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'EnableInsightRulesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RuleNames': ruleNames,
+      },
     );
-    return EnableInsightRulesOutput.fromXml($result);
+
+    return EnableInsightRulesOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves details for a specific alarm mute rule.
+  ///
+  /// This operation returns complete information about the mute rule, including
+  /// its configuration, status, targeted alarms, and metadata.
+  ///
+  /// The returned status indicates the current state of the mute rule:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>SCHEDULED</b>: The mute rule is configured and will become active in
+  /// the future
+  /// </li>
+  /// <li>
+  /// <b>ACTIVE</b>: The mute rule is currently muting alarm actions
+  /// </li>
+  /// <li>
+  /// <b>EXPIRED</b>: The mute rule has passed its expiration date and will no
+  /// longer become active
+  /// </li>
+  /// </ul>
+  /// <b>Permissions</b>
+  ///
+  /// To retrieve details for a mute rule, you need the
+  /// <code>cloudwatch:GetAlarmMuteRule</code> permission on the alarm mute rule
+  /// resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [alarmMuteRuleName] :
+  /// The name of the alarm mute rule to retrieve.
+  Future<GetAlarmMuteRuleOutput> getAlarmMuteRule({
+    required String alarmMuteRuleName,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetAlarmMuteRule'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmMuteRuleName': alarmMuteRuleName,
+      },
+    );
+
+    return GetAlarmMuteRuleOutput.fromJson(jsonResponse.body);
   }
 
   /// Displays the details of the dashboard that you specify.
@@ -875,28 +980,31 @@ class CloudWatch {
   /// the new dashboard when you call <code>PutDashboard</code> to create the
   /// copy.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [DashboardNotFoundError].
   /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [dashboardName] :
   /// The name of the dashboard to be described.
   Future<GetDashboardOutput> getDashboard({
     required String dashboardName,
   }) async {
-    final $request = <String, String>{
-      'DashboardName': dashboardName,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetDashboard'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetDashboard',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'GetDashboardResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DashboardName': dashboardName,
+      },
     );
-    return GetDashboardOutput.fromXml($result);
+
+    return GetDashboardOutput.fromJson(jsonResponse.body);
   }
 
   /// This operation returns the time series data collected by a Contributor
@@ -1028,31 +1136,29 @@ class CloudWatch {
       1152921504606846976,
       isRequired: true,
     );
-    final $request = <String, String>{
-      'EndTime': _s.iso8601ToJson(endTime),
-      'Period': period.toString(),
-      'RuleName': ruleName,
-      'StartTime': _s.iso8601ToJson(startTime),
-      if (maxContributorCount != null)
-        'MaxContributorCount': maxContributorCount.toString(),
-      if (metrics != null)
-        if (metrics.isEmpty)
-          'Metrics': ''
-        else
-          for (var i1 = 0; i1 < metrics.length; i1++)
-            'Metrics.member.${i1 + 1}': metrics[i1],
-      if (orderBy != null) 'OrderBy': orderBy,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetInsightRuleReport'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetInsightRuleReport',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'GetInsightRuleReportResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndTime': unixTimestampToJson(endTime),
+        'Period': period,
+        'RuleName': ruleName,
+        'StartTime': unixTimestampToJson(startTime),
+        if (maxContributorCount != null)
+          'MaxContributorCount': maxContributorCount,
+        if (metrics != null) 'Metrics': metrics,
+        if (orderBy != null) 'OrderBy': orderBy,
+      },
     );
-    return GetInsightRuleReportOutput.fromXml($result);
+
+    return GetInsightRuleReportOutput.fromJson(jsonResponse.body);
   }
 
   /// You can use the <code>GetMetricData</code> API to retrieve CloudWatch
@@ -1176,11 +1282,11 @@ class CloudWatch {
   /// clock interval. For example, 12:32:34 is rounded down to 12:00:00.
   /// </li>
   /// </ul>
-  /// If you set <code>Period</code> to 5, 10, or 30, the start time of your
+  /// If you set <code>Period</code> to 5, 10, 20, or 30, the start time of your
   /// request is rounded down to the nearest time that corresponds to even 5-,
-  /// 10-, or 30-second divisions of a minute. For example, if you make a query
-  /// at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time
-  /// of your request is rounded down and you receive data from 01:05:10 to
+  /// 10-, 20-, or 30-second divisions of a minute. For example, if you make a
+  /// query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start
+  /// time of your request is rounded down and you receive data from 01:05:10 to
   /// 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of
   /// data, using a period of 5 seconds, you receive data timestamped between
   /// 15:02:15 and 15:07:15.
@@ -1223,32 +1329,28 @@ class CloudWatch {
     String? nextToken,
     ScanBy? scanBy,
   }) async {
-    final $request = <String, String>{
-      'EndTime': _s.iso8601ToJson(endTime),
-      if (metricDataQueries.isEmpty)
-        'MetricDataQueries': ''
-      else
-        for (var i1 = 0; i1 < metricDataQueries.length; i1++)
-          for (var e3 in metricDataQueries[i1].toQueryMap().entries)
-            'MetricDataQueries.member.${i1 + 1}.${e3.key}': e3.value,
-      'StartTime': _s.iso8601ToJson(startTime),
-      if (labelOptions != null)
-        for (var e1 in labelOptions.toQueryMap().entries)
-          'LabelOptions.${e1.key}': e1.value,
-      if (maxDatapoints != null) 'MaxDatapoints': maxDatapoints.toString(),
-      if (nextToken != null) 'NextToken': nextToken,
-      if (scanBy != null) 'ScanBy': scanBy.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetMetricData'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetMetricData',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'GetMetricDataResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndTime': unixTimestampToJson(endTime),
+        'MetricDataQueries': metricDataQueries,
+        'StartTime': unixTimestampToJson(startTime),
+        if (labelOptions != null) 'LabelOptions': labelOptions,
+        if (maxDatapoints != null) 'MaxDatapoints': maxDatapoints,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (scanBy != null) 'ScanBy': scanBy.value,
+      },
     );
-    return GetMetricDataOutput.fromXml($result);
+
+    return GetMetricDataOutput.fromJson(jsonResponse.body);
   }
 
   /// Gets statistics for the specified metric.
@@ -1321,10 +1423,10 @@ class CloudWatch {
   /// CloudWatch Metrics and Dimensions Reference</a> in the <i>Amazon
   /// CloudWatch User Guide</i>.
   ///
+  /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingRequiredParameterException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [InternalServiceFault].
   ///
   /// Parameter [endTime] :
   /// The time stamp that determines the last data point to return.
@@ -1344,7 +1446,7 @@ class CloudWatch {
   /// regular resolution, a period can be as short as one minute (60 seconds)
   /// and must be a multiple of 60. For high-resolution metrics that are
   /// collected at intervals of less than one minute, the period can be 1, 5,
-  /// 10, 30, 60, or any multiple of 60. High-resolution metrics are those
+  /// 10, 20, 30, 60, or any multiple of 60. High-resolution metrics are those
   /// metrics stored by a <code>PutMetricData</code> call that includes a
   /// <code>StorageResolution</code> of 1 second.
   ///
@@ -1391,11 +1493,11 @@ class CloudWatch {
   /// clock interval. For example, 12:32:34 is rounded down to 12:00:00.
   /// </li>
   /// </ul>
-  /// If you set <code>Period</code> to 5, 10, or 30, the start time of your
+  /// If you set <code>Period</code> to 5, 10, 20, or 30, the start time of your
   /// request is rounded down to the nearest time that corresponds to even 5-,
-  /// 10-, or 30-second divisions of a minute. For example, if you make a query
-  /// at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start time
-  /// of your request is rounded down and you receive data from 01:05:10 to
+  /// 10-, 20-, or 30-second divisions of a minute. For example, if you make a
+  /// query at (HH:mm:ss) 01:05:23 for the previous 10-second period, the start
+  /// time of your request is rounded down and you receive data from 01:05:10 to
   /// 01:05:20. If you make a query at 15:07:17 for the previous 5 minutes of
   /// data, using a period of 5 seconds, you receive data timestamped between
   /// 15:02:15 and 15:07:15.
@@ -1452,71 +1554,63 @@ class CloudWatch {
       1152921504606846976,
       isRequired: true,
     );
-    final $request = <String, String>{
-      'EndTime': _s.iso8601ToJson(endTime),
-      'MetricName': metricName,
-      'Namespace': namespace,
-      'Period': period.toString(),
-      'StartTime': _s.iso8601ToJson(startTime),
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (extendedStatistics != null)
-        if (extendedStatistics.isEmpty)
-          'ExtendedStatistics': ''
-        else
-          for (var i1 = 0; i1 < extendedStatistics.length; i1++)
-            'ExtendedStatistics.member.${i1 + 1}': extendedStatistics[i1],
-      if (statistics != null)
-        if (statistics.isEmpty)
-          'Statistics': ''
-        else
-          for (var i1 = 0; i1 < statistics.length; i1++)
-            'Statistics.member.${i1 + 1}': statistics[i1].value,
-      if (unit != null) 'Unit': unit.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetMetricStatistics'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetMetricStatistics',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'GetMetricStatisticsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndTime': unixTimestampToJson(endTime),
+        'MetricName': metricName,
+        'Namespace': namespace,
+        'Period': period,
+        'StartTime': unixTimestampToJson(startTime),
+        if (dimensions != null) 'Dimensions': dimensions,
+        if (extendedStatistics != null)
+          'ExtendedStatistics': extendedStatistics,
+        if (statistics != null)
+          'Statistics': statistics.map((e) => e.value).toList(),
+        if (unit != null) 'Unit': unit.value,
+      },
     );
-    return GetMetricStatisticsOutput.fromXml($result);
+
+    return GetMetricStatisticsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the metric stream that you specify.
   ///
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingRequiredParameterException].
-  /// May throw [InvalidParameterCombinationException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [name] :
   /// The name of the metric stream to retrieve information about.
   Future<GetMetricStreamOutput> getMetricStream({
     required String name,
   }) async {
-    final $request = <String, String>{
-      'Name': name,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetMetricStream'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetMetricStream',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'GetMetricStreamResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
     );
-    return GetMetricStreamOutput.fromXml($result);
+
+    return GetMetricStreamOutput.fromJson(jsonResponse.body);
   }
 
   /// You can use the <code>GetMetricWidgetImage</code> API to retrieve a
@@ -1564,26 +1658,25 @@ class CloudWatch {
   /// <code>text/xml</code>. The image data is in a
   /// <code>MetricWidgetImage</code> field. For example:
   ///
-  /// <code> &lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;</code>
+  /// <code> <GetMetricWidgetImageResponse xmlns=<URLstring>></code>
   ///
-  /// <code> &lt;GetMetricWidgetImageResult&gt;</code>
+  /// <code> <GetMetricWidgetImageResult></code>
   ///
-  /// <code> &lt;MetricWidgetImage&gt;</code>
+  /// <code> <MetricWidgetImage></code>
   ///
   /// <code> iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...</code>
   ///
-  /// <code> &lt;/MetricWidgetImage&gt;</code>
+  /// <code> </MetricWidgetImage></code>
   ///
-  /// <code> &lt;/GetMetricWidgetImageResult&gt;</code>
+  /// <code> </GetMetricWidgetImageResult></code>
   ///
-  /// <code> &lt;ResponseMetadata&gt;</code>
+  /// <code> <ResponseMetadata></code>
   ///
-  /// <code>
-  /// &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;</code>
+  /// <code> <RequestId>6f0d4192-4d42-11e8-82c1-f539a07e0e3b</RequestId></code>
   ///
-  /// <code> &lt;/ResponseMetadata&gt;</code>
+  /// <code> </ResponseMetadata></code>
   ///
-  /// <code>&lt;/GetMetricWidgetImageResponse&gt;</code>
+  /// <code></GetMetricWidgetImageResponse></code>
   ///
   /// The <code>image/png</code> setting is intended only for custom HTTP
   /// requests. For most use cases, and all actions using an Amazon Web Services
@@ -1594,20 +1687,111 @@ class CloudWatch {
     required String metricWidget,
     String? outputFormat,
   }) async {
-    final $request = <String, String>{
-      'MetricWidget': metricWidget,
-      if (outputFormat != null) 'OutputFormat': outputFormat,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetMetricWidgetImage'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'GetMetricWidgetImage',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'GetMetricWidgetImageResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MetricWidget': metricWidget,
+        if (outputFormat != null) 'OutputFormat': outputFormat,
+      },
     );
-    return GetMetricWidgetImageOutput.fromXml($result);
+
+    return GetMetricWidgetImageOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the current status of vended metric enrichment for the account,
+  /// including whether CloudWatch vended metrics are enriched with resource ARN
+  /// and resource tag labels and queryable using PromQL. For the list of
+  /// supported resources, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html">Supported
+  /// Amazon Web Services infrastructure metrics</a>.
+  Future<GetOTelEnrichmentOutput> getOTelEnrichment() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.GetOTelEnrichment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetOTelEnrichmentOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists alarm mute rules in your Amazon Web Services account and region.
+  ///
+  /// You can filter the results by alarm name to find all mute rules targeting
+  /// a specific alarm, or by status to find rules that are scheduled, active,
+  /// or expired.
+  ///
+  /// This operation supports pagination for accounts with many mute rules. Use
+  /// the <code>MaxRecords</code> and <code>NextToken</code> parameters to
+  /// retrieve results in multiple calls.
+  ///
+  /// <b>Permissions</b>
+  ///
+  /// To list mute rules, you need the
+  /// <code>cloudwatch:ListAlarmMuteRules</code> permission.
+  ///
+  /// May throw [InvalidNextToken].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [alarmName] :
+  /// Filter results to show only mute rules that target the specified alarm
+  /// name.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of mute rules to return in one call. The default is 50.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from a previous call to indicate where to continue
+  /// retrieving results.
+  ///
+  /// Parameter [statuses] :
+  /// Filter results to show only mute rules with the specified statuses. Valid
+  /// values are <code>SCHEDULED</code>, <code>ACTIVE</code>, or
+  /// <code>EXPIRED</code>.
+  Future<ListAlarmMuteRulesOutput> listAlarmMuteRules({
+    String? alarmName,
+    int? maxRecords,
+    String? nextToken,
+    List<AlarmMuteRuleStatus>? statuses,
+  }) async {
+    _s.validateNumRange(
+      'maxRecords',
+      maxRecords,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.ListAlarmMuteRules'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (alarmName != null) 'AlarmName': alarmName,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (statuses != null) 'Statuses': statuses.map((e) => e.value).toList(),
+      },
+    );
+
+    return ListAlarmMuteRulesOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns a list of the dashboards for your account. If you include
@@ -1621,8 +1805,8 @@ class CloudWatch {
   /// <code>NextToken</code> in the first call, to receive the next 1000
   /// results.
   ///
-  /// May throw [InvalidParameterValueException].
   /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [dashboardNamePrefix] :
   /// If you specify this parameter, only the dashboards with names starting
@@ -1636,29 +1820,32 @@ class CloudWatch {
     String? dashboardNamePrefix,
     String? nextToken,
   }) async {
-    final $request = <String, String>{
-      if (dashboardNamePrefix != null)
-        'DashboardNamePrefix': dashboardNamePrefix,
-      if (nextToken != null) 'NextToken': nextToken,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.ListDashboards'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListDashboards',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListDashboardsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (dashboardNamePrefix != null)
+          'DashboardNamePrefix': dashboardNamePrefix,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
     );
-    return ListDashboardsOutput.fromXml($result);
+
+    return ListDashboardsOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns a list that contains the number of managed Contributor Insights
   /// rules in your account.
   ///
+  /// May throw [InvalidNextToken].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingRequiredParameterException].
-  /// May throw [InvalidNextToken].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of an Amazon Web Services resource that has managed Contributor
@@ -1683,60 +1870,24 @@ class CloudWatch {
       1,
       500,
     );
-    final $request = <String, String>{
-      'ResourceARN': resourceARN,
-      if (maxResults != null) 'MaxResults': maxResults.toString(),
-      if (nextToken != null) 'NextToken': nextToken,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.ListManagedInsightRules'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListManagedInsightRules',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListManagedInsightRulesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
     );
-    return ListManagedInsightRulesOutput.fromXml($result);
-  }
 
-  /// Returns a list of metric streams in this account.
-  ///
-  /// May throw [InvalidNextToken].
-  /// May throw [InternalServiceFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [MissingRequiredParameterException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of results to return in one operation.
-  ///
-  /// Parameter [nextToken] :
-  /// Include this value, if it was returned by the previous call, to get the
-  /// next set of metric streams.
-  Future<ListMetricStreamsOutput> listMetricStreams({
-    int? maxResults,
-    String? nextToken,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      500,
-    );
-    final $request = <String, String>{
-      if (maxResults != null) 'MaxResults': maxResults.toString(),
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListMetricStreams',
-      version: '2010-08-01',
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListMetricStreamsResult',
-    );
-    return ListMetricStreamsOutput.fromXml($result);
+    return ListManagedInsightRulesOutput.fromJson(jsonResponse.body);
   }
 
   /// List the specified metrics. You can use the returned metrics with <a
@@ -1771,8 +1922,9 @@ class CloudWatch {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [dimensions] :
-  /// The dimensions to filter against. Only the dimensions that match exactly
-  /// will be returned.
+  /// The dimensions to filter against. Only the dimension with names that match
+  /// exactly will be returned. If you specify one dimension name and a metric
+  /// has that dimension and also other dimensions, it will be returned.
   ///
   /// Parameter [includeLinkedAccounts] :
   /// If you are using this operation in a monitoring account, specify
@@ -1806,7 +1958,7 @@ class CloudWatch {
   ///
   /// The results that are returned are an approximation of the value you
   /// specify. There is a low probability that the returned results include
-  /// metrics with last published data as much as 40 minutes more than the
+  /// metrics with last published data as much as 50 minutes more than the
   /// specified time interval.
   Future<ListMetricsOutput> listMetrics({
     List<DimensionFilter>? dimensions,
@@ -1817,40 +1969,80 @@ class CloudWatch {
     String? owningAccount,
     RecentlyActive? recentlyActive,
   }) async {
-    final $request = <String, String>{
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (includeLinkedAccounts != null)
-        'IncludeLinkedAccounts': includeLinkedAccounts.toString(),
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (owningAccount != null) 'OwningAccount': owningAccount,
-      if (recentlyActive != null) 'RecentlyActive': recentlyActive.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.ListMetrics'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListMetrics',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListMetricsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (dimensions != null) 'Dimensions': dimensions,
+        if (includeLinkedAccounts != null)
+          'IncludeLinkedAccounts': includeLinkedAccounts,
+        if (metricName != null) 'MetricName': metricName,
+        if (namespace != null) 'Namespace': namespace,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (owningAccount != null) 'OwningAccount': owningAccount,
+        if (recentlyActive != null) 'RecentlyActive': recentlyActive.value,
+      },
     );
-    return ListMetricsOutput.fromXml($result);
+
+    return ListMetricsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Displays the tags associated with a CloudWatch resource. Currently, alarms
-  /// and Contributor Insights rules support tagging.
+  /// Returns a list of metric streams in this account.
   ///
+  /// May throw [InternalServiceFault].
+  /// May throw [InvalidNextToken].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [MissingRequiredParameterException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in one operation.
+  ///
+  /// Parameter [nextToken] :
+  /// Include this value, if it was returned by the previous call, to get the
+  /// next set of metric streams.
+  Future<ListMetricStreamsOutput> listMetricStreams({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.ListMetricStreams'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListMetricStreamsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Displays the tags associated with a CloudWatch resource. Currently,
+  /// alarms, dashboards, metric streams and Contributor Insights rules support
+  /// tagging.
+  ///
+  /// May throw [InternalServiceFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServiceFault].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the CloudWatch resource that you want to view tags for.
@@ -1863,6 +2055,14 @@ class CloudWatch {
   /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule/<i>insight-rule-name</i>
   /// </code>
   ///
+  /// The ARN format of a dashboard is
+  /// <code>arn:aws:cloudwatch::<i>account-id</i>:dashboard/<i>dashboard-name</i>
+  /// </code>
+  ///
+  /// The ARN format of a metric stream is
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:metric-stream/<i>metric-stream-name</i>
+  /// </code>
+  ///
   /// For more information about ARN format, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies">
   /// Resource Types Defined by Amazon CloudWatch</a> in the <i>Amazon Web
@@ -1870,19 +2070,122 @@ class CloudWatch {
   Future<ListTagsForResourceOutput> listTagsForResource({
     required String resourceARN,
   }) async {
-    final $request = <String, String>{
-      'ResourceARN': resourceARN,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.ListTagsForResource'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'ListTagsForResource',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'ListTagsForResourceResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+      },
     );
-    return ListTagsForResourceOutput.fromXml($result);
+
+    return ListTagsForResourceOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates an alarm mute rule.
+  ///
+  /// Alarm mute rules automatically mute alarm actions during predefined time
+  /// windows. When a mute rule is active, targeted alarms continue to evaluate
+  /// metrics and transition between states, but their configured actions (such
+  /// as Amazon SNS notifications or Auto Scaling actions) are muted.
+  ///
+  /// You can create mute rules with recurring schedules using <code>cron</code>
+  /// expressions or one-time mute windows using <code>at</code> expressions.
+  /// Each mute rule can target up to 100 specific alarms by name.
+  ///
+  /// If you specify a rule name that already exists, this operation updates the
+  /// existing rule with the new configuration.
+  ///
+  /// <b>Permissions</b>
+  ///
+  /// To create or update a mute rule, you must have the
+  /// <code>cloudwatch:PutAlarmMuteRule</code> permission on two types of
+  /// resources: the alarm mute rule resource itself, and each alarm that the
+  /// rule targets.
+  ///
+  /// For example, If you want to allow a user to create mute rules that target
+  /// only specific alarms named "WebServerCPUAlarm" and
+  /// "DatabaseConnectionAlarm", you would create an IAM policy with one
+  /// statement granting <code>cloudwatch:PutAlarmMuteRule</code> on the alarm
+  /// mute rule resource
+  /// (<code>arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute-rule:*</code>),
+  /// and another statement granting <code>cloudwatch:PutAlarmMuteRule</code> on
+  /// the targeted alarm resources
+  /// (<code>arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm</code>
+  /// and
+  /// <code>arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm</code>).
+  ///
+  /// You can also use IAM policy conditions to allow targeting alarms based on
+  /// resource tags. For example, you can restrict users to create/update mute
+  /// rules to only target alarms that have a specific tag key-value pair, such
+  /// as <code>Team=TeamA</code>.
+  ///
+  /// May throw [LimitExceededFault].
+  ///
+  /// Parameter [name] :
+  /// The name of the alarm mute rule. This name must be unique within your
+  /// Amazon Web Services account and region.
+  ///
+  /// Parameter [rule] :
+  /// The configuration that defines when and how long alarms should be muted.
+  ///
+  /// Parameter [description] :
+  /// A description of the alarm mute rule that helps you identify its purpose.
+  ///
+  /// Parameter [expireDate] :
+  /// The date and time when the mute rule expires and is no longer evaluated,
+  /// specified as a timestamp in ISO 8601 format (for example,
+  /// <code>2026-12-31T23:59:59Z</code>). After this time, the rule status
+  /// becomes EXPIRED and will no longer mute the targeted alarms.
+  ///
+  /// Parameter [muteTargets] :
+  /// Specifies which alarms this rule applies to.
+  ///
+  /// Parameter [startDate] :
+  /// The date and time after which the mute rule takes effect, specified as a
+  /// timestamp in ISO 8601 format (for example,
+  /// <code>2026-04-15T08:00:00Z</code>). If not specified, the mute rule takes
+  /// effect immediately upon creation and the mutes are applied as per the
+  /// schedule expression.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs to associate with the alarm mute rule. You can
+  /// use tags to categorize and manage your mute rules.
+  Future<void> putAlarmMuteRule({
+    required String name,
+    required Rule rule,
+    String? description,
+    DateTime? expireDate,
+    MuteTargets? muteTargets,
+    DateTime? startDate,
+    List<Tag>? tags,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutAlarmMuteRule'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'Rule': rule,
+        if (description != null) 'Description': description,
+        if (expireDate != null) 'ExpireDate': unixTimestampToJson(expireDate),
+        if (muteTargets != null) 'MuteTargets': muteTargets,
+        if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+        if (tags != null) 'Tags': tags,
+      },
+    );
   }
 
   /// Creates an anomaly detection model for a CloudWatch metric. You can use
@@ -1898,11 +2201,11 @@ class CloudWatch {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Anomaly_Detection.html">CloudWatch
   /// Anomaly Detection</a>.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [InternalServiceFault].
-  /// May throw [InvalidParameterValueException].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [MissingRequiredParameterException].
   ///
   /// Parameter [configuration] :
   /// The configuration specifies details about how the anomaly detection model
@@ -1991,38 +2294,29 @@ class CloudWatch {
     SingleMetricAnomalyDetector? singleMetricAnomalyDetector,
     String? stat,
   }) async {
-    final $request = <String, String>{
-      if (configuration != null)
-        for (var e1 in configuration.toQueryMap().entries)
-          'Configuration.${e1.key}': e1.value,
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (metricCharacteristics != null)
-        for (var e1 in metricCharacteristics.toQueryMap().entries)
-          'MetricCharacteristics.${e1.key}': e1.value,
-      if (metricMathAnomalyDetector != null)
-        for (var e1 in metricMathAnomalyDetector.toQueryMap().entries)
-          'MetricMathAnomalyDetector.${e1.key}': e1.value,
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-      if (singleMetricAnomalyDetector != null)
-        for (var e1 in singleMetricAnomalyDetector.toQueryMap().entries)
-          'SingleMetricAnomalyDetector.${e1.key}': e1.value,
-      if (stat != null) 'Stat': stat,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutAnomalyDetector'
     };
     await _protocol.send(
-      $request,
-      action: 'PutAnomalyDetector',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'PutAnomalyDetectorResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (configuration != null) 'Configuration': configuration,
+        if (dimensions != null) 'Dimensions': dimensions,
+        if (metricCharacteristics != null)
+          'MetricCharacteristics': metricCharacteristics,
+        if (metricMathAnomalyDetector != null)
+          'MetricMathAnomalyDetector': metricMathAnomalyDetector,
+        if (metricName != null) 'MetricName': metricName,
+        if (namespace != null) 'Namespace': namespace,
+        if (singleMetricAnomalyDetector != null)
+          'SingleMetricAnomalyDetector': singleMetricAnomalyDetector,
+        if (stat != null) 'Stat': stat,
+      },
     );
   }
 
@@ -2231,6 +2525,11 @@ class CloudWatch {
   /// <code>arn:aws:ssm:<i>region</i>:<i>account-id</i>:opsitem:<i>severity</i>
   /// </code>
   ///
+  /// <b>Start a Amazon Q Developer operational investigation</b>
+  ///
+  /// <code>arn:aws:aiops:<i>region</i>:<i>account-id</i>:investigation-group:<i>investigation-group-id</i>
+  /// </code>
+  ///
   /// Parameter [alarmDescription] :
   /// The description for the composite alarm.
   ///
@@ -2327,51 +2626,32 @@ class CloudWatch {
     List<String>? oKActions,
     List<Tag>? tags,
   }) async {
-    final $request = <String, String>{
-      'AlarmName': alarmName,
-      'AlarmRule': alarmRule,
-      if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled.toString(),
-      if (actionsSuppressor != null) 'ActionsSuppressor': actionsSuppressor,
-      if (actionsSuppressorExtensionPeriod != null)
-        'ActionsSuppressorExtensionPeriod':
-            actionsSuppressorExtensionPeriod.toString(),
-      if (actionsSuppressorWaitPeriod != null)
-        'ActionsSuppressorWaitPeriod': actionsSuppressorWaitPeriod.toString(),
-      if (alarmActions != null)
-        if (alarmActions.isEmpty)
-          'AlarmActions': ''
-        else
-          for (var i1 = 0; i1 < alarmActions.length; i1++)
-            'AlarmActions.member.${i1 + 1}': alarmActions[i1],
-      if (alarmDescription != null) 'AlarmDescription': alarmDescription,
-      if (insufficientDataActions != null)
-        if (insufficientDataActions.isEmpty)
-          'InsufficientDataActions': ''
-        else
-          for (var i1 = 0; i1 < insufficientDataActions.length; i1++)
-            'InsufficientDataActions.member.${i1 + 1}':
-                insufficientDataActions[i1],
-      if (oKActions != null)
-        if (oKActions.isEmpty)
-          'OKActions': ''
-        else
-          for (var i1 = 0; i1 < oKActions.length; i1++)
-            'OKActions.member.${i1 + 1}': oKActions[i1],
-      if (tags != null)
-        if (tags.isEmpty)
-          'Tags': ''
-        else
-          for (var i1 = 0; i1 < tags.length; i1++)
-            for (var e3 in tags[i1].toQueryMap().entries)
-              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutCompositeAlarm'
     };
     await _protocol.send(
-      $request,
-      action: 'PutCompositeAlarm',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmName': alarmName,
+        'AlarmRule': alarmRule,
+        if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
+        if (actionsSuppressor != null) 'ActionsSuppressor': actionsSuppressor,
+        if (actionsSuppressorExtensionPeriod != null)
+          'ActionsSuppressorExtensionPeriod': actionsSuppressorExtensionPeriod,
+        if (actionsSuppressorWaitPeriod != null)
+          'ActionsSuppressorWaitPeriod': actionsSuppressorWaitPeriod,
+        if (alarmActions != null) 'AlarmActions': alarmActions,
+        if (alarmDescription != null) 'AlarmDescription': alarmDescription,
+        if (insufficientDataActions != null)
+          'InsufficientDataActions': insufficientDataActions,
+        if (oKActions != null) 'OKActions': oKActions,
+        if (tags != null) 'Tags': tags,
+      },
     );
   }
 
@@ -2396,6 +2676,7 @@ class CloudWatch {
   /// location of the <code>DashboardBody</code> script or the CloudFormation
   /// template used to create the dashboard.
   ///
+  /// May throw [ConflictException].
   /// May throw [DashboardInvalidInputError].
   /// May throw [InternalServiceFault].
   ///
@@ -2414,24 +2695,45 @@ class CloudWatch {
   /// Otherwise, a new dashboard is created. The maximum length is 255, and
   /// valid characters are A-Z, a-z, 0-9, "-", and "_". This parameter is
   /// required.
+  ///
+  /// Parameter [tags] :
+  /// A list of key-value pairs to associate with the dashboard. You can
+  /// associate as many as 50 tags with a dashboard.
+  ///
+  /// Tags can help you organize and categorize your dashboards. You can also
+  /// use them to scope user permissions by granting a user permission to access
+  /// or change only dashboards with certain tag values.
+  ///
+  /// You can use this parameter only when creating a new dashboard. If you
+  /// specify <code>Tags</code> when updating an existing dashboard, the tag
+  /// updates are ignored. To add or update tags on an existing dashboard, use
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">TagResource</a>.
+  /// To remove tags, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html">UntagResource</a>.
   Future<PutDashboardOutput> putDashboard({
     required String dashboardBody,
     required String dashboardName,
+    List<Tag>? tags,
   }) async {
-    final $request = <String, String>{
-      'DashboardBody': dashboardBody,
-      'DashboardName': dashboardName,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutDashboard'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'PutDashboard',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'PutDashboardResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DashboardBody': dashboardBody,
+        'DashboardName': dashboardName,
+        if (tags != null) 'Tags': tags,
+      },
     );
-    return PutDashboardOutput.fromXml($result);
+
+    return PutDashboardOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a Contributor Insights rule. Rules evaluate log events in a
@@ -2445,8 +2747,8 @@ class CloudWatch {
   /// available.
   ///
   /// May throw [InvalidParameterValueException].
-  /// May throw [MissingRequiredParameterException].
   /// May throw [LimitExceededException].
+  /// May throw [MissingRequiredParameterException].
   ///
   /// Parameter [ruleDefinition] :
   /// The definition of the rule, as a JSON object. For details on the valid
@@ -2456,6 +2758,25 @@ class CloudWatch {
   ///
   /// Parameter [ruleName] :
   /// A unique name for the rule.
+  ///
+  /// Parameter [applyOnTransformedLogs] :
+  /// Specify <code>true</code> to have this rule evaluate log events after they
+  /// have been transformed by <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html">Log
+  /// transformation</a>. If you specify <code>true</code>, then the log events
+  /// in log groups that have transformers will be evaluated by Contributor
+  /// Insights after being transformed. Log groups that don't have transformers
+  /// will still have their original log events evaluated by Contributor
+  /// Insights.
+  ///
+  /// The default is <code>false</code>
+  /// <note>
+  /// If a log group has a transformer, and transformation fails for some log
+  /// events, those log events won't be evaluated by Contributor Insights. For
+  /// information about investigating log transformation failures, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Transformation-Errors-Metrics.html">Transformation
+  /// metrics and errors</a>.
+  /// </note>
   ///
   /// Parameter [ruleState] :
   /// The state of the rule. Valid values are ENABLED and DISABLED.
@@ -2479,29 +2800,28 @@ class CloudWatch {
   Future<void> putInsightRule({
     required String ruleDefinition,
     required String ruleName,
+    bool? applyOnTransformedLogs,
     String? ruleState,
     List<Tag>? tags,
   }) async {
-    final $request = <String, String>{
-      'RuleDefinition': ruleDefinition,
-      'RuleName': ruleName,
-      if (ruleState != null) 'RuleState': ruleState,
-      if (tags != null)
-        if (tags.isEmpty)
-          'Tags': ''
-        else
-          for (var i1 = 0; i1 < tags.length; i1++)
-            for (var e3 in tags[i1].toQueryMap().entries)
-              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutInsightRule'
     };
     await _protocol.send(
-      $request,
-      action: 'PutInsightRule',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'PutInsightRuleResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'RuleDefinition': ruleDefinition,
+        'RuleName': ruleName,
+        if (applyOnTransformedLogs != null)
+          'ApplyOnTransformedLogs': applyOnTransformedLogs,
+        if (ruleState != null) 'RuleState': ruleState,
+        if (tags != null) 'Tags': tags,
+      },
     );
   }
 
@@ -2523,39 +2843,38 @@ class CloudWatch {
   Future<PutManagedInsightRulesOutput> putManagedInsightRules({
     required List<ManagedRule> managedRules,
   }) async {
-    final $request = <String, String>{
-      if (managedRules.isEmpty)
-        'ManagedRules': ''
-      else
-        for (var i1 = 0; i1 < managedRules.length; i1++)
-          for (var e3 in managedRules[i1].toQueryMap().entries)
-            'ManagedRules.member.${i1 + 1}.${e3.key}': e3.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutManagedInsightRules'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'PutManagedInsightRules',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'PutManagedInsightRulesResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ManagedRules': managedRules,
+      },
     );
-    return PutManagedInsightRulesOutput.fromXml($result);
+
+    return PutManagedInsightRulesOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates an alarm and associates it with the specified metric,
-  /// metric math expression, anomaly detection model, or Metrics Insights
-  /// query. For more information about using a Metrics Insights query for an
-  /// alarm, see <a
+  /// metric math expression, anomaly detection model, Metrics Insights query,
+  /// or PromQL query. For more information about using a Metrics Insights query
+  /// for an alarm, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html">Create
   /// alarms on Metrics Insights queries</a>.
   ///
   /// Alarms based on anomaly detection models cannot have Auto Scaling actions.
   ///
   /// When this operation creates an alarm, the alarm state is immediately set
-  /// to <code>INSUFFICIENT_DATA</code>. The alarm is then evaluated and its
-  /// state is set appropriately. Any actions associated with the new state are
-  /// then executed.
+  /// to <code>INSUFFICIENT_DATA</code>. For PromQL alarms, the alarm state is
+  /// instead immediately set to <code>OK</code>. The alarm is then evaluated
+  /// and its state is set appropriately. Any actions associated with the new
+  /// state are then executed.
   ///
   /// When you update an existing alarm, its state is left unchanged, but the
   /// update completely overwrites the previous configuration of the alarm.
@@ -2622,26 +2941,6 @@ class CloudWatch {
   ///
   /// The name must contain only UTF-8 characters, and can't contain ASCII
   /// control characters
-  ///
-  /// Parameter [comparisonOperator] :
-  /// The arithmetic operation to use when comparing the specified statistic and
-  /// threshold. The specified statistic value is used as the first operand.
-  ///
-  /// The values <code>LessThanLowerOrGreaterThanUpperThreshold</code>,
-  /// <code>LessThanLowerThreshold</code>, and
-  /// <code>GreaterThanUpperThreshold</code> are used only for alarms based on
-  /// anomaly detection models.
-  ///
-  /// Parameter [evaluationPeriods] :
-  /// The number of periods over which data is compared to the specified
-  /// threshold. If you are setting an alarm that requires that a number of
-  /// consecutive data points be breaching to trigger the alarm, this value
-  /// specifies that number. If you are setting an "M out of N" alarm, this
-  /// value is the N.
-  ///
-  /// An alarm's total current evaluation period can be no longer than one day,
-  /// so this number multiplied by <code>Period</code> cannot be more than
-  /// 86,400 seconds.
   ///
   /// Parameter [actionsEnabled] :
   /// Indicates whether actions should be executed during any changes to the
@@ -2727,9 +3026,22 @@ class CloudWatch {
   /// </code>
   /// </li>
   /// </ul>
+  /// <b>Start a Amazon Q Developer operational investigation</b>
+  ///
+  /// <code>arn:aws:aiops:<i>region</i>:<i>account-id</i>:investigation-group:<i>investigation-group-id</i>
+  /// </code>
   ///
   /// Parameter [alarmDescription] :
   /// The description for the alarm.
+  ///
+  /// Parameter [comparisonOperator] :
+  /// The arithmetic operation to use when comparing the specified statistic and
+  /// threshold. The specified statistic value is used as the first operand.
+  ///
+  /// The values <code>LessThanLowerOrGreaterThanUpperThreshold</code>,
+  /// <code>LessThanLowerThreshold</code>, and
+  /// <code>GreaterThanUpperThreshold</code> are used only for alarms based on
+  /// anomaly detection models.
   ///
   /// Parameter [datapointsToAlarm] :
   /// The number of data points that must be breaching to trigger the alarm.
@@ -2752,6 +3064,40 @@ class CloudWatch {
   /// CloudWatch Alarms and Low Data Samples</a>.
   ///
   /// Valid Values: <code>evaluate | ignore</code>
+  ///
+  /// Parameter [evaluationCriteria] :
+  /// The evaluation criteria for the alarm. For each
+  /// <code>PutMetricAlarm</code> operation, you must specify either
+  /// <code>MetricName</code>, a <code>Metrics</code> array, or an
+  /// <code>EvaluationCriteria</code>.
+  ///
+  /// If you use the <code>EvaluationCriteria</code> parameter, you cannot
+  /// include the <code>Namespace</code>, <code>MetricName</code>,
+  /// <code>Dimensions</code>, <code>Period</code>, <code>Unit</code>,
+  /// <code>Statistic</code>, <code>ExtendedStatistic</code>,
+  /// <code>Metrics</code>, <code>Threshold</code>,
+  /// <code>ComparisonOperator</code>, <code>ThresholdMetricId</code>,
+  /// <code>EvaluationPeriods</code>, or <code>DatapointsToAlarm</code>
+  /// parameters of <code>PutMetricAlarm</code> in the same operation. Instead,
+  /// all evaluation parameters are defined within this structure.
+  ///
+  /// For an example of how to use this parameter, see the <b>PromQL alarm</b>
+  /// example on this page.
+  ///
+  /// Parameter [evaluationInterval] :
+  /// The frequency, in seconds, at which the alarm is evaluated. Valid values
+  /// are 10, 20, 30, and any multiple of 60.
+  ///
+  /// This parameter is required for alarms that use
+  /// <code>EvaluationCriteria</code>, and cannot be specified for alarms
+  /// configured with <code>MetricName</code> or <code>Metrics</code>.
+  ///
+  /// Parameter [evaluationPeriods] :
+  /// The number of periods over which data is compared to the specified
+  /// threshold. If you are setting an alarm that requires that a number of
+  /// consecutive data points be breaching to trigger the alarm, this value
+  /// specifies that number. If you are setting an "M out of N" alarm, this
+  /// value is the N.
   ///
   /// Parameter [extendedStatistic] :
   /// The extended statistic for the metric specified in
@@ -2889,7 +3235,8 @@ class CloudWatch {
   /// Parameter [metricName] :
   /// The name for the metric associated with the alarm. For each
   /// <code>PutMetricAlarm</code> operation, you must specify either
-  /// <code>MetricName</code> or a <code>Metrics</code> array.
+  /// <code>MetricName</code>, a <code>Metrics</code> array, or an
+  /// <code>EvaluationCriteria</code>.
   ///
   /// If you are creating an alarm based on a math expression, you cannot
   /// specify this parameter, or any of the <code>Namespace</code>,
@@ -2902,7 +3249,8 @@ class CloudWatch {
   /// An array of <code>MetricDataQuery</code> structures that enable you to
   /// create an alarm based on the result of a metric math expression. For each
   /// <code>PutMetricAlarm</code> operation, you must specify either
-  /// <code>MetricName</code> or a <code>Metrics</code> array.
+  /// <code>MetricName</code>, a <code>Metrics</code> array, or an
+  /// <code>EvaluationCriteria</code>.
   ///
   /// Each item in the <code>Metrics</code> array either retrieves a metric or
   /// performs a math expression.
@@ -3007,7 +3355,7 @@ class CloudWatch {
   ///
   /// Parameter [period] :
   /// The length, in seconds, used each time the metric specified in
-  /// <code>MetricName</code> is evaluated. Valid values are 10, 30, and any
+  /// <code>MetricName</code> is evaluated. Valid values are 10, 20, 30, and any
   /// multiple of 60.
   ///
   /// <code>Period</code> is required for alarms based on static thresholds. If
@@ -3015,21 +3363,23 @@ class CloudWatch {
   /// the period for each metric within the objects in the <code>Metrics</code>
   /// array.
   ///
-  /// Be sure to specify 10 or 30 only for metrics that are stored by a
+  /// Be sure to specify 10, 20, or 30 only for metrics that are stored by a
   /// <code>PutMetricData</code> call with a <code>StorageResolution</code> of
-  /// 1. If you specify a period of 10 or 30 for a metric that does not have
-  /// sub-minute resolution, the alarm still attempts to gather data at the
+  /// 1. If you specify a period of 10, 20, or 30 for a metric that does not
+  /// have sub-minute resolution, the alarm still attempts to gather data at the
   /// period rate that you specify. In this case, it does not receive data for
   /// the attempts that do not correspond to a one-minute data resolution, and
-  /// the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10 or
-  /// 30 also sets this alarm as a high-resolution alarm, which has a higher
-  /// charge than other alarms. For more information about pricing, see <a
-  /// href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
+  /// the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10,
+  /// 20, or 30 also sets this alarm as a high-resolution alarm, which has a
+  /// higher charge than other alarms. For more information about pricing, see
+  /// <a href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
   /// Pricing</a>.
   ///
-  /// An alarm's total current evaluation period can be no longer than one day,
-  /// so <code>Period</code> multiplied by <code>EvaluationPeriods</code> cannot
-  /// be more than 86,400 seconds.
+  /// An alarm's total current evaluation period can be no longer than seven
+  /// days, so <code>Period</code> multiplied by <code>EvaluationPeriods</code>
+  /// can't be more than 604,800 seconds. For alarms with a period of less than
+  /// one hour (3,600 seconds), the total evaluation period can't be longer than
+  /// one day (86,400 seconds).
   ///
   /// Parameter [statistic] :
   /// The statistic for the metric specified in <code>MetricName</code>, other
@@ -3054,6 +3404,10 @@ class CloudWatch {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">TagResource</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html">UntagResource</a>.
+  ///
+  /// To use this field to set tags for an alarm when you create it, you must be
+  /// signed on with both the <code>cloudwatch:PutMetricAlarm</code> and
+  /// <code>cloudwatch:TagResource</code> permissions.
   ///
   /// Parameter [threshold] :
   /// The value against which the specified statistic is compared.
@@ -3084,6 +3438,8 @@ class CloudWatch {
   /// option for <code>TreatMissingData</code>. When an
   /// <code>AWS/DynamoDB</code> metric has missing data, alarms that evaluate
   /// that metric remain in their current state.
+  /// </note> <note>
+  /// This parameter is not applicable to PromQL alarms.
   /// </note>
   ///
   /// Parameter [unit] :
@@ -3111,14 +3467,16 @@ class CloudWatch {
   /// causes the alarm to be stuck in the <code>INSUFFICIENT DATA</code> state.
   Future<void> putMetricAlarm({
     required String alarmName,
-    required ComparisonOperator comparisonOperator,
-    required int evaluationPeriods,
     bool? actionsEnabled,
     List<String>? alarmActions,
     String? alarmDescription,
+    ComparisonOperator? comparisonOperator,
     int? datapointsToAlarm,
     List<Dimension>? dimensions,
     String? evaluateLowSampleCountPercentile,
+    EvaluationCriteria? evaluationCriteria,
+    int? evaluationInterval,
+    int? evaluationPeriods,
     String? extendedStatistic,
     List<String>? insufficientDataActions,
     String? metricName,
@@ -3134,15 +3492,20 @@ class CloudWatch {
     StandardUnit? unit,
   }) async {
     _s.validateNumRange(
-      'evaluationPeriods',
-      evaluationPeriods,
-      1,
-      1152921504606846976,
-      isRequired: true,
-    );
-    _s.validateNumRange(
       'datapointsToAlarm',
       datapointsToAlarm,
+      1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'evaluationInterval',
+      evaluationInterval,
+      10,
+      3600,
+    );
+    _s.validateNumRange(
+      'evaluationPeriods',
+      evaluationPeriods,
       1,
       1152921504606846976,
     );
@@ -3152,94 +3515,77 @@ class CloudWatch {
       1,
       1152921504606846976,
     );
-    final $request = <String, String>{
-      'AlarmName': alarmName,
-      'ComparisonOperator': comparisonOperator.value,
-      'EvaluationPeriods': evaluationPeriods.toString(),
-      if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled.toString(),
-      if (alarmActions != null)
-        if (alarmActions.isEmpty)
-          'AlarmActions': ''
-        else
-          for (var i1 = 0; i1 < alarmActions.length; i1++)
-            'AlarmActions.member.${i1 + 1}': alarmActions[i1],
-      if (alarmDescription != null) 'AlarmDescription': alarmDescription,
-      if (datapointsToAlarm != null)
-        'DatapointsToAlarm': datapointsToAlarm.toString(),
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (evaluateLowSampleCountPercentile != null)
-        'EvaluateLowSampleCountPercentile': evaluateLowSampleCountPercentile,
-      if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
-      if (insufficientDataActions != null)
-        if (insufficientDataActions.isEmpty)
-          'InsufficientDataActions': ''
-        else
-          for (var i1 = 0; i1 < insufficientDataActions.length; i1++)
-            'InsufficientDataActions.member.${i1 + 1}':
-                insufficientDataActions[i1],
-      if (metricName != null) 'MetricName': metricName,
-      if (metrics != null)
-        if (metrics.isEmpty)
-          'Metrics': ''
-        else
-          for (var i1 = 0; i1 < metrics.length; i1++)
-            for (var e3 in metrics[i1].toQueryMap().entries)
-              'Metrics.member.${i1 + 1}.${e3.key}': e3.value,
-      if (namespace != null) 'Namespace': namespace,
-      if (oKActions != null)
-        if (oKActions.isEmpty)
-          'OKActions': ''
-        else
-          for (var i1 = 0; i1 < oKActions.length; i1++)
-            'OKActions.member.${i1 + 1}': oKActions[i1],
-      if (period != null) 'Period': period.toString(),
-      if (statistic != null) 'Statistic': statistic.value,
-      if (tags != null)
-        if (tags.isEmpty)
-          'Tags': ''
-        else
-          for (var i1 = 0; i1 < tags.length; i1++)
-            for (var e3 in tags[i1].toQueryMap().entries)
-              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
-      if (threshold != null) 'Threshold': threshold.toString(),
-      if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
-      if (treatMissingData != null) 'TreatMissingData': treatMissingData,
-      if (unit != null) 'Unit': unit.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutMetricAlarm'
     };
     await _protocol.send(
-      $request,
-      action: 'PutMetricAlarm',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmName': alarmName,
+        if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
+        if (alarmActions != null) 'AlarmActions': alarmActions,
+        if (alarmDescription != null) 'AlarmDescription': alarmDescription,
+        if (comparisonOperator != null)
+          'ComparisonOperator': comparisonOperator.value,
+        if (datapointsToAlarm != null) 'DatapointsToAlarm': datapointsToAlarm,
+        if (dimensions != null) 'Dimensions': dimensions,
+        if (evaluateLowSampleCountPercentile != null)
+          'EvaluateLowSampleCountPercentile': evaluateLowSampleCountPercentile,
+        if (evaluationCriteria != null)
+          'EvaluationCriteria': evaluationCriteria,
+        if (evaluationInterval != null)
+          'EvaluationInterval': evaluationInterval,
+        if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
+        if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
+        if (insufficientDataActions != null)
+          'InsufficientDataActions': insufficientDataActions,
+        if (metricName != null) 'MetricName': metricName,
+        if (metrics != null) 'Metrics': metrics,
+        if (namespace != null) 'Namespace': namespace,
+        if (oKActions != null) 'OKActions': oKActions,
+        if (period != null) 'Period': period,
+        if (statistic != null) 'Statistic': statistic.value,
+        if (tags != null) 'Tags': tags,
+        if (threshold != null) 'Threshold': threshold,
+        if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
+        if (treatMissingData != null) 'TreatMissingData': treatMissingData,
+        if (unit != null) 'Unit': unit.value,
+      },
     );
   }
 
-  /// Publishes metric data points to Amazon CloudWatch. CloudWatch associates
-  /// the data points with the specified metric. If the specified metric does
-  /// not exist, CloudWatch creates the metric. When CloudWatch creates a
-  /// metric, it can take up to fifteen minutes for the metric to appear in
-  /// calls to <a
+  /// Publishes metric data to Amazon CloudWatch. CloudWatch associates the data
+  /// with the specified metric. If the specified metric does not exist,
+  /// CloudWatch creates the metric. When CloudWatch creates a metric, it can
+  /// take up to fifteen minutes for the metric to appear in calls to <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html">ListMetrics</a>.
   ///
-  /// You can publish either individual data points in the <code>Value</code>
-  /// field, or arrays of values and the number of times each value occurred
-  /// during the period by using the <code>Values</code> and <code>Counts</code>
-  /// fields in the <code>MetricData</code> structure. Using the
-  /// <code>Values</code> and <code>Counts</code> method enables you to publish
-  /// up to 150 values per metric with one <code>PutMetricData</code> request,
-  /// and supports retrieving percentile statistics on this data.
+  /// You can publish metrics with associated entity data (so that related
+  /// telemetry can be found and viewed together), or publish metric data by
+  /// itself. To send entity data with your metrics, use the
+  /// <code>EntityMetricData</code> parameter. To send metrics without entity
+  /// data, use the <code>MetricData</code> parameter. The
+  /// <code>EntityMetricData</code> structure includes <code>MetricData</code>
+  /// structures for the metric data.
+  ///
+  /// You can publish either individual values in the <code>Value</code> field,
+  /// or arrays of values and the number of times each value occurred during the
+  /// period by using the <code>Values</code> and <code>Counts</code> fields in
+  /// the <code>MetricData</code> structure. Using the <code>Values</code> and
+  /// <code>Counts</code> method enables you to publish up to 150 values per
+  /// metric with one <code>PutMetricData</code> request, and supports
+  /// retrieving percentile statistics on this data.
   ///
   /// Each <code>PutMetricData</code> request is limited to 1 MB in size for
   /// HTTP POST requests. You can send a payload compressed by gzip. Each
-  /// request is also limited to no more than 1000 different metrics.
+  /// request is also limited to no more than 1000 different metrics (across
+  /// both the <code>MetricData</code> and <code>EntityMetricData</code>
+  /// properties).
   ///
   /// Although the <code>Value</code> parameter accepts numbers of type
   /// <code>Double</code>, CloudWatch rejects values that are either too small
@@ -3262,8 +3608,7 @@ class CloudWatch {
   /// or <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>
   /// from the time they are submitted. Data points with time stamps between 3
-  /// and 24 hours ago can take as much as 2 hours to become available for for
-  /// <a
+  /// and 24 hours ago can take as much as 2 hours to become available for <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
@@ -3284,14 +3629,10 @@ class CloudWatch {
   /// </li>
   /// </ul>
   ///
+  /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingRequiredParameterException].
-  /// May throw [InvalidParameterCombinationException].
-  /// May throw [InternalServiceFault].
-  ///
-  /// Parameter [metricData] :
-  /// The data for the metric. The array can include no more than 1000 metrics
-  /// per call.
   ///
   /// Parameter [namespace] :
   /// The namespace for the metric data. You can use ASCII characters for the
@@ -3299,26 +3640,100 @@ class CloudWatch {
   ///
   /// To avoid conflicts with Amazon Web Services service namespaces, you should
   /// not specify a namespace that begins with <code>AWS/</code>
+  ///
+  /// Parameter [entityMetricData] :
+  /// Data for metrics that contain associated entity information. You can
+  /// include up to two <code>EntityMetricData</code> objects, each of which can
+  /// contain a single <code>Entity</code> and associated metrics.
+  ///
+  /// The limit of metrics allowed, 1000, is the sum of both
+  /// <code>EntityMetricData</code> and <code>MetricData</code> metrics.
+  ///
+  /// Parameter [metricData] :
+  /// The data for the metrics. Use this parameter if your metrics do not
+  /// contain associated entities. The array can include no more than 1000
+  /// metrics per call.
+  ///
+  /// The limit of metrics allowed, 1000, is the sum of both
+  /// <code>EntityMetricData</code> and <code>MetricData</code> metrics.
+  ///
+  /// Parameter [strictEntityValidation] :
+  /// Whether to accept valid metric data when an invalid entity is sent.
+  ///
+  /// <ul>
+  /// <li>
+  /// When set to <code>true</code>: Any validation error (for entity or metric
+  /// data) will fail the entire request, and no data will be ingested. The
+  /// failed operation will return a 400 result with the error.
+  /// </li>
+  /// <li>
+  /// When set to <code>false</code>: Validation errors in the entity will not
+  /// associate the metric with the entity, but the metric data will still be
+  /// accepted and ingested. Validation errors in the metric data will fail the
+  /// entire request, and no data will be ingested.
+  ///
+  /// In the case of an invalid entity, the operation will return a
+  /// <code>200</code> status, but an additional response header will contain
+  /// information about the validation errors. The new header,
+  /// <code>X-Amzn-Failure-Message</code> is an enumeration of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>InvalidEntity</code> - The provided entity is invalid.
+  /// </li>
+  /// <li>
+  /// <code>InvalidKeyAttributes</code> - The provided
+  /// <code>KeyAttributes</code> of an entity is invalid.
+  /// </li>
+  /// <li>
+  /// <code>InvalidAttributes</code> - The provided <code>Attributes</code> of
+  /// an entity is invalid.
+  /// </li>
+  /// <li>
+  /// <code>InvalidTypeValue</code> - The provided <code>Type</code> in the
+  /// <code>KeyAttributes</code> of an entity is invalid.
+  /// </li>
+  /// <li>
+  /// <code>EntitySizeTooLarge</code> - The number of
+  /// <code>EntityMetricData</code> objects allowed is 2.
+  /// </li>
+  /// <li>
+  /// <code>MissingRequiredFields</code> - There are missing required fields in
+  /// the <code>KeyAttributes</code> for the provided <code>Type</code>.
+  /// </li>
+  /// </ul>
+  /// For details of the requirements for specifying an entity, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html">How
+  /// to add related information to telemetry</a> in the <i>CloudWatch User
+  /// Guide</i>.
+  /// </li>
+  /// </ul>
+  /// This parameter is <i>required</i> when <code>EntityMetricData</code> is
+  /// included.
   Future<void> putMetricData({
-    required List<MetricDatum> metricData,
     required String namespace,
+    List<EntityMetricData>? entityMetricData,
+    List<MetricDatum>? metricData,
+    bool? strictEntityValidation,
   }) async {
-    final $request = <String, String>{
-      if (metricData.isEmpty)
-        'MetricData': ''
-      else
-        for (var i1 = 0; i1 < metricData.length; i1++)
-          for (var e3 in metricData[i1].toQueryMap().entries)
-            'MetricData.member.${i1 + 1}.${e3.key}': e3.value,
-      'Namespace': namespace,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutMetricData'
     };
     await _protocol.send(
-      $request,
-      action: 'PutMetricData',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Namespace': namespace,
+        if (entityMetricData != null) 'EntityMetricData': entityMetricData,
+        if (metricData != null) 'MetricData': metricData,
+        if (strictEntityValidation != null)
+          'StrictEntityValidation': strictEntityValidation,
+      },
     );
   }
 
@@ -3372,9 +3787,9 @@ class CloudWatch {
   ///
   /// May throw [ConcurrentModificationException].
   /// May throw [InternalServiceFault].
+  /// May throw [InvalidParameterCombinationException].
   /// May throw [InvalidParameterValueException].
   /// May throw [MissingRequiredParameterException].
-  /// May throw [InvalidParameterCombinationException].
   ///
   /// Parameter [firehoseArn] :
   /// The ARN of the Amazon Kinesis Data Firehose delivery stream to use for
@@ -3475,52 +3890,32 @@ class CloudWatch {
     List<MetricStreamStatisticsConfiguration>? statisticsConfigurations,
     List<Tag>? tags,
   }) async {
-    final $request = <String, String>{
-      'FirehoseArn': firehoseArn,
-      'Name': name,
-      'OutputFormat': outputFormat.value,
-      'RoleArn': roleArn,
-      if (excludeFilters != null)
-        if (excludeFilters.isEmpty)
-          'ExcludeFilters': ''
-        else
-          for (var i1 = 0; i1 < excludeFilters.length; i1++)
-            for (var e3 in excludeFilters[i1].toQueryMap().entries)
-              'ExcludeFilters.member.${i1 + 1}.${e3.key}': e3.value,
-      if (includeFilters != null)
-        if (includeFilters.isEmpty)
-          'IncludeFilters': ''
-        else
-          for (var i1 = 0; i1 < includeFilters.length; i1++)
-            for (var e3 in includeFilters[i1].toQueryMap().entries)
-              'IncludeFilters.member.${i1 + 1}.${e3.key}': e3.value,
-      if (includeLinkedAccountsMetrics != null)
-        'IncludeLinkedAccountsMetrics': includeLinkedAccountsMetrics.toString(),
-      if (statisticsConfigurations != null)
-        if (statisticsConfigurations.isEmpty)
-          'StatisticsConfigurations': ''
-        else
-          for (var i1 = 0; i1 < statisticsConfigurations.length; i1++)
-            for (var e3 in statisticsConfigurations[i1].toQueryMap().entries)
-              'StatisticsConfigurations.member.${i1 + 1}.${e3.key}': e3.value,
-      if (tags != null)
-        if (tags.isEmpty)
-          'Tags': ''
-        else
-          for (var i1 = 0; i1 < tags.length; i1++)
-            for (var e3 in tags[i1].toQueryMap().entries)
-              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.PutMetricStream'
     };
-    final $result = await _protocol.send(
-      $request,
-      action: 'PutMetricStream',
-      version: '2010-08-01',
+    final jsonResponse = await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'PutMetricStreamResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FirehoseArn': firehoseArn,
+        'Name': name,
+        'OutputFormat': outputFormat.value,
+        'RoleArn': roleArn,
+        if (excludeFilters != null) 'ExcludeFilters': excludeFilters,
+        if (includeFilters != null) 'IncludeFilters': includeFilters,
+        if (includeLinkedAccountsMetrics != null)
+          'IncludeLinkedAccountsMetrics': includeLinkedAccountsMetrics,
+        if (statisticsConfigurations != null)
+          'StatisticsConfigurations': statisticsConfigurations,
+        if (tags != null) 'Tags': tags,
+      },
     );
-    return PutMetricStreamOutput.fromXml($result);
+
+    return PutMetricStreamOutput.fromJson(jsonResponse.body);
   }
 
   /// Temporarily sets the state of an alarm for testing purposes. When the
@@ -3544,8 +3939,8 @@ class CloudWatch {
   /// policies, you must include information in the <code>StateReasonData</code>
   /// parameter to enable the policy to take the correct action.
   ///
-  /// May throw [ResourceNotFound].
   /// May throw [InvalidFormatFault].
+  /// May throw [ResourceNotFound].
   ///
   /// Parameter [alarmName] :
   /// The name of the alarm.
@@ -3568,19 +3963,22 @@ class CloudWatch {
     required StateValue stateValue,
     String? stateReasonData,
   }) async {
-    final $request = <String, String>{
-      'AlarmName': alarmName,
-      'StateReason': stateReason,
-      'StateValue': stateValue.value,
-      if (stateReasonData != null) 'StateReasonData': stateReasonData,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.SetAlarmState'
     };
     await _protocol.send(
-      $request,
-      action: 'SetAlarmState',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AlarmName': alarmName,
+        'StateReason': stateReason,
+        'StateValue': stateValue.value,
+        if (stateReasonData != null) 'StateReasonData': stateReasonData,
+      },
     );
   }
 
@@ -3599,21 +3997,45 @@ class CloudWatch {
   Future<void> startMetricStreams({
     required List<String> names,
   }) async {
-    final $request = <String, String>{
-      if (names.isEmpty)
-        'Names': ''
-      else
-        for (var i1 = 0; i1 < names.length; i1++)
-          'Names.member.${i1 + 1}': names[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.StartMetricStreams'
     };
     await _protocol.send(
-      $request,
-      action: 'StartMetricStreams',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'StartMetricStreamsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Names': names,
+      },
+    );
+  }
+
+  /// Enables enrichment and PromQL access for CloudWatch vended metrics for <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html">supported
+  /// Amazon Web Services resources</a> in the account. Once enabled, metrics
+  /// that contain a resource identifier dimension (for example, EC2
+  /// <code>CPUUtilization</code> with an <code>InstanceId</code> dimension) are
+  /// enriched with resource ARN and resource tag labels and become queryable
+  /// using PromQL.
+  ///
+  /// Before calling this operation, you must enable resource tags on telemetry
+  /// for your account. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/EnableResourceTagsOnTelemetry.html">Enable
+  /// resource tags on telemetry</a>.
+  Future<void> startOTelEnrichment() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.StartOTelEnrichment'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
     );
   }
 
@@ -3632,27 +4054,44 @@ class CloudWatch {
   Future<void> stopMetricStreams({
     required List<String> names,
   }) async {
-    final $request = <String, String>{
-      if (names.isEmpty)
-        'Names': ''
-      else
-        for (var i1 = 0; i1 < names.length; i1++)
-          'Names.member.${i1 + 1}': names[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.StopMetricStreams'
     };
     await _protocol.send(
-      $request,
-      action: 'StopMetricStreams',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'StopMetricStreamsResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Names': names,
+      },
+    );
+  }
+
+  /// Disables enrichment and PromQL access for CloudWatch vended metrics for <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/UsingResourceTagsForTelemetry.html">supported
+  /// Amazon Web Services resources</a> in the account. After disabling, these
+  /// metrics are no longer enriched with resource ARN and resource tag labels,
+  /// and cannot be queried using PromQL.
+  Future<void> stopOTelEnrichment() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.StopOTelEnrichment'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
     );
   }
 
   /// Assigns one or more tags (key-value pairs) to the specified CloudWatch
   /// resource. Currently, the only CloudWatch resources that can be tagged are
-  /// alarms and Contributor Insights rules.
+  /// alarms, dashboards, metric streams and Contributor Insights rules.
   ///
   /// Tags can help you organize and categorize your resources. You can also use
   /// them to scope user permissions by granting a user permission to access or
@@ -3669,10 +4108,11 @@ class CloudWatch {
   ///
   /// You can associate as many as 50 tags with a CloudWatch resource.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServiceFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InternalServiceFault].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the CloudWatch resource that you're adding tags to.
@@ -3683,6 +4123,14 @@ class CloudWatch {
   ///
   /// The ARN format of a Contributor Insights rule is
   /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule/<i>insight-rule-name</i>
+  /// </code>
+  ///
+  /// The ARN format of a dashboard is
+  /// <code>arn:aws:cloudwatch::<i>account-id</i>:dashboard/<i>dashboard-name</i>
+  /// </code>
+  ///
+  /// The ARN format of a metric stream is
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:metric-stream/<i>metric-stream-name</i>
   /// </code>
   ///
   /// For more information about ARN format, see <a
@@ -3696,32 +4144,31 @@ class CloudWatch {
     required String resourceARN,
     required List<Tag> tags,
   }) async {
-    final $request = <String, String>{
-      'ResourceARN': resourceARN,
-      if (tags.isEmpty)
-        'Tags': ''
-      else
-        for (var i1 = 0; i1 < tags.length; i1++)
-          for (var e3 in tags[i1].toQueryMap().entries)
-            'Tags.member.${i1 + 1}.${e3.key}': e3.value,
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.TagResource'
     };
     await _protocol.send(
-      $request,
-      action: 'TagResource',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'TagResourceResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'Tags': tags,
+      },
     );
   }
 
-  /// Removes one or more tags from the specified resource.
+  /// Removes one or more tags from the specified resource. Currently, alarms,
+  /// dashboards, metric streams and Contributor Insights rules support tagging.
   ///
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ConflictException].
+  /// May throw [InternalServiceFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ConcurrentModificationException].
-  /// May throw [InternalServiceFault].
   ///
   /// Parameter [resourceARN] :
   /// The ARN of the CloudWatch resource that you're removing tags from.
@@ -3732,6 +4179,14 @@ class CloudWatch {
   ///
   /// The ARN format of a Contributor Insights rule is
   /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule/<i>insight-rule-name</i>
+  /// </code>
+  ///
+  /// The ARN format of a dashboard is
+  /// <code>arn:aws:cloudwatch::<i>account-id</i>:dashboard/<i>dashboard-name</i>
+  /// </code>
+  ///
+  /// The ARN format of a metric stream is
+  /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:metric-stream/<i>metric-stream-name</i>
   /// </code>
   ///
   /// For more information about ARN format, see <a
@@ -3745,134 +4200,3577 @@ class CloudWatch {
     required String resourceARN,
     required List<String> tagKeys,
   }) async {
-    final $request = <String, String>{
-      'ResourceARN': resourceARN,
-      if (tagKeys.isEmpty)
-        'TagKeys': ''
-      else
-        for (var i1 = 0; i1 < tagKeys.length; i1++)
-          'TagKeys.member.${i1 + 1}': tagKeys[i1],
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.0',
+      'X-Amz-Target': 'GraniteServiceVersion20100801.UntagResource'
     };
     await _protocol.send(
-      $request,
-      action: 'UntagResource',
-      version: '2010-08-01',
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
-      resultWrapper: 'UntagResourceResult',
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'TagKeys': tagKeys,
+      },
     );
   }
 }
 
-class ActionsSuppressedBy {
-  static const waitPeriod = ActionsSuppressedBy._('WaitPeriod');
-  static const extensionPeriod = ActionsSuppressedBy._('ExtensionPeriod');
-  static const alarm = ActionsSuppressedBy._('Alarm');
+class DeleteAnomalyDetectorOutput {
+  DeleteAnomalyDetectorOutput();
 
-  final String value;
+  factory DeleteAnomalyDetectorOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteAnomalyDetectorOutput();
+  }
 
-  const ActionsSuppressedBy._(this.value);
-
-  static const values = [waitPeriod, extensionPeriod, alarm];
-
-  static ActionsSuppressedBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ActionsSuppressedBy._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ActionsSuppressedBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-/// Represents the history of a specific alarm.
-class AlarmHistoryItem {
-  /// The descriptive name for the alarm.
-  final String? alarmName;
+class DeleteDashboardsOutput {
+  DeleteDashboardsOutput();
 
-  /// The type of alarm, either metric alarm or composite alarm.
-  final AlarmType? alarmType;
+  factory DeleteDashboardsOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteDashboardsOutput();
+  }
 
-  /// Data about the alarm, in JSON format.
-  final String? historyData;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  /// The type of alarm history item.
-  final HistoryItemType? historyItemType;
+class DeleteInsightRulesOutput {
+  /// An array listing the rules that could not be deleted. You cannot delete
+  /// built-in rules.
+  final List<PartialFailure>? failures;
 
-  /// A summary of the alarm history, in text format.
-  final String? historySummary;
-
-  /// The time stamp for the alarm history item.
-  final DateTime? timestamp;
-
-  AlarmHistoryItem({
-    this.alarmName,
-    this.alarmType,
-    this.historyData,
-    this.historyItemType,
-    this.historySummary,
-    this.timestamp,
+  DeleteInsightRulesOutput({
+    this.failures,
   });
-  factory AlarmHistoryItem.fromXml(_s.XmlElement elem) {
-    return AlarmHistoryItem(
-      alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
-      alarmType: _s
-          .extractXmlStringValue(elem, 'AlarmType')
-          ?.let(AlarmType.fromString),
-      historyData: _s.extractXmlStringValue(elem, 'HistoryData'),
-      historyItemType: _s
-          .extractXmlStringValue(elem, 'HistoryItemType')
-          ?.let(HistoryItemType.fromString),
-      historySummary: _s.extractXmlStringValue(elem, 'HistorySummary'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
+
+  factory DeleteInsightRulesOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteInsightRulesOutput(
+      failures: (json['Failures'] as List?)
+          ?.nonNulls
+          .map((e) => PartialFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final alarmName = this.alarmName;
-    final alarmType = this.alarmType;
-    final historyData = this.historyData;
-    final historyItemType = this.historyItemType;
-    final historySummary = this.historySummary;
-    final timestamp = this.timestamp;
+    final failures = this.failures;
     return {
-      if (alarmName != null) 'AlarmName': alarmName,
-      if (alarmType != null) 'AlarmType': alarmType.value,
-      if (historyData != null) 'HistoryData': historyData,
-      if (historyItemType != null) 'HistoryItemType': historyItemType.value,
-      if (historySummary != null) 'HistorySummary': historySummary,
-      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
+      if (failures != null) 'Failures': failures,
     };
   }
 }
 
-class AlarmType {
-  static const compositeAlarm = AlarmType._('CompositeAlarm');
-  static const metricAlarm = AlarmType._('MetricAlarm');
+class DeleteMetricStreamOutput {
+  DeleteMetricStreamOutput();
+
+  factory DeleteMetricStreamOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteMetricStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DescribeAlarmContributorsOutput {
+  /// A list of alarm contributors that provide details about the individual time
+  /// series contributing to the alarm's state.
+  final List<AlarmContributor> alarmContributors;
+
+  /// The token that marks the start of the next batch of returned results.
+  final String? nextToken;
+
+  DescribeAlarmContributorsOutput({
+    required this.alarmContributors,
+    this.nextToken,
+  });
+
+  factory DescribeAlarmContributorsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAlarmContributorsOutput(
+      alarmContributors: ((json['AlarmContributors'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => AlarmContributor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmContributors = this.alarmContributors;
+    final nextToken = this.nextToken;
+    return {
+      'AlarmContributors': alarmContributors,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeAlarmHistoryOutput {
+  /// The alarm histories, in JSON format.
+  final List<AlarmHistoryItem>? alarmHistoryItems;
+
+  /// The token that marks the start of the next batch of returned results.
+  final String? nextToken;
+
+  DescribeAlarmHistoryOutput({
+    this.alarmHistoryItems,
+    this.nextToken,
+  });
+
+  factory DescribeAlarmHistoryOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAlarmHistoryOutput(
+      alarmHistoryItems: (json['AlarmHistoryItems'] as List?)
+          ?.nonNulls
+          .map((e) => AlarmHistoryItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmHistoryItems = this.alarmHistoryItems;
+    final nextToken = this.nextToken;
+    return {
+      if (alarmHistoryItems != null) 'AlarmHistoryItems': alarmHistoryItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeAlarmsOutput {
+  /// The information about any composite alarms returned by the operation.
+  final List<CompositeAlarm>? compositeAlarms;
+
+  /// The information about any metric alarms returned by the operation.
+  final List<MetricAlarm>? metricAlarms;
+
+  /// The token that marks the start of the next batch of returned results.
+  final String? nextToken;
+
+  DescribeAlarmsOutput({
+    this.compositeAlarms,
+    this.metricAlarms,
+    this.nextToken,
+  });
+
+  factory DescribeAlarmsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAlarmsOutput(
+      compositeAlarms: (json['CompositeAlarms'] as List?)
+          ?.nonNulls
+          .map((e) => CompositeAlarm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metricAlarms: (json['MetricAlarms'] as List?)
+          ?.nonNulls
+          .map((e) => MetricAlarm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compositeAlarms = this.compositeAlarms;
+    final metricAlarms = this.metricAlarms;
+    final nextToken = this.nextToken;
+    return {
+      if (compositeAlarms != null) 'CompositeAlarms': compositeAlarms,
+      if (metricAlarms != null) 'MetricAlarms': metricAlarms,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeAlarmsForMetricOutput {
+  /// The information for each alarm with the specified metric.
+  final List<MetricAlarm>? metricAlarms;
+
+  DescribeAlarmsForMetricOutput({
+    this.metricAlarms,
+  });
+
+  factory DescribeAlarmsForMetricOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAlarmsForMetricOutput(
+      metricAlarms: (json['MetricAlarms'] as List?)
+          ?.nonNulls
+          .map((e) => MetricAlarm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricAlarms = this.metricAlarms;
+    return {
+      if (metricAlarms != null) 'MetricAlarms': metricAlarms,
+    };
+  }
+}
+
+class DescribeAnomalyDetectorsOutput {
+  /// The list of anomaly detection models returned by the operation.
+  final List<AnomalyDetector>? anomalyDetectors;
+
+  /// A token that you can use in a subsequent operation to retrieve the next set
+  /// of results.
+  final String? nextToken;
+
+  DescribeAnomalyDetectorsOutput({
+    this.anomalyDetectors,
+    this.nextToken,
+  });
+
+  factory DescribeAnomalyDetectorsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAnomalyDetectorsOutput(
+      anomalyDetectors: (json['AnomalyDetectors'] as List?)
+          ?.nonNulls
+          .map((e) => AnomalyDetector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyDetectors = this.anomalyDetectors;
+    final nextToken = this.nextToken;
+    return {
+      if (anomalyDetectors != null) 'AnomalyDetectors': anomalyDetectors,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DescribeInsightRulesOutput {
+  /// The rules returned by the operation.
+  final List<InsightRule>? insightRules;
+
+  /// If this parameter is present, it is a token that marks the start of the next
+  /// batch of returned results.
+  final String? nextToken;
+
+  DescribeInsightRulesOutput({
+    this.insightRules,
+    this.nextToken,
+  });
+
+  factory DescribeInsightRulesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeInsightRulesOutput(
+      insightRules: (json['InsightRules'] as List?)
+          ?.nonNulls
+          .map((e) => InsightRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final insightRules = this.insightRules;
+    final nextToken = this.nextToken;
+    return {
+      if (insightRules != null) 'InsightRules': insightRules,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class DisableInsightRulesOutput {
+  /// An array listing the rules that could not be disabled. You cannot disable
+  /// built-in rules.
+  final List<PartialFailure>? failures;
+
+  DisableInsightRulesOutput({
+    this.failures,
+  });
+
+  factory DisableInsightRulesOutput.fromJson(Map<String, dynamic> json) {
+    return DisableInsightRulesOutput(
+      failures: (json['Failures'] as List?)
+          ?.nonNulls
+          .map((e) => PartialFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failures = this.failures;
+    return {
+      if (failures != null) 'Failures': failures,
+    };
+  }
+}
+
+class EnableInsightRulesOutput {
+  /// An array listing the rules that could not be enabled. You cannot disable or
+  /// enable built-in rules.
+  final List<PartialFailure>? failures;
+
+  EnableInsightRulesOutput({
+    this.failures,
+  });
+
+  factory EnableInsightRulesOutput.fromJson(Map<String, dynamic> json) {
+    return EnableInsightRulesOutput(
+      failures: (json['Failures'] as List?)
+          ?.nonNulls
+          .map((e) => PartialFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failures = this.failures;
+    return {
+      if (failures != null) 'Failures': failures,
+    };
+  }
+}
+
+class GetAlarmMuteRuleOutput {
+  /// The Amazon Resource Name (ARN) of the alarm mute rule.
+  final String? alarmMuteRuleArn;
+
+  /// The description of the alarm mute rule.
+  final String? description;
+
+  /// The date and time when the mute rule expires and is no longer evaluated.
+  final DateTime? expireDate;
+
+  /// The date and time when the mute rule was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// Specifies which alarms this rule applies to.
+  final MuteTargets? muteTargets;
+
+  /// Indicates whether the mute rule is one-time or recurring. Valid values are
+  /// <code>ONE_TIME</code> or <code>RECURRING</code>.
+  final String? muteType;
+
+  /// The name of the alarm mute rule.
+  final String? name;
+
+  /// The configuration that defines when and how long alarms are muted.
+  final Rule? rule;
+
+  /// The date and time when the mute rule becomes active. If not set, the rule is
+  /// active immediately.
+  final DateTime? startDate;
+
+  /// The current status of the alarm mute rule. Valid values are
+  /// <code>SCHEDULED</code>, <code>ACTIVE</code>, or <code>EXPIRED</code>.
+  final AlarmMuteRuleStatus? status;
+
+  GetAlarmMuteRuleOutput({
+    this.alarmMuteRuleArn,
+    this.description,
+    this.expireDate,
+    this.lastUpdatedTimestamp,
+    this.muteTargets,
+    this.muteType,
+    this.name,
+    this.rule,
+    this.startDate,
+    this.status,
+  });
+
+  factory GetAlarmMuteRuleOutput.fromJson(Map<String, dynamic> json) {
+    return GetAlarmMuteRuleOutput(
+      alarmMuteRuleArn: json['AlarmMuteRuleArn'] as String?,
+      description: json['Description'] as String?,
+      expireDate: timeStampFromJson(json['ExpireDate']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      muteTargets: json['MuteTargets'] != null
+          ? MuteTargets.fromJson(json['MuteTargets'] as Map<String, dynamic>)
+          : null,
+      muteType: json['MuteType'] as String?,
+      name: json['Name'] as String?,
+      rule: json['Rule'] != null
+          ? Rule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+      startDate: timeStampFromJson(json['StartDate']),
+      status: (json['Status'] as String?)?.let(AlarmMuteRuleStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmMuteRuleArn = this.alarmMuteRuleArn;
+    final description = this.description;
+    final expireDate = this.expireDate;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final muteTargets = this.muteTargets;
+    final muteType = this.muteType;
+    final name = this.name;
+    final rule = this.rule;
+    final startDate = this.startDate;
+    final status = this.status;
+    return {
+      if (alarmMuteRuleArn != null) 'AlarmMuteRuleArn': alarmMuteRuleArn,
+      if (description != null) 'Description': description,
+      if (expireDate != null) 'ExpireDate': unixTimestampToJson(expireDate),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (muteTargets != null) 'MuteTargets': muteTargets,
+      if (muteType != null) 'MuteType': muteType,
+      if (name != null) 'Name': name,
+      if (rule != null) 'Rule': rule,
+      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class GetDashboardOutput {
+  /// The Amazon Resource Name (ARN) of the dashboard.
+  final String? dashboardArn;
+
+  /// The detailed information about the dashboard, including what widgets are
+  /// included and their location on the dashboard. For more information about the
+  /// <code>DashboardBody</code> syntax, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html">Dashboard
+  /// Body Structure and Syntax</a>.
+  final String? dashboardBody;
+
+  /// The name of the dashboard.
+  final String? dashboardName;
+
+  GetDashboardOutput({
+    this.dashboardArn,
+    this.dashboardBody,
+    this.dashboardName,
+  });
+
+  factory GetDashboardOutput.fromJson(Map<String, dynamic> json) {
+    return GetDashboardOutput(
+      dashboardArn: json['DashboardArn'] as String?,
+      dashboardBody: json['DashboardBody'] as String?,
+      dashboardName: json['DashboardName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardArn = this.dashboardArn;
+    final dashboardBody = this.dashboardBody;
+    final dashboardName = this.dashboardName;
+    return {
+      if (dashboardArn != null) 'DashboardArn': dashboardArn,
+      if (dashboardBody != null) 'DashboardBody': dashboardBody,
+      if (dashboardName != null) 'DashboardName': dashboardName,
+    };
+  }
+}
+
+class GetInsightRuleReportOutput {
+  /// The sum of the values from all individual contributors that match the rule.
+  final double? aggregateValue;
+
+  /// Specifies whether this rule aggregates contributor data by COUNT or SUM.
+  final String? aggregationStatistic;
+
+  /// An approximate count of the unique contributors found by this rule in this
+  /// time period.
+  final int? approximateUniqueCount;
+
+  /// An array of the unique contributors found by this rule in this time period.
+  /// If the rule contains multiple keys, each combination of values for the keys
+  /// counts as a unique contributor.
+  final List<InsightRuleContributor>? contributors;
+
+  /// An array of the strings used as the keys for this rule. The keys are the
+  /// dimensions used to classify contributors. If the rule contains more than one
+  /// key, then each unique combination of values for the keys is counted as a
+  /// unique contributor.
+  final List<String>? keyLabels;
+
+  /// A time series of metric data points that matches the time period in the rule
+  /// request.
+  final List<InsightRuleMetricDatapoint>? metricDatapoints;
+
+  GetInsightRuleReportOutput({
+    this.aggregateValue,
+    this.aggregationStatistic,
+    this.approximateUniqueCount,
+    this.contributors,
+    this.keyLabels,
+    this.metricDatapoints,
+  });
+
+  factory GetInsightRuleReportOutput.fromJson(Map<String, dynamic> json) {
+    return GetInsightRuleReportOutput(
+      aggregateValue: json['AggregateValue'] as double?,
+      aggregationStatistic: json['AggregationStatistic'] as String?,
+      approximateUniqueCount: json['ApproximateUniqueCount'] as int?,
+      contributors: (json['Contributors'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => InsightRuleContributor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      keyLabels: (json['KeyLabels'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      metricDatapoints: (json['MetricDatapoints'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              InsightRuleMetricDatapoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregateValue = this.aggregateValue;
+    final aggregationStatistic = this.aggregationStatistic;
+    final approximateUniqueCount = this.approximateUniqueCount;
+    final contributors = this.contributors;
+    final keyLabels = this.keyLabels;
+    final metricDatapoints = this.metricDatapoints;
+    return {
+      if (aggregateValue != null) 'AggregateValue': aggregateValue,
+      if (aggregationStatistic != null)
+        'AggregationStatistic': aggregationStatistic,
+      if (approximateUniqueCount != null)
+        'ApproximateUniqueCount': approximateUniqueCount,
+      if (contributors != null) 'Contributors': contributors,
+      if (keyLabels != null) 'KeyLabels': keyLabels,
+      if (metricDatapoints != null) 'MetricDatapoints': metricDatapoints,
+    };
+  }
+}
+
+class GetMetricDataOutput {
+  /// Contains a message about this <code>GetMetricData</code> operation, if the
+  /// operation results in such a message. An example of a message that might be
+  /// returned is <code>Maximum number of allowed metrics exceeded</code>. If
+  /// there is a message, as much of the operation as possible is still executed.
+  ///
+  /// A message appears here only if it is related to the global
+  /// <code>GetMetricData</code> operation. Any message about a specific metric
+  /// returned by the operation appears in the <code>MetricDataResult</code>
+  /// object returned for that metric.
+  final List<MessageData>? messages;
+
+  /// The metrics that are returned, including the metric name, namespace, and
+  /// dimensions.
+  final List<MetricDataResult>? metricDataResults;
+
+  /// A token that marks the next batch of returned results.
+  final String? nextToken;
+
+  GetMetricDataOutput({
+    this.messages,
+    this.metricDataResults,
+    this.nextToken,
+  });
+
+  factory GetMetricDataOutput.fromJson(Map<String, dynamic> json) {
+    return GetMetricDataOutput(
+      messages: (json['Messages'] as List?)
+          ?.nonNulls
+          .map((e) => MessageData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metricDataResults: (json['MetricDataResults'] as List?)
+          ?.nonNulls
+          .map((e) => MetricDataResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messages = this.messages;
+    final metricDataResults = this.metricDataResults;
+    final nextToken = this.nextToken;
+    return {
+      if (messages != null) 'Messages': messages,
+      if (metricDataResults != null) 'MetricDataResults': metricDataResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class GetMetricStatisticsOutput {
+  /// The data points for the specified metric.
+  final List<Datapoint>? datapoints;
+
+  /// A label for the specified metric.
+  final String? label;
+
+  GetMetricStatisticsOutput({
+    this.datapoints,
+    this.label,
+  });
+
+  factory GetMetricStatisticsOutput.fromJson(Map<String, dynamic> json) {
+    return GetMetricStatisticsOutput(
+      datapoints: (json['Datapoints'] as List?)
+          ?.nonNulls
+          .map((e) => Datapoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      label: json['Label'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datapoints = this.datapoints;
+    final label = this.label;
+    return {
+      if (datapoints != null) 'Datapoints': datapoints,
+      if (label != null) 'Label': label,
+    };
+  }
+}
+
+class GetMetricStreamOutput {
+  /// The ARN of the metric stream.
+  final String? arn;
+
+  /// The date that the metric stream was created.
+  final DateTime? creationDate;
+
+  /// If this array of metric namespaces is present, then these namespaces are the
+  /// only metric namespaces that are not streamed by this metric stream. In this
+  /// case, all other metric namespaces in the account are streamed by this metric
+  /// stream.
+  final List<MetricStreamFilter>? excludeFilters;
+
+  /// The ARN of the Amazon Kinesis Data Firehose delivery stream that is used by
+  /// this metric stream.
+  final String? firehoseArn;
+
+  /// If this array of metric namespaces is present, then these namespaces are the
+  /// only metric namespaces that are streamed by this metric stream.
+  final List<MetricStreamFilter>? includeFilters;
+
+  /// If this is <code>true</code> and this metric stream is in a monitoring
+  /// account, then the stream includes metrics from source accounts that the
+  /// monitoring account is linked to.
+  final bool? includeLinkedAccountsMetrics;
+
+  /// The date of the most recent update to the metric stream's configuration.
+  final DateTime? lastUpdateDate;
+
+  /// The name of the metric stream.
+  final String? name;
+
+  /// The output format for the stream. Valid values are <code>json</code>,
+  /// <code>opentelemetry1.0</code>, and <code>opentelemetry0.7</code>. For more
+  /// information about metric stream output formats, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html">Metric
+  /// streams output formats</a>.
+  final MetricStreamOutputFormat? outputFormat;
+
+  /// The ARN of the IAM role that is used by this metric stream.
+  final String? roleArn;
+
+  /// The state of the metric stream. The possible values are <code>running</code>
+  /// and <code>stopped</code>.
+  final String? state;
+
+  /// Each entry in this array displays information about one or more metrics that
+  /// include additional statistics in the metric stream. For more information
+  /// about the additional statistics, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
+  /// CloudWatch statistics definitions</a>.
+  final List<MetricStreamStatisticsConfiguration>? statisticsConfigurations;
+
+  GetMetricStreamOutput({
+    this.arn,
+    this.creationDate,
+    this.excludeFilters,
+    this.firehoseArn,
+    this.includeFilters,
+    this.includeLinkedAccountsMetrics,
+    this.lastUpdateDate,
+    this.name,
+    this.outputFormat,
+    this.roleArn,
+    this.state,
+    this.statisticsConfigurations,
+  });
+
+  factory GetMetricStreamOutput.fromJson(Map<String, dynamic> json) {
+    return GetMetricStreamOutput(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      excludeFilters: (json['ExcludeFilters'] as List?)
+          ?.nonNulls
+          .map((e) => MetricStreamFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      firehoseArn: json['FirehoseArn'] as String?,
+      includeFilters: (json['IncludeFilters'] as List?)
+          ?.nonNulls
+          .map((e) => MetricStreamFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      includeLinkedAccountsMetrics:
+          json['IncludeLinkedAccountsMetrics'] as bool?,
+      lastUpdateDate: timeStampFromJson(json['LastUpdateDate']),
+      name: json['Name'] as String?,
+      outputFormat: (json['OutputFormat'] as String?)
+          ?.let(MetricStreamOutputFormat.fromString),
+      roleArn: json['RoleArn'] as String?,
+      state: json['State'] as String?,
+      statisticsConfigurations: (json['StatisticsConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => MetricStreamStatisticsConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final excludeFilters = this.excludeFilters;
+    final firehoseArn = this.firehoseArn;
+    final includeFilters = this.includeFilters;
+    final includeLinkedAccountsMetrics = this.includeLinkedAccountsMetrics;
+    final lastUpdateDate = this.lastUpdateDate;
+    final name = this.name;
+    final outputFormat = this.outputFormat;
+    final roleArn = this.roleArn;
+    final state = this.state;
+    final statisticsConfigurations = this.statisticsConfigurations;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (excludeFilters != null) 'ExcludeFilters': excludeFilters,
+      if (firehoseArn != null) 'FirehoseArn': firehoseArn,
+      if (includeFilters != null) 'IncludeFilters': includeFilters,
+      if (includeLinkedAccountsMetrics != null)
+        'IncludeLinkedAccountsMetrics': includeLinkedAccountsMetrics,
+      if (lastUpdateDate != null)
+        'LastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      if (name != null) 'Name': name,
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
+      if (roleArn != null) 'RoleArn': roleArn,
+      if (state != null) 'State': state,
+      if (statisticsConfigurations != null)
+        'StatisticsConfigurations': statisticsConfigurations,
+    };
+  }
+}
+
+class GetMetricWidgetImageOutput {
+  /// The image of the graph, in the output format specified. The output is
+  /// base64-encoded.
+  final Uint8List? metricWidgetImage;
+
+  GetMetricWidgetImageOutput({
+    this.metricWidgetImage,
+  });
+
+  factory GetMetricWidgetImageOutput.fromJson(Map<String, dynamic> json) {
+    return GetMetricWidgetImageOutput(
+      metricWidgetImage:
+          _s.decodeNullableUint8List(json['MetricWidgetImage'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricWidgetImage = this.metricWidgetImage;
+    return {
+      if (metricWidgetImage != null)
+        'MetricWidgetImage': base64Encode(metricWidgetImage),
+    };
+  }
+}
+
+class GetOTelEnrichmentOutput {
+  /// The status of OTel enrichment for the account. Valid values are
+  /// <code>Running</code> (enrichment is enabled) and <code>Stopped</code>
+  /// (enrichment is disabled).
+  final OTelEnrichmentStatus status;
+
+  GetOTelEnrichmentOutput({
+    required this.status,
+  });
+
+  factory GetOTelEnrichmentOutput.fromJson(Map<String, dynamic> json) {
+    return GetOTelEnrichmentOutput(
+      status:
+          OTelEnrichmentStatus.fromString((json['Status'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.value,
+    };
+  }
+}
+
+class ListAlarmMuteRulesOutput {
+  /// A list of alarm mute rule summaries.
+  final List<AlarmMuteRuleSummary>? alarmMuteRuleSummaries;
+
+  /// The token to use when requesting the next set of results. If this field is
+  /// absent, there are no more results to retrieve.
+  final String? nextToken;
+
+  ListAlarmMuteRulesOutput({
+    this.alarmMuteRuleSummaries,
+    this.nextToken,
+  });
+
+  factory ListAlarmMuteRulesOutput.fromJson(Map<String, dynamic> json) {
+    return ListAlarmMuteRulesOutput(
+      alarmMuteRuleSummaries: (json['AlarmMuteRuleSummaries'] as List?)
+          ?.nonNulls
+          .map((e) => AlarmMuteRuleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmMuteRuleSummaries = this.alarmMuteRuleSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (alarmMuteRuleSummaries != null)
+        'AlarmMuteRuleSummaries': alarmMuteRuleSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListDashboardsOutput {
+  /// The list of matching dashboards.
+  final List<DashboardEntry>? dashboardEntries;
+
+  /// The token that marks the start of the next batch of returned results.
+  final String? nextToken;
+
+  ListDashboardsOutput({
+    this.dashboardEntries,
+    this.nextToken,
+  });
+
+  factory ListDashboardsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDashboardsOutput(
+      dashboardEntries: (json['DashboardEntries'] as List?)
+          ?.nonNulls
+          .map((e) => DashboardEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardEntries = this.dashboardEntries;
+    final nextToken = this.nextToken;
+    return {
+      if (dashboardEntries != null) 'DashboardEntries': dashboardEntries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListManagedInsightRulesOutput {
+  /// The managed rules that are available for the specified Amazon Web Services
+  /// resource.
+  final List<ManagedRuleDescription>? managedRules;
+
+  /// Include this value to get the next set of rules if the value was returned by
+  /// the previous operation.
+  final String? nextToken;
+
+  ListManagedInsightRulesOutput({
+    this.managedRules,
+    this.nextToken,
+  });
+
+  factory ListManagedInsightRulesOutput.fromJson(Map<String, dynamic> json) {
+    return ListManagedInsightRulesOutput(
+      managedRules: (json['ManagedRules'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ManagedRuleDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managedRules = this.managedRules;
+    final nextToken = this.nextToken;
+    return {
+      if (managedRules != null) 'ManagedRules': managedRules,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListMetricsOutput {
+  /// The metrics that match your request.
+  final List<Metric>? metrics;
+
+  /// The token that marks the start of the next batch of returned results.
+  final String? nextToken;
+
+  /// If you are using this operation in a monitoring account, this array contains
+  /// the account IDs of the source accounts where the metrics in the returned
+  /// data are from.
+  ///
+  /// This field is a 1:1 mapping between each metric that is returned and the ID
+  /// of the owning account.
+  final List<String>? owningAccounts;
+
+  ListMetricsOutput({
+    this.metrics,
+    this.nextToken,
+    this.owningAccounts,
+  });
+
+  factory ListMetricsOutput.fromJson(Map<String, dynamic> json) {
+    return ListMetricsOutput(
+      metrics: (json['Metrics'] as List?)
+          ?.nonNulls
+          .map((e) => Metric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      owningAccounts: (json['OwningAccounts'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metrics = this.metrics;
+    final nextToken = this.nextToken;
+    final owningAccounts = this.owningAccounts;
+    return {
+      if (metrics != null) 'Metrics': metrics,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (owningAccounts != null) 'OwningAccounts': owningAccounts,
+    };
+  }
+}
+
+class ListMetricStreamsOutput {
+  /// The array of metric stream information.
+  final List<MetricStreamEntry>? entries;
+
+  /// The token that marks the start of the next batch of returned results. You
+  /// can use this token in a subsequent operation to get the next batch of
+  /// results.
+  final String? nextToken;
+
+  ListMetricStreamsOutput({
+    this.entries,
+    this.nextToken,
+  });
+
+  factory ListMetricStreamsOutput.fromJson(Map<String, dynamic> json) {
+    return ListMetricStreamsOutput(
+      entries: (json['Entries'] as List?)
+          ?.nonNulls
+          .map((e) => MetricStreamEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entries = this.entries;
+    final nextToken = this.nextToken;
+    return {
+      if (entries != null) 'Entries': entries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceOutput {
+  /// The list of tag keys and values associated with the resource you specified.
+  final List<Tag>? tags;
+
+  ListTagsForResourceOutput({
+    this.tags,
+  });
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+class PutAnomalyDetectorOutput {
+  PutAnomalyDetectorOutput();
+
+  factory PutAnomalyDetectorOutput.fromJson(Map<String, dynamic> _) {
+    return PutAnomalyDetectorOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class PutDashboardOutput {
+  /// If the input for <code>PutDashboard</code> was correct and the dashboard was
+  /// successfully created or modified, this result is empty.
+  ///
+  /// If this result includes only warning messages, then the input was valid
+  /// enough for the dashboard to be created or modified, but some elements of the
+  /// dashboard might not render.
+  ///
+  /// If this result includes error messages, the input was not valid and the
+  /// operation failed.
+  final List<DashboardValidationMessage>? dashboardValidationMessages;
+
+  PutDashboardOutput({
+    this.dashboardValidationMessages,
+  });
+
+  factory PutDashboardOutput.fromJson(Map<String, dynamic> json) {
+    return PutDashboardOutput(
+      dashboardValidationMessages: (json['DashboardValidationMessages']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              DashboardValidationMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardValidationMessages = this.dashboardValidationMessages;
+    return {
+      if (dashboardValidationMessages != null)
+        'DashboardValidationMessages': dashboardValidationMessages,
+    };
+  }
+}
+
+class PutInsightRuleOutput {
+  PutInsightRuleOutput();
+
+  factory PutInsightRuleOutput.fromJson(Map<String, dynamic> _) {
+    return PutInsightRuleOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class PutManagedInsightRulesOutput {
+  /// An array that lists the rules that could not be enabled.
+  final List<PartialFailure>? failures;
+
+  PutManagedInsightRulesOutput({
+    this.failures,
+  });
+
+  factory PutManagedInsightRulesOutput.fromJson(Map<String, dynamic> json) {
+    return PutManagedInsightRulesOutput(
+      failures: (json['Failures'] as List?)
+          ?.nonNulls
+          .map((e) => PartialFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failures = this.failures;
+    return {
+      if (failures != null) 'Failures': failures,
+    };
+  }
+}
+
+class PutMetricStreamOutput {
+  /// The ARN of the metric stream.
+  final String? arn;
+
+  PutMetricStreamOutput({
+    this.arn,
+  });
+
+  factory PutMetricStreamOutput.fromJson(Map<String, dynamic> json) {
+    return PutMetricStreamOutput(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+class StartMetricStreamsOutput {
+  StartMetricStreamsOutput();
+
+  factory StartMetricStreamsOutput.fromJson(Map<String, dynamic> _) {
+    return StartMetricStreamsOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StartOTelEnrichmentOutput {
+  StartOTelEnrichmentOutput();
+
+  factory StartOTelEnrichmentOutput.fromJson(Map<String, dynamic> _) {
+    return StartOTelEnrichmentOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StopMetricStreamsOutput {
+  StopMetricStreamsOutput();
+
+  factory StopMetricStreamsOutput.fromJson(Map<String, dynamic> _) {
+    return StopMetricStreamsOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class StopOTelEnrichmentOutput {
+  StopOTelEnrichmentOutput();
+
+  factory StopOTelEnrichmentOutput.fromJson(Map<String, dynamic> _) {
+    return StopOTelEnrichmentOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class TagResourceOutput {
+  TagResourceOutput();
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceOutput {
+  UntagResourceOutput();
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A key-value pair associated with a CloudWatch resource.
+class Tag {
+  /// A string that you can use to assign a value. The combination of tag keys and
+  /// values can help you organize and categorize your resources.
+  final String key;
+
+  /// The value for the specified tag key.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class StateValue {
+  static const ok = StateValue._('OK');
+  static const alarm = StateValue._('ALARM');
+  static const insufficientData = StateValue._('INSUFFICIENT_DATA');
 
   final String value;
 
-  const AlarmType._(this.value);
+  const StateValue._(this.value);
 
-  static const values = [compositeAlarm, metricAlarm];
+  static const values = [ok, alarm, insufficientData];
 
-  static AlarmType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AlarmType._(value));
+  static StateValue fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StateValue._(value));
 
   @override
-  bool operator ==(other) => other is AlarmType && other.value == value;
+  bool operator ==(other) => other is StateValue && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+class MetricStreamOutputFormat {
+  static const json = MetricStreamOutputFormat._('json');
+  static const opentelemetry0_7 =
+      MetricStreamOutputFormat._('opentelemetry0.7');
+  static const opentelemetry1_0 =
+      MetricStreamOutputFormat._('opentelemetry1.0');
+
+  final String value;
+
+  const MetricStreamOutputFormat._(this.value);
+
+  static const values = [json, opentelemetry0_7, opentelemetry1_0];
+
+  static MetricStreamOutputFormat fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MetricStreamOutputFormat._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MetricStreamOutputFormat && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// By default, a metric stream always sends the <code>MAX</code>,
+/// <code>MIN</code>, <code>SUM</code>, and <code>SAMPLECOUNT</code> statistics
+/// for each metric that is streamed. This structure contains information for
+/// one metric that includes additional statistics in the stream. For more
+/// information about statistics, see CloudWatch, listed in <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
+/// CloudWatch statistics definitions</a>.
+class MetricStreamStatisticsConfiguration {
+  /// The list of additional statistics that are to be streamed for the metrics
+  /// listed in the <code>IncludeMetrics</code> array in this structure. This list
+  /// can include as many as 20 statistics.
+  ///
+  /// If the <code>OutputFormat</code> for the stream is
+  /// <code>opentelemetry1.0</code> or <code>opentelemetry0.7</code>, the only
+  /// valid values are <code>p<i>??</i> </code> percentile statistics such as
+  /// <code>p90</code>, <code>p99</code> and so on.
+  ///
+  /// If the <code>OutputFormat</code> for the stream is <code>json</code>, the
+  /// valid values include the abbreviations for all of the statistics listed in
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
+  /// CloudWatch statistics definitions</a>. For example, this includes
+  /// <code>tm98, </code> <code>wm90</code>, <code>PR(:300)</code>, and so on.
+  final List<String> additionalStatistics;
+
+  /// An array of metric name and namespace pairs that stream the additional
+  /// statistics listed in the value of the <code>AdditionalStatistics</code>
+  /// parameter. There can be as many as 100 pairs in the array.
+  ///
+  /// All metrics that match the combination of metric name and namespace will be
+  /// streamed with the additional statistics, no matter their dimensions.
+  final List<MetricStreamStatisticsMetric> includeMetrics;
+
+  MetricStreamStatisticsConfiguration({
+    required this.additionalStatistics,
+    required this.includeMetrics,
+  });
+
+  factory MetricStreamStatisticsConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return MetricStreamStatisticsConfiguration(
+      additionalStatistics:
+          ((json['AdditionalStatistics'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+      includeMetrics: ((json['IncludeMetrics'] as List?) ?? const [])
+          .nonNulls
+          .map((e) =>
+              MetricStreamStatisticsMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalStatistics = this.additionalStatistics;
+    final includeMetrics = this.includeMetrics;
+    return {
+      'AdditionalStatistics': additionalStatistics,
+      'IncludeMetrics': includeMetrics,
+    };
+  }
+}
+
+/// This object contains the information for one metric that is to be streamed
+/// with additional statistics.
+class MetricStreamStatisticsMetric {
+  /// The name of the metric.
+  final String metricName;
+
+  /// The namespace of the metric.
+  final String namespace;
+
+  MetricStreamStatisticsMetric({
+    required this.metricName,
+    required this.namespace,
+  });
+
+  factory MetricStreamStatisticsMetric.fromJson(Map<String, dynamic> json) {
+    return MetricStreamStatisticsMetric(
+      metricName: (json['MetricName'] as String?) ?? '',
+      namespace: (json['Namespace'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    return {
+      'MetricName': metricName,
+      'Namespace': namespace,
+    };
+  }
+}
+
+/// This structure contains a metric namespace and optionally, a list of metric
+/// names, to either include in a metric stream or exclude from a metric stream.
+///
+/// A metric stream's filters can include up to 1000 total names. This limit
+/// applies to the sum of namespace names and metric names in the filters. For
+/// example, this could include 10 metric namespace filters with 99 metrics
+/// each, or 20 namespace filters with 49 metrics specified in each filter.
+class MetricStreamFilter {
+  /// The names of the metrics to either include or exclude from the metric
+  /// stream.
+  ///
+  /// If you omit this parameter, all metrics in the namespace are included or
+  /// excluded, depending on whether this filter is specified as an exclude filter
+  /// or an include filter.
+  ///
+  /// Each metric name can contain only ASCII printable characters (ASCII range 32
+  /// through 126). Each metric name must contain at least one non-whitespace
+  /// character.
+  final List<String>? metricNames;
+
+  /// The name of the metric namespace for this filter.
+  ///
+  /// The namespace can contain only ASCII printable characters (ASCII range 32
+  /// through 126). It must contain at least one non-whitespace character.
+  final String? namespace;
+
+  MetricStreamFilter({
+    this.metricNames,
+    this.namespace,
+  });
+
+  factory MetricStreamFilter.fromJson(Map<String, dynamic> json) {
+    return MetricStreamFilter(
+      metricNames: (json['MetricNames'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      namespace: json['Namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricNames = this.metricNames;
+    final namespace = this.namespace;
+    return {
+      if (metricNames != null) 'MetricNames': metricNames,
+      if (namespace != null) 'Namespace': namespace,
+    };
+  }
+}
+
+/// A set of metrics that are associated with an entity, such as a specific
+/// service or resource. Contains the entity and the list of metric data
+/// associated with it.
+class EntityMetricData {
+  /// The entity associated with the metrics.
+  final Entity? entity;
+
+  /// The metric data.
+  final List<MetricDatum>? metricData;
+
+  EntityMetricData({
+    this.entity,
+    this.metricData,
+  });
+
+  Map<String, dynamic> toJson() {
+    final entity = this.entity;
+    final metricData = this.metricData;
+    return {
+      if (entity != null) 'Entity': entity,
+      if (metricData != null) 'MetricData': metricData,
+    };
+  }
+}
+
+/// An entity associated with metrics, to allow for finding related telemetry.
+/// An entity is typically a resource or service within your system. For
+/// example, metrics from an Amazon EC2 instance could be associated with that
+/// instance as the entity. Similarly, metrics from a service that you own could
+/// be associated with that service as the entity.
+class Entity {
+  /// Additional attributes of the entity that are not used to specify the
+  /// identity of the entity. A list of key-value pairs.
+  ///
+  /// For details about how to use the attributes, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html">How
+  /// to add related information to telemetry</a> in the <i>CloudWatch User
+  /// Guide</i>.
+  final Map<String, String>? attributes;
+
+  /// The attributes of the entity which identify the specific entity, as a list
+  /// of key-value pairs. Entities with the same <code>KeyAttributes</code> are
+  /// considered to be the same entity. For an entity to be valid, the
+  /// <code>KeyAttributes</code> must exist and be formatted correctly.
+  ///
+  /// There are five allowed attributes (key names): <code>Type</code>,
+  /// <code>ResourceType</code>, <code>Identifier</code>, <code>Name</code>, and
+  /// <code>Environment</code>.
+  ///
+  /// For details about how to use the key attributes to specify an entity, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/adding-your-own-related-telemetry.html">How
+  /// to add related information to telemetry</a> in the <i>CloudWatch User
+  /// Guide</i>.
+  final Map<String, String>? keyAttributes;
+
+  Entity({
+    this.attributes,
+    this.keyAttributes,
+  });
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final keyAttributes = this.keyAttributes;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (keyAttributes != null) 'KeyAttributes': keyAttributes,
+    };
+  }
+}
+
+/// Encapsulates the information sent to either create a metric or add new
+/// values to be aggregated into an existing metric.
+class MetricDatum {
+  /// The name of the metric.
+  final String metricName;
+
+  /// Array of numbers that is used along with the <code>Values</code> array. Each
+  /// number in the <code>Count</code> array is the number of times the
+  /// corresponding value in the <code>Values</code> array occurred during the
+  /// period.
+  ///
+  /// If you omit the <code>Counts</code> array, the default of 1 is used as the
+  /// value for each count. If you include a <code>Counts</code> array, it must
+  /// include the same amount of values as the <code>Values</code> array.
+  final List<double>? counts;
+
+  /// The dimensions associated with the metric.
+  final List<Dimension>? dimensions;
+
+  /// The statistical values for the metric.
+  final StatisticSet? statisticValues;
+
+  /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a
+  /// high-resolution metric, so that CloudWatch stores the metric with sub-minute
+  /// resolution down to one second. Setting this to 60 specifies this metric as a
+  /// regular-resolution metric, which CloudWatch stores at 1-minute resolution.
+  /// Currently, high resolution is available only for custom metrics. For more
+  /// information about high-resolution metrics, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics">High-Resolution
+  /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
+  ///
+  /// This field is optional, if you do not specify it the default of 60 is used.
+  final int? storageResolution;
+
+  /// The time the metric data was received, expressed as the number of
+  /// milliseconds since Jan 1, 1970 00:00:00 UTC.
+  final DateTime? timestamp;
+
+  /// When you are using a <code>Put</code> operation, this defines what unit you
+  /// want to use when storing the metric.
+  ///
+  /// In a <code>Get</code> operation, this displays the unit that is used for the
+  /// metric.
+  final StandardUnit? unit;
+
+  /// The value for the metric.
+  ///
+  /// Although the parameter accepts numbers of type Double, CloudWatch rejects
+  /// values that are either too small or too large. Values must be in the range
+  /// of -2^360 to 2^360. In addition, special values (for example, NaN,
+  /// +Infinity, -Infinity) are not supported.
+  final double? value;
+
+  /// Array of numbers representing the values for the metric during the period.
+  /// Each unique value is listed just once in this array, and the corresponding
+  /// number in the <code>Counts</code> array specifies the number of times that
+  /// value occurred during the period. You can include up to 150 unique values in
+  /// each <code>PutMetricData</code> action that specifies a <code>Values</code>
+  /// array.
+  ///
+  /// Although the <code>Values</code> array accepts numbers of type
+  /// <code>Double</code>, CloudWatch rejects values that are either too small or
+  /// too large. Values must be in the range of -2^360 to 2^360. In addition,
+  /// special values (for example, NaN, +Infinity, -Infinity) are not supported.
+  final List<double>? values;
+
+  MetricDatum({
+    required this.metricName,
+    this.counts,
+    this.dimensions,
+    this.statisticValues,
+    this.storageResolution,
+    this.timestamp,
+    this.unit,
+    this.value,
+    this.values,
+  });
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final counts = this.counts;
+    final dimensions = this.dimensions;
+    final statisticValues = this.statisticValues;
+    final storageResolution = this.storageResolution;
+    final timestamp = this.timestamp;
+    final unit = this.unit;
+    final value = this.value;
+    final values = this.values;
+    return {
+      'MetricName': metricName,
+      if (counts != null) 'Counts': counts,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (statisticValues != null) 'StatisticValues': statisticValues,
+      if (storageResolution != null) 'StorageResolution': storageResolution,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (unit != null) 'Unit': unit.value,
+      if (value != null) 'Value': value,
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+/// Represents a set of statistics that describes a specific metric.
+class StatisticSet {
+  /// The maximum value of the sample set.
+  final double maximum;
+
+  /// The minimum value of the sample set.
+  final double minimum;
+
+  /// The number of samples used for the statistic set.
+  final double sampleCount;
+
+  /// The sum of values for the sample set.
+  final double sum;
+
+  StatisticSet({
+    required this.maximum,
+    required this.minimum,
+    required this.sampleCount,
+    required this.sum,
+  });
+
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    final sampleCount = this.sampleCount;
+    final sum = this.sum;
+    return {
+      'Maximum': maximum,
+      'Minimum': minimum,
+      'SampleCount': sampleCount,
+      'Sum': sum,
+    };
+  }
+}
+
+class StandardUnit {
+  static const seconds = StandardUnit._('Seconds');
+  static const microseconds = StandardUnit._('Microseconds');
+  static const milliseconds = StandardUnit._('Milliseconds');
+  static const bytes = StandardUnit._('Bytes');
+  static const kilobytes = StandardUnit._('Kilobytes');
+  static const megabytes = StandardUnit._('Megabytes');
+  static const gigabytes = StandardUnit._('Gigabytes');
+  static const terabytes = StandardUnit._('Terabytes');
+  static const bits = StandardUnit._('Bits');
+  static const kilobits = StandardUnit._('Kilobits');
+  static const megabits = StandardUnit._('Megabits');
+  static const gigabits = StandardUnit._('Gigabits');
+  static const terabits = StandardUnit._('Terabits');
+  static const percent = StandardUnit._('Percent');
+  static const count = StandardUnit._('Count');
+  static const bytesSecond = StandardUnit._('Bytes/Second');
+  static const kilobytesSecond = StandardUnit._('Kilobytes/Second');
+  static const megabytesSecond = StandardUnit._('Megabytes/Second');
+  static const gigabytesSecond = StandardUnit._('Gigabytes/Second');
+  static const terabytesSecond = StandardUnit._('Terabytes/Second');
+  static const bitsSecond = StandardUnit._('Bits/Second');
+  static const kilobitsSecond = StandardUnit._('Kilobits/Second');
+  static const megabitsSecond = StandardUnit._('Megabits/Second');
+  static const gigabitsSecond = StandardUnit._('Gigabits/Second');
+  static const terabitsSecond = StandardUnit._('Terabits/Second');
+  static const countSecond = StandardUnit._('Count/Second');
+  static const none = StandardUnit._('None');
+
+  final String value;
+
+  const StandardUnit._(this.value);
+
+  static const values = [
+    seconds,
+    microseconds,
+    milliseconds,
+    bytes,
+    kilobytes,
+    megabytes,
+    gigabytes,
+    terabytes,
+    bits,
+    kilobits,
+    megabits,
+    gigabits,
+    terabits,
+    percent,
+    count,
+    bytesSecond,
+    kilobytesSecond,
+    megabytesSecond,
+    gigabytesSecond,
+    terabytesSecond,
+    bitsSecond,
+    kilobitsSecond,
+    megabitsSecond,
+    gigabitsSecond,
+    terabitsSecond,
+    countSecond,
+    none
+  ];
+
+  static StandardUnit fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StandardUnit._(value));
+
+  @override
+  bool operator ==(other) => other is StandardUnit && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A dimension is a name/value pair that is part of the identity of a metric.
+/// Because dimensions are part of the unique identifier for a metric, whenever
+/// you add a unique name/value pair to one of your metrics, you are creating a
+/// new variation of that metric. For example, many Amazon EC2 metrics publish
+/// <code>InstanceId</code> as a dimension name, and the actual instance ID as
+/// the value for that dimension.
+///
+/// You can assign up to 30 dimensions to a metric.
+class Dimension {
+  /// The name of the dimension. Dimension names must contain only ASCII
+  /// characters, must include at least one non-whitespace character, and cannot
+  /// start with a colon (<code>:</code>). ASCII control characters are not
+  /// supported as part of dimension names.
+  final String name;
+
+  /// The value of the dimension. Dimension values must contain only ASCII
+  /// characters and must include at least one non-whitespace character. ASCII
+  /// control characters are not supported as part of dimension values.
+  final String value;
+
+  Dimension({
+    required this.name,
+    required this.value,
+  });
+
+  factory Dimension.fromJson(Map<String, dynamic> json) {
+    return Dimension(
+      name: (json['Name'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
+}
+
+class Statistic {
+  static const sampleCount = Statistic._('SampleCount');
+  static const average = Statistic._('Average');
+  static const sum = Statistic._('Sum');
+  static const minimum = Statistic._('Minimum');
+  static const maximum = Statistic._('Maximum');
+
+  final String value;
+
+  const Statistic._(this.value);
+
+  static const values = [sampleCount, average, sum, minimum, maximum];
+
+  static Statistic fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
+
+  @override
+  bool operator ==(other) => other is Statistic && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ComparisonOperator {
+  static const greaterThanOrEqualToThreshold =
+      ComparisonOperator._('GreaterThanOrEqualToThreshold');
+  static const greaterThanThreshold =
+      ComparisonOperator._('GreaterThanThreshold');
+  static const lessThanThreshold = ComparisonOperator._('LessThanThreshold');
+  static const lessThanOrEqualToThreshold =
+      ComparisonOperator._('LessThanOrEqualToThreshold');
+  static const lessThanLowerOrGreaterThanUpperThreshold =
+      ComparisonOperator._('LessThanLowerOrGreaterThanUpperThreshold');
+  static const lessThanLowerThreshold =
+      ComparisonOperator._('LessThanLowerThreshold');
+  static const greaterThanUpperThreshold =
+      ComparisonOperator._('GreaterThanUpperThreshold');
+
+  final String value;
+
+  const ComparisonOperator._(this.value);
+
+  static const values = [
+    greaterThanOrEqualToThreshold,
+    greaterThanThreshold,
+    lessThanThreshold,
+    lessThanOrEqualToThreshold,
+    lessThanLowerOrGreaterThanUpperThreshold,
+    lessThanLowerThreshold,
+    greaterThanUpperThreshold
+  ];
+
+  static ComparisonOperator fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ComparisonOperator._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ComparisonOperator && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The evaluation criteria for an alarm. This is a union type that currently
+/// supports <code>PromQLCriteria</code>.
+class EvaluationCriteria {
+  /// The PromQL criteria for the alarm evaluation.
+  final AlarmPromQLCriteria? promQLCriteria;
+
+  EvaluationCriteria({
+    this.promQLCriteria,
+  });
+
+  factory EvaluationCriteria.fromJson(Map<String, dynamic> json) {
+    return EvaluationCriteria(
+      promQLCriteria: json['PromQLCriteria'] != null
+          ? AlarmPromQLCriteria.fromJson(
+              json['PromQLCriteria'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final promQLCriteria = this.promQLCriteria;
+    return {
+      if (promQLCriteria != null) 'PromQLCriteria': promQLCriteria,
+    };
+  }
+}
+
+/// Contains the configuration that determines how a PromQL alarm evaluates its
+/// contributors, including the query to run and the durations that define when
+/// contributors transition between states.
+class AlarmPromQLCriteria {
+  /// The PromQL query that the alarm evaluates. The query must return a result of
+  /// vector type. Each entry in the vector result represents an alarm
+  /// contributor.
+  final String query;
+
+  /// The duration, in seconds, that a contributor must be continuously breaching
+  /// before it transitions to the <code>ALARM</code> state.
+  final int? pendingPeriod;
+
+  /// The duration, in seconds, that a contributor must continuously not be
+  /// breaching before it transitions back to the <code>OK</code> state.
+  final int? recoveryPeriod;
+
+  AlarmPromQLCriteria({
+    required this.query,
+    this.pendingPeriod,
+    this.recoveryPeriod,
+  });
+
+  factory AlarmPromQLCriteria.fromJson(Map<String, dynamic> json) {
+    return AlarmPromQLCriteria(
+      query: (json['Query'] as String?) ?? '',
+      pendingPeriod: json['PendingPeriod'] as int?,
+      recoveryPeriod: json['RecoveryPeriod'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final query = this.query;
+    final pendingPeriod = this.pendingPeriod;
+    final recoveryPeriod = this.recoveryPeriod;
+    return {
+      'Query': query,
+      if (pendingPeriod != null) 'PendingPeriod': pendingPeriod,
+      if (recoveryPeriod != null) 'RecoveryPeriod': recoveryPeriod,
+    };
+  }
+}
+
+/// This structure is used in both <code>GetMetricData</code> and
+/// <code>PutMetricAlarm</code>. The supported use of this structure is
+/// different for those two operations.
+///
+/// When used in <code>GetMetricData</code>, it indicates the metric data to
+/// return, and whether this call is just retrieving a batch set of data for one
+/// metric, or is performing a Metrics Insights query or a math expression. A
+/// single <code>GetMetricData</code> call can include up to 500
+/// <code>MetricDataQuery</code> structures.
+///
+/// When used in <code>PutMetricAlarm</code>, it enables you to create an alarm
+/// based on a metric math expression. Each <code>MetricDataQuery</code> in the
+/// array specifies either a metric to retrieve, or a math expression to be
+/// performed on retrieved metrics. A single <code>PutMetricAlarm</code> call
+/// can include up to 20 <code>MetricDataQuery</code> structures in the array.
+/// The 20 structures can include as many as 10 structures that contain a
+/// <code>MetricStat</code> parameter to retrieve a metric, and as many as 10
+/// structures that contain the <code>Expression</code> parameter to perform a
+/// math expression. Of those <code>Expression</code> structures, one must have
+/// <code>true</code> as the value for <code>ReturnData</code>. The result of
+/// this expression is the value the alarm watches.
+///
+/// Any expression used in a <code>PutMetricAlarm</code> operation must return a
+/// single time series. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax">Metric
+/// Math Syntax and Functions</a> in the <i>Amazon CloudWatch User Guide</i>.
+///
+/// Some of the parameters of this structure also have different uses whether
+/// you are using this structure in a <code>GetMetricData</code> operation or a
+/// <code>PutMetricAlarm</code> operation. These differences are explained in
+/// the following parameter list.
+class MetricDataQuery {
+  /// A short name used to tie this object to the results in the response. This
+  /// name must be unique within a single call to <code>GetMetricData</code>. If
+  /// you are performing math expressions on this set of data, this name
+  /// represents that data and can serve as a variable in the mathematical
+  /// expression. The valid characters are letters, numbers, and underscore. The
+  /// first character must be a lowercase letter.
+  final String id;
+
+  /// The ID of the account where the metrics are located.
+  ///
+  /// If you are performing a <code>GetMetricData</code> operation in a monitoring
+  /// account, use this to specify which account to retrieve this metric from.
+  ///
+  /// If you are performing a <code>PutMetricAlarm</code> operation, use this to
+  /// specify which account contains the metric that the alarm is watching.
+  final String? accountId;
+
+  /// This field can contain either a Metrics Insights query, or a metric math
+  /// expression to be performed on the returned data. For more information about
+  /// Metrics Insights queries, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-metrics-insights-querylanguage">Metrics
+  /// Insights query components and syntax</a> in the <i>Amazon CloudWatch User
+  /// Guide</i>.
+  ///
+  /// A math expression can use the <code>Id</code> of the other metrics or
+  /// queries to refer to those metrics, and can also use the <code>Id</code> of
+  /// other expressions to use the result of those expressions. For more
+  /// information about metric math expressions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax">Metric
+  /// Math Syntax and Functions</a> in the <i>Amazon CloudWatch User Guide</i>.
+  ///
+  /// Within each MetricDataQuery object, you must specify either
+  /// <code>Expression</code> or <code>MetricStat</code> but not both.
+  final String? expression;
+
+  /// A human-readable label for this metric or expression. This is especially
+  /// useful if this is an expression, so that you know what the value represents.
+  /// If the metric or expression is shown in a CloudWatch dashboard widget, the
+  /// label is shown. If Label is omitted, CloudWatch generates a default.
+  ///
+  /// You can put dynamic expressions into a label, so that it is more
+  /// descriptive. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/graph-dynamic-labels.html">Using
+  /// Dynamic Labels</a>.
+  final String? label;
+
+  /// The metric to be returned, along with statistics, period, and units. Use
+  /// this parameter only if this object is retrieving a metric and not performing
+  /// a math expression on returned data.
+  ///
+  /// Within one MetricDataQuery object, you must specify either
+  /// <code>Expression</code> or <code>MetricStat</code> but not both.
+  final MetricStat? metricStat;
+
+  /// The granularity, in seconds, of the returned data points. For metrics with
+  /// regular resolution, a period can be as short as one minute (60 seconds) and
+  /// must be a multiple of 60. For high-resolution metrics that are collected at
+  /// intervals of less than one minute, the period can be 1, 5, 10, 20, 30, 60,
+  /// or any multiple of 60. High-resolution metrics are those metrics stored by a
+  /// <code>PutMetricData</code> operation that includes a <code>StorageResolution
+  /// of 1 second</code>.
+  final int? period;
+
+  /// When used in <code>GetMetricData</code>, this option indicates whether to
+  /// return the timestamps and raw data values of this metric. If you are
+  /// performing this call just to do math expressions and do not also need the
+  /// raw data returned, you can specify <code>false</code>. If you omit this, the
+  /// default of <code>true</code> is used.
+  ///
+  /// When used in <code>PutMetricAlarm</code>, specify <code>true</code> for the
+  /// one expression result to use as the alarm. For all other metrics and
+  /// expressions in the same <code>PutMetricAlarm</code> operation, specify
+  /// <code>ReturnData</code> as False.
+  final bool? returnData;
+
+  MetricDataQuery({
+    required this.id,
+    this.accountId,
+    this.expression,
+    this.label,
+    this.metricStat,
+    this.period,
+    this.returnData,
+  });
+
+  factory MetricDataQuery.fromJson(Map<String, dynamic> json) {
+    return MetricDataQuery(
+      id: (json['Id'] as String?) ?? '',
+      accountId: json['AccountId'] as String?,
+      expression: json['Expression'] as String?,
+      label: json['Label'] as String?,
+      metricStat: json['MetricStat'] != null
+          ? MetricStat.fromJson(json['MetricStat'] as Map<String, dynamic>)
+          : null,
+      period: json['Period'] as int?,
+      returnData: json['ReturnData'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final accountId = this.accountId;
+    final expression = this.expression;
+    final label = this.label;
+    final metricStat = this.metricStat;
+    final period = this.period;
+    final returnData = this.returnData;
+    return {
+      'Id': id,
+      if (accountId != null) 'AccountId': accountId,
+      if (expression != null) 'Expression': expression,
+      if (label != null) 'Label': label,
+      if (metricStat != null) 'MetricStat': metricStat,
+      if (period != null) 'Period': period,
+      if (returnData != null) 'ReturnData': returnData,
+    };
+  }
+}
+
+/// This structure defines the metric to be returned, along with the statistics,
+/// period, and units.
+class MetricStat {
+  /// The metric to return, including the metric name, namespace, and dimensions.
+  final Metric metric;
+
+  /// The granularity, in seconds, of the returned data points. For metrics with
+  /// regular resolution, a period can be as short as one minute (60 seconds) and
+  /// must be a multiple of 60. For high-resolution metrics that are collected at
+  /// intervals of less than one minute, the period can be 1, 5, 10, 20, 30, 60,
+  /// or any multiple of 60. High-resolution metrics are those metrics stored by a
+  /// <code>PutMetricData</code> call that includes a
+  /// <code>StorageResolution</code> of 1 second.
+  ///
+  /// If the <code>StartTime</code> parameter specifies a time stamp that is
+  /// greater than 3 hours ago, you must specify the period as follows or no data
+  /// points in that time range is returned:
+  ///
+  /// <ul>
+  /// <li>
+  /// Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1
+  /// minute).
+  /// </li>
+  /// <li>
+  /// Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5
+  /// minutes).
+  /// </li>
+  /// <li>
+  /// Start time greater than 63 days ago - Use a multiple of 3600 seconds (1
+  /// hour).
+  /// </li>
+  /// </ul>
+  final int period;
+
+  /// The statistic to return. It can include any CloudWatch statistic or extended
+  /// statistic.
+  final String stat;
+
+  /// When you are using a <code>Put</code> operation, this defines what unit you
+  /// want to use when storing the metric.
+  ///
+  /// In a <code>Get</code> operation, if you omit <code>Unit</code> then all data
+  /// that was collected with any unit is returned, along with the corresponding
+  /// units that were specified when the data was reported to CloudWatch. If you
+  /// specify a unit, the operation returns only data that was collected with that
+  /// unit specified. If you specify a unit that does not match the data
+  /// collected, the results of the operation are null. CloudWatch does not
+  /// perform unit conversions.
+  final StandardUnit? unit;
+
+  MetricStat({
+    required this.metric,
+    required this.period,
+    required this.stat,
+    this.unit,
+  });
+
+  factory MetricStat.fromJson(Map<String, dynamic> json) {
+    return MetricStat(
+      metric: Metric.fromJson((json['Metric'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+      period: (json['Period'] as int?) ?? 0,
+      stat: (json['Stat'] as String?) ?? '',
+      unit: (json['Unit'] as String?)?.let(StandardUnit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final period = this.period;
+    final stat = this.stat;
+    final unit = this.unit;
+    return {
+      'Metric': metric,
+      'Period': period,
+      'Stat': stat,
+      if (unit != null) 'Unit': unit.value,
+    };
+  }
+}
+
+/// Represents a specific metric.
+class Metric {
+  /// The dimensions for the metric.
+  final List<Dimension>? dimensions;
+
+  /// The name of the metric. This is a required field.
+  final String? metricName;
+
+  /// The namespace of the metric.
+  final String? namespace;
+
+  Metric({
+    this.dimensions,
+    this.metricName,
+    this.namespace,
+  });
+
+  factory Metric.fromJson(Map<String, dynamic> json) {
+    return Metric(
+      dimensions: (json['Dimensions'] as List?)
+          ?.nonNulls
+          .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metricName: json['MetricName'] as String?,
+      namespace: json['Namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (metricName != null) 'MetricName': metricName,
+      if (namespace != null) 'Namespace': namespace,
+    };
+  }
+}
+
+/// This array is empty if the API operation was successful for all the rules
+/// specified in the request. If the operation could not process one of the
+/// rules, the following data is returned for each of those rules.
+class PartialFailure {
+  /// The type of error.
+  final String? exceptionType;
+
+  /// The code of the error.
+  final String? failureCode;
+
+  /// A description of the error.
+  final String? failureDescription;
+
+  /// The specified rule that could not be deleted.
+  final String? failureResource;
+
+  PartialFailure({
+    this.exceptionType,
+    this.failureCode,
+    this.failureDescription,
+    this.failureResource,
+  });
+
+  factory PartialFailure.fromJson(Map<String, dynamic> json) {
+    return PartialFailure(
+      exceptionType: json['ExceptionType'] as String?,
+      failureCode: json['FailureCode'] as String?,
+      failureDescription: json['FailureDescription'] as String?,
+      failureResource: json['FailureResource'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exceptionType = this.exceptionType;
+    final failureCode = this.failureCode;
+    final failureDescription = this.failureDescription;
+    final failureResource = this.failureResource;
+    return {
+      if (exceptionType != null) 'ExceptionType': exceptionType,
+      if (failureCode != null) 'FailureCode': failureCode,
+      if (failureDescription != null) 'FailureDescription': failureDescription,
+      if (failureResource != null) 'FailureResource': failureResource,
+    };
+  }
+}
+
+/// Contains the information that's required to enable a managed Contributor
+/// Insights rule for an Amazon Web Services resource.
+class ManagedRule {
+  /// The ARN of an Amazon Web Services resource that has managed Contributor
+  /// Insights rules.
+  final String resourceARN;
+
+  /// The template name for the managed Contributor Insights rule, as returned by
+  /// <code>ListManagedInsightRules</code>.
+  final String templateName;
+
+  /// A list of key-value pairs that you can associate with a managed Contributor
+  /// Insights rule. You can associate as many as 50 tags with a rule. Tags can
+  /// help you organize and categorize your resources. You also can use them to
+  /// scope user permissions by granting a user permission to access or change
+  /// only the resources that have certain tag values. To associate tags with a
+  /// rule, you must have the <code>cloudwatch:TagResource</code> permission in
+  /// addition to the <code>cloudwatch:PutInsightRule</code> permission. If you
+  /// are using this operation to update an existing Contributor Insights rule,
+  /// any tags that you specify in this parameter are ignored. To change the tags
+  /// of an existing rule, use <code>TagResource</code>.
+  final List<Tag>? tags;
+
+  ManagedRule({
+    required this.resourceARN,
+    required this.templateName,
+    this.tags,
+  });
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final templateName = this.templateName;
+    final tags = this.tags;
+    return {
+      'ResourceARN': resourceARN,
+      'TemplateName': templateName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// An error or warning for the operation.
+class DashboardValidationMessage {
+  /// The data path related to the message.
+  final String? dataPath;
+
+  /// A message describing the error or warning.
+  final String? message;
+
+  DashboardValidationMessage({
+    this.dataPath,
+    this.message,
+  });
+
+  factory DashboardValidationMessage.fromJson(Map<String, dynamic> json) {
+    return DashboardValidationMessage(
+      dataPath: json['DataPath'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataPath = this.dataPath;
+    final message = this.message;
+    return {
+      if (dataPath != null) 'DataPath': dataPath,
+      if (message != null) 'Message': message,
+    };
+  }
+}
+
+/// The configuration specifies details about how the anomaly detection model is
+/// to be trained, including time ranges to exclude from use for training the
+/// model and the time zone to use for the metric.
+class AnomalyDetectorConfiguration {
+  /// An array of time ranges to exclude from use when the anomaly detection model
+  /// is trained. Use this to make sure that events that could cause unusual
+  /// values for the metric, such as deployments, aren't used when CloudWatch
+  /// creates the model.
+  final List<Range>? excludedTimeRanges;
+
+  /// The time zone to use for the metric. This is useful to enable the model to
+  /// automatically account for daylight savings time changes if the metric is
+  /// sensitive to such time changes.
+  ///
+  /// To specify a time zone, use the name of the time zone as specified in the
+  /// standard tz database. For more information, see <a
+  /// href="https://en.wikipedia.org/wiki/Tz_database">tz database</a>.
+  final String? metricTimezone;
+
+  AnomalyDetectorConfiguration({
+    this.excludedTimeRanges,
+    this.metricTimezone,
+  });
+
+  factory AnomalyDetectorConfiguration.fromJson(Map<String, dynamic> json) {
+    return AnomalyDetectorConfiguration(
+      excludedTimeRanges: (json['ExcludedTimeRanges'] as List?)
+          ?.nonNulls
+          .map((e) => Range.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metricTimezone: json['MetricTimezone'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final excludedTimeRanges = this.excludedTimeRanges;
+    final metricTimezone = this.metricTimezone;
+    return {
+      if (excludedTimeRanges != null) 'ExcludedTimeRanges': excludedTimeRanges,
+      if (metricTimezone != null) 'MetricTimezone': metricTimezone,
+    };
+  }
+}
+
+/// This object includes parameters that you can use to provide information to
+/// CloudWatch to help it build more accurate anomaly detection models.
+class MetricCharacteristics {
+  /// Set this parameter to <code>true</code> if values for this metric
+  /// consistently include spikes that should not be considered to be anomalies.
+  /// With this set to <code>true</code>, CloudWatch will expect to see spikes
+  /// that occurred consistently during the model training period, and won't flag
+  /// future similar spikes as anomalies.
+  final bool? periodicSpikes;
+
+  MetricCharacteristics({
+    this.periodicSpikes,
+  });
+
+  factory MetricCharacteristics.fromJson(Map<String, dynamic> json) {
+    return MetricCharacteristics(
+      periodicSpikes: json['PeriodicSpikes'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final periodicSpikes = this.periodicSpikes;
+    return {
+      if (periodicSpikes != null) 'PeriodicSpikes': periodicSpikes,
+    };
+  }
+}
+
+/// Designates the CloudWatch metric and statistic that provides the time series
+/// the anomaly detector uses as input. If you have enabled unified
+/// cross-account observability, and this account is a monitoring account, the
+/// metric can be in the same account or a source account.
+class SingleMetricAnomalyDetector {
+  /// If the CloudWatch metric that provides the time series that the anomaly
+  /// detector uses as input is in another account, specify that account ID here.
+  /// If you omit this parameter, the current account is used.
+  final String? accountId;
+
+  /// The metric dimensions to create the anomaly detection model for.
+  final List<Dimension>? dimensions;
+
+  /// The name of the metric to create the anomaly detection model for.
+  final String? metricName;
+
+  /// The namespace of the metric to create the anomaly detection model for.
+  final String? namespace;
+
+  /// The statistic to use for the metric and anomaly detection model.
+  final String? stat;
+
+  SingleMetricAnomalyDetector({
+    this.accountId,
+    this.dimensions,
+    this.metricName,
+    this.namespace,
+    this.stat,
+  });
+
+  factory SingleMetricAnomalyDetector.fromJson(Map<String, dynamic> json) {
+    return SingleMetricAnomalyDetector(
+      accountId: json['AccountId'] as String?,
+      dimensions: (json['Dimensions'] as List?)
+          ?.nonNulls
+          .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metricName: json['MetricName'] as String?,
+      namespace: json['Namespace'] as String?,
+      stat: json['Stat'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final dimensions = this.dimensions;
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final stat = this.stat;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (metricName != null) 'MetricName': metricName,
+      if (namespace != null) 'Namespace': namespace,
+      if (stat != null) 'Stat': stat,
+    };
+  }
+}
+
+/// Indicates the CloudWatch math expression that provides the time series the
+/// anomaly detector uses as input. The designated math expression must return a
+/// single time series.
+class MetricMathAnomalyDetector {
+  /// An array of metric data query structures that enables you to create an
+  /// anomaly detector based on the result of a metric math expression. Each item
+  /// in <code>MetricDataQueries</code> gets a metric or performs a math
+  /// expression. One item in <code>MetricDataQueries</code> is the expression
+  /// that provides the time series that the anomaly detector uses as input.
+  /// Designate the expression by setting <code>ReturnData</code> to
+  /// <code>true</code> for this object in the array. For all other expressions
+  /// and metrics, set <code>ReturnData</code> to <code>false</code>. The
+  /// designated expression must return a single time series.
+  final List<MetricDataQuery>? metricDataQueries;
+
+  MetricMathAnomalyDetector({
+    this.metricDataQueries,
+  });
+
+  factory MetricMathAnomalyDetector.fromJson(Map<String, dynamic> json) {
+    return MetricMathAnomalyDetector(
+      metricDataQueries: (json['MetricDataQueries'] as List?)
+          ?.nonNulls
+          .map((e) => MetricDataQuery.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDataQueries = this.metricDataQueries;
+    return {
+      if (metricDataQueries != null) 'MetricDataQueries': metricDataQueries,
+    };
+  }
+}
+
+/// Specifies one range of days or times to exclude from use for training an
+/// anomaly detection model.
+class Range {
+  /// The end time of the range to exclude. The format is
+  /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
+  /// <code>2019-07-01T23:59:59</code>.
+  final DateTime endTime;
+
+  /// The start time of the range to exclude. The format is
+  /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
+  /// <code>2019-07-01T23:59:59</code>.
+  final DateTime startTime;
+
+  Range({
+    required this.endTime,
+    required this.startTime,
+  });
+
+  factory Range.fromJson(Map<String, dynamic> json) {
+    return Range(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
+    };
+  }
+}
+
+/// Defines the schedule configuration for an alarm mute rule.
+///
+/// The rule contains a schedule that specifies when and how long alarms should
+/// be muted. The schedule can be a recurring pattern using cron expressions or
+/// a one-time mute window using at expressions.
+class Rule {
+  /// The schedule configuration that defines when the mute rule activates and how
+  /// long it remains active.
+  final Schedule schedule;
+
+  Rule({
+    required this.schedule,
+  });
+
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      schedule: Schedule.fromJson((json['Schedule'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schedule = this.schedule;
+    return {
+      'Schedule': schedule,
+    };
+  }
+}
+
+/// Specifies which alarms an alarm mute rule applies to.
+///
+/// You can target up to 100 specific alarms by name. When a mute rule is
+/// active, the targeted alarms continue to evaluate metrics and transition
+/// between states, but their configured actions are muted.
+class MuteTargets {
+  /// The list of alarm names that this mute rule targets. You can specify up to
+  /// 100 alarm names.
+  ///
+  /// Each alarm name must be between 1 and 255 characters in length. The alarm
+  /// names must match existing alarms in your Amazon Web Services account and
+  /// region.
+  final List<String> alarmNames;
+
+  MuteTargets({
+    required this.alarmNames,
+  });
+
+  factory MuteTargets.fromJson(Map<String, dynamic> json) {
+    return MuteTargets(
+      alarmNames: ((json['AlarmNames'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmNames = this.alarmNames;
+    return {
+      'AlarmNames': alarmNames,
+    };
+  }
+}
+
+/// Specifies when and how long an alarm mute rule is active.
+///
+/// The schedule uses either a cron expression for recurring mute windows or an
+/// at expression for one-time mute windows. When the schedule activates, the
+/// mute rule mutes alarm actions for the specified duration.
+class Schedule {
+  /// The length of time that alarms remain muted when the schedule activates. The
+  /// duration must be between 1 and 50 characters in length.
+  ///
+  /// Specify the duration using ISO 8601 duration format with a minimum of 1
+  /// minute (<code>PT1M</code>) and maximum of 15 days (<code>P15D</code>).
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PT4H</code> - 4 hours for weekly system maintenance
+  /// </li>
+  /// <li>
+  /// <code>P2DT12H</code> - 2 days and 12 hours for weekend muting from Friday
+  /// 6:00 PM to Monday 6:00 AM
+  /// </li>
+  /// <li>
+  /// <code>PT6H</code> - 6 hours for monthly database maintenance
+  /// </li>
+  /// <li>
+  /// <code>PT2H</code> - 2 hours for nightly backup operations
+  /// </li>
+  /// <li>
+  /// <code>P7D</code> - 7 days for annual company shutdown
+  /// </li>
+  /// </ul>
+  /// The duration begins when the schedule expression time is reached. For
+  /// recurring schedules, the duration applies to each occurrence.
+  final String duration;
+
+  /// The schedule expression that defines when the mute rule activates. The
+  /// expression must be between 1 and 256 characters in length.
+  ///
+  /// You can use one of two expression formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Cron expressions</b> - For recurring mute windows. Format:
+  /// <code>cron(Minutes Hours Day-of-month Month Day-of-week)</code>
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>cron(0 2 * * *)</code> - Activates daily at 2:00 AM
+  /// </li>
+  /// <li>
+  /// <code>cron(0 2 * * SUN)</code> - Activates every Sunday at 2:00 AM for
+  /// weekly system maintenance
+  /// </li>
+  /// <li>
+  /// <code>cron(0 1 1 * *)</code> - Activates on the first day of each month at
+  /// 1:00 AM for monthly database maintenance
+  /// </li>
+  /// <li>
+  /// <code>cron(0 18 * * FRI)</code> - Activates every Friday at 6:00 PM
+  /// </li>
+  /// <li>
+  /// <code>cron(0 23 * * *)</code> - Activates every day at 11:00 PM during
+  /// nightly backup operations
+  /// </li>
+  /// </ul>
+  /// The characters <code>*</code>, <code>-</code>, and <code>,</code> are
+  /// supported in all fields. English names can be used for the month (JAN-DEC)
+  /// and day of week (SUN-SAT) fields.
+  /// </li>
+  /// <li>
+  /// <b>At expressions</b> - For one-time mute windows. Format:
+  /// <code>at(yyyy-MM-ddThh:mm)</code>
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>at(2024-05-10T14:00)</code> - Activates once on May 10, 2024 at 2:00
+  /// PM during an active incident response session
+  /// </li>
+  /// <li>
+  /// <code>at(2024-12-23T00:00)</code> - Activates once on December 23, 2024 at
+  /// midnight during annual company shutdown
+  /// </li>
+  /// </ul> </li>
+  /// </ul>
+  final String expression;
+
+  /// The time zone to use when evaluating the schedule expression. The time zone
+  /// must be between 1 and 50 characters in length.
+  ///
+  /// Specify the time zone using standard timezone identifiers (for example,
+  /// <code>America/New_York</code>, <code>Europe/London</code>, or
+  /// <code>Asia/Tokyo</code>).
+  ///
+  /// If you don't specify a time zone, UTC is used by default. The time zone
+  /// affects how cron and at expressions are interpreted, as well as start and
+  /// expire dates you specify
+  ///
+  /// Examples:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>America/New_York</code> - Eastern Time (US)
+  /// </li>
+  /// <li>
+  /// <code>America/Los_Angeles</code> - Pacific Time (US)
+  /// </li>
+  /// <li>
+  /// <code>Europe/London</code> - British Time
+  /// </li>
+  /// <li>
+  /// <code>Asia/Tokyo</code> - Japan Standard Time
+  /// </li>
+  /// <li>
+  /// <code>UTC</code> - Coordinated Universal Time
+  /// </li>
+  /// </ul>
+  final String? timezone;
+
+  Schedule({
+    required this.duration,
+    required this.expression,
+    this.timezone,
+  });
+
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    return Schedule(
+      duration: (json['Duration'] as String?) ?? '',
+      expression: (json['Expression'] as String?) ?? '',
+      timezone: json['Timezone'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final duration = this.duration;
+    final expression = this.expression;
+    final timezone = this.timezone;
+    return {
+      'Duration': duration,
+      'Expression': expression,
+      if (timezone != null) 'Timezone': timezone,
+    };
+  }
+}
+
+/// This structure contains the configuration information about one metric
+/// stream.
+class MetricStreamEntry {
+  /// The ARN of the metric stream.
+  final String? arn;
+
+  /// The date that the metric stream was originally created.
+  final DateTime? creationDate;
+
+  /// The ARN of the Kinesis Firehose devlivery stream that is used for this
+  /// metric stream.
+  final String? firehoseArn;
+
+  /// The date that the configuration of this metric stream was most recently
+  /// updated.
+  final DateTime? lastUpdateDate;
+
+  /// The name of the metric stream.
+  final String? name;
+
+  /// The output format of this metric stream. Valid values are <code>json</code>,
+  /// <code>opentelemetry1.0</code>, and <code>opentelemetry0.7</code>.
+  final MetricStreamOutputFormat? outputFormat;
+
+  /// The current state of this stream. Valid values are <code>running</code> and
+  /// <code>stopped</code>.
+  final String? state;
+
+  MetricStreamEntry({
+    this.arn,
+    this.creationDate,
+    this.firehoseArn,
+    this.lastUpdateDate,
+    this.name,
+    this.outputFormat,
+    this.state,
+  });
+
+  factory MetricStreamEntry.fromJson(Map<String, dynamic> json) {
+    return MetricStreamEntry(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      firehoseArn: json['FirehoseArn'] as String?,
+      lastUpdateDate: timeStampFromJson(json['LastUpdateDate']),
+      name: json['Name'] as String?,
+      outputFormat: (json['OutputFormat'] as String?)
+          ?.let(MetricStreamOutputFormat.fromString),
+      state: json['State'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final firehoseArn = this.firehoseArn;
+    final lastUpdateDate = this.lastUpdateDate;
+    final name = this.name;
+    final outputFormat = this.outputFormat;
+    final state = this.state;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (firehoseArn != null) 'FirehoseArn': firehoseArn,
+      if (lastUpdateDate != null)
+        'LastUpdateDate': unixTimestampToJson(lastUpdateDate),
+      if (name != null) 'Name': name,
+      if (outputFormat != null) 'OutputFormat': outputFormat.value,
+      if (state != null) 'State': state,
+    };
+  }
+}
+
+class RecentlyActive {
+  static const pt3h = RecentlyActive._('PT3H');
+
+  final String value;
+
+  const RecentlyActive._(this.value);
+
+  static const values = [pt3h];
+
+  static RecentlyActive fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecentlyActive._(value));
+
+  @override
+  bool operator ==(other) => other is RecentlyActive && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents filters for a dimension.
+class DimensionFilter {
+  /// The dimension name to be matched.
+  final String name;
+
+  /// The value of the dimension to be matched.
+  final String? value;
+
+  DimensionFilter({
+    required this.name,
+    this.value,
+  });
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Contains information about managed Contributor Insights rules, as returned
+/// by <code>ListManagedInsightRules</code>.
+class ManagedRuleDescription {
+  /// If a managed rule is enabled, this is the ARN for the related Amazon Web
+  /// Services resource.
+  final String? resourceARN;
+
+  /// Describes the state of a managed rule. If present, it contains information
+  /// about the Contributor Insights rule that contains information about the
+  /// related Amazon Web Services resource.
+  final ManagedRuleState? ruleState;
+
+  /// The template name for the managed rule. Used to enable managed rules using
+  /// <code>PutManagedInsightRules</code>.
+  final String? templateName;
+
+  ManagedRuleDescription({
+    this.resourceARN,
+    this.ruleState,
+    this.templateName,
+  });
+
+  factory ManagedRuleDescription.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleDescription(
+      resourceARN: json['ResourceARN'] as String?,
+      ruleState: json['RuleState'] != null
+          ? ManagedRuleState.fromJson(json['RuleState'] as Map<String, dynamic>)
+          : null,
+      templateName: json['TemplateName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final ruleState = this.ruleState;
+    final templateName = this.templateName;
+    return {
+      if (resourceARN != null) 'ResourceARN': resourceARN,
+      if (ruleState != null) 'RuleState': ruleState,
+      if (templateName != null) 'TemplateName': templateName,
+    };
+  }
+}
+
+/// The status of a managed Contributor Insights rule.
+class ManagedRuleState {
+  /// The name of the Contributor Insights rule that contains data for the
+  /// specified Amazon Web Services resource.
+  final String ruleName;
+
+  /// Indicates whether the rule is enabled or disabled.
+  final String state;
+
+  ManagedRuleState({
+    required this.ruleName,
+    required this.state,
+  });
+
+  factory ManagedRuleState.fromJson(Map<String, dynamic> json) {
+    return ManagedRuleState(
+      ruleName: (json['RuleName'] as String?) ?? '',
+      state: (json['State'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleName = this.ruleName;
+    final state = this.state;
+    return {
+      'RuleName': ruleName,
+      'State': state,
+    };
+  }
+}
+
+/// Represents a specific dashboard.
+class DashboardEntry {
+  /// The Amazon Resource Name (ARN) of the dashboard.
+  final String? dashboardArn;
+
+  /// The name of the dashboard.
+  final String? dashboardName;
+
+  /// The time stamp of when the dashboard was last modified, either by an API
+  /// call or through the console. This number is expressed as the number of
+  /// milliseconds since Jan 1, 1970 00:00:00 UTC.
+  final DateTime? lastModified;
+
+  /// The size of the dashboard, in bytes.
+  final int? size;
+
+  DashboardEntry({
+    this.dashboardArn,
+    this.dashboardName,
+    this.lastModified,
+    this.size,
+  });
+
+  factory DashboardEntry.fromJson(Map<String, dynamic> json) {
+    return DashboardEntry(
+      dashboardArn: json['DashboardArn'] as String?,
+      dashboardName: json['DashboardName'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      size: json['Size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dashboardArn = this.dashboardArn;
+    final dashboardName = this.dashboardName;
+    final lastModified = this.lastModified;
+    final size = this.size;
+    return {
+      if (dashboardArn != null) 'DashboardArn': dashboardArn,
+      if (dashboardName != null) 'DashboardName': dashboardName,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (size != null) 'Size': size,
+    };
+  }
+}
+
+/// Summary information about an alarm mute rule, including its name, status,
+/// and configuration details.
+class AlarmMuteRuleSummary {
+  /// The Amazon Resource Name (ARN) of the alarm mute rule.
+  final String? alarmMuteRuleArn;
+
+  /// The date and time when the mute rule expires and is no longer evaluated.
+  /// This field is only present if an expiration date was configured.
+  final DateTime? expireDate;
+
+  /// The date and time when the mute rule was last updated.
+  final DateTime? lastUpdatedTimestamp;
+
+  /// Indicates whether the mute rule is one-time or recurring. Valid values are
+  /// <code>ONE_TIME</code> or <code>RECURRING</code>.
+  final String? muteType;
+
+  /// The current status of the alarm mute rule. Valid values are
+  /// <code>SCHEDULED</code>, <code>ACTIVE</code>, or <code>EXPIRED</code>.
+  final AlarmMuteRuleStatus? status;
+
+  AlarmMuteRuleSummary({
+    this.alarmMuteRuleArn,
+    this.expireDate,
+    this.lastUpdatedTimestamp,
+    this.muteType,
+    this.status,
+  });
+
+  factory AlarmMuteRuleSummary.fromJson(Map<String, dynamic> json) {
+    return AlarmMuteRuleSummary(
+      alarmMuteRuleArn: json['AlarmMuteRuleArn'] as String?,
+      expireDate: timeStampFromJson(json['ExpireDate']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      muteType: json['MuteType'] as String?,
+      status: (json['Status'] as String?)?.let(AlarmMuteRuleStatus.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmMuteRuleArn = this.alarmMuteRuleArn;
+    final expireDate = this.expireDate;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final muteType = this.muteType;
+    final status = this.status;
+    return {
+      if (alarmMuteRuleArn != null) 'AlarmMuteRuleArn': alarmMuteRuleArn,
+      if (expireDate != null) 'ExpireDate': unixTimestampToJson(expireDate),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (muteType != null) 'MuteType': muteType,
+      if (status != null) 'Status': status.value,
+    };
+  }
+}
+
+class AlarmMuteRuleStatus {
+  static const scheduled = AlarmMuteRuleStatus._('SCHEDULED');
+  static const active = AlarmMuteRuleStatus._('ACTIVE');
+  static const expired = AlarmMuteRuleStatus._('EXPIRED');
+
+  final String value;
+
+  const AlarmMuteRuleStatus._(this.value);
+
+  static const values = [scheduled, active, expired];
+
+  static AlarmMuteRuleStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AlarmMuteRuleStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AlarmMuteRuleStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The status of OTel enrichment for the account.
+class OTelEnrichmentStatus {
+  static const running = OTelEnrichmentStatus._('Running');
+  static const stopped = OTelEnrichmentStatus._('Stopped');
+
+  final String value;
+
+  const OTelEnrichmentStatus._(this.value);
+
+  static const values = [running, stopped];
+
+  static OTelEnrichmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => OTelEnrichmentStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is OTelEnrichmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Encapsulates the statistical data that CloudWatch computes from metric data.
+class Datapoint {
+  /// The average of the metric values that correspond to the data point.
+  final double? average;
+
+  /// The percentile statistic for the data point.
+  final Map<String, double>? extendedStatistics;
+
+  /// The maximum metric value for the data point.
+  final double? maximum;
+
+  /// The minimum metric value for the data point.
+  final double? minimum;
+
+  /// The number of metric values that contributed to the aggregate value of this
+  /// data point.
+  final double? sampleCount;
+
+  /// The sum of the metric values for the data point.
+  final double? sum;
+
+  /// The time stamp used for the data point.
+  final DateTime? timestamp;
+
+  /// The standard unit for the data point.
+  final StandardUnit? unit;
+
+  Datapoint({
+    this.average,
+    this.extendedStatistics,
+    this.maximum,
+    this.minimum,
+    this.sampleCount,
+    this.sum,
+    this.timestamp,
+    this.unit,
+  });
+
+  factory Datapoint.fromJson(Map<String, dynamic> json) {
+    return Datapoint(
+      average: json['Average'] as double?,
+      extendedStatistics: (json['ExtendedStatistics'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as double)),
+      maximum: json['Maximum'] as double?,
+      minimum: json['Minimum'] as double?,
+      sampleCount: json['SampleCount'] as double?,
+      sum: json['Sum'] as double?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+      unit: (json['Unit'] as String?)?.let(StandardUnit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final average = this.average;
+    final extendedStatistics = this.extendedStatistics;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    final sampleCount = this.sampleCount;
+    final sum = this.sum;
+    final timestamp = this.timestamp;
+    final unit = this.unit;
+    return {
+      if (average != null) 'Average': average,
+      if (extendedStatistics != null) 'ExtendedStatistics': extendedStatistics,
+      if (maximum != null) 'Maximum': maximum,
+      if (minimum != null) 'Minimum': minimum,
+      if (sampleCount != null) 'SampleCount': sampleCount,
+      if (sum != null) 'Sum': sum,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (unit != null) 'Unit': unit.value,
+    };
+  }
+}
+
+/// A message returned by the <code>GetMetricData</code>API, including a code
+/// and a description.
+///
+/// If a cross-Region <code>GetMetricData</code> operation fails with a code of
+/// <code>Forbidden</code> and a value of <code>Authentication too complex to
+/// retrieve cross region data</code>, you can correct the problem by running
+/// the <code>GetMetricData</code> operation in the same Region where the metric
+/// data is.
+class MessageData {
+  /// The error code or status code associated with the message.
+  final String? code;
+
+  /// The message text.
+  final String? value;
+
+  MessageData({
+    this.code,
+    this.value,
+  });
+
+  factory MessageData.fromJson(Map<String, dynamic> json) {
+    return MessageData(
+      code: json['Code'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final value = this.value;
+    return {
+      if (code != null) 'Code': code,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// A <code>GetMetricData</code> call returns an array of
+/// <code>MetricDataResult</code> structures. Each of these structures includes
+/// the data points for that metric, along with the timestamps of those data
+/// points and other identifying information.
+class MetricDataResult {
+  /// The short name you specified to represent this metric.
+  final String? id;
+
+  /// The human-readable label associated with the data.
+  final String? label;
+
+  /// A list of messages with additional information about the data returned.
+  final List<MessageData>? messages;
+
+  /// The status of the returned data. <code>Complete</code> indicates that all
+  /// data points in the requested time range were returned.
+  /// <code>PartialData</code> means that an incomplete set of data points were
+  /// returned. You can use the <code>NextToken</code> value that was returned and
+  /// repeat your request to get more data points. <code>NextToken</code> is not
+  /// returned if you are performing a math expression. <code>InternalError</code>
+  /// indicates that an error occurred. Retry your request using
+  /// <code>NextToken</code>, if present.
+  final StatusCode? statusCode;
+
+  /// The timestamps for the data points, formatted in Unix timestamp format. The
+  /// number of timestamps always matches the number of values and the value for
+  /// Timestamps[x] is Values[x].
+  final List<DateTime>? timestamps;
+
+  /// The data points for the metric corresponding to <code>Timestamps</code>. The
+  /// number of values always matches the number of timestamps and the timestamp
+  /// for Values[x] is Timestamps[x].
+  final List<double>? values;
+
+  MetricDataResult({
+    this.id,
+    this.label,
+    this.messages,
+    this.statusCode,
+    this.timestamps,
+    this.values,
+  });
+
+  factory MetricDataResult.fromJson(Map<String, dynamic> json) {
+    return MetricDataResult(
+      id: json['Id'] as String?,
+      label: json['Label'] as String?,
+      messages: (json['Messages'] as List?)
+          ?.nonNulls
+          .map((e) => MessageData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statusCode: (json['StatusCode'] as String?)?.let(StatusCode.fromString),
+      timestamps: (json['Timestamps'] as List?)
+          ?.nonNulls
+          .map(nonNullableTimeStampFromJson)
+          .toList(),
+      values:
+          (json['Values'] as List?)?.nonNulls.map((e) => e as double).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final label = this.label;
+    final messages = this.messages;
+    final statusCode = this.statusCode;
+    final timestamps = this.timestamps;
+    final values = this.values;
+    return {
+      if (id != null) 'Id': id,
+      if (label != null) 'Label': label,
+      if (messages != null) 'Messages': messages,
+      if (statusCode != null) 'StatusCode': statusCode.value,
+      if (timestamps != null)
+        'Timestamps': timestamps.map(unixTimestampToJson).toList(),
+      if (values != null) 'Values': values,
+    };
+  }
+}
+
+class StatusCode {
+  static const complete = StatusCode._('Complete');
+  static const internalError = StatusCode._('InternalError');
+  static const partialData = StatusCode._('PartialData');
+  static const forbidden = StatusCode._('Forbidden');
+
+  final String value;
+
+  const StatusCode._(this.value);
+
+  static const values = [complete, internalError, partialData, forbidden];
+
+  static StatusCode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StatusCode._(value));
+
+  @override
+  bool operator ==(other) => other is StatusCode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ScanBy {
+  static const timestampDescending = ScanBy._('TimestampDescending');
+  static const timestampAscending = ScanBy._('TimestampAscending');
+
+  final String value;
+
+  const ScanBy._(this.value);
+
+  static const values = [timestampDescending, timestampAscending];
+
+  static ScanBy fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => ScanBy._(value));
+
+  @override
+  bool operator ==(other) => other is ScanBy && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This structure includes the <code>Timezone</code> parameter, which you can
+/// use to specify your time zone so that the labels that are associated with
+/// returned metrics display the correct time for your time zone.
+///
+/// The <code>Timezone</code> value affects a label only if you have a
+/// time-based dynamic expression in the label. For more information about
+/// dynamic expressions in labels, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/graph-dynamic-labels.html">Using
+/// Dynamic Labels</a>.
+class LabelOptions {
+  /// The time zone to use for metric data return in this operation. The format is
+  /// <code>+</code> or <code>-</code> followed by four digits. The first two
+  /// digits indicate the number of hours ahead or behind of UTC, and the final
+  /// two digits are the number of minutes. For example, +0130 indicates a time
+  /// zone that is 1 hour and 30 minutes ahead of UTC. The default is +0000.
+  final String? timezone;
+
+  LabelOptions({
+    this.timezone,
+  });
+
+  Map<String, dynamic> toJson() {
+    final timezone = this.timezone;
+    return {
+      if (timezone != null) 'Timezone': timezone,
+    };
+  }
+}
+
+/// One data point from the metric time series returned in a Contributor
+/// Insights rule report.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>.
+class InsightRuleMetricDatapoint {
+  /// The timestamp of the data point.
+  final DateTime timestamp;
+
+  /// The average value from all contributors during the time period represented
+  /// by that data point.
+  ///
+  /// This statistic is returned only if you included it in the
+  /// <code>Metrics</code> array in your request.
+  final double? average;
+
+  /// The maximum value provided by one contributor during this timestamp. Each
+  /// timestamp is evaluated separately, so the identity of the max contributor
+  /// could be different for each timestamp.
+  ///
+  /// This statistic is returned only if you included it in the
+  /// <code>Metrics</code> array in your request.
+  final double? maxContributorValue;
+
+  /// The maximum value from a single occurence from a single contributor during
+  /// the time period represented by that data point.
+  ///
+  /// This statistic is returned only if you included it in the
+  /// <code>Metrics</code> array in your request.
+  final double? maximum;
+
+  /// The minimum value from a single contributor during the time period
+  /// represented by that data point.
+  ///
+  /// This statistic is returned only if you included it in the
+  /// <code>Metrics</code> array in your request.
+  final double? minimum;
+
+  /// The number of occurrences that matched the rule during this data point.
+  ///
+  /// This statistic is returned only if you included it in the
+  /// <code>Metrics</code> array in your request.
+  final double? sampleCount;
+
+  /// The sum of the values from all contributors during the time period
+  /// represented by that data point.
+  ///
+  /// This statistic is returned only if you included it in the
+  /// <code>Metrics</code> array in your request.
+  final double? sum;
+
+  /// The number of unique contributors who published data during this timestamp.
+  ///
+  /// This statistic is returned only if you included it in the
+  /// <code>Metrics</code> array in your request.
+  final double? uniqueContributors;
+
+  InsightRuleMetricDatapoint({
+    required this.timestamp,
+    this.average,
+    this.maxContributorValue,
+    this.maximum,
+    this.minimum,
+    this.sampleCount,
+    this.sum,
+    this.uniqueContributors,
+  });
+
+  factory InsightRuleMetricDatapoint.fromJson(Map<String, dynamic> json) {
+    return InsightRuleMetricDatapoint(
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
+      average: json['Average'] as double?,
+      maxContributorValue: json['MaxContributorValue'] as double?,
+      maximum: json['Maximum'] as double?,
+      minimum: json['Minimum'] as double?,
+      sampleCount: json['SampleCount'] as double?,
+      sum: json['Sum'] as double?,
+      uniqueContributors: json['UniqueContributors'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final average = this.average;
+    final maxContributorValue = this.maxContributorValue;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    final sampleCount = this.sampleCount;
+    final sum = this.sum;
+    final uniqueContributors = this.uniqueContributors;
+    return {
+      'Timestamp': unixTimestampToJson(timestamp),
+      if (average != null) 'Average': average,
+      if (maxContributorValue != null)
+        'MaxContributorValue': maxContributorValue,
+      if (maximum != null) 'Maximum': maximum,
+      if (minimum != null) 'Minimum': minimum,
+      if (sampleCount != null) 'SampleCount': sampleCount,
+      if (sum != null) 'Sum': sum,
+      if (uniqueContributors != null) 'UniqueContributors': uniqueContributors,
+    };
+  }
+}
+
+/// One of the unique contributors found by a Contributor Insights rule. If the
+/// rule contains multiple keys, then a unique contributor is a unique
+/// combination of values from all the keys in the rule.
+///
+/// If the rule contains a single key, then each unique contributor is each
+/// unique value for this key.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>.
+class InsightRuleContributor {
+  /// An approximation of the aggregate value that comes from this contributor.
+  final double approximateAggregateValue;
+
+  /// An array of the data points where this contributor is present. Only the data
+  /// points when this contributor appeared are included in the array.
+  final List<InsightRuleContributorDatapoint> datapoints;
+
+  /// One of the log entry field keywords that is used to define contributors for
+  /// this rule.
+  final List<String> keys;
+
+  InsightRuleContributor({
+    required this.approximateAggregateValue,
+    required this.datapoints,
+    required this.keys,
+  });
+
+  factory InsightRuleContributor.fromJson(Map<String, dynamic> json) {
+    return InsightRuleContributor(
+      approximateAggregateValue:
+          (json['ApproximateAggregateValue'] as double?) ?? 0,
+      datapoints: ((json['Datapoints'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => InsightRuleContributorDatapoint.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      keys: ((json['Keys'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateAggregateValue = this.approximateAggregateValue;
+    final datapoints = this.datapoints;
+    final keys = this.keys;
+    return {
+      'ApproximateAggregateValue': approximateAggregateValue,
+      'Datapoints': datapoints,
+      'Keys': keys,
+    };
+  }
+}
+
+/// One data point related to one contributor.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_InsightRuleContributor.html">InsightRuleContributor</a>.
+class InsightRuleContributorDatapoint {
+  /// The approximate value that this contributor added during this timestamp.
+  final double approximateValue;
+
+  /// The timestamp of the data point.
+  final DateTime timestamp;
+
+  InsightRuleContributorDatapoint({
+    required this.approximateValue,
+    required this.timestamp,
+  });
+
+  factory InsightRuleContributorDatapoint.fromJson(Map<String, dynamic> json) {
+    return InsightRuleContributorDatapoint(
+      approximateValue: (json['ApproximateValue'] as double?) ?? 0,
+      timestamp: nonNullableTimeStampFromJson(json['Timestamp'] ?? 0),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateValue = this.approximateValue;
+    final timestamp = this.timestamp;
+    return {
+      'ApproximateValue': approximateValue,
+      'Timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+/// This structure contains the definition for a Contributor Insights rule. For
+/// more information about this rule, see<a
+/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html">
+/// Using Constributor Insights to analyze high-cardinality data</a> in the
+/// <i>Amazon CloudWatch User Guide</i>.
+class InsightRule {
+  /// The definition of the rule, as a JSON object. The definition contains the
+  /// keywords used to define contributors, the value to aggregate on if this rule
+  /// returns a sum instead of a count, and the filters. For details on the valid
+  /// syntax, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights-RuleSyntax.html">Contributor
+  /// Insights Rule Syntax</a>.
+  final String definition;
+
+  /// The name of the rule.
+  final String name;
+
+  /// For rules that you create, this is always <code>{"Name":
+  /// "CloudWatchLogRule", "Version": 1}</code>. For managed rules, this is
+  /// <code>{"Name": "ServiceLogRule", "Version": 1}</code>
+  final String schema;
+
+  /// Indicates whether the rule is enabled or disabled.
+  final String state;
+
+  /// Displays whether the rule is evaluated on the transformed versions of logs,
+  /// for log groups that have <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html">Log
+  /// transformation</a> enabled. If this is <code>false</code>, log events are
+  /// evaluated before they are transformed.
+  final bool? applyOnTransformedLogs;
+
+  /// An optional built-in rule that Amazon Web Services manages.
+  final bool? managedRule;
+
+  InsightRule({
+    required this.definition,
+    required this.name,
+    required this.schema,
+    required this.state,
+    this.applyOnTransformedLogs,
+    this.managedRule,
+  });
+
+  factory InsightRule.fromJson(Map<String, dynamic> json) {
+    return InsightRule(
+      definition: (json['Definition'] as String?) ?? '',
+      name: (json['Name'] as String?) ?? '',
+      schema: (json['Schema'] as String?) ?? '',
+      state: (json['State'] as String?) ?? '',
+      applyOnTransformedLogs: json['ApplyOnTransformedLogs'] as bool?,
+      managedRule: json['ManagedRule'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final name = this.name;
+    final schema = this.schema;
+    final state = this.state;
+    final applyOnTransformedLogs = this.applyOnTransformedLogs;
+    final managedRule = this.managedRule;
+    return {
+      'Definition': definition,
+      'Name': name,
+      'Schema': schema,
+      'State': state,
+      if (applyOnTransformedLogs != null)
+        'ApplyOnTransformedLogs': applyOnTransformedLogs,
+      if (managedRule != null) 'ManagedRule': managedRule,
+    };
+  }
 }
 
 /// An anomaly detection model associated with a particular CloudWatch metric,
@@ -3926,27 +7824,33 @@ class AnomalyDetector {
     this.stat,
     this.stateValue,
   });
-  factory AnomalyDetector.fromXml(_s.XmlElement elem) {
+
+  factory AnomalyDetector.fromJson(Map<String, dynamic> json) {
     return AnomalyDetector(
-      configuration: _s
-          .extractXmlChild(elem, 'Configuration')
-          ?.let(AnomalyDetectorConfiguration.fromXml),
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
-          elem.findElements('member').map(Dimension.fromXml).toList()),
-      metricCharacteristics: _s
-          .extractXmlChild(elem, 'MetricCharacteristics')
-          ?.let(MetricCharacteristics.fromXml),
-      metricMathAnomalyDetector: _s
-          .extractXmlChild(elem, 'MetricMathAnomalyDetector')
-          ?.let(MetricMathAnomalyDetector.fromXml),
-      metricName: _s.extractXmlStringValue(elem, 'MetricName'),
-      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
-      singleMetricAnomalyDetector: _s
-          .extractXmlChild(elem, 'SingleMetricAnomalyDetector')
-          ?.let(SingleMetricAnomalyDetector.fromXml),
-      stat: _s.extractXmlStringValue(elem, 'Stat'),
-      stateValue: _s
-          .extractXmlStringValue(elem, 'StateValue')
+      configuration: json['Configuration'] != null
+          ? AnomalyDetectorConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      dimensions: (json['Dimensions'] as List?)
+          ?.nonNulls
+          .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      metricCharacteristics: json['MetricCharacteristics'] != null
+          ? MetricCharacteristics.fromJson(
+              json['MetricCharacteristics'] as Map<String, dynamic>)
+          : null,
+      metricMathAnomalyDetector: json['MetricMathAnomalyDetector'] != null
+          ? MetricMathAnomalyDetector.fromJson(
+              json['MetricMathAnomalyDetector'] as Map<String, dynamic>)
+          : null,
+      metricName: json['MetricName'] as String?,
+      namespace: json['Namespace'] as String?,
+      singleMetricAnomalyDetector: json['SingleMetricAnomalyDetector'] != null
+          ? SingleMetricAnomalyDetector.fromJson(
+              json['SingleMetricAnomalyDetector'] as Map<String, dynamic>)
+          : null,
+      stat: json['Stat'] as String?,
+      stateValue: (json['StateValue'] as String?)
           ?.let(AnomalyDetectorStateValue.fromString),
     );
   }
@@ -3974,62 +7878,6 @@ class AnomalyDetector {
         'SingleMetricAnomalyDetector': singleMetricAnomalyDetector,
       if (stat != null) 'Stat': stat,
       if (stateValue != null) 'StateValue': stateValue.value,
-    };
-  }
-}
-
-/// The configuration specifies details about how the anomaly detection model is
-/// to be trained, including time ranges to exclude from use for training the
-/// model and the time zone to use for the metric.
-class AnomalyDetectorConfiguration {
-  /// An array of time ranges to exclude from use when the anomaly detection model
-  /// is trained. Use this to make sure that events that could cause unusual
-  /// values for the metric, such as deployments, aren't used when CloudWatch
-  /// creates the model.
-  final List<Range>? excludedTimeRanges;
-
-  /// The time zone to use for the metric. This is useful to enable the model to
-  /// automatically account for daylight savings time changes if the metric is
-  /// sensitive to such time changes.
-  ///
-  /// To specify a time zone, use the name of the time zone as specified in the
-  /// standard tz database. For more information, see <a
-  /// href="https://en.wikipedia.org/wiki/Tz_database">tz database</a>.
-  final String? metricTimezone;
-
-  AnomalyDetectorConfiguration({
-    this.excludedTimeRanges,
-    this.metricTimezone,
-  });
-  factory AnomalyDetectorConfiguration.fromXml(_s.XmlElement elem) {
-    return AnomalyDetectorConfiguration(
-      excludedTimeRanges: _s.extractXmlChild(elem, 'ExcludedTimeRanges')?.let(
-          (elem) => elem.findElements('member').map(Range.fromXml).toList()),
-      metricTimezone: _s.extractXmlStringValue(elem, 'MetricTimezone'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final excludedTimeRanges = this.excludedTimeRanges;
-    final metricTimezone = this.metricTimezone;
-    return {
-      if (excludedTimeRanges != null) 'ExcludedTimeRanges': excludedTimeRanges,
-      if (metricTimezone != null) 'MetricTimezone': metricTimezone,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final excludedTimeRanges = this.excludedTimeRanges;
-    final metricTimezone = this.metricTimezone;
-    return {
-      if (excludedTimeRanges != null)
-        if (excludedTimeRanges.isEmpty)
-          'ExcludedTimeRanges': ''
-        else
-          for (var i1 = 0; i1 < excludedTimeRanges.length; i1++)
-            for (var e3 in excludedTimeRanges[i1].toQueryMap().entries)
-              'ExcludedTimeRanges.member.${i1 + 1}.${e3.key}': e3.value,
-      if (metricTimezone != null) 'MetricTimezone': metricTimezone,
     };
   }
 }
@@ -4087,42 +7935,335 @@ class AnomalyDetectorType {
   String toString() => value;
 }
 
-class ComparisonOperator {
-  static const greaterThanOrEqualToThreshold =
-      ComparisonOperator._('GreaterThanOrEqualToThreshold');
-  static const greaterThanThreshold =
-      ComparisonOperator._('GreaterThanThreshold');
-  static const lessThanThreshold = ComparisonOperator._('LessThanThreshold');
-  static const lessThanOrEqualToThreshold =
-      ComparisonOperator._('LessThanOrEqualToThreshold');
-  static const lessThanLowerOrGreaterThanUpperThreshold =
-      ComparisonOperator._('LessThanLowerOrGreaterThanUpperThreshold');
-  static const lessThanLowerThreshold =
-      ComparisonOperator._('LessThanLowerThreshold');
-  static const greaterThanUpperThreshold =
-      ComparisonOperator._('GreaterThanUpperThreshold');
+/// The details about a metric alarm.
+class MetricAlarm {
+  /// Indicates whether actions should be executed during any changes to the alarm
+  /// state.
+  final bool? actionsEnabled;
+
+  /// The actions to execute when this alarm transitions to the <code>ALARM</code>
+  /// state from any other state. Each action is specified as an Amazon Resource
+  /// Name (ARN).
+  final List<String>? alarmActions;
+
+  /// The Amazon Resource Name (ARN) of the alarm.
+  final String? alarmArn;
+
+  /// The time stamp of the last update to the alarm configuration.
+  final DateTime? alarmConfigurationUpdatedTimestamp;
+
+  /// The description of the alarm.
+  final String? alarmDescription;
+
+  /// The name of the alarm.
+  final String? alarmName;
+
+  /// The arithmetic operation to use when comparing the specified statistic and
+  /// threshold. The specified statistic value is used as the first operand.
+  final ComparisonOperator? comparisonOperator;
+
+  /// The number of data points that must be breaching to trigger the alarm.
+  final int? datapointsToAlarm;
+
+  /// The dimensions for the metric associated with the alarm.
+  final List<Dimension>? dimensions;
+
+  /// Used only for alarms based on percentiles. If <code>ignore</code>, the alarm
+  /// state does not change during periods with too few data points to be
+  /// statistically significant. If <code>evaluate</code> or this parameter is not
+  /// used, the alarm is always evaluated and possibly changes state no matter how
+  /// many data points are available.
+  final String? evaluateLowSampleCountPercentile;
+
+  /// The evaluation criteria for the alarm.
+  final EvaluationCriteria? evaluationCriteria;
+
+  /// The frequency, in seconds, at which the alarm is evaluated.
+  final int? evaluationInterval;
+
+  /// The number of periods over which data is compared to the specified
+  /// threshold.
+  final int? evaluationPeriods;
+
+  /// If the value of this field is <code>PARTIAL_DATA</code>, it indicates that
+  /// not all the available data was able to be retrieved due to quota
+  /// limitations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html">Create
+  /// alarms on Metrics Insights queries</a>.
+  ///
+  /// If the value of this field is <code>EVALUATION_ERROR</code>, it indicates
+  /// configuration errors in alarm setup that require review and correction.
+  /// Refer to StateReason field of the alarm for more details.
+  ///
+  /// If the value of this field is <code>EVALUATION_FAILURE</code>, it indicates
+  /// temporary CloudWatch issues. We recommend manual monitoring until the issue
+  /// is resolved
+  final EvaluationState? evaluationState;
+
+  /// The percentile statistic for the metric associated with the alarm. Specify a
+  /// value between p0.0 and p100.
+  final String? extendedStatistic;
+
+  /// The actions to execute when this alarm transitions to the
+  /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
+  /// specified as an Amazon Resource Name (ARN).
+  final List<String>? insufficientDataActions;
+
+  /// The name of the metric associated with the alarm, if this is an alarm based
+  /// on a single metric.
+  final String? metricName;
+
+  /// An array of MetricDataQuery structures, used in an alarm based on a metric
+  /// math expression. Each structure either retrieves a metric or performs a math
+  /// expression. One item in the Metrics array is the math expression that the
+  /// alarm watches. This expression by designated by having
+  /// <code>ReturnData</code> set to true.
+  final List<MetricDataQuery>? metrics;
+
+  /// The namespace of the metric associated with the alarm.
+  final String? namespace;
+
+  /// The actions to execute when this alarm transitions to the <code>OK</code>
+  /// state from any other state. Each action is specified as an Amazon Resource
+  /// Name (ARN).
+  final List<String>? oKActions;
+
+  /// The period, in seconds, over which the statistic is applied.
+  final int? period;
+
+  /// An explanation for the alarm state, in text format.
+  final String? stateReason;
+
+  /// An explanation for the alarm state, in JSON format.
+  final String? stateReasonData;
+
+  /// The date and time that the alarm's <code>StateValue</code> most recently
+  /// changed.
+  final DateTime? stateTransitionedTimestamp;
+
+  /// The time stamp of the last update to the value of either the
+  /// <code>StateValue</code> or <code>EvaluationState</code> parameters.
+  final DateTime? stateUpdatedTimestamp;
+
+  /// The state value for the alarm.
+  final StateValue? stateValue;
+
+  /// The statistic for the metric associated with the alarm, other than
+  /// percentile. For percentile statistics, use <code>ExtendedStatistic</code>.
+  final Statistic? statistic;
+
+  /// The value to compare with the specified statistic.
+  final double? threshold;
+
+  /// In an alarm based on an anomaly detection model, this is the ID of the
+  /// <code>ANOMALY_DETECTION_BAND</code> function used as the threshold for the
+  /// alarm.
+  final String? thresholdMetricId;
+
+  /// Sets how this alarm is to handle missing data points. The valid values are
+  /// <code>breaching</code>, <code>notBreaching</code>, <code>ignore</code>, and
+  /// <code>missing</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data">Configuring
+  /// how CloudWatch alarms treat missing data</a>.
+  ///
+  /// If this parameter is omitted, the default behavior of <code>missing</code>
+  /// is used.
+  /// <note>
+  /// This parameter is not applicable to PromQL alarms.
+  /// </note>
+  final String? treatMissingData;
+
+  /// The unit of the metric associated with the alarm.
+  final StandardUnit? unit;
+
+  MetricAlarm({
+    this.actionsEnabled,
+    this.alarmActions,
+    this.alarmArn,
+    this.alarmConfigurationUpdatedTimestamp,
+    this.alarmDescription,
+    this.alarmName,
+    this.comparisonOperator,
+    this.datapointsToAlarm,
+    this.dimensions,
+    this.evaluateLowSampleCountPercentile,
+    this.evaluationCriteria,
+    this.evaluationInterval,
+    this.evaluationPeriods,
+    this.evaluationState,
+    this.extendedStatistic,
+    this.insufficientDataActions,
+    this.metricName,
+    this.metrics,
+    this.namespace,
+    this.oKActions,
+    this.period,
+    this.stateReason,
+    this.stateReasonData,
+    this.stateTransitionedTimestamp,
+    this.stateUpdatedTimestamp,
+    this.stateValue,
+    this.statistic,
+    this.threshold,
+    this.thresholdMetricId,
+    this.treatMissingData,
+    this.unit,
+  });
+
+  factory MetricAlarm.fromJson(Map<String, dynamic> json) {
+    return MetricAlarm(
+      actionsEnabled: json['ActionsEnabled'] as bool?,
+      alarmActions: (json['AlarmActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      alarmArn: json['AlarmArn'] as String?,
+      alarmConfigurationUpdatedTimestamp:
+          timeStampFromJson(json['AlarmConfigurationUpdatedTimestamp']),
+      alarmDescription: json['AlarmDescription'] as String?,
+      alarmName: json['AlarmName'] as String?,
+      comparisonOperator: (json['ComparisonOperator'] as String?)
+          ?.let(ComparisonOperator.fromString),
+      datapointsToAlarm: json['DatapointsToAlarm'] as int?,
+      dimensions: (json['Dimensions'] as List?)
+          ?.nonNulls
+          .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      evaluateLowSampleCountPercentile:
+          json['EvaluateLowSampleCountPercentile'] as String?,
+      evaluationCriteria: json['EvaluationCriteria'] != null
+          ? EvaluationCriteria.fromJson(
+              json['EvaluationCriteria'] as Map<String, dynamic>)
+          : null,
+      evaluationInterval: json['EvaluationInterval'] as int?,
+      evaluationPeriods: json['EvaluationPeriods'] as int?,
+      evaluationState:
+          (json['EvaluationState'] as String?)?.let(EvaluationState.fromString),
+      extendedStatistic: json['ExtendedStatistic'] as String?,
+      insufficientDataActions: (json['InsufficientDataActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      metricName: json['MetricName'] as String?,
+      metrics: (json['Metrics'] as List?)
+          ?.nonNulls
+          .map((e) => MetricDataQuery.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      namespace: json['Namespace'] as String?,
+      oKActions: (json['OKActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      period: json['Period'] as int?,
+      stateReason: json['StateReason'] as String?,
+      stateReasonData: json['StateReasonData'] as String?,
+      stateTransitionedTimestamp:
+          timeStampFromJson(json['StateTransitionedTimestamp']),
+      stateUpdatedTimestamp: timeStampFromJson(json['StateUpdatedTimestamp']),
+      stateValue: (json['StateValue'] as String?)?.let(StateValue.fromString),
+      statistic: (json['Statistic'] as String?)?.let(Statistic.fromString),
+      threshold: json['Threshold'] as double?,
+      thresholdMetricId: json['ThresholdMetricId'] as String?,
+      treatMissingData: json['TreatMissingData'] as String?,
+      unit: (json['Unit'] as String?)?.let(StandardUnit.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionsEnabled = this.actionsEnabled;
+    final alarmActions = this.alarmActions;
+    final alarmArn = this.alarmArn;
+    final alarmConfigurationUpdatedTimestamp =
+        this.alarmConfigurationUpdatedTimestamp;
+    final alarmDescription = this.alarmDescription;
+    final alarmName = this.alarmName;
+    final comparisonOperator = this.comparisonOperator;
+    final datapointsToAlarm = this.datapointsToAlarm;
+    final dimensions = this.dimensions;
+    final evaluateLowSampleCountPercentile =
+        this.evaluateLowSampleCountPercentile;
+    final evaluationCriteria = this.evaluationCriteria;
+    final evaluationInterval = this.evaluationInterval;
+    final evaluationPeriods = this.evaluationPeriods;
+    final evaluationState = this.evaluationState;
+    final extendedStatistic = this.extendedStatistic;
+    final insufficientDataActions = this.insufficientDataActions;
+    final metricName = this.metricName;
+    final metrics = this.metrics;
+    final namespace = this.namespace;
+    final oKActions = this.oKActions;
+    final period = this.period;
+    final stateReason = this.stateReason;
+    final stateReasonData = this.stateReasonData;
+    final stateTransitionedTimestamp = this.stateTransitionedTimestamp;
+    final stateUpdatedTimestamp = this.stateUpdatedTimestamp;
+    final stateValue = this.stateValue;
+    final statistic = this.statistic;
+    final threshold = this.threshold;
+    final thresholdMetricId = this.thresholdMetricId;
+    final treatMissingData = this.treatMissingData;
+    final unit = this.unit;
+    return {
+      if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
+      if (alarmActions != null) 'AlarmActions': alarmActions,
+      if (alarmArn != null) 'AlarmArn': alarmArn,
+      if (alarmConfigurationUpdatedTimestamp != null)
+        'AlarmConfigurationUpdatedTimestamp':
+            unixTimestampToJson(alarmConfigurationUpdatedTimestamp),
+      if (alarmDescription != null) 'AlarmDescription': alarmDescription,
+      if (alarmName != null) 'AlarmName': alarmName,
+      if (comparisonOperator != null)
+        'ComparisonOperator': comparisonOperator.value,
+      if (datapointsToAlarm != null) 'DatapointsToAlarm': datapointsToAlarm,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (evaluateLowSampleCountPercentile != null)
+        'EvaluateLowSampleCountPercentile': evaluateLowSampleCountPercentile,
+      if (evaluationCriteria != null) 'EvaluationCriteria': evaluationCriteria,
+      if (evaluationInterval != null) 'EvaluationInterval': evaluationInterval,
+      if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
+      if (evaluationState != null) 'EvaluationState': evaluationState.value,
+      if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
+      if (insufficientDataActions != null)
+        'InsufficientDataActions': insufficientDataActions,
+      if (metricName != null) 'MetricName': metricName,
+      if (metrics != null) 'Metrics': metrics,
+      if (namespace != null) 'Namespace': namespace,
+      if (oKActions != null) 'OKActions': oKActions,
+      if (period != null) 'Period': period,
+      if (stateReason != null) 'StateReason': stateReason,
+      if (stateReasonData != null) 'StateReasonData': stateReasonData,
+      if (stateTransitionedTimestamp != null)
+        'StateTransitionedTimestamp':
+            unixTimestampToJson(stateTransitionedTimestamp),
+      if (stateUpdatedTimestamp != null)
+        'StateUpdatedTimestamp': unixTimestampToJson(stateUpdatedTimestamp),
+      if (stateValue != null) 'StateValue': stateValue.value,
+      if (statistic != null) 'Statistic': statistic.value,
+      if (threshold != null) 'Threshold': threshold,
+      if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
+      if (treatMissingData != null) 'TreatMissingData': treatMissingData,
+      if (unit != null) 'Unit': unit.value,
+    };
+  }
+}
+
+class EvaluationState {
+  static const partialData = EvaluationState._('PARTIAL_DATA');
+  static const evaluationFailure = EvaluationState._('EVALUATION_FAILURE');
+  static const evaluationError = EvaluationState._('EVALUATION_ERROR');
 
   final String value;
 
-  const ComparisonOperator._(this.value);
+  const EvaluationState._(this.value);
 
-  static const values = [
-    greaterThanOrEqualToThreshold,
-    greaterThanThreshold,
-    lessThanThreshold,
-    lessThanOrEqualToThreshold,
-    lessThanLowerOrGreaterThanUpperThreshold,
-    lessThanLowerThreshold,
-    greaterThanUpperThreshold
-  ];
+  static const values = [partialData, evaluationFailure, evaluationError];
 
-  static ComparisonOperator fromString(String value) =>
+  static EvaluationState fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => ComparisonOperator._(value));
+          orElse: () => EvaluationState._(value));
 
   @override
-  bool operator ==(other) =>
-      other is ComparisonOperator && other.value == value;
+  bool operator ==(other) => other is EvaluationState && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4242,43 +8383,41 @@ class CompositeAlarm {
     this.stateUpdatedTimestamp,
     this.stateValue,
   });
-  factory CompositeAlarm.fromXml(_s.XmlElement elem) {
+
+  factory CompositeAlarm.fromJson(Map<String, dynamic> json) {
     return CompositeAlarm(
-      actionsEnabled: _s.extractXmlBoolValue(elem, 'ActionsEnabled'),
-      actionsSuppressedBy: _s
-          .extractXmlStringValue(elem, 'ActionsSuppressedBy')
+      actionsEnabled: json['ActionsEnabled'] as bool?,
+      actionsSuppressedBy: (json['ActionsSuppressedBy'] as String?)
           ?.let(ActionsSuppressedBy.fromString),
-      actionsSuppressedReason:
-          _s.extractXmlStringValue(elem, 'ActionsSuppressedReason'),
-      actionsSuppressor: _s.extractXmlStringValue(elem, 'ActionsSuppressor'),
+      actionsSuppressedReason: json['ActionsSuppressedReason'] as String?,
+      actionsSuppressor: json['ActionsSuppressor'] as String?,
       actionsSuppressorExtensionPeriod:
-          _s.extractXmlIntValue(elem, 'ActionsSuppressorExtensionPeriod'),
-      actionsSuppressorWaitPeriod:
-          _s.extractXmlIntValue(elem, 'ActionsSuppressorWaitPeriod'),
-      alarmActions: _s
-          .extractXmlChild(elem, 'AlarmActions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      alarmArn: _s.extractXmlStringValue(elem, 'AlarmArn'),
-      alarmConfigurationUpdatedTimestamp: _s.extractXmlDateTimeValue(
-          elem, 'AlarmConfigurationUpdatedTimestamp'),
-      alarmDescription: _s.extractXmlStringValue(elem, 'AlarmDescription'),
-      alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
-      alarmRule: _s.extractXmlStringValue(elem, 'AlarmRule'),
-      insufficientDataActions: _s
-          .extractXmlChild(elem, 'InsufficientDataActions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      oKActions: _s
-          .extractXmlChild(elem, 'OKActions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      stateReason: _s.extractXmlStringValue(elem, 'StateReason'),
-      stateReasonData: _s.extractXmlStringValue(elem, 'StateReasonData'),
+          json['ActionsSuppressorExtensionPeriod'] as int?,
+      actionsSuppressorWaitPeriod: json['ActionsSuppressorWaitPeriod'] as int?,
+      alarmActions: (json['AlarmActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      alarmArn: json['AlarmArn'] as String?,
+      alarmConfigurationUpdatedTimestamp:
+          timeStampFromJson(json['AlarmConfigurationUpdatedTimestamp']),
+      alarmDescription: json['AlarmDescription'] as String?,
+      alarmName: json['AlarmName'] as String?,
+      alarmRule: json['AlarmRule'] as String?,
+      insufficientDataActions: (json['InsufficientDataActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      oKActions: (json['OKActions'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      stateReason: json['StateReason'] as String?,
+      stateReasonData: json['StateReasonData'] as String?,
       stateTransitionedTimestamp:
-          _s.extractXmlDateTimeValue(elem, 'StateTransitionedTimestamp'),
-      stateUpdatedTimestamp:
-          _s.extractXmlDateTimeValue(elem, 'StateUpdatedTimestamp'),
-      stateValue: _s
-          .extractXmlStringValue(elem, 'StateValue')
-          ?.let(StateValue.fromString),
+          timeStampFromJson(json['StateTransitionedTimestamp']),
+      stateUpdatedTimestamp: timeStampFromJson(json['StateUpdatedTimestamp']),
+      stateValue: (json['StateValue'] as String?)?.let(StateValue.fromString),
     );
   }
 
@@ -4319,7 +8458,7 @@ class CompositeAlarm {
       if (alarmArn != null) 'AlarmArn': alarmArn,
       if (alarmConfigurationUpdatedTimestamp != null)
         'AlarmConfigurationUpdatedTimestamp':
-            iso8601ToJson(alarmConfigurationUpdatedTimestamp),
+            unixTimestampToJson(alarmConfigurationUpdatedTimestamp),
       if (alarmDescription != null) 'AlarmDescription': alarmDescription,
       if (alarmName != null) 'AlarmName': alarmName,
       if (alarmRule != null) 'AlarmRule': alarmRule,
@@ -4329,529 +8468,33 @@ class CompositeAlarm {
       if (stateReason != null) 'StateReason': stateReason,
       if (stateReasonData != null) 'StateReasonData': stateReasonData,
       if (stateTransitionedTimestamp != null)
-        'StateTransitionedTimestamp': iso8601ToJson(stateTransitionedTimestamp),
+        'StateTransitionedTimestamp':
+            unixTimestampToJson(stateTransitionedTimestamp),
       if (stateUpdatedTimestamp != null)
-        'StateUpdatedTimestamp': iso8601ToJson(stateUpdatedTimestamp),
+        'StateUpdatedTimestamp': unixTimestampToJson(stateUpdatedTimestamp),
       if (stateValue != null) 'StateValue': stateValue.value,
     };
   }
 }
 
-/// Represents a specific dashboard.
-class DashboardEntry {
-  /// The Amazon Resource Name (ARN) of the dashboard.
-  final String? dashboardArn;
-
-  /// The name of the dashboard.
-  final String? dashboardName;
-
-  /// The time stamp of when the dashboard was last modified, either by an API
-  /// call or through the console. This number is expressed as the number of
-  /// milliseconds since Jan 1, 1970 00:00:00 UTC.
-  final DateTime? lastModified;
-
-  /// The size of the dashboard, in bytes.
-  final int? size;
-
-  DashboardEntry({
-    this.dashboardArn,
-    this.dashboardName,
-    this.lastModified,
-    this.size,
-  });
-  factory DashboardEntry.fromXml(_s.XmlElement elem) {
-    return DashboardEntry(
-      dashboardArn: _s.extractXmlStringValue(elem, 'DashboardArn'),
-      dashboardName: _s.extractXmlStringValue(elem, 'DashboardName'),
-      lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
-      size: _s.extractXmlIntValue(elem, 'Size'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dashboardArn = this.dashboardArn;
-    final dashboardName = this.dashboardName;
-    final lastModified = this.lastModified;
-    final size = this.size;
-    return {
-      if (dashboardArn != null) 'DashboardArn': dashboardArn,
-      if (dashboardName != null) 'DashboardName': dashboardName,
-      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
-      if (size != null) 'Size': size,
-    };
-  }
-}
-
-/// An error or warning for the operation.
-class DashboardValidationMessage {
-  /// The data path related to the message.
-  final String? dataPath;
-
-  /// A message describing the error or warning.
-  final String? message;
-
-  DashboardValidationMessage({
-    this.dataPath,
-    this.message,
-  });
-  factory DashboardValidationMessage.fromXml(_s.XmlElement elem) {
-    return DashboardValidationMessage(
-      dataPath: _s.extractXmlStringValue(elem, 'DataPath'),
-      message: _s.extractXmlStringValue(elem, 'Message'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataPath = this.dataPath;
-    final message = this.message;
-    return {
-      if (dataPath != null) 'DataPath': dataPath,
-      if (message != null) 'Message': message,
-    };
-  }
-}
-
-/// Encapsulates the statistical data that CloudWatch computes from metric data.
-class Datapoint {
-  /// The average of the metric values that correspond to the data point.
-  final double? average;
-
-  /// The percentile statistic for the data point.
-  final Map<String, double>? extendedStatistics;
-
-  /// The maximum metric value for the data point.
-  final double? maximum;
-
-  /// The minimum metric value for the data point.
-  final double? minimum;
-
-  /// The number of metric values that contributed to the aggregate value of this
-  /// data point.
-  final double? sampleCount;
-
-  /// The sum of the metric values for the data point.
-  final double? sum;
-
-  /// The time stamp used for the data point.
-  final DateTime? timestamp;
-
-  /// The standard unit for the data point.
-  final StandardUnit? unit;
-
-  Datapoint({
-    this.average,
-    this.extendedStatistics,
-    this.maximum,
-    this.minimum,
-    this.sampleCount,
-    this.sum,
-    this.timestamp,
-    this.unit,
-  });
-  factory Datapoint.fromXml(_s.XmlElement elem) {
-    return Datapoint(
-      average: _s.extractXmlDoubleValue(elem, 'Average'),
-      extendedStatistics: Map.fromEntries(
-        elem.getElement('ExtendedStatistics')?.findElements('entry').map(
-                  (c) => MapEntry(
-                    _s.extractXmlStringValue(c, 'key')!,
-                    _s.extractXmlDoubleValue(c, 'value')!,
-                  ),
-                ) ??
-            {},
-      ),
-      maximum: _s.extractXmlDoubleValue(elem, 'Maximum'),
-      minimum: _s.extractXmlDoubleValue(elem, 'Minimum'),
-      sampleCount: _s.extractXmlDoubleValue(elem, 'SampleCount'),
-      sum: _s.extractXmlDoubleValue(elem, 'Sum'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
-      unit:
-          _s.extractXmlStringValue(elem, 'Unit')?.let(StandardUnit.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final average = this.average;
-    final extendedStatistics = this.extendedStatistics;
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    final sampleCount = this.sampleCount;
-    final sum = this.sum;
-    final timestamp = this.timestamp;
-    final unit = this.unit;
-    return {
-      if (average != null) 'Average': average,
-      if (extendedStatistics != null) 'ExtendedStatistics': extendedStatistics,
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
-      if (sampleCount != null) 'SampleCount': sampleCount,
-      if (sum != null) 'Sum': sum,
-      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
-      if (unit != null) 'Unit': unit.value,
-    };
-  }
-}
-
-class DeleteAnomalyDetectorOutput {
-  DeleteAnomalyDetectorOutput();
-  factory DeleteAnomalyDetectorOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return DeleteAnomalyDetectorOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteDashboardsOutput {
-  DeleteDashboardsOutput();
-  factory DeleteDashboardsOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return DeleteDashboardsOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteInsightRulesOutput {
-  /// An array listing the rules that could not be deleted. You cannot delete
-  /// built-in rules.
-  final List<PartialFailure>? failures;
-
-  DeleteInsightRulesOutput({
-    this.failures,
-  });
-  factory DeleteInsightRulesOutput.fromXml(_s.XmlElement elem) {
-    return DeleteInsightRulesOutput(
-      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) =>
-          elem.findElements('member').map(PartialFailure.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failures = this.failures;
-    return {
-      if (failures != null) 'Failures': failures,
-    };
-  }
-}
-
-class DeleteMetricStreamOutput {
-  DeleteMetricStreamOutput();
-  factory DeleteMetricStreamOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return DeleteMetricStreamOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DescribeAlarmHistoryOutput {
-  /// The alarm histories, in JSON format.
-  final List<AlarmHistoryItem>? alarmHistoryItems;
-
-  /// The token that marks the start of the next batch of returned results.
-  final String? nextToken;
-
-  DescribeAlarmHistoryOutput({
-    this.alarmHistoryItems,
-    this.nextToken,
-  });
-  factory DescribeAlarmHistoryOutput.fromXml(_s.XmlElement elem) {
-    return DescribeAlarmHistoryOutput(
-      alarmHistoryItems: _s.extractXmlChild(elem, 'AlarmHistoryItems')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(AlarmHistoryItem.fromXml)
-              .toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alarmHistoryItems = this.alarmHistoryItems;
-    final nextToken = this.nextToken;
-    return {
-      if (alarmHistoryItems != null) 'AlarmHistoryItems': alarmHistoryItems,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class DescribeAlarmsForMetricOutput {
-  /// The information for each alarm with the specified metric.
-  final List<MetricAlarm>? metricAlarms;
-
-  DescribeAlarmsForMetricOutput({
-    this.metricAlarms,
-  });
-  factory DescribeAlarmsForMetricOutput.fromXml(_s.XmlElement elem) {
-    return DescribeAlarmsForMetricOutput(
-      metricAlarms: _s.extractXmlChild(elem, 'MetricAlarms')?.let((elem) =>
-          elem.findElements('member').map(MetricAlarm.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricAlarms = this.metricAlarms;
-    return {
-      if (metricAlarms != null) 'MetricAlarms': metricAlarms,
-    };
-  }
-}
-
-class DescribeAlarmsOutput {
-  /// The information about any composite alarms returned by the operation.
-  final List<CompositeAlarm>? compositeAlarms;
-
-  /// The information about any metric alarms returned by the operation.
-  final List<MetricAlarm>? metricAlarms;
-
-  /// The token that marks the start of the next batch of returned results.
-  final String? nextToken;
-
-  DescribeAlarmsOutput({
-    this.compositeAlarms,
-    this.metricAlarms,
-    this.nextToken,
-  });
-  factory DescribeAlarmsOutput.fromXml(_s.XmlElement elem) {
-    return DescribeAlarmsOutput(
-      compositeAlarms: _s.extractXmlChild(elem, 'CompositeAlarms')?.let(
-          (elem) =>
-              elem.findElements('member').map(CompositeAlarm.fromXml).toList()),
-      metricAlarms: _s.extractXmlChild(elem, 'MetricAlarms')?.let((elem) =>
-          elem.findElements('member').map(MetricAlarm.fromXml).toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final compositeAlarms = this.compositeAlarms;
-    final metricAlarms = this.metricAlarms;
-    final nextToken = this.nextToken;
-    return {
-      if (compositeAlarms != null) 'CompositeAlarms': compositeAlarms,
-      if (metricAlarms != null) 'MetricAlarms': metricAlarms,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class DescribeAnomalyDetectorsOutput {
-  /// The list of anomaly detection models returned by the operation.
-  final List<AnomalyDetector>? anomalyDetectors;
-
-  /// A token that you can use in a subsequent operation to retrieve the next set
-  /// of results.
-  final String? nextToken;
-
-  DescribeAnomalyDetectorsOutput({
-    this.anomalyDetectors,
-    this.nextToken,
-  });
-  factory DescribeAnomalyDetectorsOutput.fromXml(_s.XmlElement elem) {
-    return DescribeAnomalyDetectorsOutput(
-      anomalyDetectors: _s.extractXmlChild(elem, 'AnomalyDetectors')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(AnomalyDetector.fromXml)
-              .toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final anomalyDetectors = this.anomalyDetectors;
-    final nextToken = this.nextToken;
-    return {
-      if (anomalyDetectors != null) 'AnomalyDetectors': anomalyDetectors,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class DescribeInsightRulesOutput {
-  /// The rules returned by the operation.
-  final List<InsightRule>? insightRules;
-
-  /// If this parameter is present, it is a token that marks the start of the next
-  /// batch of returned results.
-  final String? nextToken;
-
-  DescribeInsightRulesOutput({
-    this.insightRules,
-    this.nextToken,
-  });
-  factory DescribeInsightRulesOutput.fromXml(_s.XmlElement elem) {
-    return DescribeInsightRulesOutput(
-      insightRules: _s.extractXmlChild(elem, 'InsightRules')?.let((elem) =>
-          elem.findElements('member').map(InsightRule.fromXml).toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final insightRules = this.insightRules;
-    final nextToken = this.nextToken;
-    return {
-      if (insightRules != null) 'InsightRules': insightRules,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-/// A dimension is a name/value pair that is part of the identity of a metric.
-/// Because dimensions are part of the unique identifier for a metric, whenever
-/// you add a unique name/value pair to one of your metrics, you are creating a
-/// new variation of that metric. For example, many Amazon EC2 metrics publish
-/// <code>InstanceId</code> as a dimension name, and the actual instance ID as
-/// the value for that dimension.
-///
-/// You can assign up to 30 dimensions to a metric.
-class Dimension {
-  /// The name of the dimension. Dimension names must contain only ASCII
-  /// characters, must include at least one non-whitespace character, and cannot
-  /// start with a colon (<code>:</code>). ASCII control characters are not
-  /// supported as part of dimension names.
-  final String name;
-
-  /// The value of the dimension. Dimension values must contain only ASCII
-  /// characters and must include at least one non-whitespace character. ASCII
-  /// control characters are not supported as part of dimension values.
-  final String value;
-
-  Dimension({
-    required this.name,
-    required this.value,
-  });
-  factory Dimension.fromXml(_s.XmlElement elem) {
-    return Dimension(
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      value: _s.extractXmlStringValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      'Value': value,
-    };
-  }
-}
-
-/// Represents filters for a dimension.
-class DimensionFilter {
-  /// The dimension name to be matched.
-  final String name;
-
-  /// The value of the dimension to be matched.
-  final String? value;
-
-  DimensionFilter({
-    required this.name,
-    this.value,
-  });
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      if (value != null) 'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final name = this.name;
-    final value = this.value;
-    return {
-      'Name': name,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class DisableInsightRulesOutput {
-  /// An array listing the rules that could not be disabled. You cannot disable
-  /// built-in rules.
-  final List<PartialFailure>? failures;
-
-  DisableInsightRulesOutput({
-    this.failures,
-  });
-  factory DisableInsightRulesOutput.fromXml(_s.XmlElement elem) {
-    return DisableInsightRulesOutput(
-      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) =>
-          elem.findElements('member').map(PartialFailure.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failures = this.failures;
-    return {
-      if (failures != null) 'Failures': failures,
-    };
-  }
-}
-
-class EnableInsightRulesOutput {
-  /// An array listing the rules that could not be enabled. You cannot disable or
-  /// enable built-in rules.
-  final List<PartialFailure>? failures;
-
-  EnableInsightRulesOutput({
-    this.failures,
-  });
-  factory EnableInsightRulesOutput.fromXml(_s.XmlElement elem) {
-    return EnableInsightRulesOutput(
-      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) =>
-          elem.findElements('member').map(PartialFailure.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failures = this.failures;
-    return {
-      if (failures != null) 'Failures': failures,
-    };
-  }
-}
-
-class EvaluationState {
-  static const partialData = EvaluationState._('PARTIAL_DATA');
+class ActionsSuppressedBy {
+  static const waitPeriod = ActionsSuppressedBy._('WaitPeriod');
+  static const extensionPeriod = ActionsSuppressedBy._('ExtensionPeriod');
+  static const alarm = ActionsSuppressedBy._('Alarm');
 
   final String value;
 
-  const EvaluationState._(this.value);
+  const ActionsSuppressedBy._(this.value);
 
-  static const values = [partialData];
+  static const values = [waitPeriod, extensionPeriod, alarm];
 
-  static EvaluationState fromString(String value) =>
+  static ActionsSuppressedBy fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => EvaluationState._(value));
+          orElse: () => ActionsSuppressedBy._(value));
 
   @override
-  bool operator ==(other) => other is EvaluationState && other.value == value;
+  bool operator ==(other) =>
+      other is ActionsSuppressedBy && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4860,345 +8503,104 @@ class EvaluationState {
   String toString() => value;
 }
 
-class GetDashboardOutput {
-  /// The Amazon Resource Name (ARN) of the dashboard.
-  final String? dashboardArn;
+class AlarmType {
+  static const compositeAlarm = AlarmType._('CompositeAlarm');
+  static const metricAlarm = AlarmType._('MetricAlarm');
 
-  /// The detailed information about the dashboard, including what widgets are
-  /// included and their location on the dashboard. For more information about the
-  /// <code>DashboardBody</code> syntax, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html">Dashboard
-  /// Body Structure and Syntax</a>.
-  final String? dashboardBody;
+  final String value;
 
-  /// The name of the dashboard.
-  final String? dashboardName;
+  const AlarmType._(this.value);
 
-  GetDashboardOutput({
-    this.dashboardArn,
-    this.dashboardBody,
-    this.dashboardName,
-  });
-  factory GetDashboardOutput.fromXml(_s.XmlElement elem) {
-    return GetDashboardOutput(
-      dashboardArn: _s.extractXmlStringValue(elem, 'DashboardArn'),
-      dashboardBody: _s.extractXmlStringValue(elem, 'DashboardBody'),
-      dashboardName: _s.extractXmlStringValue(elem, 'DashboardName'),
-    );
-  }
+  static const values = [compositeAlarm, metricAlarm];
 
-  Map<String, dynamic> toJson() {
-    final dashboardArn = this.dashboardArn;
-    final dashboardBody = this.dashboardBody;
-    final dashboardName = this.dashboardName;
-    return {
-      if (dashboardArn != null) 'DashboardArn': dashboardArn,
-      if (dashboardBody != null) 'DashboardBody': dashboardBody,
-      if (dashboardName != null) 'DashboardName': dashboardName,
-    };
-  }
+  static AlarmType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AlarmType._(value));
+
+  @override
+  bool operator ==(other) => other is AlarmType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
-class GetInsightRuleReportOutput {
-  /// The sum of the values from all individual contributors that match the rule.
-  final double? aggregateValue;
+/// Represents the history of a specific alarm.
+class AlarmHistoryItem {
+  /// A map of attributes that describe the alarm contributor associated with this
+  /// history item, providing context about the contributor's characteristics at
+  /// the time of the event.
+  final Map<String, String>? alarmContributorAttributes;
 
-  /// Specifies whether this rule aggregates contributor data by COUNT or SUM.
-  final String? aggregationStatistic;
+  /// The unique identifier of the alarm contributor associated with this history
+  /// item, if applicable.
+  final String? alarmContributorId;
 
-  /// An approximate count of the unique contributors found by this rule in this
-  /// time period.
-  final int? approximateUniqueCount;
+  /// The descriptive name for the alarm.
+  final String? alarmName;
 
-  /// An array of the unique contributors found by this rule in this time period.
-  /// If the rule contains multiple keys, each combination of values for the keys
-  /// counts as a unique contributor.
-  final List<InsightRuleContributor>? contributors;
+  /// The type of alarm, either metric alarm or composite alarm.
+  final AlarmType? alarmType;
 
-  /// An array of the strings used as the keys for this rule. The keys are the
-  /// dimensions used to classify contributors. If the rule contains more than one
-  /// key, then each unique combination of values for the keys is counted as a
-  /// unique contributor.
-  final List<String>? keyLabels;
+  /// Data about the alarm, in JSON format.
+  final String? historyData;
 
-  /// A time series of metric data points that matches the time period in the rule
-  /// request.
-  final List<InsightRuleMetricDatapoint>? metricDatapoints;
+  /// The type of alarm history item.
+  final HistoryItemType? historyItemType;
 
-  GetInsightRuleReportOutput({
-    this.aggregateValue,
-    this.aggregationStatistic,
-    this.approximateUniqueCount,
-    this.contributors,
-    this.keyLabels,
-    this.metricDatapoints,
+  /// A summary of the alarm history, in text format.
+  final String? historySummary;
+
+  /// The time stamp for the alarm history item.
+  final DateTime? timestamp;
+
+  AlarmHistoryItem({
+    this.alarmContributorAttributes,
+    this.alarmContributorId,
+    this.alarmName,
+    this.alarmType,
+    this.historyData,
+    this.historyItemType,
+    this.historySummary,
+    this.timestamp,
   });
-  factory GetInsightRuleReportOutput.fromXml(_s.XmlElement elem) {
-    return GetInsightRuleReportOutput(
-      aggregateValue: _s.extractXmlDoubleValue(elem, 'AggregateValue'),
-      aggregationStatistic:
-          _s.extractXmlStringValue(elem, 'AggregationStatistic'),
-      approximateUniqueCount:
-          _s.extractXmlIntValue(elem, 'ApproximateUniqueCount'),
-      contributors: _s.extractXmlChild(elem, 'Contributors')?.let((elem) => elem
-          .findElements('member')
-          .map(InsightRuleContributor.fromXml)
-          .toList()),
-      keyLabels: _s
-          .extractXmlChild(elem, 'KeyLabels')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      metricDatapoints: _s.extractXmlChild(elem, 'MetricDatapoints')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(InsightRuleMetricDatapoint.fromXml)
-              .toList()),
+
+  factory AlarmHistoryItem.fromJson(Map<String, dynamic> json) {
+    return AlarmHistoryItem(
+      alarmContributorAttributes:
+          (json['AlarmContributorAttributes'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      alarmContributorId: json['AlarmContributorId'] as String?,
+      alarmName: json['AlarmName'] as String?,
+      alarmType: (json['AlarmType'] as String?)?.let(AlarmType.fromString),
+      historyData: json['HistoryData'] as String?,
+      historyItemType:
+          (json['HistoryItemType'] as String?)?.let(HistoryItemType.fromString),
+      historySummary: json['HistorySummary'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final aggregateValue = this.aggregateValue;
-    final aggregationStatistic = this.aggregationStatistic;
-    final approximateUniqueCount = this.approximateUniqueCount;
-    final contributors = this.contributors;
-    final keyLabels = this.keyLabels;
-    final metricDatapoints = this.metricDatapoints;
+    final alarmContributorAttributes = this.alarmContributorAttributes;
+    final alarmContributorId = this.alarmContributorId;
+    final alarmName = this.alarmName;
+    final alarmType = this.alarmType;
+    final historyData = this.historyData;
+    final historyItemType = this.historyItemType;
+    final historySummary = this.historySummary;
+    final timestamp = this.timestamp;
     return {
-      if (aggregateValue != null) 'AggregateValue': aggregateValue,
-      if (aggregationStatistic != null)
-        'AggregationStatistic': aggregationStatistic,
-      if (approximateUniqueCount != null)
-        'ApproximateUniqueCount': approximateUniqueCount,
-      if (contributors != null) 'Contributors': contributors,
-      if (keyLabels != null) 'KeyLabels': keyLabels,
-      if (metricDatapoints != null) 'MetricDatapoints': metricDatapoints,
-    };
-  }
-}
-
-class GetMetricDataOutput {
-  /// Contains a message about this <code>GetMetricData</code> operation, if the
-  /// operation results in such a message. An example of a message that might be
-  /// returned is <code>Maximum number of allowed metrics exceeded</code>. If
-  /// there is a message, as much of the operation as possible is still executed.
-  ///
-  /// A message appears here only if it is related to the global
-  /// <code>GetMetricData</code> operation. Any message about a specific metric
-  /// returned by the operation appears in the <code>MetricDataResult</code>
-  /// object returned for that metric.
-  final List<MessageData>? messages;
-
-  /// The metrics that are returned, including the metric name, namespace, and
-  /// dimensions.
-  final List<MetricDataResult>? metricDataResults;
-
-  /// A token that marks the next batch of returned results.
-  final String? nextToken;
-
-  GetMetricDataOutput({
-    this.messages,
-    this.metricDataResults,
-    this.nextToken,
-  });
-  factory GetMetricDataOutput.fromXml(_s.XmlElement elem) {
-    return GetMetricDataOutput(
-      messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) =>
-          elem.findElements('member').map(MessageData.fromXml).toList()),
-      metricDataResults: _s.extractXmlChild(elem, 'MetricDataResults')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(MetricDataResult.fromXml)
-              .toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final messages = this.messages;
-    final metricDataResults = this.metricDataResults;
-    final nextToken = this.nextToken;
-    return {
-      if (messages != null) 'Messages': messages,
-      if (metricDataResults != null) 'MetricDataResults': metricDataResults,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class GetMetricStatisticsOutput {
-  /// The data points for the specified metric.
-  final List<Datapoint>? datapoints;
-
-  /// A label for the specified metric.
-  final String? label;
-
-  GetMetricStatisticsOutput({
-    this.datapoints,
-    this.label,
-  });
-  factory GetMetricStatisticsOutput.fromXml(_s.XmlElement elem) {
-    return GetMetricStatisticsOutput(
-      datapoints: _s.extractXmlChild(elem, 'Datapoints')?.let((elem) =>
-          elem.findElements('member').map(Datapoint.fromXml).toList()),
-      label: _s.extractXmlStringValue(elem, 'Label'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datapoints = this.datapoints;
-    final label = this.label;
-    return {
-      if (datapoints != null) 'Datapoints': datapoints,
-      if (label != null) 'Label': label,
-    };
-  }
-}
-
-class GetMetricStreamOutput {
-  /// The ARN of the metric stream.
-  final String? arn;
-
-  /// The date that the metric stream was created.
-  final DateTime? creationDate;
-
-  /// If this array of metric namespaces is present, then these namespaces are the
-  /// only metric namespaces that are not streamed by this metric stream. In this
-  /// case, all other metric namespaces in the account are streamed by this metric
-  /// stream.
-  final List<MetricStreamFilter>? excludeFilters;
-
-  /// The ARN of the Amazon Kinesis Data Firehose delivery stream that is used by
-  /// this metric stream.
-  final String? firehoseArn;
-
-  /// If this array of metric namespaces is present, then these namespaces are the
-  /// only metric namespaces that are streamed by this metric stream.
-  final List<MetricStreamFilter>? includeFilters;
-
-  /// If this is <code>true</code> and this metric stream is in a monitoring
-  /// account, then the stream includes metrics from source accounts that the
-  /// monitoring account is linked to.
-  final bool? includeLinkedAccountsMetrics;
-
-  /// The date of the most recent update to the metric stream's configuration.
-  final DateTime? lastUpdateDate;
-
-  /// The name of the metric stream.
-  final String? name;
-
-  /// The output format for the stream. Valid values are <code>json</code>,
-  /// <code>opentelemetry1.0</code>, and <code>opentelemetry0.7</code>. For more
-  /// information about metric stream output formats, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html">Metric
-  /// streams output formats</a>.
-  final MetricStreamOutputFormat? outputFormat;
-
-  /// The ARN of the IAM role that is used by this metric stream.
-  final String? roleArn;
-
-  /// The state of the metric stream. The possible values are <code>running</code>
-  /// and <code>stopped</code>.
-  final String? state;
-
-  /// Each entry in this array displays information about one or more metrics that
-  /// include additional statistics in the metric stream. For more information
-  /// about the additional statistics, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
-  /// CloudWatch statistics definitions</a>.
-  final List<MetricStreamStatisticsConfiguration>? statisticsConfigurations;
-
-  GetMetricStreamOutput({
-    this.arn,
-    this.creationDate,
-    this.excludeFilters,
-    this.firehoseArn,
-    this.includeFilters,
-    this.includeLinkedAccountsMetrics,
-    this.lastUpdateDate,
-    this.name,
-    this.outputFormat,
-    this.roleArn,
-    this.state,
-    this.statisticsConfigurations,
-  });
-  factory GetMetricStreamOutput.fromXml(_s.XmlElement elem) {
-    return GetMetricStreamOutput(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
-      excludeFilters: _s.extractXmlChild(elem, 'ExcludeFilters')?.let((elem) =>
-          elem.findElements('member').map(MetricStreamFilter.fromXml).toList()),
-      firehoseArn: _s.extractXmlStringValue(elem, 'FirehoseArn'),
-      includeFilters: _s.extractXmlChild(elem, 'IncludeFilters')?.let((elem) =>
-          elem.findElements('member').map(MetricStreamFilter.fromXml).toList()),
-      includeLinkedAccountsMetrics:
-          _s.extractXmlBoolValue(elem, 'IncludeLinkedAccountsMetrics'),
-      lastUpdateDate: _s.extractXmlDateTimeValue(elem, 'LastUpdateDate'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      outputFormat: _s
-          .extractXmlStringValue(elem, 'OutputFormat')
-          ?.let(MetricStreamOutputFormat.fromString),
-      roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
-      state: _s.extractXmlStringValue(elem, 'State'),
-      statisticsConfigurations: _s
-          .extractXmlChild(elem, 'StatisticsConfigurations')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(MetricStreamStatisticsConfiguration.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationDate = this.creationDate;
-    final excludeFilters = this.excludeFilters;
-    final firehoseArn = this.firehoseArn;
-    final includeFilters = this.includeFilters;
-    final includeLinkedAccountsMetrics = this.includeLinkedAccountsMetrics;
-    final lastUpdateDate = this.lastUpdateDate;
-    final name = this.name;
-    final outputFormat = this.outputFormat;
-    final roleArn = this.roleArn;
-    final state = this.state;
-    final statisticsConfigurations = this.statisticsConfigurations;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
-      if (excludeFilters != null) 'ExcludeFilters': excludeFilters,
-      if (firehoseArn != null) 'FirehoseArn': firehoseArn,
-      if (includeFilters != null) 'IncludeFilters': includeFilters,
-      if (includeLinkedAccountsMetrics != null)
-        'IncludeLinkedAccountsMetrics': includeLinkedAccountsMetrics,
-      if (lastUpdateDate != null)
-        'LastUpdateDate': iso8601ToJson(lastUpdateDate),
-      if (name != null) 'Name': name,
-      if (outputFormat != null) 'OutputFormat': outputFormat.value,
-      if (roleArn != null) 'RoleArn': roleArn,
-      if (state != null) 'State': state,
-      if (statisticsConfigurations != null)
-        'StatisticsConfigurations': statisticsConfigurations,
-    };
-  }
-}
-
-class GetMetricWidgetImageOutput {
-  /// The image of the graph, in the output format specified. The output is
-  /// base64-encoded.
-  final Uint8List? metricWidgetImage;
-
-  GetMetricWidgetImageOutput({
-    this.metricWidgetImage,
-  });
-  factory GetMetricWidgetImageOutput.fromXml(_s.XmlElement elem) {
-    return GetMetricWidgetImageOutput(
-      metricWidgetImage: _s.extractXmlUint8ListValue(elem, 'MetricWidgetImage'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricWidgetImage = this.metricWidgetImage;
-    return {
-      if (metricWidgetImage != null)
-        'MetricWidgetImage': base64Encode(metricWidgetImage),
+      if (alarmContributorAttributes != null)
+        'AlarmContributorAttributes': alarmContributorAttributes,
+      if (alarmContributorId != null) 'AlarmContributorId': alarmContributorId,
+      if (alarmName != null) 'AlarmName': alarmName,
+      if (alarmType != null) 'AlarmType': alarmType.value,
+      if (historyData != null) 'HistoryData': historyData,
+      if (historyItemType != null) 'HistoryItemType': historyItemType.value,
+      if (historySummary != null) 'HistorySummary': historySummary,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
     };
   }
 }
@@ -5207,12 +8609,22 @@ class HistoryItemType {
   static const configurationUpdate = HistoryItemType._('ConfigurationUpdate');
   static const stateUpdate = HistoryItemType._('StateUpdate');
   static const action = HistoryItemType._('Action');
+  static const alarmContributorStateUpdate =
+      HistoryItemType._('AlarmContributorStateUpdate');
+  static const alarmContributorAction =
+      HistoryItemType._('AlarmContributorAction');
 
   final String value;
 
   const HistoryItemType._(this.value);
 
-  static const values = [configurationUpdate, stateUpdate, action];
+  static const values = [
+    configurationUpdate,
+    stateUpdate,
+    action,
+    alarmContributorStateUpdate,
+    alarmContributorAction
+  ];
 
   static HistoryItemType fromString(String value) =>
       values.firstWhere((e) => e.value == value,
@@ -5228,2405 +8640,57 @@ class HistoryItemType {
   String toString() => value;
 }
 
-/// This structure contains the definition for a Contributor Insights rule. For
-/// more information about this rule, see<a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html">
-/// Using Constributor Insights to analyze high-cardinality data</a> in the
-/// <i>Amazon CloudWatch User Guide</i>.
-class InsightRule {
-  /// The definition of the rule, as a JSON object. The definition contains the
-  /// keywords used to define contributors, the value to aggregate on if this rule
-  /// returns a sum instead of a count, and the filters. For details on the valid
-  /// syntax, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights-RuleSyntax.html">Contributor
-  /// Insights Rule Syntax</a>.
-  final String definition;
-
-  /// The name of the rule.
-  final String name;
-
-  /// For rules that you create, this is always <code>{"Name":
-  /// "CloudWatchLogRule", "Version": 1}</code>. For managed rules, this is
-  /// <code>{"Name": "ServiceLogRule", "Version": 1}</code>
-  final String schema;
-
-  /// Indicates whether the rule is enabled or disabled.
-  final String state;
-
-  /// An optional built-in rule that Amazon Web Services manages.
-  final bool? managedRule;
-
-  InsightRule({
-    required this.definition,
-    required this.name,
-    required this.schema,
-    required this.state,
-    this.managedRule,
-  });
-  factory InsightRule.fromXml(_s.XmlElement elem) {
-    return InsightRule(
-      definition: _s.extractXmlStringValue(elem, 'Definition')!,
-      name: _s.extractXmlStringValue(elem, 'Name')!,
-      schema: _s.extractXmlStringValue(elem, 'Schema')!,
-      state: _s.extractXmlStringValue(elem, 'State')!,
-      managedRule: _s.extractXmlBoolValue(elem, 'ManagedRule'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final definition = this.definition;
-    final name = this.name;
-    final schema = this.schema;
-    final state = this.state;
-    final managedRule = this.managedRule;
-    return {
-      'Definition': definition,
-      'Name': name,
-      'Schema': schema,
-      'State': state,
-      if (managedRule != null) 'ManagedRule': managedRule,
-    };
-  }
-}
-
-/// One of the unique contributors found by a Contributor Insights rule. If the
-/// rule contains multiple keys, then a unique contributor is a unique
-/// combination of values from all the keys in the rule.
-///
-/// If the rule contains a single key, then each unique contributor is each
-/// unique value for this key.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>.
-class InsightRuleContributor {
-  /// An approximation of the aggregate value that comes from this contributor.
-  final double approximateAggregateValue;
-
-  /// An array of the data points where this contributor is present. Only the data
-  /// points when this contributor appeared are included in the array.
-  final List<InsightRuleContributorDatapoint> datapoints;
-
-  /// One of the log entry field keywords that is used to define contributors for
-  /// this rule.
-  final List<String> keys;
-
-  InsightRuleContributor({
-    required this.approximateAggregateValue,
-    required this.datapoints,
-    required this.keys,
-  });
-  factory InsightRuleContributor.fromXml(_s.XmlElement elem) {
-    return InsightRuleContributor(
-      approximateAggregateValue:
-          _s.extractXmlDoubleValue(elem, 'ApproximateAggregateValue')!,
-      datapoints: _s
-          .extractXmlChild(elem, 'Datapoints')!
-          .findElements('member')
-          .map(InsightRuleContributorDatapoint.fromXml)
-          .toList(),
-      keys: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'Keys')!, 'member'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approximateAggregateValue = this.approximateAggregateValue;
-    final datapoints = this.datapoints;
-    final keys = this.keys;
-    return {
-      'ApproximateAggregateValue': approximateAggregateValue,
-      'Datapoints': datapoints,
-      'Keys': keys,
-    };
-  }
-}
-
-/// One data point related to one contributor.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>
-/// and <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_InsightRuleContributor.html">InsightRuleContributor</a>.
-class InsightRuleContributorDatapoint {
-  /// The approximate value that this contributor added during this timestamp.
-  final double approximateValue;
-
-  /// The timestamp of the data point.
-  final DateTime timestamp;
-
-  InsightRuleContributorDatapoint({
-    required this.approximateValue,
-    required this.timestamp,
-  });
-  factory InsightRuleContributorDatapoint.fromXml(_s.XmlElement elem) {
-    return InsightRuleContributorDatapoint(
-      approximateValue: _s.extractXmlDoubleValue(elem, 'ApproximateValue')!,
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final approximateValue = this.approximateValue;
-    final timestamp = this.timestamp;
-    return {
-      'ApproximateValue': approximateValue,
-      'Timestamp': iso8601ToJson(timestamp),
-    };
-  }
-}
-
-/// One data point from the metric time series returned in a Contributor
-/// Insights rule report.
-///
-/// For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetInsightRuleReport.html">GetInsightRuleReport</a>.
-class InsightRuleMetricDatapoint {
-  /// The timestamp of the data point.
-  final DateTime timestamp;
-
-  /// The average value from all contributors during the time period represented
-  /// by that data point.
-  ///
-  /// This statistic is returned only if you included it in the
-  /// <code>Metrics</code> array in your request.
-  final double? average;
-
-  /// The maximum value provided by one contributor during this timestamp. Each
-  /// timestamp is evaluated separately, so the identity of the max contributor
-  /// could be different for each timestamp.
-  ///
-  /// This statistic is returned only if you included it in the
-  /// <code>Metrics</code> array in your request.
-  final double? maxContributorValue;
-
-  /// The maximum value from a single occurence from a single contributor during
-  /// the time period represented by that data point.
-  ///
-  /// This statistic is returned only if you included it in the
-  /// <code>Metrics</code> array in your request.
-  final double? maximum;
-
-  /// The minimum value from a single contributor during the time period
-  /// represented by that data point.
-  ///
-  /// This statistic is returned only if you included it in the
-  /// <code>Metrics</code> array in your request.
-  final double? minimum;
-
-  /// The number of occurrences that matched the rule during this data point.
-  ///
-  /// This statistic is returned only if you included it in the
-  /// <code>Metrics</code> array in your request.
-  final double? sampleCount;
-
-  /// The sum of the values from all contributors during the time period
-  /// represented by that data point.
-  ///
-  /// This statistic is returned only if you included it in the
-  /// <code>Metrics</code> array in your request.
-  final double? sum;
-
-  /// The number of unique contributors who published data during this timestamp.
-  ///
-  /// This statistic is returned only if you included it in the
-  /// <code>Metrics</code> array in your request.
-  final double? uniqueContributors;
-
-  InsightRuleMetricDatapoint({
-    required this.timestamp,
-    this.average,
-    this.maxContributorValue,
-    this.maximum,
-    this.minimum,
-    this.sampleCount,
-    this.sum,
-    this.uniqueContributors,
-  });
-  factory InsightRuleMetricDatapoint.fromXml(_s.XmlElement elem) {
-    return InsightRuleMetricDatapoint(
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp')!,
-      average: _s.extractXmlDoubleValue(elem, 'Average'),
-      maxContributorValue:
-          _s.extractXmlDoubleValue(elem, 'MaxContributorValue'),
-      maximum: _s.extractXmlDoubleValue(elem, 'Maximum'),
-      minimum: _s.extractXmlDoubleValue(elem, 'Minimum'),
-      sampleCount: _s.extractXmlDoubleValue(elem, 'SampleCount'),
-      sum: _s.extractXmlDoubleValue(elem, 'Sum'),
-      uniqueContributors: _s.extractXmlDoubleValue(elem, 'UniqueContributors'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final timestamp = this.timestamp;
-    final average = this.average;
-    final maxContributorValue = this.maxContributorValue;
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    final sampleCount = this.sampleCount;
-    final sum = this.sum;
-    final uniqueContributors = this.uniqueContributors;
-    return {
-      'Timestamp': iso8601ToJson(timestamp),
-      if (average != null) 'Average': average,
-      if (maxContributorValue != null)
-        'MaxContributorValue': maxContributorValue,
-      if (maximum != null) 'Maximum': maximum,
-      if (minimum != null) 'Minimum': minimum,
-      if (sampleCount != null) 'SampleCount': sampleCount,
-      if (sum != null) 'Sum': sum,
-      if (uniqueContributors != null) 'UniqueContributors': uniqueContributors,
-    };
-  }
-}
-
-/// This structure includes the <code>Timezone</code> parameter, which you can
-/// use to specify your time zone so that the labels that are associated with
-/// returned metrics display the correct time for your time zone.
-///
-/// The <code>Timezone</code> value affects a label only if you have a
-/// time-based dynamic expression in the label. For more information about
-/// dynamic expressions in labels, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/graph-dynamic-labels.html">Using
-/// Dynamic Labels</a>.
-class LabelOptions {
-  /// The time zone to use for metric data return in this operation. The format is
-  /// <code>+</code> or <code>-</code> followed by four digits. The first two
-  /// digits indicate the number of hours ahead or behind of UTC, and the final
-  /// two digits are the number of minutes. For example, +0130 indicates a time
-  /// zone that is 1 hour and 30 minutes ahead of UTC. The default is +0000.
-  final String? timezone;
-
-  LabelOptions({
-    this.timezone,
-  });
-
-  Map<String, dynamic> toJson() {
-    final timezone = this.timezone;
-    return {
-      if (timezone != null) 'Timezone': timezone,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final timezone = this.timezone;
-    return {
-      if (timezone != null) 'Timezone': timezone,
-    };
-  }
-}
-
-class ListDashboardsOutput {
-  /// The list of matching dashboards.
-  final List<DashboardEntry>? dashboardEntries;
-
-  /// The token that marks the start of the next batch of returned results.
-  final String? nextToken;
-
-  ListDashboardsOutput({
-    this.dashboardEntries,
-    this.nextToken,
-  });
-  factory ListDashboardsOutput.fromXml(_s.XmlElement elem) {
-    return ListDashboardsOutput(
-      dashboardEntries: _s.extractXmlChild(elem, 'DashboardEntries')?.let(
-          (elem) =>
-              elem.findElements('member').map(DashboardEntry.fromXml).toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dashboardEntries = this.dashboardEntries;
-    final nextToken = this.nextToken;
-    return {
-      if (dashboardEntries != null) 'DashboardEntries': dashboardEntries,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListManagedInsightRulesOutput {
-  /// The managed rules that are available for the specified Amazon Web Services
-  /// resource.
-  final List<ManagedRuleDescription>? managedRules;
-
-  /// Include this value to get the next set of rules if the value was returned by
-  /// the previous operation.
-  final String? nextToken;
-
-  ListManagedInsightRulesOutput({
-    this.managedRules,
-    this.nextToken,
-  });
-  factory ListManagedInsightRulesOutput.fromXml(_s.XmlElement elem) {
-    return ListManagedInsightRulesOutput(
-      managedRules: _s.extractXmlChild(elem, 'ManagedRules')?.let((elem) => elem
-          .findElements('member')
-          .map(ManagedRuleDescription.fromXml)
-          .toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final managedRules = this.managedRules;
-    final nextToken = this.nextToken;
-    return {
-      if (managedRules != null) 'ManagedRules': managedRules,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListMetricStreamsOutput {
-  /// The array of metric stream information.
-  final List<MetricStreamEntry>? entries;
-
-  /// The token that marks the start of the next batch of returned results. You
-  /// can use this token in a subsequent operation to get the next batch of
-  /// results.
-  final String? nextToken;
-
-  ListMetricStreamsOutput({
-    this.entries,
-    this.nextToken,
-  });
-  factory ListMetricStreamsOutput.fromXml(_s.XmlElement elem) {
-    return ListMetricStreamsOutput(
-      entries: _s.extractXmlChild(elem, 'Entries')?.let((elem) =>
-          elem.findElements('member').map(MetricStreamEntry.fromXml).toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entries = this.entries;
-    final nextToken = this.nextToken;
-    return {
-      if (entries != null) 'Entries': entries,
-      if (nextToken != null) 'NextToken': nextToken,
-    };
-  }
-}
-
-class ListMetricsOutput {
-  /// The metrics that match your request.
-  final List<Metric>? metrics;
-
-  /// The token that marks the start of the next batch of returned results.
-  final String? nextToken;
-
-  /// If you are using this operation in a monitoring account, this array contains
-  /// the account IDs of the source accounts where the metrics in the returned
-  /// data are from.
-  ///
-  /// This field is a 1:1 mapping between each metric that is returned and the ID
-  /// of the owning account.
-  final List<String>? owningAccounts;
-
-  ListMetricsOutput({
-    this.metrics,
-    this.nextToken,
-    this.owningAccounts,
-  });
-  factory ListMetricsOutput.fromXml(_s.XmlElement elem) {
-    return ListMetricsOutput(
-      metrics: _s.extractXmlChild(elem, 'Metrics')?.let(
-          (elem) => elem.findElements('member').map(Metric.fromXml).toList()),
-      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
-      owningAccounts: _s
-          .extractXmlChild(elem, 'OwningAccounts')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metrics = this.metrics;
-    final nextToken = this.nextToken;
-    final owningAccounts = this.owningAccounts;
-    return {
-      if (metrics != null) 'Metrics': metrics,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (owningAccounts != null) 'OwningAccounts': owningAccounts,
-    };
-  }
-}
-
-class ListTagsForResourceOutput {
-  /// The list of tag keys and values associated with the resource you specified.
-  final List<Tag>? tags;
-
-  ListTagsForResourceOutput({
-    this.tags,
-  });
-  factory ListTagsForResourceOutput.fromXml(_s.XmlElement elem) {
-    return ListTagsForResourceOutput(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let(
-          (elem) => elem.findElements('member').map(Tag.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-/// Contains the information that's required to enable a managed Contributor
-/// Insights rule for an Amazon Web Services resource.
-class ManagedRule {
-  /// The ARN of an Amazon Web Services resource that has managed Contributor
-  /// Insights rules.
-  final String resourceARN;
-
-  /// The template name for the managed Contributor Insights rule, as returned by
-  /// <code>ListManagedInsightRules</code>.
-  final String templateName;
-
-  /// A list of key-value pairs that you can associate with a managed Contributor
-  /// Insights rule. You can associate as many as 50 tags with a rule. Tags can
-  /// help you organize and categorize your resources. You also can use them to
-  /// scope user permissions by granting a user permission to access or change
-  /// only the resources that have certain tag values. To associate tags with a
-  /// rule, you must have the <code>cloudwatch:TagResource</code> permission in
-  /// addition to the <code>cloudwatch:PutInsightRule</code> permission. If you
-  /// are using this operation to update an existing Contributor Insights rule,
-  /// any tags that you specify in this parameter are ignored. To change the tags
-  /// of an existing rule, use <code>TagResource</code>.
-  final List<Tag>? tags;
-
-  ManagedRule({
-    required this.resourceARN,
-    required this.templateName,
-    this.tags,
-  });
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final templateName = this.templateName;
-    final tags = this.tags;
-    return {
-      'ResourceARN': resourceARN,
-      'TemplateName': templateName,
-      if (tags != null) 'Tags': tags,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final resourceARN = this.resourceARN;
-    final templateName = this.templateName;
-    final tags = this.tags;
-    return {
-      'ResourceARN': resourceARN,
-      'TemplateName': templateName,
-      if (tags != null)
-        if (tags.isEmpty)
-          'Tags': ''
-        else
-          for (var i1 = 0; i1 < tags.length; i1++)
-            for (var e3 in tags[i1].toQueryMap().entries)
-              'Tags.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
-/// Contains information about managed Contributor Insights rules, as returned
-/// by <code>ListManagedInsightRules</code>.
-class ManagedRuleDescription {
-  /// If a managed rule is enabled, this is the ARN for the related Amazon Web
-  /// Services resource.
-  final String? resourceARN;
-
-  /// Describes the state of a managed rule. If present, it contains information
-  /// about the Contributor Insights rule that contains information about the
-  /// related Amazon Web Services resource.
-  final ManagedRuleState? ruleState;
-
-  /// The template name for the managed rule. Used to enable managed rules using
-  /// <code>PutManagedInsightRules</code>.
-  final String? templateName;
-
-  ManagedRuleDescription({
-    this.resourceARN,
-    this.ruleState,
-    this.templateName,
-  });
-  factory ManagedRuleDescription.fromXml(_s.XmlElement elem) {
-    return ManagedRuleDescription(
-      resourceARN: _s.extractXmlStringValue(elem, 'ResourceARN'),
-      ruleState:
-          _s.extractXmlChild(elem, 'RuleState')?.let(ManagedRuleState.fromXml),
-      templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final resourceARN = this.resourceARN;
-    final ruleState = this.ruleState;
-    final templateName = this.templateName;
-    return {
-      if (resourceARN != null) 'ResourceARN': resourceARN,
-      if (ruleState != null) 'RuleState': ruleState,
-      if (templateName != null) 'TemplateName': templateName,
-    };
-  }
-}
-
-/// The status of a managed Contributor Insights rule.
-class ManagedRuleState {
-  /// The name of the Contributor Insights rule that contains data for the
-  /// specified Amazon Web Services resource.
-  final String ruleName;
-
-  /// Indicates whether the rule is enabled or disabled.
-  final String state;
-
-  ManagedRuleState({
-    required this.ruleName,
-    required this.state,
-  });
-  factory ManagedRuleState.fromXml(_s.XmlElement elem) {
-    return ManagedRuleState(
-      ruleName: _s.extractXmlStringValue(elem, 'RuleName')!,
-      state: _s.extractXmlStringValue(elem, 'State')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final ruleName = this.ruleName;
-    final state = this.state;
-    return {
-      'RuleName': ruleName,
-      'State': state,
-    };
-  }
-}
-
-/// A message returned by the <code>GetMetricData</code>API, including a code
-/// and a description.
-///
-/// If a cross-Region <code>GetMetricData</code> operation fails with a code of
-/// <code>Forbidden</code> and a value of <code>Authentication too complex to
-/// retrieve cross region data</code>, you can correct the problem by running
-/// the <code>GetMetricData</code> operation in the same Region where the metric
-/// data is.
-class MessageData {
-  /// The error code or status code associated with the message.
-  final String? code;
-
-  /// The message text.
-  final String? value;
-
-  MessageData({
-    this.code,
-    this.value,
-  });
-  factory MessageData.fromXml(_s.XmlElement elem) {
-    return MessageData(
-      code: _s.extractXmlStringValue(elem, 'Code'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final value = this.value;
-    return {
-      if (code != null) 'Code': code,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-/// Represents a specific metric.
-class Metric {
-  /// The dimensions for the metric.
-  final List<Dimension>? dimensions;
-
-  /// The name of the metric. This is a required field.
-  final String? metricName;
-
-  /// The namespace of the metric.
-  final String? namespace;
-
-  Metric({
-    this.dimensions,
-    this.metricName,
-    this.namespace,
-  });
-  factory Metric.fromXml(_s.XmlElement elem) {
-    return Metric(
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
-          elem.findElements('member').map(Dimension.fromXml).toList()),
-      metricName: _s.extractXmlStringValue(elem, 'MetricName'),
-      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dimensions = this.dimensions;
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    return {
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final dimensions = this.dimensions;
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    return {
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-    };
-  }
-}
-
-/// The details about a metric alarm.
-class MetricAlarm {
-  /// Indicates whether actions should be executed during any changes to the alarm
-  /// state.
-  final bool? actionsEnabled;
-
-  /// The actions to execute when this alarm transitions to the <code>ALARM</code>
-  /// state from any other state. Each action is specified as an Amazon Resource
-  /// Name (ARN).
-  final List<String>? alarmActions;
-
-  /// The Amazon Resource Name (ARN) of the alarm.
-  final String? alarmArn;
-
-  /// The time stamp of the last update to the alarm configuration.
-  final DateTime? alarmConfigurationUpdatedTimestamp;
-
-  /// The description of the alarm.
-  final String? alarmDescription;
-
-  /// The name of the alarm.
-  final String? alarmName;
-
-  /// The arithmetic operation to use when comparing the specified statistic and
-  /// threshold. The specified statistic value is used as the first operand.
-  final ComparisonOperator? comparisonOperator;
-
-  /// The number of data points that must be breaching to trigger the alarm.
-  final int? datapointsToAlarm;
-
-  /// The dimensions for the metric associated with the alarm.
-  final List<Dimension>? dimensions;
-
-  /// Used only for alarms based on percentiles. If <code>ignore</code>, the alarm
-  /// state does not change during periods with too few data points to be
-  /// statistically significant. If <code>evaluate</code> or this parameter is not
-  /// used, the alarm is always evaluated and possibly changes state no matter how
-  /// many data points are available.
-  final String? evaluateLowSampleCountPercentile;
-
-  /// The number of periods over which data is compared to the specified
-  /// threshold.
-  final int? evaluationPeriods;
-
-  /// If the value of this field is <code>PARTIAL_DATA</code>, the alarm is being
-  /// evaluated based on only partial data. This happens if the query used for the
-  /// alarm returns more than 10,000 metrics. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html">Create
-  /// alarms on Metrics Insights queries</a>.
-  final EvaluationState? evaluationState;
-
-  /// The percentile statistic for the metric associated with the alarm. Specify a
-  /// value between p0.0 and p100.
-  final String? extendedStatistic;
-
-  /// The actions to execute when this alarm transitions to the
-  /// <code>INSUFFICIENT_DATA</code> state from any other state. Each action is
-  /// specified as an Amazon Resource Name (ARN).
-  final List<String>? insufficientDataActions;
-
-  /// The name of the metric associated with the alarm, if this is an alarm based
-  /// on a single metric.
-  final String? metricName;
-
-  /// An array of MetricDataQuery structures, used in an alarm based on a metric
-  /// math expression. Each structure either retrieves a metric or performs a math
-  /// expression. One item in the Metrics array is the math expression that the
-  /// alarm watches. This expression by designated by having
-  /// <code>ReturnData</code> set to true.
-  final List<MetricDataQuery>? metrics;
-
-  /// The namespace of the metric associated with the alarm.
-  final String? namespace;
-
-  /// The actions to execute when this alarm transitions to the <code>OK</code>
-  /// state from any other state. Each action is specified as an Amazon Resource
-  /// Name (ARN).
-  final List<String>? oKActions;
-
-  /// The period, in seconds, over which the statistic is applied.
-  final int? period;
-
-  /// An explanation for the alarm state, in text format.
-  final String? stateReason;
-
-  /// An explanation for the alarm state, in JSON format.
-  final String? stateReasonData;
-
-  /// The date and time that the alarm's <code>StateValue</code> most recently
-  /// changed.
+/// Represents an individual contributor to a multi-timeseries alarm, containing
+/// information about a specific time series and its contribution to the alarm's
+/// state.
+class AlarmContributor {
+  /// A map of attributes that describe the contributor, such as metric dimensions
+  /// and other identifying characteristics.
+  final Map<String, String> contributorAttributes;
+
+  /// The unique identifier for this alarm contributor.
+  final String contributorId;
+
+  /// An explanation for the contributor's current state, providing context about
+  /// why it is in its current condition.
+  final String stateReason;
+
+  /// The timestamp when the contributor last transitioned to its current state.
   final DateTime? stateTransitionedTimestamp;
 
-  /// The time stamp of the last update to the value of either the
-  /// <code>StateValue</code> or <code>EvaluationState</code> parameters.
-  final DateTime? stateUpdatedTimestamp;
-
-  /// The state value for the alarm.
-  final StateValue? stateValue;
-
-  /// The statistic for the metric associated with the alarm, other than
-  /// percentile. For percentile statistics, use <code>ExtendedStatistic</code>.
-  final Statistic? statistic;
-
-  /// The value to compare with the specified statistic.
-  final double? threshold;
-
-  /// In an alarm based on an anomaly detection model, this is the ID of the
-  /// <code>ANOMALY_DETECTION_BAND</code> function used as the threshold for the
-  /// alarm.
-  final String? thresholdMetricId;
-
-  /// Sets how this alarm is to handle missing data points. The valid values are
-  /// <code>breaching</code>, <code>notBreaching</code>, <code>ignore</code>, and
-  /// <code>missing</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data">Configuring
-  /// how CloudWatch alarms treat missing data</a>.
-  ///
-  /// If this parameter is omitted, the default behavior of <code>missing</code>
-  /// is used.
-  final String? treatMissingData;
-
-  /// The unit of the metric associated with the alarm.
-  final StandardUnit? unit;
-
-  MetricAlarm({
-    this.actionsEnabled,
-    this.alarmActions,
-    this.alarmArn,
-    this.alarmConfigurationUpdatedTimestamp,
-    this.alarmDescription,
-    this.alarmName,
-    this.comparisonOperator,
-    this.datapointsToAlarm,
-    this.dimensions,
-    this.evaluateLowSampleCountPercentile,
-    this.evaluationPeriods,
-    this.evaluationState,
-    this.extendedStatistic,
-    this.insufficientDataActions,
-    this.metricName,
-    this.metrics,
-    this.namespace,
-    this.oKActions,
-    this.period,
-    this.stateReason,
-    this.stateReasonData,
+  AlarmContributor({
+    required this.contributorAttributes,
+    required this.contributorId,
+    required this.stateReason,
     this.stateTransitionedTimestamp,
-    this.stateUpdatedTimestamp,
-    this.stateValue,
-    this.statistic,
-    this.threshold,
-    this.thresholdMetricId,
-    this.treatMissingData,
-    this.unit,
   });
-  factory MetricAlarm.fromXml(_s.XmlElement elem) {
-    return MetricAlarm(
-      actionsEnabled: _s.extractXmlBoolValue(elem, 'ActionsEnabled'),
-      alarmActions: _s
-          .extractXmlChild(elem, 'AlarmActions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      alarmArn: _s.extractXmlStringValue(elem, 'AlarmArn'),
-      alarmConfigurationUpdatedTimestamp: _s.extractXmlDateTimeValue(
-          elem, 'AlarmConfigurationUpdatedTimestamp'),
-      alarmDescription: _s.extractXmlStringValue(elem, 'AlarmDescription'),
-      alarmName: _s.extractXmlStringValue(elem, 'AlarmName'),
-      comparisonOperator: _s
-          .extractXmlStringValue(elem, 'ComparisonOperator')
-          ?.let(ComparisonOperator.fromString),
-      datapointsToAlarm: _s.extractXmlIntValue(elem, 'DatapointsToAlarm'),
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
-          elem.findElements('member').map(Dimension.fromXml).toList()),
-      evaluateLowSampleCountPercentile:
-          _s.extractXmlStringValue(elem, 'EvaluateLowSampleCountPercentile'),
-      evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods'),
-      evaluationState: _s
-          .extractXmlStringValue(elem, 'EvaluationState')
-          ?.let(EvaluationState.fromString),
-      extendedStatistic: _s.extractXmlStringValue(elem, 'ExtendedStatistic'),
-      insufficientDataActions: _s
-          .extractXmlChild(elem, 'InsufficientDataActions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      metricName: _s.extractXmlStringValue(elem, 'MetricName'),
-      metrics: _s.extractXmlChild(elem, 'Metrics')?.let((elem) =>
-          elem.findElements('member').map(MetricDataQuery.fromXml).toList()),
-      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
-      oKActions: _s
-          .extractXmlChild(elem, 'OKActions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      period: _s.extractXmlIntValue(elem, 'Period'),
-      stateReason: _s.extractXmlStringValue(elem, 'StateReason'),
-      stateReasonData: _s.extractXmlStringValue(elem, 'StateReasonData'),
+
+  factory AlarmContributor.fromJson(Map<String, dynamic> json) {
+    return AlarmContributor(
+      contributorAttributes:
+          ((json['ContributorAttributes'] as Map<String, dynamic>?) ??
+                  const <String, dynamic>{})
+              .map((k, e) => MapEntry(k, e as String)),
+      contributorId: (json['ContributorId'] as String?) ?? '',
+      stateReason: (json['StateReason'] as String?) ?? '',
       stateTransitionedTimestamp:
-          _s.extractXmlDateTimeValue(elem, 'StateTransitionedTimestamp'),
-      stateUpdatedTimestamp:
-          _s.extractXmlDateTimeValue(elem, 'StateUpdatedTimestamp'),
-      stateValue: _s
-          .extractXmlStringValue(elem, 'StateValue')
-          ?.let(StateValue.fromString),
-      statistic: _s
-          .extractXmlStringValue(elem, 'Statistic')
-          ?.let(Statistic.fromString),
-      threshold: _s.extractXmlDoubleValue(elem, 'Threshold'),
-      thresholdMetricId: _s.extractXmlStringValue(elem, 'ThresholdMetricId'),
-      treatMissingData: _s.extractXmlStringValue(elem, 'TreatMissingData'),
-      unit:
-          _s.extractXmlStringValue(elem, 'Unit')?.let(StandardUnit.fromString),
+          timeStampFromJson(json['StateTransitionedTimestamp']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final actionsEnabled = this.actionsEnabled;
-    final alarmActions = this.alarmActions;
-    final alarmArn = this.alarmArn;
-    final alarmConfigurationUpdatedTimestamp =
-        this.alarmConfigurationUpdatedTimestamp;
-    final alarmDescription = this.alarmDescription;
-    final alarmName = this.alarmName;
-    final comparisonOperator = this.comparisonOperator;
-    final datapointsToAlarm = this.datapointsToAlarm;
-    final dimensions = this.dimensions;
-    final evaluateLowSampleCountPercentile =
-        this.evaluateLowSampleCountPercentile;
-    final evaluationPeriods = this.evaluationPeriods;
-    final evaluationState = this.evaluationState;
-    final extendedStatistic = this.extendedStatistic;
-    final insufficientDataActions = this.insufficientDataActions;
-    final metricName = this.metricName;
-    final metrics = this.metrics;
-    final namespace = this.namespace;
-    final oKActions = this.oKActions;
-    final period = this.period;
+    final contributorAttributes = this.contributorAttributes;
+    final contributorId = this.contributorId;
     final stateReason = this.stateReason;
-    final stateReasonData = this.stateReasonData;
     final stateTransitionedTimestamp = this.stateTransitionedTimestamp;
-    final stateUpdatedTimestamp = this.stateUpdatedTimestamp;
-    final stateValue = this.stateValue;
-    final statistic = this.statistic;
-    final threshold = this.threshold;
-    final thresholdMetricId = this.thresholdMetricId;
-    final treatMissingData = this.treatMissingData;
-    final unit = this.unit;
     return {
-      if (actionsEnabled != null) 'ActionsEnabled': actionsEnabled,
-      if (alarmActions != null) 'AlarmActions': alarmActions,
-      if (alarmArn != null) 'AlarmArn': alarmArn,
-      if (alarmConfigurationUpdatedTimestamp != null)
-        'AlarmConfigurationUpdatedTimestamp':
-            iso8601ToJson(alarmConfigurationUpdatedTimestamp),
-      if (alarmDescription != null) 'AlarmDescription': alarmDescription,
-      if (alarmName != null) 'AlarmName': alarmName,
-      if (comparisonOperator != null)
-        'ComparisonOperator': comparisonOperator.value,
-      if (datapointsToAlarm != null) 'DatapointsToAlarm': datapointsToAlarm,
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (evaluateLowSampleCountPercentile != null)
-        'EvaluateLowSampleCountPercentile': evaluateLowSampleCountPercentile,
-      if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
-      if (evaluationState != null) 'EvaluationState': evaluationState.value,
-      if (extendedStatistic != null) 'ExtendedStatistic': extendedStatistic,
-      if (insufficientDataActions != null)
-        'InsufficientDataActions': insufficientDataActions,
-      if (metricName != null) 'MetricName': metricName,
-      if (metrics != null) 'Metrics': metrics,
-      if (namespace != null) 'Namespace': namespace,
-      if (oKActions != null) 'OKActions': oKActions,
-      if (period != null) 'Period': period,
-      if (stateReason != null) 'StateReason': stateReason,
-      if (stateReasonData != null) 'StateReasonData': stateReasonData,
+      'ContributorAttributes': contributorAttributes,
+      'ContributorId': contributorId,
+      'StateReason': stateReason,
       if (stateTransitionedTimestamp != null)
-        'StateTransitionedTimestamp': iso8601ToJson(stateTransitionedTimestamp),
-      if (stateUpdatedTimestamp != null)
-        'StateUpdatedTimestamp': iso8601ToJson(stateUpdatedTimestamp),
-      if (stateValue != null) 'StateValue': stateValue.value,
-      if (statistic != null) 'Statistic': statistic.value,
-      if (threshold != null) 'Threshold': threshold,
-      if (thresholdMetricId != null) 'ThresholdMetricId': thresholdMetricId,
-      if (treatMissingData != null) 'TreatMissingData': treatMissingData,
-      if (unit != null) 'Unit': unit.value,
+        'StateTransitionedTimestamp':
+            unixTimestampToJson(stateTransitionedTimestamp),
     };
-  }
-}
-
-/// This object includes parameters that you can use to provide information to
-/// CloudWatch to help it build more accurate anomaly detection models.
-class MetricCharacteristics {
-  /// Set this parameter to <code>true</code> if values for this metric
-  /// consistently include spikes that should not be considered to be anomalies.
-  /// With this set to <code>true</code>, CloudWatch will expect to see spikes
-  /// that occurred consistently during the model training period, and won't flag
-  /// future similar spikes as anomalies.
-  final bool? periodicSpikes;
-
-  MetricCharacteristics({
-    this.periodicSpikes,
-  });
-  factory MetricCharacteristics.fromXml(_s.XmlElement elem) {
-    return MetricCharacteristics(
-      periodicSpikes: _s.extractXmlBoolValue(elem, 'PeriodicSpikes'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final periodicSpikes = this.periodicSpikes;
-    return {
-      if (periodicSpikes != null) 'PeriodicSpikes': periodicSpikes,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final periodicSpikes = this.periodicSpikes;
-    return {
-      if (periodicSpikes != null) 'PeriodicSpikes': periodicSpikes.toString(),
-    };
-  }
-}
-
-/// This structure is used in both <code>GetMetricData</code> and
-/// <code>PutMetricAlarm</code>. The supported use of this structure is
-/// different for those two operations.
-///
-/// When used in <code>GetMetricData</code>, it indicates the metric data to
-/// return, and whether this call is just retrieving a batch set of data for one
-/// metric, or is performing a Metrics Insights query or a math expression. A
-/// single <code>GetMetricData</code> call can include up to 500
-/// <code>MetricDataQuery</code> structures.
-///
-/// When used in <code>PutMetricAlarm</code>, it enables you to create an alarm
-/// based on a metric math expression. Each <code>MetricDataQuery</code> in the
-/// array specifies either a metric to retrieve, or a math expression to be
-/// performed on retrieved metrics. A single <code>PutMetricAlarm</code> call
-/// can include up to 20 <code>MetricDataQuery</code> structures in the array.
-/// The 20 structures can include as many as 10 structures that contain a
-/// <code>MetricStat</code> parameter to retrieve a metric, and as many as 10
-/// structures that contain the <code>Expression</code> parameter to perform a
-/// math expression. Of those <code>Expression</code> structures, one must have
-/// <code>true</code> as the value for <code>ReturnData</code>. The result of
-/// this expression is the value the alarm watches.
-///
-/// Any expression used in a <code>PutMetricAlarm</code> operation must return a
-/// single time series. For more information, see <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax">Metric
-/// Math Syntax and Functions</a> in the <i>Amazon CloudWatch User Guide</i>.
-///
-/// Some of the parameters of this structure also have different uses whether
-/// you are using this structure in a <code>GetMetricData</code> operation or a
-/// <code>PutMetricAlarm</code> operation. These differences are explained in
-/// the following parameter list.
-class MetricDataQuery {
-  /// A short name used to tie this object to the results in the response. This
-  /// name must be unique within a single call to <code>GetMetricData</code>. If
-  /// you are performing math expressions on this set of data, this name
-  /// represents that data and can serve as a variable in the mathematical
-  /// expression. The valid characters are letters, numbers, and underscore. The
-  /// first character must be a lowercase letter.
-  final String id;
-
-  /// The ID of the account where the metrics are located.
-  ///
-  /// If you are performing a <code>GetMetricData</code> operation in a monitoring
-  /// account, use this to specify which account to retrieve this metric from.
-  ///
-  /// If you are performing a <code>PutMetricAlarm</code> operation, use this to
-  /// specify which account contains the metric that the alarm is watching.
-  final String? accountId;
-
-  /// This field can contain either a Metrics Insights query, or a metric math
-  /// expression to be performed on the returned data. For more information about
-  /// Metrics Insights queries, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch-metrics-insights-querylanguage">Metrics
-  /// Insights query components and syntax</a> in the <i>Amazon CloudWatch User
-  /// Guide</i>.
-  ///
-  /// A math expression can use the <code>Id</code> of the other metrics or
-  /// queries to refer to those metrics, and can also use the <code>Id</code> of
-  /// other expressions to use the result of those expressions. For more
-  /// information about metric math expressions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/using-metric-math.html#metric-math-syntax">Metric
-  /// Math Syntax and Functions</a> in the <i>Amazon CloudWatch User Guide</i>.
-  ///
-  /// Within each MetricDataQuery object, you must specify either
-  /// <code>Expression</code> or <code>MetricStat</code> but not both.
-  final String? expression;
-
-  /// A human-readable label for this metric or expression. This is especially
-  /// useful if this is an expression, so that you know what the value represents.
-  /// If the metric or expression is shown in a CloudWatch dashboard widget, the
-  /// label is shown. If Label is omitted, CloudWatch generates a default.
-  ///
-  /// You can put dynamic expressions into a label, so that it is more
-  /// descriptive. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/graph-dynamic-labels.html">Using
-  /// Dynamic Labels</a>.
-  final String? label;
-
-  /// The metric to be returned, along with statistics, period, and units. Use
-  /// this parameter only if this object is retrieving a metric and not performing
-  /// a math expression on returned data.
-  ///
-  /// Within one MetricDataQuery object, you must specify either
-  /// <code>Expression</code> or <code>MetricStat</code> but not both.
-  final MetricStat? metricStat;
-
-  /// The granularity, in seconds, of the returned data points. For metrics with
-  /// regular resolution, a period can be as short as one minute (60 seconds) and
-  /// must be a multiple of 60. For high-resolution metrics that are collected at
-  /// intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or
-  /// any multiple of 60. High-resolution metrics are those metrics stored by a
-  /// <code>PutMetricData</code> operation that includes a <code>StorageResolution
-  /// of 1 second</code>.
-  final int? period;
-
-  /// When used in <code>GetMetricData</code>, this option indicates whether to
-  /// return the timestamps and raw data values of this metric. If you are
-  /// performing this call just to do math expressions and do not also need the
-  /// raw data returned, you can specify <code>false</code>. If you omit this, the
-  /// default of <code>true</code> is used.
-  ///
-  /// When used in <code>PutMetricAlarm</code>, specify <code>true</code> for the
-  /// one expression result to use as the alarm. For all other metrics and
-  /// expressions in the same <code>PutMetricAlarm</code> operation, specify
-  /// <code>ReturnData</code> as False.
-  final bool? returnData;
-
-  MetricDataQuery({
-    required this.id,
-    this.accountId,
-    this.expression,
-    this.label,
-    this.metricStat,
-    this.period,
-    this.returnData,
-  });
-  factory MetricDataQuery.fromXml(_s.XmlElement elem) {
-    return MetricDataQuery(
-      id: _s.extractXmlStringValue(elem, 'Id')!,
-      accountId: _s.extractXmlStringValue(elem, 'AccountId'),
-      expression: _s.extractXmlStringValue(elem, 'Expression'),
-      label: _s.extractXmlStringValue(elem, 'Label'),
-      metricStat:
-          _s.extractXmlChild(elem, 'MetricStat')?.let(MetricStat.fromXml),
-      period: _s.extractXmlIntValue(elem, 'Period'),
-      returnData: _s.extractXmlBoolValue(elem, 'ReturnData'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final accountId = this.accountId;
-    final expression = this.expression;
-    final label = this.label;
-    final metricStat = this.metricStat;
-    final period = this.period;
-    final returnData = this.returnData;
-    return {
-      'Id': id,
-      if (accountId != null) 'AccountId': accountId,
-      if (expression != null) 'Expression': expression,
-      if (label != null) 'Label': label,
-      if (metricStat != null) 'MetricStat': metricStat,
-      if (period != null) 'Period': period,
-      if (returnData != null) 'ReturnData': returnData,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final id = this.id;
-    final accountId = this.accountId;
-    final expression = this.expression;
-    final label = this.label;
-    final metricStat = this.metricStat;
-    final period = this.period;
-    final returnData = this.returnData;
-    return {
-      'Id': id,
-      if (accountId != null) 'AccountId': accountId,
-      if (expression != null) 'Expression': expression,
-      if (label != null) 'Label': label,
-      if (metricStat != null)
-        for (var e1 in metricStat.toQueryMap().entries)
-          'MetricStat.${e1.key}': e1.value,
-      if (period != null) 'Period': period.toString(),
-      if (returnData != null) 'ReturnData': returnData.toString(),
-    };
-  }
-}
-
-/// A <code>GetMetricData</code> call returns an array of
-/// <code>MetricDataResult</code> structures. Each of these structures includes
-/// the data points for that metric, along with the timestamps of those data
-/// points and other identifying information.
-class MetricDataResult {
-  /// The short name you specified to represent this metric.
-  final String? id;
-
-  /// The human-readable label associated with the data.
-  final String? label;
-
-  /// A list of messages with additional information about the data returned.
-  final List<MessageData>? messages;
-
-  /// The status of the returned data. <code>Complete</code> indicates that all
-  /// data points in the requested time range were returned.
-  /// <code>PartialData</code> means that an incomplete set of data points were
-  /// returned. You can use the <code>NextToken</code> value that was returned and
-  /// repeat your request to get more data points. <code>NextToken</code> is not
-  /// returned if you are performing a math expression. <code>InternalError</code>
-  /// indicates that an error occurred. Retry your request using
-  /// <code>NextToken</code>, if present.
-  final StatusCode? statusCode;
-
-  /// The timestamps for the data points, formatted in Unix timestamp format. The
-  /// number of timestamps always matches the number of values and the value for
-  /// Timestamps[x] is Values[x].
-  final List<DateTime>? timestamps;
-
-  /// The data points for the metric corresponding to <code>Timestamps</code>. The
-  /// number of values always matches the number of timestamps and the timestamp
-  /// for Values[x] is Timestamps[x].
-  final List<double>? values;
-
-  MetricDataResult({
-    this.id,
-    this.label,
-    this.messages,
-    this.statusCode,
-    this.timestamps,
-    this.values,
-  });
-  factory MetricDataResult.fromXml(_s.XmlElement elem) {
-    return MetricDataResult(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      label: _s.extractXmlStringValue(elem, 'Label'),
-      messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) =>
-          elem.findElements('member').map(MessageData.fromXml).toList()),
-      statusCode: _s
-          .extractXmlStringValue(elem, 'StatusCode')
-          ?.let(StatusCode.fromString),
-      timestamps: _s
-          .extractXmlChild(elem, 'Timestamps')
-          ?.let((elem) => _s.extractXmlDateTimeListValues(elem, 'member')),
-      values: _s
-          .extractXmlChild(elem, 'Values')
-          ?.let((elem) => _s.extractXmlDoubleListValues(elem, 'member')),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final label = this.label;
-    final messages = this.messages;
-    final statusCode = this.statusCode;
-    final timestamps = this.timestamps;
-    final values = this.values;
-    return {
-      if (id != null) 'Id': id,
-      if (label != null) 'Label': label,
-      if (messages != null) 'Messages': messages,
-      if (statusCode != null) 'StatusCode': statusCode.value,
-      if (timestamps != null)
-        'Timestamps': timestamps.map(unixTimestampToJson).toList(),
-      if (values != null) 'Values': values,
-    };
-  }
-}
-
-/// Encapsulates the information sent to either create a metric or add new
-/// values to be aggregated into an existing metric.
-class MetricDatum {
-  /// The name of the metric.
-  final String metricName;
-
-  /// Array of numbers that is used along with the <code>Values</code> array. Each
-  /// number in the <code>Count</code> array is the number of times the
-  /// corresponding value in the <code>Values</code> array occurred during the
-  /// period.
-  ///
-  /// If you omit the <code>Counts</code> array, the default of 1 is used as the
-  /// value for each count. If you include a <code>Counts</code> array, it must
-  /// include the same amount of values as the <code>Values</code> array.
-  final List<double>? counts;
-
-  /// The dimensions associated with the metric.
-  final List<Dimension>? dimensions;
-
-  /// The statistical values for the metric.
-  final StatisticSet? statisticValues;
-
-  /// Valid values are 1 and 60. Setting this to 1 specifies this metric as a
-  /// high-resolution metric, so that CloudWatch stores the metric with sub-minute
-  /// resolution down to one second. Setting this to 60 specifies this metric as a
-  /// regular-resolution metric, which CloudWatch stores at 1-minute resolution.
-  /// Currently, high resolution is available only for custom metrics. For more
-  /// information about high-resolution metrics, see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#high-resolution-metrics">High-Resolution
-  /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
-  ///
-  /// This field is optional, if you do not specify it the default of 60 is used.
-  final int? storageResolution;
-
-  /// The time the metric data was received, expressed as the number of
-  /// milliseconds since Jan 1, 1970 00:00:00 UTC.
-  final DateTime? timestamp;
-
-  /// When you are using a <code>Put</code> operation, this defines what unit you
-  /// want to use when storing the metric.
-  ///
-  /// In a <code>Get</code> operation, this displays the unit that is used for the
-  /// metric.
-  final StandardUnit? unit;
-
-  /// The value for the metric.
-  ///
-  /// Although the parameter accepts numbers of type Double, CloudWatch rejects
-  /// values that are either too small or too large. Values must be in the range
-  /// of -2^360 to 2^360. In addition, special values (for example, NaN,
-  /// +Infinity, -Infinity) are not supported.
-  final double? value;
-
-  /// Array of numbers representing the values for the metric during the period.
-  /// Each unique value is listed just once in this array, and the corresponding
-  /// number in the <code>Counts</code> array specifies the number of times that
-  /// value occurred during the period. You can include up to 150 unique values in
-  /// each <code>PutMetricData</code> action that specifies a <code>Values</code>
-  /// array.
-  ///
-  /// Although the <code>Values</code> array accepts numbers of type
-  /// <code>Double</code>, CloudWatch rejects values that are either too small or
-  /// too large. Values must be in the range of -2^360 to 2^360. In addition,
-  /// special values (for example, NaN, +Infinity, -Infinity) are not supported.
-  final List<double>? values;
-
-  MetricDatum({
-    required this.metricName,
-    this.counts,
-    this.dimensions,
-    this.statisticValues,
-    this.storageResolution,
-    this.timestamp,
-    this.unit,
-    this.value,
-    this.values,
-  });
-
-  Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final counts = this.counts;
-    final dimensions = this.dimensions;
-    final statisticValues = this.statisticValues;
-    final storageResolution = this.storageResolution;
-    final timestamp = this.timestamp;
-    final unit = this.unit;
-    final value = this.value;
-    final values = this.values;
-    return {
-      'MetricName': metricName,
-      if (counts != null) 'Counts': counts,
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (statisticValues != null) 'StatisticValues': statisticValues,
-      if (storageResolution != null) 'StorageResolution': storageResolution,
-      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
-      if (unit != null) 'Unit': unit.value,
-      if (value != null) 'Value': value,
-      if (values != null) 'Values': values,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final metricName = this.metricName;
-    final counts = this.counts;
-    final dimensions = this.dimensions;
-    final statisticValues = this.statisticValues;
-    final storageResolution = this.storageResolution;
-    final timestamp = this.timestamp;
-    final unit = this.unit;
-    final value = this.value;
-    final values = this.values;
-    return {
-      'MetricName': metricName,
-      if (counts != null)
-        if (counts.isEmpty)
-          'Counts': ''
-        else
-          for (var i1 = 0; i1 < counts.length; i1++)
-            'Counts.member.${i1 + 1}': counts[i1].toString(),
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (statisticValues != null)
-        for (var e1 in statisticValues.toQueryMap().entries)
-          'StatisticValues.${e1.key}': e1.value,
-      if (storageResolution != null)
-        'StorageResolution': storageResolution.toString(),
-      if (timestamp != null) 'Timestamp': _s.iso8601ToJson(timestamp),
-      if (unit != null) 'Unit': unit.value,
-      if (value != null) 'Value': value.toString(),
-      if (values != null)
-        if (values.isEmpty)
-          'Values': ''
-        else
-          for (var i1 = 0; i1 < values.length; i1++)
-            'Values.member.${i1 + 1}': values[i1].toString(),
-    };
-  }
-}
-
-/// Indicates the CloudWatch math expression that provides the time series the
-/// anomaly detector uses as input. The designated math expression must return a
-/// single time series.
-class MetricMathAnomalyDetector {
-  /// An array of metric data query structures that enables you to create an
-  /// anomaly detector based on the result of a metric math expression. Each item
-  /// in <code>MetricDataQueries</code> gets a metric or performs a math
-  /// expression. One item in <code>MetricDataQueries</code> is the expression
-  /// that provides the time series that the anomaly detector uses as input.
-  /// Designate the expression by setting <code>ReturnData</code> to
-  /// <code>true</code> for this object in the array. For all other expressions
-  /// and metrics, set <code>ReturnData</code> to <code>false</code>. The
-  /// designated expression must return a single time series.
-  final List<MetricDataQuery>? metricDataQueries;
-
-  MetricMathAnomalyDetector({
-    this.metricDataQueries,
-  });
-  factory MetricMathAnomalyDetector.fromXml(_s.XmlElement elem) {
-    return MetricMathAnomalyDetector(
-      metricDataQueries: _s.extractXmlChild(elem, 'MetricDataQueries')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map(MetricDataQuery.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricDataQueries = this.metricDataQueries;
-    return {
-      if (metricDataQueries != null) 'MetricDataQueries': metricDataQueries,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final metricDataQueries = this.metricDataQueries;
-    return {
-      if (metricDataQueries != null)
-        if (metricDataQueries.isEmpty)
-          'MetricDataQueries': ''
-        else
-          for (var i1 = 0; i1 < metricDataQueries.length; i1++)
-            for (var e3 in metricDataQueries[i1].toQueryMap().entries)
-              'MetricDataQueries.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
-/// This structure defines the metric to be returned, along with the statistics,
-/// period, and units.
-class MetricStat {
-  /// The metric to return, including the metric name, namespace, and dimensions.
-  final Metric metric;
-
-  /// The granularity, in seconds, of the returned data points. For metrics with
-  /// regular resolution, a period can be as short as one minute (60 seconds) and
-  /// must be a multiple of 60. For high-resolution metrics that are collected at
-  /// intervals of less than one minute, the period can be 1, 5, 10, 30, 60, or
-  /// any multiple of 60. High-resolution metrics are those metrics stored by a
-  /// <code>PutMetricData</code> call that includes a
-  /// <code>StorageResolution</code> of 1 second.
-  ///
-  /// If the <code>StartTime</code> parameter specifies a time stamp that is
-  /// greater than 3 hours ago, you must specify the period as follows or no data
-  /// points in that time range is returned:
-  ///
-  /// <ul>
-  /// <li>
-  /// Start time between 3 hours and 15 days ago - Use a multiple of 60 seconds (1
-  /// minute).
-  /// </li>
-  /// <li>
-  /// Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5
-  /// minutes).
-  /// </li>
-  /// <li>
-  /// Start time greater than 63 days ago - Use a multiple of 3600 seconds (1
-  /// hour).
-  /// </li>
-  /// </ul>
-  final int period;
-
-  /// The statistic to return. It can include any CloudWatch statistic or extended
-  /// statistic.
-  final String stat;
-
-  /// When you are using a <code>Put</code> operation, this defines what unit you
-  /// want to use when storing the metric.
-  ///
-  /// In a <code>Get</code> operation, if you omit <code>Unit</code> then all data
-  /// that was collected with any unit is returned, along with the corresponding
-  /// units that were specified when the data was reported to CloudWatch. If you
-  /// specify a unit, the operation returns only data that was collected with that
-  /// unit specified. If you specify a unit that does not match the data
-  /// collected, the results of the operation are null. CloudWatch does not
-  /// perform unit conversions.
-  final StandardUnit? unit;
-
-  MetricStat({
-    required this.metric,
-    required this.period,
-    required this.stat,
-    this.unit,
-  });
-  factory MetricStat.fromXml(_s.XmlElement elem) {
-    return MetricStat(
-      metric: Metric.fromXml(_s.extractXmlChild(elem, 'Metric')!),
-      period: _s.extractXmlIntValue(elem, 'Period')!,
-      stat: _s.extractXmlStringValue(elem, 'Stat')!,
-      unit:
-          _s.extractXmlStringValue(elem, 'Unit')?.let(StandardUnit.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metric = this.metric;
-    final period = this.period;
-    final stat = this.stat;
-    final unit = this.unit;
-    return {
-      'Metric': metric,
-      'Period': period,
-      'Stat': stat,
-      if (unit != null) 'Unit': unit.value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final metric = this.metric;
-    final period = this.period;
-    final stat = this.stat;
-    final unit = this.unit;
-    return {
-      for (var e1 in metric.toQueryMap().entries) 'Metric.${e1.key}': e1.value,
-      'Period': period.toString(),
-      'Stat': stat,
-      if (unit != null) 'Unit': unit.value,
-    };
-  }
-}
-
-/// This structure contains the configuration information about one metric
-/// stream.
-class MetricStreamEntry {
-  /// The ARN of the metric stream.
-  final String? arn;
-
-  /// The date that the metric stream was originally created.
-  final DateTime? creationDate;
-
-  /// The ARN of the Kinesis Firehose devlivery stream that is used for this
-  /// metric stream.
-  final String? firehoseArn;
-
-  /// The date that the configuration of this metric stream was most recently
-  /// updated.
-  final DateTime? lastUpdateDate;
-
-  /// The name of the metric stream.
-  final String? name;
-
-  /// The output format of this metric stream. Valid values are <code>json</code>,
-  /// <code>opentelemetry1.0</code>, and <code>opentelemetry0.7</code>.
-  final MetricStreamOutputFormat? outputFormat;
-
-  /// The current state of this stream. Valid values are <code>running</code> and
-  /// <code>stopped</code>.
-  final String? state;
-
-  MetricStreamEntry({
-    this.arn,
-    this.creationDate,
-    this.firehoseArn,
-    this.lastUpdateDate,
-    this.name,
-    this.outputFormat,
-    this.state,
-  });
-  factory MetricStreamEntry.fromXml(_s.XmlElement elem) {
-    return MetricStreamEntry(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
-      firehoseArn: _s.extractXmlStringValue(elem, 'FirehoseArn'),
-      lastUpdateDate: _s.extractXmlDateTimeValue(elem, 'LastUpdateDate'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      outputFormat: _s
-          .extractXmlStringValue(elem, 'OutputFormat')
-          ?.let(MetricStreamOutputFormat.fromString),
-      state: _s.extractXmlStringValue(elem, 'State'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final creationDate = this.creationDate;
-    final firehoseArn = this.firehoseArn;
-    final lastUpdateDate = this.lastUpdateDate;
-    final name = this.name;
-    final outputFormat = this.outputFormat;
-    final state = this.state;
-    return {
-      if (arn != null) 'Arn': arn,
-      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
-      if (firehoseArn != null) 'FirehoseArn': firehoseArn,
-      if (lastUpdateDate != null)
-        'LastUpdateDate': iso8601ToJson(lastUpdateDate),
-      if (name != null) 'Name': name,
-      if (outputFormat != null) 'OutputFormat': outputFormat.value,
-      if (state != null) 'State': state,
-    };
-  }
-}
-
-/// This structure contains a metric namespace and optionally, a list of metric
-/// names, to either include in a metric stream or exclude from a metric stream.
-///
-/// A metric stream's filters can include up to 1000 total names. This limit
-/// applies to the sum of namespace names and metric names in the filters. For
-/// example, this could include 10 metric namespace filters with 99 metrics
-/// each, or 20 namespace filters with 49 metrics specified in each filter.
-class MetricStreamFilter {
-  /// The names of the metrics to either include or exclude from the metric
-  /// stream.
-  ///
-  /// If you omit this parameter, all metrics in the namespace are included or
-  /// excluded, depending on whether this filter is specified as an exclude filter
-  /// or an include filter.
-  ///
-  /// Each metric name can contain only ASCII printable characters (ASCII range 32
-  /// through 126). Each metric name must contain at least one non-whitespace
-  /// character.
-  final List<String>? metricNames;
-
-  /// The name of the metric namespace for this filter.
-  ///
-  /// The namespace can contain only ASCII printable characters (ASCII range 32
-  /// through 126). It must contain at least one non-whitespace character.
-  final String? namespace;
-
-  MetricStreamFilter({
-    this.metricNames,
-    this.namespace,
-  });
-  factory MetricStreamFilter.fromXml(_s.XmlElement elem) {
-    return MetricStreamFilter(
-      metricNames: _s
-          .extractXmlChild(elem, 'MetricNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
-      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricNames = this.metricNames;
-    final namespace = this.namespace;
-    return {
-      if (metricNames != null) 'MetricNames': metricNames,
-      if (namespace != null) 'Namespace': namespace,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final metricNames = this.metricNames;
-    final namespace = this.namespace;
-    return {
-      if (metricNames != null)
-        if (metricNames.isEmpty)
-          'MetricNames': ''
-        else
-          for (var i1 = 0; i1 < metricNames.length; i1++)
-            'MetricNames.member.${i1 + 1}': metricNames[i1],
-      if (namespace != null) 'Namespace': namespace,
-    };
-  }
-}
-
-class MetricStreamOutputFormat {
-  static const json = MetricStreamOutputFormat._('json');
-  static const opentelemetry0_7 =
-      MetricStreamOutputFormat._('opentelemetry0.7');
-  static const opentelemetry1_0 =
-      MetricStreamOutputFormat._('opentelemetry1.0');
-
-  final String value;
-
-  const MetricStreamOutputFormat._(this.value);
-
-  static const values = [json, opentelemetry0_7, opentelemetry1_0];
-
-  static MetricStreamOutputFormat fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => MetricStreamOutputFormat._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is MetricStreamOutputFormat && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// By default, a metric stream always sends the <code>MAX</code>,
-/// <code>MIN</code>, <code>SUM</code>, and <code>SAMPLECOUNT</code> statistics
-/// for each metric that is streamed. This structure contains information for
-/// one metric that includes additional statistics in the stream. For more
-/// information about statistics, see CloudWatch, listed in <a
-/// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
-/// CloudWatch statistics definitions</a>.
-class MetricStreamStatisticsConfiguration {
-  /// The list of additional statistics that are to be streamed for the metrics
-  /// listed in the <code>IncludeMetrics</code> array in this structure. This list
-  /// can include as many as 20 statistics.
-  ///
-  /// If the <code>OutputFormat</code> for the stream is
-  /// <code>opentelemetry1.0</code> or <code>opentelemetry0.7</code>, the only
-  /// valid values are <code>p<i>??</i> </code> percentile statistics such as
-  /// <code>p90</code>, <code>p99</code> and so on.
-  ///
-  /// If the <code>OutputFormat</code> for the stream is <code>json</code>, the
-  /// valid values include the abbreviations for all of the statistics listed in
-  /// <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html">
-  /// CloudWatch statistics definitions</a>. For example, this includes
-  /// <code>tm98, </code> <code>wm90</code>, <code>PR(:300)</code>, and so on.
-  final List<String> additionalStatistics;
-
-  /// An array of metric name and namespace pairs that stream the additional
-  /// statistics listed in the value of the <code>AdditionalStatistics</code>
-  /// parameter. There can be as many as 100 pairs in the array.
-  ///
-  /// All metrics that match the combination of metric name and namespace will be
-  /// streamed with the additional statistics, no matter their dimensions.
-  final List<MetricStreamStatisticsMetric> includeMetrics;
-
-  MetricStreamStatisticsConfiguration({
-    required this.additionalStatistics,
-    required this.includeMetrics,
-  });
-  factory MetricStreamStatisticsConfiguration.fromXml(_s.XmlElement elem) {
-    return MetricStreamStatisticsConfiguration(
-      additionalStatistics: _s.extractXmlStringListValues(
-          _s.extractXmlChild(elem, 'AdditionalStatistics')!, 'member'),
-      includeMetrics: _s
-          .extractXmlChild(elem, 'IncludeMetrics')!
-          .findElements('member')
-          .map(MetricStreamStatisticsMetric.fromXml)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final additionalStatistics = this.additionalStatistics;
-    final includeMetrics = this.includeMetrics;
-    return {
-      'AdditionalStatistics': additionalStatistics,
-      'IncludeMetrics': includeMetrics,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final additionalStatistics = this.additionalStatistics;
-    final includeMetrics = this.includeMetrics;
-    return {
-      if (additionalStatistics.isEmpty)
-        'AdditionalStatistics': ''
-      else
-        for (var i1 = 0; i1 < additionalStatistics.length; i1++)
-          'AdditionalStatistics.member.${i1 + 1}': additionalStatistics[i1],
-      if (includeMetrics.isEmpty)
-        'IncludeMetrics': ''
-      else
-        for (var i1 = 0; i1 < includeMetrics.length; i1++)
-          for (var e3 in includeMetrics[i1].toQueryMap().entries)
-            'IncludeMetrics.member.${i1 + 1}.${e3.key}': e3.value,
-    };
-  }
-}
-
-/// This object contains the information for one metric that is to be streamed
-/// with additional statistics.
-class MetricStreamStatisticsMetric {
-  /// The name of the metric.
-  final String metricName;
-
-  /// The namespace of the metric.
-  final String namespace;
-
-  MetricStreamStatisticsMetric({
-    required this.metricName,
-    required this.namespace,
-  });
-  factory MetricStreamStatisticsMetric.fromXml(_s.XmlElement elem) {
-    return MetricStreamStatisticsMetric(
-      metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
-      namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    return {
-      'MetricName': metricName,
-      'Namespace': namespace,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    return {
-      'MetricName': metricName,
-      'Namespace': namespace,
-    };
-  }
-}
-
-/// This array is empty if the API operation was successful for all the rules
-/// specified in the request. If the operation could not process one of the
-/// rules, the following data is returned for each of those rules.
-class PartialFailure {
-  /// The type of error.
-  final String? exceptionType;
-
-  /// The code of the error.
-  final String? failureCode;
-
-  /// A description of the error.
-  final String? failureDescription;
-
-  /// The specified rule that could not be deleted.
-  final String? failureResource;
-
-  PartialFailure({
-    this.exceptionType,
-    this.failureCode,
-    this.failureDescription,
-    this.failureResource,
-  });
-  factory PartialFailure.fromXml(_s.XmlElement elem) {
-    return PartialFailure(
-      exceptionType: _s.extractXmlStringValue(elem, 'ExceptionType'),
-      failureCode: _s.extractXmlStringValue(elem, 'FailureCode'),
-      failureDescription: _s.extractXmlStringValue(elem, 'FailureDescription'),
-      failureResource: _s.extractXmlStringValue(elem, 'FailureResource'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final exceptionType = this.exceptionType;
-    final failureCode = this.failureCode;
-    final failureDescription = this.failureDescription;
-    final failureResource = this.failureResource;
-    return {
-      if (exceptionType != null) 'ExceptionType': exceptionType,
-      if (failureCode != null) 'FailureCode': failureCode,
-      if (failureDescription != null) 'FailureDescription': failureDescription,
-      if (failureResource != null) 'FailureResource': failureResource,
-    };
-  }
-}
-
-class PutAnomalyDetectorOutput {
-  PutAnomalyDetectorOutput();
-  factory PutAnomalyDetectorOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return PutAnomalyDetectorOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class PutDashboardOutput {
-  /// If the input for <code>PutDashboard</code> was correct and the dashboard was
-  /// successfully created or modified, this result is empty.
-  ///
-  /// If this result includes only warning messages, then the input was valid
-  /// enough for the dashboard to be created or modified, but some elements of the
-  /// dashboard might not render.
-  ///
-  /// If this result includes error messages, the input was not valid and the
-  /// operation failed.
-  final List<DashboardValidationMessage>? dashboardValidationMessages;
-
-  PutDashboardOutput({
-    this.dashboardValidationMessages,
-  });
-  factory PutDashboardOutput.fromXml(_s.XmlElement elem) {
-    return PutDashboardOutput(
-      dashboardValidationMessages: _s
-          .extractXmlChild(elem, 'DashboardValidationMessages')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map(DashboardValidationMessage.fromXml)
-              .toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dashboardValidationMessages = this.dashboardValidationMessages;
-    return {
-      if (dashboardValidationMessages != null)
-        'DashboardValidationMessages': dashboardValidationMessages,
-    };
-  }
-}
-
-class PutInsightRuleOutput {
-  PutInsightRuleOutput();
-  factory PutInsightRuleOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return PutInsightRuleOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class PutManagedInsightRulesOutput {
-  /// An array that lists the rules that could not be enabled.
-  final List<PartialFailure>? failures;
-
-  PutManagedInsightRulesOutput({
-    this.failures,
-  });
-  factory PutManagedInsightRulesOutput.fromXml(_s.XmlElement elem) {
-    return PutManagedInsightRulesOutput(
-      failures: _s.extractXmlChild(elem, 'Failures')?.let((elem) =>
-          elem.findElements('member').map(PartialFailure.fromXml).toList()),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final failures = this.failures;
-    return {
-      if (failures != null) 'Failures': failures,
-    };
-  }
-}
-
-class PutMetricStreamOutput {
-  /// The ARN of the metric stream.
-  final String? arn;
-
-  PutMetricStreamOutput({
-    this.arn,
-  });
-  factory PutMetricStreamOutput.fromXml(_s.XmlElement elem) {
-    return PutMetricStreamOutput(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    return {
-      if (arn != null) 'Arn': arn,
-    };
-  }
-}
-
-/// Specifies one range of days or times to exclude from use for training an
-/// anomaly detection model.
-class Range {
-  /// The end time of the range to exclude. The format is
-  /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
-  /// <code>2019-07-01T23:59:59</code>.
-  final DateTime endTime;
-
-  /// The start time of the range to exclude. The format is
-  /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
-  /// <code>2019-07-01T23:59:59</code>.
-  final DateTime startTime;
-
-  Range({
-    required this.endTime,
-    required this.startTime,
-  });
-  factory Range.fromXml(_s.XmlElement elem) {
-    return Range(
-      endTime: _s.extractXmlDateTimeValue(elem, 'EndTime')!,
-      startTime: _s.extractXmlDateTimeValue(elem, 'StartTime')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    return {
-      'EndTime': iso8601ToJson(endTime),
-      'StartTime': iso8601ToJson(startTime),
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final endTime = this.endTime;
-    final startTime = this.startTime;
-    return {
-      'EndTime': _s.iso8601ToJson(endTime),
-      'StartTime': _s.iso8601ToJson(startTime),
-    };
-  }
-}
-
-class RecentlyActive {
-  static const pt3h = RecentlyActive._('PT3H');
-
-  final String value;
-
-  const RecentlyActive._(this.value);
-
-  static const values = [pt3h];
-
-  static RecentlyActive fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecentlyActive._(value));
-
-  @override
-  bool operator ==(other) => other is RecentlyActive && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ScanBy {
-  static const timestampDescending = ScanBy._('TimestampDescending');
-  static const timestampAscending = ScanBy._('TimestampAscending');
-
-  final String value;
-
-  const ScanBy._(this.value);
-
-  static const values = [timestampDescending, timestampAscending];
-
-  static ScanBy fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => ScanBy._(value));
-
-  @override
-  bool operator ==(other) => other is ScanBy && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Designates the CloudWatch metric and statistic that provides the time series
-/// the anomaly detector uses as input. If you have enabled unified
-/// cross-account observability, and this account is a monitoring account, the
-/// metric can be in the same account or a source account.
-class SingleMetricAnomalyDetector {
-  /// If the CloudWatch metric that provides the time series that the anomaly
-  /// detector uses as input is in another account, specify that account ID here.
-  /// If you omit this parameter, the current account is used.
-  final String? accountId;
-
-  /// The metric dimensions to create the anomaly detection model for.
-  final List<Dimension>? dimensions;
-
-  /// The name of the metric to create the anomaly detection model for.
-  final String? metricName;
-
-  /// The namespace of the metric to create the anomaly detection model for.
-  final String? namespace;
-
-  /// The statistic to use for the metric and anomaly detection model.
-  final String? stat;
-
-  SingleMetricAnomalyDetector({
-    this.accountId,
-    this.dimensions,
-    this.metricName,
-    this.namespace,
-    this.stat,
-  });
-  factory SingleMetricAnomalyDetector.fromXml(_s.XmlElement elem) {
-    return SingleMetricAnomalyDetector(
-      accountId: _s.extractXmlStringValue(elem, 'AccountId'),
-      dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) =>
-          elem.findElements('member').map(Dimension.fromXml).toList()),
-      metricName: _s.extractXmlStringValue(elem, 'MetricName'),
-      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
-      stat: _s.extractXmlStringValue(elem, 'Stat'),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final dimensions = this.dimensions;
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    final stat = this.stat;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (dimensions != null) 'Dimensions': dimensions,
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-      if (stat != null) 'Stat': stat,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final accountId = this.accountId;
-    final dimensions = this.dimensions;
-    final metricName = this.metricName;
-    final namespace = this.namespace;
-    final stat = this.stat;
-    return {
-      if (accountId != null) 'AccountId': accountId,
-      if (dimensions != null)
-        if (dimensions.isEmpty)
-          'Dimensions': ''
-        else
-          for (var i1 = 0; i1 < dimensions.length; i1++)
-            for (var e3 in dimensions[i1].toQueryMap().entries)
-              'Dimensions.member.${i1 + 1}.${e3.key}': e3.value,
-      if (metricName != null) 'MetricName': metricName,
-      if (namespace != null) 'Namespace': namespace,
-      if (stat != null) 'Stat': stat,
-    };
-  }
-}
-
-class StandardUnit {
-  static const seconds = StandardUnit._('Seconds');
-  static const microseconds = StandardUnit._('Microseconds');
-  static const milliseconds = StandardUnit._('Milliseconds');
-  static const bytes = StandardUnit._('Bytes');
-  static const kilobytes = StandardUnit._('Kilobytes');
-  static const megabytes = StandardUnit._('Megabytes');
-  static const gigabytes = StandardUnit._('Gigabytes');
-  static const terabytes = StandardUnit._('Terabytes');
-  static const bits = StandardUnit._('Bits');
-  static const kilobits = StandardUnit._('Kilobits');
-  static const megabits = StandardUnit._('Megabits');
-  static const gigabits = StandardUnit._('Gigabits');
-  static const terabits = StandardUnit._('Terabits');
-  static const percent = StandardUnit._('Percent');
-  static const count = StandardUnit._('Count');
-  static const bytesSecond = StandardUnit._('Bytes/Second');
-  static const kilobytesSecond = StandardUnit._('Kilobytes/Second');
-  static const megabytesSecond = StandardUnit._('Megabytes/Second');
-  static const gigabytesSecond = StandardUnit._('Gigabytes/Second');
-  static const terabytesSecond = StandardUnit._('Terabytes/Second');
-  static const bitsSecond = StandardUnit._('Bits/Second');
-  static const kilobitsSecond = StandardUnit._('Kilobits/Second');
-  static const megabitsSecond = StandardUnit._('Megabits/Second');
-  static const gigabitsSecond = StandardUnit._('Gigabits/Second');
-  static const terabitsSecond = StandardUnit._('Terabits/Second');
-  static const countSecond = StandardUnit._('Count/Second');
-  static const none = StandardUnit._('None');
-
-  final String value;
-
-  const StandardUnit._(this.value);
-
-  static const values = [
-    seconds,
-    microseconds,
-    milliseconds,
-    bytes,
-    kilobytes,
-    megabytes,
-    gigabytes,
-    terabytes,
-    bits,
-    kilobits,
-    megabits,
-    gigabits,
-    terabits,
-    percent,
-    count,
-    bytesSecond,
-    kilobytesSecond,
-    megabytesSecond,
-    gigabytesSecond,
-    terabytesSecond,
-    bitsSecond,
-    kilobitsSecond,
-    megabitsSecond,
-    gigabitsSecond,
-    terabitsSecond,
-    countSecond,
-    none
-  ];
-
-  static StandardUnit fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StandardUnit._(value));
-
-  @override
-  bool operator ==(other) => other is StandardUnit && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StartMetricStreamsOutput {
-  StartMetricStreamsOutput();
-  factory StartMetricStreamsOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return StartMetricStreamsOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class StateValue {
-  static const ok = StateValue._('OK');
-  static const alarm = StateValue._('ALARM');
-  static const insufficientData = StateValue._('INSUFFICIENT_DATA');
-
-  final String value;
-
-  const StateValue._(this.value);
-
-  static const values = [ok, alarm, insufficientData];
-
-  static StateValue fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StateValue._(value));
-
-  @override
-  bool operator ==(other) => other is StateValue && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Statistic {
-  static const sampleCount = Statistic._('SampleCount');
-  static const average = Statistic._('Average');
-  static const sum = Statistic._('Sum');
-  static const minimum = Statistic._('Minimum');
-  static const maximum = Statistic._('Maximum');
-
-  final String value;
-
-  const Statistic._(this.value);
-
-  static const values = [sampleCount, average, sum, minimum, maximum];
-
-  static Statistic fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Statistic._(value));
-
-  @override
-  bool operator ==(other) => other is Statistic && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents a set of statistics that describes a specific metric.
-class StatisticSet {
-  /// The maximum value of the sample set.
-  final double maximum;
-
-  /// The minimum value of the sample set.
-  final double minimum;
-
-  /// The number of samples used for the statistic set.
-  final double sampleCount;
-
-  /// The sum of values for the sample set.
-  final double sum;
-
-  StatisticSet({
-    required this.maximum,
-    required this.minimum,
-    required this.sampleCount,
-    required this.sum,
-  });
-
-  Map<String, dynamic> toJson() {
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    final sampleCount = this.sampleCount;
-    final sum = this.sum;
-    return {
-      'Maximum': maximum,
-      'Minimum': minimum,
-      'SampleCount': sampleCount,
-      'Sum': sum,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final maximum = this.maximum;
-    final minimum = this.minimum;
-    final sampleCount = this.sampleCount;
-    final sum = this.sum;
-    return {
-      'Maximum': maximum.toString(),
-      'Minimum': minimum.toString(),
-      'SampleCount': sampleCount.toString(),
-      'Sum': sum.toString(),
-    };
-  }
-}
-
-class StatusCode {
-  static const complete = StatusCode._('Complete');
-  static const internalError = StatusCode._('InternalError');
-  static const partialData = StatusCode._('PartialData');
-  static const forbidden = StatusCode._('Forbidden');
-
-  final String value;
-
-  const StatusCode._(this.value);
-
-  static const values = [complete, internalError, partialData, forbidden];
-
-  static StatusCode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StatusCode._(value));
-
-  @override
-  bool operator ==(other) => other is StatusCode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class StopMetricStreamsOutput {
-  StopMetricStreamsOutput();
-  factory StopMetricStreamsOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return StopMetricStreamsOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A key-value pair associated with a CloudWatch resource.
-class Tag {
-  /// A string that you can use to assign a value. The combination of tag keys and
-  /// values can help you organize and categorize your resources.
-  final String key;
-
-  /// The value for the specified tag key.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-  factory Tag.fromXml(_s.XmlElement elem) {
-    return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key')!,
-      value: _s.extractXmlStringValue(elem, 'Value')!,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-
-  Map<String, String> toQueryMap() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceOutput {
-  TagResourceOutput();
-  factory TagResourceOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return TagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceOutput {
-  UntagResourceOutput();
-  factory UntagResourceOutput.fromXml(
-      // ignore: avoid_unused_constructor_parameters
-      _s.XmlElement elem) {
-    return UntagResourceOutput();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 
@@ -7636,6 +8700,11 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             type: type,
             code: 'ConcurrentModificationException',
             message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class DashboardInvalidInputError extends _s.GenericAwsException {
@@ -7710,6 +8779,8 @@ class ResourceNotFoundException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'DashboardInvalidInputError': (type, message) =>
       DashboardInvalidInputError(type: type, message: message),
   'DashboardNotFoundError': (type, message) =>

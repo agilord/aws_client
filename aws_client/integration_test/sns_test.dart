@@ -1,5 +1,5 @@
-import 'package:aws_client/sns_2010_03_31.dart';
-import 'package:aws_client/sqs_2012_11_05.dart' show Sqs, QueueAttributeName;
+import 'package:aws_client/sns.dart';
+import 'package:aws_client/sqs.dart' show Sqs, QueueAttributeName;
 import 'package:test/test.dart';
 
 import 'harness.dart';

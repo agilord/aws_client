@@ -55,10 +55,10 @@ from the downloaded models, plus the protocol conformance test suite.''';
       )
       ..addFlag(
         'smithy',
-        help: 'Experimental: generate the clients from the Smithy models in '
+        help: 'Generate the clients from the Smithy models in '
             'smithy_apis/ (via apiFromSmithy) instead of the legacy apis/. '
             'Run `download --smithy` first to populate the models.',
-        defaultsTo: false,
+        defaultsTo: true,
       );
   }
 
@@ -68,20 +68,16 @@ from the downloaded models, plus the protocol conformance test suite.''';
   Future<void> run() async {
     final stopwatch = Stopwatch()..start();
 
+    final smithy = argResults!['smithy'] == true;
+    final smithyMissing = smithy && !Directory('./smithy_apis').existsSync();
+
     if (argResults!['download'] == true ||
+        smithyMissing ||
         [Directory('./apis'), _configDataFile].any((e) => !e.existsSync())) {
       final config = Config.fromJson(json.decode(
               json.encode(loadYaml(File('config.yaml').readAsStringSync())))
           as Map<String, dynamic>);
-      await DownloadCommand(config).run();
-    }
-
-    // The Smithy models are not auto-downloaded (they're large and the path is
-    // experimental); require an explicit `download --smithy` first.
-    if (argResults!['smithy'] == true &&
-        !Directory('./smithy_apis').existsSync()) {
-      throw StateError('smithy_apis/ not found. Run '
-          '`dart bin/generate.dart download --smithy` first.');
+      await DownloadCommand(config, smithy).run();
     }
 
     await _generateClasses();
@@ -116,6 +112,7 @@ from the downloaded models, plus the protocol conformance test suite.''';
     }
 
     final generatedApis = <String, String>{};
+    final latestEntry = <String, ({String version, String source})>{};
 
     final libDir = p.join(_packageDir, 'lib');
     final generatedDir = '$libDir/src/generated';
@@ -150,13 +147,23 @@ from the downloaded models, plus the protocol conformance test suite.''';
             percentage, 'Generating API ${api.metadata.serviceFullName}');
 
         readmeDescriptions.add(
-            '${api.metadata.serviceFullName} (`package:aws_client/${api.directoryName}`)');
+            '${api.metadata.serviceFullName} (`package:aws_client/${api.directoryName}.dart`)');
 
         // create directories
         final baseDir = '$generatedDir/${api.directoryName}';
         final serviceFile = File('$baseDir/${api.fileBasename}.dart');
-        final entryFile = File(
-            '$libDir/${api.directoryName}_${api.fileBasename.substring(1)}.dart');
+        final entryBasename =
+            '${api.directoryName}_${api.fileBasename.substring(1)}';
+        final entryFile = File('$libDir/$entryBasename.dart');
+
+        final sourcePath =
+            'src/generated/${api.directoryName}/${api.fileBasename}.dart';
+        final prev = latestEntry[api.directoryName];
+        if (prev == null ||
+            api.metadata.apiVersion.compareTo(prev.version) > 0) {
+          latestEntry[api.directoryName] =
+              (version: api.metadata.apiVersion, source: sourcePath);
+        }
 
         serviceFile.parent.createSync(recursive: true);
         entryFile.parent.createSync(recursive: true);
@@ -183,6 +190,11 @@ export '../src/generated/${api.directoryName}/${api.fileBasename}.dart';
       }
     }
 
+    for (final e in latestEntry.entries) {
+      File(p.join(libDir, '${e.key}.dart'))
+          .writeAsStringSync("export '${e.value.source}';\n");
+    }
+
     File(p.join(libDir, 'dynamo_document.dart')).writeAsStringSync('''
 export 'src/dynamo_document/document_client.dart';
 export 'src/dynamo_document/src/translator.dart';
@@ -196,6 +208,14 @@ export 'src/credential_providers/aws_credential_providers.dart';
         File(p.join(_packageDir, 'README.template.md')).readAsStringSync();
     readmeTemplate = readmeTemplate.replaceAll('<!-- INSERT API LIST -->',
         readmeDescriptions.map((d) => '- $d').join('\n'));
+    readmeTemplate = readmeTemplate
+        .replaceAllMapped(RegExp(r'<!-- INCLUDE: (\S+) -->'), (m) {
+      final rel = m.group(1)!;
+      final lang = p.extension(rel).replaceFirst('.', '');
+      final code =
+          File(p.join(_packageDir, rel)).readAsStringSync().trimRight();
+      return '```$lang\n$code\n```';
+    });
     File(p.join(_packageDir, 'README.md')).writeAsStringSync(readmeTemplate);
 
     printPercentageInPlace(100, 'Done');

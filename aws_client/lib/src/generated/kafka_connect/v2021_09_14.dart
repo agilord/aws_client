@@ -33,7 +33,6 @@ class KafkaConnect {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'kafkaconnect',
-            signingName: 'kafkaconnect',
           ),
           region: region,
           credentials: credentials,
@@ -52,14 +51,14 @@ class KafkaConnect {
 
   /// Creates a connector using the specified properties.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [capacity] :
   /// Information about the capacity allocated to the connector. Exactly one of
@@ -108,6 +107,10 @@ class KafkaConnect {
   /// Parameter [logDelivery] :
   /// Details about log delivery.
   ///
+  /// Parameter [networkType] :
+  /// The network type of the connector. It gives connectors connectivity to
+  /// either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+  ///
   /// Parameter [tags] :
   /// The tags you want to attach to the connector.
   ///
@@ -125,6 +128,7 @@ class KafkaConnect {
     required String serviceExecutionRoleArn,
     String? connectorDescription,
     LogDelivery? logDelivery,
+    NetworkType? networkType,
     Map<String, String>? tags,
     WorkerConfiguration? workerConfiguration,
   }) async {
@@ -141,6 +145,7 @@ class KafkaConnect {
       if (connectorDescription != null)
         'connectorDescription': connectorDescription,
       if (logDelivery != null) 'logDelivery': logDelivery,
+      if (networkType != null) 'networkType': networkType.value,
       if (tags != null) 'tags': tags,
       if (workerConfiguration != null)
         'workerConfiguration': workerConfiguration,
@@ -156,14 +161,14 @@ class KafkaConnect {
 
   /// Creates a custom plugin using the specified properties.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [contentType] :
   /// The type of the plugin file.
@@ -204,14 +209,14 @@ class KafkaConnect {
 
   /// Creates a worker configuration using the specified properties.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [name] :
   /// The name of the worker configuration.
@@ -247,13 +252,13 @@ class KafkaConnect {
 
   /// Deletes the specified connector.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [connectorArn] :
   /// The Amazon Resource Name (ARN) of the connector that you want to delete.
@@ -279,13 +284,13 @@ class KafkaConnect {
 
   /// Deletes a custom plugin.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [customPluginArn] :
   /// The Amazon Resource Name (ARN) of the custom plugin that you want to
@@ -304,13 +309,13 @@ class KafkaConnect {
 
   /// Deletes the specified worker configuration.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [workerConfigurationArn] :
   /// The Amazon Resource Name (ARN) of the worker configuration that you want
@@ -330,13 +335,13 @@ class KafkaConnect {
 
   /// Returns summary information about the connector.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [connectorArn] :
   /// The Amazon Resource Name (ARN) of the connector that you want to describe.
@@ -352,15 +357,40 @@ class KafkaConnect {
     return DescribeConnectorResponse.fromJson(response);
   }
 
-  /// A summary description of the custom plugin.
+  /// Returns information about the specified connector's operations.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [connectorOperationArn] :
+  /// ARN of the connector operation to be described.
+  Future<DescribeConnectorOperationResponse> describeConnectorOperation({
+    required String connectorOperationArn,
+  }) async {
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/connectorOperations/${Uri.encodeComponent(connectorOperationArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeConnectorOperationResponse.fromJson(response);
+  }
+
+  /// A summary description of the custom plugin.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
   /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [customPluginArn] :
   /// Returns information about a custom plugin.
@@ -378,13 +408,13 @@ class KafkaConnect {
 
   /// Returns information about a worker configuration.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [workerConfigurationArn] :
   /// The Amazon Resource Name (ARN) of the worker configuration that you want
@@ -402,17 +432,63 @@ class KafkaConnect {
     return DescribeWorkerConfigurationResponse.fromJson(response);
   }
 
+  /// Lists information about a connector's operation(s).
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [connectorArn] :
+  /// The Amazon Resource Name (ARN) of the connector for which to list
+  /// operations.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of connector operations to fetch in one get request.
+  ///
+  /// Parameter [nextToken] :
+  /// If the response is truncated, it includes a NextToken. Send this NextToken
+  /// in a subsequent request to continue listing from where it left off.
+  Future<ListConnectorOperationsResponse> listConnectorOperations({
+    required String connectorArn,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/connectors/${Uri.encodeComponent(connectorArn)}/operations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListConnectorOperationsResponse.fromJson(response);
+  }
+
   /// Returns a list of all the connectors in this account and Region. The list
   /// is limited to connectors whose name starts with the specified prefix. The
   /// response also includes a description of each of the listed connectors.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [connectorNamePrefix] :
   /// The name prefix that you want to use to search for and list connectors.
@@ -453,13 +529,13 @@ class KafkaConnect {
 
   /// Returns a list of all of the custom plugins in this account and Region.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of custom plugins to list in one response.
@@ -499,13 +575,13 @@ class KafkaConnect {
 
   /// Lists all the tags attached to the specified resource.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource for which you want to list
@@ -525,13 +601,13 @@ class KafkaConnect {
   /// Returns a list of all of the worker configurations in this account and
   /// Region.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of worker configurations to list in one response.
@@ -572,14 +648,14 @@ class KafkaConnect {
 
   /// Attaches tags to the specified resource.
   ///
-  /// May throw [NotFoundException].
-  /// May throw [ConflictException].
   /// May throw [BadRequestException].
+  /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to which you want to attach
@@ -604,13 +680,13 @@ class KafkaConnect {
 
   /// Removes tags from the specified resource.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource from which you want to
@@ -634,34 +710,43 @@ class KafkaConnect {
     );
   }
 
-  /// Updates the specified connector.
+  /// Updates the specified connector. For request body, specify only one
+  /// parameter: either <code>capacity</code> or
+  /// <code>connectorConfiguration</code>.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
   /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
-  ///
-  /// Parameter [capacity] :
-  /// The target capacity.
   ///
   /// Parameter [connectorArn] :
   /// The Amazon Resource Name (ARN) of the connector that you want to update.
   ///
   /// Parameter [currentVersion] :
   /// The current version of the connector that you want to update.
+  ///
+  /// Parameter [capacity] :
+  /// The target capacity.
+  ///
+  /// Parameter [connectorConfiguration] :
+  /// A map of keys to values that represent the configuration for the
+  /// connector.
   Future<UpdateConnectorResponse> updateConnector({
-    required CapacityUpdate capacity,
     required String connectorArn,
     required String currentVersion,
+    CapacityUpdate? capacity,
+    Map<String, String>? connectorConfiguration,
   }) async {
     final $query = <String, List<String>>{
       'currentVersion': [currentVersion],
     };
     final $payload = <String, dynamic>{
-      'capacity': capacity,
+      if (capacity != null) 'capacity': capacity,
+      if (connectorConfiguration != null)
+        'connectorConfiguration': connectorConfiguration,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -671,536 +756,6 @@ class KafkaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateConnectorResponse.fromJson(response);
-  }
-}
-
-/// The details of the Apache Kafka cluster to which the connector is connected.
-class ApacheKafkaCluster {
-  /// The bootstrap servers of the cluster.
-  final String bootstrapServers;
-
-  /// Details of an Amazon VPC which has network connectivity to the Apache Kafka
-  /// cluster.
-  final Vpc vpc;
-
-  ApacheKafkaCluster({
-    required this.bootstrapServers,
-    required this.vpc,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bootstrapServers = this.bootstrapServers;
-    final vpc = this.vpc;
-    return {
-      'bootstrapServers': bootstrapServers,
-      'vpc': vpc,
-    };
-  }
-}
-
-/// The description of the Apache Kafka cluster to which the connector is
-/// connected.
-class ApacheKafkaClusterDescription {
-  /// The bootstrap servers of the cluster.
-  final String? bootstrapServers;
-
-  /// Details of an Amazon VPC which has network connectivity to the Apache Kafka
-  /// cluster.
-  final VpcDescription? vpc;
-
-  ApacheKafkaClusterDescription({
-    this.bootstrapServers,
-    this.vpc,
-  });
-
-  factory ApacheKafkaClusterDescription.fromJson(Map<String, dynamic> json) {
-    return ApacheKafkaClusterDescription(
-      bootstrapServers: json['bootstrapServers'] as String?,
-      vpc: json['vpc'] != null
-          ? VpcDescription.fromJson(json['vpc'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bootstrapServers = this.bootstrapServers;
-    final vpc = this.vpc;
-    return {
-      if (bootstrapServers != null) 'bootstrapServers': bootstrapServers,
-      if (vpc != null) 'vpc': vpc,
-    };
-  }
-}
-
-/// Specifies how the connector scales.
-class AutoScaling {
-  /// The maximum number of workers allocated to the connector.
-  final int maxWorkerCount;
-
-  /// The number of microcontroller units (MCUs) allocated to each connector
-  /// worker. The valid values are 1,2,4,8.
-  final int mcuCount;
-
-  /// The minimum number of workers allocated to the connector.
-  final int minWorkerCount;
-
-  /// The sacle-in policy for the connector.
-  final ScaleInPolicy? scaleInPolicy;
-
-  /// The sacle-out policy for the connector.
-  final ScaleOutPolicy? scaleOutPolicy;
-
-  AutoScaling({
-    required this.maxWorkerCount,
-    required this.mcuCount,
-    required this.minWorkerCount,
-    this.scaleInPolicy,
-    this.scaleOutPolicy,
-  });
-
-  Map<String, dynamic> toJson() {
-    final maxWorkerCount = this.maxWorkerCount;
-    final mcuCount = this.mcuCount;
-    final minWorkerCount = this.minWorkerCount;
-    final scaleInPolicy = this.scaleInPolicy;
-    final scaleOutPolicy = this.scaleOutPolicy;
-    return {
-      'maxWorkerCount': maxWorkerCount,
-      'mcuCount': mcuCount,
-      'minWorkerCount': minWorkerCount,
-      if (scaleInPolicy != null) 'scaleInPolicy': scaleInPolicy,
-      if (scaleOutPolicy != null) 'scaleOutPolicy': scaleOutPolicy,
-    };
-  }
-}
-
-/// Information about the auto scaling parameters for the connector.
-class AutoScalingDescription {
-  /// The maximum number of workers allocated to the connector.
-  final int? maxWorkerCount;
-
-  /// The number of microcontroller units (MCUs) allocated to each connector
-  /// worker. The valid values are 1,2,4,8.
-  final int? mcuCount;
-
-  /// The minimum number of workers allocated to the connector.
-  final int? minWorkerCount;
-
-  /// The sacle-in policy for the connector.
-  final ScaleInPolicyDescription? scaleInPolicy;
-
-  /// The sacle-out policy for the connector.&gt;
-  final ScaleOutPolicyDescription? scaleOutPolicy;
-
-  AutoScalingDescription({
-    this.maxWorkerCount,
-    this.mcuCount,
-    this.minWorkerCount,
-    this.scaleInPolicy,
-    this.scaleOutPolicy,
-  });
-
-  factory AutoScalingDescription.fromJson(Map<String, dynamic> json) {
-    return AutoScalingDescription(
-      maxWorkerCount: json['maxWorkerCount'] as int?,
-      mcuCount: json['mcuCount'] as int?,
-      minWorkerCount: json['minWorkerCount'] as int?,
-      scaleInPolicy: json['scaleInPolicy'] != null
-          ? ScaleInPolicyDescription.fromJson(
-              json['scaleInPolicy'] as Map<String, dynamic>)
-          : null,
-      scaleOutPolicy: json['scaleOutPolicy'] != null
-          ? ScaleOutPolicyDescription.fromJson(
-              json['scaleOutPolicy'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxWorkerCount = this.maxWorkerCount;
-    final mcuCount = this.mcuCount;
-    final minWorkerCount = this.minWorkerCount;
-    final scaleInPolicy = this.scaleInPolicy;
-    final scaleOutPolicy = this.scaleOutPolicy;
-    return {
-      if (maxWorkerCount != null) 'maxWorkerCount': maxWorkerCount,
-      if (mcuCount != null) 'mcuCount': mcuCount,
-      if (minWorkerCount != null) 'minWorkerCount': minWorkerCount,
-      if (scaleInPolicy != null) 'scaleInPolicy': scaleInPolicy,
-      if (scaleOutPolicy != null) 'scaleOutPolicy': scaleOutPolicy,
-    };
-  }
-}
-
-/// The updates to the auto scaling parameters for the connector.
-class AutoScalingUpdate {
-  /// The target maximum number of workers allocated to the connector.
-  final int maxWorkerCount;
-
-  /// The target number of microcontroller units (MCUs) allocated to each
-  /// connector worker. The valid values are 1,2,4,8.
-  final int mcuCount;
-
-  /// The target minimum number of workers allocated to the connector.
-  final int minWorkerCount;
-
-  /// The target sacle-in policy for the connector.
-  final ScaleInPolicyUpdate scaleInPolicy;
-
-  /// The target sacle-out policy for the connector.
-  final ScaleOutPolicyUpdate scaleOutPolicy;
-
-  AutoScalingUpdate({
-    required this.maxWorkerCount,
-    required this.mcuCount,
-    required this.minWorkerCount,
-    required this.scaleInPolicy,
-    required this.scaleOutPolicy,
-  });
-
-  Map<String, dynamic> toJson() {
-    final maxWorkerCount = this.maxWorkerCount;
-    final mcuCount = this.mcuCount;
-    final minWorkerCount = this.minWorkerCount;
-    final scaleInPolicy = this.scaleInPolicy;
-    final scaleOutPolicy = this.scaleOutPolicy;
-    return {
-      'maxWorkerCount': maxWorkerCount,
-      'mcuCount': mcuCount,
-      'minWorkerCount': minWorkerCount,
-      'scaleInPolicy': scaleInPolicy,
-      'scaleOutPolicy': scaleOutPolicy,
-    };
-  }
-}
-
-/// Information about the capacity of the connector, whether it is auto scaled
-/// or provisioned.
-class Capacity {
-  /// Information about the auto scaling parameters for the connector.
-  final AutoScaling? autoScaling;
-
-  /// Details about a fixed capacity allocated to a connector.
-  final ProvisionedCapacity? provisionedCapacity;
-
-  Capacity({
-    this.autoScaling,
-    this.provisionedCapacity,
-  });
-
-  Map<String, dynamic> toJson() {
-    final autoScaling = this.autoScaling;
-    final provisionedCapacity = this.provisionedCapacity;
-    return {
-      if (autoScaling != null) 'autoScaling': autoScaling,
-      if (provisionedCapacity != null)
-        'provisionedCapacity': provisionedCapacity,
-    };
-  }
-}
-
-/// A description of the connector's capacity.
-class CapacityDescription {
-  /// Describes the connector's auto scaling capacity.
-  final AutoScalingDescription? autoScaling;
-
-  /// Describes a connector's provisioned capacity.
-  final ProvisionedCapacityDescription? provisionedCapacity;
-
-  CapacityDescription({
-    this.autoScaling,
-    this.provisionedCapacity,
-  });
-
-  factory CapacityDescription.fromJson(Map<String, dynamic> json) {
-    return CapacityDescription(
-      autoScaling: json['autoScaling'] != null
-          ? AutoScalingDescription.fromJson(
-              json['autoScaling'] as Map<String, dynamic>)
-          : null,
-      provisionedCapacity: json['provisionedCapacity'] != null
-          ? ProvisionedCapacityDescription.fromJson(
-              json['provisionedCapacity'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoScaling = this.autoScaling;
-    final provisionedCapacity = this.provisionedCapacity;
-    return {
-      if (autoScaling != null) 'autoScaling': autoScaling,
-      if (provisionedCapacity != null)
-        'provisionedCapacity': provisionedCapacity,
-    };
-  }
-}
-
-/// The target capacity for the connector. The capacity can be auto scaled or
-/// provisioned.
-class CapacityUpdate {
-  /// The target auto scaling setting.
-  final AutoScalingUpdate? autoScaling;
-
-  /// The target settings for provisioned capacity.
-  final ProvisionedCapacityUpdate? provisionedCapacity;
-
-  CapacityUpdate({
-    this.autoScaling,
-    this.provisionedCapacity,
-  });
-
-  Map<String, dynamic> toJson() {
-    final autoScaling = this.autoScaling;
-    final provisionedCapacity = this.provisionedCapacity;
-    return {
-      if (autoScaling != null) 'autoScaling': autoScaling,
-      if (provisionedCapacity != null)
-        'provisionedCapacity': provisionedCapacity,
-    };
-  }
-}
-
-/// The settings for delivering connector logs to Amazon CloudWatch Logs.
-class CloudWatchLogsLogDelivery {
-  /// Whether log delivery to Amazon CloudWatch Logs is enabled.
-  final bool enabled;
-
-  /// The name of the CloudWatch log group that is the destination for log
-  /// delivery.
-  final String? logGroup;
-
-  CloudWatchLogsLogDelivery({
-    required this.enabled,
-    this.logGroup,
-  });
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final logGroup = this.logGroup;
-    return {
-      'enabled': enabled,
-      if (logGroup != null) 'logGroup': logGroup,
-    };
-  }
-}
-
-/// A description of the log delivery settings.
-class CloudWatchLogsLogDeliveryDescription {
-  /// Whether log delivery to Amazon CloudWatch Logs is enabled.
-  final bool? enabled;
-
-  /// The name of the CloudWatch log group that is the destination for log
-  /// delivery.
-  final String? logGroup;
-
-  CloudWatchLogsLogDeliveryDescription({
-    this.enabled,
-    this.logGroup,
-  });
-
-  factory CloudWatchLogsLogDeliveryDescription.fromJson(
-      Map<String, dynamic> json) {
-    return CloudWatchLogsLogDeliveryDescription(
-      enabled: json['enabled'] as bool?,
-      logGroup: json['logGroup'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final logGroup = this.logGroup;
-    return {
-      if (enabled != null) 'enabled': enabled,
-      if (logGroup != null) 'logGroup': logGroup,
-    };
-  }
-}
-
-class ConnectorState {
-  static const running = ConnectorState._('RUNNING');
-  static const creating = ConnectorState._('CREATING');
-  static const updating = ConnectorState._('UPDATING');
-  static const deleting = ConnectorState._('DELETING');
-  static const failed = ConnectorState._('FAILED');
-
-  final String value;
-
-  const ConnectorState._(this.value);
-
-  static const values = [running, creating, updating, deleting, failed];
-
-  static ConnectorState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectorState._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectorState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Summary of a connector.
-class ConnectorSummary {
-  /// The connector's compute capacity settings.
-  final CapacityDescription? capacity;
-
-  /// The Amazon Resource Name (ARN) of the connector.
-  final String? connectorArn;
-
-  /// The description of the connector.
-  final String? connectorDescription;
-
-  /// The name of the connector.
-  final String? connectorName;
-
-  /// The state of the connector.
-  final ConnectorState? connectorState;
-
-  /// The time that the connector was created.
-  final DateTime? creationTime;
-
-  /// The current version of the connector.
-  final String? currentVersion;
-
-  /// The details of the Apache Kafka cluster to which the connector is connected.
-  final KafkaClusterDescription? kafkaCluster;
-
-  /// The type of client authentication used to connect to the Apache Kafka
-  /// cluster. The value is NONE when no client authentication is used.
-  final KafkaClusterClientAuthenticationDescription?
-      kafkaClusterClientAuthentication;
-
-  /// Details of encryption in transit to the Apache Kafka cluster.
-  final KafkaClusterEncryptionInTransitDescription?
-      kafkaClusterEncryptionInTransit;
-
-  /// The version of Kafka Connect. It has to be compatible with both the Apache
-  /// Kafka cluster's version and the plugins.
-  final String? kafkaConnectVersion;
-
-  /// The settings for delivering connector logs to Amazon CloudWatch Logs.
-  final LogDeliveryDescription? logDelivery;
-
-  /// Specifies which plugins were used for this connector.
-  final List<PluginDescription>? plugins;
-
-  /// The Amazon Resource Name (ARN) of the IAM role used by the connector to
-  /// access Amazon Web Services resources.
-  final String? serviceExecutionRoleArn;
-
-  /// The worker configurations that are in use with the connector.
-  final WorkerConfigurationDescription? workerConfiguration;
-
-  ConnectorSummary({
-    this.capacity,
-    this.connectorArn,
-    this.connectorDescription,
-    this.connectorName,
-    this.connectorState,
-    this.creationTime,
-    this.currentVersion,
-    this.kafkaCluster,
-    this.kafkaClusterClientAuthentication,
-    this.kafkaClusterEncryptionInTransit,
-    this.kafkaConnectVersion,
-    this.logDelivery,
-    this.plugins,
-    this.serviceExecutionRoleArn,
-    this.workerConfiguration,
-  });
-
-  factory ConnectorSummary.fromJson(Map<String, dynamic> json) {
-    return ConnectorSummary(
-      capacity: json['capacity'] != null
-          ? CapacityDescription.fromJson(
-              json['capacity'] as Map<String, dynamic>)
-          : null,
-      connectorArn: json['connectorArn'] as String?,
-      connectorDescription: json['connectorDescription'] as String?,
-      connectorName: json['connectorName'] as String?,
-      connectorState:
-          (json['connectorState'] as String?)?.let(ConnectorState.fromString),
-      creationTime: timeStampFromJson(json['creationTime']),
-      currentVersion: json['currentVersion'] as String?,
-      kafkaCluster: json['kafkaCluster'] != null
-          ? KafkaClusterDescription.fromJson(
-              json['kafkaCluster'] as Map<String, dynamic>)
-          : null,
-      kafkaClusterClientAuthentication:
-          json['kafkaClusterClientAuthentication'] != null
-              ? KafkaClusterClientAuthenticationDescription.fromJson(
-                  json['kafkaClusterClientAuthentication']
-                      as Map<String, dynamic>)
-              : null,
-      kafkaClusterEncryptionInTransit:
-          json['kafkaClusterEncryptionInTransit'] != null
-              ? KafkaClusterEncryptionInTransitDescription.fromJson(
-                  json['kafkaClusterEncryptionInTransit']
-                      as Map<String, dynamic>)
-              : null,
-      kafkaConnectVersion: json['kafkaConnectVersion'] as String?,
-      logDelivery: json['logDelivery'] != null
-          ? LogDeliveryDescription.fromJson(
-              json['logDelivery'] as Map<String, dynamic>)
-          : null,
-      plugins: (json['plugins'] as List?)
-          ?.nonNulls
-          .map((e) => PluginDescription.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      serviceExecutionRoleArn: json['serviceExecutionRoleArn'] as String?,
-      workerConfiguration: json['workerConfiguration'] != null
-          ? WorkerConfigurationDescription.fromJson(
-              json['workerConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final capacity = this.capacity;
-    final connectorArn = this.connectorArn;
-    final connectorDescription = this.connectorDescription;
-    final connectorName = this.connectorName;
-    final connectorState = this.connectorState;
-    final creationTime = this.creationTime;
-    final currentVersion = this.currentVersion;
-    final kafkaCluster = this.kafkaCluster;
-    final kafkaClusterClientAuthentication =
-        this.kafkaClusterClientAuthentication;
-    final kafkaClusterEncryptionInTransit =
-        this.kafkaClusterEncryptionInTransit;
-    final kafkaConnectVersion = this.kafkaConnectVersion;
-    final logDelivery = this.logDelivery;
-    final plugins = this.plugins;
-    final serviceExecutionRoleArn = this.serviceExecutionRoleArn;
-    final workerConfiguration = this.workerConfiguration;
-    return {
-      if (capacity != null) 'capacity': capacity,
-      if (connectorArn != null) 'connectorArn': connectorArn,
-      if (connectorDescription != null)
-        'connectorDescription': connectorDescription,
-      if (connectorName != null) 'connectorName': connectorName,
-      if (connectorState != null) 'connectorState': connectorState.value,
-      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
-      if (currentVersion != null) 'currentVersion': currentVersion,
-      if (kafkaCluster != null) 'kafkaCluster': kafkaCluster,
-      if (kafkaClusterClientAuthentication != null)
-        'kafkaClusterClientAuthentication': kafkaClusterClientAuthentication,
-      if (kafkaClusterEncryptionInTransit != null)
-        'kafkaClusterEncryptionInTransit': kafkaClusterEncryptionInTransit,
-      if (kafkaConnectVersion != null)
-        'kafkaConnectVersion': kafkaConnectVersion,
-      if (logDelivery != null) 'logDelivery': logDelivery,
-      if (plugins != null) 'plugins': plugins,
-      if (serviceExecutionRoleArn != null)
-        'serviceExecutionRoleArn': serviceExecutionRoleArn,
-      if (workerConfiguration != null)
-        'workerConfiguration': workerConfiguration,
-    };
   }
 }
 
@@ -1340,325 +895,6 @@ class CreateWorkerConfigurationResponse {
         'workerConfigurationArn': workerConfigurationArn,
       if (workerConfigurationState != null)
         'workerConfigurationState': workerConfigurationState.value,
-    };
-  }
-}
-
-/// A plugin is an Amazon Web Services resource that contains the code that
-/// defines a connector's logic.
-class CustomPlugin {
-  /// The Amazon Resource Name (ARN) of the custom plugin.
-  final String customPluginArn;
-
-  /// The revision of the custom plugin.
-  final int revision;
-
-  CustomPlugin({
-    required this.customPluginArn,
-    required this.revision,
-  });
-
-  Map<String, dynamic> toJson() {
-    final customPluginArn = this.customPluginArn;
-    final revision = this.revision;
-    return {
-      'customPluginArn': customPluginArn,
-      'revision': revision,
-    };
-  }
-}
-
-class CustomPluginContentType {
-  static const jar = CustomPluginContentType._('JAR');
-  static const zip = CustomPluginContentType._('ZIP');
-
-  final String value;
-
-  const CustomPluginContentType._(this.value);
-
-  static const values = [jar, zip];
-
-  static CustomPluginContentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomPluginContentType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CustomPluginContentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details about a custom plugin.
-class CustomPluginDescription {
-  /// The Amazon Resource Name (ARN) of the custom plugin.
-  final String? customPluginArn;
-
-  /// The revision of the custom plugin.
-  final int? revision;
-
-  CustomPluginDescription({
-    this.customPluginArn,
-    this.revision,
-  });
-
-  factory CustomPluginDescription.fromJson(Map<String, dynamic> json) {
-    return CustomPluginDescription(
-      customPluginArn: json['customPluginArn'] as String?,
-      revision: json['revision'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customPluginArn = this.customPluginArn;
-    final revision = this.revision;
-    return {
-      if (customPluginArn != null) 'customPluginArn': customPluginArn,
-      if (revision != null) 'revision': revision,
-    };
-  }
-}
-
-/// Details about a custom plugin file.
-class CustomPluginFileDescription {
-  /// The hex-encoded MD5 checksum of the custom plugin file. You can use it to
-  /// validate the file.
-  final String? fileMd5;
-
-  /// The size in bytes of the custom plugin file. You can use it to validate the
-  /// file.
-  final int? fileSize;
-
-  CustomPluginFileDescription({
-    this.fileMd5,
-    this.fileSize,
-  });
-
-  factory CustomPluginFileDescription.fromJson(Map<String, dynamic> json) {
-    return CustomPluginFileDescription(
-      fileMd5: json['fileMd5'] as String?,
-      fileSize: json['fileSize'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fileMd5 = this.fileMd5;
-    final fileSize = this.fileSize;
-    return {
-      if (fileMd5 != null) 'fileMd5': fileMd5,
-      if (fileSize != null) 'fileSize': fileSize,
-    };
-  }
-}
-
-/// Information about the location of a custom plugin.
-class CustomPluginLocation {
-  /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of
-  /// the plugin file stored in Amazon S3.
-  final S3Location s3Location;
-
-  CustomPluginLocation({
-    required this.s3Location,
-  });
-
-  Map<String, dynamic> toJson() {
-    final s3Location = this.s3Location;
-    return {
-      's3Location': s3Location,
-    };
-  }
-}
-
-/// Information about the location of a custom plugin.
-class CustomPluginLocationDescription {
-  /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of
-  /// the plugin file stored in Amazon S3.
-  final S3LocationDescription? s3Location;
-
-  CustomPluginLocationDescription({
-    this.s3Location,
-  });
-
-  factory CustomPluginLocationDescription.fromJson(Map<String, dynamic> json) {
-    return CustomPluginLocationDescription(
-      s3Location: json['s3Location'] != null
-          ? S3LocationDescription.fromJson(
-              json['s3Location'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3Location = this.s3Location;
-    return {
-      if (s3Location != null) 's3Location': s3Location,
-    };
-  }
-}
-
-/// Details about the revision of a custom plugin.
-class CustomPluginRevisionSummary {
-  /// The format of the plugin file.
-  final CustomPluginContentType? contentType;
-
-  /// The time that the custom plugin was created.
-  final DateTime? creationTime;
-
-  /// The description of the custom plugin.
-  final String? description;
-
-  /// Details about the custom plugin file.
-  final CustomPluginFileDescription? fileDescription;
-
-  /// Information about the location of the custom plugin.
-  final CustomPluginLocationDescription? location;
-
-  /// The revision of the custom plugin.
-  final int? revision;
-
-  CustomPluginRevisionSummary({
-    this.contentType,
-    this.creationTime,
-    this.description,
-    this.fileDescription,
-    this.location,
-    this.revision,
-  });
-
-  factory CustomPluginRevisionSummary.fromJson(Map<String, dynamic> json) {
-    return CustomPluginRevisionSummary(
-      contentType: (json['contentType'] as String?)
-          ?.let(CustomPluginContentType.fromString),
-      creationTime: timeStampFromJson(json['creationTime']),
-      description: json['description'] as String?,
-      fileDescription: json['fileDescription'] != null
-          ? CustomPluginFileDescription.fromJson(
-              json['fileDescription'] as Map<String, dynamic>)
-          : null,
-      location: json['location'] != null
-          ? CustomPluginLocationDescription.fromJson(
-              json['location'] as Map<String, dynamic>)
-          : null,
-      revision: json['revision'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contentType = this.contentType;
-    final creationTime = this.creationTime;
-    final description = this.description;
-    final fileDescription = this.fileDescription;
-    final location = this.location;
-    final revision = this.revision;
-    return {
-      if (contentType != null) 'contentType': contentType.value,
-      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
-      if (description != null) 'description': description,
-      if (fileDescription != null) 'fileDescription': fileDescription,
-      if (location != null) 'location': location,
-      if (revision != null) 'revision': revision,
-    };
-  }
-}
-
-class CustomPluginState {
-  static const creating = CustomPluginState._('CREATING');
-  static const createFailed = CustomPluginState._('CREATE_FAILED');
-  static const active = CustomPluginState._('ACTIVE');
-  static const updating = CustomPluginState._('UPDATING');
-  static const updateFailed = CustomPluginState._('UPDATE_FAILED');
-  static const deleting = CustomPluginState._('DELETING');
-
-  final String value;
-
-  const CustomPluginState._(this.value);
-
-  static const values = [
-    creating,
-    createFailed,
-    active,
-    updating,
-    updateFailed,
-    deleting
-  ];
-
-  static CustomPluginState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CustomPluginState._(value));
-
-  @override
-  bool operator ==(other) => other is CustomPluginState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A summary of the custom plugin.
-class CustomPluginSummary {
-  /// The time that the custom plugin was created.
-  final DateTime? creationTime;
-
-  /// The Amazon Resource Name (ARN) of the custom plugin.
-  final String? customPluginArn;
-
-  /// The state of the custom plugin.
-  final CustomPluginState? customPluginState;
-
-  /// A description of the custom plugin.
-  final String? description;
-
-  /// The latest revision of the custom plugin.
-  final CustomPluginRevisionSummary? latestRevision;
-
-  /// The name of the custom plugin.
-  final String? name;
-
-  CustomPluginSummary({
-    this.creationTime,
-    this.customPluginArn,
-    this.customPluginState,
-    this.description,
-    this.latestRevision,
-    this.name,
-  });
-
-  factory CustomPluginSummary.fromJson(Map<String, dynamic> json) {
-    return CustomPluginSummary(
-      creationTime: timeStampFromJson(json['creationTime']),
-      customPluginArn: json['customPluginArn'] as String?,
-      customPluginState: (json['customPluginState'] as String?)
-          ?.let(CustomPluginState.fromString),
-      description: json['description'] as String?,
-      latestRevision: json['latestRevision'] != null
-          ? CustomPluginRevisionSummary.fromJson(
-              json['latestRevision'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationTime = this.creationTime;
-    final customPluginArn = this.customPluginArn;
-    final customPluginState = this.customPluginState;
-    final description = this.description;
-    final latestRevision = this.latestRevision;
-    final name = this.name;
-    return {
-      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
-      if (customPluginArn != null) 'customPluginArn': customPluginArn,
-      if (customPluginState != null)
-        'customPluginState': customPluginState.value,
-      if (description != null) 'description': description,
-      if (latestRevision != null) 'latestRevision': latestRevision,
-      if (name != null) 'name': name,
     };
   }
 }
@@ -1805,6 +1041,10 @@ class DescribeConnectorResponse {
   /// Details about delivering logs to Amazon CloudWatch Logs.
   final LogDeliveryDescription? logDelivery;
 
+  /// The network type of the connector. It gives connectors connectivity to
+  /// either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+  final NetworkType? networkType;
+
   /// Specifies which plugins were used for this connector.
   final List<PluginDescription>? plugins;
 
@@ -1832,6 +1072,7 @@ class DescribeConnectorResponse {
     this.kafkaClusterEncryptionInTransit,
     this.kafkaConnectVersion,
     this.logDelivery,
+    this.networkType,
     this.plugins,
     this.serviceExecutionRoleArn,
     this.stateDescription,
@@ -1875,6 +1116,8 @@ class DescribeConnectorResponse {
           ? LogDeliveryDescription.fromJson(
               json['logDelivery'] as Map<String, dynamic>)
           : null,
+      networkType:
+          (json['networkType'] as String?)?.let(NetworkType.fromString),
       plugins: (json['plugins'] as List?)
           ?.nonNulls
           .map((e) => PluginDescription.fromJson(e as Map<String, dynamic>))
@@ -1907,6 +1150,7 @@ class DescribeConnectorResponse {
         this.kafkaClusterEncryptionInTransit;
     final kafkaConnectVersion = this.kafkaConnectVersion;
     final logDelivery = this.logDelivery;
+    final networkType = this.networkType;
     final plugins = this.plugins;
     final serviceExecutionRoleArn = this.serviceExecutionRoleArn;
     final stateDescription = this.stateDescription;
@@ -1930,12 +1174,136 @@ class DescribeConnectorResponse {
       if (kafkaConnectVersion != null)
         'kafkaConnectVersion': kafkaConnectVersion,
       if (logDelivery != null) 'logDelivery': logDelivery,
+      if (networkType != null) 'networkType': networkType.value,
       if (plugins != null) 'plugins': plugins,
       if (serviceExecutionRoleArn != null)
         'serviceExecutionRoleArn': serviceExecutionRoleArn,
       if (stateDescription != null) 'stateDescription': stateDescription,
       if (workerConfiguration != null)
         'workerConfiguration': workerConfiguration,
+    };
+  }
+}
+
+class DescribeConnectorOperationResponse {
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String? connectorArn;
+
+  /// The Amazon Resource Name (ARN) of the connector operation.
+  final String? connectorOperationArn;
+
+  /// The state of the connector operation.
+  final ConnectorOperationState? connectorOperationState;
+
+  /// The type of connector operation performed.
+  final ConnectorOperationType? connectorOperationType;
+
+  /// The time when the operation was created.
+  final DateTime? creationTime;
+
+  /// The time when the operation ended.
+  final DateTime? endTime;
+  final StateDescription? errorInfo;
+
+  /// The array of operation steps taken.
+  final List<ConnectorOperationStep>? operationSteps;
+
+  /// The origin connector configuration.
+  final Map<String, String>? originConnectorConfiguration;
+
+  /// The origin worker setting.
+  final WorkerSetting? originWorkerSetting;
+
+  /// The target connector configuration.
+  final Map<String, String>? targetConnectorConfiguration;
+
+  /// The target worker setting.
+  final WorkerSetting? targetWorkerSetting;
+
+  DescribeConnectorOperationResponse({
+    this.connectorArn,
+    this.connectorOperationArn,
+    this.connectorOperationState,
+    this.connectorOperationType,
+    this.creationTime,
+    this.endTime,
+    this.errorInfo,
+    this.operationSteps,
+    this.originConnectorConfiguration,
+    this.originWorkerSetting,
+    this.targetConnectorConfiguration,
+    this.targetWorkerSetting,
+  });
+
+  factory DescribeConnectorOperationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeConnectorOperationResponse(
+      connectorArn: json['connectorArn'] as String?,
+      connectorOperationArn: json['connectorOperationArn'] as String?,
+      connectorOperationState: (json['connectorOperationState'] as String?)
+          ?.let(ConnectorOperationState.fromString),
+      connectorOperationType: (json['connectorOperationType'] as String?)
+          ?.let(ConnectorOperationType.fromString),
+      creationTime: timeStampFromJson(json['creationTime']),
+      endTime: timeStampFromJson(json['endTime']),
+      errorInfo: json['errorInfo'] != null
+          ? StateDescription.fromJson(json['errorInfo'] as Map<String, dynamic>)
+          : null,
+      operationSteps: (json['operationSteps'] as List?)
+          ?.nonNulls
+          .map(
+              (e) => ConnectorOperationStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      originConnectorConfiguration:
+          (json['originConnectorConfiguration'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      originWorkerSetting: json['originWorkerSetting'] != null
+          ? WorkerSetting.fromJson(
+              json['originWorkerSetting'] as Map<String, dynamic>)
+          : null,
+      targetConnectorConfiguration:
+          (json['targetConnectorConfiguration'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      targetWorkerSetting: json['targetWorkerSetting'] != null
+          ? WorkerSetting.fromJson(
+              json['targetWorkerSetting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    final connectorOperationArn = this.connectorOperationArn;
+    final connectorOperationState = this.connectorOperationState;
+    final connectorOperationType = this.connectorOperationType;
+    final creationTime = this.creationTime;
+    final endTime = this.endTime;
+    final errorInfo = this.errorInfo;
+    final operationSteps = this.operationSteps;
+    final originConnectorConfiguration = this.originConnectorConfiguration;
+    final originWorkerSetting = this.originWorkerSetting;
+    final targetConnectorConfiguration = this.targetConnectorConfiguration;
+    final targetWorkerSetting = this.targetWorkerSetting;
+    return {
+      if (connectorArn != null) 'connectorArn': connectorArn,
+      if (connectorOperationArn != null)
+        'connectorOperationArn': connectorOperationArn,
+      if (connectorOperationState != null)
+        'connectorOperationState': connectorOperationState.value,
+      if (connectorOperationType != null)
+        'connectorOperationType': connectorOperationType.value,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (errorInfo != null) 'errorInfo': errorInfo,
+      if (operationSteps != null) 'operationSteps': operationSteps,
+      if (originConnectorConfiguration != null)
+        'originConnectorConfiguration': originConnectorConfiguration,
+      if (originWorkerSetting != null)
+        'originWorkerSetting': originWorkerSetting,
+      if (targetConnectorConfiguration != null)
+        'targetConnectorConfiguration': targetConnectorConfiguration,
+      if (targetWorkerSetting != null)
+        'targetWorkerSetting': targetWorkerSetting,
     };
   }
 }
@@ -2077,244 +1445,39 @@ class DescribeWorkerConfigurationResponse {
   }
 }
 
-/// The settings for delivering logs to Amazon Kinesis Data Firehose.
-class FirehoseLogDelivery {
-  /// Specifies whether connector logs get delivered to Amazon Kinesis Data
-  /// Firehose.
-  final bool enabled;
+class ListConnectorOperationsResponse {
+  /// An array of connector operation descriptions.
+  final List<ConnectorOperationSummary>? connectorOperations;
 
-  /// The name of the Kinesis Data Firehose delivery stream that is the
-  /// destination for log delivery.
-  final String? deliveryStream;
+  /// If the response is truncated, it includes a NextToken. Send this NextToken
+  /// in a subsequent request to continue listing from where it left off.
+  final String? nextToken;
 
-  FirehoseLogDelivery({
-    required this.enabled,
-    this.deliveryStream,
+  ListConnectorOperationsResponse({
+    this.connectorOperations,
+    this.nextToken,
   });
 
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final deliveryStream = this.deliveryStream;
-    return {
-      'enabled': enabled,
-      if (deliveryStream != null) 'deliveryStream': deliveryStream,
-    };
-  }
-}
-
-/// A description of the settings for delivering logs to Amazon Kinesis Data
-/// Firehose.
-class FirehoseLogDeliveryDescription {
-  /// The name of the Kinesis Data Firehose delivery stream that is the
-  /// destination for log delivery.
-  final String? deliveryStream;
-
-  /// Specifies whether connector logs get delivered to Amazon Kinesis Data
-  /// Firehose.
-  final bool? enabled;
-
-  FirehoseLogDeliveryDescription({
-    this.deliveryStream,
-    this.enabled,
-  });
-
-  factory FirehoseLogDeliveryDescription.fromJson(Map<String, dynamic> json) {
-    return FirehoseLogDeliveryDescription(
-      deliveryStream: json['deliveryStream'] as String?,
-      enabled: json['enabled'] as bool?,
+  factory ListConnectorOperationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorOperationsResponse(
+      connectorOperations: (json['connectorOperations'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              ConnectorOperationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final deliveryStream = this.deliveryStream;
-    final enabled = this.enabled;
+    final connectorOperations = this.connectorOperations;
+    final nextToken = this.nextToken;
     return {
-      if (deliveryStream != null) 'deliveryStream': deliveryStream,
-      if (enabled != null) 'enabled': enabled,
+      if (connectorOperations != null)
+        'connectorOperations': connectorOperations,
+      if (nextToken != null) 'nextToken': nextToken,
     };
   }
-}
-
-/// The details of the Apache Kafka cluster to which the connector is connected.
-class KafkaCluster {
-  /// The Apache Kafka cluster to which the connector is connected.
-  final ApacheKafkaCluster apacheKafkaCluster;
-
-  KafkaCluster({
-    required this.apacheKafkaCluster,
-  });
-
-  Map<String, dynamic> toJson() {
-    final apacheKafkaCluster = this.apacheKafkaCluster;
-    return {
-      'apacheKafkaCluster': apacheKafkaCluster,
-    };
-  }
-}
-
-/// The client authentication information used in order to authenticate with the
-/// Apache Kafka cluster.
-class KafkaClusterClientAuthentication {
-  /// The type of client authentication used to connect to the Apache Kafka
-  /// cluster. Value NONE means that no client authentication is used.
-  final KafkaClusterClientAuthenticationType authenticationType;
-
-  KafkaClusterClientAuthentication({
-    required this.authenticationType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final authenticationType = this.authenticationType;
-    return {
-      'authenticationType': authenticationType.value,
-    };
-  }
-}
-
-/// The client authentication information used in order to authenticate with the
-/// Apache Kafka cluster.
-class KafkaClusterClientAuthenticationDescription {
-  /// The type of client authentication used to connect to the Apache Kafka
-  /// cluster. Value NONE means that no client authentication is used.
-  final KafkaClusterClientAuthenticationType? authenticationType;
-
-  KafkaClusterClientAuthenticationDescription({
-    this.authenticationType,
-  });
-
-  factory KafkaClusterClientAuthenticationDescription.fromJson(
-      Map<String, dynamic> json) {
-    return KafkaClusterClientAuthenticationDescription(
-      authenticationType: (json['authenticationType'] as String?)
-          ?.let(KafkaClusterClientAuthenticationType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authenticationType = this.authenticationType;
-    return {
-      if (authenticationType != null)
-        'authenticationType': authenticationType.value,
-    };
-  }
-}
-
-class KafkaClusterClientAuthenticationType {
-  static const none = KafkaClusterClientAuthenticationType._('NONE');
-  static const iam = KafkaClusterClientAuthenticationType._('IAM');
-
-  final String value;
-
-  const KafkaClusterClientAuthenticationType._(this.value);
-
-  static const values = [none, iam];
-
-  static KafkaClusterClientAuthenticationType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KafkaClusterClientAuthenticationType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KafkaClusterClientAuthenticationType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Details of how to connect to the Apache Kafka cluster.
-class KafkaClusterDescription {
-  /// The Apache Kafka cluster to which the connector is connected.
-  final ApacheKafkaClusterDescription? apacheKafkaCluster;
-
-  KafkaClusterDescription({
-    this.apacheKafkaCluster,
-  });
-
-  factory KafkaClusterDescription.fromJson(Map<String, dynamic> json) {
-    return KafkaClusterDescription(
-      apacheKafkaCluster: json['apacheKafkaCluster'] != null
-          ? ApacheKafkaClusterDescription.fromJson(
-              json['apacheKafkaCluster'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final apacheKafkaCluster = this.apacheKafkaCluster;
-    return {
-      if (apacheKafkaCluster != null) 'apacheKafkaCluster': apacheKafkaCluster,
-    };
-  }
-}
-
-/// Details of encryption in transit to the Apache Kafka cluster.
-class KafkaClusterEncryptionInTransit {
-  /// The type of encryption in transit to the Apache Kafka cluster.
-  final KafkaClusterEncryptionInTransitType encryptionType;
-
-  KafkaClusterEncryptionInTransit({
-    required this.encryptionType,
-  });
-
-  Map<String, dynamic> toJson() {
-    final encryptionType = this.encryptionType;
-    return {
-      'encryptionType': encryptionType.value,
-    };
-  }
-}
-
-/// The description of the encryption in transit to the Apache Kafka cluster.
-class KafkaClusterEncryptionInTransitDescription {
-  /// The type of encryption in transit to the Apache Kafka cluster.
-  final KafkaClusterEncryptionInTransitType? encryptionType;
-
-  KafkaClusterEncryptionInTransitDescription({
-    this.encryptionType,
-  });
-
-  factory KafkaClusterEncryptionInTransitDescription.fromJson(
-      Map<String, dynamic> json) {
-    return KafkaClusterEncryptionInTransitDescription(
-      encryptionType: (json['encryptionType'] as String?)
-          ?.let(KafkaClusterEncryptionInTransitType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final encryptionType = this.encryptionType;
-    return {
-      if (encryptionType != null) 'encryptionType': encryptionType.value,
-    };
-  }
-}
-
-class KafkaClusterEncryptionInTransitType {
-  static const plaintext = KafkaClusterEncryptionInTransitType._('PLAINTEXT');
-  static const tls = KafkaClusterEncryptionInTransitType._('TLS');
-
-  final String value;
-
-  const KafkaClusterEncryptionInTransitType._(this.value);
-
-  static const values = [plaintext, tls];
-
-  static KafkaClusterEncryptionInTransitType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => KafkaClusterEncryptionInTransitType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is KafkaClusterEncryptionInTransitType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ListConnectorsResponse {
@@ -2445,460 +1608,6 @@ class ListWorkerConfigurationsResponse {
   }
 }
 
-/// Details about log delivery.
-class LogDelivery {
-  /// The workers can send worker logs to different destination types. This
-  /// configuration specifies the details of these destinations.
-  final WorkerLogDelivery workerLogDelivery;
-
-  LogDelivery({
-    required this.workerLogDelivery,
-  });
-
-  Map<String, dynamic> toJson() {
-    final workerLogDelivery = this.workerLogDelivery;
-    return {
-      'workerLogDelivery': workerLogDelivery,
-    };
-  }
-}
-
-/// The description of the log delivery settings.
-class LogDeliveryDescription {
-  /// The workers can send worker logs to different destination types. This
-  /// configuration specifies the details of these destinations.
-  final WorkerLogDeliveryDescription? workerLogDelivery;
-
-  LogDeliveryDescription({
-    this.workerLogDelivery,
-  });
-
-  factory LogDeliveryDescription.fromJson(Map<String, dynamic> json) {
-    return LogDeliveryDescription(
-      workerLogDelivery: json['workerLogDelivery'] != null
-          ? WorkerLogDeliveryDescription.fromJson(
-              json['workerLogDelivery'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final workerLogDelivery = this.workerLogDelivery;
-    return {
-      if (workerLogDelivery != null) 'workerLogDelivery': workerLogDelivery,
-    };
-  }
-}
-
-/// A plugin is an Amazon Web Services resource that contains the code that
-/// defines your connector logic.
-class Plugin {
-  /// Details about a custom plugin.
-  final CustomPlugin customPlugin;
-
-  Plugin({
-    required this.customPlugin,
-  });
-
-  Map<String, dynamic> toJson() {
-    final customPlugin = this.customPlugin;
-    return {
-      'customPlugin': customPlugin,
-    };
-  }
-}
-
-/// The description of the plugin.
-class PluginDescription {
-  /// Details about a custom plugin.
-  final CustomPluginDescription? customPlugin;
-
-  PluginDescription({
-    this.customPlugin,
-  });
-
-  factory PluginDescription.fromJson(Map<String, dynamic> json) {
-    return PluginDescription(
-      customPlugin: json['customPlugin'] != null
-          ? CustomPluginDescription.fromJson(
-              json['customPlugin'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final customPlugin = this.customPlugin;
-    return {
-      if (customPlugin != null) 'customPlugin': customPlugin,
-    };
-  }
-}
-
-/// Details about a connector's provisioned capacity.
-class ProvisionedCapacity {
-  /// The number of microcontroller units (MCUs) allocated to each connector
-  /// worker. The valid values are 1,2,4,8.
-  final int mcuCount;
-
-  /// The number of workers that are allocated to the connector.
-  final int workerCount;
-
-  ProvisionedCapacity({
-    required this.mcuCount,
-    required this.workerCount,
-  });
-
-  Map<String, dynamic> toJson() {
-    final mcuCount = this.mcuCount;
-    final workerCount = this.workerCount;
-    return {
-      'mcuCount': mcuCount,
-      'workerCount': workerCount,
-    };
-  }
-}
-
-/// The description of a connector's provisioned capacity.
-class ProvisionedCapacityDescription {
-  /// The number of microcontroller units (MCUs) allocated to each connector
-  /// worker. The valid values are 1,2,4,8.
-  final int? mcuCount;
-
-  /// The number of workers that are allocated to the connector.
-  final int? workerCount;
-
-  ProvisionedCapacityDescription({
-    this.mcuCount,
-    this.workerCount,
-  });
-
-  factory ProvisionedCapacityDescription.fromJson(Map<String, dynamic> json) {
-    return ProvisionedCapacityDescription(
-      mcuCount: json['mcuCount'] as int?,
-      workerCount: json['workerCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final mcuCount = this.mcuCount;
-    final workerCount = this.workerCount;
-    return {
-      if (mcuCount != null) 'mcuCount': mcuCount,
-      if (workerCount != null) 'workerCount': workerCount,
-    };
-  }
-}
-
-/// An update to a connector's fixed capacity.
-class ProvisionedCapacityUpdate {
-  /// The number of microcontroller units (MCUs) allocated to each connector
-  /// worker. The valid values are 1,2,4,8.
-  final int mcuCount;
-
-  /// The number of workers that are allocated to the connector.
-  final int workerCount;
-
-  ProvisionedCapacityUpdate({
-    required this.mcuCount,
-    required this.workerCount,
-  });
-
-  Map<String, dynamic> toJson() {
-    final mcuCount = this.mcuCount;
-    final workerCount = this.workerCount;
-    return {
-      'mcuCount': mcuCount,
-      'workerCount': workerCount,
-    };
-  }
-}
-
-/// The location of an object in Amazon S3.
-class S3Location {
-  /// The Amazon Resource Name (ARN) of an S3 bucket.
-  final String bucketArn;
-
-  /// The file key for an object in an S3 bucket.
-  final String fileKey;
-
-  /// The version of an object in an S3 bucket.
-  final String? objectVersion;
-
-  S3Location({
-    required this.bucketArn,
-    required this.fileKey,
-    this.objectVersion,
-  });
-
-  Map<String, dynamic> toJson() {
-    final bucketArn = this.bucketArn;
-    final fileKey = this.fileKey;
-    final objectVersion = this.objectVersion;
-    return {
-      'bucketArn': bucketArn,
-      'fileKey': fileKey,
-      if (objectVersion != null) 'objectVersion': objectVersion,
-    };
-  }
-}
-
-/// The description of the location of an object in Amazon S3.
-class S3LocationDescription {
-  /// The Amazon Resource Name (ARN) of an S3 bucket.
-  final String? bucketArn;
-
-  /// The file key for an object in an S3 bucket.
-  final String? fileKey;
-
-  /// The version of an object in an S3 bucket.
-  final String? objectVersion;
-
-  S3LocationDescription({
-    this.bucketArn,
-    this.fileKey,
-    this.objectVersion,
-  });
-
-  factory S3LocationDescription.fromJson(Map<String, dynamic> json) {
-    return S3LocationDescription(
-      bucketArn: json['bucketArn'] as String?,
-      fileKey: json['fileKey'] as String?,
-      objectVersion: json['objectVersion'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucketArn = this.bucketArn;
-    final fileKey = this.fileKey;
-    final objectVersion = this.objectVersion;
-    return {
-      if (bucketArn != null) 'bucketArn': bucketArn,
-      if (fileKey != null) 'fileKey': fileKey,
-      if (objectVersion != null) 'objectVersion': objectVersion,
-    };
-  }
-}
-
-/// Details about delivering logs to Amazon S3.
-class S3LogDelivery {
-  /// Specifies whether connector logs get sent to the specified Amazon S3
-  /// destination.
-  final bool enabled;
-
-  /// The name of the S3 bucket that is the destination for log delivery.
-  final String? bucket;
-
-  /// The S3 prefix that is the destination for log delivery.
-  final String? prefix;
-
-  S3LogDelivery({
-    required this.enabled,
-    this.bucket,
-    this.prefix,
-  });
-
-  Map<String, dynamic> toJson() {
-    final enabled = this.enabled;
-    final bucket = this.bucket;
-    final prefix = this.prefix;
-    return {
-      'enabled': enabled,
-      if (bucket != null) 'bucket': bucket,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-/// The description of the details about delivering logs to Amazon S3.
-class S3LogDeliveryDescription {
-  /// The name of the S3 bucket that is the destination for log delivery.
-  final String? bucket;
-
-  /// Specifies whether connector logs get sent to the specified Amazon S3
-  /// destination.
-  final bool? enabled;
-
-  /// The S3 prefix that is the destination for log delivery.
-  final String? prefix;
-
-  S3LogDeliveryDescription({
-    this.bucket,
-    this.enabled,
-    this.prefix,
-  });
-
-  factory S3LogDeliveryDescription.fromJson(Map<String, dynamic> json) {
-    return S3LogDeliveryDescription(
-      bucket: json['bucket'] as String?,
-      enabled: json['enabled'] as bool?,
-      prefix: json['prefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bucket = this.bucket;
-    final enabled = this.enabled;
-    final prefix = this.prefix;
-    return {
-      if (bucket != null) 'bucket': bucket,
-      if (enabled != null) 'enabled': enabled,
-      if (prefix != null) 'prefix': prefix,
-    };
-  }
-}
-
-/// The scale-in policy for the connector.
-class ScaleInPolicy {
-  /// Specifies the CPU utilization percentage threshold at which you want
-  /// connector scale in to be triggered.
-  final int cpuUtilizationPercentage;
-
-  ScaleInPolicy({
-    required this.cpuUtilizationPercentage,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
-    return {
-      'cpuUtilizationPercentage': cpuUtilizationPercentage,
-    };
-  }
-}
-
-/// The description of the scale-in policy for the connector.
-class ScaleInPolicyDescription {
-  /// Specifies the CPU utilization percentage threshold at which you want
-  /// connector scale in to be triggered.
-  final int? cpuUtilizationPercentage;
-
-  ScaleInPolicyDescription({
-    this.cpuUtilizationPercentage,
-  });
-
-  factory ScaleInPolicyDescription.fromJson(Map<String, dynamic> json) {
-    return ScaleInPolicyDescription(
-      cpuUtilizationPercentage: json['cpuUtilizationPercentage'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
-    return {
-      if (cpuUtilizationPercentage != null)
-        'cpuUtilizationPercentage': cpuUtilizationPercentage,
-    };
-  }
-}
-
-/// An update to the connector's scale-in policy.
-class ScaleInPolicyUpdate {
-  /// The target CPU utilization percentage threshold at which you want connector
-  /// scale in to be triggered.
-  final int cpuUtilizationPercentage;
-
-  ScaleInPolicyUpdate({
-    required this.cpuUtilizationPercentage,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
-    return {
-      'cpuUtilizationPercentage': cpuUtilizationPercentage,
-    };
-  }
-}
-
-/// The scale-out policy for the connector.
-class ScaleOutPolicy {
-  /// The CPU utilization percentage threshold at which you want connector scale
-  /// out to be triggered.
-  final int cpuUtilizationPercentage;
-
-  ScaleOutPolicy({
-    required this.cpuUtilizationPercentage,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
-    return {
-      'cpuUtilizationPercentage': cpuUtilizationPercentage,
-    };
-  }
-}
-
-/// The description of the scale-out policy for the connector.
-class ScaleOutPolicyDescription {
-  /// The CPU utilization percentage threshold at which you want connector scale
-  /// out to be triggered.
-  final int? cpuUtilizationPercentage;
-
-  ScaleOutPolicyDescription({
-    this.cpuUtilizationPercentage,
-  });
-
-  factory ScaleOutPolicyDescription.fromJson(Map<String, dynamic> json) {
-    return ScaleOutPolicyDescription(
-      cpuUtilizationPercentage: json['cpuUtilizationPercentage'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
-    return {
-      if (cpuUtilizationPercentage != null)
-        'cpuUtilizationPercentage': cpuUtilizationPercentage,
-    };
-  }
-}
-
-/// An update to the connector's scale-out policy.
-class ScaleOutPolicyUpdate {
-  /// The target CPU utilization percentage threshold at which you want connector
-  /// scale out to be triggered.
-  final int cpuUtilizationPercentage;
-
-  ScaleOutPolicyUpdate({
-    required this.cpuUtilizationPercentage,
-  });
-
-  Map<String, dynamic> toJson() {
-    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
-    return {
-      'cpuUtilizationPercentage': cpuUtilizationPercentage,
-    };
-  }
-}
-
-/// Details about the state of a resource.
-class StateDescription {
-  /// A code that describes the state of a resource.
-  final String? code;
-
-  /// A message that describes the state of a resource.
-  final String? message;
-
-  StateDescription({
-    this.code,
-    this.message,
-  });
-
-  factory StateDescription.fromJson(Map<String, dynamic> json) {
-    return StateDescription(
-      code: json['code'] as String?,
-      message: json['message'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final code = this.code;
-    final message = this.message;
-    return {
-      if (code != null) 'code': code,
-      if (message != null) 'message': message,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -2927,17 +1636,22 @@ class UpdateConnectorResponse {
   /// The Amazon Resource Name (ARN) of the connector.
   final String? connectorArn;
 
+  /// The Amazon Resource Name (ARN) of the connector operation.
+  final String? connectorOperationArn;
+
   /// The state of the connector.
   final ConnectorState? connectorState;
 
   UpdateConnectorResponse({
     this.connectorArn,
+    this.connectorOperationArn,
     this.connectorState,
   });
 
   factory UpdateConnectorResponse.fromJson(Map<String, dynamic> json) {
     return UpdateConnectorResponse(
       connectorArn: json['connectorArn'] as String?,
+      connectorOperationArn: json['connectorOperationArn'] as String?,
       connectorState:
           (json['connectorState'] as String?)?.let(ConnectorState.fromString),
     );
@@ -2945,168 +1659,239 @@ class UpdateConnectorResponse {
 
   Map<String, dynamic> toJson() {
     final connectorArn = this.connectorArn;
+    final connectorOperationArn = this.connectorOperationArn;
     final connectorState = this.connectorState;
     return {
       if (connectorArn != null) 'connectorArn': connectorArn,
+      if (connectorOperationArn != null)
+        'connectorOperationArn': connectorOperationArn,
       if (connectorState != null) 'connectorState': connectorState.value,
     };
   }
 }
 
-/// Information about the VPC in which the connector resides.
-class Vpc {
-  /// The subnets for the connector.
-  final List<String> subnets;
+class ConnectorState {
+  static const running = ConnectorState._('RUNNING');
+  static const creating = ConnectorState._('CREATING');
+  static const updating = ConnectorState._('UPDATING');
+  static const deleting = ConnectorState._('DELETING');
+  static const failed = ConnectorState._('FAILED');
 
-  /// The security groups for the connector.
-  final List<String>? securityGroups;
+  final String value;
 
-  Vpc({
-    required this.subnets,
-    this.securityGroups,
+  const ConnectorState._(this.value);
+
+  static const values = [running, creating, updating, deleting, failed];
+
+  static ConnectorState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorState._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectorState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The target capacity for the connector. The capacity can be auto scaled or
+/// provisioned.
+class CapacityUpdate {
+  /// The target auto scaling setting.
+  final AutoScalingUpdate? autoScaling;
+
+  /// The target settings for provisioned capacity.
+  final ProvisionedCapacityUpdate? provisionedCapacity;
+
+  CapacityUpdate({
+    this.autoScaling,
+    this.provisionedCapacity,
   });
 
   Map<String, dynamic> toJson() {
-    final subnets = this.subnets;
-    final securityGroups = this.securityGroups;
+    final autoScaling = this.autoScaling;
+    final provisionedCapacity = this.provisionedCapacity;
     return {
-      'subnets': subnets,
-      if (securityGroups != null) 'securityGroups': securityGroups,
+      if (autoScaling != null) 'autoScaling': autoScaling,
+      if (provisionedCapacity != null)
+        'provisionedCapacity': provisionedCapacity,
     };
   }
 }
 
-/// The description of the VPC in which the connector resides.
-class VpcDescription {
-  /// The security groups for the connector.
-  final List<String>? securityGroups;
+/// The updates to the auto scaling parameters for the connector.
+class AutoScalingUpdate {
+  /// The target maximum number of workers allocated to the connector.
+  final int maxWorkerCount;
 
-  /// The subnets for the connector.
-  final List<String>? subnets;
+  /// The target number of microcontroller units (MCUs) allocated to each
+  /// connector worker. The valid values are 1,2,4,8.
+  final int mcuCount;
 
-  VpcDescription({
-    this.securityGroups,
-    this.subnets,
+  /// The target minimum number of workers allocated to the connector.
+  final int minWorkerCount;
+
+  /// The target scale-in policy for the connector.
+  final ScaleInPolicyUpdate scaleInPolicy;
+
+  /// The target scale-out policy for the connector.
+  final ScaleOutPolicyUpdate scaleOutPolicy;
+
+  /// The maximum number of tasks allocated to the connector during autoscaling
+  /// operations. Must be at least equal to maxWorkerCount.
+  final int? maxAutoscalingTaskCount;
+
+  AutoScalingUpdate({
+    required this.maxWorkerCount,
+    required this.mcuCount,
+    required this.minWorkerCount,
+    required this.scaleInPolicy,
+    required this.scaleOutPolicy,
+    this.maxAutoscalingTaskCount,
   });
 
-  factory VpcDescription.fromJson(Map<String, dynamic> json) {
-    return VpcDescription(
-      securityGroups: (json['securityGroups'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      subnets:
-          (json['subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
   Map<String, dynamic> toJson() {
-    final securityGroups = this.securityGroups;
-    final subnets = this.subnets;
+    final maxWorkerCount = this.maxWorkerCount;
+    final mcuCount = this.mcuCount;
+    final minWorkerCount = this.minWorkerCount;
+    final scaleInPolicy = this.scaleInPolicy;
+    final scaleOutPolicy = this.scaleOutPolicy;
+    final maxAutoscalingTaskCount = this.maxAutoscalingTaskCount;
     return {
-      if (securityGroups != null) 'securityGroups': securityGroups,
-      if (subnets != null) 'subnets': subnets,
+      'maxWorkerCount': maxWorkerCount,
+      'mcuCount': mcuCount,
+      'minWorkerCount': minWorkerCount,
+      'scaleInPolicy': scaleInPolicy,
+      'scaleOutPolicy': scaleOutPolicy,
+      if (maxAutoscalingTaskCount != null)
+        'maxAutoscalingTaskCount': maxAutoscalingTaskCount,
     };
   }
 }
 
-/// The configuration of the workers, which are the processes that run the
-/// connector logic.
-class WorkerConfiguration {
-  /// The revision of the worker configuration.
-  final int revision;
+/// An update to a connector's fixed capacity.
+class ProvisionedCapacityUpdate {
+  /// The number of microcontroller units (MCUs) allocated to each connector
+  /// worker. The valid values are 1,2,4,8.
+  final int mcuCount;
 
-  /// The Amazon Resource Name (ARN) of the worker configuration.
-  final String workerConfigurationArn;
+  /// The number of workers that are allocated to the connector.
+  final int workerCount;
 
-  WorkerConfiguration({
-    required this.revision,
-    required this.workerConfigurationArn,
+  ProvisionedCapacityUpdate({
+    required this.mcuCount,
+    required this.workerCount,
   });
 
   Map<String, dynamic> toJson() {
-    final revision = this.revision;
-    final workerConfigurationArn = this.workerConfigurationArn;
+    final mcuCount = this.mcuCount;
+    final workerCount = this.workerCount;
     return {
-      'revision': revision,
-      'workerConfigurationArn': workerConfigurationArn,
+      'mcuCount': mcuCount,
+      'workerCount': workerCount,
     };
   }
 }
 
-/// The description of the worker configuration.
-class WorkerConfigurationDescription {
-  /// The revision of the worker configuration.
-  final int? revision;
+/// An update to the connector's scale-in policy.
+class ScaleInPolicyUpdate {
+  /// The target CPU utilization percentage threshold at which you want connector
+  /// scale in to be triggered.
+  final int cpuUtilizationPercentage;
+
+  ScaleInPolicyUpdate({
+    required this.cpuUtilizationPercentage,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
+    return {
+      'cpuUtilizationPercentage': cpuUtilizationPercentage,
+    };
+  }
+}
+
+/// An update to the connector's scale-out policy.
+class ScaleOutPolicyUpdate {
+  /// The target CPU utilization percentage threshold at which you want connector
+  /// scale out to be triggered.
+  final int cpuUtilizationPercentage;
+
+  ScaleOutPolicyUpdate({
+    required this.cpuUtilizationPercentage,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
+    return {
+      'cpuUtilizationPercentage': cpuUtilizationPercentage,
+    };
+  }
+}
+
+/// The summary of a worker configuration.
+class WorkerConfigurationSummary {
+  /// The time that a worker configuration was created.
+  final DateTime? creationTime;
+
+  /// The description of a worker configuration.
+  final String? description;
+
+  /// The latest revision of a worker configuration.
+  final WorkerConfigurationRevisionSummary? latestRevision;
+
+  /// The name of the worker configuration.
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the worker configuration.
   final String? workerConfigurationArn;
 
-  WorkerConfigurationDescription({
-    this.revision,
-    this.workerConfigurationArn,
-  });
+  /// The state of the worker configuration.
+  final WorkerConfigurationState? workerConfigurationState;
 
-  factory WorkerConfigurationDescription.fromJson(Map<String, dynamic> json) {
-    return WorkerConfigurationDescription(
-      revision: json['revision'] as int?,
-      workerConfigurationArn: json['workerConfigurationArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final revision = this.revision;
-    final workerConfigurationArn = this.workerConfigurationArn;
-    return {
-      if (revision != null) 'revision': revision,
-      if (workerConfigurationArn != null)
-        'workerConfigurationArn': workerConfigurationArn,
-    };
-  }
-}
-
-/// The description of the worker configuration revision.
-class WorkerConfigurationRevisionDescription {
-  /// The time that the worker configuration was created.
-  final DateTime? creationTime;
-
-  /// The description of the worker configuration revision.
-  final String? description;
-
-  /// Base64 encoded contents of the connect-distributed.properties file.
-  final String? propertiesFileContent;
-
-  /// The description of a revision of the worker configuration.
-  final int? revision;
-
-  WorkerConfigurationRevisionDescription({
+  WorkerConfigurationSummary({
     this.creationTime,
     this.description,
-    this.propertiesFileContent,
-    this.revision,
+    this.latestRevision,
+    this.name,
+    this.workerConfigurationArn,
+    this.workerConfigurationState,
   });
 
-  factory WorkerConfigurationRevisionDescription.fromJson(
-      Map<String, dynamic> json) {
-    return WorkerConfigurationRevisionDescription(
+  factory WorkerConfigurationSummary.fromJson(Map<String, dynamic> json) {
+    return WorkerConfigurationSummary(
       creationTime: timeStampFromJson(json['creationTime']),
       description: json['description'] as String?,
-      propertiesFileContent: json['propertiesFileContent'] as String?,
-      revision: json['revision'] as int?,
+      latestRevision: json['latestRevision'] != null
+          ? WorkerConfigurationRevisionSummary.fromJson(
+              json['latestRevision'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      workerConfigurationArn: json['workerConfigurationArn'] as String?,
+      workerConfigurationState: (json['workerConfigurationState'] as String?)
+          ?.let(WorkerConfigurationState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final creationTime = this.creationTime;
     final description = this.description;
-    final propertiesFileContent = this.propertiesFileContent;
-    final revision = this.revision;
+    final latestRevision = this.latestRevision;
+    final name = this.name;
+    final workerConfigurationArn = this.workerConfigurationArn;
+    final workerConfigurationState = this.workerConfigurationState;
     return {
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
       if (description != null) 'description': description,
-      if (propertiesFileContent != null)
-        'propertiesFileContent': propertiesFileContent,
-      if (revision != null) 'revision': revision,
+      if (latestRevision != null) 'latestRevision': latestRevision,
+      if (name != null) 'name': name,
+      if (workerConfigurationArn != null)
+        'workerConfigurationArn': workerConfigurationArn,
+      if (workerConfigurationState != null)
+        'workerConfigurationState': workerConfigurationState.value,
     };
   }
 }
@@ -3174,96 +1959,709 @@ class WorkerConfigurationState {
   String toString() => value;
 }
 
-/// The summary of a worker configuration.
-class WorkerConfigurationSummary {
-  /// The time that a worker configuration was created.
+/// A summary of the custom plugin.
+class CustomPluginSummary {
+  /// The time that the custom plugin was created.
   final DateTime? creationTime;
 
-  /// The description of a worker configuration.
+  /// The Amazon Resource Name (ARN) of the custom plugin.
+  final String? customPluginArn;
+
+  /// The state of the custom plugin.
+  final CustomPluginState? customPluginState;
+
+  /// A description of the custom plugin.
   final String? description;
 
-  /// The latest revision of a worker configuration.
-  final WorkerConfigurationRevisionSummary? latestRevision;
+  /// The latest revision of the custom plugin.
+  final CustomPluginRevisionSummary? latestRevision;
 
-  /// The name of the worker configuration.
+  /// The name of the custom plugin.
   final String? name;
 
-  /// The Amazon Resource Name (ARN) of the worker configuration.
-  final String? workerConfigurationArn;
-
-  /// The state of the worker configuration.
-  final WorkerConfigurationState? workerConfigurationState;
-
-  WorkerConfigurationSummary({
+  CustomPluginSummary({
     this.creationTime,
+    this.customPluginArn,
+    this.customPluginState,
     this.description,
     this.latestRevision,
     this.name,
-    this.workerConfigurationArn,
-    this.workerConfigurationState,
   });
 
-  factory WorkerConfigurationSummary.fromJson(Map<String, dynamic> json) {
-    return WorkerConfigurationSummary(
+  factory CustomPluginSummary.fromJson(Map<String, dynamic> json) {
+    return CustomPluginSummary(
       creationTime: timeStampFromJson(json['creationTime']),
+      customPluginArn: json['customPluginArn'] as String?,
+      customPluginState: (json['customPluginState'] as String?)
+          ?.let(CustomPluginState.fromString),
       description: json['description'] as String?,
       latestRevision: json['latestRevision'] != null
-          ? WorkerConfigurationRevisionSummary.fromJson(
+          ? CustomPluginRevisionSummary.fromJson(
               json['latestRevision'] as Map<String, dynamic>)
           : null,
       name: json['name'] as String?,
-      workerConfigurationArn: json['workerConfigurationArn'] as String?,
-      workerConfigurationState: (json['workerConfigurationState'] as String?)
-          ?.let(WorkerConfigurationState.fromString),
     );
   }
 
   Map<String, dynamic> toJson() {
     final creationTime = this.creationTime;
+    final customPluginArn = this.customPluginArn;
+    final customPluginState = this.customPluginState;
     final description = this.description;
     final latestRevision = this.latestRevision;
     final name = this.name;
-    final workerConfigurationArn = this.workerConfigurationArn;
-    final workerConfigurationState = this.workerConfigurationState;
     return {
       if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (customPluginArn != null) 'customPluginArn': customPluginArn,
+      if (customPluginState != null)
+        'customPluginState': customPluginState.value,
       if (description != null) 'description': description,
       if (latestRevision != null) 'latestRevision': latestRevision,
       if (name != null) 'name': name,
-      if (workerConfigurationArn != null)
-        'workerConfigurationArn': workerConfigurationArn,
-      if (workerConfigurationState != null)
-        'workerConfigurationState': workerConfigurationState.value,
     };
   }
 }
 
-/// Workers can send worker logs to different destination types. This
-/// configuration specifies the details of these destinations.
-class WorkerLogDelivery {
-  /// Details about delivering logs to Amazon CloudWatch Logs.
-  final CloudWatchLogsLogDelivery? cloudWatchLogs;
+class CustomPluginState {
+  static const creating = CustomPluginState._('CREATING');
+  static const createFailed = CustomPluginState._('CREATE_FAILED');
+  static const active = CustomPluginState._('ACTIVE');
+  static const updating = CustomPluginState._('UPDATING');
+  static const updateFailed = CustomPluginState._('UPDATE_FAILED');
+  static const deleting = CustomPluginState._('DELETING');
 
-  /// Details about delivering logs to Amazon Kinesis Data Firehose.
-  final FirehoseLogDelivery? firehose;
+  final String value;
 
-  /// Details about delivering logs to Amazon S3.
-  final S3LogDelivery? s3;
+  const CustomPluginState._(this.value);
 
-  WorkerLogDelivery({
-    this.cloudWatchLogs,
-    this.firehose,
-    this.s3,
+  static const values = [
+    creating,
+    createFailed,
+    active,
+    updating,
+    updateFailed,
+    deleting
+  ];
+
+  static CustomPluginState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomPluginState._(value));
+
+  @override
+  bool operator ==(other) => other is CustomPluginState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details about the revision of a custom plugin.
+class CustomPluginRevisionSummary {
+  /// The format of the plugin file.
+  final CustomPluginContentType? contentType;
+
+  /// The time that the custom plugin was created.
+  final DateTime? creationTime;
+
+  /// The description of the custom plugin.
+  final String? description;
+
+  /// Details about the custom plugin file.
+  final CustomPluginFileDescription? fileDescription;
+
+  /// Information about the location of the custom plugin.
+  final CustomPluginLocationDescription? location;
+
+  /// The revision of the custom plugin.
+  final int? revision;
+
+  CustomPluginRevisionSummary({
+    this.contentType,
+    this.creationTime,
+    this.description,
+    this.fileDescription,
+    this.location,
+    this.revision,
   });
 
+  factory CustomPluginRevisionSummary.fromJson(Map<String, dynamic> json) {
+    return CustomPluginRevisionSummary(
+      contentType: (json['contentType'] as String?)
+          ?.let(CustomPluginContentType.fromString),
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      fileDescription: json['fileDescription'] != null
+          ? CustomPluginFileDescription.fromJson(
+              json['fileDescription'] as Map<String, dynamic>)
+          : null,
+      location: json['location'] != null
+          ? CustomPluginLocationDescription.fromJson(
+              json['location'] as Map<String, dynamic>)
+          : null,
+      revision: json['revision'] as int?,
+    );
+  }
+
   Map<String, dynamic> toJson() {
-    final cloudWatchLogs = this.cloudWatchLogs;
-    final firehose = this.firehose;
-    final s3 = this.s3;
+    final contentType = this.contentType;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final fileDescription = this.fileDescription;
+    final location = this.location;
+    final revision = this.revision;
     return {
-      if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
-      if (firehose != null) 'firehose': firehose,
-      if (s3 != null) 's3': s3,
+      if (contentType != null) 'contentType': contentType.value,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (description != null) 'description': description,
+      if (fileDescription != null) 'fileDescription': fileDescription,
+      if (location != null) 'location': location,
+      if (revision != null) 'revision': revision,
+    };
+  }
+}
+
+class CustomPluginContentType {
+  static const jar = CustomPluginContentType._('JAR');
+  static const zip = CustomPluginContentType._('ZIP');
+
+  final String value;
+
+  const CustomPluginContentType._(this.value);
+
+  static const values = [jar, zip];
+
+  static CustomPluginContentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CustomPluginContentType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CustomPluginContentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Details about a custom plugin file.
+class CustomPluginFileDescription {
+  /// The hex-encoded MD5 checksum of the custom plugin file. You can use it to
+  /// validate the file.
+  final String? fileMd5;
+
+  /// The size in bytes of the custom plugin file. You can use it to validate the
+  /// file.
+  final int? fileSize;
+
+  CustomPluginFileDescription({
+    this.fileMd5,
+    this.fileSize,
+  });
+
+  factory CustomPluginFileDescription.fromJson(Map<String, dynamic> json) {
+    return CustomPluginFileDescription(
+      fileMd5: json['fileMd5'] as String?,
+      fileSize: json['fileSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileMd5 = this.fileMd5;
+    final fileSize = this.fileSize;
+    return {
+      if (fileMd5 != null) 'fileMd5': fileMd5,
+      if (fileSize != null) 'fileSize': fileSize,
+    };
+  }
+}
+
+/// Information about the location of a custom plugin.
+class CustomPluginLocationDescription {
+  /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of
+  /// the plugin file stored in Amazon S3.
+  final S3LocationDescription? s3Location;
+
+  CustomPluginLocationDescription({
+    this.s3Location,
+  });
+
+  factory CustomPluginLocationDescription.fromJson(Map<String, dynamic> json) {
+    return CustomPluginLocationDescription(
+      s3Location: json['s3Location'] != null
+          ? S3LocationDescription.fromJson(
+              json['s3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    return {
+      if (s3Location != null) 's3Location': s3Location,
+    };
+  }
+}
+
+/// The description of the location of an object in Amazon S3.
+class S3LocationDescription {
+  /// The Amazon Resource Name (ARN) of an S3 bucket.
+  final String? bucketArn;
+
+  /// The file key for an object in an S3 bucket.
+  final String? fileKey;
+
+  /// The version of an object in an S3 bucket.
+  final String? objectVersion;
+
+  S3LocationDescription({
+    this.bucketArn,
+    this.fileKey,
+    this.objectVersion,
+  });
+
+  factory S3LocationDescription.fromJson(Map<String, dynamic> json) {
+    return S3LocationDescription(
+      bucketArn: json['bucketArn'] as String?,
+      fileKey: json['fileKey'] as String?,
+      objectVersion: json['objectVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final fileKey = this.fileKey;
+    final objectVersion = this.objectVersion;
+    return {
+      if (bucketArn != null) 'bucketArn': bucketArn,
+      if (fileKey != null) 'fileKey': fileKey,
+      if (objectVersion != null) 'objectVersion': objectVersion,
+    };
+  }
+}
+
+/// Summary of a connector.
+class ConnectorSummary {
+  /// The connector's compute capacity settings.
+  final CapacityDescription? capacity;
+
+  /// The Amazon Resource Name (ARN) of the connector.
+  final String? connectorArn;
+
+  /// The description of the connector.
+  final String? connectorDescription;
+
+  /// The name of the connector.
+  final String? connectorName;
+
+  /// The state of the connector.
+  final ConnectorState? connectorState;
+
+  /// The time that the connector was created.
+  final DateTime? creationTime;
+
+  /// The current version of the connector.
+  final String? currentVersion;
+
+  /// The details of the Apache Kafka cluster to which the connector is connected.
+  final KafkaClusterDescription? kafkaCluster;
+
+  /// The type of client authentication used to connect to the Apache Kafka
+  /// cluster. The value is NONE when no client authentication is used.
+  final KafkaClusterClientAuthenticationDescription?
+      kafkaClusterClientAuthentication;
+
+  /// Details of encryption in transit to the Apache Kafka cluster.
+  final KafkaClusterEncryptionInTransitDescription?
+      kafkaClusterEncryptionInTransit;
+
+  /// The version of Kafka Connect. It has to be compatible with both the Apache
+  /// Kafka cluster's version and the plugins.
+  final String? kafkaConnectVersion;
+
+  /// The settings for delivering connector logs to Amazon CloudWatch Logs.
+  final LogDeliveryDescription? logDelivery;
+
+  /// The network type of the connector. It gives connectors connectivity to
+  /// either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+  final NetworkType? networkType;
+
+  /// Specifies which plugins were used for this connector.
+  final List<PluginDescription>? plugins;
+
+  /// The Amazon Resource Name (ARN) of the IAM role used by the connector to
+  /// access Amazon Web Services resources.
+  final String? serviceExecutionRoleArn;
+
+  /// The worker configurations that are in use with the connector.
+  final WorkerConfigurationDescription? workerConfiguration;
+
+  ConnectorSummary({
+    this.capacity,
+    this.connectorArn,
+    this.connectorDescription,
+    this.connectorName,
+    this.connectorState,
+    this.creationTime,
+    this.currentVersion,
+    this.kafkaCluster,
+    this.kafkaClusterClientAuthentication,
+    this.kafkaClusterEncryptionInTransit,
+    this.kafkaConnectVersion,
+    this.logDelivery,
+    this.networkType,
+    this.plugins,
+    this.serviceExecutionRoleArn,
+    this.workerConfiguration,
+  });
+
+  factory ConnectorSummary.fromJson(Map<String, dynamic> json) {
+    return ConnectorSummary(
+      capacity: json['capacity'] != null
+          ? CapacityDescription.fromJson(
+              json['capacity'] as Map<String, dynamic>)
+          : null,
+      connectorArn: json['connectorArn'] as String?,
+      connectorDescription: json['connectorDescription'] as String?,
+      connectorName: json['connectorName'] as String?,
+      connectorState:
+          (json['connectorState'] as String?)?.let(ConnectorState.fromString),
+      creationTime: timeStampFromJson(json['creationTime']),
+      currentVersion: json['currentVersion'] as String?,
+      kafkaCluster: json['kafkaCluster'] != null
+          ? KafkaClusterDescription.fromJson(
+              json['kafkaCluster'] as Map<String, dynamic>)
+          : null,
+      kafkaClusterClientAuthentication:
+          json['kafkaClusterClientAuthentication'] != null
+              ? KafkaClusterClientAuthenticationDescription.fromJson(
+                  json['kafkaClusterClientAuthentication']
+                      as Map<String, dynamic>)
+              : null,
+      kafkaClusterEncryptionInTransit:
+          json['kafkaClusterEncryptionInTransit'] != null
+              ? KafkaClusterEncryptionInTransitDescription.fromJson(
+                  json['kafkaClusterEncryptionInTransit']
+                      as Map<String, dynamic>)
+              : null,
+      kafkaConnectVersion: json['kafkaConnectVersion'] as String?,
+      logDelivery: json['logDelivery'] != null
+          ? LogDeliveryDescription.fromJson(
+              json['logDelivery'] as Map<String, dynamic>)
+          : null,
+      networkType:
+          (json['networkType'] as String?)?.let(NetworkType.fromString),
+      plugins: (json['plugins'] as List?)
+          ?.nonNulls
+          .map((e) => PluginDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceExecutionRoleArn: json['serviceExecutionRoleArn'] as String?,
+      workerConfiguration: json['workerConfiguration'] != null
+          ? WorkerConfigurationDescription.fromJson(
+              json['workerConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacity = this.capacity;
+    final connectorArn = this.connectorArn;
+    final connectorDescription = this.connectorDescription;
+    final connectorName = this.connectorName;
+    final connectorState = this.connectorState;
+    final creationTime = this.creationTime;
+    final currentVersion = this.currentVersion;
+    final kafkaCluster = this.kafkaCluster;
+    final kafkaClusterClientAuthentication =
+        this.kafkaClusterClientAuthentication;
+    final kafkaClusterEncryptionInTransit =
+        this.kafkaClusterEncryptionInTransit;
+    final kafkaConnectVersion = this.kafkaConnectVersion;
+    final logDelivery = this.logDelivery;
+    final networkType = this.networkType;
+    final plugins = this.plugins;
+    final serviceExecutionRoleArn = this.serviceExecutionRoleArn;
+    final workerConfiguration = this.workerConfiguration;
+    return {
+      if (capacity != null) 'capacity': capacity,
+      if (connectorArn != null) 'connectorArn': connectorArn,
+      if (connectorDescription != null)
+        'connectorDescription': connectorDescription,
+      if (connectorName != null) 'connectorName': connectorName,
+      if (connectorState != null) 'connectorState': connectorState.value,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (currentVersion != null) 'currentVersion': currentVersion,
+      if (kafkaCluster != null) 'kafkaCluster': kafkaCluster,
+      if (kafkaClusterClientAuthentication != null)
+        'kafkaClusterClientAuthentication': kafkaClusterClientAuthentication,
+      if (kafkaClusterEncryptionInTransit != null)
+        'kafkaClusterEncryptionInTransit': kafkaClusterEncryptionInTransit,
+      if (kafkaConnectVersion != null)
+        'kafkaConnectVersion': kafkaConnectVersion,
+      if (logDelivery != null) 'logDelivery': logDelivery,
+      if (networkType != null) 'networkType': networkType.value,
+      if (plugins != null) 'plugins': plugins,
+      if (serviceExecutionRoleArn != null)
+        'serviceExecutionRoleArn': serviceExecutionRoleArn,
+      if (workerConfiguration != null)
+        'workerConfiguration': workerConfiguration,
+    };
+  }
+}
+
+/// A description of the connector's capacity.
+class CapacityDescription {
+  /// Describes the connector's auto scaling capacity.
+  final AutoScalingDescription? autoScaling;
+
+  /// Describes a connector's provisioned capacity.
+  final ProvisionedCapacityDescription? provisionedCapacity;
+
+  CapacityDescription({
+    this.autoScaling,
+    this.provisionedCapacity,
+  });
+
+  factory CapacityDescription.fromJson(Map<String, dynamic> json) {
+    return CapacityDescription(
+      autoScaling: json['autoScaling'] != null
+          ? AutoScalingDescription.fromJson(
+              json['autoScaling'] as Map<String, dynamic>)
+          : null,
+      provisionedCapacity: json['provisionedCapacity'] != null
+          ? ProvisionedCapacityDescription.fromJson(
+              json['provisionedCapacity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScaling = this.autoScaling;
+    final provisionedCapacity = this.provisionedCapacity;
+    return {
+      if (autoScaling != null) 'autoScaling': autoScaling,
+      if (provisionedCapacity != null)
+        'provisionedCapacity': provisionedCapacity,
+    };
+  }
+}
+
+/// Details of how to connect to the Apache Kafka cluster.
+class KafkaClusterDescription {
+  /// The Apache Kafka cluster to which the connector is connected.
+  final ApacheKafkaClusterDescription? apacheKafkaCluster;
+
+  KafkaClusterDescription({
+    this.apacheKafkaCluster,
+  });
+
+  factory KafkaClusterDescription.fromJson(Map<String, dynamic> json) {
+    return KafkaClusterDescription(
+      apacheKafkaCluster: json['apacheKafkaCluster'] != null
+          ? ApacheKafkaClusterDescription.fromJson(
+              json['apacheKafkaCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apacheKafkaCluster = this.apacheKafkaCluster;
+    return {
+      if (apacheKafkaCluster != null) 'apacheKafkaCluster': apacheKafkaCluster,
+    };
+  }
+}
+
+/// The client authentication information used in order to authenticate with the
+/// Apache Kafka cluster.
+class KafkaClusterClientAuthenticationDescription {
+  /// The type of client authentication used to connect to the Apache Kafka
+  /// cluster. Value NONE means that no client authentication is used.
+  final KafkaClusterClientAuthenticationType? authenticationType;
+
+  KafkaClusterClientAuthenticationDescription({
+    this.authenticationType,
+  });
+
+  factory KafkaClusterClientAuthenticationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return KafkaClusterClientAuthenticationDescription(
+      authenticationType: (json['authenticationType'] as String?)
+          ?.let(KafkaClusterClientAuthenticationType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    return {
+      if (authenticationType != null)
+        'authenticationType': authenticationType.value,
+    };
+  }
+}
+
+/// The description of the encryption in transit to the Apache Kafka cluster.
+class KafkaClusterEncryptionInTransitDescription {
+  /// The type of encryption in transit to the Apache Kafka cluster.
+  final KafkaClusterEncryptionInTransitType? encryptionType;
+
+  KafkaClusterEncryptionInTransitDescription({
+    this.encryptionType,
+  });
+
+  factory KafkaClusterEncryptionInTransitDescription.fromJson(
+      Map<String, dynamic> json) {
+    return KafkaClusterEncryptionInTransitDescription(
+      encryptionType: (json['encryptionType'] as String?)
+          ?.let(KafkaClusterEncryptionInTransitType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    return {
+      if (encryptionType != null) 'encryptionType': encryptionType.value,
+    };
+  }
+}
+
+/// The description of the log delivery settings.
+class LogDeliveryDescription {
+  /// The workers can send worker logs to different destination types. This
+  /// configuration specifies the details of these destinations.
+  final WorkerLogDeliveryDescription? workerLogDelivery;
+
+  LogDeliveryDescription({
+    this.workerLogDelivery,
+  });
+
+  factory LogDeliveryDescription.fromJson(Map<String, dynamic> json) {
+    return LogDeliveryDescription(
+      workerLogDelivery: json['workerLogDelivery'] != null
+          ? WorkerLogDeliveryDescription.fromJson(
+              json['workerLogDelivery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workerLogDelivery = this.workerLogDelivery;
+    return {
+      if (workerLogDelivery != null) 'workerLogDelivery': workerLogDelivery,
+    };
+  }
+}
+
+/// The network type of a connector.
+class NetworkType {
+  static const ipv4 = NetworkType._('IPV4');
+  static const dual = NetworkType._('DUAL');
+
+  final String value;
+
+  const NetworkType._(this.value);
+
+  static const values = [ipv4, dual];
+
+  static NetworkType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => NetworkType._(value));
+
+  @override
+  bool operator ==(other) => other is NetworkType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The description of the worker configuration.
+class WorkerConfigurationDescription {
+  /// The revision of the worker configuration.
+  final int? revision;
+
+  /// The Amazon Resource Name (ARN) of the worker configuration.
+  final String? workerConfigurationArn;
+
+  WorkerConfigurationDescription({
+    this.revision,
+    this.workerConfigurationArn,
+  });
+
+  factory WorkerConfigurationDescription.fromJson(Map<String, dynamic> json) {
+    return WorkerConfigurationDescription(
+      revision: json['revision'] as int?,
+      workerConfigurationArn: json['workerConfigurationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revision = this.revision;
+    final workerConfigurationArn = this.workerConfigurationArn;
+    return {
+      if (revision != null) 'revision': revision,
+      if (workerConfigurationArn != null)
+        'workerConfigurationArn': workerConfigurationArn,
+    };
+  }
+}
+
+/// The description of the plugin.
+class PluginDescription {
+  /// Details about a custom plugin.
+  final CustomPluginDescription? customPlugin;
+
+  PluginDescription({
+    this.customPlugin,
+  });
+
+  factory PluginDescription.fromJson(Map<String, dynamic> json) {
+    return PluginDescription(
+      customPlugin: json['customPlugin'] != null
+          ? CustomPluginDescription.fromJson(
+              json['customPlugin'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customPlugin = this.customPlugin;
+    return {
+      if (customPlugin != null) 'customPlugin': customPlugin,
+    };
+  }
+}
+
+/// Details about a custom plugin.
+class CustomPluginDescription {
+  /// The Amazon Resource Name (ARN) of the custom plugin.
+  final String? customPluginArn;
+
+  /// The revision of the custom plugin.
+  final int? revision;
+
+  CustomPluginDescription({
+    this.customPluginArn,
+    this.revision,
+  });
+
+  factory CustomPluginDescription.fromJson(Map<String, dynamic> json) {
+    return CustomPluginDescription(
+      customPluginArn: json['customPluginArn'] as String?,
+      revision: json['revision'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customPluginArn = this.customPluginArn;
+    final revision = this.revision;
+    return {
+      if (customPluginArn != null) 'customPluginArn': customPluginArn,
+      if (revision != null) 'revision': revision,
     };
   }
 }
@@ -3311,6 +2709,1179 @@ class WorkerLogDeliveryDescription {
       if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
       if (firehose != null) 'firehose': firehose,
       if (s3 != null) 's3': s3,
+    };
+  }
+}
+
+/// A description of the log delivery settings.
+class CloudWatchLogsLogDeliveryDescription {
+  /// Whether log delivery to Amazon CloudWatch Logs is enabled.
+  final bool? enabled;
+
+  /// The name of the CloudWatch log group that is the destination for log
+  /// delivery.
+  final String? logGroup;
+
+  CloudWatchLogsLogDeliveryDescription({
+    this.enabled,
+    this.logGroup,
+  });
+
+  factory CloudWatchLogsLogDeliveryDescription.fromJson(
+      Map<String, dynamic> json) {
+    return CloudWatchLogsLogDeliveryDescription(
+      enabled: json['enabled'] as bool?,
+      logGroup: json['logGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final logGroup = this.logGroup;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (logGroup != null) 'logGroup': logGroup,
+    };
+  }
+}
+
+/// A description of the settings for delivering logs to Amazon Kinesis Data
+/// Firehose.
+class FirehoseLogDeliveryDescription {
+  /// The name of the Kinesis Data Firehose delivery stream that is the
+  /// destination for log delivery.
+  final String? deliveryStream;
+
+  /// Specifies whether connector logs get delivered to Amazon Kinesis Data
+  /// Firehose.
+  final bool? enabled;
+
+  FirehoseLogDeliveryDescription({
+    this.deliveryStream,
+    this.enabled,
+  });
+
+  factory FirehoseLogDeliveryDescription.fromJson(Map<String, dynamic> json) {
+    return FirehoseLogDeliveryDescription(
+      deliveryStream: json['deliveryStream'] as String?,
+      enabled: json['enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStream = this.deliveryStream;
+    final enabled = this.enabled;
+    return {
+      if (deliveryStream != null) 'deliveryStream': deliveryStream,
+      if (enabled != null) 'enabled': enabled,
+    };
+  }
+}
+
+/// The description of the details about delivering logs to Amazon S3.
+class S3LogDeliveryDescription {
+  /// The name of the S3 bucket that is the destination for log delivery.
+  final String? bucket;
+
+  /// Specifies whether connector logs get sent to the specified Amazon S3
+  /// destination.
+  final bool? enabled;
+
+  /// The S3 prefix that is the destination for log delivery.
+  final String? prefix;
+
+  S3LogDeliveryDescription({
+    this.bucket,
+    this.enabled,
+    this.prefix,
+  });
+
+  factory S3LogDeliveryDescription.fromJson(Map<String, dynamic> json) {
+    return S3LogDeliveryDescription(
+      bucket: json['bucket'] as String?,
+      enabled: json['enabled'] as bool?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final enabled = this.enabled;
+    final prefix = this.prefix;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (enabled != null) 'enabled': enabled,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+class KafkaClusterEncryptionInTransitType {
+  static const plaintext = KafkaClusterEncryptionInTransitType._('PLAINTEXT');
+  static const tls = KafkaClusterEncryptionInTransitType._('TLS');
+
+  final String value;
+
+  const KafkaClusterEncryptionInTransitType._(this.value);
+
+  static const values = [plaintext, tls];
+
+  static KafkaClusterEncryptionInTransitType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KafkaClusterEncryptionInTransitType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaClusterEncryptionInTransitType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class KafkaClusterClientAuthenticationType {
+  static const none = KafkaClusterClientAuthenticationType._('NONE');
+  static const iam = KafkaClusterClientAuthenticationType._('IAM');
+
+  final String value;
+
+  const KafkaClusterClientAuthenticationType._(this.value);
+
+  static const values = [none, iam];
+
+  static KafkaClusterClientAuthenticationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => KafkaClusterClientAuthenticationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is KafkaClusterClientAuthenticationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The description of the Apache Kafka cluster to which the connector is
+/// connected.
+class ApacheKafkaClusterDescription {
+  /// The bootstrap servers of the cluster.
+  final String? bootstrapServers;
+
+  /// Details of an Amazon VPC which has network connectivity to the Apache Kafka
+  /// cluster.
+  final VpcDescription? vpc;
+
+  ApacheKafkaClusterDescription({
+    this.bootstrapServers,
+    this.vpc,
+  });
+
+  factory ApacheKafkaClusterDescription.fromJson(Map<String, dynamic> json) {
+    return ApacheKafkaClusterDescription(
+      bootstrapServers: json['bootstrapServers'] as String?,
+      vpc: json['vpc'] != null
+          ? VpcDescription.fromJson(json['vpc'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bootstrapServers = this.bootstrapServers;
+    final vpc = this.vpc;
+    return {
+      if (bootstrapServers != null) 'bootstrapServers': bootstrapServers,
+      if (vpc != null) 'vpc': vpc,
+    };
+  }
+}
+
+/// The description of the VPC in which the connector resides.
+class VpcDescription {
+  /// The security groups for the connector.
+  final List<String>? securityGroups;
+
+  /// The subnets for the connector.
+  final List<String>? subnets;
+
+  VpcDescription({
+    this.securityGroups,
+    this.subnets,
+  });
+
+  factory VpcDescription.fromJson(Map<String, dynamic> json) {
+    return VpcDescription(
+      securityGroups: (json['securityGroups'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      subnets:
+          (json['subnets'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroups = this.securityGroups;
+    final subnets = this.subnets;
+    return {
+      if (securityGroups != null) 'securityGroups': securityGroups,
+      if (subnets != null) 'subnets': subnets,
+    };
+  }
+}
+
+/// Information about the auto scaling parameters for the connector.
+class AutoScalingDescription {
+  /// The maximum number of tasks allocated to the connector during autoscaling
+  /// operations. Must be at least equal to maxWorkerCount.
+  final int? maxAutoscalingTaskCount;
+
+  /// The maximum number of workers allocated to the connector.
+  final int? maxWorkerCount;
+
+  /// The number of microcontroller units (MCUs) allocated to each connector
+  /// worker. The valid values are 1,2,4,8.
+  final int? mcuCount;
+
+  /// The minimum number of workers allocated to the connector.
+  final int? minWorkerCount;
+
+  /// The scale-in policy for the connector.
+  final ScaleInPolicyDescription? scaleInPolicy;
+
+  /// The scale-out policy for the connector.
+  final ScaleOutPolicyDescription? scaleOutPolicy;
+
+  AutoScalingDescription({
+    this.maxAutoscalingTaskCount,
+    this.maxWorkerCount,
+    this.mcuCount,
+    this.minWorkerCount,
+    this.scaleInPolicy,
+    this.scaleOutPolicy,
+  });
+
+  factory AutoScalingDescription.fromJson(Map<String, dynamic> json) {
+    return AutoScalingDescription(
+      maxAutoscalingTaskCount: json['maxAutoscalingTaskCount'] as int?,
+      maxWorkerCount: json['maxWorkerCount'] as int?,
+      mcuCount: json['mcuCount'] as int?,
+      minWorkerCount: json['minWorkerCount'] as int?,
+      scaleInPolicy: json['scaleInPolicy'] != null
+          ? ScaleInPolicyDescription.fromJson(
+              json['scaleInPolicy'] as Map<String, dynamic>)
+          : null,
+      scaleOutPolicy: json['scaleOutPolicy'] != null
+          ? ScaleOutPolicyDescription.fromJson(
+              json['scaleOutPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxAutoscalingTaskCount = this.maxAutoscalingTaskCount;
+    final maxWorkerCount = this.maxWorkerCount;
+    final mcuCount = this.mcuCount;
+    final minWorkerCount = this.minWorkerCount;
+    final scaleInPolicy = this.scaleInPolicy;
+    final scaleOutPolicy = this.scaleOutPolicy;
+    return {
+      if (maxAutoscalingTaskCount != null)
+        'maxAutoscalingTaskCount': maxAutoscalingTaskCount,
+      if (maxWorkerCount != null) 'maxWorkerCount': maxWorkerCount,
+      if (mcuCount != null) 'mcuCount': mcuCount,
+      if (minWorkerCount != null) 'minWorkerCount': minWorkerCount,
+      if (scaleInPolicy != null) 'scaleInPolicy': scaleInPolicy,
+      if (scaleOutPolicy != null) 'scaleOutPolicy': scaleOutPolicy,
+    };
+  }
+}
+
+/// The description of a connector's provisioned capacity.
+class ProvisionedCapacityDescription {
+  /// The number of microcontroller units (MCUs) allocated to each connector
+  /// worker. The valid values are 1,2,4,8.
+  final int? mcuCount;
+
+  /// The number of workers that are allocated to the connector.
+  final int? workerCount;
+
+  ProvisionedCapacityDescription({
+    this.mcuCount,
+    this.workerCount,
+  });
+
+  factory ProvisionedCapacityDescription.fromJson(Map<String, dynamic> json) {
+    return ProvisionedCapacityDescription(
+      mcuCount: json['mcuCount'] as int?,
+      workerCount: json['workerCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mcuCount = this.mcuCount;
+    final workerCount = this.workerCount;
+    return {
+      if (mcuCount != null) 'mcuCount': mcuCount,
+      if (workerCount != null) 'workerCount': workerCount,
+    };
+  }
+}
+
+/// The description of the scale-in policy for the connector.
+class ScaleInPolicyDescription {
+  /// Specifies the CPU utilization percentage threshold at which you want
+  /// connector scale in to be triggered.
+  final int? cpuUtilizationPercentage;
+
+  ScaleInPolicyDescription({
+    this.cpuUtilizationPercentage,
+  });
+
+  factory ScaleInPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return ScaleInPolicyDescription(
+      cpuUtilizationPercentage: json['cpuUtilizationPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
+    return {
+      if (cpuUtilizationPercentage != null)
+        'cpuUtilizationPercentage': cpuUtilizationPercentage,
+    };
+  }
+}
+
+/// The description of the scale-out policy for the connector.
+class ScaleOutPolicyDescription {
+  /// The CPU utilization percentage threshold at which you want connector scale
+  /// out to be triggered.
+  final int? cpuUtilizationPercentage;
+
+  ScaleOutPolicyDescription({
+    this.cpuUtilizationPercentage,
+  });
+
+  factory ScaleOutPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return ScaleOutPolicyDescription(
+      cpuUtilizationPercentage: json['cpuUtilizationPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
+    return {
+      if (cpuUtilizationPercentage != null)
+        'cpuUtilizationPercentage': cpuUtilizationPercentage,
+    };
+  }
+}
+
+/// Summary of a connector operation.
+class ConnectorOperationSummary {
+  /// The Amazon Resource Name (ARN) of the connector operation.
+  final String? connectorOperationArn;
+
+  /// The state of the connector operation.
+  final ConnectorOperationState? connectorOperationState;
+
+  /// The type of connector operation performed.
+  final ConnectorOperationType? connectorOperationType;
+
+  /// The time when operation was created.
+  final DateTime? creationTime;
+
+  /// The time when operation ended.
+  final DateTime? endTime;
+
+  ConnectorOperationSummary({
+    this.connectorOperationArn,
+    this.connectorOperationState,
+    this.connectorOperationType,
+    this.creationTime,
+    this.endTime,
+  });
+
+  factory ConnectorOperationSummary.fromJson(Map<String, dynamic> json) {
+    return ConnectorOperationSummary(
+      connectorOperationArn: json['connectorOperationArn'] as String?,
+      connectorOperationState: (json['connectorOperationState'] as String?)
+          ?.let(ConnectorOperationState.fromString),
+      connectorOperationType: (json['connectorOperationType'] as String?)
+          ?.let(ConnectorOperationType.fromString),
+      creationTime: timeStampFromJson(json['creationTime']),
+      endTime: timeStampFromJson(json['endTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorOperationArn = this.connectorOperationArn;
+    final connectorOperationState = this.connectorOperationState;
+    final connectorOperationType = this.connectorOperationType;
+    final creationTime = this.creationTime;
+    final endTime = this.endTime;
+    return {
+      if (connectorOperationArn != null)
+        'connectorOperationArn': connectorOperationArn,
+      if (connectorOperationState != null)
+        'connectorOperationState': connectorOperationState.value,
+      if (connectorOperationType != null)
+        'connectorOperationType': connectorOperationType.value,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+    };
+  }
+}
+
+class ConnectorOperationType {
+  static const updateWorkerSetting =
+      ConnectorOperationType._('UPDATE_WORKER_SETTING');
+  static const updateConnectorConfiguration =
+      ConnectorOperationType._('UPDATE_CONNECTOR_CONFIGURATION');
+  static const isolateConnector = ConnectorOperationType._('ISOLATE_CONNECTOR');
+  static const restoreConnector = ConnectorOperationType._('RESTORE_CONNECTOR');
+
+  final String value;
+
+  const ConnectorOperationType._(this.value);
+
+  static const values = [
+    updateWorkerSetting,
+    updateConnectorConfiguration,
+    isolateConnector,
+    restoreConnector
+  ];
+
+  static ConnectorOperationType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorOperationType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorOperationType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConnectorOperationState {
+  static const pending = ConnectorOperationState._('PENDING');
+  static const updateInProgress =
+      ConnectorOperationState._('UPDATE_IN_PROGRESS');
+  static const updateComplete = ConnectorOperationState._('UPDATE_COMPLETE');
+  static const updateFailed = ConnectorOperationState._('UPDATE_FAILED');
+  static const rollbackInProgress =
+      ConnectorOperationState._('ROLLBACK_IN_PROGRESS');
+  static const rollbackFailed = ConnectorOperationState._('ROLLBACK_FAILED');
+  static const rollbackComplete =
+      ConnectorOperationState._('ROLLBACK_COMPLETE');
+
+  final String value;
+
+  const ConnectorOperationState._(this.value);
+
+  static const values = [
+    pending,
+    updateInProgress,
+    updateComplete,
+    updateFailed,
+    rollbackInProgress,
+    rollbackFailed,
+    rollbackComplete
+  ];
+
+  static ConnectorOperationState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorOperationState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorOperationState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The description of the worker configuration revision.
+class WorkerConfigurationRevisionDescription {
+  /// The time that the worker configuration was created.
+  final DateTime? creationTime;
+
+  /// The description of the worker configuration revision.
+  final String? description;
+
+  /// Base64 encoded contents of the connect-distributed.properties file.
+  final String? propertiesFileContent;
+
+  /// The description of a revision of the worker configuration.
+  final int? revision;
+
+  WorkerConfigurationRevisionDescription({
+    this.creationTime,
+    this.description,
+    this.propertiesFileContent,
+    this.revision,
+  });
+
+  factory WorkerConfigurationRevisionDescription.fromJson(
+      Map<String, dynamic> json) {
+    return WorkerConfigurationRevisionDescription(
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      propertiesFileContent: json['propertiesFileContent'] as String?,
+      revision: json['revision'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final propertiesFileContent = this.propertiesFileContent;
+    final revision = this.revision;
+    return {
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (description != null) 'description': description,
+      if (propertiesFileContent != null)
+        'propertiesFileContent': propertiesFileContent,
+      if (revision != null) 'revision': revision,
+    };
+  }
+}
+
+/// Details about the state of a resource.
+class StateDescription {
+  /// A code that describes the state of a resource.
+  final String? code;
+
+  /// A message that describes the state of a resource.
+  final String? message;
+
+  StateDescription({
+    this.code,
+    this.message,
+  });
+
+  factory StateDescription.fromJson(Map<String, dynamic> json) {
+    return StateDescription(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// Details about worker setting of a connector
+class WorkerSetting {
+  final CapacityDescription? capacity;
+
+  WorkerSetting({
+    this.capacity,
+  });
+
+  factory WorkerSetting.fromJson(Map<String, dynamic> json) {
+    return WorkerSetting(
+      capacity: json['capacity'] != null
+          ? CapacityDescription.fromJson(
+              json['capacity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacity = this.capacity;
+    return {
+      if (capacity != null) 'capacity': capacity,
+    };
+  }
+}
+
+/// Details of a step that is involved in a connector's operation.
+class ConnectorOperationStep {
+  /// The step state of the operation.
+  final ConnectorOperationStepState? stepState;
+
+  /// The step type of the operation.
+  final ConnectorOperationStepType? stepType;
+
+  ConnectorOperationStep({
+    this.stepState,
+    this.stepType,
+  });
+
+  factory ConnectorOperationStep.fromJson(Map<String, dynamic> json) {
+    return ConnectorOperationStep(
+      stepState: (json['stepState'] as String?)
+          ?.let(ConnectorOperationStepState.fromString),
+      stepType: (json['stepType'] as String?)
+          ?.let(ConnectorOperationStepType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stepState = this.stepState;
+    final stepType = this.stepType;
+    return {
+      if (stepState != null) 'stepState': stepState.value,
+      if (stepType != null) 'stepType': stepType.value,
+    };
+  }
+}
+
+class ConnectorOperationStepType {
+  static const initializeUpdate =
+      ConnectorOperationStepType._('INITIALIZE_UPDATE');
+  static const finalizeUpdate = ConnectorOperationStepType._('FINALIZE_UPDATE');
+  static const updateWorkerSetting =
+      ConnectorOperationStepType._('UPDATE_WORKER_SETTING');
+  static const updateConnectorConfiguration =
+      ConnectorOperationStepType._('UPDATE_CONNECTOR_CONFIGURATION');
+  static const validateUpdate = ConnectorOperationStepType._('VALIDATE_UPDATE');
+
+  final String value;
+
+  const ConnectorOperationStepType._(this.value);
+
+  static const values = [
+    initializeUpdate,
+    finalizeUpdate,
+    updateWorkerSetting,
+    updateConnectorConfiguration,
+    validateUpdate
+  ];
+
+  static ConnectorOperationStepType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorOperationStepType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorOperationStepType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConnectorOperationStepState {
+  static const pending = ConnectorOperationStepState._('PENDING');
+  static const inProgress = ConnectorOperationStepState._('IN_PROGRESS');
+  static const completed = ConnectorOperationStepState._('COMPLETED');
+  static const failed = ConnectorOperationStepState._('FAILED');
+  static const cancelled = ConnectorOperationStepState._('CANCELLED');
+
+  final String value;
+
+  const ConnectorOperationStepState._(this.value);
+
+  static const values = [pending, inProgress, completed, failed, cancelled];
+
+  static ConnectorOperationStepState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectorOperationStepState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ConnectorOperationStepState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about the location of a custom plugin.
+class CustomPluginLocation {
+  /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of
+  /// the plugin file stored in Amazon S3.
+  final S3Location s3Location;
+
+  CustomPluginLocation({
+    required this.s3Location,
+  });
+
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    return {
+      's3Location': s3Location,
+    };
+  }
+}
+
+/// The location of an object in Amazon S3.
+class S3Location {
+  /// The Amazon Resource Name (ARN) of an S3 bucket.
+  final String bucketArn;
+
+  /// The file key for an object in an S3 bucket.
+  final String fileKey;
+
+  /// The version of an object in an S3 bucket.
+  final String? objectVersion;
+
+  S3Location({
+    required this.bucketArn,
+    required this.fileKey,
+    this.objectVersion,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final fileKey = this.fileKey;
+    final objectVersion = this.objectVersion;
+    return {
+      'bucketArn': bucketArn,
+      'fileKey': fileKey,
+      if (objectVersion != null) 'objectVersion': objectVersion,
+    };
+  }
+}
+
+/// Information about the capacity of the connector, whether it is auto scaled
+/// or provisioned.
+class Capacity {
+  /// Information about the auto scaling parameters for the connector.
+  final AutoScaling? autoScaling;
+
+  /// Details about a fixed capacity allocated to a connector.
+  final ProvisionedCapacity? provisionedCapacity;
+
+  Capacity({
+    this.autoScaling,
+    this.provisionedCapacity,
+  });
+
+  Map<String, dynamic> toJson() {
+    final autoScaling = this.autoScaling;
+    final provisionedCapacity = this.provisionedCapacity;
+    return {
+      if (autoScaling != null) 'autoScaling': autoScaling,
+      if (provisionedCapacity != null)
+        'provisionedCapacity': provisionedCapacity,
+    };
+  }
+}
+
+/// The details of the Apache Kafka cluster to which the connector is connected.
+class KafkaCluster {
+  /// The Apache Kafka cluster to which the connector is connected.
+  final ApacheKafkaCluster apacheKafkaCluster;
+
+  KafkaCluster({
+    required this.apacheKafkaCluster,
+  });
+
+  Map<String, dynamic> toJson() {
+    final apacheKafkaCluster = this.apacheKafkaCluster;
+    return {
+      'apacheKafkaCluster': apacheKafkaCluster,
+    };
+  }
+}
+
+/// The client authentication information used in order to authenticate with the
+/// Apache Kafka cluster.
+class KafkaClusterClientAuthentication {
+  /// The type of client authentication used to connect to the Apache Kafka
+  /// cluster. Value NONE means that no client authentication is used.
+  final KafkaClusterClientAuthenticationType authenticationType;
+
+  KafkaClusterClientAuthentication({
+    required this.authenticationType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final authenticationType = this.authenticationType;
+    return {
+      'authenticationType': authenticationType.value,
+    };
+  }
+}
+
+/// Details of encryption in transit to the Apache Kafka cluster.
+class KafkaClusterEncryptionInTransit {
+  /// The type of encryption in transit to the Apache Kafka cluster.
+  final KafkaClusterEncryptionInTransitType encryptionType;
+
+  KafkaClusterEncryptionInTransit({
+    required this.encryptionType,
+  });
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    return {
+      'encryptionType': encryptionType.value,
+    };
+  }
+}
+
+/// Details about log delivery.
+class LogDelivery {
+  /// The workers can send worker logs to different destination types. This
+  /// configuration specifies the details of these destinations.
+  final WorkerLogDelivery workerLogDelivery;
+
+  LogDelivery({
+    required this.workerLogDelivery,
+  });
+
+  Map<String, dynamic> toJson() {
+    final workerLogDelivery = this.workerLogDelivery;
+    return {
+      'workerLogDelivery': workerLogDelivery,
+    };
+  }
+}
+
+/// The configuration of the workers, which are the processes that run the
+/// connector logic.
+class WorkerConfiguration {
+  /// The revision of the worker configuration.
+  final int revision;
+
+  /// The Amazon Resource Name (ARN) of the worker configuration.
+  final String workerConfigurationArn;
+
+  WorkerConfiguration({
+    required this.revision,
+    required this.workerConfigurationArn,
+  });
+
+  Map<String, dynamic> toJson() {
+    final revision = this.revision;
+    final workerConfigurationArn = this.workerConfigurationArn;
+    return {
+      'revision': revision,
+      'workerConfigurationArn': workerConfigurationArn,
+    };
+  }
+}
+
+/// A plugin is an Amazon Web Services resource that contains the code that
+/// defines your connector logic.
+class Plugin {
+  /// Details about a custom plugin.
+  final CustomPlugin customPlugin;
+
+  Plugin({
+    required this.customPlugin,
+  });
+
+  Map<String, dynamic> toJson() {
+    final customPlugin = this.customPlugin;
+    return {
+      'customPlugin': customPlugin,
+    };
+  }
+}
+
+/// A plugin is an Amazon Web Services resource that contains the code that
+/// defines a connector's logic.
+class CustomPlugin {
+  /// The Amazon Resource Name (ARN) of the custom plugin.
+  final String customPluginArn;
+
+  /// The revision of the custom plugin.
+  final int revision;
+
+  CustomPlugin({
+    required this.customPluginArn,
+    required this.revision,
+  });
+
+  Map<String, dynamic> toJson() {
+    final customPluginArn = this.customPluginArn;
+    final revision = this.revision;
+    return {
+      'customPluginArn': customPluginArn,
+      'revision': revision,
+    };
+  }
+}
+
+/// Workers can send worker logs to different destination types. This
+/// configuration specifies the details of these destinations.
+class WorkerLogDelivery {
+  /// Details about delivering logs to Amazon CloudWatch Logs.
+  final CloudWatchLogsLogDelivery? cloudWatchLogs;
+
+  /// Details about delivering logs to Amazon Kinesis Data Firehose.
+  final FirehoseLogDelivery? firehose;
+
+  /// Details about delivering logs to Amazon S3.
+  final S3LogDelivery? s3;
+
+  WorkerLogDelivery({
+    this.cloudWatchLogs,
+    this.firehose,
+    this.s3,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogs = this.cloudWatchLogs;
+    final firehose = this.firehose;
+    final s3 = this.s3;
+    return {
+      if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
+      if (firehose != null) 'firehose': firehose,
+      if (s3 != null) 's3': s3,
+    };
+  }
+}
+
+/// The settings for delivering connector logs to Amazon CloudWatch Logs.
+class CloudWatchLogsLogDelivery {
+  /// Whether log delivery to Amazon CloudWatch Logs is enabled.
+  final bool enabled;
+
+  /// The name of the CloudWatch log group that is the destination for log
+  /// delivery.
+  final String? logGroup;
+
+  CloudWatchLogsLogDelivery({
+    required this.enabled,
+    this.logGroup,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final logGroup = this.logGroup;
+    return {
+      'enabled': enabled,
+      if (logGroup != null) 'logGroup': logGroup,
+    };
+  }
+}
+
+/// The settings for delivering logs to Amazon Kinesis Data Firehose.
+class FirehoseLogDelivery {
+  /// Specifies whether connector logs get delivered to Amazon Kinesis Data
+  /// Firehose.
+  final bool enabled;
+
+  /// The name of the Kinesis Data Firehose delivery stream that is the
+  /// destination for log delivery.
+  final String? deliveryStream;
+
+  FirehoseLogDelivery({
+    required this.enabled,
+    this.deliveryStream,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final deliveryStream = this.deliveryStream;
+    return {
+      'enabled': enabled,
+      if (deliveryStream != null) 'deliveryStream': deliveryStream,
+    };
+  }
+}
+
+/// Details about delivering logs to Amazon S3.
+class S3LogDelivery {
+  /// Specifies whether connector logs get sent to the specified Amazon S3
+  /// destination.
+  final bool enabled;
+
+  /// The name of the S3 bucket that is the destination for log delivery.
+  final String? bucket;
+
+  /// The S3 prefix that is the destination for log delivery.
+  final String? prefix;
+
+  S3LogDelivery({
+    required this.enabled,
+    this.bucket,
+    this.prefix,
+  });
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'enabled': enabled,
+      if (bucket != null) 'bucket': bucket,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
+}
+
+/// The details of the Apache Kafka cluster to which the connector is connected.
+class ApacheKafkaCluster {
+  /// The bootstrap servers of the cluster.
+  final String bootstrapServers;
+
+  /// Details of an Amazon VPC which has network connectivity to the Apache Kafka
+  /// cluster.
+  final Vpc vpc;
+
+  ApacheKafkaCluster({
+    required this.bootstrapServers,
+    required this.vpc,
+  });
+
+  Map<String, dynamic> toJson() {
+    final bootstrapServers = this.bootstrapServers;
+    final vpc = this.vpc;
+    return {
+      'bootstrapServers': bootstrapServers,
+      'vpc': vpc,
+    };
+  }
+}
+
+/// Information about the VPC in which the connector resides.
+class Vpc {
+  /// The subnets for the connector.
+  final List<String> subnets;
+
+  /// The security groups for the connector.
+  final List<String>? securityGroups;
+
+  Vpc({
+    required this.subnets,
+    this.securityGroups,
+  });
+
+  Map<String, dynamic> toJson() {
+    final subnets = this.subnets;
+    final securityGroups = this.securityGroups;
+    return {
+      'subnets': subnets,
+      if (securityGroups != null) 'securityGroups': securityGroups,
+    };
+  }
+}
+
+/// Specifies how the connector scales.
+class AutoScaling {
+  /// The maximum number of workers allocated to the connector.
+  final int maxWorkerCount;
+
+  /// The number of microcontroller units (MCUs) allocated to each connector
+  /// worker. The valid values are 1,2,4,8.
+  final int mcuCount;
+
+  /// The minimum number of workers allocated to the connector.
+  final int minWorkerCount;
+
+  /// The maximum number of tasks allocated to the connector during autoscaling
+  /// operations. Must be at least equal to maxWorkerCount.
+  final int? maxAutoscalingTaskCount;
+
+  /// The scale-in policy for the connector.
+  final ScaleInPolicy? scaleInPolicy;
+
+  /// The scale-out policy for the connector.
+  final ScaleOutPolicy? scaleOutPolicy;
+
+  AutoScaling({
+    required this.maxWorkerCount,
+    required this.mcuCount,
+    required this.minWorkerCount,
+    this.maxAutoscalingTaskCount,
+    this.scaleInPolicy,
+    this.scaleOutPolicy,
+  });
+
+  Map<String, dynamic> toJson() {
+    final maxWorkerCount = this.maxWorkerCount;
+    final mcuCount = this.mcuCount;
+    final minWorkerCount = this.minWorkerCount;
+    final maxAutoscalingTaskCount = this.maxAutoscalingTaskCount;
+    final scaleInPolicy = this.scaleInPolicy;
+    final scaleOutPolicy = this.scaleOutPolicy;
+    return {
+      'maxWorkerCount': maxWorkerCount,
+      'mcuCount': mcuCount,
+      'minWorkerCount': minWorkerCount,
+      if (maxAutoscalingTaskCount != null)
+        'maxAutoscalingTaskCount': maxAutoscalingTaskCount,
+      if (scaleInPolicy != null) 'scaleInPolicy': scaleInPolicy,
+      if (scaleOutPolicy != null) 'scaleOutPolicy': scaleOutPolicy,
+    };
+  }
+}
+
+/// Details about a connector's provisioned capacity.
+class ProvisionedCapacity {
+  /// The number of microcontroller units (MCUs) allocated to each connector
+  /// worker. The valid values are 1,2,4,8.
+  final int mcuCount;
+
+  /// The number of workers that are allocated to the connector.
+  final int workerCount;
+
+  ProvisionedCapacity({
+    required this.mcuCount,
+    required this.workerCount,
+  });
+
+  Map<String, dynamic> toJson() {
+    final mcuCount = this.mcuCount;
+    final workerCount = this.workerCount;
+    return {
+      'mcuCount': mcuCount,
+      'workerCount': workerCount,
+    };
+  }
+}
+
+/// The scale-in policy for the connector.
+class ScaleInPolicy {
+  /// Specifies the CPU utilization percentage threshold at which you want
+  /// connector scale in to be triggered.
+  final int cpuUtilizationPercentage;
+
+  ScaleInPolicy({
+    required this.cpuUtilizationPercentage,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
+    return {
+      'cpuUtilizationPercentage': cpuUtilizationPercentage,
+    };
+  }
+}
+
+/// The scale-out policy for the connector.
+class ScaleOutPolicy {
+  /// The CPU utilization percentage threshold at which you want connector scale
+  /// out to be triggered.
+  final int cpuUtilizationPercentage;
+
+  ScaleOutPolicy({
+    required this.cpuUtilizationPercentage,
+  });
+
+  Map<String, dynamic> toJson() {
+    final cpuUtilizationPercentage = this.cpuUtilizationPercentage;
+    return {
+      'cpuUtilizationPercentage': cpuUtilizationPercentage,
     };
   }
 }

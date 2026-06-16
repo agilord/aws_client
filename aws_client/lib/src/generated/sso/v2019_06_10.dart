@@ -77,9 +77,9 @@ class Sso {
   /// assigned to the user.
   ///
   /// May throw [InvalidRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [accessToken] :
   /// The token issued by the <code>CreateToken</code> API call. For more
@@ -119,9 +119,9 @@ class Sso {
   /// Lists all roles that are assigned to the user for a given AWS account.
   ///
   /// May throw [InvalidRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [accessToken] :
   /// The token issued by the <code>CreateToken</code> API call. For more
@@ -177,9 +177,9 @@ class Sso {
   /// operation returns a paginated response.
   ///
   /// May throw [InvalidRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [TooManyRequestsException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [accessToken] :
   /// The token issued by the <code>CreateToken</code> API call. For more
@@ -242,8 +242,8 @@ class Sso {
   /// </note>
   ///
   /// May throw [InvalidRequestException].
-  /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [accessToken] :
   /// The token issued by the <code>CreateToken</code> API call. For more
@@ -264,43 +264,6 @@ class Sso {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-  }
-}
-
-/// Provides information about your AWS account.
-class AccountInfo {
-  /// The identifier of the AWS account that is assigned to the user.
-  final String? accountId;
-
-  /// The display name of the AWS account that is assigned to the user.
-  final String? accountName;
-
-  /// The email address of the AWS account that is assigned to the user.
-  final String? emailAddress;
-
-  AccountInfo({
-    this.accountId,
-    this.accountName,
-    this.emailAddress,
-  });
-
-  factory AccountInfo.fromJson(Map<String, dynamic> json) {
-    return AccountInfo(
-      accountId: json['accountId'] as String?,
-      accountName: json['accountName'] as String?,
-      emailAddress: json['emailAddress'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final accountName = this.accountName;
-    final emailAddress = this.emailAddress;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (accountName != null) 'accountName': accountName,
-      if (emailAddress != null) 'emailAddress': emailAddress,
-    };
   }
 }
 
@@ -395,6 +358,73 @@ class ListAccountsResponse {
   }
 }
 
+/// Provides information about your AWS account.
+class AccountInfo {
+  /// The identifier of the AWS account that is assigned to the user.
+  final String? accountId;
+
+  /// The display name of the AWS account that is assigned to the user.
+  final String? accountName;
+
+  /// The email address of the AWS account that is assigned to the user.
+  final String? emailAddress;
+
+  AccountInfo({
+    this.accountId,
+    this.accountName,
+    this.emailAddress,
+  });
+
+  factory AccountInfo.fromJson(Map<String, dynamic> json) {
+    return AccountInfo(
+      accountId: json['accountId'] as String?,
+      accountName: json['accountName'] as String?,
+      emailAddress: json['emailAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final accountName = this.accountName;
+    final emailAddress = this.emailAddress;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (accountName != null) 'accountName': accountName,
+      if (emailAddress != null) 'emailAddress': emailAddress,
+    };
+  }
+}
+
+/// Provides information about the role that is assigned to the user.
+class RoleInfo {
+  /// The identifier of the AWS account assigned to the user.
+  final String? accountId;
+
+  /// The friendly name of the role that is assigned to the user.
+  final String? roleName;
+
+  RoleInfo({
+    this.accountId,
+    this.roleName,
+  });
+
+  factory RoleInfo.fromJson(Map<String, dynamic> json) {
+    return RoleInfo(
+      accountId: json['accountId'] as String?,
+      roleName: json['roleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final roleName = this.roleName;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (roleName != null) 'roleName': roleName,
+    };
+  }
+}
+
 /// Provides information about the role credentials that are assigned to the
 /// user.
 class RoleCredentials {
@@ -446,36 +476,6 @@ class RoleCredentials {
       if (expiration != null) 'expiration': expiration,
       if (secretAccessKey != null) 'secretAccessKey': secretAccessKey,
       if (sessionToken != null) 'sessionToken': sessionToken,
-    };
-  }
-}
-
-/// Provides information about the role that is assigned to the user.
-class RoleInfo {
-  /// The identifier of the AWS account assigned to the user.
-  final String? accountId;
-
-  /// The friendly name of the role that is assigned to the user.
-  final String? roleName;
-
-  RoleInfo({
-    this.accountId,
-    this.roleName,
-  });
-
-  factory RoleInfo.fromJson(Map<String, dynamic> json) {
-    return RoleInfo(
-      accountId: json['accountId'] as String?,
-      roleName: json['roleName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final roleName = this.roleName;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (roleName != null) 'roleName': roleName,
     };
   }
 }

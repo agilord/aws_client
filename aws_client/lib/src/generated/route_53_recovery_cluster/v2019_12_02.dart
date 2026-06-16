@@ -94,7 +94,6 @@ class Route53RecoveryCluster {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'route53-recovery-cluster',
-            signingName: 'route53-recovery-cluster',
           ),
           region: region,
           credentials: credentials,
@@ -151,11 +150,11 @@ class Route53RecoveryCluster {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [EndpointTemporarilyUnavailableException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [ThrottlingException].
-  /// May throw [EndpointTemporarilyUnavailableException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [routingControlArn] :
   /// The Amazon Resource Name (ARN) for the routing control that you want to
@@ -222,11 +221,11 @@ class Route53RecoveryCluster {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [EndpointTemporarilyUnavailableException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [ThrottlingException].
-  /// May throw [EndpointTemporarilyUnavailableException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [controlPanelArn] :
   /// The Amazon Resource Name (ARN) of the control panel of the routing
@@ -315,12 +314,12 @@ class Route53RecoveryCluster {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [EndpointTemporarilyUnavailableException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [ThrottlingException].
-  /// May throw [EndpointTemporarilyUnavailableException].
-  /// May throw [ConflictException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [routingControlArn] :
   /// The Amazon Resource Name (ARN) for the routing control that you want to
@@ -408,13 +407,13 @@ class Route53RecoveryCluster {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [EndpointTemporarilyUnavailableException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
-  /// May throw [EndpointTemporarilyUnavailableException].
-  /// May throw [ConflictException].
   /// May throw [ServiceLimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [updateRoutingControlStateEntries] :
   /// A set of routing control entries that you want to update.
@@ -523,6 +522,78 @@ class ListRoutingControlsResponse {
   }
 }
 
+class UpdateRoutingControlStateResponse {
+  UpdateRoutingControlStateResponse();
+
+  factory UpdateRoutingControlStateResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateRoutingControlStateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateRoutingControlStatesResponse {
+  UpdateRoutingControlStatesResponse();
+
+  factory UpdateRoutingControlStatesResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateRoutingControlStatesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A routing control state entry.
+class UpdateRoutingControlStateEntry {
+  /// The Amazon Resource Name (ARN) for a routing control state entry.
+  final String routingControlArn;
+
+  /// The routing control state in a set of routing control state entries.
+  final RoutingControlState routingControlState;
+
+  UpdateRoutingControlStateEntry({
+    required this.routingControlArn,
+    required this.routingControlState,
+  });
+
+  Map<String, dynamic> toJson() {
+    final routingControlArn = this.routingControlArn;
+    final routingControlState = this.routingControlState;
+    return {
+      'RoutingControlArn': routingControlArn,
+      'RoutingControlState': routingControlState.value,
+    };
+  }
+}
+
+class RoutingControlState {
+  static const on = RoutingControlState._('On');
+  static const off = RoutingControlState._('Off');
+
+  final String value;
+
+  const RoutingControlState._(this.value);
+
+  static const values = [on, off];
+
+  static RoutingControlState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RoutingControlState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RoutingControlState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// A routing control, which is a simple on/off switch that you can use to route
 /// traffic to cells. When a routing control state is set to ON, traffic flows
 /// to a cell. When the state is set to OFF, traffic does not flow.
@@ -586,78 +657,6 @@ class RoutingControl {
       if (routingControlState != null)
         'RoutingControlState': routingControlState.value,
     };
-  }
-}
-
-class RoutingControlState {
-  static const on = RoutingControlState._('On');
-  static const off = RoutingControlState._('Off');
-
-  final String value;
-
-  const RoutingControlState._(this.value);
-
-  static const values = [on, off];
-
-  static RoutingControlState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RoutingControlState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is RoutingControlState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A routing control state entry.
-class UpdateRoutingControlStateEntry {
-  /// The Amazon Resource Name (ARN) for a routing control state entry.
-  final String routingControlArn;
-
-  /// The routing control state in a set of routing control state entries.
-  final RoutingControlState routingControlState;
-
-  UpdateRoutingControlStateEntry({
-    required this.routingControlArn,
-    required this.routingControlState,
-  });
-
-  Map<String, dynamic> toJson() {
-    final routingControlArn = this.routingControlArn;
-    final routingControlState = this.routingControlState;
-    return {
-      'RoutingControlArn': routingControlArn,
-      'RoutingControlState': routingControlState.value,
-    };
-  }
-}
-
-class UpdateRoutingControlStateResponse {
-  UpdateRoutingControlStateResponse();
-
-  factory UpdateRoutingControlStateResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateRoutingControlStateResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateRoutingControlStatesResponse {
-  UpdateRoutingControlStatesResponse();
-
-  factory UpdateRoutingControlStatesResponse.fromJson(Map<String, dynamic> _) {
-    return UpdateRoutingControlStatesResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
   }
 }
 

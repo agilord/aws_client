@@ -64,7 +64,6 @@ class EmrContainers {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'emr-containers',
-            signingName: 'emr-containers',
           ),
           region: region,
           credentials: credentials,
@@ -84,8 +83,8 @@ class EmrContainers {
   /// Cancels a job run. A job run is a unit of work, such as a Spark jar,
   /// PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the job run to cancel.
@@ -111,9 +110,9 @@ class EmrContainers {
   /// allows two use cases: avoid repeating recurring StartJobRun API request
   /// values, enforcing certain values in StartJobRun API request.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [jobTemplateData] :
   /// The job template data which holds values of StartJobRun API request.
@@ -156,9 +155,9 @@ class EmrContainers {
   /// Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
   /// communicate with your virtual cluster.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [executionRoleArn] :
   /// The ARN of the execution role.
@@ -226,8 +225,8 @@ class EmrContainers {
   /// also create a security configuration to re-use a security setup each time
   /// you create a virtual cluster.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [name] :
   /// The name of the security configuration.
@@ -239,18 +238,23 @@ class EmrContainers {
   /// The client idempotency token to use when creating the security
   /// configuration.
   ///
+  /// Parameter [containerProvider] :
+  /// The container provider associated with the security configuration.
+  ///
   /// Parameter [tags] :
   /// The tags to add to the security configuration.
   Future<CreateSecurityConfigurationResponse> createSecurityConfiguration({
     required String name,
     required SecurityConfigurationData securityConfigurationData,
     String? clientToken,
+    ContainerProvider? containerProvider,
     Map<String, String>? tags,
   }) async {
     final $payload = <String, dynamic>{
       'name': name,
       'securityConfigurationData': securityConfigurationData,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (containerProvider != null) 'containerProvider': containerProvider,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -269,10 +273,10 @@ class EmrContainers {
   /// relationship, you can model virtual clusters the same way you model
   /// Kubernetes namespaces to meet your requirements.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
   /// May throw [EKSRequestThrottledException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [containerProvider] :
   /// The container provider of the virtual cluster.
@@ -317,8 +321,8 @@ class EmrContainers {
   /// allows two use cases: avoid repeating recurring StartJobRun API request
   /// values, enforcing certain values in StartJobRun API request.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the job template that will be deleted.
@@ -338,8 +342,8 @@ class EmrContainers {
   /// Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can
   /// communicate with your virtual cluster.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the managed endpoint.
@@ -367,8 +371,8 @@ class EmrContainers {
   /// relationship, you can model virtual clusters the same way you model
   /// Kubernetes namespaces to meet your requirements.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the virtual cluster that will be deleted.
@@ -388,9 +392,9 @@ class EmrContainers {
   /// work, such as a Spark jar, PySpark script, or SparkSQL query, that you
   /// submit to Amazon EMR on EKS.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the job run request.
@@ -417,9 +421,9 @@ class EmrContainers {
   /// recurring StartJobRun API request values, enforcing certain values in
   /// StartJobRun API request.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the job template that will be described.
@@ -439,9 +443,9 @@ class EmrContainers {
   /// is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that
   /// Amazon EMR Studio can communicate with your virtual cluster.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// This output displays ID of the managed endpoint.
@@ -468,9 +472,9 @@ class EmrContainers {
   /// Formation integration setup. You can also create a security configuration
   /// to re-use a security setup each time you create a virtual cluster.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the security configuration.
@@ -494,9 +498,9 @@ class EmrContainers {
   /// virtual clusters the same way you model Kubernetes namespaces to meet your
   /// requirements.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [id] :
   /// The ID of the virtual cluster that will be described.
@@ -514,10 +518,10 @@ class EmrContainers {
 
   /// Generate a session token to connect to a managed endpoint.
   ///
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [RequestThrottledException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [credentialType] :
   /// Type of the token requested. Currently supported and default value of this
@@ -573,8 +577,8 @@ class EmrContainers {
   /// such as a Spark jar, PySpark script, or SparkSQL query, that you submit to
   /// Amazon EMR on EKS.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [virtualClusterId] :
   /// The ID of the virtual cluster for which to list the job run.
@@ -632,8 +636,8 @@ class EmrContainers {
   /// StartJobRun API request values, enforcing certain values in StartJobRun
   /// API request.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [createdAfter] :
   /// The date and time after which the job templates were created.
@@ -674,8 +678,8 @@ class EmrContainers {
   /// is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that
   /// Amazon EMR Studio can communicate with your virtual cluster.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [virtualClusterId] :
   /// The ID of the virtual cluster.
@@ -733,8 +737,8 @@ class EmrContainers {
   /// Formation integration setup. You can also create a security configuration
   /// to re-use a security setup each time you create a virtual cluster.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [createdAfter] :
   /// The date and time after which the security configuration was created.
@@ -774,8 +778,8 @@ class EmrContainers {
   /// Lists the tags assigned to the resources.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of tagged resources.
@@ -798,8 +802,8 @@ class EmrContainers {
   /// namespace. Given this relationship, you can model virtual clusters the
   /// same way you model Kubernetes namespaces to meet your requirements.
   ///
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [containerProviderId] :
   /// The container provider ID of the virtual cluster.
@@ -866,9 +870,9 @@ class EmrContainers {
   /// Starts a job run. A job run is a unit of work, such as a Spark jar,
   /// PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
   ///
-  /// May throw [ValidationException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [virtualClusterId] :
   /// The virtual cluster ID for which the job run request is submitted.
@@ -952,8 +956,8 @@ class EmrContainers {
   /// search and filter the resources based on the tags that you add.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of resources.
@@ -978,8 +982,8 @@ class EmrContainers {
   /// Removes tags from resources.
   ///
   /// May throw [InternalServerException].
-  /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of resources.
@@ -1000,44 +1004,6 @@ class EmrContainers {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-  }
-}
-
-/// Authorization-related configuration inputs for the security configuration.
-class AuthorizationConfiguration {
-  /// Encryption-related configuration input for the security configuration.
-  final EncryptionConfiguration? encryptionConfiguration;
-
-  /// Lake Formation related configuration inputs for the security configuration.
-  final LakeFormationConfiguration? lakeFormationConfiguration;
-
-  AuthorizationConfiguration({
-    this.encryptionConfiguration,
-    this.lakeFormationConfiguration,
-  });
-
-  factory AuthorizationConfiguration.fromJson(Map<String, dynamic> json) {
-    return AuthorizationConfiguration(
-      encryptionConfiguration: json['encryptionConfiguration'] != null
-          ? EncryptionConfiguration.fromJson(
-              json['encryptionConfiguration'] as Map<String, dynamic>)
-          : null,
-      lakeFormationConfiguration: json['lakeFormationConfiguration'] != null
-          ? LakeFormationConfiguration.fromJson(
-              json['lakeFormationConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final encryptionConfiguration = this.encryptionConfiguration;
-    final lakeFormationConfiguration = this.lakeFormationConfiguration;
-    return {
-      if (encryptionConfiguration != null)
-        'encryptionConfiguration': encryptionConfiguration,
-      if (lakeFormationConfiguration != null)
-        'lakeFormationConfiguration': lakeFormationConfiguration,
-    };
   }
 }
 
@@ -1069,299 +1035,6 @@ class CancelJobRunResponse {
       if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
     };
   }
-}
-
-/// The entity representing certificate data generated for managed endpoint.
-class Certificate {
-  /// The ARN of the certificate generated for managed endpoint.
-  final String? certificateArn;
-
-  /// The base64 encoded PEM certificate data generated for managed endpoint.
-  final String? certificateData;
-
-  Certificate({
-    this.certificateArn,
-    this.certificateData,
-  });
-
-  factory Certificate.fromJson(Map<String, dynamic> json) {
-    return Certificate(
-      certificateArn: json['certificateArn'] as String?,
-      certificateData: json['certificateData'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateArn = this.certificateArn;
-    final certificateData = this.certificateData;
-    return {
-      if (certificateArn != null) 'certificateArn': certificateArn,
-      if (certificateData != null) 'certificateData': certificateData,
-    };
-  }
-}
-
-class CertificateProviderType {
-  static const pem = CertificateProviderType._('PEM');
-
-  final String value;
-
-  const CertificateProviderType._(this.value);
-
-  static const values = [pem];
-
-  static CertificateProviderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CertificateProviderType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CertificateProviderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A configuration for CloudWatch monitoring. You can configure your jobs to
-/// send log information to CloudWatch Logs.
-class CloudWatchMonitoringConfiguration {
-  /// The name of the log group for log publishing.
-  final String logGroupName;
-
-  /// The specified name prefix for log streams.
-  final String? logStreamNamePrefix;
-
-  CloudWatchMonitoringConfiguration({
-    required this.logGroupName,
-    this.logStreamNamePrefix,
-  });
-
-  factory CloudWatchMonitoringConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return CloudWatchMonitoringConfiguration(
-      logGroupName: (json['logGroupName'] as String?) ?? '',
-      logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroupName = this.logGroupName;
-    final logStreamNamePrefix = this.logStreamNamePrefix;
-    return {
-      'logGroupName': logGroupName,
-      if (logStreamNamePrefix != null)
-        'logStreamNamePrefix': logStreamNamePrefix,
-    };
-  }
-}
-
-/// A configuration specification to be used when provisioning virtual clusters,
-/// which can include configurations for applications and software bundled with
-/// Amazon EMR on EKS. A configuration consists of a classification, properties,
-/// and optional nested configurations. A classification refers to an
-/// application-specific configuration file. Properties are the settings you
-/// want to change in that file.
-class Configuration {
-  /// The classification within a configuration.
-  final String classification;
-
-  /// A list of additional configurations to apply within a configuration object.
-  final List<Configuration>? configurations;
-
-  /// A set of properties specified within a configuration classification.
-  final Map<String, String>? properties;
-
-  Configuration({
-    required this.classification,
-    this.configurations,
-    this.properties,
-  });
-
-  factory Configuration.fromJson(Map<String, dynamic> json) {
-    return Configuration(
-      classification: (json['classification'] as String?) ?? '',
-      configurations: (json['configurations'] as List?)
-          ?.nonNulls
-          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      properties: (json['properties'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final classification = this.classification;
-    final configurations = this.configurations;
-    final properties = this.properties;
-    return {
-      'classification': classification,
-      if (configurations != null) 'configurations': configurations,
-      if (properties != null) 'properties': properties,
-    };
-  }
-}
-
-/// A configuration specification to be used to override existing
-/// configurations.
-class ConfigurationOverrides {
-  /// The configurations for the application running by the job run.
-  final List<Configuration>? applicationConfiguration;
-
-  /// The configurations for monitoring.
-  final MonitoringConfiguration? monitoringConfiguration;
-
-  ConfigurationOverrides({
-    this.applicationConfiguration,
-    this.monitoringConfiguration,
-  });
-
-  factory ConfigurationOverrides.fromJson(Map<String, dynamic> json) {
-    return ConfigurationOverrides(
-      applicationConfiguration: (json['applicationConfiguration'] as List?)
-          ?.nonNulls
-          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      monitoringConfiguration: json['monitoringConfiguration'] != null
-          ? MonitoringConfiguration.fromJson(
-              json['monitoringConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationConfiguration = this.applicationConfiguration;
-    final monitoringConfiguration = this.monitoringConfiguration;
-    return {
-      if (applicationConfiguration != null)
-        'applicationConfiguration': applicationConfiguration,
-      if (monitoringConfiguration != null)
-        'monitoringConfiguration': monitoringConfiguration,
-    };
-  }
-}
-
-/// The information about the container used for a job run or a managed
-/// endpoint.
-class ContainerInfo {
-  /// The information about the Amazon EKS cluster.
-  final EksInfo? eksInfo;
-
-  ContainerInfo({
-    this.eksInfo,
-  });
-
-  factory ContainerInfo.fromJson(Map<String, dynamic> json) {
-    return ContainerInfo(
-      eksInfo: json['eksInfo'] != null
-          ? EksInfo.fromJson(json['eksInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eksInfo = this.eksInfo;
-    return {
-      if (eksInfo != null) 'eksInfo': eksInfo,
-    };
-  }
-}
-
-/// The settings for container log rotation.
-class ContainerLogRotationConfiguration {
-  /// The number of files to keep in container after rotation.
-  final int maxFilesToKeep;
-
-  /// The file size at which to rotate logs. Minimum of 2KB, Maximum of 2GB.
-  final String rotationSize;
-
-  ContainerLogRotationConfiguration({
-    required this.maxFilesToKeep,
-    required this.rotationSize,
-  });
-
-  factory ContainerLogRotationConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ContainerLogRotationConfiguration(
-      maxFilesToKeep: (json['maxFilesToKeep'] as int?) ?? 0,
-      rotationSize: (json['rotationSize'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxFilesToKeep = this.maxFilesToKeep;
-    final rotationSize = this.rotationSize;
-    return {
-      'maxFilesToKeep': maxFilesToKeep,
-      'rotationSize': rotationSize,
-    };
-  }
-}
-
-/// The information about the container provider.
-class ContainerProvider {
-  /// The ID of the container cluster.
-  final String id;
-
-  /// The type of the container provider. Amazon EKS is the only supported type as
-  /// of now.
-  final ContainerProviderType type;
-
-  /// The information about the container cluster.
-  final ContainerInfo? info;
-
-  ContainerProvider({
-    required this.id,
-    required this.type,
-    this.info,
-  });
-
-  factory ContainerProvider.fromJson(Map<String, dynamic> json) {
-    return ContainerProvider(
-      id: (json['id'] as String?) ?? '',
-      type: ContainerProviderType.fromString((json['type'] as String?) ?? ''),
-      info: json['info'] != null
-          ? ContainerInfo.fromJson(json['info'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final id = this.id;
-    final type = this.type;
-    final info = this.info;
-    return {
-      'id': id,
-      'type': type.value,
-      if (info != null) 'info': info,
-    };
-  }
-}
-
-class ContainerProviderType {
-  static const eks = ContainerProviderType._('EKS');
-
-  final String value;
-
-  const ContainerProviderType._(this.value);
-
-  static const values = [eks];
-
-  static ContainerProviderType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ContainerProviderType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ContainerProviderType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateJobTemplateResponse {
@@ -1519,29 +1192,6 @@ class CreateVirtualClusterResponse {
       if (arn != null) 'arn': arn,
       if (id != null) 'id': id,
       if (name != null) 'name': name,
-    };
-  }
-}
-
-/// The structure containing the session token being returned.
-class Credentials {
-  /// The actual session token being returned.
-  final String? token;
-
-  Credentials({
-    this.token,
-  });
-
-  factory Credentials.fromJson(Map<String, dynamic> json) {
-    return Credentials(
-      token: json['token'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final token = this.token;
-    return {
-      if (token != null) 'token': token,
     };
   }
 }
@@ -1743,25 +1393,1168 @@ class DescribeVirtualClusterResponse {
   }
 }
 
+class GetManagedEndpointSessionCredentialsResponse {
+  /// The structure containing the session credentials.
+  final Credentials? credentials;
+
+  /// The date and time when the session token will expire.
+  final DateTime? expiresAt;
+
+  /// The identifier of the session token returned.
+  final String? id;
+
+  GetManagedEndpointSessionCredentialsResponse({
+    this.credentials,
+    this.expiresAt,
+    this.id,
+  });
+
+  factory GetManagedEndpointSessionCredentialsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetManagedEndpointSessionCredentialsResponse(
+      credentials: json['credentials'] != null
+          ? Credentials.fromJson(json['credentials'] as Map<String, dynamic>)
+          : null,
+      expiresAt: timeStampFromJson(json['expiresAt']),
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final credentials = this.credentials;
+    final expiresAt = this.expiresAt;
+    final id = this.id;
+    return {
+      if (credentials != null) 'credentials': credentials,
+      if (expiresAt != null) 'expiresAt': iso8601ToJson(expiresAt),
+      if (id != null) 'id': id,
+    };
+  }
+}
+
+class ListJobRunsResponse {
+  /// This output lists information about the specified job runs.
+  final List<JobRun>? jobRuns;
+
+  /// This output displays the token for the next set of job runs.
+  final String? nextToken;
+
+  ListJobRunsResponse({
+    this.jobRuns,
+    this.nextToken,
+  });
+
+  factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobRunsResponse(
+      jobRuns: (json['jobRuns'] as List?)
+          ?.nonNulls
+          .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobRuns = this.jobRuns;
+    final nextToken = this.nextToken;
+    return {
+      if (jobRuns != null) 'jobRuns': jobRuns,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListJobTemplatesResponse {
+  /// This output displays the token for the next set of job templates.
+  final String? nextToken;
+
+  /// This output lists information about the specified job templates.
+  final List<JobTemplate>? templates;
+
+  ListJobTemplatesResponse({
+    this.nextToken,
+    this.templates,
+  });
+
+  factory ListJobTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobTemplatesResponse(
+      nextToken: json['nextToken'] as String?,
+      templates: (json['templates'] as List?)
+          ?.nonNulls
+          .map((e) => JobTemplate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final templates = this.templates;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (templates != null) 'templates': templates,
+    };
+  }
+}
+
+class ListManagedEndpointsResponse {
+  /// The managed endpoints to be listed.
+  final List<Endpoint>? endpoints;
+
+  /// The token for the next set of endpoints to return.
+  final String? nextToken;
+
+  ListManagedEndpointsResponse({
+    this.endpoints,
+    this.nextToken,
+  });
+
+  factory ListManagedEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListManagedEndpointsResponse(
+      endpoints: (json['endpoints'] as List?)
+          ?.nonNulls
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final nextToken = this.nextToken;
+    return {
+      if (endpoints != null) 'endpoints': endpoints,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListSecurityConfigurationsResponse {
+  /// The token for the next set of security configurations to return.
+  final String? nextToken;
+
+  /// The list of returned security configurations.
+  final List<SecurityConfiguration>? securityConfigurations;
+
+  ListSecurityConfigurationsResponse({
+    this.nextToken,
+    this.securityConfigurations,
+  });
+
+  factory ListSecurityConfigurationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSecurityConfigurationsResponse(
+      nextToken: json['nextToken'] as String?,
+      securityConfigurations: (json['securityConfigurations'] as List?)
+          ?.nonNulls
+          .map((e) => SecurityConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final securityConfigurations = this.securityConfigurations;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (securityConfigurations != null)
+        'securityConfigurations': securityConfigurations,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The tags assigned to resources.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class ListVirtualClustersResponse {
+  /// This output displays the token for the next set of virtual clusters.
+  final String? nextToken;
+
+  /// This output lists the specified virtual clusters.
+  final List<VirtualCluster>? virtualClusters;
+
+  ListVirtualClustersResponse({
+    this.nextToken,
+    this.virtualClusters,
+  });
+
+  factory ListVirtualClustersResponse.fromJson(Map<String, dynamic> json) {
+    return ListVirtualClustersResponse(
+      nextToken: json['nextToken'] as String?,
+      virtualClusters: (json['virtualClusters'] as List?)
+          ?.nonNulls
+          .map((e) => VirtualCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final virtualClusters = this.virtualClusters;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (virtualClusters != null) 'virtualClusters': virtualClusters,
+    };
+  }
+}
+
+class StartJobRunResponse {
+  /// This output lists the ARN of job run.
+  final String? arn;
+
+  /// This output displays the started job run ID.
+  final String? id;
+
+  /// This output displays the name of the started job run.
+  final String? name;
+
+  /// This output displays the virtual cluster ID for which the job run was
+  /// submitted.
+  final String? virtualClusterId;
+
+  StartJobRunResponse({
+    this.arn,
+    this.id,
+    this.name,
+    this.virtualClusterId,
+  });
+
+  factory StartJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartJobRunResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      virtualClusterId: json['virtualClusterId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final virtualClusterId = this.virtualClusterId;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// Specify the driver that the job runs on. Exactly one of the two available
+/// job drivers is required, either sparkSqlJobDriver or sparkSubmitJobDriver.
+class JobDriver {
+  /// The job driver for job type.
+  final SparkSqlJobDriver? sparkSqlJobDriver;
+
+  /// The job driver parameters specified for spark submit.
+  final SparkSubmitJobDriver? sparkSubmitJobDriver;
+
+  JobDriver({
+    this.sparkSqlJobDriver,
+    this.sparkSubmitJobDriver,
+  });
+
+  factory JobDriver.fromJson(Map<String, dynamic> json) {
+    return JobDriver(
+      sparkSqlJobDriver: json['sparkSqlJobDriver'] != null
+          ? SparkSqlJobDriver.fromJson(
+              json['sparkSqlJobDriver'] as Map<String, dynamic>)
+          : null,
+      sparkSubmitJobDriver: json['sparkSubmitJobDriver'] != null
+          ? SparkSubmitJobDriver.fromJson(
+              json['sparkSubmitJobDriver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sparkSqlJobDriver = this.sparkSqlJobDriver;
+    final sparkSubmitJobDriver = this.sparkSubmitJobDriver;
+    return {
+      if (sparkSqlJobDriver != null) 'sparkSqlJobDriver': sparkSqlJobDriver,
+      if (sparkSubmitJobDriver != null)
+        'sparkSubmitJobDriver': sparkSubmitJobDriver,
+    };
+  }
+}
+
+/// A configuration specification to be used to override existing
+/// configurations.
+class ConfigurationOverrides {
+  /// The configurations for the application running by the job run.
+  final List<Configuration>? applicationConfiguration;
+
+  /// The configurations for monitoring.
+  final MonitoringConfiguration? monitoringConfiguration;
+
+  ConfigurationOverrides({
+    this.applicationConfiguration,
+    this.monitoringConfiguration,
+  });
+
+  factory ConfigurationOverrides.fromJson(Map<String, dynamic> json) {
+    return ConfigurationOverrides(
+      applicationConfiguration: (json['applicationConfiguration'] as List?)
+          ?.nonNulls
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      monitoringConfiguration: json['monitoringConfiguration'] != null
+          ? MonitoringConfiguration.fromJson(
+              json['monitoringConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationConfiguration = this.applicationConfiguration;
+    final monitoringConfiguration = this.monitoringConfiguration;
+    return {
+      if (applicationConfiguration != null)
+        'applicationConfiguration': applicationConfiguration,
+      if (monitoringConfiguration != null)
+        'monitoringConfiguration': monitoringConfiguration,
+    };
+  }
+}
+
+/// The configuration of the retry policy that the job runs on.
+class RetryPolicyConfiguration {
+  /// The maximum number of attempts on the job's driver.
+  final int maxAttempts;
+
+  RetryPolicyConfiguration({
+    required this.maxAttempts,
+  });
+
+  factory RetryPolicyConfiguration.fromJson(Map<String, dynamic> json) {
+    return RetryPolicyConfiguration(
+      maxAttempts: (json['maxAttempts'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxAttempts = this.maxAttempts;
+    return {
+      'maxAttempts': maxAttempts,
+    };
+  }
+}
+
+/// Configuration setting for monitoring.
+class MonitoringConfiguration {
+  /// Monitoring configurations for CloudWatch.
+  final CloudWatchMonitoringConfiguration? cloudWatchMonitoringConfiguration;
+
+  /// Enable or disable container log rotation.
+  final ContainerLogRotationConfiguration? containerLogRotationConfiguration;
+
+  /// The entity that controls configuration for managed logs.
+  final ManagedLogs? managedLogs;
+
+  /// Monitoring configurations for the persistent application UI.
+  final PersistentAppUI? persistentAppUI;
+
+  /// Amazon S3 configuration for monitoring log publishing.
+  final S3MonitoringConfiguration? s3MonitoringConfiguration;
+
+  MonitoringConfiguration({
+    this.cloudWatchMonitoringConfiguration,
+    this.containerLogRotationConfiguration,
+    this.managedLogs,
+    this.persistentAppUI,
+    this.s3MonitoringConfiguration,
+  });
+
+  factory MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return MonitoringConfiguration(
+      cloudWatchMonitoringConfiguration:
+          json['cloudWatchMonitoringConfiguration'] != null
+              ? CloudWatchMonitoringConfiguration.fromJson(
+                  json['cloudWatchMonitoringConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      containerLogRotationConfiguration:
+          json['containerLogRotationConfiguration'] != null
+              ? ContainerLogRotationConfiguration.fromJson(
+                  json['containerLogRotationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      managedLogs: json['managedLogs'] != null
+          ? ManagedLogs.fromJson(json['managedLogs'] as Map<String, dynamic>)
+          : null,
+      persistentAppUI:
+          (json['persistentAppUI'] as String?)?.let(PersistentAppUI.fromString),
+      s3MonitoringConfiguration: json['s3MonitoringConfiguration'] != null
+          ? S3MonitoringConfiguration.fromJson(
+              json['s3MonitoringConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchMonitoringConfiguration =
+        this.cloudWatchMonitoringConfiguration;
+    final containerLogRotationConfiguration =
+        this.containerLogRotationConfiguration;
+    final managedLogs = this.managedLogs;
+    final persistentAppUI = this.persistentAppUI;
+    final s3MonitoringConfiguration = this.s3MonitoringConfiguration;
+    return {
+      if (cloudWatchMonitoringConfiguration != null)
+        'cloudWatchMonitoringConfiguration': cloudWatchMonitoringConfiguration,
+      if (containerLogRotationConfiguration != null)
+        'containerLogRotationConfiguration': containerLogRotationConfiguration,
+      if (managedLogs != null) 'managedLogs': managedLogs,
+      if (persistentAppUI != null) 'persistentAppUI': persistentAppUI.value,
+      if (s3MonitoringConfiguration != null)
+        's3MonitoringConfiguration': s3MonitoringConfiguration,
+    };
+  }
+}
+
+/// The entity that provides configuration control over managed logs.
+class ManagedLogs {
+  /// Determines whether Amazon Web Services can retain logs.
+  final AllowAWSToRetainLogs? allowAWSToRetainLogs;
+
+  /// The Amazon resource name (ARN) of the encryption key for logs.
+  final String? encryptionKeyArn;
+
+  ManagedLogs({
+    this.allowAWSToRetainLogs,
+    this.encryptionKeyArn,
+  });
+
+  factory ManagedLogs.fromJson(Map<String, dynamic> json) {
+    return ManagedLogs(
+      allowAWSToRetainLogs: (json['allowAWSToRetainLogs'] as String?)
+          ?.let(AllowAWSToRetainLogs.fromString),
+      encryptionKeyArn: json['encryptionKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowAWSToRetainLogs = this.allowAWSToRetainLogs;
+    final encryptionKeyArn = this.encryptionKeyArn;
+    return {
+      if (allowAWSToRetainLogs != null)
+        'allowAWSToRetainLogs': allowAWSToRetainLogs.value,
+      if (encryptionKeyArn != null) 'encryptionKeyArn': encryptionKeyArn,
+    };
+  }
+}
+
+class PersistentAppUI {
+  static const enabled = PersistentAppUI._('ENABLED');
+  static const disabled = PersistentAppUI._('DISABLED');
+
+  final String value;
+
+  const PersistentAppUI._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static PersistentAppUI fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => PersistentAppUI._(value));
+
+  @override
+  bool operator ==(other) => other is PersistentAppUI && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A configuration for CloudWatch monitoring. You can configure your jobs to
+/// send log information to CloudWatch Logs.
+class CloudWatchMonitoringConfiguration {
+  /// The name of the log group for log publishing.
+  final String logGroupName;
+
+  /// The specified name prefix for log streams.
+  final String? logStreamNamePrefix;
+
+  CloudWatchMonitoringConfiguration({
+    required this.logGroupName,
+    this.logStreamNamePrefix,
+  });
+
+  factory CloudWatchMonitoringConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CloudWatchMonitoringConfiguration(
+      logGroupName: (json['logGroupName'] as String?) ?? '',
+      logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupName = this.logGroupName;
+    final logStreamNamePrefix = this.logStreamNamePrefix;
+    return {
+      'logGroupName': logGroupName,
+      if (logStreamNamePrefix != null)
+        'logStreamNamePrefix': logStreamNamePrefix,
+    };
+  }
+}
+
+/// Amazon S3 configuration for monitoring log publishing. You can configure
+/// your jobs to send log information to Amazon S3.
+class S3MonitoringConfiguration {
+  /// Amazon S3 destination URI for log publishing.
+  final String logUri;
+
+  S3MonitoringConfiguration({
+    required this.logUri,
+  });
+
+  factory S3MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3MonitoringConfiguration(
+      logUri: (json['logUri'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logUri = this.logUri;
+    return {
+      'logUri': logUri,
+    };
+  }
+}
+
+/// The settings for container log rotation.
+class ContainerLogRotationConfiguration {
+  /// The number of files to keep in container after rotation.
+  final int maxFilesToKeep;
+
+  /// The file size at which to rotate logs. Minimum of 2KB, Maximum of 2GB.
+  final String rotationSize;
+
+  ContainerLogRotationConfiguration({
+    required this.maxFilesToKeep,
+    required this.rotationSize,
+  });
+
+  factory ContainerLogRotationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ContainerLogRotationConfiguration(
+      maxFilesToKeep: (json['maxFilesToKeep'] as int?) ?? 0,
+      rotationSize: (json['rotationSize'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxFilesToKeep = this.maxFilesToKeep;
+    final rotationSize = this.rotationSize;
+    return {
+      'maxFilesToKeep': maxFilesToKeep,
+      'rotationSize': rotationSize,
+    };
+  }
+}
+
+class AllowAWSToRetainLogs {
+  static const enabled = AllowAWSToRetainLogs._('ENABLED');
+  static const disabled = AllowAWSToRetainLogs._('DISABLED');
+
+  final String value;
+
+  const AllowAWSToRetainLogs._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static AllowAWSToRetainLogs fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AllowAWSToRetainLogs._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AllowAWSToRetainLogs && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// A configuration specification to be used when provisioning virtual clusters,
+/// which can include configurations for applications and software bundled with
+/// Amazon EMR on EKS. A configuration consists of a classification, properties,
+/// and optional nested configurations. A classification refers to an
+/// application-specific configuration file. Properties are the settings you
+/// want to change in that file.
+class Configuration {
+  /// The classification within a configuration.
+  final String classification;
+
+  /// A list of additional configurations to apply within a configuration object.
+  final List<Configuration>? configurations;
+
+  /// A set of properties specified within a configuration classification.
+  final Map<String, String>? properties;
+
+  Configuration({
+    required this.classification,
+    this.configurations,
+    this.properties,
+  });
+
+  factory Configuration.fromJson(Map<String, dynamic> json) {
+    return Configuration(
+      classification: (json['classification'] as String?) ?? '',
+      configurations: (json['configurations'] as List?)
+          ?.nonNulls
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      properties: (json['properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final classification = this.classification;
+    final configurations = this.configurations;
+    final properties = this.properties;
+    return {
+      'classification': classification,
+      if (configurations != null) 'configurations': configurations,
+      if (properties != null) 'properties': properties,
+    };
+  }
+}
+
+/// The information about job driver for Spark submit.
+class SparkSubmitJobDriver {
+  /// The entry point of job application.
+  final String entryPoint;
+
+  /// The arguments for job application.
+  final List<String>? entryPointArguments;
+
+  /// The Spark submit parameters that are used for job runs.
+  final String? sparkSubmitParameters;
+
+  SparkSubmitJobDriver({
+    required this.entryPoint,
+    this.entryPointArguments,
+    this.sparkSubmitParameters,
+  });
+
+  factory SparkSubmitJobDriver.fromJson(Map<String, dynamic> json) {
+    return SparkSubmitJobDriver(
+      entryPoint: (json['entryPoint'] as String?) ?? '',
+      entryPointArguments: (json['entryPointArguments'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      sparkSubmitParameters: json['sparkSubmitParameters'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryPoint = this.entryPoint;
+    final entryPointArguments = this.entryPointArguments;
+    final sparkSubmitParameters = this.sparkSubmitParameters;
+    return {
+      'entryPoint': entryPoint,
+      if (entryPointArguments != null)
+        'entryPointArguments': entryPointArguments,
+      if (sparkSubmitParameters != null)
+        'sparkSubmitParameters': sparkSubmitParameters,
+    };
+  }
+}
+
+/// The job driver for job type.
+class SparkSqlJobDriver {
+  /// The SQL file to be executed.
+  final String? entryPoint;
+
+  /// The Spark parameters to be included in the Spark SQL command.
+  final String? sparkSqlParameters;
+
+  SparkSqlJobDriver({
+    this.entryPoint,
+    this.sparkSqlParameters,
+  });
+
+  factory SparkSqlJobDriver.fromJson(Map<String, dynamic> json) {
+    return SparkSqlJobDriver(
+      entryPoint: json['entryPoint'] as String?,
+      sparkSqlParameters: json['sparkSqlParameters'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryPoint = this.entryPoint;
+    final sparkSqlParameters = this.sparkSqlParameters;
+    return {
+      if (entryPoint != null) 'entryPoint': entryPoint,
+      if (sparkSqlParameters != null) 'sparkSqlParameters': sparkSqlParameters,
+    };
+  }
+}
+
+/// This entity describes a virtual cluster. A virtual cluster is a Kubernetes
+/// namespace that Amazon EMR is registered with. Amazon EMR uses virtual
+/// clusters to run jobs and host endpoints. Multiple virtual clusters can be
+/// backed by the same physical cluster. However, each virtual cluster maps to
+/// one namespace on an Amazon EKS cluster. Virtual clusters do not create any
+/// active resources that contribute to your bill or that require lifecycle
+/// management outside the service.
+class VirtualCluster {
+  /// The ARN of the virtual cluster.
+  final String? arn;
+
+  /// The container provider of the virtual cluster.
+  final ContainerProvider? containerProvider;
+
+  /// The date and time when the virtual cluster is created.
+  final DateTime? createdAt;
+
+  /// The ID of the virtual cluster.
+  final String? id;
+
+  /// The name of the virtual cluster.
+  final String? name;
+
+  /// The ID of the security configuration.
+  final String? securityConfigurationId;
+
+  /// The state of the virtual cluster.
+  final VirtualClusterState? state;
+
+  /// The assigned tags of the virtual cluster.
+  final Map<String, String>? tags;
+
+  VirtualCluster({
+    this.arn,
+    this.containerProvider,
+    this.createdAt,
+    this.id,
+    this.name,
+    this.securityConfigurationId,
+    this.state,
+    this.tags,
+  });
+
+  factory VirtualCluster.fromJson(Map<String, dynamic> json) {
+    return VirtualCluster(
+      arn: json['arn'] as String?,
+      containerProvider: json['containerProvider'] != null
+          ? ContainerProvider.fromJson(
+              json['containerProvider'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      securityConfigurationId: json['securityConfigurationId'] as String?,
+      state: (json['state'] as String?)?.let(VirtualClusterState.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final containerProvider = this.containerProvider;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final securityConfigurationId = this.securityConfigurationId;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (containerProvider != null) 'containerProvider': containerProvider,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (securityConfigurationId != null)
+        'securityConfigurationId': securityConfigurationId,
+      if (state != null) 'state': state.value,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class VirtualClusterState {
+  static const running = VirtualClusterState._('RUNNING');
+  static const terminating = VirtualClusterState._('TERMINATING');
+  static const terminated = VirtualClusterState._('TERMINATED');
+  static const arrested = VirtualClusterState._('ARRESTED');
+
+  final String value;
+
+  const VirtualClusterState._(this.value);
+
+  static const values = [running, terminating, terminated, arrested];
+
+  static VirtualClusterState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => VirtualClusterState._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is VirtualClusterState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The information about the container provider.
+class ContainerProvider {
+  /// The ID of the container cluster.
+  final String id;
+
+  /// The type of the container provider. Amazon EKS is the only supported type as
+  /// of now.
+  final ContainerProviderType type;
+
+  /// The information about the container cluster.
+  final ContainerInfo? info;
+
+  ContainerProvider({
+    required this.id,
+    required this.type,
+    this.info,
+  });
+
+  factory ContainerProvider.fromJson(Map<String, dynamic> json) {
+    return ContainerProvider(
+      id: (json['id'] as String?) ?? '',
+      type: ContainerProviderType.fromString((json['type'] as String?) ?? ''),
+      info: json['info'] != null
+          ? ContainerInfo.fromJson(json['info'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    final info = this.info;
+    return {
+      'id': id,
+      'type': type.value,
+      if (info != null) 'info': info,
+    };
+  }
+}
+
+class ContainerProviderType {
+  static const eks = ContainerProviderType._('EKS');
+
+  final String value;
+
+  const ContainerProviderType._(this.value);
+
+  static const values = [eks];
+
+  static ContainerProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ContainerProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ContainerProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The information about the container used for a job run or a managed
+/// endpoint.
+class ContainerInfo {
+  /// The information about the Amazon EKS cluster.
+  final EksInfo? eksInfo;
+
+  ContainerInfo({
+    this.eksInfo,
+  });
+
+  factory ContainerInfo.fromJson(Map<String, dynamic> json) {
+    return ContainerInfo(
+      eksInfo: json['eksInfo'] != null
+          ? EksInfo.fromJson(json['eksInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eksInfo = this.eksInfo;
+    return {
+      if (eksInfo != null) 'eksInfo': eksInfo,
+    };
+  }
+}
+
 /// The information about the Amazon EKS cluster.
 class EksInfo {
   /// The namespaces of the Amazon EKS cluster.
   final String? namespace;
 
+  /// The nodeLabel of the nodes where the resources of this virtual cluster can
+  /// get scheduled. It requires relevant scaling and policy engine addons.
+  final String? nodeLabel;
+
   EksInfo({
     this.namespace,
+    this.nodeLabel,
   });
 
   factory EksInfo.fromJson(Map<String, dynamic> json) {
     return EksInfo(
       namespace: json['namespace'] as String?,
+      nodeLabel: json['nodeLabel'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     final namespace = this.namespace;
+    final nodeLabel = this.nodeLabel;
     return {
       if (namespace != null) 'namespace': namespace,
+      if (nodeLabel != null) 'nodeLabel': nodeLabel,
+    };
+  }
+}
+
+/// Inputs related to the security configuration. Security configurations in
+/// Amazon EMR on EKS are templates for different security setups. You can use
+/// security configurations to configure the Lake Formation integration setup.
+/// You can also create a security configuration to re-use a security setup each
+/// time you create a virtual cluster.
+class SecurityConfiguration {
+  /// The ARN (Amazon Resource Name) of the security configuration.
+  final String? arn;
+
+  /// The date and time that the job run was created.
+  final DateTime? createdAt;
+
+  /// The user who created the job run.
+  final String? createdBy;
+
+  /// The ID of the security configuration.
+  final String? id;
+
+  /// The name of the security configuration.
+  final String? name;
+
+  /// Security configuration inputs for the request.
+  final SecurityConfigurationData? securityConfigurationData;
+
+  /// The tags to assign to the security configuration.
+  final Map<String, String>? tags;
+
+  SecurityConfiguration({
+    this.arn,
+    this.createdAt,
+    this.createdBy,
+    this.id,
+    this.name,
+    this.securityConfigurationData,
+    this.tags,
+  });
+
+  factory SecurityConfiguration.fromJson(Map<String, dynamic> json) {
+    return SecurityConfiguration(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      securityConfigurationData: json['securityConfigurationData'] != null
+          ? SecurityConfigurationData.fromJson(
+              json['securityConfigurationData'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final id = this.id;
+    final name = this.name;
+    final securityConfigurationData = this.securityConfigurationData;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (securityConfigurationData != null)
+        'securityConfigurationData': securityConfigurationData,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// Configurations related to the security configuration for the request.
+class SecurityConfigurationData {
+  /// Authorization-related configuration input for the security configuration.
+  final AuthorizationConfiguration? authorizationConfiguration;
+
+  SecurityConfigurationData({
+    this.authorizationConfiguration,
+  });
+
+  factory SecurityConfigurationData.fromJson(Map<String, dynamic> json) {
+    return SecurityConfigurationData(
+      authorizationConfiguration: json['authorizationConfiguration'] != null
+          ? AuthorizationConfiguration.fromJson(
+              json['authorizationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationConfiguration = this.authorizationConfiguration;
+    return {
+      if (authorizationConfiguration != null)
+        'authorizationConfiguration': authorizationConfiguration,
+    };
+  }
+}
+
+/// Authorization-related configuration inputs for the security configuration.
+class AuthorizationConfiguration {
+  /// Encryption-related configuration input for the security configuration.
+  final EncryptionConfiguration? encryptionConfiguration;
+
+  /// Lake Formation related configuration inputs for the security configuration.
+  final LakeFormationConfiguration? lakeFormationConfiguration;
+
+  AuthorizationConfiguration({
+    this.encryptionConfiguration,
+    this.lakeFormationConfiguration,
+  });
+
+  factory AuthorizationConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuthorizationConfiguration(
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      lakeFormationConfiguration: json['lakeFormationConfiguration'] != null
+          ? LakeFormationConfiguration.fromJson(
+              json['lakeFormationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final lakeFormationConfiguration = this.lakeFormationConfiguration;
+    return {
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (lakeFormationConfiguration != null)
+        'lakeFormationConfiguration': lakeFormationConfiguration,
+    };
+  }
+}
+
+/// Lake Formation related configuration inputs for the security configuration.
+class LakeFormationConfiguration {
+  /// The session tag to authorize Amazon EMR on EKS for API calls to Lake
+  /// Formation.
+  final String? authorizedSessionTagValue;
+
+  /// The query engine IAM role ARN that is tied to the secure Spark job. The
+  /// <code>QueryEngine</code> role assumes the <code>JobExecutionRole</code> to
+  /// execute all the Lake Formation calls.
+  final String? queryEngineRoleArn;
+
+  /// The namespace input of the system job.
+  final SecureNamespaceInfo? secureNamespaceInfo;
+
+  LakeFormationConfiguration({
+    this.authorizedSessionTagValue,
+    this.queryEngineRoleArn,
+    this.secureNamespaceInfo,
+  });
+
+  factory LakeFormationConfiguration.fromJson(Map<String, dynamic> json) {
+    return LakeFormationConfiguration(
+      authorizedSessionTagValue: json['authorizedSessionTagValue'] as String?,
+      queryEngineRoleArn: json['queryEngineRoleArn'] as String?,
+      secureNamespaceInfo: json['secureNamespaceInfo'] != null
+          ? SecureNamespaceInfo.fromJson(
+              json['secureNamespaceInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedSessionTagValue = this.authorizedSessionTagValue;
+    final queryEngineRoleArn = this.queryEngineRoleArn;
+    final secureNamespaceInfo = this.secureNamespaceInfo;
+    return {
+      if (authorizedSessionTagValue != null)
+        'authorizedSessionTagValue': authorizedSessionTagValue,
+      if (queryEngineRoleArn != null) 'queryEngineRoleArn': queryEngineRoleArn,
+      if (secureNamespaceInfo != null)
+        'secureNamespaceInfo': secureNamespaceInfo,
     };
   }
 }
@@ -1792,6 +2585,134 @@ class EncryptionConfiguration {
     return {
       if (inTransitEncryptionConfiguration != null)
         'inTransitEncryptionConfiguration': inTransitEncryptionConfiguration,
+    };
+  }
+}
+
+/// Configurations related to in-transit encryption for the security
+/// configuration.
+class InTransitEncryptionConfiguration {
+  /// TLS certificate-related configuration input for the security configuration.
+  final TLSCertificateConfiguration? tlsCertificateConfiguration;
+
+  InTransitEncryptionConfiguration({
+    this.tlsCertificateConfiguration,
+  });
+
+  factory InTransitEncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return InTransitEncryptionConfiguration(
+      tlsCertificateConfiguration: json['tlsCertificateConfiguration'] != null
+          ? TLSCertificateConfiguration.fromJson(
+              json['tlsCertificateConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tlsCertificateConfiguration = this.tlsCertificateConfiguration;
+    return {
+      if (tlsCertificateConfiguration != null)
+        'tlsCertificateConfiguration': tlsCertificateConfiguration,
+    };
+  }
+}
+
+/// Configurations related to the TLS certificate for the security
+/// configuration.
+class TLSCertificateConfiguration {
+  /// The TLS certificate type. Acceptable values: <code>PEM</code> or
+  /// <code>Custom</code>.
+  final CertificateProviderType? certificateProviderType;
+
+  /// Secrets Manager ARN that contains the private TLS certificate contents, used
+  /// for communication between the user job and the system job.
+  final String? privateCertificateSecretArn;
+
+  /// Secrets Manager ARN that contains the public TLS certificate contents, used
+  /// for communication between the user job and the system job.
+  final String? publicCertificateSecretArn;
+
+  TLSCertificateConfiguration({
+    this.certificateProviderType,
+    this.privateCertificateSecretArn,
+    this.publicCertificateSecretArn,
+  });
+
+  factory TLSCertificateConfiguration.fromJson(Map<String, dynamic> json) {
+    return TLSCertificateConfiguration(
+      certificateProviderType: (json['certificateProviderType'] as String?)
+          ?.let(CertificateProviderType.fromString),
+      privateCertificateSecretArn:
+          json['privateCertificateSecretArn'] as String?,
+      publicCertificateSecretArn: json['publicCertificateSecretArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateProviderType = this.certificateProviderType;
+    final privateCertificateSecretArn = this.privateCertificateSecretArn;
+    final publicCertificateSecretArn = this.publicCertificateSecretArn;
+    return {
+      if (certificateProviderType != null)
+        'certificateProviderType': certificateProviderType.value,
+      if (privateCertificateSecretArn != null)
+        'privateCertificateSecretArn': privateCertificateSecretArn,
+      if (publicCertificateSecretArn != null)
+        'publicCertificateSecretArn': publicCertificateSecretArn,
+    };
+  }
+}
+
+class CertificateProviderType {
+  static const pem = CertificateProviderType._('PEM');
+
+  final String value;
+
+  const CertificateProviderType._(this.value);
+
+  static const values = [pem];
+
+  static CertificateProviderType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CertificateProviderType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CertificateProviderType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Namespace inputs for the system job.
+class SecureNamespaceInfo {
+  /// The ID of the Amazon EKS cluster where Amazon EMR on EKS jobs run.
+  final String? clusterId;
+
+  /// The namespace of the Amazon EKS cluster where the system jobs run.
+  final String? namespace;
+
+  SecureNamespaceInfo({
+    this.clusterId,
+    this.namespace,
+  });
+
+  factory SecureNamespaceInfo.fromJson(Map<String, dynamic> json) {
+    return SecureNamespaceInfo(
+      clusterId: json['clusterId'] as String?,
+      namespace: json['namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterId = this.clusterId;
+    final namespace = this.namespace;
+    return {
+      if (clusterId != null) 'clusterId': clusterId,
+      if (namespace != null) 'namespace': namespace,
     };
   }
 }
@@ -1987,6 +2908,36 @@ class EndpointState {
   String toString() => value;
 }
 
+/// The entity representing certificate data generated for managed endpoint.
+class Certificate {
+  /// The ARN of the certificate generated for managed endpoint.
+  final String? certificateArn;
+
+  /// The base64 encoded PEM certificate data generated for managed endpoint.
+  final String? certificateData;
+
+  Certificate({
+    this.certificateArn,
+    this.certificateData,
+  });
+
+  factory Certificate.fromJson(Map<String, dynamic> json) {
+    return Certificate(
+      certificateArn: json['certificateArn'] as String?,
+      certificateData: json['certificateData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateData = this.certificateData;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateData != null) 'certificateData': certificateData,
+    };
+  }
+}
+
 class FailureReason {
   static const internalError = FailureReason._('INTERNAL_ERROR');
   static const userError = FailureReason._('USER_ERROR');
@@ -2018,107 +2969,365 @@ class FailureReason {
   String toString() => value;
 }
 
-class GetManagedEndpointSessionCredentialsResponse {
-  /// The structure containing the session credentials.
-  final Credentials? credentials;
+/// This entity describes a job template. Job template stores values of
+/// StartJobRun API request in a template and can be used to start a job run.
+/// Job template allows two use cases: avoid repeating recurring StartJobRun API
+/// request values, enforcing certain values in StartJobRun API request.
+class JobTemplate {
+  /// The job template data which holds values of StartJobRun API request.
+  final JobTemplateData jobTemplateData;
 
-  /// The date and time when the session token will expire.
-  final DateTime? expiresAt;
+  /// The ARN of the job template.
+  final String? arn;
 
-  /// The identifier of the session token returned.
+  /// The date and time when the job template was created.
+  final DateTime? createdAt;
+
+  /// The user who created the job template.
+  final String? createdBy;
+
+  /// The error message in case the decryption of job template fails.
+  final String? decryptionError;
+
+  /// The ID of the job template.
   final String? id;
 
-  GetManagedEndpointSessionCredentialsResponse({
-    this.credentials,
-    this.expiresAt,
+  /// The KMS key ARN used to encrypt the job template.
+  final String? kmsKeyArn;
+
+  /// The name of the job template.
+  final String? name;
+
+  /// The tags assigned to the job template.
+  final Map<String, String>? tags;
+
+  JobTemplate({
+    required this.jobTemplateData,
+    this.arn,
+    this.createdAt,
+    this.createdBy,
+    this.decryptionError,
     this.id,
+    this.kmsKeyArn,
+    this.name,
+    this.tags,
   });
 
-  factory GetManagedEndpointSessionCredentialsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return GetManagedEndpointSessionCredentialsResponse(
-      credentials: json['credentials'] != null
-          ? Credentials.fromJson(json['credentials'] as Map<String, dynamic>)
-          : null,
-      expiresAt: timeStampFromJson(json['expiresAt']),
+  factory JobTemplate.fromJson(Map<String, dynamic> json) {
+    return JobTemplate(
+      jobTemplateData: JobTemplateData.fromJson(
+          (json['jobTemplateData'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      decryptionError: json['decryptionError'] as String?,
       id: json['id'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final credentials = this.credentials;
-    final expiresAt = this.expiresAt;
+    final jobTemplateData = this.jobTemplateData;
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final decryptionError = this.decryptionError;
     final id = this.id;
+    final kmsKeyArn = this.kmsKeyArn;
+    final name = this.name;
+    final tags = this.tags;
     return {
-      if (credentials != null) 'credentials': credentials,
-      if (expiresAt != null) 'expiresAt': iso8601ToJson(expiresAt),
+      'jobTemplateData': jobTemplateData,
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (decryptionError != null) 'decryptionError': decryptionError,
       if (id != null) 'id': id,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
     };
   }
 }
 
-/// Configurations related to in-transit encryption for the security
-/// configuration.
-class InTransitEncryptionConfiguration {
-  /// TLS certificate-related configuration input for the security configuration.
-  final TLSCertificateConfiguration? tlsCertificateConfiguration;
+/// The values of StartJobRun API requests used in job runs started using the
+/// job template.
+class JobTemplateData {
+  /// The execution role ARN of the job run.
+  final String executionRoleArn;
+  final JobDriver jobDriver;
 
-  InTransitEncryptionConfiguration({
-    this.tlsCertificateConfiguration,
+  /// The release version of Amazon EMR.
+  final String releaseLabel;
+
+  /// The configuration settings that are used to override defaults configuration.
+  final ParametricConfigurationOverrides? configurationOverrides;
+
+  /// The tags assigned to jobs started using the job template.
+  final Map<String, String>? jobTags;
+
+  /// The configuration of parameters existing in the job template.
+  final Map<String, TemplateParameterConfiguration>? parameterConfiguration;
+
+  JobTemplateData({
+    required this.executionRoleArn,
+    required this.jobDriver,
+    required this.releaseLabel,
+    this.configurationOverrides,
+    this.jobTags,
+    this.parameterConfiguration,
   });
 
-  factory InTransitEncryptionConfiguration.fromJson(Map<String, dynamic> json) {
-    return InTransitEncryptionConfiguration(
-      tlsCertificateConfiguration: json['tlsCertificateConfiguration'] != null
-          ? TLSCertificateConfiguration.fromJson(
-              json['tlsCertificateConfiguration'] as Map<String, dynamic>)
+  factory JobTemplateData.fromJson(Map<String, dynamic> json) {
+    return JobTemplateData(
+      executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
+      jobDriver: JobDriver.fromJson(
+          (json['jobDriver'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      releaseLabel: (json['releaseLabel'] as String?) ?? '',
+      configurationOverrides: json['configurationOverrides'] != null
+          ? ParametricConfigurationOverrides.fromJson(
+              json['configurationOverrides'] as Map<String, dynamic>)
+          : null,
+      jobTags: (json['jobTags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      parameterConfiguration:
+          (json['parameterConfiguration'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k,
+                  TemplateParameterConfiguration.fromJson(
+                      e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionRoleArn = this.executionRoleArn;
+    final jobDriver = this.jobDriver;
+    final releaseLabel = this.releaseLabel;
+    final configurationOverrides = this.configurationOverrides;
+    final jobTags = this.jobTags;
+    final parameterConfiguration = this.parameterConfiguration;
+    return {
+      'executionRoleArn': executionRoleArn,
+      'jobDriver': jobDriver,
+      'releaseLabel': releaseLabel,
+      if (configurationOverrides != null)
+        'configurationOverrides': configurationOverrides,
+      if (jobTags != null) 'jobTags': jobTags,
+      if (parameterConfiguration != null)
+        'parameterConfiguration': parameterConfiguration,
+    };
+  }
+}
+
+/// A configuration specification to be used to override existing
+/// configurations. This data type allows job template parameters to be
+/// specified within.
+class ParametricConfigurationOverrides {
+  /// The configurations for the application running by the job run.
+  final List<Configuration>? applicationConfiguration;
+
+  /// The configurations for monitoring.
+  final ParametricMonitoringConfiguration? monitoringConfiguration;
+
+  ParametricConfigurationOverrides({
+    this.applicationConfiguration,
+    this.monitoringConfiguration,
+  });
+
+  factory ParametricConfigurationOverrides.fromJson(Map<String, dynamic> json) {
+    return ParametricConfigurationOverrides(
+      applicationConfiguration: (json['applicationConfiguration'] as List?)
+          ?.nonNulls
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      monitoringConfiguration: json['monitoringConfiguration'] != null
+          ? ParametricMonitoringConfiguration.fromJson(
+              json['monitoringConfiguration'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final tlsCertificateConfiguration = this.tlsCertificateConfiguration;
+    final applicationConfiguration = this.applicationConfiguration;
+    final monitoringConfiguration = this.monitoringConfiguration;
     return {
-      if (tlsCertificateConfiguration != null)
-        'tlsCertificateConfiguration': tlsCertificateConfiguration,
+      if (applicationConfiguration != null)
+        'applicationConfiguration': applicationConfiguration,
+      if (monitoringConfiguration != null)
+        'monitoringConfiguration': monitoringConfiguration,
     };
   }
 }
 
-/// Specify the driver that the job runs on. Exactly one of the two available
-/// job drivers is required, either sparkSqlJobDriver or sparkSubmitJobDriver.
-class JobDriver {
-  /// The job driver for job type.
-  final SparkSqlJobDriver? sparkSqlJobDriver;
+/// The configuration of a job template parameter.
+class TemplateParameterConfiguration {
+  /// The default value for the job template parameter.
+  final String? defaultValue;
 
-  /// The job driver parameters specified for spark submit.
-  final SparkSubmitJobDriver? sparkSubmitJobDriver;
+  /// The type of the job template parameter. Allowed values are: ‘STRING’,
+  /// ‘NUMBER’.
+  final TemplateParameterDataType? type;
 
-  JobDriver({
-    this.sparkSqlJobDriver,
-    this.sparkSubmitJobDriver,
+  TemplateParameterConfiguration({
+    this.defaultValue,
+    this.type,
   });
 
-  factory JobDriver.fromJson(Map<String, dynamic> json) {
-    return JobDriver(
-      sparkSqlJobDriver: json['sparkSqlJobDriver'] != null
-          ? SparkSqlJobDriver.fromJson(
-              json['sparkSqlJobDriver'] as Map<String, dynamic>)
-          : null,
-      sparkSubmitJobDriver: json['sparkSubmitJobDriver'] != null
-          ? SparkSubmitJobDriver.fromJson(
-              json['sparkSubmitJobDriver'] as Map<String, dynamic>)
+  factory TemplateParameterConfiguration.fromJson(Map<String, dynamic> json) {
+    return TemplateParameterConfiguration(
+      defaultValue: json['defaultValue'] as String?,
+      type:
+          (json['type'] as String?)?.let(TemplateParameterDataType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final type = this.type;
+    return {
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (type != null) 'type': type.value,
+    };
+  }
+}
+
+class TemplateParameterDataType {
+  static const number = TemplateParameterDataType._('NUMBER');
+  static const string = TemplateParameterDataType._('STRING');
+
+  final String value;
+
+  const TemplateParameterDataType._(this.value);
+
+  static const values = [number, string];
+
+  static TemplateParameterDataType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => TemplateParameterDataType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is TemplateParameterDataType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Configuration setting for monitoring. This data type allows job template
+/// parameters to be specified within.
+class ParametricMonitoringConfiguration {
+  /// Monitoring configurations for CloudWatch.
+  final ParametricCloudWatchMonitoringConfiguration?
+      cloudWatchMonitoringConfiguration;
+
+  /// Monitoring configurations for the persistent application UI.
+  final String? persistentAppUI;
+
+  /// Amazon S3 configuration for monitoring log publishing.
+  final ParametricS3MonitoringConfiguration? s3MonitoringConfiguration;
+
+  ParametricMonitoringConfiguration({
+    this.cloudWatchMonitoringConfiguration,
+    this.persistentAppUI,
+    this.s3MonitoringConfiguration,
+  });
+
+  factory ParametricMonitoringConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ParametricMonitoringConfiguration(
+      cloudWatchMonitoringConfiguration:
+          json['cloudWatchMonitoringConfiguration'] != null
+              ? ParametricCloudWatchMonitoringConfiguration.fromJson(
+                  json['cloudWatchMonitoringConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      persistentAppUI: json['persistentAppUI'] as String?,
+      s3MonitoringConfiguration: json['s3MonitoringConfiguration'] != null
+          ? ParametricS3MonitoringConfiguration.fromJson(
+              json['s3MonitoringConfiguration'] as Map<String, dynamic>)
           : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final sparkSqlJobDriver = this.sparkSqlJobDriver;
-    final sparkSubmitJobDriver = this.sparkSubmitJobDriver;
+    final cloudWatchMonitoringConfiguration =
+        this.cloudWatchMonitoringConfiguration;
+    final persistentAppUI = this.persistentAppUI;
+    final s3MonitoringConfiguration = this.s3MonitoringConfiguration;
     return {
-      if (sparkSqlJobDriver != null) 'sparkSqlJobDriver': sparkSqlJobDriver,
-      if (sparkSubmitJobDriver != null)
-        'sparkSubmitJobDriver': sparkSubmitJobDriver,
+      if (cloudWatchMonitoringConfiguration != null)
+        'cloudWatchMonitoringConfiguration': cloudWatchMonitoringConfiguration,
+      if (persistentAppUI != null) 'persistentAppUI': persistentAppUI,
+      if (s3MonitoringConfiguration != null)
+        's3MonitoringConfiguration': s3MonitoringConfiguration,
+    };
+  }
+}
+
+/// A configuration for CloudWatch monitoring. You can configure your jobs to
+/// send log information to CloudWatch Logs. This data type allows job template
+/// parameters to be specified within.
+class ParametricCloudWatchMonitoringConfiguration {
+  /// The name of the log group for log publishing.
+  final String? logGroupName;
+
+  /// The specified name prefix for log streams.
+  final String? logStreamNamePrefix;
+
+  ParametricCloudWatchMonitoringConfiguration({
+    this.logGroupName,
+    this.logStreamNamePrefix,
+  });
+
+  factory ParametricCloudWatchMonitoringConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ParametricCloudWatchMonitoringConfiguration(
+      logGroupName: json['logGroupName'] as String?,
+      logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupName = this.logGroupName;
+    final logStreamNamePrefix = this.logStreamNamePrefix;
+    return {
+      if (logGroupName != null) 'logGroupName': logGroupName,
+      if (logStreamNamePrefix != null)
+        'logStreamNamePrefix': logStreamNamePrefix,
+    };
+  }
+}
+
+/// Amazon S3 configuration for monitoring log publishing. You can configure
+/// your jobs to send log information to Amazon S3. This data type allows job
+/// template parameters to be specified within.
+class ParametricS3MonitoringConfiguration {
+  /// Amazon S3 destination URI for log publishing.
+  final String? logUri;
+
+  ParametricS3MonitoringConfiguration({
+    this.logUri,
+  });
+
+  factory ParametricS3MonitoringConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ParametricS3MonitoringConfiguration(
+      logUri: json['logUri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logUri = this.logUri;
+    return {
+      if (logUri != null) 'logUri': logUri,
     };
   }
 }
@@ -2319,652 +3528,6 @@ class JobRunState {
   String toString() => value;
 }
 
-/// This entity describes a job template. Job template stores values of
-/// StartJobRun API request in a template and can be used to start a job run.
-/// Job template allows two use cases: avoid repeating recurring StartJobRun API
-/// request values, enforcing certain values in StartJobRun API request.
-class JobTemplate {
-  /// The job template data which holds values of StartJobRun API request.
-  final JobTemplateData jobTemplateData;
-
-  /// The ARN of the job template.
-  final String? arn;
-
-  /// The date and time when the job template was created.
-  final DateTime? createdAt;
-
-  /// The user who created the job template.
-  final String? createdBy;
-
-  /// The error message in case the decryption of job template fails.
-  final String? decryptionError;
-
-  /// The ID of the job template.
-  final String? id;
-
-  /// The KMS key ARN used to encrypt the job template.
-  final String? kmsKeyArn;
-
-  /// The name of the job template.
-  final String? name;
-
-  /// The tags assigned to the job template.
-  final Map<String, String>? tags;
-
-  JobTemplate({
-    required this.jobTemplateData,
-    this.arn,
-    this.createdAt,
-    this.createdBy,
-    this.decryptionError,
-    this.id,
-    this.kmsKeyArn,
-    this.name,
-    this.tags,
-  });
-
-  factory JobTemplate.fromJson(Map<String, dynamic> json) {
-    return JobTemplate(
-      jobTemplateData: JobTemplateData.fromJson(
-          (json['jobTemplateData'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      createdBy: json['createdBy'] as String?,
-      decryptionError: json['decryptionError'] as String?,
-      id: json['id'] as String?,
-      kmsKeyArn: json['kmsKeyArn'] as String?,
-      name: json['name'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobTemplateData = this.jobTemplateData;
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final createdBy = this.createdBy;
-    final decryptionError = this.decryptionError;
-    final id = this.id;
-    final kmsKeyArn = this.kmsKeyArn;
-    final name = this.name;
-    final tags = this.tags;
-    return {
-      'jobTemplateData': jobTemplateData,
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (createdBy != null) 'createdBy': createdBy,
-      if (decryptionError != null) 'decryptionError': decryptionError,
-      if (id != null) 'id': id,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-      if (name != null) 'name': name,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// The values of StartJobRun API requests used in job runs started using the
-/// job template.
-class JobTemplateData {
-  /// The execution role ARN of the job run.
-  final String executionRoleArn;
-  final JobDriver jobDriver;
-
-  /// The release version of Amazon EMR.
-  final String releaseLabel;
-
-  /// The configuration settings that are used to override defaults configuration.
-  final ParametricConfigurationOverrides? configurationOverrides;
-
-  /// The tags assigned to jobs started using the job template.
-  final Map<String, String>? jobTags;
-
-  /// The configuration of parameters existing in the job template.
-  final Map<String, TemplateParameterConfiguration>? parameterConfiguration;
-
-  JobTemplateData({
-    required this.executionRoleArn,
-    required this.jobDriver,
-    required this.releaseLabel,
-    this.configurationOverrides,
-    this.jobTags,
-    this.parameterConfiguration,
-  });
-
-  factory JobTemplateData.fromJson(Map<String, dynamic> json) {
-    return JobTemplateData(
-      executionRoleArn: (json['executionRoleArn'] as String?) ?? '',
-      jobDriver: JobDriver.fromJson(
-          (json['jobDriver'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      releaseLabel: (json['releaseLabel'] as String?) ?? '',
-      configurationOverrides: json['configurationOverrides'] != null
-          ? ParametricConfigurationOverrides.fromJson(
-              json['configurationOverrides'] as Map<String, dynamic>)
-          : null,
-      jobTags: (json['jobTags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      parameterConfiguration:
-          (json['parameterConfiguration'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(
-                  k,
-                  TemplateParameterConfiguration.fromJson(
-                      e as Map<String, dynamic>))),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final executionRoleArn = this.executionRoleArn;
-    final jobDriver = this.jobDriver;
-    final releaseLabel = this.releaseLabel;
-    final configurationOverrides = this.configurationOverrides;
-    final jobTags = this.jobTags;
-    final parameterConfiguration = this.parameterConfiguration;
-    return {
-      'executionRoleArn': executionRoleArn,
-      'jobDriver': jobDriver,
-      'releaseLabel': releaseLabel,
-      if (configurationOverrides != null)
-        'configurationOverrides': configurationOverrides,
-      if (jobTags != null) 'jobTags': jobTags,
-      if (parameterConfiguration != null)
-        'parameterConfiguration': parameterConfiguration,
-    };
-  }
-}
-
-/// Lake Formation related configuration inputs for the security configuration.
-class LakeFormationConfiguration {
-  /// The session tag to authorize Amazon EMR on EKS for API calls to Lake
-  /// Formation.
-  final String? authorizedSessionTagValue;
-
-  /// The query engine IAM role ARN that is tied to the secure Spark job. The
-  /// <code>QueryEngine</code> role assumes the <code>JobExecutionRole</code> to
-  /// execute all the Lake Formation calls.
-  final String? queryEngineRoleArn;
-
-  /// The namespace input of the system job.
-  final SecureNamespaceInfo? secureNamespaceInfo;
-
-  LakeFormationConfiguration({
-    this.authorizedSessionTagValue,
-    this.queryEngineRoleArn,
-    this.secureNamespaceInfo,
-  });
-
-  factory LakeFormationConfiguration.fromJson(Map<String, dynamic> json) {
-    return LakeFormationConfiguration(
-      authorizedSessionTagValue: json['authorizedSessionTagValue'] as String?,
-      queryEngineRoleArn: json['queryEngineRoleArn'] as String?,
-      secureNamespaceInfo: json['secureNamespaceInfo'] != null
-          ? SecureNamespaceInfo.fromJson(
-              json['secureNamespaceInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizedSessionTagValue = this.authorizedSessionTagValue;
-    final queryEngineRoleArn = this.queryEngineRoleArn;
-    final secureNamespaceInfo = this.secureNamespaceInfo;
-    return {
-      if (authorizedSessionTagValue != null)
-        'authorizedSessionTagValue': authorizedSessionTagValue,
-      if (queryEngineRoleArn != null) 'queryEngineRoleArn': queryEngineRoleArn,
-      if (secureNamespaceInfo != null)
-        'secureNamespaceInfo': secureNamespaceInfo,
-    };
-  }
-}
-
-class ListJobRunsResponse {
-  /// This output lists information about the specified job runs.
-  final List<JobRun>? jobRuns;
-
-  /// This output displays the token for the next set of job runs.
-  final String? nextToken;
-
-  ListJobRunsResponse({
-    this.jobRuns,
-    this.nextToken,
-  });
-
-  factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
-    return ListJobRunsResponse(
-      jobRuns: (json['jobRuns'] as List?)
-          ?.nonNulls
-          .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final jobRuns = this.jobRuns;
-    final nextToken = this.nextToken;
-    return {
-      if (jobRuns != null) 'jobRuns': jobRuns,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListJobTemplatesResponse {
-  /// This output displays the token for the next set of job templates.
-  final String? nextToken;
-
-  /// This output lists information about the specified job templates.
-  final List<JobTemplate>? templates;
-
-  ListJobTemplatesResponse({
-    this.nextToken,
-    this.templates,
-  });
-
-  factory ListJobTemplatesResponse.fromJson(Map<String, dynamic> json) {
-    return ListJobTemplatesResponse(
-      nextToken: json['nextToken'] as String?,
-      templates: (json['templates'] as List?)
-          ?.nonNulls
-          .map((e) => JobTemplate.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final templates = this.templates;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (templates != null) 'templates': templates,
-    };
-  }
-}
-
-class ListManagedEndpointsResponse {
-  /// The managed endpoints to be listed.
-  final List<Endpoint>? endpoints;
-
-  /// The token for the next set of endpoints to return.
-  final String? nextToken;
-
-  ListManagedEndpointsResponse({
-    this.endpoints,
-    this.nextToken,
-  });
-
-  factory ListManagedEndpointsResponse.fromJson(Map<String, dynamic> json) {
-    return ListManagedEndpointsResponse(
-      endpoints: (json['endpoints'] as List?)
-          ?.nonNulls
-          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endpoints = this.endpoints;
-    final nextToken = this.nextToken;
-    return {
-      if (endpoints != null) 'endpoints': endpoints,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListSecurityConfigurationsResponse {
-  /// The token for the next set of security configurations to return.
-  final String? nextToken;
-
-  /// The list of returned security configurations.
-  final List<SecurityConfiguration>? securityConfigurations;
-
-  ListSecurityConfigurationsResponse({
-    this.nextToken,
-    this.securityConfigurations,
-  });
-
-  factory ListSecurityConfigurationsResponse.fromJson(
-      Map<String, dynamic> json) {
-    return ListSecurityConfigurationsResponse(
-      nextToken: json['nextToken'] as String?,
-      securityConfigurations: (json['securityConfigurations'] as List?)
-          ?.nonNulls
-          .map((e) => SecurityConfiguration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final securityConfigurations = this.securityConfigurations;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (securityConfigurations != null)
-        'securityConfigurations': securityConfigurations,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The tags assigned to resources.
-  final Map<String, String>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class ListVirtualClustersResponse {
-  /// This output displays the token for the next set of virtual clusters.
-  final String? nextToken;
-
-  /// This output lists the specified virtual clusters.
-  final List<VirtualCluster>? virtualClusters;
-
-  ListVirtualClustersResponse({
-    this.nextToken,
-    this.virtualClusters,
-  });
-
-  factory ListVirtualClustersResponse.fromJson(Map<String, dynamic> json) {
-    return ListVirtualClustersResponse(
-      nextToken: json['nextToken'] as String?,
-      virtualClusters: (json['virtualClusters'] as List?)
-          ?.nonNulls
-          .map((e) => VirtualCluster.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final virtualClusters = this.virtualClusters;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (virtualClusters != null) 'virtualClusters': virtualClusters,
-    };
-  }
-}
-
-/// Configuration setting for monitoring.
-class MonitoringConfiguration {
-  /// Monitoring configurations for CloudWatch.
-  final CloudWatchMonitoringConfiguration? cloudWatchMonitoringConfiguration;
-
-  /// Enable or disable container log rotation.
-  final ContainerLogRotationConfiguration? containerLogRotationConfiguration;
-
-  /// Monitoring configurations for the persistent application UI.
-  final PersistentAppUI? persistentAppUI;
-
-  /// Amazon S3 configuration for monitoring log publishing.
-  final S3MonitoringConfiguration? s3MonitoringConfiguration;
-
-  MonitoringConfiguration({
-    this.cloudWatchMonitoringConfiguration,
-    this.containerLogRotationConfiguration,
-    this.persistentAppUI,
-    this.s3MonitoringConfiguration,
-  });
-
-  factory MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
-    return MonitoringConfiguration(
-      cloudWatchMonitoringConfiguration:
-          json['cloudWatchMonitoringConfiguration'] != null
-              ? CloudWatchMonitoringConfiguration.fromJson(
-                  json['cloudWatchMonitoringConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      containerLogRotationConfiguration:
-          json['containerLogRotationConfiguration'] != null
-              ? ContainerLogRotationConfiguration.fromJson(
-                  json['containerLogRotationConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      persistentAppUI:
-          (json['persistentAppUI'] as String?)?.let(PersistentAppUI.fromString),
-      s3MonitoringConfiguration: json['s3MonitoringConfiguration'] != null
-          ? S3MonitoringConfiguration.fromJson(
-              json['s3MonitoringConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchMonitoringConfiguration =
-        this.cloudWatchMonitoringConfiguration;
-    final containerLogRotationConfiguration =
-        this.containerLogRotationConfiguration;
-    final persistentAppUI = this.persistentAppUI;
-    final s3MonitoringConfiguration = this.s3MonitoringConfiguration;
-    return {
-      if (cloudWatchMonitoringConfiguration != null)
-        'cloudWatchMonitoringConfiguration': cloudWatchMonitoringConfiguration,
-      if (containerLogRotationConfiguration != null)
-        'containerLogRotationConfiguration': containerLogRotationConfiguration,
-      if (persistentAppUI != null) 'persistentAppUI': persistentAppUI.value,
-      if (s3MonitoringConfiguration != null)
-        's3MonitoringConfiguration': s3MonitoringConfiguration,
-    };
-  }
-}
-
-/// A configuration for CloudWatch monitoring. You can configure your jobs to
-/// send log information to CloudWatch Logs. This data type allows job template
-/// parameters to be specified within.
-class ParametricCloudWatchMonitoringConfiguration {
-  /// The name of the log group for log publishing.
-  final String? logGroupName;
-
-  /// The specified name prefix for log streams.
-  final String? logStreamNamePrefix;
-
-  ParametricCloudWatchMonitoringConfiguration({
-    this.logGroupName,
-    this.logStreamNamePrefix,
-  });
-
-  factory ParametricCloudWatchMonitoringConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ParametricCloudWatchMonitoringConfiguration(
-      logGroupName: json['logGroupName'] as String?,
-      logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logGroupName = this.logGroupName;
-    final logStreamNamePrefix = this.logStreamNamePrefix;
-    return {
-      if (logGroupName != null) 'logGroupName': logGroupName,
-      if (logStreamNamePrefix != null)
-        'logStreamNamePrefix': logStreamNamePrefix,
-    };
-  }
-}
-
-/// A configuration specification to be used to override existing
-/// configurations. This data type allows job template parameters to be
-/// specified within.
-class ParametricConfigurationOverrides {
-  /// The configurations for the application running by the job run.
-  final List<Configuration>? applicationConfiguration;
-
-  /// The configurations for monitoring.
-  final ParametricMonitoringConfiguration? monitoringConfiguration;
-
-  ParametricConfigurationOverrides({
-    this.applicationConfiguration,
-    this.monitoringConfiguration,
-  });
-
-  factory ParametricConfigurationOverrides.fromJson(Map<String, dynamic> json) {
-    return ParametricConfigurationOverrides(
-      applicationConfiguration: (json['applicationConfiguration'] as List?)
-          ?.nonNulls
-          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      monitoringConfiguration: json['monitoringConfiguration'] != null
-          ? ParametricMonitoringConfiguration.fromJson(
-              json['monitoringConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final applicationConfiguration = this.applicationConfiguration;
-    final monitoringConfiguration = this.monitoringConfiguration;
-    return {
-      if (applicationConfiguration != null)
-        'applicationConfiguration': applicationConfiguration,
-      if (monitoringConfiguration != null)
-        'monitoringConfiguration': monitoringConfiguration,
-    };
-  }
-}
-
-/// Configuration setting for monitoring. This data type allows job template
-/// parameters to be specified within.
-class ParametricMonitoringConfiguration {
-  /// Monitoring configurations for CloudWatch.
-  final ParametricCloudWatchMonitoringConfiguration?
-      cloudWatchMonitoringConfiguration;
-
-  /// Monitoring configurations for the persistent application UI.
-  final String? persistentAppUI;
-
-  /// Amazon S3 configuration for monitoring log publishing.
-  final ParametricS3MonitoringConfiguration? s3MonitoringConfiguration;
-
-  ParametricMonitoringConfiguration({
-    this.cloudWatchMonitoringConfiguration,
-    this.persistentAppUI,
-    this.s3MonitoringConfiguration,
-  });
-
-  factory ParametricMonitoringConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ParametricMonitoringConfiguration(
-      cloudWatchMonitoringConfiguration:
-          json['cloudWatchMonitoringConfiguration'] != null
-              ? ParametricCloudWatchMonitoringConfiguration.fromJson(
-                  json['cloudWatchMonitoringConfiguration']
-                      as Map<String, dynamic>)
-              : null,
-      persistentAppUI: json['persistentAppUI'] as String?,
-      s3MonitoringConfiguration: json['s3MonitoringConfiguration'] != null
-          ? ParametricS3MonitoringConfiguration.fromJson(
-              json['s3MonitoringConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final cloudWatchMonitoringConfiguration =
-        this.cloudWatchMonitoringConfiguration;
-    final persistentAppUI = this.persistentAppUI;
-    final s3MonitoringConfiguration = this.s3MonitoringConfiguration;
-    return {
-      if (cloudWatchMonitoringConfiguration != null)
-        'cloudWatchMonitoringConfiguration': cloudWatchMonitoringConfiguration,
-      if (persistentAppUI != null) 'persistentAppUI': persistentAppUI,
-      if (s3MonitoringConfiguration != null)
-        's3MonitoringConfiguration': s3MonitoringConfiguration,
-    };
-  }
-}
-
-/// Amazon S3 configuration for monitoring log publishing. You can configure
-/// your jobs to send log information to Amazon S3. This data type allows job
-/// template parameters to be specified within.
-class ParametricS3MonitoringConfiguration {
-  /// Amazon S3 destination URI for log publishing.
-  final String? logUri;
-
-  ParametricS3MonitoringConfiguration({
-    this.logUri,
-  });
-
-  factory ParametricS3MonitoringConfiguration.fromJson(
-      Map<String, dynamic> json) {
-    return ParametricS3MonitoringConfiguration(
-      logUri: json['logUri'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final logUri = this.logUri;
-    return {
-      if (logUri != null) 'logUri': logUri,
-    };
-  }
-}
-
-class PersistentAppUI {
-  static const enabled = PersistentAppUI._('ENABLED');
-  static const disabled = PersistentAppUI._('DISABLED');
-
-  final String value;
-
-  const PersistentAppUI._(this.value);
-
-  static const values = [enabled, disabled];
-
-  static PersistentAppUI fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => PersistentAppUI._(value));
-
-  @override
-  bool operator ==(other) => other is PersistentAppUI && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The configuration of the retry policy that the job runs on.
-class RetryPolicyConfiguration {
-  /// The maximum number of attempts on the job's driver.
-  final int maxAttempts;
-
-  RetryPolicyConfiguration({
-    required this.maxAttempts,
-  });
-
-  factory RetryPolicyConfiguration.fromJson(Map<String, dynamic> json) {
-    return RetryPolicyConfiguration(
-      maxAttempts: (json['maxAttempts'] as int?) ?? 0,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxAttempts = this.maxAttempts;
-    return {
-      'maxAttempts': maxAttempts,
-    };
-  }
-}
-
 /// The current status of the retry policy executed on the job.
 class RetryPolicyExecution {
   /// The current number of attempts made on the driver of the job.
@@ -2988,512 +3551,27 @@ class RetryPolicyExecution {
   }
 }
 
-/// Amazon S3 configuration for monitoring log publishing. You can configure
-/// your jobs to send log information to Amazon S3.
-class S3MonitoringConfiguration {
-  /// Amazon S3 destination URI for log publishing.
-  final String logUri;
+/// The structure containing the session token being returned.
+class Credentials {
+  /// The actual session token being returned.
+  final String? token;
 
-  S3MonitoringConfiguration({
-    required this.logUri,
+  Credentials({
+    this.token,
   });
 
-  factory S3MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
-    return S3MonitoringConfiguration(
-      logUri: (json['logUri'] as String?) ?? '',
+  factory Credentials.fromJson(Map<String, dynamic> json) {
+    return Credentials(
+      token: json['token'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final logUri = this.logUri;
+    final token = this.token;
     return {
-      'logUri': logUri,
+      if (token != null) 'token': token,
     };
   }
-}
-
-/// Namespace inputs for the system job.
-class SecureNamespaceInfo {
-  /// The ID of the Amazon EKS cluster where Amazon EMR on EKS jobs run.
-  final String? clusterId;
-
-  /// The namespace of the Amazon EKS cluster where the system jobs run.
-  final String? namespace;
-
-  SecureNamespaceInfo({
-    this.clusterId,
-    this.namespace,
-  });
-
-  factory SecureNamespaceInfo.fromJson(Map<String, dynamic> json) {
-    return SecureNamespaceInfo(
-      clusterId: json['clusterId'] as String?,
-      namespace: json['namespace'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final clusterId = this.clusterId;
-    final namespace = this.namespace;
-    return {
-      if (clusterId != null) 'clusterId': clusterId,
-      if (namespace != null) 'namespace': namespace,
-    };
-  }
-}
-
-/// Inputs related to the security configuration. Security configurations in
-/// Amazon EMR on EKS are templates for different security setups. You can use
-/// security configurations to configure the Lake Formation integration setup.
-/// You can also create a security configuration to re-use a security setup each
-/// time you create a virtual cluster.
-class SecurityConfiguration {
-  /// The ARN (Amazon Resource Name) of the security configuration.
-  final String? arn;
-
-  /// The date and time that the job run was created.
-  final DateTime? createdAt;
-
-  /// The user who created the job run.
-  final String? createdBy;
-
-  /// The ID of the security configuration.
-  final String? id;
-
-  /// The name of the security configuration.
-  final String? name;
-
-  /// Security configuration inputs for the request.
-  final SecurityConfigurationData? securityConfigurationData;
-
-  /// The tags to assign to the security configuration.
-  final Map<String, String>? tags;
-
-  SecurityConfiguration({
-    this.arn,
-    this.createdAt,
-    this.createdBy,
-    this.id,
-    this.name,
-    this.securityConfigurationData,
-    this.tags,
-  });
-
-  factory SecurityConfiguration.fromJson(Map<String, dynamic> json) {
-    return SecurityConfiguration(
-      arn: json['arn'] as String?,
-      createdAt: timeStampFromJson(json['createdAt']),
-      createdBy: json['createdBy'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      securityConfigurationData: json['securityConfigurationData'] != null
-          ? SecurityConfigurationData.fromJson(
-              json['securityConfigurationData'] as Map<String, dynamic>)
-          : null,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final createdAt = this.createdAt;
-    final createdBy = this.createdBy;
-    final id = this.id;
-    final name = this.name;
-    final securityConfigurationData = this.securityConfigurationData;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (createdBy != null) 'createdBy': createdBy,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (securityConfigurationData != null)
-        'securityConfigurationData': securityConfigurationData,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Configurations related to the security configuration for the request.
-class SecurityConfigurationData {
-  /// Authorization-related configuration input for the security configuration.
-  final AuthorizationConfiguration? authorizationConfiguration;
-
-  SecurityConfigurationData({
-    this.authorizationConfiguration,
-  });
-
-  factory SecurityConfigurationData.fromJson(Map<String, dynamic> json) {
-    return SecurityConfigurationData(
-      authorizationConfiguration: json['authorizationConfiguration'] != null
-          ? AuthorizationConfiguration.fromJson(
-              json['authorizationConfiguration'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final authorizationConfiguration = this.authorizationConfiguration;
-    return {
-      if (authorizationConfiguration != null)
-        'authorizationConfiguration': authorizationConfiguration,
-    };
-  }
-}
-
-/// The job driver for job type.
-class SparkSqlJobDriver {
-  /// The SQL file to be executed.
-  final String? entryPoint;
-
-  /// The Spark parameters to be included in the Spark SQL command.
-  final String? sparkSqlParameters;
-
-  SparkSqlJobDriver({
-    this.entryPoint,
-    this.sparkSqlParameters,
-  });
-
-  factory SparkSqlJobDriver.fromJson(Map<String, dynamic> json) {
-    return SparkSqlJobDriver(
-      entryPoint: json['entryPoint'] as String?,
-      sparkSqlParameters: json['sparkSqlParameters'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryPoint = this.entryPoint;
-    final sparkSqlParameters = this.sparkSqlParameters;
-    return {
-      if (entryPoint != null) 'entryPoint': entryPoint,
-      if (sparkSqlParameters != null) 'sparkSqlParameters': sparkSqlParameters,
-    };
-  }
-}
-
-/// The information about job driver for Spark submit.
-class SparkSubmitJobDriver {
-  /// The entry point of job application.
-  final String entryPoint;
-
-  /// The arguments for job application.
-  final List<String>? entryPointArguments;
-
-  /// The Spark submit parameters that are used for job runs.
-  final String? sparkSubmitParameters;
-
-  SparkSubmitJobDriver({
-    required this.entryPoint,
-    this.entryPointArguments,
-    this.sparkSubmitParameters,
-  });
-
-  factory SparkSubmitJobDriver.fromJson(Map<String, dynamic> json) {
-    return SparkSubmitJobDriver(
-      entryPoint: (json['entryPoint'] as String?) ?? '',
-      entryPointArguments: (json['entryPointArguments'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      sparkSubmitParameters: json['sparkSubmitParameters'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final entryPoint = this.entryPoint;
-    final entryPointArguments = this.entryPointArguments;
-    final sparkSubmitParameters = this.sparkSubmitParameters;
-    return {
-      'entryPoint': entryPoint,
-      if (entryPointArguments != null)
-        'entryPointArguments': entryPointArguments,
-      if (sparkSubmitParameters != null)
-        'sparkSubmitParameters': sparkSubmitParameters,
-    };
-  }
-}
-
-class StartJobRunResponse {
-  /// This output lists the ARN of job run.
-  final String? arn;
-
-  /// This output displays the started job run ID.
-  final String? id;
-
-  /// This output displays the name of the started job run.
-  final String? name;
-
-  /// This output displays the virtual cluster ID for which the job run was
-  /// submitted.
-  final String? virtualClusterId;
-
-  StartJobRunResponse({
-    this.arn,
-    this.id,
-    this.name,
-    this.virtualClusterId,
-  });
-
-  factory StartJobRunResponse.fromJson(Map<String, dynamic> json) {
-    return StartJobRunResponse(
-      arn: json['arn'] as String?,
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      virtualClusterId: json['virtualClusterId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final id = this.id;
-    final name = this.name;
-    final virtualClusterId = this.virtualClusterId;
-    return {
-      if (arn != null) 'arn': arn,
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
-    };
-  }
-}
-
-/// Configurations related to the TLS certificate for the security
-/// configuration.
-class TLSCertificateConfiguration {
-  /// The TLS certificate type. Acceptable values: <code>PEM</code> or
-  /// <code>Custom</code>.
-  final CertificateProviderType? certificateProviderType;
-
-  /// Secrets Manager ARN that contains the private TLS certificate contents, used
-  /// for communication between the user job and the system job.
-  final String? privateCertificateSecretArn;
-
-  /// Secrets Manager ARN that contains the public TLS certificate contents, used
-  /// for communication between the user job and the system job.
-  final String? publicCertificateSecretArn;
-
-  TLSCertificateConfiguration({
-    this.certificateProviderType,
-    this.privateCertificateSecretArn,
-    this.publicCertificateSecretArn,
-  });
-
-  factory TLSCertificateConfiguration.fromJson(Map<String, dynamic> json) {
-    return TLSCertificateConfiguration(
-      certificateProviderType: (json['certificateProviderType'] as String?)
-          ?.let(CertificateProviderType.fromString),
-      privateCertificateSecretArn:
-          json['privateCertificateSecretArn'] as String?,
-      publicCertificateSecretArn: json['publicCertificateSecretArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final certificateProviderType = this.certificateProviderType;
-    final privateCertificateSecretArn = this.privateCertificateSecretArn;
-    final publicCertificateSecretArn = this.publicCertificateSecretArn;
-    return {
-      if (certificateProviderType != null)
-        'certificateProviderType': certificateProviderType.value,
-      if (privateCertificateSecretArn != null)
-        'privateCertificateSecretArn': privateCertificateSecretArn,
-      if (publicCertificateSecretArn != null)
-        'publicCertificateSecretArn': publicCertificateSecretArn,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The configuration of a job template parameter.
-class TemplateParameterConfiguration {
-  /// The default value for the job template parameter.
-  final String? defaultValue;
-
-  /// The type of the job template parameter. Allowed values are: ‘STRING’,
-  /// ‘NUMBER’.
-  final TemplateParameterDataType? type;
-
-  TemplateParameterConfiguration({
-    this.defaultValue,
-    this.type,
-  });
-
-  factory TemplateParameterConfiguration.fromJson(Map<String, dynamic> json) {
-    return TemplateParameterConfiguration(
-      defaultValue: json['defaultValue'] as String?,
-      type:
-          (json['type'] as String?)?.let(TemplateParameterDataType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final defaultValue = this.defaultValue;
-    final type = this.type;
-    return {
-      if (defaultValue != null) 'defaultValue': defaultValue,
-      if (type != null) 'type': type.value,
-    };
-  }
-}
-
-class TemplateParameterDataType {
-  static const number = TemplateParameterDataType._('NUMBER');
-  static const string = TemplateParameterDataType._('STRING');
-
-  final String value;
-
-  const TemplateParameterDataType._(this.value);
-
-  static const values = [number, string];
-
-  static TemplateParameterDataType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => TemplateParameterDataType._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is TemplateParameterDataType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// This entity describes a virtual cluster. A virtual cluster is a Kubernetes
-/// namespace that Amazon EMR is registered with. Amazon EMR uses virtual
-/// clusters to run jobs and host endpoints. Multiple virtual clusters can be
-/// backed by the same physical cluster. However, each virtual cluster maps to
-/// one namespace on an Amazon EKS cluster. Virtual clusters do not create any
-/// active resources that contribute to your bill or that require lifecycle
-/// management outside the service.
-class VirtualCluster {
-  /// The ARN of the virtual cluster.
-  final String? arn;
-
-  /// The container provider of the virtual cluster.
-  final ContainerProvider? containerProvider;
-
-  /// The date and time when the virtual cluster is created.
-  final DateTime? createdAt;
-
-  /// The ID of the virtual cluster.
-  final String? id;
-
-  /// The name of the virtual cluster.
-  final String? name;
-
-  /// The ID of the security configuration.
-  final String? securityConfigurationId;
-
-  /// The state of the virtual cluster.
-  final VirtualClusterState? state;
-
-  /// The assigned tags of the virtual cluster.
-  final Map<String, String>? tags;
-
-  VirtualCluster({
-    this.arn,
-    this.containerProvider,
-    this.createdAt,
-    this.id,
-    this.name,
-    this.securityConfigurationId,
-    this.state,
-    this.tags,
-  });
-
-  factory VirtualCluster.fromJson(Map<String, dynamic> json) {
-    return VirtualCluster(
-      arn: json['arn'] as String?,
-      containerProvider: json['containerProvider'] != null
-          ? ContainerProvider.fromJson(
-              json['containerProvider'] as Map<String, dynamic>)
-          : null,
-      createdAt: timeStampFromJson(json['createdAt']),
-      id: json['id'] as String?,
-      name: json['name'] as String?,
-      securityConfigurationId: json['securityConfigurationId'] as String?,
-      state: (json['state'] as String?)?.let(VirtualClusterState.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final arn = this.arn;
-    final containerProvider = this.containerProvider;
-    final createdAt = this.createdAt;
-    final id = this.id;
-    final name = this.name;
-    final securityConfigurationId = this.securityConfigurationId;
-    final state = this.state;
-    final tags = this.tags;
-    return {
-      if (arn != null) 'arn': arn,
-      if (containerProvider != null) 'containerProvider': containerProvider,
-      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (securityConfigurationId != null)
-        'securityConfigurationId': securityConfigurationId,
-      if (state != null) 'state': state.value,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-class VirtualClusterState {
-  static const running = VirtualClusterState._('RUNNING');
-  static const terminating = VirtualClusterState._('TERMINATING');
-  static const terminated = VirtualClusterState._('TERMINATED');
-  static const arrested = VirtualClusterState._('ARRESTED');
-
-  final String value;
-
-  const VirtualClusterState._(this.value);
-
-  static const values = [running, terminating, terminated, arrested];
-
-  static VirtualClusterState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => VirtualClusterState._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is VirtualClusterState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class EKSRequestThrottledException extends _s.GenericAwsException {

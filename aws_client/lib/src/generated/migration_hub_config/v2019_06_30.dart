@@ -77,12 +77,12 @@ class MigrationHubConfig {
 
   /// This API sets up the home region for the calling account only.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
   /// May throw [DryRunOperation].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [homeRegion] :
   /// The name of the home region of the calling account.
@@ -124,11 +124,11 @@ class MigrationHubConfig {
   /// account. The operation does not delete discovery or migration tracking
   /// data in the home region.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [controlId] :
   /// A unique identifier that's generated for each home region control. It's
@@ -157,11 +157,11 @@ class MigrationHubConfig {
   /// This API permits filtering on the <code>ControlId</code> and
   /// <code>HomeRegion</code> fields.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [controlId] :
   /// The <code>ControlID</code> is a unique identifier string of your
@@ -225,11 +225,11 @@ class MigrationHubConfig {
   /// Application Discovery Service and AWS Migration Hub APIs, to obtain the
   /// account's Migration Hub home region.
   ///
-  /// May throw [InternalServerError].
-  /// May throw [ServiceUnavailableException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [InternalServerError].
   /// May throw [InvalidInputException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ThrottlingException].
   Future<GetHomeRegionResult> getHomeRegion() async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',

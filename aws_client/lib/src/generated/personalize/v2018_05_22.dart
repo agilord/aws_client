@@ -34,7 +34,6 @@ class Personalize {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'personalize',
-            signingName: 'personalize',
           ),
           region: region,
           credentials: credentials,
@@ -78,10 +77,10 @@ class Personalize {
   /// Next-Best-Action recipes.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [jobInput] :
@@ -185,10 +184,10 @@ class Personalize {
   /// batch recommendations and user segments</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [jobInput] :
@@ -312,10 +311,10 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
+  /// DELETE PENDING > DELETE IN_PROGRESS
   /// </li>
   /// </ul>
   /// To get the campaign status, call <a
@@ -345,10 +344,10 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
@@ -458,7 +457,7 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// PENDING &gt; IN_PROGRESS &gt; COMPLETED -or- FAILED
+  /// PENDING > IN_PROGRESS > COMPLETED -or- FAILED
   /// </li>
   /// </ul>
   /// To get the status of the data deletion job, call <a
@@ -480,10 +479,10 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [dataSource] :
@@ -566,10 +565,10 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
+  /// DELETE PENDING > DELETE IN_PROGRESS
   /// </li>
   /// </ul>
   /// To get the status of the dataset, call <a
@@ -596,10 +595,10 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [datasetGroupArn] :
@@ -682,7 +681,7 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// </ul>
   /// To get the status of the export job, call <a
@@ -693,10 +692,10 @@ class Personalize {
   /// key, which describes why the job failed.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [datasetArn] :
@@ -788,7 +787,7 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// <li>
   /// DELETE PENDING
@@ -840,8 +839,8 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
@@ -922,7 +921,7 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// </ul>
   /// To get the status of the import job, call <a
@@ -948,10 +947,10 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [dataSource] :
@@ -962,10 +961,6 @@ class Personalize {
   ///
   /// Parameter [jobName] :
   /// The name for the dataset import job.
-  ///
-  /// Parameter [roleArn] :
-  /// The ARN of the IAM role that has permissions to read from the Amazon S3
-  /// data source.
   ///
   /// Parameter [importMode] :
   /// Specify how to add the new records to an existing dataset. The default
@@ -988,6 +983,10 @@ class Personalize {
   /// If you created a metric attribution, specify whether to publish metrics
   /// for this import job to Amazon S3
   ///
+  /// Parameter [roleArn] :
+  /// The ARN of the IAM role that has permissions to read from the Amazon S3
+  /// data source.
+  ///
   /// Parameter [tags] :
   /// A list of <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html">tags</a>
@@ -996,9 +995,9 @@ class Personalize {
     required DataSource dataSource,
     required String datasetArn,
     required String jobName,
-    required String roleArn,
     ImportMode? importMode,
     bool? publishAttributionMetricsToS3,
+    String? roleArn,
     List<Tag>? tags,
   }) async {
     final headers = <String, String>{
@@ -1015,10 +1014,10 @@ class Personalize {
         'dataSource': dataSource,
         'datasetArn': datasetArn,
         'jobName': jobName,
-        'roleArn': roleArn,
         if (importMode != null) 'importMode': importMode.value,
         if (publishAttributionMetricsToS3 != null)
           'publishAttributionMetricsToS3': publishAttributionMetricsToS3,
+        if (roleArn != null) 'roleArn': roleArn,
         if (tags != null) 'tags': tags,
       },
     );
@@ -1046,10 +1045,10 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
+  /// DELETE PENDING > DELETE IN_PROGRESS
   /// </li>
   /// </ul>
   /// To get the status of the event tracker, call <a
@@ -1075,10 +1074,10 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [datasetGroupArn] :
@@ -1122,9 +1121,9 @@ class Personalize {
   /// recommendations and user segments</a>.
   ///
   /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [datasetGroupArn] :
@@ -1179,10 +1178,10 @@ class Personalize {
   /// impact of recommendations</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetGroupArn] :
   /// The Amazon Resource Name (ARN) of the destination dataset group for the
@@ -1272,14 +1271,14 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// <li>
-  /// STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt;
-  /// START IN_PROGRESS &gt; ACTIVE
+  /// STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START
+  /// IN_PROGRESS > ACTIVE
   /// </li>
   /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
+  /// DELETE PENDING > DELETE IN_PROGRESS
   /// </li>
   /// </ul>
   /// To get the recommender status, call <a
@@ -1309,10 +1308,10 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [datasetGroupArn] :
@@ -1393,8 +1392,8 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   ///
   /// Parameter [name] :
   /// The name for the schema.
@@ -1487,10 +1486,10 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
+  /// DELETE PENDING > DELETE IN_PROGRESS
   /// </li>
   /// </ul>
   /// To get the status of the solution, call <a
@@ -1533,10 +1532,10 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceAlreadyExistsException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
   ///
   /// Parameter [datasetGroupArn] :
@@ -1601,6 +1600,13 @@ class Personalize {
   /// When performing AutoML, this parameter is always <code>true</code> and you
   /// should not set it to <code>false</code>.
   ///
+  /// Parameter [performIncrementalUpdate] :
+  /// Whether to perform incremental training updates on your model. When
+  /// enabled, this allows the model to learn from new data more frequently
+  /// without requiring full retraining, which enables near real-time
+  /// personalization. This parameter is supported only for solutions that use
+  /// the semantic-similarity recipe.
+  ///
   /// Parameter [recipeArn] :
   /// The Amazon Resource Name (ARN) of the recipe to use for model training.
   /// This is required when <code>performAutoML</code> is false. For information
@@ -1629,6 +1635,7 @@ class Personalize {
     bool? performAutoML,
     bool? performAutoTraining,
     bool? performHPO,
+    bool? performIncrementalUpdate,
     String? recipeArn,
     SolutionConfig? solutionConfig,
     List<Tag>? tags,
@@ -1651,6 +1658,8 @@ class Personalize {
         if (performAutoTraining != null)
           'performAutoTraining': performAutoTraining,
         if (performHPO != null) 'performHPO': performHPO,
+        if (performIncrementalUpdate != null)
+          'performIncrementalUpdate': performIncrementalUpdate,
         if (recipeArn != null) 'recipeArn': recipeArn,
         if (solutionConfig != null) 'solutionConfig': solutionConfig,
         if (tags != null) 'tags': tags,
@@ -1728,11 +1737,11 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
-  /// May throw [ResourceInUseException].
-  /// May throw [TooManyTagsException].
   /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [solutionArn] :
   /// The Amazon Resource Name (ARN) of the solution containing the training
@@ -1806,8 +1815,8 @@ class Personalize {
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html">CreateCampaign</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [campaignArn] :
   /// The Amazon Resource Name (ARN) of the campaign to delete.
@@ -1832,13 +1841,14 @@ class Personalize {
 
   /// Deletes a dataset. You can't delete a dataset if an associated
   /// <code>DatasetImportJob</code> or <code>SolutionVersion</code> is in the
-  /// CREATE PENDING or IN PROGRESS state. For more information on datasets, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html">CreateDataset</a>.
+  /// CREATE PENDING or IN PROGRESS state. For more information about deleting
+  /// datasets, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/delete-dataset.html">Deleting
+  /// a dataset</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset to delete.
@@ -1877,8 +1887,8 @@ class Personalize {
   /// </ul>
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetGroupArn] :
   /// The ARN of the dataset group to delete.
@@ -1906,8 +1916,8 @@ class Personalize {
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html">CreateEventTracker</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [eventTrackerArn] :
   /// The Amazon Resource Name (ARN) of the event tracker to delete.
@@ -1933,8 +1943,8 @@ class Personalize {
   /// Deletes a filter.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [filterArn] :
   /// The ARN of the filter to delete.
@@ -1960,8 +1970,8 @@ class Personalize {
   /// Deletes a metric attribution.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [metricAttributionArn] :
   /// The metric attribution's Amazon Resource Name (ARN).
@@ -1990,8 +2000,8 @@ class Personalize {
   /// request.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [recommenderArn] :
   /// The Amazon Resource Name (ARN) of the recommender to delete.
@@ -2019,8 +2029,8 @@ class Personalize {
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html">CreateSchema</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [schemaArn] :
   /// The Amazon Resource Name (ARN) of the schema to delete.
@@ -2054,8 +2064,8 @@ class Personalize {
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [solutionArn] :
   /// The ARN of the solution to delete.
@@ -2172,10 +2182,10 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
+  /// DELETE PENDING > DELETE IN_PROGRESS
   /// </li>
   /// </ul>
   /// When the <code>status</code> is <code>CREATE FAILED</code>, the response
@@ -2531,14 +2541,14 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   /// </li>
   /// <li>
-  /// STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt;
-  /// START IN_PROGRESS &gt; ACTIVE
+  /// STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START
+  /// IN_PROGRESS > ACTIVE
   /// </li>
   /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
+  /// DELETE PENDING > DELETE IN_PROGRESS
   /// </li>
   /// </ul>
   /// When the <code>status</code> is <code>CREATE FAILED</code>, the response
@@ -2667,8 +2677,8 @@ class Personalize {
   /// Gets the metrics for the specified solution version.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [solutionVersionArn] :
   /// The Amazon Resource Name (ARN) of the solution version for which to get
@@ -3285,8 +3295,8 @@ class Personalize {
   /// Returns a list of available recipes. The response provides the properties
   /// for each recipe, including the recipe's Amazon Resource Name (ARN).
   ///
-  /// May throw [InvalidNextTokenException].
   /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
   ///
   /// Parameter [domain] :
   /// Filters returned recipes by domain for a Domain dataset group. Only
@@ -3429,56 +3439,6 @@ class Personalize {
     return ListSchemasResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of solution versions for the given solution. When a
-  /// solution is not specified, all the solution versions associated with the
-  /// account are listed. The response provides the properties for each solution
-  /// version, including the Amazon Resource Name (ARN).
-  ///
-  /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidNextTokenException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of solution versions to return.
-  ///
-  /// Parameter [nextToken] :
-  /// A token returned from the previous call to
-  /// <code>ListSolutionVersions</code> for getting the next set of solution
-  /// versions (if they exist).
-  ///
-  /// Parameter [solutionArn] :
-  /// The Amazon Resource Name (ARN) of the solution.
-  Future<ListSolutionVersionsResponse> listSolutionVersions({
-    int? maxResults,
-    String? nextToken,
-    String? solutionArn,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      100,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AmazonPersonalize.ListSolutionVersions'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'maxResults': maxResults,
-        if (nextToken != null) 'nextToken': nextToken,
-        if (solutionArn != null) 'solutionArn': solutionArn,
-      },
-    );
-
-    return ListSolutionVersionsResponse.fromJson(jsonResponse.body);
-  }
-
   /// Returns a list of solutions in a given dataset group. When a dataset group
   /// is not specified, all the solutions associated with the account are
   /// listed. The response provides the properties for each solution, including
@@ -3528,13 +3488,63 @@ class Personalize {
     return ListSolutionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns a list of solution versions for the given solution. When a
+  /// solution is not specified, all the solution versions associated with the
+  /// account are listed. The response provides the properties for each solution
+  /// version, including the Amazon Resource Name (ARN).
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of solution versions to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from the previous call to
+  /// <code>ListSolutionVersions</code> for getting the next set of solution
+  /// versions (if they exist).
+  ///
+  /// Parameter [solutionArn] :
+  /// The Amazon Resource Name (ARN) of the solution.
+  Future<ListSolutionVersionsResponse> listSolutionVersions({
+    int? maxResults,
+    String? nextToken,
+    String? solutionArn,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonPersonalize.ListSolutionVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+        if (solutionArn != null) 'solutionArn': solutionArn,
+      },
+    );
+
+    return ListSolutionVersionsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Get a list of <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html">tags</a>
   /// attached to a resource.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The resource's Amazon Resource Name (ARN).
@@ -3564,8 +3574,8 @@ class Personalize {
   /// the recommender.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [recommenderArn] :
   /// The Amazon Resource Name (ARN) of the recommender to start.
@@ -3594,8 +3604,8 @@ class Personalize {
   /// and automatic retraining for the recommender.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [recommenderArn] :
   /// The Amazon Resource Name (ARN) of the recommender to stop.
@@ -3628,12 +3638,12 @@ class Personalize {
   ///
   /// <ul>
   /// <li>
-  /// CREATE_PENDING &gt; CREATE_STOPPED
+  /// CREATE_PENDING > CREATE_STOPPED
   ///
   /// or
   /// </li>
   /// <li>
-  /// CREATE_IN_PROGRESS &gt; CREATE_STOPPING &gt; CREATE_STOPPED
+  /// CREATE_IN_PROGRESS > CREATE_STOPPING > CREATE_STOPPED
   /// </li>
   /// </ul>
   /// You are billed for all of the training completed up until you stop the
@@ -3641,8 +3651,8 @@ class Personalize {
   /// once it has been stopped.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [solutionVersionArn] :
   /// The Amazon Resource Name (ARN) of the solution version you want to stop
@@ -3669,10 +3679,10 @@ class Personalize {
   /// Add a list of tags to a resource.
   ///
   /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagsException].
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
   ///
   /// Parameter [resourceArn] :
   /// The resource's Amazon Resource Name (ARN).
@@ -3708,9 +3718,9 @@ class Personalize {
   /// tags from Amazon Personalize resources</a>.
   ///
   /// May throw [InvalidInputException].
+  /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [TooManyTagKeysException].
-  /// May throw [ResourceInUseException].
   ///
   /// Parameter [resourceArn] :
   /// The resource's Amazon Resource Name (ARN).
@@ -3776,8 +3786,8 @@ class Personalize {
   /// a campaign</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [campaignArn] :
   /// The Amazon Resource Name (ARN) of the campaign.
@@ -3847,8 +3857,8 @@ class Personalize {
   /// a dataset's schema</a>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [datasetArn] :
   /// The Amazon Resource Name (ARN) of the dataset that you want to update.
@@ -3881,9 +3891,9 @@ class Personalize {
   /// Updates a metric attribution.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [addMetrics] :
   /// Add new metric attributes to the metric attribution.
@@ -3936,8 +3946,8 @@ class Personalize {
   /// operation.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [recommenderArn] :
   /// The Amazon Resource Name (ARN) of the recommender to modify.
@@ -3976,7 +3986,7 @@ class Personalize {
   ///
   /// A solution update can be in one of the following states:
   ///
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
   ///
   /// To get the status of a solution update, call the <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
@@ -3984,10 +3994,9 @@ class Personalize {
   /// <code>latestSolutionUpdate</code>.
   ///
   /// May throw [InvalidInputException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [solutionArn] :
   /// The Amazon Resource Name (ARN) of the solution to update.
@@ -4011,11 +4020,19 @@ class Personalize {
   /// API operation. To get its status, use the <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html">DescribeSolutionVersion</a>.
   ///
+  /// Parameter [performIncrementalUpdate] :
+  /// Whether to perform incremental training updates on your model. When
+  /// enabled, this allows the model to learn from new data more frequently
+  /// without requiring full retraining, which enables near real-time
+  /// personalization. This parameter is supported only for solutions that use
+  /// the semantic-similarity recipe.
+  ///
   /// Parameter [solutionUpdateConfig] :
   /// The new configuration details of the solution.
   Future<UpdateSolutionResponse> updateSolution({
     required String solutionArn,
     bool? performAutoTraining,
+    bool? performIncrementalUpdate,
     SolutionUpdateConfig? solutionUpdateConfig,
   }) async {
     final headers = <String, String>{
@@ -4032,1282 +4049,14 @@ class Personalize {
         'solutionArn': solutionArn,
         if (performAutoTraining != null)
           'performAutoTraining': performAutoTraining,
+        if (performIncrementalUpdate != null)
+          'performIncrementalUpdate': performIncrementalUpdate,
         if (solutionUpdateConfig != null)
           'solutionUpdateConfig': solutionUpdateConfig,
       },
     );
 
     return UpdateSolutionResponse.fromJson(jsonResponse.body);
-  }
-}
-
-/// Describes a custom algorithm.
-class Algorithm {
-  /// The Amazon Resource Name (ARN) of the algorithm.
-  final String? algorithmArn;
-
-  /// The URI of the Docker container for the algorithm image.
-  final AlgorithmImage? algorithmImage;
-
-  /// The date and time (in Unix time) that the algorithm was created.
-  final DateTime? creationDateTime;
-
-  /// Specifies the default hyperparameters, their ranges, and whether they are
-  /// tunable. A tunable hyperparameter can have its value determined during
-  /// hyperparameter optimization (HPO).
-  final DefaultHyperParameterRanges? defaultHyperParameterRanges;
-
-  /// Specifies the default hyperparameters.
-  final Map<String, String>? defaultHyperParameters;
-
-  /// Specifies the default maximum number of training jobs and parallel training
-  /// jobs.
-  final Map<String, String>? defaultResourceConfig;
-
-  /// The date and time (in Unix time) that the algorithm was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the algorithm.
-  final String? name;
-
-  /// The Amazon Resource Name (ARN) of the role.
-  final String? roleArn;
-
-  /// The training input mode.
-  final String? trainingInputMode;
-
-  Algorithm({
-    this.algorithmArn,
-    this.algorithmImage,
-    this.creationDateTime,
-    this.defaultHyperParameterRanges,
-    this.defaultHyperParameters,
-    this.defaultResourceConfig,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.roleArn,
-    this.trainingInputMode,
-  });
-
-  factory Algorithm.fromJson(Map<String, dynamic> json) {
-    return Algorithm(
-      algorithmArn: json['algorithmArn'] as String?,
-      algorithmImage: json['algorithmImage'] != null
-          ? AlgorithmImage.fromJson(
-              json['algorithmImage'] as Map<String, dynamic>)
-          : null,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      defaultHyperParameterRanges: json['defaultHyperParameterRanges'] != null
-          ? DefaultHyperParameterRanges.fromJson(
-              json['defaultHyperParameterRanges'] as Map<String, dynamic>)
-          : null,
-      defaultHyperParameters:
-          (json['defaultHyperParameters'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      defaultResourceConfig:
-          (json['defaultResourceConfig'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      roleArn: json['roleArn'] as String?,
-      trainingInputMode: json['trainingInputMode'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final algorithmArn = this.algorithmArn;
-    final algorithmImage = this.algorithmImage;
-    final creationDateTime = this.creationDateTime;
-    final defaultHyperParameterRanges = this.defaultHyperParameterRanges;
-    final defaultHyperParameters = this.defaultHyperParameters;
-    final defaultResourceConfig = this.defaultResourceConfig;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final roleArn = this.roleArn;
-    final trainingInputMode = this.trainingInputMode;
-    return {
-      if (algorithmArn != null) 'algorithmArn': algorithmArn,
-      if (algorithmImage != null) 'algorithmImage': algorithmImage,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (defaultHyperParameterRanges != null)
-        'defaultHyperParameterRanges': defaultHyperParameterRanges,
-      if (defaultHyperParameters != null)
-        'defaultHyperParameters': defaultHyperParameters,
-      if (defaultResourceConfig != null)
-        'defaultResourceConfig': defaultResourceConfig,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (trainingInputMode != null) 'trainingInputMode': trainingInputMode,
-    };
-  }
-}
-
-/// Describes an algorithm image.
-class AlgorithmImage {
-  /// The URI of the Docker container for the algorithm image.
-  final String dockerURI;
-
-  /// The name of the algorithm image.
-  final String? name;
-
-  AlgorithmImage({
-    required this.dockerURI,
-    this.name,
-  });
-
-  factory AlgorithmImage.fromJson(Map<String, dynamic> json) {
-    return AlgorithmImage(
-      dockerURI: (json['dockerURI'] as String?) ?? '',
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dockerURI = this.dockerURI;
-    final name = this.name;
-    return {
-      'dockerURI': dockerURI,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// When the solution performs AutoML (<code>performAutoML</code> is true in <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>),
-/// Amazon Personalize determines which recipe, from the specified list,
-/// optimizes the given metric. Amazon Personalize then uses that recipe for the
-/// solution.
-class AutoMLConfig {
-  /// The metric to optimize.
-  final String? metricName;
-
-  /// The list of candidate recipes.
-  final List<String>? recipeList;
-
-  AutoMLConfig({
-    this.metricName,
-    this.recipeList,
-  });
-
-  factory AutoMLConfig.fromJson(Map<String, dynamic> json) {
-    return AutoMLConfig(
-      metricName: json['metricName'] as String?,
-      recipeList: (json['recipeList'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final recipeList = this.recipeList;
-    return {
-      if (metricName != null) 'metricName': metricName,
-      if (recipeList != null) 'recipeList': recipeList,
-    };
-  }
-}
-
-/// When the solution performs AutoML (<code>performAutoML</code> is true in <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>),
-/// specifies the recipe that best optimized the specified metric.
-class AutoMLResult {
-  /// The Amazon Resource Name (ARN) of the best recipe.
-  final String? bestRecipeArn;
-
-  AutoMLResult({
-    this.bestRecipeArn,
-  });
-
-  factory AutoMLResult.fromJson(Map<String, dynamic> json) {
-    return AutoMLResult(
-      bestRecipeArn: json['bestRecipeArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final bestRecipeArn = this.bestRecipeArn;
-    return {
-      if (bestRecipeArn != null) 'bestRecipeArn': bestRecipeArn,
-    };
-  }
-}
-
-/// The automatic training configuration to use when
-/// <code>performAutoTraining</code> is true.
-class AutoTrainingConfig {
-  /// Specifies how often to automatically train new solution versions. Specify a
-  /// rate expression in rate(<i>value</i> <i>unit</i>) format. For value, specify
-  /// a number between 1 and 30. For unit, specify <code>day</code> or
-  /// <code>days</code>. For example, to automatically create a new solution
-  /// version every 5 days, specify <code>rate(5 days)</code>. The default is
-  /// every 7 days.
-  ///
-  /// For more information about auto training, see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html">Creating
-  /// and configuring a solution</a>.
-  final String? schedulingExpression;
-
-  AutoTrainingConfig({
-    this.schedulingExpression,
-  });
-
-  factory AutoTrainingConfig.fromJson(Map<String, dynamic> json) {
-    return AutoTrainingConfig(
-      schedulingExpression: json['schedulingExpression'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final schedulingExpression = this.schedulingExpression;
-    return {
-      if (schedulingExpression != null)
-        'schedulingExpression': schedulingExpression,
-    };
-  }
-}
-
-/// Contains information on a batch inference job.
-class BatchInferenceJob {
-  /// The Amazon Resource Name (ARN) of the batch inference job.
-  final String? batchInferenceJobArn;
-
-  /// A string to string map of the configuration details of a batch inference
-  /// job.
-  final BatchInferenceJobConfig? batchInferenceJobConfig;
-
-  /// The job's mode.
-  final BatchInferenceJobMode? batchInferenceJobMode;
-
-  /// The time at which the batch inference job was created.
-  final DateTime? creationDateTime;
-
-  /// If the batch inference job failed, the reason for the failure.
-  final String? failureReason;
-
-  /// The ARN of the filter used on the batch inference job.
-  final String? filterArn;
-
-  /// The Amazon S3 path that leads to the input data used to generate the batch
-  /// inference job.
-  final BatchInferenceJobInput? jobInput;
-
-  /// The name of the batch inference job.
-  final String? jobName;
-
-  /// The Amazon S3 bucket that contains the output data generated by the batch
-  /// inference job.
-  final BatchInferenceJobOutput? jobOutput;
-
-  /// The time at which the batch inference job was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The number of recommendations generated by the batch inference job. This
-  /// number includes the error messages generated for failed input records.
-  final int? numResults;
-
-  /// The ARN of the Amazon Identity and Access Management (IAM) role that
-  /// requested the batch inference job.
-  final String? roleArn;
-
-  /// The Amazon Resource Name (ARN) of the solution version from which the batch
-  /// inference job was created.
-  final String? solutionVersionArn;
-
-  /// The status of the batch inference job. The status is one of the following
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// IN PROGRESS
-  /// </li>
-  /// <li>
-  /// ACTIVE
-  /// </li>
-  /// <li>
-  /// CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  /// The job's theme generation settings.
-  final ThemeGenerationConfig? themeGenerationConfig;
-
-  BatchInferenceJob({
-    this.batchInferenceJobArn,
-    this.batchInferenceJobConfig,
-    this.batchInferenceJobMode,
-    this.creationDateTime,
-    this.failureReason,
-    this.filterArn,
-    this.jobInput,
-    this.jobName,
-    this.jobOutput,
-    this.lastUpdatedDateTime,
-    this.numResults,
-    this.roleArn,
-    this.solutionVersionArn,
-    this.status,
-    this.themeGenerationConfig,
-  });
-
-  factory BatchInferenceJob.fromJson(Map<String, dynamic> json) {
-    return BatchInferenceJob(
-      batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
-      batchInferenceJobConfig: json['batchInferenceJobConfig'] != null
-          ? BatchInferenceJobConfig.fromJson(
-              json['batchInferenceJobConfig'] as Map<String, dynamic>)
-          : null,
-      batchInferenceJobMode: (json['batchInferenceJobMode'] as String?)
-          ?.let(BatchInferenceJobMode.fromString),
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      filterArn: json['filterArn'] as String?,
-      jobInput: json['jobInput'] != null
-          ? BatchInferenceJobInput.fromJson(
-              json['jobInput'] as Map<String, dynamic>)
-          : null,
-      jobName: json['jobName'] as String?,
-      jobOutput: json['jobOutput'] != null
-          ? BatchInferenceJobOutput.fromJson(
-              json['jobOutput'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      numResults: json['numResults'] as int?,
-      roleArn: json['roleArn'] as String?,
-      solutionVersionArn: json['solutionVersionArn'] as String?,
-      status: json['status'] as String?,
-      themeGenerationConfig: json['themeGenerationConfig'] != null
-          ? ThemeGenerationConfig.fromJson(
-              json['themeGenerationConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final batchInferenceJobArn = this.batchInferenceJobArn;
-    final batchInferenceJobConfig = this.batchInferenceJobConfig;
-    final batchInferenceJobMode = this.batchInferenceJobMode;
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final filterArn = this.filterArn;
-    final jobInput = this.jobInput;
-    final jobName = this.jobName;
-    final jobOutput = this.jobOutput;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final numResults = this.numResults;
-    final roleArn = this.roleArn;
-    final solutionVersionArn = this.solutionVersionArn;
-    final status = this.status;
-    final themeGenerationConfig = this.themeGenerationConfig;
-    return {
-      if (batchInferenceJobArn != null)
-        'batchInferenceJobArn': batchInferenceJobArn,
-      if (batchInferenceJobConfig != null)
-        'batchInferenceJobConfig': batchInferenceJobConfig,
-      if (batchInferenceJobMode != null)
-        'batchInferenceJobMode': batchInferenceJobMode.value,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (filterArn != null) 'filterArn': filterArn,
-      if (jobInput != null) 'jobInput': jobInput,
-      if (jobName != null) 'jobName': jobName,
-      if (jobOutput != null) 'jobOutput': jobOutput,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (numResults != null) 'numResults': numResults,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-      if (status != null) 'status': status,
-      if (themeGenerationConfig != null)
-        'themeGenerationConfig': themeGenerationConfig,
-    };
-  }
-}
-
-/// The configuration details of a batch inference job.
-class BatchInferenceJobConfig {
-  /// A string to string map specifying the exploration configuration
-  /// hyperparameters, including <code>explorationWeight</code> and
-  /// <code>explorationItemAgeCutOff</code>, you want to use to configure the
-  /// amount of item exploration Amazon Personalize uses when recommending items.
-  /// See <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html">User-Personalization</a>.
-  final Map<String, String>? itemExplorationConfig;
-
-  BatchInferenceJobConfig({
-    this.itemExplorationConfig,
-  });
-
-  factory BatchInferenceJobConfig.fromJson(Map<String, dynamic> json) {
-    return BatchInferenceJobConfig(
-      itemExplorationConfig:
-          (json['itemExplorationConfig'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final itemExplorationConfig = this.itemExplorationConfig;
-    return {
-      if (itemExplorationConfig != null)
-        'itemExplorationConfig': itemExplorationConfig,
-    };
-  }
-}
-
-/// The input configuration of a batch inference job.
-class BatchInferenceJobInput {
-  /// The URI of the Amazon S3 location that contains your input data. The Amazon
-  /// S3 bucket must be in the same region as the API endpoint you are calling.
-  final S3DataConfig s3DataSource;
-
-  BatchInferenceJobInput({
-    required this.s3DataSource,
-  });
-
-  factory BatchInferenceJobInput.fromJson(Map<String, dynamic> json) {
-    return BatchInferenceJobInput(
-      s3DataSource: S3DataConfig.fromJson(
-          (json['s3DataSource'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3DataSource = this.s3DataSource;
-    return {
-      's3DataSource': s3DataSource,
-    };
-  }
-}
-
-class BatchInferenceJobMode {
-  static const batchInference = BatchInferenceJobMode._('BATCH_INFERENCE');
-  static const themeGeneration = BatchInferenceJobMode._('THEME_GENERATION');
-
-  final String value;
-
-  const BatchInferenceJobMode._(this.value);
-
-  static const values = [batchInference, themeGeneration];
-
-  static BatchInferenceJobMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => BatchInferenceJobMode._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is BatchInferenceJobMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The output configuration parameters of a batch inference job.
-class BatchInferenceJobOutput {
-  /// Information on the Amazon S3 bucket in which the batch inference job's
-  /// output is stored.
-  final S3DataConfig s3DataDestination;
-
-  BatchInferenceJobOutput({
-    required this.s3DataDestination,
-  });
-
-  factory BatchInferenceJobOutput.fromJson(Map<String, dynamic> json) {
-    return BatchInferenceJobOutput(
-      s3DataDestination: S3DataConfig.fromJson(
-          (json['s3DataDestination'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3DataDestination = this.s3DataDestination;
-    return {
-      's3DataDestination': s3DataDestination,
-    };
-  }
-}
-
-/// A truncated version of the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_BatchInferenceJob.html">BatchInferenceJob</a>.
-/// The <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchInferenceJobs.html">ListBatchInferenceJobs</a>
-/// operation returns a list of batch inference job summaries.
-class BatchInferenceJobSummary {
-  /// The Amazon Resource Name (ARN) of the batch inference job.
-  final String? batchInferenceJobArn;
-
-  /// The job's mode.
-  final BatchInferenceJobMode? batchInferenceJobMode;
-
-  /// The time at which the batch inference job was created.
-  final DateTime? creationDateTime;
-
-  /// If the batch inference job failed, the reason for the failure.
-  final String? failureReason;
-
-  /// The name of the batch inference job.
-  final String? jobName;
-
-  /// The time at which the batch inference job was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The ARN of the solution version used by the batch inference job.
-  final String? solutionVersionArn;
-
-  /// The status of the batch inference job. The status is one of the following
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// IN PROGRESS
-  /// </li>
-  /// <li>
-  /// ACTIVE
-  /// </li>
-  /// <li>
-  /// CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  BatchInferenceJobSummary({
-    this.batchInferenceJobArn,
-    this.batchInferenceJobMode,
-    this.creationDateTime,
-    this.failureReason,
-    this.jobName,
-    this.lastUpdatedDateTime,
-    this.solutionVersionArn,
-    this.status,
-  });
-
-  factory BatchInferenceJobSummary.fromJson(Map<String, dynamic> json) {
-    return BatchInferenceJobSummary(
-      batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
-      batchInferenceJobMode: (json['batchInferenceJobMode'] as String?)
-          ?.let(BatchInferenceJobMode.fromString),
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      jobName: json['jobName'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      solutionVersionArn: json['solutionVersionArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final batchInferenceJobArn = this.batchInferenceJobArn;
-    final batchInferenceJobMode = this.batchInferenceJobMode;
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final jobName = this.jobName;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final solutionVersionArn = this.solutionVersionArn;
-    final status = this.status;
-    return {
-      if (batchInferenceJobArn != null)
-        'batchInferenceJobArn': batchInferenceJobArn,
-      if (batchInferenceJobMode != null)
-        'batchInferenceJobMode': batchInferenceJobMode.value,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (jobName != null) 'jobName': jobName,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Contains information on a batch segment job.
-class BatchSegmentJob {
-  /// The Amazon Resource Name (ARN) of the batch segment job.
-  final String? batchSegmentJobArn;
-
-  /// The time at which the batch segment job was created.
-  final DateTime? creationDateTime;
-
-  /// If the batch segment job failed, the reason for the failure.
-  final String? failureReason;
-
-  /// The ARN of the filter used on the batch segment job.
-  final String? filterArn;
-
-  /// The Amazon S3 path that leads to the input data used to generate the batch
-  /// segment job.
-  final BatchSegmentJobInput? jobInput;
-
-  /// The name of the batch segment job.
-  final String? jobName;
-
-  /// The Amazon S3 bucket that contains the output data generated by the batch
-  /// segment job.
-  final BatchSegmentJobOutput? jobOutput;
-
-  /// The time at which the batch segment job last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The number of predicted users generated by the batch segment job for each
-  /// line of input data. The maximum number of users per segment is 5 million.
-  final int? numResults;
-
-  /// The ARN of the Amazon Identity and Access Management (IAM) role that
-  /// requested the batch segment job.
-  final String? roleArn;
-
-  /// The Amazon Resource Name (ARN) of the solution version used by the batch
-  /// segment job to generate batch segments.
-  final String? solutionVersionArn;
-
-  /// The status of the batch segment job. The status is one of the following
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// IN PROGRESS
-  /// </li>
-  /// <li>
-  /// ACTIVE
-  /// </li>
-  /// <li>
-  /// CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  BatchSegmentJob({
-    this.batchSegmentJobArn,
-    this.creationDateTime,
-    this.failureReason,
-    this.filterArn,
-    this.jobInput,
-    this.jobName,
-    this.jobOutput,
-    this.lastUpdatedDateTime,
-    this.numResults,
-    this.roleArn,
-    this.solutionVersionArn,
-    this.status,
-  });
-
-  factory BatchSegmentJob.fromJson(Map<String, dynamic> json) {
-    return BatchSegmentJob(
-      batchSegmentJobArn: json['batchSegmentJobArn'] as String?,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      filterArn: json['filterArn'] as String?,
-      jobInput: json['jobInput'] != null
-          ? BatchSegmentJobInput.fromJson(
-              json['jobInput'] as Map<String, dynamic>)
-          : null,
-      jobName: json['jobName'] as String?,
-      jobOutput: json['jobOutput'] != null
-          ? BatchSegmentJobOutput.fromJson(
-              json['jobOutput'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      numResults: json['numResults'] as int?,
-      roleArn: json['roleArn'] as String?,
-      solutionVersionArn: json['solutionVersionArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final batchSegmentJobArn = this.batchSegmentJobArn;
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final filterArn = this.filterArn;
-    final jobInput = this.jobInput;
-    final jobName = this.jobName;
-    final jobOutput = this.jobOutput;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final numResults = this.numResults;
-    final roleArn = this.roleArn;
-    final solutionVersionArn = this.solutionVersionArn;
-    final status = this.status;
-    return {
-      if (batchSegmentJobArn != null) 'batchSegmentJobArn': batchSegmentJobArn,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (filterArn != null) 'filterArn': filterArn,
-      if (jobInput != null) 'jobInput': jobInput,
-      if (jobName != null) 'jobName': jobName,
-      if (jobOutput != null) 'jobOutput': jobOutput,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (numResults != null) 'numResults': numResults,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// The input configuration of a batch segment job.
-class BatchSegmentJobInput {
-  final S3DataConfig s3DataSource;
-
-  BatchSegmentJobInput({
-    required this.s3DataSource,
-  });
-
-  factory BatchSegmentJobInput.fromJson(Map<String, dynamic> json) {
-    return BatchSegmentJobInput(
-      s3DataSource: S3DataConfig.fromJson(
-          (json['s3DataSource'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3DataSource = this.s3DataSource;
-    return {
-      's3DataSource': s3DataSource,
-    };
-  }
-}
-
-/// The output configuration parameters of a batch segment job.
-class BatchSegmentJobOutput {
-  final S3DataConfig s3DataDestination;
-
-  BatchSegmentJobOutput({
-    required this.s3DataDestination,
-  });
-
-  factory BatchSegmentJobOutput.fromJson(Map<String, dynamic> json) {
-    return BatchSegmentJobOutput(
-      s3DataDestination: S3DataConfig.fromJson(
-          (json['s3DataDestination'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3DataDestination = this.s3DataDestination;
-    return {
-      's3DataDestination': s3DataDestination,
-    };
-  }
-}
-
-/// A truncated version of the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_BatchSegmentJob.html">BatchSegmentJob</a>
-/// datatype. <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchSegmentJobs.html">ListBatchSegmentJobs</a>
-/// operation returns a list of batch segment job summaries.
-class BatchSegmentJobSummary {
-  /// The Amazon Resource Name (ARN) of the batch segment job.
-  final String? batchSegmentJobArn;
-
-  /// The time at which the batch segment job was created.
-  final DateTime? creationDateTime;
-
-  /// If the batch segment job failed, the reason for the failure.
-  final String? failureReason;
-
-  /// The name of the batch segment job.
-  final String? jobName;
-
-  /// The time at which the batch segment job was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The Amazon Resource Name (ARN) of the solution version used by the batch
-  /// segment job to generate batch segments.
-  final String? solutionVersionArn;
-
-  /// The status of the batch segment job. The status is one of the following
-  /// values:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING
-  /// </li>
-  /// <li>
-  /// IN PROGRESS
-  /// </li>
-  /// <li>
-  /// ACTIVE
-  /// </li>
-  /// <li>
-  /// CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  BatchSegmentJobSummary({
-    this.batchSegmentJobArn,
-    this.creationDateTime,
-    this.failureReason,
-    this.jobName,
-    this.lastUpdatedDateTime,
-    this.solutionVersionArn,
-    this.status,
-  });
-
-  factory BatchSegmentJobSummary.fromJson(Map<String, dynamic> json) {
-    return BatchSegmentJobSummary(
-      batchSegmentJobArn: json['batchSegmentJobArn'] as String?,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      jobName: json['jobName'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      solutionVersionArn: json['solutionVersionArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final batchSegmentJobArn = this.batchSegmentJobArn;
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final jobName = this.jobName;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final solutionVersionArn = this.solutionVersionArn;
-    final status = this.status;
-    return {
-      if (batchSegmentJobArn != null) 'batchSegmentJobArn': batchSegmentJobArn,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (jobName != null) 'jobName': jobName,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// An object that describes the deployment of a solution version. For more
-/// information on campaigns, see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html">CreateCampaign</a>.
-class Campaign {
-  /// The Amazon Resource Name (ARN) of the campaign.
-  final String? campaignArn;
-
-  /// The configuration details of a campaign.
-  final CampaignConfig? campaignConfig;
-
-  /// The date and time (in Unix format) that the campaign was created.
-  final DateTime? creationDateTime;
-
-  /// If a campaign fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix format) that the campaign was last updated.
-  final DateTime? lastUpdatedDateTime;
-  final CampaignUpdateSummary? latestCampaignUpdate;
-
-  /// Specifies the requested minimum provisioned transactions (recommendations)
-  /// per second. A high <code>minProvisionedTPS</code> will increase your bill.
-  /// We recommend starting with 1 for <code>minProvisionedTPS</code> (the
-  /// default). Track your usage using Amazon CloudWatch metrics, and increase the
-  /// <code>minProvisionedTPS</code> as necessary.
-  final int? minProvisionedTPS;
-
-  /// The name of the campaign.
-  final String? name;
-
-  /// The Amazon Resource Name (ARN) of the solution version the campaign uses.
-  final String? solutionVersionArn;
-
-  /// The status of the campaign.
-  ///
-  /// A campaign can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  Campaign({
-    this.campaignArn,
-    this.campaignConfig,
-    this.creationDateTime,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.latestCampaignUpdate,
-    this.minProvisionedTPS,
-    this.name,
-    this.solutionVersionArn,
-    this.status,
-  });
-
-  factory Campaign.fromJson(Map<String, dynamic> json) {
-    return Campaign(
-      campaignArn: json['campaignArn'] as String?,
-      campaignConfig: json['campaignConfig'] != null
-          ? CampaignConfig.fromJson(
-              json['campaignConfig'] as Map<String, dynamic>)
-          : null,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      latestCampaignUpdate: json['latestCampaignUpdate'] != null
-          ? CampaignUpdateSummary.fromJson(
-              json['latestCampaignUpdate'] as Map<String, dynamic>)
-          : null,
-      minProvisionedTPS: json['minProvisionedTPS'] as int?,
-      name: json['name'] as String?,
-      solutionVersionArn: json['solutionVersionArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaignArn = this.campaignArn;
-    final campaignConfig = this.campaignConfig;
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final latestCampaignUpdate = this.latestCampaignUpdate;
-    final minProvisionedTPS = this.minProvisionedTPS;
-    final name = this.name;
-    final solutionVersionArn = this.solutionVersionArn;
-    final status = this.status;
-    return {
-      if (campaignArn != null) 'campaignArn': campaignArn,
-      if (campaignConfig != null) 'campaignConfig': campaignConfig,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (latestCampaignUpdate != null)
-        'latestCampaignUpdate': latestCampaignUpdate,
-      if (minProvisionedTPS != null) 'minProvisionedTPS': minProvisionedTPS,
-      if (name != null) 'name': name,
-      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// The configuration details of a campaign.
-class CampaignConfig {
-  /// Whether metadata with recommendations is enabled for the campaign. If
-  /// enabled, you can specify the columns from your Items dataset in your request
-  /// for recommendations. Amazon Personalize returns this data for each item in
-  /// the recommendation response. For information about enabling metadata for a
-  /// campaign, see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata">Enabling
-  /// metadata in recommendations for a campaign</a>.
-  ///
-  /// If you enable metadata in recommendations, you will incur additional costs.
-  /// For more information, see <a
-  /// href="https://aws.amazon.com/personalize/pricing/">Amazon Personalize
-  /// pricing</a>.
-  final bool? enableMetadataWithRecommendations;
-
-  /// Specifies the exploration configuration hyperparameters, including
-  /// <code>explorationWeight</code> and <code>explorationItemAgeCutOff</code>,
-  /// you want to use to configure the amount of item exploration Amazon
-  /// Personalize uses when recommending items. Provide
-  /// <code>itemExplorationConfig</code> data only if your solution uses the <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html">User-Personalization</a>
-  /// recipe.
-  final Map<String, String>? itemExplorationConfig;
-
-  /// Whether the campaign automatically updates to use the latest solution
-  /// version (trained model) of a solution. If you specify <code>True</code>, you
-  /// must specify the ARN of your <i>solution</i> for the
-  /// <code>SolutionVersionArn</code> parameter. It must be in
-  /// <code>SolutionArn/$LATEST</code> format. The default is <code>False</code>
-  /// and you must manually update the campaign to deploy the latest solution
-  /// version.
-  ///
-  /// For more information about automatic campaign updates, see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update">Enabling
-  /// automatic campaign updates</a>.
-  final bool? syncWithLatestSolutionVersion;
-
-  CampaignConfig({
-    this.enableMetadataWithRecommendations,
-    this.itemExplorationConfig,
-    this.syncWithLatestSolutionVersion,
-  });
-
-  factory CampaignConfig.fromJson(Map<String, dynamic> json) {
-    return CampaignConfig(
-      enableMetadataWithRecommendations:
-          json['enableMetadataWithRecommendations'] as bool?,
-      itemExplorationConfig:
-          (json['itemExplorationConfig'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      syncWithLatestSolutionVersion:
-          json['syncWithLatestSolutionVersion'] as bool?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enableMetadataWithRecommendations =
-        this.enableMetadataWithRecommendations;
-    final itemExplorationConfig = this.itemExplorationConfig;
-    final syncWithLatestSolutionVersion = this.syncWithLatestSolutionVersion;
-    return {
-      if (enableMetadataWithRecommendations != null)
-        'enableMetadataWithRecommendations': enableMetadataWithRecommendations,
-      if (itemExplorationConfig != null)
-        'itemExplorationConfig': itemExplorationConfig,
-      if (syncWithLatestSolutionVersion != null)
-        'syncWithLatestSolutionVersion': syncWithLatestSolutionVersion,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a campaign. For a complete listing,
-/// call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html">DescribeCampaign</a>
-/// API.
-class CampaignSummary {
-  /// The Amazon Resource Name (ARN) of the campaign.
-  final String? campaignArn;
-
-  /// The date and time (in Unix time) that the campaign was created.
-  final DateTime? creationDateTime;
-
-  /// If a campaign fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix time) that the campaign was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the campaign.
-  final String? name;
-
-  /// The status of the campaign.
-  ///
-  /// A campaign can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  CampaignSummary({
-    this.campaignArn,
-    this.creationDateTime,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.status,
-  });
-
-  factory CampaignSummary.fromJson(Map<String, dynamic> json) {
-    return CampaignSummary(
-      campaignArn: json['campaignArn'] as String?,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaignArn = this.campaignArn;
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (campaignArn != null) 'campaignArn': campaignArn,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a campaign update. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html">DescribeCampaign</a>
-/// API.
-class CampaignUpdateSummary {
-  final CampaignConfig? campaignConfig;
-
-  /// The date and time (in Unix time) that the campaign update was created.
-  final DateTime? creationDateTime;
-
-  /// If a campaign update fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix time) that the campaign update was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// Specifies the requested minimum provisioned transactions (recommendations)
-  /// per second that Amazon Personalize will support.
-  final int? minProvisionedTPS;
-
-  /// The Amazon Resource Name (ARN) of the deployed solution version.
-  final String? solutionVersionArn;
-
-  /// The status of the campaign update.
-  ///
-  /// A campaign update can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  CampaignUpdateSummary({
-    this.campaignConfig,
-    this.creationDateTime,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.minProvisionedTPS,
-    this.solutionVersionArn,
-    this.status,
-  });
-
-  factory CampaignUpdateSummary.fromJson(Map<String, dynamic> json) {
-    return CampaignUpdateSummary(
-      campaignConfig: json['campaignConfig'] != null
-          ? CampaignConfig.fromJson(
-              json['campaignConfig'] as Map<String, dynamic>)
-          : null,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      minProvisionedTPS: json['minProvisionedTPS'] as int?,
-      solutionVersionArn: json['solutionVersionArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final campaignConfig = this.campaignConfig;
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final minProvisionedTPS = this.minProvisionedTPS;
-    final solutionVersionArn = this.solutionVersionArn;
-    final status = this.status;
-    return {
-      if (campaignConfig != null) 'campaignConfig': campaignConfig,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (minProvisionedTPS != null) 'minProvisionedTPS': minProvisionedTPS,
-      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Provides the name and range of a categorical hyperparameter.
-class CategoricalHyperParameterRange {
-  /// The name of the hyperparameter.
-  final String? name;
-
-  /// A list of the categories for the hyperparameter.
-  final List<String>? values;
-
-  CategoricalHyperParameterRange({
-    this.name,
-    this.values,
-  });
-
-  factory CategoricalHyperParameterRange.fromJson(Map<String, dynamic> json) {
-    return CategoricalHyperParameterRange(
-      name: json['name'] as String?,
-      values:
-          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final name = this.name;
-    final values = this.values;
-    return {
-      if (name != null) 'name': name,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-/// Provides the name and range of a continuous hyperparameter.
-class ContinuousHyperParameterRange {
-  /// The maximum allowable value for the hyperparameter.
-  final double? maxValue;
-
-  /// The minimum allowable value for the hyperparameter.
-  final double? minValue;
-
-  /// The name of the hyperparameter.
-  final String? name;
-
-  ContinuousHyperParameterRange({
-    this.maxValue,
-    this.minValue,
-    this.name,
-  });
-
-  factory ContinuousHyperParameterRange.fromJson(Map<String, dynamic> json) {
-    return ContinuousHyperParameterRange(
-      maxValue: json['maxValue'] as double?,
-      minValue: json['minValue'] as double?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxValue = this.maxValue;
-    final minValue = this.minValue;
-    final name = this.name;
-    return {
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
-      if (name != null) 'name': name,
-    };
   }
 }
 
@@ -5400,6 +4149,28 @@ class CreateDataDeletionJobResponse {
   }
 }
 
+class CreateDatasetResponse {
+  /// The ARN of the dataset.
+  final String? datasetArn;
+
+  CreateDatasetResponse({
+    this.datasetArn,
+  });
+
+  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetResponse(
+      datasetArn: json['datasetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    return {
+      if (datasetArn != null) 'datasetArn': datasetArn,
+    };
+  }
+}
+
 class CreateDatasetExportJobResponse {
   /// The Amazon Resource Name (ARN) of the dataset export job.
   final String? datasetExportJobArn;
@@ -5471,28 +4242,6 @@ class CreateDatasetImportJobResponse {
     return {
       if (datasetImportJobArn != null)
         'datasetImportJobArn': datasetImportJobArn,
-    };
-  }
-}
-
-class CreateDatasetResponse {
-  /// The ARN of the dataset.
-  final String? datasetArn;
-
-  CreateDatasetResponse({
-    this.datasetArn,
-  });
-
-  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
-    return CreateDatasetResponse(
-      datasetArn: json['datasetArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final datasetArn = this.datasetArn;
-    return {
-      if (datasetArn != null) 'datasetArn': datasetArn,
     };
   }
 }
@@ -5661,1412 +4410,6 @@ class CreateSolutionVersionResponse {
   }
 }
 
-/// Describes a job that deletes all references to specific users from an Amazon
-/// Personalize dataset group in batches. For information about creating a data
-/// deletion job, see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/delete-records.html">Deleting
-/// users</a>.
-class DataDeletionJob {
-  /// The creation date and time (in Unix time) of the data deletion job.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the data deletion job.
-  final String? dataDeletionJobArn;
-  final DataSource? dataSource;
-
-  /// The Amazon Resource Name (ARN) of the dataset group the job deletes records
-  /// from.
-  final String? datasetGroupArn;
-
-  /// If a data deletion job fails, provides the reason why.
-  final String? failureReason;
-
-  /// The name of the data deletion job.
-  final String? jobName;
-
-  /// The date and time (in Unix time) the data deletion job was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The number of records deleted by a COMPLETED job.
-  final int? numDeleted;
-
-  /// The Amazon Resource Name (ARN) of the IAM role that has permissions to read
-  /// from the Amazon S3 data source.
-  final String? roleArn;
-
-  /// The status of the data deletion job.
-  ///
-  /// A data deletion job can have one of the following statuses:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING &gt; IN_PROGRESS &gt; COMPLETED -or- FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DataDeletionJob({
-    this.creationDateTime,
-    this.dataDeletionJobArn,
-    this.dataSource,
-    this.datasetGroupArn,
-    this.failureReason,
-    this.jobName,
-    this.lastUpdatedDateTime,
-    this.numDeleted,
-    this.roleArn,
-    this.status,
-  });
-
-  factory DataDeletionJob.fromJson(Map<String, dynamic> json) {
-    return DataDeletionJob(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      dataDeletionJobArn: json['dataDeletionJobArn'] as String?,
-      dataSource: json['dataSource'] != null
-          ? DataSource.fromJson(json['dataSource'] as Map<String, dynamic>)
-          : null,
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      jobName: json['jobName'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      numDeleted: json['numDeleted'] as int?,
-      roleArn: json['roleArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final dataDeletionJobArn = this.dataDeletionJobArn;
-    final dataSource = this.dataSource;
-    final datasetGroupArn = this.datasetGroupArn;
-    final failureReason = this.failureReason;
-    final jobName = this.jobName;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final numDeleted = this.numDeleted;
-    final roleArn = this.roleArn;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (dataDeletionJobArn != null) 'dataDeletionJobArn': dataDeletionJobArn,
-      if (dataSource != null) 'dataSource': dataSource,
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (jobName != null) 'jobName': jobName,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (numDeleted != null) 'numDeleted': numDeleted,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a data deletion job. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataDeletionJob.html">DescribeDataDeletionJob</a>
-/// API operation.
-class DataDeletionJobSummary {
-  /// The creation date and time (in Unix time) of the data deletion job.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the data deletion job.
-  final String? dataDeletionJobArn;
-
-  /// The Amazon Resource Name (ARN) of the dataset group the job deleted records
-  /// from.
-  final String? datasetGroupArn;
-
-  /// If a data deletion job fails, provides the reason why.
-  final String? failureReason;
-
-  /// The name of the data deletion job.
-  final String? jobName;
-
-  /// The date and time (in Unix time) the data deletion job was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The status of the data deletion job.
-  ///
-  /// A data deletion job can have one of the following statuses:
-  ///
-  /// <ul>
-  /// <li>
-  /// PENDING &gt; IN_PROGRESS &gt; COMPLETED -or- FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DataDeletionJobSummary({
-    this.creationDateTime,
-    this.dataDeletionJobArn,
-    this.datasetGroupArn,
-    this.failureReason,
-    this.jobName,
-    this.lastUpdatedDateTime,
-    this.status,
-  });
-
-  factory DataDeletionJobSummary.fromJson(Map<String, dynamic> json) {
-    return DataDeletionJobSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      dataDeletionJobArn: json['dataDeletionJobArn'] as String?,
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      jobName: json['jobName'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final dataDeletionJobArn = this.dataDeletionJobArn;
-    final datasetGroupArn = this.datasetGroupArn;
-    final failureReason = this.failureReason;
-    final jobName = this.jobName;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (dataDeletionJobArn != null) 'dataDeletionJobArn': dataDeletionJobArn,
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (jobName != null) 'jobName': jobName,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Describes the data source that contains the data to upload to a dataset, or
-/// the list of records to delete from Amazon Personalize.
-class DataSource {
-  /// For dataset import jobs, the path to the Amazon S3 bucket where the data
-  /// that you want to upload to your dataset is stored. For data deletion jobs,
-  /// the path to the Amazon S3 bucket that stores the list of records to delete.
-  ///
-  /// For example:
-  ///
-  /// <code>s3://bucket-name/folder-name/fileName.csv</code>
-  ///
-  /// If your CSV files are in a folder in your Amazon S3 bucket and you want your
-  /// import job or data deletion job to consider multiple files, you can specify
-  /// the path to the folder. With a data deletion job, Amazon Personalize uses
-  /// all files in the folder and any sub folder. Use the following syntax with a
-  /// <code>/</code> after the folder name:
-  ///
-  /// <code>s3://bucket-name/folder-name/</code>
-  final String? dataLocation;
-
-  DataSource({
-    this.dataLocation,
-  });
-
-  factory DataSource.fromJson(Map<String, dynamic> json) {
-    return DataSource(
-      dataLocation: json['dataLocation'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataLocation = this.dataLocation;
-    return {
-      if (dataLocation != null) 'dataLocation': dataLocation,
-    };
-  }
-}
-
-/// Provides metadata for a dataset.
-class Dataset {
-  /// The creation date and time (in Unix time) of the dataset.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset that you want metadata for.
-  final String? datasetArn;
-
-  /// The Amazon Resource Name (ARN) of the dataset group.
-  final String? datasetGroupArn;
-
-  /// One of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// Interactions
-  /// </li>
-  /// <li>
-  /// Items
-  /// </li>
-  /// <li>
-  /// Users
-  /// </li>
-  /// <li>
-  /// Actions
-  /// </li>
-  /// <li>
-  /// Action_Interactions
-  /// </li>
-  /// </ul>
-  final String? datasetType;
-
-  /// A time stamp that shows when the dataset was updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// Describes the latest update to the dataset.
-  final DatasetUpdateSummary? latestDatasetUpdate;
-
-  /// The name of the dataset.
-  final String? name;
-
-  /// The ARN of the associated schema.
-  final String? schemaArn;
-
-  /// The status of the dataset.
-  ///
-  /// A dataset can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  /// The ID of the event tracker for an Action interactions dataset. You specify
-  /// the tracker's ID in the <code>PutActionInteractions</code> API operation.
-  /// Amazon Personalize uses it to direct new data to the Action interactions
-  /// dataset in your dataset group.
-  final String? trackingId;
-
-  Dataset({
-    this.creationDateTime,
-    this.datasetArn,
-    this.datasetGroupArn,
-    this.datasetType,
-    this.lastUpdatedDateTime,
-    this.latestDatasetUpdate,
-    this.name,
-    this.schemaArn,
-    this.status,
-    this.trackingId,
-  });
-
-  factory Dataset.fromJson(Map<String, dynamic> json) {
-    return Dataset(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetArn: json['datasetArn'] as String?,
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      datasetType: json['datasetType'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      latestDatasetUpdate: json['latestDatasetUpdate'] != null
-          ? DatasetUpdateSummary.fromJson(
-              json['latestDatasetUpdate'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-      schemaArn: json['schemaArn'] as String?,
-      status: json['status'] as String?,
-      trackingId: json['trackingId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetArn = this.datasetArn;
-    final datasetGroupArn = this.datasetGroupArn;
-    final datasetType = this.datasetType;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final latestDatasetUpdate = this.latestDatasetUpdate;
-    final name = this.name;
-    final schemaArn = this.schemaArn;
-    final status = this.status;
-    final trackingId = this.trackingId;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetArn != null) 'datasetArn': datasetArn,
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (datasetType != null) 'datasetType': datasetType,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (latestDatasetUpdate != null)
-        'latestDatasetUpdate': latestDatasetUpdate,
-      if (name != null) 'name': name,
-      if (schemaArn != null) 'schemaArn': schemaArn,
-      if (status != null) 'status': status,
-      if (trackingId != null) 'trackingId': trackingId,
-    };
-  }
-}
-
-/// Describes a job that exports a dataset to an Amazon S3 bucket. For more
-/// information, see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html">CreateDatasetExportJob</a>.
-///
-/// A dataset export job can be in one of the following states:
-///
-/// <ul>
-/// <li>
-/// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-/// </li>
-/// </ul>
-class DatasetExportJob {
-  /// The creation date and time (in Unix time) of the dataset export job.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset to export.
-  final String? datasetArn;
-
-  /// The Amazon Resource Name (ARN) of the dataset export job.
-  final String? datasetExportJobArn;
-
-  /// If a dataset export job fails, provides the reason why.
-  final String? failureReason;
-
-  /// The data to export, based on how you imported the data. You can choose to
-  /// export <code>BULK</code> data that you imported using a dataset import job,
-  /// <code>PUT</code> data that you imported incrementally (using the console,
-  /// PutEvents, PutUsers and PutItems operations), or <code>ALL</code> for both
-  /// types. The default value is <code>PUT</code>.
-  final IngestionMode? ingestionMode;
-
-  /// The name of the export job.
-  final String? jobName;
-
-  /// The path to the Amazon S3 bucket where the job's output is stored. For
-  /// example:
-  ///
-  /// <code>s3://bucket-name/folder-name/</code>
-  final DatasetExportJobOutput? jobOutput;
-
-  /// The date and time (in Unix time) the status of the dataset export job was
-  /// last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The Amazon Resource Name (ARN) of the IAM service role that has permissions
-  /// to add data to your output Amazon S3 bucket.
-  final String? roleArn;
-
-  /// The status of the dataset export job.
-  ///
-  /// A dataset export job can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DatasetExportJob({
-    this.creationDateTime,
-    this.datasetArn,
-    this.datasetExportJobArn,
-    this.failureReason,
-    this.ingestionMode,
-    this.jobName,
-    this.jobOutput,
-    this.lastUpdatedDateTime,
-    this.roleArn,
-    this.status,
-  });
-
-  factory DatasetExportJob.fromJson(Map<String, dynamic> json) {
-    return DatasetExportJob(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetArn: json['datasetArn'] as String?,
-      datasetExportJobArn: json['datasetExportJobArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      ingestionMode:
-          (json['ingestionMode'] as String?)?.let(IngestionMode.fromString),
-      jobName: json['jobName'] as String?,
-      jobOutput: json['jobOutput'] != null
-          ? DatasetExportJobOutput.fromJson(
-              json['jobOutput'] as Map<String, dynamic>)
-          : null,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      roleArn: json['roleArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetArn = this.datasetArn;
-    final datasetExportJobArn = this.datasetExportJobArn;
-    final failureReason = this.failureReason;
-    final ingestionMode = this.ingestionMode;
-    final jobName = this.jobName;
-    final jobOutput = this.jobOutput;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final roleArn = this.roleArn;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetArn != null) 'datasetArn': datasetArn,
-      if (datasetExportJobArn != null)
-        'datasetExportJobArn': datasetExportJobArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (ingestionMode != null) 'ingestionMode': ingestionMode.value,
-      if (jobName != null) 'jobName': jobName,
-      if (jobOutput != null) 'jobOutput': jobOutput,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// The output configuration parameters of a dataset export job.
-class DatasetExportJobOutput {
-  final S3DataConfig s3DataDestination;
-
-  DatasetExportJobOutput({
-    required this.s3DataDestination,
-  });
-
-  factory DatasetExportJobOutput.fromJson(Map<String, dynamic> json) {
-    return DatasetExportJobOutput(
-      s3DataDestination: S3DataConfig.fromJson(
-          (json['s3DataDestination'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final s3DataDestination = this.s3DataDestination;
-    return {
-      's3DataDestination': s3DataDestination,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a dataset export job. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetExportJob.html">DescribeDatasetExportJob</a>
-/// API.
-class DatasetExportJobSummary {
-  /// The date and time (in Unix time) that the dataset export job was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset export job.
-  final String? datasetExportJobArn;
-
-  /// If a dataset export job fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The name of the dataset export job.
-  final String? jobName;
-
-  /// The date and time (in Unix time) that the dataset export job status was last
-  /// updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The status of the dataset export job.
-  ///
-  /// A dataset export job can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DatasetExportJobSummary({
-    this.creationDateTime,
-    this.datasetExportJobArn,
-    this.failureReason,
-    this.jobName,
-    this.lastUpdatedDateTime,
-    this.status,
-  });
-
-  factory DatasetExportJobSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetExportJobSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetExportJobArn: json['datasetExportJobArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      jobName: json['jobName'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetExportJobArn = this.datasetExportJobArn;
-    final failureReason = this.failureReason;
-    final jobName = this.jobName;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetExportJobArn != null)
-        'datasetExportJobArn': datasetExportJobArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (jobName != null) 'jobName': jobName,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// A dataset group is a collection of related datasets (Item interactions,
-/// Users, Items, Actions, Action interactions). You create a dataset group by
-/// calling <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html">CreateDatasetGroup</a>.
-/// You then create a dataset and add it to a dataset group by calling <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html">CreateDataset</a>.
-/// The dataset group is used to create and train a solution by calling <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>.
-/// A dataset group can contain only one of each type of dataset.
-///
-/// You can specify an Key Management Service (KMS) key to encrypt the datasets
-/// in the group.
-class DatasetGroup {
-  /// The creation date and time (in Unix time) of the dataset group.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset group.
-  final String? datasetGroupArn;
-
-  /// The domain of a Domain dataset group.
-  final Domain? domain;
-
-  /// If creating a dataset group fails, provides the reason why.
-  final String? failureReason;
-
-  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used
-  /// to encrypt the datasets.
-  final String? kmsKeyArn;
-
-  /// The last update date and time (in Unix time) of the dataset group.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the dataset group.
-  final String? name;
-
-  /// The ARN of the Identity and Access Management (IAM) role that has
-  /// permissions to access the Key Management Service (KMS) key. Supplying an IAM
-  /// role is only valid when also specifying a KMS key.
-  final String? roleArn;
-
-  /// The current status of the dataset group.
-  ///
-  /// A dataset group can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DatasetGroup({
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.domain,
-    this.failureReason,
-    this.kmsKeyArn,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.roleArn,
-    this.status,
-  });
-
-  factory DatasetGroup.fromJson(Map<String, dynamic> json) {
-    return DatasetGroup(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      domain: (json['domain'] as String?)?.let(Domain.fromString),
-      failureReason: json['failureReason'] as String?,
-      kmsKeyArn: json['kmsKeyArn'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      roleArn: json['roleArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final domain = this.domain;
-    final failureReason = this.failureReason;
-    final kmsKeyArn = this.kmsKeyArn;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final roleArn = this.roleArn;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (domain != null) 'domain': domain.value,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a dataset group. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
-/// API.
-class DatasetGroupSummary {
-  /// The date and time (in Unix time) that the dataset group was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset group.
-  final String? datasetGroupArn;
-
-  /// The domain of a Domain dataset group.
-  final Domain? domain;
-
-  /// If creating a dataset group fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix time) that the dataset group was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the dataset group.
-  final String? name;
-
-  /// The status of the dataset group.
-  ///
-  /// A dataset group can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DatasetGroupSummary({
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.domain,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.status,
-  });
-
-  factory DatasetGroupSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetGroupSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      domain: (json['domain'] as String?)?.let(Domain.fromString),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final domain = this.domain;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (domain != null) 'domain': domain.value,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Describes a job that imports training data from a data source (Amazon S3
-/// bucket) to an Amazon Personalize dataset. For more information, see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>.
-///
-/// A dataset import job can be in one of the following states:
-///
-/// <ul>
-/// <li>
-/// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-/// </li>
-/// </ul>
-class DatasetImportJob {
-  /// The creation date and time (in Unix time) of the dataset import job.
-  final DateTime? creationDateTime;
-
-  /// The Amazon S3 bucket that contains the training data to import.
-  final DataSource? dataSource;
-
-  /// The Amazon Resource Name (ARN) of the dataset that receives the imported
-  /// data.
-  final String? datasetArn;
-
-  /// The ARN of the dataset import job.
-  final String? datasetImportJobArn;
-
-  /// If a dataset import job fails, provides the reason why.
-  final String? failureReason;
-
-  /// The import mode used by the dataset import job to import new records.
-  final ImportMode? importMode;
-
-  /// The name of the import job.
-  final String? jobName;
-
-  /// The date and time (in Unix time) the dataset was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// Whether the job publishes metrics to Amazon S3 for a metric attribution.
-  final bool? publishAttributionMetricsToS3;
-
-  /// The ARN of the IAM role that has permissions to read from the Amazon S3 data
-  /// source.
-  final String? roleArn;
-
-  /// The status of the dataset import job.
-  ///
-  /// A dataset import job can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DatasetImportJob({
-    this.creationDateTime,
-    this.dataSource,
-    this.datasetArn,
-    this.datasetImportJobArn,
-    this.failureReason,
-    this.importMode,
-    this.jobName,
-    this.lastUpdatedDateTime,
-    this.publishAttributionMetricsToS3,
-    this.roleArn,
-    this.status,
-  });
-
-  factory DatasetImportJob.fromJson(Map<String, dynamic> json) {
-    return DatasetImportJob(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      dataSource: json['dataSource'] != null
-          ? DataSource.fromJson(json['dataSource'] as Map<String, dynamic>)
-          : null,
-      datasetArn: json['datasetArn'] as String?,
-      datasetImportJobArn: json['datasetImportJobArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      importMode: (json['importMode'] as String?)?.let(ImportMode.fromString),
-      jobName: json['jobName'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      publishAttributionMetricsToS3:
-          json['publishAttributionMetricsToS3'] as bool?,
-      roleArn: json['roleArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final dataSource = this.dataSource;
-    final datasetArn = this.datasetArn;
-    final datasetImportJobArn = this.datasetImportJobArn;
-    final failureReason = this.failureReason;
-    final importMode = this.importMode;
-    final jobName = this.jobName;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final publishAttributionMetricsToS3 = this.publishAttributionMetricsToS3;
-    final roleArn = this.roleArn;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (dataSource != null) 'dataSource': dataSource,
-      if (datasetArn != null) 'datasetArn': datasetArn,
-      if (datasetImportJobArn != null)
-        'datasetImportJobArn': datasetImportJobArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (importMode != null) 'importMode': importMode.value,
-      if (jobName != null) 'jobName': jobName,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (publishAttributionMetricsToS3 != null)
-        'publishAttributionMetricsToS3': publishAttributionMetricsToS3,
-      if (roleArn != null) 'roleArn': roleArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a dataset import job. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
-/// API.
-class DatasetImportJobSummary {
-  /// The date and time (in Unix time) that the dataset import job was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset import job.
-  final String? datasetImportJobArn;
-
-  /// If a dataset import job fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The import mode the dataset import job used to update the data in the
-  /// dataset. For more information see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/updating-existing-bulk-data.html">Updating
-  /// existing bulk data</a>.
-  final ImportMode? importMode;
-
-  /// The name of the dataset import job.
-  final String? jobName;
-
-  /// The date and time (in Unix time) that the dataset import job status was last
-  /// updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The status of the dataset import job.
-  ///
-  /// A dataset import job can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DatasetImportJobSummary({
-    this.creationDateTime,
-    this.datasetImportJobArn,
-    this.failureReason,
-    this.importMode,
-    this.jobName,
-    this.lastUpdatedDateTime,
-    this.status,
-  });
-
-  factory DatasetImportJobSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetImportJobSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetImportJobArn: json['datasetImportJobArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      importMode: (json['importMode'] as String?)?.let(ImportMode.fromString),
-      jobName: json['jobName'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetImportJobArn = this.datasetImportJobArn;
-    final failureReason = this.failureReason;
-    final importMode = this.importMode;
-    final jobName = this.jobName;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetImportJobArn != null)
-        'datasetImportJobArn': datasetImportJobArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (importMode != null) 'importMode': importMode.value,
-      if (jobName != null) 'jobName': jobName,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Describes the schema for a dataset. For more information on schemas, see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html">CreateSchema</a>.
-class DatasetSchema {
-  /// The date and time (in Unix time) that the schema was created.
-  final DateTime? creationDateTime;
-
-  /// The domain of a schema that you created for a dataset in a Domain dataset
-  /// group.
-  final Domain? domain;
-
-  /// The date and time (in Unix time) that the schema was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the schema.
-  final String? name;
-
-  /// The schema.
-  final String? schema;
-
-  /// The Amazon Resource Name (ARN) of the schema.
-  final String? schemaArn;
-
-  DatasetSchema({
-    this.creationDateTime,
-    this.domain,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.schema,
-    this.schemaArn,
-  });
-
-  factory DatasetSchema.fromJson(Map<String, dynamic> json) {
-    return DatasetSchema(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      domain: (json['domain'] as String?)?.let(Domain.fromString),
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      schema: json['schema'] as String?,
-      schemaArn: json['schemaArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final domain = this.domain;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final schema = this.schema;
-    final schemaArn = this.schemaArn;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (domain != null) 'domain': domain.value,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (schema != null) 'schema': schema,
-      if (schemaArn != null) 'schemaArn': schemaArn,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a dataset schema. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSchema.html">DescribeSchema</a>
-/// API.
-class DatasetSchemaSummary {
-  /// The date and time (in Unix time) that the schema was created.
-  final DateTime? creationDateTime;
-
-  /// The domain of a schema that you created for a dataset in a Domain dataset
-  /// group.
-  final Domain? domain;
-
-  /// The date and time (in Unix time) that the schema was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the schema.
-  final String? name;
-
-  /// The Amazon Resource Name (ARN) of the schema.
-  final String? schemaArn;
-
-  DatasetSchemaSummary({
-    this.creationDateTime,
-    this.domain,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.schemaArn,
-  });
-
-  factory DatasetSchemaSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetSchemaSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      domain: (json['domain'] as String?)?.let(Domain.fromString),
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      schemaArn: json['schemaArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final domain = this.domain;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final schemaArn = this.schemaArn;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (domain != null) 'domain': domain.value,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (schemaArn != null) 'schemaArn': schemaArn,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a dataset. For a complete listing,
-/// call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
-/// API.
-class DatasetSummary {
-  /// The date and time (in Unix time) that the dataset was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset.
-  final String? datasetArn;
-
-  /// The dataset type. One of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// Interactions
-  /// </li>
-  /// <li>
-  /// Items
-  /// </li>
-  /// <li>
-  /// Users
-  /// </li>
-  /// <li>
-  /// Event-Interactions
-  /// </li>
-  /// </ul>
-  final String? datasetType;
-
-  /// The date and time (in Unix time) that the dataset was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the dataset.
-  final String? name;
-
-  /// The status of the dataset.
-  ///
-  /// A dataset can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  DatasetSummary({
-    this.creationDateTime,
-    this.datasetArn,
-    this.datasetType,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.status,
-  });
-
-  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetArn: json['datasetArn'] as String?,
-      datasetType: json['datasetType'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetArn = this.datasetArn;
-    final datasetType = this.datasetType;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetArn != null) 'datasetArn': datasetArn,
-      if (datasetType != null) 'datasetType': datasetType,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Describes an update to a dataset.
-class DatasetUpdateSummary {
-  /// The creation date and time (in Unix time) of the dataset update.
-  final DateTime? creationDateTime;
-
-  /// If updating a dataset fails, provides the reason why.
-  final String? failureReason;
-
-  /// The last update date and time (in Unix time) of the dataset.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The Amazon Resource Name (ARN) of the schema that replaced the previous
-  /// schema of the dataset.
-  final String? schemaArn;
-
-  /// The status of the dataset update.
-  final String? status;
-
-  DatasetUpdateSummary({
-    this.creationDateTime,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.schemaArn,
-    this.status,
-  });
-
-  factory DatasetUpdateSummary.fromJson(Map<String, dynamic> json) {
-    return DatasetUpdateSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      schemaArn: json['schemaArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final schemaArn = this.schemaArn;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (schemaArn != null) 'schemaArn': schemaArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Provides the name and default range of a categorical hyperparameter and
-/// whether the hyperparameter is tunable. A tunable hyperparameter can have its
-/// value determined during hyperparameter optimization (HPO).
-class DefaultCategoricalHyperParameterRange {
-  /// Whether the hyperparameter is tunable.
-  final bool? isTunable;
-
-  /// The name of the hyperparameter.
-  final String? name;
-
-  /// A list of the categories for the hyperparameter.
-  final List<String>? values;
-
-  DefaultCategoricalHyperParameterRange({
-    this.isTunable,
-    this.name,
-    this.values,
-  });
-
-  factory DefaultCategoricalHyperParameterRange.fromJson(
-      Map<String, dynamic> json) {
-    return DefaultCategoricalHyperParameterRange(
-      isTunable: json['isTunable'] as bool?,
-      name: json['name'] as String?,
-      values:
-          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTunable = this.isTunable;
-    final name = this.name;
-    final values = this.values;
-    return {
-      if (isTunable != null) 'isTunable': isTunable,
-      if (name != null) 'name': name,
-      if (values != null) 'values': values,
-    };
-  }
-}
-
-/// Provides the name and default range of a continuous hyperparameter and
-/// whether the hyperparameter is tunable. A tunable hyperparameter can have its
-/// value determined during hyperparameter optimization (HPO).
-class DefaultContinuousHyperParameterRange {
-  /// Whether the hyperparameter is tunable.
-  final bool? isTunable;
-
-  /// The maximum allowable value for the hyperparameter.
-  final double? maxValue;
-
-  /// The minimum allowable value for the hyperparameter.
-  final double? minValue;
-
-  /// The name of the hyperparameter.
-  final String? name;
-
-  DefaultContinuousHyperParameterRange({
-    this.isTunable,
-    this.maxValue,
-    this.minValue,
-    this.name,
-  });
-
-  factory DefaultContinuousHyperParameterRange.fromJson(
-      Map<String, dynamic> json) {
-    return DefaultContinuousHyperParameterRange(
-      isTunable: json['isTunable'] as bool?,
-      maxValue: json['maxValue'] as double?,
-      minValue: json['minValue'] as double?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTunable = this.isTunable;
-    final maxValue = this.maxValue;
-    final minValue = this.minValue;
-    final name = this.name;
-    return {
-      if (isTunable != null) 'isTunable': isTunable,
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
-/// Specifies the hyperparameters and their default ranges. Hyperparameters can
-/// be categorical, continuous, or integer-valued.
-class DefaultHyperParameterRanges {
-  /// The categorical hyperparameters and their default ranges.
-  final List<DefaultCategoricalHyperParameterRange>?
-      categoricalHyperParameterRanges;
-
-  /// The continuous hyperparameters and their default ranges.
-  final List<DefaultContinuousHyperParameterRange>?
-      continuousHyperParameterRanges;
-
-  /// The integer-valued hyperparameters and their default ranges.
-  final List<DefaultIntegerHyperParameterRange>? integerHyperParameterRanges;
-
-  DefaultHyperParameterRanges({
-    this.categoricalHyperParameterRanges,
-    this.continuousHyperParameterRanges,
-    this.integerHyperParameterRanges,
-  });
-
-  factory DefaultHyperParameterRanges.fromJson(Map<String, dynamic> json) {
-    return DefaultHyperParameterRanges(
-      categoricalHyperParameterRanges:
-          (json['categoricalHyperParameterRanges'] as List?)
-              ?.nonNulls
-              .map((e) => DefaultCategoricalHyperParameterRange.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      continuousHyperParameterRanges:
-          (json['continuousHyperParameterRanges'] as List?)
-              ?.nonNulls
-              .map((e) => DefaultContinuousHyperParameterRange.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      integerHyperParameterRanges:
-          (json['integerHyperParameterRanges'] as List?)
-              ?.nonNulls
-              .map((e) => DefaultIntegerHyperParameterRange.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final categoricalHyperParameterRanges =
-        this.categoricalHyperParameterRanges;
-    final continuousHyperParameterRanges = this.continuousHyperParameterRanges;
-    final integerHyperParameterRanges = this.integerHyperParameterRanges;
-    return {
-      if (categoricalHyperParameterRanges != null)
-        'categoricalHyperParameterRanges': categoricalHyperParameterRanges,
-      if (continuousHyperParameterRanges != null)
-        'continuousHyperParameterRanges': continuousHyperParameterRanges,
-      if (integerHyperParameterRanges != null)
-        'integerHyperParameterRanges': integerHyperParameterRanges,
-    };
-  }
-}
-
-/// Provides the name and default range of a integer-valued hyperparameter and
-/// whether the hyperparameter is tunable. A tunable hyperparameter can have its
-/// value determined during hyperparameter optimization (HPO).
-class DefaultIntegerHyperParameterRange {
-  /// Indicates whether the hyperparameter is tunable.
-  final bool? isTunable;
-
-  /// The maximum allowable value for the hyperparameter.
-  final int? maxValue;
-
-  /// The minimum allowable value for the hyperparameter.
-  final int? minValue;
-
-  /// The name of the hyperparameter.
-  final String? name;
-
-  DefaultIntegerHyperParameterRange({
-    this.isTunable,
-    this.maxValue,
-    this.minValue,
-    this.name,
-  });
-
-  factory DefaultIntegerHyperParameterRange.fromJson(
-      Map<String, dynamic> json) {
-    return DefaultIntegerHyperParameterRange(
-      isTunable: json['isTunable'] as bool?,
-      maxValue: json['maxValue'] as int?,
-      minValue: json['minValue'] as int?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isTunable = this.isTunable;
-    final maxValue = this.maxValue;
-    final minValue = this.minValue;
-    final name = this.name;
-    return {
-      if (isTunable != null) 'isTunable': isTunable,
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
-      if (name != null) 'name': name,
-    };
-  }
-}
-
 class DescribeAlgorithmResponse {
   /// A listing of the properties of the algorithm.
   final Algorithm? algorithm;
@@ -7143,7 +4486,15 @@ class DescribeBatchSegmentJobResponse {
 }
 
 class DescribeCampaignResponse {
+  /// <note>
+  /// The <code>latestCampaignUpdate</code> field is only returned when the
+  /// campaign has had at least one <code>UpdateCampaign</code> call.
+  /// </note>
   /// The properties of the campaign.
+  /// <note>
+  /// The <code>latestCampaignUpdate</code> field is only returned when the
+  /// campaign has had at least one <code>UpdateCampaign</code> call.
+  /// </note>
   final Campaign? campaign;
 
   DescribeCampaignResponse({
@@ -7204,6 +4555,30 @@ class DescribeDataDeletionJobResponse {
     final dataDeletionJob = this.dataDeletionJob;
     return {
       if (dataDeletionJob != null) 'dataDeletionJob': dataDeletionJob,
+    };
+  }
+}
+
+class DescribeDatasetResponse {
+  /// A listing of the dataset's properties.
+  final Dataset? dataset;
+
+  DescribeDatasetResponse({
+    this.dataset,
+  });
+
+  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetResponse(
+      dataset: json['dataset'] != null
+          ? Dataset.fromJson(json['dataset'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataset = this.dataset;
+    return {
+      if (dataset != null) 'dataset': dataset,
     };
   }
 }
@@ -7312,30 +4687,6 @@ class DescribeDatasetImportJobResponse {
     final datasetImportJob = this.datasetImportJob;
     return {
       if (datasetImportJob != null) 'datasetImportJob': datasetImportJob,
-    };
-  }
-}
-
-class DescribeDatasetResponse {
-  /// A listing of the dataset's properties.
-  final Dataset? dataset;
-
-  DescribeDatasetResponse({
-    this.dataset,
-  });
-
-  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
-    return DescribeDatasetResponse(
-      dataset: json['dataset'] != null
-          ? Dataset.fromJson(json['dataset'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dataset = this.dataset;
-    return {
-      if (dataset != null) 'dataset': dataset,
     };
   }
 }
@@ -7562,426 +4913,6 @@ class DescribeSolutionVersionResponse {
   }
 }
 
-class Domain {
-  static const ecommerce = Domain._('ECOMMERCE');
-  static const videoOnDemand = Domain._('VIDEO_ON_DEMAND');
-
-  final String value;
-
-  const Domain._(this.value);
-
-  static const values = [ecommerce, videoOnDemand];
-
-  static Domain fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Domain._(value));
-
-  @override
-  bool operator ==(other) => other is Domain && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides information about an event tracker.
-class EventTracker {
-  /// The Amazon Web Services account that owns the event tracker.
-  final String? accountId;
-
-  /// The date and time (in Unix format) that the event tracker was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset group that receives the event
-  /// data.
-  final String? datasetGroupArn;
-
-  /// The ARN of the event tracker.
-  final String? eventTrackerArn;
-
-  /// The date and time (in Unix time) that the event tracker was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the event tracker.
-  final String? name;
-
-  /// The status of the event tracker.
-  ///
-  /// An event tracker can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  /// The ID of the event tracker. Include this ID in requests to the <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html">PutEvents</a>
-  /// API.
-  final String? trackingId;
-
-  EventTracker({
-    this.accountId,
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.eventTrackerArn,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.status,
-    this.trackingId,
-  });
-
-  factory EventTracker.fromJson(Map<String, dynamic> json) {
-    return EventTracker(
-      accountId: json['accountId'] as String?,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      eventTrackerArn: json['eventTrackerArn'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-      trackingId: json['trackingId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final accountId = this.accountId;
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final eventTrackerArn = this.eventTrackerArn;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final status = this.status;
-    final trackingId = this.trackingId;
-    return {
-      if (accountId != null) 'accountId': accountId,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (eventTrackerArn != null) 'eventTrackerArn': eventTrackerArn,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-      if (trackingId != null) 'trackingId': trackingId,
-    };
-  }
-}
-
-/// Provides a summary of the properties of an event tracker. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeEventTracker.html">DescribeEventTracker</a>
-/// API.
-class EventTrackerSummary {
-  /// The date and time (in Unix time) that the event tracker was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the event tracker.
-  final String? eventTrackerArn;
-
-  /// The date and time (in Unix time) that the event tracker was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the event tracker.
-  final String? name;
-
-  /// The status of the event tracker.
-  ///
-  /// An event tracker can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  EventTrackerSummary({
-    this.creationDateTime,
-    this.eventTrackerArn,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.status,
-  });
-
-  factory EventTrackerSummary.fromJson(Map<String, dynamic> json) {
-    return EventTrackerSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      eventTrackerArn: json['eventTrackerArn'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final eventTrackerArn = this.eventTrackerArn;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (eventTrackerArn != null) 'eventTrackerArn': eventTrackerArn,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Provides feature transformation information. Feature transformation is the
-/// process of modifying raw input data into a form more suitable for model
-/// training.
-class FeatureTransformation {
-  /// The creation date and time (in Unix time) of the feature transformation.
-  final DateTime? creationDateTime;
-
-  /// Provides the default parameters for feature transformation.
-  final Map<String, String>? defaultParameters;
-
-  /// The Amazon Resource Name (ARN) of the FeatureTransformation object.
-  final String? featureTransformationArn;
-
-  /// The last update date and time (in Unix time) of the feature transformation.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the feature transformation.
-  final String? name;
-
-  /// The status of the feature transformation.
-  ///
-  /// A feature transformation can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  FeatureTransformation({
-    this.creationDateTime,
-    this.defaultParameters,
-    this.featureTransformationArn,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.status,
-  });
-
-  factory FeatureTransformation.fromJson(Map<String, dynamic> json) {
-    return FeatureTransformation(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      defaultParameters: (json['defaultParameters'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      featureTransformationArn: json['featureTransformationArn'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final defaultParameters = this.defaultParameters;
-    final featureTransformationArn = this.featureTransformationArn;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (defaultParameters != null) 'defaultParameters': defaultParameters,
-      if (featureTransformationArn != null)
-        'featureTransformationArn': featureTransformationArn,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// A string to string map of the configuration details for theme generation.
-class FieldsForThemeGeneration {
-  /// The name of the Items dataset column that stores the name of each item in
-  /// the dataset.
-  final String itemName;
-
-  FieldsForThemeGeneration({
-    required this.itemName,
-  });
-
-  factory FieldsForThemeGeneration.fromJson(Map<String, dynamic> json) {
-    return FieldsForThemeGeneration(
-      itemName: (json['itemName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final itemName = this.itemName;
-    return {
-      'itemName': itemName,
-    };
-  }
-}
-
-/// Contains information on a recommendation filter, including its ARN, status,
-/// and filter expression.
-class Filter {
-  /// The time at which the filter was created.
-  final DateTime? creationDateTime;
-
-  /// The ARN of the dataset group to which the filter belongs.
-  final String? datasetGroupArn;
-
-  /// If the filter failed, the reason for its failure.
-  final String? failureReason;
-
-  /// The ARN of the filter.
-  final String? filterArn;
-
-  /// Specifies the type of item interactions to filter out of recommendation
-  /// results. The filter expression must follow specific format rules. For
-  /// information about filter expression structure and syntax, see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter-expressions.html">Filter
-  /// expressions</a>.
-  final String? filterExpression;
-
-  /// The time at which the filter was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the filter.
-  final String? name;
-
-  /// The status of the filter.
-  final String? status;
-
-  Filter({
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.failureReason,
-    this.filterArn,
-    this.filterExpression,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.status,
-  });
-
-  factory Filter.fromJson(Map<String, dynamic> json) {
-    return Filter(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      filterArn: json['filterArn'] as String?,
-      filterExpression: json['filterExpression'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final failureReason = this.failureReason;
-    final filterArn = this.filterArn;
-    final filterExpression = this.filterExpression;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (filterArn != null) 'filterArn': filterArn,
-      if (filterExpression != null) 'filterExpression': filterExpression,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// A short summary of a filter's attributes.
-class FilterSummary {
-  /// The time at which the filter was created.
-  final DateTime? creationDateTime;
-
-  /// The ARN of the dataset group to which the filter belongs.
-  final String? datasetGroupArn;
-
-  /// If the filter failed, the reason for the failure.
-  final String? failureReason;
-
-  /// The ARN of the filter.
-  final String? filterArn;
-
-  /// The time at which the filter was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the filter.
-  final String? name;
-
-  /// The status of the filter.
-  final String? status;
-
-  FilterSummary({
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.failureReason,
-    this.filterArn,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.status,
-  });
-
-  factory FilterSummary.fromJson(Map<String, dynamic> json) {
-    return FilterSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      filterArn: json['filterArn'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final failureReason = this.failureReason;
-    final filterArn = this.filterArn;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (filterArn != null) 'filterArn': filterArn,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
 class GetSolutionMetricsResponse {
   /// The metrics for the solution version. For more information, see <a
   /// href="https://docs.aws.amazon.com/personalize/latest/dg/working-with-training-metrics.html">
@@ -8010,276 +4941,6 @@ class GetSolutionMetricsResponse {
     return {
       if (metrics != null) 'metrics': metrics,
       if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-    };
-  }
-}
-
-/// Describes the properties for hyperparameter optimization (HPO).
-class HPOConfig {
-  /// The hyperparameters and their allowable ranges.
-  final HyperParameterRanges? algorithmHyperParameterRanges;
-
-  /// The metric to optimize during HPO.
-  /// <note>
-  /// Amazon Personalize doesn't support configuring the <code>hpoObjective</code>
-  /// at this time.
-  /// </note>
-  final HPOObjective? hpoObjective;
-
-  /// Describes the resource configuration for HPO.
-  final HPOResourceConfig? hpoResourceConfig;
-
-  HPOConfig({
-    this.algorithmHyperParameterRanges,
-    this.hpoObjective,
-    this.hpoResourceConfig,
-  });
-
-  factory HPOConfig.fromJson(Map<String, dynamic> json) {
-    return HPOConfig(
-      algorithmHyperParameterRanges:
-          json['algorithmHyperParameterRanges'] != null
-              ? HyperParameterRanges.fromJson(
-                  json['algorithmHyperParameterRanges'] as Map<String, dynamic>)
-              : null,
-      hpoObjective: json['hpoObjective'] != null
-          ? HPOObjective.fromJson(json['hpoObjective'] as Map<String, dynamic>)
-          : null,
-      hpoResourceConfig: json['hpoResourceConfig'] != null
-          ? HPOResourceConfig.fromJson(
-              json['hpoResourceConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final algorithmHyperParameterRanges = this.algorithmHyperParameterRanges;
-    final hpoObjective = this.hpoObjective;
-    final hpoResourceConfig = this.hpoResourceConfig;
-    return {
-      if (algorithmHyperParameterRanges != null)
-        'algorithmHyperParameterRanges': algorithmHyperParameterRanges,
-      if (hpoObjective != null) 'hpoObjective': hpoObjective,
-      if (hpoResourceConfig != null) 'hpoResourceConfig': hpoResourceConfig,
-    };
-  }
-}
-
-/// The metric to optimize during hyperparameter optimization (HPO).
-/// <note>
-/// Amazon Personalize doesn't support configuring the <code>hpoObjective</code>
-/// at this time.
-/// </note>
-class HPOObjective {
-  /// The name of the metric.
-  final String? metricName;
-
-  /// A regular expression for finding the metric in the training job logs.
-  final String? metricRegex;
-
-  /// The type of the metric. Valid values are <code>Maximize</code> and
-  /// <code>Minimize</code>.
-  final String? type;
-
-  HPOObjective({
-    this.metricName,
-    this.metricRegex,
-    this.type,
-  });
-
-  factory HPOObjective.fromJson(Map<String, dynamic> json) {
-    return HPOObjective(
-      metricName: json['metricName'] as String?,
-      metricRegex: json['metricRegex'] as String?,
-      type: json['type'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final metricName = this.metricName;
-    final metricRegex = this.metricRegex;
-    final type = this.type;
-    return {
-      if (metricName != null) 'metricName': metricName,
-      if (metricRegex != null) 'metricRegex': metricRegex,
-      if (type != null) 'type': type,
-    };
-  }
-}
-
-/// Describes the resource configuration for hyperparameter optimization (HPO).
-class HPOResourceConfig {
-  /// The maximum number of training jobs when you create a solution version. The
-  /// maximum value for <code>maxNumberOfTrainingJobs</code> is <code>40</code>.
-  final String? maxNumberOfTrainingJobs;
-
-  /// The maximum number of parallel training jobs when you create a solution
-  /// version. The maximum value for <code>maxParallelTrainingJobs</code> is
-  /// <code>10</code>.
-  final String? maxParallelTrainingJobs;
-
-  HPOResourceConfig({
-    this.maxNumberOfTrainingJobs,
-    this.maxParallelTrainingJobs,
-  });
-
-  factory HPOResourceConfig.fromJson(Map<String, dynamic> json) {
-    return HPOResourceConfig(
-      maxNumberOfTrainingJobs: json['maxNumberOfTrainingJobs'] as String?,
-      maxParallelTrainingJobs: json['maxParallelTrainingJobs'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxNumberOfTrainingJobs = this.maxNumberOfTrainingJobs;
-    final maxParallelTrainingJobs = this.maxParallelTrainingJobs;
-    return {
-      if (maxNumberOfTrainingJobs != null)
-        'maxNumberOfTrainingJobs': maxNumberOfTrainingJobs,
-      if (maxParallelTrainingJobs != null)
-        'maxParallelTrainingJobs': maxParallelTrainingJobs,
-    };
-  }
-}
-
-/// Specifies the hyperparameters and their ranges. Hyperparameters can be
-/// categorical, continuous, or integer-valued.
-class HyperParameterRanges {
-  /// The categorical hyperparameters and their ranges.
-  final List<CategoricalHyperParameterRange>? categoricalHyperParameterRanges;
-
-  /// The continuous hyperparameters and their ranges.
-  final List<ContinuousHyperParameterRange>? continuousHyperParameterRanges;
-
-  /// The integer-valued hyperparameters and their ranges.
-  final List<IntegerHyperParameterRange>? integerHyperParameterRanges;
-
-  HyperParameterRanges({
-    this.categoricalHyperParameterRanges,
-    this.continuousHyperParameterRanges,
-    this.integerHyperParameterRanges,
-  });
-
-  factory HyperParameterRanges.fromJson(Map<String, dynamic> json) {
-    return HyperParameterRanges(
-      categoricalHyperParameterRanges:
-          (json['categoricalHyperParameterRanges'] as List?)
-              ?.nonNulls
-              .map((e) => CategoricalHyperParameterRange.fromJson(
-                  e as Map<String, dynamic>))
-              .toList(),
-      continuousHyperParameterRanges: (json['continuousHyperParameterRanges']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              ContinuousHyperParameterRange.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      integerHyperParameterRanges: (json['integerHyperParameterRanges']
-              as List?)
-          ?.nonNulls
-          .map((e) =>
-              IntegerHyperParameterRange.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final categoricalHyperParameterRanges =
-        this.categoricalHyperParameterRanges;
-    final continuousHyperParameterRanges = this.continuousHyperParameterRanges;
-    final integerHyperParameterRanges = this.integerHyperParameterRanges;
-    return {
-      if (categoricalHyperParameterRanges != null)
-        'categoricalHyperParameterRanges': categoricalHyperParameterRanges,
-      if (continuousHyperParameterRanges != null)
-        'continuousHyperParameterRanges': continuousHyperParameterRanges,
-      if (integerHyperParameterRanges != null)
-        'integerHyperParameterRanges': integerHyperParameterRanges,
-    };
-  }
-}
-
-class ImportMode {
-  static const full = ImportMode._('FULL');
-  static const incremental = ImportMode._('INCREMENTAL');
-
-  final String value;
-
-  const ImportMode._(this.value);
-
-  static const values = [full, incremental];
-
-  static ImportMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ImportMode._(value));
-
-  @override
-  bool operator ==(other) => other is ImportMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class IngestionMode {
-  static const bulk = IngestionMode._('BULK');
-  static const put = IngestionMode._('PUT');
-  static const all = IngestionMode._('ALL');
-
-  final String value;
-
-  const IngestionMode._(this.value);
-
-  static const values = [bulk, put, all];
-
-  static IngestionMode fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => IngestionMode._(value));
-
-  @override
-  bool operator ==(other) => other is IngestionMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides the name and range of an integer-valued hyperparameter.
-class IntegerHyperParameterRange {
-  /// The maximum allowable value for the hyperparameter.
-  final int? maxValue;
-
-  /// The minimum allowable value for the hyperparameter.
-  final int? minValue;
-
-  /// The name of the hyperparameter.
-  final String? name;
-
-  IntegerHyperParameterRange({
-    this.maxValue,
-    this.minValue,
-    this.name,
-  });
-
-  factory IntegerHyperParameterRange.fromJson(Map<String, dynamic> json) {
-    return IntegerHyperParameterRange(
-      maxValue: json['maxValue'] as int?,
-      minValue: json['minValue'] as int?,
-      name: json['name'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final maxValue = this.maxValue;
-    final minValue = this.minValue;
-    final name = this.name;
-    return {
-      if (maxValue != null) 'maxValue': maxValue,
-      if (minValue != null) 'minValue': minValue,
-      if (name != null) 'name': name,
     };
   }
 }
@@ -8777,6 +5438,38 @@ class ListSchemasResponse {
   }
 }
 
+class ListSolutionsResponse {
+  /// A token for getting the next set of solutions (if they exist).
+  final String? nextToken;
+
+  /// A list of the current solutions.
+  final List<SolutionSummary>? solutions;
+
+  ListSolutionsResponse({
+    this.nextToken,
+    this.solutions,
+  });
+
+  factory ListSolutionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSolutionsResponse(
+      nextToken: json['nextToken'] as String?,
+      solutions: (json['solutions'] as List?)
+          ?.nonNulls
+          .map((e) => SolutionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final solutions = this.solutions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (solutions != null) 'solutions': solutions,
+    };
+  }
+}
+
 class ListSolutionVersionsResponse {
   /// A token for getting the next set of solution versions (if they exist).
   final String? nextToken;
@@ -8810,38 +5503,6 @@ class ListSolutionVersionsResponse {
   }
 }
 
-class ListSolutionsResponse {
-  /// A token for getting the next set of solutions (if they exist).
-  final String? nextToken;
-
-  /// A list of the current solutions.
-  final List<SolutionSummary>? solutions;
-
-  ListSolutionsResponse({
-    this.nextToken,
-    this.solutions,
-  });
-
-  factory ListSolutionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListSolutionsResponse(
-      nextToken: json['nextToken'] as String?,
-      solutions: (json['solutions'] as List?)
-          ?.nonNulls
-          .map((e) => SolutionSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final solutions = this.solutions;
-    return {
-      if (nextToken != null) 'nextToken': nextToken,
-      if (solutions != null) 'solutions': solutions,
-    };
-  }
-}
-
 class ListTagsForResourceResponse {
   /// The resource's tags.
   final List<Tag>? tags;
@@ -8863,1602 +5524,6 @@ class ListTagsForResourceResponse {
     final tags = this.tags;
     return {
       if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// Contains information on a metric that a metric attribution reports on. For
-/// more information, see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
-/// impact of recommendations</a>.
-class MetricAttribute {
-  /// The metric's event type.
-  final String eventType;
-
-  /// The attribute's expression. Available functions are <code>SUM()</code> or
-  /// <code>SAMPLECOUNT()</code>. For SUM() functions, provide the dataset type
-  /// (either Interactions or Items) and column to sum as a parameter. For example
-  /// SUM(Items.PRICE).
-  final String expression;
-
-  /// The metric's name. The name helps you identify the metric in Amazon
-  /// CloudWatch or Amazon S3.
-  final String metricName;
-
-  MetricAttribute({
-    required this.eventType,
-    required this.expression,
-    required this.metricName,
-  });
-
-  factory MetricAttribute.fromJson(Map<String, dynamic> json) {
-    return MetricAttribute(
-      eventType: (json['eventType'] as String?) ?? '',
-      expression: (json['expression'] as String?) ?? '',
-      metricName: (json['metricName'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final eventType = this.eventType;
-    final expression = this.expression;
-    final metricName = this.metricName;
-    return {
-      'eventType': eventType,
-      'expression': expression,
-      'metricName': metricName,
-    };
-  }
-}
-
-/// Contains information on a metric attribution. A metric attribution creates
-/// reports on the data that you import into Amazon Personalize. Depending on
-/// how you import the data, you can view reports in Amazon CloudWatch or Amazon
-/// S3. For more information, see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
-/// impact of recommendations</a>.
-class MetricAttribution {
-  /// The metric attribution's creation date time.
-  final DateTime? creationDateTime;
-
-  /// The metric attribution's dataset group Amazon Resource Name (ARN).
-  final String? datasetGroupArn;
-
-  /// The metric attribution's failure reason.
-  final String? failureReason;
-
-  /// The metric attribution's last updated date time.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The metric attribution's Amazon Resource Name (ARN).
-  final String? metricAttributionArn;
-
-  /// The metric attribution's output configuration.
-  final MetricAttributionOutput? metricsOutputConfig;
-
-  /// The metric attribution's name.
-  final String? name;
-
-  /// The metric attribution's status.
-  final String? status;
-
-  MetricAttribution({
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.metricAttributionArn,
-    this.metricsOutputConfig,
-    this.name,
-    this.status,
-  });
-
-  factory MetricAttribution.fromJson(Map<String, dynamic> json) {
-    return MetricAttribution(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      metricAttributionArn: json['metricAttributionArn'] as String?,
-      metricsOutputConfig: json['metricsOutputConfig'] != null
-          ? MetricAttributionOutput.fromJson(
-              json['metricsOutputConfig'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final metricAttributionArn = this.metricAttributionArn;
-    final metricsOutputConfig = this.metricsOutputConfig;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (metricAttributionArn != null)
-        'metricAttributionArn': metricAttributionArn,
-      if (metricsOutputConfig != null)
-        'metricsOutputConfig': metricsOutputConfig,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// The output configuration details for a metric attribution.
-class MetricAttributionOutput {
-  /// The Amazon Resource Name (ARN) of the IAM service role that has permissions
-  /// to add data to your output Amazon S3 bucket and add metrics to Amazon
-  /// CloudWatch. For more information, see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
-  /// impact of recommendations</a>.
-  final String roleArn;
-  final S3DataConfig? s3DataDestination;
-
-  MetricAttributionOutput({
-    required this.roleArn,
-    this.s3DataDestination,
-  });
-
-  factory MetricAttributionOutput.fromJson(Map<String, dynamic> json) {
-    return MetricAttributionOutput(
-      roleArn: (json['roleArn'] as String?) ?? '',
-      s3DataDestination: json['s3DataDestination'] != null
-          ? S3DataConfig.fromJson(
-              json['s3DataDestination'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final roleArn = this.roleArn;
-    final s3DataDestination = this.s3DataDestination;
-    return {
-      'roleArn': roleArn,
-      if (s3DataDestination != null) 's3DataDestination': s3DataDestination,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a metric attribution. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeMetricAttribution.html">DescribeMetricAttribution</a>.
-class MetricAttributionSummary {
-  /// The metric attribution's creation date time.
-  final DateTime? creationDateTime;
-
-  /// The metric attribution's failure reason.
-  final String? failureReason;
-
-  /// The metric attribution's last updated date time.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The metric attribution's Amazon Resource Name (ARN).
-  final String? metricAttributionArn;
-
-  /// The name of the metric attribution.
-  final String? name;
-
-  /// The metric attribution's status.
-  final String? status;
-
-  MetricAttributionSummary({
-    this.creationDateTime,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.metricAttributionArn,
-    this.name,
-    this.status,
-  });
-
-  factory MetricAttributionSummary.fromJson(Map<String, dynamic> json) {
-    return MetricAttributionSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      metricAttributionArn: json['metricAttributionArn'] as String?,
-      name: json['name'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final metricAttributionArn = this.metricAttributionArn;
-    final name = this.name;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (metricAttributionArn != null)
-        'metricAttributionArn': metricAttributionArn,
-      if (name != null) 'name': name,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-class ObjectiveSensitivity {
-  static const low = ObjectiveSensitivity._('LOW');
-  static const medium = ObjectiveSensitivity._('MEDIUM');
-  static const high = ObjectiveSensitivity._('HIGH');
-  static const off = ObjectiveSensitivity._('OFF');
-
-  final String value;
-
-  const ObjectiveSensitivity._(this.value);
-
-  static const values = [low, medium, high, off];
-
-  static ObjectiveSensitivity fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ObjectiveSensitivity._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ObjectiveSensitivity && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Describes the additional objective for the solution, such as maximizing
-/// streaming minutes or increasing revenue. For more information see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/optimizing-solution-for-objective.html">Optimizing
-/// a solution</a>.
-class OptimizationObjective {
-  /// The numerical metadata column in an Items dataset related to the
-  /// optimization objective. For example, VIDEO_LENGTH (to maximize streaming
-  /// minutes), or PRICE (to maximize revenue).
-  final String? itemAttribute;
-
-  /// Specifies how Amazon Personalize balances the importance of your
-  /// optimization objective versus relevance.
-  final ObjectiveSensitivity? objectiveSensitivity;
-
-  OptimizationObjective({
-    this.itemAttribute,
-    this.objectiveSensitivity,
-  });
-
-  factory OptimizationObjective.fromJson(Map<String, dynamic> json) {
-    return OptimizationObjective(
-      itemAttribute: json['itemAttribute'] as String?,
-      objectiveSensitivity: (json['objectiveSensitivity'] as String?)
-          ?.let(ObjectiveSensitivity.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final itemAttribute = this.itemAttribute;
-    final objectiveSensitivity = this.objectiveSensitivity;
-    return {
-      if (itemAttribute != null) 'itemAttribute': itemAttribute,
-      if (objectiveSensitivity != null)
-        'objectiveSensitivity': objectiveSensitivity.value,
-    };
-  }
-}
-
-/// Provides information about a recipe. Each recipe provides an algorithm that
-/// Amazon Personalize uses in model training when you use the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>
-/// operation.
-class Recipe {
-  /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses
-  /// to train the model.
-  final String? algorithmArn;
-
-  /// The date and time (in Unix format) that the recipe was created.
-  final DateTime? creationDateTime;
-
-  /// The description of the recipe.
-  final String? description;
-
-  /// The ARN of the FeatureTransformation object.
-  final String? featureTransformationArn;
-
-  /// The date and time (in Unix format) that the recipe was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the recipe.
-  final String? name;
-
-  /// The Amazon Resource Name (ARN) of the recipe.
-  final String? recipeArn;
-
-  /// One of the following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// PERSONALIZED_RANKING
-  /// </li>
-  /// <li>
-  /// RELATED_ITEMS
-  /// </li>
-  /// <li>
-  /// USER_PERSONALIZATION
-  /// </li>
-  /// </ul>
-  final String? recipeType;
-
-  /// The status of the recipe.
-  final String? status;
-
-  Recipe({
-    this.algorithmArn,
-    this.creationDateTime,
-    this.description,
-    this.featureTransformationArn,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.recipeArn,
-    this.recipeType,
-    this.status,
-  });
-
-  factory Recipe.fromJson(Map<String, dynamic> json) {
-    return Recipe(
-      algorithmArn: json['algorithmArn'] as String?,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      description: json['description'] as String?,
-      featureTransformationArn: json['featureTransformationArn'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      recipeArn: json['recipeArn'] as String?,
-      recipeType: json['recipeType'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final algorithmArn = this.algorithmArn;
-    final creationDateTime = this.creationDateTime;
-    final description = this.description;
-    final featureTransformationArn = this.featureTransformationArn;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final recipeArn = this.recipeArn;
-    final recipeType = this.recipeType;
-    final status = this.status;
-    return {
-      if (algorithmArn != null) 'algorithmArn': algorithmArn,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (description != null) 'description': description,
-      if (featureTransformationArn != null)
-        'featureTransformationArn': featureTransformationArn,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (recipeArn != null) 'recipeArn': recipeArn,
-      if (recipeType != null) 'recipeType': recipeType,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-class RecipeProvider {
-  static const service = RecipeProvider._('SERVICE');
-
-  final String value;
-
-  const RecipeProvider._(this.value);
-
-  static const values = [service];
-
-  static RecipeProvider fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => RecipeProvider._(value));
-
-  @override
-  bool operator ==(other) => other is RecipeProvider && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Provides a summary of the properties of a recipe. For a complete listing,
-/// call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecipe.html">DescribeRecipe</a>
-/// API.
-class RecipeSummary {
-  /// The date and time (in Unix time) that the recipe was created.
-  final DateTime? creationDateTime;
-
-  /// The domain of the recipe (if the recipe is a Domain dataset group use case).
-  final Domain? domain;
-
-  /// The date and time (in Unix time) that the recipe was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the recipe.
-  final String? name;
-
-  /// The Amazon Resource Name (ARN) of the recipe.
-  final String? recipeArn;
-
-  /// The status of the recipe.
-  final String? status;
-
-  RecipeSummary({
-    this.creationDateTime,
-    this.domain,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.recipeArn,
-    this.status,
-  });
-
-  factory RecipeSummary.fromJson(Map<String, dynamic> json) {
-    return RecipeSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      domain: (json['domain'] as String?)?.let(Domain.fromString),
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      recipeArn: json['recipeArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final domain = this.domain;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final recipeArn = this.recipeArn;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (domain != null) 'domain': domain.value,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (recipeArn != null) 'recipeArn': recipeArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Describes a recommendation generator for a Domain dataset group. You create
-/// a recommender in a Domain dataset group for a specific domain use case
-/// (domain recipe), and specify the recommender in a <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html">GetRecommendations</a>
-/// request.
-class Recommender {
-  /// The date and time (in Unix format) that the recommender was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the Domain dataset group that contains the
-  /// recommender.
-  final String? datasetGroupArn;
-
-  /// If a recommender fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix format) that the recommender was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// Provides a summary of the latest updates to the recommender.
-  final RecommenderUpdateSummary? latestRecommenderUpdate;
-
-  /// Provides evaluation metrics that help you determine the performance of a
-  /// recommender. For more information, see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/evaluating-recommenders.html">
-  /// Evaluating a recommender</a>.
-  final Map<String, double>? modelMetrics;
-
-  /// The name of the recommender.
-  final String? name;
-
-  /// The Amazon Resource Name (ARN) of the recipe (Domain dataset group use case)
-  /// that the recommender was created for.
-  final String? recipeArn;
-
-  /// The Amazon Resource Name (ARN) of the recommender.
-  final String? recommenderArn;
-
-  /// The configuration details of the recommender.
-  final RecommenderConfig? recommenderConfig;
-
-  /// The status of the recommender.
-  ///
-  /// A recommender can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt;
-  /// START IN_PROGRESS &gt; ACTIVE
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  Recommender({
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.latestRecommenderUpdate,
-    this.modelMetrics,
-    this.name,
-    this.recipeArn,
-    this.recommenderArn,
-    this.recommenderConfig,
-    this.status,
-  });
-
-  factory Recommender.fromJson(Map<String, dynamic> json) {
-    return Recommender(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      latestRecommenderUpdate: json['latestRecommenderUpdate'] != null
-          ? RecommenderUpdateSummary.fromJson(
-              json['latestRecommenderUpdate'] as Map<String, dynamic>)
-          : null,
-      modelMetrics: (json['modelMetrics'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as double)),
-      name: json['name'] as String?,
-      recipeArn: json['recipeArn'] as String?,
-      recommenderArn: json['recommenderArn'] as String?,
-      recommenderConfig: json['recommenderConfig'] != null
-          ? RecommenderConfig.fromJson(
-              json['recommenderConfig'] as Map<String, dynamic>)
-          : null,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final latestRecommenderUpdate = this.latestRecommenderUpdate;
-    final modelMetrics = this.modelMetrics;
-    final name = this.name;
-    final recipeArn = this.recipeArn;
-    final recommenderArn = this.recommenderArn;
-    final recommenderConfig = this.recommenderConfig;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (latestRecommenderUpdate != null)
-        'latestRecommenderUpdate': latestRecommenderUpdate,
-      if (modelMetrics != null) 'modelMetrics': modelMetrics,
-      if (name != null) 'name': name,
-      if (recipeArn != null) 'recipeArn': recipeArn,
-      if (recommenderArn != null) 'recommenderArn': recommenderArn,
-      if (recommenderConfig != null) 'recommenderConfig': recommenderConfig,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// The configuration details of the recommender.
-class RecommenderConfig {
-  /// Whether metadata with recommendations is enabled for the recommender. If
-  /// enabled, you can specify the columns from your Items dataset in your request
-  /// for recommendations. Amazon Personalize returns this data for each item in
-  /// the recommendation response. For information about enabling metadata for a
-  /// recommender, see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/creating-recommenders.html#create-recommender-return-metadata">Enabling
-  /// metadata in recommendations for a recommender</a>.
-  ///
-  /// If you enable metadata in recommendations, you will incur additional costs.
-  /// For more information, see <a
-  /// href="https://aws.amazon.com/personalize/pricing/">Amazon Personalize
-  /// pricing</a>.
-  final bool? enableMetadataWithRecommendations;
-
-  /// Specifies the exploration configuration hyperparameters, including
-  /// <code>explorationWeight</code> and <code>explorationItemAgeCutOff</code>,
-  /// you want to use to configure the amount of item exploration Amazon
-  /// Personalize uses when recommending items. Provide
-  /// <code>itemExplorationConfig</code> data only if your recommenders generate
-  /// personalized recommendations for a user (not popular items or similar
-  /// items).
-  final Map<String, String>? itemExplorationConfig;
-
-  /// Specifies the requested minimum provisioned recommendation requests per
-  /// second that Amazon Personalize will support. A high
-  /// <code>minRecommendationRequestsPerSecond</code> will increase your bill. We
-  /// recommend starting with 1 for
-  /// <code>minRecommendationRequestsPerSecond</code> (the default). Track your
-  /// usage using Amazon CloudWatch metrics, and increase the
-  /// <code>minRecommendationRequestsPerSecond</code> as necessary.
-  final int? minRecommendationRequestsPerSecond;
-
-  /// Specifies the training data configuration to use when creating a domain
-  /// recommender.
-  final TrainingDataConfig? trainingDataConfig;
-
-  RecommenderConfig({
-    this.enableMetadataWithRecommendations,
-    this.itemExplorationConfig,
-    this.minRecommendationRequestsPerSecond,
-    this.trainingDataConfig,
-  });
-
-  factory RecommenderConfig.fromJson(Map<String, dynamic> json) {
-    return RecommenderConfig(
-      enableMetadataWithRecommendations:
-          json['enableMetadataWithRecommendations'] as bool?,
-      itemExplorationConfig:
-          (json['itemExplorationConfig'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      minRecommendationRequestsPerSecond:
-          json['minRecommendationRequestsPerSecond'] as int?,
-      trainingDataConfig: json['trainingDataConfig'] != null
-          ? TrainingDataConfig.fromJson(
-              json['trainingDataConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enableMetadataWithRecommendations =
-        this.enableMetadataWithRecommendations;
-    final itemExplorationConfig = this.itemExplorationConfig;
-    final minRecommendationRequestsPerSecond =
-        this.minRecommendationRequestsPerSecond;
-    final trainingDataConfig = this.trainingDataConfig;
-    return {
-      if (enableMetadataWithRecommendations != null)
-        'enableMetadataWithRecommendations': enableMetadataWithRecommendations,
-      if (itemExplorationConfig != null)
-        'itemExplorationConfig': itemExplorationConfig,
-      if (minRecommendationRequestsPerSecond != null)
-        'minRecommendationRequestsPerSecond':
-            minRecommendationRequestsPerSecond,
-      if (trainingDataConfig != null) 'trainingDataConfig': trainingDataConfig,
-    };
-  }
-}
-
-/// Provides a summary of the properties of the recommender.
-class RecommenderSummary {
-  /// The date and time (in Unix format) that the recommender was created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the Domain dataset group that contains the
-  /// recommender.
-  final String? datasetGroupArn;
-
-  /// The date and time (in Unix format) that the recommender was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the recommender.
-  final String? name;
-
-  /// The Amazon Resource Name (ARN) of the recipe (Domain dataset group use case)
-  /// that the recommender was created for.
-  final String? recipeArn;
-
-  /// The Amazon Resource Name (ARN) of the recommender.
-  final String? recommenderArn;
-
-  /// The configuration details of the recommender.
-  final RecommenderConfig? recommenderConfig;
-
-  /// The status of the recommender. A recommender can be in one of the following
-  /// states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// STOP PENDING &gt; STOP IN_PROGRESS &gt; INACTIVE &gt; START PENDING &gt;
-  /// START IN_PROGRESS &gt; ACTIVE
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  RecommenderSummary({
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.recipeArn,
-    this.recommenderArn,
-    this.recommenderConfig,
-    this.status,
-  });
-
-  factory RecommenderSummary.fromJson(Map<String, dynamic> json) {
-    return RecommenderSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      recipeArn: json['recipeArn'] as String?,
-      recommenderArn: json['recommenderArn'] as String?,
-      recommenderConfig: json['recommenderConfig'] != null
-          ? RecommenderConfig.fromJson(
-              json['recommenderConfig'] as Map<String, dynamic>)
-          : null,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final recipeArn = this.recipeArn;
-    final recommenderArn = this.recommenderArn;
-    final recommenderConfig = this.recommenderConfig;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (recipeArn != null) 'recipeArn': recipeArn,
-      if (recommenderArn != null) 'recommenderArn': recommenderArn,
-      if (recommenderConfig != null) 'recommenderConfig': recommenderConfig,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a recommender update. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecommender.html">DescribeRecommender</a>
-/// API.
-class RecommenderUpdateSummary {
-  /// The date and time (in Unix format) that the recommender update was created.
-  final DateTime? creationDateTime;
-
-  /// If a recommender update fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix time) that the recommender update was last
-  /// updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The configuration details of the recommender update.
-  final RecommenderConfig? recommenderConfig;
-
-  /// The status of the recommender update. A recommender update can be in one of
-  /// the following states:
-  ///
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  final String? status;
-
-  RecommenderUpdateSummary({
-    this.creationDateTime,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.recommenderConfig,
-    this.status,
-  });
-
-  factory RecommenderUpdateSummary.fromJson(Map<String, dynamic> json) {
-    return RecommenderUpdateSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      recommenderConfig: json['recommenderConfig'] != null
-          ? RecommenderConfig.fromJson(
-              json['recommenderConfig'] as Map<String, dynamic>)
-          : null,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final recommenderConfig = this.recommenderConfig;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (recommenderConfig != null) 'recommenderConfig': recommenderConfig,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// The configuration details of an Amazon S3 input or output bucket.
-class S3DataConfig {
-  /// The file path of the Amazon S3 bucket.
-  final String path;
-
-  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that
-  /// Amazon Personalize uses to encrypt or decrypt the input and output files.
-  final String? kmsKeyArn;
-
-  S3DataConfig({
-    required this.path,
-    this.kmsKeyArn,
-  });
-
-  factory S3DataConfig.fromJson(Map<String, dynamic> json) {
-    return S3DataConfig(
-      path: (json['path'] as String?) ?? '',
-      kmsKeyArn: json['kmsKeyArn'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final path = this.path;
-    final kmsKeyArn = this.kmsKeyArn;
-    return {
-      'path': path,
-      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
-    };
-  }
-}
-
-/// <important>
-/// By default, all new solutions use automatic training. With automatic
-/// training, you incur training costs while your solution is active. To avoid
-/// unnecessary costs, when you are finished you can <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html">update
-/// the solution</a> to turn off automatic training. For information about
-/// training costs, see <a
-/// href="https://aws.amazon.com/personalize/pricing/">Amazon Personalize
-/// pricing</a>.
-/// </important>
-/// An object that provides information about a solution. A solution includes
-/// the custom recipe, customized parameters, and trained models (Solution
-/// Versions) that Amazon Personalize uses to generate recommendations.
-///
-/// After you create a solution, you can’t change its configuration. If you need
-/// to make changes, you can <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/cloning-solution.html">clone
-/// the solution</a> with the Amazon Personalize console or create a new one.
-class Solution {
-  /// When <code>performAutoML</code> is true, specifies the best recipe found.
-  final AutoMLResult? autoMLResult;
-
-  /// The creation date and time (in Unix time) of the solution.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset group that provides the
-  /// training data.
-  final String? datasetGroupArn;
-
-  /// The event type (for example, 'click' or 'like') that is used for training
-  /// the model. If no <code>eventType</code> is provided, Amazon Personalize uses
-  /// all interactions for training with equal weight regardless of type.
-  final String? eventType;
-
-  /// The date and time (in Unix time) that the solution was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// Provides a summary of the latest updates to the solution.
-  final SolutionUpdateSummary? latestSolutionUpdate;
-
-  /// Describes the latest version of the solution, including the status and the
-  /// ARN.
-  final SolutionVersionSummary? latestSolutionVersion;
-
-  /// The name of the solution.
-  final String? name;
-
-  /// <important>
-  /// We don't recommend enabling automated machine learning. Instead, match your
-  /// use case to the available Amazon Personalize recipes. For more information,
-  /// see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/determining-use-case.html">Determining
-  /// your use case.</a>
-  /// </important>
-  /// When true, Amazon Personalize performs a search for the best
-  /// USER_PERSONALIZATION recipe from the list specified in the solution
-  /// configuration (<code>recipeArn</code> must not be specified). When false
-  /// (the default), Amazon Personalize uses <code>recipeArn</code> for training.
-  final bool? performAutoML;
-
-  /// Specifies whether the solution automatically creates solution versions. The
-  /// default is <code>True</code> and the solution automatically creates new
-  /// solution versions every 7 days.
-  ///
-  /// For more information about auto training, see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html">Creating
-  /// and configuring a solution</a>.
-  final bool? performAutoTraining;
-
-  /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe.
-  /// The default is <code>false</code>.
-  final bool? performHPO;
-
-  /// The ARN of the recipe used to create the solution. This is required when
-  /// <code>performAutoML</code> is false.
-  final String? recipeArn;
-
-  /// The ARN of the solution.
-  final String? solutionArn;
-
-  /// Describes the configuration properties for the solution.
-  final SolutionConfig? solutionConfig;
-
-  /// The status of the solution.
-  ///
-  /// A solution can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  Solution({
-    this.autoMLResult,
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.eventType,
-    this.lastUpdatedDateTime,
-    this.latestSolutionUpdate,
-    this.latestSolutionVersion,
-    this.name,
-    this.performAutoML,
-    this.performAutoTraining,
-    this.performHPO,
-    this.recipeArn,
-    this.solutionArn,
-    this.solutionConfig,
-    this.status,
-  });
-
-  factory Solution.fromJson(Map<String, dynamic> json) {
-    return Solution(
-      autoMLResult: json['autoMLResult'] != null
-          ? AutoMLResult.fromJson(json['autoMLResult'] as Map<String, dynamic>)
-          : null,
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      eventType: json['eventType'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      latestSolutionUpdate: json['latestSolutionUpdate'] != null
-          ? SolutionUpdateSummary.fromJson(
-              json['latestSolutionUpdate'] as Map<String, dynamic>)
-          : null,
-      latestSolutionVersion: json['latestSolutionVersion'] != null
-          ? SolutionVersionSummary.fromJson(
-              json['latestSolutionVersion'] as Map<String, dynamic>)
-          : null,
-      name: json['name'] as String?,
-      performAutoML: json['performAutoML'] as bool?,
-      performAutoTraining: json['performAutoTraining'] as bool?,
-      performHPO: json['performHPO'] as bool?,
-      recipeArn: json['recipeArn'] as String?,
-      solutionArn: json['solutionArn'] as String?,
-      solutionConfig: json['solutionConfig'] != null
-          ? SolutionConfig.fromJson(
-              json['solutionConfig'] as Map<String, dynamic>)
-          : null,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoMLResult = this.autoMLResult;
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final eventType = this.eventType;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final latestSolutionUpdate = this.latestSolutionUpdate;
-    final latestSolutionVersion = this.latestSolutionVersion;
-    final name = this.name;
-    final performAutoML = this.performAutoML;
-    final performAutoTraining = this.performAutoTraining;
-    final performHPO = this.performHPO;
-    final recipeArn = this.recipeArn;
-    final solutionArn = this.solutionArn;
-    final solutionConfig = this.solutionConfig;
-    final status = this.status;
-    return {
-      if (autoMLResult != null) 'autoMLResult': autoMLResult,
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (eventType != null) 'eventType': eventType,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (latestSolutionUpdate != null)
-        'latestSolutionUpdate': latestSolutionUpdate,
-      if (latestSolutionVersion != null)
-        'latestSolutionVersion': latestSolutionVersion,
-      if (name != null) 'name': name,
-      if (performAutoML != null) 'performAutoML': performAutoML,
-      if (performAutoTraining != null)
-        'performAutoTraining': performAutoTraining,
-      if (performHPO != null) 'performHPO': performHPO,
-      if (recipeArn != null) 'recipeArn': recipeArn,
-      if (solutionArn != null) 'solutionArn': solutionArn,
-      if (solutionConfig != null) 'solutionConfig': solutionConfig,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// Describes the configuration properties for the solution.
-class SolutionConfig {
-  /// Lists the algorithm hyperparameters and their values.
-  final Map<String, String>? algorithmHyperParameters;
-
-  /// The <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_AutoMLConfig.html">AutoMLConfig</a>
-  /// object containing a list of recipes to search when AutoML is performed.
-  final AutoMLConfig? autoMLConfig;
-
-  /// Specifies the automatic training configuration to use.
-  final AutoTrainingConfig? autoTrainingConfig;
-
-  /// Only events with a value greater than or equal to this threshold are used
-  /// for training a model.
-  final String? eventValueThreshold;
-
-  /// Lists the feature transformation parameters.
-  final Map<String, String>? featureTransformationParameters;
-
-  /// Describes the properties for hyperparameter optimization (HPO).
-  final HPOConfig? hpoConfig;
-
-  /// Describes the additional objective for the solution, such as maximizing
-  /// streaming minutes or increasing revenue. For more information see <a
-  /// href="https://docs.aws.amazon.com/personalize/latest/dg/optimizing-solution-for-objective.html">Optimizing
-  /// a solution</a>.
-  final OptimizationObjective? optimizationObjective;
-
-  /// Specifies the training data configuration to use when creating a custom
-  /// solution version (trained model).
-  final TrainingDataConfig? trainingDataConfig;
-
-  SolutionConfig({
-    this.algorithmHyperParameters,
-    this.autoMLConfig,
-    this.autoTrainingConfig,
-    this.eventValueThreshold,
-    this.featureTransformationParameters,
-    this.hpoConfig,
-    this.optimizationObjective,
-    this.trainingDataConfig,
-  });
-
-  factory SolutionConfig.fromJson(Map<String, dynamic> json) {
-    return SolutionConfig(
-      algorithmHyperParameters:
-          (json['algorithmHyperParameters'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      autoMLConfig: json['autoMLConfig'] != null
-          ? AutoMLConfig.fromJson(json['autoMLConfig'] as Map<String, dynamic>)
-          : null,
-      autoTrainingConfig: json['autoTrainingConfig'] != null
-          ? AutoTrainingConfig.fromJson(
-              json['autoTrainingConfig'] as Map<String, dynamic>)
-          : null,
-      eventValueThreshold: json['eventValueThreshold'] as String?,
-      featureTransformationParameters:
-          (json['featureTransformationParameters'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-      hpoConfig: json['hpoConfig'] != null
-          ? HPOConfig.fromJson(json['hpoConfig'] as Map<String, dynamic>)
-          : null,
-      optimizationObjective: json['optimizationObjective'] != null
-          ? OptimizationObjective.fromJson(
-              json['optimizationObjective'] as Map<String, dynamic>)
-          : null,
-      trainingDataConfig: json['trainingDataConfig'] != null
-          ? TrainingDataConfig.fromJson(
-              json['trainingDataConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final algorithmHyperParameters = this.algorithmHyperParameters;
-    final autoMLConfig = this.autoMLConfig;
-    final autoTrainingConfig = this.autoTrainingConfig;
-    final eventValueThreshold = this.eventValueThreshold;
-    final featureTransformationParameters =
-        this.featureTransformationParameters;
-    final hpoConfig = this.hpoConfig;
-    final optimizationObjective = this.optimizationObjective;
-    final trainingDataConfig = this.trainingDataConfig;
-    return {
-      if (algorithmHyperParameters != null)
-        'algorithmHyperParameters': algorithmHyperParameters,
-      if (autoMLConfig != null) 'autoMLConfig': autoMLConfig,
-      if (autoTrainingConfig != null) 'autoTrainingConfig': autoTrainingConfig,
-      if (eventValueThreshold != null)
-        'eventValueThreshold': eventValueThreshold,
-      if (featureTransformationParameters != null)
-        'featureTransformationParameters': featureTransformationParameters,
-      if (hpoConfig != null) 'hpoConfig': hpoConfig,
-      if (optimizationObjective != null)
-        'optimizationObjective': optimizationObjective,
-      if (trainingDataConfig != null) 'trainingDataConfig': trainingDataConfig,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a solution. For a complete listing,
-/// call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
-/// API.
-class SolutionSummary {
-  /// The date and time (in Unix time) that the solution was created.
-  final DateTime? creationDateTime;
-
-  /// The date and time (in Unix time) that the solution was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the solution.
-  final String? name;
-
-  /// The Amazon Resource Name (ARN) of the recipe used by the solution.
-  final String? recipeArn;
-
-  /// The Amazon Resource Name (ARN) of the solution.
-  final String? solutionArn;
-
-  /// The status of the solution.
-  ///
-  /// A solution can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// <li>
-  /// DELETE PENDING &gt; DELETE IN_PROGRESS
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  SolutionSummary({
-    this.creationDateTime,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.recipeArn,
-    this.solutionArn,
-    this.status,
-  });
-
-  factory SolutionSummary.fromJson(Map<String, dynamic> json) {
-    return SolutionSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      recipeArn: json['recipeArn'] as String?,
-      solutionArn: json['solutionArn'] as String?,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final recipeArn = this.recipeArn;
-    final solutionArn = this.solutionArn;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (recipeArn != null) 'recipeArn': recipeArn,
-      if (solutionArn != null) 'solutionArn': solutionArn,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// The configuration details of the solution update.
-class SolutionUpdateConfig {
-  final AutoTrainingConfig? autoTrainingConfig;
-
-  SolutionUpdateConfig({
-    this.autoTrainingConfig,
-  });
-
-  factory SolutionUpdateConfig.fromJson(Map<String, dynamic> json) {
-    return SolutionUpdateConfig(
-      autoTrainingConfig: json['autoTrainingConfig'] != null
-          ? AutoTrainingConfig.fromJson(
-              json['autoTrainingConfig'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final autoTrainingConfig = this.autoTrainingConfig;
-    return {
-      if (autoTrainingConfig != null) 'autoTrainingConfig': autoTrainingConfig,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a solution update. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
-/// API.
-class SolutionUpdateSummary {
-  /// The date and time (in Unix format) that the solution update was created.
-  final DateTime? creationDateTime;
-
-  /// If a solution update fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix time) that the solution update was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// Whether the solution automatically creates solution versions.
-  final bool? performAutoTraining;
-
-  /// The configuration details of the solution.
-  final SolutionUpdateConfig? solutionUpdateConfig;
-
-  /// The status of the solution update. A solution update can be in one of the
-  /// following states:
-  ///
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  final String? status;
-
-  SolutionUpdateSummary({
-    this.creationDateTime,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.performAutoTraining,
-    this.solutionUpdateConfig,
-    this.status,
-  });
-
-  factory SolutionUpdateSummary.fromJson(Map<String, dynamic> json) {
-    return SolutionUpdateSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      performAutoTraining: json['performAutoTraining'] as bool?,
-      solutionUpdateConfig: json['solutionUpdateConfig'] != null
-          ? SolutionUpdateConfig.fromJson(
-              json['solutionUpdateConfig'] as Map<String, dynamic>)
-          : null,
-      status: json['status'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final performAutoTraining = this.performAutoTraining;
-    final solutionUpdateConfig = this.solutionUpdateConfig;
-    final status = this.status;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (performAutoTraining != null)
-        'performAutoTraining': performAutoTraining,
-      if (solutionUpdateConfig != null)
-        'solutionUpdateConfig': solutionUpdateConfig,
-      if (status != null) 'status': status,
-    };
-  }
-}
-
-/// An object that provides information about a specific version of a <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_Solution.html">Solution</a>
-/// in a Custom dataset group.
-class SolutionVersion {
-  /// The date and time (in Unix time) that this version of the solution was
-  /// created.
-  final DateTime? creationDateTime;
-
-  /// The Amazon Resource Name (ARN) of the dataset group providing the training
-  /// data.
-  final String? datasetGroupArn;
-
-  /// The event type (for example, 'click' or 'like') that is used for training
-  /// the model.
-  final String? eventType;
-
-  /// If training a solution version fails, the reason for the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix time) that the solution was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The name of the solution version.
-  final String? name;
-
-  /// When true, Amazon Personalize searches for the most optimal recipe according
-  /// to the solution configuration. When false (the default), Amazon Personalize
-  /// uses <code>recipeArn</code>.
-  final bool? performAutoML;
-
-  /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe.
-  /// The default is <code>false</code>.
-  final bool? performHPO;
-
-  /// The ARN of the recipe used in the solution.
-  final String? recipeArn;
-
-  /// The ARN of the solution.
-  final String? solutionArn;
-
-  /// Describes the configuration properties for the solution.
-  final SolutionConfig? solutionConfig;
-
-  /// The ARN of the solution version.
-  final String? solutionVersionArn;
-
-  /// The status of the solution version.
-  ///
-  /// A solution version can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING
-  /// </li>
-  /// <li>
-  /// CREATE IN_PROGRESS
-  /// </li>
-  /// <li>
-  /// ACTIVE
-  /// </li>
-  /// <li>
-  /// CREATE FAILED
-  /// </li>
-  /// <li>
-  /// CREATE STOPPING
-  /// </li>
-  /// <li>
-  /// CREATE STOPPED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  /// The time used to train the model. You are billed for the time it takes to
-  /// train a model. This field is visible only after Amazon Personalize
-  /// successfully trains a model.
-  final double? trainingHours;
-
-  /// The scope of training to be performed when creating the solution version. A
-  /// <code>FULL</code> training considers all of the data in your dataset group.
-  /// An <code>UPDATE</code> processes only the data that has changed since the
-  /// latest training. Only solution versions created with the
-  /// User-Personalization recipe can use <code>UPDATE</code>.
-  final TrainingMode? trainingMode;
-
-  /// Whether the solution version was created automatically or manually.
-  final TrainingType? trainingType;
-
-  /// If hyperparameter optimization was performed, contains the hyperparameter
-  /// values of the best performing model.
-  final TunedHPOParams? tunedHPOParams;
-
-  SolutionVersion({
-    this.creationDateTime,
-    this.datasetGroupArn,
-    this.eventType,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.name,
-    this.performAutoML,
-    this.performHPO,
-    this.recipeArn,
-    this.solutionArn,
-    this.solutionConfig,
-    this.solutionVersionArn,
-    this.status,
-    this.trainingHours,
-    this.trainingMode,
-    this.trainingType,
-    this.tunedHPOParams,
-  });
-
-  factory SolutionVersion.fromJson(Map<String, dynamic> json) {
-    return SolutionVersion(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      datasetGroupArn: json['datasetGroupArn'] as String?,
-      eventType: json['eventType'] as String?,
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      name: json['name'] as String?,
-      performAutoML: json['performAutoML'] as bool?,
-      performHPO: json['performHPO'] as bool?,
-      recipeArn: json['recipeArn'] as String?,
-      solutionArn: json['solutionArn'] as String?,
-      solutionConfig: json['solutionConfig'] != null
-          ? SolutionConfig.fromJson(
-              json['solutionConfig'] as Map<String, dynamic>)
-          : null,
-      solutionVersionArn: json['solutionVersionArn'] as String?,
-      status: json['status'] as String?,
-      trainingHours: json['trainingHours'] as double?,
-      trainingMode:
-          (json['trainingMode'] as String?)?.let(TrainingMode.fromString),
-      trainingType:
-          (json['trainingType'] as String?)?.let(TrainingType.fromString),
-      tunedHPOParams: json['tunedHPOParams'] != null
-          ? TunedHPOParams.fromJson(
-              json['tunedHPOParams'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final datasetGroupArn = this.datasetGroupArn;
-    final eventType = this.eventType;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final name = this.name;
-    final performAutoML = this.performAutoML;
-    final performHPO = this.performHPO;
-    final recipeArn = this.recipeArn;
-    final solutionArn = this.solutionArn;
-    final solutionConfig = this.solutionConfig;
-    final solutionVersionArn = this.solutionVersionArn;
-    final status = this.status;
-    final trainingHours = this.trainingHours;
-    final trainingMode = this.trainingMode;
-    final trainingType = this.trainingType;
-    final tunedHPOParams = this.tunedHPOParams;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
-      if (eventType != null) 'eventType': eventType,
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (name != null) 'name': name,
-      if (performAutoML != null) 'performAutoML': performAutoML,
-      if (performHPO != null) 'performHPO': performHPO,
-      if (recipeArn != null) 'recipeArn': recipeArn,
-      if (solutionArn != null) 'solutionArn': solutionArn,
-      if (solutionConfig != null) 'solutionConfig': solutionConfig,
-      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-      if (status != null) 'status': status,
-      if (trainingHours != null) 'trainingHours': trainingHours,
-      if (trainingMode != null) 'trainingMode': trainingMode.value,
-      if (trainingType != null) 'trainingType': trainingType.value,
-      if (tunedHPOParams != null) 'tunedHPOParams': tunedHPOParams,
-    };
-  }
-}
-
-/// Provides a summary of the properties of a solution version. For a complete
-/// listing, call the <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html">DescribeSolutionVersion</a>
-/// API.
-class SolutionVersionSummary {
-  /// The date and time (in Unix time) that this version of a solution was
-  /// created.
-  final DateTime? creationDateTime;
-
-  /// If a solution version fails, the reason behind the failure.
-  final String? failureReason;
-
-  /// The date and time (in Unix time) that the solution version was last updated.
-  final DateTime? lastUpdatedDateTime;
-
-  /// The Amazon Resource Name (ARN) of the solution version.
-  final String? solutionVersionArn;
-
-  /// The status of the solution version.
-  ///
-  /// A solution version can be in one of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-  /// </li>
-  /// </ul>
-  final String? status;
-
-  /// The scope of training to be performed when creating the solution version. A
-  /// <code>FULL</code> training considers all of the data in your dataset group.
-  /// An <code>UPDATE</code> processes only the data that has changed since the
-  /// latest training. Only solution versions created with the
-  /// User-Personalization recipe can use <code>UPDATE</code>.
-  final TrainingMode? trainingMode;
-
-  /// Whether the solution version was created automatically or manually.
-  final TrainingType? trainingType;
-
-  SolutionVersionSummary({
-    this.creationDateTime,
-    this.failureReason,
-    this.lastUpdatedDateTime,
-    this.solutionVersionArn,
-    this.status,
-    this.trainingMode,
-    this.trainingType,
-  });
-
-  factory SolutionVersionSummary.fromJson(Map<String, dynamic> json) {
-    return SolutionVersionSummary(
-      creationDateTime: timeStampFromJson(json['creationDateTime']),
-      failureReason: json['failureReason'] as String?,
-      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
-      solutionVersionArn: json['solutionVersionArn'] as String?,
-      status: json['status'] as String?,
-      trainingMode:
-          (json['trainingMode'] as String?)?.let(TrainingMode.fromString),
-      trainingType:
-          (json['trainingType'] as String?)?.let(TrainingType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final creationDateTime = this.creationDateTime;
-    final failureReason = this.failureReason;
-    final lastUpdatedDateTime = this.lastUpdatedDateTime;
-    final solutionVersionArn = this.solutionVersionArn;
-    final status = this.status;
-    final trainingMode = this.trainingMode;
-    final trainingType = this.trainingType;
-    return {
-      if (creationDateTime != null)
-        'creationDateTime': unixTimestampToJson(creationDateTime),
-      if (failureReason != null) 'failureReason': failureReason,
-      if (lastUpdatedDateTime != null)
-        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
-      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
-      if (status != null) 'status': status,
-      if (trainingMode != null) 'trainingMode': trainingMode.value,
-      if (trainingType != null) 'trainingType': trainingType.value,
     };
   }
 }
@@ -10507,42 +5572,6 @@ class StopRecommenderResponse {
   }
 }
 
-/// The optional metadata that you apply to resources to help you categorize and
-/// organize them. Each tag consists of a key and an optional value, both of
-/// which you define. For more information see <a
-/// href="https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html">Tagging
-/// Amazon Personalize resources</a>.
-class Tag {
-  /// One part of a key-value pair that makes up a tag. A key is a general label
-  /// that acts like a category for more specific tag values.
-  final String tagKey;
-
-  /// The optional part of a key-value pair that makes up a tag. A value acts as a
-  /// descriptor within a tag category (key).
-  final String tagValue;
-
-  Tag({
-    required this.tagKey,
-    required this.tagValue,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      tagKey: (json['tagKey'] as String?) ?? '',
-      tagValue: (json['tagValue'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tagKey = this.tagKey;
-    final tagValue = this.tagValue;
-    return {
-      'tagKey': tagKey,
-      'tagValue': tagValue,
-    };
-  }
-}
-
 class TagResourceResponse {
   TagResourceResponse();
 
@@ -10552,139 +5581,6 @@ class TagResourceResponse {
 
   Map<String, dynamic> toJson() {
     return {};
-  }
-}
-
-/// The configuration details for generating themes with a batch inference job.
-class ThemeGenerationConfig {
-  /// Fields used to generate descriptive themes for a batch inference job.
-  final FieldsForThemeGeneration fieldsForThemeGeneration;
-
-  ThemeGenerationConfig({
-    required this.fieldsForThemeGeneration,
-  });
-
-  factory ThemeGenerationConfig.fromJson(Map<String, dynamic> json) {
-    return ThemeGenerationConfig(
-      fieldsForThemeGeneration: FieldsForThemeGeneration.fromJson(
-          (json['fieldsForThemeGeneration'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final fieldsForThemeGeneration = this.fieldsForThemeGeneration;
-    return {
-      'fieldsForThemeGeneration': fieldsForThemeGeneration,
-    };
-  }
-}
-
-/// The training data configuration to use when creating a domain recommender or
-/// custom solution version (trained model).
-class TrainingDataConfig {
-  /// Specifies the columns to exclude from training. Each key is a dataset type,
-  /// and each value is a list of columns. Exclude columns to control what data
-  /// Amazon Personalize uses to generate recommendations.
-  ///
-  /// For example, you might have a column that you want to use only to filter
-  /// recommendations. You can exclude this column from training and Amazon
-  /// Personalize considers it only when filtering.
-  final Map<String, List<String>>? excludedDatasetColumns;
-
-  TrainingDataConfig({
-    this.excludedDatasetColumns,
-  });
-
-  factory TrainingDataConfig.fromJson(Map<String, dynamic> json) {
-    return TrainingDataConfig(
-      excludedDatasetColumns:
-          (json['excludedDatasetColumns'] as Map<String, dynamic>?)?.map(
-              (k, e) => MapEntry(
-                  k, (e as List).nonNulls.map((e) => e as String).toList())),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final excludedDatasetColumns = this.excludedDatasetColumns;
-    return {
-      if (excludedDatasetColumns != null)
-        'excludedDatasetColumns': excludedDatasetColumns,
-    };
-  }
-}
-
-class TrainingMode {
-  static const full = TrainingMode._('FULL');
-  static const update = TrainingMode._('UPDATE');
-  static const autotrain = TrainingMode._('AUTOTRAIN');
-
-  final String value;
-
-  const TrainingMode._(this.value);
-
-  static const values = [full, update, autotrain];
-
-  static TrainingMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TrainingMode._(value));
-
-  @override
-  bool operator ==(other) => other is TrainingMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class TrainingType {
-  static const automatic = TrainingType._('AUTOMATIC');
-  static const manual = TrainingType._('MANUAL');
-
-  final String value;
-
-  const TrainingType._(this.value);
-
-  static const values = [automatic, manual];
-
-  static TrainingType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => TrainingType._(value));
-
-  @override
-  bool operator ==(other) => other is TrainingType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// If hyperparameter optimization (HPO) was performed, contains the
-/// hyperparameter values of the best performing model.
-class TunedHPOParams {
-  /// A list of the hyperparameter values of the best performing model.
-  final Map<String, String>? algorithmHyperParameters;
-
-  TunedHPOParams({
-    this.algorithmHyperParameters,
-  });
-
-  factory TunedHPOParams.fromJson(Map<String, dynamic> json) {
-    return TunedHPOParams(
-      algorithmHyperParameters:
-          (json['algorithmHyperParameters'] as Map<String, dynamic>?)
-              ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final algorithmHyperParameters = this.algorithmHyperParameters;
-    return {
-      if (algorithmHyperParameters != null)
-        'algorithmHyperParameters': algorithmHyperParameters,
-    };
   }
 }
 
@@ -10807,6 +5703,5343 @@ class UpdateSolutionResponse {
     final solutionArn = this.solutionArn;
     return {
       if (solutionArn != null) 'solutionArn': solutionArn,
+    };
+  }
+}
+
+/// The configuration details of the solution update.
+class SolutionUpdateConfig {
+  final AutoTrainingConfig? autoTrainingConfig;
+
+  /// Describes the configuration of an event, which includes a list of event
+  /// parameters. You can specify up to 10 event parameters. Events are used in
+  /// solution creation.
+  final EventsConfig? eventsConfig;
+
+  SolutionUpdateConfig({
+    this.autoTrainingConfig,
+    this.eventsConfig,
+  });
+
+  factory SolutionUpdateConfig.fromJson(Map<String, dynamic> json) {
+    return SolutionUpdateConfig(
+      autoTrainingConfig: json['autoTrainingConfig'] != null
+          ? AutoTrainingConfig.fromJson(
+              json['autoTrainingConfig'] as Map<String, dynamic>)
+          : null,
+      eventsConfig: json['eventsConfig'] != null
+          ? EventsConfig.fromJson(json['eventsConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoTrainingConfig = this.autoTrainingConfig;
+    final eventsConfig = this.eventsConfig;
+    return {
+      if (autoTrainingConfig != null) 'autoTrainingConfig': autoTrainingConfig,
+      if (eventsConfig != null) 'eventsConfig': eventsConfig,
+    };
+  }
+}
+
+/// The automatic training configuration to use when
+/// <code>performAutoTraining</code> is true.
+class AutoTrainingConfig {
+  /// Specifies how often to automatically train new solution versions. Specify a
+  /// rate expression in rate(<i>value</i> <i>unit</i>) format. For value, specify
+  /// a number between 1 and 30. For unit, specify <code>day</code> or
+  /// <code>days</code>. For example, to automatically create a new solution
+  /// version every 5 days, specify <code>rate(5 days)</code>. The default is
+  /// every 7 days.
+  ///
+  /// For more information about auto training, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html">Creating
+  /// and configuring a solution</a>.
+  final String? schedulingExpression;
+
+  AutoTrainingConfig({
+    this.schedulingExpression,
+  });
+
+  factory AutoTrainingConfig.fromJson(Map<String, dynamic> json) {
+    return AutoTrainingConfig(
+      schedulingExpression: json['schedulingExpression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schedulingExpression = this.schedulingExpression;
+    return {
+      if (schedulingExpression != null)
+        'schedulingExpression': schedulingExpression,
+    };
+  }
+}
+
+/// Describes the configuration of events, which are used in solution creation.
+class EventsConfig {
+  /// A list of event parameters, which includes event types and their event value
+  /// thresholds and weights.
+  final List<EventParameters>? eventParametersList;
+
+  EventsConfig({
+    this.eventParametersList,
+  });
+
+  factory EventsConfig.fromJson(Map<String, dynamic> json) {
+    return EventsConfig(
+      eventParametersList: (json['eventParametersList'] as List?)
+          ?.nonNulls
+          .map((e) => EventParameters.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventParametersList = this.eventParametersList;
+    return {
+      if (eventParametersList != null)
+        'eventParametersList': eventParametersList,
+    };
+  }
+}
+
+/// Describes the parameters of events, which are used in solution creation.
+class EventParameters {
+  /// The name of the event type to be considered for solution creation.
+  final String? eventType;
+
+  /// The threshold of the event type. Only events with a value greater or equal
+  /// to this threshold will be considered for solution creation.
+  final double? eventValueThreshold;
+
+  /// The weight of the event type. A higher weight means higher importance of the
+  /// event type for the created solution.
+  final double? weight;
+
+  EventParameters({
+    this.eventType,
+    this.eventValueThreshold,
+    this.weight,
+  });
+
+  factory EventParameters.fromJson(Map<String, dynamic> json) {
+    return EventParameters(
+      eventType: json['eventType'] as String?,
+      eventValueThreshold: json['eventValueThreshold'] as double?,
+      weight: json['weight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final eventValueThreshold = this.eventValueThreshold;
+    final weight = this.weight;
+    return {
+      if (eventType != null) 'eventType': eventType,
+      if (eventValueThreshold != null)
+        'eventValueThreshold': eventValueThreshold,
+      if (weight != null) 'weight': weight,
+    };
+  }
+}
+
+/// The configuration details of the recommender.
+class RecommenderConfig {
+  /// Whether metadata with recommendations is enabled for the recommender. If
+  /// enabled, you can specify the columns from your Items dataset in your request
+  /// for recommendations. Amazon Personalize returns this data for each item in
+  /// the recommendation response. For information about enabling metadata for a
+  /// recommender, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/creating-recommenders.html#create-recommender-return-metadata">Enabling
+  /// metadata in recommendations for a recommender</a>.
+  ///
+  /// If you enable metadata in recommendations, you will incur additional costs.
+  /// For more information, see <a
+  /// href="https://aws.amazon.com/personalize/pricing/">Amazon Personalize
+  /// pricing</a>.
+  final bool? enableMetadataWithRecommendations;
+
+  /// Specifies the exploration configuration hyperparameters, including
+  /// <code>explorationWeight</code> and <code>explorationItemAgeCutOff</code>,
+  /// you want to use to configure the amount of item exploration Amazon
+  /// Personalize uses when recommending items. Provide
+  /// <code>itemExplorationConfig</code> data only if your recommenders generate
+  /// personalized recommendations for a user (not popular items or similar
+  /// items).
+  final Map<String, String>? itemExplorationConfig;
+
+  /// Specifies the requested minimum provisioned recommendation requests per
+  /// second that Amazon Personalize will support. A high
+  /// <code>minRecommendationRequestsPerSecond</code> will increase your bill. We
+  /// recommend starting with 1 for
+  /// <code>minRecommendationRequestsPerSecond</code> (the default). Track your
+  /// usage using Amazon CloudWatch metrics, and increase the
+  /// <code>minRecommendationRequestsPerSecond</code> as necessary.
+  final int? minRecommendationRequestsPerSecond;
+
+  /// Specifies the training data configuration to use when creating a domain
+  /// recommender.
+  final TrainingDataConfig? trainingDataConfig;
+
+  RecommenderConfig({
+    this.enableMetadataWithRecommendations,
+    this.itemExplorationConfig,
+    this.minRecommendationRequestsPerSecond,
+    this.trainingDataConfig,
+  });
+
+  factory RecommenderConfig.fromJson(Map<String, dynamic> json) {
+    return RecommenderConfig(
+      enableMetadataWithRecommendations:
+          json['enableMetadataWithRecommendations'] as bool?,
+      itemExplorationConfig:
+          (json['itemExplorationConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      minRecommendationRequestsPerSecond:
+          json['minRecommendationRequestsPerSecond'] as int?,
+      trainingDataConfig: json['trainingDataConfig'] != null
+          ? TrainingDataConfig.fromJson(
+              json['trainingDataConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableMetadataWithRecommendations =
+        this.enableMetadataWithRecommendations;
+    final itemExplorationConfig = this.itemExplorationConfig;
+    final minRecommendationRequestsPerSecond =
+        this.minRecommendationRequestsPerSecond;
+    final trainingDataConfig = this.trainingDataConfig;
+    return {
+      if (enableMetadataWithRecommendations != null)
+        'enableMetadataWithRecommendations': enableMetadataWithRecommendations,
+      if (itemExplorationConfig != null)
+        'itemExplorationConfig': itemExplorationConfig,
+      if (minRecommendationRequestsPerSecond != null)
+        'minRecommendationRequestsPerSecond':
+            minRecommendationRequestsPerSecond,
+      if (trainingDataConfig != null) 'trainingDataConfig': trainingDataConfig,
+    };
+  }
+}
+
+/// The training data configuration to use when creating a domain recommender or
+/// custom solution version (trained model).
+class TrainingDataConfig {
+  /// Specifies the columns to exclude from training. Each key is a dataset type,
+  /// and each value is a list of columns. Exclude columns to control what data
+  /// Amazon Personalize uses to generate recommendations.
+  ///
+  /// For example, you might have a column that you want to use only to filter
+  /// recommendations. You can exclude this column from training and Amazon
+  /// Personalize considers it only when filtering.
+  final Map<String, List<String>>? excludedDatasetColumns;
+
+  /// A map that specifies which columns to include from each dataset during
+  /// training. The map can contain up to 3 entries, where each key is a dataset
+  /// name (maximum length of 256 characters, must contain only letters and
+  /// underscores) and each value is an array of up to 50 column names. Column
+  /// names can be up to 150 characters long, must start with a letter or
+  /// underscore, and can contain only letters, numbers, and underscores.
+  final Map<String, List<String>>? includedDatasetColumns;
+
+  TrainingDataConfig({
+    this.excludedDatasetColumns,
+    this.includedDatasetColumns,
+  });
+
+  factory TrainingDataConfig.fromJson(Map<String, dynamic> json) {
+    return TrainingDataConfig(
+      excludedDatasetColumns:
+          (json['excludedDatasetColumns'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k, (e as List).nonNulls.map((e) => e as String).toList())),
+      includedDatasetColumns:
+          (json['includedDatasetColumns'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k, (e as List).nonNulls.map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final excludedDatasetColumns = this.excludedDatasetColumns;
+    final includedDatasetColumns = this.includedDatasetColumns;
+    return {
+      if (excludedDatasetColumns != null)
+        'excludedDatasetColumns': excludedDatasetColumns,
+      if (includedDatasetColumns != null)
+        'includedDatasetColumns': includedDatasetColumns,
+    };
+  }
+}
+
+/// The output configuration details for a metric attribution.
+class MetricAttributionOutput {
+  /// The Amazon Resource Name (ARN) of the IAM service role that has permissions
+  /// to add data to your output Amazon S3 bucket and add metrics to Amazon
+  /// CloudWatch. For more information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
+  /// impact of recommendations</a>.
+  final String roleArn;
+  final S3DataConfig? s3DataDestination;
+
+  MetricAttributionOutput({
+    required this.roleArn,
+    this.s3DataDestination,
+  });
+
+  factory MetricAttributionOutput.fromJson(Map<String, dynamic> json) {
+    return MetricAttributionOutput(
+      roleArn: (json['roleArn'] as String?) ?? '',
+      s3DataDestination: json['s3DataDestination'] != null
+          ? S3DataConfig.fromJson(
+              json['s3DataDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final s3DataDestination = this.s3DataDestination;
+    return {
+      'roleArn': roleArn,
+      if (s3DataDestination != null) 's3DataDestination': s3DataDestination,
+    };
+  }
+}
+
+/// The configuration details of an Amazon S3 input or output bucket.
+class S3DataConfig {
+  /// The file path of the Amazon S3 bucket.
+  final String path;
+
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that
+  /// Amazon Personalize uses to encrypt or decrypt the input and output files.
+  final String? kmsKeyArn;
+
+  S3DataConfig({
+    required this.path,
+    this.kmsKeyArn,
+  });
+
+  factory S3DataConfig.fromJson(Map<String, dynamic> json) {
+    return S3DataConfig(
+      path: (json['path'] as String?) ?? '',
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      'path': path,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
+}
+
+/// Contains information on a metric that a metric attribution reports on. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
+/// impact of recommendations</a>.
+class MetricAttribute {
+  /// The metric's event type.
+  final String eventType;
+
+  /// The attribute's expression. Available functions are <code>SUM()</code> or
+  /// <code>SAMPLECOUNT()</code>. For SUM() functions, provide the dataset type
+  /// (either Interactions or Items) and column to sum as a parameter. For example
+  /// SUM(Items.PRICE).
+  final String expression;
+
+  /// The metric's name. The name helps you identify the metric in Amazon
+  /// CloudWatch or Amazon S3.
+  final String metricName;
+
+  MetricAttribute({
+    required this.eventType,
+    required this.expression,
+    required this.metricName,
+  });
+
+  factory MetricAttribute.fromJson(Map<String, dynamic> json) {
+    return MetricAttribute(
+      eventType: (json['eventType'] as String?) ?? '',
+      expression: (json['expression'] as String?) ?? '',
+      metricName: (json['metricName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final expression = this.expression;
+    final metricName = this.metricName;
+    return {
+      'eventType': eventType,
+      'expression': expression,
+      'metricName': metricName,
+    };
+  }
+}
+
+/// The configuration details of a campaign.
+class CampaignConfig {
+  /// Whether metadata with recommendations is enabled for the campaign. If
+  /// enabled, you can specify the columns from your Items dataset in your request
+  /// for recommendations. Amazon Personalize returns this data for each item in
+  /// the recommendation response. For information about enabling metadata for a
+  /// campaign, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata">Enabling
+  /// metadata in recommendations for a campaign</a>.
+  ///
+  /// If you enable metadata in recommendations, you will incur additional costs.
+  /// For more information, see <a
+  /// href="https://aws.amazon.com/personalize/pricing/">Amazon Personalize
+  /// pricing</a>.
+  final bool? enableMetadataWithRecommendations;
+
+  /// Specifies the exploration configuration hyperparameters, including
+  /// <code>explorationWeight</code> and <code>explorationItemAgeCutOff</code>,
+  /// you want to use to configure the amount of item exploration Amazon
+  /// Personalize uses when recommending items. Provide
+  /// <code>itemExplorationConfig</code> data only if your solution uses the <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html">User-Personalization</a>
+  /// recipe.
+  final Map<String, String>? itemExplorationConfig;
+
+  /// A map of ranking influence values for POPULARITY and FRESHNESS. For each
+  /// key, specify a numerical value between 0.0 and 1.0 that determines how much
+  /// influence that ranking factor has on the final recommendations. A value
+  /// closer to 1.0 gives more weight to the factor, while a value closer to 0.0
+  /// reduces its influence.
+  final Map<RankingInfluenceType, double>? rankingInfluence;
+
+  /// Whether the campaign automatically updates to use the latest solution
+  /// version (trained model) of a solution. If you specify <code>True</code>, you
+  /// must specify the ARN of your <i>solution</i> for the
+  /// <code>SolutionVersionArn</code> parameter. It must be in
+  /// <code>SolutionArn/$LATEST</code> format. The default is <code>False</code>
+  /// and you must manually update the campaign to deploy the latest solution
+  /// version.
+  ///
+  /// For more information about automatic campaign updates, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update">Enabling
+  /// automatic campaign updates</a>.
+  final bool? syncWithLatestSolutionVersion;
+
+  CampaignConfig({
+    this.enableMetadataWithRecommendations,
+    this.itemExplorationConfig,
+    this.rankingInfluence,
+    this.syncWithLatestSolutionVersion,
+  });
+
+  factory CampaignConfig.fromJson(Map<String, dynamic> json) {
+    return CampaignConfig(
+      enableMetadataWithRecommendations:
+          json['enableMetadataWithRecommendations'] as bool?,
+      itemExplorationConfig:
+          (json['itemExplorationConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      rankingInfluence: (json['rankingInfluence'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(RankingInfluenceType.fromString(k), e as double)),
+      syncWithLatestSolutionVersion:
+          json['syncWithLatestSolutionVersion'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableMetadataWithRecommendations =
+        this.enableMetadataWithRecommendations;
+    final itemExplorationConfig = this.itemExplorationConfig;
+    final rankingInfluence = this.rankingInfluence;
+    final syncWithLatestSolutionVersion = this.syncWithLatestSolutionVersion;
+    return {
+      if (enableMetadataWithRecommendations != null)
+        'enableMetadataWithRecommendations': enableMetadataWithRecommendations,
+      if (itemExplorationConfig != null)
+        'itemExplorationConfig': itemExplorationConfig,
+      if (rankingInfluence != null)
+        'rankingInfluence':
+            rankingInfluence.map((k, e) => MapEntry(k.value, e)),
+      if (syncWithLatestSolutionVersion != null)
+        'syncWithLatestSolutionVersion': syncWithLatestSolutionVersion,
+    };
+  }
+}
+
+class RankingInfluenceType {
+  static const popularity = RankingInfluenceType._('POPULARITY');
+  static const freshness = RankingInfluenceType._('FRESHNESS');
+
+  final String value;
+
+  const RankingInfluenceType._(this.value);
+
+  static const values = [popularity, freshness];
+
+  static RankingInfluenceType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RankingInfluenceType._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is RankingInfluenceType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The optional metadata that you apply to resources to help you categorize and
+/// organize them. Each tag consists of a key and an optional value, both of
+/// which you define. For more information see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html">Tagging
+/// Amazon Personalize resources</a>.
+class Tag {
+  /// One part of a key-value pair that makes up a tag. A key is a general label
+  /// that acts like a category for more specific tag values.
+  final String tagKey;
+
+  /// The optional part of a key-value pair that makes up a tag. A value acts as a
+  /// descriptor within a tag category (key).
+  final String tagValue;
+
+  Tag({
+    required this.tagKey,
+    required this.tagValue,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      tagKey: (json['tagKey'] as String?) ?? '',
+      tagValue: (json['tagValue'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagKey = this.tagKey;
+    final tagValue = this.tagValue;
+    return {
+      'tagKey': tagKey,
+      'tagValue': tagValue,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a solution version. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html">DescribeSolutionVersion</a>
+/// API.
+class SolutionVersionSummary {
+  /// The date and time (in Unix time) that this version of a solution was
+  /// created.
+  final DateTime? creationDateTime;
+
+  /// If a solution version fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix time) that the solution version was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The Amazon Resource Name (ARN) of the solution version.
+  final String? solutionVersionArn;
+
+  /// The status of the solution version.
+  ///
+  /// A solution version can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The scope of training to be performed when creating the solution version. A
+  /// <code>FULL</code> training considers all of the data in your dataset group.
+  /// An <code>UPDATE</code> processes only the data that has changed since the
+  /// latest training. Only solution versions created with the
+  /// User-Personalization recipe can use <code>UPDATE</code>.
+  final TrainingMode? trainingMode;
+
+  /// Whether the solution version was created automatically or manually.
+  final TrainingType? trainingType;
+
+  SolutionVersionSummary({
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.solutionVersionArn,
+    this.status,
+    this.trainingMode,
+    this.trainingType,
+  });
+
+  factory SolutionVersionSummary.fromJson(Map<String, dynamic> json) {
+    return SolutionVersionSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+      trainingMode:
+          (json['trainingMode'] as String?)?.let(TrainingMode.fromString),
+      trainingType:
+          (json['trainingType'] as String?)?.let(TrainingType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final solutionVersionArn = this.solutionVersionArn;
+    final status = this.status;
+    final trainingMode = this.trainingMode;
+    final trainingType = this.trainingType;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
+      if (status != null) 'status': status,
+      if (trainingMode != null) 'trainingMode': trainingMode.value,
+      if (trainingType != null) 'trainingType': trainingType.value,
+    };
+  }
+}
+
+class TrainingMode {
+  static const full = TrainingMode._('FULL');
+  static const update = TrainingMode._('UPDATE');
+  static const autotrain = TrainingMode._('AUTOTRAIN');
+
+  final String value;
+
+  const TrainingMode._(this.value);
+
+  static const values = [full, update, autotrain];
+
+  static TrainingMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrainingMode._(value));
+
+  @override
+  bool operator ==(other) => other is TrainingMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class TrainingType {
+  static const automatic = TrainingType._('AUTOMATIC');
+  static const manual = TrainingType._('MANUAL');
+
+  final String value;
+
+  const TrainingType._(this.value);
+
+  static const values = [automatic, manual];
+
+  static TrainingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => TrainingType._(value));
+
+  @override
+  bool operator ==(other) => other is TrainingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a summary of the properties of a solution. For a complete listing,
+/// call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
+/// API.
+class SolutionSummary {
+  /// The date and time (in Unix time) that the solution was created.
+  final DateTime? creationDateTime;
+
+  /// The date and time (in Unix time) that the solution was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the solution.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the recipe used by the solution.
+  final String? recipeArn;
+
+  /// The Amazon Resource Name (ARN) of the solution.
+  final String? solutionArn;
+
+  /// The status of the solution.
+  ///
+  /// A solution can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  SolutionSummary({
+    this.creationDateTime,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.recipeArn,
+    this.solutionArn,
+    this.status,
+  });
+
+  factory SolutionSummary.fromJson(Map<String, dynamic> json) {
+    return SolutionSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      recipeArn: json['recipeArn'] as String?,
+      solutionArn: json['solutionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final recipeArn = this.recipeArn;
+    final solutionArn = this.solutionArn;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (recipeArn != null) 'recipeArn': recipeArn,
+      if (solutionArn != null) 'solutionArn': solutionArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a dataset schema. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSchema.html">DescribeSchema</a>
+/// API.
+class DatasetSchemaSummary {
+  /// The date and time (in Unix time) that the schema was created.
+  final DateTime? creationDateTime;
+
+  /// The domain of a schema that you created for a dataset in a Domain dataset
+  /// group.
+  final Domain? domain;
+
+  /// The date and time (in Unix time) that the schema was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the schema.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  final String? schemaArn;
+
+  DatasetSchemaSummary({
+    this.creationDateTime,
+    this.domain,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.schemaArn,
+  });
+
+  factory DatasetSchemaSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSchemaSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      schemaArn: json['schemaArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final domain = this.domain;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final schemaArn = this.schemaArn;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (domain != null) 'domain': domain.value,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (schemaArn != null) 'schemaArn': schemaArn,
+    };
+  }
+}
+
+class Domain {
+  static const ecommerce = Domain._('ECOMMERCE');
+  static const videoOnDemand = Domain._('VIDEO_ON_DEMAND');
+
+  final String value;
+
+  const Domain._(this.value);
+
+  static const values = [ecommerce, videoOnDemand];
+
+  static Domain fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Domain._(value));
+
+  @override
+  bool operator ==(other) => other is Domain && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a summary of the properties of the recommender.
+class RecommenderSummary {
+  /// The date and time (in Unix format) that the recommender was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the Domain dataset group that contains the
+  /// recommender.
+  final String? datasetGroupArn;
+
+  /// The date and time (in Unix format) that the recommender was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the recommender.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the recipe (Domain dataset group use case)
+  /// that the recommender was created for.
+  final String? recipeArn;
+
+  /// The Amazon Resource Name (ARN) of the recommender.
+  final String? recommenderArn;
+
+  /// The configuration details of the recommender.
+  final RecommenderConfig? recommenderConfig;
+
+  /// The status of the recommender. A recommender can be in one of the following
+  /// states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START
+  /// IN_PROGRESS > ACTIVE
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  RecommenderSummary({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.recipeArn,
+    this.recommenderArn,
+    this.recommenderConfig,
+    this.status,
+  });
+
+  factory RecommenderSummary.fromJson(Map<String, dynamic> json) {
+    return RecommenderSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      recipeArn: json['recipeArn'] as String?,
+      recommenderArn: json['recommenderArn'] as String?,
+      recommenderConfig: json['recommenderConfig'] != null
+          ? RecommenderConfig.fromJson(
+              json['recommenderConfig'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final recipeArn = this.recipeArn;
+    final recommenderArn = this.recommenderArn;
+    final recommenderConfig = this.recommenderConfig;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (recipeArn != null) 'recipeArn': recipeArn,
+      if (recommenderArn != null) 'recommenderArn': recommenderArn,
+      if (recommenderConfig != null) 'recommenderConfig': recommenderConfig,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a recipe. For a complete listing,
+/// call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecipe.html">DescribeRecipe</a>
+/// API.
+class RecipeSummary {
+  /// The date and time (in Unix time) that the recipe was created.
+  final DateTime? creationDateTime;
+
+  /// The domain of the recipe (if the recipe is a Domain dataset group use case).
+  final Domain? domain;
+
+  /// The date and time (in Unix time) that the recipe was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the recipe.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the recipe.
+  final String? recipeArn;
+
+  /// The status of the recipe.
+  final String? status;
+
+  RecipeSummary({
+    this.creationDateTime,
+    this.domain,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.recipeArn,
+    this.status,
+  });
+
+  factory RecipeSummary.fromJson(Map<String, dynamic> json) {
+    return RecipeSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      recipeArn: json['recipeArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final domain = this.domain;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final recipeArn = this.recipeArn;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (domain != null) 'domain': domain.value,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (recipeArn != null) 'recipeArn': recipeArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+class RecipeProvider {
+  static const service = RecipeProvider._('SERVICE');
+
+  final String value;
+
+  const RecipeProvider._(this.value);
+
+  static const values = [service];
+
+  static RecipeProvider fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => RecipeProvider._(value));
+
+  @override
+  bool operator ==(other) => other is RecipeProvider && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a summary of the properties of a metric attribution. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeMetricAttribution.html">DescribeMetricAttribution</a>.
+class MetricAttributionSummary {
+  /// The metric attribution's creation date time.
+  final DateTime? creationDateTime;
+
+  /// The metric attribution's failure reason.
+  final String? failureReason;
+
+  /// The metric attribution's last updated date time.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The metric attribution's Amazon Resource Name (ARN).
+  final String? metricAttributionArn;
+
+  /// The name of the metric attribution.
+  final String? name;
+
+  /// The metric attribution's status.
+  final String? status;
+
+  MetricAttributionSummary({
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.metricAttributionArn,
+    this.name,
+    this.status,
+  });
+
+  factory MetricAttributionSummary.fromJson(Map<String, dynamic> json) {
+    return MetricAttributionSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      metricAttributionArn: json['metricAttributionArn'] as String?,
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final metricAttributionArn = this.metricAttributionArn;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (metricAttributionArn != null)
+        'metricAttributionArn': metricAttributionArn,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// A short summary of a filter's attributes.
+class FilterSummary {
+  /// The time at which the filter was created.
+  final DateTime? creationDateTime;
+
+  /// The ARN of the dataset group to which the filter belongs.
+  final String? datasetGroupArn;
+
+  /// If the filter failed, the reason for the failure.
+  final String? failureReason;
+
+  /// The ARN of the filter.
+  final String? filterArn;
+
+  /// The time at which the filter was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the filter.
+  final String? name;
+
+  /// The status of the filter.
+  final String? status;
+
+  FilterSummary({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.failureReason,
+    this.filterArn,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+
+  factory FilterSummary.fromJson(Map<String, dynamic> json) {
+    return FilterSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      filterArn: json['filterArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final failureReason = this.failureReason;
+    final filterArn = this.filterArn;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (filterArn != null) 'filterArn': filterArn,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of an event tracker. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeEventTracker.html">DescribeEventTracker</a>
+/// API.
+class EventTrackerSummary {
+  /// The date and time (in Unix time) that the event tracker was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the event tracker.
+  final String? eventTrackerArn;
+
+  /// The date and time (in Unix time) that the event tracker was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the event tracker.
+  final String? name;
+
+  /// The status of the event tracker.
+  ///
+  /// An event tracker can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  EventTrackerSummary({
+    this.creationDateTime,
+    this.eventTrackerArn,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+
+  factory EventTrackerSummary.fromJson(Map<String, dynamic> json) {
+    return EventTrackerSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      eventTrackerArn: json['eventTrackerArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final eventTrackerArn = this.eventTrackerArn;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (eventTrackerArn != null) 'eventTrackerArn': eventTrackerArn,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a dataset. For a complete listing,
+/// call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataset.html">DescribeDataset</a>
+/// API.
+class DatasetSummary {
+  /// The date and time (in Unix time) that the dataset was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset.
+  final String? datasetArn;
+
+  /// The dataset type. One of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// Interactions
+  /// </li>
+  /// <li>
+  /// Items
+  /// </li>
+  /// <li>
+  /// Users
+  /// </li>
+  /// <li>
+  /// Event-Interactions
+  /// </li>
+  /// </ul>
+  final String? datasetType;
+
+  /// The date and time (in Unix time) that the dataset was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the dataset.
+  final String? name;
+
+  /// The status of the dataset.
+  ///
+  /// A dataset can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DatasetSummary({
+    this.creationDateTime,
+    this.datasetArn,
+    this.datasetType,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+
+  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetArn: json['datasetArn'] as String?,
+      datasetType: json['datasetType'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetArn = this.datasetArn;
+    final datasetType = this.datasetType;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (datasetType != null) 'datasetType': datasetType,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a dataset import job. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetImportJob.html">DescribeDatasetImportJob</a>
+/// API.
+class DatasetImportJobSummary {
+  /// The date and time (in Unix time) that the dataset import job was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset import job.
+  final String? datasetImportJobArn;
+
+  /// If a dataset import job fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The import mode the dataset import job used to update the data in the
+  /// dataset. For more information see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/updating-existing-bulk-data.html">Updating
+  /// existing bulk data</a>.
+  final ImportMode? importMode;
+
+  /// The name of the dataset import job.
+  final String? jobName;
+
+  /// The date and time (in Unix time) that the dataset import job status was last
+  /// updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The status of the dataset import job.
+  ///
+  /// A dataset import job can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DatasetImportJobSummary({
+    this.creationDateTime,
+    this.datasetImportJobArn,
+    this.failureReason,
+    this.importMode,
+    this.jobName,
+    this.lastUpdatedDateTime,
+    this.status,
+  });
+
+  factory DatasetImportJobSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetImportJobSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetImportJobArn: json['datasetImportJobArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      importMode: (json['importMode'] as String?)?.let(ImportMode.fromString),
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetImportJobArn = this.datasetImportJobArn;
+    final failureReason = this.failureReason;
+    final importMode = this.importMode;
+    final jobName = this.jobName;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetImportJobArn != null)
+        'datasetImportJobArn': datasetImportJobArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (importMode != null) 'importMode': importMode.value,
+      if (jobName != null) 'jobName': jobName,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+class ImportMode {
+  static const full = ImportMode._('FULL');
+  static const incremental = ImportMode._('INCREMENTAL');
+
+  final String value;
+
+  const ImportMode._(this.value);
+
+  static const values = [full, incremental];
+
+  static ImportMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ImportMode._(value));
+
+  @override
+  bool operator ==(other) => other is ImportMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Provides a summary of the properties of a dataset group. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetGroup.html">DescribeDatasetGroup</a>
+/// API.
+class DatasetGroupSummary {
+  /// The date and time (in Unix time) that the dataset group was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset group.
+  final String? datasetGroupArn;
+
+  /// The domain of a Domain dataset group.
+  final Domain? domain;
+
+  /// If creating a dataset group fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix time) that the dataset group was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the dataset group.
+  final String? name;
+
+  /// The status of the dataset group.
+  ///
+  /// A dataset group can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DatasetGroupSummary({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.domain,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+
+  factory DatasetGroupSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetGroupSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final domain = this.domain;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (domain != null) 'domain': domain.value,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a dataset export job. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetExportJob.html">DescribeDatasetExportJob</a>
+/// API.
+class DatasetExportJobSummary {
+  /// The date and time (in Unix time) that the dataset export job was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset export job.
+  final String? datasetExportJobArn;
+
+  /// If a dataset export job fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The name of the dataset export job.
+  final String? jobName;
+
+  /// The date and time (in Unix time) that the dataset export job status was last
+  /// updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The status of the dataset export job.
+  ///
+  /// A dataset export job can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DatasetExportJobSummary({
+    this.creationDateTime,
+    this.datasetExportJobArn,
+    this.failureReason,
+    this.jobName,
+    this.lastUpdatedDateTime,
+    this.status,
+  });
+
+  factory DatasetExportJobSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetExportJobSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetExportJobArn: json['datasetExportJobArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetExportJobArn = this.datasetExportJobArn;
+    final failureReason = this.failureReason;
+    final jobName = this.jobName;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetExportJobArn != null)
+        'datasetExportJobArn': datasetExportJobArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (jobName != null) 'jobName': jobName,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a data deletion job. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataDeletionJob.html">DescribeDataDeletionJob</a>
+/// API operation.
+class DataDeletionJobSummary {
+  /// The creation date and time (in Unix time) of the data deletion job.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the data deletion job.
+  final String? dataDeletionJobArn;
+
+  /// The Amazon Resource Name (ARN) of the dataset group the job deleted records
+  /// from.
+  final String? datasetGroupArn;
+
+  /// If a data deletion job fails, provides the reason why.
+  final String? failureReason;
+
+  /// The name of the data deletion job.
+  final String? jobName;
+
+  /// The date and time (in Unix time) the data deletion job was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The status of the data deletion job.
+  ///
+  /// A data deletion job can have one of the following statuses:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING > IN_PROGRESS > COMPLETED -or- FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DataDeletionJobSummary({
+    this.creationDateTime,
+    this.dataDeletionJobArn,
+    this.datasetGroupArn,
+    this.failureReason,
+    this.jobName,
+    this.lastUpdatedDateTime,
+    this.status,
+  });
+
+  factory DataDeletionJobSummary.fromJson(Map<String, dynamic> json) {
+    return DataDeletionJobSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      dataDeletionJobArn: json['dataDeletionJobArn'] as String?,
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final dataDeletionJobArn = this.dataDeletionJobArn;
+    final datasetGroupArn = this.datasetGroupArn;
+    final failureReason = this.failureReason;
+    final jobName = this.jobName;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (dataDeletionJobArn != null) 'dataDeletionJobArn': dataDeletionJobArn,
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (jobName != null) 'jobName': jobName,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a campaign. For a complete listing,
+/// call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html">DescribeCampaign</a>
+/// API.
+class CampaignSummary {
+  /// The Amazon Resource Name (ARN) of the campaign.
+  final String? campaignArn;
+
+  /// The date and time (in Unix time) that the campaign was created.
+  final DateTime? creationDateTime;
+
+  /// If a campaign fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix time) that the campaign was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the campaign.
+  final String? name;
+
+  /// The status of the campaign.
+  ///
+  /// A campaign can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  CampaignSummary({
+    this.campaignArn,
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+
+  factory CampaignSummary.fromJson(Map<String, dynamic> json) {
+    return CampaignSummary(
+      campaignArn: json['campaignArn'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaignArn = this.campaignArn;
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (campaignArn != null) 'campaignArn': campaignArn,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// A truncated version of the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_BatchSegmentJob.html">BatchSegmentJob</a>
+/// datatype. <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchSegmentJobs.html">ListBatchSegmentJobs</a>
+/// operation returns a list of batch segment job summaries.
+class BatchSegmentJobSummary {
+  /// The Amazon Resource Name (ARN) of the batch segment job.
+  final String? batchSegmentJobArn;
+
+  /// The time at which the batch segment job was created.
+  final DateTime? creationDateTime;
+
+  /// If the batch segment job failed, the reason for the failure.
+  final String? failureReason;
+
+  /// The name of the batch segment job.
+  final String? jobName;
+
+  /// The time at which the batch segment job was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The Amazon Resource Name (ARN) of the solution version used by the batch
+  /// segment job to generate batch segments.
+  final String? solutionVersionArn;
+
+  /// The status of the batch segment job. The status is one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// IN PROGRESS
+  /// </li>
+  /// <li>
+  /// ACTIVE
+  /// </li>
+  /// <li>
+  /// CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  BatchSegmentJobSummary({
+    this.batchSegmentJobArn,
+    this.creationDateTime,
+    this.failureReason,
+    this.jobName,
+    this.lastUpdatedDateTime,
+    this.solutionVersionArn,
+    this.status,
+  });
+
+  factory BatchSegmentJobSummary.fromJson(Map<String, dynamic> json) {
+    return BatchSegmentJobSummary(
+      batchSegmentJobArn: json['batchSegmentJobArn'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchSegmentJobArn = this.batchSegmentJobArn;
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final jobName = this.jobName;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final solutionVersionArn = this.solutionVersionArn;
+    final status = this.status;
+    return {
+      if (batchSegmentJobArn != null) 'batchSegmentJobArn': batchSegmentJobArn,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (jobName != null) 'jobName': jobName,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// A truncated version of the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_BatchInferenceJob.html">BatchInferenceJob</a>.
+/// The <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchInferenceJobs.html">ListBatchInferenceJobs</a>
+/// operation returns a list of batch inference job summaries.
+class BatchInferenceJobSummary {
+  /// The Amazon Resource Name (ARN) of the batch inference job.
+  final String? batchInferenceJobArn;
+
+  /// The job's mode.
+  final BatchInferenceJobMode? batchInferenceJobMode;
+
+  /// The time at which the batch inference job was created.
+  final DateTime? creationDateTime;
+
+  /// If the batch inference job failed, the reason for the failure.
+  final String? failureReason;
+
+  /// The name of the batch inference job.
+  final String? jobName;
+
+  /// The time at which the batch inference job was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The ARN of the solution version used by the batch inference job.
+  final String? solutionVersionArn;
+
+  /// The status of the batch inference job. The status is one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// IN PROGRESS
+  /// </li>
+  /// <li>
+  /// ACTIVE
+  /// </li>
+  /// <li>
+  /// CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  BatchInferenceJobSummary({
+    this.batchInferenceJobArn,
+    this.batchInferenceJobMode,
+    this.creationDateTime,
+    this.failureReason,
+    this.jobName,
+    this.lastUpdatedDateTime,
+    this.solutionVersionArn,
+    this.status,
+  });
+
+  factory BatchInferenceJobSummary.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJobSummary(
+      batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
+      batchInferenceJobMode: (json['batchInferenceJobMode'] as String?)
+          ?.let(BatchInferenceJobMode.fromString),
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchInferenceJobArn = this.batchInferenceJobArn;
+    final batchInferenceJobMode = this.batchInferenceJobMode;
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final jobName = this.jobName;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final solutionVersionArn = this.solutionVersionArn;
+    final status = this.status;
+    return {
+      if (batchInferenceJobArn != null)
+        'batchInferenceJobArn': batchInferenceJobArn,
+      if (batchInferenceJobMode != null)
+        'batchInferenceJobMode': batchInferenceJobMode.value,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (jobName != null) 'jobName': jobName,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+class BatchInferenceJobMode {
+  static const batchInference = BatchInferenceJobMode._('BATCH_INFERENCE');
+  static const themeGeneration = BatchInferenceJobMode._('THEME_GENERATION');
+
+  final String value;
+
+  const BatchInferenceJobMode._(this.value);
+
+  static const values = [batchInference, themeGeneration];
+
+  static BatchInferenceJobMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => BatchInferenceJobMode._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is BatchInferenceJobMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that provides information about a specific version of a <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_Solution.html">Solution</a>
+/// in a Custom dataset group.
+class SolutionVersion {
+  /// The date and time (in Unix time) that this version of the solution was
+  /// created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset group providing the training
+  /// data.
+  final String? datasetGroupArn;
+
+  /// The event type (for example, 'click' or 'like') that is used for training
+  /// the model.
+  final String? eventType;
+
+  /// If training a solution version fails, the reason for the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix time) that the solution was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the solution version.
+  final String? name;
+
+  /// When true, Amazon Personalize searches for the most optimal recipe according
+  /// to the solution configuration. When false (the default), Amazon Personalize
+  /// uses <code>recipeArn</code>.
+  final bool? performAutoML;
+
+  /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe.
+  /// The default is <code>false</code>.
+  final bool? performHPO;
+
+  /// Whether the solution version should perform an incremental update. When set
+  /// to true, the training will process only the data that has changed since the
+  /// latest training, similar to when trainingMode is set to UPDATE. This can
+  /// only be used with solution versions that use the User-Personalization
+  /// recipe.
+  final bool? performIncrementalUpdate;
+
+  /// The ARN of the recipe used in the solution.
+  final String? recipeArn;
+
+  /// The ARN of the solution.
+  final String? solutionArn;
+
+  /// Describes the configuration properties for the solution.
+  final SolutionConfig? solutionConfig;
+
+  /// The ARN of the solution version.
+  final String? solutionVersionArn;
+
+  /// The status of the solution version.
+  ///
+  /// A solution version can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING
+  /// </li>
+  /// <li>
+  /// CREATE IN_PROGRESS
+  /// </li>
+  /// <li>
+  /// ACTIVE
+  /// </li>
+  /// <li>
+  /// CREATE FAILED
+  /// </li>
+  /// <li>
+  /// CREATE STOPPING
+  /// </li>
+  /// <li>
+  /// CREATE STOPPED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The time used to train the model. You are billed for the time it takes to
+  /// train a model. This field is visible only after Amazon Personalize
+  /// successfully trains a model.
+  final double? trainingHours;
+
+  /// The scope of training to be performed when creating the solution version. A
+  /// <code>FULL</code> training considers all of the data in your dataset group.
+  /// An <code>UPDATE</code> processes only the data that has changed since the
+  /// latest training. Only solution versions created with the
+  /// User-Personalization recipe can use <code>UPDATE</code>.
+  final TrainingMode? trainingMode;
+
+  /// Whether the solution version was created automatically or manually.
+  final TrainingType? trainingType;
+
+  /// If hyperparameter optimization was performed, contains the hyperparameter
+  /// values of the best performing model.
+  final TunedHPOParams? tunedHPOParams;
+
+  SolutionVersion({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.eventType,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.performAutoML,
+    this.performHPO,
+    this.performIncrementalUpdate,
+    this.recipeArn,
+    this.solutionArn,
+    this.solutionConfig,
+    this.solutionVersionArn,
+    this.status,
+    this.trainingHours,
+    this.trainingMode,
+    this.trainingType,
+    this.tunedHPOParams,
+  });
+
+  factory SolutionVersion.fromJson(Map<String, dynamic> json) {
+    return SolutionVersion(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      eventType: json['eventType'] as String?,
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      performAutoML: json['performAutoML'] as bool?,
+      performHPO: json['performHPO'] as bool?,
+      performIncrementalUpdate: json['performIncrementalUpdate'] as bool?,
+      recipeArn: json['recipeArn'] as String?,
+      solutionArn: json['solutionArn'] as String?,
+      solutionConfig: json['solutionConfig'] != null
+          ? SolutionConfig.fromJson(
+              json['solutionConfig'] as Map<String, dynamic>)
+          : null,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+      trainingHours: json['trainingHours'] as double?,
+      trainingMode:
+          (json['trainingMode'] as String?)?.let(TrainingMode.fromString),
+      trainingType:
+          (json['trainingType'] as String?)?.let(TrainingType.fromString),
+      tunedHPOParams: json['tunedHPOParams'] != null
+          ? TunedHPOParams.fromJson(
+              json['tunedHPOParams'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final eventType = this.eventType;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final performAutoML = this.performAutoML;
+    final performHPO = this.performHPO;
+    final performIncrementalUpdate = this.performIncrementalUpdate;
+    final recipeArn = this.recipeArn;
+    final solutionArn = this.solutionArn;
+    final solutionConfig = this.solutionConfig;
+    final solutionVersionArn = this.solutionVersionArn;
+    final status = this.status;
+    final trainingHours = this.trainingHours;
+    final trainingMode = this.trainingMode;
+    final trainingType = this.trainingType;
+    final tunedHPOParams = this.tunedHPOParams;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (eventType != null) 'eventType': eventType,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (performAutoML != null) 'performAutoML': performAutoML,
+      if (performHPO != null) 'performHPO': performHPO,
+      if (performIncrementalUpdate != null)
+        'performIncrementalUpdate': performIncrementalUpdate,
+      if (recipeArn != null) 'recipeArn': recipeArn,
+      if (solutionArn != null) 'solutionArn': solutionArn,
+      if (solutionConfig != null) 'solutionConfig': solutionConfig,
+      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
+      if (status != null) 'status': status,
+      if (trainingHours != null) 'trainingHours': trainingHours,
+      if (trainingMode != null) 'trainingMode': trainingMode.value,
+      if (trainingType != null) 'trainingType': trainingType.value,
+      if (tunedHPOParams != null) 'tunedHPOParams': tunedHPOParams,
+    };
+  }
+}
+
+/// Describes the configuration properties for the solution.
+class SolutionConfig {
+  /// Lists the algorithm hyperparameters and their values.
+  final Map<String, String>? algorithmHyperParameters;
+
+  /// The <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_AutoMLConfig.html">AutoMLConfig</a>
+  /// object containing a list of recipes to search when AutoML is performed.
+  final AutoMLConfig? autoMLConfig;
+
+  /// Specifies the automatic training configuration to use.
+  final AutoTrainingConfig? autoTrainingConfig;
+
+  /// Only events with a value greater than or equal to this threshold are used
+  /// for training a model.
+  final String? eventValueThreshold;
+
+  /// Describes the configuration of an event, which includes a list of event
+  /// parameters. You can specify up to 10 event parameters. Events are used in
+  /// solution creation.
+  final EventsConfig? eventsConfig;
+
+  /// Lists the feature transformation parameters.
+  final Map<String, String>? featureTransformationParameters;
+
+  /// Describes the properties for hyperparameter optimization (HPO).
+  final HPOConfig? hpoConfig;
+
+  /// Describes the additional objective for the solution, such as maximizing
+  /// streaming minutes or increasing revenue. For more information see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/optimizing-solution-for-objective.html">Optimizing
+  /// a solution</a>.
+  final OptimizationObjective? optimizationObjective;
+
+  /// Specifies the training data configuration to use when creating a custom
+  /// solution version (trained model).
+  final TrainingDataConfig? trainingDataConfig;
+
+  SolutionConfig({
+    this.algorithmHyperParameters,
+    this.autoMLConfig,
+    this.autoTrainingConfig,
+    this.eventValueThreshold,
+    this.eventsConfig,
+    this.featureTransformationParameters,
+    this.hpoConfig,
+    this.optimizationObjective,
+    this.trainingDataConfig,
+  });
+
+  factory SolutionConfig.fromJson(Map<String, dynamic> json) {
+    return SolutionConfig(
+      algorithmHyperParameters:
+          (json['algorithmHyperParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      autoMLConfig: json['autoMLConfig'] != null
+          ? AutoMLConfig.fromJson(json['autoMLConfig'] as Map<String, dynamic>)
+          : null,
+      autoTrainingConfig: json['autoTrainingConfig'] != null
+          ? AutoTrainingConfig.fromJson(
+              json['autoTrainingConfig'] as Map<String, dynamic>)
+          : null,
+      eventValueThreshold: json['eventValueThreshold'] as String?,
+      eventsConfig: json['eventsConfig'] != null
+          ? EventsConfig.fromJson(json['eventsConfig'] as Map<String, dynamic>)
+          : null,
+      featureTransformationParameters:
+          (json['featureTransformationParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      hpoConfig: json['hpoConfig'] != null
+          ? HPOConfig.fromJson(json['hpoConfig'] as Map<String, dynamic>)
+          : null,
+      optimizationObjective: json['optimizationObjective'] != null
+          ? OptimizationObjective.fromJson(
+              json['optimizationObjective'] as Map<String, dynamic>)
+          : null,
+      trainingDataConfig: json['trainingDataConfig'] != null
+          ? TrainingDataConfig.fromJson(
+              json['trainingDataConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithmHyperParameters = this.algorithmHyperParameters;
+    final autoMLConfig = this.autoMLConfig;
+    final autoTrainingConfig = this.autoTrainingConfig;
+    final eventValueThreshold = this.eventValueThreshold;
+    final eventsConfig = this.eventsConfig;
+    final featureTransformationParameters =
+        this.featureTransformationParameters;
+    final hpoConfig = this.hpoConfig;
+    final optimizationObjective = this.optimizationObjective;
+    final trainingDataConfig = this.trainingDataConfig;
+    return {
+      if (algorithmHyperParameters != null)
+        'algorithmHyperParameters': algorithmHyperParameters,
+      if (autoMLConfig != null) 'autoMLConfig': autoMLConfig,
+      if (autoTrainingConfig != null) 'autoTrainingConfig': autoTrainingConfig,
+      if (eventValueThreshold != null)
+        'eventValueThreshold': eventValueThreshold,
+      if (eventsConfig != null) 'eventsConfig': eventsConfig,
+      if (featureTransformationParameters != null)
+        'featureTransformationParameters': featureTransformationParameters,
+      if (hpoConfig != null) 'hpoConfig': hpoConfig,
+      if (optimizationObjective != null)
+        'optimizationObjective': optimizationObjective,
+      if (trainingDataConfig != null) 'trainingDataConfig': trainingDataConfig,
+    };
+  }
+}
+
+/// If hyperparameter optimization (HPO) was performed, contains the
+/// hyperparameter values of the best performing model.
+class TunedHPOParams {
+  /// A list of the hyperparameter values of the best performing model.
+  final Map<String, String>? algorithmHyperParameters;
+
+  TunedHPOParams({
+    this.algorithmHyperParameters,
+  });
+
+  factory TunedHPOParams.fromJson(Map<String, dynamic> json) {
+    return TunedHPOParams(
+      algorithmHyperParameters:
+          (json['algorithmHyperParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithmHyperParameters = this.algorithmHyperParameters;
+    return {
+      if (algorithmHyperParameters != null)
+        'algorithmHyperParameters': algorithmHyperParameters,
+    };
+  }
+}
+
+/// Describes the properties for hyperparameter optimization (HPO).
+class HPOConfig {
+  /// The hyperparameters and their allowable ranges.
+  final HyperParameterRanges? algorithmHyperParameterRanges;
+
+  /// The metric to optimize during HPO.
+  /// <note>
+  /// Amazon Personalize doesn't support configuring the <code>hpoObjective</code>
+  /// at this time.
+  /// </note>
+  final HPOObjective? hpoObjective;
+
+  /// Describes the resource configuration for HPO.
+  final HPOResourceConfig? hpoResourceConfig;
+
+  HPOConfig({
+    this.algorithmHyperParameterRanges,
+    this.hpoObjective,
+    this.hpoResourceConfig,
+  });
+
+  factory HPOConfig.fromJson(Map<String, dynamic> json) {
+    return HPOConfig(
+      algorithmHyperParameterRanges:
+          json['algorithmHyperParameterRanges'] != null
+              ? HyperParameterRanges.fromJson(
+                  json['algorithmHyperParameterRanges'] as Map<String, dynamic>)
+              : null,
+      hpoObjective: json['hpoObjective'] != null
+          ? HPOObjective.fromJson(json['hpoObjective'] as Map<String, dynamic>)
+          : null,
+      hpoResourceConfig: json['hpoResourceConfig'] != null
+          ? HPOResourceConfig.fromJson(
+              json['hpoResourceConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithmHyperParameterRanges = this.algorithmHyperParameterRanges;
+    final hpoObjective = this.hpoObjective;
+    final hpoResourceConfig = this.hpoResourceConfig;
+    return {
+      if (algorithmHyperParameterRanges != null)
+        'algorithmHyperParameterRanges': algorithmHyperParameterRanges,
+      if (hpoObjective != null) 'hpoObjective': hpoObjective,
+      if (hpoResourceConfig != null) 'hpoResourceConfig': hpoResourceConfig,
+    };
+  }
+}
+
+/// When the solution performs AutoML (<code>performAutoML</code> is true in <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>),
+/// Amazon Personalize determines which recipe, from the specified list,
+/// optimizes the given metric. Amazon Personalize then uses that recipe for the
+/// solution.
+class AutoMLConfig {
+  /// The metric to optimize.
+  final String? metricName;
+
+  /// The list of candidate recipes.
+  final List<String>? recipeList;
+
+  AutoMLConfig({
+    this.metricName,
+    this.recipeList,
+  });
+
+  factory AutoMLConfig.fromJson(Map<String, dynamic> json) {
+    return AutoMLConfig(
+      metricName: json['metricName'] as String?,
+      recipeList: (json['recipeList'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final recipeList = this.recipeList;
+    return {
+      if (metricName != null) 'metricName': metricName,
+      if (recipeList != null) 'recipeList': recipeList,
+    };
+  }
+}
+
+/// Describes the additional objective for the solution, such as maximizing
+/// streaming minutes or increasing revenue. For more information see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/optimizing-solution-for-objective.html">Optimizing
+/// a solution</a>.
+class OptimizationObjective {
+  /// The numerical metadata column in an Items dataset related to the
+  /// optimization objective. For example, VIDEO_LENGTH (to maximize streaming
+  /// minutes), or PRICE (to maximize revenue).
+  final String? itemAttribute;
+
+  /// Specifies how Amazon Personalize balances the importance of your
+  /// optimization objective versus relevance.
+  final ObjectiveSensitivity? objectiveSensitivity;
+
+  OptimizationObjective({
+    this.itemAttribute,
+    this.objectiveSensitivity,
+  });
+
+  factory OptimizationObjective.fromJson(Map<String, dynamic> json) {
+    return OptimizationObjective(
+      itemAttribute: json['itemAttribute'] as String?,
+      objectiveSensitivity: (json['objectiveSensitivity'] as String?)
+          ?.let(ObjectiveSensitivity.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final itemAttribute = this.itemAttribute;
+    final objectiveSensitivity = this.objectiveSensitivity;
+    return {
+      if (itemAttribute != null) 'itemAttribute': itemAttribute,
+      if (objectiveSensitivity != null)
+        'objectiveSensitivity': objectiveSensitivity.value,
+    };
+  }
+}
+
+class ObjectiveSensitivity {
+  static const low = ObjectiveSensitivity._('LOW');
+  static const medium = ObjectiveSensitivity._('MEDIUM');
+  static const high = ObjectiveSensitivity._('HIGH');
+  static const off = ObjectiveSensitivity._('OFF');
+
+  final String value;
+
+  const ObjectiveSensitivity._(this.value);
+
+  static const values = [low, medium, high, off];
+
+  static ObjectiveSensitivity fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ObjectiveSensitivity._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ObjectiveSensitivity && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The metric to optimize during hyperparameter optimization (HPO).
+/// <note>
+/// Amazon Personalize doesn't support configuring the <code>hpoObjective</code>
+/// at this time.
+/// </note>
+class HPOObjective {
+  /// The name of the metric.
+  final String? metricName;
+
+  /// A regular expression for finding the metric in the training job logs.
+  final String? metricRegex;
+
+  /// The type of the metric. Valid values are <code>Maximize</code> and
+  /// <code>Minimize</code>.
+  final String? type;
+
+  HPOObjective({
+    this.metricName,
+    this.metricRegex,
+    this.type,
+  });
+
+  factory HPOObjective.fromJson(Map<String, dynamic> json) {
+    return HPOObjective(
+      metricName: json['metricName'] as String?,
+      metricRegex: json['metricRegex'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final metricRegex = this.metricRegex;
+    final type = this.type;
+    return {
+      if (metricName != null) 'metricName': metricName,
+      if (metricRegex != null) 'metricRegex': metricRegex,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+/// Describes the resource configuration for hyperparameter optimization (HPO).
+class HPOResourceConfig {
+  /// The maximum number of training jobs when you create a solution version. The
+  /// maximum value for <code>maxNumberOfTrainingJobs</code> is <code>40</code>.
+  final String? maxNumberOfTrainingJobs;
+
+  /// The maximum number of parallel training jobs when you create a solution
+  /// version. The maximum value for <code>maxParallelTrainingJobs</code> is
+  /// <code>10</code>.
+  final String? maxParallelTrainingJobs;
+
+  HPOResourceConfig({
+    this.maxNumberOfTrainingJobs,
+    this.maxParallelTrainingJobs,
+  });
+
+  factory HPOResourceConfig.fromJson(Map<String, dynamic> json) {
+    return HPOResourceConfig(
+      maxNumberOfTrainingJobs: json['maxNumberOfTrainingJobs'] as String?,
+      maxParallelTrainingJobs: json['maxParallelTrainingJobs'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxNumberOfTrainingJobs = this.maxNumberOfTrainingJobs;
+    final maxParallelTrainingJobs = this.maxParallelTrainingJobs;
+    return {
+      if (maxNumberOfTrainingJobs != null)
+        'maxNumberOfTrainingJobs': maxNumberOfTrainingJobs,
+      if (maxParallelTrainingJobs != null)
+        'maxParallelTrainingJobs': maxParallelTrainingJobs,
+    };
+  }
+}
+
+/// Specifies the hyperparameters and their ranges. Hyperparameters can be
+/// categorical, continuous, or integer-valued.
+class HyperParameterRanges {
+  /// The categorical hyperparameters and their ranges.
+  final List<CategoricalHyperParameterRange>? categoricalHyperParameterRanges;
+
+  /// The continuous hyperparameters and their ranges.
+  final List<ContinuousHyperParameterRange>? continuousHyperParameterRanges;
+
+  /// The integer-valued hyperparameters and their ranges.
+  final List<IntegerHyperParameterRange>? integerHyperParameterRanges;
+
+  HyperParameterRanges({
+    this.categoricalHyperParameterRanges,
+    this.continuousHyperParameterRanges,
+    this.integerHyperParameterRanges,
+  });
+
+  factory HyperParameterRanges.fromJson(Map<String, dynamic> json) {
+    return HyperParameterRanges(
+      categoricalHyperParameterRanges:
+          (json['categoricalHyperParameterRanges'] as List?)
+              ?.nonNulls
+              .map((e) => CategoricalHyperParameterRange.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      continuousHyperParameterRanges: (json['continuousHyperParameterRanges']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              ContinuousHyperParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      integerHyperParameterRanges: (json['integerHyperParameterRanges']
+              as List?)
+          ?.nonNulls
+          .map((e) =>
+              IntegerHyperParameterRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoricalHyperParameterRanges =
+        this.categoricalHyperParameterRanges;
+    final continuousHyperParameterRanges = this.continuousHyperParameterRanges;
+    final integerHyperParameterRanges = this.integerHyperParameterRanges;
+    return {
+      if (categoricalHyperParameterRanges != null)
+        'categoricalHyperParameterRanges': categoricalHyperParameterRanges,
+      if (continuousHyperParameterRanges != null)
+        'continuousHyperParameterRanges': continuousHyperParameterRanges,
+      if (integerHyperParameterRanges != null)
+        'integerHyperParameterRanges': integerHyperParameterRanges,
+    };
+  }
+}
+
+/// Provides the name and range of a categorical hyperparameter.
+class CategoricalHyperParameterRange {
+  /// The name of the hyperparameter.
+  final String? name;
+
+  /// A list of the categories for the hyperparameter.
+  final List<String>? values;
+
+  CategoricalHyperParameterRange({
+    this.name,
+    this.values,
+  });
+
+  factory CategoricalHyperParameterRange.fromJson(Map<String, dynamic> json) {
+    return CategoricalHyperParameterRange(
+      name: json['name'] as String?,
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+/// Provides the name and range of a continuous hyperparameter.
+class ContinuousHyperParameterRange {
+  /// The maximum allowable value for the hyperparameter.
+  final double? maxValue;
+
+  /// The minimum allowable value for the hyperparameter.
+  final double? minValue;
+
+  /// The name of the hyperparameter.
+  final String? name;
+
+  ContinuousHyperParameterRange({
+    this.maxValue,
+    this.minValue,
+    this.name,
+  });
+
+  factory ContinuousHyperParameterRange.fromJson(Map<String, dynamic> json) {
+    return ContinuousHyperParameterRange(
+      maxValue: json['maxValue'] as double?,
+      minValue: json['minValue'] as double?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    return {
+      if (maxValue != null) 'maxValue': maxValue,
+      if (minValue != null) 'minValue': minValue,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Provides the name and range of an integer-valued hyperparameter.
+class IntegerHyperParameterRange {
+  /// The maximum allowable value for the hyperparameter.
+  final int? maxValue;
+
+  /// The minimum allowable value for the hyperparameter.
+  final int? minValue;
+
+  /// The name of the hyperparameter.
+  final String? name;
+
+  IntegerHyperParameterRange({
+    this.maxValue,
+    this.minValue,
+    this.name,
+  });
+
+  factory IntegerHyperParameterRange.fromJson(Map<String, dynamic> json) {
+    return IntegerHyperParameterRange(
+      maxValue: json['maxValue'] as int?,
+      minValue: json['minValue'] as int?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    return {
+      if (maxValue != null) 'maxValue': maxValue,
+      if (minValue != null) 'minValue': minValue,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// <important>
+/// By default, all new solutions use automatic training. With automatic
+/// training, you incur training costs while your solution is active. To avoid
+/// unnecessary costs, when you are finished you can <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UpdateSolution.html">update
+/// the solution</a> to turn off automatic training. For information about
+/// training costs, see <a
+/// href="https://aws.amazon.com/personalize/pricing/">Amazon Personalize
+/// pricing</a>.
+/// </important>
+/// An object that provides information about a solution. A solution includes
+/// the custom recipe, customized parameters, and trained models (Solution
+/// Versions) that Amazon Personalize uses to generate recommendations.
+///
+/// After you create a solution, you can’t change its configuration. If you need
+/// to make changes, you can <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/cloning-solution.html">clone
+/// the solution</a> with the Amazon Personalize console or create a new one.
+class Solution {
+  /// When <code>performAutoML</code> is true, specifies the best recipe found.
+  final AutoMLResult? autoMLResult;
+
+  /// The creation date and time (in Unix time) of the solution.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset group that provides the
+  /// training data.
+  final String? datasetGroupArn;
+
+  /// The event type (for example, 'click' or 'like') that is used for training
+  /// the model. If no <code>eventType</code> is provided, Amazon Personalize uses
+  /// all interactions for training with equal weight regardless of type.
+  final String? eventType;
+
+  /// The date and time (in Unix time) that the solution was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Provides a summary of the latest updates to the solution.
+  final SolutionUpdateSummary? latestSolutionUpdate;
+
+  /// Describes the latest version of the solution, including the status and the
+  /// ARN.
+  final SolutionVersionSummary? latestSolutionVersion;
+
+  /// The name of the solution.
+  final String? name;
+
+  /// <important>
+  /// We don't recommend enabling automated machine learning. Instead, match your
+  /// use case to the available Amazon Personalize recipes. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/determining-use-case.html">Determining
+  /// your use case.</a>
+  /// </important>
+  /// When true, Amazon Personalize performs a search for the best
+  /// USER_PERSONALIZATION recipe from the list specified in the solution
+  /// configuration (<code>recipeArn</code> must not be specified). When false
+  /// (the default), Amazon Personalize uses <code>recipeArn</code> for training.
+  final bool? performAutoML;
+
+  /// Specifies whether the solution automatically creates solution versions. The
+  /// default is <code>True</code> and the solution automatically creates new
+  /// solution versions every 7 days.
+  ///
+  /// For more information about auto training, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html">Creating
+  /// and configuring a solution</a>.
+  final bool? performAutoTraining;
+
+  /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe.
+  /// The default is <code>false</code>.
+  final bool? performHPO;
+
+  /// A Boolean value that indicates whether incremental training updates are
+  /// performed on the model. When enabled, this allows the model to learn from
+  /// new data more frequently without requiring full retraining, which enables
+  /// near real-time personalization. This parameter is supported only for
+  /// solutions that use the semantic-similarity recipe
+  final bool? performIncrementalUpdate;
+
+  /// The ARN of the recipe used to create the solution. This is required when
+  /// <code>performAutoML</code> is false.
+  final String? recipeArn;
+
+  /// The ARN of the solution.
+  final String? solutionArn;
+
+  /// Describes the configuration properties for the solution.
+  final SolutionConfig? solutionConfig;
+
+  /// The status of the solution.
+  ///
+  /// A solution can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  Solution({
+    this.autoMLResult,
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.eventType,
+    this.lastUpdatedDateTime,
+    this.latestSolutionUpdate,
+    this.latestSolutionVersion,
+    this.name,
+    this.performAutoML,
+    this.performAutoTraining,
+    this.performHPO,
+    this.performIncrementalUpdate,
+    this.recipeArn,
+    this.solutionArn,
+    this.solutionConfig,
+    this.status,
+  });
+
+  factory Solution.fromJson(Map<String, dynamic> json) {
+    return Solution(
+      autoMLResult: json['autoMLResult'] != null
+          ? AutoMLResult.fromJson(json['autoMLResult'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      eventType: json['eventType'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      latestSolutionUpdate: json['latestSolutionUpdate'] != null
+          ? SolutionUpdateSummary.fromJson(
+              json['latestSolutionUpdate'] as Map<String, dynamic>)
+          : null,
+      latestSolutionVersion: json['latestSolutionVersion'] != null
+          ? SolutionVersionSummary.fromJson(
+              json['latestSolutionVersion'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      performAutoML: json['performAutoML'] as bool?,
+      performAutoTraining: json['performAutoTraining'] as bool?,
+      performHPO: json['performHPO'] as bool?,
+      performIncrementalUpdate: json['performIncrementalUpdate'] as bool?,
+      recipeArn: json['recipeArn'] as String?,
+      solutionArn: json['solutionArn'] as String?,
+      solutionConfig: json['solutionConfig'] != null
+          ? SolutionConfig.fromJson(
+              json['solutionConfig'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoMLResult = this.autoMLResult;
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final eventType = this.eventType;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final latestSolutionUpdate = this.latestSolutionUpdate;
+    final latestSolutionVersion = this.latestSolutionVersion;
+    final name = this.name;
+    final performAutoML = this.performAutoML;
+    final performAutoTraining = this.performAutoTraining;
+    final performHPO = this.performHPO;
+    final performIncrementalUpdate = this.performIncrementalUpdate;
+    final recipeArn = this.recipeArn;
+    final solutionArn = this.solutionArn;
+    final solutionConfig = this.solutionConfig;
+    final status = this.status;
+    return {
+      if (autoMLResult != null) 'autoMLResult': autoMLResult,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (eventType != null) 'eventType': eventType,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (latestSolutionUpdate != null)
+        'latestSolutionUpdate': latestSolutionUpdate,
+      if (latestSolutionVersion != null)
+        'latestSolutionVersion': latestSolutionVersion,
+      if (name != null) 'name': name,
+      if (performAutoML != null) 'performAutoML': performAutoML,
+      if (performAutoTraining != null)
+        'performAutoTraining': performAutoTraining,
+      if (performHPO != null) 'performHPO': performHPO,
+      if (performIncrementalUpdate != null)
+        'performIncrementalUpdate': performIncrementalUpdate,
+      if (recipeArn != null) 'recipeArn': recipeArn,
+      if (solutionArn != null) 'solutionArn': solutionArn,
+      if (solutionConfig != null) 'solutionConfig': solutionConfig,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// When the solution performs AutoML (<code>performAutoML</code> is true in <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>),
+/// specifies the recipe that best optimized the specified metric.
+class AutoMLResult {
+  /// The Amazon Resource Name (ARN) of the best recipe.
+  final String? bestRecipeArn;
+
+  AutoMLResult({
+    this.bestRecipeArn,
+  });
+
+  factory AutoMLResult.fromJson(Map<String, dynamic> json) {
+    return AutoMLResult(
+      bestRecipeArn: json['bestRecipeArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bestRecipeArn = this.bestRecipeArn;
+    return {
+      if (bestRecipeArn != null) 'bestRecipeArn': bestRecipeArn,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a solution update. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html">DescribeSolution</a>
+/// API.
+class SolutionUpdateSummary {
+  /// The date and time (in Unix format) that the solution update was created.
+  final DateTime? creationDateTime;
+
+  /// If a solution update fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix time) that the solution update was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Whether the solution automatically creates solution versions.
+  final bool? performAutoTraining;
+
+  /// A Boolean value that indicates whether incremental training updates are
+  /// performed on the model. When enabled, this allows the model to learn from
+  /// new data more frequently without requiring full retraining, which enables
+  /// near real-time personalization. This parameter is supported only for
+  /// solutions that use the semantic-similarity recipe.
+  final bool? performIncrementalUpdate;
+
+  /// The configuration details of the solution.
+  final SolutionUpdateConfig? solutionUpdateConfig;
+
+  /// The status of the solution update. A solution update can be in one of the
+  /// following states:
+  ///
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  final String? status;
+
+  SolutionUpdateSummary({
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.performAutoTraining,
+    this.performIncrementalUpdate,
+    this.solutionUpdateConfig,
+    this.status,
+  });
+
+  factory SolutionUpdateSummary.fromJson(Map<String, dynamic> json) {
+    return SolutionUpdateSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      performAutoTraining: json['performAutoTraining'] as bool?,
+      performIncrementalUpdate: json['performIncrementalUpdate'] as bool?,
+      solutionUpdateConfig: json['solutionUpdateConfig'] != null
+          ? SolutionUpdateConfig.fromJson(
+              json['solutionUpdateConfig'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final performAutoTraining = this.performAutoTraining;
+    final performIncrementalUpdate = this.performIncrementalUpdate;
+    final solutionUpdateConfig = this.solutionUpdateConfig;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (performAutoTraining != null)
+        'performAutoTraining': performAutoTraining,
+      if (performIncrementalUpdate != null)
+        'performIncrementalUpdate': performIncrementalUpdate,
+      if (solutionUpdateConfig != null)
+        'solutionUpdateConfig': solutionUpdateConfig,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Describes the schema for a dataset. For more information on schemas, see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html">CreateSchema</a>.
+class DatasetSchema {
+  /// The date and time (in Unix time) that the schema was created.
+  final DateTime? creationDateTime;
+
+  /// The domain of a schema that you created for a dataset in a Domain dataset
+  /// group.
+  final Domain? domain;
+
+  /// The date and time (in Unix time) that the schema was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the schema.
+  final String? name;
+
+  /// The schema.
+  final String? schema;
+
+  /// The Amazon Resource Name (ARN) of the schema.
+  final String? schemaArn;
+
+  DatasetSchema({
+    this.creationDateTime,
+    this.domain,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.schema,
+    this.schemaArn,
+  });
+
+  factory DatasetSchema.fromJson(Map<String, dynamic> json) {
+    return DatasetSchema(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      schema: json['schema'] as String?,
+      schemaArn: json['schemaArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final domain = this.domain;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final schema = this.schema;
+    final schemaArn = this.schemaArn;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (domain != null) 'domain': domain.value,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (schema != null) 'schema': schema,
+      if (schemaArn != null) 'schemaArn': schemaArn,
+    };
+  }
+}
+
+/// Describes a recommendation generator for a Domain dataset group. You create
+/// a recommender in a Domain dataset group for a specific domain use case
+/// (domain recipe), and specify the recommender in a <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html">GetRecommendations</a>
+/// request.
+class Recommender {
+  /// The date and time (in Unix format) that the recommender was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the Domain dataset group that contains the
+  /// recommender.
+  final String? datasetGroupArn;
+
+  /// If a recommender fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix format) that the recommender was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Provides a summary of the latest updates to the recommender.
+  final RecommenderUpdateSummary? latestRecommenderUpdate;
+
+  /// Provides evaluation metrics that help you determine the performance of a
+  /// recommender. For more information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/evaluating-recommenders.html">
+  /// Evaluating a recommender</a>.
+  final Map<String, double>? modelMetrics;
+
+  /// The name of the recommender.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the recipe (Domain dataset group use case)
+  /// that the recommender was created for.
+  final String? recipeArn;
+
+  /// The Amazon Resource Name (ARN) of the recommender.
+  final String? recommenderArn;
+
+  /// The configuration details of the recommender.
+  final RecommenderConfig? recommenderConfig;
+
+  /// The status of the recommender.
+  ///
+  /// A recommender can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START
+  /// IN_PROGRESS > ACTIVE
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  Recommender({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.latestRecommenderUpdate,
+    this.modelMetrics,
+    this.name,
+    this.recipeArn,
+    this.recommenderArn,
+    this.recommenderConfig,
+    this.status,
+  });
+
+  factory Recommender.fromJson(Map<String, dynamic> json) {
+    return Recommender(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      latestRecommenderUpdate: json['latestRecommenderUpdate'] != null
+          ? RecommenderUpdateSummary.fromJson(
+              json['latestRecommenderUpdate'] as Map<String, dynamic>)
+          : null,
+      modelMetrics: (json['modelMetrics'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as double)),
+      name: json['name'] as String?,
+      recipeArn: json['recipeArn'] as String?,
+      recommenderArn: json['recommenderArn'] as String?,
+      recommenderConfig: json['recommenderConfig'] != null
+          ? RecommenderConfig.fromJson(
+              json['recommenderConfig'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final latestRecommenderUpdate = this.latestRecommenderUpdate;
+    final modelMetrics = this.modelMetrics;
+    final name = this.name;
+    final recipeArn = this.recipeArn;
+    final recommenderArn = this.recommenderArn;
+    final recommenderConfig = this.recommenderConfig;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (latestRecommenderUpdate != null)
+        'latestRecommenderUpdate': latestRecommenderUpdate,
+      if (modelMetrics != null) 'modelMetrics': modelMetrics,
+      if (name != null) 'name': name,
+      if (recipeArn != null) 'recipeArn': recipeArn,
+      if (recommenderArn != null) 'recommenderArn': recommenderArn,
+      if (recommenderConfig != null) 'recommenderConfig': recommenderConfig,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a recommender update. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecommender.html">DescribeRecommender</a>
+/// API.
+class RecommenderUpdateSummary {
+  /// The date and time (in Unix format) that the recommender update was created.
+  final DateTime? creationDateTime;
+
+  /// If a recommender update fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix time) that the recommender update was last
+  /// updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The configuration details of the recommender update.
+  final RecommenderConfig? recommenderConfig;
+
+  /// The status of the recommender update. A recommender update can be in one of
+  /// the following states:
+  ///
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  final String? status;
+
+  RecommenderUpdateSummary({
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.recommenderConfig,
+    this.status,
+  });
+
+  factory RecommenderUpdateSummary.fromJson(Map<String, dynamic> json) {
+    return RecommenderUpdateSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      recommenderConfig: json['recommenderConfig'] != null
+          ? RecommenderConfig.fromJson(
+              json['recommenderConfig'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final recommenderConfig = this.recommenderConfig;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (recommenderConfig != null) 'recommenderConfig': recommenderConfig,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides information about a recipe. Each recipe provides an algorithm that
+/// Amazon Personalize uses in model training when you use the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>
+/// operation.
+class Recipe {
+  /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses
+  /// to train the model.
+  final String? algorithmArn;
+
+  /// The date and time (in Unix format) that the recipe was created.
+  final DateTime? creationDateTime;
+
+  /// The description of the recipe.
+  final String? description;
+
+  /// The ARN of the FeatureTransformation object.
+  final String? featureTransformationArn;
+
+  /// The date and time (in Unix format) that the recipe was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the recipe.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the recipe.
+  final String? recipeArn;
+
+  /// One of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PERSONALIZED_RANKING
+  /// </li>
+  /// <li>
+  /// RELATED_ITEMS
+  /// </li>
+  /// <li>
+  /// USER_PERSONALIZATION
+  /// </li>
+  /// </ul>
+  final String? recipeType;
+
+  /// The status of the recipe.
+  final String? status;
+
+  Recipe({
+    this.algorithmArn,
+    this.creationDateTime,
+    this.description,
+    this.featureTransformationArn,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.recipeArn,
+    this.recipeType,
+    this.status,
+  });
+
+  factory Recipe.fromJson(Map<String, dynamic> json) {
+    return Recipe(
+      algorithmArn: json['algorithmArn'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      description: json['description'] as String?,
+      featureTransformationArn: json['featureTransformationArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      recipeArn: json['recipeArn'] as String?,
+      recipeType: json['recipeType'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithmArn = this.algorithmArn;
+    final creationDateTime = this.creationDateTime;
+    final description = this.description;
+    final featureTransformationArn = this.featureTransformationArn;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final recipeArn = this.recipeArn;
+    final recipeType = this.recipeType;
+    final status = this.status;
+    return {
+      if (algorithmArn != null) 'algorithmArn': algorithmArn,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (description != null) 'description': description,
+      if (featureTransformationArn != null)
+        'featureTransformationArn': featureTransformationArn,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (recipeArn != null) 'recipeArn': recipeArn,
+      if (recipeType != null) 'recipeType': recipeType,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Contains information on a metric attribution. A metric attribution creates
+/// reports on the data that you import into Amazon Personalize. Depending on
+/// how you import the data, you can view reports in Amazon CloudWatch or Amazon
+/// S3. For more information, see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html">Measuring
+/// impact of recommendations</a>.
+class MetricAttribution {
+  /// The metric attribution's creation date time.
+  final DateTime? creationDateTime;
+
+  /// The metric attribution's dataset group Amazon Resource Name (ARN).
+  final String? datasetGroupArn;
+
+  /// The metric attribution's failure reason.
+  final String? failureReason;
+
+  /// The metric attribution's last updated date time.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The metric attribution's Amazon Resource Name (ARN).
+  final String? metricAttributionArn;
+
+  /// The metric attribution's output configuration.
+  final MetricAttributionOutput? metricsOutputConfig;
+
+  /// The metric attribution's name.
+  final String? name;
+
+  /// The metric attribution's status.
+  final String? status;
+
+  MetricAttribution({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.metricAttributionArn,
+    this.metricsOutputConfig,
+    this.name,
+    this.status,
+  });
+
+  factory MetricAttribution.fromJson(Map<String, dynamic> json) {
+    return MetricAttribution(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      metricAttributionArn: json['metricAttributionArn'] as String?,
+      metricsOutputConfig: json['metricsOutputConfig'] != null
+          ? MetricAttributionOutput.fromJson(
+              json['metricsOutputConfig'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final metricAttributionArn = this.metricAttributionArn;
+    final metricsOutputConfig = this.metricsOutputConfig;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (metricAttributionArn != null)
+        'metricAttributionArn': metricAttributionArn,
+      if (metricsOutputConfig != null)
+        'metricsOutputConfig': metricsOutputConfig,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Contains information on a recommendation filter, including its ARN, status,
+/// and filter expression.
+class Filter {
+  /// The time at which the filter was created.
+  final DateTime? creationDateTime;
+
+  /// The ARN of the dataset group to which the filter belongs.
+  final String? datasetGroupArn;
+
+  /// If the filter failed, the reason for its failure.
+  final String? failureReason;
+
+  /// The ARN of the filter.
+  final String? filterArn;
+
+  /// Specifies the type of item interactions to filter out of recommendation
+  /// results. The filter expression must follow specific format rules. For
+  /// information about filter expression structure and syntax, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter-expressions.html">Filter
+  /// expressions</a>.
+  final String? filterExpression;
+
+  /// The time at which the filter was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the filter.
+  final String? name;
+
+  /// The status of the filter.
+  final String? status;
+
+  Filter({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.failureReason,
+    this.filterArn,
+    this.filterExpression,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      filterArn: json['filterArn'] as String?,
+      filterExpression: json['filterExpression'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final failureReason = this.failureReason;
+    final filterArn = this.filterArn;
+    final filterExpression = this.filterExpression;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (filterArn != null) 'filterArn': filterArn,
+      if (filterExpression != null) 'filterExpression': filterExpression,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides feature transformation information. Feature transformation is the
+/// process of modifying raw input data into a form more suitable for model
+/// training.
+class FeatureTransformation {
+  /// The creation date and time (in Unix time) of the feature transformation.
+  final DateTime? creationDateTime;
+
+  /// Provides the default parameters for feature transformation.
+  final Map<String, String>? defaultParameters;
+
+  /// The Amazon Resource Name (ARN) of the FeatureTransformation object.
+  final String? featureTransformationArn;
+
+  /// The last update date and time (in Unix time) of the feature transformation.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the feature transformation.
+  final String? name;
+
+  /// The status of the feature transformation.
+  ///
+  /// A feature transformation can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  FeatureTransformation({
+    this.creationDateTime,
+    this.defaultParameters,
+    this.featureTransformationArn,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+  });
+
+  factory FeatureTransformation.fromJson(Map<String, dynamic> json) {
+    return FeatureTransformation(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      defaultParameters: (json['defaultParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      featureTransformationArn: json['featureTransformationArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final defaultParameters = this.defaultParameters;
+    final featureTransformationArn = this.featureTransformationArn;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (defaultParameters != null) 'defaultParameters': defaultParameters,
+      if (featureTransformationArn != null)
+        'featureTransformationArn': featureTransformationArn,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides information about an event tracker.
+class EventTracker {
+  /// The Amazon Web Services account that owns the event tracker.
+  final String? accountId;
+
+  /// The date and time (in Unix format) that the event tracker was created.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset group that receives the event
+  /// data.
+  final String? datasetGroupArn;
+
+  /// The ARN of the event tracker.
+  final String? eventTrackerArn;
+
+  /// The date and time (in Unix time) that the event tracker was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the event tracker.
+  final String? name;
+
+  /// The status of the event tracker.
+  ///
+  /// An event tracker can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The ID of the event tracker. Include this ID in requests to the <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html">PutEvents</a>
+  /// API.
+  final String? trackingId;
+
+  EventTracker({
+    this.accountId,
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.eventTrackerArn,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.status,
+    this.trackingId,
+  });
+
+  factory EventTracker.fromJson(Map<String, dynamic> json) {
+    return EventTracker(
+      accountId: json['accountId'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      eventTrackerArn: json['eventTrackerArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      status: json['status'] as String?,
+      trackingId: json['trackingId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final eventTrackerArn = this.eventTrackerArn;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final status = this.status;
+    final trackingId = this.trackingId;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (eventTrackerArn != null) 'eventTrackerArn': eventTrackerArn,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+      if (trackingId != null) 'trackingId': trackingId,
+    };
+  }
+}
+
+/// Describes a job that imports training data from a data source (Amazon S3
+/// bucket) to an Amazon Personalize dataset. For more information, see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html">CreateDatasetImportJob</a>.
+///
+/// A dataset import job can be in one of the following states:
+///
+/// <ul>
+/// <li>
+/// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+/// </li>
+/// </ul>
+class DatasetImportJob {
+  /// The creation date and time (in Unix time) of the dataset import job.
+  final DateTime? creationDateTime;
+
+  /// The Amazon S3 bucket that contains the training data to import.
+  final DataSource? dataSource;
+
+  /// The Amazon Resource Name (ARN) of the dataset that receives the imported
+  /// data.
+  final String? datasetArn;
+
+  /// The ARN of the dataset import job.
+  final String? datasetImportJobArn;
+
+  /// If a dataset import job fails, provides the reason why.
+  final String? failureReason;
+
+  /// The import mode used by the dataset import job to import new records.
+  final ImportMode? importMode;
+
+  /// The name of the import job.
+  final String? jobName;
+
+  /// The date and time (in Unix time) the dataset was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Whether the job publishes metrics to Amazon S3 for a metric attribution.
+  final bool? publishAttributionMetricsToS3;
+
+  /// The ARN of the IAM role that has permissions to read from the Amazon S3 data
+  /// source.
+  final String? roleArn;
+
+  /// The status of the dataset import job.
+  ///
+  /// A dataset import job can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DatasetImportJob({
+    this.creationDateTime,
+    this.dataSource,
+    this.datasetArn,
+    this.datasetImportJobArn,
+    this.failureReason,
+    this.importMode,
+    this.jobName,
+    this.lastUpdatedDateTime,
+    this.publishAttributionMetricsToS3,
+    this.roleArn,
+    this.status,
+  });
+
+  factory DatasetImportJob.fromJson(Map<String, dynamic> json) {
+    return DatasetImportJob(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      dataSource: json['dataSource'] != null
+          ? DataSource.fromJson(json['dataSource'] as Map<String, dynamic>)
+          : null,
+      datasetArn: json['datasetArn'] as String?,
+      datasetImportJobArn: json['datasetImportJobArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      importMode: (json['importMode'] as String?)?.let(ImportMode.fromString),
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      publishAttributionMetricsToS3:
+          json['publishAttributionMetricsToS3'] as bool?,
+      roleArn: json['roleArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final dataSource = this.dataSource;
+    final datasetArn = this.datasetArn;
+    final datasetImportJobArn = this.datasetImportJobArn;
+    final failureReason = this.failureReason;
+    final importMode = this.importMode;
+    final jobName = this.jobName;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final publishAttributionMetricsToS3 = this.publishAttributionMetricsToS3;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (dataSource != null) 'dataSource': dataSource,
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (datasetImportJobArn != null)
+        'datasetImportJobArn': datasetImportJobArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (importMode != null) 'importMode': importMode.value,
+      if (jobName != null) 'jobName': jobName,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (publishAttributionMetricsToS3 != null)
+        'publishAttributionMetricsToS3': publishAttributionMetricsToS3,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Describes the data source that contains the data to upload to a dataset, or
+/// the list of records to delete from Amazon Personalize.
+class DataSource {
+  /// For dataset import jobs, the path to the Amazon S3 bucket where the data
+  /// that you want to upload to your dataset is stored. For data deletion jobs,
+  /// the path to the Amazon S3 bucket that stores the list of records to delete.
+  ///
+  /// For example:
+  ///
+  /// <code>s3://bucket-name/folder-name/fileName.csv</code>
+  ///
+  /// If your CSV files are in a folder in your Amazon S3 bucket and you want your
+  /// import job or data deletion job to consider multiple files, you can specify
+  /// the path to the folder. With a data deletion job, Amazon Personalize uses
+  /// all files in the folder and any sub folder. Use the following syntax with a
+  /// <code>/</code> after the folder name:
+  ///
+  /// <code>s3://bucket-name/folder-name/</code>
+  final String? dataLocation;
+
+  DataSource({
+    this.dataLocation,
+  });
+
+  factory DataSource.fromJson(Map<String, dynamic> json) {
+    return DataSource(
+      dataLocation: json['dataLocation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataLocation = this.dataLocation;
+    return {
+      if (dataLocation != null) 'dataLocation': dataLocation,
+    };
+  }
+}
+
+/// A dataset group is a collection of related datasets (Item interactions,
+/// Users, Items, Actions, Action interactions). You create a dataset group by
+/// calling <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html">CreateDatasetGroup</a>.
+/// You then create a dataset and add it to a dataset group by calling <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html">CreateDataset</a>.
+/// The dataset group is used to create and train a solution by calling <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html">CreateSolution</a>.
+/// A dataset group can contain only one of each type of dataset.
+///
+/// You can specify an Key Management Service (KMS) key to encrypt the datasets
+/// in the group.
+class DatasetGroup {
+  /// The creation date and time (in Unix time) of the dataset group.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset group.
+  final String? datasetGroupArn;
+
+  /// The domain of a Domain dataset group.
+  final Domain? domain;
+
+  /// If creating a dataset group fails, provides the reason why.
+  final String? failureReason;
+
+  /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used
+  /// to encrypt the datasets.
+  final String? kmsKeyArn;
+
+  /// The last update date and time (in Unix time) of the dataset group.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the dataset group.
+  final String? name;
+
+  /// The ARN of the Identity and Access Management (IAM) role that has
+  /// permissions to access the Key Management Service (KMS) key. Supplying an IAM
+  /// role is only valid when also specifying a KMS key.
+  final String? roleArn;
+
+  /// The current status of the dataset group.
+  ///
+  /// A dataset group can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DatasetGroup({
+    this.creationDateTime,
+    this.datasetGroupArn,
+    this.domain,
+    this.failureReason,
+    this.kmsKeyArn,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.roleArn,
+    this.status,
+  });
+
+  factory DatasetGroup.fromJson(Map<String, dynamic> json) {
+    return DatasetGroup(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      domain: (json['domain'] as String?)?.let(Domain.fromString),
+      failureReason: json['failureReason'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      roleArn: json['roleArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetGroupArn = this.datasetGroupArn;
+    final domain = this.domain;
+    final failureReason = this.failureReason;
+    final kmsKeyArn = this.kmsKeyArn;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (domain != null) 'domain': domain.value,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Describes a job that exports a dataset to an Amazon S3 bucket. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html">CreateDatasetExportJob</a>.
+///
+/// A dataset export job can be in one of the following states:
+///
+/// <ul>
+/// <li>
+/// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+/// </li>
+/// </ul>
+class DatasetExportJob {
+  /// The creation date and time (in Unix time) of the dataset export job.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset to export.
+  final String? datasetArn;
+
+  /// The Amazon Resource Name (ARN) of the dataset export job.
+  final String? datasetExportJobArn;
+
+  /// If a dataset export job fails, provides the reason why.
+  final String? failureReason;
+
+  /// The data to export, based on how you imported the data. You can choose to
+  /// export <code>BULK</code> data that you imported using a dataset import job,
+  /// <code>PUT</code> data that you imported incrementally (using the console,
+  /// PutEvents, PutUsers and PutItems operations), or <code>ALL</code> for both
+  /// types. The default value is <code>PUT</code>.
+  final IngestionMode? ingestionMode;
+
+  /// The name of the export job.
+  final String? jobName;
+
+  /// The path to the Amazon S3 bucket where the job's output is stored. For
+  /// example:
+  ///
+  /// <code>s3://bucket-name/folder-name/</code>
+  final DatasetExportJobOutput? jobOutput;
+
+  /// The date and time (in Unix time) the status of the dataset export job was
+  /// last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The Amazon Resource Name (ARN) of the IAM service role that has permissions
+  /// to add data to your output Amazon S3 bucket.
+  final String? roleArn;
+
+  /// The status of the dataset export job.
+  ///
+  /// A dataset export job can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DatasetExportJob({
+    this.creationDateTime,
+    this.datasetArn,
+    this.datasetExportJobArn,
+    this.failureReason,
+    this.ingestionMode,
+    this.jobName,
+    this.jobOutput,
+    this.lastUpdatedDateTime,
+    this.roleArn,
+    this.status,
+  });
+
+  factory DatasetExportJob.fromJson(Map<String, dynamic> json) {
+    return DatasetExportJob(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetArn: json['datasetArn'] as String?,
+      datasetExportJobArn: json['datasetExportJobArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      ingestionMode:
+          (json['ingestionMode'] as String?)?.let(IngestionMode.fromString),
+      jobName: json['jobName'] as String?,
+      jobOutput: json['jobOutput'] != null
+          ? DatasetExportJobOutput.fromJson(
+              json['jobOutput'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      roleArn: json['roleArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetArn = this.datasetArn;
+    final datasetExportJobArn = this.datasetExportJobArn;
+    final failureReason = this.failureReason;
+    final ingestionMode = this.ingestionMode;
+    final jobName = this.jobName;
+    final jobOutput = this.jobOutput;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (datasetExportJobArn != null)
+        'datasetExportJobArn': datasetExportJobArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (ingestionMode != null) 'ingestionMode': ingestionMode.value,
+      if (jobName != null) 'jobName': jobName,
+      if (jobOutput != null) 'jobOutput': jobOutput,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (roleArn != null) 'roleArn': roleArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+class IngestionMode {
+  static const bulk = IngestionMode._('BULK');
+  static const put = IngestionMode._('PUT');
+  static const all = IngestionMode._('ALL');
+
+  final String value;
+
+  const IngestionMode._(this.value);
+
+  static const values = [bulk, put, all];
+
+  static IngestionMode fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => IngestionMode._(value));
+
+  @override
+  bool operator ==(other) => other is IngestionMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// The output configuration parameters of a dataset export job.
+class DatasetExportJobOutput {
+  final S3DataConfig s3DataDestination;
+
+  DatasetExportJobOutput({
+    required this.s3DataDestination,
+  });
+
+  factory DatasetExportJobOutput.fromJson(Map<String, dynamic> json) {
+    return DatasetExportJobOutput(
+      s3DataDestination: S3DataConfig.fromJson(
+          (json['s3DataDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3DataDestination = this.s3DataDestination;
+    return {
+      's3DataDestination': s3DataDestination,
+    };
+  }
+}
+
+/// Provides metadata for a dataset.
+class Dataset {
+  /// The creation date and time (in Unix time) of the dataset.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the dataset that you want metadata for.
+  final String? datasetArn;
+
+  /// The Amazon Resource Name (ARN) of the dataset group.
+  final String? datasetGroupArn;
+
+  /// One of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// Interactions
+  /// </li>
+  /// <li>
+  /// Items
+  /// </li>
+  /// <li>
+  /// Users
+  /// </li>
+  /// <li>
+  /// Actions
+  /// </li>
+  /// <li>
+  /// Action_Interactions
+  /// </li>
+  /// </ul>
+  final String? datasetType;
+
+  /// A time stamp that shows when the dataset was updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Describes the latest update to the dataset.
+  final DatasetUpdateSummary? latestDatasetUpdate;
+
+  /// The name of the dataset.
+  final String? name;
+
+  /// The ARN of the associated schema.
+  final String? schemaArn;
+
+  /// The status of the dataset.
+  ///
+  /// A dataset can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The ID of the event tracker for an Action interactions dataset. You specify
+  /// the tracker's ID in the <code>PutActionInteractions</code> API operation.
+  /// Amazon Personalize uses it to direct new data to the Action interactions
+  /// dataset in your dataset group.
+  final String? trackingId;
+
+  Dataset({
+    this.creationDateTime,
+    this.datasetArn,
+    this.datasetGroupArn,
+    this.datasetType,
+    this.lastUpdatedDateTime,
+    this.latestDatasetUpdate,
+    this.name,
+    this.schemaArn,
+    this.status,
+    this.trackingId,
+  });
+
+  factory Dataset.fromJson(Map<String, dynamic> json) {
+    return Dataset(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      datasetArn: json['datasetArn'] as String?,
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      datasetType: json['datasetType'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      latestDatasetUpdate: json['latestDatasetUpdate'] != null
+          ? DatasetUpdateSummary.fromJson(
+              json['latestDatasetUpdate'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      schemaArn: json['schemaArn'] as String?,
+      status: json['status'] as String?,
+      trackingId: json['trackingId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final datasetArn = this.datasetArn;
+    final datasetGroupArn = this.datasetGroupArn;
+    final datasetType = this.datasetType;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final latestDatasetUpdate = this.latestDatasetUpdate;
+    final name = this.name;
+    final schemaArn = this.schemaArn;
+    final status = this.status;
+    final trackingId = this.trackingId;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (datasetType != null) 'datasetType': datasetType,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (latestDatasetUpdate != null)
+        'latestDatasetUpdate': latestDatasetUpdate,
+      if (name != null) 'name': name,
+      if (schemaArn != null) 'schemaArn': schemaArn,
+      if (status != null) 'status': status,
+      if (trackingId != null) 'trackingId': trackingId,
+    };
+  }
+}
+
+/// Describes an update to a dataset.
+class DatasetUpdateSummary {
+  /// The creation date and time (in Unix time) of the dataset update.
+  final DateTime? creationDateTime;
+
+  /// If updating a dataset fails, provides the reason why.
+  final String? failureReason;
+
+  /// The last update date and time (in Unix time) of the dataset.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The Amazon Resource Name (ARN) of the schema that replaced the previous
+  /// schema of the dataset.
+  final String? schemaArn;
+
+  /// The status of the dataset update.
+  final String? status;
+
+  DatasetUpdateSummary({
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.schemaArn,
+    this.status,
+  });
+
+  factory DatasetUpdateSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetUpdateSummary(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      schemaArn: json['schemaArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final schemaArn = this.schemaArn;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (schemaArn != null) 'schemaArn': schemaArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Describes a job that deletes all references to specific users from an Amazon
+/// Personalize dataset group in batches. For information about creating a data
+/// deletion job, see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/delete-records.html">Deleting
+/// users</a>.
+class DataDeletionJob {
+  /// The creation date and time (in Unix time) of the data deletion job.
+  final DateTime? creationDateTime;
+
+  /// The Amazon Resource Name (ARN) of the data deletion job.
+  final String? dataDeletionJobArn;
+  final DataSource? dataSource;
+
+  /// The Amazon Resource Name (ARN) of the dataset group the job deletes records
+  /// from.
+  final String? datasetGroupArn;
+
+  /// If a data deletion job fails, provides the reason why.
+  final String? failureReason;
+
+  /// The name of the data deletion job.
+  final String? jobName;
+
+  /// The date and time (in Unix time) the data deletion job was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The number of records deleted by a COMPLETED job.
+  final int? numDeleted;
+
+  /// The Amazon Resource Name (ARN) of the IAM role that has permissions to read
+  /// from the Amazon S3 data source.
+  final String? roleArn;
+
+  /// The status of the data deletion job.
+  ///
+  /// A data deletion job can have one of the following statuses:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING > IN_PROGRESS > COMPLETED -or- FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  DataDeletionJob({
+    this.creationDateTime,
+    this.dataDeletionJobArn,
+    this.dataSource,
+    this.datasetGroupArn,
+    this.failureReason,
+    this.jobName,
+    this.lastUpdatedDateTime,
+    this.numDeleted,
+    this.roleArn,
+    this.status,
+  });
+
+  factory DataDeletionJob.fromJson(Map<String, dynamic> json) {
+    return DataDeletionJob(
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      dataDeletionJobArn: json['dataDeletionJobArn'] as String?,
+      dataSource: json['dataSource'] != null
+          ? DataSource.fromJson(json['dataSource'] as Map<String, dynamic>)
+          : null,
+      datasetGroupArn: json['datasetGroupArn'] as String?,
+      failureReason: json['failureReason'] as String?,
+      jobName: json['jobName'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      numDeleted: json['numDeleted'] as int?,
+      roleArn: json['roleArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final dataDeletionJobArn = this.dataDeletionJobArn;
+    final dataSource = this.dataSource;
+    final datasetGroupArn = this.datasetGroupArn;
+    final failureReason = this.failureReason;
+    final jobName = this.jobName;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final numDeleted = this.numDeleted;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    return {
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (dataDeletionJobArn != null) 'dataDeletionJobArn': dataDeletionJobArn,
+      if (dataSource != null) 'dataSource': dataSource,
+      if (datasetGroupArn != null) 'datasetGroupArn': datasetGroupArn,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (jobName != null) 'jobName': jobName,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (numDeleted != null) 'numDeleted': numDeleted,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// An object that describes the deployment of a solution version. For more
+/// information on campaigns, see <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html">CreateCampaign</a>.
+class Campaign {
+  /// The Amazon Resource Name (ARN) of the campaign.
+  final String? campaignArn;
+
+  /// The configuration details of a campaign.
+  final CampaignConfig? campaignConfig;
+
+  /// The date and time (in Unix format) that the campaign was created.
+  final DateTime? creationDateTime;
+
+  /// If a campaign fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix format) that the campaign was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Provides a summary of the properties of a campaign update. For a complete
+  /// listing, call the <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html">DescribeCampaign</a>
+  /// API.
+  /// <note>
+  /// The <code>latestCampaignUpdate</code> field is only returned when the
+  /// campaign has had at least one <code>UpdateCampaign</code> call.
+  /// </note>
+  final CampaignUpdateSummary? latestCampaignUpdate;
+
+  /// Specifies the requested minimum provisioned transactions (recommendations)
+  /// per second. A high <code>minProvisionedTPS</code> will increase your bill.
+  /// We recommend starting with 1 for <code>minProvisionedTPS</code> (the
+  /// default). Track your usage using Amazon CloudWatch metrics, and increase the
+  /// <code>minProvisionedTPS</code> as necessary.
+  final int? minProvisionedTPS;
+
+  /// The name of the campaign.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the solution version the campaign uses.
+  final String? solutionVersionArn;
+
+  /// The status of the campaign.
+  ///
+  /// A campaign can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  Campaign({
+    this.campaignArn,
+    this.campaignConfig,
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.latestCampaignUpdate,
+    this.minProvisionedTPS,
+    this.name,
+    this.solutionVersionArn,
+    this.status,
+  });
+
+  factory Campaign.fromJson(Map<String, dynamic> json) {
+    return Campaign(
+      campaignArn: json['campaignArn'] as String?,
+      campaignConfig: json['campaignConfig'] != null
+          ? CampaignConfig.fromJson(
+              json['campaignConfig'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      latestCampaignUpdate: json['latestCampaignUpdate'] != null
+          ? CampaignUpdateSummary.fromJson(
+              json['latestCampaignUpdate'] as Map<String, dynamic>)
+          : null,
+      minProvisionedTPS: json['minProvisionedTPS'] as int?,
+      name: json['name'] as String?,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaignArn = this.campaignArn;
+    final campaignConfig = this.campaignConfig;
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final latestCampaignUpdate = this.latestCampaignUpdate;
+    final minProvisionedTPS = this.minProvisionedTPS;
+    final name = this.name;
+    final solutionVersionArn = this.solutionVersionArn;
+    final status = this.status;
+    return {
+      if (campaignArn != null) 'campaignArn': campaignArn,
+      if (campaignConfig != null) 'campaignConfig': campaignConfig,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (latestCampaignUpdate != null)
+        'latestCampaignUpdate': latestCampaignUpdate,
+      if (minProvisionedTPS != null) 'minProvisionedTPS': minProvisionedTPS,
+      if (name != null) 'name': name,
+      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Provides a summary of the properties of a campaign update. For a complete
+/// listing, call the <a
+/// href="https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html">DescribeCampaign</a>
+/// API.
+class CampaignUpdateSummary {
+  final CampaignConfig? campaignConfig;
+
+  /// The date and time (in Unix time) that the campaign update was created.
+  final DateTime? creationDateTime;
+
+  /// If a campaign update fails, the reason behind the failure.
+  final String? failureReason;
+
+  /// The date and time (in Unix time) that the campaign update was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// Specifies the requested minimum provisioned transactions (recommendations)
+  /// per second that Amazon Personalize will support.
+  final int? minProvisionedTPS;
+
+  /// The Amazon Resource Name (ARN) of the deployed solution version.
+  final String? solutionVersionArn;
+
+  /// The status of the campaign update.
+  ///
+  /// A campaign update can be in one of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
+  /// </li>
+  /// <li>
+  /// DELETE PENDING > DELETE IN_PROGRESS
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  CampaignUpdateSummary({
+    this.campaignConfig,
+    this.creationDateTime,
+    this.failureReason,
+    this.lastUpdatedDateTime,
+    this.minProvisionedTPS,
+    this.solutionVersionArn,
+    this.status,
+  });
+
+  factory CampaignUpdateSummary.fromJson(Map<String, dynamic> json) {
+    return CampaignUpdateSummary(
+      campaignConfig: json['campaignConfig'] != null
+          ? CampaignConfig.fromJson(
+              json['campaignConfig'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      minProvisionedTPS: json['minProvisionedTPS'] as int?,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final campaignConfig = this.campaignConfig;
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final minProvisionedTPS = this.minProvisionedTPS;
+    final solutionVersionArn = this.solutionVersionArn;
+    final status = this.status;
+    return {
+      if (campaignConfig != null) 'campaignConfig': campaignConfig,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (minProvisionedTPS != null) 'minProvisionedTPS': minProvisionedTPS,
+      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// Contains information on a batch segment job.
+class BatchSegmentJob {
+  /// The Amazon Resource Name (ARN) of the batch segment job.
+  final String? batchSegmentJobArn;
+
+  /// The time at which the batch segment job was created.
+  final DateTime? creationDateTime;
+
+  /// If the batch segment job failed, the reason for the failure.
+  final String? failureReason;
+
+  /// The ARN of the filter used on the batch segment job.
+  final String? filterArn;
+
+  /// The Amazon S3 path that leads to the input data used to generate the batch
+  /// segment job.
+  final BatchSegmentJobInput? jobInput;
+
+  /// The name of the batch segment job.
+  final String? jobName;
+
+  /// The Amazon S3 bucket that contains the output data generated by the batch
+  /// segment job.
+  final BatchSegmentJobOutput? jobOutput;
+
+  /// The time at which the batch segment job last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The number of predicted users generated by the batch segment job for each
+  /// line of input data. The maximum number of users per segment is 5 million.
+  final int? numResults;
+
+  /// The ARN of the Amazon Identity and Access Management (IAM) role that
+  /// requested the batch segment job.
+  final String? roleArn;
+
+  /// The Amazon Resource Name (ARN) of the solution version used by the batch
+  /// segment job to generate batch segments.
+  final String? solutionVersionArn;
+
+  /// The status of the batch segment job. The status is one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// IN PROGRESS
+  /// </li>
+  /// <li>
+  /// ACTIVE
+  /// </li>
+  /// <li>
+  /// CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  BatchSegmentJob({
+    this.batchSegmentJobArn,
+    this.creationDateTime,
+    this.failureReason,
+    this.filterArn,
+    this.jobInput,
+    this.jobName,
+    this.jobOutput,
+    this.lastUpdatedDateTime,
+    this.numResults,
+    this.roleArn,
+    this.solutionVersionArn,
+    this.status,
+  });
+
+  factory BatchSegmentJob.fromJson(Map<String, dynamic> json) {
+    return BatchSegmentJob(
+      batchSegmentJobArn: json['batchSegmentJobArn'] as String?,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      filterArn: json['filterArn'] as String?,
+      jobInput: json['jobInput'] != null
+          ? BatchSegmentJobInput.fromJson(
+              json['jobInput'] as Map<String, dynamic>)
+          : null,
+      jobName: json['jobName'] as String?,
+      jobOutput: json['jobOutput'] != null
+          ? BatchSegmentJobOutput.fromJson(
+              json['jobOutput'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      numResults: json['numResults'] as int?,
+      roleArn: json['roleArn'] as String?,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchSegmentJobArn = this.batchSegmentJobArn;
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final filterArn = this.filterArn;
+    final jobInput = this.jobInput;
+    final jobName = this.jobName;
+    final jobOutput = this.jobOutput;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final numResults = this.numResults;
+    final roleArn = this.roleArn;
+    final solutionVersionArn = this.solutionVersionArn;
+    final status = this.status;
+    return {
+      if (batchSegmentJobArn != null) 'batchSegmentJobArn': batchSegmentJobArn,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (filterArn != null) 'filterArn': filterArn,
+      if (jobInput != null) 'jobInput': jobInput,
+      if (jobName != null) 'jobName': jobName,
+      if (jobOutput != null) 'jobOutput': jobOutput,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (numResults != null) 'numResults': numResults,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
+/// The input configuration of a batch segment job.
+class BatchSegmentJobInput {
+  final S3DataConfig s3DataSource;
+
+  BatchSegmentJobInput({
+    required this.s3DataSource,
+  });
+
+  factory BatchSegmentJobInput.fromJson(Map<String, dynamic> json) {
+    return BatchSegmentJobInput(
+      s3DataSource: S3DataConfig.fromJson(
+          (json['s3DataSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3DataSource = this.s3DataSource;
+    return {
+      's3DataSource': s3DataSource,
+    };
+  }
+}
+
+/// The output configuration parameters of a batch segment job.
+class BatchSegmentJobOutput {
+  final S3DataConfig s3DataDestination;
+
+  BatchSegmentJobOutput({
+    required this.s3DataDestination,
+  });
+
+  factory BatchSegmentJobOutput.fromJson(Map<String, dynamic> json) {
+    return BatchSegmentJobOutput(
+      s3DataDestination: S3DataConfig.fromJson(
+          (json['s3DataDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3DataDestination = this.s3DataDestination;
+    return {
+      's3DataDestination': s3DataDestination,
+    };
+  }
+}
+
+/// Contains information on a batch inference job.
+class BatchInferenceJob {
+  /// The Amazon Resource Name (ARN) of the batch inference job.
+  final String? batchInferenceJobArn;
+
+  /// A string to string map of the configuration details of a batch inference
+  /// job.
+  final BatchInferenceJobConfig? batchInferenceJobConfig;
+
+  /// The job's mode.
+  final BatchInferenceJobMode? batchInferenceJobMode;
+
+  /// The time at which the batch inference job was created.
+  final DateTime? creationDateTime;
+
+  /// If the batch inference job failed, the reason for the failure.
+  final String? failureReason;
+
+  /// The ARN of the filter used on the batch inference job.
+  final String? filterArn;
+
+  /// The Amazon S3 path that leads to the input data used to generate the batch
+  /// inference job.
+  final BatchInferenceJobInput? jobInput;
+
+  /// The name of the batch inference job.
+  final String? jobName;
+
+  /// The Amazon S3 bucket that contains the output data generated by the batch
+  /// inference job.
+  final BatchInferenceJobOutput? jobOutput;
+
+  /// The time at which the batch inference job was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The number of recommendations generated by the batch inference job. This
+  /// number includes the error messages generated for failed input records.
+  final int? numResults;
+
+  /// The ARN of the Amazon Identity and Access Management (IAM) role that
+  /// requested the batch inference job.
+  final String? roleArn;
+
+  /// The Amazon Resource Name (ARN) of the solution version from which the batch
+  /// inference job was created.
+  final String? solutionVersionArn;
+
+  /// The status of the batch inference job. The status is one of the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PENDING
+  /// </li>
+  /// <li>
+  /// IN PROGRESS
+  /// </li>
+  /// <li>
+  /// ACTIVE
+  /// </li>
+  /// <li>
+  /// CREATE FAILED
+  /// </li>
+  /// </ul>
+  final String? status;
+
+  /// The job's theme generation settings.
+  final ThemeGenerationConfig? themeGenerationConfig;
+
+  BatchInferenceJob({
+    this.batchInferenceJobArn,
+    this.batchInferenceJobConfig,
+    this.batchInferenceJobMode,
+    this.creationDateTime,
+    this.failureReason,
+    this.filterArn,
+    this.jobInput,
+    this.jobName,
+    this.jobOutput,
+    this.lastUpdatedDateTime,
+    this.numResults,
+    this.roleArn,
+    this.solutionVersionArn,
+    this.status,
+    this.themeGenerationConfig,
+  });
+
+  factory BatchInferenceJob.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJob(
+      batchInferenceJobArn: json['batchInferenceJobArn'] as String?,
+      batchInferenceJobConfig: json['batchInferenceJobConfig'] != null
+          ? BatchInferenceJobConfig.fromJson(
+              json['batchInferenceJobConfig'] as Map<String, dynamic>)
+          : null,
+      batchInferenceJobMode: (json['batchInferenceJobMode'] as String?)
+          ?.let(BatchInferenceJobMode.fromString),
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      failureReason: json['failureReason'] as String?,
+      filterArn: json['filterArn'] as String?,
+      jobInput: json['jobInput'] != null
+          ? BatchInferenceJobInput.fromJson(
+              json['jobInput'] as Map<String, dynamic>)
+          : null,
+      jobName: json['jobName'] as String?,
+      jobOutput: json['jobOutput'] != null
+          ? BatchInferenceJobOutput.fromJson(
+              json['jobOutput'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      numResults: json['numResults'] as int?,
+      roleArn: json['roleArn'] as String?,
+      solutionVersionArn: json['solutionVersionArn'] as String?,
+      status: json['status'] as String?,
+      themeGenerationConfig: json['themeGenerationConfig'] != null
+          ? ThemeGenerationConfig.fromJson(
+              json['themeGenerationConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchInferenceJobArn = this.batchInferenceJobArn;
+    final batchInferenceJobConfig = this.batchInferenceJobConfig;
+    final batchInferenceJobMode = this.batchInferenceJobMode;
+    final creationDateTime = this.creationDateTime;
+    final failureReason = this.failureReason;
+    final filterArn = this.filterArn;
+    final jobInput = this.jobInput;
+    final jobName = this.jobName;
+    final jobOutput = this.jobOutput;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final numResults = this.numResults;
+    final roleArn = this.roleArn;
+    final solutionVersionArn = this.solutionVersionArn;
+    final status = this.status;
+    final themeGenerationConfig = this.themeGenerationConfig;
+    return {
+      if (batchInferenceJobArn != null)
+        'batchInferenceJobArn': batchInferenceJobArn,
+      if (batchInferenceJobConfig != null)
+        'batchInferenceJobConfig': batchInferenceJobConfig,
+      if (batchInferenceJobMode != null)
+        'batchInferenceJobMode': batchInferenceJobMode.value,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (filterArn != null) 'filterArn': filterArn,
+      if (jobInput != null) 'jobInput': jobInput,
+      if (jobName != null) 'jobName': jobName,
+      if (jobOutput != null) 'jobOutput': jobOutput,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (numResults != null) 'numResults': numResults,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (solutionVersionArn != null) 'solutionVersionArn': solutionVersionArn,
+      if (status != null) 'status': status,
+      if (themeGenerationConfig != null)
+        'themeGenerationConfig': themeGenerationConfig,
+    };
+  }
+}
+
+/// The input configuration of a batch inference job.
+class BatchInferenceJobInput {
+  /// The URI of the Amazon S3 location that contains your input data. The Amazon
+  /// S3 bucket must be in the same region as the API endpoint you are calling.
+  final S3DataConfig s3DataSource;
+
+  BatchInferenceJobInput({
+    required this.s3DataSource,
+  });
+
+  factory BatchInferenceJobInput.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJobInput(
+      s3DataSource: S3DataConfig.fromJson(
+          (json['s3DataSource'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3DataSource = this.s3DataSource;
+    return {
+      's3DataSource': s3DataSource,
+    };
+  }
+}
+
+/// The output configuration parameters of a batch inference job.
+class BatchInferenceJobOutput {
+  /// Information on the Amazon S3 bucket in which the batch inference job's
+  /// output is stored.
+  final S3DataConfig s3DataDestination;
+
+  BatchInferenceJobOutput({
+    required this.s3DataDestination,
+  });
+
+  factory BatchInferenceJobOutput.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJobOutput(
+      s3DataDestination: S3DataConfig.fromJson(
+          (json['s3DataDestination'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3DataDestination = this.s3DataDestination;
+    return {
+      's3DataDestination': s3DataDestination,
+    };
+  }
+}
+
+/// The configuration details of a batch inference job.
+class BatchInferenceJobConfig {
+  /// A string to string map specifying the exploration configuration
+  /// hyperparameters, including <code>explorationWeight</code> and
+  /// <code>explorationItemAgeCutOff</code>, you want to use to configure the
+  /// amount of item exploration Amazon Personalize uses when recommending items.
+  /// See <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html">User-Personalization</a>.
+  final Map<String, String>? itemExplorationConfig;
+
+  /// A map of ranking influence values for POPULARITY and FRESHNESS. For each
+  /// key, specify a numerical value between 0.0 and 1.0 that determines how much
+  /// influence that ranking factor has on the final recommendations. A value
+  /// closer to 1.0 gives more weight to the factor, while a value closer to 0.0
+  /// reduces its influence.
+  final Map<RankingInfluenceType, double>? rankingInfluence;
+
+  BatchInferenceJobConfig({
+    this.itemExplorationConfig,
+    this.rankingInfluence,
+  });
+
+  factory BatchInferenceJobConfig.fromJson(Map<String, dynamic> json) {
+    return BatchInferenceJobConfig(
+      itemExplorationConfig:
+          (json['itemExplorationConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      rankingInfluence: (json['rankingInfluence'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(RankingInfluenceType.fromString(k), e as double)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final itemExplorationConfig = this.itemExplorationConfig;
+    final rankingInfluence = this.rankingInfluence;
+    return {
+      if (itemExplorationConfig != null)
+        'itemExplorationConfig': itemExplorationConfig,
+      if (rankingInfluence != null)
+        'rankingInfluence':
+            rankingInfluence.map((k, e) => MapEntry(k.value, e)),
+    };
+  }
+}
+
+/// The configuration details for generating themes with a batch inference job.
+class ThemeGenerationConfig {
+  /// Fields used to generate descriptive themes for a batch inference job.
+  final FieldsForThemeGeneration fieldsForThemeGeneration;
+
+  ThemeGenerationConfig({
+    required this.fieldsForThemeGeneration,
+  });
+
+  factory ThemeGenerationConfig.fromJson(Map<String, dynamic> json) {
+    return ThemeGenerationConfig(
+      fieldsForThemeGeneration: FieldsForThemeGeneration.fromJson(
+          (json['fieldsForThemeGeneration'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldsForThemeGeneration = this.fieldsForThemeGeneration;
+    return {
+      'fieldsForThemeGeneration': fieldsForThemeGeneration,
+    };
+  }
+}
+
+/// A string to string map of the configuration details for theme generation.
+class FieldsForThemeGeneration {
+  /// The name of the Items dataset column that stores the name of each item in
+  /// the dataset.
+  final String itemName;
+
+  FieldsForThemeGeneration({
+    required this.itemName,
+  });
+
+  factory FieldsForThemeGeneration.fromJson(Map<String, dynamic> json) {
+    return FieldsForThemeGeneration(
+      itemName: (json['itemName'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final itemName = this.itemName;
+    return {
+      'itemName': itemName,
+    };
+  }
+}
+
+/// Describes a custom algorithm.
+class Algorithm {
+  /// The Amazon Resource Name (ARN) of the algorithm.
+  final String? algorithmArn;
+
+  /// The URI of the Docker container for the algorithm image.
+  final AlgorithmImage? algorithmImage;
+
+  /// The date and time (in Unix time) that the algorithm was created.
+  final DateTime? creationDateTime;
+
+  /// Specifies the default hyperparameters, their ranges, and whether they are
+  /// tunable. A tunable hyperparameter can have its value determined during
+  /// hyperparameter optimization (HPO).
+  final DefaultHyperParameterRanges? defaultHyperParameterRanges;
+
+  /// Specifies the default hyperparameters.
+  final Map<String, String>? defaultHyperParameters;
+
+  /// Specifies the default maximum number of training jobs and parallel training
+  /// jobs.
+  final Map<String, String>? defaultResourceConfig;
+
+  /// The date and time (in Unix time) that the algorithm was last updated.
+  final DateTime? lastUpdatedDateTime;
+
+  /// The name of the algorithm.
+  final String? name;
+
+  /// The Amazon Resource Name (ARN) of the role.
+  final String? roleArn;
+
+  /// The training input mode.
+  final String? trainingInputMode;
+
+  Algorithm({
+    this.algorithmArn,
+    this.algorithmImage,
+    this.creationDateTime,
+    this.defaultHyperParameterRanges,
+    this.defaultHyperParameters,
+    this.defaultResourceConfig,
+    this.lastUpdatedDateTime,
+    this.name,
+    this.roleArn,
+    this.trainingInputMode,
+  });
+
+  factory Algorithm.fromJson(Map<String, dynamic> json) {
+    return Algorithm(
+      algorithmArn: json['algorithmArn'] as String?,
+      algorithmImage: json['algorithmImage'] != null
+          ? AlgorithmImage.fromJson(
+              json['algorithmImage'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['creationDateTime']),
+      defaultHyperParameterRanges: json['defaultHyperParameterRanges'] != null
+          ? DefaultHyperParameterRanges.fromJson(
+              json['defaultHyperParameterRanges'] as Map<String, dynamic>)
+          : null,
+      defaultHyperParameters:
+          (json['defaultHyperParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      defaultResourceConfig:
+          (json['defaultResourceConfig'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+      name: json['name'] as String?,
+      roleArn: json['roleArn'] as String?,
+      trainingInputMode: json['trainingInputMode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final algorithmArn = this.algorithmArn;
+    final algorithmImage = this.algorithmImage;
+    final creationDateTime = this.creationDateTime;
+    final defaultHyperParameterRanges = this.defaultHyperParameterRanges;
+    final defaultHyperParameters = this.defaultHyperParameters;
+    final defaultResourceConfig = this.defaultResourceConfig;
+    final lastUpdatedDateTime = this.lastUpdatedDateTime;
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final trainingInputMode = this.trainingInputMode;
+    return {
+      if (algorithmArn != null) 'algorithmArn': algorithmArn,
+      if (algorithmImage != null) 'algorithmImage': algorithmImage,
+      if (creationDateTime != null)
+        'creationDateTime': unixTimestampToJson(creationDateTime),
+      if (defaultHyperParameterRanges != null)
+        'defaultHyperParameterRanges': defaultHyperParameterRanges,
+      if (defaultHyperParameters != null)
+        'defaultHyperParameters': defaultHyperParameters,
+      if (defaultResourceConfig != null)
+        'defaultResourceConfig': defaultResourceConfig,
+      if (lastUpdatedDateTime != null)
+        'lastUpdatedDateTime': unixTimestampToJson(lastUpdatedDateTime),
+      if (name != null) 'name': name,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (trainingInputMode != null) 'trainingInputMode': trainingInputMode,
+    };
+  }
+}
+
+/// Describes an algorithm image.
+class AlgorithmImage {
+  /// The URI of the Docker container for the algorithm image.
+  final String dockerURI;
+
+  /// The name of the algorithm image.
+  final String? name;
+
+  AlgorithmImage({
+    required this.dockerURI,
+    this.name,
+  });
+
+  factory AlgorithmImage.fromJson(Map<String, dynamic> json) {
+    return AlgorithmImage(
+      dockerURI: (json['dockerURI'] as String?) ?? '',
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dockerURI = this.dockerURI;
+    final name = this.name;
+    return {
+      'dockerURI': dockerURI,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Specifies the hyperparameters and their default ranges. Hyperparameters can
+/// be categorical, continuous, or integer-valued.
+class DefaultHyperParameterRanges {
+  /// The categorical hyperparameters and their default ranges.
+  final List<DefaultCategoricalHyperParameterRange>?
+      categoricalHyperParameterRanges;
+
+  /// The continuous hyperparameters and their default ranges.
+  final List<DefaultContinuousHyperParameterRange>?
+      continuousHyperParameterRanges;
+
+  /// The integer-valued hyperparameters and their default ranges.
+  final List<DefaultIntegerHyperParameterRange>? integerHyperParameterRanges;
+
+  DefaultHyperParameterRanges({
+    this.categoricalHyperParameterRanges,
+    this.continuousHyperParameterRanges,
+    this.integerHyperParameterRanges,
+  });
+
+  factory DefaultHyperParameterRanges.fromJson(Map<String, dynamic> json) {
+    return DefaultHyperParameterRanges(
+      categoricalHyperParameterRanges:
+          (json['categoricalHyperParameterRanges'] as List?)
+              ?.nonNulls
+              .map((e) => DefaultCategoricalHyperParameterRange.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      continuousHyperParameterRanges:
+          (json['continuousHyperParameterRanges'] as List?)
+              ?.nonNulls
+              .map((e) => DefaultContinuousHyperParameterRange.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      integerHyperParameterRanges:
+          (json['integerHyperParameterRanges'] as List?)
+              ?.nonNulls
+              .map((e) => DefaultIntegerHyperParameterRange.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoricalHyperParameterRanges =
+        this.categoricalHyperParameterRanges;
+    final continuousHyperParameterRanges = this.continuousHyperParameterRanges;
+    final integerHyperParameterRanges = this.integerHyperParameterRanges;
+    return {
+      if (categoricalHyperParameterRanges != null)
+        'categoricalHyperParameterRanges': categoricalHyperParameterRanges,
+      if (continuousHyperParameterRanges != null)
+        'continuousHyperParameterRanges': continuousHyperParameterRanges,
+      if (integerHyperParameterRanges != null)
+        'integerHyperParameterRanges': integerHyperParameterRanges,
+    };
+  }
+}
+
+/// Provides the name and default range of a categorical hyperparameter and
+/// whether the hyperparameter is tunable. A tunable hyperparameter can have its
+/// value determined during hyperparameter optimization (HPO).
+class DefaultCategoricalHyperParameterRange {
+  /// Whether the hyperparameter is tunable.
+  final bool? isTunable;
+
+  /// The name of the hyperparameter.
+  final String? name;
+
+  /// A list of the categories for the hyperparameter.
+  final List<String>? values;
+
+  DefaultCategoricalHyperParameterRange({
+    this.isTunable,
+    this.name,
+    this.values,
+  });
+
+  factory DefaultCategoricalHyperParameterRange.fromJson(
+      Map<String, dynamic> json) {
+    return DefaultCategoricalHyperParameterRange(
+      isTunable: json['isTunable'] as bool?,
+      name: json['name'] as String?,
+      values:
+          (json['values'] as List?)?.nonNulls.map((e) => e as String).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTunable = this.isTunable;
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (isTunable != null) 'isTunable': isTunable,
+      if (name != null) 'name': name,
+      if (values != null) 'values': values,
+    };
+  }
+}
+
+/// Provides the name and default range of a continuous hyperparameter and
+/// whether the hyperparameter is tunable. A tunable hyperparameter can have its
+/// value determined during hyperparameter optimization (HPO).
+class DefaultContinuousHyperParameterRange {
+  /// Whether the hyperparameter is tunable.
+  final bool? isTunable;
+
+  /// The maximum allowable value for the hyperparameter.
+  final double? maxValue;
+
+  /// The minimum allowable value for the hyperparameter.
+  final double? minValue;
+
+  /// The name of the hyperparameter.
+  final String? name;
+
+  DefaultContinuousHyperParameterRange({
+    this.isTunable,
+    this.maxValue,
+    this.minValue,
+    this.name,
+  });
+
+  factory DefaultContinuousHyperParameterRange.fromJson(
+      Map<String, dynamic> json) {
+    return DefaultContinuousHyperParameterRange(
+      isTunable: json['isTunable'] as bool?,
+      maxValue: json['maxValue'] as double?,
+      minValue: json['minValue'] as double?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTunable = this.isTunable;
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    return {
+      if (isTunable != null) 'isTunable': isTunable,
+      if (maxValue != null) 'maxValue': maxValue,
+      if (minValue != null) 'minValue': minValue,
+      if (name != null) 'name': name,
+    };
+  }
+}
+
+/// Provides the name and default range of a integer-valued hyperparameter and
+/// whether the hyperparameter is tunable. A tunable hyperparameter can have its
+/// value determined during hyperparameter optimization (HPO).
+class DefaultIntegerHyperParameterRange {
+  /// Indicates whether the hyperparameter is tunable.
+  final bool? isTunable;
+
+  /// The maximum allowable value for the hyperparameter.
+  final int? maxValue;
+
+  /// The minimum allowable value for the hyperparameter.
+  final int? minValue;
+
+  /// The name of the hyperparameter.
+  final String? name;
+
+  DefaultIntegerHyperParameterRange({
+    this.isTunable,
+    this.maxValue,
+    this.minValue,
+    this.name,
+  });
+
+  factory DefaultIntegerHyperParameterRange.fromJson(
+      Map<String, dynamic> json) {
+    return DefaultIntegerHyperParameterRange(
+      isTunable: json['isTunable'] as bool?,
+      maxValue: json['maxValue'] as int?,
+      minValue: json['minValue'] as int?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTunable = this.isTunable;
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    return {
+      if (isTunable != null) 'isTunable': isTunable,
+      if (maxValue != null) 'maxValue': maxValue,
+      if (minValue != null) 'minValue': minValue,
+      if (name != null) 'name': name,
     };
   }
 }

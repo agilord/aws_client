@@ -43,7 +43,6 @@ class SsmContacts {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'ssm-contacts',
-            signingName: 'ssm-contacts',
           ),
           region: region,
           credentials: credentials,
@@ -166,11 +165,11 @@ class SsmContacts {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
+  /// May throw [DataEncryptionException].
   /// May throw [InternalServerException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [DataEncryptionException].
   ///
   /// Parameter [alias] :
   /// The short name to quickly identify a contact or escalation plan. The
@@ -182,8 +181,19 @@ class SsmContacts {
   /// contact specified contacts.
   ///
   /// Parameter [type] :
-  /// To create an escalation plan use <code>ESCALATION</code>. To create a
-  /// contact use <code>PERSONAL</code>.
+  /// The type of contact to create.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PERSONAL</code>: A single, individual contact.
+  /// </li>
+  /// <li>
+  /// <code>ESCALATION</code>: An escalation plan.
+  /// </li>
+  /// <li>
+  /// <code>ONCALL_SCHEDULE</code>: An on-call schedule.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [displayName] :
   /// The full name of the contact or escalation plan.
@@ -325,7 +335,11 @@ class SsmContacts {
   ///
   /// Parameter [contactIds] :
   /// The Amazon Resource Names (ARNs) of the contacts to add to the rotation.
-  ///
+  /// <note>
+  /// Only the <code>PERSONAL</code> contact type is supported. The contact
+  /// types <code>ESCALATION</code> and <code>ONCALL_SCHEDULE</code> are not
+  /// supported for this operation.
+  /// </note>
   /// The order that you list the contacts in is their shift order in the
   /// rotation schedule. To change the order of the contact's shifts, use the
   /// <a>UpdateRotation</a> operation.
@@ -345,8 +359,7 @@ class SsmContacts {
   /// website.
   /// <note>
   /// Designators for time zones that don’t support Daylight Savings Time rules,
-  /// such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are
-  /// not supported.
+  /// such as Pacific Standard Time (PST), are not supported.
   /// </note>
   ///
   /// Parameter [idempotencyToken] :
@@ -483,16 +496,17 @@ class SsmContacts {
   }
 
   /// To remove a contact from Incident Manager, you can delete the contact.
-  /// Deleting a contact removes them from all escalation plans and related
-  /// response plans. Deleting an escalation plan removes it from all related
-  /// response plans. You will have to recreate the contact and its contact
-  /// channels before you can use it again.
+  /// However, deleting a contact does not remove it from escalation plans and
+  /// related response plans. Deleting an escalation plan also does not remove
+  /// it from all related response plans. To modify an escalation plan, we
+  /// recommend using the <a>UpdateContact</a> action to specify a different
+  /// existing contact.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [ConflictException].
   /// May throw [ValidationException].
   ///
   /// Parameter [contactId] :
@@ -516,10 +530,12 @@ class SsmContacts {
     );
   }
 
-  /// To no longer receive engagements on a contact channel, you can delete the
-  /// channel from a contact. Deleting the contact channel removes it from the
-  /// contact's engagement plan. If you delete the only contact channel for a
-  /// contact, you won't be able to engage that contact during an incident.
+  /// To stop receiving engagements on a contact channel, you can delete the
+  /// channel from a contact. Deleting the contact channel does not remove it
+  /// from the contact's engagement plan, but the stage that includes the
+  /// channel will be ignored. If you delete the only contact channel for a
+  /// contact, you'll no longer be able to engage that contact during an
+  /// incident.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -682,11 +698,11 @@ class SsmContacts {
   /// Retrieves information about the specified contact or escalation plan.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [DataEncryptionException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [DataEncryptionException].
   ///
   /// Parameter [contactId] :
   /// The Amazon Resource Name (ARN) of the contact or escalation plan.
@@ -911,8 +927,7 @@ class SsmContacts {
   /// The pagination token to continue to the next page of results.
   ///
   /// Parameter [type] :
-  /// The type of contact. A contact is type <code>PERSONAL</code> and an
-  /// escalation plan is type <code>ESCALATION</code>.
+  /// The type of contact.
   Future<ListContactsResult> listContacts({
     String? aliasPrefix,
     int? maxResults,
@@ -1051,7 +1066,7 @@ class SsmContacts {
   /// plan engaged in an incident might target an on-call schedule that includes
   /// several contacts in a rotation, but just one contact on-call when the
   /// incident starts. The resolution path indicates the hierarchy of
-  /// <i>escalation plan &gt; on-call schedule &gt; contact</i>.
+  /// <i>escalation plan > on-call schedule > contact</i>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1334,6 +1349,59 @@ class SsmContacts {
     return ListRotationOverridesResult.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves a list of on-call rotations.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to start the list. Use this token to get the next set of results.
+  ///
+  /// Parameter [rotationNamePrefix] :
+  /// A filter to include rotations in list results based on their common
+  /// prefix. For example, entering prod returns a list of all rotation names
+  /// that begin with <code>prod</code>, such as <code>production</code> and
+  /// <code>prod-1</code>.
+  Future<ListRotationsResult> listRotations({
+    int? maxResults,
+    String? nextToken,
+    String? rotationNamePrefix,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'SSMContacts.ListRotations'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (rotationNamePrefix != null)
+          'RotationNamePrefix': rotationNamePrefix,
+      },
+    );
+
+    return ListRotationsResult.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of shifts generated by an existing rotation in the system.
   ///
   /// May throw [AccessDeniedException].
@@ -1395,69 +1463,18 @@ class SsmContacts {
     return ListRotationShiftsResult.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves a list of on-call rotations.
+  /// Lists the tags of a contact, escalation plan, rotation, or on-call
+  /// schedule.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of items to return for this call. The call also returns
-  /// a token that you can specify in a subsequent call to get the next set of
-  /// results.
-  ///
-  /// Parameter [nextToken] :
-  /// A token to start the list. Use this token to get the next set of results.
-  ///
-  /// Parameter [rotationNamePrefix] :
-  /// A filter to include rotations in list results based on their common
-  /// prefix. For example, entering prod returns a list of all rotation names
-  /// that begin with <code>prod</code>, such as <code>production</code> and
-  /// <code>prod-1</code>.
-  Future<ListRotationsResult> listRotations({
-    int? maxResults,
-    String? nextToken,
-    String? rotationNamePrefix,
-  }) async {
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      0,
-      1024,
-    );
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'SSMContacts.ListRotations'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        if (maxResults != null) 'MaxResults': maxResults,
-        if (nextToken != null) 'NextToken': nextToken,
-        if (rotationNamePrefix != null)
-          'RotationNamePrefix': rotationNamePrefix,
-      },
-    );
-
-    return ListRotationsResult.fromJson(jsonResponse.body);
-  }
-
-  /// Lists the tags of an escalation plan or contact.
-  ///
-  /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
-  /// May throw [InternalServerException].
   ///
   /// Parameter [resourceARN] :
-  /// The Amazon Resource Name (ARN) of the contact or escalation plan.
+  /// The Amazon Resource Name (ARN) of the contact, escalation plan, rotation,
+  /// or on-call schedule.
   Future<ListTagsForResourceResult> listTagsForResource({
     required String resourceARN,
   }) async {
@@ -1488,10 +1505,10 @@ class SsmContacts {
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [contactArn] :
   /// The Amazon Resource Name (ARN) of the contact or escalation plan.
@@ -1630,10 +1647,10 @@ class SsmContacts {
   /// plan or engagement plan. Further contacts aren't engaged.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
-  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [engagementId] :
   /// The Amazon Resource Name (ARN) of the engagement.
@@ -1665,10 +1682,10 @@ class SsmContacts {
   /// escalation plans in the first region of your replication set.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
   /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
@@ -1700,10 +1717,10 @@ class SsmContacts {
   /// Removes tags from the specified resource.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ValidationException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the contact or escalation plan.
@@ -1734,12 +1751,12 @@ class SsmContacts {
   /// Updates the contact or escalation plan specified.
   ///
   /// May throw [AccessDeniedException].
+  /// May throw [DataEncryptionException].
   /// May throw [InternalServerException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ServiceQuotaExceededException].
   /// May throw [ThrottlingException].
   /// May throw [ValidationException].
-  /// May throw [DataEncryptionException].
   ///
   /// Parameter [contactId] :
   /// The Amazon Resource Name (ARN) of the contact or escalation plan you're
@@ -1836,7 +1853,11 @@ class SsmContacts {
   /// Parameter [contactIds] :
   /// The Amazon Resource Names (ARNs) of the contacts to include in the updated
   /// rotation.
-  ///
+  /// <note>
+  /// Only the <code>PERSONAL</code> contact type is supported. The contact
+  /// types <code>ESCALATION</code> and <code>ONCALL_SCHEDULE</code> are not
+  /// supported for this operation.
+  /// </note>
   /// The order in which you list the contacts is their shift order in the
   /// rotation schedule.
   ///
@@ -1851,8 +1872,7 @@ class SsmContacts {
   /// the IANA website.
   /// <note>
   /// Designators for time zones that don’t support Daylight Savings Time Rules,
-  /// such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT),
-  /// aren't supported.
+  /// such as Pacific Standard Time (PST), aren't supported.
   /// </note>
   Future<void> updateRotation({
     required RecurrenceSettings recurrence,
@@ -1882,31 +1902,6 @@ class SsmContacts {
   }
 }
 
-class AcceptCodeValidation {
-  static const ignore = AcceptCodeValidation._('IGNORE');
-  static const enforce = AcceptCodeValidation._('ENFORCE');
-
-  final String value;
-
-  const AcceptCodeValidation._(this.value);
-
-  static const values = [ignore, enforce];
-
-  static AcceptCodeValidation fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => AcceptCodeValidation._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is AcceptCodeValidation && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class AcceptPageResult {
   AcceptPageResult();
 
@@ -1917,29 +1912,6 @@ class AcceptPageResult {
   Map<String, dynamic> toJson() {
     return {};
   }
-}
-
-class AcceptType {
-  static const delivered = AcceptType._('DELIVERED');
-  static const read = AcceptType._('READ');
-
-  final String value;
-
-  const AcceptType._(this.value);
-
-  static const values = [delivered, read];
-
-  static AcceptType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => AcceptType._(value));
-
-  @override
-  bool operator ==(other) => other is AcceptType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class ActivateContactChannelResult {
@@ -1954,333 +1926,24 @@ class ActivateContactChannelResult {
   }
 }
 
-class ActivationStatus {
-  static const activated = ActivationStatus._('ACTIVATED');
-  static const notActivated = ActivationStatus._('NOT_ACTIVATED');
-
-  final String value;
-
-  const ActivationStatus._(this.value);
-
-  static const values = [activated, notActivated];
-
-  static ActivationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ActivationStatus._(value));
-
-  @override
-  bool operator ==(other) => other is ActivationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about the contact channel that Incident Manager uses to engage
-/// the contact.
-class ChannelTargetInfo {
-  /// The Amazon Resource Name (ARN) of the contact channel.
-  final String contactChannelId;
-
-  /// The number of minutes to wait to retry sending engagement in the case the
-  /// engagement initially fails.
-  final int? retryIntervalInMinutes;
-
-  ChannelTargetInfo({
-    required this.contactChannelId,
-    this.retryIntervalInMinutes,
-  });
-
-  factory ChannelTargetInfo.fromJson(Map<String, dynamic> json) {
-    return ChannelTargetInfo(
-      contactChannelId: (json['ContactChannelId'] as String?) ?? '',
-      retryIntervalInMinutes: json['RetryIntervalInMinutes'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactChannelId = this.contactChannelId;
-    final retryIntervalInMinutes = this.retryIntervalInMinutes;
-    return {
-      'ContactChannelId': contactChannelId,
-      if (retryIntervalInMinutes != null)
-        'RetryIntervalInMinutes': retryIntervalInMinutes,
-    };
-  }
-}
-
-class ChannelType {
-  static const sms = ChannelType._('SMS');
-  static const voice = ChannelType._('VOICE');
-  static const email = ChannelType._('EMAIL');
-
-  final String value;
-
-  const ChannelType._(this.value);
-
-  static const values = [sms, voice, email];
-
-  static ChannelType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
-
-  @override
-  bool operator ==(other) => other is ChannelType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// A personal contact or escalation plan that Incident Manager engages during
-/// an incident.
-class Contact {
-  /// The unique and identifiable alias of the contact or escalation plan.
-  final String alias;
-
-  /// The Amazon Resource Name (ARN) of the contact or escalation plan.
+class CreateContactResult {
+  /// The Amazon Resource Name (ARN) of the created contact or escalation plan.
   final String contactArn;
 
-  /// Refers to the type of contact. A single contact is type
-  /// <code>PERSONAL</code> and an escalation plan is type
-  /// <code>ESCALATION</code>.
-  final ContactType type;
-
-  /// The full name of the contact or escalation plan.
-  final String? displayName;
-
-  Contact({
-    required this.alias,
+  CreateContactResult({
     required this.contactArn,
-    required this.type,
-    this.displayName,
   });
 
-  factory Contact.fromJson(Map<String, dynamic> json) {
-    return Contact(
-      alias: (json['Alias'] as String?) ?? '',
+  factory CreateContactResult.fromJson(Map<String, dynamic> json) {
+    return CreateContactResult(
       contactArn: (json['ContactArn'] as String?) ?? '',
-      type: ContactType.fromString((json['Type'] as String?) ?? ''),
-      displayName: json['DisplayName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final alias = this.alias;
     final contactArn = this.contactArn;
-    final type = this.type;
-    final displayName = this.displayName;
     return {
-      'Alias': alias,
       'ContactArn': contactArn,
-      'Type': type.value,
-      if (displayName != null) 'DisplayName': displayName,
-    };
-  }
-}
-
-/// The method that Incident Manager uses to engage a contact.
-class ContactChannel {
-  /// A Boolean value describing if the contact channel has been activated or not.
-  /// If the contact channel isn't activated, Incident Manager can't engage the
-  /// contact through it.
-  final ActivationStatus activationStatus;
-
-  /// The ARN of the contact that contains the contact channel.
-  final String contactArn;
-
-  /// The Amazon Resource Name (ARN) of the contact channel.
-  final String contactChannelArn;
-
-  /// The details that Incident Manager uses when trying to engage the contact
-  /// channel.
-  final ContactChannelAddress deliveryAddress;
-
-  /// The name of the contact channel.
-  final String name;
-
-  /// The type of the contact channel. Incident Manager supports three contact
-  /// methods:
-  ///
-  /// <ul>
-  /// <li>
-  /// SMS
-  /// </li>
-  /// <li>
-  /// VOICE
-  /// </li>
-  /// <li>
-  /// EMAIL
-  /// </li>
-  /// </ul>
-  final ChannelType? type;
-
-  ContactChannel({
-    required this.activationStatus,
-    required this.contactArn,
-    required this.contactChannelArn,
-    required this.deliveryAddress,
-    required this.name,
-    this.type,
-  });
-
-  factory ContactChannel.fromJson(Map<String, dynamic> json) {
-    return ContactChannel(
-      activationStatus: ActivationStatus.fromString(
-          (json['ActivationStatus'] as String?) ?? ''),
-      contactArn: (json['ContactArn'] as String?) ?? '',
-      contactChannelArn: (json['ContactChannelArn'] as String?) ?? '',
-      deliveryAddress: ContactChannelAddress.fromJson(
-          (json['DeliveryAddress'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      name: (json['Name'] as String?) ?? '',
-      type: (json['Type'] as String?)?.let(ChannelType.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final activationStatus = this.activationStatus;
-    final contactArn = this.contactArn;
-    final contactChannelArn = this.contactChannelArn;
-    final deliveryAddress = this.deliveryAddress;
-    final name = this.name;
-    final type = this.type;
-    return {
-      'ActivationStatus': activationStatus.value,
-      'ContactArn': contactArn,
-      'ContactChannelArn': contactChannelArn,
-      'DeliveryAddress': deliveryAddress,
-      'Name': name,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-/// The details that Incident Manager uses when trying to engage the contact
-/// channel.
-class ContactChannelAddress {
-  /// The format is dependent on the type of the contact channel. The following
-  /// are the expected formats:
-  ///
-  /// <ul>
-  /// <li>
-  /// SMS - '+' followed by the country code and phone number
-  /// </li>
-  /// <li>
-  /// VOICE - '+' followed by the country code and phone number
-  /// </li>
-  /// <li>
-  /// EMAIL - any standard email format
-  /// </li>
-  /// </ul>
-  final String? simpleAddress;
-
-  ContactChannelAddress({
-    this.simpleAddress,
-  });
-
-  factory ContactChannelAddress.fromJson(Map<String, dynamic> json) {
-    return ContactChannelAddress(
-      simpleAddress: json['SimpleAddress'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final simpleAddress = this.simpleAddress;
-    return {
-      if (simpleAddress != null) 'SimpleAddress': simpleAddress,
-    };
-  }
-}
-
-/// The contact that Incident Manager is engaging during an incident.
-class ContactTargetInfo {
-  /// A Boolean value determining if the contact's acknowledgement stops the
-  /// progress of stages in the plan.
-  final bool isEssential;
-
-  /// The Amazon Resource Name (ARN) of the contact.
-  final String? contactId;
-
-  ContactTargetInfo({
-    required this.isEssential,
-    this.contactId,
-  });
-
-  factory ContactTargetInfo.fromJson(Map<String, dynamic> json) {
-    return ContactTargetInfo(
-      isEssential: (json['IsEssential'] as bool?) ?? false,
-      contactId: json['ContactId'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final isEssential = this.isEssential;
-    final contactId = this.contactId;
-    return {
-      'IsEssential': isEssential,
-      if (contactId != null) 'ContactId': contactId,
-    };
-  }
-}
-
-class ContactType {
-  static const personal = ContactType._('PERSONAL');
-  static const escalation = ContactType._('ESCALATION');
-  static const oncallSchedule = ContactType._('ONCALL_SCHEDULE');
-
-  final String value;
-
-  const ContactType._(this.value);
-
-  static const values = [personal, escalation, oncallSchedule];
-
-  static ContactType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ContactType._(value));
-
-  @override
-  bool operator ==(other) => other is ContactType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about when an on-call shift begins and ends.
-class CoverageTime {
-  /// Information about when the on-call rotation shift ends.
-  final HandOffTime? end;
-
-  /// Information about when the on-call rotation shift begins.
-  final HandOffTime? start;
-
-  CoverageTime({
-    this.end,
-    this.start,
-  });
-
-  factory CoverageTime.fromJson(Map<String, dynamic> json) {
-    return CoverageTime(
-      end: json['End'] != null
-          ? HandOffTime.fromJson(json['End'] as Map<String, dynamic>)
-          : null,
-      start: json['Start'] != null
-          ? HandOffTime.fromJson(json['Start'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final end = this.end;
-    final start = this.start;
-    return {
-      if (end != null) 'End': end,
-      if (start != null) 'Start': start,
     };
   }
 }
@@ -2307,24 +1970,24 @@ class CreateContactChannelResult {
   }
 }
 
-class CreateContactResult {
-  /// The Amazon Resource Name (ARN) of the created contact or escalation plan.
-  final String contactArn;
+class CreateRotationResult {
+  /// The Amazon Resource Name (ARN) of the created rotation.
+  final String rotationArn;
 
-  CreateContactResult({
-    required this.contactArn,
+  CreateRotationResult({
+    required this.rotationArn,
   });
 
-  factory CreateContactResult.fromJson(Map<String, dynamic> json) {
-    return CreateContactResult(
-      contactArn: (json['ContactArn'] as String?) ?? '',
+  factory CreateRotationResult.fromJson(Map<String, dynamic> json) {
+    return CreateRotationResult(
+      rotationArn: (json['RotationArn'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final contactArn = this.contactArn;
+    final rotationArn = this.rotationArn;
     return {
-      'ContactArn': contactArn,
+      'RotationArn': rotationArn,
     };
   }
 }
@@ -2351,73 +2014,11 @@ class CreateRotationOverrideResult {
   }
 }
 
-class CreateRotationResult {
-  /// The Amazon Resource Name (ARN) of the created rotation.
-  final String rotationArn;
-
-  CreateRotationResult({
-    required this.rotationArn,
-  });
-
-  factory CreateRotationResult.fromJson(Map<String, dynamic> json) {
-    return CreateRotationResult(
-      rotationArn: (json['RotationArn'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rotationArn = this.rotationArn;
-    return {
-      'RotationArn': rotationArn,
-    };
-  }
-}
-
-class DayOfWeek {
-  static const mon = DayOfWeek._('MON');
-  static const tue = DayOfWeek._('TUE');
-  static const wed = DayOfWeek._('WED');
-  static const thu = DayOfWeek._('THU');
-  static const fri = DayOfWeek._('FRI');
-  static const sat = DayOfWeek._('SAT');
-  static const sun = DayOfWeek._('SUN');
-
-  final String value;
-
-  const DayOfWeek._(this.value);
-
-  static const values = [mon, tue, wed, thu, fri, sat, sun];
-
-  static DayOfWeek fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
-
-  @override
-  bool operator ==(other) => other is DayOfWeek && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class DeactivateContactChannelResult {
   DeactivateContactChannelResult();
 
   factory DeactivateContactChannelResult.fromJson(Map<String, dynamic> _) {
     return DeactivateContactChannelResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class DeleteContactChannelResult {
-  DeleteContactChannelResult();
-
-  factory DeleteContactChannelResult.fromJson(Map<String, dynamic> _) {
-    return DeleteContactChannelResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -2437,11 +2038,11 @@ class DeleteContactResult {
   }
 }
 
-class DeleteRotationOverrideResult {
-  DeleteRotationOverrideResult();
+class DeleteContactChannelResult {
+  DeleteContactChannelResult();
 
-  factory DeleteRotationOverrideResult.fromJson(Map<String, dynamic> _) {
-    return DeleteRotationOverrideResult();
+  factory DeleteContactChannelResult.fromJson(Map<String, dynamic> _) {
+    return DeleteContactChannelResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -2454,6 +2055,18 @@ class DeleteRotationResult {
 
   factory DeleteRotationResult.fromJson(Map<String, dynamic> _) {
     return DeleteRotationResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class DeleteRotationOverrideResult {
+  DeleteRotationOverrideResult();
+
+  factory DeleteRotationOverrideResult.fromJson(Map<String, dynamic> _) {
+    return DeleteRotationOverrideResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -2654,61 +2267,55 @@ class DescribePageResult {
   }
 }
 
-/// Incident Manager reaching out to a contact or escalation plan to engage
-/// contact during an incident.
-class Engagement {
-  /// The ARN of the escalation plan or contact that Incident Manager is engaging.
+class GetContactResult {
+  /// The alias of the contact or escalation plan. The alias is unique and
+  /// identifiable.
+  final String alias;
+
+  /// The ARN of the contact or escalation plan.
   final String contactArn;
 
-  /// The Amazon Resource Name (ARN) of the engagement.
-  final String engagementArn;
+  /// Details about the specific timing or stages and targets of the escalation
+  /// plan or engagement plan.
+  final Plan plan;
 
-  /// The user that started the engagement.
-  final String sender;
+  /// The type of contact.
+  final ContactType type;
 
-  /// The ARN of the incident that's engaging the contact.
-  final String? incidentId;
+  /// The full name of the contact or escalation plan.
+  final String? displayName;
 
-  /// The time that the engagement began.
-  final DateTime? startTime;
-
-  /// The time that the engagement ended.
-  final DateTime? stopTime;
-
-  Engagement({
+  GetContactResult({
+    required this.alias,
     required this.contactArn,
-    required this.engagementArn,
-    required this.sender,
-    this.incidentId,
-    this.startTime,
-    this.stopTime,
+    required this.plan,
+    required this.type,
+    this.displayName,
   });
 
-  factory Engagement.fromJson(Map<String, dynamic> json) {
-    return Engagement(
+  factory GetContactResult.fromJson(Map<String, dynamic> json) {
+    return GetContactResult(
+      alias: (json['Alias'] as String?) ?? '',
       contactArn: (json['ContactArn'] as String?) ?? '',
-      engagementArn: (json['EngagementArn'] as String?) ?? '',
-      sender: (json['Sender'] as String?) ?? '',
-      incidentId: json['IncidentId'] as String?,
-      startTime: timeStampFromJson(json['StartTime']),
-      stopTime: timeStampFromJson(json['StopTime']),
+      plan: Plan.fromJson(
+          (json['Plan'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
+      type: ContactType.fromString((json['Type'] as String?) ?? ''),
+      displayName: json['DisplayName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
+    final alias = this.alias;
     final contactArn = this.contactArn;
-    final engagementArn = this.engagementArn;
-    final sender = this.sender;
-    final incidentId = this.incidentId;
-    final startTime = this.startTime;
-    final stopTime = this.stopTime;
+    final plan = this.plan;
+    final type = this.type;
+    final displayName = this.displayName;
     return {
+      'Alias': alias,
       'ContactArn': contactArn,
-      'EngagementArn': engagementArn,
-      'Sender': sender,
-      if (incidentId != null) 'IncidentId': incidentId,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-      if (stopTime != null) 'StopTime': unixTimestampToJson(stopTime),
+      'Plan': plan,
+      'Type': type.value,
+      if (displayName != null) 'DisplayName': displayName,
     };
   }
 }
@@ -2805,121 +2412,6 @@ class GetContactPolicyResult {
   }
 }
 
-class GetContactResult {
-  /// The alias of the contact or escalation plan. The alias is unique and
-  /// identifiable.
-  final String alias;
-
-  /// The ARN of the contact or escalation plan.
-  final String contactArn;
-
-  /// Details about the specific timing or stages and targets of the escalation
-  /// plan or engagement plan.
-  final Plan plan;
-
-  /// The type of contact, either <code>PERSONAL</code> or
-  /// <code>ESCALATION</code>.
-  final ContactType type;
-
-  /// The full name of the contact or escalation plan.
-  final String? displayName;
-
-  GetContactResult({
-    required this.alias,
-    required this.contactArn,
-    required this.plan,
-    required this.type,
-    this.displayName,
-  });
-
-  factory GetContactResult.fromJson(Map<String, dynamic> json) {
-    return GetContactResult(
-      alias: (json['Alias'] as String?) ?? '',
-      contactArn: (json['ContactArn'] as String?) ?? '',
-      plan: Plan.fromJson(
-          (json['Plan'] as Map<String, dynamic>?) ?? const <String, dynamic>{}),
-      type: ContactType.fromString((json['Type'] as String?) ?? ''),
-      displayName: json['DisplayName'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final alias = this.alias;
-    final contactArn = this.contactArn;
-    final plan = this.plan;
-    final type = this.type;
-    final displayName = this.displayName;
-    return {
-      'Alias': alias,
-      'ContactArn': contactArn,
-      'Plan': plan,
-      'Type': type.value,
-      if (displayName != null) 'DisplayName': displayName,
-    };
-  }
-}
-
-class GetRotationOverrideResult {
-  /// The date and time when the override was created.
-  final DateTime? createTime;
-
-  /// The date and time when the override ends.
-  final DateTime? endTime;
-
-  /// The Amazon Resource Names (ARNs) of the contacts assigned to the override of
-  /// the on-call rotation.
-  final List<String>? newContactIds;
-
-  /// The Amazon Resource Name (ARN) of the on-call rotation that was overridden.
-  final String? rotationArn;
-
-  /// The Amazon Resource Name (ARN) of the override to an on-call rotation.
-  final String? rotationOverrideId;
-
-  /// The date and time when the override goes into effect.
-  final DateTime? startTime;
-
-  GetRotationOverrideResult({
-    this.createTime,
-    this.endTime,
-    this.newContactIds,
-    this.rotationArn,
-    this.rotationOverrideId,
-    this.startTime,
-  });
-
-  factory GetRotationOverrideResult.fromJson(Map<String, dynamic> json) {
-    return GetRotationOverrideResult(
-      createTime: timeStampFromJson(json['CreateTime']),
-      endTime: timeStampFromJson(json['EndTime']),
-      newContactIds: (json['NewContactIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      rotationArn: json['RotationArn'] as String?,
-      rotationOverrideId: json['RotationOverrideId'] as String?,
-      startTime: timeStampFromJson(json['StartTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createTime = this.createTime;
-    final endTime = this.endTime;
-    final newContactIds = this.newContactIds;
-    final rotationArn = this.rotationArn;
-    final rotationOverrideId = this.rotationOverrideId;
-    final startTime = this.startTime;
-    return {
-      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (newContactIds != null) 'NewContactIds': newContactIds,
-      if (rotationArn != null) 'RotationArn': rotationArn,
-      if (rotationOverrideId != null) 'RotationOverrideId': rotationOverrideId,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
 class GetRotationResult {
   /// The Amazon Resource Names (ARNs) of the contacts assigned to the on-call
   /// rotation team.
@@ -2985,32 +2477,63 @@ class GetRotationResult {
   }
 }
 
-/// Details about when an on-call rotation shift begins or ends.
-class HandOffTime {
-  /// The hour when an on-call rotation shift begins or ends.
-  final int hourOfDay;
+class GetRotationOverrideResult {
+  /// The date and time when the override was created.
+  final DateTime? createTime;
 
-  /// The minute when an on-call rotation shift begins or ends.
-  final int minuteOfHour;
+  /// The date and time when the override ends.
+  final DateTime? endTime;
 
-  HandOffTime({
-    required this.hourOfDay,
-    required this.minuteOfHour,
+  /// The Amazon Resource Names (ARNs) of the contacts assigned to the override of
+  /// the on-call rotation.
+  final List<String>? newContactIds;
+
+  /// The Amazon Resource Name (ARN) of the on-call rotation that was overridden.
+  final String? rotationArn;
+
+  /// The Amazon Resource Name (ARN) of the override to an on-call rotation.
+  final String? rotationOverrideId;
+
+  /// The date and time when the override goes into effect.
+  final DateTime? startTime;
+
+  GetRotationOverrideResult({
+    this.createTime,
+    this.endTime,
+    this.newContactIds,
+    this.rotationArn,
+    this.rotationOverrideId,
+    this.startTime,
   });
 
-  factory HandOffTime.fromJson(Map<String, dynamic> json) {
-    return HandOffTime(
-      hourOfDay: (json['HourOfDay'] as int?) ?? 0,
-      minuteOfHour: (json['MinuteOfHour'] as int?) ?? 0,
+  factory GetRotationOverrideResult.fromJson(Map<String, dynamic> json) {
+    return GetRotationOverrideResult(
+      createTime: timeStampFromJson(json['CreateTime']),
+      endTime: timeStampFromJson(json['EndTime']),
+      newContactIds: (json['NewContactIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      rotationArn: json['RotationArn'] as String?,
+      rotationOverrideId: json['RotationOverrideId'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final hourOfDay = this.hourOfDay;
-    final minuteOfHour = this.minuteOfHour;
+    final createTime = this.createTime;
+    final endTime = this.endTime;
+    final newContactIds = this.newContactIds;
+    final rotationArn = this.rotationArn;
+    final rotationOverrideId = this.rotationOverrideId;
+    final startTime = this.startTime;
     return {
-      'HourOfDay': hourOfDay,
-      'MinuteOfHour': minuteOfHour,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (newContactIds != null) 'NewContactIds': newContactIds,
+      if (rotationArn != null) 'RotationArn': rotationArn,
+      if (rotationOverrideId != null) 'RotationOverrideId': rotationOverrideId,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
@@ -3308,39 +2831,6 @@ class ListRotationOverridesResult {
   }
 }
 
-class ListRotationShiftsResult {
-  /// The token for the next set of items to return. Use this token to get the
-  /// next set of results.
-  final String? nextToken;
-
-  /// Information about shifts that meet the filter criteria.
-  final List<RotationShift>? rotationShifts;
-
-  ListRotationShiftsResult({
-    this.nextToken,
-    this.rotationShifts,
-  });
-
-  factory ListRotationShiftsResult.fromJson(Map<String, dynamic> json) {
-    return ListRotationShiftsResult(
-      nextToken: json['NextToken'] as String?,
-      rotationShifts: (json['RotationShifts'] as List?)
-          ?.nonNulls
-          .map((e) => RotationShift.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final rotationShifts = this.rotationShifts;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (rotationShifts != null) 'RotationShifts': rotationShifts,
-    };
-  }
-}
-
 class ListRotationsResult {
   /// Information about rotations that meet the filter criteria.
   final List<Rotation> rotations;
@@ -3374,6 +2864,39 @@ class ListRotationsResult {
   }
 }
 
+class ListRotationShiftsResult {
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
+
+  /// Information about shifts that meet the filter criteria.
+  final List<RotationShift>? rotationShifts;
+
+  ListRotationShiftsResult({
+    this.nextToken,
+    this.rotationShifts,
+  });
+
+  factory ListRotationShiftsResult.fromJson(Map<String, dynamic> json) {
+    return ListRotationShiftsResult(
+      nextToken: json['NextToken'] as String?,
+      rotationShifts: (json['RotationShifts'] as List?)
+          ?.nonNulls
+          .map((e) => RotationShift.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final rotationShifts = this.rotationShifts;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (rotationShifts != null) 'RotationShifts': rotationShifts,
+    };
+  }
+}
+
 class ListTagsForResourceResult {
   /// The tags related to the contact or escalation plan.
   final List<Tag>? tags;
@@ -3399,179 +2922,6 @@ class ListTagsForResourceResult {
   }
 }
 
-/// Information about on-call rotations that recur monthly.
-class MonthlySetting {
-  /// The day of the month when monthly recurring on-call rotations begin.
-  final int dayOfMonth;
-
-  /// The time of day when a monthly recurring on-call shift rotation begins.
-  final HandOffTime handOffTime;
-
-  MonthlySetting({
-    required this.dayOfMonth,
-    required this.handOffTime,
-  });
-
-  factory MonthlySetting.fromJson(Map<String, dynamic> json) {
-    return MonthlySetting(
-      dayOfMonth: (json['DayOfMonth'] as int?) ?? 0,
-      handOffTime: HandOffTime.fromJson(
-          (json['HandOffTime'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final dayOfMonth = this.dayOfMonth;
-    final handOffTime = this.handOffTime;
-    return {
-      'DayOfMonth': dayOfMonth,
-      'HandOffTime': handOffTime,
-    };
-  }
-}
-
-/// Incident Manager engaging a contact's contact channel.
-class Page {
-  /// The ARN of the contact that Incident Manager is engaging.
-  final String contactArn;
-
-  /// The ARN of the engagement that this page is part of.
-  final String engagementArn;
-
-  /// The Amazon Resource Name (ARN) of the page to the contact channel.
-  final String pageArn;
-
-  /// The user that started the engagement.
-  final String sender;
-
-  /// The time the message was delivered to the contact channel.
-  final DateTime? deliveryTime;
-
-  /// The ARN of the incident that's engaging the contact channel.
-  final String? incidentId;
-
-  /// The time that the contact channel acknowledged engagement.
-  final DateTime? readTime;
-
-  /// The time that Incident Manager engaged the contact channel.
-  final DateTime? sentTime;
-
-  Page({
-    required this.contactArn,
-    required this.engagementArn,
-    required this.pageArn,
-    required this.sender,
-    this.deliveryTime,
-    this.incidentId,
-    this.readTime,
-    this.sentTime,
-  });
-
-  factory Page.fromJson(Map<String, dynamic> json) {
-    return Page(
-      contactArn: (json['ContactArn'] as String?) ?? '',
-      engagementArn: (json['EngagementArn'] as String?) ?? '',
-      pageArn: (json['PageArn'] as String?) ?? '',
-      sender: (json['Sender'] as String?) ?? '',
-      deliveryTime: timeStampFromJson(json['DeliveryTime']),
-      incidentId: json['IncidentId'] as String?,
-      readTime: timeStampFromJson(json['ReadTime']),
-      sentTime: timeStampFromJson(json['SentTime']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final contactArn = this.contactArn;
-    final engagementArn = this.engagementArn;
-    final pageArn = this.pageArn;
-    final sender = this.sender;
-    final deliveryTime = this.deliveryTime;
-    final incidentId = this.incidentId;
-    final readTime = this.readTime;
-    final sentTime = this.sentTime;
-    return {
-      'ContactArn': contactArn,
-      'EngagementArn': engagementArn,
-      'PageArn': pageArn,
-      'Sender': sender,
-      if (deliveryTime != null)
-        'DeliveryTime': unixTimestampToJson(deliveryTime),
-      if (incidentId != null) 'IncidentId': incidentId,
-      if (readTime != null) 'ReadTime': unixTimestampToJson(readTime),
-      if (sentTime != null) 'SentTime': unixTimestampToJson(sentTime),
-    };
-  }
-}
-
-/// Information about the stages and on-call rotation teams associated with an
-/// escalation plan or engagement plan.
-class Plan {
-  /// The Amazon Resource Names (ARNs) of the on-call rotations associated with
-  /// the plan.
-  final List<String>? rotationIds;
-
-  /// A list of stages that the escalation plan or engagement plan uses to engage
-  /// contacts and contact methods.
-  final List<Stage>? stages;
-
-  Plan({
-    this.rotationIds,
-    this.stages,
-  });
-
-  factory Plan.fromJson(Map<String, dynamic> json) {
-    return Plan(
-      rotationIds: (json['RotationIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      stages: (json['Stages'] as List?)
-          ?.nonNulls
-          .map((e) => Stage.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final rotationIds = this.rotationIds;
-    final stages = this.stages;
-    return {
-      if (rotationIds != null) 'RotationIds': rotationIds,
-      if (stages != null) 'Stages': stages,
-    };
-  }
-}
-
-/// Information about contacts and times that an on-call override replaces.
-class PreviewOverride {
-  /// Information about the time a rotation override would end.
-  final DateTime? endTime;
-
-  /// Information about contacts to add to an on-call rotation override.
-  final List<String>? newMembers;
-
-  /// Information about the time a rotation override would begin.
-  final DateTime? startTime;
-
-  PreviewOverride({
-    this.endTime,
-    this.newMembers,
-    this.startTime,
-  });
-
-  Map<String, dynamic> toJson() {
-    final endTime = this.endTime;
-    final newMembers = this.newMembers;
-    final startTime = this.startTime;
-    return {
-      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
-      if (newMembers != null) 'NewMembers': newMembers,
-      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
-    };
-  }
-}
-
 class PutContactPolicyResult {
   PutContactPolicyResult();
 
@@ -3584,87 +2934,119 @@ class PutContactPolicyResult {
   }
 }
 
-/// Records events during an engagement.
-class Receipt {
-  /// The time receipt was <code>SENT</code>, <code>DELIVERED</code>, or
-  /// <code>READ</code>.
-  final DateTime receiptTime;
+class SendActivationCodeResult {
+  SendActivationCodeResult();
 
-  /// The type follows the engagement cycle, <code>SENT</code>,
-  /// <code>DELIVERED</code>, and <code>READ</code>.
-  final ReceiptType receiptType;
+  factory SendActivationCodeResult.fromJson(Map<String, dynamic> _) {
+    return SendActivationCodeResult();
+  }
 
-  /// The Amazon Resource Name (ARN) of the contact channel Incident Manager
-  /// engaged.
-  final String? contactChannelArn;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  /// Information provided during the page acknowledgement.
-  final String? receiptInfo;
+class StartEngagementResult {
+  /// The ARN of the engagement.
+  final String engagementArn;
 
-  Receipt({
-    required this.receiptTime,
-    required this.receiptType,
-    this.contactChannelArn,
-    this.receiptInfo,
+  StartEngagementResult({
+    required this.engagementArn,
   });
 
-  factory Receipt.fromJson(Map<String, dynamic> json) {
-    return Receipt(
-      receiptTime: nonNullableTimeStampFromJson(json['ReceiptTime'] ?? 0),
-      receiptType:
-          ReceiptType.fromString((json['ReceiptType'] as String?) ?? ''),
-      contactChannelArn: json['ContactChannelArn'] as String?,
-      receiptInfo: json['ReceiptInfo'] as String?,
+  factory StartEngagementResult.fromJson(Map<String, dynamic> json) {
+    return StartEngagementResult(
+      engagementArn: (json['EngagementArn'] as String?) ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
-    final receiptTime = this.receiptTime;
-    final receiptType = this.receiptType;
-    final contactChannelArn = this.contactChannelArn;
-    final receiptInfo = this.receiptInfo;
+    final engagementArn = this.engagementArn;
     return {
-      'ReceiptTime': unixTimestampToJson(receiptTime),
-      'ReceiptType': receiptType.value,
-      if (contactChannelArn != null) 'ContactChannelArn': contactChannelArn,
-      if (receiptInfo != null) 'ReceiptInfo': receiptInfo,
+      'EngagementArn': engagementArn,
     };
   }
 }
 
-class ReceiptType {
-  static const delivered = ReceiptType._('DELIVERED');
-  static const error = ReceiptType._('ERROR');
-  static const read = ReceiptType._('READ');
-  static const sent = ReceiptType._('SENT');
-  static const stop = ReceiptType._('STOP');
+class StopEngagementResult {
+  StopEngagementResult();
 
-  final String value;
+  factory StopEngagementResult.fromJson(Map<String, dynamic> _) {
+    return StopEngagementResult();
+  }
 
-  const ReceiptType._(this.value);
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  static const values = [delivered, error, read, sent, stop];
+class TagResourceResult {
+  TagResourceResult();
 
-  static ReceiptType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ReceiptType._(value));
+  factory TagResourceResult.fromJson(Map<String, dynamic> _) {
+    return TagResourceResult();
+  }
 
-  @override
-  bool operator ==(other) => other is ReceiptType && other.value == value;
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
 
-  @override
-  int get hashCode => value.hashCode;
+class UntagResourceResult {
+  UntagResourceResult();
 
-  @override
-  String toString() => value;
+  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateContactResult {
+  UpdateContactResult();
+
+  factory UpdateContactResult.fromJson(Map<String, dynamic> _) {
+    return UpdateContactResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateContactChannelResult {
+  UpdateContactChannelResult();
+
+  factory UpdateContactChannelResult.fromJson(Map<String, dynamic> _) {
+    return UpdateContactChannelResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateRotationResult {
+  UpdateRotationResult();
+
+  factory UpdateRotationResult.fromJson(Map<String, dynamic> _) {
+    return UpdateRotationResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information about when an on-call rotation is in effect and how long the
 /// rotation period lasts.
 class RecurrenceSettings {
   /// The number of contacts, or shift team members designated to be on call
-  /// concurrently during a shift. For example, in an on-call schedule containing
-  /// ten contacts, a value of <code>2</code> designates that two of them are on
-  /// call at any given time.
+  /// concurrently during a shift. For example, in an on-call schedule that
+  /// contains ten contacts, a value of <code>2</code> designates that two of them
+  /// are on call at any given time.
   final int numberOfOnCalls;
 
   /// The number of days, weeks, or months a single rotation lasts.
@@ -3676,8 +3058,8 @@ class RecurrenceSettings {
   /// Information about on-call rotations that recur monthly.
   final List<MonthlySetting>? monthlySettings;
 
-  /// Information about the days of the week included in on-call rotation
-  /// coverage.
+  /// Information about the days of the week that the on-call rotation coverage
+  /// includes.
   final Map<DayOfWeek, List<CoverageTime>>? shiftCoverages;
 
   /// Information about on-call rotations that recur weekly.
@@ -3737,46 +3119,509 @@ class RecurrenceSettings {
   }
 }
 
-/// Information about the engagement resolution steps. The resolution starts
-/// from the first contact, which can be an escalation plan, then resolves to an
-/// on-call rotation, and finally to a personal contact.
-///
-/// The <code>ResolutionContact</code> structure describes the information for
-/// each node or step in that process. It contains information about different
-/// contact types, such as the escalation, rotation, and personal contacts.
-class ResolutionContact {
-  /// The Amazon Resource Name (ARN) of a contact in the engagement resolution
-  /// process.
-  final String contactArn;
+class DayOfWeek {
+  static const mon = DayOfWeek._('MON');
+  static const tue = DayOfWeek._('TUE');
+  static const wed = DayOfWeek._('WED');
+  static const thu = DayOfWeek._('THU');
+  static const fri = DayOfWeek._('FRI');
+  static const sat = DayOfWeek._('SAT');
+  static const sun = DayOfWeek._('SUN');
 
-  /// The type of contact for a resolution step.
-  final ContactType type;
+  final String value;
 
-  /// The stage in the escalation plan that resolves to this contact.
-  final int? stageIndex;
+  const DayOfWeek._(this.value);
 
-  ResolutionContact({
-    required this.contactArn,
-    required this.type,
-    this.stageIndex,
+  static const values = [mon, tue, wed, thu, fri, sat, sun];
+
+  static DayOfWeek fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => DayOfWeek._(value));
+
+  @override
+  bool operator ==(other) => other is DayOfWeek && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about when an on-call shift begins and ends.
+class CoverageTime {
+  /// Information about when the on-call rotation shift ends.
+  final HandOffTime? end;
+
+  /// Information about when the on-call rotation shift begins.
+  final HandOffTime? start;
+
+  CoverageTime({
+    this.end,
+    this.start,
   });
 
-  factory ResolutionContact.fromJson(Map<String, dynamic> json) {
-    return ResolutionContact(
-      contactArn: (json['ContactArn'] as String?) ?? '',
-      type: ContactType.fromString((json['Type'] as String?) ?? ''),
-      stageIndex: json['StageIndex'] as int?,
+  factory CoverageTime.fromJson(Map<String, dynamic> json) {
+    return CoverageTime(
+      end: json['End'] != null
+          ? HandOffTime.fromJson(json['End'] as Map<String, dynamic>)
+          : null,
+      start: json['Start'] != null
+          ? HandOffTime.fromJson(json['Start'] as Map<String, dynamic>)
+          : null,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final contactArn = this.contactArn;
-    final type = this.type;
-    final stageIndex = this.stageIndex;
+    final end = this.end;
+    final start = this.start;
     return {
-      'ContactArn': contactArn,
-      'Type': type.value,
-      if (stageIndex != null) 'StageIndex': stageIndex,
+      if (end != null) 'End': end,
+      if (start != null) 'Start': start,
+    };
+  }
+}
+
+/// Details about when an on-call rotation shift begins or ends.
+class HandOffTime {
+  /// The hour when an on-call rotation shift begins or ends.
+  final int hourOfDay;
+
+  /// The minute when an on-call rotation shift begins or ends.
+  final int minuteOfHour;
+
+  HandOffTime({
+    required this.hourOfDay,
+    required this.minuteOfHour,
+  });
+
+  factory HandOffTime.fromJson(Map<String, dynamic> json) {
+    return HandOffTime(
+      hourOfDay: (json['HourOfDay'] as int?) ?? 0,
+      minuteOfHour: (json['MinuteOfHour'] as int?) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hourOfDay = this.hourOfDay;
+    final minuteOfHour = this.minuteOfHour;
+    return {
+      'HourOfDay': hourOfDay,
+      'MinuteOfHour': minuteOfHour,
+    };
+  }
+}
+
+/// Information about rotations that recur weekly.
+class WeeklySetting {
+  /// The day of the week when weekly recurring on-call shift rotations begins.
+  final DayOfWeek dayOfWeek;
+
+  /// The time of day when a weekly recurring on-call shift rotation begins.
+  final HandOffTime handOffTime;
+
+  WeeklySetting({
+    required this.dayOfWeek,
+    required this.handOffTime,
+  });
+
+  factory WeeklySetting.fromJson(Map<String, dynamic> json) {
+    return WeeklySetting(
+      dayOfWeek: DayOfWeek.fromString((json['DayOfWeek'] as String?) ?? ''),
+      handOffTime: HandOffTime.fromJson(
+          (json['HandOffTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dayOfWeek = this.dayOfWeek;
+    final handOffTime = this.handOffTime;
+    return {
+      'DayOfWeek': dayOfWeek.value,
+      'HandOffTime': handOffTime,
+    };
+  }
+}
+
+/// Information about on-call rotations that recur monthly.
+class MonthlySetting {
+  /// The day of the month when monthly recurring on-call rotations begin.
+  final int dayOfMonth;
+
+  /// The time of day when a monthly recurring on-call shift rotation begins.
+  final HandOffTime handOffTime;
+
+  MonthlySetting({
+    required this.dayOfMonth,
+    required this.handOffTime,
+  });
+
+  factory MonthlySetting.fromJson(Map<String, dynamic> json) {
+    return MonthlySetting(
+      dayOfMonth: (json['DayOfMonth'] as int?) ?? 0,
+      handOffTime: HandOffTime.fromJson(
+          (json['HandOffTime'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dayOfMonth = this.dayOfMonth;
+    final handOffTime = this.handOffTime;
+    return {
+      'DayOfMonth': dayOfMonth,
+      'HandOffTime': handOffTime,
+    };
+  }
+}
+
+/// The details that Incident Manager uses when trying to engage the contact
+/// channel.
+class ContactChannelAddress {
+  /// The format is dependent on the type of the contact channel. The following
+  /// are the expected formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// SMS - '+' followed by the country code and phone number
+  /// </li>
+  /// <li>
+  /// VOICE - '+' followed by the country code and phone number
+  /// </li>
+  /// <li>
+  /// EMAIL - any standard email format
+  /// </li>
+  /// </ul>
+  final String? simpleAddress;
+
+  ContactChannelAddress({
+    this.simpleAddress,
+  });
+
+  factory ContactChannelAddress.fromJson(Map<String, dynamic> json) {
+    return ContactChannelAddress(
+      simpleAddress: json['SimpleAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final simpleAddress = this.simpleAddress;
+    return {
+      if (simpleAddress != null) 'SimpleAddress': simpleAddress,
+    };
+  }
+}
+
+/// Information about the stages and on-call rotation teams associated with an
+/// escalation plan or engagement plan.
+class Plan {
+  /// The Amazon Resource Names (ARNs) of the on-call rotations associated with
+  /// the plan.
+  final List<String>? rotationIds;
+
+  /// A list of stages that the escalation plan or engagement plan uses to engage
+  /// contacts and contact methods.
+  final List<Stage>? stages;
+
+  Plan({
+    this.rotationIds,
+    this.stages,
+  });
+
+  factory Plan.fromJson(Map<String, dynamic> json) {
+    return Plan(
+      rotationIds: (json['RotationIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      stages: (json['Stages'] as List?)
+          ?.nonNulls
+          .map((e) => Stage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rotationIds = this.rotationIds;
+    final stages = this.stages;
+    return {
+      if (rotationIds != null) 'RotationIds': rotationIds,
+      if (stages != null) 'Stages': stages,
+    };
+  }
+}
+
+/// A set amount of time that an escalation plan or engagement plan engages the
+/// specified contacts or contact methods.
+class Stage {
+  /// The time to wait until beginning the next stage. The duration can only be
+  /// set to 0 if a target is specified.
+  final int durationInMinutes;
+
+  /// The contacts or contact methods that the escalation plan or engagement plan
+  /// is engaging.
+  final List<Target> targets;
+
+  Stage({
+    required this.durationInMinutes,
+    required this.targets,
+  });
+
+  factory Stage.fromJson(Map<String, dynamic> json) {
+    return Stage(
+      durationInMinutes: (json['DurationInMinutes'] as int?) ?? 0,
+      targets: ((json['Targets'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInMinutes = this.durationInMinutes;
+    final targets = this.targets;
+    return {
+      'DurationInMinutes': durationInMinutes,
+      'Targets': targets,
+    };
+  }
+}
+
+/// The contact or contact channel that's being engaged.
+class Target {
+  /// Information about the contact channel that Incident Manager engages.
+  final ChannelTargetInfo? channelTargetInfo;
+
+  /// Information about the contact that Incident Manager engages.
+  final ContactTargetInfo? contactTargetInfo;
+
+  Target({
+    this.channelTargetInfo,
+    this.contactTargetInfo,
+  });
+
+  factory Target.fromJson(Map<String, dynamic> json) {
+    return Target(
+      channelTargetInfo: json['ChannelTargetInfo'] != null
+          ? ChannelTargetInfo.fromJson(
+              json['ChannelTargetInfo'] as Map<String, dynamic>)
+          : null,
+      contactTargetInfo: json['ContactTargetInfo'] != null
+          ? ContactTargetInfo.fromJson(
+              json['ContactTargetInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelTargetInfo = this.channelTargetInfo;
+    final contactTargetInfo = this.contactTargetInfo;
+    return {
+      if (channelTargetInfo != null) 'ChannelTargetInfo': channelTargetInfo,
+      if (contactTargetInfo != null) 'ContactTargetInfo': contactTargetInfo,
+    };
+  }
+}
+
+/// Information about the contact channel that Incident Manager uses to engage
+/// the contact.
+class ChannelTargetInfo {
+  /// The Amazon Resource Name (ARN) of the contact channel.
+  final String contactChannelId;
+
+  /// The number of minutes to wait before retrying to send engagement if the
+  /// engagement initially failed.
+  final int? retryIntervalInMinutes;
+
+  ChannelTargetInfo({
+    required this.contactChannelId,
+    this.retryIntervalInMinutes,
+  });
+
+  factory ChannelTargetInfo.fromJson(Map<String, dynamic> json) {
+    return ChannelTargetInfo(
+      contactChannelId: (json['ContactChannelId'] as String?) ?? '',
+      retryIntervalInMinutes: json['RetryIntervalInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactChannelId = this.contactChannelId;
+    final retryIntervalInMinutes = this.retryIntervalInMinutes;
+    return {
+      'ContactChannelId': contactChannelId,
+      if (retryIntervalInMinutes != null)
+        'RetryIntervalInMinutes': retryIntervalInMinutes,
+    };
+  }
+}
+
+/// The contact that Incident Manager is engaging during an incident.
+class ContactTargetInfo {
+  /// A Boolean value determining if the contact's acknowledgement stops the
+  /// progress of stages in the plan.
+  final bool isEssential;
+
+  /// The Amazon Resource Name (ARN) of the contact.
+  final String? contactId;
+
+  ContactTargetInfo({
+    required this.isEssential,
+    this.contactId,
+  });
+
+  factory ContactTargetInfo.fromJson(Map<String, dynamic> json) {
+    return ContactTargetInfo(
+      isEssential: (json['IsEssential'] as bool?) ?? false,
+      contactId: json['ContactId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isEssential = this.isEssential;
+    final contactId = this.contactId;
+    return {
+      'IsEssential': isEssential,
+      if (contactId != null) 'ContactId': contactId,
+    };
+  }
+}
+
+/// A container of a key-value name pair.
+class Tag {
+  /// Name of the object key.
+  final String? key;
+
+  /// Value of the tag.
+  final String? value;
+
+  Tag({
+    this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// Information about a shift that belongs to an on-call rotation.
+class RotationShift {
+  /// The time a shift rotation ends.
+  final DateTime endTime;
+
+  /// The time a shift rotation begins.
+  final DateTime startTime;
+
+  /// The Amazon Resource Names (ARNs) of the contacts who are part of the shift
+  /// rotation.
+  final List<String>? contactIds;
+
+  /// Additional information about an on-call rotation shift.
+  final ShiftDetails? shiftDetails;
+
+  /// The type of shift rotation.
+  final ShiftType? type;
+
+  RotationShift({
+    required this.endTime,
+    required this.startTime,
+    this.contactIds,
+    this.shiftDetails,
+    this.type,
+  });
+
+  factory RotationShift.fromJson(Map<String, dynamic> json) {
+    return RotationShift(
+      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
+      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
+      contactIds: (json['ContactIds'] as List?)
+          ?.nonNulls
+          .map((e) => e as String)
+          .toList(),
+      shiftDetails: json['ShiftDetails'] != null
+          ? ShiftDetails.fromJson(json['ShiftDetails'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.let(ShiftType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final contactIds = this.contactIds;
+    final shiftDetails = this.shiftDetails;
+    final type = this.type;
+    return {
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
+      if (contactIds != null) 'ContactIds': contactIds,
+      if (shiftDetails != null) 'ShiftDetails': shiftDetails,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ShiftType {
+  static const regular = ShiftType._('REGULAR');
+  static const overridden = ShiftType._('OVERRIDDEN');
+
+  final String value;
+
+  const ShiftType._(this.value);
+
+  static const values = [regular, overridden];
+
+  static ShiftType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ShiftType._(value));
+
+  @override
+  bool operator ==(other) => other is ShiftType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Information about overrides to an on-call rotation shift.
+class ShiftDetails {
+  /// The Amazon Resources Names (ARNs) of the contacts who were replaced in a
+  /// shift when an override was created. If the override is deleted, these
+  /// contacts are restored to the shift.
+  final List<String> overriddenContactIds;
+
+  ShiftDetails({
+    required this.overriddenContactIds,
+  });
+
+  factory ShiftDetails.fromJson(Map<String, dynamic> json) {
+    return ShiftDetails(
+      overriddenContactIds:
+          ((json['OverriddenContactIds'] as List?) ?? const [])
+              .nonNulls
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final overriddenContactIds = this.overriddenContactIds;
+    return {
+      'OverriddenContactIds': overriddenContactIds,
     };
   }
 }
@@ -3904,119 +3749,168 @@ class RotationOverride {
   }
 }
 
-/// Information about a shift that belongs to an on-call rotation.
-class RotationShift {
-  /// The time a shift rotation ends.
-  final DateTime endTime;
+/// Information about contacts and times that an on-call override replaces.
+class PreviewOverride {
+  /// Information about the time a rotation override would end.
+  final DateTime? endTime;
 
-  /// The time a shift rotation begins.
-  final DateTime startTime;
+  /// Information about contacts to add to an on-call rotation override.
+  final List<String>? newMembers;
 
-  /// The Amazon Resource Names (ARNs) of the contacts who are part of the shift
-  /// rotation.
-  final List<String>? contactIds;
+  /// Information about the time a rotation override would begin.
+  final DateTime? startTime;
 
-  /// Additional information about an on-call rotation shift.
-  final ShiftDetails? shiftDetails;
-
-  /// The type of shift rotation.
-  final ShiftType? type;
-
-  RotationShift({
-    required this.endTime,
-    required this.startTime,
-    this.contactIds,
-    this.shiftDetails,
-    this.type,
+  PreviewOverride({
+    this.endTime,
+    this.newMembers,
+    this.startTime,
   });
-
-  factory RotationShift.fromJson(Map<String, dynamic> json) {
-    return RotationShift(
-      endTime: nonNullableTimeStampFromJson(json['EndTime'] ?? 0),
-      startTime: nonNullableTimeStampFromJson(json['StartTime'] ?? 0),
-      contactIds: (json['ContactIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      shiftDetails: json['ShiftDetails'] != null
-          ? ShiftDetails.fromJson(json['ShiftDetails'] as Map<String, dynamic>)
-          : null,
-      type: (json['Type'] as String?)?.let(ShiftType.fromString),
-    );
-  }
 
   Map<String, dynamic> toJson() {
     final endTime = this.endTime;
+    final newMembers = this.newMembers;
     final startTime = this.startTime;
-    final contactIds = this.contactIds;
-    final shiftDetails = this.shiftDetails;
-    final type = this.type;
     return {
-      'EndTime': unixTimestampToJson(endTime),
-      'StartTime': unixTimestampToJson(startTime),
-      if (contactIds != null) 'ContactIds': contactIds,
-      if (shiftDetails != null) 'ShiftDetails': shiftDetails,
-      if (type != null) 'Type': type.value,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (newMembers != null) 'NewMembers': newMembers,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
     };
   }
 }
 
-class SendActivationCodeResult {
-  SendActivationCodeResult();
+/// Incident Manager engaging a contact's contact channel.
+class Page {
+  /// The ARN of the contact that Incident Manager is engaging.
+  final String contactArn;
 
-  factory SendActivationCodeResult.fromJson(Map<String, dynamic> _) {
-    return SendActivationCodeResult();
-  }
+  /// The ARN of the engagement that this page is part of.
+  final String engagementArn;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The Amazon Resource Name (ARN) of the page to the contact channel.
+  final String pageArn;
 
-/// Information about overrides to an on-call rotation shift.
-class ShiftDetails {
-  /// The Amazon Resources Names (ARNs) of the contacts who were replaced in a
-  /// shift when an override was created. If the override is deleted, these
-  /// contacts are restored to the shift.
-  final List<String> overriddenContactIds;
+  /// The user that started the engagement.
+  final String sender;
 
-  ShiftDetails({
-    required this.overriddenContactIds,
+  /// The time the message was delivered to the contact channel.
+  final DateTime? deliveryTime;
+
+  /// The ARN of the incident that's engaging the contact channel.
+  final String? incidentId;
+
+  /// The time that the contact channel acknowledged engagement.
+  final DateTime? readTime;
+
+  /// The time that Incident Manager engaged the contact channel.
+  final DateTime? sentTime;
+
+  Page({
+    required this.contactArn,
+    required this.engagementArn,
+    required this.pageArn,
+    required this.sender,
+    this.deliveryTime,
+    this.incidentId,
+    this.readTime,
+    this.sentTime,
   });
 
-  factory ShiftDetails.fromJson(Map<String, dynamic> json) {
-    return ShiftDetails(
-      overriddenContactIds:
-          ((json['OverriddenContactIds'] as List?) ?? const [])
-              .nonNulls
-              .map((e) => e as String)
-              .toList(),
+  factory Page.fromJson(Map<String, dynamic> json) {
+    return Page(
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      engagementArn: (json['EngagementArn'] as String?) ?? '',
+      pageArn: (json['PageArn'] as String?) ?? '',
+      sender: (json['Sender'] as String?) ?? '',
+      deliveryTime: timeStampFromJson(json['DeliveryTime']),
+      incidentId: json['IncidentId'] as String?,
+      readTime: timeStampFromJson(json['ReadTime']),
+      sentTime: timeStampFromJson(json['SentTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final overriddenContactIds = this.overriddenContactIds;
+    final contactArn = this.contactArn;
+    final engagementArn = this.engagementArn;
+    final pageArn = this.pageArn;
+    final sender = this.sender;
+    final deliveryTime = this.deliveryTime;
+    final incidentId = this.incidentId;
+    final readTime = this.readTime;
+    final sentTime = this.sentTime;
     return {
-      'OverriddenContactIds': overriddenContactIds,
+      'ContactArn': contactArn,
+      'EngagementArn': engagementArn,
+      'PageArn': pageArn,
+      'Sender': sender,
+      if (deliveryTime != null)
+        'DeliveryTime': unixTimestampToJson(deliveryTime),
+      if (incidentId != null) 'IncidentId': incidentId,
+      if (readTime != null) 'ReadTime': unixTimestampToJson(readTime),
+      if (sentTime != null) 'SentTime': unixTimestampToJson(sentTime),
     };
   }
 }
 
-class ShiftType {
-  static const regular = ShiftType._('REGULAR');
-  static const overridden = ShiftType._('OVERRIDDEN');
+/// Information about the engagement resolution steps. The resolution starts
+/// from the first contact, which can be an escalation plan, then resolves to an
+/// on-call rotation, and finally to a personal contact.
+///
+/// The <code>ResolutionContact</code> structure describes the information for
+/// each node or step in that process. It contains information about different
+/// contact types, such as the escalation, rotation, and personal contacts.
+class ResolutionContact {
+  /// The Amazon Resource Name (ARN) of a contact in the engagement resolution
+  /// process.
+  final String contactArn;
+
+  /// The type of contact for a resolution step.
+  final ContactType type;
+
+  /// The stage in the escalation plan that resolves to this contact.
+  final int? stageIndex;
+
+  ResolutionContact({
+    required this.contactArn,
+    required this.type,
+    this.stageIndex,
+  });
+
+  factory ResolutionContact.fromJson(Map<String, dynamic> json) {
+    return ResolutionContact(
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      type: ContactType.fromString((json['Type'] as String?) ?? ''),
+      stageIndex: json['StageIndex'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactArn = this.contactArn;
+    final type = this.type;
+    final stageIndex = this.stageIndex;
+    return {
+      'ContactArn': contactArn,
+      'Type': type.value,
+      if (stageIndex != null) 'StageIndex': stageIndex,
+    };
+  }
+}
+
+class ContactType {
+  static const personal = ContactType._('PERSONAL');
+  static const escalation = ContactType._('ESCALATION');
+  static const oncallSchedule = ContactType._('ONCALL_SCHEDULE');
 
   final String value;
 
-  const ShiftType._(this.value);
+  const ContactType._(this.value);
 
-  static const values = [regular, overridden];
+  static const values = [personal, escalation, oncallSchedule];
 
-  static ShiftType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ShiftType._(value));
+  static ContactType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ContactType._(value));
 
   @override
-  bool operator ==(other) => other is ShiftType && other.value == value;
+  bool operator ==(other) => other is ContactType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -4025,150 +3919,135 @@ class ShiftType {
   String toString() => value;
 }
 
-/// A set amount of time that an escalation plan or engagement plan engages the
-/// specified contacts or contact methods.
-class Stage {
-  /// The time to wait until beginning the next stage. The duration can only be
-  /// set to 0 if a target is specified.
-  final int durationInMinutes;
+/// Records events during an engagement.
+class Receipt {
+  /// The time receipt was <code>SENT</code>, <code>DELIVERED</code>, or
+  /// <code>READ</code>.
+  final DateTime receiptTime;
 
-  /// The contacts or contact methods that the escalation plan or engagement plan
-  /// is engaging.
-  final List<Target> targets;
+  /// The type follows the engagement cycle, <code>SENT</code>,
+  /// <code>DELIVERED</code>, and <code>READ</code>.
+  final ReceiptType receiptType;
 
-  Stage({
-    required this.durationInMinutes,
-    required this.targets,
+  /// The Amazon Resource Name (ARN) of the contact channel Incident Manager
+  /// engaged.
+  final String? contactChannelArn;
+
+  /// Information provided during the page acknowledgement.
+  final String? receiptInfo;
+
+  Receipt({
+    required this.receiptTime,
+    required this.receiptType,
+    this.contactChannelArn,
+    this.receiptInfo,
   });
 
-  factory Stage.fromJson(Map<String, dynamic> json) {
-    return Stage(
-      durationInMinutes: (json['DurationInMinutes'] as int?) ?? 0,
-      targets: ((json['Targets'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => Target.fromJson(e as Map<String, dynamic>))
-          .toList(),
+  factory Receipt.fromJson(Map<String, dynamic> json) {
+    return Receipt(
+      receiptTime: nonNullableTimeStampFromJson(json['ReceiptTime'] ?? 0),
+      receiptType:
+          ReceiptType.fromString((json['ReceiptType'] as String?) ?? ''),
+      contactChannelArn: json['ContactChannelArn'] as String?,
+      receiptInfo: json['ReceiptInfo'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final durationInMinutes = this.durationInMinutes;
-    final targets = this.targets;
+    final receiptTime = this.receiptTime;
+    final receiptType = this.receiptType;
+    final contactChannelArn = this.contactChannelArn;
+    final receiptInfo = this.receiptInfo;
     return {
-      'DurationInMinutes': durationInMinutes,
-      'Targets': targets,
+      'ReceiptTime': unixTimestampToJson(receiptTime),
+      'ReceiptType': receiptType.value,
+      if (contactChannelArn != null) 'ContactChannelArn': contactChannelArn,
+      if (receiptInfo != null) 'ReceiptInfo': receiptInfo,
     };
   }
 }
 
-class StartEngagementResult {
-  /// The ARN of the engagement.
+class ReceiptType {
+  static const delivered = ReceiptType._('DELIVERED');
+  static const error = ReceiptType._('ERROR');
+  static const read = ReceiptType._('READ');
+  static const sent = ReceiptType._('SENT');
+  static const stop = ReceiptType._('STOP');
+
+  final String value;
+
+  const ReceiptType._(this.value);
+
+  static const values = [delivered, error, read, sent, stop];
+
+  static ReceiptType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ReceiptType._(value));
+
+  @override
+  bool operator ==(other) => other is ReceiptType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Incident Manager reaching out to a contact or escalation plan to engage
+/// contact during an incident.
+class Engagement {
+  /// The ARN of the escalation plan or contact that Incident Manager is engaging.
+  final String contactArn;
+
+  /// The Amazon Resource Name (ARN) of the engagement.
   final String engagementArn;
 
-  StartEngagementResult({
+  /// The user that started the engagement.
+  final String sender;
+
+  /// The ARN of the incident that's engaging the contact.
+  final String? incidentId;
+
+  /// The time that the engagement began.
+  final DateTime? startTime;
+
+  /// The time that the engagement ended.
+  final DateTime? stopTime;
+
+  Engagement({
+    required this.contactArn,
     required this.engagementArn,
+    required this.sender,
+    this.incidentId,
+    this.startTime,
+    this.stopTime,
   });
 
-  factory StartEngagementResult.fromJson(Map<String, dynamic> json) {
-    return StartEngagementResult(
+  factory Engagement.fromJson(Map<String, dynamic> json) {
+    return Engagement(
+      contactArn: (json['ContactArn'] as String?) ?? '',
       engagementArn: (json['EngagementArn'] as String?) ?? '',
+      sender: (json['Sender'] as String?) ?? '',
+      incidentId: json['IncidentId'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      stopTime: timeStampFromJson(json['StopTime']),
     );
   }
 
   Map<String, dynamic> toJson() {
+    final contactArn = this.contactArn;
     final engagementArn = this.engagementArn;
+    final sender = this.sender;
+    final incidentId = this.incidentId;
+    final startTime = this.startTime;
+    final stopTime = this.stopTime;
     return {
+      'ContactArn': contactArn,
       'EngagementArn': engagementArn,
-    };
-  }
-}
-
-class StopEngagementResult {
-  StopEngagementResult();
-
-  factory StopEngagementResult.fromJson(Map<String, dynamic> _) {
-    return StopEngagementResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// A container of a key-value name pair.
-class Tag {
-  /// Name of the object key.
-  final String? key;
-
-  /// Value of the tag.
-  final String? value;
-
-  Tag({
-    this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: json['Key'] as String?,
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      if (key != null) 'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class TagResourceResult {
-  TagResourceResult();
-
-  factory TagResourceResult.fromJson(Map<String, dynamic> _) {
-    return TagResourceResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// The contact or contact channel that's being engaged.
-class Target {
-  /// Information about the contact channel Incident Manager is engaging.
-  final ChannelTargetInfo? channelTargetInfo;
-
-  /// Information about the contact that Incident Manager is engaging.
-  final ContactTargetInfo? contactTargetInfo;
-
-  Target({
-    this.channelTargetInfo,
-    this.contactTargetInfo,
-  });
-
-  factory Target.fromJson(Map<String, dynamic> json) {
-    return Target(
-      channelTargetInfo: json['ChannelTargetInfo'] != null
-          ? ChannelTargetInfo.fromJson(
-              json['ChannelTargetInfo'] as Map<String, dynamic>)
-          : null,
-      contactTargetInfo: json['ContactTargetInfo'] != null
-          ? ContactTargetInfo.fromJson(
-              json['ContactTargetInfo'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final channelTargetInfo = this.channelTargetInfo;
-    final contactTargetInfo = this.contactTargetInfo;
-    return {
-      if (channelTargetInfo != null) 'ChannelTargetInfo': channelTargetInfo,
-      if (contactTargetInfo != null) 'ContactTargetInfo': contactTargetInfo,
+      'Sender': sender,
+      if (incidentId != null) 'IncidentId': incidentId,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (stopTime != null) 'StopTime': unixTimestampToJson(stopTime),
     };
   }
 }
@@ -4196,84 +4075,234 @@ class TimeRange {
   }
 }
 
-class UntagResourceResult {
-  UntagResourceResult();
+/// A personal contact or escalation plan that Incident Manager engages during
+/// an incident.
+class Contact {
+  /// The unique and identifiable alias of the contact or escalation plan.
+  final String alias;
 
-  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResult();
-  }
+  /// The Amazon Resource Name (ARN) of the contact or escalation plan.
+  final String contactArn;
 
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
+  /// The type of contact.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PERSONAL</code>: A single, individual contact.
+  /// </li>
+  /// <li>
+  /// <code>ESCALATION</code>: An escalation plan.
+  /// </li>
+  /// <li>
+  /// <code>ONCALL_SCHEDULE</code>: An on-call schedule.
+  /// </li>
+  /// </ul>
+  final ContactType type;
 
-class UpdateContactChannelResult {
-  UpdateContactChannelResult();
+  /// The full name of the contact or escalation plan.
+  final String? displayName;
 
-  factory UpdateContactChannelResult.fromJson(Map<String, dynamic> _) {
-    return UpdateContactChannelResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateContactResult {
-  UpdateContactResult();
-
-  factory UpdateContactResult.fromJson(Map<String, dynamic> _) {
-    return UpdateContactResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateRotationResult {
-  UpdateRotationResult();
-
-  factory UpdateRotationResult.fromJson(Map<String, dynamic> _) {
-    return UpdateRotationResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-/// Information about rotations that recur weekly.
-class WeeklySetting {
-  /// The day of the week when weekly recurring on-call shift rotations begins.
-  final DayOfWeek dayOfWeek;
-
-  /// The time of day when a weekly recurring on-call shift rotation begins.
-  final HandOffTime handOffTime;
-
-  WeeklySetting({
-    required this.dayOfWeek,
-    required this.handOffTime,
+  Contact({
+    required this.alias,
+    required this.contactArn,
+    required this.type,
+    this.displayName,
   });
 
-  factory WeeklySetting.fromJson(Map<String, dynamic> json) {
-    return WeeklySetting(
-      dayOfWeek: DayOfWeek.fromString((json['DayOfWeek'] as String?) ?? ''),
-      handOffTime: HandOffTime.fromJson(
-          (json['HandOffTime'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
+  factory Contact.fromJson(Map<String, dynamic> json) {
+    return Contact(
+      alias: (json['Alias'] as String?) ?? '',
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      type: ContactType.fromString((json['Type'] as String?) ?? ''),
+      displayName: json['DisplayName'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final dayOfWeek = this.dayOfWeek;
-    final handOffTime = this.handOffTime;
+    final alias = this.alias;
+    final contactArn = this.contactArn;
+    final type = this.type;
+    final displayName = this.displayName;
     return {
-      'DayOfWeek': dayOfWeek.value,
-      'HandOffTime': handOffTime,
+      'Alias': alias,
+      'ContactArn': contactArn,
+      'Type': type.value,
+      if (displayName != null) 'DisplayName': displayName,
     };
   }
+}
+
+/// The method that Incident Manager uses to engage a contact.
+class ContactChannel {
+  /// A Boolean value describing if the contact channel has been activated or not.
+  /// If the contact channel isn't activated, Incident Manager can't engage the
+  /// contact through it.
+  final ActivationStatus activationStatus;
+
+  /// The ARN of the contact that contains the contact channel.
+  final String contactArn;
+
+  /// The Amazon Resource Name (ARN) of the contact channel.
+  final String contactChannelArn;
+
+  /// The details that Incident Manager uses when trying to engage the contact
+  /// channel.
+  final ContactChannelAddress deliveryAddress;
+
+  /// The name of the contact channel.
+  final String name;
+
+  /// The type of the contact channel. Incident Manager supports three contact
+  /// methods:
+  ///
+  /// <ul>
+  /// <li>
+  /// SMS
+  /// </li>
+  /// <li>
+  /// VOICE
+  /// </li>
+  /// <li>
+  /// EMAIL
+  /// </li>
+  /// </ul>
+  final ChannelType? type;
+
+  ContactChannel({
+    required this.activationStatus,
+    required this.contactArn,
+    required this.contactChannelArn,
+    required this.deliveryAddress,
+    required this.name,
+    this.type,
+  });
+
+  factory ContactChannel.fromJson(Map<String, dynamic> json) {
+    return ContactChannel(
+      activationStatus: ActivationStatus.fromString(
+          (json['ActivationStatus'] as String?) ?? ''),
+      contactArn: (json['ContactArn'] as String?) ?? '',
+      contactChannelArn: (json['ContactChannelArn'] as String?) ?? '',
+      deliveryAddress: ContactChannelAddress.fromJson(
+          (json['DeliveryAddress'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      name: (json['Name'] as String?) ?? '',
+      type: (json['Type'] as String?)?.let(ChannelType.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationStatus = this.activationStatus;
+    final contactArn = this.contactArn;
+    final contactChannelArn = this.contactChannelArn;
+    final deliveryAddress = this.deliveryAddress;
+    final name = this.name;
+    final type = this.type;
+    return {
+      'ActivationStatus': activationStatus.value,
+      'ContactArn': contactArn,
+      'ContactChannelArn': contactChannelArn,
+      'DeliveryAddress': deliveryAddress,
+      'Name': name,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class ChannelType {
+  static const sms = ChannelType._('SMS');
+  static const voice = ChannelType._('VOICE');
+  static const email = ChannelType._('EMAIL');
+
+  final String value;
+
+  const ChannelType._(this.value);
+
+  static const values = [sms, voice, email];
+
+  static ChannelType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ChannelType._(value));
+
+  @override
+  bool operator ==(other) => other is ChannelType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ActivationStatus {
+  static const activated = ActivationStatus._('ACTIVATED');
+  static const notActivated = ActivationStatus._('NOT_ACTIVATED');
+
+  final String value;
+
+  const ActivationStatus._(this.value);
+
+  static const values = [activated, notActivated];
+
+  static ActivationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ActivationStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ActivationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AcceptType {
+  static const delivered = AcceptType._('DELIVERED');
+  static const read = AcceptType._('READ');
+
+  final String value;
+
+  const AcceptType._(this.value);
+
+  static const values = [delivered, read];
+
+  static AcceptType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => AcceptType._(value));
+
+  @override
+  bool operator ==(other) => other is AcceptType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class AcceptCodeValidation {
+  static const ignore = AcceptCodeValidation._('IGNORE');
+  static const enforce = AcceptCodeValidation._('ENFORCE');
+
+  final String value;
+
+  const AcceptCodeValidation._(this.value);
+
+  static const values = [ignore, enforce];
+
+  static AcceptCodeValidation fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => AcceptCodeValidation._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is AcceptCodeValidation && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 class AccessDeniedException extends _s.GenericAwsException {

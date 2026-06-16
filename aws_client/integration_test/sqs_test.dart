@@ -1,4 +1,4 @@
-import 'package:aws_client/sqs_2012_11_05.dart';
+import 'package:aws_client/sqs.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

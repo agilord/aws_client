@@ -139,10 +139,10 @@ class AppConfigData {
   /// </li>
   /// </ul> </important>
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [BadRequestException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [configurationToken] :
   /// Token describing the current state of the configuration session. To obtain
@@ -190,10 +190,10 @@ class AppConfigData {
   /// href="http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration">Retrieving
   /// the configuration</a> in the <i>AppConfig User Guide</i>.
   ///
-  /// May throw [ThrottlingException].
-  /// May throw [ResourceNotFoundException].
   /// May throw [BadRequestException].
   /// May throw [InternalServerException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [applicationIdentifier] :
   /// The application ID or the application name.

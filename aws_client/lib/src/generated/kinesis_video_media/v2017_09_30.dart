@@ -20,7 +20,7 @@ import '../../shared/shared.dart'
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-/// <p/>
+///
 class KinesisVideoMedia {
   final _s.RestJsonProtocol _protocol;
   KinesisVideoMedia({
@@ -106,12 +106,12 @@ class KinesisVideoMedia {
   /// Errors</a>.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [NotAuthorizedException].
-  /// May throw [InvalidEndpointException].
   /// May throw [ClientLimitExceededException].
   /// May throw [ConnectionLimitExceededException].
   /// May throw [InvalidArgumentException].
+  /// May throw [InvalidEndpointException].
+  /// May throw [NotAuthorizedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [startSelector] :
   /// Identifies the starting chunk to get from the specified stream.

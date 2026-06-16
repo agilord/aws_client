@@ -64,23 +64,29 @@ class Kinesis {
   /// <a>AddTagsToStream</a> has a limit of five transactions per second per
   /// account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tags] :
-  /// A set of up to 10 key-value pairs to use to create the tags.
+  /// A set of up to 50 key-value pairs to use to create the tags. A tag
+  /// consists of a required key and an optional value. You can add up to 50
+  /// tags per resource.
   ///
   /// Parameter [streamARN] :
   /// The ARN of the stream.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   ///
   /// Parameter [streamName] :
   /// The name of the stream.
   Future<void> addTagsToStream({
     required Map<String, String> tags,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -96,6 +102,7 @@ class Kinesis {
       payload: {
         'Tags': tags,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -112,12 +119,22 @@ class Kinesis {
   /// planning and automatically scale to handle gigabytes of write and read
   /// throughput per minute. With the on-demand mode, Kinesis Data Streams
   /// automatically manages the shards in order to provide the necessary
-  /// throughput. For the data streams with a provisioned mode, you must specify
-  /// the number of shards for the data stream. Each shard can support reads up
-  /// to five transactions per second, up to a maximum data read total of 2 MiB
-  /// per second. Each shard can support writes up to 1,000 records per second,
-  /// up to a maximum data write total of 1 MiB per second. If the amount of
-  /// data input increases or decreases, you can add or remove shards.
+  /// throughput.
+  ///
+  /// If you'd still like to proactively scale your on-demand data stream’s
+  /// capacity, you can unlock the warm throughput feature for on-demand data
+  /// streams by enabling <code>MinimumThroughputBillingCommitment</code> for
+  /// your account. Once your account has
+  /// <code>MinimumThroughputBillingCommitment</code> enabled, you can specify
+  /// the warm throughput in MiB per second that your stream can support in
+  /// writes.
+  ///
+  /// For the data streams with a provisioned mode, you must specify the number
+  /// of shards for the data stream. Each shard can support reads up to five
+  /// transactions per second, up to a maximum data read total of 2 MiB per
+  /// second. Each shard can support writes up to 1,000 records per second, up
+  /// to a maximum data write total of 1 MiB per second. If the amount of data
+  /// input increases or decreases, you can add or remove shards.
   ///
   /// The stream name identifies the stream. The name is scoped to the Amazon
   /// Web Services account used by the application. It is also scoped by Amazon
@@ -144,7 +161,8 @@ class Kinesis {
   /// Create more shards than are authorized for your account.
   /// </li>
   /// </ul>
-  /// For the default shard limit for an Amazon Web Services account, see <a
+  /// For the default shard or on-demand throughput limits for an Amazon Web
+  /// Services account, see <a
   /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Amazon
   /// Kinesis Data Streams Limits</a> in the <i>Amazon Kinesis Data Streams
   /// Developer Guide</i>. To increase this limit, <a
@@ -157,9 +175,20 @@ class Kinesis {
   /// <a>CreateStream</a> has a limit of five transactions per second per
   /// account.
   ///
-  /// May throw [ResourceInUseException].
-  /// May throw [LimitExceededException].
+  /// You can add tags to the stream when making a <code>CreateStream</code>
+  /// request by setting the <code>Tags</code> parameter. If you pass the
+  /// <code>Tags</code> parameter, in addition to having the
+  /// <code>kinesis:CreateStream</code> permission, you must also have the
+  /// <code>kinesis:AddTagsToStream</code> permission for the stream that will
+  /// be created. The <code>kinesis:TagResource</code> permission won’t work to
+  /// tag streams on creation. Tags will take effect from the
+  /// <code>CREATING</code> status of the stream, but you can't make any updates
+  /// to the tags until the stream is in <code>ACTIVE</code> state.
+  ///
   /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [streamName] :
   /// A name to identify the stream. The stream name is scoped to the Amazon Web
@@ -168,6 +197,10 @@ class Kinesis {
   /// different Amazon Web Services accounts can have the same name. Two streams
   /// in the same Amazon Web Services account but in two different Regions can
   /// also have the same name.
+  ///
+  /// Parameter [maxRecordSizeInKiB] :
+  /// The maximum record size of a single record in kibibyte (KiB) that you can
+  /// write to, and read from a stream.
   ///
   /// Parameter [shardCount] :
   /// The number of shards that the stream will use. The throughput of the
@@ -178,15 +211,39 @@ class Kinesis {
   /// Indicates the capacity mode of the data stream. Currently, in Kinesis Data
   /// Streams, you can choose between an <b>on-demand</b> capacity mode and a
   /// <b>provisioned</b> capacity mode for your data streams.
+  ///
+  /// Parameter [tags] :
+  /// A set of up to 50 key-value pairs to use to create the tags. A tag
+  /// consists of a required key and an optional value.
+  ///
+  /// Parameter [warmThroughputMiBps] :
+  /// The target warm throughput in MB/s that the stream should be scaled to
+  /// handle. This represents the throughput capacity that will be immediately
+  /// available for write operations.
   Future<void> createStream({
     required String streamName,
+    int? maxRecordSizeInKiB,
     int? shardCount,
     StreamModeDetails? streamModeDetails,
+    Map<String, String>? tags,
+    int? warmThroughputMiBps,
   }) async {
+    _s.validateNumRange(
+      'maxRecordSizeInKiB',
+      maxRecordSizeInKiB,
+      1024,
+      10240,
+    );
     _s.validateNumRange(
       'shardCount',
       shardCount,
       1,
+      1152921504606846976,
+    );
+    _s.validateNumRange(
+      'warmThroughputMiBps',
+      warmThroughputMiBps,
+      0,
       1152921504606846976,
     );
     final headers = <String, String>{
@@ -201,8 +258,13 @@ class Kinesis {
       headers: headers,
       payload: {
         'StreamName': streamName,
+        if (maxRecordSizeInKiB != null)
+          'MaxRecordSizeInKiB': maxRecordSizeInKiB,
         if (shardCount != null) 'ShardCount': shardCount,
         if (streamModeDetails != null) 'StreamModeDetails': streamModeDetails,
+        if (tags != null) 'Tags': tags,
+        if (warmThroughputMiBps != null)
+          'WarmThroughputMiBps': warmThroughputMiBps,
       },
     );
   }
@@ -219,11 +281,11 @@ class Kinesis {
   /// retention period is 48 hours and is decreased to 24 hours, any data
   /// already in the stream that is older than 24 hours is inaccessible.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [retentionPeriodHours] :
   /// The new retention period of the stream, in hours. Must be less than the
@@ -232,11 +294,15 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream to modify.
   Future<void> decreaseStreamRetentionPeriod({
     required int retentionPeriodHours,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -252,6 +318,7 @@ class Kinesis {
       payload: {
         'RetentionPeriodHours': retentionPeriodHours,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -271,15 +338,19 @@ class Kinesis {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the data stream or consumer.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   Future<void> deleteResourcePolicy({
     required String resourceARN,
+    String? streamId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -293,6 +364,7 @@ class Kinesis {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
+        if (streamId != null) 'StreamId': streamId,
       },
     );
   }
@@ -325,11 +397,11 @@ class Kinesis {
   /// <a>DeleteStream</a> has a limit of five transactions per second per
   /// account.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [enforceConsumerDeletion] :
   /// If this parameter is unset (<code>null</code>) or if you set it to
@@ -340,11 +412,15 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream to delete.
   Future<void> deleteStream({
     bool? enforceConsumerDeletion,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -361,6 +437,7 @@ class Kinesis {
         if (enforceConsumerDeletion != null)
           'EnforceConsumerDeletion': enforceConsumerDeletion,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -377,9 +454,9 @@ class Kinesis {
   ///
   /// This operation has a limit of five transactions per second per stream.
   ///
+  /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [consumerARN] :
   /// The ARN returned by Kinesis Data Streams when you registered the consumer.
@@ -396,10 +473,14 @@ class Kinesis {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   Future<void> deregisterStreamConsumer({
     String? consumerARN,
     String? consumerName,
     String? streamARN,
+    String? streamId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -415,8 +496,34 @@ class Kinesis {
         if (consumerARN != null) 'ConsumerARN': consumerARN,
         if (consumerName != null) 'ConsumerName': consumerName,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
       },
     );
+  }
+
+  /// Describes the account-level settings for Amazon Kinesis Data Streams. This
+  /// operation returns information about the minimum throughput billing
+  /// commitments and other account-level configurations.
+  ///
+  /// This API has a call limit of 5 transactions per second (TPS) for each
+  /// Amazon Web Services account. TPS over 5 will initiate the
+  /// <code>LimitExceededException</code>.
+  ///
+  /// May throw [LimitExceededException].
+  Future<DescribeAccountSettingsOutput> describeAccountSettings() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.DescribeAccountSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeAccountSettingsOutput.fromJson(jsonResponse.body);
   }
 
   /// Describes the shard limits and usage for the account.
@@ -474,10 +581,10 @@ class Kinesis {
   ///
   /// This operation has a limit of 10 transactions per second per account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidArgumentException].
   /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [exclusiveStartShardId] :
   /// The shard ID of the shard to start with.
@@ -498,12 +605,16 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream to describe.
   Future<DescribeStreamOutput> describeStream({
     String? exclusiveStartShardId,
     int? limit,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     _s.validateNumRange(
@@ -527,6 +638,7 @@ class Kinesis {
           'ExclusiveStartShardId': exclusiveStartShardId,
         if (limit != null) 'Limit': limit,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -549,9 +661,9 @@ class Kinesis {
   /// make sure to provide the ARN of the consumer.
   /// </note>
   ///
+  /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
   ///
   /// Parameter [consumerARN] :
   /// The ARN returned by Kinesis Data Streams when you registered the consumer.
@@ -564,10 +676,14 @@ class Kinesis {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   Future<DescribeStreamConsumerOutput> describeStreamConsumer({
     String? consumerARN,
     String? consumerName,
     String? streamARN,
+    String? streamId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -583,6 +699,7 @@ class Kinesis {
         if (consumerARN != null) 'ConsumerARN': consumerARN,
         if (consumerName != null) 'ConsumerName': consumerName,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
       },
     );
 
@@ -603,18 +720,22 @@ class Kinesis {
   /// <a>DescribeStreamSummary</a> has a limit of 20 transactions per second per
   /// account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidArgumentException].
   /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [streamARN] :
   /// The ARN of the stream.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   ///
   /// Parameter [streamName] :
   /// The name of the stream to describe.
   Future<DescribeStreamSummaryOutput> describeStreamSummary({
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -629,6 +750,7 @@ class Kinesis {
       headers: headers,
       payload: {
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -643,11 +765,11 @@ class Kinesis {
   /// use the <code>StreamARN</code> input parameter when you invoke this API.
   /// </note>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [shardLevelMetrics] :
   /// List of shard-level metrics to disable.
@@ -689,12 +811,16 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the Kinesis data stream for which to disable enhanced
   /// monitoring.
   Future<EnhancedMonitoringOutput> disableEnhancedMonitoring({
     required List<MetricsName> shardLevelMetrics,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -710,6 +836,7 @@ class Kinesis {
       payload: {
         'ShardLevelMetrics': shardLevelMetrics.map((e) => e.value).toList(),
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -724,11 +851,11 @@ class Kinesis {
   /// use the <code>StreamARN</code> input parameter when you invoke this API.
   /// </note>
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [shardLevelMetrics] :
   /// List of shard-level metrics to enable.
@@ -770,11 +897,15 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream for which to enable enhanced monitoring.
   Future<EnhancedMonitoringOutput> enableEnhancedMonitoring({
     required List<MetricsName> shardLevelMetrics,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -790,6 +921,7 @@ class Kinesis {
       payload: {
         'ShardLevelMetrics': shardLevelMetrics.map((e) => e.value).toList(),
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -869,17 +1001,18 @@ class Kinesis {
   ///
   /// This operation has a limit of five transactions per second per shard.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [AccessDeniedException].
   /// May throw [ExpiredIteratorException].
+  /// May throw [InternalFailureException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [KMSAccessDeniedException].
   /// May throw [KMSDisabledException].
   /// May throw [KMSInvalidStateException].
-  /// May throw [KMSAccessDeniedException].
   /// May throw [KMSNotFoundException].
   /// May throw [KMSOptInRequired].
   /// May throw [KMSThrottlingException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [shardIterator] :
   /// The position in the shard from which you want to start sequentially
@@ -893,10 +1026,14 @@ class Kinesis {
   ///
   /// Parameter [streamARN] :
   /// The ARN of the stream.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   Future<GetRecordsOutput> getRecords({
     required String shardIterator,
     int? limit,
     String? streamARN,
+    String? streamId,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -918,6 +1055,7 @@ class Kinesis {
         'ShardIterator': shardIterator,
         if (limit != null) 'Limit': limit,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
       },
     );
 
@@ -938,14 +1076,19 @@ class Kinesis {
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the data stream or consumer.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   Future<GetResourcePolicyOutput> getResourcePolicy({
     required String resourceARN,
+    String? streamId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -959,6 +1102,7 @@ class Kinesis {
       headers: headers,
       payload: {
         'ResourceARN': resourceARN,
+        if (streamId != null) 'StreamId': streamId,
       },
     );
 
@@ -1015,10 +1159,11 @@ class Kinesis {
   /// <a>GetShardIterator</a> has a limit of five transactions per second per
   /// account per open shard.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidArgumentException].
   /// May throw [ProvisionedThroughputExceededException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [shardId] :
   /// The shard ID of the Kinesis Data Streams shard to get the iterator for.
@@ -1062,6 +1207,9 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the Amazon Kinesis data stream.
   ///
@@ -1079,6 +1227,7 @@ class Kinesis {
     required ShardIteratorType shardIteratorType,
     String? startingSequenceNumber,
     String? streamARN,
+    String? streamId,
     String? streamName,
     DateTime? timestamp,
   }) async {
@@ -1098,6 +1247,7 @@ class Kinesis {
         if (startingSequenceNumber != null)
           'StartingSequenceNumber': startingSequenceNumber,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
         if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
       },
@@ -1122,11 +1272,11 @@ class Kinesis {
   /// hours and is increased to 168 hours, any data that is older than 24 hours
   /// remains inaccessible to consumer applications.
   ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
-  /// May throw [InvalidArgumentException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [retentionPeriodHours] :
   /// The new retention period of the stream, in hours. Must be more than the
@@ -1135,11 +1285,15 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream to modify.
   Future<void> increaseStreamRetentionPeriod({
     required int retentionPeriodHours,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -1155,6 +1309,7 @@ class Kinesis {
       payload: {
         'RetentionPeriodHours': retentionPeriodHours,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -1181,12 +1336,12 @@ class Kinesis {
   /// Access to Amazon Kinesis Data Streams Resources Using IAM</a>.
   /// </important>
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ExpiredNextTokenException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [ExpiredNextTokenException].
   /// May throw [ResourceInUseException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [exclusiveStartShardId] :
   /// Specify this parameter to indicate that you want to list the shards
@@ -1277,6 +1432,9 @@ class Kinesis {
   /// You cannot specify this parameter if you specify the
   /// <code>NextToken</code> parameter.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the data stream whose shards you want to list.
   ///
@@ -1289,6 +1447,7 @@ class Kinesis {
     ShardFilter? shardFilter,
     String? streamARN,
     DateTime? streamCreationTimestamp,
+    String? streamId,
     String? streamName,
   }) async {
     _s.validateNumRange(
@@ -1317,6 +1476,7 @@ class Kinesis {
         if (streamCreationTimestamp != null)
           'StreamCreationTimestamp':
               unixTimestampToJson(streamCreationTimestamp),
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -1329,11 +1489,11 @@ class Kinesis {
   ///
   /// This operation has a limit of 5 transactions per second per stream.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [ExpiredNextTokenException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [ExpiredNextTokenException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [streamARN] :
   /// The ARN of the Kinesis data stream for which you want to list the
@@ -1385,11 +1545,15 @@ class Kinesis {
   /// the consumers for.
   ///
   /// You can't specify this parameter if you specify the NextToken parameter.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   Future<ListStreamConsumersOutput> listStreamConsumers({
     required String streamARN,
     int? maxResults,
     String? nextToken,
     DateTime? streamCreationTimestamp,
+    String? streamId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1414,6 +1578,7 @@ class Kinesis {
         if (streamCreationTimestamp != null)
           'StreamCreationTimestamp':
               unixTimestampToJson(streamCreationTimestamp),
+        if (streamId != null) 'StreamId': streamId,
       },
     );
 
@@ -1440,9 +1605,9 @@ class Kinesis {
   /// <a>ListStreams</a> has a limit of five transactions per second per
   /// account.
   ///
-  /// May throw [LimitExceededException].
   /// May throw [ExpiredNextTokenException].
   /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [exclusiveStartStreamName] :
   /// The name of the stream to start the list with.
@@ -1452,7 +1617,7 @@ class Kinesis {
   /// specify a value greater than 100, at most 100 results are returned.
   ///
   /// Parameter [nextToken] :
-  /// <p/>
+  ///
   Future<ListStreamsOutput> listStreams({
     String? exclusiveStartStreamName,
     int? limit,
@@ -1485,6 +1650,49 @@ class Kinesis {
     return ListStreamsOutput.fromJson(jsonResponse.body);
   }
 
+  /// List all tags added to the specified Kinesis resource. Each tag is a label
+  /// consisting of a user-defined key and value. Tags can help you manage,
+  /// identify, organize, search for, and filter resources.
+  ///
+  /// For more information about tagging Kinesis resources, see <a
+  /// href="https://docs.aws.amazon.com/streams/latest/dev/tagging.html">Tag
+  /// your Amazon Kinesis Data Streams resources</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the Kinesis resource for which to list
+  /// tags.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  Future<ListTagsForResourceOutput> listTagsForResource({
+    required String resourceARN,
+    String? streamId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        if (streamId != null) 'StreamId': streamId,
+      },
+    );
+
+    return ListTagsForResourceOutput.fromJson(jsonResponse.body);
+  }
+
   /// Lists the tags for the specified Kinesis data stream. This operation has a
   /// limit of five transactions per second per account.
   /// <note>
@@ -1493,10 +1701,10 @@ class Kinesis {
   /// use the <code>StreamARN</code> input parameter when you invoke this API.
   /// </note>
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [exclusiveStartTagKey] :
   /// The key to use as the starting point for the list of tags. If this
@@ -1512,12 +1720,16 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream.
   Future<ListTagsForStreamOutput> listTagsForStream({
     String? exclusiveStartTagKey,
     int? limit,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     _s.validateNumRange(
@@ -1541,6 +1753,7 @@ class Kinesis {
           'ExclusiveStartTagKey': exclusiveStartTagKey,
         if (limit != null) 'Limit': limit,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -1599,12 +1812,12 @@ class Kinesis {
   /// <code>MergeShards</code> has a limit of five transactions per second per
   /// account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [adjacentShardToMerge] :
   /// The shard ID of the adjacent shard for the merge.
@@ -1616,12 +1829,16 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream for the merge.
   Future<void> mergeShards({
     required String adjacentShardToMerge,
     required String shardToMerge,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -1638,6 +1855,7 @@ class Kinesis {
         'AdjacentShardToMerge': adjacentShardToMerge,
         'ShardToMerge': shardToMerge,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -1647,7 +1865,7 @@ class Kinesis {
   /// <code>PutRecord</code> to send data into the stream for real-time
   /// ingestion and subsequent processing, one record at a time. Each shard can
   /// support writes up to 1,000 records per second, up to a maximum data write
-  /// total of 1 MiB per second.
+  /// total of 10 MiB per second.
   /// <note>
   /// When invoking this API, you must use either the <code>StreamARN</code> or
   /// the <code>StreamName</code> parameter, or both. It is recommended that you
@@ -1701,22 +1919,23 @@ class Kinesis {
   /// <a>IncreaseStreamRetentionPeriod</a> or
   /// <a>DecreaseStreamRetentionPeriod</a> to modify this retention period.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidArgumentException].
-  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [KMSAccessDeniedException].
   /// May throw [KMSDisabledException].
   /// May throw [KMSInvalidStateException].
-  /// May throw [KMSAccessDeniedException].
   /// May throw [KMSNotFoundException].
   /// May throw [KMSOptInRequired].
   /// May throw [KMSThrottlingException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [data] :
   /// The data blob to put into the record, which is base64-encoded when the
   /// blob is serialized. When the data blob (the payload before
   /// base64-encoding) is added to the partition key size, the total size must
-  /// not exceed the maximum record size (1 MiB).
+  /// not exceed the maximum record size (10 MiB).
   ///
   /// Parameter [partitionKey] :
   /// Determines which shard in the stream the data record is assigned to.
@@ -1743,6 +1962,9 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream to put the data record into.
   Future<PutRecordOutput> putRecord({
@@ -1751,6 +1973,7 @@ class Kinesis {
     String? explicitHashKey,
     String? sequenceNumberForOrdering,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -1770,6 +1993,7 @@ class Kinesis {
         if (sequenceNumberForOrdering != null)
           'SequenceNumberForOrdering': sequenceNumberForOrdering,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -1786,10 +2010,10 @@ class Kinesis {
   /// use the <code>StreamARN</code> input parameter when you invoke this API.
   /// </note>
   /// Each <code>PutRecords</code> request can support up to 500 records. Each
-  /// record in the request can be as large as 1 MiB, up to a limit of 5 MiB for
-  /// the entire request, including partition keys. Each shard can support
+  /// record in the request can be as large as 10 MiB, up to a limit of 10 MiB
+  /// for the entire request, including partition keys. Each shard can support
   /// writes up to 1,000 records per second, up to a maximum data write total of
-  /// 1 MiB per second.
+  /// 1 MB per second.
   ///
   /// You must specify the name of the stream that captures, stores, and
   /// transports the data; and an array of request <code>Records</code>, with
@@ -1863,16 +2087,17 @@ class Kinesis {
   /// <a>IncreaseStreamRetentionPeriod</a> or
   /// <a>DecreaseStreamRetentionPeriod</a> to modify this retention period.
   ///
-  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalFailureException].
   /// May throw [InvalidArgumentException].
-  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [KMSAccessDeniedException].
   /// May throw [KMSDisabledException].
   /// May throw [KMSInvalidStateException].
-  /// May throw [KMSAccessDeniedException].
   /// May throw [KMSNotFoundException].
   /// May throw [KMSOptInRequired].
   /// May throw [KMSThrottlingException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [records] :
   /// The records associated with the request.
@@ -1880,11 +2105,15 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The stream name associated with the request.
   Future<PutRecordsOutput> putRecords({
     required List<PutRecordsRequestEntry> records,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -1900,6 +2129,7 @@ class Kinesis {
       payload: {
         'Records': records,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -1933,10 +2163,10 @@ class Kinesis {
   /// Access to Amazon Kinesis Data Streams Resources Using IAM</a>.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ResourceNotFoundException].
-  /// May throw [LimitExceededException].
   /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [policy] :
   /// Details of the resource policy. It must include the identity of the
@@ -1945,9 +2175,13 @@ class Kinesis {
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the data stream or consumer.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
   Future<void> putResourcePolicy({
     required String policy,
     required String resourceARN,
+    String? streamId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1962,6 +2196,7 @@ class Kinesis {
       payload: {
         'Policy': policy,
         'ResourceARN': resourceARN,
+        if (streamId != null) 'StreamId': streamId,
       },
     );
   }
@@ -1972,11 +2207,22 @@ class Kinesis {
   /// 2 MiB per second for every shard you subscribe to. This rate is unaffected
   /// by the total number of consumers that read from the same stream.
   ///
-  /// You can register up to 20 consumers per stream. A given consumer can only
-  /// be registered with one stream at a time.
+  /// You can add tags to the registered consumer when making a
+  /// <code>RegisterStreamConsumer</code> request by setting the
+  /// <code>Tags</code> parameter. If you pass the <code>Tags</code> parameter,
+  /// in addition to having the <code>kinesis:RegisterStreamConsumer</code>
+  /// permission, you must also have the <code>kinesis:TagResource</code>
+  /// permission for the consumer that will be registered. Tags will take effect
+  /// from the <code>CREATING</code> status of the consumer.
   ///
-  /// For an example of how to use this operations, see <a
-  /// href="/streams/latest/dev/building-enhanced-consumers-api.html">Enhanced
+  /// With On-demand Advantage streams, you can register up to 50 consumers per
+  /// stream to use Enhanced Fan-out. With On-demand Standard and Provisioned
+  /// streams, you can register up to 20 consumers per stream to use Enhanced
+  /// Fan-out. A given consumer can only be registered with one stream at a
+  /// time.
+  ///
+  /// For an example of how to use this operation, see <a
+  /// href="https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html">Enhanced
   /// Fan-Out Using the Kinesis Data Streams API</a>.
   ///
   /// The use of this operation has a limit of five transactions per second per
@@ -2000,9 +2246,18 @@ class Kinesis {
   /// with. For more info, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
   /// Resource Names (ARNs) and Amazon Web Services Service Namespaces</a>.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
+  /// Parameter [tags] :
+  /// A set of up to 50 key-value pairs. A tag consists of a required key and an
+  /// optional value.
   Future<RegisterStreamConsumerOutput> registerStreamConsumer({
     required String consumerName,
     required String streamARN,
+    String? streamId,
+    Map<String, String>? tags,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2017,6 +2272,8 @@ class Kinesis {
       payload: {
         'ConsumerName': consumerName,
         'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -2036,11 +2293,11 @@ class Kinesis {
   /// <a>RemoveTagsFromStream</a> has a limit of five transactions per second
   /// per account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
-  /// May throw [AccessDeniedException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [tagKeys] :
   /// A list of tag keys. Each corresponding tag is removed from the stream.
@@ -2048,11 +2305,15 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream.
   Future<void> removeTagsFromStream({
     required List<String> tagKeys,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -2068,6 +2329,7 @@ class Kinesis {
       payload: {
         'TagKeys': tagKeys,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -2134,12 +2396,12 @@ class Kinesis {
   /// <code>SplitShard</code> has a limit of five transactions per second per
   /// account.
   ///
-  /// May throw [ResourceNotFoundException].
-  /// May throw [ResourceInUseException].
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [newStartingHashKey] :
   /// A hash key value for the starting hash key of one of the child shards
@@ -2157,12 +2419,16 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream for the shard split.
   Future<void> splitShard({
     required String newStartingHashKey,
     required String shardToSplit,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -2179,6 +2445,7 @@ class Kinesis {
         'NewStartingHashKey': newStartingHashKey,
         'ShardToSplit': shardToSplit,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -2210,17 +2477,17 @@ class Kinesis {
   /// applied by inspecting the API response from <code>PutRecord</code> or
   /// <code>PutRecords</code>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
-  /// May throw [LimitExceededException].
-  /// May throw [ResourceInUseException].
-  /// May throw [ResourceNotFoundException].
+  /// May throw [KMSAccessDeniedException].
   /// May throw [KMSDisabledException].
   /// May throw [KMSInvalidStateException].
-  /// May throw [KMSAccessDeniedException].
   /// May throw [KMSNotFoundException].
   /// May throw [KMSOptInRequired].
   /// May throw [KMSThrottlingException].
-  /// May throw [AccessDeniedException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [encryptionType] :
   /// The encryption type to use. The only valid value is <code>KMS</code>.
@@ -2256,12 +2523,16 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream for which to start encrypting records.
   Future<void> startStreamEncryption({
     required EncryptionType encryptionType,
     required String keyId,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -2278,6 +2549,7 @@ class Kinesis {
         'EncryptionType': encryptionType.value,
         'KeyId': keyId,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -2308,11 +2580,11 @@ class Kinesis {
   /// verify that encryption is not applied by inspecting the API response from
   /// <code>PutRecord</code> or <code>PutRecords</code>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [encryptionType] :
   /// The encryption type. The only valid value is <code>KMS</code>.
@@ -2348,12 +2620,16 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream on which to stop encrypting records.
   Future<void> stopStreamEncryption({
     required EncryptionType encryptionType,
     required String keyId,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     final headers = <String, String>{
@@ -2370,7 +2646,281 @@ class Kinesis {
         'EncryptionType': encryptionType.value,
         'KeyId': keyId,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
+      },
+    );
+  }
+
+  /// This operation establishes an HTTP/2 connection between the consumer you
+  /// specify in the <code>ConsumerARN</code> parameter and the shard you
+  /// specify in the <code>ShardId</code> parameter. After the connection is
+  /// successfully established, Kinesis Data Streams pushes records from the
+  /// shard to the consumer over this connection. Before you call this
+  /// operation, call <a>RegisterStreamConsumer</a> to register the consumer
+  /// with Kinesis Data Streams.
+  ///
+  /// When the <code>SubscribeToShard</code> call succeeds, your consumer starts
+  /// receiving events of type <a>SubscribeToShardEvent</a> over the HTTP/2
+  /// connection for up to 5 minutes, after which time you need to call
+  /// <code>SubscribeToShard</code> again to renew the subscription if you want
+  /// to continue to receive records.
+  ///
+  /// You can make one call to <code>SubscribeToShard</code> per second per
+  /// registered consumer per shard. For example, if you have a 4000 shard
+  /// stream and two registered stream consumers, you can make one
+  /// <code>SubscribeToShard</code> request per second for each combination of
+  /// shard and registered consumer, allowing you to subscribe both consumers to
+  /// all 4000 shards in one second.
+  ///
+  /// If you call <code>SubscribeToShard</code> again with the same
+  /// <code>ConsumerARN</code> and <code>ShardId</code> within 5 seconds of a
+  /// successful call, you'll get a <code>ResourceInUseException</code>. If you
+  /// call <code>SubscribeToShard</code> 5 seconds or more after a successful
+  /// call, the second call takes over the subscription and the previous
+  /// connection expires or fails with a <code>ResourceInUseException</code>.
+  ///
+  /// For an example of how to use this operation, see <a
+  /// href="https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html">Enhanced
+  /// Fan-Out Using the Kinesis Data Streams API</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [consumerARN] :
+  /// For this parameter, use the value you obtained when you called
+  /// <a>RegisterStreamConsumer</a>.
+  ///
+  /// Parameter [shardId] :
+  /// The ID of the shard you want to subscribe to. To see a list of all the
+  /// shards for a given stream, use <a>ListShards</a>.
+  ///
+  /// Parameter [startingPosition] :
+  /// The starting position in the data stream from which to start streaming.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  Future<SubscribeToShardOutput> subscribeToShard({
+    required String consumerARN,
+    required String shardId,
+    required StartingPosition startingPosition,
+    String? streamId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.SubscribeToShard'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConsumerARN': consumerARN,
+        'ShardId': shardId,
+        'StartingPosition': startingPosition,
+        if (streamId != null) 'StreamId': streamId,
+      },
+    );
+
+    return SubscribeToShardOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Adds or updates tags for the specified Kinesis resource. Each tag is a
+  /// label consisting of a user-defined key and value. Tags can help you
+  /// manage, identify, organize, search for, and filter resources. You can
+  /// assign up to 50 tags to a Kinesis resource.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the Kinesis resource to which to add
+  /// tags.
+  ///
+  /// Parameter [tags] :
+  /// An array of tags to be added to the Kinesis resource. A tag consists of a
+  /// required key and an optional value. You can add up to 50 tags per
+  /// resource.
+  ///
+  /// Tags may only contain Unicode letters, digits, white space, or these
+  /// symbols: _ . : / = + - @.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  Future<void> tagResource({
+    required String resourceARN,
+    required Map<String, String> tags,
+    String? streamId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.TagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'Tags': tags,
+        if (streamId != null) 'StreamId': streamId,
+      },
+    );
+  }
+
+  /// Removes tags from the specified Kinesis resource. Removed tags are deleted
+  /// and can't be recovered after this operation completes successfully.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the Kinesis resource from which to
+  /// remove tags.
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of tag key-value pairs. Existing tags of the resource whose keys
+  /// are members of this list will be removed from the Kinesis resource.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  Future<void> untagResource({
+    required String resourceARN,
+    required List<String> tagKeys,
+    String? streamId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.UntagResource'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'TagKeys': tagKeys,
+        if (streamId != null) 'StreamId': streamId,
+      },
+    );
+  }
+
+  /// Updates the account-level settings for Amazon Kinesis Data Streams.
+  ///
+  /// Updating account settings is a synchronous operation. Upon receiving the
+  /// request, Kinesis Data Streams will return immediately with your account’s
+  /// updated settings.
+  ///
+  /// <b>API limits</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Certain account configurations have minimum commitment windows. Attempting
+  /// to update your settings prior to the end of the minimum commitment window
+  /// might have certain restrictions.
+  /// </li>
+  /// <li>
+  /// This API has a call limit of 5 transactions per second (TPS) for each
+  /// Amazon Web Services account. TPS over 5 will initiate the
+  /// <code>LimitExceededException</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [minimumThroughputBillingCommitment] :
+  /// Specifies the minimum throughput billing commitment configuration for your
+  /// account.
+  Future<UpdateAccountSettingsOutput> updateAccountSettings({
+    required MinimumThroughputBillingCommitmentInput
+        minimumThroughputBillingCommitment,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.UpdateAccountSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MinimumThroughputBillingCommitment':
+            minimumThroughputBillingCommitment,
+      },
+    );
+
+    return UpdateAccountSettingsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// This allows you to update the <code>MaxRecordSize</code> of a single
+  /// record that you can write to, and read from a stream. You can ingest and
+  /// digest single records up to 10240 KiB.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [maxRecordSizeInKiB] :
+  /// The maximum record size of a single record in KiB that you can write to,
+  /// and read from a stream. Specify a value between 1024 and 10240 KiB (1 to
+  /// 10 MiB). If you specify a value that is out of this range,
+  /// <code>UpdateMaxRecordSize</code> sends back an
+  /// <code>ValidationException</code> message.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream for the
+  /// <code>MaxRecordSize</code> update.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  Future<void> updateMaxRecordSize({
+    required int maxRecordSizeInKiB,
+    String? streamARN,
+    String? streamId,
+  }) async {
+    _s.validateNumRange(
+      'maxRecordSizeInKiB',
+      maxRecordSizeInKiB,
+      1024,
+      10240,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.UpdateMaxRecordSize'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MaxRecordSizeInKiB': maxRecordSizeInKiB,
+        if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
       },
     );
   }
@@ -2434,15 +2984,15 @@ class Kinesis {
   /// Limits</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>. To
   /// request an increase in the call rate limit, the shard limit for this API,
   /// or your overall shard limit, use the <a
-  /// href="https://console.aws.amazon.com/support/v1#/case/create?issueType=service-limit-increase&amp;limitType=service-code-kinesis">limits
+  /// href="https://console.aws.amazon.com/support/v1#/case/create?issueType=service-limit-increase&limitType=service-code-kinesis">limits
   /// form</a>.
   ///
+  /// May throw [AccessDeniedException].
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ValidationException].
-  /// May throw [AccessDeniedException].
   ///
   /// Parameter [scalingType] :
   /// The scaling type. Uniform scaling creates shards of equal size.
@@ -2472,12 +3022,16 @@ class Kinesis {
   /// Parameter [streamARN] :
   /// The ARN of the stream.
   ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
   /// Parameter [streamName] :
   /// The name of the stream.
   Future<UpdateShardCountOutput> updateShardCount({
     required ScalingType scalingType,
     required int targetShardCount,
     String? streamARN,
+    String? streamId,
     String? streamName,
   }) async {
     _s.validateNumRange(
@@ -2501,6 +3055,7 @@ class Kinesis {
         'ScalingType': scalingType.value,
         'TargetShardCount': targetShardCount,
         if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -2512,10 +3067,19 @@ class Kinesis {
   /// Streams, you can choose between an <b>on-demand</b> capacity mode and a
   /// <b>provisioned</b> capacity mode for your data stream.
   ///
+  /// If you'd still like to proactively scale your on-demand data stream’s
+  /// capacity, you can unlock the warm throughput feature for on-demand data
+  /// streams by enabling <code>MinimumThroughputBillingCommitment</code> for
+  /// your account. Once your account has
+  /// <code>MinimumThroughputBillingCommitment</code> enabled, you can specify
+  /// the warm throughput in MiB per second that your stream can support in
+  /// writes.
+  ///
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
   ///
   /// Parameter [streamARN] :
   /// Specifies the ARN of the data stream whose capacity mode you want to
@@ -2526,10 +3090,27 @@ class Kinesis {
   /// Currently, in Kinesis Data Streams, you can choose between an
   /// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
   /// your data streams.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
+  /// Parameter [warmThroughputMiBps] :
+  /// The target warm throughput in MB/s that the stream should be scaled to
+  /// handle. This represents the throughput capacity that will be immediately
+  /// available for write operations. This field is only valid when the stream
+  /// mode is being updated to on-demand.
   Future<void> updateStreamMode({
     required String streamARN,
     required StreamModeDetails streamModeDetails,
+    String? streamId,
+    int? warmThroughputMiBps,
   }) async {
+    _s.validateNumRange(
+      'warmThroughputMiBps',
+      warmThroughputMiBps,
+      0,
+      1152921504606846976,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.UpdateStreamMode'
@@ -2543,195 +3124,189 @@ class Kinesis {
       payload: {
         'StreamARN': streamARN,
         'StreamModeDetails': streamModeDetails,
+        if (streamId != null) 'StreamId': streamId,
+        if (warmThroughputMiBps != null)
+          'WarmThroughputMiBps': warmThroughputMiBps,
       },
     );
   }
-}
 
-/// Output parameter of the GetRecords API. The existing child shard of the
-/// current shard.
-class ChildShard {
-  final HashKeyRange hashKeyRange;
-
-  /// The current shard that is the parent of the existing child shard.
-  final List<String> parentShards;
-
-  /// The shard ID of the existing child shard of the current shard.
-  final String shardId;
-
-  ChildShard({
-    required this.hashKeyRange,
-    required this.parentShards,
-    required this.shardId,
-  });
-
-  factory ChildShard.fromJson(Map<String, dynamic> json) {
-    return ChildShard(
-      hashKeyRange: HashKeyRange.fromJson(
-          (json['HashKeyRange'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-      parentShards: ((json['ParentShards'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => e as String)
-          .toList(),
-      shardId: (json['ShardId'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final hashKeyRange = this.hashKeyRange;
-    final parentShards = this.parentShards;
-    final shardId = this.shardId;
-    return {
-      'HashKeyRange': hashKeyRange,
-      'ParentShards': parentShards,
-      'ShardId': shardId,
-    };
-  }
-}
-
-/// An object that represents the details of the consumer you registered. This
-/// type of object is returned by <a>RegisterStreamConsumer</a>.
-class Consumer {
-  /// When you register a consumer, Kinesis Data Streams generates an ARN for it.
-  /// You need this ARN to be able to call <a>SubscribeToShard</a>.
+  /// Updates the warm throughput configuration for the specified Amazon Kinesis
+  /// Data Streams on-demand data stream. This operation allows you to
+  /// proactively scale your on-demand data stream to a specified throughput
+  /// level, enabling better performance for sudden traffic spikes.
+  /// <note>
+  /// When invoking this API, you must use either the <code>StreamARN</code> or
+  /// the <code>StreamName</code> parameter, or both. It is recommended that you
+  /// use the <code>StreamARN</code> input parameter when you invoke this API.
+  /// </note>
+  /// Updating the warm throughput is an asynchronous operation. Upon receiving
+  /// the request, Kinesis Data Streams returns immediately and sets the status
+  /// of the stream to <code>UPDATING</code>. After the update is complete,
+  /// Kinesis Data Streams sets the status of the stream back to
+  /// <code>ACTIVE</code>. Depending on the size of the stream, the scaling
+  /// action could take a few minutes to complete. You can continue to read and
+  /// write data to your stream while its status is <code>UPDATING</code>.
   ///
-  /// If you delete a consumer and then create a new one with the same name, it
-  /// won't have the same ARN. That's because consumer ARNs contain the creation
-  /// timestamp. This is important to keep in mind if you have IAM policies that
-  /// reference consumer ARNs.
-  final String consumerARN;
-
-  /// <p/>
-  final DateTime consumerCreationTimestamp;
-
-  /// The name of the consumer is something you choose when you register the
-  /// consumer.
-  final String consumerName;
-
-  /// A consumer can't read data while in the <code>CREATING</code> or
-  /// <code>DELETING</code> states.
-  final ConsumerStatus consumerStatus;
-
-  Consumer({
-    required this.consumerARN,
-    required this.consumerCreationTimestamp,
-    required this.consumerName,
-    required this.consumerStatus,
-  });
-
-  factory Consumer.fromJson(Map<String, dynamic> json) {
-    return Consumer(
-      consumerARN: (json['ConsumerARN'] as String?) ?? '',
-      consumerCreationTimestamp:
-          nonNullableTimeStampFromJson(json['ConsumerCreationTimestamp'] ?? 0),
-      consumerName: (json['ConsumerName'] as String?) ?? '',
-      consumerStatus:
-          ConsumerStatus.fromString((json['ConsumerStatus'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final consumerARN = this.consumerARN;
-    final consumerCreationTimestamp = this.consumerCreationTimestamp;
-    final consumerName = this.consumerName;
-    final consumerStatus = this.consumerStatus;
-    return {
-      'ConsumerARN': consumerARN,
-      'ConsumerCreationTimestamp':
-          unixTimestampToJson(consumerCreationTimestamp),
-      'ConsumerName': consumerName,
-      'ConsumerStatus': consumerStatus.value,
-    };
-  }
-}
-
-/// An object that represents the details of a registered consumer. This type of
-/// object is returned by <a>DescribeStreamConsumer</a>.
-class ConsumerDescription {
-  /// When you register a consumer, Kinesis Data Streams generates an ARN for it.
-  /// You need this ARN to be able to call <a>SubscribeToShard</a>.
+  /// This operation is only supported for data streams with the on-demand
+  /// capacity mode in accounts that have
+  /// <code>MinimumThroughputBillingCommitment</code> enabled. Provisioned
+  /// capacity mode streams do not support warm throughput configuration.
   ///
-  /// If you delete a consumer and then create a new one with the same name, it
-  /// won't have the same ARN. That's because consumer ARNs contain the creation
-  /// timestamp. This is important to keep in mind if you have IAM policies that
-  /// reference consumer ARNs.
-  final String consumerARN;
+  /// This operation has the following default limits. By default, you cannot do
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Scale to more than 10 GiBps for an on-demand stream.
+  /// </li>
+  /// <li>
+  /// This API has a call limit of 5 transactions per second (TPS) for each
+  /// Amazon Web Services account. TPS over 5 will initiate the
+  /// <code>LimitExceededException</code>.
+  /// </li>
+  /// </ul>
+  /// For the default limits for an Amazon Web Services account, see <a
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Streams
+  /// Limits</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>. To
+  /// request an increase in the call rate limit, the shard limit for this API,
+  /// or your overall shard limit, use the <a
+  /// href="https://console.aws.amazon.com/support/v1#/case/create?issueType=service-limit-increase&limitType=service-code-kinesis">limits
+  /// form</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [warmThroughputMiBps] :
+  /// The target warm throughput in MB/s that the stream should be scaled to
+  /// handle. This represents the throughput capacity that will be immediately
+  /// available for write operations.
+  ///
+  /// Parameter [streamARN] :
+  /// The ARN of the stream to be updated.
+  ///
+  /// Parameter [streamId] :
+  /// Not Implemented. Reserved for future use.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream to be updated.
+  Future<UpdateStreamWarmThroughputOutput> updateStreamWarmThroughput({
+    required int warmThroughputMiBps,
+    String? streamARN,
+    String? streamId,
+    String? streamName,
+  }) async {
+    _s.validateNumRange(
+      'warmThroughputMiBps',
+      warmThroughputMiBps,
+      0,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Kinesis_20131202.UpdateStreamWarmThroughput'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'WarmThroughputMiBps': warmThroughputMiBps,
+        if (streamARN != null) 'StreamARN': streamARN,
+        if (streamId != null) 'StreamId': streamId,
+        if (streamName != null) 'StreamName': streamName,
+      },
+    );
 
-  /// <p/>
-  final DateTime consumerCreationTimestamp;
+    return UpdateStreamWarmThroughputOutput.fromJson(jsonResponse.body);
+  }
+}
 
-  /// The name of the consumer is something you choose when you register the
-  /// consumer.
-  final String consumerName;
+/// The resource is not available for this operation. For successful operation,
+/// the resource must be in the <code>ACTIVE</code> state.
+class ResourceInUseException implements _s.AwsException {
+  /// A message that provides information about the error.
+  final String? message;
 
-  /// A consumer can't read data while in the <code>CREATING</code> or
-  /// <code>DELETING</code> states.
-  final ConsumerStatus consumerStatus;
-
-  /// The ARN of the stream with which you registered the consumer.
-  final String streamARN;
-
-  ConsumerDescription({
-    required this.consumerARN,
-    required this.consumerCreationTimestamp,
-    required this.consumerName,
-    required this.consumerStatus,
-    required this.streamARN,
+  ResourceInUseException({
+    this.message,
   });
 
-  factory ConsumerDescription.fromJson(Map<String, dynamic> json) {
-    return ConsumerDescription(
-      consumerARN: (json['ConsumerARN'] as String?) ?? '',
-      consumerCreationTimestamp:
-          nonNullableTimeStampFromJson(json['ConsumerCreationTimestamp'] ?? 0),
-      consumerName: (json['ConsumerName'] as String?) ?? '',
-      consumerStatus:
-          ConsumerStatus.fromString((json['ConsumerStatus'] as String?) ?? ''),
-      streamARN: (json['StreamARN'] as String?) ?? '',
+  factory ResourceInUseException.fromJson(Map<String, dynamic> json) {
+    return ResourceInUseException(
+      message: json['message'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
-    final consumerARN = this.consumerARN;
-    final consumerCreationTimestamp = this.consumerCreationTimestamp;
-    final consumerName = this.consumerName;
-    final consumerStatus = this.consumerStatus;
-    final streamARN = this.streamARN;
+    final message = this.message;
     return {
-      'ConsumerARN': consumerARN,
-      'ConsumerCreationTimestamp':
-          unixTimestampToJson(consumerCreationTimestamp),
-      'ConsumerName': consumerName,
-      'ConsumerStatus': consumerStatus.value,
-      'StreamARN': streamARN,
+      if (message != null) 'message': message,
     };
   }
 }
 
-class ConsumerStatus {
-  static const creating = ConsumerStatus._('CREATING');
-  static const deleting = ConsumerStatus._('DELETING');
-  static const active = ConsumerStatus._('ACTIVE');
+/// The requested resource could not be found. The stream might not be specified
+/// correctly.
+class ResourceNotFoundException implements _s.AwsException {
+  /// A message that provides information about the error.
+  final String? message;
 
-  final String value;
+  ResourceNotFoundException({
+    this.message,
+  });
 
-  const ConsumerStatus._(this.value);
+  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) {
+    return ResourceNotFoundException(
+      message: json['message'] as String?,
+    );
+  }
 
-  static const values = [creating, deleting, active];
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
 
-  static ConsumerStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConsumerStatus._(value));
+class DescribeAccountSettingsOutput {
+  /// The current configuration of the minimum throughput billing commitment for
+  /// your Amazon Web Services account.
+  final MinimumThroughputBillingCommitmentOutput?
+      minimumThroughputBillingCommitment;
 
-  @override
-  bool operator ==(other) => other is ConsumerStatus && other.value == value;
+  DescribeAccountSettingsOutput({
+    this.minimumThroughputBillingCommitment,
+  });
 
-  @override
-  int get hashCode => value.hashCode;
+  factory DescribeAccountSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAccountSettingsOutput(
+      minimumThroughputBillingCommitment:
+          json['MinimumThroughputBillingCommitment'] != null
+              ? MinimumThroughputBillingCommitmentOutput.fromJson(
+                  json['MinimumThroughputBillingCommitment']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
 
-  @override
-  String toString() => value;
+  Map<String, dynamic> toJson() {
+    final minimumThroughputBillingCommitment =
+        this.minimumThroughputBillingCommitment;
+    return {
+      if (minimumThroughputBillingCommitment != null)
+        'MinimumThroughputBillingCommitment':
+            minimumThroughputBillingCommitment,
+    };
+  }
 }
 
 class DescribeLimitsOutput {
@@ -2777,30 +3352,6 @@ class DescribeLimitsOutput {
   }
 }
 
-class DescribeStreamConsumerOutput {
-  /// An object that represents the details of the consumer.
-  final ConsumerDescription consumerDescription;
-
-  DescribeStreamConsumerOutput({
-    required this.consumerDescription,
-  });
-
-  factory DescribeStreamConsumerOutput.fromJson(Map<String, dynamic> json) {
-    return DescribeStreamConsumerOutput(
-      consumerDescription: ConsumerDescription.fromJson(
-          (json['ConsumerDescription'] as Map<String, dynamic>?) ??
-              const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final consumerDescription = this.consumerDescription;
-    return {
-      'ConsumerDescription': consumerDescription,
-    };
-  }
-}
-
 /// Represents the output for <code>DescribeStream</code>.
 class DescribeStreamOutput {
   /// The current status of the stream, the stream Amazon Resource Name (ARN), an
@@ -2828,6 +3379,30 @@ class DescribeStreamOutput {
   }
 }
 
+class DescribeStreamConsumerOutput {
+  /// An object that represents the details of the consumer.
+  final ConsumerDescription consumerDescription;
+
+  DescribeStreamConsumerOutput({
+    required this.consumerDescription,
+  });
+
+  factory DescribeStreamConsumerOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamConsumerOutput(
+      consumerDescription: ConsumerDescription.fromJson(
+          (json['ConsumerDescription'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumerDescription = this.consumerDescription;
+    return {
+      'ConsumerDescription': consumerDescription,
+    };
+  }
+}
+
 class DescribeStreamSummaryOutput {
   /// A <a>StreamDescriptionSummary</a> containing information about the stream.
   final StreamDescriptionSummary streamDescriptionSummary;
@@ -2848,91 +3423,6 @@ class DescribeStreamSummaryOutput {
     final streamDescriptionSummary = this.streamDescriptionSummary;
     return {
       'StreamDescriptionSummary': streamDescriptionSummary,
-    };
-  }
-}
-
-class EncryptionType {
-  static const none = EncryptionType._('NONE');
-  static const kms = EncryptionType._('KMS');
-
-  final String value;
-
-  const EncryptionType._(this.value);
-
-  static const values = [none, kms];
-
-  static EncryptionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EncryptionType._(value));
-
-  @override
-  bool operator ==(other) => other is EncryptionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Represents enhanced metrics types.
-class EnhancedMetrics {
-  /// List of shard-level metrics.
-  ///
-  /// The following are the valid shard-level metrics. The value
-  /// "<code>ALL</code>" enhances every metric.
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>IncomingBytes</code>
-  /// </li>
-  /// <li>
-  /// <code>IncomingRecords</code>
-  /// </li>
-  /// <li>
-  /// <code>OutgoingBytes</code>
-  /// </li>
-  /// <li>
-  /// <code>OutgoingRecords</code>
-  /// </li>
-  /// <li>
-  /// <code>WriteProvisionedThroughputExceeded</code>
-  /// </li>
-  /// <li>
-  /// <code>ReadProvisionedThroughputExceeded</code>
-  /// </li>
-  /// <li>
-  /// <code>IteratorAgeMilliseconds</code>
-  /// </li>
-  /// <li>
-  /// <code>ALL</code>
-  /// </li>
-  /// </ul>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
-  /// the Amazon Kinesis Data Streams Service with Amazon CloudWatch</a> in the
-  /// <i>Amazon Kinesis Data Streams Developer Guide</i>.
-  final List<MetricsName>? shardLevelMetrics;
-
-  EnhancedMetrics({
-    this.shardLevelMetrics,
-  });
-
-  factory EnhancedMetrics.fromJson(Map<String, dynamic> json) {
-    return EnhancedMetrics(
-      shardLevelMetrics: (json['ShardLevelMetrics'] as List?)
-          ?.nonNulls
-          .map((e) => MetricsName.fromString((e as String)))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final shardLevelMetrics = this.shardLevelMetrics;
-    return {
-      if (shardLevelMetrics != null)
-        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.value).toList(),
     };
   }
 }
@@ -3051,6 +3541,177 @@ class GetRecordsOutput {
   }
 }
 
+/// The processing of the request failed because of an unknown error, exception,
+/// or failure.
+class InternalFailureException implements _s.AwsException {
+  final String? message;
+
+  InternalFailureException({
+    this.message,
+  });
+
+  factory InternalFailureException.fromJson(Map<String, dynamic> json) {
+    return InternalFailureException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The ciphertext references a key that doesn't exist or that you don't have
+/// access to.
+class KMSAccessDeniedException implements _s.AwsException {
+  /// A message that provides information about the error.
+  final String? message;
+
+  KMSAccessDeniedException({
+    this.message,
+  });
+
+  factory KMSAccessDeniedException.fromJson(Map<String, dynamic> json) {
+    return KMSAccessDeniedException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The request was rejected because the specified customer master key (CMK)
+/// isn't enabled.
+class KMSDisabledException implements _s.AwsException {
+  /// A message that provides information about the error.
+  final String? message;
+
+  KMSDisabledException({
+    this.message,
+  });
+
+  factory KMSDisabledException.fromJson(Map<String, dynamic> json) {
+    return KMSDisabledException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The request was rejected because the state of the specified resource isn't
+/// valid for this request. For more information, see <a
+/// href="https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
+/// Key State Affects Use of a Customer Master Key</a> in the <i>Amazon Web
+/// Services Key Management Service Developer Guide</i>.
+class KMSInvalidStateException implements _s.AwsException {
+  /// A message that provides information about the error.
+  final String? message;
+
+  KMSInvalidStateException({
+    this.message,
+  });
+
+  factory KMSInvalidStateException.fromJson(Map<String, dynamic> json) {
+    return KMSInvalidStateException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The request was rejected because the specified entity or resource can't be
+/// found.
+class KMSNotFoundException implements _s.AwsException {
+  /// A message that provides information about the error.
+  final String? message;
+
+  KMSNotFoundException({
+    this.message,
+  });
+
+  factory KMSNotFoundException.fromJson(Map<String, dynamic> json) {
+    return KMSNotFoundException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The Amazon Web Services access key ID needs a subscription for the service.
+class KMSOptInRequired implements _s.AwsException {
+  /// A message that provides information about the error.
+  final String? message;
+
+  KMSOptInRequired({
+    this.message,
+  });
+
+  factory KMSOptInRequired.fromJson(Map<String, dynamic> json) {
+    return KMSOptInRequired(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
+/// The request was denied due to request throttling. For more information about
+/// throttling, see <a
+/// href="https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second">Limits</a>
+/// in the <i>Amazon Web Services Key Management Service Developer Guide</i>.
+class KMSThrottlingException implements _s.AwsException {
+  /// A message that provides information about the error.
+  final String? message;
+
+  KMSThrottlingException({
+    this.message,
+  });
+
+  factory KMSThrottlingException.fromJson(Map<String, dynamic> json) {
+    return KMSThrottlingException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
+}
+
 class GetResourcePolicyOutput {
   /// Details of the resource policy. This is formatted as a JSON string.
   final String policy;
@@ -3094,37 +3755,6 @@ class GetShardIteratorOutput {
     final shardIterator = this.shardIterator;
     return {
       if (shardIterator != null) 'ShardIterator': shardIterator,
-    };
-  }
-}
-
-/// The range of possible hash key values for the shard, which is a set of
-/// ordered contiguous positive integers.
-class HashKeyRange {
-  /// The ending hash key of the hash key range.
-  final String endingHashKey;
-
-  /// The starting hash key of the hash key range.
-  final String startingHashKey;
-
-  HashKeyRange({
-    required this.endingHashKey,
-    required this.startingHashKey,
-  });
-
-  factory HashKeyRange.fromJson(Map<String, dynamic> json) {
-    return HashKeyRange(
-      endingHashKey: (json['EndingHashKey'] as String?) ?? '',
-      startingHashKey: (json['StartingHashKey'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final endingHashKey = this.endingHashKey;
-    final startingHashKey = this.startingHashKey;
-    return {
-      'EndingHashKey': endingHashKey,
-      'StartingHashKey': startingHashKey,
     };
   }
 }
@@ -3235,10 +3865,10 @@ class ListStreamsOutput {
   /// account making the <code>ListStreams</code> request.
   final List<String> streamNames;
 
-  /// <p/>
+  ///
   final String? nextToken;
 
-  /// <p/>
+  ///
   final List<StreamSummary>? streamSummaries;
 
   ListStreamsOutput({
@@ -3273,6 +3903,31 @@ class ListStreamsOutput {
       'StreamNames': streamNames,
       if (nextToken != null) 'NextToken': nextToken,
       if (streamSummaries != null) 'StreamSummaries': streamSummaries,
+    };
+  }
+}
+
+class ListTagsForResourceOutput {
+  /// An array of tags associated with the specified Kinesis resource.
+  final List<Tag>? tags;
+
+  ListTagsForResourceOutput({
+    this.tags,
+  });
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
     };
   }
 }
@@ -3312,47 +3967,6 @@ class ListTagsForStreamOutput {
       'Tags': tags,
     };
   }
-}
-
-class MetricsName {
-  static const incomingBytes = MetricsName._('IncomingBytes');
-  static const incomingRecords = MetricsName._('IncomingRecords');
-  static const outgoingBytes = MetricsName._('OutgoingBytes');
-  static const outgoingRecords = MetricsName._('OutgoingRecords');
-  static const writeProvisionedThroughputExceeded =
-      MetricsName._('WriteProvisionedThroughputExceeded');
-  static const readProvisionedThroughputExceeded =
-      MetricsName._('ReadProvisionedThroughputExceeded');
-  static const iteratorAgeMilliseconds =
-      MetricsName._('IteratorAgeMilliseconds');
-  static const all = MetricsName._('ALL');
-
-  final String value;
-
-  const MetricsName._(this.value);
-
-  static const values = [
-    incomingBytes,
-    incomingRecords,
-    outgoingBytes,
-    outgoingRecords,
-    writeProvisionedThroughputExceeded,
-    readProvisionedThroughputExceeded,
-    iteratorAgeMilliseconds,
-    all
-  ];
-
-  static MetricsName fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => MetricsName._(value));
-
-  @override
-  bool operator ==(other) => other is MetricsName && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 /// Represents the output for <code>PutRecord</code>.
@@ -3464,96 +4078,670 @@ class PutRecordsOutput {
   }
 }
 
-/// Represents the output for <code>PutRecords</code>.
-class PutRecordsRequestEntry {
-  /// The data blob to put into the record, which is base64-encoded when the blob
-  /// is serialized. When the data blob (the payload before base64-encoding) is
-  /// added to the partition key size, the total size must not exceed the maximum
-  /// record size (1 MiB).
-  final Uint8List data;
+class RegisterStreamConsumerOutput {
+  /// An object that represents the details of the consumer you registered. When
+  /// you register a consumer, it gets an ARN that is generated by Kinesis Data
+  /// Streams.
+  final Consumer consumer;
 
-  /// Determines which shard in the stream the data record is assigned to.
-  /// Partition keys are Unicode strings with a maximum length limit of 256
-  /// characters for each key. Amazon Kinesis Data Streams uses the partition key
-  /// as input to a hash function that maps the partition key and associated data
-  /// to a specific shard. Specifically, an MD5 hash function is used to map
-  /// partition keys to 128-bit integer values and to map associated data records
-  /// to shards. As a result of this hashing mechanism, all data records with the
-  /// same partition key map to the same shard within the stream.
-  final String partitionKey;
-
-  /// The hash value used to determine explicitly the shard that the data record
-  /// is assigned to by overriding the partition key hash.
-  final String? explicitHashKey;
-
-  PutRecordsRequestEntry({
-    required this.data,
-    required this.partitionKey,
-    this.explicitHashKey,
+  RegisterStreamConsumerOutput({
+    required this.consumer,
   });
 
-  Map<String, dynamic> toJson() {
-    final data = this.data;
-    final partitionKey = this.partitionKey;
-    final explicitHashKey = this.explicitHashKey;
-    return {
-      'Data': base64Encode(data),
-      'PartitionKey': partitionKey,
-      if (explicitHashKey != null) 'ExplicitHashKey': explicitHashKey,
-    };
-  }
-}
-
-/// Represents the result of an individual record from a <code>PutRecords</code>
-/// request. A record that is successfully added to a stream includes
-/// <code>SequenceNumber</code> and <code>ShardId</code> in the result. A record
-/// that fails to be added to the stream includes <code>ErrorCode</code> and
-/// <code>ErrorMessage</code> in the result.
-class PutRecordsResultEntry {
-  /// The error code for an individual record result. <code>ErrorCodes</code> can
-  /// be either <code>ProvisionedThroughputExceededException</code> or
-  /// <code>InternalFailure</code>.
-  final String? errorCode;
-
-  /// The error message for an individual record result. An <code>ErrorCode</code>
-  /// value of <code>ProvisionedThroughputExceededException</code> has an error
-  /// message that includes the account ID, stream name, and shard ID. An
-  /// <code>ErrorCode</code> value of <code>InternalFailure</code> has the error
-  /// message <code>"Internal Service Failure"</code>.
-  final String? errorMessage;
-
-  /// The sequence number for an individual record result.
-  final String? sequenceNumber;
-
-  /// The shard ID for an individual record result.
-  final String? shardId;
-
-  PutRecordsResultEntry({
-    this.errorCode,
-    this.errorMessage,
-    this.sequenceNumber,
-    this.shardId,
-  });
-
-  factory PutRecordsResultEntry.fromJson(Map<String, dynamic> json) {
-    return PutRecordsResultEntry(
-      errorCode: json['ErrorCode'] as String?,
-      errorMessage: json['ErrorMessage'] as String?,
-      sequenceNumber: json['SequenceNumber'] as String?,
-      shardId: json['ShardId'] as String?,
+  factory RegisterStreamConsumerOutput.fromJson(Map<String, dynamic> json) {
+    return RegisterStreamConsumerOutput(
+      consumer: Consumer.fromJson((json['Consumer'] as Map<String, dynamic>?) ??
+          const <String, dynamic>{}),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final errorCode = this.errorCode;
-    final errorMessage = this.errorMessage;
-    final sequenceNumber = this.sequenceNumber;
+    final consumer = this.consumer;
+    return {
+      'Consumer': consumer,
+    };
+  }
+}
+
+class SubscribeToShardOutput {
+  /// The event stream that your consumer can use to read records from the shard.
+  final SubscribeToShardEventStream eventStream;
+
+  SubscribeToShardOutput({
+    required this.eventStream,
+  });
+
+  factory SubscribeToShardOutput.fromJson(Map<String, dynamic> json) {
+    return SubscribeToShardOutput(
+      eventStream: SubscribeToShardEventStream.fromJson(
+          (json['EventStream'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventStream = this.eventStream;
+    return {
+      'EventStream': eventStream,
+    };
+  }
+}
+
+class UpdateAccountSettingsOutput {
+  /// The updated configuration of the minimum throughput billing commitment for
+  /// your account.
+  final MinimumThroughputBillingCommitmentOutput?
+      minimumThroughputBillingCommitment;
+
+  UpdateAccountSettingsOutput({
+    this.minimumThroughputBillingCommitment,
+  });
+
+  factory UpdateAccountSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateAccountSettingsOutput(
+      minimumThroughputBillingCommitment:
+          json['MinimumThroughputBillingCommitment'] != null
+              ? MinimumThroughputBillingCommitmentOutput.fromJson(
+                  json['MinimumThroughputBillingCommitment']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final minimumThroughputBillingCommitment =
+        this.minimumThroughputBillingCommitment;
+    return {
+      if (minimumThroughputBillingCommitment != null)
+        'MinimumThroughputBillingCommitment':
+            minimumThroughputBillingCommitment,
+    };
+  }
+}
+
+class UpdateShardCountOutput {
+  /// The current number of shards.
+  final int? currentShardCount;
+
+  /// The ARN of the stream.
+  final String? streamARN;
+
+  /// The name of the stream.
+  final String? streamName;
+
+  /// The updated number of shards.
+  final int? targetShardCount;
+
+  UpdateShardCountOutput({
+    this.currentShardCount,
+    this.streamARN,
+    this.streamName,
+    this.targetShardCount,
+  });
+
+  factory UpdateShardCountOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateShardCountOutput(
+      currentShardCount: json['CurrentShardCount'] as int?,
+      streamARN: json['StreamARN'] as String?,
+      streamName: json['StreamName'] as String?,
+      targetShardCount: json['TargetShardCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentShardCount = this.currentShardCount;
+    final streamARN = this.streamARN;
+    final streamName = this.streamName;
+    final targetShardCount = this.targetShardCount;
+    return {
+      if (currentShardCount != null) 'CurrentShardCount': currentShardCount,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+      if (targetShardCount != null) 'TargetShardCount': targetShardCount,
+    };
+  }
+}
+
+class UpdateStreamWarmThroughputOutput {
+  /// The ARN of the stream that was updated.
+  final String? streamARN;
+
+  /// The name of the stream that was updated.
+  final String? streamName;
+
+  /// Specifies the updated warm throughput configuration for your data stream.
+  final WarmThroughputObject? warmThroughput;
+
+  UpdateStreamWarmThroughputOutput({
+    this.streamARN,
+    this.streamName,
+    this.warmThroughput,
+  });
+
+  factory UpdateStreamWarmThroughputOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateStreamWarmThroughputOutput(
+      streamARN: json['StreamARN'] as String?,
+      streamName: json['StreamName'] as String?,
+      warmThroughput: json['WarmThroughput'] != null
+          ? WarmThroughputObject.fromJson(
+              json['WarmThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamARN = this.streamARN;
+    final streamName = this.streamName;
+    final warmThroughput = this.warmThroughput;
+    return {
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
+    };
+  }
+}
+
+/// Represents the warm throughput configuration on the stream. This is only
+/// present for On-Demand Kinesis Data Streams in accounts that have
+/// <code>MinimumThroughputBillingCommitment</code> enabled.
+class WarmThroughputObject {
+  /// The current warm throughput value on the stream. This is the write
+  /// throughput in MiBps that the stream is currently scaled to handle.
+  final int? currentMiBps;
+
+  /// The target warm throughput value on the stream. This indicates that the
+  /// stream is currently scaling towards this target value.
+  final int? targetMiBps;
+
+  WarmThroughputObject({
+    this.currentMiBps,
+    this.targetMiBps,
+  });
+
+  factory WarmThroughputObject.fromJson(Map<String, dynamic> json) {
+    return WarmThroughputObject(
+      currentMiBps: json['CurrentMiBps'] as int?,
+      targetMiBps: json['TargetMiBps'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentMiBps = this.currentMiBps;
+    final targetMiBps = this.targetMiBps;
+    return {
+      if (currentMiBps != null) 'CurrentMiBps': currentMiBps,
+      if (targetMiBps != null) 'TargetMiBps': targetMiBps,
+    };
+  }
+}
+
+/// Specifies the capacity mode to which you want to set your data stream.
+/// Currently, in Kinesis Data Streams, you can choose between an
+/// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
+/// your data streams.
+class StreamModeDetails {
+  /// Specifies the capacity mode to which you want to set your data stream.
+  /// Currently, in Kinesis Data Streams, you can choose between an
+  /// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
+  /// your data streams.
+  final StreamMode streamMode;
+
+  StreamModeDetails({
+    required this.streamMode,
+  });
+
+  factory StreamModeDetails.fromJson(Map<String, dynamic> json) {
+    return StreamModeDetails(
+      streamMode: StreamMode.fromString((json['StreamMode'] as String?) ?? ''),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamMode = this.streamMode;
+    return {
+      'StreamMode': streamMode.value,
+    };
+  }
+}
+
+class StreamMode {
+  static const provisioned = StreamMode._('PROVISIONED');
+  static const onDemand = StreamMode._('ON_DEMAND');
+
+  final String value;
+
+  const StreamMode._(this.value);
+
+  static const values = [provisioned, onDemand];
+
+  static StreamMode fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamMode._(value));
+
+  @override
+  bool operator ==(other) => other is StreamMode && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ScalingType {
+  static const uniformScaling = ScalingType._('UNIFORM_SCALING');
+
+  final String value;
+
+  const ScalingType._(this.value);
+
+  static const values = [uniformScaling];
+
+  static ScalingType fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => ScalingType._(value));
+
+  @override
+  bool operator ==(other) => other is ScalingType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the current status of minimum throughput billing commitment for
+/// an account.
+class MinimumThroughputBillingCommitmentOutput {
+  /// The current status of the minimum throughput billing commitment.
+  final MinimumThroughputBillingCommitmentOutputStatus status;
+
+  /// The earliest timestamp when the commitment can be ended.
+  final DateTime? earliestAllowedEndAt;
+
+  /// The timestamp when the commitment was ended.
+  final DateTime? endedAt;
+
+  /// The timestamp when the commitment was started.
+  final DateTime? startedAt;
+
+  MinimumThroughputBillingCommitmentOutput({
+    required this.status,
+    this.earliestAllowedEndAt,
+    this.endedAt,
+    this.startedAt,
+  });
+
+  factory MinimumThroughputBillingCommitmentOutput.fromJson(
+      Map<String, dynamic> json) {
+    return MinimumThroughputBillingCommitmentOutput(
+      status: MinimumThroughputBillingCommitmentOutputStatus.fromString(
+          (json['Status'] as String?) ?? ''),
+      earliestAllowedEndAt: timeStampFromJson(json['EarliestAllowedEndAt']),
+      endedAt: timeStampFromJson(json['EndedAt']),
+      startedAt: timeStampFromJson(json['StartedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final earliestAllowedEndAt = this.earliestAllowedEndAt;
+    final endedAt = this.endedAt;
+    final startedAt = this.startedAt;
+    return {
+      'Status': status.value,
+      if (earliestAllowedEndAt != null)
+        'EarliestAllowedEndAt': unixTimestampToJson(earliestAllowedEndAt),
+      if (endedAt != null) 'EndedAt': unixTimestampToJson(endedAt),
+      if (startedAt != null) 'StartedAt': unixTimestampToJson(startedAt),
+    };
+  }
+}
+
+class MinimumThroughputBillingCommitmentOutputStatus {
+  static const enabled =
+      MinimumThroughputBillingCommitmentOutputStatus._('ENABLED');
+  static const disabled =
+      MinimumThroughputBillingCommitmentOutputStatus._('DISABLED');
+  static const enabledUntilEarliestAllowedEnd =
+      MinimumThroughputBillingCommitmentOutputStatus._(
+          'ENABLED_UNTIL_EARLIEST_ALLOWED_END');
+
+  final String value;
+
+  const MinimumThroughputBillingCommitmentOutputStatus._(this.value);
+
+  static const values = [enabled, disabled, enabledUntilEarliestAllowedEnd];
+
+  static MinimumThroughputBillingCommitmentOutputStatus fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () =>
+              MinimumThroughputBillingCommitmentOutputStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MinimumThroughputBillingCommitmentOutputStatus &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the request parameters for configuring minimum throughput billing
+/// commitment.
+/// <note>
+/// <ul>
+/// <li>
+/// Minimum throughput billing commitments provide cost savings on on-demand
+/// data streams in exchange for committing to a minimum level of throughput
+/// usage.
+/// </li>
+/// <li>
+/// Commitments have a minimum duration of 24 hours that must be honored before
+/// they can be disabled.
+/// </li>
+/// <li>
+/// If you attempt to disable a commitment before the minimum commitment period
+/// ends, the commitment will be scheduled for automatic disable at the earliest
+/// allowed end time.
+/// </li>
+/// <li>
+/// You can cancel a pending disable by enabling the commitment again before the
+/// earliest allowed end time.
+/// </li>
+/// </ul> </note>
+class MinimumThroughputBillingCommitmentInput {
+  /// The desired status of the minimum throughput billing commitment.
+  final MinimumThroughputBillingCommitmentInputStatus status;
+
+  MinimumThroughputBillingCommitmentInput({
+    required this.status,
+  });
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.value,
+    };
+  }
+}
+
+class MinimumThroughputBillingCommitmentInputStatus {
+  static const enabled =
+      MinimumThroughputBillingCommitmentInputStatus._('ENABLED');
+  static const disabled =
+      MinimumThroughputBillingCommitmentInputStatus._('DISABLED');
+
+  final String value;
+
+  const MinimumThroughputBillingCommitmentInputStatus._(this.value);
+
+  static const values = [enabled, disabled];
+
+  static MinimumThroughputBillingCommitmentInputStatus fromString(
+          String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MinimumThroughputBillingCommitmentInputStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is MinimumThroughputBillingCommitmentInputStatus &&
+      other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// This is a tagged union for all of the types of events an enhanced fan-out
+/// consumer can receive over HTTP/2 after a call to <a>SubscribeToShard</a>.
+class SubscribeToShardEventStream {
+  /// The processing of the request failed because of an unknown error, exception,
+  /// or failure.
+  final InternalFailureException? internalFailureException;
+  final KMSAccessDeniedException? kMSAccessDeniedException;
+  final KMSDisabledException? kMSDisabledException;
+  final KMSInvalidStateException? kMSInvalidStateException;
+  final KMSNotFoundException? kMSNotFoundException;
+  final KMSOptInRequired? kMSOptInRequired;
+  final KMSThrottlingException? kMSThrottlingException;
+  final ResourceInUseException? resourceInUseException;
+  final ResourceNotFoundException? resourceNotFoundException;
+
+  /// After you call <a>SubscribeToShard</a>, Kinesis Data Streams sends events of
+  /// this type to your consumer. For an example of how to handle these events,
+  /// see <a
+  /// href="/streams/latest/dev/building-enhanced-consumers-api.html">Enhanced
+  /// Fan-Out Using the Kinesis Data Streams API</a>.
+  final SubscribeToShardEvent? subscribeToShardEvent;
+
+  SubscribeToShardEventStream({
+    this.internalFailureException,
+    this.kMSAccessDeniedException,
+    this.kMSDisabledException,
+    this.kMSInvalidStateException,
+    this.kMSNotFoundException,
+    this.kMSOptInRequired,
+    this.kMSThrottlingException,
+    this.resourceInUseException,
+    this.resourceNotFoundException,
+    this.subscribeToShardEvent,
+  });
+
+  factory SubscribeToShardEventStream.fromJson(Map<String, dynamic> json) {
+    return SubscribeToShardEventStream(
+      internalFailureException: json['InternalFailureException'] != null
+          ? InternalFailureException.fromJson(
+              json['InternalFailureException'] as Map<String, dynamic>)
+          : null,
+      kMSAccessDeniedException: json['KMSAccessDeniedException'] != null
+          ? KMSAccessDeniedException.fromJson(
+              json['KMSAccessDeniedException'] as Map<String, dynamic>)
+          : null,
+      kMSDisabledException: json['KMSDisabledException'] != null
+          ? KMSDisabledException.fromJson(
+              json['KMSDisabledException'] as Map<String, dynamic>)
+          : null,
+      kMSInvalidStateException: json['KMSInvalidStateException'] != null
+          ? KMSInvalidStateException.fromJson(
+              json['KMSInvalidStateException'] as Map<String, dynamic>)
+          : null,
+      kMSNotFoundException: json['KMSNotFoundException'] != null
+          ? KMSNotFoundException.fromJson(
+              json['KMSNotFoundException'] as Map<String, dynamic>)
+          : null,
+      kMSOptInRequired: json['KMSOptInRequired'] != null
+          ? KMSOptInRequired.fromJson(
+              json['KMSOptInRequired'] as Map<String, dynamic>)
+          : null,
+      kMSThrottlingException: json['KMSThrottlingException'] != null
+          ? KMSThrottlingException.fromJson(
+              json['KMSThrottlingException'] as Map<String, dynamic>)
+          : null,
+      resourceInUseException: json['ResourceInUseException'] != null
+          ? ResourceInUseException.fromJson(
+              json['ResourceInUseException'] as Map<String, dynamic>)
+          : null,
+      resourceNotFoundException: json['ResourceNotFoundException'] != null
+          ? ResourceNotFoundException.fromJson(
+              json['ResourceNotFoundException'] as Map<String, dynamic>)
+          : null,
+      subscribeToShardEvent: json['SubscribeToShardEvent'] != null
+          ? SubscribeToShardEvent.fromJson(
+              json['SubscribeToShardEvent'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final internalFailureException = this.internalFailureException;
+    final kMSAccessDeniedException = this.kMSAccessDeniedException;
+    final kMSDisabledException = this.kMSDisabledException;
+    final kMSInvalidStateException = this.kMSInvalidStateException;
+    final kMSNotFoundException = this.kMSNotFoundException;
+    final kMSOptInRequired = this.kMSOptInRequired;
+    final kMSThrottlingException = this.kMSThrottlingException;
+    final resourceInUseException = this.resourceInUseException;
+    final resourceNotFoundException = this.resourceNotFoundException;
+    final subscribeToShardEvent = this.subscribeToShardEvent;
+    return {
+      if (internalFailureException != null)
+        'InternalFailureException': internalFailureException,
+      if (kMSAccessDeniedException != null)
+        'KMSAccessDeniedException': kMSAccessDeniedException,
+      if (kMSDisabledException != null)
+        'KMSDisabledException': kMSDisabledException,
+      if (kMSInvalidStateException != null)
+        'KMSInvalidStateException': kMSInvalidStateException,
+      if (kMSNotFoundException != null)
+        'KMSNotFoundException': kMSNotFoundException,
+      if (kMSOptInRequired != null) 'KMSOptInRequired': kMSOptInRequired,
+      if (kMSThrottlingException != null)
+        'KMSThrottlingException': kMSThrottlingException,
+      if (resourceInUseException != null)
+        'ResourceInUseException': resourceInUseException,
+      if (resourceNotFoundException != null)
+        'ResourceNotFoundException': resourceNotFoundException,
+      if (subscribeToShardEvent != null)
+        'SubscribeToShardEvent': subscribeToShardEvent,
+    };
+  }
+}
+
+/// After you call <a>SubscribeToShard</a>, Kinesis Data Streams sends events of
+/// this type over an HTTP/2 connection to your consumer.
+class SubscribeToShardEvent {
+  /// Use this as <code>SequenceNumber</code> in the next call to
+  /// <a>SubscribeToShard</a>, with <code>StartingPosition</code> set to
+  /// <code>AT_SEQUENCE_NUMBER</code> or <code>AFTER_SEQUENCE_NUMBER</code>. Use
+  /// <code>ContinuationSequenceNumber</code> for checkpointing because it
+  /// captures your shard progress even when no data is written to the shard.
+  final String continuationSequenceNumber;
+
+  /// The number of milliseconds the read records are from the tip of the stream,
+  /// indicating how far behind current time the consumer is. A value of zero
+  /// indicates that record processing is caught up, and there are no new records
+  /// to process at this moment.
+  final int millisBehindLatest;
+
+  ///
+  final List<Record> records;
+
+  /// The list of the child shards of the current shard, returned only at the end
+  /// of the current shard.
+  final List<ChildShard>? childShards;
+
+  SubscribeToShardEvent({
+    required this.continuationSequenceNumber,
+    required this.millisBehindLatest,
+    required this.records,
+    this.childShards,
+  });
+
+  factory SubscribeToShardEvent.fromJson(Map<String, dynamic> json) {
+    return SubscribeToShardEvent(
+      continuationSequenceNumber:
+          (json['ContinuationSequenceNumber'] as String?) ?? '',
+      millisBehindLatest: (json['MillisBehindLatest'] as int?) ?? 0,
+      records: ((json['Records'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => Record.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      childShards: (json['ChildShards'] as List?)
+          ?.nonNulls
+          .map((e) => ChildShard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continuationSequenceNumber = this.continuationSequenceNumber;
+    final millisBehindLatest = this.millisBehindLatest;
+    final records = this.records;
+    final childShards = this.childShards;
+    return {
+      'ContinuationSequenceNumber': continuationSequenceNumber,
+      'MillisBehindLatest': millisBehindLatest,
+      'Records': records,
+      if (childShards != null) 'ChildShards': childShards,
+    };
+  }
+}
+
+/// Output parameter of the GetRecords API. The existing child shard of the
+/// current shard.
+class ChildShard {
+  final HashKeyRange hashKeyRange;
+
+  /// The current shard that is the parent of the existing child shard.
+  final List<String> parentShards;
+
+  /// The shard ID of the existing child shard of the current shard.
+  final String shardId;
+
+  ChildShard({
+    required this.hashKeyRange,
+    required this.parentShards,
+    required this.shardId,
+  });
+
+  factory ChildShard.fromJson(Map<String, dynamic> json) {
+    return ChildShard(
+      hashKeyRange: HashKeyRange.fromJson(
+          (json['HashKeyRange'] as Map<String, dynamic>?) ??
+              const <String, dynamic>{}),
+      parentShards: ((json['ParentShards'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => e as String)
+          .toList(),
+      shardId: (json['ShardId'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hashKeyRange = this.hashKeyRange;
+    final parentShards = this.parentShards;
     final shardId = this.shardId;
     return {
-      if (errorCode != null) 'ErrorCode': errorCode,
-      if (errorMessage != null) 'ErrorMessage': errorMessage,
-      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
-      if (shardId != null) 'ShardId': shardId,
+      'HashKeyRange': hashKeyRange,
+      'ParentShards': parentShards,
+      'ShardId': shardId,
+    };
+  }
+}
+
+/// The range of possible hash key values for the shard, which is a set of
+/// ordered contiguous positive integers.
+class HashKeyRange {
+  /// The ending hash key of the hash key range.
+  final String endingHashKey;
+
+  /// The starting hash key of the hash key range.
+  final String startingHashKey;
+
+  HashKeyRange({
+    required this.endingHashKey,
+    required this.startingHashKey,
+  });
+
+  factory HashKeyRange.fromJson(Map<String, dynamic> json) {
+    return HashKeyRange(
+      endingHashKey: (json['EndingHashKey'] as String?) ?? '',
+      startingHashKey: (json['StartingHashKey'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endingHashKey = this.endingHashKey;
+    final startingHashKey = this.startingHashKey;
+    return {
+      'EndingHashKey': endingHashKey,
+      'StartingHashKey': startingHashKey,
     };
   }
 }
@@ -3629,45 +4817,22 @@ class Record {
   }
 }
 
-class RegisterStreamConsumerOutput {
-  /// An object that represents the details of the consumer you registered. When
-  /// you register a consumer, it gets an ARN that is generated by Kinesis Data
-  /// Streams.
-  final Consumer consumer;
-
-  RegisterStreamConsumerOutput({
-    required this.consumer,
-  });
-
-  factory RegisterStreamConsumerOutput.fromJson(Map<String, dynamic> json) {
-    return RegisterStreamConsumerOutput(
-      consumer: Consumer.fromJson((json['Consumer'] as Map<String, dynamic>?) ??
-          const <String, dynamic>{}),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final consumer = this.consumer;
-    return {
-      'Consumer': consumer,
-    };
-  }
-}
-
-class ScalingType {
-  static const uniformScaling = ScalingType._('UNIFORM_SCALING');
+class EncryptionType {
+  static const none = EncryptionType._('NONE');
+  static const kms = EncryptionType._('KMS');
 
   final String value;
 
-  const ScalingType._(this.value);
+  const EncryptionType._(this.value);
 
-  static const values = [uniformScaling];
+  static const values = [none, kms];
 
-  static ScalingType fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => ScalingType._(value));
+  static EncryptionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EncryptionType._(value));
 
   @override
-  bool operator ==(other) => other is ScalingType && other.value == value;
+  bool operator ==(other) => other is EncryptionType && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
@@ -3676,36 +4841,380 @@ class ScalingType {
   String toString() => value;
 }
 
-/// The range of possible sequence numbers for the shard.
-class SequenceNumberRange {
-  /// The starting sequence number for the range.
-  final String startingSequenceNumber;
+/// The starting position in the data stream from which to start streaming.
+class StartingPosition {
+  /// You can set the starting position to one of the following values:
+  ///
+  /// <code>AT_SEQUENCE_NUMBER</code>: Start streaming from the position denoted
+  /// by the sequence number specified in the <code>SequenceNumber</code> field.
+  ///
+  /// <code>AFTER_SEQUENCE_NUMBER</code>: Start streaming right after the position
+  /// denoted by the sequence number specified in the <code>SequenceNumber</code>
+  /// field.
+  ///
+  /// <code>AT_TIMESTAMP</code>: Start streaming from the position denoted by the
+  /// time stamp specified in the <code>Timestamp</code> field.
+  ///
+  /// <code>TRIM_HORIZON</code>: Start streaming at the last untrimmed record in
+  /// the shard, which is the oldest data record in the shard.
+  ///
+  /// <code>LATEST</code>: Start streaming just after the most recent record in
+  /// the shard, so that you always read the most recent data in the shard.
+  final ShardIteratorType type;
 
-  /// The ending sequence number for the range. Shards that are in the OPEN state
-  /// have an ending sequence number of <code>null</code>.
-  final String? endingSequenceNumber;
+  /// The sequence number of the data record in the shard from which to start
+  /// streaming. To specify a sequence number, set <code>StartingPosition</code>
+  /// to <code>AT_SEQUENCE_NUMBER</code> or <code>AFTER_SEQUENCE_NUMBER</code>.
+  final String? sequenceNumber;
 
-  SequenceNumberRange({
-    required this.startingSequenceNumber,
-    this.endingSequenceNumber,
+  /// The time stamp of the data record from which to start reading. To specify a
+  /// time stamp, set <code>StartingPosition</code> to <code>Type
+  /// AT_TIMESTAMP</code>. A time stamp is the Unix epoch date with precision in
+  /// milliseconds. For example, <code>2016-04-04T19:58:46.480-00:00</code> or
+  /// <code>1459799926.480</code>. If a record with this exact time stamp does not
+  /// exist, records will be streamed from the next (later) record. If the time
+  /// stamp is older than the current trim horizon, records will be streamed from
+  /// the oldest untrimmed data record (<code>TRIM_HORIZON</code>).
+  final DateTime? timestamp;
+
+  StartingPosition({
+    required this.type,
+    this.sequenceNumber,
+    this.timestamp,
   });
 
-  factory SequenceNumberRange.fromJson(Map<String, dynamic> json) {
-    return SequenceNumberRange(
-      startingSequenceNumber: (json['StartingSequenceNumber'] as String?) ?? '',
-      endingSequenceNumber: json['EndingSequenceNumber'] as String?,
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final sequenceNumber = this.sequenceNumber;
+    final timestamp = this.timestamp;
+    return {
+      'Type': type.value,
+      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+    };
+  }
+}
+
+class ShardIteratorType {
+  static const atSequenceNumber = ShardIteratorType._('AT_SEQUENCE_NUMBER');
+  static const afterSequenceNumber =
+      ShardIteratorType._('AFTER_SEQUENCE_NUMBER');
+  static const trimHorizon = ShardIteratorType._('TRIM_HORIZON');
+  static const latest = ShardIteratorType._('LATEST');
+  static const atTimestamp = ShardIteratorType._('AT_TIMESTAMP');
+
+  final String value;
+
+  const ShardIteratorType._(this.value);
+
+  static const values = [
+    atSequenceNumber,
+    afterSequenceNumber,
+    trimHorizon,
+    latest,
+    atTimestamp
+  ];
+
+  static ShardIteratorType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ShardIteratorType._(value));
+
+  @override
+  bool operator ==(other) => other is ShardIteratorType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// An object that represents the details of the consumer you registered. This
+/// type of object is returned by <a>RegisterStreamConsumer</a>.
+class Consumer {
+  /// When you register a consumer, Kinesis Data Streams generates an ARN for it.
+  /// You need this ARN to be able to call <a>SubscribeToShard</a>.
+  ///
+  /// If you delete a consumer and then create a new one with the same name, it
+  /// won't have the same ARN. That's because consumer ARNs contain the creation
+  /// timestamp. This is important to keep in mind if you have IAM policies that
+  /// reference consumer ARNs.
+  final String consumerARN;
+
+  ///
+  final DateTime consumerCreationTimestamp;
+
+  /// The name of the consumer is something you choose when you register the
+  /// consumer.
+  final String consumerName;
+
+  /// A consumer can't read data while in the <code>CREATING</code> or
+  /// <code>DELETING</code> states.
+  final ConsumerStatus consumerStatus;
+
+  Consumer({
+    required this.consumerARN,
+    required this.consumerCreationTimestamp,
+    required this.consumerName,
+    required this.consumerStatus,
+  });
+
+  factory Consumer.fromJson(Map<String, dynamic> json) {
+    return Consumer(
+      consumerARN: (json['ConsumerARN'] as String?) ?? '',
+      consumerCreationTimestamp:
+          nonNullableTimeStampFromJson(json['ConsumerCreationTimestamp'] ?? 0),
+      consumerName: (json['ConsumerName'] as String?) ?? '',
+      consumerStatus:
+          ConsumerStatus.fromString((json['ConsumerStatus'] as String?) ?? ''),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final startingSequenceNumber = this.startingSequenceNumber;
-    final endingSequenceNumber = this.endingSequenceNumber;
+    final consumerARN = this.consumerARN;
+    final consumerCreationTimestamp = this.consumerCreationTimestamp;
+    final consumerName = this.consumerName;
+    final consumerStatus = this.consumerStatus;
     return {
-      'StartingSequenceNumber': startingSequenceNumber,
-      if (endingSequenceNumber != null)
-        'EndingSequenceNumber': endingSequenceNumber,
+      'ConsumerARN': consumerARN,
+      'ConsumerCreationTimestamp':
+          unixTimestampToJson(consumerCreationTimestamp),
+      'ConsumerName': consumerName,
+      'ConsumerStatus': consumerStatus.value,
     };
   }
+}
+
+class ConsumerStatus {
+  static const creating = ConsumerStatus._('CREATING');
+  static const deleting = ConsumerStatus._('DELETING');
+  static const active = ConsumerStatus._('ACTIVE');
+
+  final String value;
+
+  const ConsumerStatus._(this.value);
+
+  static const values = [creating, deleting, active];
+
+  static ConsumerStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConsumerStatus._(value));
+
+  @override
+  bool operator ==(other) => other is ConsumerStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Represents the result of an individual record from a <code>PutRecords</code>
+/// request. A record that is successfully added to a stream includes
+/// <code>SequenceNumber</code> and <code>ShardId</code> in the result. A record
+/// that fails to be added to the stream includes <code>ErrorCode</code> and
+/// <code>ErrorMessage</code> in the result.
+class PutRecordsResultEntry {
+  /// The error code for an individual record result. <code>ErrorCodes</code> can
+  /// be either <code>ProvisionedThroughputExceededException</code> or
+  /// <code>InternalFailure</code>.
+  final String? errorCode;
+
+  /// The error message for an individual record result. An <code>ErrorCode</code>
+  /// value of <code>ProvisionedThroughputExceededException</code> has an error
+  /// message that includes the account ID, stream name, and shard ID. An
+  /// <code>ErrorCode</code> value of <code>InternalFailure</code> has the error
+  /// message <code>"Internal Service Failure"</code>.
+  final String? errorMessage;
+
+  /// The sequence number for an individual record result.
+  final String? sequenceNumber;
+
+  /// The shard ID for an individual record result.
+  final String? shardId;
+
+  PutRecordsResultEntry({
+    this.errorCode,
+    this.errorMessage,
+    this.sequenceNumber,
+    this.shardId,
+  });
+
+  factory PutRecordsResultEntry.fromJson(Map<String, dynamic> json) {
+    return PutRecordsResultEntry(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      sequenceNumber: json['SequenceNumber'] as String?,
+      shardId: json['ShardId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final sequenceNumber = this.sequenceNumber;
+    final shardId = this.shardId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
+      if (shardId != null) 'ShardId': shardId,
+    };
+  }
+}
+
+/// Represents the output for <code>PutRecords</code>.
+class PutRecordsRequestEntry {
+  /// The data blob to put into the record, which is base64-encoded when the blob
+  /// is serialized. When the data blob (the payload before base64-encoding) is
+  /// added to the partition key size, the total size must not exceed the maximum
+  /// record size (10 MiB).
+  final Uint8List data;
+
+  /// Determines which shard in the stream the data record is assigned to.
+  /// Partition keys are Unicode strings with a maximum length limit of 256
+  /// characters for each key. Amazon Kinesis Data Streams uses the partition key
+  /// as input to a hash function that maps the partition key and associated data
+  /// to a specific shard. Specifically, an MD5 hash function is used to map
+  /// partition keys to 128-bit integer values and to map associated data records
+  /// to shards. As a result of this hashing mechanism, all data records with the
+  /// same partition key map to the same shard within the stream.
+  final String partitionKey;
+
+  /// The hash value used to determine explicitly the shard that the data record
+  /// is assigned to by overriding the partition key hash.
+  final String? explicitHashKey;
+
+  PutRecordsRequestEntry({
+    required this.data,
+    required this.partitionKey,
+    this.explicitHashKey,
+  });
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final partitionKey = this.partitionKey;
+    final explicitHashKey = this.explicitHashKey;
+    return {
+      'Data': base64Encode(data),
+      'PartitionKey': partitionKey,
+      if (explicitHashKey != null) 'ExplicitHashKey': explicitHashKey,
+    };
+  }
+}
+
+/// Metadata assigned to the stream or consumer, consisting of a key-value pair.
+class Tag {
+  /// A unique identifier for the tag. Maximum length: 128 characters. Valid
+  /// characters: Unicode letters, digits, white space, _ . / = + - % @
+  final String key;
+
+  /// An optional string, typically used to describe or define the tag. Maximum
+  /// length: 256 characters. Valid characters: Unicode letters, digits, white
+  /// space, _ . / = + - % @
+  final String? value;
+
+  Tag({
+    required this.key,
+    this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// The summary of a stream.
+class StreamSummary {
+  /// The ARN of the stream.
+  final String streamARN;
+
+  /// The name of a stream.
+  final String streamName;
+
+  /// The status of the stream.
+  final StreamStatus streamStatus;
+
+  /// The timestamp at which the stream was created.
+  final DateTime? streamCreationTimestamp;
+  final StreamModeDetails? streamModeDetails;
+
+  StreamSummary({
+    required this.streamARN,
+    required this.streamName,
+    required this.streamStatus,
+    this.streamCreationTimestamp,
+    this.streamModeDetails,
+  });
+
+  factory StreamSummary.fromJson(Map<String, dynamic> json) {
+    return StreamSummary(
+      streamARN: (json['StreamARN'] as String?) ?? '',
+      streamName: (json['StreamName'] as String?) ?? '',
+      streamStatus:
+          StreamStatus.fromString((json['StreamStatus'] as String?) ?? ''),
+      streamCreationTimestamp:
+          timeStampFromJson(json['StreamCreationTimestamp']),
+      streamModeDetails: json['StreamModeDetails'] != null
+          ? StreamModeDetails.fromJson(
+              json['StreamModeDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamARN = this.streamARN;
+    final streamName = this.streamName;
+    final streamStatus = this.streamStatus;
+    final streamCreationTimestamp = this.streamCreationTimestamp;
+    final streamModeDetails = this.streamModeDetails;
+    return {
+      'StreamARN': streamARN,
+      'StreamName': streamName,
+      'StreamStatus': streamStatus.value,
+      if (streamCreationTimestamp != null)
+        'StreamCreationTimestamp': unixTimestampToJson(streamCreationTimestamp),
+      if (streamModeDetails != null) 'StreamModeDetails': streamModeDetails,
+    };
+  }
+}
+
+class StreamStatus {
+  static const creating = StreamStatus._('CREATING');
+  static const deleting = StreamStatus._('DELETING');
+  static const active = StreamStatus._('ACTIVE');
+  static const updating = StreamStatus._('UPDATING');
+
+  final String value;
+
+  const StreamStatus._(this.value);
+
+  static const values = [creating, deleting, active, updating];
+
+  static StreamStatus fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => StreamStatus._(value));
+
+  @override
+  bool operator ==(other) => other is StreamStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// A uniquely identified group of data records in a Kinesis data stream.
@@ -3761,6 +5270,38 @@ class Shard {
       if (adjacentParentShardId != null)
         'AdjacentParentShardId': adjacentParentShardId,
       if (parentShardId != null) 'ParentShardId': parentShardId,
+    };
+  }
+}
+
+/// The range of possible sequence numbers for the shard.
+class SequenceNumberRange {
+  /// The starting sequence number for the range.
+  final String startingSequenceNumber;
+
+  /// The ending sequence number for the range. Shards that are in the OPEN state
+  /// have an ending sequence number of <code>null</code>.
+  final String? endingSequenceNumber;
+
+  SequenceNumberRange({
+    required this.startingSequenceNumber,
+    this.endingSequenceNumber,
+  });
+
+  factory SequenceNumberRange.fromJson(Map<String, dynamic> json) {
+    return SequenceNumberRange(
+      startingSequenceNumber: (json['StartingSequenceNumber'] as String?) ?? '',
+      endingSequenceNumber: json['EndingSequenceNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startingSequenceNumber = this.startingSequenceNumber;
+    final endingSequenceNumber = this.endingSequenceNumber;
+    return {
+      'StartingSequenceNumber': startingSequenceNumber,
+      if (endingSequenceNumber != null)
+        'EndingSequenceNumber': endingSequenceNumber,
     };
   }
 }
@@ -3871,38 +5412,358 @@ class ShardFilterType {
   String toString() => value;
 }
 
-class ShardIteratorType {
-  static const atSequenceNumber = ShardIteratorType._('AT_SEQUENCE_NUMBER');
-  static const afterSequenceNumber =
-      ShardIteratorType._('AFTER_SEQUENCE_NUMBER');
-  static const trimHorizon = ShardIteratorType._('TRIM_HORIZON');
-  static const latest = ShardIteratorType._('LATEST');
-  static const atTimestamp = ShardIteratorType._('AT_TIMESTAMP');
+class MetricsName {
+  static const incomingBytes = MetricsName._('IncomingBytes');
+  static const incomingRecords = MetricsName._('IncomingRecords');
+  static const outgoingBytes = MetricsName._('OutgoingBytes');
+  static const outgoingRecords = MetricsName._('OutgoingRecords');
+  static const writeProvisionedThroughputExceeded =
+      MetricsName._('WriteProvisionedThroughputExceeded');
+  static const readProvisionedThroughputExceeded =
+      MetricsName._('ReadProvisionedThroughputExceeded');
+  static const iteratorAgeMilliseconds =
+      MetricsName._('IteratorAgeMilliseconds');
+  static const all = MetricsName._('ALL');
 
   final String value;
 
-  const ShardIteratorType._(this.value);
+  const MetricsName._(this.value);
 
   static const values = [
-    atSequenceNumber,
-    afterSequenceNumber,
-    trimHorizon,
-    latest,
-    atTimestamp
+    incomingBytes,
+    incomingRecords,
+    outgoingBytes,
+    outgoingRecords,
+    writeProvisionedThroughputExceeded,
+    readProvisionedThroughputExceeded,
+    iteratorAgeMilliseconds,
+    all
   ];
 
-  static ShardIteratorType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ShardIteratorType._(value));
+  static MetricsName fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => MetricsName._(value));
 
   @override
-  bool operator ==(other) => other is ShardIteratorType && other.value == value;
+  bool operator ==(other) => other is MetricsName && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
+}
+
+/// Represents the output for <a>DescribeStreamSummary</a>
+class StreamDescriptionSummary {
+  /// Represents the current enhanced monitoring settings of the stream.
+  final List<EnhancedMetrics> enhancedMonitoring;
+
+  /// The number of open shards in the stream.
+  final int openShardCount;
+
+  /// The current retention period, in hours.
+  final int retentionPeriodHours;
+
+  /// The Amazon Resource Name (ARN) for the stream being described.
+  final String streamARN;
+
+  /// The approximate time that the stream was created.
+  final DateTime streamCreationTimestamp;
+
+  /// The name of the stream being described.
+  final String streamName;
+
+  /// The current status of the stream being described. The stream status is one
+  /// of the following states:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The stream is being created. Kinesis Data Streams
+  /// immediately returns and sets <code>StreamStatus</code> to
+  /// <code>CREATING</code>.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The stream is being deleted. The specified stream is
+  /// in the <code>DELETING</code> state until Kinesis Data Streams completes the
+  /// deletion.
+  /// </li>
+  /// <li>
+  /// <code>ACTIVE</code> - The stream exists and is ready for read and write
+  /// operations or deletion. You should perform read and write operations only on
+  /// an <code>ACTIVE</code> stream.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - Shards in the stream are being merged or split. Read
+  /// and write operations continue to work while the stream is in the
+  /// <code>UPDATING</code> state.
+  /// </li>
+  /// </ul>
+  final StreamStatus streamStatus;
+
+  /// The number of enhanced fan-out consumers registered with the stream.
+  final int? consumerCount;
+
+  /// The encryption type used. This value is one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>KMS</code>
+  /// </li>
+  /// <li>
+  /// <code>NONE</code>
+  /// </li>
+  /// </ul>
+  final EncryptionType? encryptionType;
+
+  /// The GUID for the customer-managed Amazon Web Services KMS key to use for
+  /// encryption. This value can be a globally unique identifier, a fully
+  /// specified ARN to either an alias or a key, or an alias name prefixed by
+  /// "alias/".You can also use a master key owned by Kinesis Data Streams by
+  /// specifying the alias <code>aws/kinesis</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// Key ARN example:
+  /// <code>arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012</code>
+  /// </li>
+  /// <li>
+  /// Alias ARN example: <code>
+  /// arn:aws:kms:us-east-1:123456789012:alias/MyAliasName</code>
+  /// </li>
+  /// <li>
+  /// Globally unique key ID example:
+  /// <code>12345678-1234-1234-1234-123456789012</code>
+  /// </li>
+  /// <li>
+  /// Alias name example: <code>alias/MyAliasName</code>
+  /// </li>
+  /// <li>
+  /// Master key owned by Kinesis Data Streams: <code>alias/aws/kinesis</code>
+  /// </li>
+  /// </ul>
+  final String? keyId;
+
+  /// The maximum record size of a single record in kibibyte (KiB) that you can
+  /// write to, and read from a stream.
+  final int? maxRecordSizeInKiB;
+
+  /// Not Implemented. Reserved for future use.
+  final String? streamId;
+
+  /// Specifies the capacity mode to which you want to set your data stream.
+  /// Currently, in Kinesis Data Streams, you can choose between an
+  /// <b>on-demand</b> ycapacity mode and a <b>provisioned</b> capacity mode for
+  /// your data streams.
+  final StreamModeDetails? streamModeDetails;
+
+  /// The warm throughput in MB/s for the stream. This represents the throughput
+  /// capacity that will be immediately available for write operations.
+  final WarmThroughputObject? warmThroughput;
+
+  StreamDescriptionSummary({
+    required this.enhancedMonitoring,
+    required this.openShardCount,
+    required this.retentionPeriodHours,
+    required this.streamARN,
+    required this.streamCreationTimestamp,
+    required this.streamName,
+    required this.streamStatus,
+    this.consumerCount,
+    this.encryptionType,
+    this.keyId,
+    this.maxRecordSizeInKiB,
+    this.streamId,
+    this.streamModeDetails,
+    this.warmThroughput,
+  });
+
+  factory StreamDescriptionSummary.fromJson(Map<String, dynamic> json) {
+    return StreamDescriptionSummary(
+      enhancedMonitoring: ((json['EnhancedMonitoring'] as List?) ?? const [])
+          .nonNulls
+          .map((e) => EnhancedMetrics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      openShardCount: (json['OpenShardCount'] as int?) ?? 0,
+      retentionPeriodHours: (json['RetentionPeriodHours'] as int?) ?? 0,
+      streamARN: (json['StreamARN'] as String?) ?? '',
+      streamCreationTimestamp:
+          nonNullableTimeStampFromJson(json['StreamCreationTimestamp'] ?? 0),
+      streamName: (json['StreamName'] as String?) ?? '',
+      streamStatus:
+          StreamStatus.fromString((json['StreamStatus'] as String?) ?? ''),
+      consumerCount: json['ConsumerCount'] as int?,
+      encryptionType:
+          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
+      keyId: json['KeyId'] as String?,
+      maxRecordSizeInKiB: json['MaxRecordSizeInKiB'] as int?,
+      streamId: json['StreamId'] as String?,
+      streamModeDetails: json['StreamModeDetails'] != null
+          ? StreamModeDetails.fromJson(
+              json['StreamModeDetails'] as Map<String, dynamic>)
+          : null,
+      warmThroughput: json['WarmThroughput'] != null
+          ? WarmThroughputObject.fromJson(
+              json['WarmThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enhancedMonitoring = this.enhancedMonitoring;
+    final openShardCount = this.openShardCount;
+    final retentionPeriodHours = this.retentionPeriodHours;
+    final streamARN = this.streamARN;
+    final streamCreationTimestamp = this.streamCreationTimestamp;
+    final streamName = this.streamName;
+    final streamStatus = this.streamStatus;
+    final consumerCount = this.consumerCount;
+    final encryptionType = this.encryptionType;
+    final keyId = this.keyId;
+    final maxRecordSizeInKiB = this.maxRecordSizeInKiB;
+    final streamId = this.streamId;
+    final streamModeDetails = this.streamModeDetails;
+    final warmThroughput = this.warmThroughput;
+    return {
+      'EnhancedMonitoring': enhancedMonitoring,
+      'OpenShardCount': openShardCount,
+      'RetentionPeriodHours': retentionPeriodHours,
+      'StreamARN': streamARN,
+      'StreamCreationTimestamp': unixTimestampToJson(streamCreationTimestamp),
+      'StreamName': streamName,
+      'StreamStatus': streamStatus.value,
+      if (consumerCount != null) 'ConsumerCount': consumerCount,
+      if (encryptionType != null) 'EncryptionType': encryptionType.value,
+      if (keyId != null) 'KeyId': keyId,
+      if (maxRecordSizeInKiB != null) 'MaxRecordSizeInKiB': maxRecordSizeInKiB,
+      if (streamId != null) 'StreamId': streamId,
+      if (streamModeDetails != null) 'StreamModeDetails': streamModeDetails,
+      if (warmThroughput != null) 'WarmThroughput': warmThroughput,
+    };
+  }
+}
+
+/// Represents enhanced metrics types.
+class EnhancedMetrics {
+  /// List of shard-level metrics.
+  ///
+  /// The following are the valid shard-level metrics. The value
+  /// "<code>ALL</code>" enhances every metric.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>IncomingBytes</code>
+  /// </li>
+  /// <li>
+  /// <code>IncomingRecords</code>
+  /// </li>
+  /// <li>
+  /// <code>OutgoingBytes</code>
+  /// </li>
+  /// <li>
+  /// <code>OutgoingRecords</code>
+  /// </li>
+  /// <li>
+  /// <code>WriteProvisionedThroughputExceeded</code>
+  /// </li>
+  /// <li>
+  /// <code>ReadProvisionedThroughputExceeded</code>
+  /// </li>
+  /// <li>
+  /// <code>IteratorAgeMilliseconds</code>
+  /// </li>
+  /// <li>
+  /// <code>ALL</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
+  /// the Amazon Kinesis Data Streams Service with Amazon CloudWatch</a> in the
+  /// <i>Amazon Kinesis Data Streams Developer Guide</i>.
+  final List<MetricsName>? shardLevelMetrics;
+
+  EnhancedMetrics({
+    this.shardLevelMetrics,
+  });
+
+  factory EnhancedMetrics.fromJson(Map<String, dynamic> json) {
+    return EnhancedMetrics(
+      shardLevelMetrics: (json['ShardLevelMetrics'] as List?)
+          ?.nonNulls
+          .map((e) => MetricsName.fromString((e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shardLevelMetrics = this.shardLevelMetrics;
+    return {
+      if (shardLevelMetrics != null)
+        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.value).toList(),
+    };
+  }
+}
+
+/// An object that represents the details of a registered consumer. This type of
+/// object is returned by <a>DescribeStreamConsumer</a>.
+class ConsumerDescription {
+  /// When you register a consumer, Kinesis Data Streams generates an ARN for it.
+  /// You need this ARN to be able to call <a>SubscribeToShard</a>.
+  ///
+  /// If you delete a consumer and then create a new one with the same name, it
+  /// won't have the same ARN. That's because consumer ARNs contain the creation
+  /// timestamp. This is important to keep in mind if you have IAM policies that
+  /// reference consumer ARNs.
+  final String consumerARN;
+
+  ///
+  final DateTime consumerCreationTimestamp;
+
+  /// The name of the consumer is something you choose when you register the
+  /// consumer.
+  final String consumerName;
+
+  /// A consumer can't read data while in the <code>CREATING</code> or
+  /// <code>DELETING</code> states.
+  final ConsumerStatus consumerStatus;
+
+  /// The ARN of the stream with which you registered the consumer.
+  final String streamARN;
+
+  ConsumerDescription({
+    required this.consumerARN,
+    required this.consumerCreationTimestamp,
+    required this.consumerName,
+    required this.consumerStatus,
+    required this.streamARN,
+  });
+
+  factory ConsumerDescription.fromJson(Map<String, dynamic> json) {
+    return ConsumerDescription(
+      consumerARN: (json['ConsumerARN'] as String?) ?? '',
+      consumerCreationTimestamp:
+          nonNullableTimeStampFromJson(json['ConsumerCreationTimestamp'] ?? 0),
+      consumerName: (json['ConsumerName'] as String?) ?? '',
+      consumerStatus:
+          ConsumerStatus.fromString((json['ConsumerStatus'] as String?) ?? ''),
+      streamARN: (json['StreamARN'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumerARN = this.consumerARN;
+    final consumerCreationTimestamp = this.consumerCreationTimestamp;
+    final consumerName = this.consumerName;
+    final consumerStatus = this.consumerStatus;
+    final streamARN = this.streamARN;
+    return {
+      'ConsumerARN': consumerARN,
+      'ConsumerCreationTimestamp':
+          unixTimestampToJson(consumerCreationTimestamp),
+      'ConsumerName': consumerName,
+      'ConsumerStatus': consumerStatus.value,
+      'StreamARN': streamARN,
+    };
+  }
 }
 
 /// Represents the output for <a>DescribeStream</a>.
@@ -4075,377 +5936,6 @@ class StreamDescription {
   }
 }
 
-/// Represents the output for <a>DescribeStreamSummary</a>
-class StreamDescriptionSummary {
-  /// Represents the current enhanced monitoring settings of the stream.
-  final List<EnhancedMetrics> enhancedMonitoring;
-
-  /// The number of open shards in the stream.
-  final int openShardCount;
-
-  /// The current retention period, in hours.
-  final int retentionPeriodHours;
-
-  /// The Amazon Resource Name (ARN) for the stream being described.
-  final String streamARN;
-
-  /// The approximate time that the stream was created.
-  final DateTime streamCreationTimestamp;
-
-  /// The name of the stream being described.
-  final String streamName;
-
-  /// The current status of the stream being described. The stream status is one
-  /// of the following states:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>CREATING</code> - The stream is being created. Kinesis Data Streams
-  /// immediately returns and sets <code>StreamStatus</code> to
-  /// <code>CREATING</code>.
-  /// </li>
-  /// <li>
-  /// <code>DELETING</code> - The stream is being deleted. The specified stream is
-  /// in the <code>DELETING</code> state until Kinesis Data Streams completes the
-  /// deletion.
-  /// </li>
-  /// <li>
-  /// <code>ACTIVE</code> - The stream exists and is ready for read and write
-  /// operations or deletion. You should perform read and write operations only on
-  /// an <code>ACTIVE</code> stream.
-  /// </li>
-  /// <li>
-  /// <code>UPDATING</code> - Shards in the stream are being merged or split. Read
-  /// and write operations continue to work while the stream is in the
-  /// <code>UPDATING</code> state.
-  /// </li>
-  /// </ul>
-  final StreamStatus streamStatus;
-
-  /// The number of enhanced fan-out consumers registered with the stream.
-  final int? consumerCount;
-
-  /// The encryption type used. This value is one of the following:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>KMS</code>
-  /// </li>
-  /// <li>
-  /// <code>NONE</code>
-  /// </li>
-  /// </ul>
-  final EncryptionType? encryptionType;
-
-  /// The GUID for the customer-managed Amazon Web Services KMS key to use for
-  /// encryption. This value can be a globally unique identifier, a fully
-  /// specified ARN to either an alias or a key, or an alias name prefixed by
-  /// "alias/".You can also use a master key owned by Kinesis Data Streams by
-  /// specifying the alias <code>aws/kinesis</code>.
-  ///
-  /// <ul>
-  /// <li>
-  /// Key ARN example:
-  /// <code>arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012</code>
-  /// </li>
-  /// <li>
-  /// Alias ARN example: <code>
-  /// arn:aws:kms:us-east-1:123456789012:alias/MyAliasName</code>
-  /// </li>
-  /// <li>
-  /// Globally unique key ID example:
-  /// <code>12345678-1234-1234-1234-123456789012</code>
-  /// </li>
-  /// <li>
-  /// Alias name example: <code>alias/MyAliasName</code>
-  /// </li>
-  /// <li>
-  /// Master key owned by Kinesis Data Streams: <code>alias/aws/kinesis</code>
-  /// </li>
-  /// </ul>
-  final String? keyId;
-
-  /// Specifies the capacity mode to which you want to set your data stream.
-  /// Currently, in Kinesis Data Streams, you can choose between an
-  /// <b>on-demand</b> ycapacity mode and a <b>provisioned</b> capacity mode for
-  /// your data streams.
-  final StreamModeDetails? streamModeDetails;
-
-  StreamDescriptionSummary({
-    required this.enhancedMonitoring,
-    required this.openShardCount,
-    required this.retentionPeriodHours,
-    required this.streamARN,
-    required this.streamCreationTimestamp,
-    required this.streamName,
-    required this.streamStatus,
-    this.consumerCount,
-    this.encryptionType,
-    this.keyId,
-    this.streamModeDetails,
-  });
-
-  factory StreamDescriptionSummary.fromJson(Map<String, dynamic> json) {
-    return StreamDescriptionSummary(
-      enhancedMonitoring: ((json['EnhancedMonitoring'] as List?) ?? const [])
-          .nonNulls
-          .map((e) => EnhancedMetrics.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      openShardCount: (json['OpenShardCount'] as int?) ?? 0,
-      retentionPeriodHours: (json['RetentionPeriodHours'] as int?) ?? 0,
-      streamARN: (json['StreamARN'] as String?) ?? '',
-      streamCreationTimestamp:
-          nonNullableTimeStampFromJson(json['StreamCreationTimestamp'] ?? 0),
-      streamName: (json['StreamName'] as String?) ?? '',
-      streamStatus:
-          StreamStatus.fromString((json['StreamStatus'] as String?) ?? ''),
-      consumerCount: json['ConsumerCount'] as int?,
-      encryptionType:
-          (json['EncryptionType'] as String?)?.let(EncryptionType.fromString),
-      keyId: json['KeyId'] as String?,
-      streamModeDetails: json['StreamModeDetails'] != null
-          ? StreamModeDetails.fromJson(
-              json['StreamModeDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final enhancedMonitoring = this.enhancedMonitoring;
-    final openShardCount = this.openShardCount;
-    final retentionPeriodHours = this.retentionPeriodHours;
-    final streamARN = this.streamARN;
-    final streamCreationTimestamp = this.streamCreationTimestamp;
-    final streamName = this.streamName;
-    final streamStatus = this.streamStatus;
-    final consumerCount = this.consumerCount;
-    final encryptionType = this.encryptionType;
-    final keyId = this.keyId;
-    final streamModeDetails = this.streamModeDetails;
-    return {
-      'EnhancedMonitoring': enhancedMonitoring,
-      'OpenShardCount': openShardCount,
-      'RetentionPeriodHours': retentionPeriodHours,
-      'StreamARN': streamARN,
-      'StreamCreationTimestamp': unixTimestampToJson(streamCreationTimestamp),
-      'StreamName': streamName,
-      'StreamStatus': streamStatus.value,
-      if (consumerCount != null) 'ConsumerCount': consumerCount,
-      if (encryptionType != null) 'EncryptionType': encryptionType.value,
-      if (keyId != null) 'KeyId': keyId,
-      if (streamModeDetails != null) 'StreamModeDetails': streamModeDetails,
-    };
-  }
-}
-
-class StreamMode {
-  static const provisioned = StreamMode._('PROVISIONED');
-  static const onDemand = StreamMode._('ON_DEMAND');
-
-  final String value;
-
-  const StreamMode._(this.value);
-
-  static const values = [provisioned, onDemand];
-
-  static StreamMode fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StreamMode._(value));
-
-  @override
-  bool operator ==(other) => other is StreamMode && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Specifies the capacity mode to which you want to set your data stream.
-/// Currently, in Kinesis Data Streams, you can choose between an
-/// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
-/// your data streams.
-class StreamModeDetails {
-  /// Specifies the capacity mode to which you want to set your data stream.
-  /// Currently, in Kinesis Data Streams, you can choose between an
-  /// <b>on-demand</b> capacity mode and a <b>provisioned</b> capacity mode for
-  /// your data streams.
-  final StreamMode streamMode;
-
-  StreamModeDetails({
-    required this.streamMode,
-  });
-
-  factory StreamModeDetails.fromJson(Map<String, dynamic> json) {
-    return StreamModeDetails(
-      streamMode: StreamMode.fromString((json['StreamMode'] as String?) ?? ''),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final streamMode = this.streamMode;
-    return {
-      'StreamMode': streamMode.value,
-    };
-  }
-}
-
-class StreamStatus {
-  static const creating = StreamStatus._('CREATING');
-  static const deleting = StreamStatus._('DELETING');
-  static const active = StreamStatus._('ACTIVE');
-  static const updating = StreamStatus._('UPDATING');
-
-  final String value;
-
-  const StreamStatus._(this.value);
-
-  static const values = [creating, deleting, active, updating];
-
-  static StreamStatus fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => StreamStatus._(value));
-
-  @override
-  bool operator ==(other) => other is StreamStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// The summary of a stream.
-class StreamSummary {
-  /// The ARN of the stream.
-  final String streamARN;
-
-  /// The name of a stream.
-  final String streamName;
-
-  /// The status of the stream.
-  final StreamStatus streamStatus;
-
-  /// The timestamp at which the stream was created.
-  final DateTime? streamCreationTimestamp;
-  final StreamModeDetails? streamModeDetails;
-
-  StreamSummary({
-    required this.streamARN,
-    required this.streamName,
-    required this.streamStatus,
-    this.streamCreationTimestamp,
-    this.streamModeDetails,
-  });
-
-  factory StreamSummary.fromJson(Map<String, dynamic> json) {
-    return StreamSummary(
-      streamARN: (json['StreamARN'] as String?) ?? '',
-      streamName: (json['StreamName'] as String?) ?? '',
-      streamStatus:
-          StreamStatus.fromString((json['StreamStatus'] as String?) ?? ''),
-      streamCreationTimestamp:
-          timeStampFromJson(json['StreamCreationTimestamp']),
-      streamModeDetails: json['StreamModeDetails'] != null
-          ? StreamModeDetails.fromJson(
-              json['StreamModeDetails'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final streamARN = this.streamARN;
-    final streamName = this.streamName;
-    final streamStatus = this.streamStatus;
-    final streamCreationTimestamp = this.streamCreationTimestamp;
-    final streamModeDetails = this.streamModeDetails;
-    return {
-      'StreamARN': streamARN,
-      'StreamName': streamName,
-      'StreamStatus': streamStatus.value,
-      if (streamCreationTimestamp != null)
-        'StreamCreationTimestamp': unixTimestampToJson(streamCreationTimestamp),
-      if (streamModeDetails != null) 'StreamModeDetails': streamModeDetails,
-    };
-  }
-}
-
-/// Metadata assigned to the stream, consisting of a key-value pair.
-class Tag {
-  /// A unique identifier for the tag. Maximum length: 128 characters. Valid
-  /// characters: Unicode letters, digits, white space, _ . / = + - % @
-  final String key;
-
-  /// An optional string, typically used to describe or define the tag. Maximum
-  /// length: 256 characters. Valid characters: Unicode letters, digits, white
-  /// space, _ . / = + - % @
-  final String? value;
-
-  Tag({
-    required this.key,
-    this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: json['Value'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      if (value != null) 'Value': value,
-    };
-  }
-}
-
-class UpdateShardCountOutput {
-  /// The current number of shards.
-  final int? currentShardCount;
-
-  /// The ARN of the stream.
-  final String? streamARN;
-
-  /// The name of the stream.
-  final String? streamName;
-
-  /// The updated number of shards.
-  final int? targetShardCount;
-
-  UpdateShardCountOutput({
-    this.currentShardCount,
-    this.streamARN,
-    this.streamName,
-    this.targetShardCount,
-  });
-
-  factory UpdateShardCountOutput.fromJson(Map<String, dynamic> json) {
-    return UpdateShardCountOutput(
-      currentShardCount: json['CurrentShardCount'] as int?,
-      streamARN: json['StreamARN'] as String?,
-      streamName: json['StreamName'] as String?,
-      targetShardCount: json['TargetShardCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final currentShardCount = this.currentShardCount;
-    final streamARN = this.streamARN;
-    final streamName = this.streamName;
-    final targetShardCount = this.targetShardCount;
-    return {
-      if (currentShardCount != null) 'CurrentShardCount': currentShardCount,
-      if (streamARN != null) 'StreamARN': streamARN,
-      if (streamName != null) 'StreamName': streamName,
-      if (targetShardCount != null) 'TargetShardCount': targetShardCount,
-    };
-  }
-}
-
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
@@ -4466,36 +5956,6 @@ class InvalidArgumentException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
-class KMSAccessDeniedException extends _s.GenericAwsException {
-  KMSAccessDeniedException({String? type, String? message})
-      : super(type: type, code: 'KMSAccessDeniedException', message: message);
-}
-
-class KMSDisabledException extends _s.GenericAwsException {
-  KMSDisabledException({String? type, String? message})
-      : super(type: type, code: 'KMSDisabledException', message: message);
-}
-
-class KMSInvalidStateException extends _s.GenericAwsException {
-  KMSInvalidStateException({String? type, String? message})
-      : super(type: type, code: 'KMSInvalidStateException', message: message);
-}
-
-class KMSNotFoundException extends _s.GenericAwsException {
-  KMSNotFoundException({String? type, String? message})
-      : super(type: type, code: 'KMSNotFoundException', message: message);
-}
-
-class KMSOptInRequired extends _s.GenericAwsException {
-  KMSOptInRequired({String? type, String? message})
-      : super(type: type, code: 'KMSOptInRequired', message: message);
-}
-
-class KMSThrottlingException extends _s.GenericAwsException {
-  KMSThrottlingException({String? type, String? message})
-      : super(type: type, code: 'KMSThrottlingException', message: message);
-}
-
 class LimitExceededException extends _s.GenericAwsException {
   LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
@@ -4507,16 +5967,6 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
             type: type,
             code: 'ProvisionedThroughputExceededException',
             message: message);
-}
-
-class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String? type, String? message})
-      : super(type: type, code: 'ResourceInUseException', message: message);
-}
-
-class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String? type, String? message})
-      : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
@@ -4531,28 +5981,29 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ExpiredIteratorException(type: type, message: message),
   'ExpiredNextTokenException': (type, message) =>
       ExpiredNextTokenException(type: type, message: message),
+  'InternalFailureException': (type, message) =>
+      InternalFailureException(message: message),
   'InvalidArgumentException': (type, message) =>
       InvalidArgumentException(type: type, message: message),
   'KMSAccessDeniedException': (type, message) =>
-      KMSAccessDeniedException(type: type, message: message),
+      KMSAccessDeniedException(message: message),
   'KMSDisabledException': (type, message) =>
-      KMSDisabledException(type: type, message: message),
+      KMSDisabledException(message: message),
   'KMSInvalidStateException': (type, message) =>
-      KMSInvalidStateException(type: type, message: message),
+      KMSInvalidStateException(message: message),
   'KMSNotFoundException': (type, message) =>
-      KMSNotFoundException(type: type, message: message),
-  'KMSOptInRequired': (type, message) =>
-      KMSOptInRequired(type: type, message: message),
+      KMSNotFoundException(message: message),
+  'KMSOptInRequired': (type, message) => KMSOptInRequired(message: message),
   'KMSThrottlingException': (type, message) =>
-      KMSThrottlingException(type: type, message: message),
+      KMSThrottlingException(message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
   'ProvisionedThroughputExceededException': (type, message) =>
       ProvisionedThroughputExceededException(type: type, message: message),
   'ResourceInUseException': (type, message) =>
-      ResourceInUseException(type: type, message: message),
+      ResourceInUseException(message: message),
   'ResourceNotFoundException': (type, message) =>
-      ResourceNotFoundException(type: type, message: message),
+      ResourceNotFoundException(message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

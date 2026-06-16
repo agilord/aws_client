@@ -33,7 +33,6 @@ class Schemas {
           client: client,
           service: _s.ServiceMetadata(
             endpointPrefix: 'schemas',
-            signingName: 'schemas',
           ),
           region: region,
           credentials: credentials,
@@ -53,11 +52,11 @@ class Schemas {
   /// Creates a discoverer.
   ///
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [UnauthorizedException].
-  /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [sourceArn] :
   /// The ARN of the event bus.
@@ -95,11 +94,11 @@ class Schemas {
   /// Creates a registry.
   ///
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [UnauthorizedException].
-  /// May throw [ForbiddenException].
-  /// May throw [ServiceUnavailableException].
   /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -132,10 +131,10 @@ class Schemas {
   /// Inactive schemas will be deleted after two years.
   /// </note>
   ///
-  /// May throw [ServiceUnavailableException].
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
   ///
   /// Parameter [content] :
   /// The source of the schema definition.
@@ -181,11 +180,11 @@ class Schemas {
   /// Deletes a discoverer.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
@@ -203,11 +202,11 @@ class Schemas {
   /// Deletes a Registry.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -225,11 +224,11 @@ class Schemas {
   /// Delete the resource-based policy attached to the specified registry.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -251,11 +250,11 @@ class Schemas {
   /// Delete a schema definition.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -278,11 +277,11 @@ class Schemas {
   /// Delete the schema version definition
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -309,11 +308,11 @@ class Schemas {
   /// Describe the code binding URI.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [language] :
   /// The language of the code binding.
@@ -349,11 +348,11 @@ class Schemas {
   /// Describes the discoverer.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
@@ -372,11 +371,11 @@ class Schemas {
   /// Describes the registry.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -395,11 +394,11 @@ class Schemas {
   /// Retrieve the schema definition.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -430,12 +429,12 @@ class Schemas {
 
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -469,11 +468,11 @@ class Schemas {
   /// Get the code binding source URI.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [language] :
   /// The language of the code binding.
@@ -510,11 +509,11 @@ class Schemas {
 
   /// Get the discovered schema that was generated based on sampled events.
   ///
-  /// May throw [ServiceUnavailableException].
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [events] :
   /// An array of strings where each string is a JSON event. These are the
@@ -543,11 +542,11 @@ class Schemas {
   /// Retrieves the resource-based policy attached to a given registry.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -569,11 +568,11 @@ class Schemas {
 
   /// List the discoverers.
   ///
-  /// May throw [ServiceUnavailableException].
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [discovererIdPrefix] :
   /// Specifying this limits the results to only those discoverer IDs that start
@@ -612,11 +611,11 @@ class Schemas {
 
   /// List the registries.
   ///
-  /// May throw [ServiceUnavailableException].
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results to return. To request
@@ -653,53 +652,13 @@ class Schemas {
     return ListRegistriesResponse.fromJson(response);
   }
 
-  /// Provides a list of the schema versions and related information.
-  ///
-  /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
-  /// May throw [ForbiddenException].
-  /// May throw [NotFoundException].
-  /// May throw [ServiceUnavailableException].
-  ///
-  /// Parameter [registryName] :
-  /// The name of the registry.
-  ///
-  /// Parameter [schemaName] :
-  /// The name of the schema.
-  ///
-  /// Parameter [nextToken] :
-  /// The token that specifies the next page of results to return. To request
-  /// the first page, leave NextToken empty. The token will expire in 24 hours,
-  /// and cannot be shared with other accounts.
-  Future<ListSchemaVersionsResponse> listSchemaVersions({
-    required String registryName,
-    required String schemaName,
-    int? limit,
-    String? nextToken,
-  }) async {
-    final $query = <String, List<String>>{
-      if (limit != null) 'limit': [limit.toString()],
-      if (nextToken != null) 'nextToken': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri:
-          '/v1/registries/name/${Uri.encodeComponent(registryName)}/schemas/name/${Uri.encodeComponent(schemaName)}/versions',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListSchemaVersionsResponse.fromJson(response);
-  }
-
   /// List the schemas.
   ///
-  /// May throw [ServiceUnavailableException].
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -734,12 +693,52 @@ class Schemas {
     return ListSchemasResponse.fromJson(response);
   }
 
+  /// Provides a list of the schema versions and related information.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
+  ///
+  /// Parameter [registryName] :
+  /// The name of the registry.
+  ///
+  /// Parameter [schemaName] :
+  /// The name of the schema.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that specifies the next page of results to return. To request
+  /// the first page, leave NextToken empty. The token will expire in 24 hours,
+  /// and cannot be shared with other accounts.
+  Future<ListSchemaVersionsResponse> listSchemaVersions({
+    required String registryName,
+    required String schemaName,
+    int? limit,
+    String? nextToken,
+  }) async {
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v1/registries/name/${Uri.encodeComponent(registryName)}/schemas/name/${Uri.encodeComponent(schemaName)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSchemaVersionsResponse.fromJson(response);
+  }
+
   /// Get tags for resource.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource.
@@ -757,13 +756,13 @@ class Schemas {
 
   /// Put code binding URI
   ///
-  /// May throw [GoneException].
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [GoneException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [language] :
   /// The language of the code binding.
@@ -799,12 +798,12 @@ class Schemas {
   /// The name of the policy.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [PreconditionFailedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
+  /// May throw [PreconditionFailedException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [policy] :
   /// The resource-based policy.
@@ -838,11 +837,11 @@ class Schemas {
 
   /// Search the schemas
   ///
-  /// May throw [ServiceUnavailableException].
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [keywords] :
   /// Specifying this limits the results to only schemas that include the
@@ -880,11 +879,11 @@ class Schemas {
   /// Starts the discoverer
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
@@ -904,11 +903,11 @@ class Schemas {
   /// Stops the discoverer
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
@@ -927,10 +926,10 @@ class Schemas {
 
   /// Add tags to a resource.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource.
@@ -954,10 +953,10 @@ class Schemas {
 
   /// Removes tags from a resource.
   ///
-  /// May throw [NotFoundException].
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceArn] :
   /// The ARN of the resource.
@@ -983,11 +982,11 @@ class Schemas {
   /// Updates the discoverer
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
@@ -1019,11 +1018,11 @@ class Schemas {
   /// Updates a registry.
   ///
   /// May throw [BadRequestException].
-  /// May throw [UnauthorizedException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedException].
   ///
   /// Parameter [registryName] :
   /// The name of the registry.
@@ -1052,8 +1051,8 @@ class Schemas {
   /// </note>
   ///
   /// May throw [BadRequestException].
-  /// May throw [InternalServerErrorException].
   /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
   /// May throw [NotFoundException].
   /// May throw [ServiceUnavailableException].
   ///
@@ -1097,32 +1096,6 @@ class Schemas {
     );
     return UpdateSchemaResponse.fromJson(response);
   }
-}
-
-class CodeGenerationStatus {
-  static const createInProgress = CodeGenerationStatus._('CREATE_IN_PROGRESS');
-  static const createComplete = CodeGenerationStatus._('CREATE_COMPLETE');
-  static const createFailed = CodeGenerationStatus._('CREATE_FAILED');
-
-  final String value;
-
-  const CodeGenerationStatus._(this.value);
-
-  static const values = [createInProgress, createComplete, createFailed];
-
-  static CodeGenerationStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => CodeGenerationStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is CodeGenerationStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateDiscovererResponse {
@@ -1539,89 +1512,6 @@ class DescribeSchemaResponse {
   }
 }
 
-class DiscovererState {
-  static const started = DiscovererState._('STARTED');
-  static const stopped = DiscovererState._('STOPPED');
-
-  final String value;
-
-  const DiscovererState._(this.value);
-
-  static const values = [started, stopped];
-
-  static DiscovererState fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => DiscovererState._(value));
-
-  @override
-  bool operator ==(other) => other is DiscovererState && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class DiscovererSummary {
-  /// The Status if the discoverer will discover schemas from events sent from
-  /// another account.
-  final bool? crossAccount;
-
-  /// The ARN of the discoverer.
-  final String? discovererArn;
-
-  /// The ID of the discoverer.
-  final String? discovererId;
-
-  /// The ARN of the event bus.
-  final String? sourceArn;
-
-  /// The state of the discoverer.
-  final DiscovererState? state;
-
-  /// Tags associated with the resource.
-  final Map<String, String>? tags;
-
-  DiscovererSummary({
-    this.crossAccount,
-    this.discovererArn,
-    this.discovererId,
-    this.sourceArn,
-    this.state,
-    this.tags,
-  });
-
-  factory DiscovererSummary.fromJson(Map<String, dynamic> json) {
-    return DiscovererSummary(
-      crossAccount: json['CrossAccount'] as bool?,
-      discovererArn: json['DiscovererArn'] as String?,
-      discovererId: json['DiscovererId'] as String?,
-      sourceArn: json['SourceArn'] as String?,
-      state: (json['State'] as String?)?.let(DiscovererState.fromString),
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final crossAccount = this.crossAccount;
-    final discovererArn = this.discovererArn;
-    final discovererId = this.discovererId;
-    final sourceArn = this.sourceArn;
-    final state = this.state;
-    final tags = this.tags;
-    return {
-      if (crossAccount != null) 'CrossAccount': crossAccount,
-      if (discovererArn != null) 'DiscovererArn': discovererArn,
-      if (discovererId != null) 'DiscovererId': discovererId,
-      if (sourceArn != null) 'SourceArn': sourceArn,
-      if (state != null) 'State': state.value,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
 class ExportSchemaResponse {
   final String? content;
   final String? schemaArn;
@@ -1798,40 +1688,6 @@ class ListRegistriesResponse {
   }
 }
 
-class ListSchemaVersionsResponse {
-  /// The token that specifies the next page of results to return. To request the
-  /// first page, leave NextToken empty. The token will expire in 24 hours, and
-  /// cannot be shared with other accounts.
-  final String? nextToken;
-
-  /// An array of schema version summaries.
-  final List<SchemaVersionSummary>? schemaVersions;
-
-  ListSchemaVersionsResponse({
-    this.nextToken,
-    this.schemaVersions,
-  });
-
-  factory ListSchemaVersionsResponse.fromJson(Map<String, dynamic> json) {
-    return ListSchemaVersionsResponse(
-      nextToken: json['NextToken'] as String?,
-      schemaVersions: (json['SchemaVersions'] as List?)
-          ?.nonNulls
-          .map((e) => SchemaVersionSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final nextToken = this.nextToken;
-    final schemaVersions = this.schemaVersions;
-    return {
-      if (nextToken != null) 'NextToken': nextToken,
-      if (schemaVersions != null) 'SchemaVersions': schemaVersions,
-    };
-  }
-}
-
 class ListSchemasResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
@@ -1862,6 +1718,40 @@ class ListSchemasResponse {
     return {
       if (nextToken != null) 'NextToken': nextToken,
       if (schemas != null) 'Schemas': schemas,
+    };
+  }
+}
+
+class ListSchemaVersionsResponse {
+  /// The token that specifies the next page of results to return. To request the
+  /// first page, leave NextToken empty. The token will expire in 24 hours, and
+  /// cannot be shared with other accounts.
+  final String? nextToken;
+
+  /// An array of schema version summaries.
+  final List<SchemaVersionSummary>? schemaVersions;
+
+  ListSchemaVersionsResponse({
+    this.nextToken,
+    this.schemaVersions,
+  });
+
+  factory ListSchemaVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchemaVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      schemaVersions: (json['SchemaVersions'] as List?)
+          ?.nonNulls
+          .map((e) => SchemaVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final schemaVersions = this.schemaVersions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemaVersions != null) 'SchemaVersions': schemaVersions,
     };
   }
 }
@@ -1961,221 +1851,6 @@ class PutResourcePolicyResponse {
   }
 }
 
-class RegistrySummary {
-  /// The ARN of the registry.
-  final String? registryArn;
-
-  /// The name of the registry.
-  final String? registryName;
-
-  /// Tags associated with the registry.
-  final Map<String, String>? tags;
-
-  RegistrySummary({
-    this.registryArn,
-    this.registryName,
-    this.tags,
-  });
-
-  factory RegistrySummary.fromJson(Map<String, dynamic> json) {
-    return RegistrySummary(
-      registryArn: json['RegistryArn'] as String?,
-      registryName: json['RegistryName'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final registryArn = this.registryArn;
-    final registryName = this.registryName;
-    final tags = this.tags;
-    return {
-      if (registryArn != null) 'RegistryArn': registryArn,
-      if (registryName != null) 'RegistryName': registryName,
-      if (tags != null) 'tags': tags,
-    };
-  }
-}
-
-/// A summary of schema details.
-class SchemaSummary {
-  /// The date and time that schema was modified.
-  final DateTime? lastModified;
-
-  /// The ARN of the schema.
-  final String? schemaArn;
-
-  /// The name of the schema.
-  final String? schemaName;
-
-  /// Tags associated with the schema.
-  final Map<String, String>? tags;
-
-  /// The number of versions available for the schema.
-  final int? versionCount;
-
-  SchemaSummary({
-    this.lastModified,
-    this.schemaArn,
-    this.schemaName,
-    this.tags,
-    this.versionCount,
-  });
-
-  factory SchemaSummary.fromJson(Map<String, dynamic> json) {
-    return SchemaSummary(
-      lastModified: timeStampFromJson(json['LastModified']),
-      schemaArn: json['SchemaArn'] as String?,
-      schemaName: json['SchemaName'] as String?,
-      tags: (json['tags'] as Map<String, dynamic>?)
-          ?.map((k, e) => MapEntry(k, e as String)),
-      versionCount: json['VersionCount'] as int?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final lastModified = this.lastModified;
-    final schemaArn = this.schemaArn;
-    final schemaName = this.schemaName;
-    final tags = this.tags;
-    final versionCount = this.versionCount;
-    return {
-      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
-      if (schemaArn != null) 'SchemaArn': schemaArn,
-      if (schemaName != null) 'SchemaName': schemaName,
-      if (tags != null) 'tags': tags,
-      if (versionCount != null) 'VersionCount': versionCount,
-    };
-  }
-}
-
-class SchemaVersionSummary {
-  /// The ARN of the schema version.
-  final String? schemaArn;
-
-  /// The name of the schema.
-  final String? schemaName;
-
-  /// The version number of the schema.
-  final String? schemaVersion;
-
-  /// The type of schema.
-  final Type? type;
-
-  SchemaVersionSummary({
-    this.schemaArn,
-    this.schemaName,
-    this.schemaVersion,
-    this.type,
-  });
-
-  factory SchemaVersionSummary.fromJson(Map<String, dynamic> json) {
-    return SchemaVersionSummary(
-      schemaArn: json['SchemaArn'] as String?,
-      schemaName: json['SchemaName'] as String?,
-      schemaVersion: json['SchemaVersion'] as String?,
-      type: (json['Type'] as String?)?.let(Type.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final schemaArn = this.schemaArn;
-    final schemaName = this.schemaName;
-    final schemaVersion = this.schemaVersion;
-    final type = this.type;
-    return {
-      if (schemaArn != null) 'SchemaArn': schemaArn,
-      if (schemaName != null) 'SchemaName': schemaName,
-      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
-class SearchSchemaSummary {
-  /// The name of the registry.
-  final String? registryName;
-
-  /// The ARN of the schema.
-  final String? schemaArn;
-
-  /// The name of the schema.
-  final String? schemaName;
-
-  /// An array of schema version summaries.
-  final List<SearchSchemaVersionSummary>? schemaVersions;
-
-  SearchSchemaSummary({
-    this.registryName,
-    this.schemaArn,
-    this.schemaName,
-    this.schemaVersions,
-  });
-
-  factory SearchSchemaSummary.fromJson(Map<String, dynamic> json) {
-    return SearchSchemaSummary(
-      registryName: json['RegistryName'] as String?,
-      schemaArn: json['SchemaArn'] as String?,
-      schemaName: json['SchemaName'] as String?,
-      schemaVersions: (json['SchemaVersions'] as List?)
-          ?.nonNulls
-          .map((e) =>
-              SearchSchemaVersionSummary.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final registryName = this.registryName;
-    final schemaArn = this.schemaArn;
-    final schemaName = this.schemaName;
-    final schemaVersions = this.schemaVersions;
-    return {
-      if (registryName != null) 'RegistryName': registryName,
-      if (schemaArn != null) 'SchemaArn': schemaArn,
-      if (schemaName != null) 'SchemaName': schemaName,
-      if (schemaVersions != null) 'SchemaVersions': schemaVersions,
-    };
-  }
-}
-
-class SearchSchemaVersionSummary {
-  /// The date the schema version was created.
-  final DateTime? createdDate;
-
-  /// The version number of the schema
-  final String? schemaVersion;
-
-  /// The type of schema.
-  final Type? type;
-
-  SearchSchemaVersionSummary({
-    this.createdDate,
-    this.schemaVersion,
-    this.type,
-  });
-
-  factory SearchSchemaVersionSummary.fromJson(Map<String, dynamic> json) {
-    return SearchSchemaVersionSummary(
-      createdDate: timeStampFromJson(json['CreatedDate']),
-      schemaVersion: json['SchemaVersion'] as String?,
-      type: (json['Type'] as String?)?.let(Type.fromString),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final createdDate = this.createdDate;
-    final schemaVersion = this.schemaVersion;
-    final type = this.type;
-    return {
-      if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
-      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
-      if (type != null) 'Type': type.value,
-    };
-  }
-}
-
 class SearchSchemasResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
@@ -2266,29 +1941,6 @@ class StopDiscovererResponse {
       if (state != null) 'State': state.value,
     };
   }
-}
-
-class Type {
-  static const openApi3 = Type._('OpenApi3');
-  static const jSONSchemaDraft4 = Type._('JSONSchemaDraft4');
-
-  final String value;
-
-  const Type._(this.value);
-
-  static const values = [openApi3, jSONSchemaDraft4];
-
-  static Type fromString(String value) =>
-      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
-
-  @override
-  bool operator ==(other) => other is Type && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class UpdateDiscovererResponse {
@@ -2468,6 +2120,353 @@ class UpdateSchemaResponse {
       if (type != null) 'Type': type,
       if (versionCreatedDate != null)
         'VersionCreatedDate': iso8601ToJson(versionCreatedDate),
+    };
+  }
+}
+
+class Type {
+  static const openApi3 = Type._('OpenApi3');
+  static const jSONSchemaDraft4 = Type._('JSONSchemaDraft4');
+
+  final String value;
+
+  const Type._(this.value);
+
+  static const values = [openApi3, jSONSchemaDraft4];
+
+  static Type fromString(String value) =>
+      values.firstWhere((e) => e.value == value, orElse: () => Type._(value));
+
+  @override
+  bool operator ==(other) => other is Type && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class DiscovererState {
+  static const started = DiscovererState._('STARTED');
+  static const stopped = DiscovererState._('STOPPED');
+
+  final String value;
+
+  const DiscovererState._(this.value);
+
+  static const values = [started, stopped];
+
+  static DiscovererState fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => DiscovererState._(value));
+
+  @override
+  bool operator ==(other) => other is DiscovererState && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SearchSchemaSummary {
+  /// The name of the registry.
+  final String? registryName;
+
+  /// The ARN of the schema.
+  final String? schemaArn;
+
+  /// The name of the schema.
+  final String? schemaName;
+
+  /// An array of schema version summaries.
+  final List<SearchSchemaVersionSummary>? schemaVersions;
+
+  SearchSchemaSummary({
+    this.registryName,
+    this.schemaArn,
+    this.schemaName,
+    this.schemaVersions,
+  });
+
+  factory SearchSchemaSummary.fromJson(Map<String, dynamic> json) {
+    return SearchSchemaSummary(
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersions: (json['SchemaVersions'] as List?)
+          ?.nonNulls
+          .map((e) =>
+              SearchSchemaVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final registryName = this.registryName;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final schemaVersions = this.schemaVersions;
+    return {
+      if (registryName != null) 'RegistryName': registryName,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (schemaVersions != null) 'SchemaVersions': schemaVersions,
+    };
+  }
+}
+
+class SearchSchemaVersionSummary {
+  /// The date the schema version was created.
+  final DateTime? createdDate;
+
+  /// The version number of the schema
+  final String? schemaVersion;
+
+  /// The type of schema.
+  final Type? type;
+
+  SearchSchemaVersionSummary({
+    this.createdDate,
+    this.schemaVersion,
+    this.type,
+  });
+
+  factory SearchSchemaVersionSummary.fromJson(Map<String, dynamic> json) {
+    return SearchSchemaVersionSummary(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      schemaVersion: json['SchemaVersion'] as String?,
+      type: (json['Type'] as String?)?.let(Type.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final schemaVersion = this.schemaVersion;
+    final type = this.type;
+    return {
+      if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+class CodeGenerationStatus {
+  static const createInProgress = CodeGenerationStatus._('CREATE_IN_PROGRESS');
+  static const createComplete = CodeGenerationStatus._('CREATE_COMPLETE');
+  static const createFailed = CodeGenerationStatus._('CREATE_FAILED');
+
+  final String value;
+
+  const CodeGenerationStatus._(this.value);
+
+  static const values = [createInProgress, createComplete, createFailed];
+
+  static CodeGenerationStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => CodeGenerationStatus._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is CodeGenerationStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class SchemaVersionSummary {
+  /// The ARN of the schema version.
+  final String? schemaArn;
+
+  /// The name of the schema.
+  final String? schemaName;
+
+  /// The version number of the schema.
+  final String? schemaVersion;
+
+  /// The type of schema.
+  final Type? type;
+
+  SchemaVersionSummary({
+    this.schemaArn,
+    this.schemaName,
+    this.schemaVersion,
+    this.type,
+  });
+
+  factory SchemaVersionSummary.fromJson(Map<String, dynamic> json) {
+    return SchemaVersionSummary(
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersion: json['SchemaVersion'] as String?,
+      type: (json['Type'] as String?)?.let(Type.fromString),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final schemaVersion = this.schemaVersion;
+    final type = this.type;
+    return {
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (type != null) 'Type': type.value,
+    };
+  }
+}
+
+/// A summary of schema details.
+class SchemaSummary {
+  /// The date and time that schema was modified.
+  final DateTime? lastModified;
+
+  /// The ARN of the schema.
+  final String? schemaArn;
+
+  /// The name of the schema.
+  final String? schemaName;
+
+  /// Tags associated with the schema.
+  final Map<String, String>? tags;
+
+  /// The number of versions available for the schema.
+  final int? versionCount;
+
+  SchemaSummary({
+    this.lastModified,
+    this.schemaArn,
+    this.schemaName,
+    this.tags,
+    this.versionCount,
+  });
+
+  factory SchemaSummary.fromJson(Map<String, dynamic> json) {
+    return SchemaSummary(
+      lastModified: timeStampFromJson(json['LastModified']),
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      versionCount: json['VersionCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastModified = this.lastModified;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final tags = this.tags;
+    final versionCount = this.versionCount;
+    return {
+      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (tags != null) 'tags': tags,
+      if (versionCount != null) 'VersionCount': versionCount,
+    };
+  }
+}
+
+class RegistrySummary {
+  /// The ARN of the registry.
+  final String? registryArn;
+
+  /// The name of the registry.
+  final String? registryName;
+
+  /// Tags associated with the registry.
+  final Map<String, String>? tags;
+
+  RegistrySummary({
+    this.registryArn,
+    this.registryName,
+    this.tags,
+  });
+
+  factory RegistrySummary.fromJson(Map<String, dynamic> json) {
+    return RegistrySummary(
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final registryArn = this.registryArn;
+    final registryName = this.registryName;
+    final tags = this.tags;
+    return {
+      if (registryArn != null) 'RegistryArn': registryArn,
+      if (registryName != null) 'RegistryName': registryName,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+class DiscovererSummary {
+  /// The Status if the discoverer will discover schemas from events sent from
+  /// another account.
+  final bool? crossAccount;
+
+  /// The ARN of the discoverer.
+  final String? discovererArn;
+
+  /// The ID of the discoverer.
+  final String? discovererId;
+
+  /// The ARN of the event bus.
+  final String? sourceArn;
+
+  /// The state of the discoverer.
+  final DiscovererState? state;
+
+  /// Tags associated with the resource.
+  final Map<String, String>? tags;
+
+  DiscovererSummary({
+    this.crossAccount,
+    this.discovererArn,
+    this.discovererId,
+    this.sourceArn,
+    this.state,
+    this.tags,
+  });
+
+  factory DiscovererSummary.fromJson(Map<String, dynamic> json) {
+    return DiscovererSummary(
+      crossAccount: json['CrossAccount'] as bool?,
+      discovererArn: json['DiscovererArn'] as String?,
+      discovererId: json['DiscovererId'] as String?,
+      sourceArn: json['SourceArn'] as String?,
+      state: (json['State'] as String?)?.let(DiscovererState.fromString),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final crossAccount = this.crossAccount;
+    final discovererArn = this.discovererArn;
+    final discovererId = this.discovererId;
+    final sourceArn = this.sourceArn;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (crossAccount != null) 'CrossAccount': crossAccount,
+      if (discovererArn != null) 'DiscovererArn': discovererArn,
+      if (discovererId != null) 'DiscovererId': discovererId,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (state != null) 'State': state.value,
+      if (tags != null) 'tags': tags,
     };
   }
 }

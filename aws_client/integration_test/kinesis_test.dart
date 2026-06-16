@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:aws_client/kinesis_2013_12_02.dart';
+import 'package:aws_client/kinesis.dart';
 import 'package:test/test.dart';
 
 import 'harness.dart';

@@ -53,29 +53,35 @@ class Cloud9 {
   /// Creates an Cloud9 development environment, launches an Amazon Elastic
   /// Compute Cloud (Amazon EC2) instance, and then connects from the instance
   /// to the environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [imageId] :
   /// The identifier for the Amazon Machine Image (AMI) that's used to create
   /// the EC2 instance. To choose an AMI for the instance, you must specify a
   /// valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path.
   ///
-  /// From December 04, 2023, you will be required to include the
-  /// <code>imageId</code> parameter for the <code>CreateEnvironmentEC2</code>
-  /// action. This change will be reflected across all direct methods of
-  /// communicating with the API, such as Amazon Web Services SDK, Amazon Web
-  /// Services CLI and Amazon Web Services CloudFormation. This change will only
-  /// affect direct API consumers, and not Cloud9 console users.
+  ///
   ///
   /// We recommend using Amazon Linux 2023 as the AMI to create your environment
   /// as it is fully supported.
+  ///
+  /// From December 16, 2024, Ubuntu 18.04 will be removed from the list of
+  /// available <code>imageIds</code> for Cloud9. This change is necessary as
+  /// Ubuntu 18.04 has ended standard support on May 31, 2023. This change will
+  /// only affect direct API consumers, and not Cloud9 console users.
   ///
   /// Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we
   /// recommend you choose Ubuntu 22.04.
@@ -221,14 +227,20 @@ class Cloud9 {
   }
 
   /// Adds an environment member to an Cloud9 development environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [environmentId] :
   /// The ID of the environment that contains the environment member you want to
@@ -277,14 +289,20 @@ class Cloud9 {
 
   /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is
   /// connected to the environment, also terminates the instance.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [environmentId] :
   /// The ID of the environment to delete.
@@ -308,14 +326,20 @@ class Cloud9 {
   }
 
   /// Deletes an environment member from a development environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [environmentId] :
   /// The ID of the environment to delete the environment member from.
@@ -347,14 +371,20 @@ class Cloud9 {
 
   /// Gets information about environment members for an Cloud9 development
   /// environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [environmentId] :
   /// The ID of the environment to get environment member information about.
@@ -429,15 +459,60 @@ class Cloud9 {
     return DescribeEnvironmentMembershipsResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets status information for an Cloud9 development environment.
+  /// Gets information about Cloud9 development environments.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [environmentIds] :
+  /// The IDs of individual environments to get information about.
+  Future<DescribeEnvironmentsResult> describeEnvironments({
+    required List<String> environmentIds,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.DescribeEnvironments'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'environmentIds': environmentIds,
+      },
+    );
+
+    return DescribeEnvironmentsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Gets status information for an Cloud9 development environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  /// May throw [ForbiddenException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [environmentId] :
   /// The ID of the environment to get status information about.
@@ -463,48 +538,26 @@ class Cloud9 {
     return DescribeEnvironmentStatusResult.fromJson(jsonResponse.body);
   }
 
-  /// Gets information about Cloud9 development environments.
-  ///
-  /// May throw [BadRequestException].
-  /// May throw [ConflictException].
-  /// May throw [NotFoundException].
-  /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
-  /// May throw [InternalServerErrorException].
-  ///
-  /// Parameter [environmentIds] :
-  /// The IDs of individual environments to get information about.
-  Future<DescribeEnvironmentsResult> describeEnvironments({
-    required List<String> environmentIds,
-  }) async {
-    final headers = <String, String>{
-      'Content-Type': 'application/x-amz-json-1.1',
-      'X-Amz-Target': 'AWSCloud9WorkspaceManagementService.DescribeEnvironments'
-    };
-    final jsonResponse = await _protocol.send(
-      method: 'POST',
-      requestUri: '/',
-      exceptionFnMap: _exceptionFns,
-      // TODO queryParams
-      headers: headers,
-      payload: {
-        'environmentIds': environmentIds,
-      },
-    );
-
-    return DescribeEnvironmentsResult.fromJson(jsonResponse.body);
-  }
-
   /// Gets a list of Cloud9 development environment identifiers.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important> <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of environments to get identifiers for.
@@ -546,10 +599,16 @@ class Cloud9 {
   }
 
   /// Gets a list of the tags associated with an Cloud9 development environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
-  /// May throw [NotFoundException].
-  /// May throw [InternalServerErrorException].
   /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the Cloud9 development environment to
@@ -577,14 +636,19 @@ class Cloud9 {
 
   /// Adds tags to an Cloud9 development environment.
   /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important> <important>
   /// Tags that you add to an Cloud9 environment by using this method will NOT
   /// be automatically propagated to underlying resources.
   /// </important>
   ///
-  /// May throw [NotFoundException].
-  /// May throw [InternalServerErrorException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentAccessException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the Cloud9 development environment to
@@ -614,11 +678,17 @@ class Cloud9 {
   }
 
   /// Removes tags from an Cloud9 development environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
-  /// May throw [NotFoundException].
-  /// May throw [InternalServerErrorException].
   /// May throw [BadRequestException].
   /// May throw [ConcurrentAccessException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [NotFoundException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the Cloud9 development environment to
@@ -649,14 +719,20 @@ class Cloud9 {
   }
 
   /// Changes the settings of an existing Cloud9 development environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [environmentId] :
   /// The ID of the environment to change settings.
@@ -713,14 +789,20 @@ class Cloud9 {
 
   /// Changes the settings of an existing environment member for an Cloud9
   /// development environment.
+  /// <important>
+  /// Cloud9 is no longer available to new customers. Existing customers of
+  /// Cloud9 can continue to use the service as normal. <a
+  /// href="http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/">Learn
+  /// more"</a>
+  /// </important>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
-  /// May throw [NotFoundException].
   /// May throw [ForbiddenException].
-  /// May throw [TooManyRequestsException].
-  /// May throw [LimitExceededException].
   /// May throw [InternalServerErrorException].
+  /// May throw [LimitExceededException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [environmentId] :
   /// The ID of the environment for the environment member whose settings you
@@ -767,30 +849,6 @@ class Cloud9 {
 
     return UpdateEnvironmentMembershipResult.fromJson(jsonResponse.body);
   }
-}
-
-class ConnectionType {
-  static const connectSsh = ConnectionType._('CONNECT_SSH');
-  static const connectSsm = ConnectionType._('CONNECT_SSM');
-
-  final String value;
-
-  const ConnectionType._(this.value);
-
-  static const values = [connectSsh, connectSsm];
-
-  static ConnectionType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ConnectionType._(value));
-
-  @override
-  bool operator ==(other) => other is ConnectionType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
 }
 
 class CreateEnvironmentEC2Result {
@@ -840,11 +898,11 @@ class CreateEnvironmentMembershipResult {
   }
 }
 
-class DeleteEnvironmentMembershipResult {
-  DeleteEnvironmentMembershipResult();
+class DeleteEnvironmentResult {
+  DeleteEnvironmentResult();
 
-  factory DeleteEnvironmentMembershipResult.fromJson(Map<String, dynamic> _) {
-    return DeleteEnvironmentMembershipResult();
+  factory DeleteEnvironmentResult.fromJson(Map<String, dynamic> _) {
+    return DeleteEnvironmentResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -852,11 +910,11 @@ class DeleteEnvironmentMembershipResult {
   }
 }
 
-class DeleteEnvironmentResult {
-  DeleteEnvironmentResult();
+class DeleteEnvironmentMembershipResult {
+  DeleteEnvironmentMembershipResult();
 
-  factory DeleteEnvironmentResult.fromJson(Map<String, dynamic> _) {
-    return DeleteEnvironmentResult();
+  factory DeleteEnvironmentMembershipResult.fromJson(Map<String, dynamic> _) {
+    return DeleteEnvironmentMembershipResult();
   }
 
   Map<String, dynamic> toJson() {
@@ -896,6 +954,31 @@ class DescribeEnvironmentMembershipsResult {
     return {
       if (memberships != null) 'memberships': memberships,
       if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class DescribeEnvironmentsResult {
+  /// Information about the environments that are returned.
+  final List<Environment>? environments;
+
+  DescribeEnvironmentsResult({
+    this.environments,
+  });
+
+  factory DescribeEnvironmentsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeEnvironmentsResult(
+      environments: (json['environments'] as List?)
+          ?.nonNulls
+          .map((e) => Environment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final environments = this.environments;
+    return {
+      if (environments != null) 'environments': environments,
     };
   }
 }
@@ -953,29 +1036,339 @@ class DescribeEnvironmentStatusResult {
   }
 }
 
-class DescribeEnvironmentsResult {
-  /// Information about the environments that are returned.
-  final List<Environment>? environments;
+class ListEnvironmentsResult {
+  /// The list of environment identifiers.
+  final List<String>? environmentIds;
 
-  DescribeEnvironmentsResult({
-    this.environments,
+  /// If there are more than 25 items in the list, only the first 25 items are
+  /// returned, along with a unique string called a <i>next token</i>. To get the
+  /// next batch of items in the list, call this operation again, adding the next
+  /// token to the call.
+  final String? nextToken;
+
+  ListEnvironmentsResult({
+    this.environmentIds,
+    this.nextToken,
   });
 
-  factory DescribeEnvironmentsResult.fromJson(Map<String, dynamic> json) {
-    return DescribeEnvironmentsResult(
-      environments: (json['environments'] as List?)
+  factory ListEnvironmentsResult.fromJson(Map<String, dynamic> json) {
+    return ListEnvironmentsResult(
+      environmentIds: (json['environmentIds'] as List?)
           ?.nonNulls
-          .map((e) => Environment.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final environmentIds = this.environmentIds;
+    final nextToken = this.nextToken;
+    return {
+      if (environmentIds != null) 'environmentIds': environmentIds,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The list of tags associated with the Cloud9 development environment.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.nonNulls
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final environments = this.environments;
+    final tags = this.tags;
     return {
-      if (environments != null) 'environments': environments,
+      if (tags != null) 'Tags': tags,
     };
   }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateEnvironmentResult {
+  UpdateEnvironmentResult();
+
+  factory UpdateEnvironmentResult.fromJson(Map<String, dynamic> _) {
+    return UpdateEnvironmentResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateEnvironmentMembershipResult {
+  /// Information about the environment member whose settings were changed.
+  final EnvironmentMember? membership;
+
+  UpdateEnvironmentMembershipResult({
+    this.membership,
+  });
+
+  factory UpdateEnvironmentMembershipResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateEnvironmentMembershipResult(
+      membership: json['membership'] != null
+          ? EnvironmentMember.fromJson(
+              json['membership'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final membership = this.membership;
+    return {
+      if (membership != null) 'membership': membership,
+    };
+  }
+}
+
+/// Information about an environment member for an Cloud9 development
+/// environment.
+class EnvironmentMember {
+  /// The ID of the environment for the environment member.
+  final String environmentId;
+
+  /// The type of environment member permissions associated with this environment
+  /// member. Available values include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>owner</code>: Owns the environment.
+  /// </li>
+  /// <li>
+  /// <code>read-only</code>: Has read-only access to the environment.
+  /// </li>
+  /// <li>
+  /// <code>read-write</code>: Has read-write access to the environment.
+  /// </li>
+  /// </ul>
+  final Permissions permissions;
+
+  /// The Amazon Resource Name (ARN) of the environment member.
+  final String userArn;
+
+  /// The user ID in Identity and Access Management (IAM) of the environment
+  /// member.
+  final String userId;
+
+  /// The time, expressed in epoch time format, when the environment member last
+  /// opened the environment.
+  final DateTime? lastAccess;
+
+  EnvironmentMember({
+    required this.environmentId,
+    required this.permissions,
+    required this.userArn,
+    required this.userId,
+    this.lastAccess,
+  });
+
+  factory EnvironmentMember.fromJson(Map<String, dynamic> json) {
+    return EnvironmentMember(
+      environmentId: (json['environmentId'] as String?) ?? '',
+      permissions:
+          Permissions.fromString((json['permissions'] as String?) ?? ''),
+      userArn: (json['userArn'] as String?) ?? '',
+      userId: (json['userId'] as String?) ?? '',
+      lastAccess: timeStampFromJson(json['lastAccess']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final environmentId = this.environmentId;
+    final permissions = this.permissions;
+    final userArn = this.userArn;
+    final userId = this.userId;
+    final lastAccess = this.lastAccess;
+    return {
+      'environmentId': environmentId,
+      'permissions': permissions.value,
+      'userArn': userArn,
+      'userId': userId,
+      if (lastAccess != null) 'lastAccess': unixTimestampToJson(lastAccess),
+    };
+  }
+}
+
+class Permissions {
+  static const owner = Permissions._('owner');
+  static const readWrite = Permissions._('read-write');
+  static const readOnly = Permissions._('read-only');
+
+  final String value;
+
+  const Permissions._(this.value);
+
+  static const values = [owner, readWrite, readOnly];
+
+  static Permissions fromString(String value) => values
+      .firstWhere((e) => e.value == value, orElse: () => Permissions._(value));
+
+  @override
+  bool operator ==(other) => other is Permissions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class MemberPermissions {
+  static const readWrite = MemberPermissions._('read-write');
+  static const readOnly = MemberPermissions._('read-only');
+
+  final String value;
+
+  const MemberPermissions._(this.value);
+
+  static const values = [readWrite, readOnly];
+
+  static MemberPermissions fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => MemberPermissions._(value));
+
+  @override
+  bool operator ==(other) => other is MemberPermissions && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ManagedCredentialsAction {
+  static const enable = ManagedCredentialsAction._('ENABLE');
+  static const disable = ManagedCredentialsAction._('DISABLE');
+
+  final String value;
+
+  const ManagedCredentialsAction._(this.value);
+
+  static const values = [enable, disable];
+
+  static ManagedCredentialsAction fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ManagedCredentialsAction._(value));
+
+  @override
+  bool operator ==(other) =>
+      other is ManagedCredentialsAction && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+/// Metadata that is associated with Amazon Web Services resources. In
+/// particular, a name-value pair that can be associated with an Cloud9
+/// development environment. There are two types of tags: <i>user tags</i> and
+/// <i>system tags</i>. A user tag is created by the user. A system tag is
+/// automatically created by Amazon Web Services services. A system tag is
+/// prefixed with <code>"aws:"</code> and cannot be modified by the user.
+class Tag {
+  /// The <b>name</b> part of a tag.
+  final String key;
+
+  /// The <b>value</b> part of a tag.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: (json['Key'] as String?) ?? '',
+      value: (json['Value'] as String?) ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class EnvironmentStatus {
+  static const error = EnvironmentStatus._('error');
+  static const creating = EnvironmentStatus._('creating');
+  static const connecting = EnvironmentStatus._('connecting');
+  static const ready = EnvironmentStatus._('ready');
+  static const stopping = EnvironmentStatus._('stopping');
+  static const stopped = EnvironmentStatus._('stopped');
+  static const deleting = EnvironmentStatus._('deleting');
+
+  final String value;
+
+  const EnvironmentStatus._(this.value);
+
+  static const values = [
+    error,
+    creating,
+    connecting,
+    ready,
+    stopping,
+    stopped,
+    deleting
+  ];
+
+  static EnvironmentStatus fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnvironmentStatus._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentStatus && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
 }
 
 /// Information about an Cloud9 development environment.
@@ -1108,6 +1501,54 @@ class Environment {
   }
 }
 
+class EnvironmentType {
+  static const ssh = EnvironmentType._('ssh');
+  static const ec2 = EnvironmentType._('ec2');
+
+  final String value;
+
+  const EnvironmentType._(this.value);
+
+  static const values = [ssh, ec2];
+
+  static EnvironmentType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => EnvironmentType._(value));
+
+  @override
+  bool operator ==(other) => other is EnvironmentType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
+class ConnectionType {
+  static const connectSsh = ConnectionType._('CONNECT_SSH');
+  static const connectSsm = ConnectionType._('CONNECT_SSM');
+
+  final String value;
+
+  const ConnectionType._(this.value);
+
+  static const values = [connectSsh, connectSsm];
+
+  static ConnectionType fromString(String value) =>
+      values.firstWhere((e) => e.value == value,
+          orElse: () => ConnectionType._(value));
+
+  @override
+  bool operator ==(other) => other is ConnectionType && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  String toString() => value;
+}
+
 /// Information about the current creation or deletion lifecycle state of an
 /// Cloud9 development environment.
 class EnvironmentLifecycle {
@@ -1166,254 +1607,6 @@ class EnvironmentLifecycle {
   }
 }
 
-class EnvironmentLifecycleStatus {
-  static const creating = EnvironmentLifecycleStatus._('CREATING');
-  static const created = EnvironmentLifecycleStatus._('CREATED');
-  static const createFailed = EnvironmentLifecycleStatus._('CREATE_FAILED');
-  static const deleting = EnvironmentLifecycleStatus._('DELETING');
-  static const deleteFailed = EnvironmentLifecycleStatus._('DELETE_FAILED');
-
-  final String value;
-
-  const EnvironmentLifecycleStatus._(this.value);
-
-  static const values = [
-    creating,
-    created,
-    createFailed,
-    deleting,
-    deleteFailed
-  ];
-
-  static EnvironmentLifecycleStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EnvironmentLifecycleStatus._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is EnvironmentLifecycleStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-/// Information about an environment member for an Cloud9 development
-/// environment.
-class EnvironmentMember {
-  /// The ID of the environment for the environment member.
-  final String environmentId;
-
-  /// The type of environment member permissions associated with this environment
-  /// member. Available values include:
-  ///
-  /// <ul>
-  /// <li>
-  /// <code>owner</code>: Owns the environment.
-  /// </li>
-  /// <li>
-  /// <code>read-only</code>: Has read-only access to the environment.
-  /// </li>
-  /// <li>
-  /// <code>read-write</code>: Has read-write access to the environment.
-  /// </li>
-  /// </ul>
-  final Permissions permissions;
-
-  /// The Amazon Resource Name (ARN) of the environment member.
-  final String userArn;
-
-  /// The user ID in Identity and Access Management (IAM) of the environment
-  /// member.
-  final String userId;
-
-  /// The time, expressed in epoch time format, when the environment member last
-  /// opened the environment.
-  final DateTime? lastAccess;
-
-  EnvironmentMember({
-    required this.environmentId,
-    required this.permissions,
-    required this.userArn,
-    required this.userId,
-    this.lastAccess,
-  });
-
-  factory EnvironmentMember.fromJson(Map<String, dynamic> json) {
-    return EnvironmentMember(
-      environmentId: (json['environmentId'] as String?) ?? '',
-      permissions:
-          Permissions.fromString((json['permissions'] as String?) ?? ''),
-      userArn: (json['userArn'] as String?) ?? '',
-      userId: (json['userId'] as String?) ?? '',
-      lastAccess: timeStampFromJson(json['lastAccess']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final environmentId = this.environmentId;
-    final permissions = this.permissions;
-    final userArn = this.userArn;
-    final userId = this.userId;
-    final lastAccess = this.lastAccess;
-    return {
-      'environmentId': environmentId,
-      'permissions': permissions.value,
-      'userArn': userArn,
-      'userId': userId,
-      if (lastAccess != null) 'lastAccess': unixTimestampToJson(lastAccess),
-    };
-  }
-}
-
-class EnvironmentStatus {
-  static const error = EnvironmentStatus._('error');
-  static const creating = EnvironmentStatus._('creating');
-  static const connecting = EnvironmentStatus._('connecting');
-  static const ready = EnvironmentStatus._('ready');
-  static const stopping = EnvironmentStatus._('stopping');
-  static const stopped = EnvironmentStatus._('stopped');
-  static const deleting = EnvironmentStatus._('deleting');
-
-  final String value;
-
-  const EnvironmentStatus._(this.value);
-
-  static const values = [
-    error,
-    creating,
-    connecting,
-    ready,
-    stopping,
-    stopped,
-    deleting
-  ];
-
-  static EnvironmentStatus fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EnvironmentStatus._(value));
-
-  @override
-  bool operator ==(other) => other is EnvironmentStatus && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class EnvironmentType {
-  static const ssh = EnvironmentType._('ssh');
-  static const ec2 = EnvironmentType._('ec2');
-
-  final String value;
-
-  const EnvironmentType._(this.value);
-
-  static const values = [ssh, ec2];
-
-  static EnvironmentType fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => EnvironmentType._(value));
-
-  @override
-  bool operator ==(other) => other is EnvironmentType && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class ListEnvironmentsResult {
-  /// The list of environment identifiers.
-  final List<String>? environmentIds;
-
-  /// If there are more than 25 items in the list, only the first 25 items are
-  /// returned, along with a unique string called a <i>next token</i>. To get the
-  /// next batch of items in the list, call this operation again, adding the next
-  /// token to the call.
-  final String? nextToken;
-
-  ListEnvironmentsResult({
-    this.environmentIds,
-    this.nextToken,
-  });
-
-  factory ListEnvironmentsResult.fromJson(Map<String, dynamic> json) {
-    return ListEnvironmentsResult(
-      environmentIds: (json['environmentIds'] as List?)
-          ?.nonNulls
-          .map((e) => e as String)
-          .toList(),
-      nextToken: json['nextToken'] as String?,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final environmentIds = this.environmentIds;
-    final nextToken = this.nextToken;
-    return {
-      if (environmentIds != null) 'environmentIds': environmentIds,
-      if (nextToken != null) 'nextToken': nextToken,
-    };
-  }
-}
-
-class ListTagsForResourceResponse {
-  /// The list of tags associated with the Cloud9 development environment.
-  final List<Tag>? tags;
-
-  ListTagsForResourceResponse({
-    this.tags,
-  });
-
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
-    return ListTagsForResourceResponse(
-      tags: (json['Tags'] as List?)
-          ?.nonNulls
-          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final tags = this.tags;
-    return {
-      if (tags != null) 'Tags': tags,
-    };
-  }
-}
-
-class ManagedCredentialsAction {
-  static const enable = ManagedCredentialsAction._('ENABLE');
-  static const disable = ManagedCredentialsAction._('DISABLE');
-
-  final String value;
-
-  const ManagedCredentialsAction._(this.value);
-
-  static const values = [enable, disable];
-
-  static ManagedCredentialsAction fromString(String value) =>
-      values.firstWhere((e) => e.value == value,
-          orElse: () => ManagedCredentialsAction._(value));
-
-  @override
-  bool operator ==(other) =>
-      other is ManagedCredentialsAction && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
 class ManagedCredentialsStatus {
   static const enabledOnCreate =
       ManagedCredentialsStatus._('ENABLED_ON_CREATE');
@@ -1470,149 +1663,38 @@ class ManagedCredentialsStatus {
   String toString() => value;
 }
 
-class MemberPermissions {
-  static const readWrite = MemberPermissions._('read-write');
-  static const readOnly = MemberPermissions._('read-only');
+class EnvironmentLifecycleStatus {
+  static const creating = EnvironmentLifecycleStatus._('CREATING');
+  static const created = EnvironmentLifecycleStatus._('CREATED');
+  static const createFailed = EnvironmentLifecycleStatus._('CREATE_FAILED');
+  static const deleting = EnvironmentLifecycleStatus._('DELETING');
+  static const deleteFailed = EnvironmentLifecycleStatus._('DELETE_FAILED');
 
   final String value;
 
-  const MemberPermissions._(this.value);
+  const EnvironmentLifecycleStatus._(this.value);
 
-  static const values = [readWrite, readOnly];
+  static const values = [
+    creating,
+    created,
+    createFailed,
+    deleting,
+    deleteFailed
+  ];
 
-  static MemberPermissions fromString(String value) =>
+  static EnvironmentLifecycleStatus fromString(String value) =>
       values.firstWhere((e) => e.value == value,
-          orElse: () => MemberPermissions._(value));
+          orElse: () => EnvironmentLifecycleStatus._(value));
 
   @override
-  bool operator ==(other) => other is MemberPermissions && other.value == value;
-
-  @override
-  int get hashCode => value.hashCode;
-
-  @override
-  String toString() => value;
-}
-
-class Permissions {
-  static const owner = Permissions._('owner');
-  static const readWrite = Permissions._('read-write');
-  static const readOnly = Permissions._('read-only');
-
-  final String value;
-
-  const Permissions._(this.value);
-
-  static const values = [owner, readWrite, readOnly];
-
-  static Permissions fromString(String value) => values
-      .firstWhere((e) => e.value == value, orElse: () => Permissions._(value));
-
-  @override
-  bool operator ==(other) => other is Permissions && other.value == value;
+  bool operator ==(other) =>
+      other is EnvironmentLifecycleStatus && other.value == value;
 
   @override
   int get hashCode => value.hashCode;
 
   @override
   String toString() => value;
-}
-
-/// Metadata that is associated with Amazon Web Services resources. In
-/// particular, a name-value pair that can be associated with an Cloud9
-/// development environment. There are two types of tags: <i>user tags</i> and
-/// <i>system tags</i>. A user tag is created by the user. A system tag is
-/// automatically created by Amazon Web Services services. A system tag is
-/// prefixed with <code>"aws:"</code> and cannot be modified by the user.
-class Tag {
-  /// The <b>name</b> part of a tag.
-  final String key;
-
-  /// The <b>value</b> part of a tag.
-  final String value;
-
-  Tag({
-    required this.key,
-    required this.value,
-  });
-
-  factory Tag.fromJson(Map<String, dynamic> json) {
-    return Tag(
-      key: (json['Key'] as String?) ?? '',
-      value: (json['Value'] as String?) ?? '',
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final key = this.key;
-    final value = this.value;
-    return {
-      'Key': key,
-      'Value': value,
-    };
-  }
-}
-
-class TagResourceResponse {
-  TagResourceResponse();
-
-  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return TagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UntagResourceResponse {
-  UntagResourceResponse();
-
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
-    return UntagResourceResponse();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
-}
-
-class UpdateEnvironmentMembershipResult {
-  /// Information about the environment member whose settings were changed.
-  final EnvironmentMember? membership;
-
-  UpdateEnvironmentMembershipResult({
-    this.membership,
-  });
-
-  factory UpdateEnvironmentMembershipResult.fromJson(
-      Map<String, dynamic> json) {
-    return UpdateEnvironmentMembershipResult(
-      membership: json['membership'] != null
-          ? EnvironmentMember.fromJson(
-              json['membership'] as Map<String, dynamic>)
-          : null,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final membership = this.membership;
-    return {
-      if (membership != null) 'membership': membership,
-    };
-  }
-}
-
-class UpdateEnvironmentResult {
-  UpdateEnvironmentResult();
-
-  factory UpdateEnvironmentResult.fromJson(Map<String, dynamic> _) {
-    return UpdateEnvironmentResult();
-  }
-
-  Map<String, dynamic> toJson() {
-    return {};
-  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
